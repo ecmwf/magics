@@ -27,8 +27,7 @@ AxisMinorTick.cc
 AxisMinorTick.h
 AxisTick.cc
 AxisTick.h
-AxisTickLabel.cc
-AxisTickLabel.h
+
 AxisTickLabelType.cc
 AxisTickLabelType.h
 AxisTip.cc

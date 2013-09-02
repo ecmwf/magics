@@ -1,7 +1,7 @@
 #ifndef magics_config_h
 #define magics_config_h
 
-#include "eclib_config.h"
+/*#include "eckit_config.h"*/
 
 /* define if the Boost library is available */
 #cmakedefine HAVE_BOOST
