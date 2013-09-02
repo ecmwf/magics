@@ -1,0 +1,5 @@
+
+pgf90 -o plot.x plot.f $MAGPLUSLIB_SHARED
+
+
+./plot.x  < input

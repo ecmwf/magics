@@ -1,0 +1,29 @@
+<magics version='3.0'>
+
+    <drivers>
+        <ps            name= 'contour_simple' />
+        <gif_animation name= 'contour_simple' />
+    </drivers>
+
+    <page format ='a4' orientation = 'landscape' >
+
+       <map> 
+          <cylindrical subpage_lower_left_longitude  = '-20'
+                       subpage_lower_left_latitude   = '20'
+                       subpage_upper_right_longitude = '30'
+                       subpage_upper_right_latitude  = '60' />
+
+          <coastlines>
+             <coast colour = 'red' />
+          </coastlines>
+
+           <plot>
+              <grib input_file_name = 'data/z500.grb'/>
+              <contour/>
+           </plot>
+
+           <text font = 'Times-Roman' colour = 'rgb(0.1,0.6,0.2)'>Z500 Contour Plot</text>
+       </map> 
+
+    </page>
+</magics>

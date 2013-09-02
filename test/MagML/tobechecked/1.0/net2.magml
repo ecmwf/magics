@@ -1,0 +1,28 @@
+        
+<magics_plot page_x_position = '10'>
+  <coastlines map_coastline_colour = 'tan' map_grid_colour = "tan" > </coastlines>
+  <plot >
+        <netcdf 
+			netcdf_filename = 'z500.nc'
+			netcdf_field_variable_name = 'z' 
+			>
+        </netcdf>
+        <psymb  
+            symbol_table_mode = 'multi'
+            symbol_height_min_value = '45000' 
+	    symbol_height_max_value = '60000' 
+	    symbol_height_count = '2' 
+	    symbol_color_selection_type = 'list'
+	    symbol_colour_list = '45000/50000/55000/60000' 
+	    symbol_marker_min_value = '45000' 
+	    symbol_marker_max_value = '60000' 
+            symbol_height_table ='0.1/0.2/0.3/0.1'
+            symbol_marker_table ='0/1/15/0' 
+            symbol_colour_table ='blue/green/orange/red'>
+        </psymb>
+   </plot>
+   <title  title_colour = 'magenta' > </title>
+   <legend legend_text_colour = 'magenta'>  </legend>
+</magics_plot>
+   
+    

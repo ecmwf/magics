@@ -1,0 +1,52 @@
+<magics>
+    <tutorial name='graph_1' magml='off' title='Simple curve with symbol plotting' 
+        comment='Here, we learn how to set up a cartesian coordinates system and to plot a simple curve'>     
+       <requirement name='1' subject='Axis system' text='Set up a regular axis system'>
+            <action name='paxis'/> 
+            <parameter name='subpage_map_projection' value='none' function='psetc'/>
+			<parameter name='axis_orientation' value='horizontal' function='psetc'/>
+			<parameter name='axis_position' value='bottom' function='psetc'/>
+			<parameter name='axis_min_value' value='0.0' function='psetr'/>
+			<parameter name='axis_max_value' value='10.0' function='psetr'/>
+			<parameter name='axis_tick_interval' value='1.0' function='psetr'/>
+			<parameter name='axis_orientation' value='vertical' function='psetc'/>
+			<parameter name='axis_position' value='left' function='psetc'/>
+			<parameter name='axis_min_value' value='0.0' function='psetr'/>
+			<parameter name='axis_max_value' value='40.0' function='psetr'/>
+			<parameter name='axis_tick_interval' value='5.0' function='psetr'/>        
+        </requirement>
+                
+        <requirement name='2' subject='Input data' 
+            text='A list of x and y values [ x = /0.0,1.,2.,3.,4.,5.,6.,7.,8.,9.,10./, y = /0.0,4.,6.,8.,10.,15.,20.,30.,20.,10.,5./]' 
+            link_doc='graph' link_ptr='Graph_Mapping_XY_Values'>
+            <parameter name='graph_curve_x_values' value='/0.0,1.,2.,3.,4.,5.,6.,7.,8.,9.,10./' function='pset1r'/>    
+            <parameter name='graph_curve_x_values' value='/0.0,4.,6.,8.,10.,15.,20.,30.,20.,10.,5./' function='pset1r'/>         
+        	<action name ='pgraph'/>
+        </requirement>  
+        <requirement name='3' subject='Curve plotting' text='Simple red curve with symbols'
+            link_doc='graph' link_ptr='Curve_Plotting'>
+            <action name='pgraph'/>
+            <parameter name='graph_type' value='curve' function='psetc'/>
+			<parameter name='graph_symbol' value='on' function='psetc'/>
+			<parameter name='graph_symbol_marker_index' value='18' function='pseti'/>
+			<parameter name='graph_line_colour' value='red' function='psetc'/>			            
+        </requirement>   
+        <requirement name='4' subject='Legend' text='Turn the legend on'>
+            <parameter name='legend' value='on' function='psetc'/>
+			<parameter name='legend_user_text' value='My red curve' function='psetc'/>		            
+        </requirement>   
+        <requirement name='5' subject='Page ID' text='Change the text of the line id at the bottom of the page'
+        	link_doc='layout_mapping_coastlines' link_ptr='Page_Identification_Line'>
+           	<parameter name='page_id_line_user_text' value='My first graph' function='psetc'/>
+        </requirement>   
+         <requirement name='6' subject='Text' text='Add your own title'>
+            <action name='ptext'/>
+            <parameter name='text_line_1' value='Graph plotting in ' function='psetc'/>
+            <parameter name='text_line_2' value='curve mode with symbols' function='psetc'/>
+			<parameter name='text_colour' value='navy' function='psetc'/>
+			<parameter name='text_line_count' value='2' function='pseti'/>
+        </requirement>   
+        <spot name='a' text='Difference on the legend'/>
+                       
+    </tutorial>
+</magics>

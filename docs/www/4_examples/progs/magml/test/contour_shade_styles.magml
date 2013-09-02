@@ -1,0 +1,554 @@
+<magics version='3.0' width='29.7' height='21'>
+
+    <drivers>
+        <ps            name= 'contour_shade_styles' />
+        <gif_animation name= 'contour_shade_styles' />
+    </drivers>
+
+
+  <!-- set up our definitions - elements that will be used later -->
+
+  <definition>
+
+    <grib id              = 'z500'
+          input_file_name = 'data/z500.grb'/>
+
+    <cylindrical id = 'view'
+                 subpage_lower_left_longitude  = '10'
+                 subpage_lower_left_latitude   = '-5'
+                 subpage_upper_right_longitude = '30'
+                 subpage_upper_right_latitude  = '40' />
+
+  </definition>
+
+
+
+
+
+    <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+    <!-- First page, solid shading -->
+    <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+    <page format ='a4' orientation = 'landscape' >
+
+
+        <!-- Page title -->
+
+        <text colour = 'black'>Solid Shading</text>
+
+
+
+        <!-- subpage 1 - default settings -->
+        
+        <map bottom = '5%' left = '2%' height = '80%' display='absolute' >
+           <nopageid />     <!--  remove the page id from this plot -->
+              <cylindrical use_id = 'view' />
+
+            <plot>
+                <grib use_id = 'z500'/>
+                <contour>
+                    <noisoline>
+                      <shading>
+                        <polygon>
+                            <area_fill/>
+                        </polygon>
+                      </shading>
+                    </noisoline>
+                </contour>
+            </plot>
+
+           <coastlines>
+             <coast colour = 'black' />
+           </coastlines>
+
+            <text colour = 'peach'>Default parameters</text>
+
+         <legend bottom='10%' left='80%' width='15%' height='70%' 
+                   plot_direction='column' columns='1' font_size='0.3'
+                   text_colour='Rgb(0.2, 0.2, 0.2)' border-colour='black' 
+                   legend_title='off'
+                   legend_title_text='Extreme Forecast Index - Precipitation (6 to 30hrs)'  
+                   legend_text_format='(F5.2)' >
+         </legend>  
+
+
+
+         </map>
+
+
+        <!-- subpage 2 - set number of contour levels -->
+        
+        <map bottom = '5%' left = '25%' height = '80%' display='absolute'>
+           <nopageid />     <!--  remove the page id from this plot -->
+
+              <cylindrical use_id = 'view' />
+
+            <layer>
+                <grib path = 'data/z500.grb'/>
+                <contour>
+                    <noisoline>
+                        <count max_level       = '1.0e+21'
+                               min_level       = '-1.0e+21'
+                               level_count     = '50'
+                               reference_level = '570' />
+                        <label frequency = '1'/>
+                        <shading>
+                            <polygon>
+                                <area_fill/>
+                            </polygon>
+                        </shading>
+                    </noisoline>
+                </contour>
+            </layer>
+
+           <coastlines>
+             <coast colour = 'black' />
+           </coastlines>
+
+            <text colour = 'peach'>50 contour levels</text>
+         </map>
+
+
+        <!-- subpage 3 - list of contour levels -->
+        
+        <map bottom = '5%' left = '50%' height = '80%' display='absolute'>
+           <nopageid />     <!--  remove the page id from this plot -->
+
+              <cylindrical use_id = 'view' />
+
+            <layer>
+                <grib path = 'data/z500.grb'/>
+                <contour>
+                    <noisoline>
+                        <list level_list = '500/570/575/580/585/590/595/610'/>
+                        <label frequency = '1'/>
+                        <shading>
+                            <polygon>
+                                <area_fill/>
+                            </polygon>
+                        </shading>
+                    </noisoline>
+                </contour>
+            </layer>
+
+           <coastlines>
+             <coast colour = 'black' />
+           </coastlines>
+
+            <text colour = 'peach'>List of 8 contour levels</text>
+         </map>
+
+ 
+    </page>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- ~~~~~~~~~~~~~~~~~~~~~~~~ -->
+    <!-- Second page, dot shading -->
+    <!-- ~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+    <page format ='a4' orientation = 'landscape' >
+
+
+        <!-- Page title -->
+
+
+        <!-- subpage 1 - default settings -->
+        
+        <map bottom = '5%' left = '2%' height = '80%' display='absolute'>
+           <nopageid />     <!--  remove the page id from this plot -->
+
+              <cylindrical use_id = 'view' />
+
+            <plot>
+                <grib use_id = 'z500'/>
+                <contour>
+                    <noisoline>
+                      <shading>
+                        <polygon>
+                            <dot/>
+                        </polygon>
+                      </shading>
+                    </noisoline>
+                </contour>
+            </plot>
+
+           <coastlines>
+             <coast colour = 'black' />
+           </coastlines>
+
+            <text colour = 'peach'>Default parameters</text>
+         </map>
+
+
+
+        <!-- subpage 2 - large, less dense dots -->
+        
+        <map bottom = '5%' left = '25%' height = '80%' display='absolute'>
+           <nopageid />     <!--  remove the page id from this plot -->
+
+              <cylindrical use_id = 'view' />
+
+            <plot>
+                <grib use_id = 'z500'/>
+                <contour>
+                    <noisoline>
+                      <shading>
+                        <polygon>
+                            <dot size              = '0.1'
+                                 max_level_density = '100.0'
+                                 min_level_density = '40.0'/>
+                        </polygon>
+                      </shading>
+                    </noisoline>
+                </contour>
+            </plot>
+
+           <coastlines>
+             <coast colour = 'black' />
+           </coastlines>
+
+            <text colour = 'peach'>Large, less dense dots</text>
+         </map>
+
+    </page>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+    <!-- Third page, hatch shading -->
+    <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+    <page format ='a4' orientation = 'landscape' >
+
+
+        <!-- Page title -->
+
+
+        <!-- subpage 1 - default settings -->
+        
+        <map bottom = '5%' left = '2%' height = '80%' display='absolute'>
+           <nopageid />     <!--  remove the page id from this plot -->
+
+              <cylindrical use_id = 'view' />
+
+            <plot>
+                <grib use_id = 'z500'/>
+                <contour>
+                    <noisoline>
+                      <shading>
+                        <polygon>
+                            <hatch/>
+                        </polygon>
+                      </shading>
+                    </noisoline>
+                </contour>
+            </plot>
+
+           <coastlines>
+             <coast colour = 'black' />
+           </coastlines>
+
+            <text colour = 'peach'>Default parameters</text>
+         </map>
+
+
+        <!-- subpage 2 - less dense -->
+        
+        <map bottom = '5%' left = '25%' height = '80%' display='absolute'>
+           <nopageid />     <!--  remove the page id from this plot -->
+
+              <cylindrical use_id = 'view' />
+
+            <plot>
+                <grib use_id = 'z500'/>
+                <contour>
+                    <noisoline>
+                      <shading>
+                        <polygon>
+                            <hatch density = '5'/>
+                        </polygon>
+                      </shading>
+                    </noisoline>
+                </contour>
+            </plot>
+
+           <coastlines>
+             <coast colour = 'black' />
+           </coastlines>
+
+            <text colour = 'peach'>Less dense</text>
+         </map>
+
+
+        <!-- subpage 3 - more dense -->
+        
+        <map bottom = '5%' left = '50%' height = '80%' display='absolute'>
+           <nopageid />     <!--  remove the page id from this plot -->
+
+              <cylindrical use_id = 'view' />
+
+            <plot>
+                <grib use_id = 'z500'/>
+                <contour>
+                    <noisoline>
+                      <shading>
+                        <polygon>
+                            <hatch density = '50'/>
+                        </polygon>
+                      </shading>
+                    </noisoline>
+                </contour>
+            </plot>
+
+           <coastlines>
+             <coast colour = 'black' />
+           </coastlines>
+
+            <text colour = 'peach'>More dense</text>
+         </map>
+
+    </page>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+    <!-- Fourth page, hatch shading -->
+    <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+    <page format ='a4' orientation = 'landscape' >
+
+
+        <!-- Page title -->
+
+
+        <!-- subpage 1 - default settings -->
+        
+        <map bottom = '5%' left = '2%' height = '80%' display='absolute'>
+           <nopageid />     <!--  remove the page id from this plot -->
+
+              <cylindrical use_id = 'view' />
+
+            <plot>
+                <grib use_id = 'z500'/>
+               <contour>
+                    <noisoline>
+                      <shading>
+                        <polygon>
+                            <hatch  density = '50'
+                                    index = '2'/>
+                        </polygon>
+                      </shading>
+                    </noisoline>
+                </contour>
+            </plot>
+
+           <coastlines>
+             <coast colour = 'black' />
+           </coastlines>
+
+            <text colour = 'peach'>Index = 2</text>
+         </map>
+
+
+        <!-- subpage 2 - less dense -->
+        
+        <map bottom = '5%' left = '25%' height = '80%' display='absolute'>
+           <nopageid />     <!--  remove the page id from this plot -->
+
+              <cylindrical use_id = 'view' />
+
+            <plot>
+                <grib use_id = 'z500'/>
+                <contour>
+                    <noisoline>
+                      <shading>
+                        <polygon>
+                            <hatch  density = '50'
+                                    thickness = '2'/>
+                        </polygon>
+                      </shading>
+                    </noisoline>
+                </contour>
+            </plot>
+
+           <coastlines>
+             <coast colour = 'black' />
+           </coastlines>
+
+            <text colour = 'peach'>Thickness = 2, index=0</text>
+         </map>
+
+
+        <!-- subpage 3 - more dense -->
+        
+        <map bottom = '5%' left = '50%' height = '80%' display='absolute'>
+           <nopageid />     <!--  remove the page id from this plot -->
+
+              <cylindrical use_id = 'view' />
+
+            <plot>
+                <grib use_id = 'z500'/>
+                <contour>
+                    <noisoline>
+                      <shading>
+                        <polygon>
+                            <hatch density   = '50'
+                                   thickness = '4'
+                                   index     = '4'/>
+                        </polygon>
+                      </shading>
+                    </noisoline>
+                </contour>
+            </plot>
+
+           <coastlines>
+             <coast colour = 'black' />
+           </coastlines>
+
+            <text colour = 'peach'>Thick=4, index=4</text>
+         </map>
+
+    </page>
+
+
+
+
+
+
+
+
+    <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+    <!-- Fourth page, marker shading -->
+    <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+    <page format ='a4' orientation = 'landscape' >
+
+
+        <!-- Page title -->
+
+
+        <!-- subpage 1 - default settings -->
+        
+        <map bottom = '5%' left = '2%' height = '80%' display='absolute'>
+           <nopageid />     <!--  remove the page id from this plot -->
+
+              <cylindrical use_id = 'view' />
+
+            <plot>
+                <grib use_id = 'z500'/>
+                <contour>
+                    <noisoline>
+                      <shading>
+                        <marker>
+                        </marker>
+                      </shading>
+                    </noisoline>
+                </contour>
+            </plot>
+
+           <coastlines>
+             <coast colour = 'black' />
+           </coastlines>
+
+            <text colour = 'peach'>Default marker settings</text>
+         </map>
+
+
+        <!-- subpage 2 - user lists of markers -->
+        
+        <map bottom = '5%' left = '25%' height = '80%' display='absolute'>
+           <nopageid />     <!--  remove the page id from this plot -->
+
+              <cylindrical use_id = 'view' />
+
+            <plot>
+                <grib use_id = 'z500'/>
+                <contour>
+                    <noisoline>
+                        <list level_list = '500/575/578/580/585/595/610'/>
+                        <shading>
+                            <marker
+                            colour_table = 'BLUE_PURPLE/GREENISH_BLUE/ORANGISH_YELLOW/
+                                            ORANGE_YELLOW/YELLOWISH_ORANGE/RED'
+                            height_table = '0.4/0.2/0.2/0.2/0.2/0.4'
+                            marker_table = '4/8/10/14/6/15'/>
+                        </shading>
+                    </noisoline>
+                </contour>
+            </plot>
+
+           <coastlines>
+             <coast colour = 'black' />
+           </coastlines>
+
+            <text colour = 'peach'>User-defined marker lists</text>
+         </map>
+
+
+        <!-- subpage 3 - more dense -->
+        
+        <map bottom = '5%' left = '50%' height = '80%' display='absolute'>
+           <nopageid />     <!--  remove the page id from this plot -->
+
+              <cylindrical use_id = 'view' />
+
+            <plot>
+                <grib use_id = 'z500'/>
+                <contour>
+                    <isoline>
+                        <list level_list = '500/570/575/580/585/590/595/610'/>
+                        <label frequency = '1'/>
+                         <shading>
+                            <marker
+                            colour_table = 'BLUE_PURPLE/GREENISH_BLUE/ORANGISH_YELLOW/ORANGE_YELLOW/
+                                            YELLOWISH_ORANGE/RED/MAGENTA'
+                            height_table = '0.4/0.3/0.2/0.2/0.2/0.3/0.4'
+                            marker_table = '4/8/10/14/6/15/16'/>
+                        </shading>
+                    </isoline>
+                </contour>
+            </plot>
+
+           <coastlines>
+             <coast colour = 'black' />
+           </coastlines>
+
+            <text colour = 'peach'>User-defined marker lists</text>
+         </map>
+
+    </page>
+
+</magics>

@@ -1,0 +1,32 @@
+<magics>
+    <tutorial name="coast_2" title='North America in PolarStereo' comment='In the example we are going to plot a north american map in  polar stereographic projection'>     
+       <requirement name='a' subject='Geographical Area' text='North America using a map centre and a map scale'
+            link_doc='layout_mapping_coastlines' link_ptr='Subpage_Mapping'>
+            <action name='pcoast'/>
+            <parameter name='subpage_map_projection' value='polar_stereographic' function='psetc'/>
+            <parameter name='subpage_map_area_definition' value='centre' function='psetc'/>
+            <parameter name='subpage_map_centre_longitude' value='-95.' function='psetr'/>
+            <parameter name='subpage_map_centre_latitude' value='40.' function='psetr'/>
+            <parameter name='subpage_map_vertical_longitude' value='-95.' function='psetr'/>
+            <parameter name='subpage_map_scale' value='27.e6 ' function='psetr'/>
+        </requirement>
+        <requirement name='b' subject='Grid setting' text='Thick, mustard Coastlines, grey Grid using a 5/5 frequency' 
+            link_doc='layout_mapping_coastlines' link_ptr='Coastlines_and_Gridlines'>
+            <action name='pcoast'/>
+            <parameter name='map_coastline_colour' value='mustard' function='psetc'/>
+            <parameter name='map_grid_colour' value='grey' function='psetc'/>
+            <parameter name='map_coastline_thickness' value='3' function='pseti'/>
+            <parameter name='map_grid_line_style' value='dot' function='psetc'/>
+            <parameter name='map_grid_latitude_increment' value='5.0' function='psetr'/>
+            <parameter name='map_grid_longitude_increment' value='5.0' function='psetr'/>
+        </requirement>        
+        <requirement name='c' subject='Title' text='A title with 2 lines'>
+            <action name='ptext'/>
+            <parameter name='text_line_1' value='North America in polar stereographic' function='psetc'/>
+            <parameter name='text_line_2' value='This is My Magics Plot' function='psetc'/>
+            <parameter name='text_line_count' value='2' function='pseti'/>
+        </requirement>   
+        <spot name='a' text='The lines are thinner in Magics++'/>
+        <spot name='b' text='The default colours for coastlines and grid have changed from yellow to black'/>           
+    </tutorial>
+</magics>

@@ -1,0 +1,855 @@
+<?xml-stylesheet type='text/css' href='parameter.css'?>
+<magics>
+<class name='ClassicMtgDecoder' xmltag='metgram' prefix='metgram' action='pmetgram'  directory='decoders' >
+	<documentation>
+		The Classic Metgram  is responsible for accessing the classic metgram database and prepare the data to plotting.
+	</documentation>
+		
+	   
+        <parameter name='metgram_database' from='string' to='string'
+            member='database' default='/vol/epsgram/data/spotbase/epsdb' xml='database'>
+           
+            <documentation> Classic Metgram Database Path </documentation>
+            <migration> New Magics: Parameter eps_database sent to new Magics[EpsgramDecoder].  </migration>
+        </parameter>
+          <parameter name='metgram_parameter' from='string' to='string'
+            member='param' default='' xml='parameter'>
+            <metview default='' class='' >  
+            </metview>
+            <documentation> Classic Metgram Parameter </documentation>
+            <migration> New Magics: Parameter eps_parameter sent to new Magics[EpsgramDecoder].  </migration>
+        </parameter>
+         <parameter name='metgram_latitude' from='float' to='float'
+            member='latitude' default='0' xml='latitude'>
+           
+            <documentation> Classic Metgram  latitude </documentation>
+           
+        </parameter>
+        
+         <parameter name='metgram_parameter_scaling_factor' from='float' to='float'
+            member='param_scaling' default='1' xml='parameter_scaling_factor'>
+           
+            <documentation> metgram scaling factor : used only in case of an unknow parameter  </documentation>
+        </parameter>
+        
+          <parameter name='metgram_parameter_offset' from='float' to='float'
+            member='param_offset' default='0' xml='parameter_offset'>
+           
+            <documentation> metgram offset : used only in case of an unknow parameter  </documentation>
+        </parameter>
+        
+         <parameter name='metgram_parameter_title' from='string' to='string'
+            member='param_title' default='' xml='parameter_title'>
+           
+            <documentation> metgram parameter title : used only in case of an unknow parameter  </documentation>
+            <migration> New Magics: Parameter eps_latitude sent to new Magics[EpsgramDecoder].  </migration>
+        </parameter>
+       <parameter name='metgram_longitude' from='float' to='float'
+            member='longitude' default='0' xml='longitude'>
+            <metview default='0' class='' >  
+            </metview>
+            <documentation> Classic Metgram  longitude</documentation>
+            
+        </parameter>
+        <parameter name='metgram_date' from='string' to='string'
+            member='date' default='-1' xml='date'>
+            <metview default='-1' class='' >  
+            </metview>
+            <documentation>Classic Metgram  date</documentation>
+            <migration> New Magics: Parameter eps_longitude sent to new Magics[EpsgramDecoder].  </migration>
+        </parameter>
+         <parameter name='metgram_time' from='string' to='string'
+            member='time' default='0000' xml='time'>
+            <metview default='0000' class='' >  
+            </metview>
+            <documentation> Classic Metgram  time</documentation>
+            <migration> New Magics: Parameter eps_longitude sent to new Magics[EpsgramDecoder].  </migration>
+        </parameter>
+		 <parameter name='metgram_long_title' from='string' to='bool'
+            member='long_title' default='off' xml='long_title'>
+            <documentation> epsgram long title </documentation>
+        </parameter>
+         <parameter name='metgram_station_name' from='string' to='string'
+            member='station' default='' xml='station'>
+            <documentation> epsgram long title </documentation>
+            <migration> New Magics: Parameter eps_longitude sent to new Magics[EpsgramDecoder].  </migration>
+        </parameter>
+         <parameter name='metgram_station_height' from='float' to='float'
+            member='height' default='-1.' xml='height'>
+            <documentation> epsgram long title </documentation>
+            <migration> New Magics: Parameter eps_longitude sent to new Magics[EpsgramDecoder].  </migration>
+        </parameter>
+         <parameter name='metgram_temperature_correction' from='string' to='bool'
+            member='correction' default='yes'>           
+            <documentation> Temperature correction  </documentation>
+            
+            <migration> New Magics: Parameter eps_temperature_correction sent to new Magics[EpsTempe].  </migration>
+        </parameter>
+        
+</class>
+
+
+
+<class name='EpsgramDecoder' action='peps'  xmltag='epsgram' prefix='eps' xml_data='eps_title' directory='decoders'>
+	<documentation>
+		The Epsgram is responsible for accessing the espgram database its data to MAGICS.
+	</documentation>
+		
+	    <parameter name='eps_title' from='stringarray' to='stringarray'
+             member='title' default='stringarray()' >
+         <documentation> text block to be plotted </documentation>
+        </parameter>
+        <parameter name='eps_type' from='string' to='string'
+             member='type' xml = 'type' default='eps10' >
+         <documentation>Eps Metgram type : eps10 or eps15  </documentation>
+        </parameter>
+        
+        <parameter name='eps_database' from='string' to='string'
+            member='database' default='/vol/epsgram/data/spotbase/epsdb' xml='database'>
+           
+            <documentation> Epsgram Database Path </documentation>
+            <migration> New Magics: Parameter eps_database sent to new Magics[EpsgramDecoder].  </migration>
+        </parameter>
+        <parameter name='eps_title_text' from='string' to='string'
+            member='title_text' default='EPS Meteogram'>
+            <metview default='' class='' >  
+            </metview>
+            <documentation> Epsgram Parameter </documentation>
+            <migration> New Magics: Parameter eps_parameter sent to new Magics[EpsgramDecoder].  </migration>
+        </parameter>
+          <parameter name='eps_parameter' from='string' to='string'
+            member='param' default='' xml='parameter'>
+            <metview default='' class='' >  
+            </metview>
+            <documentation> Epsgram Parameter </documentation>
+            <migration> New Magics: Parameter eps_parameter sent to new Magics[EpsgramDecoder].  </migration>
+        </parameter>
+         <parameter name='eps_parameter_title' from='string' to='string'
+            member='param_title' default='' xml='parameter_title'>
+           
+            <documentation> epsgram parameter title : used only in case of an unknow parameter  </documentation>
+            <migration> New Magics: Parameter eps_latitude sent to new Magics[EpsgramDecoder].  </migration>
+        </parameter>
+         <parameter name='eps_latitude' from='float' to='float'
+            member='latitude' default='0' xml='latitude'>
+            <metview default='0' class='' >  
+            </metview>
+            <documentation> epsgram latitude column name </documentation>
+            <migration> New Magics: Parameter eps_latitude sent to new Magics[EpsgramDecoder].  </migration>
+        </parameter>
+       <parameter name='eps_longitude' from='float' to='float'
+            member='longitude' default='0' xml='longitude'>
+            <metview default='0' class='' >  
+            </metview>
+            <documentation> epsgram longitude column name</documentation>
+            <migration> New Magics: Parameter eps_longitude sent to new Magics[EpsgramDecoder].  </migration>
+        </parameter>
+         <parameter name='eps_parameter_hour_shift' from='float' to='float'
+            member='param_hour_shift' default='0'>
+             <documentation> valid date is shifted ( temporary..)  </documentation>
+        </parameter>
+         <parameter name='eps_parameter_scaling_factor' from='float' to='float'
+            member='param_scaling_factor' default='1'>
+             <documentation> Scaling factor to apply to the values</documentation>
+        </parameter>
+         <parameter name='eps_parameter_offset_factor' from='float' to='float'
+            member='param_offset_factor' default='0'>
+             <documentation> Scaling factor to apply to the values</documentation>
+        </parameter>
+        <parameter name='eps_date' from='string' to='string'
+            member='date' default='-1' xml='date'>
+            <metview default='-1' class='' >  
+            </metview>
+            <documentation> epsgram longitude column name</documentation>
+            <migration> New Magics: Parameter eps_longitude sent to new Magics[EpsgramDecoder].  </migration>
+        </parameter>
+         <parameter name='eps_time' from='string' to='string'
+            member='time' default='0000' xml='time'>
+            <metview default='0000' class='' >  
+            </metview>
+            <documentation> epsgram date </documentation>
+            <migration> New Magics: Parameter eps_longitude sent to new Magics[EpsgramDecoder].  </migration>
+        </parameter>
+		 <parameter name='eps_long_title' from='string' to='bool'
+            member='long_title' default='off' xml='long_title'>
+            <documentation> epsgram long title </documentation>
+            <migration> New Magics: Parameter eps_longitude sent to new Magics[EpsgramDecoder].  </migration>
+        </parameter>
+         <parameter name='eps_long_title_station' from='string' to='bool'
+            member='long_title_station' default='on' xml='long_title_station'>
+            <documentation> epsgram long title : add the station name </documentation>
+            <migration> New Magics: Parameter eps_longitude sent to new Magics[EpsgramDecoder].  </migration>
+        </parameter>
+         <parameter name='eps_long_title_height' from='string' to='bool'
+            member='long_title_height' default='on' xml='long_title_height'>
+            <documentation> epsgram long title: add the station height </documentation>
+            <migration> New Magics: Parameter eps_longitude sent to new Magics[EpsgramDecoder].  </migration>
+        </parameter>
+         <parameter name='eps_long_title_point' from='string' to='bool'
+            member='long_title_point' default='on' xml='long_title_point'>
+            <documentation> epsgram long title: add the grid point position </documentation>
+            <migration> New Magics: Parameter eps_longitude sent to new Magics[EpsgramDecoder].  </migration>
+        </parameter>
+         <parameter name='eps_station_name' from='string' to='string'
+            member='station' default='' xml='station'>
+            <documentation> epsgram long title </documentation>
+            <migration> New Magics: Parameter eps_longitude sent to new Magics[EpsgramDecoder].  </migration>
+        </parameter>
+         <parameter name='eps_station_height' from='float' to='float'
+            member='height' default='INT_MAX' xml='height'>
+            <documentation> epsgram long title </documentation>
+            <migration> New Magics: Parameter eps_longitude sent to new Magics[EpsgramDecoder].  </migration>
+        </parameter>
+         <parameter name='eps_temperature_correction' from='string' to='bool'
+            member='correction' default='yes'>           
+            <documentation> Temperature correction  </documentation>
+            <available>yes</available>
+            <available>no</available>
+           
+            <migration> New Magics: Parameter eps_temperature_correction sent to new Magics[EpsTempe].  </migration>
+        </parameter>
+        
+        <parameter name='eps_y_axis_percentile' from='float' to='float'
+            member='percentile' default='1'>           
+            <documentation> Temperature correction  </documentation>
+            <available>yes</available>
+            <available>no</available>
+           
+            <migration> New Magics: Parameter eps_temperature_correction sent to new Magics[EpsTempe].  </migration>
+        </parameter>
+        
+         <parameter name='eps_y_axis_threshold' from='float' to='float'
+            member='threshold' default='50'>           
+            <documentation> Temperature correction  </documentation>
+            <available>yes</available>
+            <available>no</available>
+           
+            <migration> New Magics: Parameter eps_temperature_correction sent to new Magics[EpsTempe].  </migration>
+        </parameter>
+        
+</class>
+
+<class name='EpsWave'  xmltag='epswave' prefix='eps/eps_rose_wave' action='peps' directory='visualisers'  >
+	<documentation>
+		The Epsgraph is repsonsible for plotting the espgram using wind rose visualisation
+	</documentation>
+	<parameter name='eps_rose_wind_colour' from='stringarray' to='stringarray' 
+                member='colour' default='magstringarray()' > 
+    <documentation> Rose wind darker colour  </documentation>          
+    </parameter>
+</class>
+<class name='EpsWind'  xmltag='epswind' prefix='eps/eps_rose_wind' action='peps' directory='visualisers'  >
+	<documentation>
+		The Epsgraph is repsonsible for plotting the espgram using wind rose visualisation
+	</documentation>
+	<parameter name='eps_rose_wind_colour' from='string' to='Colour' 
+                member='colour' default='grey' > 
+    <documentation> Rose wind darker colour  </documentation>          
+    </parameter>
+    <parameter name='eps_rose_wind_border_colour' from='string' to='Colour' 
+                member='border_colour' default='grey' >    
+    <documentation> Rose wind border colour  </documentation>       
+    </parameter>
+    <parameter name='eps_rose_wind_convention' from='string' to='string' 
+                member='convention' default='meteorological' >    
+    <documentation> Define the convention to use to plot the wind direction 
+    	[ meteorological : Direction the parameter is coming from, 
+    	  oceanographic : Direction the parameter is goint to]  </documentation>       
+    </parameter>
+</class>  
+  <class name='EpsCloud'  xmltag='epscloud' prefix='eps/eps_rose_cloud' action='peps' directory='visualisers'  >
+	<documentation>
+		The EpsCloud is repsonsible for plotting the espgram using Cloud rose visualisation
+	</documentation>
+	<parameter name='eps_rose_cloud_colour' from='string' to='Colour' 
+                member='colour' default='black' > 
+    <documentation> Rose wind darker colour  </documentation>          
+    </parameter>
+    <parameter name='eps_rose_cloud_border_colour' from='string' to='Colour' 
+                member='border_colour' default='none' >    
+    <documentation> Rose wind border colour  </documentation>       
+    </parameter>
+    
+</class>    
+
+
+<class name='EpsGraph' xmltag='epsgraph' prefix='eps' action='peps' directory='visualisers'  >
+	<documentation>
+		The Epsgraph is repsonsible for plotting the espgram using box and whisker visualisation
+	</documentation>
+        <parameter name='eps_font' from='string' to='string' 
+                member='font' default='sansserif' xml='font'>           
+        </parameter>
+         <parameter name='eps_font_size' from='float' to='float' 
+                member='font_size' default='0.25' xml='font_size'>           
+        </parameter>
+        <parameter name='eps_font_style' from='string' to='string' 
+                member='font_style' default='' xml='font_style'>           
+        </parameter>
+        <parameter name='eps_font_colour' from='string' to='Colour' 
+                member='font_colour' default='blue' xml='font_colour'>           
+        </parameter>
+        <parameter name='eps_box_colour' from='string' to='Colour' 
+                member='colour' default='cyan' xml='box_colour' >           
+        </parameter>
+          <parameter name='eps_box_shift' from='int' to='int' 
+                member='box_shift' default='0'>           
+        </parameter>
+        <parameter name='eps_right_box_colour' from='string' to='Colour' 
+                member='right_colour' default='red' xml='right_box_colour' >           
+        </parameter>
+        <parameter name='eps_left_box_colour' from='string' to='Colour' 
+                member='left_colour' default='blue' xml='left_box_colour' >           
+        </parameter>
+        <parameter name='eps_box_border_colour' from='string' to='Colour' 
+                member='border_colour' default='black' xml='border_colour'>            
+        </parameter>
+        <parameter name='eps_box_border_thickness' from='int' to='int' 
+                member='border_thickness' default='3' xml='border_thickness'>            
+        </parameter>
+          <parameter name='eps_box_median_thickness' from='int' to='int' 
+                member='median_thickness' default='3'>            
+        </parameter>
+         <parameter name='eps_box_median_colour' from='string' to='Colour' 
+                member='median_colour' default='black'>            
+        </parameter>
+        <parameter name='eps_maximum' from='float' to='float' 
+                member='max' default='INT_MAX' xml='max'>            
+        </parameter>
+        <parameter name='eps_maximum_font_name' from='string' to='string' 
+                member='max_font_name' default='sansserif' xml='max_font_name'>            
+        </parameter>
+        <parameter name='eps_maximum_font_style' from='string' to='string' 
+                member='max_font_style' default='normal' xml='max_font_style'>            
+        </parameter>
+        <parameter name='eps_maximum_font_size' from='float' to='float' 
+                member='max_font_size' default='0.25' xml='max_font_size'>            
+        </parameter>
+         <parameter name='eps_maximum_font_colour' from='string' to='Colour' 
+                member='max_font_colour' default='red' xml='max_font_colour'>            
+        </parameter>
+        <parameter name='eps_box_width' from='float' to='float'
+        	 member='box_width' default='-1'/>
+        	 
+        <parameter name='eps_whisker' from='string' to='bool'
+        	 member='whisker' default='on' xml='whisker'/>
+        
+         <parameter name='eps_legend_resolution' from='string' to='string'
+        	 member='legend_resolution' default='truncature'/>	 
+        	       <parameter name='eps_legend_control_text' from='string' to='string'
+        	 member='legend_control_text' default=''/>	    	
+        	   <parameter name='eps_legend_font_size' from='float' to='float'
+        	 member='legend_size' default='0.3'/>	 
+       	  <parameter name='eps_legend_forecast_text' from='string' to='string'
+        	 member='legend_forecast_text' default=''/>	 
+       	
+        	 
+         <parameter name='eps_deterministic' from='string' to='bool'
+        	 member='deterministic' default='on'>
+        	 <documentation> plot the deterministic Forecast</documentation>
+        </parameter>
+         <parameter name='eps_deterministic_line_colour' from='string' to='Colour'
+        	 member='deterministic_colour' default='blue'>
+        	 <documentation>Colour of  deterministic Forecast</documentation>
+        </parameter>
+         
+          <parameter name='eps_deterministic_line_style' from='string' to='LineStyle'
+        	 member='deterministic_style' default='solid'>
+        	 <documentation>line style of  deterministic Forecast</documentation>
+        </parameter>
+        <parameter name='eps_deterministic_line_thickness' from='int' to='int'
+        	 member='deterministic_thickness' default='2'>
+        	 <documentation>line style of  deterministic Forecast</documentation>
+        </parameter>
+                 <parameter name='eps_control' from='string' to='bool'
+        	 member='control' default='on'>
+        	 <documentation> plot the deterministic Forecast</documentation>
+        </parameter>
+         <parameter name='eps_control_line_colour' from='string' to='Colour'
+        	 member='control_colour' default='red'>
+        	 <documentation>Colour of  deterministic Forecast</documentation>
+        </parameter>
+        
+          <parameter name='eps_control_line_style' from='string' to='LineStyle'
+        	 member='control_style' default='dash'>
+        	 <documentation>Control of  deterministic Forecast</documentation>
+        </parameter>
+        <parameter name='eps_control_line_thickness' from='int' to='int'
+        	 member='control_thickness' default='2'>
+        	 <documentation>line style of  deterministic Forecast</documentation>
+        </parameter>
+        	 
+        <parameter name='legend' from='string' to='bool' 
+                member='legend' default='on'>           
+        </parameter>	 
+</class>
+
+
+<class name='EfigramDecoder' xmltag='efigram' prefix='efi' action='pefigram' directory='decoders' >
+	<documentation>
+		The Epsgram is responsible for accessing the espgram database its data to MAGICS.
+	</documentation>
+         <parameter name='efi_root_database' from='string' to='string'
+            member='database' default='' xml='database' >           
+            <documentation> database to access </documentation>
+        </parameter> 
+        <parameter name='efi_legend_root_database' from='string' to='string'
+            member='legend_database' default='' xml='legend_database'>           
+            <documentation> legend </documentation>
+        </parameter>
+        <parameter name='efi_clim_root_database' from='string' to='string'
+            member='clim_database' default='' >           
+            <documentation> climatalogy database </documentation>
+        </parameter>
+         <parameter name='efi_dates' from='stringarray' to='stringarray'
+            member='dates' default='stringarray()' >           
+            <documentation> date to select In date format (YYYYMMDDHHHH)</documentation>
+        </parameter>   
+        <parameter name='efi_clim_parameter' from='string' to='string'
+            member='clim_param' default='' >           
+            <documentation> date to select for the clim In date format (YYYYMMDDHHHH)</documentation>
+        </parameter>  
+          <parameter name='efi_clim_date' from='string' to='string'
+            member='clim_date' default='' >           
+            <documentation> date to select for the clim In date format (YYYYMMDDHHHH)</documentation>
+        </parameter>  
+        
+        <parameter name='efi_clim_step' from='int' to='int'
+            member='clim_step' default='36' >           
+            <documentation> date to select for the clim In date format (YYYYMMDDHHHH)</documentation>
+        </parameter> 
+        
+        <parameter name='efi_steps' from='intarray' to='intarray'
+            member='steps' default='intarray()' >           
+            <documentation> steps to extract ( legend will use step+12) </documentation>
+        </parameter>
+         <parameter name='efi_parameter' from='string' to='string'
+            member='param' default='' xml='parameter'>
+            <metview default='0' class='' >  
+            </metview>
+            <documentation> epsgram latitude column name </documentation>
+            <migration> New Magics: Parameter eps_latitude sent to new Magics[EpsgramDecoder].  </migration>
+        </parameter>
+         
+        <parameter name='efi_long_title' from='string' to='bool'
+            member='long_title' default='off' xml='long_title'>
+            <documentation> efigram long title ( Point Position ... General title!) </documentation>
+            <migration> New Magics: Parameter eps_longitude sent to new Magics[EpsgramDecoder].  </migration>
+        </parameter>
+        <parameter name='efi_title' from='string' to='bool'
+            member='title' default='off' xml='title'>
+            <documentation> epsgram title ( parameter name) </documentation>
+            <migration> New Magics: Parameter eps_longitude sent to new Magics[EpsgramDecoder].  </migration>
+        </parameter>
+        <parameter name='efi_latitude' from='float' to='float'
+            member='latitude' default='0' xml='latitude'>
+            <metview default='0' class='' >  
+            </metview>
+            <documentation> epsgram latitude column name </documentation>
+            <migration> New Magics: Parameter eps_latitude sent to new Magics[EpsgramDecoder].  </migration>
+        </parameter>
+       <parameter name='efi_longitude' from='float' to='float'
+            member='longitude' default='0' xml='longitude'>
+            <metview default='0' class='' >  
+            </metview>
+            <documentation> epsgram longitude column name</documentation>
+            <migration> New Magics: Parameter eps_longitude sent to new Magics[EpsgramDecoder].  </migration>
+        </parameter>
+        
+          <parameter name='efi_legend' from='string' to='bool'
+            member='legend' default='on'>           
+            <documentation> legend </documentation>
+        </parameter>  
+       
+        
+         <parameter name='efi_legend_colour_list' from='stringarray' to='stringarray'
+            member='legend_colours' default='stringarray()'>           
+            <documentation> legend box colour list  </documentation>
+        </parameter>
+         <parameter name='efi_legend_box_type' from='string' to='string'
+            member='legend_type' default='both'>           
+            <documentation> both/negative/positive </documentation>
+        </parameter>
+        <parameter name='efi_legend_normal_colour' from='string' to='Colour'
+            member='legend_normal_colour' default='black'>           
+            <documentation> legend colour box </documentation>
+        </parameter>
+          <parameter name='efi_legend_normal_thickness' from='int' to='int'
+            member='legend_normal_thickness' default='4'>           
+            <documentation> legend colour box </documentation>
+        </parameter>
+         
+       
+       
+         
+</class>
+
+
+
+<class name='EfiGraph' xmltag='efigraph' prefix='efi' action='pcdfgram' directory='visualisers' >
+	<documentation>
+		The Epsgram is responsible for accessing the espgram database its data to MAGICS.
+	</documentation>
+        <parameter name='efi_box_colour_array' from='stringarray' to='stringarray'
+            member='box_colour' default='stringarray()' >           
+            <documentation> Colour of the curve  </documentation>
+        </parameter>
+        
+        <parameter name='efi_box_border_colour' from='string' to='Colour'
+            member='border_colour' default='black'>           
+            <documentation> Style of the curve  </documentation>
+        </parameter>
+          <parameter name='efi_box_border_thickness' from='int' to='int'
+            member='border_thickness' default='1'>           
+            <documentation> Style of the curve  </documentation>
+        </parameter>
+          <parameter name='efi_box_border_line_style' from='string' to='LineStyle'
+            member='border_style' default='solid'>           
+            <documentation> Style of the curve  </documentation>
+        </parameter>
+            <parameter name='efi_normal_colour' from='string' to='Colour'
+            member='normal_colour' default='black'>           
+            <documentation> Style of the curve  </documentation>
+        </parameter>
+         <parameter name='efi_normal_thickness' from='int' to='int'
+            member='normal_thickness' default='4'>           
+            <documentation> Style of the curve  </documentation>
+        </parameter>
+          <parameter name='efi_normal_line_style' from='string' to='LineStyle'
+            member='normal_style' default='solid'>           
+            <documentation> Style of the curve  </documentation>
+        </parameter>
+         <parameter name='efi_font' from='string' to='string' 
+                member='font' default='sansserif' xml='font'>           
+        </parameter>
+         <parameter name='efi_font_size' from='float' to='float' 
+                member='font_size' default='0.25' xml='font_size'>           
+        </parameter>
+        <parameter name='efi_font_style' from='string' to='string' 
+                member='font_style' default='' xml='font_style'>           
+        </parameter>
+        <parameter name='efi_font_colour' from='string' to='Colour' 
+                member='font_colour' default='black' xml='font_colour'>           
+        </parameter>
+        
+</class>
+<class name='CdfGraph' xmltag='cdfgraph' prefix='cdf' action='pcdfgram' directory='visualisers' >
+	<documentation>
+		The Epsgram is responsible for accessing the espgram database its data to MAGICS.
+	</documentation>
+        <parameter name='cdf_lines_colour_array' from='stringarray' to='stringarray'
+            member='colour' default='stringarray()' >           
+            <documentation> Colour of the curve  </documentation>
+        </parameter>
+        
+        
+        <parameter name='cdf_lines_style_array' from='stringarray' to='stringarray'
+            member='style' default='stringarray()'>           
+            <documentation> Style of the curve  </documentation>
+        </parameter>
+        <parameter name='cdf_lines_thickness_array' from='intarray' to='intarray'
+            member='thickness' default='intarray()' >           
+            <documentation> Thickness of the curve  </documentation>
+        </parameter>
+        
+        <parameter name='cdf_clim_line_colour' from='string' to='Colour'
+            member='clim_colour' default='black'>           
+            <documentation> Colour of the clim curve  </documentation>
+        </parameter>
+        <parameter name='cdf_clim_line_thickness' from='int' to='int'
+            member='clim_thickness' default='4' >           
+            <documentation> Thickness of the clim curve  </documentation>
+        </parameter>
+        <parameter name='cdf_clim_line_style' from='string' to='LineStyle'
+            member='clim_style' default='solid' >           
+            <documentation> Style of the clim curve  </documentation>
+        </parameter>         
+</class>
+
+<class name='MetgramGraph' xmltag='metgraph' prefix='metgram' action='pmetgram' directory='visualisers' >
+	<documentation>
+		The Epsgram is responsible for accessing the espgram database its data to MAGICS.
+	</documentation>
+        <parameter name='metgram_plot_style' from='string' to='MetgramStyle'
+            member='style' default='curve'>           
+            <documentation> Type of plot  </documentation>
+            <option name='MetgramBar'   fortran='bar'  xml='bar' include='MetgramStyle.h'/>
+            <option name='MetgramFlags'   fortran='flags'  xml='flags' include='MetgramStyle.h'/>
+			<option name='MetgramCurve'   fortran='curve'  xml='curve' include='MetgramStyle.h'/>
+        </parameter>
+</class>
+<class name='MetgramFlags'  xmltag='metflags' prefix='metgram' action='pmetgram' directory='visualisers' >
+    <documentation>
+        The metgram curve will plot the metgram a s a curve! 
+    </documentation>
+        <parameter name='metgram_flag_colour' from='string' to='Colour'
+            member='colour' default='red'>           
+            <documentation> Colour of Flag  </documentation>
+        </parameter>
+        <parameter name='metgram_flag_frequency' from='int' to='int'
+            member='frequency' default='1'>           
+            <documentation> Frequency to plot the flags  </documentation>
+        </parameter>
+        <parameter name='metgram_flag_length' from='float' to='float'
+            member='length' default='0.5'>           
+            <documentation> length of the flag  </documentation>
+        </parameter>
+</class>
+<class name='MetgramCurve' xmltag='metgraph' prefix='metgram' action='pmetgram' directory='visualisers' >
+    <documentation>
+        The metgram curve will plot the metgram a s a curve! 
+    </documentation>
+        <parameter name='metgram_curve_line_style' from='string' to='LineStyle'
+            member='style' default='solid'>           
+            <documentation> LineStyle of the curve  </documentation>
+        </parameter>
+        <parameter name='metgram_curve2_line_style' from='string' to='LineStyle'
+            member='style2' default='solid'>           
+            <documentation> LineStyle of the second curve  </documentation>
+        </parameter>
+        <parameter name='metgram_curve_colour' from='string' to='Colour'
+            member='colour' default='red'>           
+            <documentation> Colour of the curve  </documentation>
+        </parameter>
+         <parameter name='metgram_curve2_colour' from='string' to='Colour'
+            member='colour2' default='blue'>           
+            <documentation> Colour of the second curve  </documentation>
+        </parameter>
+        <parameter name='metgram_curve_thickness' from='int' to='int'
+            member='thickness' default='2'>           
+            <documentation> Thickness of the curve  </documentation>
+        </parameter>
+        <parameter name='metgram_curve2_thickness' from='int' to='int'
+            member='thickness2' default='2'>           
+            <documentation> Thickness of the second curve  </documentation>
+        </parameter>
+</class>
+
+<class name='EpsShade' xmltag='epsshade' prefix='eps' action='pmetgram' directory='visualisers' >
+	<documentation>
+		The EpsSahde is responsible for plotting climate information as Shaded area.
+	</documentation>
+        <parameter name='eps_shade_colour' from='string' to='Colour'
+            member='colour' default='red'>           
+            <documentation> Colour of the darkest shade area ...  </documentation>
+        </parameter>
+        <parameter name='eps_shade_line_colour' from='string' to='Colour'
+            member='line_colour' default='red'>           
+            <documentation> Colour of the darkest shade area ...  </documentation>
+        </parameter>
+         <parameter name='eps_shade_line_style' from='string' to='LineStyle'
+            member='line_style' default='solid'>           
+            <documentation> Colour of the darkest shade area ...  </documentation>
+        </parameter>
+           <parameter name='eps_shade_line_thickness' from='int' to='int'
+            member='line_thickness' default='1'>           
+            <documentation> Colour of the darkest shade area ...  </documentation>
+        </parameter>
+</class>
+<class name='EpsPlume' xmltag='epsplume' prefix='eps/eps_plume' action='pmetgram' directory='visualisers' >
+	<documentation>
+		The EpsPlumeis responsible for plotting epsplume graph
+	</documentation>  
+		<parameter name='eps_plume_method' from='string' to='string' values='time_serie/vertical_profile'
+            member='method' default='time_serie'>           
+            <documentation> Type of visualisation required : time_serie or vertical_profile </documentation>
+        </parameter>
+         <parameter name='eps_plume_members' from='string' to='bool'
+            member='line' default='on'>           
+            <documentation>show the eps members  </documentation>
+        </parameter>
+        
+        <parameter name='eps_plume_line_colour' from='string' to='Colour'
+            member='line_colour' default='magenta'>           
+            <documentation>Line colour of the eps members  </documentation>
+        </parameter>
+        
+         <parameter name='eps_plume_line_style' from='string' to='LineStyle'
+            member='line_style' default='solid'>           
+            <documentation> Line style of the eps members </documentation>
+        </parameter>
+           <parameter name='eps_plume_line_thickness' from='int' to='int'
+            member='line_thickness' default='1'>           
+            <documentation> Line thickness of the eps members  </documentation>
+        </parameter>
+          <parameter name='eps_plume_forecast' from='string' to='bool'
+            member='forecast' default='on'>           
+            <documentation>show the forecast  </documentation>
+        </parameter>
+          <parameter name='eps_plume_forecast_line_colour' from='string' to='Colour'
+            member='forecast_line_colour' default='cyan'>           
+            <documentation> Line colour of the deterministic forecast  </documentation>
+        </parameter>
+        
+         <parameter name='eps_plume_forecast_line_style' from='string' to='LineStyle'
+            member='forecast_line_style' default='dash'>           
+            <documentation>   Line Style of the deterministic forecast </documentation>
+        </parameter>
+           <parameter name='eps_plume_forecast_line_thickness' from='int' to='int'
+            member='forecast_line_thickness' default='5'>           
+            <documentation>  Line thickness of the deterministic forecast  </documentation>
+        </parameter>
+          <parameter name='eps_plume_control' from='string' to='bool'
+            member='control' default='on'>           
+            <documentation>show the forecast  </documentation>
+        </parameter>
+        <parameter name='eps_plume_control_line_colour' from='string' to='Colour'
+            member='control_line_colour' default='cyan'>           
+            <documentation>  Line colour of the control forecast  </documentation>
+        </parameter>
+        
+         <parameter name='eps_plume_control_line_style' from='string' to='LineStyle'
+            member='control_line_style' default='solid'>           
+            <documentation>  Line Style of the control forecast</documentation>
+        </parameter>
+           <parameter name='eps_plume_control_line_thickness' from='int' to='int'
+            member='control_line_thickness' default='5'>           
+            <documentation>  Line thickness of the deterministic forecast  </documentation>
+        </parameter>
+        <parameter name='eps_plume_median' from='string' to='bool'
+            member='median' default='off'>           
+            <documentation>show the forecast  </documentation>
+        </parameter>
+        <parameter name='eps_plume_median_line_colour' from='string' to='Colour'
+            member='median_line_colour' default='cyan'>           
+            <documentation>  Line colour of the control forecast  </documentation>
+        </parameter>
+        
+         <parameter name='eps_plume_median_line_style' from='string' to='LineStyle'
+            member='median_line_style' default='solid'>           
+            <documentation>  Line Style of the control forecast</documentation>
+        </parameter>
+           <parameter name='eps_plume_median_line_thickness' from='int' to='int'
+            member='median_line_thickness' default='5'>           
+            <documentation>  Line thickness of the deterministic forecast  </documentation>
+        </parameter>
+            <parameter name='eps_plume_shading' from='string' to='bool'
+            member='shading' default='off'>           
+            <documentation> Turn on/off the plume shading </documentation>
+        </parameter>    
+         <parameter name='eps_plume_shading_level_list' from='floatarray' to='floatarray'
+            member='shading_levels' default='floatarray()'>           
+            <documentation> levels used for plumes shading </documentation>
+        </parameter> 
+        <parameter name='eps_plume_shading_colour_list' from='stringarray' to='stringarray'
+            member='shading_colours' default='stringarray()'>           
+            <documentation> colours used for plumes shading </documentation>
+        </parameter>
+        
+</class>
+<class name='EpsDirection' xmltag='epsdirection' prefix='eps/eps_direction' action='pmetgram' directory='visualisers' >
+	<documentation>
+		The EpsPlumeis responsible for plotting epsplume graph
+	</documentation>
+    <parameter name='eps_direction_keyword' from='string' to='string'
+            member='keyword' default='forecast'>           
+            <documentation> keyword to plot : forecast/control! </documentation>
+        </parameter>
+        <parameter name='eps_direction_line_colour' from='string' to='Colour'
+            member='line_colour' default='red'>           
+            <documentation> Colour of lines ...  </documentation>
+        </parameter>
+        
+         <parameter name='eps_direction_line_style' from='string' to='LineStyle'
+            member='line_style' default='solid'>           
+            <documentation> Line Style </documentation>
+        </parameter>
+           <parameter name='eps_direction_line_thickness' from='int' to='int'
+            member='line_thickness' default='1'>           
+            <documentation> Thickness of the line ...  </documentation>
+        </parameter>
+</class>
+
+<class name="EpsXmlInput" xmltag='epsxml' prefix='epsxml' action='pmetgram'  directory='decoders' >
+ <parameter name='epsxml_input_filename' from='string' to='string' 
+ 	    member='path' default=''>
+  	<documentation> Path to the file containing the Xml Description </documentation>
+ </parameter>
+  <parameter name='epsxml_parameter' from='string' to='string' 
+ 	    member='param' default=''>
+  	<documentation> Parameter to extract </documentation>
+ </parameter>
+   <parameter name='epsxml_long_title' from='string' to='bool'
+            member='long_title' default='off' >
+            <documentation> epsgram long title </documentation>
+            <migration> New Magics: Parameter eps_longitude sent to new Magics[EpsgramDecoder].  </migration>
+        </parameter>
+         <parameter name='epsxml_title' from='string' to='bool'
+            member='short_title' default='on' >
+            <documentation> epsgram long title </documentation>
+            <migration> New Magics: Parameter eps_longitude sent to new Magics[EpsgramDecoder].  </migration>
+        </parameter>
+</class>
+
+<class name="EpsBufr" xmltag='epsbufr' prefix='epsbufr' action='pmetgram'  directory='decoders' >
+ <parameter name='epsbufr_input_filename' from='string' to='string' 
+ 	    member='path' default=''>
+  	<documentation> Path to the file containing the Bufr data </documentation>
+ </parameter>
+    <parameter name='epsbufr_title' from='string' to='string'
+             member='title' default='' >
+         <documentation> text block to be plotted </documentation>
+        </parameter>
+  <parameter name='epsbufr_parameter_title' from='string' to='string' 
+ 	    member='param_title' default=''>
+  	<documentation> Title to use to describe the parameter </documentation>
+ </parameter>
+  <parameter name='epsbufr_information' from='string' to='bool' 
+ 	    member='information' default='on'>
+  	<documentation> Plot or not information about station/forecast  in a long title   </documentation>  
+ </parameter>
+  <parameter name='epsbufr_short_title' from='string' to='bool' 
+ 	    member='short_title' default='on'>
+  	<documentation> Plot or not information about station/forecast  in a long title   </documentation>  
+ </parameter>
+ <parameter name='epsbufr_parameter_descriptor' from='int' to='int' 
+ 	    member='param_descriptor' default='0'>
+  		<documentation> Descriptor to use </documentation>
+  </parameter>
+  <parameter name='epsbufr_parameter_2_descriptor' from='int' to='int' 
+ 	    member='param_descriptor_2' default='0'>
+  		<documentation> Descriptor to use </documentation>
+  </parameter>
+  <parameter name='epsbufr_accumulated_parameter' from='string' to='bool' 
+ 	    member='accumulated' default='off'>
+  		<documentation> Descriptor to use </documentation>
+  </parameter>
+   <parameter name='epsbufr_station_name' from='string' to='string'
+            member='station_name' default='' >
+       <documentation>Name of the station to use in the title </documentation>
+   </parameter>
+   <parameter name='epsbufr_station_latitude' from='float' to='float'
+            member='latitude' default='0'>
+            <documentation>Latitude of the point to extract </documentation>
+        </parameter>
+         <parameter name='epsbufr_station_longitude' from='float' to='float'
+            member='longitude' default='0'>           
+            <documentation> Longitude of the point to extract </documentation>
+        </parameter>
+         <parameter name='epsbufr_parameter_scaling_factor' from='float' to='float'
+            member='param_scaling_factor' default='1'>
+             <documentation> Scaling factor to apply to the values</documentation>
+        </parameter>
+         <parameter name='epsbufr_parameter_offset_factor' from='float' to='float'
+            member='param_offset_factor' default='0'>
+             <documentation> Scaling factor to apply to the values</documentation>
+        </parameter>
+    <parameter name='epsbufr_y_axis_percentile' from='float' to='float'
+            member='percentile' default='1'>           
+            <documentation> Temperature correction  </documentation>
+            <available>yes</available>
+            <available>no</available>
+           
+            <migration> New Magics: Parameter eps_temperature_correction sent to new Magics[EpsTempe].  </migration>
+        </parameter>
+        
+         <parameter name='epsbufr_y_axis_threshold' from='float' to='float'
+            member='threshold' default='50'>           
+            <documentation> Temperature correction  </documentation>
+            <available>yes</available>
+            <available>no</available>
+           
+            <migration> New Magics: Parameter eps_temperature_correction sent to new Magics[EpsTempe].  </migration>
+        </parameter>
+</class>
+</magics>

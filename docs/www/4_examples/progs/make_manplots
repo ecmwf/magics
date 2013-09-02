@@ -1,0 +1,180 @@
+#!/bin/ksh
+# Converts the output plots from example programs into GIF images
+# complete with thumbnails.
+
+
+
+# Parse command-line arguments
+# Possible options:
+#   -nogifs       : PostScript output will not be converted to GIF format
+#   -nomag69      : MAGICS 6.9 version will not be compiled
+#   -nocompilempp : All Magics++ programs will be run, but not recompiled
+
+
+nogifs=0
+nomag69=0
+nomontage=1
+nocompilempp=""
+noodb=""
+external=""
+
+for arg;do
+    if [[ $arg = "-h" || $arg = "-help" || $arg = "--help" ]]
+    then
+        echo ""
+        echo "make_testsuite"
+        echo "Possible options:"
+        echo "   -nogifs       : PostScript output will not be converted to GIF format"
+        echo "   -nomag69      : MAGICS 6.9 version will not be compiled"
+        echo "   -nocompilempp : All Magics++ programs will be run, but not recompiled"
+        echo "   -noodb        : Will not run the ODB examples"
+        echo "   -external     : Runs tohtml -external"
+        echo ""
+        exit
+    fi
+
+    if [[ $arg = "-nogifs" ]]
+    then
+        nogifs=1
+    fi
+
+    if [[ $arg = "-nomag69" ]]
+    then
+        nomag69=1
+    fi
+
+    if [[ $arg = "-nocompilempp" ]]
+    then
+        nocompilempp="-nocompile"
+    fi
+
+    if [[ $arg = "-noodb" ]]
+    then
+        noodb="-noodb"
+    fi
+
+    if [[ $arg = "-external" ]]
+    then
+        external="-external"
+    fi
+done
+
+
+. setconvert
+echo "Using convert from directory: $CONVERT_DIR"
+
+
+
+
+
+# temporarily hide the programs that are part of the test
+# suite and not the documentation
+# mv src/*.f src/testtemp
+# mv src/testtemp/*_ex.f src
+
+compile_mag69    -manonly  -www
+compile_magplus  $nocompilempp -manonly  -www $noodb -ps_gif
+
+
+gifdir=../../html/examples/fortran
+psdir=../../html/examples/fortran
+
+
+
+
+
+# copy across all the outputs
+
+# for outfile in ps/*_ex_*.*
+# do  
+#     if [[ ! -a $psdir/$outfile  ||  $outfile -nt "$psdir/$outfile" ]]
+#     then
+#         cp $outfile $psdir
+#     fi
+# done
+
+
+# create the gif representations for the web page
+
+for psfile in ps/*.ps
+do
+    bname=`basename $psfile .ps`
+    gifname="$gifdir/$bname"_med.gif
+    thumbname="$gifdir/$bname"_small.gif
+    
+    # is the postscript file newer than the gif?
+
+    if [[ ! -a $gifname || $psfile -nt $gifname ]]
+    then
+        echo "    [Converting to GIF: $psfile, $gifname]"
+
+        "$CONVERT_DIR"convert                     -rotate 90 -delay 200 $psfile $gifname
+        "$CONVERT_DIR"convert  -geometry 180X252  -rotate 90 -delay 150 $psfile $thumbname
+
+        cp $psfile $psdir
+    fi
+
+done
+
+
+
+# create the montages between the two versions of Magics
+
+if [[ $nomontage -eq 0 ]]
+then
+    for srcfile in src/www/*_ex.f
+    do
+        bname=`basename $srcfile .f`
+
+        for proj in CYLINDRICAL ; do
+
+            mpp_gifname=$gifdir/"$bname"_mpp_"$proj"_med.gif
+            m69_gifname=$gifdir/"$bname"_m69_"$proj"_med.gif
+            montage_gifname=$gifdir/"$bname"_both_"$proj".gif
+            montage_thumbname=$gifdir/"$bname"_both_small_"$proj".gif
+
+    #        mpp_gifname=$gifdir/"$bname"_mpp.gif
+    #        m69_gifname=$gifdir/"$bname"_m69.gif
+    #        montage_gifname=$gifdir/"$bname"_both_a.gif
+    #        montage_thumbname=$gifdir/"$bname"_both_a_small.gif
+
+
+             # is either source GIF newer than the montage GIF?
+
+            if [[ ! -a $montage_gifname  ||  $mpp_gifname -nt $montage_gifname || $m69_gifname -nt $montage_gifname ]]
+            then
+                echo "Making montage for $bname"
+
+                "$CONVERT_DIR"convert $mpp_gifname $m69_gifname -append -geometry x486 $montage_gifname
+                "$CONVERT_DIR"convert $mpp_gifname $m69_gifname -append -geometry x64  $montage_thumbname
+            fi
+
+        done
+    done
+fi
+
+
+# copy our static icons across if necessary
+
+cp -u icons/* $psdir
+for iconfile in icons/*.gif
+do
+    chmod ug+w $psdir/`basename $iconfile`
+done
+
+
+
+# move the rest of the test suite back again
+# mv src/testtemp/*.f src
+
+
+# finally, run the 'tohtml' utility to copy all program source and timings
+# to the html directory
+
+echo "Generating HTML..."
+cd ../..
+tohtml $external
+
+echo "Done."
+
+

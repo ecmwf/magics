@@ -1,0 +1,67 @@
+<center code='98'>
+    <table code='131'>
+    <param code='6' mars=''
+           short_title='tot prec'
+           long_title='Probability total precipitation anomaly of at least 20 mm/week'
+           scaling='1.0' offset='-0.0'
+           original_unit='%' derived_unit=''
+           vector1='0' vector2='0'
+           contour_interval='0.0' specification='p43'/>
+    <param code='7' mars=''
+           short_title='tot prec'
+           long_title='Probability total precipitation anomaly of at least 10 mm/week'
+           scaling='1.0' offset='-0.0'
+           original_unit='%' derived_unit=''
+           vector1='0' vector2='0'
+           contour_interval='0.0' specification='p43'/>
+    <param code='49' mars=''
+           short_title='gust 10m'
+           long_title='wind gust at 10m'
+           scaling='1.0' offset='-0.0'
+           original_unit='percentage' derived_unit='m/s'
+           vector1='0' vector2='0'
+           contour_interval='0.0' specification='p43'/>
+    <param code='130' mars=''
+           short_title='temp anom'
+           long_title='temperature anomaly'
+           scaling='1.0' offset='-0.0'
+           original_unit='percentage' derived_unit=''
+           vector1='0' vector2='0'
+           contour_interval='5.0' specification='p2'/>
+    <param code='165' mars=''
+           short_title='10m spd prob'
+           long_title='10m wind speed probability'
+           scaling='1.0' offset='-0.0'
+           original_unit='percentage' derived_unit=''
+           vector1='0' vector2='0'
+           contour_interval='0.0' specification='p37'/>
+    <param code='167' mars=''
+           short_title='2m tmp prob'
+           long_title='2m temperature probability'
+           scaling='1.0' offset='-0.0'
+           original_unit='percentage' derived_unit=''
+           vector1='0' vector2='0'
+           contour_interval='0.0' specification='p43'/>
+    <param code='228' mars=''
+           short_title='tot prec'
+           long_title='total precipitation'
+           scaling='1.0' offset='-0.0'
+           original_unit='percentage' derived_unit=''
+           vector1='0' vector2='0'
+           contour_interval='0.0' specification='p43'/>
+    <param code='229' mars=''
+           short_title='Hs proba'
+           long_title='significant wave height probability'
+           scaling='1.0' offset='-0.0'
+           original_unit='percentage' derived_unit=''
+           vector1='0' vector2='0'
+           contour_interval='0.0' specification='p43'/>
+    <param code='232' mars=''
+           short_title='Period proba'
+           long_title='mean wave period probability'
+           scaling='1.0' offset='-0.0'
+           original_unit='percentage' derived_unit=''
+           vector1='0' vector2='0'
+           contour_interval='0.0' specification='p43'/>
+     </table>
+</center>

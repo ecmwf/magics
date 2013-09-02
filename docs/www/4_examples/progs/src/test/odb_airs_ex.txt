@@ -1,0 +1,2 @@
+Since MAGICS 6.9 does not have ODB capability, there is only
+output for Magics++.

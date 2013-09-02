@@ -1,0 +1,74 @@
+RUNNING LOCALLY
+===============
+
+To run a local copy of the test suite on your own machine without affecting the "official" suite:
+
+1. Copy the file magics/tools/versioncmp/config/default.settings to another file, e.g. local.settings
+
+2. Open local.settings and edit the following values:
+     ECFLOW_SERVER_HOSTNAME - change this to the machine on which the tests should be run.
+                            - This machine should have access to the folders defined for input and output below (e.g. scratch folders)
+     ECFLOW_SERVER_PORT - Can leave this at the default value as long as it is not the same machine as the "official" suite
+     TEST_FOLDER_PATH   - full path to the folder where the input tests are
+     OUTPUT_FOLDER_PATH - full path to the folder where you would like the output to be written
+     Delete ECF_HOME completely 
+
+
+STARTING THE SERVER
+-------------------
+
+cd to magics/tools/versioncmp/ecflow
+
+Start the server using:
+
+./start_server.sh --config-file ../config/local.settings
+
+This will start the ecflow server on the machine and port defined above in local.settings.
+
+
+
+STARTING ECFLOW VIEWER
+----------------------
+
+This is a viewer / scheduling program similar to xcdp. To start it execute the following commmands
+
+use ecflow
+ecflowview &
+
+Then within ecflowviewer:
+
+Select the option Edit->Preferences 
+On the resulting dialog select the "Server" tab
+Enter the details for your new server by altering the Host and Port settings to be as in your local.settings file
+The field "Name" can be set to an easy-to-remember name of your choice.
+
+NB This dialog is buggy and you may need to close and reopen the dialog (or even restart ecflowview) in order to see the settings as you entered them.
+
+Once you have entered this information the server should appear on the workspace of ecflowview. If it doesn't then try selecting your server from the menu option "Server" so that it has a check box next to it. It might be necessary to restart ecflowview to get this working.
+
+
+SUBMITTING THE SUITE
+--------------------
+
+To submit your suite you specify your config file when running the set up program:
+
+cd to magics/tools/versioncmp/ecflow
+./setup.py --config-file=../config/local.settings
+
+The suite name that is started on the server will have the same name as the settings file. In our example the settings file was local.settings so the suite will be named "local".
+
+If a suite with the same name already exists on the server it will be automatically overwritten (without warning) with the new one.
+
+SCHEDULING
+----------
+It is possible to run the tests immediately or to set a time when they should be run. This is done via the entry ECFLOW_RUNTIME in the settings file local.settings
+
+For example the following will schedule the suite to be run at 11:45 AM (GMT)
+ECFLOW_RUNTIME=11:45
+
+Deleting (or commenting out) this line will cause the suite to be run immediately when you run the setup program (described in "submitting the suite" above)
+
+
+
+
+

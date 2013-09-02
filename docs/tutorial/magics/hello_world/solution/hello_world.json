@@ -1,0 +1,25 @@
+{
+  "version":"3.0",
+  "drivers":[
+    {
+      "format":"ps",
+      "output_name":"hello_world"
+    }
+  ]
+,
+  "page":
+  {
+    "text":
+    {
+	  "text_line_1" : "Hello world!",
+      "height":"15%"
+    },
+    "map":
+    {
+      "height":"85%",
+      "coastlines":
+      {
+      }
+    }
+  }
+}

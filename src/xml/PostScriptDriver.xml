@@ -1,0 +1,29 @@
+<?xml-stylesheet type='text/css' href='parameter.css'?>
+<magics>
+<class name='PostScriptDriver' action='PostScript' directory='drivers' inherits='BaseDriver' xmltag='ps' prefix='output_ps/output'>
+	<documentation for_docs='no'>
+		This is the default driver for Magics, and PostScript is the default output format. 
+	</documentation>
+
+<parameter name='output_ps_colour_model' from='string' to='string' member='colour_model' default='cmyk' values='rgb/cmyk/monochrome/gray/cmyk_monochrome/cmyk_gray'>
+   <metview default='' class='' >  </metview>
+   <documentation>Defines the PostScript colour model .</documentation>
+<!--         <option name='RGB'  fortran='rgb'  xml='rgb'/>
+             <option name='CMYK'  fortran='CMYK'  xml='CMYK'/>
+             <option name='MONOCHROME'  fortran='MONOCHROME'  xml='MONOCHROME'/>
+             <option name='GRAY'  fortran='GRAY'  xml='GRAY'/>
+             <option name='CMYK_MONOCHROME' fortran='CMYK_MONOCHROME'  xml='CMYK_MONOCHROME'/>
+             <option name='CMYK_GRAY' fortran='CMYK_GRAY'  xml='CMYK_GRAY'/>
+-->
+</parameter>
+
+<parameter name='output_ps_scale' from='float' to='float' member='scale' default='1.0'>
+   <documentation>Defines the PostScript scale between 0.1 and 1.0 (1.0 being the full page size).</documentation>
+</parameter>
+
+<parameter name='output_ps_split' from='string' to='bool' member='split' default='off'>
+   <documentation>Enables the output to be split into different (single page) PostScript files.</documentation>
+</parameter>
+</class>
+
+</magics>

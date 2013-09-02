@@ -1,0 +1,521 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="Axis_Plotting" label="9">
+  <title>Axis Plotting</title>
+
+  <xi:include href="../phrases/chapterinfo_mod.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <section id="Axis_Introduction">
+    <title>Introduction</title>
+
+    <para><productname>Magics</productname> axis facilities allow users to plot horizontal
+    and vertical axes on non-geographical plots. These facilities include axis labelling, axis title plotting and
+    subdivision of axes with ticks. There is also a facility for plotting automatic
+    date/time axes.</para>
+
+    <para>Parameters exist which give the user control over all aspects of axis plotting,
+    e.g. position, orientation, colour, thickness etc. Axis plotting is achieved by
+    calling the action routine <function>PAXIS</function>, which draws one axis each
+    time it is called. Any axis parameters required must be set before <function>PAXIS</function>
+    is called. <function>PAXIS</function> may be called as often as it is needed. If more than one axis is to be drawn with the same axis orientation and
+    position, users should ensure that there is sufficient room between the subpage
+    and page frame lines.</para>
+
+    <para>Axis plotting is based on the <productname>Magics</productname> subpage. 
+    It is necessary to ensure that the dimensions of the subpage are
+    set before <function>PAXIS</function> is called, as the requested axis will be
+    drawn on one of the subpage frame lines. This means that the parameters
+    <parameter>SUBPAGE_X_LENGTH</parameter> and <parameter>SUBPAGE_Y_LENGTH</parameter>
+    should be set to the required values and <parameter>SUBPAGE_MAP_PROJECTION</parameter>
+    should be set to '<code>CARTESIAN</code>'.
+    Horizontal axes are always plotted along the bottom or top line of the subpage frame.
+    Vertical axes are plotted along the left or right side of the subpage frame.</para>
+
+    <para>The axes, which may be regular, logarithmic or user-defined, may be subdivided
+    with tick marks. Further subdivision between tick marks, i.e. minor ticks, is also
+    possible. Grid lines, i.e. lines joining corresponding tick marks, may be plotted.
+    Ticks may be labelled either on the tick marks or between tick marks.</para>
+
+    <para><productname>Magics</productname> parameters exist to control all aspects of axis drawing.
+    These parameters start with the prefix <parameter>AXIS</parameter>, e.g.
+    <parameter>AXIS_LINE_THICKNESS</parameter>.</para>
+
+    <para>An axis consists of seven different parts and the drawing of each part can be turned on or off.
+    The parts are: line, title, tip title, ticks, minor ticks, tick labels and grid. The line, ticks,
+    tick labels and title are on by default. The grid, minor ticks and tip title are off by default.
+    </para>
+
+    <para>Axes may be annotated in two ways, one called the axis title and the other called
+    the <firstterm>axis tip title</firstterm>. The axis title is centred on the axis and
+    the tip title is plotted at the end of the axis. The tip title would normally be
+    used as a unit specification. The default text string for the title and tip title are blank.
+    </para>
+
+ </section>
+
+
+  <section id="Axis_Positioning">
+    <title>Axis Positioning</title>
+
+    <para>Axes may be drawn on any of the subpage frame lines. This is controlled by the parameter
+    <parameter>AXIS_ORIENTATION</parameter> which may be set to
+    '<code>HORIZONTAL</code>' (X-axis) or '<code>VERTICAL</code>' (Y-axis), the default being
+    '<code>HORIZONTAL</code>' .</para>
+
+    <para>The position of an axis is controlled by the parameter
+    <parameter>AXIS_POSITION</parameter>. For the x-axis it can take one of the
+    values '<code>BOTTOM</code>' or '<code>TOP</code>' and for the y-axis the values
+    '<code>LEFT</code>' or '<code>RIGHT</code>' may be used.</para>
+    
+    <para>An axis is normally drawn on one of the subpage frames. However if
+    <function>PAXIS</function> is called more than once with the same
+    <parameter>AXIS_POSITION</parameter> value, each subsequent axis will be drawn between
+    the previously drawn axis and the page frame, if there is sufficient room available.
+    For example two calls with <parameter>AXIS_POSITION</parameter> set to '<code>RIGHT</code>'
+    will draw the first axis on the right-hand subpage frame, and the second axis to
+    the right of the first one, if there is room between the subpage and page.</para>
+    
+    <para>It is possible to draw the lines of an axis in any position and not just at
+    the bottom/top/left/right of the axis. This is achieved by setting the parameter
+    <parameter>AXIS_POSITION</parameter> to '<code>AUTOMATIC</code>' and the
+    parameter <parameter>AXIS_LINE_POSITION</parameter> to the required position.
+    The position of the line should be given in centimetres from the lower left hand
+    corner of the subpage. <parameter>AXIS_LINE_POSITION</parameter> may be used for
+    both the X and Y axes, depending on the value set in the parameter
+    <parameter>AXIS_ORIENTATION</parameter> (<code>HORIZONTAL</code> or <code>VERTICAL</code>).
+    It is possible to plot ticks, minor ticks, titles etc on
+    <code>POSITIONAL</code> axes. However, users should be aware that the ticks etc
+    will only be plotted on the left side of vertical lines and on the bottom side
+    of horizontal lines.</para>
+    
+    <para>There is no limit to the number of times <function>PAXIS</function> may be called,
+    even with the same <parameter>AXIS_POSITION</parameter>, as long as there is sufficient
+    room. When there is insufficient room for the axis, an error message is generated
+    and the axis is not drawn.</para>
+
+    <para>The parameter <parameter>AXIS_LINE</parameter> controls whether the axis
+    line is actually drawn or not. The default value is '<code>ON</code>' and it
+    should be set to '<code>OFF</code>' if the line is not required.</para>
+  </section>
+
+
+  <section id="Axis_Line">
+    <title>Axis Line styling</title>
+
+    <para>The colour and thickness of the axis may be set by using the parameters
+    <parameter>AXIS_LINE_COLOUR</parameter> and <parameter>AXIS_LINE_THICKNESS</parameter>.
+    The default colour of the axis line is the colour of the subpage frame,
+    i.e. <parameter>SUBPAGE_FRAME_COLOUR</parameter>, and the default thickness is
+    <code>2</code>.</para>
+
+  <section id="Axis_Grid_Lines">
+    <title>Axis Grid Lines</title>
+
+    <para>Grid lines may be drawn from every tick by setting the parameter
+    <parameter>AXIS_GRID</parameter> to '<code>ON</code>' . The colour, thickness
+    and line style of grid lines may be controlled with the parameters
+    <parameter>AXIS_GRID_COLOUR</parameter>, <parameter>AXIS_GRID_THICKNESS</parameter>
+    and <parameter>AXIS_GRID_LINE_STYLE</parameter>. The default values for
+    these parameters are '<code>YELLOW</code>', <code>1</code> and '<code>SOLID</code>'
+    respectively. Axis grids will always be drawn within the subpage even if
+    the axis itself is outside the subpage.</para>
+    
+  </section>
+
+  <section id="Axis_Ticks">
+    <title>Axis Ticks</title>
+
+    <para>Axis ticks are tick marks showing the subdivision of an axis. Users may control
+    the drawing of tick marks by setting the parameter <parameter>AXIS_TICK</parameter>
+    to '<code>ON</code>' or '<code>OFF</code>', the default being '<code>ON</code>'.</para>
+    
+    <para>The axis tick attributes colour, size and thickness are controlled by the
+    parameters <parameter>AXIS_TICK_COLOUR</parameter>, <parameter>AXIS_TICK_SIZE</parameter>
+    and <parameter>AXIS_TICK_THICKNESS</parameter>.</para>
+    
+    <!-- Insert diagram here? -->
+
+    <para>An axis can be defined in four different ways with the <parameter>AXIS_TYPE</parameter>
+    values '<code>REGULAR</code>' (the default), '<code>LOGARITHMIC</code>',
+    '<code>POSITION_LIST</code>' and '<code>DATE</code>'.</para>
+
+    <itemizedlist>
+
+      <listitem>
+        <para>The '<code>REGULAR</code>' type is a regular axis defined by a first and a
+        last value. The spacing of the ticks may be controlled by the user by setting
+        <parameter>AXIS_TICK_INTERVAL</parameter> to the required interval.
+        If not set by the user, <productname>Magics</productname> will select an
+        interval that gives about 8 tick marks.
+        </para>
+      </listitem>
+
+      <listitem>
+        <para>The '<code>POSITION_LIST</code>' type may be a regular or irregular axis
+        with the positions of the ticks specified by the user. Tick positions are
+        measured from the starting point of the axis, i.e. from the left side for
+        horizontal axes and from the bottom for vertical axes. They should be passed
+        to <productname>Magics</productname> in a real array as follows:
+        </para>
+
+        <programlisting>    CALL <function>PSET1R</function>('<parameter>AXIS_TICK_POSITION_LIST</parameter>',PLIST,N)</programlisting>
+
+        <para>where <code>PLIST</code> is a real array of size <code>N</code> holding the tick positions.</para>
+
+        <para>Normally the positions of the ticks for <parameter>POSITION_LIST</parameter> are specified
+        in centimetres but can be given in axis (or user) units by setting the parameter
+        <parameter>AXIS_TICK_LABEL_UNITS</parameter> to '<code>USER</code>' , the default being
+        '<code>CM</code>'. In this case <productname>Magics</productname> will assume that the positions
+        of the ticks in <parameter>AXIS_TICK_POSITION_LIST</parameter> are in axis units
+        and will calculate the actual positions on the axis.</para>
+
+        'DATE' is a date/time axis and is fully described in Date/Time Axis Plotting
+
+      </listitem>
+
+      <listitem>
+        <para>'<code>DATE</code>' is a date/time axis and is fully described in the following section.
+        </para>
+      </listitem>
+
+    </itemizedlist>
+
+    
+
+    <section id="Axis_Minor_ticks">
+        <title>Axis Minor Ticks</title>
+
+        <para>Minor tick marks are smaller than, and plotted between, tick marks.
+        They may be obtained by setting <parameter>AXIS_MINOR_TICK</parameter> to
+        '<code>ON</code>' and setting <parameter>AXIS_MINOR_TICK_COUNT</parameter>
+        to an integer specifying the number of minor tick marks desired between
+        two ticks. The default values for <parameter>AXIS_MINOR_TICK</parameter>
+        and <parameter>AXIS_MINOR_TICK_COUNT</parameter> are '<code>OFF</code>' and 1,
+        respectively.</para>
+        
+        <para>The colour, size and thickness of minor ticks may be controlled by
+        setting the parameters <parameter>AXIS_MINOR_TICK_COLOUR</parameter>,
+        <parameter>AXIS_MINOR_TICK_SIZE</parameter> and <parameter>AXIS_MINOR_TICK_THICKNESS</parameter>.
+        </para>
+
+    </section>
+
+  </section>
+
+
+   <section id="Axis_Spacing">
+    <title>Spacing Control of Axis Ticks, Minor Ticks, Grid Lines</title>
+
+    <para>In order to achieve good quality axis plotting without cluttering,
+    it is important that ticks, minor ticks and grid lines do not come too close
+    to each other. One parameter controls this: <parameter>AXIS_MINOR_TICK_MIN_GAP</parameter>.
+    Using this parameter, the user may specify the smallest acceptable gap
+    between ticks etc. The default value is 0.05cm . Note that the same parameter
+    controls the three different features.</para>
+    
+   </section>
+</section>
+
+
+
+  <section id="Axis_Labels">
+    <title>Axis Labels</title>
+
+    <para>Labelling of axes consists of two different types; text labelling and unit labelling.</para>
+
+
+    <section id="Axis_Text_Labels">
+        <title>Text Labels</title>
+
+        <para>There are two different types of text labelling, labelling of the axis itself,
+        called the title text, and labelling of the end of an axis, called the tip title text
+        <!--(see Diagram IX-1)-->.</para>
+        
+        <para>A title text may be plotted by setting the <parameter>AXIS_TITLE_TEXT</parameter>
+        to the text required, the default is a blank text string. The parameter
+        <parameter>AXIS_TITLE</parameter> should be set to '<code>ON</code>' which is
+        the default. It should be set to '<code>OFF</code>' if no title text is required.
+        Likewise, a tip title text may be plotted by setting <parameter>AXIS_TIP_TITLE_TEXT</parameter>
+        to the text required and setting <parameter>AXIS_TIP_TITLE</parameter> to '<code>ON</code>',
+        which is the default.</para>
+        
+
+
+
+        <para>The title text is always centre justified but the orientation of the text
+        may be altered with the parameter <parameter>AXIS_TITLE_ORIENTATION</parameter>.
+        The three valid values for this parameter are '<code>PARALLEL</code>'
+        (the default), '<code>HORIZONTAL</code>' and '<code>VERTICAL</code>'. The
+        orientation of the tip title text is controlled by the parameter
+        <parameter>AXIS_TIP_TITLE_ORIENTATION</parameter>. Valid values are
+        '<code>PARALLEL</code>', '<code>HORIZONTAL</code>' (the default) and
+        '<code>VERTICAL</code>'.</para>
+
+
+        <para>Parameters exist to control the colour, height and quality of the title
+        text and the tip title text, e.g. <parameter>AXIS_TITLE_COLOUR</parameter>,
+        <parameter>AXIS_TIP_TITLE_QUALITY</parameter> .</para>
+    </section>
+
+    <section id="Axis_Unit_Labels">
+        <title>Unit Labels</title>
+
+        <para>Unit labelling is actually the labelling of the axis ticks. This is
+        controlled by the parameter <parameter>AXIS_TICK_LABEL</parameter> which
+        may be set to '<code>ON</code>' or '<code>OFF</code>', the default being
+        '<code>ON</code>'.</para>
+
+        <para>Parameters exist to control the height, quality and colour of the
+        tick labels, e.g.</para>
+        
+        <programlisting>    CALL <function>PSETC</function>('<parameter>AXIS_TICK_LABEL_COLOUR</parameter>','BLUE')</programlisting>
+        
+        <para>The format of the tick label may be specified by setting the parameter
+        <parameter>AXIS_TICK_LABEL_FORMAT</parameter>, the default being
+        '<code>(AUTOMATIC)</code>' .</para>
+
+
+
+        <para>Tick labels can be '<code>HORIZONTAL</code>' (default) or '<code>VERTICAL</code>'
+        and this is controlled by the parameter <parameter>AXIS_TICK_LABEL_ORIENTATION</parameter>.
+        The user has control over the position of the tick label, by setting the
+        parameter <parameter>AXIS_TICK_LABEL_POSITION</parameter>.</para>
+
+
+        <para>The default position '<code>ON_TICK</code>' centres the value around
+        the tick mark. The '<code>INTER_TICK</code>' position shifts all tick labels
+        to the right, centring them between two tick marks. For example, the first
+        tick label will be drawn between the first and the second tick.</para>
+
+
+        <para>It is also possible to suppress printing of first and/or last tick label
+        which is sometimes useful for space reasons. This may be achieved by setting
+        the parameters <parameter>AXIS_TICK_LABEL_FIRST</parameter> and
+        <parameter>AXIS_TICK_LABEL_LAST</parameter> respectively. The default value
+        for both is '<code>ON</code>', which means that the first and last tick labels
+        will be plotted.</para>
+
+        <para>The parameter <parameter>AXIS_TICK_LABEL_TYPE</parameter> enables the
+        user to specify the type of tick labels to be plotted, e.g.
+        '<code>LABEL_LIST</code>', '<code>NUMBER</code>', '<code>LATITUDE</code>' and
+        '<code>LONGITUDE</code>'. The default tick label type depends on the value
+        set in <parameter>AXIS_TYPE</parameter> which may be '<code>REGULAR</code>',
+        '<code>LOGARITHMIC</code>' or '<code>POSITION_LIST</code>'. For 
+        '<code>REGULAR</code>' and 'LOGARITHMIC', the user may specify any of the
+        valid values for <parameter>AXIS_TICK_LABEL_TYPE</parameter> and the default
+        value in these two cases is '<code>NUMBER</code>'. However, if
+        <parameter>AXIS_TYPE</parameter> is set to '<code>POSITION_LIST</code>' then
+        '<code>LABEL_LIST</code>' is the only value allowed for
+        <parameter>AXIS_TICK_LABEL_TYPE</parameter>.</para>
+
+        <para>User defined tick labels should be passed to <productname>Magics</productname>
+        in a character type array as follows:</para>
+
+        <programlisting>    CALL <function>PSET1C</function>('<parameter>AXIS_TICK_LABEL_LIST</parameter>',TLIST,M)</programlisting>
+
+        <para>where <code>TLIST</code> is an array of dimension <code>M</code>.
+        The nth element of the array will be the label of the nth tick mark.
+        If some of the ticks are to be unlabelled, the appropriate elements of the
+        array should be set blank.</para>
+
+        <para>Label types '<code>NUMBER</code>', '<code>LATITUDE</code>' and
+        '<code>LONGITUDE</code>' produce numeric values calculated from the first
+        axis value and the tick interval. The special cases, '<code>LATITUDE</code>'
+        and '<code>LONGITUDE</code>', plot the number with a degree sign and the
+        direction (N/S/E/W).</para>
+
+        <para>It is possible to suppress the labelling of selected ticks using the 
+        parameter <parameter>AXIS_TICK_LABEL_FREQUENCY</parameter>. If set to n,
+        only every nth tick mark will be labelled.</para>
+
+        <para>Logarithmic axes are labelled only at the cycle end points
+        (i.e. ..,0.1,1,10,..). However if no endpoint exists (e.g. 2 to 9)
+        all ticks are labelled. If there is only one endpoint it is labelled
+        together with the first and the last ticks.</para>
+
+    </section>
+
+    
+  </section>  <!-- id="Axis_Labels" -->
+
+
+
+
+
+  <section id="Axis_Date_Time">
+    <title>Date/Time Axis Plotting</title>
+
+    <para>There are facilities for plotting an automatic date/time axis in
+    <productname>Magics</productname>. The parameter <parameter>AXIS_TYPE</parameter>
+    should be set to '<code>DATE</code>' when a date/time axis is required and the
+    parameter <parameter>AXIS_DATE_TYPE</parameter> should be set to indicate the type
+    of date/time axis required. Following is a description of how to use the date/time
+    axis facilities.</para>
+
+    <section id="AXIS_DATE_TYPE">
+        <title>AXIS_DATE_TYPE</title>
+
+        <para>The parameter <parameter>AXIS_DATE_TYPE</parameter> allows the user to
+        determine which type of axis is to be drawn. Valid values are '<code>HOURS</code>',
+        '<code>DAYS</code>', '<code>MONTHS</code>' and '<code>YEARS</code>'.
+        The value set will determine the axis units for a date/time axis and will
+        indicate that the user requests <productname>Magics</productname> to label the
+        major tick marks on the current axis with date/time and that the text of the
+        labels to be plotted at ticks etc be calculated by <productname>Magics</productname>.</para>
+
+        <para>For <code>HOURS</code>, <code>DAYS</code>, <code>MONTHS</code> and <code>YEARS</code>,
+        the parameters <parameter>AXIS_DATE_MIN_VALUE</parameter>,
+        <parameter>AXIS_DATE_MAX_VALUE</parameter> and <parameter>AXIS_TICK_INTERVAL</parameter>
+        will enable <productname>Magics</productname> to calculate the number of
+        days/months/years to be plotted on the axis. <parameter>AXIS_DATE_MIN_VALUE</parameter>
+        should be set to the starting date required with the format
+        YYYY-MM-DD HH:mm:ss (YYYY =year, e.g. 1991, 2002, MM =month, e.g. June=06,
+        DD = day of month (1-31), HH =hour, mm =minutes and ss =seconds).
+        This is a character value, i.e. for 1200UTC 15 June 1991 the value set in
+        <parameter>AXIS_DATE_MIN_VALUE</parameter> is '<code>1991-06-15 12:00:00</code>'.
+        Likewise, the ending date should be set in <parameter>AXIS_DATE_MAX_VALUE</parameter>.
+        The actual units used to plot the axis, i.e. days, months or years, is determined
+        by the value set in <parameter>AXIS_DATE_TYPE</parameter>. The parameter
+        <parameter>AXIS_TICK_INTERVAL</parameter> can be used to control the amount of
+        major ticks to be plotted. For example if set to 2.0, every second tick will
+        be plotted. <productname>Magics</productname> will calculate the appropriate
+        date for each of the labels.</para>
+
+        <para>The major ticks on the axis will represent the main units of the axis as
+        given by <parameter>AXIS_DATE_TYPE</parameter>. Minor ticks may be plotted for
+        the entity below the main units of the axis. For example, if <code>DAYS</code> are the
+        main units, <code>HOURS</code> may be plotted as minor ticks. Minor ticks will not be
+        labelled.</para>
+    </section>
+
+    <section id="Axis_Axis_Units">
+        <title>Axis Units</title>
+
+        <para>The units of the axis determine, to a large degree, the type of tick labels
+        plotted. When set to '<code>HOURS</code>', it means that hours, days, months and
+        years may appear on the axis tick labels. When set to '<code>DAYS</code>', it
+        means that days, months and years may appear. If set to '<code>MONTHS</code>',
+        only years and months may appear and, If <parameter>AXIS_DATE_UNITS</parameter>
+        is set to '<code>YEARS</code>', only years may appear. Note that 'day'
+        labels consist of the day of the week and the number of the day in the month.</para>
+    </section>
+
+
+    <section id="Axis_Tick_Labels">
+        <title>Tick Labels</title>
+
+        <para>The user may also decide to plot any combination of tick labels, i.e. year,
+        month, day/date or hour. Parameters exist to enable this, i.e.
+        <parameter>AXIS_HOURS_LABEL</parameter>, <parameter>AXIS_DAYS_LABEL</parameter>,
+        <parameter>AXIS_MONTHS_LABEL</parameter> and <parameter>AXIS_YEARS_LABEL</parameter>.
+        These parameters may be set to '<code>ON</code>' or '<code>OFF</code>'.
+        The default is '<code>ON</code>', except for <parameter>AXIS_HOURS_LABEL</parameter>
+        which is '<code>OFF</code>'.</para>
+
+
+        <para>Furthermore, the parameter <parameter>AXIS_DAYS_LABEL</parameter> is
+        different to the others as it may be set to '<code>DAY</code>', '<code>NUMBER</code>
+        or '<code>BOTH</code>' as well as '<code>off</code>'. The default for
+        <parameter>AXIS_DAYS_LABEL</parameter> is '<code>BOTH</code>'.</para>
+
+        <para>Parameters exist to control the colour, height and quality of all the
+        label types and, for <code>DAYS</code> and <code>MONTHS</code>, the number of
+        characters in the name may be selected, e.g.
+        <code>SEPTEMBER</code>, <code>SEP</code> or <code>S</code>. <!-- A full list of the
+        date/time parameters is in appendix 1. --></para>
+    </section>
+
+    <section id="Axis_Axis_Grids">
+        <title>Axis Grids</title>
+
+        <para>For date/time axes only, axis grids may be positioned by the user, i.e.
+        grids may be drawn in positions other than the tick positions. To achieve this,
+        the parameter <parameter>AXIS_DATE_GRID_POSITIONING</parameter> should be set to 
+        '<code>POSITIONAL</code>', the default being '<code>AUTOMATIC</code>'. A
+        list of positions for placing the grids should be passed using the parameter
+        <parameter>AXIS_DATE_GRID_POSITION</parameter> LIST, e.g.</para>
+
+        <programlisting>    CALL <function>PSET1C</function> ('<parameter>AXIS_DATE_GRID_POSITION_LIST</parameter>',GLIS,N)</programlisting>
+
+        <para>where <code>N</code> is the number of positions and <code>GLIS</code> is
+        an array containing the positions which should be in the same format as
+        <parameter>AXIS_DATE_MIN_VALUE</parameter> and <parameter>AXIS_DATE_MAX_VALUE</parameter>
+        described above.</para>
+     </section>
+
+
+    <section id="Axis_Curve_Plotting">
+        <title>Curve Plotting</title>
+
+        <para>Please note that, when using a date/time axis, the X axis units used for
+        plotting graphs (curves and bar charts) will have the format
+        <code>YYYY-MM-DD HH:mm:ss</code> as described above.</para>
+    </section>
+
+
+  </section>  <!-- id="Axis_Date_Time" -->
+
+
+
+  <xi:include href="../paramtables/paxis_tables.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+<!--
+  <xi:include href="../paramtables/Axis_horizontal_axis_magml_tables.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+-->
+  <xi:include href="../paramtables/Axis_horizontal_axis_magml_flat_tables.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+<!--
+  <xi:include href="../paramtables/Axis_vertical_axis_magml_tables.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+-->
+  <xi:include href="../paramtables/Axis_vertical_axis_magml_flat_tables.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <section id="Python_Axis_Examples">
+      <title>Axis examples using Python</title>
+
+      <para>The following example shows how to use a simple date axis in a Python program.</para>
+
+      <programlisting>
+<xi:include href="../examples/manual/python/source/axis_python.py_cc" xmlns:xi="http://www.w3.org/2001/XInclude" />
+      </programlisting>
+
+      <figure id="figure_axis_py1Plot">
+        <title>Resultant plot from example Python axis program</title>
+
+        <mediaobject id="axis_pyPlot">
+          <imageobject role="html">
+            <imagedata fileref="images/python/axis_python_01.png" format="PNG" />
+          </imageobject>
+
+          <imageobject role="fo">
+            <imagedata fileref="../examples/manual/python/png/axis_python_01.png" format="PNG" depth="11cm"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+
+      <para>The next example shows how to generate the same simple date axis with the MagMacro module in Python.</para>
+
+      <programlisting>
+<xi:include href="../examples/manual/python/source/axis_magmacro.py_cc" xmlns:xi="http://www.w3.org/2001/XInclude" />
+      </programlisting>
+
+      <figure id="figure_axis_magmacro_py1Plot">
+        <title>Resultant plot from example Python axis program</title>
+
+        <mediaobject id="axis_magmacro_py1Plot">
+          <imageobject role="html">
+            <imagedata fileref="images/python/axis_magmacro_01.png" format="PNG" />
+          </imageobject>
+
+          <imageobject role="fo">
+            <imagedata fileref="../examples/manual/python/png/axis_magmacro_01.png" format="PNG" depth="11cm"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+  </section>
+
+
+</chapter>

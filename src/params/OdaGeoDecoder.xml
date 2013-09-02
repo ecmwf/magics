@@ -1,0 +1,40 @@
+<magics>
+<class  xmltag='odb' name='OdaGeoDecoder' directory='oda' prefix='odb' action='podb' include='OdaDecoder.h'>
+		<documentation >
+		New odb Access (Prototype Status) 
+		</documentation>
+    	<parameter  member='path' to='string' default='' from='string' name='odb_filename'>
+            		<documentation > odb Database Path 		</documentation>
+    	</parameter>
+    
+    	<parameter  member='latitude' to='string' default='lat' from='string' name='odb_latitude_variable'>          
+            		<documentation > odb Column name for the latitudes   		</documentation>
+    	</parameter>
+    	<parameter  member='longitude' to='string' default='lon' from='string' name='odb_longitude_variable'>        
+            		<documentation > odb Column name for the longitudes   		</documentation>
+    	</parameter>
+    
+    	<parameter  member='value' to='string' default='' from='string' name='odb_value_variable'>        
+            		<documentation > odb Column name for the values 		</documentation>
+    	</parameter>
+    	<parameter  member='y' to='string' default='' from='string' name='odb_y_component_variable'>        
+            		<documentation > odb Column name for the y component of a vector 		</documentation>
+    	</parameter>
+    	<parameter  member='x' to='string' default='' from='string' name='odb_x_component_variable'>        
+            		<documentation > odb Column name  for the x component of a vector		</documentation>
+    	</parameter>
+    	<parameter  member='nb_rows' to='int' default='-1' from='int' name='odb_nb_rows'>
+	    		<documentation > umber of rows to be retrieved 		</documentation>
+    	</parameter>
+      	<parameter  member='title' to='string' default='' from='string' name='odb_user_title'>
+	    		<documentation > User defined title for automatic title 		</documentation>
+    	</parameter>
+      	<parameter  member='unit' to='string' default='degrees' from='string' name='odb_coordinates_unit'>
+	    		<documentation > Coordinates unit used to define the location of the points (degrees/radians) 		</documentation>
+    	</parameter>
+    	<parameter  member='odb_binning' to='BinningObject' default='off' from='string' name='odb_binning'>
+     			<documentation > Information for the binning (degrees/radians) 		</documentation>
+     	  		<option  xml='binning' fortran='on' include='BinningObject.h' name='BinningObject'>		</option>
+          		<option  xml='nobinning' fortran='off' include='BinningObject.h' name='NoBinningObject'>		</option>
+    	</parameter>
+</class></magics>

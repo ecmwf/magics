@@ -1,0 +1,155 @@
+#!/bin/ksh
+
+set -x
+
+purpose="manual"
+rotation=""
+
+# arguments for ImageMagick's 'convert' utility.
+# note that docbook seems to have some problems when given PNG files with
+# transparency. Unfortunately, convert seems to like to *sometimes* generate
+# an image with transparency. The plethora of options below seems to be
+# necessary in order to avoid this. It also trims the white border from the image which
+# allows it to be larger on the page.
+
+full_density=90
+thumb_density=50
+antialias=""    # "+antialias"
+convert_args="-bordercolor white -border 1 -trim +matte"
+
+for arg;do
+    if [[ $arg = "-h" || $arg = "-help" || $arg = "--help" ]]
+    then
+        echo ""
+        echo "convert_example_outputs"
+        echo "Possible options:"
+        echo "   -manual    : convert the examples for the manual (default)"
+        echo "   -tutorial  : convert the examples for the tutorial"
+        echo ""
+        exit
+    fi
+
+    if [[ $arg = "-tutorial" ]]
+    then
+        purpose="tutorial"
+        rotation=" -rotate 90 "
+    fi
+
+    if [[ $arg = "-manual" ]]
+    then
+        purpose="manual"
+        rotation=" -rotate 90  "
+    fi
+
+done
+
+
+
+
+# create any directories that do not already exist
+
+# mkdir -p examples/fortran/epsi
+mkdir -p examples/$purpose/fortran/png
+mkdir -p examples/$purpose/c/png
+# mkdir -p examples/magml/epsi
+mkdir -p examples/$purpose/magml/png
+mkdir -p examples/$purpose/python/png
+
+
+# convert all PostScript output files in 'ps' directory
+# to epsi and png formats and place in in 'epsi' and 'png' directories.
+
+for psfile in examples/$purpose/fortran/ps/*.ps
+do
+    echo "[Converting $psfile]"
+    bname=`basename $psfile .ps`
+    outdir="examples/$purpose/fortran/png"
+#    ps2epsi $psfile "examples/fortran/epsi/$bname.epsi"
+    convert -density $full_density $antialias $rotation $convert_args $psfile "$outdir/$bname.png"
+
+    # for the tutorial, we want to have slightly smaller images for the HTML pages 
+    if [[ $purpose = "tutorial" ]]
+    then
+        thumbname="${bname}_thumb"
+        convert -density $thumb_density $antialias $rotation $convert_args $psfile "$outdir/$thumbname.png"
+    fi
+
+done
+
+for psfile in examples/$purpose/c/ps/*.ps
+do
+    echo "[Converting $psfile]"
+    bname=`basename $psfile .ps`
+    outdir="examples/$purpose/c/png"
+#    ps2epsi $psfile "examples/fortran/epsi/$bname.epsi"
+    convert -density $full_density $antialias $rotation $convert_args $psfile "$outdir/$bname.png"
+
+    # for the tutorial, we want to have slightly smaller images for the HTML pages 
+    if [[ $purpose = "tutorial" ]]
+    then
+        thumbname="${bname}_thumb"
+        convert -density $thumb_density $antialias $rotation $convert_args $psfile "$outdir/$thumbname.png"
+    fi
+
+done
+
+for psfile in examples/$purpose/magml/ps/*.ps
+do
+    echo "[Converting $psfile]"
+    bname=`basename $psfile .ps`
+    outdir="examples/$purpose/magml/png"
+#    ps2epsi $psfile "examples/magml/epsi/$bname.epsi"
+    convert -density $full_density $antialias $rotation $convert_args $psfile "$outdir/$bname.png"
+
+    # for the tutorial, we want to have slightly smaller images for the HTML pages 
+    if [[ $purpose = "tutorial" ]]
+    then
+        thumbname="${bname}_thumb"
+        convert -density $thumb_density $antialias $rotation $convert_args $psfile "$outdir/$thumbname.png"
+    fi
+
+done
+
+for psfile in examples/$purpose/python/ps/*.ps
+do
+    echo "[Converting $psfile]"
+    bname=`basename $psfile .ps`
+    outdir="examples/$purpose/python/png"
+#    ps2epsi $psfile "examples/magml/epsi/$bname.epsi"
+    convert -density $full_density $antialias $rotation $convert_args $psfile "$outdir/$bname.png"
+
+    # for the tutorial, we want to have slightly smaller images for the HTML pages 
+    if [[ $purpose = "tutorial" ]]
+    then
+        thumbname="${bname}_thumb"
+        convert -density $thumb_density $antialias $rotation $convert_args $psfile "$outdir/$thumbname.png"
+    fi
+
+done
+
+
+
+# perform any customised steps for particular plots
+
+#dir="examples/tutorial/fortran/png"
+#
+#for root in coast_3
+#do
+#    file=$dir/${root}_m69_CYLINDRICAL_01_thumb.png
+#    convert -rotate 270 $convert_args $file out.png
+#    mv out.png $file
+#
+#    file=$dir/${root}_m69_CYLINDRICAL_01.png
+#    convert -rotate 270 $convert_args $file out.png
+#    mv out.png $file
+#
+#    file=$dir/${root}_01_thumb.png
+#    convert -rotate 270 $convert_args $file out.png
+#    mv out.png $file
+#
+#    file=$dir/${root}_01.png
+#    convert -rotate 270 $convert_args $file out.png
+#    mv out.png $file
+#done
+
+

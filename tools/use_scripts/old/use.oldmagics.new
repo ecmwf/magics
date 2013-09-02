@@ -1,0 +1,61 @@
+#!/bin/csh
+#
+# File: $ECMWFHOME/use/use.oldmagics
+#
+# Purpose: Set the environment for the old version of MAGICS
+#
+# $Revision: 1.2 $    $Date: 2002/11/29 09:39:41 $
+#
+################################################################################
+
+set version=old
+set emosname = emos.old.R32.D64.I32
+set gnulib = /usr/local/apps/newgnu
+
+setenv MAG_HOME /usr/local/apps/Magics/${version}
+setenv EMOSLIB "-L/usr/local/lib -l${emosname}"
+
+#
+# Set MAGLIB
+#
+switch ($ARCH)
+
+	case linux:
+		setenv MAGLIB "-L$MAG_HOME/lib -lmagics -lMvDevices -lgd -lpng -ljpeg -lz -lfreetype -L${gnulib}/lib -lstdc++ -lm"
+		setenv LD_LIBRARY_PATH "${gnulib}/lib:$MAG_HOME/lib:$LD_LIBRARY_PATH"
+		echo \$MAGLIB changed to $MAGLIB
+		echo \$LD_LIBRARY_PATH changed to $LD_LIBRARY_PATH
+		echo " "
+		echo Compile with: pgf90 \<name\>.f \$MAGLIB \$EMOSLIB
+		breaksw
+
+	case hppa: 
+		echo "Not supported on this platform"
+		breaksw
+
+	case sgimips:
+		setenv MAGLIB "-L$MAG_HOME/lib -lmagGL -lMvDevices -lftn -lfortran -lm"
+		setenv LD_LIBRARYN32_PATH $MAG_HOME/lib:/usr/local/lib32:/lib32:/usr/lib32
+		breaksw
+
+	case rs6000:
+		setenv MAGLIB "-L$MAG_HOME/lib -lmagics -lMvDevices -lgd -lpng -ljpeg -lz -lfreetype -lxlf90 -lGLw -lGLU  -lGL"
+		echo \$MAGLIB changed to $MAGLIB
+		breaksw
+	endsw
+endif
+
+echo \$EMOSLIB changed to $EMOSLIB
+echo " "
+
+echo "*****************************************************************"
+echo "* 'use oldmagics' now refers to User Version 6.8."
+echo "*"
+echo "* To use the new Magics User Version 6.9"
+echo "* please remove the statement 'use oldmagics'"
+echo "*"
+echo "* Thank You" 
+echo "*"
+echo "* Graphics Section"
+echo "*****************************************************************" 
+

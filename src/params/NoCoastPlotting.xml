@@ -1,0 +1,81 @@
+<magics>
+<class  xmltag='coast' name='NoCoastPlotting' used_by='Coastlines' directory='visualisers' prefix='map/map_coastline' action='pcoast' include='CoastPlotting.h'>
+		<documentation >
+		Coastlines may be turned off by setting the parameter MAP_COASTLINE  to 'OFF' , 
+        the default being 'ON' . 
+        The parameters MAP_COASTLINE_STYLE  and MAP_COASTLINE_COLOUR control line style and colour respectively.
+        The default value for the coastlines have been changed from YELLOW to BLACK.
+		</documentation>
+
+
+rivers
+
+
+	<parameter  from='string' name='map_coastline_resolution' default='automatic' member='resolution' to='string' values='automatic/low/medium/high'>
+ 		<documentation >Select one of the pre-defined resolutions: automatic, low, medium, and high.
+  When set to AUTOMATIC, a resolution appropriate to the scale of the map is chosen in order to balance quality with speed.
+ 		</documentation>
+ 
+ 
+ 		<release >1.1		</release>
+	</parameter>
+
+
+       
+	<parameter  member='land' to='bool' default='off' from='string' name='map_coastline_land_shade'>
+ 		<documentation >Sets if land areas are shaded		</documentation>
+   		<set  name='map_coastline_land_shade_colour' value='on'>		</set>
+	</parameter>
+
+	<parameter  xml='colour' priority='0.2' from='string' name='map_coastline_land_shade_colour' default='green' member='land_colour' to='Colour'>
+ 		<documentation >Colour of Shading of land areas		</documentation>
+   		<set  name='map_coastline_land_shade_colour' value='on'>		</set>
+	</parameter>
+
+	<parameter  member='sea' to='bool' default='off' from='string' name='map_coastline_sea_shade'>
+ 		<documentation >Shade the sea areas		</documentation>
+   		<set  name='map_coastline_sea_shade_colour' value='on'>		</set>
+  	</parameter>    
+	<parameter  xml='colour' priority='0.2' from='string' name='map_coastline_sea_shade_colour' default='blue' member='sea_colour' to='Colour'>
+ 		<documentation >Colour of Shading of sea areas		</documentation>
+	</parameter>
+	<parameter  from='string' name='map_boundaries' default='off' member='boundaries' to='NoBoundaries' include='Boundaries.h'>
+  		<documentation >Add the political boundaries		</documentation>
+    		<option  xml='boundaries' fortran='on' include='Boundaries.h' name='Boundaries'>		</option>
+    		<option  xml='noboundaries' fortran='off' include='Boundaries.h' name='NoBoundaries'>		</option>
+	</parameter>
+
+	<parameter  from='string' name='map_cities' default='off' member='cities' to='NoCities' include='Cities.h'>
+  		<documentation >Add the cities (capitals)		</documentation>
+    		<option  xml='cities' fortran='on' include='Boundaries.h' name='Cities'>		</option>
+    		<option  xml='nocities' fortran='off' include='Boundaries.h' name='NoCities'>		</option>
+  		<release >Work in progress		</release>
+	</parameter>
+
+	<parameter  from='string' name='map_preview' visible='no' default='off' member='preview' to='bool'>
+ 		<documentation  for_docs='no'>Add a preview : only for metview		</documentation>
+	</parameter>
+
+	<parameter  from='string' name='map_rivers' default='off' member='rivers' to='string' values='on/off'>
+ 		<documentation >Display rivers (on/off)		</documentation>
+  		<set  name='map_rivers_style' value='on'>		</set>
+  		<set  name='map_rivers_colour' value='on'>		</set>
+  		<set  name='map_rivers_thickness' value='on'>		</set>           
+ 		<release >2.11		</release>
+	</parameter>
+        
+	<parameter  member='rivers_style' to='LineStyle' default='solid' from='string' name='map_rivers_style'>
+  		<documentation >Line style for rivers		</documentation>
+  		<release >2.11		</release>
+	</parameter>       
+
+	<parameter  member='rivers_colour' to='Colour' default='blue' from='string' name='map_rivers_colour'>
+ 		<documentation >Colour of the rivers		</documentation>
+ 		<release >2.12		</release>
+	</parameter>
+
+	<parameter  xml='thickness' from='int' name='map_rivers_thickness' default='1' member='rivers_thickness' to='int'>
+  		<documentation >Line thickness of rivers		</documentation>
+  		<release >2.12		</release>
+	</parameter>
+</class></magics>

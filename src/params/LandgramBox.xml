@@ -1,0 +1,32 @@
+<magics>
+<class  directory='visualisers' prefix='landbox' xmltag='landgrambox' name='LandgramBox'>
+  	<documentation > LandBox visualisation	</documentation>
+	<parameter  member='width' to='float' default='6' from='float' name='landgram_width'>
+         		<documentation > Colour of the box 		</documentation>
+  	</parameter>
+  	<parameter  member='top1_colour' to='Colour' default='evergreen' from='string' name='landgram_top_box1_colour'>
+         		<documentation > Colour of the box 		</documentation>
+  	</parameter>
+   	<parameter  member='top1_shading' to='string' default='solid' from='string' name='landgram_top_box1_shading'>
+         		<documentation > could be solid or dot		</documentation>
+  	</parameter>
+   	<parameter  member='top2_colour' to='Colour' default='evergreen' from='string' name='landgram_top_box2_colour'>
+         		<documentation > Colour of the box 		</documentation>
+  	</parameter>
+   	<parameter  member='top2_shading' to='string' default='dot' from='string' name='landgram_top_box2_shading'>
+         		<documentation > could be solid or dot		</documentation>
+  	</parameter>
+  	<parameter  member='bottom1_colour' to='Colour' default='evergreen' from='string' name='landgram_bottom_box1_colour'>
+         		<documentation > Colour of the box 		</documentation>
+  	</parameter>
+   	<parameter  member='bottom1_shading' to='string' default='solid' from='string' name='landgram_bottom_box1_shading'>
+         		<documentation > could be solid or dot		</documentation>
+  	</parameter>
+  
+  	<parameter  member='bottom2_colour' to='Colour' default='evergreen' from='string' name='landgram_bottom_box2_colour'>
+         		<documentation > Colour of the box 		</documentation>
+  	</parameter>
+   	<parameter  member='bottom2_shading' to='string' default='dot' from='string' name='landgram_bottom_box2_shading'>
+         		<documentation > could be solid or dot		</documentation>
+  	</parameter>
+</class></magics>

@@ -1,0 +1,63 @@
+<magics>
+<class name='LandgramDecoder' directory='decoders' xmltag='landgram' prefix='landgram'>
+  <documentation> Landgram aplication</documentation>
+
+  <parameter name='landgram_input_file_name' from='string' to='string'
+             member='path' default=''>
+         <documentation> path to the file containing the xml description of the lansdgram</documentation>
+  </parameter>
+  <parameter name='landgram_input_scaling_factor' from='float' to='float'
+             member='scaling' default='1'>
+         <documentation> path to the file containing the xml description of the lansdgram</documentation>
+  </parameter>
+  <parameter name='landgram_input_offset_factor' from='float' to='float'
+             member='offset' default='0'>
+         <documentation> path to the file containing the xml description of the lansdgram</documentation>
+  </parameter>
+  <parameter name='landgram_title' from='string' to='string'
+             member='title' default='landgram parameter'>
+         <documentation> title to display </documentation>
+  </parameter>
+</class>
+<class name='LandgramBox' directory='visualisers' xmltag='landgrambox' prefix='landbox'>
+  <documentation> LandBox visualisation</documentation>
+<parameter name='landgram_width' from='float' to='float'
+             member='width' default='6'>
+         <documentation> Colour of the box </documentation>
+  </parameter>
+  <parameter name='landgram_top_box1_colour' from='string' to='Colour'
+             member='top1_colour' default='evergreen'>
+         <documentation> Colour of the box </documentation>
+  </parameter>
+   <parameter name='landgram_top_box1_shading' from='string' to='string'
+             member='top1_shading' default='solid'>
+         <documentation> could be solid or dot</documentation>
+  </parameter>
+   <parameter name='landgram_top_box2_colour' from='string' to='Colour'
+             member='top2_colour' default='evergreen'>
+         <documentation> Colour of the box </documentation>
+  </parameter>
+   <parameter name='landgram_top_box2_shading' from='string' to='string'
+             member='top2_shading' default='dot'>
+         <documentation> could be solid or dot</documentation>
+  </parameter>
+  <parameter name='landgram_bottom_box1_colour' from='string' to='Colour'
+             member='bottom1_colour' default='evergreen'>
+         <documentation> Colour of the box </documentation>
+  </parameter>
+   <parameter name='landgram_bottom_box1_shading' from='string' to='string'
+             member='bottom1_shading' default='solid'>
+         <documentation> could be solid or dot</documentation>
+  </parameter>
+  
+  <parameter name='landgram_bottom_box2_colour' from='string' to='Colour'
+             member='bottom2_colour' default='evergreen'>
+         <documentation> Colour of the box </documentation>
+  </parameter>
+   <parameter name='landgram_bottom_box2_shading' from='string' to='string'
+             member='bottom2_shading' default='dot'>
+         <documentation> could be solid or dot</documentation>
+  </parameter>
+</class>
+</magics>
+

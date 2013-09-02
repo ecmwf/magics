@@ -1,0 +1,44 @@
+<magics version='1.0'>
+   
+    <!--  Define the page dimensions -->
+
+    <page format ='a4' orientation = 'landscape' >
+    <subpage>
+
+
+       <!--  The mapview defines how we view the area -->
+
+       <mapview> 
+         <cylindrical>
+            <corners min_longitude = '-20'
+                     min_latitude  = '20'
+                     max_longitude = '30'
+                     max_latitude  = '62' />
+          </cylindrical>
+       </mapview>
+
+
+       <!--  Define and plot the coastlines -->
+
+       <coastlines>
+         <coast colour = 'grey'>
+            <landshading colour = 'rgb(0.8,0.9,0.8)' />
+         </coast>
+       </coastlines>
+
+
+       <!--  A layer contains a data reference and its plotting attributes -->
+
+       <layer>
+            <grib path = '../data/z500.grb'/>
+            <geocontour/>
+       </layer>
+
+
+       <!--  Define and plot the title text -->
+
+       <text font = 'Times' colour = 'rgb(0.1,0.6,0.2)'>Z500 Contour Plot</text>
+
+    </subpage>
+    </page>
+</magics>

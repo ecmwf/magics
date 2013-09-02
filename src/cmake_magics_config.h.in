@@ -1,0 +1,187 @@
+#ifndef magics_config_h
+#define magics_config_h
+
+#include "eclib_config.h"
+
+/* define if the Boost library is available */
+#cmakedefine HAVE_BOOST
+
+/* Define to 1 if you have the <dlfcn.h> header file. */
+#cmakedefine HAVE_DLFCN_H
+
+/* Define to 1 if you have the <inttypes.h> header file. */
+#cmakedefine HAVE_INTTYPES_H
+
+/* Define to 1 if you have the `expat' library (-lexpat). */
+#cmakedefine HAVE_LIBEXPAT
+
+/* Define to 1 if you have the `gd' library (-lgd). */
+#cmakedefine HAVE_LIBGD
+
+/* Define to 1 if you have the `grib_api' library (-lgrib_api). */
+#cmakedefine HAVE_LIBGRIB_API
+
+/* Define to 1 if you have the `proj' library (-lproj). */
+#cmakedefine HAVE_LIBPROJ
+
+/* Define to 1 if you have the `pthread' library (-lpthread). */
+#cmakedefine HAVE_LIBPTHREAD
+
+/* Define to 1 if you have the `spot_database' library (-lspot_database). */
+#cmakedefine HAVE_LIBSPOT_DATABASE
+
+/* Define to 1 if you have the `z' library (-lz). */
+#cmakedefine HAVE_LIBZ
+
+/* Define to 1 if you have the <memory.h> header file. */
+#cmakedefine HAVE_MEMORY_H
+
+/* If available, contains the Python version number currently in use. */
+#cmakedefine HAVE_PYTHON
+
+/* Define to 1 if you have the <stdint.h> header file. */
+#cmakedefine HAVE_STDINT_H
+
+/* Define to 1 if you have the <stdlib.h> header file. */
+#cmakedefine HAVE_STDLIB_H
+
+/* Define to 1 if you have the <strings.h> header file. */
+#cmakedefine HAVE_STRINGS_H
+
+/* Define to 1 if you have the <string.h> header file. */
+#cmakedefine HAVE_STRING_H
+
+/* Define to 1 if you have the <sys/stat.h> header file. */
+#cmakedefine HAVE_SYS_STAT_H
+
+/* Define to 1 if you have the <sys/types.h> header file. */
+#cmakedefine HAVE_SYS_TYPES_H
+
+/* Define to 1 if you have the <unistd.h> header file. */
+#cmakedefine HAVE_UNISTD_H
+
+/* Define to the sub-directory in which libtool stores uninstalled libraries.
+   */
+#cmakedefine LT_OBJDIR
+
+/* Turn on 32 bit addressing */
+#cmakedefine MAGICS_32BIT
+
+/* Install all header files. */
+#cmakedefine MAGICS_ALLHEADERS
+
+/* Turn off the BUFR support */
+#cmakedefine MAGICS_BUFR
+
+/* Turn on the Cairo output support */
+#cmakedefine MAGICS_CAIRO
+
+/* Period of Copyright. */
+#cmakedefine MAGICS_COPYRIGHT_PERIOD
+
+/* Turn on the use of Exceptions (not recommended used by Static library!) */
+#cmakedefine MAGICS_EXCEPTION
+
+/* Defines GIF output is supported. */
+#cmakedefine MAGICS_GIF
+
+/* Defines animated GIF output is supported. */
+#cmakedefine MAGICS_GIF_ANIMATED
+
+/* Turn off the GRIB 1/2 support */
+#cmakedefine MAGICS_GRIB
+
+/* Install path. */
+#cmakedefine MAGICS_INSTALL_PATH
+
+/* Turn on the JSON support */
+#cmakedefine MAGICS_JSON
+
+/* LIB_AGE of Magics. */
+#cmakedefine MAGICS_LIBRARY_AGE
+
+/* LIB_CURRENT of Magics. */
+#cmakedefine MAGICS_LIBRARY_CURRENT
+
+/* LIB_REVISION of Magics. */
+#cmakedefine MAGICS_LIBRARY_REVISION
+
+/* Indicate if Mac is used. */
+#cmakedefine MAGICS_MAC
+
+/* Turn on metgram script support */
+#cmakedefine MAGICS_METGRAM
+
+/* Installation used by metview */
+#cmakedefine MAGICS_METVIEW
+
+/* Name of this package. */
+#define MAGICS_NAME "@MAGICS_NAME@"
+
+/* Turn off the netCDF support */
+#cmakedefine MAGICS_NETCDF
+
+/* Turn off the ODB support */
+#cmakedefine MAGICS_ODB
+
+/* Gives the list of output formats */
+#cmakedefine MAGICS_OUTPUTS
+
+/* Enable Python interface (based on swik). */
+#cmakedefine MAGICS_PYTHON
+
+/* Turn on Qt related modules. */
+#cmakedefine MAGICS_QT
+
+/* Turn on raster file format support (GIF&PNG) */
+#cmakedefine MAGICS_RASTER
+
+/* Release date of this version. */
+#cmakedefine MAGICS_RELEASE_DATE
+
+/* Name of installation site. */
+#define MAGICS_SITE "@MAGICS_SITE@"
+
+/* Turn off the SPOT support */
+#cmakedefine MAGICS_SPOT
+
+/* Turn on/off thread support. */
+#cmakedefine MAGICS_THREADS
+
+/* Turn on TIFF file format support */
+#cmakedefine MAGICS_TIFF
+
+/* Turn on the TTF support */
+#cmakedefine MAGICS_TTF
+
+/* Path to TTF font files. */
+#cmakedefine MAGICS_TTF_PATH
+
+/* Version of Magics. */
+#define MAGICS_VERSION "@MAGICS_VERSION@"
+
+/* Sets visibility flags. */
+#cmakedefine MAGICS_VISIBILITY
+
+/* Define to the address where bug reports for this package should be sent. */
+#cmakedefine PACKAGE_BUGREPORT
+
+/* Define to the full name of this package. */
+#cmakedefine PACKAGE_NAME
+
+/* Define to the full name and version of this package. */
+#cmakedefine PACKAGE_STRING
+
+/* Define to the one symbol short name of this package. */
+#cmakedefine PACKAGE_TARNAME
+
+/* Define to the home page for this package. */
+#cmakedefine PACKAGE_URL
+
+/* Define to the version of this package. */
+#cmakedefine PACKAGE_VERSION
+
+/* Paths to PS fonts. */
+#cmakedefine POSTSCRIPT_FONT_PATH
+
+#endif

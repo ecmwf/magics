@@ -1,0 +1,57 @@
+<?xml-stylesheet type='text/css' href='parameter.css'?>
+<magics>
+<class name='XmlBox' directory='visualisers'>
+  <parameter name='box_left' from='string' to='string'
+             member='left' xml='left' default='5%'>
+         <release>Magics++0.8</release>
+         <documentation> Left Position of Box </documentation>
+         <migration>Only avalaible in MagML  </migration>
+  </parameter>
+
+  <parameter name='box_bottom' from='string' to='string'
+             member='bottom' xml='bottom' default='80%' >
+         <release>Magics++0.8</release>
+         <documentation> Botton Position of Box </documentation>
+         <migration> Only avalaible in MagML  </migration>
+  </parameter>
+
+  <parameter name='box_width' from='string' to='string'
+             member='width' xml='width' default='85%'>
+         <release>Magics++0.8</release>
+         <documentation> Length of text box in X direction </documentation>
+         <migration> Only avalaible in MagML  </migration>
+  </parameter>
+
+  <parameter name='box_height' from='string' to='string'
+             member='height' xml='height' default='10%'>
+         <release>Magics++0.1</release>
+         <documentation> Length of text box in Y direction </documentation>
+         <migration> Only avalaible in MagML  </migration>
+  </parameter>
+
+  <parameter name='blanking' from='string' to='bool'
+             member='blanking' default='off'>
+         <release>Magics++0.1</release>
+          <release_info>Paremeter defined but not implemeted : expected for Magics++0.6</release_info>
+         <documentation> All plotting in the text box previous to PTEXT call will be blanked out. Plotting after PTEXT call will not be affected. (ON/OFF) </documentation>
+         <migration> New Magics: Parameter text_box_blanking sent to new Magics[TextBox].  </migration>
+  </parameter>
+
+  <parameter name='frame' from='string' to='FrameBase'
+             member='frame' default='off'>
+         <release>Magics++0.5</release>    
+         <documentation> Plot border around text box (ON/OFF) </documentation>
+         <option name='Frame'   fortran='on'  xml='frame' include='Frame.h' />
+         	<option name='NoFrame' fortran='off' xml='noframe' include='Frame.h'/>
+         <migration> New Magics: Parameter text_border sent to new Magics[TextBox].  </migration>
+  </parameter>
+  
+  
+  
+  
+</class>
+
+<static name='box' class='TextBox' include_class='yes'/>
+
+
+</magics>

@@ -1,0 +1,77 @@
+<magics>
+<class  action='peps' directory='visualisers' prefix='eps' xmltag='epsgraph' name='EpsGraph'>
+		<documentation >
+		The Epsgraph is repsonsible for plotting the espgram using box and whisker visualisation
+		</documentation>
+        	<parameter  xml='font' from='string' name='eps_font' default='sansserif' member='font' to='string'>           
+        	</parameter>
+         	<parameter  xml='font_size' from='float' name='eps_font_size' default='0.25' member='font_size' to='float'>           
+        	</parameter>
+        	<parameter  xml='font_style' from='string' name='eps_font_style' default='' member='font_style' to='string'>           
+        	</parameter>
+        	<parameter  xml='font_colour' from='string' name='eps_font_colour' default='blue' member='font_colour' to='Colour'>           
+        	</parameter>
+        	<parameter  xml='box_colour' from='string' name='eps_box_colour' default='cyan' member='colour' to='Colour'>           
+        	</parameter>
+          	<parameter  member='box_shift' to='int' default='0' from='int' name='eps_box_shift'>           
+        	</parameter>
+        	<parameter  xml='right_box_colour' from='string' name='eps_right_box_colour' default='red' member='right_colour' to='Colour'>           
+        	</parameter>
+        	<parameter  xml='left_box_colour' from='string' name='eps_left_box_colour' default='blue' member='left_colour' to='Colour'>           
+        	</parameter>
+        	<parameter  xml='border_colour' from='string' name='eps_box_border_colour' default='black' member='border_colour' to='Colour'>            
+        	</parameter>
+        	<parameter  xml='border_thickness' from='int' name='eps_box_border_thickness' default='3' member='border_thickness' to='int'>            
+        	</parameter>
+          	<parameter  member='median_thickness' to='int' default='3' from='int' name='eps_box_median_thickness'>            
+        	</parameter>
+         	<parameter  member='median_colour' to='Colour' default='black' from='string' name='eps_box_median_colour'>            
+        	</parameter>
+        	<parameter  xml='max' from='float' name='eps_maximum' default='INT_MAX' member='max' to='float'>            
+        	</parameter>
+        	<parameter  xml='max_font_name' from='string' name='eps_maximum_font_name' default='sansserif' member='max_font_name' to='string'>            
+        	</parameter>
+        	<parameter  xml='max_font_style' from='string' name='eps_maximum_font_style' default='normal' member='max_font_style' to='string'>            
+        	</parameter>
+        	<parameter  xml='max_font_size' from='float' name='eps_maximum_font_size' default='0.25' member='max_font_size' to='float'>            
+        	</parameter>
+         	<parameter  xml='max_font_colour' from='string' name='eps_maximum_font_colour' default='red' member='max_font_colour' to='Colour'>            
+        	</parameter>
+        	<parameter  member='box_width' to='float' default='-1' from='float' name='eps_box_width'>	</parameter>
+        	 
+        	<parameter  xml='whisker' from='string' name='eps_whisker' default='on' member='whisker' to='bool'>	</parameter>
+        
+         	<parameter  member='legend_resolution' to='string' default='truncature' from='string' name='eps_legend_resolution'>	</parameter>	 
+        	       	<parameter  member='legend_control_text' to='string' default='' from='string' name='eps_legend_control_text'>	</parameter>	    
+        	  	<parameter  member='legend_forecast_text' to='string' default='' from='string' name='eps_legend_forecast_text'>	</parameter>	 
+        	 
+         	<parameter  member='deterministic' to='bool' default='on' from='string' name='eps_deterministic'>
+        	 		<documentation > plot the deterministic Forecast		</documentation>
+        	</parameter>
+         	<parameter  member='deterministic_colour' to='Colour' default='blue' from='string' name='eps_deterministic_line_colour'>
+        	 		<documentation >Colour of  deterministic Forecast		</documentation>
+        	</parameter>
+         
+          	<parameter  member='deterministic_style' to='LineStyle' default='solid' from='string' name='eps_deterministic_line_style'>
+        	 		<documentation >line style of  deterministic Forecast		</documentation>
+        	</parameter>
+        	<parameter  member='deterministic_thickness' to='int' default='2' from='int' name='eps_deterministic_line_thickness'>
+        	 		<documentation >line style of  deterministic Forecast		</documentation>
+        	</parameter>
+                 	<parameter  member='control' to='bool' default='on' from='string' name='eps_control'>
+        	 		<documentation > plot the deterministic Forecast		</documentation>
+        	</parameter>
+         	<parameter  member='control_colour' to='Colour' default='red' from='string' name='eps_control_line_colour'>
+        	 		<documentation >Colour of  deterministic Forecast		</documentation>
+        	</parameter>
+        
+          	<parameter  member='control_style' to='LineStyle' default='dash' from='string' name='eps_control_line_style'>
+        	 		<documentation >Control of  deterministic Forecast		</documentation>
+        	</parameter>
+        	<parameter  member='control_thickness' to='int' default='2' from='int' name='eps_control_line_thickness'>
+        	 		<documentation >line style of  deterministic Forecast		</documentation>
+        	</parameter>
+        	 
+        	<parameter  member='legend' to='bool' default='on' from='string' name='legend'>           
+        	</parameter>	 
+</class></magics>

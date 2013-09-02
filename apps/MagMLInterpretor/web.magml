@@ -1,0 +1,39 @@
+<magics version='2.0' >
+  <drivers>    
+     <gif fullname='${gif=magics.gif}' output_name_first_page_number='off' />   
+  </drivers>
+  <definition>
+       <contour id='tempe'>
+         <noisoline colour='black'>
+            <shading>
+                <polygon><area_fill/></polygon>
+                <list colour_list='BLUE_PURPLE/BLUE_PURPLE/BLUE_PURPLE/BLUE_PURPLE/GREENISH_BLUE/BLUE_GREEN/BLUISH_GREEN/YELLOW_GREEN/GREENISH_YELLOW/YELLOW/ORANGISH_YELLOW/ORANGE_YELLOW/YELLOWISH_ORANGE/ORANGE/REDDISH_ORANGE/RED_ORANGE/ORANGISH_RED/RED/MAGENTA/MAGENTA' />
+            </shading>          
+                <interval  interval='5'/>
+              <nolabel/>
+              <nohighlight/>
+          </noisoline>
+          <nohilo/>
+      </contour>     
+  </definition> 
+  <page>
+  
+   <nopageid/>
+     <map >
+       <meta/>
+        <cylindrical >
+        </cylindrical>
+        
+        <layer>
+           <grib path='./t850.grib'/>
+           <contour use_id='tempe'/>            
+        </layer>            
+        <coastlines/>
+     
+       </map>
+  
+  </page>     
+  
+  
+  
+</magics>

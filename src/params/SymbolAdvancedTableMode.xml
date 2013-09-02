@@ -1,0 +1,185 @@
+<magics>
+<class  directory='visualisers' inherits='SymbolMode' prefix='symbol/symbol_advanced_table' xmltag='advanced' name='SymbolAdvancedTableMode'>
+    	<documentation >
+		Here comes the description of the SymbolTableMode object 
+		</documentation>
+     	<parameter  from='string' name='symbol_advanced_table_selection_type' default='count' member='levels' to='LevelSelection' values='count/interval/list'>
+         		<documentation >  Technique to use to calculate the shading band levels. 		</documentation>
+         		<migration > New Magics: Parameter contour_level_selection_type sent to new Magics[IsoPlot].  		</migration>
+         		<release >2.6		</release>
+         		<option  xml='count' fortran='count' docdive='no' include='CountSelectionType.h' name='CountSelectionType'>		</option>
+         		<option  xml='interval' fortran='interval' docdive='no' include='IntervalSelectionType.h' name='IntervalSelectionType'>		</option>
+         		<option  xml='list' fortran='list' docdive='no' include='LevelListSelectionType.h' name='LevelListSelectionType'>		</option>
+       
+        
+         		<set  name='symbol_advanced_table_level_list' value='list'>		</set>
+     			<set  name='symbol_advanced_table_interval' value='interval'>		</set> 
+     			<set  name='symbol_advanced_table_reference_level' value='interval'>		</set>
+         		<set  name='symbol_advanced_table_level_count' value='count'>		</set>
+         		<set  name='symbol_advanced_table_level_tolerance' value='count'>		</set>
+         
+     	</parameter>
+   
+      	<parameter  member='min' to='float' default='-1.e21' from='float' name='symbol_advanced_table_min_value'>
+         		<documentation > Min value to plot		</documentation>
+         		<release >2.6		</release>
+  	</parameter>
+  	<parameter  member='max' to='float' default='1.e21' from='float' name='symbol_advanced_table_max_value'>
+         		<documentation > Max value to plot 		</documentation>
+         		<release >2.6		</release>
+  	</parameter>
+       	<parameter  member='count' to='int' default='10' from='int' name='symbol_advanced_table_level_count'>
+         		<documentation > Count or number of levels to be plotted. Magics will try to find "nice levels", 
+         this means that the number of levels could be slightly different from the requested number of levels		</documentation>
+         		<release >2.6		</release>
+  	</parameter>
+  	<parameter  member='tolerance' to='int' default='2' from='int' name='symbol_advanced_table_level_tolerance'>
+         		<documentation > Tolerance: Do not use "nice levels" if the number of levels is really to different [count +/- tolerance] 		</documentation>
+         		<release >2.6		</release>
+  	</parameter>
+
+
+
+  	<parameter  member='interval' to='float' default='8.0' from='float' name='symbol_advanced_table_interval'>
+         		<documentation > Interval in data units between different bands of shading 		</documentation>
+         		<release >2.6		</release>
+  	</parameter>
+   	<parameter  member='reference' to='float' default='0.0' from='float' name='symbol_advanced_table_reference_level'>
+         		<documentation > Level from which the level interval is calculated 		</documentation>
+         		<release >2.6		</release>
+  	</parameter>
+ 	<parameter  member='list' to='floatarray' default='floatarray()' from='floatarray' name='symbol_advanced_table_level_list'>
+         		<documentation > List of shading band levels to be plotted 		</documentation>
+         		<release >2.6		</release>
+  	</parameter>
+        
+     
+     
+      	<parameter  member='colourMethod' to='ColourTechnique' default='calculate' from='string' name='symbol_advanced_table_colour_method'>
+         		<documentation > Method of generating the colours of the bands in polygon shading  		</documentation>
+         		<option  xml='calculate' fortran='calculate' docdive='no' include='CalculateColourTechnique.h' name='CalculateColourTechnique'>		</option>
+         		<option  xml='list' fortran='list' docdive='no' include='ListColourTechnique.h' name='ListColourTechnique'>		</option>
+         		<available >list		</available>
+         		<release >2.6		</release>
+         		<set  name='symbol_advanced_table_colour_list' value='list'>		</set>
+         		<set  name='symbol_advanced_table_colour_list_policy' value='list'>		</set>
+         		<set  name='symbol_advanced_table_max_level_colour' value='calculate'>		</set>
+         		<set  name='symbol_advanced_table_min_level_colour' value='calculate'>		</set>
+         		<set  name='symbol_advanced_table_colour_direction' value='calculate'>		</set>
+  	</parameter>
+
+  	<parameter  member='maxColour' to='Colour' default='blue' from='string' name='symbol_advanced_table_max_level_colour'>
+         		<documentation > Highest shading band colour 		</documentation>
+         		<release >2.6		</release>
+  	</parameter>
+
+  	<parameter  member='minColour' to='Colour' default='red' from='string' name='symbol_advanced_table_min_level_colour'>
+         		<documentation > Lowest shading band colour 		</documentation>
+         		<release >2.6		</release>
+  	</parameter>
+
+  	<parameter  from='string' name='symbol_advanced_table_colour_direction' default='anti_clockwise' member='direction' to='string' values='clockwise/anti-clockwise'>
+         		<documentation > Direction of colour sequencing for plotting (CLOCKWISE/ ANTI_CLOCKWISE) 		</documentation>
+         		<release >2.6		</release>
+  	</parameter>
+
+  	<parameter  member='colours' to='stringarray' default='stringarray()' from='stringarray' name='symbol_advanced_table_colour_list'>
+         		<documentation > List of colours to be used in symbol plotting 		</documentation>
+         		<release >2.6		</release>
+  	</parameter>
+  	<parameter  member='colour_policy' to='ListPolicy' default='lastone' from='string' name='symbol_advanced_table_colour_list_policy'>
+         		<documentation > What to do if, the list of markers is smaller that the list of intervals: lastone/cycle 		</documentation>     
+         		<release >2.6		</release>
+  	</parameter>
+  
+  	<parameter  member='markers' to='intarray' default='intarray()' from='intarray' name='symbol_advanced_table_marker_list'>
+         		<documentation > List of markers to be used in symbol plotting 		</documentation>
+         		<release >2.6		</release>
+  	</parameter>
+  	<parameter  member='marker_policy' to='ListPolicy' default='lastone' from='string' name='symbol_advanced_table_marker_list_policy'>
+         		<documentation >What to do if, the list of markers is smaller that the list of intervals: lastone/cycle 		</documentation>
+         		<release >2.6		</release>
+  	</parameter>
+  
+  	<parameter  member='height_method' to='HeightTechnique' default='list' from='string' name='symbol_advanced_table_height_method'>
+         		<documentation > Method of generating the height   		</documentation>
+         		<option  xml='calculate' fortran='calculate' docdive='no' include='HeightTechnique.h' name='CalculateHeightTechnique'>		</option>
+         		<option  xml='list' fortran='list' docdive='no' include='HeightTechnique.h' name='ListHeightTechnique'>		</option>
+		 		<set  name='symbol_advanced_table_height_list' value='list'>		</set>
+		 		<set  name='symbol_advanced_table_height_list_policy' value='list'>		</set>
+		 		<set  name='symbol_advanced_table_height_max_value' value='calculate'>		</set>
+		 		<set  name='symbol_advanced_table_height_min_value' value='calculate'>		</set>
+         		<release >2.6		</release>
+  	</parameter>
+  
+        
+   	<parameter  member='height_max' to='float' default='0.2' from='float' name='symbol_advanced_table_height_max_value'>
+         		<documentation > Min height to use 		</documentation>
+         
+         		<release >2.6		</release>
+  	</parameter>    
+  	<parameter  member='height_min' to='float' default='0.1' from='float' name='symbol_advanced_table_height_min_value'>
+         		<documentation > Min height to use 		</documentation>
+         
+         		<release >2.6		</release>
+  	</parameter>
+  	<parameter  member='heights' to='floatarray' default='floatarray()' from='floatarray' name='symbol_advanced_table_height_list'>
+         		<documentation > List of heights to be used 		</documentation>
+                 		<available >list		</available>
+         		<release >2.6		</release>
+  	</parameter>
+  	<parameter  member='height_policy' to='ListPolicy' default='lastone' from='string' name='symbol_advanced_table_height_list_policy'>
+         		<documentation > What to do if, the list of markers is smaller that the list of intervals: lastone/cycle 		</documentation>     
+         		<release >2.6		</release>
+  	</parameter>
+ 	   	<parameter  member='text_list' to='stringarray' default='stringarray()' from='stringarray' name='symbol_advanced_table_text_list'>
+         		<documentation > Text to display 		</documentation>
+         
+         		<release >2.6		</release>
+  	</parameter>    
+  	<parameter  member='text_policy' to='ListPolicy' default='cycle' from='string' name='symbol_advanced_table_text_list_policy'>
+         		<documentation > What to do if, the list of markers is smaller that the list of intervals
+			lastone: reuse the last one, 
+			cycle: return to the fisrt one 
+		 		</documentation>     
+         		<release >2.6		</release>
+  	</parameter>
+  	<parameter  member='text_font_name' to='string' default='sansserif' from='string' name='symbol_advanced_table_text_font_name'>
+            		<documentation > Font to use for text plotting. 		</documentation>
+        	</parameter>
+          	<parameter  member='text_font_size' to='float' default='0.25' from='float' name='symbol_advanced_table_text_font_size'>
+            		<documentation > Font size  		</documentation>
+        	</parameter>
+         	<parameter  member='text_font_style' to='string' default='normal' from='string' name='symbol_advanced_table_text_font_style'>
+            		<documentation >  Font Style   		</documentation>
+        	</parameter>
+         	<parameter  member='text_font_colour' to='Colour' default='automatic' from='string' name='symbol_advanced_table_text_font_colour'>
+            		<documentation > Symbol Colour  		</documentation>
+        	</parameter> 
+   	<parameter  from='string' name='symbol_advanced_table_text_display_type' default='none' member='text_display_type' to='string' values='centre/none/right/left/top/bottom'>
+         		<documentation >  How to display text 
+         	none:do not display it 
+         	centre : display it instead of the symbol, 
+         	right : attached it to the right of the symbol, 
+         	top : attached it to the top of the symbol, 
+         	bottom:   attached it to the bottom of the symbol, 
+         		</documentation>
+         		<release >2.6		</release>
+  	</parameter>    
+      	<parameter  from='string' name='symbol_advanced_table_outlayer_method' default='none' member='outlayer' to='NoOutLayerTechnique' include='OutLayerTechnique.h'>
+         		<documentation > outlayer method 		</documentation> 
+         		<option  xml='nooutlayer' fortran='none' docdive='no' include='OutLayerTechnique.h' name='NoOutLayerTechnique'>		</option>
+         		<option  xml='simple' name='SimpleOutLayerTechnique' fortran='simple' docdive='no' visible='no' include='OutLayerTechnique.h'>		</option>                 
+         		<release >2.6		</release>
+  	  	</parameter>    
+  	    	<parameter  from='float' name='symbol_advanced_table_outlayer_min_value' visible='no' default='-1.e21' member='outlayer_min' to='float'>
+         		<documentation > outlayer min value 		</documentation>         
+         		<release >2.6		</release>
+  	  	</parameter>   
+  	  	<parameter  from='float' name='symbol_advanced_table_outlayer_max_value' visible='no' default='1.e21' member='outlayer_max' to='float'>
+         		<documentation > outlayer max value 		</documentation>         
+         		<release >2.6		</release>
+  	  	</parameter>    
+  	 
+  
+</class></magics>

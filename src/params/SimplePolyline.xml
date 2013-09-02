@@ -1,0 +1,98 @@
+<magics>
+<class  inherits='SimplePolylineInput' xmltag='polyline' name='SimplePolyline' directory='visualisers' prefix='polyline/polyline_line' action='pline' interface='ColourTechniqueInterface/LevelSelectionInterface'>
+ 	<parameter  member='legend' to='bool' default='off' from='string' name='legend'>
+         		<release >Magics++2.80		</release>
+         		<documentation > Turn the legend on 		</documentation>
+  	</parameter>
+  	<parameter  member='colour' to='Colour' default='blue' from='string' name='polyline_line_colour'>
+         		<release >Magics++2.1		</release>
+         		<documentation > Colour of the polylines 		</documentation>
+  	</parameter>
+  	<parameter  member='style' to='LineStyle' default='solid' from='string' name='polyline_line_style'>
+         		<release >Magics++2.1		</release>
+         		<documentation > Style of the polylines (SOLID/ DASH/ DOT/ CHAIN_DASH/ CHAIN_DOT) 		</documentation>
+  	</parameter>
+  	<parameter  member='thickness' to='int' default='1' from='int' name='polyline_line_thickness'>
+         		<release >Magics++2.1		</release>
+         		<documentation > Thickness of the polylines 		</documentation>
+  	</parameter>
+  
+  	<parameter  member='count' to='int' default='10' from='int' name='polyline_level_count'>
+         		<documentation > Count or number of levels to be plotted. Magics will try to find "nice levels", 
+         this means that the number of levels could be slightly different from the requested number of levels		</documentation>
+         		<release >Magics++2.1		</release>
+  	</parameter>
+  	<parameter  member='tolerance' to='int' default='2' from='int' name='polyline_level_tolerance'>
+         		<documentation > Tolerance: Do not use "nice levels" if the number of levels is really to different [count +/- tolerance] 		</documentation>
+         		<release >Magics++2.1		</release>
+  	</parameter>
+  	<parameter  member='reference' to='float' default='0.0' from='float' name='polyline_reference_level'>
+         		<documentation > Level from which the level interval is calculated 		</documentation>
+         		<release >Magics++2.1		</release>
+  	</parameter>
+
+
+  	<parameter  member='interval' to='float' default='8.0' from='float' name='polyline_interval'>
+         		<documentation > Interval in data units between different bands of shading 		</documentation>
+         		<release >Magics++2.1		</release>
+  	</parameter>
+
+ 	<parameter  member='list' to='floatarray' default='floatarray()' from='floatarray' name='polyline_level_list'>
+         		<documentation > List of shading band levels to be plotted 		</documentation>
+         		<release >Magics++2.1		</release>
+  	</parameter>
+
+  
+  	<parameter  member='shade' to='bool' default='none' from='string' name='polyline_shade'>
+         		<release >Magics++2.1		</release>
+         		<documentation > Whether to shade polygons or not (ON/OFF) 		</documentation>
+  	</parameter>
+  
+   	<parameter  member='max' to='float' default='1.0e+21' from='float' name='polyline_shade_max_level'>
+         		<documentation > Maximum level for which shading is required 		</documentation>
+         		<release >Magics++2.1		</release>
+  	</parameter>
+
+  	<parameter  member='min' to='float' default='-1.0e+21' from='float' name='polyline_shade_min_level'>
+         		<documentation > Minimum level for which shading is required 		</documentation>
+         		<release >Magics++2.1		</release>
+       
+  	</parameter>
+  
+  	<parameter  member='levelSelection' to='LevelSelection' default='count' from='string' name='polyline_shade_level_selection_type'>
+         		<documentation > Can be set to one of: (COUNT/ INTERVAL/ LEVEL_LIST) 		</documentation>
+         		<release >Magics++2.1		</release>
+         		<option  xml='count' fortran='count' docdive='no' include='CountSelectionType.h' name='CountSelectionType'>		</option>
+         		<option  xml='interval' fortran='interval' docdive='no' include='IntervalSelectionType.h' name='IntervalSelectionType'>		</option>
+         		<option  xml='list' fortran='list' docdive='no' include='LevelListSelectionType.h' name='LevelListSelectionType'>		</option>
+  	</parameter>
+
+  	<parameter  member='colourMethod' to='ColourTechnique' default='calculate' from='string' name='polyline_shade_colour_method'>
+         		<documentation > Method of generating the colours of the bands in polygon shading (LIST/CALCULATE) 		</documentation>
+         		<option  xml='calculate' fortran='calculate' docdive='no' include='CalculateColourTechnique.h' name='CalculateColourTechnique'>		</option>
+         		<option  xml='list' fortran='list' docdive='no' include='ListColourTechnique.h' name='ListColourTechnique'>		</option>
+         		<available >list		</available>
+         		<release >Magics++2.1		</release>
+  	</parameter>
+
+  	<parameter  member='maxColour' to='Colour' default='blue' from='string' name='polyline_shade_max_level_colour'>
+         		<documentation > Highest shading band colour 		</documentation>
+         		<release >Magics++2.1		</release>
+  	</parameter>
+
+  	<parameter  member='minColour' to='Colour' default='red' from='string' name='polyline_shade_min_level_colour'>
+         		<documentation > Lowest shading band colour 		</documentation>
+         		<release >Magics++2.1		</release>
+  	</parameter>
+
+  	<parameter  member='direction' to='string' default='anti_clockwise' from='string' name='polyline_shade_colour_direction'>
+         		<documentation > Direction of colour sequencing for shading (CLOCKWISE/ ANTI_CLOCKWISE) 		</documentation>
+         		<release >Magics++2.1		</release>
+  	</parameter>
+
+  	<parameter  from='stringarray' name='polyline_shade_colour_list' default='stringarray()' member='colours' to='stringarray' colourlist='on'>
+         		<documentation > List of colours to be used in polygon shading. 		</documentation>
+         		<release >Magics++2.1		</release>
+  	</parameter>
+
+</class></magics>

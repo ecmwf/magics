@@ -1,0 +1,46 @@
+<magics>
+<class  directory='basic' prefix='root_node' xmltag='magics' name='XmlRootNode'>
+ 	<parameter  member='format' to='string' default='a4' from='string' name='root_node_format'>
+           		<release >Magics++2.4 		</release>
+         		<documentation >Format of super page (A4/A3/A2)		</documentation>
+  	</parameter>
+  
+   	<parameter  member='orientation' to='string' default='landscape' from='string' name='root_node_orientation'>
+           		<release >Magics++2.4		</release>
+         		<documentation >Orientation of super page (landscape/portrait)		</documentation>
+  	</parameter>
+  
+  	<parameter  member='width' to='float' default='-1' from='float' name='root_node_width'>
+           		<release >Magics++0.1		</release>
+         		<documentation > Horizontal length of super page 		</documentation>
+  	</parameter>
+
+  	<parameter  member='height' to='float' default='-1' from='float' name='root_node_height'>
+           		<release >Magics++0.1		</release>
+         		<documentation > Vertical length of super page 		</documentation>
+  	</parameter>
+  
+  	<parameter  member='border' to='bool' default='off' from='string' name='root_node_frame'>
+           		<release >Magics++2.1		</release>
+         		<documentation > Frame on/off 		</documentation>
+  	</parameter>
+  
+  	<parameter  member='border_colour' to='Colour' default='blue' from='string' name='root_node_frame_colour'>
+           		<release >Magics++2.1		</release>
+         		<documentation >Colour of frame		</documentation>
+  	</parameter>
+  
+  	<parameter  member='border_style' to='LineStyle' default='solid' from='string' name='root_node_frame_line_style'>
+           		<release >Magics++2.1		</release>
+         		<documentation > Frame Line Style 		</documentation>
+  	</parameter>
+  
+  	<parameter  member='border_thickness' to='int' default='1' from='int' name='root_node_frame_thickness'>
+           		<release >Magics++2.1		</release>
+         		<documentation > Frame thickness 		</documentation>
+  	</parameter>
+   	<parameter  member='application' to='string' default='magml' from='string' name='root_node_application'>
+           		<release >Magics++2.1		</release>
+         		<documentation > magml/wrep : set specail behaviour for wrep project 		</documentation>
+  	</parameter>
+</class></magics>

@@ -1,0 +1,124 @@
+<?xml-stylesheet type='text/css' href='parameter.css'?>
+<magics>
+
+
+<class name='PageID' directory='common' xmltag='pageid' prefix='page_id/page_id_line' inherits='NoPageID'>
+
+  <parameter name='page_id_line_height' from='float' to='float' member='height' default='0.25'>
+         <documentation> Height of identification line</documentation>
+         <release>2.0</release>
+  </parameter>
+ <parameter name='page_id_line_colour' from='string' to='Colour' member='colour'  default='blue'>
+         <documentation> Colour of identification line. Default based on page_y_length</documentation>
+         <release>2.0</release>
+  </parameter>
+
+  <parameter name='page_id_line_magics' from='string' to='bool' member='magics'  default='on'>
+         <documentation>Display magics version in identification line (ON/OFF)</documentation>
+         <release>2.9</release>
+  </parameter>
+
+  <parameter name='page_id_line_user_text' from='string' to='string' member='user_text' default=''>
+         <documentation> User-supplied text for inclusion in identification line </documentation>
+         <release>2.0</release>
+  </parameter>
+
+  <parameter name='page_id_line_system_plot' from='string' to='bool' member='system'  default='on' >
+         <documentation> Plot system part of the identification line (ON/OFF) </documentation>
+         <release>2.0</release>
+  </parameter>
+
+  <parameter name='page_id_line_date_plot' from='string' to='bool' member='date'  default='on' >
+         <documentation> Plot date part of the identification line (ON/OFF) </documentation>
+         <release>2.0</release>
+  </parameter>
+
+  <parameter name='page_id_line_errors_plot' from='string' to='bool' member='errors'  default='on' >
+         <documentation> Plot error part of the identification line (ON/OFF) </documentation>
+         <release>2.0</release>
+         <release_info> Parameter defined but not implemented: no plan</release_info>
+  </parameter>
+
+  <parameter name='page_id_line_user_text_plot' from='string' to='bool' member='text'  default='on'>
+         <documentation> Plot user text part of the identification line (ON/OFF) </documentation>
+         <release>2.0</release>
+  </parameter>
+
+<parameter name='page_id_line_logo_plot' from='string' to='NoLogoPlotting' include='LogoPlotting.h' member='logo' default='on'>
+         <documentation>Plot logo part of the identification line (ON/OFF)</documentation>
+         <option name='LogoPlotting'     fortran='on'   xml='logo'     include='LogoPlotting.h'> </option>
+         <option name='NoLogoPlotting'   fortran='off'  xml='nologo' include='LogoPlotting.h'> </option>
+</parameter>
+  
+<parameter name='page_id_line_font' from='string' to='string' member='font' default='sansserif'>
+         <documentation> Font to be used </documentation>
+         <release>1.3</release>
+</parameter>
+
+<parameter name='page_id_line_font_style' from='string' to='string' member='font_style' default='normal'>
+         <documentation> Style of the Font to be used </documentation>
+         <release>1.3</release>
+</parameter>
+ 
+</class>
+
+<class name='LogoPlotting' xmltag='logo' inherits='NoLogoPlotting' include='LogoPlotting.h' directory='common'/>
+<class name='NoLogoPlotting' xmltag='nologo' include='LogoPlotting.h'  directory='common'/>
+<class name='LogoPlottingBase'  include='LogoPlotting.h' directory='common'/>
+
+
+<class name='UserLogoPlotting' xmltag='userlogo' prefix='page/page/user_logo' directory='common'  include='LogoPlotting.h' inherits='NoLogoPlotting'>  
+
+<parameter name='user_logo_filename' from='string' to='string' member='path' default=''>
+         <documentation for_docs='no'> Logo's Path </documentation>
+         <release>Basic implementation in 0.6</release>
+</parameter>
+
+<parameter name='user_logo_format' from='string' to='string' member='format' default='PNG'>
+  <documentation for_docs='no'>Specify the format of the logo</documentation>
+  <release>Basic implementation in 0.6</release>
+</parameter>
+
+<parameter name='user_logo_position_units' from='string' to='string' member='units' default='cm'>
+         <documentation for_docs='no'>Units used to define the position of the logo: cm or percent</documentation>
+         <release>Basic implementation in 0.6</release>
+</parameter>
+
+<parameter name='user_logo_y_position' from='float' to='float' member='y' default='2.5'>
+         <documentation for_docs='no'> Y position of the imported image </documentation>
+         <release>Basic implementation in 0.6</release>
+</parameter>
+  
+  <parameter name='user_logo_x_position' from='float' to='float' member='x' default='80'>
+         <documentation for_docs='no'> X position of the imported image </documentation>
+         <release>Basic implementation in 0.6</release>
+  </parameter>
+
+ 
+  <parameter name='user_logo_bottom' from='string' to='string' member='bottom'  default=''>
+         <documentation for_docs='no'> Y position of the imported image </documentation>
+         <release>Implementation in 2.4</release>
+  </parameter>
+  
+  <parameter name='user_logo_left' from='string' to='string' member='left' default=''>
+         <documentation for_docs='no'> X position of the imported image </documentation>
+         <release>implementation in 2.4</release>
+  </parameter>
+      
+  <parameter name='user_logo_width' from='float' to='float' member='width' default='-1'>
+         <documentation for_docs='no'> width of the imported image (-1 means use the dimension of the image) </documentation>
+         <release>Basic implementation in 0.6</release>
+  </parameter>
+
+  <parameter name='user_logo_height' from='float' to='float' member='height' default='-1'>
+         <documentation for_docs='no'> height of the imported image (-1 means use the dimension of the image) </documentation>
+         <release>Basic implementation in 0.6</release>
+  </parameter>
+</class>
+
+
+<class name='NoPageID' xmltag='nopageid' directory='common' include='PageID.h' >
+   <documentation>This object suppresses the plotting the page ID</documentation>
+</class>
+
+</magics>

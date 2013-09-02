@@ -1,0 +1,499 @@
+<?xml-stylesheet type='text/css' href='parameter.css'?>
+<magics>
+<class name='TephiGrid' action='ptephi' directory='visualisers' >
+	<documentation> description of the grid </documentation>
+	
+	<parameter name='tephigram_isotherm_grid' from='string' to='bool' values='on/off'
+            member='isotherm' default='on'>
+            <documentation>
+              	Plot the isotherms
+           </documentation>
+           <release>Magics++2.20</release>
+           <set value='on'  name='tephigram_isotherm_colour'/>
+           <set value='on'  name='tephigram_isotherm_style'/> 
+           <set value='on'  name='tephigram_isotherm_thickness'/>
+           <set value='on'  name='tephigram_isotherm_interval'/>
+           <set value='on'  name='tephigram_isotherm_reference'/>
+           <set value='on'  name='tephigram_isotherm_reference_colour'/>
+           <set value='on'  name='tephigram_isotherm_reference_style'/>
+            <set value='on'  name='tephigram_isotherm_reference_thickness'/>
+           <set value='on'  name='tephigram_isotherm_label_colour'/>
+           <set value='on'  name='tephigram_isotherm_label_font_name'/>
+           <set value='on'  name='tephigram_isotherm_label_font_style'/>
+           <set value='on'  name='tephigram_isotherm_label_font_size'/>
+           <set value='on'  name='tephigram_isotherm_label_frequency'/>
+        </parameter>  
+     <parameter name='tephigram_isotherm_colour' from='string' to='Colour'
+            member='isotherm_colour' default='charcoal'>
+            <documentation>
+              	Colou of the isotherms
+           </documentation>
+           <release>Magics++2.20</release> 
+        </parameter>  
+        <parameter name='tephigram_isotherm_thickness' from='int' to='int'
+            member='isotherm_thickness' default='1'>
+            <documentation>
+              	Thickness  of the isotherms
+           </documentation>
+           <release>Magics++2.20</release> 
+        </parameter> 
+        
+        
+       <parameter name='tephigram_isotherm_style' from='string' to='LineStyle'
+            member='isotherm_style' default='solid'>
+            <documentation>
+              	Line Style  of the isotherms
+           </documentation>
+           <release>Magics++2.20</release> 
+        </parameter>   
+        <parameter name='tephigram_isotherm_interval' from='float' to='float'
+            member='isotherm_interval' default='10'>
+            <documentation>
+              	interval for isotherms grid
+           </documentation>
+           <release>Magics++2.20</release> 
+        </parameter> 
+          <parameter name='tephigram_isotherm_reference' from='float' to='float'
+            member='isotherm_reference' default='0'>
+            <documentation>
+              Reference   of the isotherms
+           </documentation>
+           <release>Magics++2.20</release> 
+        </parameter>    
+        <parameter name='tephigram_isotherm_reference_colour' from='string' to='Colour'
+            member='isotherm_reference_colour' default='red'>
+            <documentation>
+              Reference   of the isotherms
+           </documentation>
+           <release>Magics++2.20</release> 
+        </parameter> 
+          <parameter name='tephigram_isotherm_reference_style' from='string' to='LineStyle'
+            member='isotherm_reference_style' default='solid'>
+            <documentation>
+              Reference   of the isotherms
+           </documentation>
+           <release>Magics++2.20</release> 
+        </parameter>  
+        <parameter name='tephigram_isotherm_reference_thickness' from='int' to='int'
+            member='isotherm_reference_thickness' default='2'>
+            <documentation>
+              Reference   of the isotherms
+           </documentation>
+           <release>Magics++2.20</release> 
+        </parameter> 
+        <parameter name='tephigram_isotherm_label_colour' from='string' to='Colour'
+            member='isotherm_label_colour' default='charcoal'>
+            <documentation>
+              Label Colour for the isotherms
+           </documentation>
+           <release>Magics++2.20</release> 
+        </parameter> 
+         <parameter name='tephigram_isotherm_label_font_name' from='string' to='string'
+            member='isotherm_label_font' default='sanserif'>
+            <documentation>
+              Font name used for the isotherms labels 
+           </documentation>
+           <release>Magics++2.20</release> 
+        </parameter> 
+        <parameter name='tephigram_isotherm_label_font_style' from='string' to='string'
+            member='isotherm_label_style' default='normal'>
+            <documentation>
+               Font Style used for the isotherms labels 
+           </documentation>
+           <release>Magics++2.20</release> 
+        </parameter> 
+         <parameter name='tephigram_isotherm_label_font_size' from='float' to='float'
+            member='isotherm_label_size' default='0.3'>
+            <documentation>
+              Font Size used for the isotherms labels 
+           </documentation>
+           <release>Magics++2.20</release> 
+        </parameter>  
+       
+         <parameter name='tephigram_isotherm_label_frequency' from='int' to='int'
+            member='isotherm_label_frequency' default='1'>
+            <documentation>
+             Isotherm frequency for labelling
+           </documentation>
+           <release>Magics++2.20</release> 
+        </parameter> 
+        
+    <parameter name='tephigram_isobar_grid' from='string' to='bool'
+            member='isobar' default='on'>
+            <documentation>
+              	Plot the isobars
+           </documentation>
+           <release>Magics++2.20</release>
+           <set value='on'  name='tephigram_isobar_colour'/>
+           <set value='on'  name='tephigram_isobar_style'/> 
+           <set value='on'  name='tephigram_isobar_thickness'/>
+           <set value='on'  name='tephigram_isobar_interval'/>
+           <set value='on'  name='tephigram_isobar_reference'/>
+           <set value='on'  name='tephigram_isobar_label_colour'/>
+           <set value='on'  name='tephigram_isobar_label_font_name'/>
+           <set value='on'  name='tephigram_isobar_label_font_style'/>
+           <set value='on'  name='tephigram_isobar_label_font_size'/>
+           <set value='on'  name='tephigram_isobar_label_reference'/>
+           <set value='on'  name='tephigram_isobar_label_frequency'/>
+        </parameter>  
+     <parameter name='tephigram_isobar_colour' from='string' to='Colour'
+            member='isobar_colour' default='evergreen'>
+            <documentation>
+              	Colou of the isobars
+           </documentation>
+           <release>Magics++2.20</release> 
+        </parameter>  
+        <parameter name='tephigram_isobar_thickness' from='int' to='int'
+            member='isobar_thickness' default='2'>
+            <documentation>
+              	Thickness  of the isobars
+           </documentation>
+           <release>Magics++2.20</release> 
+        </parameter> 
+        
+        
+       <parameter name='tephigram_isobar_style' from='string' to='LineStyle'
+            member='isobar_style' default='solid'>
+            <documentation>
+              	Line Style  of the isobars
+           </documentation>
+           <release>Magics++2.20</release> 
+        </parameter>   
+        <parameter name='tephigram_isobar_interval' from='float' to='float'
+            member='isobar_interval' default='100'>
+            <documentation>
+              	Interval between isobars
+           </documentation>
+           <release>Magics++2.20</release> 
+        </parameter> 
+          <parameter name='tephigram_isobar_reference' from='float' to='float'
+            member='isobar_reference' default='1000'>
+            <documentation>
+              	Line Style  of the isobars
+           </documentation>
+           <release>Magics++2.20</release> 
+        </parameter> 
+                <parameter name='tephigram_isobar_label_colour' from='string' to='Colour'
+            member='isobar_label_colour' default='evergreen'>
+            <documentation>
+              Label Colour for the isotherms
+           </documentation>
+           <release>Magics++2.20</release> 
+        </parameter> 
+         <parameter name='tephigram_isobar_label_font_name' from='string' to='string'
+            member='isobar_label_font' default='sanserif'>
+            <documentation>
+              Font name used for the isobars labels 
+           </documentation>
+           <release>Magics++2.20</release> 
+        </parameter> 
+        <parameter name='tephigram_isobar_label_font_style' from='string' to='string'
+            member='isobar_label_style' default='normal'>
+            <documentation>
+               Font Style used for the isobars labels 
+           </documentation>
+           <release>Magics++2.20</release> 
+        </parameter> 
+         <parameter name='tephigram_isobar_label_font_size' from='float' to='float'
+            member='isobar_label_size' default='0.3'>
+            <documentation>
+              Font Size used for the isobars labels 
+           </documentation>
+           <release>Magics++2.20</release> 
+        </parameter>  
+        
+         <parameter name='tephigram_isobar_label_frequency' from='int' to='int'
+            member='isobar_label_frequency' default='1'>
+            <documentation>
+             isobar frequency for labelling
+           </documentation>
+           <release>Magics++2.20</release> 
+        </parameter> 
+        <parameter name='tephigram_dry_adiabatic_grid' from='string' to='bool'
+            member='dry_adiabatic' default='on'>
+            <documentation>
+              	Plot the dry_adiabatics
+           </documentation>
+           <release>Magics++2.20</release>
+           <set value='on'  name='tephigram_dry_adiabatic_colour'/>
+           <set value='on'  name='tephigram_dry_adiabatic_style'/> 
+           <set value='on'  name='tephigram_dry_adiabatic_thickness'/>
+           <set value='on'  name='tephigram_dry_adiabatic_intreval'/>
+           <set value='on'  name='tephigram_dry_adiabatic_reference'/>
+           <set value='on'  name='tephigram_dry_adiabatic_label_colour'/>
+           <set value='on'  name='tephigram_dry_adiabatic_label_font_name'/>
+           <set value='on'  name='tephigram_dry_adiabatic_label_font_style'/>
+           <set value='on'  name='tephigram_dry_adiabatic_label_font_size'/>
+           <set value='on'  name='tephigram_dry_adiabatic_label_frequency'/>
+        </parameter>  
+     <parameter name='tephigram_dry_adiabatic_colour' from='string' to='Colour'
+            member='dry_adiabatic_colour' default='charcoal'>
+            <documentation>
+              	Colou of the dry_adiabatics
+           </documentation>
+           <release>Magics++2.20</release> 
+        </parameter>  
+        <parameter name='tephigram_dry_adiabatic_thickness' from='int' to='int'
+            member='dry_adiabatic_thickness' default='1'>
+            <documentation>
+              	Thickness  of the dry_adiabatics
+           </documentation>
+           <release>Magics++2.20</release> 
+        </parameter> 
+        
+        
+       <parameter name='tephigram_dry_adiabatic_style' from='string' to='LineStyle'
+            member='dry_adiabatic_style' default='solid'>
+            <documentation>
+              	Line Style  of the dry_adiabatics
+           </documentation>
+           <release>Magics++2.20</release> 
+        </parameter>   
+        <parameter name='tephigram_dry_adiabatic_interval' from='float' to='float'
+            member='dry_adiabatic_interval' default='10'>
+            <documentation>
+              	Interval between 2 dry_adiabatics.
+           </documentation>
+           <release>Magics++2.20</release> 
+        </parameter> 
+          <parameter name='tephigram_dry_adiabatic_reference' from='float' to='float'
+            member='dry_adiabatic_reference' default='0'>
+            <documentation>
+              Reference   of the dry_adiabatics
+           </documentation>
+           <release>Magics++2.20</release> 
+        </parameter> 
+         <parameter name='tephigram_dry_adiabatic_label_colour' from='string' to='Colour'
+            member='dry_adiabatic_label_colour' default='charcoal'>
+            <documentation>
+              Label Colour for the isotherms
+           </documentation>
+           <release>Magics++2.20</release> 
+        </parameter> 
+         <parameter name='tephigram_dry_adiabatic_label_font_name' from='string' to='string'
+            member='dry_adiabatic_label_font' default='sanserif'>
+            <documentation>
+              Font name used for the dry_adiabatics labels 
+           </documentation>
+           <release>Magics++2.20</release> 
+        </parameter> 
+        <parameter name='tephigram_dry_adiabatic_label_font_style' from='string' to='string'
+            member='dry_adiabatic_label_style' default='normal'>
+            <documentation>
+               Font Style used for the dry_adiabatics labels 
+           </documentation>
+           <release>Magics++2.20</release> 
+        </parameter> 
+         <parameter name='tephigram_dry_adiabatic_label_font_size' from='float' to='float'
+            member='dry_adiabatic_label_size' default='0.3'>
+            <documentation>
+              Font Size used for the dry_adiabatics labels 
+           </documentation>
+           <release>Magics++2.20</release> 
+        </parameter>  
+        
+         <parameter name='tephigram_dry_adiabatic_label_frequency' from='int' to='int'
+            member='dry_adiabatic_label_frequency' default='1'>
+            <documentation>
+              frequency for dry_adiabatic labelling
+           </documentation>
+           <release>Magics++2.20</release> 
+        </parameter> 
+    
+                <parameter name='tephigram_saturated_adiabatic_grid' from='string' to='bool'
+            member='saturated_adiabatic' default='on'>
+            <documentation>
+              	Plot the saturated_adiabatics
+           </documentation>
+           <release>Magics++2.20</release>
+           <set value='on'  name='tephigram_saturated_adiabatic_colour'/>
+           <set value='on'  name='tephigram_saturated_adiabatic_style'/> 
+           <set value='on'  name='tephigram_saturated_adiabatic_thickness'/>
+           <set value='on'  name='tephigram_saturated_adiabatic_interval'/>
+           <set value='on'  name='tephigram_saturated_adiabatic_reference'/>
+           <set value='on'  name='tephigram_saturated_adiabatic_label_colour'/>
+           <set value='on'  name='tephigram_saturated_adiabatic_label_font_name'/>
+           <set value='on'  name='tephigram_saturated_adiabatic_label_font_style'/>
+           <set value='on'  name='tephigram_saturated_adiabatic_label_font_size'/>
+           <set value='on'  name='tephigram_saturated_adiabatic_label_frequency'/>
+        </parameter>  
+     <parameter name='tephigram_saturated_adiabatic_colour' from='string' to='Colour'
+            member='saturated_adiabatic_colour' default='charcoal'>
+            <documentation>
+              	Colou of the saturated_adiabatics
+           </documentation>
+           <release>Magics++2.20</release> 
+        </parameter>  
+        <parameter name='tephigram_saturated_adiabatic_thickness' from='int' to='int'
+            member='saturated_adiabatic_thickness' default='2'>
+            <documentation>
+              	Thickness  of the dry_adiabatics
+           </documentation>
+           <release>Magics++2.20</release> 
+        </parameter> 
+        
+        
+       <parameter name='tephigram_saturated_adiabatic_style' from='string' to='LineStyle'
+            member='saturated_adiabatic_style' default='solid'>
+            <documentation>
+              	Line Style  of the saturated_adiabatics
+           </documentation>
+           <release>Magics++2.20</release> 
+        </parameter>   
+        <parameter name='tephigram_saturated_adiabatic_interval' from='float' to='float'
+            member='saturated_adiabatic_interval' default='5'>
+            <documentation>
+              	interval for saturated_adiabatics grid
+           </documentation>
+           <release>Magics++2.20</release> 
+        </parameter> 
+          <parameter name='tephigram_saturated_adiabatic_reference' from='float' to='float'
+            member='saturated_adiabatic_reference' default='0'>
+            <documentation>
+              Reference   of the saturated_adiabatics
+           </documentation>
+           <release>Magics++2.20</release> 
+        </parameter> 
+         <parameter name='tephigram_saturated_adiabatic_label_colour' from='string' to='Colour'
+            member='saturated_adiabatic_label_colour' default='charcoal'>
+            <documentation>
+              Label Colour for the isotherms
+           </documentation>
+           <release>Magics++2.20</release> 
+        </parameter> 
+         <parameter name='tephigram_saturated_adiabatic_label_font_name' from='string' to='string'
+            member='saturated_adiabatic_label_font' default='sanserif'>
+            <documentation>
+              Font name used for the saturated_adiabatics labels 
+           </documentation>
+           <release>Magics++2.20</release> 
+        </parameter> 
+        <parameter name='tephigram_saturated_adiabatic_label_font_style' from='string' to='string'
+            member='saturated_adiabatic_label_style' default='normal'>
+            <documentation>
+               Font Style used for the saturated_adiabatics labels 
+           </documentation>
+           <release>Magics++2.20</release> 
+        </parameter> 
+         <parameter name='tephigram_saturated_adiabatic_label_font_size' from='float' to='float'
+            member='saturated_adiabatic_label_size' default='0.3'>
+            <documentation>
+              Font Size used for the saturated_adiabatics labels 
+           </documentation>
+           <release>Magics++2.20</release> 
+        </parameter>  
+        
+         <parameter name='tephigram_saturated_adiabatic_label_frequency' from='int' to='int'
+            member='saturated_adiabatic_label_frequency' default='1'>
+            <documentation>
+             saturated_adiabatic frequency for labelling
+           </documentation>
+           <release>Magics++2.20</release> 
+        </parameter> 
+         <parameter name='tephigram_mixing_ratio_grid' from='string' to='bool'
+            member='mixing_ratio' default='on'>
+            <documentation>
+              	Plot the mixing_ratios
+           </documentation>
+           <release>Magics++2.20</release>
+           <set value='on'  name='tephigram_mixing_ratio_colour'/>
+           <set value='on'  name='tephigram_mixing_ratio_style'/> 
+           <set value='on'  name='tephigram_mixing_ratio_thickness'/>
+           <set value='on'  name='tephigram_mixing_ratio_label_colour'/>
+           <set value='on'  name='tephigram_mixing_ratio_label_font_name'/>
+           <set value='on'  name='tephigram_mixing_ratio_label_font_style'/>
+           <set value='on'  name='tephigram_mixing_ratio_label_font_size'/>
+           <set value='on'  name='tephigram_mixing_ratio_label_frequency'/>
+           
+          
+        </parameter>  
+     <parameter name='tephigram_mixing_ratio_colour' from='string' to='Colour'
+            member='mixing_ratio_colour' default='purple'>
+            <documentation>
+              	Colou of the mixing_ratios
+           </documentation>
+           <release>Magics++2.20</release> 
+        </parameter>  
+        <parameter name='tephigram_mixing_ratio_thickness' from='int' to='int'
+            member='mixing_ratio_thickness' default='1'>
+            <documentation>
+              	Thickness  of the mixing_ratios
+           </documentation>
+           <release>Magics++2.20</release> 
+        </parameter> 
+        
+        
+       <parameter name='tephigram_mixing_ratio_style' from='string' to='LineStyle'
+            member='mixing_ratio_style' default='dash'>
+            <documentation>
+              	Line Style  of the mixing_ratios
+           </documentation>
+           <release>Magics++2.20</release> 
+        </parameter>   
+       
+         <parameter name='tephigram_mixing_ratio_frequency' from='int' to='int'
+            member='mixing_ratio_frequency' default='1'>
+            <documentation>
+             mixing_ratio frequency for grid
+           </documentation>
+           <release>Magics++2.20</release> 
+        </parameter> 
+         <parameter name='tephigram_mixing_ratio_label_colour' from='string' to='Colour'
+            member='mixing_ratio_label_colour' default='purple'>
+            <documentation>
+              Label Colour for the isotherms
+           </documentation>
+           <release>Magics++2.20</release> 
+        </parameter> 
+         <parameter name='tephigram_mixing_ratio_label_font_name' from='string' to='string'
+            member='mixing_ratio_label_font' default='sanserif'>
+            <documentation>
+              Font name used for the mixing_ratios labels 
+           </documentation>
+           <release>Magics++2.20</release> 
+        </parameter> 
+        <parameter name='tephigram_mixing_ratio_label_font_style' from='string' to='string'
+            member='mixing_ratio_label_style' default='normal'>
+            <documentation>
+               Font Style used for the mixing_ratios labels 
+           </documentation>
+           <release>Magics++2.20</release> 
+        </parameter> 
+         <parameter name='tephigram_mixing_ratio_label_font_size' from='float' to='float'
+            member='mixing_ratio_label_size' default='0.3'>
+            <documentation>
+              Font Size used for the mixing_ratios labels 
+           </documentation>
+           <release>Magics++2.20</release> 
+        </parameter>  
+      
+         <parameter name='tephigram_mixing_ratio_label_frequency' from='int' to='int'
+            member='mixing_ratio_label_frequency' default='1'>
+            <documentation>
+             mixing_ratio frequency for labelling
+           </documentation>
+           <release>Magics++2.20</release> 
+        </parameter> 
+        
+</class>
+<class name='Tephigram' action='ptephi' xmltag='tephigram' inherits='Transformation' directory='common' >
+
+<parameter name='x_min' from='float' to='float' member='x_min' default='0' >
+    <release>Magics++0.1</release>
+</parameter>
+
+<parameter name='x_max' from='float' to='float' member='x_max'  default='100' >
+    <release>Magics++0.1</release>
+</parameter>    
+<parameter name='y_min' from='float' to='float' member='y_min'  default='0' >
+    <release>Magics++0.1</release>
+</parameter>
+
+<parameter name='y_max' from='float' to='float' member='y_max' default='100' >
+    <release>Magics++0.1</release>
+</parameter>     
+
+
+</class>
+<class name='TephiInfo' action='ptephi' xmltag='tephigram' inherits='Tephigram' include='Tephigram.h' directory='common'/>
+</magics>

@@ -1,0 +1,60 @@
+<magics>
+    <tutorial name="contour_3" title='Geopotential on North America using dot shading' 
+      comment='Shading using dot shading and a list of colours'>     
+        <requirement name='1' subject='Geographical Area' text='North America'
+            link_doc='layout_mapping_coastlines' link_ptr='Subpage_Mapping'>
+            <action name='pcoast'/>
+            <parameter name='subpage_map_projection' value='polar_stereographic' function='psetc'/>
+            <parameter name='subpage_map_area_definition' value='centre' function='psetc'/>
+            <parameter name='subpage_map_centre_longitude' value='-95.' function='psetr'/>
+            <parameter name='subpage_map_centre_latitude' value='47.' function='psetr'/>
+            <parameter name='subpage_map_vertical_longitude' value='-95.' function='psetr'/>
+            <parameter name='subpage_map_scale' value='32.e6' function='psetr'/>            </requirement>
+        <requirement name='2' subject='Grid and coastlines setting' text='tan coastlines and grey grid' 
+            link_doc='layout_mapping_coastlines' link_ptr='Coastlines_and_Gridlines'>
+            <action name='pcoast'/>
+            <parameter name='map_coastline_colour' value='tan' function='psetc'/>
+            <parameter name='map_grid_colour' value='grey' function='psetc'/>
+            <parameter name='map_coastline_thickness' value='3' function='pseti'/>
+            <parameter name='map_grid_line_style' value='solid' function='psetc'/>
+            <parameter name='map_grid_latitude_increment' value='5.0' function='psetr'/>
+            <parameter name='map_grid_longitude_increment' value='5.0' function='psetr'/>
+        </requirement>  
+        <requirement name='3' subject='Grib file loading' text='Geopotential in grib file z500.grib' 
+            link_doc='data' link_ptr='Pseudo_Action_Routine_PGRIB'>
+            <action name='pgrib'/>
+            <parameter name='grib_input_type' value='file' function='psetc'/>
+            <parameter name='grib_input_file_name' value='z500.grib' function='psetc'/>
+        </requirement>  
+        <requirement name='4' subject='Legend' text='Turn the legend on' 
+            link_doc='intro' link_ptr='Overview_Contour_Plotting'>
+            <action name='pcont'/>
+            <parameter name='legend' value='on' function='psetc'/>
+        </requirement>
+        <requirement name='5' subject='Contour levels Selection' 
+            text='use   the following level list /480., 520.,530.,560.,575.,590./'
+            link_doc='contour' link_ptr='Contour_Levels'>
+            <action name='pcont'/>
+            <parameter name='contour_level_selection_type' value='level_list' function='psetc'/>
+            <parameter name='contour_level_list' value='/480., 520.,530.,560.,575.,590./' function='pset1r'/>            
+        </requirement> 
+        <requirement name='6' subject='Dot shading' 
+            text='dot shading using the following colours /navy, blue, green, yellow, orange/'
+            link_doc='contour' link_ptr='Contour_Shading'>
+            <action name='pcont'/>           
+            <parameter name='contour_shade' value='on' function='psetc'/>
+            <parameter name='contour_hilo' value='off' function='psetc'/>
+            <parameter name='contour_shade_colour_method' value='list' function='psetc'/>
+            <parameter name='contour_shade_colour_list' value='/navy, blue, green, yellow, orange/' function='pset1c'/>
+        </requirement>    
+        <requirement name='7' subject='More on dot shading' text='Try to play with the size of the dots and the density'
+        link_doc='contour' link_ptr='DOT'>
+            <action name='pcont'/>
+            <parameter name='contour_shade_dot_size' value='0.05' function='psetr'/>
+            <parameter name='contour_shade_max_level_density' value='70.' function='psetr'/>
+            <parameter name='contour_shade_min_level_density' value='20.' function='psetr'/>
+        </requirement>  
+        <spot name='a' text='The legend looks different'/> 
+        <spot name='b' text='The size of the dot differs slightly'/>           
+    </tutorial>
+</magics>

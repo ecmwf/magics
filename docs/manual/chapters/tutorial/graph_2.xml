@@ -1,0 +1,81 @@
+<magics>
+    <tutorial name='graph_2' magml='off' title='Bar chart plotting' 
+        comment='In this example the X axis is Date axis and we will plot some bars.'>     
+       <requirement name='1' subject='X Axis is a date axis' text='Set up a date horizontal axis'
+       ulink='Date_Time_Axis_Plotting'>
+            <action name='paxis'/> 
+            <parameter name='subpage_map_projection' value='none' function='psetc'/>
+			<parameter name='axis_orientation' value='horizontal' function='psetc'/>
+			<parameter name='axis_position' value='bottom' function='psetc'/>
+			<parameter name='axis_type' value='date' function='psetc'/>
+			<parameter name='axis_grid' value='off' function='psetc'/>
+			<parameter name='axis_line_colour' value='black' function='psetc'/>
+			<parameter name='axis_date_type' value='days' function='psetc'/>
+			<parameter name='axis_date_min_value' value='2007-02-25 00:00:00' function='psetc'/>
+			<parameter name='axis_date_max_value' value='2007-02-27 00:00:00' function='psetc'/>
+			<parameter name='axis_tick' value='on' function='psetc'/>
+			<parameter name='axis_tick_interval' value='1.0' function='psetr'/>
+			<parameter name='axis_days_label_colour' value='black' function='psetc'/>
+			<parameter name='axis_days_label' value='number' function='psetc'/>    
+        </requirement>
+         <requirement name='2' subject='Y Axis is a regular axis' text='Set up a regular horizontal axis'>
+            <action name='paxis'/> 
+            <parameter name='subpage_map_projection' value='none' function='psetc'/>
+			<parameter name='axis_line' value='on' function='psetc'/>			
+			<parameter name='axis_orientation' value='vertical' function='psetc'/>
+			<parameter name='axis_type' value='regular' function='psetc'/>
+			<parameter name='axis_min_value' value='0.0' function='psetr'/>
+			<parameter name='axis_max_value' value='15.0' function='psetr'/>
+			<parameter name='axis_tick_interval' value='5.0' function='psetr'/>
+			<parameter name='axis_tick_label_frequency' value='2' function='pseti'/>
+			<parameter name='axis_tick_label_quality' value='high' function='psetc'/>
+			<parameter name='axis_tick_label_colour' value='black' function='psetc'/>
+			<parameter name='axis_line' value='on' function='psetc'/>
+		</requirement>
+		 <requirement name='3' subject='Vertical title' text='Add a Title on your vertical axis'
+>
+			<parameter name='axis_title' value='on' function='psetc'/>
+			<parameter name='axis_title_text' value='My Unit' function='psetc'/>
+			<parameter name='axis_title_height' value='0.6' function='psetr'/>
+			<parameter name='axis_title_colour' value='black' function='psetc'/>
+			<parameter name='axis_title_orientation' value='parallel' function='psetc'/>
+        </requirement>
+        <requirement name='4' subject='Grid' text='Add some grid'>
+            <parameter name='axis_grid' value='on' function='psetc'/>
+			<parameter name='axis_grid_colour' value='black' function='psetc'/>
+			<parameter name='axis_grid_thickness' value='2' function='pseti'/>
+			<parameter name='axis_grid_line_style' value='dot' function='psetc'/>
+		</requirement>
+        <requirement name='5' subject='Input data for bar plotting' 
+            text='A list of date for the x and y values'
+            ulink='Date_Time_Axis_Plotting'>
+            <parameter name='graph_bar_date_x_values' 
+            		value='/2007-02-25 00:00:00 to 2007-02-27 00:00:00 by 12hours/'
+                    function='pset1c'/>    
+            <parameter name='graph_bar_y_values' value='/5., 10., 4., 7., 12., 2., 7., 9., 1./' function='pset1r'/>         
+        	<action name ='pgraph'/>
+        </requirement>  
+        <requirement name='6' subject='Bar plotting' text='Grey bars'
+            link_doc='graph' link_ptr='Bar_Chart_Plotting'>
+            <action name='pgraph'/>
+            <parameter name='graph_type' value='bar' function='psetc'/>
+			<parameter name='graph_shade' value='on' function='psetc'/>
+			<parameter name='graph_shade_style' value='area_fill' function='psetc'/>
+			<parameter name='graph_shade_colour' value='grey' function='psetc'/>
+			<parameter name='graph_bar_colour' value='grey' function='psetc'/>
+			<parameter name='graph_bar_width' value='0.8' function='psetr'/>
+			<parameter name='graph_line_colour' value='black' function='psetc'/>
+			<parameter name='graph_line_thickness' value='4' function='pseti'/>            
+        </requirement>   
+        <requirement name='7' subject='Legend' text='Turn the legend on'>
+            <parameter name='legend' value='on' function='psetc'/>
+			<parameter name='legend_user_text' value='My data' function='psetc'/>
+			<parameter name='legend_text_colour' value='navy' function='psetc'/>
+			<parameter name='legend_text_height' value='0.5' function='psetr'/>			        
+        </requirement>   
+       
+        
+        <spot name='a' text='Difference on the legend'/>
+        <spot name='b' text='the parameter graph_bar_thickness behaves differently'/>              
+    </tutorial>
+</magics>

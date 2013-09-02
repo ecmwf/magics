@@ -1,0 +1,44 @@
+<magics version='3.0'  format ='a4' orientation = 'portrait' >
+
+  <definition>
+    <coastlines id="xml_style">
+         <coast colour = 'black'>
+            <landshading colour='grey'/> 
+         </coast>
+         <grid colour = 'black' />
+     </coastlines> 
+     
+     <coastlines id="metview_style" 
+            map_coastline_colour='grey'
+            map_grid_colour='grey' 
+            map_coastline_land_shade='on'
+            map_coastline_land_shade_colour='cream'/>
+        
+  </definition>
+  
+  <drivers>
+    <ps name= 'coast_3' />
+  </drivers>
+
+  <page>
+    <text height='10%' display='block'>
+        <font colour='navy'> Cylindrical </font>
+    </text>
+    <map height='40%'>
+    <frame/>
+       <cylindrical/>
+       <coastlines use_id='${style=xml_style}'/>
+            
+     </map>
+    <text height='5%' display='block' > 
+        <font colour='navy'> Polar stereographic</font>
+    </text>
+     <map border='on' height='40%'  margin_left='30%' margin_top='2.5%'>
+     <frame/>
+          <polar_stereographic/>
+       <coastlines use_id='${style=xml_style}'/>
+       
+    </map>
+
+  </page>
+</magics>

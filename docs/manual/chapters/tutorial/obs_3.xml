@@ -1,0 +1,49 @@
+<magics>
+    <tutorial name="obs_3" magml='off' magplus='off' title='All observations on a global map' 
+        comment='Here, we just play a bit more with the parameters!'>     
+       <requirement name='1' subject='Global map' text='Simple cylindrical projection'
+            link_doc='layout_mapping_coastlines' link_ptr='Subpage_Mapping'>
+            <action name='pcoast'/>         
+        </requirement>
+        <requirement name='2' subject='Grid and coastlines setting' text='Your own choice of colour and style!' 
+            link_doc='layout_mapping_coastlines' link_ptr='Coastlines_and_Gridlines'>
+            <action name='pcoast'/>
+            <parameter name='map_coastline_thickness' value='2' function='pseti'/>
+			<parameter name='map_coastline_colour' value='grey' function='psetc'/>
+			<parameter name='map_grid_colour' value='grey' function='psetc'/>
+			<parameter name='map_grid_line_style' value='dash' function='psetc'/>          
+        </requirement>  
+        <requirement name='3' subject='Observations' text='all of them' >
+            <action name='pobs'/>
+         
+        </requirement>  
+        <requirement name='4' subject='Plotting' text='turn off all parameters except wind and pressure'
+            ulink='Observation_Plotting_Meteorological_Variables'>
+            <action name='pobs'/>
+            <parameter name='obs_thickness' value='off' function='psetc'/>
+			<parameter name='obs_pressure' value='on' function='psetc'/>
+			<parameter name='obs_temperature' value='off' function='psetc'/>
+			<parameter name='obs_cloud' value='off' function='psetc'/>
+			<parameter name='obs_present_weather' value='off' function='psetc'/>
+			<parameter name='obs_past_weather' value='off' function='psetc'/>
+			<parameter name='obs_visibility' value='off' function='psetc'/>
+			<parameter name='obs_dewpoint' value='off' function='psetc'/>
+			<parameter name='obs_pressure_tendency' value='off' function='psetc'/>
+			<parameter name='obs_ship_direction' value='off' function='psetc'/>
+			<parameter name='obs_ship_speed' value='off' function='psetc'/>
+			<parameter name='obs_sea_surface_temperature' value='off' function='psetc'/>
+        </requirement>   
+        <requirement name='5' subject='Visibility' text='Play with obs_distance_apart parameter to see more or less Observations.'
+            ulink_doc='Observation_Size_Position_and_Separation'>
+            <action name='pobs'/>
+            <parameter name='obs_distance_apart' value='0.5' function='psetr'/>
+        </requirement>   
+         <requirement name='6' subject='Text' text='Add your own title'>
+            <action name='ptext'/>
+            <parameter name='text_line_1' value='All observations...' function='psetc'/>
+			<parameter name='text_colour' value='navy' function='psetc'/>
+			<parameter name='text_line_count' value='1' function='pseti'/>
+        </requirement>    
+                       
+    </tutorial>
+</magics>

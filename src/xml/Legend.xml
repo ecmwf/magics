@@ -1,0 +1,295 @@
+<?xml-stylesheet type='text/css' href='parameter.css'?>
+<magics>
+<class name='NoLegendVisitor' directory='basic' include='LegendVisitor.h'/> 
+
+<class name='LegendVisitor' action='legend'  xmltag='legend' prefix='legend' directory='basic'>
+	<documentation>
+	   Collection of parameters defining how a legend will be plotted. To plot a legend the parameter 'Legend' 
+	   needs to set to 'on'. 
+	</documentation>
+
+<parameter name='legend_text_colour' from='string' to='Colour' member='colour' default='blue' metview_default='navy'>
+    <documentation> Legend text colour </documentation>
+    <migration> New Magics: Parameter legend_text_colour sent to new Magics[Legend].  </migration>
+</parameter>
+        
+ <parameter name='legend_title' from='string' to='bool' member='title' default='off' >
+    <documentation> plot legend title text  </documentation>
+    <set value='on' name='legend_title_text'/>
+    <set value='on' name='legend_title_font_size'/>  
+    <set value='on' name='legend_title_font_colour'/>
+    <set value='on' name='legend_title_orientation'/>
+    <set value='on' name='legend_title_position'/>
+    <set value='on' name='legend_title_position_ratio'/>
+</parameter>
+
+<parameter name='legend_title_text' from='string' to='string' member='title_text' default='legend' >
+    <documentation> Text to plot as legend title </documentation>
+</parameter>
+<parameter name='legend_title_orientation' from='string' to='string' member='title_orientation' default='automatic' values='vertical/horizontal/automatic'>
+    <documentation> Orientation of legend title, if automatic the title will be 
+    	horizontal for horizontal legend and vertical for vertical  </documentation>
+</parameter>
+ <parameter name='legend_title_font_size' from='float' to='float' member='title_font_size' default='-1' >
+    <documentation> Font size used for the title: The default is the same as text_entry </documentation>
+</parameter>
+
+ <parameter name='legend_title_font_colour' from='string' to='Colour' member='title_font_colour' default='automatic' >
+    <documentation> Font Colour used for the title: The defaut is the same as the text_entry</documentation>
+</parameter>
+
+<parameter name='legend_title_position' from='string' to='Position' member='title_position' default='automatic' values='automatic/top/bottom/left/right' >
+   <documentation> relative title position </documentation>
+</parameter> 
+
+<parameter name='legend_title_position_ratio' from='float' to='float' member='title_ratio' default='25' >
+   <documentation> percentage of the legend box used for the title </documentation>
+</parameter> 
+
+<parameter name='legend_units_text' from='string' to='string' member='units_text' default='' >
+    <documentation> Text to plot as units </documentation>
+</parameter>
+
+<parameter name='legend_user_minimum' from='string' to='bool' member='use_min' default='off' >
+   <documentation> Use of user tailored text for minimum </documentation>
+   <set value='on' name='legend_user_minimum_text'/>
+</parameter>
+
+<parameter name='legend_user_minimum_text' from='string' to='string' member='use_min_text' default='' >
+   <documentation> User tailored text for minimum </documentation>
+</parameter>
+
+<parameter name='legend_user_maximum' from='string' to='bool' member='use_max' default='off' >
+   <documentation> Use of user tailored text for maximum </documentation>
+   <set value='on' name='legend_user_maximum_text'/>
+</parameter>
+
+<parameter name='legend_user_maximum_text' from='string' to='string' member='use_max_text' default='' >
+  <documentation> User tailored text for maximum   </documentation>
+</parameter>
+        
+<parameter name='legend_display_type' from='string' to='LegendMethod' member='method' default='disjoint' metview_default='continuous'>
+            <option name='LegendMethod' fortran='disjoint' xml='disjoint' include='LegendMethod.h'/>
+            <option name='ContinuousLegendMethod' fortran='continuous' xml='continuous' include='LegendMethod.h'/> 
+            <option name='HistogramLegendMethod' fortran='histogram' xml='histogram' include='LegendMethod.h'/>
+            <documentation> type of shaded legend required </documentation>
+</parameter>       
+
+<parameter name='legend_text_format' from='string' to='string' member='format' default='(automatic)'>
+     <documentation> Format of automatic text (MAGICS Format/(AUTOMATIC)) </documentation>
+</parameter>  
+        
+<parameter name='legend_box_mode' from='string' to='string' member='box' default='automatic' values='automatic/positional'>
+        	
+        	<set value='positional' name='legend_box_x_position'/>
+        	<set value='positional' name='legend_box_x_length'/>
+        	<set value='positional' name='legend_box_y_position'/>
+        	<set value='positional' name='legend_box_y_length'/>
+        	<documentation>Whether legend box is positioned automatically or by the user  </documentation>
+</parameter>
+<parameter name='legend_text_font' from='string' to='string' member='font' xml='font' default='sansserif'>
+	<documentation>Font name - please make sure this font is installed!</documentation>
+</parameter>
+<parameter name='legend_text_font_style' from='string' to='string' member='font_style' default='normal' values='normal/bold/italic/bolditalic'>
+		<documentation>Font style. Set this to an empty string in order to remove all styling.</documentation>
+</parameter>
+
+
+  
+<parameter name='legend_text_font_size' from='string' to='string' member='font_dimension' default='0.3' metview_default='0.2'>
+	<documentation>Font size, specified in cm or in % ex: 0.5cm or 10% </documentation>
+</parameter>
+  
+
+<parameter name='legend_text_quality' from='string' to='string' member='text_quality' default='medium' visible='off'>
+	<documentation>Quality of text in legend :
+		deprecated use legend_text_font and legend_text_font_style </documentation>
+</parameter>
+         
+<parameter name='legend_text_orientation' from='float' to='float' member='orientation' default='0' >
+	<documentation>Orientation of the text : horizontal by default </documentation>
+</parameter>
+      
+<parameter name='legend_user_lines' from='stringarray' to='stringarray' member='lines' default='stringarray()' >
+             <documentation> List of text for legend entries </documentation>        
+</parameter>
+
+<parameter name='legend_column_count' from='int' to='int' member='columns' default='1' >
+             <documentation> Number of columns in the legend </documentation>        
+</parameter>
+
+<parameter name='legend_entry_plot_direction' from='string' to='string' member='direction' default='automatic' values='automatic/row/column'>
+             <documentation> Method of filling in legend entries</documentation>        
+</parameter>
+<parameter name='legend_entry_plot_orientation' from='string' to='string' member='entry_orientation' default='bottom_top' values='bottom_top/top_bottom'>
+             <documentation> going from bootom to top ot top to bottom in column mode!   </documentation>        
+</parameter>
+
+<parameter name='legend_text_composition' from='string' to='string' member='composition' 
+		default='automatic_text_only' values='automatic_text_only/user_text_only/both'>
+             <documentation> Determines whether to use automatically-generated or user-generated text (or both) in the legend </documentation>        
+       	<set value='user_text_only' name='legend_user_lines'/>
+       	<set value='both'           name='legend_user_lines'/>
+</parameter>
+
+<parameter name='legend_user_text' from='string' to='string' member='text'  default='' visible='off'>
+             <documentation> User text to be associated with a legend sub-entry from a multiple entry </documentation>
+</parameter>
+
+<parameter name='legend_user_text_1' from='string' to='string' member='text1'  default='' visible='off'>
+             <documentation> User text to be associated with a legend sub-entry from a multiple entry </documentation>        
+</parameter> 
+
+<parameter name='legend_user_text_2' from='string' to='string' member='text2' default='' visible='off' >
+             <documentation> User text to be associated with a legend sub-entry from a multiple entry </documentation>        
+</parameter>
+
+<parameter name='legend_user_text_3' from='string' to='string' member='text3'  default='' visible='off' >
+             <documentation> User text to be associated with a legend sub-entry from a multiple entry </documentation>        
+</parameter>
+
+<parameter name='legend_user_text_4' from='string' to='string' member='text4'  default='' visible='off'>
+             <documentation> User text to be associated with a legend sub-entry from a multiple entry </documentation>        
+</parameter>
+
+<parameter name='legend_user_text_5' from='string' to='string' member='text5'  default='' visible='off'>
+             <documentation> User text to be associated with a legend sub-entry from a multiple entry </documentation>        
+</parameter>
+
+<parameter name='legend_user_text_6' from='string' to='string' member='text6'  default='' visible='off'>
+             <documentation> User text to be associated with a legend sub-entry from a multiple entry </documentation>        
+</parameter>
+
+<parameter name='legend_user_text_7' from='string' to='string' member='text7'  default='' visible='off'>
+             <documentation> User text to be associated with a legend sub-entry from a multiple entry </documentation>        
+</parameter> 
+
+<parameter name='legend_user_text_8' from='string' to='string' member='text8'  default='' visible='off'>
+             <documentation> User text to be associated with a legend sub-entry from a multiple entry </documentation>        
+</parameter> 
+
+<parameter name='legend_user_text_9' from='string' to='string' member='text9' default='' visible='off'>
+             <documentation> User text to be associated with a legend sub-entry from a multiple entry </documentation>        
+</parameter>
+
+<parameter name='legend_user_text_10' from='string' to='string' member='text10'  default='' visible='off'>
+             <documentation> User text to be associated with a legend sub-entry from a multiple entry </documentation>
+</parameter> 
+
+<parameter name='legend_box_x_position' from='float' to='float' member='box_x'  default='-1'>
+         <documentation> X coordinate of lower left corner of legend box (Relative to page_x_position) </documentation>
+         <migration> New Magics: Parameter legend_box_x_position sent to new Magics[TextBox].  </migration>
+</parameter>
+
+<parameter name='legend_box_y_position' from='float' to='float' member='box_y'  default='-1' >
+         <release>Magics++0.7</release>
+         <documentation> Y coordinate of lower left corner of legend box (Relative to page_y_position) </documentation>
+</parameter>
+
+<parameter name='legend_box_x_length' from='float' to='float' member='box_width'  default='-1'>
+         <release>Magics++0.7</release>
+         <documentation> Length of legend box in X direction </documentation>
+</parameter>
+
+<parameter name='legend_box_y_length' from='float' to='float' member='box_height'  default='0'>
+         <documentation> Length of legend box in Y direction </documentation>
+</parameter>
+
+<parameter name='legend_box_blanking' from='string' to='bool' member='blanking' default='off'>
+         <documentation>  blanking of legend box  </documentation>
+</parameter>
+
+<parameter name='legend_border' from='string' to='bool' member='border'  default='off'>
+         <documentation> Plot border around legend box  </documentation>
+         <set value='on' name='legend_border_colour'/>  
+         <set value='on' name='legend_border_line_style'/>
+         <set value='on' name='legend_border_thickness'/>
+</parameter>
+  
+<parameter name='legend_border_line_style' from='string' to='LineStyle' member='border_line_style'  default='solid'>
+         <documentation> Line style of border around legend box </documentation>
+</parameter>
+
+<parameter name='legend_border_colour' from='string' to='Colour' member='border_colour'  default='blue' >
+          <release>Magics++0.7</release>    
+         <documentation> Colour of border around text box (Full choice of colours) </documentation>
+</parameter>
+
+<parameter name='legend_border_thickness' from='int' to='int' member='border_thickness'  default='1'>
+          <release>Magics++0.7</release>    
+         <documentation> Thickness of legend box border </documentation>
+</parameter>
+
+<parameter name='legend_wrep' from='string' to='bool' member='wrep' default='off' visible='off'>
+    <documentation> activate wrep mode for legend building</documentation>
+</parameter>
+<parameter name='legend_only' from='string' to='bool' member='only' default='off' visible='off'>
+    <documentation> generate only the legend ( used for the wrep.. </documentation>
+</parameter>
+<parameter name='legend_entry_text_width' from='float' to='float' member='text_width' default='60'>
+    <documentation> Width in percent used for the text part of a legend Entry </documentation>
+</parameter>
+<parameter name='legend_entry_border' from='string' to='bool' member='entry_border' default='on' >
+         	<documentation> add a border to the graphical part of each legend entry </documentation>
+         	<set value='on' name='legend_entry_border_colour'/>
+   </parameter>  
+ <parameter name='legend_entry_border_colour' from='string' to='Colour' member='entry_border_colour' default='black' >
+         	<documentation> border colour </documentation>
+   </parameter>  
+</class>
+
+
+<class name='LegendBox' xmltag='legend' prefix='legend' action='legend' used_by='Legend' directory='visualisers' />  
+<class name='NoLegendNode' include='LegendNode.h' directory='visualisers'/>
+<class name='XmlLegendNode' include='LegendNode.h' directory='visualisers' inherits='XmlBasicNode/LegendNode' doc_inherits='no'/>
+<class name='AutomaticLegendBox' xmltag='automatic' action='legend'  include='LegendBox.h' inherits='LegendBox' directory='visualisers'/>
+<class name='LegendMethod' action='legend' used_by='Legend' include='LegendMethod.h' directory='visualisers'/>
+
+<class name='ContinuousLegendMethod' action='legend' used_by='Legend' include='LegendMethod.h' inherits='LegendMethod' doc_inherits='no' directory='visualisers'>
+
+<parameter name='legend_label_frequency' from='int' to='int' member='label_frequency' default='1' >
+         	<documentation>Frequency of the labels. </documentation>
+</parameter>
+
+</class>
+<class name='HistogramLegendMethod' action='legend' used_by='Legend' include='LegendMethod.h' inherits='LegendMethod' doc_inherits='no' directory='visualisers'>
+	<parameter name='legend_label_frequency' from='int' to='int' member='label_frequency' default='1' >
+         	<documentation> Frequency of the labels. </documentation>
+   </parameter>
+   <parameter name='legend_histogram_border' from='string' to='bool' member='histo_border' default='on' >
+         	<documentation> add a border to the the bars </documentation>
+         	<set value='on' name='legend_histogram_border_colour'/>
+   </parameter>  
+  <parameter name='legend_histogram_border_colour' from='string' to='Colour' member='histo_border_colour' default='black' >
+         	<documentation> border colour of the bars</documentation>
+   </parameter>   
+   <parameter name='legend_histogram_mean_value' from='string' to='bool' member='histo_mean' default='off' >
+         	<documentation> show the mean value </documentation>
+         	<set value='on' name='legend_histogram_mean_value_marker'/>
+         	<set value='on' name='legend_histogram_mean_value_marker_colour'/>
+         	<set value='on' name='legend_histogram_mean_value_marker_size'/>
+   </parameter>  
+    <parameter name='legend_histogram_mean_value_marker' from='int' to='int' member='histo_mean_marker' default='15' >
+         	<documentation> show the mean value </documentation>
+   </parameter> 	
+    <parameter name='legend_histogram_mean_value_marker_colour' from='string' to='Colour' member='histo_mean_colour' default='black' >
+         	<documentation> show the mean value </documentation>
+   </parameter>  
+   <parameter name='legend_histogram_mean_value_marker_size' from='float' to='float' member='histo_mean_size' default='0.4' >
+         	<documentation> show the mean value </documentation>
+   </parameter> 
+   <parameter name='legend_histogram_max_value' from='string' to='bool' member='histo_max' default='on' >
+         	<documentation> show the max value </documentation>
+   </parameter>   
+   <parameter name='legend_histogram_grid_colour' from='string' to='Colour' member='histo_grid_colour' default='black' >
+         	<documentation> Colour of the grids </documentation>
+   </parameter>   
+   <parameter name='legend_histogram_grid_line_style' from='string' to='LineStyle' member='histo_grid_style' default='solid' >
+         	<documentation>  Line Style of the grids </documentation>
+   </parameter>  
+   <parameter name='legend_histogram_grid_thickness' from='int' to='int' member='histo_grid_thickness' default='1' >
+         	<documentation>  thickness of the grids </documentation>
+   </parameter>  
+</class>
+
+</magics>

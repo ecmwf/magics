@@ -1,0 +1,418 @@
+#!/bin/ksh
+
+
+
+clean="yes"
+convert="yes"
+runsuites="yes"
+purpose="manual"
+
+pages='01 02 03 04 05 06 07 08 09 10 11 12'
+
+
+for arg;do
+    if [[ $arg = "-h" || $arg = "-help" || $arg = "--help" ]]
+    then
+        echo ""
+        echo "make_plots"
+        echo "Possible options:"
+        echo "   -noclean   : only run examples with updated source code"
+        echo "   -noconvert : do not convert PS files to EPSI and PNG"
+        echo "   -norun     : do not run the example suites"
+        echo "   -tutorial  : run the examples for the tutorial"
+        echo "   -v         : verbose - prints every line"
+        echo ""
+        exit
+    fi
+
+    if [[ $arg = "-noclean" ]]
+    then
+        clean="no"
+    fi
+
+    if [[ $arg = "-noconvert" ]]
+    then
+        convert="no"
+    fi
+
+    if [[ $arg = "-norun" ]]
+    then
+        runsuites="no"
+    fi
+
+    if [[ $arg = "-tutorial" ]]
+    then
+        purpose="tutorial"
+    fi
+
+    if [[ $arg = "-v" ]]
+    then
+        set -x
+    fi
+
+done
+
+
+
+# create any directories that do not already exist
+
+mkdir -p examples/$purpose/fortran/source
+mkdir -p examples/$purpose/magml/source
+mkdir -p examples/$purpose/c/source
+mkdir -p examples/$purpose/python/source
+mkdir -p examples/$purpose/fortran/ps
+mkdir -p examples/$purpose/magml/ps
+mkdir -p examples/$purpose/c/ps
+mkdir -p examples/$purpose/python/ps
+# mkdir -p examples/fortran/epsi
+# mkdir -p examples/magml/epsi
+mkdir -p examples/$purpose/fortran/png
+mkdir -p examples/$purpose/magml/png
+mkdir -p examples/$purpose/c/png
+mkdir -p examples/$purpose/python/png
+
+
+# make a note of the directory we started in
+
+original_dir=$PWD
+
+# -------------------------------------------------------------
+# --------------------- FORTRAN Examples ----------------------
+# -------------------------------------------------------------
+
+# go to the directory from where we want to run the test suite
+
+cd ../www/4_examples/progs
+
+
+# set things up before we start
+
+# use magics      # not under ksh!!!
+# use magicsX++
+# use odb
+./setbin -$purpose
+
+
+# clean first?
+
+if [[ $clean = "yes" && $runsuites = "yes" ]]
+then
+    ./clean
+    ./cleanps
+fi
+
+
+
+# compile the version of the test suite used for the manual plots
+
+if [[ $runsuites = "yes" ]]
+then
+    echo "RUNNING FORTRAN EXAMPLES"
+
+    ./compile_magplus -$purpose -quick -plain_names -noodb
+
+    if [[ $purpose = "tutorial" ]]
+    then
+        ./compile_mag69 compile_mag69 -$purpose -quick
+    fi
+fi
+
+
+
+# copy the source across
+
+cp -f src/$purpose/*.f ../../../manual/examples/$purpose/fortran/source
+# cp ps/*.ps        ../../../manual/examples/ps
+
+
+
+# split each PostScript file into individual pages and copy here
+
+for ps_orig in ps/*.ps
+do
+    bname=`basename $ps_orig .ps`
+
+    for page in $pages
+    do
+        new_ps=../../../manual/examples/$purpose/fortran/ps/${bname}_$page.ps
+        (psselect -p$page $ps_orig $new_ps) 2> pstemp.txt
+
+        no_pages=`grep "0 pages" pstemp.txt`  # look for the string that tells us there is no page
+
+        if [[ $no_pages != "" ]]  # ok, we've come to the end of this file
+        then
+            rm -f $new_ps
+            # echo "No ($page)"
+            break
+        fi
+    done
+done
+
+rm -f pstemp.txt
+
+
+
+
+
+# -------------------------------------------------------
+# --------------------- C Examples ----------------------
+# -------------------------------------------------------
+
+# go to the directory from where we want to run the test suite
+
+# cd ../www/4_examples/progs
+
+
+# set things up before we start
+
+# use magics      # not under ksh!!!
+# use magicsX++
+# use odb
+./setbin -$purpose -c
+
+
+# clean first?
+
+if [[ $clean = "yes" && $runsuites = "yes" ]]
+then
+   ./clean
+   ./cleanps
+fi
+
+
+# compile the version of the test suite used for the manual plots
+
+if [[ $runsuites = "yes" ]]
+then
+    echo "RUNNING C EXAMPLES"
+
+    ./make_c_testsuite -$purpose -nogifs -plain_names
+fi
+
+
+# copy the source across
+
+if [[ -a c/$purpose ]]
+then
+    cp -f c/$purpose/*.c ../../../manual/examples/$purpose/c/source
+fi
+
+
+# split each PostScript file into individual pages and copy here
+
+for ps_orig in ps/*.ps
+do
+    bname=`basename $ps_orig .ps`
+
+    for page in $pages
+    do
+        new_ps=../../../manual/examples/$purpose/c/ps/${bname}_$page.ps
+        (psselect -p$page $ps_orig $new_ps) 2> pstemp.txt
+
+        no_pages=`grep "0 pages" pstemp.txt`  # look for the string that tells us there is no page
+
+        if [[ $no_pages != "" ]]  # ok, we've come to the end of this file
+        then
+            rm -f $new_ps
+            echo "No ($page)"
+            break
+        fi
+    done
+done
+
+rm -f pstemp.txt
+
+
+
+
+
+
+# -------------------------------------------------------------
+# --------------------- MagML Examples ------------------------
+# -------------------------------------------------------------
+
+
+# if [[ $runsuites = "yes" ]]
+# then
+#     cd ../www/4_examples/progs
+# fi
+
+
+# clean first?
+
+if [[ $clean = "yes" && $runsuites = "yes" ]]
+then
+    ./cleanps -magml
+fi
+
+
+# run the version of the MagML test suite used for the manual plots
+
+if [[ $runsuites = "yes" ]]
+then
+    echo "RUNNING MAGML EXAMPLES"
+
+    ./make_magml_testsuite -$purpose
+    
+#     cd 4_examples/progs
+fi
+
+
+# copy the source across
+
+if [[ -a magml/$purpose ]]
+then
+    cp -f magml/$purpose/*.magml ../../../manual/examples/$purpose/magml/source
+fi
+
+
+# copy the output PostScript files across
+# pwd
+# ls -l ../../html/test/magml/  
+cp -f ../../html/$purpose/magml/*.ps  ../../../manual/examples/$purpose/magml/ps
+
+
+
+# -------------------------------------------------------------
+# --------------------- Python Examples -----------------------
+# -------------------------------------------------------------
+
+
+# clean first?
+
+if [[ $clean = "yes" && $runsuites = "yes" ]]
+then
+    ./cleanps -python
+fi
+
+
+# run the version of the Python test suite used for the manual plots
+
+if [[ $runsuites = "yes" ]]
+then
+    echo "RUNNING PYTHON EXAMPLES"
+
+    ./make_python_testsuite -$purpose
+fi
+
+
+# copy the source across
+
+if [[ -a python/$purpose ]]
+then
+    cp -f python/$purpose/*.py ../../../manual/examples/$purpose/python/source
+fi
+
+
+
+
+# split each PostScript file into individual pages and copy here
+
+for ps_orig in ../../html/$purpose/python/*.ps
+do
+    bname=`basename $ps_orig .ps`
+
+    for page in $pages
+    do
+        new_ps=../../../manual/examples/$purpose/python/ps/${bname}_$page.ps
+        (psselect -p$page $ps_orig $new_ps) 2> pstemp.txt
+
+        no_pages=`grep "0 pages" pstemp.txt`  # look for the string that tells us there is no page
+
+        if [[ $no_pages != "" ]]  # ok, we've come to the end of this file
+        then
+            rm -f $new_ps
+            # echo "No ($page)"
+            break
+        fi
+    done
+done
+
+rm -f pstemp.txt
+
+
+
+
+
+
+# copy the output PostScript files across
+# pwd
+# ls -l ../../html/test/magml/  
+# cp -f ../../html/$purpose/python/*.ps  ../../../manual/examples/$purpose/python/ps
+
+
+
+
+# -------------------------------------------------------------
+# --------------------- Metgram Examples ------------------------
+# -------------------------------------------------------------
+
+## clean first?
+#
+#if [[ $clean = "yes" && $runsuites = "yes" ]]
+#then
+#    ./cleanps -magml
+#fi
+#
+#
+## run the version of the MagML test suite used for the manual plots
+#
+#if [[ $runsuites = "yes" ]]
+#then
+#    echo "RUNNING MAGML EXAMPLES"
+#
+#    ./make_magml_testsuite -$purpose
+#    
+##     cd 4_examples/progs
+#fi
+#
+#
+## copy the source across
+#
+#if [[ -a magml/$purpose ]]
+#then
+#    cp -f magml/$purpose/*.magml ../../../manual/examples/$purpose/magml/source
+#fi
+#
+#
+## copy the output PostScript files across
+## pwd
+## ls -l ../../html/test/magml/  
+#cp -f ../../html/test/magml/*.ps  ../../../manual/examples/$purpose/magml/ps
+#
+
+
+
+
+
+
+
+# ----------------------------------------------------------
+# --------------------- Conversions ------------------------
+# ----------------------------------------------------------
+
+
+
+# convert to EPSI and PNG?
+
+if [[ $convert = "yes" ]]
+then
+    echo "CONVERTING OUTPUTS TO PNG"
+
+    echo "[Converting outputs to EPSI and PNG...]"
+    cd $original_dir
+    tools/convert_example_outputs -$purpose -nogifs
+fi
+
+
+# move all diagrams over to the diagrams directory
+
+mv examples/manual/fortran/png/diagram*.png diagrams
+
+
+# format the listings for DocBook
+
+cd $original_dir
+tools/generate_example_listings
+tools/format_listings -$purpose
+

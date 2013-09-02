@@ -1,0 +1,18 @@
+<magics>
+<class  action='pmetgram' directory='visualisers' prefix='eps' xmltag='epsshade' name='EpsShade'>
+		<documentation >
+		The EpsSahde is responsible for plotting climate information as Shaded area.
+		</documentation>
+        	<parameter  member='colour' to='Colour' default='red' from='string' name='eps_shade_colour'>           
+            		<documentation > Colour of the darkest shade area ...  		</documentation>
+        	</parameter>
+        	<parameter  member='line_colour' to='Colour' default='red' from='string' name='eps_shade_line_colour'>           
+            		<documentation > Colour of the darkest shade area ...  		</documentation>
+        	</parameter>
+         	<parameter  member='line_style' to='LineStyle' default='solid' from='string' name='eps_shade_line_style'>           
+            		<documentation > Colour of the darkest shade area ...  		</documentation>
+        	</parameter>
+           	<parameter  member='line_thickness' to='int' default='1' from='int' name='eps_shade_line_thickness'>           
+            		<documentation > Colour of the darkest shade area ...  		</documentation>
+        	</parameter>
+</class></magics>

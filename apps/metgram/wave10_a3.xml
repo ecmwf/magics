@@ -1,0 +1,9 @@
+
+<eps template='10_days_wave_epsgram_a3.xml' database='/vol/epsgram/data/spotbase/10_days_wave/0001/latest' format='a4'> 
+   
+    
+   <station name='Sea' latitude='40' longitude='-20'  psfile='Sea_a3.ps'
+       giffile='Sea_a3.gif' metafile='Sea.meta'/>
+   
+    
+</eps>

@@ -1,0 +1,356 @@
+<?xml version="2.0"?>
+<magics version="3.0" orientation='portrait'>
+    <drivers>
+        <$ps/>        
+        <$png/>        
+        <$svg/>        
+        <$gif/>        
+        <$pdf/>        
+    </drivers>
+    <definition>
+        <map id='box' height='100%' width='47%'  margin_left='15%' border_colour='navy'/>
+        <legend id='legend' width='52%'  left='45%' height='80%' bottom='7%' margin_right='0'
+                   entry_plot_direction='column' column_count='2' border_colour='navy' border_blanking='on'                  
+                   text_colour='navy'  />
+        <horizontal_axis id='haxis' >
+                    <line colour='navy'/> 
+                    <label colour='navy' quality='helvetica' /> 
+                    <tick colour='navy'/>                   
+		            <grid line_style="dash" colour='navy'/>
+		   </horizontal_axis>
+        <vertical_axis id='vaxis'>                                       
+                    <line colour='navy'/> 
+                    <label colour='navy' quality='helvetica'>
+                        <list list='0%/20%/40%/60%/80%/100%'/>
+                    </label> 
+                    <tick colour='navy'/>  
+                    <grid line_style="dot" colour='navy'/>
+           </vertical_axis>
+           <text id='title' bottom='83%' height='15%' left='0' 
+               colour='navy' font_size='0.4'
+               justification='left' display='absolute'/>
+			<efigram id='clim' latitude="$latitude" longitude="$longitude" efi_steps='36' 
+			      database='$database_clim/epsdb' title='off' legend_style='title'/>
+			<efigraph id='graph_clim' line_colour='navy' line_style='solid' line_thickness='6'/>
+			<efigram id='efi12' latitude="$latitude" longitude="$longitude" title='off'
+				    efi_steps='12' 
+                    database='$database_eps-12h/epsdb' 
+                    legend_database='$database_efi-12h/epsdb' 
+                    legend_step='24'
+                    legend_style='top'
+                    legend_colour='RGB(1, 0.6, 0.6, 1)'/>
+			<efigraph id='graph12' line_colour='purple' line_style='solid' line_thickness='4'/>
+			<efigram id='efi24' latitude="$latitude" longitude="$longitude" title='off'
+				    efi_steps='24' 
+                    database='$database_eps-24h/epsdb' 
+                    legend_database='$database_efi-24h/epsdb' 
+                    legend_step='36' 
+                    legend_colour='RGB(1, 0.6, 0.6, 1)'/>
+			<efigraph id='graph24' line_colour='purple' line_style='dash' line_thickness='4'/>
+			<efigram id='efi36' latitude="$latitude" longitude="$longitude" title='off'
+				    efi_steps='36'  
+                    database='$database_eps-36h/epsdb' 
+                    legend_database='$database_efi-36h/epsdb' 
+                    legend_step='48'
+                    legend_colour='RGB(1, 0.6, 0.6, 1)'/>
+			<efigraph id='graph36' line_colour='red' line_style='solid' line_thickness='4'/>
+			<efigram id='efi48' latitude="$latitude" longitude="$longitude" efi_steps='48' 
+                    database='$database_eps-48h/epsdb' 
+                    legend_database='$database_efi-48h/epsdb' 
+                    legend_step='60'
+                    legend_colour='RGB(1, 0.6, 0.6, 1)'/>
+			<efigraph id='graph48' line_colour='red' line_style='dash' line_thickness='4'/>
+			<efigram id='efi60' latitude="$latitude" longitude="$longitude" efi_steps='60' 
+                    database='$database_eps-60h/epsdb' 
+                    legend_database='$database_efi-60h/epsdb' 
+                    legend_step='72'
+                    legend_colour='RGB(1, 0.6, 0.6, 1)'/>
+			<efigraph id='graph60' line_colour='RGB(1, 0.25, 0.25, 1)' line_style='solid' line_thickness='4'/>
+			<efigram id='efi72' latitude="$latitude" longitude="$longitude" efi_steps='72' 
+                    database='$database_eps-72h/epsdb' 
+                    legend_database='$database_efi-72h/epsdb' 
+                    legend_step='84'
+                    legend_colour='RGB(1, 0.6, 0.6, 1)'/>
+			<efigraph id='graph72' line_colour='RGB(1, 0.25, 0.25, 1)' line_style='dash' line_thickness='4'/>
+			<efigram id='efi84' latitude="$latitude" title='off' longitude="$longitude" efi_steps='84' 
+                    database='$database_eps-84h/epsdb' 
+                    legend_database='$database_efi-84h/epsdb' 
+                    legend_step='96'
+                    legend_colour='RGB(1, 0.6, 0.6, 1)'/>
+			<efigraph id='graph84' line_colour='RGB(1, 0.5, 0.5, 1)' line_style='solid' line_thickness='4'/>
+			<efigram id='efi96' latitude="$latitude" longitude="$longitude" efi_steps='96' 
+                    database='$database_eps-96h/epsdb' 
+                    legend_database='$database_efi-96h/epsdb' 
+                    legend_step='108'
+                    legend_colour='RGB(1, 0.6, 0.6, 1)'/>
+			<efigraph id='graph96' line_colour='RGB(1, 0.5, 0.5, 1)' line_style='dash' line_thickness='4'/>
+			<efigram id='efi108' latitude="$latitude" title='on' longitude="$longitude" efi_steps='108' 
+                    database='$database_eps-108h/epsdb' 
+                    legend_database='$database_efi-108h/epsdb' 
+                    legend_step='120'
+                    legend_colour='RGB(1, 0.6, 0.6, 1)'/>
+			<efigraph id='graph108' line_colour='RGB(1, 0.65, 0.65, 1)' line_style='solid' line_thickness='4'/>
+			<efigram id='efi120' latitude="$latitude" longitude="$longitude" efi_steps='120' 
+                    database='$database_eps-120h/epsdb' 
+                    legend_database='$database_efi-120h/epsdb' 
+                    legend_step='132'
+                    legend_style='bottom'
+                    legend_colour='RGB(1, 0.6, 0.6, 1)'/>
+			<efigraph id='graph120' line_colour='RGB(1, 0.65, 0.65, 1)' line_style='dash' line_thickness='4'/>
+
+    </definition>
+    <page height='10%'>
+		<nopageid/>
+	</page>
+    <page height='27%'>
+		<nopageid/>
+        
+	    <map use_id='box'>
+       
+          <cartesian>
+			<x_regular automatic='on'/>
+            <y_regular y_min='0' y_max='100'/>
+           </cartesian>  
+           <horizontal_axis use_id='haxis'/>                    
+		   <vertical_axis use_id='vaxis'/>                                       
+                    
+           <text use_id='title'/>
+           <plot>
+				<efigram use_id='clim'  parameter="clim-precip"/>
+				<efigraph use_id='graph_clim'/>
+			</plot>
+			<plot>
+				<efigram use_id='efi12'  parameter="efi-precip"/>
+				<efigraph use_id='graph12'/>
+			</plot>
+			<plot>
+				<efigram use_id='efi24'  parameter="efi-precip"/>
+				<efigraph use_id='graph24'/>
+			</plot>
+			<plot>
+				<efigram use_id='efi36'  parameter="efi-precip"/>
+				<efigraph use_id='graph36'/>
+			</plot>
+            <plot>
+				<efigram use_id='efi48' parameter="efi-precip"/>
+				<efigraph use_id='graph48'/>
+			</plot>
+            <plot>
+				<efigram use_id='efi60' parameter="efi-precip"/>
+				<efigraph use_id='graph60'/>
+			</plot>
+            <plot>
+				<efigram use_id='efi72' parameter="efi-precip"/>
+				<efigraph use_id='graph72'/>
+			</plot>
+            <plot>
+				<efigram use_id='efi84'   parameter="efi-precip"/>
+				<efigraph use_id='graph84'/>
+			</plot>
+            <plot>
+				<efigram use_id='efi96' parameter="efi-precip"/>
+				<efigraph use_id='graph96'/>
+			</plot>
+            <plot>
+				<efigram use_id='efi108' long_title='on' parameter="efi-precip"/>
+				<efigraph use_id='graph108'/>
+			</plot>
+            <plot>
+				<efigram use_id='efi120' parameter="efi-precip"/>
+				<efigraph use_id='graph120'/>
+			</plot>
+        </map>
+             <legend use_id='legend' />
+		</page>	 
+		<page height='27%'>	 
+		<nopageid/>
+         <map use_id='box'>
+           <text use_id='title'/>
+              
+          <cartesian>
+			<x_regular automatic='on'/>
+            <y_regular min='0' max='100'/>
+           </cartesian>  
+           <horizontal_axis use_id='haxis'/>
+                    
+		   <vertical_axis use_id='vaxis'/>                                       
+          
+           <plot>
+				<efigram use_id='clim' parameter="clim-wind-gust"/>
+				<efigraph use_id='graph_clim'/>
+			</plot>
+			<plot>
+				<efigram use_id='efi12' parameter="efi-wind-gust"/>
+				<efigraph use_id='graph12'/>
+			</plot>
+			<plot>
+				<efigram use_id='efi24' parameter="efi-wind-gust"/>
+				<efigraph use_id='graph24'/>
+			</plot>
+			<plot>
+				<efigram use_id='efi36' parameter="efi-wind-gust"/>
+				<efigraph use_id='graph36'/>
+			</plot>
+            <plot>
+				<efigram use_id='efi48' parameter="efi-wind-gust"/>
+				<efigraph use_id='graph48'/>
+			</plot>
+            <plot>
+				<efigram use_id='efi60' parameter="efi-wind-gust"/>
+				<efigraph use_id='graph60'/>
+			</plot>
+            <plot>
+				<efigram use_id='efi72' parameter="efi-wind-gust"/>
+				<efigraph use_id='graph72'/>
+			</plot>
+            <plot>
+				<efigram use_id='efi84' parameter="efi-wind-gust"/>
+				<efigraph use_id='graph84'/>
+            </plot>
+            <plot>
+				<efigram use_id='efi96' parameter="efi-wind-gust"/>
+				<efigraph use_id='graph96'/>
+			</plot>
+            <plot>
+				<efigram use_id='efi108' parameter="efi-wind-gust"/>
+				<efigraph use_id='graph108'/>
+			</plot>
+            <plot>
+				<efigram use_id='efi120' parameter="efi-wind-gust"/>
+				<efigraph use_id='graph120'/>
+			</plot>
+		    
+        </map>
+            <legend use_id='legend' />          
+		</page>
+		<!--page height='22%'>	 
+		<nopageid/>
+         <map use_id='box'>
+        
+           <text use_id='title'/>
+              
+          <cartesian>
+			<x_regular automatic='on'/>
+            <y_regular min='0' max='100'/>
+           </cartesian>  
+           <horizontal_axis use_id='haxis'/>
+                    
+		   <vertical_axis use_id='vaxis'/>                                       
+          
+           <plot>
+				<efigram use_id='clim' parameter="clim-2mt-min"/>
+				<efigraph use_id='graph_clim'/>
+			</plot>
+			<plot>
+				<efigram use_id='efi12'  parameter="efi-2mt-min"/>
+				<efigraph use_id='graph12'/>
+			</plot>
+			<plot>
+				<efigram use_id='efi24'  parameter="efi-2mt-min"/>
+				<efigraph use_id='graph24'/>
+			</plot>
+			<plot>
+				<efigram use_id='efi36' parameter="efi-2mt-min"/>
+				<efigraph use_id='graph36'/>
+			</plot>
+            <plot>
+				<efigram use_id='efi48' parameter="efi-2mt-min"/>
+				<efigraph use_id='graph48'/>
+			</plot>
+            <plot>
+				<efigram use_id='efi60' parameter="efi-2mt-min"/>
+				<efigraph use_id='graph60'/>
+			</plot>
+            <plot>
+				<efigram use_id='efi72' parameter="efi-2mt-min"/>
+				<efigraph use_id='graph72'/>
+			</plot>
+            <plot>
+				<efigram use_id='efi84' parameter="efi-2mt-min"/>
+				<efigraph use_id='graph84'/>
+			</plot>
+            <plot>
+				<efigram use_id='efi96' parameter="efi-2mt-min"/>
+				<efigraph use_id='graph96'/>
+			</plot>
+            <plot>
+				<efigram use_id='efi108' parameter="efi-2mt-min"/>
+				<efigraph use_id='graph108'/>
+			</plot>
+            <plot>
+				<efigram use_id='efi120' parameter="efi-2mt-min"/>
+				<efigraph use_id='graph120'/>
+			</plot>
+		    
+        </map>
+            <legend use_id='legend' />          
+		</page-->
+		<page height='27%'>	 
+		<pageid line_system_plot='off' line_date_plot='off' line_errors_plot='off' 
+		        font='sansserif' line_colour='Rgb(0.8, 0.8, 0.8)'/>
+         <map use_id='box'>
+     
+           <text use_id='title'/>
+              
+          <cartesian>
+			<x_regular automatic='on'/>
+            <y_regular min='0' max='100'/>
+           </cartesian>  
+           <horizontal_axis use_id='haxis'/>
+                    
+		   <vertical_axis use_id='vaxis'/>                                       
+          
+           <plot>
+				<efigram use_id='clim' parameter="clim-2mt-mean"/>
+				<efigraph use_id='graph_clim'/>
+			</plot>
+			<plot>
+				<efigram use_id='efi12'  parameter="efi-2mt-mean"/>
+				<efigraph use_id='graph12'/>
+			</plot>
+			<plot>
+				<efigram use_id='efi24'  parameter="efi-2mt-mean"/>
+				<efigraph use_id='graph24'/>
+			</plot>
+			<plot>
+				<efigram use_id='efi36' parameter="efi-2mt-mean"/>
+				<efigraph use_id='graph36'/>
+			</plot>
+            <plot>
+				<efigram use_id='efi48' parameter="efi-2mt-mean"/>
+				<efigraph use_id='graph48'/>
+			</plot>
+            <plot>
+				<efigram use_id='efi60' parameter="efi-2mt-mean"/>
+				<efigraph use_id='graph60'/>
+			</plot>
+            <plot>
+				<efigram use_id='efi72' parameter="efi-2mt-mean"/>
+				<efigraph use_id='graph72'/>
+			</plot>
+            <plot>
+				<efigram use_id='efi84' parameter="efi-2mt-mean"/>
+				<efigraph use_id='graph84'/>
+			</plot>
+            <plot>
+				<efigram use_id='efi96' parameter="efi-2mt-mean"/>
+				<efigraph use_id='graph96'/>
+			</plot>
+            <plot>
+				<efigram use_id='efi108' parameter="efi-2mt-mean"/>
+				<efigraph use_id='graph108'/>
+			</plot>
+            <plot>
+				<efigram use_id='efi120' parameter="efi-2mt-mean"/>
+				<efigraph use_id='graph120'/>
+			</plot>
+		    
+        </map>
+            <legend use_id='legend' />          
+       
+        
+       
+      </page>
+    </magics>  
+
+

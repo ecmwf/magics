@@ -1,0 +1,4 @@
+<magics>
+<class  inherits='GribLoopStep' xmltag='looponparam' name='ParamGribLoopStep' directory='decoders' prefix='grib/grib_loop_step' action='pgrib' include='GribLoopStep.h'>
+		<documentation >	</documentation> 
+</class></magics>

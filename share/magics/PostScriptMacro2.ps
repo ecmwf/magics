@@ -1,0 +1,58 @@
+ReEncodeSmall /Magicsfontname findfont Height scalefont setfont
+} def
+/SUP
+{ /CHUPY exch def /CHUPX exch def } def
+/ST
+{ /YPOS exch def /XPOS exch def [ CHUPY CHUPX neg CHUPX CHUPY XPOS YPOS ] concat} def
+/SHA
+{ /a exch def a 0 eq { /HA 0 def  } if a 1 eq { /HA -0.5 def } if a 2 eq { /HA -1 def } if } def
+/SVA
+{ /b exch def
+	Font  4 lt { b 0 eq { /VA 0 def } if b 1 eq { /VA -0.7 def } if b 2 eq { /VA -0.6625 def } if b 3 eq { /VA -0.33125 def } if b 4 eq { /VA 0 def } if b 5 eq { /VA 0.0375 def } if
+	} if
+	Font  8 lt { b 0 eq { /VA 0 def } if b 1 eq { /VA -0.76 def } if b 2 eq { /VA -0.725 def } if b 3 eq { /VA -0.3625 def } if b 4 eq { /VA 0 def } if b 5 eq { /VA 0.035 def } if	
+	} if	
+	Font 12 lt { b 0 eq { /VA 0 def } if b 1 eq { /VA -0.7 def } if b 2 eq { /VA -0.6625 def } if b 3 eq { /VA -0.33125 def } if b 4 eq { /VA 0 def } if b 5 eq { /VA 0.0375 def } if
+	} if	
+	Font 12 eq { b 0 eq { /VA 0 def } if b 1 eq { /VA -0.7 def } if b 2 eq { /VA -0.6625 def } if b 3 eq { /VA -0.33125 def } if b 4 eq { /VA 0 def } if b 5 eq { /VA 0.0375 def } if
+	} if
+	Font 12 gt { b 0 eq { /VA 0 def } if b 1 eq { /VA -0.7 def } if b 2 eq { /VA -0.6625 def } if b 3 eq { /VA -0.33125 def } if b 4 eq { /VA 0 def } if b 5 eq { /VA 0.0375 def } if
+	} if
+} def
+/T
+{
+	ST
+	/text exch def
+	text stringwidth pop HA mul VA Height mul moveto
+	text show
+} def
+/TU
+{
+	ST
+	/text exch def
+	text stringwidth pop HA mul VA Height mul moveto
+	text show
+	n
+	text stringwidth pop HA mul VA Height mul moveto
+	text stringwidth rl
+	cp st
+} def
+/TB
+{
+	ST
+	/text exch def
+	text stringwidth
+	4 add /y1 exch def
+	4 add /x1 exch def
+	text stringwidth pop HA mul VA Height mul moveto
+	gs n x1 -2 add HA mul VA Height mul -2 add moveto x1 0 rlineto 0 12 Height add .7 mul rlineto x1 neg 0 rlineto cp 1 setgray fill gr
+	text show
+} def
+/ushow
+{
+	SAVEMT currentmatrix pop
+	/text exch def
+	text show
+	SAVEMT setmatrix
+} def
+%%EndProlog

@@ -1,0 +1,10 @@
+=====================================
+HOW TO COMPARE *ps, *ps or *png FILES
+=====================================
+
+1. Copy a set of files into "new++" subdirectory.
+2. Copy second set of files into "old++" subdirectory (NOTE: Files to compare should have same names).
+3. Run versioncmp.sh script:
+
+cd [...]/magics/tools/versioncmp/
+./versioncmp.sh old++ new++ ./compare_files_example/dorun.sh -output ./compare_output

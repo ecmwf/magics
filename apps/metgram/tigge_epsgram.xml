@@ -1,0 +1,163 @@
+<?xml version="1.0"?>
+<magics version="2.0">
+	<definition>
+		<epsgram id="station" 
+                station='reading' date='' time=''
+                latitude="50" longitude="-1" height='48'
+                eps_database='/scratch/graphics/cgs/tigge//ecmf/2007091200/epsdb'> 
+                <none/>
+        </epsgram>
+	
+        <text id="title" justification="left" 
+            font_size="0.4" colour='blue' font='helvetica'>	
+		</text>
+	
+
+		<horizontal_axis id="haxis" axis_line="false" line_thickness="4" colour='kelly_green'>
+			<nolabel/>
+			<date/>
+			<noline/>
+            <minortick colour='kelly_green'/>
+			<colour>kelly_green</colour>
+			<grid line_style="dot" colour='kelly_green'>				
+			</grid>
+            <tick colour='kelly_green'>               
+			</tick>
+		</horizontal_axis>
+
+		<vertical_axis id="vaxis" axis_line="false" line_thickness="4" colour='kelly_green'>
+			<noline/>
+            <label colour='kelly_green' quality='helvetica'>              
+			</label>
+			<grid line_style="dot" colour='kelly_green'>
+			</grid>
+            <tick colour='kelly_green'>
+			</tick>
+		</vertical_axis>        
+        <map id='box'  margin-bottom='7%' margin-top='15%' border-colour='Rgb(0.5, 0.5, 0.5)'/>
+
+	</definition>
+    
+    <drivers>
+       <ps/>
+    </drivers>
+ 
+    <page height="7.5%" border='off'>
+        <nopageid/>
+       
+    </page>
+	 
+       
+       <page height="20%" border='off'>
+        <nopageid/> 
+        <meta/>
+        
+        <map use_id='box'>
+       
+          <cartesian>
+			<x_date   automatic='on'/>
+            <y_regular y_min='0' y_max='100'/>
+           </cartesian>  
+           
+           
+           <text margin-bottom='78%' use_id='title'/>
+           <horizontal_axis use_id='haxis'/>    
+		   <vertical_axis  use_id='vaxis'/>                                       
+           <layer>
+                
+					<epsgram use_id="station" parameter="228164" parameter_title='cloud-cover' long_title='true'/>
+					<epsgraph deterministic='on' whisker='on'> <both/> </epsgraph>
+				
+			</layer>
+            
+          
+		  </map>
+          </page>
+          
+          <page height="20%" border='off'> 
+          <nopageid/> 
+          <map use_id='box'>
+       
+          <cartesian>
+			<x_date  automatic='on'/>
+            <y_regular y_min='0' y_max='15'/>
+           </cartesian>  
+           
+           <text margin-bottom='78%' use_id='title'/>
+           <horizontal_axis use_id='haxis'/>    
+		   <vertical_axis  use_id='vaxis'/>           
+          
+           <layer>
+                <epsgram use_id="station" parameter="228228" parameter_title='total precipitation'/>
+					<epsgraph max='15' deterministic='on' whisker='on'> <both/> </epsgraph>
+
+			</layer>
+            
+           
+		  </map>
+          </page>
+          <page height="20%" border='off'> 
+          <nopageid/>
+           <map  use_id='box'>
+       
+          <cartesian>
+			<x_date   automatic='on'/>
+            <y_regular automatic='on'/>
+           </cartesian>  
+           
+           <text margin-bottom='78%' use_id='title'/>
+           <horizontal_axis use_id='haxis'/>    
+		   <vertical_axis  use_id='vaxis'/>           
+          
+           <layer>
+                <epsgram use_id="station" parameter="165" parameter_title='10m wind'/>
+					<epsgraph deterministic='on' whisker='on'> <both/> </epsgraph>
+			</layer>
+            
+          
+		  </map>
+          </page>
+          <page height="30%" border='off'>
+        
+	   
+        <pageid line_system_plot='off' line_date_plot='off' line_errors_plot='off' 
+                font='helvetica' line_colour='Rgb(0.8, 0.8, 0.8)'/>
+        <map   margin-bottom='30%' margin-top='15%' border-colour='Rgb(0.5, 0.5, 0.5)' >
+          <cartesian>
+			<x_date    automatic='on'/>
+            <y_regular automatic='on'/>
+           </cartesian>  
+           
+           <text margin-bottom='80%' use_id='title'/>
+          
+		   <vertical_axis  use_id='vaxis'/>   
+           <horizontal_axis use_id="haxis">
+                   <date>
+                    <both colour='blue' height='0.25' />
+                     <month height='0.3' colour='blue'> <monthandyear /> </month>
+                     <noyear height='0.4'/>
+                    </date>
+                    <label quality='helvetica'/>
+			</horizontal_axis>     
+               
+           <layer>
+                <epsgram use_id="station" parameter="167" parameter_title='surface temperature' parameter_offset_factor='-273.5' />
+				<epsgraph > <both/> </epsgraph>
+			</layer> 
+            <legend bottom='0%' left='0%' width='30%' height='40%' 
+                   plot_direction='column' columns='3'
+                   text_colour='Rgb(0.5, 0.5, 0.5)' border='off' blanking='off'/>	
+            
+            
+            
+            
+
+		 
+		  </map>
+    
+</page>
+		
+
+		
+
+</magics>

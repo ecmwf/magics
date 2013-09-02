@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+"http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
+<!ENTITY __layout_mapping_coastlines__ee2wl5ad SYSTEM "../chapters/layout_mapping_coastlines.xml">
+]>
+<book>
+  <title>Layout, Mapping and Coastlines</title>
+<!--  &__layout_mapping_coastlines__ee2wl5ad; -->
+    <xi:include href="../chapters/layout_mapping_coastlines.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+</book>

@@ -1,0 +1,20 @@
+<magics>
+<class  inherits='NetcdfInterpretor' xmltag='geopoints' name='NetcdfVectorInterpretor' directory='decoders' prefix='netcdf' action='pnetcdf'>
+        	<parameter  member='x_component' to='string' default='' from='string' name='netcdf_x_component_variable'>
+              		<release >Magics++2.6		</release>
+              		<documentation >Variable name representing the x component of the vector		</documentation>
+        	</parameter> 
+         	<parameter  member='y_component' to='string' default='' from='string' name='netcdf_y_component_variable'>
+             		<release >Magics++2.6		</release>
+            		<documentation >Variable name representing the y component of the vector		</documentation>
+        	</parameter>
+        	<parameter  member='y' to='string' default='y' from='string' name='netcdf_y_position_variable'>
+              		<release >Magics++0.1		</release>
+              		<documentation >Variable name representing the x dimension		</documentation>
+        	</parameter> 
+         	<parameter  member='x' to='string' default='x' from='string' name='netcdf_x_position_variable'>
+            		<metview  default='' class=''>   		</metview>
+            
+            		<documentation >Variable name representing the y dimension		</documentation>
+        	</parameter>
+</class></magics>

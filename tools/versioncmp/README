@@ -1,0 +1,19 @@
+Example usage:
+
+./versioncmp.sh new++   old++  ./examples/fred/dorun.sh -output ./output_fred
+./versioncmp.sh 2.13.7  2.12.5  ./examples/cyclone/dorun.sh -output ./output_cyclone
+./versioncmp.sh new++   2.13.4 ./examples/shading/dorun.sh -output ./output_shading
+
+Additional options: -v       Verbose output while running
+                    -force   Force overwrite of existing output files
+                    -output  Sets the output folder (defaults to ./output)
+
+Once the script has run, use a web browser to open the file comp.html within the output folder.
+
+Constructing new examples:
+
+New examples should contain only the command that produces a plot. No instruction, hard-coded path or any other manner of forcing the use of a particular version of Magics should be used or false results will occur. The script that produces the comparison plot varies the paths according to user input.
+
+However, versions of other tools or libraries used in plot production MAY be hardcoded, for example the version of grib_api or a particular compiler etc.
+
+

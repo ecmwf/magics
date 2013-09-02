@@ -1,0 +1,9 @@
+#!/bin/ksh
+
+echo " Thank your for helping us improving Magics++ "
+echo " Your file $1 has been send to the Magics Team"
+
+mail magicsplus@ecmwf.int -s "[MagPlus BugReport] $1" -a $1 << "EOF"
+Magics Bug report for the training course
+EOF
+ 

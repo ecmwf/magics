@@ -1,0 +1,11 @@
+%include <head.h>
+datestr=`date +"%%Y%%m%%d"`
+output_folder=%OUTPUT_FOLDER%/output_$datestr
+mkdir -p $output_folder
+mkdir -p $output_folder/%VERSION1%
+mkdir -p $output_folder/%VERSION1%/%VERSION2%
+mkdir -p $output_folder/%VERSION1%/%VERSION2%/%TASKNAME%
+
+
+%TOOLS_HOME%/versioncmp.sh %VERSION1% %VERSION2% %INPUT_FOLDER%/%TASKNAME%/dorun.sh -force -output $output_folder/%VERSION1%/%VERSION2%/%TASKNAME% %VERBOSE_FLAG% -threshold-factor %DIFFERENCE_THRESHOLD_FACTOR%
+%include <tail.h>

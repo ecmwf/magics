@@ -1,0 +1,6 @@
+<magics>
+<class  action='pnew' directory='common' include='FrameBase.h' name='FrameBase'>
+   	<documentation >
+   Base Object for frame
+   	</documentation>
+</class></magics>

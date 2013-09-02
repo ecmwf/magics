@@ -1,0 +1,2 @@
+<magics>
+<class  action='pnew' directory='common' xmltag='x_regular' include='Coordinate.h' name='XCoordinate'></class></magics>

@@ -1,0 +1,56 @@
+
+<magics version='3.0'>
+  <!-- definition of the output-->
+  <drivers>
+  	<png output_name='msl_uv_australia'/>
+  </drivers>
+  <page>
+   <!-- the definition of the geographical area goes into the map tag-->
+  	<map 
+		-- Here goes the definiion of the area --
+		fitted_mode='crop'
+	    margin_top='0'
+	    margin_left='0'
+	    margin_bottom='0'
+	    margin_right='0'> 
+	<!-- define the background coastlines -->
+		<coastlines 
+			map_coastline_sea_shade = 'on'
+			map_coastline_sea_shade_colour = 'white'
+			map_label = 'off'
+			map_coastline_land_shade_colour = 'cream'
+			map_grid = 'off'
+			map_coastline_colour = 'tan'
+			map_coastline_land_shade = 'on' />
+
+	<!-- define the wind speed at 200hPa layer-->
+		<plot>
+			<grib  grib_input_file_name = '../speed200.grb' />
+			<contour 
+				contour_level_list = '30./40./50./60./70./80./90./100.'
+				-- Definition of the contour --
+ 			 />
+		</plot>
+	<!-- define the wind layer-->
+		<plot>
+			<grib grib_input_file_name = '../uv200.grb' />
+			<wind 
+				-- Definition of the wind --
+			 />
+		</plot>
+	<!-- define the msl layer-->
+		<plot>
+			<grib grib_input_file_name = '../msl.grb' />
+			<contour
+				-- Definition of the contour --
+			/>
+		</plot>
+
+	    
+	    <!--add the coastlines-->
+		<coastlines map_grid_colour = 'tan'
+				map_grid = 'on'
+				map_coastline_colour = 'tan'/>
+	</map>
+  </page>
+</magics>

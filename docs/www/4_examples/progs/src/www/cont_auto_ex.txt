@@ -1,0 +1,4 @@
+This example illustrates the new AUTOMATIC (default) contouring method in Magics++.
+An algorithm determines which contour method (chosen from LINEAR and AKIMA760) to
+use, and if AKIMA760, then which resolution to use. This algorithm is in
+development, but currently gives good results.

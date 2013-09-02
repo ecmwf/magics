@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+"http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
+<!ENTITY __data__edlfoyn4 SYSTEM "../chapters/data.xml">
+]>
+<book>
+  <title>Data Input</title>
+<!--  &__data__edlfoyn4; -->
+    <xi:include href="../chapters/data.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+</book>

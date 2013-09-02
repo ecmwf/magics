@@ -1,0 +1,34 @@
+<magics>
+<class  xmltag='coastlines' name='Coastlines' metview='MCOAST' directory='visualisers' prefix='map' action='pcoast'>
+		<documentation > 
+		The parameters relating to action routine PCOAST (C++ class Coastlines) enable
+        users to control the plotting of coastlines and grid lines. 
+		</documentation>
+        	<parameter  from='string' name='map_coastline' default='on' member='coastlines' to='NoCoastPlotting' include='CoastPlotting.h'> 
+            		<documentation > 
+             Plot coastlines on map (ON/OFF)
+           		</documentation>
+            		<option  xml='coast' fortran='on' include='CoastPlotting.h' name='CoastPlotting' description='CoastPlotting.xml'>		</option>
+            		<option  xml='nocoast' fortran='off' include='CoastPlotting.h' name='NoCoastPlotting' description='CoastPlotting.xml'>		</option>
+           		<release >Magics++0.1		</release>
+       	</parameter> 
+       	<parameter  from='string' name='map_grid' default='on' member='grid' to='NoGridPlotting' include='GridPlotting.h'> 
+            		<documentation >
+            Plot grid lines on map (On/OFF)
+           		</documentation>
+           		<option  xml='grid' fortran='on' include='GridPlotting.h' name='GridPlotting' description='GridPlotting.xml'>		</option>
+           		<option  xml='nogrid' fortran='off' include='GridPlotting.h' name='NoGridPlotting' description='GridPlotting.xml'>		</option>
+           		<release >Magics++0.1		</release>
+           		<set  name='map_grid_latitude_reference' value='on'>		</set>
+           		<set  name='map_grid_latitude_reference' value='off'>		</set>
+           '/>
+        	</parameter>
+        	<parameter  from='string' name='map_label' default='on' member='label' to='NoLabelPlotting' include='LabelPlotting.h'>
+            		<documentation >
+            Plot label  on map grid lines (On/OFF)
+           		</documentation>
+           		<option  xml='label' fortran='on' include='LabelPlotting.h' name='LabelPlotting' description='LabelPlotting.xml'>		</option>
+           		<option  xml='nolabel' fortran='off' include='LabelPlotting.h' name='NoLabelPlotting' description='LabelPlotting.xml'>		</option>
+           		<release >Magics++0.1		</release>
+        	</parameter>
+</class></magics>

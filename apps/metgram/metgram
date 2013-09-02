@@ -1,0 +1,389 @@
+#!/usr/bin/perl
+use strict;
+use Data::Dumper;
+use IO::Socket;
+use XML::Parser;
+use File::Basename;
+
+my $file = shift;
+my $info = {};
+my $element = {};
+my $cpfile;
+my $psfile = "";
+my $giffile = "";
+my $xmlfile = "";
+my $pngfile = "";
+my $jpgfile = "";
+my $pdffile = "";
+my @suffixlist = ( ".ps", ".gif", ".png", ".pdf", ".jpg", ".xml" );
+my @suffixlist2 = ( "ps", "gif", "png", "pdf", "jpg", "xml" );
+
+my $request = {
+    action    => "make_eps",
+    expver    => "0001"
+};
+
+my %templates = (
+    "15_days_epsgram.xml" => "15_days",
+    "15_days" => "15_days",
+    "15_days_with_clim" => "15_days_with_clim",
+    "15_days_epsgram_a3.xml" => "15_days",
+    "10_days_epsgram.xml" => "10_days",
+    "10_days" => "10_days",
+    "10_days_epsgram_a3.xml" => "10_days", 
+    "10_days_metgram_a3.xml" => "10_days_metgram", 
+    "10_days_metgram" => "10_days_metgram", 
+    "10_days_metgram.xml" => "10_days_metgram", 
+    "10_days_wave_epsgram.xml" => "10_days_wave", 
+    "10_days_wave" => "10_days_wave", 
+    "multi_metgrams_page1" => "multi_metgrams_page1", 
+    "multi_metgrams_page2" => "multi_metgrams_page2", 
+    "multi_metgrams_page3" => "multi_metgrams_page3", 
+    "multi_metgrams_page4" => "multi_metgrams_page4", 
+);
+
+my $localtemplates = {
+    a4 => {
+        '15_days_epsgram.xml' => '15_days_epsgram.xml',
+        '15_days' => "15_days_epsgram.xml",
+        '10_days_epsgram.xml' => "10_days_epsgram.xml",
+        '10_days' => "10_days_epsgram.xml",
+        '10_days_wave_epsgram.xml' => "10_days_wave_epsgram.xml",
+        '10_days_wave' => "10_days_wave_epsgram.xml",
+        '10_days_wave_epsgram' => "10_days_wave_epsgram.xml",
+        '10_days' => "10_days_epsgram.xml",
+        '10_days_metgram_a3.xml' => "10_days_metgram.xml", 
+        '10_days_metgram' => "10_days_metgram.xml", 
+        '10_days_metgram.xml' => "10_days_metgram.xml", 
+    },
+    a3 => {
+        '15_days_epsgram' => "15_days_epsgram_a3.xml",
+        '15_days_epsgram_a3.xml' => "15_days_epsgram_a3.xml",
+        '15_days' => "15_days_epsgram_a3.xml",
+        '10_days_epsgram.xml' => "10_days_epsgram_a3.xml",
+        '10_days_epsgram_a3' => "10_days_epsgram_a3.xml",
+        '10_days' => "10_days_epsgram_a3.xml",
+        '10_days_metgram_a3.xml' => "10_days_metgram.xml", 
+        '10_days_metgram' => "10_days_metgram.xml", 
+        '10_days_metgram.xml' => "10_days_metgram.xml", 
+        '10_days_wave_epsgram.xml' => "10_days_wave_epsgram.xml",
+        '10_days_wave' => "10_days_wave_epsgram.xml",
+        '10_days_wave_epsgram' => "10_days_wave_epsgram.xml",
+    },
+};
+
+my %actions = (
+    eps => \&eps,
+    epslocal => \&epslocal,
+    station => \&station,
+);
+
+
+my %savefile = (
+    ps => \&ps,
+    gif => \&gif,
+    png => \&png,
+    pdf => \&pdf,
+    jpeg => \&jpeg, 
+    jpg => \&jpeg,
+    xml => \&xml,
+);
+
+my $xml= new XML::Parser::Expat;
+
+$xml->setHandlers(Start=>\&tag);  
+$xml->parsefile($file);
+my $localeps;
+
+sub epslocal
+{
+    my %params = @_;
+    my $format = "a4";
+    $format = $params{format} unless $params{format} eq '';
+    print "$format\n";
+    print "$localtemplates->{$format}\n";
+    $localeps="<eps template='$localtemplates->{$format}->{$params{template}}' database='$params{database}'>\n";
+    $actions{station} = \&localstation;
+}
+
+sub eps
+{
+    my %params = @_;
+    
+    my $expver = "0001";
+    $expver = $params{expver} unless $params{expver} eq '';
+    
+    $request->{action} = 'make_eps';
+    $request->{expver} = $params{expver};
+    $request->{database} = $templates{$params{template}};
+    $request->{fullpath} = $params{database} unless  $params{database} eq '';
+    $request->{time} = $params{time};
+    if ( $params{date} eq 'latest' ) {
+       $request->{time} = "";
+        
+    }
+    $request->{date} = $params{date};
+    
+    $request->{format} = lc $params{format};
+    
+}
+sub localstation
+{
+    my %params = @_;
+    my $tmp = "metgram.$$.xml";
+    my $magplushome = $ENV{'MAGPLUS_HOME'};
+    my $magplusbin  = ($magplushome) ? $magplushome . "/bin/" : "";
+
+    open(OUT,">$tmp") or die "$tmp: $!";
+    print OUT $localeps;
+    
+    print OUT "<station name='$params{name}' latitude='$params{latitude}' longitude='$params{longitude}'";
+    print OUT " height='$params{height}' "    unless $params{height}   eq "";
+    print OUT " psfile='$params{psfile}' "    unless $params{psfile}   eq "";
+    print OUT " giffile='$params{giffile}' "  unless $params{giffile}  eq "";
+    print OUT " pdffile='$params{pdffile}' "  unless $params{pdffile}  eq "";
+    print OUT " jpgfile='$params{jpgfile}' "  unless $params{jpgfile}  eq "";
+    print OUT " jpgfile='$params{jpegfile}' " unless $params{jpegfile} eq "";
+    print OUT " pngfile='$params{pngfile}' "  unless $params{pngfile}  eq "";
+    print OUT "/>\n</eps>\n";
+
+    system ($magplusbin . 'metgramx', $tmp);
+    unlink $tmp;
+    
+}
+
+sub station
+{
+    my %params = @_;
+ 
+    $request->{title} = $params{name};
+    $request->{latitude} = $params{latitude};
+    $request->{longitude} = $params{longitude};
+    $request->{height} = $params{height};      
+    $psfile  = $params{psfile}; 
+    $giffile = $params{giffile};
+    $jpgfile = $params{jpgfile}; 
+    $pngfile = $params{pngfile}; 
+    $pdffile = $params{pdffile}; 
+
+    # find out if the user has supplied any output filenames
+    my $givenfile = "";
+    $givenfile = $params{psfile}  unless ($givenfile ne "" or $params{psfile}  eq "");
+    $givenfile = $params{giffile} unless ($givenfile ne "" or $params{giffile} eq "");
+    $givenfile = $params{jpgfile} unless ($givenfile ne "" or $params{jpgfile} eq "");
+    $givenfile = $params{pngfile} unless ($givenfile ne "" or $params{pngfile} eq "");
+    $givenfile = $params{pdffile} unless ($givenfile ne "" or $params{pdffile} eq "");
+
+    if ($givenfile eq "") {
+        die "No output filename supplied!";
+    }
+
+
+    # print ("Taking input name of $givenfile\n");
+    my ($path,$dir,$suffix) = fileparse($givenfile,@suffixlist);
+   
+    $request->{path}=$dir . $path;  
+
+
+    # add flags to say which formats are being requested
+
+    if ($params{psfile}  ne "") {$request->{ps}  = "1"};
+    if ($params{giffile} ne "") {$request->{gif} = "1"};
+    if ($params{jpgfile} ne "") {$request->{jpg} = "1"};
+    if ($params{pngfile} ne "") {$request->{png} = "1"};
+    if ($params{pdffile} ne "") {$request->{pdf} = "1"};
+
+
+    #print Dumper($request);
+    remote_call($request);
+    
+}
+sub ps 
+{
+    my ($from) = @_;
+
+    if ( $psfile eq '' ) {
+        unlink $from;
+    }
+    else {
+        rename($from, $psfile) || die "Can't rename $from to $psfile: $!";;
+        #print "metgram info: file $psfile created (from $from)\n";
+    }
+ 
+}
+
+sub gif 
+{
+    my ($from) = @_;
+    
+    if ( $giffile eq '') {
+        unlink $from 
+    }
+    else {
+        rename($from, $giffile); 
+        print "metgram info: file $giffile created\n";
+    
+    }
+}    
+
+sub png 
+{
+    my ($from) = @_;
+    
+    if ( $pngfile eq '') {
+        unlink $from 
+    }
+    else {
+        rename($from, $pngfile); 
+        print "metgram info: file $pngfile created\n";
+    
+    }
+} 
+   
+sub jpeg 
+{
+    my ($from) = @_;
+    
+    if ( $jpgfile eq '') {
+        unlink $from 
+    }
+    else {
+        rename($from, $jpgfile); 
+        print "metgram info: file $jpgfile created\n";
+    
+    }
+}    
+
+sub pdf 
+{
+    my ($from) = @_;
+    
+    if ( $pdffile eq '') {
+        unlink $from 
+    }
+    else {
+        rename($from, $pdffile); 
+        print "metgram info: file $pdffile created\n";
+    
+    }
+}   
+ 
+sub xml 
+{
+     my ($from) = @_;
+    
+    if ( $xmlfile eq '') {
+        unlink $from;
+    }
+    else {
+        rename($from, $xmlfile); 
+        print "metgram info: file $xmlfile created\n";
+    }
+} 
+
+sub tag
+{
+
+    my ($parser, $tag, %attr) = @_; 
+    
+   
+    if ( defined $actions{$tag} ) {
+        &{$actions{$tag}}(%attr);
+    }
+   
+   
+   
+}   
+
+
+
+sub remote_call {
+	my ($args) = @_;
+
+	local $SIG{ALRM} = sub { die "timeout waiting for meteogram server"; };
+
+	alarm(60);
+	alarm(400);
+	alarm(0);
+
+	my $soc = IO::Socket::INET->new(
+			PeerAddr => "epsgrams:9898",
+			Proto    => "tcp",
+			Type     => SOCK_STREAM,
+			);
+
+	print $soc Dumper($args);
+	shutdown($soc,1);
+
+	my $VAR1;
+	local $/;
+	$/ = "\n";
+
+	my $line;
+	while($line = get_line($soc))
+	{
+         
+		if($line eq "FILE")
+		{
+			my $size = get_line($soc);
+			my $path = get_line($soc); 
+            my ($name,$dir,$suffix) = fileparse($path,@suffixlist2);
+			my $buf;
+			my $buflen = 64*1024;
+			my $read;
+			my $total = 0;
+
+            #print ("saving to $path.tmp\n");
+			open(OUT,">$path.tmp") or die "$path.tmp: $!";
+			while($size>0)
+			{
+				$buflen = $size if($size < $buflen);
+				$read = sysread($soc,$buf,$buflen);
+				last if($read <= 0);
+				syswrite(OUT,$buf,$read);
+				$size -= $read;
+				$total += $read;
+			}
+			close(OUT) or die "$path.tmp: $!";
+            
+          
+           
+			&{$savefile{$suffix}}("$path.tmp") unless($size);
+			next;
+		}
+
+		if($line eq "REPLY")
+		{
+			local $/;
+			$VAR1 = <$soc>;
+			eval $VAR1;
+			last;
+		}
+
+		die "[$line]";
+	}
+
+	close($soc);
+
+	alarm(0);
+
+	return $VAR1;
+
+}
+sub get_line {
+	my ($soc) = @_;
+	my $buf;
+	my $text;
+
+	while(sysread($soc,$buf,1) == 1)
+	{
+		last if($buf eq "\n");
+		$text .= $buf;
+	}
+
+	return $text;
+
+
+}
+
+

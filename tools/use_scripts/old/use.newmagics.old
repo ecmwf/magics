@@ -1,0 +1,60 @@
+#!/bin/csh
+#
+# File: $ECMWFHOME/use/use.newmagics
+#
+# Purpose: Set the environment for the test version of MAGICS
+#
+# Authors: Ditlef Martens
+#          Jean-Philippe Martin-Flatin
+#          Petra Kogel
+#          Stephan Siemen	
+#
+# $Revision: 1.31 $    $Date: 2004/07/13 11:03:55 $
+#
+################################################################################
+
+set version=new
+
+setenv MAG_HOME /usr/local/apps/Magics/${version}
+setenv MAG_LOGGING on
+  
+set maglib = $MAG_HOME/lib
+set gnulib = /usr/local/apps/newgnu
+set emosname = emos.new.R32.D64.I32
+   
+switch ($ARCH)
+   	case hppa: 
+   		setenv MAGLIB "-L/usr/local/lib,-lmag.new,-lfgks,-ldgks,-lcgks" 
+		echo \$MAGLIB changed to $MAGLIB
+   		breaksw
+   
+   	case linux:
+   		setenv MAGLIB "-L${maglib} -lmagics -lMvDevices -lmagics -lgd -lpng -ljpeg -lz -lfreetype -L${gnulib}/lib -lstdc++ -lm"
+		echo \$MAGLIB changed to $MAGLIB
+		setenv LD_LIBRARY_PATH ${gnulib}/lib 
+		echo \$LD_LIBRARY_PATH changed to $LD_LIBRARY_PATH
+   		setenv EMOSLIB "-L/usr/local/lib -l${emosname}"
+		echo \$EMOSLIB changed to $EMOSLIB
+		setenv LM_LICENSE_FILE /usr/local/apps/pgi/license.dat:${LM_LICENSE_FILE}
+		echo \$LM_LICENSE_FILE changed to $LM_LICENSE_FILE
+		setenv PATH ${gnulib}/bin:$PGI/linux86/bin:$PATH 
+		echo \$PATH changed to $PATH
+		echo " "
+		echo Compile with: pgf90 \<name\>.f \$MAGLIB \$EMOSLIB
+   		breaksw
+   
+   	case sgimips:
+   		setenv MAGLIB "-L/usr/local/apps/Magics/${version}/lib -lmagGL  -lMvDevices -lftn -lfortran -lm"
+		echo \$MAGLIB changed to $MAGLIB
+   		setenv LD_LIBRARYN32_PATH /usr/local/apps/Magics/${version}/lib:$LD_LIBRARYN32_PATH
+		echo \$LD_LIBRARYN32_PATH changed to $LD_LIBRARYN32_PATH
+   		breaksw
+   
+   	case rs6000:
+   		setenv MAGLIB "-L${maglib} -lmagics -lMvDevices -lgd -lpng -ljpeg -lz -lfreetype -lxlf90"
+		echo \$MAGLIB changed to $MAGLIB
+		setenv EMOSLIB "-L/usr/local/lib -l${emosname}"
+		echo \$EMOSLIB changed to $EMOSLIB   
+   endsw
+
+unset is_set

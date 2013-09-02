@@ -1,0 +1,143 @@
+<?xml version="1.0"?>
+<magics>
+	<definition>
+		<epsgram id="station" 
+                station='$station' 
+                latitude="$latitude" longitude="$longitude" 
+                date="$date" time="$time" height="$height" 
+                eps_temperature_correction='yes'/>
+	
+        <title id="title" justification="left" character_height="0.4">
+			<colour>blue</colour>
+		</title>
+		<axisview id="box" height="75%" bottom="15%" width="85%" left='10%'>
+			<frame thickness="3">
+				<colour>kelly_green</colour>
+			</frame>
+		</axisview>
+
+		<horizontal_axis id="haxis" axis_line="false" line_thickness="4">
+			<automatic/>
+			<nolabel/>
+			<date/>
+			<noline/>
+            <minortick/>
+			<colour>kelly_green</colour>
+			<grid line_style="dot">
+				<colour>kelly_green</colour>
+			</grid>
+            <tick>
+                <colour>kelly_green</colour>
+			</tick>
+		</horizontal_axis>
+
+		<vertical_axis id="vaxis" axis_line="false" line_thickness="4">
+			<colour>kelly_green</colour>
+			<automatic/>
+			<noline/>
+            <label>
+                <colour>kelly_green</colour>
+			</label>
+			<grid line_style="dot">
+				<colour>kelly_green</colour>
+			</grid>
+            <tick>
+                <colour>kelly_green</colour>
+			</tick>
+		</vertical_axis>
+	</definition>
+
+    <page orientation="portrait" format="a4">
+		<pageid/>
+		<subpage height="30.0%" bottom='5%'>
+			<pageid line_system_plot='off' line_date_plot='off' line_errors_plot='off' />
+			<noframe/>
+
+			<axisview height="50%" bottom="25.0%" width="85%" left='10%' >
+                 <frame thickness="3">
+				    <colour>kelly_green</colour>
+			    </frame>
+				<area x_min="0" x_max="240" y_min="-50" y_max="50"/>
+				<horizontal_axis use_id="haxis">
+					<label/>
+                    
+				</horizontal_axis>
+				<vertical_axis use_id="vaxis"/>
+				<xylayer>
+					<epsgram use_id="station" parameter="2mt"/>
+					<epsgraph> <both/> </epsgraph>
+				</xylayer>
+			</axisview>
+            <legend>  
+                  <positional x='0.2' y='0.3' width='8' height='2'/>             
+            </legend>
+			<title use_id="title"/>
+		</subpage>
+
+		<subpage bottom="30%" height="20%">
+			<nopageid/>
+			<noframe/>
+
+			<axisview use_id="box">
+				<area x_min="0" x_max="240" y_min="0" y_max="50"/>
+				<horizontal_axis use_id="haxis"/>
+				<vertical_axis use_id="vaxis"/>
+				<xylayer>
+					<epsgram use_id="station" parameter="10m-wind"/>
+					<epsgraph> <both/> </epsgraph>
+				</xylayer>
+			</axisview>
+        
+			<title use_id='title'/>
+		</subpage>
+
+		<subpage bottom="49%" height="20%">
+			<noframe/>
+
+			<!--
+				Here we load and plot the actual data. Within the 'layer' tag
+				we also include the visual definitions that will be used
+				to plot the data
+			-->
+			<axisview use_id="box">
+				<area x_min="0" x_max="240" y_min="0" y_max="1000"/>
+				<horizontal_axis use_id="haxis"/>
+				<vertical_axis use_id="vaxis"/>
+				<legend/>
+				<xylayer>
+					<epsgram use_id="station" parameter="precip"/>
+					<!-- Define the contour attributes and plot the contours -->
+					<epsgraph> <both/> </epsgraph>
+				</xylayer>
+			</axisview>
+            <title use_id='title'/>
+			
+			<nopageid/>
+		</subpage>
+
+		<subpage bottom="67.5%" height="40%">
+			<axisview height="40%"  width="85%" left='10%' >
+            <frame thickness="3">
+				    <colour>kelly_green</colour>
+			    </frame>
+				<area x_min="0" x_max="240" y_min="0" y_max="8"/>
+				<horizontal_axis use_id="haxis"/>				
+		        <vertical_axis  use_id="vaxis">
+			        <regular/>			
+		        </vertical_axis>
+				<legend/>
+				<xylayer>
+					<epsgram use_id="station" parameter="cloud-cover" long_title='true'/>
+					<!-- Define the contour attributes and plot the contours -->
+					<epsgraph> <both/> </epsgraph>
+				</xylayer>
+			</axisview>
+			<!-- Set up the title text -->
+			
+            <title use_id='title'/>
+			<nopageid/>
+		</subpage>
+
+		
+	</page>
+</magics>

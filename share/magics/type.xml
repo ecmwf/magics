@@ -1,0 +1,16 @@
+<types>
+    <type code='2'
+        short_title='AN'
+        long_title='Analysis'/>
+     <type code='9'
+        short_title='FC'
+        long_title='Forecast'/>
+     <type code='10'
+        short_title='Eps Cont FC'
+        long_title='EPS Control Forecast'/>
+      <type code='17'
+        short_title='EPS Mean'
+        long_title='EPS Ensemble Mean Forecast'/>
+</types>   
+   
+   

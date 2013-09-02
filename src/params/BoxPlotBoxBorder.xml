@@ -1,0 +1,15 @@
+<magics>
+<class  directory='visualisers' prefix='boxplot/boxplot_box_border' xmltag='box_border' name='BoxPlotBoxBorder'>
+	  	<parameter  member='colour' to='Colour' default='navy' from='string' name='boxplot_box_border_colour'>
+	         		<documentation >Colour of the box border		</documentation>
+	  	</parameter>
+	  
+	   	<parameter  member='thickness' to='int' default='1' from='int' name='boxplot_box_border_thickness'>
+	         		<documentation >Thickness of the box border		</documentation>
+	  	</parameter>
+	  
+	   	<parameter  member='style' to='LineStyle' default='solid' from='string' name='boxplot_box_border_line_style'>
+	         		<documentation >Line style of the box border		</documentation>
+	  	</parameter>
+  
+  </class></magics>

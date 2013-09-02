@@ -1,0 +1,128 @@
+<magics>
+<class  action='pwind' directory='visualisers' prefix='wind/wind_flag' xmltag='flags' name='WindPlotting'>
+		<documentation >Parameters common to the falgs and arrows.	</documentation>
+
+	<parameter  member='legend' to='bool' default='off' from='string' name='legend'>
+			<release >2.1		</release>
+			<set  name='wind_legend_text' value='on'>		</set>
+			<set  name='wind_arrow_legend_text' value='on'>		</set>
+			<documentation > Add  a wind legend information in the legend 		</documentation>
+	</parameter>
+
+	<parameter  from='string' name='wind_legend_only' visible='off' default='off' member='legend_only' to='bool'>
+			<release >2.1		</release>
+			<documentation  for_docs='no'> Wrep only : to build only the legned... 		</documentation>
+	</parameter>
+
+	<parameter  member='legend_text' to='string' default='vector' from='string' name='wind_legend_text'>
+			<release >2.1		</release>
+			<documentation > Use your own text in the legend		</documentation>
+	</parameter>
+
+	<parameter  from='string' name='wind_advanced_method' default='off' member='advanced_method' to='string' values='on/off'> 
+         		<documentation >Enable advanced plotting of wind (default is off for backward compatibility). 
+         The coour is selected according to the intensity of the wind (vector) 		</documentation>
+          		<set  name='wind_advanced_colour_selection_type' value='on'>		</set> 		 
+		  		<set  name='wind_advanced_colour_max_value' value='on'>		</set> 
+		  		<set  name='wind_advanced_colour_min_value' value='on'>		</set>          
+          		<set  name='wind_advanced_colour_table_colour_method' value='on'>		</set>
+         
+          
+  		<release >2.9		</release>
+	</parameter>
+
+	<parameter  from='string' name='wind_advanced_colour_parameter' default='speed' member='colour_method' to='string' values='speed/parameter'>
+         		<documentation >if speed, the wind is coloured using the norm of the vector, If parameter, a third parameter is used. 		</documentation>
+         		<release >2.9		</release>
+	</parameter>
+
+	<parameter  member='levels' to='LevelSelection' default='count' from='string' name='wind_advanced_colour_selection_type'>
+         		<documentation >Set selection method 		</documentation>
+         		<release >2.6		</release>
+         		<option  xml='count' fortran='count' docdive='no' include='CountSelectionType.h' name='CountSelectionType'>		</option>
+         		<option  xml='interval' fortran='interval' docdive='no' include='IntervalSelectionType.h' name='IntervalSelectionType'>		</option>
+         		<option  xml='list' fortran='list' docdive='no' include='LevelListSelectionType.h' name='LevelListSelectionType'>		</option>
+         		<set  name='wind_advanced_colour_level_list' value='list'>		</set>
+         		<set  name='wind_advanced_colour_level_interval' value='interval'>		</set>	
+         		<set  name='wind_advanced_colour_reference_level' value='interval'>		</set>
+         		<set  name='wind_advanced_colour_reference_level' value='count'>		</set>
+         		<set  name='wind_advanced_colour_level_count' value='count'>		</set>
+         		<set  name='wind_advanced_colour_level_tolerance' value='count'>		</set>
+	</parameter>
+
+	<parameter  member='max' to='float' default='1.e21' from='float' name='wind_advanced_colour_max_value'>
+         		<documentation >Max value to plot 		</documentation>
+         		<release >2.6		</release>
+	</parameter>
+
+	<parameter  member='min' to='float' default='-1.e21' from='float' name='wind_advanced_colour_min_value'>
+         		<documentation >Min value to plot 		</documentation>
+         		<release >2.6		</release>
+	</parameter>
+
+	<parameter  member='count' to='int' default='10' from='int' name='wind_advanced_colour_level_count'>
+         		<documentation >Number of levels to be plotted. Magics will try to find "nice levels", 
+         this means that the number of levels could be slightly different		</documentation>
+         		<release >2.6		</release>
+	</parameter>
+
+	<parameter  member='tolerance' to='int' default='2' from='int' name='wind_advanced_colour_level_tolerance'>
+         		<documentation > Tolerance: Do not use "nice levels" if the number of levels is really to different [count +/- tolerance] 		</documentation>
+         		<release >2.6		</release>
+	</parameter>
+ 
+	<parameter  member='reference' to='float' default='0.0' from='float' name='wind_advanced_colour_reference_level'>
+         		<documentation > Level from which the level interval is calculated 		</documentation>
+         		<release >2.6		</release>
+  	</parameter>
+
+
+  	<parameter  member='interval' to='float' default='8.0' from='float' name='wind_advanced_colour_level_interval'>
+         		<documentation > Interval in data units between different bands of colours 		</documentation>
+         		<release >2.6		</release>
+  	</parameter>
+ 
+		<parameter  member='list' to='floatarray' default='floatarray()' from='floatarray' name='wind_advanced_colour_level_list'>
+         		<documentation > List of levels  to be used 		</documentation>
+         		<release >2.6		</release>
+  	</parameter>
+  
+  	<parameter  member='colourMethod' to='ColourTechnique' default='calculate' from='string' name='wind_advanced_colour_table_colour_method'>
+         		<documentation > Method of generating the colours 		</documentation>
+  				<set  name='wind_advanced_colour_max_level_colour' value='calculate'>		</set>
+  				<set  name='wind_advanced_colour_min_level_colour' value='calculate'>		</set>
+  				<set  name='wind_advanced_colour_direction' value='calculate'>		</set>
+  				<set  name='wind_advanced_colour_list' value='list'>		</set>
+  				<set  name='wind_advanced_colour_list_policy' value='list'>		</set>
+         		<option  xml='calculate' fortran='calculate' docdive='no' include='CalculateColourTechnique.h' name='CalculateColourTechnique'>		</option>
+         		<option  xml='list' fortran='list' docdive='no' include='ListColourTechnique.h' name='ListColourTechnique'>		</option>
+         		<release >2.6		</release>
+  	</parameter>
+
+  	<parameter  member='maxColour' to='Colour' default='blue' from='string' name='wind_advanced_colour_max_level_colour'>
+         		<documentation > Highest shading band colour 		</documentation>
+         		<release >2.6		</release>
+  	</parameter>
+
+  	<parameter  member='minColour' to='Colour' default='red' from='string' name='wind_advanced_colour_min_level_colour'>
+         		<documentation > Lowest shading band colour 		</documentation>
+         		<release >2.6		</release>
+  	</parameter>
+
+  	<parameter  from='string' name='wind_advanced_colour_direction' default='anti_clockwise' member='direction' to='string' values='clockwise/anti_clockwise'>
+         		<documentation > Direction of colour sequencing for plotting  		</documentation>
+         		<release >2.6		</release>
+  	</parameter>
+
+  	<parameter  from='stringarray' name='wind_advanced_colour_list' default='stringarray()' member='colours' to='stringarray' colourlist='on'>
+         		<documentation > List of colours to be used in wind plotting 		</documentation>
+         		<release >2.6		</release>
+  	</parameter>
+  	<parameter  member='colour_policy' to='ListPolicy' default='lastone' from='string' name='wind_advanced_colour_list_policy'>
+         		<documentation > What to do if, the list of colours is smaller that the list of intervals: lastone/cycle 		</documentation>     
+         		<release >2.6		</release>
+  	</parameter>
+  
+  
+      
+</class></magics>

@@ -1,0 +1,23 @@
+<magics>
+<class  directory='decoders' action_routine='pobs' prefix='obs' xmltag='bufr' name='ObsDecoder'>
+
+  	<parameter  member='file_name' to='string' default='' from='string' name='obs_input_file_name'>
+         		<documentation > The name of the input file containing the BUFR code field(s) 		</documentation>
+  	</parameter>
+  
+  	<parameter  member='level' to='int' default='500' from='int' name='obs_level'>
+			<documentation > Pressure level to be plotted (upper air only) 		</documentation>
+  	</parameter>
+  
+  	<parameter  member='level2' to='int' default='1000' from='int' name='obs_level_2'>
+			<documentation > 2nd pressure level (for thickness plots only) 		</documentation>
+  	</parameter>
+  
+  	<parameter  member='tolerance' to='int' default='0' from='int' name='obs_level_tolerance'>
+			<documentation > Tolerance (hPa) above and below the requested level for which observations may be plotted (applies to OBS_LEVEL only) 		</documentation>
+  	</parameter>
+
+  	<parameter  member='types' to='stringarray' default='stringarray()' from='stringarray' name='obs_type_list'>
+			<documentation > A list of observation types (SATEM, TEMP, etc) for which observations are to be plotted 		</documentation>
+  	</parameter>
+</class></magics>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+                 "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd">
+<chapter id="MAGICS_ParamsFortran" label="15">
+  <title>Fortran Parameter Reference</title>
+
+  <xi:include href="../phrases/chapterinfo_mod.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+
+<section id="Params_Fortran_Output_Drivers_Intro">
+<title>Introduction</title>
+<para>This booklet contains all the Fortran parameter tables which are included within the
+various chapters of the <productname>Magics</productname> manual. These tables are generated
+automatically from the source code.</para>
+</section>
+
+
+<!-- drivers -->
+<section id="Params_Fortran_Output_Drivers">
+<title>Output Driver Parameters</title>
+<xi:include href="../paramtables/BaseDriver_tables.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <xi:include href="../paramtables/PostScript_tables.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <xi:include href="../paramtables/SVG_tables.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <xi:include href="../paramtables/Cairo_tables.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <xi:include href="../paramtables/KML_tables.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <xi:include href="../paramtables/GD_tables.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+</section>
+
+<!-- layout, etc -->
+  <xi:include href="../paramtables/pnew(SUPER_PAGE)_tables.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+   <xi:include href="../paramtables/pnew(PAGE)_tables.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <xi:include href="../paramtables/pnew(SUBPAGE)_tables.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <xi:include href="../paramtables/pcoast_tables.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+<!-- data -->
+  <xi:include href="../paramtables/pgrib_tables.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <xi:include href="../paramtables/pnetcdf_tables.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+ <xi:include href="../paramtables/input_matrix_tables.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+
+<!-- contouring -->
+  <xi:include href="../paramtables/pcont_tables.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+
+<!-- wind -->
+  <xi:include href="../paramtables/pwind_tables.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+<!-- graph -->
+  <xi:include href="../paramtables/pgraph_tables.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+<!-- axis -->
+  <xi:include href="../paramtables/paxis_tables.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+
+
+<!-- symbol -->
+  <xi:include href="../paramtables/psymb_tables.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+
+<!-- boxplot -->
+  <xi:include href="../paramtables/pboxplot_tables.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+<!-- polyline -->
+ <xi:include href="../paramtables/pline_tables.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+<!-- text -->
+  <xi:include href="../paramtables/ptext_tables.xml"
+               xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+<!-- legend -->
+  <xi:include href="../paramtables/legend_tables.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+
+</chapter>

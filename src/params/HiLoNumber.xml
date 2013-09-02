@@ -1,0 +1,12 @@
+<magics>
+<class  inherits='HiLoTechnique' xmltag='number' name='HiLoNumber' directory='visualisers' prefix='contour/contour_hilo' action='pcont'>
+  	<documentation >This object is reponsible for plotting the HI/Lo as text.	</documentation>
+
+	<parameter  xml='format' from='string' name='contour_hilo_format' default='(automatic)' member='format' to='string'>
+         		<documentation > Format of HiLo numbers (MAGICS Format/(AUTOMATIC)) 		</documentation>
+	</parameter>
+
+	<parameter  member='blanking' to='bool' default='off' from='string' name='contour_hilo_blanking'>
+         		<documentation >Blank around highs and lows (ON/OFF)		</documentation>
+	</parameter> 
+</class></magics>

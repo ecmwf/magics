@@ -1,0 +1,19 @@
+<magics>
+<class  action='pmetgram' directory='visualisers' prefix='eps/eps_direction' xmltag='epsdirection' name='EpsDirection'>
+		<documentation >
+		The EpsPlumeis responsible for plotting epsplume graph
+		</documentation>
+    	<parameter  member='keyword' to='string' default='forecast' from='string' name='eps_direction_keyword'>           
+            		<documentation > keyword to plot : forecast/control! 		</documentation>
+        	</parameter>
+        	<parameter  member='line_colour' to='Colour' default='red' from='string' name='eps_direction_line_colour'>           
+            		<documentation > Colour of lines ...  		</documentation>
+        	</parameter>
+        
+         	<parameter  member='line_style' to='LineStyle' default='solid' from='string' name='eps_direction_line_style'>           
+            		<documentation > Line Style 		</documentation>
+        	</parameter>
+           	<parameter  member='line_thickness' to='int' default='1' from='int' name='eps_direction_line_thickness'>           
+            		<documentation > Thickness of the line ...  		</documentation>
+        	</parameter>
+</class></magics>

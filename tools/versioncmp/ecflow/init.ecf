@@ -1,0 +1,18 @@
+%include <head.h>
+
+#begin of modification CGJD 2012.09.20
+#new - synchronize example folders before running the tests
+#curdir=`pwd`
+#cd /var/tmp/cgjd/perforce/magics/tools/versioncmp/examples
+#p4login
+#p4 sync ... > p4_sync.out
+#cd $curdir
+#end of modification CGJD 2012.09.20
+
+# clear out the output folder
+mkdir -p %OUTPUT_FOLDER%
+datestr=`date +"%%Y%%m%%d"`
+rm -rf %OUTPUT_FOLDER%/output_$datestr
+mkdir %OUTPUT_FOLDER%/output_$datestr
+
+%include <tail.h>

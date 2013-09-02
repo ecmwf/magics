@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+                 "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd"> 
+
+<chapter id="MAGICS_Install" label="0">
+<title>Installing Magics</title>
+
+<xi:include href="../phrases/chapterinfo_mod.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+ 
+<section id="Install_Overview">
+  <title>Overview</title>
+     <para>For <productname>Magics</productname> the GNU autotools were chosen for the installation routine. These are the standard installation tools for most free and commercial software packages to date on Unix.</para>
+     <para/>
+     <para>Autotools’ main task is to generate Makefiles for the desired platform on which Magics will be used. This is necessary, 
+     because the various platforms differ from each other in 
+     various ways, such as compiler options and library/include paths.</para>
+     <para/>
+     <para>Autotools themselves do not need to be installed on the system of the customer. A Unix shell script called <application>configure</application> is supplied 
+     with Magics which is executed by the person installing Magics. The script will then run some tests on the customer's system to find out 
+     if required third-party software libraries are available and notes their locations (paths). Based on this information the script produces 
+     the Makefiles needed to compile and install Magics.</para>
+
+    <section id="Install_Binary_Versions">
+        <title>Binary versions</title>
+        <para>Magics and third-party dependent software packages might also be available as binary packages for you platform in form 
+       of RPMs. You might find them by going to the software search services, such as for OpenSuSE 
+       and SLES at http://software.opensuse.org/search (select "Search options" - "Include users' home projects").</para>
+    </section>
+    <section id="Install_Static_Shared">
+       <title>Static versus shared library</title>
+       <para>Magics can be built as a static library and as a shared library. Using Magics as a shared library has an impact on how it is used. With a shared library it is not only necessary that the library is accessible at the time of compilation but also at run-time. Changes to the system, such as the removal of an old shared library might cause programs linked with this library to fail. For more information about the use of the shared library please read section “User setup” in chapter 2.</para>
+       <para/>
+       <para>The advantages of using shared libraries are that the size of executables will be smaller and that a different version of Magics can be used without recompiling the executable (if the libraries are binary compatible).</para>
+    </section>
+</section>
+
+<section id="Install_Requirements">
+   <title>Requirements</title>
+   <section id="Install_Requirements_third_party">
+     <title>Third-party software </title>
+     <para>The following list of software should be installed on your system before you try to install Magics. If you use a package manager, 
+     such as RPM, to install software make sure to include the corresponding development packages with the header files. The <application>configure</application>
+     script will test for these libraries and give error messages if one of them is missing.</para>
+     <orderedlist>
+        <listitem>
+           <para>NetCDF library with C++ interface (http://www.unidata.ucar.edu/software/netcdf/)</para>
+        </listitem>
+        <listitem>
+           <para>Expat XML parser</para>
+        </listitem>
+        <listitem>
+           <para>GhostScript (especially the fonts!) </para>
+        </listitem>
+     </orderedlist>
+     <para/>
+     <para>Optional for raster output (PNG) you should also install:</para>
+     <orderedlist>
+        <listitem>
+           <para>Cairo graphics library (1.4.10 or later - www.cairographics.org)</para>
+        </listitem>
+        <listitem>
+           <para>gd library (2.0.32 or later - www.libgd.org )</para>
+        </listitem>
+     </orderedlist>
+   </section>
+   
+   <section id="Install_Requirements_ecmwf">
+     <title>ECMWF support libraries</title>
+     <para>To read GRIB and BUFR data formats these two libraries, provided by ECMWF without charge, need to be installed on your system before Magics is installed:</para>
+     <orderedlist>
+        <listitem>
+           <para>GribAPI ( 1.9.8 or higher ) - www.ecmwf.int/products/data/software/grib_api.html</para>
+        </listitem>
+        <listitem>
+           <para>EmosLib ( 376 or higher) - www.ecmwf.int/products/data/software/download/interpolation.html</para>
+        </listitem>
+     </orderedlist>
+     
+     <para>When installing these two packages please be aware of the following:</para>
+     <itemizedlist>
+        <listitem><para>GribAPI should be installed first</para></listitem>
+        <listitem><para>Magics internally works only in double floating point precision and therefore requires the double precision version of EmosLib.</para></listitem>
+        <listitem><para>EmosLib requires a Fortran 90 compiler with Cray pointer support (Portland Pgf90 7.2 and GFortran 4.2 and newer).</para></listitem>
+        <listitem><para>We strongly recommend to use the <function>-fPIC</function> compiler options to compile 64 bit version of GribAPI and Emoslib.</para></listitem>
+     </itemizedlist>
+     </section>
+
+     <section id="Install_compilation">
+     <title>Compilation environment</title>
+     <para>At ECMWF, Opensuse 10.3/11.3 Linux systems (32 and 64bit) were used for testing. Any C++ Compiler which supports features required for the ANSI C++ standard 
+     from 1998 (STL, namespaces, templates) should work. At ECMWF we tested GCC’s g++ 4.x successfully. A Fortran compiler is not 
+     required for the compilation of Magics, but is needed if you want to use the Fortran interface or compile a dependent Fortran library (Emoslib).</para>
+   </section>
+ </section>  <!-- Install_Requirements -->
+ 
+
+<section id="Install_compile">
+   <title>Compilation and installation</title>
+   <para>To compile and install the Magics graphics library, the installer must first unpack the *.tar.gz file, provided by ECMWF, to a temporary location.</para>
+   <para><command>tar -xzvf Magics++-2.14.0.tar.gz</command></para>
+   
+   <section id="Install_configure">
+     <title>Generating the Makefiles with configure</title>
+
+     <para>After changing into the unpacked Magics directory, the user then has to run the configure script. The script gives the user feedback on what requirements are 
+	     fulfilled and what software is still required. Table 1 gives an overview of the different options of configure. More options of the script are available and can be listed 
+	     by typing <command>./configure --help</command> in the console. The default (without any options) will compile a shared library only and install it in /usr/local/.</para>
+
+     <informaltable frame="all">
+	     <!--<title>Options of the configure scripts</title>-->
+
+	     <tgroup cols="3">
+<thead>
+	  <row>
+              <entry>
+                 <para>Option</para>
+              </entry>
+              <entry>
+                 <para>Explanation</para>
+              </entry>
+              <entry>
+                 <para>Default</para>
+              </entry>
+           </row>
+</thead>
+	<tbody>
+           <row>
+              <entry>
+                 <para>--help</para>
+              </entry>
+              <entry>
+                 <para>Outputs all options of configure.</para>
+              </entry>
+              <entry>
+                 <para/>
+              </entry>
+           </row>
+           <row>
+              <entry>
+                 <para>--prefix=/your/path/</para>
+              </entry>
+              <entry>
+                 <para>Directory in which Magics will be installed.</para>
+              </entry>
+              <entry>
+                 <para>/usr/local</para>
+              </entry>
+           </row>
+           <row>
+              <entry>
+                 <para>--enable-metview</para>
+              </entry>
+              <entry>
+                 <para>Required if Magics is build to be used for Metview 4.</para>
+              </entry>
+              <entry>
+                 <para>no</para>
+              </entry>
+           </row>
+           <row>
+              <entry>
+                 <para>--enable-raster</para>
+              </entry>
+              <entry>
+                 <para>Enables raster image output (GIF, GD_PNG, JPEG).</para>
+              </entry>
+              <entry>
+                 <para>yes</para>
+              </entry>
+           </row>
+           <row>
+              <entry>
+                 <para>--enable-cairo</para>
+              </entry>
+              <entry>
+                 <para>Enables the Cairo output driver (PNG, EPS, PDF)</para>
+              </entry>
+              <entry>
+                 <para>yes</para>
+              </entry>
+           </row>
+           <row>
+              <entry>
+                 <para>--enable-bufr</para>
+              </entry>
+              <entry>
+                 <para>Enables BUFR support (Emoslib is required)</para>
+              </entry>
+              <entry>
+                 <para>no</para>
+              </entry>
+           </row>
+           <row>
+              <entry>
+                 <para>--enable-grib</para>
+              </entry>
+              <entry>
+                 <para>Enables GRIB 1/2 support</para>
+              </entry>
+              <entry>
+                 <para>yes</para>
+              </entry>
+           </row>
+           <row>
+              <entry>
+                 <para>--with-grib-api=&lt;path&gt;</para>
+              </entry>
+              <entry>
+                 <para>Gives the location where GribAPI is installed</para>
+              </entry>
+              <entry>
+                 <para>/usr/local</para>
+              </entry>
+           </row>
+           <row>
+              <entry>
+                 <para>--enable-netcdf</para>
+                 <para>--with-netcdf=&lt;path&gt;</para>
+              </entry>
+              <entry>
+		 <para>Enables netCDF support</para>
+		 <para>Set location of NetCDF libs</para>
+              </entry>
+              <entry>
+                 <para>yes</para>
+                 <para>/usr/local</para>
+              </entry>
+           </row>
+           <row>
+              <entry>
+                 <para>--enable-static</para>
+                 <para>--disable-shared</para>
+              </entry>
+              <entry>
+                 <para>Compiles static library instead of shared one.</para>
+              </entry>
+              <entry>
+                 <para>no</para>
+                 <para>yes</para>
+              </entry>
+           </row>
+           <row>
+              <entry>
+                 <para>--enable-python</para>
+                 <para>--with-python-include-dir</para>
+                 <para>--with-python-lib-dir</para>
+                 <para>--with-numpy</para>
+              </entry>
+              <entry>
+                 <para>Enables Python interface.</para>
+              </entry>
+              <entry>
+                 <para>no</para>
+                 <para></para>
+                 <para></para>
+                 <para></para>
+              </entry>
+           </row>
+           <row>
+              <entry>
+                 <para>--libdir=&lt;path&gt;</para>
+              </entry>
+              <entry>
+                 <para>Directory where libs are installed (on some 64bit it needs to be
+			 $prefix/lib64)</para>
+              </entry>
+              <entry>
+                 <para>$prefix/lib</para>
+              </entry>
+           </row></tbody></tgroup>
+     </informaltable>
+<para>Even if a feature is enabled by the installer it might be still disabled by the <function>configure</function> script
+if the necessary dependent software can not be detected. Installers should check carefully the output of the <function>configure</function> script.
+</para>
+
+<para>The C, C++ and Fortran compilers are chosen by configure. This can be overwritten by 
+	setting the variables CC, CXX and F77, on the configure command line, to the preferred 
+	compiler. Further the variable CXXFLAGS can be used to set compiler flags for optimisation 
+	or debugging. For example, it is recommented to use CXXFLAGS="-O2 -mtune=native" or any other optimisation to compile Magics.</para>
+<para>The most important option is --prefix. Setting the prefix defines where your Magics
+	library and executables will be installed. This path is later important for the user
+	setup.</para>
+<para>The options to enable/disable output formats allow you to customise your installation. For
+	example, if you have problems on your system with support libraries (see previous section), 
+	you might want to try to disable the raster output. The <firstterm>GD</firstterm> and
+	<firstterm>Cairo</firstterm> libraries are responsible for most third-party dependencies.
+</para>
+
+<para><emphasis>Be aware when using Portland Fortran compilers and g++:</emphasis> The 
+	PGF90 compiler cannot handle C++ exceptions from the GNU compiler in static libraries. 
+	In this case we suggest to first build only the static library, using </para>
+<para>./configure --disable-exceptions --disable-shared --enable-static F77=pgf90</para>
+<para>plus any other configure option you want, and compile afterwards the shared version of the library. By setting the variable F77 the user can hard code the Fortran compiler chosen by configure (in this case pgf90 ).</para>
+</section>  <!-- Install_configure -->
+
+<section id="Install_compile_code">
+     <title>Compiling the code</title>
+     <para>After the configure script has run successfully, the user can compile the library by 
+	     typing <command>make</command> in the same directory.</para>
+</section>
+
+<section id="Install_compile_testing">
+<title>Testing your build</title>
+<para>The Magics code contains a directory called <emphasis>test</emphasis> in which, in 
+	separate subdirectories, tests for the various interfaces of Magics are provided. Test 
+	programs in Fortran, C, Python and MagML are compiled and run if <command>MAGPLUS_HOME=$PWD make check</command> 
+	is invoked from the root directory. (Note that the <command>MAGPLUS_HOME</command> needs to be set!)</para>
+
+<para>The output of the tests should verified before the library is installed. 
+	This setup does not check if the user setup (see chapter 2) is correct, but the code in test 
+	can be used to do so. More examples of source code and MagML files can be found on the Magics
+	web page.</para>
+</section>
+
+<section id="Install_library">
+     <title>Installing the library</title>
+     <para>Once the build and tests have been successfully completed, the command <command>make install</command> copies the library into the correct location on the system. Administrator 
+	     permission might be required, depending on the installation directory. You might want to run <command>make -n install</command> first, which will show you what will be installed where, without performing 
+	     any changes to your system.</para>
+     <para>To free space, the temporary unpacked source directory can be cleaned of the object files with <command>make clean</command> after a successful installation.</para>
+   </section>
+
+<section id="Build_RPM">
+     <title>Building RPMS</title>
+     <para>To ease installations over multiple systems or to enable easy re-installation, Magics allows the building of RPMS. 
+     By typing the command <command>make rpms</command> a tarball is build and the binary package generated this requires a full compilation.
+     The generated RPMS can be installed with the command <command>sudo rpm -i name.rpm</command> and deinstalled by <command>sudo rpm -e name</command>.</para>
+   </section>
+
+</section> <!-- Install_compile -->
+
+
+
+
+<section id="faq">
+   <title>FAQ</title>
+   <para><emphasis>Why do I get the error message while loading shared libraries: libMagPlus.so.1: cannot open shared object file: No such file or directory when running a Magics executable?</emphasis></para>
+   <para>You need to alter your $LD_LIBRARY_PATH variable, as described in section “User setup”. The variable needs to contain the path to your Magics library.</para>
+   <para/>
+   <para><emphasis>Why do I get a message about a missing / not found libpgc.so when trying to run a Magics executable?</emphasis></para>
+   <para>If your EmosLib is compiled with Portland’s Pgf90, it requires this library as shared library at run-time. You need to alter your $LD_LIBRARY_PATH variable, 
+	   as described in chapter 2.</para>
+   <para/>
+   <para><emphasis>Can I install Magics++ in the same directory as I have installed Magics 6?</emphasis></para>
+   <para>Yes, it should be possible. The libraries have different names for configuration files and use different directories (share instead of coast). You might however prefer a clear separation if you start to phase out Magics 6.</para>
+   <para/>
+<remark>
+   <para><emphasis>How can I change the coastline files?</emphasis></para>
+   <para>Coastline files are given in NetCDF format. Have a look at the directory gshhs in the main Magics directory. There you will find the program which produces the NetCDF files. You can create your own data files gshhs files at http://rimmer.ngdc.noaa.gov/coast/ .</para>
+   <para/>
+   <para><emphasis>Can I add GIS information, such as rivers and borders to my plots?</emphasis></para>
+   <para>Yes. Information about political borders and rivers have been added with the new coastline files. </para>
+   <para/>
+</remark>
+   <para><emphasis>Why have the Printercap file and the frame in my PostScript disappeared?</emphasis></para>
+   <para>With version 2.4 of Magics we have changed the set-up of how the PostScript driver was internally organised. The Printercap configuration file was created in the past to accommodate differences between printers. This is nowadays no issue any more. Out of the same reason PostScript output was scaled down to 95% to allow room for Printer alignment problems. From version 2.4 onwards the scaling is, as in all other drivers, set back to 100% of the page size.</para>
+   <para/>
+   <para><emphasis>Why did version 2.6 of Magics was followed by version 2.8?</emphasis></para>
+   <para>With Magics 2.4 we introduced a new numbering scheme where the sub version indicates how stable the version of Magics is. Odd numbers (2.5, 2.7, …) indicate unstable development versions and even numbers (2.4, 2.6, 2.8, …) indicate versions we think are stable and tested enough to be used in your applications.</para>
+   <para/>
+   <para><emphasis>How can I report bugs or ask for help?</emphasis></para>
+   <para>Please write an email to magics@ecmwf.int . Please compress any larger files you might need to attach with gzip.</para>
+   <para/>
+</section>
+
+<section id="Install_Quick_Guide">
+   <title>Quick installation guide</title>
+   <para>This is a list of commands needed to install Magics. It is assumed “&gt;” is the shell prompt. The Magics version number may vary.</para>
+   <para/>
+   <para>&gt;tar -xzf Magics++-2.14.0.tar.gz</para>
+   <para>&gt;cd Magics++-2.14.0</para>
+   <para>&gt;./configure –prefix=/path/to/where/you/install/Magics++-2.14.0</para>
+   <para>checking build system type... i686-suse-linux</para>
+   <para/>
+   <para>&gt; make</para>
+   <para>&gt; make install</para>
+   <para>&gt; setenv MAGPLUS_HOME /path/to/where/you/install/Magics++-2.14.0</para>
+   <para>&gt; make check        &lt;&lt; running the test programs</para>
+   <para>&gt; cd test/fortran</para>
+   <para>&gt; ./coast</para>
+   <para/>
+</section>
+<section id="Install_Licence">
+   <title>Licence</title>
+   <para>Copyright 2008-2011 European Centre for Medium-Range Weather Forecasts (ECMWF)</para>
+   <para/>
+   <para>Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at </para>
+   <para/>
+   <para>     http://www.apache.org/licenses/LICENSE-2.0</para>
+   <para/>
+   <para>Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. </para>
+   <para/>
+   <para>See the License for the specific language governing permissions and limitations under the License.</para>
+</section>
+</chapter>

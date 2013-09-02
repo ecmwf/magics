@@ -1,0 +1,13 @@
+<magics>
+<class  action='pobsstat' directory='decoders' name='ObsStatDecoder'>
+		<documentation >
+		The Obstat decoder is responsible for decoding Obstat Ascii file.
+		</documentation>
+        	<parameter  xml='path' from='string' name='obsstat_filename' default='' member='path' to='string'>
+           
+            		<documentation > Epsgram Database Path 		</documentation>
+            		<migration > New Magics: Parameter eps_database sent to new Magics[EpsgramDecoder].  		</migration>
+        	</parameter>
+         
+	
+</class></magics>

@@ -1,0 +1,15 @@
+
+<magics version='3.0'>
+  <!-- definition of the output-->
+  <drivers>
+  	<ps output_name='hello_world'/>
+  </drivers>
+  <page>
+    <!--definition of the text!-->
+  	<?tag? height='15%'>  here goes the text to plot! </?tag?>
+  	<map height='85%'> 
+	    <!--add the coastlines-->
+		<?tag?/>
+	</map>
+  </page>
+</magics>

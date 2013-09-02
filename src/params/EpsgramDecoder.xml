@@ -1,0 +1,117 @@
+<magics>
+<class  xmltag='epsgram' name='EpsgramDecoder' xml_data='eps_title' directory='decoders' prefix='eps' action='peps'>
+		<documentation >
+		The Epsgram is responsible for accessing the espgram database its data to MAGICS.
+		</documentation>
+		
+	    	<parameter  member='title' to='stringarray' default='stringarray()' from='stringarray' name='eps_title'>
+         		<documentation > text block to be plotted 		</documentation>
+        	</parameter>
+        	<parameter  xml='type' from='string' name='eps_type' default='eps10' member='type' to='string'>
+         		<documentation >Eps Metgram type : eps10 or eps15  		</documentation>
+        	</parameter>
+        
+        	<parameter  xml='database' from='string' name='eps_database' default='/vol/epsgram/data/spotbase/epsdb' member='database' to='string'>
+           
+            		<documentation > Epsgram Database Path 		</documentation>
+            		<migration > New Magics: Parameter eps_database sent to new Magics[EpsgramDecoder].  		</migration>
+        	</parameter>
+        	<parameter  member='title_text' to='string' default='EPS Meteogram' from='string' name='eps_title_text'>
+            		<metview  default='' class=''>  
+            		</metview>
+            		<documentation > Epsgram Parameter 		</documentation>
+            		<migration > New Magics: Parameter eps_parameter sent to new Magics[EpsgramDecoder].  		</migration>
+        	</parameter>
+          	<parameter  xml='parameter' from='string' name='eps_parameter' default='' member='param' to='string'>
+            		<metview  default='' class=''>  
+            		</metview>
+            		<documentation > Epsgram Parameter 		</documentation>
+            		<migration > New Magics: Parameter eps_parameter sent to new Magics[EpsgramDecoder].  		</migration>
+        	</parameter>
+         	<parameter  xml='parameter_title' from='string' name='eps_parameter_title' default='' member='param_title' to='string'>
+           
+            		<documentation > epsgram parameter title : used only in case of an unknow parameter  		</documentation>
+            		<migration > New Magics: Parameter eps_latitude sent to new Magics[EpsgramDecoder].  		</migration>
+        	</parameter>
+         	<parameter  xml='latitude' from='float' name='eps_latitude' default='0' member='latitude' to='float'>
+            		<metview  default='0' class=''>  
+            		</metview>
+            		<documentation > epsgram latitude column name 		</documentation>
+            		<migration > New Magics: Parameter eps_latitude sent to new Magics[EpsgramDecoder].  		</migration>
+        	</parameter>
+       	<parameter  xml='longitude' from='float' name='eps_longitude' default='0' member='longitude' to='float'>
+            		<metview  default='0' class=''>  
+            		</metview>
+            		<documentation > epsgram longitude column name		</documentation>
+            		<migration > New Magics: Parameter eps_longitude sent to new Magics[EpsgramDecoder].  		</migration>
+        	</parameter>
+         	<parameter  member='param_hour_shift' to='float' default='0' from='float' name='eps_parameter_hour_shift'>
+             		<documentation > valid date is shifted ( temporary..)  		</documentation>
+        	</parameter>
+         	<parameter  member='param_scaling_factor' to='float' default='1' from='float' name='eps_parameter_scaling_factor'>
+             		<documentation > Scaling factor to apply to the values		</documentation>
+        	</parameter>
+         	<parameter  member='param_offset_factor' to='float' default='0' from='float' name='eps_parameter_offset_factor'>
+             		<documentation > Scaling factor to apply to the values		</documentation>
+        	</parameter>
+        	<parameter  xml='date' from='string' name='eps_date' default='-1' member='date' to='string'>
+            		<metview  default='-1' class=''>  
+            		</metview>
+            		<documentation > epsgram longitude column name		</documentation>
+            		<migration > New Magics: Parameter eps_longitude sent to new Magics[EpsgramDecoder].  		</migration>
+        	</parameter>
+         	<parameter  xml='time' from='string' name='eps_time' default='0000' member='time' to='string'>
+            		<metview  default='0000' class=''>  
+            		</metview>
+            		<documentation > epsgram date 		</documentation>
+            		<migration > New Magics: Parameter eps_longitude sent to new Magics[EpsgramDecoder].  		</migration>
+        	</parameter>
+		 	<parameter  xml='long_title' from='string' name='eps_long_title' default='off' member='long_title' to='bool'>
+            		<documentation > epsgram long title 		</documentation>
+            		<migration > New Magics: Parameter eps_longitude sent to new Magics[EpsgramDecoder].  		</migration>
+        	</parameter>
+         	<parameter  xml='long_title_station' from='string' name='eps_long_title_station' default='on' member='long_title_station' to='bool'>
+            		<documentation > epsgram long title : add the station name 		</documentation>
+            		<migration > New Magics: Parameter eps_longitude sent to new Magics[EpsgramDecoder].  		</migration>
+        	</parameter>
+         	<parameter  xml='long_title_height' from='string' name='eps_long_title_height' default='on' member='long_title_height' to='bool'>
+            		<documentation > epsgram long title: add the station height 		</documentation>
+            		<migration > New Magics: Parameter eps_longitude sent to new Magics[EpsgramDecoder].  		</migration>
+        	</parameter>
+         	<parameter  xml='long_title_point' from='string' name='eps_long_title_point' default='on' member='long_title_point' to='bool'>
+            		<documentation > epsgram long title: add the grid point position 		</documentation>
+            		<migration > New Magics: Parameter eps_longitude sent to new Magics[EpsgramDecoder].  		</migration>
+        	</parameter>
+         	<parameter  xml='station' from='string' name='eps_station_name' default='' member='station' to='string'>
+            		<documentation > epsgram long title 		</documentation>
+            		<migration > New Magics: Parameter eps_longitude sent to new Magics[EpsgramDecoder].  		</migration>
+        	</parameter>
+         	<parameter  xml='height' from='float' name='eps_station_height' default='INT_MAX' member='height' to='float'>
+            		<documentation > epsgram long title 		</documentation>
+            		<migration > New Magics: Parameter eps_longitude sent to new Magics[EpsgramDecoder].  		</migration>
+        	</parameter>
+         	<parameter  member='correction' to='bool' default='yes' from='string' name='eps_temperature_correction'>           
+            		<documentation > Temperature correction  		</documentation>
+            		<available >yes		</available>
+            		<available >no		</available>
+           
+            		<migration > New Magics: Parameter eps_temperature_correction sent to new Magics[EpsTempe].  		</migration>
+        	</parameter>
+        
+        	<parameter  member='percentile' to='float' default='1' from='float' name='eps_y_axis_percentile'>           
+            		<documentation > Temperature correction  		</documentation>
+            		<available >yes		</available>
+            		<available >no		</available>
+           
+            		<migration > New Magics: Parameter eps_temperature_correction sent to new Magics[EpsTempe].  		</migration>
+        	</parameter>
+        
+         	<parameter  member='threshold' to='float' default='50' from='float' name='eps_y_axis_threshold'>           
+            		<documentation > Temperature correction  		</documentation>
+            		<available >yes		</available>
+            		<available >no		</available>
+           
+            		<migration > New Magics: Parameter eps_temperature_correction sent to new Magics[EpsTempe].  		</migration>
+        	</parameter>
+        
+</class></magics>

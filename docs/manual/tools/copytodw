@@ -1,0 +1,11 @@
+#!/bin/ksh
+
+# copies the publications in pdf and html to the dreamweaver
+# directory ready for uploading to wedit
+
+dest=/var/tmp/$USER/dreamweaver/wedit/publications/manuals/magics/magplus/manuals
+
+mkdir -p $dest
+
+cp -p -r     publish/html $dest
+cp -p -r  -v publish/pdf  $dest

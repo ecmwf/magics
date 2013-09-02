@@ -1,0 +1,9 @@
+<magics>
+<class  directory='visualisers' action_routine='pobs' prefix='obs' xmltag='demo2' name='ObsDemoItem2'>
+		<parameter  member='text' to='string' default='///' from='string' name='obs_demo2_missing_text'>
+				<documentation > text to be displayed in case of missinmg data 		</documentation>
+    	</parameter>
+    	<parameter  member='text_colour' to='string' default='cyan' from='string' name='obs_demo2_text_colour'>
+				<documentation > Text colour 		</documentation>
+    	</parameter>
+</class></magics>

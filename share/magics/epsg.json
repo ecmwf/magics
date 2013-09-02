@@ -1,0 +1,169 @@
+{
+"definitions" : [
+	{
+		"polar_north" : {
+    		"definition" : "+proj=stere +lat_0=90 +lat_ts=90 +lon_0=0 +k=0.994 +x_0=2000000 +y_0=2000000 +ellps=WGS84 +datum=WGS84 +units=m +no_defs",
+			"min_longitude" : -180,
+			"min_latitude" : -20,
+			"max_longitude" : 180,
+			"max_latitude" : 90,
+            "method" : "conic"
+    	}
+    },
+    {
+        "polar_north_america" : {
+    		"definition" : "+proj=stere +lat_0=90 +lat_ts=90 +lon_0=0 +k=0.994 +x_0=2000000 +y_0=2000000 +ellps=WGS84 +datum=WGS84 +units=m +no_defs",
+			"min_longitude" : -180,
+			"min_latitude" : -20,
+			"max_longitude" : 180,
+			"max_latitude" : 90,
+            "method" : "conic"
+    	}
+        
+        
+    },
+   {
+		"lambert" : {
+    		"definition" : "+proj=lcc +lon_0=0 +x_0=2000000 +y_0=2000000 +ellps=WGS84 +datum=WGS84",
+			"min_longitude" : -180,
+			"min_latitude" : -20,
+			"max_longitude" : +180,
+			"max_latitude" : 90,
+            "method" : "conic"
+    	}
+    },
+   {
+		"lambert_north_atlantic" : {
+    		"definition" : "+proj=lcc +lon_0=40w +x_0=2000000 +y_0=2000000 +ellps=WGS84 +datum=WGS84",
+			"min_longitude" : -220,
+			"min_latitude" : -20,
+			"max_longitude" : +140,
+			"max_latitude" : 90,
+            "method" : "conic"
+    	}
+    },
+    {
+        "EPSG:32661" : {
+    		"definition" : "+proj=stere +lat_0=90 +lat_ts=90 +lon_0=0 +k=0.994 +x_0=2000000 +y_0=2000000 +ellps=WGS84 +datum=WGS84 +units=m +no_defs",
+			"min_longitude" : -180,
+			"min_latitude" : -20,
+			"max_longitude" : 180,
+			"max_latitude" : 90,
+            "method" : "conic"
+            
+    	}
+	},
+    {
+        "EPSG:4326" : {
+            "definition" : "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs",
+			"min_longitude" : -180,
+			"min_latitude" : -90,
+			"max_longitude" : 180,
+			"max_latitude" : 90,
+            "method" : "simple"
+        }
+    },
+    {
+        "EPSG:3857" : {
+            "definition" : "+proj=merc +lon_0=0 +k=1 +x_0=0 +y_0=0 +a=6378137 +b=6378137 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs",
+			"min_longitude" : -180,
+			"min_latitude" : -85,
+			"max_longitude" : 180,
+			"max_latitude" : 85,
+            "method" : "simple"
+        }
+    },
+    {
+        "cylindrical" : {
+            "definition" : "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs",
+			"min_longitude" : -180,
+			"min_latitude" : -90,
+			"max_longitude" : 180,
+			"max_latitude" : 90,
+            "method" : "simple"
+        }
+    },
+    {
+    "geos" : {
+    		"definition" : "+proj=geos +h=42164000 +ellps=WGS84",
+			"min_longitude" : -70,
+			"min_latitude" : -80,
+			"max_longitude" : 70,
+			"max_latitude" : 80,
+            "method" : "geos"
+    	}
+     },
+     {
+    "goode" : {
+    		"definition" : "+proj=goode +ellps=WGS84",
+			"min_longitude" : -180,
+			"min_latitude" : -90,
+			"max_longitude" : 180,
+			"max_latitude" : 90,
+            "method" : "geos"
+    	}
+     }  ,
+       {
+    "collignon" : {
+    		"definition" : "+proj=collg +ellps=WGS84",
+			"min_longitude" : -180,
+			"min_latitude" : -90,
+			"max_longitude" : 180,
+			"max_latitude" : 90,
+            "method" : "geos"
+    	}
+     },
+     {
+    "mollweide" : {
+    		"definition" : "+proj=moll +lon_0=0 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m",
+			"min_longitude" : -180,
+			"min_latitude" : -90,
+			"max_longitude" : 180,
+			"max_latitude" : 90,
+            "method" : "geos"
+    	}
+     },
+     {
+    "robinson" : {
+    		"definition" : "+proj=robin +lon_0=0 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_def",
+			"min_longitude" : -180,
+			"min_latitude" : -90,
+			"max_longitude" : 180,
+			"max_latitude" : 90,
+            "method" : "geos"
+    	}
+     },
+	{
+    "google" : {
+    		"definition" : "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m",
+			"min_longitude" : -180,
+			"min_latitude" : -90,
+			"max_longitude" : 180,
+			"max_latitude" : 90,
+            "method" : "simple"
+    	}
+     },
+     {
+    "efas" : {
+    		"definition" : "+proj=laea +lat_0=48.0000000000 +lon_0=9.0000000000 +x_0=0.0000000000 +y_0=0.0000000000 +datum=WGS84 +a=6378388 +b=6378388 +no_defs",
+			"min_longitude" : -180,
+			"min_latitude" : -20,
+			"max_longitude" : 180,
+			"max_latitude" : 89,
+            "method" : "conic"
+    	}
+     },
+    
+     {
+    "bonne" : {
+    		"definition" : "+proj=bonne +lon_0=0 +x_0=0 +y_0=0 +lat_1=60 +ellps=WGS84 +datum=WGS84 +units=m +no_defs",
+			"min_longitude" : -180,
+			"min_latitude" : -89,
+			"max_longitude" : 180,
+			"max_latitude" : 89,
+            "method" : "geos"
+    	}
+     }
+    
+]
+}

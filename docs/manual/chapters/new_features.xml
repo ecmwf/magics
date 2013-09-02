@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="MAGICS_New_Changes" label="i">
+  <title>New Features and Changes in Magics++</title>
+
+  <xi:include href="../phrases/chapterinfo_mod.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+<!--
+    o = to do
+    - = done
+    x = not to do
+
+    o new legend handling
+    o new behaviour with double-y-axes graphs (legends)
+    o font sizes
+    o text box - no automatic resizing
+    o pages sizes (not so automatic)
+    o split contours (?)
+    x C compilation?
+    - coastline colour
+    - coastline resolution
+    - new contouring method
+    - marker shading
+    - user logos
+    - C interface
+    - wind arrow heads
+    - new Magics architecture diagram
+    - large geographic area
+    ! vorticity/divergence wind plotting
+    - new filenaming convention for output files
+    - boxplots
+    - polylines
+
+
+-->
+
+
+  <section id="Changes_Introduction">
+    <title>Introduction to the Magics++ Changes</title>
+
+    <para><productname>Magics++</productname> is a major new version of
+    <productname>Magics</productname> completely re-written in C++.
+    This opportunity has been taken to add new features, clean up some interfaces and
+    make its behaviour more consistent. This has, in a few cases, led to situations where
+    old <productname>Magics</productname> programs will not behave identically when compiled
+    with <productname>Magics++</productname>.</para>
+    
+    <para>The following sections are taken from the
+    full user guide and describe the main differences between
+    <productname>MAGICS 6</productname> and
+    <productname>Magics++</productname>.</para>
+
+    <para>In addition to the changes described here, there are new actions routine,
+    <function>PBOXPLOT</function> and <function>PLINE</function> which have their 
+    own manuals which you can print out.
+    See <olink targetdoc="Magics_boxplot"  targetptr="MAGICS_Boxplots"/>
+    and <olink targetdoc="Magics_polyline" targetptr="MAGICS_Polylines"/>.</para>
+
+    <para>It is also recommended that you read the whole of
+    <olink targetdoc="Magics_drivers" targetptr="MAGICS_Output_Drivers"/> in order to
+    see the differences in specifying output file types.</para>
+    
+  </section>
+
+
+  <xi:include href="../chapters/intro.xml"
+              xpointer="Overview_Introduction"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <xi:include href="../chapters/intro.xml"
+              xpointer="Current_Release"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+
+  <xi:include href="../chapters/using.xml"
+              xpointer="C_Interface"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+
+  <xi:include href="../chapters/using.xml"
+              xpointer="MagML_Interface"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+
+  <section>
+    <title>Layout and Mapping</title>
+    <xi:include href="../chapters/layout_mapping_coastlines.xml"
+                xpointer="User_Logos"
+                xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+
+    <section>
+      <title>Large Areas</title>
+      <xi:include href="../chapters/layout_mapping_coastlines.xml"
+                  xpointer="Area_Greater_Than_360_Degrees"
+                  xmlns:xi="http://www.w3.org/2001/XInclude" />
+    </section>
+ </section>
+
+
+  <section>
+    <title>Coastlines</title>
+
+    <xi:include href="../chapters/layout_mapping_coastlines.xml"
+                xpointer="New_Coastline_Colour_Defaults"
+                xmlns:xi="http://www.w3.org/2001/XInclude" />
+ 
+     <xi:include href="../chapters/layout_mapping_coastlines.xml"
+                xpointer="Coastline_Automatic_Selection"
+                xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <xi:include href="../chapters/layout_mapping_coastlines.xml"
+                xpointer="Specifying_a_Coastline_File"
+                xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+     <xi:include href="../chapters/layout_mapping_coastlines.xml"
+                xpointer="Coastline_Outline_And_Shading"
+                xmlns:xi="http://www.w3.org/2001/XInclude" />
+  </section>
+
+
+
+  <xi:include href="../chapters/data.xml"
+              xpointer="NetCDF_Data_Input"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <xi:include href="../paramtables/pnetcdf_tables.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+
+<!--
+  <xi:include href="../chapters/data.xml"
+              xpointer="ODB_Input"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <xi:include href="../paramtables/podb_tables.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+-->
+
+
+  <section>
+    <title>Contouring</title>
+
+    <xi:include href="../chapters/contour.xml"
+                xpointer="Akima_Contouring"
+                xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <section>
+      <title>Marker Shading</title>
+      <xi:include href="../chapters/contour.xml"
+                  xpointer="Marker_Shading_Differences"
+                  xmlns:xi="http://www.w3.org/2001/XInclude" />
+    </section>
+  </section>
+
+
+  <section>
+    <title>Wind Plotting</title>
+    <!--
+    <xi:include href="../chapters/wind.xml"
+                xpointer="Vorticity_Devergence_on_Gridpoints"
+                xmlns:xi="http://www.w3.org/2001/XInclude" />
+    -->
+
+    <xi:include href="../chapters/wind.xml"
+                xpointer="Arrow_Head_Style"
+                xmlns:xi="http://www.w3.org/2001/XInclude" />
+  </section>
+
+  <!--
+  <section>
+    <title>Text Plotting</title>
+
+      <xi:include href="../chapters/text.xml"
+                  xpointer="Creating_Text"
+                  xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+      <xi:include href="../chapters/text.xml"
+                  xpointer="Text_Line_Limit"
+                  xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+      <xi:include href="../chapters/text.xml"
+                  xpointer="Text_Fonts"
+                  xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+
+  </section>
+   -->
+
+
+</chapter>

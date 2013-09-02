@@ -1,0 +1,10 @@
+#!/bin/ksh
+
+# copies the MagML example code and formats it for the manuals
+
+purpose="manual"
+
+
+cp  ../www/4_examples/progs/magml/$purpose/*.magml examples/$purpose/magml/source
+
+tools/format_listings

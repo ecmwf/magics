@@ -1,0 +1,35 @@
+#
+# File: $ECMWFHOME/use/sh.newmagics
+#
+# Purpose: Set the environment for new version of MAGICS 6
+
+version=current
+
+export MAG_HOME=/usr/local/apps/Magics/${version}
+
+export MAG_LOGGING=on
+   
+#export EMOSLIB="-L/usr/local/lib -lemos.new.R32.D64.I32"
+export EMOSLIB="-L/usr/local/lib -lemos.R32.D64.I32"
+echo \$EMOSLIB changed to $EMOSLIB
+
+gcc_ld=""
+
+   if [ $ARCH = "linux" ]; then
+	if [ "${PRGENV_VERSION:-}" = "new" ]; then
+		export MAG_HOME=${MAG_HOME}_n
+		gcc_ld="-Wl,-rpath,${GCC_LIB:-/usr/lib} -L${GCC_LIB:-/usr/lib} "
+	fi
+	export MAGLIB="-L${MAG_HOME}/lib -lmagics -lMvDevices -lmagics -lgd -lpng -ljpeg -lz -lfreetype ${gcc_ld}-lstdc++ -lm"
+	echo \$MAGLIB changed to $MAGLIB
+
+   elif [ $ARCH = "sgimips" ]; then 
+   	export MAGLIB="-L${MAG_HOME}/lib -lmagGL -lMvDevices -lftn -lfortran -lm"
+	echo \$MAGLIB changed to $MAGLIB
+   	export LD_LIBRARYN32_PATH=${MAG_HOME}/lib:${LD_LIBRARYN32_PATH}
+	echo \$LD_LIBRARYN32_PATH changed to $LD_LIBRARYN32_PATH
+   
+   elif [ $ARCH = "rs6000" ]; then
+   	export MAGLIB="-L${MAG_HOME}/lib -lmagics -lMvDevices -lgd -lpng -ljpeg -lz -lfreetype -lxlf90"
+	echo \$MAGLIB changed to $MAGLIB
+   fi

@@ -1,0 +1,23 @@
+<?xml-stylesheet type='text/css' href='parameter.css'?>
+<magics>
+<class name='HiLoSaveBase' action='pcont' directory='visualisers'/>
+
+<class name='HiLoSave' action='pcont' directory='visualisers' inherits='HiLoSaveBase'>
+  <documentation>
+  The User can dowload the psoition of the High and Lows in a file.
+  The information will be stored using the Metview GeoPoint file format.
+  </documentation>
+  <parameter name='contour_hilo_position_file_name' from='string' to='Path'
+             member='file_name' xml='position_file_name' default=''>
+         <documentation> Path/filename  of  HILO file to write </documentation>
+         <release>Magics++0.2</release>
+  </parameter>
+</class>
+
+<class name='NoHiLoSave' action='pcont' directory='visualisers'  inherits='HiLoSaveBase' include='HiLoSave.h'>
+   <documentation>
+   This object suppresses the saving of Hi/Lo information.
+   </documentation>
+</class>
+
+</magics>

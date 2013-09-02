@@ -1,0 +1,10 @@
+#!/bin/ksh
+set -x
+
+mkdir -p exercises
+
+for i in `ls chapters/tutorial/*.xml`
+do
+    x=`basename $i`
+    perl tools/xml2tutorial.pl chapters/tutorial/$x > exercises/$x
+done

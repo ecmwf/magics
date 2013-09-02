@@ -1,0 +1,17 @@
+#!/bin/ksh
+
+
+# create the html directory and all the subdirectories
+
+mkdir -p html
+cd html
+
+
+mkdir -p test
+
+
+cd ../4_examples/progs
+mkdir -p gif
+mkdir -p logs
+ln -f -s ../../../../test/data  data
+

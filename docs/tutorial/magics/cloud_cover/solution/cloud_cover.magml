@@ -1,0 +1,134 @@
+
+<magics version='3.0'>
+  <!-- definition of the output-->
+  <drivers>
+  	<png output_name='cloud_cover_asia'/>
+  </drivers>
+  <page>
+   <!-- the definition of the geographical area goes into the map tag-->
+  	<map 
+        subpage_lower_left_longitude = '55.000000' 
+        subpage_upper_right_longitude = '175.000000' 
+        subpage_upper_right_latitude = '80.000000' 
+        subpage_map_projection = 'cylindrical' 
+        subpage_lower_left_latitude = '0.000000' 
+		fitted_mode='crop'
+	    margin_top='0'
+	    margin_left='0'
+	    margin_bottom='0'
+	    margin_right='0'> 
+	<!-- define the background coastlinesi -->
+		<coastlines map_coastline_sea_shade = 'on'
+			map_coastline_sea_shade_colour = 'white'
+			map_label = 'off'
+			map_coastline_land_shade_colour = 'cream'
+			map_grid = 'off'
+			map_coastline_colour = 'tan'
+			map_coastline_land_shade = 'on' />
+
+	<!-- define the wind speed at 200hPa layer-->
+		<plot>
+			<grib  grib_input_file_name = '../cloud_cover.grb' />
+			<contour contour_level_selection_type = 'interval' 
+                contour_shade_colour_method = 'list' 
+                contour_shade_technique = 'cell_shading' 
+                contour_shade = 'on' 
+                contour_reference_level = '-0.500000' 
+                contour_hilo = 'off' 
+                contour_min_level = '-0.500000' 
+                contour_max_level = '63.500000' 
+                contour = 'off' 
+                contour_interval = '1.000000' 
+                contour_shade_colour_list = "HSL(0,0,1)/ 
+                    HSL(29,0.14,0.92)/ 
+                    HSL(29,0.29,0.83)/ 
+                    HSL(29,0.43,0.75)/ 
+                    HSL(300,0.08,0.92)/ 
+                    HSL(360,0.16,0.84)/ 
+                    HSL(13,0.3,0.75)/ 
+                    HSL(18,0.44,0.67)/ 
+                    HSL(300,0.16,0.83)/ 
+                    HSL(340,0.22,0.75)/ 
+                    HSL(360,0.34,0.67)/ 
+                    HSL(8,0.47,0.58)/ 
+                    HSL(300,0.24,0.75)/ 
+                    HSL(330,0.28,0.67)/ 
+                    HSL(349,0.38,0.58)/ 
+                    HSL(360,0.5,0.5)/ 
+                    HSL(180,0.17,0.92)/ 
+                    HSL(120,0.08,0.84)/ 
+                    HSL(57,0.17,0.75)/ 
+                    HSL(44,0.3,0.67)/ 
+                    HSL(209,0.14,0.84)/ 
+                    HSL(187,0,0.75)/ 
+                    HSL(29,0.15,0.67)/ 
+                    HSL(29,0.29,0.59)/ 
+                    HSL(239,0.16,0.75)/ 
+                    HSL(299,0.08,0.67)/ 
+                    HSL(360,0.17,0.58)/ 
+                    HSL(13,0.3,0.5)/ 
+                    HSL(258,0.21,0.67)/ 
+                    HSL(299,0.16,0.59)/ 
+                    HSL(341,0.22,0.5)/ 
+                    HSL(360,0.33,0.42)/ 
+                    HSL(180,0.34,0.83)/ 
+                    HSL(161,0.22,0.75)/ 
+                    HSL(120,0.16,0.67)/ 
+                    HSL(78,0.21,0.58)/ 
+                    HSL(193,0.3,0.75)/ 
+                    HSL(180,0.17,0.67)/ 
+                    HSL(120,0.08,0.58)/ 
+                    HSL(59,0.16,0.5)/ 
+                    HSL(209,0.29,0.67)/ 
+                    HSL(209,0.15,0.58)/ 
+                    HSL(217,0,0.5)/ 
+                    HSL(29,0.14,0.42)/ 
+                    HSL(224,0.3,0.58)/ 
+                    HSL(237,0.17,0.5)/ 
+                    HSL(299,0.08,0.42)/ 
+                    HSL(360,0.16,0.33)/ 
+                    HSL(180,0.5, 0.75)/ 
+                    HSL(169,0.38,0.67)/ 
+                    HSL(150,0.28,0.58)/ 
+                    HSL(120,0.24,0.5)/ 
+                    HSL(188,0.47,0.67)/ 
+                    HSL(180,0.34,0.59)/ 
+                    HSL(160,0.22,0.5)/ 
+                    HSL(120,0.16,0.42)/ 
+                    HSL(198,0.44,0.58)/ 
+                    HSL(193,0.3,0.5)/ 
+                    HSL(180,0.17,0.42)/ 
+                    HSL(120,0.08,0.33)/ 
+                    HSL(209,0.43,0.5)/ 
+                    HSL(209,0.29,0.42)/ 
+                    HSL(209,0.14,0.33)/ 
+                    HSL(191,0,0.25)"
+ 			 />
+		</plot>
+        <!-- add a text-->
+		<text 
+			width='60%' 
+			height='10%' 
+			text_border='on' 
+			text_border_colour='black'
+			text_box_blanking= 'on' >
+	      <font colour='black' sizee='0.6' >
+		  	Cloud cover valid for <grib_info key='valid-date'/>
+		  </font>
+		  <br/> 
+          <font colour='HSL(29,0.43,0.75)'> Low </font>
+          <font colour='HSL(360,0.5,0.5)'> L+M </font>
+          <font colour='HSL(300,0.24,0.75)'> Medium </font>
+          <font colour='HSL(209,0.43,0.5)'> M+H </font>
+		  <font colour='HSL(180,0.5, 0.75)'> High </font>
+		  <font colour='HSL(120,0.24,0.5)'> H+L </font> 
+        </text>
+
+	    
+	    <!--add the coastlines-->
+		<coastlines map_grid_colour = 'tan'
+				map_grid = 'on'
+				map_coastline_colour = 'tan'/>
+	</map>
+  </page>
+</magics>

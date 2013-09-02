@@ -1,0 +1,502 @@
+#!/bin/sh
+
+use_chapters="1"
+source_xml_dir="chapters/"
+format=""
+format_flag=""
+xsl=""
+clean="yes"
+paramtables="yes"
+targetopt=""
+base_path=$PWD
+chapter_mask="*.xml"
+mod_chapter_mask="mod_*.xml"
+bookstub="userguide"
+bookname="magics_"$bookstub
+bookid="Magics_$bookstub"
+bookidopt=""
+netvalid="--nonet"
+targetdocopt=""
+targetopt=""
+verboseopt="-q"
+verbose="0"
+
+
+# first check whether the required xsl links are in the xsl directory.
+
+if [[ ! -d xsl/docbook-base || ! -d xsl/docbook-xsl ]]
+then
+    echo ""
+    echo "ERROR: Symbolic links xsl/docbook-base and xsl/docbook-xsl MUST exist before document generation can begin"
+    echo ""
+    exit 1
+fi
+
+
+for arg;do
+    if [[ $arg = "-h" || $arg = "-help" || $arg = "--help" ]]
+    then
+        echo ""
+        echo "make_docs"
+        echo "Possible options:"
+        echo "   -html        : resultant output in HTML"
+        echo "   -pdf         : resultant output in PDF"
+        echo "   -noclean     : do not remove temporary files after build"
+        echo "   -notables    : do not generate new parameter tables"
+        echo "   -netvalid    : validate using Internet connection for DTDs, etc"
+        echo "   -v           : verbose output"
+        echo "   -v2          : very verbose output"
+        echo "   -targets     : generate link targets"
+        echo "   -book=<name> : only generate the specified book (name, no extension or path)"
+        echo "                    - default is magics_userguide"
+        echo "                    - possible values are:"
+        echo "`ls books`"
+        echo ""
+        exit
+    fi
+
+    if [[ $arg = "-html" ]]
+    then
+        format="html"
+        format_flag="html"
+        xsl="xsl/html.xsl"
+        use_chapters="0"
+        source_xml_dir="books/"
+    fi
+
+    if [[ $arg = "-pdf" ]]
+    then
+        format="pdf"
+        format_flag="pdf"
+        xsl="xsl/pdf.xsl"
+    fi
+
+    if [[ $arg = "-noclean" ]]
+    then
+        clean="no"
+        echo "-noclean: will not delete temporary files"
+    fi
+
+    if [[ $arg = "-notables" ]]
+    then
+        paramtables="no"
+    fi
+
+    if [[ $arg = "-netvalid" ]]
+    then
+        netvalid=""
+    fi
+
+    if [[ $arg = "-v" ]]
+    then
+        verboseopt="-v"
+        extra_fop_flags=""
+        extra_xslt_flags=""
+        verbose="1"
+    fi
+
+    if [[ $arg = "-v2" ]]
+    then
+        extra_fop_flags="-d"
+        extra_xslt_flags="-v"
+        verbose="1"
+    fi
+
+    if [[ $arg = "-targets" ]]
+    then
+        targetopt="-T ../targets/${bookname}_${format}_target.db"
+    fi
+
+    if [[ ${arg:0:6} = "-book=" ]]
+    then
+        bookname=${arg:6:40}  # substring, starting at index 6 (0 is first), length 40
+        echo "Processing book _${bookname}_"
+        bookid="M${arg:7:40}"   # change magics into Magics
+
+        # perform some clever sleight-of-hand here - newer versions of xsl stylesheets seem to have a problem
+        # when processing the book - therefore we have the option here to actually use the chapter instead.
+        
+        if [[ $use_chapters = "1" ]]
+        then
+
+            # bookname is something like 'magics_drivers' - the corresponding chapter would just be 'drivers'
+            bookname=${bookname:7:40}  # substring, starting at index 7 (0 is first), length 40
+        fi
+    fi
+done
+
+
+if [[ $arg = "" ]]
+then
+    echo "No output format set - use 'make_docs -h' for help"
+    exit
+fi
+
+
+# if the book does not exist, then exit gracefully
+#if [[ ! -a books/$bookname.xml ]]
+#then
+#    echo ""
+#    echo "ERROR - book 'books/$bookname.xml' does not exist."
+#    echo "- did you mean '-book=magics_$bookname'?"
+#    echo ""
+#    exit
+#fi
+
+
+
+# create any directories that do not already exist
+
+mkdir -p paramtables
+mkdir -p publish/html
+mkdir -p publish/pdf
+mkdir -p publish/html/images/c
+mkdir -p publish/html/images/fortran
+mkdir -p publish/html/images/magml
+mkdir -p publish/html/images/python
+mkdir -p publish/html/images/diagrams
+
+
+# read the most up-to-date Magics++ version information
+# - we want MAGICS_PACKAGE_VERSION and MAGICS_PACKAGE_COPYRIGHT_PERIOD.
+
+. ../../version.sh
+
+
+# generate parameter tables?
+
+if [[ $paramtables = "yes" ]]
+then
+    tools/generate_param_tables.pl
+    tools/generate_magml_tables.pl
+fi
+
+
+mod_bookname="mod_$bookname"
+
+if [[ $use_chapters -eq "0" ]]  # using a 'book' instead of a 'chapter'
+then
+    # we're going to make modified copies of the source xml chapter files,
+    # so we create a copy of the book file and replace the chapter references with
+    # references to the modified chapter files.
+    # For example, chapters/intro.xml will become chapters/mod_intro.xml.
+
+    sed "s/chapters\/\(.*\).xml/chapters\/mod_\1.xml/g"   books/$bookname.xml > tempbook.xml
+    mv tempbook.xml books/$mod_bookname.xml
+
+    # for the purpose of generating nice olink text in the PDF documents, we need
+    # for each book to have a title. However, this will be the same as the chapter
+    # title and so we should get rid of it when actually generating the PDFs.
+
+    if [[ $targetopt = "" ]]
+    then
+      sed "s/<title>[^<]*<\/title>//g"       books/$mod_bookname.xml > tempbook.xml
+      mv tempbook.xml books/$mod_bookname.xml
+    fi
+
+    chmod u+w books/$mod_bookname.xml
+fi
+
+
+# we're going to mess around with the source xml files a little, so let's
+# make backups of them before we begin... we'll move them back once we're finished.
+
+for chapfile in chapters/$chapter_mask
+do
+    bname=`basename $chapfile .xml`
+    modchapfile="chapters/mod_$bname.xml"
+
+    cp -p $chapfile $modchapfile
+    chmod u+w $modchapfile
+done
+
+
+
+# trying to get XSL to put figures at the top of a new page has proved
+# not-entirely-possible and very time-consuming. Let's do it here instead...
+#
+#figure_plain="<figure>"
+#figure_with_break="<\?pagebreak\?><figure>"
+#slash_figure_plain="<\/figure>"
+#slash_figure_with_break="<\/figure><\?pagebreak\?>"
+#
+#
+#if [[ $format = "pdf" ]]
+#then
+#    for chapfile in chapters/$mod_chapter_mask
+#    do
+#        sed "s/$figure_plain/$figure_with_break/g"               $chapfile > temp1.xml
+#        sed "s/$slash_figure_plain/$slash_figure_with_break/g"   temp1.xml > temp2.xml
+#        mv temp2.xml $chapfile
+#        rm -f temp1.xml
+#    done
+#fi
+
+
+
+
+# xxe and xerces have different opinions on how to handle relative includes
+# so we keep the include paths in the format that xxe likes while we're editing
+# and then switch them to 'xerces mode' before publishing.
+# We will then switch them back afterwards (see later in the script).
+
+# for chapfile in chapters/$mod_chapter_mask
+# do
+#     sed 's/xxxinclude href="..\/examples/include href="examples/g'       $chapfile > temp1.xml
+#     sed 's/xxxinclude href="..\/paramtables/include href="paramtables/g' temp1.xml > temp2.xml
+#     sed 's/xxxinclude href="..\/phrases/include href="phrases/g'         temp2.xml > temp3.xml
+#     mv temp3.xml $chapfile
+#     rm -f temp1.xml temp2.xml
+# done
+
+
+# we want to dynamically insert the publication date. We do this with a search/replace
+# operation. <pubdate>auto</pubdate> is replaced with <pubdate>...</pubdate> where
+# '...' is the current date.
+
+today=`date +"%d %B %Y"`
+
+sed "s/<pubdate>auto<\/pubdate>/<pubdate>$today<\/pubdate>/g"  phrases/chapterinfo.xml      > phrases/chapterinfo_mod.xml
+cp phrases/chapterinfo_mod.xml phrases/chapterinfo_temp.xml
+sed "s/MAGICS_VERSION/$MAGICS_PACKAGE_VERSION/g"  phrases/chapterinfo_temp.xml > phrases/chapterinfo_mod.xml
+cp phrases/chapterinfo_mod.xml phrases/chapterinfo_temp.xml
+sed "s/MAGICS_COPYRIGHT_PERIOD/$MAGICS_PACKAGE_COPYRIGHT_PERIOD/g"  phrases/chapterinfo_temp.xml > phrases/chapterinfo_mod.xml
+
+
+# we also need a corresponding appendixinfo element for any appendices
+
+sed "s/chapterinfo/appendixinfo/g"  phrases/chapterinfo_mod.xml > phrases/appendixinfo_mod.xml
+
+
+# we also want to dynamically insert the date into the footer of each HTML page,
+# done by altering the stylesheet
+
+if [[ $format = "html" ]]
+then
+    this_month=`date +"%B %Y"`
+    sed "s/autodate/$this_month/g"  xsl/ecmwf_html-custom.xsl > xsl/ecmwf_html-custom_mod.xsl
+fi
+
+
+# If publishing the whole user guide as one book, then some of the cross-references
+# will be wrong. The source chapters refer to the individual books,
+# but for the user guidee we want them to refer to the one book ('userguide').
+
+if [[ $bookname = "magics_userguide" ]]
+then
+    for chapfile in chapters/$mod_chapter_mask
+    do
+        sed 's/<olink targetdoc="Magics_[^"]*" /<olink targetdoc="Magics_userguide" /g'  $chapfile > temp1.xml
+        mv temp1.xml $chapfile
+    done
+fi
+
+
+# The same thing as above applies when we publish the book of new features
+
+#if [[ $bookname = "magics_new_features" ]]
+#then
+#    for chapfile in chapters/$mod_chapter_mask
+#    do
+#        sed 's/<olink targetdoc="Magics_[^"]*" /<olink targetdoc="Magics_new_features" /g'  $chapfile > temp1.xml
+#        mv temp1.xml $chapfile
+#        cp $chapfile  xxxx.xml
+#    done
+#fi
+
+
+
+# for the HTML version, we only have one book, whereas for PDF, we split into one book
+# per chapter. This causes problems with 'olink'ing because our cross-references have to
+# say which book they refer to. The source chapters refer to the individual books,
+# but for HTML we want them to refer to the one book ('userguide').
+
+#if [[ $format = "html" ]]
+#then
+#    for chapfile in chapters/$mod_chapter_mask
+#    do
+#        sed 's/<olink targetdoc="Magics_[^"]*" /<olink targetdoc="Magics_userguide" /g'  $chapfile > temp1.xml
+#        mv temp1.xml $chapfile
+#    done
+#fi
+
+
+
+# generate the documents from the XML
+
+
+
+
+# set the parameters for xsltproc
+
+source_xml_file="$source_xml_dir${mod_bookname}.xml"   # OR "$source_xml_dir$mod_bookname"
+bname=`basename $source_xml_file .xml`
+fo_file="$source_xml_dir$bname.fo"
+
+#database_document_param="--stringparam target.database.document ../targets/olinkdb-${format_flag}.xml"
+current_docid_param="--stringparam current.docid ${bookid}"
+fop_extensions_param="--stringparam fop1.extensions 1"
+xsl_param="xsl/${format_flag}.xsl"
+source_xml_param="$source_xml_file" 
+out_fo_param="-o $fo_file"
+out_pdf_file="${source_xml_dir}$bname.pdf"
+
+
+# if we are not generating a target file, then we will be using one.
+
+if [[ $targetopt = "" ]]
+then
+    target_options="--stringparam target.database.document ../targets/olinkdb-${format}.xml"
+else
+    target_options="--stringparam collect.xref.targets only --stringparam targets.filename ../targets/magics_${bookname}_${format}_target.db"
+fi
+
+
+
+# xml -> fo
+command="xsltproc $netvalid $extra_xslt_flags  $out_fo_param $target_options $current_docid_param  $fop_extensions_param --xinclude $xsl_param $source_xml_param"
+
+if [[ verbose -eq "1" ]]
+then
+    echo "Executing: $command"
+fi 
+
+$command
+
+
+# fo -> pdf
+
+if [[ -e $fo_file && $targetopt = "" ]]
+then
+    command="fop $extra_fop_flags $fo_file  -pdf $out_pdf_file"
+
+    if [[ verbose -eq "1" ]]
+    then
+        echo "Executing: $command"
+    fi 
+
+    $command
+else
+    if [[ $targetopt = "" ]]
+    then
+        echo "ERROR: Intermediate .fo file '$fo_file' was not produced. Will not generate PDF"
+    fi
+fi
+
+
+
+
+# /usr/local/apps/docbook/bin/docbookx2html -o $format_flag -t $base_path/$xsl $mod_bookname.xml
+#tools/docbookx2html $verboseopt -o $format_flag -t  $base_path/$xsl $targetopt $bookidopt $targetdocopt "books/$mod_bookname.xml"
+
+# xxe and xerces have different opinions on how to handle relative includes
+# - see above. We are now converting the links back to 'xxe mode'.
+
+#for chapfile in chapters/*.xml
+#do
+#    sed 's/include href="examples/include href="..\/examples/g'       $chapfile > temp1.xml
+#    sed 's/include href="paramtables/include href="..\/paramtables/g' temp1.xml > temp2.xml
+#    mv temp2.xml $chapfile
+#    rm -f temp1.xml
+#    rm -f temp2.xml
+#done
+
+
+
+## figures at the top of a new page - reversal of above procedure
+#
+#if [[ $format = "pdf" ]]
+#then
+#    for chapfile in chapters/*.xml
+#    do
+#        sed "s/$figure_with_break/$figure_plain/g"       $chapfile  > temp.xml
+#        echo "s/$figure_with_break/$figure_plain/g"
+#        mv temp.xml $chapfile
+#    done
+#fi
+
+
+
+# now we've finished messing around with the source xml files, so let's
+# restore them to their original versions
+
+#for chapfile in chapters/$chapter_mask
+#do
+#    cp -p $chapfile.orig $chapfile
+#done
+
+
+# if not just creating the target database...
+
+if [[ $targetopt = "" ]]
+then
+
+    # for HTML, move into place
+
+    if [[ $format = "html" ]]
+    then
+        echo "Inserting links to index.html"
+        cd books
+        for htmlpage in *.html
+        do
+            sed "s/<a href=\"index.html\"><\/a>/<a href=\"index.html\">Contents<\/a>/g" "$htmlpage"   > "../publish/html/$htmlpage"
+            rm -f $htmlpage
+        done
+        cd ..
+
+        #mv books/*.html publish/html
+    fi
+
+
+    # for PDF, rename and move into place
+
+   if [[ $format = "pdf" ]]
+   then
+       final_pf_dest=publish/pdf/magics_$bookname.pdf
+       mv $out_pdf_file $final_pf_dest
+       echo ""
+       echo "GENERATED PDF is in '$final_pf_dest'"
+       echo ""
+   fi
+
+    # for PDF, convert the PostScript into PDF, then move into place
+
+#    if [[ $format = "pdf" ]]
+#    then
+#        ps2pdf books/$mod_bookname.ps
+#        mv $mod_bookname.pdf publish/pdf/$bookname.pdf
+#    fi
+
+fi
+
+
+# for HTML, we store all our images in './images' (relative to the html)
+# so we copy all images to that directory now
+
+if [[ $format = "html" ]]
+then
+    echo "Copying images to publish/html/images..."
+
+    cp -p -v diagrams/*.gif                       publish/html/images/diagrams
+    cp -p -v diagrams/*.png                       publish/html/images/diagrams
+    cp -p -v  examples/manual/c/png/*.png          publish/html/images/c
+    cp -p -v  examples/manual/fortran/png/*.png    publish/html/images/fortran
+    cp -p -v  examples/manual/magml/png/*.png      publish/html/images/magml
+    cp -p -v  examples/manual/python/png/*.png      publish/html/images/python
+#    cp -p -v  examples/tutorial/c/png/*.png        publish/html/images/c
+    cp -p -v  examples/tutorial/fortran/png/*.png  publish/html/images/fortran
+    cp -p -v  examples/tutorial/magml/png/*.png    publish/html/images/magml
+    chmod u+w                                     publish/html/images/*.gif
+    chmod u+w                                     publish/html/images/*/*.gif
+    chmod u+w                                     publish/html/images/*.png
+    chmod u+w                                     publish/html/images/*/*.png
+fi
+
+
+# clean up temporary files
+
+if [[ $clean = "yes" ]]
+then
+    tools/clean
+fi
+

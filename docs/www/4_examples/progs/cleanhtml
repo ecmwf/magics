@@ -1,0 +1,6 @@
+#!/bin/ksh
+# Removes the postscript files
+
+
+rm -f ../../html/test/*
+rm -f ../../html/checkup/*

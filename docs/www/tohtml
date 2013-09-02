@@ -1,0 +1,197 @@
+#!/bin/csh
+
+
+# Set our parameters to generate local pages by default
+
+set template_file    = "template-internal.htmlx"
+set dest_value       = "internal"
+set location_postfix = "internal"
+set fortrandir       = "fortran"
+set mpplibname       = "MAGPLUSLIB_SHARED"
+set selection        = "all"
+set get_dwt          = "0"
+
+
+
+# Check for command-line parameters
+
+foreach arg ($argv)
+
+    if  (("$arg" == "-h") || ("$arg" == "-help") || ("$arg" == "--help")) then
+        echo ""
+        echo "tohtml"
+        echo "Possible options:"
+        echo "   -external         : generates pages for external www pages"
+        echo "   -static           : shows the static magics++ library path in the test suite"
+        echo "   -shared           : shows the shared magics++ library path in the test suite"
+        echo "   -fortran          : generates only the FORTRAN test suite pages"
+        echo "   -fortran_drivers  : generates only the FORTRAN drivers test suite pages"
+        echo "   -c                : generates only the C test suite pages"
+        echo "   -metgrams         : generates only the metgram test suite pages"
+        echo "   -magml            : generates only the magml test suite pages"
+        echo "   -python           : generates only the Python test suite pages"
+        echo "   -fnames           : generates only the filenames test suite pages"
+        echo "   -get_dwt          : retrieves the DreamWeaver template from the web server (ECMWF only)"
+        echo ""
+        exit
+    endif
+
+    if ( "$arg" == "-external" ) then
+        set template_file     = "template-external.htmlx"
+        set dest_value        = "external"
+        set location_postfix  = "external"
+    else if ("$arg" == "-static") then
+        set mpplibname        = "MAGPLUSLIB_STATIC"
+        set fortrandir        = "fortran_static"
+    else if ("$arg" == "-fortran") then
+        set selection         = "fortran"
+    else if ("$arg" == "-fortran_drivers") then
+        set selection         = "fortran_drivers"
+    else if ("$arg" == "-c")       then
+        set selection         = "c"
+    else if ("$arg" == "-metgrams") then
+        set selection         = "metgrams"
+    else if ("$arg" == "-magml") then
+        set selection         = "magml"
+    else if ("$arg" == "-python") then
+        set selection         = "python"
+    else if ("$arg" == "-fnames")  then
+        set selection         = "fnames"
+    else if ("$arg" == "-get_dwt")  then
+        set get_dwt           = "1"
+    endif
+
+end
+
+
+# Set symbolic links so that we're using the right templates, etc
+
+ln -f -s $template_file                        common/template.htmlx
+ln -f -s location-$location_postfix.htmlx      common/location.htmlx
+ln -f -s location-top-$location_postfix.htmlx  common/location-top.htmlx
+ln -f -s location-test-$location_postfix.htmlx common/location-test.htmlx
+ln -f -s location-interfaces-$location_postfix.htmlx common/location-interfaces.htmlx
+
+
+# Ensure that our output directories exist
+
+tools/make_html_dirs
+
+
+# Since the Dreamweaver templates are not visible under leda, we keep
+# a local copy here so that the scripts may be run under either
+# Linux or leda without problems. When run under Linux, the latest
+# versions of the templates will be copied across so we should not
+# be out of date.
+
+if ("$get_dwt" == "1") then
+    wget http://wedit.ecmwf.int/Templates/ecmwf.dwt > common/ecmwf.dwt
+endif
+
+#if ( $ARCH == linux ) then
+#    cp /vol/www/htdocs/wedit/Templates/w3ec2.dwt common
+#    cp /vol/www/htdocs/wedit/Templates/ecmwf.dwt common
+#endif
+
+
+# Set our command-line Perl invocation. We use the -s parameter
+# to create a Perl variable called 'dest' with value $dest_value.
+# This will be used by some of the Perl scripts to generate different
+# text depending on whether the pages are for internal or external
+# publication.
+
+set PERL="perl -s"
+set perl_options = "-audience=$dest_value -mpplibname=$mpplibname -fortrandir=$fortrandir"
+
+
+# Now run the Perl scripts for the web pages
+
+switch ($selection)
+ case fortran:
+    $PERL 4_examples/tests.pl               $perl_options
+    $PERL 4_examples/testsindex.pl          $perl_options
+    breaksw
+
+ case fortran_drivers:
+    $PERL 4_examples/tests.pl               $perl_options -testprogs_type="drivers"
+    breaksw
+
+ case c:
+    $PERL 4_examples/c_examplesindex.pl     $perl_options -testprogs_type="www"
+    $PERL 4_examples/c_examplesindex.pl     $perl_options -testprogs_type="test"
+    $PERL 4_examples/c_examples.pl          $perl_options -testprogs_type="test"
+    $PERL 4_examples/c_examples.pl          $perl_options -testprogs_type="www"
+    breaksw
+
+ case metgrams:
+    $PERL 4_examples/epsgram_tests.pl       $perl_options
+    breaksw
+
+ case magml:
+    $PERL 4_examples/magml_examples.pl      $perl_options -testprogs_type="test"
+    breaksw
+
+case fnames:
+    $PERL 4_examples/filenamestest.pl       $perl_options
+    breaksw
+
+ case all:
+    $PERL 0_cover/magicsindex.pl            $perl_options
+    $PERL 1_intro/features_now.pl           $perl_options
+    $PERL 1_intro/workshopindex.pl          $perl_options
+    $PERL 1_intro/akima.pl                  $perl_options
+    $PERL 1_intro/changes.pl                $perl_options
+    $PERL 1_intro/coastlines.pl             $perl_options
+    $PERL 2_interfaces/interfacesindex.pl   $perl_options
+    $PERL 2_interfaces/fortran.pl           $perl_options
+    $PERL 2_interfaces/c.pl                 $perl_options
+    $PERL 2_interfaces/cpp.pl               $perl_options
+    $PERL 2_interfaces/eps.pl               $perl_options
+    $PERL 2_interfaces/xml.pl               $perl_options
+    $PERL 2_interfaces/magml.pl             $perl_options
+    $PERL ../../tools/mergexml.pl -XMLDir='../../src/xml'   $perl_options
+    $PERL 3_parameters/fortranactionindex.pl  $perl_options
+    $PERL 3_parameters/fortran_params_flat.pl $perl_options
+    $PERL 3_parameters/parameterindex.pl    $perl_options
+    # $PERL 3_parameters/xmltoweb.pl          $perl_options
+    $PERL 3_parameters/xml_releaseinfo.pl   $perl_options
+    $PERL 3_parameters/magml_complete.pl    $perl_options
+    $PERL 4_examples/examplesindex.pl       $perl_options
+    $PERL 4_examples/fortranexamplesindex.pl $perl_options
+    $PERL 4_examples/magmlexamplesindex.pl  $perl_options
+    $PERL 4_examples/examples.pl            $perl_options
+    $PERL 4_examples/c_examplesindex.pl     $perl_options -testprogs_type="www"
+    $PERL 4_examples/c_examplesindex.pl     $perl_options -testprogs_type="test"
+    $PERL 4_examples/c_examples.pl          $perl_options -testprogs_type="test"
+    $PERL 4_examples/c_examples.pl          $perl_options -testprogs_type="www"
+    $PERL 4_examples/magml_examples.pl      $perl_options -testprogs_type="test"
+    $PERL 4_examples/magml_examples.pl      $perl_options -testprogs_type="www"
+    $PERL 4_examples/tests.pl               $perl_options
+    $PERL 4_examples/testsindex.pl          $perl_options
+    $PERL 4_examples/classic.pl             $perl_options
+    $PERL 4_examples/epsgram_tests.pl       $perl_options
+    $PERL 4_examples/checkup.pl             $perl_options
+    $PERL 4_examples/filenamestest.pl       $perl_options
+    $PERL 5_compile/compileindex.pl         $perl_options
+    $PERL 5_compile/compile_odb.pl          $perl_options
+    $PERL 6_install/installindex.pl         $perl_options
+    $PERL 7_history/historyindex.pl         $perl_options
+    $PERL 8_formats/formatsindex.pl         $perl_options
+    $PERL 8_formats/svg.pl                  $perl_options
+    $PERL 8_formats/ps.pl                   $perl_options
+    $PERL 8_formats/gd.pl                   $perl_options
+    $PERL 8_formats/multioutput.pl          $perl_options
+    $PERL 9_versions/versionsindex.pl       $perl_options
+    $PERL a_environment/environmentindex.pl $perl_options
+
+ default:
+    echo "tohtml: no selection specified - nothing will be output!"
+    breaksw
+endsw
+
+
+
+# copy any images into the html directories
+
+# cp -u -f 1_intro/akima.gif      html/intro
+

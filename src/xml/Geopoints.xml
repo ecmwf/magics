@@ -1,0 +1,186 @@
+<?xml-stylesheet type='text/css' href='parameter.css'?>
+<magics>
+<class name = 'GeoPointsDecoder' xmltag='geopoints' prefix='geo/geo_input' action='pgeo' directory='decoders'>
+   <parameter name='geo_input_file_name' from='string' to='string'
+             member='path' default=''>
+         <release>Magics++1.1</release>
+         <documentation> The name of the input file containing the GeoPoints code field(s) </documentation>
+  </parameter>
+</class>
+   
+<class name = 'SimplePolylineInput'  xmltag='polyline_input' prefix='polyline/polyline_input' action='pline' directory='decoders' >
+  
+  <parameter name='polyline_input_latitudes' from='floatarray' to='floatarray'
+             member='latitudes' default='floatarray()'>
+         <release>Magics++2.1</release>
+         <documentation> Array containing the latitudes of the polylines. Each polyline is separated by the break value </documentation>
+  </parameter>
+  <parameter name='polyline_input_longitudes' from='floatarray' to='floatarray'
+             member='longitudes'  default='floatarray()'>
+         <release>Magics++2.1</release>
+         <documentation> Array containing the longitudes of the polylines. Each polyline is separated by the break value </documentation>
+  </parameter>
+   <parameter name='polyline_input_values' from='floatarray' to='floatarray'
+             member='values' default='floatarray()'>
+         <release>Magics++2.1</release>
+         <documentation> Array containing the values for each polyline </documentation>
+  </parameter>
+   <parameter name='polyline_input_break_indicator' from='float' to='float'   
+             member='breakvalue'  default='-999'>
+         <release>Magics++2.1</release>
+         <documentation> Value used as either a latitude or longitude to denote a separation between polylines </documentation>
+  </parameter>
+  <parameter name='polyline_input_positions_filename' from='string' to='string'
+             member='position_filename' xml='position_filename'
+			 default=''>
+         <release>Magics++2.1</release>
+         <documentation> Path to a file containing the coordinates for all polylines' points. </documentation>
+  </parameter>
+  <parameter name='polyline_input_values_filename' from='string' to='string'
+             member='values_filename'  default=''>
+         <release>Magics++2.1</release>
+         <documentation> Path to a file containing the values for each polyline. </documentation>
+  </parameter>
+</class>
+
+<class name = 'SimplePolyline'  xmltag='polyline' prefix='polyline/polyline_line' action='pline' directory='visualisers'  interface='ColourTechniqueInterface/LevelSelectionInterface' inherits='SimplePolylineInput'>
+ <parameter name='legend' from='string' to='bool'
+             member='legend' default='off'>
+         <release>Magics++2.80</release>
+         <documentation> Turn the legend on </documentation>
+  </parameter>
+  <parameter name='polyline_line_colour' from='string' to='Colour'
+             member='colour' default='blue'>
+         <release>Magics++2.1</release>
+         <documentation> Colour of the polylines </documentation>
+  </parameter>
+  <parameter name='polyline_line_style' from='string' to='LineStyle'
+             member='style' default='solid'>
+         <release>Magics++2.1</release>
+         <documentation> Style of the polylines (SOLID/ DASH/ DOT/ CHAIN_DASH/ CHAIN_DOT) </documentation>
+  </parameter>
+  <parameter name='polyline_line_thickness' from='int' to='int'
+             member='thickness' default='1'>
+         <release>Magics++2.1</release>
+         <documentation> Thickness of the polylines </documentation>
+  </parameter>
+  
+  <parameter name='polyline_level_count' from='int' to='int'
+             member='count'  default='10'>
+         <documentation> Count or number of levels to be plotted. Magics will try to find "nice levels", 
+         this means that the number of levels could be slightly different from the requested number of levels</documentation>
+         <release>Magics++2.1</release>
+  </parameter>
+  <parameter name='polyline_level_tolerance' from='int' to='int'
+             member='tolerance'  default='2'>
+         <documentation> Tolerance: Do not use "nice levels" if the number of levels is really to different [count +/- tolerance] </documentation>
+         <release>Magics++2.1</release>
+  </parameter>
+  <parameter name='polyline_reference_level' from='float' to='float'
+             member='reference'  default='0.0'>
+         <documentation> Level from which the level interval is calculated </documentation>
+         <release>Magics++2.1</release>
+  </parameter>
+
+
+  <parameter name='polyline_interval' from='float' to='float'
+             member='interval'  default='8.0'>
+         <documentation> Interval in data units between different bands of shading </documentation>
+         <release>Magics++2.1</release>
+  </parameter>
+
+ <parameter name='polyline_level_list' from='floatarray' to='floatarray'
+             member='list'	 default='floatarray()'>
+         <documentation> List of shading band levels to be plotted </documentation>
+         <release>Magics++2.1</release>
+  </parameter>
+
+  
+  <parameter name='polyline_shade' from='string' to='bool'
+             member='shade' default='none'>
+         <release>Magics++2.1</release>
+         <documentation> Whether to shade polygons or not (ON/OFF) </documentation>
+  </parameter>
+  
+   <parameter name='polyline_shade_max_level' from='float' to='float'
+             member='max'  default='1.0e+21' >
+         <documentation> Maximum level for which shading is required </documentation>
+         <release>Magics++2.1</release>
+  </parameter>
+
+  <parameter name='polyline_shade_min_level' from='float' to='float'
+             member='min'  default='-1.0e+21'>
+         <documentation> Minimum level for which shading is required </documentation>
+         <release>Magics++2.1</release>
+       
+  </parameter>
+  
+  <parameter name='polyline_shade_level_selection_type' from='string' to='LevelSelection'
+             member='levelSelection'  default='count'>
+         <documentation> Can be set to one of: (COUNT/ INTERVAL/ LEVEL_LIST) </documentation>
+         <release>Magics++2.1</release>
+         <option name='CountSelectionType'     fortran='count'    xml='count'    docdive='no' include='CountSelectionType.h'/>
+         <option name='IntervalSelectionType'  fortran='interval' xml='interval' docdive='no' include='IntervalSelectionType.h'/>
+         <option name='LevelListSelectionType' fortran='list'     xml='list'     docdive='no' include='LevelListSelectionType.h'/>
+  </parameter>
+
+  <parameter name='polyline_shade_colour_method' from='string' to='ColourTechnique'
+             member='colourMethod' 	 default='calculate'>
+         <documentation> Method of generating the colours of the bands in polygon shading (LIST/CALCULATE) </documentation>
+         <option name='CalculateColourTechnique' fortran='calculate' xml='calculate' docdive='no' include='CalculateColourTechnique.h'/>
+         <option name='ListColourTechnique'      fortran='list'      xml='list'      docdive='no' include='ListColourTechnique.h'/>
+         <available>list</available>
+         <release>Magics++2.1</release>
+  </parameter>
+
+  <parameter name='polyline_shade_max_level_colour' from='string' to='Colour'
+             member='maxColour' default='blue'>
+         <documentation> Highest shading band colour </documentation>
+         <release>Magics++2.1</release>
+  </parameter>
+
+  <parameter name='polyline_shade_min_level_colour' from='string' to='Colour'
+             member='minColour'  default='red'>
+         <documentation> Lowest shading band colour </documentation>
+         <release>Magics++2.1</release>
+  </parameter>
+
+  <parameter name='polyline_shade_colour_direction' from='string' to='string'
+             member='direction' default='anti_clockwise'>
+         <documentation> Direction of colour sequencing for shading (CLOCKWISE/ ANTI_CLOCKWISE) </documentation>
+         <release>Magics++2.1</release>
+  </parameter>
+
+  <parameter name='polyline_shade_colour_list'  colourlist='on' from='stringarray' to='stringarray'
+             member='colours' default='stringarray()'>
+         <documentation> List of colours to be used in polygon shading. </documentation>
+         <release>Magics++2.1</release>
+  </parameter>
+
+</class>
+
+
+
+<class name = 'MapGenDecoder' xmltag='mapgen' perfix='mapgen' action='pmapgen' directory='decoders'>
+   <parameter name='mapgen_input_file_name' from='string' to='string'
+             member='path'  default=''>
+         <release>Magics++2.1</release>
+         <documentation> The name of the input file containing the MapGen data </documentation>
+  </parameter>
+   <parameter name='mapgen_record' from='int' to='int'
+             member='record'  default='-1'>
+         <release>Magics++2.1</release>
+         <documentation> The name of the input file containing the MapGen data to plot </documentation>
+  </parameter>
+</class>
+
+<class name = 'ShapeDecoder' xmltag='shape' prefix='shape' action='pshape' directory='decoders'>
+   <parameter name='shape_input_file_name' from='string' to='string'
+             member='path'  default=''>
+         <release>Magics++2.1</release>
+         <documentation> The name of the input file containing the shape data ( geography only) </documentation>
+  </parameter>
+   
+</class>
+
+</magics>

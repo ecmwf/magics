@@ -1,0 +1,36 @@
+<magics>
+<class  action='pmetgram' directory='web' prefix='efijson' xmltag='efijson' name='EfiJSon'>
+	 	<parameter  member='path' to='string' default='' from='string' name='efijson_input_filename'>
+  			<documentation > Path to the file containing the Efi data (JSon format) 		</documentation>
+ 		</parameter>
+ 	
+         
+        	<parameter  xml='long_title' from='string' name='efi_long_title' default='off' member='long_title' to='bool'>
+            		<documentation > efigram long title ( Point Position ... General title!) 		</documentation>
+            		<migration > New Magics: Parameter eps_longitude sent to new Magics[EpsgramDecoder].  		</migration>
+        	</parameter>
+        	<parameter  xml='title' from='string' name='efi_title' default='off' member='title' to='bool'>
+            		<documentation > epsgram title ( parameter name) 		</documentation>
+            		<migration > New Magics: Parameter eps_longitude sent to new Magics[EpsgramDecoder].  		</migration>
+        	</parameter>
+        
+        
+          	<parameter  member='legend' to='bool' default='on' from='string' name='efi_legend'>           
+            		<documentation > legend 		</documentation>
+        	</parameter>  
+       
+        
+         	<parameter  member='legend_colours' to='stringarray' default='stringarray()' from='stringarray' name='efi_legend_colour_list'>           
+            		<documentation > legend box colour list  		</documentation>
+        	</parameter>
+         	<parameter  member='legend_type' to='string' default='both' from='string' name='efi_legend_box_type'>           
+            		<documentation > both/negative/positive 		</documentation>
+        	</parameter>
+        	<parameter  member='legend_normal_colour' to='Colour' default='black' from='string' name='efi_legend_normal_colour'>           
+            		<documentation > legend colour box 		</documentation>
+        	</parameter>
+          	<parameter  member='legend_normal_thickness' to='int' default='4' from='int' name='efi_legend_normal_thickness'>           
+            		<documentation > legend colour box 		</documentation>
+        	</parameter>
+         
+ </class></magics>

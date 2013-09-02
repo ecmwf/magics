@@ -1,0 +1,9 @@
+#!/bin/ksh
+
+rm -f books/*.html
+rm -f books/*.fo
+rm -f books/*.ps
+rm -f books/mod_*.xml
+# rm -f *.pdf
+rm -f chapters/mod_*.xml
+rm -f chapters/*.fo

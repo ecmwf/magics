@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="Legend_Plotting" label="13">
+  <title>Legend Plotting</title>
+
+  <xi:include href="../phrases/chapterinfo_mod.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <section id="Legend_Introduction">
+    <title>Introduction</title>
+
+    <para>Legends are an important part of any scientific plot. If enabled, <productname>Magics</productname>
+    tries to build a legend automatically from the data provided. In most cases this is
+    sufficient. Where not <productname>Magics</productname> offers further parameters to customise the legend.</para>
+
+
+    <important> <title>Magics++</title>
+    In previous versions of <productname>Magics</productname>, the legend parameter
+    <parameter>LEGEND_ENTRY_PLOT_DIRECTION</parameter> was automatically adjusted
+    to <code>COLUMN</code> or <code>ROW</code> depending on the aspect ratio of the
+    legend box.
+    After user feedback, it was decided to take this automatic adjustment out to give more control to users
+    in case of more complex legends. The default is now <code>ROW</code>.
+    If the legend box has a vertical layout, the user can set the
+    <parameter>LEGEND_ENTRY_PLOT_DIRECTION</parameter> parameter to <code>COLUMN</code>.
+    The parameter <parameter>LEGEND_COLUMN_COUNT</parameter> ( default=<code>1</code>) 
+    will then define the numbers of columns to generate for the legend.
+    </important>
+
+  </section>
+
+
+  <xi:include href="../paramtables/legend_tables.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <xi:include href="../paramtables/LegendVisitor_legend_magml_tables.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <xi:include href="../paramtables/LegendVisitor_legend_magml_flat_tables.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+</chapter>

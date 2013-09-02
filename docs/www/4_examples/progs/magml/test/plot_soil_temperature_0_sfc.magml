@@ -1,0 +1,173 @@
+<magics version='3.0' width='21' height='29.7'>        
+
+    <drivers>
+        <ps            name= 'plot_soil_temperature_0_sfc' />
+        <gif_animation name= 'plot_soil_temperature_0_sfc' />
+    </drivers>
+
+    <definition>         
+    </definition>
+
+    <page format ='a4' orientation = 'portrait' >
+    <frame/>
+
+    <map bottom = '90%' left = '25%' width = '100%' height = '10%'>
+       <nopageid/> <noframe/>
+       <text justification='centre'>
+             <font colour='black'>Soil temperature (sfc), step 6</font> </text>
+        <axisview use_id='view'> <noframe/> </axisview>
+    </map>
+       
+        <!-- subpage 1 -->
+
+        <map bottom = '0%' left = '0%' width = '50%'  height = '30%'>
+        <nopageid/>
+
+			<coastlines>
+				<coast colour='tan'>					
+                    <landshading colour = 'cream' />
+				</coast>
+				<nogrid colour='tan' line_style='dash'/>
+			</coastlines>
+                <plot>
+				    <grib input_file_name='data/plot:soil_temperature:0:sfc.grib'
+                          field_position='1'/>    
+
+      <contour>
+          <noisoline>
+              <shading>
+                  <polygon><area_fill/></polygon>
+                  <list colour_list='blue/purplish_blue/blue_purple/purple/
+                                     cyan/greenish_blue/green/greenish_yellow/
+                                     yellow/orange_yellow/yellowish_orange/
+                                     orange/red' />
+              </shading>
+              <count min_level='217.726'
+                     max_level='310.176'
+                     level_count ='13'/>
+              <nolabel height = '0.2'/>
+              <nohighlight/>
+          </noisoline>
+          <nohilo/>
+      </contour>           
+  </plot>
+			<coastlines>
+				<nocoast colour='tan'>					
+                    <landshading colour = 'cream' />
+				</nocoast>
+				<grid colour='tan' line_style='dash'/>
+			</coastlines>
+                <!-- text justification='left' -->
+                <text>
+                    <font colour='black'
+                          size='0.3'>ecmf (prod) [217.726 , 309.982]</font>
+                </text>	
+        
+        </map>
+       
+        <!-- subpage 1 -->
+
+        <map bottom = '0%' left = '50%' width = '50%'  height = '30%'>
+        <nopageid/>
+
+			<coastlines>
+				<coast colour='tan'>					
+                    <landshading colour = 'cream' />
+				</coast>
+				<nogrid colour='tan' line_style='dash'/>
+			</coastlines>
+                <plot>
+				    <grib input_file_name='data/plot:soil_temperature:0:sfc.grib'
+                          field_position='2'/>    
+
+      <contour>
+          <noisoline>
+              <shading>
+                  <polygon><area_fill/></polygon>
+                  <list colour_list='blue/purplish_blue/blue_purple/purple/cyan/
+                                     greenish_blue/green/greenish_yellow/yellow/
+                                     orange_yellow/yellowish_orange/orange/red' />
+              </shading>
+              <count min_level='217.726'
+                     max_level='310.176'
+                     level_count ='13'/>
+              <nolabel height = '0.2'/>
+              <nohighlight/>
+          </noisoline>
+          <nohilo/>
+      </contour>           
+  </plot>
+			<coastlines>
+				<nocoast colour='tan'>					
+                    <landshading colour = 'cream' />
+				</nocoast>
+				<grid colour='tan' line_style='dash'/>
+			</coastlines>
+                <!-- text justification='left' -->
+                <text>
+                    <font colour='black'
+                          size='0.3'>egrr (prod) [218.644 , 310.176]</font>
+                </text>	
+        
+        </map>
+     <!-- subpage 1 -->
+
+        <map bottom = '33.3333333333333%' left = '0%' width = '50%'  height = '30%'>
+        <nopageid/>
+		<coastlines>
+			<coast colour='tan'>
+			<landshading colour = 'cream'/>
+			</coast>
+		<grid colour='tan' line_style='dash'/>
+		</coastlines>
+               <text><font colour='black'
+                           size='0.3'>kwbc (prod) (no data)</font></text>	
+        </map>
+   
+     <!-- subpage 1 -->
+
+        <map bottom = '33.3333333333333%' left = '50%' width = '50%'  height = '30%'>
+        <nopageid/>
+		<coastlines>
+			<coast colour='tan'>
+			<landshading colour = 'cream'/>
+			</coast>
+		<grid colour='tan' line_style='dash'/>
+		</coastlines>
+               <text><font colour='black' size='0.3'>kwbc (test) (no data)</font></text>	
+        </map>
+   
+     <!-- subpage 1 -->
+
+        <map bottom = '66.6666666666667%' left = '0%' width = '50%'  height = '30%'>
+        <nopageid/>
+
+		<coastlines>
+			<coast colour='tan'>
+			<landshading colour = 'cream'/>
+			</coast>
+		<grid colour='tan' line_style='dash'/>
+		</coastlines>
+               <text><font colour='black' size='0.3'>rjtd (prod) (no data)</font></text>	
+        </map>
+   
+     <!-- subpage 1 -->
+
+        <map bottom = '66.6666666666667%' left = '50%' width = '50%'  height = '30%'>
+        <nopageid/>
+        <mapview>	
+		<frame colour='tan'/>
+           <!--polar_stereographic/-->	
+        </mapview>
+		<coastlines>
+			<coast colour='tan'>
+			<landshading colour = 'cream'/>
+			</coast>
+		<grid colour='tan' line_style='dash'/>
+		</coastlines>
+               <text><font colour='black' size='0.3'>rjtd (test) (no data)</font></text>	
+        </map>
+   
+    </page>
+</magics>
+   

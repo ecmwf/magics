@@ -1,0 +1,115 @@
+<project name="DocBook conversions" default="all">
+
+ <target name="init">
+
+   <property name="docbook.base"  value="../xsl/docbook-base" />
+   <property name="fop.base"  value="/usr/local/apps/fop" />
+   <property name="xxe.base"  value="/usr/local/apps/xxe-pro/current" />
+
+   <property name="xalan.dir"  value="${docbook.base}/xalan/current" />
+   <property name="fop.dir"  value="${fop.base}/current" />
+   <property name="docbook.dtd.dir"  value="${docbook.base}/dtd/" />
+   <property name="docbook.xsl.dir"  value="${docbook.base}/docbook-xsl" />
+   <property name="docbook.xsl.ecmwf.dir"  value="${docbook.base}/docbook-xsl-ecmwf" />
+
+   <property name="out.dir.html" value="${out.dir}" />
+   <property name="out.fo" value="${presentation.dir}/fo/project.fo" />
+
+<!--
+   <property name="html.xsl"  value="${docbook.xsl.ecmwf.dir}/w3ec2_html.xsl" />
+   <property name="html.xsl.big"  value="${docbook.xsl.ecmwf.dir}/docbook.xsl" />
+   <property name="fo.xsl"  value="${docbook.xsl.ecmwf.dir}/ems.xsl" />
+-->
+
+   <taskdef name="fop" classname="org.apache.fop.tools.anttasks.Fop">
+       <classpath>
+          <pathelement location="${fop.dir}/build/fop.jar"/>
+          <pathelement location="${fop.dir}/lib/avalon-framework-cvs-20020806.jar"/>
+          <pathelement location="${fop.dir}/lib/batik.jar"/>
+          <pathelement location="${fop.dir}/lib/JimiProClasses.zip"/>
+       </classpath>
+   </taskdef>
+
+   <xmlcatalog id="theCatalog">
+        <dtd publicId="-//OASIS//DTD DocBook XML V4.1.2//EN" location="${docbook.dtd.dir}/dbk40/docbookx.dtd"/>
+        <dtd publicId="-//OASIS//DTD DocBook XML V4.2//EN" location="${docbook.dtd.dir}/dbk42/docbookx.dtd"/>
+        <dtd publicId="-//OASIS//DTD DocBook XML V4.3//EN" location="${docbook.dtd.dir}/dbk43/docbookx.dtd"/>
+        <dtd publicId="-//ECMWF//DTD Memo XML V1.0//EN" location="${docbook.dtd.dir}/memo/V1.0/memo.dtd" />
+        <dtd publicId="-//OASIS//DTD Simplified DocBook XML V1.0//EN" location="${xxe.base}/config/sdocbook/dtd/V1.0/sdocbook.dtd" />
+   </xmlcatalog>
+
+   <path id="xslt.classpath">
+        <pathelement location="${xalan.dir}/xalan.jar"/>
+        <pathelement location="${xalan.dir}/xercesImpl.jar"/>
+        <pathelement location="${docbook.xsl.dir}/current/extensions/xalan2.jar"/>
+   </path>
+
+   <path id="xslt.classpath.saxon">
+        <pathelement location="${xxe.dir}/saxon.jar"/>
+        <pathelement location="${docbook.xsl.dir}/current/extensions/saxon651.jar"/>
+   </path>
+   
+ </target>
+         
+ <target name="all" depends="html, pdf">
+ </target>
+
+
+<!-- xml.docbook, out.dir.html, xsl.html -->
+ <target name="html" depends="init">
+	<xslt in="${docbook.xml}" out="${out.dir.html}/index.html" style="${out.xsl}">
+
+           <param name="ecmwf.location"           expression="${ecmwf.location}"/>
+           <param name="ecmwf.submenu"            expression="${ecmwf.submenu}"/>
+           <param name="target.database.document" expression="${target.database.document}"/>
+           <param name="current.docid"            expression="${current.docid}"/>
+           <param name="collect.xref.targets"     expression="${collect.xref.targets}"/>
+           <param name="targets.filename"         expression="${targets.filename}"/>
+
+	   <classpath refid="xslt.classpath" />
+           <xmlcatalog refid="theCatalog"/>
+
+	</xslt>
+ </target>
+
+ <target name="xml" depends="init">
+	<xslt in="${docbook.xml}" out="${file.noExtension}.xml.out" style="${out.xsl}">
+	        <classpath refid="xslt.classpath" />
+                <xmlcatalog refid="theCatalog"/>
+	</xslt>
+ </target>
+
+<!-- docbook.xml, out.html, xsl.html -->
+ <target name="fo" depends="init">
+	<xslt in="${docbook.xml}" out="${out.fo}" style="${out.xsl}">
+      <param name="target.database.document" expression="${target.database.document}"/>
+      <param name="current.docid"            expression="${current.docid}"/>
+      <param name="collect.xref.targets"     expression="${collect.xref.targets}"/>
+      <param name="targets.filename"         expression="${targets.filename}"/>
+
+      <classpath refid="xslt.classpath" />
+      <xmlcatalog refid="theCatalog"/>
+
+
+	</xslt>
+    
+    <echo>Hello</echo>
+ </target>
+
+
+ <target name="pdf" depends="fo">
+ 	<fop format="application/pdf" fofile="${out.fo}" outfile="${out.pdf}" messagelevel="error">
+    </fop>
+ </target>
+
+ <target name="ps" depends="fo">
+ 	<fop format="application/postscript" fofile="${out.fo}" outfile="${out.ps}" messagelevel="error">
+    </fop>
+ </target>
+ 
+ <target name="rtf" depends="fo">
+ 	<fop format="application/rtf" fofile="${out.fo}" outfile="${out.rtf}" />
+ </target>
+
+
+</project>

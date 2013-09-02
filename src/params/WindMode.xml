@@ -1,0 +1,2 @@
+<magics>
+<class  action='pgrib' directory='decoders' include='WindMode.h' name='WindMode'></class></magics>

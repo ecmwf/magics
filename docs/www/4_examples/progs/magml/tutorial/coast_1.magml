@@ -1,0 +1,18 @@
+<magics version='3.0' format='a4'>
+
+  <drivers>
+    <ps name= 'coast_1' />
+  </drivers>
+
+  <page >
+      <text height='10%' display='block'>Coast plotting</text>
+     <map height='80%'>		
+         <cylindrical 
+                     lower_left_longitude = '${west=-15}'
+                     lower_left_latitude  = '${north=30}'
+                     upper_right_longitude = '${east=40}'
+                     upper_right_latitude  = '${south=70}' />
+       <coastlines colour='tan' grid_line_style='dot'/>
+      </map>
+  </page>   
+</magics>    

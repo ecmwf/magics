@@ -1,0 +1,338 @@
+{
+    "drivers": [
+        {
+            "format": "ps",
+            "fullname": "${out=map.ps}"
+        }
+    ],
+    "height": "${height=29.7}",
+    "page": [
+        {
+            "height": "7%",
+            "page_id": "off"
+        },
+        {
+            "border": "on",
+            "height": "30%",
+            "legend": {
+                "border": "off",
+                "bottom": "75%",
+                "display": "absolute",
+                "height": "18%",
+                "left": "60%",
+				"margin_left": 0,
+                "margin_top": 0,
+                "margin_bottom": 0,
+                "legend_column_count": 4,
+                "legend_entry_text_width": "75%",
+                "legend_text_colour": "#0b265a",
+                "legend_text_composition": "user_text_only",
+                "legend_text_font_size": "0.3",
+                "legend_text_quality": "high",
+                "legend_user_lines": "Extremes/12.5-87.5%/25-75%/37.5-62.5%/Median",
+                "width": "45%"
+            },
+            "map": {
+                "border": "on",
+                "border-colour": "#0b265a",
+                "cartesian": {
+                    "x_regular": {
+                        "automatic": "on"
+                    },
+                    "y_regular": {
+                        "automatic": "on"
+                    }
+                },
+                "height": "100%",
+                "horizontal_axis": {
+                    "axis_grid": "on",
+                    "axis_grid_colour": "grey",
+                    "axis_grid_line_style": "dash",
+                    "axis_grid_reference_level": 0,
+                    "axis_grid_reference_thickness": 1,
+                    "axis_label_font": "sansserif",
+                    "axis_minor_tick": "on",
+                    "axis_minor_tick_count": "4",
+                    "axis_line": "on",
+                    "axis_line_colour": "#0b265a",
+                    "axis_tick_colour": "#0b265a",
+                    "axis_tick_label_colour": "#0b265a",
+                    "axis_tick_label_height": "0.3"
+                },
+                "margin_bottom": "0%",
+                "margin_top": "30%",
+                "plot": {
+                    "nocontour": {
+                        "contour_hilo": "off",
+                        "contour_label": "off",
+                        "contour_level_list": "0.5/10/30/50/100.1",
+                        "contour_level_selection_type": "list",
+                        "contour_line_colour": "grey",
+                        "contour_highlight": "off",
+                        "contour_line_thickness": "2",
+                        "contour_method": "linear",
+                        "contour_shade": "on",
+                        "contour_shade_colour_list": "#d0fd74/#9fee01/#789837/#4f7600",
+                        "contour_shade_colour_method": "list",
+                        "contour_shade_method": "area_fill",
+                        "legend": "on"
+                    },
+                    "epsplume": {
+                        "eps_plume_forecast":"off",
+                        "eps_plume_members":"off",
+					    "eps_plume_line_colour":"#4a80e8",
+                        "eps_plume_control":"off",
+                        "eps_plume_median":"on",
+                        "eps_plume_median_line_thickness":"5",
+                        "eps_plume_median_line_colour":"#00D4CC",
+                        "eps_plume_median_style":"dash",
+                        "eps_plume_shading":"on",
+                        "eps_plume_shading_level_list":"0/12.5/25/37.5/62.5/75/87.5/100",
+                        "eps_plume_shading_colour_list":"#FFB173/#FF9540/#FF7100/#A64A00"
+                    },
+                    "wrepjson": {
+                        "wrepjson_family": "eps",
+                        "wrepjson_input_filename": "${t850=t850.json}",
+                        "wrepjson_y_percentage": 15.,
+                        "wrepjson_parameter": "130.128",
+                        "wrepjson_parameter_information": "Temperature at 850 hPa",
+                        "wrepjson_parameter_offset_factor": "-273.15",
+                        "wrepjson_plumes_interval": "1."
+                    }
+                },
+                "vertical_axis": {
+                    "axis_grid": "on",
+                    "axis_grid_colour": "grey",
+                    "axis_grid_line_style": "dash",
+                    "axis_grid_reference_level": 0,
+                    "axis_grid_reference_thickness": 1,
+                    "axis_label_font": "sansserif",
+                    "axis_line": "on",
+                    "axis_line_colour": "#0b265a",
+                    "axis_tick_colour": "#0b265a",
+                    "axis_tick_label_colour": "#0b265a",
+                    "axis_tick_label_height": "0.3",
+                    "id": "vaxis"
+                }
+            },
+            
+            "page_id": "off",
+            "text": {
+                "border": "off",
+                "bottom": "65%",
+                "display": "absolute",
+                "height": "18%",
+                "text_colour": "#0b265a",
+                "text_font_size": 0.45,
+                "text_justification": "left",
+                "text_line_1": "ECMWF Ensemble forecasts for <json_info key='station_name'/> ",
+                "text_line_2": "Location: <json_info key='location'/>",
+                "text_line_3": "Base Time: <json_info key='date'/>",
+                "text_line_4": "<font size='0.2'> .  </font>",
+                "text_line_5": "<font size='0.45'><json_info key='parameter_info'/></font><font size='0.45'> (C) - Ensemble distribution </font>",
+                "text_line_count": 5,
+                "width": "100%"
+            }
+        },
+        {
+            "border": "on",
+            "height": "30%",
+            "horizontal_axis_height": 0.2,
+            "map": {
+                "border": "on",
+                "border-colour": "Rgb(0.5, 0.5, 0.5)",
+                "cartesian": {
+                    "x_regular": {
+                        "automatic": "on"
+                    },
+                    "y_regular": {
+                        "automatic": "max_only"
+                    }
+                },
+                "height": "100%",
+                 "horizontal_axis": {
+                    "axis_grid": "on",
+                    "axis_grid_colour": "grey",
+                    "axis_grid_line_style": "dash",
+                    "axis_grid_reference_level": 0,
+                    "axis_grid_reference_thickness": 1,
+                    "axis_label_font": "sansserif",
+                    "axis_minor_tick": "on",
+                    "axis_minor_tick_count": "4",
+                    "axis_line": "on",
+                    "axis_line_colour": "#0b265a",
+                    "axis_tick_colour": "#0b265a",
+                    "axis_tick_label_colour": "#0b265a",
+                    "axis_tick_label_height": "0.3"
+                },
+                "margin_bottom": "10%",
+                "margin_top": "20%",
+                "plot": { 
+                    "nocontour": {
+                        "contour_grid_value_plot": "off",
+                        "contour": "on",
+                        "contour_line_colour": "grey",
+                        "contour_label": "off",
+                        "contour_level_list": "0.5/10/30/50/120",
+                        "contour_level_selection_type": "list",
+                        "contour_shade": "on",
+                        "contour_highlight": "off",
+                        "contour_shade_colour_list": "#FFD073/#FFAA00/#BF8F30/#A66F00",
+                        "contour_shade_colour_method": "list",
+                        "contour_shade_method": "area_fill"
+                    },
+                    "epsplume": { 
+                        "eps_plume_members":"off",
+                        "eps_plume_median":"on",
+                        "eps_plume_median_line_thickness":"5",
+                        "eps_plume_median_line_colour":"#cd0174",
+                        "eps_plume_forecast":"off",
+                        "eps_plume_control":"off",
+                        "eps_plume_shading":"on",
+                        "eps_plume_shading_level_list":"0/12.5/25/37.5/62.5/75/87.5/100",
+                        "eps_plume_shading_colour_list":"#d0fd74/#9fee01/#789837/#4f7600"
+					},
+                    "wrepjson": {
+                        "wrepjson_family": "eps",
+                        "wrepjson_input_filename": "${tp=tp.json}",
+                        "wrepjson_parameter": "143.128",                        
+                        "wrepjson_parameter_information": "Total Precipitation (mm) - Ensemble distribution",
+                        "wrepjson_parameter_scaling_factor": "1000"
+                    }
+                },
+                "vertical_axis": {
+                    "axis_grid": "on",
+                    "axis_grid_colour": "grey",
+                    "axis_grid_line_style": "dash",
+                    "axis_grid_reference_level": 0,
+                    "axis_grid_reference_thickness": 1,
+                    "axis_label_font": "sansserif",
+                    "axis_line": "on",
+                    "axis_line_colour": "#0b265a",
+                    "axis_tick_colour": "#0b265a",
+                    "axis_tick_label_colour": "#0b265a",
+                    "axis_tick_label_height": "0.35",
+                    "id": "vaxis"
+                }
+            },
+            "meta": {
+                "javascript_path": "${js=js.js}"
+            },
+            "page_id": "off",
+            "text": {
+                "border": "off",
+                "bottom": "75%",
+                "display": "absolute",
+                "height": "20%",
+                "text_colour": "#0b265a",
+                "text_font_size": "0.45",
+                "text_justification": "left",
+                "text_line_1": "<json_info key='parameter_info'/>",
+                "text_line_count": 1,
+                "width": "100%"
+            }
+        },
+        {
+            "border": "on",
+            "height": "30%",
+            "map": {
+                "border": "on",
+                "border-colour": "Rgb(0.5, 0.5, 0.5)",
+                "cartesian": {
+                    "x_regular": {
+                        "automatic": "on"
+                    },
+                    "y_regular": {
+                        "automatic": "on"
+                    }
+                },
+                "height": "100%",
+                 "horizontal_axis": {
+                    "axis_grid": "on",
+                    "axis_grid_colour": "grey",
+                    "axis_grid_line_style": "dash",
+                    "axis_grid_reference_level": 0,
+                    "axis_grid_reference_thickness": 1,
+                    "axis_label_font": "sansserif",
+                    "axis_minor_tick": "on",
+                    "axis_minor_tick_count": "4",
+                    "axis_line": "on",
+                    "axis_line_colour": "#0b265a",
+                    "axis_tick_colour": "#0b265a",
+                    "axis_tick_label_colour": "#0b265a",
+                    "axis_tick_label_height": "0.3"
+                },
+                "margin_bottom": "20%",
+                "margin_top": "10%",
+                "plot": {
+                    "nocontour": {
+                        "contour_grid_value_plot": "off",
+                        "contour": "on",
+                        "contour_line_colour": "grey",
+                        "contour_label": "off",
+                        "contour_level_list": "0.5/10/30/50/120",
+                        "contour_level_selection_type": "list",
+                        "contour_shade": "on",
+                        "contour_highlight": "off",
+                        "contour_shade_colour_list": "#a4bff3/#4a80e8/#174cb4/#0b265a",
+                        "contour_shade_colour_method": "list",
+                        "contour_shade_method": "area_fill"
+                    },
+                    "epsplume": {
+                        "eps_plume_members":"off",
+                        "eps_plume_median":"on",
+                        "eps_plume_median_line_colour":"#cee849",
+                        "eps_plume_median_line_thickness":"5",
+                        "eps_plume_forecast":"off",
+                        "eps_plume_control":"off",
+                        "eps_plume_shading":"on",
+                        "eps_plume_shading_level_list":"0/12.5/25/37.5/62.5/75/87.5/100",
+                        "eps_plume_shading_colour_list":"#a4bff3/#4a80e8/#174cb4/#0b265a"
+					},
+                    "wrepjson": {
+                        "wrepjson_family": "eps",
+                        "wrepjson_input_filename": "${z500=z500.json}",
+                        "wrepjson_parameter": "129.128",
+                        "wrepjson_parameter_information": "Geopotential at 500 hPa (dam)",
+                        "wrepjson_parameter_scaling_factor": "0.01019",
+                        "wrepjson_y_percentage": 15.,
+                        "wrepjson_plumes_interval": "2.5"
+                    }
+                },
+                "vertical_axis": {
+                    "axis_grid": "on",
+                    "axis_grid_colour": "grey",
+                    "axis_grid_line_style": "dash",
+                    "axis_grid_reference_level": 0,
+                    "axis_grid_reference_thickness": 1,
+                    "axis_label_font": "sansserif",
+                    "axis_line": "on",
+                    "axis_line_colour": "#0b265a",
+                    "axis_tick_colour": "#0b265a",
+                    "axis_tick_label_colour": "#0b265a",
+                    "axis_tick_label_height": "0.35",
+                    "id": "vaxis"
+                }
+            },
+            "meta": {
+                "javascript_path": "${js=js.js}"
+            },
+            "page_id": "on",
+            "text": {
+                "border": "off",
+                "bottom": "85%",
+                "display": "absolute",
+                "height": "20%",
+                "text_colour": "#0b265a",
+                "text_font_size": "0.45",
+                "text_justification": "left",
+                "text_line_1": "<json_info key='parameter_info'/> - Ensemble distribution",
+                "text_line_count": 1,
+                "width": "100%"
+            }
+        }
+        
+    ],
+    "version": "3.0",
+    "width": "${width=21}"
+}

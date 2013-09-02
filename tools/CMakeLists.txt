@@ -1,0 +1,20 @@
+ecbuild_add_resources( TARGET tools_scripts
+                       SOURCES 
+                            magml2json.pl
+                            mergexml.pl
+                            newbase.pl
+                            newclass.pl
+                            newdriver.pl
+                            newfactory.pl
+                            newprojection.pl
+                            newtemplate.pl
+                            xml2cc.pl
+                            xml2cc_list.pl
+                            xml2cc_new.pl
+                            xml2doc.pl
+                            xml2dtd.pl
+                            xml2icon.pl
+                            xml2mv.pl
+                      DONT_PACK
+                            ParaTemplate.odt
+)

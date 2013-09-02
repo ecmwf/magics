@@ -1,0 +1,105 @@
+#!/bin/ksh
+
+
+# create any directories that do not already exist
+
+mkdir -p examples/manual/xml
+
+
+# for each chapter, take all the program listings and the outputs
+# from each, and insert them into an xml file. We'll have one xml file
+# per chapter which includes all the listings and outputs for that chapter.
+
+xmlchapterheading='<?xml version="1.0" encoding="UTF-8"?>'
+magml_path="examples/manual/magml/source"
+
+
+for chapter in text wind contour data obs boxplot using pline
+do
+    echo "Chapter: $chapter"
+    examples_xml_file="examples/manual/xml/${chapter}_examples.xml"
+    print $xmlchapterheading                          > $examples_xml_file
+    print "<section id=\"${chapter}_examples\">"     >> $examples_xml_file
+#    print "  <title>${chapter} Examples</title>"     >> $examples_xml_file
+
+    for source_file in examples/manual/fortran/source/${chapter}*.f
+    do
+        if [[ ! -a "$source_file" ]]
+        then
+            echo "not found: $source_file"
+            continue
+        fi
+
+        bname=`basename $source_file .f`
+        echo "  Source : $source_file ($bname)"
+        
+        print "<?pagebreak?>"                    >> $examples_xml_file
+        print "<section id=\"Program_$bname\">"  >> $examples_xml_file
+        print "  <title>Program: $bname</title>" >> $examples_xml_file
+        
+  
+        print "    <programlisting><xi:include href=\"../fortran/source/$bname.f_cc\" parse=\"xml\"" >> $examples_xml_file
+        print "            xmlns:xi=\"http://www.w3.org/2001/XInclude\" />"                >> $examples_xml_file
+        print "    </programlisting>"                                                      >> $examples_xml_file
+        
+
+        # if there exists a corresponding MagML example, then include its source too
+
+        magml_file="$bname.magml"
+
+        if [[ -a  $magml_path/$magml_file ]]
+        then
+            echo "  MagML : $magml_file"
+
+            print "<?pagebreak?>"                            >> $examples_xml_file
+            print "<section id=\"Program_${bname}_magml\">"  >> $examples_xml_file
+            print "  <title>Program: $magml_file</title>"    >> $examples_xml_file
+
+
+            print "    <programlisting><xi:include href=\"../magml/source/${magml_file}_cc\" parse=\"xml\"" >> $examples_xml_file
+            print "            xmlns:xi=\"http://www.w3.org/2001/XInclude\" />"                             >> $examples_xml_file
+            print "    </programlisting>"                                                                   >> $examples_xml_file
+            print "    </section>"                                                                          >> $examples_xml_file
+        fi
+
+
+        for ps_file in examples/manual/fortran/ps/${bname}*.ps
+        do
+            echo "    PS : $ps_file"
+            bnameplot=`basename $ps_file .ps`
+            plot_id="${bnameplot}Plot"
+            pngname="examples/manual//fortran/png/$bnameplot.png"
+#           epsname="examples/manual/fortran/epsi/$bnameplot.epsi"
+            pnghtml="images/fortran/$bnameplot.png"
+
+            print "  <?pagebreak?>" >> $examples_xml_file
+            print "  <section id=\"${plot_id}_Output\">"                        >> $examples_xml_file
+            print "    <title>Plot $bnameplot</title>"                          >> $examples_xml_file
+            print "    <mediaobject  id=\"$plot_id\">"                          >> $examples_xml_file
+            print "      <imageobject  role=\"html\">"                          >> $examples_xml_file
+            print "        <imagedata  format=\"PNG\"  fileref=\"$pnghtml\"/>"  >> $examples_xml_file
+            print "      </imageobject>"                                        >> $examples_xml_file
+            print "      <imageobject  role=\"fo\">"                            >> $examples_xml_file
+            print "        <imagedata  format=\"PNG\" depth=\"10cm\" fileref=\"$pngname\"/>"   >> $examples_xml_file
+            print "      </imageobject>"                                        >> $examples_xml_file
+            print "    </mediaobject>"                                          >> $examples_xml_file
+            print "  </section>"                                                >> $examples_xml_file
+
+
+        done
+
+        print "</section>" >> $examples_xml_file
+
+    done
+
+    print "</section>"   >> $examples_xml_file
+
+done
+
+
+# for psfile in examples/ps/*.ps
+# do
+#     bname=`basename $psfile .ps`
+#     ps2epsi $psfile "examples/epsi/$bname.epsi"
+#     convert $psfile "examples/png/$bname.png"
+# done

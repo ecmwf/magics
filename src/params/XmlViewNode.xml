@@ -1,0 +1,22 @@
+<magics>
+<class  inherits='XmlBasicNode' xmltag='map' name='XmlViewNode' directory='basic' prefix='view/subpage_map' action='MagML'> 
+		<parameter  member='fitted' to='string' default='off' from='string' name='view_fitted_mode'>
+			<documentation > If set to cropped, the projection will force a resize of the output to respect the aspect ratio.. Useful in the context of the web..  If set to fitted, the projection willbe expendef to fill the space! a resize of the output to respect the aspect ratio.. Useful in the context of the web.. 		</documentation>
+		</parameter>
+		<parameter  member='transformation' to='Transformation' default='cylindrical' from='string' name='subpage_map_projection'>
+         		<documentation > Projection required(CYLINDRICAL/ POLAR_STEREOGRAPHIC/ MERCATOR/SATELLITE/LAMBERT/AITOFF/OCEAN_SECTION/NONE) 		</documentation>
+         		<release >Magics++0.1		</release>
+        
+         
+         		<option  xml='cylindrical' fortran='cylindrical' include='GeoRectangularProjection.h' name='GeoRectangularProjection'>		</option>
+
+         
+         
+
+         		<option  xml='mercator' fortran='mercator' include='GeoRectangularProjection.h' name='MercatorProjection'>		</option>
+		 		<option  xml='cartesian' fortran='none' include='CartesianTransformation.h' name='CartesianTransformation'>		</option>
+         		<option  xml='taylor' fortran='taylor' include='TaylorProjection.h' name='TaylorProjection'>		</option>
+         
+         
+		</parameter>
+</class></magics>

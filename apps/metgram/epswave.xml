@@ -1,0 +1,8 @@
+
+<eps template='/tmp/cgs/perforce/mv4/apps/metgram/10_days_wave_epsgram.xml' database='/scratch/graphics/cgs/efi/10_days_wave/0001/2009042200' format='a4'> 
+   
+    
+   <station name='hello' latitude='51.4' longitude='-10' psfile='epswave.ps'/>
+   
+    
+</eps>

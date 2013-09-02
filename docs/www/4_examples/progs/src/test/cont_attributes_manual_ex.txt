@@ -1,0 +1,3 @@
+This example should be exactly the same as cont_attributes_ex,
+except that it uses manual layout to do the same as the automatic
+layout in the previous example.

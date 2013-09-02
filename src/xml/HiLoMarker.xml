@@ -1,0 +1,41 @@
+<?xml-stylesheet type='text/css' href='parameter.css'?>
+<magics>
+<class name='HiLoMarkerBase' include='HiLoMarkerBase.h' directory='visualisers'/> 
+
+<class name='HiLoMarker' action='pcont' used_by='HiLo' directory='visualisers' inherits='HiLoMarkerBase'> 
+  <documentation>
+  The position of a maxima/minima value may be marked by plotting a symbol on the precise location. 
+  Users may define their own symbol by setting the parameter CONTOUR_HILO_MARKER_INDEX
+  </documentation>
+  <parameter name='contour_hilo_marker_height' from='float' to='float'
+             member='height' xml='height' default='0.1' >
+         <documentation> Height of HILO marker symbol </documentation>
+         <release>Magics++0.2</release>
+  </parameter>
+
+  <parameter name='contour_hilo_marker_index' from='int' to='int'
+             member='index' xml='index' default='3' >
+         <documentation> Table number of marker symbol. See chapter on Plotting Attributes </documentation>
+         <release>Magics++0.2</release>
+  </parameter>
+
+<parameter name='contour_hilo_marker_colour' from='string' to='Colour'
+           member='colour' xml='colour' default='red' >
+         <documentation> Colour of grid point markers(Full choice of colours) </documentation>
+         <release>Magics++0.2</release>
+  </parameter>
+
+</class>
+
+
+
+<class name='NoHiLoMarker' action='pcont' directory='visualisers'include='HiLoMarker.h' inherits='HiLoMarkerBase'>
+   <documentation>
+   This object suppresses the plotting of Hi/Lo markers
+   </documentation>
+</class>
+ 
+
+
+
+</magics>

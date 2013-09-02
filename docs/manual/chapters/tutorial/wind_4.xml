@@ -1,0 +1,62 @@
+<magics>
+    <tutorial name="wind_4" magml='off' title='Coloured wind over the globe' comment='In this example we will learn how to load a wind info from a grib file, and how to make a coloured wind plotting over Europe'>     
+       <requirement name='1' subject='Geographical Area' text='Europe in cylindrical'
+            link_doc='layout_mapping_coastlines' link_ptr='Subpage_Mapping'>
+            <action name='pcoast'/>
+            <parameter name='subpage_lower_left_longitude' value='-15.0' function='psetr'/>
+            <parameter name='subpage_lower_left_latitude' value='30.0' function='psetr'/>
+            <parameter name='subpage_upper_right_longitude' value='40.0' function='psetr'/>
+            <parameter name='subpage_upper_right_latitude' value='70.0' function='psetr'/>
+            </requirement>
+        <requirement name='2' subject='Grid and coastlines setting' text='Shaded coastlines using HSL colour definition' 
+            link_doc='layout_mapping_coastlines' link_ptr='Coastlines_and_Gridlines'>
+            <action name='pcoast'/>
+            <parameter name='map_coastline_colour' value='tan' function='psetc'/>
+            <parameter name='map_coastline_thickness' value='2' function='pseti'/>
+            <parameter name='map_coastline_land_shade' value='on' function='psetc'/>
+            <parameter name='map_coastline_land_shade_colour' value='HSL(0.40, 0.15,0.95)' function='psetc'/>
+            <parameter name='map_grid_colour' value='tan' function='psetc'/>
+            <parameter name='map_grid_line_style' value='dot' function='psetc'/>
+            <parameter name='map_grid_latitude_increment' value='5.0' function='psetr'/>
+            <parameter name='map_grid_longitude_increment' value='5.0' function='psetr'/>
+        </requirement>  
+    
+        <requirement name='3' subject='Wind loading' text='Wind components are in grib file uv500.grib' 
+            link_doc='data' link_ptr='Pseudo_Action_Routine_PGRIB'>
+            <action name='pgrib'/>
+            <parameter name='grib_input_type' value='file' function='psetc'/>
+            <parameter name='grib_wind_position_1' value='1' function='pseti'/>
+            <parameter name='grib_wind_position_2' value='2' function='pseti'/>
+            <parameter name='grib_input_file_name' value='data/uv500.grib' function='psetc'/>
+        </requirement>  
+        <requirement name='4' subject='Green flags' text='Green flags for the wind below 5 m/s'
+            link_doc='wind' link_ptr='Plotting_Wind_Arrows'>
+            <action name='pwind'/>
+            <parameter name='wind_flag_thickness' value='3' function='pseti'/>
+            <parameter name='wind_field_type' value='flags' function='psetc'/>
+            <parameter name='wind_flag_max_speed' value='5.0' function='psetr'/>
+            <parameter name='wind_flag_origin_marker' value='dot' function='psetc'/>
+            <parameter name='wind_flag_colour' value='green' function='psetc'/>
+        </requirement> 
+         <requirement name='5' subject='Yellow flags' text='Yellow flags for the wind between 5 m/s and 10m/s'
+            link_doc='wind' link_ptr='Plotting_Wind_Arrows'>
+            <action name='pwind'/>
+            <parameter name='wind_flag_min_speed' value='5.0' function='psetr'/>
+            <parameter name='wind_flag_max_speed' value='10.0' function='psetr'/>
+        </requirement> 
+        <requirement name='6' subject='Orange flags' text='Orange flags for the wind between 10 m/s and 15m/s'
+            link_doc='wind' link_ptr='Plotting_Wind_Arrows'>
+            <action name='pwind'/>
+            <parameter name='wind_flag_min_speed' value='10.0' function='psetr'/>
+            <parameter name='wind_flag_max_speed' value='15.0' function='psetr'/>
+        </requirement> 
+        <requirement name='7' subject='Red flags' text='Red flags for the wind between 10 m/s and 15m/s'
+            link_doc='wind' link_ptr='Plotting_Wind_Arrows'>
+            <action name='pwind'/>
+            <parameter name='wind_flag_min_speed' value='20' function='psetr'/>
+            <parameter name='wind_flag_max_speed' value='' function='preset'/>
+        </requirement> 
+       
+        <spot name='a' text='Small difference in the thickness of the lines'/>           
+    </tutorial>
+</magics>

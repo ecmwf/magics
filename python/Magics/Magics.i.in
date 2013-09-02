@@ -1,0 +1,69 @@
+%module (docstring="This is a Python interface to Magics++") Magics
+
+%{
+#define SWIG_FILE_WITH_INIT
+/* Includes the header in the wrapper code */
+#include "Magics_interface.cc"
+%}
+
+%constant const char *__version__ ="@MAGICS_PACKAGE_VERSION@";
+
+
+// This tells SWIG to treat char ** as a special case
+//
+//  see http://www.swig.org/Doc1.3/Python.html#Python_nn59
+//
+%typemap(in) (const char **data, const int dim)
+{
+  /* Check if is a list */
+  if (PyList_Check($input))
+  {
+    int size = PyList_Size($input);
+    int i = 0;
+    $1 = (char **) malloc((size+1)*sizeof(char *));
+    $2 = size;
+    for (i = 0; i < size; i++) {
+      PyObject *o = PyList_GetItem($input,i);
+      if (PyString_Check(o))
+	$1[i] = PyString_AsString(PyList_GetItem($input,i));
+      else {
+	PyErr_SetString(PyExc_TypeError,"list must contain strings");
+	free($1);
+	return NULL;
+      }
+    }
+    $1[i] = 0;
+  }
+  else
+  {
+    PyErr_SetString(PyExc_TypeError,"not a list");
+    return NULL;
+  }
+}
+
+// This cleans up the char ** array we malloced before the function call
+%typemap(freearg) (const char **data, int dim)
+{
+  free((char *) $1);
+}
+
+
+/* 
+  N U M E R I C A L   A R R A Y S 
+*/
+%include "numpy.i"
+%init %{
+        import_array();
+%}
+
+%apply(double* IN_ARRAY1, int DIM1) {(double *data, int dim)}
+%apply(int* IN_ARRAY1, int DIM1) {(int *data, int dim)}
+
+%apply(int* IN_ARRAY2, int DIM1, int DIM2) {(int *data, const int dim1, const int dim2)}
+%apply(int* IN_ARRAY2, int DIM1, int DIM2, int DIM3) {(int *data, const int dim1, const int dim2, const int dim3)}
+
+%apply(double* IN_ARRAY2, int DIM1, int DIM2) {(double *data, const int dim1, const int dim2)}
+%apply(double* IN_ARRAY2, int DIM1, int DIM2, int DIM3) {(double *data, const int dim1, const int dim2, const int dim3)}
+
+/* Parse the header file to generate wrappers */
+%include "Magics_interface.cc"

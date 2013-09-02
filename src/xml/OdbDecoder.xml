@@ -1,0 +1,72 @@
+<?xml-stylesheet type='text/css' href='parameter.css'?>
+<magics>
+<class name='OdbDecoder' action='podb' directory='odb' xmltag='odb' prefix='odb' >
+	<documentation>
+		This is responsible for accessing the ODB and passing
+		its data to MAGICS.
+	</documentation>
+        <parameter name='odb_database' from='string' to='string'
+            member='database' default='' >
+            <documentation> Odb Database Path </documentation>
+        </parameter>
+         <parameter name='odb_database_option' from='string' to='string'
+            member='option' default=''>        
+            <documentation> Odb Database option : clean </documentation>
+        </parameter>
+          <parameter name='odb_query' from='string' to='string'
+            member='query' default=''>
+            <documentation> Odb Query </documentation>
+        </parameter>
+         <parameter name='odb_latitude' from='string' to='string'
+            member='latitude' default='latitude'>
+            <documentation> Odb latitude column name </documentation>
+        </parameter>
+       <parameter name='odb_longitude' from='string' to='string'
+            member='longitude' default='longitude' >
+ 
+            <documentation> Odb longitude column name </documentation>
+        </parameter>
+        <parameter name='odb_observation' from='string' to='string'
+            member='observation' default='obsvalue'>
+            <documentation> Odb observation column name </documentation> =       	
+	</parameter>
+        <parameter name='odb_observation_2' from='string' to='string'
+            member='observation2' default='obsvalue'>
+            <documentation> Odb observation#2 column name (for vectors)</documentation>        	
+	</parameter>
+	<parameter name='odb_level' from='string' to='string'
+            member='level' default='press' >
+            <documentation> Odb level column name </documentation>
+        </parameter>
+          <parameter name='odb_date' from='string' to='string'
+            member='date' default=''>
+            <documentation> Odb date column name name used to save in to geopoint format </documentation>
+        </parameter>
+          <parameter name='odb_time' from='string' to='string'
+            member='time' default=''>
+            <documentation> Odb time column name used to save in to geopoint format </documentation>
+        </parameter>
+        <parameter name='odb_x' from='string' to='string'
+            member='x' default='press' >
+            <documentation> Odb  column name used as X input for curve plotting </documentation>
+        </parameter>
+        <parameter name='odb_y' from='string' to='string'
+            member='y' default='press'>
+            <documentation> Odb  column name used as Y input for curve plotting </documentation>
+        </parameter>
+	<parameter name='odb_parameters' from='floatarray' to='floatarray'
+	    member='parameters' default ='floatarray()'  >
+	    <documentation> enable to bind a float value to a odb parameter ($?) </documentation>
+        </parameter> 
+	<parameter name='odb_starting_row' from='int' to='int'
+	    member='starting_row' default ='1' >
+	   <documentation> info sent to the odb server to set the starting row</documentation>
+	</parameter>
+	<parameter name='odb_nb_rows' from='int' to='int'
+	    member='nb_rows' default ='1000' >
+	   <documentation> info sent to the odb server to set the number of rows to be retrieved from the starting row </documentation>
+	</parameter>
+	
+</class>
+
+</magics>

@@ -1,0 +1,4 @@
+<magics>
+<class  inherits='HiLoSaveBase' xmltag='nosave' name='NoHiLoSave' directory='visualisers' action='pcont' include='HiLoSave.h'>
+   	<documentation >This object suppresses the saving of Hi/Lo information.	</documentation>
+</class></magics>

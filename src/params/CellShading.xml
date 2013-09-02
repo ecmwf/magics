@@ -1,0 +1,13 @@
+<magics>
+<class  inherits='ShadingTechnique' xmltag='cell_shading' name='CellShading' directory='visualisers' prefix='contour/contour/contour_shade/contour_shade_cell' action='pcont'>
+	
+  	<parameter  member='resolution' to='float' default='10' from='float' name='contour_shade_cell_resolution'>
+         		<documentation > Number of cells per cm for CELL shading 		</documentation> 
+         		<release >0.8		</release>
+  	</parameter>
+  
+  	<parameter  member='method' to='string' default='nearest' from='string' name='contour_shade_cell_method'>
+         		<documentation > NMethod of determining the colour of a cell (INTERPOLATE/ NEAREST) 		</documentation>
+         		<release >0.8		</release>
+  	</parameter>
+</class></magics>

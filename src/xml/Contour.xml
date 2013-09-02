@@ -1,0 +1,136 @@
+<?xml-stylesheet type='text/css' href='parameter.css'?>
+<magics>
+
+<class name='Contour' fortan='pcont' metview='MCONT'  xmltag='contour'  action='pcont' root='contour' directory='visualisers' prefix='contour'>
+  <documentation>
+    This controls the plotting of isolines, contour bands and grid points.
+  </documentation>
+
+  <parameter name='legend' from='string' to='bool' member='legend' default='off'> 
+		<documentation> Turn legend on or off </documentation> 
+		<release>2.12</release>
+        <set value='on' name='contour_special_legend'/>
+        <set value='on' name='contour_legend_text'/>
+  </parameter>
+
+  <parameter name='contour' from='string' to='IsoPlot' member='contour' default='on'> 
+         <documentation> Turn contouring on or off  </documentation>
+          <option name='IsoPlot'   fortran='on'  xml='isoline' include='IsoPlot.h'/>
+          <option name='NoIsoPlot' fortran='off' xml='noisoline'  include='IsoPlot.h' />
+		 <unset value='off' name='contour_line_style'/>
+		 <unset value='off' name='contour_line_thickness'/>
+		 <unset value='off' name='contour_line_colour'/>
+  </parameter> 
+      
+  <parameter name='contour_method' from='string' to='ContourMethod' member='method' default='automatic'>
+         <documentation> Contouring method  </documentation>
+         <option name='AutomaticContourMethod'  fortran='automatic' xml='automatic' 
+         		include='AutomaticContourMethod.h' xmlfile='Akima'/>
+         <option name='SampleContourMethod'   fortran='sample' xml='sample' 
+         		include='AutomaticContourMethod.h'  />		
+         <option name='ContourMethod'           fortran='linear'    xml='linear'
+         		include='ContourMethod.h'          />
+         <option name='Akima760Method'          fortran='akima760'  xml='akima760'
+         		include='Akima760Method.h'         />
+         <option name='Akima474Method'          fortran='akima474'  xml='akima474'
+         		include='Akima474Method.h'         />
+         <release>0.1</release>
+         <release>Two akima algorithms have been implemented akima760/akima474 </release>
+</parameter>
+
+<parameter name='contour_interpolation_floor' from='float' to='float' member='floor' default='-INT_MAX'>
+         <documentation>Any value below this floor will be forced  to the floor value.
+		avoid the bubbles artificially created by the interpolation method</documentation>
+         <release_info>2.8</release_info>
+</parameter>
+
+<parameter name='contour_interpolation_ceiling' from='float' to='float' member='ceiling'   default='INT_MAX'>
+         <documentation> any value above this ceiling will be forced  to the ceiling value.
+		avoid the bubbles artificially created by the interpolation method </documentation>
+         <release_info>2.8</release_info>
+</parameter>
+
+<parameter name='contour_automatic_setting' from='string' to='string'  member='setting' default='off' values='on/off/ecchart'> 
+    <documentation> Turn the automatic setting of contouring attributes  </documentation>
+    <unset value='off' name='contour_automatic_library_path'/>
+    <set value='on' name='contour_automatic_library_path'/>
+</parameter>
+
+<parameter name='contour_automatic_library_path' from='string' to='string'  member='library_path' default='' visible='off'> 
+         <documentation> Users can give their own file to setup the automatic library of contours </documentation>
+</parameter>
+
+
+<parameter name='contour_hilo' from='string' to='HiLoBase' member='hilo' default='off'>
+    <documentation> Plot local maxima/minima  </documentation>
+    <option name='HiLo'   fortran='on'  xml='hilo' include='HiLo.h' />
+    <option name='NoHiLo' fortran='off' xml='nohilo'  include='HiLo.h' />
+    <option name='HighHiLo' fortran='hi' xml='high'  include='HiLo.h' />
+    <option name='LowHiLo' fortran='lo' xml='low'  include='HiLo.h' />
+
+
+    <set value='on/hi/lo' name='contour_hilo_type'/>
+    <set value='on/hi/lo' name='contour_hilo_blanking'/>
+    <set value='on/hi/lo' name='contour_hilo_format'/>
+    <set value='on/hi/lo' name='contour_hilo_window_size'/>
+    <set value='on/hi/lo' name='contour_hilo_reduction_radius'/>
+    <set value='on/hi/lo' name='contour_hilo_suppress_radius'/>
+    <set value='on/hi/lo' name='contour_hilo_max_value'/>
+    <set value='on/hi/lo' name='contour_hilo_min_value'/>
+    <set value='on/hi'    name='contour_hi_text'/>
+    <set value='on/lo'    name='contour_lo_text'/>
+    <set value='on/hi'    name='contour_hi_max_value'/>
+    <set value='on/hi'    name='contour_hi_min_value'/>
+    <set value='on/lo'    name='contour_lo_max_value'/>
+    <set value='on/lo'    name='contour_lo_min_value'/>
+    <set value='on/hi/lo' name='contour_hilo_marker'/>
+    <set value='on/lo'    name='contour_lo_colour'/>
+    <set value='on/hi'    name='contour_hi_colour'/>
+    <set value='on/hi/lo' name='contour_hilo_marker_height'/>
+    <set value='on/hi/lo' name='contour_hilo_marker_index'/>
+    <set value='on/hi/lo' name='contour_hilo_marker_colour'/>
+    <set value='on/hi/lo' name='contour_hilo_position_file_name'/>
+    <set value='on/hi/lo' name='contour_hilo_height'/>
+    <set value='on/hi/lo' name='contour_hilo_quality'/>
+
+
+</parameter>
+  
+
+<parameter name='contour_grid_value_plot' from='string' to='ValuePlotBase' member='grid'  default='off'>
+         <documentation> Plot Grid point values </documentation>
+         <option name='ValuePlot'   fortran='on'  xml='gridvalues' include='ValuePlot.h' />
+         <option name='NoValuePlot' fortran='off' xml='nogridvalues' include='ValuePlot.h' />
+         <release>Magics++0.3</release>
+</parameter>
+
+
+    <!-- parameters only used by Metview -->
+    <metview_parameter name='grib_scaling_of_retrieved_fields' from='string' to='bool' default='on'>
+        <documentation>Certain parameters will be scaled into more user-friendly units if the data has not been manipulated</documentation>
+    </metview_parameter>
+
+    <metview_parameter name='grib_scaling_of_derived_fields'   from='string' to='bool' default='off'>
+        <documentation>Certain parameters will be scaled into more user-friendly units if the data has been manipulated</documentation>
+    </metview_parameter>
+
+</class>
+
+
+<class name='ContourMethod' include='ContourMethod.h'  directory='visualisers'/>
+<class name='AutomaticContourMethod' include='AutomaticContourMethod.h'  inherits='ContourMethod' directory='visualisers'/>
+
+
+<class name='SampleContourMethod' include='AutomaticContourMethod.h'    inherits='ContourMethod' doc_inherits='no' directory='visualisers'>
+
+    <parameter name='contour_sample_x_interval' xml='x_interval' from='int' to='int' member='x' default='2'>
+        <documentation>X sampling interval used in 'sample' method (takes every nth point)</documentation>/>
+    </parameter>
+
+    <parameter name='contour_sample_y_interval' xml='y_interval' from='int' to='int' member='y' default='2'>
+        <documentation>Y sampling interval used in 'sample' method (takes every nth point)</documentation>/>
+    </parameter>
+
+</class>
+
+</magics>

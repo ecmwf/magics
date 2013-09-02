@@ -1,0 +1,37 @@
+<magics>
+<class  action='pcdfgram' directory='visualisers' prefix='efi' xmltag='efigraph' name='EfiGraph'>
+		<documentation >
+		The Epsgram is responsible for accessing the espgram database its data to MAGICS.
+		</documentation>
+        	<parameter  member='box_colour' to='stringarray' default='stringarray()' from='stringarray' name='efi_box_colour_array'>           
+            		<documentation > Colour of the curve  		</documentation>
+        	</parameter>
+        
+        	<parameter  member='border_colour' to='Colour' default='black' from='string' name='efi_box_border_colour'>           
+            		<documentation > Style of the curve  		</documentation>
+        	</parameter>
+          	<parameter  member='border_thickness' to='int' default='1' from='int' name='efi_box_border_thickness'>           
+            		<documentation > Style of the curve  		</documentation>
+        	</parameter>
+          	<parameter  member='border_style' to='LineStyle' default='solid' from='string' name='efi_box_border_line_style'>           
+            		<documentation > Style of the curve  		</documentation>
+        	</parameter>
+            	<parameter  member='normal_colour' to='Colour' default='black' from='string' name='efi_normal_colour'>           
+            		<documentation > Style of the curve  		</documentation>
+        	</parameter>
+         	<parameter  member='normal_thickness' to='int' default='4' from='int' name='efi_normal_thickness'>           
+            		<documentation > Style of the curve  		</documentation>
+        	</parameter>
+          	<parameter  member='normal_style' to='LineStyle' default='solid' from='string' name='efi_normal_line_style'>           
+            		<documentation > Style of the curve  		</documentation>
+        	</parameter>
+         	<parameter  xml='font' from='string' name='efi_font' default='sansserif' member='font' to='string'>           
+        	</parameter>
+         	<parameter  xml='font_size' from='float' name='efi_font_size' default='0.25' member='font_size' to='float'>           
+        	</parameter>
+        	<parameter  xml='font_style' from='string' name='efi_font_style' default='' member='font_style' to='string'>           
+        	</parameter>
+        	<parameter  xml='font_colour' from='string' name='efi_font_colour' default='black' member='font_colour' to='Colour'>           
+        	</parameter>
+        
+</class></magics>

@@ -1,0 +1,121 @@
+<!--
+
+ Copyright 2007 European Centre for Medium-Range Weather Forecasts (ECMWF)
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at 
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+
+
+ This file describes BUFR codes for the various parameters and suptypes 
+ as used at ECMWF (098)  
+
+-->
+<centre name='98'>
+  <bufr_identifiers>
+    <wind_direction descriptor='11001'/>
+    <wind_speed descriptor='11002'/>
+    <height_meters  descriptor='10195'/>
+    <dewpoint descriptor='12003'/>
+    <temperature descriptor='12001'/>
+    <pressure_1 descriptor='07004'/>
+    <pressure_2 descriptor='07006'/>
+    <sea_temperature descriptor='22042'/>
+    <u_component descriptor='11192'/>
+    <v_component descriptor='11193'/>
+    <altitude_meters descriptor='07002'/>
+    <virtual_temperature descriptor='12007'/>
+    <water_precip descriptor='13006'/>
+    <total_cloud descriptor='20010'/>
+    <pressure  descriptor='10004'/>  
+    <wind_direction_10meters descriptor='11011'/>
+    <wind_speed_10meters descriptor='11012'/>
+    <horizontal_visibility descriptor='20001'/>
+    <present_weather descriptor='20003'/>
+    <temperature_2meters descriptor='12004'/>
+    <low_cloud descriptor='20012'/>
+    <medium_cloud descriptor='20012'/>
+    <high_cloud descriptor='20012'/>
+    <low_cloud_nebulosity descriptor='20011'/>
+    <medium_cloud_nebulosity descriptor='20011'/>
+    <high_cloud_nebulosity descriptor='20011'/>
+    <low_cloud_height descriptor='20013'/>
+    <medium_cloud_height descriptor='20013'/>
+    <high_cloud_height descriptor='20013'/>
+    <msl_pressure descriptor='10051'/>
+    <pressure_tendency_characteristic descriptor='10063'/>
+    <pressure_tendency_amount descriptor='10061'/>
+    <past_weather_1 descriptor='20004'/>
+    <past_weather_2 descriptor='20005'/>
+    <cloud_amount descriptor='20011'/>
+    <height_of_cloud_base descriptor='20013'/>
+    <dewpoint_2meters descriptor='12006'/>
+    <sea_temperature descriptor='22042'/>
+    <ship_direction descriptor='1012'/>
+    <ship_speed descriptor='1013'/>
+    <total_cloud descriptor='20010'/>
+    <wind_wave_direction descriptor='22002'/>
+    <wind_wave_period descriptor='22012'/>
+    <wind_wave_height descriptor='22022'/>
+    <swell_direction descriptor='22003'/>
+    <swell_period descriptor='22013'/>
+    <swell_heigth descriptor='22023'/>
+    <wave_direction descriptor='22001'/>
+    <wave_period descriptor='22011'/>
+    <wave_height descriptor='22021'/>
+    <hour descriptor='4004'/>
+    <minute descriptor='4005'/>
+    <latitude descriptor='5002'/>
+    <longitude descriptor='6002'/>
+    <latitude_1 descriptor='5001'/>
+    <latitude_2 descriptor='5002'/>
+    <longitude_1 descriptor='6001'/>
+    <longitude_2 descriptor='6002'/>
+    <station_height descriptor='7001'/>
+    <depth_below_land_surface descriptor='7061'/>
+    <soil_temperature descriptor='12030'/>
+    <geopotential descriptor='10003'/>
+	<past_precipitation descriptor='13021'/>
+  </bufr_identifiers>
+
+  <type value='0'>
+	<subtype value='1' template='synop'>synop land</subtype>
+	<subtype value='2' template='synop'>synop land record 2</subtype>
+	<subtype value='3' template='synop'>synop land auto </subtype>
+	<subtype value='4' template='synop'>synop land auto </subtype>
+	<subtype value='140' template='metar'>Metar</subtype>
+  </type>
+
+  <type value='1'>
+	<subtype value='11' template='synop_ship'>synop ship</subtype>
+	<subtype value='21' template='dribu_surface'>dribu surface</subtype>
+  </type>
+
+  <type value='2'>
+	<subtype value='91'>pilot</subtype>
+	<subtype value='101' template='temp'>temp</subtype>
+  </type>
+
+  <type value='4'>
+	<subtype value='142' template='airep'></subtype>
+	<subtype value='145' template='acar'></subtype>
+  </type>
+
+  <type value='5'>
+	<subtype value='82' template='satob'>satob wind</subtype>
+	<subtype value='83' template='satob'>satob wind and temperature</subtype>
+	<subtype value='84' template='satob'>satob section 4</subtype>
+	<subtype value='85' template='satob'>satob section 5</subtype>
+	<subtype value='89' template='unknown'>???</subtype>
+	<subtype value='87' template='unknown'>???</subtype>
+	<subtype value='88' template='unknown'>???</subtype>
+  </type>
+</centre>

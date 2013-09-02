@@ -1,0 +1,242 @@
+#!/bin/ksh
+# sets the 'bin' directory to point to somewhere else
+# - additional (07/09/1005) : also sets the 'ps' directory to
+#   point somewhere else
+
+
+
+interface="fortran"
+os="suse9"
+type="test"
+link="shared"
+bindir=""
+logdir=""
+psdir="../../html/test"
+basetmp="/var/tmp/$USER"
+dummy=0
+
+for arg;do
+    if [[ $arg = "-h" || $arg = "-help" || $arg = "--help" ]]
+    then
+        echo ""
+        echo "setbin"
+        echo "Prepares the bin, ps and logs directories for the test suite."
+        echo "Supply command-line options wich describe the test you will be running."
+        echo ""
+        echo "Possible OS options:"
+        echo "   -suse7"
+        echo "   -suse9   (default)"
+        echo "   -suse11"
+        echo "   -ibm"
+        echo "   -cluster"
+        echo "   -lxab"
+        echo ""
+        echo "Possible suite type options:"
+        echo "   -test    (default)"
+        echo "   -www"
+        echo "   -classic"
+        echo "   -manual"
+        echo "   -checkup"
+        echo "   -tutorial"
+        echo ""
+        echo "Link options:"
+        echo "   -shared   (default)"
+        echo "   -static"
+        echo ""
+        echo "Interface options:"
+        echo "   -c"
+        echo "   -fortran  (default)"
+        echo ""
+        echo "Miscellaneous options:"
+        echo "   -dummy (does not create the directories or links; it just reports)"
+        echo ""
+       exit
+    fi
+
+    if [[ $arg = "-suse7" ]]
+    then
+        os="suse7"
+#        bindir=/scratch/graphics/cgi/mppman_bin_7
+        psdir=/scratch/graphics/cgi/mppman_ps_7
+        basetmp=$SCRATCH
+    fi
+
+    if [[ $arg = "-suse9" ]]
+    then
+        os="suse9"
+        bindir=$basetmp/mppbins/mppbin_9
+        psdir=../../html/test
+#       psdir=/var/tmp/cgi/mpp_ps/mpp_ps_9
+    fi
+
+    if [[ $arg = "-suse11" ]]
+    then
+        os="suse11"
+        bindir=$basetmp/mppbins/mppbin_11
+        psdir=../../html/test
+    fi
+
+    if [[ $arg = "-ibm" ]]
+    then
+        os="ibm"
+        basetmp=$SCRATCH
+#        bindir=/scratch/graphics/cgi/mppman_bin_ibm
+    fi
+
+    if [[ $arg = "-cluster" ]]
+    then
+        os="cluster"
+        basetmp=$SCRATCH
+#        bindir=/scratch/graphics/cgi/mppman_bin_cluster
+    fi
+
+    if [[ $arg = "-lxab" ]]
+    then
+        os="lxab"
+        basetmp=$SCRATCH
+    fi
+
+    if [[ $arg = "-test" ]]
+    then
+        type="test"
+        psdir=../../html/test
+#        bindir=$basetmp/mppbins/mppbin_www
+#        psdir=$basetmp/mpp_ps/mpp_ps_www
+    fi
+
+    if [[ $arg = "-www" ]]
+    then
+        type="examples"
+        psdir=../../html/examples
+#        bindir=$basetmp/mppbins/mppbin_www
+#        psdir=$basetmp/mpp_ps/mpp_ps_www
+    fi
+
+    if [[ $arg = "-classic" ]]
+    then
+        type="classic"
+        psdir=../../html/classic
+#        bindir=$basetmp/mppbins/mppbin_classic
+#        psdir=$basetmp/mpp_ps/mpp_ps_classic
+    fi
+
+    if [[ $arg = "-manual" ]]
+    then
+        type="manual"
+        psdir=$basetmp/mpp_ps/mpp_ps_manual
+#        bindir=$basetmp/mppbins/mppbin_manual
+    fi
+
+    if [[ $arg = "-tutorial" ]]
+    then
+        type="tutorial"
+        psdir=$basetmp/mpp_ps/mpp_ps_tutorial
+    fi
+
+    if [[ $arg = "-checkup" ]]
+    then
+        type="checkup"
+        psdir=../../html/checkup
+#        bindir=$basetmp/mppbins/mppbin_checkup
+    fi
+
+    if [[ $arg = "-shared" ]]
+    then
+        link="shared"
+    fi
+
+    if [[ $arg = "-static" ]]
+    then
+        link="static"
+#        bindir="${bindir}_static"
+#        psdir=../../html/test
+#       psdir="${psdir}_static"
+    fi
+
+    if [[ $arg = "-c" ]]
+    then
+        interface="c"
+        psdir="../../html/c_test"
+    fi
+
+    if [[ $arg = "-fortran" ]]
+    then
+        interface="fortran"
+    fi
+
+    if [[ $arg = "-dummy" ]]
+    then
+        dummy=1
+    fi
+
+done
+
+
+if [[ $arg = "" ]]
+then
+    echo "No bin directory set - use 'setbin -h' for help"
+    exit
+fi
+
+
+
+
+# generate the bin and log paths
+
+bindir="$basetmp/mppbins/mppbin_${os}_${type}_${link}_${interface}"
+logdir="$basetmp/mpplogs/mpplog_${os}_${type}_${link}_${interface}"
+psdir="../../html/$type/$interface"
+
+
+# special case: fortran_static
+
+if [[ $interface = "fortran" && $link = "static" ]]
+then
+    psdir="${psdir}_static"
+fi
+
+
+
+echo "bin  directory set to $bindir"
+echo "logs directory set to $logdir"
+echo "ps   directory set to $psdir"
+
+
+if [[ dummy -eq 0 ]]
+then 
+
+    # create all directories if they do not exist
+
+    if [[ ! -a $bindir ]]
+    then
+        echo "Creating directory $bindir"
+        mkdir -p $bindir
+    fi
+
+    if [[ ! -a $logdir ]]
+    then
+        echo "Creating directory $logdir"
+        mkdir -p $logdir
+    fi
+
+    if [[ ! -a $psdir ]]
+    then
+        echo "Creating directory $psdir"
+        mkdir -p $psdir
+    fi
+
+
+    # creates a symbolic link to the chosen directories
+
+    rm -f    bin
+    ln -s -f $bindir bin
+
+    rm -f    logs
+    ln -s -f $logdir logs
+
+    rm -f    ps
+    ln -s -f $psdir ps
+
+else
+    echo "No directories created - dummy run"
+fi

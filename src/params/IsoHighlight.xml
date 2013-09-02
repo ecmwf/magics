@@ -1,0 +1,31 @@
+<magics>
+<class  inherits='NoIsoHighlight' xmltag='highlight' name='IsoHighlight' directory='visualisers' prefix='contour/contour/contour_highlight' action='pcont'>
+	<documentation > This object is responsible of plotting the hightlight isolines 	</documentation>
+  	<parameter  xml='style' priority='0.2' from='string' name='contour_highlight_style' default='solid' member='style' to='LineStyle'>
+         		<documentation > Style of highlighting (SOLID/ DASH/ DOT/ CHAIN_DASH/ CHAIN_DOT) 		</documentation>
+         		<migration > New Magics: Parameter Contour sent to new Magics[Contour].  		</migration>
+         		<release >Magics++0.2		</release>
+  	</parameter>
+ 	<parameter  member='reference' to='float' default='0.0' from='float' name='contour_reference_level'>
+         		<documentation > Contour level reference 		</documentation>
+         		<release >Magics++0.1		</release>
+  	</parameter>
+  
+  	<parameter  priority='0.2' from='string' name='contour_highlight_colour' default='blue' member='colour' to='Colour'>
+         		<documentation > Colour of highlight line 		</documentation>
+         		<release >Magics++0.2		</release>
+         		<migration > New Magics: Parameter Contour sent to new Magics[Contour].  		</migration>
+  	</parameter>
+
+  	<parameter  priority='0.2' from='int' name='contour_highlight_thickness' default='3' member='thickness' to='int'>
+         		<release >Magics++0.2		</release>
+         		<documentation > Thickness of highlight line 		</documentation>
+         		<migration > New Magics: Parameter Contour sent to new Magics[Contour].  		</migration>
+  	</parameter>
+
+  	<parameter  priority='0.2' from='int' name='contour_highlight_frequency' default='4' member='frequency' to='int'>
+         		<release >Magics++0.2		</release>
+         		<documentation > Frequency of highlight line 		</documentation>
+         		<migration > New Magics: Parameter contour_highlight_frequency sent to new Magics[Contour].  		</migration>
+  	</parameter>
+</class></magics>

@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+                 "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd">
+<chapter id="MAGICS_Boxplots" label="10">
+  <title>Boxplot Plotting</title>
+
+  <xi:include href="../phrases/chapterinfo_mod.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <section id="Boxplot_Introduction">
+    <title>Introduction</title>
+
+    <para>A boxplot is a way of visually summarising the
+    distribution of a set of data. Three components of the boxplot
+    show the following information:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>Box: the upper and lower bounds of the box typically show
+        the 25th and 75th percentiles (interquartile range), although in
+        practice they could represent different percentiles.</para>
+      </listitem>
+      <listitem>
+        <para>Median line: a line across the box shows the position of
+        the median. </para>
+      </listitem>
+      <listitem>
+        <para>Whiskers: two vertical lines coming out of the box show
+        the extent of the data which are not considered outliers.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para>The following diagram shows a sample boxplot:</para>
+
+    <figure id="figure_sample_boxplot">
+      <title>A Sample Boxplot</title>
+      <mediaobject id="boxplot_example">
+          <imageobject role="fo">
+            <imagedata fileref="../diagrams/diagram_boxplot.gif" format="GIF"
+                       width="8cm" depth="8cm" align="center"/>
+          </imageobject>
+
+          <imageobject role="html">
+            <imagedata fileref="images/diagrams/diagram_boxplot.gif" format="GIF"
+                       align="center"/>
+          </imageobject>
+       </mediaobject>
+    </figure>
+
+
+    <para><productname>Magics</productname> allows the user to pass data
+    representing these values in array form, defining several
+    boxplots at the one time. Then all may be plotted with a single
+    action routine, <function>PBOXPLOT</function>.</para>
+
+    <para>Various parameters exist to control the style and plotting
+    attributes of the boxplots. They start with
+    the prefix <parameter>BOXPLOT</parameter>,
+    e.g. <parameter>BOXPLOT_BOX_COLOUR</parameter>.
+    These parameters describe the input data and plotting attributes.</para>
+    
+    <para>A summary of BOXPLOT parameters, error codes and program examples
+    of graph plotting are in later sections.</para>
+  </section>
+
+
+  <section id="Boxplot_Input_Data">
+    <title>Input Data</title>
+
+    <para>All input data for boxplot plotting are passed to
+    <productname>Magics</productname> via arrays. Each array defines
+    the values for one parameter for multiple boxplots. The following
+    FORTRAN listing shows how to pass these arrays to
+    <productname>Magics</productname>:</para>
+
+
+    <programlisting>
+    CALL <function>PSET1R</function>('<parameter>BOXPLOT_POSITIONS</parameter>',        XARR,   M)
+    CALL <function>PSET1R</function>('<parameter>BOXPLOT_MINIMUM_VALUES</parameter>',   MINARR, M)
+    CALL <function>PSET1R</function>('<parameter>BOXPLOT_MAXIMUM_VALUES</parameter>',   MAXARR, M)
+    CALL <function>PSET1R</function>('<parameter>BOXPLOT_MEDIAN_VALUES</parameter>',    MEDARR, M)
+    CALL <function>PSET1R</function>('<parameter>BOXPLOT_BOX_UPPER_VALUES</parameter>', UPPARR, M)
+    CALL <function>PSET1R</function>('<parameter>BOXPLOT_BOX_LOWER_VALUES</parameter>', LOWARR, M)
+    </programlisting>
+
+
+    <para>Note that the first line in this example sets up
+    the list of coordinates at which the data will be plotted. Although it
+    is not strictly data input as such, it is useful to include it here
+    in order to provide a complete piece of code.</para>
+
+  </section>
+
+
+  <section id="Boxplot_Mapping">
+    <title>Mapping of X/Y Values</title>
+
+    <para>The X and Y values passed by the input arrays are relative to the
+    values of the X and Y axes respectively. The X/Y axis system may be defined
+    by setting the parameters <parameter>AXIS_MIN_VALUE</parameter> and
+    <parameter>AXIS_MAX_VALUE</parameter> to the required values. Incoming
+    BOXPLOT data should be within the range of the axes. Any part of a boxplot
+    falling outside the current axis limits is not plotted.</para>
+  </section>
+
+
+
+  <section id="Boxplot_Plotting">
+    <title>Boxplot Plotting</title>
+
+    <para>Once the input data has been set up as described in the previous section,
+    there are only two things left to consider: the positioning of the
+    data plots and the plotting attributes.</para>
+    
+    <para>As already mentioned in the previous section, the parameter
+    <parameter>BOXPLOT_POSITIONS</parameter> is used to set up the coordinates
+    at which the boxplots will be plotted. Note that each boxplot has only
+    one coordinate, as the other is determined by the data values.</para>
+    
+    <para>The parameters starting with <parameter>BOXPLOT_BOX</parameter>
+    change the plotting behaviour of the interquartile range box such 
+    as colour and width.</para>
+
+    <para>The parameters starting with <parameter>BOXPLOT_MEDIAN</parameter>
+    change the plotting behaviour of the median line such 
+    as colour and thickness.</para>
+
+    <para>The parameters starting with <parameter>BOXPLOT_WHISKER</parameter>
+    change the plotting behaviour of the whisker. There are two styles of
+    whisker plotting: line and box. When <parameter>BOXPLOT_WHISKER</parameter>
+    is set to <code>LINE</code>, the whiskers are drawn as lines and are
+    affected by the parameters starting with
+    <parameter>BOXPLOT_WHISKER_LINE</parameter>.
+     When <parameter>BOXPLOT_WHISKER</parameter>
+    is set to <code>BOX</code>, the whiskers are drawn as filled boxes and are
+    affected by the parameters starting with
+    <parameter>BOXPLOT_WHISKER_BOX</parameter>.</para>
+  </section>
+
+
+
+  <xi:include href="../paramtables/pboxplot_tables.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <!--
+  <xi:include href="../paramtables/BoxPlotVisualiser_boxplot_magml_tables.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <xi:include href="../paramtables/BoxPlotVisualiser_boxplot_magml_flat_tables.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" /> -->
+
+  <section id="Boxplot_Program_Examples">
+    <title>Program Examples</title>
+
+    <para>The following examples demonstrate the use of boxplots.</para>
+  </section>
+
+  <xi:include href="../examples/manual/xml/boxplot_examples.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+</chapter>

@@ -1,0 +1,30 @@
+        
+<magics_plot>
+   <coastlines map_coastline_colour = 'tan' > </coastlines>
+   <plot >
+        <odbrd 
+            odb_database = 'odb://freki:/bigtmp/odb_data/ECMA.airs/ECMA'
+            odb_query ='select lat, lon, obsvalue, fg_depar 
+   			from hdr, body
+   			where  obstype=7 and press=221'
+
+	    odb_latitude  = 'lat@hdr'
+	    odb_longitude = 'lon@hdr'
+	    odb_observation = 'fg_depar@body'
+	    odb_nb_rows = '200000'
+            >
+        </odbrd>
+        <psymb  
+            symbol_table_mode = 'ON'
+            symbol_min_table = '-20/-15/-10/-5/0/5/10/15'            
+            symbol_max_table = '-15/-10/-5/0/5/10/15/20'
+            symbol_height_table ='0.2'
+            symbol_marker_table ='2' 
+            symbol_colour_table ='navy/blue/greenish_blue/cyan/green/yellow/orange/red_orange/red/purple'
+        >
+        </psymb>
+   </plot>
+
+</magics_plot>
+   
+    

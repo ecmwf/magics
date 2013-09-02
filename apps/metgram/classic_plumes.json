@@ -1,0 +1,298 @@
+{
+    "drivers": [
+        {
+            "format": "${format=ps}", 
+            "fullname": "${path=plumes.ps}" 
+        }
+    ], 
+    "height": "${height=29.7}",
+     "page": {
+      "height": "7%",
+      "page_id": "off"
+    },
+    "page": {
+        "border": "on", 
+        "height": "30%", 
+		"text" : {
+			"height":"20%",
+			"width":"100%",
+			"display" : "absolute",
+			"bottom" : "65%",
+			"border" : "off",
+			"text_justification" : "left",
+			"text_colour" : "navy",
+			"text_line_count":5,
+			"text_line_1":"<json_info key='forecast'/>",
+			"text_line_2":"<json_info key='location'/>",
+            "text_line_3": "<json_info key='date'/>",
+            "text_line_4":" ",
+			"text_line_5":"<font size='0.4'><json_info key='title'/></font>"
+		},
+		"legend" : {
+			"height":"20%",
+			"left" : "50%",
+			"width" : "60%",
+			"display" : "absolute",
+			"bottom" : "75%",
+			"border":"off",
+			"legend_text_colour" : "navy",
+			"legend_text_font_size" : "0.35",
+			"legend_column_count" : 5,
+			"legend_entry_text_width": "72%",
+			"legend_text_quality": "high",
+			"legend_text_composition" : "user_text_only",
+			"legend_user_lines" : "0.5-10%/1-30%/30-50%/50-100%/ /Oper/Ctr/Mmem"
+		},
+        "map": {
+            "border": "on", 
+            "border-colour": "navy", 
+            "cartesian": {
+                "x_date": {
+                    "automatic": "on"
+                }, 
+                "y_regular": {
+                    "automatic": "on"
+                }
+            }, 
+            "height": "100%", 
+            "horizontal_axis": {
+                "axis_date_type": "days", 
+                "axis_days_label": "both", 
+                "axis_days_label_colour": "navy", 
+                "axis_months_label_colour": "navy", 
+                "axis_years_label_colour": "navy", 
+                "axis_days_label_height": "0.3", 
+                "axis_months_label_height": "0.3", 
+                "axis_years_label_height": "0.3", 
+                "axis_grid": "on", 
+                "axis_grid_colour": "Rgb(0.5, 0.5, 0.5)", 
+                "axis_grid_line_style": "dash", 
+                "axis_line_colour": "navy", 
+                "axis_minor_tick": "on", 
+                "axis_minor_tick_colour": "navy", 
+                "axis_tick_colour": "navy", 
+                "axis_type": "date", 
+                "axis_years_label_colour": "navy" 
+            }, 
+            "margin_bottom": "0%", 
+            "margin_top": "30%", 
+            "plot": {
+                "contour": {
+					"legend" : "on",
+                    "contour_akima_x_resolution": "36", 
+                    "contour_akima_y_resolution": "1", 
+                    "contour_hilo": "off", 
+                    "contour_label": "off", 
+                    "contour_level_list": "0.5/10/30/50/100", 
+                    "contour_level_selection_type": "list", 
+                    "contour_line_colour": "black", 
+                    "contour_line_thickness": "5", 
+                    "contour_method": "akima760", 
+                    "contour_shade": "on", 
+                    "contour_shade_colour_list": "blue/#00ffaa/#aaff00/red", 
+                    "contour_shade_colour_method": "list", 
+                    "contour_shade_method": "area_fill"
+                }, 
+                "wrepjson": {
+                    "wrepjson_family": "eps", 
+                    "wrepjson_input_filename": "${data=t850.json}", 
+                    "wrepjson_parameter": "${param=130.128}", 
+                    "wrepjson_parameter_offset_factor": "-273.15", 
+                    "wrepjson_temperature_correction": true,
+                    "wrepjson_parameter_title": "Temperature 850hPa" 
+                },
+                "epsplume": {} 
+            }, 
+            "template": "plume.json", 
+            "vertical_axis": {
+                "axis_grid": "on", 
+                "axis_grid_colour": "grey", 
+                "axis_grid_line_style": "dash", 
+                "axis_grid_reference_level": 0, 
+                "axis_grid_reference_thickness": 1, 
+                "axis_label_font": "sansserif", 
+                "axis_line": "on", 
+                "axis_line_colour": "navy", 
+                "axis_tick_colour": "navy", 
+                "axis_tick_label_colour": "navy", 
+                "id": "vaxis"
+            }
+        }, 
+        "meta": {
+            "javascript_path": "${js=js.js}"
+        }, 
+        "page_id": "off"
+    }, 
+        "page": {
+        "border": "on", 
+        "height": "30%",
+        "text" : {
+			"height":"20%",
+			"width":"100%",
+			"display" : "absolute",
+			"bottom" : "75%",
+			"border" : "off",
+			"text_justification" : "left",
+			"text_colour" : "navy",
+            "text_font_size" : "0.4",
+			"text_line_count":1,
+			"text_line_1":"<json_info key='title'/>"
+		}, 
+        "map": {
+            "border": "on", 
+            "border-colour": "Rgb(0.5, 0.5, 0.5)", 
+            "cartesian": {
+                "x_date": {
+                    "automatic": "on"
+                }, 
+                "y_regular": {
+                    "automatic": "on"
+                }
+            }, 
+            "height": "100%", 
+             "horizontal_axis": {
+                "axis_date_type": "days", 
+                "axis_days_label": "both", 
+                "axis_days_label_colour": "navy", 
+                "axis_months_label_colour": "navy", 
+                "axis_years_label_colour": "navy", 
+                "axis_days_label_height": "0.3", 
+                "axis_months_label_height": "0.3", 
+                "axis_years_label_height": "0.3", 
+                "axis_grid": "on", 
+                "axis_grid_colour": "Rgb(0.5, 0.5, 0.5)", 
+                "axis_grid_line_style": "dash", 
+                "axis_line_colour": "navy", 
+                "axis_minor_tick": "on", 
+                "axis_minor_tick_colour": "navy", 
+                "axis_tick_colour": "navy", 
+                "axis_type": "date", 
+                "axis_years_label_colour": "navy" 
+            }, 
+            "margin_bottom": "10%", 
+            "margin_top": "20%", 
+            "plot": {
+                "epsplume": {}, 
+                "wrepjson": {
+                    "wrepjson_family": "eps", 
+                    "wrepjson_input_filename": "${data=tp.json}", 
+                    "wrepjson_parameter": "${param=143.128}", 
+                    "wrepjson_parameter_title": "Ensemble members of Total Precipitation", 
+                    "wrepjson_parameter_scaling_factor": "1000" 
+                }
+            }, 
+            "template": "plume.json", 
+             "vertical_axis": {
+                "axis_grid": "on", 
+                "axis_grid_colour": "grey", 
+                "axis_grid_line_style": "dash", 
+                "axis_grid_reference_level": 0, 
+                "axis_grid_reference_thickness": 1, 
+                "axis_label_font": "sansserif", 
+                "axis_line": "on", 
+                "axis_line_colour": "navy", 
+                "axis_tick_colour": "navy", 
+                "axis_tick_label_colour": "navy", 
+                "id": "vaxis"
+            }
+        }, 
+        "meta": {
+            "javascript_path": "${js=js.js}"
+        }, 
+        "page_id": "off"
+    },         "page": {
+        "border": "on", 
+        "height": "30%",  
+        "text" : {
+			"height":"20%",
+			"width":"100%",
+			"display" : "absolute",
+			"bottom" : "85%",
+			"border" : "off",
+            "text_font_size" : "0.4",
+			"text_justification" : "left",
+			"text_colour" : "navy",
+			"text_line_count":1,
+			"text_line_1":"<json_info key='title'/>"
+		}, 
+        "map": {
+            "border": "on", 
+            "border-colour": "Rgb(0.5, 0.5, 0.5)", 
+            "cartesian": {
+                "x_date": {
+                    "automatic": "on"
+                }, 
+                "y_regular": {
+                    "automatic": "on"
+                }
+            }, 
+            "height": "100%", 
+            "horizontal_axis": {
+                "axis_date_type": "days", 
+                "axis_days_label": "both", 
+                "axis_days_label_colour": "navy", 
+                "axis_months_label_colour": "navy", 
+                "axis_years_label_colour": "navy", 
+                "axis_days_label_height": "0.3", 
+                "axis_months_label_height": "0.3", 
+                "axis_years_label_height": "0.3", 
+                "axis_grid": "on", 
+                "axis_grid_colour": "Rgb(0.5, 0.5, 0.5)", 
+                "axis_grid_line_style": "dash", 
+                "axis_line_colour": "navy", 
+                "axis_minor_tick": "on", 
+                "axis_minor_tick_colour": "navy", 
+                "axis_tick_colour": "navy", 
+                "axis_type": "date", 
+                "axis_years_label_colour": "navy" 
+            }, 
+            "margin_bottom": "20%", 
+            "margin_top": "10%", 
+            "plot": {
+                "contour": {
+                    "contour_akima_x_resolution": "36", 
+                    "contour_akima_y_resolution": "1", 
+                    "contour_hilo": "off", 
+                    "contour_label": "off", 
+                    "contour_level_list": "0.5/10/30/50/100", 
+                    "contour_level_selection_type": "list", 
+                    "contour_line_colour": "black", 
+                    "contour_line_thickness": "5", 
+                    "contour_method": "akima760", 
+                    "contour_shade": "on", 
+                    "contour_shade_colour_list": "blue/#00ffaa/#aaff00/red", 
+                    "contour_shade_colour_method": "list", 
+                    "contour_shade_method": "area_fill"
+                }, 
+                "epsplume": {}, 
+                "wrepjson": {
+                    "wrepjson_family": "eps", 
+                    "wrepjson_input_filename": "${data=z500.json}", 
+                    "wrepjson_parameter": "${param=129.128}",
+                    "wrepjson_parameter_scaling_factor": "0.01" ,
+                    "wrepjson_parameter_title": "Geopotential 500hPa" 
+                }
+            }, 
+            "template": "plume.json", 
+            "vertical_axis": {
+                "axis_grid": "on", 
+                "axis_grid_colour": "grey", 
+                "axis_grid_line_style": "dash", 
+                "axis_grid_reference_level": 0, 
+                "axis_grid_reference_thickness": 1, 
+                "axis_label_font": "sansserif", 
+                "axis_line": "on", 
+                "axis_line_colour": "navy", 
+                "axis_tick_colour": "navy", 
+                "axis_tick_label_colour": "navy", 
+                "id": "vaxis"
+            }
+        }, 
+        "meta": {
+            "javascript_path": "${js=js.js}"
+        }, 
+        "page_id": "on"
+    }, 
+    "version": "3.0", 
+    "width": "${width=21}"
+}

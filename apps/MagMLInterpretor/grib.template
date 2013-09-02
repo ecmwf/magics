@@ -1,0 +1,37 @@
+<magics version="1.0">
+  <definition>
+     <corners id="globe"/>      
+     <corners id="europe" 
+                     min_longitude = '-27'
+                     min_latitude  = '33'
+                     max_longitude = '45'
+                     max_latitude  = '73.5' />
+          
+  </definition>
+  
+  <page format='a4'>
+    <subpage>		
+		<mapview>		
+            <cylindrical> 
+                <corners use_id='${area=globe}' />
+            </cylindrical>
+        </mapview>
+			<coastlines>
+				<coast>
+					<colour>tan</colour>
+                    <landshading colour = 'cream'/>
+				</coast>
+				<grid>
+					<colour>tan</colour>
+				</grid>
+			</coastlines>
+			<layer>
+				<grib path='${grib=toto}'/>    
+				<geocontour> </geocontour>			
+			</layer>		
+		<text>  
+            <font colour='black'><magics_title/></font>
+        </text>
+	</subpage>
+   </page>   
+</magics>    

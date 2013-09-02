@@ -1,0 +1,18 @@
+##!/bin/csh
+
+set  mymag = "/bigtmp/optimize"
+set  mymag = "/bigtmp/Magics"
+set  extern = "/usr/local/apps/Magics/external"
+set  emoslib = "-L/home/ma/emos/lib/linux/API_000040/ -lgribAPI.R64.D64.I32 -lemos.R64.D64.I32" 
+
+set  emoslib = "-L/usr/local/lib/metaps/lib/gribapi/000040/ -lgribAPI.R32.D64.I32 -lemos.R32.D64.I32" 
+set  emoslib = "-L/usr/local/lib/metaps/lib/gribapi/000040/ -lgribAPI.R32.D64.I32 -lemos.R32.D64.I32" 
+
+setenv MAGPLUS_HOME $mymag
+setenv MAGPLUSLIB "-L$mymag/lib -lMagPlus -L$extern/lib -lObs  -lexpat -lgd -lfreetype -ljpeg -lpng -lz $emoslib  -lnetcdf_c++ -lnetcdf  -lstdc++ -lm"
+setenv LD_LIBRARY_PATH "$mymag/lib:/usr/local/apps/Magics/external/lib:$LD_LIBRARY_PATH"
+
+setenv GRIB_DEFINITION_PATH /bigtmp/PERFORCE/grib_api/definitions
+setenv GRIB_API_INCLUDE -I/bigtmp/PERFORCE
+setenv GRIB_API_LIB "-L/bigtmp/PERFORCE/grib_api/src -lgribapi"
+

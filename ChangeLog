@@ -1,0 +1,3696 @@
+Changes in Magics++ (for developers - users should read 'NEWS')
+===============================================================
+
+Change 83492 on 2013/03/02 by cgs@cgs
+
+	Add CSV decoder in the python interface
+
+Change 83485 on 2013/03/01 by cgs@cgs
+
+	Graph - Big fix in Wind Plotting 
+
+Change 83460 on 2013/03/01 by cgs@cgs
+
+	Tutorial - scaling netcdf + minput in geographical [integrate]
+
+Change 83148 on 2013/02/20 by cgs@cgs
+
+	CurevArea - Fix issues with clipping [MAGP-152][integrate]
+
+Change 83110 on 2013/02/19 by cgs@cgs
+
+	Legend - In metview the legend for advanced wind plotting was not reset between frame [ MAGP-204] [integrate]
+
+Change 83097 on 2013/02/19 by cgs@cgs
+
+	Histogram - Fix setting of colours [METV-326][integrate]
+
+Change 83071 on 2013/02/18 by cgi@cgi_metview_4
+
+	NetCDF matrix - fixed issue where automatic date Y axis was not plotting any data [METV-330]
+
+Change 83067 on 2013/02/18 by cgm@magics_opensuse113
+
+	VERSION - 2.18.13
+
+Change 82951 on 2013/02/14 by cgs@cgs
+
+	Axis - Precsion issue when computing ticks [MAGP-354][integrate]
+
+Change 82936 on 2013/02/14 by cgs@cgs
+
+	Bar - implements graph_shade_dot_density  and graph_shade_dot_size [MAGP-355][integrate]
+
+Change 82924 on 2013/02/14 by cgm@magics_opensuse113
+
+	VERSION 2.18.12
+
+Change 82766 on 2013/02/12 by cgs@cgs
+
+	Netcdf - fix problem in the setting date axis [METV-330][integrate]
+
+Change 82645 on 2013/02/11 by cgm@magics_opensuse113
+
+	VERSION back to 2.18.11 for an other fix
+
+Change 82642 on 2013/02/11 by cgs@cgs
+
+	Contour - test on array size [integrate]
+
+Change 82621 on 2013/02/10 by cgm@magics_opensuse113
+
+	VERSION 2.18.12
+
+Change 82525 on 2013/02/07 by cgs@cgs
+
+	Backward compatiblity - map_coastline_resolution was not pass to Magics [integrate]
+
+Change 82474 on 2013/02/06 by cgs@cgs
+
+	Obs - ignore missing data - clip observations [MAGP-243][integrate]
+
+Change 82317 on 2013/01/31 by cgs@cgs
+
+	Epsgram - fix automatic title in EpsXml ( used in MACC project) [MAGP-349][integrate]
+
+Change 82286 on 2013/01/29 by cgm@magics_opensuse113
+
+	VERSION 2.18.11
+
+Change 82271 on 2013/01/29 by cgs@cgs
+
+	Graph- increase default values for suppress_above and below parameters [MAGP-346][integrate]
+
+Change 82262 on 2013/01/29 by cgs@cgs
+
+	Legend - adjust layout for wind legend [MAGP-347][integrate]
+
+Change 82209 on 2013/01/28 by cgs@cgs
+
+	Contouring - small fix in the area computation [MAGP-342][integrate]
+
+Change 82203 on 2013/01/26 by cgm@magicsIBM
+
+	COMPILE add options for aix
+
+Change 82160 on 2013/01/24 by cgm@magics_opensuse113
+
+	VERSION 2.18.10
+
+Change 82081 on 2013/01/22 by cgs@cgs
+
+	epsgram - update templates [MAGP-340]
+
+Change 82072 on 2013/01/22 by cgs@cgs
+
+	epsgram - fix problem in eps template [MAGP-340]
+
+Change 82010 on 2013/01/21 by cgs@cgs
+
+	fix bug in intergrate
+
+Change 81958 on 2013/01/17 by cgs@cgs
+
+	Contouring - improve shading of falt fields [MAGP-306][integrate]
+
+Change 81939 on 2013/01/17 by cgs@cgs
+
+	Contouring - Small fix in IntervalSelection [MAGP-336]
+	CartesianProjection - Fix bug in setting logarithmic axis [MAGP-332]
+
+Change 81907 on 2013/01/16 by cgs@cgs
+
+	Contouring - Fix unwanted isolines [MAGP-334][integrate]
+
+Change 81877 on 2013/01/15 by cgs@cgs
+
+	Netcdf - Fix in date setting [MAGP-333][integrate]
+
+Change 81866 on 2013/01/14 by cgs@cgs
+
+	Date Axis - reverse date implemented [MAGP-312][integrate]
+
+Change 81864 on 2013/01/14 by cgs@cgs
+
+	Axis - fix bug in months axis [MAGP-325][integrate]
+
+Change 81862 on 2013/01/14 by cgs@cgs
+
+	Contouring : adjsutemnt of the IntervalList method [MAGP-317][integrate]
+
+Change 81858 on 2013/01/14 by cgs@cgs
+
+	GridShading- Fix bug in CartesianView [MAGP-314][integrate]
+
+Change 81854 on 2013/01/14 by cgs@cgs
+
+	Grib - ScanningMode was ignored foar regulargaussian [MAGP-311] [integrate]
+
+Change 81848 on 2013/01/14 by cgs@cgs
+
+	Netcdf - Fix pb in XYMatrix using date [MAGP-331][integrate]
+
+Change 81846 on 2013/01/14 by cgs@cgs
+
+	Netcdf : wrong matrix intilalisation when using a sub-area [MAGP-308][integrate]
+
+Change 81838 on 2013/01/14 by cgm@magics_opensuse113
+
+	DRIVERS - remove 'cout'
+
+Change 81836 on 2013/01/11 by cgs@cgs
+
+	Metview-Printing : fix bug when using multiple drivers [integrate]
+
+Change 81808 on 2013/01/10 by cgs@cgs
+
+	Legend - missing legend in metview [MAGP-329][integrate]
+
+Change 81805 on 2013/01/10 by cgs@cgs
+
+	Shading - Fix random shading in Metview [MAGP-328][integrate]
+
+Change 81792 on 2013/01/10 by cgr@cgr
+
+	Qt driver: When font settings are used - text layout breaks MAGP-326
+
+Change 81709 on 2013/01/07 by cgs@cgs
+
+	NetcdfDecoder - fix pb in getting the value for mssing data. [MAGP-319][integrate]
+
+Change 81597 on 2012/12/28 by cgm@magicsIBM
+
+	COMPILE AIX disable shared library build (which caused 'magmlx' to fail)
+
+Change 81534 on 2012/12/20 by cgi@cgi_metview_4
+
+	Axis: reduced the maximum number of geo axis labels from 20 to 10 in order to avoid overlapping [MAGP-315]
+
+Change 81528 on 2012/12/20 by cgm@magics_opensuse113
+
+	DRIVERS - Correct possitioning of text around symbols [MAGP-177]
+
+Change 81524 on 2012/12/19 by cgm@magics_opensuse113
+
+	DRIVERS - PS support rotated text if it contains special characters [MAGP-304]
+
+Change 81523 on 2012/12/19 by cgm@magics_opensuse113
+
+	VERSION - 2.18.9
+
+Change 81516 on 2012/12/19 by cgi@cgi_metview_4
+
+	NetCDF: fixed issue where some netCDF matrices were throwing an exception because of problems with floating-point precision. It's worth keeping an eye on this though.   [MAGP-313]
+
+Change 80682 on 2012/12/12 by cgs@cgs
+
+	Fix small bug in format.[integrate]
+
+Change 80647 on 2012/12/12 by cgm@magics_opensuse113
+
+	LICENSE - remove unneccessary files which were highlighted in Palamida scan (MAGP-305)
+
+Change 80577 on 2012/12/07 by cgm@magics_opensuse113
+
+	VERSION - 2.18.8
+
+Change 80545 on 2012/12/06 by cgs@cgs
+
+	Contour - Small fix in GridShading [integrate]
+
+Change 80536 on 2012/12/06 by cgs@cgs
+
+	take print out
+
+Change 80531 on 2012/12/06 by cgs@cgs
+
+	Legend - Fix issues with users defined text entries [MAGP-296][integrate]
+
+Change 80519 on 2012/12/06 by cgs@cgs
+
+	Netcdf- Handle transposed matrix definition + mssing value [MAGP-295] [MAGP-294][integrate]
+
+Change 80515 on 2012/12/06 by cgm@magics_opensuse113
+
+	USE SCRIPTS - 2.18.6
+
+Change 80491 on 2012/12/05 by cgs@cgs
+
+	Shading - smal fix in shading 
+
+Change 80487 on 2012/12/05 by cgm@magics_opensuse113
+
+	USE SCRIPTS - correct link to old++
+
+Change 80480 on 2012/12/05 by cgm@magics_opensuse113
+
+	PYTHON - test on setting rpaths
+
+Change 80479 on 2012/12/05 by cgm@magics_opensuse113
+
+	USE SCRIPTS - for release of 2.18.6 as default user version
+
+Change 80466 on 2012/12/05 by cgm@magics_opensuse113
+
+	USE SCRIPTS - set 'new++' to 2.18.5 - use odb 0.9.21
+
+Change 80465 on 2012/12/05 by cgm@magics_opensuse113
+
+	USE SCRIPTS - set old++ too 2.14.11
+
+Change 80464 on 2012/12/05 by cgm@magics_opensuse113
+
+	VERSION 2.18.7
+
+Change 80463 on 2012/12/05 by cgs@cgs
+
+	improve test in regression suite
+
+Change 80457 on 2012/12/04 by cgm@magics_opensuse113
+
+	VERSION 2.18.6
+
+Change 80447 on 2012/12/04 by cgs@cgs
+
+	Oda - Improved error message 
+
+Change 80446 on 2012/12/04 by cgs@cgs
+
+	Odb - improve error checking [integrate]
+
+Change 80435 on 2012/12/04 by cgm@magics_opensuse113
+
+	ODB - move to version 0.9.21 (version used by RD)
+
+Change 80427 on 2012/12/04 by cgm@magics_opensuse113
+
+	VERSION 2.18.5
+
+Change 80424 on 2012/12/04 by cgs@cgs
+
+	Obstat - Fix Regression issues - Tick positionning + inputMatrix and grid shading [MAGP-292][integrate]
+
+Change 80422 on 2012/12/04 by cgs@cgs
+
+	Improved symbol plotting
+
+Change 80405 on 2012/12/03 by cgs@cgs
+
+	Print - small print removed
+
+Change 80402 on 2012/12/03 by cgs@cgs
+
+	Legend - Fix histogram legend [MAGP-293][integrate]
+
+Change 80376 on 2012/12/03 by cgm@magics_opensuse113
+
+	ODB - move to ODB_API 0.9.24
+
+Change 80375 on 2012/12/03 by cgs@cgs
+
+	Obstat - Fix Regression issues - Tick positionning + inputMatrix and grid shading [MAGP-292] [integrate]
+
+Change 80361 on 2012/12/02 by cgm@magics_opensuse113
+
+	USE SCRIPTS - changes for 2.18.2 release (mostly AIX)
+
+Change 80338 on 2012/11/29 by cgs@cgs
+
+	Wind- Prevent wind crashing when bno wind to plot[MAGP-291][integrate]
+
+Change 80319 on 2012/11/29 by cgm@magics_opensuse113
+
+	      VERSION 2.18.4	
+
+Change 80285 on 2012/11/28 by cgs@cgs
+
+	Text - use of < was cousingan abort when using the static library [MAGP-290]
+
+Change 80163 on 2012/11/22 by cgm@cgm_meshon
+
+	COMPILE remove scin option
+
+Change 80099 on 2012/11/20 by cgm@magics_opensuse113
+
+	DRIVERS - CAIRO correct positioning in complex layouts (MAGP-244)
+
+Change 80071 on 2012/11/20 by cgs@cgs
+
+	Cartesian Projection - small fix in logarithmic axis [MAGP-276] [integrate]
+
+Change 80058 on 2012/11/19 by cgm@magics_opensuse113
+
+	DRIVERS - KMZ fix missing files fatal error MAGP-43
+
+Change 80049 on 2012/11/19 by cgm@magics_opensuse113
+
+	VERSION - 2.18.3
+
+Change 80039 on 2012/11/19 by cgm@magics_opensuse113
+
+	COMPILATION - remove scin call
+
+Change 79835 on 2012/11/15 by cgs@cgs
+
+	Symbol - Allow blanking of text [MAGP-286][integrate]
+
+Change 79815 on 2012/11/15 by cgs@cgs
+
+	Symbol - Allow resize of image when image are used as symbol  [MAGP-283][integrate]
+
+Change 79785 on 2012/11/14 by cgs@cgs
+
+	Contour - Small fix in contour [MAGP-280][integrate]
+
+Change 79784 on 2012/11/14 by cgs@cgs
+
+	Contour - small fix in contouring [MAGP_280] [integrate]
+
+Change 79734 on 2012/11/12 by cgs@cgs
+
+	Symbol - Add a new option "both" to symbol type to allow the value to be plotted next to the symbol. [MAGP-273]
+
+Change 79626 on 2012/11/07 by cgm@cgm_meshon
+
+	PYTHON - move interface into separate sub directory to enable tests to run from this local build (MAGP-275)
+
+Change 79625 on 2012/11/07 by cgm@cgm_meshon
+
+	TESTS - ensure environment variables are set correctly, so that the local build is used for tests and not a central installation (MAGP-275)
+
+Change 79582 on 2012/11/07 by cgm@magics_opensuse113
+
+	DRIVERS Cairo - remove CairoDriverRaster which was anyway not used but caused compiler warnings
+
+Change 79580 on 2012/11/06 by cgm@magics_opensuse113
+
+	DRIVERS Cairo - enable that antialias can be switched off  MAGP-274
+
+Change 79579 on 2012/11/06 by cgm@magics_opensuse113
+
+	TOOLS - correct spelling of MeteoroMagLogical (refactoring gone bad?)
+
+Change 79410 on 2012/10/31 by cgs@cgs
+
+	TableDecoder - Fix crash in binning [MAGP-250][integrate]
+
+Change 79257 on 2012/10/29 by cgs@cgs
+
+	Obs - Fix incompatibility between bufr and Json  [integrate]
+
+Change 79243 on 2012/10/29 by cgm@magics_opensuse113
+
+	VERSION 2.18.2 - maintenance
+
+Change 79191 on 2012/10/25 by cgm@magics_opensuse113
+
+	PYTHON - avoid empty lib names / paths and include files in tarball if python is disabled 
+
+Change 79190 on 2012/10/25 by cgm@magics_opensuse113
+
+	VERSION - back to 2.18.1 (needs more changes for tarball)
+
+Change 79189 on 2012/10/25 by cgm@magics_opensuse113
+
+	PYTHON - remove old interface
+
+Change 79187 on 2012/10/25 by cgm@magics_opensuse113
+
+	MAKE - add missing file to build tarball
+
+Change 79145 on 2012/10/25 by cgm@magics_opensuse113
+
+	VERSION 2.18.2 - maintenance
+
+Change 79013 on 2012/10/22 by cgm@magics_opensuse113
+
+	PYTHON - changes for ECMWF libraries
+
+Change 79012 on 2012/10/21 by cgm@cgm_meshon
+
+	PYTHON - update for outside-ECMWF installations
+
+Change 78992 on 2012/10/19 by cgm@magics_opensuse113
+
+	BOOST - comment out version test which is not necessary
+
+Change 78988 on 2012/10/19 by cgm@magics_opensuse113
+
+	MAKE- remove linker flag to be able to compile & link on MAC OS X
+
+Change 78979 on 2012/10/19 by cgm@magics_opensuse113
+
+	MAKE - enable build of tarball if python is disabled
+
+Change 78974 on 2012/10/19 by cgm@magics_opensuse113
+
+	MAKE - add missing file for tarball
+
+Change 78932 on 2012/10/18 by cgr@cgr
+
+	ODB: ODB plotting fails if duplicated columns present in the input ODB MAGP-246
+
+Change 78905 on 2012/10/17 by cgm@magics_opensuse113
+
+	VERSION 2.18.1
+
+Change 78892 on 2012/10/17 by cgs@cgs
+
+	Fix linking issue after integration
+
+Change 78871 on 2012/10/17 by cgs@cgs
+
+	Observations - enable use of users template to customise observation plotting [MAGP-243] [integrate]
+	Add Regression test suite
+
+Change 78868 on 2012/10/17 by cgi@cgi_metview_4
+
+	BOOST: updated version to 1.50.0 in r2.18 branch
+
+Change 78853 on 2012/10/17 by cgi@cgi_metview_4
+
+	CONTOUR: in Count level selection mode, set close-enough-to-zero to zero to avoid formatting issues with the legend [MAGP-242] [r2.18 branch]
+
+Change 78729 on 2012/10/12 by cgs@cgs
+
+	MagML - allow import object 
+
+Change 78714 on 2012/10/11 by cgs@cgs
+
+	Symbol - Trajectory in MagML + improve connected symbol and text. [MAGP-238][integrate]
+
+Change 78708 on 2012/10/11 by cgs@cgs
+
+	Proj4 - Add Projection EPSG:3857 + update the regression test suite [MAGP-192]  [integrate]
+
+Change 78682 on 2012/10/11 by cgs@cgs
+
+	SymbolPlotting - Close lats Interval for AdvancedTableMode [MAGP-240][integrate]
+
+Change 78613 on 2012/10/10 by cgm@magics_opensuse113
+
+	PYTHON - set path to Fortran libraries (for Emoslib)
+
+Change 78612 on 2012/10/09 by cgm@cgm_orion
+
+	PYTHON - make FLIB(S) more flexible
+
+Change 78611 on 2012/10/09 by cgm@magics_opensuse113
+
+	PYTHON - updates to setup.py
+
+Change 78602 on 2012/10/09 by cgr@cgr
+
+	API : Add thermodynamic functions MAGP-127
+
+Change 78558 on 2012/10/08 by cgr@cgr
+
+	ODB : Record and make available information about the data points visualised in Metview MAGP-222
+
+Change 78556 on 2012/10/08 by cgs@cgs
+
+	Python - Inoput Matrix conflict of parameters names [MAGP-236][integrate]
+
+Change 78554 on 2012/10/08 by cgr@cgr
+
+	ODB : Record and make available information about the data points visualised in Metview MAGP-222
+
+Change 78553 on 2012/10/08 by cgs@cgs
+
+	Grib - Grid values and metadata in Metview [MAGP-235] [integrate]
+
+Change 78550 on 2012/10/05 by cgm@cgm_orion
+
+	PYTHON - fix for makefile to use new directory
+
+Change 78549 on 2012/10/05 by cgm@magics_opensuse113
+
+	PYTHON - test for new python interface
+
+Change 78527 on 2012/10/05 by cgr@cgr
+
+	Drivers : Improve plotting speed in the QtDdriver  MAGP-233
+
+Change 78519 on 2012/10/05 by cgs@cgs
+
+	Wind - Fix the WrapAround for rooated grids [ MAGP-232][integrate]
+	Input Matrix - Fix the WrapAround for Wind Plotting [ MAGP-231] [integrate]
+
+Change 78489 on 2012/10/04 by cgs@cgs
+
+	InputData - Add input for CurveArea Plotting [Metview][MAG-230][integrate]
+
+Change 78468 on 2012/10/04 by cgr@cgr
+
+	ODB : Record and make available information about the data points visualised in Metview MAGP-222
+
+Change 78466 on 2012/10/04 by cgs@cgs
+
+	Wind plotting - fix the last blue arrow [MAGP-225][integrate]
+
+Change 78464 on 2012/10/04 by cgs@cgs
+
+	Cleaning
+
+Change 78463 on 2012/10/04 by cgs@cgs
+
+	cleaning
+
+Change 78460 on 2012/10/04 by cgs@cgs
+
+	Contour - Improve shading of non global fields [MAGP-227] [integrate]
+	Contour - Fix issue for shading of flat fields [MAGP-229] [integrate]
+
+Change 78433 on 2012/10/03 by cgm@magics_opensuse113
+
+	VERSION 2.18.0
+
+Change 78428 on 2012/10/03 by cgs@cgs
+
+	Wind - Improve wind plotting for rotated grids. [MAGP-219] [integrate]
+	Contour - fix grid-shading issue for nonglobal fields [MAGP-227] [integrate]
+
+Change 78427 on 2012/10/03 by cgs@cgs
+
+	Metview - Fix Highlight problem [MAGP-228] [integrate]
+
+Change 78417 on 2012/10/03 by cgm@magics_opensuse113
+
+	VERSION 2.17.2
+
+Change 78408 on 2012/10/03 by cgm@magics_opensuse113
+
+	INTEGRATE - AIX compiler changes from 2.16
+
+Change 78370 on 2012/10/02 by cgs@cgs
+
+	Metview - Allow position_list in axis plotting [integrate]
+
+Change 78305 on 2012/09/28 by cgs@cgs
+
+	contouring - optimisation
+
+Change 78296 on 2012/09/28 by cgs@cgs
+
+	Cleaning - print 
+
+Change 78290 on 2012/09/28 by cgs@cgs
+
+	Regression Suite - Fix issues with grid and cell Shading [MAPG-223] [MAGP-210] [integrate]
+
+Change 78279 on 2012/09/27 by cgm@cgm_meshon
+
+	MAKE - add header file required for GCC 4.7
+
+Change 78257 on 2012/09/27 by cgs@cgs
+
+	contour - fix small bug wiith handling missing data
+
+Change 78256 on 2012/09/27 by cgs@cgs
+
+	Grib - Implements wind plotting for rotated gribs [MAGP-219] [integrate]
+
+Change 78153 on 2012/09/25 by cgs@cgs
+
+	Contour - optimisation and missing data [MAGP-221][integrate]
+
+Change 78150 on 2012/09/25 by cgs@cgs
+
+	Contour - optimisation and missing data [MAGP-221][integrate]
+
+Change 78028 on 2012/09/21 by cgi@cgi_metview_4
+
+	BUILD: removed Qt-OpenGL dependency (also removed Qt-Network dependency from Magics)  [Metview 4.3 branch, Magics r2.18 branch]
+
+Change 77935 on 2012/09/18 by cgs@cgs
+
+	Text - Fix position of text in titlebox [MAGP-220] [integrate from main]
+
+Change 77909 on 2012/09/18 by cgm@magics_opensuse113
+
+	BRANCH - new branch for version 2.18   (for now still called 2.17.x)
+
+Change 69349 on 2012/02/24 by cgs@cgs
+
+        Magics: Probkem in setting matrix.
+
+Change 69335 on 2012/02/24 by cgs@cgs
+
+        magics:bug in input setting
+
+Change 69334 on 2012/02/24 by cgs@cgs
+
+        Magics: 
+             bug in cell_shading nearest method.
+             Bug in Matrix setting 
+
+Change 69304 on 2012/02/24 by cgs@cgs
+
+        Magics: Curve problem in a succession of regulat=r and data curve!
+
+Change 68898 on 2012/02/22 by cgm@magics_opensuse113
+
+        DRIVERS PostScript backport fix for (HTML) text alignment MAGP-50
+
+Change 68881 on 2012/02/22 by cgs@cgs
+
+        Magics: fix small issues in legend 
+
+Change 68838 on 2012/02/21 by cgs@cgs
+
+        Magics : problem with long time serie
+
+Change 68088 on 2012/02/01 by cgi@cgi_metview_4
+
+        MAG++: updated maintenance branch to use the latest odb_api 0.9.9 (for the purpose of a new Metview 4.1.x internal release)
+
+Change 68067 on 2012/01/31 by cgs@cgs
+
+        Magics: Fix for legend and symboltable mode
+
+Change 67822 on 2012/01/24 by cgm@magics_opensuse113
+
+        VERSION 2.14.10
+
+Change 67258 on 2012/01/19 by cgm@magics_opensuse113
+
+        USE SCRIPTS update for 2.14.9 (using GRIB_API 1.9.14)
+
+Change 67177 on 2012/01/17 by cgm@magics_opensuse113
+
+        LOG clean-up of messages
+
+Change 67118 on 2012/01/16 by cgm@magics_opensuse113
+
+        LICENSE correct license text
+
+Change 67107 on 2012/01/16 by cgm@magics_opensuse113
+
+        DRIVERS KML clean-up minizip code
+
+Change 67103 on 2012/01/16 by cgm@magics_mac
+
+        MAC clean-up of error message (converted it to info)
+
+Change 67087 on 2012/01/16 by cgm@magics_mac
+
+        MAC update compile options
+
+Change 67071 on 2012/01/16 by cgs@cgs
+
+        Magics: Locale cleaning
+
+Change 67064 on 2012/01/16 by cgm@magics_mac
+
+        MAC CONFIG add option to overcome non-c++ aware linker
+
+Change 67017 on 2012/01/13 by cgs@cgs
+
+        Magics: AxisTip position
+
+Change 66793 on 2012/01/10 by cgs@cgs
+
+        Magics: AxisTip positionning + exception pb for static!
+
+Change 66233 on 2012/01/02 by cgm@magics_opensuse113
+
+        CONFIG revert MAC change
+
+Change 66232 on 2012/01/02 by cgm@magics_opensuse113
+
+        CONFIG for Mac (second try)
+
+Change 66230 on 2012/01/02 by cgm@magics_opensuse113
+
+        VERSION update year to 2012
+
+Change 66229 on 2012/01/02 by cgm@magics_opensuse113
+
+        MAC put back link option
+
+Change 66228 on 2012/01/02 by cgm@magics_opensuse113
+
+        CONFIG update GRIB_API to version 1.9.14
+
+Change 66099 on 2011/12/19 by cgm@magics_opensuse113
+
+        DOCS clean-up
+
+Change 66094 on 2011/12/19 by cgs@cgs
+
+        Integrate bug fix in default colour for isoline label.
+
+Change 66068 on 2011/12/18 by cgm@magics_opensuse113
+
+        INTEGRATE from main (2.15.0) to fix 10m resolution (admin) boundaries
+
+Change 65980 on 2011/12/15 by cgm@magics_opensuse113
+
+        BOUNDARIES fix missing file error message reported by Iain on Metview
+
+Change 65926 on 2011/12/14 by cgr@cgr
+
+        MAG+ Integrate from main:  Apply "%d" formatting for integer values that can be casted into an integer when "(automatic)" format is used in symbol plotting.
+
+Change 65878 on 2011/12/13 by cgs@cgs
+
+        Integration change: box border off
+
+Change 65849 on 2011/12/12 by cgm@magics_opensuse113
+
+        VERSION 2.14.9
+
+Change 65847 on 2011/12/12 by cgm@cgm_meshon
+
+        RPMS remove /usr/lib/Magics directory from installation
+
+Change 65846 on 2011/12/11 by cgm@magics_opensuse113
+
+        PYTHON fix make check
+
+Change 65845 on 2011/12/11 by cgm@cgm_meshon
+
+        PYTHON restructure swig directory to fix problems reported by MPI Hamburg
+
+Change 65844 on 2011/12/11 by cgm@cgm_meshon
+
+        PYTHON clean-up of makefile (remove unused installation directory)
+
+Change 65842 on 2011/12/10 by cgm@cgm_meshon
+
+        INTEGRATE fix for disputed boundaries back into 2.14 (Kosovo)
+
+Change 65638 on 2011/12/02 by cgs@cgs
+
+        Magics : add a warning when map_coastline_resolution is set to high or medium 
+
+Change 65637 on 2011/12/02 by cgm@magics_opensuse113
+
+        CONFIG give simple version number for magics-config --version and set project name to Magics (instead of Magics++) 
+
+Change 65627 on 2011/12/02 by cgs@cgs
+
+        Magics typo
+
+Change 65625 on 2011/12/02 by cgs@cgs
+
+        Integration change.
+
+Change 65613 on 2011/12/02 by cgs@cgs
+
+        Magics: integration
+
+Change 65605 on 2011/12/02 by cgs@cgs
+
+        Magics Small adjustement in lefgend
+
+Change 65602 on 2011/12/02 by cgs@cgs
+
+        Integration change.
+
+Change 65586 on 2011/12/01 by cgs@cgs
+
+        Magics integrate change for legend_histogram
+
+Change 65570 on 2011/12/01 by cgs@cgs
+
+        Magics: symbol_input_marker_list
+
+Change 65565 on 2011/12/01 by cgs@cgs
+
+        Magics .. Integration change.
+
+Change 65511 on 2011/11/30 by cgm@magics_opensuse113
+
+        VERSION 2.14.8
+
+Change 65482 on 2011/11/29 by cgs@cgs
+
+        Metview/magics: integrate!
+
+Change 65465 on 2011/11/29 by cgs@cgs
+
+        Magics: more station on Classic metgrams
+
+Change 65462 on 2011/11/29 by cgs@cgs
+
+        Magics: adjustement in positioning!
+
+Change 65457 on 2011/11/29 by cgs@cgs
+
+        Magics/Metgram: Add Skopje(MK) in classic metgram template
+
+Change 65455 on 2011/11/29 by cgs@cgs
+
+        Magics: fallback behaviour if info for obs/centre not found. 
+
+Change 65441 on 2011/11/28 by cgs@cgs
+
+        Magics: Observation plotting improvment + gloabl reduced gaussian grids.
+
+Change 65411 on 2011/11/27 by cgm@magics_opensuse113
+
+        PCLOSE clean-up for footer
+
+Change 65358 on 2011/11/25 by cgr@cgr
+
+        Integrate from main: Meta-data collector can now access grib scaling information.
+
+Change 65341 on 2011/11/24 by cgm@magics_opensuse113
+
+        LOGGING flush output properly
+
+Change 65336 on 2011/11/24 by cgm@magics_opensuse113
+
+        LOGGING reposition the footer after all processing
+
+Change 65328 on 2011/11/24 by cgm@magics_opensuse113
+
+        COLOUR HSL sets now alpha if not given
+
+Change 65327 on 2011/11/24 by cgm@magics_opensuse113
+
+        VERSION 2.14.7
+
+Change 65309 on 2011/11/23 by cgs@cgs
+
+        Stupid pclose
+
+Change 65298 on 2011/11/23 by cgm@magics
+
+        Remove random character
+
+Change 65296 on 2011/11/23 by cgs@cgs
+
+        More on pclose 
+
+Change 65283 on 2011/11/23 by cgm@magics_opensuse113
+
+        LAYOUT fix bug obstat plots
+
+Change 65280 on 2011/11/23 by cgm@magics_opensuse113
+
+        VERSION 2.14.6  &  USE SCRIPTS
+
+Change 65236 on 2011/11/22 by cgi@cgi_metview_4
+
+        MAG++: GeoPoints version of the table decoder now takes delimiter parameters into account [2.14 branch]
+
+Change 65233 on 2011/11/22 by cgs@cgs_metview
+
+        Magics: axis_minor_tick_count fixed.
+
+Change 65214 on 2011/11/22 by cgm@magics_opensuse113
+
+        DRIVERS reverse symbol plotting before outline was added ... was leaking (reported by Luciana) 
+
+Change 65183 on 2011/11/21 by cgm@magics_opensuse113
+
+        RPMS add dependency to gd-devel for installation
+
+
+Change 65173 on 2011/11/20 by cgm@magics_opensuse113
+
+    NEW BRANCH r2.14 (used by emos)
+
+Change 65171 on 2011/11/20 by cgm@magics_opensuse113
+
+    VERSION 2.14.5
+
+Change 65169 on 2011/11/20 by cgm@magics_opensuse113
+
+    DRIVERS SVG optimise file size by writing hex color codes
+
+Change 65162 on 2011/11/19 by cgm@magics_opensuse113
+
+    DRIVERS SVG optimise rendering of image data
+
+Change 65154 on 2011/11/18 by cgs@cgs_metview
+
+    missing value
+
+Change 65152 on 2011/11/18 by cgm@magics_opensuse113
+
+    DRIVERS symbols - make sure calour is set before line style is set
+
+Change 65151 on 2011/11/18 by cgs@cgs_metview
+
+    Magics: legend can be turned off for a wind action
+                implement graph_x_missing_value graph_y_missing_value
+
+Change 65149 on 2011/11/18 by cgm@magics_opensuse113
+
+    DRIVERS CAIRO put back plotting of cell array (wrong transparency values were causing problems) 
+
+Change 65148 on 2011/11/18 by cgm@magics_opensuse113
+
+    DRIVERS SVG reduce file size if cell array is used
+
+Change 65147 on 2011/11/18 by cgm@magics_opensuse113
+
+    DRIVERS SVG set default to NOT use external files if possible
+
+Change 65143 on 2011/11/18 by cgr@cgr
+
+    MAG++ DRIVERS symbols and their outlines are now rendered together
+
+Change 65140 on 2011/11/18 by cgm@magics_opensuse113
+
+    RPMS update spec files after succesfull RPM builds for 2.14
+
+Change 65137 on 2011/11/17 by cgm@magics_opensuse113
+
+    VERSION 2.14.4
+
+Change 65135 on 2011/11/17 by maf@belleus
+
+    change to landsea to make GreatLakes behave themselves
+
+Change 65134 on 2011/11/17 by cgm@magics_opensuse113
+
+    SRC-XML reorder tags into lines
+
+Change 65124 on 2011/11/17 by cgr@cgr
+
+    MAG++ DRIVERS add symbol outlines 
+
+Change 65121 on 2011/11/17 by cgm@magics_opensuse113
+
+    DRIVERS contour label positioning - trial to avoid too many labels at biginning of contour
+
+Change 65120 on 2011/11/17 by cgm@magics_opensuse113
+
+    BOUNDARIES hardcode min resolution to 50m until we fix 10m 
+
+Change 65117 on 2011/11/17 by maf@belleus
+
+    Modified shape files as follows:
+       - Redownloaded older (version 1.2) copies of naturalearthdata 10m physical files
+       - Renamed these files to resemble those in 50m and 110m cases (e.g. ne_xxxxx.shp)
+       - The 110m and 50m are downloaded from natura
+
+Change 65084 on 2011/11/16 by cgr@cgr
+
+    Histogram preview can now be generated by using a specified visdef. If no visdef is specified the whole data value range is used to generate the histogram preview.
+
+Change 65028 on 2011/11/15 by cgm@magics_opensuse113
+
+    DRIVERS add symbol outlines
+
+Change 65024 on 2011/11/15 by cgm@magics_opensuse113
+
+    COASTLINES reduce files for installation and changed the way we do land/sea shading
+
+Change 65022 on 2011/11/15 by cgm@magics_opensuse113
+
+    COASTLINES commented out not needed Boost header file
+
+Change 65014 on 2011/11/15 by cgm@magicsIBM
+
+    AIX remove warning message
+
+Change 64993 on 2011/11/15 by cgm@magics_opensuse113
+
+    CONFIG add comment about possible additional dependencies (such as PNG) to error message of Grib_API could not be linked - SUP-20
+
+Change 64992 on 2011/11/15 by cgm@magics_opensuse113
+
+    MAKE add missing file for tarball
+
+Change 64990 on 2011/11/15 by cgi@cgi_metview_4
+
+    MAG++: changed ODA/B lib path to the version installed for Metview
+
+Change 64944 on 2011/11/14 by cgm@magics_opensuse113
+
+    VERSION 2.14.3
+
+Change 64927 on 2011/11/14 by cgm@magics_opensuse113
+
+    DRIVERS PS revert calculations on dimension
+
+Change 64918 on 2011/11/14 by cgh@mv_vesa4-32
+
+    add code to cope with NCEP PrepBUFR files
+
+Change 64916 on 2011/11/14 by cgm@magics_opensuse113
+
+    DRIVERS PS scaling for Binary
+
+Change 64915 on 2011/11/14 by cgm@magics_opensuse113
+
+    PROJECTIONS Mercator extend to 89 degree in latitude (from 85)
+
+Change 64914 on 2011/11/14 by cgm@cgm_meshon
+
+    DRIVERS comment unused variable
+
+Change 64913 on 2011/11/13 by cgm@magics_lxa
+
+    CONFIG enable SPOT on LXAB
+
+Change 64912 on 2011/11/13 by cgm@magics_opensuse113
+
+    MAKE remove not needed files from share directory
+
+Change 64910 on 2011/11/13 by cgm@cgm_orion
+
+    CONFIG improve reporting of missing dependencies for Boost and Cairo - MAGP-5
+
+Change 64909 on 2011/11/13 by cgm@magics_opensuse113
+
+    DRIVER PS reduce file size by removing comments
+
+Change 64908 on 2011/11/13 by cgm@magics_opensuse113
+
+    DRIVERS SVG fix offset problem which we say with legends in plumes
+
+Change 64907 on 2011/11/13 by cgm@magics_opensuse113
+
+    DRIVERS SVG fix logo
+
+Change 64885 on 2011/11/11 by cgs@cgs_lxab
+
+    Global efi patch : update navigation
+
+Change 64880 on 2011/11/11 by cgm@magics_opensuse113
+
+    CONFIG remove -O0 for debug
+
+Change 64875 on 2011/11/11 by cgs@cgs_metview
+
+    Patch for glovbal efi
+
+Change 64806 on 2011/11/10 by cgr@cgr
+
+    Increase histogram preview size in the QtDriver.
+
+Change 64805 on 2011/11/10 by cgr@cgr
+
+    Meta-data collector statictics and histogram for gribs are now computed using the visualised grid points only.
+
+Change 64804 on 2011/11/10 by cgs@cgs
+
+    Magics: added 2 parameters to tune contouring for noisy fields.
+
+Change 64754 on 2011/11/09 by cgs@cgs_metview
+
+    Magics: temporary increase in IsoPlot! 
+
+Change 64752 on 2011/11/09 by cgs@cgs_metview
+
+    Magics: netcdf + boundaries
+
+Change 64728 on 2011/11/09 by maf@belleus
+
+    html changes for circles
+
+Change 64727 on 2011/11/09 by maf@belleus
+
+    fancy circle-type error indicators on overview pages
+
+Change 64699 on 2011/11/08 by cgs@cgs_lxab_debug
+
+    Magics/Python
+
+Change 64697 on 2011/11/08 by maf@belleus
+
+    Added colour-coded summary information to the top-level summary pages on the number of tests that failed.
+
+Change 64695 on 2011/11/08 by cgm@magics_opensuse113
+
+    CONFIG improve testing for Boost and Boost::Math
+
+Change 64694 on 2011/11/08 by cgm@magics_opensuse113
+
+    CONFIG remove spaces at end of line (caused error)
+
+Change 64687 on 2011/11/08 by cgm@magics_opensuse113
+
+    DRIVERS PS adjust page dimension for Binary
+
+Change 64683 on 2011/11/08 by cgr@cgr
+
+    Improved histrogram rendering for the histogram preview in Metview.
+
+Change 64681 on 2011/11/08 by cgr@cgr
+
+    Enabled valuescollector to strore data for both the unscaled and scaled fields.
+
+Change 64679 on 2011/11/08 by cgr@cgr
+
+    Increased histogram pixmap size in the QtDriver.
+
+Change 64668 on 2011/11/08 by cgr@cgr
+
+    Increased horizontal size for histogram preview in the QtDriver.
+
+Change 64666 on 2011/11/08 by cgs@cgs_lxab_debug
+
+    Magics: More in legend_user_text and curve
+
+Change 64664 on 2011/11/08 by cgs@cgs_metview
+
+    Magics: Legend user text bug fix
+
+Change 64661 on 2011/11/08 by cgr@cgr
+
+    Added curve plotting for ODB.
+
+Change 64660 on 2011/11/08 by cgr@cgr
+
+    Use double precision to store positions for symbol plotting in the Qt Driver.
+
+Change 64633 on 2011/11/07 by maf@belleus
+
+    some cleanup
+
+Change 64632 on 2011/11/07 by cgm@magics_opensuse113
+
+    DRIVERS PS add binary dimenesions
+
+Change 64631 on 2011/11/07 by maf@belleus
+
+    Suite name now comes from the name of the config file that created it.
+    Existing suties on the server with the same name may be overwritten with --force
+                      otherwise the suite submission fails gracefully if name conflict.
+    No longer clea
+
+Change 64617 on 2011/11/05 by cgm@cgm_orion
+
+    DRIVERS SVG optimisation for horizontal and vertical segments in paths
+
+Change 64616 on 2011/11/05 by cgm@cgm_orion
+
+    DRIVERS Binary - prober eror message if MGB file can not be opened
+
+Change 64614 on 2011/11/04 by maf@belleus
+
+    added instructions on how to run the server locally
+
+Change 64609 on 2011/11/04 by maf@belleus
+
+    - Un-hard-coded the available diff programs. Can now add and remove as necessary.
+    - Added a working folder to the settings. Solved problem with suite running on consecutive days.
+    - Added additional information to the summary page so that user can dec
+
+Change 64546 on 2011/11/02 by cgr@cgr
+
+    Save the current step for each scene item before the new request is applied in the QtDriver 
+
+Change 64528 on 2011/11/02 by cgr@cgr
+
+    Save the current step for each scene item before the new request is applied in the QtDriver 
+
+Change 64526 on 2011/11/01 by cgm@cgm_orion
+
+    WREP BinaryDriver - add more nice text options (for plumes)
+
+Change 64519 on 2011/11/01 by cgs@cgs_metview
+
+    Magics: Clipping bug
+
+Change 64512 on 2011/11/01 by cgs@cgs_metview
+
+    Magics/Migration: add patch for global EFI
+
+Change 64511 on 2011/11/01 by cgs@cgs_metview
+
+    MOS presentation
+
+Change 64510 on 2011/11/01 by cgi@cgi_metview_4
+
+    MV4: added MOS workshop 2011 presentation 'Metview 4: Enhanced functionalities for observation monitoring'
+
+Change 64476 on 2011/10/31 by maf@belleus
+
+           Contains the following additions:
+    - percentage-based tolerance checking for pixel differences.
+    - summary of all differences found appears on the test summary page
+
+Change 64449 on 2011/10/30 by cgm@magics_opensuse113
+
+    PPTX slides for MOS Magics presentation (1st Draft)
+
+Change 64433 on 2011/10/28 by maf@belleus
+
+    the verbose flag went away somewhere. reinstated
+
+Change 64429 on 2011/10/28 by maf@belleus
+
+    Many examples stolen from Iain's test suite added. convert.sh does the theft automatically
+
+Change 64428 on 2011/10/28 by maf@belleus
+
+    Added pdiff output and colour coding to the html output
+
+Change 64427 on 2011/10/28 by maf@belleus
+
+    Added pdiff build files and dependent library FreeImage
+    NB I have removed .NET and other examples from FreeImage prior to submit as these are not needed.
+    NB A correction was necessary to perceptualdiff/Metric.cpp to include cstdio
+    Run the build.sh sc
+
+Change 64424 on 2011/10/28 by cgs@cgs
+
+    Magics: more on page_id_line_magics
+
+Change 64423 on 2011/10/28 by cgs@cgs_metview
+
+    Magics: stupid print
+
+Change 64421 on 2011/10/28 by cgs@cgs_metview
+
+    Magics: Boundaries are back + page_id_line_magics
+
+Change 64402 on 2011/10/27 by cgm@magics_opensuse113
+
+    VERSION 2.14.2
+
+Change 64388 on 2011/10/26 by cgm@magics_opensuse113
+
+    WARNING cleanup alignment
+
+Change 64386 on 2011/10/26 by cgm@magics_opensuse113
+
+    SWIG fix for tarball - remove references to old files
+
+Change 64385 on 2011/10/26 by cgm@magics_opensuse113
+
+    SWIG clean-up of Python interface for numpy types (reported by Oxford and with help of Cristian)
+
+Change 64383 on 2011/10/26 by cgs@cgs_metview
+
+    magics : warning are back in pure Magics
+                 add taylor in python interface
+
+Change 64368 on 2011/10/26 by cgs@cgs_metview
+
+    Magics: user logo deprecated
+
+Change 64352 on 2011/10/26 by cgm@magics_opensuse113
+
+    DOCS remove hidden characters
+
+Change 64351 on 2011/10/25 by cgm@cgm_meshon
+
+    CONFIG AIX clean-up call to bash
+
+Change 64350 on 2011/10/25 by cgm@cgm_meshon
+
+    CONFIG AIX boost test
+
+Change 64330 on 2011/10/25 by cgm@magics_opensuse113
+
+    CONFIG add test for curl and boost - disabled Proj4 by default
+
+Change 64317 on 2011/10/25 by cgr@cgr
+
+    Changed formula in BaseDriver to compute the distance between isoline labels. The new formula is now based on the absolute value of the coordinate value ranges.
+
+Change 64309 on 2011/10/25 by cgr@cgr
+
+    Check thinning values and revert them back to 1 if they are less than 1.
+
+Change 64305 on 2011/10/25 by cgr@cgr
+
+    Assinged the x and y datasets to the correct axes for xy odb plots. Previously the axes were swapped.
+
+Change 64280 on 2011/10/24 by cgs@cgs_metview
+
+    Magics/Wrep: Globalefi -> add patch for producing old javascript for the globalefi plots! 
+
+Change 64278 on 2011/10/24 by cgs@cgs_metview
+
+    Magics/Metview : Coastlines resolution MEDIUM is not reset systematically to automatic 
+
+Change 64258 on 2011/10/24 by cgs@cgs_metview
+
+    Wrep/Magics: Efi patch
+
+Change 64257 on 2011/10/24 by cgs@cgs_metview
+
+    Magics: legend + input mssing value
+
+Change 64256 on 2011/10/24 by cgr@cgr
+
+    Do not use antialiasing for filled polygons in the Qt Driver if the polygon outine is not rendered. Otherwise "ghost lines" appear in the plot along the shared polygon borders due to the antialiasing algorythm that Qt uses.
+
+Change 64252 on 2011/10/24 by maf@belleus
+
+    Added some plots from wrep/main/services/apps/plot that seem to work
+
+Change 64244 on 2011/10/24 by cgs@cgs_metview
+
+    Magics/Metview: coastlines_resolution + mssing value for table decoder
+
+Change 64238 on 2011/10/23 by cgm@cgm_meshon
+
+    SRC remove compiler warnings
+
+Change 64237 on 2011/10/23 by cgm@cgm_orion
+
+    SRC add name to layers
+
+Change 64216 on 2011/10/21 by cgs@cgs_metview
+
+    Magics: logarithmic axis
+    + Wrep Epsgram 
+
+Change 64210 on 2011/10/21 by cgr@cgr
+
+    Delete the painter first then the device for pixmap cache resizing in the Qt scene. Otherwise Qt crashes.
+
+Change 64209 on 2011/10/21 by cgr@cgr
+
+    Made transparency work for resized scenes in the QtDriver.
+
+Change 64185 on 2011/10/20 by maf@belleus
+
+    Removed as automated testing now done using ecflow
+
+Change 64178 on 2011/10/20 by cgr@cgr
+
+    Add obsmon seminar to docs.
+
+Change 64174 on 2011/10/20 by maf@belleus
+
+    Added that darn css file
+
+Change 64173 on 2011/10/20 by maf@belleus
+
+    Changes to allow colour-coding of results.
+      - altered the way error reporting is done
+      - changes to html
+      - inclusion of css file for common formatting across pages
+
+Change 64168 on 2011/10/20 by maf@belleus
+
+    removing output file from perforce which caused test to fail to write over the write-protected file
+
+Change 64165 on 2011/10/20 by maf@belleus
+
+    New test from SLT added
+
+Change 64161 on 2011/10/19 by cgm@cgm_orion
+
+    DRIVERS SVG remove spaces and set version back to 1.1 'full'
+
+Change 64160 on 2011/10/19 by cgm@cgm_orion
+
+    DRIVERS add debug information if text number mismatches symbols
+        (WREP problem in citis layer)
+
+Change 64158 on 2011/10/19 by cgs@cgs_metview
+
+    Magics/Metview: Input data and missing value
+
+Change 64155 on 2011/10/19 by cgs@cgs_metview
+
+    Magics/Wrep: Classic 10 days! 
+
+Change 64122 on 2011/10/19 by cgs@cgs_metview
+
+    magics: compilation error10.3
+
+Change 64117 on 2011/10/18 by cgs@cgs_metview
+
+    Magics/Metview : Geoline and Hov data
+
+Change 64115 on 2011/10/18 by maf@belleus
+
+    Added script to start ecflow on local or remote host according to settings stored in configuration files.
+
+Change 64114 on 2011/10/18 by maf@belleus
+
+    added repeated daily running of suite
+
+Change 64103 on 2011/10/18 by cgm@cgm_orion
+
+    DRIVERS SVG magnifier is back working and layer ticks are replace with buttons
+
+Change 64100 on 2011/10/18 by cgs@cgs_metview
+
+    Magics: Ajustement on polar stereographic labels
+
+Change 64090 on 2011/10/18 by cgs@cgs_metview
+
+    Magics: adjust label on PolarProjection
+
+Change 64079 on 2011/10/17 by cgm@cgm_orion
+
+    DRIVERS SVG put 1.2 tiny header and little clean-up
+
+Change 64078 on 2011/10/17 by cgm@cgm_orion
+
+    DRIVERS SVG - Introduce polygon grouping + removed empty id parameters
+       put 'non-scaling-stroke' in global group
+
+Change 64067 on 2011/10/17 by cgs@cgs_lxab
+
+    Magics: Text adjustement  
+
+Change 64066 on 2011/10/17 by maf@belleus
+
+    changed name of limit
+
+Change 64065 on 2011/10/17 by maf@belleus
+
+    Modified code to allow several versions of Magics to run concurrently
+    thus improving performence. Added triggers to the initialisation and summarising
+    tasks to ensure proper operation.
+
+Change 64062 on 2011/10/17 by maf@belleus
+
+    deleted tmp file 
+
+Change 64054 on 2011/10/17 by maf@belleus
+
+    added new tests from Sylvie
+
+Change 64052 on 2011/10/17 by maf@belleus
+
+    added imagemagick error output to the error log for each test
+
+Change 64044 on 2011/10/17 by cgm@cgm_orion
+
+    DRIVERS SVG hardcode filling to 'evenodd'
+
+Change 64041 on 2011/10/17 by cgm@magics_opensuse113
+
+    VERSION 2.14.1
+
+Change 64040 on 2011/10/17 by cgm@cgm_orion
+
+    DRIVERS SVG reduce stroke between transparent fill areas
+
+Change 64039 on 2011/10/17 by maf@belleus
+
+    do not remove output folder rather allow result folders to build over time
+
+Change 64038 on 2011/10/17 by maf@belleus
+
+    altered run time
+
+Change 64037 on 2011/10/17 by cgs@cgs_metview
+
+    Magics/Metview : More on netcdf cleaning
+
+Change 64036 on 2011/10/17 by cgs@cgs_metview
+
+    Magics: more on legend... cleaning of  necdf parameters
+
+Change 64034 on 2011/10/14 by cgm@cgm_orion
+
+    DRIVERS SVG add transparency for shadig and set right shading method 
+    (both for WREP)
+
+Change 64030 on 2011/10/14 by cgm@magics_opensuse113
+
+    DOCS first ODF version
+
+Change 64028 on 2011/10/14 by maf@belleus
+
+    altered run time
+
+Change 64027 on 2011/10/14 by maf@belleus
+
+    Added settings file to config. This allows specification of:
+      input folder (where the tests are)
+      output folder
+      verbose setting
+      time when suite is to be run
+      tolerance for significant image difference in pixels
+      ecflow server and port
+    Script 
+
+Change 64010 on 2011/10/14 by maf@belleus
+
+    renamed conf to config for clarity.
+    added configurable image difference threshold for ignoring minor difference (defaults to 50 pixels)
+    imagemagick location now got from the system rather than hard-coded
+
+Change 64001 on 2011/10/14 by cgm@magics_opensuse113
+
+    VERSION 2.14.0
+
+Change 64000 on 2011/10/14 by cgm@magics_opensuse113
+
+    MAKE disable C++ linking (was needed for mac)
+
+Change 63999 on 2011/10/14 by cgm@magics_opensuse113
+
+    CONFIG add proj4 to paths
+
+Change 63998 on 2011/10/14 by cgm@magics_opensuse113
+
+    USE SCRIPTS for 2.13.10 release
+
+Change 63991 on 2011/10/13 by cgr@cgr
+
+    Clear the list storing the latest currentStep value for the scene items in the QtDriver.
+
+Change 63989 on 2011/10/13 by maf@belleus
+
+    piffling text change
+
+Change 63988 on 2011/10/13 by cgs@cgs_metview
+
+    Magics : MagicsObserver
+
+Change 63987 on 2011/10/13 by maf@belleus
+
+    removed debug output
+
+Change 63986 on 2011/10/13 by maf@belleus
+
+    Added schedule run time to the suite
+    Added error output and diff fields to the output html documents
+
+Change 63983 on 2011/10/13 by maf@belleus
+
+    Modifications to output html
+    Support for version names like current++ rather than 2.13.9. These had previously caused issues with ecflow.
+    Fixed issues in output where images missing. Now we show all images produced even if some missing.
+    Better handli
+
+Change 63980 on 2011/10/13 by cgs@cgs_metview
+
+    Magics: MagicsObserver
+
+Change 63976 on 2011/10/13 by cgs@cgs_lxab
+
+    Magics: print
+
+Change 63975 on 2011/10/13 by cgs@cgs_metview
+
+    Magics: MAGICS_EXCEPTION
+
+Change 63970 on 2011/10/13 by cgr@cgr
+
+    Save he latest currentStep value for th scene items in the QtDriver.
+
+Change 63955 on 2011/10/13 by cgi@cgi_metview_4
+
+    MAG++: corrected test suite example graph_venice_01.f
+
+Change 63954 on 2011/10/13 by cgi@cgi_metview_4_nightly
+
+    M++: changed Log to MagLog in magmlx.cc
+
+Change 63945 on 2011/10/12 by cgs@cgs_lxab_debug
+
+    Log++=
+
+Change 63944 on 2011/10/12 by cgs@cgs_lxab_debug
+
+    LOg+++
+
+Change 63940 on 2011/10/12 by max@cgs_wrep_devel
+
+    refactoring
+
+Change 63936 on 2011/10/12 by max@cgs_wrep_devel
+
+    Magics/Wrep: metadata formatting
+
+Change 63934 on 2011/10/12 by cgs@cgs_metview
+
+    More onrefactoring
+
+Change 63923 on 2011/10/12 by cgs@cgs_metview
+
+    rename
+
+Change 63920 on 2011/10/12 by cgm@magics_mac
+
+    CONFIG MAC compilation works
+
+Change 63919 on 2011/10/12 by cgs@cgs
+
+    Magics: more on legend histogram
+
+Change 63907 on 2011/10/12 by cgs@cgs_metview
+
+    magics: Legend Histogram
+
+Change 63904 on 2011/10/12 by cgs@cgs_metview
+
+    Magics: legend histogram mode
+
+Change 63895 on 2011/10/12 by cgi@cgi_metview_4
+
+    MAG++: now uses ODA library version 0.9.2
+
+Change 63890 on 2011/10/12 by cgm@magics_opensuse113
+
+    DRIVERS remove debug output
+
+Change 63889 on 2011/10/12 by cgs@cgs
+
+    Magics: stupid typo!
+
+Change 63888 on 2011/10/12 by cgs@cgs_metview
+
+    Magics: cleanup print
+
+Change 63885 on 2011/10/12 by cgm@magics_opensuse113
+
+    DRIVERS Binary - fix unclosed layout
+
+Change 63884 on 2011/10/12 by cgm@magics_opensuse113
+
+    DRIVERS SVG fix wrong colour for shading outline
+
+Change 63881 on 2011/10/12 by cgm@magics_opensuse113
+
+    DRIVERS SVG update shading code
+
+Change 63870 on 2011/10/11 by cgm@magics_opensuse113
+
+    DRIVERS Base make debug information more unique
+
+Change 63868 on 2011/10/11 by cgm@magics_opensuse113
+
+    DRIVERS svg enable debug
+
+Change 63862 on 2011/10/11 by cgs@cgs_metview
+
+    More on refactoring!
+
+Change 63861 on 2011/10/11 by cgm@magics_opensuse113
+
+    CONFIG disable STATIC by default
+
+Change 63854 on 2011/10/11 by maf@belleus
+
+    added mechanism to create html index files for all tests run. these are produced as part of the suite at the end of the tests
+
+Change 63852 on 2011/10/11 by cgs@cgs_metview
+
+    python ++
+
+Change 63851 on 2011/10/11 by cgs@cgs
+
+    Exceptions
+
+Change 63850 on 2011/10/11 by cgs@cgs_metview
+
+    Refactoring
+
+Change 63847 on 2011/10/11 by cgs@cgs_metview
+
+    Refactoring machine.h
+
+Change 63843 on 2011/10/11 by cgs@cgs_metview
+
+    Magics: More on implicit definition of data!
+
+Change 63841 on 2011/10/11 by cgs@cgs_metview
+
+    refactoring
+
+Change 63840 on 2011/10/11 by cgs@cgs_metview
+
+    Refactoring
+
+Change 63838 on 2011/10/11 by cgs@cgs_metview
+
+    refcatoring
+
+Change 63837 on 2011/10/11 by cgs@cgs_metview
+
+    Refactoring
+
+Change 63836 on 2011/10/11 by cgs@cgs_metview
+
+    Refactoring+++
+
+Change 63835 on 2011/10/11 by cgs@cgs_metview
+
+    More on refcatoring
+
+Change 63834 on 2011/10/11 by cgs@cgs_metview
+
+    Magics: refctoring Exceotion.
+
+Change 63825 on 2011/10/11 by cgs@cgs_metview
+
+    rmp
+
+Change 63824 on 2011/10/11 by cgs@cgs_lxab
+
+    Magics: 
+
+Change 63821 on 2011/10/11 by cgs@cgs_metview
+
+    Magics: Translator
+
+Change 63818 on 2011/10/10 by cgm@magics_opensuse113
+
+    USE SCRIPTS correct spelling
+
+Change 63817 on 2011/10/10 by cgm@magics_opensuse113
+
+    DRIVERS SVG remove debug print-outs
+
+Change 63815 on 2011/10/10 by cgs@cgs
+
+    Typo
+
+Change 63814 on 2011/10/10 by cgs@cgs_metview
+
+    More on translator
+
+Change 63813 on 2011/10/10 by cgs@cgs_metview
+
+    More on translator
+
+Change 63812 on 2011/10/10 by cgs@cgs_metview
+
+    magics: rename Translator to MagTranslator
+
+Change 63811 on 2011/10/10 by cgs@cgs_metview
+
+    New name
+
+Change 63810 on 2011/10/10 by cgs@cgs_metview
+
+    Before rename
+
+Change 63803 on 2011/10/10 by cgm@magics_opensuse113
+
+    DRIVERS clarify PostScript info message
+
+Change 63802 on 2011/10/10 by cgm@magics_opensuse113
+
+    CONFIG make tarball work again
+
+Change 63797 on 2011/10/10 by maf@belleus
+
+    various changes to allow ecflow-based testing
+
+Change 63796 on 2011/10/10 by maf@belleus
+
+    added ecflow-based test running framework
+
+Change 63787 on 2011/10/10 by cgm@magics_opensuse113
+
+    Remove compiler warning
+
+Change 63775 on 2011/10/07 by cgs@cgs_metview
+
+    Magics:implements graph_x/y_suppress_above and graph_x/y_suppress_below
+    Magics/metview: small big fixes on TableDecoder 
+
+Change 63770 on 2011/10/07 by cgr@cgr
+
+    1. Added serachRadius[X,Y] to ValuesCollector. It is used to find data for a given position in scattered data sets. 2. Added mehod "nearest" to Matrix to find data for a given position in a matrix. 3. Used both new features in the OdaDecoder.  
+
+Change 63769 on 2011/10/07 by cgr@cgr
+
+    Added CoordinateType enum to Transformation.
+
+Change 63749 on 2011/10/07 by cgm@magics_opensuse113
+
+    USE SCRIPTS bring test scripts up-to-date
+
+Change 63742 on 2011/10/06 by cgs@cgs_metview
+
+    magics: Add Histogram mode for legend
+
+Change 63689 on 2011/10/05 by cgs@cgs_metview
+
+    Magics: curve optimisation
+
+Change 63688 on 2011/10/05 by cgs@cgs_metview
+
+    Magics/Metview: Renaming!
+
+Change 63669 on 2011/10/05 by cgm@magics_opensuse113
+
+    DOCS Magics Migration presentation held on 3rd October 2011
+
+Change 63666 on 2011/10/05 by cgr@cgr
+
+    Change parameter names for odb. 
+
+Change 63664 on 2011/10/05 by cgr@cgr
+
+    Use binning object defined in the request for odb visualisation in Metview.
+
+Change 63646 on 2011/10/05 by cgs@cgs_metview
+
+    Magics: Optimisation for simple graphs!
+
+Change 63636 on 2011/10/05 by maf@belleus
+
+    latest check in. error codes better.
+
+Change 63599 on 2011/10/04 by cgs@cgs_lxab
+
+    Magics: pnew super_page + adjsut in grid plotting
+
+Change 63597 on 2011/10/04 by cgr@cgr
+
+    Build title for xy ODB plots.
+
+Change 63593 on 2011/10/04 by cgs@cgs_metview
+
+    Magics/Metgram: adjust wave template
+
+Change 63590 on 2011/10/04 by maf@belleus
+
+    added url to the overview page to the output of the script
+
+Change 63589 on 2011/10/04 by cgs@cgs_metview
+
+    Magics/Metgram: fix 10 days epsgram
+
+Change 63588 on 2011/10/04 by maf@belleus
+
+    Added preliminary version of a script to run a set of tests and generate an overview page.
+    To run: 
+       ./runtests.sh <version1> <version2> <script_folder>
+    
+       for example:
+       ./runtests.sh current++ new++ examples
+    
+    
+    Also added two new tests to the se
+
+Change 63586 on 2011/10/04 by maf@belleus
+
+    added new tests to version comparison tool
+
+Change 63580 on 2011/10/04 by max@cgs_wrep_devel
+
+    Magics/Wrep: Navigation
+
+Change 63577 on 2011/10/04 by cgs@cgs_metview
+
+    Magics: pnew(super_page) small bug fix.
+                Improved line spacing
+                add new magics parameter x_missing_value y_missing_value to handle missing value in graph plotting
+
+Change 63529 on 2011/10/03 by cgs@cgs_lxab
+
+    Magics: graph_linei bug fix
+
+Change 63521 on 2011/10/03 by maf@belleus
+
+    fixed side-by-side txt comparison output by finally working out how the diff program arranges the side-by-side text in its output
+
+Change 63500 on 2011/10/03 by maf@belleus
+
+    added missing data file and updated fortran
+
+Change 63498 on 2011/10/03 by maf@belleus
+
+    fixed error message with bad args. added script guidelines to README.
+
+Change 63492 on 2011/10/03 by maf@belleus
+
+    added new examples to version comparison tool
+
+Change 63474 on 2011/09/30 by cgr@cgr
+
+    Added SciMethods which is planned to be a collection of scientific methods. Currently it only contains a method to compute the disctance between two geographial points. This method is used by OdaDecoder to find the nearest data point for the position
+
+Change 63462 on 2011/09/30 by maf@belleus
+
+    Following changes have been made:
+       - screen layout adapts to changes in window size
+       - text output has been split into two windows (co-scrolling) for convenience
+       - added warning for largish (>50 pixel) differences
+       - script output contains a
+
+Change 63442 on 2011/09/30 by max@cgs_wrep_devel
+
+    Magics/Wrep: navigation
+
+Change 63432 on 2011/09/30 by cgs@cgs_metview
+
+    Magics/Wrep: navigation
+
+Change 63424 on 2011/09/30 by cgm@magics_opensuse113
+
+    DOCS - backup old PDFs as part of the move away from docbook
+
+Change 63386 on 2011/09/29 by cgm@magics_opensuse113
+
+    USE SCRIPTS add Proj4 location to LD_LIBRARY_PATH (needed sometimes by STATIC)
+
+Change 63384 on 2011/09/29 by maf@belleus
+
+    added script run times to output. Some width scaling work
+
+Change 63380 on 2011/09/29 by cgm@magics_opensuse113
+
+    VERSION 2.13.10
+
+Change 63379 on 2011/09/29 by cgm@magics_opensuse113
+
+    USE SCRIPTS for 2.13.9 release (add -lproj)
+
+Change 63373 on 2011/09/29 by maf@belleus
+
+    fixed pixel count statistic in output for multiple pages
+
+Change 63372 on 2011/09/29 by cgm@magics_opensuse113
+
+    USE SCRIPTS changes for emos users (Sylvie)
+
+Change 63367 on 2011/09/29 by maf@belleus
+
+    multiple output pages now work. pixel difference text needs fixing therefore WORK IN PROGRESS
+
+Change 63350 on 2011/09/28 by cgs@cgs_lxab
+
+    Magics: Wind arrow legend
+
+Change 63349 on 2011/09/28 by cgs@cgs_metview
+
+    Magics: message out!
+
+Change 63336 on 2011/09/28 by cgs@cgs_metview
+
+    Magics: Legend_box_blanking is now off by default
+                Arrow Wind Legend improved
+
+Change 63334 on 2011/09/28 by cgm@magics_opensuse113
+
+    PYTHON revert module naming back to 'M'agics
+
+Change 63330 on 2011/09/28 by cgm@magics_opensuse113
+
+    PYTHON rename magmacro to 'macro'
+
+Change 63322 on 2011/09/28 by cgm@magics_opensuse113
+
+    PYTHON renaming interface to 'm'agics and use subdirectory for module
+
+Change 63319 on 2011/09/28 by cgs@cgs_metview
+
+    Magics: Bug in wind thinning around the poles.
+
+Change 63315 on 2011/09/28 by cgr@cgr
+
+    1. Extended ValuesCollector to collect more data for the queried layers 2. Implemented the visit method for ValuesCollector in OdaDecoder. 
+
+Change 63313 on 2011/09/28 by cgs@cgs_metview
+
+    Removed the ShpOpen() printout
+
+Change 63308 on 2011/09/27 by max@cgs_wrep_devel
+
+    Magics/Wrep: Legend+++
+
+Change 63304 on 2011/09/27 by cgm@magics_opensuse113
+
+    Binary - set meta data right for WREP (as is in CairoDriver)
+
+Change 63294 on 2011/09/27 by maf@belleus
+
+    added creation of logs folder. Script was failing if it was missing
+
+Change 63289 on 2011/09/27 by maf@belleus
+
+    new improved README
+
+Change 63288 on 2011/09/27 by maf@belleus
+
+    added readme. Added option to specify output folder
+
+Change 63285 on 2011/09/27 by maf@belleus
+
+    added test data for versioncmp.sh script
+
+Change 63283 on 2011/09/27 by maf@belleus
+
+    removed debug output. added image_magick_loc as variable
+
+Change 63282 on 2011/09/27 by maf@belleus
+
+    Now uses ImageMagick to convert from ps to pgn rather than pstopng. Added better error handling
+
+Change 63277 on 2011/09/27 by maf@belleus
+
+    populated places shape files as generated by latest shp_process.ksh
+
+Change 63276 on 2011/09/27 by cgs@cgs_lxab
+
+    Magics: change default of legend_entry_text_width + adjust plume default visualisation
+
+Change 63252 on 2011/09/26 by cgs@cgs_lxab_debug
+
+    Magics: cleaning
+
+Change 63251 on 2011/09/26 by cgs@cgs_metview
+
+    Magics: Plumes templates
+
+Change 63250 on 2011/09/26 by maf@belleus
+
+    added option to run the (quite slow) part of the script that handles city data. Defaults to on
+
+Change 63249 on 2011/09/26 by maf@belleus
+
+    New shape files produced by tools script shp_process.ksh@63243 using geotools
+
+Change 63245 on 2011/09/26 by maf@belleus
+
+    removed unused shp file utility. See shp_process.ksh for how it is to be done now.
+
+Change 63243 on 2011/09/26 by maf@belleus
+
+    Scripts and associated for running geoscript (geodata manipulation lib) on workstations using groovy
+
+Change 63230 on 2011/09/26 by cgm@magics
+
+    CONFIG correct PROJ4 path on OpenSuSE 10.3
+
+Change 63229 on 2011/09/26 by cgm@magics_opensuse113
+
+    VERSION 2.13.9
+
+Change 63226 on 2011/09/26 by cgs@cgs_metview
+
+    Magics: graph and shading .
+
+Change 63214 on 2011/09/23 by cgr@cgr
+
+    Remove data value lines (dash) from histogram and adjust x-axis label positions.
+
+Change 63205 on 2011/09/23 by cgs@cgs_metview
+
+    Magics: legend
+
+Change 63204 on 2011/09/23 by cgs@cgs_lxab
+
+    ignore
+
+Change 63203 on 2011/09/23 by cgs@cgs_lxab
+
+    ignore
+
+Change 63202 on 2011/09/23 by cgs@cgs_lxab
+
+    Magics: Small fixes
+
+Change 63201 on 2011/09/23 by cgs@cgs_metview
+
+    Magics: AxisMinorTick
+
+Change 63200 on 2011/09/23 by cgs@cgs_metview
+
+    Magics: More on graph annotation
+
+Change 63192 on 2011/09/23 by cgs@cgs_lxab
+
+    Magics: Wind legend
+
+Change 63191 on 2011/09/23 by cgs@cgs_metview
+
+    magics: add annotation for bar at the top of the plots.
+
+Change 63179 on 2011/09/22 by cgr@cgr
+
+    The QtDriver is now using the correct screen resolution to compute the plot and font sizes.
+
+Change 63174 on 2011/09/22 by cgs@cgs_metview
+
+    Magics : little adjustements
+
+Change 63169 on 2011/09/22 by cgs@cgs_metview
+
+    magics: A litlle bit more on legend...
+                Migration messages
+
+Change 63163 on 2011/09/22 by cgs@cgs_metview
+
+    Magics/Metview: uplotbatch and cartesian view!
+
+Change 62813 on 2011/09/22 by cgs@cgs_lxab
+
+    Magics: ignore
+
+Change 62810 on 2011/09/22 by cgs@cgs_metview
+
+    Magics/Wrep: Small integration
+
+Change 62808 on 2011/09/22 by cgs@cgs_metview
+
+    Magics: pnew (super_page) allowed from the beginning
+                multiline spacing slighly increased
+                top box adjustement in cartesian view
+                fix when AXIS_MONTHS_LABEL_COMPOSITION THREE
+
+Change 62790 on 2011/09/21 by cgs@cgs_metview
+
+    Magics: More on legend title
+
+Change 62784 on 2011/09/21 by cgs@cgs_metview
+
+    Magics : Legend improvement ( legend_entry_text_width)
+                 Plumes legend 
+                 Lines spacing adjsutement
+                 Lost space at the top of a cartesian view 
+
+Change 62748 on 2011/09/20 by cgs@cgs_lxab
+
+    Close shape files
+
+Change 62733 on 2011/09/20 by cgs@cgs_metview
+
+    Magics/Legend: More on text_width...
+
+Change 62732 on 2011/09/19 by cgm@magics_opensuse113
+
+    PYTHON test new configure setup for swig (10) - correct install paths for ECMWF
+
+Change 62731 on 2011/09/19 by cgm@cgm_meshon
+
+    PYTHON test new configure setup for swig (9) - simplify Makefiles
+
+Change 62727 on 2011/09/19 by cgs@cgs_metview
+
+    Magics: Introduction of a new parameter for legend management legend_entry_text_width
+    Warning: implementaion not finished!
+
+Change 62704 on 2011/09/19 by cgs@cgs_metview
+
+    Magics/Metview: More on netcdf title.
+
+Change 62698 on 2011/09/19 by cgs@cgs_metview
+
+    Magics: ignore ( stupid typo!)
+
+Change 62688 on 2011/09/16 by cgm@magics_opensuse113
+
+    PYTHON test new configure setup for swig (8) - fix numpy path
+
+Change 62687 on 2011/09/16 by cgm@magics_lxa
+
+    PYTHON test new configure setup for swig (7) - fix site-packages path
+
+Change 62682 on 2011/09/16 by cgi@dell_suse12
+
+    PYTHON test new configure setup for swig (6) - now it works on suse 12.1
+
+Change 62671 on 2011/09/16 by cgm@magics_opensuse113
+
+    PYTHON test new configure setup for swig (5) - now it works on suse 11.3
+
+Change 62659 on 2011/09/16 by cgm@magics_opensuse113
+
+    PYTHON test new configure setup for swig (4)
+
+Change 62658 on 2011/09/15 by cgm@cgm_meshon
+
+    PYTHON test new configure setup for swig (3)
+
+Change 62657 on 2011/09/15 by cgm@cgm_meshon
+
+    PYTHON test new configure setup for swig (2)
+
+Change 62656 on 2011/09/15 by cgm@cgm_meshon
+
+    PYTHON test new configure setup for swig
+
+Change 62652 on 2011/09/15 by cgm@cgm_meshon
+
+    CONFIG fix syntax (no spaces allowed as end of line)
+
+Change 62643 on 2011/09/15 by cgs@cgs_metview
+
+    Magics/Wrep: 
+    Netcdf Matrix and Title...
+    Label enabled when no contour
+    Highlight and label using reference level
+    Curve and missing value
+
+Change 62636 on 2011/09/15 by cgs@cgs_metview
+
+    Magics/Wrep: ignore missing data.
+
+Change 62620 on 2011/09/14 by cgm@magics_opensuse113
+
+    CONFIG Always enable Proj4 and JSON by default
+
+Change 62619 on 2011/09/14 by cgm@magics_opensuse113
+
+    TESTS add python example with netCDF data read from SciPy
+
+Change 62618 on 2011/09/14 by cgm@magics_opensuse113
+
+    DOCS hide development parameter
+
+Change 62617 on 2011/09/14 by cgm@magics_opensuse113
+
+    MagMacro - update after feedback from Pyflakes
+
+Change 62587 on 2011/09/14 by cgs@cgs_metview
+
+    Magics/Python: improvment after training course
+
+Change 62493 on 2011/09/12 by cgr@cgr
+
+    Force annotationRootItem to be rendered on top of plotRootItem in the Qtdriver
+
+Change 62445 on 2011/09/11 by cgm@cgm_meshon
+
+    TESTS Python example combining GRIB_API and Magics
+
+Change 62423 on 2011/09/09 by cgs@cgs_metview
+
+    Magics/Wrep : Clipping of curves ( Cihan) 
+
+Change 62415 on 2011/09/09 by cgi@cgi_metview_4
+
+    MAG++: quick update for reboot of class08
+
+Change 62368 on 2011/09/08 by cgs@cgs_metview
+
+    Magics: Axis warning taken out (Hans)
+
+Change 62365 on 2011/09/08 by maf@belleus
+
+    further output tidying and ensured env variables unaffected by running this script
+
+Change 62364 on 2011/09/08 by maf@belleus
+
+    added auto image and text area height on output html. Tidied verbose output
+
+Change 62362 on 2011/09/08 by maf@belleus
+
+    essential html template for the versioncmp utility
+
+Change 62361 on 2011/09/08 by cgs@cgs_metview
+
+    Magics: Proj4
+
+Change 62360 on 2011/09/08 by maf@belleus
+
+    moved versioncmp script
+
+Change 62346 on 2011/09/08 by maf@belleus
+
+    added -v and -force flags: verbosity and force overwrite of output folder respectively
+
+Change 62345 on 2011/09/08 by cgi@cgi_metview_4
+
+    MAG++: ensured that automatically-generated NoFactoryException code in libMagWrapper is safe when exceptions are disabled
+
+Change 62338 on 2011/09/08 by maf@belleus
+
+    Added script to compare versions of magics. Works subject to refinements
+
+Change 62325 on 2011/09/08 by cgs@cgs_metview
+
+    Magics: Proj4
+
+Change 62310 on 2011/09/07 by cgs@cgs_metview
+
+    Magics/Wrep: plumes
+
+Change 62309 on 2011/09/07 by cgs@cgs_metview
+
+    Magics: Config for Proj4
+
+Change 62307 on 2011/09/07 by cgs@cgs_metview
+
+    Magics: More on Proj4 
+
+Change 62293 on 2011/09/07 by cgs@cgs_metview
+
+    Magics: Inputmatrix and missing data
+
+Change 62258 on 2011/09/06 by cgr@cgr
+
+    Add new header file defining the MgQ namespace in the QtDriver.
+
+Change 62256 on 2011/09/06 by cgr@cgr
+
+    Rename/move file(s)
+
+Change 62255 on 2011/09/06 by cgr@cgr
+
+    Rename/move file(s)
+
+Change 62254 on 2011/09/06 by cgr@cgr
+
+    Rename/move file(s)
+
+Change 62253 on 2011/09/06 by cgr@cgr
+
+    Rename/move file(s)
+
+Change 62252 on 2011/09/06 by cgr@cgr
+
+    Rename/move file(s)
+
+Change 62251 on 2011/09/06 by cgr@cgr
+
+    Rename/move file(s)
+
+Change 62250 on 2011/09/06 by cgr@cgr
+
+    Rename/move file(s)
+
+Change 62249 on 2011/09/06 by cgr@cgr
+
+    Rename/move file(s)
+
+Change 62248 on 2011/09/06 by cgr@cgr
+
+    Rename/move file(s)
+
+Change 62247 on 2011/09/06 by cgr@cgr
+
+    Tidy up the QtDriver code.
+
+Change 62246 on 2011/09/06 by cgr@cgr
+
+    Tidy up the QtDriver code.
+
+Change 62228 on 2011/09/05 by max@cgs_wrep_devel
+
+    Magics/Wrpe: More on Proj4 Integration
+
+Change 62221 on 2011/09/05 by cgs@cgs_metview
+
+    Magics/Wrep: Proj4 Integration
+
+Change 62220 on 2011/09/05 by max@cgs_wrep_devel
+
+    Magics/Wrep : Proj4 integration
+
+Change 62219 on 2011/09/05 by cgs@cgs_metview
+
+    Magics: Add proj4 in distribution tar ball
+
+Change 62205 on 2011/09/05 by cgr@cgr
+
+    Tidy up Layer.cc by grouping the methods according to the classes
+
+Change 62200 on 2011/09/05 by cgr@cgr
+
+    Add code to highlight a given node in the scene in the QtDriver
+
+Change 62197 on 2011/09/05 by cgi@cgi_metview_4
+
+    MAG++: corrected path to PROJ4 library on openSUSE 10.3 systems
+
+Change 62191 on 2011/09/05 by cgs@cgs_metview
+
+    Magics/Wrep: Ignore!
+
+Change 62190 on 2011/09/05 by cgs@cgs_metview
+
+    Magics/Wrep: generate Metadata to navigate maps when using proj4
+
+Change 62185 on 2011/09/02 by cgs@cgs_metview
+
+    Magics: add support for Proj4 + cleaning
+
+Change 62173 on 2011/09/02 by cgr@cgr
+
+    Added a new custom Qt graphics item to store (cache) the whole plot as a pixmap. 
+
+Change 62162 on 2011/09/02 by cgs@cgs_main
+
+    Magics: cleaning in progress!
+
+Change 62130 on 2011/09/01 by cgs@cgs_metview_next
+
+    Magics/Metview: forgot one class for the Wrapper!
+
+Change 62129 on 2011/09/01 by cgs@cgs_metview
+
+    Magics: add the possibility to define the x_date_values/y_data_values, using a base date and an offset.
+
+Change 62123 on 2011/09/01 by cgr@cgr
+
+    Qt driver does not render the scene any more after close() is called. It is now the task of ineractive application  using the driver (metview)
+
+Change 62117 on 2011/09/01 by cgs@cgs_metview
+
+    Magics: Add possibility of user format for date date labels. simplify the code around the date labelling.
+
+Change 62079 on 2011/08/31 by cgs@cgs_metview
+
+    Magics/Wrep: Automatic date axis. ( fix bug in setting)
+
+Change 62040 on 2011/08/26 by cgm@magics_opensuse113
+
+    KML - fix shading (reported by J.Kaiser - MACC)
+
+Change 62007 on 2011/08/25 by cgm@magics_opensuse113
+
+    Cairo - another Y-offset test
+
+Change 61992 on 2011/08/25 by cgm@magics_opensuse113
+
+    Drivers - trial on y-offset for meta data
+
+Change 61981 on 2011/08/25 by cgm@magics_opensuse113
+
+    New version 2.13.8
+
+Change 61980 on 2011/08/25 by cgs@cgs_metview
+
+    Magics/Metview/Wrep: new toxml method in attributes 
+
+Change 61979 on 2011/08/25 by cgs@cgs_metview
+
+    Magics/Wrep: navigation of cartesian projection
+
+Change 61963 on 2011/08/24 by cgm@magics_opensuse113
+
+    Remove reference to Graphics Section
+
+Change 61962 on 2011/08/24 by cgm@magics_opensuse113
+
+    Remove warning for tmpnam
+
+Change 61955 on 2011/08/24 by cgm@magics_opensuse113
+
+    Compile - hardcode shared and static
+
+Change 61954 on 2011/08/24 by cgm@magics_opensuse113
+
+    USE SCRIPTS - fixes for 2.13.6 release
+
+Change 61932 on 2011/08/24 by cgm@cgm_orion
+
+    Version 2.13.7
+
+Change 61929 on 2011/08/23 by cgm@magics_opensuse113
+
+    Boost - update from subversion
+
+Change 61928 on 2011/08/23 by cgm@magics_opensuse113
+
+    Config - correct variable names
+
+Change 61927 on 2011/08/23 by cgm@cgm_meshon
+
+    Config - fix library version numbers (broken after MacOS update)
+
+Change 61915 on 2011/08/23 by cgs@cgs_metview_next
+
+    Magics/Metview: optimisation of the tree
+
+Change 61913 on 2011/08/23 by cgs@cgs_metview_next
+
+    Magics/Metview: optimisation of the graphical tree 
+
+Change 61906 on 2011/08/23 by cgm@magics_opensuse113
+
+    New version 2.13.6
+
+Change 61896 on 2011/08/23 by cgm@magics_opensuse113
+
+    Docs - add EGOWS presentations
+
+Change 61891 on 2011/08/23 by cgm@magics_opensuse113
+
+    Cairo - add test is the layout is navigatable
+
+Change 61880 on 2011/08/22 by cgm@cgm_meshon
+
+    xml2mv - exclude parameter which breaks drivers
+
+Change 61879 on 2011/08/22 by cgm@cgm_meshon
+
+    Coastlines - fix spelling mistake in path name
+
+Change 61808 on 2011/08/22 by cgs@cgs_metview_next
+
+    Magics/Python: Symbol and Cartesian projection(Martin Janousek)
+
+Change 61747 on 2011/08/19 by cgr@cgr_update
+
+    Increase the default size of the background pixmap in the QtDriver
+
+Change 61723 on 2011/08/18 by cgm@cgm_meshon
+
+    Docs - add scripts to generate ODT tables of magics parameters
+
+Change 61710 on 2011/08/18 by max@cgs_wrep_devel
+
+    Magics/Wrep: Do not create any  automatic arrow legend text anymmore
+
+Change 61686 on 2011/08/18 by cgs@cgs_metview
+
+    Rollback //depot/magics/main/src/libMagWrapper/MagPlus.h to revision 46
+
+Change 61685 on 2011/08/18 by cgs@cgs_metview
+
+    Rollback //depot/magics/main/src/libMagWrapper/MagPlus.cc to revision 124
+
+Change 61675 on 2011/08/17 by cgs@cgs_metview_next
+
+    Magics/Metview: Start optimising the rendering of a Metview Tree!
+
+Change 61670 on 2011/08/17 by max@cgs_wrep_devel
+
+    Magics/Wrep: Add special mode wrep for legend handling
+
+Change 61668 on 2011/08/17 by cgs@cgs_metview
+
+    Magics/Metview: Add progress messages 
+
+Change 61667 on 2011/08/17 by cgs@cgs_metview
+
+    Magics/Metview: Legend adjustement
+
+Change 61661 on 2011/08/17 by cgs@cgs_metview
+
+    Magics/Metview : Hovmoller adjustements
+
+Change 61659 on 2011/08/17 by cgr@cgr
+
+    Start new developments to implement an update mode for the metview interface. The new code is protected 
+    by the MAG_NEXT macro.  A new flag ( --enable-magnext) was added to configure. If it is enabled (by default disabled)
+    a -DMAG_NEXT flag is added 
+
+Change 61654 on 2011/08/16 by cgm@cgm_meshon
+
+    MvDef - update scripts for driver files
+
+Change 61650 on 2011/08/16 by cgm@magics_opensuse113
+
+    Def - update on generating driver files for Metview
+
+Change 61647 on 2011/08/16 by cgi@cgi_metview_4
+
+    MAG++: enabled automatic GRIB scaling for GRIB 2 data. Still needs some work in order to get it working better with GRIB_API approach.
+
+Change 61626 on 2011/08/16 by cgm@magics_opensuse113
+
+    Correct function name
+
+Change 61625 on 2011/08/16 by cgm@magics_opensuse113
+
+    Boundaries - change behaviour for local borders
+
+Change 61623 on 2011/08/16 by cgm@magics_opensuse113
+
+    Remove old files
+
+Change 61619 on 2011/08/16 by cgm@magics_mac
+
+    Config - remove redundant bootstrap call
+
+Change 61617 on 2011/08/15 by cgm@cgm_meshon
+
+    Coastines - boundaries + cities  
+
+Change 61609 on 2011/08/15 by cgm@magics_opensuse113
+
+    Coastlines - fixes for borders and cities
+
+Change 61608 on 2011/08/15 by cgm@magics_opensuse113
+
+    Test - further updates on boundary example
+
+Change 61606 on 2011/08/15 by cgm@magics_opensuse113
+
+    Tests - update for small scale
+
+Change 61604 on 2011/08/15 by cgm@magics_opensuse113
+
+    Tests - updates for plotting of boundaries & rivers
+
+Change 61591 on 2011/08/15 by cgi@cgi_metview_4
+
+    MAG++: removed reliance on MvObs/inc_string.h
+
+Change 61588 on 2011/08/15 by cgm@magics_opensuse113
+
+    Coastlines - correct attribute name
+
+Change 61584 on 2011/08/15 by cgm@magics_opensuse113
+
+    Python - update Python version to 2.7 (on request of Carlos)
+
+Change 61577 on 2011/08/15 by cgm@magics
+
+    Config - Remove call which fails on OpenSuSE 10.3 (was put in for MacOS X)
+
+Change 61576 on 2011/08/15 by cgm@cgm_meshon
+
+    Coastlines - updated script and data set (east canada merged with usa in 10m land)
+
+Change 61575 on 2011/08/15 by cgm@cgm_meshon
+
+    Boost - comment out version definition
+
+Change 61573 on 2011/08/13 by cgm@cgm_meshon
+
+    Cities - put city data files back (crashed Metview if cities were enabled)
+
+Change 61571 on 2011/08/12 by cgm@magics_opensuse113
+
+    Clean-up
+
+Change 61568 on 2011/08/12 by cgi@dell112
+
+    removed presumably nonstandard p4login command
+
+Change 61567 on 2011/08/12 by maf@belleus
+
+    added utility to process 10m shape files and write to our local share folders
+
+Change 61557 on 2011/08/12 by cgm@magics_mac
+
+    Config - changes for MacOSX (GCC 4.5)
+                  (see compile.sh how to compile)
+
+Change 61546 on 2011/08/12 by maf@belleus
+
+    removed great lakes duplicates from the 10m_full dataset
+
+Change 61532 on 2011/08/11 by cgm@cgm_meshon
+
+    Clean-up
+
+Change 61531 on 2011/08/11 by cgm@cgm_meshon
+
+    Compile - use proj4
+
+Change 61530 on 2011/08/11 by cgm@cgm_meshon
+
+    Config - update options for proj4
+
+Change 61524 on 2011/08/11 by cgm@magics_opensuse113
+
+    Coastlines - remove test for Great Lakes
+
+Change 61513 on 2011/08/11 by cgi@cgi_metview_4
+
+    MAG++: small fix for the M6 part of the test suite
+
+Change 61507 on 2011/08/11 by cgs@cgs_metview
+
+    Magics: More on Dimensions resetting 
+
+Change 61499 on 2011/08/11 by maf@belleus
+
+    removed Caspian sea from 110m lakes dataset
+
+Change 61498 on 2011/08/11 by maf@belleus
+
+    removed great lakes from 50m dataset
+
+Change 61497 on 2011/08/11 by maf@belleus
+
+    deleted some unnecessary sbx files
+
+Change 61494 on 2011/08/11 by cgi@cgi_metview_4
+
+    MAG++: now uses odalib 0.8.6
+
+Change 61484 on 2011/08/11 by cgi@magics_cgi
+
+    MAG++: adapted some test suite programs to ensure that GRIB scaling is consistently on/off regardless of whether run under MAGICS 6 or Magics++
+
+Change 61482 on 2011/08/11 by cgi@cgi_metview_4
+
+    MAG++: re-enabled M6 in test suite
+
+Change 61480 on 2011/08/10 by cgm@cgm_meshon
+
+    Boost - updates to hardcode for latest version
+
+Change 61471 on 2011/08/10 by cgs@cgs_metview
+
+    Magics: More on HiLo type BOTH
+
+Change 61470 on 2011/08/10 by cgs@cgs_metview
+
+    Magics/EpsGrams: fix bug in legend... 
+
+Change 61464 on 2011/08/10 by cgs@cgs_metview
+
+    Magics: Pb in in computing dimensions in portrait (Martin Janousek) 
+
+Change 61459 on 2011/08/10 by cgm@magics_opensuse113
+
+    Boost - add missing files (after update)
+
+Change 61448 on 2011/08/10 by cgs@cgs_metview
+
+    Magics/Epsgrams: Adjust templates for the epsgrams products!
+
+Change 61444 on 2011/08/10 by cgm@magicsIBM
+
+    Config - clean-up for ecgate
+
+Change 61443 on 2011/08/10 by cgm@magicsIBM
+
+    Config - remove unnecessary option
+
+Change 61442 on 2011/08/10 by cgm@magicsIBM
+
+    Config - use latest compiler on  ecgate
+
+Change 61440 on 2011/08/10 by cgm@magics_opensuse113
+
+    Boost - update bugfixes from SVN branch
+                svn co http://svn.boost.org/svn/boost/trunk boost-trunk
+
+Change 61434 on 2011/08/10 by cgi@cgi_metview_4
+
+    MAG++: added the complete set of Fortran parameters to a single additional chapter in the documentation [main branch]
+
+Change 61420 on 2011/08/10 by maf@belleus
+
+    removed unnecessary sbn file
+
+Change 61417 on 2011/08/10 by cgi@cgi_metview_4
+
+    MAG++: now uses emoslib 000390
+
+Change 61403 on 2011/08/09 by cgm@magics_opensuse113
+
+    Config - add global Proj4 settings
+
+Change 61402 on 2011/08/09 by cgs@cgs_metview
+
+    proj4
+
+Change 61396 on 2011/08/09 by cgs@cgs_metview
+
+    Metview: subpage dimensions and cartesian projection ( Andrew Orr) 
+
+Change 61380 on 2011/08/08 by cgi@magics_cgi
+
+    MAG++: updated axis/python example for documentation; also ensure that example code listings are regenerated when make_plots is run.
+
+Change 61378 on 2011/08/08 by cgm@magics_opensuse113
+
+    Docs - add a MagMacro python example for axis
+
+Change 61376 on 2011/08/08 by cgs@cgs_metview
+
+    Magics: magmacro example with date...
+
+Change 61374 on 2011/08/08 by cgm@magics_opensuse113
+
+    Tests: graph plotting in Python (David Tan)
+
+Change 61372 on 2011/08/08 by cgs@cgs_metview
+
+    Magics: legend_text_height is accepted as deprecated (Frederic Vitard) 
+
+Change 61370 on 2011/08/08 by cgs@cgs_metview
+
+    Magics: Hilo_type set to both was not setting the symbol. (Luc Vrijens)
+
+Change 61349 on 2011/08/08 by cgm@magics_opensuse113
+
+    Docs-  add new option to build Magics++ without GRIB support
+
+Change 61346 on 2011/08/07 by cgm@cgm_meshon
+
+    Tests - add example using pset1i where numpy needs to be told to use INT32
+
+Change 61345 on 2011/08/07 by cgm@cgm_meshon
+
+    Clean-up
+
+Change 61344 on 2011/08/07 by cgm@cgm_meshon
+
+    Remove print-outs
+
+Change 61343 on 2011/08/07 by cgm@cgm_meshon
+
+    Correct warning messages
+
+Change 61341 on 2011/08/07 by cgm@cgm_meshon
+
+    Docs - Remove Metview specific parameter from documentation
+
+Change 61340 on 2011/08/07 by cgm@cgm_meshon
+
+    Wrapper - fix header include and remove compiler warnings
+
+Change 61338 on 2011/08/06 by cgm@cgm_meshon
+
+    Docs -  add comment about HTML syntax and Pgf90 compiler backslash
+
+Change 61335 on 2011/08/06 by cgm@magics_ubuntu
+
+    Config - improve small Magics installations (NetCDF and GRIB disabled) - tested on Ubuntu 11.04
+
+Change 61334 on 2011/08/05 by cgm@magics_opensuse113
+
+    Clean-up tofortran()
+
+Change 61322 on 2011/08/05 by cgi@magics_cgi
+
+    MAG++: test suite - added Magics version string to top of html pages
+
+Change 61317 on 2011/08/05 by cgi@magics_cgi
+
+    MAG++: added another graph (scatter) plotting example for Venice (graph_venice_02)
+
+Change 61313 on 2011/08/05 by cgi@cgi_metview_4
+
+    MAG++: fixed formatting error in test suite example graph_venice_01 (only picked up with PGF 10.5 and later)
+
+Change 61312 on 2011/08/05 by cgi@cgi_metview_4
+
+    MAG++: test suite fixes to ensure that only the latest plots are copied across to SCRATCH
+
+Change 61310 on 2011/08/05 by cgm@magics_opensuse113
+
+    BOOST - correct include path for old platforms
+
+Change 61300 on 2011/08/05 by cgm@magics_opensuse113
+
+    Manual - Restructuring of axis chapter
+
+Change 61299 on 2011/08/05 by cgi@magics_cgi
+
+    MAG++: docs - ensure that images for tutorial are not processed
+
+Change 61298 on 2011/08/05 by cgi@magics_cgi
+
+    MAG++: updates to the Python graph/date plotting example
+
+Change 61297 on 2011/08/05 by cgm@magics_opensuse113
+
+    fix file name
+
+Change 61296 on 2011/08/05 by cgm@magics_opensuse113
+
+    Add Axis example in manual (in python)
+
+Change 61294 on 2011/08/04 by cgm@magics_opensuse113
+
+    remove debug messages
+
+Change 61293 on 2011/08/04 by cgm@magics_opensuse113
+
+    use Boost from /usr/local/apps
+
+Change 61291 on 2011/08/04 by cgm@magics_opensuse113
+
+    Clean-up between INT and DOUBLE
+
+Change 61289 on 2011/08/04 by cgm@cgm_meshon
+
+    Add new tests for undocumented parameters and action routine (reported by CNR Venice)
+
+Change 61288 on 2011/08/04 by cgm@cgm_meshon
+
+    Update name of section and authors (MetVis) - use scripts
+
+Change 61287 on 2011/08/04 by cgm@cgm_meshon
+
+    remove obsolete files
+
+Change 61286 on 2011/08/04 by cgm@cgm_meshon
+
+    Update name of section and authors (MetVis) - more common, basic, visualisers directories 
+
+Change 61285 on 2011/08/04 by cgm@cgm_meshon
+
+    Update name of section and authors (MetVis) - common, basic, visualisers directories
+
+Change 61284 on 2011/08/04 by cgm@cgm_meshon
+
+    Update name of section and authors (MetVis) - driver directory
+
+Change 61283 on 2011/08/04 by cgm@cgm_meshon
+
+    Update name of section and authors (MetVis)
+
+Change 61264 on 2011/08/04 by cgi@magics_cgi
+
+    MAG++: added example to the test suite based on code from Venice which needed a partial rewrite in order to work with Magics++ (it had been using undocumented parameters from MAGICS 6 which were not implemented in Magics++). It is under the Graph sec
+
+Change 61255 on 2011/08/04 by maf@belleus
+
+    Added utility to reduce detail in compatible shape files (10m_xxxxx) while leaving certain regions at full resolution. Use -help for usage info
+
+Change 61219 on 2011/08/02 by cgm@magics_opensuse113
+
+    Compatibility checker - Add comment about undocumented MAGICS 6 parameter (CNR Venice)
+
+Change 61217 on 2011/08/02 by maf@belleus
+
+    removed stray field
+
+Change 61213 on 2011/08/02 by maf@belleus
+
+    Added installation of non-reduced 10m shape files (to 10m_full folder) when installing magics
+
+Change 61201 on 2011/08/02 by cgr@cgr
+
+    Added "statsType" meta-data item to MetviewIcon::information_ to control statistics computations.
+
+Change 61189 on 2011/08/01 by maf@belleus
+
+    seems we need a little more resolution outside of Europe so this version has ScaleRank of 5 or below generally, with all resolution data within the Europe area
+
+Change 61188 on 2011/08/01 by maf@belleus
+
+    Updated 10m files with new versions. These contain land features with scaleRank of 5 or below, with the exception of a European bounding box (-12, 72, 48, 32) which contains all data
+
+Change 61176 on 2011/08/01 by maf@belleus
+
+    deleted sbn file
+
+Change 61175 on 2011/08/01 by maf@belleus
+
+    deleted sbn file
+
+Change 61174 on 2011/08/01 by maf@belleus
+
+    deleted sbn file
+
+Change 61171 on 2011/08/01 by maf@belleus
+
+    removed sbn file
+
+Change 61161 on 2011/07/30 by cgm@cgm_meshon
+
+    Add check for the replacement of 'positional' with 'automatic'
+
+Change 61160 on 2011/07/30 by cgm@cgm_meshon
+
+    Change default for axis_grid_colour from yellow to black and clean-up documentation
+
+Change 61092 on 2011/07/28 by maf@belleus
+
+    Added doxygen comment relating to coastline handling
+
+Change 61086 on 2011/07/28 by maf@belleus
+
+    Added new versions of 10m shapefiles containing trimmed data (except the 'admin_0' files which are unchanged). Original unedited versions now in subfolder 10m_full. Reverted an earlier change to allow viewing of 10m-resolution shapefiles now that cra
+
+Change 61031 on 2011/07/26 by cgm@magics_opensuse113
+
+    Coast - Disable Boost exception to make south polar sterographic work (reported by Philippe Lopez)
+
+Change 61025 on 2011/07/26 by cgr@cgr
+
+    The QtDriver is now able to handle multiple-page layouts.  The METVIEW_MULTIPAGE macro was removed from the QtDriver and the --enable-qtmultipage flag was removed from configure. 
+
+Change 61014 on 2011/07/25 by cgm@magics_opensuse113
+
+    Docs - Add more graphs to the doxygen output
+
+Change 61013 on 2011/07/25 by cgm@magics_opensuse113
+
+    Add comment about WIND_ARROW_LEGEND
+
+Change 61012 on 2011/07/25 by cgm@magics_opensuse113
+
+    Smaller code clean-up (ie avoid devision by zero)
+
+Change 61011 on 2011/07/25 by cgm@magics_opensuse113
+
+    Change code to use DBL_* constatnts instead of INT_*
+
+Change 61010 on 2011/07/25 by cgm@magics_opensuse113
+
+    Add compability checker for 'wind_arrow_legend' (reported by CNR Venice)
+
+Change 61008 on 2011/07/25 by cgm@magics_opensuse113
+
+    Add missing (duplicate!) method (Sylvie to check)
+
+Change 61007 on 2011/07/25 by cgm@magics_opensuse113
+
+    Correct offset for matrices from -180. to 0.  (reported by Peter Janssen)
+
+Change 61006 on 2011/07/25 by cgm@magics_opensuse113
+
+    Remove 'USER' option for logo (reported by CNR Venice)
+
+Change 60992 on 2011/07/24 by cgm@cgm_meshon
+
+    Add code comments
+
+Change 60991 on 2011/07/24 by cgm@cgm_orion
+
+    Compile - add better test if magics compiles
+
+Change 60990 on 2011/07/24 by cgm@cgm_meshon
+
+    Revert includes for fstream
+
+Change 60989 on 2011/07/24 by cgm@cgm_orion
+
+    Compile - add intel icpc options
+
+Change 60987 on 2011/07/24 by cgm@cgm_meshon
+
+    Reduce compiler warnings
+
+Change 60962 on 2011/07/22 by cgi@cgi_metview_4
+
+    MAG++: enable correct plotting of regular lat/long GRIB files where jPointsAreConsecutive=1
+
+Change 60905 on 2011/07/21 by cgi@cgi_metview_4
+
+    MV4: enabled GRIB_SCALING_OF_RETRIEVED_FIELDS and GRIB_SCALING_OF_DERIVED_FIELDS in both PCONT and MCONT icons. The main changes were in Magics++ (added an undocumented parameter 'GRIB_AUTOMATIC_DERIVED_SCALING')
+
+Change 60885 on 2011/07/20 by cgi@cgi_metview_4
+
+    MAG++: uncommented a fix for plotting regular Gaussian grids on sub-areas
+
+Change 60877 on 2011/07/20 by cgi@cgi_metview_4_nightly
+
+    MAG++: moved the 'longitudesSanityCheck' up in the GribDecoder class heirarchy so that it is available to all grd types that require it (this allows the plotting of a particular dodgy reduced Gaussian grid which otherwise triggered an assertion)
+
+Change 60846 on 2011/07/19 by cgm@cgm_orion
+
+    Python - more debug output
+
+Change 60845 on 2011/07/19 by cgm@cgm_orion
+
+    Clearify exception error messages
+
+Change 60844 on 2011/07/19 by cgi@magics_cgi
+
+    MAG++: in the test suite, ensure that the ps directory is cleaned at the start of the cron job
+
+Change 60840 on 2011/07/19 by cgm@cgm_meshon
+
+    Tests - updated python test
+
+Change 60832 on 2011/07/18 by cgm@magics_opensuse113
+
+    Python: add Graph examples
+
+Change 60799 on 2011/07/16 by cgm@magics_opensuse113
+
+    Boost - update Geometry to version 1.0 (Boost 1.47.0)
+
+Change 60798 on 2011/07/16 by cgm@magics_opensuse113
+
+    Boost - remove Geometry < 1.0 version
+
+Change 60765 on 2011/07/14 by cgm@magics_opensuse113
+
+    Rollback //depot/magics/main/src/drivers/Makefile.am to revision 109
+
+Change 60759 on 2011/07/14 by cgm@magics_opensuse113
+
+    Clean-up INT_MAX (2)
+
+Change 60758 on 2011/07/14 by cgm@magics_opensuse113
+
+    Clean-up INT_MAX 
+
+Change 60748 on 2011/07/14 by cgm@magics_opensuse113
+
+    Remove old Terralib code
+
+Change 60745 on 2011/07/14 by cgm@cgm_meshon
+
+    RPMS update SPEC files for Grib_API and Emoslib
+
+Change 60744 on 2011/07/13 by cgm@cgm_meshon
+
+    Drivers: code improvements - remove unnecessary members
+
+Change 60739 on 2011/07/13 by cgs@cgs_metview
+
+    Wrep/Magics: scores and date Axis!
+
+Change 60736 on 2011/07/13 by cgm@magics_opensuse113
+
+    Compile: add json on clusters and fix static on 113
+
+Change 60728 on 2011/07/13 by cgs@cgs_lxab
+
+    Magics: If trouble with penqr function revert MagicsCalls.cc to revison 175
+
+Change 60727 on 2011/07/13 by max@cgs_wrep_devel
+
+    Wrep/Magics: WrepJSon data and missing values.
+
+Change 60725 on 2011/07/13 by cgm@magicsIBM
+
+    IBM xlC change required to work for latest xlC 11.1
+
+Change 60723 on 2011/07/13 by cgm@magics_opensuse113
+
+    VERSION 2.13.5
+
+Change 60699 on 2011/07/12 by cgs@cgs_metview
+
+    Wrep/Magics: implements missing values for wrep curve ( Cihan)
+
+Change 60671 on 2011/07/11 by cgs@cgs_metview
+
+    Magics: Bar : allow parameter graph_shade_colour to set the bar coulour ( backward compatibility) 
+                        add a parameter graph_bar_clipping to allow clpping or nor  of bar if outside the the plotting area
+
+Change 60669 on 2011/07/11 by max@cgs_wrep_devel
+
+    magics/wrep: coastlines
+
+Change 60660 on 2011/07/11 by cgs@cgs_metview
+
+    Wrep/Magics: Caostlines
+
+Change 60658 on 2011/07/11 by cgs@cgs_metview
+
+    Wrep/Magics: Coastlines
+
+Change 60657 on 2011/07/11 by cgs@cgs_metview
+
+    Wrep/Magics: Coastlines
+
+Change 60655 on 2011/07/11 by cgs@cgs_metview
+
+    Wrep/Magics: rivers???
+
+Change 60647 on 2011/07/11 by cgm@magics_opensuse113
+
+    Rollback //depot/magics/main/src/basic/magplus.h to revision 4
+
+Change 60646 on 2011/07/11 by cgm@magics_opensuse113
+
+    Rollback //depot/magics/main/src/basic/magplus.cc to revision 12
+
+Change 60643 on 2011/07/11 by cgm@magics_opensuse113
+
+    VERSION 2.13.4
+
+Change 60636 on 2011/07/10 by cgm@magics_opensuse113
+
+    CairoDriver adjust line width
+
+Change 60628 on 2011/07/08 by cgm@cgm_meshon
+
+    Remove unnecessary files
+
+Change 60627 on 2011/07/08 by cgm@cgm_meshon
+
+    Change email adress in footer
+
+Change 60620 on 2011/07/08 by cgs@cgs_metview
+
+    Wrep/Magics: do not send empty holes!
+
+Change 60616 on 2011/07/08 by cgm@magics_opensuse113
+
+    SVG fix proplem in broken syntax
+
+Change 60614 on 2011/07/08 by cgs@cgs_metview
+
+    Wrep/Magics: Coastlines resolution adjsutement
+    Metview/Magics: _ID implemented ( SceneLayout)
+
+Change 60601 on 2011/07/08 by cgm@magics_opensuse113
+
+    Renamed Polyline stroke method and fixed wrong frame in SVG
+
+Change 60571 on 2011/07/08 by cgm@magics_opensuse113
+
+    PostScript - reset colours before text (Fernando 'green' text issue)
+
+Change 60569 on 2011/07/08 by cgm@magics_opensuse113
+
+    Make - remove reference to deleted file
+
+Change 60535 on 2011/07/07 by max@cgs_wrep_devel
+
+    Wrep/Magics: Coastlines
+
+Change 60532 on 2011/07/07 by cgs@cgs_metview
+
+    Wrep/Magics: caostlines
+
+Change 60528 on 2011/07/07 by cgs@cgs_metview
+
+    Wrep/Magics: Coastlines
+
+Change 60520 on 2011/07/07 by cgi@cgi_metview_4
+
+    MAG++: removed redundant XML file: TextAction.xml. This was for the purpose of ensuring that the text chapter in the documentation does not pick up the wrong version of the TextVisitor class (and therefore get the wrong set of parameters). [r2.12 and
+
+Change 60518 on 2011/07/07 by cgs@cgs_metview
+
+    Wrep/Magics: Coastlines
+
+Change 60516 on 2011/07/07 by max@cgs_wrep_devel
+
+    Wrep/Magics: More on coastlines
+
+Change 60515 on 2011/07/07 by cgs@cgs_metview
+
+    Magics : Coastlines
+
+Change 60509 on 2011/07/07 by cgs@cgs_metview
+
+    Magics: Coastlines
+
+Change 60501 on 2011/07/07 by cgs@cgs_metview
+
+    Wrep: setting of cylindrical projection adjustment
+
+Change 60486 on 2011/07/07 by max@cgs_wrep_devel
+
+    Wrep: Valid Json for CartesianProjection
+
+Change 60483 on 2011/07/06 by cgm@cgm_meshon
+
+    Doc Small updates
+
+Change 60482 on 2011/07/06 by cgm@cgm_meshon
+
+    Code clean-up - Remove old files
+
+Change 60466 on 2011/07/06 by cgm@magics_opensuse113
+
+    Scripts for testing
+
+Change 60465 on 2011/07/06 by cgm@magics_opensuse113
+
+    Proj4 fixes for compilation
+
+Change 60462 on 2011/07/06 by cgm@magics_opensuse113
+
+    DOCS updated documenatation about coastlines/borders
+
+Change 60447 on 2011/07/06 by cgs@cgs_metview
+
+    Magics: Introduction of Proj4
+
+Change 60443 on 2011/07/06 by cgs@cgs_metview
+
+    Magics Migration : Ignore parameters 
+
+Change 60439 on 2011/07/06 by cgr@cgr
+
+    Enable antialias for multiple-page layout in the QtDriver
+
+Change 60438 on 2011/07/06 by cgr@cgr
+
+    Make redisplay(SceneLayout) virtual
+
+Change 60437 on 2011/07/06 by cgm@magics_opensuse113
+
+    Config - add Proj4 path for ECMWF
+
+Change 60436 on 2011/07/06 by cgs@cgs_metview
+
+    metview4: SceneLayout
+
+Change 60422 on 2011/07/06 by cgs@cgs_metview
+
+    Metview4: Histogram projection was wrong
+
+Change 60414 on 2011/07/05 by cgm@cgm_meshon
+
+    Fix compilation problem
+
+Change 60413 on 2011/07/05 by cgm@cgm_meshon
+
+    GD  put gd_png parameters back to work, clean-up code
+
+Change 60406 on 2011/07/05 by cgs@cgs_metview
+
+    Metview4: More on TableVisualiser
+
+Change 60405 on 2011/07/05 by cgs@cgs_metview
+
+    Metview4 : add TableVisualiser
+
+Change 60404 on 2011/07/05 by cgs@cgs_metview
+
+    Metview4 : Preview is back
+
+Change 60403 on 2011/07/05 by cgm@magics_opensuse113
+
+    GD fix bug in shading and adjusted line width
+
+Change 60391 on 2011/07/05 by cgm@magics_opensuse113
+
+    USE SCRIPTS change for Mohamed and Obstat on DRN cluster
+
+Change 60390 on 2011/07/05 by cgm@magics_opensuse113
+
+    GD add simple polygon shading (only solid for now)
+
+Change 60359 on 2011/07/05 by cgm@magics_opensuse113
+
+    Revert Grib API version (causes crashes?)
+
+Change 60338 on 2011/07/04 by cgr@cgr
+
+    Add sceneNode identification to the QtDriver
+
+Change 60332 on 2011/07/04 by cgs@cgs_metview
+
+    metview4 : implements input data
+
+Change 60320 on 2011/07/04 by cgi@magics_cgi
+
+    MAG++: added GIF to scheduled test suite run
+
+Change 60319 on 2011/07/04 by cgi@magics_cgi
+
+    MAG++: docs / test suite compilation script - fix of syntax error
+
+Change 60317 on 2011/07/03 by cgm@cgm_meshon
+
+    GDDriver fix segmentation fault in handling fonts
+
+Change 60310 on 2011/07/02 by cgm@cgm_meshon
+
+    Update docs - add grib_info description for text
+
+Change 60309 on 2011/07/02 by cgm@cgm_meshon
+
+    DOCS small changes to documentation
+
+Change 60301 on 2011/07/02 by cgm@magics_opensuse113
+
+    Add SCIN option for ECMWF local compilations
+
+Change 60210 on 2011/07/01 by cgs@cgs_metview
+
+    Ignore: stupid type.
+
+Change 60209 on 2011/07/01 by cgs@cgs_metview
+
+    metview : more on input data and curve
+
+Change 60197 on 2011/06/30 by cgr@cgr
+
+    Development on the multiple page layout in the QtDriver 
+
+Change 60170 on 2011/06/30 by cgs@cgs_metview
+
+    Magics: allow world file description ( Florian)
+
+Change 60167 on 2011/06/30 by cgs@cgs_metview
+
+    Metview4: new action names for odb and netcdf
+
+Change 60166 on 2011/06/30 by cgs@cgs_metview
+
+    legend
+
+Change 60165 on 2011/06/30 by cgs@cgs_metview
+
+    Metview4: send an SceneLayout to describe a page ( SceneNode) 
+
+Change 60164 on 2011/06/30 by cgs@cgs_metview
+
+    Magics : axis_type --> position_list is enable again ( Marta )
+
+Change 60140 on 2011/06/29 by cgm@cgm_meshon
+
+    SVGDriver updates on scripting
+
+Change 60118 on 2011/06/29 by cgm@magics_opensuse113
+
+    PPT Slides of MAGICS6 migration seminar
+
+Change 60116 on 2011/06/29 by cgs@cgs_metview
+
+    IGNORE: stupid thing
+
+Change 60108 on 2011/06/29 by cgs@cgs_metview
+
+    Metview4-ODB : Binning object
+
+Change 60102 on 2011/06/29 by cgs@cgs_metview
+
+    Metview4-ODA : change parameter names for ODB + add deprecated messages
+
+Change 60075 on 2011/06/28 by cgm@magics_opensuse113
+
+    Add Boost Geometry header files to tarball (plus acknoledgement)
+
+Change 60072 on 2011/06/28 by cgm@magics_opensuse113
+
+    Correct path to administrative data and remove couts
+
+Change 60061 on 2011/06/28 by cgs@cgs_metview
+
+    Metview4: enable creation of metadat from a macro for Florian
+
+Change 60041 on 2011/06/28 by max@cgs_wrep_devel
+
+    WREP : to be integrated
+
+Change 60039 on 2011/06/28 by max@cgs_wrep_devel
+
+    Wrep::to be integrated!
+
+Change 59985 on 2011/06/27 by cgi@cgi_metview_4
+
+    MAG++: integrated docs update (Data chapter) into main branch
+
+Change 59961 on 2011/06/27 by cgr@cgr
+
+    Introduce MgQRootNode to the QtDriver
+
+Change 59956 on 2011/06/27 by cgm@magics
+
+    Configure add include path on 'old' platforms for Boost header files
+
+Change 59927 on 2011/06/26 by cgm@cgm_meshon
+
+    Reduce compiler warnings
+
+Change 59885 on 2011/06/24 by max@cgs_wrep_devel
+
+    ignore: stupid test
+
+Change 59884 on 2011/06/24 by max@cgs_wrep_devel
+
+    Coastlines: empty holes...
+
+Change 59883 on 2011/06/24 by cgm@magics_opensuse113
+
+    BaseDriver - remove cout messages
+
+Change 59869 on 2011/06/24 by cgr@cgr
+
+    Check if the outline of a shaded polyline should be rendered in the QtDriver. 
+
+Change 59863 on 2011/06/24 by cgr@cgr
+
+    Development on the multi-page layout in the QtDriver
+
+Change 59855 on 2011/06/24 by cgs@cgs_metview
+
+    adding boost!
+
+Change 59854 on 2011/06/24 by cgm@magics_opensuse113
+
+    Configure - remove boost options
+
+Change 59852 on 2011/06/24 by cgm@magics_opensuse113
+
+    Coast - remove stroke around fill area - prevents spurious lines at side
+
+Change 59831 on 2011/06/24 by cgm@magics_opensuse113
+
+    Configure more specific eror message for Emoslib
+
+Change 59811 on 2011/06/23 by cgs@cgs_metview
+
+    Integration change : legend was not plotted for individual symbol mode
+
+Change 59796 on 2011/06/23 by cgs@cgs_metview
+
+    boost
+
+Change 59795 on 2011/06/23 by cgs@cgs_metview
+
+    boost
+
+Change 59786 on 2011/06/23 by cgs@cgs_metview
+
+    IGNORE:Just some idea for automatic date
+
+Change 59785 on 2011/06/23 by cgs@cgs_metview
+
+    Shape and caostlines
+
+Change 59763 on 2011/06/23 by cgr@cgr
+
+    Set metadata "_datatype" for coastlines.
+
+Change 59758 on 2011/06/23 by cgr@cgr
+
+    Start new developments for multiple page layout in the QtDriver. The multiple layout code is protected by the 
+    METVIEW_MULTIPAGE macro in the QtDriver.  A new flag ( --enable-qtmultipage) was added to configure. 
+    If it is enabled (by default disabled
+
+Change 59734 on 2011/06/22 by cgm@cgm_meshon
+
+    SVGDriver reactivate layer menu
+
+Change 59674 on 2011/06/22 by cgs@cgs
+
+    implements MetaDataCollecyor for coastlines...
+
+Change 59673 on 2011/06/22 by cgs@cgs_metview
+
+    MetaDataCollector implemented for coastlines...
+
+Change 59640 on 2011/06/22 by cgm@magics_opensuse113
+
+    Coastlines - adjust resolution of used data set
+
+Change 59636 on 2011/06/22 by cgm@magics_opensuse113
+
+    SVGDriver combine shading and stroking of polylines (for size reductions)
+
+Change 59566 on 2011/06/21 by cgm@magics_opensuse113
+
+    Config - add options for proj4 and boost
+
+Change 59552 on 2011/06/21 by cgm@magics_opensuse113
+
+    Python interface - revert to April 14th before new structure
+
+Change 59547 on 2011/06/21 by cgm@magics_opensuse113
+
+    Version 2.13.3 version change - start tests with new thresholds for coast resolutions
+
+Change 59532 on 2011/06/21 by cgm@magics_opensuse113
+
+    Wind flags - improved visibility of small barbs
+
+Change 59528 on 2011/06/21 by cgi@cgi_metview_4
+
+    MAG++: updated cron job for test suite
+
+Change 59522 on 2011/06/20 by cgm@cgm_meshon
+
+    CONFIG remove debug version of library
+
+Change 59521 on 2011/06/20 by cgm@cgm_meshon
+
+    BinaryReader add scale and offset for placing binary files
+      Example: <mgb mgb_filename='coast.mgb' mgb_x='70' mgb_y='70' mgb_width='30' mgb_height='30' />
+
+Change 59480 on 2011/06/20 by cgm@magics_opensuse113
+
+    SVGDriver small clean-up of how code is stored in file (each hole a line)
+
+Change 59477 on 2011/06/20 by cgm@magics_opensuse113
+
+    PostScriptDriver Set correct symbol colour
+
+Change 59474 on 2011/06/20 by cgs@cgs_metview
+
+    TestSuite: Problem in setting the min of the fiield in the interval selection method
+
+Change 59451 on 2011/06/20 by cgm@cgm_meshon
+
+    PostScriptDriver reduce file size by setting colour more efficient
+
+Change 59408 on 2011/06/17 by cgm@magics_opensuse113
+
+    PostScriptDriver: correct logic for cell shading
+
+Change 59404 on 2011/06/17 by cgm@magics_opensuse113
+
+    CairoDriver: corrected colours for cell shading (Johannes Kaiser)
+
+Change 59399 on 2011/06/17 by cgm@magics_opensuse113
+
+    PostScriptDriver remove blank lines and but test for zero length lines back
+
+Change 59398 on 2011/06/17 by cgi@magics_cgi
+
+    MAG++: changed the MagML example used in the 'checkup' test suite to something that works(!)
+
+Change 59392 on 2011/06/17 by cgs@cgs_metview
+
+    WrepPlot: Input Matrix -> Speed and direction 
+
+Change 59382 on 2011/06/16 by cgm@magics_opensuse113
+
+    Trial for fixing cell shading problem
+
+Change 59370 on 2011/06/16 by cgm@magics_opensuse113
+
+    Clean-up wind
+
+Change 59367 on 2011/06/16 10:45:12 by cgm@magics_opensuse113
+
+        Fix bug when markers are set to OFF
+
+Change 59366 on 2011/06/16 10:26:17 by cgs@cgs
+
+        Fix for wind flags in legend 
+
+Change 59345 on 2011/06/16 08:14:00 by cgm@magics_opensuse113
+
+        MAG++ PS increased dot size for dot shading
+
+Change 59338 on 2011/06/15 15:35:21 by cgm@magics_opensuse113
+
+        MAG++ PS fix leak in dot shading (austria layout)
+
+Change 59326 on 2011/06/15 13:41:08 by cgs@cgs
+
+        pcoast
+
+Change 59320 on 2011/06/15 12:38:53 by cgs@cgs
+
+        Fix for HiLoBlanking
+
+Change 59296 on 2011/06/15 09:07:45 by cgm@magics_opensuse113
+
+        MAG++ PS remove debug option
+
+Change 59295 on 2011/06/15 09:05:06 by cgm@magics_opensuse113
+
+        MAG++ SYMBOLS fix wind flag direction
+
+Change 59291 on 2011/06/15 08:23:44 by cgm@magics_opensuse113
+
+        MAG++ PS put ps_scale back
+
+Change 59290 on 2011/06/15 07:40:33 by cgm@magics_opensuse113
+
+        MAG++ CAIRO remove dependency to jpeg
+
+Change 59256 on 2011/06/14 08:59:07 by cgm@magics_opensuse113
+
+        MAG++ version 1.12.9
+
+Change 59227 on 2011/06/13 15:19:12 by cgs@cgs
+
+        Mapgen 
+
+Change 58883 on 2011/06/02 15:04:16 by cgi@mv4_suse103_inst
+
+        MAG++: updated ODB-2 version to 0.8.5 [r2.12 branch]
+
+Change 54787 on 2011/05/24 14:22:10 by cgm@magics_opensuse113
+
+        MAG++ new version 2.12.8
+
+Change 54786 on 2011/05/24 14:20:46 by cgs@cgs
+
+        Legend
+
+Change 54711 on 2011/05/23 13:49:55 by cgs@cgs
+
+        Threads
+
+Change 54703 on 2011/05/23 08:08:03 by cgm@magics_opensuse113
+
+        MAG++ CONFIG add --disable-threads option

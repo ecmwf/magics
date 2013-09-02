@@ -1,0 +1,103 @@
+<?xml-stylesheet type='text/css' href='parameter.css'?>
+<magics>
+
+<class name='FortranSceneNode' include='SceneNode.h' action='pnew' 
+	xmltag='page' prefix='page' directory='common'>
+  <parameter name='page_x_position' from='float' to='float'
+             member='x' default='0'>
+         <release>Magics++0.1</release>
+         <documentation> X-Coordinate of lower left hand corner of page.Default </documentation>
+  </parameter>
+
+  <parameter name='page_y_position' from='float' to='float'
+             member='y' 	 default='0' >
+         <release>Magics++0.1</release>
+         <documentation> Y-Coordinate of lower left hand corner of page.Default </documentation>
+  </parameter>
+
+  <parameter name='page_x_length' from='float' to='float'
+             member='width'  default='29.7' >
+          <release>Magics++0.1</release>
+         <documentation> Length of page in horizontal direction </documentation>
+  </parameter>
+
+  <parameter name='page_y_length' from='float' to='float'
+             member='height'  default='21' >
+         <release>Magics++0.1</release>
+         <documentation> Length of page in vertical direction </documentation>
+  </parameter>
+
+ 
+  <parameter name='page_frame' from='string' to='bool'
+             member='frame' default='off'>
+         <release>Magics++2.4</release>
+         <documentation> Plot frame around page (ON/OFF) </documentation>
+         <migration> Default as changed from magics6) </migration>
+  </parameter>
+
+  <parameter name='page_frame_colour' from='string' to='Colour'
+             member='frame_colour'  default='blue' >
+         <release>Magics++0.5</release>
+         <documentation> Colour of page frame (Full choice of colours) </documentation>
+  </parameter>
+
+  <parameter name='page_frame_line_style' from='string' to='LineStyle'
+             member='frame_line_style' 	 default='solid'>
+         <release>Magics++0.5</release>
+         <documentation> Style of page frame(SOLID/DASH/DOT/CHAIN_DASH/CHAIN_DOT) </documentation>
+  </parameter>
+
+  <parameter name='page_frame_thickness' from='int' to='int'
+             member='frame_thickness'  default='1' >
+         <documentation> Thickness of page frame </documentation>
+         <release>Magics++0.5</release>
+  </parameter>
+
+  <parameter name='page_id_line' from='string' to='NoPageID' include='PageID.h' 
+             member='page_id'  default='on'>
+         <release>Magics++0.6</release>
+         <release>Logo expected in 0.7</release>
+         <option name='PageID' fortran='on' include='PageID.h'/>
+         <option name='NoPageID' fortran='off' include='PageID.h'/>
+         <documentation> Plot identification line and ECMWF logo (ON/OFF) </documentation>
+  </parameter>
+  
+ 
+  
+  <parameter name='page_x_gap' from='float' to='float'
+             member='page_x_gap' 	 default='0.0cm' implemented='no'>
+         <documentation> Gap between pages in X direction </documentation>
+         <release>Magics++0.2</release>
+         <release_info>Not fully implemented</release_info>
+  </parameter>
+
+  <parameter name='page_y_gap' from='float' to='float'
+             member='page_y_gap'  default='0.0cm' implemented='no'>
+         <documentation> Gap between pages in Y direction </documentation>
+         <release>Magics++0.2</release>
+          <release_info>Not fully implemented</release_info>
+  </parameter>
+
+    <parameter name='layout' from='string' to='string'
+             member='plot_layout' 	 default='automatic'>
+         <documentation> Type of page layout (POSITIONAL/AUTOMATIC) </documentation>
+   </parameter>
+
+  <parameter name='plot_start' from='string' to='string'
+             member='plot_start'  default='bottom'>
+         <documentation> Position of first page plotted (BOTTOM/TOP) </documentation>
+         <release>Magics++0.2</release>
+  </parameter>
+
+  <parameter name='plot_direction' from='string' to='string'
+             member='plot_direction'  default='vertical'>
+         <documentation> Direction of plotting (HORIZONTAL/VERTICAL) </documentation>
+         <release>Magics++0.2</release>
+  </parameter>
+  
+</class>
+
+
+  
+  
+</magics>

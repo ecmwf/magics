@@ -1,0 +1,17 @@
+<magics version='3.0'>
+    <drivers>
+        <ps fullname='${ps=myps.ps}' /> 
+    </drivers>
+    <page>
+        <map>
+            <coastlines/>
+            <plot>
+                <grib input_file_name='t850.grib'/>
+                <contour/>
+            </plot>
+        
+        </map>
+    
+    </page>
+
+</magics>

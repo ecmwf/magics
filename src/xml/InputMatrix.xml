@@ -1,0 +1,151 @@
+<?xml-stylesheet type='text/css' href='parameter.css'?>
+<magics>
+<class name='InputMatrix' directory='decoders'   prefix='input' xmltag='matrix' >
+  <documentation>
+    This object contains this attributes to set how to interpret data stored in 2-dimensional arrays in memory.
+ </documentation>
+
+  <parameter name='input_field' from='Matrix' to='Matrix' member='field' xml='field' default='Matrix()'>
+         <documentation> Array containing data for contouring </documentation>
+  </parameter>
+  
+  <parameter name='input_simple_field' from='string' to='bool' member='simple_field' xml='field' default='off'>
+         <documentation for_docs='no'>For internal testing only, or very specifivc users request!</documentation>
+  </parameter>
+  
+ <parameter name='input_wind_u_component' from='Matrix' to='Matrix' member='u_component' xml='u_component' default='Matrix()'>
+         <documentation> Array containing U velocity component for wind field </documentation>
+  </parameter>
+
+  <parameter name='input_wind_v_component' from='Matrix' to='Matrix' member='v_component' xml='v_component' default='Matrix()'>
+         <documentation> Array containing V velocity component for wind field </documentation>
+  </parameter>
+
+   <parameter name='input_field_organization' from='string' to='InputMatrixInterpretor' member='organization' xml='input_field_organization' default='regular'>
+         <option name='InputMatrixRegularInterpretor'   fortran='regular'  xml='gaussian' include='InputMatrixInterpretor.h'/>
+         <option name='InputMatrixIrregularInterpretor'   fortran='nonregular'  xml='irregular' include='InputMatrixInterpretor.h'/>
+         <documentation> How data is organized in the input field (REGULAR /IRREGULAR/) </documentation>
+  </parameter>
+
+  <parameter name='input_field_subpage_mapping' from='string' to='string' member='mapping' xml='input_field_subpage_mapping' default='upper_left'>
+         <documentation> Position of first point of array (1,1) on the subpage, (see text)(UPPER_LEFT / UPPER_RIGHT / LOWER_LEFT / LOWER_RIGHT /
+         UPPER_LEFT_TRANSPOSED / UPPER_RIGHT_TRANSPOSED / LOWER_LEFT_TRANSPOSED / LOWER_RIGHT_TRANSPOSED) </documentation>
+  </parameter>  
+   
+  <parameter name='input_wind_speed' from='Matrix' to='Matrix' member='wind_speed'  default='Matrix()'>
+         <documentation> Array containing speed component for wind field </documentation>
+  </parameter>
+
+  <parameter name='input_wind_direction' from='Matrix' to='Matrix' member='wind_direction' default='Matrix()'>
+         <documentation> Array containing direction component for wind field </documentation>
+  </parameter>
+
+     <parameter name='input_field_suppress_below' from='float' to='float' member='suppress_below' xml='input_field_suppress_below' default='-1.0e+21'>
+         <documentation> Values in the input field(s) below this value are to be suppressed, i.e. not to be taken into consideration for plotting purposes </documentation>
+  </parameter>
+
+  <parameter name='input_field_suppress_above' from='float' to='float' member='suppress_above' xml='input_field_suppress_above' default='1.0e+21'>
+         <documentation> Values in the input field(s) above this value are to be suppressed, i.e not to be taken into consideration for plotting purposes </documentation>
+  </parameter>
+</class>
+
+<class name='InputMatrixIrregularInterpretor' directory='decoders'>
+
+  <parameter name='input_field_latitudes' from='Matrix' to='Matrix' member='latitudes' default='Matrix()'>
+         <documentation> latitudes </documentation>
+  </parameter>
+  
+  <parameter name='input_field_longitudes' from='Matrix' to='Matrix' member='longitudes' default='Matrix()'>
+         <documentation> longitudes </documentation>
+  </parameter>
+  
+  <parameter name='input_field_y_coordinates' from='Matrix' to='Matrix' member='y' default='Matrix()'>
+         <documentation> y-coordinates of the field </documentation>
+  </parameter>
+  
+  <parameter name='input_field_x_coordinates' from='Matrix' to='Matrix' member='x' default='Matrix()'>
+         <documentation> x-coordinates of the field </documentation>
+  </parameter>
+ </class>
+ 
+ 
+<class name='InputMatrixRegularInterpretor' directory='decoders'>
+
+  <parameter name='input_field_initial_latitude' from='float' to='float' member='latitude' xml='origin_latitude' default='90'>
+         <documentation> used in a geographical projection context: Latitude of the point (1,1) in the input array </documentation>
+  </parameter>
+
+  <parameter name='input_field_initial_longitude' from='float' to='float' member='longitude' xml='origin_longitude' default='0'>
+         <documentation> used in a geographical projection context: Longitude of the point (1,1) in the input array </documentation>
+  </parameter>
+
+  <parameter name='input_field_latitude_step' from='float' to='float' member='latitude_step' xml='latitude_step' default='-1.5'>
+         <documentation> used in a geographical projection context: Distance between two latitude points in the input array </documentation>
+  </parameter>
+
+  <parameter name='input_field_longitude_step' from='float' to='float' member='longitude_step' xml='longitude_step' default='1.5'>
+         <documentation> used in a geographical projection context: Distance between two longitude points in the input array </documentation>
+  </parameter>
+  
+    <parameter name='input_field_initial_y' from='float' to='float' member='y_first' default='0'>
+         <documentation> used in a cartesian projection context: y-coordinate of the point (1,1) in the input array </documentation>
+  </parameter>
+
+  <parameter name='input_field_final_x' from='float' to='float' member='x_last' default='100'>
+         <documentation> used in a cartesian projection context: x-coordinate of the point (1,1) in the input array </documentation>
+  </parameter>
+  
+   <parameter name='input_field_final_y' from='float' to='float' member='y_last' default='100'>
+         <documentation> used in a cartesian projection context: y-coordinate of the point (1,1) in the input array </documentation>
+  </parameter>
+  <parameter name='input_field_x_list' from='floatarray' to='floatarray' member='x_coords' default='floatarray()'>
+         <documentation> used in a cartesian projection context: vector containing the x-coordinates </documentation>
+  </parameter>
+   <parameter name='input_field_y_list' from='floatarray' to='floatarray' member='y_coords' default='floatarray()'>
+         <documentation> used in a cartesian projection context: vector containing the y-coordinates </documentation>
+  </parameter>
+   
+  <parameter name='input_field_initial_x' from='float' to='float' member='x_first' default='0'>
+         <documentation> used in a cartesian projection context: x-coordinate of the point (1,1) in the input array </documentation>
+  </parameter>
+  
+    <parameter name='input_field_initial_y_date' from='string' to='string' member='y_first_date' default=''>
+         <documentation> used in a cartesian projection context: y-coordinate of the point (1,1) in the input array </documentation>
+  </parameter>
+
+  <parameter name='input_field_final_x_date' from='string' to='string' member='x_last_date' default=''>
+         <documentation> used in a cartesian projection context: x-coordinate of the point (1,1) in the input array </documentation>
+  </parameter>
+  
+   <parameter name='input_field_final_y_date' from='string' to='string' member='y_last_date' default=''>
+         <documentation> used in a cartesian projection context: y-coordinate of the point (1,1) in the input array </documentation>
+  </parameter>
+
+  <parameter name='input_field_initial_x_date' from='string' to='string' member='x_first_date' default=''>
+         <documentation> used in a cartesian projection context: x-coordinate of the point (1,1) in the input array </documentation>
+  </parameter>
+
+  <parameter name='input_field_y_step' from='float' to='float' member='y_step' default='1'>
+         <documentation> used in a cartesian projection context: y-step in the input array </documentation>
+  </parameter>
+
+  <parameter name='input_field_x_step' from='float' to='float' member='x_step' default='1'>
+         <documentation> used in a cartesian projection context: x-step in the input array </documentation>
+  </parameter>
+
+  <parameter name='input_field_primary_index' from='string' to='string' member='primary_index' xml='input_field_primary_index' default='longitude' implemented='no'>
+         <documentation> Primary or first index of input array(LATITUDE/LONGITUDE) </documentation>
+  </parameter>
+
+  <parameter name='input_field_gradient_control' from='string' to='string'  member='input_field_gradient_control' xml='input_field_gradient_control' default='off' implemented='no'>
+         <documentation> How to calculate the contour gradients(LEAST/FLAT_ONLY/OFF) </documentation>
+  </parameter>
+
+  <parameter name='input_field_gradient_limitation' from='string' to='string' member='input_field_gradient_limitation' xml='input_field_gradient_limitation' default='off' implemented='no'>
+         <documentation> Set  gradient to 0 for minimum and/or maximum values(MINIMUM/MAXIMUM/BOTH/OFF) </documentation>
+  </parameter>
+  
+  
+</class>
+
+</magics>

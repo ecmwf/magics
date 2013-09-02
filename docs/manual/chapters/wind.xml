@@ -1,0 +1,651 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+                 "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd"> 
+<chapter id="Wind_Plotting" label="7">
+  <title>Wind Plotting</title>
+
+  <xi:include href="../phrases/chapterinfo_mod.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <section id="Wind_Introduction">
+    <title>Introduction</title>
+
+    <para>Wind plotting facilities allow users to plot wind and wind related
+    parameters as follows:</para>
+
+    <para>Wind fields may be presented to Magics in matrix form, as U/V
+    velocity components or as speed/direction components. Wind fields may also
+    be passed in GRIB code data as U/V or speed/direction<remark> or
+    vorticity/divergence</remark>. These wind fields may be plotted in one of two
+    ways:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>Wind arrows; represented by a vector whose length is
+        proportional to the speed of the wind.</para>
+      </listitem>
+
+      <listitem>
+        <para>WMO standard wind flags; represented by barbs and solid
+        pennants.</para>
+      </listitem>
+
+      <remark><listitem>
+        <para>Streamlines; a line that is everywhere tangential to the
+        instantaneous wind vectors.</para>
+      </listitem>
+
+      <listitem>
+        <para>Isotachs; a contour line of wind speed.</para>
+      </listitem></remark>
+    </itemizedlist>
+
+    <remark><para>Wind arrow and wind flag plotting are described in this chapter.
+    Streamline and isotach plotting are described in Chapter VIII- Streamline
+    / Isotach Plotting .</para></remark>
+
+<remark>
+    <para>Magics also permits wind related parameters, which are generated
+    from differential properties of the wind field, to be plotted using normal
+    contouring facilities. These related parameters are Divergence, Vorticity,
+    Stream Functions and Velocity Potential.</para>
+</remark>
+
+    <para>Fields other than recognised wind fields (u/v<remark>, vorticity/divergence</remark>
+    and speed/direction) may be plotted as wind vectors;
+    <olink targetdoc="Magics_wind" targetptr="Wind_Data_Input" />
+    describes how to achieve this.</para>
+    
+    <!--
+    <important id="Vorticity_Devergence_on_Gridpoints"> <title>Magics++</title>
+    <productname>Magics++</productname> now permits the plotting of
+    vorticity/divergence wind fields stored in grid points; this was not
+    possible under <productname>MAGICS 6</productname>.</important>
+    -->
+
+  </section>
+
+  <section id="Wind_Data_Input">
+    <title>Data Input</title>
+
+    <para>To plot a wind field, users may pass the wind component fields
+    either in GRIB code format or in matrix form, each component field being
+    in a separate matrix.</para>
+
+    <section id="Wind_GRIB_Code">
+      <title>GRIB Code</title>
+
+      <para>To pass the wind components in GRIB format, the name (including
+      the path) of the file containing the components should be passed as
+      follows:</para>
+      <programlisting>
+    CALL <function>PSETC</function>('<parameter>GRIB_INPUT_FILE_NAME</parameter>', 'wind_data').
+      </programlisting>
+      <para>The position of
+      the wind components on the file should be indicated as follows:</para>
+
+      <remark>
+        <para>Diagram 1 here</para>
+      </remark>
+
+      <programlisting>
+    CALL <function>PSETI</function> ('<parameter>GRIB_WIND_POSITION_1</parameter>',N)
+    CALL <function>PSETI</function> ('<parameter>GRIB_WIND_POSITION_2</parameter>',M)
+      </programlisting>
+
+<para>where N and M are the positions (record numbers on the file).</para>
+
+      <para>When passing GRIB code data, it is possible to pass fields other
+      than recognised wind fields (u/v<remark>, vorticity/divergence</remark> and
+      speed/direction) to Magics and request that they are plotted as wind
+      fields. To achieve this, the parameter
+      <parameter>GRIB_WIND_MODE</parameter> should be set by the user to
+      specify which way the input fields are to be interpolated, i.e. as u/v<remark>,
+      vorticity/divergence</remark> or strength/direction. The valid values are
+      '<code>UV</code>' (default) , '<code>VD</code>' and '<code>SD</code>'.
+      Following is an example of setting
+      <parameter>GRIB_WIND_MODE</parameter> :</para>
+
+      <programlisting>
+    CALL <function>PSETC</function> ('<parameter>GRIB_WIND_MODE</parameter>','UV')
+      </programlisting>
+
+      <para>The fields should be passed to Magics in the usual way, as if they
+      were recognised wind fields, e.g.</para>
+
+      <programlisting>
+    CALL <function>PSETC</function> ('<parameter>GRIB_INPUT_FILE_NAME</parameter>','wind_data')
+    CALL <function>PSETI</function> ('<parameter>GRIB_WIND_POSITION_1</parameter>', 1)
+    CALL <function>PSETI</function> ('<parameter>GRIB_WIND_POSITION_2</parameter>', 2).
+      </programlisting>
+
+      <remark>
+      <para>It is possible to have the two fields necessary for wind
+      plotting, in two different input files. If this is the case, the
+      parameter <parameter>GRIB_INPUT_FILE_NAME</parameter>
+      should be used to pass one of the file names and
+      <parameter>GRIB_INPUT_FILE_NAME</parameter> should be used to pass the
+      second file name. The parameter
+      <parameter>GRIB_INPUT_FILE_NUMBER</parameter> must be set to
+      '<code>TWO</code>' , the default being '<code>ONE</code>' .</para>
+      </remark>
+
+      <para>For further information concerning GRIB code data, see
+      <olink targetdoc="Magics_data" targetptr="Data_Input" />.</para>
+
+    </section>
+
+
+    <section id="Wind_Matrix_Data">
+      <title>Matrix Data</title>
+
+      <para>Input field parameters, as described in
+      <olink targetdoc="Magics_data" targetptr="Data_Input" />, must be used to
+      describe the organisation of the data in the matrices. After the
+      relevant parameters are properly set, the wind data may be passed in the
+      following way:</para>
+
+      <para>For u and v components:</para>
+
+      <programlisting>
+    CALL <function>PSET2R</function> ('<parameter>INPUT_WIND_U_COMPONENT</parameter>',ARRAY1,M,N)
+    CALL <function>PSET2R</function> ('<parameter>INPUT_WIND_V_COMPONENT</parameter>',ARRAY2,M,N)
+      </programlisting>
+      <para>For wind speed and direction:</para>
+
+      <programlisting>
+    CALL <function>PSET2R</function> ('<parameter>INPUT_WIND_SPEED</parameter>',ARRAY1,M,N)
+    CALL <function>PSET2R</function> ('<parameter>INPUT_WIND_DIRECTION</parameter>',ARRAY2,M,N)
+      </programlisting>
+
+      <remark>
+      <para>For wind speed when plotting isotachs only:</para>
+
+      <programlisting>
+    CALL <function>PSET2R</function> ('<parameter>INPUT_WIND_SPEED</parameter>',ARRAY1,M,N)
+      </programlisting>
+      </remark>
+
+      <para>where all arrays must be dimensioned as <code>ARRAY(M,N)</code> in
+      the calling program.</para>
+
+      <para>The units of <parameter>INPUT_WIND_U_COMPONENT</parameter> ,
+      <parameter>INPUT_WIND_V_COMPONENT</parameter> and
+      <parameter>INPUT_WIND_SPEED</parameter> are metres per second. Those of
+      <parameter>INPUT_WIND_DIRECTION</parameter> are degrees measured in an
+      anticlockwise direction from the eastern point of the compass.</para>
+    </section>
+  </section>
+
+
+  <section id="Wind_Plotting_Methods">
+    <title>Plotting Methods</title>
+
+    <para>To plot a wind field, the action routine <function>PWIND</function>
+    must be called. The type of wind plot required is indicated by setting the
+    parameter <parameter>WIND_FIELD_TYPE</parameter> to one of the following
+    values, the default value being '<code>ARROWS</code>'.</para>
+
+    <para>'<code>ARROWS</code>' : The speed and direction of the wind is
+    plotted using an arrow whose length is proportional to the speed of the
+    wind and whose orientation is in the direction of the wind at the grid
+    position.</para>
+
+    <para>'<code>FLAGS</code>' : Will plot the speed and direction of the wind
+    using the WMO standard wind flags representation (barbs and solid
+    pennants).</para>
+
+    <remark><para>'<code>STREAMLINES</code>' : Will plot streamlines tangential to the
+    instantaneous wind vectors.</para></remark>
+  </section>
+
+  <section id="Wind_Field_Projection">
+    <title>Wind Field Projection</title>
+
+    <para><productname>Magics</productname> will automatically project the wind field from the regular
+    input field onto the requested projection. In the cases of wind flags and
+    wind arrows, each flag or arrow will be directly projected, taking the
+    necessary rotation into consideration. This means that wind arrows and
+    wind flags will be plotted along lines of latitude and longitude on polar
+    stereographic maps and not in columns and rows. No interpolation is
+    performed during the projection. A thinning procedure may be applied to
+    wind flags and arrows close to the poles.</para>
+
+    <para>It should be noted that cylindrical projection is not
+    angle-conformal, which means that the angle of the wind arrows or flags is
+    not conserved in this projection. It is advisable not to use cylindrical
+    projection for wind plotting outside the tropics.</para>
+  </section>
+
+  <section id="Wind_Field_Thinning">
+    <title>Wind Field Thinning</title>
+
+    <para>In some cases, wind arrows (and wind flags) may overlap. This
+    depends on the length of the arrows or flags, the grid size of the input
+    matrix and on the size of the subpage. With a polar stereographic
+    projection, the distance between projected grid points will be smaller at
+    higher latitudes. Therefore on polar stereographic projections for grid
+    points close to the pole, a thinning procedure will be automatically
+    applied to latitudes above 60 degrees.</para>
+
+    <para>The parameter <parameter>WIND_THINNING_FACTOR</parameter> controls
+    the thinning of wind fields plotted in different projections. For
+    Cylindrical, Mercator and Satellite projections, for which there is no
+    automatic thinning, the thinning factor corresponds to the rounded up
+    value of the parameter <parameter>WIND_THINNING_FACTOR</parameter>. For a
+    factor rounded to N, every Nth grid point in both X and Y directions, is
+    plotted, e.g. the statement :</para>
+
+    <programlisting>
+    CALL <function>PSETR</function>('<parameter>WIND_THINNING_FACTOR</parameter>', 2.6)</programlisting>
+
+    <para>will cause Magics to plot wind flags or wind arrows for every third
+    grid point value in the input matrix, in both the X and Y directions.</para>
+
+    <para>For Polar Stereographic projections, the thinning factor is the
+    distance, in both X and Y directions, corresponding to the projected
+    <parameter>INPUT_FIELD_LONGITUDE_STEP</parameter>, along 60 degrees
+    latitude, multiplied by the value of
+    <parameter>WIND_THINNING_FACTOR</parameter> . After plotting at a grid
+    point, all subsequent grid points, whose distance from the current grid
+    point is less than the thinning factor, will be ignored. The default value
+    is <code>2.0</code>, e.g. the statement :</para>
+
+    <programlisting>
+    CALL <function>PSETR</function>('<parameter>WIND_THINNING_FACTOR</parameter>', 1.0)</programlisting>
+
+    <para>will cause Magics to plot wind flags or wind arrows with no thinning
+    until 60 degree latitude. Above the 60 degree latitude, thinning will be
+    applied automatically.</para>
+
+    <para>For all projections, if <parameter>WIND_THINNING_FACTOR</parameter>
+    has the value <code>0.0</code>, no thinning will be applied. This also
+    means that the automatic thinning is not applied in polar stereographic.
+    <remark>In the case of streamlines, this thinning procedure is not applied.
+    Chapter VIII- Streamline / Isotach Plotting for details concerning
+    streamline thinning.</remark></para>
+  </section>
+
+
+  <section id="Plotting_Wind_Flags">
+    <title>Plotting Wind Flags</title>
+
+    <para>Wind fields comprising U and V components or speed and direction,
+    may be plotted with WMO standard wind flags.</para>
+
+    <para>A wind flag is represented by barbs and solid pennants, a full barb
+    representing a wind speed of 5 m/s, a half barb representing a wind speed
+    of 2.5 m/s, and a pennant representing a wind speed of 25 m/s. All barbs
+    and pennants lie to the left of the wind shaft in the Northern hemisphere
+    and to the right of the wind shaft in the Southern hemisphere. The wind
+    flag points towards the direction the wind is coming from.</para>
+
+    <section id="Wind_Flags_Unit_Length">
+      <title>Unit Length</title>
+
+      <para>The default length of the wind flag shaft is 1.0 centimetre. The
+      parameter <parameter>WIND_FLAG_LENGTH</parameter> may be used to set
+      another length (in centimetres).</para>
+    </section>
+
+    <!-- NOT IMPLEMENTED yet as of 18/01/2007
+    <section id="Wind_Flag_Mode">
+      <title>Wind Flag Mode</title>
+
+      <para>The parameter <parameter>WIND_FLAG_MODE</parameter> controls how
+      the wind flag shaft will be drawn. If
+      <parameter>WIND_FLAG_MODE</parameter> is set to '<code>NORMAL</code>'
+      the shaft of the wind flag will be drawn with a solid line, which is the
+      default. If set to '<code>OFF_LEVEL</code>' or '<code>OFF_TIME</code>'
+      the wind flags will be drawn with dashed lines as described
+      below.</para>
+      </remark>
+
+      <remark>
+        <para>Diagram 2!</para>
+      </remark>
+
+      <remark>
+      <para>When winds are plotted on the same map at two different vertical
+      levels, it is possible to distinguish them from each other by drawing
+      the entire wind shaft as dashed lines (<code>OFF_LEVEL</code> ).</para>
+
+      <para>When winds are plotted at "different times", it is possible to
+      distinguish them from each other by drawing the wind shaft with dashed
+      lines as far as the barbs and pennants (<code>OFF_TIME</code>).</para>
+      </remark>
+    </section>
+    -->
+
+    <section id="Wind_Flags_Plot_Suppression">
+      <title>Plot Suppression</title>
+
+      <para>To suppress the plotting of wind flags above and below certain
+      wind speed values, the parameters
+      <parameter>WIND_FLAG_MAX_SPEED</parameter> and
+      <parameter>WIND_FLAG_MIN_SPEED</parameter> may be used. The default
+      values of these parameters are set to very high and very low,
+      respectively, so that all wind speeds will be plotted.</para>
+
+      <remark>
+      <para>The parameter <parameter>WIND_FLAG_CROSS_BOUNDARY</parameter>
+      controls the plotting of wind flags on and outside the subpage boundary.
+      It may be set to '<code>ON</code>' or '<code>OFF</code>' . When set to
+      '<code>ON</code>' (default) wind flags are not plotted on or outside the
+      boundary.</para>
+      </remark>
+    </section>
+
+    <section id="Wind_Flags_Origin_Markers">
+      <title>Origin Markers</title>
+
+      <para>The origin point may be plotted in various ways. The parameter
+      <parameter>WIND_FLAG_ORIGIN_MARKER</parameter> controls this feature. It
+      can take three values, '<code>CIRCLE</code>' , '<code>DOT</code>' or
+      '<code>OFF</code>' .</para>
+
+      <para>'<code>CIRCLE</code>' (default) : will plot a circle around the
+      origin point and the wind flag shaft will start at the perimeter of the
+      circle.</para>
+
+      <para>'<code>DOT</code>' : The origin will be plotted as a dot and the
+      wind shaft will start a short distance from the dot.</para>
+
+      <para>'<code>OFF</code>' : The origin is not plotted but the wind shaft
+      will start at the origin point.</para>
+    </section>
+
+    <section id="Wind_Flags_Calm_Indicator">
+      <title>Calm Indicator</title>
+
+      <para>According to the WMO standard, calm is indicated by a circle
+      around the origin marker. If the parameter
+      <parameter>WIND_FLAG_CALM_INDICATOR</parameter> is set to
+      '<code>ON</code>' (default), a calm indicator will be plotted when
+      plotting wind flags.</para>
+
+      <para>The calm indicator can have different forms depending upon the
+      <parameter>WIND_FLAG_ORIGIN_MARKER</parameter> parameter. If
+      <parameter>WIND_FLAG_ORIGIN_MARKER</parameter> is set to
+      '<code>CIRCLE</code>', then the calm indicator will be plotted as a
+      circle around the origin circle. If
+      <parameter>WIND_FLAG_ORIGIN_MARKER</parameter> is set to
+      '<code>DOT</code>' , then the calm indicator will be plotted as a circle
+      around a dot. If <parameter>WIND_FLAG_ORIGIN_MARKER</parameter> is set
+      to '<code>OFF</code>' , then the calm indicator will also be plotted as
+      a circle around a dot, as it is regarded as being necessary to show the
+      exact location of the calm.</para>
+
+      <para>The parameter <parameter>WIND_FLAG_CALM_INDICATOR_SIZE</parameter>
+      controls the size of diameter of the calm indicator circle, the default
+      being 0.3 centimetres. Control of the calm indicator size should be used
+      to avoid congestion of wind symbols caused by the size of the users
+      subpage and/or the map projection.</para>
+
+      <remark>
+        <para>Diagram 3</para>
+      </remark>
+    </section>
+
+    <section id="Wind_Flags_Colour_and_Thickness">
+      <title>Colour and Thickness</title>
+
+      <para>The parameters <parameter>WIND_FLAG_THICKNESS</parameter> and
+      <parameter>WIND_FLAG_COLOUR</parameter> are used to distinguish wind
+      flag plotting from other wind fields in the same subpage.</para>
+
+      <para>The parameter <parameter>WIND_FLAG_THICKNESS</parameter> will draw
+      lines n times thicker than the default value. It will affect only the
+      thickness of the wind flag shaft, not the barbs or pennants.</para>
+
+      <para>The parameter <parameter>WIND_FLAG_COLOUR</parameter> controls the
+      colour of the wind flags. Observe that only one colour at a time can be
+      used to plot flags each time <function>PWIND</function> is
+      called.</para>
+
+      <para>The default value for <parameter>WIND_FLAG_THICKNESS</parameter>
+      is <code>1</code> and the default colour for
+      <parameter>WIND_FLAG_COLOUR</parameter> is '<code>BLUE</code>'.</para>
+    </section>
+  </section>
+
+
+
+  <section id="Plotting_Wind_Arrows">
+    <title>Plotting Wind Arrows</title>
+
+    <para>A wind arrow is represented by a vector whose length and head size
+    is proportional to the speed of the wind, and whose thickness remains
+    constant (except for low wind speeds).</para>
+
+    <para>The vector either starts at the exact location of the current grid
+    point, or is centred on it. The orientation of the vector represents the
+    direction of the wind.</para>
+
+    <section id="Unit_Velocity">
+      <title>Unit Velocity</title>
+
+      <para><parameter>WIND_ARROW_UNIT_VELOCITY</parameter> is used to define
+      the wind speed. A unit vector (1.0 cm) on the unscaled output plot
+      represents the default value of 25 m/s.</para>
+
+      <para>When <parameter>WIND_ARROW_UNIT_VELOCITY</parameter> is set to
+      <code>0.0</code>, Magics will calculate the maximum wind speed for the
+      geographical area requested and will use this maximum for the unit
+      velocity. This means that the unit velocity will vary depending on the
+      area being plotted.</para>
+
+      <para>It should be noted that if a scaling factor is applied to the
+      output plot using postprocessor or hardware scaling facilities, the unit
+      length of the wind arrow will also be scaled by the same factor.</para>
+    </section>
+
+    <section id="Wind_Arrows_Plot_Suppression">
+      <title>Plot Suppression</title>
+
+      <para>To suppress the plotting of wind arrows above and below certain
+      wind speed values, the parameters
+      <parameter>WIND_ARROW_MAX_SPEED</parameter> and
+      <parameter>WIND_ARROW_MIN_SPEED</parameter> may be used. The default
+      values of these parameters are set to very high and very low values so
+      that all wind speeds will be plotted. The suppression of wind arrows may
+      be useful to isolate certain wind speeds or to plot them in a different
+      style to other winds.</para>
+
+      <!-- NOT IMPLEMENTED yet as of 19/01/2007
+      <remark>
+      <para>The parameter <parameter>WIND_ARROW_CROSS_BOUNDARY</parameter>
+      controls the plotting of wind arrows on and outside the subpage
+      boundary. It may be set to '<code>ON</code>' or '<code>OFF</code>' .
+      When set to '<code>ON</code>' , which is the default, wind arrows are
+      not plotted on or outside the boundary.</para>
+      </remark>
+
+      <remark>
+        <para>Diagram 4</para>
+      </remark>
+      -->
+    </section>
+
+    <section id="Calm_Winds">
+      <title>Calm Winds</title>
+
+      <para>Generally, winds below 0.5 m/s are regarded as calm. The parameter
+      <parameter>WIND_ARROW_CALM_BELOW</parameter> sets the upper limit for
+      calm winds. The default value is <code>0.5</code>.</para>
+    </section>
+
+    <section id="Calm_Indicator">
+      <title>Calm Indicator</title>
+
+      <para>Calm winds may be plotted by setting the parameter
+      <parameter>WIND_ARROW_CALM_INDICATOR</parameter> to '<code>ON</code>',
+      default being '<code>OFF</code>'. These will be plotted by a circle
+      round a dot, where the dot indicates the exact position of the current
+      grid point.</para>
+
+      <para>The parameter
+      <parameter>WIND_ARROW_CALM_INDICATOR_SIZE</parameter> controls the size
+      of the diameter of the calm indicator circle, default 0.3 centimetres.
+      Control of the calm indicator size should be used to avoid congestion of
+      wind symbols caused by the size of the users subpage and/or the map
+      projection.</para>
+    </section>
+
+    <section id="Origin_Position">
+      <title>Origin Position</title>
+
+      <para>The Parameter <parameter>WIND_ARROW_ORIGIN_POSITION</parameter>
+      places the wind arrows at different positions relative to the origin of
+      the wind. It can take two values, '<code>TAIL</code>' or
+      '<code>CENTRE</code>', the default being '<code>TAIL</code>'.</para>
+
+      <para>'<code>TAIL</code>' : The tails of the arrows will be plotted at
+      the origin points of the wind.</para>
+
+      <para>'<code>CENTRE</code>' : The centre points of the wind arrows will
+      be plotted at the origin points.</para>
+
+      <para>The position of the origin will be indicated in the wind arrow
+      legend by a cross.</para>
+    </section>
+
+    <section id="Wind_Arrow_Colour">
+      <title>Colour</title>
+
+      <para>Wind arrow colour is set by the parameter
+      <parameter>WIND_ARROW_COLOUR</parameter> (default
+      '<code>BLUE</code>').</para>
+    </section>
+
+    <section id="Arrow_Thickness">
+      <title>Arrow Thickness</title>
+
+      <para>The thickness of wind arrow shafts can be controlled by the
+      parameter <parameter>WIND_ARROW_THICKNESS</parameter>, the value of
+      which defaults to <code>1</code>.</para>
+
+      <para>As the size of the arrow head is proportional to the overall
+      length of the arrow, it is possible, in the case of low wind speeds,
+      that the height of the arrow head may grow smaller than the thickness of
+      the shaft. Magics prevents this from happening by examining the ratio of
+      the height of the arrow head to the thickness of the shaft for all
+      arrows whose length is less than that of the unit vector. Thus if the
+      arrow head height falls below three times the shaft thickness, the shaft
+      thickness is said to have violated the arrow head. When violation
+      occurs, Magics will reduce the shaft thickness so that it is exactly one
+      third of the arrow head height.</para>
+
+      <para>The shaft thickness will remain constant, at the user specified or
+      default value, for all arrows whose length is greater than that of the
+      unit vector.</para>
+
+      <remark>
+        <para>Diagram 5</para>
+      </remark>
+    </section>
+
+    <section id="Arrow_Head_Style">
+      <title>Arrow Head Style</title>
+
+      <important> <title>Magics++</title>
+      <productname>Magics++</productname> uses an easier
+      system of specifying arrow head styles than previous versions.
+      The old parameter,
+      <parameter>WIND_ARROW_HEAD_INDEX</parameter>, is still
+      supported but is now deprecated.</important>
+
+      <para></para>
+
+      <para>Wind arrow heads can be configured through two parameters:
+      <parameter>WIND_ARROW_HEAD_SHAPE</parameter> (integer from 0 to 3) and
+      <parameter>WIND_ARROW_HEAD_RATIO</parameter> (real from 0 to 1). The
+      first of these parameters specifies which type of head the wind arrow
+      will have, and the second specifies the ratio of the width
+      of the arrow head compared to its length. The following diagram
+      illustrates the effect of these parameters:</para>
+
+      <figure id="figure_wind_arrow_heads">
+        <title>Wind Arrow Heads</title>
+        <mediaobject id="wind_arrow_heads_diagram">
+            <imageobject role="fo">
+              <imagedata fileref="../diagrams/diagram_wind_arrow_heads_01.png"
+                         format="PNG" width="8cm" depth="8cm"  align="center" />
+            </imageobject>
+
+            <imageobject role="html">
+              <imagedata fileref="images/diagrams/diagram_wind_arrow_heads_01.png"
+                         format="PNG" align="center" />
+            </imageobject>
+         </mediaobject>
+      </figure>
+    </section>
+
+
+    <section id="Wind_Arrow_Legend">
+      <title>Wind Arrow Legend</title>
+
+      <para>A wind arrow legend box containing a plot of a unit vector and its
+      unit value will be plotted, by default, in the upper right hand corner
+      of the page, just outside the subpage.</para>
+
+      <para>The attributes colour, line style, thickness and arrowhead style
+      of the unit vector will be the same as for wind arrows plotted in the
+      subpage. The frame of the wind arrow legend box will be plotted with the
+      same attributes as the subpage frame.</para>
+
+      <para>By default, the legend will be plotted just outside the top right
+      hand corner of the subpage. The wind arrow legend box may be placed in
+      any position within the user's page using the
+      <parameter>WIND_ARROW_LEGEND_X_POSITION</parameter> and
+      <parameter>WIND_ARROW_LEGEND_Y_POSITION</parameter> parameters to define
+      the position of the lower left hand corner of the wind arrow legend
+      box.</para>
+
+      <para>The size of the legend is controlled by the two parameters
+      <parameter>WIND_ARROW_LEGEND_X_LENGTH</parameter> and
+      <parameter>WIND_ARROW_LEGEND_Y_LENGTH</parameter> , whose values default
+      to 1.2cm and 0.6cm respectively.</para>
+
+      <para>To request blanking behind the legend box, the parameter
+      <parameter>WIND_ARROW_LEGEND_BLANKING</parameter> may be set to
+      '<code>ON</code>', the default
+      being '<code>OFF</code>'. Blanking is only effective when the legend is
+      partially or totally inside the subpage. To obtain full blanking, the
+      action routine <function>PWIND</function> should be called before any
+      other action routines.</para>
+
+      <para>To suppress the plotting of the wind arrow legend box, the
+      parameter <parameter>WIND_ARROW_LEGEND</parameter> should be set to
+      '<code>OFF</code>', the default being '<code>ON</code>' .</para>
+
+      <para>The wind arrow legend may also be plotted by the general legend
+      drawing facilities in Magics. This can be achieved by setting the
+      parameter <parameter>LEGEND</parameter> to '<code>ON</code>' before
+      calling <function>PWIND</function>. When this is required,
+      <parameter>WIND_ARROW_LEGEND</parameter> should be set to
+      '<code>OFF</code>' to avoid having the arrow legend drawn twice.</para>
+    </section>
+  </section>
+
+  <xi:include href="../paramtables/pwind_tables.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <xi:include href="../paramtables/Wind_wind_magml_tables.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <xi:include href="../paramtables/Wind_wind_magml_flat_tables.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+
+  <section id="Wind_Program_Examples">
+    <title>Program Examples</title>
+
+    <para>The following examples illustrate the plotting of wind.</para>
+
+  </section>
+
+  <xi:include href="../examples/manual/xml/wind_examples.xml"
+          xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+</chapter>

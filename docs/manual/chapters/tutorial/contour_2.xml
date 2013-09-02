@@ -1,0 +1,48 @@
+<magics>
+    <tutorial name="contour_2" title='Geopotential on a global map' 
+      comment='Simple plotting using a list of levels with a text'>     
+        <requirement name='1' subject='Grid and coastlines setting' text='Grey coastlines and grid' 
+            link_doc='layout_mapping_coastlines' link_ptr='Coastlines_and_Gridlines'>
+            <action name='pcoast'/>
+            <parameter name='map_coastline_thickness' value='2' function='pseti'/>
+            <parameter name='map_coastline_colour' value='grey' function='psetc'/>
+            <parameter name='map_grid_colour' value='grey' function='psetc'/>
+            <parameter name='map_grid_line_style' value='dash' function='psetc'/>
+            <parameter name='map_coastline_land_shade' value='on' function='psetc'/>
+            <parameter name='map_coastline_land_shade_colour' value='grey' function='psetc'/>
+        </requirement>  
+        <requirement name='2' subject='Grib file loading' text='Geopotential in grib file z500.grib' 
+            link_doc='data' link_ptr='Pseudo_Action_Routine_PGRIB'>
+            <action name='pgrib'/>
+            <parameter name='grib_input_type' value='file' function='psetc'/>
+            <parameter name='grib_input_file_name' value='z500.grib' function='psetc'/>
+        </requirement>  
+        <requirement name='3' subject='Contour' text='navy isolines using the following level list /480., 520.,530.,560.,575.,590./'
+            link_doc='contour' link_ptr='Action_Routine_PCONT'>
+            <action name='pcont'/>
+            <parameter name='contour_level_selection_type' value='level_list' function='psetc'/>
+            <parameter name='contour_level_list' value='/480., 520.,530.,560.,575.,590./' function='pset1r'/>
+            <parameter name='contour_line_colour' value='navy' function='psetc'/>            
+            <parameter name='contour_highlight_colour' value='navy' function='psetc'/>
+            <parameter name='contour_line_style' value='solid' function='psetc'/>
+            <parameter name='contour_label_frequency' value='1' function='pseti'/>
+            <parameter name='contour_line_thickness' value='1' function='pseti'/>
+            <parameter name='contour_highlight_colour' value='navy' function='psetc'/>
+            <parameter name='contour_hi_colour' value='navy' function='psetc'/>
+            <parameter name='contour_lo_colour' value='navy' function='psetc'/>
+        </requirement>   
+        <requirement name='4' subject='Text' text='Add your own title, then try to use a box to move it around'>
+            <action name='ptext'/>
+            <parameter name='text_line_1' value='Geopotential on a global map' function='psetc'/>
+            <parameter name='text_line_count' value='1' function='pseti'/>
+            <parameter name='text_colour' value='navy' function='psetc'/>
+            <parameter name='text_mode' value='positional' function='psetc'/>
+            <parameter name='text_box_x_position' value='5.' function='psetr'/>
+            <parameter name='text_box_y_position' value='13.' function='psetr'/>
+            <parameter name='text_box_x_length' value='10.' function='psetr'/>
+            <parameter name='text_box_y_length' value='3.' function='psetr'/>
+        </requirement>  
+        <spot name='a' text='In Magics++, the colour of the labels is the colour of the isolines'/>           
+        <spot name='a' text='The position of the text_box is different'/>           
+    </tutorial>
+</magics>

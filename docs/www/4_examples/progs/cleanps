@@ -1,0 +1,68 @@
+#!/bin/ksh
+# Removes the postscript files
+
+psdir="ps"
+mask=*
+purpose="test"
+
+
+for arg;do
+
+    if [[ $arg = "-h" || $arg = "-help" || $arg = "--help" ]]
+    then
+        echo ""
+        echo "cleanps"
+        echo "Possible options:"
+        echo "   -test (default)"
+        echo "   -manual (if given, must be first parameter)"
+
+        echo "   -mpp"
+        echo "   -m69"
+        echo "   -magml"
+        echo "   -metgram"
+        echo "   -python"
+        echo ""
+        echo ""
+        echo "By default, all output files will be deleted"
+        exit
+    fi
+
+    if [[ $arg = "-manual" ]]
+    then
+        purpose="manual"
+    fi
+
+    if [[ $arg = "-mpp" ]]
+    then
+        mask="*_mpp*"
+    fi
+
+    if [[ $arg = "-m69" ]]
+    then
+        mask="*_m69*"
+    fi
+
+    if [[ $arg = "-magml" ]]
+    then
+        psdir="../../html/$purpose/magml"
+        mask="*.ps"
+    fi
+
+    if [[ $arg = "-metgram" ]]
+    then
+        psdir="../../html/$purpose/metgram"
+        mask="*.ps"
+    fi
+
+    if [[ $arg = "-python" ]]
+    then
+        psdir="../../html/$purpose/python"
+        mask="*.ps"
+    fi
+
+done
+
+rm -rf $psdir/timings_archive
+rm -f $psdir/$mask
+
+

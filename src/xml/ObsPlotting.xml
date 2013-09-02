@@ -1,0 +1,233 @@
+<?xml-stylesheet type='text/css' href='parameter.css'?>
+<magics>
+
+<class name = 'ObsPlotting' action_routine='pobs' directory='visualisers'  xmltag='obs' prefix='obs'>
+
+ <parameter name='obs_distance_apart' from='float' to='float' member='apart' xml='distance_apart' default='1.0'>
+   <release>Magics++ 2.10</release>
+   <documentation>Minimum distance between the centre of any two observations in cm</documentation>
+ </parameter>
+
+</class>
+<class name = 'ObsTable' action_routine='pobs' directory='visualisers'  xmltag='obs' prefix='obs'>
+
+ <parameter name='obs_template_file_name' from='string' to='string' member='path'  default=''>
+   <release>Magics++ 2.10</release>
+   <documentation> User defined template </documentation>
+ </parameter>
+
+</class>
+
+
+<class name='ObsItem' prefix='obs' action_routine='pobs' directory='visualisers'>
+
+ <parameter name='obs_size' from='float' to='float' member='size' default='0.2'>
+   <documentation> Height of plotted variables </documentation>
+   <release_info>work in progress</release_info>
+ </parameter>
+
+ <parameter name='obs_quality' from='string' to='string' member='obs_quality' default='medium' implemented='no' priority='0.2'>
+    <documentation>Plotting quality of variables (LOW/MEDIUM/HIGH)</documentation>
+ </parameter> 
+
+</class>
+
+
+
+<class name = 'ObsStationRing' xmltag='station' prefix='obs/obs_station' action_routine='pobs' directory='visualisers'>
+
+ <parameter name = 'obs_station_ring' from='string' to='bool' member='visible' default='on'>
+    <documentation> Turn On/off the station ring </documentation>
+ </parameter>
+
+ <parameter name = 'obs_station_ring_colour' from='string' to='Colour' member='colour'  default='foreground'>
+   <documentation> Colour the station ring </documentation>
+ </parameter>
+
+</class>
+
+
+<class name = 'ObsWind' xmltag='wind' prefix='obs'  action_routine='pobs' directory='visualisers'>
+
+ <parameter name = 'obs_wind' from='string' to='bool' member='visible'  default='on'>
+    <documentation> Turn On/off the wind </documentation>
+ </parameter>
+
+ <parameter name = 'obs_wind_colour' from='string' to='Colour' member='colour' default='foreground'>
+    <documentation> Colour the station ring </documentation>
+ </parameter>
+</class>
+
+<class name = 'ObsTemperature'   xmltag='tempe' prefix='obs' action_routine='pobs' directory='visualisers'>
+
+ <parameter name = 'obs_temperature' from='string' to='bool' member='visible' default='on'>
+    <documentation> Turn On/off the Air temperature</documentation>
+ </parameter>
+
+ <parameter name = 'obs_temperature_colour' from='string' to='Colour' member='colour' default='foreground'>
+    <documentation> Colour the station ring </documentation>
+ </parameter>
+</class>
+
+<class name = 'ObsPressure' xmltag='pressure' prefix='obs' action_routine='pobs' directory='visualisers'>
+
+ <parameter name = 'obs_pressure' from='string' to='bool' member='visible'  default='on'>
+    <documentation> Turn On/off the pressure</documentation>
+ </parameter>
+
+ <parameter name = 'obs_pressure_colour' from='string' to='Colour' member='colour' default='foreground'>
+    <documentation> Colour the pressure info </documentation>
+ </parameter>
+</class>
+
+<class name = 'ObsPressureTendency' xmltag='pressure_tendency' prefix='obs' action_routine='pobs' directory='visualisers'>
+	<parameter name = 'obs_pressure_tendency' from='string' to='bool' member='visible'  default='on'>
+		<documentation> Turn On/off the pressure</documentation>
+    </parameter>
+    
+    <parameter name = 'obs_pressure_tendency_colour' from='string' to='Colour' member='colour' default='foreground'>
+		<documentation> Colour the pressure info </documentation>
+    </parameter>
+</class>
+
+<class name = 'ObsDewPoint' xmltag='dewpoint' prefix='obs' action_routine='pobs' directory='visualisers'>
+	<parameter name = 'obs_dewpoint' from='string' to='bool' member='visible'  default='on'>
+		<documentation> Turn On/off the pressure</documentation>
+    </parameter>
+    <parameter name = 'obs_dewpoint_colour' from='string' to='Colour' member='colour' default='red'>
+		<documentation> Colour the pressure info </documentation>
+    </parameter>
+</class>
+
+<class name = 'ObsVisibility' xmltag='visi' prefix='obs' action_routine='pobs' directory='visualisers'>
+	<parameter name = 'obs_visibility' from='string' to='bool' member='visible'  default='on'>
+		<documentation> Turn On/off the pressure</documentation>
+    </parameter>
+    
+    <parameter name = 'obs_visibility_colour' from='string' to='Colour' member='colour' default='foreground'>
+		<documentation> Colour the pressure info </documentation>
+    </parameter>
+</class>
+
+<class name = 'ObsPresentWeather' xmltag='present_weather' prefix='obs' action_routine='pobs' directory='visualisers'>
+	<parameter name = 'obs_present_weather' from='string' to='bool' member='visible'  default='on'>
+		<documentation> Turn On/off the pressure</documentation>
+    </parameter>
+
+    <parameter name = 'obs_present_weather_colour' from='string' to='Colour' member='colour' default='foreground'>
+		<documentation> Colour the pressure info </documentation>
+    </parameter>
+</class>
+
+<class name = 'ObsTimePlot' xmltag='time' prefix='obs' action_routine='pobs' directory='visualisers'>
+	<parameter name = 'obs_time' from='string' to='bool' member='visible'  default='off'>
+		<documentation> Turn On/off the Air temperature</documentation>
+    </parameter>
+    
+    <parameter name = 'obs_time_colour' from='string' to='Colour' member='colour'  default='foreground'>
+		<documentation> Colour the station ring </documentation>
+    </parameter>
+</class>
+
+<class name = 'ObsThickness' xmltag='thickness' prefix='obs' action_routine='pobs' directory='visualisers'>
+    <parameter name = 'obs_thickness' from='string' to='bool' member='visible'  default='on'>
+        <documentation> Turn On/off the Thickness</documentation>
+        <release>2.6</release>
+    </parameter>
+    
+    <parameter name = 'obs_thickness_colour' from='string' to='Colour' member='colour'  default='foreground'>
+        <documentation> Colour the thickness </documentation>
+    </parameter>
+</class>
+
+
+<class name = 'ObsPressureLevel' xmltag='pressure_level' prefix='obs' action_routine='pobs' directory='visualisers'>
+	<parameter name = 'obs_upper_air_pressure' from='string' to='bool' 
+			member='visible'  default='off'>
+		<documentation> Turn On/off the pressure level ( satob)  </documentation>
+    </parameter>
+
+    <parameter name = 'obs_upper_level_pressure_colour' from='string' to='Colour' 
+			member='colour' xml='colour' default='foreground'>
+		<documentation> Colour the station ring </documentation>
+    </parameter>
+</class>
+
+<class name = 'ObsHeight'  xmltag='height' prefix='obs' action_routine='pobs' directory='visualisers'>
+    <parameter name = 'obs_upper_air_pressure' from='string' to='bool' 
+            member='visible'  default='on'>
+        <documentation> Turn On/off the height (geopotential)  </documentation>
+        <release>2.6</release>
+    </parameter>
+    <parameter name = 'obs_height_colour' from='string' to='Colour' 
+            member='colour' default='foreground'>
+        <documentation> Colour of the height information </documentation>
+        <release>2.6</release>
+    </parameter>
+</class>
+
+<class name = 'ObsIdentifier' xmltag='ident' prefix='obs' action_routine='pobs' directory='visualisers'>
+	<parameter name = 'obs_identification' from='string' to='bool' 
+			member='visible'  default='off'>
+		<documentation> Turn On/off the pressure level ( satob)  </documentation>
+    </parameter>
+
+    <parameter name = 'obs_identification_colour' from='string' to='Colour' 
+			member='colour'  default='foreground'>
+		<documentation> Colour the identification info </documentation>
+    </parameter>
+</class>
+
+
+<class name = 'ObsPastWeather' xmltag='past_weather' prefix='obs' action_routine='pobs' directory='visualisers'>
+	<parameter name = 'obs_past_weather' from='string' to='bool' member='visible'  default='on'>
+		<documentation> Turn On/off the pressure level (satob)</documentation>
+    </parameter>
+    
+    <parameter name = 'obs_past_weather_colour' from='string' to='Colour' member='colour'  default='red'>
+		<documentation> Colour of the past weather </documentation>
+    </parameter>
+</class>
+
+
+<class name = 'ObsCloud' xmltag='cloud' prefix='obs' action_routine='pobs' directory='visualisers'>
+
+    <parameter name = 'obs_cloud' from='string' to='bool' member='visible'  default='on'>
+		<documentation> Turn On/off the pressure level ( satob)  </documentation>
+    </parameter>
+
+    <parameter name = 'obs_low_cloud' from='string' to='bool' member='low'  default='on'>
+		<documentation> Turn On/off the low cloud  </documentation>
+    </parameter>
+    
+    <parameter name = 'obs_low_cloud_colour' from='string' to='Colour' member='low_colour'  default='foreground'>
+		<documentation> Colour of the low cloud </documentation>
+    </parameter>
+    
+     <parameter name = 'obs_medium_cloud' from='string' to='bool' member='medium'  default='on'>
+		<documentation> Turn On/off the medium cloud  </documentation>
+    </parameter>    
+
+    <parameter name = 'obs_medium_cloud_colour' from='string' to='Colour' member='medium_colour'  default='foreground'>
+       <documentation> Colour of  medium cloud </documentation>
+    </parameter>
+
+    <parameter name = 'obs_high_cloud' from='string' to='bool' member='high'  default='on'>
+      <documentation> Turn On/off the high cloud  </documentation>
+    </parameter>
+
+    <parameter name = 'obs_high_cloud_colour' from='string' to='Colour' member='high_colour'  default='red'>
+      <documentation> Colour of the high cloud </documentation>
+    </parameter>    
+</class>
+
+<class name = 'ObsDemoItem2' xmltag='demo2' prefix='obs' action_routine='pobs' directory='visualisers'>
+	<parameter name = 'obs_demo2_missing_text' from='string' to='string' member='text'  default='///'>
+		<documentation> text to be displayed in case of missinmg data </documentation>
+    </parameter>
+    <parameter name = 'obs_demo2_text_colour' from='string' to='string' member='text_colour'  default='cyan'>
+		<documentation> Text colour </documentation>
+    </parameter>
+</class>
+
+</magics>

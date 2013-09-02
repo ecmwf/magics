@@ -1,0 +1,4 @@
+#!/bin/sh
+
+# tools/docbookx2other -v -o html -T target/driverstarget.db $@
+tools/docbookx2other -o html $@

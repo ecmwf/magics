@@ -1,0 +1,13 @@
+<satellites>
+    <identifier code='52'
+        short_title='Met5'
+        long_title='Meteosat 5'/>
+    <centre code='54'
+        short_title='Met7'
+        long_title='Meteosat 7'/>
+    <centre code='55'
+        short_title='Met8'
+        long_title='Meteosat 8'/>
+    
+</satellites>
+

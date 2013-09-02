@@ -1,0 +1,54 @@
+<magics version='3.0' format='a4'>
+ 
+<definition>
+    <contour id='xml_style'>
+          <isoline colour = 'navy' thickness = '1' style = 'solid'>
+                <list level_list = '480/520/530/560/575/590' />
+                <label frequency = '1'/>
+            </isoline>
+            <hilo hi_colour = 'navy' lo_colour = 'navy'/>       
+     </contour>
+  
+     <contour id='metview_style' 
+              contour_line_colour = 'navy'
+              contour_highlight_colour = 'navy'
+              contour_line_thickness = '1'
+              contour_line_style = 'solid'
+              contour_level_selection_type = 'level_list'
+              contour_level_list = '480/520/530/560/575/590'
+              contour_label_frequency = '1'
+              contour_hi_colour = 'navy'
+              contour_lo_colour = 'navy'/>
+ </definition>       
+          
+  <drivers>
+    <ps name= 'contour_2' />
+  </drivers>
+
+  <page>
+      <text colour='navy' height='10%' display='block'> 
+          Geopotential on a global map 
+      </text>
+     <map height='90%'>		
+       <cylindrical /> 
+
+       <coastlines>
+         <coast colour='grey' thickness = '2' >		
+            <landshading colour='grey'/>			
+         </coast>
+         <grid colour='grey' line_style='dash'>
+         </grid>
+       </coastlines>
+
+       <plot>
+          <grib input_file_name='data/z500_tc.grib'/>
+          <contour use_id='${style=xml_style}'/>
+          
+       </plot>
+
+      
+     </map>		
+    
+    
+  </page>   
+</magics>    

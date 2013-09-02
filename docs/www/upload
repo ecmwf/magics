@@ -1,0 +1,101 @@
+#!/usr/local/bin/perl56  -I/home/systems/syb/work/publisher
+
+###################################################################################
+# Script modified from davtest.pl, probably originally by Daniel Varela Santoalla.
+# Modifications by Iain Russell,
+# December 2002
+#
+# Takes one command-line parameter: the name/path of a file to be uploaded.
+# Strange behaviour: it actually requires a dummy command-line parameter
+#                    to be included after the real one.
+###################################################################################
+
+# use strict;
+use Tk;
+use Tk::DialogBox;
+
+
+my $username =  $ENV{'USER'};
+my $password = "";
+
+
+# Create the user interface window for the user to enter
+# their username and password
+
+my $main = MainWindow->new(-title => "DAV User/Password");
+
+$main->Label ( -text         => "User name:") ->pack ();
+$main->Entry ( -textvariable => \$username, -width => 35) ->pack();
+
+$main->Label ( -text         => "Password:")  ->pack ();;
+$main->Entry ( -textvariable => \$password, -width => 35, -show => "*") ->pack();
+
+$main->Button (-text => "Upload to Internal www",                 -command => \&upload_files) ->pack();
+$main->Button (-text => "Upload to Internal www (no plots)",      -command => \&upload_files_noplots) ->pack();
+$main->Button (-text => "Upload to Internal www (version table)", -command => \&upload_files_version) ->pack();
+$main->Button (-text => "Upload to External www",                 -command => \&upload_files_external) ->pack();
+
+
+# Run the Perl/Tk program
+
+MainLoop;
+
+
+
+
+# -----------------------------------------------------------
+# upload_files
+# Subroutine to call the shell script that uploads all the 
+# web documentation using the supplied username/password.
+# After execution, it stops the program.
+# -----------------------------------------------------------
+
+sub upload_files
+{ 
+    system ("tools/upload_files $username $password");
+    
+    exit;
+}
+
+# -----------------------------------------------------------
+# upload_files_noplots
+# Subroutine to call the shell script that uploads all the 
+# web documentation using the supplied username/password.
+# The example plots are not uploaded.
+# After execution, it stops the program.
+# -----------------------------------------------------------
+
+sub upload_files_noplots
+{ 
+    system ("tools/upload_files_noplots $username $password");
+    
+    exit;
+}
+
+
+
+# -----------------------------------------------------------
+# upload_files_version
+# -----------------------------------------------------------
+
+sub upload_files_version
+{ 
+    system ("tools/upload_files_version_table $username $password");
+    
+    exit;
+}
+
+
+# -----------------------------------------------------------
+# upload_files
+# Subroutine to call the shell script that uploads all the 
+# web documentation using the supplied username/password.
+# After execution, it stops the program.
+# -----------------------------------------------------------
+
+sub upload_files_external
+{ 
+    system ("tools/upload_files_external $username $password");
+    
+    exit;
+}

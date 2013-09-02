@@ -1,0 +1,360 @@
+%manual
+
+Description:  Hall charts
+              Tropical Belt Winds
+
+Mainframe:    styx/hades
+
+Related tasks:  phal....
+
+Synopsis:
+
+        . Use metview to produce plotfile.
+
+
+Anticipated problems:
+
+     For CONSOLE
+
+        . If no clue, set to COMPLETE;
+                      call METAPS the next working day.
+
+     For METAPS
+
+        . Script     /usr/local/share/metview
+
+        . Output     Plot
+
+%end
+%include <qsub.h>
+%include <config.h>
+%include <trap.h>
+%include <setup.h>
+%include <plotdb.h>
+%include <web.h>
+
+cd $TMPDIR
+
+YYYYMMDD=`substring $BASETIME 1 8 `
+export YYYYMMDD
+
+PLOT_DATE=$YYYYMMDD
+export PLOT_DATE
+
+export PLOT_TIME=$(substring $BASETIME 9 10)
+
+
+PLOT_EXPVER=$EXPVER
+export PLOT_EXPVER
+
+cat > dirs << \EOF
+#==========================================================================
+# phaluv850. Metview macro by Rogerio Bonifacio
+# Depending on run-mode, prints out, prints to file or displays :
+# Parameters		- 850hPa Wind(U/V)
+# Types			- AN, FC for 3 days
+# Geographical Area	- Tropical Belt Winds
+#==========================================================================
+
+# Define output device. Can be printer, ps.file or ps.file with icon
+dv_printer = device (
+		destination		:	"file",
+		file_name		:	"ps",
+		file_auto_numbering	:	"off",
+		paper_format		:	"a3",
+		print_command		:	" ",
+		use_title_from		:	"magics"
+		)
+
+dv_ps_icon = device(
+		destination		:	"ICON",
+		paper_format		:	"a3",
+		icon_prefix		:	"phaluv850.ps",
+		use_title_from		:	"Magics"
+		)
+
+
+dv_for_pics = device (
+		destination		:	"file",
+		file_name		:	"pics",
+		file_auto_numbering	:	"off",
+		paper_format		:	"a3",
+		orientation		:	"landscape",
+		print_command		:	" ",
+ 		use_title_from		:	"magics"
+		)
+
+# Checks running mode and gets/sets date and experiment variables
+mode = runmode()
+
+if mode = 'batch' then
+	setdevice(dv_printer)
+end if
+
+if mode = 'execute' then
+	setdevice(dv_ps_icon)
+end if
+
+ddate = getenv("PLOT_DATE")
+if ddate = '' then
+	andate = date (-1)
+else
+	andate = date (ddate)
+end if
+
+expver = getenv("PLOT_EXPVER")
+if expver = '' then
+	expver = 1
+end if
+
+class = getenv("CLASS")
+if class = '' then
+    class = 'OD'
+end if
+
+stream = getenv("STREAM")
+if stream = '' then
+    stream = 'DA'
+end if
+
+time = getenv("PLOT_TIME")
+if time = '' then
+    time = 00
+end if
+
+
+if class = 'rd' then
+    an_type = 'FC'
+else
+    an_type = 'AN'
+end if
+
+
+print (" ")
+print (" mode is ",mode, "; expver is ",expver, "; date is ",andate)
+print (" ")
+
+page_id = "Exp " & expver & " Stream " & stream
+
+# Defines geographic elements
+coastline = pcoast(
+		map_coastline_colour		:	'black',
+		map_grid_colour			:	'black',
+		MAP_COASTLINE_LAND_SHADE	:	'ON',
+		MAP_COASTLINE_SEA_SHADE		:	'OFF',
+		MAP_COASTLINE_LAND_SHADE_COLOUR	:	'cream',
+		MAP_GRID_LATITUDE_INCREMENT	:	20.0,
+		MAP_GRID_LONGITUDE_INCREMENT	:	20.0
+		)
+
+geography = (
+		SUBPAGE_MAP_PROJECTION	:	'CYLINDRICAL',
+		area			:	[-45.0, -180.0, 45.0, 180.0],
+		background		:	coastline
+		)
+
+# Defines plot text
+Wind_text = ptext(
+		TEXT_LINE_2			:	'850hPa Winds',
+		TEXT_REFERENCE_CHARACTER_HEIGHT	:	0.67,
+		TEXT_JUSTIFICATION		:	'LEFT'
+		)
+
+# Defines Visual Definitions
+Wind_contour = pcont(
+		CONTOUR_DATA_TRANSFORMATION	:	"ISOTACHS",
+		CONTOUR_HIGHLIGHT		:	'OFF',
+		CONTOUR_HILO			:	'OFF',
+		CONTOUR_INTERVAL		:	10,
+		CONTOUR_LABEL_COLOUR		:	'BACKGROUND',
+		CONTOUR_LEVEL_SELECTION_TYPE	:	'INTERVAL',
+		CONTOUR_LINE_COLOUR		:	'BACKGROUND',
+		CONTOUR_SHADE			:	'ON',
+		CONTOUR_SHADE_MAX_LEVEL_COLOUR	:	"RED",
+		CONTOUR_SHADE_MAX_LEVEL_DENSITY	:	300,
+		CONTOUR_SHADE_METHOD		:	"AREA_FILL",
+		CONTOUR_SHADE_MIN_LEVEL		:	10,
+		CONTOUR_SHADE_MIN_LEVEL_COLOUR	:	"YELLOW",
+		CONTOUR_SHADE_MIN_LEVEL_DENSITY	:	30,
+		CONTOUR_SHADE_COLOUR_DIRECTION	:	"CLOCKWISE",
+		GRIB_SPECTRAL_RESOLUTION	:	2.5,
+		LEGEND				:	"ON"
+		)
+
+Wind_arrow = pwind(
+		WIND_ARROW_LEGEND_X_POSITION	:	39.3,
+		WIND_ARROW_LEGEND_Y_POSITION	:	10.7,
+		WIND_ARROW_COLOUR		:	'blue',
+		WIND_ARROW_CROSS_BOUNDARY	:	'ON',
+		WIND_ARROW_ORIGIN_POSITION	:	'CENTRE',
+		WIND_THINNING_FACTOR		:	1.0,
+		GRIB_SPECTRAL_RESOLUTION	:	2.5
+		)
+
+Wind_arrow_pics = pwind(
+#F		WIND_ARROW_LEGEND_X_POSITION	:	36.3,
+#F		WIND_ARROW_LEGEND_Y_POSITION	:	10.7,
+		WIND_ARROW_COLOUR		:	'blue',
+		WIND_ARROW_CROSS_BOUNDARY	:	'ON',
+		WIND_ARROW_ORIGIN_POSITION	:	'CENTRE',
+		WIND_THINNING_FACTOR		:	1.0,
+		GRIB_SPECTRAL_RESOLUTION	:	2.5
+		)
+
+
+# Defines common block
+wind_common = (
+		LEVTYPE		:	'PL',
+		LEVELIST	:	850,
+		DATE		:	andate,
+		CLASS		:	class,
+		STREAM		:	stream,
+		EXPVER		:	expver,
+		REPRES		:	'SH',
+		TIME		:	time,
+		GRID		:	[2.5,2.5]
+
+		)
+
+first = 12
+last = 84
+incr = 24
+
+# Function below is needed because of problems with indexing of vector_fields
+# As a consequence, note below retrievals threaded with plotting, instead
+# of retrievals followed by merge() followed by plotting as in oow13
+
+function vectorUV (mars_type, step, in_common)
+	U = retrieve(
+			in_common,
+			PARAM		:	'U',
+			TYPE		:	mars_type,
+			STEP		:	step
+			)
+	V = retrieve(
+			in_common,
+			PARAM		:	'V',
+			TYPE		:	mars_type,
+			STEP		:	step
+			)
+
+#F	vector_to_plot = vector_field(
+#F			u_component	:	U,
+#F			v_component	:	V
+#F			)
+#F	return vector_to_plot
+	uv = merge(U,V)
+	return uv
+end vectorUV
+
+
+if (mode = 'execute' or mode = 'batch') then
+	A3_horiz_x = 40.68
+	A3_horiz_y = 27.64
+	A3_1x2 = page(
+			geography,
+			PAGE_X_LENGTH		:	A3_horiz_x,
+			PAGE_Y_LENGTH		:	A3_horiz_y/2.0,
+			PAGE_ID_LINE            :       'ON',
+			PAGE_ID_LINE_SYSTEM_PLOT:       'OFF',
+			PAGE_ID_LINE_DATE_PLOT  :       'OFF',
+			PAGE_ID_LINE_ERRORS_PLOT:       'OFF',
+			PAGE_ID_LINE_LOGO_PLOT  :       'OFF',
+			PAGE_ID_LINE_USER_TEXT  :       page_id,
+			SUBPAGE_X_POSITION	:	1.2,
+			SUBPAGE_Y_POSITION	:	1.1,
+			SUBPAGE_X_LENGTH	:	38.0,
+			SUBPAGE_Y_LENGTH	:	11.5
+			)
+
+	A3_sheet = superpage(
+			SUPER_PAGE_X_LENGTH	:	A3_horiz_x,
+			SUPER_PAGE_Y_LENGTH	:	A3_horiz_y,
+			pages			:	[A3_1x2, A3_1x2]
+			)
+
+	for i = first to last by 2*incr do
+		if (i = 0) then
+			marstype = an_type
+		else
+			marstype = 'FC'
+		end if
+		vector_to_plot = vectorUV(marstype, i, wind_common)
+		plot (A3_sheet[1], vector_to_plot, Wind_arrow, Wind_text)
+		vector_to_plot = vectorUV('FC', i+incr, wind_common)
+		plot (A3_sheet[2], vector_to_plot, Wind_arrow, Wind_text)
+		newpage (A3_sheet)
+	end for
+
+#------------------------------------------------------------------------
+# now plot for the pics
+#------------------------------------------------------------------------
+	setdevice(dv_for_pics)
+
+	A3 = page(
+		geography,
+		PAGE_X_LENGTH			:	A3_horiz_x,
+#F		PAGE_Y_LENGTH			:	11.5,
+		PAGE_Y_LENGTH			:	14.5,
+		PAGE_FRAME			:	'OFF',
+		PAGE_ID_LINE            	:  	 'OFF',
+		PAGE_ID_LINE_SYSTEM_PLOT	:   	'OFF',
+		PAGE_ID_LINE_DATE_PLOT  	:   	'OFF',
+		PAGE_ID_LINE_ERRORS_PLOT	:   	'OFF',
+		PAGE_ID_LINE_LOGO_PLOT  	:   	'OFF',
+		SUBPAGE_X_LENGTH		:	24,
+		SUBPAGE_Y_LENGTH		:	11.5
+		)
+
+	A3_sheet = superpage(
+		SUPER_PAGE_X_LENGTH	:	A3_horiz_x,
+		SUPER_PAGE_Y_LENGTH	:	A3_horiz_y,
+		pages			:	[A3]
+		)
+
+	for i = first to last by 2*incr do
+		if (i = 0) then
+			marstype = an_type
+		else
+			marstype = 'FC'
+		end if
+		vector_to_plot = vectorUV(marstype, i, wind_common)
+		plot (A3_sheet, vector_to_plot, Wind_arrow_pics, Wind_text)
+		newpage (A3_sheet)
+		vector_to_plot = vectorUV('FC', i+incr, wind_common)
+		plot (A3_sheet, vector_to_plot, Wind_arrow_pics, Wind_text)
+		newpage (A3_sheet)
+	end for
+
+else
+	window = plotwindow(
+			geography,
+			columns			:	1,
+			rows			:	2,
+			pane_organisation	:	'connected'
+			)
+	for i = first to last by 2*incr do
+		if (i = 0) then
+			marstype = an_type
+			vector_to_plot = vectorUV(marstype, i, wind_common)
+		else
+			marstype = 'FC'
+			vector_to_plot = vectorUV(marstype, i, wind_common)
+		end if
+		plot (window[1], vector_to_plot, Wind_arrow, Wind_text)
+		vector_to_plot = vectorUV('FC', (i+1)*incr, wind_common)
+		plot (window[2], vector_to_plot, Wind_arrow, Wind_text)
+	end for
+
+end if
+EOF
+
+$metview_cmd -b dirs
+PSFILE
+
+$plotdb_lpr -J $TASK -P ps_oa_a3_c ps
+
+
+
+%include <endt.h>
+

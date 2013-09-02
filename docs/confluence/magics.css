@@ -1,0 +1,151 @@
+
+
+/*!
+ * jQuery UI Slider 1.8.23
+ *
+ * Copyright 2012, AUTHORS.txt (http://jqueryui.com/about)
+ * Dual licensed under the MIT or GPL Version 2 licenses.
+ * http://jquery.org/license
+ *
+ * http://docs.jquery.com/UI/Slider#theming
+ */
+.ui-slider { position: relative; text-align: left; }
+.ui-slider .ui-slider-handle { position: absolute; z-index: 2; width: 1.2em; height: 1.2em; cursor: default; }
+.ui-slider .ui-slider-range { position: absolute; z-index: 1; font-size: .7em; display: block; border: 0; background-position: 0 0; }
+
+.ui-slider-horizontal { height: .8em; }
+.ui-slider-horizontal .ui-slider-handle { top: -.3em; margin-left: -.6em; }
+.ui-slider-horizontal .ui-slider-range { top: 0; height: 100%; }
+.ui-slider-horizontal .ui-slider-range-min { left: 0; }
+.ui-slider-horizontal .ui-slider-range-max { right: 0; }
+
+.ui-slider-vertical { width: .8em; height: 100px; }
+.ui-slider-vertical .ui-slider-handle { left: -.3em; margin-left: 0; margin-bottom: -.6em; }
+.ui-slider-vertical .ui-slider-range { left: 0; width: 100%; }
+.ui-slider-vertical .ui-slider-range-min { bottom: 0; }
+.ui-slider-vertical .ui-slider-range-max { top: 0; }
+
+
+table.parameters
+{
+	border               : 1px solid #CCC;
+	border-collapse      : collapse;
+    table-layout:fixed;
+    font                 : small/1.5 "Tahoma", "Bitstream Vera Sans", Verdana, Helvetica, sans-serif;
+}
+
+td
+{
+	border               : 1px solid #CCC;
+	border-collapse      : collapse;
+    table-layout:fixed;
+    font                 : small/1.5 "Tahoma", "Bitstream Vera Sans", Verdana, Helvetica, sans-serif;
+}
+thead th,
+tbody th
+{
+	background            : #FFF ;
+    color                 : #666;  
+	padding               : 5px 10px;
+  border-left           : 1px solid #CCC;
+}
+tbody th
+{
+  background            : #fafafb;
+  border-top            : 1px solid #CCC;
+  text-align            : left;
+  font-weight           : normal;
+}
+tbody tr td
+{
+	padding               : 5px 10px;
+    color                 : #666;
+}
+
+.selected 
+{
+	background                 : #fafafc;
+}
+
+td.hidden 
+{
+    visibility: hidden;
+}
+
+tr.alt td 
+{
+color:#000000;
+background-color:#EAF2D3;
+}
+
+tfoot td,
+tfoot th
+{
+  border-left           : none;
+  border-top            : 1px solid #CCC;
+	padding               : 4px;
+  background            : #FFF ;
+  color                 : #666;
+}
+caption
+{
+	text-align            : left;
+	font-size             : 120%;
+	padding               : 10px 0;
+	color                 : #666;
+}
+
+.radio {
+    border: 1px solid lightgrey;
+	border-radius: 5px;
+    background: #fff;
+}
+.radio_on {
+    border: 1px solid grey;
+	border-radius: 5px;
+    background: #E8E8E8;
+}
+.radio:hover {
+    border: 1px solid grey;
+    background: #F2F2F2;
+}
+
+div#code {
+    border: 1px solid lightgrey;
+    background: #FAF8CC;
+
+}
+
+.gallery_title {
+    padding-left: 1em;
+}
+
+div.gallery_right {
+	float:left;
+	background-color: #eee;
+	border: solid 1px #888;
+	padding: 0.5em;
+	margin-left: 1em;
+}
+pre {
+    font-family: mono;
+    margin-left: 10%;
+    margin-right: 10%;
+    border: 1px solid #a1a1a1;
+    background-color: #F0F0F0;
+	border-radius: 5px;
+    padding: .5em;
+    padding-left: 17em;
+}
+.active {
+    background: #fafafc;
+}
+.unactive {
+    background: white;
+    color: lightgrey;
+}
+
+
+
+
+

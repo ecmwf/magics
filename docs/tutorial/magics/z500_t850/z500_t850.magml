@@ -1,0 +1,61 @@
+
+<magics version='3.0'>
+  <!-- definition of the output-->
+  <drivers>
+  	<????/>
+  </drivers>
+  <page>
+   <!-- the definition of the geographical area goes into the map tag-->
+  	<map 
+		-- Here define the Europe area ---
+		fitted_mode='crop'
+	    margin_top='0'
+	    margin_left='0'
+	    margin_bottom='0'
+	    margin_right='0'> 
+	<!-- define the t850 layer-->
+		<plot>
+			<grib grib_id = 't850' grib_input_file_name = 't850.grb' />
+			<contour 
+				-- here define the visual attributes of the shading!--
+ 					contour_shade_colour_list = 'rgb(0,0,0.5)/
+    								rgb(0,0,0.5)/
+    								rgb(0,0,0.85)/
+    								rgb(0,0,0.5)/
+    								rgb(0,0,0.85)/
+    								rgb(0.25,0,1)/
+    								blue_purple/
+    								greenish_blue/
+    								blue_green/
+    								bluish_green/
+    								yellow_green/
+    								greenish_yellow/
+    								yellow/
+    								orangish_yellow/
+    								orange_yellow/
+    								yellowish_orange/
+    								orange/
+    								reddish_orange/
+    								red_orange/
+    								orangish_red/
+    								red/
+    								magenta/
+    								magenta/
+    								magenta' />
+		</plot>
+	<!-- define the z500 layer-->
+		<plot>
+			<grib ??????? />
+			<contour 
+				-- here define the visual attributes of the contour!--
+					/>
+		</plot>
+
+	    
+	    <!--add the coastlines-->
+		<coastlines 
+				-- here define the visual attributes of the coast!--
+				/>
+	</map>
+  </page>
+</magics>

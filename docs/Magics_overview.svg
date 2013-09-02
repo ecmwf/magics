@@ -1,0 +1,479 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="1052.3622"
+   height="744.09448"
+   id="svg2"
+   sodipodi:version="0.32"
+   inkscape:version="0.47 r22583"
+   version="1.0"
+   sodipodi:docname="Magics_overview.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   inkscape:export-filename="C:\Documents and Settings\ecmwf\Desktop\Magics_overview.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
+  <defs
+     id="defs4">
+    <linearGradient
+       id="linearGradient3506">
+      <stop
+         style="stop-color:#ffffff;stop-opacity:1;"
+         offset="0"
+         id="stop3508" />
+      <stop
+         style="stop-color:#3e7833;stop-opacity:1;"
+         offset="1"
+         id="stop3510" />
+    </linearGradient>
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 526.18109 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="744.09448 : 526.18109 : 1"
+       inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
+       id="perspective10" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3506"
+       id="linearGradient3512"
+       x1="245.91171"
+       y1="344.36777"
+       x2="617.12897"
+       y2="344.36777"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.6927216,0,0,1.0606883,-296.26009,-31.172376)" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     gridtolerance="10000"
+     guidetolerance="10"
+     objecttolerance="10"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.93338095"
+     inkscape:cx="504.48617"
+     inkscape:cy="397.39688"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     inkscape:window-width="1024"
+     inkscape:window-height="746"
+     inkscape:window-x="-2"
+     inkscape:window-y="24"
+     showguides="true"
+     inkscape:guide-bbox="true"
+     inkscape:window-maximized="0" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>Magics usage diagram</dc:title>
+        <dc:date>July 2009</dc:date>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Stephan Siemen</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:rights>
+          <cc:Agent>
+            <dc:title>Copyright ECMWF</dc:title>
+          </cc:Agent>
+        </dc:rights>
+        <dc:publisher>
+          <cc:Agent>
+            <dc:title>ECMWF</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:language>English</dc:language>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>Magics++</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+        <dc:contributor>
+          <cc:Agent>
+            <dc:title>Stephan Siemen</dc:title>
+          </cc:Agent>
+        </dc:contributor>
+        <dc:description>Diagram showing an overview where and how magics can be used</dc:description>
+      </cc:Work>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       style="fill:url(#linearGradient3512);fill-opacity:1"
+       d="M 657.29745,164.82461 738.57252,336.96736 653.8508,504.09448 120,503.36437 l 39.21368,-170 -35.76706,-169.26989 533.85083,0.73013 z"
+       id="path2534"
+       sodipodi:nodetypes="ccccccc" />
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:100%;writing-mode:lr-tb;text-anchor:middle;fill:#60866c;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Sans"
+       x="152.625"
+       y="225.82104"
+       id="text3298"
+       sodipodi:linespacing="100%"><tspan
+         sodipodi:role="line"
+         id="tspan3324"
+         x="152.625"
+         y="225.82104">Forecasts &amp; Analysis fields</tspan><tspan
+         sodipodi:role="line"
+         id="tspan3326"
+         x="152.625"
+         y="241.82104">Grib 1&amp;2, NetCDF, matrices</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:22px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#215c32;fill-opacity:1;stroke:none;font-family:Sans"
+       x="103.90353"
+       y="283.78296"
+       id="text3302"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3306"
+         x="103.90353"
+         y="283.78296">Observations</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:20px;font-style:normal;font-variant:normal;font-weight:900;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#00ad26;fill-opacity:1;stroke:none;font-family:Arial Black;-inkscape-font-specification:Arial Black Heavy"
+       x="90.668602"
+       y="148.28448"
+       id="text3308"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3310"
+         x="90.668602"
+         y="148.28448">your data</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:20px;font-style:normal;font-variant:normal;font-weight:900;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#00ad26;fill-opacity:1;stroke:none;font-family:Arial Black;-inkscape-font-specification:Arial Black Heavy"
+       x="407.77582"
+       y="150.01105"
+       id="text3312"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3314"
+         x="407.77582"
+         y="150.01105">your interface</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:20px;font-style:normal;font-variant:normal;font-weight:900;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#00ad26;fill-opacity:1;stroke:none;font-family:Arial Black;-inkscape-font-specification:Arial Black Heavy"
+       x="732.75488"
+       y="148.93968"
+       id="text3316"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3318"
+         x="732.75488"
+         y="148.93968">your presentation</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:22px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#215c32;fill-opacity:1;stroke:none;font-family:Sans"
+       x="80.799545"
+       y="201.88071"
+       id="text3320"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3322"
+         x="80.799545"
+         y="201.88071">Gridded data</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:100%;writing-mode:lr-tb;text-anchor:middle;fill:#60866c;fill-opacity:1;stroke:none;font-family:Sans"
+       x="176.05469"
+       y="307.86792"
+       id="text3328"
+       sodipodi:linespacing="100%"><tspan
+         sodipodi:role="line"
+         id="tspan3330"
+         x="176.05469"
+         y="307.86792">WMO obs &amp; Analysis feedback</tspan><tspan
+         sodipodi:role="line"
+         id="tspan3332"
+         x="176.05469"
+         y="323.86792">BUFR   ODB</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:22px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#215c32;fill-opacity:1;stroke:none;font-family:Sans"
+       x="97.622833"
+       y="442.71158"
+       id="text3334"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3336"
+         x="97.622833"
+         y="442.71158">Misc data</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:100%;writing-mode:lr-tb;text-anchor:middle;fill:#60866c;fill-opacity:1;stroke:none;font-family:Sans"
+       x="155.20023"
+       y="464.76636"
+       id="text3344"
+       sodipodi:linespacing="100%"><tspan
+         sodipodi:role="line"
+         id="tspan3346"
+         x="155.20023"
+         y="464.76636">Geographical data</tspan><tspan
+         sodipodi:role="line"
+         id="tspan3348"
+         x="155.20023"
+         y="480.76636">NetCDF, MapGen, MV Geopoints</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:22px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#215c32;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Sans"
+       x="396.42383"
+       y="220.80933"
+       id="text2448"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan2450"
+         x="396.42383"
+         y="220.80933">APIs for software</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:22px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#215c32;fill-opacity:1;stroke:none;font-family:Sans"
+       x="401.32349"
+       y="419.51831"
+       id="text2456"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan2458"
+         x="401.32349"
+         y="419.51831">(Web) Markup</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:22px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#215c32;fill-opacity:1;stroke:none;font-family:Sans"
+       x="519.40796"
+       y="322.71158"
+       id="text2460"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan2462"
+         x="519.40796"
+         y="322.71158">Metview</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:22px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#215c32;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Sans"
+       x="717.0957"
+       y="200.80933"
+       id="text2464"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan2466"
+         x="717.0957"
+         y="200.80933">Printing &amp; Publishing</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:22px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#215c32;fill-opacity:1;stroke:none;font-family:Sans"
+       x="829.34631"
+       y="363.78296"
+       id="text2468"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan2470"
+         x="829.34631"
+         y="363.78296">Web</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:22px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#215c32;fill-opacity:1;stroke:none;font-family:Sans"
+       x="740.8385"
+       y="286.13232"
+       id="text2472"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan2474"
+         x="740.8385"
+         y="286.13232">Meteorological desktop</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:100%;writing-mode:lr-tb;text-anchor:middle;fill:#ced797;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Sans"
+       x="508.8125"
+       y="244.64136"
+       id="text2476"
+       sodipodi:linespacing="100%"
+       inkscape:transform-center-x="18.181818"><tspan
+         sodipodi:role="line"
+         id="tspan2478"
+         x="508.8125"
+         y="244.64136">Fortran &amp; C/C++ programs</tspan><tspan
+         sodipodi:role="line"
+         id="tspan2480"
+         x="508.8125"
+         y="260.64136">Python scripts</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:100%;writing-mode:lr-tb;text-anchor:middle;fill:#ced797;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Sans"
+       x="474.51562"
+       y="445.96948"
+       id="text2482"
+       sodipodi:linespacing="100%"><tspan
+         sodipodi:role="line"
+         id="tspan2484"
+         x="474.51562"
+         y="445.96948">MagML &amp; JSON</tspan><tspan
+         sodipodi:role="line"
+         id="tspan2486"
+         x="474.51562"
+         y="461.96948" /></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:100%;writing-mode:lr-tb;text-anchor:middle;fill:#ced797;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Sans"
+       x="564.79688"
+       y="346.25073"
+       id="text2488"
+       sodipodi:linespacing="100%"><tspan
+         sodipodi:role="line"
+         id="tspan2490"
+         x="564.79688"
+         y="346.25073">Macro &amp; interactive uPlot</tspan><tspan
+         sodipodi:role="line"
+         id="tspan2492"
+         x="564.79688"
+         y="362.25073" /></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:100%;writing-mode:lr-tb;text-anchor:middle;fill:#60866c;fill-opacity:1;stroke:none;font-family:Sans"
+       x="834.31116"
+       y="227.86792"
+       id="text2494"
+       sodipodi:linespacing="100%"><tspan
+         sodipodi:role="line"
+         id="tspan2496"
+         x="834.31116"
+         y="227.86792">PostScript  EPS  PDF</tspan><tspan
+         sodipodi:role="line"
+         id="tspan2498"
+         x="834.31116"
+         y="243.86792">SVG  PNG</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:100%;writing-mode:lr-tb;text-anchor:middle;fill:#60866c;fill-opacity:1;stroke:none;font-family:Sans"
+       x="855.06476"
+       y="390.25497"
+       id="text2500"
+       sodipodi:linespacing="100%"><tspan
+         sodipodi:role="line"
+         id="tspan2502"
+         x="855.06476"
+         y="390.25497">PNG  SVG  PDF</tspan><tspan
+         sodipodi:role="line"
+         id="tspan2504"
+         x="857.28351"
+         y="406.25497">+ meta data for JavaScript </tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:100%;writing-mode:lr-tb;text-anchor:middle;fill:#60866c;fill-opacity:1;stroke:none;font-family:Sans"
+       x="865.99982"
+       y="311.96521"
+       id="text2506"
+       sodipodi:linespacing="100%"><tspan
+         sodipodi:role="line"
+         id="tspan2510"
+         x="865.99982"
+         y="311.96521">Metview (uPlot) &amp; Cairo context</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:22px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#215c32;fill-opacity:1;stroke:none;font-family:Sans"
+       x="804.6203"
+       y="450.56885"
+       id="text2512"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan2514"
+         x="804.6203"
+         y="450.56885">GIS</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:100%;writing-mode:lr-tb;text-anchor:middle;fill:#60866c;fill-opacity:1;stroke:none;font-family:Sans"
+       x="829.46246"
+       y="474.10797"
+       id="text2516"
+       sodipodi:linespacing="100%"><tspan
+         sodipodi:role="line"
+         id="tspan2518"
+         x="831.68121"
+         y="474.10797">KML for Google Earth </tspan><tspan
+         sodipodi:role="line"
+         x="829.46246"
+         y="490.10797"
+         id="tspan2228">+ PNG for WMS</tspan><tspan
+         sodipodi:role="line"
+         id="tspan2520"
+         x="829.46246"
+         y="506.10797" /></text>
+    <text
+       xml:space="preserve"
+       style="font-size:20px;font-style:normal;font-variant:normal;font-weight:900;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;fill:#009867;fill-opacity:1;stroke:none;font-family:Arial Black;-inkscape-font-specification:Arial Black Heavy"
+       x="484.26257"
+       y="88.764618"
+       id="text7390"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3654"
+         x="484.26257"
+         y="88.764618">Magics++</tspan><tspan
+         sodipodi:role="line"
+         id="tspan3656"
+         x="484.26257"
+         y="113.76462">From data to the ideal presentation</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:12px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       x="857.09912"
+       y="237.33463"
+       id="text2230"><tspan
+         sodipodi:role="line"
+         id="tspan2232"
+         x="857.09912"
+         y="237.33463"> </tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:22px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#215c32;fill-opacity:1;stroke:none;font-family:Sans"
+       x="36.99036"
+       y="365.92569"
+       id="text2231"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan2233"
+         x="36.99036"
+         y="365.92569">Statistics and time series</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:100%;writing-mode:lr-tb;text-anchor:middle;fill:#60866c;fill-opacity:1;stroke:none;font-family:Sans"
+       x="171.3075"
+       y="387.86792"
+       id="text2235"
+       sodipodi:linespacing="100%"><tspan
+         sodipodi:role="line"
+         id="tspan2237"
+         x="171.3075"
+         y="387.86792">Observation monitoring &amp; verification</tspan><tspan
+         sodipodi:role="line"
+         id="tspan2239"
+         x="171.3075"
+         y="403.86792">NetCDF  Grib2  ASCII</tspan></text>
+  </g>
+</svg>

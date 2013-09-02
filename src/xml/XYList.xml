@@ -1,0 +1,173 @@
+<?xml-stylesheet type='text/css' href='parameter.css'?>
+<magics>
+<class name='XYList' directory='decoders'  xmltag='xyinput' >
+  <documentation> Here comes the documentation of the XYSystem object </documentation>
+
+  <parameter name='x_values' from='floatarray' to='floatarray'
+             member='x' xml='x_values'
+			 default='floatarray()' >
+         <documentation> X Values  </documentation>
+         <migration> New Magics: Parameter x_values sent to new Magics[XYList].  </migration>
+  </parameter>
+
+  <parameter name='y_values' from='floatarray' to='floatarray'
+             member='y' xml='y_values'
+			 default='floatarray()' >
+         <documentation> y Values  </documentation>
+         <migration> New Magics: Parameter y_values sent to new Magics[XYList].  </migration>
+  </parameter>
+  
+  
+  
+  
+  <parameter name='x_date_values' from='stringarray' to='stringarray'
+             member='x_date' xml='x_date_values'
+			 default='stringarray()' >
+         <documentation> X Values  </documentation>
+         <migration> New Magics: Parameter x_values sent to new Magics[XYList].  </migration>
+  </parameter>
+  <parameter name='x_base_date' from='string' to='string'
+             member='x_base'  default='' >
+         <documentation>Base Date to use when X date coordinates defined as offset  </documentation>
+         
+  </parameter>
+  <parameter name='x_date_offset' from='string' to='string'
+             member='x_offset'  default='second' >
+         <documentation>unit for the offset second/minute/hour/day</documentation>
+        
+  </parameter>
+   <parameter name='y_base_date' from='string' to='string'
+             member='y_base'  default='' >
+         <documentation>Base Date to use when Y date coordinates defined as offset  </documentation>
+         
+  </parameter>
+  <parameter name='y_date_offset' from='string' to='string'
+             member='y_offset'  default='second' >
+         <documentation>unit for the offset second/minute/hour/day</documentation>
+        
+  </parameter>
+
+  <parameter name='y_date_values' from='stringarray' to='stringarray'
+             member='y_date' xml='y_date_values'
+			 default='stringarray()' >
+         <documentation> y Values  </documentation>
+         <migration> New Magics: Parameter y_values sent to new Magics[XYList].  </migration>
+  </parameter>
+  <parameter name='x_missing_value' from='float' to='float'
+             member='x_missing' default='-21.e6' >
+         <documentation> mssing value for x   </documentation> 
+  </parameter> 
+  <parameter name='y_missing_value' from='float' to='float'
+             member='y_missing' default='-21.e6' >
+         <documentation> missing value for x   </documentation>
+  </parameter>
+  
+   <parameter name='x2_values' from='floatarray' to='floatarray'
+             member='x2' xml='x2_values'
+			 default='floatarray()' >
+         <documentation> X2 Values  </documentation>
+         <migration> New Magics: Parameter x_values sent to new Magics[XYList].  </migration>
+  </parameter>
+
+  <parameter name='y2_values' from='floatarray' to='floatarray'
+             member='y2' xml='y2_values'
+			 default='floatarray()' >
+         <documentation> y Values  </documentation>
+         <migration> New Magics: Parameter y_values sent to new Magics[XYList].  </migration>
+  </parameter>
+  
+   <parameter name='x2_base_date' from='string' to='string'
+             member='x2_base'  default='' >
+         <documentation>Base Date to use when x2 date coordinates defined as offset  </documentation>
+         
+  </parameter>
+  <parameter name='x2_date_offset' from='string' to='string'
+             member='x2_offset'  default='second' >
+         <documentation>unit for the offset second/minute/hour/day</documentation>
+        
+  </parameter>
+  <parameter name='x2_date_values' from='stringarray' to='stringarray'
+             member='x2_date' xml='x2_date_values'
+			 default='stringarray()' >
+         <documentation> X Values  </documentation>
+         <migration> New Magics: Parameter x_values sent to new Magics[XYList].  </migration>
+  </parameter>
+  <parameter name='y2_base_date' from='string' to='string'
+             member='y2_base'  default='' >
+         <documentation>Base Date to use when x2 date coordinates defined as offset  </documentation>
+         
+  </parameter>
+  <parameter name='y2_date_offset' from='string' to='string'
+             member='y2_offset'  default='second' >
+         <documentation>unit for the offset second/minute/hour/day</documentation>
+        
+  </parameter>
+  
+  <parameter name='y2_date_values' from='stringarray' to='stringarray'
+             member='y2_date' xml='y2_date_values'
+			 default='stringarray()' >
+         <documentation> y Values  </documentation>
+         <migration> New Magics: Parameter y_values sent to new Magics[XYList].  </migration>
+  </parameter>
+
+  <parameter name='x_lower_values' from='floatarray' to='floatarray'
+             member='x_lower' xml='x_values'
+			 default='floatarray()' >
+         <documentation> X Values  </documentation>
+         <migration> New Magics: Parameter x_values sent to new Magics[XYList].  </migration>
+  </parameter>
+
+  <parameter name='y_lower_values' from='floatarray' to='floatarray'
+             member='y_lower' xml='y_values'
+			 default='floatarray()' >
+         <documentation> y Values  </documentation>
+         <migration> New Magics: Parameter y_values sent to new Magics[XYList].  </migration>
+  </parameter>
+  
+  <parameter name='x_lower_date_values' from='stringarray' to='stringarray'
+             member='x_lower_date' xml='x_lower_date_values'
+			 default='stringarray()' >
+         <documentation> X Values  </documentation>
+         <migration> New Magics: Parameter x_values sent to new Magics[XYList].  </migration>
+  </parameter>
+
+  <parameter name='y_lower_date_values' from='stringarray' to='stringarray'
+             member='y_lower_date' xml='y_lower_date_values'
+			 default='stringarray()' >
+         <documentation> y Values  </documentation>
+         <migration> New Magics: Parameter y_values sent to new Magics[XYList].  </migration>
+  </parameter>
+  
+    <parameter name='x_upper_values' from='floatarray' to='floatarray'
+             member='x_upper' xml='x_upper_values'
+			 default='floatarray()' >
+         <documentation> X Upper Values  </documentation>
+         <migration> New Magics: Parameter x_values sent to new Magics[XYList].  </migration>
+  </parameter>
+
+  <parameter name='y_upper_values' from='floatarray' to='floatarray'
+             member='y_upper' xml='y_upper_values'
+			 default='floatarray()' >
+         <documentation> y Upper Values  </documentation>
+         <migration> New Magics: Parameter y_values sent to new Magics[XYList].  </migration>
+  </parameter>
+  
+  <parameter name='x_upper_date_values' from='stringarray' to='stringarray'
+             member='x_upper_date' xml='x_upper_date_values'
+			 default='stringarray()' >
+         <documentation> X Values  </documentation>
+         <migration> New Magics: Parameter x_values sent to new Magics[XYList].  </migration>
+  </parameter>
+
+  <parameter name='y_upper_date_values' from='stringarray' to='stringarray'
+             member='y_upper_date' xml='y_upper_date_values'
+			 default='stringarray()' >
+         <documentation> y Values  </documentation>
+         <migration> New Magics: Parameter y_values sent to new Magics[XYList].  </migration>
+  </parameter>
+  
+</class>
+
+<static name='xy_list' class='XYList' base='BaseSceneObject' include_class='yes'/>
+
+</magics>

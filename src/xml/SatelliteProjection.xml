@@ -1,0 +1,19 @@
+<?xml-stylesheet type='text/css' href='parameter.css'?>
+<magics>
+  
+ 
+  <class name='SatelliteProjection' action='pnew'  directory='common' inherits='Transformation' >
+  <parameter name='subpage_map_corner_latitude' from='float' to='float' 
+ 	member='latitude' xml='latitude' default='-90' >
+	  <release>Magics++1.2</release>  
+	  <documentation>Latitude of one corner of subarea of satellite map</documentation>
+  </parameter>
+  <parameter name='subpage_map_corner_longitude' from='float' to='float' 
+ 	member='longitude' xml='longitude' default='-75' >
+	  <release>Magics++1.2</release>  
+	  <documentation>Longitude of one corner of subarea of satellite map</documentation>
+  </parameter>
+  </class>
+ 
+  
+</magics>

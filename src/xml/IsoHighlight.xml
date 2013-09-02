@@ -1,0 +1,43 @@
+<?xml-stylesheet type='text/css' href='parameter.css'?>
+<magics>
+
+<class name='IsoHighlight' action='pcont' xmltag='highlight' directory='visualisers'  inherits='NoIsoHighlight' prefix='contour/contour/contour_highlight' doc_inherits='no'>
+<documentation> This object is responsible of plotting the hightlight isolines </documentation>
+  <parameter name='contour_highlight_style' from='string' to='LineStyle'
+             member='style' xml='style'
+			 default='solid' priority='0.2'>
+         <documentation> Style of highlighting (SOLID/ DASH/ DOT/ CHAIN_DASH/ CHAIN_DOT) </documentation>
+         <migration> New Magics: Parameter Contour sent to new Magics[Contour].  </migration>
+         <release>Magics++0.2</release>
+  </parameter>
+ <parameter name='contour_reference_level' from='float' to='float'
+             member='reference'  default='0.0'>
+         <documentation> Contour level reference </documentation>
+         <release>Magics++0.1</release>
+  </parameter>
+  
+  <parameter name='contour_highlight_colour' from='string' to='Colour'
+             member='colour' default='blue' priority='0.2'>
+         <documentation> Colour of highlight line </documentation>
+         <release>Magics++0.2</release>
+         <migration> New Magics: Parameter Contour sent to new Magics[Contour].  </migration>
+  </parameter>
+
+  <parameter name='contour_highlight_thickness' from='int' to='int'
+             member='thickness' default='3' priority='0.2'>
+         <release>Magics++0.2</release>
+         <documentation> Thickness of highlight line </documentation>
+         <migration> New Magics: Parameter Contour sent to new Magics[Contour].  </migration>
+  </parameter>
+
+  <parameter name='contour_highlight_frequency' from='int' to='int'
+             member='frequency'  default='4'  priority='0.2'>
+         <release>Magics++0.2</release>
+         <documentation> Frequency of highlight line </documentation>
+         <migration> New Magics: Parameter contour_highlight_frequency sent to new Magics[Contour].  </migration>
+  </parameter>
+</class>
+
+<class name='NoIsoHighlight' action='pcont' xmltag='nohighlight' include='IsoHighlight.h'  doc_inherits='no' directory='visualisers' />
+
+</magics>

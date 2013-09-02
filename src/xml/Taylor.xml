@@ -1,0 +1,209 @@
+<?xml-stylesheet type='text/css' href='parameter.css'?>
+<magics>
+<class name='TaylorProjection' action='ptaylor' directory='common' xmltag='taylor' inherits='Transformation' prefix='taylor/taylor/taylor_standard_deviation'>
+	<documentation>
+		
+	</documentation>
+         <parameter name='taylor_standard_deviation_min' from='float' to='float'
+            member='min' default='0' xml='min'>
+            <documentation>
+              	Min of the Standard deviation axis.
+           </documentation>
+           <release>Magics++1.4</release> 
+       </parameter>
+       <parameter name='taylor_standard_deviation_max' from='float' to='float'
+            member='max' default='1' xml='max'>
+            <documentation>
+              	Max of the Standard deviation axis.
+           </documentation>
+           <release>Magics++1.4</release>
+       </parameter>
+</class> 
+
+<class name='TaylorGrid' action='ptaylor' directory='visualisers'  xmltag='taylorgrid' prefix='taylor/taylor'>
+	<documentation> description of the grid </documentation>
+    <parameter name='taylor_label' from='string' to='string'
+            member='label' default='Correlation'>
+            <documentation>
+              	Label of the grid
+           </documentation>
+           <release>Magics++2.7</release> 
+        </parameter> 
+        <parameter name='taylor_label_colour' from='string' to='Colour'
+            member='label_colour' default='navy'>
+            <documentation>
+              	Colour of the label
+           </documentation>
+           <release>Magics++1.4</release> 
+        </parameter>
+        <parameter name='taylor_label_height' from='float' to='float'
+            member='label_height' default='0.35'>
+            <documentation>
+              	Hieght of the label
+           </documentation>
+           <release>Magics++1.4</release> 
+        </parameter>
+        
+        <parameter name='taylor_primary_grid_increment' from='float' to='float'
+            member='primary_increment' default='0.5'>
+            <documentation>
+              	Reference used  of the Standard deviation plotting.
+           </documentation>
+           <release>Magics++1.4</release> 
+        </parameter>
+        
+       
+        
+       <parameter name='taylor_primary_grid_line_colour' from='string' to='Colour'
+            member='primary_colour' default='navy'>
+            <documentation>
+              	Colour used to plot the primary grid
+           </documentation>
+           <release>Magics++2.8</release>
+       </parameter>
+       <parameter name='taylor_primary_grid_line_thickness' from='int' to='int'
+            member='primary_thickness' default='1'>
+            <documentation>
+              	Thickness used to plot the primary grid
+           </documentation>
+           <release>Magics++2.8</release>
+       </parameter>    
+       <parameter name='taylor_primary_grid_line_style' from='string' to='LineStyle'
+            member='primary_style' default='solid'>
+            <documentation>
+              	Line Style used to plot the primary grid
+           </documentation>
+           <release>Magics++2.8</release>
+       </parameter>
+       <parameter name='taylor_primary_grid_reference' from='float' to='float'
+            member='primary_reference' default='0.5'>
+            <documentation>
+              	Reference used  of the Standard deviation plotting.
+           </documentation>
+           <release>Magics++2.7</release> 
+        </parameter>
+           <parameter name='taylor_reference_line_colour' from='string' to='Colour'
+            member='reference_colour' default='navy'>
+            <documentation>
+              	Colour used to plot the primary grid
+           </documentation>
+           <release>Magics++2.8</release>
+       </parameter>
+       <parameter name='taylor_reference_line_thickness' from='int' to='int'
+            member='reference_thickness' default='2'>
+            <documentation>
+              	Thickness used to plot the primary grid
+           </documentation>
+           <release>Magics++2.8</release>
+       </parameter> 
+          <parameter name='taylor_reference_line_style' from='string' to='LineStyle'
+            member='reference_style' default='solid'>
+            <documentation>
+              	Line Style used to plot the primary grid
+           </documentation>
+           <release>Magics++2.8</release>
+       </parameter>
+       
+       <parameter name='taylor_primary_label' from='string' to='bool'
+            member='primary_label' default='on'>
+            <documentation>
+              	Turn the labels (on/off) of the primary grid
+            </documentation>
+            <set value='on' name='taylor_primary_label_colour'/>
+            <set value='on' name='taylor_primary_label_height'/>
+            
+           
+           <release>Magics++2.8</release>
+       </parameter>
+       <parameter name='taylor_primary_label_colour' from='string' to='Colour'
+            member='primary_label_colour' default='navy'>
+            <documentation>
+              	Colour of the  labels  of the primary grid
+            </documentation>
+           <release>Magics++2.8</release>
+       </parameter>
+       <parameter name='taylor_primary_label_height' from='float' to='float'
+            member='primary_label_height' default='0.35'>
+            <documentation>
+              	Height of the  labels  of the primary grid
+            </documentation>
+           <release>Magics++2.8</release>
+       </parameter>
+    
+       <parameter name='taylor_secondary_grid' from='string' to='bool'
+            member='secondary_grid' default='off'>
+            <documentation>
+              	turn on/off the secondaries lines for the grid.
+           </documentation>
+           on value='on' name='taylor_secondary_grid_reference'/>
+           <set value='on' name='taylor_secondary_grid_increment'/>
+           <set value='on' name='taylor_secondary_grid_line_colour'/>
+            <set value='on' name='taylor_secondary_grid_line_thickness'/>
+            <set value='on' name='taylor_secondary_grid_line_style'/>
+             <set value='on' name='taylor_secondary_label'/>
+             
+           <release>Magics++2.8</release>
+       </parameter>
+       <parameter name='taylor_secondary_grid_reference' from='float' to='float'
+            member='secondary_reference' default='0.5'>
+            <documentation>
+              	Reference used  of the Standard deviation plotting.
+           </documentation>
+           <release>Magics++1.4</release> 
+        </parameter>
+        <parameter name='taylor_secondary_grid_increment' from='float' to='float'
+            member='secondary_increment' default='0.5'>
+            <documentation>
+              	Reference used  of the Standard deviation plotting.
+           </documentation>
+           <release>Magics++1.4</release> 
+        </parameter>
+        <parameter name='taylor_secondary_grid_line_colour' from='string' to='Colour'
+            member='secondary_colour' default='navy'>
+            <documentation>
+              	Colour used to plot the primary grid
+           </documentation>
+           <release>Magics++2.8</release>
+            
+       </parameter>
+       <parameter name='taylor_secondary_grid_line_thickness' from='int' to='int'
+            member='secondary_thickness' default='1'>
+            <documentation>
+              	Thickness used to plot the primary grid
+           </documentation>
+           <release>Magics++2.8</release>
+       </parameter>
+       <parameter name='taylor_secondary_grid_line_style' from='string' to='LineStyle'
+            member='secondary_style' default='solid'>
+            <documentation>
+              	Line Style used to plot the primary grid
+           </documentation>
+           <release>Magics++2.8</release>
+       </parameter> <parameter name='taylor_secondary_label' from='string' to='bool'
+            member='secondary_label' default='on'>
+            <documentation>
+              	Turn the labels (on/off) of the secondary grid
+            </documentation>
+            <set value='on' name='taylor_secondary_label_colour'/>
+             <set value='on' name='taylor_secondary_label_height'/>
+           <release>Magics++2.8</release>
+       </parameter>
+       <parameter name='taylor_secondary_label_colour' from='string' to='Colour'
+            member='secondary_label_colour' default='navy'>
+            <documentation>
+              	Colour of the  labels  of the secondary grid
+            </documentation>
+           <release>Magics++2.8</release>
+       </parameter>
+       <parameter name='taylor_secondary_label_height' from='float' to='float'
+            member='secondary_label_height' default='0.35'>
+            <documentation>
+              	Height of the  labels  of the secondary grid
+            </documentation>
+           <release>Magics++2.8</release>
+       </parameter>
+</class>
+
+
+
+</magics>

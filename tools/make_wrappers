@@ -1,0 +1,79 @@
+
+METVIEW_SRC_HOME='/tmp/PERFORCE/metview'
+
+target="$METVIEW_SRC_HOME/src/libMagWrapper"
+files=' 
+	Coastlines.xml
+	CoastPlotting.xml	
+	GridPlotting.xml
+	LabelPlotting.xml
+    SuperPage.xml
+    Page.xml
+    SubPage.xml
+    Frame.xml
+    Legend.xml
+    Title.xml
+    TextAction.xml
+    TextBox.xml
+    CylindricalProjection.xml
+    SatelliteProjection.xml
+    ConicProjection.xml
+	CentreGeoArea.xml
+    CornersArea.xml
+    PageID.xml
+    Grib.xml
+    Contour.xml
+    IsoPlot.xml
+    IsoLabel.xml
+    IsoHighlight.xml
+    IsoShading.xml
+    ValuePlot.xml
+    LevelSelection.xml
+    LevelListSelectionType.xml
+    IntervalSelectionType.xml
+    CountSelectionType.xml
+    HiLo.xml
+    Wind.xml
+    HiLoText.xml
+    Akima474.xml
+	Akima760.xml
+	Akima761.xml
+    HiLoText.xml
+	HiLoTechnique.xml
+	HiLoSave.xml
+	HiLoNumber.xml
+	HiLoMarker.xml
+    
+'
+
+for i in $files
+do	
+   echo "$i"
+   perl56 xml2mv.pl ../src/xml/$i >> objects
+    
+done
+
+# copy the attributes files..
+
+for file in `ls wrap/*`
+do		
+      x=`basename $file`
+      
+      if ( ! [  -a $target/$x ] ) then
+        echo " create " $x
+        touch $target/$x
+     fi
+      
+       
+      
+      if  ! ( `diff $file $target 2>&1 > /dev/null`  ) then
+                
+        echo " update --->" $file
+        mv --backup $file $target         
+      fi 
+     
+done
+
+
+
+

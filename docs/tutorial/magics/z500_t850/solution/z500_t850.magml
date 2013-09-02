@@ -1,0 +1,80 @@
+
+<magics version='3.0'>
+  <!-- definition of the output-->
+  <drivers>
+  	<png output_name='z500_t850'/>
+  </drivers>
+  <page>
+   <!-- the definition of the geographical area goes into the map tag-->
+  	<map subpage_upper_right_longitude = '65.000000'
+		subpage_upper_right_latitude = '51.280000'
+ 		subpage_lower_left_latitude = '21.510000'
+		subpage_map_vertical_longitude = '0.000000'
+		subpage_lower_left_longitude = '-37.270000'
+		subpage_map_projection = 'polar_stereographic' 
+		fitted_mode='crop'
+	    margin_top='0'
+	    margin_left='0'
+	    margin_bottom='0'
+	    margin_right='0'> 
+	<!-- define the t850 layer-->
+		<plot>
+			<grib grib_id = 't850' grib_input_file_name = '../t850.grb' />
+			<contour contour_level_selection_type = 'interval'
+					contour_shade_colour_method = 'list'
+ 					contour_shade_method = 'area_fill'
+ 					contour_shade = 'on'
+ 					contour_shade_max_level = '48.000000'
+ 					contour_hilo = 'off'
+ 					contour = 'off'
+ 					contour_label = 'off'
+ 					contour_shade_min_level = '-48.000000'
+ 					contour_interval = '4.000000'
+ 					contour_shade_colour_list = 'rgb(0,0,0.5)/
+    								rgb(0,0,0.5)/
+    								rgb(0,0,0.85)/
+    								rgb(0,0,0.5)/
+    								rgb(0,0,0.85)/
+    								rgb(0.25,0,1)/
+    								blue_purple/
+    								greenish_blue/
+    								blue_green/
+    								bluish_green/
+    								yellow_green/
+    								greenish_yellow/
+    								yellow/
+    								orangish_yellow/
+    								orange_yellow/
+    								yellowish_orange/
+    								orange/
+    								reddish_orange/
+    								red_orange/
+    								orangish_red/
+    								red/
+    								magenta/
+    								magenta/
+    								magenta' />
+		</plot>
+	<!-- define the z500 layer-->
+		<plot>
+			<grib grib_id = 'z500' grib_input_file_name = '../z500.grb' />
+			<contour contour_level_selection_type = 'interval'
+					contour_line_colour = 'black'
+					contour_hilo_height = '0.250000'
+					contour_hilo = 'on'
+					contour_hilo_quality = 'high'
+					contour_line_thickness = '1'
+					contour_label = 'off'
+					contour_highlight_colour = 'black'
+					contour_highlight_thickness = '2'
+					contour_interval = '5' />
+		</plot>
+
+	    
+	    <!--add the coastlines-->
+		<coastlines map_grid_colour = 'tan'
+				map_grid = 'on'
+				map_coastline_colour = 'tan'/>
+	</map>
+  </page>
+</magics>

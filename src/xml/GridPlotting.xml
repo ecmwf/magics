@@ -1,0 +1,71 @@
+<?xml-stylesheet type='text/css' href='parameter.css'?>
+<magics>
+
+<class name='GridPlotting' action='pcoast' directory='visualisers' 
+	xmltag='grid' prefix='map/map_grid' inherits='NoGridPlotting' doc_inherits='no'>
+	<documentation>
+		This object will control the settings of the Map Grids.
+	</documentation>
+        <parameter name='map_grid_line_style' from='string' to='LineStyle'
+            member='style' default='solid' >
+            <documentation>
+            Line style of map grid lines
+           </documentation>
+           <release>Magics++0.1</release>
+       </parameter>
+      
+        <parameter name='map_grid_thickness' from='int' to='int'
+            member='thickness' default='1'>
+            <documentation>
+            Thickness of map grid lines
+           </documentation>
+           <release>Magics++0.1</release>
+       </parameter>
+        <parameter name='map_grid_colour' from='string' to='Colour'
+            member='colour' default='BLACK'>
+            <documentation>
+            Colour of map grid lines
+           </documentation>
+           <release>Magics++0.1</release>
+           <migration> Default changed fronm YELLOW to BLACK </migration>
+       </parameter>
+      
+</class>
+
+
+<class name='NoGridPlotting' xmltag='nogrid' action='pcoast' directory='visualisers' include='GridPlotting.h' >
+   <documentation>
+   This object suppresses the plotting of the map grid.
+   </documentation> 
+   <parameter name='map_grid_latitude_reference' from='float' to='float'
+            member='latReference' default='0' metview='on' inherit_parent_reqs='no'>
+            <documentation>
+            Reference Latitude from which all latitude lines are drawn
+           </documentation>
+           <release>Magics++0.1</release>
+       </parameter>
+        <parameter name='map_grid_latitude_increment' from='float' to='float'
+            member='latIncrement' default='10' metview='on' inherit_parent_reqs='no'>
+            <documentation>
+            Interval between latitude grid lines
+           </documentation>
+           <release>Magics++0.1</release>
+       </parameter>
+        <parameter name='map_grid_longitude_reference' from='float' to='float'
+            member='lonReference' default='0' metview='on' inherit_parent_reqs='no'>
+            <documentation>
+            Reference Longitude from which all longitude lines are drawn
+           </documentation>
+           <release>Magics++0.1</release>
+       </parameter>
+        <parameter name='map_grid_longitude_increment' from='float' to='float'
+            member='lonIncrement' default='20' metview='on' inherit_parent_reqs='no'>
+            <documentation>
+            Interval between longitude grid lines
+           </documentation>
+           <release>Magics++0.1</release>
+       </parameter>
+</class>
+
+
+</magics>

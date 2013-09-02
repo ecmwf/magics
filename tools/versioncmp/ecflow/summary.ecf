@@ -1,0 +1,11 @@
+%include <head.h>
+datestr=`date +"%%Y%%m%%d"`
+output_folder=%OUTPUT_FOLDER%/output_$datestr
+mkdir -p $output_folder
+
+# make a summary page for all the versions...
+
+%TOOLS_HOME%/ecflow/write_summary.sh $output_folder %CONFLUENCE_FOLDER% %MAGPLUSLIB%
+rm -f %OUTPUT_FOLDER%/latest
+ln -s $output_folder %OUTPUT_FOLDER%/latest
+%include <tail.h>

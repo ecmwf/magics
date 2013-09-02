@@ -1,0 +1,40 @@
+body {
+  width="100%";
+  background:#FFF;
+  color:#000;
+  font-family: helvetica, arial, sans-serif;
+}
+
+.okay {
+  color:#00ff00;
+}
+
+.different {
+  color:#9acd32;
+}
+
+.check {
+  color:#ffa500;
+}
+
+.error {
+  color:#ff0000;
+}
+
+.circle {
+    -webkit-border-radius: 999px;
+    -moz-border-radius: 999px;
+    border-radius: 999px;
+
+    width: 30px;
+    height: 18px;
+    padding: 4px;
+
+    background: #fff;
+    border: 2px solid #aaa;
+    text-align: center;
+
+    font: 16px helvetica, sans-serif
+}
+
+

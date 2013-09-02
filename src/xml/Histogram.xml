@@ -1,0 +1,79 @@
+<?xml-stylesheet type='text/css' href='parameter.css'?>
+<magics>
+<class name='Histogram' xmltag='histogram' directory='visualisers'>
+	<documentation>
+		Here comes the description of the Histogram action 
+	</documentation>
+
+    <parameter name='histogram_selection_type' 
+             from='string' to='LevelSelection'
+             member='levels' default='count'>
+         <documentation>  (COUNT/ INTERVAL/ LEVEL_LIST) </documentation>
+         <release>Magics++2.6</release>
+         <option name='CountSelectionType'   fortran='count'  xml='count' docdive='no' include='CountSelectionType.h'/>
+         <option name='IntervalSelectionType'   fortran='interval'  xml='interval' docdive='no' include='IntervalSelectionType.h'/>
+         <option name='LevelListSelectionType'   fortran='list'  xml='list' docdive='no' include='LevelListSelectionType.h'/>
+     </parameter>     
+
+  <parameter name='histogram_min_value' from='float' to='float'
+             member='min'  default='-1.e21'>
+         <documentation> Min value </documentation>
+         <release>Magics++2.6</release>
+  </parameter>
+  
+  <parameter name='histogram_max_value' from='float' to='float'
+             member='max'  default='1.e21'>
+         <documentation> max value to plot </documentation>
+         <release>Magics++2.6</release>
+  </parameter>
+  
+   <parameter name='histogram_level_count' from='int' to='int'
+             member='count'  default='10'>
+         <documentation> Count or number of levels to be plotted. Magics will try to find "nice levels", 
+         this means that the number of levels could be slightly different from the requested number of levels</documentation>
+         <release>Magics++2.6</release>
+  </parameter>
+  
+  <parameter name='histogram_level_tolerance' from='int' to='int'
+             member='tolerance'  default='2'>
+         <documentation> Tolerance: Do not use "nice levels" if the number of levels is really to different [count +/- tolerance] </documentation>
+         <release>Magics++2.6</release>
+  </parameter>
+  
+  <parameter name='histogram_reference_level' from='float' to='float'
+             member='reference'  default='0.0'>
+         <documentation> Level from which the level interval is calculated </documentation>
+         <release>Magics++2.6</release>
+  </parameter>
+
+
+  <parameter name='histogram_interval' from='float' to='float'
+             member='interval'  default='8.0'>
+         <documentation> Interval in data units between different bands of shading </documentation>
+         <release>Magics++2.6</release>
+  </parameter>
+
+ <parameter name='histogram_level_list' from='floatarray' to='floatarray'
+             member='list'	 default='floatarray()'>
+         <documentation> List of shading band levels to be plotted </documentation>
+         <release>Magics++2.6</release>
+  </parameter>  
+  
+  <parameter name='histogram_bar_colour' from='string' to='Colour'
+             member='colour'	 default='evergreen'>
+         <documentation> Colour of the bars. </documentation>
+         <release>Magics++2.6</release>
+  </parameter>  
+  
+  <parameter name='histogram_bar_width' from='float' to='float'
+             member='width'	 default='1'>
+         <documentation> Width of the bar in user unit </documentation>
+         <release>Magics++2.6</release>
+  </parameter>  
+           
+</class>
+
+
+
+
+</magics>

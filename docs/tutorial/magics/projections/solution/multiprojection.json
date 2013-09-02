@@ -1,0 +1,39 @@
+{
+  "version":"3.0",
+  "drivers":[
+    {
+      "format":"ps",
+      "output_name":"${title=multi_projection_magml}"
+    }
+  ]
+,
+  "page":
+  {
+    "text":
+    {
+      "height":"15%",
+      "text_line_1":"${title=map}"
+    },
+    "map":
+    {
+      "height":"85%",
+      "subpage_lower_left_latitude":"${lllat=-90.}",
+      "subpage_lower_left_longitude":"${lllon=-180.}",
+      "subpage_map_projection":"${proj=cylindrical}",
+      "subpage_map_vertical_longitude":"${vert=0}",
+      "subpage_upper_right_latitude":"${urlat=90.}",
+      "subpage_upper_right_longitude":"${urlon=180.}",
+      "coastlines":
+      {
+        "map_coastline_colour":"grey",
+        "map_coastline_land_shade":"on",
+        "map_coastline_land_shade_colour":"cream",
+        "map_coastline_sea_shade":"on",
+        "map_coastline_sea_shade_colour":"white",
+        "map_grid":"on",
+        "map_grid_colour":"grey",
+        "map_label":"off"
+      }
+    }
+  }
+}

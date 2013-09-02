@@ -1,0 +1,22 @@
+<magics>
+<class  perfix='boxplot' directory='visualisers' inherits='BoxPlotDecoder' xmltag='boxplot' name='BoxPlotVisualiser'>
+  	<documentation >The following parameters allow the user to define both the data
+  and the plotting attributes of boxplots.	</documentation>
+
+  	<parameter  from='string' name='boxplot_box' default='on' member='box' to='NoBoxPlotBox' include='BoxPlotBasicItem.h'>
+         		<documentation > Turns the plotting of the box on or off		</documentation>
+          		<option  xml='box' fortran='on' include='BoxPlotItem.h' name='BoxPlotBox'>		</option>
+          		<option  xml='noBox' fortran='off' include='BoxPlotBasicItem.h' name='NoBoxPlotBox'>		</option>
+           		<release >Magics++1.3		</release>
+  	</parameter>
+  
+  	<parameter  from='string' name='boxplot_whisker' default='line' member='whisker' to='NoBoxPlotWhisker' include='BoxPlotBasicItem.h'>
+         		<documentation > Determines whether the whiskers are shown as lines, boxes or not at all		</documentation>
+          		<option  xml='whiskerbox' fortran='box' include='BoxPlotItem.h' name='BoxPlotWhiskerBox'>		</option>
+          		<option  xml='nowhisker' fortran='off' include='BoxPlotBasicItem.h' name='NoBoxPlotWhisker'>		</option>
+          		<option  xml='whiskerline' fortran='line' include='BoxPlotItem.h' name='BoxPlotWhiskerLine'>		</option>
+          		<release >Magics++1.3		</release>
+  	</parameter>
+  
+ 
+  </class></magics>

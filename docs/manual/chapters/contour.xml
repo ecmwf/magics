@@ -1,0 +1,964 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+                 "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd"> 
+<chapter id="Contouring" label="6">
+  <title>Contouring</title>
+
+  <xi:include href="../phrases/chapterinfo_mod.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <section id="Contour_Introduction">
+    <title>Introduction</title>
+
+    <para>Contour mapping is a technique for the presentation of the variation
+    of a two dimensional function. In mathematical terms, the contour at level
+    h is the solution of the equation:</para>
+
+    <para></para>
+    <programlisting>                             f(x,y) = h</programlisting>
+
+    <para>where <code>(x,y)</code> are the coordinates of a point in the plane
+    and <code>f</code> is the function to be contoured.</para>
+
+    <para>In reality the function <code>f</code> is known only through
+    observations or model output. In general the values of f are known at a
+    set of distinct points which may be scattered irregularly in the plane.
+    Most techniques for drawing the contour lines require values of
+    <code>f</code> to be available on a rectangular grid. When the values of
+    <code>f</code> are known only at scattered data points, a random-to-grid
+    interpolation or smoothing is needed to estimate the values of f on a
+    regular grid. The random-to-grid interpolation or smoothing can be
+    performed in many different ways and commonly used methods are kriging,
+    distance weighted average and natural neighbour spline
+    interpolation.</para>
+
+  <section id="Contouring_Methods">
+    <title>Contouring Methods in Magics</title>
+
+    <section id="Automatic_Contouring">
+      <title>Automatic Contouring</title>
+
+      <para>By default, <productname>Magics</productname> automatically selects a contouring method
+      for a particlar plot by comparing the resolution of the input data with the size of the
+      geographic area selected and the the physical size of the page to be plotted. In the simplest
+      case, <code>LINEAR</code> contouring is used. If the data's resolution is much higher then required,
+      then both speed and file size are improved by using the <code>SAMPLE</code> method.
+      If the data's resolution is too low for smooth contouring to be generated, then the 
+      <code>AKIMA760</code> <remark>what about 474? why 760?</remark>method will be used.
+      As automatic selection is the default method, no
+      user action is required to activate it. For completeness, the following code shows how to
+      set it: </para>
+      
+      <programlisting>
+    CALL <function>PSETC</function> ('<parameter>CONTOUR_METHOD</parameter>', 'AUTOMATIC')
+      </programlisting>
+      
+      <para>The following sections describe each of these contouring methods and how to set them manually.</para>
+      
+    </section>
+
+    <section id="Linear_Contouring">
+      <title>Linear Contouring</title>
+
+      <para>The simplest and fastest form of contouring available in
+      <productname>Magics</productname> is linear contouring, obtained by
+      calling:</para>
+
+      <programlisting>
+    CALL <function>PSETC</function> ('<parameter>CONTOUR_METHOD</parameter>', 'LINEAR')
+      </programlisting>
+
+      <para>This method is essentially a 'join-the-dots' exercise and the
+      smoothness of the results depends on the resolution of the input data
+      and the size of the area being contoured, ie how many points there are
+      per cm. This method is only available for regular gridded data.</para>
+    </section>
+
+    <section id="Akima_Contouring">
+      <title>Akima Contouring</title>
+
+
+      <important> <title>Magics++</title>
+      With <productname>Magics++</productname>, <productname>Magics</productname> uses a new
+      set of contouring algorithms based on a set of algorithms developed by
+      Hiroshi Akima.</important>
+
+      <para></para>
+
+      <para>The Akima algorithms can, between them, handle regular grids,
+      irregular grids and scattered data. They are documented in <citation>ACM
+      Transactions on Mathematical Software</citation>.</para>
+
+      <para>Three of the Akima algorithms are available - Algorithms 474 and
+      760 handle gridded data whilst Algorithm 761 handles scattered data. The
+      following diagram illustrates the process by which gridded data is
+      contoured: a denser grid is created from the original, then a simple
+      linear contouring is applied.</para>
+
+      <mediaobject id="akima_diagram">
+        <imageobject role="fo">
+          <imagedata fileref="../diagrams/akima.gif" format="GIF" />
+        </imageobject>
+
+        <imageobject role="html">
+          <imagedata fileref="images/diagrams/akima.gif" format="GIF" />
+        </imageobject>
+      </mediaobject>
+
+
+      <para>The Akima algorithms perform bivariate interpolation and have the
+      accuracy of a bicubic polynomial.</para>
+
+      <para>The default value for <parameter>CONTOUR_METHOD</parameter> is
+      '<code>AUTOMATIC</code>'. When in this mode,
+      <productname>Magics</productname> will perform a check to compare the
+      resolution of the input data with the size of the geographical area and
+      the physical size of the page to be plotted. If the grid points will be
+      sufficiently close together in the generated plot then
+      <productname>Magics</productname> will internally use the basic linear
+      contouring, bypassing any Akima interpolation. Otherwise, AKIMA760 will
+      be selected and a simple algorithm used to determine the resolution of
+      the interpolated grid; this will be based on a compromise between
+      quality and performance, with the emphasis on quality.</para>
+
+      <para>The user may override this automatic mode by manually setting the
+      parameters as illustrated in the following FORTRAN code fragment:</para>
+
+      <programlisting>
+    CALL <function>PSETC</function> ('<parameter>CONTOUR_METHOD</parameter>', 'AKIMA760')
+    CALL <function>PSETR</function> ('<parameter>CONTOUR_AKIMA_X_RESOLUTION</parameter>', 0.8)
+    CALL <function>PSETR</function> ('<parameter>CONTOUR_AKIMA_Y_RESOLUTION</parameter>', 0.8)
+      </programlisting>
+
+      <para>See <olink targetdoc="Magics_contour" targetptr="table_Contour_parameters" />
+      for further information on these parameters.</para>
+    </section>
+ 
+    <section id="Sample_Contouring">
+      <title>Sample Contouring</title>
+
+      <para>When plotting high resolution data on a global map, much of the detail in the 
+      data will be redundant. The '<code>SAMPLE</code>' contouring method uses just a subsample
+      of data points. The interval (e.g. every fourth point) can be set independently for
+      the x and y directions. The following code shows how to set it up:</para>
+
+      <programlisting>
+    CALL <function>PSETC</function> ('<parameter>CONTOUR_METHOD</parameter>', 'SAMPLE')
+    CALL <function>PSETI</function> ('<parameter>CONTOUR_SAMPLE_X_INTERVAL</parameter>', 4)
+    CALL <function>PSETI</function> ('<parameter>CONTOUR_SAMPLE_Y_INTERVAL</parameter>', 4)
+      </programlisting>
+
+      <para><productname>Magics</productname> will now use linear contouring on the
+      subsampled data.</para>
+    </section>
+ </section>
+</section>
+
+
+  <section id="Action_Routine_PCONT">
+    <title>Action Routine PCONT</title>
+
+    <para>Contouring is achieved by calling the action routine
+    <function>PCONT</function>, i.e. <code>CALL PCONT</code> . The call may be
+    preceded by one or more calls to <productname>Magics</productname>
+    parameter setting routines. PCONT will only take into account those
+    parameters set before the routine is called. Any calls to
+    <productname>Magics</productname> parameter setting routines after
+    <function>PCONT</function> is called are only relevant to future action
+    routines.</para>
+
+    <para>If the parameter <parameter>CONTOUR_SHADE</parameter> is set to
+    '<code>ON</code>' , then shading will be performed when
+    <function>PCONT</function> is called. It is possible for users to shade
+    selected bands in individual styles by calling <function>PCONT</function>
+    for each band. Shading without contouring lines may also be achieved by
+    setting the parameter <parameter>CONTOUR</parameter> to '<code>OFF</code>'
+    and <parameter>CONTOUR_SHADE</parameter> to '<code>ON</code>' , before
+    calling <function>PCONT</function>. If <parameter>CONTOUR</parameter> is
+    set to '<code>ON</code>' and <parameter>CONTOUR_SHADE</parameter> is set
+    to '<code>ON</code>', the shading will be done first.</para>
+
+  <section id="Contour_Data_Input">
+    <title>Data Input</title>
+
+<para>When the action routine <function>PCONT</function> is called, it
+    will plot contours based on the input data supplied and according to the
+    user's instructions. The input data may have one of four different
+    organizations: GRIB code data, regular latitude/longitude grid, gaussian
+    grid or fitted data. Before <function>PCONT</function> is called, the user
+    must define how he wants the data to be contoured, i.e. location of the
+    data, dimensions of the array, input field organization etc. This is done
+    by calling <productname>Magics</productname> parameter setting routines.
+    Data may be passed in an array or in GRIB format.</para>
+
+<para>To plot a contouring field users must pass the field in matrix form
+    using the <parameter>INPUT_FIELD</parameter> parameter. A user can pass data as a matrix through calling:</para>
+
+    <programlisting>    CALL <function>PSET2R</function> ('<parameter>INPUT_FIELD</parameter>', CARRAY, M, N)</programlisting>
+
+<remark>
+    <para>Isotachs, which are contour lines of wind speed, can be presented to
+    <productname>Magics</productname> as a matrix of wind speed values using
+    the <parameter>INPUT_WIND_SPEED</parameter> parameter, or as a pair of U
+    and V wind component matrices using the
+    <parameter>INPUT_WIND_U_COMPONENT</parameter> and
+    <parameter>INPUT_WIND_V_COMPONENT</parameter> parameters. They may also be
+    presented in GRIB code format, in which case VORTICITY and DIVERGENCE
+    components may also be presented.</para>
+</remark>
+
+
+    <para> Alternatively, the data may be passed in GRIB code format or netCDF format. A full description of data input organization is given in
+    <olink targetdoc="Magics_data" targetptr="Data_Input" />.</para>
+
+
+<remark>
+    <para>Isotachs passed as a single wind speed component:</para>
+
+    <programlisting>    CALL <function>PSETC</function> ('<parameter>CONTOUR_DATA_TRANSFORMATION</parameter>', 'ISOTACHS')
+    CALL <function>PSET2R</function> ('<parameter>INPUT_WIND_SPEED</parameter>', WSARRAY, M, N)</programlisting>
+
+    <para>Isotachs passed as a pair of U and V wind components:</para>
+
+    <programlisting>    CALL <function>PSETC</function> ('<parameter>CONTOUR_DATA_TRANSFORMATION</parameter>', 'ISOTACHS')
+    CALL <function>PSET2R</function> ('<parameter>INPUT_WIND_U_COMPONENT</parameter>', WUARRAY, M, N)
+    CALL <function>PSET2R</function> ('<parameter>INPUT_WIND_V_COMPONENT</parameter>', WVARRAY, M, N)</programlisting>
+</remark>
+
+
+<remark>
+    <para>The parameter <parameter>CONTOUR_DATA_TRANSFORMATION</parameter>
+    informs <productname>Magics</productname> that the data being passed is
+    either '<code>NORMAL</code>' , which is the default, or
+    '<code>ISOTACHS</code>' . Full details of isotachs plotting can be found
+    in <remark>Chapter VIII- Streamline / Isotach Plotting</remark>.</para>
+</remark>
+
+  </section>
+
+
+</section>
+
+
+
+
+  <section id="Contour_Levels">
+    <title>Contour Levels</title>
+
+    <para>Each time the action routine <function>PCONT</function> is called,
+    it will plot a contour level or a set of contour levels based on the
+    values assigned to the relevant <productname>Magics</productname> contour
+    parameters, e.g. <parameter>CONTOUR_INTERVAL</parameter>,
+    <parameter>CONTOUR_LINE_COLOUR</parameter>. <function>PCONT</function>
+    will use the last values assigned to those parameters before it was called
+    and will use the default value for parameters that are not set by the
+    user. 
+<remark>
+    Users may assign values to the <productname>Magics</productname>
+    contour parameters in two ways. Firstly, by calling the parameter setting
+    routines to assign the value and, secondly, by retrieving a contour
+    specification group. Full information concerning specification groups is
+    contained in <remark>Chapter XVI- Specification Groups</remark>.
+</remark>
+    </para>
+
+    <para>Default values for all the <productname>Magics</productname> contour
+    parameters ensure that users may achieve a well presented plot without
+    having to set any of the parameters. Facilities exist to enable the
+    highlighting of certain contour levels, the default being to highlight
+    every 4th level. A separate set of parameters is available for
+    highlighting, to enable users to distinguish this feature from other
+    levels, e.g. <parameter>CONTOUR_HIGHLIGHT_COLOUR</parameter>.</para>
+
+    <para>The setting of the parameters
+    <parameter>CONTOUR_MAX_LEVEL</parameter> and
+    <parameter>CONTOUR_MIN_LEVEL</parameter> will confine the plotting of
+    contours to within these two limits. However, depending on the
+    <parameter>CONTOUR_REFERENCE_LEVEL</parameter> and
+    <parameter>CONTOUR_INTERVAL</parameter> chosen, the two levels specified
+    may not be plotted but they will still be used as a maximum and minimum in
+    all cases. The default values of <parameter>CONTOUR_MAX_LEVEL</parameter>
+    and <parameter>CONTOUR_MIN_LEVEL</parameter> are set to very high and very
+    low values respectively, so that normally all contours will be
+    plotted.</para>
+
+    <para>To plot one contour level only, users should set the parameters
+    <parameter>CONTOUR_MAX_LEVEL</parameter> and
+    <parameter>CONTOUR_MIN_LEVEL</parameter> to the level required. It is not
+    necessary, in this case, to set
+    <parameter>CONTOUR_REFERENCE_LEVEL</parameter> or
+    <parameter>CONTOUR_INTERVAL</parameter>.</para>
+
+<remark>
+    <para>THIS DOES NOT WORK ON 02/09/2009: Users may prevent data values beyond a certain value in the input
+    field from being used in the calculation of contour levels, by using the
+    suppress parameters <parameter>INPUT_FIELD_SUPPRESS_ABOVE</parameter> and
+    <parameter>INPUT_FIELD_SUPPRESS_BELOW</parameter>. This may be necessary
+    when the user is aware that some of his data are invalid above or below a
+    certain value. For example, by setting
+    <parameter>INPUT_FIELD_SUPPRESS_ABOVE</parameter> to <code>1.0E20</code> ,
+    all contour levels above 1.0E20 would be suppressed. Please note that the
+    suppress parameters should only be used to suppress invalid data. If used
+    wrongly, the data plotted may not be accurate, particularly maxima/minima
+    values.</para>
+</remark>
+
+    <para>The parameter <parameter>CONTOUR_LEVEL_SELECTION_TYPE</parameter> is
+    used to control the method which <productname>Magics</productname> uses to
+    decide which contour levels to plot. Three valid values exist for this
+    parameter: '<code>COUNT</code>' , '<code>INTERVAL</code>' and
+    '<code>LEVEL_LIST</code>' , the default being '<code>COUNT</code>'.</para>
+
+    <section id="Contour_Levels_Selected_by_COUNT">
+      <title>Contour Levels Selected by 'COUNT'</title>
+
+      <para>The number of contour levels may be set by the user by setting the
+      parameter <parameter>CONTOUR_LEVEL_SELECTION_TYPE</parameter> to
+      '<code>COUNT</code>' (default) and
+      <parameter>CONTOUR_LEVEL_COUNT</parameter> to the number of levels to be
+      plotted. <productname>Magics</productname> will then calculate the
+      contour interval and the user's plot will consist of the number of
+      levels specified with a regular contour interval. This is the default
+      method and the default number of levels is 10. The exact number of
+      contour levels plotted may not be
+      <parameter>CONTOUR_LEVEL_COUNT</parameter> as <function>PCONT</function>
+      will always use the value stored in
+      <parameter>CONTOUR_REFERENCE_LEVEL</parameter> as a starting point and
+      will pick reasonable values for the contour interval.</para>
+    </section>
+
+    <section id="Contour_Levels_Selected_by_INTERVAL">
+      <title>Contour Levels Selected by 'INTERVAL'</title>
+
+      <para>If the parameter
+      <parameter>CONTOUR_LEVEL_SELECTION_TYPE</parameter> is set to
+      '<code>INTERVAL</code>', <productname>Magics</productname> will plot
+      contours at regularly spaced intervals using the value of
+      <parameter>CONTOUR_REFERENCE_LEVEL</parameter> as a base and the value
+      in <parameter>CONTOUR_INTERVAL</parameter> as the interval between
+      levels.</para>
+
+    </section>
+
+    <section id="Contour_Levels_Selected_by_LEVEL_LIST">
+      <title>Contour Levels Selected by 'LEVEL_LIST'</title>
+
+      <para>Users may supply a list of the contour levels to be plotted by
+      setting the parameter
+      <parameter>CONTOUR_LEVEL_SELECTION_TYPE</parameter> to
+      '<code>LEVEL_LIST</code>' and passing an array of contour level values.
+      The passing of the array of values is achieved by calling the routine
+      <function>PSET1R</function> thus</para>
+
+      <programlisting>  CALL <function>PSET1R</function>('<parameter>CONTOUR_LEVEL_LIST</parameter>',ARRAY,N) </programlisting>
+
+      <para>where '<code>ARRAY</code>' is the name of the array and
+      '<code>N</code>' is the number of values in the array. This method
+      enables users to plot contours with irregular intervals.</para>
+    </section>
+
+    <!--
+    <section id="Plotting_of_Split_Contour_Levels">
+      <title>Plotting of Split Contour Levels</title>
+
+      <para />
+
+      <highlights>
+        <para>Need new description here since it looks like this will be
+        deprecated in Magics++.</para>
+      </highlights>
+    </section>
+  -->
+  </section>
+
+  <section id="Contour_Labels">
+    <title>Contour Labels</title>
+
+    <para>The action routine <function>PCONT</function> will plot labels on
+    contour lines either by default or as directed by the user. Contour labels
+    may be plotted with different attributes from the contour line, e.g.
+    colour and thickness. Contour labels are, by default, plotted on every 2nd
+    contour line, but this may be changed by the user if desired.</para>
+
+<remark>
+    <para>THIS DOES NOT WORK AT 02/09/2009: Facilities exist to plot contour labels as numbers or text, or both.
+    The parameter <parameter>CONTOUR_LABEL_TYPE</parameter> is used to control
+    this feature. The default value is '<code>NUMBER</code>'.</para>
+
+    <para>If either '<code>TEXT</code>' or '<code>BOTH</code>' is specified,
+    then the user may supply a text to be plotted on the labels by setting the
+    parameter <parameter>CONTOUR_LABEL_TEXT</parameter>, the default being no
+    label text. If '<code>BOTH</code>' is specified, then the numerical value
+    of the label is plotted, followed by the text contained in
+    <parameter>CONTOUR_LABEL_TEXT</parameter>. For example, if the level is
+    500 and the <parameter>LABEL_TEXT</parameter> is '<code>hPa</code>' , then
+    the label will consist of '<code>500 hPa</code>'.</para>
+</remark>
+
+  </section>
+
+  <section id="Maxima_Minima">
+    <title id="Contour_Maxima_Minima">Contour Maxima/Minima</title>
+
+    <para>Facilities exist within the action routine
+    <function>PCONT</function> for plotting maxima/minima values. Again, these
+    may be plotted by using the <productname>Magics</productname> defaults or
+    as directed by the user. Maxima/minima may be plotted as text and/or as
+    numerical values, default being symbols (<code>H</code> and
+    <code>L</code>). The user may, by calling the parameter setting routines,
+    plot maxima/minima values in various colours, heights, qualities etc.
+    Users have facilities for plotting only one of these values, i.e. local
+    maxima or local minima.</para>
+
+    <section id="Maxima_Minima_Markers">
+      <title>Maxima/Minima Markers</title>
+
+      <para>The position of a maxima/minima value may be marked by plotting a
+      symbol on the precise location. Users may define their own symbol by
+      setting the parameter <parameter>CONTOUR_HILO_MARKER_INDEX</parameter>
+      (<remark>see Plotting Attributes and Diagram XVII-2</remark>), or may
+      use the default symbols (<code>H</code> or <code>L</code>).</para>
+
+      <para>By default, the plotting of the marker symbol is turned off but it
+      may be activated by setting the parameter
+      <parameter>CONTOUR_HILO_MARKER</parameter> to '<code>ON</code>' . The
+      marker, if set '<code>ON</code>', is always plotted on the exact
+      location of the maxima/minima value. The text or number is plotted above
+      the marker. If the user requests that both text and number are plotted,
+      as well as the marker symbol, the text is plotted above the marker and
+      the number is plotted below.</para>
+
+      <para>When the marker is not plotted, the text or number is centred on
+      the exact location of the maxima/minima value. However if both text and
+      number are to be plotted, but no marker, the text will be plotted above
+      the location and the number plotted below. In this case the exact
+      location is not marked but is the midpoint between the text and the
+      number. The size of the marker symbol may be controlled by setting the
+      parameter <parameter>CONTOUR_HILO_MARKER_HEIGHT</parameter>.</para>
+    </section>
+
+    <section id="Maxima_Minima_Defaults">
+      <title>Maxima/Minima Defaults</title>
+
+      <para>Default values exist for all the keywords mentioned above, such as
+      colour, height, range. Keywords associated with local maxima/minima are
+      prefixed by the letters <parameter>HILO</parameter> for easy
+      identification, e.g. <parameter>CONTOUR_HILO_HEIGHT</parameter>. To
+      specify text and colour for maxima and minima, keywords exist with
+      prefix <parameter>HI</parameter> for maxima and
+      <parameter>LO</parameter> for minima, e.g.
+      <parameter>CONTOUR_HI_TEXT</parameter>,
+      <parameter>CONTOUR_LO_COLOUR</parameter>.</para>
+    </section>
+
+    <section id="Maxima_Minima_Suppression">
+      <title>Maxima/Minima Suppression</title>
+
+      <para>To suppress the plotting of extremes above and below certain
+      values, the parameters <parameter>CONTOUR_HILO_MAX_VALUE</parameter> and
+      <parameter>CONTOUR_HILO_MIN_VALUE</parameter> are used.</para>
+
+      <para>These values will be used to prevent the plotting of maxima/minima
+      in the same way as <parameter>CONTOUR_MAX_LEVEL</parameter> and
+      <parameter>CONTOUR_MIN_LEVEL</parameter> are used to prevent the
+      plotting of contour levels. More precise control over the plotting of
+      maxima and minima can be obtained by using the parameters
+      <parameter>CONTOUR_HI_MAX_VALUE</parameter>,
+      <parameter>CONTOUR_HI_MIN_VALUE</parameter>,
+      <parameter>CONTOUR_LO_MAX_VALUE</parameter> and
+      <parameter>CONTOUR_LO_MIN_VALUE</parameter>.</para>
+
+      <para />
+    </section>
+
+<remark>
+    <section id="Maxima_Minima_Thinning">
+      <title>Maxima/Minima Thinning</title>
+
+      <para>The extreme points (highs/lows) found by the contouring algorithm
+      are the maxima/minima points of the fitted function, which means that
+      their positions will not necessarily be on a grid point. The following
+      method is used for the suppression (or thinning) of the plotting of some
+      of the local maxima/minima points.</para>
+
+      <highlights>
+        <para>These steps may have changed with Magics++</para>
+      </highlights>
+
+      <orderedlist>
+        <listitem>
+          <para>These steps may have changed with Magics++</para>
+        </listitem>
+      </orderedlist>
+    </section>
+</remark>
+
+    <section id="Maxima_Minima_Position_File">
+      <title>Maxima/Minima Position File</title>
+
+      <para>It is possible to generate a geopoints file containing the
+      positions and values of the maxima/minima by setting the parameter
+      <parameter>CONTOUR_HILO_POSITION_WRITE</parameter> to '<code>ON</code> '
+      and specifying a filename with the parameter
+      <parameter>CONTOUR_HILO_POSITION_FILE_NAME</parameter>.</para>
+    </section>
+  </section>
+
+  <section id="Contour_Shading">
+    <title>Contour Shading</title>
+
+    <para>Contour shading allows users to shade the areas between contour
+    levels using various techniques and methods. This enables users to produce
+    shading with varying intensities, patterns and colours.</para>
+
+    <para><productname>Magics</productname> parameters exist to control all
+    the features and options in shading. These parameters all start with the
+    prefix <parameter>CONTOUR_SHADE</parameter> and their default values
+    should ensure that, for most plots, a reasonable shaded plot can usually
+    be achieved without having to set most of the shading parameters.</para>
+
+    <para>Shading may be requested by setting the parameter
+    <parameter>CONTOUR_SHADE</parameter> to '<code>ON</code>' before calling
+    action routine <function>PCONT</function>, the default being
+    '<code>OFF</code>'.</para>
+
+    <section id="Shading_Bands">
+      <title>Shading Bands</title>
+
+      <para>The area between two contour levels to be shaded is called a
+      <firstterm>shading band</firstterm>.</para>
+
+      <para>The number of bands to be shaded is determined by the number of
+      contour levels requested and may be further controlled by setting the
+      parameters <parameter>CONTOUR_SHADE_MAX_LEVEL</parameter> and
+      <parameter>CONTOUR_SHADE_MIN_LEVEL</parameter> to the maximum and
+      minimum levels required. The default value for
+      <parameter>CONTOUR_SHADE_MAX_LEVEL</parameter> is one level above the
+      highest level in the current plot and the default for
+      <parameter>CONTOUR_SHADE_MIN_LEVEL</parameter> is one level below the
+      lowest level. This means that, by default, all bands in a plot will be
+      shaded.</para>
+
+      <para>The number of bands to be shaded also depends on the contour
+      interval required and users should ensure that the maximum and minimum
+      shading values are compatible with their contour interval. Specifically,
+      the parameters <parameter>CONTOUR_SHADE_MAX_LEVEL</parameter> and
+      <parameter>CONTOUR_SHADE_MIN_LEVEL</parameter> should be set to levels
+      that will actually be contoured.</para>
+    </section>
+
+    <section id="Shading_Techniques">
+      <title>Shading Techniques</title>
+
+      <para>There are three shading techniques available:
+      <code>POLYGON_SHADING</code> (default), <code>CELL_SHADING</code> and
+      <code>MARKER</code> shading. The required techniques should be indicated
+      by setting the parameter <parameter>CONTOUR_SHADE_TECHNIQUE</parameter>
+      to one of the above three values.</para>
+
+      <section id="Polygon_Shading">
+        <title>Polygon Shading</title>
+
+        <para>This is the default shading technique. The contours are formed
+        into closed polygons and the area within the polygons are shaded.There
+        are three shading methods used for polygon shading:
+        <code>AREA_FILL</code>, <code>HATCH</code> and <code>DOT</code>
+        (default).</para>
+
+        <section id="Area_Fill_Shading">
+          <title>AREA_FILL</title>
+
+          <para><code>AREA_FILL</code> is, in fact, solid shading and will
+          completely fill the polygons with the selected colours.</para>
+        </section>
+
+        <section id="Hatch_Shading">
+          <title>HATCH</title>
+
+          <para><code>HATCH</code> shading is similar to
+          <code>AREA_FILL</code> except that the polygons are filled with
+          varying hatched shapes in the selected colours. The thickness of the
+          hatch lines may be set with the parameter
+          <parameter>CONTOUR_SHADE_HATCH_THICKNESS</parameter> , default
+          <code>1</code>. The density of the hatch lines, i.e. the number of
+          hatch lines per cm, may be set using the parameter
+          <parameter>CONTOUR_SHADE_HATCH_DENSITY</parameter>, default
+          <code>18.0</code>. The following figure shows the hatch shading
+          patterns. Setting <parameter>CONTOUR_SHADE_HATCH_INDEX</parameter>
+          to <code>1</code> (default) provides an automatic sequence of
+          patterns; other values set a constant hatch pattern across all
+          contour bands.</para>
+
+          <remark>
+            <para>Figure 1 (hatch patterns). Also check for new Magics++
+            behaviour with hatch patterns.</para>
+          </remark>
+        </section>
+
+        <section id="DOT">
+          <title>DOT</title>
+
+          <para><code>DOT</code> shading will fill the polygons with dots of
+          varying density, size and colour.</para>
+
+          <para>The size of the shading dots may be defined by setting the
+          parameter <parameter>CONTOUR_SHADE_DOT_SIZE</parameter>, the default
+          being <code>0.02cm</code>. The size of the dots determines how
+          <productname>Magics</productname> will actually draw the
+          dots.</para>
+
+          <para>When the dot size is less than or equal to 0.02cm , dots are
+          drawn as vectors with length equal to the dot size. If the dot size
+          is greater than 0.02cm , the dots are drawn as circles with diameter
+          equal to the dot size. If a dot size that is greater than the
+          distance between dots is requested the dot size will be adjusted to
+          the dot distance.</para>
+
+          <para>Users should be aware that large dot sizes could use more CPU
+          time to draw than smaller dot sizes and that dot sizes of 0.1cm or
+          more should only be used for high quality plotting.</para>
+
+          <para>Users may select the density of the shading dots by setting
+          the parameters
+          <parameter>CONTOUR_SHADE_MAX_LEVEL_DENSITY</parameter> and
+          <parameter>CONTOUR_SHADE_MIN_LEVEL_DENSITY</parameter> to the
+          required values. The <parameter>MAX_LEVEL</parameter> and
+          <parameter>MIN_LEVEL</parameter> referred to here are as set in the
+          parameters <parameter>CONTOUR_SHADE_MAX_LEVEL</parameter> and
+          <parameter>CONTOUR_SHADE_MIN_LEVEL</parameter>. Densities are given
+          in dots per square centimetre and the default values for the maximum
+          and minimum densities are <code>50.0</code> and <code>0.0</code>
+          respectively.</para>
+
+          <para>If more than one band is to be shaded when
+          <function>PCONT</function> is called, the dot density for each band
+          will be automatically calculated. The maximum density will occur in
+          the band between <parameter>CONTOUR_SHADE_MAX_LEVEL</parameter> and
+          the level immediately below it and the minimum density in the band
+          between <parameter>CONTOUR_SHADE_MIN_LEVEL</parameter> and the level
+          immediately above it. The density of dots in the bands between the
+          minimum and maximum levels will increase progressively from minimum
+          to maximum.</para>
+
+          <para>However, if the user requires the lowest band to have the
+          highest density of dots,
+          <parameter>CONTOUR_SHADE_MIN_LEVEL_DENSITY</parameter> may be set to
+          a higher value than
+          <parameter>CONTOUR_SHADE_MAX_LEVEL_DENSITY</parameter> and, in this
+          case, the density of dots in the bands will increase progressively
+          from maximum to minimum.</para>
+
+          <para>The density assigned to each band is used to calculate the
+          distance between dots, and all the dots in that band will be equally
+          spaced by that distance.</para>
+
+          <para>The actual position of the dots in a band depends on the
+          density of dots and the angle of the shading line.</para>
+
+          <para>All shading dots are drawn in parallel lines where the
+          distance between the lines is the same as the distance between dots
+          in the band. The angle of the shading line may be defined by the
+          user by setting <parameter>CONTOUR_SHADE_ANGLE</parameter> to the
+          value required. The default value of the shading angle is 45 degrees
+          and all shading angles are given in degrees from the horizontal in
+          an anti-clockwise direction. The shading angle should be between 0
+          and 180 degrees.</para>
+
+        </section>
+      </section>
+
+      <section id="Cell_Shading">
+        <title>Cell Shading</title>
+
+        <para>Cell shading is similar to satellite imaging and shades each
+        cell (pixel) according to the value of the field at that cell. The
+        colour of a cell may be interpolated from the value of the four
+        surrounding grid points in the field or it may be set to the colour of
+        the nearest grid point. The parameter
+        <parameter>CONTOUR_SHADE_CELL_METHOD</parameter> should be set to the
+        one of the valid values, <code>INTERPOLATE</code> or
+        <code>NEAREST</code> (default).</para>
+
+        <para>The parameter
+        <parameter>CONTOUR_SHADE_CELL_RESOLUTION</parameter> determines the
+        number of cells per cm in the plot, the default being <code>10</code>.
+        The other contour shade parameters should be used as before. Cell
+        shading is available with all projections except, for the time being,
+        Mercator and Satellite projections.</para>
+      </section>
+
+      <section id="Marker_Shading">
+        <title>Marker Shading</title>
+
+        <para>Marker shading plots markers on the grid points where the
+        colour, height and type of marker depend on the value at the grid
+        point. This shading can be achieved by setting the following
+        parameters:</para>
+
+        <programlisting>
+    CALL <function>PSET1C</function> ('<parameter>CONTOUR_SHADE_COLOUR_TABLE</parameter>', CTAB, N)
+    CALL <function>PSET1R</function> ('<parameter>CONTOUR_SHADE_HEIGHT_TABLE</parameter>', HTAB, N)
+    CALL <function>PSET1I</function> ('<parameter>CONTOUR_SHADE_MARKER_TABLE</parameter>', MTAB, N)</programlisting>
+
+        <para>where <code>N</code> is the number of values in each table.
+        <code>CTAB</code> is a table of colours, <code>HTAB</code> is a table
+        of heights and <code>MTAB</code> is a table of marker numbers. These
+        tables will be associated with the bands that are to be shaded. For
+        example, the first band to be shaded will plot markers at those grid
+        points whose values are within the lower and upper bound of the first
+        band. The properties of markers are controlled by the values in the
+        first entries of each of the three tables. The shading bands should be
+        selected in the normal way
+        (<parameter>CONTOUR_LEVEL_SELECTION_TYPE</parameter> set to
+        <code>INTERVAL</code>, <code>LEVEL_LIST</code> or <code>COUNT</code>
+        (default)). The recommended method is to use <code>LEVEL_LIST</code>
+        where the number of levels should be one more than the number of
+        values in each of the three tables.</para>
+
+        <important id="Marker_Shading_Differences"> <title>Magics++</title>
+        <productname>Magics++</productname> exhibits different behaviour to previous versions
+        when plotting with marker shading attribute tables which have fewer entries than
+        there are shading bands. Under old versions, the behaviour was to simply repeat the
+        last entry in each table which was too short. <productname>Magics++</productname>
+        loops back to the beginning of each table, so the plotting attributes are repeated
+        from the beginning.
+        </important>
+
+        <para>If the number of table entries exceeds the
+        number of bands, the excess table entries are not used.</para>
+
+      </section>
+    </section>
+
+    <section id="Colour_Shading">
+      <title>Colour Shading</title>
+
+      <para>Users may control the colour of the shading by setting the
+      parameters <parameter>CONTOUR_SHADE_MAX_LEVEL_COLOUR</parameter> and
+      <parameter>CONTOUR_SHADE_MIN_LEVEL_COLOUR</parameter> to the required
+      values, default values being <code>BLUE</code> and <code>RED</code>
+      respectively.</para>
+
+      <para>Internally, <productname>Magics</productname> defines a colour by
+      its hue, saturation and intensity and can adjust the values of these
+      three factors to define the colour of each shading band. It is not
+      necessary for users to have a knowledge of hue, saturation and
+      intensity.</para>
+
+      <!-->
+        <para>Is the above paragraph still true???</para>
+      <-->
+
+      <para>Colour shading is performed in such a way that, starting with
+      <parameter>CONTOUR_SHADE_MIN_LEVEL_COLOUR</parameter>, the colour of
+      each subsequent shading band will vary from the preceding band by a
+      factor that depends on the number of bands to be shaded.</para>
+
+      <para>The colour of the last band to be shaded will be
+      <parameter>CONTOUR_SHADE_MAX_LEVEL_COLOUR</parameter> and the shading
+      colour of the intermediate bands will be calculated internally by
+      modifying the hue, saturation or intensity. These may or may not be
+      discreet colours, e.g. red, blue etc, depending on the number of bands
+      to be shaded.</para>
+
+      <para>Normally, the colour shading sequence will progress in an
+      anti-clockwise direction, e.g. red, yellow, green, cyan, blue. The
+      parameter <parameter>CONTOUR_SHADE_COLOUR_DIRECTION</parameter> may be
+      set to '<code>CLOCKWISE</code>' to alter the sequence, i.e. blue, cyan,
+      green, yellow, red. The colour sequence is circular so that it is
+      possible, for example, to shade from green to yellow in an
+      anti-clockwise direction or from red to green in a clockwise
+      direction.</para>
+
+      <para>Black and white are not included in the normal sequence of shading
+      colours but are treated in a special manner. If
+      <parameter>CONTOUR_SHADE_MIN_LEVEL_COLOUR</parameter> is set to white
+      and <parameter>CONTOUR_SHADE_MAX_LEVEL_COLOUR</parameter> is set to one
+      of the sequencing colours, e.g. red, the shading colour sequence will
+      start with white and subsequent colours will be increasingly red, the
+      last colour in the sequence being pure red. The reverse, i.e. shading
+      from red to white, is performed in the same way, starting with red and
+      ending with white.</para>
+
+      <para>Shading between black and any other sequencing colour is treated
+      similarly. Grey scaling can be achieved by shading from black to white
+      or from white to black. For further information on colour shading,
+      see <remark>NEED APPENDIX CHAPTER: Plotting Attributes and </remark> the next section (effects
+      of MIN/MAX values in contouring and shading).</para>
+    </section>
+
+    <section id="Colour_Table_for_Contour_Shading">
+      <title>Colour Table for Contour Shading</title>
+
+      <para>Users may have a different colour table for each new Magics
+      Superpage. To achieve this, the user should set the min and max colour
+      settings for contour shading or imaging before starting the new
+      Superpage, e.g. <parameter>CONTOUR_SHADE_MIN_LEVEL_COLOUR</parameter>
+      and <parameter>CONTOUR_SHADE_MAX_LEVEL_COLOUR</parameter>. It is
+      necessary that either <function>PCONT</function>,
+      <function>PCOAST</function> or <function>PIMAGE</function> be the first
+      action routine called in the new Superpage.</para>
+    </section>
+
+    <section id="Contour_Shade_Colour_Methods">
+      <title>Contour Shade Colour Methods</title>
+
+      <para>There are two methods for determining the colours to be used in
+      contour shading. The parameter
+      <parameter>CONTOUR_SHADE_COLOUR_METHOD</parameter> should be used to
+      define which method is required. Valid values are <code>LIST</code> and
+      <code>CALCULATE</code> (default). In the default method
+      (<code>CALCULATE</code>) the colour of bands is calculated from the
+      values in <parameter>CONTOUR_SHADE_MIN_LEVEL</parameter>,
+      <parameter>CONTOUR_SHADE_MAX_LEVEL</parameter>,
+      <parameter>CONTOUR_SHADE_MIN_LEVEL_COLOUR</parameter> and
+      <parameter>CONTOUR_SHADE_MAX_LEVEL_COLOUR</parameter>.</para>
+
+      <para>The new method (<code>LIST</code>) allows the use of a
+      new parameter to pass a list of colours to be used in contour shading,
+      i.e.,</para>
+
+      <programlisting>  CALL <function>PSET1C</function>('<parameter>CONTOUR_SHADE_COLOUR_LIST</parameter>',CLIST,N)</programlisting>
+
+      <para><code>CLIST</code> is an array of type character and length
+      <code>N</code> containing a list of colours to be used in contour
+      shading. The colour in <code>CLIST</code> will be used in a cyclic way:
+      <code>CLIST(I)</code>, <code>CLIST(I+1)</code> will be used to shade the
+      <code>I</code> th , <code>I</code>+1 th shading bands etc. However, if
+      there are more bands to be shaded than there are colours in the list,
+      the colours will be used again starting at <code>CLIST(1)</code> . If an
+      empty array is passed in
+      <parameter>CONTOUR_SHADE_COLOUR_LIST</parameter>, the default method
+      (<code>CALCULATE</code>) will be used.</para>
+    </section>
+
+<remark>
+    <section id="Contour_Label_Blanking">
+      <title>Label Blanking</title>
+
+      <para>THIS DOES NOT WORK AT 02/09/2009: Blanking of contour labels and highs and lows is performed
+      automatically, but may be turned off by setting the parameter
+      <parameter>CONTOUR_SHADE_LABEL_BLANKING</parameter> to
+      '<code>OFF</code>', the default being '<code>ON</code>'.</para>
+    </section>
+</remark>
+
+    <section id="Contour_Labels_with_Shading">
+      <title>Contour Labels with Shading</title>
+
+      <para>Contour labels can be plotted on shaded contours when no contour
+      lines are drawn. This is achieved by setting the
+      <productname>Magics</productname> parameter
+      <parameter>CONTOUR</parameter> to '<code>OFF</code>' and
+      <parameter>CONTOUR_LABEL</parameter> to '<code>ON</code>'.</para>
+    </section>
+
+    <!--
+    <section id="Contour_CPU_Time">
+      <title>CPU Time</title>
+
+      <para>Users should be aware that certain factors can affect the amount
+      of CPU time required for shading. <code>DOT</code> shading requires more
+      CPU time than either <code>AREA_FILL</code> or
+      <code>HATCH</code>.</para>
+
+      <para>The following factors are the ones most likely to be
+      time-consuming: the physical size of the user's subpage, the number of
+      shading bands, the density and size of dots requested (if using
+      <code>DOT</code> shading) and the blanking of labels. Users should take
+      care to ensure that these factors have reasonable values.</para>
+
+      <highlights>
+        <para>Is the above still true?</para>
+      </highlights>
+    </section>
+-->
+  </section>
+
+  <section id="Grid_Point_Value_Plotting">
+    <title>Grid Point Value Plotting</title>
+
+    <para>Facilities exist for plotting the actual values of a field at the
+    exact location of the values. The plotting of the values is controlled by
+    the parameter <parameter>CONTOUR_GRID_VALUE_PLOT</parameter>. The user may
+    also control the colour and height of the values as well as the format of
+    the number.</para>
+
+    <para><productname>Magics</productname> normally expands GRIB fields into
+    a regular matrix, even fields coded in quasi-regular grids. When a user
+    requests the plotting of grid point values, the values are taken from the
+    regular matrix. It is possible to plot the quasi-regular grid point values
+    by setting the parameter <parameter>CONTOUR_GRID_VALUE_TYPE</parameter> to
+    <code>REDUCED</code>.</para>
+
+<remark>
+    <para>THIS DOES NOT WORK ON 02/09/2009: Suppressed values, i.e values above
+    <parameter>INPUT_FIELD_SUPPRESS_ABOVE</parameter> and values below
+    <parameter>INPUT_FIELD_SUPPRESS_BELOW</parameter>, are not plotted when
+    plotting grid point values. This will happen automatically and there is no
+    need to set any extra parameters.</para>
+</remark>
+
+    <para>A marker symbol may be plotted instead of (or as well as) the grid
+    point value by setting the parameter
+    <parameter>CONTOUR_GRID_VALUE_PLOT_TYPE</parameter> to
+    '<code>MARKER</code>' (or '<code>BOTH</code>'), the default being
+    '<code>VALUE</code>' . The relevant marker symbol may be chosen by setting
+    the parameter <parameter>CONTOUR_GRID_VALUE_MARKER_SYMBOL</parameter> to
+    the required value. The default is <code>3</code> (cross). A full list of
+    marker symbols can be found in <remark>Diagram XVII-2
+    (Appendix)</remark>.</para>
+
+    <para>The number of grid point values plotted may be controlled by
+    selecting the frequency of the number of lines of longitude and latitude
+    to be plotted. The parameters
+    <parameter>CONTOUR_GRID_VALUE_MIN_FREQUENCY</parameter> and
+    <parameter>CONTOUR_GRID_VALUE_LAT_FREQUENCY</parameter> should be used for
+    that purpose. The default in both cases is <code>1</code>, i.e. all lines
+    are plotted.</para>
+
+    <para>The setting of the parameters,
+    <parameter>CONTOUR_GRID_VALUE_MIN</parameter> and
+    <parameter>CONTOUR_GRID_VALUE_MAX</parameter> , will confine the plotting
+    of grid point values to within these two limits. The default values are
+    <code>-1.0E21</code> and <code>1.0E21</code> respectively.</para>
+
+  </section>
+
+<!--   <section id="Control_of_CONICON_Gradient_Estimation">
+    <title>Control of CONICON Gradient Estimation</title>
+
+    <highlights>
+      <para>Not relevant to Magics++</para>
+    </highlights>
+  </section>
+ -->
+<!--   <section id="Memory_Management_Within_Contouring">
+    <title>Memory Management Within Contouring</title>
+
+    <highlights>
+      <para>Not relevant to Magics++</para>
+    </highlights>
+  </section>
+ -->
+  <xi:include href="../paramtables/pcont_tables.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+
+  <xi:include href="../paramtables/Contour_contour_magml_tables.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <xi:include href="../paramtables/Contour_contour_magml_flat_tables.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <section id="Contour_Program_Examples">
+    <title>Program Examples</title>
+
+    <para>These examples illustrate the use of the contouring
+    facilities in <productname>Magics</productname>.</para>
+  </section>
+
+  <xi:include href="../examples/manual/xml/contour_examples.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+</chapter>

@@ -1,0 +1,264 @@
+<?xml-stylesheet type='text/css' href='parameter.css'?>
+<magics>
+<class name='ImagePlotting' action = 'pimage' 
+	xmltag='image' prefix='image' directory='visualisers'>
+  <documentation> Here comes the documentation of the ImagePlotting object </documentation>
+
+<parameter name='image_colour_table_creation_mode' from='string' to='LookupTableMode'
+             member='mode' default='equidistant' >
+         <documentation> Method for computing the output image according to the Colour table. </documentation>
+         <available> normal </available>
+         <available> equidistant </available>
+         <available> default </available>
+          <option name='FixedTableMode' fortran='fixed' xml='lut_fixed' include='LookupTableMode.h'/>
+         <option name='NormalTableMode'      fortran='normal'      xml='lut_normal'     include='NormalTableMode.h'/>
+         <option name='EquidistantTableMode' fortran='equidistant' xml='lut_equidistant' include='EquidistantTableMode.h'/>
+         <option name='LinearTableMode'     fortran='linear'     xml='lut_linear'     include='LinearTableMode.h'/>
+         <release>Magics++0.7</release>     
+         <release_info>work in constant progress...</release_info>     
+  </parameter>
+  
+  <parameter name='image_colour_table_type' from='string' to='ColourTableDefinition'
+             member='colourMethod'  default='computed' >
+         <documentation> Method for setting Colour table for imaging. </documentation>
+         <option name='ImageListColourTechnique'    fortran='list'      xml='lut_list'     include='ImageListColourTechnique.h'/>
+         <option name='ImageCalculateColourTechnique' fortran='computed'  xml='lut_computed' include='ImageCalculateColourTechnique.h'/>
+
+         <release>Magics++0.8</release>     
+         <release_info>work in constant progress...</release_info>     
+         <migration>Default changde from calculate to computed </migration>
+  </parameter>
+
+  <parameter name='image_level_count' from='int' to='int'
+             member='count'  default='127' >
+         <documentation> Number of levels </documentation>
+         <release>Magics++0.8</release>     
+         <release_info>work in constant progress...</release_info>     
+  </parameter>
+
+    <parameter name='image_pixel_selection_frequency' from='int' to='int'
+             member='pixelFrequency' default='10'>
+         <documentation> Number of pixels/centimetre to be plotted 
+ </documentation>
+  </parameter>
+
+</class>
+
+<class name='ImageCalculateColourTechnique' 
+	xmltag='lut_computed' prefix='image' action='pimage' directory='visualisers' implements='ColourTableDefinitionComputeInterface'>
+  <parameter name='image_max_level_colour' from='string' to='Colour'
+             member='max' default='blue'>
+         <documentation> Highest image band colour </documentation>
+         <release>Magics++0.8</release>
+  </parameter>
+
+  <parameter name='image_min_level_colour' from='string' to='Colour'
+             member='min' default='red'>
+         <documentation> Lowest image band colour </documentation>
+         <migration> New Magics: Parameter Contour sent to new Magics[Image].  </migration>
+         <release>Magics++0.8</release>
+  </parameter>
+   <parameter name='image_colour_direction' from='string' to='string'
+             member='direction' default='anti_clockwise'>
+         <documentation> Direction of colour sequencing for image (CLOCKWISE / ANTI_CLOCKWISE) </documentation>
+         <migration> New Magics: Parameter image_colour_direction sent to new Magics[Image].  </migration>
+         <release>Magics++0.8</release>
+  </parameter>
+
+</class>
+
+
+<class name='ImageListColourTechnique' action='pcont' 
+	xmltag='list' prefix='image' directory='visualisers' implements='ColourTableDefinitionListInterface'>
+  <parameter name='image_colour_table' from='stringarray' to='stringarray'
+             member='values' default='stringarray()'>
+         <documentation> List of colours to be used in image plotting. </documentation>
+         <release>Magics++0.8</release>
+  </parameter>
+</class>
+
+
+
+
+<class name='LookupTableMode' prefix='image' directory='visualisers'>
+
+  <parameter name='image_min_level' from='int' to='int'
+             member='minLevel' default='-1.0e+21'>
+         <documentation> The lowest pixel value to be plotted  </documentation>
+         <migration> New Magics: Parameter image_min_level sent to new Magics[ImagePlotting].  </migration>
+  </parameter>
+
+  <parameter name='image_max_level' from='int' to='int'
+             member='maxLevel'  default='1.0e+21'>
+         <documentation> The highest pixel value to be plotted  </documentation>
+         <migration> New Magics: Parameter image_max_level sent to new Magics[ImagePlotting].  </migration>
+  </parameter>
+
+  <parameter name='image_outlayer_rejection' from='float' to='float'
+             member='outlayer'  default='0'>
+         <documentation> The outlayer rejection factor </documentation>
+         <migration> New Magics: Parameter image_outlayer_rejection sent to new Magics[ImagePlotting].  </migration>
+  </parameter>
+
+</class>
+
+
+<class name='FixedTableMode' inherits='LookupTableMode' directory='visualisers'>
+	<parameter name='image_level_list' from='intarray' to='intarray'
+             member='levels' default='intarray()'>
+         <documentation> The list  </documentation> 
+      </parameter>
+         <parameter name='image_index_list' from='intarray' to='intarray'
+             member='indexes' default='intarray()'>
+         <documentation> The list of indexes of the Lut to be used! (size of level_list -1 )  </documentation>
+      </parameter>
+       
+</class>
+
+<class name='EquidistantTableMode' implements='LookupTableMode' directory='visualisers'>
+	
+</class>
+
+<class name ='todo' directory='visualisers'>
+
+
+  <parameter name='image_colour_direction' from='string' to='string'
+             member='colour_direction' xml='colour_direction'
+			 default='' implemented='no'>
+         <documentation> Direction for pixel colour calculation
+ </documentation>
+         <migration> New Magics: Parameter image_colour_direction sent to new Magics[ImagePlotting].  </migration>
+  </parameter>
+
+  <parameter name='(clockwise/anti_clockwise)' from='' to=''
+             member='(clockwise/anti_clockwise)' xml='(clockwise/anti_clockwise)'
+			 default='' implemented='no'>
+         <documentation>  </documentation>
+         <migration> New Magics: Parameter (clockwise/anti_clockwise) sent to new Magics[ImagePlotting].  </migration>
+  </parameter>
+
+  <parameter name='clockwise' from='' to=''
+             member='clockwise' xml='clockwise' default='' implemented='no'>
+         <documentation> 
+ </documentation>
+         <migration> New Magics: Parameter clockwise sent to new Magics[ImagePlotting].  </migration>
+  </parameter>
+
+  <parameter name='image_background_colour' from='string' to='string'
+             member='background_colour' xml='background_colour'
+			 default='grey' implemented='no'> 
+         <documentation> Colour of the area on the map that is not part of the satellite image. </documentation>
+         <migration> New Magics: Parameter image_background_colour sent to new Magics[ImagePlotting].  </migration>
+  </parameter>
+
+  <parameter name='image_subarea_selection' from='string' to='string'
+             member='subarea_selection' xml='subarea_selection'
+			 default='' implemented='no'>
+         <documentation> Plot subarea of satellite projection
+ </documentation>
+         <migration> New Magics: Parameter image_subarea_selection sent to new Magics[ImagePlotting].  </migration>
+  </parameter>
+
+  
+
+  <parameter name='image_legend' from='string' to='string'
+             member='legend' xml='legend'
+			 default='off' implemented='no'>
+         <documentation> Plot image legend (ON/OFF) </documentation>
+         <migration> New Magics: Parameter image_legend sent to new Magics[ImagePlotting].  </migration>
+  </parameter>
+
+  <parameter name='image_legend_title' from='string' to='string'
+             member='legend_title' xml='legend_title'
+			 default='off' implemented='no'>
+         <documentation> Plot image legend title (ON/OFF) </documentation>
+         <migration> New Magics: Parameter image_legend_title sent to new Magics[ImagePlotting].  </migration>
+  </parameter>
+
+  <parameter name='image_legend_title_text' from='string' to='string'
+             member='legend_title_text' xml='legend_title_text'
+			 default='legend' implemented='no'>
+         <documentation> Text string for plotting as image legend title </documentation>
+         <migration> New Magics: Parameter image_legend_title_text sent to new Magics[ImagePlotting].  </migration>
+  </parameter>
+
+  <parameter name='image_legend_text_quality' from='string' to='string'
+             member='legend_text_quality' xml='legend_text_quality'
+			 default='' implemented='no'>
+         <documentation> Quality of image legend text 
+ </documentation>
+         <migration> New Magics: Parameter image_legend_text_quality sent to new Magics[ImagePlotting].  </migration>
+  </parameter>
+
+  <parameter name='image_legend_text_colour' from='string' to='string'
+             member='legend_text_colour' xml='legend_text_colour'
+			 default='blue' implemented='no'>
+         <documentation> Colour of image legend text </documentation>
+         <migration> New Magics: Parameter image_legend_text_colour sent to new Magics[ImagePlotting].  </migration>
+  </parameter>
+
+  <parameter name='image_legend_border' from='string' to='string'
+             member='legend_border' xml='legend_border'
+			 default='on' implemented='no'>
+         <documentation> Draw border round image legend box (ON/OFF) </documentation>
+         <migration> New Magics: Parameter image_legend_border sent to new Magics[ImagePlotting].  </migration>
+  </parameter>
+
+  <parameter name='image_legend_border_line_style' from='string' to='string'
+             member='legend_border_line_style' xml='legend_border_line_style'
+			 default='solid' implemented='no'>
+         <documentation> Line style of image legend border </documentation>
+         <migration> New Magics: Parameter image_legend_border_line_style sent to new Magics[ImagePlotting].  </migration>
+  </parameter>
+
+  <parameter name='image_legend_border_colour' from='string' to='string'
+             member='legend_border_colour' xml='legend_border_colour'
+			 default='blue' implemented='no'>
+         <documentation> Colour of image legend border </documentation>
+         <migration> New Magics: Parameter image_legend_border_colour sent to new Magics[ImagePlotting].  </migration>
+  </parameter>
+
+  <parameter name='image_legend_border_thickness' from='int' to='int'
+             member='legend_border_thickness' xml='legend_border_thickness'
+			 default='1' implemented='no'>
+         <documentation> Thickness of image legend border </documentation>
+         <migration> New Magics: Parameter image_legend_border_thickness sent to new Magics[ImagePlotting].  </migration>
+  </parameter>
+
+  <parameter name='image_legend_box_blanking' from='string' to='string'
+             member='legend_box_blanking' xml='legend_box_blanking'
+			 default='off' implemented='no'>
+         <documentation> Blank area behind the legend box (ON/OFF) </documentation>
+         <migration> New Magics: Parameter image_legend_box_blanking sent to new Magics[ImagePlotting].  </migration>
+  </parameter>
+
+  <parameter name='image_legend_box_x_position' from='float' to='float'
+             member='legend_box_x_position' xml='legend_box_x_position'
+			 default='see text' implemented='no'>
+         <documentation> X position of image legend box within page  </documentation>
+         <migration> New Magics: Parameter image_legend_box_x_position sent to new Magics[ImagePlotting].  </migration>
+  </parameter>
+
+  <parameter name='image_legend_box_y_position' from='float' to='float'
+             member='legend_box_y_position' xml='legend_box_y_position'
+			 default='see text' implemented='no'>
+         <documentation> Y position of image legend box within page  </documentation>
+         <migration> New Magics: Parameter image_legend_box_y_position sent to new Magics[ImagePlotting].  </migration>
+  </parameter>
+
+  <parameter name='image_legend_box_x_length' from='float' to='float'
+             member='legend_box_x_length' xml='legend_box_x_length'
+			 default='see text' implemented='no'>
+         <documentation> X length of the image legend box </documentation>
+         <migration> New Magics: Parameter image_legend_box_x_length sent to new Magics[ImagePlotting].  </migration>
+  </parameter>
+
+  <parameter name='image_legend_box_y_length' from='float' to='float'
+             member='legend_box_y_length' xml='legend_box_y_length'
+			 default='see text' implemented='no'>
+         <documentation> Y length of the image legend box </documentation>
+         <migration> New Magics: Parameter image_legend_box_y_length sent to new Magics[ImagePlotting].  </migration>
+  </parameter>
+
+</class>
+</magics>

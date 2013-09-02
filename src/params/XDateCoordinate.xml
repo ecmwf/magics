@@ -1,0 +1,22 @@
+<magics>
+<class  inherits='XCoordinate' metview_prefix='subpage_' xmltag='x_date' name='XDateCoordinate' directory='common' prefix='subpage/subpage_x/subpage_x_date' action='pnew' include='Coordinate.h'>
+  This object contains the common attributes to the cartesian Projections
+	<parameter  xml='automatic' from='string' name='subpage_x_automatic' default='off' member='automatic' to='AxisAutomaticSetting' values='on/off/min_only/max_only'>
+     		<release >Magics2.1		</release>
+     		<set  name='subpage_x_max' value='off'>		</set> 
+     		<set  name='subpage_x_min' value='off'>		</set>
+     		<set  name='subpage_x_max' value='min_only'>		</set> 
+     		<set  name='subpage_x_min' value='max_only'>		</set>
+     		<documentation > The Min and Max are calculated from the data		</documentation>    
+	</parameter>
+	<parameter  member='date_min' to='string' default='' from='string' name='subpage_x_date_min'>
+         		<release >Magics++0.1		</release>
+	</parameter> 
+
+	<parameter  xml='max' from='string' name='subpage_x_date_max' default='' member='date_max' to='string'>
+    		<release >Magics++0.1		</release>
+	</parameter>
+
+
+
+</class></magics>

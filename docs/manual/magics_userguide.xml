@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+"http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
+<!ENTITY __intro__ecq8narb SYSTEM "chapters/intro.xml">
+<!ENTITY __using__ee5siudy SYSTEM "chapters/using.xml">
+<!ENTITY __drivers__efictiuy SYSTEM "chapters/drivers.xml">
+<!ENTITY __layout_mapping_coastlines__ee2wl5ad SYSTEM "chapters/layout_mapping_coastlines.xml">
+<!ENTITY __data__edlfoyn4 SYSTEM "chapters/data.xml">
+<!ENTITY __contour__edjwfsyh SYSTEM "chapters/contour.xml">
+<!ENTITY __wind__edlg1yut SYSTEM "chapters/wind.xml">
+<!ENTITY __obs__edlmt3lr SYSTEM "chapters/obs.xml">
+<!ENTITY __symbol__ee41ksdi SYSTEM "chapters/symbol.xml">
+<!ENTITY __text__ecqaemsp SYSTEM "chapters/text.xml">
+]>
+<book>
+  &__intro__ecq8narb;
+
+  &__using__ee5siudy;
+
+  &__drivers__efictiuy;
+
+  &__layout_mapping_coastlines__ee2wl5ad;
+
+  &__data__edlfoyn4;
+
+  &__contour__edjwfsyh;
+
+  &__wind__edlg1yut;
+
+  &__obs__edlmt3lr;
+
+  &__symbol__ee41ksdi;
+
+  &__text__ecqaemsp;
+</book>

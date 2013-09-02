@@ -1,0 +1,57 @@
+<magics>
+<class  action='pbinning' directory='decoders' prefix='binning' xmltag='binning' name='BinningObject'>
+		<documentation >
+		This is responsible for accessing biining data .. scattered data can displayed as matrix! 
+		</documentation>
+     
+	    	<parameter  member='x' to='string' default='count' from='string' name='binning_x_method'>
+	    		<documentation >Method to compute binns : count/list/interval 		</documentation>
+    	</parameter>
+    	<parameter  member='x_min' to='float' default='-1.0e+21' from='float' name='binning_x_min_value'>
+	    		<documentation >Min value used to compute the binns  		</documentation>
+    	</parameter>
+     	<parameter  member='x_max' to='float' default='1.0e+21' from='float' name='binning_x_max_value'>
+	    		<documentation >Max value used to compute the binns  		</documentation>
+    	</parameter>
+    
+    	<parameter  member='x_count' to='int' default='10' from='int' name='binning_x_count'>
+	    		<documentation >Aprroximate number on binns when using the count method  		</documentation>
+    	</parameter> 
+    
+    	<parameter  member='x_list' to='floatarray' default='floatarray()' from='floatarray' name='binning_x_list'>
+	    		<documentation >list of binns when using the list method 		</documentation>
+    	</parameter>
+    
+     	<parameter  member='x_interval' to='float' default='10' from='float' name='binning_x_interval'>
+	    		<documentation >list of binns when using the interval method 		</documentation>
+    	</parameter>
+	
+		<parameter  member='x_reference' to='float' default='0' from='float' name='binning_x_reference'>
+	    		<documentation > list of binns when using the interval method 		</documentation>
+    	</parameter>
+	    	<parameter  member='y' to='string' default='count' from='string' name='binning_y_method'>
+	    		<documentation >Method to compute binns : count/list/interval 		</documentation>
+    	</parameter>
+    	<parameter  member='y_min' to='float' default='-1.0e+21' from='float' name='binning_y_min_value'>
+	    		<documentation >Min value used to compute the binns  		</documentation>
+    	</parameter>
+     	<parameter  member='y_max' to='float' default='1.0e+21' from='float' name='binning_y_max_value'>
+	    		<documentation >Max value used to compute the binns  		</documentation>
+    	</parameter>
+    
+    	<parameter  member='y_count' to='int' default='10' from='int' name='binning_y_count'>
+	    		<documentation >Aprroximate number on binns when using the count method  		</documentation>
+    	</parameter> 
+    
+    	<parameter  member='y_list' to='floatarray' default='floatarray()' from='floatarray' name='binning_y_list'>
+	    		<documentation >list of binns when using the list method 		</documentation>
+    	</parameter>
+    
+     	<parameter  member='y_interval' to='float' default='10' from='float' name='binning_y_interval'>
+	    		<documentation >list of binns when using the interval method 		</documentation>
+    	</parameter>
+	
+		<parameter  member='y_reference' to='float' default='0' from='float' name='binning_y_reference'>
+	    		<documentation > list of binns when using the interval method 		</documentation>
+    	</parameter>
+</class></magics>

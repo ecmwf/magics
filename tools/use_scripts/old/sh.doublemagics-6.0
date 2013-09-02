@@ -1,0 +1,17 @@
+# Set the double precision environment for MAGICS
+#
+
+# Bourne Shell
+if [ -f /usr/local/SGKS/lib/libfgks.so.1.0  -o -f /usr/local/SGKS/lib/libfgks.so.1 ]
+then
+  echo "Double precision Magics is not available on SUN systems"
+  exit 1
+else
+  unset MAG_COASTLINES
+  MAGLIB="-L/usr/local/lib32 -lmagGL_r8 -lMvDevices_r8 -lftn -lfortran -lm"
+  EMOSLIB="-lemos_r8.new"
+  export MAGLIB
+  export EMOSLIB
+fi
+
+envSelected="doublemagics $envSelected"  ; export envSelected

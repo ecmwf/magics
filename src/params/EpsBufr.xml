@@ -1,0 +1,57 @@
+<magics>
+<class  action='pmetgram' directory='decoders' prefix='epsbufr' xmltag='epsbufr' name='EpsBufr'>
+ 	<parameter  member='path' to='string' default='' from='string' name='epsbufr_input_filename'>
+  			<documentation > Path to the file containing the Bufr data 		</documentation>
+ 	</parameter>
+    	<parameter  member='title' to='string' default='' from='string' name='epsbufr_title'>
+         		<documentation > text block to be plotted 		</documentation>
+        	</parameter>
+  	<parameter  member='param_title' to='string' default='' from='string' name='epsbufr_parameter_title'>
+  			<documentation > Title to use to describe the parameter 		</documentation>
+ 	</parameter>
+  	<parameter  member='information' to='bool' default='on' from='string' name='epsbufr_information'>
+  			<documentation > Plot or not information about station/forecast  in a long title   		</documentation>  
+ 	</parameter>
+  	<parameter  member='short_title' to='bool' default='on' from='string' name='epsbufr_short_title'>
+  			<documentation > Plot or not information about station/forecast  in a long title   		</documentation>  
+ 	</parameter>
+ 	<parameter  member='param_descriptor' to='int' default='0' from='int' name='epsbufr_parameter_descriptor'>
+  				<documentation > Descriptor to use 		</documentation>
+  	</parameter>
+  	<parameter  member='param_descriptor_2' to='int' default='0' from='int' name='epsbufr_parameter_2_descriptor'>
+  				<documentation > Descriptor to use 		</documentation>
+  	</parameter>
+  	<parameter  member='accumulated' to='bool' default='off' from='string' name='epsbufr_accumulated_parameter'>
+  				<documentation > Descriptor to use 		</documentation>
+  	</parameter>
+   	<parameter  member='station_name' to='string' default='' from='string' name='epsbufr_station_name'>
+       		<documentation >Name of the station to use in the title 		</documentation>
+   	</parameter>
+   	<parameter  member='latitude' to='float' default='0' from='float' name='epsbufr_station_latitude'>
+            		<documentation >Latitude of the point to extract 		</documentation>
+        	</parameter>
+         	<parameter  member='longitude' to='float' default='0' from='float' name='epsbufr_station_longitude'>           
+            		<documentation > Longitude of the point to extract 		</documentation>
+        	</parameter>
+         	<parameter  member='param_scaling_factor' to='float' default='1' from='float' name='epsbufr_parameter_scaling_factor'>
+             		<documentation > Scaling factor to apply to the values		</documentation>
+        	</parameter>
+         	<parameter  member='param_offset_factor' to='float' default='0' from='float' name='epsbufr_parameter_offset_factor'>
+             		<documentation > Scaling factor to apply to the values		</documentation>
+        	</parameter>
+    	<parameter  member='percentile' to='float' default='1' from='float' name='epsbufr_y_axis_percentile'>           
+            		<documentation > Temperature correction  		</documentation>
+            		<available >yes		</available>
+            		<available >no		</available>
+           
+            		<migration > New Magics: Parameter eps_temperature_correction sent to new Magics[EpsTempe].  		</migration>
+        	</parameter>
+        
+         	<parameter  member='threshold' to='float' default='50' from='float' name='epsbufr_y_axis_threshold'>           
+            		<documentation > Temperature correction  		</documentation>
+            		<available >yes		</available>
+            		<available >no		</available>
+           
+            		<migration > New Magics: Parameter eps_temperature_correction sent to new Magics[EpsTempe].  		</migration>
+        	</parameter>
+</class></magics>

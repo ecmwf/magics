@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE targetset 
+       SYSTEM "file:///usr/local/apps/docbook/docbook-xsl/current/common/targetdatabase.dtd" [
+<!ENTITY userguidetargets                 SYSTEM "../targets/magics_magics_userguide_html_target.db">
+<!ENTITY newfeaturestargets               SYSTEM "../targets/magics_magics_new_features_html_target.db">
+]>
+<targetset>
+  <targetsetinfo>
+    Description of this target database document,
+    which is for the examples in olink doc.
+  </targetsetinfo>
+
+  <!-- Site map for generating relative paths between documents -->
+  <sitemap>
+    <dir name="manual">
+      <document targetdoc="Magics_userguide">
+        &userguidetargets;
+      </document>
+<!--      <document targetdoc="Magics_new_features">
+        &newfeaturestargets;
+      </document> -->
+    </dir>
+  </sitemap>
+</targetset>

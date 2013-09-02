@@ -1,0 +1,439 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="Symbol_Plotting" label="14">
+  <title>Symbol Plotting</title>
+
+  <xi:include href="../phrases/chapterinfo_mod.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <section id="Symbol_Introduction">
+    <title>Introduction</title>
+
+    <para>Symbol plotting in <productname>Magics</productname> is the plotting
+    of different types of symbols at selected locations. A symbol in this
+    context is a number, a text string, a <productname>Magics</productname>
+    marker <remark>(see marker symbols in Figure XII-2 on page
+    XII-13)</remark> or a wind flag/arrow.</para>
+
+    <para>To plot symbols, it is necessary to pass information to
+    <productname>Magics</productname> that describes the symbols as well as
+    the positions where the symbols are to be plotted. All this information is
+    passed to <productname>Magics</productname> via arrays, which may consist
+    of one or more elements. The position of a symbol may be defined by its
+    geographical location (latitude/longitude), by its position in centimetres
+    from the bottom left hand corner of the SUBPAGE or by its position, in
+    axis units, within an axis system. Only those symbols whose positions are
+    within the subpage will be plotted. There are facilities in symbol
+    plotting that allow the user to control the height and colour of each
+    symbol and, if required, a legend describing the symbols may be plotted.
+    Examples of symbol plotting can be found in <remark>Symbol Program
+    Examples</remark>.</para>
+  </section>
+
+  <section id="Action_Routine_PSYMB">
+    <title>Action Routine PSYMB</title>
+
+    <para>Symbol plotting is achieved in <productname>Magics</productname> by
+    calling action routine <function>PSYMB</function> which, like all
+    <productname>Magics</productname> action routines, has no arguments.
+    Parameters associated with Symbol plotting may be set before
+    <function>PSYMB</function> is called. <function>PSYMB</function> will take
+    into account only those parameters which have been set before it is
+    called. All other symbol parameters will be assigned their default values,
+    if they exist. <remark>Details of any errors that may be detected by
+    <function>PSYMB</function> are given in SYMBOL Plotting : Error
+    Codes</remark>.</para>
+  </section>
+
+  <section id="Symbol_Input_Data_Section">
+    <title>Input Data</title>
+
+    <para></para>
+
+    <section id="Symbol_Position_Data">
+      <title>Position Data</title>
+
+      <para>All input data for symbol plotting are passed to
+      <productname>Magics</productname> via arrays. The parameter
+      <parameter>SYMBOL_POSITION_MODE</parameter> is used to describe the
+      input position data. Valid values are <code>GEOGRAPHIC</code>,
+      <code>PAPER</code> and <code>GRAPH</code>, the default value being
+      <code>GEOGRAPHIC</code>. Two arrays are used to pass the position
+      information, e.g.</para>
+
+      <programlisting>
+    CALL <function>PSET1R</function> ('<parameter>SYMBOL_INPUT_X_POSITION</parameter>',AR1,N)
+    CALL <function>PSET1R</function> ('<parameter>SYMBOL_INPUT_Y_POSITION</parameter>',AR2,N)
+      </programlisting>
+
+      <para>where <code>AR1</code> and <code>AR2</code> are arrays of
+      <code>N</code> elements.</para>
+
+      <para>In <code>GEOGRAPHIC</code> mode, the parameter
+      <parameter>SYMBOL_INPUT_X_POSITION</parameter> should be used to pass
+      the longitudes of the symbols and
+      <parameter>SYMBOL_INPUT_Y_POSITION</parameter> should be used to pass
+      the latitudes.</para>
+
+      <para>In <code>PAPER</code> mode,
+      <parameter>SYMBOL_INPUT_X_POSITION</parameter> and
+      <parameter>SYMBOL_INPUT_Y_POSITION</parameter> should be used to pass
+      the X and Y positions respectively of the symbols in centimetres, these
+      positions being relative to the lower left corner of the SUBPAGE.</para>
+
+      <para>In <code>GRAPH</code> mode,
+      <parameter>SYMBOL_INPUT_X_POSITION</parameter> and
+      <parameter>SYMBOL_INPUT_Y_POSITION</parameter> should be used to pass
+      the X and Y positions in axis units. The X and Y values, i.e. the
+      longitude and latitude positions or the paper coordinates, should be in
+      the corresponding pair of array elements. If the position specified for
+      a symbol does not fall within the current subpage, that symbol is not
+      plotted.</para>
+    </section>
+
+    <section id="Symbol_Input_Data">
+      <title>Symbol Input Data</title>
+
+      <para>There are four different types of SYMBOL input data, i.e. numbers,
+      text, wind and markers. The parameter <parameter>SYMBOL_TYPE</parameter>
+      is used to define the type of symbol required,e.g.</para>
+
+      <programlisting>    CALL <function>PSETC</function> ('<parameter>SYMBOL_TYPE</parameter>','MARKER')</programlisting>
+
+      <para>It can have one of four values: <code>NUMBER</code>,
+      <code>TEXT</code>, <code>WIND</code> or <code>MARKER</code>, the default
+      being <code>NUMBER</code>. Only one of the above four types can be
+      plotted in any one call to <function>PSYMB</function>.
+      <code>NUMBER</code> input data are the actual numbers to be plotted and
+      are passed as follows:</para>
+
+      <programlisting>    CALL <function>PSET1R</function> ('<parameter>SYMBOL_INPUT_NUMBER_LIST</parameter>',RARAY,N)</programlisting>
+
+      <para>where <code>RARAY</code> is a real array of <code>N</code>
+      elements. <code>TEXT</code> input data consists of text strings which
+      are to be plotted and are passed as follows:</para>
+
+      <programlisting>    CALL <function>PSET1C</function> ('<parameter>SYMBOL_INPUT_TEXT_LIST</parameter>',CARAY,N)</programlisting>
+
+      <para>where <code>CARAY</code> is a character array of <code>N</code>
+      elements. <code>MARKER</code> input data consists of indices to
+      <productname>Magics</productname> MARKERS (<remark>see marker symbols in
+      Figure XII-2 on page XII-13</remark>) and are passed as follows:</para>
+
+      <programlisting>    CALL <function>PSET1I</function> ('<parameter>SYMBOL_INPUT_MARKER_LIST</parameter>',IARAY,N)</programlisting>
+
+      <para>where <code>IARAY</code> is an integer array of <code>N</code>
+      elements. <code>WIND</code> data consists of the wind speed and
+      direction and are passed as follows:</para>
+
+      <programlisting>    CALL <function>PSETR</function> ('<parameter>SYMBOL_INPUT_WIND_SPEED</parameter>',SPARAY,N)
+    CALL <function>PSETR</function> ('<parameter>SYMBOL_INPUT_WIND_DIRECTION</parameter>',DARAY',N)</programlisting>
+
+      <para>where <code>SPARAY</code> and <code>DARAY</code> are real arrays
+      of <code>N</code> elements. Please note that wind symbols are only
+      available in <code>INDIVIDUAL</code> mode.</para>
+
+      <para>The POSITION arrays and the DATA INPUT arrays should all have the
+      same number of elements. The symbol in the i'th element of the DATA
+      array will be plotted in the position given by the i'th elements of the
+      POSITION arrays. It is the user's responsibility to ensure that they
+      correspond correctly. If the arrays are of different lengths,
+      <productname>Magics</productname> will limit all the arrays to the size
+      of the smallest array and a warning message will be printed. There is an
+      exception to this as <parameter>SYMBOL_INPUT_MARKER_LIST</parameter> may
+      consist of only one element and, if it does, the marker indexed by this
+      one value will be plotted for all the values in the data arrays.</para>
+
+    </section>
+  </section>
+
+  <section id="Methods_of_Symbol_Plotting">
+    <title>Methods of Symbol Plotting</title>
+
+    <para>There are three methods for plotting symbols: <code>TABLE</code>, 
+    <code>INDIVIDUAL</code> and <code>ADVANCED</code>. The required method may be
+    specified by setting the parameter <parameter>SYMBOL_TABLE_MODE</parameter> to
+    '<code>ON</code>' (<code>TABLE</code> mode),
+    '<code>OFF</code>' (<code>INDIVIDUAL</code> mode) which is the default, or
+    '<code>ADVANCED</code>'. Following is a description of the three
+    different modes.</para>
+
+    <section id="INDIVIDUAL_Mode">
+      <title>INDIVIDUAL Mode</title>
+
+      <para>Symbol plotting in <code>INDIVIDUAL</code> mode means that the
+      colour and height of the symbols to be plotted are controlled by the
+      values set in the <productname>Magics</productname> parameters
+      <parameter>SYMBOL_COLOUR</parameter> and
+      <parameter>SYMBOL_HEIGHT</parameter>. All the symbols, for each
+      <function>PSYMB</function> call, are plotted with the same colour and
+      height. To plot symbols in <code>INDIVIDUAL</code> mode the parameter
+      <parameter>SYMBOL_TABLE_MODE</parameter> should be set to
+      '<code>OFF</code>'.</para>
+    </section>
+
+    <section id="TABLE_Mode">
+      <title>TABLE Mode</title>
+
+      <para>TABLE mode allows users to plot symbols within specified ranges of
+      values and with varying colours and heights. Wind symbols are not
+      available in table mode. To plot symbols in TABLE mode, the parameter
+      <parameter>SYMBOL_TABLE_MODE</parameter> should be set to
+      '<code>ON</code>'. When calling <function>PSYMB</function> in TABLE
+      mode, the user must pass information to
+      <productname>Magics</productname> to describe the minimum and maximum of
+      each range required and may also pass information to describe the height
+      and/or colour for each of the desired ranges. All this information
+      should be passed in the form of tables and
+      <productname>Magics</productname> parameters exist to enable this.</para>
+
+
+      <para>The parameters for passing the minimum and maximum of the ranges
+      are <parameter>SYMBOL_MIN_TABLE</parameter> and
+      <parameter>SYMBOL_MAX_TABLE</parameter>, respectively. The minimum
+      values of the required ranges may be passed to
+      <productname>Magics</productname> as follows:</para>
+
+      <programlisting>    CALL <function>PSET1R</function> ('<parameter>SYMBOL_MIN_TABLE</parameter>',RMIN,N)</programlisting>
+
+      <para>where <code>RMIN</code> is a real array of <code>N</code>
+      elements. The maximum values should be placed in the corresponding
+      elements of an array and passed to <productname>Magics</productname> as
+      follows:</para>
+
+      <programlisting>    CALL <function>PSET1R</function> ('<parameter>SYMBOL_MAX_TABLE</parameter>',RMAX,N)</programlisting>
+
+      <para>where <code>RMAX</code> is a real array of <code>N</code>
+      elements. The colour to be used for each of the ranges may be passed
+      using the parameter <parameter>SYMBOL_COLOUR_TABLE</parameter> ,
+      e.g.</para>
+
+      <programlisting>    CALL <function>PSET1C</function> ('<parameter>SYMBOL_COLOUR_TABLE</parameter>',COLTAB,N)</programlisting>
+
+      <para>where <code>COLTAB</code> is a character array of <code>N</code>
+      elements. Similarly, the heights for each range may be passed as
+      follows:</para>
+
+      <programlisting>    CALL <function>PSET1R</function> ('<parameter>SYMBOL_HEIGHT_TABLE</parameter>',HGTAB,N)</programlisting>
+
+      <para>The input data and plotting positions required to use these tables should be passed using
+      the parameters described in <olink targetdoc="Magics_symbol" targetptr="Symbol_Input_Data" />.
+      Only those symbols, whose values in
+      <parameter>SYMBOL_INPUT_NUMBER_LIST</parameter> fit within one of the
+      specified ranges, will be plotted. To fit within a range, the values
+      must be greater than or equal to the minimum of the range and less than
+      the maximum of the range. If ranges overlap, a symbol will be plotted in
+      the first range in the table into which it fits.</para>
+
+      <section id="Parameters_Required_in_TABLE_Mode">
+        <title>Parameters Required in TABLE Mode</title>
+
+        <para>To plot symbols in table mode the parameter
+        <parameter>SYMBOL_TABLE_MODE</parameter> should be set to
+        '<code>ON</code>'. When in TABLE mode, it is necessary to pass the
+        information relating to the minimum and maximum of the ranges
+        (<parameter>SYMBOL_MIN_TABLE</parameter> /
+        <parameter>SYMBOL_MAX_TABLE</parameter>) as well as the input number
+        data (<parameter>SYMBOL_INPUT_NUMBER_LIST</parameter>). The tables
+        containing the colours and heights of the ranges
+        (<parameter>SYMBOL_COLOUR_TABLE</parameter> /
+        <parameter>SYMBOL_HEIGHT_TABLE</parameter>) may be passed if required.
+        If these are not passed the values set in
+        <parameter>SYMBOL_COLOUR</parameter> and
+        <parameter>SYMBOL_HEIGHT</parameter> will be used for all the
+        ranges.</para>
+      </section>
+    </section>
+  </section>  <!-- TABLE_Mode -->
+
+    <section id="ADVANCED_Mode">
+      <title>ADVANCED Mode</title>
+
+      <para>Symbol plotting in <code>ADVANCED</code> mode means that the
+      colour and height of the plotted symbols are determined
+      automatically according to configurable rules.
+      First, the data values can be clumped into ranges, by setting
+      <parameter>SYMBOL_ADVANCED_TABLE_SELECTION_TYPE</parameter> to one of
+      the following:</para>
+
+      <para><code>COUNT</code>: specify the number of ranges</para>
+      <para><code>INTERVAL</code>: specify the data value interval size</para>
+      <para><code>LIST</code>: specify a list of ranges</para>
+      <para></para>
+ 
+      <para>Also configurable is the way that the colours are selected; by setting
+      <parameter>SYMBOL_ADVANCED_TABLE_COLOUR_METHOD</parameter> to one of the following,
+      different strategies can be used:</para>
+
+      <para><code>CALCULATE</code>: automatically create a colour gradient
+      using the HSL colour wheel</para>
+      <para><code>LIST</code>: specify a user-defined list of colours</para>
+      <para></para>
+
+
+      <para>Likewise, the symbol heights can be specified in different ways by setting
+      <parameter>SYMBOL_ADVANCED_TABLE_HEIGHT_METHOD</parameter> to one of the following:</para>
+
+      <para><code>CALCULATE</code>: automatically create a height gradient</para>
+      <para><code>LIST</code>: specify a user-defined list of heights</para>
+
+      <!-- outliers -->
+
+    </section>
+
+
+
+
+  <section id="TABLE_Mode_Types">
+    <title>TABLE Mode Types</title>
+
+    <para>TABLE mode may be used with the symbol types NUMBER, TEXT and
+    MARKER but not with WIND. The symbol type required must be passed by
+    setting the parameter <parameter>SYMBOL_TYPE</parameter> to one of the
+    above valid values. Following is a description of how each of the symbol
+    types is used in TABLE mode.</para>
+
+    <section id="NUMBER_Data">
+      <title>NUMBER Data</title>
+
+      <para>The minimum and maximum values of the ranges and the input NUMBER
+      data and position data should be passed to
+      <productname>Magics</productname> as described above. Each number in the
+      input NUMBER data will be checked against the values in the minimum and
+      maximum tables to find the range in which this number falls, thus
+      finding the appropriate index to the tables. If a colour table has been
+      passed to <productname>Magics</productname>, the index is used to find
+      the corresponding colour in the
+      <parameter>SYMBOL_COLOUR_TABLE</parameter>. Likewise, the appropriate
+      height may be found in <parameter>SYMBOL_HEIGHT_TABLE</parameter>. The
+      number will then be plotted at the position given by the POSITION arrays
+      with the colour and height extracted from the tables. If the colour
+      and/or height tables have not been passed, the number will be plotted
+      with the attributes given by <parameter>SYMBOL_COLOUR</parameter> and/or
+      <parameter>SYMBOL_HEIGHT</parameter>. The following are diagrams showing
+      the mechanism for plotting NUMBER symbols in TABLE mode</para>
+
+      <highlights>
+        <para>Do we really need these table examples here? Surely a couple of
+        good examples (code &amp; output) would be better...</para>
+      </highlights>
+    </section>
+
+    <section id="TEXT_Data">
+      <title>TEXT Data</title>
+
+      <para>To plot TEXT data in TABLE mode, a table of text strings
+      corresponding to the ranges required must be passed as follows:</para>
+
+      <programlisting>    CALL <function>PSET1C</function> ('<parameter>SYMBOL_TEXT_TABLE</parameter>',TEXTAB,N)</programlisting>
+
+      <para>where <code>TEXTAB</code> is a character array of <code>N</code>
+      elements. The colours and heights for the various ranges and the input
+      data should be passed as described for NUMBER data. The mechanism for
+      plotting TEXT data is the same as for NUMBER data except that instead of
+      plotting the number the appropriate text string from
+      <parameter>SYMBOL_TEXT_TABLE</parameter> is plotted. The following are
+      diagrams showing the mechanism for plotting TEXT symbols in TABLE
+      mode.</para>
+
+      <highlights>
+        <para>Tables? Surely not...!</para>
+      </highlights>
+    </section>
+
+    <section id="MARKER_Data">
+      <title>MARKER Data</title>
+
+      <para>The method of plotting MARKER data is the same as for TEXT data
+      except that markers are plotted. The user must pass a table of marker
+      indices corresponding to the required ranges, e.g.</para>
+
+      <programlisting>    CALL <function>PSET1I</function> ('<parameter>SYMBOL_MARKER_TABLE</parameter>',MTAB,N)</programlisting>
+
+      <highlights>
+        <para>No tables please...!</para>
+      </highlights>
+    </section>
+  </section>
+
+  <!--
+  <section id="Border_Check">
+    <title>Border Check</title>
+
+    <para>The plotting of symbols on or close to the subpage border may be
+    controlled by setting the parameter
+    <parameter>SYMBOL_BORDER_CHECK</parameter>. If set to '<code>ON</code>',
+    symbols on or close to the subpage border will be plotted. The default is
+    '<code>OFF</code>'.</para>
+  </section>
+  -->
+
+  <!--
+  <section id="Distance_Between_Symbols">
+    <title>Distance Between Symbols</title>
+
+    <para>There is a parameter, <parameter>SYMBOL_DISTANCE_APART</parameter>,
+    to control the minimum distance between the centres of any two symbols.
+    When a symbol is plotted and <parameter>SYMBOL_DISTANCE_APART</parameter>
+    is set to <code>X</code> cm, no other symbol will be plotted within a
+    radius of <code>X</code> cm of the first symbol.</para>
+  </section>
+  -->
+
+  <section id="SYMBOL_INPUT_MARKER_LIST">
+    <title>SYMBOL_INPUT_MARKER_LIST</title>
+
+    <para>If only one symbol marker is required to be plotted at one or more
+    positions, it is sufficient to pass a marker list with just one marker
+    number, e.g.</para>
+
+    <programlisting>    CALL <function>PSET1I</function> ('<parameter>SYMBOL_INPUT_MARKER_LIST</parameter>',IMARK,1)</programlisting>
+  </section>
+
+  <!--
+  <section id="Symbol_Legend">
+    <title>Symbol Legend</title>
+
+    <para>In TABLE mode only, it is possible to plot a legend describing the
+    symbols plotted. This may be achieved by setting the parameter
+    <parameter>LEGEND</parameter> to '<code>ON</code>' , e.g.</para>
+
+    <programlisting>CALL PSETC ('LEGEND','ON')</programlisting>
+
+    <para>The legend plotted depends on the type of symbols required - number,
+    text or marker. It will basically consist of a description of the
+    MINIMUM/MAXIMUM tables passed to <productname>Magics</productname>, i.e.
+    <parameter>SYMBOL_MIN_TABLE</parameter>,
+    <parameter>SYMBOL_MAX_TABLE</parameter>, and a sample of the relevant
+    symbol for each entry in those tables. For marker symbols, the sample will
+    be a replica of the marker plotted where the height and colour of each
+    sample marker will be identical to the plotted marker. The sample marker
+    symbol will be taken from the relevant entry in the
+    <parameter>SYMBOL_MARKER_TABLE</parameter> passed to
+    <productname>Magics</productname> and height and colour will be taken from
+    the <parameter>SYMBOL_HEIGHT_TABLE</parameter> and
+    <parameter>SYMBOL_COLOUR_TABLE</parameter>, if these are passed by the
+    user. If these tables are not passed, the height and colour are taken from
+    the parameters <parameter>SYMBOL_HEIGHT</parameter> and
+    <parameter>SYMBOL_COLOUR</parameter> respectively. Number legend plotting
+    is identical to marker legend plotting except that, instead of a sample
+    marker symbol, a fixed marker (X) will be plotted. This marker will have
+    the same height and colour as the appropriate entry in
+    <parameter>SYMBOL_MIN_TABLE</parameter> and
+    <parameter>SYMBOL_MAX_TABLE</parameter>. Text legend plotting will be the
+    same as number legend plotting except that the fixed marker plotted is a
+    square. All the standard legend plotting features are available in symbol
+    legend plotting and a full description of general legend plotting may be
+    found in <remark>Chapter XV- Legend Plotting</remark>.</para>
+  </section>
+  -->
+
+  <xi:include href="../paramtables/psymb_tables.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <xi:include href="../paramtables/SymbolPlotting_symbol_magml_tables.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <xi:include href="../paramtables/SymbolPlotting_symbol_magml_flat_tables.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+</chapter>

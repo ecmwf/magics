@@ -1,0 +1,18 @@
+<magics>
+<class  inherits='Transformation' xmltag='taylor' name='TaylorProjection' directory='common' prefix='taylor/taylor/taylor_standard_deviation' action='ptaylor'>
+		<documentation >
+		
+		</documentation>
+         	<parameter  xml='min' from='float' name='taylor_standard_deviation_min' default='0' member='min' to='float'>
+            		<documentation >
+              	Min of the Standard deviation axis.
+           		</documentation>
+           		<release >Magics++1.4		</release> 
+       	</parameter>
+       	<parameter  xml='max' from='float' name='taylor_standard_deviation_max' default='1' member='max' to='float'>
+            		<documentation >
+              	Max of the Standard deviation axis.
+           		</documentation>
+           		<release >Magics++1.4		</release>
+       	</parameter>
+</class></magics>

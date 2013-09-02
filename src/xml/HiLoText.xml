@@ -1,0 +1,23 @@
+<?xml-stylesheet type='text/css' href='parameter.css'?>
+<magics>
+<class name='HiLoText'  xmltag='text' prefix='contour' action='pcont' directory='visualisers' inherits='HiLoTechnique' >
+   <documentation>
+   This object is reponsible for plotting the HI/Lo as text.
+   </documentation>
+   <parameter name='contour_hi_text' from='string' to='string'
+              member='hi_text' xml='hi_text' default='H'>
+         <documentation> Text to represent local maxima </documentation>
+         <release>Magics++0.1</release>
+  </parameter>
+
+  <parameter name='contour_lo_text' from='string' to='string'
+             member='lo_text' xml='lo_text' default='L'>
+         <documentation> Text to represent local minima </documentation>
+         <release>Magics++0.1</release>
+  </parameter>
+   <parameter name='contour_hilo_blanking' from='string' to='bool' member='blanking' default='off'>
+         <documentation> Blank around highs and lows (ON/OFF)</documentation>         
+         <release>Magics++2.6</release>
+  </parameter>
+</class>
+</magics>

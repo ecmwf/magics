@@ -1,0 +1,1047 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+                 "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd"> 
+<chapter id="Layout_Mapping_and_Coastlines" label="4">
+  <title>Layout, Mapping and Coastlines</title>
+
+  <xi:include href="../phrases/chapterinfo_mod.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <section id="Plot_Layout_Basic_Entities">
+    <title>Plot Layout - Basic Entities</title>
+
+    <para>The <productname>Magics</productname> plot layout facility provides
+    a simple means by which users can plot several maps at arbitrary positions
+    on the plotting page. It can also be used in a fully automatic mode,
+    whereby <productname>Magics</productname> will position the user's maps in
+    a predetermined order.</para>
+
+    <para>To describe <productname>Magics</productname> plot layout it is
+    necessary to define the naming convention for the entities that comprise
+    any plotted output from the system. Please refer to <remark>Diagram
+    III-1</remark> throughout this description.</para>
+
+    <para><firstterm>SUPER-PAGE</firstterm> , <firstterm>PAGE</firstterm> and
+    <firstterm>SUBPAGE</firstterm> are the entities used to define the
+    plotting areas in <productname>Magics</productname>:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para><firstterm>Super-pages</firstterm> are defined by their X and Y
+        axis lengths. A super-page can be thought of as the paper sheet on
+        which the work will be produced. The position of the bottom left hand
+        corner of the super-page is (0.0, 0.0).</para>
+      </listitem>
+
+      <listitem>
+        <para><firstterm>Pages</firstterm> subdivide a Super-page - any number
+        of pages may be defined by the user, provided they fit within the
+        limits of the current super-page. The position of a page on a
+        super-page, which can be controlled by
+        <productname>Magics</productname> or be defined by the user, is
+        relative to the bottom left hand corner of the super-page. A
+        user-controlled page is defined by its bottom left hand corner
+        position and its X and Y axis lengths.</para>
+      </listitem>
+
+      <listitem>
+        <para><firstterm>Subpages</firstterm> are the smallest entity - they
+        can contain one chart, e.g. contours superimposed on a background map
+        of coast lines and grid lines. One or more subpages can be plotted on
+        a page, provided that they fit within the limits assigned to that
+        page. Subpages can be of varying sizes. A subpage is defined by the
+        position of its bottom left hand corner and its lengths in the
+        horizontal (X) and vertical (Y) directions. The position of the
+        subpage is relative to the bottom left hand corner of the page.</para>
+      </listitem>
+    </itemizedlist>
+  </section>
+
+  <section id="Plot_Layout_Default_Values">
+    <title>Plot Layout Default Values</title>
+
+    <para>Default values exist for all the plot layout parameters. The default
+    value for the size of the super-page is A4 (horizontal), i.e. the length
+    in the X direction is 29.7cm and the length in the Y direction is 21cm.
+    Super-pages will be placed either sequentially along the plotter paper, or
+    on separate sheets, depending on the output device. The default value for
+    the page size is A4 (horizontal), i.e. X length is 29.7cm and the Y length
+    is 21cm. These defaults mean that the super-page and the page are the same
+    size. The default values for the subpage size and position depends on
+    whether the user sets some of the parameters:</para>
+
+    <!--
+    <highlights>
+      <para>Diagram 1</para>
+    </highlights>
+    -->
+
+    <para>If the user defines one or more of the subpage size or position
+    parameters, then <productname>Magics</productname> assumes that all the
+    subpage parameters have been defined and will use the current value of
+    these subpage parameters to plot the subpage. In this case, if any of the
+    parameters are not set, the defaults are calculated as follows:</para>
+
+    <para>The default values for the X and Y subpage lengths are 85% of the X
+    and Y page lengths. This corresponds to 25.24cm and 17.85cm respectively
+    for the default page size. The default subpage X position is 7.5% of the X
+    page length and the default subpage Y position is 5% of the Y page length.
+    This corresponds to 2.08cm and 1.05cm for the default page size.</para>
+
+    <para>If the user does not define any of the subpage parameters,
+    <productname>Magics</productname> will set the subpage parameters to
+    default values that depend on the values of the current page parameters.
+    Using fixed percentages of the page parameters to set the subpage values
+    ensures that the defaulted subpage fits neatly into the page and makes
+    maximum use of the plotting space. The percentages used are 85% for the X
+    and Y lengths, 7.5% for the subpage X position and 5% for subpage Y
+    position.</para>
+
+    <para>Users should be aware that the lengths of the subpage may be
+    affected by the type of map that is to be plotted in the subpage.
+    <productname>Magics</productname> will always try to fit subpages as
+    neatly as possible in the user's page but the requested projection, map,
+    scale etc. could mean that the subpage lengths are adjusted to fit the
+    requested map correctly. Therefore, users should be aware that certain
+    mapping parameters could affect the lengths of the subpage.</para>
+  </section>
+
+  <section id="Plot_Layout_for_Pages">
+    <title>Plot Layout for Pages</title>
+
+    <para>There are two methods of handling plot layout of pages in
+    <productname>Magics</productname> : '<code>POSITIONAL</code>' and
+    '<code>AUTOMATIC</code>', the default being
+    '<code>AUTOMATIC</code>'.</para>
+
+    <section id="Automatic_Mode">
+      <title>Automatic Mode</title>
+
+      <para>If a user wishes to make maximum use of the plotting paper, he
+      may request <productname>Magics</productname> to do the plot layout
+      for him by putting the system in automatic mode, which is the default
+      positioning mode. Pages will then be positioned in an organised way,
+      depending on the instructions given by the user.</para>
+
+      <para>When in automatic mode, a user can specify three instructions
+      which define the type of layout required.</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>The user can instruct <productname>Magics</productname> to
+          start positioning from the bottom or top of the plotting paper by
+          setting the <parameter>PLOT_START</parameter> parameter to
+          '<code>BOTTOM</code>' or '<code>TOP</code>'.</para>
+        </listitem>
+
+        <listitem>
+          <para>The default value for <parameter>PLOT_START</parameter> is
+          '<code>BOTTOM</code>'.</para>
+        </listitem>
+
+        <listitem>
+          <para>The direction in which plotting is required is defined by
+          setting the <parameter>PLOT_DIRECTION</parameter> parameter to
+          either '<code>HORIZONTAL</code>' or
+          '<code>VERTICAL</code>'.</para>
+        </listitem>
+
+        <listitem>
+          <para>The default value for <parameter>PLOT_DIRECTION</parameter>
+          is '<code>VERTICAL</code>'.</para>
+        </listitem>
+
+        <listitem>
+          <para>The gaps between the pages in the horizontal and vertical
+          directions are set by <parameter>PAGE_X_GAP</parameter> and
+          <parameter>PAGE_Y_GAP</parameter>.</para>
+        </listitem>
+
+        <listitem>
+          <para>The default values for <parameter>PAGE_X_GAP</parameter> and
+          <parameter>PAGE_Y_GAP</parameter> are both
+          <code>0.0</code>cm.</para>
+        </listitem>
+      </itemizedlist>
+
+      <para />
+      <!--
+      <highlights>
+        <para>Diagrams 2, 3, 4</para>
+      </highlights>
+      -->
+
+      <para>When <parameter>PLOT_DIRECTION</parameter> is set to
+      '<code>VERTICAL</code>' (default), <productname>Magics</productname>
+      will place the user's pages one over the other (or one under the
+      other, if starting at the top of the paper) until the limits of the
+      super-page are reached
+      (<parameter>SUPER_PAGE_Y_LENGTH</parameter>).</para>
+
+      <para>The next page is then placed alongside the first page in a
+      horizontal direction and subsequent pages are placed on top of (or
+      underneath) this. The mechanism is repeated until the limits of the
+      super-page are reached (<parameter>SUPER_PAGE_X_LENGTH</parameter>). A
+      new super-page is then allocated and the above procedure is repeated
+      until all the user's pages are plotted.</para>
+
+      <para>The gaps between the pages in both directions will be as defined
+      by the user (<parameter>PAGE_X_GAP</parameter>,
+      <parameter>PAGE_Y_GAP</parameter>) or the default values (both
+      <code>0.0</code>cm). <remark>See Diagram III-5(a)</remark> for an
+      example of page plotting in the vertical direction.</para>
+
+      <para>If the user specifies <parameter>PLOT_DIRECTION</parameter> as
+      '<code>HORIZONTAL</code>', <productname>Magics</productname> will
+      place the pages horizontally along the super-page with a gap between
+      the pages, as defined by the user (<parameter>PAGE_X_GAP</parameter>),
+      which defaults to <code>0.0</code>cm. <remark>See Diagram
+      III-5(b)</remark> for an example.</para>
+
+      <para>When the super-page limit
+      (<parameter>SUPER_PAGE_X_LENGTH</parameter>) is reached, the next page
+      will be placed directly above the first page to be plotted. Subsequent
+      pages will be placed horizontally along the paper directly above the
+      first row of pages, with a gap between the rows, as defined by the
+      user (<parameter>PAGE_Y_GAP</parameter> which defaults to
+      <code>0.0</code>cm). This mechanism continues until the super-page
+      limits are reached. A new super-page is then allocated by
+      <productname>Magics</productname> and the above procedure is repeated
+      until all the user's pages are plotted.</para>
+
+      <para>The user may start at the top of the paper if required, and the
+      same procedure as above will apply except that the rows of pages are
+      in descending order. If the user requires only one row of pages, the
+      length of the super-page in the Y direction may be set by the user to
+      a value which will limit the number of pages in the Y direction to
+      one.</para>
+
+      <para>A similar mechanism can be used to limit the number of pages in
+      the X direction.</para>
+    </section>
+
+    <section id="Positional_Mode">
+      <title>Positional Mode</title>
+
+      <para>In positional mode, the responsibility for organising the
+      position and size of plotted output rests with the user. He may,
+      however, use <productname>Magics</productname> defaults, if
+      suitable.</para>
+
+      <para>To define the position of a page, the user must define the
+      bottom left hand corner of the page
+      (<parameter>PAGE_X_POSITION</parameter>,
+      <parameter>PAGE_Y_POSITION</parameter>). He may also, if the default
+      A4 is not suitable, define the lengths of the page in the horizontal
+      and vertical directions (<parameter>PAGE_X_LENGTH</parameter>,
+      <parameter>PAGE_Y_LENGTH</parameter>).</para>
+
+      <para>The values given for the page position are relative to the
+      bottom left hand corner of the super-page. A user can define one or
+      more pages within a super-page, but any page or part of a page
+      exceeding the super-page limits will not be plotted.</para>
+
+      <para>The user may define a super-page by defining the length in the X
+      and Y directions (<parameter>SUPER_PAGE_X_LENGTH</parameter>,
+      <parameter>SUPER_PAGE_Y_LENGTH</parameter>). The position of the
+      bottom left hand corner of the super-page is always (0.0, 0.0).</para>
+<!--
+      <para>See <remark>Diagram III-5(c)</remark> for an example of page
+      layout in positional mode.</para>
+
+      <highlights>
+        <para>Diagram 5</para>
+      </highlights>
+      -->
+    </section>
+  </section>
+
+  <section id="Plot_Layout_for_Subpages">
+    <title>Plot Layout for Subpages</title>
+
+    <para>Subpages may be defined within a page by defining the bottom left
+    hand corner of the subpage (<parameter>SUBPAGE_X_POSITION</parameter>,
+    <parameter>SUBPAGE_Y_POSITION</parameter>) and the lengths in the X and Y
+    directions (<parameter>SUBPAGE_X_LENGTH</parameter>,
+    <parameter>SUBPAGE_Y_LENGTH</parameter>). The values for the subpage are
+    relative to the bottom left hand corner of the current page.</para>
+
+    <para>A user may define one or more subpages within a page. When a user
+    defines a subpage where all or some of the subpage is outside the limits
+    of the current page, <productname>Magics</productname> will issue an error
+    message but will plot any part of the user's subpage that comes within the
+    limits of the page. The rest of the plot will be lost.</para>
+  </section>
+
+  <section id="Pseudo_Action_Routine_PNEW">
+    <title>Pseudo Action Routine PNEW</title>
+
+    <para>Pseudo action routine <function>PNEW</function> informs
+    <productname>Magics</productname> that the user wishes to change from one
+    subpage, page or super-page to another.</para>
+
+    <para>No immediate action is performed when <function>PNEW</function> is
+    called, hence the name pseudo action. The change to a new subpage, page or
+    super-page is actually performed when the next action routine is
+    called.</para>
+
+    <para>The format of the call to <function>PNEW</function> is as follows:</para>
+
+    <programlisting>    CALL <function>PNEW</function>( 'key' )</programlisting>
+
+    <para>where 'key' can be '<code>SUBPAGE</code>', '<code>PAGE</code>' or
+    '<code>SUPER_PAGE</code>'.</para>
+
+    <para>For example, <code>CALL <function>PNEW</function>('PAGE')</code> will cause
+    <productname>Magics</productname> to terminate plotting on the currently
+    defined page and move to the next page.</para>
+
+    <para>In automatic mode, the positioning of the new page is done by
+    <productname>Magics</productname>. In positional mode, the user must
+    specify the position of the next page. The actual movement to a new page
+    does not occur until the first action routine following the call to
+    <function>PNEW</function>. Moving from one subpage or one super-page to
+    another is achieved in a similar manner.</para>
+
+    <para>The pseudo action routine, <function>PNEW</function>, must be used
+    to change from one subpage or one page to another. It is not necessary for
+    users to define super-pages as <productname>Magics</productname> will do
+    so automatically. However, to achieve a special type of layout, users may
+    define their own super-page. In this case, if they wish to change from one
+    super-page to another before the super-page is full, they must use pseudo
+    action routine <function>PNEW</function>.</para>
+  </section>
+
+  <section id="Plot_Frames">
+    <title>Plot Frames</title>
+
+    <para>By default, <productname>Magics</productname> will draw frames
+    around pages and subpages, but not around super-pages unless requested by
+    the user. Plot framing may be controlled by the user in all three
+    cases.</para>
+
+    <para>For the page and subpage, <productname>Magics</productname> allows
+    the user to control the colour, thickness and line style of the frame, as
+    well as providing facilities for turning it on and off. For the
+    super-page, the only control allowed is the facility for turning the frame
+    on and off. The parameters are summarised in <remark>Diagram III-2,
+    Diagram III-3 and Diagram III-6</remark>.</para>
+  </section>
+
+  <section id="Page_Identification_Line">
+    <title>Page Identification Line</title>
+
+    <para><productname>Magics</productname> will, by default, plot an
+    identification line and the ECMWF logo on the bottom of every page
+    plotted. The user may inhibit the plotting of these if he wishes.</para>
+
+    <para>The identification line consists of such items as the
+    <productname>Magics</productname> version number, the user's job name, the
+    current date and time, error numbers and an optional text string which the
+    user may define. The user also has control over the height and quality of
+    the characters in the identification line. However,
+    <productname>Magics</productname> defaults ensure that the height of the
+    characters are always reasonable.</para>
+
+    <para>The identification line is positioned on the bottom of each page,
+    starting in the bottom left hand corner. The ECMWF logo is plotted in the
+    bottom right hand corner of the page. Plotting of the identification line
+    and logo is controlled by the <productname>Magics</productname> parameter
+    <parameter>PAGE_ID_LINE</parameter>, which may be set '<code>ON</code>' or
+    '<code>OFF</code>', the default being '<code>ON</code>'.</para>
+
+    <para>The identification line can be split into 5 different parts; system
+    information, date/time. user text, error plotting and ECMWF logo. Each of
+    these parts can be turned on or off by using the following
+    parameters:</para>
+
+    <programlisting><parameter>
+    PAGE_ID_LINE_SYSTEM_PLOT
+    PAGE_ID_LINE_DATE_PLOT
+    PAGE_ID_LINE_USER_TEXT_PLOT
+    PAGE_ID_LINE_ERRORS_PLOT
+    PAGE_ID_LINE_LOGO_PLOT
+    </parameter></programlisting>
+
+    <para>The valid values for the above parameters are '<code>ON</code>' and
+    '<code>OFF</code>', with '<code>ON</code>' being the default for all five.
+    Any combination of the parts can be selected for plotting.</para>
+
+    <para>Other parameters controlling <parameter>PAGE_ID_LINE</parameter>
+    plotting are</para>
+
+    <programlisting><parameter>
+    PAGE_ID_LINE_HEIGHT
+    PAGE_ID_LINE_QUALITY
+    PAGE_ID_LINE_USER_TEXT
+    </parameter></programlisting>
+
+      <important> <title>Magics++ 2.10</title>
+      From version 2.10 onwards the option to set a USER_LOGO has been deprecated.
+      Users should use the PIMPORT action routine instead.
+      </important>
+
+<!--
+    <section id="User_Logos">
+      <title>User Logos</title>
+      <important> <title>Magics++</title>
+      <productname>Magics++</productname> provides the ability to
+      easily add a different logo to its plots.</important>
+
+      <para>The following code illustrates how to set up your own logo:</para>
+      <programlisting>
+    CALL <function>PSETC</function>('<parameter>PAGE_ID_LINE_LOGO_PLOT</parameter>', 'USER')
+    CALL <function>PSETC</function>('<parameter>USER_LOGO_FILENAME</parameter>',     'DATA/LOGO_MF_VERTICAL.GIF')
+    CALL <function>PSETC</function>('<parameter>USER_LOGO_FORMAT</parameter>',       'GIF')
+    CALL <function>PSETR</function>('<parameter>USER_LOGO_X_POSITION</parameter>',    0.5)
+    CALL <function>PSETR</function>('<parameter>USER_LOGO_WIDTH</parameter>',         1.0)
+    CALL <function>PSETR</function>('<parameter>USER_LOGO_Y_POSITION</parameter>',   12.0)
+    CALL <function>PSETR</function>('<parameter>USER_LOGO_HEIGHT</parameter>',        2.0)
+      </programlisting>
+    </section>
+-->
+
+  </section>
+
+  <section id="Useful_Hints_on_Plot_Layout">
+    <title>Useful Hints on Plot Layout</title>
+
+    <para>For plotting one field, users should use default values for
+    (<parameter>SUBPAGE_X_POSITION</parameter>,
+    <parameter>SUBPAGE_Y_POSITION</parameter>) and
+    (<parameter>PAGE_X_POSITION</parameter>,
+    <parameter>PAGE_Y_POSITION</parameter>). It is sufficient to define the
+    lengths of the plot, if the defaults are not suitable, i.e.
+    (<parameter>PAGE_X_LENGTH</parameter>,
+    <parameter>PAGE_Y_LENGTH</parameter>) and/or
+    (<parameter>SUBPAGE_X_LENGTH</parameter>,
+    <parameter>SUBPAGE_Y_LENGTH</parameter>).</para>
+
+    <para>In positional mode users can superimpose plots, one on top of the
+    other, by not changing the subpage, page or super-page definitions between
+    action routines.</para>
+
+    <para>Users may only change from one subpage or page to another by calling
+    the pseudo action routine <function>PNEW</function>. A change to a new
+    super-page can also be achieved by calling <function>PNEW</function> but
+    will happen automatically if plot layout is in automatic mode and there is
+    insufficient room for the next page in the current super-page.</para>
+
+    <para>The size of the super-page can be used to achieve the desired layout
+    of plots, i.e. by limiting the number of plots in the X and Y
+    directions.</para>
+
+    <para>The first action routine to be called sets up the user's subpage.
+    All parameters affecting the subpage definition should be set, if
+    required, before the first action routine is called. These parameters
+    include those mapping parameters with the prefix
+    <parameter>SUBPAGE_MAP</parameter>.</para>
+
+    <para>The lengths of the subpage may be affected by the type of map that
+    is to be plotted in the subpage. <productname>Magics</productname> will
+    always try to fit subpages as neatly as possible in the user's page but
+    the requested projection, map, scale etc. could mean that the subpage
+    lengths are adjusted to fit the requested map correctly. Therefore, users
+    should be aware that certain mapping parameters could affect the lengths
+    of the subpage.</para>
+
+    <!--
+    <highlights>
+      <para>Diagram 6</para>
+    </highlights>
+    -->
+  </section>
+
+  <section id="Mapping">
+    <title>Map projections</title>
+
+      <para>Four types of projections are catered for in
+      <productname>Magics</productname>, cylindrical (default), polar
+      stereographic, Mercator and satellite. Input data, especially if it is GRIB data, does not have to be in the
+      same projection as the generated map. Also, it is not necessary for users
+      to extract data for the required geographical area before passing the
+      input data. <productname>Magics</productname> can perform both those
+      functions. <productname>Magics</productname> can deal with input GRIB
+      data in cylindrical, polar stereographic and satellite projections but
+      not with Mercator. If the input field is passed in the form of an array,
+      <productname>Magics</productname> can only deal with cylindrical and
+      satellite projections.</para>
+
+      <para><productname>Magics</productname> parameters exist to enable users
+      to specify the area, scale, etc, required. Mapping parameters have been
+      given the prefix <parameter>SUBPAGE_MAP</parameter> to remind users that
+      these parameters must be set before any action routines are
+      called.</para>
+
+      <para>To define the map, users should specify the projection, scale etc,
+      if the default values are not applicable. The parameter
+      <parameter>SUBPAGE_MAP_PROJECTION</parameter> may be set to
+      '<code>CYLINDRICAL</code>', '<code>POLAR_STEREOGRAPHIC</code>',
+      '<code>MERCATOR</code>', '<code>TAYLOR</code>' or
+      '<code>CARTASIAN</code>', the default being
+      '<code>CYLINDRICAL</code>'.
+<!--      '<code>CYLINDRICAL</code>', '<code>POLAR_STEREOGRAPHIC</code>',
+      '<code>MERCATOR</code>', '<code>SATELLITE</code>',
+      '<code>AITOFF</code>', '<code>LAMBERT</code>',
+      '<code>OCEAN_SECTION</code>' or '<code>NONE</code>', the default being
+      '<code>CYLINDRICAL</code>'. -->
+      If <parameter>SUBPAGE_MAP_PROJECTION</parameter> is set to
+      '<code>NONE</code>', <productname>Magics</productname> will not apply
+      any projection to the user's input field.</para>
+
+      <section id="Cylindrical_Projection">
+        <title>Cylindrical and Mercator projection</title>
+
+        <para>An area on a cylindrical or Mercator Projection may be defined by specifying the latitude and
+        longitude coordinates of the lower left hand and top right hand
+        corners of the required area. The data for contouring for this area
+        may be for a smaller or larger area than the one specified but should
+        contain data which covers at least part of this area.
+        <productname>Magics</productname> can perform the extraction of data
+        to fit the area.</para>
+
+        <para>Users should always take care to ensure that the dimensions of
+        the subpage (<parameter>SUBPAGE_X_LENGTH</parameter>,
+        <parameter>SUBPAGE_Y_LENGTH</parameter>) are reasonable and
+        approximately match the area required.
+        <productname>Magics</productname> will always fit the required area to
+        the user's subpage in the best possible way.</para>
+
+        <important id="Area_Greater_Than_360_Degrees"> <title>Magics++</title>
+        New to <productname>Magics++</productname> is the ability to plot 
+        an area with more than 360
+        degrees of longitude. By specifying an area which crosses the 180
+        degree 'boundary', locations of interest can be more easily studied.</important>
+
+
+      </section>
+
+      <section id="Polar_Stereographic_Projection">
+        <title>Polar Stereographic Projection</title>
+
+        <para>If <parameter>SUBPAGE_MAP_PROJECTION</parameter> is set to
+        '<code>POLAR_STEREOGRAPHIC</code>', users may select a method for the
+        defining the area by setting <parameter>SUBPAGE_MAP_AREA_DEFINITION</parameter> to
+        '<code>CORNERS</code>' (default) or '<code>CENTRE</code>'.</para>
+
+        <!--
+        <highlights>
+          <para>Diagram 7</para>
+        </highlights>
+	-->
+
+        <section id="CORNERS">
+          <title>CORNERS</title>
+
+          <para>The first, (default) method allows users to specify the
+          latitude and longitude of the lower left hand corner and the upper
+          right hand corner of the area required. The vertical longitude may
+          also be specified if required.</para>
+
+          <para>There is no need to specify a map scale in this case as
+          <productname>Magics</productname> will fill the user's subpage with
+          the area required. Users should take care, however, to ensure that
+          the dimensions of the subpage
+          (<parameter>SUBPAGE_X_LENGTH</parameter>,
+          <parameter>SUBPAGE_Y_LENGTH</parameter>) are reasonable and
+          approximately match the area required.
+          <productname>Magics</productname> will always fit the required area
+          to the user's subpage in the best possible way.</para>
+
+          <para>Initially, <productname>Magics</productname> will use the
+          user's <parameter>SUBPAGE_X_LENGTH</parameter> as a basis and from
+          this calculate the correct map scale. It will then calculate the
+          correct <parameter>SUBPAGE_Y_LENGTH</parameter> for the map. If,
+          however, the calculated <parameter>SUBPAGE_Y_LENGTH</parameter> is
+          greater than the <parameter>SUBPAGE_Y_LENGTH</parameter> specified
+          by the user, <productname>Magics</productname> will calculate the
+          map scale and <parameter>SUBPAGE_X_LENGTH</parameter> based on the
+          defined <parameter>SUBPAGE_Y_LENGTH</parameter>.</para>
+
+          <para>This method ensures that the requested area will always fit in
+          the user's subpage. It also shows the importance of defining
+          suitable dimensions for <parameter>SUBPAGE_X_LENGTH</parameter> and
+          <parameter>SUBPAGE_Y_LENGTH</parameter>.</para>
+<!--
+          <para>Users can find out the map scale and subpage dimensions
+          actually used by calling the special
+          <productname>Magics</productname> routine
+          <function>PPRINT</function> after the action routine that drew the
+          map. <remark>See chapter on Contouring for details of routine
+          PPRINT</remark>.</para>
+-->
+          <para>Using this method, data for contouring will usually be in
+          cylindrical format. <productname>MAGICS</productname> will project
+          the required contour lines, providing that the input data covers at
+          least part of the requested area. It is also possible for the input
+          data to be in polar stereographic format providing that it fits the
+          exact area to be projected.
+           <olink targetdoc="Magics_data" targetptr="Data_Input" /> gives full
+          details of input data formats.</para>
+
+          <para>When <parameter>SUBPAGE_MAP_AREA_DEFINITION</parameter> is set
+          to '<code>CORNERS</code>', a polar stereographic map should be
+          defined by setting:</para>
+
+          <programlisting>
+    SUBPAGE_LOWER_LEFT_LATITUDE
+    SUBPAGE_LOWER_LEFT_LONGITUDE
+    SUBPAGE_UPPER_RIGHT_LATITUDE
+    SUBPAGE_UPPER_RIGHT_LONGITUDE
+          </programlisting>
+
+          <para><parameter>SUBPAGE_MAP_VERTICAL_LONGITUDE</parameter> may also
+          be set, if desired, but setting
+          <parameter>SUBPAGE_MAP_SCALE</parameter> in this case will have no
+          affect on the area.</para>
+        </section>
+
+        <section id="CENTRE">
+          <title>CENTRE</title>
+
+          <para>The second method of defining polar stereographic maps is to
+          specify the latitude and longitude of the centre of the area and the
+          scale of the map.</para>
+
+          <para>The default value for the scale is <code>50E6</code> (true at
+          60 north) and this corresponds to 500 kilometres being represented
+          on the map by 1cm. The vertical longitude may also be specified, if
+          the default (<code>0.0</code>) is not suitable. Users should be
+          aware that the selection of the vertical longitude is an important
+          element and will affect the area to be projected.</para>
+
+          <para>It is possible, by varying the vertical longitude, to rotate
+          an area. The area to be projected may be increased or decreased by
+          varying the map scale.</para>
+
+          <!--
+          <highlights>
+            <para>Diagram 8</para>
+          </highlights>
+	  -->
+
+          <para>The lengths of the current subpage
+          (<parameter>SUBPAGE_X_LENGTH</parameter>,
+          <parameter>SUBPAGE_Y_LENGTH</parameter>), together with the map
+          scale and the vertical longitude will determine the actual area to
+          be projected onto the user's subpage.</para>
+
+          <para>Users should be careful in setting the map scale. If the map
+          scale is too large, e.g. <code>200E6</code> for full hemisphere, the
+          map plotted will be very small. When the map scale is too small,
+          e.g. <code>5E6</code> for a full hemisphere, some of the map may not
+          be plotted, as it may not be possible to fit it in the defined
+          subpage.</para>
+
+          <para>To be able to estimate the map scale as a function of page
+          size for a full polar stereographic map, the following formula may
+          be used.</para>
+
+          <para>
+            <code>SUBPAGE_Y_LENGTH * SUBPAGE_MAP_SCALE = 24E8</code>
+          </para>
+
+          <para>When <parameter>SUBPAGE_MAP_AREA_DEFINITION</parameter> is set
+          to '<code>CENTRE</code>' a polar stereographic map may be defined by
+          setting <code>SUBPAGE_MAP_CENTRE_LATITUDE</code> and
+          <parameter>SUBPAGE_MAP_CENTRE_LONGITUDE.</parameter></para>
+
+          <para><parameter>SUBPAGE_MAP_VERTICAL_LONGITUDE</parameter> and
+          <parameter>SUBPAGE_MAP_SCALE</parameter> may also be defined if the
+          default values are not suitable.</para>
+        </section>
+      </section>
+
+
+<!--
+      <section id="Mercator_Projection">
+        <title>Mercator Projection</title>
+
+        <para>The Mercator projection may be defined by specifying the
+        latitude and longitude of the lower left hand and top right hand
+        corners of the required area. The data for contouring etc may be for a
+        larger area or a smaller area that the required plot area but it
+        should contain data for some part of the plot area.
+        <productname>Magics</productname> can perform the extraction of data
+        to fit the area. The default values for the Mercator projection are as
+        follows:</para>
+
+        <para>bottom left hand latitude = -85.0</para>
+
+        <para>bottom left hand longitude = -180.0</para>
+
+        <para>top right hand latitude = 85.0</para>
+
+        <para>top right hand longitude = 180.0</para>
+
+        <para>Users should always take care to ensure that the dimensions of
+        the subpage (<parameter>SUBPAGE_X_LENGTH</parameter>,
+        <parameter>SUBPAGE_Y_LENGTH</parameter>) are reasonable and
+        approximately match the area required.
+        <productname>Magics</productname> will fit the required area to the
+        user's subpage in the best possible way.</para>
+
+        <para>An example of the default Mercator projection is shown in the
+        example of SUBROUTINE PLOT02_TEN.</para>
+      </section>
+-->
+
+      <section id="Satellite_Projection">
+        <title>Satellite Projection</title>
+
+        <para>A satellite projection is fully defined to
+        <productname>Magics</productname> by the information in the GRIB code
+        headers. It is sufficient for the user to set the parameter
+        <parameter>SUBPAGE_MAP_PROJECTION</parameter> to
+        '<code>SATELLITE</code>' and to pass the GRIB code data to
+        <productname>Magics</productname>.</para>
+
+        <para><productname>Magics</productname> only caters for geostationary
+        satellite projections at present.</para>
+
+        <para>The satellite projection will by default make the satellite
+        image fill the subpage area. The user can specify a subarea
+        (rectangle) of the image by specifying the centre point and one corner
+        of the subarea, for example the bottom left hand or top right hand
+        corner (in latitude/longitude). The parameter
+        <parameter>IMAGE_SUBAREA_SELECTION</parameter> should be set to
+        '<code>ON</code>' if a subarea is required. The default is
+        '<code>OFF</code>' (full satellite projection).</para>
+
+        <para>The following parameter settings show how to plot a subarea in
+        the satellite projection:</para>
+
+        <programlisting>
+    CALL <function>PSETC</function> ('<parameter>IMAGE_SUBAREA_SELECTION</parameter>','ON')
+    CALL <function>PSETR</function> ('<parameter>SUBPAGE_MAP_CENTRE_LONGITUDE</parameter>', value)
+    CALL <function>PSETR</function> ('<parameter>SUBPAGE_MAP_CENTRE_LATITUDE</parameter>', value)
+    CALL <function>PSETR</function> ('<parameter>SUBPAGE_MAP_CORNER_LATITUDE</parameter>', value)
+    CALL <function>PSETR</function> ('<parameter>SUBPAGE_MAP_CORNER_LONGITUDE</parameter>', value)
+        </programlisting>
+
+        <para>Satellite projection is described fully in <remark>Chapter XIII-
+        Satellite Image Plotting</remark>.</para>
+      </section>
+
+<!--
+      <section id="Aitoff_Projection">
+        <title>Aitoff Projection</title>
+
+        <para>Aitoff projection is a simple poly-conic equal-area projection
+        and is defined by specifying the vertical longitude of the map, i.e.
+        <parameter>SUBPAGE_MAP_VERTICAL_LONGITUDE</parameter> . A full global
+        map with the specified vertical longitude in the centre of the map is
+        always plotted. Plotting of subareas is not allowed.</para>
+
+        <para>An example of the Aitoff projection is given in the example
+        program in <remark>SUBROUTINE PLOT02_FOURTEEN</remark>.</para>
+      </section>
+
+      <section id="Lambert_Projection">
+        <title>Lambert Projection</title>
+
+        <para>A Lambert projection is a conformal conic projection which is
+        defined by two standard parallels which converge at the pole. Scale is
+        true along the two standard parallels. The projection is conformal
+        everywhere but the poles and is neither equal-area nor equidistant.
+        The parallels are unequally spaced concentric circular arcs centred on
+        the pole of convergence. Spacing of the parallels increases away from
+        the central latitudes. The meridians are equally spaced lines
+        converging at one of the poles. The angles between the meridians are
+        less than true angles. A Lambert projection may be specified by
+        setting the following parameters:</para>
+
+        <programlisting>SUBPAGE_MAP_STANDARD_LATITUDE_1
+SUBPAGE_MAP_STANDARD_LATITUDE_2
+SUBPAGE_MAP_CENTRE_LATITUDE
+SUBPAGE_MAP_CENTRE_LONGITUDE
+SUBPAGE_MAP_SCALE</programlisting>
+
+        <para>An example of the Lambert projection is given in the example
+        programs in <remark>SUBROUTINE PLOT02_TWELVE and SUBROUTINE
+        PLOT02_THIRTEEN</remark>.</para>
+      </section>
+
+
+      <section id="Ocean_Section_Projection">
+        <title>Ocean Section Projection</title>
+
+        <para>The ocean_section projection enables the plotting of sections
+        and time series from the Ocean Model. To plot in this new projection,
+        users should pass GRIB code to <productname>Magics</productname>
+        containing an Ocean Model field and set the following
+        parameter:</para>
+
+        <programlisting>    CALL <function>PSETC</function>('<parameter>SUBPAGE_MAP_PROJECTION</parameter>', 'OCEAN_SECTION')</programlisting>
+
+        <para>The section or time-series will be plotted in the subpage
+        defined by the user. <productname>Magics</productname> will plot the
+        appropriate axes on the bottom horizontal and left vertical lines of
+        the subpage. It is not possible to plot subareas of the sections or
+        time-series.</para>
+
+        <para>Example of ocean section plots are given in the example programs
+        in <remark>SUBROUTINE PLOT02_FIFTEEN and SUBROUTINE
+        PLOT02_SIXTEEN</remark>.</para>
+      </section>
+-->
+</section>
+
+  <section id="Coastlines_and_Gridlines">
+    <title>Coastlines and Gridlines</title>
+
+    <para><productname>Magics</productname> will project coastlines and
+    latitude/longitude grid lines onto requested areas, as defined by the
+    user.</para>
+
+    <xi:include href="../phrases/coastlines_origin.xml"
+                xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <para>The plotting of coastlines and grid lines is achieved by calling the
+    action routine <function>PCOAST</function>. Mapping, coastline and grid
+    parameters should be set, if required, before <function>PCOAST</function>
+    is called.</para>
+
+    <para>Parameters exist in <productname>Magics</productname> to enable
+    users to control the plotting of coastlines and grid lines and these
+    parameters should be set before <function>PCOAST</function> is called.
+    Users can control the line style, colour, shading, resolution etc of
+    coastlines as well as the number, colour and quality of grid lines. Users
+    also have control over the plotting of grid line labels.</para>
+
+    <para><productname>Magics</productname> default values for coastline,
+    grids and labels ensure that users always achieve a reasonable plot.
+    However, if these default values are not suitable, users can set any or
+    all of the parameters to their own chosen value.</para>
+
+
+    <section id="Coastline_Activation">
+      <title>Coastline Activation</title>
+      <para> By default, coastlines are enabled, ie they are drawn
+      when <function>PCOAST</function> is called. To deactivate the coastline
+      drawing, set <parameter>MAP_COASTLINE</parameter> to '<code>OFF</code>'.
+      </para>       
+    </section>
+
+    <section id="Coastline_Attributes">
+      <title>Coastline Attributes</title>
+      <para> The parameters
+      <parameter>MAP_COASTLINE_THICKNESS</parameter>,
+      <parameter>MAP_COASTLINE_STYLE</parameter> and
+      <parameter>MAP_COASTLINE_COLOUR</parameter> control the coastline
+      thickness line style and colour respectively.    
+      </para>       
+
+        <important id="New_Coastline_Colour_Defaults">
+        <title>Magics++</title>Previous versions of <productname>Magics</productname>
+        plotted yellow coastlines and gridlines by default. This worked well on old dark monitors,
+        but <productname>Magics++</productname> has updated these defaults to black in order
+        to give better default plots on modern monitors and paper.
+        </important>
+
+    </section>
+
+    <section id="Coastline_Automatic_Selection">
+      <title>Coastline Automatic Selection</title>
+      <important> <title>Magics++</title>New to <productname>Magics++</productname>
+      is a flexible set of differing resolution coastlines. The new mechanisms are explained below.</important>
+
+<para> <productname>Magics++</productname> incorporates a new set of high-resolution coastlines which were provided by
+ http://www.naturalearthdata.com . By default, <productname>Magics</productname> will select an appropriate coastline
+      file automatically, using the lowest resolution file that will give high
+      quality output. This ensures high quality whilst improving speed and reducing
+      the size of the output file. In the majority of cases this should be
+      sufficient for most users' purposes.
+      </para>       
+    </section>
+
+    <section id="Specifying_a_Coastline_File">
+      <title>Specifying the coastline resolution</title>
+      <para>The first parameter that can change which coastline file is used is
+      <parameter>MAP_COASTLINE_RESOLUTION</parameter>. When set to <code>AUTOMATIC</code>
+      (its default value), the coastline file will be chosen automatically as above.
+      The possible alternatives are <code>LOW</code>, <code>MEDIUM</code> and <code>HIGH</code>.
+      This behaviour can be overridden by manually specifying one of the existing coastline files in the <productname>Magics++</productname>
+      share directory by setting the <parameter>MAP_COASTLINE_PATH</parameter> parameter.
+<!--
+      to one of the following:</para>
+      <programlisting>
+    CALL <function>PSETC</function> ('<parameter>MAP_COASTLINE_PATH</parameter>',  'coast_high.nc')
+    CALL <function>PSETC</function> ('<parameter>MAP_COASTLINE_PATH</parameter>',  'coast_medium_high.nc')
+    CALL <function>PSETC</function> ('<parameter>MAP_COASTLINE_PATH</parameter>',  'coast_medium.nc')
+    CALL <function>PSETC</function> ('<parameter>MAP_COASTLINE_PATH</parameter>',  'coast_low.nc')
+    CALL <function>PSETC</function> ('<parameter>MAP_COASTLINE_PATH</parameter>',  'coast_very_low.nc')
+    CALL <function>PSETC</function> ('<parameter>MAP_COASTLINE_PATH</parameter>',  'coast_tiny.nc')
+      </programlisting>
+      <para>   -->
+      If you have a coastline file in another directory, you can specify
+      a complete path to it in the <parameter>MAP_COASTLINE_PATH</parameter> parameter.</para>
+      <para>Note that it is not generally recommended to use a high resolution coastline
+      file with a large geographical area plot - the increase in quality will be hard to see
+      and the increase in plotting time may be significant.</para>
+    </section>
+
+    <!--
+    <section id="Creating_a_Different_Resolution_Coastline_File">
+      <title>Creating a Different Resolution Coastline File</title>
+      <para> If none of the existing files are quite right for you, you can run
+      the <filename>CoastBuilder</filename> program to generate a new one.
+      The following command line will produce a low-resolution coastline file
+      called <filename>coast_0.2.nc</filename> from the original high-resolution
+      data (<filename>coast.nc</filename>):</para>       
+      <programlisting>            CoastBuilder -in $MAGPLUS_HOME/share/coast.nc -out coast_0.2.nc -t 0.2</programlisting>
+      <para> You can now use this file by specifying its complete path to
+      the <parameter>MAP_COASTLINE_PATH</parameter> parameter. This program works
+      by removing points from the input file; no new points are created
+      and none are moved. The <code>-t</code> parameter specifies an error
+      threshold as a lat/long distance. The larger the value, the larger
+      the acceptable error and therefore the more points that will be removed.
+      </para>
+    </section>
+    -->
+
+    <!--
+    <section id="Filtering_the_Coastlines_at_Runtime">
+      <title>Filtering the Coastlines at Run-time</title>
+      <para> For the purpose of experimenting, it is possible to filter the coastlines
+      during the running of your <productname>Magics</productname> program. This
+      procedure uses the same filtering technique discussed briefly above.
+      The following line of code specifies that a coastline is generated by
+      filtering the original high-resolution coastline file with a threshold of 0.2:</para>       
+      <programlisting>            CALL PSETR ('MAP_COASTLINE_SIMPLIFICATION_FACTOR', 0.2)</programlisting>
+      <para> If you specify a <parameter>MAP_COASTLINE_PATH</parameter> then that data
+      will be filtered using the algorithm.</para>
+    </section>
+    -->
+
+    <section id="Land_and_Sea_Shading">
+      <title>Land and Sea Shading</title>
+
+      <para><productname>Magics</productname> allows the shading of the land
+      and sea in coastline plotting by means of two parameters
+      <parameter>MAP_COASTLINE_LAND_SHADE</parameter> and
+      <parameter>MAP_COASTLINE_SEA_SHADE</parameter>. The default value for
+      both is '<code>OFF</code>'. If land/sea shading is required, either or
+      both those parameters should be set to '<code>ON</code>' before
+      <function>PCOAST</function> is called. By default, land will be shaded
+      green and the sea blue. The user may change this by setting the
+      parameters <parameter>MAP_COASTLINE_LAND_SHADE_COLOUR</parameter> and
+      <parameter>MAP_COASTLINE_SEA_SHADE_COLOUR</parameter> to the desired
+      colours. Land and sea shading can be turned on or off independently
+      of each other.</para>
+
+      <important id="Coastline_Outline_And_Shading"> <title>Magics++</title>
+      Previous versions of <productname>Magics</productname> could not plot
+      both the coast outline and shading with a single call to <function>PCOAST</function> -
+      two calls were required.
+      <productname>Magics++</productname> will plot both if shading is on. To achieve the
+      effect of land or sea shading without the outlines visible, set the coastline colour
+      to be the same as the land or sea shading.
+      </important>
+
+</section>
+<section id="Political_boundaris">
+   <title>Political boundaries and rivers</title>
+<para><productname>Magics</productname> offers users to extend the display of coastlines 
+with rivers and political boundaries. The data for these services are, as with the coastlines,
+taken from http://www.naturalearthdata.com . ECMWF is not responsible for the accuracy and content of the 
+data sets and uses as they are provided by the owners.
+</para>
+</section>
+
+
+<section id="Gridline_Parameters">
+      <title>Gridline Parameters</title>
+
+      <para>To change the default grid values, users could, for example, set
+      <parameter>MAP_GRID_LATITUDE_REFERENCE</parameter> to <code>6.0</code>
+      and <parameter>MAP_GRID_LATITUDE_INCREMENT</parameter> to
+      <code>5.0</code>. This would result in the latitude lines being drawn on
+      the map every 5 degrees using the 6 degree line as a reference, e.g. the
+      lines drawn could be 1, 6, 11, 16 etc. The default values for these
+      parameters are <code>0</code> and <code>10</code> respectively, which
+      results in grid lines being drawn at 0, 10, 20, 30, 40 etc. The
+      parameters <parameter>MAP_GRID_LONGITUDE_REFERENCE</parameter> and
+      <parameter>MAP_GRID_LONGITUDE_INCREMENT</parameter> perform the same
+      function for the map longitude.</para>
+
+      <!--
+      <highlights>
+        <para>Diagrams 9, 10, 11</para>
+      </highlights>
+      -->
+
+      <para>The parameter <parameter>MAP_LABEL_LATITUDE_FREQUENCY</parameter>
+      enables users to have control over the lines on which latitude labels
+      appear. If this parameter is set to <code>4</code>, for example, then
+      labels will be plotted on every fourth latitude line. The parameter
+      <parameter>MAP_LABEL_LONGITUDE_FREQUENCY</parameter> performs the same
+      function for the map longitude. Users may inhibit the plotting of grids
+      and labels by setting both the parameters,
+      <parameter>MAP_GRID</parameter> and <parameter>MAP_LABEL</parameter> to
+      '<code>OFF</code>', the default for both being '<code>ON</code>'.</para>
+    </section>
+
+    <para>Very often, three action routines are required to plot a full map,
+    e.g. <function>PCOAST</function>, <function>PCONT</function> and
+    <function>PTEXT</function>. The first action routine to be called will set
+    up the user's subpage, on which all subsequent plotting takes place. Users
+    may call the action routines in any order, providing that the parameters
+    required have been previously set.</para>
+
+    <para>It is essential that mapping parameters which affect the user's
+    subpage, i.e. those with the prefix <parameter>SUBPAGE_MAP</parameter>, be
+    set, if required, before the first action routine is called, e.g.
+    <parameter>SUBPAGE_LOWER_LEFT_LONGITUDE</parameter>,
+    <parameter>SUBPAGE_MAP_SCALE</parameter>.</para>
+  </section>
+
+
+  <xi:include href="../paramtables/pnew(SUPER_PAGE)_tables.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+   <xi:include href="../paramtables/pnew(PAGE)_tables.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <xi:include href="../paramtables/pnew(SUBPAGE)_tables.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <xi:include href="../paramtables/pcoast_tables.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+
+
+  <xi:include href="../paramtables/XmlSceneNode_page_magml_tables.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <xi:include href="../paramtables/XmlSceneNode_page_magml_flat_tables.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <xi:include href="../paramtables/XmlViewNode_map_magml_tables.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <xi:include href="../paramtables/XmlViewNode_map_magml_flat_tables.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+<!--
+  <xi:include href="../paramtables/XmlPage_magml_tables.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <xi:include href="../paramtables/XmlSubPage_magml_tables.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+-->
+  <xi:include href="../paramtables/Coastlines_coastlines_magml_tables.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <xi:include href="../paramtables/Coastlines_coastlines_magml_flat_tables.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <xi:include href="../paramtables/TaylorGrid_taylor_grid_magml_tables.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+<!-- no need for flat taylor_grid tables as it is already a flat object
+  <xi:include href="../paramtables/TaylorGrid_taylor_grid_magml_flat_tables.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+-->
+
+</chapter>

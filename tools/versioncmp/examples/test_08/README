@@ -1,0 +1,5 @@
+
+pgf90 -o custplt.x custplt.f LAGUNA.f $MAGPLUSLIB_SHARED
+
+
+./custplt.x

@@ -1,0 +1,15 @@
+##!/bin/csh
+
+
+set  mymag = "/usr/local/apps/Magics/metview"
+#set  mymag = "/tmp/INSTALL/magics_static"
+set  extern = "/usr/local/apps/Magics/external"
+
+set  emoslib = "-L/usr/local/lib/metaps/lib/grib_api/current/lib -lgrib_api -lemos.R64.D64.I32 -ljasper -L//tmp/PERFORCE/spot/main/src -lspot_database" 
+
+setenv MAGPLUS_HOME $mymag
+setenv MAGPLUSLIB "-L$mymag/lib -lMagPlus -L$extern/lib  -lexpat -lgd -lfreetype -ljpeg -lpng -lz $emoslib  -lnetcdf_c++ -lnetcdf  -lstdc++ -lm -lfontconfig"
+setenv LD_LIBRARY_PATH "$mymag/lib:/usr/local/apps/Magics/external/lib:$LD_LIBRARY_PATH"
+
+
+

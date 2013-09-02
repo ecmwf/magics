@@ -1,0 +1,29 @@
+<forecast date='20100420' latitude='52.37' longitude=' 4.89' station='Amsterdam' time='00' title='MACC RAQ EPSGRAM'>
+  <param name='so2' title='Sulphur Dioxide [ &#181;g/m3 ]   N=7                                            threshold (1h max) = 350 &#181;g/m3' >
+    <step value="0" min="0.718095" ten="0.873904" twentyfive="1.558138" median="2.940270" seventyfive="3.595305" ninety="5.698440" max="8.169780"  control="350.000000" />
+    <step value="3" min="0.858712" ten="1.178607" twentyfive="3.070875" median="6.775590" seventyfive="8.613220" ninety="8.879194" max="8.899240"  control="350.000000" />
+    <step value="6" min="2.337540" ten="5.180850" twentyfive="9.494245" median="12.134100" seventyfive="16.470400" ninety="20.411200" max="21.141700"  control="350.000000" />
+    <step value="9" min="2.910590" ten="4.246778" twentyfive="5.342320" median="7.256960" seventyfive="7.739790" ninety="8.000778" max="8.236440"  control="350.000000" />
+    <step value="12" min="3.601280" ten="3.768962" twentyfive="4.220050" median="5.356880" seventyfive="5.780520" ninety="6.094604" max="6.107570"  control="350.000000" />
+    <step value="15" min="1.524580" ten="2.454088" twentyfive="3.130595" median="3.337540" seventyfive="4.127445" ninety="4.506542" max="4.661750"  control="350.000000" />
+    <step value="18" min="1.664800" ten="1.965628" twentyfive="2.180750" median="2.213000" seventyfive="3.281460" ninety="3.908446" max="4.179160"  control="350.000000" />
+    <step value="21" min="1.489270" ten="1.538902" twentyfive="1.667860" median="2.080320" seventyfive="3.005295" ninety="4.551222" max="6.265830"  control="350.000000" />
+    <step value="24" min="1.486500" ten="1.561512" twentyfive="1.627545" median="2.321960" seventyfive="2.908960" ninety="4.444598" max="5.889920"  control="350.000000" />
+    <step value="27" min="1.303260" ten="1.404804" twentyfive="1.480170" median="2.138280" seventyfive="2.871920" ninety="4.192552" max="5.140960"  control="350.000000" />
+    <step value="30" min="1.348090" ten="1.491370" twentyfive="1.642915" median="1.902080" seventyfive="3.433410" ninety="5.146092" max="5.996640"  control="350.000000" />
+    <step value="33" min="1.358930" ten="1.362452" twentyfive="1.441140" median="1.687120" seventyfive="2.065840" ninety="2.432036" max="2.815190"  control="350.000000" />
+    <step value="36" min="1.160470" ten="1.229950" twentyfive="1.308155" median="1.526230" seventyfive="2.104800" ninety="2.782846" max="3.107470"  control="350.000000" />
+    <step value="39" min="1.065900" ten="1.281792" twentyfive="1.426105" median="1.433830" seventyfive="1.596940" ninety="2.094040" max="2.708110"  control="350.000000" />
+    <step value="42" min="1.320340" ten="1.340338" twentyfive="1.442550" median="1.545250" seventyfive="1.629430" ninety="2.427574" max="3.580180"  control="350.000000" />
+    <step value="45" min="1.386860" ten="1.473110" twentyfive="1.550870" median="1.818610" seventyfive="2.666295" ninety="5.478074" max="8.547680"  control="350.000000" />
+    <step value="48" min="1.299800" ten="1.361246" twentyfive="1.588945" median="2.188730" seventyfive="3.912410" ninety="6.420468" max="7.648980"  control="350.000000" />
+    <step value="51" min="1.321270" ten="1.377946" twentyfive="1.433660" median="2.041650" seventyfive="3.657165" ninety="5.132288" max="5.237840"  control="350.000000" />
+    <step value="54" min="1.472840" ten="1.590044" twentyfive="1.681515" median="1.782790" seventyfive="3.589490" ninety="5.222082" max="5.916570"  control="350.000000" />
+    <step value="57" min="1.255170" ten="1.401498" twentyfive="1.633735" median="2.248370" seventyfive="3.045780" ninety="4.291502" max="5.177210"  control="350.000000" />
+    <step value="60" min="1.302240" ten="1.354374" twentyfive="1.508800" median="1.849280" seventyfive="2.192990" ninety="3.102518" max="4.455290"  control="350.000000" />
+    <step value="63" min="1.439240" ten="1.664510" twentyfive="1.827685" median="1.866780" seventyfive="2.439250" ninety="3.441794" max="4.783700"  control="350.000000" />
+    <step value="66" min="1.368810" ten="1.455264" twentyfive="1.794295" median="2.713600" seventyfive="2.784625" ninety="4.547142" max="7.098900"  control="350.000000" />
+    <step value="69" min="1.061980" ten="1.592158" twentyfive="2.022085" median="3.668770" seventyfive="4.508035" ninety="8.949984" max="14.821200"  control="350.000000" />
+    <step value="72" min="0.904105" ten="1.620526" twentyfive="2.541660" median="5.303410" seventyfive="8.296375" ninety="11.378140" max="12.962800"  control="350.000000" />
+  </param>
+</forecast>

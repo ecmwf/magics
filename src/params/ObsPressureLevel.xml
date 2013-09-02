@@ -1,0 +1,10 @@
+<magics>
+<class  directory='visualisers' action_routine='pobs' prefix='obs' xmltag='pressure_level' name='ObsPressureLevel'>
+		<parameter  member='visible' to='bool' default='off' from='string' name='obs_upper_air_pressure'>
+				<documentation > Turn On/off the pressure level ( satob)  		</documentation>
+    	</parameter>
+
+    	<parameter  xml='colour' from='string' name='obs_upper_level_pressure_colour' default='foreground' member='colour' to='Colour'>
+				<documentation > Colour the station ring 		</documentation>
+    	</parameter>
+</class></magics>

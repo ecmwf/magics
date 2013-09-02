@@ -1,0 +1,75 @@
+<magics>
+<class  inherits='WindPlotting' xmltag='flags' name='FlagPlotting' directory='visualisers' prefix='wind/wind_flag' action='pwind'>
+  	<documentation > WMO standard wind flags; represented by barbs and solid pennants 	</documentation> 
+  	<parameter  from='string' name='wind_flag_calm_indicator' default='on' member='calm' to='CalmIndicator' values='on/off'>
+        		<documentation > Plot calm indicator circle, if wind speed is less than 0.5 m/s (ON / OFF) 		</documentation>
+        		<option  xml='calm' fortran='on' include='CalmIndicator.h' name='CalmIndicator'>		</option>
+        		<option  xml='nocalm' fortran='off' include='CalmIndicator.h' name='NoCalmIndicator'>		</option>
+			<set  name='wind_flag_calm_indicator_size' value='on'>		</set>
+			<set  name='wind_flag_calm_below' value='on'>		</set>
+  	</parameter>
+
+  	<parameter  member='calm_indicator_size' to='float' default='0.3' from='float' name='wind_flag_calm_indicator_size'>
+         		<documentation > The radius of the circle which indicates calm in centimeter 		</documentation>
+        
+  	</parameter>
+  
+   	<parameter  member='calm_below' to='float' default='0.5' from='float' name='wind_flag_calm_below'>
+		
+         		<documentation > Winds less than or equal to this value will be drawn as calm. 		</documentation>
+  	</parameter>
+
+  	<parameter  member='colour' to='Colour' default='blue' from='string' name='wind_flag_colour'>
+			 
+         		<documentation > Colour of wind flag shaft, barbs and pennants  		</documentation>
+        
+  	</parameter>
+
+  	<parameter  from='string' name='wind_flag_cross_boundary' visible='false' default='on' member='cross_boundary' to='bool'>
+			
+         		<documentation > If set to 'ON', wind flags are truncated if they cross the subpage border (ON / OFF) 		</documentation>
+         		<release >Basic implementation in 0.6		</release>
+  	</parameter>
+
+  	<parameter  member='length' to='float' default='1.0' from='float' name='wind_flag_length'>
+         		<documentation > Physical length of wind flag shaft 		</documentation>
+         		<release >Basic implementation in 0.6		</release>
+  	</parameter>
+
+  	<parameter  member='max_speed' to='float' default='1.0e+21' from='float' name='wind_flag_max_speed'>
+         		<documentation > Highest value of wind speed to be plotted 		</documentation>
+         		<migration > New Magics: Parameter wind_flag_max_speed sent to new Magics[Wind].  		</migration>
+         		<release >Basic implementation in 0.6		</release>
+  	</parameter>
+
+  	<parameter  member='min_speed' to='float' default='-1.0e+21' from='float' name='wind_flag_min_speed'>
+         		<documentation > Lowest value of wind speed to be plotted 		</documentation>
+         		<release >Basic implementation in 0.6		</release>
+  	</parameter>
+
+  	<parameter  from='string' name='wind_flag_mode' default='normal' member='wind_flag_mode' to='string' implemented='no'>
+      		<release >Basic implementation in 0.6		</release>
+      		<documentation > Controls the line style of the wind flag shaft.(NORMAL / OFF_LEVEL / OFF_TIME) 		</documentation>
+  	</parameter>
+
+ 	<parameter  member='style' to='LineStyle' default='solid' from='string' name='wind_flag_style'>
+         		<documentation > Controls the line style of the wind flag shaft. 		</documentation>
+         		<release >Basic implementation in 0.6		</release>
+  	</parameter>
+
+  
+   	<parameter  from='string' name='wind_flag_origin_marker' default='circle' member='origin' to='OriginMarker' values='circle/dot/off'> 
+			<release >Basic implementation in 0.6		</release>
+			<documentation > Symbol for marking the exact location of the current grid point.		</documentation>
+			<option  xml='dotmarker' fortran='dot' include='OriginMarker.h' name='DotOriginMarker'>		</option>
+			<option  xml='circlemarker' fortran='circle' include='OriginMarker.h' name='CircleOriginMarker'>		</option>
+			<option  xml='nomarker' fortran='off' include='OriginMarker.h' name='NoOriginMarker'>		</option>
+  	</parameter>
+  
+  	<parameter  member='origin_marker_size' to='float' default='0.3' from='float' name='wind_flag_origin_marker_size'> 
+  	</parameter>
+
+  	<parameter  member='thickness' to='int' default='1' from='int' name='wind_flag_thickness'>
+	     		<release >Basic implementation in 0.6		</release>
+         		<documentation > Thickness of wind flag shaft 		</documentation>  	</parameter>
+</class></magics>

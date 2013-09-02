@@ -1,0 +1,29 @@
+Font table for Magics++
+
+ID	MAGICS(PostScript)      PostScript name      PostScriptFontfile  TTF		CSS (SVG) name
+=================================================================================================================
+0	arial_normal		Helvetica		n019003l.pfb    arial.ttf       Arial	 
+1	arial_italic	     	Helvetica-Oblique	n019023l.pfb    ariali.ttf      Arial
+2	arial_bold	     	Helvetica-Bold  	n019004l.pfb    arialbd.ttf     Arial
+3	arial_bolditalic        Helvetica-BoldOblique	n019024l.pfb    arialbi.ttf     Arial
+4	courier_normal		Courier		     	n022003l.pfb    cour.ttf	Courier
+5	courier_italic	        Courier-Oblique	     	n022023l.pfb    couri.ttf       Courier
+6	courier_bold	     	Courier-Bold	     	n022004l.pfb    courbd.ttf      Courier
+7	courier_bolditalic      Courier-BoldOblique  	n022024l.pfb    courbi.ttf      Courier
+8	helvetica_normal	Helvetica	     	n019003l.pfb    arial.ttf       Arial
+9	helvetica_italic        Helvetica-Oblique    	n019023l.pfb    ariali.ttf      Arial
+10	helvetica_bold	     	Helvetica-Bold	     	n019004l.pfb    arialbd.ttf     Arial
+11	helvetica_bolditalic    Helvetica-BoldOblique	n019024l.pfb    arialbi.ttf     Arial
+12	times_normal            Times-Roman	     	n021003l.pfb    times.ttf       Times
+13	times_italic	     	Times-Italic	     	n021023l.pfb    timesi.ttf      Times
+14	times_bold	     	Times-Bold	    	n021004l.pfb    timesbd.ttf     Times
+15	times_bolditalic     	Times-BoldItalic     	n021024l.pfb    timesbi.ttf     Times
+16	symbol_normal		Symbol		     	s050000l.pfb    symbol.ttf      Symbol
+50	sansserif_normal	Helvetica 		n019003l.pfb    DejaVuSans.ttf	             Helvetica	   
+51	sansserif_italic	Helvetica-Oblique 	n019023l.pfb    DejaVuSans-Oblique.ttf       Helvetica
+52	sansserif_bold	     	Helvetica-Bold		n019004l.pfb    DejaVuSans-Bold.ttf	     Helvetica
+53	sansserif_bolditalic    Helvetica-BoldOblique	n019024l.pfb    DejaVuSans-BoldOblique.ttf   Helvetica
+54	serif_normal	     	Times-Roman		n021003l.pfb    DejaVuSerif.ttf	             Times
+55	serif_italic	     	Times-Italic  	    	n021023l.pfb    DejaVuSerif-Oblique.ttf      Times
+56	serif_bold	     	Times-Bold		n021004l.pfb    DejaVuSerif-Bold.ttf         Times
+57	serif_bolditalic     	Times-BoldItalic	n021024l.pfb    DejaVuSerif-BoldOblique.ttf  Times

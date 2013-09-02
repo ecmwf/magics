@@ -1,0 +1,2 @@
+<magics>
+<class  directory='basic' include='MagnifierVisitor.h' name='NoMagnifierVisitor'></class></magics>

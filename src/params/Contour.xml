@@ -1,0 +1,69 @@
+<magics>
+<class  xmltag='contour' name='Contour' metview='MCONT' action='pcont' prefix='contour' directory='visualisers' fortan='pcont' root='contour'>
+  	<documentation >
+    This controls the plotting of isolines, contour bands and grid points.
+  	</documentation>
+
+  	<parameter  member='legend' to='bool' default='off' from='string' name='legend'> 
+				<documentation > Turn legend on or off 		</documentation> 
+				<release >2.12		</release>
+  	</parameter>
+
+  	<parameter  member='contour' to='IsoPlot' default='on' from='string' name='contour'> 
+         		<documentation > Turn contouring on or off  		</documentation>
+          		<option  xml='isoline' fortran='on' include='IsoPlot.h' name='IsoPlot'>		</option>
+          		<option  xml='noisoline' fortran='off' include='IsoPlot.h' name='NoIsoPlot'>		</option>
+		 		<unset  name='contour_line_style' value='off'>		</unset>
+		 		<unset  name='contour_line_thickness' value='off'>		</unset>
+		 		<unset  name='contour_line_colour' value='off'>		</unset>
+  	</parameter> 
+      
+  	<parameter  member='method' to='ContourMethod' default='automatic' from='string' name='contour_method'>
+         		<documentation > Contouring method  		</documentation>
+         		<option  xml='automatic' fortran='automatic' include='AutomaticContourMethod.h' name='AutomaticContourMethod'>		</option>
+           		<option  xml='sample' fortran='sample' include='AutomaticContourMethod.h' name='SampleContourMethod'>		</option>		
+         		<option  xml='linear' fortran='linear' include='ContourMethod.h' name='ContourMethod'>		</option>
+         		<option  xml='akima760' fortran='akima760' include='Akima760Method.h' name='Akima760Method'>		</option>
+         		<option  xml='akima474' fortran='akima474' include='Akima474Method.h' name='Akima474Method'>		</option>
+         		<release >0.1		</release>
+         		<release >Two akima algorithms have been implemented akima760/akima474 		</release>
+	</parameter>
+
+	<parameter  member='floor' to='float' default='-INT_MAX' from='float' name='contour_interpolation_floor'>
+         		<documentation >Any value below this floor will be forced  to the floor value.
+		avoid the bubbles artificially created by the interpolation method		</documentation>
+         		<release_info >2.8		</release_info>
+	</parameter>
+
+	<parameter  member='ceiling' to='float' default='INT_MAX' from='float' name='contour_interpolation_ceiling'>
+         		<documentation > any value above this ceiling will be forced  to the ceiling value.
+		avoid the bubbles artificially created by the interpolation method 		</documentation>
+         		<release_info >2.8		</release_info>
+	</parameter>
+
+	<parameter  from='string' name='contour_automatic_setting' visible='off' default='off' member='setting' to='bool'> 
+        		<documentation > Turn the automatic setting of contouring attributes  		</documentation>
+			<unset  name='contour_automatic_library_path' value='off'>		</unset>
+	</parameter>
+
+	<parameter  from='string' name='contour_automatic_library_path' visible='off' default='' member='library_path' to='string'> 
+         		<documentation > Users can give their own file to setup the automatic library of contours 		</documentation>
+	</parameter>
+
+
+	<parameter  member='hilo' to='HiLoBase' default='off' from='string' name='contour_hilo'>
+         		<documentation > Plot local maxima/minima  		</documentation>
+         		<option  xml='hilo' fortran='on' include='HiLo.h' name='HiLo'>		</option>
+         		<option  xml='nohilo' fortran='off' include='HiLo.h' name='NoHiLo'>		</option>
+         		<option  xml='high' fortran='hi' include='HiLo.h' name='HighHiLo'>		</option>
+         		<option  xml='low' fortran='lo' include='HiLo.h' name='LowHiLo'>		</option>
+	</parameter>
+  
+
+	<parameter  member='grid' to='ValuePlotBase' default='off' from='string' name='contour_grid_value_plot'>
+         		<documentation > Plot Grid point values 		</documentation>
+         		<option  xml='gridvalues' fortran='on' include='ValuePlot.h' name='ValuePlot'>		</option>
+         		<option  xml='nogridvalues' fortran='off' include='ValuePlot.h' name='NoValuePlot'>		</option>
+         		<release >Magics++0.3		</release>
+	</parameter>
+</class></magics>

@@ -1,0 +1,383 @@
+<?xml-stylesheet type='text/css' href='parameter.css'?>
+<magics>
+<class name='TextVisitor' action='ptext'
+	xmltag='text' prefix='text' xml_data='text_lines' directory='basic' xml_doc_inherits='XmlBasicNode'>
+  <documentation></documentation>
+  
+
+ <parameter name='text_html' from='string' to='bool' member='html' metview='no' default='on'>
+         <release>2.0</release>
+         <release_info> Change the default value from off to on in Magics2.12</release_info>
+         <documentation> enable use of HTML convention </documentation>
+  </parameter>
+
+
+ <parameter name='text_line_count' from='int' to='int' member='count' default='1'>
+         <release>0.1</release>
+         <release_info>deprecated parameter : see text_lines </release_info>
+         <documentation> The number of lines of text to be plotted </documentation>
+         <set value='1/2/3/4/5/6/7/8/9/10' name='text_line_1'/>
+         <set value='2/3/4/5/6/7/8/9/10'   name='text_line_2'/>
+         <set value='3/4/5/6/7/8/9/10'     name='text_line_3'/>
+         <set value='4/5/6/7/8/9/10'       name='text_line_4'/>
+         <set value='5/6/7/8/9/10'         name='text_line_5'/>
+         <set value='6/7/8/9/10'           name='text_line_6'/>
+         <set value='7/8/9/10'             name='text_line_7'/>
+         <set value='8/9/10'               name='text_line_8'/>
+         <set value='9/10'                 name='text_line_9'/>
+         <set value='10'                   name='text_line_10'/>
+ </parameter>
+
+  <parameter name='text_line_1' from='string' to='string' member='line1' 	 default='&#60;magics_title/&#62;'>
+         <release>0.1</release>    
+         <release_info>deprecated parameter : see text_lines </release_info>
+         <documentation> Character string for holding lines of text (n=1,10) </documentation>
+  </parameter>
+  
+ <parameter name='text_line_2' from='string' to='string' member='line2' 	 default=''>
+         <release>0.1</release>    
+         <release_info>deprecated parameter : see text_lines </release_info>
+         <documentation> Character string for holding lines of text (n=1,10) </documentation>
+  </parameter>
+  
+   <parameter name='text_line_3' from='string' to='string' member='line3'  default=''>
+         <release>0.1</release>    
+         <release_info>deprecated parameter : see text_lines </release_info>
+         <documentation> Character string for holding lines of text (n=1,10) </documentation>
+  </parameter>
+  
+   <parameter name='text_line_4' from='string' to='string' member='line4' default=''>
+         <release>0.1</release>    
+         <release_info>deprecated parameter : see text_lines </release_info>
+         <documentation> Character string for holding lines of text (n=1,10) </documentation>
+  </parameter>
+  
+   <parameter name='text_line_5' from='string' to='string' member='line5'  default=''>
+         <release>0.1</release>    
+         <release_info>deprecated parameter : see text_lines </release_info>
+         <documentation> Character string for holding lines of text (n=1,10) </documentation>
+  </parameter>
+  
+   <parameter name='text_line_6' from='string' to='string' member='line6'  default=''>
+         <release>0.1</release>    
+         <release_info>deprecated parameter : see text_lines </release_info>
+         <documentation> Character string for holding lines of text (n=1,10) </documentation>
+  </parameter>
+
+   <parameter name='text_line_7' from='string' to='string' member='line7' default=''>
+         <release>0.1</release>    
+         <release_info>deprecated parameter : see text_lines </release_info>
+         <documentation> Character string for holding lines of text (n=1,10) </documentation>
+  </parameter>
+  
+   <parameter name='text_line_8' from='string' to='string' member='line8'  default=''>
+         <release>0.1</release>    
+         <release_info>deprecated parameter : see text_lines </release_info>
+         <documentation> Character string for holding lines of text (n=1,10) </documentation>
+  </parameter>
+  
+   <parameter name='text_line_9' from='string' to='string'  member='line9' 	 default=''>
+         <release>0.1</release>    
+         <release_info>deprecated parameter : see text_lines </release_info>
+         <documentation> Character string for holding lines of text (n=1,10) </documentation>
+  </parameter>
+  
+   <parameter name='text_line_10' from='string' to='string' member='line10' default=''>
+         <release>0.1</release>    
+         <release_info>deprecated parameter : see text_lines </release_info>
+         <documentation> Character string for holding lines of text (n=1,10) </documentation>
+  </parameter>
+  
+
+  <parameter name='text_first_line' from='int' to='int' member='first' metview='no' default='1'>
+          <release>0.1</release>    
+         <release_info>deprecated parameter : see text_lines </release_info>
+         <documentation> The first line in the text block to be plotted </documentation>
+  </parameter>
+  
+
+  <parameter name='text_colour' from='string' to='Colour' member='font_colour' default='blue' metview_default='navy'>
+	<documentation>Colour of text in text block (Full choice of colours)</documentation>
+	<release>1.0</release>
+  </parameter>
+
+  <parameter name='text_font' from='string' to='string' member='font' xml='font' default='sansserif'>
+	<documentation>Font name - please make sure this font is installed!</documentation>
+	<release>1.0</release>
+	<release_info>Much improved in version 1.3.</release_info>
+  </parameter>
+  
+  <parameter name='text_font_style' from='string' to='string' member='font_style' default='normal'>
+	<documentation>Font style. Set this to an empty string in order to remove all styling.</documentation>
+  </parameter>
+  
+  <parameter name='text_font_size' from='string' to='string' member='font_dimension' default='0.5' metview_default='0.3'>
+	<documentation>Font size, specified in cm.</documentation>
+  </parameter>
+
+  <parameter name='text_justification' from='string' to='Justification' member='justification' default='centre'>
+	<release>Magisc++0.3</release>
+	<documentation> How text is to be positioned in each line (LEFT/CENTRE/RIGHT)</documentation>
+  </parameter>
+
+
+   <parameter name='text_automatic' from='string' to='bool' member='automatic' default='on' visible='no'>
+	<release>Magisc++2.1</release>
+	<documentation>How text is to be positioned in each line (LEFT/CENTRE/RIGHT)</documentation>
+  </parameter>
+
+  <parameter name='text_lines' from='stringarray' to='stringarray' member='lines' default='stringarray()' >
+         <documentation> text block to be plotted </documentation>
+         <migration> New Magics: Parameter text sent to new Magics[TextAction].  </migration>
+  </parameter>
+ <parameter name='text_mode' from='string' to='string' member='mode' default='title' values='title/positional'>
+ 	<documentation>Whether text is to be a title or user positioned (TITLE/POSITIONAL)</documentation>
+    <set value='positional' name='text_box_x_position'/>
+    <set value='positional' name='text_box_y_position'/>
+    <set value='positional' name='text_box_x_length'/>
+    <set value='positional' name='text_box_y_length'/>
+	<release>1.0</release>
+  </parameter>
+    <parameter name='text_box_x_position' from='float' to='float' member='x' default='-1'>
+         <release>0.1</release>
+         <documentation> X coordinate of lower left corner of text box (Relative to PAGE_X_POSITION) </documentation>
+  </parameter>
+
+  <parameter name='text_box_y_position' from='float' to='float' member='y' default='-1' >
+         <release>0.1</release>
+         <documentation> Y coordinate of lower left corner of text box (Relative to PAGE_Y_POSITION) </documentation>
+  </parameter>
+
+  <parameter name='text_box_x_length' from='float' to='float' member='width'  default='-1'>
+         <release>0.1</release>
+         <documentation> Length of text box in X direction </documentation>
+  </parameter>
+
+  <parameter name='text_box_y_length' from='float' to='float' member='height' xml='height' default='-1'>
+         <release>0.1</release>
+         <migration> New Magics: Parameter text_box_y_length sent to new Magics[TextBox].  </migration>
+  </parameter>
+
+  <parameter name='text_box_blanking' from='string' to='bool' member='blanking' default='off'>
+         <release>0.1</release>
+          <release_info>Paremeter defined but not implemeted : expected for 0.6</release_info>
+         <documentation> All plotting in the text box previous to PTEXT call will be blanked out. Plotting after PTEXT call will not be affected. (ON/OFF) </documentation>
+  </parameter>
+
+  <parameter name='text_border' from='string' to='bool' member='border' default='off'>
+         <release>0.5</release>    
+         <documentation> Plot border around text box (ON/OFF) </documentation>
+         <migration> New Magics: Parameter text_border sent to new Magics[TextBox].  </migration>
+         <set value='on' name='text_border_line_style'/>
+         <set value='on' name='text_border_colour'/>
+         <set value='on' name='text_border_thickness'/>
+      
+  </parameter>
+  
+  <parameter name='text_border_line_style' from='string' to='LineStyle' member='border_line_style' default='solid'>
+          <release>0.5</release>    
+         <documentation> Line style of border around text box (SOLID/DASH/DOT/CHAIN_DASH/CHAIN_DOT) </documentation>
+  </parameter>
+
+  <parameter name='text_border_colour' from='string' to='Colour' member='border_colour' default='blue' >
+          <release>0.5</release>    
+         <documentation> Colour of border around text box (Full choice of colours) </documentation>
+  </parameter>
+
+  <parameter name='text_border_thickness' from='int' to='int' member='border_thickness' default='1'>
+          <release>0.5</release>    
+         <documentation> Thickness of text box border </documentation>
+  </parameter>
+  
+    
+   <parameter name='text_character_1' from='string' to='string' member='character1' metview='no'  default=''>
+         <documentation> 10 MAGICS parameters enabling users to store CHARACTER info for plotting in text lines (n=1,10) </documentation>
+  </parameter>
+  
+  <parameter name='text_character_2' from='string' to='string' member='character2' metview='no' default=''>
+         <documentation> 10 MAGICS parameters enabling users to store CHARACTER info for plotting in text lines (n=1,10) </documentation>
+  </parameter>
+  <parameter name='text_character_3' from='string' to='string' member='character3' metview='no' default=''>
+         <documentation> 10 MAGICS parameters enabling users to store CHARACTER info for plotting in text lines (n=1,10) </documentation>
+  </parameter>
+  <parameter name='text_character_4' from='string' to='string' member='character4' metview='no' default=''>
+         <documentation> 10 MAGICS parameters enabling users to store CHARACTER info for plotting in text lines (n=1,10) </documentation>
+  </parameter>
+  <parameter name='text_character_5' from='string' to='string' member='character5' metview='no' default=''>
+         <documentation> 10 MAGICS parameters enabling users to store CHARACTER info for plotting in text lines (n=1,10) </documentation>
+  </parameter>
+  <parameter name='text_character_6' from='string' to='string' member='character6' metview='no' default=''>
+         <documentation> 10 MAGICS parameters enabling users to store CHARACTER info for plotting in text lines (n=1,10) </documentation>
+  </parameter>
+  <parameter name='text_character_7' from='string' to='string' member='character7' metview='no' default=''>
+         <documentation> 10 MAGICS parameters enabling users to store CHARACTER info for plotting in text lines (n=1,10) </documentation>
+  </parameter>
+  <parameter name='text_character_8' from='string' to='string' member='character8' metview='no' default=''>
+         <documentation> 10 MAGICS parameters enabling users to store CHARACTER info for plotting in text lines (n=1,10) </documentation>
+  </parameter>
+  <parameter name='text_character_9' from='string' to='string' member='character9' metview='no' default=''>
+         <documentation> 10 MAGICS parameters enabling users to store CHARACTER info for plotting in text lines (n=1,10) </documentation>
+  </parameter>
+  <parameter name='text_character_10' from='string' to='string' member='character10' metview='no' default=''>
+         <documentation> 10 MAGICS parameters enabling users to store CHARACTER info for plotting in text lines (n=1,10) </documentation>
+  </parameter>
+
+  <parameter name='text_integer_1' from='int' to='int' member='integer1' metview='no' default='0'>
+          <release_info>Needs user input to see the possible evolution of this parameter</release_info>
+         <documentation> 10 MAGICS parameters enabling users to store INTEGER info for plotting in text lines (n=1,10) </documentation>
+  </parameter>
+  
+  
+   <parameter name='text_integer_2' from='int' to='int' member='integer2' metview='no' default='0'>
+          <release_info>Needs user input to see the possible evolution of this parameter</release_info>
+         <documentation> 10 MAGICS parameters enabling users to store INTEGER info for plotting in text lines (n=1,10) </documentation>
+  </parameter>
+   <parameter name='text_integer_3' from='int' to='int' member='integer3' metview='no' default='0'>
+          <release_info>Needs user input to see the possible evolution of this parameter</release_info>
+         <documentation> 10 MAGICS parameters enabling users to store INTEGER info for plotting in text lines (n=1,10) </documentation>
+  </parameter>
+   <parameter name='text_integer_4' from='int' to='int' member='integer4' metview='no' default='0'>
+          <release_info>Needs user input to see the possible evolution of this parameter</release_info>
+         <documentation> 10 MAGICS parameters enabling users to store INTEGER info for plotting in text lines (n=1,10) </documentation>
+  </parameter>
+   <parameter name='text_integer_5' from='int' to='int' member='integer5' metview='no' default='0'>
+          <release_info>Needs user input to see the possible evolution of this parameter</release_info>
+         <documentation> 10 MAGICS parameters enabling users to store INTEGER info for plotting in text lines (n=1,10) </documentation>
+  </parameter>
+   <parameter name='text_integer_6' from='int' to='int'
+             member='integer6' metview='no' default='0'>
+          <release_info>Needs user input to see the possible evolution of this parameter</release_info>
+         <documentation> 10 MAGICS parameters enabling users to store INTEGER info for plotting in text lines (n=1,10) </documentation>
+  </parameter>
+   <parameter name='text_integer_7' from='int' to='int' member='integer7' metview='no' default='0'>
+          <release_info>Needs user input to see the possible evolution of this parameter</release_info>
+         <documentation> 10 MAGICS parameters enabling users to store INTEGER info for plotting in text lines (n=1,10) </documentation>
+  </parameter>
+   <parameter name='text_integer_8' from='int' to='int' member='integer8' metview='no' default='0'>
+          <release_info>Needs user input to see the possible evolution of this parameter</release_info>
+         <documentation> 10 MAGICS parameters enabling users to store INTEGER info for plotting in text lines (n=1,10) </documentation>
+  </parameter>
+   <parameter name='text_integer_9' from='int' to='int'
+             member='integer9' metview='no' default='0'>
+          <release_info>Needs user input to see the possible evolution of this parameter</release_info>
+         <documentation> 10 MAGICS parameters enabling users to store INTEGER info for plotting in text lines (n=1,10) </documentation>
+  </parameter>
+   <parameter name='text_integer_10' from='int' to='int' member='integer10' metview='no' default='0'>
+          <release_info>Needs user input to see the possible evolution of this parameter</release_info>
+         <documentation> 10 MAGICS parameters enabling users to store INTEGER info for plotting in text lines (n=1,10) </documentation>
+  </parameter>
+
+  <parameter name='text_real_1' from='float' to='float' member='real1' metview='no' default='0'>
+          <release_info>Needs user input to see the possible evolution of this parameter</release_info>
+         <documentation> 10 MAGICS parameters enabling users to store REAL information for plotting in text lines (n=1,10) </documentation>
+  </parameter>
+  
+   <parameter name='text_real_2' from='float' to='float' member='real2' metview='no' default='0'>
+          <release_info>Needs user input to see the possible evolution of this parameter</release_info>
+         <documentation> 10 MAGICS parameters enabling users to store REAL information for plotting in text lines (n=1,10) </documentation>
+  </parameter>
+   <parameter name='text_real_3' from='float' to='float' member='real3' metview='no' default='0'>
+          <release_info>Needs user input to see the possible evolution of this parameter</release_info>
+         <documentation> 10 MAGICS parameters enabling users to store REAL information for plotting in text lines (n=1,10) </documentation>
+  </parameter>
+   <parameter name='text_real_4' from='float' to='float' member='real4' metview='no' default='0'>
+          <release_info>Needs user input to see the possible evolution of this parameter</release_info>
+         <documentation> 10 MAGICS parameters enabling users to store REAL information for plotting in text lines (n=1,10) </documentation>
+  </parameter>
+   <parameter name='text_real_5' from='float' to='float' member='real5' metview='no' default='0'>
+          <release_info>Needs user input to see the possible evolution of this parameter</release_info>
+         <documentation> 10 MAGICS parameters enabling users to store REAL information for plotting in text lines (n=1,10) </documentation>
+  </parameter>
+   <parameter name='text_real_6' from='float' to='float'
+             member='real6' metview='no' default='0'>
+          <release_info>Needs user input to see the possible evolution of this parameter</release_info>
+         <documentation> 10 MAGICS parameters enabling users to store REAL information for plotting in text lines (n=1,10) </documentation>
+  </parameter>
+   <parameter name='text_real_7' from='float' to='float' member='real7' metview='no' default='0'>
+          <release_info>Needs user input to see the possible evolution of this parameter</release_info>
+         <documentation> 10 MAGICS parameters enabling users to store REAL information for plotting in text lines (n=1,10) </documentation>
+  </parameter>
+   <parameter name='text_real_8' from='float' to='float' member='real8' metview='no' default='0'>
+          <release_info>Needs user input to see the possible evolution of this parameter</release_info>
+         <documentation> 10 MAGICS parameters enabling users to store REAL information for plotting in text lines (n=1,10) </documentation>
+  </parameter>
+   <parameter name='text_real_9' from='float' to='float' member='real9' metview='no' default='0'>
+          <release_info>Needs user input to see the possible evolution of this parameter</release_info>
+         <documentation> 10 MAGICS parameters enabling users to store REAL information for plotting in text lines (n=1,10) </documentation>
+  </parameter>
+   <parameter name='text_real_10' from='float' to='float' member='real10' metview='no' default='0'>
+          <release_info>Needs user input to see the possible evolution of this parameter</release_info>
+         <documentation> 10 MAGICS parameters enabling users to store REAL information for plotting in text lines (n=1,10) </documentation>
+  </parameter>
+  
+  <parameter name='text_line_height_ratio_1' from='float' to='float' member='height_ratio_1' metview='no' default='1'>
+         <release_info>Needs user input to see the possible evolution of this parameter</release_info>
+         <documentation> Ratio of height of text lines to text reference character height (n=1,10). See main text </documentation>
+  </parameter>
+  
+  <parameter name='text_line_height_ratio_2' from='float' to='float' member='height_ratio_2' metview='no' default='1'>
+         <release_info>Needs user input to see the possible evolution of this parameter</release_info>
+         <documentation> Ratio of height of text lines to text reference character height (n=1,10). See main text </documentation>
+  </parameter>
+  <parameter name='text_line_height_ratio_3' from='float' to='float' member='height_ratio_3' metview='no' default='1'>
+         <release_info>Needs user input to see the possible evolution of this parameter</release_info>
+         <documentation> Ratio of height of text lines to text reference character height (n=1,10). See main text </documentation>
+  </parameter>
+  <parameter name='text_line_height_ratio_4' from='float' to='float'
+             member='height_ratio_4' metview='no' default='1'>
+         <release_info>Needs user input to see the possible evolution of this parameter</release_info>
+         <documentation> Ratio of height of text lines to text reference character height (n=1,10). See main text </documentation>
+  </parameter>
+  <parameter name='text_line_height_ratio_5' from='float' to='float' member='height_ratio_5' metview='no' default='1'>
+         <release_info>Needs user input to see the possible evolution of this parameter</release_info>
+         <documentation> Ratio of height of text lines to text reference character height (n=1,10). See main text </documentation>
+  </parameter>
+  <parameter name='text_line_height_ratio_6' from='float' to='float' member='height_ratio_6' metview='no' default='1'>
+         <release_info>Needs user input to see the possible evolution of this parameter</release_info>
+         <documentation> Ratio of height of text lines to text reference character height (n=1,10). See main text </documentation>
+  </parameter>
+  <parameter name='text_line_height_ratio_7' from='float' to='float'
+             member='height_ratio_7' metview='no' default='1'>
+         <release_info>Needs user input to see the possible evolution of this parameter</release_info>
+         <documentation> Ratio of height of text lines to text reference character height (n=1,10). See main text </documentation>
+  </parameter>
+  <parameter name='text_line_height_ratio_8' from='float' to='float' member='height_ratio_8' metview='no' default='1'>
+         <release_info>Needs user input to see the possible evolution of this parameter</release_info>
+         <documentation> Ratio of height of text lines to text reference character height (n=1,10). See main text </documentation>
+  </parameter>
+  <parameter name='text_line_height_ratio_9' from='float' to='float' member='height_ratio_9' metview='no' default='1'>
+         <release_info>Needs user input to see the possible evolution of this parameter</release_info>
+         <documentation> Ratio of height of text lines to text reference character height (n=1,10). See main text </documentation>
+  </parameter>
+  
+  <parameter name='text_line_height_ratio_10' from='float' to='float' member='height_ratio_10' metview='no' default='1'>
+         <release_info>Needs user input to see the possible evolution of this parameter</release_info>
+         <documentation> Ratio of height of text lines to text reference character height (n=1,10). See main text </documentation>
+  </parameter>
+
+ 
+  <parameter name='text_instruction_shift_character' from='string' to='string' member='text_instruction_shift_character' metview='no' default='\' implemented='no'>
+         <documentation> Symbol or character for indicating that an Instruction String follows </documentation>
+  </parameter>
+
+  <parameter name='text_escape_character' from='string' to='string' member='text_escape_character' default='#' implemented='no'>
+         <documentation> Symbol or character followed by 3 octal numbers - see one of Figure XIV-1 to Figure XIV-3 </documentation>
+  </parameter>
+
+  <parameter name='text_parameter_escape_character' from='string' to='string' member='parameter_escape' metview='no'  default='@'>
+         <documentation> Symbol or character for indicating that a MAGICS parameter follows. The MAGICS parameter is also terminated by the same symbol or character </documentation>
+  </parameter>
+  
+  <parameter name='text_line_height_ratios' from='floatarray' to='floatarray' member='height_ratios' xml='line_height_ratios' metview='no' default='floatarray()'>
+         <release_info>Needs user input to see the possible evolution of this parameter</release_info>
+         <documentation> Ratio of height of text lines to text reference character height (n=1,10). See main text </documentation>
+  </parameter>
+
+  <parameter name='text_line_space_ratio' from='float' to='float' member='text_line_space_ratio'  default='1.5' implemented='no' priory='0'>
+         <release_info>Needs user input to see the possible evolution of this parameter</release_info>
+         <documentation> Ratio of space above and below each line to text reference character height. See main text </documentation>
+  </parameter>
+
+</class>
+
+</magics>

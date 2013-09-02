@@ -1,0 +1,28 @@
+<magics>
+<class  inherits='LevelSelection' xmltag='count' name='CountSelectionType' directory='visualisers' prefix='contour/contour/contour_level' action='pcont'>
+  	<documentation >
+  The number of contour levels may be set by the user by setting 
+  the parameter CONTOUR_LEVEL_SELECTION_TYPE to 'COUNT' (default)
+  and CONTOUR_LEVEL_COUNT to the number of levels to be plotted. 
+  MAGICS will then calculate the contour interval
+  and the user's plot will consist of the number of levels specified
+  with a regular contour interval.
+  This is the default method and the default number of levels is 10. 
+  The exact number of contour levels plotted may not be CONTOUR_LEVEL_COUNT as
+  PCONT will always use the value stored in CONTOUR_REFERENCE_LEVEL as a starting point
+  and will pick reasonable values for the contour interval.
+  	</documentation>
+  	<parameter  member='levelCount' to='int' default='10' from='int' name='contour_level_count'>
+         		<documentation > Count or number of levels to be plotted. Magics will try to find "nice levels", 
+         this means that the number of levels could be slightly different from the asked number of levels		</documentation>
+         		<release >Magics++0.1		</release>
+  	</parameter>
+  	<parameter  member='tolerance' to='int' default='2' from='int' name='contour_level_tolerance'>
+         		<documentation > Tolerance: Do not use nice levels if the number of levels is really to different [count +/- tolerance] 		</documentation>
+         		<release >Magics++0.1		</release>
+  	</parameter>
+  	<parameter  member='reference' to='float' default='0.0' from='float' name='contour_reference_level'>
+         		<documentation > Contour level from which contour interval is calculated 		</documentation>
+         		<release >Magics++0.1		</release>
+  	</parameter>
+</class></magics>

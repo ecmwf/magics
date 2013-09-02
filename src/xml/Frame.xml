@@ -1,0 +1,45 @@
+<?xml-stylesheet type='text/css' href='parameter.css'?>
+<magics>
+
+
+
+<class name='Frame' action='pnew' used_by='XmlPage/XmlSubPage/Page' directory='common' inherits='FrameBase'>
+  <parameter name='frame_colour' from='string' to='Colour'
+             member='colour' xml='colour' default='blue' >
+         <release>Magics++0.5</release>
+         <documentation> Colour of  frame </documentation>
+  </parameter>
+
+  <parameter name='frame_line_style' from='string' to='LineStyle'
+             member='style' xml='line_style' default='solid' >
+         <release>Magics++0.5</release>
+         <documentation> Style of  frame(SOLID/DASH/DOT/CHAIN_DASH/CHAIN_DOT) </documentation>
+  </parameter>
+
+  <parameter name='frame_thickness' from='int' to='int'
+             member='thickness' xml='thickness' default='1'>
+         <release>Magics++0.5</release>
+         <documentation> Thickness of  frame </documentation>
+  </parameter>
+  
+   <parameter name='frame_blanking' from='string' to='bool'
+             member='blanking' xml='blanking' default='on'>
+         <release>Magics++0.5</release>
+         <release_info>Work in progress...</release_info>
+         <documentation> blanking of the box </documentation>
+  </parameter>
+ </class>
+ 
+
+<class name='NoFrame' action='pnew' directory='common' include='Frame.h' inherits='FrameBase'>
+   <documentation>
+   This object suppresses plotting of a frame.
+   </documentation>
+</class>
+<class name='FrameBase' action='pnew' directory='common' include='FrameBase.h'>
+   <documentation>
+   Base Object for frame
+   </documentation>
+</class>
+  
+</magics>

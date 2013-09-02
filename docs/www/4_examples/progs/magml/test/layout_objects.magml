@@ -1,0 +1,58 @@
+<magics version='3.0'>
+
+  <drivers>
+    <ps            name= 'layout_objects' />
+    <gif_animation name= 'layout_objects' />
+  </drivers>
+
+    <page>
+        <map width='40%'> 
+            <cylindrical />
+
+            <coastlines>
+                <nocoast />
+                <grid colour = 'grey' />
+            </coastlines>
+
+            <text display='absolute' bottom='70%'>Title for map 1</text>
+        </map>
+
+        <map width='40%' height='40%'> 
+            <cylindrical />
+
+            <coastlines>
+                <nocoast />
+                <grid colour = 'grey' />
+            </coastlines>
+
+            <text>Title for map 2</text>
+        </map>
+
+    </page>
+
+    <page>
+        <map width='40%'> 
+            <cylindrical />
+
+            <coastlines>
+                <nocoast />
+                <grid colour = 'grey' />
+            </coastlines>
+
+            <text>Title for map 1</text>
+        </map>
+
+        <map width='40%' height='40%'> 
+            <cylindrical />
+
+            <coastlines>
+                <nocoast />
+                <grid colour = 'grey' />
+            </coastlines>
+
+            <text>Title for map 2</text>
+        </map>
+
+    </page>
+
+</magics>

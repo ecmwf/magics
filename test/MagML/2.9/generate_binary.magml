@@ -1,0 +1,22 @@
+<magics version="3.0" mode="wrep" width='500' height='300'>
+
+<drivers>
+	<ps name="Background"/>
+	<mgb name="Background"/>
+</drivers>
+
+<page format='a4' orientation='landscape'>
+   <map>
+      <polar_stereographic
+         subpage_lower_left_longitude='-30'
+         subpage_lower_left_latitude='30'
+         subpage_upper_right_longitude='70'
+         subpage_upper_right_latitude='50'
+      />
+      <text font='sansserif' colour='rgb(0.1,0.6,0.2)' bottom="90%" display="inline" >Z500 Contour Plot</text>
+     
+      <coastlines land_shade='off' sea_shade='off'/>
+   </map>
+</page>
+
+</magics>

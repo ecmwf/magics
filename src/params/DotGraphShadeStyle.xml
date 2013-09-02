@@ -1,0 +1,10 @@
+<magics>
+<class  directory='visualisers' inherits='GraphShadeStyle' include='GraphShadeStyle.h' name='DotGraphShadeStyle'>
+   	<parameter  xml='dot_density' from='int' name='graph_shade_density' default='20' member='density' to='int' implemented='no'>
+         		<documentation > Density per square cm. of shading dots 		</documentation>
+  	</parameter>
+
+  	<parameter  xml='dot_size' from='float' name='graph_shade_dot_size' default='0.02' member='size' to='float'>
+         		<documentation > Size of shading dots  		</documentation>
+  	</parameter>
+</class></magics>

@@ -1,0 +1,10 @@
+<eps template='15_days_epsgram_a3.xml' 
+     database='/vol/epsgram/data/spotbase/15_days/0001/latest' 
+     format='a3'> 
+  <station name='Reading'
+           latitude='51.4' longitude='-1' height='48' 
+	   psfile='Reading15.ps'
+	   giffile='Reading.gif'
+	   pngfile='Reading.png'
+	   metafile='Reading.meta'/>
+</eps>

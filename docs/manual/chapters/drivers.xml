@@ -1,0 +1,697 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+                 "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd"> 
+
+<chapter id="MAGICS_Output_Drivers" label="3">
+<title>Magics Output Drivers</title>
+
+  <xi:include href="../phrases/chapterinfo_mod.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+
+  <section id="Drivers_Introduction">
+  <title>Introduction</title>
+
+    <para><productname>Magics</productname> is capable of producing plots in a number of different file
+    formats, detailed in the following sections. By default, PostScript output will be produced.</para>
+    
+    <para>As other parts of <productname>Magics</productname> the code is structured modular to allow 
+    easier maintenance and to add easily new output formats. Each module is called a driver and supports 
+    at least one output format.</para>
+
+    <para>
+    Please be aware that not all output drivers might be installed on your system. Some output drivers dependent on third-party libraries.
+    If these are missing at compilation time <productname>Magics++</productname> can not support all formats. 
+    Please consult the installation guide for more information.
+    </para>
+
+    <para>
+    The output drivers have undergone major changes since <productname>MAGICS 6</productname>.
+    Please be aware that some default values have changed and are not backwards compatible. For example, 
+    in previous versions PostScript output was by default shrunken to 95% of its actual size to be 
+    resilient against changes in printer setups. This is not as much as an issue anymore and therefore the default 
+    scaling has been set to 100% again.
+    </para>
+
+    <para>A special output driver is generating Qt which is only intended for screen display. This driver is 
+    used by <productname>Metview</productname> and is not documented further here. 
+    </para>
+
+<section id="Output_Parameters">
+<title>Controlling the output formats</title>
+
+<para>Parameters can be set to influence how the output formats are generated.
+Some parameters are effective on all format, such as file name, and some are 
+specific for each format.</para>
+
+<important>
+    <title>Magics++</title>
+    The interface has been revised to increase consistency and simplify user
+    code. The old MAGICS 6 'DEVICE' parameters have been kept for backwards
+    compatibility, but the use of the new parameters is strongly recommended.
+</important>
+</section>
+
+</section>
+
+  <section id="Output_Formats">
+    <title>Selecting output formats and their naming</title>
+
+   <para>This section will describe how file formats can be chosen and output names are control
+   by <productname>Magics</productname>.</para>
+
+      <para>By default, the output format for a <productname>Magics</productname> plot is
+      PostScript (<code>PS</code>).
+      You may select a different output format by setting parameter
+      <parameter>OUTPUT_FORMAT</parameter> to any of the following:</para>
+
+      <table border="1" id="table_Output_Formats">
+        <title>Output Formats</title>
+          <tgroup cols="4">
+            <colspec colwidth="130" />
+            <colspec colwidth="60"  />
+            <colspec colwidth="140" />
+            <colspec colwidth="90" />
+            <thead>
+              <row>
+                <entry align="center">Value</entry>
+                <entry align="center">Graphics File Format</entry>
+                <entry align="center">Pages</entry>
+                <entry align="center">Driver</entry>
+              </row>
+            </thead>
+            <tbody>
+
+              <row>
+                <entry>PS</entry>
+                <entry>vector</entry>
+                <entry>produces a single file*</entry>
+                <entry>PostScript</entry>
+              </row>
+
+              <row>
+                <entry>EPS</entry>
+                <entry>vector</entry>
+                <entry>produces multiple files</entry>
+                <entry>PostScript</entry>
+              </row>
+
+              <row>
+                <entry>PDF</entry>
+                <entry>vector</entry>
+                <entry>produces a single file</entry>
+                <entry>Cairo</entry>
+              </row>
+
+	      <row>
+                <entry>PNG</entry>
+                <entry>raster</entry>
+                <entry>produces multiple files</entry>
+                <entry>Cairo</entry>
+              </row>
+
+              <row>
+                <entry>GIF</entry>
+                <entry>raster</entry>
+                <entry>produces multiple files</entry>
+                <entry>GD</entry>
+              </row>
+
+              <row>
+                <entry>GIF_ANIMATION</entry>
+                <entry>raster</entry>
+                <entry>produces a single file</entry>
+                <entry>GD</entry>
+              </row>
+
+              <row>
+                <entry>JPEG</entry>
+                <entry>raster</entry>
+                <entry>produces multiple files**</entry>
+                <entry>GD</entry>
+              </row>
+
+	      <row>
+                <entry>SVG</entry>
+                <entry>vector</entry>
+                <entry>produces multiple files</entry>
+                <entry>SVG</entry>
+              </row>
+
+              <row>
+                <entry>KML</entry>
+                <entry>vector</entry>
+                <entry>produces single KMZ file</entry>
+                <entry>KML</entry>
+              </row>
+            </tbody>
+          </tgroup>
+      </table>
+
+      <para>*It is also possible to produce multiple single-page PostScript files, see
+      <olink targetdoc="Magics_drivers" targetptr="PostScript_Page_Splitting" />
+      below.</para>
+      <para>**The JPEG format uses a lossy compression algorithm, resulting in
+      lost quality.</para>
+
+      <para>To set in a Fortran program the output format to PNG type:</para>
+
+      <programlisting> 
+    CALL <function>PSETC</function> ('<parameter>OUTPUT_FORMAT</parameter>',  'PNG')
+      </programlisting>  
+
+      <para>The PostScript based vector formats (PS, EPS, PDF) are the most appropriate for high-quality
+      hard-copy printing; the raster formats are more suitable for web pages.
+      The SVG driver produces SVG files suitable for interactive
+      visualisation or the dynamic generation of raster plots at different scales.
+      EPS is a vector format most suited for inclusion in Office and Latex documents.</para>
+
+    <section id="Selecting_Multiple_Output_Formats">
+      <title>Selecting Multiple Output Formats</title>
+
+      <para><productname>Magics</productname> can generate plots in multiple output formats simultaneous. 
+      For instance, a single <productname>Magics</productname> program can create the same plot in 
+      both PostScript and PNG formats in a single run. This approach has a performance advantage over running
+      the program separately for each output format as much of the processing is performed
+      only once. The parameter to set is <parameter>OUTPUT_FORMATS</parameter> (note the 'S' on the end).
+      The following code shows how to set two output devices:</para>
+
+      <table border="1" id="table_Multiple_Output_Formats">
+        <title>Selecting Multiple Output Formats</title>
+          <tgroup cols="2">
+            <colspec colwidth="70" />
+            <colspec colwidth="400" />
+            <tbody>
+
+              <row><entry>FORTRAN</entry>
+                <entry><programlisting>
+    CHARACTER*10 FORMATS
+    DIMENSION    FORMATS(2)
+    DATA         FORMATS /'PS', 'PNG'/
+
+    CALL <function>POPEN</function>
+    CALL <function>PSET1C</function> ('<parameter>OUTPUT_FORMATS</parameter>', FORMATS, 2)
+    CALL <function>PSETC</function>  ('<parameter>OUTPUT_NAME</parameter>',    'multiformat')
+	  </programlisting></entry>
+              </row> 
+              <row><entry>C</entry>
+                   <entry><programlisting>
+    const char *formats [NumFormats] = {"PS", "PNG"};
+
+    <function>mag_open</function>  ();
+    <function>mag_set1c</function> ("<parameter>OUTPUT_FORMATS</parameter>", formats, 2);
+    <function>mag_setc</function>  ("<parameter>OUTPUT_NAME</parameter>",    "multiformat");
+	  </programlisting></entry>
+              </row>
+     <row><entry>MagML</entry>
+                   <entry><programlisting>
+   &lt;<classname>drivers</classname>&gt;
+      &lt;<classname>ps</classname> <parameter>scale</parameter> = '95' /&gt;
+      &lt;<classname>png</classname> /&gt;
+   &lt;<classname>drivers</classname>/&gt;
+	  </programlisting></entry>
+              </row>
+            </tbody>
+          </tgroup>
+      </table>
+
+      <para>For a single-page plot, the above code will produce two files:
+      <filename>multiformat.ps</filename> and <filename>multiformat.1.png</filename>.
+      The following section explains the file-naming rules in more detail.</para>
+    </section>
+
+
+
+  <section id="Filenames_Conventions">
+    <title>Filenames</title>
+    <para>For a single-file plot, as produced by
+    <code>PS</code>, <code>PDF</code> and <code>GIF_ANIMATION</code>,
+    the default output filename will be <filename>magics.&lt;ext&gt;</filename> 
+    where &lt;ext&gt; is replaced by the extension appropriate to the output format.
+    For the default format (PostScript) this would produce the file <filename>magics.ps</filename>,
+    for animated PNG it would be <filename>magics.png</filename> and so on. The following
+    code shows how to change the filename:</para>
+    <para></para>
+    <programlisting>    CALL <function>PSETC</function> ('<parameter>OUTPUT_NAME</parameter>', 'plot')</programlisting>
+    <para></para>
+
+    <para>In this case if the output format is PDF, then the output filename
+    will be <filename>plot.pdf</filename> and so on.</para>
+
+    <para>When producing a multiple-file plot, a number is also added to each page,
+    although this can be deactivated for the first page. So for instance,
+    if the following parameters are set for a three-page plot:</para>
+
+
+    <table border="1" id="table_Filename_Examples">
+      <title>Filename Examples</title>
+        <tgroup cols="2">
+          <colspec colwidth="80" />
+          <colspec colwidth="400" />
+          <tbody>
+
+            <row><entry>Default</entry>
+              <entry><programlisting>
+  CALL <function>PSETC</function> ('<parameter>OUTPUT_FORMAT</parameter>', 'PNG')
+  CALL <function>PSETC</function> ('<parameter>OUTPUT_NAME</parameter>',   'plot')
+	</programlisting>the resultant files will be:
+  <programlisting>
+        plot.1.png
+        plot.2.png
+        plot.3.png
+</programlisting>Note that even if the plot has only one page and therefore produces
+    just one file, the name of that file still obeys the rules in the table above.
+ </entry>
+            </row> 
+            <row><entry>First page numbering OFF</entry>
+                 <entry><programlisting>
+  CALL <function>PSETC</function> ('<parameter>OUTPUT_FORMAT</parameter>',                 'PNG')
+  CALL <function>PSETC</function> ('<parameter>OUTPUT_NAME</parameter>',                   'plot')
+  CALL <function>PSETC</function> ('<parameter>OUTPUT_NAME_FIRST_PAGE_NUMBER</parameter>', 'OFF')
+	</programlisting>the resultant files will be:
+  <programlisting>
+        plot.png
+        plot.2.png
+        plot.3.png
+</programlisting></entry>
+            </row>
+
+          </tbody>
+        </tgroup>
+    </table>
+
+    <para>The formatting of the numbers can be modified through the parameter    
+    <parameter>OUTPUT_FILE_MINIMAL_WIDTH</parameter>. For instance, setting this to
+    <code>2</code> would produce a filename such as <filename>plot.02.png</filename>
+    instead of <filename>plot.2.png</filename>.</para>
+    
+    <para>The character between the root
+    and the number can be changed by setting the parameter
+    <parameter>OUTPUT_FILE_SEPARATOR</parameter>. For instance, setting this to
+    <code>_</code> (underscore) would produce a filename such as <filename>plot_2.png</filename>
+    instead of <filename>plot.2.png</filename>.</para>
+
+    <section id="Filenames_Legacy_and_Fine_Control">
+      <title>Filenames - Legacy and Fine Control</title>
+      
+      <para>The above file-naming control should be enough for most purposes
+      and is recommended for the most consistent naming of output files.</para>
+
+      <para>However, an extra degree of control is available by not using
+      <parameter>OUTPUT_NAME</parameter>, but instead:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para><parameter>OUTPUT_FULLNAME</parameter> : does not add an extension to the
+          supplied filename, instead it needs to be supplied with the file name</para>
+        </listitem>
+        <listitem>
+          <para><parameter>OUTPUT_LEGACY_NAME</parameter> : behaves similar to
+          <productname>MAGICS 6</productname> filenaming</para>
+        </listitem>
+      </itemizedlist>
+    </section>
+
+  </section>
+
+
+<section id="Common_Drivers_Parameters">
+<title>Common parameters for all drivers</title>
+<xi:include href="../paramtables/BaseDriver_tables.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+</section>
+
+</section>
+
+<section id="PostScript_Driver">
+<title>The PostScript driver</title>
+
+<para>PostScript was developed by Adobe and is still the main format for printers under UNIX. Since traditionally
+meteorological maps were aimed for print-outs, PostScript is historically the default
+output of <productname>Magics</productname>. No third-party library is required 
+to generate PostScript files and the driver is always available to users.</para>
+
+<section id="PostScript_Page_Splitting">
+<title>Page Splitting</title>
+<para>By default, a multi-page plot will result in a single output file containing
+    those multiple pages. It is possible to alter this behaviour by setting
+    the <parameter>OUTPUT_PS_SPLIT</parameter> parameter:</para>
+
+ <programlisting>
+    CALL <function>PSETC</function> ('<parameter>OUTPUT_PS_SPLIT</parameter>', 'ON')
+ </programlisting>
+	
+    <para>When this is set, each page will be plotted to a new PostScript file,
+    following the filenaming rules in the table above.</para>
+
+    <important> <title>Magics++</title>
+      <para>This behaviour differs from previous versions of
+      <productname>Magics</productname> where the environment variable
+      <envar>PS_SPLIT</envar> was used instead of a
+      <productname>Magics</productname> parameter.</para>
+    </important>
+   </section>
+
+<section id="PostScript_Page_Scaling">
+    <title>Page Scaling</title>
+    
+    <para>Even though printers support standardised page sizes, such as A4 and A3, they 
+    often are not able to print on the full page. Depending on the printer an border 
+    area surrounding the page can not be printed on. This needs to be kept in mind if 
+    designing maps to be printed. To help with this <productname>Magics</productname>
+    provides an option to shrink/rescale a PostScript page to fit to the printer.</para>
+    
+    <important> <title>Magics++</title>
+    In previous versions PostScript output was by default shrunken to 95% of its actual size to be 
+    resilient against changes in printer setups. This is not an issue anymore and therefore the default 
+    scaling has been set to 100% again. Please use '<parameter>OUTPUT_PS_SCALE</parameter>' and set 
+    it to '0.95' if this kind of scaling is still required.
+    </important>
+   </section>
+
+  <section id="Generating_EPS_output">
+  <title>EPS</title>
+
+      <para>The EPS file format does not support multiple pages, so if a
+      multi-page plot is created in EPS format, multiple files are generated
+      using the rules above, as if '<parameter>OUTPUT_PS_SPLIT</parameter>' is on. EPS is best if maps need to be used within <productname>Word</productname> and <productname>Latex</productname> documents.
+      </para>
+  </section>
+
+  <xi:include href="../paramtables/PostScript_tables.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <section id = 'PostScriptDriver_magml_all_tables'>
+    <title>MagML Templates for PostScript Output</title>
+
+    <xi:include href="../paramtables/PostScriptDriver_ps_magml_tables.xml"
+                xmlns:xi="http://www.w3.org/2001/XInclude" />
+<!--
+    <xi:include href="../paramtables/PostScriptDriver_ps_magml_flat_tables.xml"
+                xmlns:xi="http://www.w3.org/2001/XInclude" />
+-->
+  </section>
+</section>  <!-- End of PS -->
+
+
+<section id="SVG_Driver">
+<title>The SVG driver</title>
+
+<para>
+This output driver produces vector graphics in the SVG format as defined by the W3C. The 
+SVG output can be viewed by many web browsers directly (Firefox, Opera, Safari) or can be 
+viewed within Internet Explorer, with the help of a plug-in, such as the Renesis Player, 
+or a JavaScript library, such as SVGWeb. 
+SVG is also used by many graphics programs as input format (Inkscape or Adobe Illustrator). 
+SVG is not only a static format, but also allows for interactivity. This is used by <productname>Magics</productname> 
+to optionally implement features such as the toggling of layers.
+</para>
+
+<para>
+By default the generated maps are scalable. This means that the image is rendered according 
+to the viewers size. If the user changes the size of the browser window also the image is 
+rescaled to fit in. In many viewers, such as Firefox, the key combination '<keysym>Crtl +</keysym>',
+'<keysym>Crtl -</keysym>' and '<keysym>Crtl 0</keysym>' allows to zoom in/out of a SVG graphics.
+</para>
+
+<para>
+Since SVG is based on XML it is, to a degree, human readable and can also be parsed by search engines. 
+As with all XML derived formats, SVG allows the processing through various XML technologies, such 
+as XSLT or the manipulation through JavaScript (AJAX).
+</para>
+
+<para>
+On the web server side there is a <productname>Batik</productname>, a Java-based toolkit for 
+applications or applets that want to use images in the SVG format for various purposes, such 
+as display, generation or manipulation.
+</para>
+<!--
+  <section id="Interactivity_in_SVG">  <title>Interactivity in SVG</title>
+  <para>
+  All SVG files produced by <productname>Magics</productname> have
+        basic interactivity by default. Typing '<keysym>c</keysym>' or
+        '<keysym>C</keysym>' (browser-dependent) toggles coastlines on and off.
+        Typing '<keysym>d</keysym>' or '<keysym>D</keysym>' toggles the hi/low
+        text in the drawing area. Clicking on the ID line opens the external
+        <productname>Magics</productname> web page is opened. These features are
+        simply demonstrations of what is possible; more sophisticated features
+        will be implemented in the next version of <productname>Magics</productname>.
+  </para>
+  </section>
+-->
+  <section id="Serving_SVG"><title>SVG served on the web</title>
+  <para>
+  On most web servers SVG can be used like any other graphics file format.
+  However, sometimes SVG and especially its compressed form of SVGZ are not configured correctly on
+  web servers. To serve SVG and SVGZ files correctly you should have following lines added to your 
+  <filename>.htaccess</filename> file (on Apache servers):
+  </para>
+    <programlisting>
+AddType image/svg+xml svg svgz
+AddEncoding gzip svgz
+    </programlisting>
+  </section>
+
+  <para>For more information on SVG, please have the look at following resources:</para>
+
+  <itemizedlist>
+      <listitem><ulink url="http://www.w3.org/Graphics/SVG/">W3C - SVG standard</ulink></listitem>
+      <listitem><ulink url="http://xmlgraphics.apache.org/batik/">Apache - Batik</ulink></listitem>
+      <listitem><ulink url="http://code.google.com/p/svgweb/">SVGweb - Javascript module to view SVG in Internet Explorer</ulink></listitem>
+ <!--     <listitem><ulink url="http://www.examotion.com">Renesis Player for Internet Explorer</ulink></listitem>  -->
+      <listitem><ulink url="http://www.inkscape.org/">Inkscape - SVG editor</ulink></listitem>
+      <listitem><ulink url="http://code.google.com/p/svg-edit/">Web based SVG editor</ulink></listitem>
+  </itemizedlist>
+
+  <xi:include href="../paramtables/SVG_tables.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <section id = 'SVGDriver_magml_all_tables'>
+    <title>MagML Templates for SVG Output</title>
+    <xi:include href="../paramtables/SVGDriver_svg_magml_tables.xml"
+                xmlns:xi="http://www.w3.org/2001/XInclude" />
+<!--
+    <xi:include href="../paramtables/SVGDriver_svg_magml_flat_tables.xml"
+                xmlns:xi="http://www.w3.org/2001/XInclude" />
+-->
+  </section>
+
+</section>
+
+
+<section id="Cairo_Driver">
+<title>The Cairo driver (PDF, EPS, PNG)</title>
+
+<para>This driver uses the <productname>Cairo</productname> graphics library to 
+generate various output formats. The library is quite new and might not be installed 
+on older or non-mainstream systems. However the situation is improving with <productname>Firefox</productname>
+and <productname>Inkscape</productname> requiring Cairo being installed. Cairo works 
+internally with vectors and produces high quality output.
+</para>
+
+<section id="Cairo_pdf">
+   <title>Cairo's vector output - PDF, CAIRO_PS, CAIRO_EPS, CAIRO_SVG</title>
+   <para>Cairo produces high quality vector outputs. However there are some disadvantages: CAIRO_PS and CAIRO_EPS
+   support only <parameter>RGB</parameter> (not <parameter>CYMK</parameter>) and <parameter>CAIRO_SVG</parameter> are non-scalable and do not support interactivity. 
+   Therefore it is still recommended to use <parameter>PS</parameter> and <parameter>EPS</parameter> (from PostScript driver) and <parameter>SVG</parameter> (from SVG driver).</para>
+</section>
+
+<section id="Cairo_png">
+   <title>Cairo's raster output - PNG</title>
+   <para>The Cairo driver offers <parameter>PNG</parameter> as a raster output. This output is intended for use on web pages.
+   PNG output has two extra feature compared to the other outputs: possible 
+   transparent background and the return of meta information about the plot inside the PNG.
+   Both features are intended for when PNGs are used for web pages. The transparent overlay 
+   allows overlays of multiple images. The meta information generated by Magics++ allows 
+   JavaScript developer navigate the PNG and implement interactions on top of the PNGs content.</para>
+</section>
+
+<section id="Cairo_screen">
+   <title>Cairo's screen dump - X</title>
+   <para>The Cairo driver can also be used do visualise a plot directly on the screen 
+   setting the format to <parameter>X</parameter>.</para>
+</section>
+
+<section id="Cairo_context">
+   <title>Setting your own Cairo context [Advanced]</title>
+
+   <para>In some cases it might be useful to hand <productname>Magics</productname>
+   an own Cairo graphics context. This might be useful if the Magics Program wants to access directly 
+   Cairo and add its own drawing operations to be displayed in a separate widget.</para>
+
+  <table border="1" id="cairo_context">
+        <title>Handing cairo an own context</title>
+          <tgroup cols="1">
+            <colspec colwidth="450" />
+            <tbody>
+              <row>
+                 <entry><programlisting>
+   ...
+   cr = cairo_create(surface);
+   ...
+   mag_open();
+   mag_setc("output_format","cairo");
+   mag_setp("output_cairo_drawing_context", cr);
+   ...
+</programlisting></entry>
+</row>
+            </tbody>
+          </tgroup>
+      </table>
+ </section>
+
+<para>For more information on Cairo, see the documentation at:</para>
+
+   <itemizedlist>
+     <listitem>
+	<ulink url="http://www.cairographics.org">Cairo home page</ulink>
+     </listitem>
+   </itemizedlist>
+
+  <xi:include href="../paramtables/Cairo_tables.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+<!--
+
+ <section id = 'CairoDriver_magml_all_tables'>
+   <title>MagML Templates for usage of the Cairo driver</title>
+    <xi:include href="../paramtables/CairoDriver_png_magml_tables.xml"
+                xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <xi:include href="../paramtables/CairoDriver_png_magml_flat_tables.xml"
+                xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <xi:include href="../paramtables/CairoDriver_pdf_magml_tables.xml"
+                xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <xi:include href="../paramtables/CairoDriver_pdf_magml_flat_tables.xml"
+                xmlns:xi="http://www.w3.org/2001/XInclude" />
+ </section>
+ -->
+
+</section>
+
+
+<section id="KML">
+<title>The KML driver (KMZ/KML) [new]</title>
+
+ <para>KML is an XML-based file format used to display describe vector data in a geospatial browser,
+  such as <productname>Google Earth</productname>, <productname>Google Maps</productname>, and 
+  <productname>Microsoft Virtual Earth</productname>. KML is very 
+  different from the others formats supported in <productname>Magics</productname>. Even though it is 
+  a vector format it has dimensions for expressing height and time (for animations).
+  The height is expressed in kilometres, not pressure levels, and is set through a parameter for all data.
+  Different layers of information can be stored and controlled by the Google Earth user interface. 
+ </para>
+      
+ <para>KML uses often external (raster) files to optimise the file size. In case of <productname>Magics</productname>, it 
+  uses PNG files to express cell shading and satellite data. The <productname>Magics</productname> logo is also stored in 
+  a external file. Therefore <productname>Magics</productname> generates zip archives of all generated files (KML, PNGs and logo) 
+  in the so-called KMZ files. The resulting KMZ files can be read by all KML readers and the GNU zip tools (you might want to change 
+  the files extension to .zip first).
+ </para>
+      
+ <para>
+  Please be aware that KML does not support all forms of display offered by <productname>Magics</productname>. 
+  For example graph plotting is not supported in KML. Colours might also need 
+  adjusting, since <productname>Google Earth</productname>'s background is generally darker compared 
+  to the white (paper) background of other <productname>Magics</productname> output formats.
+ </para>
+ 
+ <para> 
+  <productname>Magics</productname> offers parameters to give meta information, such as author and 
+  descriptions and an initial focus point. 
+ </para>
+      
+ <para>
+  Please be further aware that KML currently does only generate valid output for cylindrical and 
+  Mercator projection. This is because KML's co-ordinate system is based on Longitude/Latitude. For
+  projections different to the mentioned above a different co-ordinate system is used inside 
+  <productname>Magics</productname>.   
+ </para>
+      
+ <para>For more information on Google Earth, see the documentation at:</para>
+
+   <itemizedlist>
+     <listitem><ulink url="http://earth.google.com">Google Earth</ulink></listitem>
+   </itemizedlist>
+
+  <xi:include href="../paramtables/KML_tables.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+ <section id = 'KMLDriver_magml_all_tables'>
+   <title>MagML Templates for KML Output</title>
+   <xi:include href="../paramtables/KMLDriver_kml_magml_tables.xml"
+                xmlns:xi="http://www.w3.org/2001/XInclude" />
+<!--
+   <xi:include href="../paramtables/KMLDriver_kml_magml_flat_tables.xml"
+                xmlns:xi="http://www.w3.org/2001/XInclude" />
+-->
+ </section>
+
+</section>
+
+
+<section id="GD_Driver">
+<title>The GD driver (PNG,GIF,JPEG)</title>
+
+  <para>The GD driver provides output in various raster formats. The used GD library is more 
+   lightweight but also lower quality than the Cairo library.
+  </para>
+
+ <section id="Generating_an_animated_GIF">
+ <title>Generating an Animated GIF</title>
+
+  <para>In order to obtain an animated GIF image as output, you should use the format
+   <code>GIF_ANIMATION</code>. In this case, you may set the delay between pages of the
+   animation by setting the parameter <parameter>OUTPUT_GIF_DELAY</parameter> to a value
+   representing a time-scale in 100ths of a second. For instance, to create an animated
+   GIF called animated_plot.gif with a delay of half a second between pages, use the
+   following code:</para>
+   
+        <programlisting>
+    CALL <function>PSETC</function> ('<parameter>OUTPUT_FORMAT</parameter>',    'GIF_ANIMATION')
+    CALL <function>PSETI</function> ('<parameter>OUTPUT_GIF_DELAY</parameter>',  50)
+    CALL <function>PSETC</function> ('<parameter>OUTPUT_NAME</parameter>',      'animated_plot')
+        </programlisting>	
+
+        <tip>
+          <para>Note that animated GIF images are not properly supported by
+          <application>xv</application> and <application>display</application>. Therefore, 
+	  in order to view your GIF animation correctly, a web browser such as 
+	  <application>Firefox</application>, <application>Internet Explorer</application> or
+          <application>Konqueror</application> should be used. Also note that
+          <application>xv</application> does not support PNG on many platforms
+          very well. You can use <application>display</application>
+          to view PNG files properly.</para>
+        </tip>
+      </section>
+<!--
+   <section id="Raster_Output_In_MagML">
+        <title>Raster Output In MagML</title>
+        <para>The following example illustrates the MagML elements required to generate raster output
+        from a MagML program; their attributes are set here to their default values.</para>
+
+        <programlisting>
+      &lt;<classname>drivers</classname>&gt;
+        &lt;<classname>gif</classname> <parameter>xml</parameter> = 'OFF' /&gt;
+
+        &lt;<classname>gif_animation</classname> <parameter>gif_delay</parameter> = '100'
+                       <parameter>xml</parameter> = 'OFF' /&gt;
+
+        &lt;<classname>png</classname> <parameter>png_transparent</parameter> = 'OFF'
+             <parameter>xml</parameter> = 'OFF' /&gt;
+      &lt;<classname>drivers</classname>/&gt;
+        </programlisting>
+  </section>
+-->
+  <xi:include href="../paramtables/GD_tables.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+
+<!--
+  <section id = 'GDDriver_magml_all_tables'>
+   <title>MagML Templates for GD related output</title>
+   <xi:include href="../paramtables/GDDriver_kml_magml_tables.xml"
+                xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+   <xi:include href="../paramtables/GDDriver_kml_magml_flat_tables.xml"
+                xmlns:xi="http://www.w3.org/2001/XInclude" />
+  </section>
+-->
+</section>
+
+</chapter>

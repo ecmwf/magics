@@ -1,0 +1,232 @@
+<?xml-stylesheet type='text/css' href='parameter.css'?>
+<magics>
+<class name = 'GribDecoder' action='pgrib' directory='decoders' xmltag='grib' prefix='grib/grib'>
+	<documentation>
+		Responsible for reading and interpolating GRIB data.
+	</documentation>
+
+   <parameter name='grib_input_file_name' from='string' to='string'
+             member='file_name' default=''>
+         <release>Magics++0.1</release>
+         <documentation> The name of the input file containing the GRIB code field(s) </documentation>
+  </parameter>
+
+  <parameter name='grib_id' from='string' to='string'
+             member='id' default=''>
+         <release>Magics++2.6</release>
+         <documentation>Id used to identify a grib file in the title production</documentation>
+  </parameter>
+
+ 
+  <parameter name='grib_automatic_scaling' from='string' to='bool'
+             member='scaling' default='on'>
+         <release>Magics++0.3</release>
+         <documentation> Scaling of the decoded field </documentation>
+  </parameter>
+
+  <parameter name='grib_automatic_derived_scaling' from='string' to='bool' for_docs='no'
+             member='derived_scaling' default='off'>
+         <release>Magics++2.13.5</release>
+         <documentation> Scaling of the decoded derived field. A field is considered derived if the GRIB_API key generatingProcessIdentifier is 254. </documentation>
+  </parameter>
+
+  <parameter name='grib_scaling_factor' from='float' to='float'
+             member='scaling_factor' default='1'>
+         <release>Magics++2.10</release>
+         <documentation> Apply a scaling factor to the field. </documentation>
+  </parameter>
+  <parameter name='grib_scaling_offset' from='float' to='float'
+             member='scaling_offset' default='0'>
+         <release>Magics++2.10</release>
+         <documentation> Apply a scaling offset to the field. </documentation>
+  </parameter>
+
+ 
+  <parameter name='grib_text_experiment' from='string' to='bool'
+             member='expver'  default='off' visible='false'>
+         <release>Magics++0.3</release>
+         <documentation> Include the name or number of the experiment, used to generate the GRIB code field, in the automatic text  (ON/OFF)  </documentation>
+  </parameter>
+
+  <parameter name='grib_text_units' from='string' to='bool'
+             member='units' 	 default='off'  visible='false'>
+         <release>Magics++0.3</release>
+         <documentation> Include the units of the input field in the automatic text  </documentation>
+  </parameter>
+
+  
+
+  
+
+ 
+
+  <parameter name='grib_file_address_mode' from='string' to='GribAddressMode'
+             member='address_mode' 	 default='record' metview='on'>
+	     <option name='GribAddressRecordMode' fortran='record' xml='record' include='GribAddressMode.h'/>
+	     <option name='GribAddressByteMode' fortran='byte_offset' xml='byte_offset' include='GribAddressMode.h'/>
+         <documentation> Normally GRIB fields are stored as records on a file. If the BYTE offset method is being used, the parameter GRIB_FILE_ADDRESS_MODE should be set to 'BYTE_OFFSET'.(RECORD_NUMBER/BYTE_OFFSET) </documentation>
+  </parameter>
+
+  
+
+  <parameter name='grib_wind_mode' from='string' to='WindMode'
+             member='wind_mode'  default='uv'>
+         <documentation> The incoming wind field may contain data other than wind components, e.g. wave height and direction.
+	                 grib_wind_mode should be set to indicate how to interpret the incoming wind field, 
+	                 as u/v components, or speed/direction (uv/vd).
+         </documentation>
+         <option name='UVWindMode' fortran='uv' xml='uvmode' include='WindMode.h' />
+         <option name='SDWindMode' fortran='sd' xml='vdmode' include='WindMode.h' />
+  </parameter>
+
+  
+
+  <parameter name='grib_field_position' from='int' to='int'
+             member='grib_field_position'  default='1'>
+         <documentation> The position in the input file of a field other than a wind component </documentation>
+  </parameter>
+
+  
+  
+
+ 
+
+  <parameter name='grib_wind_position_1' from='int' to='int'
+             member='position_1' default='1'>
+         <documentation> The position in the input file of a wind component field </documentation>
+  </parameter>
+
+  <parameter name='grib_wind_position_2' from='int' to='int'
+             member='position_2' default='2'>
+         <documentation> The position in the input file of a wind component field </documentation>
+  </parameter>
+  
+
+  <parameter name='grib_wind_position_colour' from='int' to='int'
+             member='colour_position' default='3'>
+         <documentation> The position in the input file of a wind component field used to colour the flag</documentation>
+  </parameter>
+  
+  
+
+  <parameter name='grib_missing_value_indicator' from='float' to='float'
+             member='missing_value' 	 default='-1.5e+21' visible='false'>
+         <documentation> When MAGICS is decoding GRIB code, this is the value to be assigned to field values where data is missing, as indicated by the bit map in the GRIB file. </documentation>
+  </parameter>
+
+  
+</class>
+
+<class name='GribAddressMode' include='GribAddressMode.h' directory='decoders'/>
+
+<class name='GribAddressByteMode' include='GribAddressMode.h' inherits='GribAddressMode' directory='decoders'/>
+
+<class name='GribAddressRecordMode' include='GribAddressMode.h' inherits='GribAddressMode' directory='decoders'/>
+
+<class name='WindMode'   action='pgrib' directory='decoders' include='WindMode.h'/>
+<class name='UVWindMode' action='pgrib' directory='decoders' include='WindMode.h' inherits='WindMode'/>
+<class name='VDWindMode' action='pgrib' directory='decoders' include='WindMode.h' inherits='WindMode'/>
+<class name='SDWindMode' action='pgrib' directory='decoders' include='WindMode.h' inherits='WindMode'/>
+
+<class name = 'GribLoop' action='pgrib' directory='decoders' xmltag='gribloop' prefix='grib' include='GribDecoder.h'>
+	<documentation>
+		The purpose of the GRIB loop is to easily create an animation. This feature
+        is only available in MagML.
+	</documentation> 
+	<parameter name='grib_file_address_mode' from='string' to='GribAddressMode'
+             member='address_mode' 	 default='record'>
+	     <option name='GribAddressRecordMode' fortran='record' xml='record' include='GribAddressMode.h'/>
+	     <option name='GribAddressByteMode' fortran='byte_offset' xml='byte_offset' include='GribAddressMode.h'/>
+         <documentation> Normally GRIB fields are stored as records on a file. If the BYTE offset method is being used, the parameter GRIB_FILE_ADDRESS_MODE should be set to 'BYTE_OFFSET'.(RECORD_NUMBER/BYTE_OFFSET) </documentation>
+  </parameter>
+	<parameter name='grib_dimension' from='intarray' to='intarray'
+             member='dimension' default='intarray()'>
+         <documentation> Metview:dimension of the input : 1 for field, 2 for wind </documentation>
+  </parameter>
+  
+  <parameter name='grib_position_1' from='intarray' to='intarray'
+             member='dim_1' default='intarray()'>
+         <documentation> Metview:position of the fields for x component in the fieldset </documentation>
+  </parameter>
+  <parameter name='grib_position_2' from='intarray' to='intarray'
+             member='dim_2' default='intarray()'>
+         <documentation>  Metview:position of the fields for y component in the fieldset </documentation>
+  </parameter>
+  <parameter name='grib_position_colour' from='intarray' to='intarray'
+             member='dim_colour' default='intarray()'>
+         <documentation>  Metview:position of the fields for colour component in the fieldset </documentation>
+  </parameter>
+  <parameter name='grib_position' from='intarray' to='intarray'
+             member='dim' default='intarray()'>
+         <documentation> Metview:position of the fields to plot in the fieldset </documentation>
+  </parameter>
+	<parameter name='grib_loop_path' from='string' to='string'
+             member='path' default=''>
+         <documentation> Path of the grib to animate </documentation>
+    </parameter>
+    <parameter name='grib_loop_step' from='string' to='GribLoopStep'
+             member='step' default='loopondate' >
+	      <option name='DateGribLoopStep' xml='loopondate' fortran='loopondate' include='GribLoopStep.h' />
+	      <option name='ParamGribLoopStep' xml='looponparam' fortran='looponparam' include='GribLoopStep.h' />
+         <documentation> Method to create the steps names for each plot of the animation</documentation>
+    </parameter>
+    <parameter name='grib_automatic_scaling' from='string' to='bool'
+             member='scaling' default='on'>
+         <release>Magics++0.3</release>
+         <documentation> Scaling of the decoded field (ON/OFF) </documentation>
+  </parameter>
+  <parameter name='grib_automatic_derived_scaling' from='string' to='bool' for_docs='no'
+             member='derived_scaling' default='off'>
+         <release>Magics++2.13.5</release>
+         <documentation> Scaling of the decoded derived field (ON/OFF). A field is considered derived if the GRIB_API key generatingProcessIdentifier is 254. </documentation>
+  </parameter>
+  <parameter name='grib_scaling_factor' from='float' to='float'
+             member='scaling_factor' default='1'>
+         <release>Magics++2.10</release>
+         <documentation> Apply a scaling factor to the field. </documentation>
+  </parameter>
+  <parameter name='grib_scaling_offset' from='float' to='float'
+             member='scaling_offset' default='0'>
+         <release>Magics++2.10</release>
+         <documentation> Apply a scaling offset to the field. </documentation>
+  </parameter> 
+  <parameter name='grib_wind_mode' from='string' to='WindMode'
+             member='wind_mode'  default='uv'>
+         <documentation> The incoming wind field may contain data other than wind components, e.g. wave height and direction.
+	                 grib_wind_mode should be set to indicate how to interpret the incoming wind field, 
+	                 as u/v components, or speed/direction (uv/vd).
+         </documentation>
+         <option name='UVWindMode' fortran='uv' xml='uvmode' include='WindMode.h' />
+         <!--option name='VDWindMode' fortran='vd' xml='vdmode' include='WindMode.h' /-->
+         <option name='SDWindMode' fortran='sd' xml='sdmode' include='WindMode.h' />
+  </parameter>
+</class>
+<class name = 'GribLoopStep' action='pgrib' xmltag='loopondate' directory='decoders' prefix = 'grib/grib_loop_step' />
+<class name = 'ParamGribLoopStep' action='pgrib' xmltag='looponparam' directory='decoders' inherits='GribLoopStep' prefix = 'grib/grib_loop_step' include='GribLoopStep.h'>
+	<documentation/> 
+</class>
+<class name = 'DateGribLoopStep' action='pgrib' xmltag='loopondate' directory='decoders' inherits='GribLoopStep' prefix = 'grib/grib_loop_step' include='GribLoopStep.h'>
+	<documentation> 
+		Sets the parameters related to looping on dates in a GRIB loop. 
+	</documentation>
+	<parameter name='grib_loop_step_span' from='float' to='float'
+             member='span' xml='loop_step_span' default='3'>
+         <documentation> Time interval  </documentation>
+    </parameter>
+    
+    <parameter name='grib_file_address_mode' from='string' to='GribAddressMode'
+             member='address_mode' 	 default='record'>
+	     <option name='GribAddressRecordMode' fortran='record' xml='record' include='GribAddressMode.h'/>
+	     <option name='GribAddressByteMode' fortran='byte_offset' xml='byte_offset' include='GribAddressMode.h'/>
+         <documentation> Normally GRIB fields are stored as records on a file. If the BYTE offset method is being used, the parameter GRIB_FILE_ADDRESS_MODE should be set to 'BYTE_OFFSET'.(RECORD_NUMBER/BYTE_OFFSET) </documentation>
+  </parameter>
+
+  
+
+  
+    
+  
+    
+  
+</class>
+</magics>

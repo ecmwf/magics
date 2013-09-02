@@ -1,0 +1,25 @@
+
+
+<magics_plot page_x_position = '10' subpage_map_projection= 'xy' 
+	x_min_value = '0' x_max_value = '400' 
+	y_min_value = '0' y_max_value = '1000'>
+	
+   <variable name = 'latitude' default ='50'/>
+   <variable name = 'longitude' default ='50'/>
+	
+   <paxis_horizontal/> <paxis_vertical/> 
+   <plot_curve >
+        <xyodb 
+	    odb_database = '/scratch/graphics/cgs/ECMA.amsub'
+            odb_query =' SELECT obsvalue as x, press as y 		
+			 FROM   hdr, body
+			 WHERE  km($latitude,$longitude,radians(0),radians(0)) &lt; 50'					
+            odb_x = 'obsvalue'	
+	    odb_y = 'press' >
+        </xyodb>
+        <pgraph> </pgraph>
+   </plot_curve>
+  
+</magics_plot>
+   
+    

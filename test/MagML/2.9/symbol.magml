@@ -1,0 +1,66 @@
+
+<magics version='3.0'>
+  <!-- definition of the output-->
+  <drivers>
+  	<png output_name='plotting'/>
+  	<ps output_name='plotting'/>
+  	<svg debug="on" output_name='plotting'/>
+  </drivers>
+  <page>
+   <!-- the definition of the geographical area goes into the map tag-->
+  	<map 
+		fitted_mode='crop'
+	    margin_top='0'
+	    margin_left='0'
+	    margin_bottom='0'
+	    margin_right='0'> 
+	<!-- define the background coastlinesi -->
+		<coastlines map_coastline_sea_shade = 'on'
+			map_coastline_sea_shade_colour = 'white'
+			map_label = 'off'
+			map_coastline_land_shade_colour = 'grey'
+			map_grid = 'off'
+			map_coastline_colour = 'grey'
+			map_coastline_land_shade = 'on' />
+
+	<!-- define the Airep layer layer-->
+		<plot>
+			<geopoints  geo_input_file_name = 'airep.geo' />
+			<symbol
+                symbol_advanced_table_selection_type = 'interval' 
+                symbol_advanced_table_min_level_colour = 'blue' 
+                symbol_table_mode = 'advanced' 
+                symbol_type = 'marker' 
+                symbol_advanced_table_interval = '5.000000' 
+                symbol_advanced_table_colour_direction = 'clockwise' 
+                symbol_marker = '15' 
+                symbol_advanced_table_max_level_colour = 'red' 
+            /> 
+		</plot>
+        <text display = 'absolute' 
+              bottom = '0.5cm' 
+              left = '0'
+              width = '8cm'
+              height = '1.5cm'
+              text_box_blanking = 'on'
+              text_border = 'on' 
+              text_justification = 'left'
+              text_colour ='black'
+              text_font_size = '0.6'
+              text_border_colour = 'black'> Monitoring of Airep data </text>
+        <legend 
+		standalone  = 'on'
+		standalone_file_name = 'mylegend.png'
+		standalone_format = 'png'
+		standalone_width = '50'
+		standalone_height = '200'
+
+              legend_display_type = 'continuous'
+              legend_text_colour = 'black'
+              legend_border ='on'
+              legend_blanking ='on'/>
+
+	
+	</map>
+  </page>
+</magics>

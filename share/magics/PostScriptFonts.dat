@@ -1,0 +1,21 @@
+Font table for Magics++
+
+ID	MAGICS(PostScript)      PostScript name      PostScriptFontfile  TTF		CSS (SVG) name
+=================================================================================================================
+0	arial			Arial		     	n019003l.pfb    arial.ttf       Arial	 
+1	arial-italic	     	Arial-Oblique	    	n019023l.pfb    ariali.ttf      Arial;font-style:italic
+2	arial-bold	     	Arial-Bold	     	n019004l.pfb    arialbd.ttf     Arial;font-weight:bold
+3	arial-bolditalic        Arial-BoldOblique    	n019024l.pfb    arialbi.ttf     Arial;font-weight:bold;font-style:italic
+4	courier			Courier		     	n022003l.pfb    cour.ttf	Courier
+5	courier-italic	        Courier-Oblique	     	n022023l.pfb    couri.ttf       Courier;font-style:italic
+6	courier-bold	     	Courier-Bold	     	n022004l.pfb    courbd.ttf      Courier;font-weight:bold
+7	courier-bolditalic      Courier-BoldOblique  	n022024l.pfb    courbi.ttf      Courier;font-weight:bold;font-style:italic
+8	helvetica		Helvetica	     	n019003l.pfb    arial.ttf       Arial
+9	helvetica-italic        Helvetica-Oblique    	n019023l.pfb    ariali.ttf      Arial;font-style:italic
+10	helvetica-bold	     	Helvetica-Bold	     	n019004l.pfb    arialbd.ttf     Arial;font-weight:bold
+11	helvetica-bolditalic    Helvetica-BoldOblique	n019024l.pfb    arialbi.ttf     Arial;font-weight:bold;font-style:italic
+12	times                   Times-Roman	     	n021003l.pfb    times.ttf       Times
+13	times-italic	     	Times-Italic	     	n021023l.pfb    timesi.ttf      Times;font-style:italic
+14	times-bold	     	Times-Bold	    	n021004l.pfb    timesbd.ttf     Times;font-weight:bold
+15	times-bolditalic     	Times-BoldItalic     	n021024l.pfb    timesbi.ttf     Times;font-weight:bold;font-style:italic
+16	symbol			Symbol		     	s050000l.pfb    symbol.ttf      Symbol

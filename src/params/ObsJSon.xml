@@ -1,0 +1,6 @@
+<magics>
+<class  xmltag='obsjson' name='ObsJSon' directory='web' prefix='obsjson' action='pobsjson' include='ObsJSon.h'>
+ 	<parameter  member='path' to='string' default='' from='string' name='obsjson_input_filename'>
+  			<documentation > Path to the file containing the Observation data 		</documentation>
+ 	</parameter>
+ </class></magics>

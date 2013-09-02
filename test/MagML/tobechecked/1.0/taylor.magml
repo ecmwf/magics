@@ -1,0 +1,47 @@
+ <magics>
+   <page >
+       
+		<subpage>
+			<nopageid />
+            <nologo />
+			<frame/>
+
+			<axisview height = '70%' width = '70%' left = '10%' bottom='10%'>  
+                <noframe/>
+				<taylor min ='0' max ='1.5'/>
+				<horizontal_axis>
+                    <label colour = 'black' height = '0.4'/> 
+                    <regular  interval='0.1'/>
+                    <title text = 'Time' colour = 'black' height = '0.6'/>	
+                    <line  colour = 'black'/>			
+				</horizontal_axis>
+                <vertical_axis>
+                    <label colour = 'black' height = '0.4'/> 
+                    <regular  interval='0.1'/>
+                    <title text = 'Time' colour = 'black' height = '0.6'/>	
+                    <line  colour = 'black'/>			
+				</vertical_axis>
+				<taylor_diagram reference='1'> 
+                </taylor_diagram>
+                <xylayer>
+					<xymapgen path = 'taylor.mapgen' 
+                         />
+					<symbol  >
+                        <individual 
+                            colour = 'pink'
+                            height = '0.4'   
+                            marker = '15'                   
+                            name = 'magics_15' text='a/b/c' />
+                    </symbol>
+				</xylayer>
+         
+                 <text  colour = 'black'> <font> 
+                   Taylor Diagram </font>
+             </text>
+                
+            </axisview>
+            
+			
+		</subpage>
+    </page>
+</magics>

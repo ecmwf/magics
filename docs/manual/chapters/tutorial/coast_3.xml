@@ -1,0 +1,40 @@
+<magics>
+    <tutorial name="coast_3" title='2 Subpages with different global maps' 
+        comment='In this example we will plot on the the same page, 2 global maps using different projection'>     
+       <requirement name='a' subject='Layout' text='An A4 page in portrait mode subdivides in 2 subpages'
+            link_doc='layout_mapping_coastlines' link_ptr='Plot_Layout_Basic_Entities'>
+            <action name='pnew("PAGE")'/>
+            <parameter name='super_page_y_length' value='29.7' function='psetr'/>
+            <parameter name='super_page_x_length' value='21.' function='psetr'/>
+            <parameter name='page_y_length' value='14.5' function='psetr'/>
+            <parameter name='page_x_length' value='21.' function='psetr'/>           
+        </requirement>
+        <requirement name='b' subject='Projection setting' text='One map in cylindrical, One in Polar stereographic' 
+            link_doc='layout_mapping_coastlines' link_ptr='Subpage_Mapping'>
+            <action name='pcoast'/>
+            <action name='pnew("PAGE")'/>
+            <parameter name='subpage_map_projection' value='cylindrical' function='psetc'/>
+            <parameter name='subpage_map_projection' value='polar_stereographic' function='psetc'/>
+        </requirement>  
+        <requirement name='b' subject='Grid and Coastlines setting' text='One map in cylindrical, One in Polar stereographic' 
+            link_doc='layout_mapping_coastlines' link_ptr='Coastlines_and_Gridlines'>
+            <action name='pcoast'/>
+            <parameter name='map_coastline_land_shade' value='on' function='psetc'/>
+            <parameter name='map_coastline_land_shade_colour' value='cream' function='psetc'/>
+            <parameter name='map_grid_colour' value='grey' function='psetc'/>
+            <parameter name='map_coastline_colour' value='grey' function='psetc'/>
+        </requirement>        
+        <requirement name='c' subject='Title' text='A title with 1 line'>
+            <action name='ptext'/>
+            <parameter name='text_line_1' value='Name of the projection' function='psetc'/>
+            <parameter name='text_line_count' value='2' function='pseti'/>
+        </requirement> 
+        <requirement name='c' subject='Label Height' text='Grid Label bigger on the second plot'
+                link_doc='layout_mapping_coastlines' link_ptr='Coastlines_and_Gridlines'>
+            <action name='pcoast'/>
+            <parameter name='map_label_height' value='0.4' function='psetr'/>
+        </requirement>   
+        <spot name='a' text='The coastlines contours are plotted in Magics++'/>
+        <spot name='b' text='The size of the text is fixed in Magics++, you can change it using text_reference_character_height'/>           
+    </tutorial>
+</magics>

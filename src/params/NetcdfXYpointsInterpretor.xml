@@ -1,0 +1,12 @@
+<magics>
+<class  inherits='NetcdfInterpretor' xmltag='xypoints' name='NetcdfXYpointsInterpretor' directory='decoders' prefix='netcdf' action='pnetcdf' include='NetcdfGeopointsInterpretor.h'>
+  	<parameter  member='x' to='string' default='x' from='string' name='netcdf_x_variable'>
+              		<release >Magics++0.1		</release>
+              		<documentation >Variable name representing the latitude dimension		</documentation>
+        	</parameter> 
+         	<parameter  member='y' to='string' default='y' from='string' name='netcdf_y_variable'>
+            
+             		<release >Magics++0.1		</release>
+            		<documentation >Variable name representing the longitude dimension		</documentation>
+        	</parameter>
+ </class></magics>

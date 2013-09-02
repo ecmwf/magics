@@ -1,0 +1,66 @@
+{
+  "height":"${height=800}",
+  "method":"wrep",
+  "version":"3.0",
+  "width":"${width=800}",
+  "definition":
+  [ 
+    {
+      "colour":"RGB(0.8, 0.8, 0.8)",
+      "id":"mv_coast",
+      "class" : "coastlines",
+      "land_shade":"on",
+      "land_shade_colour":"cream",
+      "map_grid_line_style":"solid",
+      "map_label":"off",
+      "sea_shade":"on",
+      "sea_shade_colour":"white"
+    },
+    {
+      "id":"europe",
+      "class" : "map",
+      "lower_left_latitude":"21.51",
+      "lower_left_longitude":"-37.27",
+      "projection":"polar_stereographic",
+      "upper_right_latitude":"51.28",
+      "upper_right_longitude":"65",
+      "vertical_longitude":"0"
+    }
+  ],
+  "drivers":[
+    {
+      "format":"${format=png}",
+      "fullname":"${path=map.png}",
+      "output_name_first_page_number":"off",
+      "output_width":"${width=800}",
+      "xxxx_output_height":"${height=800}"
+    }
+  ]
+,
+  "page":
+  {
+    "page_id":"off",
+    "map":
+    {
+      "fitted_mode":"crop",
+      "margin_bottom":"0",
+      "margin_left":"0",
+      "margin_right":"0",
+      "margin_top":"0",
+      "use_id":"europe",
+      "plot":
+      {
+        "grib":
+        {
+          "grib_wind_mode":"sd",
+          "grib_wind_position_1":"1",
+          "grib_wind_position_2":"2",
+          "input_file_name":"${data=wave.grib}"
+        },
+        "wind":
+        {
+        }
+      }
+    }
+  }
+}

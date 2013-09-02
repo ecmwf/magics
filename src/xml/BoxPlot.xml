@@ -1,0 +1,193 @@
+<?xml-stylesheet type='text/css' href='parameter.css'?>
+<magics>
+<class name='BoxPlotDecoder' directory='decoders' xmltag='boxplot_input' prefix='boxplot'>
+  <documentation>The following parameters allow the user to define both the data
+  and the plotting attributes of boxplots.</documentation>
+
+  <parameter name='boxplot_positions' from='floatarray' to='floatarray'
+             member='x' default='floatarray()'>
+         <documentation> Array containing the x-values</documentation>
+  </parameter>
+  
+  <parameter name='boxplot_date_positions' from='stringarray' to='stringarray'
+             member='date_x' default='stringarray()'>
+         <documentation> Array containing the dates X-values</documentation>
+  </parameter>
+  <parameter name='boxplot_minimum_values' from='floatarray' to='floatarray'
+             member='min'  default='floatarray()'>
+         <documentation> Array containing minimum values</documentation>
+  </parameter>
+  
+  <parameter name='boxplot_maximum_values' from='floatarray' to='floatarray'
+             member='max' default='floatarray()'>
+         <documentation> Array containing maximum values</documentation>
+  </parameter>
+  
+  <parameter name='boxplot_box_upper_values' from='floatarray' to='floatarray'
+             member='upper'  default='floatarray()'>
+         <documentation> Array containing the upper box values</documentation>
+  </parameter>
+  
+  <parameter name='boxplot_box_lower_values' from='floatarray' to='floatarray'
+             member='lower' default='floatarray()'>
+         <documentation> Array containing the lower box values</documentation>
+  </parameter>
+  
+  <parameter name='boxplot_median_values' from='floatarray' to='floatarray'
+             member='median' default='floatarray()'>
+         <documentation> Array containing the median values</documentation>
+  </parameter>
+
+</class>
+
+<class name='BoxPlotVisualiser' xmltag='boxplot' perfix='boxplot' 
+	directory='visualisers' inherits='BoxPlotDecoder'>
+  <documentation>The following parameters allow the user to define both the data
+  and the plotting attributes of boxplots.</documentation>
+
+  <parameter name='boxplot_box' from='string' to='NoBoxPlotBox'  include='BoxPlotBasicItem.h' 
+             member='box' default='on'>
+         <documentation> Turns the plotting of the box on or off</documentation>
+          <option name='BoxPlotBox'   fortran='on'  xml='box' include='BoxPlotItem.h'/>
+          <option name='NoBoxPlotBox' fortran='off' xml='noBox' include='BoxPlotBasicItem.h' />
+           <release>Magics++1.3</release>
+  </parameter>
+  
+  <parameter name='boxplot_whisker' from='string' to='NoBoxPlotWhisker'  include='BoxPlotBasicItem.h'
+             member='whisker' default='line'>
+         <documentation> Determines whether the whiskers are shown as lines, boxes or not at all</documentation>
+          <option name='BoxPlotWhiskerBox'  fortran='box'  xml='whiskerbox'  include='BoxPlotItem.h'/>
+          <option name='NoBoxPlotWhisker'   fortran='off'  xml='nowhisker'   include='BoxPlotBasicItem.h' />
+          <option name='BoxPlotWhiskerLine' fortran='line' xml='whiskerline' include='BoxPlotItem.h' />
+          <release>Magics++1.3</release>
+  </parameter>
+  
+ 
+  </class> 
+
+  <class name='BoxPlotMedian' xmltag='median' prefix='boxplot/boxplot_median' directory='visualisers'>
+   <parameter name='boxplot_median_colour' from='string' to='Colour'
+             member='colour' default='navy'>
+         <documentation>Colour of the median line</documentation>
+  </parameter>
+  
+   <parameter name='boxplot_median_thickness' from='int' to='int'
+             member='thickness' 
+			 default='3'>
+         <documentation>Thickness of the median line</documentation>
+  </parameter>
+  
+   <parameter name='boxplot_median_line_style' from='string' to='LineStyle'
+             member='style' default='solid'>
+         <documentation>Line style of the median line</documentation>
+  </parameter>
+  
+  
+   
+  </class>
+  
+  <class name='BoxPlotBox' xmltag='box' prefix='boxplot/boxplot_box' directory='visualisers'>
+	   <parameter name='boxplot_box_colour' from='string' to='Colour'
+	             member='colour' 	 default='sky'>
+	         <documentation>Colour of the box</documentation>
+	  </parameter>
+	  
+	  <parameter name='boxplot_box_width' from='float' to='float'
+	             member='width'	 default='1.0'>
+	         <documentation>Width of the box in centimeters</documentation>
+	  </parameter>
+	  
+	  <parameter name='boxplot_box_border' from='string' to='NoBoxPlotBoxBorder' include='BoxPlotBasicItem.h'
+	             member='border' default='on'>
+	         <documentation>Determines whether the box border is drawn or not</documentation>
+	         <option name='BoxPlotBoxBorder'   fortran='on'  xml='border' include='BoxPlotItem.h'/>
+             <option name='NoBoxPlotBoxBorder' fortran='off' xml='noborder' include='BoxPlotBasicItem.h' />
+	  </parameter>
+	  
+	   <parameter name='boxplot_median' from='string' to='NoBoxPlotMedian'  include='BoxPlotBasicItem.h'
+             member='median' default='on'>
+         <documentation>Determines whether the median line is drawn or not</documentation>
+          <option name='BoxPlotMedian'   fortran='on'  xml='median' include='BoxPlotItem.h'/>
+          <option name='NoBoxPlotMedian' fortran='off' xml='nomedian' include='BoxPlotBasicItem.h' />
+          <release>Magics++1.3</release>
+       </parameter>
+  
+  </class>
+  
+  <class name='BoxPlotBoxBorder' xmltag='box_border' prefix='boxplot/boxplot_box_border' directory='visualisers'>
+	  <parameter name='boxplot_box_border_colour' from='string' to='Colour'
+	             member='colour'  default='navy'>
+	         <documentation>Colour of the box border</documentation>
+	  </parameter>
+	  
+	   <parameter name='boxplot_box_border_thickness' from='int' to='int'
+	             member='thickness' default='1'>
+	         <documentation>Thickness of the box border</documentation>
+	  </parameter>
+	  
+	   <parameter name='boxplot_box_border_line_style' from='string' to='LineStyle'
+	             member='style' default='solid'>
+	         <documentation>Line style of the box border</documentation>
+	  </parameter>
+  
+  </class>
+  
+  <class name='BoxPlotWhiskerLine' xmltag='whisker_line' 
+  	prefix='boxplot/boxplot_whisker/boxplot_whisker_line' directory='visualisers'>
+  	<parameter name='boxplot_whisker_line_colour' from='string' to='Colour'
+             member='colour'  default='navy'>
+         <documentation>Colour of the whisker line</documentation>
+  </parameter>
+  
+   <parameter name='boxplot_whisker_line_thickness' from='int' to='int'
+             member='thickness'  default='3'>
+         <documentation>Thickness of the whisker line</documentation>
+  </parameter>
+  
+   <parameter name='boxplot_whisker_line_style' from='string' to='LineStyle'
+             member='style'  default='solid'>
+         <documentation>Line style of the whisker line</documentation>
+  </parameter>
+  </class>
+  
+  <class name='BoxPlotWhiskerBox' xmltag='whisker_box' 
+  	prefix='boxplot/boxplot_whisker/boxplot_whisker_box' directory='visualisers'>
+   <parameter name='boxplot_whisker_box_colour' from='string' to='Colour'
+             member='colour' default='sky'>
+         <documentation>Colour of the whisker box</documentation>
+  </parameter>
+  
+  <parameter name='boxplot_whisker_box_width' from='float' to='float'
+             member='width' default='0.25'>
+         <documentation>Width of the whisker box in centimeters</documentation>
+  </parameter>
+  
+    <parameter name='boxplot_whisker_box_border' from='string' to='NoBoxPlotWhiskerBorder' include='BoxPlotBasicItem.h'
+	             member='border' default='on'>
+	         <documentation>Determines whether the whisker box border is drawn or not</documentation>
+	         <option name='BoxPlotWhiskerBorder'   fortran='on'  xml='border' include='BoxPlotItem.h'/>
+             <option name='NoBoxPlotWhiskerBorder' fortran='off' xml='noborder' include='BoxPlotBasicItem.h' />
+	  </parameter>
+</class>
+
+ <class name='BoxPlotWhiskerBorder' xmltag='whisker_border' 
+  	prefix='boxplot/boxplot_whisker/boxplot_whisker_box/boxplot_whisker_box_border' directory='visualisers'>
+  <parameter name='boxplot_whisker_box_border_colour' from='string' to='Colour'
+             member='colour' default='navy'>
+         <documentation>Colour of the whisker box border</documentation>
+  </parameter>
+  
+   <parameter name='boxplot_whisker_box_border_thickness' from='int' to='int'
+             member='thickness' default='1'>
+         <documentation>Thickness of the whisker box border</documentation>
+  </parameter>
+  
+   <parameter name='boxplot_whisker_box_border_line_style' from='string' to='LineStyle'
+             member='style' default='solid'>
+         <documentation>Line style of the whisker box border</documentation>
+  </parameter>
+  
+  </class>
+ 
+
+</magics>

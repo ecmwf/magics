@@ -1,0 +1,26 @@
+<magics>
+<class  action='pimport' directory='decoders' prefix='import' xmltag='import' name='ImportAction'>
+  	<documentation > Import facilities allow users to import external graphics files (jpeg/gif/eps) 	</documentation>
+
+  	<parameter  member='path' to='string' default='' from='string' name='import_file_name'>
+         		<documentation >File to import 		</documentation>
+         		<release >Basic implementation in Magics++0.6		</release>
+  	</parameter>
+  	<parameter  member='valid_time' to='string' default='' from='string' name='import_valid_time'>
+         		<documentation >Valid Time  		</documentation>
+         		<release >Basic implementation in Magics++2.9		</release>
+  	</parameter>
+   	<parameter  member='service' to='string' default='' from='string' name='service'>
+  		<documentation >Metview info : which service created this image		</documentation>
+  		<release >Basic implementation in Magics++0.6		</release>
+	</parameter>
+	<parameter  member='url' to='string' default='' from='string' name='url'>
+  		<documentation >Metview info : which url created this image : add it in the titles		</documentation>
+  		<release >Basic implementation in Magics++0.6		</release>
+	</parameter>
+	<parameter  member='short_name' to='string' default='' from='string' name='layers'>
+  		<documentation >Metview info :Short name to be put in the layers!		</documentation>
+  		<release >Basic implementation in Magics++0.6		</release>
+	</parameter>
+
+</class></magics>

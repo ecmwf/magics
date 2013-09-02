@@ -1,0 +1,38 @@
+{
+  "version":"3.0",
+  "drivers":[
+    {
+      "format":"ps",
+      "output_name":"projection"
+    }
+  ]
+,
+  "page":
+  {
+    "text":
+    {
+      "height":"15%",
+      "text_line_1":"Global map!"
+    },
+    "map":
+    {
+      "height":"85%",
+      "subpage_lower_left_latitude":"-90.",
+      "subpage_lower_left_longitude":"-180.",
+      "subpage_map_projection":"cylindrical",
+      "subpage_upper_right_latitude":"90.",
+      "subpage_upper_right_longitude":"180.",
+      "coastlines":
+      {
+        "map_coastline_colour":"grey",
+        "map_coastline_land_shade":"on",
+        "map_coastline_land_shade_colour":"cream",
+        "map_coastline_sea_shade":"on",
+        "map_coastline_sea_shade_colour":"white",
+        "map_grid":"on",
+        "map_grid_colour":"grey",
+        "map_label":"off"
+      }
+    }
+  }
+}

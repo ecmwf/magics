@@ -1,0 +1,19 @@
+<magics>
+<class  implements='ColourTableDefinitionComputeInterface' xmltag='lut_computed' name='ImageCalculateColourTechnique' directory='visualisers' prefix='image' action='pimage'>
+  	<parameter  member='max' to='Colour' default='blue' from='string' name='image_max_level_colour'>
+         		<documentation > Highest image band colour 		</documentation>
+         		<release >Magics++0.8		</release>
+  	</parameter>
+
+  	<parameter  member='min' to='Colour' default='red' from='string' name='image_min_level_colour'>
+         		<documentation > Lowest image band colour 		</documentation>
+         		<migration > New Magics: Parameter Contour sent to new Magics[Image].  		</migration>
+         		<release >Magics++0.8		</release>
+  	</parameter>
+   	<parameter  member='direction' to='string' default='anti_clockwise' from='string' name='image_colour_direction'>
+         		<documentation > Direction of colour sequencing for image (CLOCKWISE / ANTI_CLOCKWISE) 		</documentation>
+         		<migration > New Magics: Parameter image_colour_direction sent to new Magics[Image].  		</migration>
+         		<release >Magics++0.8		</release>
+  	</parameter>
+
+</class></magics>

@@ -1,0 +1,38 @@
+<magics>
+    <tutorial name="obs_2" magml='off' magplus='off' title='Temp on a global map' 
+        comment='In this example we will learn how to load a bufr file, filter and plot some temp observations'>     
+       <requirement name='1' subject='Global map' text='Simple cylindrical projection'
+            link_doc='layout_mapping_coastlines' link_ptr='Subpage_Mapping'>
+            <action name='pcoast'/>         
+        </requirement>
+        <requirement name='2' subject='Grid and coastlines setting' text='Your own choice of colour and style!'
+            link_doc='layout_mapping_coastlines' link_ptr='Coastlines_and_Gridlines'>
+            <action name='pcoast'/>
+            <parameter name='map_coastline_thickness' value='2' function='pseti'/>
+			<parameter name='map_coastline_colour' value='grey' function='psetc'/>
+			<parameter name='map_grid_colour' value='grey' function='psetc'/>
+			<parameter name='map_grid_line_style' value='dash' function='psetc'/>          
+        </requirement>  
+        <requirement name='3' subject='Observation filtering' text='Filter the temp' 
+            ulink='Observation_Selection_Parameters'>
+            <action name='pobs'/>
+            <parameter name='obs_type_list' value='/temp/' function='pset1c'/>
+        </requirement>  
+        <requirement name='4' subject='Temp plotting' text='plot temps at level 300 hpa with 850/300 thicknesses'
+            ulink='Pressure_Levels'>
+            <action name='pobs'/>
+            <parameter name='obs_thickness' value='on' function='psetc'/>
+			<parameter name='obs_level' value='300' function='pseti'/>
+			<parameter name='obs_level_2' value='850' function='pseti'/>
+        </requirement>   
+         <requirement name='5' subject='Text' text='Add your own title, play with the colour and heigth'>
+            <action name='ptext'/>
+            <parameter name='text_line_1' value='Plotting Temp Observations...' function='psetc'/>
+			<parameter name='text_colour' value='navy' function='psetc'/>
+			<parameter name='text_line_count' value='1' function='pseti'/>
+			<parameter name='text_reference_character_height' value='0.5' function='psetr'/>
+			<parameter name='text_justification' value='left' function='psetc'/>
+        </requirement>    
+                       
+    </tutorial>
+</magics>

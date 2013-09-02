@@ -1,0 +1,45 @@
+#!/bin/csh
+#
+# File: $ECMWFHOME/use/use.doublemagics
+#
+# Purpose: Set the environment for default (i.e. current) double precision version of MAGICS
+#
+# Authors: Richard Fisker, Stephan Siemen
+#
+################################################################################
+
+set version  = current
+set length   = "_r8"
+set emosname = emos.R64.D64.I32
+set gnulib = /usr/local/apps/newgnu
+
+setenv MAG_HOME /usr/local/apps/Magics/${version}
+
+setenv EMOSLIB "-L/usr/local/lib -l${emosname}"
+echo \$EMOSLIB changed to $EMOSLIB
+
+if ($ARCH == linux) then
+	setenv MAGLIB "-L$MAG_HOME/lib -lmagics${length} -lMvDevices${length} -lmagics${length} -lgd -lpng -ljpeg -lz -lfreetype -L${gnulib}/lib -lstdc++ -lm"
+	echo \$MAGLIB changed to $MAGLIB
+	setenv LD_LIBRARY_PATH ${gnulib}/lib:$LD_LIBRARY_PATH
+	echo \$LD_LIBRARY_PATH changed to $LD_LIBRARY_PATH
+	setenv LM_LICENSE_FILE /usr/local/apps/pgi/license.dat:${LM_LICENSE_FILE}
+        echo \$LM_LICENSE_FILE changed to $LM_LICENSE_FILE
+        setenv PGI /usr/local/apps/pgi/pgi-5.1
+        setenv PATH ${gnulib}/bin:$PGI/bin:$PATH 
+        echo \$PATH changed to $PATH
+	echo " "
+	echo Compile with: pgf90 -r8 \<name\>.f \$MAGLIB \$EMOSLIB
+
+else if  ($ARCH == sgimips) then 
+        setenv MAGLIB "-L${MAG_HOME}/lib -lmagGL${length} -lMvDevices${length} -lftn -lfortran -lm"
+	setenv EMOSLIB -lemos${length}
+	setenv LD_LIBRARYN32_PATH /usr/local/apps/Magics/${version}/lib:/usr/local/lib32:/lib32:/usr/lib32
+
+else if ($ARCH == hppa) then
+	setenv MAGLIB "-L/usr/local/lib,-lmag,-lfgks,-ldgks,-lcgks"
+
+else if ($ARCH == rs6000) then
+        setenv MAGLIB "-L$MAG_HOME/lib -lmagics_r8 -lMvDevices_r8 -lgd -lpng -ljpeg -lz -lfreetype -lftgl -lxlf90"
+	echo \$MAGLIB changed to $MAGLIB
+endif

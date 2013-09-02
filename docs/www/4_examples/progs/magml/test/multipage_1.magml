@@ -1,0 +1,247 @@
+<magics version='3.0' width='29.7' height='21'>
+
+  <drivers>
+    <ps            name= 'multipage_1' />
+    <gif_animation name= 'multipage_1' />
+    <kml           name= 'multipage_1' />
+  </drivers>
+
+
+    <page format ='a4' orientation = 'landscape' >
+
+    <map>
+
+          <polar_stereographic subpage_lower_left_longitude  = '-49'
+                               subpage_lower_left_latitude   = '6'
+                               subpage_upper_right_longitude = '105'
+                               subpage_upper_right_latitude  = '39' />
+
+       <coastlines>
+         <coast colour = 'grey' />
+       </coastlines>
+
+
+        <!-- Now add a layer plotting MSL -->
+
+        <plot>
+            <grib input_file_name = 'data/p12pt850_MSL.grib'/>
+
+            <contour>
+                <isoline thickness = '4'
+                         colour    = 'orange'>
+                    <interval interval = '5' />
+                    <nohighlight/>
+                </isoline>
+
+                <hilo suppress_radius = '50'>
+                    <text quality     = 'high'
+                          lo_colour   = 'red'
+                          hi_colour   = 'red'/>
+                </hilo>
+            </contour>
+        </plot>
+
+
+        <!-- Now add a layer plotting Temperature -->
+
+        <plot>
+            <grib input_file_name = 'data/p12pt850_T.grib'/>
+
+            <contour>
+                <isoline thickness = '2'
+                         style     = 'dot'
+                         colour    = 'blue'>
+
+                    <interval interval = '1'/>
+
+                    <highlight frequency  = '100'
+                               style      = 'dash'
+                               thickness  = '4'/>
+                <nohilo/>
+                </isoline>
+            </contour>
+        </plot>
+
+        <text font = 'Times-Roman'
+              colour = 'avocado'>Z500 Contour Plot</text>
+
+        <text colour = 'red'> MSL PRESSURE AND 850 hPa TEMPERATURE
+            <box x        = '1'
+                 y        = '0.5'
+                 width    = '40'
+                 height   = '2.3'
+                 border   = 'on'
+                 blanking = 'on' />
+        </text>
+
+    </map>
+    </page>
+
+
+
+
+
+
+    <!-- Add a new page -->
+
+    <page format ='a4' orientation = 'landscape' >
+    <map>
+
+          <cylindrical>
+            <corners lower_left_longitude  = '-20'
+                     lower_left_latitude   = '20'
+                     upper_right_longitude = '30'
+                     upper_right_latitude  = '60' />
+          </cylindrical>
+
+       <coastlines>
+         <coast colour = 'red' />
+       </coastlines>
+
+        <plot>
+            <grib input_file_name = 'data/z500.grb'/>
+            <contour/>
+        </plot>
+
+        <text font = 'Times-Roman'
+              colour = 'rgb(0.1,0.6,0.2)'>Z500 Contour Plot</text>
+
+    </map>
+    </page>
+
+
+
+
+
+
+
+
+
+    <!-- Add a new page - this one will have three subpages -->
+
+    <page format ='a4' orientation = 'landscape' >
+
+
+
+        <!-- subpage 1 -->
+
+        <map bottom = '0%' left = '0%' width = '49%'  height = '80%'>
+              <cylindrical>
+                <corners lower_left_longitude  = '-50'
+                         lower_left_latitude   = '-10'
+                         upper_right_longitude = '50'
+                         upper_right_latitude  = '50' />
+              </cylindrical>
+
+           <coastlines>
+             <coast colour = 'grey' />
+           </coastlines>
+
+            <plot>
+                <grib input_file_name = 'data/z500.grb'/>
+                <contour/>
+            </plot>
+
+            <text colour = 'rust'>Z500 Contour Plot</text>
+        </map>
+
+
+        <!-- subpage 2 -->
+        
+        <map bottom = '5%' left = '50%' width = '40%'  height = '95%'>
+           <nopageid />     <!--  remove the page id from this plot -->
+
+              <cylindrical>
+                <corners lower_left_longitude  = '-40'
+                         lower_left_latitude   = '-5'
+                         upper_right_longitude = '40'
+                         upper_right_latitude  = '40' />
+              </cylindrical>
+
+           <coastlines>
+             <coast colour = 'blue' />
+           </coastlines>
+
+            <plot>
+                <grib input_file_name = 'data/z500.grb'/>
+                <contour>
+                    <noisoline>
+                      <shading>
+                        <polygon>
+                            <hatch index     = '0'
+                                   thickness = '1'
+                                   density   = '30.0' />
+                        </polygon>
+                      </shading>
+                    </noisoline>
+                </contour>
+            </plot>
+
+            <text colour = 'peach'>Z500 Contour Plot</text>
+         </map>
+
+
+
+         <!-- subpage 3 -->
+
+         <map bottom='55%' left='0%' height='40%' width='100%'>
+
+             <axisview height='70%' bottom='10.0%' width='85%' left='10%' >
+
+                <frame thickness='2' colour='kelly_green'/>        
+
+                <area x_min='-90' x_max='90' y_min='100000' y_max='1000'/>
+
+                <horizontal_axis colour='kelly-green' style='dash'>
+                    <latitude/>
+                    <nogrid line_style='dot' colour='kelly_green'/>
+                </horizontal_axis>
+
+                <vertical_axis>
+                    <nogrid line_style='dot' colour='kelly_green'/>
+                </vertical_axis>  
+
+                <xylayer>
+                    <netcdf>
+                        <matrix path='data/ECMWF-05a_MF_peaked.nc'
+                         netcdf_field_variable_name='mf_vv'
+                         netcdf_x_variable_name='lat'
+                         netcdf_y_variable_name='plev'/>
+                    </netcdf>
+
+                    <contour> 
+                        <!--linear/-->
+                        <akima760 x_resolution='2' y_resolution='1500'/>
+                        <isoline line_colour='grey'> 
+                            <count level_count='10'/>
+                            <shading>
+                                <polygon_shading>
+                                    <area_fill/>
+                                </polygon_shading> 
+                                <calculate min_level_colour='blue'
+                                           max_level_colour='red'
+                                           colour_direction='clockwise'/>
+                            </shading>
+                           <nohighlight/> 
+
+                        </isoline>
+                        <hilo/>
+                    </contour>    
+
+                </xylayer>
+
+             </axisview>
+
+             <legend>
+                <positional x='25.7' y='1.9' width='2.5' height='5'
+                            border='on' blanking='on'>
+                </positional>
+              </legend>
+
+              <text> Nils experimental plot [mf_vv] </text>
+
+         </map>
+ 
+    </page>
+
+</magics>

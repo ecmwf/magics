@@ -1,0 +1,41 @@
+<magics version='3.0' format='a4'>
+
+  <drivers>
+    <ps name= 'contour_1' />
+  </drivers>
+ 
+
+  <page >
+     <map>		
+         <cylindrical lower_left_longitude = '${west=-15}'
+                     lower_left_latitude  = '${north=30}'
+                     upper_right_longitude = '${east=40}'
+                     upper_right_latitude  = '${south=70}' /> 
+
+       <coastlines colour='tan' grid_line_style='dash'/>
+      
+
+       <plot>
+          <grib input_file_name='data/z500_tc.grib'/>
+          <contour>
+            <isoline colour = 'evergreen' line_thickness = '1' style = 'dash'>
+                <interval interval = '8.0' />
+            </isoline>
+            <hilo>
+                <text hi_colour = 'orange' lo_colour = 'brown'/>       
+            </hilo>
+          </contour> 
+          
+          <!-- Metview style...
+            <contour contour_line_colour = 'evergreen' 
+                    contour_line_thickness = '1' 
+                    contour_line_style = 'dash' 
+                    contour_highlight_colour = 'evergreen' 
+                    contour_level_selection_type = 'interval'
+                    contour_level_interval = '8.0'
+                    contour_hi_colour = 'orange'/>
+         -->
+       </plot>
+     </map>
+  </page>   
+</magics>    

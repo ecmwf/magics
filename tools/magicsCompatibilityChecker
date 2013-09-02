@@ -1,0 +1,184 @@
+#!/usr/bin/env python
+#
+# Copyright 2011 European Centre for Medium-Range Weather Forecasts (ECMWF)
+# 
+# Licensed under the Apache License, Version 2.0 (the "License"); 
+# you may not use this file except in compliance with the License. 
+# You may obtain a copy of the License at 
+# 
+# 	http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software 
+# distributed under the License is distributed on an "AS IS" BASIS, 
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
+# See the License for the specific language governing permissions and 
+# limitations under the License.
+#
+#
+# This script is provided by the ECMWF Meteorological Visualisation Section as help to identify 
+# potential problems porting programs from using MAGICS 5/6 to Magics++.
+#
+# We do NOT garantee that all issues can be found with this script!!!
+#
+
+import sys
+
+def grep(f):
+
+	lno = 0
+	grib_decoding=0
+	errors=0
+
+	for s in f:
+		lno += 1
+		l = s.upper()
+
+		if "PSETC" in l:
+			if "AXIS_POSITION" in l:
+				if "POSITIONAL" in l:
+					print "line ",lno,"> INFO: default value POSITIONAL is replace with AUTOMATIC"
+					print ""
+			elif "AXIS_TICK_POSITIONING" in l:
+				print "line ",lno,"> INFO: Parameter AXIS_TICK_POSITIONING was undocumented feature of MAGICS6"
+				print ""
+			elif "SUBPAGE_MAP_PROJECTION" in l:
+				if "NONE" in l:
+					print "line ",lno,"> WARNING: You need to set SUBPAGE_MAP_PROJECTION to CARTESIAN for graph plotting."
+					print ""
+			elif "PS_DEVICE" in l:
+				print "line ",lno,"> INFO: Please replace setting of PS_DEVICE by setting 'output_format' to 'ps'"
+				print ""
+			elif "PS_FILE_NAME" in l:
+				print "line ",lno,"> INFO: Please change PS_FILE_NAME to OUTPUT_NAME or OUTPUT_FULLNAME"
+				print ""
+			elif "PS_METRIC" in l:
+				print "line ",lno,"> INFO: Parameter PS_METRIC is not used anymore"
+				print ""
+			elif "TEXT_QUALITY" in l:
+				print "line ",lno,"> INFO: Please set instead of TEXT_QUALITY the new parameters TEXT_FONT and TEXT_FONT_STYLE"
+				print ""
+			elif "PAGE_ID_LINE_QUALITY" in l:
+				print "line ",lno,"> INFO: Please set instead of PAGE_ID_LINE_QUALITY the new parameters PAGE_ID_LINE_FONT and PAGE_ID_LINE_FONT_STYLE"
+				print ""
+			elif "CONTOUR_LABEL_QUALITY" in l:
+				print "line ",lno,"> INFO: Please set instead of CONTOUR_LABEL_QUALITY the new parameters CONTOUR_LABEL_FONT and CONTOUR_LABEL_FONT_STYLE"
+				print ""
+			elif "TEXT_JUSTIFICATION" in l:
+				if "TYPESET" in l:
+					print "line ",lno,"> ERROR: value TYPESET is not allowed anymore for TEXT_JUSTIFICATION"
+					print ""
+			elif "GRAPH_SYMBOL" in l:
+				if "SYMBOLS_ONLY" in l:
+					print "line ",lno,"> ERROR: value SYMBOLS_ONLY is not allowed anymore - please set GRAPH_SYMBOL to ON and"
+					print "line ",lno,"> ERROR:    set GRAPH_LINE_THICKNESS to 0"
+					print ""
+			elif "CONTOUR_METHOD" in l and "CONICON" in l:
+				print "line ",lno,"> INFO: Setting CONICON has no effect anymore. Default contouring used."
+				print ""
+			elif "CONTOUR_LINE_PLOTTING" in l:
+				print "line ",lno,"> ERROR: Setting CONTOUR_LINE_PLOTTING has no effect anymore."
+				print "line ",lno,">        This is also true for all parameters starting CONTOUR_ABOVE_ and CONTOUR_BELOW_."
+				print "line ",lno,">        Please split your contouring or ask Graphics."
+				print ""
+			elif "GRIB_MODE" in l:
+				print "line ",lno,"> INFO: Please remove GRIB_MODE! It has no effect anymore!"
+				print ""
+			elif "GRIB_INPUT_TYPE" in l:
+				if "ARRAY" in l:
+					print "line ",lno,"> ERROR: Please remove GRIB_INPUT_TYPE! GRIB is now only read from files!"
+					print "line ",lno,"> ERROR:    The input through 'ARRAY' is NOT supported anymore!"
+					print "line ",lno,"> ERROR: ",s
+				else:
+					print "line ",lno,"> INFO: You can remove GRIB_INPUT_TYPE! This parameter is ignored - GRIB is now only read from files!"
+					print "line ",lno,"> INFO: ",s
+			elif "GRIB_ACTION" in l:
+				print "line ",lno,"> ERROR: Please remove GRIB_ACTION!"
+				grib_decoding+=1
+				errors+=1
+				print ""
+			elif "GRIB_SUBAREA_EXT" in l:
+				print "line ",lno,"> INFO: Please remove GRIB_SUBAREA_EXTRACTION. It has NO effect anymore."
+				print ""
+			elif "GRIB_TABLE2_ADD" in l:
+				print "line ",lno,"> INFO: Please remove GRIB_TABLE2_ADDRESS_MODE. It has NO effect anymore."
+				print ""
+			elif "WIND_ARROW_LEGEND" in l:
+				print "line ",lno,"> INFO: Please note WIND_ARROW_LEGEND is deprecated and LEGEND should be set instead."
+				print ""
+
+		if "PSETR" in l:
+			if "GRIB_SPECTRAL_RESOLUTION" in l:
+				print "line ",lno,"> ERROR: Please remove GRIB_SPECTRAL_RESOLUTION. Magics++ does NOT handle spectral fields!!!"
+				grib_decoding+=1
+				errors+=1
+				print ""
+			elif "TEXT_REFERENCE_CHARACTER_HEIGHT" in l:
+				print "line ",lno,"> INFO: Please set instead of TEXT_REFERENCE_CHARACTER_HEIGHT the new parameters TEXT_FONT_SIZE"
+				print ""
+			elif "AXIS_BASE_DATE" in l:
+				print "line ",lno,"> INFO: The parameter AXIS_BASE_DATE was an undocumendted feature of MAGICS6."
+				print "line ",lno,"> INFO:  Please make sure that you set your date axis explicit and define dates as strings."
+				print ""
+
+		if "PSETI" in l:
+			if "GRAPH_SMOOTHING_FACTOR" in l:
+				print "line ",lno,"> INFO: Please remove GRAPH_SMOOTHING_FACTOR. It was decided Magics should NOT smooth graphs."
+				print ""
+
+		if "PSET1I" in l:
+			if "GRIB_PRODUCT_BLOCK" in l or "GRIB_GRID_BLOCK" in l or "GRIB_OUTPUT_IMAGE" in l:
+				print "line ",lno,"> ERROR: Please remove lines with GRIB_PRODUCT_BLOCK, GRIB_GRID_BLOCK or GRIB_OUTPUT_IMAGE"
+				grib_decoding+=1
+				errors+=1
+				print ""
+
+		if "PSET1R" in l:
+			if "GRIB_OUTPUT_FIELD" in l:
+				print "line ",lno,"> ERROR: Magics++ does NOT support the saving of Grib arrays - please use GRIB_API"
+				print "line ",lno,">        Please remove lines with GRIB_OUTPUT_FIELD or GRIB_OUTPUT_FIELD_2"
+				grib_decoding+=1
+				errors+=1
+				print ""
+	
+		elif "PPIE" in l:
+			print "line ",lno,"> ERROR: A possible use of Pie charts? << NOT supported in Magics++"
+			print "line ",lno,"> ERROR: ",s
+			print ""
+			errors+=1
+
+		elif "PACT" in l:
+			print "line ",lno,"> ERROR: A possible use of specification groups? << NOT supported in Magics++"
+			print "line ",lno,"> ERROR: ",s
+			print ""
+			errors+=1
+
+		elif "PAPROJ" in l:
+			print "line ",lno,"> ERROR: Internal function of MAGICS6 - undocumented feature << NOT supported in Magics++"
+			print "line ",lno,"> ERROR: ",s
+			print ""
+			errors+=1
+
+	if grib_decoding > 0:
+		print "ERROR: The program used MAGICS 6 to decode GRIB files. This is NOT supported in Magics++!"
+		print "       Please use Grib_API directly for this!\n"
+	
+	if errors > 0:
+		print "ERROR: Your program will in the current form NOT run with Magics++!"
+		print "       Please contact MetVis (magics@ecmwf.int) for more help."
+		print "       Please copy the output of this script to your email.\n"
+		
+
+def main(argv):
+	if len(sys.argv) <= 1:
+		print "You need to give more options ... "
+		return 1
+
+	f = open(sys.argv[1])
+	print "****************************************\nNOTE: This script is given as a guiding help, but\ndoes not guarantee to find all migration issues!\n"
+	print "Checking ",sys.argv[1]," ...\n****************************************"
+	return grep(f)
+	f.close()
+
+
+if __name__ == "__main__":
+	sys.exit(main(sys.argv[1:]))

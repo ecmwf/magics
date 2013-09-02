@@ -1,0 +1,7 @@
+<magics>
+<class  action='pgeo' directory='decoders' prefix='geo/geo_input' xmltag='geopoints' name='GeoPointsDecoder'>
+   	<parameter  member='path' to='string' default='' from='string' name='geo_input_file_name'>
+         		<release >Magics++1.1		</release>
+         		<documentation > The name of the input file containing the GeoPoints code field(s) 		</documentation>
+  	</parameter>
+</class></magics>

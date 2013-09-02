@@ -1,0 +1,2 @@
+Note that an error in Magics 6.9.1 causes the WIND_FLAG_CALM_INDICATOR_SIZE
+paramteter to not be recognised properly. This has been fixed in June 2005.

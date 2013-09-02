@@ -1,0 +1,249 @@
+<?xml-stylesheet type='text/css' href='parameter.css'?>
+<magics>
+<class name='GraphPlotting' xmltag='graph' directory='visualisers'>
+  <documentation>
+    This action routine (and C++object) controls the plotting of curves, bar charts and area charts.
+  </documentation>
+ <parameter name='legend' from='string' to='bool' member='legend' xml='legend'  default='on' >
+         <documentation>  Turn on/off the legend for this graph (this parameter is new to Magics++) </documentation>
+         <release>1.3</release>
+         <set value='on' name='legend_user_text'/>
+    </parameter>
+
+  <parameter name='legend_user_text' from='string' to='string' member='legend_text' xml='legend_text'  default=''>
+         <documentation> User-defined text for the legend of this graph </documentation>
+  </parameter>
+
+  <parameter name='graph_type' from='string' to='Graph' member='type' xml='type' default='curve'>
+         <documentation> Defines the type of curve required  </documentation>
+         <migration> New Magics: Parameter graph_type sent to new Magics[Graph].  </migration>
+         <option name='Curve'   fortran='curve'  xml='curve' include='Curve.h' />      
+         <option name='Bar' fortran='bar' xml='bar'  include='Bar.h'/>
+         <option name='GraphFlag' fortran='flag' xml='flag'  include='Bar.h'/>
+         <option name='GraphArrow' fortran='arrow' xml='arrow'  include='Bar.h' />
+         <option name='CurveArea' fortran='area' xml='area'  include='Curve.h'/>
+  </parameter>
+</class>
+
+
+<class name='Graph' directory='visualisers'>
+</class>
+
+
+<class name='CurveArea' directory='visualisers' inherits='Curve' include='Curve.h'>
+ 	<parameter name='graph_shade' from='string' to='GraphShade'  member='shade' default='on'>
+         <option name='GraphShade'   fortran='on'  xml='shading' include='GraphShade.h' />
+         <option name='NoGraphShade'   fortran='off'  xml='noshading' include='GraphShade.h' />
+         <documentation>Turn the shading on </documentation>
+   </parameter>
+</class>
+<class name='NoGraphShade' directory='visualisers' inherits='GraphShade' include='GraphShade.h'/>
+
+
+<class name='Curve' directory='visualisers' inherits='Graph' >
+  <documentation> Here comes the documentation of the Curve object </documentation>
+
+  <parameter name='graph_line' from='string' to='bool' member='line' xml='line' default='on'>
+         <documentation> Plot the curve line  </documentation>
+         <set value='on' name='graph_line_style'/>
+         <set value='on' name='graph_line_colour'/>
+         <set value='on' name='graph_line_thickness'/>
+  </parameter>
+
+  <parameter name='graph_line_style' from='string' to='LineStyle' member='style' xml='line_style' default='solid'>
+         <documentation> Line style of the curve </documentation>
+  </parameter>
+
+  <parameter name='graph_line_colour' from='string' to='Colour' member='colour' xml='line_colour' default='blue'>
+         <documentation> Colour of the curve</documentation>
+  </parameter>
+
+  <parameter name='graph_line_thickness' from='int' to='int' member='thickness' xml='line_thickness' default='1'>
+         <documentation> Thickness of the curve  </documentation>
+  </parameter>
+
+  <parameter name='graph_symbol' from='string' to='bool' member='symbol' default='off'>
+         <documentation> If symbols are to be drawn on the curves  </documentation>
+         <set value='on' name='graph_symbol_marker_index'/>
+         <set value='on' name='graph_symbol_height'/>
+         <set value='on' name='graph_symbol_colour'/>
+         <set value='on' name='graph_symbol_outline'/>
+  </parameter>
+  
+  <parameter name='graph_symbol_marker_index' from='int' to='int' member='symbol_marker' xml='marker' default='3'>
+         <documentation> The marker symbol to be used. </documentation>
+  </parameter>
+ 
+
+  <parameter name='graph_symbol_height' from='float' to='float' member='symbol_height' xml='height' default='0.2' >
+         <documentation> Height of  symbol </documentation>
+  </parameter>
+
+  <parameter name='graph_symbol_colour' from='string' to='Colour' member='symbol_colour' default='red'>
+         <documentation> Colour of graph symbol </documentation>
+  </parameter>
+  <parameter name='graph_symbol_outline' from='string' to='bool' member='outline' default='off'> 
+            <set value='on' name='graph_symbol_outline_colour'/> 
+            <set value='on' name='graph_symbol_outline_thickness'/>
+            <set value='on' name='graph_symbol_outline_style'/>
+            <documentation> Add an outline to each symbol </documentation>
+        </parameter>
+         <parameter name='graph_symbol_outline_colour' from='string' to='Colour' member='outline_colour' default='black'>
+            <documentation> Colour of the outline </documentation>
+        </parameter>  
+         <parameter name='graph_symbol_outline_thickness' from='int' to='int' member='outline_thickness' default='1'>
+            <documentation> thickness of the outline </documentation>
+        </parameter>
+       <parameter name='graph_symbol_outline_style' from='string' to='LineStyle' member='outline_style'  default='solid'>
+         <documentation> Line Style of outline </documentation>
+  	</parameter>
+  
+ <parameter name='graph_x_suppress_below' from='float' to='float' member='x_below'  default='LLONG_MIN'>
+         <documentation> Value on the x  below which a point is considered missing </documentation>
+  </parameter>
+   <parameter name='graph_x_suppress_above' from='float' to='float' member='x_above' default='LLONG_MAX'>
+         <documentation> Value on the x  above which a point is considered missing </documentation>
+  </parameter>
+
+  <parameter name='graph_y_suppress_below' from='float' to='float'   member='y_below' default='LLONG_MIN'>
+         <documentation> Value on the y  below which a point is considered missing </documentation>
+  </parameter>
+
+  <parameter name='graph_y_suppress_above' from='float' to='float' member='y_above'  default='LLONG_MAX'>
+         <documentation> Value on the y  above which a point is considered missing </documentation>
+  </parameter>
+
+  
+  <parameter name='graph_missing_data_mode' from='string' to='string' member='missing_mode' default='ignore' values='ignore/join/drop'> 
+   <documentation> How to handle missing data  </documentation>
+   <set value='join' name='graph_missing_data_style'/>
+   <set value='join' name='graph_missing_data_colour'/>
+   <set value='join' name='graph_missing_data_thickness'/>
+    <set value='drop' name='graph_missing_data_style'/>
+   <set value='drop' name='graph_missing_data_colour'/>
+   <set value='drop' name='graph_missing_data_thickness'/>
+ </parameter>
+  <parameter name='graph_missing_data_style' from='string' to='LineStyle' member='missing_style' xml='style' default='dash'>
+         <documentation> Line style of the missing data part of curve  </documentation>
+  </parameter>
+
+  <parameter name='graph_missing_data_colour' from='string' to='Colour' member='missing_colour' xml='colour' default='red' >
+         <documentation> Colour of the missing data part of curve </documentation>
+  </parameter>
+
+  <parameter name='graph_missing_data_thickness' from='int' to='int' member='missing_thickness' xml='thickness' default='1'>
+         <documentation> Thickness of the missing data part of curve  </documentation>
+  </parameter>
+</class>
+
+
+
+
+<class name='GraphFlag' directory='visualisers' inherits='Graph'  xmltag='flag' include='Bar.h' >
+  <parameter name='graph_flag_colour' from='string' to='Colour' member='colour' default='black'>
+         <documentation> The colour of the Flags!</documentation>
+  </parameter>
+  <parameter name='graph_flag_length' from='float' to='float' member='length'  default='0.75'>
+         <documentation> Physical length of wind flag shaft </documentation>
+  </parameter>
+</class>
+
+
+<class name='GraphArrow' directory='visualisers' inherits='Graph'  xmltag='arrow' include='Bar.h' >
+   <parameter name='graph_arrow_colour' from='string' to='Colour' member='colour'  default='black'>
+         <documentation> The colour of the arrows</documentation>
+  </parameter>
+  <parameter name='graph_arrow_unit_velocity' from='float' to='float' member='unit_velocity'  default='25.0'>
+        <documentation>Wind speed in m/s represented by a unit vector (1.0 cm).</documentation>
+  </parameter>
+</class>
+
+
+<class name='Bar' directory='visualisers' inherits='Graph'  xmltag='bar'  >
+  <parameter name='graph_bar_width' from='float' to='float' member='width' xml='width' default='INT_MAX' >
+         <documentation> The width of a bar in a bar chart </documentation>
+  </parameter>
+  <parameter name='graph_bar_justification' from='string' to='Justification' member='justification'  default='centre'>
+         <documentation> the bar will be centered on the value, or left, right justify : useful for plotting any accumulated fields</documentation>
+  </parameter>
+  <parameter name='graph_bar_style' from='string' to='string' member='bar_style'  value='bar/linebar' default='bar'>
+         <documentation> If candlestick, a line will be drawn at the position with 2 small perpendicular lines at top and bottom  </documentation>
+  </parameter>
+  
+
+  <parameter name='graph_bar_line_style' from='string' to='LineStyle' member='style' xml='line_style' default='solid'>
+         <documentation> Line Style of the Bar Border </documentation>
+  </parameter>
+
+  <parameter name='graph_bar_line_thickness' from='int' to='int' member='thickness' xml='line_thickness' default='1' >
+         <documentation> Thickness of the Bar Border </documentation>
+  </parameter>
+  
+  <parameter name='graph_bar_line_colour' from='string' to='Colour' member='line_colour' xml='line_colour' default='black'>
+         <documentation> The colour of the  the Bar Border</documentation>
+  </parameter>
+
+  <parameter name='graph_bar_colour' from='string' to='Colour' member='colour' xml='colour' default='blue'>
+         <documentation> The colour of the interiors of bars </documentation>
+  </parameter>
+
+  <parameter name='graph_bar_clipping' from='string' to='bool' member='clipping' xml='clipping'  default='on'>
+         <documentation> whether or not to clip the bar if they go outside the view area. </documentation>
+  </parameter>
+	<parameter name='graph_shade' from='string' to='GraphShade'  member='shade' default='on'>
+         <option name='GraphShade'   fortran='on'  xml='shading' include='GraphShade.h' />
+         <option name='NoGraphShade'   fortran='off'  xml='noshading' include='GraphShade.h' />
+         <documentation>Turn the shading on </documentation>
+   </parameter>
+  <parameter name='graph_bar_annotation' from='stringarray' to='stringarray' member='annotation' default='stringarray()'>
+         <documentation> add annotation on the top box : List of strings to use </documentation>
+  </parameter>
+
+  <parameter name='graph_bar_annotation_font_size' from='float' to='float' member='annotation_size' default='0.25'>
+         <documentation> Font size for annotation </documentation>
+  </parameter>
+
+  <parameter name='graph_bar_annotation_font_colour' from='string' to='Colour' member='annotation_colour' default='red'>
+         <documentation> Font size for annotation </documentation>
+  </parameter>
+  <parameter name='graph_bar_minimum_value' from='float' to='float' member='min_value' default='INT_MAX' >
+         <documentation> If set, defines the bottom of the bar </documentation>
+  </parameter>
+</class>
+
+
+<class name='GraphShade'  directory='visualisers'>
+ <parameter name='graph_shade_style' from='string' to='GraphShadeStyle' member='style' default='area_fill'>
+         <!--option name='GraphShadeStyle' fortran='solid' xml='areafill' include='GraphShadeStyle.h'/-->
+         <option name='GraphShadeStyle' fortran='area_fill'  xml='solid' include='GraphShadeStyle.h'/>
+         <option name='HatchGraphShadeStyle' fortran='hatch' xml='hatch' include='GraphShadeStyle.h'/>
+         <option name='DotGraphShadeStyle' fortran='dot' xml='dot' include='GraphShadeStyle.h'/>
+         <documentation>  Style of shading </documentation>
+  </parameter>
+</class>
+
+
+<class name='GraphShadeStyle'  directory='visualisers'>
+  <parameter name='graph_shade_colour' from='string' to='Colour' member='colour' xml='colour' default='blue' >
+         <documentation> The colour of the shaded part of bars </documentation>
+  </parameter>
+</class>
+ 
+ 
+<class name='DotGraphShadeStyle'  directory='visualisers' inherits='GraphShadeStyle' include='GraphShadeStyle.h'>
+   <parameter name='graph_shade_dot_density' from='int' to='int' member='density' xml='dot_density' default='20'>
+         <documentation> Density per square cm. of shading dots </documentation>
+  </parameter>
+
+  <parameter name='graph_shade_dot_size' from='float' to='float' member='size' xml='dot_size' default='0.02' >
+         <documentation> Size of shading dots  </documentation>
+  </parameter>
+</class>
+
+
+<class name='HatchGraphShadeStyle'  directory='visualisers'  inherits='GraphShadeStyle' include='GraphShadeStyle.h'>
+  <parameter name='graph_shade_hatch_index' from='int' to='int' member='index' xml='hatch_index' default='0'>
+         <documentation>Hatch index number</documentation>
+  </parameter>
+</class>
+</magics>

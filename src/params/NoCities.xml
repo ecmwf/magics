@@ -1,0 +1,4 @@
+<magics>
+<class  action='pcoast' directory='visualisers' xmltag='noboundaries' include='Cities.h' name='NoCities'>
+   	<documentation >This object suppresses the plotting of cities.	</documentation>
+</class></magics>

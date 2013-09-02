@@ -1,0 +1,234 @@
+<?xml version="1.0"?>
+<magics version="3.0" format="a4" orientation="portrait">
+	<definition>
+		<epsgram id="eps_wave" 
+                station_name='$station' 
+                latitude="$latitude" longitude="$longitude" 
+                time='' date=''
+                eps_temperature_correction='yes'
+                eps_database='$database/eps/db'> 
+                <none/>
+        </epsgram>
+        <epsgram id="eps_wave_det" 
+                station_name='$station' 
+                latitude="$latitude" longitude="$longitude" 
+                time='' date=''
+                eps_temperature_correction='yes'
+                eps_database='$database/det/db'> 
+                <none/>
+        </epsgram>
+
+
+        <epsgram id="eps_wind"               
+                station_name='$station' 
+                latitude="$latitude" longitude="$longitude" 
+                time='' date=''
+                eps_temperature_correction='yes'
+                eps_database='$database/epsdb'> 
+                <none/>
+        </epsgram>
+ 	
+        <text  id="title" justification="left" font_style='bold'  font_size='0.4' 
+            colour='navy' font='sansserif' border='off'/>
+        	
+		<map id="box" border='on' 
+            border_colour='navy' border_thickness='2'/>
+
+		<horizontal_axis id="haxis" 
+                    axis_grid= "on"
+                    axis_grid_colour= "evergreen"
+                    axis_grid_line_style= "dash"
+                    axis_line_colour= "navy"
+                    axis_minor_tick= "on"
+                    axis_minor_tick_colour= "navy"
+                    axis_tick_colour= "navy"
+                    axis_tick_label= "off"
+                    axis_type= "date"
+		/>
+
+		<vertical_axis id="vaxis"  
+              
+                axis_grid_colour= "evergreen"
+                axis_grid_line_style= "dash"
+                axis_line= "on"
+                axis_line_colour= "navy"
+                axis_tick= "off"
+                
+        />   
+		
+	</definition>
+    <drivers>
+        <$ps/>
+        <$pdf/>
+        <$png/>
+	<$gif/>
+	<$svg/>
+    </drivers>
+   
+    <page height="7%" border='off'><nopageid/> </page>
+    <page height="10%" border='off'>
+    <$meta/>     
+     <nopageid/>
+        
+        <text display='absolute' bottom='74%' height='10%' width='90%' use_id='title'>
+                <font size='0.4'>Wave Epsgram</font> <br/>
+                <font size='0.4'><spot_info key='station'/></font> <br/>
+                <font size='0.4'>Deterministic Forecast and EPS Distribution <spot_info key='base_date'/></font> <br/><br/>
+                <font size='0.4'><spot_info key='parameter'/></font> 
+                </text>
+        <legend  display='absolute' height='30%' width='30%' bottom='60%'
+                   plot_direction='column' left='50%' 
+                   text_colour='navy' border='off' blanking='off'/>
+         <map  display='absolute' height='65%' bottom='0'  border='on' margin_top='1%'
+            border_colour='navy' border_thickness='2'>
+         
+			<cartesian>
+				<x_date automatic='on'/>
+				<y_regular  y_min="-43200" y_max="43200" />
+			</cartesian> 
+			
+			<horizontal_axis use_id="haxis" />
+			<vertical_axis use_id="vaxis" axis_grid='off' axis_tick_label='off'/> 
+			<plot>
+				<epsgram use_id="eps_wind" type='epsrose' parameter="249.140" 
+                    long_title='true' title_text='Wave Epsgram' long_title_height='off'
+                    parameter_title='Distribution of 10m Wind Direction'/>
+				<epswind rose_wind_colour='greenish_blue'/>
+              
+			</plot> 
+            
+            </map>
+       
+
+        </page>
+     <page height="20%" border='on'>
+         <nopageid/>
+         <text display='absolute' bottom='83%' height='10%' width='90%' use_id='title'>
+         <font size='0.4'><spot_info key='parameter'/></font> 
+         </text>
+         <map use_id='box' display='absolute' bottom='0%' height='90%'>
+           <cartesian>
+			<x_date  automatic='on' />
+            <y_regular automatic='on' y_min='0' y_max='20' />
+           </cartesian>  
+                     
+                <plot>
+					<epsgram  use_id="eps_wind" type='epswave' parameter="165.128"  
+                        parameter_title='10m Wind Speed (m/s)'/>
+                    <epsgraph box_width='1.5' box_colour='greenish_blue' box_border_colour='navy'> <both/> </epsgraph>
+				</plot>
+          <horizontal_axis use_id="haxis"/>
+				<vertical_axis use_id="vaxis" axis_grid='on'/>
+			
+		</map>
+    </page>
+   
+    
+    <page height="20%" border='on'>
+        <nopageid/> 
+        <text display='absolute' bottom='83%' height='10%' width='90%' use_id='title'>
+         <font size='0.4'><spot_info key='parameter'/></font> 
+         </text>
+         
+         <map use_id='box' display='absolute' bottom='0%' height='90%'>
+           <cartesian>
+			<x_date  automatic='on' />
+            <y_regular automatic='on' y_min='0' y_max='20' />
+           </cartesian>            
+                <plot>
+					<epsgram use_id="eps_wave" type='epswave' parameter="229.140" parameter_title='ignore'/>
+                    <epsgraph box_width='1.5' box_colour='greenish_blue' box_border_colour='navy'> <both/> </epsgraph>
+				</plot>
+                <plot>
+					<epsgram use_id="eps_wave_det" type='epswave' parameter="229.140" parameter_title='Significant wave height (m)'/>
+                    <epsgraph box_width='1.5' box_colour='greenish_blue' box_border_colour='navy'> <both/> </epsgraph>
+				</plot>
+          <horizontal_axis use_id="haxis"/>
+				<vertical_axis use_id="vaxis" axis_grid='on'/>
+			
+		</map>
+    </page> 
+     <page height="10%" border='off'>
+         <nopageid/>
+          <text display='absolute' bottom='65%' height='10%' width='90%' use_id='title'>
+         <font size='0.4'><spot_info key='parameter'/></font> 
+         </text>
+         
+        <legend  display='absolute' height='30%' width='30%' bottom='60%'
+                   plot_direction='column' left='45%' 
+                   text_colour='navy' border='off' blanking='off'/>
+         <map display='absolute' bottom='0%' height='70%' border='on'
+            border_colour='navy' border_thickness='2'>
+        
+			<cartesian>
+				<x_date automatic='on'/>
+				<y_regular  y_min="-43200" y_max="43200" />
+			</cartesian> 
+			
+			<horizontal_axis use_id="haxis"/>
+			<vertical_axis use_id="vaxis" axis_tick_label='off'></vertical_axis> 
+			<plot>
+				<epsgram use_id="eps_wave" type='epsrose' parameter="230.140" parameter_title='Mean wave direction ( oceanographic convention )'/>
+				<epswave rose_wind_colour='Rgb(0.925, 0.609, 0.953)' rose_wind_convention='oceanographic'/>
+			</plot>
+             <plot>
+				<epsgram use_id="eps_wave_det" type='epsrose' parameter="230.140" parameter_title='ignore'/>
+				<epsdirection keyword='forecast' line_colour='blue' line_thickness='3' />
+			</plot>
+            <plot>
+				<epsgram use_id="eps_wave" type='epsrose' parameter="230.140" parameter_title='ignore'/>
+				<epsdirection keyword='control' line_colour='red' line_thickness='3' line_style='dash'/>
+			</plot>
+		
+         
+          </map>
+        </page>   
+    <page height="28%" border='off'>
+     <pageid line_system_plot='off' line_date_plot='off' line_errors_plot='off' 
+                font='sansserif' line_colour='Rgb(0.8, 0.8, 0.8)'/>
+          <text display='absolute' bottom='90%' height='10%' width='90%' use_id='title'>
+         <font size='0.4'><spot_info key='parameter'/></font> 
+         </text>
+         <map display='absolute' bottom='30%' height='60%' legend='40%' border='on' border_colour='navy' border_thickness='2' margin_top='1%'>
+          
+           <cartesian>
+			<x_date  automatic='on' />
+            <y_regular automatic='on'/>
+           </cartesian>  
+         
+                 <plot>
+					<epsgram use_id="eps_wave" type='epswave' parameter="232.140" parameter_title='ignore' />
+                    <epsgraph box_width='1.5' box_colour='greenish_blue' box_border_colour='navy' legend='on'
+                    font='sansserif' font_colour='navy' legend_resolution='degrees'> <both/> </epsgraph>
+				</plot>
+                <plot>
+					<epsgram use_id="eps_wave_det" type='epswave' parameter="232.140" parameter_title='Mean wave period (s)'/>
+                    <epsgraph box_width='1.5' box_colour='greenish_blue' box_border_colour='navy' legend='on'
+                    font='sansserif' font_colour='navy' legend_resolution='degrees' > <both/> </epsgraph>
+				</plot>
+                 <horizontal_axis 
+                axis_grid='on' 
+                axis_grid_line_style="dot" 
+                axis_grid_colour='kelly_green'
+                axis_date_type = "days"
+                axis_days_label=  "both" 
+                axis_days_label_colour = "navy"
+                axis_months_label_colour= "navy"
+                axis_days_label_height= "0.3"
+                axis_months_label_height= "0.3"
+                axis_years_label_height ="0.3"
+                axis_type= "date"
+                axis_years_label_colour = "navy" />
+                   
+            <vertical_axis use_id="vaxis" axis_grid='on'/>			          
+   		 		
+		</map>
+        <legend display='absolute' width='47%' height='25%' bottom='-5%'
+                   plot_direction='column' columns='6'
+                   text_colour='Rgb(0.5, 0.5, 0.5)' border='off' blanking='off'/>	
+    </page> 
+        
+
+		
+	
+</magics>

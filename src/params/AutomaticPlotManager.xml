@@ -1,0 +1,29 @@
+<magics>
+<class  action='popen/pnew' directory='common' name='AutomaticPlotManager'>
+  	<documentation > Object used to handle the call to the Pseudo action routine PNEW 	</documentation>
+  	<parameter  xml='plot_start' from='string' name='plot_start' default='bottom' member='plot_start' to='string'>
+         		<documentation > Position of first page plotted (BOTTOM/TOP) 		</documentation>
+         		<migration > New Magics: Parameter plot_start sent to new Magics[Page].  		</migration>
+         		<release >Magics++0.2		</release>
+  	</parameter>
+
+  	<parameter  xml='plot_direction' from='string' name='plot_direction' default='vertical' member='plot_direction' to='string'>
+         		<documentation > Direction of plotting (HORIZONTAL/VERTICAL) 		</documentation>
+         		<migration > New Magics: Parameter plot_direction sent to new Magics[Page].  		</migration>
+         		<release >Magics++0.2		</release>
+  	</parameter>
+
+  	<parameter  xml='page_x_gap' from='float' name='page_x_gap' default='0.0cm' member='page_x_gap' to='float' implemented='no'>
+         		<documentation > Gap between pages in X direction 		</documentation>
+         		<migration > New Magics: Parameter page_x_gap sent to new Magics[Page].  		</migration>
+         		<release >Magics++0.2		</release>
+         		<release_info >Not fully implemented		</release_info>
+  	</parameter>
+
+  	<parameter  xml='page_y_gap' from='float' name='page_y_gap' default='0.0cm' member='page_y_gap' to='float' implemented='no'>
+         		<documentation > Gap between pages in Y direction 		</documentation>
+         		<migration > New Magics: Parameter page_y_gap sent to new Magics[Page].  		</migration>
+         		<release >Magics++0.2		</release>
+          		<release_info >Not fully implemented		</release_info>
+  	</parameter>
+</class></magics>

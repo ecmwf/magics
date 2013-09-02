@@ -1,0 +1,269 @@
+%manual
+
+Description:  Hall charts
+              Northern Hemisphere
+
+Mainframe:    styx/hades
+
+Related tasks:  phal....
+
+Synopsis:
+
+        . Use metview to produce plotfile.
+
+
+Anticipated problems:
+
+     For CONSOLE
+
+        . If no clue, set to COMPLETE;
+                      call METAPS the next working day.
+
+     For METAPS
+
+        . Script     /usr/local/share/metview
+
+        . Output     Plot
+
+%end
+%include <qsub.h>
+%include <config.h>
+%include <trap.h>
+%include <setup.h>
+%include <plotdb.h>
+%include <web.h>
+
+cd $TMPDIR
+
+YYYYMMDD=`substring $BASETIME 1 8 `
+export YYYYMMDD
+
+PLOT_DATE=$YYYYMMDD
+export PLOT_DATE
+
+PLOT_EXPVER=$EXPVER
+export PLOT_EXPVER
+
+export PLOT_TIME=$(substring $BASETIME 9 10)
+export STEP_LIST=%STEP_LIST:12/to/204/by/24%
+
+cat > dirs << \EOF
+# =========================================================================
+# phalznh. Metview macro by Rogerio Bonifacio
+# Depending on run-mode, prints out, prints to file or displays :
+# Parameters		- 500hPa Z, MSL Pressure
+# Types			- AN, FC to day 7
+# Geographical Area	- Northern Hemisphere
+
+# Hall Charts	:
+# 	Top chart	- MSL Pressure
+# 	Bottom chart	- Z500
+# =========================================================================
+
+step_list = getenv('STEP_LIST')
+
+# Forecast data
+l_step=parse(step_list,'/')
+print (step_list)
+print (l_step)
+
+first = l_step[1]
+last = l_step[3]
+incr = l_step[5]
+
+if first=0
+then
+	MSLP_AN = read(source:"mslp.grib", type: "an")
+	Z500_AN = read(source: "z500.grib",type: "an")
+	print ("MSLP_AN has",count(MSLP_AN)," fields")
+	MSLP_FC = read(source:"mslp.grib", type: "fc", step: [incr,'to',last,'by',incr])
+	Z500_FC = read(source: "z500.grib",type: "fc",step: [incr,'to',last,'by',incr])
+	print ("MSLP_FC has",count(MSLP_FC)," fields")
+	MSLP_fields  = merge (MSLP_AN, MSLP_FC)
+	Z500_fields = merge (Z500_AN, Z500_FC)
+else
+	MSLP_fields = read(source:"mslp.grib", type: "fc", step: [first,'to',last,'by',incr])
+	Z500_fields = read(source: "z500.grib", type: "fc",step: [first,'to',last,'by',incr])
+	print ("MSLP_FC has",count(MSLP_fields)," fields")
+end if
+
+# Define output device. Can be printer, ps.file or ps.file with icon
+dv_printer = device (
+ 		destination		:	"file",
+		file_name		:	"ps",
+		file_auto_numbering	:	"off",
+		paper_format		:	"a3",
+		orientation		:	"landscape",
+		print_command		:	" ",
+ 		use_title_from		:	"magics"
+ 		)
+
+dv_ps_icon = device(
+		destination		:	"ICON",
+		icon_prefix		:	"phalznh.ps",
+		paper_format		:	"a3",
+		orientation		:	"landscape",
+		use_title_from		:	"Magics"
+		)
+
+# Checks running mode and gets/sets date and experiment variables
+mode = runmode()
+
+if mode = 'batch' then
+	setdevice(dv_printer)
+end if
+
+if mode = 'execute' then
+	setdevice(dv_ps_icon)
+end if
+
+ddate = getenv("PLOT_DATE")
+if ddate = '' then
+	andate = date (-1)
+else
+	andate = date (ddate)
+end if
+
+time = getenv("PLOT_TIME")
+if time = '' then
+	time = 00
+end if
+
+expver = getenv("PLOT_EXPVER")
+if expver = '' then
+	expver = 1
+end if
+
+class = getenv("CLASS")
+if class = '' then
+	class = 'OD'
+end if
+
+stream = getenv("STREAM")
+if stream = '' then
+	stream = 'DA'
+end if
+
+print (" ")
+print (" mode is ",mode, "; expver is ",expver, "; date is ",andate)
+print (" ")
+
+page_id = "Exp " & expver & " Stream " & stream
+
+# Defines geographic elements
+coastline = pcoast(
+	map_coastline_colour		:	'black',
+	map_grid_colour			:	'black',
+	MAP_COASTLINE_LAND_SHADE	:	'ON',
+	MAP_COASTLINE_SEA_SHADE		:	'OFF',
+	MAP_COASTLINE_LAND_SHADE_COLOUR	:	'cream',
+	MAP_GRID_LATITUDE_INCREMENT	:	20.0,
+	MAP_GRID_LONGITUDE_INCREMENT	:	20.0,
+	MAP_LABEL_HEIGHT		:	0.15
+)
+
+geography = (
+		SUBPAGE_MAP_PROJECTION	:	'POLAR_STEREOGRAPHIC',
+		SUBPAGE_MAP_HEMISPHERE	:	'NORTH',
+		area			:	[5, -45, 5, 135],
+		background		:	coastline
+		)
+
+# Defines plot text
+text = ptext(
+		TEXT_REFERENCE_CHARACTER_HEIGHT	:	0.54,
+		TEXT_QUALITY			:	'HIGH',
+		TEXT_JUSTIFICATION		:	'LEFT'   #F
+		)
+
+# Defines Visual Definitions
+contour_common = pcont(
+		CONTOUR_HIGHLIGHT_THICKNESS	:	2,
+		CONTOUR_HILO_HEIGHT		:	0.2,
+		CONTOUR_HILO_QUALITY		:	'HIGH',
+		CONTOUR_HILO_SUPPRESS_RADIUS	:	80.0,
+		CONTOUR_LABEL_HEIGHT		:	0.15,
+		CONTOUR_LABEL_QUALITY		:	'HIGH',
+		CONTOUR_LEVEL_SELECTION_TYPE	:	'INTERVAL',
+		CONTOUR_LINE_THICKNESS		:	1
+)
+MSL_contour1 = pcont(
+		contour_common,
+		CONTOUR_HILO			:	'HI',
+		CONTOUR_HILO_MIN_VALUE		:	1006.0,
+		CONTOUR_INTERVAL		:	5.0,
+		CONTOUR_REFERENCE_LEVEL		:	1000.0
+)
+MSL_contour2 = pcont(	
+		contour_common,
+		CONTOUR				:	'OFF',
+		CONTOUR_HILO			:	'LO',
+		CONTOUR_HILO_MAX_VALUE		:	1006.0,
+		CONTOUR_INTERVAL		:	5.0,
+		CONTOUR_REFERENCE_LEVEL		:	1000.0
+		)
+
+Z_contour = pcont(
+		contour_common,
+		CONTOUR_HILO			:	'ON',
+		CONTOUR_INTERVAL		:	4.0,
+		CONTOUR_REFERENCE_LEVEL		:	544.0
+		)
+
+
+
+	A3_horiz_x = 42.0
+	A3_horiz_y = 29.7
+	A3_3x2 = page(
+		geography,
+		PAGE_X_LENGTH		:	A3_horiz_x / 3.0,
+		PAGE_Y_LENGTH		:	A3_horiz_y / 2.0,
+		PAGE_FRAME		:	'ON',
+		PAGE_ID_LINE            :       'ON',
+		PAGE_ID_LINE_SYSTEM_PLOT:       'OFF',
+		PAGE_ID_LINE_DATE_PLOT  :       'OFF',
+		PAGE_ID_LINE_ERRORS_PLOT:       'OFF',
+		PAGE_ID_LINE_LOGO_PLOT  :       'OFF',
+		PAGE_ID_LINE_USER_TEXT  :       page_id,
+		SUBPAGE_X_POSITION	:	1.3,
+		SUBPAGE_Y_POSITION	:	0.9,
+		SUBPAGE_X_LENGTH	:	0.8*(A3_horiz_x / 3.0),
+		SUBPAGE_Y_LENGTH	:	0.8*(A3_horiz_y / 2.0)
+		)
+
+	A3_sheet = superpage(
+		SUPER_PAGE_X_LENGTH	:	A3_horiz_x,
+		SUPER_PAGE_Y_LENGTH	:	A3_horiz_y,
+		pages			:	[A3_3x2, A3_3x2, A3_3x2, A3_3x2, A3_3x2, A3_3x2]
+		)
+
+
+	pages_per_spage = 6
+	total_fields = count(Z500_fields) + count(MSLP_fields)
+	index = 0
+	n_of_spages = int(1+(total_fields/pages_per_spage))
+	for i = 1 to n_of_spages do
+		for j = 1 to pages_per_spage by 2 do
+			index = index+1
+			if (index <= count(Z500_fields)) then
+				plot (A3_sheet[j], MSLP_fields[index], MSL_contour1, MSL_contour2, text)
+				plot (A3_sheet[j+1], Z500_fields[index], Z_contour, text)
+			end if
+		end for
+		newpage (A3_sheet)
+	end for
+
+
+
+EOF
+
+ln -s $WEBDATA/z500.grib
+ln -s $WEBDATA/mslp.grib
+$metview_cmd -b dirs
+PSFILE
+
+$plotdb_lpr -J $TASK -P ps_oa_a3_c ps
+
+
+%include <endt.h>
+

@@ -1,0 +1,27 @@
+<magics>
+<class  action='Interactive' directory='drivers' prefix='selection_mode' xmltag='interactive_mode' name='SelectionMode'> 
+  	<parameter  member='background_colour' to='Colour' default='blue' from='string' name='selection_mode_background_colour'>
+         		<release >Magics++3.2		</release>
+         		<documentation > Background colour of selectables objets.		</documentation>
+  	</parameter>
+   	<parameter  member='background_opacity' to='int' default='75' from='int' name='selection_mode_background_opacity'>
+         		<release >Magics++3.2		</release>
+         		<documentation > Background opacity of selectables objets.		</documentation>
+  	</parameter>
+   	<parameter  member='line_colour' to='Colour' default='blue' from='string' name='selection_mode_line_colour'>
+         		<release >Magics++3.2		</release>
+         		<documentation > line colour of selectables objets.		</documentation>
+  	</parameter>
+    	<parameter  member='line_thickness' to='int' default='2' from='int' name='selection_mode_line_thickness'>
+         		<release >Magics++3.2		</release>
+         		<documentation > line thickness of selectables objets.		</documentation>
+  	</parameter>
+    	<parameter  member='line_style' to='LineStyle' default='solid' from='string' name='selection_mode_line_style'>
+         		<release >Magics++3.2		</release>
+         		<documentation > line style of selectables objets.		</documentation>
+  	</parameter>
+	  	<parameter  member='object_instancies' to='int' default='1' from='int' name='selection_mode_object_instancies'>
+         		<release >Magics++3.2		</release>
+         		<documentation > max number of  selectables objets.		</documentation>
+  	</parameter>
+</class></magics>

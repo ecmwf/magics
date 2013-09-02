@@ -1,0 +1,19 @@
+<chapterinfo>
+  <pubdate>auto</pubdate>
+  <copyright>
+    <year>MAGICS_COPYRIGHT_PERIOD</year>
+      <holder>European Centre for Medium-Range Weather Forecasts</holder>
+  </copyright>
+ 
+  <legalnotice>
+    <para>Literary and scientific copyrights belong to ECMWF and are
+          reserved in all countries.</para>
+    <para>The information within this publication
+          is given in good faith and considered to be true, but ECMWF accepts
+          no liability for error, omission and for loss or damage arising
+          from its use.</para>
+     <para />
+     <para>Valid for Magics++ version MAGICS_VERSION</para>
+  </legalnotice>
+
+</chapterinfo>

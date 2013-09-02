@@ -1,0 +1,146 @@
+/******************************** LICENSE ********************************
+
+ Copyright 2007 European Centre for Medium-Range Weather Forecasts (ECMWF)
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at 
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+
+ ******************************** LICENSE ********************************/
+
+/*! \file ObsPlotting.cc
+    \brief Implementation of the Template class ObsPlotting.
+    
+    Magics Team - ECMWF 2005
+    
+    Started: Wed 23-Mar-2005
+    
+    Changes:
+    
+*/
+
+#include "ObsPlotting.h"
+#include "ObsTable.h"
+#include "Layout.h"
+#include "MetaData.h"
+#include "ProgressObject.h"
+using namespace magics;
+
+ObsPlotting::ObsPlotting() 
+{
+}
+
+ObsPlotting::~ObsPlotting() 
+{
+}
+
+static int COUNT;
+void ObsPlotting::operator()(Data& data, BasicGraphicsObjectContainer& out)
+{
+	ObsTable::print();
+	std::set<string> needs;
+	std::set<string> info;
+	multimap<string, string> types;
+
+	info.insert("type");
+
+	data.getInfo(info, types);
+	
+	for (multimap<string, string>::const_iterator type = types.find("type"); type != types.end(); ++type)
+	{		
+		try {
+			const ObsTemplate& obs = ObsTable::getTemplate(type->second);
+			obs.visit(needs);
+		}
+		catch (std::exception&)
+		{
+			MagLog::warning() << " Magics++ has no observation template for: " << type->second << "\n"
+			               << " Please contact the Graphic team.\n";
+		}
+	}
+
+	CustomisedPointsList values;	
+	
+	const Transformation& transformation = out.transformation();
+	bool all = false;
+	// false : we only need the points in the area
+	data.customisedPoints(transformation, needs, values, all);
+
+	out.push_back(new ClearObject());
+
+
+	for (multimap<string, string>::const_iterator type = types.find("type"); type != types.end(); ++type)
+	{
+		try {
+			const ObsTemplate& obs = ObsTable::getTemplate(type->second);
+			obs.set(apart_);
+		
+			for (CustomisedPointsList::const_iterator val = values.begin(); val != values.end(); ++val) 	{
+				if ( type->second == (*val)->type() ) { 
+					obs(*(*val), out);
+				}
+			}
+		}
+		catch (std::exception&)
+		{
+		}
+	}
+}
+
+//void ObsPlotting::filter(const CustomisedPointsList& in, CustomisedPointsList& out)
+//{
+//	out.push_back(in.front());
+//	const Transformation& transformation = getLayout().getTransformation();
+//	
+//	MagLog::dev()<< " ObsPlotting::filter--->" << transformation << endl;
+//	
+//	
+//	for (CustomisedPointsList::const_iterator point = in.begin(); point != in.end(); ++point) {
+//		out.push_back(*point);
+//	}
+//}
+	
+
+/*!
+ \brief Class information are given to the output-stream.
+*/		
+void ObsPlotting::print(ostream& out)  const
+{
+	out << "ObsPlotting[";
+	out << "]";
+}
+void ObsPlotting::visit(MetaDataVisitor& visitor)
+{
+	visitor.add("ObsPlotting", "info");
+	visitor.add("obs_plotted", tostring(COUNT));
+}
+
+
+#include "ObsItemFamily.h"
+static SimpleObjectMaker<ObsStationRing, ObsItem> ObsStationRing("obs_station_ring");
+static SimpleObjectMaker<ObsTimePlot, ObsItem> ObsTimePlot("obs_time_plot");
+static SimpleObjectMaker<ObsWind, ObsItem> ObsWind("obs_wind");
+static SimpleObjectMaker<ObsCloudAndWind, ObsItem> ObsCloudAndWind("obs_cloud_wind");
+static SimpleObjectMaker<ObsTemperature, ObsItem> ObsTemperature("obs_temperature");
+static SimpleObjectMaker<ObsPressure, ObsItem> ObsPressure("obs_pressure");
+static SimpleObjectMaker<ObsPressureTendency, ObsItem> ObsPressureTendency("obs_pressure_tendency");
+static SimpleObjectMaker<ObsDewPoint, ObsItem> ObsDewPoint("obs_dewpoint");
+static SimpleObjectMaker<ObsVisibility, ObsItem> ObsVisibility("obs_visibility");
+static SimpleObjectMaker<ObsPresentWeather, ObsItem> ObsPresentWeather("obs_present_weather");
+static SimpleObjectMaker<ObsPressureLevel, ObsItem> ObsPressureLevel("obs_pressure_level");
+static SimpleObjectMaker<ObsIdentifier, ObsItem> ObsIdentifier("obs_identification");
+static SimpleObjectMaker<ObsCloud, ObsItem> ObsCloud("obs_cloud");
+static SimpleObjectMaker<ObsPastWeather, ObsItem> ObsPastWeather("obs_past_weather");
+static SimpleObjectMaker<ObsHeight, ObsItem> ObsHeight("obs_height");
+static SimpleObjectMaker<ObsThickness, ObsItem> ObsThicjness("obs_thickness");
+static SimpleObjectMaker<ObsDemoItem1, ObsItem> ObsDemo1("obs_demo_item_1");
+static SimpleObjectMaker<ObsDemoItem2, ObsItem> ObsDemo2("obs_demo_item_2");
+static SimpleObjectMaker<ObsEra, ObsItem> Era("obs_era");

@@ -1,0 +1,30 @@
+<magics version='3.0'>
+  <!-- definition of the output-->
+  <drivers>
+	<ps output_name='${title=projection}'/>
+  </drivers>
+  <page>
+	<!--definition of the text!-->
+	<text height='15%'> ${title=map} </text>
+	<!-- Setting of the geographical area-->
+	<map height='85%' 
+		subpage_upper_right_longitude = '${urlon=180.}' 
+		subpage_upper_right_latitude = '${???}' 
+		subpage_lower_left_longitude = '${???}'
+		subpage_map_projection = '${projection=cylindrical}' 
+		subpage_lower_left_latitude = '${???}'> 
+		subpage_map_vertical_longitude = '${???}/> 
+		<!--add the coastlines-->
+		<coastlines
+			map_coastline_sea_shade_colour = "white" 
+			map_coastline_land_shade_colour = "cream" 
+			map_grid = "on" 
+			map_grid_colour = "grey"
+			map_coastline_land_shade = "on" 
+			map_coastline_sea_shade = "on"
+			map_label = "off" 
+			map_coastline_colour = "grey"
+		/>
+	</map>
+  </page>
+</magics>

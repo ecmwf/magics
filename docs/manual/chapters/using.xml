@@ -1,0 +1,1683 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+"http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd">
+<chapter id="Using_MAGICS" label="2">
+  <title>Using Magics</title>
+
+  <xi:include href="../phrases/chapterinfo_mod.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <section id="Using_MAGICS_Introduction">
+    <title>Introduction</title>
+
+    <para>There are four interfaces to <productname>Magics</productname>. A FORTRAN interface (see
+    <olink targetdoc="Magics_using" targetptr="FORTRAN_Interface" />) provides
+    the usage familiar to users of MAGICS 6; C and Python interfaces (see <olink
+    targetdoc="Magics_using" targetptr="C_Interface" /> and <olink
+    targetdoc="Magics_using" targetptr="Python_Interface" />) provide
+    identical functionality for C and Python programmers; and an XML-based
+    interface, MagML (see <olink targetdoc="Magics_using"
+    targetptr="MagML_Interface" />), is an interpreted plot description that
+    can be parsed and run without the need for a compile/link cycle.<!--A new object-oriented C++ interface is provided for
+    embedding <productname>Magics</productname> in applications.--></para>
+
+    <para>A <productname>Magics</productname> program consists of calls to
+    <firstterm>action routines</firstterm>, each of which is configured by
+    changing zero or more <firstterm>parameters</firstterm>. Parameters in
+    <productname>Magics</productname> are the attributes to be assigned to the
+    various items that make up plotted output, such as line style, colour and
+    size of plot. They can also be used to define such items as map
+    projection, contouring minimum/maximum levels. Sensible default values for
+    most parameters exist, so it may be the case that very few parameters need
+    to be set in order to obtain meaningful output. An example of a parameter
+    that has no default value is <parameter>GRIB_INPUT_FILE_NAME</parameter> -
+    if loading a GRIB file, this parameter must first be set.</para>
+
+    <para>Exactly how parameters are set and action routines are called
+    depends on which interface is used. Most examples in this manual will use
+    the FORTRAN interface, but enough information will be given to enable the
+    user to perform all tasks using MagML, C and Python.</para>
+
+    <para>This chapter also describes various tools Magics++ provides to work with the Magics library.
+    These tools are the <application>MagML_interpretor</application>, the 
+    <application>magics-config</application> script and the <application>magicsCompatibilityChecker</application>.   
+   </para>
+
+  </section>
+
+  <section id="FORTRAN_Interface">
+    <title>FORTRAN Interface</title>
+
+    <para>A short example program is the best introduction to
+    <productname>Magics</productname> programming. The following code contains
+    enough comments to describe what the program is doing, and is followed by
+    the plot that it generates.</para>
+
+    <section id="Program_using_fortran1">
+      <title>Program: Using FORTRAN</title>
+
+      <programlisting>
+<xi:include href="../examples/manual/fortran/source/using_fortran1.f_cc"
+          xmlns:xi="http://www.w3.org/2001/XInclude" />
+      </programlisting>
+
+      <?pagebreak ?>
+
+      <section id="using_fortran1Plot_Output">
+        <title>Resultant Plot</title>
+
+        <mediaobject id="using_fortran1Plot">
+          <imageobject role="html">
+            <imagedata fileref="images/fortran/using_fortran1_01.png"
+                       format="PNG" />
+          </imageobject>
+
+          <imageobject role="fo">
+            <imagedata fileref="../examples/manual/fortran/png/using_fortran1_01.png"
+                       format="PNG"  depth="10cm"/>
+          </imageobject>
+        </mediaobject>
+      </section>
+
+      <?pagebreak ?>
+    </section>
+
+    <section id="FORTRAN_InitRoutines">
+      <title>Magics Initialisation Routines in FORTRAN</title>
+
+      <para>The first <productname>Magics</productname> routine to be called
+      must be <function>POPEN</function> and the last to be called must be
+      <function>PCLOSE</function>. These two routines perform mandatory
+      initialisation and termination functions. The formats of
+      <function>POPEN</function> and <function>PCLOSE</function>, which have
+      no arguments, are:</para>
+
+      <programlisting>
+    CALL <function>POPEN</function>
+    CALL <function>PCLOSE</function>
+      </programlisting>
+    </section>
+
+    <section id="FORTRAN_ActionRoutines">
+      <title>Magics Action Routines in FORTRAN</title>
+
+      <para>In order to plot something, an action routine must be called. In
+      the example program, three plotting commands are called:
+      <function>PCOAST</function>, <function>PCONT</function> and
+      <function>PTEXT</function>. The following table shows all of the
+      available action routines.</para>
+
+      <para>
+        <table id="table_action_routines">
+          <title>Magics Action Routines</title>
+
+          <tgroup cols="2">
+            <colspec align="left" />
+
+            <thead>
+              <row>
+                <entry align="left">Syntax</entry>
+
+                <entry align="left">Description</entry>
+              </row>
+            </thead>
+
+            <tbody>
+              <row>
+                <entry>
+                  <code>CALL <function>PCOAST</function></code>
+                </entry>
+
+                <entry>Plots coastlines and grids</entry>
+              </row>
+
+              <row>
+                <entry>
+                  <code>CALL <function>PCONT</function></code>
+                </entry>
+
+                <entry>Plots contour fields</entry>
+              </row>
+
+              <row>
+                <entry>
+                  <code>CALL <function>PWIND</function></code>
+                </entry>
+
+                <entry>Plots wind fields</entry>
+              </row>
+
+              <row>
+                <entry>
+                  <code>CALL <function>POBS</function></code>
+                </entry>
+
+                <entry>Plots observations</entry>
+              </row>
+
+              <row>
+                <entry>
+                  <code>CALL <function>PIMAGE</function></code>
+                </entry>
+
+                <entry>Plots images, for example satellite</entry>
+              </row>
+
+              <row>
+                <entry>
+                  <code>CALL <function>PTEXT</function></code>
+                </entry>
+
+                <entry>Plots text</entry>
+              </row>
+
+              <row>
+                <entry>
+                  <code>CALL <function>PGRAPH</function></code>
+                </entry>
+
+                <entry>Plots graphs</entry>
+              </row>
+
+              <row>
+                <entry>
+                  <code>CALL <function>PAXIS</function></code>
+                </entry>
+
+                <entry>Plots axes</entry>
+              </row>
+
+              <row>
+                <entry>
+                  <code>CALL <function>PSYMB</function></code>
+                </entry>
+
+                <entry>Plots marker symbols</entry>
+              </row>
+
+              <row>
+                <entry>
+                  <code>CALL <function>PLINE</function></code>
+                </entry>
+
+                <entry>Plots lines and shapes over geographic areas</entry>
+              </row>
+
+              <row>
+                <entry>
+                  <code>CALL <function>PBOXPLOT</function></code>
+                </entry>
+
+                <entry>Plots boxplots</entry>
+              </row>
+
+              <!--              <row>
+                <entry><code>CALL <function>PTAYLOR</function></code></entry>
+                <entry>Plots Taylor diagrams</entry>
+              </row>-->
+            </tbody>
+          </tgroup>
+        </table>
+      </para>
+
+      <para>Each action routine has its own set of parameters which have a
+      unique prefix to identify them. For instance, the parameter
+      <parameter>CONTOUR_LINE_STYLE</parameter> affects the operation of
+      <function>PCONT</function>. These parameters can be set by the user and,
+      if not set, the default values will be used.</para>
+
+      <tip>
+        <para>Even though parameters can be set anywhere in the user program,
+        action routines will always use the last value assigned to a parameter
+        before the action routine is called.</para>
+      </tip>
+    </section>
+
+    <section id="FORTRAN_ParameterRoutines">
+      <title>Magics Parameter Setting in FORTRAN</title>
+
+      <para>In <productname>Magics</productname>, plots generated using action
+      routines will be drawn using information from the relevant
+      <productname>Magics</productname> parameters. These parameter values can
+      be changed dynamically by calling parameter-setting routines. There are
+      only a few parameter-setting routines in
+      <productname>Magics</productname>, one for each data type.</para>
+
+      <para>The names of the parameters are passed as parameters using FORTRAN
+      character strings. This method allows easy-to-remember, English language
+      keywords and the list of keywords can be easily extended. The set of
+      routines for parameter setting is divided into four subsets: single
+      parameter setting, single parameter resetting, array parameter setting
+      and multiple parameter setting.</para>
+ 
+      <para>Values of <productname>Magics</productname> parameters can also be retrieved by using the function 
+      <function>ENQR</function> and passing it the parameter name as an input parameter.</para>
+      
+
+      <section id="Single_Parameter_Setting">
+        <title>Single Parameter Setting and Resetting</title>
+
+        <para>There are three subroutines to assign a single value to a
+        parameter, each postfixed with a <code>C</code> , <code>I</code> or
+        <code>R</code> , corresponding to a different argument type:</para>
+
+        <para>
+          <table id="table_single_param_routines">
+            <title>Magics Single Parameter Setting Routines</title>
+
+            <tgroup cols="2">
+              <colspec align="left" colwidth="260" />
+
+              <thead>
+                <row>
+                  <entry align="left">Function Call Syntax</entry>
+
+                  <entry align="left">Description</entry>
+                </row>
+              </thead>
+
+              <tbody>
+                <row>
+                  <entry>
+                    <code>CALL <function>PSETC</function> ( MAGICS_PARAMETER,
+                    CVALUE )</code>
+                  </entry>
+
+                  <entry>For setting character arguments</entry>
+                </row>
+
+                <row>
+                  <entry>
+                    <code>CALL <function>PSETI</function> ( MAGICS_PARAMETER,
+                    IVALUE )</code>
+                  </entry>
+
+                  <entry>For setting integer arguments</entry>
+                </row>
+
+                <row>
+                  <entry>
+                    <code>CALL <function>PSETR</function> ( MAGICS_PARAMETER,
+                    RVALUE )</code>
+                  </entry>
+
+                  <entry>For setting real arguments</entry>
+                </row>
+              </tbody>
+            </tgroup>
+          </table>
+        </para>
+
+        <para>The first argument should be a character variable or constant
+        specifying the <productname>Magics</productname> parameter to be
+        set.The <code>VALUE</code> argument should be of the corresponding
+        type for the chosen subroutine.</para>
+
+        <para>A parameter may be reset to its default value using the function
+        <function>PRESET</function>:</para>
+
+        <para>There are three subroutines to assign a single value to a
+        parameter, each postfixed with a <function>C</function>,
+        <function>I</function> or <function>R</function> , corresponding to a
+        different argument type:</para>
+
+        <para>
+          <table id="table_single_param_reset_routines">
+            <title>Magics Single Parameter Resetting Routine</title>
+
+            <tgroup cols="2">
+              <colspec align="left" colwidth="300" />
+
+              <thead>
+                <row>
+                  <entry align="left">Function Call Syntax</entry>
+
+                  <entry align="left">Description</entry>
+                </row>
+              </thead>
+
+              <tbody>
+                <row>
+                  <entry>
+                    <code>CALL <function>PRESET</function>( MAGICS_PARAMETER
+                    )</code>
+                  </entry>
+
+                  <entry>For resetting a parameter of any data type</entry>
+                </row>
+              </tbody>
+            </tgroup>
+          </table>
+        </para>
+<!--
+<remark>
+        <para>
+          This subroutine is preferable to resetting a parameter to
+          its default value with a normal parameter setting routine since it
+          also resets an internal <productname>Magics</productname> flag that
+          indicates that the parameter has or has not been assigned a user
+          value. This means that parameters which have more than one default
+          value, depending on the setting of another parameter, can be
+          correctly reset.
+        </para>
+</remark>
+-->
+      </section>
+
+      <section id="Array_Parameter_Setting">
+        <title>Array Parameter Setting</title>
+
+        <para>There are seven subroutines for passing information to Magics in
+        the form of arrays:</para>
+
+        <para>
+          <table id="table_array_param_routines">
+            <title>Magics Array Parameter Setting Routines</title>
+
+            <tgroup cols="2">
+              <colspec align="left" colwidth="330" />
+
+              <thead>
+                <row>
+                  <entry align="left">Syntax</entry>
+
+                  <entry align="left">Description</entry>
+                </row>
+              </thead>
+
+              <tbody>
+                <row>
+                  <entry>
+                    <code>CALL <function>PSET1C</function> ( MAGICS_PARAMETER,
+                    CARRAY, N1 )</code>
+                  </entry>
+
+                  <entry>For 1-dimensional character array arguments</entry>
+                </row>
+
+                <row>
+                  <entry>
+                    <code>CALL <function>PSET1I</function> ( MAGICS_PARAMETER,
+                    IARRAY, N1 )</code>
+                  </entry>
+
+                  <entry>For 1-dimensional integer array arguments</entry>
+                </row>
+
+                <row>
+                  <entry>
+                    <code>CALL <function>PSET2I</function> ( MAGICS_PARAMETER,
+                    IARRAY, N1, N2 )</code>
+                  </entry>
+
+                  <entry>For 2-dimensional integer array arguments</entry>
+                </row>
+
+                <row>
+                  <entry>
+                    <code>CALL <function>PSET3I</function> ( MAGICS_PARAMETER,
+                    IARRAY, N1, N2, N3 )</code>
+                  </entry>
+
+                  <entry>For 3-dimensional integer array arguments</entry>
+                </row>
+
+                <row>
+                  <entry>
+                    <code>CALL <function>PSET1R</function> ( MAGICS_PARAMETER,
+                    RARRAY, N1 )</code>
+                  </entry>
+
+                  <entry>For 1-dimensional real array arguments</entry>
+                </row>
+
+                <row>
+                  <entry>
+                    <code>CALL <function>PSET2R</function> ( MAGICS_PARAMETER,
+                    RARRAY, N1, N2 )</code>
+                  </entry>
+
+                  <entry>For 2-dimensional real array arguments</entry>
+                </row>
+
+                <row>
+                  <entry>
+                    <code>CALL <function>PSET3R</function> ( MAGICS_PARAMETER,
+                    RARRAY, N1, N2, N3 )</code>
+                  </entry>
+
+                  <entry>For 3-dimensional real array arguments</entry>
+                </row>
+              </tbody>
+            </tgroup>
+          </table>
+        </para>
+
+        <para>The fifth character of the subroutine name indicates that an
+        array is being passed and also indicates its dimensionality. The sixth
+        character indicates the FORTRAN type of the array, i.e. Character,
+        Integer or Real.</para>
+
+        <para>The first argument should be a character variable or constant
+        specifying the <productname>Magics</productname> parameter to be
+        set.The <code>VALUE</code> argument should be of the corresponding
+        type for the chosen subroutine.</para>
+
+        <para>The second argument should be an array of the appropriate data
+        type containing the data to be assigned to the
+        <productname>Magics</productname> parameter.</para>
+
+        <para>Arguments N1, N2, N3 are integers which inform
+        <productname>Magics</productname> of the size of the array being
+        passed, i.e. number of elements in each dimension of the array.</para>
+
+        <para>This type of subroutine can be used, for example, to pass lists
+        of contour levels to <productname>Magics</productname>, e.g.</para>
+
+        <programlisting>    CALL <function>PSET1R</function>('<parameter>CONTOUR_LEVEL_LIST</parameter>', RLIST, 25)</programlisting>
+
+        <para>where the real array <code>RLIST</code> contains a list of 25
+        contour levels.</para>
+
+        <!--
+        <para>They can also be used, for example, to assign values to arrays
+        of two or more dimensions. For example, it may be used for passing
+        data arrays to Magics for contouring, e.g. CALL
+        PSET2R('INPUT_FIELD',RARRAY, 240, 121) where RARRAY is the array to be
+        contoured and the dimensions of the array are (240,121) . In the
+        interests of efficiency, Magics will not copy the data arrays passed
+        to it by the array parameter setting routines, it will only set up a
+        pointer to the user array. It is therefore essential that users do not
+        change the content of arrays passed to Magics until after they have
+        made a call to the action routine that uses the data.</para>
+-->
+      </section>
+    </section>
+
+    <!--
+    <section>
+    Multiple Parameter Setting
+    </section>
+    
+    <section>
+    Enquiry Routines
+    </section>
+-->
+
+    <section id="FORTRAN_PseudoActionRoutines">
+      <title>Magics Pseudo-Action Routines in FORTRAN</title>
+
+      <para>As distinct from action routines, the pseudo action routines
+      perform a type of action that does not result in plotted output but
+      signifies a change of state in <productname>Magics</productname>, such
+      as moving to a new page.</para>
+
+      <para>Pseudo action routine <function>PNEW</function> will change from
+      one plot area to another. The format of <function>PNEW</function>
+      is:</para>
+
+      <para>
+        <table id="table_pseudo_action_routines">
+          <title>Magics Pseudo-Action Routines</title>
+
+          <tgroup cols="2">
+            <colspec align="left" />
+
+            <thead>
+              <row>
+                <entry align="left">Function Call</entry>
+
+                <entry align="left">Description</entry>
+              </row>
+            </thead>
+
+            <tbody>
+              <row>
+                <entry>
+                  <code>CALL <function>PNEW</function> ( 'SUPER_PAGE' )</code>
+                </entry>
+
+                <entry>To start a new super-page</entry>
+              </row>
+
+              <row>
+                <entry>
+                  <code>CALL <function>PNEW</function> ( 'PAGE' )</code>
+                </entry>
+
+                <entry>To start a new page</entry>
+              </row>
+
+              <row>
+                <entry>
+                  <code>CALL <function>PNEW</function> ( 'SUBPAGE' )</code>
+                </entry>
+
+                <entry>To start a new subpage</entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </table>
+      </para>
+
+      <para>The change of plotting area does not take place when
+      <function>PNEW</function> is called but when the next action routine is
+      called. Pseudo action routine <function>PNEW</function> is described in
+      <olink targetdoc="Magics_layout_mapping_coastlines"
+      targetptr="Layout_Mapping_and_Coastlines" />.</para>
+    </section>
+
+    <!--
+    <section>
+      Specification Groups
+    </section>
+    
+ -->
+
+    <section id="MAGICS_Data_Loading_Routines_in_FORTRAN">
+      <title>Magics Data Loading Routines in FORTRAN</title>
+
+      <para>The following action routines are used to read data:</para>
+
+      <para>
+        <table id="table_data_reading_routines">
+          <title>Magics Data Reading Routines</title>
+
+          <tgroup cols="2">
+            <colspec align="left" />
+
+            <thead>
+              <row>
+                <entry align="left">Function Call</entry>
+
+                <entry align="left">Description</entry>
+              </row>
+            </thead>
+
+            <tbody>
+              <row>
+                <entry>
+                  <code>CALL <function>PGRIB</function></code>
+                </entry>
+
+                <entry>Reads contouring and wind fields presented to Magics in
+                the form of WMO standard GRIB code</entry>
+              </row>
+
+              <row>
+                <entry>
+                  <code>CALL <function>PNETCDF</function></code>
+                </entry>
+
+                <entry>Reads data from a NetCDF file</entry>
+              </row>
+
+              <row>
+                <entry>
+                  <code>CALL <function>PBUFR</function></code>
+                </entry>
+
+                <entry>Reads observation data from a BUFR file. Note that this
+                replaces POBS from <productname>MAGICS
+                6</productname>.</entry>
+              </row>
+<!--
+              <row>
+                <entry>
+                  <code>CALL <function>PODB</function></code>
+                </entry>
+
+                <entry>Reads data from an ODB database using an SQL
+                query</entry>
+              </row>
+-->
+            </tbody>
+          </tgroup>
+        </table>
+      </para>
+
+      <para />
+    </section>
+
+    <section id="magicsCompatibilityChecker">
+      <title>The magicsCompatibilityChecker</title>
+
+      <para>
+        With its Fortran interface, Magics++ tries to be as backwards compatible as possible to MAGICS 6.
+        Unfortunately this was not always possible and changes in the API have occurred. To help users to
+        access if their Magics Fortran programs need changing a script is provided.
+        This script is called <application>magicsCompatibilityChecker</application> and is called from the 
+        command line followed by the name of code file to be checked. An output will be printed to alert users of changes in the Fortran API.  
+      </para>
+       <para>
+        <command>magicsCompatibilityChecker <replaceable>mycode.f</replaceable> </command>
+      </para>
+
+    </section>
+  </section>
+
+
+
+  <section id="C_Interface">
+    <title>C Interface</title>
+
+    <para><productname>Magics</productname> provides a C programming
+    interface. This interface is identical to the FORTRAN interface in terms
+    of functionality, but with different action routine names in order to
+    avoid conflicts with some C standard library names.</para>
+
+    <section id="Converting_From_FORTRAN_to_C">
+      <title>Converting From FORTRAN to C</title>
+
+      <para>If you wish to copy an existing FORTRAN
+      <productname>Magics</productname> program and change it to C, then here
+      are the things that you will need to change within the body of the
+      program:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>In order to derive the C form of an action routine, take the
+          FORTRAN routine name, change it to lower case and replace the
+          initial <code>P</code> with <code>mag_</code>. For example,
+          <function>POPEN</function> becomes
+          <function>mag_open</function>.</para>
+        </listitem>
+
+        <listitem>
+          <para>Strings in C use double quotes, not single quotes
+          (<code>"</code> not <code>'</code>).</para>
+        </listitem>
+
+        <listitem>
+          <para>Remember to place a semicolon at the end of each line.</para>
+        </listitem>
+
+        <listitem>
+          <para>Remember that in C, function names are case-sensitive, but the
+          <productname>Magics</productname> parameter names are not.</para>
+        </listitem>
+
+        <listitem>
+          <para>In FORTRAN, if a 2-dimensional array is declared as
+          <code>DIMENSION FIELD (NLON,NLAT)</code>, the equivalent in C would
+          be <code>double Field[NumLat][NumLon]</code>, ie the array indices
+          are 'the other way around'.</para>
+        </listitem>
+      </itemizedlist>
+    </section>
+
+    <section id="C_Example">
+      <title>C Interface Example</title>
+
+      <para>The following example shows how to use
+      <productname>Magics</productname> in a C program.</para>
+
+      <programlisting>
+<xi:include href="../examples/manual/c/source/cont_colours.c_cc"
+          xmlns:xi="http://www.w3.org/2001/XInclude" />
+      </programlisting>
+
+      <figure id="figure_using_c1Plot_Output">
+        <title>Resultant plot from example C program</title>
+
+        <mediaobject id="using_cPlot">
+          <imageobject role="html">
+            <imagedata fileref="images/c/cont_colours_01.png" format="PNG" />
+          </imageobject>
+
+          <imageobject role="fo">
+            <imagedata fileref="../examples/manual/c/png/cont_colours_01.png"
+                       format="PNG"  depth="10cm" />
+          </imageobject>
+        </mediaobject>
+      </figure>
+    </section>
+  </section>
+
+  <section id="Python_Interface">
+    <title>Python Interfaces</title>
+
+
+  <section id="Python_Interface_procedural">
+    <title>Procedural Python interface</title>
+
+    <para>From version 2.7 onwards <productname>Magics</productname>
+    provides a procedural Python programming interface. This interface is identical to
+    the FORTRAN and C interfaces in terms of functionality, with action
+    routine names similar to the Fortran interface. </para>
+
+    <section id="Converting_From_FORTRAN_to_Python">
+      <title>Converting From FORTRAN to Python</title>
+
+      <para>If you wish to copy an existing FORTRAN
+      <productname>Magics</productname> program and change it to Python, then
+      here are the things that you will need to change within the body of the
+      program:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>The <productname>Magics</productname> interface needs to be imported at the start of your script using
+          <code>import Magics</code> and all <productname>Magics</productname> commands need to be prefix with the namespace <productname>Magics.</productname>.
+	  This is not strictly necessary but keeps a clear separation of Magics and other code.</para>
+        </listitem>
+	
+        <listitem>
+          <para>In order to derive the Python form of an action routine, take the
+          FORTRAN routine name, change it to lower case and replace the
+          initial <code>P</code> with the namespace <code>Magics</code>. There are few exception such as,
+          <function>POPEN</function> becomes <function>Magics.init()</function> and <function>PCLOSE</function> becomes <function>Magics.finalize()</function>.</para>
+        </listitem>
+
+        <listitem>
+          <para>Strings in Python use double quotes, not single quotes
+          (<code>"</code> not <code>'</code>).</para>
+        </listitem>
+
+        <listitem>
+          <para>In Python, function names are case-sensitive, but the
+          <productname>Magics</productname> parameter names are not.</para>
+        </listitem>
+
+        <listitem>
+          <para>In FORTRAN, if a 2-dimensional array is declared as
+          <code>DIMENSION FIELD (NLON,NLAT)</code>, the equivalent in Python  and follows the same convention as C. Please be aware that for arrays Magics uses NumPy.</para>
+        </listitem>
+      </itemizedlist>
+    </section>
+
+    <section id="Python_Example">
+      <title>Python Interface Example</title>
+
+      <para>The following example shows how to use
+      <productname>Magics</productname> in a Python program.</para>
+
+      <programlisting>
+<xi:include href="../examples/manual/python/source/using_python01.py_cc"
+          xmlns:xi="http://www.w3.org/2001/XInclude" />
+      </programlisting>
+
+      <figure id="figure_using_py1Plot_Output_01">
+        <title>Page 1 of resultant plot from example Python program</title>
+
+        <mediaobject id="using_pyPlot_01">
+          <imageobject role="html">
+            <imagedata fileref="images/python/using_python01_01.png" format="PNG" />
+          </imageobject>
+
+          <imageobject role="fo">
+            <imagedata fileref="../examples/manual/python/png/using_python01_01.png"
+                       format="PNG" depth="10cm"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+      <figure id="figure_using_py1Plot_Output_02">
+        <title>Page 2 of resultant plot from example Python program</title>
+
+        <mediaobject id="using_pyPlot_02">
+          <imageobject role="html">
+            <imagedata fileref="images/python/using_python01_02.png" format="PNG" />
+          </imageobject>
+
+          <imageobject role="fo">
+            <imagedata fileref="../examples/manual/python/png/using_python01_02.png"
+                       format="PNG" depth="10cm"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+    </section>
+    </section>
+    <section id="Python_other">
+      <title>Higher-level Python Interfaces</title>
+    <para>Additional to the procedural Python interface, <productname>Magics</productname> also offers since version 2.9
+    a higher level Python interface called <productname>MagMacro</productname>. This interface offers a more higher level 
+    and object-oriented interface, based on <productname>Metview</productname> Macro.
+    </para>
+<!--
+    <section id="Python_magmacro">
+      <title>magmacro.py</title>
+      <para></para>
+    </section>   
+-->    
+     <section id="magmacro_Example">
+      <title>Python Interface Example</title>
+
+      <para>The following example shows how to use
+      <productname>Magics</productname> in a Python program.</para>
+
+      <programlisting>
+<xi:include href="../examples/manual/python/source/using_python02.py_cc"
+          xmlns:xi="http://www.w3.org/2001/XInclude" />
+      </programlisting>
+
+      <figure id="figure_using_py2Plot_Output_02">
+        <title>Resultant plot from above example Python program</title>
+
+        <mediaobject id="using_pyPlot2_02">
+          <imageobject role="html">
+            <imagedata fileref="images/python/using_python02_01.png" format="PNG" />
+          </imageobject>
+
+          <imageobject role="fo">
+            <imagedata fileref="../examples/manual/python/png/using_python02_01.png"
+                       format="PNG" depth="10cm"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+    </section>
+    
+    </section>
+  </section>
+
+
+<section id="User_Setup">
+   <title>User setup and compilation</title>
+   <para>This section will discuss the setup needed by users to use the installed <productname>Magics</productname> library and its applications.</para>
+
+   <section id="environment_variables">
+     <title>Magics++ environment variables</title>
+     <para>The variable $MAGPLUS_HOME is the path where <productname>Magics</productname> will find all auxillary data at runtime. 
+     If <productname>Magics</productname> is installed where the configure prefix option was set to, this variable does NOT need to be set.
+     Otherwise the variable needs to be set for all users of Magics programs. If <productname>Magics</productname> reports problems at run-time 
+     about missing coastlines or fonts this variable might not be set correctly.</para>
+     <para>Magics++ provides feedback on the console. You can control the messages plotted by setting any of the following environment variables:</para>
+     <para>  $MAGPLUS_INFO - Information and hints to what Magics++ is doing</para>
+     <para>  $MAGPLUS_DEBUG - Debug information</para>
+     <para>  $MAGPLUS_QUIET - suppresses the Magics++ header, footer and info output – only errors and warnings will cause output</para>
+   </section>
+   <section id="system_enviro">
+     <title>System environment variables</title>
+     <para>Hint: If you choose a standard system folder, such as /usr/local/, for your installation you might not have to change any system environment variables. </para>
+     <para>$LD_LIBRARY_PATH - To work with shared libraries the locations of these libraries need to be known at run time. This environment variable contains a list of paths where at run-time the system loader will look for libraries. To use the shared library version of Magics++ the location of the library needs to be set in $LD_LIBRARY_PATH. If the variable is not set correctly the loader might pick up a version of Magics++ which was not intended.</para>
+     <para>If EmosLib is compiled with Pgf90, it binds in libpgc.so dynamically at runtime and so the path to this library needs to be in $LD_LIBRARY_PATH.</para>
+     <para>$PATH - Magics++ provides not only libraries, but also some executables. To use these, the $PATH needs to include the location of these programs. Usually this will be $MAGPLUS_HOME/bin. </para>
+   </section>
+   
+   <section id="magics_config">
+     <title>magics-config</title>
+     <para>To simplify the user setup Magics++ installs a script called magics-config, which prints out the options to compile Magics++ programs. The options are based on the options used to compile Magics++. The program outputs the compilation and linkage options which can be used directly in the compilation instruction, as shown below.</para>
+     <para/>
+     <para>To compile a C program and link it to Magics++ you only need to type</para>
+   <programlisting>
+     gcc shade.c -o shade `magics-config --clibs --cxxflags`
+   </programlisting>
+     <para>
+      To compile simple Magics Fortran programs you can use <code>magics-config</code> by typing
+      <programlisting>
+     magics-config --compile=test.f
+      </programlisting>
+      In case a different suffix is used for Fortran code the call can be extended to 
+      <programlisting>
+     magics-config --compile=test.F90 --suffix=F90
+      </programlisting>
+      There is a similar shortcut for C code called <code>--compileC=test.c</code>.
+    </para>
+     <para>To do so $MAGPLUS_HOME/bin needs to be added to the $PATH first or magics-config called with its full path. Please be 
+     aware that the option '--print-setup' will tell you which environment variables you need to set before you can compile and 
+     run Magics++ programs. You might want to add this setup in your shell or start-up scripts. Below you find the usage help for 
+     magics-config.</para>
+
+<programlisting>
+Usage: magics-config [OPTION] ...
+
+Uses by default version 2.12.5 of Magics++.
+
+Generic options
+  --version     output Magics++ version information.
+  --help        display this help and exit.
+  --print-setup print how the environment can be set up
+
+Compilation support options
+  --cxxflags    print pre-processor and compiler flags for C/C++
+  --libs        print linking flags for C++
+  --clibs       print linking flags for C
+  --f90static   print library linking information (static)
+  --f90shared   print library linking information (shared)
+
+  --compile     compile simple Magics++ Fortran programs (default single precision!)  
+                  Example: magics-config --compile=wind.f
+  --compileC    compile simple Magics++ C programs  
+                  Example: magics-config --compileC=wind.c
+  --suffix      set suffix of Fortran or C code files
+
+  --double      include compiler option for fortran double precision 
+                  (default single - only for interface - internally only double is used)
+  --64bit       include fortran option for 64 bit
+
+C/C++ flags use shared libraries if possible, otherwise static libraries are used. '--double' has 
+NO effect on C/C++ programs.
+
+Install directories Magics++ was configured to
+  --prefix[=DIR]
+</programlisting>
+     <para/>
+   </section>
+
+ <section id="pkg-config-compiling">
+   <title>Compiling with pkg-config</title>
+   <para><firstterm>pkg-config</firstterm> is a script that provides a unified interface for querying installed 
+   libraries for the purpose of compiling software from its source code. <code>pkg-config</code> was originally designed for 
+   Linux but is now also available for the various BSDs, Microsoft Windows, Mac OS X, and Solaris. It outputs various 
+   information about installed libraries. This information may include parameters for C or C++ compiler and parameters 
+   for linker.</para>
+  <para>This script is very similar to what <code>magics-config</code> offers, but <code>pkg-config</code> is more 
+  general while <code>magics-config</code> has very Magics specific options.
+  </para>
+   <programlisting>
+	gcc -o test test.c $(pkg-config --libs --cflags magics)
+   </programlisting>
+   <para>
+   To find the information about Magics compilation the environment variable PKG_CONFIG_PATH 
+   needs to contain the directory <code>$MAGPLUS_HOME/lib/pkgconfig</code>. For more information 
+   visit <ulink url="http://en.wikipedia.org/wiki/Pkg-config">pkg-config on Wikipedia</ulink>.
+   </para>
+ </section>
+ <section id="magicsm4">
+   <title>Using Magics++ in your own configure scripts [advanced]</title>
+   To simplify the use of the Magics library in software also using the <firstterm>autotools</firstterm> package, a script called 
+   <code>magics.m4</code> is provided. The file can be found in the Magics++ install directory under <code>share/aclocal/</code>.
+   It is recommended to copy the file into the own project and include it in the <code>configure.ac</code> file by typing
+   <programlisting>
+   m4_include(m4/magics.m4)
+   </programlisting>
+   This will provide the configure script with the option <code>--with-magics</code> to query Magics on the system. 
+   Internally <code>magics.m4</code> uses <code>magics-config</code>.
+ </section>
+</section>
+
+
+<section id="MagML_Interface">
+<title>MagML Interface</title>
+
+  <para>New in <productname>Magics++</productname> is an interface, based on
+  XML, for describing plots. This interface is different to other
+  interfaces, which use programming languages to describe a plot. In
+  contrast to programming languages, <firstterm>MagML</firstterm> cannot
+  offer procedural programming. However, flexibility is provided by the use
+  of <firstterm>templates</firstterm> - see <olink targetdoc="Magics_using"
+  targetptr="MagML_Templates" />.</para>
+
+  <para>MagML offers users a way to describe their plots in a text file. The
+  MagML interpreter program reads this text file and generates the plots;
+  this process eliminates the need for compiling a FORTRAN or C program.
+    Variable elements such as the path to a data file can be supplied on the
+    command line.</para>
+
+    <para>A plot is described through a hierarchy of objects. Data access is
+    possible by defining an input data file or a database request.</para>
+
+    <section id="The_MagML_Interpreter">
+      <title>The MagML Interpreter</title>
+
+      <para>To generate <productname>Magics</productname> plots from MagML
+      files, a program called <application>magmlx</application> is provided.
+      The program will be available to the user after the
+      <productname>Magics</productname> environment is set up.</para>
+
+      <para>The command-line usage of the interpreter is as follows:</para>
+
+      <para>
+        <command>magmlx <replaceable>file.magml</replaceable> <option>
+        [-varname1=value1 ...]</option></command>
+      </para>
+
+      <para>The parameters shown as <option>-varname1=value1</option> are
+      described in <olink targetdoc="Magics_using"
+      targetptr="MagML_Templates" />.</para>
+
+      <para>A short example program is the best introduction to
+      <productname>Magics</productname> programming with MagML. The MagML
+      source is followed by the plot that it generates. The important parts of
+      the code will then be discussed.</para>
+    </section>
+
+    <section id="Program_using_MagML1">
+      <title>Program: Using MagML</title>
+
+      <programlisting>
+<xi:include href="../examples/manual/magml/source/using_magml1.magml_cc"
+          xmlns:xi="http://www.w3.org/2001/XInclude" />
+      </programlisting>
+
+      <figure id="figure_using_magml1Plot_Output">
+        <title>Resultant plot from example MagML program</title>
+
+        <mediaobject id="using_magml1Plot">
+          <imageobject role="html">
+            <imagedata fileref="images/magml/using_magml1.png" format="PNG" />
+          </imageobject>
+
+          <imageobject role="fo">
+            <imagedata fileref="../examples/manual/magml/png/using_magml1.png"
+                       format="PNG" depth="10cm" />
+          </imageobject>
+        </mediaobject>
+      </figure>
+    </section>
+
+    <!-- id="Program_using_MagML1" -->
+
+    <?pagebreak ?>
+
+    <section id="MagML_Discussion">
+      <title>MagML Discussion</title>
+
+      <para>First we establish that we are describing a
+      <productname>Magics</productname> plot by providing a
+      <classname>magics</classname> tag, and that the version of MagML we are
+      compatible with is 3.0. Future versions of the MagML specification may
+      break or cause unexpected results in existing MagML plots, and so the
+      <parameter>version</parameter> attribute can be used by the MagML
+      interpreter to inform the user of any relevant changes. Page dimensions
+      can also be specified here.</para>
+
+      <para>The <classname>drivers</classname> object defines the output
+      files. See <olink targetdoc="Magics_drivers"
+      targetptr="MAGICS_Output_Drivers" /> for details of the output drivers.
+      In this example, we produce two output files: one in PostScript format
+      and one in GIF format. Filenames are given without extensions - these
+      will be added automatically.</para>
+
+      <para>Now we define a <classname>page</classname> object which will
+      contain all the plots to be made on a single page of output.</para>
+
+      <para>The <classname>map</classname> object sets up an actual plot area
+      within the page. Geographic view parameters are set here with the
+      <classname>cylindrical</classname> object which is set to use its
+      default parameters - our plot will be in cylindrical projection.</para>
+
+      <para>Next the coastlines are set up - the <classname>coast</classname>
+      and <classname>grid</classname> are sub-objects of the
+      <classname>coastlines</classname> object and have attributes which may
+      be set.</para>
+
+      <para>Next we define a <firstterm>plot</firstterm>. A plot contains two
+      things: a description of the data we want to plot and a description of
+      how we want to plot it. Here we define a <classname>grib</classname>
+      object with its path specified. Then we define a contouring object
+      (<classname>contour</classname>) which contains the information needed
+      to plot it. This object contains a sub-object
+      (<classname>isoline</classname>) which sets the properties of the
+      isolines. 
+ <!--     
+      To overlay two meteorological variables in the same plot we
+      could define another layer within the page. A
+      <classname>layer</classname> object sets up a layer in geographical
+      coordinates; an <classname>xylayer</classname> object sets up a layer in
+      user coordinates for x/y plots.
+-->
+      </para>
+
+      <para>Finally, two <classname>text</classname> objects set up an
+      automatic and a user title.</para>
+    </section>
+
+    <!-- id="MagML_Discussion" -->
+
+    <section id="MagML_Templates">
+      <title>MagML Templates</title>
+
+      <para>The flexibility of MagML is greatly enhanced by the use of
+      <firstterm>templates</firstterm>. A template is a MagML description file
+      which contains zero or more <firstterm>variables</firstterm>,
+      placeholders which are replaced by user-defined text supplied to the
+      <application>magml</application> program on the command line.</para>
+
+      <para>For instance, instead of giving a contour colour in the MagML file
+      as:</para>
+
+      <programlisting>    &lt;<classname>isoline</classname> <parameter>colour</parameter>='red'&gt;</programlisting>
+
+      <para>you could declare that this attribute will be specified on the
+      command line:</para>
+
+      <programlisting>    &lt;<classname>isoline</classname> <parameter>colour</parameter>='$iso_colour'&gt;</programlisting>
+
+      <para>This value can then be supplied on the command line, for
+      example:</para>
+
+      <para>
+        <command>magmlx <replaceable>file.magml</replaceable>
+        <option>-iso_colour=green</option></command>
+      </para>
+
+      <para />
+
+      <para>A default value can be provided in order to deal with cases where
+      no value is given on the command line:</para>
+
+      <programlisting>    &lt;<classname>isoline</classname> <parameter>colour</parameter>='${iso_colour=red}'&gt;</programlisting>
+
+      <para>If passing a string which contains spaces, place quotes around
+      it:</para>
+
+      <para>
+        <command>magmlx <replaceable>file.magml</replaceable>
+        <option>-title_text="2m Temperature, 1st December
+        2007"</option></command>
+      </para>
+
+      <para />
+
+      <tip>Note that a 'standard' MagML description file is simply a special
+      case of a template - one with zero variables to be replaced!</tip>
+    </section>
+
+    <!-- id="MagML_Templates" -->
+
+    <section id="MagML_Definitions">
+      <title>MagML Definitions</title>
+
+      <para>It is possible to predefine some elements at the start of a MagML
+      file and then reference them later in the same file. This technique
+      allows you to re-use elements within a MagML description as demonstrated
+      in the following example:</para>
+
+      <programlisting>
+<xi:include href="../examples/manual/magml/source/using_magml2.magml_cc"
+          xmlns:xi="http://www.w3.org/2001/XInclude" />
+      </programlisting>
+
+      <para>The <classname>definitions</classname> element contains all the
+      elements we may wish to re-use. Each one is assigned a unique
+      <parameter>id</parameter> which is then referenced by setting it as the
+      value of a <parameter>use_id</parameter> attribute as shown above. This
+      idea can be expanded to re-use an element multiple times.</para>
+
+      <para>Another use for definitions is to generate fixed variations of a
+      plot. This is especially powerful when combined with the idea of
+      templates (see <olink targetdoc="Magics_using"
+      targetptr="MagML_Templates" />). In the following example, we set up two
+      different map views - one displays a global area, the other is
+      restricted to Europe. The <parameter>id</parameter> of the area to use
+      is determined by the variable <code>area</code>. This is set to a
+      default value of <code>globe</code> but can also be set on the command
+      line.</para>
+
+      <programlisting>
+<xi:include href="../examples/manual/magml/source/using_magml3.magml_cc"
+          xmlns:xi="http://www.w3.org/2001/XInclude" />
+      </programlisting>
+
+      <para>If this MagML description is stored in a file called
+      <filename>plotmap.magml</filename>, then it could be invoked on the
+      command line in any of the following three ways:</para>
+
+      <para><command>magmlx <replaceable>plotmap.magml</replaceable></command>
+      (will plot a global map)</para>
+
+      <para><command>magmlx <replaceable>plotmap.magml</replaceable>
+      <option>-area=globe</option></command> (will plot a global map)</para>
+
+      <para><command>magmlx <replaceable>plotmap.magml</replaceable>
+      <option>-area=europe</option></command> (will plot a European
+      map)</para>
+    </section>
+
+    <!-- id="MagML_Definitions" -->
+
+    <section id="MagML_ParamTables">
+      <title>MagML Parameter Tables</title>
+
+      <para>Each chapter contains complete descriptions of one or more MagML
+      elements relating to that chapter's topic. All possible attributes and
+      sub-elements are listed in MagML format. This means that it is possible
+      to copy and paste those elements into your own MagML code. All
+      attributes are listed with their default values, meaning that you can
+      delete all the elements and attributes that you do not wish to
+      alter.</para>
+
+      <para>The following listing gives the overall structure of a MagML
+      description. If you copy this, you will need to edit it, as it contains
+      more information than a simple skeleton of a MagML element.</para>
+
+      <xi:include href="../paramtables/magml_outline.xml"
+                  xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+      <para>Elements in this table have comments showing whether they can be
+      repeated or not in a single MagML description. A
+      <classname>plot</classname> may contain only one element to describe the
+      data source, but multiple elements to visualise the data. For instance a
+      single data source may be plotted with contours, text and a
+      legend.</para>
+
+      <para>Some of the above elements are hyperlinked to their detailed
+      descriptions in their respective chapters. In the PDF documents, this
+      may take you to the start of the chapter; you will then need to click on
+      the appropriate link in the table of contents to see the
+      description.</para>
+    </section>
+
+    <!-- id="MagML_ParamTables" -->
+
+    <section id="Flexible_MagML-Styles">
+      <title> MagML Coding Styles</title>
+
+      <para>MagML version 3 has an important difference from previous
+      versions. Whilst backward-compatibility has been mostly retained, a new
+      flexibility has been introduced. Versions 1 and 2 used a strict system
+      of hierarchical objects with short attribute names linked to their tag.
+      Version 3 of MagML maintains this system, but also allows for a more
+      'flat' expression of objects. An example follows, and then some
+      explanation.</para>
+<!--
+      <section id="Example_gribloop_magml_all_tables">
+        <title>MagML Templates for GRIB Loop Input</title>
+-->
+        <xi:include href="../paramtables/GribLoop_gribloop_magml_tables.xml"
+                    xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+        <xi:include href="../paramtables/GribLoop_gribloop_magml_flat_tables.xml"
+                    xmlns:xi="http://www.w3.org/2001/XInclude" />
+ <!--     </section>
+-->
+      <para>The first version shows the deepest possible hierarchy of objects.
+      This was the only option available in MagML versions 1 and 2. The second
+      version of the code shows a completely flat structure with just one
+      object - the attribute names are fully expanded in order to uniquely
+      identify them.</para>
+
+      <para>Which format you use is largely a matter of personal preference,
+      but there are some issues which may affect your decision. The
+      hierarchical format has the advantage that definitions (see <olink
+      targetdoc="Magics_using" targetptr="MagML_Definitions" />) can be more
+      precisely targeted at a sub-object. The flat format shows the attribute
+      names in their fully expanded form and will be more familiar to users of
+      the Fortran or C interfaces. It will also be more familiar to users of
+      Metview, as it also uses these expanded names.</para>
+    </section>
+<!--
+    <section id="User_Selectable_Layers">
+      <title>User-Selectable Layers</title>
+
+      <para>Interactive output formats such as SVG and KML allow graphical
+      layers to be independently toggled on and off. Layers are specified in
+      MagML by the <classname>layer</classname> tag. Simply embed one or more
+      <classname>plot</classname> objects within a
+      <classname>layer</classname> tag in order to group them into a layer.
+      Plots which are not within a layer cannot be controlled by the user, and
+      will always be visible. Multiple plots within the same layer will be
+      controlled as one. In order to allow all plots to be controlled
+      independently, embed all the <classname>plot</classname> objects into
+      their own <classname>layer</classname> tag. When drawing to a raster
+      output format such as GIF, each layer will be output to a separate file.
+      An example using layers follows.</para>
+
+      <programlisting>
+<xi:include href="../examples/manual/magml/source/using_magml4.magml_cc"
+          xmlns:xi="http://www.w3.org/2001/XInclude" />
+      </programlisting>
+
+      <figure id="figure_using_magml4Plot_Output">
+        <title>Multi-layer SVG plot from MagML program</title>
+
+        <mediaobject id="using_magml4Plot">
+          <imageobject role="html">
+            <imagedata fileref="images/magml/using_magml4_svg_screenshot.png"
+                       format="PNG" />
+          </imageobject>
+
+          <imageobject role="fo">
+            <imagedata fileref="../examples/manual/magml/png/using_magml4_svg_screenshot.png"
+                       format="PNG" />
+          </imageobject>
+        </mediaobject>
+      </figure>
+    </section>
+-->
+    <!-- id='User_Selectable_Layers' -->
+
+    <section id="GRIB_loop_in_MagML">
+      <title>Using GRIB loops in Magml</title>
+
+      <para>MagML has a feature which allows for the automatic production of a
+      series of plots, overlays or an animation from the fields in a single GRIB file.</para>
+      
+      <section id='Producing_one_plot_per_field'>
+        <title>Producing one plot per field</title>
+        <para>Animations are generated when the output driver is <code>'kml'</code> or
+        <code>'animated_gif'</code>. The PostScript driver (<code>'ps'</code>)
+        produces a single file with each plot on a separate page. The single-page
+        drivers such as '<code>png</code>' and '<code>svg</code>' produce one file
+        for each plot. Note that in all cases except <code>'kml'</code>, this
+        facility can be used to generate multiple plots per page by setting
+        the map dimensions to be less than 50% of the page width or height.
+        This provides a simple way to plot, for instance, thumbnails
+        of all fields in a GRIB file.</para>
+
+        <para>A GRIB loop is enabled by placing a
+        <classname>gribloop</classname> object just below the
+        <classname>page</classname> level. The following example shows how to
+        set it up, and an explanation follows.</para>
+
+        <programlisting>
+  <xi:include href="../examples/manual/magml/source/using_magml5.magml_cc"
+            xmlns:xi="http://www.w3.org/2001/XInclude" />
+        </programlisting>
+
+        <para>The layer within the <classname>gribloop</classname> will be
+        repeated over the fields of the GRIB file. The
+        <code>'loop_step_span'</code> parameter is used in KML output to specify
+        the duration of the validity of the field; this allows fields with
+        different base times to be overlaid in applications such as Google
+        Earth.</para>
+
+
+      </section>  <!-- Producing_one_plot_per_field -->
+
+
+      <section id='Producing_one_plot_in_total'>
+        <title>Producing one plot in total</title>
+        <para>When placed inside the <classname>map</classname> level,
+        the <classname>gribloop</classname> will cause all fields to be
+        overlaid on the one map. The following example shows how to do this.</para>
+
+        <programlisting>
+          <xi:include href="../examples/manual/magml/source/using_magml6.magml_cc"
+            xmlns:xi="http://www.w3.org/2001/XInclude" />
+        </programlisting>
+
+      </section>  <!-- Producing_one_plot_in_total -->
+
+
+      <para>See <olink targetdoc="Magics_data"
+      targetptr="GRIBloop_input_magml_all_tables" /> for the complete set of
+      MagML objects and parameters that are available for this purpose.</para>
+
+
+    </section>  <!-- GRIB_loop_in_MagML -->
+  
+
+
+
+
+    <section id="MagML_Page_Layout">
+      <title>MagML Page Layout</title>
+
+      <para>Some elements of a plot are positionable and resizeable. These are the
+      <classname>page</classname>, <classname>map</classname>, <classname>legend</classname>
+      and <classname>text</classname> objects. See <olink targetdoc="Magics_using"
+      targetptr="MagML_ParamTables" /> for the specific attributes but, for example,
+      specifying <code>&lt;<classname>map</classname> <parameter>width</parameter>='50%'&gt;</code>
+      will produce a map which occupies half of the width of the page. More specifically,
+      this is 50% of the <classname>map</classname> object's parent <classname>page</classname>
+      object, which may also have a non-default size and position. If the size does
+      not include a percentage sign, then it is assumed to be given in centimetres.</para>
+
+      <para>By default, an object's position is
+      '<code>inline</code>'. In this case, the ordering of the objects in the MagML code
+      is important - they will be automatically arranged left-to-right and top-to-bottom: if
+      there is sufficient space to the right of the previous object, then that is where the
+      current one will be placed; otherwise, it will go below. The <parameter>top</parameter>
+      and <parameter>left</parameter> attributes of the object will not be considered in this mode.</para>
+      
+      <para>An alternative is to position an object as '<code>block</code>'. Here, the object
+      will be placed below the previously specified one. This mode has the property that
+      the layout of the objects on screen roughly follows their layout in the source MagML code
+      (since an object's MagML code will be below that of the preceding object's code).
+      The object's <parameter>top</parameter> attribute will not be considered in this mode,
+      but its <parameter>left</parameter> attribute will.</para>
+      
+      <para>The final alternative is to specify an object's position as '<code>absolute</code>' in which
+      case the positional attributes for that object will be used - remember that the position
+      is relative to the parent object. In this case, both the <parameter>top</parameter>
+      and <parameter>left</parameter> attributes of the object will be considered.</para>
+      
+    </section> <!-- id="MagML_Page_Layout" -->
+
+  </section> <!-- id="MagML_Interface" -->
+
+
+  
+
+<!--
+ <remark>
+  <section id="Metgrams">
+    <title>Metgrams</title>
+
+    <para>The Metgram application is a specialised MagML interpreter which
+    takes high level parameters from a specialised XML-based description language called
+    <firstterm>EPSML</firstterm> and generates one of a number of styles of metgrams from
+    a MagML-based template. The EPSML description 
+    should provide details of the following:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>a template to use: either a path to a local file or else, if only
+        a filename is given, then <application>metgram</application> will search the
+        <filename>templates</filename> directory in the <productname>Magics</productname>
+        installation; there are a number of predefined metgram templates installed here.</para>
+      </listitem>
+
+      <listitem>
+        <para>a path to a spot database where the data for the metgram can be found.</para>
+      </listitem>
+    
+      <listitem>
+        <para>details of a station: the location will be used when retrieving the data,
+        the name is used in the metgram's title. Output file names are specified here.</para>
+      </listitem>
+
+      <!++ at time of writing, this does not really work that well... XXXXXXX
+      <listitem>
+        <para>there can be multiple stations specified in the file; for each station,
+        a metgram is produced.</para>
+      </listitem>
+      ++>
+    </itemizedlist>
+
+    <section id="The_Metgram_Application">
+      <title>The Metgram Application</title>
+      <para>To generate metgrams from MagML descriptions a program
+      called <application>metgram</application> is provided. The program will
+      be available to the user after the <productname>Magics</productname> environment is set up.</para>
+
+      <para>The command-line usage of <application>metgram</application> is as follows:</para>
+
+      <para><command>metgram <replaceable>file.epsml</replaceable></command></para>
+
+    </section>
+
+
+    <section id="Metgram_Description_Files">
+      <title>Metgram Description Files</title>
+      <para>The only command-line parameter required is the name of the metgram description file.
+      This is in EPSML format, illustrated by an example:</para>
+
+      <programlisting>
+<xi:include href="../examples/manual/metgram/source/metgram-helsinki.epsml_cc" parse="xml"
+          xmlns:xi="http://www.w3.org/2001/XInclude" />
+      </programlisting>
+
+      <para></para>
+    </section>
+
+
+  </section>
+
+ </remark>
+-->
+<section id="metgrams">
+ <title>Metgrams from Weather Parameter files</title>
+
+<para>Magics' Python interface allows users to visualise Weather Parameter files. These files are a product of ECMWF and are disseminated
+in BUFR format. A more detailed description of the format can be found at</para>
+<itemizedlist>
+ <listitem>http://www.ecmwf.int/services/dissemination/3.1/Meteorological_Bulletin_M3_1_20.html</listitem>
+</itemizedlist>
+
+<para>To reproduce what is called a <code>classic metgram</code> as shown below, a small python script needs to be written.</para>
+ 
+<mediaobject id="metgram_example">
+              <imageobject role="fo">
+                <imagedata fileref="../diagrams/metgram.png" format="PNG" depth="14cm"  />
+              </imageobject>
+
+              <imageobject role="html">
+                <imagedata fileref="images/diagrams/metgram.png" format="PNG" depth="14cm" />
+              </imageobject>
+            </mediaobject>
+
+<para>The user can control a few parameters such as:</para>
+<itemizedlist>
+    <listitem>The PostScript filename for the output </listitem>
+    <listitem>The station position and title. ( Note that the position should be in the BUFR input file)</listitem>
+    <listitem>The list of parameters  to be displayed </listitem>
+</itemizedlist>
+
+<para>Example code:</para>
+
+<programlisting>
+from metgram import *
+
+#Definition of the output
+ps = ps({"output_fullname":"metgram.ps"})
+
+#definition of the Station
+mystation = station({"input_filename":"GRA07041200071412001",
+                "station_latitude":"40.62",
+                "station_longitude":"35.82",
+                "station_name":"My Test Station"})
+
+metgram(ps, mystation,  cloud, humidity, precip, msl, wind, temperature)
+</programlisting>
+
+<para>The script can be excuted by typing</para>
+
+<para><programlisting>    python myexample.py</programlisting></para>
+
+<para>In the first version (<productname>Magics</productname> 2.12), the user can create a PostScript using the function <code>ps</code>. In this function, 
+the user can further specify the name of the PostScript file using the parameter key <code>output_fullname</code>: </para>
+
+<para><programlisting>    ps = ps({"output_fullname":"metgram.ps"})</programlisting></para>
+
+<para>The metgram application is expecting  a BUFR file as input, and a location to extract from this file. The location is defined by its 
+latitude and longitude, and its name will appear in the title:</para>
+<programlisting>
+mystation = station({"input_filename":"GRA07041200071412001",
+                "station_latitude":"40.62",
+                "station_longitude":"35.82",
+                "station_name":"My Test Station"})
+</programlisting>
+
+<para>The table below gives an overview of the parameters currently supported:</para>
+
+<table id="table_metgram_params">
+          <title>Metgram parameters</title>
+
+          <tgroup cols="5">
+            <colspec align="left" />
+
+            <thead>
+              <row>
+                <entry align="left">name</entry>
+                <entry align="left">BUFR descriptor</entry>
+                <entry align="left">scaling</entry>
+                <entry align="left">offset</entry>
+                <entry align="left">visualisation</entry>
+             </row>
+            </thead>
+
+            <tbody>
+ 
+              <row>
+                <entry>cloud</entry>
+                <entry>20010</entry>
+                <entry>1</entry>
+                <entry>0</entry>
+                <entry>blue bar</entry>
+              </row>
+              <row>
+                <entry>humidity</entry>
+                <entry>13003</entry>
+                <entry>1</entry>
+                <entry>0</entry>
+                <entry>red curve</entry>
+              </row>
+              <row>
+                <entry>precip</entry>
+                <entry>13011</entry>
+                <entry>1</entry>
+                <entry>0</entry>
+                <entry>blue bar</entry>
+              </row>
+              <row>
+                <entry>msl</entry>
+                <entry>10051</entry>
+                <entry>0.01</entry>
+                <entry>0</entry>
+                <entry>red curve</entry>
+              </row>
+              <row>
+                <entry>wind</entry>
+                <entry><para>u:11003</para><para>v:11004</para></entry>
+                <entry>1</entry>
+                <entry>0</entry>
+                <entry>red flags</entry>
+              </row>
+              <row>
+                <entry>temperature</entry>
+                <entry><para>T2m: 12004</para><para>T850:12001</para></entry>
+                <entry>1</entry>
+                <entry>-273.15</entry>
+                <entry><para>T2m as red curve<para></para>T850 as blue curve</para></entry>
+              </row>
+
+            </tbody>
+          </tgroup>
+        </table>
+<para>For future releases it is planned to add more parameters and to allow users to specify their own tailored parameters and visualisations.</para>
+
+</section>
+
+
+
+  <section id="Colours">
+    <title>Setting colours</title>
+    <para>Various parameters let the user set colours for different action routines. <productname>Magics</productname> offers various ways to specify a colour value:</para>
+    <itemizedlist>
+          <listitem>By name - A list of 56 predefined colour names, such as <code>BLUE</code>, <code>RED</code>, <code>RED_ORANGE</code>.</listitem>
+          <listitem>By RGB(A) values - The user specifies the colours by their Red-Green-Blue(-Alpha) value. Examples: <code>RGB(1.,0.,0.)</code> for red, 
+	  <code>RGB(1.,0,1.)</code> for purple.</listitem>
+          <listitem>By RGB(A) Hex values - Similar as above the RGB(A) components are expressed in HTML hex notation. Examples: <code>#FF0000</code> for red.</listitem>
+          <listitem>By HSL(A) values - These are three numbers: the first is an angle from 0 to 360 representing Hue,
+                              then two numbers from 0 to 1 representing Saturation and Lightness.
+          The following diagram shows the HSL colour wheel:
+
+            <mediaobject id="colourwheel_diagram">
+              <imageobject role="fo">
+                <imagedata fileref="../diagrams/hsl_colour_wheel.png" format="PNG" />
+              </imageobject>
+
+              <imageobject role="html">
+                <imagedata fileref="images/diagrams/hsl_colour_wheel.png" format="PNG"  depth="4cm" />
+              </imageobject>
+            </mediaobject>
+              </listitem>
+    </itemizedlist>
+
+
+    <para>However the colours are specified, when <productname>Magics</productname> generates a colour scale from one
+    colour to another, it internally traverses the HSL wheel either in a clockwise or anti-clockwise direction
+    (this is user-configurable). This is important in order to understand the series of colours produced.</para>
+
+    <tip>
+      <para>Magics++ now also supports transparency. Unfortunately not all output formats (PostScript) support this feature.</para>
+    </tip>
+    <para>Please be aware that colours might be converted to a different colour space, dependent
+    on the selected (graphical) output format.</para>
+
+    <para>The following is a chart showing all available named colours in Magics.</para>
+
+        <mediaobject id="colourchart_diagram">
+          <imageobject role="fo">
+            <imagedata fileref="../diagrams/col_table.png" format="PNG" />
+          </imageobject>
+
+          <imageobject role="html">
+            <imagedata fileref="images/diagrams/col_table.png" format="PNG" />
+          </imageobject>
+        </mediaobject>
+
+  </section>
+
+</chapter>

@@ -1,0 +1,14 @@
+
+rm -f $SCRATCH/mpptestsuite/html/test/fortran/*_mpp*.ps
+rm -f $SCRATCH/mpptestsuite/html/test/fortran/*_mpp*.gif
+rm -f $SCRATCH/mpptestsuite/html/test/fortran/*_mpp*.pdf
+rm -f $SCRATCH/mpptestsuite/html/test/fortran/*_mpp*.png
+rm -f $SCRATCH/mpptestsuite/html/test/fortran/*_mpp*.jpg
+rm -f $SCRATCH/mpptestsuite/html/test/fortran/*_mpp*.eps
+rm -f $SCRATCH/mpptestsuite/html/test/fortran/*_mpp*.svg
+
+rm -f $SCRATCH/mpptestsuite/html/test/fortran/*_mpp*.err
+rm -f $SCRATCH/mpptestsuite/html/test/fortran/*_mpp*.log
+
+cp -r -u  ../../html $SCRATCH/mpptestsuite
+

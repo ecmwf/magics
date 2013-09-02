@@ -1,0 +1,38 @@
+<magics version='3.0' width='29.7' height='21'>
+  <drivers>
+    <svg name='using_magml4' />
+    <ps  name='using_magml4' />
+  </drivers>
+  <page >
+    <map> 
+       <!-- Plot the coastlines -->
+       <coastlines map_coastline_colour = 'grey' />
+
+       <!-- Now add a layer plotting MSL -->
+       <layer name = 'MSL'>
+         <plot>
+            <grib input_file_name = 'data/p12pt850_MSL.grib'/>
+
+            <contour contour_line_colour = 'blue'
+                     contour_level_selection_type = 'interval'
+                     contour_interval    = '5' 
+                     contour_highlight   = 'off'
+                     contour_hilo        = 'off'/>
+         </plot>
+       </layer>
+
+       <!-- Now add a layer plotting Temperature -->
+       <layer name = 'T'>
+         <plot>
+             <grib input_file_name = 'data/p12pt850_T.grib'/>
+             <contour contour_line_colour = 'red'
+                      contour_line_style  = 'dot' 
+                      contour_level_selection_type = 'interval'
+                      contour_interval    = '2' 
+                      contour_highlight   = 'off'
+                      contour_hilo        = 'off'/>
+         </plot>
+         </layer>
+     </map>
+   </page>
+</magics>

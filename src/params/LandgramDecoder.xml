@@ -1,0 +1,17 @@
+<magics>
+<class  directory='decoders' prefix='landgram' xmltag='landgram' name='LandgramDecoder'>
+  	<documentation > Landgram aplication	</documentation>
+
+  	<parameter  member='path' to='string' default='' from='string' name='landgram_input_file_name'>
+         		<documentation > path to the file containing the xml description of the lansdgram		</documentation>
+  	</parameter>
+  	<parameter  member='scaling' to='float' default='1' from='float' name='landgram_input_scaling_factor'>
+         		<documentation > path to the file containing the xml description of the lansdgram		</documentation>
+  	</parameter>
+  	<parameter  member='offset' to='float' default='0' from='float' name='landgram_input_offset_factor'>
+         		<documentation > path to the file containing the xml description of the lansdgram		</documentation>
+  	</parameter>
+  	<parameter  member='title' to='string' default='landgram parameter' from='string' name='landgram_title'>
+         		<documentation > title to display 		</documentation>
+  	</parameter>
+</class></magics>

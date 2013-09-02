@@ -1,0 +1,43 @@
+set version=current
+
+setenv MAG_HOME /usr/local/apps/Magics/${version}
+set maglib = $MAG_HOME/lib
+   
+setenv MAG_LOGGING on
+   
+switch ($ARCH)
+  	case linux:
+		set gnulib=""
+		switch(${OS_VERSION})
+		case opensuse103:
+			set gnulib="-L/usr/local/apps/gcc/4.2.1/ILP32/lib"
+   			breaksw
+		endsw
+		setenv MAGLIB "-L${maglib} -lmagics -lMvDevices -lmagics -lgd -lpng -ljpeg -lz -lfreetype ${gnulib} -lstdc++ -lm"
+		echo \$MAGLIB changed to $MAGLIB
+		echo " "
+		echo \$EMOSLIB was NOT changed!
+		echo Compile with: pgf90 \<name\>.f \$MAGLIB \$EMOSLIB
+   		breaksw
+   
+   	case rs6000:
+   		setenv MAGLIB "-L${maglib} -lmagics -lMvDevices -lgd -lpng -ljpeg -lz -lfreetype -lxlf90"
+		echo \$MAGLIB changed to $MAGLIB
+endsw
+
+echo \$EMOSLIB changed to $EMOSLIB
+echo " "
+echo "*****************************************************************"
+echo "* 'use oldmagics' now refers to the former User Version 6.11 ."
+echo "*"
+echo "*    This version only works with the OLD compiler setup"
+echo "*"
+echo "*  To use the new Magics User Version 6.12 please remove the"
+echo "*  statement 'use oldmagics' . If you need to use this version"
+echo "*  because you have a problem with the current User version,"
+echo "*  please inform the graphics section!"
+echo "*"
+echo "* Thank You" 
+echo "*"
+echo "* Meteorological Visualisation Section"
+echo "*****************************************************************" 

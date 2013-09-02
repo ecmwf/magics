@@ -1,0 +1,33 @@
+<?xml-stylesheet type='text/css' href='parameter.css'?>
+<magics>
+<class name='GDDriver' xmltag='gd' prefix='output' directory='drivers' inherits='BaseDriver'>
+	<documentation for_docs='no'>
+		This output driver produces raster output in PNG, GIF, and JPEG format.
+		PNG output can be produced with a transparent background which can be used for overlays.
+
+		JPEG output is included here for backwards compatibility, but is not an ideal format for 
+		scientific plots in raster format. 
+
+		See also the parameters for the Base Driver.
+	</documentation>
+
+	<parameter name='output_jpeg_quality' from='int' to='int' member='quality' default='-1'>
+            <documentation>Defines the quality of Jpeg output. The default of -1 should yield a good general quality/size tradeoff. Should be a value in the range 0-95.</documentation>
+            <migration />
+        </parameter>
+
+	<parameter name='output_gif_delay' from='int' to='int' member='delay' default='100'>
+            <documentation>Defines the delay in 1/100 seconds for GIF animations.</documentation>
+        </parameter>
+
+	<parameter name='output_png_transparent' from='string' to='bool' member='transparent' default='off'>
+            <documentation>Sets the background to transparent for overlays. Works only with PNG output. (ON/OFF)</documentation>
+        </parameter>
+<!--
+	<parameter name='output_xml' from='string' to='bool' member='xml' default='off' >
+            <documentation>Should an XML description be output? (ON/OFF)</documentation>
+        </parameter>
+-->
+</class>
+
+</magics>

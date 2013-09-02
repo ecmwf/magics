@@ -1,0 +1,83 @@
+#!/usr/bin/env python
+
+from distutils.core import setup, Extension
+import os,sys
+
+lib_list=["MagPlus"]
+libpath_list=["../../src/.libs"]
+runpath_list=["@prefix@/lib","@ODB_PATH@/lib"]
+
+if "@odb@" != "no":
+    lib_list.append('Odb')
+    lib_list.append('Ec')
+    if "@ODB_PATH@":
+       libpath_list.append("@ODB_PATH@/lib")
+
+if "@bufr@" != "no":
+    if "@EMOS_LIB_NAME@":
+       lib_list.append("@EMOS_LIB_NAME@")
+       libpath_list.append("@EMOS_LIB_PATH@")
+    if "@FLIB@":
+       flibs=['@FLIB@']
+       lib_list += flibs
+    if "@FORTRAN_LIB_PATH@":
+       libpath_list.append("@FORTRAN_LIB_PATH@")
+       runpath_list.append("@FORTRAN_LIB_PATH@")
+
+attdict = dict(
+   sources = ['Magics.i'],
+   swig_opts = ['-c++','-module', 'Magics'],
+   include_dirs = ['.', '../../src/common'],
+   library_dirs = libpath_list + ["%s/lib" % sys.prefix],
+   libraries = lib_list + ["m"],
+   runtime_library_dirs = runpath_list,
+   extra_objects = [],
+)
+
+add_attribute = lambda **args: [list.append(attdict[key],value) for key,value in args.items()]
+
+build_dir = '../'
+
+import glob
+ofiles=glob.glob("%s*.o" % build_dir)
+print "files are %s" % ofiles
+add_attribute(
+    include_dirs = os.path.join(build_dir,'src')
+)
+
+lib_dict = {
+    'grib_api': '@GRIBAPI_ROOT@',
+}
+
+for with_lib in lib_dict:
+    if with_lib:
+        lib_dir = lib_dict[with_lib]
+        if lib_dir and lib_dir != 'system':
+            add_attribute(
+            include_dirs = os.path.join(lib_dir,'include'),
+            library_dirs = os.path.join(lib_dir,'lib')
+        )
+    add_attribute(libraries = with_lib)
+
+    import numpy
+    # Obtain the numpy include directory.  This logic works across numpy versions.
+    try:
+        numpy_include = numpy.get_include()
+    except AttributeError:
+        numpy_include = numpy.get_numpy_include()
+
+    add_attribute(
+        include_dirs = numpy_include,
+    )
+
+api_module = Extension('_Magics',**attdict)
+
+setup (name = '@PACKAGE_NAME@',
+       version = '@MAGICS_PACKAGE_VERSION@',
+       author      = 'ECMWF',
+       description = """Magics++ Python interface""",
+       ext_modules = [api_module],
+       py_modules = ['Magics.macro','Magics.metgram'],
+       package_dir={'Magics': ''},
+       packages=['Magics'],
+      )

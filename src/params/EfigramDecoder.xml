@@ -1,0 +1,81 @@
+<magics>
+<class  action='pefigram' directory='decoders' prefix='efi' xmltag='efigram' name='EfigramDecoder'>
+		<documentation >
+		The Epsgram is responsible for accessing the espgram database its data to MAGICS.
+		</documentation>
+         	<parameter  xml='database' from='string' name='efi_root_database' default='' member='database' to='string'>           
+            		<documentation > database to access 		</documentation>
+        	</parameter> 
+        	<parameter  xml='legend_database' from='string' name='efi_legend_root_database' default='' member='legend_database' to='string'>           
+            		<documentation > legend 		</documentation>
+        	</parameter>
+        	<parameter  member='clim_database' to='string' default='' from='string' name='efi_clim_root_database'>           
+            		<documentation > climatalogy database 		</documentation>
+        	</parameter>
+         	<parameter  member='dates' to='stringarray' default='stringarray()' from='stringarray' name='efi_dates'>           
+            		<documentation > date to select In date format (YYYYMMDDHHHH)		</documentation>
+        	</parameter>   
+        	<parameter  member='clim_param' to='string' default='' from='string' name='efi_clim_parameter'>           
+            		<documentation > date to select for the clim In date format (YYYYMMDDHHHH)		</documentation>
+        	</parameter>  
+          	<parameter  member='clim_date' to='string' default='' from='string' name='efi_clim_date'>           
+            		<documentation > date to select for the clim In date format (YYYYMMDDHHHH)		</documentation>
+        	</parameter>  
+        
+        	<parameter  member='clim_step' to='int' default='36' from='int' name='efi_clim_step'>           
+            		<documentation > date to select for the clim In date format (YYYYMMDDHHHH)		</documentation>
+        	</parameter> 
+        
+        	<parameter  member='steps' to='intarray' default='intarray()' from='intarray' name='efi_steps'>           
+            		<documentation > steps to extract ( legend will use step+12) 		</documentation>
+        	</parameter>
+         	<parameter  xml='parameter' from='string' name='efi_parameter' default='' member='param' to='string'>
+            		<metview  default='0' class=''>  
+            		</metview>
+            		<documentation > epsgram latitude column name 		</documentation>
+            		<migration > New Magics: Parameter eps_latitude sent to new Magics[EpsgramDecoder].  		</migration>
+        	</parameter>
+         
+        	<parameter  xml='long_title' from='string' name='efi_long_title' default='off' member='long_title' to='bool'>
+            		<documentation > efigram long title ( Point Position ... General title!) 		</documentation>
+            		<migration > New Magics: Parameter eps_longitude sent to new Magics[EpsgramDecoder].  		</migration>
+        	</parameter>
+        	<parameter  xml='title' from='string' name='efi_title' default='off' member='title' to='bool'>
+            		<documentation > epsgram title ( parameter name) 		</documentation>
+            		<migration > New Magics: Parameter eps_longitude sent to new Magics[EpsgramDecoder].  		</migration>
+        	</parameter>
+        	<parameter  xml='latitude' from='float' name='efi_latitude' default='0' member='latitude' to='float'>
+            		<metview  default='0' class=''>  
+            		</metview>
+            		<documentation > epsgram latitude column name 		</documentation>
+            		<migration > New Magics: Parameter eps_latitude sent to new Magics[EpsgramDecoder].  		</migration>
+        	</parameter>
+       	<parameter  xml='longitude' from='float' name='efi_longitude' default='0' member='longitude' to='float'>
+            		<metview  default='0' class=''>  
+            		</metview>
+            		<documentation > epsgram longitude column name		</documentation>
+            		<migration > New Magics: Parameter eps_longitude sent to new Magics[EpsgramDecoder].  		</migration>
+        	</parameter>
+        
+          	<parameter  member='legend' to='bool' default='on' from='string' name='efi_legend'>           
+            		<documentation > legend 		</documentation>
+        	</parameter>  
+       
+        
+         	<parameter  member='legend_colours' to='stringarray' default='stringarray()' from='stringarray' name='efi_legend_colour_list'>           
+            		<documentation > legend box colour list  		</documentation>
+        	</parameter>
+         	<parameter  member='legend_type' to='string' default='both' from='string' name='efi_legend_box_type'>           
+            		<documentation > both/negative/positive 		</documentation>
+        	</parameter>
+        	<parameter  member='legend_normal_colour' to='Colour' default='black' from='string' name='efi_legend_normal_colour'>           
+            		<documentation > legend colour box 		</documentation>
+        	</parameter>
+          	<parameter  member='legend_normal_thickness' to='int' default='4' from='int' name='efi_legend_normal_thickness'>           
+            		<documentation > legend colour box 		</documentation>
+        	</parameter>
+         
+       
+       
+         
+</class></magics>

@@ -1,0 +1,32 @@
+        
+<magics_plot page_x_position = '10'>
+   <Coastlines map_coastline_colour = 'red' > </Coastlines>
+   <plot >
+        <OdbDecoder 
+		    database = '/tmp/odb/ECMA.airs'
+            odb_query ='
+                 SELECT
+                    degrees(lat) AS latitude,
+                    degrees(lon) AS longitude,
+                    obsvalue,
+                    press
+                 FROM hdr,body
+                 WHERE
+                     km(lat,lon,radians(50),radians(0)) &lt; 500
+                 AND obsvalue IS NOT NULL
+                 AND press=1'>
+        </OdbDecoder>
+        <SymbolPlotting  
+            symbol_table_mode = 'ON'
+            symbol_min_table = '0/5/10/15' 
+            symbol_max_table ='5/10/15/20'
+            symbol_height_table ='0.2/0.5/0.2/0.5'
+            symbol_marker_table ='0/1/0/1' 
+            symbol_colour_table ='blue/green/orange/red' >
+        </SymbolPlotting>
+   </plot>
+   <title title_colour = 'pink' ></title>
+   <legend legend_text_colour = 'black'></legend>
+</magics_plot>
+   
+    

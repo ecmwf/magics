@@ -1,0 +1,20 @@
+#!/bin/ksh
+
+# get the command-line arguments
+
+username=$1
+password=$2
+
+
+
+# go into the html directory and upload all the files
+
+cd html
+
+
+for file in  interfaces/magml/* 
+do
+  # fname=`basename $file`
+  fname=$file
+  ../tools/dav.pl $fname $username $password w3ec2
+done

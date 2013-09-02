@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head profile="http://purl.org/metadata/dublin_core">
+<!-- ECMWF: Standard External Template -->
+<!-- ECMWF: Version 1.06 -->
+<META http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<META content="$Author: unknown $" name="DC.Creator" />
+<!-- #BeginEditable "meta" --> 
+<META content="ECMWF Graphics Section" name="DC.Publisher" />
+<META content="Magics++ test suite" name="DC.Subject" />
+<!-- #EndEditable --> <!-- #BeginEditable "metalink" --> 
+<!-- Users insert meta LINK tags here -->
+<!-- #EndEditable --> <!-- #BeginEditable "doctitle" --> 
+<TITLE>ECMWF test suite</TITLE>
+
+<!-- #EndEditable --> <!-- #BeginEditable "customstyle" --> 
+<style type="text/css">
+</style>
+<!-- #EndEditable -->
+
+<script type="text/javascript" language="JavaScript" src="/assets/js/ecmwf.js"></script>
+<link rel="stylesheet" href="/assets/css/ecmwf.css" type="text/css" />
+
+<style type="text/css">
+a:link {text-decoration: none; color: blue;}
+a:visited {text-decoration: none; color: blue;}
+a:active {text-decoration: none; color: blue;}
+a:hover {text-decoration: none; color: #5F30FF;}
+</style>
+</head>
+
+<body bgcolor="#FFFFF2" text="#000000">
+
+<a name="top"></a> 
+
+<table summary="Formatting Table: Page Layout" width="750" border="0" cellspacing="0" cellpadding="0" bgcolor="#FFFFF2" fgcolor="black">
+  <tr> 
+    <td bgcolor="#ccce9b" align="left" valign="middle"><a href="http://www.ecmwf.int/"><img src="http://www.ecmwf.int/assets/images/text_logo.jpg" border="0" alt="Home page" width="136" height="26" align="middle" /></a></td>
+    <td bgcolor="#ccce9b">&nbsp;</td>
+    <td bgcolor="#ccce9b" valign="middle"> 
+         <table summary="Formatting Table: Actions Menu" border="0" cellspacing="4" cellpadding="0" >
+          <tr>
+            <td><a href="http://intra.ecmwf.int/publications/cms/get/graphics" class="menuitem">Graphics Section</a></td>
+            <td>&nbsp;&nbsp;&nbsp;</td>
+            <td><a href="http://www.ecmwf.int/publications/manuals/magics/magplus/index.html" class="menuitem">Magics++</a></td>
+            <td>&nbsp;&nbsp;&nbsp;</td>
+            <td><a href="../../../../api/html/index.html" class="menuitem">Doxygen++</a></td> 
+            <td>&nbsp;&nbsp;&nbsp;</td>
+            <td><a href="http://www.ecmwf.int/" class="menuitem">ECMWF</a></td>
+            <td>&nbsp;&nbsp;&nbsp;</td>
+            <td><a href="http://intra.ecmwf.int/" class="menuitem">Intra</a></td>
+          </tr>
+        </table>
+      </form>
+    </td>
+  </tr>
+
+  <tr> 
+    <td align="left">
+            <!-- #BeginEditable "spare2" -->&nbsp;&nbsp;<!-- #EndEditable --> 
+    </td>
+    <td>&nbsp;</td>    
+  </tr>
+
+  <!-- M A I N   P A G E   A R E A-->
+  <tr> 
+    <td valign="top" width="136"> 
+      <!-- #BeginEditable "submenu" -->&nbsp;&nbsp;<!-- #EndEditable --> &nbsp;<br />
+    </td>
+ 
+    <td>&nbsp;</td>
+ 
+    <td valign="top"> <!-- #BeginEditable "content" -->&nbsp;&nbsp;<!-- #EndEditable --> 
+      <br />
+      <!-- #BeginEditable "related" -->&nbsp;&nbsp;<!-- #EndEditable --> <br />
+      <br />
+    </td>
+  </tr>
+
+  <!--  F O O T E R  -->
+  <tr>     
+    <td valign="middle" bgcolor="#ccce9b">&nbsp;</td>
+    <td  bgcolor="#ccce9b" align="right" valign="baseline"> 
+      <table summary="Formatting table: main footer" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr align="right"> 
+          <td align="left" bgcolor="#ccce9b"><span class="documentdate">
+	    <!-- #BeginEditable "version" --> 
+            <!-- #BeginDate format:Ge1 -->09.09.2009<!-- #EndDate -->
+            <!-- #EndEditable --></span>
+	  </td>
+          <td bgcolor="#ccce9b"><a href="#top">Up</a></td>
+          <td bgcolor="#ccce9b"><span class="copyright"><a href="http://www.ecmwf.int">&copy; ECMWF</a></span></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+
+</table>
+</body>
+</html>

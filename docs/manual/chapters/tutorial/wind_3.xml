@@ -1,0 +1,64 @@
+<magics>
+    <tutorial name="wind_3" magml='off' title='Simple wind plotting on Europe' comment='In this example we will learn how to load a wind info from a grib file, and how to make a simple wind plotting over Europe'>     
+       <requirement name='1' subject='Geographical Area' text='Europe in sterographic polar projection'
+            link_doc='layout_mapping_coastlines' link_ptr='Subpage_Mapping'>
+            <action name='pcoast'/>
+            <parameter name='subpage_map_projection' value='polar_stereographic' function='psetc'/>
+            <parameter name='subpage_map_area_definition' value='centre' function='psetc'/>
+            <parameter name='subpage_map_centre_longitude' value='0.' function='psetr'/>
+            <parameter name='subpage_map_centre_latitude' value='50.' function='psetr'/>
+            <parameter name='subpage_map_vertical_longitude' value='0.' function='psetr'/>
+            <parameter name='subpage_map_scale' value='15.e6' function='psetr'/>
+            </requirement>
+        <requirement name='2' subject='Grid and coastlines setting' text='Shaded coastlines using RGB colour definition' 
+            link_doc='layout_mapping_coastlines' link_ptr='Coastlines_and_Gridlines'>
+            <action name='pcoast'/>
+            <parameter name='map_coastline_colour' value='black' function='psetc'/>
+            <parameter name='map_grid_colour' value='black' function='psetc'/>
+            <parameter name='map_coastline_thickness' value='2' function='pseti'/>
+            <parameter name='map_grid_line_style' value='dot' function='psetc'/>
+            <parameter name='map_grid_latitude_increment' value='5.0' function='psetr'/>
+            <parameter name='map_grid_longitude_increment' value='5.0' function='psetr'/>
+        </requirement>  
+        <requirement name='4' subject='Legend' text='Turn the legend on' 
+            link_doc='intro' link_ptr='Overview_Contour_Plotting'>
+            <action name='pcont'/>
+            <parameter name='legend' value='on' function='psetc'/>
+        </requirement>
+        <requirement name='3' subject='Wind loading' text='Wind components are in grib file uv500.grib' 
+            link_doc='data' link_ptr='Pseudo_Action_Routine_PGRIB'>
+            <action name='pgrib'/>
+            <parameter name='grib_input_type' value='file' function='psetc'/>
+            <parameter name='grib_wind_position_1' value='1' function='pseti'/>
+            <parameter name='grib_wind_position_2' value='2' function='pseti'/>
+            <parameter name='grib_input_file_name' value='data/uv500.grib' function='psetc'/>
+        </requirement>  
+        <requirement name='4' subject='Default plotting' text='Simple arrows'
+            link_doc='wind' link_ptr='Plotting_Wind_Arrows'>
+            <action name='pwind'/>
+        </requirement> 
+        
+        <requirement name='5' subject='Geopotential loading' text='500 Geopotential is in grib file z500.grib' 
+            link_doc='data' link_ptr='Pseudo_Action_Routine_PGRIB'>
+            <action name='pgrib'/>
+            <parameter name='grib_input_type' value='file' function='psetc'/>
+            <parameter name='grib_input_file_name' value='data/z500.grib' function='psetc'/>
+        </requirement>    
+        <requirement name='6' subject='Shading' text='Simple dot shading for the geopotential' 
+            link_doc='contour' link_ptr='Contour_Shading'>
+            <action name='pcont'/>
+	        <parameter name='contour_highlight' value='off' function='psetc'/>
+	        <parameter name='contour_line_colour' value='grey' function='psetc'/>
+	        <parameter name='contour_line_style' value='dash' function='psetc'/>
+            <parameter name='contour_shade_min_level_density' value='10.' function='psetr'/>
+            <parameter name='contour_shade_max_level_density' value='70.' function='psetr'/>
+            <parameter name='contour_shade_min_level_colour' value='green' function='psetc'/>
+            <parameter name='contour_shade_max_level_colour' value='red' function='psetc'/>
+            <parameter name='contour_shade' value='on' function='psetc'/>
+        </requirement> 
+        
+
+        <spot name='b' text='Difference on the legend'/>
+        <spot name='c' text='Small difference in the thickness of the lines'/>           
+    </tutorial>
+</magics>

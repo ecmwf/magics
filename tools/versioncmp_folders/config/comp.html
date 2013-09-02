@@ -1,0 +1,207 @@
+<html>
+<head>
+<title>Comparison - %TITLE%</title>
+  <link rel="stylesheet" href="./codes.css" />
+  <style type="text/css">
+    body {
+      width="100%";
+      background:#eeeeee;
+      color:#222222;
+      font-family: helvetica, arial, sans-serif;
+    }
+    
+    .image {
+        width:33.3%;
+        height:500px;
+        overflow:auto;
+        margin-top:5px;
+        margin-bottom:20px;
+    }
+    .output {
+        width:49.5%;
+        overflow:auto;
+        border:1px solid;
+        height:250px;
+        margin-bottom:20px;
+    }
+    .errortxt {
+        border:3px solid red;
+        height:125px;
+    }
+ 
+    .left {
+        float:left;
+        text-align:left;
+    }
+    .right {
+        float:right;
+        text-align:left;
+    }
+    .center {
+        float:left;
+        text-align:center;
+    }
+</style>
+  <script type="text/javascript"> 
+
+        function init() 
+        {
+            // now setup the diff group
+            diff_types={%DIFF_TYPES%};
+
+            var diff_str="";
+            for (var key in diff_types) {
+                var name=diff_types[key];
+                diff_str='<input type="radio" name="diffgroup" value="'+key+'" checked onclick="onClickDiff(this.value);">'+name+'&nbsp;' + diff_str
+            }
+            document.getElementById("diff_form").innerHTML=diff_str;
+
+
+            codes = [%PAGE_CODES%];
+
+            // generate the appropriate number of pages
+            var txt = "Page: "
+            for (var i=0; i < %PAGE_COUNT%; i++)
+            {
+                var str = i.toString();
+                var label=('00'+str).slice(str.length);
+                txt += '<input type="radio" name="group" '+((0==i)?"checked":"")+' value="'+label+'" onclick="onClickPage(this.value);"><span class="'+codes[i]+'">'+label+'&nbsp;</span>';
+
+                
+            }
+
+            document.getElementById("pages").innerHTML=txt;
+            onClickPage("00");
+        }
+
+        function onClickDiff (type) 
+        {
+            refreshPage();
+        }
+
+        function refreshPage()
+        {        
+            // need to get the selected page 
+           if (document.page_form.group[0]) {
+              for (var i=0; i< document.page_form.group.length; i++) {
+                  if (document.page_form.group[i].checked) {
+                     onClickPage(document.page_form.group[i].value)
+                   }
+               }
+            } else {
+                // we only have one radio
+                onClickPage("00");
+            }
+        }
+
+   
+        function onClickZoom (zoom) 
+        {
+            refreshPage();
+        }
+        
+        function onClickPage (page) 
+        {
+
+            var l_path="%PATHIMAGE1%";
+            var r_path="%PATHIMAGE2%";
+            var d_path="%PATHIMAGEDIFF%";
+            var image_stub="%IMAGESTUB%";
+            var diff_stub="%IMAGEDIFFSTUB%";
+            var ext="%IMAGEEXT%";
+ 
+           var zoom="100";
+           for (var i=0; i < document.zoom_form.zoomgroup.length; i++)
+           {
+              if (document.zoom_form.zoomgroup[i].checked) {
+                 zoom=document.zoom_form.zoomgroup[i].value;
+              }
+           }
+           for (var i=0; i< document.diff_form.diffgroup.length; i++) {
+              if (document.diff_form.diffgroup[i].checked) {
+                 diff_stub=document.diff_form.diffgroup[i].value
+               }
+            }
+
+            document.getElementById("left").innerHTML='<img src="'+l_path+'/'+image_stub+page+'.'+ext+'" width="'+zoom+'%">';
+            document.getElementById("right").innerHTML='<img src="'+r_path+'/'+image_stub+page+'.'+ext+'" width="'+zoom+'%">';
+            document.getElementById("diff").innerHTML='<img src="'+d_path+'/'+diff_stub+page+'.'+ext+'" width="'+zoom+'%">';
+
+            // here read the pixel diff value from the appropriate file:
+            var pixels = {%PIXELMAP%};
+            var size_l= {%LIMAGESIZEMAP%};
+            var size_r = {%RIMAGESIZEMAP%};
+
+            document.getElementById("pixel_diff").innerHTML ='Difference: '+pixels[page]+' pixels';
+            document.getElementById("l_image_size").innerHTML ='File size: '+size_l[page];
+            document.getElementById("r_image_size").innerHTML ='File size: '+size_r[page];
+        }
+        
+        function onScrollDiv (div) 
+        {
+            if (div.className.search("image") >= 0)
+            {
+                setScroll(document.getElementById("left"), div);
+                setScroll(document.getElementById("diff"), div);
+                setScroll(document.getElementById("right"), div);
+            }
+            else if (div.className.search("errortxt") >= 0)
+            {
+                setScroll(document.getElementById("left_error_txt"), div);
+                setScroll(document.getElementById("right_error_txt"), div);
+            }
+            else if (div.className.search("output") >= 0)
+            {
+                setScroll(document.getElementById("left_output_txt"), div);
+                setScroll(document.getElementById("right_output_txt"), div);
+            }
+        }
+
+        function setScroll(from_div, to_div) 
+        {
+            from_div.scrollLeft = to_div.scrollLeft;
+            from_div.scrollTop = to_div.scrollTop;
+        }   
+
+    </script>
+</head>
+<body onLoad="init()">
+    <table border=0 cellpadding=0 width="100%">
+        <tr>
+            <td colspan="3">
+                <form name="page_form"> <div id="pages" style="text-align:center;overflow:auto;"></div> </form>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:33.3%;">
+                Folder: %VERSION1%<br>
+                <div id="l_image_size"></div><br>
+            </td>
+            <td style="width:33.3%;">
+                <div style="text-align:center;">
+                    Comparison<br>
+                <form id="diff_form" name="diff_form">
+                </form>
+                   <br>
+                <form id="zoom_form" name="zoom_form">
+                Zoom: <input type="radio" name="zoomgroup" value="100" checked onclick="onClickZoom(this.value);">100%&nbsp;
+                <input type="radio" name="zoomgroup" value="200" onclick="onClickZoom(this.value);">200%&nbsp;
+                <input type="radio" name="zoomgroup" value="400" onclick="onClickZoom(this.value);">400%&nbsp;
+                </form>
+                    <div id="pixel_diff"></div><br>
+                </div>
+            </td>
+                <td style="width:33.3%;">
+                    Folder: %VERSION2%<br>
+                    <div id="r_image_size"></div><br>
+                </td>
+        </tr>
+    </table>
+                <div id="left" class="image left" style="border:0px solid #DA0000" onscroll="onScrollDiv(this);">
+                </div>
+                <div id="diff" class="image center" style="border:0px solid #DA0000" onscroll="onScrollDiv(this);">
+                </div>
+                <div id="right" class="image right" style="border:0px solid #AAAAAA" onscroll="onScrollDiv(this);">
+                </div>
+       </body>
+   </html>

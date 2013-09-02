@@ -1,0 +1,110 @@
+directories='common visualisers drivers decoders'
+for dir in $directories
+do
+        mkdir --parent tools/src/$dir
+done
+
+rm -f all_static.cc
+
+files=' CentreGeoArea.xml
+	Coastlines.xml
+    output.xml
+	CoastPlotting.xml
+	View.xml
+	GridPlotting.xml
+	LabelPlotting.xml
+	Grib.xml
+	Contour.xml
+	IsoPlot.xml
+	Title.xml
+	TextBox.xml
+	TextActionMigration.xml
+	XmlBox.xml
+	TextAction.xml
+	SymbolPlotting.xml
+	SymbolInput.xml
+	SVGDriver.xml
+	SubPage.xml
+    BaseDriver.xml
+	PostScriptDriver.xml
+	OpenGLDriver.xml
+	Page.xml
+	OdbDecoder.xml
+	Obs.xml
+	NetcdfMatrixInterpretor.xml
+	NetcdfInterpretor.xml
+	NetcdfDecoder.xml
+	LevelSelection.xml
+	LevelListSelectionType.xml
+	Layout.xml
+	IsoLabel.xml
+	IsoHighlight.xml
+	IntervalSelectionType.xml
+	Import.xml
+	HiLo.xml
+	HiLoText.xml
+	HiLoTechnique.xml
+	HiLoSave.xml
+	HiLoNumber.xml
+	HiLoMarker.xml
+	GenericSQLDEcoder.xml
+	GDDriver.xml
+	CountSelectionType.xml
+	CornersArea.xml
+	ConicProjection.xml
+	ValuePlot.xml
+	IsoShading.xml
+	Wind.xml
+	ImagePlotting.xml
+	Akima474.xml
+	Akima760.xml
+	Akima761.xml
+	ppm.xml
+	PageID.xml
+	ObsPlotting.xml
+	Legend.xml
+	XmlPage.xml
+	Frame.xml
+	SuperPage.xml
+	CylindricalProjection.xml
+    SatelliteProjection.xml
+	XmlSubPage.xml
+	XmlDecoder.xml
+	XYList.xml
+	TitleTemplate.xml
+	Axis.xml
+	graph_params.xml
+	Histogram.xml
+	XYSystem.xml	
+	InputMatrix.xml
+	Epsgram.xml
+	EpsInput.xml
+	XYTransformation.xml
+	ObsStat.xml
+	Geopoints.xml
+	MetaData.xml
+'
+
+for i in $files
+do
+	echo "found--->" $i
+	perl tools/xml2cc.pl src/xml/$i >> all_static.cc
+done
+
+# copy the attributes files..
+directories='common visualisers drivers decoders'
+for dir in $directories
+do
+        
+	echo "updating--->" $dir
+	for file in `ls tools/src/$dir/*`
+	do		
+	     mv --backup $file src/$dir
+	done
+	rm -f tools/src/$dir/*
+	rmdir tools/src/$dir
+done
+
+mv --backup all_static.cc src/common
+
+

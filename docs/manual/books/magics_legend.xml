@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+"http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
+<!ENTITY __legend__iiuefswq SYSTEM "../chapters/legend.xml">
+]>
+<book>
+  <title>Legend Plotting</title>
+<!--  &__legend__iiuefswq; -->
+    <xi:include href="../chapters/legend.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+</book>

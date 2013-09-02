@@ -1,0 +1,167 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta content="ECMWF Graphics Section" name="author">
+<meta content="ECMWF Graphics Section test page" name="description">
+<meta content="noarchive" name="robots">
+<link rel="shortcut icon" href="http://www.ecmwf.int//favicon.ico">
+<link type="text/css" media="screen" rel="stylesheet" href="graphics.css">
+<link type="text/css" media="print"  rel="stylesheet" href="css/graphics_print.css">
+
+
+
+
+
+<title>ECMWF Graphics Section test page</title>
+</head>
+
+<body>
+<div id="title">
+<a href=""><img title="ECMWF Graphics Section" alt="ECMWF Graphics Section" src="GraphicsSection_logo.png"></a>
+<form action="http://intra.ecmwf.int/publications/cms/search/get"><input name="simpleQuery" size="12" value="ECMWF search" onfocus="if (this.value=='ECMWF search') this.value=''" type="text"></form>
+</div>
+
+<div id="navigation" class="nonprint">
+<ul>
+<li><a href="">Home</a></li>
+<li><a href="http://www.ecmwf.int">ECMWF</a></li>
+<li><a href="http://www.ecmwf.int/your/d/room/">Your Room</a></li>
+<li><a href="http://intra.ecmwf.int">Intra</a></li>
+<li><a href="http://www.ecmwf.int/services/archive/">WebMars</a></li>
+<li><a href="http://www.ecmwf.int/products/forecasts/d/charts">Forecasts</a></li>
+<li><a href="http://intra.ecmwf.int/publications/cms/get/graphics">Graphics</a></li>
+</ul></div>
+
+<div id="links">
+<h2>Plot Examples</h2>
+<ul>
+<li><a href="/cylindrical.html">Cylindrical Projection</a></li>
+<li><a href="/polar.html">Stereographic Polar Projection</a></li>
+
+</ul>
+</div>
+
+<div>
+<h2>Magics++ Javascript facilities </h2>         
+<form id="modes" action="">			
+				<fieldset class="radio">
+					<legend>
+						Mode Selection
+					</legend>
+					<label class="radio">
+						<input id="tooltip" name="card3" type="radio" onClick='magics.tooltipmode()' />
+                        Tool Tip
+					</label>
+					<label class="radio">
+						<input id="area" name="card3" type="radio" onClick='magics.areaselectionmode()'/>
+						Area Selection[Zoom]
+					</label>
+					<label class="radio">
+						<input id="line" name="card3" type="radio" onClick='magics.pointselectionmode()'/>
+						Point Selection[Metgram] 
+					</label>						
+				</fieldset>                
+</form>
+</div>
+
+<div id="magics"></div><div id="metgram"></div>
+
+<div> 
+<form>
+     <fieldset>
+					<legend>
+						Magics Information
+					</legend>
+                    <label id="info" name='info'/>
+     </fieldset>
+     <fieldset>
+					<legend>
+						User information
+					</legend>
+                    <label id="lon1" name='lon1'/>
+                    <label id="lat1" name='lat1'/>
+                    <label id="lon2" name='lon2'/>
+                    <label id="lat2" name='lat2'/>
+     </fieldset>
+  
+</form>
+</div>
+
+<div>
+<h2>Please contact us!</h2>
+
+Please feel free to mail us any feedback to <a href="mailto:magicsplus@ecmwf.int">magicsplus@ecmwf.int</a>.
+You can also contact us under this email if you would like to get help to implement your Magics++ plots.
+
+</div>
+
+<br>
+<div id="info"><p>Last updated on 17 October 2007 by <a href="mailto:graphics%5Bat%5Decmwf.int">Graphics Section</a>.</p></div>
+
+</body>
+<script src="/js/jquery.js"></script>
+<script src="/js/ecmwf/http.js"></script>
+<script src="/js/ecmwf/wee.js"></script>
+<script src="/js/ecmwf/magics-service.js"></script>
+<script src="/js/magplus.js"></script>
+
+<script type="text/javascript">
+var magics = new ECMWF.Magics();
+ 
+$(function () {  
+ 
+   $(":radio").attr("checked", "");
+   var params = {
+      ur_lon: 180,
+      ur_lat: 90,
+      ll_lon: -180,
+      ll_lat: -90
+   };
+   magics.execute('/cylindrical.xml', '#magics', params, 0, function () {}); 
+ 
+ 
+   
+        
+}());
+
+magics.ontooltip = function(x, y) {
+    $('#info').html("navigation:" + x + " " + y);
+   
+}
+magics.onselectarea = function(lat1, lon1, lat2, lon2) {
+    $('#info').html("selected area:" + lat1 + "/" + lon1 + " " + lat2 + "/" + lon2 ); 
+    $('#magics').css( { cursor: 'progress' } );
+    var params = {
+      ur_lon: lon2,
+      ur_lat: lat1,
+      ll_lon: lon1,
+      ll_lat: lat2
+    };
+    
+    magics.execute('/cylindrical.xml', '#magics', params, 0, function () {
+        magics.areaselectionmode();  
+        $('#magics').css( { cursor: 'auto' } );
+        });
+    
+   
+}   
+magics.onpointselection = function(lat, lon) {
+    $('#info').html("selected point:" + lat + "/" + lon); 
+    var params = {
+        latitude: lat,
+        longitude: lon
+    };
+    var metgram = new ECMWF.Magics();
+    $('#magics').css( { cursor: 'progress' } );
+    metgram.execute('/metgram_small.xml', '#metgram', params, 0, function () { 
+        $('#magics').css( { cursor: 'auto' } ); 
+        $('#metgram').css( { border: 'inset blue 1px' } );
+    } ); 
+   
+   
+}   
+ </script>
+
+</html>
+

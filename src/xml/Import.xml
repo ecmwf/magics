@@ -1,0 +1,101 @@
+<?xml-stylesheet type='text/css' href='parameter.css'?>
+<magics>
+
+<class name='ImportPlot' action='pplot' directory='visualisers' >
+
+<parameter name='import_format' from='string' to='string' member='format' default='PNG'>
+  <documentation>Specify the format of the imported file </documentation>
+</parameter>
+
+<parameter name='import_system_coordinates' from='string' to='string' member='system' default='user'>
+  <documentation>Specify the format of the imported file </documentation>
+</parameter>
+
+<parameter name='import_x_position' from='float' to='float' member='x' default='0'>
+  <documentation>X position of the imported image </documentation>
+</parameter>
+
+<parameter name='import_y_position' from='float' to='float' member='y' default='0'>
+  <documentation>Y position of the imported image </documentation>
+</parameter>
+
+<parameter name='import_width' from='float' to='float' member='width' default='-1'>
+  <documentation>Width of the imported image (-1 means use the dimension of the image)</documentation>
+</parameter>
+
+<parameter name='crs' from='string' to='string' member='crs'  default=''>
+  <documentation>Metview info :Crs used for the import</documentation>
+</parameter> 
+
+<parameter name='crs_minx' from='float' to='float' member='crs_minx'  default='-180.'>
+  <documentation>Metview info :Crs used for the import</documentation>
+</parameter> 
+
+<parameter name='crs_maxx' from='float' to='float' member='crs_maxx'  default='180.'>
+  <documentation>Metview info :Crs used for the import</documentation>
+</parameter> 
+
+<parameter name='crs_miny' from='float' to='float' member='crs_miny'  default='-90.'>
+  <documentation>Metview info :Crs used for the import</documentation>
+</parameter> 
+
+<parameter name='crs_maxy' from='float' to='float' member='crs_maxy'  default='-90.'>
+  <documentation>Metview info :Crs used for the import</documentation>
+</parameter> 
+
+<parameter name='import_height' from='float' to='float' member='height'  default='-1'>
+  <documentation>Height of the imported image (-1 means use the dimension of the image)</documentation>
+</parameter>
+
+
+</class>
+<class name='ImportAction' xmltag='import' prefix='import' action='pimport' directory='decoders' >
+  <documentation> Import facilities allow users to import external graphics files (jpeg/gif/eps) </documentation>
+
+  <parameter name='import_file_name' from='string' to='string' member='path'  default=''>
+         <documentation>File to import </documentation>
+  </parameter>
+  <parameter name='import_valid_time' from='string' to='string' member='valid_time'  default=''>
+         <documentation>Valid Time  </documentation>
+         <release>2.9</release>
+  </parameter>
+  <parameter name='service' from='string' to='string' member='service'  default=''>
+    <documentation>Metview info : which service created this image</documentation>
+  </parameter>
+
+<parameter name='url' from='string' to='string' member='url'  default=''>
+  <documentation>Metview info : which url created this image : add it in the titles</documentation>
+</parameter>
+<parameter name='layers' from='string' to='string' member='short_name'  default=''>
+  <documentation>Metview info :Short name to be put in the layers!</documentation>
+</parameter>
+
+</class> 
+
+<class name='ImportObjectHandler' action='pimport' directory='basic' xmltag='import'>
+ <parameter name='import_file_name' from='string' to='string'
+             member='path'  default=''>
+         <documentation>File to import </documentation>
+  </parameter>
+<parameter name='import_format' from='string' to='string' member='format' default='png' values="png/jpeg/gif">
+  <documentation>Specify the format of the imported file </documentation>
+</parameter>
+
+<parameter name='import_x_position' from='float' to='float' member='x' default='0'>
+  <documentation>X position of the imported image </documentation>
+</parameter>
+  
+<parameter name='import_y_position' from='float' to='float' member='y' default='0'>
+  <documentation>Y position of the imported image </documentation>
+</parameter>
+
+<parameter name='import_width' from='float' to='float' member='width' default='-1'>
+  <documentation>Width of the imported image (-1 means use the dimension of the image)</documentation>
+</parameter>
+
+<parameter name='import_height' from='float' to='float' member='height'  default='-1'>
+  <documentation>Height of the imported image (-1 means use the dimension of the image)</documentation>
+</parameter>
+
+</class>
+</magics>

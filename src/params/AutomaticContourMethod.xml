@@ -1,0 +1,2 @@
+<magics>
+<class  inherits='ContourMethod' directory='visualisers' include='AutomaticContourMethod.h' name='AutomaticContourMethod'></class></magics>

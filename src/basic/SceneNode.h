@@ -1,0 +1,108 @@
+/******************************** LICENSE ********************************
+
+ Copyright 2007 European Centre for Medium-Range Weather Forecasts (ECMWF)
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at 
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+
+ ******************************** LICENSE ********************************/
+
+/*! \file SceneNode.h
+    \brief Definition of the Template class SceneNode.
+    \author Meteorological Visualisation Section, ECMWF
+
+    Started: Mar-2007
+
+    Changes:
+
+*/
+
+#ifndef SceneNode_H
+#define SceneNode_H
+
+#include "magics.h"
+
+#include "BasicSceneObject.h"
+
+#include "FortranSceneNodeAttributes.h"
+#include "XmlSceneNodeAttributes.h"
+
+namespace magics {
+
+class SceneNode: public BasicSceneNode {
+
+public:
+	SceneNode();
+	virtual ~SceneNode();
+	
+	BasicSceneNode* clone() {  
+		   
+			return new SceneNode();
+	}
+
+	void getReady();
+	void text(TextVisitor*);
+	void legend(LegendVisitor*);
+	void visit(BasicGraphicsObjectContainer& tree);
+
+protected:
+     //! Method to print string about this class on to a stream of type ostream (virtual).
+	 virtual void print(ostream&) const; 	
+	 vector<TextVisitor*> texts_;
+	 LegendVisitor* legend_;
+	
+private:
+	SceneNode(const SceneNode&);
+    //! Overloaded << operator to copy - No copy allowed
+	SceneNode& operator=(const SceneNode&);
+
+// -- Friends
+    //! Overloaded << operator to call print().
+	friend ostream& operator<<(ostream& s,const SceneNode& p)
+		{ p.print(s); return s; }
+};
+
+class FortranSceneNode: public SceneNode, public FortranSceneNodeAttributes
+{
+public:
+	FortranSceneNode();
+	~FortranSceneNode(); 
+	void getReady();
+	void resize();
+	void visit(BasicGraphicsObjectContainer& tree);
+	BasicSceneNode* clone() {  
+		FortranSceneNode* node = new FortranSceneNode(); 
+		node->copy(*this);	
+		return node;
+	}
+protected:
+	void print(ostream&) const;
+	SceneLayer* sceneLayer_;
+};
+
+
+
+class XmlSceneNode: public SceneNode, public XmlSceneNodeAttributes
+{
+public:
+	XmlSceneNode();
+	~XmlSceneNode();
+	void set(const map<string, string>& map) { XmlSceneNodeAttributes::set(map); }
+	void set(const XmlNode& node) { XmlSceneNodeAttributes::set(node); }
+	void getReady();
+
+protected:
+	void print(ostream&) const;
+};
+
+} // namespace magics
+#endif

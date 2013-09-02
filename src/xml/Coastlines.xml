@@ -1,0 +1,38 @@
+<?xml-stylesheet type='text/css' href='parameter.css'?>
+<magics> 
+<class name='Coastlines' metview='MCOAST' action='pcoast' xmltag='coastlines' directory='visualisers' prefix='map'>
+    <documentation> 
+		The parameters relating to action routine PCOAST (C++ class Coastlines) enable
+        users to control the plotting of coastlines and grid lines. 
+    </documentation>
+
+    <parameter name='map_coastline' from='string' to='NoCoastPlotting' member='coastlines' default='on' include='CoastPlotting.h'> 
+        <documentation> 
+            Plot coastlines on map (ON/OFF)
+            </documentation>
+        <option name='CoastPlotting'   fortran='on'  xml='coast' description='CoastPlotting.xml' include='CoastPlotting.h'/>
+        <option name='NoCoastPlotting' fortran='off' xml='nocoast' description='CoastPlotting.xml' include='CoastPlotting.h'/>
+        <release>Magics++0.1</release>
+    </parameter> 
+
+    <parameter name='map_grid' from='string' to='NoGridPlotting' member='grid' default='on' include='GridPlotting.h'> 
+        <documentation>
+            Plot grid lines on map (On/OFF)
+        </documentation>
+        <option name='GridPlotting'   fortran='on'  xml='grid' description='GridPlotting.xml' include='GridPlotting.h'/>
+        <option name='NoGridPlotting' fortran='off' xml='nogrid' description='GridPlotting.xml' include='GridPlotting.h'/>
+        <release>Magics++0.1</release>
+    </parameter>
+
+    <parameter name='map_label' from='string' to='NoLabelPlotting' include='LabelPlotting.h' member='label' default='on'>
+        <documentation>
+            Plot label  on map grid lines (On/OFF)
+        </documentation>
+        <option name='LabelPlotting'   fortran='on'  xml='label' description='LabelPlotting.xml' include='LabelPlotting.h'/>
+        <option name='NoLabelPlotting' fortran='off' xml='nolabel' description='LabelPlotting.xml' include='LabelPlotting.h'/>
+        <release>Magics++0.1</release>
+    </parameter>
+
+</class>
+
+</magics>

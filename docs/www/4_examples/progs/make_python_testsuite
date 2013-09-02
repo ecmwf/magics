@@ -1,0 +1,241 @@
+#!/bin/ksh
+# Runs the Python Interpreter on the Python examples
+
+# Parse command-line arguments
+# Possible options:
+#   -checkup      : Runs the examples intended for the checkup test suite
+#   -manual       : Runs the examples for the manual
+#   -tutorial     : Runs the examples for the tutorial
+#   -nogifs       : PostScript output will not be converted to GIF format
+#   -valgrind     : Runs the examples under Valgrind - output to <prog>.vlog
+#   -www          : Runs the examples for the web documentation
+
+. ./message.ksh
+
+devices="gif ps"
+
+nogifs=0
+tohtml=1
+valgrind=""
+staticmpp=""
+srcdir="python/test"
+filespec=*.py
+outdir="../../html/test/python"
+logdir=$outdir
+gifdir=$outdir
+external=""
+mpp_lib=$MAGPLUSLIB_SHARED
+summary="-------\n
+Unless overridden by the flags below, the shared library is used.\n
+testsuite flags:"
+
+for arg;do
+    if [[ $arg = "-h" || $arg = "-help" || $arg = "--help" ]]
+    then
+        echo ""
+        echo "make_magml_testsuite"
+        echo "Possible options:"
+        echo "   -checkup      : Runs the examples intended for the checkup test suite"
+        echo "   -external     : Runs tohtml -external"
+        echo "   -manual       : The MagML scripts for the manual will be run"
+        echo "   -tutorial     : The MagML scripts for the tutorial will be run"
+        echo "   -www          : The MagML scripts for the web documentation will be run"
+        echo "   -nogifs       : PostScript output will not be converted to GIF format"
+        echo "   -valgrind     : Runs the examples under Valgrind - output to <prog>.vlog"
+        echo ""
+        exit
+    fi
+
+    if [[ $arg = "-checkup" ]]
+    then
+    	echo "Generating plots for checkup"
+        srcdir="python/checkup"
+        outdir="../../html/checkup/python"
+    fi
+
+    if [[ $arg = "-manual" ]]
+    then
+    	echo "Generating plots for manual"
+        srcdir="python/manual"
+        outdir="../../html/manual/python"
+        tohtml=0
+    fi
+
+    if [[ $arg = "-tutorial" ]]
+    then
+    	echo "Generating plots for tutorial"
+        srcdir="python/tutorial"
+        outdir="../../html/tutorial/python"
+        tohtml=0
+    fi
+
+    if [[ $arg = "-www" ]]
+    then
+    	echo "Generating plots for WWW"
+        srcdir="python/www"
+        outdir="../../html/examples/python"
+    fi
+
+    if [[ $arg = "-nogifs" ]]
+    then
+        nogifs=1
+    fi
+
+    if [[ $arg = "-novars" ]]
+    then
+        variables=""
+        variables_hov=""
+    fi
+
+    if [[ $arg = "-external" ]]
+    then
+        external="-external"
+    fi
+
+    if [[ $arg = "-valgrind" ]]
+    then
+        valgrind="-valgrind"
+	summary="$summary\n run through valgrind"
+    fi
+done
+
+
+# if the source directory does not exist, then exit gracefully
+
+if [[ ! -a $srcdir ]]
+then
+    echo "Source directory $srcdir does not exist - exiting."
+    exit
+fi
+
+
+
+# create any necessary directories
+
+mkdir -p $outdir
+
+
+echo $variables
+
+
+# Run the MagML Interpreter on the source files
+
+for srcfile in $srcdir/$filespec
+do
+    msg "Running example $srcfile"
+    bname=`basename $srcfile .py`
+    logfile=$outdir/$bname.log
+    errfile=$outdir/$bname.err
+    timefile=$outdir/$bname.$device.time
+
+    # the hovmoeller example uses a special set of variables
+
+#        if [[ $bname = "hovmoeller" ]]
+#        then
+#            variables_to_use=$variables_hov
+#        else
+#            variables_to_use=$variables
+#        fi
+
+
+    (time (python $srcfile > $logfile 2> $errfile)) 2> $timefile
+
+
+    # move the output files to the output directory
+
+    for device in $devices ; do
+        outfile="`basename $srcfile .py`.$device"
+    
+        if [[ -a $outfile ]]
+        then
+	        mv $outfile $outdir
+        fi
+    done
+
+done
+
+
+
+
+. ./setconvert
+echo "Using convert from directory: $CONVERT_DIR"
+
+
+
+
+# Create GIF images of the outputs for the web pages
+
+no_output_small="icons/no_output_small.gif"
+
+for psfile in $outdir/*.ps
+do
+    bname=`basename $psfile .ps`
+    thumbname="$outdir/$bname"_small.gif
+    
+    # is the postscript file newer than the gif?
+
+    if [[ $psfile -nt $gifname  &&  $nogifs -ne 1 ]]
+    then
+        msg "    [Converting to GIF: $psfile, $thumbname]"
+
+
+        # first copy over the 'wait' .gif files in case the conversion
+        # does not work
+        
+        cp $no_output_small $thumbname
+        chmod u+w $thumbname
+
+
+        # ok, now do the conversion....
+
+        "$CONVERT_DIR"convert  -geometry 180X252  -rotate 90 -delay 150 $psfile $thumbname
+    fi
+
+done
+
+
+
+
+
+# copy our static icons across if necessary
+
+cp -u icons/* $outdir
+for iconfile in icons/*.gif
+do
+    chmod ug+w $outdir/`basename $iconfile`
+done
+
+
+
+# echo our summary to a log file
+
+echo "HOST:            $HOST"            >  logs/python_summary.txt
+echo "ARCH:            $ARCH"            >> logs/python_summary.txt
+echo "USER:            $USER"            >> logs/python_summary.txt
+echo "PGF flags:       $pgf_flags"       >> logs/python_summary.txt
+echo "MAGPLUSLIB(_S):"                   >> logs/python_summary.txt
+echo "`echo $mpp_lib | sed 's/ /\n                 /g'`"   >> logs/python_summary.txt
+echo "LD_LIBRARY_PATH:  "                >> logs/python_summary.txt
+echo "`echo $LD_LIBRARY_PATH | sed 's/:/\n                 /g'`"   >> logs/python_summary.txt
+echo "EMOSLIB           $EMOSLIB"        >> logs/python_summary.txt
+
+echo $summary    >> logs/python_summary.txt
+echo "-------\n" >> logs/python_summary.txt
+echo `date`      >> logs/python_summary.txt
+
+
+
+# finally, run the 'tohtml' utility to copy all program source and timings
+# to the html directory
+
+if [[ $tohtml -eq 1 ]]
+then
+    msg "Generating HTML..."
+    cd ../..
+    ./tohtml $external -python
+fi
+
+
+# create a date string, replace spaces with underscores
+msg "Done: `date | sed 's/ /_/g'`"
+

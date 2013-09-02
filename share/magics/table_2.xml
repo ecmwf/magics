@@ -1,0 +1,10 @@
+<center code='7'>
+    <table code='2'>
+        <param code='11' mars=''
+           short_title='temp'
+           long_title='temperature'
+           scaling='1.0' offset='-273.16'
+           original_unit='K' derived_unit='deg c'
+        />
+    </table>
+</center>

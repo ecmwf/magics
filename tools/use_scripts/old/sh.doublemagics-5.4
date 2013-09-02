@@ -1,0 +1,11 @@
+# Set the double precision environment for MAGICS
+#
+
+# Bourne Shell
+unset MAG_COASTLINES
+MAGLIB="-lmag_r8 -lfgks_r8 -ldgks.2 -lcgks.2"
+EMOSLIB="-lemos_r8.new"
+export MAGLIB
+export EMOSLIB
+
+envSelected="doublemagics-5.4 $envSelected"  ; export envSelected

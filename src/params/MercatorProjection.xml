@@ -1,0 +1,2 @@
+<magics>
+<class  inherits='GeoRectangularProjection' xmltag='rectangular' name='MercatorProjection' directory='common' prefix='subpage' action='projection' include='GeoRectangularProjection.h'></class></magics>

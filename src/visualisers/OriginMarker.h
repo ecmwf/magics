@@ -1,0 +1,150 @@
+/******************************** LICENSE ********************************
+
+ Copyright 2007 European Centre for Medium-Range Weather Forecasts (ECMWF)
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at 
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+
+ ******************************** LICENSE ********************************/
+
+/*! \file OriginMarker.h
+    \brief Definition of the Template class OriginMarker.
+    
+    Magics Team - ECMWF 2005
+    
+    Started: Thu 17-Mar-2005
+    
+    Changes:
+    
+*/
+
+#ifndef OriginMarker_H
+#define OriginMarker_H
+
+#include "magics.h"
+#include "MagTranslator.h"
+#include "Factory.h"
+#include "Transformation.h"
+#include "Arrow.h"
+
+
+namespace magics {
+
+class OriginMarker  {
+
+public:
+	OriginMarker() : marker_("none"), height_(0) {}
+	virtual ~OriginMarker() {}
+	virtual void set(const map<string, string>&) {}
+	virtual void set(const XmlNode&) {}
+	virtual bool accept(const string&) { return false; }
+
+	virtual void toxml(ostream&) {}
+	virtual OriginMarker* clone()
+	{
+		OriginMarker* object = new OriginMarker();
+		object->set(*this);
+		return object;
+	}
+  
+	void marker(const string& marker)      { marker_ = marker; }
+	void height(double height)      { height_ = height; }
+	void set(const OriginMarker& from)
+	{
+		marker_ = from.marker_;
+		height_ = from.height_;
+	}
+	virtual void prepare(ArrowProperties& object)
+	{
+		object.setOriginMarker(marker_);
+		//object.setOriginHeight(height_);
+	}
+
+protected:
+     //! Method to print string about this class on to a stream of type ostream (virtual).
+	 virtual void print(ostream& out) const { out << "OriginMarker"; }
+
+	 string  marker_;
+	 double   height_;
+
+private:
+    //! Copy constructor - No copy allowed
+	OriginMarker(const OriginMarker&);
+    //! Overloaded << operator to copy - No copy allowed
+	OriginMarker& operator=(const OriginMarker&);
+
+// -- Friends
+    //! Overloaded << operator to call print().
+	friend ostream& operator<<(ostream& s,const OriginMarker& p)
+		{ p.print(s); return s; }
+};
+
+
+class NoOriginMarker: public OriginMarker {
+public:
+	NoOriginMarker() {}
+	~NoOriginMarker() {}
+	virtual OriginMarker* clone()  { return new NoOriginMarker(); }
+	virtual void prepare(ArrowProperties&) {}
+	void operator()(const PaperPoint&) {}
+    virtual bool accept(const string& node) { return magCompare(node, "nomarker"); }
+
+};
+
+
+class CircleOriginMarker: public OriginMarker {
+public:
+	CircleOriginMarker() { this->marker_ = "magics_1"; this->height_ = 0.3; }
+	virtual OriginMarker* clone()
+	{
+		OriginMarker* object = new CircleOriginMarker();
+		object->set(*this);
+		return object;
+	}
+	virtual bool accept(const string& node) { return magCompare(node, "circlemarker"); }
+
+	~CircleOriginMarker() {}
+};
+
+
+class DotOriginMarker: public OriginMarker {
+public:
+	DotOriginMarker() { this->marker_ = "magics_15"; this->height_ = 0.1; }
+	virtual OriginMarker* clone()
+	{
+		OriginMarker* object = new DotOriginMarker();
+		object->set(*this);
+		return object;
+	}
+	~DotOriginMarker() {}
+	virtual bool accept(const string& node) { return magCompare(node, "dotmarker"); }
+
+};
+
+template <>
+class MagTranslator<string, OriginMarker> { 
+public:
+	OriginMarker* operator()(const string& val )
+	{
+		 return SimpleObjectMaker<OriginMarker>::create(val);
+	}     
+	OriginMarker* magics(const string& param)
+	{
+		OriginMarker* object=0;
+		ParameterManager::update(param, object);
+		return object;
+	}
+
+};
+
+} // namespace magics
+#endif

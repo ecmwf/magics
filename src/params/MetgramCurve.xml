@@ -1,0 +1,24 @@
+<magics>
+<class  action='pmetgram' directory='visualisers' prefix='metgram' xmltag='metgraph' name='MetgramCurve'>
+    	<documentation >
+        The metgram curve will plot the metgram a s a curve! 
+    	</documentation>
+        	<parameter  member='style' to='LineStyle' default='solid' from='string' name='metgram_curve_line_style'>           
+            		<documentation > LineStyle of the curve  		</documentation>
+        	</parameter>
+        	<parameter  member='style2' to='LineStyle' default='solid' from='string' name='metgram_curve2_line_style'>           
+            		<documentation > LineStyle of the second curve  		</documentation>
+        	</parameter>
+        	<parameter  member='colour' to='Colour' default='red' from='string' name='metgram_curve_colour'>           
+            		<documentation > Colour of the curve  		</documentation>
+        	</parameter>
+         	<parameter  member='colour2' to='Colour' default='blue' from='string' name='metgram_curve2_colour'>           
+            		<documentation > Colour of the second curve  		</documentation>
+        	</parameter>
+        	<parameter  member='thickness' to='int' default='2' from='int' name='metgram_curve_thickness'>           
+            		<documentation > Thickness of the curve  		</documentation>
+        	</parameter>
+        	<parameter  member='thickness2' to='int' default='2' from='int' name='metgram_curve2_thickness'>           
+            		<documentation > Thickness of the second curve  		</documentation>
+        	</parameter>
+</class></magics>

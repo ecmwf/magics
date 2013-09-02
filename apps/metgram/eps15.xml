@@ -1,0 +1,8 @@
+<eps template='/tmp/cgs/perforce/mv4/apps/metgram/15_days_epsgram.xml' database='/scratch/graphics/cgs/efi/15_days/0001/2009042200' format='a4'> 
+   <station name='Reading' latitude='51.4' longitude='-1' noheight='48'
+            psfile='eps15.ps'
+            pngfile='Reading15.png'
+            giffile='Reading.gif'
+	    svgfile='Reading.svg'
+	    metafile='Reading.meta'/>
+</eps>

@@ -1,0 +1,112 @@
+<?xml-stylesheet type='text/css' href='parameter.css'?>
+<magics>
+<class name='InputData' directory='decoders'  xmltag='input' >
+  <documentation> Input data for curve </documentation>
+ 
+
+ <parameter name='input_type' from='string' to='string'    
+              member='type' default='cartesian'  values='cartesian/geographical'>
+			           <documentation>Type of projection </documentation>
+					   <set value='cartesian' name='input_x_type'/>
+					   <set value='cartesian' name='input_y_type'/>
+					   <set value='geographical' name='input_latitude_values'/>
+					   <set value='geographical' name='input_longitude_values'/>
+					   <set value='geographical' name='input_x_component_values'/>
+					   <set value='geographical' name='input_y_component_values'/>
+					   <set value='geographical' name='input_values'/>
+					  </parameter>
+
+
+ <parameter name='input_x_type' from='string' to='string'
+             member='x_type' default='number'  values='date/number'>
+         <documentation>Type used for X values: number or date </documentation>
+         <set value='number' name='input_x_values'/>
+         <set value='number' name='input_x2_values'/>
+         <set value='date' name='input_date_x_values'/>
+         <set value='date' name='input_date_x2_values'/>
+  </parameter>
+  <parameter name='input_y_type' from='string' to='string'
+             member='y_type' default='number' values='date/number'>
+         <documentation>Type used for Y values: number or date </documentation> 
+		<set value='number' name='input_y_values'/>
+		<set value='number' name='input_y2_values'/>
+         <set value='date' name='input_date_y_values'/>
+         <set value='date' name='input_date_y2_values'/>
+  </parameter>
+  
+  <parameter name='input_x_values' from='floatarray' to='floatarray'
+             member='x' default='floatarray()' >
+         <documentation> X Values  </documentation>
+  </parameter>
+  <parameter name='input_y_values' from='floatarray' to='floatarray'
+             member='y' default='floatarray()' >
+         <documentation> Y Values  </documentation>
+  </parameter>
+  
+   <parameter name='input_date_x_values' from='stringarray' to='stringarray'
+             member='date_x' default='stringarray()' >
+         <documentation> X Date Values  </documentation>
+  </parameter>
+  <parameter name='input_date_y_values' from='stringarray' to='stringarray'
+             member='date_y' default='stringarray()' >
+         <documentation> Y Date Values  </documentation>
+  </parameter>
+  <parameter name='input_x2_values' from='floatarray' to='floatarray'
+             member='x2' default='floatarray()' >
+         <documentation> Array containing X positions for second AREA curve.  </documentation>
+  </parameter>
+  <parameter name='input_y2_values' from='floatarray' to='floatarray'
+             member='y2' default='floatarray()' >
+         <documentation> Array containing X positions for second AREA curve.  </documentation>
+  </parameter>
+  
+   <parameter name='input_date_x2_values' from='stringarray' to='stringarray'
+             member='date_x2' default='stringarray()' >
+         <documentation> Array containing X positions for second AREA curve when X axis is a DATE/TIME axis.  Format is YYYY-MM-DD HH:mm:ss </documentation>
+  </parameter>
+  <parameter name='input_date_y2_values' from='stringarray' to='stringarray'
+             member='date_y2' default='stringarray()' >
+         <documentation> Array containing Y positions for second AREA curve when X axis is a DATE/TIME axis.  Format is YYYY-MM-DD HH:mm:ss  </documentation>
+  </parameter>
+  
+  <parameter name='input_x_missing_value' from='float' to='float'
+             member='x_missing' default='-21.e6' >
+         <documentation> mssing value for x   </documentation> 
+  </parameter> 
+  <parameter name='input_y_missing_value' from='float' to='float'
+             member='y_missing' default='-21.e6' >
+         <documentation> missing value for x   </documentation>
+  </parameter>
+  <parameter name='input_values' from='floatarray' to='floatarray'
+             member='values' default='floatarray()' >
+         <documentation>  Values  </documentation>
+  </parameter>
+  
+   <parameter name='input_latitude_values' from='floatarray' to='floatarray'
+             member='latitudes' default='floatarray()' >
+         <documentation>  Latitudes  </documentation>
+  </parameter>
+ <parameter name='input_longitude_values' from='floatarray' to='floatarray'
+             member='longitudes' default='floatarray()' >
+         <documentation>  longitudes  </documentation>
+  </parameter>
+  <parameter name='input_x_component_values' from='floatarray' to='floatarray'
+             member='x_component' default='floatarray()' >
+         <documentation>  u components for vectors  </documentation>
+  </parameter>
+  <parameter name='input_y_component_values' from='floatarray' to='floatarray'
+             member='y_component' default='floatarray()' >
+         <documentation>  v components for vectors  </documentation>
+  </parameter>
+
+ <parameter name='input_binning' from='string' to='BinningObject' include='BinningObject.h'
+             member='input_binning' default='on' >
+         <documentation> Binning information </documentation>
+         <option name='NoBinningObject'   fortran='off'  xml='nobinning' include='BinningObject.h'/>
+         <option name='BinningObject'   fortran='on'  xml='binning' include='BinningObject.h'/>
+  </parameter>
+ </class>
+
+
+
+</magics>

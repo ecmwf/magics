@@ -1,0 +1,82 @@
+<magics>
+<class  inherits='HiLoBase' xmltag='hilo' name='HiLo' directory='visualisers' prefix='contour/contour_hilo' action='pcont'>
+  	<documentation >
+  Maxima/minima may be plotted as text and/or as numerical values, 
+  default being symbols (H and L ). 
+  The user may, by calling the parameter setting routines, 
+  plot maxima/minima values in various colours, heights, qualities etc. 
+  Users have facilities for plotting only one of these values, 
+  i.e. local maxima or local minima.
+  	</documentation>
+
+	<parameter  member='type' to='HiLoTechnique' default='text' from='string' name='contour_hilo_type'>
+         		<documentation > Type of high/low (TEXT/NUMBER/BOTH) 		</documentation>
+         		<migration > New Magics: Parameter contour_hilo_type sent to new Magics[HiLo].  		</migration>
+         		<release >0.2		</release>
+         		<option  xml='text' fortran='text' include='HiLoText.h' name='HiLoText'>		</option>
+         		<option  xml='number' fortran='number' include='HiLoNumber.h' name='HiLoNumber'>		</option>
+         		<option  xml='both' fortran='both' include='HiLoBoth.h' name='HiLoBoth'>		</option>
+	</parameter>
+
+	<parameter  from='int' name='contour_hilo_window_size' default='3' member='window_size' to='int' new_parameter='on'>
+         		<documentation > Size of the window used to calculate the Hi/Lo 		</documentation>
+         		<migration > New Magics: Parameter contour_hilo_window_size sent to new Magics[HiLo].  		</migration>
+         		<release >0.1		</release>
+         		<release_info >new Parameter : we envisage  to have different methods to calculate Hi/Lo in future releases		</release_info>
+	</parameter>
+
+	<parameter  from='float' name='contour_hilo_reduction_radius' default='0.0' member='reduction_radius' to='float' implemented='no'>
+         		<documentation > Search radius (in grid points) for reducing the number of minima 		</documentation>
+         		<migration > New Magics: Parameter contour_hilo_reduction_radius sent to new Magics[HiLo].  		</migration>
+         		<release_info >Parameter defined but not implemented : expected in 0.7		</release_info>
+	</parameter>
+  
+	<parameter  member='suppress_radius' to='float' default='15.0' from='float' name='contour_hilo_suppress_radius'>
+         		<documentation > Radius of HiLo search in grid points (default value is for global cylindrical map) 		</documentation>
+         		<migration > New Magics: Parameter contour_hilo_suppress_radius sent to new Magics[HiLo].  		</migration>
+         		<release_info >Parameter defined but not implemented: expected in 0.7		</release_info>
+	</parameter>
+
+	<parameter  member='hilo_max_value' to='float' default='1.0e+21' from='float' name='contour_hilo_max_value'>
+         		<documentation > Local HiLo above specified value are not drawn 		</documentation>
+         		<migration > New Magics: Parameter contour_hilo_max_value sent to new Magics[HiLo].  		</migration>
+         		<release >0.2		</release>
+	</parameter>
+
+	<parameter  member='hilo_min_value' to='float' default='-1.0e+21' from='float' name='contour_hilo_min_value'>
+         		<documentation > Local HiLo below specified value are not drawn 		</documentation>
+         		<migration > New Magics: Parameter contour_hilo_min_value sent to new Magics[HiLo].  		</migration>
+         		<release >0.2		</release>
+	</parameter>
+
+	<parameter  member='hi_max_value' to='float' default='1.0e+21' from='float' name='contour_hi_max_value'>
+         		<documentation > Local HI above specified value are not drawn 		</documentation>
+         		<migration > New Magics: Parameter contour_hi_max_value sent to new Magics[HiLo].  		</migration>
+         		<release >0.2		</release>
+	</parameter>
+
+	<parameter  member='hi_min_value' to='float' default='-1.0e+21' from='float' name='contour_hi_min_value'>
+         		<documentation > Local HI below specified value are not drawn 		</documentation>
+         		<migration > New Magics: Parameter contour_hi_min_value sent to new Magics[HiLo].  		</migration>
+         		<release >0.2		</release>
+	</parameter>
+
+	<parameter  member='lo_max_value' to='float' default='1.0e+21' from='float' name='contour_lo_max_value'>
+         		<documentation > Local Lo above specified value are not drawn 		</documentation>
+         		<release >0.2		</release>
+	</parameter>
+
+	<parameter  member='lo_min_value' to='float' default='-1.0e+21' from='float' name='contour_lo_min_value'>
+         		<documentation > Local Lo below specified value are not drawn 		</documentation>
+         		<release >0.2		</release>
+	</parameter>
+
+	<parameter  member='marker' to='HiLoMarkerBase' default='off' from='string' name='contour_hilo_marker'>
+         		<documentation > Plot hilo marker (ON/OFF) 		</documentation>
+         		<option  xml='marker' fortran='on' include='HiLoMarker.h' name='HiLoMarker'>		</option>
+         		<option  xml='nomarker' fortran='off' include='HiLoMarker.h' name='NoHiLoMarker'>		</option>
+         		<release >0.2		</release>
+	</parameter>
+
+
+</class></magics>

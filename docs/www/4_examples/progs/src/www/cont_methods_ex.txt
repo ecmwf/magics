@@ -1,0 +1,3 @@
+We are currently testing two different versions of the AKIMA contouring
+technique (474 and 760). It is not yet clear if one is consistently
+superior to the other, hence both are currently available to the user.

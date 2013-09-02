@@ -1,0 +1,10 @@
+<magics>
+<class  directory='visualisers' action_routine='pobs' prefix='obs' xmltag='visi' name='ObsVisibility'>
+		<parameter  member='visible' to='bool' default='on' from='string' name='obs_visibility'>
+				<documentation > Turn On/off the pressure		</documentation>
+    	</parameter>
+    
+    	<parameter  member='colour' to='Colour' default='foreground' from='string' name='obs_visibility_colour'>
+				<documentation > Colour the pressure info 		</documentation>
+    	</parameter>
+</class></magics>

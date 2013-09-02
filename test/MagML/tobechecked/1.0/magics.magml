@@ -1,0 +1,8 @@
+        
+<magics_plot page_x_position = '10'>
+  <coastlines map_coastline_colour = 'tan' map_grid_colour = "tan" > </coastlines>
+   <title  title_colour = 'magenta' > </title>
+   <legend legend_text_colour = 'magenta'>  </legend>
+</magics_plot>
+   
+    

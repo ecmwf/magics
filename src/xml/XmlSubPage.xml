@@ -1,0 +1,46 @@
+<?xml-stylesheet type='text/css' href='parameter.css'?>
+<magics>
+
+<class name='XmlSubPage' embedded_objects='FrameBase/PageIdBase/LegendBase/TitleBase' directory='common'>
+
+  <parameter name='bottom' from='string' to='string'
+             member='bottom' xml='bottom' default='0%'>
+	<documentation> Y-Coordinate of bottom of page.</documentation>
+	<migration> Only used in the MagML Interface </migration>
+	<release>Magics++0.8</release>
+  </parameter>
+  
+  <parameter name='left' from='string' to='string'
+             member='left' xml='left' default='0%'>
+	<documentation> X-Coordinate of bottom of page.</documentation>
+	<migration> Only used in the MagML Interface </migration>
+	<release>Magics++0.8</release>
+  </parameter>
+  
+   <parameter name='width' from='string' to='string'
+             member='width' xml='width' default='100%'>
+	<documentation> width of page.</documentation>
+	<migration> Only used in the MagML Interface </migration>
+	<release>Magics++0.8</release>
+  </parameter>
+  
+  <parameter name='height' from='string' to='string'
+             member='height' xml='height' default='100%' >
+	<documentation> Height of page.</documentation>
+	<migration> Only used in the MagML Interface </migration>
+	<release>Magics++0.1</release>
+  </parameter>
+
+ 
+  
+  
+	
+  
+
+  
+  
+</class>
+
+
+
+</magics>

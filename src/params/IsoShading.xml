@@ -1,0 +1,30 @@
+<magics>
+<class  inherits='NoIsoShading' xmltag='shading' name='IsoShading' directory='visualisers' prefix='contour/contour/contour_shade/contour_shade/contour_shade' action='pcont'>
+
+   	<parameter  member='technique' to='ShadingTechnique' default='polygon_shading' from='string' name='contour_shade_technique'>
+         		<documentation > Technique used for shading (POLYGON_SHADING/ CELL_SHADING/ MARKER) 		</documentation>
+         		<option  xml='polygon' fortran='polygon_shading' include='PolyShadingTechnique.h' name='PolyShadingTechnique'>		</option>
+          		<option  xml='grid_shading' fortran='grid_shading' include='PolyShadingTechnique.h' name='GridShading' visible='no'>		</option>
+         		<option  xml='cell_shading' fortran='cell_shading' include='CellShading.h' name='CellShading' visible='no'>		</option>
+         		<option  xml='marker' fortran='marker' include='MarkerShadingTechnique.h' name='MarkerShadingTechnique'>		</option> 
+         		<release >0.2		</release>
+  	</parameter>
+  
+  	<parameter  member='max' to='float' default='1.0e+21' from='float' name='contour_shade_max_level'>
+         		<documentation > Maximum level for which shading is required 		</documentation>
+          		<release >0.2		</release>
+  	</parameter>
+
+  	<parameter  member='min' to='float' default='-1.0e+21' from='float' name='contour_shade_min_level'>
+         		<documentation > Minimum level for which shading is required 		</documentation>
+          		<release >0.2		</release>
+  	</parameter>
+  
+  	<parameter  member='colourMethod' to='ColourTechnique' default='calculate' from='string' name='contour_shade_colour_method'>
+         		<documentation > Method of generating the colours of the bands in contour shading (LIST/CALCULATE) 		</documentation>
+         		<option  xml='calculate' fortran='calculate' include='CalculateColourTechnique.h' name='CalculateColourTechnique'>		</option>
+         		<option  xml='list' fortran='list' include='ListColourTechnique.h' name='ListColourTechnique'>		</option>
+  	</parameter>
+  
+ 
+</class></magics>

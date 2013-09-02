@@ -1,0 +1,15 @@
+# Configuration of ECFLOW
+ECFLOW_SERVER_HOSTNAME=belleus
+ECFLOW_SERVER_PORT=4267
+ECF_HOME=/scratch/ma/maf/scratchdir/input
+ECFLOW_RUNTIME=03:00
+
+# Configuration of the test script
+VERBOSE=1
+DIFFERENCE_THRESHOLD_FACTOR=0.03
+TEST_FOLDER_PATH=/scratch/ma/maf/scratchdir/examples
+OUTPUT_FOLDER_PATH=/scratch/ma/maf/scratchdir/output
+
+# Finally, the versions to test (on single line)
+VERSIONS={ "old++": ["daily"], "current++": ["new++", "old++", "next"], "new++": ["develop++", "daily"] }
+

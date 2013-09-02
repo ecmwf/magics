@@ -1,0 +1,100 @@
+<?xml-stylesheet type='text/css' href='parameter.css'?>
+<magics>
+
+<class name='OdaGeoDecoder' include="OdaDecoder.h" action='podb' directory='oda' xmltag='odb' prefix='odb' >
+	<documentation>
+		New odb Access (Prototype Status) 
+	</documentation>
+    <parameter name='odb_filename' from='string' to='string'
+            member='path' default='' >
+            <documentation> odb Database Path </documentation>
+    </parameter>
+    
+    <parameter name='odb_latitude_variable' from='string' to='string'
+            member='latitude' default='lat'>          
+            <documentation> odb Column name for the latitudes   </documentation>
+    </parameter>
+    <parameter name='odb_longitude_variable' from='string' to='string'
+            member='longitude' default='lon'>        
+            <documentation> odb Column name for the longitudes   </documentation>
+    </parameter>
+    
+    <parameter name='odb_value_variable' from='string' to='string'  
+            member='value' default=''>        
+            <documentation> odb Column name for the values </documentation>
+    </parameter>
+    <parameter name='odb_y_component_variable' from='string' to='string'
+            member='y' default=''>        
+            <documentation> odb Column name for the y component of a vector </documentation>
+    </parameter>
+    <parameter name='odb_x_component_variable' from='string' to='string'
+            member='x' default=''>        
+            <documentation> odb Column name  for the x component of a vector</documentation>
+    </parameter>
+    <parameter name='odb_nb_rows' from='int' to='int'
+	       member='nb_rows' default ='-1' >
+	    <documentation> umber of rows to be retrieved </documentation>
+    </parameter>
+      <parameter name='odb_user_title' from='string' to='string'
+	       member='title' default ='' >
+	    <documentation> User defined title for automatic title </documentation>
+    </parameter>
+      <parameter name='odb_coordinates_unit' from='string' to='string'
+	       member='unit' default ='degrees' >
+	    <documentation> Coordinates unit used to define the location of the points (degrees/radians) </documentation>
+    </parameter>
+    <parameter name='odb_binning' from='string' to='BinningObject' member='odb_binning' default ='off' >
+     	<documentation> Information for the binning (degrees/radians) </documentation>
+     	  <option name='BinningObject'   fortran='on'  xml='binning' include='BinningObject.h'/>
+          <option name='NoBinningObject' fortran='off' xml='nobinning' include='BinningObject.h'/>
+    </parameter>
+</class>    
+<class name='OdaXYDecoder' include='OdaDecoder.h' action='podb' directory='oda' xmltag='odb' prefix='odb' >
+	<documentation>
+		New odb Access (Prototype Status) 
+	</documentation>
+    <parameter name='odb_filename' from='string' to='string'
+            member='path' default='' >
+            <documentation> odb Database Path </documentation>
+    </parameter>
+    
+    <parameter name='odb_x_variable' from='string' to='string'
+            member='x' default='lat'>          
+            <documentation> odb Column name for the x coordinates   </documentation>
+    </parameter>
+    <parameter name='odb_y_variable' from='string' to='string'
+            member='y' default='lon'>        
+            <documentation> odb Column name for the y coordinates   </documentation>
+    </parameter>
+    
+    <parameter name='odb_value_variable' from='string' to='string'  
+            member='value' default=''>        
+            <documentation> odb Column name for the values </documentation>
+    </parameter>
+    <parameter name='odb_y_component_variable' from='string' to='string'
+            member='y_component' default=''>        
+            <documentation> odb Column name for the y component of a vector </documentation>
+    </parameter>
+    <parameter name='odb_x_component_variable' from='string' to='string'
+            member='x_component' default=''>        
+            <documentation> odb Column name  for the x component of a vector</documentation>
+    </parameter>
+    <parameter name='odb_nb_rows' from='int' to='int'
+	       member='nb_rows' default ='-1' >
+	    <documentation> umber of rows to be retrieved </documentation>
+    </parameter>
+      <parameter name='odb_user_title' from='string' to='string'
+	       member='title' default ='' >
+	    <documentation> User defined title for automatic title </documentation>
+    </parameter>
+      <parameter name='odb_binning' from='string' to='BinningObject' member='odb_binning' default ='off' >
+     	<documentation> Information for the binning (degrees/radians) </documentation>
+     	  <option name='BinningObject'   fortran='on'  xml='binning' include='BinningObject.h'/>
+          <option name='NoBinningObject' fortran='off' xml='nobinning' include='BinningObject.h'/>
+    </parameter>
+    
+
+</class>    
+
+</magics>
+

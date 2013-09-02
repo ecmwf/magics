@@ -1,0 +1,145 @@
+<?xml version="1.0"?>
+<magics version="3.0"  orientation="portrait" format="a4" >
+    <drivers>
+        <ps/>
+    </drivers>
+	<definition>
+        <title id="title" justification="left" font_style='bold'  font_size='0.4'
+            colour='black' font='helvetica'>
+		</title>
+		<horizontal_axis id="haxis"             
+               
+                axis_grid= "on" 
+                axis_grid_colour= "Rgb(0.5, 0.5, 0.5)" 
+                axis_grid_line_style= "dash"
+                axis_line_colour= "black" 
+                axis_minor_tick= "on" 
+                axis_minor_tick_colour= "black" 
+                axis_tick_colour= "black" 
+                axis_type= "date" 
+		/>
+		<vertical_axis id="vaxis"
+			axis_grid = "on" 
+            axis_grid_colour= "grey" 
+            axis_grid_line_style= "dash" 
+            axis_grid_reference_level= "0" 
+            axis_grid_reference_thickness= "1" 
+            axis_label_font= "sansserif" 
+            axis_line= "on" 
+            axis_line_colour= "black" 
+            axis_tick_colour= "black" 
+            axis_tick_label_colour= "black" 
+		/>
+	</definition>
+
+    <page height='10%%'>
+        <nopageid/>
+    </page>
+
+     <page height="20%%"  >
+        <nopageid/>
+         <map border-colour='black'>
+          <text bottom='82%%' left='2%%'
+               font='helvetica' colour='black' font_style='bold' font_size='0.4'
+               justification='left' display='absolute'/>
+           <cartesian>
+			<x_date  automatic='on' />
+            <y_regular automatic='on' />
+           </cartesian>
+           <vertical_axis  use_id='vaxis'/>
+                <plot>
+					<epsxml input_filename="raqgramdata_o3.xml" parameter="o3" long_title='on'/>
+                    <epsgraph  eps_box_width="1" eps_box_colour="peach" eps_font_colour='black' border_colour='black'> <both/> </epsgraph>
+				</plot>
+                <horizontal_axis use_id="haxis">
+			<date>
+				<both label_colour='black' label_height='0.35' />
+				<month label_height='0.35' label_colour='black'> <monthandyear /> </month>
+				<noyear height='0.4'/>
+			</date>
+			</horizontal_axis>
+		</map>
+	</page>
+
+     <page height="20%%"  >
+        <nopageid/>
+         <map border-colour='black'>
+          <text bottom='82%%' left='2%%'
+               font='helvetica' colour='black' font_style='bold' font_size='0.4'
+               justification='left' display='absolute'/>
+           <cartesian>
+            <x_date  automatic='on' />
+            <y_regular automatic='on' />
+           </cartesian>
+           <vertical_axis  use_id='vaxis'/>
+                <plot>
+                    <epsxml input_filename="raqgramdata_no2.xml" parameter="no2" long_title='off'/>
+                    <epsgraph   eps_box_width="1" eps_box_colour="rgb(0.60784313725490191, 0.80000000000000004, 0.5607843137254902)
+" eps_font_colour='black' border_colour='black'> <both/> </epsgraph>
+                </plot>
+                <horizontal_axis use_id="haxis">
+            <date>
+                <both label_colour='black' label_height='0.35' />
+                <month label_height='0.35' label_colour='black'> <monthandyear /> </month>
+                <noyear height='0.4'/>
+            </date>
+            </horizontal_axis>
+        </map>
+    </page>
+
+    <page height="20%%"  >
+        <nopageid/>
+         <map border-colour='black'>
+          <text bottom='82%%' left='2%%'
+               font='helvetica' colour='black' font_style='bold' font_size='0.4'
+               justification='left' display='absolute'/>
+           <cartesian>
+            <x_date  automatic='on' />
+            <y_regular automatic='on' />
+           </cartesian>
+           <vertical_axis  use_id='vaxis'/>
+                <plot>
+                    <epsxml input_filename="raqgramdata_so2.xml" parameter="so2" long_title='off'/>
+                    <epsgraph   eps_box_width="1" eps_box_colour="rgb(1.0, 0.85098039215686272, 0.50196078431372548)" eps_font_colour='black' border_colour='black'> <both/> </epsgraph>
+                </plot>
+                <horizontal_axis use_id="haxis">
+            <date>
+                <both label_colour='black' label_height='0.35' />
+                <month label_height='0.35' label_colour='black'> <monthandyear /> </month>
+                <noyear height='0.4'/>
+            </date>
+            </horizontal_axis>
+        </map>
+    </page>
+
+     <page height="20%%"  >
+        <nopageid/>
+         <map border-colour='black'>
+          <text bottom='82%%' left='2%%'
+               font='helvetica' colour='black' font_style='bold' font_size='0.4'
+               justification='left' display='absolute'/>
+           <cartesian>
+            <x_date  automatic='on' />
+            <y_regular automatic='on' />
+           </cartesian>
+           <vertical_axis  use_id='vaxis'/>
+                <plot>
+                    <epsxml input_filename="raqgramdata_pm10.xml" parameter="pm10" long_title='off'/>
+                    <epsgraph  legend='on' eps_box_width="1" eps_box_colour="sky" eps_font_colour='black' border_colour='black' legend_control_text='threshold'  > <both/> </epsgraph>
+                </plot>
+                <horizontal_axis use_id="haxis">
+            <date>
+                <both label_colour='black' label_height='0.35' />
+                <month label_height='0.35' label_colour='black'> <monthandyear /> </month>
+                <noyear height='0.4'/>
+            </date>
+            <label font='sansserif'/>
+            </horizontal_axis>
+        </map>
+        <legend display='absolute' bottom='-35%%' left='0%%' width='30%%' height='40%%'
+                   plot_direction='column' columns='1'  legend_entry_text_width= "95"
+                   text_colour='black' border='off' blanking='off'/>
+    </page>
+
+</magics>
+

@@ -1,0 +1,5 @@
+Note that under Magics++, if not enough marker table entries are
+supplied by the user, then the tables are looped back to their
+beginnings. Under MAGICS 6.9, the behaviour was to set the unspecified
+entries to the default attributes. In both versions the user receives a
+warning that not enough marker table entries have been specified.

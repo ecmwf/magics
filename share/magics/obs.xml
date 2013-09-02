@@ -1,0 +1,110 @@
+<!--
+
+ Copyright 2007 European Centre for Medium-Range Weather Forecasts (ECMWF)
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at 
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+
+
+ This file describes the layout of the various observation messages 
+ in WMO and ICAO conventions   
+
+-->
+<observations>
+
+ <obs_template type='pilot' rows='3' columns='3'>
+	<obs_station_ring row='0' column='0'/>
+	<obs_wind/>
+	<obs_identification row='2' column='0'/>
+	<obs_time_plot row='0' column='-1' />
+ </obs_template>
+
+ <obs_template type='metar' rows='3' columns='3'>
+	<obs_wind/>
+	<obs_temperature row='1' column='-1'/>
+	<obs_pressure row='1' column='1'/>
+	<obs_dewpoint row='-1' column='-1'/>
+	<obs_cloud low_row='-1' low_column='0' medium_row='1' medium_column='0' high_row='2' high_column='0'/>
+ </obs_template>
+
+ <obs_template type='dribu_surface' rows='3' columns='3'>
+	<obs_station_ring/>
+ </obs_template>
+
+ <obs_template type='synop' rows='5' columns='5'>
+	<obs_cloud_wind/>
+	<obs_temperature row='1' column='-1'/>
+	<obs_pressure row='1' column='1'/>
+	<obs_pressure_tendency row='0' column='1'/>
+	<obs_dewpoint row='-1' column='-1'/>
+	<obs_visibility row='0' column='-2'/>
+	<obs_present_weather row='0' column='-1'/>
+	<obs_past_weather row='-1' column='1'/>
+	<obs_cloud low_row='-1' low_column='0' medium_row='1' medium_column='0' high_row='2' high_column='0'/>
+ </obs_template>
+
+ <obs_template type='synop_ship' rows='3' columns='3'>
+	<obs_cloud_wind/>
+	<obs_temperature row='1' column='-1'/>
+	<obs_pressure row='1' column='1'/>
+	<obs_pressure_tendency row='0' column='1'/>
+	<obs_dewpoint row='-1' column='-1'/>
+	<obs_visibility row='0' column='-2'/>
+	<obs_present_weather row='0' column='-1'/>
+	<obs_past_weather row='-1' column='1'/>
+	<obs_cloud low_row='-1' low_column='0'
+	medium_row='1' medium_column='0'
+	high_row='2' high_column='0'/>
+ </obs_template>
+
+ <obs_template type='satob' rows='3' columns='3'>
+	<obs_station_ring row='0' column='0'/>
+	<obs_wind/>
+	<obs_temperature row='1' column='-1'/>
+	<obs_pressure_level row='1' column='1'/>	
+	<obs_time_plot row='0' column='-1'/>
+	<obs_identification row='-2' column='-1'/>
+ </obs_template>
+
+ <obs_template type='airep' rows='2' columns='3'>
+	<obs_station_ring row='0' column='0'/>
+	<obs_wind/>
+	<obs_temperature row='1' column='-1'/>
+	<obs_pressure_level row='1' column='1'/>	
+	<obs_time_plot row='0' column='-1'/>
+	<obs_identification row='-1' column='-1'/>
+ </obs_template>
+
+ <obs_template type='temp' rows='4' columns='3'>:
+	<obs_station_ring row='0' column='0'/>
+	<obs_wind/>
+	<obs_temperature row='1' column='-1'/>
+	<obs_dewpoint row='-1' column='-1'/>
+	<obs_height row='1' column='1'/>
+	<obs_thickness row='0' column='1'/>
+	<obs_time_plot row='0' column='-1'/>
+	<obs_identification row='-2' column='-1'/>
+ </obs_template>
+
+ <obs_template type='position' rows='1' columns='1'>:
+     <obs_station_ring row='0' column='0'/>
+ </obs_template>
+
+ <obs_template type='demo' rows='3' columns='3'>:
+     <obs_station_ring row='0' column='0'/>
+     <obs_demo_item_1 row='-1' column='1'/>
+     <obs_demo_item_2 row='1' column='-1'/>
+ </obs_template>
+
+
+
+</observations>

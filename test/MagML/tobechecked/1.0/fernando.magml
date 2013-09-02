@@ -1,0 +1,24 @@
+        
+<magics_plot min_latitude = '0' max_latitude = '20'
+	min_longitude = '0' max_longitude = '20'>
+
+ <coastlines map_coastline_colour = 'tan' map_grid_colour = "tan" > </coastlines>
+  <plot >
+        <fernando>
+            
+        </fernando>
+	        <pcont contour='on' 
+	       method = 'akima760'
+	       akima_resolution_x = '1'
+	       akima_resolution_y = '1'
+	       level_selection_type='level_list'
+	       level_list='0/20/40/50' 
+	       hilo = 'off'>
+        </pcont>
+   </plot>
+
+    <title  title_colour = 'tan' > </title>
+   <legend legend_text_colour = 'tan'>  </legend>
+</magics_plot>
+   
+    

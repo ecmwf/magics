@@ -1,0 +1,1028 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+                 "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd"> 
+
+<chapter id="Data_Input" label="5">
+  <title>Data Input</title>
+
+  <xi:include href="../phrases/chapterinfo_mod.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <section id="Data_Introduction">
+    <title>Introduction</title>
+
+    <para>Data to be plotted can be presented to
+    <productname>Magics</productname> in a number of ways, depending on its
+    type: contour fields, wind fields, observations, symbols, axes, graphs and
+    images.</para>
+
+    <para>A contour field can be presented as either a rectangular array of
+    grid point values or in GRIB code format. GRIB code itself can be
+    presented as either an external file, or as a one dimensional data
+    array.</para>
+
+    <para>A wind field can be presented in GRIB code format or as a pair of
+    rectangular arrays of grid point values<remark>, or as a single rectangular array
+    of wind speed values (when plotting isotachs)</remark>. The pair of rectangular
+    arrays can contain U and V velocity components<remark>, vorticity and divergence
+    components</remark> or speed and direction components of the wind. GRIB code can be
+    presented as either an external file, or as a pair of one dimensional data
+    arrays. <remark>See Wind and Contour ARRAY Input</remark> and <remark>GRIB
+    Code Input</remark> for full details on data input for contouring and wind
+    plotting.</para>
+
+    <para>Observation data must presented as an input file containing
+    observations in WMO standard BUFR code.<remark> See OBSERVATION Data
+    Input</remark>.</para>
+
+    <para>Data for symbol plotting are presented in arrays, which should all
+    have the same number of elements. Two arrays are used to pass the position
+    information. There are four different types of symbol input data: markers,
+    numbers, text and wind. NUMBER input data are passed as an real array,
+    TEXT input data consists of text strings. MARKER input data consists of
+    indices to <productname>Magics</productname> markers and wind input data consists of two arrays
+    containing wind direction and speed respectively. Symbols can be plotted
+    in INDIVIDUAL or TABLE mode. <remark>See SYMBOL Plotting Data
+    Input</remark></para>
+
+    <para>Typically, graph data are presented in two one-dimensional arrays,
+    where one holds the X-axis values and the other holds the Y-axis values.
+    <remark>See GRAPH Data Input</remark></para>
+
+    <para>Satellite Image data must be presented in GRIB code<!--, as described in
+    section <remark>IMAGE Data Input</remark>-->.</para>
+
+    <para>Before presenting data to <productname>Magics</productname>, the
+    users should firstly decide on the type of data and the method by which
+    they wish to present it. The Diagrams with the
+    <productname>Magics</productname> parameter charts in this chapter should
+    help.</para>
+
+    <para>When passing fields in GRIB code format, the necessary
+    <productname>Magics</productname> INPUT parameters are automatically given
+    appropriate values to ensure that a reasonable plot is obtained. When
+    passing fields in array format, the user should select the appropriate
+    values for the <productname>Magics</productname> INPUT parameters.</para>
+
+    <para>Although the use of GRIB input is essentially easier than the use of
+    array input, the description of GRIB input in this chapter occurs after
+    that of array input. This is because the array input description explains
+    the function of those parameters that are set automatically when using
+    GRIB input.</para>
+
+    <para>A contouring plot requires a single data field, whereas a wind plot
+    requires two data fields for its full specification. The two fields can be
+    U and V components or speed and direction components<remark> or vorticity and
+    divergence components. Vorticity and divergence components can only be
+    passed when using GRIB code data input. If isotachs are being plotted,
+    then the field may be specified by the wind speed component only.</remark></para>
+<important>
+    <title>Magics++</title>
+    Magics++ can not handle fields in spherical-harmonic representation. The user has to provide 
+    the data on a Gaussian or regular grid. This has the advantage that expensive interpolations are not 
+    performed when plotting data but at the time of retrieval. Most data users will handle are either in Gaussian or regular grid.
+</important>
+  <para></para>
+
+  </section>
+
+  <section id="Wind_and_Contour_ARRAY_Input">
+    <title>Wind and Contour ARRAY Input</title>
+
+    <para>Data fields are passed to <productname>Magics</productname> using
+    the routine <function>PSET2R</function> as follows.</para>
+
+    <para>Contouring Fields:</para>
+
+    <programlisting>    CALL <function>PSET2R</function> ('<parameter>INPUT_FIELD</parameter>', C, M, N)</programlisting>
+
+    <para>Wind Fields passed by U and V Components for plotting wind arrows
+    and wind flags<remark>, streamlines and isotachs</remark>:</para>
+
+    <programlisting>    CALL <function>PSET2R</function> ('<parameter>INPUT_WIND_U_COMPONENT</parameter>', W1, M, N)
+    CALL <function>PSET2R</function> ('<parameter>INPUT_WIND_V_COMPONENT</parameter>', W2, M, N)</programlisting>
+
+    <para>Wind Fields passed by Speed and Direction Components for plotting
+    wind arrows and wind flags<remark>, streamlines and isotachs</remark>:</para>
+
+    <programlisting>    CALL <function>PSET2R</function> ('<parameter>INPUT_WIND_SPEED</parameter>', W1, M, N)
+    CALL <function>PSET2R</function> ('<parameter>INPUT_WIND_DIRECTION</parameter>', W2, M, N)</programlisting>
+
+<remark>
+    <para>Wind Fields passed by Speed Component for plotting isotachs:</para>
+
+    <programlisting>    CALL <function>PSET2R</function> ('<parameter>INPUT_WIND_SPEED</parameter>', W1, M, N)</programlisting>
+</remark>
+
+    <para>where <code>C</code> is an array <code>C(M,N)</code> containing a
+    contouring field, <code>W1</code> and <code>W2</code> are arrays
+    <code>W1(M,N)</code>, <code>W2(M,N)</code> containing the components of a
+    wind field, <code>M</code> is the number of points in the direction of the
+    first index and <code>N</code> is the number of points in the direction of
+    the second index.</para>
+
+    <para>See <olink targetdoc="Magics_data" targetptr="table_InputMatrix_parameters" />
+    for a list of all the available parameters for accessing data stored in
+    arrays.</para>
+
+  </section>
+
+  <section id="Organization_of_the_Input_Field">
+    <title>Organization of the Input Field</title>
+
+    <para>If the field is passed in array form, the user needs to describe how
+    the array is to be mapped onto the subplot or geographical area which the
+    array covers.</para>
+
+    <para>The input field organization is controlled by the parameter
+    <parameter>INPUT_FIELD_ORGANIZATION</parameter> which can have two values:
+    '<code>REGULAR</code>' or '<code>GAUSSIAN</code>',
+    the default value being '<code>REGULAR</code>'.</para>
+
+    <para>For a regular field, the default values for the parameters
+    concerning array organization are set for a global latitude/ longitude
+    field with 1.5 degrees resolution in both directions, going from 90.0
+    degrees north to 90.0 degrees south in latitude and from 0.0 degrees to
+    358.5 degrees in longitude.</para>
+
+    <para>For a gaussian field, the default values for the parameters
+    concerning array organization are set for a global latitude/ longitude
+    field with 1.125 degrees resolution in longitude and 1.1213 degrees in
+    latitude, going from 89.142 degrees north to 89.142 degrees south in
+    latitude and from 0.0 degrees to 358.875 degrees in longitude. (This
+    conforms to a ECMWF T106 model post processed surface field).</para>
+
+
+    <important> <title>Magics++</title>
+    With <productname>Magics++</productname>, the concept of a 'FITTED' matrix no longer
+    exists. The correct approach is to plot in a CARTESIAN projection and set
+    <parameter>INPUT_FIELD_INITIAL_X</parameter>, <parameter>INPUT_FIELD_FINAL_X</parameter>,
+    <parameter>INPUT_FIELD_INITIAL_Y</parameter> and <parameter>INPUT_FIELD_FINAL_Y</parameter>. 
+    </important>
+
+  </section>
+
+
+
+
+  <section id="REGULAR_Spaced_Latitude_Longitude_Grid">
+    <title>REGULAR Spaced Latitude/Longitude Grid</title>
+
+    <para>When <parameter>INPUT_FIELD_ORGANIZATION</parameter> is set to
+    '<code>REGULAR</code>' the field is assumed to be on a regular
+    latitude/longitude grid.</para>
+
+    <para><productname>Magics</productname> will perform the contouring in
+    this grid and then plot the result according to the subpage mapping
+    parameters, i.e. the field can either be global or a subpart of the field.
+    Since the contouring is performed in the original grid it is ensured that
+    all field values are taken into account when the isolines are generated.
+    When using this method, a full specification of the input array is
+    required:</para>
+
+    <orderedlist>
+      <listitem>
+        <para>The longitude and latitude position of the first element, (1,1),
+        in the array may be set with the parameters:</para>
+
+        <programlisting>    <parameter>INPUT_FIELD_INITIAL_LONGITUDE</parameter>
+    <parameter>INPUT_FIELD_INITIAL_LATITUDE</parameter></programlisting>
+
+        <para>The default values are <code>0.0</code> and <code>90.0</code>,
+        respectively.</para>
+      </listitem>
+
+      <listitem>
+        <para>The step lengths between positions of array elements in
+        longitude and latitude directions are set by using the
+        parameters:</para>
+
+        <programlisting>    <parameter>INPUT_FIELD_LONGITUDE_STEP</parameter>
+    <parameter>INPUT_FIELD_LATITUDE_STEP</parameter></programlisting>
+
+        <para>Positive values indicate for longitudes that the positions go
+        from west to east and for latitudes from south to north. Negative
+        values are used to indicate opposite directions.</para>
+
+        <para>The default values are <code>1.5</code> for
+        <parameter>INPUT_FIELD_LONGITUDE_STEP</parameter> and
+        <code>-1.5</code> for
+        <parameter>INPUT_FIELD_LATITUDE_STEP</parameter>.</para>
+      </listitem>
+
+      <listitem>
+        <para>By default the first index of the array refers to longitude
+        positions and the second index refers to latitudes. If these are
+        interchanged, <parameter>INPUT_FIELD_PRIMARY_INDEX</parameter> should
+        be set to '<code>LATITUDE</code>'. Default is
+        '<code>LONGITUDE</code>'.</para>
+      </listitem>
+
+      <listitem>
+        <para>The following is a full list of the default values for
+        describing the default input field with a regular grid.</para>
+
+        <programlisting>    <parameter>INPUT_FIELD_INITIAL_LATITUDE</parameter>      90.0
+    <parameter>INPUT_FIELD_INITIAL_LONGITUDE</parameter>      0.0
+    <parameter>INPUT_FIELD_LONGITUDE_STEP</parameter>         1.5
+    <parameter>INPUT_FIELD_LATITUDE_STEP</parameter>         -1.5
+    <parameter>INPUT_FIELD_PRIMARY_INDEX</parameter>          LONGITUDE</programlisting>
+
+        <para>In the default situation, the contouring or wind field array(s)
+        passed to <productname>Magics</productname> via
+        <function>PSET2R</function> should have dimensions of 240 in the
+        direction of the first index and 121 in the direction of the second
+        index.</para>
+
+      </listitem>
+    </orderedlist>
+  </section>
+
+  <section id="GAUSSIAN_Grid">
+    <title>GAUSSIAN Grid</title>
+
+    <para>When <parameter>INPUT_FIELD_ORGANIZATION</parameter> is set to
+    '<code>GAUSSIAN</code>', <productname>Magics</productname> will accept
+    fields on a gaussian grid, even though the field is not regularly
+    spaced.</para>
+
+    <para>The distance between grid points for gaussian grid fields is regular
+    in the longitude direction but irregular in the latitude direction.
+    However the variance in the grid distance along the irregularly spaced
+    line is small enough that it may be regarded as regular and
+    <productname>Magics</productname> makes this assumption.</para>
+
+    <para>Users should set <parameter>INPUT_FIELD_LATITUDE_STEP</parameter> to
+    the average value of the latitude grid interval, which should be
+    calculated as accurately as possible.</para>
+
+    <para>The following is a full list of the default values for the
+    parameters describing an input field with a gaussian grid. (i.e. an ECMWF
+    T106 model post processed surface field).</para>
+
+    <programlisting><parameter>    INPUT_FIELD_INITIAL_LATITUDE</parameter>         89.142
+    <parameter>INPUT_FIELD_INITIAL_LONGITUDE</parameter>         0.0
+    <parameter>INPUT_FIELD_LONGITUDE_STEP</parameter>            1.125
+    <parameter>INPUT_FIELD_LATITUDE_STEP</parameter>             1.1213
+    <parameter>INPUT_FIELD_PRIMARY_INDEX</parameter>             LONGITUDE</programlisting>
+
+    <para>In the default situation, the contouring or wind field array(s)
+    passed to <productname>Magics</productname> via
+    <function>PSET2R</function> should have dimensions of 320 in the direction
+    of the first index and 160 in the direction of the second index.</para>
+  </section>
+
+
+  <section id="Data_Suppression">
+    <title>Data Suppression</title>
+
+    <para>By using the suppress parameters
+    <parameter>INPUT_FIELD_SUPPRESS_ABOVE</parameter> and
+    <parameter>INPUT_FIELD_SUPPRESS_BELOW</parameter>, users may suppress data
+    values beyond a certain value in a contouring or wind field. This may be
+    necessary when the user is aware that some of his data are invalid above
+    or below a certain value.</para>
+
+    <para>In the case of a contouring field, suppression means that the data
+    values outside the permitted range are eliminated before any calculation
+    of contour levels or gradient estimation takes place.</para>
+
+    <para>For example, by setting
+    <parameter>INPUT_FIELD_SUPPRESS_ABOVE</parameter> to <code>1.0E20</code> ,
+    all contour levels above <code>1.0E20</code> would be suppressed. Please
+    note that the suppress parameters should only be used to suppress invalid
+    data. If used wrongly, the data plotted may not be accurate, particularly
+    contour maxima/minima values.</para>
+  </section>
+
+  <section id="GRIB_Code_Input">
+    <title>GRIB Code Input</title>
+
+    <para>To facilitate the plotting of GRIB code fields, there is an
+    interface that enables users to plot GRIB code with a minimum of
+    programming effort. The action routine is called <function>PGRIB</function>.</para>
+
+    <para><productname>Magics</productname> uses ECMWF's GRIB_API for the decoding
+    of GRIB files. See
+    <ulink url="http://www.ecmwf.int/products/data/software/grib_api.html">GRIB_API</ulink>
+    for more details.</para>
+
+    <para>Note that the GRIB_API supports the updating of definition files without the
+    need for a new release of the library. This is enabled through setting the environment
+    variable</para>
+
+    <para><code>GRIB_DEFINITION_PATH</code></para>
+
+    <para>to the path where the new definition files reside.</para>
+
+
+
+    <para>See <olink targetdoc="Magics_data" targetptr="pgrib_tables" />
+    for a list of all the available parameters for accessing GRIB data.</para>
+</section>
+
+    <section id="Pseudo_Action_Routine_PGRIB">
+      <title>Pseudo Action Routine PGRIB</title>
+
+      <para>The pseudo action routine <function>PGRIB</function> allows the
+      automatic processing of GRIB code data. Users may call
+      <function>PGRIB</function> to decode GRIB code data and, if required, to
+      set the appropriate <productname>Magics</productname> input field,
+      contour, wind, image and text parameters. <function>PGRIB</function> can
+      deal with GRIB code on regular and Gaussian grids.<remark> It can also deal with
+      GRIB coded polar stereographic data and with stretched/rotated GRIB
+      data.</remark></para>
+
+      <para>Basically, <function>PGRIB</function> will set up
+      <productname>Magics</productname> parameters for plotting one
+      meteorological field each time it is called. This field could be a wind
+      field, which requires two input GRIB fields, normally U and
+      V. The user will maintain the responsibility for setting up the
+      page layout and mapping parameters as well as calling the action
+      routines to perform the plotting, i.e. <function>PCONT</function>,
+      <function>PWIND</function>, <function>PIMAGE</function> and
+      <function>PTEXT</function>.</para>
+
+      <para>There are some <productname>Magics</productname> parameters
+      associated with <function>PGRIB</function> that should be set before
+      <function>PGRIB</function> is called. These parameters are explained
+      later as are all the functions of <function>PGRIB</function>.</para>
+
+      <para>The format for calling pseudo action routine
+      <function>PGRIB</function> is <code>CALL PGRIB</code>, with no
+      arguments. It is necessary to call <function>PGRIB</function> before any
+      action routine that requires the decoded data. After calling
+      <function>PGRIB</function> and before calling an action routine, the
+      user may set or reset any of the contouring, text, image or wind
+      parameters, if required.<!-- The user may supply two arrays into which
+      <function>PGRIB</function> can pass back information about the type of
+      field, level etc. <function>PGRIB</function> will also set a <productname>Magics</productname>
+      parameter to inform the user which action routine should be called, or
+      if an error has occurred while handling the GRIB code field. This
+      mechanism enables users to decide which actions to take after calling
+      <function>PGRIB</function>.--></para>
+
+      <para>GRIB code may be passed to <productname>Magics</productname> as an
+      input file or in a one dimensional array.</para>
+
+    </section>
+
+    <section id="Functions_of_PGRIB">
+      <title>Functions of PGRIB</title>
+
+      <para>Depending on the user's requirements, <function>PGRIB</function>
+      can perform some or all of the following functions:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>Decode GRIB data.</para>
+        </listitem>
+
+<!--
+        <listitem>
+          <para>Convert upper air fields from spectral to grid point, if
+          necessary. The user may supply the resolution of the grid point
+          field by setting a <productname>Magics</productname>
+          parameter.</para>
+        </listitem>
+-->
+
+        <listitem>
+          <para>Scale the meteorological fields, i.e. convert fields to
+          standard units for plotting purposes, e.g. convert temperature
+          fields from Kelvin to Celsius. The user may request, by setting a
+          <productname>Magics</productname> parameter, that the fields should
+          not be scaled. The standard units used by <function>PGRIB</function>
+          can be found in the section on GRIB Table 2.</para>
+        </listitem>
+
+<!--
+a) is this true?
+b) does the user need to know it?
+        <listitem>
+          <para>Set <parameter>INPUT_FIELD</parameter> parameters to the
+          appropriate values. These parameters include
+          <parameter>INPUT_FIELD_ORGANIZATION</parameter>.
+          <function>PGRIB</function> will handle the setting up of the array
+          for contouring etc by calling <function>PSET2R</function>. This
+          feature relieves the user of the responsibility for setting the
+          <parameter>INPUT_FIELD</parameter> parameters.</para>
+        </listitem>
+-->
+        <listitem>
+          <para>Build <productname>Magics</productname> text blocks to
+          describe the data field. This text will include such information as
+          time/date and type of field. Users may reset
+          <productname>Magics</productname> text parameters after calling
+          <function>PGRIB</function> and before calling action
+          routines.</para>
+        </listitem>
+
+<!--
+This does not seem to be true (as of 06/02/2007)
+        <listitem>
+          <para>Set appropriate <productname>Magics</productname> contouring,
+          wind and image parameters. This is achieved in
+          <productname>Magics</productname> by retrieving the appropriate
+          specification group from a library of such groups. This library
+          contains a separate specification group for each type of
+          meteorological field that is likely to be required. An example of a
+          specification group from the library is given later. Users may reset
+          any contouring or wind parameters by calling the appropriate
+          parameter setting routines after calling <function>PGRIB</function>.
+          <function>PGRIB</function> also sets up the appropriate
+          <productname>Magics</productname> parameters for plotting satellite
+          image data.</para>
+        </listitem>
+-->
+        <listitem>
+          <para>If the map required is not a global map,
+          <function>PGRIB</function> can extract a subarea from the input
+          field so that it covers almost exactly the geographic area required
+          to be plotted. This helps reduce memory when contouring.</para>
+        </listitem>
+      </itemizedlist>
+    </section>
+
+<!--
+    <section id="Modes_of_PGRIB">
+      <title>Modes of PGRIB</title>
+
+      <para></para>
+
+      <highlights>
+        <para>Check all of this page for accuracy with regards to
+        Magics++</para>
+      </highlights>
+    </section>
+-->
+
+
+
+    <section id="Observation_Data_Input">
+      <title>Observation Data Input</title>
+
+This section needs to be thoroughly reviewed!
+
+      <para>Data for observation plotting may be presented to
+      <productname>Magics</productname> in the form of an input BUFR file<remark> or in an
+      array</remark>.</para>
+
+      <para>The parameter <parameter>OBS_INPUT_TYPE</parameter> may be set to
+      inform <productname>Magics</productname> of the data input type. It
+      should be set to '<code>ARRAY</code>' if the input data is in an array.
+      The default value is '<code>FILE</code>'.</para>
+
+      <para>An array may be used if only one observation is to be plotted, in
+      which case the parameter <parameter>OBS_INPUT_FIELD</parameter> should
+      be set using <function>PSET2R</function>.</para>
+
+      <programlisting>CALL PSET1C ('OBS_INPUT_TYPE', 'ARRAY')
+CALL PSET1I ('OBS_INPUT_FIELD', IFIELD, N)</programlisting>
+
+      <para>where <code>IFIELD</code> is an integer array of dimension
+      <code>N.</code></para>
+
+      <para><code>For passing more than one observation, an input file should
+      be used, which can contain any number of observations of varying
+      observation types and code types.</code></para>
+
+      <para><code>In this case, the parameter
+      <parameter>OBS_INPUT_FILE_UNIT</parameter> should be set using
+      <function>PSETI</function>, for example:</code> <programlisting>CALL PSETI ('OBS_INPUT_FILE_UNIT', 2)</programlisting></para>
+
+      <para>informs <productname>Magics</productname> that data for
+      observation plotting is on file unit 2.</para>
+    </section>
+
+    <section id="Data_BUFR_Tables">
+      <title>BUFR Tables</title>
+
+      <para>To enable the decoding of observations coded in BUFR, it is
+      necessary to have tables which describe the contents of the BUFR code,
+      e.g. the names and units of parameters, reference values and scale
+      factors. The "parameters", as understood in the BUFR context, include
+      not just the meteorological variables, but also the location of the
+      observation, block/station number, instrumentation etc. Each parameter
+      is described by a descriptor, which is an integer number that uniquely
+      identifies the parameter, e.g. Temperature, Pressure,
+      latitude/longitude, block number. These BUFR tables are stored at an
+      address defined by an environment variable (which is made known to
+      <productname>Magics</productname> installers at the various sites). The
+      tables are then used in the BUFR decoding part of
+      <productname>Magics</productname> and their use is transparent to the
+      user. There are standard descriptor numbers for each of the
+      "parameters". It is possible to use local descriptor numbers instead of
+      the standard ones and these local descriptors would be described in the
+      BUFR tables.</para>
+
+      <para>The EMOSLIB library is used for the handling of BUFR data. It is possible
+      to specify a path to a different set of tables by setting the the environment variable</para>
+      <para><code>BUFR_TABLES</code></para>
+      <para>to the path where the tables reside. An example value for this variable would be:
+      <filename>/home/ma/emos/tables/bufr/linux/000240</filename>.</para>
+
+    </section>
+
+    <section id="Data_BUFR_Parameter_Lists">
+      <title>BUFR Parameter Lists</title>
+
+      <para>To make it possible for <productname>Magics</productname> to be
+      able to plot observations from BUFR code from varying originating
+      centres, which may or may not use local descriptor numbers, it is
+      necessary for <productname>Magics</productname> to be able to identify
+      the descriptor numbers of the meteorological variables and those
+      "parameters" that describe the position and time of the observation. To
+      enable this for each originating centre, there are external files called
+      BUFR Parameter Lists, where each file consists of a list of descriptors
+      for the meteorological variables and the position and time "parameters".
+      For each originating centre, these descriptor numbers should match those
+      in the BUFR Tables described above.</para>
+
+      <para>There are two BUFR Parameter Lists for each originating centre,
+      one for surface observations and one for upper air. Each list consists
+      of entry lines, one entry line per meteorological variable or
+      "parameter". An entry line consists of a descriptor number followed by
+      an ampersand(&amp;) and then, optionally, text to describe the
+      variable.</para>
+
+      <para><token>descriptor &amp; text describing the meteorological
+      variable</token></para>
+
+      <para>For example, the first three lines of the upper air BUFR Parameter
+      List should be as follows:</para>
+
+      <programlisting>11001 &amp; WIND DIRECTION
+11002 &amp; WIND SPEED
+10195 &amp; HEIGHT in mtrs</programlisting>
+
+      <para>The position of the line in the list, not the text, is what
+      actually defines the meteorological variable, e.g. the first entry line
+      in the upper air BUFR Parameter Table is always the entry for Wind
+      Direction, the second Wind Speed and the third Height. It is necessary
+      to include each entry line in the file, even if they are not to be used.
+      Complete lists for upper air and surface are given below.</para>
+    </section>
+
+    <section id="Data_Accessing_BUFR_Parameter_Lists">
+      <title>Accessing BUFR Parameter Lists</title>
+
+      <para>There are two modes of accessing the BUFR Parameter Lists in
+      <productname>Magics</productname>. By default, the lists are stored at
+      an address path controlled by an environment variable, which is made
+      known to installers at the various sites. The other mode of access is by
+      setting a <productname>Magics</productname> parameter,
+      <parameter>BUFR_PARAM_TABLE_ADDRESS_PATH</parameter>, to the address
+      path of the tables. This means that users can then force
+      <productname>Magics</productname> to use their own lists. Each upper air
+      list name should have the format <token>bufrtab_ua_nn</token> (surface
+      lists should have the format <token>bufrtab_surf_nn</token> ) where
+      <token>nn</token> is the number of the originating Centre of the BUFR
+      data, e.g. 98 for ECMWF, 85 for France.</para>
+    </section>
+
+    <section id="Data_Surface_BUFR_Parameter_List">
+      <title>Surface BUFR Parameter List</title>
+
+      <para>The ECMWF BUFR Parameter List for surface data,
+      <token>bufrtab_surf_98</token> is as follows (38 lines):</para>
+
+      <programlisting>11011 &amp; WIND DIRECTION at 10 m
+11012 &amp; WIND SPEED at 10m
+20001 &amp; HORIZONTAL VISIBILITY
+20003 &amp; PRESENT WEATHER
+12004 &amp; TEMPERATURE at 2m
+20012 &amp; MEDIUM CLOUD
+20012 &amp; HIGH CLOUD
+10051 &amp; MSL PRESSURE
+10063 &amp; PRESSURE TENDENCY CHARACTERISTIC (a)
+10061 &amp; PRESSURE TENDENCY AMOUNT (pp)
+20004 &amp; PAST WEATHER (1)
+20005 &amp; PAST WEATHER (2)
+20011 &amp; CLOUD AMOUNT (nh)
+20013 &amp; HEIGHT OF CLOUD BASE (h)
+20012 &amp; LOW CLOUD
+12006 &amp; DEWPOINT at 2m
+22042 &amp; SEA TEMPERATURE
+1012  &amp; SHIP'S DIRECTION
+1013  &amp; SHIP'S SPEED
+20010 &amp; TOTAL CLOUD
+22002 &amp; DIRECTION OF WIND WAVES
+22012 &amp; PERIOD OF WIND WAVES
+22022 &amp; HEIGHT OF WIND WAVES
+22003 &amp; DIRECTION OF SWELL WAVES
+22013 &amp; PERIOD OF SWELL WAVES
+22023 &amp; HEIGHT OF SWELL WAVES
+22001 &amp; DIRECTION OF WAVES
+22011 &amp; PERIOD OF WAVES
+20021 &amp; HEIGHT OF WAVES
+4004  &amp; HOUR
+4005  &amp; MINUTE
+5001  &amp; LATITUDE (HIGH ACCURACY)
+5002  &amp; LATITUDE (COARSE ACCURACY)
+6001  &amp; LONGITUDE (HGIH ACCURACY)
+6002  &amp; LONGITUDE (COARSE ACCURACY)
+7001  &amp; HEIGHT OF STATION in mtrs
+7061  &amp; DEPTH BELOW LAND SURFACE
+12030 &amp; SOIL TEMPERATURES</programlisting>
+
+      <para>To make local surface BUFR Parameter Lists, it is only necessary
+      to copy the above ECMWF surface list to a new list (with an appropriate
+      name) and change the descriptor numbers to the ones to be used locally.
+      It is important that all the above lines are included in each list, even
+      if they are not to be used in plotting.</para>
+
+      <para>The position and time "parameters" are only given in the surface
+      list.</para>
+    </section>
+
+    <section id="Data_Upper_Air_BUFR_Parameter_List">
+      <title>Upper Air BUFR Parameter List</title>
+
+      <para>Following is a listing of all the entries in the ECMWF BUFR
+      Parameter List for upper air, <code>bufrtab_ua_98</code> (18
+      lines):</para>
+
+      <programlisting>11001 &amp; WIND DIRECTION
+11002 &amp; WIND SPEED
+10195 &amp; HEIGHT in mtrs
+12003 &amp; DEW POINT TEMPERATURE
+12001 &amp; TEMPERATURE
+7004  &amp; PRESSURE level in pascals
+7006  &amp; HEIGHT ABOVE STATION in mtrs
+22042 &amp; SEA TEMPERATURE
+11003 &amp; U-COMPONENT
+11004 &amp; V-COMPONENT
+10003 &amp; HEIGHT in gp mtrs
+11192 &amp; U-COMPONENT at 10m
+11193 &amp; V-COMPONENT at 10m
+7002  &amp; ALTITUDE in mtrs
+12007 &amp; VIRTUAL TEMPERATURE
+13016 &amp; PRECIPITABLE WATER
+20010 &amp; TOTAL CLOUD
+10004 &amp; PRESSURE in pascals</programlisting>
+
+      <para>To make local upper air BUFR Parameter Lists, it is only necessary
+      to copy the above ECMWF upper air list to a new list (with an
+      appropriate name) and change the descriptor numbers to the ones to be
+      used locally. It is important that all the above lines are included in
+      each list, even if they are not to be used in plotting.</para>
+
+      <highlights>
+        <para>Diagram 8</para>
+      </highlights>
+    </section>
+ 
+
+
+  <section id="SYMBOL_Plotting_Data_Input">
+    <title>Symbol Plotting Data Input</title>
+
+    <para>There are three different types of SYMBOL input data, i.e. numbers,
+    text and markers. The parameter <parameter>SYMBOL_TYPE</parameter> is used
+    to define the type of symbol required, e.g.</para>
+
+    <programlisting>    CALL <function>PSETC</function> ('<parameter>SYMBOL_TYPE</parameter>','MARKER')</programlisting>
+
+    <para>It can have one of four values, <code>NUMBER</code> (default),
+    <code>TEXT</code>, <code>MARKER</code> or <code>WIND</code>. Only one of
+    the above four types can be plotted in any one call to
+    <function>PSYMB</function>.</para>
+
+    <para><code>NUMBER</code> input data are the actual numbers to be plotted
+    and are passed as follows:</para>
+
+    <programlisting>    CALL <function>PSET1R</function> ('<parameter>SYMBOL_INPUT_NUMBER_LIST</parameter>',RARAY,N)</programlisting>
+
+    <para>where <code>RARAY</code> is a real array of <code>N</code>
+    elements.</para>
+
+    <para><code>TEXT</code> input data consists of text strings which are to
+    be plotted and are passed as follows:</para>
+
+    <programlisting>    CALL <function>PSET1C</function> ('<parameter>SYMBOL_INPUT_TEXT_LIST</parameter>',CARAY,N)</programlisting>
+
+    <para>where <code>CARAY</code> is a character array of <code>N</code>
+    elements.</para>
+
+    <para><code>MARKER</code> input data consists of indices to
+    <productname>Magics</productname> markers<remark>(see Figure XII-2 on page
+    XII-13)</remark> and are passed as follows:</para>
+
+    <programlisting>    CALL <function>PSET1I</function> ('<parameter>SYMBOL_INPUT_MARKER_LIST</parameter>',IARAY,N)</programlisting>
+
+    <para>where <code>IARAY</code> is an integer array of <code>N</code>
+    elements.</para>
+
+    <para><code>WIND</code> data consists of the wind speed and direction and
+    are passed as follows:</para>
+
+    <programlisting>    CALL <function>PSETR</function> ('<parameter>SYMBOL_INPUT_WIND_SPEED</parameter>', SPARAY,N)
+    CALL <function>PSETR</function> ('<parameter>SYMBOL_INPUT_WIND_DIRECTION</parameter>',DARAY,N)</programlisting>
+
+    <para>where <code>SPARAY</code> and <code>DARAY</code> are real arrays of
+    <code>N</code> elements.</para>
+
+    <para>The <code>POSITION</code> arrays and the <code>DATA INPUT</code>
+    arrays should all have the same number of elements. The symbol in the i-th
+    element of the <code>DATA</code> array will be plotted in the position
+    given by the i-th elements of the <code>POSITION</code> arrays. It is the
+    user's responsibility to ensure that they correspond correctly. If the
+    arrays are of different lengths, <productname>Magics</productname> will
+    limit all the arrays to the size of the smallest array and a warning
+    message will be printed.</para>
+
+    <para><code>TABLE</code> mode allows users to plot symbols within
+    specified ranges of values and with varying colours and heights. To plot
+    symbols in <code>TABLE</code> mode the parameter
+    <parameter>SYMBOL_TABLE_MODE</parameter> should be set to
+    '<code>ON</code>' . When calling <function>PSYMB</function> in
+    <code>TABLE</code> mode, the user must pass information to
+    <productname>Magics</productname> to describe the minimum and maximum of
+    each range required and may also pass information to describe the height
+    and/or colour for each of the desired ranges. All this information should
+    be passed in the form of tables and <productname>Magics</productname>
+    parameters exist to enable this. <remark>Example PROGRAM DATA05 gives a
+    description of plotting NUMBER symbols in TABLE mode.</remark> The
+    parameters for passing the minimum and maximum of the ranges are
+    <parameter>SYMBOL_MIN_TABLE</parameter> and
+    <parameter>SYMBOL_MAX_TABLE</parameter> , respectively. The minimum values
+    of the required ranges may be passed to <productname>Magics</productname>
+    as follows:</para>
+
+    <programlisting>    CALL <function>PSET1R</function> ('<parameter>SYMBOL_MIN_TABLE</parameter>',RMIN,N)</programlisting>
+
+    <para>where <code>RMIN</code> is a real array of <code>N</code> elements.
+    The maximum values should be placed in the corresponding elements of an
+    array and passed to <productname>Magics</productname> as follows:</para>
+
+    <programlisting>    CALL <function>PSET1R</function> ('<parameter>SYMBOL_MAX_TABLE</parameter>',RMAX,N)</programlisting>
+
+    <para>where <code>RMAX</code> is a real array of <code>N</code> elements.
+    The colour to be used for each of the ranges may be passed using the
+    parameter <parameter>SYMBOL_COLOUR_TABLE</parameter>, e.g.</para>
+
+    <programlisting>    CALL <function>PSET1C</function> ('<parameter>SYMBOL_COLOUR_TABLE</parameter>',COLTAB,N)</programlisting>
+
+    <para>where <code>COLTAB</code> is a character array of <code>N</code>
+    elements. Similarly, the heights for each range may be passed as
+    follows:</para>
+
+    <programlisting>    CALL <function>PSET1R</function> ('<parameter>SYMBOL_HEIGHT_TABLE</parameter>',HGTAB,N)</programlisting>
+
+    <para>The following will enable the passing of text for each of the ranges
+    in table mode:</para>
+
+    <programlisting>    CALL <function>PSET1C</function> ('<parameter>SYMBOL_TEXT_TABLE</parameter>',TEXTAB,N)</programlisting>
+
+    <para>Passing marker data for each of the ranges in table mode is achieved
+    as follows:</para>
+
+    <programlisting>    CALL <function>PSET1I</function> ('<parameter>SYMBOL_MARKER_TABLE</parameter>',SYMTAB,N)</programlisting>
+
+  </section>
+
+ 
+  <section id="ODB_Input">
+    <title>ODB Data Input</title>
+
+    <para>With <productname>Magics++</productname>, <productname>Magics</productname> has the facility
+    to import data from an ODB database using the action routine
+    <function>PODB</function> and its associated parameters. A portion of
+    FORTRAN code will show the basic usage and a discussion will
+    follow.</para>
+
+    <programlisting>
+      CALL <function>PSETC</function>('<parameter>odb_database</parameter>',
+     +             'odb://server/dir/subdir/database_file')
+
+      CALL <function>PSETC</function> ('<parameter>odb_query</parameter>',
+     +              'SELECT lat, lon, obsvalue 
+     +               FROM   hdr, body 
+     +               WHERE  varno=$t2m AND obsvalue IS NOT null')
+      
+      CALL <function>PSETC</function> ('<parameter>odb_latitude</parameter>',    'lat@hdr')
+      CALL <function>PSETC</function> ('<parameter>odb_longitude</parameter>',   'lon@hdr')
+      CALL <function>PSETC</function> ('<parameter>odb_observation</parameter>', 'obsvalue@body')
+      CALL <function>PSETI</function> ('<parameter>odb_nb_rows</parameter>',      200000)
+      CALL <function>PODB</function>
+    </programlisting>
+
+    <para>The first thing is to set the path to the database using the
+    parameter <parameter>ODB_DATABASE</parameter>. An SQL query to retrieve
+    the data is set in the parameter <parameter>ODB_QUERY</parameter>.
+    Parameters <parameter>ODB_LATITUDE</parameter>,
+    <parameter>ODB_LONGITUDE</parameter> and
+    <parameter>ODB_OBSERVATION</parameter> are used to identify the columns
+    containing the latitude, longitude and observation values in the data;
+    also available is the parameter <parameter>ODB_LEVEL</parameter>.</para>
+
+    <para>For curve plotting, the parameters <parameter>ODB_X</parameter> and
+    <parameter>ODB_Y</parameter> can be set to the names of the columns to be
+    used for the x- and y-coordinates.</para>
+
+    <para><remark>ODB_PARAMETERS</remark></para>
+
+    <para>The start row and the maximum number of rows to retrieve can be set
+    using the parameters <parameter>ODB_STARTING_ROW</parameter> and
+    <parameter>ODB_NB_ROWS</parameter> respectively.</para>
+
+    <para>Finally, the action routine <function>PODB</function> is called
+    without any parameters. The resulting data may be plotting using the
+    symbol plotting routines
+    <!--(see <olink targetdoc="Magics_symbol" targetptr="Symbol_Plotting" />) -->
+    or the curve plotting routines<remark>(see ???)</remark>.</para>
+
+    <para>Note that the automatic title that <productname>Magics++</productname> produces
+    for data retrieved from the ODB data is the query itself.</para>
+    
+    <!--<para>See <olink targetdoc="Magics_data" targetptr="table_OdbDecoder_parameters" />
+    for a list of all the available parameters for accessing ODB data.</para>-->
+
+  </section>
+
+  <section id="NetCDF_Data_Input">
+    <title>NetCDF Data Input</title>
+
+    <para><productname>Magics++</productname> is capable of
+    reading NetCDF data files. A
+    portion of FORTRAN code will show the basic usage and a discussion will
+    follow.</para>
+
+    <programlisting>
+    CALL <function>PSETC</function> ('<parameter>NETCDF_FILENAME</parameter>',                'data/rh850.nc')
+    CALL <function>PSETC</function> ('<parameter>NETCDF_FIELD_VARIABLE_NAME</parameter>',     'r')
+    CALL <function>PSETC</function> ('<parameter>NETCDF_LATITUDE_VARIABLE_NAME</parameter>',  'latitude')
+    CALL <function>PSETC</function> ('<parameter>NETCDF_LONGITUDE_VARIABLE_NAME</parameter>', 'longitude')
+    CALL <function>PSETR</function> ('<parameter>NETCDF_FIELD_SCALING_FACTOR</parameter>',     1.0)
+    CALL <function>PSETR</function> ('<parameter>NETCDF_FIELD_ADD_OFFSET</parameter>',         0.0)
+    CALL <function>PNETCDF</function>
+    </programlisting>
+
+    <para>The path to the file to be read is set via
+    <parameter>NETCDF_FILENAME</parameter>. The variables in the NetCDF file
+    to be used as latitude, longitude and value are specified using the
+    parameters <parameter>NETCDF_LATITUDE_VARIABLE_NAME</parameter>,
+    <parameter>NETCDF_LONGITUDE_VARIABLE_NAME</parameter>, and
+    <parameter>NETCDF_FIELD_VARIABLE_NAME</parameter> respectively. The
+    resultant data values can be multiplied by setting
+    <parameter>NETCDF_FIELD_SCALING_FACTOR</parameter> to a value other than
+    <code>1.0</code>, and a constant added to each value via the parameter
+    <parameter>NETCDF_FIELD_ADD_OFFSET</parameter>.</para>
+
+    <para><remark>Parameters netcdf_dimension_setting, netcdf_x_variable_name,
+    netcdf_y_variable_name, netcdf_y_transformation, netcdf_type,
+    netcdf_convention.</remark></para>
+
+    <para>Finally, the action routine <function>PNETCDF</function> is called
+    without any parameters. Note that in the above example, most of the
+    parameters are not required as their default values are the same. See
+    <olink targetdoc="Magics_data" targetptr="pnetcdf_tables" />
+    for the complete list of parameters and their defaults.<!-- See
+    <olink targetdoc="Magics_data" targetptr="Program_data_netcdf" /> for
+    a complete program which further illustrates the use of NetCDF data
+    in <productname>Magics</productname>.--></para>
+
+    <para>Note that <productname>Magics</productname> does not currently produce
+    an automatic title for NetCDF data - an appropriate title should be
+    supplied by the user.</para>
+  </section>
+
+  <section id="GRAPH_Data_Input">
+    <title>GRAPH Data Input</title>
+
+    <para>All input data for graph plotting are passed to
+    <productname>Magics</productname> via arrays. The parameter
+    <parameter>GRAPH_TYPE</parameter> is used to describe the type of graph
+    required. Valid values are <code>CURVE</code> (default), <code>BAR</code>
+    and <code>AREA</code>.</para>
+
+    <para>When set to <code>CURVE</code>, two one-dimensional arrays are used
+    to pass the data describing the curve, e.g.</para>
+
+    <programlisting>    CALL <function>PSET1R</function> ('<parameter>GRAPH_CURVE_X_VALUES</parameter>',XAR,M)
+    CALL <function>PSET1R</function> ('<parameter>GRAPH_CURVE_Y_VALUES</parameter>',YAR,M)</programlisting>
+
+    <para>where <code>XAR</code> and <code>YAR</code> are arrays of
+    <code>M</code> elements. The first array should contain the X values and
+    the second array should contain the Y values.</para>
+
+    <para>If <parameter>GRAPH_TYPE</parameter> is set to '<code>AREA</code>' ,
+    users may shade the area between two curves. The first curve is defined in
+    the same way as for '<code>CURVE</code>' and the second one as
+    follows:</para>
+
+    <programlisting>    CALL <function>PSET1R</function> ('<parameter>GRAPH_CURVE2_X_VALUES</parameter>',XAR2,M2)
+    CALL <function>PSET1R</function> ('<parameter>GRAPH_CURVE2_Y_VALUES</parameter>',YAR2,M2)</programlisting>
+
+    <para>Input data for <code>BAR</code> charts are passed in three arrays as
+    follows:</para>
+
+    <programlisting>    CALL <function>PSET1R</function> ('<parameter>GRAPH_BAR_X_VALUES</parameter>',XAR1,M)
+    CALL <function>PSET1R</function> ('<parameter>GRAPH_BAR_Y_LOWER_VALUES</parameter>',YAR1,M)
+    CALL <function>PSET1R</function> ('<parameter>GRAPH_BAR_Y_UPPER_VALUES</parameter>',YAR2,M)</programlisting>
+
+    <para>where <code>XAR1</code>, <code>YAR1</code> and <code>YAR2</code> are
+    arrays of <code>M</code> elements each. <code>XAR1</code> should contain
+    the X values for the bars. The lengths of the bars in the Y direction are
+    defined by their upper and lower Y values. This means that users have the
+    capability of plotting 'hidden' and 'overlapping' <code>BAR</code>
+    charts.</para>
+  </section>
+
+
+  <xi:include href="../paramtables/pgrib_tables.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <!--
+  <xi:include href="../paramtables/pbufr_tables.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+-->
+
+  <xi:include href="../paramtables/pnetcdf_tables.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <!--
+ <xi:include href="../paramtables/psymb_tables.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+ -->
+
+<!--
+ <xi:include href="../paramtables/podb_tables.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+-->
+
+
+ <xi:include href="../paramtables/input_matrix_tables.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+
+
+ <section id = 'GRIB_input_magml_all_tables'>
+   <title>MagML Templates for GRIB Input</title>
+
+   <xi:include href="../paramtables/GribDecoder_grib_magml_tables.xml"
+                xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+   <xi:include href="../paramtables/GribDecoder_grib_magml_flat_tables.xml"
+                xmlns:xi="http://www.w3.org/2001/XInclude" />
+</section>
+
+
+ <section id = 'GRIBloop_input_magml_all_tables'>
+   <title>MagML Templates for GRIB Loop Input</title>
+   <xi:include href="../paramtables/GribLoop_gribloop_magml_tables.xml"
+                xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <xi:include href="../paramtables/GribLoop_gribloop_magml_flat_tables.xml"
+                xmlns:xi="http://www.w3.org/2001/XInclude" />
+</section>
+
+
+<!--
+ <xi:include href="../paramtables/ObsDecoder_bufr_magml_tables.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+  -->
+
+ <section id = 'NetCDF_input_magml_all_tables'>
+   <title>MagML Templates for NetCDF Input</title>
+
+   <xi:include href="../paramtables/NetcdfDecoder_netcdf_magml_tables.xml"
+                xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+   <xi:include href="../paramtables/NetcdfDecoder_netcdf_magml_flat_tables.xml"
+                xmlns:xi="http://www.w3.org/2001/XInclude" />
+ </section>
+
+ <!--
+ <xi:include href="../paramtables/OdbDecoder_odb_magml_tables.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+  -->
+  
+ <!--
+  <xi:include href="../paramtables/ImportAction_magml_tables.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+  -->
+  
+ <!--
+ <xi:include href="../paramtables/SimplePolylineInput_magml_tables.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+ -->
+
+  <section id="Data_Program_Examples">
+    <title>Program Examples</title>
+
+    <para>These examples illustrate the use of the data input
+    facilities in <productname>Magics</productname>.</para>
+  </section>
+
+  <xi:include href="../examples/manual/xml/data_examples.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+
+  <!--
+  <xi:include href="../paramtables/data_input_tables.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+  -->
+
+</chapter>

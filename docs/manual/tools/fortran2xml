@@ -1,0 +1,34 @@
+#!/usr/bin/perl
+
+
+@lines = <>;		# Read it into an array
+
+
+foreach $line (@lines)
+{
+  
+   if ( $line=~/psetc/i ) { 
+        
+        $_ = $line;
+        ($function, $param, $value)=/call\s*(\S+)\s*\('(.+)'.+'(.+)'/; 
+          
+        print "<parameter name='$param' value='$value' function='$function'/>\n"
+
+   
+   }
+ if ( $line=~/pset[ri]/i ) { 
+        
+        $_ = $line;
+        ($function, $param, $value)=/call\s*(\S+)\s*\('(.+)',\s*(.+)\s*\)/; 
+        print "<parameter name='$param' value='$value' function='$function'/>\n"
+
+
+   
+   }
+
+
+    
+}
+
+
+EOF

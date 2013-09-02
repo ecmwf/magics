@@ -1,0 +1,32 @@
+<?xml-stylesheet type='text/css' href='parameter.css'?>
+<magics>
+<class name='ObsStatDecoder' action='pobsstat' directory='decoders'>
+	<documentation>
+		The Obstat decoder is responsible for decoding Obstat Ascii file.
+	</documentation>
+        <parameter name='obsstat_filename' from='string' to='string'
+            member='path' default='' xml='path'>
+           
+            <documentation> Epsgram Database Path </documentation>
+            <migration> New Magics: Parameter eps_database sent to new Magics[EpsgramDecoder].  </migration>
+        </parameter>
+         
+	
+</class>
+
+<class name='EfiDataDecoder' action='xml' directory='decoders'>
+	<documentation>
+		The Efi decoder is responsible for decoding EFi Ascii file.(Metops)
+	</documentation>
+        <parameter name='efi_filename' from='string' to='string'
+            member='path' default='' xml='path'>           
+            <documentation> Efi file name Path </documentation>
+        </parameter>        
+         <parameter name='efi_record' from='int' to='int'
+            member='record' default='0' xml='record'>
+            <documentation> Efi record ( starting at 0) </documentation>
+        </parameter>
+</class>
+<static name='obstat' class='ObsStatDecoder' base='BaseSceneObject' include_class='yes'/> 
+
+</magics>

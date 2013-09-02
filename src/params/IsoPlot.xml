@@ -1,0 +1,79 @@
+<magics>
+<class  xmltag='isoline' name='IsoPlot' used_by='Contour' directory='visualisers' prefix='contour/contour_line' action='pcont'>
+  	<documentation > This object contains all the attributes of the isolines 	</documentation>
+
+
+	<parameter  from='string' name='contour_special_legend' visible='off' default='' member='legend_special' to='string'> 
+				<documentation > Used in wrep to produce specail legend such as spaguetti! 		</documentation>
+				<release >2.10		</release>
+	</parameter>
+  
+	<parameter  from='float' name='contour_internal_reduction_factor' visible='no' default='4' member='resolution' to='float' documented='off'>
+         		<documentation > internal factor for contouring   		</documentation>
+         		<release >2.10		</release> 
+	</parameter>
+	<parameter  from='string' name='contour_internal_technique' visible='no' default='interpolate' member='technique' to='string' documented='off'>
+         		<documentation > internal technique for contouring : interpolate/nearest   		</documentation>
+	</parameter>
+
+	<parameter  from='string' name='contour_legend_text' visible='no' default=' ' member='legend_text' to='string' documented='off'>
+         		<documentation >Text to be used in legend		</documentation>
+         		<release >2.10		</release>
+	 
+	</parameter>
+
+	<parameter  xml='style' from='string' name='contour_line_style' default='solid' member='style' to='LineStyle'>
+         		<documentation > Style of contour line  		</documentation>
+         		<migration > New Magics: Parameter contour_line_style sent to new Magics[IsoPlot].  		</migration>
+         		<release >0.1		</release>
+	</parameter>
+
+	<parameter  xml='thickness' from='int' name='contour_line_thickness' default='1' member='thickness' to='int'>
+         		<documentation > Thickness of contour line 		</documentation>
+         		<migration > New Magics: Parameter contour_line_thickness sent to new Magics[IsoPlot].  		</migration>
+         		<release >0.1		</release>
+	</parameter>
+
+	<parameter  xml='colour' from='string' name='contour_line_colour' default='blue' member='colour' to='Colour'>
+         		<documentation > Colour of contour line 		</documentation>
+         		<migration > New Magics: Parameter contour_line_colour sent to new Magics[IsoPlot].  		</migration>
+         		<release >0.1		</release>
+	</parameter>
+
+	<parameter  xml='highlight' priority='0.2' from='string' name='contour_highlight' default='on' member='highlight' to='NoIsoHighlight' include='IsoHighlight.h'>
+         		<documentation > Plot contour highlights (ON/OFF) 		</documentation>
+          		<option  xml='highlight' fortran='on' include='IsoHighlight.h' name='IsoHighlight'>		</option>
+         		<option  xml='nohighlight' fortran='off' include='IsoHighlight.h' name='NoIsoHighlight'>		</option>
+         		<migration > New Magics: Parameter contour_highlight sent to new Magics[IsoPlot].  		</migration>
+         		<release >0.2		</release>         
+	</parameter>
+  
+	<parameter  xml='level_selection_type' from='string' name='contour_level_selection_type' default='count' member='levelSelection' to='LevelSelection'>
+         		<documentation > count: calculate a reasonable  contour interval taking into account the min/max and the requested number of isolines. 
+         interval: regularly spaced intervals using the reference_level as base.
+         level_list: uses the given list of levels. 		</documentation>
+           		<option  xml='count' fortran='count' include='CountSelectionType.h' name='CountSelectionType'>		</option>
+         		<option  xml='interval' fortran='interval' include='IntervalSelectionType.h' name='IntervalSelectionType'>		</option>
+         		<option  xml='list' fortran='level_list' include='LevelListSelectionType.h' name='LevelListSelectionType'>		</option>
+	</parameter>
+
+	<parameter  xml='label' from='string' name='contour_label' default='on' member='label' to='NoIsoLabel' include='IsoLabel.h'>
+         		<documentation > Plot labels on contour lines  		</documentation>
+         		<migration > New Magics: Parameter Contour sent to new Magics[Contour].  		</migration>
+         		<release >0.1		</release>
+          		<option  xml='label' fortran='on' include='IsoLabel.h' name='IsoLabel'>		</option>
+         		<option  xml='nolabel' fortran='off' include='IsoLabel.h' name='NoIsoLabel'>		</option>
+	</parameter>
+
+	<parameter  xml='shade' from='string' name='contour_shade' default='off' member='shading' to='NoIsoShading' include='IsoShading.h'>
+         		<documentation > Turn shading on 		</documentation>
+         		<migration > New Magics: Parameter contour_label sent to new Magics[Contour].  		</migration>
+         		<release >0.2		</release>
+         		<option  xml='shading' fortran='on' include='IsoShading.h' name='IsoShading'>		</option>
+         		<option  xml='noshading' fortran='off' include='IsoShading.h' name='NoIsoShading'>		</option>
+  	</parameter>
+	<parameter  member='legend_only' to='bool' default='off' from='string' name='contour_legend_only'> 
+				<documentation > Inform the contour object do generate only the legend and not the plot!		</documentation>  		       
+				<release >2.10		</release>
+	</parameter>
+</class></magics>

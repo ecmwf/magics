@@ -1,0 +1,183 @@
+#!/usr/bin/perl
+
+use Getopt::Std;
+
+my $MAJOR=1;
+my $MINOR=2;
+my $DOCBOOK_BASE = "/usr/local/apps/docbook/";
+#my $JAVA_HOME="/usr/local/apps/j2re1.4.1_02";
+my $JAVA_HOME="/usr/local/apps/java/current/";
+#my $JAVA_HOME=$ENV{JAVA_HOME};
+
+# ***************************************************************************
+# Changes:
+# 2004-08-23: sy8 - Added "-o xml" option to output XML
+# 2004-11-23: sy8 - Added "-P name=value" option to pass parameters to the XSL transformation
+
+
+# Say hello and show received parameters!
+
+sub say_hello {
+
+  my ($xml,$to,$xsl,$targetdb) = @_;
+
+  print ("\ndocbookx2other: Iain's Version ".$MAJOR.".".$MINOR.".\n");
+  unless ($xml      eq "") {print "- XML file  :\t".$xml."\n";}
+  unless ($to       eq "") {print "- Convert to:\t".$to."\n";}
+  unless ($xsl      eq "") {print "- XSL to use:\t".$xsl."\n";}
+  unless ($targetdb eq "") {print "- Target DB to generate:\t".$targetdb."\n";}
+  print "\n\n";
+
+}
+
+# Meet the options!
+
+sub usage {
+
+  print ("\ndocbookx2other. Version ".$MAJOR.".".$MINOR.".\n");
+  print ("Usage: docbookx2other [-o format] [-t stylesheet.xsl] [-v] [-q] [-L location_string] [-S submenu_string] [-T target_database_string] docbook_file.xml\n");
+  print ("\t The parameters are:\n");
+  print ("\t -o  : Which output format we want [pdf,ps,html,xml].\n");
+  print ("\t -t  : XSL stylesheet to use. If a relative path is provided, '$DOCBOOK_BASE/docbook-xsl-ecmwf/' is assumed as base dir.\n");
+  print ("\t -T  : Target link database to generate.\n");
+  print ("\t -D  : Target database document to use for generating cross-references (sets target.database.document).\n");
+  print ("\t -C  : Current document ID (sets current.docid).\n");
+  print ("\t -L  : 'location' bar items, in HTML. 'url1\@Text1;url2\@Text2; ... ;urlN\@TextN'\n");
+  print ("\t -S  : 'submenu' items, in HTML. 'url1\@Text1;url2\@Text2;_THIS_; ... ;urlN\@TextN'. _THIS_ will be the current document, not shown as a link.\n");
+
+  print ("\t -q  : Don't output any info.\n");
+  print ("\t -v  : Be verbose, please.\n");
+  print ("\t -h  : Show this ;-).\n\n");
+
+  exit 0;
+
+}
+
+sub call_java {
+
+  my ($java_home,$xml_file, $target, $xsl_to_use, $verbosity, $location, $submenu, $targetdb, $targetdoc, $currentdocid) = @_;
+  my $endorsed="$DOCBOOK_BASE/xalan/current/bin";
+  #my $endorsed="/usr/local/apps/xxe-pro/current";
+  my $enableXinclude="-Djavax.xml.parsers.DocumentBuilderFactory=org.apache.xerces.jaxp.DocumentBuilderFactoryImpl -Djavax.xml.parsers.SAXParserFactory=org.apache.xerces.jaxp.SAXParserFactoryImpl -Dorg.apache.xerces.xni.parser.XMLParserConfiguration=org.apache.xerces.parsers.XIncludeParserConfiguration";
+  #my $enableXinclude="-Djava.xml.parsers.SAXParserFactory=com.jclark.xml.jaxp.SAXParserFactoryImpl -Dorg.apache.xerces.xni.parser.XMLParserConfiguration=org.apache.xerces.parsers.XIncludeParserConfiguration";
+  
+  my $file_no_extension = $xml_file;
+  $file_no_extension =~ s/\.xml$//;
+
+  #my $target_xsl= $target;
+  #$target_xsl =~ s/pdf/fo/;
+
+  my $basedir = get_basedir($xml_file);
+
+  my $targetdbopt     = ($targetdb)     ? "-Dcollect.xref.targets=only -Dtargets.filename=$targetdb" : "";
+  my $targetdocopt    = ($targetdoc)    ? "-Dtarget.database.document=$targetdoc"                    : "";
+  my $currentdocidopt = ($currentdocid) ? "-Dcurrent.docid=$currentdocid"                            : "";
+  
+  my $allow_doctypenode = "-Ddisallow.doctype=false";
+
+
+  if ($verbosity > 1) {
+    print ("T: $targetdoc\n");
+    print ("C: $currentdocid\n");
+  }
+
+
+#  my $command = "$java_home/bin/java -Xmx128m -Djava.endorsed.dirs=$endorsed -Dbasedir=$basedir -Ddocbook.xml=$xml_file -Dout.ps=$file_no_extension.ps -Dout.pdf=$file_no_extension.pdf -Dout.fo=$file_no_extension.fo -Dout.dir=$basedir -Dout.html=$file_no_extension.html -Dout.xsl=$xsl_to_use -Dfile.noExtension=$file_no_extension -Dcollect.xref.targets=only -Decmwf.location=\"$location\" -Decmwf.submenu=\"$submenu\" $enableXinclude -classpath $DOCBOOK_BASE/bin/ant.jar:$DOCBOOK_BASE/bin/optional.jar:$DOCBOOK_BASE/docbook-xsl/current/extensions/xalan2.jar  org.apache.tools.ant.Main -f $DOCBOOK_BASE/bin/build.xml $target";
+  my $command = "$java_home/bin/java -Xmx128m -Djava.endorsed.dirs=$endorsed -Dbasedir=$basedir -Ddocbook.xml=$xml_file -Dout.ps=$file_no_extension.ps -Dout.pdf=$file_no_extension.pdf -Dout.fo=$file_no_extension.fo -Dout.dir=$basedir -Dout.html=$file_no_extension.html -Dout.xsl=$xsl_to_use -Dfile.noExtension=$file_no_extension $targetdbopt $targetdocopt $currentdocidopt $allow_doctypenode -Decmwf.location=\"$location\" -Decmwf.submenu=\"$submenu\" $enableXinclude -classpath $DOCBOOK_BASE/bin/ant.jar:$DOCBOOK_BASE/bin/optional.jar:$DOCBOOK_BASE/docbook-xsl/current/extensions/xalan2.jar  org.apache.tools.ant.Main -f tools/build.xml $target";
+
+  if ($verbosity > 1) {
+    print "Executing: $command\n";
+  }
+  return system($command);
+
+}
+
+sub get_basedir {
+  
+  my ($file) = @_;
+  @elems = split("/",$file);
+  pop(@elems);
+  return join("/",@elems);
+
+}
+
+
+# ***************************************************************************
+
+# Main Thang!
+
+my $xml = "";
+my $to = "pdf";
+my $xsl_fo = "project_plans_fo.xsl";
+my $xsl_html = "w3ec2_html.xsl";
+my $xsl = $xsl_fo;
+my $verbosity = 1;
+my $location = "";
+my $submenu = "";
+my $targetdb = "";
+my $targetdoc = "";
+my $currentdocid = "";
+
+my %options=();
+getopts("s:o:t:L:S:T:C:D:qhv",\%options);
+
+if (defined($options{"h"})) {
+  return usage();
+}
+
+$xml = $ARGV[0];
+if (defined($options{"o"})) {
+  $to = $options{"o"};
+  if ($to eq "pdf" or $to eq "ps") {
+    $xsl = $xsl_fo;
+  } else {
+    $xsl = $xsl_html;
+  }
+}
+
+$xsl = $options{"t"} if (defined($options{"t"}));
+$verbosity = 0 if (defined($options{"q"}));
+$verbosity = 2 if (defined($options{"v"}));
+
+if ($xml eq "") {
+  return usage();
+}
+
+# Convert paths to absolute
+unless ( $xml =~ /^\// ) {
+  my $base = `pwd`;
+  chomp($base);
+  $xml = $base."/".$xml;
+}
+
+unless ( $xsl =~ /^\// ) {
+  $xsl = $DOCBOOK_BASE."/docbook-xsl-ecmwf/".$xsl;
+}
+
+if (defined($options{"T"})) {
+  $targetdb = $options{"T"};
+}
+
+if (defined($options{"D"})) {
+  $targetdoc = $options{"D"};
+}
+
+if (defined($options{"C"})) {
+  $currentdocid = $options{"C"};
+}
+
+# Be polite!
+if ($verbosity > 0) {
+  say_hello($xml,$to,$xsl,$targetdb);
+}
+
+if (defined($options{"L"})) {
+  $location = $options{"L"};
+}
+if (defined($options{"S"})) {
+  $submenu = $options{"S"};
+}
+
+
+
+exit call_java($JAVA_HOME,$xml, $to, $xsl, $verbosity, $location, $submenu, $targetdb, $targetdoc, $currentdocid);

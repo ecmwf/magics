@@ -1,0 +1,16 @@
+<magics>
+<class  inherits='BaseDriver' xmltag='qt' name='QtDriver' directory='drivers' prefix='output/output_qt' action='Qt' include='Qt/qgraphicsscene.h'>
+
+	<documentation >
+These are the attributes of the Qt output driver. This driver is intended for Qt applications such as Metview.
+	</documentation>
+
+	<parameter  member='widget' to='QWidget*' default='0' from='QWidget*' name='output_qt_widget'>
+			<documentation >Enable an application to instantiate its own QGraphicsScene and to pass it to Magics++ for it to use it.		</documentation>
+	</parameter>
+
+	<parameter  member='scene' to='QGraphicsScene*' default='0' from='QGraphicsScene*' name='output_qt_scene'>
+			<documentation >Enable an application to instantiate its own QGraphicsScene and to pass it to Magics++ for it to use it.		</documentation>
+	</parameter>
+
+</class></magics>

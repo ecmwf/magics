@@ -1,0 +1,11 @@
+<magics>
+<class  inherits='ContourMethod' directory='visualisers' include='AutomaticContourMethod.h' name='SampleContourMethod'>
+
+	<parameter  xml='x_interval' from='int' name='contour_sample_x_interval' default='2' member='x' to='int'>
+    		<documentation >X sampling interval used in 'sample' method (takes every nth point)		</documentation>/>
+	</parameter>
+
+	<parameter  xml='y_interval' from='int' name='contour_sample_y_interval' default='2' member='y' to='int'>
+    		<documentation >Y sampling interval used in 'sample' method (takes every nth point)		</documentation>/>
+	</parameter>
+</class></magics>

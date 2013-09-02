@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+"http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
+<!ENTITY __tutorial__fejxfsyh SYSTEM "../chapters/tutorial.xml">
+]>
+<book>
+  <title>MAGICS Tutorial</title>
+<!--  __tutorial__fejxfsyh; -->
+    <xi:include href="../chapters/tutorial.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+</book>

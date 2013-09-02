@@ -1,0 +1,32 @@
+<?xml-stylesheet type='text/css' href='parameter.css'?>
+<magics>
+
+
+<class name='HiLoTechnique'action='pcont' used_by='HiLo' directory='visualisers'>
+  <documentation> common attributes to the HiLo technique plotting</documentation> 
+  <parameter name='contour_hilo_height' from='float' to='float'
+             member='contour_hilo_height' xml='height' default='0.4'>
+         <documentation> Height of local maxima/minima text or numbers </documentation>
+         <release>Magics++0.1</release>
+  </parameter>
+   <parameter name='contour_hilo_quality' from='string' to='string'
+             member='contour_hilo_quality' xml='quality' default='low'>
+         <documentation> (LOW/MEDIUM/HIGH) </documentation>
+         <release>Magics++0.1</release>
+  </parameter>
+  <parameter name='contour_hi_colour' from='string' to='Colour'
+             member='hi_colour' xml='hi_colour' default='blue' >
+         <documentation> Colour of local maxima text or number </documentation>
+         <release>Magics++0.1</release>
+  </parameter>
+
+  <parameter name='contour_lo_colour' from='string' to='Colour'
+             member='lo_colour' xml='lo_colour' default='blue'>
+         <documentation> Colour of local minima text or number </documentation>
+         <release>Magics++0.1</release>
+  </parameter>
+
+</class> 
+<class name='HiLoBoth' action='pcont' used_by='HiLo' directory='visualisers'  inherits='HiLoTechnique'  /> 
+
+</magics>

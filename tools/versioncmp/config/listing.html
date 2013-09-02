@@ -1,0 +1,39 @@
+<head>
+    <link rel="stylesheet" href="../codes.css" />
+
+    <script type="text/javascript">
+        function init() 
+        {
+            var versions = [%VERSIONS%];
+            var codes = [%WARNINGCODES%];
+            var info = {%INFOCODES%};
+
+            var txt="<table>";
+            
+            for (var i=0; i < versions.length; i++)
+            {
+                txt += "<tr>"
+                txt += "<td><a class='"+codes[i]+"' href='"+versions[i]+"/index.html'>"+versions[i]+"</a></td>";
+                var vinfomap=info[versions[i]];
+                for (var key in vinfomap) {
+                    txt+="<td><a class='"+codes[i]+"' href='"+versions[i]+"/"+key+".html' style='text-decoration:none;'><div class='circle "+key+"'>"+vinfomap[key]+" </div></a></td>"
+                }
+                txt += "</tr>"
+            }
+            txt+= "</table>"
+            document.getElementById("versions").innerHTML=txt;
+            
+        }
+
+    </script>
+</head>
+<body onLoad="init()">
+    <p><a href="../index.html">Up a level</a></p>
+    <h1>Magics comparison test run</h1>
+    <h2>Version %VERSION1%</h2>
+    <p>Compared against the following Magics versions at %RUNDATETIME%</p>
+    <div id="versions">        
+    <table>
+    </table>
+    </div>
+</body>

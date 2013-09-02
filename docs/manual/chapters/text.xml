@@ -1,0 +1,623 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="Text_Plotting" label="12">
+  <title>Text Plotting</title>
+
+  <xi:include href="../phrases/chapterinfo_mod.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <section id="Text_Introduction">
+    <title>Introduction</title>
+
+    <para><productname>Magics</productname> text plotting offers to write custom strings in a text box.</para>
+
+    <para>Each line of text consists of one character string. This can be made
+    up of standard ASCII characters including special instruction strings
+    for inline formatting of the text. New to <productname>Magics++</productname>
+    is HTML text,<!--cross-ref--> enabling a higher degree of formatting control using
+    a familiar syntax. Users may plot any number of lines in a single text block if
+    passed as an array, or up to 10 text lines if passed individually. Each block
+    of text is plotted with a call to the action routine <function>PTEXT</function>.</para>
+
+
+    <!--
+    <para>A line of text consists of one character string, which may be made
+    up of standard ASCII characters as well as Magics parameters. Magics text
+    parameters exist to enable users to plot integer, real and character
+    variables. Instruction strings may also be included in a text line. Users
+    may plot up to 10 text lines in a single text block.</para>
+    -->
+
+
+    <para>The text block is always plotted in a text box, the position and
+    dimensions of which may be defined by the user or automatically calculated
+    by <productname>Magics</productname>.</para>
+    
+     <section id="HtmlStyle">
+    <title>Using Html-like styles in texts</title>
+     <para>
+     In <productname>Magics++</productname> users can use the HTML-like syntax to style text. 
+     In HTML syntax the user can write 
+<programlisting>CALL <function>PSETC</function>("text_user_line_1", ”&lt;font colour='red'&gt; red text &lt;/font&gt; &lt;font colour='red'&gt; and now blue&lt;/font&gt;”)</programlisting>
+     </para> 
+     
+     <important id="pgf90"> <title>Pgf90 - Escaping of special characters</title>
+    Some Fortran compilers, such as <productname>Pgf90</productname> require the high commas in the text strings to be escaped. This can be done
+    by typing a font definition as &lt;font colour=\'red\'&gt; red text &lt;/font&gt;. Note the backslashes used to escape the high comma. This behaviour can be 
+    deactivated by using the compiler option <function>-Mnobackslash</function> when compiling with Pgf90. </important>
+    </section>
+    
+    <section id="Unicode">
+    <title>Unicode</title>
+     <para>
+     <productname>Magics++</productname> has support for Unicode if written 
+     directly as input for parameters or through the HTML syntax. In HTML syntax
+     the user can write <code>&amp;auml;</code> to get an <code>ä</code>.
+      <programlisting>
+    CALL <function>PSETC</function> ('<parameter>TEXT_HTML</parameter>','ON')</programlisting>
+     </para>
+    </section>
+
+    <section id="GribKeys">
+    <title>GRIB keys in titles</title>
+     <para>
+     <productname>Magics++</productname> allows users to insert information from a GRIB headers through the HTML syntax. 
+     In HTML syntax the user can write 
+<programlisting>CALL <function>PSETC</function>("text_user_line_1", ”&lt;grib_info key=‘name’ /&gt; at &lt;grib_info key=‘level’ /&gt;hPa”)</programlisting>
+     </para>
+    </section>
+
+
+  </section>
+
+  <section id="Text_Modes">
+    <title>Text Modes</title>
+
+    <para>All text plotting in Magics is achieved by calling action routine
+    <function>PTEXT</function>, which has no arguments.
+    Text parameters exist to control all aspects of text plotting and any text
+    parameters required should be set before <function>
+    <function>PTEXT</function> </function> is called.</para>
+
+    <para>Action routine <function>PTEXT</function> works in two modes,
+    '<code>TITLE</code>' and '<code>POSITIONAL</code>', the default being
+    '<code>TITLE</code>'.</para>
+
+    <para>To change the text mode, users should set the parameter
+    <parameter>TEXT_MODE</parameter>, e.g.</para>
+
+    <programlisting>
+    CALL <function>PSETC</function> ('<parameter>TEXT_MODE</parameter>','POSITIONAL')</programlisting>
+
+    <para>In '<code>TITLE</code>' mode, which is the default, the user's text
+    will be automatically positioned above the current subpage. The height and
+    width of the text box are calculated automatically by Magics.</para>
+
+    <!--
+    <?pagebreak?><figure id="figure_basic_text_parameters">
+      <title>Basic Text Parameters</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="diagrams/epsi/text-d01.epsi" />
+        </imageobject>
+      </mediaobject>
+    </figure><?pagebreak?>
+
+    <highlights>
+      <important> <title>Magics++</title>
+        <para>DIAGRAM 1 HERE</para>
+      </important>
+    </highlights>
+    -->
+
+    <para>The height of the text box is approximately the distance from the
+    top of the current subpage to the top of the page.</para>
+
+    <para>There will be a small gap between the subpage and the text box to
+    allow for grid labels and a small gap between the top of the text box and
+    the top of the page. The width of the box is the
+    <parameter>SUBPAGE_X_LENGTH</parameter>.</para>
+
+    <!-- reduction mode to be described here once it has been implemented -->
+
+    <para>In '<code>POSITIONAL</code>' mode, the user
+    can place text anywhere within the current page. They may define the
+    position of the text box as well as the height and width.</para>
+
+
+    <important id="Text_No_Automatic_Adjustments"> <title>Magics++</title>
+    <productname>Magics++</productname> performs no automatic adjustments on
+    the positions or dimensions of text boxes which are partially or completely
+    outside of the page. This behaviour differs from previous versions.</important>
+
+    <para>The default position of the text box in '<code>POSITIONAL</code>'
+    mode is the lower left corner of the current subpage. The Magics
+    parameters <parameter>TEXT_BOX_X_POSITION</parameter> and
+    <parameter>TEXT_BOX_Y_POSITION</parameter> may be used to set the position
+    of the text box, if the default values are not suitable. The positions are
+    relative to the <parameter>PAGE_X_POSITION</parameter> and
+    <parameter>PAGE_Y_POSITION</parameter> respectively. The default height of the
+    box will be 20% of the <parameter>SUBPAGE_Y_LENGTH</parameter> and the default
+    width will be 50% of the <parameter>SUBPAGE_X_LENGTH</parameter>.</para>
+
+  </section>
+
+
+  <section id="Creating_Text">   <!-- ~~~~~~~~~~~~~~ Creating_Text ~~~~~~~~~~~~~~ -->
+    <title>Creating Text</title>
+
+    <important> <title>Magics++</title>
+    <productname>Magics++</productname> allows any number of lines in a text block using
+    the new interface in which an array of strings is passed. The old interface
+    still exists, allowing up to 10 text lines to be passed individually.</important>
+
+
+    <section id="Array_Text_Blocks">
+      <title>Array Text Blocks</title>
+      <para>
+      Lines of text can be created by passing an array of text strings to <productname>Magics</productname>:
+      </para>
+
+      <programlisting>
+    PARAMETER   (NLINES=5)
+    CHARACTER*16 LINES
+    DIMENSION    LINES (NLINES)
+    DATA         LINES  /'This is a',
+   x                     'text block',
+   x                     'passed',
+   x                     'by',
+   x                     'array'/		
+
+   [...]
+
+   CALL <function>PSET1C</function> ('<parameter>TEXT_LINES</parameter>', LINES, NLINES)
+      </programlisting>
+
+    </section>
+
+    <section id="Individual_Text_Blocks">
+      <title>Individual Text Blocks</title>
+      <para>For convenience, and compatibility with previous versions of <productname>Magics</productname>,
+      it is possible to individually set lines 1 to 10 by setting parameters <parameter>TEXT_LINE_1</parameter>
+      to <parameter>TEXT_LINE_10</parameter> with <function>PSETC</function>, for example:</para>
+
+      <programlisting>
+    CALL <function>PSETC</function> ('<parameter>TEXT_LINE_1</parameter>', 'THIS IS A TEXT EXAMPLE')</programlisting>
+
+
+      <para>When passing the lines of text individually, the number of text lines to be plotted
+      should be indicated to <productname>Magics</productname>
+      by setting the parameter <parameter>TEXT_LINE_COUNT</parameter>,
+      e.g.</para>
+
+      <programlisting>
+    CALL <function>PSETI</function> ('<parameter>TEXT_LINE_COUNT</parameter>', 4)</programlisting>
+
+      <para>It is possible to start plotting text from any line in the text
+      block by setting the parameter <parameter>TEXT_FIRST_LINE</parameter> to
+      the number of the line required. Magics will start plotting from this line
+      and will plot the subsequent lines in the block if more than one line of
+      text is to be plotted. For example, if 3 lines of text are required
+      starting at line 5 in the text block, the user should set
+      <parameter>TEXT_FIRST_LINE</parameter> to 5 and
+      <parameter>TEXT_LINE_COUNT</parameter> to 3.</para>
+
+    </section>
+
+
+
+  </section>  <!-- Creating_Text -->
+
+
+  <!--
+  <section id="Text_Special_Characters">
+    <title>Text Special Characters</title>
+
+    <para>Magics has facilities which enable users to plot text inside a text
+    block with varying attributes such as colour, upper and lower case
+    characters and different character sets. This is achieved by use of
+    special characters and instruction strings and the following sections
+    explain these facilities and the special characters involved.</para>
+
+    <para>The following is the order of precedence of special characters used
+    in interpolating text instruction strings.</para>
+
+    <orderedlist>
+      <listitem>
+        <para>The quote character (<code>'</code>)</para>
+      </listitem>
+
+      <listitem>
+        <para><parameter>TEXT_ESCAPE_CHARACTER</parameter>
+        (<code>#</code>)</para>
+      </listitem>
+
+      <listitem>
+        <para><parameter>TEXT_PARAMETER_ESCAPE_CHARACTER</parameter>
+        (<code>@</code>)</para>
+      </listitem>
+
+      <listitem>
+        <para><parameter>TEXT_INSTRUCTION_SHIFT_CHARACTER</parameter>
+        (<code>/</code>)</para>
+      </listitem>
+    </orderedlist>
+
+    <para>Detailed explanations of the special characters can be found in the
+    following sections.</para>
+  </section>
+
+  <section id="Text_Manipulation">
+    <title>Text Manipulation</title>
+
+    <para>Magics parameter values may be included in a text line using the
+    text parameter escape character (<code>@</code>), i.e.</para>
+
+    <programlisting>
+CALL PSETC ('TEXT_LINE_3', 'MAP SCALE=@SUBPAGE_MAP_SCALE@')</programlisting>
+
+    <para>In this case, the current value in the parameter
+    <parameter>SUBPAGE_MAP_SCALE</parameter>, e.g. <code>0.5E8</code>, will be
+    plotted in the text line. Facilities also exist to enable users to store
+    their own integer, real and character values within Magics parameters. Up
+    to 10 parameters exist for each type.</para>
+
+    <programlisting>
+TEXT_INTEGER_1, TEXT_INTEGER_2, ......... TEXT_INTEGER_10
+TEXT_REAL_1, TEXT_REAL_2, ............... TEXT_REAL_10
+TEXT_CHARACTER_1, TEXT_CHARACTER_2, ..... TEXT_CHARACTER_10</programlisting>
+
+    <para>These parameters may be included in a user's text line by using the
+    text parameter escape character (@), i.e.</para>
+
+    <programlisting>
+CALL PSETC ('TEXT_LINE_1', 'RESOLUTION =@TEXT_REAL_3@')
+CALL PSETC ('TEXT_LINE_2', 'INTERVAL=@TEXT_INTEGER_1@')</programlisting>
+
+    <para></para>
+
+    <highlights>
+      <important>
+        <para>DIAGRAM 3 HERE</para>
+      </important>
+    </highlights>
+
+    <para>Users can specify the format for integer and real variables in which
+    they wish the values to be plotted by including the required format before
+    the Magics parameter.</para>
+
+    <programlisting>
+CALL PSETC ('TEXT_LINE_1','RESOLUTION=@(F8.3)TEXT_REAL_3@')
+CALL PSETC ('TEXT_LINE_2','INTERVAL=@(I5)TEXT_INTEGER_1@')</programlisting>
+
+    <para>See Chapter XVII- Appendix for full details of Magics formats. In
+    the above examples, the user should have stored the correct values before
+    calling action routine <function>PTEXT</function>, e.g.</para>
+
+    <programlisting>
+CALL PSETR ('TEXT_REAL_3', 1.875)
+CALL PSETI ('TEXT_INTEGER_1', 5)</programlisting>
+
+    <para>The following is an example of the Magics calls to set up and plot a
+    text block, using the default value for mode, character height and line
+    spacing.</para>
+
+    <programlisting>
+CALL PSETR ('TEXT_REAL_1', 1.875)
+CALL PSETI ('TEXT_INTEGER_1', 5)
+CALL PSETC ('TEXT_LINE_1', 'RESOLUTION =@(F8.3)TEXT_REAL_1@')
+CALL PSETC ('TEXT_LINE_2', 'CONTOUR INTERVAL = @(I3)TEXT_INTEGER_1@') 
+CALL PSETC ('TEXT_LINE_3', 'MAP SCALE = @(F10.1)SUBPAGE_MAP_SCALE@')
+CALL PSETI ('TEXT_LINE_COUNT', 3)
+CALL PTEXT</programlisting>
+
+    <para>This sequence of calls would result in a text block of three lines
+    being plotted on top of the current subpage. Note the spacing in the text
+    plotted due to the format requirements in the above calls.</para>
+
+    <programlisting>
+RESOLUTION = 1.875
+CONTOUR INTERVAL = 5
+MAP SCALE = 50000000.0</programlisting>
+
+    <para>Magics performs any type conversion necessary for plotting. The user
+    may change the text parameter escape character, if required, by setting
+    the Magics parameter
+    <parameter>TEXT_PARAMETER_ESCAPE_CHARACTER</parameter> to the required
+    value, e.g.</para>
+
+    <programlisting>
+CALL PSETC ('TEXT_PARAMETER_ESCAPE_CHARACTER', '%')</programlisting>
+
+    <para>The <parameter>TEXT_ESCAPE_CHARACTER</parameter> (<code>#</code>)
+    allows the user to display special symbols and various national
+    characters. The encoding tables (see Figure XIV-1 to Figure XIV-3) show
+    the complete set of characters available in the three supported fonts,
+    Times-Roman, Helvetica and Helvetica-Bold.</para>
+
+    <remark>A character can be plotted either by using the character itself or
+    by using a corresponding character from one of the encoding tables. To
+    substitute a character from the encoding tables, the
+    <parameter>TEXT_ESCAPE_CHARACTER</parameter> (<code>#</code>) should be
+    typed followed by exactly 3 octal numbers which refer to one of the font
+    encoding tables (Figure XIV-1 to Figure XIV-3). The relevant table can be
+    chosen by the FN instruction string command (e.g. FN2 selects Encoding
+    Table 2 - see the section "Instruction Strings" on page XIV-13). As an
+    example, the text ABC is displayed by all these strings: 'ABC'
+    '#101#102#103" 'A#102C' As another example, the following text 'L#346ngde
+    Grad 20#260 #330st' prints Danish for 'Longitude 20 degrees east' using
+    Danish letters and the degree symbol. The result is: Længde Grad 20o Øst
+    In the above two examples, the default font, Encoding Table 1
+    (Times-Roman), is used.</remark>
+
+-->
+
+  <section id="Text_Plotting_Section">
+    <title>Text Plotting</title>
+    
+   
+
+<!--
+    <section id="Upper_And_Lower_Case">
+      <title>Upper and Lower Case</title>
+
+      <para>Text will be plotted as it is typed. Upper case text will be
+      plotted in upper case and lower case text will be plotted in lower case.
+      There are no special characters needed to move from upper to lower case
+      and vice versa.</para>
+    </section>
+  </section>
+-->
+
+    <section id="Text_Line_Limit">
+      <title>Text Line Limit</title>
+
+      <important> <title>Magics++</title>
+      With <productname>Magics++</productname>, there is no limit to the length
+      of a line of text. This differs from previous versions, where a limit of
+      200 characters was imposed.</important>
+
+    </section>
+
+    <section id="Text_Height">
+      <title>Text Height</title>
+
+      <para>The height and width of text may be controlled by the user. The parameter
+      <parameter>TEXT_FONT_SIZE</parameter> enables the user to
+      plot the text lines in the height required. This parameter, whose default
+      value is 0.5cm, may be defined by the user. It is used by <productname>Magics</productname> to
+      calculate the heights of text lines and the spacing between text lines.
+      <!--If after calculating all heights and spacings, it is found that the text
+      block will not fit into the current text box, Magics will temporarily
+      adjust the parameter
+      <parameter>TEXT_FONT_SIZE</parameter> to a value that
+      will enable all the text block to be plotted inside the current text box.
+      <parameter>TEXT_FONT_SIZE</parameter> will be restored to
+      its original value at the termination of action routine
+      <function>PTEXT</function>. All subsequent references to
+      <parameter>TEXT_FONT_SIZE</parameter> in this section
+      assume that its value is such that all the text block can fit into the
+      text box.
+      -->
+      The height of each text line may be specified as a ratio of the
+      <parameter>TEXT_FONT_SIZE</parameter>.
+      This information can be passed as an array of floating-point values
+      such as:</para>
+
+      <programlisting>
+    CALL <function>PSET1R</function> ('<parameter>TEXT_LINE_HEIGHT_RATIOS</parameter>', RHEIGHTS, NHEIGHTS)
+      </programlisting>
+
+      <para>Alternatively, you can use separate parameters for setting the height ratio
+      of each text line individually (up to 10 lines):
+      <parameter>TEXT_LINE_HEIGHT_RATIO_1, ..........
+      TEXT_LINE_HEIGHT_RATIO_10,</parameter>.</para>
+
+      <para>For example, if
+      <parameter>TEXT_FONT_SIZE</parameter> is set to 0.5cm and
+      <parameter>TEXT_LINE_HEIGHT_RATIO_3</parameter> is set to 0.8, then the
+      height of the text in line 3 of the text block will be 0.4 cm (0.5 x 0.8).
+      The default value for all text line ratios is 1.0, which results in the
+      character height of all lines being the same height.</para>
+
+
+      <important id="Text_Reference_Height_Changed"> <title>Magics++</title>
+      With <productname>Magics++</productname>, parameter
+      <parameter>TEXT_REFERENCE_CHARACTER_HEIGHT</parameter> with a default of 2cm
+      is replaced by <parameter>TEXT_FONT_SIZE</parameter> with a default of 0.5cm.
+      This will give sensible and consistent text sizes by default. The old system
+      relied on large text being automatically scaled down to fit its text box; this
+      produced text which was as generally large as possible within its box, but
+      meant that the text size varied between plots where the text differed, for example
+      in plot titles. The new system does not automatically scale text down, but its
+      default size is sensible. If a line of text does not fit into its box, you must
+      change its size yourself. This lack of automation requires a little more care when
+      initially setting up a plot, but will reduce inconsistencies when comparing plots
+      produced by the same program.
+      Note also the additional parameter <parameter>TEXT_LINE_HEIGHT_RATIOS</parameter> for
+      setting all the line ratios in one go.</important>
+
+    </section>
+
+
+<!--  Parameter TEXT_LINE_SPACE_RATIO not implemented as of 19/04/2007!
+
+    <section id="Text_Line_Spacing">
+      <title>Text Line Spacing</title>
+
+      <para></para>
+    </section>
+-->
+
+
+
+
+
+
+    <section id="Text_Fonts">
+      <title>Text Fonts and Colour</title>
+      
+      <important> <title>Magics++</title>
+      <productname>Magics++</productname> has new parameters to set the text font
+      attributes with greater user control. The old parameter,
+      <parameter>TEXT_QUALITY</parameter> may still be used, but offers less control
+      over the font.</important>
+
+      <para>The text font may be set with the parameter <parameter>TEXT_FONT</parameter>.
+      Available fonts are: '<code>Courier</code>', '<code>Helvetica</code>', 
+      '<code>Arial</code>', '<code>Times</code>' and '<code>Symbol</code>'.</para>
+      
+      <para>The text font style may be set with the parameter <parameter>TEXT_FONT_STYLE</parameter>.
+      Available styles are: '<code>Bold</code>', '<code>Italic</code>'
+      and '<code>BoldItalic</code>'.</para>
+      
+      <para>The text colour may be set with the parameter <parameter>TEXT_COLOUR</parameter>.
+      Any valid <productname>Magics</productname> colour name or definition is allowed here.
+      The default colour is '<code>BLUE</code>'.</para>
+
+      <para>The following code illustrates the use of these parameters:</para>
+
+      <programlisting>
+    CALL <function>PSETC</function> ('<parameter>TEXT_FONT</parameter>',       'ARIAL')
+    CALL <function>PSETC</function> ('<parameter>TEXT_FONT_STYLE</parameter>', 'BOLD')
+    CALL <function>PSETC</function> ('<parameter>TEXT_COLOUR</parameter>',     'BROWN')
+      </programlisting>
+
+      <para>These parameters affect all the text in the current and any subsequent text blocks.
+      For variations within a block of text, instruction strings or HTML text can be used.
+      <!-- cross ref --></para>
+
+    </section>
+
+
+    <section id="Text_Justification">
+      <title>Text Justification</title>
+
+
+      <para>A <productname>Magics</productname> parameter, <parameter>TEXT_JUSTIFICATION</parameter>
+      exists to control the positioning of text in all the lines of text in a text block.
+      There are three types of justification available:</para>
+
+      <itemizedlist>
+
+        <listitem>
+          <para>LEFT - the text will be left justified. This means that the text will start near
+          the left side of the text box, allowing for a small margin between the left side of
+          the box and the beginning of the text.</para>
+        </listitem>
+
+        <listitem>
+          <para>CENTRE - the text will be centred between the left and right side of the
+          text box. This is the default value for <parameter>TEXT_JUSTIFICATION</parameter>.</para>
+        </listitem>
+
+        <listitem>
+          <para>RIGHT - the text will be right justified. This means that the text will end near
+          the right side of the text box, allowing for a small margin between the right side of
+          the box and the end of the text.</para>
+        </listitem>
+
+        <!--
+        <listitem>
+          <para>TYPESET - the text will be arranged so that each line will be left and
+          right justified. If there is more than one word in the text, the first word
+          will start at the left side of the text box and the last word will finish
+          at the right side of the box, allowing for small margins between the text
+          and the sides of the text box. The line will be padded with blanks. When
+          there is only one word of text to be plotted, it will be left justified.</para>
+        </listitem>
+        -->
+      
+      </itemizedlist>
+
+
+      <important id="Text_Justification_Change"> <title>Magics++</title>
+      <productname>Magics++</productname> now supports a justification value of '<code>RIGHT</code>'
+      but no longer supports a value of '<code>TYPESET</code>'.</important>
+
+    </section>
+
+
+
+    <section id="Text_Box_Border">
+      <title>Text Box Border</title>
+      
+      <para>It is possible to draw a border (or frame) around the text box by setting the
+      parameter <parameter>TEXT_BORDER</parameter>  to '<code>ON</code>', the default being
+      '<code>OFF</code>'.</para>
+
+      <para><productname>Magics</productname> uses the text box positioning parameters to draw
+      the border, i.e. <parameter>TEXT_BOX_X_POSITION</parameter>, 
+      <parameter>TEXT_BOX_Y_POSITION</parameter>, <parameter>TEXT_BOX_X_LENGTH</parameter> etc.
+      The border will be drawn around the defined text box regardless of the
+      number of text lines in the box. The user may control the colour,
+      thickness and linestyle of the border by setting the parameters
+      <parameter>TEXT_BORDER_COLOUR</parameter>, <parameter>TEXT_BORDER_THICKNESS</parameter>
+      and <parameter>TEXT_BORDER_LINE_STYLE</parameter> respectively.</para>
+
+    </section>
+
+    <section id="Text_Box_Blanking">
+      <title>Text Box Blanking</title>
+      
+      <para>A text box can be drawn in such a way that either its background is
+      transparent (default behaviour) or its background overwrites anything
+      currently in that part of the plot. This latter
+      behaviour is called 'text box blanking' and is controlled with the 
+      parameter <parameter>TEXT_BOX_BLANKING</parameter>. This can be set to
+      '<code>ON</code>', the default being '<code>OFF</code>'.</para>
+
+      <para>To ensure full blanking inside a text box, users should call action
+      routine <function>PTEXT</function> after all other action routines. If plotting
+      has already taken place in the text box area, before <function>PTEXT</function>
+      is called, it will be erased and will not appear in the final plot.</para>
+
+    </section>
+
+
+  </section>  <!-- Text Plotting -->
+
+
+<!-- 
+  <section id="I">
+   <title>Instruction Strings</title>
+  </section>
+ -->
+
+<!-- 
+  <section id="HTML_Text">
+   <title>HTML Text</title>
+  </section>
+ -->
+  
+
+
+
+
+
+  <xi:include href="../paramtables/ptext_tables.xml"
+               xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+
+ <section id = 'Text_magml_all_tables'>
+    <title>MagML Templates for Text Plotting</title>
+
+    <xi:include href="../paramtables/TextVisitor_text_magml_tables.xml"
+                 xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <xi:include href="../paramtables/TextVisitor_text_magml_flat_tables.xml"
+                 xmlns:xi="http://www.w3.org/2001/XInclude" />
+ </section>
+
+  <!--
+
+  <section  id="Text Program_Examples">
+    <title>Program Examples</title>
+
+    <para>These examples show how to do stuff with text</para>
+  </section>
+
+  <xi:include href="../examples/manual/xml/text_examples.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+  -->
+</chapter>

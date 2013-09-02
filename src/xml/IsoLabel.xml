@@ -1,0 +1,85 @@
+
+<?xml-stylesheet type='text/css' href='parameter.css'?>
+<magics>
+
+<class name='IsoLabel' xmltag='label' inherits='NoIsoLabel' doc_inherits='no' action='pcont' prefix='contour/contour/contour_label' directory='visualisers'>
+  <documentation>
+  The action routine PCONT will plot labels on contour lines either by default
+  or as directed by the user. 
+  Contour labels may be plotted with different attributes from the contour line, 
+  e.g. colour and thickness. 
+  Contour labels are, by default, plotted on every 2nd contour line, 
+  but this may be changed by the user, if desired.
+  </documentation>
+  <parameter name='contour_label_type' from='string' to='string'
+             member='type' default='number' >
+         <documentation> Type of label (TEXT/NUMBER/BOTH) </documentation>
+         <migration> New Magics: Parameter contour_label_type sent to new Magics[IsoLabel].  </migration>
+         <release>Magics++2.8</release>
+         <release_info>number is used by default in: expected in 0.6 </release_info>
+  </parameter>
+  
+  <parameter name='contour_label_text' from='string' to='string' member='text' default='' >
+         <documentation> Text for labels </documentation>
+         <migration> New Magics: Parameter Contour sent to new Magics[IsoLabel].  </migration>
+         <release>Magics++2.8</release>
+  </parameter>
+
+  <parameter name='contour_label_height' from='float' to='float' member='height' xml='height' default='0.3'>
+         <documentation> Height of contour labels </documentation>
+         <migration> New Magics: Parameter contour_label_height sent to new Magics[IsoLabel].  </migration>
+         <release>Magics++0.1</release>
+  </parameter>
+
+  <parameter name='contour_label_format' from='string' to='string' member='format' xml='format' default='(automatic)' >
+         <documentation> Format of contour labels (MAGICS Format/(AUTOMATIC)) </documentation>
+         <migration> New Magics: Parameter contour_label_format sent to new Magics[IsoLabel].  </migration>
+         <release>Magics++0.1</release>
+  </parameter>
+
+  <parameter name='contour_label_blanking' from='string' to='bool' member='blanking' xml='blanking' default='on' >
+         <documentation>Label Blanking</documentation>
+         <release>Magics++ 0.4</release>
+  </parameter>
+
+  <parameter name='contour_label_quality' from='string' to='string' member='quality' xml='quality' default='low' implemented='no'>
+         <documentation> (LOW/MEDIUM/HIGH) </documentation>
+         <release>Deprecated </release>
+         <release_info> Use label_font and label_font_style</release_info>
+  </parameter>
+  
+  <parameter name='contour_label_font' from='string' to='string' member='font' default='sansserif'>
+         <documentation> Name of the font  </documentation>
+         <migration> New Magics: Parameter contour_label_quality sent to new Magics[IsoLabel].  </migration>
+         <release>Magics++0.1</release>
+  </parameter>
+  
+  <parameter name='contour_label_font_style' from='string' to='string'
+             member='style' xml='font_style' default='normal'>
+         <documentation>Style of the font bold/italic</documentation>
+         <migration>New Magics: Parameter contour_label_quality sent to new Magics[IsoLabel].  </migration>
+         <release>Magics++ 1.4</release>
+  </parameter>
+
+  <parameter name='contour_label_colour' from='string' to='string' metview_interface='ColourWithExtra'
+             member='colour'
+			 default='contour_line_colour'>
+         <documentation> Colour of contour labels </documentation>
+         <migration> New Magics: Parameter contour_label_colour sent to new Magics[IsoLabel].  </migration>
+         <release>Magics++0.4</release>
+        
+  </parameter>
+
+  <parameter name='contour_label_frequency' from='int' to='int'
+             member='frequency' 
+			 default='2'>
+         <documentation> Every Nth contour line is labelled </documentation>
+         <migration> New Magics: Parameter contour_label_frequency sent to new Magics[IsoLabel].  </migration>
+         <release>Magics++0.4</release>
+         
+  </parameter>
+</class>
+
+<class name='NoIsoLabel' xmltag='nolabel' action='pcont' used_by='IsoPlot' directory='visualisers'  doc_inherits='no' include='IsoLabel.h'/>
+
+</magics>

@@ -1,0 +1,24 @@
+<magics version='3.0'>
+ <drivers>
+	<kml name='2007-03-07-satellite'/>
+	<png name='2007-03-07-satellite'/>
+	<ps  name='2007-03-07-satellite'/>
+ </drivers>
+ <page>
+  <gribloop loop_path='../data/sat.grib' >
+    <loopondate loop_step_span='12' />
+      <map>
+        <cylindrical >
+           <corners min_latitude='-60' max_latitude='60' min_longitude='-60' max_longitude='60'/>
+        </cylindrical>
+            <layer>
+              <grib/>
+              <image level_count='20' pixel_selection_frequency='30'>
+                <lut_equidistant/>
+                <lut_computed min='white' max='black'/>
+              </image>   
+            </layer>
+        </map>
+    </gribloop>
+</page>    
+</magics>

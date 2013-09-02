@@ -1,0 +1,68 @@
+#!/bin/ksh
+
+# Builds all the books for the Magics documentation.
+# Calls make_docs for each book, passing parameters as appropriate
+
+
+format=""
+format_flag=""
+targetopt=""
+cleanopt=""
+
+
+for arg;do
+    if [[ $arg = "-h" || $arg = "-help" || $arg = "--help" ]]
+    then
+        echo ""
+        echo "make_docs"
+        echo "Possible options:"
+        echo "   -html        : resultant output in HTML"
+        echo "   -pdf         : resultant output in PDF"
+        echo "   -targets     : generate link targets"
+        echo "   -noclean     : do not remove temporary files"
+        echo ""
+        exit
+    fi
+
+    if [[ $arg = "-html" ]]
+    then
+        format="html"
+    fi
+
+    if [[ $arg = "-pdf" ]]
+    then
+        format="pdf"
+    fi
+
+
+    if [[ $arg = "-targets" ]]
+    then
+        targetopt="-targets"
+    fi
+
+    if [[ $arg = "-noclean" ]]
+    then
+        cleanopt="-noclean"
+    fi
+
+done
+
+
+if [[ $arg = "" ]]
+then
+    echo "No output format set - use 'make_docs -h' for help"
+    exit
+fi
+
+
+
+if [[ $format = "pdf" ]]
+then
+    for book in axis boxplot contour data drivers intro install layout_mapping_coastlines legend graph polyline symbol text using wind params_fortran #tutorial
+    do
+        echo "Building chapter $book"
+        ./make_docs -$format -book=magics_$book $targetopt $cleanopt
+    done
+else
+    ./make_docs -$format -book=magics_userguide $targetopt $cleanopt  # we do the html all-at-once
+fi

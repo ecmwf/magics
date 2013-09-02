@@ -1,0 +1,8 @@
+<magics>
+<class  action='pcont' inherits='PolyShadingTechnique' directory='visualisers' include='PolyShadingTechnique.h' name='GridShading'>
+
+  	<parameter  member='position' to='string' default='middle' from='string' name='contour_grid_shading_position'>
+         		<documentation > Middle : the point is in the midlle of the cell, bottom_left : the point is in the bottom left corner 		</documentation>
+         		<release >0.2		</release>
+  	</parameter>
+  </class></magics>

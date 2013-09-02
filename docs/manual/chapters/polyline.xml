@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+                 "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd">
+<chapter id="MAGICS_Polylines" label="11">
+  <title>Polyline Plotting</title>
+
+  <xi:include href="../phrases/chapterinfo_mod.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <section id="Polyline_Introduction">
+    <title>Introduction</title>
+
+    <para>Polylines provide the ability to draw arbitrary polylines
+    (polylines if not closed, polygons if closed)
+    over a geographic area. These can be shaded or not, and various
+    attribute parameters are available to specify their appearance.
+    The data for polylines can come directly from arrays stored in memory
+    or from text files of specified format. The action routine
+    <function>PLINE</function> draws the polygons.</para>
+
+    <para>Example uses of polylines include:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>Highlighting an area of interest on a map.</para>
+      </listitem>
+      <listitem>
+        <para>Colour-coding different catchement areas with shaded polygons.</para>
+      </listitem>
+      <listitem>
+        <para>Shading precomputed data on an irregular grid.</para>
+      </listitem>
+    </itemizedlist>
+<important>
+    <title>Magics++</title>
+   Polyline plotting was introduces with Magics++ version 2.0. 
+</important>
+
+<remark>
+Is polyline plotting not very similiar to mapgen boundary plotting? What are the differences?
+</remark>
+
+  </section>  <!-- Polyline_Introduction -->
+
+
+
+  <section id="Polyline_Input_Data">
+    <title>Input Data</title>
+
+    <para>Input data for polyline plotting can be passed to
+      <productname>Magics</productname> in one of two ways:
+      in-memory arrays or separate coordinate and value
+      text files. In both cases, the interpretation of the data is the same:
+      the coordinate lists contain the x and y positions for each polyline, with
+      a special indicator, set by <parameter>POLYLINE_INPUT_BREAK_INDICATOR</parameter>,
+      denoting the end of each polyline and hence the start of another. Any point
+      with either an x or a y coordinate equal to this value will not be used in
+      plotting, but will tell <productname>Magics</productname> to finish the current
+      polyline. Subsequent data will belong to a new polyline. It follows, then,
+      that input data should end with this break indicator. The number of
+      polylines should be matched by the number of values. Note that
+      <productname>Magics</productname> will not automatically close polylines -
+      if you wish to have a closed polygon, you must duplicate the first coordinate
+      as the last.
+    </para>
+
+    <!-- XXX how to you call PLINE multiple times? It seems you have to reset
+         the coord/data arrays each time, though this does not always seem to work.  -->
+
+    <section id="Polygon_Input_Arrays">
+      <title>Input Data via Arrays</title>
+
+      <para>It is possible to generate the polygon data in arrays
+      and pass these to <productname>Magics</productname>. See 
+      <olink targetdoc="Magics_polyline" targetptr="Polyline_Program_Examples"/>
+      for a full example, but here is a snippet of code which demonstrates
+      the passing of these arrays to <productname>Magics</productname>:
+      </para>
+
+      <programlisting>
+    CALL <function>PSET1R</function> ('<parameter>POLYLINE_INPUT_LONGITUDES</parameter>', RX,    NPOINTS)
+    CALL <function>PSET1R</function> ('<parameter>POLYLINE_INPUT_LATITUDES</parameter>',  RY,    NPOINTS)
+    CALL <function>PSET1R</function> ('<parameter>POLYLINE_INPUT_VALUES</parameter>',     RVALS, NPOLYS)
+      </programlisting>
+
+    </section>
+
+
+    <section id="Polygon_Input_Files">
+      <title>Input Data via Files</title>
+
+      <para>It is possible to pass <productname>Magics</productname> the
+      names of two files which contain respectively the coordinates of the polygon
+      points and the values associated with those polygons. The coordinate file
+      is a simple text file with each point's coordinates on a separate line.
+      The coordinates are presented as x then y, with whitespace in-between.
+      The values file is also a simple text file; each line contains one value
+      which is associated with the corresponding polygon. The locations of these
+      files are presented to <productname>Magics</productname> as shown in 
+      the following code snippet:</para>
+
+      <programlisting>
+    CALL <function>PSETC</function>('<parameter>POLYLINE_INPUT_POSITIONS_FILENAME</parameter>', 'data/catchment.pos')
+    CALL <function>PSETC</function>('<parameter>POLYLINE_INPUT_VALUES_FILENAME</parameter>',    'data/catchment.val')
+      </programlisting>
+
+
+      <para>A section of the positions file might look like the following.
+      Note that this excerpt shows just the last few points from one polyline,
+      a separator and then the first few points of a new polyline. The numbers are
+      in scientific notation, but they need not be. In this example,
+      <parameter>POLYLINE_INPUT_BREAK_INDICATOR</parameter> was set to -999.</para>
+
+      <programlisting>
+   2.5407444e+01   6.9562798e+01
+   2.5431995e+01   6.9560699e+01
+   2.5431995e+01   6.9560699e+01
+  -9.9900000e+02  -9.9900000e+02
+   2.8455135e+01   6.9875870e+01
+   2.8479740e+01   6.9873390e+01
+      </programlisting>
+
+      <para>A section of the corresponding values file follows. Remember that
+      in this file we have one value per polyline.</para>
+
+      <programlisting>
+   8.8014221e+00
+   1.7295614e+00
+      </programlisting>
+
+    </section>
+
+  </section> <!-- Polyline_Input_Data -->
+
+
+
+  <section id="Polyline_Plotting">
+    <title>Polyline Plotting</title>
+
+    <para>Plotting of polylines is in some ways similar to the plotting
+    of contours (see <olink targetdoc="Magics_contour" targetptr="Contouring"/>).</para>
+
+
+    <para>See <olink targetdoc="Magics_polyline" targetptr="pline_tables"/>
+    and
+    <olink targetdoc="Magics_polyline" targetptr="Polyline_Program_Examples"/>
+    for details, but there are various parameters both for specifying
+    the line plotting and the shading attributes. All polylines drawn with
+    a single call to <function>PLINE</function> will share the same
+    line attributes; however, they may be shaded differently if desired.
+    Because this is a little more complicated, it is dealt with in more
+    detail now.</para>
+
+    <section id="Polyline_Shading_Bands">
+      <title>Polyline Shading Bands</title>
+
+      <para>When polygons are shaded, they are done so according to their
+      corresponding value. An internal table is set up which maps ranges
+      of values to colours; each range is called a <firstterm>band</firstterm>.
+      This table may be set up in a number of ways,
+      and is bounded by the parameters
+      <parameter>POLYLINE_SHADE_MIN_LEVEL</parameter> and
+      <parameter>POLYLINE_SHADE_MAX_LEVEL</parameter>; polygons with
+      values outside this range will not be shaded.</para>
+
+      <para>To plot one level only, users should simply set the parameters
+      <parameter>POLYLINE_MAX_LEVEL</parameter> and
+      <parameter>POLYLINE_MIN_LEVEL</parameter> to the level required.</para>
+      
+      <para>There are three ways of specifying how the colour table
+      should be generated, set with the parameter
+      <parameter>POLYLINE_SHADE_LEVEL_SELECTION_TYPE</parameter> which can
+      have one of the following values: <code>COUNT</code>, <code>INTERVAL</code>
+      or <code>LEVEL_LIST</code>, described in more detail below.</para>
+
+      <section id="Polyline_Count">
+        <title>Polyline Shading Levels Specified by 'COUNT'</title>
+
+        <para>The number of shading levels may be set by the user by setting the
+        parameter <parameter>POLYLINE_SHADE_LEVEL_SELECTION_TYPE</parameter> to
+        '<code>COUNT</code>' (default) and
+        <parameter>POLYLINE_LEVEL_COUNT</parameter> to the number of levels to be
+        shaded. <productname>Magics</productname> will then calculate the
+        size of the interval and the user's plot will consist of the number of
+        levels specified with a regular shading interval. This is the default
+        method and the default number of levels is 10. The exact number of
+        levels plotted may not be
+        <parameter>POLYLINE_LEVEL_COUNT</parameter> as <function>PLINE</function>
+        will always use the value stored in
+        <parameter>POLYLINE_REFERENCE_LEVEL</parameter> as a starting point and
+        will try to pick reasonable values for the interval.</para>
+
+      </section>
+
+
+      <section id="Polyline_Levels_Selected_by_INTERVAL">
+        <title>Polyline Shading Levels Selected by 'INTERVAL'</title>
+
+        <para>If the parameter
+        <parameter>POLYLINE_SHADE_LEVEL_SELECTION_TYPE</parameter> is set to
+        '<code>INTERVAL</code>', <productname>Magics</productname> will shade
+        polygons at regularly spaced intervals using the value of
+        <parameter>POLYLINE_REFERENCE_LEVEL</parameter> as a base and the value
+        in <parameter>POLYLINE_INTERVAL</parameter> as the interval between
+        levels.</para>
+
+      </section>
+
+
+      <section id="Polyline_Levels_Selected_by_LEVEL_LIST">
+        <title>Polyline Shading Levels Selected by 'LEVEL_LIST'</title>
+
+        <para>Users may supply a list of the polygon shading levels to be plotted by
+        setting the parameter
+        <parameter>POLYLINE_SHADE_LEVEL_SELECTION_TYPE</parameter> to
+        '<code>LEVEL_LIST</code>' and passing an array of level values.
+        The passing of the array of values is achieved by calling the routine
+        <function>PSET1R</function> thus</para>
+
+        <programlisting>    CALL <function>PSET1R</function>('<parameter>POLYLINE_LEVEL_LIST</parameter>',ARRAY,N) </programlisting>
+
+        <para>where '<code>ARRAY</code>' is the name of the array and
+        '<code>N</code>' is the number of values in the array. This method
+        enables users to shade polygons with irregular intervals.</para>
+      </section>
+
+    </section> <!-- Polyline_Shading_Bands -->
+
+
+
+
+    <section id="Polyline_Shading_Colours">
+      <title>Polyline Shading Colours</title>
+
+      <para>Users may control the colour of the shading by setting the
+      parameters <parameter>POLYLINE_SHADE_MAX_LEVEL_COLOUR</parameter> and
+      <parameter>POLYLINE_SHADE_MIN_LEVEL_COLOUR</parameter> to the required
+      values, default values being <code>BLUE</code> and <code>RED</code>
+      respectively.</para>
+
+      <para>Colour shading is performed in such a way that, starting with
+      <parameter>POLYLINE_SHADE_MIN_LEVEL_COLOUR</parameter>, the colour of
+      each subsequent shading band will vary from the preceding band by a
+      factor that depends on the number of bands to be shaded.</para>
+
+      <para>The colour of the last band to be shaded will be
+      <parameter>POLYLINE_SHADE_MAX_LEVEL_COLOUR</parameter> and the shading
+      colour of the intermediate bands will be calculated internally by
+      modifying the hue, saturation or intensity. These may or may not be
+      discreet colours, e.g. red, blue etc, depending on the number of bands
+      to be shaded.</para>
+
+      <para>Normally, the colour shading sequence will progress in an
+      anti-clockwise direction, e.g. red, yellow, green, cyan, blue. The
+      parameter <parameter>POLYLINE_SHADE_COLOUR_DIRECTION</parameter> may be
+      set to '<code>CLOCKWISE</code>' to alter the sequence, i.e. blue, cyan,
+      green, yellow, red. The colour sequence is circular so that it is
+      possible, for example, to shade from green to yellow in an
+      anti-clockwise direction or from red to green in a clockwise
+      direction.</para>
+
+      <para>Black and white are not included in the normal sequence of shading
+      colours but are treated in a special manner. If
+      <parameter>POLYLINE_SHADE_MIN_LEVEL_COLOUR</parameter> is set to white
+      and <parameter>POLYLINE_SHADE_MAX_LEVEL_COLOUR</parameter> is set to one
+      of the sequencing colours, e.g. red, the shading colour sequence will
+      start with white and subsequent colours will be increasingly red, the
+      last colour in the sequence being pure red. The reverse, i.e. shading
+      from red to white, is performed in the same way, starting with red and
+      ending with white.</para>
+
+      <para>Shading between black and any other sequencing colour is treated
+      similarly. Grey scaling can be achieved by shading from black to white
+      or from white to black.</para>
+    </section>  <!-- Polyline_Shading_Colours -->
+
+    <!-- XXX is this true???
+    <section id="Colour_Table_for_Polyline_Shading">
+      <title>Colour Table for Polyline Shading</title>
+
+      <para>Users may have a different colour table for each new <productname>Magics</productname>
+      Superpage. To achieve this, the user should set the min and max colour
+      settings for contour shading or imaging before starting the new
+      Superpage, e.g. <parameter>CONTOUR_SHADE_MIN_LEVEL_COLOUR</parameter>
+      and <parameter>CONTOUR_SHADE_MAX_LEVEL_COLOUR</parameter>. It is
+      necessary that either <function>PCONT</function>,
+      <function>PCOAST</function> or <function>PIMAGE</function> be the first
+      action routine called in the new Superpage.</para>
+    </section>
+     -->
+
+    <section id="Polyline_Shade_Colour_Methods">
+      <title>Polyline Shade Colour Methods</title>
+
+      <para>There are two methods for determining the colours to be used in
+      polyline shading. The parameter
+      <parameter>POLYLINE_SHADE_COLOUR_METHOD</parameter> should be used to
+      define which method is required. Valid values are <code>LIST</code> and
+      <code>CALCULATE</code> (default). In the default method
+      (<code>CALCULATE</code>), the colour of bands is calculated
+      automatically from the
+      values in <parameter>POLYLINE_SHADE_MIN_LEVEL</parameter>,
+      <parameter>POLYLINE_SHADE_MAX_LEVEL</parameter>,
+      <parameter>POLYLINE_SHADE_MIN_LEVEL_COLOUR</parameter> and
+      <parameter>POLYLINE_SHADE_MAX_LEVEL_COLOUR</parameter>.</para>
+
+      <para>For manual control, the method <code>LIST</code> allows the user
+      to pass an array of colours to be used in the shading,
+      for example,</para>
+
+      <programlisting>    CALL <function>PSET1C</function>('<parameter>POLYLINE_SHADE_COLOUR_LIST</parameter>',CLIST,N)</programlisting>
+
+      <para><code>CLIST</code> is an array of type character and length
+      <code>N</code> containing a list of colours to be used in
+      shading. The colour in <code>CLIST</code> will be used in a cyclic way:
+      <code>CLIST(I)</code>, <code>CLIST(I+1)</code> will be used to shade the
+      <code>I</code> th , <code>I</code>+1 th shading bands etc.
+      <!-- XXX true?? However, if
+      there are more bands to be shaded than there are colours in the list,
+      the colours will be used again starting at <code>CLIST(1)</code> . If an
+      empty array is passed in
+      <parameter>POLYLINE_SHADE_COLOUR_LIST</parameter>, the default method
+      (<code>CALCULATE</code>) will be used. --></para>
+
+    </section>  <!-- Polyline_Shade_Colour_Methods -->
+
+
+  </section> <!-- Polyline_Plotting -->
+
+
+
+
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        Parameter tables and examples
+       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+
+
+ <xi:include href="../paramtables/pline_tables.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+
+ <section id = 'SimplePolylineInput_polyline_input_magml_all_tables'>
+   <title>MagML Templates for Polyline Input</title>
+
+   <xi:include href="../paramtables/SimplePolylineInput_polyline_input_magml_tables.xml"
+                xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+   <xi:include href="../paramtables/SimplePolylineInput_polyline_input_magml_flat_tables.xml"
+                xmlns:xi="http://www.w3.org/2001/XInclude" />
+ </section>
+
+
+ <section id = 'SimplePolyline_polyline_magml_all_tables'>
+   <title>MagML Templates for Polyline Plotting</title>
+
+   <xi:include href="../paramtables/SimplePolyline_polyline_magml_tables.xml"
+                xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+   <xi:include href="../paramtables/SimplePolyline_polyline_magml_flat_tables.xml"
+                xmlns:xi="http://www.w3.org/2001/XInclude" />
+ </section>
+
+
+
+  <section id="Polyline_Program_Examples">
+    <title>Program Examples</title>
+
+    <para>The following examples demonstrate the use of polylines.</para>
+    <para>The first example shows a set of catchement areas whose boundaries
+    are defined in a text file. Another text file provides values for
+    each of these areas.</para>
+  </section>
+
+  <xi:include href="../examples/manual/xml/pline_examples.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+</chapter>

@@ -1,0 +1,53 @@
+# Set the environment for old MAGICS
+#
+# Bourne/Korn Shell
+
+version=old
+
+envSelected=${envSelected:=no}
+
+#if echo $envSelected | grep ${version}magics >/dev/null
+#then
+#        echo "${version}magics is already enabled"
+#        exit 0
+#fi
+
+export MAG_HOME=/usr/local/apps/Magics/${version}
+maglib=/usr/local/apps/Magics/${version}/lib
+export EMOSLIB="-L/usr/local/lib -lemos.old.R32.D64.I32"
+
+case $ARCH in
+	linux) 
+		export MAGLIB="-L/usr/local/apps/Magics/old/lib -lmagics -lMvDevices -lmagics -lgd -lpng -ljpeg -lz -lfreetype -L/usr/local/apps/newgnu/lib -lstdc++ -lm"
+		export LD_LIBRARY_PATH="/usr/local/apps/newgnu/lib:/usr/local/apps/Magics/old/lib:/usr/lib"
+		echo \$MAGLIB changed to $MAGLIB
+		echo \$LD_LIBRARY_PATH changed to $LD_LIBRARY_PATH
+		;;  
+	sgimips)
+		export MAGLIB="-L${maglib} -lmagGL -lMvDevices -lftn -lfortran -lm"
+		export LD_LIBRARYN32_PATH=${maglib}:/usr/local/lib32:/lib32:/usr/lib32
+		;;
+	rs6000)
+		export "MAGLIB=-L${maglib} -lmagics -lMvDevices -lgd -lpng -ljpeg -lz -lfreetype -lxlf90 -lGLw -lGLU  -lGL"
+		;;
+			
+	hppa)   echo "Not supported on this platform"
+		;;
+esac
+export MAGLIB
+
+envSelected="${version}magics $envSelected"  ; export envSelected
+
+echo \$EMOSLIB changed to $EMOSLIB
+echo " "
+echo "*****************************************************************"
+echo "* 'use oldmagics' now refers to User Version 6.8."
+echo "*"
+echo "* To use the new Magics User Version 6.9"
+echo "* please remove the statement 'use oldmagics'"
+echo "*"
+echo "* Thank You" 
+echo "*"
+echo "* Graphics Section"
+echo "*****************************************************************" 
+

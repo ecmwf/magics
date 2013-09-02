@@ -1,0 +1,14 @@
+.f: 
+	pgf90 -Mbackslash -r8 -g -o $* $*.f ${MAGPLUSLIB} ${ODB_LIBS}
+.cc:
+	g++ -Dfortfloat=double -Dfortint=int -Dboolean=bool -I${MAGPLUS_HOME}/include \
+    -I../../src/decoders \
+    -I../../src/common \
+    -I../../src/visualisers \
+    -I/usr/local/lib/metaps/lib/grib_api/current/include -I/usr/local/apps/Magics/external/include -I/usr/local/include -I/usr/include -I/usr/include/freetype2  -I/usr/X11R6/include\
+	-g -o $* $*.cc ${MAGPLUSLIB}  ${ODB_LIBS} \
+	-L/usr/local/apps/pgi/pgi-5.2-4/linux86/5.2-4/lib -lpgf90 -lpgf90_rpm1 -lpgf902 -lpgf90rtl -lpgftnrtl -lpgc
+	
+
+all:: coast 
+all::long_shading

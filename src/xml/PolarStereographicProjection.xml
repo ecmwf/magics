@@ -1,0 +1,116 @@
+<?xml-stylesheet type='text/css' href='parameter.css'?>
+<!--
+ ******************************** LICENSE ********************************
+ 
+
+ Copyright 2007 European Centre for Medium-Range Weather Forecasts (ECMWF)
+ 
+ Licensed under the Apache License, Version 2.0 (the "License"); 
+ you may not use this file except in compliance with the License. 
+ You may obtain a copy of the License at 
+ 
+ 	http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software 
+ distributed under the License is distributed on an "AS IS" BASIS, 
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
+ See the License for the specific language governing permissions and 
+ limitations under the License.
+
+
+ ******************************** LICENSE ********************************
+-->
+<magics>
+<class name='PolarStereographicProjection' 
+		action='projection' 
+		xmltag='polar_stereographic' 
+		prefix='subpage/subpage/subpage_map/subpage_map_area' 
+		directory='common'
+		inherits='Transformation'>
+	<documentation>
+		These are the attributes of the PolarStereographic projection. 
+	</documentation>
+	<parameter name='subpage_map_area_coordinate_system' from='string' to='string'
+             member='system' default='users' visible='off'>
+         <release>Magics++2.8</release>
+         
+         
+         <documentation> If set to projection, the coordinates of the bounding box are described in projection coordinates
+          instead of the more natural lat/lon system  ( this is useful in the WMS context) </documentation>
+  </parameter>
+    <parameter name='subpage_map_area_definition_polar' from='string' to='string' 
+             member='area' default='corners' values='full/corners/centre'>
+             <set value="corners" name='subpage_lower_left_latitude'/>
+             <set value="corners" name='subpage_lower_left_longitude'/>
+             <set value="corners" name='subpage_upper_right_latitude'/>
+             <set value="corners" name='subpage_upper_right_longitude'/>
+             <set value="corners" name='subpage_upper_right_longitude'/>
+             <set value="centre" name='subpage_map_vertical_longitude'/>
+             <set value="centre" name='subpage_map_centre_latitude'/>
+             <set value="centre" name='subpage_map_centre_longitude'/>
+             <set value="centre" name='subpage_map_scale'/>
+         <release>Magics++0.1</release>
+         
+         <release_info>Basic implementation: only used for steroGraphicPolar Projection</release_info>
+         <documentation> Method of defining a polar stereographic map</documentation>
+  </parameter>
+  <parameter name='subpage_map_hemisphere' from='string' to='Hemisphere'
+             member='hemisphere' default='north'  >
+         <release>Magics++0.1</release>    
+         <documentation> Hemisphere required for polar stereographic map(NORTH/SOUTH) </documentation>
+  </parameter>
+
+ 
+  
+   <parameter name='subpage_lower_left_latitude' from='float' to='float'
+             member='min_latitude' default='-90.0' >
+         <release>Magics++0.1</release>
+         <documentation> Latitude of lower left corner of map, if map is CYLINDRICAL, MERCATOR or defined by 'CORNERS' in POLAR STEREOGRAPHIC </documentation>
+  </parameter>
+
+  <parameter name='subpage_lower_left_longitude' from='float' to='float'
+             member='min_longitude' default='-180.0' >
+         <release>Magics++0.1</release>
+         <documentation> Longitude of lower left corner of map, if map is CYLINDRICAL, MERCATOR or defined by 'CORNERS' in POLAR STEREOGRAPHIC </documentation>
+  </parameter>
+
+  <parameter name='subpage_upper_right_latitude' from='float' to='float'
+             member='max_latitude' default='90.0' >
+         <release>Magics++0.1</release>
+         <documentation> Latitude of upper right corner of map, if map is CYLINDRICAL, MERCATOR or defined by 'CORNERS' in POLAR STEREOGRAPHIC </documentation>
+  </parameter>
+
+  <parameter name='subpage_upper_right_longitude' from='float' to='float'
+             member='max_longitude' default='180.0' >
+         <release>Magics++0.1</release>
+         <documentation> Longitude of upper right corner of map, if map is CYLINDRICAL, MERCATOR or defined by 'CORNERS' in POLAR STEREOGRAPHIC </documentation>
+  </parameter>
+   <parameter name='subpage_map_vertical_longitude' from='float' to='float'
+             member='vertical_longitude'  default='0.0' >
+         <documentation> Vertical longitude of polar stereographic or Aitoff map </documentation>
+         <release>Magics++0.1</release>   
+         <release_info>Only available for polar sterepgraphic projection</release_info>
+  </parameter>
+   <parameter name='subpage_map_centre_latitude' from='float' to='float'
+             member='centre_latitude'  default='90.0'>
+         <release>Magics++0.3</release>   
+         <documentation> Latitude of centre of polar stereographic map defined by 'CENTRE' or centre latitude of Lambert/satellite subarea projections </documentation>
+  </parameter>
+
+  <parameter name='subpage_map_centre_longitude' from='float' to='float'
+             member='centre_longitude' default='0.0'>
+         <release>Magics++0.3</release>   
+         <documentation> Longitude of centre of polar stereographic map defined by 'CENTRE' or centre longitude of Lambert/satellite subarea projections </documentation>
+  </parameter>
+
+  <parameter name='subpage_map_scale' from='float' to='float'
+             member='map_scale'		 default='50.e6' >
+         <release>Magics++0.3</release>   
+         <release_info> only for polar stereographic projection</release_info>
+         <documentation> Scale of polar stereographic or Aitoff  map </documentation>
+  </parameter>
+
+
+</class>
+</magics>
+

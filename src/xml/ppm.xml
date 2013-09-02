@@ -1,0 +1,36 @@
+<?xml-stylesheet type='text/css' href='parameter.css'?>
+<magics>
+<class name = 'PpmDecoder'  xmltag='ppm' prefix='ppm' action_routine='pobs' directory='decoders'>
+   <parameter name='ppm_input_file_name' from='string' to='string'
+             member='filename' default=''>
+         <release>Expected in Magics++0.7</release>
+         <documentation> The name of the input file containing the PPM image </documentation>
+  </parameter>
+   <parameter name='ppm_min_latitude' from='float' to='float'
+             member='minLat'  default='-90'>
+         <release>Expected in Magics++0.7</release>
+         <documentation> Min latitude of the image </documentation>
+  </parameter>
+  
+  <parameter name='ppm_max_latitude' from='float' to='float'
+             member='maxLat'  default='90'>
+         <release>Expected in Magics++0.7</release>
+         <documentation> Max latitude of the image </documentation>
+  </parameter>
+   <parameter name='ppm_min_longitude' from='float' to='float'
+             member='minLon'  default='-180'>
+         <release>Expected in Magics++0.7</release>
+         <documentation> Min latitude of the image </documentation>
+  </parameter>
+  
+  <parameter name='ppm_max_longitude' from='float' to='float'
+             member='maxLon' 	 default='180'>
+         <release>Expected in Magics++0.7</release>
+         <documentation> Max latitude of the image </documentation>
+  </parameter>
+  
+</class>
+
+
+  
+</magics>

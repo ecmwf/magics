@@ -1,0 +1,40 @@
+<magics version='3.0'  format='a4'>
+
+  <drivers>
+    <ps name= 'contour_3' />
+  </drivers>
+
+  <page>
+    
+     <map height='70%'>		
+        <polar_stereographic  
+              map_area_definition='centre'
+              map_vertical_longitude='-95.'           
+              map_centre_longitude='-95'
+              map_centre_latitude='40'
+              map_scale='27.e6'
+          />
+
+       <coastlines colour='grey'>
+         <coast thickness = '3'/>				
+         <grid latitude_increment = '5'
+                longitude_increment = '5'>
+         </grid>
+       </coastlines>
+     
+       <plot>
+          <grib input_file_name='data/z500_tc.grib'/>
+          <contour legend='on'>
+            <isoline >
+                 <list level_list = '480/520/530/560/575/590' />
+                <shading contour_shade_method='dot' >
+                    <list colour_list='navy/blue/green/yellow/orange'/>                   
+                </shading>
+            </isoline>
+            <hilo hi_colour = 'navy' lo_colour = 'navy'/>       
+          </contour>
+       </plot>    
+    
+     </map><legend display='block' height='10%'/>
+  </page>   
+</magics>    

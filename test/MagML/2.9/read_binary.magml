@@ -1,0 +1,23 @@
+<magics version='3' mode="wrep" width='29.7' height='21'>
+  <drivers>
+    <png fullname='binary_inside.png' output_mgb_template="binary_input.mgb" />
+    <xsvg fullname='binary_inside.svg'/>
+    <xcairo_svg fullname='binary_inside_cairo.svg'/>
+    <xsvg fullname='binary_inside_compress.svg' svg_compress='on'/>
+    <xsvg fullname='binary_inside_full.svg'
+            svg_desc="This plot shows how the binary input can be written in a SVG file." 
+            svg_meta=""
+            svg_gui="on"
+            svg_fix_size="on"
+     />
+    <pdf fullname='binary_inside.pdf' output_mgb_template="binary_input.mgb"/>
+    <xkml fullname='binary_inside.kmz'/>
+    <gif output_mgb_template="binary_input.mgb" />
+  </drivers>
+
+  <page>
+     <mgb mgb_filename='Background.mgb'/>
+     <mgb mgb_filename='Z500.mgb'/>
+     <mgb mgb_filename='Wind.mgb'/>
+  </page>
+</magics>

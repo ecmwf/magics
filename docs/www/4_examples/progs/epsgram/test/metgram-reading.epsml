@@ -1,0 +1,8 @@
+<eps template='10_days_metgram.xml' database='/vol/epsgram/data/spotbase/metgram_fc/0001/latest' format='a4'> 
+
+    <station name='Reading' latitude='51.46' longitude='-1.33'
+     psfile='metgram-reading.ps' giffile='metgram-reading.gif' metafile='metgram-reading.meta'/>
+
+</eps>
+
+    

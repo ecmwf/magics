@@ -1,0 +1,245 @@
+#!/bin/ksh
+# Runs the MagML Interpreter on the MagML examples
+
+# Parse command-line arguments
+# Possible options:
+#   -checkup      : Runs the examples intended for the checkup test suite
+#   -manual       : Runs the examples for the manual
+#   -tutorial     : Runs the examples for the tutorial
+#   -nogifs       : PostScript output will not be converted to GIF format
+#   -valgrind     : Runs the examples under Valgrind - output to <prog>.vlog
+#   -www          : Runs the examples for the web documentation
+
+. ./message.ksh
+
+devices="gif ps"
+
+nogifs=0
+tohtml=1
+valgrind=""
+staticmpp=""
+srcdir="magml/test"
+filespec=*.magml
+outdir="../../html/test/magml"
+logdir=$outdir
+gifdir=$outdir
+external=""
+variables="-iso_colour=magenta -coast_colour=mustard -title='Title-specified-on-the-command-line'"
+#variables="-iso_colour=magenta -coast_colour=mustard -title='Title specified on the command line'"
+variables_hov="-ps_filename='hov.ps' -nc_filename='data/hov.nc' -nc_variable='p1180091ew6i' -hval1='-180' -hval2='180' -vval2='00' -vval1='120' -vlabels='00/10/20/30/40/50/60/70/80/90/100/110/120' -cont_leveltype='interval' -cont_interval='0.0004' -cont_line_plot='split' -title='Nils'"
+mpp_lib=$MAGPLUSLIB_SHARED
+summary="-------\n
+Unless overridden by the flags below, the shared library is used.\n
+testsuite flags:"
+
+for arg;do
+    if [[ $arg = "-h" || $arg = "-help" || $arg = "--help" ]]
+    then
+        echo ""
+        echo "make_magml_testsuite"
+        echo "Possible options:"
+        echo "   -checkup      : Runs the examples intended for the checkup test suite"
+        echo "   -external     : Runs tohtml -external"
+        echo "   -manual       : The MagML scripts for the manual will be run"
+        echo "   -tutorial     : The MagML scripts for the tutorial will be run"
+        echo "   -www          : The MagML scripts for the web documentation will be run"
+        echo "   -nogifs       : PostScript output will not be converted to GIF format"
+        echo "   -novars       : No variables will be passed on the command line"
+        echo "   -valgrind     : Runs the examples under Valgrind - output to <prog>.vlog"
+        echo ""
+        exit
+    fi
+
+    if [[ $arg = "-checkup" ]]
+    then
+    	echo "Generating plots for checkup"
+        srcdir="magml/checkup"
+        outdir="../../html/checkup/magml"
+    fi
+
+    if [[ $arg = "-manual" ]]
+    then
+    	echo "Generating plots for manual"
+        srcdir="magml/manual"
+        outdir="../../html/manual/magml"
+        tohtml=0
+    fi
+
+    if [[ $arg = "-tutorial" ]]
+    then
+    	echo "Generating plots for tutorial"
+        srcdir="magml/tutorial"
+        outdir="../../html/tutorial/magml"
+        tohtml=0
+    fi
+
+    if [[ $arg = "-www" ]]
+    then
+    	echo "Generating plots for WWW"
+        srcdir="magml/www"
+        outdir="../../html/examples/magml"
+    fi
+
+    if [[ $arg = "-nogifs" ]]
+    then
+        nogifs=1
+    fi
+
+    if [[ $arg = "-novars" ]]
+    then
+        variables=""
+        variables_hov=""
+    fi
+
+    if [[ $arg = "-external" ]]
+    then
+        external="-external"
+    fi
+
+    if [[ $arg = "-valgrind" ]]
+    then
+        valgrind="-valgrind"
+	summary="$summary\n run through valgrind"
+    fi
+done
+
+
+# if the source directory does not exist, then exit gracefully
+
+if [[ ! -a $srcdir ]]
+then
+    echo "Source directory $srcdir does not exist - exiting."
+    exit
+fi
+
+
+
+# create any necessary directories
+
+mkdir -p $outdir
+
+
+echo $variables
+
+
+# Run the MagML Interpreter on the source files
+
+for srcfile in $srcdir/$filespec
+do
+    msg "Running example $srcfile"
+    bname=`basename $srcfile .magml`
+    logfile=$outdir/$bname.log
+    errfile=$outdir/$bname.err
+    timefile=$outdir/$bname.$device.time
+
+    # the hovmoeller example uses a special set of variables
+
+#        if [[ $bname = "hovmoeller" ]]
+#        then
+#            variables_to_use=$variables_hov
+#        else
+#            variables_to_use=$variables
+#        fi
+
+
+    (time (magmlx $srcfile $variables> $logfile 2> $errfile)) 2> $timefile
+
+
+    # move the output files to the output directory
+
+    for device in $devices ; do
+        outfile="`basename $srcfile .magml`.$device"
+    
+        if [[ -a $outfile ]]
+        then
+	        mv $outfile $outdir
+        fi
+    done
+
+done
+
+
+
+
+. ./setconvert
+echo "Using convert from directory: $CONVERT_DIR"
+
+
+
+
+# Create GIF images of the outputs for the web pages
+
+no_output_small="icons/no_output_small.gif"
+
+for psfile in $outdir/*.ps
+do
+    bname=`basename $psfile .ps`
+    thumbname="$outdir/$bname"_small.gif
+    
+    # is the postscript file newer than the gif?
+
+    if [[ $psfile -nt $gifname  &&  $nogifs -ne 1 ]]
+    then
+        msg "    [Converting to GIF: $psfile, $thumbname]"
+
+
+        # first copy over the 'wait' .gif files in case the conversion
+        # does not work
+        
+        cp $no_output_small $thumbname
+        chmod u+w $thumbname
+
+
+        # ok, now do the conversion....
+
+        "$CONVERT_DIR"convert  -geometry 180X252  -rotate 90 -delay 150 $psfile $thumbname
+    fi
+
+done
+
+
+
+
+
+# copy our static icons across if necessary
+
+cp -u icons/* $outdir
+for iconfile in icons/*.gif
+do
+    chmod ug+w $outdir/`basename $iconfile`
+done
+
+
+
+# echo our summary to a log file
+
+echo "HOST:            $HOST"            >  logs/magml_summary.txt
+echo "ARCH:            $ARCH"            >> logs/magml_summary.txt
+echo "USER:            $USER"            >> logs/magml_summary.txt
+echo "PGF flags:       $pgf_flags"       >> logs/magml_summary.txt
+echo "MAGPLUSLIB(_S):"                   >> logs/magml_summary.txt
+echo "`echo $mpp_lib | sed 's/ /\n                 /g'`"   >> logs/magml_summary.txt
+echo "LD_LIBRARY_PATH:  "                >> logs/magml_summary.txt
+echo "`echo $LD_LIBRARY_PATH | sed 's/:/\n                 /g'`"   >> logs/magml_summary.txt
+echo "EMOSLIB           $EMOSLIB"        >> logs/magml_summary.txt
+
+echo $summary    >> logs/magml_summary.txt
+echo "-------\n" >> logs/magml_summary.txt
+echo `date`      >> logs/magml_summary.txt
+
+
+
+# finally, run the 'tohtml' utility to copy all program source and timings
+# to the html directory
+
+if [[ $tohtml -eq 1 ]]
+then
+    msg "Generating HTML..."
+    cd ../..
+    ./tohtml $external -magml
+fi
+
+
+# create a date string, replace spaces with underscores
+msg "Done: `date | sed 's/ /_/g'`"
+

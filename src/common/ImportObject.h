@@ -1,0 +1,79 @@
+/******************************** LICENSE ********************************
+
+ Copyright 2007 European Centre for Medium-Range Weather Forecasts (ECMWF)
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at 
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+
+ ******************************** LICENSE ********************************/
+
+/*! \file ImportObject.h
+    \brief Definition of the Template class ImportObject.
+    
+    Magics Team - ECMWF 2005
+    
+    Started: Wed 6-Apr-2005
+    
+    Changes:
+    
+*/
+
+#ifndef ImportObject_H
+#define ImportObject_H
+
+#include "magics.h"
+#include "ImageProperties.h"
+#include "BaseDriver.h"
+
+namespace magics {
+
+
+
+class ImportObject: public ImageProperties {
+
+public:
+	ImportObject() {}
+	virtual ~ImportObject() {}
+	
+	// Implement the BaseGraphics Interface 
+	virtual void redisplay(const BaseDriver& driver) const { driver.redisplay(*this); } 
+	
+	void setPath(const string& path) { path_ = path; }
+	string getPath() const          { return path_; }
+	
+	void setFormat(const string& format) { format_ = format; }
+	string getFormat() const          { return format_; }
+
+
+protected:
+	//! Method to print string about this class on to a stream of type ostream (virtual).
+	 virtual void print(ostream&) const {}
+	 string path_;
+	 string format_;
+
+private:
+	//! Copy constructor - No copy allowed
+	ImportObject(const ImportObject&);
+	//! Overloaded << operator to copy - No copy allowed
+	ImportObject& operator=(const ImportObject&);
+    
+// -- Friends
+	//! Overloaded << operator to call print().
+	friend ostream& operator<<(ostream& s,const ImportObject& p)
+		{ p.print(s); return s; }
+
+};
+
+} // namespace magics
+
+
+#endif

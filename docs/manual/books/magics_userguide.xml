@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+"http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
+<!ENTITY __install__edjwtsy5 SYSTEM "../chapters/install.xml">
+<!ENTITY __intro__ecq8narb SYSTEM "../chapters/intro.xml">
+<!ENTITY __using__ee5siudy SYSTEM "../chapters/using.xml">
+<!ENTITY __drivers__efictiuy SYSTEM "../chapters/drivers.xml">
+<!ENTITY __layout_mapping_coastlines__ee2wl5ad SYSTEM "../chapters/layout_mapping_coastlines.xml">
+<!ENTITY __data__edlfoyn4 SYSTEM "../chapters/data.xml">
+<!ENTITY __contour__edjwfsyh SYSTEM "../chapters/contour.xml">
+<!ENTITY __graph__hdjwfsya SYSTEM "../chapters/graph.xml">
+<!ENTITY __axis__rruefsyq SYSTEM "../chapters/axis.xml">
+<!ENTITY __wind__edlg1yut SYSTEM "../chapters/wind.xml">
+<!ENTITY __obs__edlmt3lr SYSTEM "../chapters/obs.xml">
+<!ENTITY __symbol__ee41ksdi SYSTEM "../chapters/symbol.xml">
+<!ENTITY __text__ecqaemsp SYSTEM "../chapters/text.xml">
+<!ENTITY __polyline__wxjwfsya SYSTEM "../chapters/polyline.xml">
+<!ENTITY __legend__iiuefswq SYSTEM "../chapters/legend.xml">
+<!ENTITY __params_fortran__wwuefswq SYSTEM "../chapters/params_fortran.xml">
+<!ENTITY __tutorial__fejxfsyh SYSTEM "../chapters/tutorial.xml">
+]>
+<book>
+  <title>Magics User Guide</title>
+  <!--
+  <xi:include href="../chapters/features_new.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" /> -->
+
+  <xi:include href="../chapters/install.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <xi:include href="../chapters/intro.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <xi:include href="../chapters/using.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <xi:include href="../chapters/drivers.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <xi:include href="../chapters/layout_mapping_coastlines.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <xi:include href="../chapters/data.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <xi:include href="../chapters/contour.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <xi:include href="../chapters/wind.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <!--
+  <xi:include href="../chapters/streamline.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" /> -->
+
+  <!--
+  <xi:include href="../chapters/obs.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" /> -->
+  
+  <!--
+  <xi:include href="../chapters/axis.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" /> -->
+
+  
+  <xi:include href="../chapters/graph.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <xi:include href="../chapters/axis.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <xi:include href="../chapters/symbol.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <!--
+  <xi:include href="../chapters/pie.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" /> -->
+
+  <xi:include href="../chapters/boxplot.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <xi:include href="../chapters/polyline.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <!--
+  <xi:include href="../chapters/satellite.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" /> -->
+
+  <!--
+  <xi:include href="../chapters/taylor.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" /> -->
+
+  <xi:include href="../chapters/text.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <xi:include href="../chapters/legend.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+  <!--
+  <xi:include href="../chapters/specification.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" /> -->
+
+  <!--
+    <xi:include href="../chapters/tutorial.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />  -->
+</book>

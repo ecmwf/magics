@@ -1,0 +1,154 @@
+<eps date='-1' time='1200' template='eps.template' 
+    directory='/scratch/graphics/cgs/epsgram/new'> 
+    <station name='Boulmer' latitude='55.42' longitude='-1.6'/>
+    <station name='Loftus' latitude='54.57' longitude='-0.87'/>
+    <station name='Thorney Island' latitude='50.82' longitude='-0.92'/>
+    <station name='Capel Dewi' latitude='52.42' longitude='-4'/>
+    <station name='Manston' latitude='51.35' longitude='1.33'/>
+    <station name='Moel-Y-Crio' latitude='53.22' longitude='-3.22'/>
+    <station name='West Freugh' latitude='54.85' longitude='-4.95'/>
+    <station name='Nottingham-Watnall' latitude='53' longitude='-1.25'/>
+    <station name='Nottingham-Watnall-grid' latitude='53' longitude='-1.'/>
+    <station name='Solent' latitude='50.8' longitude='-1.22'/>
+    <station name='Rackwick' latitude='58.87' longitude='-3.38'/>
+    <station name='Trawsgoed' latitude='52.35' longitude='-3.95'/>
+    <station name='Coningsby' latitude='53.08' longitude='-0.17'/>
+    <station name='Lough Fea' latitude='54.72' longitude='-6.82'/>
+    <station name='West Freugh' latitude='54.85' longitude='-4.95'/>
+    <station name='Shoreham Airport' latitude='50.83' longitude='-0.28'/>
+    <station name='Crosby' latitude='53.5' longitude='-3.07'/>
+    <station name='Drumburgh' latitude='54.93' longitude='-3.15'/>
+    <station name='Foyers' latitude='57.27' longitude='-4.48'/>
+    <station name='Fylingdales' latitude='54.37' longitude='-0.67'/>
+    <station name='Enochdhu' latitude='56.75' longitude='-3.53'/>
+    <station name='Leuchars' latitude='56.4' longitude='-2.87'/>
+    <station name='Portglenone' latitude='54.87' longitude='-6.45'/>
+    <station name='Newcastle Weather Centre' latitude='54.98' longitude='-1.6'/>
+    <station name='Scilly: St Mary Airport' latitude='49.92' longitude='-6.3'/>
+    <station name='Glasgow Bishopton' latitude='55.9' longitude='-4.53'/>
+    <station name='Roches Point' latitude='51.8' longitude='-8.25'/>
+    <station name='Sennybridge No2' latitude='52.07' longitude='-3.62'/>
+    <station name='Church Lawford' latitude='52.37' longitude='-1.33'/>
+    <station name='South Farnborough' latitude='51.28' longitude='-0.77'/>
+    <station name='Prestwick Rnas' latitude='55.52' longitude='-4.58'/>
+    <station name='Shoeburyness, Landwick' latitude='51.55' longitude='0.83'/>
+    <station name='Aldergrove' latitude='54.65' longitude='-6.22'/>
+    <station name='Stornoway Airport' latitude='58.22' longitude='-6.32'/>
+    <station name='Greenock Mrcc' latitude='55.97' longitude='-4.8'/>
+    <station name='Honington' latitude='52.33' longitude='0.77'/>
+    <station name='Benson' latitude='51.62' longitude='-1.08'/>
+    <station name='Herstmonceux, West End' latitude='50.9' longitude='0.32'/>
+    <station name='Aviemore' latitude='57.2' longitude='-3.83'/>
+    <station name='Aspatria' latitude='54.77' longitude='-3.32'/>
+    <station name='Camborne' latitude='50.22' longitude='-5.32'/>
+    <station name='Heathrow' latitude='51.48' longitude='-0.45'/>
+    <station name='High Wycombe Hqstc' latitude='51.68' longitude='-0.8'/>
+    <station name='Cairngorm Summit' latitude='57.12' longitude='-3.63'/>
+    <station name='Islay: Port Ellen' latitude='55.68' longitude='-6.25'/>
+    <station name='Culdrose' latitude='50.08' longitude='-5.25'/>
+    <station name='Nantmor' latitude='53' longitude='-4.08'/>
+    <station name='Wattisham' latitude='52.12' longitude='0.97'/>
+    <station name='Glenanne No2' latitude='54.23' longitude='-6.5'/>
+    <station name='Kilkenny' latitude='52.67' longitude='-7.27'/>
+    <station name='Strathallen Airfield' latitude='56.32' longitude='-3.73'/>
+    <station name='Cairnwell' latitude='56.88' longitude='-3.42'/>
+    <station name='Aberdaron' latitude='52.78' longitude='-4.73'/>
+    <station name='Yeovilton' latitude='51' longitude='-2.63'/>
+    <station name='Gawlish' latitude='51.02' longitude='-4.48'/>
+    <station name='Aultbea No2' latitude='57.87' longitude='-5.63'/>
+    <station name='Marham' latitude='52.65' longitude='0.57'/>
+    <station name='Shannon Airport' latitude='52.7' longitude='-8.92'/>
+    <station name='Bangor Harbour' latitude='54.67' longitude='-5.67'/>
+    <station name='Larkhill' latitude='51.2' longitude='-1.8'/>
+    <station name='Machrihanish' latitude='55.43' longitude='-5.7'/>
+    <station name='Lizard Lighthouse' latitude='49.97' longitude='-5.2'/>
+    <station name='Llanbedr' latitude='52.8' longitude='-4.12'/>
+    <station name='Redhill' latitude='51.22' longitude='-0.13'/>
+    <station name='Glen Ogle' latitude='56.42' longitude='-4.32'/>
+    <station name='Galway' latitude='53.28' longitude='-9.02'/>
+    <station name='Shap' latitude='54.5' longitude='-2.68'/>
+    <station name='Dublin Airport' latitude='53.43' longitude='-6.25'/>
+    <station name='Madley' latitude='52.03' longitude='-2.85'/>
+    <station name='St. Mawgan' latitude='50.43' longitude='-5'/>
+    <station name='Isle Of Portland' latitude='50.52' longitude='-2.45'/>
+    <station name='Chivenor' latitude='51.08' longitude='-4.15'/>
+    <station name='Guernsey Airport' latitude='49.43' longitude='-2.6'/>
+    <station name='Great Dun Fell No2' latitude='54.68' longitude='-2.45'/>
+    <station name='Mullingar' latitude='53.53' longitude='-7.37'/>
+    <station name='Skipton No2' latitude='53.97' longitude='-2.03'/>
+    <station name='Aberhosan' latitude='52.57' longitude='-3.72'/>
+    <station name='Northolt' latitude='51.55' longitude='-0.42'/>
+    <station name='Jersey; St. Helier' latitude='49.2' longitude='-2.1'/>
+    <station name='Kilmory' latitude='56.77' longitude='-6.05'/>
+    <station name='Weybourne' latitude='52.95' longitude='1.13'/>
+    <station name='Aboyne No2' latitude='57.08' longitude='-2.83'/>
+    <station name='Bedford' latitude='52.22' longitude='-0.48'/>
+    <station name='Gravesend-Broadness' latitude='51.47' longitude='0.3'/>
+    <station name='Lerwick' latitude='60.13' longitude='-1.18'/>
+    <station name='Connaught Airport' latitude='53.9' longitude='-8.82'/>
+    <station name='Middle Wallop' latitude='51.15' longitude='-1.57'/>
+    <station name='Dumfries-Drungans' latitude='55.05' longitude='-3.65'/>
+    <station name='Muckle Holm' latitude='60.58' longitude='-1.27'/>
+    <station name='Linton-On-Ouse' latitude='54.05' longitude='-1.25'/>
+    <station name='Great Malvern' latitude='52.12' longitude='-2.3'/>
+    <station name='Cardinham, Bodmin' latitude='50.5' longitude='-4.67'/>
+    <station name='Altnaharra No2' latitude='58.28' longitude='-4.43'/>
+    <station name='St. Athan' latitude='51.4' longitude='-3.43'/>
+    <station name='Milford Haven Conservancy Board' latitude='51.7' longitude='-5.05'/>
+    <station name='Knockarevan' latitude='54.42' longitude='-8.08'/>
+    <station name='Capel Curig No3' latitude='53.1' longitude='-3.93'/>
+    <station name='Pershore' latitude='52.15' longitude='-2.03'/>
+    <station name='Emley Moor' latitude='53.62' longitude='-1.67'/>
+    <station name='Charterhall' latitude='55.7' longitude='-2.38'/>
+    <station name='Leconfield' latitude='53.87' longitude='-0.43'/>
+    <station name='Corgary' latitude='54.43' longitude='-8.05'/>
+    <station name='Lochluichart' latitude='57.62' longitude='-4.82'/>
+    <station name='Leeds Weather Centre' latitude='53.8' longitude='-1.55'/>
+    <station name='Plymouth, Mount Batten' latitude='50.35' longitude='-4.12'/>
+    <station name='North Rona Island' latitude='59.12' longitude='-5.82'/>
+    <station name='Boltshope Park' latitude='54.82' longitude='-2.08'/>
+    <station name='Castlederg' latitude='54.7' longitude='-7.58'/>
+    <station name='Inverbervie No.2' latitude='56.85' longitude='-2.27'/>
+    <station name='Carmoney' latitude='55.02' longitude='-7.23'/>
+    <station name='Foula' latitude='60.15' longitude='-2.07'/>
+    <station name='Eskdalemuir' latitude='55.32' longitude='-3.2'/>
+    <station name='Coleshill' latitude='52.48' longitude='-1.68'/>
+    <station name='North Hessary Tor' latitude='50.55' longitude='-4'/>
+    <station name='Little Rissington' latitude='51.87' longitude='-1.68'/>
+    <station name='Peterhead Harbour' latitude='57.5' longitude='-1.77'/>
+    <station name='Langdon Bay' latitude='51.13' longitude='1.35'/>
+    <station name='Biggar' latitude='55.6' longitude='-3.55'/>
+    <station name='Andrewsfield' latitude='51.88' longitude='0.45'/>
+    <station name='Ballykelly' latitude='55.07' longitude='-7.02'/>
+    <station name='Kirkwall' latitude='58.95' longitude='-2.9'/>
+    <station name='Ronaldsway' latitude='54.08' longitude='-4.63'/>
+    <station name='Rhyl No2' latitude='53.25' longitude='-3.5'/>
+    <station name='Odiham' latitude='51.23' longitude='-0.95'/>
+    <station name='Brize Norton' latitude='51.75' longitude='-1.58'/>
+    <station name='Aberporth' latitude='52.13' longitude='-4.57'/>
+    <station name='Rosehearty' latitude='57.7' longitude='-2.12'/>
+    <station name='Edinburgh Gogarbank' latitude='55.93' longitude='-3.35'/>
+    <station name='South Uist' latitude='57.35' longitude='-7.37'/>
+    <station name='Bracknell, Beaufort Park' latitude='51.38' longitude='-0.78'/>
+    <station name='Church Fenton' latitude='53.83' longitude='-1.2'/>
+    <station name='Moyola' latitude='54.72' longitude='-6.52'/>
+    <station name='Point Of Ayre' latitude='54.42' longitude='-4.37'/>
+    <station name='Wainfleet No2' latitude='53.08' longitude='0.27'/>
+    <station name='Dunkeswell Aerodrome' latitude='50.87' longitude='-3.23'/>
+    <station name='Lochboisdale' latitude='57.15' longitude='-7.32'/>
+    <station name='Holbeach No2' latitude='52.87' longitude='0.15'/>
+    <station name='Brixham' latitude='50.4' longitude='-3.48'/>
+    <station name='Portrush' latitude='55.2' longitude='-6.65'/>
+    <station name='St Bees Head No.2' latitude='54.52' longitude='-3.6'/>
+    <station name='South Uist Range' latitude='57.33' longitude='-7.37'/>
+    <station name='Tiree' latitude='56.5' longitude='-6.88'/>
+    <station name='Ballypatrick Forest' latitude='55.18' longitude='-6.17'/>
+    <station name='Keswick' latitude='54.62' longitude='-3.17'/>
+    <station name='Sunderland University' latitude='54.98' longitude='-1.63'/>
+    <station name='Hawarden Airport' latitude='53.17' longitude='-2.98'/>
+    <station name='Charlwood' latitude='51.23' longitude='-0.38'/>
+    <station name='Brede' latitude='50.93' longitude='0.6'/>
+    <station name='Valentia Observatory' latitude='51.93' longitude='-10.25'/>
+    <station name='Tain Range' latitude='57.82' longitude='-3.97'/>
+    <station name='Fife Ness' latitude='56.3' longitude='-2.58'/>
+</eps>

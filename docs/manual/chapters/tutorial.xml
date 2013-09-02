@@ -1,0 +1,517 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE appendix PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+                 "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd">
+
+<!-- Note: This file has been edited with indentations of 2 spaces.
+     It would be best if this was continued and no tabs were used! -->
+
+<appendix id="MAGICS_Tutorial" label="A">
+  <title>MAGICS Tutorial</title>
+
+  <xi:include href="../phrases/appendixinfo_mod.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <section id="Tutorial_Introduction">
+    <title>Introduction</title>
+
+    <para>During the training course, we will present the functionalities of Magics. 
+    Most of the time we will use the fortran interface and 
+    <productname>MAGICS</productname> User Version, 6.11. We will also use 
+    <productname>MAGICS++</productname> User Version, 2.6  
+    to present the main differences between the two versions and 
+    discover the new functionalities of <productname>MAGICS++</productname>.
+    In addtion, we will present how to use the new XML-Base interface called <productname>MagML</productname>.
+    </para>
+
+
+
+    <section id="Tutorial_Creating_a_Basic_Program">
+      <title>Creating a Basic MAGICS Program</title>
+    
+      <para>First, create a new Fortran source file using your favourite
+      text editor, for example <application>vi</application> or
+      <application>NEdit</application>.
+      </para>
+
+      <para>Here is the code of your first basic <productname>MAGICS</productname> program:
+      <filename>basic.f</filename>
+      <programlisting>
+           <xi:include href="../examples/tutorial/fortran/source/basic.f_cc" parse="xml"
+                       xmlns:xi="http://www.w3.org/2001/XInclude" />
+      </programlisting>
+      </para>
+
+      <section id="Tutorial_Compiling_Magics++">
+         <title>Compiling using <productname>MAGICS++</productname></title>         
+         <para> Type on an xterm window </para>         
+         <programlisting>
+         use newmagics++
+         pgf90 -o basic basic.f $MAGPLUSLIB_SHARED
+         </programlisting>  
+       </section>
+
+       <section id="Tutorial_Compiling_Magics"> 
+         <title>Compiling using <productname>MAGICS</productname></title> 
+         <para> Type on an xterm window </para>
+         <programlisting>
+         use magics
+         pgf90 -o basic basic.f $MAGLIB $EMOSLIB
+         </programlisting>  
+       </section>
+        
+       <section id="executing_and_visualising">   
+         <title>Executing and visualising the result</title> 
+         <para>Type on an xterm window</para>
+         <programlisting>
+         basic       --> run the program 
+         gv basic.ps --> Visualise the postscript
+         </programlisting>         
+      </section>
+       <section id="bug_report">   
+         <title>Sending us a bug report</title> 
+         <para> Magics++ is still under development, it will help us a lot if you could send us any program 
+         that are not behaving the way you think they should. You can send the Fortran program in question 
+	 to magplus@ecmwf.int by typing:</para>
+         <programlisting>
+          mail magicsplus -s "magics course 2009" &lt; your-fortran-file.f 
+         </programlisting>         
+      </section>
+
+    </section>
+
+    <section id="Tutorial_Basic_Comment">
+      <title>Spot the differences!</title>
+      <para>If you compare the two plots you can immediately see some differences.</para>
+      <figure id="figure_output_from_basic_f_magics">
+        <title>Output from basic.f using <productname>MAGICS</productname></title>
+        <mediaobject id="output_from_basic_f_magics">
+            <imageobject role="fo">
+              <imagedata fileref="../examples/tutorial/fortran/png/basic_m69_CYLINDRICAL_01.png" format="PNG"
+                         width="14cm" align="center"/>
+            </imageobject>
+
+            <imageobject role="html">
+              <imagedata fileref="images/fortran/basic_m69_CYLINDRICAL_01_thumb.png" format="PNG"  align="center"/>
+            </imageobject>
+         </mediaobject>
+      </figure>
+      <figure id="figure_output_from_basic_f_magics++">
+        <title>Output from basic.f using <productname>MAGICS++</productname></title>
+        <mediaobject id="output_from_basic_f_magics++">
+            <imageobject role="fo">
+              <imagedata fileref="../examples/tutorial/fortran/png/basic_01.png" format="PNG"
+                         width="14cm" align="center"/>
+            </imageobject>
+
+            <imageobject role="html">
+              <imagedata fileref="images/fortran/basic_01_thumb.png" format="PNG"
+                        align="center"/>
+            </imageobject>
+         </mediaobject>
+      </figure>
+      
+      <important> <title>MAGICS++</title>
+      <productname>MAGICS++</productname> has black coastlines and grid by default</important>
+      
+      <para>Can you change your program in order to get a black coastlines and grid even when using <productname>MAGICS</productname> ? </para>
+      
+      <para>Try to add the following instructions</para>
+      
+      <programlisting>
+      call <function>psetc</function> ('<parameter>map_grid_colour</parameter>',      'black')
+      call <function>psetc</function> ('<parameter>map_coastline_colour</parameter>', 'black')
+      </programlisting>
+      
+      <para> compile, execute and visualise again ...</para>
+      </section><!-- end of Tutorial_Basic_Comment -->
+  </section>  <!-- Tutorial_Introduction -->
+  
+  <section id="Tutorial_coastlines">
+    <title> Projection and coastlines </title>
+    <para> In this first tutorial, we will learn how to set a geographical area
+    and a projection. We will also discover the plotting attributes for coastlines </para>
+     
+    <para>You will have to use the following Magics routines</para>
+
+    <itemizedlist>
+      <listitem><para><function><olink targetdoc="Magics_using" targetptr="Single_Parameter_Setting" > PSETR </olink> </function> to set the <productname>MAGICS</productname>
+         parameters which expect <emphasis>real</emphasis> parameters</para></listitem>
+      <listitem><para><function><olink targetdoc="Magics_using" targetptr="Single_Parameter_Setting" > PSETC </olink> </function> to set the <productname>MAGICS</productname>
+         parameters which expect <emphasis>character</emphasis> parameters</para></listitem>
+      <listitem><para><function><olink targetdoc="Magics_using" targetptr="Single_Parameter_Setting" > PSETI </olink></function> to set the <productname>MAGICS</productname>
+         parameters which expect <emphasis>integer</emphasis> parameters</para></listitem>
+    </itemizedlist>  
+  
+    <para>You will also use the following Action or Pseudo-Action routines</para>
+
+    <itemizedlist>
+      <listitem><para><function>PCOAST</function> to draw the coastlines.</para></listitem>
+      <listitem><para><function>PNEW</function> to change page.</para></listitem>
+      <listitem><para><function>PTEXT</function> to add some titles.</para></listitem>
+    </itemizedlist>  
+   </section>
+     <section id='coastlines_map_1'>
+        <title> Europe in cylindrical projection </title>
+        <para> In the example we are going to plot a european map on cylindrical projection </para>
+        <figure id="figure_coastlines_map_1">
+           <title>The result</title>
+	       <mediaobject id="output_coastlines_map_1">
+	            <imageobject role="fo">
+	              <imagedata fileref="../examples/tutorial/fortran/png/coast_1_01.png" format="PNG"
+	                         align="center"/>
+	            </imageobject>
+	
+	            <imageobject role="html">
+	              <imagedata fileref="images/fortran/coast_1_01_thumb.png" format="PNG"
+	                         align="center"/>
+	            </imageobject>
+	        </mediaobject>
+       </figure>
+       
+        <section id='coastlines_map_1_requirements'>
+	        <title> Requirements </title>
+	        <para> Here are our requirements </para>
+	        <itemizedlist>
+	        <listitem><para> <olink targetdoc="Magics_tutorial" targetptr="coastlines_map_1_clues_1">Geographical Area </olink>: <emphasis>15W/30N/40E/70N </emphasis></para></listitem>     
+	        <listitem><para> <olink targetdoc="Magics_tutorial" targetptr="coastlines_map_1_clues_2">Grid setting </olink>: 
+	            <emphasis>Coastlines:colour=tan, Grid: colour=tan, line-style=dot </emphasis></para></listitem> 
+	        </itemizedlist>  
+        </section>
+
+
+      <?pagebreak?>
+
+      <section  id='coastlines_map_1_clues'>
+        <title>Clues</title>
+        <section id='coastlines_map_1_clues_1'>
+           <title>Setting the geographical area</title> 
+           <table id="table_coastlines_map_1_clues_1_params">
+             <title>Parameters for setting the geographical area</title>
+             <tgroup cols="2">
+                  <colspec colwidth="190" />
+                  <colspec colwidth="60" />
+
+             <thead>
+                  <row>
+                      <entry> Parameters </entry>  
+                      <entry> Functions </entry>  
+                  </row>
+              </thead>
+              <tbody>
+                   <row>
+                     <entry><parameter>subpage_lower_left_latitude</parameter></entry>
+                     <entry><function>psetr</function></entry>
+                   </row>
+                    <row>
+                     <entry><parameter>subpage_lower_left_longitude</parameter></entry>
+                     <entry><function>psetr</function></entry>
+                   </row>
+                   <row>
+                     <entry><parameter>subpage_upper_right_latitude</parameter></entry>
+                     <entry><function>psetr</function></entry>
+                   </row>
+                   <row>
+                     <entry><parameter>subpage_upper_right_longitude</parameter></entry>
+                     <entry><function>psetr</function></entry>
+                   </row>
+              </tbody> 
+              </tgroup>
+            </table>
+           <table id="table_coastlines_map_1_clues_1_actions">
+             <title>Action routine for setting the geographical area</title>
+              <tgroup cols="1">
+                  <colspec colwidth="150" />
+              <thead>
+                <row>
+                  <entry> Action routines </entry>  
+                </row>
+              </thead>
+              <tbody>
+                <row>
+                  <entry><function>pcoast</function></entry>
+                </row>
+              </tbody>
+              </tgroup>
+            </table>
+                          
+          <para> More information in <olink targetdoc="Magics_layout_mapping_coastlines" targetptr="Subpage_Mapping" />. </para>
+        </section>
+            
+      <section id='coastlines_map_1_clues_2'>
+           <title>Setting of the visual Attributes</title> 
+           <table id="table_coastlines_map_1_clues_2_params">
+             <title>Parameters for setting the coastline attributes</title>
+             <tgroup cols="2">
+                  <colspec colwidth="190"/>
+                  <colspec colwidth="60"/>
+               <thead>
+                  <row>
+                      <entry> Parameters </entry>  
+                      <entry> Functions </entry>  
+                  </row>
+              </thead>
+              <tbody>
+                   <row>
+                     <entry><parameter>map_coastline_colour</parameter></entry>
+                     <entry><function>psetc</function></entry>
+                   </row>
+
+                   <row>
+                     <entry><parameter>map_grid_colour</parameter></entry>
+                     <entry><function>psetc</function></entry>
+                   </row>
+                   <row>
+                     <entry><parameter>map_grid_line_style</parameter></entry>
+                     <entry><function>psetc</function></entry>
+                   </row>
+             </tbody> 
+             </tgroup>
+           </table>
+
+           <table id="table_coastlines_map_1_clues_2_actions">
+             <title>Action routine for setting the coastline attributes</title>
+              <tgroup cols="1">
+                  <colspec colwidth="150"/>
+              <thead>
+                <row>
+                  <entry> Action routines </entry>                  
+                </row>
+              </thead>
+              <tbody>
+                <row>
+                  <entry><function>pcoast</function></entry>
+                </row>
+              </tbody>
+              </tgroup>
+            </table>
+
+            <para> More information on <olink targetdoc="Magics_layout_mapping_coastlines" targetptr="pcoast_tables" >the coastlines parameters</olink> </para>         
+
+      </section> 
+    </section>  <!-- coastlines_map_1_clues -->     
+
+
+    <section  id='coastlines_map_1_solution'>
+      <title>Solution</title>                    
+      <para> Here is the complete solution  
+      <filename>coast_01.f</filename></para>
+      <programlisting>
+           <xi:include href="../examples/tutorial/fortran/source/coast_1.f_cc" parse="xml"
+                       xmlns:xi="http://www.w3.org/2001/XInclude" />
+      </programlisting>           
+    </section>      
+
+
+
+    <section  id='coastlines_map_1_diff'>
+     <title> Spot the differences... </title>     
+       <para> Output for <productname>Magics++</productname> </para> 
+       <mediaobject id="output_mpp_coastlines_map_1">
+       
+            <imageobject role="fo">
+              <imagedata fileref="../examples/tutorial/fortran/png/coast_1_01.png" format="PNG"
+                         align="center"/>
+            </imageobject>
+
+            <imageobject role="html">
+              <imagedata fileref="images/fortran/coast_1_01_thumb.png" format="PNG"
+                         align="center"/>
+            </imageobject>
+         </mediaobject>
+         <para> Output for <productname>Magics 6.11</productname> </para> 
+           <mediaobject id="output_m69_coastlines_map_1">
+           
+            <imageobject role="fo">
+              <imagedata fileref="../examples/tutorial/fortran/png/coast_1_m69_CYLINDRICAL_01.png" format="PNG"
+                         align="center"/>
+            </imageobject>
+
+            <imageobject role="html">
+              <imagedata fileref="images/fortran/coast_1_m69_CYLINDRICAL_01_thumb.png" format="PNG"
+                         align="center"/>
+            </imageobject>
+         </mediaobject>
+    </section >
+
+
+
+    <section  id='coastlines_map_1_magml'>
+     <title> Using MagML </title>
+     <para> To get the same result, you can create the following <productname>magml</productname> description </para>
+     <para><filename>coast_1.magml</filename></para>
+          <programlisting>
+           <xi:include href="../examples/tutorial/magml/source/coast_1.magml_cc" parse="xml"
+                       xmlns:xi="http://www.w3.org/2001/XInclude" />
+           </programlisting>
+       <mediaobject id="output_magml_coastlines_map_1">
+            <imageobject role="fo">
+              <imagedata fileref="../examples/tutorial/magml/png/coast_1.png" format="PNG"
+                         align="center"/>
+            </imageobject>
+
+            <imageobject role="html">
+              <imagedata fileref="images/magml/coast_1_thumb.png" format="PNG"
+                         align="center"/>
+            </imageobject>
+         </mediaobject>
+     
+    </section >
+  
+   </section >
+      
+   <xi:include href="../exercises/coast_2.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+  
+	<xi:include href="../exercises/coast_3.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+<section id="Tutorial_Contouring">
+    <title> Contouring </title>
+    <para> In this second tutorial, we will learn how to load a grib file and how to contour it.
+    We will also discover the various attributes of the contour action routines. </para>
+     
+    Download the data <ulink url="http://www.ecmwf.int/publications/manuals/magics/magplus/data/z500_tc.grib">
+			z500_tc.grib
+	</ulink>  from http://www.ecmwf.int/publications/manuals/magics/magplus/data 
+
+  
+    <para>You will have use the following Action routines</para>
+
+    <itemizedlist>
+     <listitem><para><function>PCOAST</function> to draw the coastlines.</para></listitem>
+      <listitem><para><function>PCONT</function> to add some isolines.</para></listitem>
+      <listitem><para><function>PTEXT</function> to add some titles.</para></listitem>
+    </itemizedlist>  
+    
+     <para>You will also have to use the following Magics routines</para>
+
+    <itemizedlist>
+      <listitem><para><function><olink targetdoc="Magics_using" targetptr="Single_Parameter_Setting" > PSETR </olink> </function> to set the <productname>MAGICS</productname>
+         parameters which expect <emphasis>real</emphasis> parameters</para></listitem>
+      <listitem><para><function><olink targetdoc="Magics_using" targetptr="Single_Parameter_Setting" > PSETC </olink> </function> to set the <productname>MAGICS</productname>
+         parameters which expect <emphasis>character</emphasis> parameters</para></listitem>
+      <listitem><para><function><olink targetdoc="Magics_using" targetptr="Single_Parameter_Setting" > PSETI </olink></function> to set the <productname>MAGICS</productname>
+         parameters which expect <emphasis>integer</emphasis> parameters</para></listitem>
+    </itemizedlist>  
+    
+   </section>
+   
+   <xi:include href="../exercises/contour_1.xml"
+               xmlns:xi="http://www.w3.org/2001/XInclude" />
+   
+   <xi:include href="../exercises/contour_2.xml"
+               xmlns:xi="http://www.w3.org/2001/XInclude" />
+   
+   <xi:include href="../exercises/contour_3.xml"
+               xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+   <xi:include href="../exercises/contour_4.xml"
+               xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+
+   <section id="Tutorial_wind_plotting">
+    <title> Wind plotting </title>
+    <para> In this section , we will learn how to load the components of the wind from a grib file and how to contour it.
+    We will also discover the various attributes of the wind action routine. </para>
+   
+     Download the data <ulink url="http://www.ecmwf.int/publications/manuals/magics/magplus/data/uv500_tc.grib">
+			uv500_tc.grib
+	</ulink>  from http://www.ecmwf.int/publications/manuals/magics/magplus/data 
+
+   
+  
+    <para>You will have use the following Action  routines</para>
+
+    <itemizedlist>
+      <listitem><para><function>PCOAST</function> to draw the coastlines.</para></listitem>
+      <listitem><para><function>PWIND</function> to draw the wind.</para></listitem>
+      <listitem><para><function>PCONT</function> to add some contours.</para></listitem>
+    </itemizedlist>  
+    
+     <para>You will also have to use the following Magics routines</para>
+
+    <itemizedlist>
+      <listitem><para><function><olink targetdoc="Magics_using" targetptr="Single_Parameter_Setting" > PSETR </olink> </function> to set the <productname>MAGICS</productname>
+         parameters which expect <emphasis>real</emphasis> parameters</para></listitem>
+      <listitem><para><function><olink targetdoc="Magics_using" targetptr="Single_Parameter_Setting" > PSETC </olink> </function> to set the <productname>MAGICS</productname>
+         parameters which expect <emphasis>character</emphasis> parameters</para></listitem>
+      <listitem><para><function><olink targetdoc="Magics_using" targetptr="Single_Parameter_Setting" > PSETI </olink></function> to set the <productname>MAGICS</productname>
+         parameters which expect <emphasis>integer</emphasis> parameters</para></listitem>
+    </itemizedlist>  
+   </section>
+   <xi:include href="../exercises/wind_1.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+   <xi:include href="../exercises/wind_2.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+   <xi:include href="../exercises/wind_3.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <xi:include href="../exercises/wind_4.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+ <section id="Tutorial_obs_plotting">
+    <title> Observation plotting </title>
+  <para>In this section, we will learn how to filter observations from a bufr file and how to plot them.
+  We will also discover the various attributes of the obs action routine.</para>
+
+  <para>Please be aware that, because observation plotting is still in the devlopment stage, these examples 
+  are all run only with MAGICS 6.11.</para>
+
+  <para>Download the data <ulink url="http://www.ecmwf.int/publications/manuals/magics/magplus/data/obs_tc.bfr">obs_tc.bfr</ulink>from http://www.ecmwf.int/publications/manuals/magics/magplus/data 
+  </para>
+  
+  
+    <para>You will have use the following Action routines</para>
+
+    <itemizedlist>
+      <listitem><para><function>PCOAST</function> to draw the coastlines.</para></listitem>
+      <listitem><para><function>POBS</function> to plot the observations</para></listitem>
+    </itemizedlist>  
+    
+      <para>You will also to use the following Magics routines</para>
+
+    <itemizedlist>
+      <listitem><para><function><olink targetdoc="Magics_using" targetptr="Single_Parameter_Setting" > PSETR </olink> </function> to set the <productname>MAGICS</productname>
+         parameters which expect <emphasis>real</emphasis> parameters</para></listitem>
+      <listitem><para><function><olink targetdoc="Magics_using" targetptr="Single_Parameter_Setting" > PSETC </olink> </function> to set the <productname>MAGICS</productname>
+         parameters which expect <emphasis>character</emphasis> parameters</para></listitem>
+      <listitem><para><function><olink targetdoc="Magics_using" targetptr="Single_Parameter_Setting" > PSETI </olink></function> to set the <productname>MAGICS</productname>
+         parameters which expect <emphasis>integer</emphasis> parameters</para></listitem>
+    </itemizedlist>  
+   </section>             
+     <xi:include href="../exercises/obs_1.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+     <xi:include href="../exercises/obs_2.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+     <xi:include href="../exercises/obs_3.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+              
+    <section id="Tutorial_graph_plotting">
+    <title> Graph plotting </title>
+    <para> In this section , we will lear how to use the <function>pgraph</function> action routine. 
+    We will discover the various attributes of the graph plotting </para>
+ 
+    <para>You will have use the following Action  routines</para>
+
+    <itemizedlist>
+      <listitem><para><function>PAXIS</function> to draw the axis and define the coordinates system.</para></listitem>
+      <listitem><para><function>PGRAPH</function> to plot the curves.</para></listitem>
+    </itemizedlist>  
+    
+      <para>You will also to use the following Magics routines</para>
+
+    <itemizedlist>
+       <listitem><para><function><olink targetdoc="Magics_using" targetptr="Array_Parameter_Setting" > PSET1R </olink> </function> to set the <productname>MAGICS</productname>
+         parameters which expect an array of <emphasis>real</emphasis> parameters</para></listitem>
+      <listitem><para><function><olink targetdoc="Magics_using" targetptr="Single_Parameter_Setting" > PSETR </olink> </function> to set the <productname>MAGICS</productname>
+         parameters which expect <emphasis>real</emphasis> parameters</para></listitem>
+      <listitem><para><function><olink targetdoc="Magics_using" targetptr="Single_Parameter_Setting" > PSETC </olink> </function> to set the <productname>MAGICS</productname>
+         parameters which expect <emphasis>character</emphasis> parameters</para></listitem>
+      <listitem><para><function><olink targetdoc="Magics_using" targetptr="Single_Parameter_Setting" > PSETI </olink></function> to set the <productname>MAGICS</productname>
+         parameters which expect <emphasis>integer</emphasis> parameters</para></listitem>
+    </itemizedlist>  
+   </section>             
+     <xi:include href="../exercises/graph_1.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+     <xi:include href="../exercises/graph_2.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+    
+              
+</appendix>

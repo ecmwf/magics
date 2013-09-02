@@ -1,0 +1,25 @@
+<magics>
+<class  directory='common' name='XmlPage' embedded_objects='Frame'>
+
+  		<parameter  xml='format' from='string' name='format' default='a4' member='format' to='string'>
+				<documentation > format of the page 		</documentation>
+  				<migration >  Only used in the MagML Interface  		</migration>
+    				<release >Magics++0.7		</release>
+		</parameter>
+
+		<parameter  xml='orientation' from='string' name='orientation' default='landscape' member='orientation' to='string'>
+         			<documentation >  orientation of the page 		</documentation>
+           			<migration > Only used in the MagML Interface 		</migration>
+				<release >Magics++0.7		</release>
+		</parameter>
+
+	
+		<parameter  member='meta' to='MetaData' default='nometadata' from='string' name='meta'>
+           		<release >Magics++0.7		</release>         
+         		<documentation > Write metadata in xml format 		</documentation>
+         		<option  xml='metadata' include='MetaData.h' name='MetaData'>		</option>
+         		<option  xml='nometadata' include='MetaData.h' name='NoMetaData'>		</option>
+         		<migration >  Only used in the MagML Interface  		</migration>
+  	</parameter>
+  
+</class></magics>

@@ -1,0 +1,54 @@
+<?xml-stylesheet type='text/css' href='parameter.css'?>
+<magics>
+<!--class name='MagicsSingleton' action ='popen' embedded_object='AutomaticPlotManager' directory='common'>
+    <parameter name='layout' from='string' to='PlotManager'
+             member='layout' xml='layout'
+			 default='automatic'>
+         <documentation> Type of page layout (POSITIONAL/AUTOMATIC) </documentation>
+         <migration> New Magics: Parameter layout sent to new Magics[MagicsSingleton].  </migration>
+         <available>automatic</available>
+         <available>positional</available>
+         <release>Magics++0.2</release>
+         <release_info>Only the automatic layout has been implemented</release_info>
+   </parameter>
+
+   
+</class-->
+
+<class name='AutomaticPlotManager' action='popen/pnew' directory='common'>
+  <documentation> Object used to handle the call to the Pseudo action routine PNEW </documentation>
+  <parameter name='plot_start' from='string' to='string'
+             member='plot_start' xml='plot_start'
+			 default='bottom'>
+         <documentation> Position of first page plotted (BOTTOM/TOP) </documentation>
+         <migration> New Magics: Parameter plot_start sent to new Magics[Page].  </migration>
+         <release>Magics++0.2</release>
+  </parameter>
+
+  <parameter name='plot_direction' from='string' to='string'
+             member='plot_direction' xml='plot_direction'
+			 default='vertical'>
+         <documentation> Direction of plotting (HORIZONTAL/VERTICAL) </documentation>
+         <migration> New Magics: Parameter plot_direction sent to new Magics[Page].  </migration>
+         <release>Magics++0.2</release>
+  </parameter>
+
+  <parameter name='page_x_gap' from='float' to='float'
+             member='page_x_gap' xml='page_x_gap'
+			 default='0.0cm' implemented='no'>
+         <documentation> Gap between pages in X direction </documentation>
+         <migration> New Magics: Parameter page_x_gap sent to new Magics[Page].  </migration>
+         <release>Magics++0.2</release>
+         <release_info>Not fully implemented</release_info>
+  </parameter>
+
+  <parameter name='page_y_gap' from='float' to='float'
+             member='page_y_gap' xml='page_y_gap'
+			 default='0.0cm' implemented='no'>
+         <documentation> Gap between pages in Y direction </documentation>
+         <migration> New Magics: Parameter page_y_gap sent to new Magics[Page].  </migration>
+         <release>Magics++0.2</release>
+          <release_info>Not fully implemented</release_info>
+  </parameter>
+</class>
+</magics>

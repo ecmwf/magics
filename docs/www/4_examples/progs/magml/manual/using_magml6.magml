@@ -1,0 +1,19 @@
+<magics version='3.0' width='29.7' height='21'>
+
+    <drivers>
+        <png  name = 'using_magml6' />
+    </drivers>
+
+    <page>
+        <map>
+            <cylindrical />
+            <gribloop loop_path = 'data/tmulti.grb' >
+                <plot>
+                    <grib/>
+                    <contour />
+                </plot>
+            </gribloop>
+        </map>
+    </page>    
+</magics>
+

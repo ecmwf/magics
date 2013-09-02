@@ -1,0 +1,4 @@
+<magics>
+<class  inherits='HiLoBase' xmltag='nohilo' name='NoHiLo' directory='visualisers' action='pcont' include='HiLo.h'>
+   	<documentation >This object suppresses Hi/Lo information.	</documentation>
+</class></magics>

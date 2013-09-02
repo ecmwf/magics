@@ -1,0 +1,17 @@
+<magics>
+<class  inherits='LevelSelection' xmltag='interval' name='IntervalSelectionType' directory='visualisers' prefix='contour/contour/contour' action='pcont'>
+  	<documentation >
+  If the parameter CONTOUR_LEVEL_SELECTION_TYPE is set to 'INTERVAL' , 
+  MAGICS will plot contours at regularly spaced intervals
+  using the value of CONTOUR_REFERENCE_LEVEL as a base
+  and the value in CONTOUR_INTERVAL as the interval between levels.
+  	</documentation>
+  	<parameter  member='reference' to='float' default='0.0' from='float' name='contour_reference_level'>
+         		<documentation > Contour level from which contour interval is calculated 		</documentation>
+         		<release >Magics++0.1		</release>        
+  	</parameter>
+  	<parameter  member='interval' to='float' default='8.0' from='float' name='contour_interval'>
+         		<documentation > Interval in data units between two contour lines 		</documentation>
+         		<release >Magics++0.1		</release>
+  	</parameter>
+</class></magics>

@@ -1,0 +1,19 @@
+<magics>
+<class  inherits='ContourMethod' xmltag='akima474' name='Akima474Method' used_by='ContourTechnique' directory='visualisers' prefix='akima' action='pcont'>
+  	<documentation >
+  Generates contour lines from a regular/irregular grid of data points.
+  First a denser regular grid is created based on the original grid and then
+  the isolines are produced by applying a simple linear contouring algorithm.
+  The user may, by calling the parameter setting routines, 
+  select the interpolation level which defines the density of the output  
+  grid, which then determines the smoothness of the isolines.
+  	</documentation>
+  	<parameter  xml='x_resolution' from='float' name='contour_akima_x_resolution' default='1.5' member='resolutionX' to='float'>
+         		<documentation > X Resolution 		</documentation>
+         		<release >Magics++0.1		</release>
+  	</parameter>
+  	<parameter  xml='y_resolution' from='float' name='contour_akima_y_resolution' default='1.5' member='resolutionY' to='float'>
+         		<documentation > Y Resolution 		</documentation>
+         		<release >Magics++0.1		</release>
+  	</parameter>
+</class></magics>

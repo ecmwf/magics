@@ -1,0 +1,8 @@
+<magics>
+<class  inherits='ColourTechnique' implements='ColourTableDefinitionListInterface' xmltag='list' name='ListColourTechnique' directory='visualisers' prefix='contour/contour/contour_shade/contour_shade/contour_shade' action='pcont'>
+	   
+  	<parameter  from='stringarray' name='contour_shade_colour_list' default='stringarray()' member='values' to='stringarray' colourlist='on'>
+         		<documentation > List of colours to be used in contour shading. 		</documentation>
+         		<release >0.2		</release>
+  	</parameter>
+</class></magics>

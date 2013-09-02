@@ -1,0 +1,136 @@
+﻿<magics version = '3.0' width = '36.12' height = '27.09'>
+
+	<drivers>
+
+		<png 	output_width = '1024' 
+	     		output_height = '768'
+	     		output_fullname = 'trajectory'
+				output_resolution = '300'
+				output_name_first_page_number = 'off'
+				output_cairo_antialias = 'on'/>
+
+	</drivers>
+
+	<page > 
+
+		<text 	height = '10%'
+				width = '100%'			
+				margin_left = '0%'
+				margin_right = '0%'
+				margin_bottom = '0%'
+				margin_top = '0%'
+				font_size = '0.7'
+				line_count = '2'
+				line_1 = 'MAPPA DI PROVA'
+				line_2 = 'TRAIETTORIE'
+				border = 'off'/>
+			
+			
+<map view_standalone = 'off'
+     view_display = 'inline'
+     view_bottom = '0%'
+     view_left = '0%'
+     view_width = '100%'
+     view_height = '90%'
+     view_margin_bottom = '3%'
+     view_margin_left = '3%'
+     view_margin_right = '0%'
+     view_margin_top = '0%'
+     view_background_colour = 'white'
+     view_border_bottom = '1px'
+     view_border_left = '1px'
+     view_border_right = '1px'
+     view_border_top = '1px'
+     view_border = 'on'
+     view_blanking = 'on'
+     view_border_colour = 'tan'
+     view_border_style = 'solid'
+     view_border_thickness = '1'
+     view_padding_bottom = '0%'
+     view_padding_left = '0%'
+     view_padding_right = '0%'
+     view_padding_top = '0%'
+     view_padding_colour = 'none'
+     view_fitted_mode = 'off'
+     subpage_map_projection = 'POLAR_STEREOGRAPHIC'
+	 subpage_map_vertical_longitude = '5.0'
+	 subpage_upper_right_longitude = '82.0'
+	 subpage_upper_right_latitude = '55.0'
+	 subpage_lower_left_longitude = '-28.0'
+	 subpage_lower_left_latitude = '22.0'
+     subpage_minimal_area = '0.1'>
+			
+			
+	
+
+			<coastlines map_coastline_sea_shade = 'on'
+						map_coastline_sea_shade_colour = 'RGB(0.87, 1.00, 1.00)'
+						map_coastline_land_shade = 'off'
+						map_coastline_land_shade_colour = 'cream'
+						map_coastline = 'on'
+						map_coastline_colour = 'none'
+						map_grid = 'off'
+						map_label = 'off'
+						map_boundaries ='off'
+						map_cities = 'off' />
+
+    <plot>
+            
+		
+		<input input_y_values = '55.4755/53.1038/50.6793'
+ 			   input_x_values = '-25.1545/-24.7275/-24.7505'
+			   input_values = '750/735/650' />
+
+		<symbol symbol_type = "marker"
+				symbol_colour='green'
+				symbol_marker_index='15'
+		        symbol_text_list='blanking off/735/650'
+			    symbol_height="1"
+				symbol_text_font_size="0.8"
+				symbol_text_font_colour='black'
+				symbol_text_position='right'
+				symbol_text_blanking='off'
+			    symbol_connect_line = "on"
+			    symbol_connect_automatic_line_colour = "off"
+				symbol_connect_line_colour = "black"
+				symbol_connect_line_thickness = "2"/>
+
+
+		
+		</plot>	
+
+    <plot>
+            
+		
+		<input input_y_values = '45.4755/43.1038/40.6793'
+ 			   input_x_values = '-25.1545/-24.7275/-24.7505'
+			   input_values = '750/735/650' />
+
+		<symbol symbol_type = "marker"
+				symbol_colour='green'
+				symbol_marker_index='15'
+		        symbol_text_list='blanking on/735/650'
+			    symbol_height="1"
+				symbol_text_font_size="0.8"
+				symbol_text_font_colour='black'
+				symbol_text_position='right'
+				symbol_text_blanking='on'
+			    symbol_connect_line = "on"
+			    symbol_connect_automatic_line_colour = "off"
+				symbol_connect_line_colour = "black"
+				symbol_connect_line_thickness = "2"/>
+
+
+		
+		</plot>	
+
+ 		
+        <import import_file_name = 'logo_SMA.gif'
+	       	  import_format = 'gif'	
+			  import_y_position = '22'
+			  import_x_position = '1'
+			  />	 
+	</map>
+	</page>
+
+</magics>

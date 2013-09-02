@@ -1,0 +1,114 @@
+<!--
+
+    Meanings of 'occurence' attributes:
+      1:  exactly 2 allowed
+      1+: one or more allowed
+      0+: zero or more allowed
+      01: zero or one allowed
+
+-->
+
+
+<magml1>
+  <element name='magics' occurrence='1'> 
+    <element name='page' occurrence='1+' object='XmlPage' chapter='layout_mapping_coastlines'>  
+      <element name='subpage' occurrence='1+' object='XmlSubPage' chapter='layout_mapping_coastlines'>
+        <element name='coastlines' occurrence='0+' object='Coastlines' chapter='layout_mapping_coastlines'/>
+        <element name='layer or xylayer' occurrence='0+' object='VisualTask'>
+          <choice name='decoder' occurrence='1'> 
+            <element name='grib'   object='GribDecoder'   chapter='data'/>
+            <element name='netcdf' object='NetcdfDecoder' chapter='data'/>
+            <!--<element name='odb'    object='OdbDecoder'    chapter='data'/>-->
+            <element name='bufr'   object='ObsDecoder'    chapter='data'/>
+            <element name='import' object='ImportAction'  chapter='data'/>
+          </choice>
+          <choice name='visualisation' occurrence='1+'>
+            <element name='geocontour' object='Contour'        chapter='contour'/>
+            <element name='symbol'     object='SymbolPlotting'/>
+            <element name='wind'       object='Wind'/>
+            <element name='obs'        object='ObsPlotting'/>
+            <element name='image'      object='ImagePlotting'/>
+            <element name='graph'      object='GraphPlotting'/>
+            <element name='plot'       object='ImportPlot'/>
+            <element name='text'       object='TextAction'/>
+            <element name='legend'     object='Legend'/>
+            <element name='horizontal_axis' object='XYTransformation'/>
+            <element name='vertical_axis'   object='XYTransformation'/>
+          </choice>
+        </element>
+      </element>
+    </element>
+  </element>
+</magml1>
+
+
+<magml2>
+  <element name='magics' occurrence='1'> 
+    <element name='drivers' occurrence='1' chapter='drivers'>  
+      <element name='ps'            occurrence='01'  object='PostScriptDriver' chapter='drivers'/>  
+      <element name='svg'           occurrence='01'  object='SVGDriver'        chapter='drivers'/>  
+      <element name='kml'           occurrence='01'  object='KMLDriver'        chapter='drivers'/> 
+      <element name='pdf'           occurrence='01'  object='CairoDriver'      chapter='drivers'  linkid='Cairo_Driver'/>  
+      <element name='png'           occurrence='01'  object='CairoDriver'      chapter='drivers'  linkid='Cairo_Driver'/>  
+      <element name='gif'           occurrence='01'  object='GDDriver'         chapter='drivers'  linkid='GD_Driver' />  
+      <element name='gif_animation' occurrence='01'  object='GDDriver'         chapter='drivers'  linkid='GD_Driver' />  
+      <!-- <element name='cairo' occurrence='0+'  object='KMLDriver'        chapter='drivers'/> -->
+    </element>
+
+    <element name='page' occurrence='1+' object='XmlSceneNode' chapter='layout_mapping_coastlines'>  
+      <element name='gribloop' occurrence='0+' object='GribLoop' chapter='data' linkid='GRIBloop_input_magml_all_tables'>
+        <element name='map' occurrence='1+' object='XmlViewNode' chapter='layout_mapping_coastlines'>
+          <choice name='background' occurrence='1+'> 
+            <element name='coastlines' occurrence='0+' object='Coastlines' chapter='layout_mapping_coastlines'/>
+            <element name='taylor_grid' occurrence='0+' object='TaylorGrid' chapter='layout_mapping_coastlines'/>
+            <element name='horizontal_axis' object='Axis' chapter='axis'/>
+            <element name='vertical_axis'   object='Axis' chapter='axis'/>
+          </choice>
+          <element name='plot' occurrence='0+' object=''>
+            <choice name='decoder' occurrence='1'> 
+              <element name='grib'           object='GribDecoder'         chapter='data'/>
+              <element name='netcdf'         object='NetcdfDecoder'       chapter='data'/>
+              <!--<element name='odb'    object='OdbDecoder'    chapter='data'/>-->
+              <!--<element name='bufr'   object='ObsDecoder'    chapter='data'/>-->
+              <element name='polyline_input' object='SimplePolylineInput' chapter='polyline'/>
+            </choice>
+            <choice name='visualisation' occurrence='1+'>
+              <element name='contour'  object='Contour'            chapter='contour'/>
+              <element name='text'     object='TextVisitor'        chapter='text'/>
+              <element name='legend'   object='LegendVisitor'      chapter='legend'/>
+              <element name='polyline' object='SimplePolyline'     chapter='polyline'/>   
+              <element name='wind'     object='Wind'/>            
+              <element name='symbol'   object='SymbolPlotting'     chapter='symbol'/>            
+              <!--<element name='boxplot'  object='BoxPlotVisualiser'  chapter='boxplot'/>-->    
+            </choice>
+          </element>
+        </element>
+      </element>
+    </element>
+  </element>
+</magml2>
+
+
+<justcontour>
+  <element name='magics' occurrence='1'> 
+
+    <element name='page' occurrence='1+' object='XmlSceneNode' chapter='layout_mapping_coastlines'>  
+      <element name='map' occurrence='1+' object='XmlViewNode' chapter='layout_mapping_coastlines'>
+        <element name='layer' occurrence='0+' object=''>
+          <choice name='visualisation' occurrence='1+'>
+            <element name='contour'  object='Contour'            chapter='contour'/>
+          </choice>
+        </element>
+      </element>
+    </element>
+  </element>
+</justcontour>
+
+
+
+<epsml>
+  <element name='eps' occurrence='1'> 
+    <element name='station'    occurrence='1+' object='XmlPage' chapter='layout_mapping_coastlines'>  
+    </element>
+  </element>
+</epsml>

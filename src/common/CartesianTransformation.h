@@ -1,0 +1,171 @@
+/******************************** LICENSE ********************************
+
+ Copyright 2007 European Centre for Medium-Range Weather Forecasts (ECMWF)
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at 
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+
+ ******************************** LICENSE ********************************/
+
+/*! \file CartesianTransformation.h
+    \brief Definition of the Template class CartesianTransformation.
+    
+    Magics Team - ECMWF 2005
+    
+    Started: Mon 19-Sep-2005
+    
+    Changes:
+    
+*/
+
+#ifndef CartesianTransformation_H
+#define CartesianTransformation_H
+
+#include "magics.h"
+
+#include "Transformation.h"
+#include "CartesianTransformationAttributes.h"
+
+namespace magics { 
+class XmlNode;
+
+class CartesianTransformation: public Transformation, public CartesianTransformationAttributes {
+
+public:
+	CartesianTransformation();
+	virtual ~CartesianTransformation();
+    virtual void operator()(Layout&) const;
+    void init() {
+    	x_->set();
+    	y_->set();
+    	Transformation::init();
+    }
+    virtual void toxml(ostream& out) const { CartesianTransformationAttributes::toxml(out); }
+    virtual void set(const map<string, string>& map) { CartesianTransformationAttributes::set(map); }
+    virtual void set(const XmlNode& node) { CartesianTransformationAttributes::set(node); }
+    virtual bool accept(const string& node) { return CartesianTransformationAttributes::accept(node); }
+	virtual double x(double x) const { return (*x_)(x); }
+	virtual double y(double y) const { return (*y_)(y); }
+	virtual double rx(double x) const { return (*x_).revert(x); }
+	virtual double ry(double y) const { return (*y_).revert(y); }
+	virtual void fast_reproject(double& x, double& y) const { x = (*x_)(x); y = (*y_)(y);  }
+	void reprojectComponents(double& x, double& y, pair<double, double>&) const;
+
+	virtual PaperPoint operator()(const UserPoint& xy) const 
+                 { return PaperPoint((*x_)(xy.x()), (*y_)(xy.y()),  xy.value()); }
+		
+   void aspectRatio(double&, double&);
+
+    virtual Transformation* clone() const {
+		CartesianTransformation* object = new CartesianTransformation();
+		object->copy(*this);
+		return object;
+	}
+	
+	virtual void adjustXAxis(Layout& layout) const;
+	virtual void adjustYAxis(Layout& layout) const;
+	
+	virtual double getMinX() const { return x_->min(); }
+	virtual double getMaxX() const { return x_->max(); }
+	virtual double getMinY() const { return y_->min(); }
+	virtual double getMaxY() const { return y_->max(); }
+
+	virtual double getMinPCX() const { return x_->minpc(); }
+	virtual double getMaxPCX() const { return x_->maxpc(); }
+	virtual double getMinPCY() const { return y_->minpc(); }
+	virtual double getMaxPCY() const { return y_->maxpc(); }
+	
+	double x(const string& val) const { return (*x_)(val); }
+	double y(const string& val) const { return (*y_)(val); }
+
+	
+	virtual void setMinX(double x)   { x_->min(x); }
+	virtual void setMaxX(double x)   { x_->max(x); }
+	virtual void setMinY(double y)   { y_->min(y); }
+	virtual void setMaxY(double y)   { y_->max(y); }
+
+    virtual const string& getReferenceX() const  { referenceX_ = x_->reference(); return referenceX_;}
+    virtual const string& getReferenceY() const  { referenceY_ = y_->reference(); return referenceY_; }
+
+	
+	virtual void setDataMinX(double minx) const { x_->dataMin(minx); }
+	virtual void setDataMaxX(double maxx) const { x_->dataMax(maxx); }
+	virtual void setDataMinY(double miny) const { y_->dataMin(miny); }
+	virtual void setDataMaxY(double maxy) const { y_->dataMax(maxy); }
+	
+	vector<double> getDataVectorMinX() const  { return  x_->mins(); }
+	vector<double> getDataVectorMaxX() const { return  x_->maxs(); }
+	vector<double> getDataVectorMinY() const  { return  y_->mins(); }
+	vector<double> getDataVectorMaxY() const { return  y_->maxs(); }
+	
+
+	Polyline& getPCBoundingBox()   const  {  boxes(); return *PCEnveloppe_; }
+
+	void boxes() const;
+
+
+    virtual void setDataMinX(double minx, const string& ref) const { 
+    	dataMinX_ = std::min(minx, dataMinX_);
+    	x_->dataMin(dataMinX_, ref); 
+    	referenceX_ = x_->reference();
+    }
+	virtual void setDataMaxX(double maxx, const string& ref) const { 
+		dataMaxX_ = std::max(maxx, dataMaxX_);
+		x_->dataMax(dataMaxX_, ref); 
+		referenceX_ = x_->reference();
+	}
+	virtual void setDataMinY(double miny, const string& ref) const { 
+		dataMinY_ = std::min(miny, dataMinY_);
+		y_->dataMin(dataMinY_, ref); 
+		referenceY_ = y_->reference();
+	}
+	virtual void setDataMaxY(double maxy, const string& ref) const { 
+		dataMaxY_ = std::max(maxy, dataMaxY_);
+		y_->dataMax(dataMaxY_, ref); 
+		referenceY_ = y_->reference();
+	}; 
+	virtual void setAutomaticX(bool automatic) { x_->automatic(automatic); }
+		virtual void setAutomaticY(bool automatic) { y_->automatic(automatic); }
+		virtual bool getAutomaticX() const { return  x_->automatic(); } 
+		virtual bool getAutomaticY() const { return y_->automatic(); }
+	
+	virtual bool in(double x, double y) const 
+         {  double minx = std::min(x_->min(), x_->max() );
+         	double maxx = std::max(x_->min(), x_->max() );
+         	double miny = std::min(y_->min(), y_->max() );
+         	double maxy = std::max(y_->min(), y_->max() );
+         	return ( minx <= x && x <=  maxx && miny <= y && y <= maxy ); }
+	
+	string xAxisType() const { return x_->type(); }
+	   string yAxisType() const { return y_->type(); }
+	void visit(MetaDataVisitor&, double, double, double, double,double, double);
+	void getNewDefinition(const UserPoint&, const UserPoint&, string&) const;
+	void setDefinition(const string&);
+protected:
+     //! Method to print string about this class on to a stream of type ostream (virtual).
+	 virtual void print(ostream&) const; 
+
+private:
+    //! Copy constructor - No copy allowed
+	CartesianTransformation(const CartesianTransformation&);
+    //! Overloaded << operator to copy - No copy allowed
+	CartesianTransformation& operator=(const CartesianTransformation&);
+
+// -- Friends
+    //! Overloaded << operator to call print().
+	friend ostream& operator<<(ostream& s,const CartesianTransformation& p)
+		{ p.print(s); return s; }
+
+};
+
+} // namespace magics
+#endif

@@ -1,0 +1,161 @@
+<?xml version="1.0"?>
+<magics version="3.0" format="a3" orientation="portrait">
+	<definition>
+		<metgram id="station" 
+                station_name='$station' station_height="$height" 
+                latitude="$latitude" longitude="$longitude" 
+                date='$date' time="$time" 
+                eps_temperature_correction='yes'
+                database='$database/detdb'> $title 
+                <none/>
+        </metgram>
+	
+       <text id='title' margin_bottom='88%'
+                    font='sansserif' colour='blue' font_size='0.6'
+                    justification='left' display='absolute'/>
+       <text id='title_tempe' margin_bottom='87%'
+                    font='sansserif' colour='blue' font_size='0.6'
+                    justification='left' display='absolute'/>
+        <text id='title_wind' margin_bottom='80%'
+                    font='sansserif' colour='blue' font_size='0.6'
+                    justification='left' display='absolute'/>
+
+		<map id="box"  margin_bottom='7%' margin_top='15%' border-colour='kelly_green'/>			
+		<map id="box_wind"  margin_bottom='7%' margin_top='21%' border-colour='kelly_green'/>			
+
+		<horizontal_axis id="haxis" axis_line="false" line_thickness="4" colour='kelly_green'>			
+			<nolabel/>
+			<date/>
+			<noline/>
+            <minortick colour='kelly_green'/>
+			<grid line_style="dot" colour='kelly_green'/>
+            <tick colour='kelly_green'/>
+		</horizontal_axis>
+
+		<vertical_axis id="vaxis" axis_line="false" line_thickness="4" colour='kelly_green'>		
+			<noline/>
+            <label colour='kelly_green' lable='0.5'/>
+			<grid line_style="dot" colour='kelly_green'/>
+            <tick colour='kelly_green'/>
+		</vertical_axis>
+	</definition>
+	<drivers>
+		<$ps/>
+		<$pdf/>
+		<$png/>
+		<$gif/>
+		<$svg/>
+	</drivers>
+   
+	<page height='8%' border='off'>
+		<$meta/>
+		<nopageid/>
+	</page>
+	<page height='15%' border='off'>  
+		<nopageid/>
+		<map use_id='box'>
+			<cartesian>
+				<x_date automatic='on'/>
+				<y_regular  y_min="0" y_max="100"/>
+			</cartesian> 
+			<text use_id='title'/>
+			<horizontal_axis use_id="haxis"/>
+			<vertical_axis use_id="vaxis"> <regular/>	</vertical_axis>
+			<plot>
+				<metgram use_id="station" parameter="cloud_cover" long_title='true'/>
+				<metgraph> <bar/> </metgraph>
+			</plot>
+		</map>
+	</page>
+	<page  height='15%' border='off'>
+		<nopageid/>
+		<map use_id='box'>
+			<cartesian>
+				<x_date automatic='on'/>
+				<y_regular  y_min="0" y_max="100"/>
+			</cartesian> 
+			<text use_id='title'/>
+			<horizontal_axis use_id="haxis"/>                
+			<vertical_axis use_id="vaxis"> </vertical_axis>
+			<plot>
+				<metgram use_id="station" parameter="humidity"/>
+				<metgraph> </metgraph>
+			</plot>
+		</map>
+	</page>
+
+	<page  height='15%' border='off'>
+		<nopageid/>
+		<map use_id='box'>
+			<cartesian>
+				<x_date automatic='on'/>
+				<y_regular automatic='on'/>
+			</cartesian> 
+			<text use_id='title'/>
+			<horizontal_axis use_id="haxis"/>
+			<vertical_axis use_id="vaxis"/>
+			<plot>
+				<metgram use_id="station" parameter="precipitation"/>
+				<metgraph> <bar/> </metgraph>
+			</plot>
+		</map>
+	</page>
+
+	<page  height='15%' border='off'>
+		<nopageid/>
+		<map use_id='box' >
+			<cartesian>
+				<x_date automatic='on'/>
+				<y_regular automatic='on'/>
+			</cartesian>
+			<text use_id='title'/>
+			<horizontal_axis use_id="haxis"/>				
+			<vertical_axis use_id="vaxis"/>
+			<plot>
+				<metgram use_id="station" parameter="msl"/>
+				<metgraph> </metgraph>
+			</plot>
+		</map>
+	</page>
+
+	<page height="8%" border='off'>
+		<nopageid/>
+		<map use_id='box_wind'>
+			<cartesian>
+				<x_date automatic='on'/>
+				<y_regular y_min='-1' y_max='1'/>
+			</cartesian>
+			<text use_id='title_wind'/>
+			<horizontal_axis use_id="haxis"/>
+			<vertical_axis use_id="vaxis"> <nolabel/> <notick/> <nogrid/> </vertical_axis>
+			<plot>
+				<metgram use_id="station" parameter="10m_wind"/>
+				<metgraph> <flags/> </metgraph>
+			</plot>
+		</map> 
+	</page>
+
+        <page height="21%" border='off'>
+			<pageid line_system_plot='off' line_date_plot='off' line_errors_plot='off' font='sansserif' line_colour='Rgb(0.8, 0.8, 0.8)'/>
+			<map  margin_bottom='25%' margin_top='15%' border-colour='kelly_green' >
+			<cartesian>
+				<x_date automatic='on'/>
+				<y_regular  automatic='on'/>
+			</cartesian>
+			<horizontal_axis use_id="haxis">
+				<date >
+				<both label_colour='blue' label_height='0.5' />
+				<month label_height='0.5' label_colour='blue'> <monthandyear /> </month>
+				<noyear height='0.4'/>
+				</date>
+				<label/>
+			</horizontal_axis>
+			<text use_id='title_tempe'/>
+			<vertical_axis use_id="vaxis"/>
+			<plot>
+				<metgram use_id="station" parameter="temperature"/>
+				<metgraph> </metgraph>
+			</plot>
+		</map>
+	</page>
+</magics>

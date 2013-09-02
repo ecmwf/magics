@@ -1,0 +1,5 @@
+%include <head.h>
+
+%TOOLS_HOME%/ecflow/archive.sh %OUTPUT_FOLDER%
+
+%include <tail.h>

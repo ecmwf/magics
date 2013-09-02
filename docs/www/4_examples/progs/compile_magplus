@@ -1,0 +1,640 @@
+#!/bin/ksh
+# Compiles the test suite using the Magics++ library
+
+#set -x
+
+echo $LD_LIBRARY_PATH
+
+# ----------------------------------------------------------------------------
+# Parse command-line arguments
+# Possible options:
+#   -manonly     : only the examples for the online manual will be compiled
+#   -nocompile   : all programs will be re-run without first being recompiled
+#   -rmafter     : removes the program binary after running it
+#   -www         : use the programs intended for the www pages
+#   -test        : use the programs intended for the test suite
+#   -classic     : use the programs intended for the classic test suite
+#   -checkup     : use the programs intended for the checkup test suite
+#   -drivers     : test all the drivers in selected programs
+#   -tutorial    : use the programs intended for the tutorial
+#   -cylindrical : Cylindrical projection only
+#   -manual      : use the programs intended for the manual
+#   -f32         : Force 32-bit mode compilation
+#   -f64         : Force 64-bit mode compilation
+#   -single      : Force single-precision floats
+#   -ps_gif      : Multiple output formats in a single pass
+#   -ps_gif_svg  : Multiple output formats in a single pass
+#   -ps_png_svg  : Multiple output formats in a single pass
+#   -ps_gif_png_svg  : Multiple output formats in a single pass
+#   -static      : Use the static library
+#   -quick       : Cylindrical projection and PostScript output only
+#   -polar       : Polarstereographic projection only
+#   -quick       : Cylindrical projection and PostScript output only
+#   -psonly      : PostScript output only
+#   -ps_split    : Sets MAGICS parameter 'PS_SPLIT' to 'ON'
+#   -plain_names : Leaves the output filenames alone (omits _mpp_projection)
+#   -only <mask> : Only runs the specified examples (eg -only image*.f)
+#   -onlyodb     : Will only run the ODB examples
+#   -noodb       : Will not run the ODB examples
+#   -nocontres   : Will not run the contour resolution examples
+#   -noakima     : Will not run the Akima-testing examples
+#   -nohires     : Will not run the high-resolution data examples
+#   -valgrind    : Runs the examples under Valgrind - output to <prog>.vlog
+#   -verbose     : Echos compiler commands to stdout
+#
+#   -diff        : same as -ps_split  -psonly
+# ----------------------------------------------------------------------------
+
+
+. ./message.ksh
+
+filespec=*.f
+filespecnext=0
+nocompile=0
+srcdir="src/test"
+projections="CYLINDRICAL POLAR_STEREOGRAPHIC MERCATOR"
+pages="1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 30 41 42 43 44 45 46 47 48"
+noodb=1  # new default (02/09/2009)
+nocontres=0
+noakima=0
+nohires=0
+rmafter=0
+valgrind=0
+multi=0    # are we using multiple output devices in a single pass? 0 = no, 1 = yes.
+plain_names=0
+single=0
+static=0
+verbose=0
+mode=32
+ps_split=""
+pgf_flags="-O0 -g"
+xlf_flags=""
+odb_libs=""
+mpp_lib_name="MAGPLUSLIB_SHARED"
+mpp_lib=$MAGPLUSLIB_SHARED
+
+. ./setdevices
+
+for arg;do
+#    if [[ $arg = "-manonly" ]]
+#    then
+#        filespec=*_ex.f
+#    fi
+
+    if [[ $filespecnext -eq 1 ]]
+    then
+        filespec=$arg
+        filespecnext=0
+        echo "filespec is now $filespec"
+    fi
+
+    if [[ $arg = "-only" ]]
+    then
+        filespecnext=1
+    fi
+
+    if [[ $arg = "-nocompile" ]]
+    then
+        nocompile=1
+    fi
+
+    if [[ $arg = "-verbose" ]]
+    then
+        verbose=1
+    fi
+
+    if [[ $arg = "-rmafter" ]]
+    then
+        rmafter=1
+    fi
+
+    if [[ $arg = "-www" ]]
+    then
+        srcdir="src/www"
+        projections="CYLINDRICAL"  # will be appended to the html/ps/gif filenames, but otherwise ignored
+#        devices="PS"     # ignored by the www pages anyway
+    fi
+
+    if [[ $arg = "-classic" ]]
+    then
+        srcdir="src/classic"
+        projections="CYLINDRICAL"  # will be appended to the html/ps/gif filenames, but otherwise ignored
+#        devices="PS"     # ignored by the www pages anyway
+    fi
+
+    if [[ $arg = "-manual" ]]
+    then
+        srcdir="src/manual"
+    fi
+
+    if [[ $arg = "-checkup" ]]
+    then
+        srcdir="src/checkup"
+    fi
+
+    if [[ $arg = "-drivers" ]]
+    then
+        filespec="cont_noshade_ex.f $srcdir/cont_solidshade_test1.f $srcdir/obs_ex.f $srcdir/wind_ex.f"
+        devices="PS GIF SVG PDF PNG KML"
+        multi=1
+        multi_device="ALL"
+    fi
+
+    if [[ $arg = "-tutorial" ]]
+    then
+        srcdir="src/tutorial"
+        projections="CYLINDRICAL"  # will be appended to the html/ps/gif filenames, but otherwise ignored
+    fi
+
+    if [[ $arg = "-test" ]]    # 'test' parameters already set up above
+    then
+        echo "Using $srcdir and $projections"
+    fi
+
+    if [[ $arg = "-cylindrical" ]]
+    then
+        projections="CYLINDRICAL"
+    fi
+
+    if [[ $arg = "-polar" ]]
+    then
+        projections="POLAR_STEREOGRAPHIC"
+    fi
+
+    if [[ $arg = "-quick" ]]
+    then
+        projections="CYLINDRICAL"
+        devices="PS"
+    fi
+
+    if [[ $arg = "-psonly" ]]
+    then
+        devices="PS"
+    fi
+
+    if [[ $arg = "-ps_gif" ]] # multiple output formats in a single pass
+    then
+        devices="PS GIF"
+        multi=1
+        multi_device="PS_GIF"
+    fi
+
+    if [[ $arg = "-ps_gif_svg" ]] # multiple output formats in a single pass
+    then
+        devices="PS GIF SVG"
+        multi=1
+        multi_device="PS_GIF_SVG"
+    fi
+
+    if [[ $arg = "-ps_png_svg" ]] # multiple output formats in a single pass
+    then
+        devices="PS PNG SVG"
+        multi=1
+        multi_device="PS_PNG_SVG"
+    fi
+
+    if [[ $arg = "-ps_gif_png_svg" ]] # multiple output formats in a single pass
+    then
+        devices="PS GIF PNG SVG"
+        multi=1
+        multi_device="PS_GIF_PNG_SVG"
+    fi
+
+    if [[ $arg = "-f32" ]]
+    then
+        mode=32
+        pgf_flags="$pgf_flags -tp k8-32"
+    fi
+
+    if [[ $arg = "-f64" ]]
+    then
+        mode=64
+        pgf_flags="$pgf_flags -tp amd64"
+    fi
+
+    if [[ $arg = "-single" ]]
+    then
+        single=1
+    fi
+
+    if [[ $arg = "-static" ]]
+    then
+        static=1
+    fi
+
+    if [[ $arg = "-onlyodb" ]]
+    then
+        filespec="odb*.f"
+    fi
+
+    if [[ $arg = "-noodb" ]]
+    then
+        noodb=1
+        odb_libs=""
+    fi
+
+    if [[ $arg = "-nocontres" ]]
+    then
+        nocontres=1
+    fi
+
+    if [[ $arg = "-noakima" ]]
+    then
+        noakima=1
+    fi
+
+    if [[ $arg = "-nohires" ]]
+    then
+        nohires=1
+    fi
+
+    if [[ $arg = "-valgrind" ]]
+    then
+        valgrind=1
+    fi
+
+    if [[ $arg = "-ps_split" ]]
+    then
+        ps_split="PS_SPLIT"
+    fi
+
+    if [[ $arg = "-plain_names" ]]
+    then
+        plain_names=1
+    fi
+
+
+    if [[ $arg = "-diff" ]]
+    then
+        devices="PS"
+        ps_split="PS_SPLIT"
+        plain_names=1
+    fi
+
+
+done
+
+
+# work out the name of the MAGICS library to use...
+
+if [[ $single -eq 1 ]]
+then
+    if [[ $static -eq 1 ]]
+    then
+        mpp_lib_name="MAGPLUSLIB_STATIC"
+        mpp_lib=$MAGPLUSLIB_STATIC
+    else 
+        mpp_lib_name="MAGPLUSLIB_SHARED"
+        mpp_lib=$MAGPLUSLIB_SHARED
+    fi
+else                           # double
+    if [[ $static -eq 1 ]]
+    then
+        mpp_lib_name="MAGPLUSLIB_STATIC_DOUBLE"
+        mpp_lib=$MAGPLUSLIB_STATIC_DOUBLE
+    else
+        mpp_lib_name="MAGPLUSLIB_SHARED_DOUBLE"
+        mpp_lib=$MAGPLUSLIB_SHARED_DOUBLE
+    fi
+fi
+
+
+
+option_flags="$ps_split"
+
+
+# use the ODB-enabled libraries?
+
+if [[ $noodb -eq 0 ]]
+then
+    echo "ODB YES!"
+    if [[ $static -eq 1 ]]
+    then
+        mpp_lib_name="MAGPLUSLIB_STATIC_ODB"
+        mpp_lib=$MAGPLUSLIB_STATIC_ODB
+    else 
+        mpp_lib_name="MAGPLUSLIB_SHARED_ODB"
+        mpp_lib=$MAGPLUSLIB_SHARED_ODB
+    fi
+
+
+    # Set up ODB access if it's not already set up
+
+    if [[ -z "$ODB_LIBS" ]]
+    then
+        echo "Setting up ODB access..."
+
+        if [[ $mode -eq 32 ]]
+        then
+            export OBJECT_MODE=32
+        else
+            export OBJECT_MODE=64
+        fi
+
+        set ODB_VERSION=current
+    #    set ODB_VERSION=test_version
+    #    use odb
+        
+        odb_libs=$ODB_LIBS
+        echo "XXXXXXXXXXX" $ODB_LIBS
+    fi
+    
+    single=0  # the ODB-enabled libraries are in double-precision
+fi
+
+
+# double-precision by default - unless -single was specified
+
+if [[ $single -eq 0 ]]
+then
+    pgf_flags="$pgf_flags -r8"
+    xlf_flags="$xlf_flags -qrealsize=8"
+fi
+
+
+
+
+
+# Compile each program in turn
+
+
+if [[ $verbose -eq 1 ]]
+then
+    msg "Compiling examples in $srcdir/$filespec"
+fi
+
+
+for srcfile in $srcdir/$filespec
+do
+    bname=`basename $srcfile .f`
+    preprocname="$bname".F
+    objectname="$bname".o
+    progname="$bname"_mpp
+    progfile=bin/"$bname"_mpp
+    compile_log=logs/"$bname"_mpp_compile.log
+
+    defaultpsname="magics_outputs.ps"
+    
+    msg "    [Checking $bname]"
+
+    
+
+    # check if we want to avoid ODB examples
+    
+    if [[ $noodb -eq 1 && $srcfile = *odb* ]]
+    then
+        echo "  X avoiding ODB example"
+        continue
+
+    # check if we want to avoid contour resolution examples
+    elif [[ $nocontres -eq 1 && $srcfile = *cont*res* ]]
+    then
+        echo "  X avoiding contour resolution example"
+        continue
+
+    # check if we want to avoid Akima-testing examples
+    elif [[ $noakima -eq 1 && $srcfile = cont_akima* ]]
+    then
+        echo "  X avoiding Akima example"
+        continue
+
+    # check if we want to avoid high-res examples
+    elif [[ $nohires -eq 1 && ($srcfile = *t799* || $srcfile = *t1279*) ]]
+    then
+        echo "  X avoiding high-res data example"
+        continue
+    fi
+
+
+    # OS-specific compilation flags and steps
+
+    if [[ $OS_VERSION = "suse91" || $OS_VERSION = "sles9" || $OS_VERSION = "opensuse103" || $OS_VERSION = "sles11" || $OS_VERSION = "opensuse113" ]]
+    then
+        precompiler_flags=" -w -P -DMAGPLUS -traditional-cpp "
+        compiler1="pgf90 -g $pgf_flags -o $progfile  $preprocname  $mpp_lib $odb_libs"
+        compiler2=""
+        compiler3=""
+
+    elif [[ $OS_VERSION = "linux_test" ]]
+    then
+        precompiler_flags=" -w -P -DMAGPLUS -traditional-cpp "
+        compiler1="magics-config --compile=$preprocname --suffix=F"
+        compiler2="mv $bname $progfile"
+        compiler3=""
+
+    elif [[ $OS_VERSION = "aix" ]]
+    then
+        precompiler_flags=" -P "
+#        compiler1="xlf -qrealsize=8 -c $preprocname"
+#        compiler2="xlC -o $progfile $objectname $mpp_lib $odb_libs"
+#        compiler3="rm -f  $objectname"
+        compiler1="xlf -O2 $xlf_flags -c $preprocname"
+        compiler2="xlC_r -o $progfile $objectname $mpp_lib $odb_libs"
+        compiler3="rm -f  $objectname"
+    else
+        msg "ERROR: Unsupported OS_VERSION: $OS_VERSION"
+        exit
+    fi
+
+
+
+
+    # is the source file newer than the binary program?
+    
+    do_recompile=0
+
+    if [[ ! -a $progfile  ||  $srcfile -nt $progfile ]]
+    then
+        do_recompile=1
+    fi
+
+
+    if [[ $do_recompile -eq 1 ||  $nocompile -eq 1 ]]
+    then
+
+        msg "Recompiling program $progfile"
+
+
+        # first pass it through the C preprocessor
+
+        cpp $precompiler_flags $srcfile $preprocname
+
+
+        # now compile with the FORTRAN compiler
+
+        if [[ $do_recompile -eq 1 ]]  # compile unless flag is set
+        then
+
+            if [[ $verbose -eq 1 ]]
+	        then
+                msg "    $compiler1"
+                msg "    $compiler2"
+                msg "    $compiler3"
+            fi
+
+            rm -f $compile_log
+
+            $compiler1   > $compile_log 2>> $compile_log
+            $compiler2
+            $compiler3
+            sleep 1   # sometimes the binary is not ready for execution
+        fi
+
+
+
+        for proj in $projections ; do
+
+
+            # if using GIF, then we have to compensate for the new (Feb 2006)
+            # filenaming convention. If we ask for 'name.gif', we get 'name_01.gif'.
+            
+
+      # no longer needed with new filenaming convention as of 20/07/2006	
+      #      if [[ $ext = ".gif" ]]
+      #      then
+      #          ext=".1.gif"   # WAS: ext="_01.gif"
+      #      fi
+
+            device_number=0    # for how many output devices have we run this program so far?
+
+
+            for device in $devices ; do
+                typeset -l ext=".$device"
+                origoutname=$bname$ext
+                pdfoutname=$bname.pdf
+                logfile=logs/"$bname"_mpp_"$proj.$device".log
+                errfile=logs/"$bname"_mpp_"$proj.$device".err
+                timefile=logs/"$bname"_mpp_"$proj.$device".time
+                vlogfile=logs/"$bname"_mpp_"$proj".vlog
+                newoutname="$progname"_"$proj"$ext
+                pdfnewoutname="$progname"_"$proj".pdf
+
+
+                # get the device flag to pass to the program
+
+                if [[ $multi -eq 0 ]]
+                then
+                    device_flag=$device
+                else
+                    device_flag=$multi_device
+                fi
+
+
+
+                # when running multiple output devices in a single pass, we do not always want to run the program
+                
+                if [[ $multi -eq 0 || $device_number -eq 0 ]]
+                then
+                    # check if the user wants to run the programs through Valgrind or just run normally
+
+                    if [[ $valgrind -eq 1 ]]
+                    then
+                        valgrind --leak-check=full $progfile $option_flags PROJECTION $proj   DEVICE $device_flag 2> $vlogfile
+                    else
+                        (time ($progfile $option_flags PROJECTION $proj   DEVICE $device_flag> $logfile 2> $errfile)) 2> $timefile
+                    fi
+
+
+                    if [[ -a $defaultpsname ]]        # hopefully temporary if proper .ps name is not used
+                    then
+                        mv $defaultpsname $origoutname
+                    fi
+
+                else  # do not run for thie device, but put a note in the time file
+                    echo "Using multiple output devices" > $timefile
+                    # echo "TIME: $timefile"
+                fi   # multiple devices in a single pass?
+
+                # should we rename the output file(s)?
+
+                if [[ $plain_names -eq 0 ]]
+                then
+                    if [[ -a $origoutname  ]]  # if it exists, then rename & move it
+                    then
+                        mv  $origoutname ps/$newoutname
+                    fi
+
+                    if [[ -a $pdfoutname ]]
+                    then
+                        mv  $pdfoutname  ps/$pdfnewoutname # >&! /dev/null # PDF is produced alongside PS
+                    fi
+                else
+                    mv  $origoutname ps
+
+                    if [[ -a $pdfoutname ]]
+                    then
+                        mv  $pdfoutname  ps                # >&! /dev/null # PDF is produced alongside PS
+                    fi
+                fi
+
+
+                if [[ "$ps_split" = "PS_SPLIT" ]]    # need to move all the .ps files across
+                then
+                    mv $origoutname.*$ext ps
+                fi
+
+
+
+                # deal with multiple page outputs (SVG)
+
+                for page in $pages ; do
+                    origoutname=$bname.$page$ext
+
+                    if [[ $plain_names -eq 0 ]]
+                    then
+                        newoutname="$progname"_"$proj"_"$page"$ext
+                    else
+                        newoutname=$origoutname
+                    fi
+
+                    if [[ -a $origoutname  ]]  # if it exists, then rename & move it
+                    then
+                        mv $origoutname ps/$newoutname
+                    fi
+                done
+
+
+                device_number=1
+
+            done  #  devices loop
+
+        done  # projections loop
+
+        mv $preprocname ps/$preprocname
+        
+        if [[ $rmafter -eq 1 ]]  # remove the executable after running it?
+        then
+        	rm -f $progfile
+        fi
+        
+    fi
+done
+
+
+# remove any leftover svg files - a couple of plots have way too many pages...
+rm -f *.svg
+
+# move over any svg-related png files
+
+if [[ -a cont_cellshade_test1.1.svg_include_page0_.png  ]]
+then
+    mv *svg_include_page*.png ps
+fi
+
+
+
+
+# report any special settings to the summary file
+
+echo "HOST:            $HOST"            >  logs/summary.txt
+echo "ARCH:            $ARCH"            >> logs/summary.txt
+echo "USER:            $USER"            >> logs/summary.txt
+echo "PGF flags:       $pgf_flags"       >> logs/summary.txt
+echo "$mpp_lib_name:"                    >> logs/summary.txt
+echo "`echo $mpp_lib | sed 's/ /\n                 /g'`"   >> logs/summary.txt
+echo "LD_LIBRARY_PATH:  "                >> logs/summary.txt
+echo "`echo $LD_LIBRARY_PATH | sed 's/:/\n                 /g'`"   >> logs/summary.txt
+echo "EMOSLIB           $EMOSLIB"        >> logs/summary.txt
+
+msg "Finished compiling Magics++ programs"
+

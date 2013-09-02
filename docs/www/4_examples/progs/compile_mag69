@@ -1,0 +1,182 @@
+#!/bin/ksh
+# Compiles the test suite using the MAGICS 6.9 library
+
+
+# ----------------------------------------------------------------------------
+# Parse command-line arguments
+# Possible options:
+#   -manonly    : only the examples for the online manual will be compiled
+#   -www        : use the programs intended for the www pages
+#   -test       : use the programs intended for the test suite
+#   -classic    : use the programs intended for the classic test suite
+#   -tutorial   : use the programs intended for the tutorial
+#   -quick      : Cylindrical projection only
+#   -rmafter    : removes the program binary after running it
+# ----------------------------------------------------------------------------
+
+. ./message.ksh
+
+
+filespec=*.f
+srcdir="src/test"
+projections="CYLINDRICAL POLAR_STEREOGRAPHIC MERCATOR"
+rmafter=0
+
+
+
+for arg;do
+#    if [[ $arg = "-manonly" ]]
+#    then
+#        filespec=*_ex.f
+#    fi
+
+
+    if [[ $arg = "-www" ]]
+    then
+        srcdir="src/www"
+        projections="CYLINDRICAL"
+#        projections="a"
+    fi
+
+    if [[ $arg = "-classic" ]]
+    then
+        srcdir="src/classic"
+        projections="CYLINDRICAL"
+    fi
+
+    if [[ $arg = "-tutorial" ]]
+    then
+        srcdir="src/tutorial"
+        projections="CYLINDRICAL"
+    fi
+
+   if [[ $arg = "-test" ]]  # 'test' parameters already set up above
+    then
+        echo "Using $srcdir and $projections"
+    fi
+
+
+
+    if [[ $arg = "-quick" ]]
+    then
+        projections="CYLINDRICAL"
+    fi
+
+
+    if [[ $arg = "-rmafter" ]]
+    then
+        rmafter=1
+    fi
+
+
+done
+
+
+
+# set up correct compiler?
+
+if [[ $OS_VERSION = "opensuse113" ]]
+then
+    if [[ x$OBJECT_MODE != "x32" ]]
+    then
+        OBJECT_MODE=32 ; CPU_TYPE=x86 ; use pgi
+    fi
+fi
+
+
+for srcfile in $srcdir/$filespec
+do
+    bname=`basename $srcfile .f`
+    preprocname="$bname".F
+    objectname="$bname".o
+    progname="$bname"_m69
+    progfile=bin/"$bname"_m69
+    origpsname="$bname".ps
+    
+    msg "    [Checking $bname]"
+
+
+    # OS-specific compilation flags and steps
+
+    if [[ $OS_VERSION = "sles9" || $OS_VERSION = "sles11" || $OS_VERSION = "opensuse103" ]]
+    then
+        precompiler_flags=" -P -traditional-cpp "
+        compiler1="pgf90 -Mbackslash -O2 -o $progfile $preprocname $MAGLIB $EMOSLIB"
+        compiler2=""
+        compiler3=""
+
+    elif [[ $OS_VERSION = "opensuse113" ]]
+    then
+        export MAG_HOME="/usr/local/apps/Magics/deprecated"
+        precompiler_flags=" -P -traditional-cpp "
+        compiler1="pgf90 -m32 -r8 -Mbackslash -O2 -o $progfile $preprocname -L$MAG_HOME/lib -lmagics_r8 -lMvDevices_r8 -lmagics_r8 -lemos_r8 -lstdc++"
+        compiler2=""
+        compiler3=""
+
+    elif [[ $OS_VERSION = "aix" ]]
+    then
+        precompiler_flags=" -P "
+        compiler1="xlf -c $preprocname"
+        compiler2="xlC -o $progfile $objectname $MAGLIB $EMOSLIB"
+        compiler3="rm -f  $objectname"
+    elif [[ $OS_VERSION = "linux_test" ]]
+    then
+        precompiler_flags=" -P  -traditional-cpp"
+        compiler1="gfortran -O2 -o $progfile $preprocname $MAGLIB $EMOSLIB"
+        compiler2=""
+        compiler3=""
+    else
+        msg "ERROR: Unsupported OS_VERSION: $OS_VERSION"
+        exit
+    fi
+
+
+
+    # ignore all netcdf and odb files
+    
+    if [[ $srcfile != *netcdf*  &&  $srcfile != *odb*  ]]
+    then
+
+        # is the source file newer than the binary program?
+
+        if [[ ! -a $progfile  ||  $srcfile -nt $progfile ]]
+        then
+            msg "Recompiling program $progfile"
+
+
+            # first pass it through the C preprocessor
+            
+            cpp $precompiler_flags $srcfile $preprocname
+
+
+            # now compile with the FORTRAN compiler
+            
+            $compiler1
+            $compiler2
+            $compiler3
+
+            sleep 1   # sometimes the binary is not ready for execution
+
+            for proj in $projections ; do
+                logfile=logs/"$bname"_m69_"$proj".log
+                errfile=logs/"$bname"_m69_"$proj".err
+                timefile=logs/"$bname"_m69_"$proj".time
+                newpsname="$progname"_"$proj".ps
+
+                (time ($progfile PROJECTION $proj> $logfile 2> $errfile)) 2> $timefile
+                mv $origpsname ps/$newpsname
+            done
+#            rm -f $preprocname
+
+        
+            if [[ rmafter -eq 1 ]]  # remove the executable after running it?
+            then
+                rm -f $progfile
+            fi
+        fi
+    fi
+
+done
+
+
+msg "Finished compiling mag69"

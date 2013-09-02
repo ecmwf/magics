@@ -1,0 +1,206 @@
+#!/bin/ksh
+
+
+purpose="manual"
+
+for arg;do
+    if [[ $arg = "-h" || $arg = "-help" || $arg = "--help" ]]
+    then
+        echo ""
+        echo "format_listings"
+        echo "Possible options:"
+        echo "   -manual    : format the examples for the manual (default)"
+        echo "   -tutorial  : format the examples for the tutorial"
+        echo ""
+        exit
+    fi
+
+    if [[ $arg = "-tutorial" ]]
+    then
+        purpose="tutorial"
+    fi
+
+    if [[ $arg = "-manual" ]]
+    then
+        purpose="manual"
+    fi
+
+done
+
+
+# format the FORTRAN listings
+
+for fortran in examples/$purpose/fortran/source/*.f
+do
+    fortran_cc=${fortran}_cc    # 'cc' here means 'colour coded'
+    temp="temp.x"
+
+        echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"  > $fortran_cc
+        echo "<!DOCTYPE part PUBLIC \"-//OASIS//DTD DocBook XML V4.3//EN\"" >> $fortran_cc
+        echo "                 \"http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd\">" >> $fortran_cc
+        echo "" >> $fortran_cc
+        echo "<programlisting>" >> $fortran_cc
+
+
+        # remove any '<' or '>' which might confuse the XML parser
+        sed "s/>/\&gt;/g" $fortran > $temp
+
+        sed "s/</\&lt;/g" $temp >> $fortran_cc
+
+        # format the comments
+        cp $fortran_cc $temp
+#        sed "s/^\([Cc\*].*\)/<comment>\1<\/comment>/g"  $fortran >> $fortran_cc
+        sed "s/^\([Cc\*].*\)/<comment>\1<\/comment>/g"  $temp > $fortran_cc
+
+        # format the action routines
+        cp $fortran_cc $temp
+        sed "s/\(PRESET\|PSETC\|PSETI\|PSETR\|PSET1C\|PSET1R\|PSET1I\|POPEN\|PCLOSE\|PCOAST\|PCONT\|PTEXT\|PLEGEND\|PAXIS\|PGRAPH\|PIMAGE\|PGRIB\|PNETCDF\|PODB\|PNEW\|POBS\|PSYMB\|PWIND\|PBOXPLOT\|PLINE\)/<function>\1<\/function>/g"   $temp > $fortran_cc
+
+        # format the parameter names  [we identify them by   ('XXX'   ]
+        cp $fortran_cc $temp
+        sed "s/\(('\)\([^']*\)\('\)/\1<parameter>\2<\/parameter>\3/g"  $temp > $fortran_cc
+
+
+
+        echo "</programlisting>" >> $fortran_cc
+        rm -f $temp
+done
+
+
+
+# format the C listings
+
+for c in examples/$purpose/c/source/*.c
+do
+    c_cc=${c}_cc    # 'cc' here means 'colour coded'
+    temp="temp.x"
+
+        echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"  > $c_cc
+        echo "<!DOCTYPE part PUBLIC \"-//OASIS//DTD DocBook XML V4.3//EN\"" >> $c_cc
+        echo "                 \"http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd\">" >> $c_cc
+        echo "" >> $c_cc
+        echo "<programlisting>" >> $c_cc
+
+
+        # remove any '<' or '>' which might confuse the XML parser
+        sed "s/>/\&gt;/g" $c    >  $temp
+
+        sed "s/</\&lt;/g" $temp >> $c_cc
+
+        # format the comments
+        cp $c_cc $temp
+        sed "s/\(\/\*.*\*\/\)/<comment>\1<\/comment>/g"  $temp > $c_cc
+
+        # format the action routines
+        cp $c_cc $temp
+        sed "s/\(mag_reset\|mag_setc\|mag_seti\|mag_setr\|mag_set1c\|mag_set1r\|mag_set1i\|mag_open\|mag_close\|mag_coast\|mag_cont\|mag_text\|mag_legend\|mag_axis\|mag_graph\|mag_image\|mag_grib\|mag_netcdf\|mag_odb\|mag_new\|mag_obs\|mag_bufr\|mag_symb\|mag_wind\|mag_boxplot\)/<function>\1<\/function>/g"   $temp > $c_cc
+
+        # format the parameter names  [we identify them by   ('XXX'   ]
+        cp $c_cc $temp
+        sed "s/\(('\)\([^']*\)\('\)/\1<parameter>\2<\/parameter>\3/g"  $temp > $c_cc
+
+
+
+        echo "</programlisting>" >> $c_cc
+        rm -f $temp
+done
+
+
+# format the MagML listings
+
+for magml in examples/$purpose/magml/source/*.magml    examples/$purpose/metgram/source/*.epsml 
+do
+    magml_cc=${magml}_cc    # 'cc' here means 'colour coded'
+    temp="temp.x"
+
+        echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"  > $magml_cc
+        echo "<!DOCTYPE part PUBLIC \"-//OASIS//DTD DocBook XML V4.3//EN\"" >> $magml_cc
+        echo "                 \"http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd\">" >> $magml_cc
+        echo "" >> $magml_cc
+        echo "<programlisting>" >> $magml_cc
+
+
+        # remove any '<' or '>' which might confuse the XML parser
+        sed "s/>/\&gt;/g" $magml >  $temp
+        sed "s/</\&lt;/g" $temp  >> $magml_cc
+
+        # format the comments
+        cp $magml_cc $temp
+        sed "s/\(&lt;!--.*--&gt;\)/<comment>\1<\/comment>/g"  $temp > $magml_cc
+
+		# format any attribute names (single-quotes)
+        cp $magml_cc $temp
+        sed "s/\(\w*\)\([ \t]*=[ \t]*\)'/<parameter>\1<\/parameter>\2'/g"  $temp > $magml_cc
+
+
+		# format any attribute names (double-quotes)
+#        cp $magml_cc $temp
+#        sed "s/\(\w*\)\([ \t]*=[ \t]*\)\"/<parameter>\1<\/parameter>\2\"/g"  $temp > $magml_cc
+
+
+		# format any attribute values (single-quotes)
+#        cp $magml_cc $temp
+#        sed "s/'\(\w*\)'/<classname>\1<\/classname>/g"  $temp > $magml_cc
+
+
+        # format the tag names
+        cp $magml_cc $temp
+        sed "s/&lt;\(\/*\w*\)/\&lt;<classname>\1<\/classname>/g"   $temp > $magml_cc
+
+
+        # format the action routines
+        cp $magml_cc $temp
+        sed "s/\(mag_reset\|mag_setc\|mag_seti\|mag_setr\|mag_set1c\|mag_set1r\|mag_set1i\|mag_open\|mag_close\|mag_coast\|mag_cont\|mag_text\|mag_legend\|mag_axis\|mag_graph\|mag_image\|mag_grib\|mag_netcdf\|mag_odb\|mag_new\|mag_obs\|mag_bufr\|mag_symb\|mag_wind\|mag_boxplot\)/<function>\1<\/function>/g"   $temp > $magml_cc
+
+        # format the parameter names  [we identify them by   ('XXX'   ]
+        cp $magml_cc $temp
+        sed "s/\(('\)\([^']*\)\('\)/\1<parameter>\2<\/parameter>\3/g"  $temp > $magml_cc
+
+
+
+        echo "</programlisting>" >> $magml_cc
+        rm -f $temp
+done
+
+
+# format the Python listings
+
+for py in examples/$purpose/python/source/*.py
+do
+    py_cc=${py}_cc    # 'cc' here means 'colour coded'
+    temp="temp.x"
+
+        echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"  > $py_cc
+        echo "<!DOCTYPE part PUBLIC \"-//OASIS//DTD DocBook XML V4.3//EN\"" >> $py_cc
+        echo "                 \"http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd\">" >> $py_cc
+        echo "" >> $py_cc
+        echo "<programlisting>" >> $py_cc
+
+
+        # remove any '<' or '>' which might confuse the XML parser
+        sed "s/>/\&gt;/g" $py    >  $temp
+        sed "s/</\&lt;/g" $temp >> $py_cc
+
+        # format the 'import Magics' directive
+        cp $py_cc $temp
+        sed "s/\(import Magics\)/<classname>\1<\/classname>/g"  $temp > $py_cc
+
+        # format the comments
+        cp $py_cc $temp
+        sed "s/\(#.*\)/<comment>\1<\/comment>/g"  $temp > $py_cc
+
+        # format the action routines
+        cp $py_cc $temp
+        sed "s/\(Magics\.[A-Z0-9a-z_]*\)/<function>\1<\/function>/g"   $temp > $py_cc
+
+        # format the parameter names  [we identify them by   ("XXX"   ]
+        cp $py_cc $temp
+        sed "s/\((\"\)\([^\"]*\)\(\"\)/\1<parameter>\2<\/parameter>\3/g"  $temp > $py_cc
+
+
+
+        echo "</programlisting>" >> $py_cc
+        rm -f $temp
+done
+
+

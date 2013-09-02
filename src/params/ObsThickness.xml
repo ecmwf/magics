@@ -1,0 +1,11 @@
+<magics>
+<class  directory='visualisers' action_routine='pobs' prefix='obs' xmltag='thickness' name='ObsThickness'>
+    	<parameter  member='visible' to='bool' default='on' from='string' name='obs_thickness'>
+        		<documentation > Turn On/off the Thickness		</documentation>
+        		<release >2.6		</release>
+    	</parameter>
+    
+    	<parameter  member='colour' to='Colour' default='foreground' from='string' name='obs_thickness_colour'>
+        		<documentation > Colour the thickness 		</documentation>
+    	</parameter>
+</class></magics>

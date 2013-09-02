@@ -1,0 +1,38 @@
+<magics>
+    <drivers>
+        <ps/>
+        <gif/>
+        <png/>
+	<kml/>
+    </drivers>
+    <page>
+        
+        <text bottom='60%' height='10%'>
+           simple text
+        </text>
+        
+         
+        <map width='50%'>
+           
+            
+             <coastlines/>
+             <text bottom='80%' height='10%' left='0%'>
+           simple text
+           </text>
+          
+        </map>
+        
+         <map width='50%'>
+            <coastlines/>
+        </map>
+         <map width='50%'>
+            <coastlines/>
+        </map>
+         <map width='50%'>
+            <coastlines/>
+        </map>
+          
+      
+    </page>
+
+</magics>

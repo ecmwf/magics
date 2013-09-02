@@ -1,0 +1,183 @@
+#
+# Authors: Stephan Siemen
+#
+#################################################################################
+
+version="emos++"
+gribversion="1.9.10"
+cairoversion="current"
+pythonversion="2.7"
+emoslibpath=""
+spot="-L/usr/local/lib/metaps/lib/spot_database/new/lib -lspot_database"
+proj_path="/usr/local/apps/proj4/4.7.0/LP64/lib/"
+
+if [ "${OS_VERSION:-}" = "sles9" ]; then
+ if [ "${ENVIRONMENT}" != "INTERACTIVE" ]; then
+   ulimit -s 65536
+ fi
+ proj_path="/usr/local/apps/proj4/4.7.0/ILP32/lib"
+fi
+if [ "${OS_VERSION:-}" = "opensuse113" ]; then
+ emoslibpath="-L/usr/local/lib/metaps/lib/000390/"
+fi
+if [ "${OS_VERSION:-}" = "opensuse103" ]; then
+ emoslibpath="-L/usr/local/lib/metaps/lib/000390/"
+ proj_path="/usr/local/apps/proj4/4.7.0/ILP32/lib"
+fi
+
+oda="-L/usr/local/lib/metaps/lib/odalib/0.8.1/lib -lEc -lOdb"
+
+if [ "${MAGPLUS_VERSION:-}" = "new" ]; then
+version="new++"
+echo ""
+echo "   WARNING > you use the NEW version of Magics++"
+echo ""
+echo "         Please only do so if you're adviced to do so"
+echo "         and discuss your usage with Meteorological Visualisation Section"
+echo ""
+fi
+
+if [ "${MAGPLUS_VERSION:-}" = "old" ]; then
+version="old++"
+oda="-L/usr/local/apps/odb/dev/pgf90/ILP32/lib -lEc -lOda"
+gribversion="1.9.7"
+echo ""
+echo "   WARNING > you use the OLD version of Magics++"
+echo ""
+echo "         Please only do so if you're adviced to do so"
+echo "         and discuss your usage with Meteorological Visualisation Section"
+echo ""
+fi
+
+if [ "${MAGPLUS_VERSION:-}" = "unstable" ]; then
+version="unstable++"
+echo ""
+echo "   WARNING > you use the UNSTABLE version of Magics++"
+echo ""
+echo "         Please only do so if you're adviced to do so"
+echo "         and change ASAP to 'new' Magics++"
+echo ""
+fi
+
+if [ "${MAGPLUS_VERSION:-}" = "x" ]; then
+version="develop++"
+echo ""
+echo "   WARNING > you use the DEVELOPMENT version of Magics++"
+echo ""
+echo "         Please only do so if you're adviced to do so"
+echo "         and change ASAP to 'new' Magics++"
+echo ""
+#cairoversion="current"
+#gribversion="1.9.5"
+#oda="-L/usr/local/lib/metaps/lib/odalib/current/lib -lEc -lOdb"
+fi
+
+proj="-L${proj_path} -lproj"
+
+export MAGPLUS_HOME=/usr/local/apps/Magics/${version}
+export MAG_LOGGING_FILE=/vol/netlog/magics/usage_log
+export MAGPLUS_DEV=OFF
+export MAGPLUS_INFO=OFF
+PYTHONPATH="${MAGPLUS_HOME}/lib/python${pythonversion}/site-packages:${PYTHONPATH:-}"
+export PYTHONPATH
+
+#
+#  ideally pick this up from the system ...
+#
+#GRIB_API_LIB_="$GRIB_API_LIB"
+GRIB_API_LIB_="-L/usr/local/lib/metaps/lib/grib_api/${gribversion}/lib -lgrib_api -L/usr/local/lib/metaps/lib/grib_api/jasper/lib -ljasper"
+
+
+# -lnetpbm must come AFTER -lgd! 
+emos="-L/usr/local/lib ${GRIB_API_LIB_} ${spot} ${emoslibpath} -lemos.R64.D64.I32"
+netcdf_loc="/usr/local/apps/netCDF/current/lib"
+netcdf="${netcdf_loc}/libnetcdf_c++.a ${netcdf_loc}/libnetcdf.a"
+netcdf_shared="-L${netcdf_loc} -lnetcdf_c++ -lnetcdf"
+gd="-ljpeg -lpng -lfreetype -lfontconfig -lz"
+ld=""
+gcc_ld=""
+
+if [ $ARCH = "linux" ]; then
+	gnulibs="-L${GCC_LIB:-/usr/lib64} -lstdc++ -lm"
+
+	shared="${gcc_ld} -L/usr/local/apps/gd/lib -lcairo -lpangocairo-1.0 -lgd ${oda} ${netcdf_shared} ${gd} ${emos} ${gnulibs}"
+	static="${gcc_ld} -L${MAGPLUS_HOME}/lib -lcairo -lpangocairo-1.0 -lgd ${gd} ${oda} ${emos} ${netcdf} ${gnulibs}"
+
+	case "${OS_VERSION}" in
+		opensuse103)
+		 gnulibs="-L${GCC_LIB:-/usr/lib} -lstdc++ -lm"
+		 shared="-lgd ${netcdf_shared} -L/usr/local/apps/cairo/${cairoversion}/lib -lcairo ${gd} ${oda} ${emos} ${gnulibs}"
+		 static="-L/usr/local/apps/cairo/${cairoversion}/lib -lcairo -lpangocairo-1.0 -lgd ${gd} ${emos} ${netcdf} ${gnulibs}"
+		 ld="/usr/local/apps/cairo/${cairoversion}/lib:"
+		;;
+		sles11)
+		 static="${gcc_ld} -L${MAGPLUS_HOME}/lib -L/usr/local/apps/cairo/${cairoversion}/lib -lcairo -lpangocairo-1.0 -lgd ${gd} ${oda} ${emos} ${netcdf} ${gnulibs}"
+		;;
+		sles9)
+		 ld="${GCC_LIB}:"
+		 gcc_ld="-Wl,-rpath,${GCC_LIB:-/usr/lib}"
+		 shared="${gcc_ld} -L/usr/local/apps/gd/lib -lgd ${netcdf_shared} ${gd} ${oda} ${emos} ${gnulibs}"
+		 static="${gcc_ld} -L${MAGPLUS_HOME}/lib -L/usr/local/apps/gd/lib/ -lgd ${gd} ${emos} ${netcdf} ${gnulibs}"
+		;;
+	esac
+
+	export MAGPLUSLIB_SHARED="-L${MAGPLUS_HOME}/lib -lMagPlusSingle -lMagPlus ${shared}"
+	echo \$MAGPLUSLIB_SHARED created
+	export MAGPLUSLIB_SHARED_DOUBLE="-L${MAGPLUS_HOME}/lib -lMagPlusDouble -lMagPlus ${shared}"
+	echo \$MAGPLUSLIB_SHARED_DOUBLE created
+
+	export MAGPLUSLIB_STATIC="${MAGPLUS_HOME}/lib/libMagPlusSingle.a ${MAGPLUS_HOME}/lib/libMagPlus.a ${static} ${proj}"
+	echo \$MAGPLUSLIB_STATIC created
+	export MAGPLUSLIB_STATIC_DOUBLE="${MAGPLUS_HOME}/lib/libMagPlusDouble.a ${MAGPLUS_HOME}/lib/libMagPlus.a ${static} ${proj}"
+	echo \$MAGPLUSLIB_STATIC_DOUBLE created
+
+	export LD_LIBRARY_PATH=${MAGPLUS_HOME}/lib:${ld}/usr/local/apps/python/${pythonversion}/lib:/usr/X11R6/lib:/usr/local/apps/gd/lib:${proj_path}:${LD_LIBRARY_PATH:-} 
+	echo \$LD_LIBRARY_PATH changed to $LD_LIBRARY_PATH
+	export PATH="${MAGPLUS_HOME}/bin:$PATH" 
+	echo \$PATH changed to $PATH  
+
+	echo " "
+	echo "Compile with:" 
+	echo   pgf90 -o \<name\> \<name\>.f \$MAGPLUSLIB_SHARED
+	echo "or "
+	echo   pgf90 -o \<name\> \<name\>.f \$MAGPLUSLIB_STATIC
+	echo " "
+	echo " Please visit http://www.ecmwf.int/publications/manuals/magics/magplus/tech/compilation.html"
+	echo "  for more information and for instructions on using Magics++."
+	echo " "
+
+elif [ $ARCH = "rs6000" ]; then
+	netcdf="/usr/local/apps/netCDF/3.6.3/ILP32/lib/libnetcdf_c++.a /usr/local/apps/netCDF/3.6.3/ILP32/lib/libnetcdf.a"
+	emos="-L/usr/local/lib ${GRIB_API_LIB_} ${spot} /usr/local/apps/Magics/external/jasper/lib/libjasper.a -liconv"
+
+	commonlibs="${MAGPLUS_HOME}/lib/libMagPlus.a -L${MAGPLUS_HOME}/lib /usr/local/apps/Magics/external/lib/libgd.a /usr/local/apps/Magics/external/lib/libexpat.a ${gd} ${emos} ${netcdf} -lxlf90"
+      	export MAGPLUSLIB_STATIC="${MAGPLUS_HOME}/lib/libMagPlusSingle.a ${commonlibs} -lemos.R64.D64.I32"
+      	export MAGPLUSLIB_STATIC_DOUBLE="${MAGPLUS_HOME}/lib/libMagPlusDouble.a ${commonlibs} -lemos.R64.D64.I32"
+#	echo \$MAGPLUSLIB_STATIC changed to $MAGPLUSLIB_STATIC
+	export LD_LIBRARY_PATH=${MAGPLUS_HOME}/lib:/usr/local/apps/Magics/external/lib:${LD_LIBRARY_PATH:-} 
+#	echo \$LD_LIBRARY_PATH changed to $LD_LIBRARY_PATH
+	export PATH="${MAGPLUS_HOME}/bin:$PATH"
+#	echo \$PATH changed to $PATH
+	echo " "
+	echo Compile with: xlf -O2 -c \<name\>.f \; xlC_r -o \<name\> \<name\>.o \$MAGPLUSLIB_STATIC
+	echo " "
+fi
+
+unset version
+unset ld
+unset gribversion
+unset cairoversion
+unset pythonversion
+unset emoslibpath
+unset emos
+unset spot
+unset oda
+unset GRIB_API_LIB_
+unset gcc_ld
+unset gnulibs 
+unset gd
+unset netcdf_loc
+unset netcdf_shared
+unset netcdf
+unset shared
+unset static

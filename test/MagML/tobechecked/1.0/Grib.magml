@@ -1,0 +1,31 @@
+        
+<magics_plot page_x_position = '10'>
+
+ <coastlines map_coastline_colour = 'tan' map_grid_colour = "tan" > </coastlines>
+  <plot >
+        <pgrib grib_input_file_name = 'z500.grb'>
+        </pgrib>
+        <pcont contour='on' 
+	       method = 'akima761'
+	       akima_resolution = '1.5'
+	       level_selection_type='level_list'
+	       level_list='47500/50000/52500/55000/57500/60000' >
+        </pcont>
+   </plot>
+<plot >
+        <pgrib grib_input_file_name = 'z500.grb'>
+        </pgrib>
+        <psymb
+            symbol_table_mode = 'ON'
+            symbol_min_table = '47500/50000/52500/55000/57500'
+            symbol_max_table ='50000/52500/55000/57500/60000'
+            symbol_height_table ='0.2/0.2/0.2/0.2/0.2'
+            symbol_marker_table ='15/15/15/15/15'
+            symbol_colour_table ='blue/green/yellow/orange/red' >
+        </psymb>
+   </plot>
+   <title  title_colour = 'tan' > </title>
+   <legend legend_text_colour = 'tan'>  </legend>
+</magics_plot>
+   
+    

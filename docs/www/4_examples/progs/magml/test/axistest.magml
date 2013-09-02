@@ -1,0 +1,55 @@
+<magics version="3.0" width='29.7' height='21'>
+
+  <drivers>
+    <ps            name = 'axistest' />
+    <gif_animation name = 'axistest' />
+  </drivers>
+
+
+    <page orientation="portrait" format="a4" >
+    
+        <map height='80%' border-colour='Rgb(0.5, 0.5, 0.5)'>
+
+		    <horizontal_axis id="haxis"
+                        axis_line="true"
+                        line_thickness="8"
+                        colour='rgb(0.3, 0.8, 0.3)'>
+
+                <line colour    = 'rgb(0.1, 0.5, 0.1)'
+                      thickness = '5' />
+
+			    <nolabel/>
+                <nominortick colour='Rgb(0.5, 0.5, 0.5)'/>
+
+			    <grid line_style="solid" colour='Rgb(0.5, 0.8, 0.5)'>
+
+			    </grid>
+                <tick colour='Rgb(0.5, 0.5, 0.5)'>
+
+			    </tick>
+		    </horizontal_axis>
+
+		    <vertical_axis id="vaxis"
+                           axis_line="true"
+                           line_thickness="3"
+                           colour='Rgb(0.3, 0.3, 0.8)'>
+
+                <line colour    = 'rgb(0.1, 0.1, 0.5)'
+                      thickness = '5' />
+
+                <label colour='Rgb(0.5, 0.5, 0.5)' quality='helvetica' />
+
+			    <grid line_style="dash" colour='Rgb(0.5, 0.5, 0.8)'>
+
+			    </grid>
+                <tick colour='grey'>
+
+			    </tick>
+		    </vertical_axis>
+        </map>
+        
+        <text bottom = '10%'>H: thickness 8, green, solid grid</text>
+        <text bottom = '15%'>V: thickness 3, blue, dashed grid</text>
+
+	</page>
+</magics>

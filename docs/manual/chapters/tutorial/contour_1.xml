@@ -1,0 +1,38 @@
+<magics>
+    <tutorial name="contour_1" title='Geopotential on Europe' comment='In this example we will learn how to load a grib file, and how to make a simple plot over Europe'>     
+       <requirement name='1' subject='Geographical Area' text='Europe in cylindrical'
+            link_doc='layout_mapping_coastlines' link_ptr='Subpage_Mapping'>
+            <action name='pcoast'/>
+            <parameter name='subpage_lower_left_longitude' value='-15.0' function='psetr'/>
+            <parameter name='subpage_lower_left_latitude' value='30.0' function='psetr'/>
+            <parameter name='subpage_upper_right_longitude' value='40.0' function='psetr'/>
+            <parameter name='subpage_upper_right_latitude' value='70.0' function='psetr'/>
+            </requirement>
+        <requirement name='2' subject='Grid and coastlines setting' text='Grey coastlines and grid' 
+            link_doc='layout_mapping_coastlines' link_ptr='Coastlines_and_Gridlines'>
+            <action name='pcoast'/>
+            <parameter name='map_coastline_colour' value='tan' function='psetc'/>
+            <parameter name='map_grid_colour' value='tan' function='psetc'/>
+            <parameter name='map_grid_line_style' value='dash' function='psetc'/>
+        </requirement>  
+        <requirement name='3' subject='Grib file loading' text='Geopotential in grib file z500.grib' 
+            link_doc='data' link_ptr='Pseudo_Action_Routine_PGRIB'>
+            <action name='pgrib'/>
+            <parameter name='grib_input_type' value='file' function='psetc'/>
+            <parameter name='grib_input_file_name' value='z500.grib' function='psetc'/>
+        </requirement>  
+        <requirement name='4' subject='Contour' text='Evergreen, thick (4) and dashed isolines every 8 units, low in brow, hi in orange'
+            link_doc='contour' link_ptr='Action_Routine_PCONT'>
+            <action name='pcont'/>
+            <parameter name='contour_interval' value='8.0' function='psetr'/>
+            <parameter name='contour_line_style' value='dash' function='psetc'/>
+            <parameter name='contour_line_thickness' value='4' function='pseti'/>
+            <parameter name='contour_line_colour' value='evergreen' function='psetc'/>
+            <parameter name='contour_highlight_colour' value='evergreen' function='psetc'/>
+            <parameter name='contour_hi_colour' value='orange' function='psetc'/>
+            <parameter name='contour_lo_colour' value='brown' function='psetc'/>
+        </requirement>   
+        <spot name='a' text='The lines are thinner in Magics++'/>
+        <spot name='b' text='In Magics++, the colour of the labels is the colour of the isolines'/>           
+    </tutorial>
+</magics>

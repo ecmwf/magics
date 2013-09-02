@@ -1,0 +1,20 @@
+<magics>
+<class  inherits='NetcdfInterpretor' xmltag='geopoints' name='NetcdfMatrixInterpretor' directory='decoders' prefix='netcdf' action='pnetcdf'>
+        
+         	<parameter  member='y' to='string' default='y' from='string' name='netcdf_y_variable'>
+             		<release >Magics++0.1		</release>
+            		<documentation >Variable name representing the y dimension		</documentation>
+        	</parameter>
+        	<parameter  member='x' to='string' default='x' from='string' name='netcdf_x_variable'>
+             		<release >Magics++0.1		</release>
+        		<documentation >Variable name representing the x dimension		</documentation>
+        	</parameter> 
+        	<parameter  member='aux' to='string' default='' from='string' name='netcdf_x_auxiliary_variable'>
+             		<release >Magics++0.1		</release>
+        		<documentation >varibale can used to define geoline definition.		</documentation>
+        	</parameter>
+            	<parameter  member='primary_index' to='string' default='longitude' from='string' name='netcdf_matrix_primary_index'>
+             		<release >Magics++2.4		</release>
+            		<documentation > Primary index latitude/longitude		</documentation>
+        	</parameter>
+</class></magics>

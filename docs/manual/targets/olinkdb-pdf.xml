@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE targetset 
+       SYSTEM "../xsl/docbook-xsl/common/targetdatabase.dtd" [
+<!ENTITY installtargets                   SYSTEM "../targets/magics_install_pdf_target.db">
+<!ENTITY introtargets                     SYSTEM "../targets/magics_intro_pdf_target.db">
+<!ENTITY driverstargets                   SYSTEM "../targets/magics_drivers_pdf_target.db">
+<!ENTITY contourtargets                   SYSTEM "../targets/magics_contour_pdf_target.db">
+<!ENTITY datatargets                      SYSTEM "../targets/magics_data_pdf_target.db">
+<!--<!ENTITY features_newtargets              SYSTEM "../targets/magics_new_features_pdf_target.db"> -->
+<!ENTITY graphtargets                     SYSTEM "../targets/magics_graph_pdf_target.db">
+<!ENTITY axistargets                      SYSTEM "../targets/magics_axis_pdf_target.db">
+<!ENTITY boxplottargets                   SYSTEM "../targets/magics_boxplot_pdf_target.db">
+<!ENTITY polylinetargets                  SYSTEM "../targets/magics_polyline_pdf_target.db">
+<!ENTITY layout_mapping_coastlinestargets SYSTEM "../targets/magics_layout_mapping_coastlines_pdf_target.db">
+<!--<!ENTITY obstargets                       SYSTEM "../targets/magics_obs_pdf_target.db"> -->
+<!ENTITY symboltargets                    SYSTEM "../targets/magics_symbol_pdf_target.db">
+<!ENTITY texttargets                      SYSTEM "../targets/magics_text_pdf_target.db">
+<!ENTITY usingtargets                     SYSTEM "../targets/magics_using_pdf_target.db">
+<!ENTITY windtargets                      SYSTEM "../targets/magics_wind_pdf_target.db">
+<!ENTITY legendtargets                    SYSTEM "../targets/magics_legend_pdf_target.db">
+<!ENTITY paramsfortrantargets             SYSTEM "../targets/magics_params_fortran_pdf_target.db">
+<!--<!ENTITY tutorialtargets                  SYSTEM "../targets/magics_tutorial_pdf_target.db"> -->
+<!--<!ENTITY userguidetargets                 SYSTEM "../targets/magics_userguide_pdf_target.db">-->
+]>
+<targetset>
+  <targetsetinfo>
+    Description of this target database document,
+    which is for the examples in olink doc.
+  </targetsetinfo>
+
+  <!-- Site map for generating relative paths between documents -->
+  <sitemap>
+    <dir name="manual">
+      <document targetdoc="Magics_install" baseuri="magics_install.pdf">
+        &installtargets;
+      </document>
+      <document targetdoc="Magics_intro" baseuri="magics_intro.pdf">
+        &introtargets;
+      </document>
+      <document targetdoc="Magics_drivers" baseuri="magics_drivers.pdf">
+        &driverstargets;
+      </document>
+      <document targetdoc="Magics_contour" baseuri="magics_contour.pdf">
+        &contourtargets;
+      </document>
+      <document targetdoc="Magics_data" baseuri="magics_data.pdf">
+        &datatargets;
+      </document>
+<!--      <document targetdoc="Magics_new_features" baseuri="magics_new_features.pdf">
+        &features_newtargets;
+      </document> -->
+      <document targetdoc="Magics_graph" baseuri="magics_graph.pdf">
+        &graphtargets;
+      </document>
+      <document targetdoc="Magics_axis" baseuri="magics_axis.pdf">
+        &axistargets;
+      </document>
+      <document targetdoc="Magics_boxplot" baseuri="magics_boxplot.pdf">
+        &boxplottargets;
+      </document>
+      <document targetdoc="Magics_polyline" baseuri="magics_polyline.pdf">
+        &polylinetargets;
+      </document>
+      <document targetdoc="Magics_layout_mapping_coastlines" baseuri="magics_layout_mapping_coastlines.pdf">
+        &layout_mapping_coastlinestargets;
+      </document>
+<!--      <document targetdoc="Magics_obs" baseuri="magics_obs.pdf">
+        &obstargets;
+      </document> -->
+      <document targetdoc="Magics_symbol" baseuri="magics_symbol.pdf">
+        &symboltargets;
+      </document>
+      <document targetdoc="Magics_text" baseuri="magics_text.pdf">
+        &texttargets;
+      </document>
+      <document targetdoc="Magics_using" baseuri="magics_using.pdf">
+        &usingtargets;
+      </document>
+      <document targetdoc="Magics_wind" baseuri="magics_wind.pdf">
+        &windtargets;
+      </document>
+      <document targetdoc="Magics_legend" baseuri="magics_legend.pdf">
+        &legendtargets;
+      </document>
+      <document targetdoc="Magics_params_fortran" baseuri="magics_params_fortran.pdf">
+        &paramsfortrantargets;
+      </document>
+<!--      <document targetdoc="Magics_tutorial" baseuri="magics_tutorial.pdf">
+        &tutorialtargets;
+      </document> -->
+      <!--
+      <document targetdoc="Magics_userguide" baseuri="magics_userguide.pdf">
+        &userguidetargets;
+      </document>
+      -->
+    </dir>
+  </sitemap>
+</targetset>

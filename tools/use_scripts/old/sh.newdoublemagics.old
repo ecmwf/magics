@@ -1,0 +1,59 @@
+# # File: $ECMWFHOME/use/sh.newdoublemagics # # Purpose: Set the environment for new version of MAGICS #
+# Authors: Richard Fisker
+#
+################################################################################
+
+# Check if magics is not already selected
+
+version=new
+length="_r8"
+
+envSelected=${envSelected:=no}
+noUseEcho=${noUseEcho:=no}
+
+#if echo $envSelected | grep ${version}doublemagics >/dev/null
+#then
+#    echo "${version}doublemagics is already enabled"
+#    exit 0
+#fi
+
+export MAG_HOME=/usr/local/apps/Magics/${version}
+export MAG_LOGGING=on
+
+maglib=$MAG_HOME/lib
+gnulib=/usr/local/apps/newgnu
+
+export EMOSLIB="-L/usr/local/lib -lemos.new.R64.D64.I32"
+
+if [ $ARCH = "linux" ]; then
+	export MAGLIB="-L${maglib} -lmagics${length} -lMvDevices${length} -lmagics${length} -lgd -lpng -ljpeg -lz -lfreetype -L${gnulib}/lib -lstdc++ -lm"
+	echo \$MAGLIB changed to $MAGLIB
+	if [ -z "$LD_LIBRARY_PATH" ]; then
+		export LD_LIBRARY_PATH=${gnulib}/lib
+	else
+		export LD_LIBRARY_PATH=${gnulib}/lib/lib:$LD_LIBRARY_PATH
+	fi
+	echo \$LD_LIBRARY_PATH  changed to $LD_LIBRARY_PATH
+
+
+elif [ $ARCH = "sgimips" ]; then 
+	export MAGLIB="-L/usr/local/apps/Magics/${version}/lib -lmagGL${length} -lMvDevices${length} -lftn -lfortran -lm"
+	echo \$MAGLIB changed to $MAGLIB
+	export EMOSLIB=-lemos${length}
+	export LD_LIBRARYN32_PATH=$MAG_HOME/lib:/usr/local/lib32:/lib32:/usr/lib32
+	echo \$LD_LIBRARYN32_PATH  changed to $LD_LIBRARYN32_PATH
+
+elif [ $ARCH = "hppa" ]; then
+	export MAGLIB="-L/usr/local/lib,-lmag,-lfgks,-ldgks,-lcgks" 
+	echo \$MAGLIB changed to $MAGLIB
+
+elif [ $ARCH = "rs6000" ]; then
+        export MAGLIB="-L/usr/local/apps/Magics/new/lib -lmagics_r8 -lMvDevices_r8 -lgd -lpng -ljpeg -lz -lfreetype -lxlf90"
+        echo \$MAGLIB changed to $MAGLIB
+fi
+
+echo \$EMOSLIB changed to $EMOSLIB
+
+# Mark environment ${version}doublemagics as read
+#
+export envSelected="${version}doublemagics $envSelected"

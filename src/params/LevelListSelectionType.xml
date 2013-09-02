@@ -1,0 +1,13 @@
+<magics>
+<class  inherits='LevelSelection' xmltag='list' name='LevelListSelectionType' directory='visualisers' prefix='contour' action='pcont'>
+ 	<documentation >Users may supply a list of the contour levels to be plotted 
+ by setting the parameter CONTOUR_LEVEL_SELECTION_TYPE to 'LEVEL_LIST' 
+ and passing an array of contour level values. 
+ This method enables users to plot contours with irregular intervals.
+ 	</documentation>
+ 	<parameter  xml='level_list' from='floatarray' name='contour_level_list' default='floatarray()' member='list' to='floatarray'>
+         		<documentation > List of contour levels to be plotted 		</documentation>
+         		<migration > New Magics: Parameter contour_level_list sent to new Magics[LevelListSelectionType].  		</migration>
+         		<release >Magics++0.1		</release>
+  	</parameter>
+</class></magics>

@@ -1,0 +1,13 @@
+
+<eps version='1.0' template='10_days_epsgram.xml' database='/vol/epsgram/data/spotbase/10_days/0001/latest' format='a4'> 
+
+    <station name='Addis Ababa' latitude='9.21' longitude='38.7'
+     psfile='EPS-Addis.ps' giffile='EPS-Addis.gif' metafile='EPS-Addis.meta'/>
+
+    <station name='Brussels' latitude='51.01' longitude='4.67'
+     psfile='EPS-Brussels.ps' giffile='EPS-Brussels.gif' metafile='EPS-Brussels.meta'/>
+ 
+    <station name='Canberra' latitude='-35.28' longitude='149.33'
+     psfile='EPS-Canberra.ps' giffile='EPS-Canberra.gif' metafile='EPS-Canberra.meta'/>
+
+</eps>

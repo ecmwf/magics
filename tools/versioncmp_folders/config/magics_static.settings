@@ -1,0 +1,25 @@
+# Configuration of ECFLOW
+ECFLOW_SERVER_HOSTNAME=cassini
+ECFLOW_SERVER_PORT=4269
+#ECF_HOME=/scratch/graphics/cgjd/scratchdir/input_magics/static
+ECF_HOME=/tmp/cgjd/magics_regression_test_static
+#Runtime directive commented, run now!
+ECFLOW_RUNTIME=03:00
+
+# Type of magics++ library
+MAGPLUSLIB=Static
+
+# Configuration of the test script
+VERBOSE=1
+DIFFERENCE_THRESHOLD_FACTOR=0.03
+TEST_FOLDER_PATH=/tmp/cgjd/perforce/magics/tools/versioncmp/examples_static
+OUTPUT_FOLDER_PATH=/scratch/graphics/cgjd/scratchdir/output_magics/Static
+CONFLUENCE_FOLDER_PATH=/var/tmp/cgjd/perforce/magics/tools/versioncmp/confluence/static
+
+# Finally, the versions to test (on single line)
+VERSIONS={ "develop++": ["current++","new++"] }
+#VERSIONS={  "new++": ["develop++","daily"] }
+
+
+
+

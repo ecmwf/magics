@@ -1,0 +1,1 @@
+The old MAGICS does not properly implement the CHAIN_DOT line style - it uses SOLID instead.

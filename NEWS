@@ -1,0 +1,141 @@
+Magics++ News (for users)
+=========================
+
+MAGICS++ Version 2.12.9 ( June 2011)
+
+ * Bug fixes (layout, MapGen, Dot shading)
+
+-----------------------------------------------------------------------------------
+
+MAGICS++ Version 2.12.8 ( May 2011)
+
+ * Bug fixes (legend)
+
+-----------------------------------------------------------------------------------
+
+MAGICS++ Version 2.12.7 ( May 2011)
+
+ * Bug fixes (layout)
+
+-----------------------------------------------------------------------------------
+
+MAGICS++ Version 2.12.2 ( January 2011)
+
+ * Bug fixes (layout, NetCDF handling)
+
+-----------------------------------------------------------------------------------
+
+MAGICS++ Version 2.12 ( November 2010)
+
+ * NEW threaded contouring
+ * NEW use high quality shape files from http://www.naturalearthdata.com/
+       for coast lines & rivers 
+ * Allow plotting of metgrams from Weather Parameter BUFR files 
+       (using Python interface)
+ * Improved BUFR synop plotting
+
+-----------------------------------------------------------------------------------
+
+MAGICS++ Version 2.10 ( April 2010)
+
+ * NEW object-oriented Python interface (magmacro.py)
+ * NEW action routine PIMPORT to include raster graphics into plots (for logos, etc) 
+ * Improved BUFR synop plotting
+ * Updates on Geopoint interface
+ * Clean-up of installation routines
+ * Uses Grib_API 1.8x & 1.9.0
+ * New object-oriented Python interface (magmacro.py)
+ * Test suite is made to compile outside ECMWF
+ * Development was driven mainly by Metview 4 developments and WREP
+ * Removal of OpenGL driver and replacement through a Qt based driver
+
+-----------------------------------------------------------------------------------
+
+MAGICS++ Version 2.8 ( October 2009)
+
+ * Improvements in the graph plotting
+ * Improved satellite plotting
+ * More options on InputMatrix for irregular grid
+ * NEW Introduction of a parameter 'subpage_mapping'. If this parameter is set 
+   'automatic', the geographical area will be automatically adjusted to the plotted 
+   data. This option is only available for cylindrical and mercator projection. 
+   The default is 'user_defined'. Requested by Tigge team.
+ * NEW Introduction of a shading technique (parameter contour_shade_technique = 'grid_shading'). 
+   This shading technique will attach a colour to each grid point of the grid. 
+   No interpolation is performed - a filled box is drawn around each grid point.
+ * Improved Taylor diagram
+
+-----------------------------------------------------------------------------------
+
+MAGICS++ Version 2.6 ( October 2008)
+
+  * Changes in contouring and shading, including better support for missing data
+  * Add rotated grid
+  * Bug fixes related to NetCDF cross-sections
+  * Better support for multiple POPEN calls 
+  * Bug fixes in drivers related to wind plotting
+  * Adjustment of Mercator projection
+  * Small fix in wind plotting
+  * Fix FFT support in raster output (PNG, GIF - only AIX was affected)
+  * Smaller bugs fixes and improvements
+
+This release contains the first prototype of a C++ and Python interfaces; please 
+contact us if you want to use it. 
+
+-----------------------------------------------------------------------------------
+
+ MAGICS++ Version 2.4.3 (17th March 2008)
+
+    * Current export version becomes 2.4.3
+    * Bug fixes in drivers related to wind plotting
+
+-----------------------------------------------------------------------------------
+
+MAGICS++ Version 2.4.2 (6th March 2008)
+
+    * Current export version becomes 2.4.2
+
+-----------------------------------------------------------------------------------
+
+MAGICS++ Version 2.4.1 (3rd March 2008)
+
+    * Disable by default page frame
+    * Small bug fixes 
+
+
+2.4.0
+=====
+
+ - Moved to GribAPI 1.4.0
+ - All files of 'share/' have been mobved to 'share/magics/'
+ - PostScript driver does NOT use anymore the 'share/magics/Printercap' file anymore
+ - Default scaling for PostScript output is now 1.0 instead of 0.95
+ - New drivers added Cairo + KML
+
+26th March 2007 - 2.0.0
+=======================
+
+ - New text and title handling
+
+1.3.0
+=====
+ 
+ - Support for boxplots with new action routine PBOXPLOT
+ - Support for geographical areas larger than 360 degrees of longitude 
+
+1.2.0
+=====
+
+ - Add C interface
+ - New coastline database with lakes and rivers
+
+1.1.0 
+=====
+
+ - EPSgram on the web is now using Magics++ operationally
+ - Cross sections taken from NetCDF data can now be visualised 
+
+30th November 2005
+==================
+     
+Release of Magics++ version 1.0 at ECMWF (Linux 32 and 64 bit)

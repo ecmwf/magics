@@ -1,0 +1,33 @@
+
+<magics version='3.0' >
+  <drivers>
+    <png />
+  </drivers>
+  <page>
+       <meta/>	 
+       <legend display='absolute' 
+        standalone='on' 
+        standalone_file_name='legend.png' 
+        standalone_width='256' 
+        standalone_height='128' 
+        left='92%' width='8%' 
+        bottom='35%' height='55%' 
+        legend_display_type='continuous'/> 
+       <text height='15%' > <magics_title/> </text>  
+      	
+        <map  height='80%'>	
+          <cylindrical lower_left_longitude='-20' lower_left_latitude='25' 
+            upper_right_latitude='70' upper_right_longitude='50'/>
+			<plot>
+				<grib grib_input_file_name='data/z500.grb'/>
+				<contour contour_shade='on' contour_shade_method= 'area_fill' />
+			</plot>
+            <coastlines land_shade='off' sea_shade='off'/>
+		</map>
+       </page>
+   
+</magics>        
+
+       
+   
+    

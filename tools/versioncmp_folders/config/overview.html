@@ -1,0 +1,36 @@
+<head>
+    <link rel="stylesheet" href="../../codes.css" />
+    <script type="text/javascript">
+        function init() 
+        {
+            var strings = {%RETURNSTRINGS%};
+            var codes = {%WARNINGCODES%};
+            var extrainfo = {%EXTRAINFO%};
+
+            var txt="<table align='top'>";
+            txt+="<th>Test</th><th>Status</th><th>Info</th><th>Details</th>";
+            for (var key in strings)
+            {
+                var rtnstr=strings[key];
+                var warning=codes[key];
+                var info=extrainfo[key];
+                txt += "<tr valign='top' class='"+warning+"'><td>"+key+"</td><td>"+rtnstr+"</td><td>"+info+"</td><td><a class='"+warning+"' href='./"+key+"/index.html'>Link</a></td></tr>\n";
+
+            }
+            txt+= "</table>"
+            document.getElementById("tablerows").innerHTML=txt;
+            
+        }
+
+    </script>
+</head>
+<body onLoad="init()">
+    <p><a href="../index.html">Up a level</a></p>
+    <h1>Magics comparison test run</h1>
+    <h2>%VERSION1% versus %VERSION2%</h2>
+    <p>The following tests were run at %RUNDATETIME%</p>
+    <div id="tablerows">        
+    <table>
+    </table>
+    </div>
+</body>

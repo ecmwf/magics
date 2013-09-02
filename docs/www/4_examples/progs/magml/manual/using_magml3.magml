@@ -1,0 +1,27 @@
+<magics version = '3.0' format = 'a4'>
+
+  <!-- set up our output file specification -->
+  <drivers>
+    <ps name= 'using_magml3' />
+  </drivers>
+
+  <!-- set up our definitions - elements that will be used later -->
+  <definition>
+    <cylindrical id = 'globe'/>      
+    <cylindrical id = 'europe' 
+                 lower_left_longitude  = '-27'
+                 lower_left_latitude   = '33'
+                 upper_right_longitude = '45'
+                 upper_right_latitude  = '73.5' />
+  </definition>
+  
+  <page >
+    <map>    
+      <!-- the geographic area uses the defintion with id defined by
+           the 'area' variable (default is 'globe'). This can be changed
+           by setting variable 'area' to 'europe' on the command line -->
+      <cylindrical use_id='${area=globe}' />
+      <coastlines />
+    </map>
+  </page>   
+</magics>    

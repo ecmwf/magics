@@ -1,0 +1,374 @@
+%manual
+
+Description:  Hall charts
+                  500hPa Height, 850hPa Temperature;
+                  MSL Pressure,  24hr Precipitation
+
+Mainframe:    styx/hades
+
+Related tasks:  phal....
+
+Synopsis:
+
+        . Use metview to produce plotfile.
+
+
+Anticipated problems:
+
+     For CONSOLE
+
+        . If no clue, set to COMPLETE;
+                      call METAPS the next working day.
+
+     For METAPS
+
+        . Script     /usr/local/share/metview
+
+        . Output     Plot
+
+%end
+%include <qsub.h>
+%include <config.h>
+%include <trap.h>
+%include <setup.h>
+%include <plotdb.h>
+%include <web.h>
+
+cd $TMPDIR
+
+YYYYMMDD=`substring $BASETIME 1 8 `
+export YYYYMMDD
+
+PLOT_DATE=$YYYYMMDD
+export PLOT_DATE
+
+PLOT_EXPVER=$EXPVER
+export PLOT_EXPVER
+
+export PLOT_TIME=$(substring $BASETIME 9 10)
+export STEP_LIST=%STEP_LIST:12/to/180/by/24%
+
+cat > dirs << \EOF
+# =========================================================================
+# phalt850. Metview macro by Rogerio Bonifacio
+# Depending on run-mode, prints out, prints to file or displays :
+# Parameters		- 500hPa Z, 850hPa T, MSL Pressure, 24hr Precip
+# Types			- AN, FC to day 7
+# Geographical Area	-
+
+# Hall Charts	:
+# 	Top chart	- 500hPa heights, 850hPa temperature
+# 	Bottom chart	- MSL Pressure, 24hr Precipitation
+# =========================================================================
+
+step_list = getenv('STEP_LIST')
+
+# Forecast data
+l_step=parse(step_list,'/')
+print (step_list)
+print (l_step)
+
+first = l_step[1]
+last = l_step[3]
+incr = l_step[5]
+
+if first=0
+then
+	MSLP_AN = read(source:"mslp.grib", type: "an")
+	T850_AN = read(source: "t850.grib",type: "an")
+	Z500_AN = read(source: "z500.grib",type: "an")
+	print ("MSLP_AN has",count(MSLP_AN)," fields")
+	MSLP_FC = read(source:"mslp.grib", type: "fc", step: [incr,'to',last,'by',incr])
+	T850_FC = read(source: "t850.grib", type: "fc",step: [incr,'to',last,'by',incr])
+	Z500_FC = read(source: "z500.grib",type: "fc",step: [incr,'to',last,'by',incr])
+	print ("MSLP_FC has",count(MSLP_FC)," fields")
+	MSLP_fields  = merge (MSLP_AN, MSLP_FC)
+	Z500_fields = merge (Z500_AN, Z500_FC)
+	T850_fields = merge (T850_AN, T850_FC)
+	RR_first = 0.5*incr
+else
+	MSLP_fields = read(source:"mslp.grib", type: "fc", step: [first,'to',last,'by',incr])
+	Z500_fields = read(source: "z500.grib", type: "fc",step: [first,'to',last,'by',incr])
+	T850_fields = read(source: "t850.grib", type: "fc",step: [first,'to',last,'by',incr])
+	print ("MSLP_FC has",count(MSLP_fields)," fields")
+	RR_first = first - 0.5*incr
+end if
+if first = 0.5*incr
+then
+	RR_first = incr
+end if
+if last=240
+then
+	RR_last = 240-incr
+else
+	RR_last = last+incr
+end if
+print("Getting rain:",RR_first," ",RR_last," ",incr)
+CP_FC=read(source: "cp.grib", type: "fc", step: [RR_first,'to',RR_last,'by',incr])
+LSP_FC=read(source: "lsp.grib", type: "fc", step: [RR_first,'to',RR_last,'by',incr])
+
+# Adds precips and subtracts previous time step value to obtain total daily precip
+total = CP_FC + LSP_FC
+RR_FC = total[2,count(total)]-total[1,count(total)-1]
+for i_c=1 to count(RR_FC)
+do
+	# Create time stamp to match MSLP (mid period)
+	time_rr12 = (getksec1(CP_FC[i_c+1],16)+getksec1(CP_FC[i_c],16))/2
+	RR_FC[i_c] = putksec1(RR_FC[i_c],[16,time_rr12])
+end for
+if first = 0.5*incr
+then
+	RR_FC = total[1] & RR_FC
+	RR_FC[1] = putksec1(RR_FC[1],[16,first])
+end if
+
+# Define output device. Can be printer, ps.file or ps.file with icon
+dv_printer = device (
+		destination			:	"file",
+		file_name			:	"ps",
+		file_auto_numbering		:	"off",
+		paper_format			:	"a3",
+		orientation			:	"landscape",
+		print_command			:	" ",
+		use_title_from			:	"magics"
+		)
+
+dv_for_pics = device (
+		destination			:	"file",
+		file_name			:	"pics",
+		file_auto_numbering		:	"off",
+		paper_format			:	"a3",
+		orientation			:	"landscape",
+		print_command			:	" ",
+		use_title_from			:	"magics"
+		)
+
+# Checks running mode and gets/sets date and experiment variables
+mode = runmode()
+
+if mode = 'batch' then
+	setdevice(dv_printer)
+end if
+
+if mode = 'execute' then
+	setdevice(dv_ps_icon)
+end if
+
+ddate = getenv("PLOT_DATE")
+if ddate = '' then
+	andate = date (-1)
+else
+	andate = date (ddate)
+end if
+
+expver = getenv("PLOT_EXPVER")
+if expver = '' then
+	expver = 1
+end if
+
+class = getenv("CLASS")
+if class = '' then
+	class = 'OD'
+end if
+
+stream = getenv("STREAM")
+if stream = '' then
+	stream = 'DA'
+end if
+
+print (" ")
+print (" mode is ",mode, "; expver is ",expver, "; date is ",andate)
+print (" ")
+
+page_id = "Exp " & expver & " Stream " & stream
+
+# Defines geographic elements
+
+Coastlines = pcoast(
+        MAP_COASTLINE_COLOUR        :  'BROWN',
+        MAP_COASTLINE_LAND_SHADE    :  'ON',
+        MAP_COASTLINE_LAND_SHADE_COLOUR :  'CREAM',
+        MAP_COASTLINE_THICKNESS     :  1,
+        MAP_GRID            :  'ON',
+        MAP_GRID_Colour             :  'MUSTARD',
+        MAP_LABEL           :  'ON',
+        MAP_LABEL_COLOUR        :  'BLACK',
+	MAP_GRID_LATITUDE_INCREMENT	:	20.0,
+	MAP_GRID_LONGITUDE_INCREMENT	:	20.0
+        )
+
+geography = (
+		SUBPAGE_MAP_PROJECTION	:	'POLAR_STEREOGRAPHIC',
+		area			:	[23, -33, 51, 72],
+		background	:	Coastlines
+		)
+
+# Defines plot text
+common_text = (
+		TEXT_REFERENCE_CHARACTER_HEIGHT	:	0.27,
+		TEXT_JUSTIFICATION		:	'LEFT',
+		TEXT_QUALITY			:	'HIGH'
+		)
+
+ZT_text = ptext(
+		common_text,
+		TEXT_LINE_2	:	'500hPa Height   /   850hPa Temperature'
+		)
+
+MSLP_text = ptext(
+		common_text,
+		TEXT_LINE_2	:	'SURFACE: MSL Pressure'
+		)
+
+RRMSLP_text = ptext(
+		common_text,
+		TEXT_LINE_2	:	'SURFACE: MSL Pressure   /   '&incr&'h Accumulated Precipitation (H-'&incr/2&'h/H+'&incr/2&'h)'
+		)
+
+# Defines Visual Definitions
+MSLP_contour = pcont(
+		CONTOUR_HIGHLIGHT_THICKNESS	:	4,
+		CONTOUR_HILO_QUALITY		:	'HIGH',
+		CONTOUR_HILO			:	'ON',
+		CONTOUR_HILO_HEIGHT		:	0.25,
+		CONTOUR_HILO_SUPPRESS_RADIUS	:	40.0,
+		CONTOUR_INTERVAL		:	5.0,
+		CONTOUR_LEVEL_SELECTION_TYPE	:	'INTERVAL',
+		CONTOUR_LABEL_QUALITY		:	'HIGH',
+		CONTOUR_LINE_COLOUR             :       'BLACK',
+		CONTOUR_HIGHLIGHT_COLOUR        :       'BLACK',
+		CONTOUR_LINE_THICKNESS		:	2
+		)
+
+T_contour = pcont(
+		CONTOUR_HIGHLIGHT_THICKNESS	:	5,
+		CONTOUR_HIGHLIGHT_FREQUENCY	:	100,
+		CONTOUR_HIGHLIGHT_STYLE		:	'DASH',
+		CONTOUR_HILO			:	'OFF',
+		CONTOUR_INTERVAL		:	4.0,
+		CONTOUR_LEVEL_SELECTION_TYPE	:	'INTERVAL',
+		CONTOUR_LINE_STYLE		:	'DOT',
+		CONTOUR_LINE_THICKNESS		:	3,
+		CONTOUR_LABEL_QUALITY		:	'HIGH',
+		CONTOUR				:	'OFF',
+		CONTOUR_SHADE			:	'ON',
+		CONTOUR_SHADE_METHOD		:	'AREA_FILL',
+		CONTOUR_SHADE_COLOUR_METHOD	:	'LIST',
+		CONTOUR_SHADE_COLOUR_LIST	:	["BLUE_PURPLE",
+				"GREENISH_BLUE","BLUE_GREEN",
+				"BLUISH_GREEN",
+				"YELLOW_GREEN",
+				"GREENISH_YELLOW",
+				"YELLOW","ORANGISH_YELLOW","ORANGE_YELLOW",
+				"YELLOWISH_ORANGE",
+				"ORANGE","REDDISH_ORANGE",
+				"RED_ORANGE","ORANGISH_RED","RED","MAGENTA",
+				"MAGENTA"],
+		CONTOUR_SHADE_MIN_LEVEL		:	-24,
+		CONTOUR_SHADE_MAX_LEVEL		:	44
+		#	CONTOUR_SHADE_MIN_LEVEL_DENSITY	:	400.0,
+		#	CONTOUR_SHADE_MAX_LEVEL_DENSITY	:	400.0,
+		#	CONTOUR_SHADE_MIN_LEVEL_COLOUR	:	'CYAN',
+		#	CONTOUR_SHADE_MAX_LEVEL_COLOUR	:	'YELLOW',
+		#	CONTOUR_SHADE_DOT_SIZE		:	0.02
+		)
+
+Z_contour = pcont(
+		CONTOUR_HIGHLIGHT_THICKNESS	:	4,
+		CONTOUR_HILO			:	'ON',
+		CONTOUR_HILO_HEIGHT		:	0.25,
+		CONTOUR_HILO_QUALITY		:	'HIGH',
+		CONTOUR_HILO_SUPPRESS_RADIUS	:	40.0,
+		CONTOUR_INTERVAL		:	6.0,
+		CONTOUR_LABEL_QUALITY		:	'HIGH',
+		CONTOUR_LEVEL_SELECTION_TYPE	:	'INTERVAL',
+		CONTOUR_LINE_THICKNESS		:	3
+		)
+
+scf = incr/24
+RR_contour =  pcont (
+		Legend              :   'ON',
+		CONTOUR	:	'OFF',
+		CONTOUR_HIGHLIGHT       :   'OFF',
+		CONTOUR_HILO_MIN_VALUE      :   5.0,
+		CONTOUR_HILO_QUALITY        :   'HIGH',
+		CONTOUR_HILO_HEIGHT     :   0.2,
+		CONTOUR_HILO_TYPE       :   'NUMBER',
+		CONTOUR_HILO_FORMAT     :   '(I4)',
+		CONTOUR_HILO_SUPPRESS_RADIUS    :   40.0,
+		CONTOUR_LEVEL_SELECTION_TYPE    :   'LEVEL_LIST',
+		CONTOUR_LEVEL_LIST      :   [scf,4*scf,8*scf,20*scf,50*scf,100*scf,200*scf,600*scf],
+		CONTOUR_SHADE_COLOUR_LIST   :       ['HSL(180,1,0.75)','HSL(210,1,0.75)','HSL(240,1,0.75)','HSL(270,1,0.75)','HSL(300,1,0.75)','HSL(330,1,0.75)','HSL(0,1,0.75)'],
+		CONTOUR_SHADE_COLOUR_METHOD     :       "LIST",
+		CONTOUR_SHADE_METHOD        :   'AREA_FILL',
+		CONTOUR_LABEL           :   'OFF',
+		CONTOUR_LABEL_FREQUENCY     :   1,
+		#			CONTOUR_LINE_STYLE      :   'DOT',
+		CONTOUR_SHADE           :   'ON',
+		CONTOUR_SHADE_DOT_SIZE      :   0.035,
+		GRIB_SCALING_OF_DERIVED_FIELDS  :   'ON',
+		CONTOUR_HILO            :   'OFF'
+		)
+if class = 'rd' then
+	an_type = 'FC'
+else
+	an_type = 'AN'
+end if
+
+
+A3_horiz_x = 40.68
+A3_horiz_y = 27.64
+A3_2x2 = page(
+		geography,
+		PAGE_X_LENGTH		:	A3_horiz_x / 2.0,
+		PAGE_Y_LENGTH		:	A3_horiz_y / 2.0,
+		PAGE_FRAME		:	'OFF',
+		PAGE_ID_LINE            :       'ON',
+		PAGE_ID_LINE_SYSTEM_PLOT:       'OFF',
+		PAGE_ID_LINE_DATE_PLOT  :       'OFF',
+		PAGE_ID_LINE_ERRORS_PLOT:       'OFF',
+		PAGE_ID_LINE_LOGO_PLOT  :       'OFF',
+		PAGE_ID_LINE_USER_TEXT  :       page_id,
+		SUBPAGE_X_POSITION	:	1.25,
+		SUBPAGE_Y_POSITION	:	0.75,
+		SUBPAGE_X_LENGTH	:	18.84,
+		SUBPAGE_Y_LENGTH	:	11.5
+		)
+
+A3_sheet = superpage(
+		SUPER_PAGE_X_LENGTH	:	A3_horiz_x,
+		SUPER_PAGE_Y_LENGTH	:	A3_horiz_y,
+		pages			:	[A3_2x2, A3_2x2, A3_2x2, A3_2x2]
+		)
+
+ip=0
+for i = 1 to count(MSLP_fields) do
+	isf=2*mod(i+1,2)+1
+	if   ((first = 0) and (i = 1)) or  ( ( last = 240 ) and ( i = count(MSLP_fields)) )
+	then
+		plot (A3_sheet[isf], MSLP_fields[i], MSLP_contour, MSLP_text)
+	else
+		ip=ip+1
+		plot (A3_sheet[isf], MSLP_fields[i], MSLP_contour, RR_FC[ip], RR_contour, RRMSLP_text)
+	end if
+	plot (A3_sheet[isf+1], T850_fields[i], T_contour, Z500_fields[i], Z_contour, ZT_text)
+	if isf = 3 then
+		newpage(A3_sheet)
+	end if
+end for
+
+EOF
+
+ln -s $WEBDATA/t850.grib
+ln -s $WEBDATA/z500.grib
+ln -s $WEBDATA/mslp_gg.grib ./mslp.grib
+ln -s $WEBDATA/cpp.grib cp.grib
+ln -s $WEBDATA/lspp.grib lsp.grib
+$metview_cmd -b dirs
+PSFILE
+
+$plotdb_lpr -J $TASK -P ps_oa_a3_c ps
+
+
+%include <endt.h>
+

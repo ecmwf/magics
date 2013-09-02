@@ -1,0 +1,11 @@
+<magics>
+<class  directory='common' prefix='layer' xmltag='layer' name='LayerNode'>
+		<parameter  member='name' to='string' default='automatic' from='string' name='layer_name'>
+			<release >Magics++2.1		</release>
+			<documentation > Name of the layer : will be the button name! 		</documentation>
+		</parameter>
+		<parameter  member='active' to='bool' default='true' from='string' name='layer_active'>
+			<release >Magics++2.1		</release>
+			<documentation > if true, the layer will displayed and the button enabled. 		</documentation>
+		</parameter>
+</class></magics>

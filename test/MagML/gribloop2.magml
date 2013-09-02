@@ -1,0 +1,26 @@
+
+<magics version='3.0'>
+  <drivers>
+    <ps/>
+  </drivers>
+  <page>
+       <meta/>	 
+        <map >	
+          <cylindrical lower_left_longitude='-20' lower_left_latitude='25' 
+            upper_right_latitude='70' upper_right_longitude='50'/>
+	        <gribloop grib_loop_path='data/vort_animation.grib' >
+			   <plot>
+			       <grib />
+				   <contour />
+			   </plot>
+			</gribloop>
+            <coastlines land_shade='off' sea_shade='off'/>
+		</map>
+		</gribloop>
+       </page>
+   
+</magics>        
+
+       
+   
+    

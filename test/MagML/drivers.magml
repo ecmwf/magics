@@ -1,0 +1,123 @@
+<!--
+ This file shows how various drivers can be used in MagML.
+-->
+<magics version="3.0" width='29.7' height='21'>
+
+<drivers>
+	<ps name="myname" filelist='on'
+		scale="0.97"/>
+	<kml name="mykml"  filelist='on'
+		title="Contours over Europe"
+		description="A simple KML example with Magics++"
+		author="The nice folk at ECMWF"
+		height='0'
+		latitude='49.'
+		longitude='12.'
+		transparency='80'
+		tilt='5.'
+		range='6500'
+		coastlines='ON' />
+<!--
+	<png name="mypng"  filelist='on'
+		output_cairo_transparent_background='on' />
+-->
+	<svg name="mysvg"  filelist='on'
+		title="Contours over Europe" 
+		desc="This plot shows a forecast from ECMWF"
+		meta="Grib contours" />
+<!--
+	<gif_animation name="myanimation"  filelist='on'
+		output_gif_delay="200" />
+	<gif name="mygif"  filelist='on'/>
+-->
+</drivers>
+
+<page format='a4' orientation='landscape'>
+   <map>
+      <text font='sansserif' colour='rgb(0.1,0.6,0.2)' bottom="90%" display="inline" >Z500 Contour Plot</text>
+<!--
+      <cylindrical>
+          <corners min_latitude='25' max_latitude='75' min_longitude='-30' max_longitude='77'/>
+      </cylindrical>
+-->
+      <cylindrical lower_left_longitude='-20' lower_left_latitude='25' upper_right_latitude='70' upper_right_longitude='50'/>
+
+      <plot>
+          <grib input_file_name='../data/z500.grb'/>
+          <contour>
+             <isoline style='solid' thickness='2' colour='blue'/>
+          </contour>
+      </plot>
+      <coastlines land_shade='off' sea_shade='off'/>
+   </map>
+</page>
+
+<page format='a4' orientation='landscape'>
+   <map>
+      <text font='sansserif' colour='rgb(0.1,0.6,0.2)' bottom="90%" display="inline" >Page2</text>
+
+      <cylindrical lower_left_longitude='-20' lower_left_latitude='25' upper_right_latitude='70' upper_right_longitude='50'/>
+
+           <plot>
+              <grib input_file_name='../data/z500.grb'/>
+              <contour>
+                 <isoline style='solid' thickness='1' colour='blue'>
+		   <shading>
+		     <polygon>
+                      <area_fill/>
+                     </polygon>
+		     <list colour_list='pink/red/red_orange/orange/yellow/yellow_green/green/evergreen/kelly_green/blue/navy/purple' />
+                   </shading>
+	        </isoline>
+	      </contour>
+	   </plot>
+       <coastlines land_shade='off' sea_shade='off'/>
+    </map>
+</page>
+
+<page format='a4' orientation='landscape'>
+   <map>
+      <text font='sansserif' colour='rgb(0.1,0.6,0.2)' bottom="90%" display="inline" >Page2</text>
+
+      <cylindrical lower_left_longitude='-20' lower_left_latitude='25' upper_right_latitude='70' upper_right_longitude='50'/>
+
+           <plot>
+              <grib input_file_name='../data/z500.grb'/>
+              <contour>
+                 <isoline style='solid' thickness='1' colour='blue'>
+		   <shading>
+		     <polygon>
+                      <hatch/>
+                     </polygon>
+		     <list colour_list='pink/red/red_orange/orange/yellow/yellow_green/green/evergreen/kelly_green/blue/navy/purple' />
+                   </shading>
+	        </isoline>
+	      </contour>
+	   </plot>
+       <coastlines land_shade='off' sea_shade='off'/>
+    </map>
+</page>
+
+<page format='a4' orientation='landscape'>
+   <map>
+      <text font='sansserif' colour='rgb(0.1,0.6,0.2)' bottom="90%" display="inline" >Page2</text>
+
+      <cylindrical lower_left_longitude='-20' lower_left_latitude='25' upper_right_latitude='70' upper_right_longitude='50'/>
+
+           <plot>
+              <grib input_file_name='../data/z500.grb'/>
+              <contour>
+                 <isoline style='solid' thickness='1' colour='blue'>
+		   <shading>
+		     <polygon>
+                      <dot/>
+                     </polygon>
+		     <list colour_list='pink/red/red_orange/orange/yellow/yellow_green/green/evergreen/kelly_green/blue/navy/purple' />
+                   </shading>
+	        </isoline>
+	      </contour>
+	   </plot>
+       <coastlines land_shade='off' sea_shade='off'/>
+    </map>
+</page>
+</magics>

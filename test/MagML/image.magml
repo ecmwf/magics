@@ -1,0 +1,30 @@
+
+<magics version='3.0' width='29.7' height='21'>
+
+    <drivers>
+        <ps />
+    </drivers>
+
+    <page>
+           
+            <map>
+                <cylindrical subpage_lower_left_latitude= '-35.0'
+                         subpage_lower_left_longitude='10.0'
+                           subpage_upper_right_latitude='10.0'
+                           subpage_upper_right_longitude='40.0'
+                />
+
+                <plot>
+                    <grib grib_input_file_name='data/sat.grib'/>
+                    <image image_colour_table_creation_mode = 'equidistant'
+                           image_min_level_colour = 'white'
+                           image_max_level_colour = 'black'
+                           image_pixel_selection_frequency = '20'/>
+                    
+                </plot>
+                <coastlines/>
+            </map>
+
+    </page>
+</magics>
+

@@ -1,0 +1,12 @@
+<magics>
+<class  action='xml' directory='decoders' name='EfiDataDecoder'>
+		<documentation >
+		The Efi decoder is responsible for decoding EFi Ascii file.(Metops)
+		</documentation>
+        	<parameter  xml='path' from='string' name='efi_filename' default='' member='path' to='string'>           
+            		<documentation > Efi file name Path 		</documentation>
+        	</parameter>        
+         	<parameter  xml='record' from='int' name='efi_record' default='0' member='record' to='int'>
+            		<documentation > Efi record ( starting at 0) 		</documentation>
+        	</parameter>
+</class></magics>

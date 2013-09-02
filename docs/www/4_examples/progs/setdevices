@@ -1,0 +1,17 @@
+#!/bin/ksh
+# -----------------------------------------------------------------------------
+# setdevices
+#
+# Sets the variable 'devices' to a list of the devices we wish to produce
+# output for. This is a string, with space-separated device names.
+# Note that at present, only the last run of the program has its log kept
+# (because each run overwrites the previous log), so for comparison with
+# MAGICS, we put the PostScript driver at the end.
+# 
+# Iain Russell, 09/03/2005
+# -----------------------------------------------------------------------------
+
+#devices="GIF PS"
+#devices="SVG"
+devices="GIF PS SVG"
+

@@ -1,0 +1,90 @@
+#!/bin/ksh
+# Compiles and runs Magics++ examples for the purposes of making
+# a list of differences between versions
+
+
+. ./message.ksh
+
+
+# -------------------------------------------------------------------------------
+
+# test the command-line arguments
+
+print_help=0
+
+if [[ $# -lt 4 ]];then
+   print_help=1
+fi
+
+
+for arg;do
+    if [[ $arg = "-h" || $arg = "-help" || $arg = "--help" ]]
+    then
+        print_help=1
+    fi
+done
+
+if [[ $print_help -eq 1 ]]
+then
+        echo ""
+        echo "make_diff_testsuite usage:"
+        echo ""
+        echo "make_diff_testsuite  <machine>  <version>  <precision> <projection> [<opts>]"
+        echo "  where <machine>    = (eg) suse9, cluster32, cluster64"
+        echo "  where <version>    = (eg) ++1.3.1, ++1.4"
+        echo "  where <precision>  =      single, double"
+        echo "  where <projection> =      cylindrical, polar"
+        echo ""
+        echo "Additional command-line arguments can be suppplied on the end"
+        echo "and will be passed to compile_magplus. Useful ones are:"
+        echo "  -nocompile ;  -rmafter  ; -f64 "
+        echo ""
+        echo "NB: Ensure that your Magics environment is set up before"
+        echo "    running this script."
+        echo "    Also ensure that shared executables are in the bin directory (if using -nocompile)."
+        echo ""
+        exit
+fi
+
+machine=$1
+version=$2
+precision=$3
+projection=$4
+
+
+if [[ $precision = "single" ]];then
+    precflag="-single"
+else
+    precflag=""
+fi
+
+
+
+# -------------------------------------------------------------------------------
+
+# set up our output directory and set a link to it so that our
+# test suite output is sent there
+
+outpath=/tmp/$USER/magcompare/${machine}_${version}_${precision}_${projection}
+
+mkdir -p  $outpath
+
+rm    -f ps
+ln -s -f $outpath ps
+
+
+# -------------------------------------------------------------------------------
+
+# run the test suite (clean the PS first)
+
+./cleanps
+./compile_magplus -diff -noodb $precflag -$projection $5 $6 $7 $8 $9
+
+
+echo "Output is in directory: $outpath"
+
+
+# create a date string, replace spaces with underscores
+msg "Done: `date | sed 's/ /_/g'`"
+
+

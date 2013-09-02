@@ -1,0 +1,163 @@
+<?xml version="1.0"?>
+<magics>
+	<definition>
+		<metgram id="station" 
+                station='$station' 
+                latitude="$latitude" longitude="$longitude" 
+                date='$date' time="$time" height="$height" 
+                eps_temperature_correction='yes'
+                database='$database'> $title 
+                <none/>
+        </metgram>
+	
+        <title id="title" justification="left" character_height="0.4" colour='blue'>
+		
+		</title>
+		<axisview id="box" height="2.5cm" bottom="1cm" width="17.5cm" left='2cm'>
+			<frame thickness="2" colour='kelly_green'>
+			</frame>
+		</axisview>
+
+		<horizontal_axis id="haxis" axis_line="false" line_thickness="4" colour='kelly_green'>
+			<automatic/>
+			<nolabel/>
+			<date/>
+			<noline/>
+            <minortick colour='kelly_green'/>
+			<colour>kelly_green</colour>
+			<grid line_style="dot" colour='kelly_green'>
+				
+			</grid>
+            <tick colour='kelly_green'>
+               
+			</tick>
+		</horizontal_axis>
+
+		<vertical_axis id="vaxis" axis_line="false" line_thickness="4" colour='kelly_green'>
+			
+			<automatic/>
+			<noline/>
+            <label colour='kelly_green'>
+              
+			</label>
+			<grid line_style="dot" colour='kelly_green'>
+				
+			</grid>
+            <tick colour='kelly_green'>
+               
+			</tick>
+		</vertical_axis>
+	</definition>
+
+    <page orientation="portrait" format="$format">
+        <$meta/>
+		<pageid/>
+		<subpage height="14%" bottom='7%'>
+			<pageid line_system_plot='off' line_date_plot='off' line_errors_plot='off' />
+			<noframe/>
+
+			<axisview use_id='box' >
+				<xy_system x_min="0" x_max="240" y_min="-50" y_max="50"/>
+				<horizontal_axis use_id="haxis">
+					<date >
+                    <both colour='blue' height='0.25' />
+                     <month height='0.3' colour='blue'> <monthandyear /> </month>
+                     <noyear height='0.4'/>
+                    </date>
+                    <label/>
+				</horizontal_axis>
+				<vertical_axis use_id="vaxis"/>
+				<xylayer>
+					<metgram use_id="station" parameter="temperature"/>
+					<metgraph> </metgraph>
+				</xylayer>
+			</axisview>
+              <!--legend>
+                <positional x='4' y='1' width='5' height='1' border='on' blanking='on'>
+                </positional>
+            </legend-->
+			<title use_id="title"/>
+		</subpage>
+        
+        <subpage height="14%" bottom='20%'>
+			<nopageid/><noframe/>
+
+			<axisview use_id='box' >
+				<xy_system x_min="0" x_max="240" y_min="0" y_max="2"/>
+				<horizontal_axis use_id="haxis"/>
+				<vertical_axis use_id="vaxis"> <nolabel/> <notick/> <nogrid/> </vertical_axis>
+				<xylayer>
+					<metgram use_id="station" parameter="10m_wind"/>
+					<metgraph> <flags/> </metgraph>
+				</xylayer>
+			</axisview>
+           
+			<title use_id="title"/>
+		</subpage>
+
+        	<subpage height="14%" bottom='33%'>
+			<nopageid/><noframe/>
+
+			<axisview use_id='box' >
+				<xy_system x_min="0" x_max="240" y_min="-50" y_max="50"/>
+				<horizontal_axis use_id="haxis"/>				
+				<vertical_axis use_id="vaxis"/>
+				<xylayer>
+					<metgram use_id="station" parameter="msl"/>
+					<metgraph> </metgraph>
+				</xylayer>
+			</axisview>
+           
+			<title use_id="title"/>
+		</subpage>
+        <subpage height="14%" bottom='46%'>
+			<nopageid/><noframe/>
+
+			<axisview use_id='box' >
+               
+				<xy_system x_min="0" x_max="240" y_min="-50" y_max="50"/>
+				<horizontal_axis use_id="haxis"/>
+				<vertical_axis use_id="vaxis"/>
+				<xylayer>
+					<metgram use_id="station" parameter="precipitation"/>
+					<metgraph> <bar/> </metgraph>
+				</xylayer>
+			</axisview>
+          
+			<title use_id="title"/>
+		</subpage>
+        <subpage height="14%" bottom='59%'>
+			<nopageid/><noframe/>
+
+			<axisview use_id='box' >
+				<xy_system x_min="0" x_max="240" y_min="0" y_max="100"/>
+				<horizontal_axis use_id="haxis"/>
+				<vertical_axis use_id="vaxis"> <regular/>	</vertical_axis>
+				<xylayer>
+					<metgram use_id="station" parameter="humidity"/>
+					<metgraph> </metgraph>
+				</xylayer>
+			</axisview>
+            
+			<title use_id="title"/>
+		</subpage>
+	  <subpage height="38%" bottom='72%'>
+			<nopageid/><noframe/>
+
+			<axisview use_id='box'>
+			
+				<xy_system x_min="0" x_max="240" y_min="0" y_max="100"/>
+				<horizontal_axis use_id="haxis"/>
+				<vertical_axis use_id="vaxis"> <regular/>	</vertical_axis>
+				<xylayer>
+					<metgram use_id="station" parameter="cloud_cover" long_title='true'/>
+					<metgraph> <bar/> </metgraph>
+				</xylayer>
+			</axisview>
+            
+			<title use_id="title"/>
+		</subpage>
+
+		
+	</page>
+</magics>

@@ -1,0 +1,74 @@
+<magics version='1.0'>
+
+    <!-- This example demonstrates the plotting of discrete shaded contour bands.
+         Each is plotted in its own layer. -->
+
+    <page format ='a4' orientation = 'landscape' >
+        
+        <subpage>
+           <mapview> 
+              <cylindrical>
+                <corners min_longitude = '-50'
+                         min_latitude  = '20'
+                         max_longitude = '50'
+                         max_latitude  = '80' />
+              </cylindrical>
+           </mapview>
+
+
+           <!-- Set up and plot the coastlines -->
+
+           <coastlines>
+             <coast colour = 'grey'>
+               <landshading colour = 'rgb(0.8,0.9,0.8)'>
+                 <seashading colour = 'rgb(0.7,0.8,1.0)' />
+               </landshading>
+             </coast>
+             <grid  colour = 'grey' />
+           </coastlines>
+
+
+            <!-- This layer draws a contour band showing temperatures between
+                 -5 and -2 degrees C -->
+
+            <layer>
+                <grib path = '../data/t850_fc_12.grib'/>
+                <geocontour>
+                    <isoline>
+                      <list level_list = '-5/-2' />
+                      <shading>
+                        <polygon>
+                            <area_fill/>
+                        </polygon>
+                        <calculate shade_min_level_colour = 'cyan' />
+                      </shading>
+                    </isoline>
+                    <nohilo />
+                </geocontour>
+            </layer>
+
+
+            <!-- This layer draws a contour band showing temperatures between
+                 2 and 5 degrees C -->
+            <layer>
+                <grib path = '../data/t850_fc_12.grib'/>
+                <geocontour>
+                    <isoline>
+                      <list level_list = '2/5' />
+                      <shading>
+                        <polygon>
+                            <area_fill/>
+                        </polygon>
+                        <calculate shade_min_level_colour = 'rgb(1.0, 0.5, 0.5)' />
+                      </shading>
+                    </isoline>
+                    <nohilo />
+                </geocontour>
+            </layer>
+
+            <text colour = 'peach' lines = 'Blue: -5 to -2 degrees C./Red: 2 to 5 degrees C.' />
+
+         </subpage>
+    </page>
+
+</magics>

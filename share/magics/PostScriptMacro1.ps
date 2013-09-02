@@ -1,0 +1,51 @@
+/m {moveto} def /st {stroke} def /rl {rlineto} def /ro {rotate} def /cp {closepath} def /d { {rmoveto rlineto} repeat stroke} bind def /gr {grestore} def /gs {gsave} def /n { newpath } def 
+/sa {save} def /lw {setlinewidth } def /ar {arc fill} def /arn {arcn fill} def
+/sd {setdash} def /C { setrgbcolor } def /Y { setcmykcolor } def  /B { moveto rlineto stroke } bind def /BB { moveto lineto stroke } bind def /t { translate } def /s {scale} def /K { /UY exch def /UX exch def /LY exch def 
+/LX exch def gsave newpath LX LY moveto UX LY lineto UX UY lineto LX UY lineto closepath newpath } def /lp { moveto rlineto } bind def /p { moveto {rlineto} repeat stroke} bind def /po { moveto {rlineto} repeat } bind def
+/q {moveto rlineto stroke} bind def /f {moveto {rlineto} repeat fill} bind def /e {moveto {rlineto} repeat eofill} bind def /F {moveto {rlineto} repeat} bind def /E {eofill} bind def /P { closepath } bind def
+/SAVEMT matrix def
+/Degreevec
+[
+	8#100 /at 8#251 /copyright 8#260 /degree 8#306 /AE 8#301 /Aacute 8#304 /Adieresis 8#300 /Agrave 8#305 /Aring 8#303 /Atilde 8#307 /Ccedilla 8#311 /Eacute 8#312 /Ecircumflex 8#313 /Edieresis 8#310 /Egrave
+	8#320 /Eth 8#315 /Iacute 8#316 /Icircumflex 8#317 /Idieresis 8#314 /Igrave 8#321 /Ntilde 8#323 /Oacute 8#325 /Odieresis 8#322 /Ograve 8#330 /Oslash 8#325 /Otilde 8#336 /Thorn 8#332 /Uacute 8#333 /Ucircumflex
+	8#334 /Udieresis 8#331 /Ugrave 8#335 /Yacute 8#341 /aacute 8#342 /acircumflex 8#222 /acute 8#264 /acute 8#344 /adieresis 8#346 /ae 8#340 /agrave 8#345 /aring 8#343 /atilde
+	8#226 /breve 8#246 /brokenbar 8#237 /caron 8#347 /ccedilla 8#270 /cedilla 8#242 /cent 8#223 /circumflex 8#244 /currency 8#250 /dieresis 8#227 /dotaccent 8#220 /dotlessi
+	8#351 /eacute 8#352 /ecircumflex 8#350 /egrave 8#360 /eth 8#241 /exclamdown 8#337 /germandbls 8#221 /grave 8#253 /guillemotleft 8#273 /guillemotright 8#235 /hungarumlaut
+	8#255 /hyphen 8#355 /iacute 8#356 /icircumflex 8#357 /idieresis 8#354 /igrave 8#254 /logicalnot 8#257 /macron 8#265 /mu
+	8#327 /multiply 8#361 /ntilde 8#363 /oacute 8#364 /odieresis 8#236 /ogonek 8#362 /ograve 8#275 /onehalf 8#274 /onequarter 8#271 /onesuperior 8#252 /ordfeminine
+	8#272 /ordmasculine 8#370 /oslash 8#365 /otilde 8#266 /paragraph 8#267 /periodcentered 8#261 /plusminus 8#277 /questiondown 8#256 /registered 8#232 /ring 8#247 /section 8#243 /sterling
+	8#376 /thorn 8#276 /threequarters 8#263 /threesuperior 8#224 /tilde 8#262 /twosuperior 8#372 /uacute 8#373 /ucircumflex 8#374 /udieresis 8#371 /ugrave 8#375 /yacute 8#377 /ydieresis 8#245 /yen
+] def
+/reencsmalldict 12 dict def
+/ReEncodeSmall
+{	reencsmalldict begin
+	/basefontname exch def
+	/basefontdict basefontname findfont def
+	/newfont basefontdict maxlength dict def
+	basefontdict
+	{ exch dup /FID ne
+		{
+			dup /Encoding eq
+			{
+				exch dup length array copy
+				newfont 3 1 roll put
+			}
+		{exch newfont 3 1 roll put}
+	    	ifelse
+	}
+	{ pop pop }
+	ifelse
+	} forall
+	newfont /FontName /Magicsfontname put
+	Degreevec aload pop
+	Degreevec length 2 idiv
+	{newfont /Encoding get 3 1 roll put
+	} repeat
+	/Magicsfontname newfont definefont pop
+	end
+} def
+
+/SF
+{
+/Height exch def
+/Font exch def

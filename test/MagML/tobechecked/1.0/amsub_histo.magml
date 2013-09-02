@@ -1,0 +1,33 @@
+        
+<magics_plot subpage_map_projection= 'xy' 
+	x_min_value = '0' x_max_value = '100000' y_min_value = '0' y_max_value = '10'>
+
+   <paxis_horizontal> </paxis_horizontal>
+   <paxis_vertical> </paxis_vertical>
+
+   <plot_curve >
+        <xyodb 
+            odb_database = '/scratch/graphics/cgs/ECMA.amsub'
+            odb_query ='
+			SELECT degrees(lat) as latitude,
+			       degrees(lon) as longitude,
+			        obsvalue as x
+			 FROM   hdr, body, sat, atovs, atovs_pred, errstat
+			 WHERE  obstype=7 AND 
+				sensor=4 AND
+				press = 1 and 
+			        km(lat,lon,radians(0),radians(0)) &lt; 500000'
+		   				  >
+
+        </xyodb>
+        <phisto  
+		histogram_variable_name = 'x' 
+		histogram_variable_interval = '150/165/180/195/210/225/240/255/270/285/300'
+		histogram_colour_table = 'blue/GREENISH_BLUE/CYAN/GREEN/GREENISH_YELLOW/YELLOW/ORANGE/RED_ORANGE/RED/PURPLE' > 
+	</phisto>
+     </plot_curve>
+   <title  title_colour = 'magenta' > </title>
+   <legend legend_text_colour = 'magenta'>  </legend>
+</magics_plot>
+   
+    

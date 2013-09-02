@@ -1,0 +1,38 @@
+<magics version='3.0' format='a4'>
+
+  <drivers>
+    <ps name= 'coast_2' />
+  </drivers>
+
+  <page >
+     <map>		
+         <text height='10%' display='block'> 
+            North America in polar stereographic<br/>
+            This is My Magics Plot </text> 
+         <polar_stereographic  
+              map_area_definition='centre'
+              map_vertical_longitude='-95.'           
+              map_centre_longitude='-95'
+              map_centre_latitude='40'
+              map_scale='27.e6'
+          />
+          
+          <coastlines>
+            <coast colour='mustard' thickness='3' />					
+            <grid colour='grey' 
+               latitude_increment='5' 
+               longitude_increment='5' />         
+          </coastlines> -->    
+          <!-- Alternative style: Metview style!
+             <coastlines 
+                    map_coastlines_colour='mustard'
+                    map_coastlines_thickness='3' 
+                    map_grid_colour='grey' 
+                    map_grid_latitude_increment='5'
+                    map_grid_longitude_increment='5'/>
+            -->
+     </map>
+  </page>   
+</magics>    
+         
+    

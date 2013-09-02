@@ -1,0 +1,80 @@
+<magics>
+<class  directory='visualisers' inherits='Graph' name='Curve'>
+  	<documentation > Here comes the documentation of the Curve object 	</documentation>
+
+  	<parameter  xml='line' from='string' name='graph_line' default='on' member='line' to='bool'>
+         		<documentation > Plot the curve line  		</documentation>
+         		<set  name='graph_line_style' value='on'>		</set>
+         		<set  name='graph_line_colour' value='on'>		</set>
+         		<set  name='graph_line_thickness' value='on'>		</set>
+  	</parameter>
+
+  	<parameter  xml='line_style' from='string' name='graph_line_style' default='solid' member='style' to='LineStyle'>
+         		<documentation > Line style of the curve 		</documentation>
+  	</parameter>
+
+  	<parameter  xml='line_colour' from='string' name='graph_line_colour' default='blue' member='colour' to='Colour'>
+         		<documentation > Colour of the curve		</documentation>
+  	</parameter>
+
+  	<parameter  xml='line_thickness' from='int' name='graph_line_thickness' default='1' member='thickness' to='int'>
+         		<documentation > Thickness of the curve  		</documentation>
+  	</parameter>
+
+  	<parameter  member='symbol' to='bool' default='off' from='string' name='graph_symbol'>
+         		<documentation > If symbols are to be drawn on the curves  		</documentation>
+         		<set  name='graph_symbol_marker_index' value='on'>		</set>
+         		<set  name='graph_symbol_height' value='on'>		</set>
+         		<set  name='graph_symbol_colour' value='on'>		</set>
+  	</parameter>
+  
+  	<parameter  xml='marker' from='int' name='graph_symbol_marker_index' default='3' member='symbol_marker' to='int'>
+         		<documentation > The marker symbol to be used. 		</documentation>
+  	</parameter>
+ 
+
+  	<parameter  xml='height' from='float' name='graph_symbol_height' default='0.2' member='symbol_height' to='float'>
+         		<documentation > Height of  symbol 		</documentation>
+  	</parameter>
+
+  	<parameter  member='symbol_colour' to='Colour' default='red' from='string' name='graph_symbol_colour'>
+         		<documentation > Colour of graph symbol 		</documentation>
+  	</parameter>
+  
+ 	<parameter  member='x_below' to='float' default='-INT_MAX' from='float' name='graph_x_suppress_below'>
+         		<documentation > Value on the x  below which a point is considered missing 		</documentation>
+  	</parameter>
+   	<parameter  member='x_above' to='float' default='INT_MAX' from='float' name='graph_x_suppress_above'>
+         		<documentation > Value on the x  above which a point is considered missing 		</documentation>
+  	</parameter>
+
+  	<parameter  member='y_below' to='float' default='-INT_MAX' from='float' name='graph_y_suppress_below'>
+         		<documentation > Value on the y  below which a point is considered missing 		</documentation>
+  	</parameter>
+
+  	<parameter  member='y_above' to='float' default='INT_MAX' from='float' name='graph_y_suppress_above'>
+         		<documentation > Value on the y  above which a point is considered missing 		</documentation>
+  	</parameter>
+
+  
+  	<parameter  from='string' name='graph_missing_data_mode' default='ignore' member='missing_mode' to='string' values='ignore/join/drop'> 
+   		<documentation > How to handle missing data  		</documentation>
+   		<set  name='graph_missing_data_style' value='join'>		</set>
+   		<set  name='graph_missing_data_colour' value='join'>		</set>
+   		<set  name='graph_missing_data_thickness' value='join'>		</set>
+    		<set  name='graph_missing_data_style' value='drop'>		</set>
+   		<set  name='graph_missing_data_colour' value='drop'>		</set>
+   		<set  name='graph_missing_data_thickness' value='drop'>		</set>
+ 	</parameter>
+  	<parameter  xml='style' from='string' name='graph_missing_data_style' default='dash' member='missing_style' to='LineStyle'>
+         		<documentation > Line style of the missing data part of curve  		</documentation>
+  	</parameter>
+
+  	<parameter  xml='colour' from='string' name='graph_missing_data_colour' default='red' member='missing_colour' to='Colour'>
+         		<documentation > Colour of the missing data part of curve 		</documentation>
+  	</parameter>
+
+  	<parameter  xml='thickness' from='int' name='graph_missing_data_thickness' default='1' member='missing_thickness' to='int'>
+         		<documentation > Thickness of the missing data part of curve  		</documentation>
+  	</parameter>
+</class></magics>

@@ -1,0 +1,70 @@
+<magics>
+<class  inherits='NoBoundaries' xmltag='boundaries' name='Boundaries' directory='visualisers' prefix='map/map_boundaries/map_boundaries' action='pcoast' include='Boundaries.h'>
+ 	<documentation >This object sets the properties of the political boundaries.	</documentation>
+   
+
+	<parameter  xml='style' from='string' name='map_boundaries_style' default='solid' member='style' to='LineStyle'>
+  		<documentation >Line style of boundaries		</documentation>
+  		<release >1.3		</release>
+	</parameter>
+
+	<parameter  xml='colour' from='string' name='map_boundaries_colour' default='grey' member='colour' to='Colour'>
+ 		<documentation >Colour of boundaries		</documentation>
+ 		<release >1.3		</release>
+	</parameter>
+
+	<parameter  xml='thickness' from='int' name='map_boundaries_thickness' default='1' member='thickness' to='int'>
+ 		<documentation >Line thickness of boundaries		</documentation>
+ 		<release >2.11		</release>
+	</parameter>
+
+	<parameter  member='disputed' to='bool' default='on' from='string' name='map_disputed_boundaries'>
+ 		<documentation >Display the disputed boundaries (on/off)		</documentation>
+    		<set  name='map_disputed_boundaries_style' value='on'>		</set>
+    		<set  name='map_disputed_boundaries_colour' value='on'>		</set>
+    		<set  name='map_disputed_boundaries_thickness' value='on'>		</set>           
+ 		<release >2.11		</release>
+	</parameter>
+
+	<parameter  member='disputed_style' to='LineStyle' default='dash' from='string' name='map_disputed_boundaries_style'>
+ 		<documentation >Line style of disputed boundaries		</documentation>
+ 		<release >2.11		</release>
+	</parameter>       
+
+	<parameter  member='disputed_colour' to='Colour' default='automatic' from='string' name='map_disputed_boundaries_colour'>
+ 		<documentation >Colour of disputed boundaries		</documentation>
+ 		<release >2.11		</release>
+	</parameter>
+
+	<parameter  xml='thickness' from='int' name='map_disputed_boundaries_thickness' default='1' member='disputed_thickness' to='int'>
+ 		<documentation >Line thickness of disputed boundaries		</documentation>
+ 		<release >2.11		</release>
+	</parameter>
+
+	<parameter  member='admistrative' to='bool' default='off' from='string' name='map_administrative_boundaries'>
+ 		<documentation >Display second level administrative boundaries (on/off)		</documentation>
+    		<set  name='map_administrative_boundaries_countries_list' value='on'>		</set>
+    		<set  name='map_administrative_boundaries_style' value='on'>		</set>
+    		<set  name='map_administrative_boundaries_colour' value='on'>		</set>
+    		<set  name='map_administrative_boundaries_thickness' value='on'>		</set>
+	</parameter>
+
+	<parameter  from='stringarray' name='map_administrative_boundaries_countries_list' default='stringarray()' member='administrative_list' to='stringarray' values='AGO:Angola/DZA:Algeria/EGY:Egypt/BGD:Bangladesh/NAM:Namibia/BOL:Bolivia/GHA:Ghana/CCK:Australia/PAK:Pakistan/LBY:Libya/MYS:Malaysia/PRK:Korea, North/TZA:Tanzania/BWA:Botswana/PRY:Paraguay/SAU:Saudi Arabia/MRT:Mauritania/CHL:Chile/CHN:China/LAO:Laos/GIB:United Kingdom/GIN:Guinea/FIN:Finland/URY:Uruguay/NPL:Nepal/CXR:Australia/MAR:Morocco/YEM:Yemen/ZAF:South Africa/TGO:Togo/SYR:Syria/KAZ:Kazakhstan/COD:Congo (Kinshasa)/NGA:Nigeria/ZWE:Zimbabwe/GBR:United Kingdom/GUY:Guyana/MMR:Myanmar/CMR:Cameroon/TKM:Turkmenistan/HMD:Australia/TCD:Chad/ROU:Romania/MNG:Mongolia/AFG:Afghanistan/NFK:Australia/BLR:Belarus/ALA:Finland/GRC:Greece/MOZ:Mozambique/TJK:Tajikistan/IND:India/CZE:Czech Republic/ISR:Israel/PER:Peru/IDN:Indonesia/VUT:Vanuatu/SUR:Suriname/COG:Congo (Brazzaville)/ETH:Ethiopia/NER:Niger/COL:Colombia/MDG:Madagascar/SEN:Senegal/TLS:East Timor/FRA:France/RWA:Rwanda/ZMB:Zambia/GMB:Gambia, The/FRO:Denmark/DEU:Germany/AUS:Australia/AUT:Austria/SJM:Norway/VEN:Venezuela/KEN:Kenya/TUR:Turkey/ITA:Italy/RUS:Baikonur Cosmodrome/MEX:Mexico/BRA:Brazil/CIV:Ivory Coast/SRB:Serbia/USA:United States of America/UKR:Ukraine/CAN:Canada/KOR:Korea, South/CAF:Central African Republic/SOM:Somalia/UZB:Uzbekistan/ERI:Eritrea/POL:Poland/GAB:Gabon/ESP:Spain/IRQ:Iraq/MLI:Mali/IRN:Iran/SLB:Solomon Islands/NZL:New Zealand/JPN:Japan/KGZ:Kyrgyzstan/NCL:New Caledonia/ARG:Argentina/SDN:Sudan/PNG:Papua New Guinea/CUB:Cuba'>
+  		<documentation >List of countries for which to show second level administrative borders.		</documentation>
+	</parameter> 
+
+	<parameter  member='administrative_style' to='LineStyle' default='dash' from='string' name='map_administrative_boundaries_style'>
+  		<documentation >Line style of second level administrative boundaries		</documentation>
+  		<release >2.11		</release>
+	</parameter>       
+
+	<parameter  member='administrative_colour' to='Colour' default='automatic' from='string' name='map_administrative_boundaries_colour'>
+ 		<documentation >Colour of administrative boundaries		</documentation>
+ 		<release >2.11		</release>
+	</parameter>
+
+	<parameter  xml='thickness' from='int' name='map_administrative_boundaries_thickness' default='1' member='administrative_thickness' to='int'>
+ 		<documentation >Line thickness of boundaries		</documentation>
+ 		<release >2.11		</release>
+	</parameter>
+</class></magics>

@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+                 "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd"> 
+<chapter id="Overview" label="1">
+  <title>Overview</title>
+
+  <xi:include href="../phrases/chapterinfo_mod.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <section id="Overview_Introduction">
+    <title>Introduction to Magics</title>
+
+    <para>The Meteorological Applications Graphics Integrated Colour System
+    (<productname>MAGICS</productname>) is a software system that permits the
+    plotting of contours, wind fields, observations, satellite images,
+    symbols, <remark>streamlines, isotachs, </remark>text, axis and graphs <remark>and pie charts</remark>.
+
+    <productname>Magics</productname> is developed by the Meteorological Visualisation Section at <orgname>ECMWF</orgname> 
+    and is used to generate many of its plots - on the
+    web, in the MetOps room, for data monitoring and verification. <productname>Magics</productname>
+    is the graphics engine used in <orgname>ECMWF</orgname>'s meteorological workstation Metview and 
+    <orgname>Meteo-France</orgname>'s Synergie meteorological workstation. It is used within many
+    <orgname>ECMWF</orgname>'s Member States and other organisations around the world.</para>
+
+    <para><remark><productname>Magics</productname> contouring is based on
+    CONICON, developed by the University of Bath in the United Kingdom. Linear
+    contouring is also available.</remark></para>
+
+    <para><remark><productname>Magics</productname> observation plotting is
+    based on a package developed by <remark>the Meteorological services of
+    Denmark and</remark> Sweden. <productname>Magics</productname> streamline plotting is based on an
+    algorithm supplied by Florida State University, Florida,
+    USA.</remark></para>
+
+    <para><productname>Magics</productname> is meteorological oriented and forecasts and analysis fields may be read in various formats, for
+    instance GRIB and NetCDF. Observations can be read from BUFR files or retrieved from an ODB
+    database. For more details, see <olink targetdoc="Magics_data" targetptr="Data_Input" />.</para>
+
+    <para>The following diagram shows the top-level architecture of <productname>Magics++</productname>:</para>
+<para/>
+<para/>
+
+    <mediaobject id="magics_architecture_diagram">
+      <imageobject role="fo">
+        <imagedata fileref="../diagrams/Magics_overview.png" format="PNG" width="14cm" align="center" />
+      </imageobject>
+
+      <imageobject role="html">
+        <imagedata fileref="images/diagrams/Magics_overview.png" format="PNG" width="500" align="center" />
+      </imageobject>
+    </mediaobject>
+
+  </section>
+
+    <section id="History">
+      <title>MAGICS History</title>
+
+      <para>The first pre-release of <productname>MAGICS</productname>,
+      version 0.3, was released as a FORTRAN library in July 1985 on a trial
+      basis. This release contained facilities for plot layout as well as
+      contouring, coastlines and text headings. At the same time the first
+      versions of the
+      <productname><productname>MAGICS</productname></productname> manuals
+      were released. With minor enhancements, this version became operational
+      in December 1985. The first full release of
+      <productname><productname>MAGICS</productname></productname>, version
+      1.0, became available in December 1987 and incorporated many new
+      features. Subsequent releases have introduced extra features as they
+      became available, such as linear contouring, axis plotting, streamlines
+      and isotachs, graph and pie charts, symbol plotting and satellite image
+      plotting.</para>
+      <para>Development of <productname>MAGICS 6</productname> was frozen in 2008;
+      development of <productname>Magics++</productname> started in 2004.</para>
+    </section>
+ 
+    <section id="Current_Release">
+      <title>Magics++</title>
+
+      <para><productname>Magics++</productname> represents a
+      complete re-write of the <productname>Magics</productname> source code.
+      Whereas previous versions were
+      written mainly in FORTRAN with some C++ code for the output drivers,
+      <productname>Magics++</productname> is written entirely in C++. This development makes
+      <productname>Magics</productname> more flexible, allowing new features
+      to be added more easily. Although <productname>Magics++</productname> is
+      intended to be as backwardly compatible as possible with the previous
+      Fortran interface, there are new ways of doing some things - these will be
+      highlighted in the text of this manual with the following notation:</para>
+
+      <important> <title>Magics++</title>This is new to, or has been changed in Magics++.</important>
+
+      <para>Perhaps the biggest change is that
+      <productname>Magics</productname> is no longer just a FORTRAN library.
+      Plot descriptions can now also be written in an XML-based format called
+      <firstterm>MagML</firstterm> and programs can now also be written in
+      C and Python.</para>
+
+      <para><productname>Magics</productname> can now read data from a wider
+      variety of sources.<!-- Notably, data from an ODB database can be retrieved
+      and plotted from within a <productname>Magics</productname> program (see
+      <olink targetdoc="Magics_data" targetptr="ODB_Input" />).-->
+      NetCDF data is supported (see
+      <olink targetdoc="Magics_data" targetptr="NetCDF_Data_Input" />).
+      By using the new GRIB_API library, <productname>Magics</productname>
+      is able to read GRIB 2 files as well as GRIB 1 files.
+      Note that <productname>Magics</productname> currently does not support 
+     interpolation of grids - all GRIB data must be in regular or reduced Gaussian or Lat/Long grid.
+<remark>
+WHEN WILL WE HAVE INTERPOLATION?
+</remark>
+</para>
+
+      <para>The output drivers have also been expanded. PostScript remains,
+      and in addition there are drivers that can produce plots in PDF, EPS,
+      PNG, GIF and SVG formats amongst others. <productname>Magics</productname>
+      now has the ability to produce multiple outputs from a single program by
+      using multiple drivers 'simultaneously', delivering significant speed
+      benefits over using an external tool to convert PostScript output or
+      running a program twice to produce different outputs.</para>
+
+      <para>The CONICON contouring package formerly used by
+      <productname>Magics</productname> has been replaced with a method using
+      the Akima interpolation algorithms. By default,
+      <productname>Magics</productname> will try to choose a level of
+      interpolation that gives good quality results without sacrificing
+      performance; the user can also set the interpolation level manually if
+      needed. Linear contouring is still available.</para>
+
+      <para>The user now has more flexibility in determining the resolution of
+      coastlines used in plots. <productname>Magics++</productname> comes with
+      higher resolution coastline files than previous versions but uses
+      lower-resolution files where appropriate in order to save time and
+      reduce the size of the output file; this behaviour is
+      user-configurable. These coastline files now include basic
+      support for rivers and lakes.</para>
+
+      <para><remark>Legend? Text &amp; annotation?</remark></para>
+ 
+    <itemizedlist>
+     <listitem>
+        <para><ulink url="http://www.ecmwf.int/publications/manuals/magics/">Magics webpage</ulink></para>
+     </listitem>
+     <listitem>
+        <para><ulink url="http://www.ecmwf.int/publications/manuals/magics/magplus/docs/Magics++_Newsletter_110_Article.pdf">Magics++ Overview</ulink></para>
+     </listitem>
+     <listitem>
+        <para><ulink url="http://www.ecmwf.int/publications/manuals/magics/magplus/docs/Magics++_Newsletter_122_Article.pdf">Magics++ 2.8 - New developments</ulink></para>
+     </listitem>
+   </itemizedlist>
+
+ </section>
+
+  <section id="MAGICS Features">
+    <title>Magics Features</title>
+
+      <para>Magics contains many powerful features:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>Comprehensive list of simple English language parameters</para>
+        </listitem>
+
+        <listitem>
+          <para>Extensive use of colour</para>
+        </listitem>
+
+        <listitem>
+          <para>Flexible programming interface (API) for multiple languages (Fortran, C, Python, XML)</para>
+        </listitem>
+
+        <listitem>
+          <para>Selection of geographical area and direct projection of
+          data</para>
+        </listitem>
+
+        <listitem>
+          <para>Matrix, GRIB, BUFR, ODB and NetCDF data input(see <olink targetdoc="Magics_data" targetptr="Data_Input" />)</para>
+        </listitem>
+
+        <listitem>
+          <para>Coastline rendering with automatic quality-selection for
+          high quality with minimal output file size.</para>
+        </listitem>
+
+        <listitem>
+          <para>High quality contouring based on Akima interpolation and lower
+          quality linear contouring (see <olink targetdoc="Magics_contour" targetptr="Contouring"/>) </para>
+        </listitem>
+
+        <listitem>
+          <para>Shading between contour lines</para>
+        </listitem>
+
+        <listitem>
+          <para>Wind fields directly projected, as arrows or WMO flags (see <olink targetdoc="Magics_wind" targetptr="Wind_Plotting" />)</para>
+        </listitem>
+
+        <remark>
+        <listitem>
+          <para>Streamline and Isotach plotting</para>
+        </listitem>
+        </remark>
+
+        <listitem>
+          <para>Observation plotting <!-- (see <olink targetdoc="Magics_obs" targetptr="ObservationPlotting" />) --></para>
+        </listitem>
+
+        <listitem>
+          <para>Graph and Axis plotting, with advanced features such as Boxplots</para>
+        </listitem>
+
+        <listitem>
+          <para>Symbol plotting</para>
+        </listitem>
+
+        <listitem>
+          <para>Satellite image plotting</para>
+        </listitem>
+
+        <listitem>
+          <para>High quality text plotting (see <olink targetdoc="Magics_text" targetptr="Text_Plotting" />)</para>
+        </listitem>
+
+        <listitem>
+          <para>Advanced legend plotting</para>
+        </listitem>
+
+      </itemizedlist>
+
+   </section>
+
+
+    <section id="Overview_Page_Layout">
+      <title>Page Layout</title>
+
+      <para>To make the positioning of user's plots simple,
+      <productname>Magics</productname> has introduced the concepts of
+      subpage, page and super-page.</para>
+
+      <para>A super-page corresponds to the plotting area to be used on a
+      plotting device. With the plot layout facilities, pages can be
+      positioned automatically or by the user inside the super-page.
+      Similarly, one or more subpages can be plotted inside a page.</para>
+
+      <para>Page Layout is fully described in
+      <olink targetdoc="Magics_layout_mapping_coastlines" targetptr="Layout_Mapping_and_Coastlines" />.</para>
+    </section>
+
+
+    <section id="Overview_Programming_Concepts">
+      <title>Programming Interfaces</title>
+
+      <para>A typical FORTRAN <productname>Magics</productname> program
+      consists of a series of parameter-setting, action and pseudo action
+      routines. The parameters required by an action routine should be set, if
+      required, before that action routine is called.</para>
+
+      <para>An alternative, XML-based plot description language is also available.
+      It is called <firstterm>MagML</firstterm> and permits simple yet powerful plot
+      descriptions to be used to generate plots without the need for a compile/link
+      cycle.</para>
+
+      <para>The programming interfaces offered by <productname>Magics</productname> are
+      fully described in <olink targetdoc="Magics_using" targetptr="Using_MAGICS"/>.</para>
+    </section>
+
+</chapter>

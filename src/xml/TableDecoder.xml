@@ -1,0 +1,86 @@
+<?xml-stylesheet type='text/css' href='parameter.css'?>
+<magics>
+<class name='TableDecoder' directory='decoders'  xmltag='table' >
+  <documentation> table data for curve </documentation>
+
+  <parameter name='table_filename' from='string' to='string' member='path' default='' >
+         <documentation>Path to the table data </documentation>
+  </parameter>
+  
+  <parameter name='table_delimiter' from='string' to='string' member='delimiter' default=',' >
+         <documentation>Used delimiter </documentation>
+  </parameter>
+  
+  <parameter name='table_combine_delimiters' from='string' to='bool' member='combine_delimiters' default='off' >
+         <documentation>Consecutive delimiters will be considered as one </documentation>
+  </parameter>
+  
+  <parameter name='table_header_row' from='int' to='int' member='header_row' default='1' >
+         <documentation>Which row (first is 1) is the header line on? </documentation>
+  </parameter>
+  
+   <parameter name='table_data_row_offset' from='int' to='int' member='data_row_offset' default='1' >
+         <documentation>How many rows after the header row does the data start? 1 if no header row.</documentation>
+  </parameter>
+
+   <parameter name='table_meta_data_rows' from='intarray' to='intarray' member='meta_data_rows' default='intarray()' >
+         <documentation>List of row indexes containing meta-data of the form P1=V1 P2=V2.</documentation>
+  </parameter> 
+ 
+ 
+ <parameter name='table_x_type' from='string' to='string' member='x_type' default='number' values='number/date' >
+         <documentation>Type used for X variable_index: number or date </documentation>
+  </parameter>
+  
+  <parameter name='table_y_type' from='string' to='string' member='y_type' default='number' values='number/date'>
+         <documentation>Type used for Y variable_index: number or date </documentation>
+  </parameter>
+  
+  <parameter name='table_variable_identifier_type' from='string' to='string' member='name_mode' default='index' values='index/name'>
+         <documentation> are we refering to the columns by names or index (index/name) </documentation>
+  </parameter>
+  
+  <parameter name='table_x_variable' from='string' to='string' member='x' default='1' >
+         <documentation> X variable_index or name  </documentation>
+  </parameter>
+  
+  <parameter name='table_y_variable' from='string' to='string' member='y' default='2' >
+         <documentation> Y variable_index  or name </documentation>
+  </parameter>
+ 
+  <parameter name='table_value_variable' from='string' to='string' member='values' default='-1' >
+         <documentation>  variable_index  or name </documentation>
+  </parameter>
+  
+  <parameter name='table_latitude_variable' from='string' to='string' member='lat' default='2' >
+         <documentation>  Latitudes  index or name </documentation>
+  </parameter>
+
+  <parameter name='table_longitude_variable' from='string' to='string' member='lon' default='1' >
+         <documentation>  longitudes  index or name</documentation>
+  </parameter>
+  
+  <parameter name='table_x_component_variable' from='string' to='string' member='x_component' default='-1' >
+         <documentation>  u components index or name for vectors  </documentation>
+  </parameter>
+
+  <parameter name='table_y_component_variable' from='string' to='string' member='y_component' default='-1' >
+         <documentation>  v components index or name for vectors  </documentation>
+  </parameter>
+  
+  <parameter name='table_x_missing_value' from='float' to='float' member='x_missing' default='-21.e6' >
+         <documentation> mssing value for x   </documentation> 
+  </parameter>
+
+  <parameter name='table_y_missing_value' from='float' to='float' member='y_missing' default='-21.e6' >
+         <documentation> missing value for x   </documentation>
+  </parameter>
+
+  <parameter name='table_binning' from='string' to='BinningObject' include='BinningObject.h' member='table_binning' default='on' >
+         <documentation> Binning information </documentation>
+         <option name='NoBinningObject'   fortran='off'  xml='nobinning' include='BinningObject.h'/>
+         <option name='BinningObject'   fortran='on'  xml='binning' include='BinningObject.h'/>
+  </parameter>
+</class>
+
+</magics>

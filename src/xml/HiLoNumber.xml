@@ -1,0 +1,15 @@
+<?xml-stylesheet type='text/css' href='parameter.css'?>
+<magics>
+<class name='HiLoNumber' action='pcont' directory='visualisers' inherits='HiLoTechnique'>
+  <documentation>
+This object is reponsible for plotting the HI/Lo as text.
+  </documentation>
+  <parameter name='contour_hilo_format' from='string' to='string'
+             member='format' xml='format' default='(automatic)' >
+         <documentation> Format of HILO numbers (MAGICS Format/(AUTOMATIC)) </documentation>
+         <release>Magics++0.1</release>
+         <release_info>Parameter defined but not implemented : expected in 0.7</release_info>
+  </parameter> 
+ 
+</class>
+</magics>

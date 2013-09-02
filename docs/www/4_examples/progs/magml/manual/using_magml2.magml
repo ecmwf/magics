@@ -1,0 +1,26 @@
+<magics version = '3.0' format = 'a4'>
+
+  <!-- set up our output file specification -->
+  <drivers>
+    <ps name='using_magml2' />
+  </drivers>
+
+  <!-- set up our definitions - elements that will be used later -->
+  <definition>
+
+    <coastlines id='shaded'>
+      <coast colour='tan'>
+        <landshading colour='cream'/>
+      </coast>
+    </coastlines>
+
+  </definition>
+
+  <!-- set up our page to be plotted -->
+  <page >
+    <map>
+      <!-- for our coastlines, use the predefined element -->
+      <coastlines use_id='shaded' />
+    </map>
+  </page>   
+</magics>    

@@ -1,0 +1,2 @@
+<magics>
+<class  action='pcont' directory='visualisers' inherits='HiLoTechnique' xmltag='both' name='HiLoBoth'></class></magics>

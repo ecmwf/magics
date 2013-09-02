@@ -1,0 +1,52 @@
+<magics>
+<class  directory='visualisers' inherits='Graph' xmltag='bar' name='Bar'>
+  	<parameter  xml='width' from='float' name='graph_bar_width' default='INT_MAX' member='width' to='float'>
+         		<documentation > The width of a bar in a bar chart 		</documentation>
+  	</parameter>
+  	<parameter  member='justification' to='Justification' default='centre' from='string' name='graph_bar_justification'>
+         		<documentation > the bar will be centered on the value, or left, right justify : useful for plotting any accumulated fields		</documentation>
+  	</parameter>
+  	<parameter  from='string' name='graph_bar_style' default='bar' value='bar/linebar' member='bar_style' to='string'>
+         		<documentation > If candlestick, a line will be drawn at the position with 2 small perpendicular lines at top and bottom  		</documentation>
+  	</parameter>
+  
+
+  	<parameter  xml='line_style' from='string' name='graph_bar_line_style' default='solid' member='style' to='LineStyle'>
+         		<documentation > Line Style of the Bar Border 		</documentation>
+  	</parameter>
+
+  	<parameter  xml='line_thickness' from='int' name='graph_bar_line_thickness' default='1' member='thickness' to='int'>
+         		<documentation > Thickness of the Bar Border 		</documentation>
+  	</parameter>
+  
+  	<parameter  xml='line_colour' from='string' name='graph_bar_line_colour' default='black' member='line_colour' to='Colour'>
+         		<documentation > The colour of the  the Bar Border		</documentation>
+  	</parameter>
+
+  	<parameter  xml='colour' from='string' name='graph_bar_colour' default='blue' member='colour' to='Colour'>
+         		<documentation > The colour of the interiors of bars 		</documentation>
+  	</parameter>
+
+  	<parameter  xml='clipping' from='string' name='graph_bar_clipping' default='on' member='clipping' to='bool'>
+         		<documentation > whether or not to clip the bar if they go outside the view area. 		</documentation>
+  	</parameter>
+		<parameter  member='shade' to='GraphShade' default='on' from='string' name='graph_shade'>
+         		<option  xml='shading' fortran='on' include='GraphShade.h' name='GraphShade'>		</option>
+         		<option  xml='noshading' fortran='off' include='GraphShade.h' name='NoGraphShade'>		</option>
+         		<documentation >Turn the shading on 		</documentation>
+   	</parameter>
+  	<parameter  member='annotation' to='stringarray' default='stringarray()' from='stringarray' name='graph_bar_annotation'>
+         		<documentation > add annotation on the top box : List of strings to use 		</documentation>
+  	</parameter>
+
+  	<parameter  member='annotation_size' to='float' default='0.25' from='float' name='graph_bar_annotation_font_size'>
+         		<documentation > Font size for annotation 		</documentation>
+  	</parameter>
+
+  	<parameter  member='annotation_colour' to='Colour' default='red' from='string' name='graph_bar_annotation_font_colour'>
+         		<documentation > Font size for annotation 		</documentation>
+  	</parameter>
+  	<parameter  member='min_value' to='float' default='INT_MAX' from='float' name='graph_bar_minimum_value'>
+         		<documentation > If set, defines the bottom of the bar 		</documentation>
+  	</parameter>
+</class></magics>

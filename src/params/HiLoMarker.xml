@@ -1,0 +1,23 @@
+<magics>
+<class  inherits='HiLoMarkerBase' xmltag='marker' name='HiLoMarker' directory='visualisers' prefix='contour/contour_hilo/contour_hilo_marker' action='pcont'> 
+  	<documentation >
+  The position of a maxima/minima value may be marked by plotting a symbol on the precise location. 
+  Users may define their own symbol by setting the parameter CONTOUR_HiLo_MARKER_INDEX
+  	</documentation>
+
+	<parameter  member='height' to='float' default='0.1' from='float' name='contour_hilo_marker_height'>
+         		<documentation > Height of HiLo marker symbol 		</documentation>
+         		<release >0.2		</release>
+	</parameter>
+
+	<parameter  member='index' to='int' default='3' from='int' name='contour_hilo_marker_index'>
+         		<documentation > Table number of marker symbol. See chapter on Plotting Attributes 		</documentation>
+         		<release >0.2		</release>
+	</parameter>
+
+	<parameter  member='colour' to='Colour' default='red' from='string' name='contour_hilo_marker_colour'>
+         		<documentation > Colour of grid point markers(Full choice of colours) 		</documentation>
+         		<release >0.2		</release>
+	</parameter>
+
+</class></magics>

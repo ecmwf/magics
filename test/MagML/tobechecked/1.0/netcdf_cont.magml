@@ -1,0 +1,30 @@
+        
+<magics_plot>
+  <coastlines map_coastline_colour = 'tan' map_grid_colour = "tan" > </coastlines>
+  <plot >
+        <netcdf 
+			netcdf_filename = 'z500.nc'
+			netcdf_field_variable_name = 'z'>
+        </netcdf>
+        <pcont contour='on' 
+	       line_style = 'solid'
+	       line_thickness = '1'
+	       shade = 'on'
+	       contour_shade_method = 'area_fill'
+	       shade_colour_direction ='clockwise' 
+	       shade_colour_method = 'list'
+	       contour_shade_colour_list='blue/red/green/yellow/orange/magenta'
+	       method = 'linear'
+	       akima_resolution_x = '0.25'
+	       akima_resolution_y = '0.25'
+	       level_selection_type='level_list' 	       
+	       level_list='50000/52500'
+	       level_count = '20'
+	        >
+        </pcont>
+   </plot>
+   <title  title_colour = 'magenta' > </title>
+   <legend legend_text_colour = 'magenta'>  </legend>
+</magics_plot>
+   
+    

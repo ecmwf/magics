@@ -1,0 +1,10 @@
+<magics>
+<class  directory='visualisers' action_routine='pobs' prefix='obs' xmltag='past_weather' name='ObsPastWeather'>
+		<parameter  member='visible' to='bool' default='on' from='string' name='obs_past_weather'>
+				<documentation > Turn On/off the pressure level (satob)		</documentation>
+    	</parameter>
+    
+    	<parameter  member='colour' to='Colour' default='red' from='string' name='obs_past_weather_colour'>
+				<documentation > Colour of the past weather 		</documentation>
+    	</parameter>
+</class></magics>

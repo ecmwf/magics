@@ -1,0 +1,40 @@
+<magics>
+<class  directory='decoders' action_routine='psymb' prefix='symbol/symbol_input' xmltag='input' name='SymbolInput'>
+	<documentation >
+	Here comes the description of the Symbol Plotting action
+	</documentation>
+
+	<parameter  member='x' to='floatarray' default='floatarray()' from='floatarray' name='symbol_input_x_position'>
+   		<documentation > array containing x positions for symbol plotting. values may be geographic, paper or graph units depending on the value set in symbol_position_type 		</documentation>
+   		<release >0.6		</release>
+   		<release_info > only GEOGRAPHICAL position is implemented 		</release_info>
+	</parameter>
+
+	<parameter  member='y' to='floatarray' default='floatarray()' from='floatarray' name='symbol_input_y_position'>
+   		<documentation > array containing y positions for symbol plotting. values may be geographic, paper or graph units depending on the value set in symbol_position_type 		</documentation>
+   		<release >0.6		</release>
+   		<release_info > only GEOGRAPHICAL position is implemented 		</release_info>
+	</parameter>
+
+	<parameter  member='speed' to='floatarray' default='floatarray()' from='floatarray' name='symbol_input_wind_speed'>
+   		<documentation > array containing wind speed for wind plotting. values may be geographic, paper or graph units depending on the value set in symbol_position_type 		</documentation>
+   		<release_info > only GEOGRAPHICAL position is implemented 		</release_info>
+	</parameter>
+
+	<parameter  member='direction' to='floatarray' default='floatarray()' from='floatarray' name='symbol_input_wind_direction'>
+   		<documentation > array containing wind direction for wind plotting. values may be geographic, paper or graph units depending on the value set in symbol_position_type 		</documentation>
+   		<release_info > only GEOGRAPHICAL position is implemented 		</release_info>
+	</parameter>  
+
+	<parameter  member='value' to='floatarray' default='floatarray()' from='floatarray' name='symbol_input_number_list'>
+   		<documentation > Array containing REAL VALUES. The value in a particular element of the array is plotted at the position defined by the corresponding 
+    elements of SYMBOL_INPUT_X_POSITION and SYMBOL_INPUT_Y_POSITION. This parameter may also be used with TEXT and MARKER plotting in TABLE mode 		</documentation>
+   		<release >0.6		</release>
+	</parameter>
+
+	<parameter  member='position' to='string' default='geographic' from='string' name='symbol_position_mode'>
+   		<documentation > Defines the input position data, valid values: GEOGRAPHIC, PAPER and GRAPH 		</documentation>
+   		<release >1.3		</release>
+	</parameter>
+
+</class></magics>

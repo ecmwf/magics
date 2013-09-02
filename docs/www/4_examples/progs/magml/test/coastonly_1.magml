@@ -1,0 +1,21 @@
+<magics version='3.0'>
+
+  <drivers>
+    <ps            name= 'coastonly_1' />
+    <gif_animation name= 'coastonly_1' />
+  </drivers>
+
+    <page>
+
+        <map> 
+            <cylindrical />
+
+            <coastlines>
+                <nocoast />
+                <grid colour = 'grey' />
+            </coastlines>
+        </map>
+
+    </page>
+
+</magics>

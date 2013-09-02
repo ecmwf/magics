@@ -1,0 +1,51 @@
+<magics>
+    <tutorial name="contour_4" title='Geopotential on Europe using shading technique' 
+      comment='Shading using solid technique'>     
+        <requirement name='a' subject='Geographical Area' text='North America'
+            link_doc='layout_mapping_coastlines' link_ptr='Subpage_Mapping'>
+            <action name='pcoast'/>
+            <parameter name='subpage_lower_left_longitude' value='-15.0' function='psetr'/>
+            <parameter name='subpage_lower_left_latitude' value='30.0' function='psetr'/>
+            <parameter name='subpage_upper_right_longitude' value='40.0' function='psetr'/>
+            <parameter name='subpage_upper_right_latitude' value='70.0' function='psetr'/>            
+        </requirement>
+        
+        <requirement name='b' subject='Grib file loading' text='Geopotential in grib file z500.grib' 
+            link_doc='data' link_ptr='Pseudo_Action_Routine_PGRIB'>
+            <action name='pgrib'/>
+            <parameter name='grib_input_type' value='file' function='psetc'/>
+            <parameter name='grib_input_file_name' value='z500.grib' function='psetc'/>
+        </requirement>  
+        <requirement name='c' subject='Legend' text='Turn the legend on' 
+            link_doc='intro' link_ptr='Overview_Contour_Plotting'>
+            <action name='pcont'/>
+            <parameter name='legend' value='on' function='psetc'/>
+        </requirement>
+          <requirement name='d' subject='Contour selection' text='Automatic selection of suitable levels'
+            link_doc='contour' link_ptr='Contour_Levels_Selected_by_COUNT'>
+            <action name='pcont'/>
+            <parameter name='contour_level_selection_type' value='count' function='psetc'/>
+        </requirement>  
+        <requirement name='e' subject='Solid Shading' text='Solid shading'
+            link_doc='contour' link_ptr='Shading_Techniques'>
+            <action name='pcont'/>
+            <parameter name='contour_shade' value='on' function='psetc'/>
+            <parameter name='contour_shade_method' value='area_fill' function='psetc'/>
+        </requirement>    
+        <requirement name='f' subject='Colours Selection' text='Solid shading using automatic selection of colours'
+            link_doc='contour' link_ptr='Contour_Shade_Colour_Methods'>
+            <action name='pcont'/>
+            <parameter name='contour_shade' value='on' function='psetc'/>
+            <parameter name='contour_shade_method' value='area_fill' function='psetc'/>
+            <parameter name='contour_shade_colour_method' value='calculate' function='psetc'/>
+            <parameter name='contour_shade_min_level_colour' value='blue' function='psetc'/>
+            <parameter name='contour_shade_max_level_colour' value='red' function='psetc'/>
+            <parameter name='contour_shade_colour_direction' value='clockwise' function='psetc'/>
+        </requirement>   
+        <requirement name='g' subject='Automatic title' text='add an title ( automaticaly created from the grib header)'>
+            <action name='ptext'/>        
+        </requirement>  
+        <spot name='a' text='The legend looks different'/> 
+               
+    </tutorial>
+</magics>

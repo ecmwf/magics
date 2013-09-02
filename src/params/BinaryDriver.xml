@@ -1,0 +1,7 @@
+<magics>
+<class  action='Binary' directory='drivers' inherits='BaseDriver' name='BinaryDriver'>
+		<documentation >
+		These are the attributes of the Binary output driver. This driver is still in the developing stage! 
+		</documentation>
+
+</class></magics>

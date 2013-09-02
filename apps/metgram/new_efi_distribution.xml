@@ -1,0 +1,142 @@
+<?xml version="2.0"?>
+<magics version="3.0" orientation='portrait'>
+    <drivers>
+		<$ps/>
+	    <$pdf/>
+	    <$png/>
+	    <$gif/>
+	    <$svg/>
+    </drivers>
+    <definition>
+        <map id='box' 
+           
+            margin_left='7.5%' 
+            margin_right='50%' 
+            margin_top='17%'
+            border='on'
+            border_colour='navy'/>
+        <legend id='legend' width='47%' left='51%' height='75%' bottom='7%'
+                    entry_plot_direction='column' border_colour='navy' border='on' border_blanking='on'                  
+                   text_colour='navy'  />
+        <horizontal_axis id='haxis' >
+                    <line colour='navy'/> 
+                    <label colour='navy' quality='helvetica' /> 
+                    <tick colour='navy'/>                   
+		            <grid line_style="dash" colour='navy'/>
+		   </horizontal_axis>
+        <vertical_axis id='vaxis'>                                       
+                    <line colour='navy'/> 
+                    <label colour='navy' quality='helvetica'>
+                        <list list='0%/20%/40%/60%/80%/100%'/>
+                    </label> 
+                    <tick colour='navy'/>  
+                    <grid line_style="dot" colour='navy'/>
+         </vertical_axis>
+         <text id='title' bottom='86%' height='14%' 
+               colour='navy' font_size='0.4'
+               justification='left' />
+         <text id='footer' 
+               colour='navy' font_size='0.4'
+               justification='left' />
+         <efigram id='data' latitude="$latitude" longitude="$longitude"  
+		        efi_legend_colour_list='purplish_red/blue_purple/RGB(0,0.2,1)/RGB(0,0.3,1)/RGB(0,0.4,1)/RGB(0,0.5,1)/RGB(0,0.6,1)/RGB(0,0.7,1)/RGB(0,0.9,1)/RGB(0,1,1)'
+		        efi_root_database='$eps_database' 
+		        efi_clim_root_database='$clim_database' 
+		        efi_clim_date='$clim_date'
+		        efi_dates='$step12h/$step24h/$step36h/$step48h/$step60h/$step72h/$step84h/$step96h/$step108h/$step120h'
+		        efi_steps='12/24/36/48/60/72/84/96/108/120'
+		        efi_legend_root_database='$efi_database'/> 
+			<efigraph id='graph' 
+		        efi_lines_colour_array='purplish_red/blue_purple/RGB(0,0.2,1)/RGB(0,0.3,1)/RGB(0,0.4,1)/RGB(0,0.5,1)/RGB(0,0.6,1)/RGB(0,0.7,1)/RGB(0,0.9,1)/RGB(0,1,1)'
+                efi_lines_style_array='solid/dash/solid/dash/solid/dash/solid/dash/solid/dash' 
+                efi_lines_thickness_array='4/4/4/4/4/4/4/4/4/4/4' 
+            />
+        
+    </definition>
+   <page  height='7%'><nopageid/></page>
+	<page  height='25%'>
+        <nopageid/>
+		<map use_id='box'>
+		    <cartesian>
+		        <x_regular automatic='on'/>
+		        <y_regular y_min='0' y_max='100'/>
+		    </cartesian>  
+		    <horizontal_axis use_id='haxis'/>                    
+		    <vertical_axis use_id='vaxis'/>                                       
+
+		    <text use_id='title'/>
+		
+		    <plot>
+		    <efigram use_id='data' parameter="efi-precip" clim_parameter="clim-precip"
+		        efi_long_title='on'/> 
+			<efigraph use_id='graph' />
+			</plot>
+            <legend use_id='legend' />
+        </map>
+        
+            
+      </page>
+      <page  height='25%'>
+        <nopageid/>
+		<map use_id='box'>
+		    <cartesian>
+		        <x_regular automatic='on'/>
+		        <y_regular y_min='0' y_max='100'/>
+		    </cartesian>  
+		    <horizontal_axis use_id='haxis'/>                    
+		    <vertical_axis use_id='vaxis'/>                                       
+
+		    <text use_id='title'/>
+		
+		    <plot>
+		    <efigram use_id='data' parameter="efi-wind-gust" clim_parameter="clim-wind-gust"
+		        efi_title='on'/> 
+			<efigraph use_id='graph' />
+			</plot> 
+            <legend use_id='legend' />
+        </map>
+       
+            
+      </page> 
+      <page  height='25%'>
+        <nopageid/>
+		<map use_id='box'>
+		    <cartesian>
+		        <x_regular automatic='on'/>
+		        <y_regular y_min='0' y_max='100'/>
+		    </cartesian>  
+		    <horizontal_axis use_id='haxis'/>                    
+		    <vertical_axis use_id='vaxis'/>                                       
+
+		    <text use_id='title'/>
+		
+		    <plot>
+		    <efigram use_id='data' parameter="efi-2mt-mean" clim_parameter="clim-2mt-mean"
+		        efi_title='on'/> 
+			<efigraph use_id='graph' />
+			</plot>
+            <legend use_id='legend' />
+        </map>
+        
+            
+      </page>
+      <page height='15%'>
+	    <pageid line_system_plot='off' line_date_plot='off' line_errors_plot='off' 
+				        font='sansserif' line_colour='Rgb(0.8, 0.8, 0.8)'/>
+       <text use_id='footer' display='absolute' left='50%' height='85%' bottom='15%' width='40%'> 
+       <br/><b>M-Climate</b>: this stands for "Model Climate". It is a  
+       <br/>function of lead time, date (+/- ~15 days), and model 
+       <br/>version. It is derived by rerunning a 5 member
+       <br/>ensemble, over the last 20 years, once a week (500
+       <br/>realisations). M-Climate is always from the same 
+       <br/>model version as the displayed EPS data. On this
+       <br/>page only the 24-48h lead M-Climate is displayed.
+	   </text>
+							 
+	  <text display='absolute' height='25%' colour='navy' font_size='0.4' justification='left'
+	   		left='17%'  width='40%' bottom='52%'> 24-48h M-Climate extrema</text>
+	  <text display='absolute' height='25%' border='on' border_colour='navy' width='6%' left='10%' bottom='47%' colour='navy' font_size='0.4' justification='left' > Max: <br/> Min: </text>
+	   </page>
+    </magics>  
+
+

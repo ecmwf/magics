@@ -1,0 +1,525 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="Graph_Plotting" label="8">
+  <title>Graph Plotting</title>
+
+  <xi:include href="../phrases/chapterinfo_mod.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <section id="Graph_Introduction">
+    <title>Introduction</title>
+
+    <para>Graph plotting in <productname>Magics</productname> is the plotting of
+    line charts (curves), bar charts, area charts and box plots within a
+    set of axes.</para>
+
+
+    <para>To plot a graph, it is necessary to pass information to
+    <productname>Magics</productname> that
+    describes the graph required. This information is passed to
+    <productname>Magics</productname> via
+    one-dimensional arrays, holding the X and Y values of the graph.
+    The X/Y values refer to the X and Y axes which may be set up by using
+    <productname>Magics</productname> AXIS facilities or may be defined
+    automatically from the input graph data.</para>
+
+    <para>There are facilities in graph plotting that allow the user to
+    control the line style, colour and thickness of each graph and,
+    if required, a legend describing the graph may be plotted.</para>
+
+    <para>A summary of GRAPH parameters and examples of graph plotting can be found toards the end of this chapter.</para>
+
+
+    <important> <title>Magics++</title>
+    <productname>Magics++</productname> requires that a user program
+    specifies Cartesian projection when plotting graphs:
+    
+      <programlisting>
+    CALL <function>PSETC</function> ('<parameter>SUBPAGE_MAP_PROJECTION</parameter>',  'CARTESIAN')
+      </programlisting>
+      
+      Please do this at the start of your program. This requirement is new to <productname>Magics++</productname>.
+   
+    </important>
+
+
+
+  </section>
+
+
+  <section id="Action_Routine_PGRAPH">
+    <title>Action Routine PGRAPH</title>
+
+    <para>Plotting of line charts (curves), bar charts, and area charts is
+    achieved in <productname>Magics</productname> by calling action routine
+    <function>PGRAPH</function> which, like all <productname>Magics</productname> 
+    action routines, has no arguments.
+    <function>PGRAPH</function> will only draw one graph each time it is called.
+    Parameters associated with graph plotting may be set before
+    <function>PGRAPH</function>  is called. <function>PGRAPH</function> will
+    take into account only those parameters which have been set before it is called.
+    All other graph parameters will be assigned their default values,
+    if they exist.</para>
+    
+    <para>Plotting of box plots is achived by calling a separate action routine,
+    <function>PBOXPLOT</function> - see
+    <olink targetdoc="Magics_boxplot" targetptr="MAGICS_Boxplots" />.</para>
+  </section>
+
+
+  <section id="Graph_Plotting_Parameters_Section">
+    <title>Graph Plotting Parameters</title>
+
+    <para>Parameters associated with graph plotting start with
+    the prefix <parameter>GRAPH</parameter>,
+    e.g. <parameter>GRAPH_LINE_STYLE</parameter>.
+    These parameters describe the input data and the type of graph
+    plotting required, i.e. curve, bar chart or area chart.
+    The parameters
+    describe the attributes of the graphs, e.g. line style, colour and
+    thickness of plotted output. Thus, the user has full control over
+    all aspects of graph plotting.</para>
+    A full list of GRAPH parameters appears in
+    <olink targetdoc="Magics_graph" targetptr="pgraph_tables" />
+  </section>
+
+
+  <section id="Graph_Input_Data">
+    <title>Input Data</title>
+
+    <para>All input data for graph plotting are passed to
+    <productname>Magics</productname> via arrays.
+    The parameter <parameter>GRAPH_TYPE</parameter>  is used to describe
+    the type of graph required. Valid values are <code>CURVE</code> (default),
+    <code>BAR</code> and <code>AREA</code>. When set to <code>CURVE</code>,
+    two one-dimensional arrays are
+    used to pass the data describing the curve, e.g.</para>
+
+    <programlisting>
+    CALL <function>PSET1R</function>('<parameter>GRAPH_CURVE_X_VALUES</parameter>', XAR, M)
+    CALL <function>PSET1R</function>('<parameter>GRAPH_CURVE_Y_VALUES</parameter>', YAR, M)
+    </programlisting>
+
+    <para>where <code>XAR</code> and <code>YAR</code> are arrays of <code>M</code> elements.
+    The first array should contain the X values and the second array should contain
+    the Y values.</para>
+
+
+    <para>If <parameter>GRAPH_TYPE</parameter> is set to <code>AREA</code>,
+    users may shade the area between two curves. The first curve is defined
+    in the same way as for <code>CURVE</code> and the second one as follows:</para>
+
+    <programlisting>
+    CALL <function>PSET1R</function>('<parameter>GRAPH_CURVE2_X_VALUES</parameter>', XAR2, M2)
+    CALL <function>PSET1R</function>('<parameter>GRAPH_CURVE2_Y_VALUES</parameter>', YAR2, M2)
+    </programlisting>
+
+
+    <para>Input data for <code>BAR</code> charts are passed in three arrays as follows:</para>
+
+    <programlisting>
+    CALL <function>PSET1R</function>('<parameter>GRAPH_BAR_X_VALUES</parameter>',       XAR1, M)
+    CALL <function>PSET1R</function>('<parameter>GRAPH_BAR_Y_LOWER_VALUES</parameter>', YAR1, M)
+    CALL <function>PSET1R</function>('<parameter>GRAPH_BAR_Y_UPPER_VALUES</parameter>', YAR2, M)
+    </programlisting>
+
+    <para>where <code>XAR1</code>, <code>YAR1</code> and <code>YAR2</code> are arrays of <code>M</code>
+    elements each. <code>XAR1</code> should contain the X values for the bars. The lengths
+    of the bars in the Y direction are defined by their upper and lower Y values.
+    This means that users have the capability of plotting 'hidden' and 'overlapping'
+    <code>BAR</code> charts.</para>
+
+
+    <para>When the axis system has been set up as a <code>DATE/TIME</code> axis, there are
+    separate parameters for the incoming data for all three types of graph plotting.
+    For a <code>DATE/TIME</code> curve on the X axis values are passed as follows:</para>
+
+    <programlisting>
+    CALL <function>PSET1C</function>('<parameter>GRAPH_CURVE_DATE_X_VALUES</parameter>', CXAR, M)
+    </programlisting>
+
+
+    <para>where <code>CXAR</code> is a character array of <code>M</code> elements.
+    Similarly, for a <code>DATE/TIME</code> curve on the Y axis values are passed as follows:</para>
+
+    <programlisting>
+    CALL <function>PSET1C</function>('<parameter>GRAPH_CURVE_DATE_Y_VALUES</parameter>', CYAR, M)
+    </programlisting>
+
+
+    <para>The format for date values is given in
+    <olink targetdoc="Magics_graph" targetptr="Graph_Mapping_XY_Values" />.
+    For <code>BAR</code> and <code>AREA</code> graphs, the values are defined by the parameters:</para>
+
+    <programlisting>
+    <parameter>GRAPH_BAR_DATE_X_VALUES</parameter>
+    <parameter>GRAPH_BAR_DATE_Y_UPPER_VALUES</parameter>
+    <parameter>GRAPH_BAR_DATE_Y_LOWER_VALUES</parameter>
+    <parameter>GRAPH_CURVE2_DATE_X_VALUES</parameter>
+    <parameter>GRAPH_CURVE2_DATE_Y_VALUES</parameter>
+    </programlisting>
+
+  </section>  <!-- end of section Graph_Input_Data -->
+
+
+
+  <section id="Graph_Mapping_XY_Values">
+    <title>Mapping of X/Y Values</title>
+
+
+    <para>The X and Y values passed by the input arrays are relative to the values of the X and Y
+    axes respectively. The X/Y axis system may be defined by setting the parameters
+    <parameter>AXIS_MIN_VALUE</parameter> and <parameter>AXIS_MAX_VALUE</parameter> 
+    to the required values or may be defined automatically. To define the axes automatically,
+    the parameter <parameter>GRAPH_AXIS_CONTROL</parameter> should be set to
+    <code>AUTOMATIC</code>, the default being <code>OFF</code>. If set to
+    <code>AUTOMATIC</code>, <productname>Magics</productname> will calculate
+    the minimum and maximum values of the X/Y axes from the incoming GRAPH data.
+    When the axis system is not automatic, incoming GRAPH data should be within
+    the range of <parameter>AXIS_MIN_VALUE</parameter> and <parameter>AXIS_MAX_VALUE</parameter>.
+    Any part of the graph falling outside the current axis limits is not plotted.</para>
+
+    <para>Setting <parameter>GRAPH_POSITION_MODE</parameter> to <code>GEOGRAPHIC</code> or
+    <code>PAPER</code> allows for the facility of drawing curves on maps.
+    It is not necessary to set up an axis system as <productname>Magics</productname> will
+    set up a system that matches the current map requirements. If the mode is
+    <code>GEOGRAPHIC</code>, the incoming X/Y curve values should be the positions in
+    latitude and longitude of the curve points. If set to <code>PAPER</code>, the points
+    should be defined as offsets in centimetres from the bottom left hand corner of the
+    subpage. This feature applies to curves only and not bars or area curves.
+    The default value for <parameter>GRAPH_POSITION_MODE</parameter> is <code>AXIS</code>.</para>
+
+
+    <para><code>DATE/TIME</code> axes can be drawn on both horizontal and vertical axes.
+    When the axis system has been set up as a <code>DATE/TIME</code> axis, the incoming data
+    for all three types of graph plotting should be in format
+    <code>YYYY-MM-DD HH:mm:ss</code> (<code>YYYY</code> =year, e.g. 1991), <code>MM</code> =month,
+    e.g. June=06, <code>DD</code> =day of month (1-31), <code>HH</code> =hour, <code>mm</code> =minutes,
+    <code>ss</code> =seconds). Therefore 1200UTC on 15 June 1991 would have the value
+    '<code>1991-06-15 12:00:0</code>' .</para>
+
+    <!-- See Date/Time Axis Plotting for full details. -->
+
+  </section>  <!-- end of section Graph_Mapping_XY_Values -->
+
+
+  <section id="Types_of_Graph_Plotting">
+    <title>Types of Graph Plotting</title>
+
+    <para>There are three types of graph plotting available, Line Charts (Curves),
+    Bar Charts and Area Charts. The type required may be defined by setting the parameter
+    <parameter>GRAPH_TYPE</parameter> to '<code>BAR</code>', '<code>AREA</code>' or
+    '<code>CURVE</code>' (default).</para>
+
+  </section>
+
+
+  <section id="Curve_Plotting">
+    <title>Curve Plotting</title>
+
+    <para>Curve plotting in <productname>Magics</productname> means the drawing of polylines,
+    where the lines to be drawn are described by their X and Y values within a set of X/Y axes.
+    Any number of curves may be drawn on the same set of axes. Action routine
+    <function>PGRAPH</function> must be called for each curve.
+    The user may define the line style, colour and thickness of each curve to be plotted
+    by setting the parameters <parameter>GRAPH_LINE_STYLE</parameter>,
+    <parameter>GRAPH_LINE_COLOUR</parameter> and <parameter>GRAPH_LINE_THICKNESS</parameter>.
+    By using variations of these three parameters, users can plot many curves and still
+    distinguish them from one another.</para>
+
+    <section id="Methods_of_Curve_Plotting">
+      <title>Methods of Curve Plotting</title>
+
+      <para>There are two different methods of drawing curves:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para><code>STRAIGHT</code>, where the points on the curve are joined by straight lines.
+          There is no smoothing applied in this case.</para>
+        </listitem>
+
+        <listitem>
+          <para><code>ROUNDED</code>, where a smoothing algorithm is applied to the curve.</para>
+        </listitem>
+      </itemizedlist>
+
+
+      <para>The parameter <parameter>GRAPH_CURVE_METHOD</parameter> should be set to denote
+      the method required. The default is to have straight curves. For rounded curves,
+      there are various interpolations available, for example <code>SPLINE</code>
+      and <code>CUBIC</code>. Users may select an interpolation by setting
+      <parameter>GRAPH_CURVE_INTERPOLATION</parameter> to the desired one, the default being
+      <code>SPLINE</code>.</para>
+
+      <para>The degree of smoothing applied can be controlled by the user setting the parameter
+      <parameter>GRAPH_SMOOTHING_FACTOR</parameter> to an integer value. The default is
+      <code>3</code> which means that the smoothing algorithm will be applied three times.</para>
+
+      <para>It is also possible to plot curves marked with marker symbols. Symbols in this case
+      are <productname>Magics</productname> marker symbols
+      <!--(see <olink targetdoc="Magics_symbol" targetptr="Symbol_Plotting" /> for details)-->
+      and are plotted on the position of each data point on the curve.
+      The parameter <parameter>GRAPH_SYMBOL</parameter> controls the plotting of symbols on curves.
+      It has three valid values: <code>ON</code>, <code>OFF</code> and <code>SYMBOLS_ONLY</code>:</para>
+
+
+      <itemizedlist>
+        <listitem>
+          <para><code>OFF</code> - No symbol plotting will take place</para>
+        </listitem>
+
+        <listitem>
+          <para><code>ON</code> - A symbol is plotted on the position of each data point in the curve.
+          The curve itself will not be drawn in the vicinity of the symbol, i.e. the symbols will be
+          blanked. A curve with symbols may be straight or rounded.</para>
+        </listitem>
+
+        <listitem>
+          <para><code>SYMBOLS_ONLY</code> - A symbol is plotted on the position of each data point in the curve.
+          The curve itself will not be drawn in the vicinity of the symbol, i.e. the symbols will be
+          blanked. A curve with symbols may be straight or rounded.</para>
+        </listitem>
+      </itemizedlist>
+
+
+      <para><parameter>GRAPH_SYMBOL_MARKER_INDEX</parameter> should be set to the index number
+      of the marker symbol required. <parameter>GRAPH_SYMBOL_HEIGHT</parameter> 
+      and <parameter>GRAPH_SYMBOL_COLOUR</parameter> enable the user to control the height
+      and colour of the marker symbols.</para>
+
+    </section>  <!-- end of section Methods_of_Curve_Plotting -->
+
+
+    <section id="Blanking_of_Crossing_Curves">
+      <title>Blanking of Crossing Curves</title>
+
+      <para>Each curve drawn can have a blanking applied to it, if required. That is, a
+      certain area each side of the curve will be blanked and any previous plotting in
+      those areas will be deleted. The parameter <parameter>GRAPH_BLANKING</parameter> is
+      used to control blanking of curves, the default being '<code>OFF</code>'.
+      <parameter>GRAPH_BLANKING_GAP</parameter> may be used to define the width of the
+      blanking area around the curve. The default is <code>0.2</code> cm.</para>
+
+    </section>
+
+
+    <section id="Graph_Curve Missing_Data">
+      <title>Missing Data</title>
+
+      <para>Missing data occurs when the data presented for graph plotting contains data
+      that is outside the current axis system in either the X or Y direction.
+      The user may also instruct <productname>Magics</productname> to ignore data above
+      or below certain values. For the Y axis, the parameters
+      <parameter>GRAPH_Y_SUPPRESS_ABOVE</parameter> and
+      <parameter>GRAPH_Y_SUPPRESS_BELOW</parameter>  may be used to achieve this.
+      The default values for these parameters are <code>21.E6</code> and <code>-21.E6</code>
+      respectively. Similarly, for the X axis, the parameters
+      <parameter>GRAPH_X_SUPPRESS_ABOVE</parameter> and
+      <parameter>GRAPH_X_SUPPRESS_BELOW</parameter> may be used.
+      If data falls outside the axis system but inside the suppress values,
+      an error will be printed.</para>
+
+
+      <para>For DATE/TIME axis, there are separate suppress parameters:</para>
+      <para><parameter>GRAPH_DATE_X_SUPPRESS_ABOVE</parameter></para>
+      <para><parameter>GRAPH_DATE_X_SUPPRESS_BELOW</parameter></para>
+      <para><parameter>GRAPH_DATE_Y_SUPPRESS_BELOW</parameter></para>
+      <para><parameter>GRAPH_DATE_Y_SUPPRESS_ABOVE</parameter></para>
+
+      <para>The format of the values for these parameters is the same as for
+      <parameter>GRAPH_CURVE_DATE_X_VALUES</parameter> described above
+      (see <olink targetdoc="Magics_graph" targetptr="Graph_Mapping_XY_Values" />).</para>
+
+
+      <para><productname>Magics</productname> gives the user three options to deal with
+      missing data. The parameter <parameter>GRAPH_MISSING_DATA_MODE</parameter> is used to
+      control missing data and may be set to one of the three following values:
+      <code>IGNORE</code>, <code>JOIN</code> or <code>DROP</code>:</para>
+
+
+      <itemizedlist>
+        <listitem>
+          <para><code>IGNORE</code> - <productname>Magics</productname> will only plot that
+          part of the curve for which data exists. This means that, if there are missing data,
+          no lines will be drawn from the point preceding the missing data or to the point following.</para>
+        </listitem>
+
+         <listitem>
+          <para><code>JOIN</code> - this option means that the curve will be drawn as if
+          the missing points do not exist. In this case the part of the curve, from the
+          point preceding the missing data to the point following it, will be drawn.</para>
+        </listitem>
+
+        <listitem>
+          <para><code>DROP</code> - this means that, if there are missing data, the curve
+          will continue to be drawn but, the curve will be drawn from the point preceding the
+          missing data towards the point outside the axis until it reaches the X axis. It is
+          then drawn along the X axis until the last point outside the axis when it will be
+          drawn towards the point following the missing data.</para>
+        </listitem>
+      </itemizedlist>
+
+      <para>There are parameters to control the colour, line style and thickness of missing
+      data when plotted.</para>
+
+    </section>
+
+  </section>  <!-- end of section Curve_Plotting -->
+
+
+
+  <section id="Bar_Chart_Plotting">
+    <title>Bar Chart Plotting</title>
+
+    <para>Bar chart plotting in <productname>Magics</productname> is the plotting of
+    vertical Bars within an axis system. Each Bar in the chart is defined by its X values
+    and by the lower and upper Y values. The X and Y values relate to the X and Y axes
+    respectively. X values give the positions of centres of the Bars in the X direction
+    and may be passed in an array using the parameter
+    <parameter>GRAPH_BAR_X_VALUES</parameter>. The starting positions of the bars in the
+    Y direction is given by the values in the array set by the parameter
+    <parameter>GRAPH_BAR_Y_LOWER_VALUES</parameter>. The end positions are given by the
+    values in the array set by <parameter>GRAPH_BAR_Y_UPPER_VALUES</parameter>.
+    If <parameter>GRAPH_BAR_Y_LOWER_VALUES</parameter> is not set by the user,
+    <productname>Magics</productname> will assume that all the Y values start at the X axis,
+    i.e. they all have a value of 0.0. The width of the Bar may be set by the
+    user by setting the parameter <parameter>GRAPH_BAR_WIDTH</parameter>  to the desired width.
+    The default value for the width is half the distance between major ticks on the X axis.
+    If any of the X and Y values would cause any part of the Bar to be drawn outside the
+    subpage, this part of the Bar will not be plotted and an error message will be given.
+    For <code>DATE/TIME</code> axis the appropriate parameters can be found in
+    <olink targetdoc="Magics_graph" targetptr="pgraph_tables" />.</para>
+
+
+    <para>The parameter <parameter>GRAPH_SHADE</parameter> should be set to <code>OFF</code>
+    if no shading of the bars is required. The default is <code>ON</code>. When shading
+    is turned off, the outline of the bars will be drawn. <parameter>GRAPH_SHADE_STYLE</parameter>
+    may be set to define the type of shading required. Three types of shading are available:
+    <code>AREA_FILL</code> (solid shading), <code>HATCH</code> and <code>DOT</code>.
+    <parameter>GRAPH_SHADE_COLOUR</parameter> and <parameter>GRAPH_SHADE_DENSITY</parameter>
+    may be set to define the shade colour and density of dots required.</para>
+
+    <para>The standard Bar Chart in <productname>Magics</productname> consists of one set of
+    data per graph. Action routine <function>PGRAPH</function> will only draw one Bar chart
+    each time it is called. However, by using the <productname>Magics</productname> graph
+    facilities, users can display more than one set of Bar Chart data on the same graph.
+    Following are some examples of bar charts the user can plot. Please note that these
+    bar charts are not available in <productname>Magics</productname> by name but can be
+    user-generated.</para>
+
+
+    <itemizedlist>
+      <listitem>
+        <para>Clustered. In this case, a different bar chart can be plotted for each different
+        set of data. The different bars can be placed next to each other, by varying the X axis
+        values, and can be coloured and/or shaded differently.</para>
+      </listitem>
+
+      <listitem>
+        <para>Overlapping. Here, the bars for the second set of data can be moved slightly
+        to one side and then plotted over the first set.</para>
+      </listitem>
+
+      <listitem>
+        <para>Hidden. This is like overlapping bars, except that the second set of bars is
+        plotted in the same position as the first.</para>
+      </listitem>
+
+      <listitem>
+        <para>Stacked. The second set of bars can be plotted on top of the first set. Thus,
+        both sets of bars should be completely visible.</para>
+      </listitem>
+    </itemizedlist>
+
+
+    <para>The above bar charts can only be achieved by calling <function>PGRAPH</function>
+    for each set of data to be plotted. It is the user's responsibility to change the
+    width, colour, shading etc. of the bars for each call. The parameter
+    <parameter>GRAPH_BLANKING</parameter> should be set to '<code>ON</code>' for overlapping
+    or hidden bar charts. It is also the user's responsibility to provide the correct
+    X values for clustering/overlapping bars and the correct Y values for stacked/hidden bars.</para>
+
+    <!--<para>Examples of different types of Bar charts can be found in Graph Program ExamplesXXXX.</para>-->
+
+  </section>  <!-- end of section Bar_Chart_Plotting -->
+
+
+
+  <section id="Area_Chart_Plotting">
+    <title>Area Chart Plotting</title>
+
+    <para>An area chart is one in which the area between two curves can be shaded.
+    To plot area curves, the parameter <parameter>GRAPH_TYPE</parameter> 
+    should be set to <code>AREA</code>. Data for the first curve should be passed
+    in the same way as for <code>CURVE</code> plotting, e.g.</para>
+
+    <programlisting>
+    CALL <function>PSET1R</function>('<parameter>GRAPH_CURVE_X_VALUES</parameter>', XAR, M)
+    CALL <function>PSET1R</function>('<parameter>GRAPH_CURVE_Y_VALUES</parameter>', YAR, M)
+    </programlisting>
+
+    <para>The data for the second curve may be passed to <productname>Magics</productname>
+    in two arrays as follows:</para>
+
+    <programlisting>
+    CALL <function>PSET1R</function>('<parameter>GRAPH_CURVE2_X_VALUES</parameter>', XAR2, M2)
+    CALL <function>PSET1R</function>('<parameter>GRAPH_CURVE2_Y_VALUES</parameter>', YAR2, M2)
+    </programlisting>
+
+
+    <para>For <code>DATE/TIME</code> axes the appropriate parameters can be found in
+    <olink targetdoc="Magics_graph" targetptr="pgraph_tables" />.
+    If the <parameter>CURVE2</parameter> values are not set, it is assumed by
+    <productname>Magics</productname> that the second curve is all zeros, i.e.
+    the second curve travels along the X axis.</para>
+
+    <para>The curve lines will not be plotted. If required, they may be plotted by setting
+    <parameter>GRAPH_TYPE</parameter> to <code>CURVE</code> and calling <function>PGRAPH</function>
+    again.</para>
+
+    <para>The parameter <parameter>GRAPH_SHADE_STYLE</parameter> may be set to define the
+    type of shading required. Three types of shading are available:
+    <code>AREA_FILL</code> (solid shading), <code>HATCH</code> and <code>DOT</code>.
+    The parameters <parameter>GRAPH_SHADE_COLOUR</parameter>, <parameter>GRAPH_SHADE_DOT_SIZE</parameter>
+    and <parameter>GRAPH_SHADE_DENSITY</parameter> may be set to define the colour of the
+    shading, size and the density of dots required.</para>
+
+    <para>There are two type of area charts, straight and rounded, and these are similar to
+    straight and rounded curves. The parameter <parameter>GRAPH_CURVE_METHOD</parameter> should
+    be set to the required value, the default being straight.</para>
+
+    <!--<para>Examples of area charts can be found in Graph Program ExamplesXXXX.</para>-->
+
+  </section>  <!-- end of section Area_Chart_Plotting -->
+
+
+
+  <section id="Graph_Legend">
+    <title>Graph Legend</title>
+
+    <para>It is possible to plot a legend to describe the graph(s) plotted.
+    This may be achieved by setting the parameter <parameter>LEGEND</parameter> to
+    '<code>ON</code>', e.g.</para>
+    
+    <programlisting>
+    CALL <function>PSETC</function>('<parameter>LEGEND</parameter>','ON').
+    </programlisting>
+
+    <para> The legend plotted depends on the type of graphs required - bars, curves or area curves.
+    A curve legend will basically consist of a description of each curve plotted in the current page,
+    i.e. line style, colour, thickness.</para>
+
+    <para>If symbols have been plotted, an example will appear in the legend. A bar chart or
+    area chart legend will consist of a box filled with the same type of shading as used in
+    the plotting.</para>
+
+    <para>The legend text in graph plotting should be supplied by the user. If not supplied,
+    <productname>Magics</productname> will plot a default text of a question mark (?)</para>
+
+  </section>
+
+
+  <xi:include href="../paramtables/pgraph_tables.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+
+</chapter>

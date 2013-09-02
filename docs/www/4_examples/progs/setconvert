@@ -1,0 +1,25 @@
+#!/bin/ksh
+# -----------------------------------------------------------------------------
+# setconvert
+#
+# Determines the latest version of ImageMagick available and sets the
+# variable 'CONVERT_DIR' to the appropriate location. If the default version
+# is to be used, then CONVERT_DIR will be set to the empty string.
+# 
+# Iain Russell, 01/02/2005
+# -----------------------------------------------------------------------------
+
+
+# at present, the only new one worth using is under Linux, Suse 9.1
+
+#if [[ -a "/usr/local/apps/ImageMagick-6.0.1/bin/convert" ]]
+#then
+#    CONVERT_DIR="/usr/local/apps/ImageMagick-6.0.1/bin/"; export CONVERT_DIR
+#else
+#  if [[ -a "/usr/bin/convert" ]]
+#  then
+#    CONVERT_DIR="/usr/bin/"; export CONVERT_DIR
+#  else
+#    CONVERT_DIR=""; export CONVERT_DIR
+#  fi
+#fi

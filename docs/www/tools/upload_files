@@ -1,0 +1,20 @@
+#!/bin/ksh
+
+# get the command-line arguments
+
+username=$1
+password=$2
+
+
+
+# go into the html directory and upload all the files
+
+cd html
+
+
+for file in *.html *.png *.gif intro/* examples/* examples/c/* examples/fortran/* examples/magml/* interfaces/* interfaces/c/* interfaces/cpp/* interfaces/eps/* interfaces/fortran/* interfaces/magml/* compile/* parameters/* formats/* install/* history/* environment/* versions/*
+do
+  # fname=`basename $file`
+  fname=$file
+  ../tools/dav.pl $fname $username $password w3ec2
+done

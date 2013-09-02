@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<plot-request>
+<magics version="3.0" width='10' height='15'>
+	<definition>
+		<epsgram id="eps" 
+                type='eps15'
+                station_name='Web demo' 
+                latitude="${latitude=0}" longitude="${longitude=0}" 
+                time='' date='' 
+                eps_temperature_correction='yes'
+                eps_database='/vol/epsgram/data/spotbase/15_days/0001/latest/epsdb'> 
+                <none/>
+        </epsgram>
+	
+        <text id="title" justification="left" font_style='bold'  font_size='0.2' 
+            colour='Rgb(0.5, 0.5, 0.5)' font='sansserif' />
+        	
+		<map id="box" margin_bottom='7%' margin_top='15%' 
+            border-colour='grey' border-thickness='2'/>
+            
+		
+        
+
+		<horizontal_axis id="haxis" axis_line="false" line_thickness="4" colour='Rgb(0.5, 0.5, 0.5)'>
+			<automatic/>
+			<nolabel/>
+			<date/>
+			<noline/>
+            <nominortick colour='Rgb(0.5, 0.5, 0.5)'/>			
+			<grid line_style="solid" colour='Rgb(0.5, 0.5, 0.5)'/>
+            <tick colour='Rgb(0.5, 0.5, 0.5)'/>
+		</horizontal_axis>
+
+		<vertical_axis id="vaxis" axis_line="false" line_thickness="4" colour='Rgb(0.5, 0.5, 0.5)'>
+			<automatic/>
+			<noline/>
+            <label colour='Rgb(0.5, 0.5, 0.5)' font_size='0.2' label_height='0.2' quality='sansserif'/>
+ 			<grid line_style="dash" colour='Rgb(0.5, 0.5, 0.5)'/>
+            <tick colour='grey'/>      
+		</vertical_axis>
+	</definition>
+    <drivers>
+            <gif output_name_first_page_number="off" output_width='400'/>
+        </drivers>
+   <page height="7.5%" border='off'>
+        <nopageid/>       
+    </page>
+     <page height="20%" border='off'>
+        <nopageid/>
+        
+		 <text use_id='title' bottom='76%' />
+	      <map use_id='box'>
+          
+           <cartesian>
+			<x_date  automatic='on' />
+            <y_regular automatic='on' />
+           </cartesian>  
+                <plot>
+					<epsgram use_id="eps" parameter="cloud-cover" long_title='true'/>                    
+					<epsgraph box_colour='Rgb(0.925, 0.609, 0.953)' box_border_colour='Rgb(0.5, 0.5, 0.5)'> <both/> </epsgraph>
+				</plot>
+                <horizontal_axis use_id="haxis"/>
+				<vertical_axis use_id="vaxis"/>
+          
+			
+		</map>
+    </page>
+     <page height="20%" border='off'>
+         <nopageid/>
+         <map  use_id='box' >
+          <text bottom='76%' use_id='title'/>
+           <cartesian>
+			<x_date  automatic='on' />
+            <y_regular automatic='on' y_min='0' y_max='20' />
+           </cartesian>  
+          
+			
+                <plot>
+					<epsgram use_id="eps" parameter="precip"/>
+					<epsgraph max='20' box_colour='Rgb(0.49, 0.89, 0.51)' box_border_colour='Rgb(0.5, 0.5, 0.5)'> <both/> </epsgraph>
+
+				</plot>
+           <horizontal_axis use_id="haxis"/>
+				<vertical_axis use_id="vaxis"/>
+			
+		</map> 
+        </page>
+     <page height="6%" border='off'>
+     <nopageid/>
+         <map margin_bottom='7%' margin_top='25%' 
+            border-colour='grey' border-thickness='2'>
+        
+			<cartesian>
+				<x_date automatic='on'/>
+				<y_regular  y_min="-43200" y_max="43200" />
+			</cartesian> 
+			<text bottom='42%' use_id='title'/>
+			<horizontal_axis use_id="haxis"/>
+			<vertical_axis use_id="vaxis"><nolabel/><notick/><nogrid/></vertical_axis> 
+			<plot>
+				<epsgram use_id="eps" parameter="10m-wind-dd"/>
+				<epswind rose_wind_colour='gold' rose_wind_border_colour='Rgb(0.5000, 0.5000, 0.5000)'/>
+			</plot>
+		
+         
+        </map>  
+        <legend bottom='15' left='1.25' width='20%' height='70%' 
+                  
+                   text_colour='Rgb(0.5, 0.5, 0.5)' border='off' blanking='off'/>
+        </page>
+     <page height="20%" border='off'>
+        <nopageid/>
+         <map use_id='box'>
+        
+        
+          <text bottom='76%' use_id='title'/>
+           <cartesian>
+			<x_date  automatic='on' />
+            <y_regular automatic='on' y_min='0' y_max='20' />
+           </cartesian>  
+           
+				
+			
+             
+                <plot>
+					<epsgram use_id="eps" parameter="10m-wind"/>
+                    <epsgraph box_colour='gold' box_border_colour='Rgb(0.5, 0.5, 0.5)'> <both/> </epsgraph>
+				</plot>
+          <horizontal_axis use_id="haxis"/>
+				<vertical_axis use_id="vaxis"/>
+			
+		</map>
+      </page>
+      <page height="25%" border='off'>
+        <pageid line_system_plot='off' line_date_plot='off' line_errors_plot='off' 
+                font='sansserif' line_colour='Rgb(0.8, 0.8, 0.8)'/>
+        <map margin_bottom='30%' margin_top='15%' border-colour='Rgb(0.5, 0.5, 0.5)' >
+            <cartesian>
+                <x_date automatic='on'/>
+                <y_regular automatic='on'/>
+            </cartesian>
+            <horizontal_axis use_id="haxis">
+					<date>
+                    <both label_colour='Rgb(0.5, 0.5, 0.5)' label_height='0.2' />
+                     <month label_height='0.2' label_colour='Rgb(0.5, 0.5, 0.5)'> <monthandyear /> </month>
+                     <noyear height='0.4'/>
+                    </date>
+                    <label quality='sansserif'/>
+			</horizontal_axis>			
+		    <vertical_axis  use_id="vaxis"/> 
+            <text bottom='78%' use_id='title' display='absolute'/>		
+			<plot>
+                <epsgram use_id="eps" parameter="temperature"/>
+					<epsgraph border_colour='Rgb(0.5, 0.5, 0.5)' 
+                        left_box_colour='sky' right_box_colour='RGB(1.0, 0.222, 0.222)'
+                        font='sansserif' font_colour='Rgb(0.5, 0.5, 0.5)' box_colour='grey'
+                        box_border_colour='Rgb(0.5, 0.5, 0.5)'> <both/> </epsgraph>
+			</plot>
+            <legend bottom='1.3' left='0' width='15%' height='20%' 
+                   plot_direction='column' 
+                   text_colour='Rgb(0.5, 0.5, 0.5)' border='off' blanking='off'/>
+	    </map>
+     </page>
+        
+         
+		
+	
+</magics>
+      <parameters>
+        
+    </parameters>
+</plot-request>

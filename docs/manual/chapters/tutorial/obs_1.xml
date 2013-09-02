@@ -1,0 +1,28 @@
+<magics>
+    <tutorial name="obs_1" magml='off' magplus='off' title='Synop on a global map' 
+        comment='In this example we will learn how to load a bufr file, and how to make a simple observation plotting'>     
+       <requirement name='1' subject='Global map' text='Simple cylindrical projection'
+            link_doc='layout_mapping_coastlines' link_ptr='Subpage_Mapping'>
+            <action name='pcoast'/>         
+        </requirement>
+        <requirement name='2' subject='Grid and coastlines setting' text='No Grid and No Labels' 
+            link_doc='layout_mapping_coastlines' link_ptr='Coastlines_and_Gridlines'>
+            <action name='pcoast'/>
+            <parameter name='map_coastline_colour' value='grey' function='psetc'/>
+            <parameter name='map_grid' value='off' function='psetc'/>
+            <parameter name='map_label' value='off' function='psetc'/>
+        </requirement>  
+        <requirement name='3' subject='Observation filtering' text='Filter the synop' 
+            ulink='Observation_Selection_Parameters'>
+            <action name='pobs'/>
+            <parameter name='obs_type_list' value='/synop/' function='pset1c'/>
+        </requirement>  
+        <requirement name='4' subject='Observation plotting' text='Plot the identifiers and the pressure in blue'
+            ulink='Observation_Plotting_Meteorological_Variables'>
+            <action name='pobs'/>
+            <parameter name='obs_distance_apart' value='2.0' function='psetr'/>
+            <parameter name='obs_pressure_colour' value='blue' function='psetc'/>
+            <parameter name='obs_identification' value='on' function='psetc'/>
+        </requirement>                    
+    </tutorial>
+</magics>

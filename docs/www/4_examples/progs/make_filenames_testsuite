@@ -1,0 +1,203 @@
+#!/bin/ksh
+# Compiles and runs the C Magics++ filename examples
+
+# Parse command-line arguments
+# Possible options:
+#   -staticmpp    : Use the static magics++ library
+#   -www          : Runs the examples for the web documentation
+#   -nocompile    : all programs will be re-run without first being recompiled
+#   -rmafter      : Executables will be removed after being run
+#   -verbose      : Echos compiler commands to stdout
+
+. ./message.ksh
+
+
+filespec=test_filenames.c
+srcdir="c/filenames"
+static=""
+nocompile=0
+verbose=0
+rmafter=0
+tohtml=1
+outdir="test/filenames"
+tests="1 2 3 4 5 6 7 8 9 10 11 12 13 14 15"
+
+summary="-------\n
+Unless overridden by the flags below, the shared library is used.\n
+testsuite flags:"
+
+
+# test the command-line arguments
+
+for arg;do
+    if [[ $arg = "-h" || $arg = "-help" || $arg = "--help" ]]
+    then
+        echo ""
+        echo "make_c_testsuite"
+        echo "Possible options:"
+        echo "   -staticmpp    : Use the static magics++ library"
+        echo "   -rmafter      : Executables will be removed after being run"
+        echo "   -verbose      : Echos compiler commands to stdout"
+        echo ""
+        exit
+    fi
+
+
+    if [[ $arg = "-nocompile" ]]
+    then
+        nocompile=1
+    fi
+
+    if [[ $arg = "-staticmpp" ]]
+    then
+        static="-static"
+        summary="$summary\n static library"
+    fi
+
+    if [[ $arg = "-rmafter" ]]
+    then
+        rmafter=1
+    fi
+
+    if [[ $arg = "-verbose" ]]
+    then
+        verbose=1
+    fi
+done
+
+
+# if the source directory does not exist, then exit gracefully
+
+if [[ ! -a $srcdir ]]
+then
+    echo "Source directory $srcdir does not exist - exiting."
+    exit
+fi
+
+
+
+mkdir -p ../../html/$outdir
+
+
+# -------------------------------------------------------------------------------
+
+
+# Compile each program in turn
+
+for srcfile in $srcdir/$filespec
+do
+    bname=`basename $srcfile .c`
+    progname="$bname"_mpp
+    progfile=bin/"$bname"_mpp
+    compile_log=logs/"$bname"_mpp_compile.log
+    outlog=logs/"$bname"_out.log
+
+    msg "    [Checking $bname]"
+    
+
+    # is the source file newer than the binary program?
+
+    if [[ ! -a $progfile  ||  $srcfile -nt $progfile  ||  $nocompile -eq 1 ]]
+    then
+
+        msg "Recompiling program $progfile"
+
+
+        # compile using the correct flags from magics-config
+
+        if [[ $nocompile -eq 0 ]]  # compile unless flag is set
+        then
+
+            rm -f $compile_log
+
+            compiler1="gcc $static $srcfile -o $progfile `magics-config --cxxflags --clibs`"
+
+            if [[ $verbose -eq 1 ]]
+	        then
+                msg "    $compiler1"
+            fi
+
+            $compiler1  > $compile_log 2>> $compile_log
+            sleep 1   # sometimes the binary is not ready for execution
+        fi
+
+        rm -f $outlog
+
+        for testx in $tests ; do
+            echo $testx
+            logfile=logs/$bname$extraspec.$device.log
+            errfile=logs/$bname$extraspec.$device.err
+            timefile=logs/$bname$extraspec.$device.time
+            vlogfile=logs/$bname$extraspec.vlog
+            newoutname=$progname$projext$ext
+            pdfnewoutname=$progname$projext.pdf
+            
+            msg "Test $testx"
+
+
+            # check if the user wants to run the programs through Valgrind or just run normally
+
+            if [[ $valgrind -eq 1 ]]
+            then
+                valgrind --leak-check=full $progfile -n -o $outlog $testx 2> $vlogfile
+            else
+                (time ($progfile -n -o $outlog $testx > $logfile 2> $errfile)) 2> $timefile
+            fi
+        done
+
+
+        if [[ $rmafter -eq 1 ]]  # remove the executable after running it?
+        then
+            rm -f $progfile
+        fi
+        
+    fi
+done
+
+
+# ---------------------------------------------------------------------------------------
+
+# copy the log/error files across
+
+gifdir=../../html/$outdir
+psdir=../../html/$outdir
+logdir=../../html/$outdir
+
+cp -u $outlog   $logdir
+cp -u $logfile  $logdir
+cp -u $vlogfile $logdir
+cp -u $errfile  $logdir
+
+
+
+# ---------------------------------------------------------------------------------------
+
+
+# remove any object files (seem to be created when using static library)
+
+rm -f *.o
+
+
+# echo our summary to a log file
+
+echo $summary    >> logs/summary.txt
+echo "-------\n" >> logs/summary.txt
+echo `date`      >> logs/summary.txt
+
+
+
+# finally, run the 'tohtml' utility to copy all program source and timings
+# to the html directory
+
+if [[ $tohtml -eq 1 ]]
+then
+
+  msg "Generating HTML..."
+  cd ../..
+  ./tohtml -fnames
+fi
+
+# create a date string, replace spaces with underscores
+msg "Done: `date | sed 's/ /_/g'`"
+
+

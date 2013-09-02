@@ -1,0 +1,68 @@
+
+<magics version='3'>
+   <page >
+            <nopageid />
+            <nologo />
+            <map margin_bottom='10%' margin_left='10%' margin_top='15%' border='off'>
+                <noframe/>
+                <taylor min ='0' max ='  2.0' />
+                <horizontal_axis>
+                    <label colour = 'black' height = '0.4'/>
+                    <regular  interval='0.2'/>
+                    <title text = 'stdev ratio' colour = 'black' height = '0.5'/>
+                    <line  colour = 'black'/>
+                </horizontal_axis>
+                <vertical_axis>
+                    <label colour = 'black' height = '0.4'/>
+                    <regular  interval='0.2'/>
+                    <title text = 'stdev ratio' colour = 'black' height = '0.5'/>
+                    <line  colour = 'black'/>
+                </vertical_axis>
+                <taylorgrid reference='1'
+                    taylor_label_colour='black'
+                    taylor_label_height='0.5'
+                    taylor_reference_line_colour='black'
+                    taylor_reference_line_thickness='3'
+                    taylor_reference_line_style='solid'
+                    taylor_primary_grid_reference='1'
+                    taylor_primary_grid_increment='0.2'
+                    taylor_primary_grid_line_style='dash'
+                    taylor_primary_grid_line_colour='black'
+                    taylor_secondary_grid='on'
+                    taylor_secondary_grid_line_colour='evergreen'
+                    taylor_secondary_grid_line_style='dot'
+                    taylor_secondary_grid_reference='1'
+                    taylor_secondary_grid_increment='0.2' />
+                    <plot>
+                    <mapgen mapgen_input_file_name = 'values.txt' />
+                    <symbol legend='on' symbol_type='text'>
+                        <advanced symbol_advanced_table_selection_type='interval'
+                        symbol_advanced_table_interval='1'
+                        symbol_advanced_table_reference_level='0.5'
+                        symbol_advanced_table_height_list='0.4'
+                        symbol_advanced_table_colour_method='list'
+                        symbol_advanced_table_marker_list="19"
+                        symbol_advanced_table_colour_list='brick/red/orange/pink/violet/turquoise/avocado/sky/blue/navy/black'
+                        symbol_advanced_table_colour_list_policy='cycle'
+                        symbol_advanced_table_text_display_type='right'
+                        symbol_advanced_table_text_font_colour='black'
+                        symbol_advanced_table_text_font_size='0.35'
+                        symbol_advanced_table_text_list='CHI/BOL/CAC/EME/MOC/MOZ/MM5/EUR/MAT/LOT/ENS' />
+                   </symbol>
+                </plot>
+         </map>
+             <text display='absolute' margin_bottom='93%' left='5%' margin_left='5%' justification='left' colour = 'black'>
+               <font  style='bold' height = '0.4'>GEMS-RAQ Verification t+015  VT: Sunday 16 May 2010 15UTC</font>
+             </text>
+             <text display='absolute' margin_bottom='90%' left='5%' margin_left='5%' justification='left' colour = 'black'>
+               <font  style='bold' height = '0.4'>Taylor Diagram  Surface Ozone</font>
+             </text>
+           <legend display='absolute'  width='10%'  left='65%' bottom='15%' height='60%'
+           legend_text_colour='black'
+            legend_text_height='0.4'
+            legend_user_lines ='CHIMERE/BOLCHEM/CAC/EMEP/MOCAGE/MOZART-IFS/MM5-CAMx/EURAD-IM/MATCH/LOTOS-EUROS/ENSEMBLE MEDIAN'
+            legend_entry_plot_direction='column'
+        border='off'
+        blanking='off' />
+    </page>
+</magics>

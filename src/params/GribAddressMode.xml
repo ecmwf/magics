@@ -1,0 +1,2 @@
+<magics>
+<class  directory='decoders' include='GribAddressMode.h' name='GribAddressMode'></class></magics>

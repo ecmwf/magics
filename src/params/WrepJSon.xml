@@ -1,0 +1,75 @@
+<magics>
+<class  xmltag='wrepjson' name='WrepJSon' directory='web' prefix='wrepjson' action='pwrepjson' include='EpsJSon.h'>
+ 	<parameter  member='path' to='string' default='' from='string' name='wrepjson_input_filename'>
+  			<documentation > Path to the file containing the Bufr data 		</documentation>
+ 	</parameter>
+    	<parameter  member='param_info' to='string' default='' from='string' name='wrepjson_parameter_information'>
+         		<documentation > Product information for  key=parameter_info  		</documentation>
+        	</parameter> 
+   	<parameter  member='product_info' to='string' default='' from='string' name='wrepjson_product_information'>
+         		<documentation > Product information for  key=product_info 		</documentation>
+        	</parameter>
+    	<parameter  member='family' to='string' default='eps' from='string' name='wrepjson_family'>
+         		<documentation > Forecast information to plot!  		</documentation>
+   
+        	</parameter>
+ 
+ 	<parameter  member='plumes' to='float' default='1' from='float' name='wrepjson_plumes_interval'>
+  			<documentation > plumes interval 		</documentation>
+ 	</parameter>
+  	<parameter  member='information' to='bool' default='on' from='string' name='wrepjson_information'>
+  			<documentation > Plot or not information about station/forecast  in a long title   		</documentation>  
+ 	</parameter>
+ 	<parameter  member='keyword' to='string' default='' from='string' name='wrepjson_keyword'>
+  			<documentation > if several eps data are put in the same json object, give the keyowrd to find them   		</documentation>  
+ 	</parameter>
+   	<parameter  member='station_name' to='string' default='' from='string' name='wrepjson_station_name'>
+       		<documentation >Name of the station to use in the title 		</documentation>
+   	</parameter>
+  	<parameter  member='param' to='string' default='1' from='string' name='wrepjson_parameter'>
+             		<documentation > Scaling factor to apply to the values		</documentation>
+        	</parameter>
+         	<parameter  member='param_scaling_factor' to='float' default='1' from='float' name='wrepjson_parameter_scaling_factor'>
+             		<documentation > Scaling factor to apply to the values		</documentation>
+        	</parameter>
+         	<parameter  member='param_offset_factor' to='float' default='0' from='float' name='wrepjson_parameter_offset_factor'>
+             		<documentation > Scaling factor to apply to the values		</documentation>
+        	</parameter>
+        	<parameter  member='clim_param' to='string' default='' from='string' name='wrepjson_clim_parameter'>           
+            		<documentation > date to select for the clim In date format (YYYYMMDDHHHH)		</documentation>
+        	</parameter>  
+        
+        
+        	<parameter  member='clim_step' to='int' default='36' from='int' name='wrepjson_clim_step'>           
+            		<documentation > date to select for the clim In date format (YYYYMMDDHHHH)		</documentation>
+        	</parameter> 
+        
+        	<parameter  member='steps' to='intarray' default='intarray()' from='intarray' name='wrepjson_steps'>           
+            		<documentation > steps to extract ( legend will use step+12) 		</documentation>
+        	</parameter>
+         
+       	<parameter  member='percentile' to='float' default='1' from='float' name='wrepjson_y_axis_percentile'>           
+        		<documentation > use of threshold   		</documentation>
+        	</parameter>
+        
+         	<parameter  member='threshold' to='float' default='50' from='float' name='wrepjson_y_axis_threshold'>           
+            		<documentation > use of threshold   to get rid of the unlikely values		</documentation>
+     
+        	</parameter>
+         	<parameter  member='y_max_threshold' to='float' default='INT_MAX' from='float' name='wrepjson_y_max_threshold'>           
+            		<documentation > If all the values are below the threshold, use the threshold as max value when automatic setting of y axis		</documentation>
+     
+        	</parameter>
+
+	   	<parameter  member='correction' to='bool' default='off' from='string' name='wrepjson_temperature_correction'>
+            		<documentation > Temperature correction  		</documentation>
+
+        	</parameter>
+
+	   	<parameter  member='missing_value' to='float' default='-9999' from='float' name='wrepjson_missing_value'>
+            		<documentation > Missing value  		</documentation>
+
+        	</parameter>
+
+        
+</class></magics>

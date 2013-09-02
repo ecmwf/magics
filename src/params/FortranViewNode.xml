@@ -1,0 +1,133 @@
+<magics>
+<class  xmltag='subpage' name='FortranViewNode' directory='common' prefix='subpage/subpage/subpage' action='pnew' include='ViewNode.h'> 
+  
+	<parameter  member='vertical' to='string' default='bottom' from='string' name='subpage_align_vertical'>
+         		<release >Magics++2.4		</release>     
+         		<documentation >  vertical alignment of the drawing area in the subpage: bottom/top 		</documentation>
+	</parameter>
+
+	<parameter  member='horizontal' to='string' default='left' from='string' name='subpage_align_horizontal'>
+         		<release >Magics++2.4		</release>     
+         		<documentation >   horizontal alignment of the drawing area in the subpage: left/right  		</documentation>
+	</parameter>
+  
+	<parameter  member='top' to='float' default='-1' from='float' name='subpage_top_position'>
+         		<release >Magics++2.4		</release>
+         		<documentation > Y-Coordinate of upper left hand corner of subpage 		</documentation>
+	</parameter>
+
+	<parameter  member='bottom' to='float' default='-1' from='float' name='subpage_y_position'>
+         		<documentation > X-Coordinate of lower left hand corner of subpage 		</documentation>
+	</parameter>
+
+	<parameter  member='left' to='float' default='-1' from='float' name='subpage_x_position'>
+         		<documentation > Y-Coordinate of lower left hand corner of subpage 		</documentation>
+	</parameter>
+	<parameter  member='bottom_internal' to='float' default='-1' from='float' name='subpage_y_position_internal'>
+         		<documentation > X-Coordinate of lower left hand corner of subpage 		</documentation>
+	</parameter>
+
+	<parameter  member='left_internal' to='float' default='-1' from='float' name='subpage_x_position_internal'>
+         		<documentation > Y-Coordinate of lower left hand corner of subpage 		</documentation>
+	</parameter>
+
+	<parameter  member='right' to='float' default='-1' from='float' name='subpage_right_position'>
+         		<documentation > X-Coordinate of lower right  hand corner of subpage 		</documentation>
+	</parameter>
+
+	<parameter  member='width' to='float' default='-1' from='float' name='subpage_x_length'>
+         		<documentation > Length of subpage in horizontal direction.Default 		</documentation>
+	</parameter>
+	<parameter  member='height' to='float' default='-1' from='float' name='subpage_y_length'>
+         		<documentation > Length of subpage in vertical direction.Default 		</documentation>
+	</parameter>
+
+	<parameter  member='height_internal' to='float' default='-1' from='float' name='subpage_y_length_internal'>
+         		<documentation > Length of subpage in vertical direction.Default 		</documentation>
+	</parameter>
+	<parameter  member='width_internal' to='float' default='-1' from='float' name='subpage_x_length_internal'>
+         		<documentation > Length of subpage in horizontal direction.Default 		</documentation>
+	</parameter>
+
+
+
+	<parameter  member='background' to='Colour' default='white' from='string' name='subpage_background_colour'>
+         		<documentation > Colour of the subpage background 		</documentation>
+	</parameter>
+
+	<parameter  member='frame' to='bool' default='on' from='string' name='subpage_frame'>
+         		<documentation > Plot frame around subpage (ON/OFF) 		</documentation>
+	</parameter>
+
+	<parameter  member='frame_colour' to='Colour' default='black' from='string' name='subpage_frame_colour'>
+         		<documentation > Colour of subpage frame (Full choice of colours) 		</documentation>
+	</parameter>
+
+	<parameter  member='frame_line_style' to='LineStyle' default='solid' from='string' name='subpage_frame_line_style'>
+         		<documentation > Style of subpage frame (SOLID/DASH/DOT/CHAIN_DASH/CHAIN_DOT) 		</documentation>
+	</parameter>
+
+	<parameter  member='frame_thickness' to='int' default='2' from='int' name='subpage_frame_thickness'>
+         		<documentation > Thickness of subpage frame 		</documentation>
+	</parameter>
+
+	<parameter  member='vertical_axis_with' to='float' default='1' from='float' name='subpage_vertical_axis_width'>
+         		<documentation > width of the vertical  axis in cm 		</documentation>
+	</parameter>
+	<parameter  member='horizontal_axis_height' to='float' default='0.5' from='float' name='subpage_horizontal_axis_height'>
+         		<documentation > height of the horizontal  axis in cm		</documentation>
+	</parameter>
+ 	<parameter  member='overlay' to='string' default='basic' from='string' name='subpage_map_overlay_control'>
+         		<documentation  for_docs='no'> overlay method. always: plot the fields as they come; never: never overlay; by_date/by_level: only overlay data with the same valid date/level  		</documentation>
+  	</parameter>
+	<parameter  member='transformation' to='Transformation' default='cylindrical' from='string' name='subpage_map_projection'>
+         		<documentation >Projection required(CYLINDRICAL, POLAR_STEREOGRAPHIC, MERCATOR, CARTESIAN) 		</documentation>
+
+         
+         
+        		<option  xml='cylindrical' fortran='cylindrical' include='GeoRectangularProjection.h' name='GeoRectangularProjection'>		</option>
+
+         
+         
+         
+        		<option  xml='polar_stereographic' fortran='polar_stereographic' include='PolarStereographicProjection.h' name='PolarStereographicProjection'>		</option>
+        		<option  fortran='polar_north' include='Proj4Projection.h' name='Proj4PolarNorth'>		</option>
+ 				<option  fortran='geos' include='Proj4Projection.h' name='Proj4Geos'>		</option>
+ 				<option  fortran='lambert' include='Proj4Projection.h' name='Proj4Lambert'>		</option>
+ 				<option  fortran='goode' include='Proj4Projection.h' name='Proj4Goode'>		</option>
+ 				<option  fortran='collignon' include='Proj4Projection.h' name='Proj4Collignon'>		</option>
+ 				<option  fortran='mollweide' include='Proj4Projection.h' name='Proj4Mollweide'>		</option>
+ 				<option  fortran='bonne' include='Proj4Projection.h' name='Proj4Bonne'>		</option>
+ 				<option  fortran='EPSG4326' include='Proj4Projection.h' name='Proj4EPSG4326'>		</option>
+ 				<option  fortran='EPSG32661' include='Proj4Projection.h' name='Proj4EPSG32661'>		</option>
+
+        		<option  xml='mercator' fortran='mercator' include='GeoRectangularProjection.h' name='MercatorProjection'>		</option>
+			<option  xml='cartesian' fortran='none' include='CartesianTransformation.h' name='CartesianTransformation'>		</option>
+         
+              
+	</parameter>
+	<parameter  member='json' to='string' default='' from='string' name='subpage_map_json_definition'>
+			<documentation > Metview only : store internal information about zooned area 		</documentation>
+	</parameter>
+
+  
+  
+
+	<parameter  member='title' to='bool' default='off' from='string' name='automatic_title'>
+         		<documentation > Plot the title (ON/OFF) 		</documentation>
+	</parameter>
+
+	<parameter  from='string' name='subpage_map_preview' default='off' member='preview' to='NoPreviewVisitor' include='PreviewVisitor.h'>
+         		<documentation  for_docs='no'> Mv4: turn on/off the generation of the infomation for the preview box 		</documentation>
+         		<release >Magics++2.8		</release>
+         		<option  xml='off' fortran='off' include='PreviewVisitor.h' name='NoPreviewVisitor'>		</option>
+         		<option  xml='on' fortran='on' include='PreviewVisitor.h' name='PreviewVisitor'>		</option>
+	</parameter> 
+
+	<parameter  from='string' name='subpage_map_magnifier' default='off' member='magnify' to='NoMagnifierVisitor' include='MagnifierVisitor.h'>
+         		<documentation  for_docs='no'> Mv4: turn on/off the generation of the infomation for the magnifier tool 		</documentation>
+         		<release >Magics++2.8		</release>
+         		<option  xml='off' fortran='off' include='MagnifierVisitor.h' name='NoMagnifierVisitor'>		</option>
+         		<option  xml='on' fortran='on' include='MagnifierVisitor.h' name='MagnifierVisitor'>		</option>
+	</parameter>
+</class></magics>

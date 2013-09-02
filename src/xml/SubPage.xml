@@ -1,0 +1,218 @@
+<?xml-stylesheet type='text/css' href='parameter.css'?>
+<magics>
+
+<class name='FortranViewNode' action='pnew' include='ViewNode.h'
+	xmltag='subpage' prefix='subpage/subpage/subpage' directory='common'> 
+    
+
+ 
+
+<parameter name='subpage_x_position' from='float' to='float'  member='left'  default='-1' >
+         <documentation> Y-Coordinate of lower left hand corner of subpage in cm. 
+          -1 is the  default: 7.5% of the parent page </documentation>
+</parameter>
+<parameter name='subpage_y_position' from='float' to='float' member='bottom' default='-1' >
+         <documentation> X-Coordinate of lower left hand corner of subpage in cm. 
+          -1 is the  default: 5% of the parent page</documentation>
+</parameter>
+
+<parameter name='subpage_x_length' from='float' to='float' member='width'  default='-1'>
+         <documentation> Length of subpage in horizontal direction in cm.  
+          -1 is the  default: 85% of the parent page </documentation>
+</parameter>
+<parameter name='subpage_y_length' from='float' to='float' member='height'  default='-1'>
+         <documentation> Length of subpage in vertical direction in cm.
+         -1 is the  default:  85% of the parent page </documentation>
+</parameter>
+
+<parameter name='subpage_map_projection' from='string' to='Transformation' member='transformation'  default='cylindrical'>
+         <documentation>Projection to set in the drawing area </documentation>
+
+            <option name='GeoRectangularProjection' fortran='cylindrical' xml='cylindrical' include='GeoRectangularProjection.h'/>
+
+               <option name='PolarStereographicProjection' fortran='polar_stereographic' xml='polar_stereographic' include='PolarStereographicProjection.h'/>
+        <option name='Proj4PolarNorth' fortran='polar_north' include='Proj4Projection.h'/>
+ 		<option name='Proj4Geos' fortran='geos' include='Proj4Projection.h'/>
+ 		<option name='Proj4Lambert' fortran='lambert' include='Proj4Projection.h'/>
+ 		<option name='Proj4EPSG3857' fortran='EPSG3857' include='Proj4Projection.h'/>
+ 		<option name='Proj4Goode' fortran='goode' include='Proj4Projection.h'/>
+ 		<option name='Proj4Collignon' fortran='collignon' include='Proj4Projection.h'/>
+ 		<option name='Proj4Mollweide' fortran='mollweide' include='Proj4Projection.h'/>
+ 		<option name='Proj4Robinson' fortran='robinson' include='Proj4Projection.h'/>
+ 		<option name='Proj4Bonne' fortran='bonne' include='Proj4Projection.h'/>
+ 		<option name='Proj4Google' fortran='google' include='Proj4Projection.h'/>
+ 		<option name='Proj4Efas' fortran='efas' include='Proj4Projection.h'/>
+ 		<option name='Proj4EPSG4326' fortran='EPSG4326' include='Proj4Projection.h'/>
+ 		<option name='Proj4LambertNorthAtlantic' fortran='lambert_north_atlantic' include='Proj4Projection.h'/>
+
+        <option name='MercatorProjection' fortran='mercator' xml='mercator' include='GeoRectangularProjection.h'/>
+		<option name='CartesianTransformation' fortran='cartesian' xml='cartesian' include='CartesianTransformation.h'/>
+        <option name='TaylorProjection' fortran='taylor' xml='taylor' include='TaylorProjection.h'/>
+        <option name='Tephigram' fortran='tephigram' xml='tephigram' include='Tephigram.h'/> 
+        <option name='TephiInfo' fortran='tephiinfo' xml='tephiinfo' include='Tephigram.h'/>
+         <!-- Code to update to add a new projection...
+         	<option name='NewProjection' fortran='fortran-new-projection' xml='xm-tag-for-new-projection' include='NewProjection.h'/>
+         -->     
+</parameter>
+<parameter name='subpage_y_position_internal' from='float' to='float' member='bottom_internal' 
+		default='-1' visible='off'>
+         <documentation> X-Coordinate of lower left hand corner of subpage </documentation>
+</parameter>
+
+<parameter name='subpage_x_position_internal' from='float' to='float'  member='left_internal' 
+		 default='-1' visible='off'>
+         <documentation> Y-Coordinate of lower left hand corner of subpage </documentation>
+</parameter>
+
+<parameter name='subpage_right_position' from='float' to='float' member='right'  default='-1'  visible='off' >
+         <documentation> X-Coordinate of lower right  hand corner of subpage </documentation>
+</parameter>
+
+
+
+<parameter name='subpage_y_length_internal' from='float' to='float' member='height_internal'  default='-1'  visible='off'>
+         <documentation> Length of subpage in vertical direction.Default </documentation>
+</parameter>
+<parameter name='subpage_x_length_internal' from='float' to='float' member='width_internal'  default='-1' visible='off' >
+         <documentation> Length of subpage in horizontal direction.Default </documentation>
+</parameter>
+
+<parameter name='subpage_top_position' from='float' to='float' member='top' default='-1' visible='off'>
+         <release>Magics++2.4</release>
+         <documentation> Y-Coordinate of upper left hand corner of subpage </documentation>
+</parameter>
+
+
+<parameter name='subpage_background_colour' from='string' to='Colour' member='background'  default='white'>
+         <documentation> Colour of the subpage background </documentation>
+</parameter>
+
+<parameter name='subpage_frame' from='string' to='bool' member='frame' default='on' >
+         <documentation> Plot frame around subpage (ON/OFF) </documentation>
+         <set value='on' name='subpage_frame_colour'/>
+         <set value='on' name='subpage_frame_line_style'/>
+         <set value='on' name='subpage_frame_thickness'/>
+</parameter>
+
+<parameter name='subpage_frame_colour' from='string' to='Colour' member='frame_colour'  default='black'>
+         <documentation> Colour of subpage frame (Full choice of colours) </documentation>
+</parameter>
+
+<parameter name='subpage_frame_line_style' from='string' to='LineStyle' member='frame_line_style'  default='solid'>
+         <documentation> Style of subpage frame (SOLID/DASH/DOT/CHAIN_DASH/CHAIN_DOT) </documentation>
+</parameter>
+
+<parameter name='subpage_frame_thickness' from='int' to='int' member='frame_thickness'  default='2'>
+         <documentation> Thickness of subpage frame </documentation>
+</parameter>
+
+<parameter name='subpage_vertical_axis_width' from='float' to='float' member='vertical_axis_with' default='1'>
+         <documentation> width of the vertical  axis in cm </documentation>
+</parameter>
+<parameter name='subpage_horizontal_axis_height' from='float' to='float' member='horizontal_axis_height' default='0.5'>
+         <documentation> height of the horizontal  axis in cm</documentation>
+</parameter>
+ <parameter name='subpage_map_overlay_control' from='string' to='string' member='overlay'  default='basic' visible='metview'>
+         <documentation for_docs='no'> Metview Only: overlay method. always: plot the fields as they come; never: never overlay; by_date/by_level: only overlay data with the same valid date/level  </documentation>
+  </parameter>
+<parameter name='subpage_align_horizontal' from='string' to='string'  member='horizontal' default='left' values='left/right'>
+         <release>Magics++2.4</release>     
+         <documentation>  Used in automatic layout to setup the horizontal alignment of the drawing area in the subpage  </documentation>
+</parameter>
+<parameter name='subpage_align_vertical' from='string' to='string' member='vertical' default='bottom'  values='bottom/top'>
+         <release>Magics++2.4</release>     
+         <documentation>  Used in automatic layout to setup the vertical alignment of the drawing area in the subpage </documentation>
+</parameter>
+
+
+
+<parameter name='subpage_map_json_definition' from='string' to='string' member='json'  default='' visible='off'>
+	<documentation> Metview only : store internal information about zooned area </documentation>
+</parameter>
+
+  
+ 
+
+<parameter name='automatic_title' from='string' to='bool' member='title'  default='off' visible='off'>
+         <documentation> Plot the title (ON/OFF) </documentation>
+</parameter>
+
+<parameter name='subpage_map_preview' from='string' to='NoPreviewVisitor' include="PreviewVisitor.h" member='preview'  
+	default='off' visible='metview'>
+         <documentation  for_docs='no'> Mv4: turn on/off the generation of the infomation for the preview box </documentation>
+         <release>Magics++2.8</release>
+         <option name='NoPreviewVisitor' fortran='off' xml='off' include='PreviewVisitor.h'/>
+         <option name='PreviewVisitor' fortran='on' xml='on' include='PreviewVisitor.h'/>
+</parameter> 
+
+<parameter name='subpage_map_magnifier' from='string' to='NoMagnifierVisitor' 
+		include="MagnifierVisitor.h" member='magnify'  default='off' visible='metview'>
+         <documentation for_docs='no'> Mv4: turn on/off the generation of the infomation for the magnifier tool </documentation>
+         <release>Magics++2.8</release>
+         <option name='NoMagnifierVisitor' fortran='off' xml='off' include='MagnifierVisitor.h'/>
+         <option name='MagnifierVisitor' fortran='on' xml='on' include='MagnifierVisitor.h'/>
+</parameter>
+</class>
+
+<class name='Transformation' directory='common'/>
+
+<class name='NoPreviewVisitor' directory='basic' include='PreviewVisitor.h'/>
+
+<class name='PreviewVisitor' directory='basic' inherits='NoPreviewVisitor'/>
+
+<class name='NoMagnifierVisitor' directory='basic' include='MagnifierVisitor.h'/>
+
+<class name='MagnifierVisitor' directory='basic' inherits='NoMagnifierVisitor'>
+<parameter name='magnifier_symbol_name' from='string' to='string' member='symbol_name'  default='magics_3'>
+         <documentation for_docs='no'> Mv4: Symbol used in the magnifier </documentation>
+         <release>Magics++2.8</release>
+</parameter> 
+
+<parameter name='magnifier_hidden_symbol_name' from='string' to='string' member='hidden_symbol_name'  default='magics_3'>
+         <documentation for_docs='no'> Mv4: Symbol used in the magnifier </documentation>
+         <release>Magics++2.8</release>
+</parameter>
+    
+<parameter name='magnifier_symbol_colour' from='string' to='Colour' member='symbol_colour'  default='red'>
+         <documentation for_docs='no'> Mv4: Colour of the symbol in the magnifier </documentation>
+         <release>Magics++2.8</release>
+</parameter> 
+
+<parameter name='magnifier_hidden_symbol_colour' from='string' to='Colour' member='hidden_symbol_colour' default='navy'>
+         <documentation for_docs='no'> Mv4: Colour of the symbol in the magnifier </documentation>
+         <release>Magics++2.8</release>
+</parameter>
+
+<parameter name='magnifier_symbol_height' from='float' to='float' member='symbol_height' default='0.2'>
+         <documentation for_docs='no'> Mv4: Colour of the symbol in the magnifier </documentation>
+         <release>Magics++2.8</release>
+</parameter>
+
+<parameter name='magnifier_hidden_symbol_height' from='float' to='float' member='hidden_symbol_height'  default='0.1'>
+         <documentation for_docs='no'> Mv4: Colour of the symbol in the magnifier </documentation>
+         <release>Magics++2.8</release>
+</parameter>
+
+<parameter name='magnifier_text_font_name' from='string' to='string' member='text_font_name'  default='sanserif'>
+         <documentation for_docs='no'> Mv4: Colour of the symbol in the magnifier </documentation>
+         <release>Magics++2.8</release>
+</parameter>
+
+<parameter name='magnifier_text_font_size' from='float' to='float' member='text_font_size'  default='0.2'>
+         <documentation for_docs='no'> Mv4: Colour of the symbol in the magnifier </documentation>
+         <release>Magics++2.8</release>
+</parameter>
+
+<parameter name='magnifier_text_font_colour' from='string' to='Colour' member='text_font_colour' default='navy'>
+         <documentation for_docs='no'> Mv4: Colour of the symbol in the magnifier </documentation>
+         <release>Magics++2.8</release>
+</parameter>  
+
+<parameter name='magnifier_text_format' from='string' to='string' member='text_format' default='(automatic)'>
+         <documentation for_docs='no'> Mv4: Colour of the symbol in the magnifier </documentation>
+         <release>Magics++2.8</release>
+</parameter>
+
+</class>
+ 
+</magics>

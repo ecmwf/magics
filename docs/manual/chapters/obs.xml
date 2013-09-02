@@ -1,0 +1,1865 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="ObservationPlotting" label="VII">
+  <title>Observation Plotting</title>
+
+  <xi:include href="../phrases/chapterinfo_mod.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+<section id="Observation_Introduction">
+<title>Introduction</title>
+
+ <para><productname>Magics</productname> observation plotting allows the
+    plotting of observation types stored in WMO BUFR. 
+ </para>
+
+<important>
+<title>What about ODB?</title>
+
+<productname>Magics</productname> also supports the plotting of observations and analysis feedback from ECMWF's 
+ODB format. This is feature is currently only supported within ECMWF and will be described
+in a seperate chapter when available.
+</important>
+
+<para>All observation types may be plotted, i.e. SYNOP, AIREP, SATOB,
+    DRIBU, TEMP, PILOT and SATEM. Within each observation type, specific code
+    types may be selected for plotting, e.g. ships only may be selected from
+    SYNOP. The user has full control over the type, number and size of the
+    observations. The amount of meteorological information plotted may also be
+    controlled by the user.</para>
+
+    <para>The meteorological data plotted, e.g. pressure, temperature etc,
+    will be called meteorological variables in this chapter to distinguish
+    them from <productname>Magics</productname> parameters.</para>
+
+<important>
+<title>Magics++ - we need your feedback</title>
+ You can help to improve the support of BUFR observation plotting in <productname>Magics</productname>
+ by providing bug reports and example data.
+</important>
+
+<section id="Action_Routine_POBS">
+ <title>Action Routine POBS</title>
+
+    <para>Plotting of observations in <productname>Magics</productname> is
+    achieved by calling action routine <function>POBS</function>, which has no
+    arguments, e.g. <code>CALL POBS</code>. Any
+    <productname>Magics</productname> parameters required should be set and
+    the input data defined before calling <function>POBS</function>. Depending
+    on the user requirements, <function>POBS</function> will plot any
+    observations from the user's input that fit in the current map. All
+    observations that do not fit the user's criteria or whose positions are
+    outside the geographical area of the current map will be ignored.</para>
+
+  <section id="Obs_Data_Input">
+    <title>Data Input</title>
+
+    <para>Data for observation plotting must be presented to Magics in the
+    form of an input file. Data for plotting must be in WMO BUFR code.
+    The parameter <parameter>OBS_INPUT_FILE_NAME</parameter> should be used to pass the name
+    and address path of the file containing the observations for plotting.
+    Full details of data input are given in chapter Data
+    Input.</para>
+  </section>
+
+  <section id="Meteorological_Variables">
+    <title>Meteorological Variables</title>
+
+    <para>Parameters exist to control all aspects of observation plotting.
+    These parameters all start with the prefix <parameter>OBS</parameter>,
+    e.g. <parameter>OBS_TEMPERATURE</parameter>.</para>
+
+    <para>Each observation type has its own fixed list of meteorological
+    variables, any of which may be 'turned off', i.e. not plotted. For
+    example, if pressure is not required to be plotted, it may be 'turned off'
+    by the following:</para>
+
+    <programlisting>    CALL <function>PSETC</function>('<parameter>OBS_PRESSURE</parameter>','OFF')</programlisting>
+
+    <para>The meteorological variables to be plotted, by default, for each
+    observation type are given in the sections that describe each observation
+    type.</para>
+
+    <para>The colour in which each of the plotting variables is plotted is
+    also controlled by <productname>Magics</productname> parameters. Each
+    variable has its own default colour but this may be user controlled with
+    the relevant parameter, e.g.</para>
+
+    <programlisting>    CALL <function>PSETC</function> ('<parameter>OBS_PRESSURE_COLOUR</parameter>', 'GREEN')</programlisting>
+  </section>
+
+  <section id="Observation_Size_Position_and_Separation">
+    <title>Observation Size, Position and Separation</title>
+
+    <para>A circle or triangle (for DRIBU only) will be plotted to mark the
+    position of each observation. The user may inhibit this by setting the
+    parameter <parameter>OBS_STATION_RING</parameter> to
+    '<code>OFF</code>'.</para>
+
+    <para>The size of observations, i.e. the height of the numbers and
+    symbols, may be controlled by setting the parameter
+    <parameter>OBS_SIZE</parameter> to the required value, the default being
+    0.2cm.</para>
+
+    <para>To ensure that plotted observations do not overlap, the parameter
+    <parameter>OBS_DISTANCE_APART</parameter> may be set. The default value of
+    1.0cm means that, after plotting an observation, no other observation will
+    be plotted within one centimetre of it. The distance between observations
+    is measured from the centre of each.</para>
+
+    <para>If only the positions of observations are to be plotted, the
+    parameter <parameter>OBS_POSITION_ONLY</parameter> should be set to
+    '<code>ON</code>' , the default being '<code>OFF</code>' . When only the
+    positions of observations are plotted, a different symbol is used for each
+    observation type. It is possible to
+    plot the station identification when positions only are requested.</para>
+
+  </section>
+
+  <section id="Obs_Pressure_Levels">
+    <title>Pressure Levels</title>
+
+    <para>For observations, other than surface observations, the user may
+    specify the pressure level (hPa) to be plotted by setting the parameter
+    <parameter>OBS_LEVEL</parameter> to the required level, e.g.</para>
+
+    <programlisting>    CALL <function>PSETI</function> ('<parameter>OBS_LEVEL</parameter>',850)</programlisting>
+
+    <para>The default for <parameter>OBS_LEVEL</parameter> is 500 hPa.</para>
+
+    <para>To enable the plotting of off-level data, the parameter
+    <parameter>OBS_LEVEL_TOLERANCE</parameter> may be set to a value, in hPa,
+    above and below the level set in <parameter>OBS_LEVEL</parameter>, the
+    default value for the tolerance being <code>0</code>.</para>
+
+    <para>If plotting of the thickness between two levels is required, two
+    pressure levels must be defined, i.e. the top and bottom levels of the
+    layer for which the thickness is to be plotted. Users may specify these
+    two levels by setting the parameters <parameter>OBS_LEVEL</parameter> and
+    <parameter>OBS_LEVEL_2</parameter> to the required values in hPa, the
+    defaults being <code>500</code> and <code>1000</code>, respectively.
+    Thicknesses may be plotted for TEMP and SATEM observations.</para>
+  </section>
+
+  <section id="Observation_Identification">
+    <title>Observation Identification</title>
+
+    <para>The observation identification may be plotted by setting the
+    parameter <parameter>OBS_IDENTIFICATION</parameter> to '<code>ON</code>' ,
+    the default being '<code>OFF</code>' for all observation types. An
+    observation may be identified by its observation type, its code type or
+    its station identifier. To specify the required identification, the
+    parameter <parameter>OBS_IDENTIFICATION_TYPE</parameter> may be set,
+    e.g.</para>
+
+    <programlisting>    CALL <function>PSETC</function> ('<parameter>OBS_IDENTIFICATION_TYPE</parameter>','OBSERVATION_TYPE')</programlisting>
+
+    <para>By default, the station identifier will be plotted.</para>
+  </section>
+</section>
+
+  <section id="Observation_Selection_Parameters">
+    <title>Observation Selection Parameters</title>
+
+    <para>There are parameters available to enable users to select
+    observations for plotting. In some cases, a combination of parameters may
+    be used to define the required observations.</para>
+
+    <para><productname>Magics</productname> will only use these parameters if
+    they are set by the user. The value set in these parameters stays in
+    effect until changed or reset. To reset the value of a parameter, users
+    should use routine <function>PRESET</function>, e.g. <code>CALL PRESET
+    ('OBS_IDENTIFIER_LIST')</code>. This has the effect that
+    <productname>Magics</productname> assumes that the parameter has not been
+    set by the user and, where applicable, the parameter is reset to its
+    default value.</para>
+
+    <para>The following sections describe these parameters.</para>
+
+    <section id="Identifier_List">
+      <title>Identifier List</title>
+
+      <para><parameter>OBS_IDENTIFIER_LIST</parameter> is used to pass a list
+      of station identifiers. The station list should be stored in a character
+      array and passed by the following call:</para>
+
+      <programlisting>    CALL <function>PSET1C</function> ('<parameter>OBS_IDENTIFIER_LIST</parameter>',ILIST,N)</programlisting>
+
+      <para>where <code>ILIST</code> is a character array containing the list
+      of station identifiers and <code>N</code> is the length of the
+      array.</para>
+
+      <para>Only the observations listed in the array will be plotted. Land
+      station identifiers, e.g. <code>03953</code>, as well as ship
+      identifiers, which include alphabetic characters in their identifiers,
+      may be passed in the array. This parameter should not be used for
+      passing satellite numbers (<remark>see Satellite Number
+      List</remark>).</para>
+
+      <para>A full list of station identifiers can be found in the WMO manual
+      on Observing Stations.</para>
+    </section>
+
+    <section id="Type_List">
+      <title>Type List</title>
+
+      <para><parameter>OBS_TYPE_LIST</parameter> is used to pass a list of
+      observation types, i.e. SYNOP, AIREP, SATOB, DRIBU, TEMP, PILOT and
+      SATEM. The list of observation types should be stored in a character
+      array and passed as follows:</para>
+
+      <programlisting>    CALL <function>PSET1C</function> ('<parameter>OBS_TYPE_LIST</parameter>',OTYPE,N)</programlisting>
+
+      <para>where <code>OTYPE</code> is the array containing the list of
+      observation types and <code>N</code> is the length of the array. Only
+      those observations whose observation type is included in the list will
+      be plotted.</para>
+    </section>
+
+    <section id="Code_Type_List">
+      <title>Code Type List</title>
+
+      <para><parameter>OBS_CODE_TYPE_LIST</parameter> is used to pass a list
+      of code types.</para>
+
+      <para>Within each observation type, there exists various code types,
+      e.g. SYNOPS have different code types for each individual type of
+      observation (code type 21 = SHIP ). Further descriptions of observation
+      types and code types can be found in the next section. The list of code
+      types (integer numbers) should be stored in an integer array and passed
+      by the following call:</para>
+
+      <programlisting>    CALL <function>PSET1I</function> ('<parameter>OBS_CODE_TYPE_LIST</parameter>',ICLIST,N)</programlisting>
+
+      <para>where <code>ICLIST</code> is the array containing the list of code
+      types and <code>N</code> is the length of the array. Only those
+      observations whose code type is in the list will be plotted.</para>
+    </section>
+
+    <section id="Satellite_Number_List">
+      <title>Satellite Number List</title>
+
+      <para><parameter>OBS_SATELLITE_NUMBER_LIST</parameter> is used to pass a
+      list of satellite numbers for both SATOB and SATEM observations.</para>
+
+      <para>For each satellite code type, there exists various numbers to
+      identify the particular satellite. This number is actually the station
+      identifier (37 = NOAA9 ). The list of satellite numbers should be stored
+      in an integer array and passed as follows:</para>
+
+      <programlisting>    CALL <function>PSET1I</function> ('<parameter>OBS_SATELLITE_NUMBER_LIST</parameter>',ISLIST,N)</programlisting>
+
+      <para>where <code>ISLIST</code> is the array containing the list of
+      satellite numbers and <code>N</code> is the length of
+      <code>ISLIST</code>. Please note that the parameter
+      <parameter>OBS_IDENTIFIER_LIST</parameter> should not be used to pass a
+      list of satellite numbers.</para>
+    </section>
+
+    <section id="Time_Check">
+      <title>Time Check</title>
+
+      <para>If observations are required for a particular time only, the
+      parameter <parameter>OBS_TIME</parameter> should be set to the required
+      time.</para>
+
+      <para>Even though the input file may contain observations for various
+      times, only those whose time is specified in
+      <parameter>OBS_TIME</parameter> will be plotted. To activate this time
+      check, the parameter <parameter>OBS_TIME_CHECK</parameter> should be set
+      to '<code>ON</code>' , the default being '<code>OFF</code>'. After
+      plotting reports for a particular time, the time check may be
+      deactivated by setting <code>OBS_TIME_CHECK</code> to
+      '<code>OFF</code>'.</para>
+
+      <para>The format for setting <parameter>OBS_TIME</parameter> is as
+      follows:</para>
+
+      <programlisting>    CALL <function>PSETI</function> ('<parameter>OBS_TIME</parameter>',hhmm)</programlisting>
+
+      <para><code>hh</code> is the hour required and mm are the minutes.
+      <code>CALL PSETI ('OBS_TIME',1230)</code> specifies that observations
+      are required for 1230 UTC only. The default value is
+      <code>1200</code>.</para>
+
+      <para>Please note the difference between
+      <parameter>OBS_TIME_CHECK</parameter> and the parameter
+      <parameter>OBS_TIME_PLOT</parameter>, which should be set to
+      '<code>ON</code>' when the time of an observation is to be plotted. The
+      parameter <parameter>OBS_TIME_TOLERANCE</parameter> enables users to
+      specify a time range for plotting observations. It should be used in
+      conjunction with the parameter <parameter>OBS_TIME</parameter>.
+      <parameter>OBS_TIME_TOLERANCE</parameter> may be set as follows:</para>
+
+      <programlisting>    CALL <function>PSETI</function> ('<parameter>OBS_TIME_TOLERANCE</parameter>',hhmm)</programlisting>
+
+      <para>where <code>hh</code> is a number of hours and <code>mm</code> is
+      a number of minutes. For example, if <parameter>OBS_TIME</parameter> is
+      set to <code>1200</code> and <parameter>OBS_TIME_TOLERANCE</parameter>
+      is set to <code>330</code>, the time range for which observations are to
+      be plotted is 0830-1530 UTC. <parameter>OBS_TIME_TOLERANCE</parameter>,
+      whose default value is <code>0</code> , is only used if
+      <parameter>OBS_TIME_CHECK</parameter> has been set to
+      '<code>ON</code>'.</para>
+
+      <highlights>
+        <para>Diagram 3</para>
+      </highlights>
+    </section>
+
+    <section id="OBS_Date_Check">
+      <title>OBS Date Check</title>
+
+      <para>There are <productname>Magics</productname> parameters to
+      control/filter observations by <code><parameter>DATE</parameter></code>.
+      The parameter <parameter>OBS_DATE</parameter> may be set to the date of
+      the observations required to be plotted, e.g. <code>CALL PSETI
+      ('OBS_DATE',951207)</code> (7th Dec. 1995). Observations from other
+      dates will be ignored. However, The parameter
+      <parameter>OBS_DATE_TOLERANCE</parameter> may be used to set a period,
+      before and after the date set in <parameter>OBS_DATE</parameter> , for
+      which observations are to be plotted, e.g. <code>CALL PSETI
+      ('OBS_DATE_TOLERANCE',2)</code> (2 days before and after
+      <parameter>OBS_DATE</parameter> , default <code>0</code>).</para>
+
+      <para>The parameters, <parameter>OBS_DATE</parameter> and
+      <parameter>OBS_DATE_TOLERANCE</parameter> are only used in
+      <productname>Magics</productname> if the parameter
+      <parameter>OBS_DATE_CHECK</parameter> is set to '<code>ON</code>'. If
+      <parameter>OBS_DATE_CHECK</parameter>='<code>OFF</code>' , which is the
+      default, no check is made on the date of the data.</para>
+    </section>
+
+<remark>
+Is this FEEDBACK???
+    <section id="Confidence_Check">
+      <title>Confidence Check</title>
+
+      <para>The ECMWF Quality Control assigns confidence values (percentage
+      values) to each of the meteorological variables in each observation,
+      including the report type and the report position. A feature of
+      observation plotting is the ability to be able to plot observations
+      which have been given low confidence values by the Quality
+      Control.</para>
+
+      <para>There are three parameters to control this.
+      <parameter>OBS_CONFIDENCE_CHECK</parameter> may be set to
+      '<code>ON</code>' to enable this feature. The default is
+      '<code>OFF</code>'. <parameter>OBS_CONFIDENCE_LEVEL</parameter> may be
+      set to a value (integer) between 0 and 100 to indicate the maximum
+      acceptable level. This means that if the checked variables have
+      confidence values which are lower than the set level, the station ring
+      for that observation will be plotted.
+      <parameter>OBS_CONFIDENCE_PARAMETER</parameter> may be set to one of 7
+      values to indicate which of the meteorological variables are to be
+      checked. The valid values are '<code>POSITION</code>' (default),
+      '<code>TEMPERATURE</code>' , '<code>PRESSURE</code>' ,
+      '<code>HEIGHT</code>' , '<code>WIND</code>' , '<code>DEWPOINT</code>'
+      and '<code>ANY</code>'. If set to any value except '<code>ANY</code>',
+      then only that variable will be checked for the confidence level. If set
+      to '<code>ANY</code>', all of the above variables will be checked and if
+      any of them fail the check, the observation will be plotted.</para>
+    </section>
+</remark>
+  </section>
+
+  <section id="Obs_Plotting_Formats">
+    <title>Plotting Formats</title>
+
+    <para>Each observation type has its own set of meteorological variables
+    for plotting.</para>
+
+    <para>The following sections describe each of the observation types and
+    the variables plotted by them. Please note that the station identification
+    which may be plotted by all observation types may be one of the following:
+    OBSERVATION TYPE (see previous section), CODE TYPE (numbered as in
+    previous section) or STATION IDENTIFIER.</para>
+
+    <para>A plotting layout, showing the positions of the variables, is given
+    for each of the observation types. Wind plotting and ship direction and
+    speed have been omitted from these layouts.</para>
+
+    <para>It may be necessary, depending on the wind direction, to move some
+    of the variables to a different position. This will be done
+    automatically.</para>
+
+    <para>The station identification may also be automatically moved nearer to
+    the centre of the observation, depending on whether the dewpoint and/or
+    the sea surface temperature are omitted from the plotting. This is to
+    avoid overplotting of observations. If the plotting of observation
+    positions is requested, with station identification turned on, the
+    identification will be moved a position immediately to the right of the
+    station ring or symbol.</para>
+
+    <section id="Surface_Plotting_Formats">
+      <title>Surface Plotting Formats</title>
+
+      <para>The full layout for plotting surface observations is given below
+      and is used for plotting SYNOP and DRIBU observations.</para>
+
+      <highlights>
+        <para>FrameMaker figure here</para>
+      </highlights>
+
+      <para>The symbols in the above layout are explained in the following
+      sections.</para>
+
+      <para>The full surface layout is available for SYNOP plotting. If any of
+      the variables are omitted from the observation the space reserved for it
+      will be left blank, except, as explained above, for station
+      identification. Only a limited number of the variables are available for
+      plotting DRIBU observations.</para>
+    </section>
+
+    <section id="Observation_Type_SYNOP">
+      <title>Observation Type SYNOP</title>
+
+      <para>SYNOP or surface observations means all synoptic surface
+      observations from land stations and ships, including automatic stations
+      and SHRED, but not including DRIBU, BATHY or TESAC. The meteorological
+      variables plotted, together with their corresponding
+      <productname>Magics</productname> parameters and default colour and
+      status (<code>ON</code> or <code>OFF</code>) are listed below.</para>
+
+      <para>Please note that the <productname>Magics</productname> parameter
+      <parameter>OBS_CLOUD</parameter> controls the plotting of all cloud
+      information. If set to '<code>OFF</code>' , no cloud will be plotted,
+      regardless of the setting of the other cloud parameters. If set to
+      '<code>ON</code>' , the value set in the other parameters will then be
+      taken into consideration.</para>
+
+      <para>Users should also note the observation time may be plotted in the
+      space reserved for plotting cloud 8 groups. Only one of these variables
+      should be requested for plotting. If the two of them are requested, the
+      8 groups take precedence.</para>
+
+      <section id="High_Altitude_Stations">
+        <title>High Altitude Stations</title>
+
+        <para>In synoptic plotting for high altitude stations, instead of mean
+        sea level pressure, the height in metres of the nearest standard
+        pressure level will be plotted.</para>
+
+        <table id="table_high_alt">
+          <title>Magics parameters for high altitude stations</title>
+
+          <tgroup cols="4">
+            <colspec colwidth="1.2*" />
+            <colspec colwidth="1.2*"  />
+            <colspec colwidth="0.3*"  />
+            <colspec colwidth="0.7*"  />
+
+            <thead>
+              <row>
+                <entry>Meteorological Variable</entry>
+
+                <entry>Magics Parameter</entry>
+
+                <entry>Status</entry>
+
+                <entry>Default Colour</entry>
+              </row>
+            </thead>
+
+            <tbody>
+              <row>
+                <entry>STATION RING (O)</entry>
+
+                <entry>OBS_STATION_RING</entry>
+
+                <entry>ON</entry>
+
+                <entry>FOREGROUND</entry>
+              </row>
+
+              <row>
+                <entry>STATION IDENTIFICATION (IDEN)</entry>
+
+                <entry>OBS_IDENTIFICATION</entry>
+
+                <entry>ON</entry>
+
+                <entry>FOREGROUND</entry>
+              </row>
+
+              <row>
+                <entry>WIND SPEED AND DIRECTION</entry>
+
+                <entry>OBS_WIND</entry>
+
+                <entry>ON</entry>
+
+                <entry>FOREGROUND</entry>
+              </row>
+
+              <row>
+                <entry>MSL PRESSURE (PPP)</entry>
+
+                <entry>OBS_PRESSURE</entry>
+
+                <entry>ON</entry>
+
+                <entry>FOREGROUND</entry>
+              </row>
+
+              <row>
+                <entry>AIR TEMPERATURE (TT)</entry>
+
+                <entry>OBS_TEMPERATURE</entry>
+
+                <entry>ON</entry>
+
+                <entry>FOREGROUND</entry>
+              </row>
+
+              <row>
+                <entry>SEA SURFACE TEMPERATURE (TsTs)</entry>
+
+                <entry>OBS_SEA_SURFACE_TEMPERATURE</entry>
+
+                <entry>ON</entry>
+
+                <entry>FOREGROUND</entry>
+              </row>
+
+              <row>
+                <entry>PRESSURE TENDENCY (ppa)</entry>
+
+                <entry>OBS_PRESSURE_TENDENCY</entry>
+
+                <entry>ON</entry>
+
+                <entry>FOREGROUND/RED(neg)</entry>
+              </row>
+
+              <row>
+                <entry>PRESENT WEATHER (ww)</entry>
+
+                <entry>OBS_PRESENT_WEATHER</entry>
+
+                <entry>ON</entry>
+
+                <entry>FOREGROUND</entry>
+              </row>
+
+              <row>
+                <entry>PAST WEATHER (W1W2)</entry>
+
+                <entry>OBS_PAST_WEATHER</entry>
+
+                <entry>ON</entry>
+
+                <entry>RED</entry>
+              </row>
+
+              <row>
+                <entry>VISIBILITY (vv)</entry>
+
+                <entry>OBS_VISIBILITY</entry>
+
+                <entry>ON</entry>
+
+                <entry>FOREGROUND</entry>
+              </row>
+
+              <row>
+                <entry>DEWPOINT (TdTd)</entry>
+
+                <entry>OBS_DEWPOINT</entry>
+
+                <entry>ON</entry>
+
+                <entry>RED</entry>
+              </row>
+
+              <row>
+                <entry>CLOUD (ALL)</entry>
+
+                <entry>OBS_CLOUD</entry>
+
+                <entry>ON</entry>
+
+                <entry>No Parameter</entry>
+              </row>
+
+              <row>
+                <entry>LOW CLOUD (CL)</entry>
+
+                <entry>OBS_LOW_CLOUD</entry>
+
+                <entry>ON</entry>
+
+                <entry>FOREGROUND</entry>
+              </row>
+
+              <row>
+                <entry>MEDIUM CLOUD (CM)</entry>
+
+                <entry>OBS_MEDIUM_CLOUD</entry>
+
+                <entry>ON</entry>
+
+                <entry>FOREGROUND</entry>
+              </row>
+
+              <row>
+                <entry>HIGH CLOUD (CH)</entry>
+
+                <entry>OBS_HIGH_CLOUD</entry>
+
+                <entry>ON</entry>
+
+                <entry>RED</entry>
+              </row>
+
+              <row>
+                <entry>OBSERVATION TIME (TIME)</entry>
+
+                <entry>OBS_TIME_PLOT</entry>
+
+                <entry>OFF</entry>
+
+                <entry>FOREGROUND</entry>
+              </row>
+
+              <row>
+                <entry>WAVES AND SWELL</entry>
+
+                <entry>OBS_WAVES</entry>
+
+                <entry>OFF</entry>
+
+                <entry>FOREGROUND</entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </table>
+      </section>
+
+      <section id="Wave_and_Swell_Observations">
+        <title>Wave and Swell Observations</title>
+
+        <para>It is possible to plot wave and swell direction and height (Wav1
+        and Wav2) on surface ship observations. It is necessary in this case
+        to pass part 2 of the ship observation (SS2 in MARS) to
+        <productname>Magics</productname>. The
+        <productname>Magics</productname> parameter
+        <parameter>OBS_INPUT_FILE_NAME</parameter> should be set to the name
+        (including the path) of the file containing the observations. The
+        parameter <parameter>OBS_WAVES</parameter> should be set to
+        '<code>ON</code>' and <function>POBS</function> called in the normal
+        way. For each wave reported in the observation, the period and height
+        of the wave or swell are plotted as pphh where pp is the period and hh
+        the height. The direction of the wave/swell is also plotted according
+        to WMO standards.</para>
+      </section>
+
+      <section id="Soil_and_Earth_Temperatures">
+        <title>Soil and Earth Temperatures</title>
+
+        <para>Soil and earth temperature can be plotted using
+        <productname>Magics</productname> in the usual way, i.e. pass the file
+        containing the observations to <productname>Magics</productname> and
+        call <function>POBS</function>. However, even though they are
+        classified by <productname>MARS</productname> as Code type 1 and
+        Subtype 7, they have their own special format in BUFR code and have a
+        unique plotting standard (see below). They report temperatures at four
+        depths in the earth's soil and these depths may vary.
+        <productname>Magics</productname> plots the data for the four depths
+        to the right of the station circle, with the shallowest depth on top.
+        The temperature for each depth is plotted followed by the actual depth
+        in brackets, e.g. 13 (4) means a temperature of 13 degrees Celsius at
+        4 cm depth.</para>
+
+        <para>To enable the filtering of these observations, from a file
+        containing mixed observations, the abbreviation <code>SOILT</code> can
+        be used when setting the parameter
+        <parameter>OBS_TYPE_LIST</parameter>. The height of the station above
+        sea level is plotted to the left of the station circle. This may be
+        turned off by setting <parameter>OBS_STATION_HEIGHT</parameter> to
+        '<code>OFF</code>'. Following is a description of how soil and earth
+        temperatures are plotted (STH = Station height, ST = soil temperature
+        and dep = depth):</para>
+
+        <table id="table_soil_temp">
+          <title>Magics parameters for soil temperatures</title>
+
+          <tgroup cols="4">
+            <colspec colwidth="1.45*" />
+            <colspec colwidth="1.2*"  />
+            <colspec colwidth="0.3*"  />
+            <colspec colwidth="0.68*" />
+
+            <thead>
+              <row>
+                <entry>Meteorological Variable</entry>
+
+                <entry>Magics Parameter</entry>
+
+                <entry>Status</entry>
+
+                <entry>Default Colour</entry>
+              </row>
+            </thead>
+
+            <tbody>
+              <row>
+                <entry>SOIL TEMPERATURE LEVEL 1</entry>
+
+                <entry>OBS_SOIL_TEMPERATURE_LEVEL_1</entry>
+
+                <entry>ON</entry>
+
+                <entry>FOREGROUND</entry>
+              </row>
+
+              <row>
+                <entry>SOIL TEMPERATURE LEVEL 2</entry>
+
+                <entry>OBS_SOIL_TEMPERATURE_LEVEL_2</entry>
+
+                <entry>ON</entry>
+
+                <entry>FOREGROUND</entry>
+              </row>
+
+              <row>
+                <entry>SOIL TEMPERATURE LEVEL 3</entry>
+
+                <entry>OBS_SOIL_TEMPERATURE_LEVEL_3</entry>
+
+                <entry>ON</entry>
+
+                <entry>FOREGROUND</entry>
+              </row>
+
+              <row>
+                <entry>SOIL TEMPERATURE LEVEL 4</entry>
+
+                <entry>OBS_SOIL_TEMPERATURE_LEVEL_4</entry>
+
+                <entry>ON</entry>
+
+                <entry>FOREGROUND</entry>
+              </row>
+
+              <row>
+                <entry>STATION HEIGHT</entry>
+
+                <entry>OBS_STATION_HEIGHT</entry>
+
+                <entry>ON</entry>
+
+                <entry>FOREGROUND</entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </table>
+
+
+        <para></para>
+      </section>
+
+      <section id="Observation_Type_DRIBU">
+        <title>Observation Type DRIBU</title>
+
+        <para>DRIBU observations are all drifting observation stations,
+        including BATHY and TESAC. The format for plotting layout for DRIBU
+        observations is as follows :</para>
+
+
+        <para>The meteorological variables plotted, together with the
+        corresponding <productname>Magics</productname> parameters and their
+        default colour and status (on or off) are listed below. Please note
+        that a triangle is plotted as the station ring for DRIBU.</para>
+
+        <table id="table_DRIBU">
+          <title>Magics parameters for DRIBU observations</title>
+
+          <tgroup cols="4">
+            <colspec colwidth="1.2*" />
+            <colspec colwidth="1.2*"  />
+            <colspec colwidth="0.3*"  />
+            <colspec colwidth="0.7*"  />
+
+            <thead>
+              <row>
+                <entry>Meteorological Variable</entry>
+
+                <entry>Magics Parameter</entry>
+
+                <entry>Status</entry>
+
+                <entry>Default Colour</entry>
+              </row>
+            </thead>
+
+            <tbody>
+              <row>
+                <entry>STATION RING (O)</entry>
+
+                <entry>OBS_STATION_RING</entry>
+
+                <entry>ON</entry>
+
+                <entry>FOREGROUND</entry>
+              </row>
+
+              <row>
+                <entry>STATION IDENTIFICATION (IDEN)</entry>
+
+                <entry>OBS_IDENTIFICATION</entry>
+
+                <entry>OFF</entry>
+
+                <entry>FOREGROUND</entry>
+              </row>
+
+              <row>
+                <entry>WIND SPEED AND DIRECTION</entry>
+
+                <entry>OBS_WIND</entry>
+
+                <entry>ON</entry>
+
+                <entry>FOREGROUND</entry>
+              </row>
+
+              <row>
+                <entry>MSL PRESSURE (PPP)</entry>
+
+                <entry>OBS_PRESSURE</entry>
+
+                <entry>ON</entry>
+
+                <entry>FOREGROUND</entry>
+              </row>
+
+              <row>
+                <entry>AIR TEMPERATURE (TT)</entry>
+
+                <entry>OBS_TEMPERATURE</entry>
+
+                <entry>ON</entry>
+
+                <entry>FOREGROUND</entry>
+              </row>
+
+              <row>
+                <entry>SEA SURFACE TEMPERATURE (TsTs)</entry>
+
+                <entry>OBS_SEA_SURFACE_TEMPERATURE</entry>
+
+                <entry>ON</entry>
+
+                <entry>FOREGROUND</entry>
+              </row>
+
+              <row>
+                <entry>OBSERVATION TIME (TIME)</entry>
+
+                <entry>OBS_TIME_PLOT</entry>
+
+                <entry>OFF</entry>
+
+                <entry>FOREGROUND</entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </table>
+      </section>
+
+      <section id="Upper_Air_Observations">
+        <title>Upper Air Observations</title>
+
+        <para>The full standard layout used for plotting upper air
+        observations is as follows:</para>
+
+        <para>For all upper air plotting, except SATEM, the above layout is
+        used and the spaces not used are left blank. However, as none of the
+        upper air observation types uses the full plotting layout, the station
+        identification (IDEN ) is moved, automatically, nearer to the centre
+        of the observation when the dewpoint (TdTd ) and/or the sea surface
+        temperature (TsTs ) are not plotted.</para>
+
+        <para>Users may select the pressure level for which observations are
+        to be plotted by setting the parameter
+        <parameter>OBS_LEVEL</parameter> to the required level in hPa (default
+        value for <parameter>OBS_LEVEL</parameter> is <code>500</code>
+        hPa).</para>
+
+        <para>Off-level plotting may be achieved by setting the parameter
+        <parameter>OBS_LEVEL_TOLERANCE</parameter> to a value, above and below
+        <parameter>OBS_LEVEL</parameter>, for which observations are to be
+        plotted. The value set must be in hPa and the default is
+        <code>0</code>.</para>
+
+        <para>If the thickness between two levels is required,
+        <parameter>OBS_LEVEL</parameter> should be set to one of the required
+        levels, <parameter>OBS_LEVEL_2</parameter> should be set to the other
+        level and <parameter>OBS_THICKNESS</parameter> should be set to
+        '<code>ON</code>'.</para>
+
+        <section id="Exception_to_Standard_Upper_Air">
+          <title>Exception to Standard</title>
+
+          <para><remark>From the above diagram, it is obvious that t</remark>There is no place
+          for pressure plotting. In some cases (e.g. TEMP, PILOT) there may be
+          no need to plot the pressure as the user will know that all the
+          observation are at a certain pressure level
+          (<productname>Magics</productname> parameter
+          <parameter>OBS_LEVEL</parameter> controls the pressure level).
+          However for reports such as AIREP and SATOB , there are no
+          'standard' pressure levels and it is probably desirable to plot the
+          pressure level for each report. It is also probably desirable to
+          plot the two pressure levels for TOVS , SATEMS etc. A
+          <productname>Magics</productname> parameter
+          <parameter>OBS_UPPER_AIR_PRESSURE</parameter> exists to control the
+          plotting of upper air pressure for all the upper air observations.
+          The valid values for this parameter are '<code>ON</code>'
+          /'<code>OFF</code>', the default being '<code>OFF</code>'. If set to
+          '<code>ON</code>', the pressure will be plotted as follows:</para>
+
+          <para><code>TEMP, PILOT, SATOB, AIREP</code></para>
+
+          <para>IF HHH is to be plotted, The pressure will be plotted
+          immediately above HHH . If HHH is not to be plotted the pressure
+          will be plotted instead of and in the position of HHH . The pressure
+          will always be in round brackets to distinguish it from HHH , i.e.
+          (PPP ). Examples:</para>
+
+          <para>Pressure and Height plotted:</para>
+
+          <highlights>
+            <para>FM Diagram</para>
+          </highlights>
+
+          <para>Pressure but not Height plotted:</para>
+
+          <highlights>
+            <para>FM Diagram</para>
+          </highlights>
+
+          <para>SATEM, TOVS</para>
+
+          <para>Two pressure levels will be plotted, one replacing HHH and the
+          other (PPP2 ) replacing, or above, TT in the above diagram. The
+          pressure will always be plotted in round brackets. Examples :</para>
+
+          <para>Pressure levels with Temperature:</para>
+
+          <highlights>
+            <para>FM Diagram</para>
+          </highlights>
+
+          <para>Pressure levels without Temperature:</para>
+
+          <highlights>
+            <para>FM Diagram</para>
+          </highlights>
+
+          <highlights>
+            <para>Diagram 8</para>
+          </highlights>
+        </section>
+      </section>
+
+      <section>
+        <title>Observation Type AIREP</title>
+
+        <para>AIREP observations are all observations from aircraft, including
+        CODAR and COLBA. Following is the format for plotting AIREP
+        observations. Note the position of the station identification, due to
+        the fact that dewpoint and sea surface temperature are not
+        plotted.</para>
+
+        <highlights>
+          <para>FM Diagram</para>
+        </highlights>
+
+        <para>The meteorological variables plotted, together with the
+        corresponding <productname>Magics</productname> parameters and their
+        default colour and status (on or off) are listed below.</para>
+
+        <para><table id="table_AIREP">
+            <title>Magics parameters for AIREP observations</title>
+
+            <tgroup cols="4">
+              <colspec colwidth="1.2*" />
+              <colspec colwidth="1.2*"  />
+              <colspec colwidth="0.3*"  />
+              <colspec colwidth="0.7*"  />
+
+              <thead>
+                <row>
+                  <entry>Meteorological Variable</entry>
+
+                  <entry>Magics Parameter</entry>
+
+                  <entry>Status</entry>
+
+                  <entry>Default Colour</entry>
+                </row>
+              </thead>
+
+              <tbody>
+                <row>
+                  <entry>STATION RING (O)</entry>
+
+                  <entry>OBS_STATION_RING</entry>
+
+                  <entry>ON</entry>
+
+                  <entry>FOREGROUND</entry>
+                </row>
+
+                <row>
+                  <entry>STATION IDENTIFICATION (IDEN)</entry>
+
+                  <entry>OBS_IDENTIFICATION</entry>
+
+                  <entry>OFF</entry>
+
+                  <entry>FOREGROUND</entry>
+                </row>
+
+                <row>
+                  <entry>WIND SPEED AND DIRECTION</entry>
+
+                  <entry>OBS_WIND</entry>
+
+                  <entry>ON</entry>
+
+                  <entry>FOREGROUND</entry>
+                </row>
+
+                <row>
+                  <entry>PRESSURE LEVEL(PPP)</entry>
+
+                  <entry>OBS_UPPER_AIR_PRESSURE</entry>
+
+                  <entry>ON</entry>
+
+                  <entry>FOREGROUND</entry>
+                </row>
+
+                <row>
+                  <entry>TEMPERATURE (TT)</entry>
+
+                  <entry>OBS_TEMPERATURE</entry>
+
+                  <entry>ON</entry>
+
+                  <entry>FOREGROUND</entry>
+                </row>
+
+                <row>
+                  <entry>OBSERVATION TIME (TIME)</entry>
+
+                  <entry>OBS_TIME_PLOT</entry>
+
+                  <entry>OFF</entry>
+
+                  <entry>FOREGROUND</entry>
+                </row>
+              </tbody>
+            </tgroup>
+          </table></para>
+      </section>
+
+      <section>
+        <title>Observation Type SATOB</title>
+
+        <para>SATOB are reports from satellites of wind, surface temperature,
+        clouds and radiation. Following is the format or plotting layout for
+        SATOB observations:</para>
+
+        <highlights>
+          <para>FM Diagram</para>
+        </highlights>
+
+        <para>The meteorological variables plotted, together with the
+        corresponding <productname>Magics</productname> parameters and their
+        default colour and status (ON or OFF) are listed below.</para>
+
+        <para><table id="table_SATOB">
+            <title>Magics parameters for SATOB observations</title>
+
+            <tgroup cols="4">
+              <colspec colwidth="1.2*" />
+              <colspec colwidth="1.2*"  />
+              <colspec colwidth="0.3*"  />
+              <colspec colwidth="0.7*"  />
+
+              <thead>
+                <row>
+                  <entry>Meteorological Variable</entry>
+
+                  <entry>Magics Parameter</entry>
+
+                  <entry>Status</entry>
+
+                  <entry>Default Colour</entry>
+                </row>
+              </thead>
+
+              <tbody>
+                <row>
+                  <entry>STATION RING (O)</entry>
+
+                  <entry>OBS_STATION_RING</entry>
+
+                  <entry>ON</entry>
+
+                  <entry>FOREGROUND</entry>
+                </row>
+
+                <row>
+                  <entry>STATION IDENTIFICATION (IDEN)</entry>
+
+                  <entry>OBS_IDENTIFICATION</entry>
+
+                  <entry>OFF</entry>
+
+                  <entry>FOREGROUND</entry>
+                </row>
+
+                <row>
+                  <entry>WIND SPEED AND DIRECTION</entry>
+
+                  <entry>OBS_WIND</entry>
+
+                  <entry>ON</entry>
+
+                  <entry>FOREGROUND</entry>
+                </row>
+
+                <row>
+                  <entry>PRESSURE LEVEL(PPP)</entry>
+
+                  <entry>OBS_UPPER_AIR_PRESSURE</entry>
+
+                  <entry>OFF</entry>
+
+                  <entry>FOREGROUND</entry>
+                </row>
+
+                <row>
+                  <entry>CLOUD TEMPERATURE (TT)</entry>
+
+                  <entry>OBS_TEMPERATURE</entry>
+
+                  <entry>ON</entry>
+
+                  <entry>FOREGROUND</entry>
+                </row>
+
+                <row>
+                  <entry>SEA SURFACE TEMPERATURE (TsTs)</entry>
+
+                  <entry>OBS_SEA_SURFACE_TEMPERATURE</entry>
+
+                  <entry>ON</entry>
+
+                  <entry>FOREGROUND</entry>
+                </row>
+
+                <row>
+                  <entry>OBSERVATION TIME (TIME)</entry>
+
+                  <entry>OBS_TIME_PLOT</entry>
+
+                  <entry>OFF</entry>
+
+                  <entry>FOREGROUND</entry>
+                </row>
+              </tbody>
+            </tgroup>
+          </table></para>
+
+        <highlights>
+          <para>Diagrams 9, 10, 11</para>
+        </highlights>
+      </section>
+
+      <section>
+        <title>Observation Type TEMP</title>
+
+        <para>TEMP observations are all Radio Sonde observations, including
+        TEMPSHIP. Following is the format or plotting layout for TEMP
+        observations:</para>
+
+        <highlights>
+          <para>FM Diagram</para>
+        </highlights>
+
+        <para>The meteorological variables plotted, together with the
+        corresponding <productname>Magics</productname> parameters and their
+        default colour and status (ON or OFF ) are listed below.</para>
+
+        <para><table id="table_TEMP">
+            <title>Magics parameters for TEMP observations</title>
+
+            <tgroup cols="4">
+              <colspec colwidth="1.2*" />
+              <colspec colwidth="1.2*"  />
+              <colspec colwidth="0.3*"  />
+              <colspec colwidth="0.7*"  />
+
+              <thead>
+                <row>
+                  <entry>Meteorological Variable</entry>
+
+                  <entry>Magics Parameter</entry>
+
+                  <entry>Status</entry>
+
+                  <entry>Default Colour</entry>
+                </row>
+              </thead>
+
+              <tbody>
+                <row>
+                  <entry>STATION RING (O)</entry>
+
+                  <entry>OBS_STATION_RING</entry>
+
+                  <entry>ON</entry>
+
+                  <entry>FOREGROUND</entry>
+                </row>
+
+                <row>
+                  <entry>STATION IDENTIFICATION (IDEN)</entry>
+
+                  <entry>OBS_IDENTIFICATION</entry>
+
+                  <entry>OFF</entry>
+
+                  <entry>FOREGROUND</entry>
+                </row>
+
+                <row>
+                  <entry>WIND SPEED AND DIRECTION</entry>
+
+                  <entry>OBS_WIND</entry>
+
+                  <entry>ON</entry>
+
+                  <entry>FOREGROUND</entry>
+                </row>
+
+                <row>
+                  <entry>PRESSURE LEVEL(PPP)</entry>
+
+                  <entry>OBS_UPPER_AIR_PRESSURE</entry>
+
+                  <entry>OFF</entry>
+
+                  <entry>FOREGROUND</entry>
+                </row>
+
+                <row>
+                  <entry>TEMPERATURE (TT)</entry>
+
+                  <entry>OBS_TEMPERATURE</entry>
+
+                  <entry>ON</entry>
+
+                  <entry>FOREGROUND</entry>
+                </row>
+
+                <row>
+                  <entry>DEWPOINT (TdTd)</entry>
+
+                  <entry>OBS_DEWPOINT</entry>
+
+                  <entry>ON</entry>
+
+                  <entry>RED</entry>
+                </row>
+
+                <row>
+                  <entry>TEMPERATURE (TT)</entry>
+
+                  <entry>OBS_TEMPERATURE</entry>
+
+                  <entry>ON</entry>
+
+                  <entry>FOREGROUND</entry>
+                </row>
+
+                <row>
+                  <entry>GEOPOTENTIAL (HHH)</entry>
+
+                  <entry>OBS_HEIGHT</entry>
+
+                  <entry>ON</entry>
+
+                  <entry>FOREGROUND</entry>
+                </row>
+
+                <row>
+                  <entry>THICKNESS BETWEEN OBS_LEVEL AND OBS_LEVEL2
+                  (THK)</entry>
+
+                  <entry>OBS_THICKNESS</entry>
+
+                  <entry>OFF</entry>
+
+                  <entry>FOREGROUND</entry>
+                </row>
+
+                <row>
+                  <entry>THETA VALUE (THE)</entry>
+
+                  <entry>OBS_THETA</entry>
+
+                  <entry>ON</entry>
+
+                  <entry>FOREGROUND</entry>
+                </row>
+
+                <row>
+                  <entry>OBSERVATION TIME (TIME)</entry>
+
+                  <entry>OBS_TIME_PLOT</entry>
+
+                  <entry>OFF</entry>
+
+                  <entry>FOREGROUND</entry>
+                </row>
+
+                <row>
+                  <entry>THERMAL WIND</entry>
+
+                  <entry>OBS_THERMAL_WIND</entry>
+
+                  <entry>OFF</entry>
+
+                  <entry>FOREGROUND</entry>
+                </row>
+              </tbody>
+            </tgroup>
+          </table>The height of the pressure level (HHH) is plotted in
+        decametres.</para>
+
+        <section>
+          <title>Observation Theta</title>
+
+          <para>The parameter <parameter>OBS_THETA</parameter>, plotted by
+          TEMP observations, may be used to plot one of several derived
+          values, e.g. relative humidity, potential temperature.</para>
+
+          <para>The parameter <parameter>OBS_THETA_TYPE</parameter> may be set
+          to the derived value required, e.g.</para>
+
+          <programlisting>    CALL <function>PSETC</function> ('<parameter>OBS_THETA_TYPE</parameter>','POTENTIAL_TEMPERATURE')</programlisting>
+
+          <para>The default value for this parameter is
+          '<code>RELATIVE_HUMIDITY</code>'.</para>
+
+          <highlights>
+            <para>Diagram 12</para>
+          </highlights>
+        </section>
+      </section>
+
+      <section>
+        <title>Observation Type PILOT</title>
+
+        <para>PILOT observations are all upper wind observations from land and
+        sea stations. Following is the format or plotting layout for PILOT
+        observations:</para>
+
+        <highlights>
+          <para>FM Diagram</para>
+        </highlights>
+
+        <para>The meteorological variables plotted, together with the
+        corresponding Magics parameters and their default colour and status
+        (on or off) are listed below.</para>
+
+        <para><table id="table_PILOT">
+            <title>Magics parameters for PILOT observations</title>
+
+            <tgroup cols="4">
+              <colspec colwidth="1.2*" />
+              <colspec colwidth="1.2*"  />
+              <colspec colwidth="0.3*"  />
+              <colspec colwidth="0.7*"  />
+
+              <thead>
+                <row>
+                  <entry>Meteorological Variable</entry>
+
+                  <entry>Magics Parameter</entry>
+
+                  <entry>Status</entry>
+
+                  <entry>Default Colour</entry>
+                </row>
+              </thead>
+
+              <tbody>
+                <row>
+                  <entry>STATION RING (O)</entry>
+
+                  <entry>OBS_STATION_RING</entry>
+
+                  <entry>ON</entry>
+
+                  <entry>FOREGROUND</entry>
+                </row>
+
+                <row>
+                  <entry>STATION IDENTIFICATION (IDEN)</entry>
+
+                  <entry>OBS_IDENTIFICATION</entry>
+
+                  <entry>OFF</entry>
+
+                  <entry>FOREGROUND</entry>
+                </row>
+
+                <row>
+                  <entry>WIND SPEED AND DIRECTION</entry>
+
+                  <entry>OBS_WIND</entry>
+
+                  <entry>ON</entry>
+
+                  <entry>FOREGROUND</entry>
+                </row>
+
+                <row>
+                  <entry>PRESSURE LEVEL(PPP)</entry>
+
+                  <entry>OBS_UPPER_AIR_PRESSURE</entry>
+
+                  <entry>OFF</entry>
+
+                  <entry>FOREGROUND</entry>
+                </row>
+
+                <row>
+                  <entry>GEOPOTENTIAL (HHH)</entry>
+
+                  <entry>OBS_HEIGHT</entry>
+
+                  <entry>ON</entry>
+
+                  <entry>FOREGROUND</entry>
+                </row>
+
+                <row>
+                  <entry>OBSERVATION TIME (TIME)</entry>
+
+                  <entry>OBS_TIME_PLOT</entry>
+
+                  <entry>OFF</entry>
+
+                  <entry>FOREGROUND</entry>
+                </row>
+
+                <row>
+                  <entry>THERMAL WIND</entry>
+
+                  <entry>OBS_THERMAL_WIND</entry>
+
+                  <entry>OFF</entry>
+
+                  <entry>FOREGROUND</entry>
+                </row>
+              </tbody>
+            </tgroup>
+          </table></para>
+
+        <section>
+          <title>Thermal Wind</title>
+
+          <para>It is possible to plot the thermal wind for a layer in the
+          atmosphere when plotting TEMP and PILOT observations. As for
+          thickness, the thermal wind may be plotted for the layer between
+          <parameter>OBS_LEVEL_2</parameter> and
+          <parameter>OBS_LEVEL</parameter>. To plot the thermal wind, the
+          parameter <parameter>OBS_THERMAL_WIND</parameter> should be set to
+          '<code>ON</code>', the default being '<code>OFF</code>'. The
+          parameter <parameter>OBS_THERMAL_WIND_LINE_STYLE</parameter> allows
+          the user to define the line style for plotting the thermal wind.
+          Valid values are <code>SOLID</code>, <code>DOT</code> and
+          <code>DASH</code> (default and WMO standard).</para>
+
+          <highlights>
+            <para>Diagram 13</para>
+          </highlights>
+        </section>
+      </section>
+
+      <section>
+        <title>Observation Type SATEM</title>
+
+        <para>SATEM observations are all reports of satellite remote upper air
+        soundings of pressure, temperature and humidity, including TOVS and
+        PAOBS. Following is the format or plotting layout for SATEM
+        observations:</para>
+
+        <highlights>
+          <para>FM Diagram</para>
+        </highlights>
+
+        <para>The meteorological variables plotted, together with the
+        corresponding <productname>Magics</productname> parameters and their
+        default colour and status (ON or OFF) are listed below.</para>
+
+        <para><table id="table_SATEM">
+            <title>Magics parameters for SATEM observations</title>
+
+            <tgroup cols="4">
+              <colspec colwidth="1.2*" />
+              <colspec colwidth="1.2*"  />
+              <colspec colwidth="0.3*"  />
+              <colspec colwidth="0.7*"  />
+
+              <thead>
+                <row>
+                  <entry>Meteorological Variable</entry>
+
+                  <entry>Magics Parameter</entry>
+
+                  <entry>Status</entry>
+
+                  <entry>Default Colour</entry>
+                </row>
+              </thead>
+
+              <tbody>
+                <row>
+                  <entry>STATION RING (O)</entry>
+
+                  <entry>OBS_STATION_RING</entry>
+
+                  <entry>ON</entry>
+
+                  <entry>FOREGROUND</entry>
+                </row>
+
+                <row>
+                  <entry>STATION IDENTIFICATION (IDEN)</entry>
+
+                  <entry>OBS_IDENTIFICATION</entry>
+
+                  <entry>OFF</entry>
+
+                  <entry>FOREGROUND</entry>
+                </row>
+
+                <row>
+                  <entry>PRESSURE LEVELS (LEV1, LEV2)</entry>
+
+                  <entry>OBS_UPPER_AIR_PRESSURE</entry>
+
+                  <entry>OFF</entry>
+
+                  <entry>FOREGROUND</entry>
+                </row>
+
+                <row>
+                  <entry>THICKNESS BETWEEN OBS_LEVEL AND OBS_LEVEL2
+                  (THK)</entry>
+
+                  <entry>OBS_THICKNESS</entry>
+
+                  <entry>OFF</entry>
+
+                  <entry>FOREGROUND</entry>
+                </row>
+
+                <row>
+                  <entry>SURFACE TEMPERATURE (TsTs)</entry>
+
+                  <entry>OBS_SEA_SURFACE_TEMPERATURE</entry>
+
+                  <entry>OFF</entry>
+
+                  <entry>FOREGROUND</entry>
+                </row>
+
+                <row>
+                  <entry>WATER PRECIPITABLE (WAP)</entry>
+
+                  <entry>OBS_WATER_PRECIPITABLE</entry>
+
+                  <entry>OFF</entry>
+
+                  <entry>FOREGROUND</entry>
+                </row>
+
+                <row>
+                  <entry>OBSERVATION TIME (TIME)</entry>
+
+                  <entry>OBS_TIME_PLOT</entry>
+
+                  <entry>OFF</entry>
+
+                  <entry>FOREGROUND</entry>
+                </row>
+              </tbody>
+            </tgroup>
+          </table>Users may select the two pressure levels required by setting
+        the parameters <parameter>OBS_LEVEL</parameter> and
+        <parameter>OBS_LEVEL_2</parameter> to the required levels in hPa. The
+        default values are 500 hPa for <parameter>OBS_LEVEL</parameter> and
+        1000 hPa for <parameter>OBS_LEVEL_2</parameter>. Please note that, by
+        default, the THICKNESS between the two selected levels will be
+        plotted. However, if <parameter>OBS_SATEM_TEMPERATURE</parameter> is
+        set '<code>ON</code>', the calculated mean temperature between the two
+        levels will be plotted.</para>
+
+        <para>Cloud amount is also plotted inside the station ring. There are
+        three values of cloud amount plotted: no cloud, partly cloudy or
+        completely cloudy.</para>
+
+        <section>
+          <title>Profiler Data</title>
+
+          <para>This consists of wind plotting at varying levels, the levels
+          being measured in metres above the observing station. The
+          <productname>Magics</productname> parameter
+          <parameter>OBS_LEVEL</parameter> may be used to specify the required
+          level, remembering that the level values increase as they rise above
+          the station (pressure level values decrease). There is no need to
+          specify anything extra; just pass the relevant file containing the
+          PROFILER data.</para>
+        </section>
+      </section>
+    </section>
+  </section>
+
+  <section id="Obs_Programming_Tips">
+    <title>Programming Tips</title>
+
+    <para>Action routine <function>POBS</function> must be called to plot
+    observations.</para>
+
+    <para>Before plotting observations, the required page layout and mapping
+    parameters should be set as usual and any relevant
+    <productname>Magics</productname> observation parameters should be
+    set.</para>
+
+    <para>It is possible to plot contours, winds fields and observations on
+    the same subpage. The observations may be plotted before or after the
+    contours or winds.</para>
+
+    <para>The observations on an input file may be of different observation
+    types, e.g. SYNOPS, TEMPS, SATEMS, etc. There is no need to specify the
+    observation type for plotting unless a specific type is required. By
+    default, action routine <function>POBS</function> will plot all the
+    observations on the input file regardless of observation type.</para>
+
+    <para>If specific observation types or code types are required, the user
+    should set the appropriate parameters.</para>
+
+    <para>Some of the <productname>Magics</productname> observation parameters
+    will only be used by <productname>Magics</productname> when they are set
+    by the user. When any of the observation parameters are set, the value set
+    will be used by <productname>Magics</productname> until changed or reset
+    by the user.</para>
+
+    <para>To reset a parameter, users should use the routine
+    <function>PRESET</function>, e.g.</para>
+
+    <programlisting>    CALL <function>PRESET</function> ('<parameter>OBS_TYPE_LIST</parameter>')</programlisting>
+
+    <para><function>PRESET</function> has the dual function of replacing the
+    current value of the parameter, if appropriate, with its default value and
+    informing <productname>Magics</productname> that this parameter has not
+    been set by the user.</para>
+
+    <para>It is possible to call <function>POBS</function> more than once
+    using the same input file and plotting different observations each time.
+    The input file will be rewound automatically each time
+    <function>POBS</function> is called.</para>
+  </section>
+
+  <section id="BUFR_Parameter_Tables">
+    <title>BUFR Parameter Tables</title>
+
+      <para>To enable the decoding of observations coded in BUFR, it is
+      necessary to have tables which describe the contents of the BUFR code,
+      e.g. the names and units of parameters, reference values and scale
+      factors. The "parameters", as understood in the BUFR context, include
+      not just the meteorological variables, but also the location of the
+      observation, block/station number, instrumentation etc. Each parameter
+      is described by a descriptor, which is an integer number that uniquely
+      identifies the parameter, e.g. Temperature, Pressure,
+      latitude/longitude, block number. These BUFR tables are stored at an
+      address defined by an environment variable (which is made known to
+      <productname>Magics</productname> installers at the various sites). The
+      tables are then used in the BUFR decoding part of
+      <productname>Magics</productname> and their use is transparent to the
+      user. There are standard descriptor numbers for each of the
+      "parameters". It is possible to use local descriptor numbers instead of
+      the standard ones and these local descriptors would be described in the
+      BUFR tables.</para>
+
+    <section id="BUFR_Parameter_Lists">
+      <title>BUFR Parameter Lists</title>
+
+      <para>To make it possible for <productname>Magics</productname> to be
+      able to plot observations from BUFR code from varying originating
+      centres, which may or may not use local descriptor numbers, it is
+      necessary for <productname>Magics</productname> to be able to identify
+      the descriptor numbers of the meteorological variables and those
+      "parameters" that describe the position and time of the observation. To
+      enable this for each originating centre, there are external files called
+      BUFR Parameter Lists, where each file consists of a list of descriptors
+      for the meteorological variables and the position and time "parameters".
+      For each originating centre, these descriptor numbers should match those
+      in the BUFR Tables described above.</para>
+
+      <para>There are two BUFR Parameter Lists for each originating centre,
+      one for surface observations and one for upper air. Each list consists
+      of entry lines, one entry line per meteorological variable or
+      "parameter". An entry line consists of a descriptor number followed by
+      an ampersand(&amp;) and then, optionally, text to describe the
+      variable.</para>
+
+      <para><token>descriptor &amp; text describing the meteorological
+      variable or "parameter"</token></para>
+
+      <para>For example, the first three lines of the upper air BUFR Parameter
+      List should be as follows:</para>
+
+      <programlisting>
+11001 &amp; WIND DIRECTION
+11002 &amp; WIND SPEED
+10195 &amp; HEIGHT in mtrs</programlisting>
+
+      <para>The position of the line in the list, not the text, is what
+      actually defines the meteorological variable, e.g. the first entry line
+      in the upper air BUFR Parameter Table is always the entry for Wind
+      Direction, the second Wind Speed and the third Height. It is necessary
+      to include each entry line in the file, even if they are not to be used.
+      Complete lists for upper air and surface are given below.</para>
+    </section>
+
+    <section id="Accessing_BUFR_Parameter_Lists">
+      <title>Accessing BUFR Parameter Lists</title>
+
+      <para>There are two modes of accessing the BUFR Parameter Lists in
+      <productname>Magics</productname>. By default, the lists are stored at
+      an address path controlled by an environment variable, which is made
+      known to installers at the various sites. The other mode of access is by
+      setting a <productname>Magics</productname> parameter,
+      <parameter>BUFR_PARAM_LIST_ADDRESS_PATH</parameter>, to the address path
+      of the tables. This means that users can then use their own lists. Each
+      upper air list name should have the format <token>bufrtab_ua_nn</token>
+      (surface lists should have the format bufrtab_surf_nn) where nn is the
+      number of the originating Centre of the BUFR data, e.g. 98 for ECMWF, 85
+      for France.</para>
+    </section>
+
+    <section id="Surface_BUFR_Parameter_List">
+      <title>Surface BUFR Parameter List</title>
+
+      <para>The ECMWF BUFR Parameter List for surface data,
+      <token>bufrtab_surf_98</token> is as follows (38 lines):</para>
+
+      <programlisting>11011 &amp; WIND DIRECTION at 10 m
+11012 &amp; WIND SPEED at 10m
+20001 &amp; HORIZONTAL VISIBILITY
+20003 &amp; PRESENT WEATHER
+12004 &amp; TEMPERATURE at 2m
+20012 &amp; MEDIUM CLOUD
+20012 &amp; HIGH CLOUD
+10051 &amp; MSL PRESSURE
+10063 &amp; PRESSURE TENDENCY CHARACTERISTIC(a)
+10061 &amp; PRESSURE TENDENCY AMOUNT (pp)
+20004 &amp; PAST WEATHER (1)
+20005 &amp; PAST WEATHER (2)
+20011 &amp; CLOUD AMOUNT (nh)
+20013 &amp; HEIGHT OF CLOUD BASE (h)
+20012 &amp; LOW CLOUD
+12006 &amp; DEWPOINT at 2m
+22042 &amp; SEA TEMPERATURE
+1012 &amp; SHIP'S DIRECTION
+1013 &amp; SHIP'S SPEED
+20010 &amp; TOTAL CLOUD
+22002 &amp; DIRECTION OF WIND WAVES
+22012 &amp; PERIOD OF WIND WAVES
+22022 &amp; HEIGHT OF WIND WAVES
+22003 &amp; DIRECTION OF SWELL WAVES
+22013 &amp; PERIOD OF SWELL WAVES
+22023 &amp; HEIGHT OF SWELL WAVES
+22001 &amp; DIRECTION OF WAVES
+22011 &amp; PERIOD OF WAVES
+20021 &amp; HEIGHT OF WAVES
+4004 &amp; HOUR
+4005 &amp; MINUTE
+5001 &amp; LATITUDE (HIGH ACCURACY)
+5002 &amp; LATITUDE (COARSE ACCURACY)
+6001 &amp; LONGITUDE (HIGH ACCURACY)
+6002 &amp; LONGITUDE (COARSE ACCURACY)
+7001 &amp; HEIGHT OF STATION in mtrs
+7061 &amp; DEPTH BELOW LAND SURFACE
+12030 &amp; SOIL TEMPERATURES</programlisting>
+
+      <para>To make local surface BUFR Parameter Lists, it is only necessary
+      to copy the above ECMWF surface list to a new list (with an appropriate
+      name) and change the descriptor numbers to the ones to be used locally.
+      It is important that all the above lines are included in each list, even
+      if they are not to be used in plotting.</para>
+
+      <para>The position and time "parameters" are only given in the surface
+      list.</para>
+    </section>
+
+    <section id="Upper_Air_BUFR_Parameter_List">
+      <title>Upper Air BUFR Parameter List</title>
+
+      <para>Following is a listing of all the entries in the ECMWF BUFR
+      Parameter List for upper air, <token>bufrtab_ua_98</token> (18
+      lines):</para>
+
+      <programlisting>11001 &amp;WIND DIRECTION
+11002 &amp; WIND SPEED
+10195 &amp; HEIGHT in mtrs
+12003 &amp; DEW POINT TEMPERATURE
+12001 &amp; TEMPERATURE
+7004 &amp; PRESSURE level in pascals
+7006 &amp; HEIGHT ABOVE STATION in mtrs
+22042 &amp; SEA TEMPERATURE
+11003 &amp; U-COMPONENT
+11004 &amp; V-COMPONENT
+10003 &amp; HEIGHT in gp mtrs
+11192 &amp; U-COMPONENT at 10m
+11193 &amp; V-COMPONENT at 10m
+7002 &amp; ALTITUDE in mtrs
+12007 &amp; VIRTUAL TEMPERATURE
+13016 &amp; PRECIPITABLE WATER
+20010 &amp; TOTAL CLOUD
+10004 &amp; PRESSURE in pascals</programlisting>
+
+      <para>To make local upper air BUFR Parameter Lists, it is only necessary
+      to copy the above ECMWF upper air list to a new list (with an
+      appropriate name) and change the descriptor numbers to the ones to be
+      used locally. It is important that all the above lines are included in
+      each list, even if they are not to be used in plotting.</para>
+    </section>
+  </section>
+
+
+  <xi:include href="../paramtables/pobs_tables.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <section  id="Observation Program_Examples">
+    <title>Program Examples</title>
+
+    <para>These examples show some basic plots generated from observations. Please feel free to use these programs as basis for your own developments.
+    </para>
+  </section>
+
+  <xi:include href="../examples/manual/xml/obs_examples.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+</chapter>

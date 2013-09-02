@@ -1,0 +1,81 @@
+<magics>
+<class  xmltag='page' name='FortranSceneNode' directory='common' prefix='page' action='pnew' include='SceneNode.h'>
+  	<parameter  member='x' to='float' default='0' from='float' name='page_x_position'>
+         		<release >Magics++0.1		</release>
+         		<documentation > X-Coordinate of lower left hand corner of page.Default 		</documentation>
+  	</parameter>
+
+  	<parameter  member='y' to='float' default='0' from='float' name='page_y_position'>
+         		<release >Magics++0.1		</release>
+         		<documentation > Y-Coordinate of lower left hand corner of page.Default 		</documentation>
+  	</parameter>
+
+  	<parameter  member='width' to='float' default='29.7' from='float' name='page_x_length'>
+          		<release >Magics++0.1		</release>
+         		<documentation > Length of page in horizontal direction 		</documentation>
+  	</parameter>
+
+  	<parameter  member='height' to='float' default='21' from='float' name='page_y_length'>
+         		<release >Magics++0.1		</release>
+         		<documentation > Length of page in vertical direction 		</documentation>
+  	</parameter>
+
+ 
+  	<parameter  member='frame' to='bool' default='off' from='string' name='page_frame'>
+         		<release >Magics++2.4		</release>
+         		<documentation > Plot frame around page (ON/OFF) 		</documentation>
+         		<migration > Default as changed from magics6) 		</migration>
+  	</parameter>
+
+  	<parameter  member='frame_colour' to='Colour' default='blue' from='string' name='page_frame_colour'>
+         		<release >Magics++0.5		</release>
+         		<documentation > Colour of page frame (Full choice of colours) 		</documentation>
+  	</parameter>
+
+  	<parameter  member='frame_line_style' to='LineStyle' default='solid' from='string' name='page_frame_line_style'>
+         		<release >Magics++0.5		</release>
+         		<documentation > Style of page frame(SOLID/DASH/DOT/CHAIN_DASH/CHAIN_DOT) 		</documentation>
+  	</parameter>
+
+  	<parameter  member='frame_thickness' to='int' default='1' from='int' name='page_frame_thickness'>
+         		<documentation > Thickness of page frame 		</documentation>
+         		<release >Magics++0.5		</release>
+  	</parameter>
+
+  	<parameter  from='string' name='page_id_line' default='on' member='page_id' to='NoPageID' include='PageID.h'>
+         		<release >Magics++0.6		</release>
+         		<release >Logo expected in 0.7		</release>
+         		<option  fortran='on' include='PageID.h' name='PageID'>		</option>
+         		<option  fortran='off' include='PageID.h' name='NoPageID'>		</option>
+         		<documentation > Plot identification line and ECMWF logo (ON/OFF) 		</documentation>
+  	</parameter>
+  
+ 
+  
+  	<parameter  from='float' name='page_x_gap' default='0.0cm' member='page_x_gap' to='float' implemented='no'>
+         		<documentation > Gap between pages in X direction 		</documentation>
+         		<release >Magics++0.2		</release>
+         		<release_info >Not fully implemented		</release_info>
+  	</parameter>
+
+  	<parameter  from='float' name='page_y_gap' default='0.0cm' member='page_y_gap' to='float' implemented='no'>
+         		<documentation > Gap between pages in Y direction 		</documentation>
+         		<release >Magics++0.2		</release>
+          		<release_info >Not fully implemented		</release_info>
+  	</parameter>
+
+    	<parameter  member='plot_layout' to='string' default='automatic' from='string' name='layout'>
+         		<documentation > Type of page layout (POSITIONAL/AUTOMATIC) 		</documentation>
+   	</parameter>
+
+  	<parameter  member='plot_start' to='string' default='bottom' from='string' name='plot_start'>
+         		<documentation > Position of first page plotted (BOTTOM/TOP) 		</documentation>
+         		<release >Magics++0.2		</release>
+  	</parameter>
+
+  	<parameter  member='plot_direction' to='string' default='vertical' from='string' name='plot_direction'>
+         		<documentation > Direction of plotting (HORIZONTAL/VERTICAL) 		</documentation>
+         		<release >Magics++0.2		</release>
+  	</parameter>
+  
+</class></magics>

@@ -1,0 +1,33 @@
+
+<magics version='3.0'>
+  <!-- definition of the output-->
+  <drivers>
+  	<png output_name='simple_plotting'/>
+  </drivers>
+  <page>
+   <!-- the definition of the geographical area goes into the map tag-->
+  	<map 
+		fitted_mode='crop'
+	    margin_top='0'
+	    margin_left='0'
+	    margin_bottom='0'
+	    margin_right='0'> 
+	<!-- define the background coastlinesi -->
+		<coastlines 
+		   -- Here come the attributes of the coastlines --
+			/>
+
+	<!-- define the Airep layer layer-->
+		<plot>
+			<geopoints  geo_input_file_name = '../airep.geo' />
+            <symbol
+                symbol_type = '???' 
+                symbol_marker = '??' 
+                symbol_colour = '????' 
+                symbol_height = '???' 
+            />
+		</plot>
+	
+	</map>
+  </page>
+</magics>

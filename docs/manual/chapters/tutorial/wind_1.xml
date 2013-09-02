@@ -1,0 +1,39 @@
+<magics>
+    <tutorial name="wind_1" magml='off' title='Simple flags on Europe' comment='In this example we will learn how to load a wind info from a grib file, and how to make a simple wind plotting over Europe'>     
+       <requirement name='1' subject='Geographical Area' text='Europe in cylindrical'
+            link_doc='layout_mapping_coastlines' link_ptr='Subpage_Mapping'>
+            <action name='pcoast'/>
+            <parameter name='subpage_lower_left_longitude' value='-15.0' function='psetr'/>
+            <parameter name='subpage_lower_left_latitude' value='30.0' function='psetr'/>
+            <parameter name='subpage_upper_right_longitude' value='40.0' function='psetr'/>
+            <parameter name='subpage_upper_right_latitude' value='70.0' function='psetr'/>
+            </requirement>
+        <requirement name='2' subject='Grid and coastlines setting' text='Shaded coastlines using HSL colour definition' 
+            link_doc='layout_mapping_coastlines' link_ptr='Coastlines_and_Gridlines'>
+            <action name='pcoast'/>
+            <parameter name='map_coastline_colour' value='tan' function='psetc'/>
+            <parameter name='map_coastline_thickness' value='2' function='pseti'/>
+            <parameter name='map_coastline_land_shade' value='on' function='psetc'/>
+            <parameter name='map_coastline_land_shade_colour' value='HSL(0.40, 0.15,0.95)' function='psetc'/>
+        </requirement>  
+        <requirement name='3' subject='Wind loading' text='Wind components are in grib file uv500.grib' 
+            link_doc='data' link_ptr='Pseudo_Action_Routine_PGRIB'>
+            <action name='pgrib'/>
+            <parameter name='grib_input_type' value='file' function='psetc'/>
+            <parameter name='grib_wind_position_1' value='1' function='pseti'/>
+            <parameter name='grib_wind_position_2' value='2' function='pseti'/>
+            <parameter name='grib_input_file_name' value='data/uv500.grib' function='psetc'/>
+        </requirement>  
+        <requirement name='4' subject='Flags plotting' text='Navy flags ignoring the wind below 5 m/s'
+            link_doc='wind' link_ptr='Plotting_Wind_Flags'>
+            <action name='pwind'/>
+            <parameter name='wind_field_type' value='flags' function='psetc'/>
+            <parameter name='wind_flag_min_speed' value='5.0' function='psetr'/>
+            <parameter name='wind_flag_origin_marker' value='dot' function='psetc'/>
+            <parameter name='wind_flag_colour' value='navy' function='psetc'/>
+        </requirement>   
+        <spot name='a' text='The lines are thinner in Magics++'/>
+        <spot name='b' text='Magics++ will take into account the map_coastline_colour even when using land shading'/>
+        <spot name='c' text='Small difference in the aspect of the origin marker'/>           
+    </tutorial>
+</magics>

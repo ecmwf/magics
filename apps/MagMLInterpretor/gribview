@@ -1,0 +1,77 @@
+#!/bin/sh
+#set -x
+
+usage() {
+    echo "Usage: gribview [OPTIONS] grib_path"
+    echo "    -o name of the postscript file"
+    echo "    -e european plot"
+    echo "    -g global plot"
+    echo "    -n use new magics++"
+    echo "    -d turn on the debug messages"
+    exit 1
+}
+
+use magics++ > /dev/null
+
+# set default values
+output='magics.ps'
+dev='off'
+debug='off'
+area='globe'
+
+
+while getopts :p:o:degnxh options 
+do
+	case $options in
+	p)
+		echo "Grib to visualise->" $OPTARG
+		grib=$OPTARG
+		;;
+	o)
+		echo "Plot in file->" $OPTARG
+		output=$OPTARG
+		;;
+	d) 
+		echo "Turn on debug messages"
+		dev='on'
+		debug='on'
+		;;
+	e) 
+		echo "Europe Selected" 
+		area="europe"
+		;;
+	g) 
+		echo "globe Selected" 
+		area="globe"
+		;;  
+	n) 
+		use newmagics++ > /dev/null
+		echo "use new magics"
+		;;
+	x) 
+		use magicsX++ > /dev/null
+		echo "use test magics"
+		;;
+	h)
+		echo "help"
+		usage
+		;;
+	'?')
+		echo ""
+		echo "ERROR: No grib file was defined!"
+		echo ""
+		usage
+		;;
+	esac
+done
+
+shift `expr $OPTIND - 1`
+
+MAGPLUS_DEV=$dev
+MAGPLUS_DEBUG=$debug
+
+#tv7 $MAGPLUS_HOME/bin/magml -a grib.template -grib=$1 -area=$area -o $output
+
+magml $MAGPLUS_HOME/share/templates/grib.template -grib=$1 -area=$area -o $output
+
+gv $output

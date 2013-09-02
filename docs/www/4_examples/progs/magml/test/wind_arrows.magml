@@ -1,0 +1,72 @@
+<magics version='3.0'>
+
+    <drivers>
+        <ps            name= 'wind_arrows' />
+        <gif_animation name= 'wind_arrows' />
+    </drivers>
+
+ 
+    <!-- First page - default wind arrows -->
+
+    <page format ='a4' orientation = 'landscape' >
+
+       <map> 
+          <cylindrical subpage_lower_left_longitude  = '-20'
+                       subpage_lower_left_latitude   = '20'
+                       subpage_upper_right_longitude = '30'
+                       subpage_upper_right_latitude  = '60' />
+
+          <coastlines>
+             <coast colour = 'red' />
+          </coastlines>
+
+           <plot>
+              <grib input_file_name = 'data/uv500.grb'/>
+              <wind/>
+           </plot>
+
+           <text font = 'Times-Roman' colour = 'rgb(0.1,0.6,0.2)'>UV 500 Wind Arrow Plot (default attributes)</text>
+       </map> 
+
+    </page>
+
+
+    <!-- Second page - wind arrows' attributes -->
+
+    <page format ='a4' orientation = 'landscape' >
+
+       <map> 
+          <cylindrical subpage_lower_left_longitude  = '-20'
+                       subpage_lower_left_latitude   = '20'
+                       subpage_upper_right_longitude = '30'
+                       subpage_upper_right_latitude  = '60' />
+
+          <coastlines>
+             <coast colour = 'red' />
+          </coastlines>
+
+           <plot>
+              <grib input_file_name = 'data/uv500.grb'/>
+              
+              
+              <wind wind_thinning_factor = '2.0'
+                    wind_arrow_calm_indicator = 'off'
+                    wind_arrow_calm_indicator_size = '0.3'
+                    wind_arrow_calm_below = '0.5'
+                    wind_arrow_colour = 'green'
+                    wind_arrow_head_shape = '2'
+                    wind_arrow_head_ratio = '0.3'
+                    wind_arrow_legend = 'on'
+                    wind_arrow_thickness = '3'
+                    wind_arrow_style = 'dash'
+                    wind_arrow_unit_velocity = '25.0' />             
+           </plot>
+
+           <text font = 'Times-Roman' colour = 'rgb(0.1,0.6,0.2)'>UV 500 Wind Arrow Plot (thick, green dashed arrows)</text>
+       </map> 
+
+    </page>
+
+
+
+</magics>

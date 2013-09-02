@@ -1,0 +1,36 @@
+#!/bin/csh
+#
+# File: $ECMWFHOME/use/use.doublemagics-6.0
+#
+# Purpose: Set the environment for double precision version of MAGICS
+#
+# Authors: Petra Kogel
+#
+# $Revision: 1.5 $    $Date: 1998/06/22 13:55:34 $
+#
+################################################################################
+
+#
+# Check if doublemagics is already selected
+#
+if ($?envSelected == 0) setenv envSelected ""
+foreach Keyword ($envSelected)
+	if ($Keyword == "doublemagics") exit
+end
+
+#
+# Set MAGLIB
+#
+if (-f /usr/local/SGKS/lib/libfgks.so.1.0 || -f /usr/local/SGKS/lib/libfgks.so.1) then
+	echo "double precision MAGICS is not available on SUN systems"
+    exit 1
+else
+	unsetenv MAG_COASTLINES
+	setenv MAGLIB "-L/usr/local/lib32 -lmagGL_r8 -lMvDevices_r8 -lftn -lfortran -lm"
+    setenv EMOSLIB "-lemos_r8.new"
+endif
+
+#
+# Mark environment doublemagics as read
+#
+setenv envSelected "doublemagics $envSelected"

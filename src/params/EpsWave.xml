@@ -1,0 +1,9 @@
+<magics>
+<class  action='peps' directory='visualisers' prefix='eps/eps_rose_wave' xmltag='epswave' name='EpsWave'>
+		<documentation >
+		The Epsgraph is repsonsible for plotting the espgram using wind rose visualisation
+		</documentation>
+		<parameter  member='colour' to='stringarray' default='magstringarray()' from='stringarray' name='eps_rose_wind_colour'> 
+    		<documentation > Rose wind darker colour  		</documentation>          
+    	</parameter>
+</class></magics>

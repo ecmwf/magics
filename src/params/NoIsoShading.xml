@@ -1,0 +1,2 @@
+<magics>
+<class  action='pcont' directory='visualisers' include='IsoShading.h' name='NoIsoShading' doc_inherits='no'></class></magics>

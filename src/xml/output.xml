@@ -1,0 +1,16 @@
+<?xml-stylesheet type='text/css' href='parameter.css'?>
+<magics>
+<class name='OutputHandler' xmltag='output' action ='popen' directory='common'>    
+
+   <parameter name='output_format' from='string' to='string' member='format' xml='format' default='ps' >
+         <documentation>Defines the device to be used (ps/gif/svg).</documentation>
+	 <release>1.2</release>
+   </parameter>
+
+   <parameter name='output_formats' from='stringarray' to='stringarray' member='formats' xml='formats' default='stringarray()'>
+         <documentation>Defines the list of devices to be used (ps/gif/svg).</documentation>
+         <release>1.2</release>        
+   </parameter>  
+
+</class>
+</magics>

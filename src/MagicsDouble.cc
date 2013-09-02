@@ -1,0 +1,140 @@
+/******************************** LICENSE ********************************
+
+ Copyright 2007 European Centre for Medium-Range Weather Forecasts (ECMWF)
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at 
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+
+ ******************************** LICENSE ********************************/
+
+/*
+
+   API for double precision versions of Magics++
+
+*/
+
+/*! \mainpage Magics++
+
+ \section intro What is Magics++?
+
+ Magics++ is the second generation of a meteorological graphics 
+ library developed at the <a href="http://www.ecmwf.int"><i>European 
+ Centre for Medium Range Forecasts (ECMWF)</i></a>. This library is 
+ developed in C++ and offers output in various formats such as PostScript, 
+ PDF, PNG, SVG, KML and Qt. 
+
+ \section install How-to install
+
+ Before installation you have to compile Magics++. To do so, simply 
+ unpack the tarball in an appropiate directory and run <i>./configure</i> 
+ followed by <i>make</i>. You can type <i>./configure --help</i> to get all
+ options of configuring Magics++. 
+ 
+ To install type <i>make install</i>. Depending on the 
+ choosen installation directory you need root permission.
+
+ For more information you should read the <a href="">installation guide</a>.
+
+ \section interfaces Magics++ interfaces
+
+ Magics++ offers different interfaces to access its graphics 
+ functionality: C++ (for higher-level applicatiosn such as Metview), C, Fortran 77
+ Python and MagML/MagJson. The Fortran interface is intended to be backwards compatible with older 
+ versions (mainly the the 6.x series) of Magics.
+
+ \section modules More information
+
+ - \ref interpolation "Interpolation and contouring"
+ 
+ - \ref hilo "Computations of High &amp; Lows"
+ 
+ - \ref titles "Automatic titles"
+ 
+ - \ref projections "Geographical projections"
+ 
+ - \ref drivers "Output drivers"
+ 
+ - \ref coastlines "Coastlines"
+ 
+ - \ref colours "Colours"
+ 
+ - \ref obs "Plotting of observations"
+
+- \ref compatibility "Compatibility to MAGICS 6 for deprecated parameters" 
+ 
+ \section links Links
+ 
+ - <a href="http://www.ecmwf.int/publications/manuals/magics/index.html">Magics++ homepage</a>
+ 
+ - <a href="http://www.ecmwf.int/services/computing/training/material/com_mag.html">Training course</a>
+ 
+ - <a href="file:///scratch/graphics/cgi/mpptestsuite/html/test/fortran/timings.html">Magics++ test suite [ECMWF internal]</a>
+ 
+ 
+ \section copyright License
+ 
+  Copyright 2007 European Centre for Medium-Range Weather Forecasts (ECMWF)
+
+  Licensed under the Apache License, Version 2.0 (the "License"); 
+  you may not use this file except in compliance with the License. 
+  You may obtain a copy of the License at 
+
+	<a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a>
+
+  Unless required by applicable law or agreed to in writing, software 
+  distributed under the License is distributed on an "AS IS" BASIS, 
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
+  See the License for the specific language governing permissions and 
+  limitations under the License.
+
+*/
+
+
+#include <iostream>
+
+extern "C"
+{
+#include <magics_api.h>
+
+
+void psetr_(char* name, double* value, int length)
+{
+	std::string n(name, length);
+	mag_setr(n.c_str(), *value);
+}
+
+void pset1r_(char* name, double* data, int* dim, int length)
+{
+	std::string n(name, length);
+	mag_set1r(n.c_str(), data, *dim);
+}
+
+void pset2r_(char* name, double* data, int *dim, int *dim2, int length)
+{    
+	std::string n(name, length);
+	mag_set2r(n.c_str(), data, *dim, *dim2);
+}
+
+void pset3r_(char* name, double* data, int* dim, int *dim2, int* dim3, int length)
+{    
+	std::string n(name, length);
+	mag_set3r(n.c_str(), data, *dim, *dim2, *dim3);
+}
+
+void penqr_(char* name, double* value, int length)
+{
+	std::string n(name, length);
+	mag_enqr( n.c_str(), value);
+	
+}
+
+}

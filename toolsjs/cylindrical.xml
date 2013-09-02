@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<plot-request>
+    <magics version="3.0" width='29.7' height='18'>
+        <drivers>
+            <gif output_name_first_page_number="off" />
+        </drivers>
+
+        <definition>
+            <contour id="tempe">
+                <isoline colour="black">
+                    <shading>
+                        <polygon>
+                            <area_fill />
+                        </polygon>
+                        <list
+                            colour_list="BLUE_PURPLE/BLUE_PURPLE/BLUE_PURPLE/BLUE_PURPLE/GREENISH_BLUE/BLUE_GREEN/BLUISH_GREEN/YELLOW_GREEN/GREENISH_YELLOW/YELLOW/ORANGISH_YELLOW/ORANGE_YELLOW/YELLOWISH_ORANGE/ORANGE/REDDISH_ORANGE/RED_ORANGE/ORANGISH_RED/RED/MAGENTA/MAGENTA" />
+                    </shading>
+                    <interval interval="5" />
+                    <nolabel />
+                    <nohighlight />
+                </isoline>
+                <nohilo />
+            </contour>
+        </definition>
+
+        <page>
+            <nopageid />
+            <meta />
+            <map>
+                
+                <cylindrical>
+                    <corners lower_left_longitude="${ll_lon=-180}"
+                        lower_left_latitude="${ll_lat=-90}"
+                        upper_right_longitude="${ur_lon=180}"
+                        upper_right_latitude="${ur_lat=90}" />
+                </cylindrical>
+                <plot>
+                    <grib input_file_name="${grib_file=dummy}" />
+                    <contour use_id="tempe" />
+                </plot>
+                <coastlines />
+            </map>
+        </page>
+    </magics>
+
+    <parameters>
+        <data-source id="grib_file" type="grib"
+            url="http://localhost:8080/download/t850.grib">
+
+            <metadata>
+                <mars-request>
+                    RETRIEVE, DATE=-1, GRID=1.5/1.5
+                </mars-request>
+            </metadata>
+        </data-source>
+    </parameters>
+</plot-request>

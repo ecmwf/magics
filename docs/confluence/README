@@ -1,0 +1,25 @@
+﻿Example usage:
+
+./togallery.sh 
+
+This script generates the whole gallery files and upload them to Magics Wiki (Confluence).
+
+Preconditions:
+
+A few scripts (example2jira.py, prettyPython.py, pythonTidy) in the main directory(.../magics/docs/confluence) have to be accessible as Python packages
+from its subdirectories. To do so, PYTHONPATH environment variable should be updated to include .../magics/docs/confluence
+
+Constructing new examples:
+
+When adding a new example to any of the already defined sets (axis, coastlines, etc.), next steps should be followed:
+1. Add the new example script and any other data file into the corresponding directory (e.g. copy "wind5.py" into "confluence/wind").
+2. Update "tojira.py" script of the corresponding directory (e.g. "confluence/wind/tojira.py").
+
+When adding a new set of examples (axis, coastlines, etc), additional steps should be followed:
+1. Create the corresponding directory for the set of examples (e.g. "confluence/epsgram").
+2. Add the new examples files into the directory.
+3. Create a "tojira.py" script for the set (e.g. "confluence/epsgram/tojira.py").
+4. Update "confluence/togallery.sh", "confluence/tojira.py" scripts with new set details.
+5. Previous scripts assume that a page for the set of examples (e.g. "EPSgram examples") exists in confluence.
+   It is advised to create the new page using other as template (e.g. "Axis examples").
+6. Update "confluence/gallery/generateMagicsGallery.py" script, including the new page details: page id and title.
