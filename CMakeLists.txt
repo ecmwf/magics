@@ -57,11 +57,11 @@ set( MAGICS_INSTALL_PATH  ${CMAKE_INSTALL_PREFIX} )
 # ecbuild_use_package( PROJECT eckit VERSION 0.3 REQUIRED )
 
 if( WITH_ODB)
-ecbuild_use_package( PROJECT odb_api  VERSION 0.9.28 )
+  ecbuild_use_package( PROJECT odb_api  VERSION 0.9.28 )
 endif()
 
 if( WITH_GRIB)
-ecbuild_use_package( PROJECT grib_api VERSION 1.9.16 )
+  ecbuild_use_package( PROJECT grib_api VERSION 1.9.16 )
 endif()
 
 ecbuild_declare_project()
@@ -69,9 +69,14 @@ ecbuild_declare_project()
 ###############################################################################
 # find extra packages
 
+set( CMAKE_THREAD_PREFER_PTHREAD 1 )
+find_package( Threads ) 
+
 # set(Boost_USE_STATIC_LIBS        ON)
 # set(Boost_NO_SYSTEM_PATHS        ON)
 # set(Boost_USE_MULTITHREADED      ON)
+
+
 find_package( Boost 1.49.0 )
 
 find_package( Proj4  )
@@ -118,6 +123,8 @@ foreach( _tpl ${MAGICS_TPLS} )
     list( APPEND MAGICS_EXTRA_INCLUDE_DIRS  ${${TPL}_INCLUDE_DIRS} )
     list( APPEND MAGICS_EXTRA_LIBRARIES     ${${TPL}_LIBRARIES} )
 endforeach()
+
+list( APPEND MAGICS_EXTRA_LIBRARIES     ${CMAKE_THREAD_LIBS_INIT} )
 
 # set_directory_properties( PROPERTIES COMPILE_DEFINITIONS ${ECKIT_DEFINITIONS} )
 get_directory_property( MAGICS_DEFINITIONS COMPILE_DEFINITIONS )

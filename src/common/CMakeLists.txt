@@ -70,7 +70,7 @@ list( APPEND _common_srcs
 	Text.cc Flag.cc  
 	Mutex.cc MutexCond.cc Thread.cc MagExceptions.cc AutoLocker.cc
 	ThreadControler.cc Task.cc
-	DataStats.cc SciMethods.cc BasePointsHandler.cc PointsHandler.cc
+	DataStats.cc SciMethods.cc BasePointsHandler.cc PointsHandler.cc ProgressObject.cc
 
 # projection
     GeoRectangularProjection.cc  PolarStereographicProjection.cc TaylorProjection.cc
