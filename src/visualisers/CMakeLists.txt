@@ -157,6 +157,8 @@ PolyShadingMethod.h
 PolyShadingTechnique.cc
 PolyShadingTechnique.h
 ShadingTechnique.h
+SegmentJoiner.h
+SegmentJoiner.cc
 SimplePolylineVisualiser.cc
 SimplePolylineVisualiser.h
 SymbolAdvancedTableMode.cc
@@ -167,6 +169,8 @@ SymbolPlotting.cc
 SymbolPlotting.h
 TaylorGrid.cc
 TaylorGrid.h
+TephiGrid.cc  
+TephiGrid.h
 TextOrientation.cc
 TextOrientation.h
 UserDate.cc

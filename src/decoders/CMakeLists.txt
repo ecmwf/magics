@@ -53,6 +53,8 @@ WindMode.h
 XYList.cc
 XYList.h
 shapefil.h
+shpopen.c
+dbfopen.c
 )
 
 foreach( file ${_decoders_srcs} )
