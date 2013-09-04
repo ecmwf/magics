@@ -1,10 +1,10 @@
 <magics>
-<class  inherits='LookupTableMode' directory='visualisers' name='FixedTableMode'>
-		<parameter  member='levels' to='intarray' default='intarray()' from='intarray' name='image_level_list'>
-         		<documentation > The list  		</documentation> 
+<class inherits="LookupTableMode" directory="visualisers" name="FixedTableMode">
+		<parameter member="levels" to="intarray" default="intarray()" from="intarray" name="image_level_list">
+         		<documentation> The list  		</documentation> 
       	</parameter>
-         	<parameter  member='indexes' to='intarray' default='intarray()' from='intarray' name='image_index_list'>
-         		<documentation > The list of indexes of the Lut to be used! (size of level_list -1 )  		</documentation>
+         	<parameter member="indexes" to="intarray" default="intarray()" from="intarray" name="image_index_list">
+         		<documentation> The list of indexes of the Lut to be used! (size of level_list -1 )  		</documentation>
       	</parameter>
        
 </class></magics>

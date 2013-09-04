@@ -1,30 +1,30 @@
 <magics>
-<class  action='pcoast' directory='visualisers' xmltag='nogrid' include='GridPlotting.h' name='NoGridPlotting'>
-   	<documentation >
+<class action="pcoast" directory="visualisers" xmltag="nogrid" include="GridPlotting.h" name="NoGridPlotting">
+   	<documentation>
    This object suppresses the plotting of the map grid.
    	</documentation> 
-   	<parameter  from='float' name='map_grid_latitude_reference' default='0' metview='on' member='latReference' to='float'>
-            		<documentation >
+   	<parameter from="float" name="map_grid_latitude_reference" default="0" metview="on" member="latReference" to="float" inherit_parent_reqs="no">
+            		<documentation>
             Reference Latitude from which all latitude lines are drawn
            		</documentation>
-           		<release >Magics++0.1		</release>
+           		<release>Magics++0.1		</release>
        	</parameter>
-        	<parameter  from='float' name='map_grid_latitude_increment' default='10' metview='on' member='latIncrement' to='float'>
-            		<documentation >
+        	<parameter from="float" name="map_grid_latitude_increment" default="10" metview="on" member="latIncrement" to="float" inherit_parent_reqs="no">
+            		<documentation>
             Interval between latitude grid lines
            		</documentation>
-           		<release >Magics++0.1		</release>
+           		<release>Magics++0.1		</release>
        	</parameter>
-        	<parameter  from='float' name='map_grid_longitude_reference' default='0' metview='on' member='lonReference' to='float'>
-            		<documentation >
+        	<parameter from="float" name="map_grid_longitude_reference" default="0" metview="on" member="lonReference" to="float" inherit_parent_reqs="no">
+            		<documentation>
             Reference Longitude from which all longitude lines are drawn
            		</documentation>
-           		<release >Magics++0.1		</release>
+           		<release>Magics++0.1		</release>
        	</parameter>
-        	<parameter  from='float' name='map_grid_longitude_increment' default='20' metview='on' member='lonIncrement' to='float'>
-            		<documentation >
+        	<parameter from="float" name="map_grid_longitude_increment" default="20" metview="on" member="lonIncrement" to="float" inherit_parent_reqs="no">
+            		<documentation>
             Interval between longitude grid lines
            		</documentation>
-           		<release >Magics++0.1		</release>
+           		<release>Magics++0.1		</release>
        	</parameter>
 </class></magics>

@@ -1,33 +1,33 @@
 <magics>
-<class  directory='decoders' prefix='boxplot' xmltag='boxplot_input' name='BoxPlotDecoder'>
-  	<documentation >The following parameters allow the user to define both the data
+<class directory="decoders" prefix="boxplot" xmltag="boxplot_input" name="BoxPlotDecoder">
+  	<documentation>The following parameters allow the user to define both the data
   and the plotting attributes of boxplots.	</documentation>
 
-  	<parameter  member='x' to='floatarray' default='floatarray()' from='floatarray' name='boxplot_positions'>
-         		<documentation > Array containing the x-values		</documentation>
+  	<parameter member="x" to="floatarray" default="floatarray()" from="floatarray" name="boxplot_positions">
+         		<documentation> Array containing the x-values		</documentation>
   	</parameter>
   
-  	<parameter  member='date_x' to='stringarray' default='stringarray()' from='stringarray' name='boxplot_date_positions'>
-         		<documentation > Array containing the dates X-values		</documentation>
+  	<parameter member="date_x" to="stringarray" default="stringarray()" from="stringarray" name="boxplot_date_positions">
+         		<documentation> Array containing the dates X-values		</documentation>
   	</parameter>
-  	<parameter  member='min' to='floatarray' default='floatarray()' from='floatarray' name='boxplot_minimum_values'>
-         		<documentation > Array containing minimum values		</documentation>
-  	</parameter>
-  
-  	<parameter  member='max' to='floatarray' default='floatarray()' from='floatarray' name='boxplot_maximum_values'>
-         		<documentation > Array containing maximum values		</documentation>
+  	<parameter member="min" to="floatarray" default="floatarray()" from="floatarray" name="boxplot_minimum_values">
+         		<documentation> Array containing minimum values		</documentation>
   	</parameter>
   
-  	<parameter  member='upper' to='floatarray' default='floatarray()' from='floatarray' name='boxplot_box_upper_values'>
-         		<documentation > Array containing the upper box values		</documentation>
+  	<parameter member="max" to="floatarray" default="floatarray()" from="floatarray" name="boxplot_maximum_values">
+         		<documentation> Array containing maximum values		</documentation>
   	</parameter>
   
-  	<parameter  member='lower' to='floatarray' default='floatarray()' from='floatarray' name='boxplot_box_lower_values'>
-         		<documentation > Array containing the lower box values		</documentation>
+  	<parameter member="upper" to="floatarray" default="floatarray()" from="floatarray" name="boxplot_box_upper_values">
+         		<documentation> Array containing the upper box values		</documentation>
   	</parameter>
   
-  	<parameter  member='median' to='floatarray' default='floatarray()' from='floatarray' name='boxplot_median_values'>
-         		<documentation > Array containing the median values		</documentation>
+  	<parameter member="lower" to="floatarray" default="floatarray()" from="floatarray" name="boxplot_box_lower_values">
+         		<documentation> Array containing the lower box values		</documentation>
+  	</parameter>
+  
+  	<parameter member="median" to="floatarray" default="floatarray()" from="floatarray" name="boxplot_median_values">
+         		<documentation> Array containing the median values		</documentation>
   	</parameter>
 
 </class></magics>

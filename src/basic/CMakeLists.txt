@@ -5,10 +5,6 @@ BasicSceneObject.cc
 BasicSceneObject.h
 BasicSceneVisitor.cc
 BasicSceneVisitor.h
-DataConverter.cc
-DataConverter.h
-DisplayManager.cc
-DisplayManager.h
 FortranMagics.cc
 FortranMagics.h
 HistoVisitor.cc
@@ -41,8 +37,6 @@ TagHandler.cc
 TagHandler.h
 TextVisitor.cc
 TextVisitor.h
-ThreadNode.cc
-ThreadNode.h
 ViewNode.cc
 ViewNode.h
 Visdef.h
@@ -52,8 +46,6 @@ WebFormat.cc
 WebFormat.h
 XmlMagics.cc
 XmlMagics.h
-magplus.cc
-magplus.h
 )
 
 foreach( file ${_basic_srcs} )

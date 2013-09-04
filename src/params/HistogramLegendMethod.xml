@@ -1,36 +1,40 @@
 <magics>
-<class  inherits='LegendMethod' name='HistogramLegendMethod' used_by='Legend' directory='visualisers' action='legend' include='LegendMethod.h'>
-		<parameter  member='label_frequency' to='int' default='1' from='int' name='legend_label_frequency'>
-         			<documentation > Frequency of the labels. 		</documentation>
+<class inherits="LegendMethod" name="HistogramLegendMethod" used_by="Legend" directory="visualisers" action="legend" include="LegendMethod.h" doc_inherits="no">
+		<parameter member="label_frequency" to="int" default="1" from="int" name="legend_label_frequency">
+         			<documentation> Frequency of the labels. 		</documentation>
    	</parameter>
-   	<parameter  member='histo_border' to='bool' default='on' from='string' name='legend_histogram_border'>
-         			<documentation > add a border to the the bars 		</documentation>
+   	<parameter member="histo_border" to="bool" default="on" from="string" name="legend_histogram_border">
+         			<documentation> add a border to the the bars 		</documentation>
+         			<set name="legend_histogram_border_colour" value="on">		</set>
    	</parameter>  
-  	<parameter  member='histo_border_colour' to='Colour' default='black' from='string' name='legend_histogram_border_colour'>
-         			<documentation > border colour of the bars		</documentation>
+  	<parameter member="histo_border_colour" to="Colour" default="black" from="string" name="legend_histogram_border_colour">
+         			<documentation> border colour of the bars		</documentation>
    	</parameter>   
-   	<parameter  member='histo_mean' to='bool' default='off' from='string' name='legend_histogram_mean_value'>
-         			<documentation > show the mean value 		</documentation>
+   	<parameter member="histo_mean" to="bool" default="off" from="string" name="legend_histogram_mean_value">
+         			<documentation> show the mean value 		</documentation>
+         			<set name="legend_histogram_mean_value_marker" value="on">		</set>
+         			<set name="legend_histogram_mean_value_marker_colour" value="on">		</set>
+         			<set name="legend_histogram_mean_value_marker_size" value="on">		</set>
    	</parameter>  
-    	<parameter  member='histo_mean_marker' to='int' default='15' from='int' name='legend_histogram_mean_value_marker'>
-         			<documentation > show the mean value 		</documentation>
+    	<parameter member="histo_mean_marker" to="int" default="15" from="int" name="legend_histogram_mean_value_marker">
+         			<documentation> show the mean value 		</documentation>
    	</parameter> 	
-    	<parameter  member='histo_mean_colour' to='Colour' default='black' from='string' name='legend_histogram_mean_value_marker_colour'>
-         			<documentation > show the mean value 		</documentation>
+    	<parameter member="histo_mean_colour" to="Colour" default="black" from="string" name="legend_histogram_mean_value_marker_colour">
+         			<documentation> show the mean value 		</documentation>
    	</parameter>  
-   	<parameter  member='histo_mean_size' to='float' default='0.4' from='float' name='legend_histogram_mean_value_marker_size'>
-         			<documentation > show the mean value 		</documentation>
+   	<parameter member="histo_mean_size" to="float" default="0.4" from="float" name="legend_histogram_mean_value_marker_size">
+         			<documentation> show the mean value 		</documentation>
    	</parameter> 
-   	<parameter  member='histo_max' to='bool' default='on' from='string' name='legend_histogram_max_value'>
-         			<documentation > show the max value 		</documentation>
+   	<parameter member="histo_max" to="bool" default="on" from="string" name="legend_histogram_max_value">
+         			<documentation> show the max value 		</documentation>
    	</parameter>   
-   	<parameter  member='histo_grid_colour' to='Colour' default='black' from='string' name='legend_histogram_grid_colour'>
-         			<documentation > Colour of the grids 		</documentation>
+   	<parameter member="histo_grid_colour" to="Colour" default="black" from="string" name="legend_histogram_grid_colour">
+         			<documentation> Colour of the grids 		</documentation>
    	</parameter>   
-   	<parameter  member='histo_grid_style' to='LineStyle' default='solid' from='string' name='legend_histogram_grid_line_style'>
-         			<documentation >  Line Style of the grids 		</documentation>
+   	<parameter member="histo_grid_style" to="LineStyle" default="solid" from="string" name="legend_histogram_grid_line_style">
+         			<documentation>  Line Style of the grids 		</documentation>
    	</parameter>  
-   	<parameter  member='histo_grid_thickness' to='int' default='1' from='int' name='legend_histogram_grid_thickness'>
-         			<documentation >  thickness of the grids 		</documentation>
+   	<parameter member="histo_grid_thickness" to="int" default="1" from="int" name="legend_histogram_grid_thickness">
+         			<documentation>  thickness of the grids 		</documentation>
    	</parameter>  
 </class></magics>

@@ -1,30 +1,30 @@
 <magics>
-<class  directory='common' prefix='mgb' xmltag='mgb' name='BinaryObject'>
+<class directory="common" prefix="mgb" xmltag="mgb" name="BinaryObject">
 
-	<parameter  member='path' to='string' default='' from='string' name='mgb_filename'>
-  		<release >Magics++2.9		</release>
-  		<documentation  for_docs='no'>Path to the binary file.		</documentation>
+	<parameter member="path" to="string" default="" from="string" name="mgb_filename">
+  		<release>Magics++2.9		</release>
+  		<documentation for_docs="no">Path to the binary file.		</documentation>
 	</parameter>
 
-	<parameter  member='transparency' to='float' default='1.0' from='float' name='mgb_transparency'>
-  		<release >Magics++2.12.3		</release>
-  		<documentation  for_docs='no'>Transpernecy scaling factor for binary layer.		</documentation>
+	<parameter member="transparency" to="float" default="1.0" from="float" name="mgb_transparency">
+  		<release>Magics++2.12.3		</release>
+  		<documentation for_docs="no">Transpernecy scaling factor for binary layer.		</documentation>
 	</parameter>
 
-	<parameter  from='int' name='mgb_x' visible='no' default='0' member='mgb_x' to='int'>
-  		<documentation  for_docs='no'>X offset in percentage		</documentation>
+	<parameter from="float" name="mgb_x" visible="no" default="0" member="mgb_x" to="float">
+  		<documentation for_docs="no">X offset in percentage		</documentation>
 	</parameter>
 
-	<parameter  from='int' name='mgb_y' visible='no' default='0' member='mgb_y' to='int'>
-  		<documentation  for_docs='no'>Y offset in percentage		</documentation>
+	<parameter from="float" name="mgb_y" visible="no" default="0" member="mgb_y" to="float">
+  		<documentation for_docs="no">Y offset in percentage		</documentation>
 	</parameter>
 
-	<parameter  from='int' name='mgb_width' visible='no' default='100' member='mgb_width' to='int'>
-  		<documentation  for_docs='no'>Width in percentage		</documentation>
+	<parameter from="float" name="mgb_width" visible="no" default="100" member="mgb_width" to="float">
+  		<documentation for_docs="no">Width in percentage		</documentation>
 	</parameter>
 
-	<parameter  from='int' name='mgb_height' visible='no' default='100' member='mgb_height' to='int'>
-  		<documentation  for_docs='no'>Height in percentage		</documentation>
+	<parameter from="float" name="mgb_height" visible="no" default="100" member="mgb_height" to="float">
+  		<documentation for_docs="no">Height in percentage		</documentation>
 	</parameter>
 
 </class></magics>

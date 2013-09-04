@@ -1,65 +1,83 @@
 <magics>
-<class  inherits='SymbolMode' xmltag='individual' name='SymbolIndividualMode' prefix='symbol' directory='visualisers' include='SymbolMode.h'>
-		<documentation >Here comes the description of the SymbolIndividualMode object	</documentation>
-        	<parameter  from='string' name='symbol_marker_mode' default='index' member='marker_mode' to='string' values='index/name/image'>
-            		<documentation > Method to select a marker : by name, by index, by image : in that case, Magics will use an external image as marker.  
-            	
-            		</documentation>
-            		<set  name='symbol_marker_index' value='index'>		</set>
-            		<set  name='symbol_marker_name' value='name'>		</set> 
-            		<set  name='symbol_image_path' value='image'>		</set>
-            		<set  name='symbol_image_format' value='image'>		</set>
-        	</parameter>
-        <parameter  member='legend_user_text' to='string' default='' from='string' name='legend_text' >
-	 		<documentation > if set, the text to be shown for the symbol group in the legend		</documentation>
-	</parameter>
+<class inherits="SymbolMode" xmltag="individual" name="SymbolIndividualMode" prefix="symbol" directory="visualisers" include="SymbolMode.h">
+    	<documentation>Here comes the description of the SymbolIndividualMode object	</documentation>
+
+    	<parameter default="" to="string" member="legend_text" from="string" name="legend_user_text">
+        		<documentation> if set, the text to be shown for the symbol group in the legend				</documentation>
+    	</parameter>
+
+    	<parameter member="colour" to="Colour" default="BLUE" from="string" name="symbol_colour">
+        		<documentation> Colour of symbols.   		</documentation>
+    	</parameter>
+
+    	<parameter member="height" to="float" default="0.2" from="float" name="symbol_height">
+        		<documentation> Height of symbols.  		</documentation>
+    	</parameter>
+
+    	<parameter from="string" name="symbol_marker_mode" default="index" member="marker_mode" to="string" values="index/name/image">
+        		<documentation> Method to select a marker : by name, by index, by image : in that case, Magics will use an external image as marker.
+        		</documentation>
+        		<set name="symbol_marker_index" value="index">		</set>
+        		<set name="symbol_marker_name" value="name">		</set>
+        		<set name="symbol_image_path" value="image">		</set>
+        		<set name="symbol_image_format" value="image">		</set> 
+        		<set name="symbol_image_width" value="image">		</set>
+        		<set name="symbol_image_height" value="image">		</set>
+    	</parameter>
+        
        
-        	<parameter  member='marker' to='int' default='1' from='int' name='symbol_marker_index'>
-            		<documentation > Marker indice:  An integer between 1 and 28		</documentation>
-        	</parameter>
+    	<parameter member="marker" to="int" default="1" from="int" name="symbol_marker_index">
+        		<documentation> Marker indice:  An integer between 1 and 28		</documentation>
+    	</parameter>
         
-        	<parameter  member='symbol' to='string' default='dot' from='string' name='symbol_marker_name'>
-            		<documentation > Symbol name. Choose in a list of available markers dot/circle/ww_00 ... 		</documentation>
-        	</parameter>
+    	<parameter member="symbol" to="string" default="dot" from="string" name="symbol_marker_name">
+        		<documentation> Symbol name. Choose in a list of available markers dot/circle/ww_00 ... 		</documentation>
+    	</parameter>
+
+    	<parameter member="image_path" to="string" default="" from="string" name="symbol_image_path">
+        		<documentation> Path to the image 		</documentation>
+    	</parameter>
         
+    	<parameter from="string" name="symbol_image_format" default="automatic" member="image_format" to="string" values="automatic/png/svg">
+        		<documentation> Format of the image file. If set to AUTOMATIC, the file extension will be used to determine the file type. 		</documentation>
+    	</parameter>
         
-        
-       	<parameter  member='colour' to='Colour' default='BLUE' from='string' name='symbol_colour'>
-            		<documentation > Colour of symbols.   		</documentation>
-        	</parameter>
-        	<parameter  member='height' to='float' default='0.2' from='float' name='symbol_height'>
-            		<documentation > Height of symbols.  		</documentation>
-        	</parameter>
-			<parameter  member='image_path' to='string' default='' from='string' name='symbol_image_path'>
-            		<documentation > Path to the image 		</documentation>
-        	</parameter>
-        
-        	<parameter  from='string' name='symbol_image_format' default='' member='image_format' to='string' values='png/svg/gif/jpeg'>
-            		<documentation >  Format of the image 		</documentation>
-        	</parameter>
-        
-        	<parameter  member='image_width' to='float' default='-1' from='float' name='symbol_image_width'>
-            		<documentation >  width of the image 		</documentation>
-        	</parameter> 
-        	<parameter  member='image_height' to='float' default='-1' from='float' name='symbol_image_height'>
-            		<documentation >  height of the image 		</documentation>
-        	</parameter>
-        	<parameter  member='text' to='stringarray' default='stringarray()' from='stringarray' name='symbol_text_list'>
-            		<documentation > lsit of texts to plot 		</documentation>
-        	</parameter>
-        	<parameter  from='string' name='symbol_text_position' default='right' member='text_position' to='string' values='right/left/bottom/top'>
-            		<documentation > Position of the text 		</documentation>
-        	</parameter>
-         	<parameter  member='text_font_name' to='string' default='sansserif' from='string' name='symbol_text_font_name'>
-            		<documentation > Font to use  		</documentation>
-        	</parameter>
-          	<parameter  member='text_font_size' to='float' default='0.25' from='float' name='symbol_text_font_size'>
-            		<documentation > Font size  		</documentation>
-        	</parameter>
-         	<parameter  member='text_font_style' to='string' default='normal' from='string' name='symbol_text_font_style'>
-            		<documentation > Font style  		</documentation>
-        	</parameter>
-         	<parameter  member='text_font_colour' to='Colour' default='automatic' from='string' name='symbol_text_font_colour'>
-            		<documentation > Font colour.  		</documentation>
-        	</parameter>
+    	<parameter member="image_width" to="float" default="-1" from="float" name="symbol_image_width">
+        		<documentation>  width of the image 		</documentation>
+    	</parameter> 
+
+    	<parameter member="image_height" to="float" default="-1" from="float" name="symbol_image_height">
+        		<documentation>  height of the image 		</documentation>
+    	</parameter>
+
+    	<parameter member="text" to="stringarray" default="stringarray()" from="stringarray" name="symbol_text_list">
+        		<documentation> list of texts to plot 		</documentation>
+    	</parameter>
+
+    	<parameter from="string" name="symbol_text_position" default="right" member="text_position" to="string" values="right/left/bottom/top">
+        		<documentation> Position of the text 		</documentation>
+    	</parameter>
+
+    	<parameter member="text_font_name" to="string" default="sansserif" from="string" name="symbol_text_font_name">
+        		<documentation> Font to use  		</documentation>
+    	</parameter>
+
+    	<parameter member="text_font_size" to="float" default="0.25" from="float" name="symbol_text_font_size">
+        		<documentation> Font size  		</documentation>
+    	</parameter>
+
+    	<parameter member="text_font_style" to="string" default="normal" from="string" name="symbol_text_font_style">
+            		<documentation> Font style  		</documentation>
+    	</parameter>
+
+    	<parameter member="text_font_colour" to="Colour" default="automatic" from="string" name="symbol_text_font_colour">
+        		<documentation> Font colour.  		</documentation>
+    	</parameter> 
+
+    	<parameter member="text_blanking" to="bool" default="off" from="string" name="symbol_text_blanking">
+        		<documentation> blanking of the text 		</documentation>
+    	</parameter>
+    	<parameter member="legend_height" to="float" default="-1" from="float" name="symbol_legend_height">
+         		<documentation> If set, the height will be used to plot the symbols in the legend 		</documentation>
+  		</parameter>
 </class></magics>

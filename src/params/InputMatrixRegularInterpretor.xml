@@ -1,71 +1,79 @@
 <magics>
-<class  directory='decoders' name='InputMatrixRegularInterpretor'>
+<class directory="decoders" name="InputMatrixRegularInterpretor">
 
-  	<parameter  xml='origin_latitude' from='float' name='input_field_initial_latitude' default='90' member='latitude' to='float'>
-         		<documentation > used in a geographical projection context: Latitude of the point (1,1) in the input array 		</documentation>
+  	<parameter xml="origin_latitude" from="float" name="input_field_initial_latitude" default="90" member="latitude" to="float">
+         		<documentation> used in a geographical projection context: Latitude of the point (1,1) in the input array 		</documentation>
   	</parameter>
 
-  	<parameter  xml='origin_longitude' from='float' name='input_field_initial_longitude' default='0' member='longitude' to='float'>
-         		<documentation > used in a geographical projection context: Longitude of the point (1,1) in the input array 		</documentation>
+  	<parameter xml="origin_longitude" from="float" name="input_field_initial_longitude" default="0" member="longitude" to="float">
+         		<documentation> used in a geographical projection context: Longitude of the point (1,1) in the input array 		</documentation>
   	</parameter>
 
-  	<parameter  xml='latitude_step' from='float' name='input_field_latitude_step' default='-1.5' member='latitude_step' to='float'>
-         		<documentation > used in a geographical projection context: Distance between two latitude points in the input array 		</documentation>
+  	<parameter xml="latitude_step" from="float" name="input_field_latitude_step" default="-1.5" member="latitude_step" to="float">
+         		<documentation> used in a geographical projection context: Distance between two latitude points in the input array 		</documentation>
   	</parameter>
 
-  	<parameter  xml='longitude_step' from='float' name='input_field_longitude_step' default='1.5' member='longitude_step' to='float'>
-         		<documentation > used in a geographical projection context: Distance between two longitude points in the input array 		</documentation>
+  	<parameter xml="longitude_step" from="float" name="input_field_longitude_step" default="1.5" member="longitude_step" to="float">
+         		<documentation> used in a geographical projection context: Distance between two longitude points in the input array 		</documentation>
   	</parameter>
   
-    	<parameter  member='y_first' to='float' default='0' from='float' name='input_field_initial_y'>
-         		<documentation > used in a cartesian projection context: y-coordinate of the point (1,1) in the input array 		</documentation>
+    	<parameter member="y_first" to="float" default="0" from="float" name="input_field_initial_y">
+         		<documentation> used in a cartesian projection context: y-coordinate of the point (1,1) in the input array 		</documentation>
   	</parameter>
 
-  	<parameter  member='x_last' to='float' default='100' from='float' name='input_field_final_x'>
-         		<documentation > used in a cartesian projection context: x-coordinate of the point (1,1) in the input array 		</documentation>
+  	<parameter member="x_last" to="float" default="100" from="float" name="input_field_final_x">
+         		<documentation> used in a cartesian projection context: x-coordinate of the point (1,1) in the input array 		</documentation>
   	</parameter>
   
-   	<parameter  member='y_last' to='float' default='100' from='float' name='input_field_final_y'>
-         		<documentation > used in a cartesian projection context: y-coordinate of the point (1,1) in the input array 		</documentation>
+   	<parameter member="y_last" to="float" default="100" from="float" name="input_field_final_y">
+         		<documentation> used in a cartesian projection context: y-coordinate of the point (1,1) in the input array 		</documentation>
   	</parameter>
-
-  	<parameter  member='x_first' to='float' default='0' from='float' name='input_field_initial_x'>
-         		<documentation > used in a cartesian projection context: x-coordinate of the point (1,1) in the input array 		</documentation>
+  	<parameter member="x_coords" to="floatarray" default="floatarray()" from="floatarray" name="input_field_x_list">
+         		<documentation> used in a cartesian projection context: vector containing the x-coordinates 		</documentation>
   	</parameter>
-  
-    	<parameter  member='y_first_date' to='string' default='' from='string' name='input_field_initial_y_date'>
-         		<documentation > used in a cartesian projection context: y-coordinate of the point (1,1) in the input array 		</documentation>
+   	<parameter member="y_coords" to="floatarray" default="floatarray()" from="floatarray" name="input_field_y_list">
+         		<documentation> used in a cartesian projection context: vector containing the y-coordinates 		</documentation>
   	</parameter>
-
-  	<parameter  member='x_last_date' to='string' default='' from='string' name='input_field_final_x_date'>
-         		<documentation > used in a cartesian projection context: x-coordinate of the point (1,1) in the input array 		</documentation>
+   
+  	<parameter member="x_first" to="float" default="0" from="float" name="input_field_initial_x">
+         		<documentation> used in a cartesian projection context: x-coordinate of the point (1,1) in the input array 		</documentation>
   	</parameter>
   
-   	<parameter  member='y_last_date' to='string' default='' from='string' name='input_field_final_y_date'>
-         		<documentation > used in a cartesian projection context: y-coordinate of the point (1,1) in the input array 		</documentation>
+    	<parameter member="y_first_date" to="string" default="" from="string" name="input_field_initial_y_date">
+         		<documentation> used in a cartesian projection context: y-coordinate of the point (1,1) in the input array 		</documentation>
   	</parameter>
 
-  	<parameter  member='x_first_date' to='string' default='' from='string' name='input_field_initial_x_date'>
-         		<documentation > used in a cartesian projection context: x-coordinate of the point (1,1) in the input array 		</documentation>
+  	<parameter member="x_last_date" to="string" default="" from="string" name="input_field_final_x_date">
+         		<documentation> used in a cartesian projection context: x-coordinate of the point (1,1) in the input array 		</documentation>
+  	</parameter>
+  
+   	<parameter member="y_last_date" to="string" default="" from="string" name="input_field_final_y_date">
+         		<documentation> used in a cartesian projection context: y-coordinate of the point (1,1) in the input array 		</documentation>
   	</parameter>
 
-  	<parameter  member='y_step' to='float' default='1' from='float' name='input_field_y_step'>
-         		<documentation > used in a cartesian projection context: y-step in the input array 		</documentation>
+  	<parameter member="x_first_date" to="string" default="" from="string" name="input_field_initial_x_date">
+         		<documentation> used in a cartesian projection context: x-coordinate of the point (1,1) in the input array 		</documentation>
   	</parameter>
 
-  	<parameter  member='x_step' to='float' default='1' from='float' name='input_field_x_step'>
-         		<documentation > used in a cartesian projection context: x-step in the input array 		</documentation>
+  	<parameter member="y_step" to="float" default="1" from="float" name="input_field_y_step">
+         		<documentation> used in a cartesian projection context: y-step in the input array 		</documentation>
   	</parameter>
 
-  	<parameter  xml='input_field_primary_index' from='string' name='input_field_primary_index' default='longitude' member='primary_index' to='string' implemented='no'>
-         		<documentation > Primary or first index of input array(LATITUDE/LONGITUDE) 		</documentation>
+  	<parameter member="x_step" to="float" default="1" from="float" name="input_field_x_step">
+         		<documentation> used in a cartesian projection context: x-step in the input array 		</documentation>
   	</parameter>
 
-  	<parameter  xml='input_field_gradient_control' from='string' name='input_field_gradient_control' default='off' member='input_field_gradient_control' to='string' implemented='no'>
-         		<documentation > How to calculate the contour gradients(LEAST/FLAT_ONLY/OFF) 		</documentation>
+  	<parameter xml="input_field_primary_index" from="string" name="input_field_primary_index" default="longitude" member="primary_index" to="string" implemented="no">
+         		<documentation> Primary or first index of input array(LATITUDE/LONGITUDE) 		</documentation>
   	</parameter>
 
-  	<parameter  xml='input_field_gradient_limitation' from='string' name='input_field_gradient_limitation' default='off' member='input_field_gradient_limitation' to='string' implemented='no'>
-         		<documentation > Set  gradient to 0 for minimum and/or maximum values(MINIMUM/MAXIMUM/BOTH/OFF) 		</documentation>
+  	<parameter xml="input_field_gradient_control" from="string" name="input_field_gradient_control" default="off" member="input_field_gradient_control" to="string" implemented="no">
+         		<documentation> How to calculate the contour gradients(LEAST/FLAT_ONLY/OFF) 		</documentation>
   	</parameter>
+
+  	<parameter xml="input_field_gradient_limitation" from="string" name="input_field_gradient_limitation" default="off" member="input_field_gradient_limitation" to="string" implemented="no">
+         		<documentation> Set  gradient to 0 for minimum and/or maximum values(MINIMUM/MAXIMUM/BOTH/OFF) 		</documentation>
+  	</parameter>
+  
+  
 </class></magics>

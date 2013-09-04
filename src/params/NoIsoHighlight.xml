@@ -1,2 +1,2 @@
 <magics>
-<class  xmltag='nohighlight' name='NoIsoHighlight' directory='visualisers' action='pcont' include='IsoHighlight.h' doc_inherits='no'></class></magics>
+<class xmltag="nohighlight" name="NoIsoHighlight" directory="visualisers" action="pcont" include="IsoHighlight.h" doc_inherits="no"/></magics>

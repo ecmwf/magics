@@ -1,15 +1,15 @@
 <magics>
-<class  directory='visualisers' prefix='boxplot/boxplot_median' xmltag='median' name='BoxPlotMedian'>
-   	<parameter  member='colour' to='Colour' default='navy' from='string' name='boxplot_median_colour'>
-         		<documentation >Colour of the median line		</documentation>
+<class directory="visualisers" prefix="boxplot/boxplot_median" xmltag="median" name="BoxPlotMedian">
+   	<parameter member="colour" to="Colour" default="navy" from="string" name="boxplot_median_colour">
+         		<documentation>Colour of the median line		</documentation>
   	</parameter>
   
-   	<parameter  member='thickness' to='int' default='3' from='int' name='boxplot_median_thickness'>
-         		<documentation >Thickness of the median line		</documentation>
+   	<parameter member="thickness" to="int" default="3" from="int" name="boxplot_median_thickness">
+         		<documentation>Thickness of the median line		</documentation>
   	</parameter>
   
-   	<parameter  member='style' to='LineStyle' default='solid' from='string' name='boxplot_median_line_style'>
-         		<documentation >Line style of the median line		</documentation>
+   	<parameter member="style" to="LineStyle" default="solid" from="string" name="boxplot_median_line_style">
+         		<documentation>Line style of the median line		</documentation>
   	</parameter>
   
   

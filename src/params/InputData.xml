@@ -1,57 +1,88 @@
 <magics>
-<class  directory='decoders' xmltag='input' name='InputData'>
-  	<documentation > Input data for curve 	</documentation>
+<class directory="decoders" xmltag="input" name="InputData">
+  	<documentation> Input data for curve 	</documentation>
  
- 	<parameter  from='string' name='input_x_type' default='number' member='x_type' to='string' values='date/number'>
-         		<documentation >Type used for X values: number or date 		</documentation>
-         		<set  name='input_x_values' value='number'>		</set>
-         		<set  name='input_date_x_values' value='date'>		</set>
+
+ 	<parameter from="string" name="input_type" default="cartesian" member="type" to="string" values="cartesian/geographical">
+			           		<documentation>Type of projection 		</documentation>
+					   		<set name="input_x_type" value="cartesian">		</set>
+					   		<set name="input_y_type" value="cartesian">		</set>
+					   		<set name="input_latitude_values" value="geographical">		</set>
+					   		<set name="input_longitude_values" value="geographical">		</set>
+					   		<set name="input_x_component_values" value="geographical">		</set>
+					   		<set name="input_y_component_values" value="geographical">		</set>
+					   		<set name="input_values" value="geographical">		</set>
+					  	</parameter>
+
+
+ 	<parameter from="string" name="input_x_type" default="number" member="x_type" to="string" values="date/number">
+         		<documentation>Type used for X values: number or date 		</documentation>
+         		<set name="input_x_values" value="number">		</set>
+         		<set name="input_x2_values" value="number">		</set>
+         		<set name="input_date_x_values" value="date">		</set>
+         		<set name="input_date_x2_values" value="date">		</set>
   	</parameter>
-  	<parameter  from='string' name='input_y_type' default='number' member='y_type' to='string' values='date/number'>
-         		<documentation >Type used for Y values: number or date 		</documentation> 
-				<set  name='input_y_values' value='number'>		</set>
-         		<set  name='input_date_y_values' value='date'>		</set>
+  	<parameter from="string" name="input_y_type" default="number" member="y_type" to="string" values="date/number">
+         		<documentation>Type used for Y values: number or date 		</documentation> 
+				<set name="input_y_values" value="number">		</set>
+				<set name="input_y2_values" value="number">		</set>
+         		<set name="input_date_y_values" value="date">		</set>
+         		<set name="input_date_y2_values" value="date">		</set>
   	</parameter>
   
-  	<parameter  member='x' to='floatarray' default='floatarray()' from='floatarray' name='input_x_values'>
-         		<documentation > X Values  		</documentation>
+  	<parameter member="x" to="floatarray" default="floatarray()" from="floatarray" name="input_x_values">
+         		<documentation> X Values  		</documentation>
   	</parameter>
-  	<parameter  member='y' to='floatarray' default='floatarray()' from='floatarray' name='input_y_values'>
-         		<documentation > Y Values  		</documentation>
+  	<parameter member="y" to="floatarray" default="floatarray()" from="floatarray" name="input_y_values">
+         		<documentation> Y Values  		</documentation>
   	</parameter>
   
-   	<parameter  member='date_x' to='stringarray' default='stringarray()' from='stringarray' name='input_date_x_values'>
-         		<documentation > X Date Values  		</documentation>
+   	<parameter member="date_x" to="stringarray" default="stringarray()" from="stringarray" name="input_date_x_values">
+         		<documentation> X Date Values  		</documentation>
   	</parameter>
-  	<parameter  member='date_y' to='stringarray' default='stringarray()' from='stringarray' name='input_date_y_values'>
-         		<documentation > Y Date Values  		</documentation>
+  	<parameter member="date_y" to="stringarray" default="stringarray()" from="stringarray" name="input_date_y_values">
+         		<documentation> Y Date Values  		</documentation>
   	</parameter>
-  	<parameter  member='x_missing' to='float' default='-21.e6' from='float' name='input_x_missing_value'>
-         		<documentation > mssing value for x   		</documentation> 
+  	<parameter member="x2" to="floatarray" default="floatarray()" from="floatarray" name="input_x2_values">
+         		<documentation> Array containing X positions for second AREA curve.  		</documentation>
+  	</parameter>
+  	<parameter member="y2" to="floatarray" default="floatarray()" from="floatarray" name="input_y2_values">
+         		<documentation> Array containing X positions for second AREA curve.  		</documentation>
+  	</parameter>
+  
+   	<parameter member="date_x2" to="stringarray" default="stringarray()" from="stringarray" name="input_date_x2_values">
+         		<documentation> Array containing X positions for second AREA curve when X axis is a DATE/TIME axis.  Format is YYYY-MM-DD HH:mm:ss 		</documentation>
+  	</parameter>
+  	<parameter member="date_y2" to="stringarray" default="stringarray()" from="stringarray" name="input_date_y2_values">
+         		<documentation> Array containing Y positions for second AREA curve when X axis is a DATE/TIME axis.  Format is YYYY-MM-DD HH:mm:ss  		</documentation>
+  	</parameter>
+  
+  	<parameter member="x_missing" to="float" default="-21.e6" from="float" name="input_x_missing_value">
+         		<documentation> mssing value for x   		</documentation> 
   	</parameter> 
-  	<parameter  member='y_missing' to='float' default='-21.e6' from='float' name='input_y_missing_value'>
-         		<documentation > missing value for x   		</documentation>
+  	<parameter member="y_missing" to="float" default="-21.e6" from="float" name="input_y_missing_value">
+         		<documentation> missing value for x   		</documentation>
   	</parameter>
-  	<parameter  member='values' to='floatarray' default='floatarray()' from='floatarray' name='input_values'>
-         		<documentation >  Values  		</documentation>
+  	<parameter member="values" to="floatarray" default="floatarray()" from="floatarray" name="input_values">
+         		<documentation>  Values  		</documentation>
   	</parameter>
   
-   	<parameter  member='latitudes' to='floatarray' default='floatarray()' from='floatarray' name='input_latitude_values'>
-         		<documentation >  Latitudes  		</documentation>
+   	<parameter member="latitudes" to="floatarray" default="floatarray()" from="floatarray" name="input_latitude_values">
+         		<documentation>  Latitudes  		</documentation>
   	</parameter>
- 	<parameter  member='longitudes' to='floatarray' default='floatarray()' from='floatarray' name='input_longitude_values'>
-         		<documentation >  longitudes  		</documentation>
+ 	<parameter member="longitudes" to="floatarray" default="floatarray()" from="floatarray" name="input_longitude_values">
+         		<documentation>  longitudes  		</documentation>
   	</parameter>
-  	<parameter  member='x_component' to='floatarray' default='floatarray()' from='floatarray' name='input_x_component_values'>
-         		<documentation >  u components for vectors  		</documentation>
+  	<parameter member="x_component" to="floatarray" default="floatarray()" from="floatarray" name="input_x_component_values">
+         		<documentation>  u components for vectors  		</documentation>
   	</parameter>
-  	<parameter  member='y_component' to='floatarray' default='floatarray()' from='floatarray' name='input_y_component_values'>
-         		<documentation >  v components for vectors  		</documentation>
+  	<parameter member="y_component" to="floatarray" default="floatarray()" from="floatarray" name="input_y_component_values">
+         		<documentation>  v components for vectors  		</documentation>
   	</parameter>
 
- 	<parameter  from='string' name='input_binning' default='on' member='input_binning' to='BinningObject' include='BinningObject.h'>
-         		<documentation > Binning information 		</documentation>
-         		<option  xml='nobinning' fortran='off' include='BinningObject.h' name='NoBinningObject'>		</option>
-         		<option  xml='binning' fortran='on' include='BinningObject.h' name='BinningObject'>		</option>
+ 	<parameter from="string" name="input_binning" default="on" member="input_binning" to="BinningObject" include="BinningObject.h">
+         		<documentation> Binning information 		</documentation>
+         		<option xml="nobinning" fortran="off" include="BinningObject.h" name="NoBinningObject">		</option>
+         		<option xml="binning" fortran="on" include="BinningObject.h" name="BinningObject">		</option>
   	</parameter>
  </class></magics>

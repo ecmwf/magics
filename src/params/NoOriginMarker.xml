@@ -1,2 +1,2 @@
 <magics>
-<class  inherits='OriginMarker' directory='visualisers' include='OriginMarker.h' name='NoOriginMarker'></class></magics>
+<class inherits="OriginMarker" directory="visualisers" include="OriginMarker.h" name="NoOriginMarker"/></magics>

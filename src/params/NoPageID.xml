@@ -1,4 +1,4 @@
 <magics>
-<class  directory='common' include='PageID.h' xmltag='nopageid' name='NoPageID'>
-   	<documentation >This object suppresses the plotting the page ID	</documentation>
+<class directory="common" include="PageID.h" xmltag="nopageid" name="NoPageID">
+   	<documentation>This object suppresses the plotting the page ID	</documentation>
 </class></magics>

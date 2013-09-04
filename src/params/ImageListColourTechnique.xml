@@ -1,7 +1,7 @@
 <magics>
-<class  implements='ColourTableDefinitionListInterface' xmltag='list' name='ImageListColourTechnique' directory='visualisers' prefix='image' action='pcont'>
-  	<parameter  member='values' to='stringarray' default='stringarray()' from='stringarray' name='image_colour_table'>
-         		<documentation > List of colours to be used in image plotting. 		</documentation>
-         		<release >Magics++0.8		</release>
+<class implements="ColourTableDefinitionListInterface" xmltag="list" name="ImageListColourTechnique" directory="visualisers" prefix="image" action="pcont">
+  	<parameter member="values" to="stringarray" default="stringarray()" from="stringarray" name="image_colour_table">
+         		<documentation> List of colours to be used in image plotting. 		</documentation>
+         		<release>Magics++0.8		</release>
   	</parameter>
 </class></magics>

@@ -1,8 +1,8 @@
 <magics>
-<class  directory='visualisers' inherits='Curve' include='Curve.h' name='CurveArea'>
- 		<parameter  member='shade' to='GraphShade' default='on' from='string' name='graph_shade'>
-         		<option  xml='shading' fortran='on' include='GraphShade.h' name='GraphShade'>		</option>
-         		<option  xml='noshading' fortran='off' include='GraphShade.h' name='NoGraphShade'>		</option>
-         		<documentation >Turn the shading on 		</documentation>
+<class directory="visualisers" inherits="Curve" include="Curve.h" name="CurveArea">
+ 		<parameter member="shade" to="GraphShade" default="on" from="string" name="graph_shade">
+         		<option xml="shading" fortran="on" include="GraphShade.h" name="GraphShade">		</option>
+         		<option xml="noshading" fortran="off" include="GraphShade.h" name="NoGraphShade">		</option>
+         		<documentation>Turn the shading on 		</documentation>
    	</parameter>
 </class></magics>

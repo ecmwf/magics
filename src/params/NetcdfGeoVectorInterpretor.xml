@@ -1,20 +1,20 @@
 <magics>
-<class  inherits='NetcdfInterpretor' xmltag='geopoints' name='NetcdfGeoVectorInterpretor' directory='decoders' prefix='netcdf' action='pnetcdf' include='NetcdfVectorInterpretor.h'>
-        	<parameter  member='x_component' to='string' default='' from='string' name='netcdf_x_component_variable'>
-              		<release >Magics++2.6		</release>
-              		<documentation >Variable name representing the x component of the vector		</documentation>
+<class inherits="NetcdfInterpretor" xmltag="geopoints" name="NetcdfGeoVectorInterpretor" directory="decoders" prefix="netcdf" action="pnetcdf" include="NetcdfVectorInterpretor.h">
+        	<parameter member="x_component" to="string" default="" from="string" name="netcdf_x_component_variable">
+              		<release>Magics++2.6		</release>
+              		<documentation>Variable name representing the x component of the vector		</documentation>
         	</parameter> 
-         	<parameter  member='y_component' to='string' default='' from='string' name='netcdf_y_component_variable'>
-             		<release >Magics++2.6		</release>
-            		<documentation >Variable name representing the y component of the vector		</documentation>
+         	<parameter member="y_component" to="string" default="" from="string" name="netcdf_y_component_variable">
+             		<release>Magics++2.6		</release>
+            		<documentation>Variable name representing the y component of the vector		</documentation>
         	</parameter>
-        	<parameter  member='latitude' to='string' default='latitude' from='string' name='netcdf_latitude_variable'>
-              		<release >Magics++0.1		</release>
-              		<documentation >Variable name representing the latitude dimension		</documentation>
+        	<parameter member="latitude" to="string" default="latitude" from="string" name="netcdf_latitude_variable">
+              		<release>Magics++0.1		</release>
+              		<documentation>Variable name representing the latitude dimension		</documentation>
         	</parameter> 
-         	<parameter  member='longitude' to='string' default='longitude' from='string' name='netcdf_longitude_variable'>
-            		<metview  default='' class=''>   		</metview>
-             		<release >Magics++0.1		</release>
-            		<documentation >Variable name representing the longitude dimension		</documentation>
+         	<parameter member="longitude" to="string" default="longitude" from="string" name="netcdf_longitude_variable">
+            		<metview default="" class="">   		</metview>
+             		<release>Magics++0.1		</release>
+            		<documentation>Variable name representing the longitude dimension		</documentation>
         	</parameter>
 </class></magics>

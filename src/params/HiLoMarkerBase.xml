@@ -1,2 +1,2 @@
 <magics>
-<class  directory='visualisers' include='HiLoMarkerBase.h' name='HiLoMarkerBase'></class></magics>
+<class directory="visualisers" include="HiLoMarkerBase.h" name="HiLoMarkerBase"/></magics>

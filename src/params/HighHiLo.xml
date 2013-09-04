@@ -1,2 +1,2 @@
 <magics>
-<class  inherits='HiLoBase' xmltag='high' name='HighHiLo' directory='visualisers' action='pcont' include='HiLo.h'></class></magics>
+<class inherits="HiLoBase" xmltag="high" name="HighHiLo" directory="visualisers" action="pcont" include="HiLo.h"/></magics>

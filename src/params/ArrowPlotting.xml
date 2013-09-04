@@ -1,43 +1,44 @@
 <magics>
-<class  inherits='WindPlotting' xmltag='arrow' name='ArrowPlotting' directory='visualisers' prefix='wind/wind_arrow' action='pwind'>
-  	<documentation >	</documentation>
+<class inherits="WindPlotting" xmltag="arrow" name="ArrowPlotting" directory="visualisers" prefix="wind/wind_arrow" action="pwind" doc_inherits="no">
+  	<documentation>	</documentation>
 
-  	<parameter  from='string' name='wind_arrow_calm_indicator' default='off' member='calm' to='CalmIndicator' values='on/off'>
-			<release >Basic implementation in 0.6		</release>
-	  		<option  xml='calm' fortran='on' include='CalmIndicator.h' name='CalmIndicator'>		</option>
-      		<option  xml='nocalm' fortran='off' include='CalmIndicator.h' name='NoCalmIndicator'>		</option>
-    
-			<documentation >Plot calm indicator circle if wind speed is less than or equal to the value in WIND_ARROW_CALM_BELOW (ON / OFF)		</documentation>
+  	<parameter from="string" name="wind_arrow_calm_indicator" default="off" member="calm" to="CalmIndicator" values="on/off">
+			<release>Basic implementation in 0.6		</release>
+	  		<option xml="calm" fortran="on" include="CalmIndicator.h" name="CalmIndicator">		</option>
+      		<option xml="nocalm" fortran="off" include="CalmIndicator.h" name="NoCalmIndicator">		</option>
+      		<set name="wind_arrow_calm_indicator_size" value="on">		</set>
+      		<set name="wind_arrow_calm_below" value="on">		</set>
+			<documentation>Plot calm indicator circle if wind speed is less than or equal to the value in WIND_ARROW_CALM_BELOW (ON / OFF)		</documentation>
   	</parameter>
 
-  	<parameter  member='calm_indicator_size' to='float' default='0.3' from='float' name='wind_arrow_calm_indicator_size'>
-			<release >Basic implementation in 0.6		</release>
-			<documentation > The radius of the circle which indicates calm 		</documentation>
+  	<parameter member="calm_indicator_size" to="float" default="0.3" from="float" name="wind_arrow_calm_indicator_size">
+			<release>Basic implementation in 0.6		</release>
+			<documentation> The radius of the circle which indicates calm 		</documentation>
   	</parameter>
 
-  	<parameter  member='calm_below' to='float' default='0.5' from='float' name='wind_arrow_calm_below'>
-			<release >Basic implementation in 0.6		</release>
-			<documentation > Winds less than or equal to this value will be drawn as calm. 		</documentation>
+  	<parameter member="calm_below" to="float" default="0.5" from="float" name="wind_arrow_calm_below">
+			<release>Basic implementation in 0.6		</release>
+			<documentation> Winds less than or equal to this value will be drawn as calm. 		</documentation>
   	</parameter>
 
-  	<parameter  member='colour' to='Colour' default='blue' from='string' name='wind_arrow_colour'>
-			<release >Basic implementation in 0.6		</release>
-			<documentation > Colour of wind arrow  		</documentation>
+  	<parameter member="colour" to="Colour" default="blue" from="string" name="wind_arrow_colour">
+			<release>Basic implementation in 0.6		</release>
+			<documentation> Colour of wind arrow  		</documentation>
   	</parameter>
 
-  	<parameter  from='string' name='wind_arrow_cross_boundary' default='on' member='cross_boundary' to='bool' implemented='no'>
-			<release >Basic implementation in 0.6		</release>
-        		<documentation > If set to 'ON', wind arrows are truncated if they cross the subpage border (ON / OFF). 		</documentation>
+  	<parameter from="string" name="wind_arrow_cross_boundary" default="on" member="cross_boundary" to="bool" implemented="no">
+			<release>Basic implementation in 0.6		</release>
+        		<documentation> If set to 'ON', wind arrows are truncated if they cross the subpage border (ON / OFF). 		</documentation>
   	</parameter>
 
-  	<parameter  member='head' to='int' default='0' from='int' name='wind_arrow_head_shape'>
-			<release >Basic implementation in  1.3.		</release>
-			<documentation >Table number, XY, indicating shape of arrowhead X		</documentation>
+  	<parameter member="head" to="int" default="0" from="int" name="wind_arrow_head_shape">
+			<release>Basic implementation in  1.3.		</release>
+			<documentation>Table number, XY, indicating shape of arrowhead X		</documentation>
   	</parameter>
   
-  	<parameter  member='ratio' to='float' default='0.3' from='float' name='wind_arrow_head_ratio'>
-			<release >Basic implementation in 0.6		</release>
-			<documentation > Table number, XY, indicating style and shape of arrowhead X 		</documentation>
+  	<parameter member="ratio" to="float" default="0.3" from="float" name="wind_arrow_head_ratio">
+			<release>Basic implementation in 0.6		</release>
+			<documentation> Table number, XY, indicating style and shape of arrowhead X 		</documentation>
   	</parameter>
   
  
@@ -46,38 +47,38 @@
 
  
 
-  	<parameter  member='max_speed' to='float' default='1.0e+21' from='float' name='wind_arrow_max_speed'>
-	 		<release >Basic implementation in 0.6		</release>
-         		<documentation > Highest value of wind speed to be plotted 		</documentation>
+  	<parameter member="max_speed" to="float" default="1.0e+21" from="float" name="wind_arrow_max_speed">
+	 		<release>Basic implementation in 0.6		</release>
+         		<documentation> Highest value of wind speed to be plotted 		</documentation>
   	</parameter>
 
-  	<parameter  member='min_speed' to='float' default='-1.0e+21' from='float' name='wind_arrow_min_speed'>
-			<release >Basic implementation in 0.6		</release>
-        		<documentation > Lowest value of wind speed to be plotted 		</documentation>
+  	<parameter member="min_speed" to="float" default="-1.0e+21" from="float" name="wind_arrow_min_speed">
+			<release>Basic implementation in 0.6		</release>
+        		<documentation> Lowest value of wind speed to be plotted 		</documentation>
   	</parameter>
 
-  	<parameter  from='string' name='wind_arrow_origin_position' default='tail' member='origin_position' to='ArrowPosition' values='centre/tail'>
-			<release >Basic implementation in 0.6		</release>
-        		<documentation > The position of the wind arrow relative to the wind origin  		</documentation>
+  	<parameter from="string" name="wind_arrow_origin_position" default="tail" member="origin_position" to="ArrowPosition" values="centre/tail">
+			<release>Basic implementation in 0.6		</release>
+        		<documentation> The position of the wind arrow relative to the wind origin  		</documentation>
   	</parameter>
 
-  	<parameter  member='thickness' to='int' default='1' from='int' name='wind_arrow_thickness'>
-	 		<release >Basic implementation in 0.8		</release>
-         		<documentation > Thickness of wind arrow shaft 		</documentation>
+  	<parameter member="thickness" to="int" default="1" from="int" name="wind_arrow_thickness">
+	 		<release>Basic implementation in 0.8		</release>
+         		<documentation> Thickness of wind arrow shaft 		</documentation>
   	</parameter>
   
-  	<parameter  member='style' to='LineStyle' default='solid' from='string' name='wind_arrow_style'>
-         		<documentation >Controls the line style of the arrow flag shaft.		</documentation>
-         		<release >Basic implementation in 0.8.		</release>
+  	<parameter member="style" to="LineStyle" default="solid" from="string" name="wind_arrow_style">
+         		<documentation>Controls the line style of the arrow flag shaft.		</documentation>
+         		<release>Basic implementation in 0.8.		</release>
   	</parameter>
-   	<parameter  from='string' name='wind_arrow_unit_system' visible='false' default='paper' value='paper/user' member='unit_system' to='string'>
-        		<documentation >Coordinates sysem used to sacle the arrow : paper -->1cm, user-->1 user unit		</documentation>
+   	<parameter from="string" name="wind_arrow_unit_system" visible="false" default="paper" member="unit_system" to="string" values="paper/user">
+        		<documentation>Coordinates sysem used to sacle the arrow : paper --&gt;1cm, user--&gt;1 user unit		</documentation>
   	</parameter>
 
-  	<parameter  member='unit_velocity' to='float' default='25.0' from='float' name='wind_arrow_unit_velocity'>
-        		<documentation >Wind speed in m/s represented by a unit vector (1.0 cm or 1.0 user unit depending on the value of wind_arrow_unit_system ).		</documentation>
+  	<parameter member="unit_velocity" to="float" default="25.0" from="float" name="wind_arrow_unit_velocity">
+        		<documentation>Wind speed in m/s represented by a unit vector (1.0 cm or 1.0 user unit depending on the value of wind_arrow_unit_system ).		</documentation>
   	</parameter>  
-  	<parameter  member='legend_unit' to='string' default='m/s' from='string' name='wind_arrow_legend_text'>
-        		<documentation > Text to be used as units in the legend text 		</documentation>
+  	<parameter member="legend_unit" to="string" default="m/s" from="string" name="wind_arrow_legend_text">
+        		<documentation> Text to be used as units in the legend text 		</documentation>
   	</parameter>
 </class></magics>

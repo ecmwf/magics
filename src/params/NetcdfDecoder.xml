@@ -1,26 +1,26 @@
 <magics>
-<class  action='pnetcdf' directory='decoders' prefix='netcdf' xmltag='netcdf' name='NetcdfDecoder'>
-		<documentation >
+<class action="pnetcdf" directory="decoders" prefix="netcdf" xmltag="netcdf" name="NetcdfDecoder">
+		<documentation>
        This handles the decoding of NetCDF Files.
 		</documentation>
 
     
 
-     	<parameter  member='interpretor' to='NetcdfInterpretor' default='matrix' from='string' name='netcdf_type'>
-        		<option  xml='matrix' fortran='matrix' include='NetcdfMatrixInterpretor.h' name='NetcdfMatrixInterpretor'>		</option>
+     	<parameter member="interpretor" to="NetcdfInterpretor" default="matrix" from="string" name="netcdf_type">
+        		<option xml="matrix" fortran="matrix" include="NetcdfMatrixInterpretor.h" name="NetcdfMatrixInterpretor">		</option>
                 
-           		<option  xml='geomatrix' fortran='geomatrix' include='NetcdfGeoMatrixInterpretor.h' name='NetcdfGeoMatrixInterpretor'>		</option>
+           		<option xml="geomatrix" fortran="geomatrix" include="NetcdfGeoMatrixInterpretor.h" name="NetcdfGeoMatrixInterpretor">		</option>
           
-          		<option  xml='vector' fortran='vector' include='NetcdfVectorInterpretor.h' name='NetcdfVectorInterpretor'>		</option>
-           		<option  xml='geovector' fortran='geovector' include='NetcdfVectorInterpretor.h' name='NetcdfGeoVectorInterpretor'>		</option>
-           		<option  xml='geopolarmatrix' fortran='geopolarmatrix' include='NetcdfVectorInterpretor.h' name='NetcdfGeoPolarMatrixInterpretor'>		</option>
+          		<option xml="vector" fortran="vector" include="NetcdfVectorInterpretor.h" name="NetcdfVectorInterpretor">		</option>
+           		<option xml="geovector" fortran="geovector" include="NetcdfVectorInterpretor.h" name="NetcdfGeoVectorInterpretor">		</option>
+           		<option xml="geopolarmatrix" fortran="geopolarmatrix" include="NetcdfVectorInterpretor.h" name="NetcdfGeoPolarMatrixInterpretor">		</option>
         
-        		<option  xml='geopoint' fortran='geopoint' include='NetcdfGeopointsInterpretor.h' name='NetcdfGeopointsInterpretor'>		</option>  
-          		<option  fortran='xypoint' include='NetcdfGeopointsInterpretor.h' name='NetcdfXYpointsInterpretor'>		</option>  
-         		<option  xml='complex_matrix' fortran='complex_matrix' include='NetcdfOrcaInterpretor.h' name='NetcdfOrcaInterpretor'>		</option>
+        		<option xml="geopoint" fortran="geopoint" include="NetcdfGeopointsInterpretor.h" name="NetcdfGeopointsInterpretor">		</option>  
+          		<option fortran="xypoint" include="NetcdfGeopointsInterpretor.h" name="NetcdfXYpointsInterpretor">		</option>  
+         		<option xml="complex_matrix" fortran="complex_matrix" include="NetcdfOrcaInterpretor.h" name="NetcdfOrcaInterpretor">		</option>
 
-        		<release >Magics++0.1		</release>
-        		<release_info >Only matrix is implemented		</release_info>
-        		<documentation >Type of data arrangement in the file (possible values: matrix) 		</documentation>
+        		<release>Magics++0.1		</release>
+        		<release_info>Only matrix is implemented		</release_info>
+        		<documentation>Type of data arrangement in the file (possible values: matrix) 		</documentation>
     	</parameter>
 </class></magics>

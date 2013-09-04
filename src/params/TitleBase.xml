@@ -1,2 +1,2 @@
-<class  directory='visualisers' include='TitleBase.h' name='TitleBase'>
-</class>
+<magics>
+<class directory="visualisers" include="TitleBase.h" name="TitleBase"/></magics>

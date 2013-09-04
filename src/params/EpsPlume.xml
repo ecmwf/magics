@@ -1,42 +1,72 @@
 <magics>
-<class  action='pmetgram' directory='visualisers' prefix='eps/eps_plume' xmltag='epsplume' name='EpsPlume'>
-		<documentation >
+<class action="pmetgram" directory="visualisers" prefix="eps/eps_plume" xmltag="epsplume" name="EpsPlume">
+		<documentation>
 		The EpsPlumeis responsible for plotting epsplume graph
 		</documentation>  
-			<parameter  from='string' name='eps_plume_method' default='time_serie' member='method' to='string' values='time_serie/vertical_profile'>           
-            		<documentation > Type of visualisation required : time_serie or vertical_profile 		</documentation>
+			<parameter from="string" name="eps_plume_method" default="time_serie" member="method" to="string" values="time_serie/vertical_profile">           
+            		<documentation> Type of visualisation required : time_serie or vertical_profile 		</documentation>
         	</parameter>
-        	<parameter  member='line_colour' to='Colour' default='magenta' from='string' name='eps_plume_line_colour'>           
-            		<documentation >Line colour of the eps members  		</documentation>
-        	</parameter>
-        
-         	<parameter  member='line_style' to='LineStyle' default='solid' from='string' name='eps_plume_line_style'>           
-            		<documentation > Line style of the eps members 		</documentation>
-        	</parameter>
-           	<parameter  member='line_thickness' to='int' default='1' from='int' name='eps_plume_line_thickness'>           
-            		<documentation > Line thickness of the eps members  		</documentation>
+         	<parameter member="line" to="bool" default="on" from="string" name="eps_plume_members">           
+            		<documentation>show the eps members  		</documentation>
         	</parameter>
         
-          	<parameter  member='forecast_line_colour' to='Colour' default='cyan' from='string' name='eps_plume_forecast_line_colour'>           
-            		<documentation > Line colour of the deterministic forecast  		</documentation>
+        	<parameter member="line_colour" to="Colour" default="magenta" from="string" name="eps_plume_line_colour">           
+            		<documentation>Line colour of the eps members  		</documentation>
         	</parameter>
         
-         	<parameter  member='forecast_line_style' to='LineStyle' default='dash' from='string' name='eps_plume_forecast_line_style'>           
-            		<documentation >   Line Style of the deterministic forecast 		</documentation>
+         	<parameter member="line_style" to="LineStyle" default="solid" from="string" name="eps_plume_line_style">           
+            		<documentation> Line style of the eps members 		</documentation>
         	</parameter>
-           	<parameter  member='forecast_line_thickness' to='int' default='5' from='int' name='eps_plume_forecast_line_thickness'>           
-            		<documentation >  Line thickness of the deterministic forecast  		</documentation>
+           	<parameter member="line_thickness" to="int" default="1" from="int" name="eps_plume_line_thickness">           
+            		<documentation> Line thickness of the eps members  		</documentation>
+        	</parameter>
+          	<parameter member="forecast" to="bool" default="on" from="string" name="eps_plume_forecast">           
+            		<documentation>show the forecast  		</documentation>
+        	</parameter>
+          	<parameter member="forecast_line_colour" to="Colour" default="cyan" from="string" name="eps_plume_forecast_line_colour">           
+            		<documentation> Line colour of the deterministic forecast  		</documentation>
         	</parameter>
         
-        	<parameter  member='control_line_colour' to='Colour' default='cyan' from='string' name='eps_plume_control_line_colour'>           
-            		<documentation >  Line colour of the control forecast  		</documentation>
+         	<parameter member="forecast_line_style" to="LineStyle" default="dash" from="string" name="eps_plume_forecast_line_style">           
+            		<documentation>   Line Style of the deterministic forecast 		</documentation>
+        	</parameter>
+           	<parameter member="forecast_line_thickness" to="int" default="5" from="int" name="eps_plume_forecast_line_thickness">           
+            		<documentation>  Line thickness of the deterministic forecast  		</documentation>
+        	</parameter>
+          	<parameter member="control" to="bool" default="on" from="string" name="eps_plume_control">           
+            		<documentation>show the forecast  		</documentation>
+        	</parameter>
+        	<parameter member="control_line_colour" to="Colour" default="cyan" from="string" name="eps_plume_control_line_colour">           
+            		<documentation>  Line colour of the control forecast  		</documentation>
         	</parameter>
         
-         	<parameter  member='control_line_style' to='LineStyle' default='solid' from='string' name='eps_plume_control_line_style'>           
-            		<documentation >  Line Style of the control forecast		</documentation>
+         	<parameter member="control_line_style" to="LineStyle" default="solid" from="string" name="eps_plume_control_line_style">           
+            		<documentation>  Line Style of the control forecast		</documentation>
         	</parameter>
-           	<parameter  member='control_line_thickness' to='int' default='5' from='int' name='eps_plume_control_line_thickness'>           
-            		<documentation >  Line thickness of the deterministic forecast  		</documentation>
+           	<parameter member="control_line_thickness" to="int" default="5" from="int" name="eps_plume_control_line_thickness">           
+            		<documentation>  Line thickness of the deterministic forecast  		</documentation>
+        	</parameter>
+        	<parameter member="median" to="bool" default="off" from="string" name="eps_plume_median">           
+            		<documentation>show the forecast  		</documentation>
+        	</parameter>
+        	<parameter member="median_line_colour" to="Colour" default="cyan" from="string" name="eps_plume_median_line_colour">           
+            		<documentation>  Line colour of the control forecast  		</documentation>
+        	</parameter>
+        
+         	<parameter member="median_line_style" to="LineStyle" default="solid" from="string" name="eps_plume_median_line_style">           
+            		<documentation>  Line Style of the control forecast		</documentation>
+        	</parameter>
+           	<parameter member="median_line_thickness" to="int" default="5" from="int" name="eps_plume_median_line_thickness">           
+            		<documentation>  Line thickness of the deterministic forecast  		</documentation>
+        	</parameter>
+            	<parameter member="shading" to="bool" default="off" from="string" name="eps_plume_shading">           
+            		<documentation> Turn on/off the plume shading 		</documentation>
+        	</parameter>    
+         	<parameter member="shading_levels" to="floatarray" default="floatarray()" from="floatarray" name="eps_plume_shading_level_list">           
+            		<documentation> levels used for plumes shading 		</documentation>
+        	</parameter> 
+        	<parameter member="shading_colours" to="stringarray" default="stringarray()" from="stringarray" name="eps_plume_shading_colour_list">           
+            		<documentation> colours used for plumes shading 		</documentation>
         	</parameter>
         
 </class></magics>

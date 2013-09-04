@@ -25,8 +25,8 @@
     
 */
 
-#include "Akima760Method.h"
 #include "MagLog.h"
+#include "Akima760Method.h"
 #include "Timer.h"
 
 using namespace magics;

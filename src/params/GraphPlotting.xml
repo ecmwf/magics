@@ -1,25 +1,25 @@
 <magics>
-<class  directory='visualisers' xmltag='graph' name='GraphPlotting'>
-  	<documentation >
+<class directory="visualisers" xmltag="graph" name="GraphPlotting">
+  	<documentation>
     This action routine (and C++object) controls the plotting of curves, bar charts and area charts.
   	</documentation>
- 	<parameter  xml='legend' from='string' name='legend' default='on' member='legend' to='bool'>
-         		<documentation >  Turn on/off the legend for this graph (this parameter is new to Magics++) 		</documentation>
-         		<release >1.3		</release>
-         		<set  name='legend_user_text' value='on'>		</set>
+ 	<parameter xml="legend" from="string" name="legend" default="on" member="legend" to="bool">
+         		<documentation>  Turn on/off the legend for this graph (this parameter is new to Magics++) 		</documentation>
+         		<release>1.3		</release>
+         		<set name="legend_user_text" value="on">		</set>
     	</parameter>
 
-  	<parameter  xml='legend_text' from='string' name='legend_user_text' default='' member='legend_text' to='string'>
-         		<documentation > User-defined text for the legend of this graph 		</documentation>
+  	<parameter xml="legend_text" from="string" name="legend_user_text" default="" member="legend_text" to="string">
+         		<documentation> User-defined text for the legend of this graph 		</documentation>
   	</parameter>
 
-  	<parameter  xml='type' from='string' name='graph_type' default='curve' member='type' to='Graph'>
-         		<documentation > Defines the type of curve required  		</documentation>
-         		<migration > New Magics: Parameter graph_type sent to new Magics[Graph].  		</migration>
-         		<option  xml='curve' fortran='curve' include='Curve.h' name='Curve'>		</option>      
-         		<option  xml='bar' fortran='bar' include='Bar.h' name='Bar'>		</option>
-         		<option  xml='flag' fortran='flag' include='Bar.h' name='GraphFlag'>		</option>
-         		<option  xml='arrow' fortran='arrow' include='Bar.h' name='GraphArrow'>		</option>
-         		<option  xml='area' fortran='area' include='Curve.h' name='CurveArea'>		</option>
+  	<parameter xml="type" from="string" name="graph_type" default="curve" member="type" to="Graph">
+         		<documentation> Defines the type of curve required  		</documentation>
+         		<migration> New Magics: Parameter graph_type sent to new Magics[Graph].  		</migration>
+         		<option xml="curve" fortran="curve" include="Curve.h" name="Curve">		</option>      
+         		<option xml="bar" fortran="bar" include="Bar.h" name="Bar">		</option>
+         		<option xml="flag" fortran="flag" include="Bar.h" name="GraphFlag">		</option>
+         		<option xml="arrow" fortran="arrow" include="Bar.h" name="GraphArrow">		</option>
+         		<option xml="area" fortran="area" include="Curve.h" name="CurveArea">		</option>
   	</parameter>
 </class></magics>

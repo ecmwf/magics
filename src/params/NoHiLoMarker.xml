@@ -1,6 +1,6 @@
 <magics>
-<class  inherits='HiLoMarkerBase' xmltag='nomarker' name='NoHiLoMarker' directory='visualisers' action='pcont' include='HiLoMarker.h'>
-   	<documentation >
+<class inherits="HiLoMarkerBase" xmltag="nomarker" name="NoHiLoMarker" directory="visualisers" action="pcont" include="HiLoMarker.h">
+   	<documentation>
    This object suppresses the plotting of Hi/Lo markers
    	</documentation>
 </class></magics>

@@ -1,0 +1,7 @@
+<magics>
+<class action="Ming" directory="drivers" inherits="BaseDriver" name="MingDriver">
+		<documentation>
+		These are the attributes of the Ming output driver. This driver is still in the developing stage! 
+		</documentation>
+
+</class></magics>

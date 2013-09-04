@@ -1,27 +1,27 @@
 <magics>
-<class  directory='common' prefix='metadata' xmltag='meta' name='MetaData'>
-  	<documentation >	</documentation>
+<class directory="common" prefix="metadata" xmltag="meta" name="MetaData">
+  	<documentation>	</documentation>
   
-  	<parameter  xml='path' from='string' name='metadata_path' default='meta.xml' member='path' to='string'>
-          		<release >Magics 1.1		</release>
-         		<documentation > Path of the Meta data File 		</documentation>
+  	<parameter xml="path" from="string" name="metadata_path" default="meta.xml" member="path" to="string">
+          		<release>Magics 1.1		</release>
+         		<documentation> Path of the Meta data File 		</documentation>
   	</parameter>
-  	<parameter  member='javascript' to='string' default='' from='string' name='javascript_path'>
-          		<release >Magics 2.6		</release>
-         		<documentation > Path of the javascript 		</documentation>
+  	<parameter member="javascript" to="string" default="" from="string" name="javascript_path">
+          		<release>Magics 2.6		</release>
+         		<documentation> Path of the javascript 		</documentation>
   	</parameter>
-  	<parameter  member='profile' to='string' default='' from='string' name='profile_path'>
-          		<release >Magics 2.6		</release>
-         		<documentation > Path of the javascript 		</documentation>
+  	<parameter member="profile" to="string" default="" from="string" name="profile_path">
+          		<release>Magics 2.6		</release>
+         		<documentation> Path of the javascript 		</documentation>
   	</parameter>
-  	<parameter  member='world_file' to='string' default='' from='string' name='world_file_path'>
-          		<release >Magics 2.6		</release>
-         		<documentation > if defined,  a world file description will be generated 		</documentation>
+  	<parameter member="world_file" to="string" default="" from="string" name="world_file_path">
+          		<release>Magics 2.6		</release>
+         		<documentation> if defined,  a world file description will be generated 		</documentation>
   	</parameter>
-  	<parameter  member='efi' to='string' default='' from='string' name='efi_path'>     
-         		<documentation > Path of the Meta data File 		</documentation>
+  	<parameter member="efi" to="string" default="" from="string" name="efi_path">     
+         		<documentation> Path of the Meta data File 		</documentation>
   	</parameter> 
-  	<parameter  member='efi_template' to='string' default='efi_template.js' from='string' name='efi_template'>     
-         		<documentation > Path of the Meta data File 		</documentation>
+  	<parameter member="efi_template" to="string" default="efi_template.js" from="string" name="efi_template">     
+         		<documentation> Path of the Meta data File 		</documentation>
   	</parameter> 
 </class></magics>

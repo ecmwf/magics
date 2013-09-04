@@ -1,0 +1,40 @@
+<magics>
+<class inherits="WindPlotting" name="Streamlines" directory="visualisers" prefix="wind/wind_streamlines" action="pwind" doc_inherits="no">
+		<documentation>
+        MAGICS parameters exist to control the calculation and plotting of streamlines. 
+		</documentation>
+
+    	<parameter member="min_density" to="float" default="1" from="float" name="wind_streamline_min_density">
+     		<documentation>
+        the minimum number of streamlines to be plotted in one square cm of the user's subpage
+     		</documentation>  
+    	</parameter>
+
+    	<parameter member="min_speed" to="float" default="1" from="float" name="wind_streamline_min_speed">
+     		<documentation>
+        wind speed below which streamline plotting will be stopped
+     		</documentation> 
+    	</parameter>
+
+    	<parameter member="thickness" to="int" default="2" from="int" name="wind_streamline_thickness">
+     		<documentation>
+        thickness of streamlines
+     		</documentation> 
+    	</parameter>
+
+    	<parameter member="colour" to="Colour" default="blue" from="string" name="wind_streamline_colour">
+     		<documentation>
+        colour of streamlines
+     		</documentation> 
+    	</parameter>
+
+    	<parameter member="style" to="LineStyle" default="solid" from="string" name="wind_streamline_style">
+     		<documentation>
+        line style of streamlines
+     		</documentation> 
+    	</parameter>
+
+
+    
+
+</class></magics>

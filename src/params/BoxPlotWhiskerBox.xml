@@ -1,16 +1,16 @@
 <magics>
-<class  directory='visualisers' prefix='boxplot/boxplot_whisker/boxplot_whisker_box' xmltag='whisker_box' name='BoxPlotWhiskerBox'>
-   	<parameter  member='colour' to='Colour' default='sky' from='string' name='boxplot_whisker_box_colour'>
-         		<documentation >Colour of the whisker box		</documentation>
+<class directory="visualisers" prefix="boxplot/boxplot_whisker/boxplot_whisker_box" xmltag="whisker_box" name="BoxPlotWhiskerBox">
+   	<parameter member="colour" to="Colour" default="sky" from="string" name="boxplot_whisker_box_colour">
+         		<documentation>Colour of the whisker box		</documentation>
   	</parameter>
   
-  	<parameter  member='width' to='float' default='0.25' from='float' name='boxplot_whisker_box_width'>
-         		<documentation >Width of the whisker box in centimeters		</documentation>
+  	<parameter member="width" to="float" default="0.25" from="float" name="boxplot_whisker_box_width">
+         		<documentation>Width of the whisker box in centimeters		</documentation>
   	</parameter>
   
-    	<parameter  from='string' name='boxplot_whisker_box_border' default='on' member='border' to='NoBoxPlotWhiskerBorder' include='BoxPlotBasicItem.h'>
-	         		<documentation >Determines whether the whisker box border is drawn or not		</documentation>
-	         		<option  xml='border' fortran='on' include='BoxPlotItem.h' name='BoxPlotWhiskerBorder'>		</option>
-             		<option  xml='noborder' fortran='off' include='BoxPlotBasicItem.h' name='NoBoxPlotWhiskerBorder'>		</option>
+    	<parameter from="string" name="boxplot_whisker_box_border" default="on" member="border" to="NoBoxPlotWhiskerBorder" include="BoxPlotBasicItem.h">
+	         		<documentation>Determines whether the whisker box border is drawn or not		</documentation>
+	         		<option xml="border" fortran="on" include="BoxPlotItem.h" name="BoxPlotWhiskerBorder">		</option>
+             		<option xml="noborder" fortran="off" include="BoxPlotBasicItem.h" name="NoBoxPlotWhiskerBorder">		</option>
 	  	</parameter>
 </class></magics>

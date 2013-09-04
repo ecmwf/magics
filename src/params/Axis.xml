@@ -1,250 +1,247 @@
 <magics>
-<class  directory='visualisers' metview='maxis' xmltag='axis' name='Axis'>
-  	<documentation > This object creates an axis for non-geographical plots. 	</documentation>
- 	<parameter  from='string' name='axis_orientation' default='horizontal' member='orientation' to='string' values='horizontal/vertical'>
-         		<documentation > Orientation of axis  		</documentation>
+<class directory="visualisers" metview="maxis" xmltag="axis" name="Axis">
+  	<documentation> This object creates an axis for non-geographical plots. 	</documentation>
+ 	<parameter from="string" name="axis_orientation" default="horizontal" member="orientation" to="string" values="horizontal/vertical">
+         		<documentation> Orientation of axis  		</documentation>
   	</parameter>
- 	<parameter  from='string' name='axis_position' default='automatic' member='position' to='string' values='bottom/top/left/right/automatic'>
-         		<documentation > Position of the axes  		</documentation>
+ 	<parameter from="string" name="axis_position" default="automatic" member="position" to="string" values="bottom/top/left/right/automatic">
+         		<documentation> Position of the axes  		</documentation>
         
   	</parameter>
 
-  	<parameter  member='method' to='AxisMethod' default='regular' from='string' name='axis_type'>
-         		<documentation > Method to position ticks on an axis  		</documentation>
-         		<option  xml='regular' fortran='regular' include='AxisMethod.h' name='AxisMethod'>		</option>
-         		<option  xml='position_list' fortran='position_list' include='AxisMethod.h' name='PositionListAxisMethod'>		</option>
-         		<option  xml='logarithmic' fortran='logarithmic' include='AxisMethod.h' name='LogarithmicAxisMethod'>		</option>
-         		<option  xml='date' fortran='date' include='DateAxis.h' name='DateAxisMethod'>		</option> 
-         		<option  xml='geoline' fortran='geoline' include='AxisMethod.h' name='HyperAxisMethod'>		</option>
-         		<set  name='axis_tick_position_list' value='position_list'>		</set>
-         		<set  name='axis_tick_interval' value='regular'>		</set> 
-         		<set  name='axis_tick_interval' value='geoline'>		</set> 
-         		<set  name='axis_tick_interval' value='date'>		</set> 
+  	<parameter member="method" to="AxisMethod" default="regular" from="string" name="axis_type">
+         		<documentation> Method to position ticks on an axis  		</documentation>
+         		<option xml="regular" fortran="regular" include="AxisMethod.h" name="AxisMethod">		</option>
+         		<option xml="position_list" fortran="position_list" include="AxisMethod.h" name="PositionListAxisMethod">		</option>
+         		<option xml="logarithmic" fortran="logarithmic" include="AxisMethod.h" name="LogarithmicAxisMethod">		</option>
+         		<option xml="date" fortran="date" include="DateAxis.h" name="DateAxisMethod">		</option> 
+         		<option xml="geoline" fortran="geoline" include="AxisMethod.h" name="HyperAxisMethod">		</option>
+         		<set name="axis_tick_position_list" value="position_list">		</set>
+         		<set name="axis_tick_interval" value="regular/geoline/date">		</set> 
   	</parameter>
   
-   	<parameter  xml='interval' from='float' name='axis_tick_interval' default='INT_MAX' member='interval' to='float'>
-         		<documentation > Interval between ticks in user units 		</documentation>
-         		<migration >Default changed from '1/7 of axis length' to'INT_MAX' 		</migration>
-  	</parameter>
-  
-   	<parameter  xml='position_list' from='floatarray' name='axis_tick_position_list' default='floatarray()' member='positions' to='floatarray'>
-         		<documentation > Array specifying the positions of ticks (in user coordinates!)		</documentation>    
-         		<migration >Units have changed from 'cm' to user coordinates		</migration>
-  	</parameter>
-
-  	<parameter  member='line' to='bool' default='on' from='string' name='axis_line'>
-         		<documentation > Plot the axis line 		</documentation>  
-         		<set  name='axis_line_colour' value='on'>		</set>
-         		<set  name='axis_line_style' value='on'>		</set>
-         		<set  name='axis_line_thickness' value='on'>		</set>
+  	<parameter member="line" to="bool" default="on" from="string" name="axis_line">
+         		<documentation> Plot the axis line 		</documentation>  
+         		<set name="axis_line_colour" value="on">		</set>
+         		<set name="axis_line_style" value="on">		</set>
+         		<set name="axis_line_thickness" value="on">		</set>
              
   	</parameter>
-   	<parameter  member='line_colour' to='Colour' default='automatic' from='string' name='axis_line_colour'>
-         		<documentation > Colour of axis line		</documentation>
+   	<parameter member="line_colour" to="Colour" default="automatic" from="string" name="axis_line_colour">
+         		<documentation> Colour of axis line		</documentation>
   	</parameter>
-  	<parameter  member='line_style' to='LineStyle' default='solid' from='string' name='axis_line_style'>
-         		<documentation > Line Style of axis line 		</documentation>
-  	</parameter>
- 
 
-  	<parameter  member='line_thickness' to='int' default='2' from='int' name='axis_line_thickness'>
-         		<documentation >Thickness of axis line 		</documentation>
+  	<parameter member="line_style" to="LineStyle" default="solid" from="string" name="axis_line_style">
+         		<documentation> Line Style of axis line 		</documentation>
+  	</parameter>
+
+  	<parameter member="line_thickness" to="int" default="2" from="int" name="axis_line_thickness">
+         		<documentation>Thickness of axis line 		</documentation>
+  	</parameter>
+
+
+  	<parameter member="grid" to="bool" default="off" from="string" name="axis_grid">
+         		<documentation> Plot axis grid lines 		</documentation>
+         		<set name="axis_grid_colour" value="on">		</set>
+         		<set name="axis_grid_line_style" value="on">		</set>
+         		<set name="axis_grid_thickness" value="on">		</set>
+         		<set name="axis_grid_reference_level" value="on">		</set>
+         		<set name="axis_grid_reference_colour" value="on">		</set>
+         		<set name="axis_grid_reference_line_style" value="on">		</set>  
+         		<set name="axis_grid_reference_thickness" value="on">		</set>
+  	</parameter>
+ 	<parameter member="grid_colour" to="Colour" default="yellow" from="string" name="axis_grid_colour">
+         		<documentation>Colour of grid lines		</documentation>
+         		<migration>2.13.5 - Default changed fronm YELLOW to BLACK		</migration>
+  	</parameter>
+ 	<parameter member="grid_style" to="LineStyle" default="solid" from="string" name="axis_grid_line_style">
+         		<documentation> Line style of grid  		</documentation>
   	</parameter>
   
-  
-
-
-  	<parameter  member='grid' to='bool' default='off' from='string' name='axis_grid'>
-         		<documentation > Plot axis grid lines 		</documentation>
-         		<set  name='axis_grid_colour' value='on'>		</set>
-         		<set  name='axis_grid_line_style' value='on'>		</set>
-         		<set  name='axis_grid_thickness' value='on'>		</set>
-         		<set  name='axis_grid_reference_level' value='on'>		</set>
-         		<set  name='axis_grid_reference_colour' value='on'>		</set>
-         		<set  name='axis_grid_reference_line_style' value='on'>		</set>  
-         		<set  name='axis_grid_reference_thickness' value='on'>		</set>
+  	<parameter member="grid_thickness" to="int" default="1" from="int" name="axis_grid_thickness">
+         		<documentation> Thickness of grid lines 		</documentation>
   	</parameter>
- 	<parameter  member='grid_colour' to='Colour' default='yellow' from='string' name='axis_grid_colour'>
-         		<documentation >Colour of grid lines		</documentation>
-         		<migration >2.13.5 - Default changed fronm YELLOW to BLACK		</migration>
+  	<parameter member="grid_reference_level" to="float" default="INT_MAX" from="float" name="axis_grid_reference_level">
+         		<documentation> value to be used as reference for the grid		</documentation> 
   	</parameter>
- 	<parameter  member='grid_style' to='LineStyle' default='solid' from='string' name='axis_grid_line_style'>
-         		<documentation > Line style of grid  		</documentation>
+ 	<parameter member="grid_reference_colour" to="Colour" default="automatic" from="string" name="axis_grid_reference_colour">
+         		<documentation> Colour of the reference  grid line		</documentation>
   	</parameter>
-  
-  	<parameter  member='grid_thickness' to='int' default='1' from='int' name='axis_grid_thickness'>
-         		<documentation > Thickness of grid lines 		</documentation>
+  	<parameter member="grid_reference_style" to="LineStyle" default="solid" from="string" name="axis_grid_reference_line_style">
+         		<documentation> Line style of the reference  grid line  		</documentation>
   	</parameter>
-  	<parameter  member='grid_reference_level' to='float' default='INT_MAX' from='float' name='axis_grid_reference_level'>
-         		<documentation > value to be used as reference for the grid		</documentation> 
-  	</parameter>
- 	<parameter  member='grid_reference_colour' to='Colour' default='automatic' from='string' name='axis_grid_reference_colour'>
-         		<documentation > Colour of the reference  grid line		</documentation>
-  	</parameter>
-  	<parameter  member='grid_reference_style' to='LineStyle' default='solid' from='string' name='axis_grid_reference_line_style'>
-         		<documentation > Line style of the reference  grid line  		</documentation>
-  	</parameter>
-  	<parameter  member='grid_reference_thickness' to='int' default='2' from='int' name='axis_grid_reference_thickness'>
-         		<documentation > Thickness of the reference grid line 		</documentation>
+  	<parameter member="grid_reference_thickness" to="int" default="2" from="int" name="axis_grid_reference_thickness">
+         		<documentation> Thickness of the reference grid line 		</documentation>
   	</parameter>
 
-  	<parameter  member='title' to='bool' default='on' from='string' name='axis_title'>
-         		<documentation > Plot axis title  		</documentation>
-				<set  name='axis_title_text' value='on'>		</set>   
-				<set  name='axis_title_orientation' value='on'>		</set>   
-				<set  name='axis_title_colour' value='on'>		</set> 
-				<set  name='axis_title_height' value='on'>		</set> 
-				<set  name='axis_title_font' value='on'>		</set> 
-				<set  name='axis_title_font_style' value='on'>		</set>          
+  	<parameter member="title" to="bool" default="on" from="string" name="axis_title">
+         		<documentation> Plot axis title  		</documentation>
+				<set name="axis_title_text" value="on">		</set>   
+				<set name="axis_title_orientation" value="on">		</set>   
+				<set name="axis_title_colour" value="on">		</set> 
+				<set name="axis_title_height" value="on">		</set> 
+				<set name="axis_title_font" value="on">		</set> 
+				<set name="axis_title_font_style" value="on">		</set>          
   	</parameter>
   
-  	<parameter  xml='text' from='string' name='axis_title_text' default='' member='title_text' to='string'>
-         		<documentation > The axis title text 		</documentation>
+  	<parameter xml="text" from="string" name="axis_title_text" default="" member="title_text" to="string">
+         		<documentation> The axis title text 		</documentation>
   	</parameter>
-  	<parameter  xml='title_orientation' from='string' name='axis_title_orientation' default='parallel' member='title_orientation' to='string'>
-         		<documentation > Orientation of the axis title (HORIZONTAL/VERTICAL/PARALLEL) 		</documentation>
+  	<parameter xml="title_orientation" from="string" name="axis_title_orientation" default="parallel" member="title_orientation" to="string" values="horizontal/vertical/parallel">
+         		<documentation> Orientation of the axis title  		</documentation>
   	</parameter>
   
- 	<parameter  member='title_colour' to='Colour' default='automatic' from='string' name='axis_title_colour'>
-         		<documentation > Colour of axis title		</documentation>
+ 	<parameter member="title_colour" to="Colour" default="automatic" from="string" name="axis_title_colour">
+         		<documentation> Colour of axis title		</documentation>
   	</parameter>
 
-  	<parameter  member='title_height' to='float' default='0.4' from='float' name='axis_title_height'>
-         		<documentation > Height of axis title		</documentation>
+  	<parameter member="title_height" to="float" default="0.4" from="float" name="axis_title_height">
+         		<documentation> Height of axis title		</documentation>
   	</parameter>
 
 
-  	<parameter  member='title_font' to='string' default='sansserif' from='string' name='axis_title_font'>
-         		<documentation >Font of axis title 		</documentation>
+  	<parameter member="title_font" to="string" default="sansserif" from="string" name="axis_title_font">
+         		<documentation>Font of axis title 		</documentation>
   	</parameter>
 
-  	<parameter  member='title_font_style' to='string' default='normal' from='string' name='axis_title_font_style'>
-         		<documentation >Font style of axis title 		</documentation>
+  	<parameter member="title_font_style" to="string" default="normal" from="string" name="axis_title_font_style">
+         		<documentation>Font style of axis title 		</documentation>
   	</parameter>
   
  
-  	<parameter  member='tick' to='bool' default='on' from='string' name='axis_tick'>
-         		<documentation > Plot ticks 		</documentation>
-          		<set  name='axis_tick_interval' value='on'>		</set>  
-          		<set  name='axis_tick_position' value='on'>		</set>
-  		  		<set  name='axis_tick_colour' value='on'>		</set>
-  		  		<set  name='axis_tick_size' value='on'>		</set>
-  		  		<set  name='axis_tick_thickness' value='on'>		</set>  
+  	<parameter member="tick" to="bool" default="on" from="string" name="axis_tick">
+         		<documentation> Plot ticks 		</documentation>
+          		<set name="axis_tick_interval" value="on">		</set>  
+          		<set name="axis_tick_position" value="on">		</set>
+  		  		<set name="axis_tick_colour" value="on">		</set>
+  		  		<set name="axis_tick_size" value="on">		</set>
+  		  		<set name="axis_tick_thickness" value="on">		</set>  
   	</parameter>
- 	<parameter  from='string' name='axis_tick_position' default='out' member='tick_position' to='string' values='out/in'>
-         		<documentation > Tick position, if in the ticks will positioned inside the frame.		</documentation>
+
+   	<parameter xml="interval" from="float" name="axis_tick_interval" default="INT_MAX" member="interval" to="float">
+         		<documentation> Interval between ticks in user units 		</documentation>
+         		<migration>Default changed from '1/7 of axis length' to'INT_MAX' 		</migration>
+  	</parameter>
+  
+   	<parameter xml="position_list" from="floatarray" name="axis_tick_position_list" default="floatarray()" member="positions" to="floatarray">
+         		<documentation> Array specifying the positions of ticks (in user coordinates!)		</documentation>    
+         		<migration>Units have changed from 'cm' to user coordinates		</migration>
+  	</parameter>
+
+ 	<parameter from="string" name="axis_tick_position" default="out" member="tick_position" to="string" values="out/in">
+         		<documentation> Tick position, if in the ticks will positioned inside the frame.		</documentation>
   	</parameter>
  
-  	<parameter  member='tick_colour' to='Colour' default='automatic' from='string' name='axis_tick_colour'>
-         		<documentation > Colour of ticks		</documentation>
+  	<parameter member="tick_colour" to="Colour" default="automatic" from="string" name="axis_tick_colour">
+         		<documentation> Colour of ticks		</documentation>
   	</parameter>
 
-  	<parameter  member='tick_length' to='float' default='0.175' from='float' name='axis_tick_size'>
-         		<documentation > Size of ticks 		</documentation>
+  	<parameter member="tick_length" to="float" default="0.175" from="float" name="axis_tick_size">
+         		<documentation> Size of ticks 		</documentation>
   	</parameter>
 
-  	<parameter  xml='thickness' from='int' name='axis_tick_thickness' default='2' member='tick_thickness' to='int'>
-         		<documentation > Thickness of tick marks 		</documentation>
+  	<parameter xml="thickness" from="int" name="axis_tick_thickness" default="2" member="tick_thickness" to="int">
+         		<documentation> Thickness of tick marks 		</documentation>
   	</parameter>
-   	<parameter  member='label' to='bool' default='on' from='string' name='axis_tick_label'>
-         		<documentation > Plot tick labels (ON/OFF) 		</documentation>
-  		  		<set  name='axis_tick_label_type' value='on'>		</set>
-  		  		<set  name='axis_tick_label_frequency' value='on'>		</set>
-  		  		<set  name='axis_tick_label_first' value='on'>		</set>
-  		  		<set  name='axis_tick_label_last' value='on'>		</set>   		 
-  		  		<set  name='axis_tick_label_position' value='on'>		</set>
-  		  		<set  name='axis_tick_label_orientation' value='on'>		</set> 
-  		  		<set  name='axis_tick_label_font' value='on'>		</set>
-  		  		<set  name='axis_tick_label_font_style' value='on'>		</set> 
-  		  		<set  name='axis_tick_label_colour' value='on'>		</set>
-  		  		<set  name='axis_tick_label_height' value='on'>		</set> 
+   	<parameter member="label" to="bool" default="on" from="string" name="axis_tick_label">
+         		<documentation> Plot tick labels (ON/OFF) 		</documentation>
+  		  		<set name="axis_tick_label_type" value="on">		</set>
+  		  		<set name="axis_tick_label_frequency" value="on">		</set>
+  		  		<set name="axis_tick_label_first" value="on">		</set>
+  		  		<set name="axis_tick_label_last" value="on">		</set>   		 
+  		  		<set name="axis_tick_label_position" value="on">		</set>
+  		  		<set name="axis_tick_label_orientation" value="on">		</set> 
+  		  		<set name="axis_tick_label_font" value="on">		</set>
+  		  		<set name="axis_tick_label_font_style" value="on">		</set> 
+  		  		<set name="axis_tick_label_colour" value="on">		</set>
+  		  		<set name="axis_tick_label_height" value="on">		</set> 
   		  
   	</parameter> 
 
   
-  	<parameter  from='string' name='axis_tick_label_type' default='number' member='label_type' to='string' values='number/label_list/latitude/longitude'>
-        		<documentation > Type of tick labels required  		</documentation>
-        		<set  name='axis_tick_label_list' value='label_list'>		</set>
-        		<set  name='axis_tick_label_format' value='number'>		</set>
+  	<parameter from="string" name="axis_tick_label_type" default="number" member="label_type" to="string" values="number/label_list/latitude/longitude">
+        		<documentation> Type of tick labels required  		</documentation>
+        		<set name="axis_tick_label_list" value="label_list">		</set>
+        		<set name="axis_tick_label_format" value="number">		</set>
   	</parameter>
   
-  	<parameter  member='label_frequency' to='int' default='1' from='int' name='axis_tick_label_frequency'>
-         		<documentation > Label every nth tick mark 		</documentation>
+  	<parameter member="label_frequency" to="int" default="1" from="int" name="axis_tick_label_frequency">
+         		<documentation> Label every nth tick mark 		</documentation>
   	</parameter>
   
-  	<parameter  xml='first_label' from='string' name='axis_tick_label_first' default='on' member='label_first' to='bool'>
-         		<documentation > Turn off first (left or bottom) tick label  		</documentation>
+  	<parameter xml="first_label" from="string" name="axis_tick_label_first" default="on" member="label_first" to="bool">
+         		<documentation> Turn off first (left or bottom) tick label  		</documentation>
   	</parameter>
 
-  	<parameter  xml='last_label' from='string' name='axis_tick_label_last' default='on' member='label_last' to='bool'>
-         		<documentation > Turn off last (right or top) tick label  		</documentation>
+  	<parameter xml="last_label" from="string" name="axis_tick_label_last" default="on" member="label_last" to="bool">
+         		<documentation> Turn off last (right or top) tick label  		</documentation>
   	</parameter>
   
-  	<parameter  from='string' name='axis_tick_label_position' default='on_tick' member='label_position' to='string' values='on_tick/inter_tick'>
-         		<documentation > Position labels on or between ticks 		</documentation>
+  	<parameter from="string" name="axis_tick_label_position" default="on_tick" member="label_position" to="string" values="on_tick/inter_tick">
+         		<documentation> Position labels on or between ticks 		</documentation>
   	</parameter>
-  	<parameter  from='string' name='axis_tick_label_orientation' default='horizontal' member='label_orientation' to='string' values='horizontal/vertical/parallel'>
-         		<documentation > Orientation of the tick labels		</documentation>
+  	<parameter from="string" name="axis_tick_label_orientation" default="horizontal" member="label_orientation" to="string" values="horizontal/vertical/parallel">
+         		<documentation> Orientation of the tick labels		</documentation>
   	</parameter>
   
-  	<parameter  xml='font' from='string' name='axis_tick_label_font' default='sansserif' member='label_font' to='string'>
-			<documentation >Font name - please make sure this font is installed!		</documentation>
+  	<parameter xml="font" from="string" name="axis_tick_label_font" default="sansserif" member="label_font" to="string">
+			<documentation>Font name - please make sure this font is installed!		</documentation>
   	</parameter> 
   
-  	<parameter  member='label_font_style' to='string' default='' from='string' name='axis_tick_label_font_style'>
-			<documentation >Font style. Set this to an empty string in order to remove all styling.		</documentation>
+  	<parameter member="label_font_style" to="string" default="normal" from="string" name="axis_tick_label_font_style">
+			<documentation>Font style. Set this to an empty string in order to remove all styling.		</documentation>
   	</parameter>
-   	<parameter  xml='colour' from='string' name='axis_tick_label_colour' default='automatic' member='label_colour' to='Colour'>
-         		<documentation > Colour of tick labels		</documentation>
+   	<parameter xml="colour" from="string" name="axis_tick_label_colour" default="automatic" member="label_colour" to="Colour">
+         		<documentation> Colour of tick labels		</documentation>
   	</parameter>
-  	<parameter  xml='height' from='float' name='axis_tick_label_height' default='0.3' member='label_height' to='float'>
-         		<documentation > Height of tick labels 		</documentation>
+  	<parameter xml="height" from="float" name="axis_tick_label_height" default="0.3" member="label_height" to="float">
+         		<documentation> Height of tick labels 		</documentation>
   	</parameter>
-  	<parameter  xml='list' from='stringarray' name='axis_tick_label_list' default='stringarray()' member='label_labels' to='stringarray'>
-         		<documentation > Array for passing user defined tick labels 		</documentation>
+  	<parameter xml="list" from="stringarray" name="axis_tick_label_list" default="stringarray()" member="label_labels" to="stringarray">
+         		<documentation> Array for passing user defined tick labels 		</documentation>
   	</parameter>
-  	<parameter  xml='format' from='string' name='axis_tick_label_format' default='(automatic)' member='label_format' to='string'>
-         		<documentation > Format of tick label values  		</documentation>
+  	<parameter xml="format" from="string" name="axis_tick_label_format" default="(automatic)" member="label_format" to="string">
+         		<documentation> Format of tick label values  		</documentation>
   	</parameter>
-  	<parameter  member='minor_tick' to='bool' default='off' from='string' name='axis_minor_tick'>
-         		<documentation > Plot minor ticks (ON/OFF) 		</documentation>
-        		<set  name='axis_minor_tick_count' value='on'>		</set>
-        		<set  name='axis_minor_tick_colour' value='on'>		</set>
-        		<set  name='axis_minor_tick_thickness' value='on'>		</set>
-  	</parameter>
-  
-  	<parameter  member='minor_tick_count' to='int' default='2' from='int' name='axis_minor_tick_count'>
-         		<documentation > Number of minor tick marks between two ticks 		</documentation>
+  	<parameter member="minor_tick" to="bool" default="off" from="string" name="axis_minor_tick">
+         		<documentation> Plot minor ticks (ON/OFF) 		</documentation>
+        		<set name="axis_minor_tick_count" value="on">		</set>
+        		<set name="axis_minor_tick_colour" value="on">		</set>
+        		<set name="axis_minor_tick_thickness" value="on">		</set>
   	</parameter>
   
-  	<parameter  member='minor_tick_colour' to='Colour' default='automatic' from='string' name='axis_minor_tick_colour'>
-         		<documentation > Colour of minor ticks		</documentation>
-  	</parameter>
-  	<parameter  xml='thickness' from='int' name='axis_minor_tick_thickness' default='1' member='minor_tick_thickness' to='int'>
-         		<documentation > Thickness of minor ticks		</documentation>
+  	<parameter member="minor_tick_count" to="int" default="2" from="int" name="axis_minor_tick_count">
+         		<documentation> Number of minor tick marks between two ticks 		</documentation>
   	</parameter>
   
-  	<parameter  from='string' name='axis_tip_title' default='off' member='tip' to='bool' include='AxisTip.h'>
-         		<documentation > Plot ticks (ON/OFF) 		</documentation>
-         		<set  name='axis_tip_title_text' value='on'>		</set>
-         		<set  name='axis_tip_title_colour' value='on'>		</set>
-         		<set  name='axis_tip_title_height' value='on'>		</set>
-         		<set  name='axis_tip_title_quality' value='on'>		</set>
+  	<parameter member="minor_tick_colour" to="Colour" default="automatic" from="string" name="axis_minor_tick_colour">
+         		<documentation> Colour of minor ticks		</documentation>
+  	</parameter>
+  	<parameter xml="thickness" from="int" name="axis_minor_tick_thickness" default="1" member="minor_tick_thickness" to="int">
+         		<documentation> Thickness of minor ticks		</documentation>
+  	</parameter>
+  
+  	<parameter from="string" name="axis_tip_title" default="off" member="tip" to="bool" include="AxisTip.h">
+         		<documentation> Plot ticks (ON/OFF) 		</documentation>
+         		<set name="axis_tip_title_text" value="on">		</set>
+         		<set name="axis_tip_title_colour" value="on">		</set>
+         		<set name="axis_tip_title_height" value="on">		</set>
+         		<set name="axis_tip_title_quality" value="on">		</set>
           
   	</parameter>
-   	<parameter  member='tip_text' to='string' default=' ' from='string' name='axis_tip_title_text'>
-         		<documentation >Text to show in the tip		</documentation>
+   	<parameter member="tip_text" to="string" default="" from="string" name="axis_tip_title_text">
+         		<documentation>Text to show in the tip		</documentation>
   	</parameter>
- 	<parameter  member='tip_colour' to='Colour' default='automatic' from='string' name='axis_tip_title_colour'>
-   		<documentation >Coloour of the tip		</documentation>      
-  	</parameter>
-
-  	<parameter  member='tip_height' to='float' default='0.4' from='float' name='axis_tip_title_height'>
-         		<documentation >font size of the tip		</documentation>
+ 	<parameter member="tip_colour" to="Colour" default="automatic" from="string" name="axis_tip_title_colour">
+   		<documentation>Coloour of the tip		</documentation>      
   	</parameter>
 
-  	<parameter  from='string' name='axis_tip_title_quality' default='medium' member='tip_quality' to='string' values='high/medium/low'>
-         		<documentation >Quality of the font 		</documentation>
+  	<parameter member="tip_height" to="float" default="0.4" from="float" name="axis_tip_title_height">
+         		<documentation>font size of the tip		</documentation>
+  	</parameter>
+
+  	<parameter from="string" name="axis_tip_title_quality" default="medium" member="tip_quality" to="string" values="high/medium/low">
+         		<documentation>Quality of the font 		</documentation>
   	</parameter>
 
  

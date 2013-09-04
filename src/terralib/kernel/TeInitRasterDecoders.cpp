@@ -26,6 +26,9 @@ of this library and its documentation.
 #include "TeDecoderMemory.h"
 #include "TeDecoderSmartMem.h"
 
+#define NO_TETIFF
+#define NO_TEJPEG
+
 #ifndef NO_TETIFF //FAMI
 #include "TeDecoderTIFF.h"
 #endif

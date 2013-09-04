@@ -1,15 +1,15 @@
 <magics>
-<class  action='pmetgram' directory='visualisers' prefix='metgram' xmltag='metflags' name='MetgramFlags'>
-    	<documentation >
+<class action="pmetgram" directory="visualisers" prefix="metgram" xmltag="metflags" name="MetgramFlags">
+    	<documentation>
         The metgram curve will plot the metgram a s a curve! 
     	</documentation>
-        	<parameter  member='colour' to='Colour' default='red' from='string' name='metgram_flag_colour'>           
-            		<documentation > Colour of Flag  		</documentation>
+        	<parameter member="colour" to="Colour" default="red" from="string" name="metgram_flag_colour">           
+            		<documentation> Colour of Flag  		</documentation>
         	</parameter>
-        	<parameter  member='frequency' to='int' default='1' from='int' name='metgram_flag_frequency'>           
-            		<documentation > Frequency to plot the flags  		</documentation>
+        	<parameter member="frequency" to="int" default="1" from="int" name="metgram_flag_frequency">           
+            		<documentation> Frequency to plot the flags  		</documentation>
         	</parameter>
-        	<parameter  member='length' to='float' default='0.5' from='float' name='metgram_flag_length'>           
-            		<documentation > length of the flag  		</documentation>
+        	<parameter member="length" to="float" default="0.5" from="float" name="metgram_flag_length">           
+            		<documentation> length of the flag  		</documentation>
         	</parameter>
 </class></magics>

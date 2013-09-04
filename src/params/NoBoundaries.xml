@@ -1,4 +1,4 @@
 <magics>
-<class  action='pcoast' directory='visualisers' xmltag='noboundaries' include='Boundaries.h' name='NoBoundaries'>
-   	<documentation >This object suppresses the political boundaries	</documentation>
+<class action="pcoast" directory="visualisers" xmltag="noboundaries" include="Boundaries.h" name="NoBoundaries">
+   	<documentation>This object suppresses the political boundaries	</documentation>
 </class></magics>

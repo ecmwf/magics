@@ -1,6 +1,6 @@
 <magics>
-<class  action='pnew' directory='common' inherits='FrameBase' include='Frame.h' name='NoFrame'>
-   	<documentation >
+<class action="pnew" directory="common" inherits="FrameBase" include="Frame.h" name="NoFrame">
+   	<documentation>
    This object suppresses plotting of a frame.
    	</documentation>
 </class></magics>

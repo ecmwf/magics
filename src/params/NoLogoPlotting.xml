@@ -1,2 +1,2 @@
 <magics>
-<class  directory='common' include='LogoPlotting.h' xmltag='nologo' name='NoLogoPlotting'></class></magics>
+<class directory="common" include="LogoPlotting.h" xmltag="nologo" name="NoLogoPlotting"/></magics>

@@ -1,23 +1,23 @@
 <magics>
-<class  directory='basic' prefix='wrep_node' xmltag='magics' name='WrepRootNode'>
- 	<documentation >
+<class directory="basic" prefix="wrep_node" xmltag="magics" name="WrepRootNode">
+ 	<documentation>
  	In the wrep mode, magics will always try to fill the space: ie  the geographical area can be extended!
  	Different methods cab be used to control this extension.. 
  	centre : the middle point of the geographical will be put in the middle of the output ..
  	 top_left : the top_left point of the geographical will be put in the top_left of the output ..
  	 The other possibilities could be implemented but do not seem to be so important!
  	</documentation>
-  	<parameter  member='pixel_width' to='float' default='800' from='float' name='wrep_node_width'>
-           		<release >Magics++2.9		</release>
-         		<documentation > dimension in pixel of the output width 		</documentation>
+  	<parameter member="pixel_width" to="float" default="800" from="float" name="wrep_node_width">
+           		<release>Magics++2.9		</release>
+         		<documentation> dimension in pixel of the output width 		</documentation>
   	</parameter>
-  	<parameter  member='pixel_height' to='float' default='400' from='float' name='wrep_node_height'>
-           		<release >Magics++2.9		</release>
-         		<documentation > dimension in pixel of the output height		</documentation>
+  	<parameter member="pixel_height" to="float" default="400" from="float" name="wrep_node_height">
+           		<release>Magics++2.9		</release>
+         		<documentation> dimension in pixel of the output height		</documentation>
   	</parameter>
 
-  	<parameter  member='anchor' to='string' default='centre' from='string' name='wrep_node_mapping_anchor'>
-           		<release >Magics++2.9		</release>
-         		<documentation > method name used for the extension 		</documentation>
+  	<parameter member="anchor" to="string" default="centre" from="string" name="wrep_node_mapping_anchor">
+           		<release>Magics++2.9		</release>
+         		<documentation> method name used for the extension 		</documentation>
   	</parameter>
 </class></magics>

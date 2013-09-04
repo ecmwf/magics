@@ -1,10 +1,10 @@
 <magics>
-<class  inherits='ShadingTechnique' xmltag='polygon' name='PolyShadingTechnique' directory='visualisers' prefix='contour/contour/contour_shade/contour_shade/contour_shade' action='pcont'>
+<class inherits="ShadingTechnique" xmltag="polygon" name="PolyShadingTechnique" directory="visualisers" prefix="contour/contour/contour_shade/contour_shade/contour_shade" action="pcont">
 
-  	<parameter  member='method' to='PolyShadingMethod' default='dot' from='string' name='contour_shade_method'>
-         		<documentation > Method used for shading (DOT/ AREA_FILL/ HATCH) 		</documentation>
-         		<option  xml='area_fill' fortran='area_fill' include='PolyShadingMethod.h' name='PolyShadingMethod'>		</option>
-         		<option  xml='dot' fortran='dot' include='DotPolyShadingMethod.h' name='DotPolyShadingMethod'>		</option>
-         		<option  xml='hatch' fortran='hatch' include='HatchPolyShadingMethod.h' name='HatchPolyShadingMethod'>		</option>
+  	<parameter member="method" to="PolyShadingMethod" default="dot" from="string" name="contour_shade_method">
+        		<documentation> Method used for shading (DOT/ AREA_FILL/ HATCH) 		</documentation>
+        		<option xml="area_fill" fortran="area_fill" include="PolyShadingMethod.h" name="PolyShadingMethod">		</option>
+        		<option xml="dot" fortran="dot" include="DotPolyShadingMethod.h" name="DotPolyShadingMethod">		</option>
+        		<option xml="hatch" fortran="hatch" include="HatchPolyShadingMethod.h" name="HatchPolyShadingMethod">		</option>
   	</parameter>
 </class></magics>

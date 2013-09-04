@@ -1,16 +1,16 @@
 <magics>
-<class  action='peps' directory='visualisers' prefix='eps/eps_rose_wind' xmltag='epswind' name='EpsWind'>
-		<documentation >
+<class action="peps" directory="visualisers" prefix="eps/eps_rose_wind" xmltag="epswind" name="EpsWind">
+		<documentation>
 		The Epsgraph is repsonsible for plotting the espgram using wind rose visualisation
 		</documentation>
-		<parameter  member='colour' to='Colour' default='grey' from='string' name='eps_rose_wind_colour'> 
-    		<documentation > Rose wind darker colour  		</documentation>          
+		<parameter member="colour" to="Colour" default="grey" from="string" name="eps_rose_wind_colour"> 
+    		<documentation> Rose wind darker colour  		</documentation>          
     	</parameter>
-    	<parameter  member='border_colour' to='Colour' default='grey' from='string' name='eps_rose_wind_border_colour'>    
-    		<documentation > Rose wind border colour  		</documentation>       
+    	<parameter member="border_colour" to="Colour" default="grey" from="string" name="eps_rose_wind_border_colour">    
+    		<documentation> Rose wind border colour  		</documentation>       
     	</parameter>
-    	<parameter  member='convention' to='string' default='meteorological' from='string' name='eps_rose_wind_convention'>    
-    		<documentation > Define the convention to use to plot the wind direction 
+    	<parameter member="convention" to="string" default="meteorological" from="string" name="eps_rose_wind_convention">    
+    		<documentation> Define the convention to use to plot the wind direction 
     	[ meteorological : Direction the parameter is coming from, 
     	  oceanographic : Direction the parameter is goint to]  		</documentation>       
     	</parameter>

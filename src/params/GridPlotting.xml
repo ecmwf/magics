@@ -1,27 +1,27 @@
 <magics>
-<class  inherits='NoGridPlotting' xmltag='grid' name='GridPlotting' directory='visualisers' prefix='map/map_grid' action='pcoast'>
-		<documentation >
+<class inherits="NoGridPlotting" xmltag="grid" name="GridPlotting" directory="visualisers" prefix="map/map_grid" action="pcoast" doc_inherits="no">
+		<documentation>
 		This object will control the settings of the Map Grids.
 		</documentation>
-        	<parameter  member='style' to='LineStyle' default='solid' from='string' name='map_grid_line_style'>
-            		<documentation >
+        	<parameter member="style" to="LineStyle" default="solid" from="string" name="map_grid_line_style">
+            		<documentation>
             Line style of map grid lines
            		</documentation>
-           		<release >Magics++0.1		</release>
+           		<release>Magics++0.1		</release>
        	</parameter>
       
-        	<parameter  member='thickness' to='int' default='1' from='int' name='map_grid_thickness'>
-            		<documentation >
+        	<parameter member="thickness" to="int" default="1" from="int" name="map_grid_thickness">
+            		<documentation>
             Thickness of map grid lines
            		</documentation>
-           		<release >Magics++0.1		</release>
+           		<release>Magics++0.1		</release>
        	</parameter>
-        	<parameter  member='colour' to='Colour' default='BLACK' from='string' name='map_grid_colour'>
-            		<documentation >
+        	<parameter member="colour" to="Colour" default="BLACK" from="string" name="map_grid_colour">
+            		<documentation>
             Colour of map grid lines
            		</documentation>
-           		<release >Magics++0.1		</release>
-           		<migration > Default changed fronm YELLOW to BLACK 		</migration>
+           		<release>Magics++0.1		</release>
+           		<migration> Default changed fronm YELLOW to BLACK 		</migration>
        	</parameter>
       
 </class></magics>

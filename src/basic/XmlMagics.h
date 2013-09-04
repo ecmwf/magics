@@ -74,7 +74,6 @@ public:
 	void tephigrid(const XmlNode&);
 	void tephigram(const XmlNode&);
 	void taylor(const XmlNode&);
-	void landgram(const XmlNode&);
 	void layer(const XmlNode&);
 	void grib(const XmlNode&);
 	void table(const XmlNode&);
@@ -89,7 +88,6 @@ public:
 	void wind(const XmlNode&);
 	void symbol(const XmlNode&);
 	void matrix(const XmlNode&);
-	void landgrambox(const XmlNode&);
 	void cartesian(const XmlNode&);
 	void geographical(const XmlNode&);
 

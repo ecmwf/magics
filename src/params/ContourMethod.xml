@@ -1,2 +1,2 @@
 <magics>
-<class  directory='visualisers' include='ContourMethod.h' name='ContourMethod'></class></magics>
+<class directory="visualisers" include="ContourMethod.h" name="ContourMethod"/></magics>

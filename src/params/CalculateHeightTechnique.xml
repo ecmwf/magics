@@ -1,2 +1,2 @@
 <magics>
-<class  directory='visualisers' inherits='HeightTechnique' include='HeightTechnique.h' name='CalculateHeightTechnique'></class></magics>
+<class directory="visualisers" inherits="HeightTechnique" include="HeightTechnique.h" name="CalculateHeightTechnique"/></magics>

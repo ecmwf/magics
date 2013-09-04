@@ -1,2 +1,2 @@
 <magics>
-<class  inherits='Proj4Projection' directory='common' prefix='subpage' include='Proj4Projection.h' name='Proj4EPSG4326'></class></magics>
+<class inherits="Proj4Projection" directory="common" prefix="subpage" include="Proj4Projection.h" name="Proj4EPSG4326"/></magics>

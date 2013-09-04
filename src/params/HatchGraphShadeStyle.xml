@@ -1,6 +1,6 @@
 <magics>
-<class  directory='visualisers' inherits='GraphShadeStyle' include='GraphShadeStyle.h' name='HatchGraphShadeStyle'>
-  	<parameter  xml='hatch_index' from='int' name='graph_shade_hatch_index' default='0' member='index' to='int'>
-         		<documentation >Hatch index number		</documentation>
+<class directory="visualisers" inherits="GraphShadeStyle" include="GraphShadeStyle.h" name="HatchGraphShadeStyle">
+  	<parameter xml="hatch_index" from="int" name="graph_shade_hatch_index" default="0" member="index" to="int">
+         		<documentation>Hatch index number		</documentation>
   	</parameter>
 </class></magics>

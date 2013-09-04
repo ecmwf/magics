@@ -1,27 +1,27 @@
 <magics>
-<class  inherits='NetcdfInterpretor' xmltag='geopoints' name='NetcdfGeoMatrixInterpretor' directory='decoders' prefix='netcdf' action='pnetcdf'>
-        	<parameter  member='latitude' to='string' default='latitude' from='string' name='netcdf_latitude_variable'>
-              		<release >Magics++0.1		</release>
-              		<documentation >Variable name representing the latitude dimension		</documentation>
+<class inherits="NetcdfInterpretor" xmltag="geopoints" name="NetcdfGeoMatrixInterpretor" directory="decoders" prefix="netcdf" action="pnetcdf">
+        	<parameter member="latitude" to="string" default="latitude" from="string" name="netcdf_latitude_variable">
+              		<release>Magics++0.1		</release>
+              		<documentation>Variable name representing the latitude dimension		</documentation>
         	</parameter> 
-         	<parameter  member='longitude' to='string' default='longitude' from='string' name='netcdf_longitude_variable'>
-            		<metview  default='' class=''>   		</metview>
-             		<release >Magics++0.1		</release>
-            		<documentation >Variable name representing the longitude dimension		</documentation>
+         	<parameter member="longitude" to="string" default="longitude" from="string" name="netcdf_longitude_variable">
+            		<metview default="" class="">   		</metview>
+             		<release>Magics++0.1		</release>
+            		<documentation>Variable name representing the longitude dimension		</documentation>
         	</parameter>
-         	<parameter  member='longitude_sample' to='int' default='1' from='int' name='netcdf_longitude_sample'>
-            		<metview  default='' class=''>   		</metview>
-             		<release >Magics++0.1		</release>
-            		<documentation >sample the input data by taking aa longitude every nth longitude		</documentation>
+         	<parameter member="longitude_sample" to="int" default="1" from="int" name="netcdf_longitude_sample">
+            		<metview default="" class="">   		</metview>
+             		<release>Magics++0.1		</release>
+            		<documentation>sample the input data by taking aa longitude every nth longitude		</documentation>
         	</parameter>
-         	<parameter  member='latitude_sample' to='int' default='1' from='int' name='netcdf_latitude_sample'>
-            		<metview  default='' class=''>   		</metview>
-             		<release >Magics++0.1		</release>
-            		<documentation >sample the input data by taking a latitude every nth latitude		</documentation>
+         	<parameter member="latitude_sample" to="int" default="1" from="int" name="netcdf_latitude_sample">
+            		<metview default="" class="">   		</metview>
+             		<release>Magics++0.1		</release>
+            		<documentation>sample the input data by taking a latitude every nth latitude		</documentation>
         	</parameter>
         
-            	<parameter  member='primary_index' to='string' default='longitude' from='string' name='netcdf_matrix_primary_index'>
-             		<release >Magics++2.4		</release>
-            		<documentation > Primary index latitude/longitude		</documentation>
+            	<parameter member="primary_index" to="string" default="longitude" from="string" name="netcdf_matrix_primary_index">
+             		<release>Magics++2.4		</release>
+            		<documentation> Primary index latitude/longitude		</documentation>
         	</parameter>
 </class></magics>

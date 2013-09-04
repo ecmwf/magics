@@ -1,23 +1,20 @@
 <magics>
-<class  inherits='PolyShadingMethod' xmltag='dot' name='DotPolyShadingMethod' directory='visualisers' prefix='contour/contour/contour_shade/contour_shade/contour_shade' action='pcont'>
+<class inherits="PolyShadingMethod" xmltag="dot" name="DotPolyShadingMethod" directory="visualisers" prefix="contour/contour/contour_shade/contour_shade/contour_shade" action="pcont" doc_inherits="no">
 
-  	<parameter  member='size' to='float' default='0.02' from='float' name='contour_shade_dot_size'>
-         		<documentation > Size of dot in shading pattern 		</documentation>
-         		<release >0.2		</release>
+  	<parameter member="size" to="float" default="0.02" from="float" name="contour_shade_dot_size">
+         		<documentation> Size of dot in shading pattern 		</documentation>
+         		<release>0.2		</release>
   	</parameter>
 
- 	<parameter  member='max_density' to='float' default='50.0' from='float' name='contour_shade_max_level_density'>
-    		<documentation > Dots/square centimetre in highest shading band 		</documentation>
-    		<release >0.2		</release>
+ 	<parameter member="max_density" to="float" default="50.0" from="float" name="contour_shade_max_level_density">
+    		<documentation> Dots/square centimetre in highest shading band 		</documentation>
+    		<release>0.2		</release>
  	</parameter>
 
- 	<parameter  xml='min_level_density' from='float' name='contour_shade_min_level_density' default='1.0' member='min_density' to='float'>
-         		<documentation > Dots/square centimetre in lowest shading band 		</documentation>
-         		<release >0.2		</release>
+ 	<parameter xml="min_level_density" from="float" name="contour_shade_min_level_density" default="1.0" member="min_density" to="float">
+         		<documentation> Dots/square centimetre in lowest shading band 		</documentation>
+         		<release>0.2		</release>
  	</parameter>
 
- 	<parameter  member='angle' to='float' default='45.0' from='float' name='contour_shade_angle'>
-         		<documentation > Angle of shading line to the horizontal in degrees in an anticlockwise direction 		</documentation>
-         		<release >0.2		</release>
-  	</parameter>
+ 
 </class></magics>

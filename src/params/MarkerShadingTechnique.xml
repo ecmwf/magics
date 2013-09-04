@@ -1,17 +1,17 @@
 <magics>
-<class  inherits='ShadingTechnique' xmltag='marker' name='MarkerShadingTechnique' directory='visualisers' prefix='contour/contour/contour_shade/contour_shade/contour_shade' action='pcont'>
+<class inherits="ShadingTechnique" xmltag="marker" name="MarkerShadingTechnique" directory="visualisers" prefix="contour/contour/contour_shade/contour_shade/contour_shade" action="pcont">
 	
-  	<parameter  member='colour' to='stringarray' default='stringarray()' from='stringarray' name='contour_shade_colour_table'>
-         		<documentation > Colour table to be used with MARKER shading technique 		</documentation>
+  	<parameter member="colour" to="stringarray" default="stringarray()" from="stringarray" name="contour_shade_colour_table">
+         		<documentation> Colour table to be used with MARKER shading technique 		</documentation>
   	</parameter>
 
-  	<parameter  member='height' to='floatarray' default='floatarray()' from='floatarray' name='contour_shade_height_table'>
-         		<documentation > Height table to be used with MARKER shading technique 		</documentation>
-         		<release >0.2		</release>
+  	<parameter member="height" to="floatarray" default="floatarray()" from="floatarray" name="contour_shade_height_table">
+         		<documentation> Height table to be used with MARKER shading technique 		</documentation>
+         		<release>0.2		</release>
   	</parameter>
 
-  	<parameter  member='marker' to='intarray' default='intarray()' from='intarray' name='contour_shade_marker_table'>
-         		<documentation > Marker table to be used with MARKER shading technique 		</documentation>
-         		<release >0.2		</release>
+  	<parameter member="marker" to="intarray" default="intarray()" from="intarray" name="contour_shade_marker_table">
+         		<documentation> Marker table to be used with MARKER shading technique 		</documentation>
+         		<release>0.2		</release>
   	</parameter>
 </class></magics>

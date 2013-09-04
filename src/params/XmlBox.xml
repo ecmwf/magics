@@ -1,0 +1,45 @@
+<magics>
+<class directory="visualisers" name="XmlBox">
+  	<parameter xml="left" from="string" name="box_left" default="5%" member="left" to="string">
+         		<release>Magics++0.8		</release>
+         		<documentation> Left Position of Box 		</documentation>
+         		<migration>Only avalaible in MagML  		</migration>
+  	</parameter>
+
+  	<parameter xml="bottom" from="string" name="box_bottom" default="80%" member="bottom" to="string">
+         		<release>Magics++0.8		</release>
+         		<documentation> Botton Position of Box 		</documentation>
+         		<migration> Only avalaible in MagML  		</migration>
+  	</parameter>
+
+  	<parameter xml="width" from="string" name="box_width" default="85%" member="width" to="string">
+         		<release>Magics++0.8		</release>
+         		<documentation> Length of text box in X direction 		</documentation>
+         		<migration> Only avalaible in MagML  		</migration>
+  	</parameter>
+
+  	<parameter xml="height" from="string" name="box_height" default="10%" member="height" to="string">
+         		<release>Magics++0.1		</release>
+         		<documentation> Length of text box in Y direction 		</documentation>
+         		<migration> Only avalaible in MagML  		</migration>
+  	</parameter>
+
+  	<parameter member="blanking" to="bool" default="off" from="string" name="blanking">
+         		<release>Magics++0.1		</release>
+          		<release_info>Paremeter defined but not implemeted : expected for Magics++0.6		</release_info>
+         		<documentation> All plotting in the text box previous to PTEXT call will be blanked out. Plotting after PTEXT call will not be affected. (ON/OFF) 		</documentation>
+         		<migration> New Magics: Parameter text_box_blanking sent to new Magics[TextBox].  		</migration>
+  	</parameter>
+
+  	<parameter member="frame" to="FrameBase" default="off" from="string" name="frame">
+         		<release>Magics++0.5		</release>    
+         		<documentation> Plot border around text box (ON/OFF) 		</documentation>
+         		<option xml="frame" fortran="on" include="Frame.h" name="Frame">		</option>
+         			<option xml="noframe" fortran="off" include="Frame.h" name="NoFrame">		</option>
+         		<migration> New Magics: Parameter text_border sent to new Magics[TextBox].  		</migration>
+  	</parameter>
+  
+  
+  
+  
+</class></magics>

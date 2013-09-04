@@ -1,2 +1,2 @@
 <magics>
-<class  directory='common' include='LogoPlotting.h' name='LogoPlottingBase'></class></magics>
+<class directory="common" include="LogoPlotting.h" name="LogoPlottingBase"/></magics>

@@ -1,0 +1,42 @@
+<magics>
+<class directory="visualisers" inherits="TitleBase" name="Title" xml_data="title_text">
+  	<documentation>	</documentation>
+  
+  	<parameter xml="colour" from="string" name="title_colour" default="blue" member="colour" to="Colour">
+          		<release>Magisc++0.8		</release>
+         		<documentation> Colour of the title 		</documentation>
+         		<migration> New Magics: Parameter text_mode sent to new Magics[TextAction].  		</migration>
+  	</parameter>
+  	<parameter xml="text" from="stringarray" name="title_text" default="stringarray()" member="text" to="stringarray">
+          		<release>Magisc++0.8		</release>
+         		<documentation>title 		</documentation>
+         		<migration> New Magics: Parameter text_mode sent to new Magics[TextAction].  		</migration>
+  	</parameter>
+   	<parameter xml="justification" from="string" name="title_justification" default="centre" member="justification" to="Justification">
+          		<release>Magisc++0.8		</release>
+         		<documentation> How text is to be positioned in each line (LEFT/CENTRE/RIGHT)	 		</documentation>
+         		<migration> New Magics: Parameter title_justification sent to new Magics[Ttitle].  		</migration>
+  	</parameter>
+  
+  	<parameter xml="font_size" from="float" name="text_font_size" default="0.5" member="height" to="float">
+	     		<release>Magics++0.8		</release>
+	      		<release_info>Change default from 2.0 to 0.5 ---&gt; To be discussed later!		</release_info>
+         		<documentation> height for calculating the height of the characters in text lines (see main text) 		</documentation>
+         		<migration> New Magics: Parameter text_reference_character_height sent to new Magics[TextAction].  		</migration>
+  	</parameter>
+
+  	<parameter xml="font" from="string" name="title_font" default="sansserif" member="font" to="string">
+	     		<release>Magics++1.38		</release>
+         		<documentation>Font to use 		</documentation>
+         		<migration> New Magics: Parameter text_reference_character_height sent to new Magics[TextAction].  		</migration>
+  	</parameter>
+   	<parameter xml="font_style" from="string" name="text_font_style" default="normal" member="style" to="string">
+			<available>normal		</available>
+			<available>bold		</available>
+			<available>italic		</available>
+			<available>bolditalic		</available>
+			<documentation>Font style.		</documentation>
+			<release>1.3		</release>
+			<release_info>Implemented in Magics++ 1.3.		</release_info>
+  	</parameter>
+</class></magics>

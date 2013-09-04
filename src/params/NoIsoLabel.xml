@@ -1,2 +1,2 @@
 <magics>
-<class  xmltag='nolabel' name='NoIsoLabel' used_by='IsoPlot' directory='visualisers' action='pcont' include='IsoLabel.h' doc_inherits='no'></class></magics>
+<class xmltag="nolabel" name="NoIsoLabel" used_by="IsoPlot" directory="visualisers" action="pcont" include="IsoLabel.h" doc_inherits="no"/></magics>

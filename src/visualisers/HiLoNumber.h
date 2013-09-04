@@ -77,14 +77,14 @@ protected:
              Text* text = new Text();
              text->addText(nice.str(), *this->hi_colour_, this->contour_hilo_height_);
              hilo.push_back(text);
-             text->setBlanking(this->blanking_);
+             //text->setBlanking(this->blanking_);
              text->push_back(point);
         }
         else if ( point.low()) {
              Text* text = new Text();
              text->addText(nice.str(), *this->lo_colour_, this->contour_hilo_height_);
              hilo.push_back(text);
-             text->setBlanking(this->blanking_);
+             //text->setBlanking(this->blanking_);
              text->push_back(point);
         } 
         else {

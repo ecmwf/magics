@@ -1,2 +1,2 @@
 <magics>
-<class  action='pgrib' directory='decoders' inherits='WindMode' include='WindMode.h' name='UVWindMode'></class></magics>
+<class action="pgrib" directory="decoders" inherits="WindMode" include="WindMode.h" name="UVWindMode"/></magics>

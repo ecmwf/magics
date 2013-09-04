@@ -1,62 +1,62 @@
 <magics>
-<class  directory='visualisers' xmltag='histogram' name='Histogram'>
-		<documentation >
+<class directory="visualisers" xmltag="histogram" name="Histogram">
+		<documentation>
 		Here comes the description of the Histogram action 
 		</documentation>
 
-    	<parameter  member='levels' to='LevelSelection' default='count' from='string' name='histogram_selection_type'>
-         		<documentation >  (COUNT/ INTERVAL/ LEVEL_LIST) 		</documentation>
-         		<release >Magics++2.6		</release>
-         		<option  xml='count' fortran='count' docdive='no' include='CountSelectionType.h' name='CountSelectionType'>		</option>
-         		<option  xml='interval' fortran='interval' docdive='no' include='IntervalSelectionType.h' name='IntervalSelectionType'>		</option>
-         		<option  xml='list' fortran='list' docdive='no' include='LevelListSelectionType.h' name='LevelListSelectionType'>		</option>
+    	<parameter member="levels" to="LevelSelection" default="count" from="string" name="histogram_selection_type">
+         		<documentation>  (COUNT/ INTERVAL/ LEVEL_LIST) 		</documentation>
+         		<release>Magics++2.6		</release>
+         		<option xml="count" fortran="count" docdive="no" include="CountSelectionType.h" name="CountSelectionType">		</option>
+         		<option xml="interval" fortran="interval" docdive="no" include="IntervalSelectionType.h" name="IntervalSelectionType">		</option>
+         		<option xml="list" fortran="list" docdive="no" include="LevelListSelectionType.h" name="LevelListSelectionType">		</option>
      	</parameter>     
 
-  	<parameter  member='min' to='float' default='-1.e21' from='float' name='histogram_min_value'>
-         		<documentation > Min value 		</documentation>
-         		<release >Magics++2.6		</release>
+  	<parameter member="min" to="float" default="-1.e21" from="float" name="histogram_min_value">
+         		<documentation> Min value 		</documentation>
+         		<release>Magics++2.6		</release>
   	</parameter>
   
-  	<parameter  member='max' to='float' default='1.e21' from='float' name='histogram_max_value'>
-         		<documentation > max value to plot 		</documentation>
-         		<release >Magics++2.6		</release>
+  	<parameter member="max" to="float" default="1.e21" from="float" name="histogram_max_value">
+         		<documentation> max value to plot 		</documentation>
+         		<release>Magics++2.6		</release>
   	</parameter>
   
-   	<parameter  member='count' to='int' default='10' from='int' name='histogram_level_count'>
-         		<documentation > Count or number of levels to be plotted. Magics will try to find "nice levels", 
+   	<parameter member="count" to="int" default="10" from="int" name="histogram_level_count">
+         		<documentation> Count or number of levels to be plotted. Magics will try to find "nice levels", 
          this means that the number of levels could be slightly different from the requested number of levels		</documentation>
-         		<release >Magics++2.6		</release>
+         		<release>Magics++2.6		</release>
   	</parameter>
   
-  	<parameter  member='tolerance' to='int' default='2' from='int' name='histogram_level_tolerance'>
-         		<documentation > Tolerance: Do not use "nice levels" if the number of levels is really to different [count +/- tolerance] 		</documentation>
-         		<release >Magics++2.6		</release>
+  	<parameter member="tolerance" to="int" default="2" from="int" name="histogram_level_tolerance">
+         		<documentation> Tolerance: Do not use "nice levels" if the number of levels is really to different [count +/- tolerance] 		</documentation>
+         		<release>Magics++2.6		</release>
   	</parameter>
   
-  	<parameter  member='reference' to='float' default='0.0' from='float' name='histogram_reference_level'>
-         		<documentation > Level from which the level interval is calculated 		</documentation>
-         		<release >Magics++2.6		</release>
+  	<parameter member="reference" to="float" default="0.0" from="float" name="histogram_reference_level">
+         		<documentation> Level from which the level interval is calculated 		</documentation>
+         		<release>Magics++2.6		</release>
   	</parameter>
 
 
-  	<parameter  member='interval' to='float' default='8.0' from='float' name='histogram_interval'>
-         		<documentation > Interval in data units between different bands of shading 		</documentation>
-         		<release >Magics++2.6		</release>
+  	<parameter member="interval" to="float" default="8.0" from="float" name="histogram_interval">
+         		<documentation> Interval in data units between different bands of shading 		</documentation>
+         		<release>Magics++2.6		</release>
   	</parameter>
 
- 	<parameter  member='list' to='floatarray' default='floatarray()' from='floatarray' name='histogram_level_list'>
-         		<documentation > List of shading band levels to be plotted 		</documentation>
-         		<release >Magics++2.6		</release>
+ 	<parameter member="list" to="floatarray" default="floatarray()" from="floatarray" name="histogram_level_list">
+         		<documentation> List of shading band levels to be plotted 		</documentation>
+         		<release>Magics++2.6		</release>
   	</parameter>  
   
-  	<parameter  member='colour' to='Colour' default='evergreen' from='string' name='histogram_bar_colour'>
-         		<documentation > Colour of the bars. 		</documentation>
-         		<release >Magics++2.6		</release>
+  	<parameter member="colour" to="Colour" default="evergreen" from="string" name="histogram_bar_colour">
+         		<documentation> Colour of the bars. 		</documentation>
+         		<release>Magics++2.6		</release>
   	</parameter>  
   
-  	<parameter  member='width' to='float' default='1' from='float' name='histogram_bar_width'>
-         		<documentation > Width of the bar in user unit 		</documentation>
-         		<release >Magics++2.6		</release>
+  	<parameter member="width" to="float" default="1" from="float" name="histogram_bar_width">
+         		<documentation> Width of the bar in user unit 		</documentation>
+         		<release>Magics++2.6		</release>
   	</parameter>  
            
 </class></magics>

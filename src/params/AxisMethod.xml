@@ -1,2 +1,2 @@
 <magics>
-<class  directory='visualisers' include='AxisMethod.h' name='AxisMethod'></class></magics>
+<class directory="visualisers" include="AxisMethod.h" name="AxisMethod"/></magics>

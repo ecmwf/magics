@@ -1,28 +1,28 @@
 <magics>
-<class  action='pline' directory='decoders' prefix='polyline/polyline_input' xmltag='polyline_input' name='SimplePolylineInput'>
+<class action="pline" directory="decoders" prefix="polyline/polyline_input" xmltag="polyline_input" name="SimplePolylineInput">
   
-  	<parameter  member='latitudes' to='floatarray' default='floatarray()' from='floatarray' name='polyline_input_latitudes'>
-         		<release >Magics++2.1		</release>
-         		<documentation > Array containing the latitudes of the polylines. Each polyline is separated by the break value 		</documentation>
+  	<parameter member="latitudes" to="floatarray" default="floatarray()" from="floatarray" name="polyline_input_latitudes">
+         		<release>Magics++2.1		</release>
+         		<documentation> Array containing the latitudes of the polylines. Each polyline is separated by the break value 		</documentation>
   	</parameter>
-  	<parameter  member='longitudes' to='floatarray' default='floatarray()' from='floatarray' name='polyline_input_longitudes'>
-         		<release >Magics++2.1		</release>
-         		<documentation > Array containing the longitudes of the polylines. Each polyline is separated by the break value 		</documentation>
+  	<parameter member="longitudes" to="floatarray" default="floatarray()" from="floatarray" name="polyline_input_longitudes">
+         		<release>Magics++2.1		</release>
+         		<documentation> Array containing the longitudes of the polylines. Each polyline is separated by the break value 		</documentation>
   	</parameter>
-   	<parameter  member='values' to='floatarray' default='floatarray()' from='floatarray' name='polyline_input_values'>
-         		<release >Magics++2.1		</release>
-         		<documentation > Array containing the values for each polyline 		</documentation>
+   	<parameter member="values" to="floatarray" default="floatarray()" from="floatarray" name="polyline_input_values">
+         		<release>Magics++2.1		</release>
+         		<documentation> Array containing the values for each polyline 		</documentation>
   	</parameter>
-   	<parameter  member='breakvalue' to='float' default='-999' from='float' name='polyline_input_break_indicator'>
-         		<release >Magics++2.1		</release>
-         		<documentation > Value used as either a latitude or longitude to denote a separation between polylines 		</documentation>
+   	<parameter member="breakvalue" to="float" default="-999" from="float" name="polyline_input_break_indicator">
+         		<release>Magics++2.1		</release>
+         		<documentation> Value used as either a latitude or longitude to denote a separation between polylines 		</documentation>
   	</parameter>
-  	<parameter  xml='position_filename' from='string' name='polyline_input_positions_filename' default='' member='position_filename' to='string'>
-         		<release >Magics++2.1		</release>
-         		<documentation > Path to a file containing the coordinates for all polylines' points. 		</documentation>
+  	<parameter xml="position_filename" from="string" name="polyline_input_positions_filename" default="" member="position_filename" to="string">
+         		<release>Magics++2.1		</release>
+         		<documentation> Path to a file containing the coordinates for all polylines' points. 		</documentation>
   	</parameter>
-  	<parameter  member='values_filename' to='string' default='' from='string' name='polyline_input_values_filename'>
-         		<release >Magics++2.1		</release>
-         		<documentation > Path to a file containing the values for each polyline. 		</documentation>
+  	<parameter member="values_filename" to="string" default="" from="string" name="polyline_input_values_filename">
+         		<release>Magics++2.1		</release>
+         		<documentation> Path to a file containing the values for each polyline. 		</documentation>
   	</parameter>
 </class></magics>

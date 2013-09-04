@@ -1,75 +1,75 @@
 <magics>
-<class  action='pmetgram' directory='decoders' prefix='metgram' xmltag='metgram' name='ClassicMtgDecoder'>
-		<documentation >
+<class action="pmetgram" directory="decoders" prefix="metgram" xmltag="metgram" name="ClassicMtgDecoder">
+		<documentation>
 		The Classic Metgram  is responsible for accessing the classic metgram database and prepare the data to plotting.
 		</documentation>
 		
 	   
-        	<parameter  xml='database' from='string' name='metgram_database' default='/vol/epsgram/data/spotbase/epsdb' member='database' to='string'>
+        	<parameter xml="database" from="string" name="metgram_database" default="/vol/epsgram/data/spotbase/epsdb" member="database" to="string">
            
-            		<documentation > Classic Metgram Database Path 		</documentation>
-            		<migration > New Magics: Parameter eps_database sent to new Magics[EpsgramDecoder].  		</migration>
+            		<documentation> Classic Metgram Database Path 		</documentation>
+            		<migration> New Magics: Parameter eps_database sent to new Magics[EpsgramDecoder].  		</migration>
         	</parameter>
-          	<parameter  xml='parameter' from='string' name='metgram_parameter' default='' member='param' to='string'>
-            		<metview  default='' class=''>  
+          	<parameter xml="parameter" from="string" name="metgram_parameter" default="" member="param" to="string">
+            		<metview default="" class="">  
             		</metview>
-            		<documentation > Classic Metgram Parameter 		</documentation>
-            		<migration > New Magics: Parameter eps_parameter sent to new Magics[EpsgramDecoder].  		</migration>
+            		<documentation> Classic Metgram Parameter 		</documentation>
+            		<migration> New Magics: Parameter eps_parameter sent to new Magics[EpsgramDecoder].  		</migration>
         	</parameter>
-         	<parameter  xml='latitude' from='float' name='metgram_latitude' default='0' member='latitude' to='float'>
+         	<parameter xml="latitude" from="float" name="metgram_latitude" default="0" member="latitude" to="float">
            
-            		<documentation > Classic Metgram  latitude 		</documentation>
+            		<documentation> Classic Metgram  latitude 		</documentation>
            
-        	</parameter>
-        
-         	<parameter  xml='parameter_scaling_factor' from='float' name='metgram_parameter_scaling_factor' default='1' member='param_scaling' to='float'>
-           
-            		<documentation > metgram scaling factor : used only in case of an unknow parameter  		</documentation>
         	</parameter>
         
-          	<parameter  xml='parameter_offset' from='float' name='metgram_parameter_offset' default='0' member='param_offset' to='float'>
+         	<parameter xml="parameter_scaling_factor" from="float" name="metgram_parameter_scaling_factor" default="1" member="param_scaling" to="float">
            
-            		<documentation > metgram offset : used only in case of an unknow parameter  		</documentation>
+            		<documentation> metgram scaling factor : used only in case of an unknow parameter  		</documentation>
         	</parameter>
         
-         	<parameter  xml='parameter_title' from='string' name='metgram_parameter_title' default='' member='param_title' to='string'>
+          	<parameter xml="parameter_offset" from="float" name="metgram_parameter_offset" default="0" member="param_offset" to="float">
            
-            		<documentation > metgram parameter title : used only in case of an unknow parameter  		</documentation>
-            		<migration > New Magics: Parameter eps_latitude sent to new Magics[EpsgramDecoder].  		</migration>
+            		<documentation> metgram offset : used only in case of an unknow parameter  		</documentation>
         	</parameter>
-       	<parameter  xml='longitude' from='float' name='metgram_longitude' default='0' member='longitude' to='float'>
-            		<metview  default='0' class=''>  
+        
+         	<parameter xml="parameter_title" from="string" name="metgram_parameter_title" default="" member="param_title" to="string">
+           
+            		<documentation> metgram parameter title : used only in case of an unknow parameter  		</documentation>
+            		<migration> New Magics: Parameter eps_latitude sent to new Magics[EpsgramDecoder].  		</migration>
+        	</parameter>
+       	<parameter xml="longitude" from="float" name="metgram_longitude" default="0" member="longitude" to="float">
+            		<metview default="0" class="">  
             		</metview>
-            		<documentation > Classic Metgram  longitude		</documentation>
+            		<documentation> Classic Metgram  longitude		</documentation>
             
         	</parameter>
-        	<parameter  xml='date' from='string' name='metgram_date' default='-1' member='date' to='string'>
-            		<metview  default='-1' class=''>  
+        	<parameter xml="date" from="string" name="metgram_date" default="-1" member="date" to="string">
+            		<metview default="-1" class="">  
             		</metview>
-            		<documentation >Classic Metgram  date		</documentation>
-            		<migration > New Magics: Parameter eps_longitude sent to new Magics[EpsgramDecoder].  		</migration>
+            		<documentation>Classic Metgram  date		</documentation>
+            		<migration> New Magics: Parameter eps_longitude sent to new Magics[EpsgramDecoder].  		</migration>
         	</parameter>
-         	<parameter  xml='time' from='string' name='metgram_time' default='0000' member='time' to='string'>
-            		<metview  default='0000' class=''>  
+         	<parameter xml="time" from="string" name="metgram_time" default="0000" member="time" to="string">
+            		<metview default="0000" class="">  
             		</metview>
-            		<documentation > Classic Metgram  time		</documentation>
-            		<migration > New Magics: Parameter eps_longitude sent to new Magics[EpsgramDecoder].  		</migration>
+            		<documentation> Classic Metgram  time		</documentation>
+            		<migration> New Magics: Parameter eps_longitude sent to new Magics[EpsgramDecoder].  		</migration>
         	</parameter>
-		 	<parameter  xml='long_title' from='string' name='metgram_long_title' default='off' member='long_title' to='bool'>
-            		<documentation > epsgram long title 		</documentation>
+		 	<parameter xml="long_title" from="string" name="metgram_long_title" default="off" member="long_title" to="bool">
+            		<documentation> epsgram long title 		</documentation>
         	</parameter>
-         	<parameter  xml='station' from='string' name='metgram_station_name' default='' member='station' to='string'>
-            		<documentation > epsgram long title 		</documentation>
-            		<migration > New Magics: Parameter eps_longitude sent to new Magics[EpsgramDecoder].  		</migration>
+         	<parameter xml="station" from="string" name="metgram_station_name" default="" member="station" to="string">
+            		<documentation> epsgram long title 		</documentation>
+            		<migration> New Magics: Parameter eps_longitude sent to new Magics[EpsgramDecoder].  		</migration>
         	</parameter>
-         	<parameter  xml='height' from='float' name='metgram_station_height' default='-1.' member='height' to='float'>
-            		<documentation > epsgram long title 		</documentation>
-            		<migration > New Magics: Parameter eps_longitude sent to new Magics[EpsgramDecoder].  		</migration>
+         	<parameter xml="height" from="float" name="metgram_station_height" default="-1." member="height" to="float">
+            		<documentation> epsgram long title 		</documentation>
+            		<migration> New Magics: Parameter eps_longitude sent to new Magics[EpsgramDecoder].  		</migration>
         	</parameter>
-         	<parameter  member='correction' to='bool' default='yes' from='string' name='metgram_temperature_correction'>           
-            		<documentation > Temperature correction  		</documentation>
+         	<parameter member="correction" to="bool" default="yes" from="string" name="metgram_temperature_correction">           
+            		<documentation> Temperature correction  		</documentation>
             
-            		<migration > New Magics: Parameter eps_temperature_correction sent to new Magics[EpsTempe].  		</migration>
+            		<migration> New Magics: Parameter eps_temperature_correction sent to new Magics[EpsTempe].  		</migration>
         	</parameter>
         
 </class></magics>

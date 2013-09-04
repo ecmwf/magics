@@ -1,30 +1,32 @@
 <magics>
-<class  inherits='XCoordinate' metview_prefix='subpage_' xmltag='x_hyper' name='XHyperCoordinate' directory='common' prefix='subpage/subpage_x/subpage_x_hyper' action='pnew' include='Coordinate.h'>
+<class inherits="XCoordinate" metview_prefix="subpage_" xmltag="x_hyper" name="XHyperCoordinate" directory="common" prefix="subpage/subpage_x/subpage_x_hyper" action="pnew" include="Coordinate.h">
   This object contains the common attributes to the cartesian Projections
-	<parameter  xml='automatic' from='string' name='subpage_x_automatic' default='off' member='automatic' to='AxisAutomaticSetting' values='on/off/min_only/max_only'>
-     		<release >Magics2.1		</release>
-     		<set  name='subpage_x_max' value='off'>		</set> 
-     		<set  name='subpage_x_min' value='off'>		</set>
-     		<set  name='subpage_x_max' value='min_only'>		</set> 
-     		<set  name='subpage_x_min' value='max_only'>		</set>
-     		<documentation > The Min and Max are calculated from the data		</documentation>    
+	<parameter xml="automatic" from="string" name="subpage_x_automatic" default="off" member="automatic" to="AxisAutomaticSetting" values="on/off/min_only/max_only">
+     		<release>Magics2.1		</release>
+     		<set name="subpage_x_max" value="off">		</set> 
+     		<set name="subpage_x_min" value="off">		</set>
+     		<set name="subpage_x_max" value="min_only">		</set> 
+     		<set name="subpage_x_min" value="max_only">		</set>
+     		<documentation> The Min and Max are calculated from the data		</documentation>    
 	</parameter>
-	<parameter  xml='min' from='float' name='subpage_x_min_latitude' default='-90' member='min_lat' to='float'>
-   		<release >Magics++2.10		</release>
-	</parameter>
-
-	<parameter  xml='max' from='float' name='subpage_x_max_latitude' default='90' member='max_lat' to='float'>
-     		<release >Magics++2.10		</release>
+	<parameter xml="min" from="float" name="subpage_x_min_latitude" default="-90" member="min_lat" to="float">
+   		<release>Magics++2.10		</release>
 	</parameter>
 
-	<parameter  xml='min' from='float' name='subpage_x_min_longitude' default='-180' member='min_lon' to='float'>
-   		<release >Magics++2.10		</release>
+	<parameter xml="max" from="float" name="subpage_x_max_latitude" default="90" member="max_lat" to="float">
+     		<release>Magics++2.10		</release>
 	</parameter>
 
-	<parameter  xml='max' from='float' name='subpage_x_max_longitude' default='180' member='max_lon' to='float'>
-   		<release >Magics++2.10		</release>
+	<parameter xml="min" from="float" name="subpage_x_min_longitude" default="-180" member="min_lon" to="float">
+   		<release>Magics++2.10		</release>
 	</parameter>
 
+	<parameter xml="max" from="float" name="subpage_x_max_longitude" default="180" member="max_lon" to="float">
+   		<release>Magics++2.10		</release>
+	</parameter>
 
+	<parameter member="reverse" to="bool" default="off" from="string" name="subpage_x_automatic_reverse">
+    		<release>Magics++0.1		</release>
+	</parameter>
 
 </class></magics>

@@ -1,15 +1,17 @@
 <magics>
-<class  inherits='NoCoastPlotting' xmltag='coast' name='CoastPlotting' used_by='Coastlines' directory='visualisers' prefix='map/map_coastline' action='pcoast'>
-	<parameter  member='colour' to='Colour' default='black' from='string' name='map_coastline_colour'>
- 		<documentation >Colour of coastlines		</documentation>
- 		<release >0.1		</release>
- 		<migration >Default changed from YELLOW to BLACK		</migration>
-	</parameter>
-	<parameter  member='style' to='LineStyle' default='solid' from='string' name='map_coastline_style'>
- 		<documentation >Line style of coastlines		</documentation>
-	</parameter> 
+<class inherits="NoCoastPlotting" xmltag="coast" name="CoastPlotting" used_by="Coastlines" directory="visualisers" prefix="map/map_coastline" action="pcoast" doc_inherits="no">
 
-	<parameter  member='thickness' to='int' default='1' from='int' name='map_coastline_thickness'>
- 		<documentation >Line thickness of coastlines		</documentation>
-	</parameter>	
+    	<parameter member="colour" to="Colour" default="black" from="string" name="map_coastline_colour">
+        		<documentation>Colour of coastlines		</documentation>
+        		<release>0.1		</release>
+        		<migration>Default changed from YELLOW to BLACK		</migration>
+    	</parameter>
+
+    	<parameter member="style" to="LineStyle" default="solid" from="string" name="map_coastline_style">
+        		<documentation>Line style of coastlines		</documentation>
+    	</parameter> 
+
+    	<parameter member="thickness" to="int" default="1" from="int" name="map_coastline_thickness">
+        		<documentation>Line thickness of coastlines		</documentation>
+    	</parameter>	
 </class></magics>

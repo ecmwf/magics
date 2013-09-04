@@ -1,12 +1,12 @@
 <magics>
-<class  action='pmetgram' directory='visualisers' prefix='metgram' xmltag='metgraph' name='MetgramGraph'>
-		<documentation >
+<class action="pmetgram" directory="visualisers" prefix="metgram" xmltag="metgraph" name="MetgramGraph">
+		<documentation>
 		The Epsgram is responsible for accessing the espgram database its data to MAGICS.
 		</documentation>
-        	<parameter  member='style' to='MetgramStyle' default='curve' from='string' name='metgram_plot_style'>           
-            		<documentation > Type of plot  		</documentation>
-            		<option  xml='bar' fortran='bar' include='MetgramStyle.h' name='MetgramBar'>		</option>
-            		<option  xml='flags' fortran='flags' include='MetgramStyle.h' name='MetgramFlags'>		</option>
-					<option  xml='curve' fortran='curve' include='MetgramStyle.h' name='MetgramCurve'>		</option>
+        	<parameter member="style" to="MetgramStyle" default="curve" from="string" name="metgram_plot_style">           
+            		<documentation> Type of plot  		</documentation>
+            		<option xml="bar" fortran="bar" include="MetgramStyle.h" name="MetgramBar">		</option>
+            		<option xml="flags" fortran="flags" include="MetgramStyle.h" name="MetgramFlags">		</option>
+					<option xml="curve" fortran="curve" include="MetgramStyle.h" name="MetgramCurve">		</option>
         	</parameter>
 </class></magics>

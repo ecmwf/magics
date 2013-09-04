@@ -1,2 +1,2 @@
 <magics>
-<class  directory='basic' inherits='NoPreviewVisitor' name='PreviewVisitor'></class></magics>
+<class directory="basic" inherits="NoPreviewVisitor" name="PreviewVisitor"/></magics>

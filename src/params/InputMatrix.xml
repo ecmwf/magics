@@ -1,49 +1,49 @@
 <magics>
-<class  directory='decoders' prefix='input' xmltag='matrix' name='InputMatrix'>
-  	<documentation >
+<class directory="decoders" prefix="input" xmltag="matrix" name="InputMatrix">
+  	<documentation>
     This object contains this attributes to set how to interpret data stored in 2-dimensional arrays in memory.
  	</documentation>
 
-  	<parameter  xml='field' from='Matrix' name='input_field' default='Matrix()' member='field' to='Matrix'>
-         		<documentation > Array containing data for contouring 		</documentation>
+  	<parameter xml="field" from="Matrix" name="input_field" default="Matrix()" member="field" to="Matrix">
+         		<documentation> Array containing data for contouring 		</documentation>
   	</parameter>
   
-  	<parameter  xml='field' from='string' name='input_simple_field' default='off' member='simple_field' to='bool'>
-         		<documentation  for_docs='no'>For internal testing only, or very specifivc users request!		</documentation>
+  	<parameter xml="field" from="string" name="input_simple_field" default="off" member="simple_field" to="bool">
+         		<documentation for_docs="no">For internal testing only, or very specifivc users request!		</documentation>
   	</parameter>
   
- 	<parameter  xml='u_component' from='Matrix' name='input_wind_u_component' default='Matrix()' member='u_component' to='Matrix'>
-         		<documentation > Array containing U velocity component for wind field 		</documentation>
+ 	<parameter xml="u_component" from="Matrix" name="input_wind_u_component" default="Matrix()" member="u_component" to="Matrix">
+         		<documentation> Array containing U velocity component for wind field 		</documentation>
   	</parameter>
 
-  	<parameter  xml='v_component' from='Matrix' name='input_wind_v_component' default='Matrix()' member='v_component' to='Matrix'>
-         		<documentation > Array containing V velocity component for wind field 		</documentation>
+  	<parameter xml="v_component" from="Matrix" name="input_wind_v_component" default="Matrix()" member="v_component" to="Matrix">
+         		<documentation> Array containing V velocity component for wind field 		</documentation>
   	</parameter>
 
-   	<parameter  xml='input_field_organization' from='string' name='input_field_organization' default='regular' member='organization' to='InputMatrixInterpretor'>
-         		<option  xml='gaussian' fortran='regular' include='InputMatrixInterpretor.h' name='InputMatrixRegularInterpretor'>		</option>
-         		<option  xml='irregular' fortran='nonregular' include='InputMatrixInterpretor.h' name='InputMatrixIrregularInterpretor'>		</option>
-         		<documentation > How data is organized in the input field (REGULAR /IRREGULAR/) 		</documentation>
+   	<parameter xml="input_field_organization" from="string" name="input_field_organization" default="regular" member="organization" to="InputMatrixInterpretor">
+         		<option xml="gaussian" fortran="regular" include="InputMatrixInterpretor.h" name="InputMatrixRegularInterpretor">		</option>
+         		<option xml="irregular" fortran="nonregular" include="InputMatrixInterpretor.h" name="InputMatrixIrregularInterpretor">		</option>
+         		<documentation> How data is organized in the input field (REGULAR /IRREGULAR/) 		</documentation>
   	</parameter>
 
-  	<parameter  xml='input_field_subpage_mapping' from='string' name='input_field_subpage_mapping' default='upper_left' member='mapping' to='string'>
-         		<documentation > Position of first point of array (1,1) on the subpage, (see text)(UPPER_LEFT / UPPER_RIGHT / LOWER_LEFT / LOWER_RIGHT /
+  	<parameter xml="input_field_subpage_mapping" from="string" name="input_field_subpage_mapping" default="upper_left" member="mapping" to="string">
+         		<documentation> Position of first point of array (1,1) on the subpage, (see text)(UPPER_LEFT / UPPER_RIGHT / LOWER_LEFT / LOWER_RIGHT /
          UPPER_LEFT_TRANSPOSED / UPPER_RIGHT_TRANSPOSED / LOWER_LEFT_TRANSPOSED / LOWER_RIGHT_TRANSPOSED) 		</documentation>
   	</parameter>  
    
-  	<parameter  member='wind_speed' to='Matrix' default='Matrix()' from='Matrix' name='input_wind_speed'>
-         		<documentation > Array containing speed component for wind field 		</documentation>
+  	<parameter member="wind_speed" to="Matrix" default="Matrix()" from="Matrix" name="input_wind_speed">
+         		<documentation> Array containing speed component for wind field 		</documentation>
   	</parameter>
 
-  	<parameter  member='wind_direction' to='Matrix' default='Matrix()' from='Matrix' name='input_wind_direction'>
-         		<documentation > Array containing direction component for wind field 		</documentation>
+  	<parameter member="wind_direction" to="Matrix" default="Matrix()" from="Matrix" name="input_wind_direction">
+         		<documentation> Array containing direction component for wind field 		</documentation>
   	</parameter>
 
-     	<parameter  xml='input_field_suppress_below' from='float' name='input_field_suppress_below' default='-1.0e+21' member='suppress_below' to='float'>
-         		<documentation > Values in the input field(s) below this value are to be suppressed, i.e. not to be taken into consideration for plotting purposes 		</documentation>
+     	<parameter xml="input_field_suppress_below" from="float" name="input_field_suppress_below" default="-1.0e+21" member="suppress_below" to="float">
+         		<documentation> Values in the input field(s) below this value are to be suppressed, i.e. not to be taken into consideration for plotting purposes 		</documentation>
   	</parameter>
 
-  	<parameter  xml='input_field_suppress_above' from='float' name='input_field_suppress_above' default='1.0e+21' member='suppress_above' to='float'>
-         		<documentation > Values in the input field(s) above this value are to be suppressed, i.e not to be taken into consideration for plotting purposes 		</documentation>
+  	<parameter xml="input_field_suppress_above" from="float" name="input_field_suppress_above" default="1.0e+21" member="suppress_above" to="float">
+         		<documentation> Values in the input field(s) above this value are to be suppressed, i.e not to be taken into consideration for plotting purposes 		</documentation>
   	</parameter>
 </class></magics>

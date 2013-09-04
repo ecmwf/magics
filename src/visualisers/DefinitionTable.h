@@ -80,6 +80,6 @@ private:
 
 };
 
-#include "DefinitionTable.cc"
+#include "DefinitionTable.hcc"
 } // namespace magics
 #endif

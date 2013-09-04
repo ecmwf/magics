@@ -1,145 +1,161 @@
 <magics>
-<class  action='ptaylor' directory='visualisers' prefix='taylor/taylor' xmltag='taylorgrid' name='TaylorGrid'>
-		<documentation > description of the grid 	</documentation>
-    	<parameter  member='label' to='string' default='Correlation' from='string' name='taylor_label'>
-            		<documentation >
+<class action="ptaylor" directory="visualisers" prefix="taylor/taylor" xmltag="taylorgrid" name="TaylorGrid">
+		<documentation> description of the grid 	</documentation>
+    	<parameter member="label" to="string" default="Correlation" from="string" name="taylor_label">
+            		<documentation>
               	Label of the grid
            		</documentation>
-           		<release >Magics++2.7		</release> 
+           		<release>Magics++2.7		</release> 
         	</parameter> 
-        	<parameter  member='label_colour' to='Colour' default='navy' from='string' name='taylor_label_colour'>
-            		<documentation >
+        	<parameter member="label_colour" to="Colour" default="navy" from="string" name="taylor_label_colour">
+            		<documentation>
               	Colour of the label
            		</documentation>
-           		<release >Magics++1.4		</release> 
+           		<release>Magics++1.4		</release> 
         	</parameter>
-        	<parameter  member='label_height' to='float' default='0.35' from='float' name='taylor_label_height'>
-            		<documentation >
+        	<parameter member="label_height" to="float" default="0.35" from="float" name="taylor_label_height">
+            		<documentation>
               	Hieght of the label
            		</documentation>
-           		<release >Magics++1.4		</release> 
-        	</parameter>
-        	<parameter  member='primary_reference' to='float' default='0.5' from='float' name='taylor_primary_grid_reference'>
-            		<documentation >
-              	Reference used  of the Standard deviation plotting.
-           		</documentation>
-           		<release >Magics++2.7		</release> 
-        	</parameter>
-        	<parameter  member='primary_increment' to='float' default='0.5' from='float' name='taylor_primary_grid_increment'>
-            		<documentation >
-              	Reference used  of the Standard deviation plotting.
-           		</documentation>
-           		<release >Magics++1.4		</release> 
+           		<release>Magics++1.4		</release> 
         	</parameter>
         
-          	<parameter  member='reference_colour' to='Colour' default='navy' from='string' name='taylor_reference_line_colour'>
-            		<documentation >
-              	Colour used to plot the primary grid
+        	<parameter member="primary_increment" to="float" default="0.5" from="float" name="taylor_primary_grid_increment">
+            		<documentation>
+              	Reference used  of the Standard deviation plotting.
            		</documentation>
-           		<release >Magics++2.8		</release>
-       	</parameter>
-       	<parameter  member='reference_thickness' to='int' default='2' from='int' name='taylor_reference_line_thickness'>
-            		<documentation >
-              	Thickness used to plot the primary grid
-           		</documentation>
-           		<release >Magics++2.8		</release>
-       	</parameter> 
-          	<parameter  member='reference_style' to='LineStyle' default='solid' from='string' name='taylor_reference_line_style'>
-            		<documentation >
-              	Line Style used to plot the primary grid
-           		</documentation>
-           		<release >Magics++2.8		</release>
-       	</parameter>
+           		<release>Magics++1.4		</release> 
+        	</parameter>
+        
        
         
-       	<parameter  member='primary_colour' to='Colour' default='navy' from='string' name='taylor_primary_grid_line_colour'>
-            		<documentation >
+       	<parameter member="primary_colour" to="Colour" default="navy" from="string" name="taylor_primary_grid_line_colour">
+            		<documentation>
               	Colour used to plot the primary grid
            		</documentation>
-           		<release >Magics++2.8		</release>
+           		<release>Magics++2.8		</release>
        	</parameter>
-       	<parameter  member='primary_thickness' to='int' default='1' from='int' name='taylor_primary_grid_line_thickness'>
-            		<documentation >
+       	<parameter member="primary_thickness" to="int" default="1" from="int" name="taylor_primary_grid_line_thickness">
+            		<documentation>
               	Thickness used to plot the primary grid
            		</documentation>
-           		<release >Magics++2.8		</release>
+           		<release>Magics++2.8		</release>
+       	</parameter>    
+       	<parameter member="primary_style" to="LineStyle" default="solid" from="string" name="taylor_primary_grid_line_style">
+            		<documentation>
+              	Line Style used to plot the primary grid
+           		</documentation>
+           		<release>Magics++2.8		</release>
+       	</parameter>
+       	<parameter member="primary_reference" to="float" default="0.5" from="float" name="taylor_primary_grid_reference">
+            		<documentation>
+              	Reference used  of the Standard deviation plotting.
+           		</documentation>
+           		<release>Magics++2.7		</release> 
+        	</parameter>
+           	<parameter member="reference_colour" to="Colour" default="navy" from="string" name="taylor_reference_line_colour">
+            		<documentation>
+              	Colour used to plot the primary grid
+           		</documentation>
+           		<release>Magics++2.8		</release>
+       	</parameter>
+       	<parameter member="reference_thickness" to="int" default="2" from="int" name="taylor_reference_line_thickness">
+            		<documentation>
+              	Thickness used to plot the primary grid
+           		</documentation>
+           		<release>Magics++2.8		</release>
        	</parameter> 
-       	<parameter  member='primary_label' to='bool' default='on' from='string' name='taylor_primary_label'>
-            		<documentation >
+          	<parameter member="reference_style" to="LineStyle" default="solid" from="string" name="taylor_reference_line_style">
+            		<documentation>
+              	Line Style used to plot the primary grid
+           		</documentation>
+           		<release>Magics++2.8		</release>
+       	</parameter>
+       
+       	<parameter member="primary_label" to="bool" default="on" from="string" name="taylor_primary_label">
+            		<documentation>
               	Turn the labels (on/off) of the primary grid
             		</documentation>
-           		<release >Magics++2.8		</release>
+            		<set name="taylor_primary_label_colour" value="on">		</set>
+            		<set name="taylor_primary_label_height" value="on">		</set>
+            
+           
+           		<release>Magics++2.8		</release>
        	</parameter>
-       	<parameter  member='primary_label_colour' to='Colour' default='navy' from='string' name='taylor_primary_label_colour'>
-            		<documentation >
+       	<parameter member="primary_label_colour" to="Colour" default="navy" from="string" name="taylor_primary_label_colour">
+            		<documentation>
               	Colour of the  labels  of the primary grid
             		</documentation>
-           		<release >Magics++2.8		</release>
+           		<release>Magics++2.8		</release>
        	</parameter>
-       	<parameter  member='primary_label_height' to='float' default='0.35' from='float' name='taylor_primary_label_height'>
-            		<documentation >
+       	<parameter member="primary_label_height" to="float" default="0.35" from="float" name="taylor_primary_label_height">
+            		<documentation>
               	Height of the  labels  of the primary grid
             		</documentation>
-           		<release >Magics++2.8		</release>
+           		<release>Magics++2.8		</release>
        	</parameter>
-       	<parameter  member='primary_style' to='LineStyle' default='solid' from='string' name='taylor_primary_grid_line_style'>
-            		<documentation >
-              	Line Style used to plot the primary grid
-           		</documentation>
-           		<release >Magics++2.8		</release>
-       	</parameter>
-       	<parameter  member='secondary_grid' to='bool' default='solid' from='string' name='taylor_secondary_grid'>
-            		<documentation >
+    
+       	<parameter member="secondary_grid" to="bool" default="off" from="string" name="taylor_secondary_grid">
+            		<documentation>
               	turn on/off the secondaries lines for the grid.
            		</documentation>
-           		<release >Magics++2.8		</release>
+           on value='on' name='taylor_secondary_grid_reference'/&gt;
+           		<set name="taylor_secondary_grid_increment" value="on">		</set>
+           		<set name="taylor_secondary_grid_line_colour" value="on">		</set>
+            		<set name="taylor_secondary_grid_line_thickness" value="on">		</set>
+            		<set name="taylor_secondary_grid_line_style" value="on">		</set>
+             		<set name="taylor_secondary_label" value="on">		</set>
+             
+           		<release>Magics++2.8		</release>
        	</parameter>
-       	<parameter  member='secondary_reference' to='float' default='0.5' from='float' name='taylor_secondary_grid_reference'>
-            		<documentation >
+       	<parameter member="secondary_reference" to="float" default="0.5" from="float" name="taylor_secondary_grid_reference">
+            		<documentation>
               	Reference used  of the Standard deviation plotting.
            		</documentation>
-           		<release >Magics++1.4		</release> 
+           		<release>Magics++1.4		</release> 
         	</parameter>
-        	<parameter  member='secondary_increment' to='float' default='0.5' from='float' name='taylor_secondary_grid_increment'>
-            		<documentation >
+        	<parameter member="secondary_increment" to="float" default="0.5" from="float" name="taylor_secondary_grid_increment">
+            		<documentation>
               	Reference used  of the Standard deviation plotting.
            		</documentation>
-           		<release >Magics++1.4		</release> 
+           		<release>Magics++1.4		</release> 
         	</parameter>
-        	<parameter  member='secondary_colour' to='Colour' default='navy' from='string' name='taylor_secondary_grid_line_colour'>
-            		<documentation >
+        	<parameter member="secondary_colour" to="Colour" default="navy" from="string" name="taylor_secondary_grid_line_colour">
+            		<documentation>
               	Colour used to plot the primary grid
            		</documentation>
-           		<release >Magics++2.8		</release>
+           		<release>Magics++2.8		</release>
             
        	</parameter>
-       	<parameter  member='secondary_thickness' to='int' default='1' from='int' name='taylor_secondary_grid_line_thickness'>
-            		<documentation >
+       	<parameter member="secondary_thickness" to="int" default="1" from="int" name="taylor_secondary_grid_line_thickness">
+            		<documentation>
               	Thickness used to plot the primary grid
            		</documentation>
-           		<release >Magics++2.8		</release>
+           		<release>Magics++2.8		</release>
        	</parameter>
-       	<parameter  member='secondary_style' to='LineStyle' default='solid' from='string' name='taylor_secondary_grid_line_style'>
-            		<documentation >
+       	<parameter member="secondary_style" to="LineStyle" default="solid" from="string" name="taylor_secondary_grid_line_style">
+            		<documentation>
               	Line Style used to plot the primary grid
            		</documentation>
-           		<release >Magics++2.8		</release>
-       	</parameter> 	<parameter  member='secondary_label' to='bool' default='on' from='string' name='taylor_secondary_label'>
-            		<documentation >
+           		<release>Magics++2.8		</release>
+       	</parameter> 	<parameter member="secondary_label" to="bool" default="on" from="string" name="taylor_secondary_label">
+            		<documentation>
               	Turn the labels (on/off) of the secondary grid
             		</documentation>
-           		<release >Magics++2.8		</release>
+            		<set name="taylor_secondary_label_colour" value="on">		</set>
+             		<set name="taylor_secondary_label_height" value="on">		</set>
+           		<release>Magics++2.8		</release>
        	</parameter>
-       	<parameter  member='secondary_label_colour' to='Colour' default='navy' from='string' name='taylor_secondary_label_colour'>
-            		<documentation >
+       	<parameter member="secondary_label_colour" to="Colour" default="navy" from="string" name="taylor_secondary_label_colour">
+            		<documentation>
               	Colour of the  labels  of the secondary grid
             		</documentation>
-           		<release >Magics++2.8		</release>
+           		<release>Magics++2.8		</release>
        	</parameter>
-       	<parameter  member='secondary_label_height' to='float' default='0.35' from='float' name='taylor_secondary_label_height'>
-            		<documentation >
+       	<parameter member="secondary_label_height" to="float" default="0.35" from="float" name="taylor_secondary_label_height">
+            		<documentation>
               	Height of the  labels  of the secondary grid
             		</documentation>
-           		<release >Magics++2.8		</release>
+           		<release>Magics++2.8		</release>
        	</parameter>
 </class></magics>

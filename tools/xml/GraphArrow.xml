@@ -1,0 +1,9 @@
+<magics>
+<class  directory='visualisers' inherits='Graph' xmltag='arrow' include='Bar.h' name='GraphArrow'>
+   	<parameter  member='colour' to='Colour' default='black' from='string' name='graph_arrow_colour'>
+         		<documentation > The colour of the arrows		</documentation>
+  	</parameter>
+  	<parameter  member='unit_velocity' to='float' default='25.0' from='float' name='graph_arrow_unit_velocity'>
+        		<documentation >Wind speed in m/s represented by a unit vector (1.0 cm).		</documentation>
+  	</parameter>
+</class></magics>

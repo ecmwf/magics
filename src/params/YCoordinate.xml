@@ -1,2 +1,2 @@
 <magics>
-<class  action='pnew' directory='common' xmltag='y_regular' include='Coordinate.h' name='YCoordinate'></class></magics>
+<class action="pnew" directory="common" xmltag="y_regular" include="Coordinate.h" name="YCoordinate"/></magics>

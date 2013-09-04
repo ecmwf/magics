@@ -3,7 +3,7 @@ list( APPEND _drivers_srcs
 # basic
 
   BaseDriver.h BinaryDriver.h PostScriptDriver.h DriverManager.h
-  System.h BaseDriverImages.h BaseDriverWind.h BaseDriverSymbols.h BaseDriverBinaryReader.cc
+  System.h BaseDriverImages.h BaseDriverWind.h BaseDriverSymbols.h 
   BaseDriver.cc DriverManager.cc BinaryDriver.cc PostScriptDriver.cc
 
 # minizip

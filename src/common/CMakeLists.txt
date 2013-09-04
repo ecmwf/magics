@@ -6,7 +6,7 @@ list( APPEND _common_srcs
 	ParameterManager.h Frame.h Layout.h
 	PaperPoint.h GeoPoint.h  Tokenizer.h Node.h MagTranslator.h
 	ImageProperties.h LogoPlotting.h
-	ImportObject.h ImportObject.cc ColourTable.h PageID.h
+	ImportObject.h ColourTable.h PageID.h
 	Transformation.h Dimension.h
 	XmlNode.h XmlTree.h XmlReader.h BackgroundColour.h
 	ColourTableDefinition.h ColourTableDefinitionCompute.h ColourTableDefinitionComputeInterface.h
@@ -22,7 +22,7 @@ list( APPEND _common_srcs
 	Symbol.h
 	BinaryObject.h
 	Arrow.h
-	Flag.h Flag.cc
+	Flag.h
 	Image.h 
 	ArrowProperties.h
 	MagicsParameter.cc MagicsParameter.h Clipper.h LogoPlottingBase.h
@@ -48,7 +48,7 @@ list( APPEND _common_srcs
 	CartesianTransformation.h
 	Dimension.cc
 	XCoordinate.h YCoordinate.h marsmachine.h linux.h aix.h
-	Thread.h MutexCond.h Mutex.h AutoLock.h ThreadControler.h Task.h MagExceptions.h ThreadSingleton.h ThreadSingleton.cc
+	Thread.h MutexCond.h Mutex.h AutoLock.h ThreadControler.h Task.h MagExceptions.h ThreadSingleton.h 
 	DataStats.h SciMethods.h
 
 # sources
@@ -79,14 +79,6 @@ list( APPEND _common_srcs
 
 # unused
 
-# FrameBase.cc 
-# FrameBase.h
-# AutomaticPlotManager.cc
-# AutomaticPlotManager.h
-# FrameBase.cc
-# FrameBase.h
-# FrameLoop.cc
-# FrameLoop.h
 
  )
 

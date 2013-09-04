@@ -134,7 +134,7 @@ void FortranMagics::popen()
 	MagLog::userInfo() << "\n";
 	MagLog::userInfo() << "   The European Centre for Medium-Range Weather Forecasts\n";
 	MagLog::userInfo() << "\n";
-	MagLog::userInfo() << "		      Copyright ECMWF "<<MAGICS_COPYRIGHT_PERIOD<<"\n";
+	//MagLog::userInfo() << "		      Copyright ECMWF "<<MAGICS_COPYRIGHT_PERIOD<<"\n";
 	MagLog::userInfo() << "\n";
 	MagLog::userInfo() << "------------------------------------------------------------------\n";
    }

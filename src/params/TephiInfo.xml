@@ -1,0 +1,2 @@
+<magics>
+<class inherits="Tephigram" xmltag="tephigram" name="TephiInfo" directory="common" action="ptephi" include="Tephigram.h"/></magics>

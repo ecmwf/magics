@@ -1,83 +1,83 @@
 <magics>
-<class  directory='decoders' xmltag='table' name='TableDecoder'>
-  	<documentation > table data for curve 	</documentation>
+<class directory="decoders" xmltag="table" name="TableDecoder">
+  	<documentation> table data for curve 	</documentation>
 
-  	<parameter  member='path' to='string' default='' from='string' name='table_filename'>
-         		<documentation >Path to the table data 		</documentation>
+  	<parameter member="path" to="string" default="" from="string" name="table_filename">
+         		<documentation>Path to the table data 		</documentation>
   	</parameter>
   
-  	<parameter  member='delimiter' to='string' default=',' from='string' name='table_delimiter'>
-         		<documentation >Used delimiter 		</documentation>
+  	<parameter member="delimiter" to="string" default="," from="string" name="table_delimiter">
+         		<documentation>Used delimiter 		</documentation>
   	</parameter>
   
-  	<parameter  member='combine_delimiters' to='bool' default='off' from='string' name='table_combine_delimiters'>
-         		<documentation >Consecutive delimiters will be considered as one 		</documentation>
+  	<parameter member="combine_delimiters" to="bool" default="off" from="string" name="table_combine_delimiters">
+         		<documentation>Consecutive delimiters will be considered as one 		</documentation>
   	</parameter>
   
-  	<parameter  member='header_row' to='int' default='1' from='int' name='table_header_row'>
-         		<documentation >Which row (first is 1) is the header line on? 		</documentation>
+  	<parameter member="header_row" to="int" default="1" from="int" name="table_header_row">
+         		<documentation>Which row (first is 1) is the header line on? 		</documentation>
   	</parameter>
   
-   	<parameter  member='data_row_offset' to='int' default='1' from='int' name='table_data_row_offset'>
-         		<documentation >How many rows after the header row does the data start? 1 if no header row.		</documentation>
+   	<parameter member="data_row_offset" to="int" default="1" from="int" name="table_data_row_offset">
+         		<documentation>How many rows after the header row does the data start? 1 if no header row.		</documentation>
   	</parameter>
 
-   	<parameter  member='meta_data_rows' to='intarray' default='intarray()' from='intarray' name='table_meta_data_rows'>
-         		<documentation >List of row indexes containing meta-data of the form P1=V1 P2=V2.		</documentation>
+   	<parameter member="meta_data_rows" to="intarray" default="intarray()" from="intarray" name="table_meta_data_rows">
+         		<documentation>List of row indexes containing meta-data of the form P1=V1 P2=V2.		</documentation>
   	</parameter> 
-   
  
- 	<parameter  member='x_type' to='string' default='number' from='string' name='table_x_type'>
-         		<documentation >Type used for X variable_index: number or date 		</documentation>
+ 
+ 	<parameter from="string" name="table_x_type" default="number" member="x_type" to="string" values="number/date">
+         		<documentation>Type used for X variable_index: number or date 		</documentation>
   	</parameter>
   
-  	<parameter  member='y_type' to='string' default='number' from='string' name='table_y_type'>
-         		<documentation >Type used for Y variable_index: number or date 		</documentation>
+  	<parameter from="string" name="table_y_type" default="number" member="y_type" to="string" values="number/date">
+         		<documentation>Type used for Y variable_index: number or date 		</documentation>
   	</parameter>
   
-  	<parameter  member='name_mode' to='string' default='index' from='string' name='table_variable_identifier_type'>
-         		<documentation > are we refering to the columns by names or index (index/name) 		</documentation>
+  	<parameter from="string" name="table_variable_identifier_type" default="index" member="name_mode" to="string" values="index/name">
+         		<documentation> are we refering to the columns by names or index (index/name) 		</documentation>
   	</parameter>
   
-  	<parameter  member='x' to='string' default='1' from='string' name='table_x_variable'>
-         		<documentation > X variable_index  		</documentation>
+  	<parameter member="x" to="string" default="1" from="string" name="table_x_variable">
+         		<documentation> X variable_index or name  		</documentation>
   	</parameter>
   
-  	<parameter  member='y' to='string' default='2' from='string' name='table_y_variable'>
-         		<documentation > Y variable_index  		</documentation>
+  	<parameter member="y" to="string" default="2" from="string" name="table_y_variable">
+         		<documentation> Y variable_index  or name 		</documentation>
   	</parameter>
  
-  	<parameter  member='values' to='string' default='-1' from='string' name='table_value_variable'>
-         		<documentation >  variable_index  		</documentation>
+  	<parameter member="values" to="string" default="-1" from="string" name="table_value_variable">
+         		<documentation>  variable_index  or name 		</documentation>
   	</parameter>
   
-  	<parameter  member='lat' to='string' default='2' from='string' name='table_latitude_variable'>
-         		<documentation >  Latitudes  		</documentation>
+  	<parameter member="lat" to="string" default="2" from="string" name="table_latitude_variable">
+         		<documentation>  Latitudes  index or name 		</documentation>
   	</parameter>
 
-  	<parameter  member='lon' to='string' default='1' from='string' name='table_longitude_variable'>
-         		<documentation >  longitudes  		</documentation>
+  	<parameter member="lon" to="string" default="1" from="string" name="table_longitude_variable">
+         		<documentation>  longitudes  index or name		</documentation>
   	</parameter>
   
-  	<parameter  member='x_component' to='string' default='-1' from='string' name='table_x_component_variable'>
-         		<documentation >  u components for vectors  		</documentation>
+  	<parameter member="x_component" to="string" default="-1" from="string" name="table_x_component_variable">
+         		<documentation>  u components index or name for vectors  		</documentation>
   	</parameter>
 
-  	<parameter  member='y_component' to='string' default='-1' from='string' name='table_y_component_variable'>
-         		<documentation >  v components for vectors  		</documentation>
+  	<parameter member="y_component" to="string" default="-1" from="string" name="table_y_component_variable">
+         		<documentation>  v components index or name for vectors  		</documentation>
   	</parameter>
   
-  	<parameter  member='x_missing' to='float' default='-21.e6' from='float' name='table_x_missing_value'>
-         		<documentation > mssing value for x   		</documentation> 
+  	<parameter member="x_missing" to="float" default="-21.e6" from="float" name="table_x_missing_value">
+         		<documentation> mssing value for x   		</documentation> 
   	</parameter>
 
-  	<parameter  member='y_missing' to='float' default='-21.e6' from='float' name='table_y_missing_value'>
-         		<documentation > missing value for x   		</documentation>
+  	<parameter member="y_missing" to="float" default="-21.e6" from="float" name="table_y_missing_value">
+         		<documentation> missing value for x   		</documentation>
   	</parameter>
 
-  	<parameter  from='string' name='table_binning' default='on' member='table_binning' to='BinningObject' include='BinningObject.h'>
-         		<documentation > Binning information 		</documentation>
-         		<option  xml='nobinning' fortran='off' include='BinningObject.h' name='NoBinningObject'>		</option>
-         		<option  xml='binning' fortran='on' include='BinningObject.h' name='BinningObject'>		</option>
+  	<parameter from="string" name="table_binning" default="on" member="table_binning" to="BinningObject" include="BinningObject.h">
+         		<documentation> Binning information 		</documentation>
+         		<option xml="nobinning" fortran="off" include="BinningObject.h" name="NoBinningObject">		</option>
+         		<option xml="binning" fortran="on" include="BinningObject.h" name="BinningObject">		</option>
   	</parameter>
 </class></magics>

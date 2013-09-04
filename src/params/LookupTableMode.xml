@@ -1,19 +1,19 @@
 <magics>
-<class  directory='visualisers' prefix='image' name='LookupTableMode'>
+<class directory="visualisers" prefix="image" name="LookupTableMode">
 
-  	<parameter  member='minLevel' to='int' default='-1.0e+21' from='int' name='image_min_level'>
-         		<documentation > The lowest pixel value to be plotted  		</documentation>
-         		<migration > New Magics: Parameter image_min_level sent to new Magics[ImagePlotting].  		</migration>
+  	<parameter member="minLevel" to="int" default="-1.0e+21" from="int" name="image_min_level">
+         		<documentation> The lowest pixel value to be plotted  		</documentation>
+         		<migration> New Magics: Parameter image_min_level sent to new Magics[ImagePlotting].  		</migration>
   	</parameter>
 
-  	<parameter  member='maxLevel' to='int' default='1.0e+21' from='int' name='image_max_level'>
-         		<documentation > The highest pixel value to be plotted  		</documentation>
-         		<migration > New Magics: Parameter image_max_level sent to new Magics[ImagePlotting].  		</migration>
+  	<parameter member="maxLevel" to="int" default="1.0e+21" from="int" name="image_max_level">
+         		<documentation> The highest pixel value to be plotted  		</documentation>
+         		<migration> New Magics: Parameter image_max_level sent to new Magics[ImagePlotting].  		</migration>
   	</parameter>
 
-  	<parameter  member='outlayer' to='float' default='0' from='float' name='image_outlayer_rejection'>
-         		<documentation > The outlayer rejection factor 		</documentation>
-         		<migration > New Magics: Parameter image_outlayer_rejection sent to new Magics[ImagePlotting].  		</migration>
+  	<parameter member="outlayer" to="float" default="0" from="float" name="image_outlayer_rejection">
+         		<documentation> The outlayer rejection factor 		</documentation>
+         		<migration> New Magics: Parameter image_outlayer_rejection sent to new Magics[ImagePlotting].  		</migration>
   	</parameter>
 
 </class></magics>

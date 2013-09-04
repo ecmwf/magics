@@ -1,19 +1,19 @@
 <magics>
-<class  inherits='ColourTechnique' implements='ColourTableDefinitionComputeInterface' xmltag='calculate' name='CalculateColourTechnique' directory='visualisers' prefix='contour/contour/contour_shade/contour_shade/contour_shade' action='pcont'>
+<class inherits="ColourTechnique" implements="ColourTableDefinitionComputeInterface" xmltag="calculate" name="CalculateColourTechnique" directory="visualisers" prefix="contour/contour/contour_shade/contour_shade/contour_shade" action="pcont">
 	
-  	<parameter  member='max' to='Colour' default='blue' from='string' name='contour_shade_max_level_colour'>
-         		<documentation > Highest shading band colour 		</documentation>
-         		<release >0.2		</release>
+  	<parameter member="max" to="Colour" default="blue" from="string" name="contour_shade_max_level_colour">
+         		<documentation> Highest shading band colour 		</documentation>
+         		<release>0.2		</release>
   	</parameter>
 
-  	<parameter  member='min' to='Colour' default='red' from='string' name='contour_shade_min_level_colour'>
-         		<documentation > Lowest shading band colour 		</documentation>
-         		<release >0.2		</release>
+  	<parameter member="min" to="Colour" default="red" from="string" name="contour_shade_min_level_colour">
+         		<documentation> Lowest shading band colour 		</documentation>
+         		<release>0.2		</release>
   	</parameter>
   
-  	<parameter  from='string' name='contour_shade_colour_direction' default='anti_clockwise' member='direction' to='string' values='clockwise/anti_clockwise'>
-         		<documentation > Direction of colour sequencing for shading (CLOCKWISE/ ANTI_CLOCKWISE) 		</documentation>
-         		<release >0.2		</release>
+  	<parameter from="string" name="contour_shade_colour_direction" default="anti_clockwise" member="direction" to="string" values="clockwise/anti_clockwise">
+         		<documentation> Direction of colour sequencing for shading (CLOCKWISE/ ANTI_CLOCKWISE) 		</documentation>
+         		<release>0.2		</release>
   	</parameter>
 
 </class></magics>

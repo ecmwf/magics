@@ -1,97 +1,116 @@
 <magics>
-<class  inherits='AxisMethod' xmltag='date' name='DateAxisMethod' prefix='axis/axis_date' directory='visualisers' include='DateAxis.h'>
+<class inherits="AxisMethod" xmltag="date" name="DateAxisMethod" prefix="axis/axis_date" directory="visualisers" include="DateAxis.h" doc_inherits="no">
 
-  	<parameter  from='string' name='axis_date_type' default='days' member='method' to='string' values='automatic/years/months/days/hours'>
-         		<documentation > Select the type of date axis. 		</documentation>
+  	<parameter from="string" name="axis_date_type" default="days" member="method" to="string" values="automatic/years/months/days/hours">
+         		<documentation> Select the type of date axis. 		</documentation>
        
   	</parameter>
 
- 	<parameter  member='years' to='bool' default='on' from='string' name='axis_years_label'>
-         		<documentation > controls the labeling of the years 		</documentation>   
-         		<set  name='axis_years_label_colour' value='on'>		</set>
-         		<set  name='axis_years_label_quality' value='on'>		</set>    
-         		<set  name='axis_years_label_height' value='on'>		</set>         
+ 	<parameter member="years" to="bool" default="on" from="string" name="axis_years_label">
+         		<documentation> controls the labeling of the years 		</documentation>   
+         		<set name="axis_years_label_colour" value="on">		</set>
+         		<set name="axis_years_label_font" value="on">		</set>
+              		<set name="axis_years_label_font_style" value="on">		</set>
+         		<set name="axis_years_label_height" value="on">		</set>         
   	</parameter> 
   
-  	<parameter  xml='colour' from='string' name='axis_years_label_colour' default='automatic' member='year_colour' to='Colour'>
-         		<documentation > Label colour for 'YEARS' 		</documentation> 
+  	<parameter xml="colour" from="string" name="axis_years_label_colour" default="automatic" member="year_colour" to="Colour">
+         		<documentation> Label colour for 'YEARS' 		</documentation> 
   	</parameter>
 
-  	<parameter  xml='quality' from='string' name='axis_years_label_quality' default='medium ' member='year_quality' to='string'>
-         		<documentation >Label quality (HIGH/MEDIUM/LOW)  		</documentation>
+  	<parameter member="year_font" to="string" default="sanserif" from="string" name="axis_years_label_font">
+         		<documentation> Font to use for the label  		</documentation>
+  	</parameter>
+   	<parameter member="year_font_style" to="string" default="normal" from="string" name="axis_years_label_font_style">
+         		<documentation> Font Style to use for the label  		</documentation>
+  	</parameter>
+  	<parameter xml="height" from="float" name="axis_years_label_height" default="0.2" member="year_height" to="float">
+         		<documentation> Label height for 'YEARS'  		</documentation>
   	</parameter>
   
-  	<parameter  xml='height' from='float' name='axis_years_label_height' default='0.2' member='year_height' to='float'>
-         		<documentation > Label height for 'YEARS'  		</documentation>
-  	</parameter>
-  
- 	<parameter  from='string' name='axis_months_label' default='on' member='months' to='bool' include='MonthDateAxis.h'>
-         		<documentation > controls the labeling of the months 		</documentation>      
-         		<set  name='axis_months_label_composition' value='on'>		</set>
-         		<set  name='axis_months_label_colour' value='on'>		</set>
-         		<set  name='axis_months_label_quality' value='on'>		</set>    
-         		<set  name='axis_months_label_height' value='on'>		</set>   
+ 	<parameter from="string" name="axis_months_label" default="on" member="months" to="bool" include="MonthDateAxis.h">
+         		<documentation> controls the labeling of the months 		</documentation>      
+         		<set name="axis_months_label_composition" value="on">		</set>
+         		<set name="axis_months_label_colour" value="on">		</set>
+         		<set name="axis_months_label_font" value="on">		</set>
+         		<set name="axis_months_label_font_style" value="on">		</set>
+         		<set name="axis_months_label_height" value="on">		</set>   
   	</parameter> 
-  	<parameter  from='string' name='axis_months_label_composition' default='three' member='month_composition' to='string' values='one/two/three'>
-          		<documentation > Number of letters per month to plot  		</documentation>
+  	<parameter from="string" name="axis_months_label_composition" default="three" member="month_composition" to="string" values="one/two/three">
+          		<documentation> Number of letters per month to plot  		</documentation>
   	</parameter>
   
-  	<parameter  xml='colour' from='string' name='axis_months_label_colour' default='automatic' member='month_colour' to='Colour'>
-         		<documentation > Label colour for months 		</documentation>
+  	<parameter xml="colour" from="string" name="axis_months_label_colour" default="automatic" member="month_colour" to="Colour">
+         		<documentation> Label colour for months 		</documentation>
   	</parameter>
 
-  	<parameter  xml='quality' from='string' name='axis_months_label_quality' default='medium' member='month_quality' to='string'>
-         		<documentation > Label quality for months (HIGH/MEDIUM/LOW)  		</documentation>
+   	<parameter member="month_font" to="string" default="sanserif" from="string" name="axis_months_label_font">
+         		<documentation> Font to use for the label  		</documentation>
+  	</parameter>
+   	<parameter member="month_font_style" to="string" default="normal" from="string" name="axis_months_label_font_style">
+         		<documentation> Font Style to use for the label  		</documentation>
   	</parameter>
 
-  	<parameter  xml='height' from='float' name='axis_months_label_height' default='0.2' member='month_height' to='float'>
-         		<documentation > Label height for months  		</documentation>
+  	<parameter xml="height" from="float" name="axis_months_label_height" default="0.2" member="month_height" to="float">
+         		<documentation> Label height for months  		</documentation>
   	</parameter>
 
   
   
-  	<parameter  from='string' name='axis_days_label' default='both' member='days' to='string' values='day/number/both/off'>
-         		<documentation > controls the labeling of the hours 		</documentation>
-         		<set  name='axis_days_label_composition' value='on'>		</set>
-         		<set  name='axis_days_label_colour' value='on'>		</set> 
-         		<set  name='axis_days_sunday_label_colour' value='on'>		</set>
-         		<set  name='axis_days_label_quality' value='on'>		</set>    
-         		<set  name='axis_hours_label_height' value='on'>		</set> 
+  	<parameter from="string" name="axis_days_label" default="both" member="days" to="string" values="day/number/both/off">
+         		<documentation> controls the labeling of the hours 		</documentation>
+         		<set name="axis_days_label_composition" value="day/number/both">		</set>
+         		<set name="axis_days_label_colour" value="day/number/both">		</set> 
+         		<set name="axis_days_label_position" value="day/number/both">		</set> 
+         		<set name="axis_days_sunday_label_colour" value="day/number/both">		</set>
+         		<set name="axis_days_label_font" value="day/number/both">		</set>
+         		<set name="axis_days_label_font_style" value="day/number/both">		</set>
+         		<set name="axis_days_label_height" value="day/number/both">		</set> 
   	</parameter>
   
-  	<parameter  from='string' name='axis_days_label_composition' default='three' member='day_composition' to='string' values='one/three/full'>
-      		<documentation >  Number of letters per days to plot 		</documentation>   
+  	<parameter from="string" name="axis_days_label_composition" default="three" member="day_composition" to="string" values="one/three/full">
+      		<documentation>  Number of letters per days to plot 		</documentation>   
+  	</parameter>
+   	<parameter from="int" name="axis_days_label_position" default="12" member="day_position" to="int" values="0/12">
+      		<documentation> for short time series : if 12 the label will be at 12h .  		</documentation>   
+  	</parameter>
+  	<parameter member="day_colour" to="Colour" default="black" from="string" name="axis_days_label_colour">
+         		<documentation> Label colour for days 		</documentation>
   	</parameter>
   
-  	<parameter  member='day_colour' to='Colour' default='black' from='string' name='axis_days_label_colour'>
-         		<documentation > Label quality for days 		</documentation>
+  	<parameter member="sunday_colour" to="Colour" default="red" from="string" name="axis_days_sunday_label_colour">
+         		<documentation> Label colour for sundays 		</documentation>
   	</parameter>
-  	<parameter  member='sunday_colour' to='Colour' default='red' from='string' name='axis_days_sunday_label_colour'>
-         		<documentation > Label quality for days 		</documentation>
+  	<parameter member="day_font" to="string" default="sanserif" from="string" name="axis_days_label_font">
+         		<documentation> Font to use for the label  		</documentation>
   	</parameter>
-  	<parameter  xml='quality' from='string' name='axis_days_label_quality' default='medium' member='day_quality' to='string'>
-         		<documentation > Label quality for days 		</documentation>
+   	<parameter member="day_font_style" to="string" default="normal" from="string" name="axis_days_label_font_style">
+         		<documentation> Font Style to use for the label  		</documentation>
   	</parameter>
   
-  	<parameter  member='day_height' to='float' default='0.2' from='float' name='axis_days_label_height'>
-         		<documentation > Label height for  days 		</documentation>
+  	<parameter member="day_height" to="float" default="0.2" from="float" name="axis_days_label_height">
+         		<documentation> Label height for  days 		</documentation>
   	</parameter>
 
-  	<parameter  member='hours' to='bool' default='off' from='string' name='axis_hours_label'>
-         		<documentation > controls the labeling of the hours 		</documentation>    
-		 		<set  name='axis_hours_label_colour' value='on'>		</set>
-         		<set  name='axis_hours_label_quality' value='on'>		</set>    
-         		<set  name='axis_hours_label_height' value='on'>		</set>    
+  	<parameter member="hours" to="bool" default="off" from="string" name="axis_hours_label">
+         		<documentation> controls the labeling of the hours 		</documentation>    
+		 		<set name="axis_hours_label_colour" value="on">		</set>
+         		<set name="axis_hours_label_font" value="on">		</set>   
+         		<set name="axis_hours_label_font_style" value="on">		</set>    
+         		<set name="axis_hours_label_height" value="on">		</set>    
   	</parameter>  
-   	<parameter  member='hour_colour' to='Colour' default='black' from='string' name='axis_hours_label_colour'>
-         		<documentation > Label quality for hours 		</documentation>
+   	<parameter member="hour_colour" to="Colour" default="black" from="string" name="axis_hours_label_colour">
+         		<documentation> Label quality for hours 		</documentation>
   	</parameter>
-  	<parameter  xml='quality' from='string' name='axis_hours_label_quality' default='medium' member='hour_quality' to='string'>
-         		<documentation > Label quality for hours 		</documentation>
+   	<parameter member="hour_font" to="string" default="sanserif" from="string" name="axis_hours_label_font">
+         		<documentation> Font to use for the label  		</documentation>
+  	</parameter>
+   	<parameter member="hour_font_style" to="string" default="normal" from="string" name="axis_hours_label_font_style">
+         		<documentation> Font Style to use for the label  		</documentation>
   	</parameter>
   
-  	<parameter  member='hour_height' to='float' default='0.2' from='float' name='axis_hours_label_height'>
-         		<documentation > Label height for  hours 		</documentation>
+  	<parameter member="hour_height" to="float" default="0.2" from="float" name="axis_hours_label_height">
+         		<documentation> Label height for  hours 		</documentation>
   	</parameter>
  
 </class></magics>

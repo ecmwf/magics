@@ -1,11 +1,11 @@
 <magics>
-<class  directory='visualisers' action_routine='pobs' prefix='obs' xmltag='wind' name='ObsWind'>
+<class directory="visualisers" action_routine="pobs" prefix="obs" xmltag="wind" name="ObsWind">
 
- 	<parameter  member='visible' to='bool' default='on' from='string' name='obs_wind'>
-    		<documentation > Turn On/off the wind 		</documentation>
+ 	<parameter member="visible" to="bool" default="on" from="string" name="obs_wind">
+    		<documentation> Turn On/off the wind 		</documentation>
  	</parameter>
 
- 	<parameter  member='colour' to='Colour' default='foreground' from='string' name='obs_wind_colour'>
-    		<documentation > Colour the station ring 		</documentation>
+ 	<parameter member="colour" to="Colour" default="foreground" from="string" name="obs_wind_colour">
+    		<documentation> Colour the station ring 		</documentation>
  	</parameter>
 </class></magics>

@@ -1,13 +1,13 @@
 <magics>
-<class  directory='visualisers' action_routine='pobs' prefix='obs' name='ObsItem'>
+<class directory="visualisers" action_routine="pobs" prefix="obs" name="ObsItem">
 
- 	<parameter  member='size' to='float' default='0.2' from='float' name='obs_size'>
-   		<documentation > Height of plotted variables 		</documentation>
-   		<release_info >work in progress		</release_info>
+ 	<parameter member="size" to="float" default="0.2" from="float" name="obs_size">
+   		<documentation> Height of plotted variables 		</documentation>
+   		<release_info>work in progress		</release_info>
  	</parameter>
 
- 	<parameter  priority='0.2' from='string' name='obs_quality' default='medium' member='obs_quality' to='string' implemented='no'>
-    		<documentation >Plotting quality of variables (LOW/MEDIUM/HIGH)		</documentation>
+ 	<parameter priority="0.2" from="string" name="obs_quality" default="medium" member="obs_quality" to="string" implemented="no">
+    		<documentation>Plotting quality of variables (LOW/MEDIUM/HIGH)		</documentation>
  	</parameter> 
 
 </class></magics>

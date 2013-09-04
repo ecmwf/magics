@@ -1,10 +1,10 @@
 <magics>
-<class  directory='visualisers' action_routine='pobs' prefix='obs' xmltag='ident' name='ObsIdentifier'>
-		<parameter  member='visible' to='bool' default='off' from='string' name='obs_identification'>
-				<documentation > Turn On/off the pressure level ( satob)  		</documentation>
+<class directory="visualisers" action_routine="pobs" prefix="obs" xmltag="ident" name="ObsIdentifier">
+		<parameter member="visible" to="bool" default="off" from="string" name="obs_identification">
+				<documentation> Turn On/off the pressure level ( satob)  		</documentation>
     	</parameter>
 
-    	<parameter  member='colour' to='Colour' default='foreground' from='string' name='obs_identification_colour'>
-				<documentation > Colour the identification info 		</documentation>
+    	<parameter member="colour" to="Colour" default="foreground" from="string" name="obs_identification_colour">
+				<documentation> Colour the identification info 		</documentation>
     	</parameter>
 </class></magics>

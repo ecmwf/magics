@@ -1,0 +1,6 @@
+<magics>
+<class  directory='visualisers' name='GraphShadeStyle'>
+  	<parameter  xml='colour' from='string' name='graph_shade_colour' default='blue' member='colour' to='Colour'>
+         		<documentation > The colour of the shaded part of bars 		</documentation>
+  	</parameter>
+</class></magics>

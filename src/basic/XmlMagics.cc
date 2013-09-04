@@ -44,12 +44,10 @@
 #include "TableDecoder.h"
 #include "VisualAction.h"
 #include "XYList.h"
-#include "LandgramDecoder.h"
 #include "EpsXmlInput.h"
 #ifdef MAGICS_JSON
 #include "WrepJSon.h"
 #endif
-#include "LandgramBox.h"
 #include "ImagePlotting.h"
 #include "SymbolPlotting.h"
 #include "Contour.h"
@@ -68,7 +66,6 @@
 #include "SimplePolylineVisualiser.h"
 
 #include "MetaData.h"
-#include "ThreadNode.h"
 
 
 #ifdef MAGICS_SPOT
@@ -115,14 +112,12 @@ XmlMagics::XmlMagics() : root_(0),
 	actions_["odb"] = &XmlMagics::odb;
 	actions_["xyinput"] = &XmlMagics::xyinput;
 	actions_["input"] = &XmlMagics::input;
-	actions_["landgram"] = &XmlMagics::landgram;
 
 	actions_["wind"] = &XmlMagics::wind;
 	actions_["image"] = &XmlMagics::image;
 	actions_["symbol"] = &XmlMagics::symbol;	
 	actions_["contour"] = &XmlMagics::contour;
 	actions_["histogram"] = &XmlMagics::histogram;
-	actions_["landgrambox"] = &XmlMagics::landgrambox;
 	actions_["legend"] = &XmlMagics::legend;
 	actions_["meta"] = &XmlMagics::metadata;
 
@@ -592,19 +587,6 @@ void XmlMagics::input(const XmlNode& node)
 	data->set(node);
 	top()->data(data);
 
-}
-void XmlMagics::landgram(const XmlNode& node)
-{	
-	LandgramDecoder* list = new LandgramDecoder();
-	list->set(node);
-	top()->data(list);
-}
-
-void XmlMagics::landgrambox(const XmlNode& node)
-{	
-	LandgramBox* box = new LandgramBox();
-	box->set(node);
-	top()->visdef(box);
 }
 
 #include "GraphPlotting.h"

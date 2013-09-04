@@ -1,2 +1,2 @@
 <magics>
-<class  directory='visualisers' include='OutLayerTechnique.h' name='NoOutLayerTechnique'></class></magics>
+<class directory="visualisers" include="OutLayerTechnique.h" name="NoOutLayerTechnique"/></magics>

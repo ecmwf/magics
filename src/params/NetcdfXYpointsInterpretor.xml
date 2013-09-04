@@ -1,12 +1,21 @@
 <magics>
-<class  inherits='NetcdfInterpretor' xmltag='xypoints' name='NetcdfXYpointsInterpretor' directory='decoders' prefix='netcdf' action='pnetcdf' include='NetcdfGeopointsInterpretor.h'>
-  	<parameter  member='x' to='string' default='x' from='string' name='netcdf_x_variable'>
-              		<release >Magics++0.1		</release>
-              		<documentation >Variable name representing the latitude dimension		</documentation>
+<class inherits="NetcdfInterpretor" xmltag="xypoints" name="NetcdfXYpointsInterpretor" directory="decoders" prefix="netcdf" action="pnetcdf" include="NetcdfGeopointsInterpretor.h">
+  	<parameter member="x" to="string" default="x" from="string" name="netcdf_x_variable">
+              		<release>Magics++0.1		</release>
+              		<documentation>Variable name for the x values		</documentation>
         	</parameter> 
-         	<parameter  member='y' to='string' default='y' from='string' name='netcdf_y_variable'>
+        	<parameter member="x2" to="string" default="x2" from="string" name="netcdf_x2_variable">
+              		<release>Magics++0.1		</release>
+              		<documentation>Variable name for the auxiliary x values (used in CurveArea)		</documentation>
+        	</parameter> 
+         	<parameter member="y" to="string" default="y" from="string" name="netcdf_y_variable">
             
-             		<release >Magics++0.1		</release>
-            		<documentation >Variable name representing the longitude dimension		</documentation>
+             		<release>Magics++0.1		</release>
+            		<documentation>Variable name for the y values		</documentation>
+        	</parameter> 
+        	<parameter member="y2" to="string" default="y2" from="string" name="netcdf_y2_variable">
+            
+             		<release>Magics++0.1		</release>
+            		<documentation>Variable name for the auxiliary y values (used in CurveArea)		</documentation>
         	</parameter>
  </class></magics>

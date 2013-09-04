@@ -1,27 +1,27 @@
 <magics>
-<class  action='pcdfgram' directory='visualisers' prefix='cdf' xmltag='cdfgraph' name='CdfGraph'>
-		<documentation >
+<class action="pcdfgram" directory="visualisers" prefix="cdf" xmltag="cdfgraph" name="CdfGraph">
+		<documentation>
 		The Epsgram is responsible for accessing the espgram database its data to MAGICS.
 		</documentation>
-        	<parameter  member='colour' to='stringarray' default='stringarray()' from='stringarray' name='cdf_lines_colour_array'>           
-            		<documentation > Colour of the curve  		</documentation>
+        	<parameter member="colour" to="stringarray" default="stringarray()" from="stringarray" name="cdf_lines_colour_array">           
+            		<documentation> Colour of the curve  		</documentation>
         	</parameter>
         
         
-        	<parameter  member='style' to='stringarray' default='stringarray()' from='stringarray' name='cdf_lines_style_array'>           
-            		<documentation > Style of the curve  		</documentation>
+        	<parameter member="style" to="stringarray" default="stringarray()" from="stringarray" name="cdf_lines_style_array">           
+            		<documentation> Style of the curve  		</documentation>
         	</parameter>
-        	<parameter  member='thickness' to='intarray' default='intarray()' from='intarray' name='cdf_lines_thickness_array'>           
-            		<documentation > Thickness of the curve  		</documentation>
+        	<parameter member="thickness" to="intarray" default="intarray()" from="intarray" name="cdf_lines_thickness_array">           
+            		<documentation> Thickness of the curve  		</documentation>
         	</parameter>
         
-        	<parameter  member='clim_colour' to='Colour' default='black' from='string' name='cdf_clim_line_colour'>           
-            		<documentation > Colour of the clim curve  		</documentation>
+        	<parameter member="clim_colour" to="Colour" default="black" from="string" name="cdf_clim_line_colour">           
+            		<documentation> Colour of the clim curve  		</documentation>
         	</parameter>
-        	<parameter  member='clim_thickness' to='int' default='4' from='int' name='cdf_clim_line_thickness'>           
-            		<documentation > Thickness of the clim curve  		</documentation>
+        	<parameter member="clim_thickness" to="int" default="4" from="int" name="cdf_clim_line_thickness">           
+            		<documentation> Thickness of the clim curve  		</documentation>
         	</parameter>
-        	<parameter  member='clim_style' to='LineStyle' default='solid' from='string' name='cdf_clim_line_style'>           
-            		<documentation > Style of the clim curve  		</documentation>
+        	<parameter member="clim_style" to="LineStyle" default="solid" from="string" name="cdf_clim_line_style">           
+            		<documentation> Style of the clim curve  		</documentation>
         	</parameter>         
 </class></magics>

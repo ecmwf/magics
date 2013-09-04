@@ -1,19 +1,19 @@
 <magics>
-<class  inherits='BaseDriver' xmltag='cairo' name='CairoDriver' directory='drivers' prefix='output/output_cairo' action='Cairo' include='CairoDriver.h'>
-  	<documentation  for_docs='no'>
+<class inherits="BaseDriver" xmltag="cairo" name="CairoDriver" directory="drivers" prefix="output/output_cairo" action="Cairo" include="CairoDriver.h">
+  	<documentation for_docs="no">
    Output driver using the Cairo graphics library. This driver is still in the development stage!
   	</documentation>
 
- 	<parameter  from='cairo_t*' name='output_cairo_drawing_context' visible='no' default='0' metview='no' member='context' to='cairo_t*'>
-   		<documentation > Programs can pass their own Cairo context for Magics to draw into it.		</documentation>
+ 	<parameter from="cairo_t*" name="output_cairo_drawing_context" visible="no" default="0" metview="no" member="context" to="cairo_t*">
+   		<documentation> Programs can pass their own Cairo context for Magics to draw into it.		</documentation>
  	</parameter> 
 
- 	<parameter  xml='transparent' from='string' name='output_cairo_transparent_background' default='off' member='transparent' to='string' values='on/off'>
-   		<documentation >Defines the background to be transparent (only for PNG).		</documentation>
+ 	<parameter xml="transparent" from="string" name="output_cairo_transparent_background" default="off" member="transparent" to="string" values="on/off">
+   		<documentation>Defines the background to be transparent (only for PNG).		</documentation>
  	</parameter>
 
- 	<parameter  xml='antialias' from='string' name='output_cairo_antialias' default='on' member='antialias' to='string' values='on/off'>
-   		<documentation >Defines if lines are antialiased (only for PNG).		</documentation>
+ 	<parameter xml="antialias" from="string" name="output_cairo_antialias" default="on" member="antialias" to="string" values="on/off">
+   		<documentation>Defines if lines are antialiased (only for PNG).		</documentation>
  	</parameter>
 
 </class></magics>

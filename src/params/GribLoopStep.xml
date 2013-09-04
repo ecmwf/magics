@@ -1,2 +1,2 @@
 <magics>
-<class  action='pgrib' directory='decoders' prefix='grib/grib_loop_step' xmltag='loopondate' name='GribLoopStep'></class></magics>
+<class action="pgrib" directory="decoders" prefix="grib/grib_loop_step" xmltag="loopondate" name="GribLoopStep"/></magics>

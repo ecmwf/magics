@@ -1,4 +1,4 @@
 <magics>
-<class  inherits='ValuePlotBase' xmltag='nogridvalues' name='NoValuePlot' directory='visualisers' action='pcont' include='ValuePlot.h'>
-   	<documentation >This object suppresses the plotting of grid values. 	</documentation>
+<class inherits="ValuePlotBase" xmltag="nogridvalues" name="NoValuePlot" directory="visualisers" action="pcont" include="ValuePlot.h">
+   	<documentation>This object suppresses the plotting of grid values. 	</documentation>
 </class></magics>

@@ -1,0 +1,9 @@
+<magics>
+<class directory="visualisers" action_routine="pobs" prefix="obs" xmltag="obs" name="ObsTable">
+
+ 	<parameter member="path" to="string" default="" from="string" name="obs_template_file_name">
+   		<release>Magics++ 2.10		</release>
+   		<documentation> User defined template 		</documentation>
+ 	</parameter>
+
+</class></magics>

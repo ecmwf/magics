@@ -1,2 +1,2 @@
 <magics>
-<class  action='legend' directory='visualisers' used_by='Legend' include='LegendMethod.h' name='LegendMethod'></class></magics>
+<class action="legend" directory="visualisers" used_by="Legend" include="LegendMethod.h" name="LegendMethod"/></magics>

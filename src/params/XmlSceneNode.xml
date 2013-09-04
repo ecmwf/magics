@@ -1,122 +1,122 @@
 <magics>
-<class  action='MagML' directory='basic' prefix='scene_node/view' xmltag='page' name='XmlSceneNode'> 
-  	<parameter  member='display' to='DisplayType' default='inline' from='string' name='view_display'>
-         		<release >Magics++0.8		</release>
-         		<documentation > Y-Coordinate of bottom of View.		</documentation>
+<class action="MagML" directory="basic" prefix="scene_node/view" xmltag="page" name="XmlSceneNode"> 
+  	<parameter member="display" to="DisplayType" default="inline" from="string" name="view_display">
+         		<release>Magics++0.8		</release>
+         		<documentation> Y-Coordinate of bottom of View.		</documentation>
   	</parameter>
 
-  	<parameter  member='bottom' to='string' default='0%' from='string' name='scene_node_bottom'>
-         		<release >Magics++0.8		</release>
-         		<documentation > Y-Coordinate of bottom of View.		</documentation>
+  	<parameter member="bottom" to="string" default="0%" from="string" name="scene_node_bottom">
+         		<release>Magics++0.8		</release>
+         		<documentation> Y-Coordinate of bottom of View.		</documentation>
   	</parameter>  
   
-  	<parameter  member='left' to='string' default='0%' from='string' name='scene_node_left'>
-         		<release >Magics++0.8		</release>
-         		<documentation > X-Coordinate of bottom of View.		</documentation>
+  	<parameter member="left" to="string" default="0%" from="string" name="scene_node_left">
+         		<release>Magics++0.8		</release>
+         		<documentation> X-Coordinate of bottom of View.		</documentation>
   	</parameter>
   
-   	<parameter  member='width' to='string' default='100%' from='string' name='scene_node_width'>
-         		<release >Magics++0.8		</release>
-         		<documentation > width of the View .		</documentation>
+   	<parameter member="width" to="string" default="100%" from="string" name="scene_node_width">
+         		<release>Magics++0.8		</release>
+         		<documentation> width of the View .		</documentation>
   	</parameter>
   
-  	<parameter  member='height' to='string' default='100%' from='string' name='scene_node_height'>
-         		<release >Magics++0.1		</release>
-          		<documentation > Height of View.		</documentation>
+  	<parameter member="height" to="string" default="100%" from="string" name="scene_node_height">
+         		<release>Magics++0.1		</release>
+          		<documentation> Height of View.		</documentation>
   	</parameter>
 
-  	<parameter  member='margin_bottom' to='string' default='0%' from='string' name='scene_node_margin_bottom'>
-         		<release >Magics++0.8		</release>
-         		<documentation > Y-Coordinate of bottom of View.		</documentation>
+  	<parameter member="margin_bottom" to="string" default="0%" from="string" name="scene_node_margin_bottom">
+         		<release>Magics++0.8		</release>
+         		<documentation> Y-Coordinate of bottom of View.		</documentation>
   	</parameter>
   
-  	<parameter  member='margin_left' to='string' default='0%' from='string' name='scene_node_margin_left'>
-         		<release >Magics++0.8		</release>
-         		<documentation > X-Coordinate of bottom of View.		</documentation>
+  	<parameter member="margin_left" to="string" default="0%" from="string" name="scene_node_margin_left">
+         		<release>Magics++0.8		</release>
+         		<documentation> X-Coordinate of bottom of View.		</documentation>
   	</parameter>
   
-   	<parameter  member='margin_right' to='string' default='0%' from='string' name='scene_node_margin_right'>
-         		<release >Magics++0.8		</release>
-         		<documentation > width of the View .		</documentation>
+   	<parameter member="margin_right" to="string" default="0%" from="string" name="scene_node_margin_right">
+         		<release>Magics++0.8		</release>
+         		<documentation> width of the View .		</documentation>
   	</parameter>
   
-  	<parameter  member='margin_top' to='string' default='0%' from='string' name='scene_node_margin_top'>
-         		<release >Magics++0.1		</release>
-          		<documentation > Height of View.		</documentation>
+  	<parameter member="margin_top" to="string" default="0%" from="string" name="scene_node_margin_top">
+         		<release>Magics++0.1		</release>
+          		<documentation> Height of View.		</documentation>
   	</parameter>
 
-  	<parameter  member='background' to='Colour' default='white' from='string' name='scene_node_background_colour'>
-         		<documentation > Colour of the subpage background 		</documentation>
-         		<release >Magics++0.1		</release>
+  	<parameter member="background" to="Colour" default="white" from="string" name="scene_node_background_colour">
+         		<documentation> Colour of the subpage background 		</documentation>
+         		<release>Magics++0.1		</release>
   	</parameter>
 
-  	<parameter  member='border_bottom' to='string' default='1px' from='string' name='scene_node_border_bottom'>
-         		<release >Magics++0.8		</release>
-         		<documentation > Y-Coordinate of bottom of View.		</documentation>
+  	<parameter member="border_bottom" to="string" default="1px" from="string" name="scene_node_border_bottom">
+         		<release>Magics++0.8		</release>
+         		<documentation> Y-Coordinate of bottom of View.		</documentation>
   	</parameter>
   
-  	<parameter  member='border_left' to='string' default='1px' from='string' name='scene_node_border_left'>
-         		<release >Magics++0.8		</release>
-         		<documentation > X-Coordinate of bottom of View.		</documentation>
+  	<parameter member="border_left" to="string" default="1px" from="string" name="scene_node_border_left">
+         		<release>Magics++0.8		</release>
+         		<documentation> X-Coordinate of bottom of View.		</documentation>
   	</parameter>
   
-   	<parameter  member='border_right' to='string' default='1px' from='string' name='scene_node_border_right'>
-         		<release >Magics++0.8		</release>
-         		<documentation > width of the View .		</documentation>
+   	<parameter member="border_right" to="string" default="1px" from="string" name="scene_node_border_right">
+         		<release>Magics++0.8		</release>
+         		<documentation> width of the View .		</documentation>
   	</parameter>
   
-   	<parameter  member='border' to='bool' default='off' from='string' name='scene_node_border'>
-         		<release >Magics++0.1		</release>
-          		<documentation > Frame on/off 		</documentation>
+   	<parameter member="border" to="bool" default="off" from="string" name="scene_node_border">
+         		<release>Magics++0.1		</release>
+          		<documentation> Frame on/off 		</documentation>
   	</parameter>
 
-  	<parameter  member='border_top' to='string' default='1px' from='string' name='scene_node_border_top'>
-         		<release >Magics++0.1		</release>
-          		<documentation > Height of View.		</documentation>
+  	<parameter member="border_top" to="string" default="1px" from="string" name="scene_node_border_top">
+         		<release>Magics++0.1		</release>
+          		<documentation> Height of View.		</documentation>
   	</parameter>
 
-  	<parameter  member='border_colour' to='Colour' default='blue' from='string' name='scene_node_border_colour'>
-         		<documentation > Colour of the subpage background 		</documentation>
-         		<release >Magics++0.1		</release>
+  	<parameter member="border_colour" to="Colour" default="blue" from="string" name="scene_node_border_colour">
+         		<documentation> Colour of the subpage background 		</documentation>
+         		<release>Magics++0.1		</release>
   	</parameter>
   
-  	<parameter  member='border_style' to='LineStyle' default='solid' from='string' name='scene_node_border_style'> 
-         		<documentation > Colour of the subpage background 		</documentation>
-         		<release >Magics++0.1		</release>
+  	<parameter member="border_style" to="LineStyle" default="solid" from="string" name="scene_node_border_style"> 
+         		<documentation> Colour of the subpage background 		</documentation>
+         		<release>Magics++0.1		</release>
   	</parameter>
 
-  	<parameter  member='border_thickness' to='int' default='1' from='int' name='scene_node_border_thickness'> 
-         		<documentation > Colour of the subpage background 		</documentation>
-         		<release >Magics++0.1		</release>
+  	<parameter member="border_thickness" to="int" default="1" from="int" name="scene_node_border_thickness"> 
+         		<documentation> Colour of the subpage background 		</documentation>
+         		<release>Magics++0.1		</release>
   	</parameter>
 
-  	<parameter  member='padding_bottom' to='string' default='0%' from='string' name='scene_node_padding_bottom'>
-         		<release >Magics++0.8		</release>
-         		<documentation > Y-Coordinate of bottom of View.		</documentation>
+  	<parameter member="padding_bottom" to="string" default="0%" from="string" name="scene_node_padding_bottom">
+         		<release>Magics++0.8		</release>
+         		<documentation> Y-Coordinate of bottom of View.		</documentation>
   	</parameter>
   
-  	<parameter  member='padding_left' to='string' default='0%' from='string' name='scene_node_padding_left'>
-         		<release >Magics++0.8		</release>
-         		<documentation > X-Coordinate of bottom of View.		</documentation>
+  	<parameter member="padding_left" to="string" default="0%" from="string" name="scene_node_padding_left">
+         		<release>Magics++0.8		</release>
+         		<documentation> X-Coordinate of bottom of View.		</documentation>
   	</parameter>
   
-   	<parameter  member='padding_right' to='string' default='0%' from='string' name='scene_node_padding_right'>
-         		<release >Magics++0.8		</release>
-         		<documentation > width of the View .		</documentation>
+   	<parameter member="padding_right" to="string" default="0%" from="string" name="scene_node_padding_right">
+         		<release>Magics++0.8		</release>
+         		<documentation> width of the View .		</documentation>
   	</parameter>
   
-  	<parameter  member='padding_top' to='string' default='0%' from='string' name='scene_node_padding_top'>
-          		<documentation > Height of View.		</documentation>
+  	<parameter member="padding_top" to="string" default="0%" from="string" name="scene_node_padding_top">
+          		<documentation> Height of View.		</documentation>
   	</parameter>
   
-  	<parameter  member='padding_colour' to='Colour' default='none' from='string' name='scene_node_padding_colour'>
-         		<documentation > Colour of the subpage background 		</documentation>
+  	<parameter member="padding_colour" to="Colour" default="none" from="string" name="scene_node_padding_colour">
+         		<documentation> Colour of the subpage background 		</documentation>
   	</parameter>
   
- 	<parameter  from='string' name='scene_node_id_line' default='on' member='page_id' to='NoPageID' include='PageID.h'>
-         		<release >Magics++2.1		</release>
-         		<option  xml='pageid' include='PageID.h' name='PageID'>		</option>
-         		<option  xml='nopageid' include='PageID.h' name='NoPageID'>		</option>
-         		<documentation > Plot identification line and ECMWF logo (ON/OFF) 		</documentation>
+ 	<parameter from="string" name="scene_node_id_line" default="on" member="page_id" to="NoPageID" include="PageID.h">
+         		<release>Magics++2.1		</release>
+         		<option xml="pageid" include="PageID.h" name="PageID">		</option>
+         		<option xml="nopageid" include="PageID.h" name="NoPageID">		</option>
+         		<documentation> Plot identification line and ECMWF logo (ON/OFF) 		</documentation>
   	</parameter>
 </class></magics>

@@ -40,7 +40,7 @@ class ObjectHandler(ContentHandler):
 
 		if (name == "class"):
 			self.name = attrs.get("name")
-			filename= "xml/%s.xml" % self.name
+			filename= "../params/%s.xml" % self.name
 			self.file=open(filename, "w")
 			self.open_file = 1;
 			self.file.write("<magics>\n")
@@ -58,7 +58,7 @@ class ObjectHandler(ContentHandler):
 		self.tab2 = self.tab2-1
 		self.file.write("%s</%s>" % (self.tab(self.tab1), name)) 
 		if (name == "class") :
-			self.file.write("</magics>\n")
+			self.file.write("\n</magics>\n")
 			self.file.close()
 			self.open_file = 0
 

@@ -1,33 +1,40 @@
 <magics>
-<class  inherits='Transformation' action='projection' prefix='subpage' directory='common' name='Proj4Projection'>
-		<documentation >
+<class inherits="Transformation" action="projection" prefix="subpage" directory="common" name="Proj4Projection">
+		<documentation>
 		These are the attributes of the Proj4 projection. 
 		</documentation>
 	
-     	<parameter  from='string' name='subpage_map_area_definition' default='full' member='setting' to='string' values='corners/full'>
-            		<documentation >method used to define the geographical area.		</documentation>
-            		<set  name='subpage_lower_left_latitude' value='corners'>		</set>
-            		<set  name='subpage_lower_left_longitude' value='corners'>		</set>
-            		<set  name='subpage_upper_right_latitude' value='corners'>		</set>
-            		<set  name='subpage_upper_right_longitude' value='corners'>		</set>
+     	<parameter from="string" name="subpage_map_area_definition" default="full" member="setting" to="string" values="corners/full">
+            		<documentation>method used to define the geographical area.		</documentation>
+            		<set name="subpage_lower_left_latitude" value="corners">		</set>
+            		<set name="subpage_lower_left_longitude" value="corners">		</set>
+            		<set name="subpage_upper_right_latitude" value="corners">		</set>
+            		<set name="subpage_upper_right_longitude" value="corners">		</set>
         	</parameter>   
- 	<parameter  member='min_latitude' to='float' default='-90.0' from='float' name='subpage_lower_left_latitude'>
-         		<release >Magics++0.1		</release>
-         		<documentation > Latitude of lower left corner of map. 		</documentation>
+ 	<parameter member="min_latitude" to="float" default="-90.0" from="float" name="subpage_lower_left_latitude">
+         		<release>Magics++0.1		</release>
+         		<documentation> Latitude of lower left corner of map. 		</documentation>
   	</parameter>
 
-  	<parameter  member='min_longitude' to='float' default='-180.0' from='float' name='subpage_lower_left_longitude'>
-         		<release >Magics++0.1		</release>
-         		<documentation > Longitude of lower left corner of map. 		</documentation>
+  	<parameter member="min_longitude" to="float" default="-180.0" from="float" name="subpage_lower_left_longitude">
+         		<release>Magics++0.1		</release>
+         		<documentation> Longitude of lower left corner of map. 		</documentation>
   	</parameter>
 
-  	<parameter  member='max_latitude' to='float' default='90.0' from='float' name='subpage_upper_right_latitude'>
-         		<release >Magics++0.1		</release>
-         		<documentation > Latitude of upper right corner of map. 		</documentation>
+  	<parameter member="max_latitude" to="float" default="90.0" from="float" name="subpage_upper_right_latitude">
+         		<release>Magics++0.1		</release>
+         		<documentation> Latitude of upper right corner of map. 		</documentation>
   	</parameter>
 
-  	<parameter  member='max_longitude' to='float' default='180.0' from='float' name='subpage_upper_right_longitude'>
-         		<release >Magics++0.1		</release>
-         		<documentation > Longitude of upper right corner of map. 		</documentation>
+  	<parameter member="max_longitude" to="float" default="180.0" from="float" name="subpage_upper_right_longitude">
+         		<release>Magics++0.1		</release>
+         		<documentation> Longitude of upper right corner of map. 		</documentation>
+  	</parameter> 
+  	<parameter member="vertical_longitude" to="float" default="0" from="float" name="subpage_map_vertical_longitude">
+       
+         		<documentation> Developement in progress 		</documentation>
+  	</parameter>
+  	<parameter from="string" name="subpage_map_proj4_definition" visible="no" default="" member="proj4_definition" to="string">
+         		<documentation> Proj4 defintion string : to be used very carefully --&gt; possible side effect  		</documentation>
   	</parameter>
   </class></magics>

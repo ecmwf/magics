@@ -1,45 +1,45 @@
 <magics>
-<class  action='pcont' directory='visualisers' prefix='contour/contour_grid_value/contour_grid_value' name='ValuePlotMethod'>
+<class action="pcont" directory="visualisers" prefix="contour/contour_grid_value/contour_grid_value" name="ValuePlotMethod">
 
-	<parameter  member='min' to='float' default='-1.0e+21' from='float' name='contour_grid_value_min'>
-         		<documentation > The minimum value for which grid point values are to be plotted 		</documentation>
-         		<release >0.2		</release>
+	<parameter from="float" name="contour_grid_value_min" default="-1.0e+21" doc_class="ValuePlot" member="min" to="float">
+         		<documentation> The minimum value for which grid point values are to be plotted 		</documentation>
+         		<release>0.2		</release>
 	</parameter>
 
-	<parameter  member='max' to='float' default='1.0e+21' from='float' name='contour_grid_value_max'>
-         		<documentation > The maximum value for which grid point values are to be plotted 		</documentation>
-         		<release >0.2		</release>
+	<parameter from="float" name="contour_grid_value_max" default="1.0e+21" doc_class="ValuePlot" member="max" to="float">
+         		<documentation> The maximum value for which grid point values are to be plotted 		</documentation>
+         		<release>0.2		</release>
 	</parameter>
 
-	<parameter  member='lat_frequency' to='int' default='1' from='int' name='contour_grid_value_lat_frequency'>
-         		<documentation > The grid point values in every Nth latitude row are plotted 		</documentation>
-         		<release >0.2		</release>
+	<parameter from="int" name="contour_grid_value_lat_frequency" default="1" doc_class="ValuePlot" member="lat_frequency" to="int">
+         		<documentation> The grid point values in every Nth latitude row are plotted 		</documentation>
+         		<release>0.2		</release>
 	</parameter>
 
-	<parameter  member='lon_frequency' to='int' default='1' from='int' name='contour_grid_value_lon_frequency'>
-         		<documentation > The grid point values in every Nth longitude column are plotted 		</documentation>
-         		<release >0.2		</release>
+	<parameter from="int" name="contour_grid_value_lon_frequency" default="1" doc_class="ValuePlot" member="lon_frequency" to="int">
+         		<documentation> The grid point values in every Nth longitude column are plotted 		</documentation>
+         		<release>0.2		</release>
 	</parameter>
   
-	<parameter  member='height' to='float' default='0.25' from='float' name='contour_grid_value_height'>
-         		<documentation > Height of grid point values  		</documentation>
-         		<release >0.2		</release>
+	<parameter member="height" to="float" default="0.25" from="float" name="contour_grid_value_height">
+         		<documentation> Height of grid point values  		</documentation>
+         		<release>0.2		</release>
 	</parameter>
 
-	<parameter  member='colour' to='Colour' default='blue' from='string' name='contour_grid_value_colour'>
-         		<documentation > Colour of grid point values (Full choice of colours) 		</documentation>
-         		<release >0.2		</release>
+	<parameter member="colour" to="Colour" default="blue" from="string" name="contour_grid_value_colour">
+         		<documentation> Colour of grid point values (Full choice of colours) 		</documentation>
+         		<release>0.2		</release>
 	</parameter>
 
-	<parameter  member='format' to='string' default='(automatic)' from='string' name='contour_grid_value_format'>
-         		<documentation > Format of grid point values (MAGICS Format/(AUTOMATIC)) 		</documentation>
-         		<release >0.2		</release>
-         		<release >Format is not yet implemented. Expected Magics++0.3		</release>
+	<parameter member="format" to="string" default="(automatic)" from="string" name="contour_grid_value_format">
+         		<documentation> Format of grid point values (MAGICS Format/(AUTOMATIC)) 		</documentation>
+         		<release>0.2		</release>
+         		<release>Format is not yet implemented. Expected Magics++0.3		</release>
 	</parameter>
 
-	<parameter  member='quality' to='string' default='low' from='string' name='contour_grid_value_quality'>
-         		<documentation > (LOW/MEDIUM/HIGH) 		</documentation>
-         		<release >0.2		</release>
-         		<release >Quality is not yet implemented. Expected Magics++0.3		</release>
+	<parameter member="quality" to="string" default="low" from="string" name="contour_grid_value_quality">
+         		<documentation> (LOW/MEDIUM/HIGH) 		</documentation>
+         		<release>0.2		</release>
+         		<release>Quality is not yet implemented. Expected Magics++0.3		</release>
   	</parameter>
 </class></magics>

@@ -1,76 +1,164 @@
 <magics>
-<class  xmltag='symbol' name='SymbolPlotting' metview='MSYMB' directory='visualisers' prefix='symbol' action='psymb'>
-	<documentation >
-This action routine (and C++object) controls the plotting of meteorological and marker symbols.
-	</documentation>
-	<parameter  member='legend' to='bool' default='off' from='string' name='legend'>
-	 		<documentation > Turn legend on or off (ON/OFF) : New Parameter! 		</documentation>
-	</parameter>
-	
-	<parameter  from='string' name='symbol_type' default='number' member='type' to='string' values='number/text/marker'>
-            		<documentation > Defines the type of symbol plotting required   		</documentation>
-        		<set  name='symbol_text_list' value='text'>		</set>
-        		<set  name='symbol_text_position' value='text'>		</set> 
-        		<set  name='symbol_text_font_name' value='text'>		</set>
-        		<set  name='symbol_text_font_size' value='text'>		</set>
-        		<set  name='symbol_text_font_style' value='text'>		</set>
-        		<set  name='symbol_text_font_colour' value='text'>		</set>  
-        		<set  name='symbol_text_list' value='marker'>		</set>
-        		<set  name='symbol_text_position' value='marker'>		</set> 
-        		<set  name='symbol_text_font_name' value='marker'>		</set>
-        		<set  name='symbol_text_font_size' value='marker'>		</set>
-        		<set  name='symbol_text_font_style' value='marker'>		</set>
-        		<set  name='symbol_text_font_colour' value='marker'>		</set> 
-        		<set  name='symbol_format' value='number'>		</set>
-       
-	</parameter>
+<class xmltag="symbol" name="SymbolPlotting" metview="MSYMB" directory="visualisers" prefix="symbol" action="psymb">
+    	<documentation>
+    This action routine (and C++object) controls the plotting of meteorological and marker symbols.
+    	</documentation>
 
-	<parameter  xml='table_mode' from='string' name='symbol_table_mode' default='OFF' member='mode' to='SymbolMode'>
-            		<option  xml='individual' fortran='off' include='SymbolMode.h' name='SymbolIndividualMode'>		</option>
-            		<option  xml='advanced' fortran='advanced' include='SymbolAdvancedTableMode.h' name='SymbolAdvancedTableMode'>		</option>
-            		<option  xml='table' fortran='on' include='SymbolMode.h' name='SymbolTableMode'>		</option>
-            		<documentation > Specifies if plotting is to be in advanced, table (on) or individual mode (off).
-            	Note:  The simple table mode is not recommended anymore, try to use the advanced mode instead, 
-            		   this  should give you easier control of the plot. 		</documentation>
-       
-	</parameter>
-	<parameter  xml='format' from='string' name='symbol_format' default='(automatic)' member='format' to='string'>
-         		<documentation > Format used to plot values (MAGICS Format/(AUTOMATIC)) 		</documentation>
-	</parameter>
-		<parameter  member='outline' to='bool' default='off' from='string' name='symbol_outline'> 
-            		<set  name='symbol_outline_colour' value='on'>		</set> 
-            		<set  name='symbol_outline_thickness' value='on'>		</set>
-            		<set  name='symbol_outline_style' value='on'>		</set>
-            		<documentation > Add an outline to each symbol 		</documentation>
-        	</parameter>
-         	<parameter  member='outline_colour' to='Colour' default='black' from='string' name='symbol_outline_colour'>
-            		<documentation > Colour of the outline 		</documentation>
-        	</parameter>  
-         	<parameter  member='outline_thickness' to='int' default='1' from='int' name='symbol_outline_thickness'>
-            		<documentation > thickness of the outline 		</documentation>
-        	</parameter>
-       	<parameter  member='outline_style' to='LineStyle' default='solid' from='string' name='symbol_outline_style'>
-         		<documentation > Line Style of outline 		</documentation>
-  		</parameter>
+    	<parameter member="legend" to="bool" default="off" from="string" name="legend">
+        		<documentation> Turn legend on or off (ON/OFF) : New Parameter! 		</documentation>
+        		<set name="legend_user_text" value="on">		</set>
+    	</parameter>
 
-		<parameter  member='connect' to='bool' default='off' from='string' name='symbol_connect_line'> 
-            		<set  name='symbol_connect_automatic_line_colour' value='on'>		</set> 
-            		<set  name='symbol_connect_line_colour' value='on'>		</set> 
-            		<set  name='symbol_connect_line_thickness' value='on'>		</set>
-            		<set  name='symbol_connect_line_style' value='on'>		</set>
-            		<documentation > Connect all the symbols with a line 		</documentation>
-        	</parameter> 
-			<parameter  member='automatic_connect_colour' to='bool' default='on' from='string' name='symbol_connect_automatic_line_colour'>  
-             		<set  name='symbol_connect_line_colour' value='on'>		</set>  
-            		<documentation > if on, will use the colour of the symbol  		</documentation>
-        	</parameter>  
-         	<parameter  member='connect_colour' to='Colour' default='black' from='string' name='symbol_connect_line_colour'>
-            		<documentation > Colour of the connecting line  		</documentation>
-        	</parameter>  
-         	<parameter  member='connect_thickness' to='int' default='1' from='int' name='symbol_connect_line_thickness'>
-            		<documentation > thickness of the  connecting line 		</documentation>
-        	</parameter>
-       	<parameter  member='connect_style' to='LineStyle' default='solid' from='string' name='symbol_connect_line_style'>
-         		<documentation > Line Style of  connecting line 		</documentation>
-  			</parameter>
+    	<parameter from="string" name="symbol_type" default="number" member="type" to="string" values="number/text/marker/wind">
+        		<documentation> Defines the type of symbol plotting required 		</documentation>
+
+        		<set name="symbol_text_list" value="text">		</set>
+        		<set name="symbol_text_position" value="text">		</set> 
+        		<set name="symbol_text_font_name" value="text">		</set>
+        		<set name="symbol_text_font_size" value="text">		</set>
+        		<set name="symbol_text_font_style" value="text">		</set>
+        		<set name="symbol_text_font_colour" value="text">		</set>  
+        		<set name="symbol_text_blanking" value="text">		</set>  
+
+        		<set name="symbol_marker_mode" value="marker">		</set>
+        		<set name="symbol_marker_index" value="marker">		</set> 
+        		<set name="symbol_marker_name" value="marker">		</set> 
+        		<set name="symbol_image_path" value="marker">		</set>
+        		<set name="symbol_image_format" value="marker">		</set>
+        		<set name="symbol_image_width" value="marker">		</set>
+        		<set name="symbol_image_height" value="marker">		</set>
+
+        		<set name="symbol_format" value="number">		</set>
+        		<set name="symbol_text_position" value="number">		</set> 
+        		<set name="symbol_text_font_name" value="number">		</set>
+        		<set name="symbol_text_font_size" value="number">		</set>
+        		<set name="symbol_text_font_style" value="number">		</set>
+        		<set name="symbol_text_font_colour" value="number">		</set>  
+        		<set name="symbol_text_blanking" value="number">		</set>  
+
+        		<set name="symbol_text_position" value="both">		</set> 
+        		<set name="symbol_text_font_name" value="both">		</set>
+        		<set name="symbol_text_font_size" value="both">		</set>
+        		<set name="symbol_text_font_style" value="both">		</set>
+        		<set name="symbol_text_font_colour" value="both">		</set> 
+        		<set name="symbol_text_blanking" value="text">		</set>  
+        		<set name="symbol_format" value="both">		</set>
+        		<set name="symbol_marker_mode" value="both">		</set>
+        		<set name="symbol_marker_index" value="both">		</set> 
+        		<set name="symbol_marker_name" value="both">		</set> 
+        		<set name="symbol_image_path" value="both">		</set>
+        		<set name="symbol_image_format" value="both">		</set>
+        		<set name="symbol_image_width" value="both">		</set>
+        		<set name="symbol_image_height" value="both">		</set>
+    	</parameter>
+
+
+    	<parameter xml="table_mode" from="string" name="symbol_table_mode" default="OFF" member="mode" to="SymbolMode">
+        		<option xml="individual" fortran="off" docdive="no" include="SymbolMode.h" name="SymbolIndividualMode">		</option>
+        		<option xml="advanced" fortran="advanced" docdive="no" include="SymbolAdvancedTableMode.h" name="SymbolAdvancedTableMode">		</option>
+        		<option xml="table" fortran="on" docdive="no" include="SymbolMode.h" name="SymbolTableMode">		</option>
+        		<documentation> Specifies if plotting is to be in advanced, table (on) or individual mode (off).
+            	        Note:  The simple table mode is not recommended anymore, try to use the advanced mode instead, 
+            		    this  should give you easier control of the plot. 		</documentation>
+
+        		<set name="symbol_colour" value="off">		</set>
+        		<set name="symbol_format" value="off">		</set>
+        		<set name="symbol_height" value="off">		</set>
+        		<set name="symbol_marker_mode" value="off">		</set>
+        		<set name="symbol_marker_index" value="off">		</set>
+        		<set name="symbol_marker_name" value="off">		</set>
+        		<set name="symbol_text_position" value="off">		</set>
+        		<set name="symbol_text_font_name" value="off">		</set>
+        		<set name="symbol_text_font_size" value="off">		</set>
+        		<set name="symbol_text_font_style" value="off">		</set>
+        		<set name="symbol_text_font_colour" value="off">		</set>
+        		<set name="legend_user_text" value="off">		</set>
+
+        		<set name="symbol_min_table" value="on">		</set>
+        		<set name="symbol_max_table" value="on">		</set>
+        		<set name="symbol_colour_table" value="on">		</set>
+        		<set name="symbol_height_table" value="on">		</set>
+        		<set name="symbol_marker_table" value="on">		</set>
+        		<set name="symbol_name_table" value="on">		</set>
+
+        		<set name="symbol_advanced_table_selection_type" value="advanced">		</set>
+        		<set name="symbol_advanced_table_min_value" value="advanced">		</set>
+        		<set name="symbol_advanced_table_max_value" value="advanced">		</set>
+        		<set name="symbol_advanced_table_level_count" value="advanced">		</set>
+        		<set name="symbol_advanced_table_level_tolerance" value="advanced">		</set>
+        		<set name="symbol_advanced_table_interval" value="advanced">		</set>
+        		<set name="symbol_advanced_table_reference_level" value="advanced">		</set>
+        		<set name="symbol_advanced_table_level_list" value="advanced">		</set>
+        		<set name="symbol_advanced_table_colour_method" value="advanced">		</set>
+        		<set name="symbol_advanced_table_max_level_colour" value="advanced">		</set>
+        		<set name="symbol_advanced_table_min_level_colour" value="advanced">		</set>
+        		<set name="symbol_advanced_table_colour_direction" value="advanced">		</set>
+        		<set name="symbol_advanced_table_colour_list" value="advanced">		</set>
+        		<set name="symbol_advanced_table_colour_list_policy" value="advanced">		</set>
+        		<set name="symbol_advanced_table_marker_list" value="advanced">		</set>
+        		<set name="symbol_advanced_table_marker_list_policy" value="advanced">		</set>
+        		<set name="symbol_advanced_table_height_method" value="advanced">		</set>
+        		<set name="symbol_advanced_table_height_max_value" value="advanced">		</set>
+        		<set name="symbol_advanced_table_height_min_value" value="advanced">		</set>
+        		<set name="symbol_advanced_table_height_list" value="advanced">		</set>
+        		<set name="symbol_advanced_table_height_list_policy" value="advanced">		</set>
+        		<set name="symbol_advanced_table_text_list" value="advanced">		</set>
+        		<set name="symbol_advanced_table_text_list_policy" value="advanced">		</set>
+        		<set name="symbol_advanced_table_text_font_name" value="advanced">		</set>
+        		<set name="symbol_advanced_table_text_font_size" value="advanced">		</set>
+        		<set name="symbol_advanced_table_text_font_style" value="advanced">		</set>
+        		<set name="symbol_advanced_table_text_font_colour" value="advanced">		</set>
+        		<set name="symbol_advanced_table_text_display_type" value="advanced">		</set>
+        		<set name="symbol_advanced_table_outlayer_method" value="advanced">		</set>
+        		<set name="symbol_advanced_table_outlayer_min_value" value="advanced">		</set>
+        		<set name="symbol_advanced_table_outlayer_max_value" value="advanced">		</set>
+    	</parameter>
+
+    	<parameter xml="format" from="string" name="symbol_format" default="(automatic)" member="format" to="string">
+        		<documentation> Format used to plot values (MAGICS Format/(AUTOMATIC)) 		</documentation>
+    	</parameter>
+
+		<parameter member="outline" to="bool" default="off" from="string" name="symbol_outline"> 
+        		<set name="symbol_outline_colour" value="on">		</set> 
+        		<set name="symbol_outline_thickness" value="on">		</set>
+        		<set name="symbol_outline_style" value="on">		</set>
+        		<documentation> Add an outline to each symbol 		</documentation>
+    	</parameter>
+
+    	<parameter member="outline_colour" to="Colour" default="black" from="string" name="symbol_outline_colour">
+        		<documentation> Colour of the outline 		</documentation>
+    	</parameter>  
+
+    	<parameter member="outline_thickness" to="int" default="1" from="int" name="symbol_outline_thickness">
+        		<documentation> thickness of the outline 		</documentation>
+    	</parameter>
+
+    	<parameter member="outline_style" to="LineStyle" default="solid" from="string" name="symbol_outline_style">
+        		<documentation> Line Style of outline 		</documentation>
+    	</parameter>
+
+		<parameter member="connect" to="bool" default="off" from="string" name="symbol_connect_line"> 
+        		<set name="symbol_connect_automatic_line_colour" value="on">		</set> 
+        		<set name="symbol_connect_line_colour" value="on">		</set> 
+        		<set name="symbol_connect_line_thickness" value="on">		</set>
+        		<set name="symbol_connect_line_style" value="on">		</set>
+        		<documentation> Connect all the symbols with a line 		</documentation>
+    	</parameter> 
+
+    	<parameter member="automatic_connect_colour" to="bool" default="on" from="string" name="symbol_connect_automatic_line_colour">  
+        		<set name="symbol_connect_line_colour" value="off">		</set>  
+        		<documentation> if on, will use the colour of the symbol  		</documentation>
+    	</parameter>  
+
+    	<parameter member="connect_colour" to="Colour" default="black" from="string" name="symbol_connect_line_colour">
+        		<documentation> Colour of the connecting line  		</documentation>
+    	</parameter>  
+
+    	<parameter member="connect_thickness" to="int" default="1" from="int" name="symbol_connect_line_thickness">
+        		<documentation> thickness of the  connecting line 		</documentation>
+    	</parameter>
+
+    	<parameter member="connect_style" to="LineStyle" default="solid" from="string" name="symbol_connect_line_style">
+        		<documentation> Line Style of  connecting line 		</documentation>
+    	</parameter>
 </class></magics>

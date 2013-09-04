@@ -185,6 +185,7 @@ ObsDewPoint.xml
 ObsHeight.xml
 ObsIdentifier.xml
 ObsItem.xml
+ObsTable.xml
 ObsJSon.xml
 ObsPastWeather.xml
 ObsPlotting.xml
@@ -237,11 +238,13 @@ SymbolInput.xml
 SymbolMode.xml
 SymbolPlotting.xml
 SymbolTableMode.xml
+Streamlines.xml
 TableDecoder.xml
 TaylorGrid.xml
 TaylorProjection.xml
 TextVisitor.xml
-# TitleBase.xml
+Tephigram.xml
+TephiGrid.xml
 TitleTemplate.xml
 Transformation.xml
 UVWindMode.xml

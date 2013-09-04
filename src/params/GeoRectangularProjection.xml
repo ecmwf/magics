@@ -1,29 +1,29 @@
 <magics>
-<class  inherits='Transformation' xmltag='cylindrical' name='GeoRectangularProjection' directory='common' prefix='subpage' action='projection'>
-		<documentation >
+<class inherits="Transformation" xmltag="cylindrical" name="GeoRectangularProjection" directory="common" prefix="subpage" action="projection">
+		<documentation>
 		These are the attributes of the GeoRectangular projection. 
 		</documentation>
-  	<parameter  member='min_latitude' to='float' default='-90.0' from='float' name='subpage_lower_left_latitude'>
-         		<release >Magics++0.1		</release>
-         		<documentation > Latitude of lower left corner of map. 		</documentation>
+  	<parameter member="min_latitude" to="float" default="-90.0" from="float" name="subpage_lower_left_latitude">
+         		<release>Magics++0.1		</release>
+         		<documentation> Latitude of lower left corner of map. 		</documentation>
   	</parameter>
 
-  	<parameter  member='min_longitude' to='float' default='-180.0' from='float' name='subpage_lower_left_longitude'>
-         		<release >Magics++0.1		</release>
-         		<documentation > Longitude of lower left corner of map 		</documentation>
+  	<parameter member="min_longitude" to="float" default="-180.0" from="float" name="subpage_lower_left_longitude">
+         		<release>Magics++0.1		</release>
+         		<documentation> Longitude of lower left corner of map 		</documentation>
   	</parameter>
 
-  	<parameter  member='max_latitude' to='float' default='90.0' from='float' name='subpage_upper_right_latitude'>
-         		<release >Magics++0.1		</release>
-         		<documentation > Latitude of upper right corner of map 		</documentation>
+  	<parameter member="max_latitude" to="float" default="90.0" from="float" name="subpage_upper_right_latitude">
+         		<release>Magics++0.1		</release>
+         		<documentation> Latitude of upper right corner of map 		</documentation>
   	</parameter>
 
-  	<parameter  member='max_longitude' to='float' default='180.0' from='float' name='subpage_upper_right_longitude'>
-         		<release >Magics++0.1		</release>
-         		<documentation > Longitude of upper right corner of map 		</documentation>
+  	<parameter member="max_longitude" to="float" default="180.0" from="float" name="subpage_upper_right_longitude">
+         		<release>Magics++0.1		</release>
+         		<documentation> Longitude of upper right corner of map 		</documentation>
   	</parameter>
-  	<parameter  from='float' name='subpage_minimal_area' visible='off' default='0.1' member='min_area' to='float'>
-         		<release >Magics++2.11		</release>
-         		<documentation > Dimension in degrees of the minimal area to display  		</documentation>
+  	<parameter from="float" name="subpage_minimal_area" visible="off" default="0.1" member="min_area" to="float">
+         		<release>Magics++2.11		</release>
+         		<documentation> Dimension in degrees of the minimal area to display  		</documentation>
   	</parameter>
 </class></magics>

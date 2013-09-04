@@ -1,13 +1,13 @@
 <magics>
-<class  action='peps' directory='visualisers' prefix='eps/eps_rose_cloud' xmltag='epscloud' name='EpsCloud'>
-		<documentation >
+<class action="peps" directory="visualisers" prefix="eps/eps_rose_cloud" xmltag="epscloud" name="EpsCloud">
+		<documentation>
 		The EpsCloud is repsonsible for plotting the espgram using Cloud rose visualisation
 		</documentation>
-		<parameter  member='colour' to='Colour' default='black' from='string' name='eps_rose_cloud_colour'> 
-    		<documentation > Rose wind darker colour  		</documentation>          
+		<parameter member="colour" to="Colour" default="black" from="string" name="eps_rose_cloud_colour"> 
+    		<documentation> Rose wind darker colour  		</documentation>          
     	</parameter>
-    	<parameter  member='border_colour' to='Colour' default='none' from='string' name='eps_rose_cloud_border_colour'>    
-    		<documentation > Rose wind border colour  		</documentation>       
+    	<parameter member="border_colour" to="Colour" default="none" from="string" name="eps_rose_cloud_border_colour">    
+    		<documentation> Rose wind border colour  		</documentation>       
     	</parameter>
     
 </class></magics>

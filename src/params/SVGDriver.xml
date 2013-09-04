@@ -1,29 +1,29 @@
 <magics>
-<class  inherits='BaseDriver' xmltag='svg' name='SVGDriver' directory='drivers' prefix='output_svg/output' action='SVG'>
-		<documentation  for_docs='no'>
+<class inherits="BaseDriver" xmltag="svg" name="SVGDriver" directory="drivers" prefix="output_svg/output" action="SVG">
+		<documentation for_docs="no">
 		The output driver produces vector graphics in the SVG format. See also the parameters for the Base Driver.
 		</documentation>
-		<parameter  from='string' name='output_svg_logo_location' default='inline' member='logoLocation' to='string' values='inline/share/www/local'>
-				<documentation >Sets where the (ECMWF) logo can be found. Possible values are 'inline'(default),'share', 'www' or 'local'.		</documentation>
+		<parameter from="string" name="output_svg_logo_location" default="inline" member="logoLocation" to="string" values="inline/share/www/local">
+				<documentation>Sets where the (ECMWF) logo can be found. Possible values are 'inline'(default),'share', 'www' or 'local'.		</documentation>
 		</parameter>
-		<parameter  member='desc' to='string' default='' from='string' name='output_svg_desc'>
-				<documentation >Defines a text describing the content of the SVG output.		</documentation>
-		</parameter>
-
-		<parameter  member='meta' to='string' default='' from='string' name='output_svg_meta'>
-				<documentation >Defining meta data in RDF to be added to the SVG output.		</documentation>
+		<parameter member="desc" to="string" default="" from="string" name="output_svg_desc">
+				<documentation>Defines a text describing the content of the SVG output.		</documentation>
 		</parameter>
 
-		<parameter  member='external' to='bool' default='off' from='string' name='output_svg_use_external_files'>
-				<documentation >Can the SVG driver use external files for cell and image plotting. External files will reduce the SVG file size but add an external dependency!		</documentation>
+		<parameter member="meta" to="string" default="" from="string" name="output_svg_meta">
+				<documentation>Defining meta data in RDF to be added to the SVG output.		</documentation>
 		</parameter>
 
-		<parameter  member='scripting' to='bool' default='off' from='string' name='output_svg_scripting'>
-				<documentation >Integrates scripting for interaction (toggle layers and pan/zooming).		</documentation>
+		<parameter member="external" to="bool" default="off" from="string" name="output_svg_use_external_files">
+				<documentation>Can the SVG driver use external files for cell and image plotting. External files will reduce the SVG file size but add an external dependency!		</documentation>
 		</parameter>
 
-		<parameter  member='fixSize' to='bool' default='off' from='string' name='output_svg_fix_size'>
-				<documentation >Decides if the size is fixed in the SVG document.		</documentation>
+		<parameter member="scripting" to="bool" default="off" from="string" name="output_svg_scripting">
+				<documentation>Integrates scripting for interaction (toggle layers and pan/zooming).		</documentation>
+		</parameter>
+
+		<parameter member="fixSize" to="bool" default="off" from="string" name="output_svg_fix_size">
+				<documentation>Decides if the size is fixed in the SVG document.		</documentation>
 		</parameter>
 
 

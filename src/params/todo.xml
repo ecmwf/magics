@@ -1,0 +1,106 @@
+<magics>
+<class directory="visualisers" name="todo">
+
+
+  	<parameter xml="colour_direction" from="string" name="image_colour_direction" default="" member="colour_direction" to="string" implemented="no">
+         		<documentation> Direction for pixel colour calculation
+ 		</documentation>
+         		<migration> New Magics: Parameter image_colour_direction sent to new Magics[ImagePlotting].  		</migration>
+  	</parameter>
+
+  	<parameter xml="(clockwise/anti_clockwise)" from="" name="(clockwise/anti_clockwise)" default="" member="(clockwise/anti_clockwise)" to="" implemented="no">
+         		<documentation>  		</documentation>
+         		<migration> New Magics: Parameter (clockwise/anti_clockwise) sent to new Magics[ImagePlotting].  		</migration>
+  	</parameter>
+
+  	<parameter xml="clockwise" from="" name="clockwise" default="" member="clockwise" to="" implemented="no">
+         		<documentation> 
+ 		</documentation>
+         		<migration> New Magics: Parameter clockwise sent to new Magics[ImagePlotting].  		</migration>
+  	</parameter>
+
+  	<parameter xml="background_colour" from="string" name="image_background_colour" default="grey" member="background_colour" to="string" implemented="no"> 
+         		<documentation> Colour of the area on the map that is not part of the satellite image. 		</documentation>
+         		<migration> New Magics: Parameter image_background_colour sent to new Magics[ImagePlotting].  		</migration>
+  	</parameter>
+
+  	<parameter xml="subarea_selection" from="string" name="image_subarea_selection" default="" member="subarea_selection" to="string" implemented="no">
+         		<documentation> Plot subarea of satellite projection
+ 		</documentation>
+         		<migration> New Magics: Parameter image_subarea_selection sent to new Magics[ImagePlotting].  		</migration>
+  	</parameter>
+
+  
+
+  	<parameter xml="legend" from="string" name="image_legend" default="off" member="legend" to="string" implemented="no">
+         		<documentation> Plot image legend (ON/OFF) 		</documentation>
+         		<migration> New Magics: Parameter image_legend sent to new Magics[ImagePlotting].  		</migration>
+  	</parameter>
+
+  	<parameter xml="legend_title" from="string" name="image_legend_title" default="off" member="legend_title" to="string" implemented="no">
+         		<documentation> Plot image legend title (ON/OFF) 		</documentation>
+         		<migration> New Magics: Parameter image_legend_title sent to new Magics[ImagePlotting].  		</migration>
+  	</parameter>
+
+  	<parameter xml="legend_title_text" from="string" name="image_legend_title_text" default="legend" member="legend_title_text" to="string" implemented="no">
+         		<documentation> Text string for plotting as image legend title 		</documentation>
+         		<migration> New Magics: Parameter image_legend_title_text sent to new Magics[ImagePlotting].  		</migration>
+  	</parameter>
+
+  	<parameter xml="legend_text_quality" from="string" name="image_legend_text_quality" default="" member="legend_text_quality" to="string" implemented="no">
+         		<documentation> Quality of image legend text 
+ 		</documentation>
+         		<migration> New Magics: Parameter image_legend_text_quality sent to new Magics[ImagePlotting].  		</migration>
+  	</parameter>
+
+  	<parameter xml="legend_text_colour" from="string" name="image_legend_text_colour" default="blue" member="legend_text_colour" to="string" implemented="no">
+         		<documentation> Colour of image legend text 		</documentation>
+         		<migration> New Magics: Parameter image_legend_text_colour sent to new Magics[ImagePlotting].  		</migration>
+  	</parameter>
+
+  	<parameter xml="legend_border" from="string" name="image_legend_border" default="on" member="legend_border" to="string" implemented="no">
+         		<documentation> Draw border round image legend box (ON/OFF) 		</documentation>
+         		<migration> New Magics: Parameter image_legend_border sent to new Magics[ImagePlotting].  		</migration>
+  	</parameter>
+
+  	<parameter xml="legend_border_line_style" from="string" name="image_legend_border_line_style" default="solid" member="legend_border_line_style" to="string" implemented="no">
+         		<documentation> Line style of image legend border 		</documentation>
+         		<migration> New Magics: Parameter image_legend_border_line_style sent to new Magics[ImagePlotting].  		</migration>
+  	</parameter>
+
+  	<parameter xml="legend_border_colour" from="string" name="image_legend_border_colour" default="blue" member="legend_border_colour" to="string" implemented="no">
+         		<documentation> Colour of image legend border 		</documentation>
+         		<migration> New Magics: Parameter image_legend_border_colour sent to new Magics[ImagePlotting].  		</migration>
+  	</parameter>
+
+  	<parameter xml="legend_border_thickness" from="int" name="image_legend_border_thickness" default="1" member="legend_border_thickness" to="int" implemented="no">
+         		<documentation> Thickness of image legend border 		</documentation>
+         		<migration> New Magics: Parameter image_legend_border_thickness sent to new Magics[ImagePlotting].  		</migration>
+  	</parameter>
+
+  	<parameter xml="legend_box_blanking" from="string" name="image_legend_box_blanking" default="off" member="legend_box_blanking" to="string" implemented="no">
+         		<documentation> Blank area behind the legend box (ON/OFF) 		</documentation>
+         		<migration> New Magics: Parameter image_legend_box_blanking sent to new Magics[ImagePlotting].  		</migration>
+  	</parameter>
+
+  	<parameter xml="legend_box_x_position" from="float" name="image_legend_box_x_position" default="see text" member="legend_box_x_position" to="float" implemented="no">
+         		<documentation> X position of image legend box within page  		</documentation>
+         		<migration> New Magics: Parameter image_legend_box_x_position sent to new Magics[ImagePlotting].  		</migration>
+  	</parameter>
+
+  	<parameter xml="legend_box_y_position" from="float" name="image_legend_box_y_position" default="see text" member="legend_box_y_position" to="float" implemented="no">
+         		<documentation> Y position of image legend box within page  		</documentation>
+         		<migration> New Magics: Parameter image_legend_box_y_position sent to new Magics[ImagePlotting].  		</migration>
+  	</parameter>
+
+  	<parameter xml="legend_box_x_length" from="float" name="image_legend_box_x_length" default="see text" member="legend_box_x_length" to="float" implemented="no">
+         		<documentation> X length of the image legend box 		</documentation>
+         		<migration> New Magics: Parameter image_legend_box_x_length sent to new Magics[ImagePlotting].  		</migration>
+  	</parameter>
+
+  	<parameter xml="legend_box_y_length" from="float" name="image_legend_box_y_length" default="see text" member="legend_box_y_length" to="float" implemented="no">
+         		<documentation> Y length of the image legend box 		</documentation>
+         		<migration> New Magics: Parameter image_legend_box_y_length sent to new Magics[ImagePlotting].  		</migration>
+  	</parameter>
+
+</class></magics>

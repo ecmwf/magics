@@ -1,32 +1,26 @@
 <magics>
-<class  action='pimport' directory='basic' name='ImportObjectHandler'>
- 	<parameter  member='path' to='string' default='' from='string' name='import_file_name'>
-         		<documentation >File to import 		</documentation>
-         		<release >Basic implementation in Magics++0.6		</release>
+<class action="pimport" directory="basic" xmltag="import" name="ImportObjectHandler">
+ 	<parameter member="path" to="string" default="" from="string" name="import_file_name">
+         		<documentation>File to import 		</documentation>
   	</parameter>
-	<parameter  member='format' to='string' default='PNG' from='string' name='import_format'>
-  		<documentation >Specify the format of the imported file 		</documentation>
-  		<release >Basic implementation in Magics++0.6		</release>
+	<parameter from="string" name="import_format" default="png" member="format" to="string" values="png/jpeg/gif">
+  		<documentation>Specify the format of the imported file 		</documentation>
 	</parameter>
 
-	<parameter  member='x' to='float' default='0' from='float' name='import_x_position'>
-  		<documentation >X position of the imported image 		</documentation>
-  		<release >Basic implementation in Magics++0.6		</release>
+	<parameter member="x" to="float" default="0" from="float" name="import_x_position">
+  		<documentation>X position of the imported image 		</documentation>
 	</parameter>
   
-	<parameter  member='y' to='float' default='0' from='float' name='import_y_position'>
-  		<documentation >Y position of the imported image 		</documentation>
-  		<release >Basic implementation in Magics++0.6		</release>
+	<parameter member="y" to="float" default="0" from="float" name="import_y_position">
+  		<documentation>Y position of the imported image 		</documentation>
 	</parameter>
 
-	<parameter  member='width' to='float' default='-1' from='float' name='import_width'>
-  		<documentation >Width of the imported image (-1 means use the dimension of the image)		</documentation>
-  		<release >Basic implementation in Magics++0.6		</release>
+	<parameter member="width" to="float" default="-1" from="float" name="import_width">
+  		<documentation>Width of the imported image (-1 means use the dimension of the image)		</documentation>
 	</parameter>
 
-	<parameter  member='height' to='float' default='-1' from='float' name='import_height'>
-  		<documentation >Height of the imported image (-1 means use the dimension of the image)		</documentation>
-  		<release >Basic implementation in Magics++0.6		</release>
+	<parameter member="height" to="float" default="-1" from="float" name="import_height">
+  		<documentation>Height of the imported image (-1 means use the dimension of the image)		</documentation>
 	</parameter>
 
 </class></magics>

@@ -1,49 +1,49 @@
 <magics>
-<class  inherits='NoLogoPlotting' xmltag='userlogo' name='UserLogoPlotting' prefix='page/page/user_logo' directory='common' include='LogoPlotting.h'>  
+<class inherits="NoLogoPlotting" xmltag="userlogo" name="UserLogoPlotting" prefix="page/page/user_logo" directory="common" include="LogoPlotting.h">  
 
-	<parameter  member='path' to='string' default='' from='string' name='user_logo_filename'>
-         		<documentation  for_docs='no'> Logo's Path 		</documentation>
-         		<release >Basic implementation in 0.6		</release>
+	<parameter member="path" to="string" default="" from="string" name="user_logo_filename">
+         		<documentation for_docs="no"> Logo's Path 		</documentation>
+         		<release>Basic implementation in 0.6		</release>
 	</parameter>
 
-	<parameter  member='format' to='string' default='PNG' from='string' name='user_logo_format'>
-  		<documentation  for_docs='no'>Specify the format of the logo		</documentation>
-  		<release >Basic implementation in 0.6		</release>
+	<parameter member="format" to="string" default="PNG" from="string" name="user_logo_format">
+  		<documentation for_docs="no">Specify the format of the logo		</documentation>
+  		<release>Basic implementation in 0.6		</release>
 	</parameter>
 
-	<parameter  member='units' to='string' default='cm' from='string' name='user_logo_position_units'>
-         		<documentation  for_docs='no'>Units used to define the position of the logo: cm or percent		</documentation>
-         		<release >Basic implementation in 0.6		</release>
+	<parameter member="units" to="string" default="cm" from="string" name="user_logo_position_units">
+         		<documentation for_docs="no">Units used to define the position of the logo: cm or percent		</documentation>
+         		<release>Basic implementation in 0.6		</release>
 	</parameter>
 
-	<parameter  member='y' to='float' default='2.5' from='float' name='user_logo_y_position'>
-         		<documentation  for_docs='no'> Y position of the imported image 		</documentation>
-         		<release >Basic implementation in 0.6		</release>
+	<parameter member="y" to="float" default="2.5" from="float" name="user_logo_y_position">
+         		<documentation for_docs="no"> Y position of the imported image 		</documentation>
+         		<release>Basic implementation in 0.6		</release>
 	</parameter>
   
-  	<parameter  member='x' to='float' default='80' from='float' name='user_logo_x_position'>
-         		<documentation  for_docs='no'> X position of the imported image 		</documentation>
-         		<release >Basic implementation in 0.6		</release>
+  	<parameter member="x" to="float" default="80" from="float" name="user_logo_x_position">
+         		<documentation for_docs="no"> X position of the imported image 		</documentation>
+         		<release>Basic implementation in 0.6		</release>
   	</parameter>
 
  
-  	<parameter  member='bottom' to='string' default='' from='string' name='user_logo_bottom'>
-         		<documentation  for_docs='no'> Y position of the imported image 		</documentation>
-         		<release >Implementation in 2.4		</release>
+  	<parameter member="bottom" to="string" default="" from="string" name="user_logo_bottom">
+         		<documentation for_docs="no"> Y position of the imported image 		</documentation>
+         		<release>Implementation in 2.4		</release>
   	</parameter>
   
-  	<parameter  member='left' to='string' default='' from='string' name='user_logo_left'>
-         		<documentation  for_docs='no'> X position of the imported image 		</documentation>
-         		<release >implementation in 2.4		</release>
+  	<parameter member="left" to="string" default="" from="string" name="user_logo_left">
+         		<documentation for_docs="no"> X position of the imported image 		</documentation>
+         		<release>implementation in 2.4		</release>
   	</parameter>
       
-  	<parameter  member='width' to='float' default='-1' from='float' name='user_logo_width'>
-         		<documentation  for_docs='no'> width of the imported image (-1 means use the dimension of the image) 		</documentation>
-         		<release >Basic implementation in 0.6		</release>
+  	<parameter member="width" to="float" default="-1" from="float" name="user_logo_width">
+         		<documentation for_docs="no"> width of the imported image (-1 means use the dimension of the image) 		</documentation>
+         		<release>Basic implementation in 0.6		</release>
   	</parameter>
 
-  	<parameter  member='height' to='float' default='-1' from='float' name='user_logo_height'>
-         		<documentation  for_docs='no'> height of the imported image (-1 means use the dimension of the image) 		</documentation>
-         		<release >Basic implementation in 0.6		</release>
+  	<parameter member="height" to="float" default="-1" from="float" name="user_logo_height">
+         		<documentation for_docs="no"> height of the imported image (-1 means use the dimension of the image) 		</documentation>
+         		<release>Basic implementation in 0.6		</release>
   	</parameter>
 </class></magics>

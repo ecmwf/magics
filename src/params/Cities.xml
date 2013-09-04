@@ -1,41 +1,41 @@
 <magics>
-<class  action='pcoast' directory='visualisers' inherits='NoCities' include='Cities.h' name='Cities'>
+<class inherits="NoCities" name="Cities" directory="visualisers" action="pcoast" include="Cities.h" doc_inherits="no">
 
-	<parameter  from='string' name='map_cities_unit_system' default='percent' member='unit' to='string' values='percent/cm'>
-  		<documentation >Unit for city name sizes.		</documentation>
+	<parameter from="string" name="map_cities_unit_system" default="percent" member="unit" to="string" values="percent/cm">
+  		<documentation>Unit for city name sizes.		</documentation>
 	</parameter>
  
-	<parameter  member='font_name' to='string' default='sansserif' from='string' name='map_cities_font_name'>
-   		<documentation >Font used to display the city names.		</documentation>
+	<parameter member="font_name" to="string" default="sansserif" from="string" name="map_cities_font_name">
+   		<documentation>Font used to display the city names.		</documentation>
 	</parameter>
  
-	<parameter  member='font_style' to='string' default='normal' from='string' name='map_cities_font_style'>
-  		<release >Work in progress		</release>
- 		<documentation >Font style used for city names.		</documentation>
+	<parameter member="font_style" to="string" default="normal" from="string" name="map_cities_font_style">
+  		<release>Work in progress		</release>
+ 		<documentation>Font style used for city names.		</documentation>
 	</parameter>
 
-	<parameter  member='font_size' to='float' default='2.5' from='float' name='map_cities_font_size'>
- 		<documentation >Font size of city names.		</documentation>
+	<parameter member="font_size" to="float" default="2.5" from="float" name="map_cities_font_size">
+ 		<documentation>Font size of city names.		</documentation>
 	</parameter>
 
-	<parameter  member='font_colour' to='Colour' default='navy' from='string' name='map_cities_font_colour'>
- 		<documentation >Colour used for city names.		</documentation>
+	<parameter member="font_colour" to="Colour" default="navy" from="string" name="map_cities_font_colour">
+ 		<documentation>Colour used for city names.		</documentation>
 	</parameter>
 
-	<parameter  from='string' name='map_cities_name_position' default='above' member='position' to='string' values='above/below/left/right'>
- 		<documentation >Position where to display the city names.		</documentation>
+	<parameter from="string" name="map_cities_name_position" default="above" member="position" to="string" values="above/below/left/right">
+ 		<documentation>Position where to display the city names.		</documentation>
 	</parameter>
 
-	<parameter  from='string' name='map_cities_marker' default='plus' member='marker' to='string' values='circle/box/snowflake/plus'>
-  		<documentation >Marker for cities.		</documentation>
+	<parameter from="string" name="map_cities_marker" default="plus" member="marker" to="string" values="circle/box/snowflake/plus">
+  		<documentation>Marker for cities.		</documentation>
 	</parameter>
 
-	<parameter  member='marker_height' to='float' default='0.7' from='float' name='map_cities_marker_height'>
-  		<documentation >Height of city markers.		</documentation>
+	<parameter member="marker_height" to="float" default="0.7" from="float" name="map_cities_marker_height">
+  		<documentation>Height of city markers.		</documentation>
  	</parameter>
 
-	<parameter  member='marker_colour' to='Colour' default='evergreen' from='string' name='map_cities_marker_colour'>
-  		<documentation >Colour for city markers.		</documentation>
+	<parameter member="marker_colour" to="Colour" default="evergreen" from="string" name="map_cities_marker_colour">
+  		<documentation>Colour for city markers.		</documentation>
 	</parameter>
 
 </class></magics>

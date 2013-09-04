@@ -1,18 +1,18 @@
 <magics>
-<class  inherits='PolyShadingMethod' xmltag='hatch' name='HatchPolyShadingMethod' directory='visualisers' prefix='contour/contour/contour_shade/contour_shade/contour_shade_hatch' action='pcont'> 
+<class inherits="PolyShadingMethod" xmltag="hatch" name="HatchPolyShadingMethod" directory="visualisers" prefix="contour/contour/contour_shade/contour_shade/contour_shade_hatch" action="pcont" doc_inherits="no"> 
 
-  	<parameter  member='index' to='int' default='0' from='int' name='contour_shade_hatch_index'>
-         		<documentation >The hatching pattern(s) to use. 0 Provides an automatic sequence of patterns, other values set a constant pattern across all contour bands.		</documentation>
-         		<release >0.8		</release>
+  	<parameter member="index" to="int" default="0" from="int" name="contour_shade_hatch_index">
+         		<documentation>The hatching pattern(s) to use. 0 Provides an automatic sequence of patterns, other values set a constant pattern across all contour bands.		</documentation>
+         		<release>0.8		</release>
   	</parameter>
 
-  	<parameter  member='thickness' to='int' default='1' from='int' name='contour_shade_hatch_thickness'>
-         		<documentation > Thickness of hatch lines 		</documentation>
-         		<release >0.5		</release>
+  	<parameter member="thickness" to="int" default="1" from="int" name="contour_shade_hatch_thickness">
+         		<documentation> Thickness of hatch lines 		</documentation>
+         		<release>0.5		</release>
   	</parameter>
 
-  	<parameter  member='density' to='float' default='18.0' from='float' name='contour_shade_hatch_density'>
-         		<documentation > Number of hatch lines per cm. 		</documentation>
-         		<release >0.5		</release>
+  	<parameter member="density" to="float" default="18.0" from="float" name="contour_shade_hatch_density">
+         		<documentation> Number of hatch lines per cm. 		</documentation>
+         		<release>0.5		</release>
   	</parameter>
 </class></magics>

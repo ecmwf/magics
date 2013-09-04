@@ -1,0 +1,35 @@
+<magics>
+<class directory="decoders" prefix="sql" xmltag="genericsql" name="GenericSQLDecoder">
+		<documentation>
+		Here comes the description of the GenericSQLDcoder
+		</documentation>
+        	<parameter member="database" to="string" default="obs.bufr" from="string" name="sql_database">
+            		<documentation> Generic SQL Database Path 		</documentation>
+        	</parameter>
+          	<parameter member="query" to="string" default="" from="string" name="sql_query">
+            		<documentation> sql Query 		</documentation>
+        	</parameter>
+         	<parameter member="latitude" to="string" default="latitude" from="string" name="sql_latitude">
+            		<documentation> sql latitude column name 		</documentation>
+        	</parameter>
+       	<parameter member="longitude" to="string" default="longitude" from="string" name="sql_longitude">
+            		<documentation> sql longitude column name 		</documentation>
+        	</parameter>
+        	<parameter member="observation" to="string" default="observation" from="string" name="sql_observation">
+         
+            		<documentation> sql observation column name 		</documentation>
+        	</parameter>
+        	<parameter member="level" to="string" default="press" from="string" name="sql_level">
+           
+            		<documentation> sql level column name 		</documentation>
+        	</parameter>
+        	<parameter member="x" to="string" default="x" from="string" name="sql_x">
+         
+            		<documentation> sql  column name used as X input for curve plotting 		</documentation>
+        	</parameter>
+        	<parameter member="y" to="string" default="y" from="string" name="sql_y">
+            		<documentation> sql  column name used as Y input for curve plotting 		</documentation>
+        	</parameter>
+	
+	
+</class></magics>

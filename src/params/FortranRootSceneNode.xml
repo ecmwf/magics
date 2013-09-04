@@ -1,51 +1,51 @@
 <magics>
-<class  xmltag='super_page' name='FortranRootSceneNode' directory='common' prefix='super_page' action='pnew' include='RootSceneNode.h'>
+<class xmltag="super_page" name="FortranRootSceneNode" directory="common" prefix="super_page" action="pnew" include="RootSceneNode.h">
   
-  	<parameter  member='width' to='float' default='29.7' from='float' name='super_page_x_length'>
-         		<documentation > Horizontal length of super page 		</documentation>
+  	<parameter member="width" to="float" default="29.7" from="float" name="super_page_x_length">
+         		<documentation> Horizontal length of super page 		</documentation>
   	</parameter>
 
-  	<parameter  member='height' to='float' default='21.0' from='float' name='super_page_y_length'>
-           		<release >Magics++0.1		</release>
-         		<documentation > Vertical length of super page 		</documentation>
+  	<parameter member="height" to="float" default="21.0" from="float" name="super_page_y_length">
+           		<release>Magics++0.1		</release>
+         		<documentation> Vertical length of super page 		</documentation>
   	</parameter>
 
-  	<parameter  member='frame' to='bool' default='off' from='string' name='super_page_frame'>
-         		<release >Magics++0.5		</release>
-         		<documentation > Plot frame around super page (ON/OFF) 		</documentation>
+  	<parameter member="frame" to="bool" default="off" from="string" name="super_page_frame">
+         		<release>Magics++0.5		</release>
+         		<documentation> Plot frame around super page (ON/OFF) 		</documentation>
   	</parameter>
 
-  	<parameter  member='colour' to='Colour' default='blue' from='string' name='super_page_frame_colour'>
-           		<release >Magics++0.5		</release>
-         		<documentation > Colour of super page frame 		</documentation>
+  	<parameter member="colour" to="Colour" default="blue" from="string" name="super_page_frame_colour">
+           		<release>Magics++0.5		</release>
+         		<documentation> Colour of super page frame 		</documentation>
   	</parameter>
 
-  	<parameter  member='style' to='LineStyle' default='solid' from='string' name='super_page_frame_line_style'>
-         		<release >Magics++0.5		</release>
-         		<documentation > Style of super page frame (SOLID/DASH/DOT/CHAIN_DASH/CHAIN_DOT) 		</documentation>
+  	<parameter member="style" to="LineStyle" default="solid" from="string" name="super_page_frame_line_style">
+         		<release>Magics++0.5		</release>
+         		<documentation> Style of super page frame (SOLID/DASH/DOT/CHAIN_DASH/CHAIN_DOT) 		</documentation>
   	</parameter>
 
-  	<parameter  member='thickness' to='int' default='1' from='int' name='super_page_frame_thickness'>
-         		<documentation > Thickness of super page frame 		</documentation>
-         		<release >Magics++0.5		</release>
+  	<parameter member="thickness" to="int" default="1" from="int" name="super_page_frame_thickness">
+         		<documentation> Thickness of super page frame 		</documentation>
+         		<release>Magics++0.5		</release>
   	</parameter>
   
-    	<parameter  member='plot_layout' to='string' default='automatic' from='string' name='layout'>
-         		<documentation > Type of page layout (POSITIONAL/AUTOMATIC) 		</documentation>
+    	<parameter member="plot_layout" to="string" default="automatic" from="string" name="layout">
+         		<documentation> Type of page layout (POSITIONAL/AUTOMATIC) 		</documentation>
    	</parameter>
 
-  	<parameter  member='plot_start' to='string' default='bottom' from='string' name='plot_start'>
-         		<documentation > Position of first page plotted (BOTTOM/TOP) 		</documentation>
-         		<release >Magics++0.2		</release>
+  	<parameter member="plot_start" to="string" default="bottom" from="string" name="plot_start">
+         		<documentation> Position of first page plotted (BOTTOM/TOP) 		</documentation>
+         		<release>Magics++0.2		</release>
   	</parameter>
 
-  	<parameter  member='plot_direction' to='string' default='vertical' from='string' name='plot_direction'>
-         		<documentation > Direction of plotting (HORIZONTAL/VERTICAL) 		</documentation>
-         		<release >Magics++0.2		</release>
+  	<parameter member="plot_direction" to="string" default="vertical" from="string" name="plot_direction">
+         		<documentation> Direction of plotting (HORIZONTAL/VERTICAL) 		</documentation>
+         		<release>Magics++0.2		</release>
   	</parameter>
   
-  	<parameter  member='legend' to='bool' default='off' from='string' name='legend'>
-         		<documentation >Turn on/off legend		</documentation>
-         		<release >Improved in Magics2.1		</release>
+  	<parameter member="legend" to="bool" default="off" from="string" name="legend">
+         		<documentation>Turn on/off legend		</documentation>
+         		<release>Improved in Magics2.1		</release>
   	</parameter>
 </class></magics>

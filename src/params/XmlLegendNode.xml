@@ -1,2 +1,2 @@
 <magics>
-<class  directory='visualisers' inherits='XmlBasicNode/LegendNode' include='LegendNode.h' name='XmlLegendNode'></class></magics>
+<class directory="visualisers" inherits="XmlBasicNode/LegendNode" include="LegendNode.h" name="XmlLegendNode" doc_inherits="no"/></magics>

@@ -1,17 +1,17 @@
 <magics>
-<class  inherits='ValuePlotBase' xmltag='gridvalues' name='ValuePlot' directory='visualisers' prefix='contour/contour_grid_value/contour_grid_value' action='pcont'>
+<class inherits="ValuePlotBase" xmltag="gridvalues" name="ValuePlot" directory="visualisers" prefix="contour/contour_grid_value/contour_grid_value" action="pcont">
 
-  	<parameter  from='string' name='contour_grid_value_type' default='normal' member='type' to='string' values='normal/reduced/akima'>
-         		<documentation > For Gaussian fields, plot normal (regular) values or reduced grid values.  (NORMAL/REDUCED/akima). If akima, the akima grid values will be plotted 		</documentation>
-         		<release >0.2		</release>
+  	<parameter from="string" name="contour_grid_value_type" default="normal" member="type" to="string" values="normal/reduced/akima">
+         		<documentation> For Gaussian fields, plot normal (regular) values or reduced grid values.  (NORMAL/REDUCED/akima). If akima, the akima grid values will be plotted 		</documentation>
+         		<release>0.2		</release>
   	</parameter>
 
-  	<parameter  xml='plot_type' from='string' name='contour_grid_value_plot_type' default='value' member='method' to='ValuePlotMethod'>
-         		<documentation > (VALUE/MARKER/BOTH) 		</documentation>
-         		<option  xml='value' fortran='value' include='ValuePlotMethod.h' name='ValuePlotMethod'>		</option>
-         		<option  xml='marker' fortran='marker' include='MarkerValuePlotMethod.h' name='MarkerValuePlotMethod'>		</option>
-         		<option  xml='both' fortran='both' include='BothValuePlotMethod.h' name='BothValuePlotMethod'>		</option>
-         		<release >0.2		</release>
+  	<parameter xml="plot_type" from="string" name="contour_grid_value_plot_type" default="value" member="method" to="ValuePlotMethod">
+         		<documentation> (VALUE/MARKER/BOTH) 		</documentation>
+         		<option xml="value" fortran="value" include="ValuePlotMethod.h" name="ValuePlotMethod">		</option>
+         		<option xml="marker" fortran="marker" include="MarkerValuePlotMethod.h" name="MarkerValuePlotMethod">		</option>
+         		<option xml="both" fortran="both" include="BothValuePlotMethod.h" name="BothValuePlotMethod">		</option>
+         		<release>0.2		</release>
  	</parameter>
 
  </class></magics>

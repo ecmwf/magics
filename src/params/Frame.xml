@@ -1,23 +1,23 @@
 <magics>
-<class  action='pnew' directory='common' used_by='XmlPage/XmlSubPage/Page' name='Frame' inherits='FrameBase'>
-  	<parameter  xml='colour' from='string' name='frame_colour' default='blue' member='colour' to='Colour'>
-         		<release >Magics++0.5		</release>
-         		<documentation > Colour of  frame 		</documentation>
+<class action="pnew" directory="common" used_by="XmlPage/XmlSubPage/Page" name="Frame" inherits="FrameBase">
+  	<parameter xml="colour" from="string" name="frame_colour" default="blue" member="colour" to="Colour">
+         		<release>Magics++0.5		</release>
+         		<documentation> Colour of  frame 		</documentation>
   	</parameter>
 
-  	<parameter  xml='line_style' from='string' name='frame_line_style' default='solid' member='style' to='LineStyle'>
-         		<release >Magics++0.5		</release>
-         		<documentation > Style of  frame(SOLID/DASH/DOT/CHAIN_DASH/CHAIN_DOT) 		</documentation>
+  	<parameter xml="line_style" from="string" name="frame_line_style" default="solid" member="style" to="LineStyle">
+         		<release>Magics++0.5		</release>
+         		<documentation> Style of  frame(SOLID/DASH/DOT/CHAIN_DASH/CHAIN_DOT) 		</documentation>
   	</parameter>
 
-  	<parameter  xml='thickness' from='int' name='frame_thickness' default='1' member='thickness' to='int'>
-         		<release >Magics++0.5		</release>
-         		<documentation > Thickness of  frame 		</documentation>
+  	<parameter xml="thickness" from="int" name="frame_thickness" default="1" member="thickness" to="int">
+         		<release>Magics++0.5		</release>
+         		<documentation> Thickness of  frame 		</documentation>
   	</parameter>
   
-   	<parameter  xml='blanking' from='string' name='frame_blanking' default='on' member='blanking' to='bool'>
-         		<release >Magics++0.5		</release>
-         		<release_info >Work in progress...		</release_info>
-         		<documentation > blanking of the box 		</documentation>
+   	<parameter xml="blanking" from="string" name="frame_blanking" default="on" member="blanking" to="bool">
+         		<release>Magics++0.5		</release>
+         		<release_info>Work in progress...		</release_info>
+         		<documentation> blanking of the box 		</documentation>
   	</parameter>
  </class></magics>

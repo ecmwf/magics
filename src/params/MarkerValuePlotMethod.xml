@@ -1,25 +1,25 @@
 <magics>
-<class  inherits='ValuePlotMethod' xmltag='marker' name='MarkerValuePlotMethod' directory='visualisers' prefix='contour/contour_grid_value/contour_grid_value' action='pcont'>
+<class inherits="ValuePlotMethod" xmltag="marker" name="MarkerValuePlotMethod" directory="visualisers" prefix="contour/contour_grid_value/contour_grid_value" action="pcont" doc_inherits="no" inherit_parent_reqs="no">
 
-	<parameter  member='markerHeight' to='float' default='0.25' from='float' name='contour_grid_value_marker_height'>
-         		<documentation > Height of grid point markers 		</documentation>
-         		<release >0.2		</release>
+	<parameter member="markerHeight" to="float" default="0.25" from="float" name="contour_grid_value_marker_height">
+         		<documentation> Height of grid point markers 		</documentation>
+         		<release>0.2		</release>
 	</parameter>
 
-  	<parameter  member='markerColour' to='Colour' default='red' from='string' name='contour_grid_value_marker_colour'>
-         		<documentation > Colour of grid point markers (Full choice of colours) 		</documentation>
-         		<release >0.2		</release>
+  	<parameter member="markerColour" to="Colour" default="red" from="string" name="contour_grid_value_marker_colour">
+         		<documentation> Colour of grid point markers (Full choice of colours) 		</documentation>
+         		<release>0.2		</release>
   	</parameter>
 
-  	<parameter  member='markerQuality' to='string' default='low' from='string' name='contour_grid_value_marker_qual'>
-         		<documentation > (LOW/MEDIUM/HIGH) 		</documentation>
-         		<release >0.2		</release>
+  	<parameter member="markerQuality" to="string" default="low" from="string" name="contour_grid_value_marker_qual">
+         		<documentation> (LOW/MEDIUM/HIGH) 		</documentation>
+         		<release>0.2		</release>
 	 
 	</parameter>
 
-  	<parameter  member='markerIndex' to='int' default='3' from='int' name='contour_grid_value_marker_index'>
-         		<documentation > Table number of marker index. See Appendix for Plotting Attributes 		</documentation>
-         		<release >0.2		</release>
+  	<parameter member="markerIndex" to="int" default="3" from="int" name="contour_grid_value_marker_index">
+         		<documentation> Table number of marker index. See Appendix for Plotting Attributes 		</documentation>
+         		<release>0.2		</release>
   	</parameter>
   
 </class></magics>

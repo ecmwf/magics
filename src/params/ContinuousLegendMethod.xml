@@ -1,8 +1,8 @@
 <magics>
-<class  inherits='LegendMethod' name='ContinuousLegendMethod' used_by='Legend' directory='visualisers' action='legend' include='LegendMethod.h'>
+<class inherits="LegendMethod" name="ContinuousLegendMethod" used_by="Legend" directory="visualisers" action="legend" include="LegendMethod.h" doc_inherits="no">
 
-	<parameter  member='label_frequency' to='int' default='1' from='int' name='legend_label_frequency'>
-         			<documentation >Frequency of the labels. 		</documentation>
+	<parameter member="label_frequency" to="int" default="1" from="int" name="legend_label_frequency">
+         			<documentation>Frequency of the labels. 		</documentation>
 	</parameter>
 
 </class></magics>

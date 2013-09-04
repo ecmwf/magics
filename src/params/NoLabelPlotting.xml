@@ -1,6 +1,6 @@
 <magics>
-<class  action='pcoast' directory='visualisers' xmltag='nolabel' include='LabelPlotting.h' name='NoLabelPlotting'>
-   	<documentation >
+<class action="pcoast" directory="visualisers" xmltag="nolabel" include="LabelPlotting.h" name="NoLabelPlotting">
+   	<documentation>
    This object suppresses the plotting of the map grid labels
    	</documentation>
 </class></magics>

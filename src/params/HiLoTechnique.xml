@@ -1,24 +1,24 @@
 <magics>
-<class  action='pcont' directory='visualisers' prefix='contour/contour_hilo' xmltag='hilo' name='HiLoTechnique'>
-  	<documentation > common attributes to the HiLo technique plotting	</documentation> 
+<class action="pcont" directory="visualisers" prefix="contour/contour_hilo" xmltag="hilo" name="HiLoTechnique">
+  	<documentation> common attributes to the HiLo technique plotting	</documentation> 
 
-	<parameter  xml='height' from='float' name='contour_hilo_height' default='0.4' member='contour_hilo_height' to='float'>
-         		<documentation > Height of local maxima/minima text or numbers 		</documentation>
-         		<release >0.1		</release>
+	<parameter xml="height" from="float" name="contour_hilo_height" default="0.4" member="contour_hilo_height" to="float">
+         		<documentation> Height of local maxima/minima text or numbers 		</documentation>
+         		<release>0.1		</release>
 	</parameter>
 
-	<parameter  xml='quality' from='string' name='contour_hilo_quality' default='low' member='contour_hilo_quality' to='string'>
-         		<documentation > (LOW/MEDIUM/HIGH) 		</documentation>
-         		<release >0.1		</release>
+	<parameter xml="quality" from="string" name="contour_hilo_quality" default="low" member="contour_hilo_quality" to="string">
+         		<documentation> (LOW/MEDIUM/HIGH) 		</documentation>
+         		<release>0.1		</release>
 	</parameter>
 
-	<parameter  xml='hi_colour' from='string' name='contour_hi_colour' default='blue' member='hi_colour' to='Colour'>
-         		<documentation > Colour of local maxima text or number 		</documentation>
-         		<release >0.1		</release>
+	<parameter xml="hi_colour" from="string" name="contour_hi_colour" default="blue" member="hi_colour" to="Colour">
+         		<documentation> Colour of local maxima text or number 		</documentation>
+         		<release>0.1		</release>
 	</parameter>
 
-	<parameter  xml='lo_colour' from='string' name='contour_lo_colour' default='blue' member='lo_colour' to='Colour'>
-         		<documentation > Colour of local minima text or number 		</documentation>
-         		<release >0.1		</release>
+	<parameter xml="lo_colour" from="string" name="contour_lo_colour" default="blue" member="lo_colour" to="Colour">
+         		<documentation> Colour of local minima text or number 		</documentation>
+         		<release>0.1		</release>
 	</parameter>
 </class></magics>

@@ -1,2 +1,2 @@
 <magics>
-<class  inherits='IsoPlot' inherits_doc_inherits='no' directory='visualisers' include='IsoPlot.h' name='NoIsoPlot'></class></magics>
+<class inherits="IsoPlot" directory="visualisers" include="IsoPlot.h" name="NoIsoPlot" doc_inherits="no"/></magics>

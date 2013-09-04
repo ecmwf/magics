@@ -1,9 +1,9 @@
 <magics>
-<class  directory='visualisers' inherits='Graph' xmltag='flag' include='Bar.h' name='GraphFlag'>
-  	<parameter  member='colour' to='Colour' default='black' from='string' name='graph_flag_colour'>
-         		<documentation > The colour of the Flags!		</documentation>
+<class directory="visualisers" inherits="Graph" xmltag="flag" include="Bar.h" name="GraphFlag">
+  	<parameter member="colour" to="Colour" default="black" from="string" name="graph_flag_colour">
+         		<documentation> The colour of the Flags!		</documentation>
   	</parameter>
-  	<parameter  member='length' to='float' default='0.75' from='float' name='graph_flag_length'>
-         		<documentation > Physical length of wind flag shaft 		</documentation>
+  	<parameter member="length" to="float" default="0.75" from="float" name="graph_flag_length">
+         		<documentation> Physical length of wind flag shaft 		</documentation>
   	</parameter>
 </class></magics>

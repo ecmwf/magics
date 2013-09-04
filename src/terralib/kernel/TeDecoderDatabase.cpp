@@ -30,7 +30,7 @@ of this library and its documentation.
 
 #include <zlib.h>
 
-#ifndef NO_TEJPEG //FAMI
+#ifdef TEJPEG //FAMI
 #include "TeLibJpegWrapper.h"
 #endif
 
@@ -276,7 +276,7 @@ TeDecoderDatabase::getRasterBlock(const string& index, void *block)
 		unsigned long blockLen = params_.blockHeight_ * params_.blockWidth_ * params_.elementSize();	// size after decompression
 		uncompress (reinterpret_cast<unsigned char*>(block),&blockLen,memread_ptr,blobLen);
 	}
-#ifndef NO_TEJPEG //FAMI
+#ifdef TEJPEG //FAMI
 	else if (params_.compression_[band] == TeRasterParams::TeJpeg) //jpeg compression
 	{
 		int nb;
@@ -337,7 +337,7 @@ TeDecoderDatabase::putRasterBlock(const string& index, void *block, long bsize)
 		compress (memAux_, &finalsize,reinterpret_cast<unsigned char*>(block),bsize);
 		return db_->insertRasterBlock(params_.fileName_,index,blockbb.lowerLeft(),blockbb.upperRight(),memAux_,finalsize,band,res,subb);
 	}
-#ifndef NO_TEJPEG //FAMI
+#ifdef TEJPEG //FAMI
 	else if (params_.compression_[band] == TeRasterParams::TeJpeg)	// JPEG compression
 	{
 		int sizec = int(bsize*1.1 + 12.);
@@ -472,7 +472,7 @@ TeDecoderDatabase::getSelectedRasterBlock(TeDecoderMemory* memDec)
 			int status;
 			status = uncompress (reinterpret_cast<unsigned char*>(memDec->data(banda)),&destLen,memAux_,srcLen);
 		}
-#ifndef NO_TEJPEG //FAMI
+#ifdef TEJPEG //FAMI
 		else if (params_.compression_[banda] == TeRasterParams::TeJpeg)
 		{
 			int nb = 1;

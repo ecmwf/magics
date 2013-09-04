@@ -1,6 +1,6 @@
 <magics>
-<class  action='pcont' inherits='ContourMethod' used_by='ContourTechnique' directory='visualisers' name='Akima760Method'>
-  	<documentation >
+<class inherits="ContourMethod" name="Akima760Method" used_by="ContourTechnique" directory="visualisers" action="pcont" doc_inherits="no">
+  	<documentation>
   Generates contour lines from a regular/irregular grid of data points.
   First a denser regular grid is created based on the original grid and then
   the isolines are produced by applying a simple linear contouring algorithm.
@@ -8,16 +8,16 @@
   select the interpolation level which defines the density of the output 
   grid, which then determines the smoothness of the isolines.
   	</documentation>
-  	<parameter  xml='x_resolution' from='float' name='contour_akima_x_resolution' default='1.5' member='resolutionX' to='float'>
-         		<documentation >X resolution of Akima interpolation		</documentation>
-         		<migration > New Magics: Parameter resolutionX sent to new Magics[AKIMA760].  		</migration>
-         		<release >Magics++0.1		</release>
-         		<related_info > url_path 		</related_info>
+  	<parameter xml="x_resolution" from="float" name="contour_akima_x_resolution" default="1.5" member="resolutionX" to="float">
+         		<documentation>X resolution of Akima interpolation		</documentation>
+         		<migration> New Magics: Parameter resolutionX sent to new Magics[AKIMA760].  		</migration>
+         		<release>Magics++0.1		</release>
+         		<related_info> url_path 		</related_info>
   	</parameter>
-  	<parameter  xml='y_resolution' from='float' name='contour_akima_y_resolution' default='1.5' member='resolutionY' to='float'>
-         		<documentation >Y resolution of Akima interpolation		</documentation>
-         		<migration > New Magics: Parameter resolutionY sent to new Magics[AKIMA760].  		</migration>
-         		<release >Magics++0.1		</release>
-         		<related_info > url_path 		</related_info>
+  	<parameter xml="y_resolution" from="float" name="contour_akima_y_resolution" default="1.5" member="resolutionY" to="float">
+         		<documentation>Y resolution of Akima interpolation		</documentation>
+         		<migration> New Magics: Parameter resolutionY sent to new Magics[AKIMA760].  		</migration>
+         		<release>Magics++0.1		</release>
+         		<related_info> url_path 		</related_info>
   	</parameter>
 </class></magics>

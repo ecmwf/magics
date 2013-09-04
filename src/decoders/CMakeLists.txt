@@ -3,34 +3,14 @@ BinningObject.cc
 BinningObject.h
 BoxPlotDecoder.cc
 BoxPlotDecoder.h
-ClassicMtgDecoder.cc
-ClassicMtgDecoder.h
 Date.cc
 DateTime.cc
 DateTime.h
-EfiDataDecoder.cc
-EfiDataDecoder.h
 EfiLegendEntry.h
-EpsBufr.cc
-EpsBufr.h
 EpsXmlInput.cc
 EpsXmlInput.h
-EpsgramDecoder.cc
-EpsgramDecoder.h
-GeoMatrixInterpretor.cc
-GeoMatrixInterpretor.h
 GeoPointsDecoder.cc
 GeoPointsDecoder.h
-GribAddressMode.h
-GribDecoder.cc
-GribDecoder.h
-GribInterpretor.h
-GribLoopStep.cc
-GribLoopStep.h
-GribRegularInterpretor.cc
-GribRegularInterpretor.h
-GribSatelliteInterpretor.cc
-GribSatelliteInterpretor.h
 ImportAction.h
 InputData.cc
 InputData.h
@@ -46,32 +26,8 @@ MapGenDecoder.cc
 MapGenDecoder.h
 MatrixTestDecoder.cc
 MatrixTestDecoder.h
-Netcdf.cc
-Netcdf.h
-NetcdfConvention.cc
-NetcdfConvention.h
-NetcdfDecoder.cc
-NetcdfDecoder.h
-NetcdfGeoMatrixInterpretor.cc
-NetcdfGeoMatrixInterpretor.h
-NetcdfGeopointsInterpretor.cc
-NetcdfGeopointsInterpretor.h
-NetcdfInterpretor.cc
-NetcdfInterpretor.h
-NetcdfMarsConvention.cc
-NetcdfMarsConvention.h
-NetcdfMatrixInterpretor.cc
-NetcdfMatrixInterpretor.h
-NetcdfOrcaInterpretor.cc
-NetcdfOrcaInterpretor.h
-NetcdfVectorInterpretor.cc
-NetcdfVectorInterpretor.h
-ObsDecoder.cc
-ObsDecoder.h
 ObsStatDecoder.cc
 ObsStatDecoder.h
-PpmDecoder.cc
-PpmDecoder.h
 ShapeDecoder.cc
 ShapeDecoder.h
 SimplePolylineInput.cc
@@ -79,6 +35,8 @@ SimplePolylineInput.h
 SymbolInput.h
 TableDecoder.cc
 TableDecoder.h
+TableReader.cc
+TableReader.h
 ThinningMethod.cc
 ThinningMethod.h
 Time.cc
@@ -100,5 +58,72 @@ shapefil.h
 foreach( file ${_decoders_srcs} )
   list( APPEND decoders_srcs decoders/${file} )
 endforeach()
+
+if (MAGICS_GRIB) 
+     list( APPEND decoders_srcs 
+decoders/GribAddressMode.h
+decoders/GribDecoder.cc
+decoders/GribDecoder.h
+decoders/GribInterpretor.h
+decoders/GribLoopStep.cc
+decoders/GribLoopStep.h
+decoders/GribRegularInterpretor.cc
+decoders/GribRegularInterpretor.h
+decoders/GribSatelliteInterpretor.cc
+decoders/GribSatelliteInterpretor.h
+)
+endif()
+
+
+if (MAGICS_NETCDF) 
+     list( APPEND decoders_srcs 
+#Netcdf--->
+decoders/NetcdfOrcaInterpretor.cc
+decoders/Netcdf.cc
+decoders/Netcdf.h
+decoders/NetcdfConvention.cc
+decoders/NetcdfConvention.h
+decoders/NetcdfDecoder.cc
+decoders/NetcdfDecoder.h
+decoders/NetcdfGeoMatrixInterpretor.cc
+decoders/NetcdfGeoMatrixInterpretor.h
+decoders/NetcdfGeopointsInterpretor.cc
+decoders/NetcdfGeopointsInterpretor.h
+decoders/NetcdfInterpretor.cc
+decoders/NetcdfInterpretor.h
+decoders/NetcdfMarsConvention.cc
+decoders/NetcdfMarsConvention.h
+decoders/NetcdfMatrixInterpretor.cc
+decoders/NetcdfMatrixInterpretor.h
+decoders/NetcdfOrcaInterpretor.h
+decoders/NetcdfVectorInterpretor.cc
+decoders/NetcdfVectorInterpretor.h
+#<----Netcdf
+)
+endif()
+
+if (MAGICS_BUFR)
+     list( APPEND decoders_srcs 
+# Bufr --->
+decoders/EpsBufr.cc
+decoders/EpsBufr.h
+decoders/ObsDecoder.cc
+decoders/ObsDecoder.h
+# <--- Bufr
+)
+
+endif()
+
+
+if (MAGICS_SPOT)
+     list( APPEND decoders_srcs 
+#Spot ---> 
+decoders/ClassicMtgDecoder.cc
+decoders/ClassicMtgDecoder.h
+decoders/EpsgramDecoder.cc
+decoders/EpsgramDecoder.h
+#<--- Spot  
+)
+endif()
 
 set( decoders_srcs ${decoders_srcs} PARENT_SCOPE )

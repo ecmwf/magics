@@ -1,11 +1,11 @@
 <magics>
-<class  directory='visualisers' action_routine='pobs' prefix='obs' xmltag='pressure' name='ObsPressure'>
+<class directory="visualisers" action_routine="pobs" prefix="obs" xmltag="pressure" name="ObsPressure">
 
- 	<parameter  member='visible' to='bool' default='on' from='string' name='obs_pressure'>
-    		<documentation > Turn On/off the pressure		</documentation>
+ 	<parameter member="visible" to="bool" default="on" from="string" name="obs_pressure">
+    		<documentation> Turn On/off the pressure		</documentation>
  	</parameter>
 
- 	<parameter  member='colour' to='Colour' default='foreground' from='string' name='obs_pressure_colour'>
-    		<documentation > Colour the pressure info 		</documentation>
+ 	<parameter member="colour" to="Colour" default="foreground" from="string" name="obs_pressure_colour">
+    		<documentation> Colour the pressure info 		</documentation>
  	</parameter>
 </class></magics>

@@ -1,25 +1,26 @@
 <magics>
-<class  xmltag='wind' name='Wind' metview='MWIND' directory='visualisers' prefix='wind' action='pwind'>
-  	<documentation > Wind plotting facilities allow users to plot wind fields as either arrows or flags.	</documentation>
+<class xmltag="wind" name="Wind" metview="MWIND" directory="visualisers" prefix="wind" action="pwind">
+  	<documentation> Wind plotting facilities allow users to plot wind fields as either arrows or flags.	</documentation>
 
-  	<parameter  member='type' to='WindPlotting' default='arrows' from='string' name='wind_field_type'>
-         		<documentation > Method of wind field plotting  		</documentation>
-         		<release >Basic implementation in 0.6		</release>
-         		<option  xml='flags' fortran='flags' include='FlagPlotting.h' name='FlagPlotting'>		</option>
-         		<option  xml='arrows' fortran='arrows' include='ArrowPlotting.h' name='ArrowPlotting'>		</option>
+  	<parameter member="type" to="WindPlotting" default="arrows" from="string" name="wind_field_type">
+         		<documentation> Method of wind field plotting  		</documentation>
+         		<release>Basic implementation in 0.6		</release>
+         		<option xml="flags" fortran="flags" include="FlagPlotting.h" name="FlagPlotting">		</option>
+         		<option xml="arrows" fortran="arrows" include="ArrowPlotting.h" name="ArrowPlotting">		</option>
+         		<option fortran="streamlines" include="Streamlines.h" name="Streamlines">		</option>
   	</parameter>
 
- 	<parameter  from='string' name='wind_thinning_method' visible='false' default='data' member='thinning_method' to='string' values='data/user'>
-         		<documentation > Method to control the thinning: 
-         data :  wind_thinning_factor will determine the frequency as before 
+ 	<parameter from="string" name="wind_thinning_method" visible="false" default="data" member="thinning_method" to="string" values="data/user">
+         		<documentation> Method to control the thinning: 
+         data : wind_thinning_factor will determine the frequency as before 
          user : wind_thining_factor will determine the minimal distance in user coordinates betvween 2 winds. 
          the default is "data" for backward compatibility.
           		</documentation>
-         		<release >2.9		</release>
+         		<release>2.9		</release>
   	</parameter>
 
-  	<parameter  member='thinning_factor' to='float' default='2.0' from='float' name='wind_thinning_factor'>
-         		<documentation > Controls the actual number of wind arrows or flags plotted. See main text for explanation. Needs to 1.0 or larger.		</documentation>
-         		<release >0.6		</release>
+  	<parameter member="thinning_factor" to="float" default="2.0" from="float" name="wind_thinning_factor">
+         		<documentation> Controls the actual number of wind arrows or flags plotted. See main text for explanation. Needs to 1.0 or larger.		</documentation>
+         		<release>0.6		</release>
   	</parameter>
 </class></magics>

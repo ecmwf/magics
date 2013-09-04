@@ -1,0 +1,10 @@
+<magics>
+<class  directory='visualisers' name='GraphShade'>
+ 	<parameter  member='style' to='GraphShadeStyle' default='area_fill' from='string' name='graph_shade_style'>
+         
+         		<option  xml='solid' fortran='area_fill' include='GraphShadeStyle.h' name='GraphShadeStyle'>		</option>
+         		<option  xml='hatch' fortran='hatch' include='GraphShadeStyle.h' name='HatchGraphShadeStyle'>		</option>
+         		<option  xml='dot' fortran='dot' include='GraphShadeStyle.h' name='DotGraphShadeStyle'>		</option>
+         		<documentation >  Style of shading 		</documentation>
+  	</parameter>
+</class></magics>

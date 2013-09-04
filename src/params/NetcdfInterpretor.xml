@@ -1,46 +1,51 @@
 <magics>
-<class  action='pnetcdf' directory='decoders' prefix='netcdf' xmltag='netcdf' name='NetcdfInterpretor'>
-		<documentation >
+<class action="pnetcdf" directory="decoders" prefix="netcdf" xmltag="netcdf" name="NetcdfInterpretor">
+		<documentation>
 		This object contains this attributes to set how to load the data from the file.
         It is possible to load only a subarray of the data, by setting the dimensions.
 		</documentation>
-        	<parameter  member='path' to='string' default='' from='string' name='netcdf_filename'>
-            		<release >Magics++0.1		</release>
-            		<documentation >Path of the file to be read		</documentation>
+        	<parameter member="path" to="string" default="" from="string" name="netcdf_filename">
+            		<release>Magics++0.1		</release>
+            		<documentation>Path of the file to be read		</documentation>
         	</parameter>
 
-        	<parameter  member='dimension' to='stringarray' default='stringarray()' from='stringarray' name='netcdf_dimension_setting'>
-            		<metview  default='' class=''>  		</metview>
-             		<release >Magics++0.1		</release>
-            		<documentation >The dimensions of the data to load, eg. p/100/10		</documentation>
+        	<parameter member="dimension" to="stringarray" default="stringarray()" from="stringarray" name="netcdf_dimension_setting">
+            		<metview default="" class="">  		</metview>
+             		<release>Magics++0.1		</release>
+            		<documentation>The dimensions of the data to load, eg. p/100/10		</documentation>
+        	</parameter>
+        	<parameter from="string" name="netcdf_dimension_setting_method" default="value" member="dimension_method" to="string" values="index/value">
+            
+             		<release>Magics++0.1		</release>
+            		<documentation>To specify a dimension the user can choose the method value: in that case he will pass to Magics the value of the dimension (as defined in the variable), or index : index if the dimesion in the array		</documentation>
         	</parameter>
         
-         	<parameter  member='field' to='string' default='' from='string' name='netcdf_value_variable'>
-              		<release >Magics++0.1		</release>
-              		<documentation >Variable name to plot		</documentation>
+         	<parameter member="field" to="string" default="" from="string" name="netcdf_value_variable">
+              		<release>Magics++0.1		</release>
+              		<documentation>Variable name to plot		</documentation>
         	</parameter> 
        
-          	<parameter  member='scaling' to='float' default='1' from='float' name='netcdf_field_scaling_factor'>
-            		<release >Magics++0.1		</release>
-            		<documentation >Scaling factor to multiply the field value by		</documentation>
+          	<parameter member="scaling" to="float" default="1" from="float" name="netcdf_field_scaling_factor">
+            		<release>Magics++0.1		</release>
+            		<documentation>Scaling factor to multiply the field value by		</documentation>
         	</parameter>
-         	<parameter  member='offset' to='float' default='0' from='float' name='netcdf_field_add_offset'>
-            		<release >Magics++0.1		</release>
-            		<documentation >Offset added to the field values		</documentation>
+         	<parameter member="offset" to="float" default="0" from="float" name="netcdf_field_add_offset">
+            		<release>Magics++0.1		</release>
+            		<documentation>Offset added to the field values		</documentation>
            	</parameter>
-           	<parameter  member='missing_attribute' to='string' default='missing_value' from='string' name='netcdf_missing_attribute'>
-            		<release >Magics++2.15		</release>
-            		<documentation >Attribute to read to know the value used to indicate a missing value in the data		</documentation>
+           	<parameter member="missing_attribute" to="string" default="missing_value" from="string" name="netcdf_missing_attribute">
+            		<release>Magics++2.15		</release>
+            		<documentation>Attribute to read to know the value used to indicate a missing value in the data		</documentation>
            	</parameter>  
-            	<parameter  member='reference' to='string' default='0' from='string' name='netcdf_reference_date'>
-            		<release >Magics++0.7		</release>
-            		<documentation >attributes name to find the refernce date		</documentation>
+            	<parameter member="reference" to="string" default="0" from="string" name="netcdf_reference_date">
+            		<release>Magics++0.7		</release>
+            		<documentation>attributes name to find the refernce date		</documentation>
            	</parameter> 
-           	<parameter  member='suppress_below' to='float' default='-1.0e+21' from='float' name='netcdf_field_suppress_below'>
-         		<documentation > Values in the input field(s) below this value are to be suppressed, i.e. not to be taken into consideration for plotting purposes 		</documentation>
+           	<parameter member="suppress_below" to="float" default="-1.0e+21" from="float" name="netcdf_field_suppress_below">
+         		<documentation> Values in the input field(s) below this value are to be suppressed, i.e. not to be taken into consideration for plotting purposes 		</documentation>
   	</parameter>
 
-  	<parameter  member='suppress_above' to='float' default='1.0e+21' from='float' name='netcdf_field_suppress_above'>
-         		<documentation > Values in the input field(s) above this value are to be suppressed, i.e not to be taken into consideration for plotting purposes 		</documentation>
+  	<parameter member="suppress_above" to="float" default="1.0e+21" from="float" name="netcdf_field_suppress_above">
+         		<documentation> Values in the input field(s) above this value are to be suppressed, i.e not to be taken into consideration for plotting purposes 		</documentation>
   	</parameter>
 </class></magics>

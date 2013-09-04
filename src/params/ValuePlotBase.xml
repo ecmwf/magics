@@ -1,2 +1,2 @@
 <magics>
-<class  directory='visualisers' include='ValuePlotBase.h' name='ValuePlotBase'></class></magics>
+<class directory="visualisers" include="ValuePlotBase.h" name="ValuePlotBase"/></magics>

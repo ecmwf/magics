@@ -1,11 +1,11 @@
 <magics>
-<class  directory='decoders' name='TitleTemplate'>
-		<documentation >
+<class directory="decoders" name="TitleTemplate">
+		<documentation>
 		Here comes the description of the TitleTemplate 
 		</documentation>
-        	<parameter  member='file' to='string' default='title_template.xml' from='string' name='title_template_filename'>
-            		<documentation > Description in Xml of the titles  		</documentation>
-            		<migration > New Magics: Parameter title_template_filename sent to new Magics[TitleTemplate].  		</migration>
+        	<parameter member="file" to="string" default="title_template.xml" from="string" name="title_template_filename">
+            		<documentation> Description in Xml of the titles  		</documentation>
+            		<migration> New Magics: Parameter title_template_filename sent to new Magics[TitleTemplate].  		</migration>
         	</parameter>
         
 </class></magics>

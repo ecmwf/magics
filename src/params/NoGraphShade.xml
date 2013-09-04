@@ -1,2 +1,2 @@
 <magics>
-<class  directory='visualisers' inherits='GraphShade' include='GraphShade.h' name='NoGraphShade'></class></magics>
+<class directory="visualisers" inherits="GraphShade" include="GraphShade.h" name="NoGraphShade"/></magics>

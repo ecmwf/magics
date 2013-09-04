@@ -1,69 +1,110 @@
 <magics>
-<class  xmltag='contour' name='Contour' metview='MCONT' action='pcont' prefix='contour' directory='visualisers' fortan='pcont' root='contour'>
-  	<documentation >
+<class xmltag="contour" name="Contour" metview="MCONT" action="pcont" prefix="contour" directory="visualisers" fortan="pcont" root="contour">
+  	<documentation>
     This controls the plotting of isolines, contour bands and grid points.
   	</documentation>
 
-  	<parameter  member='legend' to='bool' default='off' from='string' name='legend'> 
-				<documentation > Turn legend on or off 		</documentation> 
-				<release >2.12		</release>
+  	<parameter member="legend" to="bool" default="off" from="string" name="legend"> 
+				<documentation> Turn legend on or off 		</documentation> 
+				<release>2.12		</release>
+        		<set name="contour_special_legend" value="on">		</set>
+        		<set name="contour_legend_text" value="on">		</set>
   	</parameter>
 
-  	<parameter  member='contour' to='IsoPlot' default='on' from='string' name='contour'> 
-         		<documentation > Turn contouring on or off  		</documentation>
-          		<option  xml='isoline' fortran='on' include='IsoPlot.h' name='IsoPlot'>		</option>
-          		<option  xml='noisoline' fortran='off' include='IsoPlot.h' name='NoIsoPlot'>		</option>
-		 		<unset  name='contour_line_style' value='off'>		</unset>
-		 		<unset  name='contour_line_thickness' value='off'>		</unset>
-		 		<unset  name='contour_line_colour' value='off'>		</unset>
+  	<parameter member="contour" to="IsoPlot" default="on" from="string" name="contour"> 
+         		<documentation> Turn contouring on or off  		</documentation>
+          		<option xml="isoline" fortran="on" include="IsoPlot.h" name="IsoPlot">		</option>
+          		<option xml="noisoline" fortran="off" include="IsoPlot.h" name="NoIsoPlot">		</option>
+		 		<unset name="contour_line_style" value="off">		</unset>
+		 		<unset name="contour_line_thickness" value="off">		</unset>
+		 		<unset name="contour_line_colour" value="off">		</unset>
   	</parameter> 
       
-  	<parameter  member='method' to='ContourMethod' default='automatic' from='string' name='contour_method'>
-         		<documentation > Contouring method  		</documentation>
-         		<option  xml='automatic' fortran='automatic' include='AutomaticContourMethod.h' name='AutomaticContourMethod'>		</option>
-           		<option  xml='sample' fortran='sample' include='AutomaticContourMethod.h' name='SampleContourMethod'>		</option>		
-         		<option  xml='linear' fortran='linear' include='ContourMethod.h' name='ContourMethod'>		</option>
-         		<option  xml='akima760' fortran='akima760' include='Akima760Method.h' name='Akima760Method'>		</option>
-         		<option  xml='akima474' fortran='akima474' include='Akima474Method.h' name='Akima474Method'>		</option>
-         		<release >0.1		</release>
-         		<release >Two akima algorithms have been implemented akima760/akima474 		</release>
+  	<parameter member="method" to="ContourMethod" default="automatic" from="string" name="contour_method">
+         		<documentation> Contouring method  		</documentation>
+         		<option xml="automatic" fortran="automatic" xmlfile="Akima" include="AutomaticContourMethod.h" name="AutomaticContourMethod">		</option>
+         		<option xml="sample" fortran="sample" include="AutomaticContourMethod.h" name="SampleContourMethod">		</option>		
+         		<option xml="linear" fortran="linear" include="ContourMethod.h" name="ContourMethod">		</option>
+         		<option xml="akima760" fortran="akima760" include="Akima760Method.h" name="Akima760Method">		</option>
+         		<option xml="akima474" fortran="akima474" include="Akima474Method.h" name="Akima474Method">		</option>
+         		<release>0.1		</release>
+         		<release>Two akima algorithms have been implemented akima760/akima474 		</release>
 	</parameter>
 
-	<parameter  member='floor' to='float' default='-INT_MAX' from='float' name='contour_interpolation_floor'>
-         		<documentation >Any value below this floor will be forced  to the floor value.
+	<parameter member="floor" to="float" default="-INT_MAX" from="float" name="contour_interpolation_floor">
+         		<documentation>Any value below this floor will be forced  to the floor value.
 		avoid the bubbles artificially created by the interpolation method		</documentation>
-         		<release_info >2.8		</release_info>
+         		<release_info>2.8		</release_info>
 	</parameter>
 
-	<parameter  member='ceiling' to='float' default='INT_MAX' from='float' name='contour_interpolation_ceiling'>
-         		<documentation > any value above this ceiling will be forced  to the ceiling value.
+	<parameter member="ceiling" to="float" default="INT_MAX" from="float" name="contour_interpolation_ceiling">
+         		<documentation> any value above this ceiling will be forced  to the ceiling value.
 		avoid the bubbles artificially created by the interpolation method 		</documentation>
-         		<release_info >2.8		</release_info>
+         		<release_info>2.8		</release_info>
 	</parameter>
 
-	<parameter  from='string' name='contour_automatic_setting' visible='off' default='off' member='setting' to='bool'> 
-        		<documentation > Turn the automatic setting of contouring attributes  		</documentation>
-			<unset  name='contour_automatic_library_path' value='off'>		</unset>
+	<parameter from="string" name="contour_automatic_setting" default="off" member="setting" to="string" values="on/off/ecchart"> 
+    		<documentation> Turn the automatic setting of contouring attributes  		</documentation>
+    		<unset name="contour_automatic_library_path" value="off">		</unset>
+    		<set name="contour_automatic_library_path" value="on">		</set>
 	</parameter>
 
-	<parameter  from='string' name='contour_automatic_library_path' visible='off' default='' member='library_path' to='string'> 
-         		<documentation > Users can give their own file to setup the automatic library of contours 		</documentation>
+	<parameter from="string" name="contour_automatic_library_path" visible="off" default="" member="library_path" to="string"> 
+         		<documentation> Users can give their own file to setup the automatic library of contours 		</documentation>
 	</parameter>
 
 
-	<parameter  member='hilo' to='HiLoBase' default='off' from='string' name='contour_hilo'>
-         		<documentation > Plot local maxima/minima  		</documentation>
-         		<option  xml='hilo' fortran='on' include='HiLo.h' name='HiLo'>		</option>
-         		<option  xml='nohilo' fortran='off' include='HiLo.h' name='NoHiLo'>		</option>
-         		<option  xml='high' fortran='hi' include='HiLo.h' name='HighHiLo'>		</option>
-         		<option  xml='low' fortran='lo' include='HiLo.h' name='LowHiLo'>		</option>
+	<parameter member="hilo" to="HiLoBase" default="off" from="string" name="contour_hilo">
+    		<documentation> Plot local maxima/minima  		</documentation>
+    		<option xml="hilo" fortran="on" include="HiLo.h" name="HiLo">		</option>
+    		<option xml="nohilo" fortran="off" include="HiLo.h" name="NoHiLo">		</option>
+    		<option xml="high" fortran="hi" include="HiLo.h" name="HighHiLo">		</option>
+    		<option xml="low" fortran="lo" include="HiLo.h" name="LowHiLo">		</option>
+
+
+    		<set name="contour_hilo_type" value="on/hi/lo">		</set>
+    		<set name="contour_hilo_blanking" value="on/hi/lo">		</set>
+    		<set name="contour_hilo_format" value="on/hi/lo">		</set>
+    		<set name="contour_hilo_window_size" value="on/hi/lo">		</set>
+    		<set name="contour_hilo_reduction_radius" value="on/hi/lo">		</set>
+    		<set name="contour_hilo_suppress_radius" value="on/hi/lo">		</set>
+    		<set name="contour_hilo_max_value" value="on/hi/lo">		</set>
+    		<set name="contour_hilo_min_value" value="on/hi/lo">		</set>
+    		<set name="contour_hi_text" value="on/hi">		</set>
+    		<set name="contour_lo_text" value="on/lo">		</set>
+    		<set name="contour_hi_max_value" value="on/hi">		</set>
+    		<set name="contour_hi_min_value" value="on/hi">		</set>
+    		<set name="contour_lo_max_value" value="on/lo">		</set>
+    		<set name="contour_lo_min_value" value="on/lo">		</set>
+    		<set name="contour_hilo_marker" value="on/hi/lo">		</set>
+    		<set name="contour_lo_colour" value="on/lo">		</set>
+    		<set name="contour_hi_colour" value="on/hi">		</set>
+    		<set name="contour_hilo_marker_height" value="on/hi/lo">		</set>
+    		<set name="contour_hilo_marker_index" value="on/hi/lo">		</set>
+    		<set name="contour_hilo_marker_colour" value="on/hi/lo">		</set>
+    		<set name="contour_hilo_position_file_name" value="on/hi/lo">		</set>
+    		<set name="contour_hilo_height" value="on/hi/lo">		</set>
+    		<set name="contour_hilo_quality" value="on/hi/lo">		</set>
+
+
 	</parameter>
   
 
-	<parameter  member='grid' to='ValuePlotBase' default='off' from='string' name='contour_grid_value_plot'>
-         		<documentation > Plot Grid point values 		</documentation>
-         		<option  xml='gridvalues' fortran='on' include='ValuePlot.h' name='ValuePlot'>		</option>
-         		<option  xml='nogridvalues' fortran='off' include='ValuePlot.h' name='NoValuePlot'>		</option>
-         		<release >Magics++0.3		</release>
+	<parameter member="grid" to="ValuePlotBase" default="off" from="string" name="contour_grid_value_plot">
+         		<documentation> Plot Grid point values 		</documentation>
+         		<option xml="gridvalues" fortran="on" include="ValuePlot.h" name="ValuePlot">		</option>
+         		<option xml="nogridvalues" fortran="off" include="ValuePlot.h" name="NoValuePlot">		</option>
+         		<release>Magics++0.3		</release>
 	</parameter>
+
+
+    
+    	<metview_parameter default="on" to="bool" from="string" name="grib_scaling_of_retrieved_fields">
+        		<documentation>Certain parameters will be scaled into more user-friendly units if the data has not been manipulated		</documentation>
+    	</metview_parameter>
+
+    	<metview_parameter default="off" to="bool" from="string" name="grib_scaling_of_derived_fields">
+        		<documentation>Certain parameters will be scaled into more user-friendly units if the data has been manipulated		</documentation>
+    	</metview_parameter>
+
 </class></magics>

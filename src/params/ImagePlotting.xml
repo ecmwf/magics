@@ -1,38 +1,38 @@
 <magics>
-<class  action='pimage' directory='visualisers' prefix='image' xmltag='image' name='ImagePlotting'>
-  	<documentation > Here comes the documentation of the ImagePlotting object 	</documentation>
+<class action="pimage" directory="visualisers" prefix="image" xmltag="image" name="ImagePlotting">
+  	<documentation> Here comes the documentation of the ImagePlotting object 	</documentation>
 
-	<parameter  member='mode' to='LookupTableMode' default='equidistant' from='string' name='image_colour_table_creation_mode'>
-         		<documentation > Method for computing the output image according to the Colour table. 		</documentation>
-         		<available > normal 		</available>
-         		<available > equidistant 		</available>
-         		<available > default 		</available>
-          		<option  xml='lut_fixed' fortran='fixed' include='LookupTableMode.h' name='FixedTableMode'>		</option>
-         		<option  xml='lut_normal' fortran='normal' include='NormalTableMode.h' name='NormalTableMode'>		</option>
-         		<option  xml='lut_equidistant' fortran='equidistant' include='EquidistantTableMode.h' name='EquidistantTableMode'>		</option>
-         		<option  xml='lut_linear' fortran='linear' include='LinearTableMode.h' name='LinearTableMode'>		</option>
-         		<release >Magics++0.7		</release>     
-         		<release_info >work in constant progress...		</release_info>     
+	<parameter member="mode" to="LookupTableMode" default="equidistant" from="string" name="image_colour_table_creation_mode">
+         		<documentation> Method for computing the output image according to the Colour table. 		</documentation>
+         		<available> normal 		</available>
+         		<available> equidistant 		</available>
+         		<available> default 		</available>
+          		<option xml="lut_fixed" fortran="fixed" include="LookupTableMode.h" name="FixedTableMode">		</option>
+         		<option xml="lut_normal" fortran="normal" include="NormalTableMode.h" name="NormalTableMode">		</option>
+         		<option xml="lut_equidistant" fortran="equidistant" include="EquidistantTableMode.h" name="EquidistantTableMode">		</option>
+         		<option xml="lut_linear" fortran="linear" include="LinearTableMode.h" name="LinearTableMode">		</option>
+         		<release>Magics++0.7		</release>     
+         		<release_info>work in constant progress...		</release_info>     
   	</parameter>
   
-  	<parameter  member='colourMethod' to='ColourTableDefinition' default='computed' from='string' name='image_colour_table_type'>
-         		<documentation > Method for setting Colour table for imaging. 		</documentation>
-         		<option  xml='lut_list' fortran='list' include='ImageListColourTechnique.h' name='ImageListColourTechnique'>		</option>
-         		<option  xml='lut_computed' fortran='computed' include='ImageCalculateColourTechnique.h' name='ImageCalculateColourTechnique'>		</option>
+  	<parameter member="colourMethod" to="ColourTableDefinition" default="computed" from="string" name="image_colour_table_type">
+         		<documentation> Method for setting Colour table for imaging. 		</documentation>
+         		<option xml="lut_list" fortran="list" include="ImageListColourTechnique.h" name="ImageListColourTechnique">		</option>
+         		<option xml="lut_computed" fortran="computed" include="ImageCalculateColourTechnique.h" name="ImageCalculateColourTechnique">		</option>
 
-         		<release >Magics++0.8		</release>     
-         		<release_info >work in constant progress...		</release_info>     
-         		<migration >Default changde from calculate to computed 		</migration>
+         		<release>Magics++0.8		</release>     
+         		<release_info>work in constant progress...		</release_info>     
+         		<migration>Default changde from calculate to computed 		</migration>
   	</parameter>
 
-  	<parameter  member='count' to='int' default='127' from='int' name='image_level_count'>
-         		<documentation > Number of levels 		</documentation>
-         		<release >Magics++0.8		</release>     
-         		<release_info >work in constant progress...		</release_info>     
+  	<parameter member="count" to="int" default="127" from="int" name="image_level_count">
+         		<documentation> Number of levels 		</documentation>
+         		<release>Magics++0.8		</release>     
+         		<release_info>work in constant progress...		</release_info>     
   	</parameter>
 
-    	<parameter  member='pixelFrequency' to='int' default='10' from='int' name='image_pixel_selection_frequency'>
-         		<documentation > Number of pixels/centimetre to be plotted 
+    	<parameter member="pixelFrequency" to="int" default="10" from="int" name="image_pixel_selection_frequency">
+         		<documentation> Number of pixels/centimetre to be plotted 
  		</documentation>
   	</parameter>
 

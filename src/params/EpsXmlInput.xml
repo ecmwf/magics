@@ -1,17 +1,17 @@
 <magics>
-<class  action='pmetgram' directory='decoders' prefix='epsxml' xmltag='epsxml' name='EpsXmlInput'>
- 	<parameter  member='path' to='string' default='' from='string' name='epsxml_input_filename'>
-  			<documentation > Path to the file containing the Xml Description 		</documentation>
+<class action="pmetgram" directory="decoders" prefix="epsxml" xmltag="epsxml" name="EpsXmlInput">
+ 	<parameter member="path" to="string" default="" from="string" name="epsxml_input_filename">
+  			<documentation> Path to the file containing the Xml Description 		</documentation>
  	</parameter>
-  	<parameter  member='param' to='string' default='' from='string' name='epsxml_parameter'>
-  			<documentation > Parameter to extract 		</documentation>
+  	<parameter member="param" to="string" default="" from="string" name="epsxml_parameter">
+  			<documentation> Parameter to extract 		</documentation>
  	</parameter>
-   	<parameter  member='long_title' to='bool' default='off' from='string' name='epsxml_long_title'>
-            		<documentation > epsgram long title 		</documentation>
-            		<migration > New Magics: Parameter eps_longitude sent to new Magics[EpsgramDecoder].  		</migration>
+   	<parameter member="long_title" to="bool" default="off" from="string" name="epsxml_long_title">
+            		<documentation> epsgram long title 		</documentation>
+            		<migration> New Magics: Parameter eps_longitude sent to new Magics[EpsgramDecoder].  		</migration>
         	</parameter>
-         	<parameter  member='short_title' to='bool' default='on' from='string' name='epsxml_title'>
-            		<documentation > epsgram long title 		</documentation>
-            		<migration > New Magics: Parameter eps_longitude sent to new Magics[EpsgramDecoder].  		</migration>
+         	<parameter member="short_title" to="bool" default="on" from="string" name="epsxml_title">
+            		<documentation> epsgram long title 		</documentation>
+            		<migration> New Magics: Parameter eps_longitude sent to new Magics[EpsgramDecoder].  		</migration>
         	</parameter>
 </class></magics>

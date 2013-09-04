@@ -1,6 +1,6 @@
 ###############################################################################
 
-configure_file( cmake_magics_config.h.in  magics_config.h  )
+configure_file( magics_config.h.in  magics_config.h  )
 
 ###############################################################################
 
@@ -39,7 +39,16 @@ add_subdirectory( drivers )
 add_subdirectory( decoders )
 add_subdirectory( terralib )
 
-
+ecbuild_add_library( TARGET    MagPlusSingle 
+		     SOURCES MagicsSingle.cc
+		     INCLUDES  ${CMAKE_CURRENT_SOURCE_DIR}/common
+		     TYPE STATIC)
+		     
+ecbuild_add_library( TARGET    MagPlusDouble 
+		     SOURCES MagicsDouble.cc
+		     INCLUDES  ${CMAKE_CURRENT_SOURCE_DIR}/common
+		     TYPE STATIC)		     
+		     
 ecbuild_add_library( TARGET    MagPlus
                      DEPENDS   all_params
                      SOURCES
@@ -70,6 +79,7 @@ ecbuild_add_library( TARGET    MagPlus
                         ${CMAKE_CURRENT_SOURCE_DIR}/terralib/kernel
                         ${CMAKE_CURRENT_SOURCE_DIR}/terralib/utils
                         ${Boost_INCLUDE_DIRS}
+                        ${NETCDF_INCLUDE_DIRS}
                         ${Cairo_INCLUDE_DIRS}
                         ${PROJ4_INCLUDE_DIRS}
                         ${GRIB_API_INCLUDE_DIRS}
@@ -78,6 +88,7 @@ ecbuild_add_library( TARGET    MagPlus
                         ${GRIB_API_LIBRARIES}
                         ${ECLIB_LIBRARIES} 
                         ${Cairo_LIBRARIES} 
+                        ${NETCDF_LIBRARIES} 
                         ${PROJ4_LIBRARIES}
                         ${QT_LIBRARIES} 
                     )
