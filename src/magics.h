@@ -230,9 +230,10 @@ inline MAGICS_NO_EXPORT string getEnvVariable(const string var)
 inline string getMagicsVersionString()
 {
 	const string magics  = MAGICS_NAME;
-	string version = MAGICS_VERSION;
-	if(sizeof(long)==8) version=MAGICS_VERSION+string(" (64 bit)");
-	return magics+string(" ")+version;
+	string version = MAGICS_VERSION_STR;
+	if ( sizeof(long)==8) 
+            version += string(" (64 bit)");
+	return magics + string(" ") + version;
 }
 
 // inline MAGICS_NO_EXPORT int upper_case(const int c) { return toupper(c);}

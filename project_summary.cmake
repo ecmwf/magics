@@ -21,3 +21,8 @@ if(ODB_API_FOUND)
   message( STATUS " ODB_API include  : [${ODB_API_INCLUDE_DIRS}]" )
   message( STATUS "         libs     : [${ODB_API_LIBRARIES}]" )
 endif()
+
+if(NETCDF_FOUND)
+  message( STATUS " Netcdf include  : [${NETCDF_INCLUDE_DIRS}]" )
+  message( STATUS "         libs     : [${NETCDF_LIBRARIES}]" )
+endif()
