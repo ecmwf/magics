@@ -29,6 +29,8 @@ BoxPlotVisualiser.cc
 BoxPlotVisualiser.h
 CalculateColourTechnique.cc
 CalculateColourTechnique.h
+CalcStreamlines.cc  
+CalcStreamlines.h
 CalmIndicator.h
 CellShading.cc
 CellShading.h
@@ -161,6 +163,8 @@ SegmentJoiner.h
 SegmentJoiner.cc
 SimplePolylineVisualiser.cc
 SimplePolylineVisualiser.h
+Streamlines.h
+Streamlines.cc
 SymbolAdvancedTableMode.cc
 SymbolAdvancedTableMode.h
 SymbolMode.cc
