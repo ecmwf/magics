@@ -11,6 +11,12 @@
 #       -DCMAKE_PREFIX_PATH=/path/to/jasper:/path/to/any/package/out/of/place
 #       -DBUILD_SHARED_LIBS=OFF
 
+# TODO:
+#  * fix RESOURCES magics.py
+#  * unit tests check that certain files are produced and not empty
+#  * python unit test
+#  * fortran unit test
+
 # Dependencies:
 #   * cairo
 #   * boost
