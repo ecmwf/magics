@@ -49,10 +49,10 @@ endif()
 # endif()
 
 # KML
-list( APPEND mgq_srcs   KMLDriver.h   KMLDriver.cc )
+list( APPEND _drivers_srcs   KMLDriver.h   KMLDriver.cc )
 
 # SVG
-list( APPEND mgq_srcs   SVGDriver.h   SVGDriver.cc )
+list( APPEND _drivers_srcs   SVGDriver.h   SVGDriver.cc )
 
 if( MAGICS_RASTER )
   list( APPEND mgq_srcs   GDDriver.h  GDDriver.cc )

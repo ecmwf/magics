@@ -29,6 +29,8 @@ BoxPlotVisualiser.cc
 BoxPlotVisualiser.h
 CalculateColourTechnique.cc
 CalculateColourTechnique.h
+CalcStreamlines.cc  
+CalcStreamlines.h
 CalmIndicator.h
 CellShading.cc
 CellShading.h
@@ -157,8 +159,12 @@ PolyShadingMethod.h
 PolyShadingTechnique.cc
 PolyShadingTechnique.h
 ShadingTechnique.h
+SegmentJoiner.h
+SegmentJoiner.cc
 SimplePolylineVisualiser.cc
 SimplePolylineVisualiser.h
+Streamlines.h
+Streamlines.cc
 SymbolAdvancedTableMode.cc
 SymbolAdvancedTableMode.h
 SymbolMode.cc
@@ -167,6 +173,8 @@ SymbolPlotting.cc
 SymbolPlotting.h
 TaylorGrid.cc
 TaylorGrid.h
+TephiGrid.cc  
+TephiGrid.h
 TextOrientation.cc
 TextOrientation.h
 UserDate.cc
