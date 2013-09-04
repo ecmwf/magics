@@ -39,12 +39,12 @@ endif()
 option( WITH_QT            "wether to use Qt"        OFF )
 option( WITH_CAIRO         "wether to use Cairo"     ON  )
 option( MAGICS_ALLHEADERS  "install all headers"     OFF )
-option( WITH_GRIB  "enable grib"     ON )
-option( WITH_NETCDF  "enable netcdf"     ON )
-option( WITH_BUFR  "enable bufr"     OFF )
-option( WITH_SPOT  "enable spot"     OFF )
-option( WITH_ODB  "enable odb"     OFF )
-option( WITH_PYTHON  "enable python interface"     ON )
+option( WITH_GRIB          "enable grib"             ON  )
+option( WITH_NETCDF        "enable netcdf"           ON  )
+option( WITH_BUFR          "enable bufr"             OFF )
+option( WITH_SPOT          "enable spot"             OFF )
+option( WITH_ODB           "enable odb"              OFF )
+option( WITH_PYTHON        "enable python interface" ON  )
 
 set( MAGICS_NAME          "Magics" )
 set( MAGICS_SITE          "ecmwf" )
@@ -69,6 +69,13 @@ ecbuild_declare_project()
 ###############################################################################
 # find extra packages
 
+# set(Boost_USE_STATIC_LIBS        ON)
+# set(Boost_NO_SYSTEM_PATHS        ON)
+# set(Boost_USE_MULTITHREADED      ON)
+find_package( Boost 1.49.0 )
+
+find_package( Proj4  )
+
 ecbuild_find_python( VERSION 2.7 )
 if (WITH_PYTHON) 
     find_package( SWIG )
@@ -77,48 +84,46 @@ if (WITH_PYTHON)
     endif()
 endif()
 
-if (WITH_NETCDF) 
-    find_package( NetCDF )
-    if (NETCDF_FOUND )
-        set (MAGICS_NETCDF 1)
-    endif()
+find_package( NetCDF )
+if (WITH_NETCDF AND NETCDF_FOUND )
+	list( APPEND MAGICS_TPLS  NetCDF )
+    set (MAGICS_NETCDF 1)
 endif()
-
-
 
 find_package( Cairo  )
-
-if( Cairo_FOUND AND WITH_CAIRO )
-    set( MAGICS_CAIRO 1 )
+if( WITH_CAIRO AND Cairo_FOUND )
+    	set( MAGICS_CAIRO 1 )
 endif()
 
-find_package( Proj4  )
-
-# set(Boost_USE_STATIC_LIBS        ON)
-set(Boost_NO_SYSTEM_PATHS        ON)
-# set(Boost_USE_MULTITHREADED      ON)
-find_package( Boost 1.49.0 )
-
 # find_package(Qt4 4.4.3 REQUIRED QtCore QtGui QtXml )
+# if( WITH_QT AND QT_FOUND )
 # include( ${QT_USE_FILE} )
-# if( QT_FOUND AND WITH_QT )
 #    set( MAGICS_QT 1 )
 # endif()
 
 ###############################################################################
 # contents
 
+set( MAGICS_TPLS            grib_api odb_api NetCDF Cairo Proj4 )
+set( MAGICS_INCLUDE_DIRS 
+	    ${CMAKE_CURRENT_SOURCE_DIR}/src 
+        ${CMAKE_BINARY_SOURCE_DIR}/src 
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/common
+	    ${Boost_INCLUDE_DIRS} )
+set( MAGICS_LIBRARIES    MagPlus )
+
+foreach( _tpl ${MAGICS_TPLS} )
+    string( TOUPPER ${_tpl} TPL )
+    list( APPEND MAGICS_EXTRA_DEFINITIONS   ${${TPL}_DEFINITIONS} )
+    list( APPEND MAGICS_EXTRA_INCLUDE_DIRS  ${${TPL}_INCLUDE_DIRS} )
+    list( APPEND MAGICS_EXTRA_LIBRARIES     ${${TPL}_LIBRARIES} )
+endforeach()
+
 # set_directory_properties( PROPERTIES COMPILE_DEFINITIONS ${ECKIT_DEFINITIONS} )
 get_directory_property( MAGICS_DEFINITIONS COMPILE_DEFINITIONS )
 
-set( MAGICS_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/src 
-        ${CMAKE_BINARY_SOURCE_DIR}/src 
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/common )
+include_directories ( ${MAGICS_INCLUDE_DIRS} ${MAGICS_EXTRA_INCLUDE_DIRS} )
 
-set( MAGICS_LIBRARIES    MagPlus )
-set( MAGICS_TPLS         grib_api odb_api ) # eckit
-
-include_directories ( ${MAGICS_INCLUDE_DIRS} )
 # scripts
 add_subdirectory( tools )
 
@@ -133,6 +138,7 @@ add_subdirectory( python )
 
 # Test directory
 add_subdirectory( test )
+
 ############################################################################################
 # finalize
 

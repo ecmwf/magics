@@ -64,7 +64,7 @@ ecbuild_add_library( TARGET    MagPlus
                      TEMPLATES
                         ${common_templates}
                      DEFINITIONS
-                        ${GRIB_API_DEFINITIONS}
+                        ${MAGICS_EXTRA_DEFINITIONS}
                      INCLUDES  
                         ${CMAKE_CURRENT_SOURCE_DIR} 
                         ${CMAKE_CURRENT_BINARY_DIR} 
@@ -78,17 +78,6 @@ ecbuild_add_library( TARGET    MagPlus
                         ${CMAKE_CURRENT_SOURCE_DIR}/terralib
                         ${CMAKE_CURRENT_SOURCE_DIR}/terralib/kernel
                         ${CMAKE_CURRENT_SOURCE_DIR}/terralib/utils
-                        ${Boost_INCLUDE_DIRS}
-                        ${NETCDF_INCLUDE_DIRS}
-                        ${Cairo_INCLUDE_DIRS}
-                        ${PROJ4_INCLUDE_DIRS}
-                        ${GRIB_API_INCLUDE_DIRS}
-                        ${ECLIB_INCLUDE_DIRS}
                     LIBS
-                        ${GRIB_API_LIBRARIES}
-                        ${ECLIB_LIBRARIES} 
-                        ${Cairo_LIBRARIES} 
-                        ${NETCDF_LIBRARIES} 
-                        ${PROJ4_LIBRARIES}
-                        ${QT_LIBRARIES} 
+                        ${MAGICS_EXTRA_LIBRARIES}
                     )
