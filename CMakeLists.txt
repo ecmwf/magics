@@ -16,8 +16,6 @@
 #  * fix RESOURCES magics.py
 #  * cpack ecbuild/cmake macros into tar.gz
 #  * unit tests check that certain files are produced and not empty
-#  * python unit test
-#  * fortran unit test
 
 # Missing dependencies:
 #   * odb_api
