@@ -14,7 +14,7 @@ list( APPEND _drivers_srcs
 
 if( MAGICS_QT )
 
-  list( APPEND mgq_srcs
+  list( APPEND _drivers_srcs
           QtDriver.h
 		  MgQ/MgQ.h
           MgQ/MgQLayoutItem.h MgQ/MgQStepItem.h
@@ -41,7 +41,7 @@ if( MAGICS_QT )
 endif()
 
 if( MAGICS_CAIRO )
-  list( APPEND mgq_srcs CairoDriver.h CairoDriverRaster.cc CairoDriver.cc )
+  list( APPEND _drivers_srcs CairoDriver.h CairoDriverRaster.cc CairoDriver.cc )
 endif()
 
 # if( MAGICS_MING )

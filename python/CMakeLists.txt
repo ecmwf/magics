@@ -11,6 +11,13 @@ if ( WITH_PYTHON )
   swig_add_module ( Magics python Magics_interface.cc Magics.i )
   swig_link_libraries ( Magics MagPlus ${PYTHON_LIBRARIES} )
   set(PYTHON_DEST "${PYTHON_SITE}/Magics" )
+  
+  # place in build tree so we can run python tests
+  configure_file ( macro.py macro.py )
+  configure_file ( metgram.py metgram.py )
+  
+  
+  # install to final destination
   install ( TARGETS _Magics DESTINATION ${PYTHON_DEST} ) 
   install ( FILES ${CMAKE_CURRENT_BINARY_DIR}/Magics.py 
             macro.py  
