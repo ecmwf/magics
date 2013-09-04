@@ -89,10 +89,10 @@ find_package( Boost 1.49.0 )
 find_package( Proj4  )
 
 ecbuild_find_python( VERSION 2.7 )
-if (WITH_PYTHON) 
+if( WITH_PYTHON )
     find_package( SWIG )
     if( SWIG_FOUND )
-        include( ${SWIG_USE_FILE} )
+        include(UseSWIG)
     endif()
 endif()
 

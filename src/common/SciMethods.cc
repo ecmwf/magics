@@ -240,7 +240,7 @@ double saturationVapourPressure(double t)
 	double c1 = 23.832241-5.02808*log10(t);
    	double c2 = 3.49149-1302.8844/t;
 	double c3 = 11.344-0.0303998*t;
-  	return (exp10(c1-1.3816E-7*exp10(c3)+8.1328E-3*exp10(c2)-2949.076/t));
+    return (::pow(10.,c1-1.3816E-7*::pow(10.,c3)+8.1328E-3*::pow(10.,c2)-2949.076/t));
 } 
   
 /*! 
@@ -265,8 +265,8 @@ double temperatureFromMixingRatio(double r, double p)
   	double pmb=p*0.01;
   	double c = log10(r*pmb/(622.+r));
 	
-	double tmr=exp10(0.0498646455*c + 2.4082965)-280.23475+
-	          38.9114*pow(2.,exp10(0.0915*c)-1.2035);
+    double tmr=::pow(10.,0.0498646455*c + 2.4082965)-280.23475+
+              38.9114*pow(2.,::pow(10.,0.0915*c)-1.2035);
 
 	return tmr+273.16;
 }
