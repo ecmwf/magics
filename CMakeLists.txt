@@ -2,7 +2,6 @@
 # cmake options:
 #
 #       -DCMAKE_BUILD_TYPE=Debug|RelWithDebInfo|Release|Production
-#       -DCMAKE_INSTALL_PREFIX=/path/to/install
 #
 #       -DCMAKE_MODULE_PATH=/path/to/ecbuild/cmake
 #
@@ -11,6 +10,16 @@
 #
 #       -DCMAKE_PREFIX_PATH=/path/to/jasper:/path/to/any/package/out/of/place
 #       -DBUILD_SHARED_LIBS=OFF
+
+# Dependencies:
+#   * cairo
+#   * boost
+#   * proj4
+#   * netcdf
+#   * grib_api
+#   * odb_api
+#   * swig / python
+#   ? ghostscript 
 
 cmake_minimum_required( VERSION 2.8.4 FATAL_ERROR )
 
