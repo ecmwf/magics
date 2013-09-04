@@ -30,6 +30,8 @@
 #ifndef AxisMethod_H
 #define AxisMethod_H
 
+#include <cmath>
+
 #include "magics.h"
 #include "MagTranslator.h"
 #include "Factory.h"
@@ -93,7 +95,7 @@ public:
 	virtual ~LogarithmicAxisMethod() {}
 	void     prepare(const Axis&, AxisItems&);
 	
-	double value(double val) const { return exp10(val); }
+    double value(double val) const { return ::pow(10.,val); }
 	
 
   
