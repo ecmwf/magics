@@ -82,7 +82,7 @@ void LogarithmicAxisMethod::prepare(const Axis& axis,  AxisItems& items)
 
 	        	double x;
 	        	if ( !reduce || ( reduce && i > -4)  ) {
-	        		x = (*f) * exp10(i);
+	        		x = (*f) * pow(10.,i);
 	        		if ( from <= x  && x <= to && x != 0 )
 	        			ticks.insert(x);
 	        		x = -x;
@@ -90,7 +90,7 @@ void LogarithmicAxisMethod::prepare(const Axis& axis,  AxisItems& items)
 	        			ticks.insert(x);
 	        	}
 	        	if ( !reduce || ( reduce && -i > -4   )) {
-	        		x = (*f) * exp10(-i);
+	        		x = (*f) * pow(10.,-i);
 	        		if ( from <= x  && x <= to && x != 0 )
 	        			ticks.insert(x);
 	        		x = -x;

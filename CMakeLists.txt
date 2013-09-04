@@ -12,20 +12,14 @@
 #       -DBUILD_SHARED_LIBS=OFF
 
 # TODO:
+#  * fix RPATH vs LD_LIBRARY_PATH issue for test in build dir
 #  * fix RESOURCES magics.py
+#  * cpack ecbuild/cmake macros into tar.gz
 #  * unit tests check that certain files are produced and not empty
-#  * python unit test
-#  * fortran unit test
 
-# Dependencies:
-#   * cairo
-#   * boost
-#   * proj4
-#   * netcdf
-#   * grib_api
+# Missing dependencies:
 #   * odb_api
-#   * swig / python
-#   ? ghostscript 
+#   * ghostscript ( is it really needed? -- to confirm )
 
 cmake_minimum_required( VERSION 2.8.4 FATAL_ERROR )
 
@@ -56,7 +50,6 @@ option( WITH_FORTRAN       "enable Fortran interface"  ON  )
 set( MAGICS_NAME          "Magics" )
 set( MAGICS_SITE          "ecmwf" )
 set( MAGICS_INSTALL_PATH  ${CMAKE_INSTALL_PREFIX} )
-
 
 ###############################################################################
 # projects
