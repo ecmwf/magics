@@ -116,14 +116,11 @@ using std::set;
 using std::auto_ptr;
 
 #include <exception>
+
 using std::exception;
 
 #include <cassert>
 #include <cmath>
-
-#if defined(MAGICS_AIX_XLC) || defined(MAGICS_WINDOWS_CYGWIN) || defined(MAGICS_MAC_GCC)
-inline double exp10(const double r) { return exp(r*2.302585093);} // exp(r*ln(10))
-#endif
 
 /*! \namespace magics
 
