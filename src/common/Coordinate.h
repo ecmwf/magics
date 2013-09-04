@@ -552,8 +552,8 @@ public:
     void getNewDefinition(const UserPoint& ll, const UserPoint& ur, map<string, string>& def) const
     {
     	def["y_axis_type"]= "logarithmic";
-    	def["y_min"]= tostring(exp10(ll.y_));
-    	def["y_max"]= tostring(exp10(ur.y_));
+        def["y_min"]= tostring(::pow(10.,ll.y_));
+        def["y_max"]= tostring(::pow(10.,ur.y_));
 		def["y_automatic"]= "off";
     }
     AxisAutomaticSetting automatic() { return automatic_; }
@@ -561,7 +561,7 @@ public:
     void setMin(double min) { min_ = min; }
     void setMax(double max) { max_ = max; }
     double operator()(double c ) {  return (c) ? log10(c) :0 ; }
-    double revert(double c ) { return exp10(c); }
+    double revert(double c ) { return ::pow(10.,c); }
     virtual YCoordinate* clone() const {
     	YLogarithmicCoordinate* y = new YLogarithmicCoordinate();
     	y->copy(*this);
