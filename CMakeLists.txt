@@ -65,10 +65,16 @@ set( MAGICS_INSTALL_PATH  ${CMAKE_INSTALL_PREFIX} )
 
 if( WITH_ODB)
   ecbuild_use_package( PROJECT odb_api  VERSION 0.9.28 )
+  if ( FOUND_ODB ) 
+		set ( MAGICS_ODB 1 )
+  endif()
 endif()
 
 if( WITH_GRIB)
   ecbuild_use_package( PROJECT grib_api VERSION 1.9.16 )
+   if ( FOUND_GRIB ) 
+		set ( MAGICS_GRIB 1 )
+  endif()
 endif()
 
 ecbuild_declare_project()
@@ -96,17 +102,27 @@ if( WITH_PYTHON )
     endif()
 endif()
 
-set( NETCDF_CXX 1)
-find_package( NetCDF )
-if (WITH_NETCDF AND NETCDF_FOUND )
-	list( APPEND MAGICS_TPLS  NetCDF )
-    set (MAGICS_NETCDF 1)
+if ( WITH_NETCDF )
+	set( NETCDF_CXX 1)
+	find_package( NetCDF )
+	if (NETCDF_FOUND )
+		list( APPEND MAGICS_TPLS  NetCDF )
+		set (MAGICS_NETCDF 1)
+	endif()
 endif()
 
-find_package( Cairo  )
-if( WITH_CAIRO AND Cairo_FOUND )
+if  ( WITH_CAIRO )
+	find_package( Cairo  )
+	if( Cairo_FOUND )
     	set( MAGICS_CAIRO 1 )
+    endif()
 endif()
+
+configure_file( magics-config.in  magics-config @ONLY )
+install ( FILES ${CMAKE_CURRENT_BINARY_DIR}/magics-config 
+			DESTINATION ${INSTALL_BIN_DIR} 
+			PERMISSIONS OWNER_READ GROUP_READ WORLD_READ 
+				        OWNER_EXECUTE GROUP_EXECUTE WORLD_EXECUTE)
 
 # find_package(Qt4 4.4.3 REQUIRED QtCore QtGui QtXml )
 # if( WITH_QT AND QT_FOUND )
@@ -154,6 +170,20 @@ add_subdirectory( python )
 # Test directory
 add_subdirectory( test )
 
+# Directories not need in the distribution tar ball!
+ecbuild_add_resources( TARGET src_MvObs DONT_PACK_DIRS src/MvObs)
+ecbuild_add_resources( TARGET src_libTable DONT_PACK_DIRS src/libTable)
+ecbuild_add_resources( TARGET docs DONT_PACK_DIRS docs)
+ecbuild_add_resources( TARGET regression 
+		DONT_PACK_DIRS tools/versioncmp 
+					tools/regression 
+					tools/xml 
+					tools/use_scripts
+					tools/versioncmp_folders)
+					
+# ecbuild/cmake is needed in the the distribution tar ball!
+
+					
 ############################################################################################
 # finalize
 
