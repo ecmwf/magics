@@ -32,8 +32,6 @@ if( MAGICS_QT )
 		  MgQ/MgQPolylineSetItem.cc MgQ/MgQScene.cc MgQ/MgQSceneItem.cc
 		  MgQ/MgQSceneCacheItem.cc MgQ/MgQStepMetaData.cc
           MgQ/MgQPattern.cc MgQ/MgQHistoItem.cc
-          QtDriverAttributes.cc
-          QtDriverAttributes.h
       )
 
 # MgQ/MgQPlotScene.moc.cpp
