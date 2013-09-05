@@ -76,12 +76,6 @@ GraphFlag.xml
 GraphPlotting.xml
 GraphShade.xml
 GraphShadeStyle.xml
-GribAddressByteMode.xml
-GribAddressMode.xml
-GribAddressRecordMode.xml
-GribDecoder.xml
-GribLoop.xml
-GribLoopStep.xml
 GridPlotting.xml
 GridShading.xml
 HatchGraphShadeStyle.xml
@@ -143,16 +137,6 @@ MetgramCurve.xml
 MetgramFlags.xml
 MetgramGraph.xml
 MvRootSceneNode.xml
-NetcdfDecoder.xml
-NetcdfGeoMatrixInterpretor.xml
-NetcdfGeoPolarMatrixInterpretor.xml
-NetcdfGeoVectorInterpretor.xml
-NetcdfGeopointsInterpretor.xml
-NetcdfInterpretor.xml
-NetcdfMatrixInterpretor.xml
-NetcdfOrcaInterpretor.xml
-NetcdfVectorInterpretor.xml
-NetcdfXYpointsInterpretor.xml
 NoBinningObject.xml
 NoBoundaries.xml
 NoCalmIndicator.xml
@@ -200,8 +184,6 @@ ObsThickness.xml
 ObsTimePlot.xml
 ObsVisibility.xml
 ObsWind.xml
-OdaGeoDecoder.xml
-OdaXYDecoder.xml
 OriginMarker.xml
 OutputHandler.xml
 PageID.xml
@@ -276,6 +258,35 @@ YHyperCoordinate.xml
 YLogarithmicCoordinate.xml
 YRegularCoordinate.xml
 )
+
+if( MAGICS_GRIB )
+	list( APPEND _params_xmls GribAddressByteMode.xml
+		GribAddressMode.xml
+		GribAddressRecordMode.xml
+		GribLoop.xml
+		GribLoopStep.xml 
+		GribDecoder.xml)		
+endif()
+
+if( MAGICS_NETCDF )
+	list( APPEND _params_xmls 
+		NetcdfDecoder.xml
+		NetcdfGeoMatrixInterpretor.xml
+		NetcdfGeoPolarMatrixInterpretor.xml
+		NetcdfGeoVectorInterpretor.xml
+		NetcdfGeopointsInterpretor.xml
+		NetcdfInterpretor.xml
+		NetcdfMatrixInterpretor.xml
+		NetcdfOrcaInterpretor.xml
+		NetcdfVectorInterpretor.xml
+		NetcdfXYpointsInterpretor.xml )
+endif()
+
+if ( MAGICS_ODB ) 
+	list ( APPEND _params_xmls 
+		OdaGeoDecoder.xml
+		OdaXYDecoder.xml )
+endif()
 
 if( MAGICS_CAIRO )
     list( APPEND _params_xmls CairoDriver.xml )

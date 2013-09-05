@@ -57,7 +57,7 @@ public:
     }
 
 protected :
-	virtual void print(ostream&) const {}
+	virtual void print(ostream&) const;
 
 private:
 	//! Copy constructor - No copy allowed

@@ -57,19 +57,23 @@ set( MAGICS_INSTALL_PATH  ${CMAKE_INSTALL_PREFIX} )
 # ecbuild_use_package( PROJECT eckit VERSION 0.3 REQUIRED )
 
 if( WITH_ODB)
-  ecbuild_use_package( PROJECT odb_api  VERSION 0.9.28 )
+  ecbuild_use_package( PROJECT ODB  VERSION 0.9.28 )
+  debug_var ( FOUND_ODB )
   if ( FOUND_ODB ) 
 		set ( MAGICS_ODB 1 )
   endif()
 endif()
+debug_var( MAGICS_ODB )
 
 if( WITH_GRIB)
   ecbuild_use_package( PROJECT grib_api VERSION 1.9.16 )
-   if ( FOUND_GRIB ) 
+  debug_var( grib_api_FOUND )
+   if ( grib_api_FOUND ) 
 		set ( MAGICS_GRIB 1 )
   endif()
 endif()
-
+debug_var( MAGICS_GRIB )
+ 
 ecbuild_declare_project()
 
 ###############################################################################

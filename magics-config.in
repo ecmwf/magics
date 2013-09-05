@@ -233,7 +233,7 @@ if test "$echo_cxxflags" = "yes"; then
 fi
 
 if test "$echo_libs" = "yes"; then
-if test -f ${libdir}/libMagPlus.${SHLIB_EXT} ; then
+if test -f ${libdir}/libMagPlus${SHLIB_EXT} ; then
 		my_libs="-L${libdir} -lMagPlus"
 	else
 		my_libs="${libdir}/libMagPlus.a"
@@ -265,7 +265,7 @@ if test "$echo_static" = "yes"; then
 fi
 
 if test "$echo_shared" = "yes"; then
-	if test -f ${libdir}/libMagPlus.${SHLIB_EXT} ; then
+	if test -f ${libdir}/libMagPlus${SHLIB_EXT} ; then
 	  shared="${precision} -L${libdir} -lMagPlus @LDFLAGS@ @MAGICS_3RDPARTY_LIBS@ $CPPLIBS"
 	  echo ${shared}
 	else
