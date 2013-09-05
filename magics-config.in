@@ -1,0 +1,308 @@
+#!/bin/sh
+
+prefix=@CMAKE_INSTALL_PREFIX@
+exec_prefix=@INSTALL_BIN_DIR@
+libdir=@INSTALL_LIB_DIR@
+includedir=@INSTALL_INCLUDE_DIR@
+F77="@CMAKE_Fortran_COMPILER@"
+CC="@CMAKE_C_COMPILER@"
+CXX="@CMAKE_CXX_COMPILER@"
+CXXFLAGS="@CMAKE_CXX_FLAGS@" 
+AXX="@AXX@"
+SHLIB_EXT="@CMAKE_SHARED_LIBRARY_SUFFIX@"
+FFLAGS="@CMAKE_Fortran_FLAGS@"
+CPPLIBS="@CPPLIBS@"
+py_dir="@PYTHON_SITE_PACKAGES@"
+suffix=""
+
+#
+#  add --print-config
+#
+#
+# test 64bit C/C++ & intel compiler
+#
+#  configure.ac  -  deprecated string option for gcc !!!!
+#
+
+
+
+usage()
+{
+	cat <<EOF
+Usage: magics-config [OPTION] ...
+
+Uses by default version @MAGICS_PACKAGE_VERSION@@MAGICS_PACKAGE_VERSION_ADDENDUM@ of Magics.
+
+Generic options
+  --version     output Magics version information.
+  --help        display this help and exit.
+  --print-setup print how the environment can be set up
+
+Compilation support options
+  --cxxflags    print pre-processor and compiler flags for C/C++
+  --libs        print linking flags for C++
+  --clibs       print linking flags for C
+  --libdir      print directory where libraries are installed
+  --f90static   print library linking information (static)
+  --f90shared   print library linking information (shared)
+
+  --compile     compile simple Magics Fortran programs (default single precision!)  
+                  Example: magics-config --compile=wind.f
+  --compileC    compile simple Magics C programs  
+                  Example: magics-config --compileC=wind.c
+  --suffix      set suffix of Fortran or C code files
+
+  --double      include compiler option for fortran double precision 
+                  (default single - only for interface - internally only double is used)
+  --64bit       include fortran option for 64 bit
+
+C/C++ flags use shared libraries if possible, otherwise static libraries are used. '--double' has 
+NO effect on C/C++ programs.
+
+Install directories Magics was configured to
+  --prefix[=DIR]
+
+EOF
+	exit $1
+}
+
+if test -h ${prefix}; then
+	name=$(readlink -q "${prefix}")
+	if test -d ${name}; then
+		prefix=name
+	else
+		prefix=$(dirname "${prefix}")
+		prefix="${prefix}/${name}"
+	fi
+fi
+
+if test $# -eq 0; then
+	usage 1 1>&2
+fi
+
+while test $# -gt 0; do
+	case "$1" in
+		-*=*) optarg=`echo "$1" | sed 's/[-_a-zA-Z0-9]*=//'` ;;
+		*) ;;
+	esac
+
+	case $1 in
+	--prefix=*)
+		prefix=$optarg
+		;;
+	--prefix)
+		echo_prefix=yes
+		;;
+	--version)
+		echo @MAGICS_PACKAGE_VERSION@
+		;;
+	--with-cairo)
+		echo "@cairo@"
+		;;
+	--with-python)
+		echo "@python@"
+		;;
+	--with-odb)
+		echo "@odb@"
+		;;
+	--with-netcdf)
+		echo "@netcdf@"
+		;;
+	--with-metview)
+		echo "@metview@"
+		;;
+	--with-qt)
+		echo "@qt@"
+		;;
+	--with-gd)
+		echo "@raster@"
+		;;
+	--with-bufr)
+		echo "@bufr@"
+		;;
+	--with-spot)
+		echo "@spot@"
+		;;
+	--help)
+		usage 0
+		;;
+	--print-setup)
+		echo ""
+		echo " For sh, ksh, dash and bash:"
+		echo ""
+		echo "   export MAGPLUS_HOME=${prefix}"
+		echo "   export PATH=${prefix}/bin:\$PATH"
+		echo "   export LD_LIBRARY_PATH=${libdir}:\$LD_LIBRARY_PATH"
+		echo "   export PYTHONPATH=\"${py_dir}:\${PYTHONPATH:-/usr/lib}\""
+		echo ""
+		echo " You might want add these lines to your login scripts (.profile, .kshrc or .bashrc)."
+		echo ""
+		;;
+	--cxxflags)
+		echo_cxxflags=yes
+		;;
+	--libs)
+		echo_libs=yes
+		;;
+	--libdir)
+		echo "${libdir}"
+		;;
+	--clibs)
+		echo_libs=yes
+		echo_clibs=yes
+		;;
+	--f90static)
+		echo_static=yes
+		echo_shared=no
+		;;
+	--f90shared)
+		echo_shared=yes
+		echo_static=no
+		;;
+	--suffix=*)
+		suffix=$optarg
+		;;
+	--compile=*)
+		compile=yes
+		f77_file=$optarg
+		;;
+	--compileC=*)
+		compileC=yes
+		c_file=$optarg
+		;;
+	--double)
+		double=yes
+		case "${F77}" in
+			gfortran )
+				FXX="-fdefault-real-8 ${FXX}"
+				;;
+			g77 )
+				echo ""#"NO DOUBLE FLAG in g77"
+				;;
+			# Intel compiler
+			# Portland pgf90
+			# IBM fortran compiler
+			ifc | ifort | pgf90 | pgf77 | xlf | xlf90 | xlf_r | xlf90_r )
+				FXX="-r8 ${FXX}"
+				;;
+		esac
+		;;
+	--odb)
+		odb=no
+		;;
+	--64bit)
+		amd64=yes
+		case "${F77}" in
+			ifc | ifort | gfortran )
+				FXX="-m64 ${FXX}"
+				;;
+			g77 )
+				echo ""#"NO DOUBLE FLAG in g77"
+				;;
+			# Portland pgf90
+			pgf90 | pgf77 )
+				FXX="-tp amd64 ${FXX}"
+				;;
+		esac
+
+		case "${CC}" in
+			icc | icpc | gcc | g++ )
+				CXX="-m64 ${CXX}"
+				;;
+			pgc | pgcpp )
+				CXX="-tp amd64 ${CXX}"
+				;;
+		esac
+		;; 
+	*)
+		usage 1 1>&2
+		;;
+	esac
+	shift
+done
+
+if test "$echo_prefix" = "yes"; then
+	echo $prefix
+fi
+
+if test "$echo_cxxflags" = "yes"; then
+	if test "$includedir" != "/usr/include" ; then
+		my_cxxflags="-I${includedir}"
+	fi
+	echo "${AXX} ${my_cxxflags} @MAGICS_3RDPARTY_INCLUDE@"
+fi
+
+if test "$echo_libs" = "yes"; then
+if test -f ${libdir}/libMagPlus.${SHLIB_EXT} ; then
+		my_libs="-L${libdir} -lMagPlus"
+	else
+		my_libs="${libdir}/libMagPlus.a"
+	fi
+
+	my_libs="${my_libs} @LDFLAGS@ @MAGICS_3RDPARTY_LIBS@ @FLIBS@"
+
+	if test "$echo_clibs" = "yes"; then
+		my_libs="${my_libs} $CPPLIBS"
+	fi
+
+	echo "${my_libs}"
+fi
+
+if test "$double" = "yes"; then
+	precision="${FXX} ${libdir}/libMagPlusDouble.a"
+else
+	precision="${FXX} ${libdir}/libMagPlusSingle.a"
+fi
+
+
+if test "$echo_static" = "yes"; then
+	if test -f ${libdir}/libMagPlus.a ; then
+	  static="${precision} ${libdir}/libMagPlus.a -L${libdir} @LDFLAGS@ @MAGICS_3RDPARTY_LIBS@ $CPPLIBS"
+	  echo ${static}
+	else
+	  echo "magics-config: NO STATIC LIBRARY available"
+	fi
+fi
+
+if test "$echo_shared" = "yes"; then
+	if test -f ${libdir}/libMagPlus.${SHLIB_EXT} ; then
+	  shared="${precision} -L${libdir} -lMagPlus @LDFLAGS@ @MAGICS_3RDPARTY_LIBS@ $CPPLIBS"
+	  echo ${shared}
+	else
+	  echo "magics-config: NO SHARED LIBRARY"
+	fi
+fi
+
+if test "$echo_flibs" = "yes"; then
+	echo @FLIBS@
+fi
+
+if test "$compile" = "yes"; then
+	out=""
+	if test "${suffix}x" = "x"; then
+	   suffix="f"
+	fi
+
+	name="`basename $f77_file .${suffix}`"
+
+	if test ${name} != ${f77_file} ; then
+	      out="-o $name "              ### avoid overriding source file
+	fi
+	echo "$F77 ${out}$f77_file ${FFLAGS} ${precision} -L${libdir} -lMagPlus @LDFLAGS@ @MAGICS_3RDPARTY_LIBS@ $CPPLIBS"
+	$F77 ${out}$f77_file ${FFLAGS} ${precision} -L${libdir} -Wl,-rpath,${libdir} -lMagPlus @LDFLAGS@ @MAGICS_3RDPARTY_LIBS@ $CPPLIBS
+fi
+
+if test "$compileC" = "yes"; then
+	out=""
+	if test "${suffix}x" = "x"; then
+	   suffix="c"
+	fi
+
+	name="`basename $c_file .${suffix}`"
+
+	if test ${name} != ${c_file} ; then
+	      out="-o $name "              ### avoid overriding source file
+	fi
+	echo "$CC ${out}$c_file ${CFLAGS} -L${libdir} -lMagPlus @LDFLAGS@ @MAGICS_3RDPARTY_LIBS@ $CPPLIBS @FLIBS@"
+	$CC ${out}$c_file ${CFLAGS} -I${includedir} -L${libdir} -Wl,-rpath,${libdir} -lMagPlus @LDFLAGS@ @MAGICS_3RDPARTY_LIBS@ $CPPLIBS @FLIBS@
+fi
