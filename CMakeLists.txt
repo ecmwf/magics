@@ -38,7 +38,7 @@ endif()
 
 option( WITH_QT            "wether to use Qt"          OFF )
 option( WITH_CAIRO         "wether to use Cairo"       ON  )
-option( MAGICS_ALLHEADERS  "install all headers"       OFF )
+option( WITH_METVIEW  "install all headers"       OFF )
 option( WITH_GRIB          "enable grib"               ON  )
 option( WITH_NETCDF        "enable netcdf"             ON  )
 option( WITH_BUFR          "enable bufr"               OFF )
@@ -57,18 +57,23 @@ set( MAGICS_INSTALL_PATH  ${CMAKE_INSTALL_PREFIX} )
 # ecbuild_use_package( PROJECT eckit VERSION 0.3 REQUIRED )
 
 if( WITH_ODB)
-  ecbuild_use_package( PROJECT ODB  VERSION 0.9.28 )
-  debug_var ( FOUND_ODB )
-  if ( FOUND_ODB ) 
+  ecbuild_use_package( PROJECT odb_api  VERSION 0.9.28 )
+  debug_var ( ODB_API_FOUND )
+  if ( ODB_API_FOUND ) 
 		set ( MAGICS_ODB 1 )
   endif()
 endif()
 debug_var( MAGICS_ODB )
 
+
+if ( WITH_METVIEW ) 
+	set( WITH_QT 1 )
+endif()
+
 if( WITH_GRIB)
   ecbuild_use_package( PROJECT grib_api VERSION 1.9.16 )
-  debug_var( grib_api_FOUND )
-   if ( grib_api_FOUND ) 
+  debug_var( GRIB_API_FOUND )
+   if ( GRIB_API_FOUND ) 
 		set ( MAGICS_GRIB 1 )
   endif()
 endif()
@@ -121,16 +126,18 @@ install ( FILES ${CMAKE_CURRENT_BINARY_DIR}/magics-config
 			PERMISSIONS OWNER_READ GROUP_READ WORLD_READ 
 				        OWNER_EXECUTE GROUP_EXECUTE WORLD_EXECUTE)
 
-# find_package(Qt4 4.4.3 REQUIRED QtCore QtGui QtXml )
-# if( WITH_QT AND QT_FOUND )
-# include( ${QT_USE_FILE} )
-#    set( MAGICS_QT 1 )
-# endif()
+if ( WITH_QT )
+	find_package(Qt4 4.4.3 REQUIRED QtCore QtGui QtXml )
+	if( QT_FOUND )
+		include( ${QT_USE_FILE} )
+		set( MAGICS_QT 1)
+	endif()
+endif()
 
 ###############################################################################
 # contents
 
-set( MAGICS_TPLS            grib_api odb_api NetCDF Cairo Proj4 )
+set( MAGICS_TPLS            grib_api odb_api NetCDF Cairo Proj4)
 set( MAGICS_INCLUDE_DIRS 
 	    ${CMAKE_CURRENT_SOURCE_DIR}/src 
         ${CMAKE_BINARY_SOURCE_DIR}/src 
@@ -145,6 +152,13 @@ foreach( _tpl ${MAGICS_TPLS} )
     list( APPEND MAGICS_EXTRA_LIBRARIES     ${${TPL}_LIBRARIES} )
 endforeach()
 
+if ( MAGICS_QT )
+	list( APPEND MAGICS_EXTRA_INCLUDE_DIRS  ${QT_INCLUDE_DIR} )
+	list( APPEND MAGICS_EXTRA_LIBRARIES     ${QT_LIBRARIES} )
+endif()
+
+
+debug_var( MAGICS_EXTRA_INCLUDE_DIRS )
 list( APPEND MAGICS_EXTRA_LIBRARIES     ${CMAKE_THREAD_LIBS_INIT} )
 
 # set_directory_properties( PROPERTIES COMPILE_DEFINITIONS ${ECKIT_DEFINITIONS} )
@@ -163,6 +177,9 @@ add_subdirectory( share )
 
 # python interface 
 add_subdirectory( python )
+
+# apps directory
+add_subdirectory( apps )
 
 # Test directory
 add_subdirectory( test )

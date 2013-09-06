@@ -36,12 +36,12 @@
 #include <PaperPoint.h>
 #include "Matrix.h"
 
-#if MAGICS_CAIRO
+#ifdef MAGICS_CAIRO
  #include "cairo.h"
  typedef cairo_t* CairoPtr;
 #endif
 
-#if MAGICS_QT
+#ifdef MAGICS_QT
  #include "Qt/qwidget.h"
  #include "Qt/qgraphicsscene.h"	
  typedef QWidget* QWidgetPtr;
@@ -193,7 +193,7 @@ public:
 	
 
 
-#if MAGICS_QT
+#ifdef MAGICS_QT
 	virtual void set(const QWidgetPtr&) { throw MistmatchType(name_, "qt_widget", type()); }
 	virtual void get(QWidgetPtr&) const { throw MistmatchType(name_, "qt_widget", type()); }
 	string getType(QWidgetPtr) const { return "qt_widget"; }
@@ -203,7 +203,7 @@ public:
 	string getType(QGraphicsScenePtr) const { return "qt_scene"; }
 #endif
 
-#if MAGICS_CAIRO
+#ifdef MAGICS_CAIRO
 	virtual void set(const CairoPtr&) { throw MistmatchType(name_, "cairo_context", type()); }
 	virtual void get(CairoPtr&) const { throw MistmatchType(name_, "cairo_context", type()); }
 	string getType(CairoPtr) const { return "cairo_context"; }
