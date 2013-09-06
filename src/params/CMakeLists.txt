@@ -1,11 +1,8 @@
 list( APPEND _params_xmls
 Akima474Method.xml
 Akima760Method.xml
-Akima761Method.xml
 ArrowPlotting.xml
 AutomaticContourMethod.xml
-AutomaticLegendBox.xml
-AutomaticPlotManager.xml
 Axis.xml
 AxisMethod.xml
 Bar.xml

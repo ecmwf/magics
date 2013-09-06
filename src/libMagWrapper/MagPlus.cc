@@ -11,7 +11,7 @@
 #include <VisualAction.h>
 #include "MetaDataWrapper.h"
 
-#if MAGICS_GRIB
+#ifdef MAGICS_GRIB
 #include <GribDecoderWrapper.h>
 #include <GribLoopWrapper.h>
 #endif
@@ -20,12 +20,12 @@
 #include <NetcdfDecoderWrapper.h>
 #include <BinningObjectWrapper.h>
 
-#if MAGICS_ODB
+#ifdef MAGICS_ODB
 #include <OdaGeoDecoderWrapper.h>
 #include <OdaXYDecoderWrapper.h>
 #endif
 
-#if MAGICS_BUFR
+#ifdef MAGICS_BUFR
 #include <ObsDecoderWrapper.h>
 #include <ObsPlottingWrapper.h>
 #endif
@@ -59,7 +59,7 @@
 #include <SVGDriverWrapper.h>
 #include <KMLDriverWrapper.h>
 
-#if MAGICS_QT
+#ifdef MAGICS_QT
 #include <QtDriver.h>
 #endif
 
@@ -126,7 +126,7 @@ map<string,  MagPlus::DataCreator > MagPlus::dataCreators_;
 
 MagPlus::MagPlus() : root_(0), superpage_(-1), geographical_(true), mode_(interactif), currentMulti_(0)
 {
-#if MAGICS_QT
+#ifdef MAGICS_QT
 	qtDriver_ = 0;
 #endif
 	if ( sceneUpdators_.empty()) {
@@ -190,7 +190,7 @@ MagPlus::MagPlus() : root_(0), superpage_(-1), geographical_(true), mode_(intera
         sceneCreators_["cartesian"] = &MagPlus::cartesianGrid;
         sceneCreators_["tephigram"] = &MagPlus::tephiGrid;
         sceneCreators_["taylor"] = &MagPlus::taylorGrid;
-#if MAGICS_ODB	
+#ifdef MAGICS_ODB	
 	sceneCreators_["ODB_GEO_POINTS"] = &MagPlus::geoodb;
 	sceneCreators_["ODB_GEO_VECTORS"] = &MagPlus::geoodb;
 	sceneCreators_["ODB_XY_POINTS"] = &MagPlus::xyodb;
@@ -221,7 +221,7 @@ MagPlus::MagPlus() : root_(0), superpage_(-1), geographical_(true), mode_(intera
     
     if ( driverCreators_.empty())
     {
-#if MAGICS_QT
+#ifdef MAGICS_QT
 	driverCreators_["QTOUTPUT"] = &MagPlus::qtdriver;
 #endif
  	driverCreators_["PSOUTPUT"] = &MagPlus::psdriver;
@@ -315,7 +315,7 @@ bool MagPlus::pdfdriver(magics::MagRequest& in)
        return false;
 }
 
-#if MAGICS_QT
+#ifdef MAGICS_QT
 void MagPlus::setQtScene(QGraphicsScene *scene)
 {
 	ParameterManager::set("output_qt_scene", scene);;
@@ -1094,7 +1094,7 @@ bool MagPlus::rasterloop(magics::MagRequest& in)
 }
 
 
-#if MAGICS_ODB	
+#ifdef MAGICS_ODB	
 bool MagPlus::geoodb(magics::MagRequest& in)
 {
 	MagLog::dev()<< "add geo odb" << endl;
