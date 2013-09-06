@@ -1,8 +1,6 @@
 if( WITH_PYTHON )
 
-  debug_var( PYTHON_SITE_PACKAGES )
-
-  set(PYTHON_SITE "lib/python${PYTHON_VERSION}/site-packages" )
+  set(PYTHON_SITE "lib/python${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}/site-packages" )
   set(PYTHON_DEST "${PYTHON_SITE}/Magics" )
 
   configure_file( Magics.i.in  Magics.i )
