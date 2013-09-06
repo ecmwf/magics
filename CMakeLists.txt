@@ -58,15 +58,15 @@ set( MAGICS_INSTALL_PATH  ${CMAKE_INSTALL_PREFIX} )
 
 if( WITH_ODB)
   ecbuild_use_package( PROJECT odb_api  VERSION 0.9.28 )
-  debug_var ( ODB_API_FOUND )
-  if ( ODB_API_FOUND ) 
+  debug_var( ODB_API_FOUND )
+  if( ODB_API_FOUND )
 		set ( MAGICS_ODB 1 )
   endif()
 endif()
 debug_var( MAGICS_ODB )
 
 
-if ( WITH_METVIEW ) 
+if( WITH_METVIEW )
 	set( WITH_QT 1 )
 endif()
 
@@ -106,6 +106,7 @@ endif()
 
 if( WITH_NETCDF )
     set( PREFER_NETCDF4 1)
+    set( NETCDF_CXX 1 )
     find_package( NetCDF )
     if(NETCDF_FOUND )
 		list( APPEND MAGICS_TPLS  NetCDF )
@@ -157,8 +158,6 @@ if ( MAGICS_QT )
 	list( APPEND MAGICS_EXTRA_LIBRARIES     ${QT_LIBRARIES} )
 endif()
 
-
-debug_var( MAGICS_EXTRA_INCLUDE_DIRS )
 list( APPEND MAGICS_EXTRA_LIBRARIES     ${CMAKE_THREAD_LIBS_INIT} )
 
 # set_directory_properties( PROPERTIES COMPILE_DEFINITIONS ${ECKIT_DEFINITIONS} )
@@ -179,7 +178,7 @@ add_subdirectory( share )
 add_subdirectory( python )
 
 # apps directory
-add_subdirectory( apps )
+# add_subdirectory( apps )
 
 # Test directory
 add_subdirectory( test )
