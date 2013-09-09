@@ -79,7 +79,7 @@ IsoShading.xml
 KMLDriver.xml
 LabelPlotting.xml
 
-
+ObsPlotting.xml
 
 LegendMethod.xml
 LegendVisitor.xml
@@ -182,7 +182,7 @@ ValuePlotMethod.xml
 Wind.xml
 WindMode.xml
 WindPlotting.xml
-
+ObsDecoder.xml
 XCoordinate.xml
 XDateCoordinate.xml
 XHyperCoordinate.xml
@@ -238,7 +238,7 @@ MetgramCurve.xml
 MetgramFlags.xml
 MetgramGraph.xml
 ObsCloud.xml
-ObsDecoder.xml
+
 ObsDemoItem2.xml
 ObsDewPoint.xml
 ObsHeight.xml
@@ -247,7 +247,7 @@ ObsItem.xml
 ObsTable.xml
 ObsJSon.xml
 ObsPastWeather.xml
-ObsPlotting.xml
+
 ObsPresentWeather.xml
 ObsPressure.xml
 ObsPressureLevel.xml

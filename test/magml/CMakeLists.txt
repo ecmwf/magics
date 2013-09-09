@@ -1,9 +1,5 @@
 configure_file( magics.magml magics.magml )
 
-
-
-
-
 ecbuild_add_test ( TARGET magics_json 
                    TYPE SCRIPT
                    COMMAND ${CMAKE_BINARY_DIR}/bin/magmlx

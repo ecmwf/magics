@@ -1,8 +1,19 @@
 
 
+configure_file( magics-script.in  magjson @ONLY )
+configure_file( magics-script.in  magml @ONLY )
 
+install ( FILES ${CMAKE_CURRENT_BINARY_DIR}/magjson 
+			DESTINATION ${INSTALL_BIN_DIR} 
+			PERMISSIONS OWNER_READ GROUP_READ WORLD_READ 
+				        OWNER_EXECUTE GROUP_EXECUTE WORLD_EXECUTE)
 
-ecbuild_add_executable( TARGET    magjson
+install ( FILES ${CMAKE_CURRENT_BINARY_DIR}/magml 
+			DESTINATION ${INSTALL_BIN_DIR} 
+			PERMISSIONS OWNER_READ GROUP_READ WORLD_READ 
+				        OWNER_EXECUTE GROUP_EXECUTE WORLD_EXECUTE)
+
+ecbuild_add_executable( TARGET    magjsonx
      
                      SOURCES
                         json.cc

@@ -48,6 +48,20 @@ XmlMagics.cc
 XmlMagics.h
 )
 
+if ( WITH_METVIEW )
+	list (APPEND metview_include 
+			basic/MagicsObserver.h 
+			basic/MagicsEvent.h
+			basic/RootSceneNode.h
+			basic/BasicSceneObject.h
+			basic/BasicGraphicsObject.h
+			basic/DisplayManager.h
+			basic/Layer.h
+			basic/SceneVisitor.h 
+			)
+	set( metview_include ${metview_include} PARENT_SCOPE )
+endif()
+
 foreach( file ${_basic_srcs} )
   list( APPEND basic_srcs basic/${file} )
 endforeach()

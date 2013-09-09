@@ -48,6 +48,23 @@ if( MAGICS_CAIRO )
   list( APPEND _drivers_srcs CairoDriver.h CairoDriverRaster.cc CairoDriver.cc )
 endif()
 
+if ( WITH_METVIEW )
+	list (APPEND metview_include 
+				drivers/DriverManager.h
+				drivers/BaseDriver.h 
+				${CMAKE_CURRENT_BINARY_DIR}/../params/BaseDriverAttributes.h
+				drivers/MgQ/MgQPlotScene.h
+				drivers/MgQ/MgQScene.h
+				drivers/QtDriver.h 
+				drivers/MgQ/MgQLayoutItem.h
+				drivers/MgQ/MgQ.h
+				drivers/MgQ/MgQSceneItem.h
+				drivers/MgQ/MgQLayerItem.h
+				drivers/MgQ/MgQRootItem.h
+				drivers/MgQ/MgQStepMetaData.h
+		)
+	set( metview_include ${metview_include} PARENT_SCOPE )
+endif()
 # if( MAGICS_MING )
 #   list( APPEND mgq_srcs MingDriver.h  MingDriver.cc )
 # endif()

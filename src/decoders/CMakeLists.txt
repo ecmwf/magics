@@ -35,8 +35,6 @@ SimplePolylineInput.h
 SymbolInput.h
 TableDecoder.cc
 TableDecoder.h
-TableReader.cc
-TableReader.h
 ThinningMethod.cc
 ThinningMethod.h
 Time.cc
@@ -129,3 +127,12 @@ decoders/EpsgramDecoder.h
 endif()
 
 set( decoders_srcs ${decoders_srcs} PARENT_SCOPE )
+
+if ( WITH_METVIEW )
+	list (APPEND metview_include 
+			decoders/DateTime.h 
+			
+			)
+	set( metview_include ${metview_include} PARENT_SCOPE )
+endif()
+

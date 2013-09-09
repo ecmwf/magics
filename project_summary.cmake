@@ -22,6 +22,10 @@ if(ODB_API_FOUND)
   message( STATUS "         libs     : [${ODB_API_LIBRARIES}]" )
 endif()
 
+if(EMOS_FOUND)
+  message( STATUS " EMOS   libs      : [${EMOS_LIBRARIES}]" )
+endif()
+
 if(NETCDF_FOUND)
   message( STATUS " Netcdf include   : [${NETCDF_INCLUDE_DIRS}]" )
   message( STATUS "         libs     : [${NETCDF_LIBRARIES}]" )

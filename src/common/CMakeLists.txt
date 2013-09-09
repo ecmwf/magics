@@ -100,4 +100,25 @@ endforeach()
 set( common_srcs ${common_srcs} PARENT_SCOPE )
 set( common_templates ${common_templates} PARENT_SCOPE )
 
-    
+if ( WITH_METVIEW )
+	list (APPEND metview_include 
+				common/MagLog.h 
+				common/MagTranslator.h 
+				common/Factory.h 
+				common/Factory.cc 
+				common/Colour.h 
+				common/MagException.h 
+				common/ParameterManager.h
+				common/PaperPoint.h 
+				common/Matrix.h
+				common/BaseParameter.h
+				common/OutputHandler.h
+				common/OutputFactory.h
+				common/Layout.h
+				common/XmlNode.h 
+				common/Transformation.h
+				common/UserPoint.h
+				common/CustomisedPoint.h
+				)
+	set( metview_include ${metview_include} PARENT_SCOPE )
+endif()

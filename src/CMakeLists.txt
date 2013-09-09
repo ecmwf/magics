@@ -1,7 +1,7 @@
 ###############################################################################
 
 configure_file( magics_config.h.in  magics_config.h  )
-
+install ( FILES ${CMAKE_CURRENT_BINARY_DIR}/magics_config.h  DESTINATION ${INSTALL_INCLUDE_DIR})
 ###############################################################################
 
 add_subdirectory( params )
@@ -71,6 +71,7 @@ add_subdirectory( visualisers )
 add_subdirectory( drivers )
 add_subdirectory( decoders )
 add_subdirectory( terralib )
+add_subdirectory( eckit_readers )
 
 if ( WITH_METVIEW ) 
 	add_subdirectory( libMagWrapper )
@@ -140,4 +141,30 @@ if ( WITH_METVIEW )
                         ${MAGICS_EXTRA_LIBRARIES}
                     TYPE STATIC		
                     )
+   debug_var (metview_include)
+   list ( APPEND attributes_include 
+				OutputHandlerAttributes.h 
+				FortranRootSceneNodeAttributes.h  
+				XmlRootNodeAttributes.h 
+				WrepRootNodeAttributes.h
+				QtDriverAttributes.h
+				)
+   install ( FILES magics.h  DESTINATION ${INSTALL_INCLUDE_DIR})
+   install ( FILES terralib/kernel/TeProjection.h 
+				   terralib/kernel/TeCoord2D.h 
+				   terralib/kernel/TeDefines.h 
+				   terralib/kernel/TePrecision.h 
+				   terralib/kernel/TeSingleton.h 
+				   terralib/kernel/TeDatum.h 
+				   terralib/kernel/TeUtils.h
+				   terralib/kernel/TeProgress.h
+				   terralib/kernel/TeProgressBase.h
+				   
+				   
+				   DESTINATION ${INSTALL_INCLUDE_DIR})
+   install ( FILES VectorOfPointers.h  DESTINATION ${INSTALL_INCLUDE_DIR})
+   foreach ( file ${attributes_include} ) 
+	install ( FILES ${CMAKE_CURRENT_BINARY_DIR}/params/${file}  DESTINATION ${INSTALL_INCLUDE_DIR})
+	endforeach()
+   install ( FILES ${metview_include} DESTINATION ${INSTALL_INCLUDE_DIR})
 endif()
