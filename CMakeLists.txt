@@ -16,6 +16,7 @@
 #  * fix RESOURCES magics.py
 #  * cpack ecbuild/cmake macros into tar.gz
 #  * unit tests check that certain files are produced and not empty
+#  * pkg-config needed for metview
 
 # Missing dependencies:
 #   * odb_api
@@ -79,7 +80,13 @@ if( WITH_GRIB)
 		set ( MAGICS_GRIB 1 )
   endif()
 endif()
-debug_var( MAGICS_GRIB )
+
+if( WITH_BUFR )
+  find_package( EMOS  )
+   if ( EMOS_FOUND ) 
+		set ( MAGICS_BUFR 1 )
+  endif()
+endif()
  
 ecbuild_declare_project()
 
@@ -140,7 +147,7 @@ endif()
 ###############################################################################
 # contents
 
-set( MAGICS_TPLS            grib_api odb_api NetCDF Cairo Proj4)
+set( MAGICS_TPLS            grib_api odb_api NetCDF Cairo Proj4 EMOS)
 set( MAGICS_INCLUDE_DIRS 
 	    ${CMAKE_CURRENT_SOURCE_DIR}/src 
         ${CMAKE_BINARY_SOURCE_DIR}/src 
@@ -153,11 +160,16 @@ set( MAGICS_INCLUDE_DIRS
         ${CMAKE_CURRENT_SOURCE_DIR}/src/visualisers
         ${CMAKE_CURRENT_SOURCE_DIR}/src/drivers
         ${CMAKE_CURRENT_SOURCE_DIR}/src/drivers/MgQ
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/eckit_readers
         ${CMAKE_CURRENT_SOURCE_DIR}/src/decoders
         ${CMAKE_CURRENT_SOURCE_DIR}/src/terralib
         ${CMAKE_CURRENT_SOURCE_DIR}/src/terralib/kernel
         ${CMAKE_CURRENT_SOURCE_DIR}/src/terralib/utils
 	    ${Boost_INCLUDE_DIRS} )
+	    
+if ( MAGICS_ODB ) 
+	list ( APPEND MAGICS_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/src/oda)
+endif()
 	    
 set( MAGICS_LIBRARIES    MagPlus )
 
