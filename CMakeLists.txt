@@ -14,6 +14,7 @@
 # TODO:
 #  * fix RPATH vs LD_LIBRARY_PATH issue for test in build dir
 #  * fix RESOURCES magics.py
+#  * fix python module generation Magics.py to __init__.py
 #  * cpack ecbuild/cmake macros into tar.gz
 #  * unit tests check that certain files are produced and not empty
 
@@ -193,7 +194,7 @@ add_subdirectory( share )
 add_subdirectory( python )
 
 # apps directory
-# add_subdirectory( apps )
+add_subdirectory( apps )
 
 # Test directory
 add_subdirectory( test )
