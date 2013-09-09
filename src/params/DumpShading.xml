@@ -1,2 +1,4 @@
 <magics>
-<class action="pcont" inherits="CellShading" directory="visualisers" include="CellShading.h" name="DumpShading"/></magics>
+<class inherits="ShadingTechnique" xmltag="dump_shading" name="DumpShading" directory="visualisers" prefix="contour" action="pcont" include='CellShading.h'>
+	
+</class></magics>

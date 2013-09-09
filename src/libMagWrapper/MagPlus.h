@@ -17,13 +17,13 @@
 
 
 
-#if MAGICS_QT
+#ifdef MAGICS_QT
 class QGraphicsScene;
 #endif
 
 namespace magics {
 
-#if MAGICS_QT
+#ifdef MAGICS_QT
 class QtDriver;
 #endif
 
@@ -46,7 +46,7 @@ public:
 	//! Notify the magicsobservers about an event in the QtDriverObserver (Qt -> GUI)
 	void notify(MagicsEvent&);
 
-#if MAGICS_QT
+#ifdef MAGICS_QT
 	//! Set the QGraphicsScene for the Qt driver
 	void setQtScene(QGraphicsScene*);
 #endif
@@ -88,7 +88,7 @@ protected:
 	bool bufr(magics::MagRequest&);
 	bool visdef(magics::MagRequest&);
 	
-#if MAGICS_ODB	
+#ifdef MAGICS_ODB	
 	bool geoodb(magics::MagRequest&);
 	bool xyodb(magics::MagRequest&);
 #endif
@@ -137,7 +137,7 @@ protected:
 	FortranViewNodeWrapper* page_;
 	vector<Visdef*>* currentMulti_;
 
-#if MAGICS_QT
+#ifdef MAGICS_QT
 	//! Keep the instance of the QtDrver!
 	QtDriver* qtDriver_;
 #endif

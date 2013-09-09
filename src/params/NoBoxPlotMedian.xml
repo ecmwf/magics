@@ -1,0 +1,4 @@
+<magics>
+<class directory="visualisers" prefix="boxplot/boxplot_median" xmltag="median" name="NoBoxPlotMedian" include='BoxPlotItem.h'>
+  </class>
+</magics>

@@ -1,0 +1,18 @@
+
+<magics version='3.0'>
+  <drivers>
+    <ps/>
+  </drivers>
+  <page>
+       <meta/>	 
+       <text height='15%' > Hello World </text> 	 
+        <map height='80%'>	
+            <coastlines/>
+		</map>
+       </page>
+   
+</magics>        
+
+       
+   
+    

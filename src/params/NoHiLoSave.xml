@@ -1,6 +1,0 @@
-<magics>
-<class action="pcont" directory="visualisers" inherits="HiLoSaveBase" include="HiLoSave.h" name="NoHiLoSave">
-   	<documentation>
-   This object suppresses the saving of Hi/Lo information.
-   	</documentation>
-</class></magics>

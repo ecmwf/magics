@@ -23,6 +23,12 @@ if(ODB_API_FOUND)
 endif()
 
 if(NETCDF_FOUND)
-  message( STATUS " Netcdf include  : [${NETCDF_INCLUDE_DIRS}]" )
+  message( STATUS " Netcdf include   : [${NETCDF_INCLUDE_DIRS}]" )
   message( STATUS "         libs     : [${NETCDF_LIBRARIES}]" )
 endif()
+
+if(QT_FOUND)
+  message( STATUS " QT include       : [${QT_INCLUDE_DIR}]" )
+  message( STATUS "         libs     : [${QT_LIBRARIES}]" )
+endif()
+

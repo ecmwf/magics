@@ -1,5 +1,5 @@
 <magics>
-<class directory="visualisers" prefix="boxplot/boxplot_box_border" xmltag="box_border" name="BoxPlotBoxBorder">
+<class directory="visualisers" prefix="boxplot/boxplot_box_border" xmltag="box_border" name="BoxPlotBoxBorder" include='BoxPlotItem.h' inherits='NoBoxPlotBoxBorder'>
 	  	<parameter member="colour" to="Colour" default="navy" from="string" name="boxplot_box_border_colour">
 	         		<documentation>Colour of the box border		</documentation>
 	  	</parameter>
