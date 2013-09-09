@@ -14,6 +14,7 @@
 # TODO:
 #  * fix RPATH vs LD_LIBRARY_PATH issue for test in build dir
 #  * fix RESOURCES magics.py
+#  * fix python module generation Magics.py to __init__.py
 #  * cpack ecbuild/cmake macros into tar.gz
 #  * unit tests check that certain files are produced and not empty
 #  * pkg-config needed for metview
