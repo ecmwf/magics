@@ -13,7 +13,6 @@ list( APPEND _drivers_srcs
 )
 
 if( MAGICS_QT )
-
   list( APPEND _drivers_srcs
           QtDriver.h
 		  MgQ/MgQ.h
@@ -24,19 +23,24 @@ if( MAGICS_QT )
 		  MgQ/MgQPolylineSetItem.h MgQ/MgQScene.h MgQ/MgQSceneItem.h
 		  MgQ/MgQSceneCacheItem.h MgQ/MgQStepMetaData.h
 		  MgQ/MgQPattern.h MgQ/MgQHistoItem.h MgQ/MgQRootItem.h
-          QtDriver.cc
+          QtDriver.cc 
+          MgQ/MgQPlotScene.cc
 		  MgQ/MgQLayoutItem.cc MgQ/MgQStepItem.cc
-		  MgQ/MgQLayerItem.cc MgQ/MgQPlotScene.cc
+		  MgQ/MgQLayerItem.cc
 		  MgQ/MgQSymbol.cc MgQ/MgQPixmapItem.cc MgQ/MgQPathItem.cc
 		  MgQ/MgQTextItem.cc
 		  MgQ/MgQPolylineSetItem.cc MgQ/MgQScene.cc MgQ/MgQSceneItem.cc
 		  MgQ/MgQSceneCacheItem.cc MgQ/MgQStepMetaData.cc
           MgQ/MgQPattern.cc MgQ/MgQHistoItem.cc
-          QtDriverAttributes.cc
-          QtDriverAttributes.h
       )
-
-# MgQ/MgQPlotScene.moc.cpp
+      
+   
+   
+   set (qt_files_HEADERS MgQ/MgQPlotScene.h)
+   debug_var(qt_files_HEADERS)
+   QT4_WRAP_CPP(qt_files_HEADERS_MOC ${qt_files_HEADERS})
+  
+   list( APPEND qt_srcs   ${qt_files_HEADERS_MOC}) 
 
 endif()
 

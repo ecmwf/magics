@@ -92,7 +92,7 @@
 #cmakedefine MAGICS_GRIB
 
 /* Install path. */
-#cmakedefine MAGICS_INSTALL_PATH
+#define MAGICS_INSTALL_PATH "@CMAKE_INSTALL_PREFIX@"
 
 /* Turn on the JSON support */
 #cmakedefine MAGICS_JSON

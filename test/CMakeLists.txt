@@ -9,3 +9,4 @@ if ( WITH_PYTHON )
 endif()
 
 add_subdirectory( C )
+add_subdirectory( magml )

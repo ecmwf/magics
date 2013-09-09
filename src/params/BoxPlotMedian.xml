@@ -1,5 +1,5 @@
 <magics>
-<class directory="visualisers" prefix="boxplot/boxplot_median" xmltag="median" name="BoxPlotMedian">
+<class directory="visualisers" prefix="boxplot/boxplot_median" xmltag="median" name="BoxPlotMedian" include='BoxPlotItem.h' inherits='NoBoxPlotMedian'>
    	<parameter member="colour" to="Colour" default="navy" from="string" name="boxplot_median_colour">
          		<documentation>Colour of the median line		</documentation>
   	</parameter>

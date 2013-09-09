@@ -1,13 +1,11 @@
 if( WITH_PYTHON )
 
-  debug_var( PYTHON_SITE_PACKAGES )
-
-  set(PYTHON_SITE "lib/python${PYTHON_VERSION}/site-packages" )
+  set(PYTHON_SITE "lib/python${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}/site-packages" )
   set(PYTHON_DEST "${PYTHON_SITE}/Magics" )
 
   configure_file( Magics.i.in  Magics.i )
 
-  include_directories( ${PYTHON_INCLUDE_PATH} ${PYTHON_SITE_PACKAGES}/numpy/core/include ${CMAKE_CURRENT_SOURCE_DIR} )
+  include_directories( ${PYTHON_INCLUDE_DIRS} ${PYTHON_SITE_PACKAGES}/numpy/core/include ${CMAKE_CURRENT_SOURCE_DIR} )
 
   set_source_files_properties( Magics.i PROPERTIES GENERATED TRUE CXX ON )
   swig_add_module( Magics python Magics_interface.cc Magics.i )

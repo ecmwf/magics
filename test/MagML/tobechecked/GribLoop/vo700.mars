@@ -1,8 +1,0 @@
-RETRIEVE,
-    TYPE       = AN,
-    LEVELIST   = 700,
-    Param       = VO,   
-    GRID       = 1.5/1.5,
-    DATE       = -8/TO/-4,
-    TIME       = 0/6/12/18,
-    target     = 700vo.grb

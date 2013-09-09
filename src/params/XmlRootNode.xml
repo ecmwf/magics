@@ -1,5 +1,5 @@
 <magics>
-<class directory="basic" prefix="root_node" xmltag="magics" name="XmlRootNode">
+<class name="XmlRootNode" include='RootSceneNode.h'>
  	<parameter member="format" to="string" default="a4" from="string" name="root_node_format">
            		<release>Magics++2.4 		</release>
          		<documentation>Format of super page (A4/A3/A2)		</documentation>
@@ -43,4 +43,5 @@
            		<release>Magics++2.1		</release>
          		<documentation> magml/wrep : set specail behaviour for wrep project 		</documentation>
   	</parameter>
-</class></magics>
+</class>
+</magics>
