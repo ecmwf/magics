@@ -1,5 +1,5 @@
 <magics>
-<class directory="visualisers" prefix="boxplot/boxplot_box" xmltag="box" name="BoxPlotBox">
+<class directory="visualisers" prefix="boxplot/boxplot_box" xmltag="box" name="BoxPlotBox" include='BoxPlotItem.h'>
 	   	<parameter member="colour" to="Colour" default="sky" from="string" name="boxplot_box_colour">
 	         		<documentation>Colour of the box		</documentation>
 	  	</parameter>

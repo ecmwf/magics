@@ -65,9 +65,11 @@ if( WITH_ODB)
 endif()
 debug_var( MAGICS_ODB )
 
+set (MAGICS_ONLY 1) 
 
 if ( WITH_METVIEW ) 
 	set( WITH_QT 1 )
+	unset (MAGICS_ONLY) 
 endif()
 
 if( WITH_GRIB)
@@ -141,8 +143,21 @@ set( MAGICS_TPLS            grib_api odb_api NetCDF Cairo Proj4)
 set( MAGICS_INCLUDE_DIRS 
 	    ${CMAKE_CURRENT_SOURCE_DIR}/src 
         ${CMAKE_BINARY_SOURCE_DIR}/src 
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/common
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/common 
+        ${CMAKE_CURRENT_BINARY_DIR}/src/params 
+        ${CMAKE_CURRENT_BINARY_DIR}/src 
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/common  
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/basic
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/web
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/visualisers
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/drivers
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/drivers/MgQ
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/decoders
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/terralib
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/terralib/kernel
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/terralib/utils
 	    ${Boost_INCLUDE_DIRS} )
+	    
 set( MAGICS_LIBRARIES    MagPlus )
 
 foreach( _tpl ${MAGICS_TPLS} )
@@ -156,6 +171,8 @@ if ( MAGICS_QT )
 	list( APPEND MAGICS_EXTRA_INCLUDE_DIRS  ${QT_INCLUDE_DIR} )
 	list( APPEND MAGICS_EXTRA_LIBRARIES     ${QT_LIBRARIES} )
 endif()
+
+
 
 
 debug_var( MAGICS_EXTRA_INCLUDE_DIRS )

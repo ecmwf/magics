@@ -36,7 +36,6 @@
 
 #include "PaperPoint.h"
 #include "LegendVisitorAttributes.h"
-#include "LegendBoxAttributes.h"
 #include "XmlBasicNodeAttributes.h"
 #include "XmlNode.h"
 
