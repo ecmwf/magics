@@ -7,6 +7,6 @@ ecbuild_add_test ( TARGET fortran_magics
 
 ecbuild_add_test ( TARGET fortran_grib
         SOURCES grib.f90 
-        RESSOURCES msl.grib 
+        RESOURCES msl.grib 
         LIBS MagPlusSingle MagPlus 
         LINKER_LANGUAGE Fortran)

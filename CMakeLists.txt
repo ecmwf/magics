@@ -193,7 +193,7 @@ add_subdirectory( share )
 add_subdirectory( python )
 
 # apps directory
-# add_subdirectory( apps )
+add_subdirectory( apps )
 
 # Test directory
 add_subdirectory( test )
