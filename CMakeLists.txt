@@ -12,14 +12,12 @@
 #       -DBUILD_SHARED_LIBS=OFF
 
 # TODO:
-#  * fix RPATH vs LD_LIBRARY_PATH issue for test in build dir
 #  * fix RESOURCES magics.py
 #  * cpack ecbuild/cmake macros into tar.gz
 #  * unit tests check that certain files are produced and not empty
 #  * pkg-config needed for metview
 
 # Missing dependencies:
-#   * odb_api
 #   * ghostscript ( is it really needed? -- to confirm )
 
 cmake_minimum_required( VERSION 2.8.4 FATAL_ERROR )
@@ -73,11 +71,10 @@ if( WITH_METVIEW )
 	unset (MAGICS_ONLY) 
 endif()
 
-if( WITH_GRIB)
+if( WITH_GRIB )
   ecbuild_use_package( PROJECT grib_api VERSION 1.9.16 )
-  debug_var( GRIB_API_FOUND )
-   if ( GRIB_API_FOUND ) 
-		set ( MAGICS_GRIB 1 )
+   if( GRIB_API_FOUND )
+        set( MAGICS_GRIB 1 )
   endif()
 endif()
 
@@ -99,8 +96,7 @@ find_package( Threads )
 # set(Boost_USE_STATIC_LIBS        ON)
 # set(Boost_NO_SYSTEM_PATHS        ON)
 # set(Boost_USE_MULTITHREADED      ON)
-
-
+ecbuild_add_extra_search_paths( boost )
 find_package( Boost 1.49.0 )
 
 find_package( Proj4  )
@@ -132,12 +128,12 @@ if( WITH_CAIRO )
 endif()
 
 configure_file( magics-config.in  magics-config @ONLY )
-install ( FILES ${CMAKE_CURRENT_BINARY_DIR}/magics-config 
+install( FILES ${CMAKE_CURRENT_BINARY_DIR}/magics-config
 			DESTINATION ${INSTALL_BIN_DIR} 
 			PERMISSIONS OWNER_READ GROUP_READ WORLD_READ 
 				        OWNER_EXECUTE GROUP_EXECUTE WORLD_EXECUTE)
 
-if ( WITH_QT )
+if( WITH_QT )
 	find_package(Qt4 4.4.3 REQUIRED QtCore QtGui QtXml )
 	if( QT_FOUND )
 		include( ${QT_USE_FILE} )
