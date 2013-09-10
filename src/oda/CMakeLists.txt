@@ -7,7 +7,7 @@ set( _odb_srcs
 )
 
 foreach( file ${_odb_srcs} )
-	list( APPEND metview_srcs oda/${file} )
+	list( APPEND odb_srcs oda/${file} )
 endforeach()
 
 set( odb_srcs ${odb_srcs} PARENT_SCOPE )

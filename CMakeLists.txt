@@ -14,7 +14,6 @@
 # TODO:
 #  * fix RPATH vs LD_LIBRARY_PATH issue for test in build dir
 #  * fix RESOURCES magics.py
-#  * fix python module generation Magics.py to __init__.py
 #  * cpack ecbuild/cmake macros into tar.gz
 #  * unit tests check that certain files are produced and not empty
 #  * pkg-config needed for metview
@@ -126,7 +125,8 @@ endif()
 
 if( WITH_CAIRO )
 	find_package( Cairo  )
-	if( Cairo_FOUND )
+	debug_var(CAIRO_FOUND)
+	if( CAIRO_FOUND )
     	set( MAGICS_CAIRO 1 )
     endif()
 endif()
@@ -169,17 +169,24 @@ set( MAGICS_INCLUDE_DIRS
 	    ${Boost_INCLUDE_DIRS} )
 	    
 if ( MAGICS_ODB ) 
-	list ( APPEND MAGICS_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/src/oda)
+	list ( APPEND MAGICS_INCLUDE_DIRS 
+			${CMAKE_CURRENT_SOURCE_DIR}/src/oda 
+			${ODB_API_INCLUDE_DIRS}/../eclib 
+		)
 endif()
 	    
 set( MAGICS_LIBRARIES    MagPlus )
 
 foreach( _tpl ${MAGICS_TPLS} )
     string( TOUPPER ${_tpl} TPL )
-    list( APPEND MAGICS_EXTRA_DEFINITIONS   ${${TPL}_DEFINITIONS} )
+    list( APPEND MAGICS_EXTRA_DEFINITIONS   ${${TPL}_DEFINITIONS}  )
     list( APPEND MAGICS_EXTRA_INCLUDE_DIRS  ${${TPL}_INCLUDE_DIRS} )
     list( APPEND MAGICS_EXTRA_LIBRARIES     ${${TPL}_LIBRARIES} )
 endforeach()
+
+if ( MAGICS_BUFR )
+	list( APPEND MAGICS_EXTRA_DEFINITIONS   fortfloat=double fortint=int boolean=bool )
+endif()
 
 if ( MAGICS_QT )
 	list( APPEND MAGICS_EXTRA_INCLUDE_DIRS  ${QT_INCLUDE_DIR} )

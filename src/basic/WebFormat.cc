@@ -17,9 +17,7 @@
  ******************************** LICENSE ********************************/
 
 #include "WebFormat.h"
-#ifdef MAGICS_JSON
 #include "MagJSon.h"
-#endif
 using namespace magics;
 #include "Timer.h"
 
@@ -146,12 +144,8 @@ void WebInterpretor::magml(const string& file)
 
 void WebInterpretor::json(const string& file)
 {
-#ifdef MAGICS_JSON
 
 	MagJSon json;
 	json.execute(file, web_);
 	web_.clear();
-#else
-    MagLog::error() << "No Json support" << endl;
-#endif
 }
