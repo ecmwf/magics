@@ -120,6 +120,7 @@ if( WITH_NETCDF )
 endif()
 
 if( WITH_CAIRO )
+	find_package( Pango  )
 	find_package( Cairo  )
 	debug_var(CAIRO_FOUND)
 	if( CAIRO_FOUND )
