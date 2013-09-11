@@ -12,7 +12,6 @@
 #       -DBUILD_SHARED_LIBS=OFF
 
 # TODO:
-#  * fix RESOURCES magics.py
 #  * fix python module generation Magics.py to __init__.py
 #  * cpack ecbuild/cmake macros into tar.gz
 #  * unit tests check that certain files are produced and not empty
@@ -65,11 +64,11 @@ if( WITH_ODB)
 endif()
 debug_var( MAGICS_ODB )
 
-set (MAGICS_ONLY 1) 
+set( MAGICS_ONLY 1)
 
 if( WITH_METVIEW )
 	set( WITH_QT 1 )
-	unset (MAGICS_ONLY) 
+    unset(MAGICS_ONLY)
 endif()
 
 if( WITH_GRIB )
@@ -164,8 +163,8 @@ set( MAGICS_INCLUDE_DIRS
         ${CMAKE_CURRENT_SOURCE_DIR}/src/terralib/utils
 	    ${Boost_INCLUDE_DIRS} )
 	    
-if ( MAGICS_ODB ) 
-	list ( APPEND MAGICS_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/src/oda)
+if( MAGICS_ODB )
+    list( APPEND MAGICS_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/src/oda)
 endif()
 	    
 set( MAGICS_LIBRARIES    MagPlus )
@@ -177,7 +176,7 @@ foreach( _tpl ${MAGICS_TPLS} )
     list( APPEND MAGICS_EXTRA_LIBRARIES     ${${TPL}_LIBRARIES} )
 endforeach()
 
-if ( MAGICS_QT )
+if( MAGICS_QT )
 	list( APPEND MAGICS_EXTRA_INCLUDE_DIRS  ${QT_INCLUDE_DIR} )
 	list( APPEND MAGICS_EXTRA_LIBRARIES     ${QT_LIBRARIES} )
 endif()
