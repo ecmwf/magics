@@ -145,7 +145,7 @@ endif()
 ###############################################################################
 # contents
 
-set( MAGICS_TPLS            grib_api odb_api NetCDF Cairo Proj4 EMOS)
+set( MAGICS_TPLS            grib_api odb_api NetCDF Pango Cairo Proj4 EMOS)
 set( MAGICS_INCLUDE_DIRS 
 	    ${CMAKE_CURRENT_SOURCE_DIR}/src 
         ${CMAKE_BINARY_SOURCE_DIR}/src 
