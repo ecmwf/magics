@@ -121,7 +121,8 @@ endif()
 
 if( WITH_CAIRO )
 	find_package( Cairo  )
-	if( Cairo_FOUND )
+	debug_var(CAIRO_FOUND)
+	if( CAIRO_FOUND )
     	set( MAGICS_CAIRO 1 )
     endif()
 endif()
@@ -163,20 +164,27 @@ set( MAGICS_INCLUDE_DIRS
         ${CMAKE_CURRENT_SOURCE_DIR}/src/terralib/utils
 	    ${Boost_INCLUDE_DIRS} )
 	    
-if( MAGICS_ODB )
-    list( APPEND MAGICS_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/src/oda)
+if ( MAGICS_ODB ) 
+	list ( APPEND MAGICS_INCLUDE_DIRS 
+			${CMAKE_CURRENT_SOURCE_DIR}/src/oda 
+			${ODB_API_INCLUDE_DIRS}/../eclib 
+		)
 endif()
 	    
 set( MAGICS_LIBRARIES    MagPlus )
 
 foreach( _tpl ${MAGICS_TPLS} )
     string( TOUPPER ${_tpl} TPL )
-    list( APPEND MAGICS_EXTRA_DEFINITIONS   ${${TPL}_DEFINITIONS} )
+    list( APPEND MAGICS_EXTRA_DEFINITIONS   ${${TPL}_DEFINITIONS}  )
     list( APPEND MAGICS_EXTRA_INCLUDE_DIRS  ${${TPL}_INCLUDE_DIRS} )
     list( APPEND MAGICS_EXTRA_LIBRARIES     ${${TPL}_LIBRARIES} )
 endforeach()
 
-if( MAGICS_QT )
+if ( MAGICS_BUFR )
+	list( APPEND MAGICS_EXTRA_DEFINITIONS   fortfloat=double fortint=int boolean=bool )
+endif()
+
+if ( MAGICS_QT )
 	list( APPEND MAGICS_EXTRA_INCLUDE_DIRS  ${QT_INCLUDE_DIR} )
 	list( APPEND MAGICS_EXTRA_LIBRARIES     ${QT_LIBRARIES} )
 endif()

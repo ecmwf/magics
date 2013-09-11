@@ -75,9 +75,7 @@
 #include "ObsDecoder.h"
 #endif
 
-#ifdef MAGICS_JSON
 #include "ObsJSon.h"
-#endif
 
 #include "ObsPlotting.h"
 
@@ -431,7 +429,7 @@ void FortranMagics::pobs()
 		return;
 	}
 #endif
-#ifdef MAGICS_JSON
+#ifdef JSON
 	action_ = new VisualAction();
 	action_->data(new ObsJSon());
 	top()->push_back(action_);

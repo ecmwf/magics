@@ -1,0 +1,11 @@
+#!/bin/ksh
+#set -x
+
+# Platform dependent variables
+export MAGPLUS_HOME=@MAGICS_INSTALL_PATH@
+export LD_LIBRARY_PATH=$MAGPLUS_HOME/lib/:$2:$LD_LIBRARY_PATH
+echo $LD_LIBRARY_PATH
+
+# Call the real mars script
+exec $MAGPLUS_HOME/bin/magjsonx "$@"
+

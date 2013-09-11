@@ -45,9 +45,7 @@
 #include "VisualAction.h"
 #include "XYList.h"
 #include "EpsXmlInput.h"
-#ifdef MAGICS_JSON
 #include "WrepJSon.h"
-#endif
 #include "ImagePlotting.h"
 #include "SymbolPlotting.h"
 #include "Contour.h"
@@ -643,39 +641,31 @@ void XmlMagics::efigram(const XmlNode& node)
 
 void XmlMagics::cdfgraph(const XmlNode& node)
 {	
-#ifdef MAGICS_JSON
 	CdfGraph* cdf = new CdfGraph();
 	cdf->set(node);
 	top()->visdef(cdf);
-#endif
 }
 
 void XmlMagics::efigraph(const XmlNode& node)
 {	
-#ifdef MAGICS_JSON
 	EfiGraph* efi = new EfiGraph();
 	efi->set(node);
 	top()->visdef(efi);
-#endif
 }
 
 
 void XmlMagics::epsplume(const XmlNode& node)
 {	
-#ifdef MAGICS_JSON
 	EpsPlume* plume = new EpsPlume();
 	plume->set(node);
 	top()->visdef(plume);
-#endif
 }
 
 void XmlMagics::epsdirection(const XmlNode& node)
 {	
-#ifdef MAGICS_JSON
 	EpsDirection* direction = new EpsDirection();
 	direction->set(node);
 	top()->visdef(direction);
-#endif
 }
 
 void XmlMagics::metgram(const XmlNode& node)
@@ -715,11 +705,9 @@ void XmlMagics::epsxml(const XmlNode& node)
 void XmlMagics::wrepjson(const XmlNode& node)
 {	
 
-#ifdef MAGICS_JSON
 	WrepJSon* wrep = new WrepJSon();
 	wrep->set(node);
 	top()->data(wrep);
-#endif
 }
 
 

@@ -101,6 +101,7 @@ ecbuild_add_library( TARGET    MagPlus
                         ${basic_srcs}
                         ${web_srcs}
                         ${visualisers_srcs}
+                        ${eckit_srcs}
                         ${drivers_srcs}
                         ${qt_srcs}
                         ${decoders_srcs}
