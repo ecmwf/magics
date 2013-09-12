@@ -7,17 +7,17 @@ message(status "Run: perl -e 'print -s q(${CMAKE_CURRENT_BINARY_DIR}/msl.grib);'
 
 execute_process(
 	COMMAND "perl" "-e" "print -s q(${CMAKE_CURRENT_BINARY_DIR}/msl.grib);"
-	RESULT_VARIABLE _result
-	OUTPUT_VARIABLE _size)
+	RESULT_VARIABLE code
+	OUTPUT_VARIABLE size)
 
-message(status "  ---> result=${_result}, output=${_size}")
+message(status "  ---> result=${code}, output=${size}")
 
-if (_result equal 0)
-	if (_size equal 0) 
+if (${code} equal 0)
+	if (${size} equal 0) 
 		message(FATAL_ERROR "${CMAKE_CURRENT_BINARY_DIR}/msl.grib is empty")
 	endif()
 else()
-	message(FATAL_ERROR "perl ${_args} failed with code ${_result}")
+	message(FATAL_ERROR "perl ${_args} failed with code ${code}")
 endif()
 
 
