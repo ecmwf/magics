@@ -120,13 +120,10 @@ if( WITH_NETCDF )
 endif()
 
 if( WITH_CAIRO )
-	find_package( Pango  )
-	find_package( Cairo  )
 	find_package( PangoCairo  )
-	debug_var(PANGO_FOUND)
-	debug_var(CAIRO_FOUND)
 	debug_var(PANGOCAIRO_FOUND)
-	if( CAIRO_FOUND )
+
+	if( PANGOCAIRO_FOUND )
     	set( MAGICS_CAIRO 1 )
     endif()
 endif()
@@ -148,7 +145,7 @@ endif()
 ###############################################################################
 # contents
 
-set( MAGICS_TPLS            grib_api odb_api NetCDF PangoCairo Pango Cairo Proj4 EMOS)
+set( MAGICS_TPLS            grib_api odb_api NetCDF PangoCairo Proj4 EMOS)
 set( MAGICS_INCLUDE_DIRS 
 	    ${CMAKE_CURRENT_SOURCE_DIR}/src 
         ${CMAKE_BINARY_SOURCE_DIR}/src 
