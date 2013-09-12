@@ -3,9 +3,14 @@ file( DOWNLOAD http://download.ecmwf.int/test-data/magics/test/fortran/msl.grib
 	EXPECTED_HASH SHA1=da39a3ee5e6b4b0d3255bfef95601890afd80709 )
 
 set(_cmd "perl -e 'print -s q(${CMAKE_CURRENT_BINARY_DIR}/msl.grib);'")
+
+message(status "Run: ${_cmd}")
+
 execute_process(COMMAND ${_cmd}
 	RESULT_VARIABLE _result
 	OUTPUT_VARIABLE _size)
+
+message(status "  ---> result=${_result}, output=${_size}")
 
 if (_result equal 0)
 	if (_size equal 0) 
