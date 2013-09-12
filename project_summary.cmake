@@ -42,3 +42,9 @@ if(QT_FOUND)
   message( STATUS "         libs     : [${QT_LIBRARIES}]" )
 endif()
 
+if(EXPAT_FOUND)
+  message( STATUS " EXpat include       : [${EXPAT_INCLUDE_DIR}]" )
+  message( STATUS "         libs     : [${EXPAT_LIBRARIES}]" )
+endif()
+
+
