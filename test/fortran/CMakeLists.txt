@@ -2,7 +2,7 @@ file( DOWNLOAD http://download.ecmwf.int/test-data/magics/test/fortran/msl.grib
 	${CMAKE_CURRENT_BINARY_DIR}/msl.grib
 	EXPECTED_HASH SHA1=da39a3ee5e6b4b0d3255bfef95601890afd80709 )
 
-set(_cmd "perl -e 'print -s q(${CMAKE_CURRENT_BINARY_DIR}/msl.grib);'")
+set(_cmd "/usr/bin/perl -e 'print -s q(${CMAKE_CURRENT_BINARY_DIR}/msl.grib);'")
 
 message(status "Run: ${_cmd}")
 
