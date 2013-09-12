@@ -18,7 +18,7 @@ if (_result equal 0)
 		message(FATAL_ERROR "${CMAKE_CURRENT_BINARY_DIR}/msl.grib is empty")
 	endif()
 else()
-	message(FATAL_ERROR "perl ${_args} failed")
+	message(FATAL_ERROR "perl ${_args} failed with code ${_result}")
 endif()
 
 
