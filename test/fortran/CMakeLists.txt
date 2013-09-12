@@ -12,8 +12,8 @@ execute_process(
 
 message(status "  ---> result=${code}, output=${size}")
 
-if (${code} equal 0)
-	if (${size} equal 0) 
+if (NOT ${code})
+	if (NOT ${size}) 
 		message(FATAL_ERROR "${CMAKE_CURRENT_BINARY_DIR}/msl.grib is empty")
 	endif()
 else()
