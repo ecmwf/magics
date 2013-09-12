@@ -45,7 +45,7 @@ if( MAGICS_QT )
 endif()
 
 if( MAGICS_CAIRO )
-  list( APPEND _drivers_srcs CairoDriver.h CairoDriverRaster.cc CairoDriver.cc )
+  list( APPEND _drivers_srcs CairoDriver.h CairoDriver.cc )
 endif()
 
 if ( WITH_METVIEW )
