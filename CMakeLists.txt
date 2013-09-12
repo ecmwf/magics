@@ -182,6 +182,10 @@ foreach( _tpl ${MAGICS_TPLS} )
     list( APPEND MAGICS_EXTRA_LIBRARIES     ${${TPL}_LIBRARIES} )
 endforeach()
 
+message(STATUS "MAGICS_EXTRA_DEFINITIONS  => " ${MAGICS_EXTRA_DEFINITIONS})
+message(STATUS "MAGICS_EXTRA_INCLUDE_DIRS => " ${MAGICS_EXTRA_INCLUDE_DIRS})
+message(STATUS "MAGICS_EXTRA_LIBRARIES    => " ${MAGICS_EXTRA_LIBRARIES})
+
 if ( MAGICS_BUFR )
 	list( APPEND MAGICS_EXTRA_DEFINITIONS   fortfloat=double fortint=int boolean=bool )
 endif()
