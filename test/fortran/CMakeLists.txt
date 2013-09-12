@@ -7,7 +7,7 @@ set(_args "-e ${_q}print -s '${CMAKE_CURRENT_BINARY_DIR}/msl.grib';${_q} -w")
 
 message(status "Run: perl ${_args}")
 
-execute_process(COMMAND "perl" ${_args}
+execute_process(COMMAND "perl" "-e" "print -s q(${CMAKE_CURRENT_BINARY_DIR}/msl.grib);"
 	RESULT_VARIABLE _result
 	OUTPUT_VARIABLE _size)
 
