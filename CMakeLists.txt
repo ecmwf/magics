@@ -37,7 +37,7 @@ endif()
 
 option( WITH_QT            "wether to use Qt"          OFF )
 option( WITH_CAIRO         "wether to use Cairo"       ON  )
-option( WITH_METVIEW  "install all headers"       OFF )
+option( WITH_METVIEW       "install all headers"       OFF )
 option( WITH_GRIB          "enable grib"               ON  )
 option( WITH_NETCDF        "enable netcdf"             ON  )
 option( WITH_BUFR          "enable bufr"               OFF )

@@ -12,6 +12,12 @@ if(CAIRO_FOUND)
   message( STATUS "         libs  : [${CAIRO_LIBRARIES}]" )
 endif()
 
+if(PANGO_FOUND)
+  message( STATUS " Pango version : [${PANGO_VERSION}]" )
+  message( STATUS "       include : [${PANGO_INCLUDE_DIRS}]" )
+  message( STATUS "         libs  : [${PANGO_LIBRARIES}]" )
+endif()
+
 if(GRIB_API_FOUND)
   message( STATUS " GRIB_API include : [${GRIB_API_INCLUDE_DIRS}]" )
   message( STATUS "         libs     : [${GRIB_API_LIBRARIES}]" )
@@ -27,7 +33,7 @@ if(EMOS_FOUND)
 endif()
 
 if(NETCDF_FOUND)
-  message( STATUS " Netcdf include   : [${NETCDF_INCLUDE_DIRS}]" )
+  message( STATUS " NetCDF include   : [${NETCDF_INCLUDE_DIRS}]" )
   message( STATUS "         libs     : [${NETCDF_LIBRARIES}]" )
 endif()
 
