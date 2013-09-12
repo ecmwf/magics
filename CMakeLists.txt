@@ -36,7 +36,7 @@ endif()
 # some variables of this project
 
 option( WITH_QT            "wether to use Qt"          OFF )
-option( WITH_CAIRO         "wether to use Cairo"       ON  )
+option( WITH_CAIRO         "wether to use Cairo"       OFF  )
 option( WITH_METVIEW  "install all headers"       OFF )
 option( WITH_GRIB          "enable grib"               ON  )
 option( WITH_NETCDF        "enable netcdf"             ON  )
@@ -100,6 +100,8 @@ ecbuild_add_extra_search_paths( boost )
 find_package( Boost 1.49.0 )
 
 find_package( Proj4  )
+find_package( EXPAT  )
+
 
 ecbuild_find_python( VERSION 2.7 )
 if( WITH_PYTHON )
@@ -121,10 +123,13 @@ endif()
 
 if( WITH_CAIRO )
 	find_package( Cairo  )
+	find_package( PangoCairo )
 	debug_var(CAIRO_FOUND)
-	if( CAIRO_FOUND )
+	debug_var(PANGOCAIRO_FOUND)
+	if( CAIRO_FOUND AND PANGO_FOUND)
     	set( MAGICS_CAIRO 1 )
     endif()
+    debug_var ( MAGICS_CAIRO )
 endif()
 
 configure_file( magics-config.in  magics-config @ONLY )
@@ -144,7 +149,7 @@ endif()
 ###############################################################################
 # contents
 
-set( MAGICS_TPLS            grib_api odb_api NetCDF Cairo Proj4 EMOS)
+set( MAGICS_TPLS     grib_api odb_api NetCDF Cairo Pango Proj4 EMOS EXPAT)
 set( MAGICS_INCLUDE_DIRS 
 	    ${CMAKE_CURRENT_SOURCE_DIR}/src 
         ${CMAKE_BINARY_SOURCE_DIR}/src 
