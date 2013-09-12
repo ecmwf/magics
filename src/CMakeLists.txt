@@ -1,7 +1,11 @@
 ###############################################################################
 
 configure_file( magics_config.h.in  magics_config.h  )
+configure_file( magics.pc.in  magics.pc @ONLY  )
+
 install ( FILES ${CMAKE_CURRENT_BINARY_DIR}/magics_config.h  DESTINATION ${INSTALL_INCLUDE_DIR})
+install ( FILES ${CMAKE_CURRENT_BINARY_DIR}/magics.pc      DESTINATION ${INSTALL_LIB_DIR}/pkgconfig)
+
 ###############################################################################
 
 add_subdirectory( params )

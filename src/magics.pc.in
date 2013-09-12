@@ -1,13 +1,13 @@
-prefix=@prefix@
-exec_prefix=@exec_prefix@
-libdir=@libdir@
-includedir=@includedir@
+prefix=@CMAKE_INSTALL_PREFIX@
+exec_prefix=${prefix}
+libdir=${prefix}/@INSTALL_LIB_DIR@
+includedir=${prefix}/@INSTALL_INCLUDE_DIR@
 
 Name: Magics
 Description: Multi-platform meteorological graphics library
-Version: @VERSION@
+Version: @MAGICS_VERSION@
 
 # @PKGCONFIG_REQUIRES@: @MAGICS_REQUIRES@
 Libs: -L${libdir} -lMagPlus
-Libs.private: @MAGICS_3RDPARTY_LIBS@
-Cflags: -I${includedir}/magics @MAGICS_3RDPARTY_INCLUDE@
+Libs.private: @MAGICS_EXTRA_LIBRARIES@
+Cflags: -I${includedir} @MAGICS_EXTRA_INCLUDE_DIRS@

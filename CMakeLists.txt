@@ -12,7 +12,7 @@
 #       -DBUILD_SHARED_LIBS=OFF
 
 # TODO:
-#  * fix RESOURCES magics.py
+#  * fix python module generation Magics.py to __init__.py
 #  * cpack ecbuild/cmake macros into tar.gz
 #  * unit tests check that certain files are produced and not empty
 #  * pkg-config needed for metview
@@ -64,11 +64,11 @@ if( WITH_ODB)
 endif()
 debug_var( MAGICS_ODB )
 
-set (MAGICS_ONLY 1) 
+set( MAGICS_ONLY 1)
 
 if( WITH_METVIEW )
 	set( WITH_QT 1 )
-	unset (MAGICS_ONLY) 
+    unset(MAGICS_ONLY)
 endif()
 
 if( WITH_GRIB )
@@ -122,11 +122,10 @@ if( WITH_NETCDF )
 endif()
 
 if( WITH_CAIRO )
-	find_package( Cairo  )
-	find_package( PangoCairo )
-	debug_var(CAIRO_FOUND)
+	find_package( PangoCairo  )
 	debug_var(PANGOCAIRO_FOUND)
-	if( CAIRO_FOUND AND PANGO_FOUND)
+
+	if( PANGOCAIRO_FOUND )
     	set( MAGICS_CAIRO 1 )
     endif()
     debug_var ( MAGICS_CAIRO )
@@ -149,7 +148,7 @@ endif()
 ###############################################################################
 # contents
 
-set( MAGICS_TPLS     grib_api odb_api NetCDF Cairo Pango Proj4 EMOS EXPAT)
+set( MAGICS_TPLS            grib_api odb_api NetCDF PangoCairo Proj4 EMOS)
 set( MAGICS_INCLUDE_DIRS 
 	    ${CMAKE_CURRENT_SOURCE_DIR}/src 
         ${CMAKE_BINARY_SOURCE_DIR}/src 
@@ -184,6 +183,10 @@ foreach( _tpl ${MAGICS_TPLS} )
     list( APPEND MAGICS_EXTRA_INCLUDE_DIRS  ${${TPL}_INCLUDE_DIRS} )
     list( APPEND MAGICS_EXTRA_LIBRARIES     ${${TPL}_LIBRARIES} )
 endforeach()
+
+message(STATUS "MAGICS_EXTRA_DEFINITIONS  => ${MAGICS_EXTRA_DEFINITIONS}")
+message(STATUS "MAGICS_EXTRA_INCLUDE_DIRS => ${MAGICS_EXTRA_INCLUDE_DIRS}")
+message(STATUS "MAGICS_EXTRA_LIBRARIES    => ${MAGICS_EXTRA_LIBRARIES}")
 
 if ( MAGICS_BUFR )
 	list( APPEND MAGICS_EXTRA_DEFINITIONS   fortfloat=double fortint=int boolean=bool )
