@@ -30,7 +30,7 @@ macro (ecbuild_get_test_data NAME FROM)
 
 	add_custom_command(
 		OUTPUT ${NAME}
-		COMMAND wget -O ${NAME} http://download.ecmwf.int/test-data/${FROM}/${NAME})
+		COMMAND curl -o ${NAME} http://download.ecmwf.int/test-data/${FROM}/${NAME})
 
 endmacro(ecbuild_get_test_data)
 
