@@ -25,15 +25,14 @@ if(0)
 	endif()
 endif()
 
-function (ecbuild_get_test_data NAME FROM)
+macro (ecbuild_get_test_data NAME FROM)
 	# TODO: choose between wget and curl
 
 	add_custom_command(
 		OUTPUT ${NAME}
-		COMMAND wget -O ${NAME} http://download.ecmwf.int/test-data/${FROM}/${NAME}
-	)
+		COMMAND wget -O ${NAME} http://download.ecmwf.int/test-data/${FROM}/${NAME})
 
-endfunction(ecbuild_get_test_data)
+endmacro(ecbuild_get_test_data)
 
 ecbuild_get_test_data(msl.grib magics/test/fortran)
 
