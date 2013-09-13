@@ -25,20 +25,30 @@ if(0)
 	endif()
 endif()
 
+function ecbuild_get_test_data(NAME FROM)
+	# TODO: choose between wget and curl
 
-# TODO: choose between wget and curl
-add_custom_command(
-	OUTPUT msl.grib
-	COMMAND wget -O msl.grib http://download.ecmwf.int/test-data/magics/test/fortran/msl.grib
-)
+	add_custom_command(
+		OUTPUT ${NAME}
+		COMMAND wget -O ${NAME} http://download.ecmwf.int/test-data/${FROM}/${NAME}
+	)
+
+endfunction(ecbuild_get_test_data)
+
+ecbuild_get_test_data(NAME msl.grib FROM magics/test/fortran)
+
+#add_custom_command(
+#	OUTPUT msl.grib
+#	COMMAND wget -O msl.grib http://download.ecmwf.int/test-data/magics/test/fortran/msl.grib
+#)
 
 ecbuild_add_test( TARGET    magics_fortran
 	SOURCES   magics.f
-	DEPENDS   msl.grib
 	LIBS      MagPlusSingle MagPlus
 	LINKER_LANGUAGE Fortran )
 
 ecbuild_add_test( TARGET magics_fortran_grib
 	SOURCES grib.f90 
 	LIBS MagPlusSingle MagPlus 
+	DEPENDS   msl.grib
 	LINKER_LANGUAGE Fortran)
