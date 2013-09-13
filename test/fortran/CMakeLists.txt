@@ -25,7 +25,7 @@ if(0)
 	endif()
 endif()
 
-function ecbuild_get_test_data(NAME FROM)
+function (ecbuild_get_test_data NAME FROM)
 	# TODO: choose between wget and curl
 
 	add_custom_command(
@@ -35,7 +35,7 @@ function ecbuild_get_test_data(NAME FROM)
 
 endfunction(ecbuild_get_test_data)
 
-ecbuild_get_test_data(NAME msl.grib FROM magics/test/fortran)
+ecbuild_get_test_data(msl.grib magics/test/fortran)
 
 #add_custom_command(
 #	OUTPUT msl.grib
