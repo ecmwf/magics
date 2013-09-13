@@ -45,6 +45,7 @@ ecbuild_get_test_data(msl.grib magics/test/fortran)
 ecbuild_add_test( TARGET    magics_fortran
 	SOURCES   magics.f
 	LIBS      MagPlusSingle MagPlus
+	DEPENDS   msl.grib
 	LINKER_LANGUAGE Fortran )
 
 ecbuild_add_test( TARGET magics_fortran_grib
