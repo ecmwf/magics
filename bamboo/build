@@ -5,6 +5,7 @@ set -eaux
 /usr/local/apps/cmake/current/bin/cmake $2 \
     -DCMAKE_MODULE_PATH=$5 \
     -DCMAKE_INSTALL_PREFIX=$4  \
+    -DCMAKE_C_FLAGS=-DMAGICS_EXCEPTION \
     -DCMAKE_BUILD_TYPE=Debug
     
 /usr/local/apps/cmake/current/bin/cmake $2 -LAH > build-info.txt
