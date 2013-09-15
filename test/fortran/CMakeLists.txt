@@ -24,24 +24,21 @@ function (ecbuild_get_test_data basename dirname md5)
 	set(MD5 ${md5})
 
 	if(MD5) 
-		message(STATUS "MD5 is true...")
 		add_custom_command(
 			OUTPUT ${basename}.localmd5
 			COMMAND md5sum ${basename} > ${basename}.localmd5)
 
 		add_custom_command(
 			OUTPUT ${basename}.ok
-			COMMAND touch ${basename}.ok
+			COMMAND diff ${basename}.md5 ${basename}.localmd5 && touch ${basename}.ok
 		)
 
 		_get_test_data(${basename}.md5 ${dirname})
 		set(depends ${basename} ${basename}.md5 ${basename}.localmd5 ${basename}.ok)
 	else()
-		message(STATUS "MD5 is false...")
 		set(depends ${basename})
 	endif()
 
-	message(STATUS "${TARGET} depend on ${depends}")
 
 	ADD_CUSTOM_TARGET(${TARGET} DEPENDS ${depends})
 
