@@ -27,7 +27,7 @@ function (ecbuild_get_test_data basename dirname md5)
 			COMMAND touch ${basename}.ok
 		)
 
-		_get_test_data(${basename}.md5 FROM)
+		_get_test_data(${basename}.md5 ${dirname})
 		set(depends ${basename} ${basename}.md5 ${basename}.localmd5 ${basename}.ok)
 	endif()
 
