@@ -20,7 +20,9 @@ function (ecbuild_get_test_data basename dirname md5)
 
 	message(STATUS "MD5 is ${md5}")
 
-	if(md5) 
+	set(MD5 ${md5})
+
+	if(MD5) 
 		message(STATUS "MD5 is true...")
 		add_custom_command(
 			OUTPUT ${basename}.localmd5
