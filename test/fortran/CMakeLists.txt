@@ -9,6 +9,8 @@ function(_get_test_data basename dirname)
 endfunction()
 
 
+# Will create target 'test_data_foo_grib' from 'foo.grib'
+
 function (ecbuild_get_test_data basename dirname md5)
 
     STRING(REGEX REPLACE "[^A-Za-z0-9_]" "_"
