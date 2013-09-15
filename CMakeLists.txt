@@ -127,6 +127,7 @@ if( WITH_CAIRO )
 
 	if( PANGOCAIRO_FOUND )
     	set( MAGICS_CAIRO 1 )
+		#set( MAGICS_RASTER 1 )
     endif()
     debug_var ( MAGICS_CAIRO )
 endif()

@@ -5,7 +5,8 @@ set -eaux
 /usr/local/apps/cmake/current/bin/cmake $2 \
     -DCMAKE_MODULE_PATH=$5 \
     -DCMAKE_INSTALL_PREFIX=$4  \
-    -DCMAKE_BUILD_TYPE=Debug
+    -DCMAKE_BUILD_TYPE=Debug \
+    -DWITH_CAIRO=ON
 
 #    -DCMAKE_C_FLAGS=-DMAGICS_EXCEPTION \
     
