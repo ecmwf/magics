@@ -65,6 +65,7 @@ B* SimpleFactory<B>::create(const string& name)
 #ifdef MAGICS_EXCEPTION
 	throw NoFactoryException(name);
 #else 
+    cerr << "SimpleFactory: Failed to create an object named " << name << endl;
 	return 0;
 #endif	
 } 
