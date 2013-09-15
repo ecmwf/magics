@@ -14,8 +14,12 @@ function (ecbuild_get_test_data basename dirname md5)
     STRING(REGEX REPLACE "[^A-Za-z0-9_]" "_"
 		TARGET "test_data_${basename}")
 
+	message(STATUS "Created download target ${TARGET}")
+
 	_get_test_data(${basename} ${dirname})
 	set(depends ${basename})
+
+	message(STATUS "MD5 is ${md5}")
 
 	if(${md5}) 
 		add_custom_command(
@@ -30,6 +34,8 @@ function (ecbuild_get_test_data basename dirname md5)
 		_get_test_data(${basename}.md5 ${dirname})
 		set(depends ${basename} ${basename}.md5 ${basename}.localmd5 ${basename}.ok)
 	endif()
+
+	message(STATUS "${TARGET} depend on ${depends}")
 
 	ADD_CUSTOM_TARGET(${TARGET} DEPENDS ${depends})
 
