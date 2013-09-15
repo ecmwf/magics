@@ -30,16 +30,11 @@ macro (ecbuild_get_test_data NAME FROM)
 
 	add_custom_command(
 		OUTPUT ${NAME}
-		COMMAND curl --verbose --noproxy '*' -o ${NAME} http://download.ecmwf.int/test-data/${FROM}/${NAME})
+		COMMAND env no_proxy= NO_PROXY= http_proxy=http://proxy.ecmwf.int:3333 curl --verbose -o ${NAME} http://download.ecmwf.int/test-data/${FROM}/${NAME})
 
 endmacro(ecbuild_get_test_data)
 
 ecbuild_get_test_data(msl.grib magics/test/fortran)
-
-#add_custom_command(
-#	OUTPUT msl.grib
-#	COMMAND wget -O msl.grib http://download.ecmwf.int/test-data/magics/test/fortran/msl.grib
-#)
 
 ecbuild_add_test( TARGET    magics_fortran
 	SOURCES   magics.f
