@@ -35,7 +35,7 @@ function (ecbuild_get_test_data basename dirname md5)
 
 endfunction(ecbuild_get_test_data)
 
-ecbuild_get_test_data(msl.grib magics/test/fortran 0)
+ecbuild_get_test_data(msl.grib magics/test/fortran f69ca0929d1122c7878d19f32401abe9)
 
 ecbuild_add_test( TARGET    magics_fortran
 	SOURCES   magics.f
