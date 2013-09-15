@@ -17,11 +17,11 @@ function (ecbuild_get_test_data basename dirname md5)
 	message(STATUS "Created download target ${TARGET}")
 
 	_get_test_data(${basename} ${dirname})
-	set(depends ${basename})
 
 	message(STATUS "MD5 is ${md5}")
 
-	if(${md5}) 
+	if("${md5}") 
+		message(STATUS "MD5 is true...")
 		add_custom_command(
 			OUTPUT ${basename}.localmd5
 			COMMAND md5sum ${basename} > ${basename}.localmd5)
@@ -33,6 +33,9 @@ function (ecbuild_get_test_data basename dirname md5)
 
 		_get_test_data(${basename}.md5 ${dirname})
 		set(depends ${basename} ${basename}.md5 ${basename}.localmd5 ${basename}.ok)
+	else()
+		message(STATUS "MD5 is false...")
+		set(depends ${basename})
 	endif()
 
 	message(STATUS "${TARGET} depend on ${depends}")
