@@ -17,7 +17,7 @@ function (ecbuild_get_test_data basename dirname md5)
 	_get_test_data(${basename} ${dirname})
 	set(depends ${basename})
 
-	if(MD5) 
+	if(${md5}) 
 		add_custom_command(
 			OUTPUT ${basename}.localmd5
 			COMMAND md5sum ${basename} > ${basename}.localmd5)
