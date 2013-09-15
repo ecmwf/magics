@@ -82,6 +82,7 @@ SimpleFactory<B>* SimpleFactory<B>::get(const string& name)
 #ifdef MAGICS_EXCEPTION
 	throw NoFactoryException(name);
 #else 
+    cerr << "SimpleFactory: Failed to get an object named " << name << endl;
 	return 0;
 #endif
 }
