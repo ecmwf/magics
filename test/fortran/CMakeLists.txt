@@ -1,11 +1,18 @@
 # TODO: Move to ecbuild
 
 function(_get_test_data basename dirname)
+
+	# TODO: make that 'at ecmwf'
+	if(1) 
+		unset(ENV{no_proxy})
+		unset(ENV{NO_PROXY})
+		set(ENV{http_proxy} "http://proxy.ecmwf.int:3333")
+	endif()
+	
 	# TODO: choose between wget and curl
 	add_custom_command(
 		OUTPUT ${basename}
-		COMMAND env no_proxy= NO_PROXY= http_proxy=http://proxy.ecmwf.int:3333 
-			curl --silent --show-error --fail --output ${basename} http://download.ecmwf.int/test-data/${dirname}/${basename})
+		COMMAND curl --silent --show-error --fail --output ${basename} http://download.ecmwf.int/test-data/${dirname}/${basename})
 endfunction()
 
 
