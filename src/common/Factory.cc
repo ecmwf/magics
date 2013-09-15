@@ -65,7 +65,7 @@ B* SimpleFactory<B>::create(const string& name)
 #ifdef MAGICS_EXCEPTION
 	throw NoFactoryException(name);
 #else 
-    cerr << "SimpleFactory: Failed to create an object named " << name << endl;
+    cerr << "SimpleFactory: Failed to create an object named '" << name << "'" << endl;
 	return 0;
 #endif	
 } 
@@ -82,7 +82,7 @@ SimpleFactory<B>* SimpleFactory<B>::get(const string& name)
 #ifdef MAGICS_EXCEPTION
 	throw NoFactoryException(name);
 #else 
-    cerr << "SimpleFactory: Failed to get an object named " << name << endl;
+    cerr << "SimpleFactory: Failed to get an object named '" << name << "'" << endl;
 	return 0;
 #endif
 }
