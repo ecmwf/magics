@@ -1,5 +1,5 @@
 #!/bin/bash
-# $1 = top directory $2 = git directory $3 = build directory $4 = install directory $5 = ecbuild $6 = cpus
+# $1 = top directory $2 = git directory $3 = build directory $4 = install directory $5 = ecbuild $6 = cpus $7 = sudo
 set -eaux
 
 /usr/local/apps/cmake/current/bin/cmake $2 \
@@ -12,4 +12,4 @@ set -eaux
     
 /usr/local/apps/cmake/current/bin/cmake $2 -LAH > build-info.txt
 
-make -j $6 install
+$7 make -j $6 install
