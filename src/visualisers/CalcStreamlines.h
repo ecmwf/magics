@@ -36,7 +36,7 @@ float CalcLonDist(float lon1, float lon2);
 
 
 // Struct for the equidistant grid geometry
-typedef struct GSStruct
+struct GSStruct
 {
 	// Number of gridpoints
 	int nx;

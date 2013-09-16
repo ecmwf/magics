@@ -36,7 +36,7 @@ Seconds::Seconds(const timeval& time):
 
 static struct  {
     int length_;
-    char *name_;
+    const char *name_;
 } periods[] = {
     {7 * 24 * 60 * 60, "week",},    
     {24 * 60 * 60, "day",}, 

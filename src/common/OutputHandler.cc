@@ -37,6 +37,8 @@ void OutputHandler::set(DriverManager& magics)
 	for ( vector<string>::const_iterator format = formats_.begin(); format != formats_.end(); ++format)
 	{
 		OutputFactory* factory = MagTranslator<string, OutputFactory>()(*format);
+        ASSERT(factory);
+
 		XmlNode node;
 		factory->set(magics, node); 
 		factories_.push_back(factory);
@@ -47,6 +49,7 @@ void OutputHandler::set(const XmlNode& node, DriverManager& magics)
 {
 	try {
 		OutputFactory* factory = MagTranslator<string, OutputFactory>()(node.name());
+        ASSERT(factory);
 	
 		factory->set(magics, node); 
 		factories_.push_back(factory);

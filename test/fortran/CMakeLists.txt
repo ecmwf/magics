@@ -1,54 +1,70 @@
+# TODO: Move to ecbuild
 
-if(0)
-	message(status "DOWNLOAD http://download.ecmwf.int/test-data/magics/test/fortran/msl.grib into ${CMAKE_CURRENT_BINARY_DIR}/msl.grib")
+function(_get_test_data basename dirname)
 
-	file( DOWNLOAD http://download.ecmwf.int/test-data/magics/test/fortran/msl.grib 
-		${CMAKE_CURRENT_BINARY_DIR}/msl.grib
-		EXPECTED_HASH SHA1=da39a3ee5e6b4b0d3255bfef95601890afd80709 )
+	# TODO: make that 'at ecmwf'
+	#if(1) 
+	#unset(ENV{no_proxy})
+	#unset(ENV{NO_PROXY})
+	#set(ENV{http_proxy} "http://proxy.ecmwf.int:3333")
+	#endif()
 
-	message(status "Run: perl -e 'print -s q(${CMAKE_CURRENT_BINARY_DIR}/msl.grib);'")
-
-	execute_process(
-		COMMAND "perl" "-e" "print -s q(${CMAKE_CURRENT_BINARY_DIR}/msl.grib);"
-		RESULT_VARIABLE code
-		OUTPUT_VARIABLE size)
-
-	message(status "  ---> result=${code}, output=${size}")
-
-	if (NOT ${code})
-		if (NOT ${size}) 
-			#message(FATAL_ERROR "${CMAKE_CURRENT_BINARY_DIR}/msl.grib is empty")
-			message(WARNING "${CMAKE_CURRENT_BINARY_DIR}/msl.grib is empty")
-		endif()
-	else()
-		message(FATAL_ERROR "perl ${_args} failed with code ${code}")
-	endif()
-endif()
-
-macro (ecbuild_get_test_data NAME FROM)
 	# TODO: choose between wget and curl
-
 	add_custom_command(
-		OUTPUT ${NAME}
-		COMMAND wget -O ${NAME} http://download.ecmwf.int/test-data/${FROM}/${NAME})
+		OUTPUT ${basename}
+		COMMAND env no_proxy= NO_PROXY= http_proxy=http://proxy.ecmwf.int:3333
+		curl --silent --show-error --fail --output ${basename} http://download.ecmwf.int/test-data/${dirname}/${basename})
+endfunction()
 
-endmacro(ecbuild_get_test_data)
 
-ecbuild_get_test_data(msl.grib magics/test/fortran)
+# Will create target 'test_data_foo_grib' from 'foo.grib'
 
-#add_custom_command(
-#	OUTPUT msl.grib
-#	COMMAND wget -O msl.grib http://download.ecmwf.int/test-data/magics/test/fortran/msl.grib
-#)
+function (ecbuild_get_test_data basename dirname md5)
+
+	STRING(REGEX REPLACE "[^A-Za-z0-9_]" "_"
+		TARGET "test_data_${basename}")
+
+	message(STATUS "Created download target ${TARGET}")
+
+	_get_test_data(${basename} ${dirname})
+
+	message(STATUS "MD5 is ${md5}")
+
+	# if(md5) with fail, while if(MD5) works ....
+	set(MD5 ${md5})
+
+	if(MD5) 
+		add_custom_command(
+			OUTPUT ${basename}.localmd5
+			COMMAND md5sum ${basename} > ${basename}.localmd5)
+
+		add_custom_command(
+			OUTPUT ${basename}.ok
+			COMMAND diff ${basename}.md5 ${basename}.localmd5 && touch ${basename}.ok
+			)
+
+		_get_test_data(${basename}.md5 ${dirname})
+		set(depends ${basename} ${basename}.md5 ${basename}.localmd5 ${basename}.ok)
+	else()
+		set(depends ${basename})
+	endif()
+
+
+	ADD_CUSTOM_TARGET(${TARGET} DEPENDS ${depends})
+
+endfunction(ecbuild_get_test_data)
+
+ecbuild_get_test_data(msl.grib magics/test/fortran f69ca0929d1122c7878d19f32401abe9)
 
 ecbuild_add_test( TARGET    magics_fortran
 	SOURCES   magics.f
 	LIBS      MagPlusSingle MagPlus
-	DEPENDS   msl.grib
-	LINKER_LANGUAGE Fortran )
+	LINKER_LANGUAGE CXX)
 
 ecbuild_add_test( TARGET magics_fortran_grib
 	SOURCES grib.f90 
 	LIBS MagPlusSingle MagPlus 
-	DEPENDS   msl.grib
-	LINKER_LANGUAGE Fortran)
+	LINKER_LANGUAGE CXX)
+
+ADD_DEPENDENCIES(magics_fortran_grib test_data_msl_grib)
+
