@@ -1,0 +1,1 @@
+SET(WITH_CAIRO ON CACHE BOOl "Enable PNG")
