@@ -239,7 +239,7 @@ ecbuild_add_resources( TARGET regression
 ############################################################################################
 # finalize
 
-ecbuild_install_project( NAME Magics )
+ecbuild_install_project( NAME magics )
 
 ecbuild_print_summary()
 
