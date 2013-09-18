@@ -12,8 +12,7 @@ function(_get_test_data basename dirname)
 	# TODO: choose between wget and curl
 	add_custom_command(
 		OUTPUT ${basename}
-		COMMAND env no_proxy= NO_PROXY= http_proxy=http://proxy.ecmwf.int:3333
-		curl --silent --show-error --fail --output ${basename} http://download.ecmwf.int/test-data/${dirname}/${basename})
+		COMMAND curl --silent --show-error --fail --output ${basename} http://download.ecmwf.org/test-data/${dirname}/${basename})
 endfunction()
 
 

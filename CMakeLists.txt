@@ -108,6 +108,8 @@ if( WITH_PYTHON )
     find_package( SWIG )
     if( SWIG_FOUND )
         include(UseSWIG)
+	else()
+		set(WITH_PYTHON OFF)
     endif()
 endif()
 
