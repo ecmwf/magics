@@ -102,7 +102,7 @@ void ObstatVisDefInfo::loadItems()
 		return;
 
 	//Obs        fgdep       bcor       Obstdv       fgdStdv    BcorSTDV      Count     Unit
-	char *statIdDef[]={"2","4","18","3","5","19","1"};
+	const char *statIdDef[]={"2","4","18","3","5","19","1"};
 	vector<string> statId(statIdDef,statIdDef + sizeof(statIdDef)/sizeof(char*));
 
 	ifstream in;

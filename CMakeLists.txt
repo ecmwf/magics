@@ -36,8 +36,8 @@ endif()
 # some variables of this project
 
 option( WITH_QT            "wether to use Qt"          OFF )
-option( WITH_CAIRO         "wether to use Cairo"       OFF  )
-option( WITH_METVIEW  "install all headers"       OFF )
+option( WITH_CAIRO         "wether to use Cairo"       OFF )
+option( WITH_METVIEW       "install all headers"       OFF )
 option( WITH_GRIB          "enable grib"               ON  )
 option( WITH_NETCDF        "enable netcdf"             ON  )
 option( WITH_BUFR          "enable bufr"               OFF )
@@ -108,6 +108,8 @@ if( WITH_PYTHON )
     find_package( SWIG )
     if( SWIG_FOUND )
         include(UseSWIG)
+	else()
+		set(WITH_PYTHON OFF)
     endif()
 endif()
 
@@ -127,6 +129,7 @@ if( WITH_CAIRO )
 
 	if( PANGOCAIRO_FOUND )
     	set( MAGICS_CAIRO 1 )
+		#set( MAGICS_RASTER 1 )
     endif()
     debug_var ( MAGICS_CAIRO )
 endif()
@@ -258,7 +261,7 @@ configure_file( magics-config.in  magics-config @ONLY )
 ############################################################################################
 # finalize
 
-ecbuild_install_project( NAME Magics )
+ecbuild_install_project( NAME magics )
 
 ecbuild_print_summary()
 
