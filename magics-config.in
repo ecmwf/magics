@@ -1,9 +1,9 @@
 #!/bin/sh
 
 prefix=@CMAKE_INSTALL_PREFIX@
-exec_prefix=@INSTALL_BIN_DIR@
-libdir=@INSTALL_LIB_DIR@
-includedir=@INSTALL_INCLUDE_DIR@
+exec_prefix=@CMAKE_INSTALL_PREFIX@/bin
+libdir=@CMAKE_INSTALL_PREFIX@/lib
+includedir=@CMAKE_INSTALL_PREFIX@/include
 F77="@CMAKE_Fortran_COMPILER@"
 CC="@CMAKE_C_COMPILER@"
 CXX="@CMAKE_CXX_COMPILER@"
@@ -14,8 +14,8 @@ FFLAGS="@CMAKE_Fortran_FLAGS@"
 CPPLIBS="@CPPLIBS@"
 py_dir="@PYTHON_SITE_PACKAGES@"
 suffix=""
-
-#
+ 
+# 
 #  add --print-config
 #
 #
@@ -233,13 +233,14 @@ if test "$echo_cxxflags" = "yes"; then
 fi
 
 if test "$echo_libs" = "yes"; then
-if test -f ${libdir}/libMagPlus${SHLIB_EXT} ; then
+if test -f ${libdir}/libMagPlus@CMAKE_SHARED_LIBRARY_SUFFIX@; then
 		my_libs="-L${libdir} -lMagPlus"
 	else
 		my_libs="${libdir}/libMagPlus.a"
 	fi
 
-	my_libs="${my_libs} @LDFLAGS@ @MAGICS_3RDPARTY_LIBS@ @FLIBS@"
+ 
+	my_libs="${my_libs} @MAGICS_EXTRA_LIBS@"
 
 	if test "$echo_clibs" = "yes"; then
 		my_libs="${my_libs} $CPPLIBS"
@@ -257,16 +258,18 @@ fi
 
 if test "$echo_static" = "yes"; then
 	if test -f ${libdir}/libMagPlus.a ; then
-	  static="${precision} ${libdir}/libMagPlus.a -L${libdir} @LDFLAGS@ @MAGICS_3RDPARTY_LIBS@ $CPPLIBS"
+	  static="${precision} ${libdir}/libMagPlus.a -L${libdir} @LDFLAGS@ @MAGICS_EXTRA_LIBS@ $CPPLIBS"
 	  echo ${static}
 	else
 	  echo "magics-config: NO STATIC LIBRARY available"
 	fi
 fi
 
+
+
 if test "$echo_shared" = "yes"; then
-	if test -f ${libdir}/libMagPlus${SHLIB_EXT} ; then
-	  shared="${precision} -L${libdir} -lMagPlus @LDFLAGS@ @MAGICS_3RDPARTY_LIBS@ $CPPLIBS"
+	if test -f ${libdir}/libMagPlus@CMAKE_SHARED_LIBRARY_SUFFIX@ ; then
+	  shared=" ${precision} -L${libdir} -lMagPlus @LDFLAGS@ @MAGICS_EXTRA_LIBS@ $CPPLIBS"
 	  echo ${shared}
 	else
 	  echo "magics-config: NO SHARED LIBRARY"
@@ -288,8 +291,8 @@ if test "$compile" = "yes"; then
 	if test ${name} != ${f77_file} ; then
 	      out="-o $name "              ### avoid overriding source file
 	fi
-	echo "$F77 ${out}$f77_file ${FFLAGS} ${precision} -L${libdir} -lMagPlus @LDFLAGS@ @MAGICS_3RDPARTY_LIBS@ $CPPLIBS"
-	$F77 ${out}$f77_file ${FFLAGS} ${precision} -L${libdir} -Wl,-rpath,${libdir} -lMagPlus @LDFLAGS@ @MAGICS_3RDPARTY_LIBS@ $CPPLIBS
+	echo "$F77 ${out}$f77_file ${FFLAGS} ${precision} -L${libdir} -lMagPlus @LDFLAGS@ @MAGICS_EXTRA_LIBS@ $CPPLIBS"
+	$F77 ${out}$f77_file ${FFLAGS} ${precision} -L${libdir} -Wl,-rpath,${libdir} -lMagPlus @LDFLAGS@ @MAGICS_EXTRA_LIBS@ $CPPLIBS
 fi
 
 if test "$compileC" = "yes"; then
@@ -303,6 +306,6 @@ if test "$compileC" = "yes"; then
 	if test ${name} != ${c_file} ; then
 	      out="-o $name "              ### avoid overriding source file
 	fi
-	echo "$CC ${out}$c_file ${CFLAGS} -L${libdir} -lMagPlus @LDFLAGS@ @MAGICS_3RDPARTY_LIBS@ $CPPLIBS @FLIBS@"
-	$CC ${out}$c_file ${CFLAGS} -I${includedir} -L${libdir} -Wl,-rpath,${libdir} -lMagPlus @LDFLAGS@ @MAGICS_3RDPARTY_LIBS@ $CPPLIBS @FLIBS@
+	echo "$CC ${out}$c_file ${CFLAGS} -L${libdir} -lMagPlus @LDFLAGS@ @MAGICS_EXTRA_LIBS@ $CPPLIBS @FLIBS@"
+	$CC ${out}$c_file ${CFLAGS} -I${includedir} -L${libdir} -Wl,-rpath,${libdir} -lMagPlus @LDFLAGS@ @MAGICS_EXTRA_LIBS@ $CPPLIBS @FLIBS@
 fi

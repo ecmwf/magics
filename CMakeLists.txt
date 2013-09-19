@@ -131,7 +131,7 @@ if( WITH_CAIRO )
     debug_var ( MAGICS_CAIRO )
 endif()
 
-configure_file( magics-config.in  magics-config @ONLY )
+
 install( FILES ${CMAKE_CURRENT_BINARY_DIR}/magics-config
 			DESTINATION ${INSTALL_BIN_DIR} 
 			PERMISSIONS OWNER_READ GROUP_READ WORLD_READ 
@@ -165,7 +165,7 @@ set( MAGICS_INCLUDE_DIRS
         ${CMAKE_CURRENT_SOURCE_DIR}/src/decoders
         ${CMAKE_CURRENT_SOURCE_DIR}/src/terralib
         ${CMAKE_CURRENT_SOURCE_DIR}/src/terralib/kernel
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/terralib/utils
+ \       ${CMAKE_CURRENT_SOURCE_DIR}/src/terralib/utils
 	    ${Boost_INCLUDE_DIRS} )
 	    
 if ( MAGICS_ODB ) 
@@ -175,6 +175,9 @@ if ( MAGICS_ODB )
 		)
 endif()
 	    
+	    
+debug_var (${PANGOCAIRO_LIBRARIES})
+
 set( MAGICS_LIBRARIES    MagPlus )
 
 foreach( _tpl ${MAGICS_TPLS} )
@@ -183,8 +186,8 @@ foreach( _tpl ${MAGICS_TPLS} )
     list( APPEND MAGICS_EXTRA_INCLUDE_DIRS  ${${TPL}_INCLUDE_DIRS} )
     list( APPEND MAGICS_EXTRA_LIBRARIES     ${${TPL}_LIBRARIES} )
 endforeach()
-
-message(STATUS "MAGICS_EXTRA_DEFINITIONS  => ${MAGICS_EXTRA_DEFINITIONS}")
+message(STATUS "MAGICS_EXTRA_DEFINITIONS    => ${MAGICS_EXTRA_LIBRARIES}")
+message(STATUS "PANGOCAIRO_LIBRARIES  => ${PANGOCAIRO_LIBRARIES}")
 message(STATUS "MAGICS_EXTRA_INCLUDE_DIRS => ${MAGICS_EXTRA_INCLUDE_DIRS}")
 message(STATUS "MAGICS_EXTRA_LIBRARIES    => ${MAGICS_EXTRA_LIBRARIES}")
 
@@ -232,7 +235,23 @@ ecbuild_add_resources( TARGET regression
 					tools/xml 
 					tools/use_scripts
 					tools/versioncmp_folders)
-					
+
+
+
+debug_var( ${MAGICS_EXTRA_LIBRARIES} ) 
+set(  __magics_tmp ${MAGICS_EXTRA_LIBRARIES} )
+
+list(REMOVE_ITEM __magics_tmp debug )
+list(REMOVE_ITEM __magics_tmp optimized )
+
+set(MAGICS_EXTRA_LIBS "")
+
+foreach( lib ${__magics_tmp} )
+  set(MAGICS_EXTRA_LIBS "${MAGICS_EXTRA_LIBS} ${lib}" )
+endforeach()
+
+
+configure_file( magics-config.in  magics-config @ONLY )					
 # ecbuild/cmake is needed in the the distribution tar ball!
 
 					
@@ -242,4 +261,5 @@ ecbuild_add_resources( TARGET regression
 ecbuild_install_project( NAME Magics )
 
 ecbuild_print_summary()
+
 
