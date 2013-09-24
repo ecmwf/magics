@@ -196,3 +196,12 @@ foreach( file ${_visualisers_srcs} )
 endforeach()
 
 set( visualisers_srcs ${visualisers_srcs} PARENT_SCOPE )
+
+if ( WITH_METVIEW )
+    list (APPEND metview_include 
+            visualisers/LegendMethod.h      
+             visualisers/ImagePlotting.h
+             visualisers/LookupTableMode.h
+            )
+    set( metview_include ${metview_include} PARENT_SCOPE )
+endif()

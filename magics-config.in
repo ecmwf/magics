@@ -147,6 +147,12 @@ while test $# -gt 0; do
 	--libdir)
 		echo "${libdir}"
 		;;
+	--ld-lib)
+		echo "setup to use for lD_LIBRARY_PATH"
+		;;
+	--python)
+		echo "@PYTHON_SITE_PACKAGES@"
+		;;
 	--clibs)
 		echo_libs=yes
 		echo_clibs=yes
@@ -285,7 +291,6 @@ if test "$compile" = "yes"; then
 	if test "${suffix}x" = "x"; then
 	   suffix="f"
 	fi
-
 	name="`basename $f77_file .${suffix}`"
 
 	if test ${name} != ${f77_file} ; then
