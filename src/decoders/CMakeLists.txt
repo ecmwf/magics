@@ -131,6 +131,14 @@ set( decoders_srcs ${decoders_srcs} PARENT_SCOPE )
 if ( WITH_METVIEW )
 	list (APPEND metview_include 
 			decoders/DateTime.h 
+			decoders/GribDecoder.h 
+			decoders/ThinningMethod.h 
+			decoders/BinningObject.h  
+			decoders/WindMode.h  
+			decoders/GribAddressMode.h  
+			decoders/GribLoopStep.h  
+			decoders/GribInterpretor.h
+			decoders/GribSatelliteInterpretor.h
 			
 			)
 	set( metview_include ${metview_include} PARENT_SCOPE )

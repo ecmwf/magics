@@ -150,9 +150,22 @@ if ( WITH_METVIEW )
    list ( APPEND attributes_include 
 				OutputHandlerAttributes.h 
 				FortranRootSceneNodeAttributes.h  
+                BinningObjectAttributes.h
+                GribDecoderAttributes.h
+                DateGribLoopStepAttributes.h
+                GribLoopAttributes.h
+                GeoRectangularProjectionAttributes.h
+                LegendVisitorAttributes.h
 				XmlRootNodeAttributes.h 
 				WrepRootNodeAttributes.h
 				QtDriverAttributes.h
+                ContinuousLegendMethodAttributes.h
+                HistogramLegendMethodAttributes.h
+                XmlBasicNodeAttributes.h
+                ImagePlottingAttributes.h
+                LookupTableModeAttributes.h
+                FixedTableModeAttributes.h
+
 				)
    install ( FILES magics.h  DESTINATION ${INSTALL_INCLUDE_DIR})
    install ( FILES terralib/kernel/TeProjection.h 

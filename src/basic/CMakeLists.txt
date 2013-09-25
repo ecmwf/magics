@@ -58,6 +58,9 @@ if ( WITH_METVIEW )
 			basic/DisplayManager.h
 			basic/Layer.h
 			basic/SceneVisitor.h 
+			basic/XmlMagics.h 
+			basic/LegendVisitor.h 
+			basic/Visdef.h 
 			)
 	set( metview_include ${metview_include} PARENT_SCOPE )
 endif()

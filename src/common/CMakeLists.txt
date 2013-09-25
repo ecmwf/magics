@@ -119,6 +119,24 @@ if ( WITH_METVIEW )
 				common/Transformation.h
 				common/UserPoint.h
 				common/CustomisedPoint.h
+				common/XmlTree.h
+				common/XmlReader.h
+				common/RasterData.h
+				common/Decoder.h
+				common/Data.h
+				common/MatrixHandler.h
+				common/BasePointsHandler.h
+				common/Timer.h
+                common/DataStats.h
+                common/IntervalMap.h
+                common/GeoRectangularProjection.h
+                common/Text.h
+                common/Label.h
+                common/MagFont.h
+                common/Image.h
+                common/ImageProperties.h
+                common/ColourTable.h
+                common/ColourTableDefinition.h
 				)
 	set( metview_include ${metview_include} PARENT_SCOPE )
 endif()
