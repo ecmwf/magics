@@ -13,7 +13,7 @@ def main(args=None):
 		os.remove(args[2])
 		print "Clean File %s before running the test" % ( args[2] )
 
-    e = call([args[1]])
+    e = call(["./"+args[1]])
 
     e = os.path.exists(args[2])
 	

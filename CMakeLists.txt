@@ -49,7 +49,11 @@ option( WITH_FORTRAN       "enable Fortran interface"  ON  )
 set( MAGICS_NAME          "Magics" )
 set( MAGICS_SITE          "ecmwf" )
 set( MAGICS_INSTALL_PATH  ${CMAKE_INSTALL_PREFIX} )
-set( MAGICS_REFERENCE_VERSION        "2.20.2" )
+set( MAGICS_REFERENCE_VERSIONS            "2.20.2" )
+list( APPEND MAGICS_REFERENCE_VERSIONS    "2.18.14" )
+
+debug_var(MAGICS_REFERENCE_VERSIONS)
+
 set( MAGICS_HTML_ROOT        "${CMAKE_INSTALL_PREFIX}/html")
 
 set( MAG_PYTHON_PATH ${CMAKE_BINARY_DIR}/python )

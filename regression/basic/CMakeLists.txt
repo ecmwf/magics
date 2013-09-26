@@ -3,9 +3,21 @@
 # download data 
 ecbuild_get_test_data( NAME data.grib NOCHECK )
 
-# download reference
-ecbuild_get_test_data( NAME ref_basic.png NOCHECK 
-				DIRNAME magics/reference/${MAGICS_REFERENCE_VERSION}/basic )
+set( versions "" ) 
+
+set (targets "test_data_data_grib")
+
+foreach( version ${MAGICS_REFERENCE_VERSIONS} )
+	 set( file ${version}_basic.png )	 
+	 STRING(REGEX REPLACE "\\." "_" target ${file})
+	 list( APPEND targets "test_data_${target}")
+	 
+     ecbuild_get_test_data( NAME ${file} NOCHECK 
+				DIRNAME magics/reference/${version}/basic )
+	
+	 set( versions "${versions}${version} " )
+	 
+endforeach()
 
 
 # Run Test
@@ -13,15 +25,24 @@ ecbuild_add_test(  TARGET   magics_a_basic
                    TYPE     SCRIPT
                    SOURCES  basic.c
                    LIBS MagPlus ${MAGICS_EXTRA_LIBRARIES} 
-                   DEPENDS  test_data_data_grib test_data_ref_basic_png
+                   DEPENDS ${targets}
                    COMMAND  ${REGRESSION_SCRIPT_DIRECTORY}/compare.py  
-                   ARGS  ./magics_a_basic ref_basic.png 20 ${MAGICS_REFERENCE_VERSION} ${MAGICS_HTML_ROOT})
+                   ARGS  magics_a_basic basic.png -t 20  -h ${MAGICS_HTML_ROOT} -v ${versions})
 
 
 # contour
 ecbuild_get_test_data( NAME z500.grb NOCHECK  )
-ecbuild_get_test_data( NAME ref_contour.ps NOCHECK
-				DIRNAME magics/reference/${MAGICS_REFERENCE_VERSION}/basic )
+set(targets "test_data_z500_grb")
+
+foreach( version ${MAGICS_REFERENCE_VERSIONS} )
+	 set( file ${version}_contour.ps ) 
+	 STRING(REGEX REPLACE "\\." "_" target ${file})
+	 list( APPEND targets "test_data_${target}")
+     ecbuild_get_test_data( NAME ${file} NOCHECK 
+				DIRNAME magics/reference/${version}/basic )
+
+endforeach()
+
 						
 # Run Test
 ecbuild_add_test(  TARGET   magics_a_contour
@@ -29,22 +50,29 @@ ecbuild_add_test(  TARGET   magics_a_contour
                    SOURCES  contour.f
                    LINKER_LANGUAGE CXX
                    LIBS MagPlus MagPlusSingle ${MAGICS_EXTRA_LIBRARIES}
-                   DEPENDS  test_data_z500_grb test_data_ref_contour_ps
+                   DEPENDS  ${targets}
                    COMMAND  ${REGRESSION_SCRIPT_DIRECTORY}/compare.py
-                   ARGS  ./magics_a_contour ref_contour.ps 20 ${MAGICS_REFERENCE_VERSION} ${MAGICS_HTML_ROOT})
+                   ARGS  magics_a_contour contour.ps -t 20 -h ${MAGICS_HTML_ROOT} -v ${versions})
 
 ## Symbol using python
-ecbuild_get_test_data( NAME ref_symbol.png NOCHECK
-                       DIRNAME magics/reference/${MAGICS_REFERENCE_VERSION}/basic )
-
+set(targets "")
+foreach( version ${MAGICS_REFERENCE_VERSIONS} )
+     set( file ${version}_symbol.png ) 
+	 STRING(REGEX REPLACE "\\." "_" target ${file})
+	 list( APPEND targets "test_data_${target}")
+     ecbuild_get_test_data( NAME ${version}_symbol.png NOCHECK 
+				DIRNAME magics/reference/${version}/basic )
+	 
+endforeach()
 
 # Run Test
 ecbuild_add_test(  TARGET  magics_a_symbol
                    TYPE SCRIPT
                    COMMAND  ${REGRESSION_SCRIPT_DIRECTORY}/compare.py
-                   DEPENDS test_data_ref_symbol_png
+                   DEPENDS  ${targets}
                    RESOURCES symbol.py
-                   ARGS symbol.py ref_contour.png 20 ${MAGICS_REFERENCE_VERSION} ${MAGICS_HTML_ROOT}
+                   ARGS symbol.py symbol.png -t 20 -h ${MAGICS_HTML_ROOT} -v ${versions}
                    ENVIRONMENT PYTHONPATH=${MAG_PYTHON_PATH} )
+
 
 
