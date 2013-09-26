@@ -260,7 +260,6 @@ foreach( lib ${__magics_tmp} )
   if( lib MATCHES "^/.*" )
 # Need to split -L/path and -l lib
 	 get_filename_component(path lib PATH)
-	 debug_var(path)
 	 #set(MAGICS_EXTRA_LIBS "${MAGICS_EXTRA_LIBS} ${lib}" )
   else()
     if( NOT lib MATCHES "^-l.*" )

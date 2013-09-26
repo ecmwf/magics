@@ -11,14 +11,15 @@ ecbuild_add_test(  TARGET   magics_basicc
                    SOURCES  basic.c
                    LIBS MagPlus ${MAGICS_EXTRA_LIBRARIES} 
                    TYPE     SCRIPT
-                   COMMAND  ${CMAKE_CURRENT_SOURCE_DIR}/../compare.py  ARGS  ./magics_basicc basic.png ref_basic.png 20 )
+                   COMMAND  ${REGRESSION_SCRIPT_DIRECTORY}/compare.py  ARGS  ./magics_basicc basic.png ref_basic.png 20 )
+ADD_DEPENDENCIES(magics_basicc test_data_data_grib test_data_ref_basic_png)
 
 # download reference
-ecbuild_add_test(  TARGET   magics_basicf90
-                   SOURCES  basic.f90
-                   LIBS MagPlus ${MAGICS_EXTRA_LIBRARIES} 
-                   TYPE     SCRIPT
-                   COMMAND  ${CMAKE_CURRENT_SOURCE_DIR}/../compare.py  ARGS  ./magics_basicf90 basicf90.png ref_basic.png 20 )
+#ecbuild_add_test(  TARGET   magics_basicf90
+                 #  SOURCES  basic.f90
+                 #  LIBS MagPlus ${MAGICS_EXTRA_LIBRARIES} 
+                 #  TYPE     SCRIPT
+                #   COMMAND  ${REGRESSION_SCRIPT_DIRECTORY}/compare.py  ARGS  ./magics_basicf90 basicf90.png ref_basic.png 20 )
 
-ADD_DEPENDENCIES(magics_basicc test_data_data_grib test_data_ref_basic_png)
-ADD_DEPENDENCIES(magics_basicf90 test_data_data_grib test_data_ref_basic_png)
+
+#ADD_DEPENDENCIES(magics_basicf90 test_data_data_grib test_data_ref_basic_png)
