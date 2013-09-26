@@ -50,6 +50,7 @@ set( MAGICS_NAME          "Magics" )
 set( MAGICS_SITE          "ecmwf" )
 set( MAGICS_INSTALL_PATH  ${CMAKE_INSTALL_PREFIX} )
 set( MAGICS_REFERENCE_VERSION        "2.20.2" )
+set( MAGICS_HTML_ROOT        "${CMAKE_INSTALL_PREFIX}/html")
 ###############################################################################
 # projects
 

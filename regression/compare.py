@@ -12,12 +12,15 @@ def main(args=None):
     if os.path.exists(args[2]):
 		os.remove(args[2])
 		print "Clean File %s before running the test" % ( args[2] )
+
     e = call([args[1]])
+
     e = os.path.exists(args[2])
 	
     if ( e == False ) :
 		print "File %s has not been generated" % ( args[2] )
 		sys.exit(1)
+
     print "File %s has been generated" % ( args[2] )
     sys.exit(0)
 
