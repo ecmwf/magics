@@ -7,15 +7,9 @@ if(PROJ4_FOUND)
   message( STATUS "         libs  : [${PROJ4_LIBRARIES}]" )
 endif()
 
-if(CAIRO_FOUND)
-  message( STATUS " Cairo include : [${CAIRO_INCLUDE_DIRS}]" )
-  message( STATUS "         libs  : [${CAIRO_LIBRARIES}]" )
-endif()
-
-if(PANGO_FOUND)
-  message( STATUS " Pango version : [${PANGO_VERSION}]" )
-  message( STATUS "       include : [${PANGO_INCLUDE_DIRS}]" )
-  message( STATUS "         libs  : [${PANGO_LIBRARIES}]" )
+if(PANGOCAIRO_FOUND)
+  message( STATUS " PangoCairo include : [${PANGOCAIRO_INCLUDE_DIRS}]" )
+  message( STATUS "              libs  : [${PANGOCAIRO_LIBRARIES}]" )
 endif()
 
 if(GRIB_API_FOUND)
