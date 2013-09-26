@@ -103,6 +103,7 @@ find_package( Boost 1.49.0 )
 find_package( Proj4  )
 find_package( EXPAT  )
 
+
 ecbuild_find_python( VERSION 2.7 )
 if( WITH_PYTHON )
     find_package( SWIG )
@@ -123,9 +124,12 @@ endif()
 
 if( WITH_CAIRO )
 	find_package( PangoCairo  )
+	debug_var(PANGOCAIRO_FOUND)
+
 	if( PANGOCAIRO_FOUND )
     	set( MAGICS_CAIRO 1 )
     endif()
+    debug_var ( MAGICS_CAIRO )
 endif()
 
 
@@ -162,15 +166,18 @@ set( MAGICS_INCLUDE_DIRS
         ${CMAKE_CURRENT_SOURCE_DIR}/src/decoders
         ${CMAKE_CURRENT_SOURCE_DIR}/src/terralib
         ${CMAKE_CURRENT_SOURCE_DIR}/src/terralib/kernel
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/terralib/utils
+ \       ${CMAKE_CURRENT_SOURCE_DIR}/src/terralib/utils
 	    ${Boost_INCLUDE_DIRS} )
 	    
-if( MAGICS_ODB )
-    list( APPEND MAGICS_INCLUDE_DIRS
+if ( MAGICS_ODB ) 
+	list ( APPEND MAGICS_INCLUDE_DIRS 
 			${CMAKE_CURRENT_SOURCE_DIR}/src/oda 
 			${ODB_API_INCLUDE_DIRS}/../eclib 
 		)
 endif()
+	    
+	    
+debug_var (${PANGOCAIRO_LIBRARIES})
 
 set( MAGICS_LIBRARIES    MagPlus )
 
@@ -180,17 +187,16 @@ foreach( _tpl ${MAGICS_TPLS} )
     list( APPEND MAGICS_EXTRA_INCLUDE_DIRS  ${${TPL}_INCLUDE_DIRS} )
     list( APPEND MAGICS_EXTRA_LIBRARIES     ${${TPL}_LIBRARIES} )
 endforeach()
+message(STATUS "MAGICS_EXTRA_DEFINITIONS    => ${MAGICS_EXTRA_LIBRARIES}")
+message(STATUS "PANGOCAIRO_LIBRARIES  => ${PANGOCAIRO_LIBRARIES}")
+message(STATUS "MAGICS_EXTRA_INCLUDE_DIRS => ${MAGICS_EXTRA_INCLUDE_DIRS}")
+message(STATUS "MAGICS_EXTRA_LIBRARIES    => ${MAGICS_EXTRA_LIBRARIES}")
 
-#message(STATUS "MAGICS_EXTRA_DEFINITIONS    => ${MAGICS_EXTRA_LIBRARIES}")
-#message(STATUS "PANGOCAIRO_LIBRARIES  => ${PANGOCAIRO_LIBRARIES}")
-#message(STATUS "MAGICS_EXTRA_INCLUDE_DIRS => ${MAGICS_EXTRA_INCLUDE_DIRS}")
-#message(STATUS "MAGICS_EXTRA_LIBRARIES    => ${MAGICS_EXTRA_LIBRARIES}")
-
-if( MAGICS_BUFR )
+if ( MAGICS_BUFR )
 	list( APPEND MAGICS_EXTRA_DEFINITIONS   fortfloat=double fortint=int boolean=bool )
 endif()
 
-if( MAGICS_QT )
+if ( MAGICS_QT )
 	list( APPEND MAGICS_EXTRA_INCLUDE_DIRS  ${QT_INCLUDE_DIR} )
 	list( APPEND MAGICS_EXTRA_LIBRARIES     ${QT_LIBRARIES} )
 endif()
@@ -226,7 +232,7 @@ add_subdirectory( python )
 add_subdirectory( apps )
 
 # Test directory
-add_subdirectory( test )
+add_subdirectory( test ) 
 add_subdirectory( regression )
 
 # Directories not need in the distribution tar ball!
@@ -249,7 +255,7 @@ list(REMOVE_ITEM __magics_tmp debug )
 list(REMOVE_ITEM __magics_tmp optimized )
 
 set(MAGICS_EXTRA_LIBS "")
-#debug_var(__magics_tmp)
+debug_var(__magics_tmp)
 
 foreach( lib ${__magics_tmp} )
   if( lib MATCHES "^/.*" )
