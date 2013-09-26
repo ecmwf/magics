@@ -36,8 +36,8 @@ endif()
 # some variables of this project
 
 option( WITH_QT            "wether to use Qt"          OFF )
-option( WITH_CAIRO         "wether to use Cairo"       OFF  )
-option( WITH_METVIEW  "install all headers"       OFF )
+option( WITH_CAIRO         "wether to use Cairo"       ON  )
+option( WITH_METVIEW       "enable Metview support"    OFF )
 option( WITH_GRIB          "enable grib"               ON  )
 option( WITH_NETCDF        "enable netcdf"             ON  )
 option( WITH_BUFR          "enable bufr"               OFF )
@@ -51,19 +51,22 @@ set( MAGICS_SITE          "ecmwf" )
 set( MAGICS_INSTALL_PATH  ${CMAKE_INSTALL_PREFIX} )
 set( MAGICS_REFERENCE_VERSION        "2.20.2" )
 set( MAGICS_HTML_ROOT        "${CMAKE_INSTALL_PREFIX}/html")
+
+set( MAG_PYTHON_PATH ${CMAKE_BINARY_DIR}/python )
+
 ###############################################################################
 # projects
 
 # ecbuild_use_package( PROJECT eckit VERSION 0.3 REQUIRED )
 
+ecbuild_enable_fortran()
+
 if( WITH_ODB)
   ecbuild_use_package( PROJECT odb_api  VERSION 0.9.28 )
-  debug_var( ODB_API_FOUND )
   if( ODB_API_FOUND )
-		set ( MAGICS_ODB 1 )
+        set( MAGICS_ODB 1 )
   endif()
 endif()
-debug_var( MAGICS_ODB )
 
 set( MAGICS_ONLY 1)
 
@@ -81,8 +84,8 @@ endif()
 
 if( WITH_BUFR )
   find_package( EMOS  )
-   if ( EMOS_FOUND ) 
-		set ( MAGICS_BUFR 1 )
+   if( EMOS_FOUND )
+        set( MAGICS_BUFR 1 )
   endif()
 endif()
  
@@ -124,12 +127,9 @@ endif()
 
 if( WITH_CAIRO )
 	find_package( PangoCairo  )
-	debug_var(PANGOCAIRO_FOUND)
-
 	if( PANGOCAIRO_FOUND )
     	set( MAGICS_CAIRO 1 )
     endif()
-    debug_var ( MAGICS_CAIRO )
 endif()
 
 
@@ -166,18 +166,15 @@ set( MAGICS_INCLUDE_DIRS
         ${CMAKE_CURRENT_SOURCE_DIR}/src/decoders
         ${CMAKE_CURRENT_SOURCE_DIR}/src/terralib
         ${CMAKE_CURRENT_SOURCE_DIR}/src/terralib/kernel
- \       ${CMAKE_CURRENT_SOURCE_DIR}/src/terralib/utils
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/terralib/utils
 	    ${Boost_INCLUDE_DIRS} )
 	    
-if ( MAGICS_ODB ) 
-	list ( APPEND MAGICS_INCLUDE_DIRS 
+if( MAGICS_ODB )
+    list( APPEND MAGICS_INCLUDE_DIRS
 			${CMAKE_CURRENT_SOURCE_DIR}/src/oda 
 			${ODB_API_INCLUDE_DIRS}/../eclib 
 		)
 endif()
-	    
-	    
-debug_var (${PANGOCAIRO_LIBRARIES})
 
 set( MAGICS_LIBRARIES    MagPlus )
 
@@ -192,11 +189,11 @@ message(STATUS "PANGOCAIRO_LIBRARIES  => ${PANGOCAIRO_LIBRARIES}")
 message(STATUS "MAGICS_EXTRA_INCLUDE_DIRS => ${MAGICS_EXTRA_INCLUDE_DIRS}")
 message(STATUS "MAGICS_EXTRA_LIBRARIES    => ${MAGICS_EXTRA_LIBRARIES}")
 
-if ( MAGICS_BUFR )
+if( MAGICS_BUFR )
 	list( APPEND MAGICS_EXTRA_DEFINITIONS   fortfloat=double fortint=int boolean=bool )
 endif()
 
-if ( MAGICS_QT )
+if( MAGICS_QT )
 	list( APPEND MAGICS_EXTRA_INCLUDE_DIRS  ${QT_INCLUDE_DIR} )
 	list( APPEND MAGICS_EXTRA_LIBRARIES     ${QT_LIBRARIES} )
 endif()
@@ -214,7 +211,6 @@ set(MAGICS_EXTRA_INCLUDES "")
 foreach( inc ${__magics_inc_tmp} ) 
   set(MAGICS_EXTRA_INCLUDES "${MAGICS_EXTRA_INCLUDES} -I${inc}" )
 endforeach()
-debug_var(MAGICS_EXTRA_INCLUDES)
 
 # scripts
 add_subdirectory( tools )
@@ -255,7 +251,6 @@ list(REMOVE_ITEM __magics_tmp debug )
 list(REMOVE_ITEM __magics_tmp optimized )
 
 set(MAGICS_EXTRA_LIBS "")
-debug_var(__magics_tmp)
 
 foreach( lib ${__magics_tmp} )
   if( lib MATCHES "^/.*" )
@@ -271,12 +266,8 @@ foreach( lib ${__magics_tmp} )
   set(MAGICS_EXTRA_LIBS "${MAGICS_EXTRA_LIBS} ${lib}" )
 endforeach()
 
-
-
-
 configure_file( magics-config.in  magics-config @ONLY )					
 # ecbuild/cmake is needed in the the distribution tar ball!
-
 					
 ############################################################################################
 # finalize

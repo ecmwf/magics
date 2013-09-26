@@ -77,11 +77,11 @@ add_subdirectory( decoders )
 add_subdirectory( terralib )
 add_subdirectory( eckit_readers )
 
-if ( WITH_METVIEW ) 
+if( WITH_METVIEW )
 	add_subdirectory( libMagWrapper )
 endif()
 
-if ( MAGICS_ODB ) 
+if( MAGICS_ODB )
 	add_subdirectory( oda )
 endif()
 
@@ -119,7 +119,7 @@ ecbuild_add_library( TARGET    MagPlus
                         ${MAGICS_EXTRA_LIBRARIES}
                     )
 
-if ( WITH_METVIEW ) 
+if( WITH_METVIEW )
   ecbuild_add_library( TARGET    MagWrapper
                      DEPENDS   mv_params
                      SOURCES
@@ -147,7 +147,7 @@ if ( WITH_METVIEW )
                     TYPE STATIC		
                     )
    debug_var (metview_include)
-   list ( APPEND attributes_include 
+   list( APPEND attributes_include
 				OutputHandlerAttributes.h 
 				FortranRootSceneNodeAttributes.h  
                 BinningObjectAttributes.h
@@ -167,8 +167,8 @@ if ( WITH_METVIEW )
                 FixedTableModeAttributes.h
 
 				)
-   install ( FILES magics.h  DESTINATION ${INSTALL_INCLUDE_DIR})
-   install ( FILES terralib/kernel/TeProjection.h 
+   install( FILES magics.h  DESTINATION ${INSTALL_INCLUDE_DIR})
+   install( FILES terralib/kernel/TeProjection.h
 				   terralib/kernel/TeCoord2D.h 
 				   terralib/kernel/TeDefines.h 
 				   terralib/kernel/TePrecision.h 
@@ -180,9 +180,9 @@ if ( WITH_METVIEW )
 				   
 				   
 				   DESTINATION ${INSTALL_INCLUDE_DIR})
-   install ( FILES VectorOfPointers.h  DESTINATION ${INSTALL_INCLUDE_DIR})
-   foreach ( file ${attributes_include} ) 
-	install ( FILES ${CMAKE_CURRENT_BINARY_DIR}/params/${file}  DESTINATION ${INSTALL_INCLUDE_DIR})
-	endforeach()
-   install ( FILES ${metview_include} DESTINATION ${INSTALL_INCLUDE_DIR})
+   install( FILES VectorOfPointers.h  DESTINATION ${INSTALL_INCLUDE_DIR})
+   foreach( file ${attributes_include} )
+     install( FILES ${CMAKE_CURRENT_BINARY_DIR}/params/${file}  DESTINATION ${INSTALL_INCLUDE_DIR})
+   endforeach()
+   install( FILES ${metview_include} DESTINATION ${INSTALL_INCLUDE_DIR})
 endif()

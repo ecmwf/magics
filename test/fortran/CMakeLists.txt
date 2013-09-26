@@ -9,4 +9,3 @@ ecbuild_add_test( TARGET magics_fortran_grib
     LIBS      MagPlusSingle MagPlus
     TEST_DATA msl.grib
     LINKER_LANGUAGE CXX )
-
