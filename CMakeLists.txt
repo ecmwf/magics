@@ -49,7 +49,7 @@ option( WITH_FORTRAN       "enable Fortran interface"  ON  )
 set( MAGICS_NAME          "Magics" )
 set( MAGICS_SITE          "ecmwf" )
 set( MAGICS_INSTALL_PATH  ${CMAKE_INSTALL_PREFIX} )
-
+set( MAGICS_REFERENCE_VERSION        "2.20.2" )
 ###############################################################################
 # projects
 
@@ -226,6 +226,7 @@ add_subdirectory( apps )
 
 # Test directory
 add_subdirectory( test )
+add_subdirectory( regression )
 
 # Directories not need in the distribution tar ball!
 ecbuild_add_resources( TARGET src_MvObs DONT_PACK_DIRS src/MvObs)

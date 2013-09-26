@@ -1,0 +1,3 @@
+
+set ( REGRESSION_SCRIPT_DIRECTORY  ${CMAKE_CURRENT_SOURCE_DIR})
+add_subdirectory( basic )
