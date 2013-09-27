@@ -24,7 +24,9 @@ def l(t,n): return (t+' '*n)[:n]
 
 if __name__ == "__main__":
     cmd_parser = OptionParser(usage="usage: %prog <executable> <reference-file>", version='%prog : '+__version__, description = __doc__, prog = 'compare.py')
-
+    
+    print sys.argv
+    
     #flags
     #cmd_parser.add_option("-v", "--verbose", action="store_true", dest="verbose",help="Verbose output while running")
     cmd_parser.add_option("-f", "--force",action="store_true", dest="force",help="Force overwrite of existing output files")
