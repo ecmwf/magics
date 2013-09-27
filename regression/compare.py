@@ -13,35 +13,32 @@ __author__  = 'cgjd'
 __date__    = '2013-09-24'
 __version__ = '0.1'
 
-
 import sys
 import os
-from subprocess import call
+from subprocess import call,check_output
 from optparse import OptionParser
-
 
 def l(t,n): return (t+' '*n)[:n]
 
 if __name__ == "__main__":
     cmd_parser = OptionParser(usage="usage: %prog <executable> <reference-file>", version='%prog : '+__version__, description = __doc__, prog = 'compare.py')
-    
+
+#####################################################################    
     print sys.argv
+#####################################################################
     
     #flags
     #cmd_parser.add_option("-v", "--verbose", action="store_true", dest="verbose",help="Verbose output while running")
     cmd_parser.add_option("-f", "--force",action="store_true", dest="force",help="Force overwrite of existing output files")
     
     #options
-    cmd_parser.add_option("-i", "--interpreter" , default=None, help="Interpreter command")
-    cmd_parser.add_option("-t", "--threshold" ,   default='50', help="Maximum number of different pixels")
-    cmd_parser.add_option("-v", "--versions",     default=None, help='List of reference versions, defined as "<ver1> ... <verN>"')
-    cmd_parser.add_option("-o", "--output",       default=None, help="output report directory (HTML)")
+    cmd_parser.add_option("-i", "--interpreter" , default=None,  help="Interpreter command")
+    cmd_parser.add_option("-t", "--threshold" ,   default='1.0', help="Maximum percentage of different pixels")
+    cmd_parser.add_option("-v", "--versions",     default=None,  help='List of reference versions, defined as "<ver1> ... <verN>"')
+    cmd_parser.add_option("-o", "--output",       default=None,  help="Output report directory (HTML)")
 
     (optional, positional) = cmd_parser.parse_args()
 
-    #print positional
-    #print optional
-   
     #executable
     executable= ''
     if positional: executable= positional.pop(0)
@@ -64,15 +61,20 @@ if __name__ == "__main__":
         sys.stderr.write(u"Clean file '%s' before running the test. Use -f to force overwrite.\n"%reference)
         sys.exit(1)
 
+
+    #interpreter
+    interpreter= ''
+    if optional.interpreter: interpreter= optional.interpreter
+
     #force
-    if optional.force and os.path.exists(reference): os.system('rm '+reference)
+    if optional.force and os.path.exists(reference): call(['rm',reference])
 
     #threshold    
-    threshold= 50#default 
+    threshold= 1.0#default 
     try:
-        threshold= int(optional.threshold)
+        threshold= float(optional.threshold)
     except:
-         sys.stderr.write(u"Invalid threshold '%s': can not convert into integer number.\n"%optional.threshold)
+         sys.stderr.write(u"Invalid threshold '%s': can not convert into float number.\n"%optional.threshold)
          sys.exit(1)
 
     #versions
@@ -97,29 +99,38 @@ if __name__ == "__main__":
 #####################################################################
 
     #print input parameters
-    print l('test executable:',  20), executable
+    print l('test executable:',  20), interpreter, executable
     print l('test reference:',   20), reference
-    print l('threshold:',        20), '%d pixels'%threshold
+    print l('threshold:',        20), '%.2f%%'%threshold
     print l('versions:',         20), versions 
     print l('output dir (HTML):',20), output_dir
 
 #####################################################################
 
     #execute the test
-    print 'Test started'
+    #print 'Test started'
     if optional.interpreter:
         e = call([optional.interpreter,executable])
     else:
         e = call(executable,shell=True)
-    print 'Test finished'
+    #print 'Test finished'
 
     #check if output generated
     if not os.path.exists(reference):
-		sys.stderr.write(u"Output file %s has not been generated.\n"%reference)
+		sys.stderr.write(u"TEST FAILED: Output file %s has not been generated.\n"%reference)
 		sys.exit(1)
-    else:
-        print "Output file '%s' has been generated"%reference
+    #else:
+        #print "Output file '%s' has been generated"%reference
         #sys.exit(0)
+
+#####################################################################
+
+    #get number of pixels of output image
+    description= check_output(['identify',reference])                 
+  
+    #description="reference PNG 994x1402 994x1402+0+0 8-bit PseudoClass 9c 33.6KB 0.020u 0:00.020"
+    x,y= [int(x) for x in description.split(' ')[2].split('x')]
+    pixels= x*y
 
 #####################################################################
 
@@ -131,18 +142,15 @@ if __name__ == "__main__":
         #compare with test's output
         ver_ref= version+'_'+reference
         command='compare -metric AE -dissimilarity-threshold 1 "%s" "%s" diff_%s 2>  %s_compare.err'%(reference,ver_ref,ver_ref,version)
-        print command,
-        os.system(command)
-        print 'ok' 
+        call(command,shell=True)
         with open(version+'_compare.err','r') as f: diff_pixels.append(int(f.read()))
 
-
     max_diff = max(diff_pixels)
-    if max_diff>=threshold:
-		sys.stderr.write(u"TEST FAILED: Maximum number of differrent pixels is %d (threshold %d ).\n"%(max_diff, threshold))
+    if 100.0*max_diff/pixels>=threshold:
+		sys.stderr.write(u"TEST FAILED: Maximum number of different pixels is %d (%.2f%%).\n"%(max_diff,100.0*max_diff/pixels))
 		sys.exit(1)
     else:
-		sys.stderr.write(u"TEST OK: Maximum number of differrent pixels is %d (threshold %d ).\n"%(max_diff, threshold))
+		sys.stderr.write(u"TEST OK: Maximum number of different pixels is %d (%.2f%%).\n"%(max_diff,100.0*max_diff/pixels))
 		sys.exit(0)
 
 
