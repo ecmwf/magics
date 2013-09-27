@@ -62,7 +62,7 @@ function( ecbuild_add_magics_test )
                    COMMAND  ${REGRESSION_SCRIPT_DIRECTORY}/compare.py
                    DEPENDS  ${targets}  
                    RESOURCES  ${_p_RESOURCES} 
-                   ARGS ${_p_SOURCES} ${_p_IMAGE} -t ${_p_THRESHOLD}  -h ${MAGICS_HTML_ROOT}  -v ${versions} 
+                   ARGS ${_p_SOURCES} ${_p_IMAGE} -t ${_p_THRESHOLD}  -o ${MAGICS_HTML_ROOT}  -v ${versions} 
                    ENVIRONMENT PYTHONPATH=${MAG_PYTHON_PATH} )
 	else()
 # Run Test
@@ -73,7 +73,7 @@ function( ecbuild_add_magics_test )
                    DEPENDS ${targets}
                    RESOURCES  ${_p_RESOURCES} 
                    COMMAND  ${REGRESSION_SCRIPT_DIRECTORY}/compare.py  
-                   ARGS  ${target} ${_p_IMAGE} -t ${_p_THRESHOLD}  -h ${MAGICS_HTML_ROOT}  -v ${versions} 
+                   ARGS  ${target} ${_p_IMAGE} -t ${_p_THRESHOLD}  -o ${MAGICS_HTML_ROOT}  -v ${versions} 
 		)
 	endif()
 
