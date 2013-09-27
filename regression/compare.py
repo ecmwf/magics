@@ -65,7 +65,7 @@ if __name__ == "__main__":
         sys.exit(1)
 
     #force
-    if optional.force: os.system('rm '+reference)
+    if optional.force and os.path.exists(reference): os.system('rm '+reference)
 
     #threshold    
     threshold= 50#default 
@@ -77,7 +77,7 @@ if __name__ == "__main__":
 
     #versions
     versions= []
-    if optional.versions: versions= optional.versions.split(' ')
+    if optional.versions: versions= optional.versions.strip().split(' ')
     for ver in versions:
         try:
             assert(os.path.exists(ver+'_'+reference))
