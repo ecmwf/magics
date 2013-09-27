@@ -1,0 +1,100 @@
+{
+    "drivers": [
+        {
+            "format": "png", 
+            "fullname": "graph.png", 
+            "output_cairo_transparent_background": "off", 
+            "output_name_first_page_number": "off", 
+            "output_width": "900"
+        }
+    ], 
+    "height": "600", 
+    "method": "wrep", 
+    "page": {
+        "border": "off", 
+        "height": "100%", 
+        "map": {
+            "border": "on", 
+            "border-colour": "Rgb(0.5, 0.5, 0.5)", 
+            "height": "100%", 
+           
+                "cartesian": {
+                    "x_date": {
+                        "automatic": "on"
+                    }, 
+                    "y_regular": {
+                        "automatic": "on"
+                    }
+                } ,
+         
+            "template": "scores.json", 
+            "vertical_axis": {
+                "axis_grid": "on", 
+                "axis_grid_colour": "pink", 
+                "axis_grid_line_style": "dash", 
+                "axis_grid_reference_level": "102000", 
+                "axis_grid_reference_line_style": "solid", 
+                "axis_grid_reference_thickness": "1", 
+                "axis_label_font": "sansserif", 
+                "axis_line": "on", 
+                "axis_line_colour": "grey", 
+                "axis_tick_colour": "grey", 
+                "axis_tick_label_colour": "Rgb(0.5, 0.5, 0.5)", 
+                "axis_tick_label_height": "0.4", 
+                "axis_tip_title": "off", 
+                "axis_tip_title_colour": "navy", 
+                "axis_tip_title_height": "0.5", 
+                "axis_tip_title_text": "hPa", 
+                "axis_title": "on", 
+                "axis_title_colour": "navy", 
+                "axis_title_height": "0.6", 
+                "axis_title_orientation": "parallel", 
+                "axis_title_text": "hPa", 
+                "id": "vaxis"
+            }, 
+            "horizontal_axis": {
+                "axis_date_type": "automatic", 
+                "axis_days_label_colour": "Rgb(0.5, 0.5, 0.5)", 
+                "axis_days_label_height": "0.40", 
+                "axis_grid": "on", 
+                "axis_grid_colour": "pink", 
+                "axis_grid_line_style": "solid", 
+                "axis_hours_label_height": "0.40", 
+                "axis_minor_tick": "on", 
+                "axis_minor_tick_colour": "grey", 
+                "axis_months_label_colour": "Rgb(0.5, 0.5, 0.5)", 
+                "axis_months_label_height": "0.40", 
+                "axis_tick_colour": "grey", 
+                "axis_type": "date", 
+                "axis_years_label_colour": "Rgb(0.5, 0.5, 0.5)", 
+                "axis_years_label_height": "0.40"
+            }, 
+            "margin_bottom": "10%", 
+            "margin_left": "10%", 
+            "margin_top": "10%", 
+            "plot": [
+                {
+                    "graph": {
+                        "graph_line_colour": "black", 
+                        "graph_line_style": "dot", 
+                        "graph_line_thickness": "3" 
+                    }, 
+                    "wrepjson": {
+                        "wrepjson_family": "data", 
+                        "wrepjson_input_filename": "data.json", 
+                        "wrepjson_keyword": "ammc_00", 
+                        "wrepjson_missing_value": "-999", 
+                        "wrepjson_temperature_correction": "False"
+                    }
+                }
+            ],           
+            "width": "100%"
+        }, 
+        "meta": {
+            "javascript_path": "/var/tmp/cgs/git/webdev/dev/data/plot_meteogram_json-lilac-20130927103449-15230-0172.js"
+        }, 
+        "page_id": "off"
+    }, 
+    "version": "3.0", 
+    "width": "900"
+}
