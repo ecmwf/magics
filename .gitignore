@@ -1,2 +1,9 @@
 *~
+*.o
+*.ps
+*.png
+*.grib
+*.grb
+*.out
+*.keep
 
