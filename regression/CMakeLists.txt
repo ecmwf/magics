@@ -3,7 +3,7 @@ set( REGRESSION_SCRIPT_DIRECTORY  ${CMAKE_CURRENT_SOURCE_DIR} )
 
 function( ecbuild_add_magics_test )
 
-    set( options PYTHON JSON )
+    set( options PYTHON  JSON)
     set( single_value_args NAME IMAGE THRESHOLD)
     set( multi_value_args  SOURCES DATA RESOURCES )
     cmake_parse_arguments( _p "${options}" "${single_value_args}" "${multi_value_args}"  ${_FIRST_ARG} ${ARGN} )
@@ -12,8 +12,6 @@ function( ecbuild_add_magics_test )
       message(FATAL_ERROR "Unknown keywords given to ecbuild_add_magics_test(): \"${_p_UNPARSED_ARGUMENTS}\"")
     endif()
     
-
-   
     ### check parameters
 
     if( NOT _p_NAME )
@@ -29,6 +27,7 @@ function( ecbuild_add_magics_test )
     debug_var(_p_DATA)
     debug_var(_p_NAME)
     
+    set ( targets "" )
 	foreach( data ${_p_DATA} )
 	    debug_var(data)   
 	    STRING(REGEX REPLACE "\\." "_" target ${data}) 
@@ -53,57 +52,41 @@ function( ecbuild_add_magics_test )
 	 
 	endforeach()
 
+	debug_var( targets ) 
 	set(target "magics_a_${_p_NAME}")
 	
 	debug_var( MAGICS_VERSION )
-	
+
 	set(target_load "magics_load_${_p_NAME}")
 	
 	list(APPEND _p_RESOURCES ${_p_SOURCES} )
 
 	if ( _p_PYTHON ) 
-	    
-		ecbuild_add_test(  TARGET   ${target_load}
-                   TYPE SCRIPT
-                   COMMAND  ${REGRESSION_SCRIPT_DIRECTORY}/upload.py
-                   DEPENDS  ${targets}  
-                   RESOURCES  ${_p_RESOURCES} 
-                   ARGS ${_p_SOURCES} ${_p_IMAGE} magics/reference/${MAGICS_VERSION}/${where}
-                   ENVIRONMENT PYTHONPATH=${MAG_PYTHON_PATH} )
-                   
-       ecbuild_add_test(  TARGET   ${target}
+	     debug_var( _p_PYTHON )
+		 debug_var( targets )
+		
+         ecbuild_add_test(  TARGET   ${target}
                    TYPE SCRIPT
                    COMMAND  ${REGRESSION_SCRIPT_DIRECTORY}/compare.py
                    DEPENDS  ${targets}  
                    RESOURCES  ${_p_RESOURCES} 
                    ARGS ${_p_SOURCES} ${_p_IMAGE} -t ${_p_THRESHOLD}  -o ${MAGICS_HTML_ROOT}  -v ${versions} -f
             ENVIRONMENT PYTHONPATH=${MAG_PYTHON_PATH} )
-	elseif( _p_JSON )
-		ecbuild_add_test(  TARGET   ${target_load}
-                   TYPE SCRIPT
-                   COMMAND  ${REGRESSION_SCRIPT_DIRECTORY}/upload.py
-                   DEPENDS  ${targets}  
-                   RESOURCES  ${_p_RESOURCES} 
-                   ARGS ${_p_SOURCES} ${_p_IMAGE} magics/reference/${MAGICS_VERSION}/${where} magjson
-                   ENVIRONMENT PYTHONPATH=${MAG_PYTHON_PATH} )
-                   
-       ecbuild_add_test(  TARGET   ${target}
+        
+            return() 
+    endif()
+	if( _p_JSON )
+	     
+			ecbuild_add_test(  TARGET   ${target}
                    TYPE SCRIPT
                    COMMAND  ${REGRESSION_SCRIPT_DIRECTORY}/compare.py
                    DEPENDS  ${targets}  
                    RESOURCES  ${_p_RESOURCES} 
                    ARGS ${_p_SOURCES} ${_p_IMAGE} -t ${_p_THRESHOLD}  -o ${MAGICS_HTML_ROOT}  -v ${versions} -i magjson -f
-            ENVIRONMENT PYTHONPATH=${MAG_PYTHON_PATH} )
-	else()
+					ENVIRONMENT PYTHONPATH=${MAG_PYTHON_PATH} )
+            return()
+	endif()
 # Run Test
-		ecbuild_add_test(  TARGET   ${target_load}
-                   TYPE     SCRIPT
-                   SOURCES  ${_p_SOURCES}                    
-                   LIBS MagPlus MagPlusSingle ${MAGICS_EXTRA_LIBRARIES} 
-                   DEPENDS ${targets}
-                   RESOURCES  ${_p_RESOURCES} 
-                   COMMAND  ${REGRESSION_SCRIPT_DIRECTORY}/upload.py  
-                   ARGS  ${target} ${_p_IMAGE} magics/reference/${MAGICS_VERSION}/${where} ) 
 	
 		ecbuild_add_test(  TARGET   ${target}
                    TYPE     SCRIPT
@@ -113,7 +96,7 @@ function( ecbuild_add_magics_test )
                    RESOURCES  ${_p_RESOURCES} 
                    COMMAND  ${REGRESSION_SCRIPT_DIRECTORY}/compare.py  
                    ARGS  ./${target} ${_p_IMAGE} -t ${_p_THRESHOLD}  -o ${MAGICS_HTML_ROOT}  -v ${versions} -f )
-	endif()
+
 
 endfunction(ecbuild_add_magics_test)
 
