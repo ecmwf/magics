@@ -268,6 +268,31 @@ class Proj4Geos : public Proj4Projection
 public:
 	Proj4Geos() : Proj4Projection("geos") {}
 };
+class Proj4Meteosat0 : public Proj4Projection
+{
+public:
+	Proj4Meteosat0() : Proj4Projection("meteosat_0") {}
+};
+class Proj4Meteosat57 : public Proj4Projection
+{
+public:
+	Proj4Meteosat57() : Proj4Projection("meteosat_575") {}
+};
+class Proj4Meteosat145 : public Proj4Projection
+{
+public:
+	Proj4Meteosat145() : Proj4Projection("meteosat_145") {}
+};
+class Proj4Geose : public Proj4Projection
+{
+public:
+	Proj4Geose() : Proj4Projection("goes-e") {}
+};
+class Proj4Geosw : public Proj4Projection
+{
+public:
+	Proj4Geosw() : Proj4Projection("goes-w") {}
+};
 class Proj4Goode : public Proj4Projection
 {
 public:

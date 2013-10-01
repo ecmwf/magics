@@ -47,6 +47,7 @@ option( WITH_PYTHON        "enable python interface"   ON  )
 option( WITH_FORTRAN       "enable Fortran interface"  ON  )
 
 set( MAGICS_NAME          "Magics" )
+set( MAGICS_EXCEPTION     "ON" )
 set( MAGICS_SITE          "ecmwf" )
 set( MAGICS_INSTALL_PATH  ${CMAKE_INSTALL_PREFIX} )
 set( MAGICS_REFERENCE_VERSIONS            "2.20.2" )

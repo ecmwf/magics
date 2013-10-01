@@ -93,6 +93,57 @@
             "method" : "geos"
     	}
      },
+    {
+    "meteosat_0" : {
+    		"definition" : "+proj=geos +h=42164000 +ellps=WGS84 +lon_0=0",
+			"min_longitude" : -70,
+			"min_latitude" : -80,
+			"max_longitude" : 70,
+			"max_latitude" : 80,
+            "method" : "geos"
+    	}
+     },
+    {
+    "meteosat_575" : {
+    		"definition" : "+proj=geos +h=42164000 +ellps=WGS84 +lon_0=57.5",
+			"min_longitude" : -10,
+			"min_latitude" : -80,
+			"max_longitude" : 130,
+			"max_latitude" : 80,
+            "method" : "geos"
+    	}
+     },
+    {
+    "meteosat_145" : {
+    		"definition" : "+proj=geos +h=42164000 +ellps=WGS84 +lon_0=145",
+			"min_longitude" : 75,
+			"min_latitude" : -80,
+			"max_longitude" : 215,
+			"max_latitude" : 80,
+            "method" : "geos"
+    	}
+     },
+    {
+    "goes-e" : {
+    		"definition" : "+proj=geos +h=42164000 +ellps=WGS84 +lon_0=-75",
+			"min_longitude" : -145,
+			"min_latitude" : -80,
+			"max_longitude" : -5,
+			"max_latitude" : 80,
+            "method" : "geos"
+    	}
+     },
+    {
+    "goes-w" : {
+    		"definition" : "+proj=geos +h=42164000 +ellps=WGS84 +lon_0=-135",
+			"min_longitude" : -205,
+			"min_latitude" : -80,
+			"max_longitude" : -65,
+			"max_latitude" : 80,
+            "method" : "geos"
+    	}
+     },
+
      {
     "goode" : {
     		"definition" : "+proj=goode +ellps=WGS84",

@@ -133,6 +133,7 @@ PolyShadingTechnique.xml
 PositionListAxisMethod.xml
 PostScriptDriver.xml
 PreviewVisitor.xml
+
 Proj4Bonne.xml
 Proj4Collignon.xml
 Proj4EPSG32661.xml
@@ -148,6 +149,12 @@ Proj4Robinson.xml
 Proj4Google.xml
 Proj4Efas.xml
 Proj4LambertNorthAtlantic.xml
+Proj4Meteosat0.xml
+Proj4Meteosat145.xml
+Proj4Meteosat57.xml
+Proj4Geosw.xml
+Proj4Geose.xml
+
 SDWindMode.xml
 SVGDriver.xml
 SampleContourMethod.xml

@@ -30,6 +30,11 @@
                		<option xml="polar_stereographic" fortran="polar_stereographic" include="PolarStereographicProjection.h" name="PolarStereographicProjection">		</option>
         		<option fortran="polar_north" include="Proj4Projection.h" name="Proj4PolarNorth">		</option>
  				<option fortran="geos" include="Proj4Projection.h" name="Proj4Geos">		</option>
+ 				<option fortran="meteosat" include="Proj4Projection.h" name="Proj4Meteosat0">		</option>
+ 				<option fortran="meteosat_57E" include="Proj4Projection.h" name="Proj4Meteosat57">		</option>
+ 				<!--option fortran="meteosat2" include="Proj4Projection.h" name="Proj4Meteosat145">		</option>
+ 				<option fortran="goes_west" include="Proj4Projection.h" name="Proj4Geosw">		</option-->
+ 				<option fortran="goes_east" include="Proj4Projection.h" name="Proj4Geose">		</option>
  				<option fortran="lambert" include="Proj4Projection.h" name="Proj4Lambert">		</option>
  				<option fortran="EPSG3857" include="Proj4Projection.h" name="Proj4EPSG3857">		</option>
  				<option fortran="goode" include="Proj4Projection.h" name="Proj4Goode">		</option>
