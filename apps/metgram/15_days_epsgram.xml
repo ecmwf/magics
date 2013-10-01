@@ -60,12 +60,14 @@
 		<nopageid/>
 			<$meta/>
 			<map use_id='box'>
-				<text use_id='title' margin_bottom='85%' >
-                <font size='0.4'>Eps Meteogram</font> <br/>
-                <font size='0.4'><spot_info key='station'/></font> <br/>
-                <font size='0.4'>Extended Forecast based in EPS Distribution <spot_info key='base_date'/></font> <br/><br/>
-                <font size='0.4'><spot_info key='parameter'/></font> 
-                </text>
+				<text use_id='title' margin_bottom='85%' 
+                text_line_1="&lt;font size='0.4'&gt;Eps Meteogram&lt;/font&gt;"
+                text_line_2="&lt;font size='0.4'&gt;&lt;spot_info key='station'/&gt;&lt;/font&gt;"
+                text_line_3="&lt;font size='0.4'&gt;Extended Forecast based in EPS Distribution &lt;spot_info key='base_date'/&gt;&lt;/font&gt;"
+                text_line_4="&lt;br/&gt;"
+                text_line_5="&lt;font size='0.4'&gt;&lt;spot_info key='parameter'/&gt;&lt;/font&gt;"
+                text_line_count="5"
+                />
 				<cartesian>
 					<x_date  automatic='on' />
 					<y_regular automatic='on' />
@@ -81,9 +83,9 @@
 	<page height="19%" border='off'>
 		<nopageid/>
 		<map  use_id='box' >
-          <text use_id='title' margin_bottom='85%' >
-                 <font size='0.4'><spot_info key='parameter'/></font> 
-                </text>
+          <text use_id='title' margin_bottom='85%' 
+                 text_line_1= "&lt;font size='0.4'>&lt;spot_info key='parameter'/>&lt;/font&gt;"
+                />
            <cartesian>
 			<x_date  automatic='on' />
             <y_regular automatic='on' y_min='0' y_max='20' />
@@ -108,9 +110,9 @@
 				<x_date automatic='on'/>
 				<y_regular  y_min="-43200" y_max="43200" />
 			</cartesian> 
-			 <text use_id='title' margin_bottom='75%' >
-                 <font size='0.4'><spot_info key='parameter'/></font> 
-                </text>
+			 <text use_id='title' margin_bottom='75%' 
+                 text_line_1="&lt;font size='0.4'>&lt;spot_info key='parameter'/>&lt;/font&gt; "
+                />
 			<horizontal_axis use_id="haxis"/>
 			<vertical_axis use_id="vaxis" axis_tick_label='off' axis_tick='off' axis_grid='off'></vertical_axis> 
 			<plot>
@@ -124,9 +126,9 @@
 	<page height="19%" border='off'>
 		<nopageid/>
 		<map use_id='box'>
-			 <text use_id='title' margin_bottom='85%' >
-                 <font size='0.4'><spot_info key='parameter'/></font> 
-                </text>
+			 <text use_id='title' margin_bottom='85%' 
+                text_line_1=" &lt;font size='0.4'>&lt;spot_info key='parameter'/>&lt;/font&gt; "
+                />
 			<cartesian>
 				<x_date  automatic='on' />
 				<y_regular automatic='on' y_min='0' y_max='20' />
@@ -164,9 +166,9 @@
                     axis_years_label_height= "0.3"
             />			
 			<vertical_axis  use_id='vaxis'/> 
-			 <text use_id='title' margin_bottom='90%' >
-                 <font size='0.4'><spot_info key='parameter'/></font> 
-                </text>		
+			 <text use_id='title' margin_bottom='90%' 
+                text_line_1=" &lt;font size='0.4'>&lt;spot_info key='parameter'/>&lt;/font&gt; "
+                />		
 			<plot>
 				<epsgram use_id="eps" parameter="temperature"/>
 				<epsgraph border_colour='Rgb(0.5, 0.5, 0.5)' legend='on'

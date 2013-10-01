@@ -394,35 +394,32 @@ Rgb::Rgb(const string& name): red_(1.), green_(1.), blue_(1.),alpha_(1.)
   {
 	      in.ignore(name.length(), '(');
 	      in >> red_; 
-	      if ( red_ > 1 ) red_ = red_/255.;
-	      if (red_ <0 || red_>1) throw BadRgbFormat();
+
 	      in.ignore(name.length(), ',');
 	      if (in.eof()) throw BadRgbFormat();
 	      in >> green_;
-	      if ( green_ > 1 ) green_ = green_/256.;
-	      if (green_ <0 || green_>1) throw BadRgbFormat();
+
 	      in.ignore(name.length(), ',');
 	      if (in.eof()) throw BadRgbFormat();
-	      in >> blue_; 
-	      if ( blue_ > 1 ) blue_ = blue_/256.;
-	      if (blue_ <0 || blue_>1) throw BadRgbFormat();
+	      in >> blue_;
+
+
   }
   else if (magCompare(token.str(), "rgba")) {
 	      in.ignore(name.length(), '(');
 	      in >> red_;
 
-	      if ( red_ > 1 ) red_ = red_/255.;
-	      if (red_ <0  || red_>1 ) throw BadRgbFormat();
+
+
 	      in.ignore(name.length(), ',');
 	      if (in.eof()) throw BadRgbFormat();	    
 	      in >> green_;
-	      if ( green_ > 1 ) green_ = green_/256.;
-	      if (green_ <0 || green_>1) throw BadRgbFormat();
+
+
 	      in.ignore(name.length(), ',');
 	      if (in.eof()) throw BadRgbFormat();	    
 	      in >> blue_; 
-	      if ( blue_ > 1 ) blue_ = blue_/256.;
-	      if (blue_ <0 || blue_>1) throw BadRgbFormat();
+
 	      in.ignore(name.length(), ',');
 	      if (in.eof()) throw BadRgbFormat();	    
 	      in >> alpha_; 
@@ -430,6 +427,16 @@ Rgb::Rgb(const string& name): red_(1.), green_(1.), blue_(1.),alpha_(1.)
     }
     else 
           throw BadRgbFormat();
+    if ( red_ > 1 || green_ > 1 || blue_ > 1) {
+    	// WE are using the second convention ( Colour defined between, 0 and 1)
+    	red_ = red_/256;
+
+    	green_ = green_/256;
+    	blue_ = blue_/256.;
+    }
+    if (red_ <0 || red_>1) throw BadRgbFormat();
+    if (green_ <0 || green_>1) throw BadRgbFormat();
+    if (blue_ <0 || blue_>1) throw BadRgbFormat();
 }
 
 

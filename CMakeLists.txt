@@ -45,16 +45,16 @@ option( WITH_SPOT          "enable spot"               OFF )
 option( WITH_ODB           "enable odb"                OFF )
 option( WITH_PYTHON        "enable python interface"   ON  )
 option( WITH_FORTRAN       "enable Fortran interface"  ON  )
-
+option( WITH_REGRESSION     "Internal use only: enable regression test"  OFF  )
+option( WITH_REGRESSION_UPLOAD     "Internal use only : enable upload of reference image"  OFF  )
 set( MAGICS_NAME          "Magics" )
 set( MAGICS_EXCEPTION     "ON" )
 set( MAGICS_SITE          "ecmwf" )
 set( MAGICS_INSTALL_PATH  ${CMAKE_INSTALL_PREFIX} )
+
+# Regression definitions
 set( MAGICS_REFERENCE_VERSIONS            "2.20.2" )
 list( APPEND MAGICS_REFERENCE_VERSIONS    "2.18.14" )
-
-debug_var(MAGICS_REFERENCE_VERSIONS)
-
 set( MAGICS_HTML_ROOT        "${CMAKE_BINARY_DIR}/regression/html")
 file(MAKE_DIRECTORY ${MAGICS_HTML_ROOT} )
 

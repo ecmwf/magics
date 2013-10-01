@@ -17,6 +17,7 @@
                     axis_grid_line_style= "dash"
                     axis_line_colour= "navy"
                     axis_minor_tick= "on"
+                    axis_type= "date"
                     axis_minor_tick_colour= "navy"
                     axis_tick_colour= "navy"
                     axis_tick_label= "off" id="haxis"/>
@@ -55,13 +56,14 @@
 			<y_regular y_min='0' y_max='8'/>
 		</cartesian>  
 
-	<text margin_bottom='85%' use_id='title' > 
-         <font size='0.5'>EPS Meteogram </font><br/>
-         <font size='0.4'><spot_info key='station'/>  <spot_info key='location'/></font><br/>
-         <font size='0.4'>Deterministic Forecast and EPS Distribution <spot_info key='base_date'/> </font>
-         <br/><br/>
-         <font size='0.4'><spot_info key='parameter'/> </font>
-         </text>
+	<text margin_bottom='85%' use_id='title'  
+         text_line_1="&lt;font size='0.5'&gt;EPS Meteogram &lt;/font&gt;"
+         text_line_2="&lt;font size='0.4'&gt;&lt;spot_info key='station'/&gt;  &lt;spot_info key='location'/&gt;&lt;/font&gt;"
+         text_line_3="&lt;font size='0.4'&gt;Deterministic Forecast and EPS Distribution &lt;spot_info key='base_date'/&gt; &lt;/font&gt;"
+         text_line_4="&lt;br/&gt;"
+         text_line_5="&lt;font size='0.4'&gt;&lt;spot_info key='parameter'/&gt; &lt;/font&gt;"
+         text_line_count="5"
+         />
 	<horizontal_axis  use_id="haxis"/>   
 	   <vertical_axis  use_id='vaxis'/> 
 	<plot>                
@@ -81,9 +83,9 @@
            </cartesian>  
            <horizontal_axis use_id='haxis'/>    
 		   <vertical_axis  use_id='vaxis'/>            
-           <text margin_bottom='90s%' use_id='title' > 
-         <font size='0.4'><spot_info key='parameter'/> </font>
-         </text>           
+           <text margin_bottom='90s%' use_id='title' 
+			text_line_1="&lt;font size='0.4'>&lt;spot_info key='parameter'/> &lt;/font&gt;"
+         />           
            <plot>
                 <epsgram use_id="station" y_axis_threshold='3'  parameter="precip"/>
 				<epsgraph deterministic='on' whisker='on'> <both/> </epsgraph>
@@ -100,9 +102,9 @@
            </cartesian>  
            <horizontal_axis use_id='haxis'/>    
 		   <vertical_axis  use_id='vaxis'/> 
-           <text margin_bottom='85%' use_id='title' > 
-         <font size='0.4'><spot_info key='parameter'/> </font>
-         </text>
+           <text margin_bottom='85%' use_id='title'  
+			text_line_1="&lt;font size='0.4'&gt;&lt;spot_info key='parameter'/&gt; &lt;/font&gt;"
+         />
          
            <plot>
                 <epsgram use_id="station" parameter="10m-wind"/>
@@ -121,9 +123,9 @@
             <y_regular automatic='on'/>
            </cartesian>  
            
-           <text margin_bottom='85%' use_id='title' > 
-         <font size='0.4'><spot_info key='parameter'/> </font>
-         </text>
+           <text margin_bottom='85%' use_id='title'  
+				text_line_1="&lt;font size='0.4'&gt;&lt;spot_info key='parameter'/&gt; &lt;/font&gt;"
+			/>
            <vertical_axis  use_id='vaxis'/>                                       
           
             <horizontal_axis 
@@ -137,6 +139,8 @@
                 axis_days_label_height= "0.3"
                 axis_months_label_height= "0.3"
                 axis_years_label_height ="0.3"
+                axis_minor_tick= "on"
+                axis_minor_tick_colour= "navy"
                 axis_type= "date"
                 axis_years_label_colour = "navy" />
                    
@@ -154,13 +158,13 @@
                 border= "off"
                 bottom= "-10%"
                 display= "absolute"
-                height= "25%"
+                height= "35%"
                 left= "0%"
-                
                 legend_entry_text_width= "99."
                 legend_plot_direction= "column"
-                legend_text_height= "0.5"
-                width= "60%"
+                legend_text_height= "0.3"
+                legend_text_colour= "navy"
+                width= "70%"
             />
 	</page>
 </magics>

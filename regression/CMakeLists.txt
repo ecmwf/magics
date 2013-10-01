@@ -1,5 +1,9 @@
-set( REGRESSION_SCRIPT_DIRECTORY  ${CMAKE_CURRENT_SOURCE_DIR} )
 
+if( NOT WITH_REGRESSION ) 
+	return()
+endif()
+
+set( REGRESSION_SCRIPT_DIRECTORY  ${CMAKE_CURRENT_SOURCE_DIR} )
 
 function( ecbuild_add_magics_test )
 
@@ -24,12 +28,10 @@ function( ecbuild_add_magics_test )
     if( NOT _p_THRESHOLD )
       set(_p_THRESHOLD "20")
     endif()
-    debug_var(_p_DATA)
-    debug_var(_p_NAME)
+   
     
     set( targets "" )
 	foreach( data ${_p_DATA} )
-        debug_var(data)
         string( REGEX REPLACE "[^A-Za-z0-9_]" "_" target "test_data_${data}" )
         ecbuild_get_test_data( NAME ${data} NOCHECK )
         list( APPEND targets  "${target}")
@@ -38,7 +40,7 @@ function( ecbuild_add_magics_test )
 	set( versions "" ) 
 
 	get_filename_component(where ${CMAKE_CURRENT_SOURCE_DIR} NAME )
-	debug_var(where)
+
 	
 	foreach( version ${MAGICS_REFERENCE_VERSIONS} )
 		set( file ${version}_${_p_IMAGE} )	 
@@ -52,19 +54,27 @@ function( ecbuild_add_magics_test )
 	 
 	endforeach()
 
-	debug_var( targets ) 
+	
 	set(target "magics_a_${_p_NAME}")
 	
-	debug_var( MAGICS_VERSION )
+	
 
 	set(target_load "magics_load_${_p_NAME}")
 	
 	list(APPEND _p_RESOURCES ${_p_SOURCES} )
 
     if( _p_PYTHON )
-	     debug_var( _p_PYTHON )
-		 debug_var( targets )
-		
+	    
+		 if ( WITH_REGRESSION_UPLOAD ) 
+			ecbuild_add_test(  TARGET   ${target_load}
+                   TYPE SCRIPT
+                   COMMAND  ${REGRESSION_SCRIPT_DIRECTORY}/upload.py
+                   DEPENDS  ${targets}                     
+                   RESOURCES  ${_p_RESOURCES} 
+                   ARGS ${_p_SOURCES} ${_p_IMAGE} magics/reference/${MAGICS_VERSION}/${where}
+                   ENVIRONMENT PYTHONPATH=${MAG_PYTHON_PATH} )
+         endif()
+         
          ecbuild_add_test(  TARGET   ${target}
                    TYPE SCRIPT
                    COMMAND  ${REGRESSION_SCRIPT_DIRECTORY}/compare.py
@@ -76,7 +86,16 @@ function( ecbuild_add_magics_test )
             return() 
     endif()
 	if( _p_JSON )
-	     
+	       if ( WITH_REGRESSION_UPLOAD ) 
+				ecbuild_add_test(  TARGET   ${target_load}
+                   TYPE SCRIPT
+                   COMMAND  ${REGRESSION_SCRIPT_DIRECTORY}/upload.py
+                   DEPENDS  ${targets} 
+                   
+                   RESOURCES  ${_p_RESOURCES} 
+                   ARGS ${_p_SOURCES} ${_p_IMAGE} magics/reference/${MAGICS_VERSION}/${where} magjson
+				 )
+            endif()     
 			ecbuild_add_test(  TARGET   ${target}
                    TYPE SCRIPT
                    COMMAND  ${REGRESSION_SCRIPT_DIRECTORY}/compare.py
@@ -87,8 +106,17 @@ function( ecbuild_add_magics_test )
             return()
 	endif()
 # Run Test
-	
-		ecbuild_add_test(  TARGET   ${target}
+		if ( WITH_REGRESSION_UPLOAD ) 
+			ecbuild_add_test(  TARGET   ${target_load}
+                   TYPE     SCRIPT
+                   SOURCES  ${_p_SOURCES}                    
+                   LIBS MagPlus MagPlusSingle ${MAGICS_EXTRA_LIBRARIES} 
+                   DEPENDS ${targets}
+                   RESOURCES  ${_p_RESOURCES} 
+                   COMMAND  ${REGRESSION_SCRIPT_DIRECTORY}/upload.py  
+                   ARGS  ./${target} ${_p_IMAGE} magics/reference/${MAGICS_VERSION}/${where} ) 
+		endif()
+	    ecbuild_add_test(  TARGET   ${target}
                    TYPE     SCRIPT
                    SOURCES  ${_p_SOURCES}                    
                    LIBS MagPlus MagPlusSingle ${MAGICS_EXTRA_LIBRARIES} 

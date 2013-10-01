@@ -319,15 +319,20 @@ public:
 	}
 	void setTransformation(Transformation& transformation)
 	{
-	transformation.setDataMinX(minx_, base_);
-	transformation.setDataMaxX(maxx_ - 6*3600, base_);
+
 	if ( type_ == "eps15" ) {
-		transformation.setDataMaxX(maxx_+18*3600, base_);
 		transformation.setDataMinX(0, base_);
+		transformation.setDataMaxX(maxx_+18*3600, base_);
+
 	}
 	if ( type_ == "eps10" ) {
-		transformation.setDataMaxX(maxx_ + 6*3600, base_);
 		transformation.setDataMinX(0, base_);
+		transformation.setDataMaxX(maxx_ + 6*3600, base_);
+
+	}
+	else {
+		transformation.setDataMinX(minx_, base_);
+		transformation.setDataMaxX(maxx_ - 6*3600, base_);
 	}
 	
 	transformation.setDataMinY(miny_);
@@ -1937,25 +1942,27 @@ void SpotDecoder::visit(Transformation& transformation)
 
 void EpsParameter::setTransformation(Transformation& transformation)
 {
-	transformation.setDataMinX(minx_, base_);
-	transformation.setDataMaxX(maxx_ + 12*3600, base_);
 	
 	if ( type_ == "eps15" ) {
 		transformation.setDataMaxX(maxx_ + 18*3600, base_);
 		transformation.setDataMinX(0, base_);
 	}
-	if ( type_ == "epswave" ) {
+	else if ( type_ == "epswave" ) {
 		transformation.setDataMaxX(maxx_ + 6*3600, base_);
 		transformation.setDataMinX(0, base_);
 	}
-	if ( type_ == "epsrose" ) {
+	else if ( type_ == "epsrose" ) {
 		transformation.setDataMaxX(maxx_ + 18*3600, base_);
 		transformation.setDataMinX(0, base_);
 	}
-	if ( type_ == "eps10" ) {
-		transformation.setDataMaxX(maxx_ + 6*3600, base_);
+	else if ( type_ == "eps10" ) {
 		transformation.setDataMinX(0, base_);
+		transformation.setDataMaxX(maxx_ + 6*3600, base_);
 	}
+	else  {
+	   transformation.setDataMinX(minx_, base_);
+	    transformation.setDataMaxX(maxx_ + 12*3600, base_);
+    }
 	
 	transformation.setDataMinY(miny_);
 	transformation.setDataMaxY(maxy_); 
