@@ -27,12 +27,12 @@ function( ecbuild_add_magics_test )
     debug_var(_p_DATA)
     debug_var(_p_NAME)
     
-    set ( targets "" )
+    set( targets "" )
 	foreach( data ${_p_DATA} )
-	    debug_var(data)   
-	    STRING(REGEX REPLACE "\\." "_" target ${data}) 
-		ecbuild_get_test_data( NAME ${data} NOCHECK )
-		list ( APPEND targets  "test_data_${target}")
+        debug_var(data)
+        string( REGEX REPLACE "[^A-Za-z0-9_]" "_" target "test_data_${data}" )
+        ecbuild_get_test_data( NAME ${data} NOCHECK )
+        list( APPEND targets  "${target}")
 	endforeach()
 
 	set( versions "" ) 
@@ -42,8 +42,8 @@ function( ecbuild_add_magics_test )
 	
 	foreach( version ${MAGICS_REFERENCE_VERSIONS} )
 		set( file ${version}_${_p_IMAGE} )	 
-		STRING(REGEX REPLACE "\\." "_" target ${file})
-		list( APPEND targets "test_data_${target}")
+        string( REGEX REPLACE "[^A-Za-z0-9_]" "_" target "test_data_${file}" )
+        list( APPEND targets "${target}")
 	 
 		ecbuild_get_test_data( NAME ${file} NOCHECK 
 				DIRNAME magics/reference/${version}/${where} )
@@ -61,7 +61,7 @@ function( ecbuild_add_magics_test )
 	
 	list(APPEND _p_RESOURCES ${_p_SOURCES} )
 
-	if ( _p_PYTHON ) 
+    if( _p_PYTHON )
 	     debug_var( _p_PYTHON )
 		 debug_var( targets )
 		

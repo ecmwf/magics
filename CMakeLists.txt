@@ -54,7 +54,8 @@ list( APPEND MAGICS_REFERENCE_VERSIONS    "2.18.14" )
 
 debug_var(MAGICS_REFERENCE_VERSIONS)
 
-set( MAGICS_HTML_ROOT        "${CMAKE_INSTALL_PREFIX}/html")
+set( MAGICS_HTML_ROOT        "${CMAKE_BINARY_DIR}/regression/html")
+file(MAKE_DIRECTORY ${MAGICS_HTML_ROOT} )
 
 set( MAG_PYTHON_PATH ${CMAKE_BINARY_DIR}/python )
 
@@ -232,7 +233,7 @@ add_subdirectory( python )
 add_subdirectory( apps )
 
 # Test directory
-add_subdirectory( test ) 
+add_subdirectory( test )
 add_subdirectory( regression )
 
 # Directories not need in the distribution tar ball!
