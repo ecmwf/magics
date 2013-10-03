@@ -11,7 +11,8 @@ def main(args=None):
     print args
 
     cmd = []
-    if args[4] == None :
+    print len(args)
+    if len(args) == 4:
         cmd = ["./"+args[1]]
     else :
         cmd = [args[4], args[1]]

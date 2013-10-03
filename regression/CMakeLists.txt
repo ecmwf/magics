@@ -130,3 +130,5 @@ endfunction(ecbuild_add_magics_test)
 
 
 add_subdirectory( basic )
+add_subdirectory( efas )
+add_subdirectory( macc )

@@ -260,8 +260,15 @@ set(MAGICS_EXTRA_LIBS "")
 
 foreach( lib ${__magics_tmp} )
   if( lib MATCHES "^/.*" )
-# Need to split -L/path and -l lib
-	 get_filename_component(path lib PATH)
+# Need to split -L/path and -l libd
+	debug_var( lib )
+	 get_filename_component(ext ${lib} EXT)
+	  if ( ${ext} MATCHES ${CMAKE_SHARED_LIBRARY_SUFFIX} )
+		debug_var( CMAKE_SHARED_LIBRARY_SUFFIX )
+		get_filename_component(path ${lib} PATH)
+		debug_var( path )
+		list( APPEND RPATH "-Wl,-rpath,${path}")
+	  endif()
 	 #set(MAGICS_EXTRA_LIBS "${MAGICS_EXTRA_LIBS} ${lib}" )
   else()
     if( NOT lib MATCHES "^-l.*" )
@@ -271,6 +278,16 @@ foreach( lib ${__magics_tmp} )
   
   set(MAGICS_EXTRA_LIBS "${MAGICS_EXTRA_LIBS} ${lib}" )
 endforeach()
+
+set(MAGICS_EXTRA_LIBS "${MAGICS_EXTRA_LIBS} -Wl,-rpath,${CMAKE_INSTALL_PREFIX}/lib" )
+
+
+list(REMOVE_DUPLICATES RPATH)
+		
+foreach( lib ${RPATH} )
+	set(MAGICS_EXTRA_LIBS "${MAGICS_EXTRA_LIBS} ${lib}" )
+endforeach()
+	
 
 configure_file( magics-config.in  magics-config @ONLY )					
 # ecbuild/cmake is needed in the the distribution tar ball!

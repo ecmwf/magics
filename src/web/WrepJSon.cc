@@ -1199,8 +1199,22 @@ void WrepJSon::points(const Transformation& transformation, vector<UserPoint>& p
 	}
 }
 
-PointsHandler& WrepJSon::points(const Transformation& t, bool)
+PointsHandler& WrepJSon::points(const Transformation& transformation, bool)
 {
+	decode();
+	for (vector<CustomisedPoint*>::const_iterator point = points_.begin(); point != points_.end(); ++point) {
+	// Here we need to check we have date!
+		double x = (**point)["x"];
+		if ( xdate_ ) {
+			DateTime ref(transformation.getReferenceX());
+			double shift = ref - xBase_;
+			x -= shift;
+		}
+
+		list_.push_back(new UserPoint(x, (**point)["y"]));
+		if ( (*point)->missing() )
+			list_.back()->flagMissing();
+	}
    pointsHandlers_.push_back(new PointsHandler(list_));
    return *pointsHandlers_.back();
 }
