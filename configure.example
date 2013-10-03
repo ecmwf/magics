@@ -1,0 +1,57 @@
+#!/usr/bin/ksh
+git_home="/tmp/cgs/git"
+install_home="/tmp/cgs/install"
+debug="on"
+bufr="on"
+netcdf="on"
+odb="on"
+grib="on"
+metview="off"
+cairo="on"
+regression="on"
+cmake="/usr/local/apps/cmake/current/bin/cmake"
+boost="/usr/local/apps/boost/1.50.0"
+proj4="/usr/local/apps/proj4/4.8.0/LP64"
+python="/usr/local/apps/python/2.7.1-02"
+netcdf_lib="/usr/local/apps/netcdf4/4.1.3/LP64"
+odb_lib="/usr/local/apps/odb_api/0.9.28"
+grib_lib="/usr/local/lib/metaps/lib/grib_api/1.11.0"
+args="-DCMAKE_INSTALL_PREFIX=${install_home}"
+args=" $args -DCMAKE_MODULE_PATH=${git_home}/ecbuild/cmake"
+args=" $args -DBOOST_ROOT=$boost"
+args=" $args -DPROJ4_PATH=$proj4"
+args=" $args -DCMAKE_PREFIX_PATH=$python"
+if [[ $debug = "on" ]];then
+    args="$args -DCMAKE_BUILD_TYPE=Debug"
+    echo "Debug enabled"
+fi
+if [[ $regression = "on" ]];then
+    args="$args -DWITH_REGRESSION=ON -DWITH_REGRESSION_UPLOAD=on"
+    echo "Regression enabled"
+fi
+if [[ $metview = "on" ]];then
+    args="$args -DWITH_METVIEW=ON"
+    echo "Metview enabled"
+fi
+if [[ $cairo = "on" ]];then
+    args="$args -DWITH_CAIRO=ON"
+    echo "Cairo enabled"
+fi
+if [[ $bufr = "on" ]];then
+    args=" $args -DBUFR=ON -DPGI_PATH=/usr/local/apps/pgi/pgi-10.8/linux86-64/10.8/libso"
+    echo "Bufr enabled"
+fi
+if [[ $netcdf = "on" ]];then
+    args=" $args -DWITH_NETCDF=ON -DNETCDF_PATH=${netcdf_lib}"
+    echo "Netcdf enabled"
+fi
+if [[ $odb = "on" ]];then
+    args="$args -DWITH_ODB=ON -DODB_API_PATH=${odb_lib}"
+    echo "ODB enabled"
+fi
+if [[ $grib = "on" ]];then
+    args="$args -DWITH_GRIB=ON -DGRIB_API_PATH=${grib_lib}"
+    echo "GRIB enabled"
+fi
+echo $args
+$cmake ${git_home}/magics $args
