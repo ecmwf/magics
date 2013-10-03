@@ -445,12 +445,11 @@ MAGICS_NO_EXPORT void BinaryDriver::renderSimplePolygon(const Polyline& line) co
 	out_.write((char *)(y),  sizeof(MFloat)*n);
 	delete [] x;
 	delete [] y;
-//cout <<"BWRITER>>> "<< n<< endl;
 	Polyline::Holes::const_iterator h = line.beginHoles();
 	Polyline::Holes::const_iterator he = line.endHoles();
 	const unsigned int nh = line.numberOfHoles();
 	out_.write((char *)(&nh), sizeof(int));
-//cout <<"BWRITER>>> "<< nh<< endl;
+
 	if(nh!=0)
 	{
 	  for (; h != he; ++h)
@@ -663,7 +662,6 @@ MAGICS_NO_EXPORT bool BinaryDriver::renderCellArray(const Image& image) const
 	}
 	const int sii = si;
 
-// cout << "Image>  pixel: "<<width<<"x"<<height<<"="<<width*height<<" orig: "<<x0<<"/"<<y0<<"    dim: "<<x1<<"/"<<y1<<"     noColours: "<<sii<< endl;
 
 	out_.write((char *)(&sii), sizeof(int));
 	for(int v=0;v<sii;v++)

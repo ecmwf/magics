@@ -841,7 +841,7 @@ void GribLambertAzimutalInterpretor::interpretAsMatrix(const GribDecoder& grib, 
     	left.push_back(lonm[l*im]);
     	right.push_back(lonm[(im-1)+(l*im)]);
 
-    	//cout << "[" << left.back() << "-->" << right.back() << "]" << endl;
+
     }
    minlon = *min_element(left.begin(), left.end());
    maxlon = *max_element(right.begin(), right.end());

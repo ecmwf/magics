@@ -1494,15 +1494,13 @@ MatrixHandler& EpsgramDecoder::matrix()
 	const double step = parameter_->plumesInterval();
 	double from = maground(*min_element(values.begin(), values.end())) - step;
 	double to = maground(*max_element(values.begin(), values.end())) + step ;
-	 cout << "min->" << *min_element(values.begin(), values.end()) << " = " << from << endl;
-	 cout << "max->" << *max_element(values.begin(), values.end()) << " = " << to << endl;
 
 	IntervalMap<int> array;
 	matrix_.set(array.size(), points_.size());
 	for ( double a = from; a <= to; a = a + step ) {
 		array.insert(make_pair(Interval(a-step, a+step), 0));
 		matrix_.rowsAxis().push_back(a);
-	       cout << "interval->" <<  a  << "--> " << a + step << endl;
+
 	}
 
 

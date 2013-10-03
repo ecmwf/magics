@@ -85,9 +85,9 @@ void Tephigram::init()
 	// now we add 25% to the right for the info panel!
 	maxpcx = maxPCX_;
 
-	cout << "useful in tephi " << maxpcx << endl;
+	MagLog::dev() << "useful in tephi " << maxpcx << endl;
 	maxPCX_ += (maxPCX_ - minPCX_)*0.25;
-	cout << "set in tephi in grid " << maxpcx << endl;
+	MagLog::dev() << "set in tephi in grid " << maxpcx << endl;
 
 
 
@@ -102,8 +102,8 @@ void TephiInfo::init()
 	reference_ = maxPCX_;
 	minPCX_ = -1.5;
 	maxPCX_ = 1.5;
-	cout << "minPCY-->" << minPCY_ <<  " " << y_min_ << endl;
-	cout << "maxPCY-->" << maxPCY_ << " " << y_max_ << endl;
+	MagLog::dev() << "minPCY-->" << minPCY_ <<  " " << y_min_ << endl;
+	MagLog::dev() << "maxPCY-->" << maxPCY_ << " " << y_max_ << endl;
 	UserPoint min(0, y_min_);
 	UserPoint max(0, y_max_);
 	(*this)(min);
@@ -119,9 +119,9 @@ PaperPoint Tephigram::operator()(const UserPoint& xy)  const
 	// y = p
 		double coefficient = pow(100000./(xy.y()*100),KAPPA);
 		double y = (maxpcx+(273.15*(cosinus-sinus)))*((sinus + (coefficient*cosinus)))/(cosinus -(coefficient*sinus)) - 2713.15*(sinus+cosinus);
-		cout << xy.y() << "-->" << y << "??? " << minPCY_ << "<<" <<  maxPCY_<< endl;
+		MagLog::dev() << xy.y() << "-->" << y << "??? " << minPCY_ << "<<" <<  maxPCY_<< endl;
 		double x =  (maxPCX_ - maxpcx)/2 + maxpcx;
-		cout << x << endl;
+		MagLog::dev() << x << endl;
 		return PaperPoint(x, y);
 	}
 	// UserPoint X = temperature in deg Y = Pressure in hPa
@@ -399,7 +399,7 @@ PaperPoint TephiInfo::operator()(const UserPoint& xy)  const
 	// y = p
 	double coefficient = pow(100000./(xy.y()*100),KAPPA);
 	double y = (reference_+(273.15*(cosinus-sinus)))*((sinus + (coefficient*cosinus)))/(cosinus -(coefficient*sinus)) - 2713.15*(sinus+cosinus);
-    cout << xy.y() << "-->" << y << "??? " << minPCY_ << "<<" <<  maxPCY_<< endl;
+    MagLog::dev() << xy.y() << "-->" << y << "??? " << minPCY_ << "<<" <<  maxPCY_<< endl;
 	return PaperPoint(xy.x(), y);
 }
 
@@ -426,7 +426,7 @@ void Tephigram::revert(const vector<pair<double, double> > & in, vector<pair<dou
 		double theta = - (p->first * sinus) + p->second*cosinus;
 
 		double pt = magics::pressureFromTheta(theta+273.15, tempe+273.15)/100;
-		cout << " tempe = " << tempe << "  Pressure = " << pt << endl;
+		MagLog::dev() << " tempe = " << tempe << "  Pressure = " << pt << endl;
         out.push_back(make_pair(tempe, pt));
 	}
 						 

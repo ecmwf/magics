@@ -312,7 +312,7 @@ public:
         	}
         	joiner.reserve(count);
 
-        	//cout << "SegmentJoiner-->(" << count << " points)" << endl;
+
         	// feed the joiner
         	for ( vector<Shape*>::iterator s = index->second.begin(); s !=index->second.end(); ++s) {
         		vector<Point>& points = (*s)->points_;
@@ -336,7 +336,7 @@ public:
         			vector<Point>::iterator to = points.begin();
         			to++;
         			while ( to != points.end() ) {
-        				//cout << *from << " " << *to << endl;
+
         				joiner.push_back(*from, *to);
         				++from;
         				++to;
@@ -350,7 +350,7 @@ public:
         	vector<vector<Point> > result;
         	vector<vector<Point> > polys;
         	list<vector<Point> > holes;
-        	//cout << "<---SegmentJoiner" << endl;
+
 
 
         	joiner.computePolygonLines(result);
@@ -1730,7 +1730,7 @@ GridCell::GridCell(const CellArray& data, int row, int column, const Transformat
 
 
 		}
-		////cout << "[-------------------]" << endl;
+
 	}
 void Shape::intersection(Shape& other) {
 
@@ -1785,7 +1785,7 @@ void Shape::intersection(Shape& other) {
 				}
 
 				if ( SegmentJoiner::isHole(points_) ) {
-				       //cout << " hole -> revert! " << endl;
+
 				       std::reverse(points_.begin(), points_.end());
 
 				      }

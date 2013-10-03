@@ -581,12 +581,12 @@ void GribDecoder::customisedPoints(const BasicThinningMethod& thinning, const Tr
 			double ymin = transformation.getMinPCY();
 
 			ypoints = abs((ymax-ymin)/((y2-y1)*thinning.factor()));
-			cout << "ypoints-->" << ypoints << endl;
+
 
 			double xmax = transformation.getMaxPCX();
 			double xmin = transformation.getMinPCX();
 			xpoints = abs((ymax-ymin)/((x2-x1)*thinning.factor()));
-			cout << "xpoints-->" << xpoints << endl;
+
 
 
 

@@ -110,12 +110,12 @@ void WrepJSon::visit(Transformation& transformation)
 	missing_ = missing_value_;
 
 	decode();
-	//cout << "AUTOMATIC AXIS " << maxy_ - miny_;
+
 	double add = (maxy_ - miny_ ) * y_percent_ /100.;
 	maxy_ += add;
 	miny_ -= add;
 
-	//cout << " (" << y_percent_ << ")  --->" << add << endl;
+
 
 
 
@@ -721,22 +721,7 @@ MatrixHandler& WrepJSon::matrix()
 		++column;
 
 	}
-/*
-	for (int row = 0; row < matrix_.rows(); row++) {
-		for (int column = 0; column < matrix_.columns(); column++)
-			cout << matrix_(row, column) << " ";
-		 cout << endl;
-	}
-	cout << "rows=";
-	for (int row = 0; row < matrix_.rows(); row++)
-		cout << matrix_.row(row,0) << " ";
-	cout << endl;
 
-	cout << "columns=";
-	for (int column = 0; column < matrix_.columns(); column++)
-		cout << matrix_.column(0,column) << " ";
-	cout << endl;
-*/
 	matrix_.missing(std::numeric_limits<double>::max());
 	matrixHandlers_.push_back(new  MatrixHandler(matrix_));
 	return *(matrixHandlers_.back());
@@ -1087,7 +1072,7 @@ void WrepJSon::x_date_values(const json_spirit::Value& value)
 		double val =  current - xBase_;
 		if ( regular_ ) {
 			val = val / (24.*3600);
-			cout << val << endl;
+
 		}
 		(*points_[i])["x"] = val;
 		minmax.push_back(val);

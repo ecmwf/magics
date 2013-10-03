@@ -263,7 +263,7 @@ Matrix*   BinningObject::operator()(PointsList& points)
 #ifdef need_debug
 		for ( int r = 0; r < rows; ++r) {
 					for ( int c = 0; c < columns; ++c) {
-						cout << "[" << matrix->row(r,c) << ",  " << matrix->column(r,c) << "] = " << (*matrix)(r, c) << endl;
+						log::dev() << "[" << matrix->row(r,c) << ",  " << matrix->column(r,c) << "] = " << (*matrix)(r, c) << endl;
 					}
 		}
 #endif

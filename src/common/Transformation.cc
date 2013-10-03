@@ -94,7 +94,7 @@ void Transformation::fill(double& width, double& height)
 			setNewPCBox(minx, miny, maxx, maxy);
 }
 
-#define PRINT(w, a) std::cout << w << "---> " << #a << ": " << (a) << std::endl
+#define PRINT(w, a) MagLog::dev() << w << "---> " << #a << ": " << (a) << std::endl
 
 
 void Transformation::tile(double& width, double& height)
@@ -137,11 +137,11 @@ void Transformation::tile(double& width, double& height)
 	// Try to see if we have already a number of tile.
 	if (same((pxheight/tile_ - int(pxheight)/tile_), 0)) {
 		pxheight = int(pxheight);
-		cout << "adjust height" << endl;
+
 	}
 	if (same((pxwidth/tile_ - int(pxwidth)/tile_), 0)) {
 		pxwidth = int(pxwidth);
-	    cout << "adjust width" << endl;
+
 	}
 
 	askedWidth_ = pxwidth;
@@ -157,7 +157,7 @@ void Transformation::tile(double& width, double& height)
 
 		levels.push_back((u)/tile_);
 
-		cout << " zoom " << u << endl;
+
 		u = u/2.;
 	}
 	sort(levels.begin(), levels.end());
@@ -165,7 +165,7 @@ void Transformation::tile(double& width, double& height)
 
 	for ( vector<double>::iterator l = levels.begin(); l != levels.end(); ++l)
 		MagLog::debug()  << *l << ", ";
-	cout << endl;
+
 	double ratio = ( nw > awidth) ? pcheight/pxheight : pcwidth/pxwidth;
 					  	// we need to extend in the x direction
 
@@ -243,7 +243,7 @@ void Transformation::tile(double& width, double& height)
 
 			miny -= level*tile_;
 			height +=tile_;
-			cout << " adjust height" << endl;
+
 	}
 	width /=40.;
 	height /=40.;
@@ -350,20 +350,37 @@ bool ViewFilter::in(const PaperPoint& xy){
 
 void Transformation::init()
 {
-	if ( PCEnveloppe_->empty()) {
-			PCEnveloppe_->push_back(PaperPoint(getMinPCX(), getMinPCY()));
-			PCEnveloppe_->push_back(PaperPoint(getMinPCX(), getMaxPCY()));
-			PCEnveloppe_->push_back(PaperPoint(getMaxPCX(), getMaxPCY()));
-			PCEnveloppe_->push_back(PaperPoint(getMaxPCX(), getMinPCY()));
-			PCEnveloppe_->push_back(PaperPoint(getMinPCX(), getMinPCY()));
-			askedxmin_ =  std::min(getMinPCX(), getMaxPCX());
-			askedxmax_ =  std::max(getMinPCX(), getMaxPCX());
-			askedymin_ =  std::min(getMinPCY(), getMaxPCY());
-			askedymax_ =  std::max(getMinPCY(), getMaxPCY());
-	}
+	PCEnveloppe_->clear();
+
+	PCEnveloppe_->push_back(PaperPoint(getMinPCX(), getMinPCY()));
+	PCEnveloppe_->push_back(PaperPoint(getMinPCX(), getMaxPCY()));
+	PCEnveloppe_->push_back(PaperPoint(getMaxPCX(), getMaxPCY()));
+	PCEnveloppe_->push_back(PaperPoint(getMaxPCX(), getMinPCY()));
+	PCEnveloppe_->push_back(PaperPoint(getMinPCX(), getMinPCY()));
+	askedxmin_ =  std::min(getMinPCX(), getMaxPCX());
+	askedxmax_ =  std::max(getMinPCX(), getMaxPCX());
+	askedymin_ =  std::min(getMinPCY(), getMaxPCY());
+	askedymax_ =  std::max(getMinPCY(), getMaxPCY());
+
 
 }
 
+void Transformation::cleaninit()
+{
+	PCEnveloppe_->clear();
+
+	PCEnveloppe_->push_back(PaperPoint(getMinPCX(), getMinPCY()));
+	PCEnveloppe_->push_back(PaperPoint(getMinPCX(), getMaxPCY()));
+	PCEnveloppe_->push_back(PaperPoint(getMaxPCX(), getMaxPCY()));
+	PCEnveloppe_->push_back(PaperPoint(getMaxPCX(), getMinPCY()));
+	PCEnveloppe_->push_back(PaperPoint(getMinPCX(), getMinPCY()));
+	askedxmin_ =  std::min(getMinPCX(), getMaxPCX());
+	askedxmax_ =  std::max(getMinPCX(), getMaxPCX());
+	askedymin_ =  std::min(getMinPCY(), getMaxPCY());
+	askedymax_ =  std::max(getMinPCY(), getMaxPCY());
+
+
+}
 
 void Transformation::setDataMinX(double minx, const string& ref) const
 { 
@@ -421,7 +438,7 @@ void Transformation::visit(MetaDataVisitor& visitor,
 	java << "\"yorig\" : \"" << yTile_ <<  "\",";
 	java << "\"zoom_level\" : \"" << zoomLevel_ <<  "\"";
 	java << "}";	
-	//cout << java.str() << endl;
+
 	visitor.add("projection", java.str());
 	ostringstream wf;
 	wf << (w/width)<< endl;
@@ -730,10 +747,6 @@ void Transformation::thin(int dimx, int dimy, vector<UserPoint>& in) const
 
 
 
-	cout << "minx = " << minx << endl;
-	cout << "maxx = " << maxx << endl;
-	cout << "miny = " << miny << endl;
-	cout << "maxy = " << maxy << endl;
 
 	minx = floor((minx)/stepx)*stepx;
 	maxx = ceil((maxx)/stepx)*stepx;

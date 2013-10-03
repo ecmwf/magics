@@ -203,7 +203,7 @@ void CurveArea::operator()(Data& data, BasicGraphicsObjectContainer& task)
 	CustomisedPointsList::iterator point = points.begin();
 
     while ( point != points.end() ) {
-        cout << **point << endl;
+
     	if ( this->missing(**point) ) {
     		++point;
     	}

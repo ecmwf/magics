@@ -383,7 +383,6 @@ MAGICS_NO_EXPORT void KMLDriver::redisplay(const magics::LegendLayout& layout) c
 */
 MAGICS_NO_EXPORT void KMLDriver::redisplay(const StaticLayer& layer) const
 {
-//cout <<"KML staticlayer > "<<layer.name() <<" - "<<layer.kmlTimeBegin()<<endl;
   if(!magCompare("coastlines",layer.name()) ||coastlines_ )
   {
 //	if(!magCompare(currentLayer_,layer.name()))
@@ -391,7 +390,6 @@ MAGICS_NO_EXPORT void KMLDriver::redisplay(const StaticLayer& layer) const
 		currentLayer_     = (layer.name().empty()) ? "StaticLayer" : layer.name();
 		currentTimeBegin_ = layer.kmlTimeBegin();
 		currentTimeEnd_   = layer.kmlTimeEnd();
-//cout << "layer "<<layer.name()<<" "<<layer.kmlTimeBegin()<< endl;
 		newLayer();
 		layer.visit(*this);
 		closeLayer();
@@ -403,7 +401,6 @@ MAGICS_NO_EXPORT void KMLDriver::redisplay(const StaticLayer& layer) const
 
 MAGICS_NO_EXPORT void KMLDriver::redisplay(const StepLayer& layer) const
 {
-//  cout <<"KML StepLayer> "<<layer.name() <<" - "<<layer.kmlTimeBegin()<<endl;
   if(!magCompare("coastlines",layer.name()) || coastlines_ )
   {
 //	if(!magCompare(currentLayer_,layer.name()))
@@ -411,7 +408,6 @@ MAGICS_NO_EXPORT void KMLDriver::redisplay(const StepLayer& layer) const
 		currentLayer_     = (layer.name().empty()) ? "Step" : layer.name();
 		currentTimeBegin_ = layer.kmlTimeBegin();
 		currentTimeEnd_   = layer.kmlTimeEnd();
-//cout << "layer "<<layer.name()<<" "<<layer.kmlTimeBegin()<< endl;
 		newLayer();
 		layer.visit(*this);
 		closeLayer();
@@ -428,7 +424,6 @@ MAGICS_NO_EXPORT void KMLDriver::redisplay(const StepLayer& layer) const
  */
 MAGICS_NO_EXPORT void KMLDriver::redisplay(const NoDataLayer& layer) const
 {
-//   cout << "KML::NoDataLayer> "<<layer.name()<< endl;
 }
 
 /*!
@@ -437,7 +432,6 @@ MAGICS_NO_EXPORT void KMLDriver::redisplay(const NoDataLayer& layer) const
 */
 MAGICS_NO_EXPORT void KMLDriver::newLayer() const
 {
-//cout << "KML::newLayer()> "<<currentLayer_<< endl;
 	if (kml_placemark_) closePlacemark();
 
 	debugOutput("Start Layer - "+currentLayer_);
@@ -460,7 +454,6 @@ MAGICS_NO_EXPORT void KMLDriver::newLayer() const
 */
 MAGICS_NO_EXPORT void KMLDriver::closeLayer() const
 {
-//  cout << "KML::closeLayer()> "<<currentLayer_<< endl;
 	if (kml_placemark_) closePlacemark();
 
 	layer_=false;

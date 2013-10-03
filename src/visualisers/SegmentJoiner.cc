@@ -322,7 +322,7 @@ static double compute(SegmentJoiner::SegList& v,list<deque<Segment> >& lines)
             }
         }
 
-        //cout << "Segments  input=" << count << ", canceled=" << n << " => left=" << (count-n) << endl;
+
     }
 #ifndef ONE_PASS
     {
