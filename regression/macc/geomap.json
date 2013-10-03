@@ -1,0 +1,60 @@
+{
+    "drivers": [
+        {
+            "format": "png", 
+            "fullname": "geomap", 
+            "output_cairo_transparent_background": "off", 
+            "output_name_first_page_number": "off", 
+            "output_width": "800"
+        }
+    ], 
+    "height": "600", 
+    "method": "wrep", 
+    "page": {
+        "map": {
+            "border": "off", 
+            "coastlines": {
+                "contour_legend_text": "10x20 grid in tan", 
+                "map_coastline": "on", 
+                "map_grid": "on", 
+                "map_grid_colour": "tan"
+            }, 
+            "fitted_mode": "expand", 
+            "lower_left_latitude": "21.51", 
+            "lower_left_longitude": "-37.27", 
+            "margin_bottom": "0", 
+            "margin_left": "0", 
+            "margin_right": "0", 
+            "margin_top": "0", 
+            "plot": [
+                {
+                    "wrepjson": {
+                        "wrepjson_family": "data",
+                        "wrepjson_input_filename": "geodata.json",
+                        "wrepjson_keyword": "stations"
+                    },
+                    "symbol": {
+                        "symbol_advanced_table_min_level_colour": "blue",
+                        "symbol_table_mode": "advanced",                      
+                        "symbol_advanced_table_marker_list": [15],
+                        "symbol_type": "marker",
+                        "symbol_advanced_table_colour_direction": "clockwise",
+                        "symbol_advanced_table_max_level_colour": "red",
+                        "symbol_advanced_table_min_level_colour": "blue"
+                    }
+                }
+             ],
+            "projection": "polar_stereographic", 
+            "upper_right_latitude": "51.28", 
+            "upper_right_longitude": "65", 
+            "vertical_longitude": "0"
+        }, 
+        "meta": {
+            "javascript_path": "/var/tmp/cgs/git/webdev/dev/data/plot-lilac-20131002081311-15232-0298.js", 
+            "profile_path": "/var/tmp/cgs/git/webdev/dev/data/plot-lilac-20131002081311-15232-0299.js"
+        }, 
+        "page_id": "off"
+    }, 
+    "version": "3.0", 
+    "width": "800"
+}
