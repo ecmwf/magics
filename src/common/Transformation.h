@@ -111,7 +111,7 @@ public:
 	Transformation();
 	virtual ~Transformation();
 	virtual void init();
-
+	void cleaninit();
 	enum CoordinateType {GeoType,XyType};
 	CoordinateType coordinateType() const {return coordinateType_;}	
 	virtual void toxml(ostream&) const {}

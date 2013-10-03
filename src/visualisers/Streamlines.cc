@@ -38,16 +38,13 @@ using namespace magics;
 bool Streamlines::operator()(Data& data, BasicGraphicsObjectContainer& parent)
 {
 	Timer timer("Streamlines", "Streamlines");
-	cout << " do Streamlines " << *this << endl;
+
 
 	const Transformation& transformation = parent.transformation();
 
 	MatrixHandler* handler = transformation.prepareData(data.direction());
 
-	cout << "left" << handler->column(0,0) << endl;
-	cout << "bottom" <<  handler->row(0,0) << endl;
-	cout << "x" << handler->XResolution() << endl;
-	cout << "y" << handler->YResolution() << endl;
+
 
 	float* direction = new float[handler->rows()*handler->columns()];
 	int i = 0;
@@ -76,7 +73,7 @@ bool Streamlines::operator()(Data& data, BasicGraphicsObjectContainer& parent)
 
 
 	CalcStreamlines(min_density_, direction, gs, result, size);
-	cout << "result " << size << endl;
+
 	for(int l = 0; l < size; l++)
     {
 

@@ -436,7 +436,6 @@ MAGICS_NO_EXPORT void SVGDriver::redisplay(const NoDataLayer& layer) const
 */
 MAGICS_NO_EXPORT void SVGDriver::newLayer() const
 {
-//cout << "SVGDriver::newLayer> " <<currentLayer_<< endl;
 	closeGroup();
 	debugOutput("Layer - "+currentLayer_+" START");
 
@@ -460,7 +459,6 @@ MAGICS_NO_EXPORT void SVGDriver::newLayer() const
 */
 MAGICS_NO_EXPORT void SVGDriver::closeLayer() const
 {
-//  cout << "SVGDriver::closeLayer> " <<currentLayer_<< endl;
 	closeGroup();
 	pFile_ << "</g>\n";
 	debugOutput("Layer - "+currentLayer_+" END");
@@ -610,11 +608,9 @@ MAGICS_NO_EXPORT void SVGDriver::renderPolyline(const int n, MFloat *x, MFloat *
 		
 		if( x2==old_x && x2==projectX(x[is+1]))
 		{
-//			cout <<"X "<<x2 << endl;
 		}
 		else if( y2==old_y && y2==setY(projectY(y[is+1]))  )
 		{
-//			cout <<"Y "<<y2 << endl;
 		}
 		else
 		{
@@ -983,7 +979,6 @@ MAGICS_NO_EXPORT void SVGDriver::renderText(const Text& text) const
 
 	for(;niceText<niceTextEnd;niceText++)
 	{
-//cout <<"SVG> "<< (*niceText).text()<< endl;
 		const MagFont magfont = (*niceText).font();
 		setNewColour(magfont.colour());
 		const MFloat dheight = magfont.size()*text_scale;
@@ -1150,7 +1145,6 @@ MAGICS_NO_EXPORT void SVGDriver::circle(const MFloat x, const MFloat y, const MF
 MAGICS_NO_EXPORT bool SVGDriver::renderPixmap(MFloat x0,MFloat y0,MFloat x1,MFloat y1,
                                             int w,int h,unsigned char* pixmap,int,bool ) const
 {
-//cout <<"SVGDriver::renderPixmap"<< endl;
 	unsigned char *p = pixmap;
 	const MFloat dx =  (x1 - x0)/w;
 	const MFloat dy = -(y1 - y0)/h;   // Minus needed for Y axis correction
@@ -1196,7 +1190,6 @@ MAGICS_NO_EXPORT bool SVGDriver::renderPixmap(MFloat x0,MFloat y0,MFloat x1,MFlo
 */
 MAGICS_NO_EXPORT bool SVGDriver::renderCellArray(const Image& image) const
 {
-//cout <<"SVGDriver::renderCellArray"<< endl;
 	ColourTable &lt  = image.getColourTable(); 
 	const int width  = image.getNumberOfColumns();
 	const int height = image.getNumberOfRows();
@@ -1381,7 +1374,6 @@ else
 */
 MAGICS_NO_EXPORT void SVGDriver::renderImage(const ImportObject& obj) const
 {
-//cout<< "SVGDriver::renderImage: "<<obj.getFormat()<<" "<<obj.getPath()<<" "<< obj.getOrigin().x()<<" "<<obj.getOrigin().y()<< endl;
 	closeGroup();
 	std::string file = obj.getPath();
 

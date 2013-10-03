@@ -262,7 +262,7 @@ bool MagPlus::superpage(magics::MagRequest& in)
 
 bool MagPlus::newpage(magics::MagRequest& in)
 {
-	cout << "NEW PAGE " << endl;
+
 
 	root_->newpage();
 
@@ -364,7 +364,7 @@ bool MagPlus::kmldriver(magics::MagRequest& in)
 
 bool MagPlus::page_update(magics::MagRequest& in)
 {
-	cout << "YOUPY! INEED TO UPDATE the PAGE!!!" << endl;
+
 	// get the Metview ID;
 	// reset the page!!!
 	int id = in("METVIEW_ID");
@@ -463,9 +463,9 @@ bool MagPlus::cartesian(magics::MagRequest& in) {
 			}
 			top()->insert(view);
 			push(view);	
-			cout << "cartesian-->! " << endl;
+
 			in.print();
-			cout << "<--cartesian! " << endl;
+
 			 map<string,  ObjectCreator >::iterator creator = sceneCreators_.find(projection);
 			   	    if ( creator != sceneCreators_.end() ) {
 

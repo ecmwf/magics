@@ -215,7 +215,7 @@ void EcChartLibrary::setCriteria(MetaDataCollector& request, const string& crite
 
 void EcChartLibrary::askId(MetaDataCollector& request)
 {
-	cout << " EcChartLibrary::askId" << endl;
+
 
 	//main keywords
 	setCriteria(request, "paramId");

@@ -110,7 +110,6 @@ void CairoDriver::open()
 	if(!mbg_tmpl.empty())
 	{
 		setDimensionsFromBinary(mbg_tmpl,ratio,	width);
-//cout <<"CAIRO> BINARY TEMPLATE: SET WIDTH TO "<<width<< " and ratio to "<<ratio<<endl;
 	}
 
 	setCMscale(MFloat(width)/getXDeviceLength());

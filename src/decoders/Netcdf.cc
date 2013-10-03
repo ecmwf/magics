@@ -206,13 +206,13 @@ struct StringIndex: public Index
     
 	virtual int operator()(const string& val,  NcValues* values, long nb )
 	{
-		cout << "what should I read ??" << nb << endl;
+
 		for (int i = 0; i < nb; i++)
 		{
 			string read(values->as_string(i));
 
 			if ( read == val) {
-				cout << "found-->" << i/64 << endl;
+
 				return i/64;
 			}
 		}

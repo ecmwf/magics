@@ -465,9 +465,6 @@ bool Layout::buildTree(const Layout& parent, unsigned int frame, const BaseDrive
 			more = true;
 	}
 
-	// here we can release the graphics object!
-	//		cout << "Layout::buildTree-->RELEASE OBJECTS!!!!!!!!!!!!" << endl;
-	//		const_cast<Layout*>(this)->clear();
 
 
 	return more;

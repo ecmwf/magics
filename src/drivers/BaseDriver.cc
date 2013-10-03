@@ -993,7 +993,6 @@ void BaseDriver::redisplay(const BinaryObject& binary) const
 			in.read((char *)(&si), sizeof(int));
 			ColourTable table;
 
-//cout << "Image>  pixel: "<<wi<<"x"<<he<<"="<<d<<" orig: "<<x0<<"/"<<y0<<"    dim: "<<x1<<"/"<<y1<<"     noColours: "<<si<< endl;
 
 			for(int v=0;v<si;v++)
 			{

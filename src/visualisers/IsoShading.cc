@@ -105,7 +105,7 @@ CellArray* NoIsoShading::array(MatrixHandler& matrix, IntervalMap<int>& range,
 	        	    		float resolution, const string& technique)
 {
 		 return new CellArray(matrix, range, transformation, width, height, resolution, technique);
-//	cout << "FullArray" << endl;
+
 //		 return new FullArray(matrix, range, transformation, width, height, resolution, technique);
 
 }

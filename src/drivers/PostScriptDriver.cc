@@ -1089,15 +1089,7 @@ MAGICS_NO_EXPORT void PostScriptDriver::renderText(const Text& text) const
 			else
 			{
 
-/*
-	MagLog::dev()<< "  PS TEXT >>> " << (*niceText).text()<<" " <<text.getAngle()<< "  ver:";
-	if (text.getVerticalAlign()==MBASE)      MagLog::dev()<< "MBASE";
-	else if (text.getVerticalAlign()==MTOP)  MagLog::dev()<< "MTOP";
-	else if (text.getVerticalAlign()==MHALF) MagLog::dev()<< "MHALF";
-	else if (text.getVerticalAlign()==MBOTTOM) MagLog::dev()<< "MBOTTOM";
-	else MagLog::dev()<< "???";
-	cout<<"  x: "<< text[nT].x()<< "   y: "<< text[nT].y()<< endl;
-*/
+
 				const MFloat an = 360.-(text.getAngle()*57.29577951);
 				if(an==0 || an==360)
 					*ps <<"gs "<< x0 << " " << y0 << " t ("<<tmp.str()<< ") 0 0 "<<textCommand<<"\n";

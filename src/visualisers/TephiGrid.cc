@@ -90,7 +90,7 @@ void TephiGrid::visit(DrawingVisitor& out)
 	const Transformation& tephi = out.transformation();
 	vector<double> tempe;
 	double maxpcx = (tephi.getMaxPCX() + (tephi.getMinPCX()*.25))/1.25;
-	cout << "mapxpc in grid " << maxpcx << endl;
+
 	PaperPoint lr(maxpcx, tephi.getMinPCY());
 	UserPoint xy;
 	tephi.revert(lr, xy);

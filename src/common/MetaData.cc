@@ -70,7 +70,7 @@ void MetaDataVisitor::start()
 {
 	start_ = now();
 
-	cout << "start--> " << start_ << endl;
+
 }
 
 void MetaDataVisitor::close()
