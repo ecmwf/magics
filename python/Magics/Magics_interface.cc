@@ -96,6 +96,9 @@ void epsgraph() {
 void epscloud() {
   mag_epscloud();
 }
+void epsplumes() {
+  mag_epsplumes();
+}
 
 void epswind() {
   mag_epswind();

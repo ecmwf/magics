@@ -18,6 +18,7 @@ def main(executable,reference, destination,interpreter):
     if not interpreter:
         cmd = ["./"+executable]
     else :
+        print interpreter
         cmd = [interpreter,executable]
 
     e = call(cmd)

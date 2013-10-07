@@ -878,6 +878,17 @@ void  FortranMagics::epscloud()
 
 	action_->visdef(epscloud);
 }
+void  FortranMagics::epsplumes()
+{
+	actions();
+	if ( !action_ ) {
+		MagLog::error() << "epsplumes -> No data defined " << endl;
+		exit(1);
+	}
+	EpsPlume* plumes = new EpsPlume();
+
+	action_->visdef(plumes);
+}
 
 void FortranMagics::epsgraph()
 {

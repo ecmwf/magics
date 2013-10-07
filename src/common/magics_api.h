@@ -60,6 +60,7 @@ void mag_table();
 void mag_wrepjson();
 void mag_epsxml();
 void mag_epscloud();
+void mag_epsplumes();
 void mag_epsgraph();
 void mag_epsbar();
 void mag_epsshading();

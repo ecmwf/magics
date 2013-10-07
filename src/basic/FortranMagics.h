@@ -83,6 +83,7 @@ public:
 	//Wrep-Eps family!
 	void wrepjson();
 	void epscloud();
+	void epsplumes();
 	void epsgraph();
 	void epswave();
 	void epswind();

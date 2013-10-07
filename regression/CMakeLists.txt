@@ -71,7 +71,7 @@ function( ecbuild_add_magics_test )
                    COMMAND  ${REGRESSION_SCRIPT_DIRECTORY}/upload.py
                    DEPENDS  ${targets}                     
                    RESOURCES  ${_p_RESOURCES} 
-                   ARGS ${_p_SOURCES} ${_p_IMAGE} magics/reference/${MAGICS_VERSION}/${where}
+                   ARGS ${_p_SOURCES} ${_p_IMAGE} magics/reference/${MAGICS_VERSION}/${where} python
                    ENVIRONMENT PYTHONPATH=${MAG_PYTHON_PATH} )
          endif()
          
@@ -80,7 +80,7 @@ function( ecbuild_add_magics_test )
                    COMMAND  ${REGRESSION_SCRIPT_DIRECTORY}/compare.py
                    DEPENDS  ${targets}  
                    RESOURCES  ${_p_RESOURCES} 
-                   ARGS ${_p_SOURCES} ${_p_IMAGE} -t ${_p_THRESHOLD}  -o ${MAGICS_HTML_ROOT}  -v ${versions} -f
+                   ARGS ${_p_SOURCES} ${_p_IMAGE} -t ${_p_THRESHOLD}  -o ${MAGICS_HTML_ROOT}  -v ${versions} -f -i python
             ENVIRONMENT PYTHONPATH=${MAG_PYTHON_PATH} )
         
             return() 
@@ -132,3 +132,4 @@ endfunction(ecbuild_add_magics_test)
 add_subdirectory( basic )
 add_subdirectory( efas )
 add_subdirectory( macc )
+add_subdirectory( plumes )
