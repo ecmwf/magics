@@ -1,6 +1,6 @@
 #!/usr/bin/ksh
 
-# Using new devlop
+# Using new develop
 git_home="$HOME/git"
 install_home="/tmp/install"
 debug="on"
