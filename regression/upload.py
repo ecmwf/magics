@@ -47,4 +47,3 @@ if __name__ == "__main__":
     if positional: interpreter= positional.pop(0)    
 
     main(executable,reference, destination,interpreter)
-

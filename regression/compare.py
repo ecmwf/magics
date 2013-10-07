@@ -152,5 +152,3 @@ if __name__ == "__main__":
     else:
 		sys.stderr.write(u"TEST OK: Maximum number of different pixels is %d (%.2f%%).\n"%(max_diff,100.0*max_diff/pixels))
 		sys.exit(0)
-
-
