@@ -15,7 +15,7 @@ __version__ = '0.1'
 
 import sys
 import os
-from subprocess import call,check_output
+from subprocess import call,check_output,Popen,PIPE,STDOUT
 from optparse import OptionParser
 
 def l(t,n): return (t+' '*n)[:n]
@@ -99,7 +99,7 @@ if __name__ == "__main__":
 #####################################################################
 
     #print input parameters
-    print l('test executable:',  20), interpreter, executable
+    print l('test executable:',  20), (interpreter +' '+ executable).strip()
     print l('test reference:',   20), reference
     print l('threshold:',        20), '%.2f%%'%threshold
     print l('versions:',         20), versions 
@@ -108,20 +108,17 @@ if __name__ == "__main__":
 #####################################################################
 
     #execute the test
-    #print 'Test started'
-    if optional.interpreter:
-        e = call([optional.interpreter,executable])
+    p= None
+    if not interpreter=='':
+        p = Popen([interpreter,executable],stdout=PIPE, stderr=PIPE)
     else:
-        e = call(executable,shell=True)
-    #print 'Test finished'
+        p = Popen(executable,stdout=PIPE, stderr=PIPE,shell=True)
+    stdout,stderr= p.communicate()
 
     #check if output generated
     if not os.path.exists(reference):
 		sys.stderr.write(u"TEST FAILED: Output file %s has not been generated.\n"%reference)
 		sys.exit(1)
-    #else:
-        #print "Output file '%s' has been generated"%reference
-        #sys.exit(0)
 
 #####################################################################
 
