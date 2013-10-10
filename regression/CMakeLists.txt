@@ -32,7 +32,13 @@ function( add_magics_test )
     if( NOT _p_THRESHOLD )
       set(_p_THRESHOLD "20")
     endif()
-   
+    
+    list(APPEND tools "report_template.html")
+     
+    
+   	foreach( file ${tools} )
+          execute_process( COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_SOURCE_DIR}/${file} ${CMAKE_CURRENT_BINARY_DIR} )
+    endforeach()
     
     set( targets "" )
 	foreach( data ${_p_DATA} )
