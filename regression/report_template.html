@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>REFERENCE Test</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="http://download.ecmwf.int/test-data/magics/regression_output/static/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="http://download.ecmwf.int/test-data/magics/regression_output/static/jquery-ui/development-bundle/themes/base/jquery.ui.all.css" rel="stylesheet">
+    <link href="http://download.ecmwf.int/test-data/magics/regression_output/static/jquery-ui/css/ui-lightness/jquery-ui-1.8.18.custom.css" rel="stylesheet">
+    <style>
+      body {
+        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+        padding-bottom: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+        background-color: #fcfcfc
+      }
+
+      .hilite {
+          color: #0088cc;
+      }
+
+      .control {}
+ 
+      .test {
+            background-color: #EEEEEE;
+      }
+
+      .bookmark {
+          padding: 30px;
+      }
+       
+       .footer {
+            padding-top: 60px;
+      }
+
+      .scrollarea {
+          overflow:auto;
+          height:500px;        
+          }
+
+        pre {
+          overflow: auto;
+          word-wrap: normal;
+          white-space: pre;
+        }
+
+    </style>
+    <link href="http://download.ecmwf.int/test-data/magics/regression_output/static/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+    <script src="http://download.ecmwf.int/test-data/magics/regression_output/static/jquery/jquery-1.7.1.min.js"></script>
+    <script src="http://download.ecmwf.int/test-data/magics/regression_output/static/jquery-ui/js/jquery-ui-1.8.18.custom.min.js"></script>
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="http://download.ecmwf.int/test-data/magics/regression_output/static/favicon.ico">
+
+  </head>
+
+  <!--   <body onload="prettyPrint()">-->
+  <body>
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="#" title="Title">REFERENCE Test</a>
+          <div class="nav-collapse">
+            <ul class="nav">
+              <li><a href="#date_area" title="Select the test date and plaform.">Select Tests</a></li>
+              <li><a href="#source" title="Overview of results for individual source grids">Source Grid</a></li>
+              <li><a href="#target" title="Examine results for various target grids">Target Grid</a></li>
+              <li><a href="#detail" title="Examine individual test results">Test Detail</a></li>
+              <li><a href="#comment" title="Submit comments to JIRA">Comment</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div id="dict">
+    </div>
+
+    <div class="container ">
+        <a name="top" class="bookmark"></a>
+            
+        <a name="date_area" class="bookmark"></a>
+        <section>
+            <div class="page-header">
+                <h2>Test Parameters
+                   <small>some comments<small>
+                </h2>
+            </div>
+            <div class="row">
+              <div class="span8">
+                <table>
+                  <tr><td>versions:    </td><td>VERSIONS    </td></tr> 
+                  <tr><td>interpreter: </td><td>INTERPRETER </td></tr>
+                  <tr><td>executable:  </td><td>EXECUTABLE  </td></tr>
+                  <tr><td>reference:   </td><td>REFERENCE   </td></tr>
+                  <tr><td>threshold:   </td><td>THRESHOLD   </td></tr>
+                  <tr><td>output_dir:  </td><td>OUTPUT_DIR  </td></tr>
+                  <tr><td>time:        </td><td>TIME        </td></tr>
+                  <tr><td>diff:        </td><td>DIFF        </td></tr>
+                </table>
+              </div>
+          </div>
+          
+            <div id="debug"></div>
+                <div class="row">
+                    <div class="span12 control" name="machine_frame" id="machine_frame" > </div>
+                </div>
+      
+        </section>
+        <a name="source" class="bookmark"><br></a>
+        <section>
+            <div class="row">
+                <div class="span12 control" name="source_frame" id="source_frame">
+                </div>
+            </div>
+            </section>
+
+      <a name="target" class="bookmark"></a>
+        <section>
+            <div class="row">
+                <div class="span12 control" name="target_frame" id="target_frame">
+                </div>
+            </div>
+        </section>
+
+        <a name="detail" class="bookmark"></a>
+        <section>
+            <div class="row">
+                <div class="span12" name="detail_frame" id="detail_frame" >
+                </div>
+            </div>
+        </section>
+
+        
+        <a name="comment" class="bookmark"></a>
+        <section>
+            <div class="row">
+                <div class="span12" name="jira_frame" id="jira_frame" >
+                </div>
+            </div>
+            </section>
+        
+
+     <!-- Footer
+      ================================================== -->
+
+      <footer class="footer">
+        <p class="pull-right"><a href="#">To the top</a></p>
+        <p>Built on <a href="http://twitter.github.com/bootstrap/index.html" target="_blank">Twitter Bootstrap</a>, licensed under the <a href="http://www.apache.org/licenses/LICENSE-2.0"
+target="_blank">Apache License v2.0</a>. Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>.</p>
+
+        <p>Icons from <a href="http://glyphicons.com">Glyphicons Free</a>, licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>.</p>
+      </footer>
+
+    </div> <!-- /container -->
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="http://download.ecmwf.int/test-data/magics/regression_output/static/bootstrap/js/bootstrap-transition.js"></script>
+    <script src="http://download.ecmwf.int/test-data/magics/regression_output/static/bootstrap/js/bootstrap-alert.js"></script>
+    <script src="http://download.ecmwf.int/test-data/magics/regression_output/static/bootstrap/js/bootstrap-modal.js"></script>
+    <script src="http://download.ecmwf.int/test-data/magics/regression_output/static/bootstrap/js/bootstrap-navlist.js"></script>
+    <script src="http://download.ecmwf.int/test-data/magics/regression_output/static/bootstrap/js/bootstrap-dropdown.js"></script>
+    <script src="http://download.ecmwf.int/test-data/magics/regression_output/static/bootstrap/js/bootstrap-scrollspy.js"></script>
+    <script src="http://download.ecmwf.int/test-data/magics/regression_output/static/bootstrap/js/bootstrap-tab.js"></script>
+    <script src="http://download.ecmwf.int/test-data/magics/regression_output/static/bootstrap/js/bootstrap-tooltip.js"></script>
+    <script src="http://download.ecmwf.int/test-data/magics/regression_output/static/bootstrap/js/bootstrap-popover.js"></script>
+    <script src="http://download.ecmwf.int/test-data/magics/regression_output/static/bootstrap/js/bootstrap-button.js"></script>
+    <script src="http://download.ecmwf.int/test-data/magics/regression_output/static/bootstrap/js/bootstrap-collapse.js"></script>
+    <script src="http://download.ecmwf.int/test-data/magics/regression_output/static/bootstrap/js/bootstrap-carousel.js"></script>
+    <script src="http://download.ecmwf.int/test-data/magics/regression_output/static/bootstrap/js/bootstrap-typeahead.js"></script>
+    <script src="http://download.ecmwf.int/test-data/magics/regression_output/static/datatables/media/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" language="javascript" src="http://download.ecmwf.int/test-data/magics/regression_output/static/bootstrap-datatables.js"></script>
+
+</body>
+</html>
+
