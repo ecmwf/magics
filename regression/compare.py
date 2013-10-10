@@ -13,14 +13,19 @@ __date__    = '2013-09-24'
 __version__ = '0.1'
 
 import sys
+import json
 import os
-from subprocess import call,check_output,Popen,PIPE,STDOUT
+import resource
+from subprocess import call,check_output,Popen,PIPE
 from optparse import OptionParser
-from regression_util import upload
+from datetime import datetime
+from regression_util import extension,prefix,writeHtmlReport,usage2Dict,ImageMagick_compare
 
 #####################################################################
+#####################################################################
+#####################################################################
 
-def compare(interpreter,executable,reference,threshold,output_dir):
+def compare(versions,interpreter,executable,reference,threshold,output_dir):
 
     #print input parameters
     def l(t,n): return (t+' '*n)[:n]
@@ -35,8 +40,11 @@ def compare(interpreter,executable,reference,threshold,output_dir):
     if not interpreter=='':
         p = Popen([interpreter,executable],stdout=PIPE, stderr=PIPE)
     else:
-        p = Popen(executable,stdout=PIPE, stderr=PIPE,shell=True)
+        p = Popen(executable,stdout=PIPE,stderr=PIPE,shell=True)
+
+    #get test's run information
     stdout,stderr= p.communicate()
+    usage= usage2Dict(resource.getrusage(resource.RUSAGE_CHILDREN))
 
     #check if output generated
     if not os.path.exists(reference):
@@ -51,17 +59,58 @@ def compare(interpreter,executable,reference,threshold,output_dir):
     pixels= x*y
 
     #for each reference version
-    diff_pixels= []
+    diff= {}
     for version in versions:
-
         #compare with test's output and keep number of different pixels
-        ver_ref= version+'_'+reference
-        command='compare -metric AE -dissimilarity-threshold 1 "%s" "%s" diff_%s 2>  %s_compare.err'%(reference,ver_ref,ver_ref,version)
-        call(command,shell=True)
-        with open(version+'_compare.err','r') as f: diff_pixels.append(int(f.read()))
+        ver_ref= prefix(reference,version+'_')
+        ver_dif= prefix(reference,version+'_diff_')
+        diff[version]= ImageMagick_compare(reference,ver_ref,ver_dif)
+
+    #save all test files into specified output directory 
+    if output_dir:
+    
+        #save test run information into files
+        with open(extension(reference,'out'),'w') as f: f.write(stdout)
+        with open(extension(reference,'err'),'w') as f: f.write(stderr)
+        with open(extension(reference,'usa'),'w') as f: f.write(json.dumps(usage,  sort_keys=True,indent=4, separators=(',', ': ')))
+
+        #save parameters as well
+        params= {
+            'versions':    versions, 
+            'interpreter': interpreter, 
+            'executable':  executable, 
+            'reference':   reference, 
+            'threshold':   threshold, 
+            'output_dir':  output_dir,
+            'time':        str(datetime.now()),
+            'diff':        diff
+        }
+        with open(extension(reference,'par'),'w') as f: f.write(json.dumps(params, sort_keys=True,indent=4, separators=(',', ': ')))
+
+        #generate an output report
+        #report= writeHtmlReport(params)
+        #report_filename= extension(params['output_dir']+'/'+params['reference'],'html')        
+        #with open(report_filename,'w') as f: f.write(report)
+        
+        #finally, copy the files into output directory
+        files_to_copy=  [reference,
+                         #extension(reference,'html'),
+                         extension(reference,'out'),
+                         extension(reference,'usa'),
+                         extension(reference,'err'),
+                         extension(reference,'par')]
+        files_to_copy+= [prefix(reference,version+'_') for version in versions]#version reference files
+        files_to_copy+= [prefix(reference,version+'_diff_') for version in versions]#difference calculated by compare
+        
+        for filename in files_to_copy:
+            target= output_dir+'/'+filename
+            e= call(["scp",filename,target])
+            if not e==0:
+                sys.stderr.write("ERROR coping the file '%s' into '%s'"%(filename,target))
+
 
     #fail if, FOR ANY TEST, the threshold is passed 
-    max_diff = max(diff_pixels)
+    max_diff = max(diff.values())
     if 100.0*max_diff/pixels>=threshold:
         sys.stderr.write(u"TEST FAILED: Maximum number of different pixels is %d (%.2f%%).\n"%(max_diff,100.0*max_diff/pixels))
         sys.exit(1)
@@ -70,8 +119,16 @@ def compare(interpreter,executable,reference,threshold,output_dir):
         sys.exit(0)
 
 #####################################################################
+#####################################################################
+#####################################################################
 
 if __name__ == "__main__":
+
+#####################################################################
+#####################################################################
+#####################################################################
+
+    
     cmd_parser = OptionParser(usage="usage: %prog <executable> <reference-file>", version='%prog : '+__version__, description = __doc__, prog = 'compare.py')
 
     print sys.argv#REMOVE??
@@ -122,8 +179,8 @@ if __name__ == "__main__":
     try:
         threshold= float(optional.threshold)
     except:
-         sys.stderr.write(u"Invalid threshold '%s': can not convert into float number.\n"%optional.threshold)
-         sys.exit(1)
+        sys.stderr.write(u"Invalid threshold '%s': can not convert into float number.\n"%optional.threshold)
+        sys.exit(1)
 
     #versions
     versions= []
@@ -144,5 +201,5 @@ if __name__ == "__main__":
             sys.stderr.write(u"No output directory '%s' found.\n"%output_dir)
             sys.exit(1)
 
-    compare(interpreter,executable,reference,threshold,output_dir)
+    compare(versions,interpreter,executable,reference,threshold,output_dir)
     

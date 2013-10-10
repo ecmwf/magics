@@ -76,7 +76,7 @@ function( add_magics_test )
                    COMMAND  ${REGRESSION_SCRIPT_DIRECTORY}/upload.py
                    DEPENDS  ${targets}                     
                    RESOURCES  ${_p_RESOURCES} 
-                   ARGS ${MAGICS_VERSION} ${_p_SOURCES} ${_p_IMAGE} magics/reference/${MAGICS_VERSION}/${where} python
+                   ARGS ${MAGICS_VERSION} ${_p_SOURCES} ${_p_IMAGE} magics/reference/${MAGICS_VERSION}/${where} -i python
                    ENVIRONMENT PYTHONPATH=${MAG_PYTHON_PATH} )
          endif()
          
@@ -98,7 +98,7 @@ function( add_magics_test )
                    DEPENDS  ${targets} 
                    
                    RESOURCES  ${_p_RESOURCES} 
-                   ARGS ${MAGICS_VERSION} ${_p_SOURCES} ${_p_IMAGE} magics/reference/${MAGICS_VERSION}/${where} magjson
+                   ARGS ${MAGICS_VERSION} ${_p_SOURCES} ${_p_IMAGE} magics/reference/${MAGICS_VERSION}/${where} -i magjson
 				 )
             endif()     
 			ecbuild_add_test(  TARGET   ${target}
