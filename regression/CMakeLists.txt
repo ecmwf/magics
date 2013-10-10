@@ -37,7 +37,7 @@ function( add_magics_test )
      
     
    	foreach( file ${tools} )
-          execute_process( COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_SOURCE_DIR}/${file} ${CMAKE_CURRENT_BINARY_DIR} )
+          execute_process( COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_SOURCE_DIR}/../${file} ${CMAKE_CURRENT_BINARY_DIR} )
     endforeach()
     
     set( targets "" )
