@@ -72,7 +72,7 @@ def compare(versions,interpreter,executable,reference,threshold,output_dir):
         #save test run information into files
         with open(extension(reference,'out'),'w') as f: f.write(stdout)
         with open(extension(reference,'err'),'w') as f: f.write(stderr)
-        with open(extension(reference,'usa'),'w') as f: f.write(json.dumps(usage,  sort_keys=True,indent=4, separators=(',', ': ')))
+        with open(extension(reference,'usa'),'w') as f: f.write(json.dumps(usage,sort_keys=True,indent=4, separators=(',', ': ')))
 
         #save parameters as well
         params= {
@@ -85,16 +85,16 @@ def compare(versions,interpreter,executable,reference,threshold,output_dir):
             'time':        str(datetime.now()),
             'diff':        diff
         }
-        with open(extension(reference,'par'),'w') as f: f.write(json.dumps(params, sort_keys=True,indent=4, separators=(',', ': ')))
+        with open(extension(reference,'par'),'w') as f: f.write(json.dumps(params,sort_keys=True,indent=4, separators=(',', ': ')))
 
         #generate an output report
-        #report= writeHtmlReport(params)
-        #report_filename= extension(params['output_dir']+'/'+params['reference'],'html')        
-        #with open(report_filename,'w') as f: f.write(report)
+        report= writeHtmlReport(params)
+        report_filename= extension(reference,'html')        
+        with open(report_filename,'w') as f: f.write(report)
         
         #finally, copy the files into output directory
         files_to_copy=  [reference,
-                         #extension(reference,'html'),
+                         extension(reference,'html'),
                          extension(reference,'out'),
                          extension(reference,'usa'),
                          extension(reference,'err'),

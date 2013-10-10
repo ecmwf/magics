@@ -1,5 +1,5 @@
 import sys
-from subprocess import call,Popen,PIPE
+from subprocess import call,Popen,PIPE,check_output
 
 #resources usage
 usage= {0: 'time in user mode',    # (float)
@@ -47,23 +47,22 @@ def upload(filename,destination):
 def ImageMagick_compare(reference,ver_ref,ver_dif):
     #compare with test's output and return number of different pixels
     diff= 0
-    #try:
-    if True:
+    try:
         command='compare -metric AE -dissimilarity-threshold 1 "%s" "%s" %s'%(reference,ver_ref,ver_dif)
         p= Popen(command,stdout=PIPE,stderr=PIPE,shell=True)
         _,stderr= p.communicate()
         diff= int(stderr)
-    #except:
-    #    sys.stderr.write("ERROR comparing '%s' and '%s' with ImageMagick_compare"%(reference,ver_ref))
+    except:
+        sys.stderr.write("ERROR comparing '%s' and '%s' with ImageMagick_compare"%(reference,ver_ref))
     return diff
         
 def writeHtmlReport(params):
 
-    report= ''
-    with open('report_template.html','r') as f: f.write(report)
-    
-    for par in params: report.replace(par.upper(),params[par])
+    with open('report_template.html','r') as f: report= f.read()
+    test_name= params['reference'].split('.')[0]
+    report= report.replace('TEST_NAME',test_name)    
 
+    for name in params: report= report.replace(name.upper(),str(params[name]))
     return report
     
     #1 calculate image diff
@@ -73,8 +72,3 @@ def writeHtmlReport(params):
     #3 calculate stderr diff
     
     #4 calculate usage diff
-    
-      
-    
-    
-    pass
