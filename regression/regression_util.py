@@ -56,11 +56,15 @@ def ImageMagick_compare(reference,ver_ref,ver_dif):
         sys.stderr.write("ERROR comparing '%s' and '%s' with ImageMagick_compare"%(reference,ver_ref))
     return diff
         
-def writeHtmlReport(params):
+def writeHtmlReport(params,usage):
 
     with open('report_template.html','r') as f: report= f.read()
     test_name= params['reference'].split('.')[0]
     report= report.replace('TEST_NAME',test_name)    
+
+    run_info=''
+    for name in usage: run_info+= '<tr><td>'+name+':</td><td>'+str(usage[name])+'</td></tr>'
+    report= report.replace('RUN_INFO',run_info) 
 
     for name in params: report= report.replace(name.upper(),str(params[name]))
     return report

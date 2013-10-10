@@ -88,7 +88,7 @@ def compare(versions,interpreter,executable,reference,threshold,output_dir):
         with open(extension(reference,'par'),'w') as f: f.write(json.dumps(params,sort_keys=True,indent=4, separators=(',', ': ')))
 
         #generate an output report
-        report= writeHtmlReport(params)
+        report= writeHtmlReport(params,usage)
         report_filename= extension(reference,'html')        
         with open(report_filename,'w') as f: f.write(report)
         
