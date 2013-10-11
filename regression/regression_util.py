@@ -27,10 +27,18 @@ def usage2Dict(u_struc):
         i+=1
     return res
 
-def prefix(filename,prefix):
+def prefix(filename,pre):
     aux= filename.split('/')
-    aux[-1]= prefix + filename
-    return '.'.join(aux)
+    aux[-1]= pre + aux[-1]
+    return '/'.join(aux)
+
+def suffix(filename,suf):
+    aux= filename.split('.')
+    if len(aux)>1:
+        aux[-2]= aux[-2] + suf
+        return '.'.join(aux)
+    else:
+        return filename + suf
 
 def extension(filename,newExtension):
     aux= filename.split('.')

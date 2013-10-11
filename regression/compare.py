@@ -19,7 +19,7 @@ import resource
 from subprocess import call,check_output,Popen,PIPE
 from optparse import OptionParser
 from datetime import datetime
-from regression_util import extension,prefix,writeHtmlReport,usage2Dict,ImageMagick_compare
+from regression_util import extension,prefix,suffix,writeHtmlReport,usage2Dict,ImageMagick_compare
 
 #####################################################################
 #####################################################################
@@ -63,7 +63,7 @@ def compare(versions,interpreter,executable,reference,threshold,output_dir):
     for version in versions:
         #compare with test's output and keep number of different pixels
         ver_ref= prefix(reference,version+'_')
-        ver_dif= prefix(reference,version+'_diff_')
+        ver_dif= suffix(ver_ref,'_diff')
         diff[version]= ImageMagick_compare(reference,ver_ref,ver_dif)
 
     #save all test files into specified output directory 
@@ -100,7 +100,7 @@ def compare(versions,interpreter,executable,reference,threshold,output_dir):
                          extension(reference,'err'),
                          extension(reference,'par')]
         files_to_copy+= [prefix(reference,version+'_') for version in versions]#version reference files
-        files_to_copy+= [prefix(reference,version+'_diff_') for version in versions]#difference calculated by compare
+        files_to_copy+= [suffix(prefix(reference,version+'_'),'_diff') for version in versions]#difference calculated by compare
         
         for filename in files_to_copy:
             target= output_dir+'/'+filename
