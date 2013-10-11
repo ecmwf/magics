@@ -64,17 +64,28 @@ def ImageMagick_compare(reference,ver_ref,ver_dif):
         sys.stderr.write("ERROR comparing '%s' and '%s' with ImageMagick_compare"%(reference,ver_ref))
     return diff
         
-def writeHtmlReport(params,usage):
+def writeHtmlReport(params,usage,stdout,stderr):
 
     with open('report_template.html','r') as f: report= f.read()
-    test_name= params['reference'].split('.')[0]
-    report= report.replace('TEST_NAME',test_name)    
 
+    #test name
+    test_name= params['reference'].split('.')[0]
+    report= report.replace('TEST_NAME',test_name)
+
+    #parameters and result section
+    for name in params: report= report.replace(name.upper(),str(params[name]))
+
+    #run info section
     run_info=''
     for name in usage: run_info+= '<tr><td>'+name+':</td><td>'+str(usage[name])+'</td></tr>'
     report= report.replace('RUN_INFO',run_info) 
 
-    for name in params: report= report.replace(name.upper(),str(params[name]))
+    #stdout section
+    report= report.replace('STDOUT',stdout) 
+
+    #stderr section
+    report= report.replace('STDERR',stderr) 
+    
     return report
     
     #1 calculate image diff
