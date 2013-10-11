@@ -86,6 +86,45 @@ def writeHtmlReport(params,usage,stdout,stderr):
     #stderr section
     report= report.replace('STDERR',stderr) 
     
+    #output plots
+    def plots(ver,ref):
+        ref_ver = prefix(ref,ver+'_')
+        ref_dif = suffix(ref_ver,'_diff')
+
+        return '''
+        <table>
+            <tr><td>%s</td></tr>
+            <tr><td><image src="%s"></td></tr>
+            <tr><td>%s</td></tr>
+            <tr><td><image src="%s"></td></tr>
+            <tr><td>%s</td></tr>
+            <tr><td><image src="%s"></td></tr>
+        </tr></table>
+        '''%(ref,ref,ref_dif,ref_dif,ref_ver,ref_ver)
+
+    output_plots= ''
+    for ver in params['versions']: output_plots+= '<h3> Comparing with version '+ver+'</h3>'+plots(ver,params['reference'])
+    
+#     n=0
+#     tab_nav=''
+#     for ver in params['versions']:
+#         if n==0: tab_nav+= '<li class="active"><a href="#'+ver+'" data-toggle="tab"> version '+ver+'</a></li>\n'
+#         else:    tab_nav+= '<li><a href="#'+ver+'"data-toggle="tab"> version '+ver+'</a></li>\n'
+#         n+=1
+#     tab_nav= '<ul class="nav nav-tabs">'+tab_nav+'<ul>\n'
+# 
+#     n=0
+#     tab_con=''
+#     for ver in params['versions']:
+#         if n==0: tab_con+= '<div id="'+ver+'" class="tab-pane active">'+plots(ver,params['reference'])+'</div>'
+#         else:    tab_con+= '<div id="'+ver+'" class="tab-pane">'+plots(ver,params['reference'])+'</div>'
+#         n+=1
+#     tab_con= '<div class="tab-content">'+tab_con+'</div>'
+#     
+#     output_plots= '<div>'+tab_nav+tab_con+'</div>'
+    
+    report= report.replace('OUTPUT_PLOTS',output_plots) 
+    
     return report
     
     #1 calculate image diff
