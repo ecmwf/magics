@@ -19,7 +19,7 @@ import resource
 from subprocess import call,check_output,Popen,PIPE
 from optparse import OptionParser
 from datetime import datetime
-from regression_util import extension,prefix,writeHtmlReport,usage2Dict,ImageMagick_compare
+from regression_util import extension,prefix,suffix,writeHtmlReport,usage2Dict,ImageMagick_compare
 
 #####################################################################
 #####################################################################
@@ -63,7 +63,7 @@ def compare(versions,interpreter,executable,reference,threshold,output_dir):
     for version in versions:
         #compare with test's output and keep number of different pixels
         ver_ref= prefix(reference,version+'_')
-        ver_dif= prefix(reference,version+'_diff_')
+        ver_dif= suffix(ver_ref,'_diff')
         diff[version]= ImageMagick_compare(reference,ver_ref,ver_dif)
 
     #save all test files into specified output directory 
@@ -72,7 +72,7 @@ def compare(versions,interpreter,executable,reference,threshold,output_dir):
         #save test run information into files
         with open(extension(reference,'out'),'w') as f: f.write(stdout)
         with open(extension(reference,'err'),'w') as f: f.write(stderr)
-        with open(extension(reference,'usa'),'w') as f: f.write(json.dumps(usage,  sort_keys=True,indent=4, separators=(',', ': ')))
+        with open(extension(reference,'usa'),'w') as f: f.write(json.dumps(usage,sort_keys=True,indent=4, separators=(',', ': ')))
 
         #save parameters as well
         params= {
@@ -85,22 +85,22 @@ def compare(versions,interpreter,executable,reference,threshold,output_dir):
             'time':        str(datetime.now()),
             'diff':        diff
         }
-        with open(extension(reference,'par'),'w') as f: f.write(json.dumps(params, sort_keys=True,indent=4, separators=(',', ': ')))
+        with open(extension(reference,'par'),'w') as f: f.write(json.dumps(params,sort_keys=True,indent=4, separators=(',', ': ')))
 
         #generate an output report
-        #report= writeHtmlReport(params)
-        #report_filename= extension(params['output_dir']+'/'+params['reference'],'html')        
-        #with open(report_filename,'w') as f: f.write(report)
+        report= writeHtmlReport(params,usage,stdout,stderr)
+        report_filename= extension(reference,'html')        
+        with open(report_filename,'w') as f: f.write(report)
         
         #finally, copy the files into output directory
         files_to_copy=  [reference,
-                         #extension(reference,'html'),
+                         extension(reference,'html'),
                          extension(reference,'out'),
                          extension(reference,'usa'),
                          extension(reference,'err'),
                          extension(reference,'par')]
         files_to_copy+= [prefix(reference,version+'_') for version in versions]#version reference files
-        files_to_copy+= [prefix(reference,version+'_diff_') for version in versions]#difference calculated by compare
+        files_to_copy+= [suffix(prefix(reference,version+'_'),'_diff') for version in versions]#difference calculated by compare
         
         for filename in files_to_copy:
             target= output_dir+'/'+filename
