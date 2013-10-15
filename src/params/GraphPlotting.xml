@@ -3,7 +3,7 @@
   	<documentation>
     This action routine (and C++object) controls the plotting of curves, bar charts and area charts.
   	</documentation>
- 	<parameter xml="legend" from="string" name="legend" default="on" member="legend" to="bool">
+ 	<parameter xml="legend" from="string" name="legend" default="off" member="legend" to="bool">
          		<documentation>  Turn on/off the legend for this graph (this parameter is new to Magics++) 		</documentation>
          		<release>1.3		</release>
          		<set name="legend_user_text" value="on">		</set>
