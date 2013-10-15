@@ -1,6 +1,5 @@
 #!/usr/bin/ksh
 
-# Using new regression 
 git_home="$HOME/git"
 install_home="/tmp/install"
 debug="on"
