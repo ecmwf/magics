@@ -68,6 +68,7 @@ WrepJSon::WrepJSon()  : missing_(-9999),
 	methods_["x_date_values"] = &WrepJSon::x_date_values;
 	methods_["y_values"] = &WrepJSon::y_values;
 	methods_["y_date_values"] = &WrepJSon::y_date_values;
+	methods_["values"] = &WrepJSon::values;
 
 	decoders_["eps"] = &WrepJSon::eps;
 	decoders_["profile"] = &WrepJSon::profile;
@@ -1015,6 +1016,32 @@ void WrepJSon::x_values(const json_spirit::Value& value)
 	}
 	minx_ = *std::min_element(minmax.begin(), minmax.end());
 	maxx_ = *std::max_element(minmax.begin(), minmax.end());
+
+
+}
+void WrepJSon::values(const json_spirit::Value& value)
+{
+	assert (value.type() == array_type);
+	Array values = value.get_value<Array>();
+	bool newpoint = points_.empty();
+
+
+	for (unsigned int i = 0; i < values.size(); i++) {
+		if ( newpoint ) {
+			CustomisedPoint* point = new CustomisedPoint();
+			(*point)["resolution"] = points_along_meridian_;
+			points_.push_back(point);
+		}
+		double val = values[i].get_value<double>();
+		if ( val == missing_ )  {
+			points_.back()->missing(true);
+		}
+		else
+			minmax.push_back(val);
+		//(*points_[i])["x"] = val;
+
+	}
+
 
 }
 void WrepJSon::y_values(const json_spirit::Value& value)
