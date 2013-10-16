@@ -261,12 +261,12 @@ set(MAGICS_EXTRA_LIBS "")
 foreach( lib ${__magics_tmp} )
   if( lib MATCHES "^/.*" )
 # Need to split -L/path and -l libd
-	debug_var( lib )
+	
 	 get_filename_component(ext ${lib} EXT)
 	  if ( ${ext} MATCHES ${CMAKE_SHARED_LIBRARY_SUFFIX} )
-		debug_var( CMAKE_SHARED_LIBRARY_SUFFIX )
+		
 		get_filename_component(path ${lib} PATH)
-		debug_var( path )
+		
 		list( APPEND RPATH "-Wl,-rpath,${path}")
 	  endif()
 	 #set(MAGICS_EXTRA_LIBS "${MAGICS_EXTRA_LIBS} ${lib}" )
