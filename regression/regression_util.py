@@ -1,4 +1,5 @@
 import sys
+import re
 from subprocess import call,Popen,PIPE,check_output
 
 #resources usage
@@ -63,6 +64,20 @@ def ImageMagick_compare(reference,ver_ref,ver_dif):
     except:
         sys.stderr.write("ERROR comparing '%s' and '%s' with ImageMagick_compare"%(reference,ver_ref))
     return diff
+
+def PerceptualDiff_compare(reference,ver_ref,ver_dif,pix_thres=100):
+    #compare with test's output and return number of different pixels
+    diff= 0
+    try:
+        command='/var/tmp/cgjd/perforce/magics/tools/versioncmp/pdiff/perceptualdiff/perceptualdiff -verbose -fov 90 -threshold %d %s %s -output %s'%(pix_thres,reference,ver_ref,ver_dif)
+        p= Popen(command,stdout=PIPE,stderr=PIPE,shell=True)
+        stdout,_ = p.communicate()
+        p= re.compile('([0-9]+) pixels are different')
+        m= p.search(stdout)
+        diff= int(m.group(1))
+    except:
+        sys.stderr.write("ERROR comparing '%s' and '%s' with PerceptualDiff"%(reference,ver_ref))
+    return diff
         
 def writeHtmlReport(params,usage,stdout,stderr):
 
@@ -88,9 +103,10 @@ def writeHtmlReport(params,usage,stdout,stderr):
     
     #output plots
     def plots(ver,ref):
-        ref_ver = prefix(ref,ver+'_')
-        ref_dif = suffix(ref_ver,'_diff')
-
+        ref_ver  = prefix(ref,ver+'_')
+        ref_dif  = suffix(ref_ver,'_diff')
+        ref_pdif = suffix(ref_ver,'_pdif')
+        
         return '''
         <table>
             <tr><td>%s</td></tr>
@@ -99,8 +115,10 @@ def writeHtmlReport(params,usage,stdout,stderr):
             <tr><td><image src="%s"></td></tr>
             <tr><td>%s</td></tr>
             <tr><td><image src="%s"></td></tr>
+            <tr><td>%s</td></tr>
+            <tr><td><image src="%s"></td></tr>
         </tr></table>
-        '''%(ref,ref,ref_dif,ref_dif,ref_ver,ref_ver)
+        '''%(ref,ref,ref_dif,ref_dif,ref_pdif,ref_pdif,ref_ver,ref_ver)
 
     output_plots= ''
     for ver in params['versions']: output_plots+= '<h3> Comparing with version '+ver+'</h3>'+plots(ver,params['reference'])

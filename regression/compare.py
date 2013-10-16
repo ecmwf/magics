@@ -19,7 +19,7 @@ import resource
 from subprocess import call,check_output,Popen,PIPE
 from optparse import OptionParser
 from datetime import datetime
-from regression_util import extension,prefix,suffix,writeHtmlReport,usage2Dict,ImageMagick_compare
+from regression_util import extension,prefix,suffix,writeHtmlReport,usage2Dict,ImageMagick_compare,PerceptualDiff_compare
 
 #####################################################################
 #####################################################################
@@ -59,12 +59,14 @@ def compare(versions,interpreter,executable,reference,threshold,output_dir):
     pixels= x*y
 
     #for each reference version
-    diff= {}
+    diff,pdiff= {},{}
     for version in versions:
         #compare with test's output and keep number of different pixels
         ver_ref= prefix(reference,version+'_')
         ver_dif= suffix(ver_ref,'_diff')
-        diff[version]= ImageMagick_compare(reference,ver_ref,ver_dif)
+        diff[version]=  ImageMagick_compare(reference,ver_ref,ver_dif)
+        ver_pdiff= suffix(ver_ref,'_pdif')
+        pdiff[version]= PerceptualDiff_compare(reference,ver_ref,ver_pdiff)
 
     #save all test files into specified output directory 
     if output_dir:
@@ -83,7 +85,8 @@ def compare(versions,interpreter,executable,reference,threshold,output_dir):
             'threshold':   threshold, 
             'output_dir':  output_dir,
             'time':        str(datetime.now()),
-            'diff':        diff
+            'diff':        diff,
+            'pdiff':       pdiff
         }
         with open(extension(reference,'par'),'w') as f: f.write(json.dumps(params,sort_keys=True,indent=4, separators=(',', ': ')))
 
@@ -107,7 +110,6 @@ def compare(versions,interpreter,executable,reference,threshold,output_dir):
             e= call(["scp",filename,target])
             if not e==0:
                 sys.stderr.write("ERROR coping the file '%s' into '%s'"%(filename,target))
-
 
     #fail if, FOR ANY TEST, the threshold is passed 
     max_diff = max(diff.values())
