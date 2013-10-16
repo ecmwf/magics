@@ -51,15 +51,30 @@ function( add_magics_test )
 
 	get_filename_component(where ${CMAKE_CURRENT_SOURCE_DIR} NAME )
 
+	get_filename_component(log ${_p_IMAGE} NAME_WE)
+             
+    debug_var(log)            
 	
 	foreach( version ${MAGICS_REFERENCE_VERSIONS} )
 	    
 		set( file ${version}_${_p_IMAGE} )	 
-        string( REGEX REPLACE "[^A-Za-z0-9_]" "_" target "test_data_${file}" )
-        list( APPEND targets "${target}")
-	 
-		ecbuild_get_test_data( NAME ${file} NOCHECK 
+		set( err ${version}_${log}.err )
+		set( out ${version}_${log}.out )	
+		set (todos)  
+		list (APPEND todos ${file})
+		list (APPEND todos ${err})
+		list (APPEND todos ${out})
+		
+		
+		
+		foreach ( todo  ${todos} )
+		    debug_var(todo)
+        	string( REGEX REPLACE "[^A-Za-z0-9_]" "_" target "test_data_${todo}" )
+        	list( APPEND targets "${target}")
+	    
+			ecbuild_get_test_data( NAME ${todo} NOCHECK 
 				DIRNAME magics/reference/${version}/${where} )
+		endforeach()
 	
 		set( versions "${versions}${version} " )
 	 
