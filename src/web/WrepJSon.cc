@@ -1036,9 +1036,8 @@ void WrepJSon::values(const json_spirit::Value& value)
 		if ( val == missing_ )  {
 			points_.back()->missing(true);
 		}
-		else
-			minmax.push_back(val);
-		//(*points_[i])["x"] = val;
+
+		(*points_[i])["value"] = val;
 
 	}
 
@@ -1187,7 +1186,7 @@ void WrepJSon::visit(TextVisitor& text)
 
 	text.update("json", "station_name", station_name_);
 
-
+	//(**point)["y"]
 	text.update("json", "product_info", product_info_);
 	text.update("json", "plumes_interval", tostring(plumes_));
 
@@ -1205,7 +1204,8 @@ void WrepJSon::points(const Transformation& transformation, vector<UserPoint>& p
 			double shift = ref - xBase_;
 			x -= shift;
 		}
-		points.push_back(UserPoint(x, (**point)["y"]));
+		//doubble v =  (*point)->find("value") != (*point)->end() ) : (**point)["value"] : 0;
+		points.push_back(UserPoint(x, (**point)["y"], (**point)["value"]));
 		if ( (*point)->missing() )
 			points.back().flagMissing();
 	}
@@ -1223,7 +1223,7 @@ PointsHandler& WrepJSon::points(const Transformation& transformation, bool)
 			x -= shift;
 		}
 
-		list_.push_back(new UserPoint(x, (**point)["y"]));
+		list_.push_back(new UserPoint(x, (**point)["y"], (**point)["value"]));
 		if ( (*point)->missing() )
 			list_.back()->flagMissing();
 	}
