@@ -1,6 +1,7 @@
 import sys
 import re
 from subprocess import call,Popen,PIPE,check_output
+from BeautifulSoup import BeautifulSoup
 
 #resources usage
 usage= {0: 'time in user mode',    # (float)
@@ -78,6 +79,24 @@ def PerceptualDiff_compare(reference,ver_ref,ver_dif,pix_thres=100):
     except:
         sys.stderr.write("ERROR comparing '%s' and '%s' with PerceptualDiff"%(reference,ver_ref))
     return diff
+
+def TextDiff(reference,ver_ref):
+    #compares 2 text files and return an HTML table (an string as well) with the diff results
+    diff= ''
+    try:
+        #call the difference tool
+        ver_dif= suffix(ver_ref,'_tdif')
+        command='/home/graphics/cgjd/development/git/coderev/codediff.py -o %s %s %s'%(ver_dif,reference,ver_ref)
+        assert(call(command,stdout=PIPE,stderr=PIPE,shell=True)==0)
+        
+        #extract the 1st table of the HTML output (it is the only relevant part)
+        with open(ver_dif) as f: html= f.read()
+        s= BeautifulSoup(html)
+        diff= s.find('table')  
+    except:
+        sys.stderr.write("ERROR comparing '%s' and '%s' with PerceptualDiff"%(reference,ver_ref))
+    return diff
+
         
 def writeHtmlReport(params,usage,stdout,stderr):
 
@@ -96,7 +115,14 @@ def writeHtmlReport(params,usage,stdout,stderr):
     report= report.replace('RUN_INFO',run_info) 
 
     #stdout section
-    report= report.replace('STDOUT',stdout) 
+    def stdout_diff(stdout,ver,reference):
+        ref= extension(reference,'out')
+        with open(ref,'w') as f: f.write(stdout)
+        ref_ver= prefix(ref,ver+'_')
+        return TextDiff(ref,ref_ver)
+    stdout_diffs= ''
+    for ver in params['versions']: stdout_diffs+= '<h3> Comparing output with version '+ver+'</h3>'+stdout_diff(stdout,ver,params['reference'])
+    report= report.replace('STDOUT_DIFS',stdout_diffs) 
 
     #stderr section
     report= report.replace('STDERR',stderr) 
@@ -106,7 +132,7 @@ def writeHtmlReport(params,usage,stdout,stderr):
         ref_ver  = prefix(ref,ver+'_')
         ref_dif  = suffix(ref_ver,'_diff')
         ref_pdif = suffix(ref_ver,'_pdif')
-        
+       
         return '''
         <table>
             <tr><td>%s</td></tr>
@@ -119,9 +145,13 @@ def writeHtmlReport(params,usage,stdout,stderr):
             <tr><td><image src="%s"></td></tr>
         </tr></table>
         '''%(ref,ref,ref_dif,ref_dif,ref_pdif,ref_pdif,ref_ver,ref_ver)
-
     output_plots= ''
     for ver in params['versions']: output_plots+= '<h3> Comparing with version '+ver+'</h3>'+plots(ver,params['reference'])
+    report= report.replace('OUTPUT_PLOTS',output_plots) 
+    
+    return report
+   
+    
     
 #     n=0
 #     tab_nav=''
@@ -141,9 +171,6 @@ def writeHtmlReport(params,usage,stdout,stderr):
 #     
 #     output_plots= '<div>'+tab_nav+tab_con+'</div>'
     
-    report= report.replace('OUTPUT_PLOTS',output_plots) 
-    
-    return report
     
     #1 calculate image diff
     

@@ -103,7 +103,8 @@ def compare(versions,interpreter,executable,reference,threshold,output_dir):
                          extension(reference,'err'),
                          extension(reference,'par')]
         files_to_copy+= [prefix(reference,version+'_') for version in versions]#version reference files
-        files_to_copy+= [suffix(prefix(reference,version+'_'),'_diff') for version in versions]#difference calculated by compare
+        files_to_copy+= [suffix(prefix(reference,version+'_'),'_diff') for version in versions]#difference calculated by ImageMagick
+        files_to_copy+= [suffix(prefix(reference,version+'_'),'_pdif') for version in versions]#difference calculated by PerceptualDiff
         
         for filename in files_to_copy:
             target= output_dir+'/'+filename
