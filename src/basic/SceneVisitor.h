@@ -134,7 +134,7 @@ public:
 		virtual double offsetTickLabel(double, double);
 		virtual double angleTickLabel();	
 		virtual double angleTitle();
-		virtual double offsetTitle();
+		virtual double offsetTitle(int);
 		virtual double angleTip();
 		virtual double offsetTip();
 		virtual VerticalAlign textAlignment(const string&) { return MBOTTOM; }
@@ -154,7 +154,7 @@ public:
 	virtual double offsetTickLabel(double, double);
 	virtual double angleTickLabel();	
 	virtual double angleTitle();
-	virtual double offsetTitle();
+	virtual double offsetTitle(int);
 	virtual double angleTip();
 	virtual double offsetTip();
 	virtual Justification justificationTickLabel(const string&);
@@ -175,7 +175,7 @@ public:
 	virtual double offsetTickLabel(double, double);
 	virtual double angleTickLabel();	
 	virtual double angleTitle();
-	virtual double offsetTitle();
+	virtual double offsetTitle(int);
 	virtual double angleTip();
 	virtual double offsetTip();
 	virtual VerticalAlign textAlignment(const string&);
@@ -196,7 +196,7 @@ public:
 	virtual double offsetTickLabel(double, double);
 	virtual double angleTickLabel();	
 	virtual double angleTitle();
-	virtual double offsetTitle();	
+	virtual double offsetTitle(int);
 	virtual double angleTip();
 	virtual double offsetTip();
 	virtual VerticalAlign textAlignment(const string&);
@@ -219,7 +219,7 @@ public:
 	virtual double offsetTickLabel(double, double);
 	virtual double angleTickLabel();	
 	virtual double angleTitle();
-	virtual double offsetTitle();
+	virtual double offsetTitle(int);
 	virtual double angleTip();
 	virtual double offsetTip();
 	virtual VerticalAlign textAlignment(const string&);
@@ -240,7 +240,7 @@ public:
 	virtual double offsetTickLabel(double, double);
 	virtual double angleTickLabel();	
 	virtual double angleTitle();
-	virtual double offsetTitle();
+	virtual double offsetTitle(int);
 	virtual double angleTip();
 	virtual double offsetTip();
 	virtual VerticalAlign textAlignment(const string&);
