@@ -2,6 +2,7 @@ import sys
 import re
 from subprocess import call,Popen,PIPE,check_output
 from BeautifulSoup import BeautifulSoup
+import os
 
 #resources usage
 usage= {0: 'time in user mode',    # (float)
@@ -84,17 +85,22 @@ def TextDiff(reference,ver_ref):
     #compares 2 text files and return an HTML table (an string as well) with the diff results
     diff= ''
     try:
+    #if True:
         #call the difference tool
         ver_dif= suffix(ver_ref,'_tdif')
-        command='/home/graphics/cgjd/development/git/coderev/codediff.py -o %s %s %s'%(ver_dif,reference,ver_ref)
-        assert(call(command,stdout=PIPE,stderr=PIPE,shell=True)==0)
+        command='python /home/graphics/cgjd/development/git/coderev/codediff.py -o %s %s %s'%(ver_dif,reference,ver_ref)
+        p= Popen(command,stdout=PIPE,stderr=PIPE,shell=True)
+        stdout,stderr = p.communicate()
         
         #extract the 1st table of the HTML output (it is the only relevant part)
         with open(ver_dif) as f: html= f.read()
         s= BeautifulSoup(html)
-        diff= s.find('table')  
+        diff= str(s.find('table'))  
     except:
-        sys.stderr.write("ERROR comparing '%s' and '%s' with PerceptualDiff"%(reference,ver_ref))
+        sys.stderr.write("ERROR comparing '%s' and '%s' with codediff.py\n"%(reference,ver_ref))
+        sys.stderr.write(stderr)
+        sys.stdout.write(stdout)
+        
     return diff
 
         
@@ -115,14 +121,17 @@ def writeHtmlReport(params,usage,stdout,stderr):
     report= report.replace('RUN_INFO',run_info) 
 
     #stdout section
-    def stdout_diff(stdout,ver,reference):
+    def stdout_TextDiff(stdout,ver,reference):
+        print 'STDOUT',ver,reference,
         ref= extension(reference,'out')
         with open(ref,'w') as f: f.write(stdout)
         ref_ver= prefix(ref,ver+'_')
+        print 'done'
         return TextDiff(ref,ref_ver)
-    stdout_diffs= ''
-    for ver in params['versions']: stdout_diffs+= '<h3> Comparing output with version '+ver+'</h3>'+stdout_diff(stdout,ver,params['reference'])
-    report= report.replace('STDOUT_DIFS',stdout_diffs) 
+        
+    stdout_difs= ''
+    for ver in params['versions']: stdout_difs+= '<h3> Comparing output with version '+ver+'</h3>'+stdout_TextDiff(stdout,ver,params['reference'])
+    report= report.replace('STDOUT_DIFS',stdout_difs) 
 
     #stderr section
     report= report.replace('STDERR',stderr) 
