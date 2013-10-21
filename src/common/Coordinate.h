@@ -69,8 +69,7 @@ public:
     virtual vector<double> mins() { vector<double> vmin; vmin.push_back(min()); return vmin; }
     virtual string reference() { return ""; }
     
-    virtual void min(double) { }
-    virtual void max(double) { }
+
     
     virtual double operator()(double c) { return c; }
     virtual double revert(double c) { return c; }
@@ -95,20 +94,11 @@ public:
     virtual double operator()(const string& val) const { return tonumber(val); }
     virtual string type() const { return "regular"; }
     
+    virtual void minmax(double max, double min) { assert(false); }
     
-    virtual void dataMin(double m) { 
-    	if ( automatic() == m_off || automatic()== m_max_only) return;
-//    	MagLog::dev()<< "new min-->" << m << "< " << min() << ???" << endl;  
-    	if (min() > m) min(m); 
-    }
-    virtual void dataMax(double m) { 
-    	if ( automatic()== m_off || automatic() == m_min_only) return;
-//   	MagLog::dev()<< "new max-->" << m << endl; 
-//    	MagLog::dev()<< "new max-->" << m << "> " << max() << "???" << endl;  
-    	if (  max() < m ) max(m); 
-    }
-    virtual void dataMin(double m, const string&) { if (min() > m) dataMin(m); }
-    virtual void dataMax(double m, const string&) { if (max() < m)dataMax(m); }    
+    virtual void dataMinMax(double min, double max) = 0;
+    virtual void dataMinMax(double min, double max, const string&) = 0;
+
     virtual void setAutomatic(AxisAutomaticSetting) {}
     virtual void getNewDefinition(const UserPoint&, const UserPoint&, map<string, string>&) const
     {}
@@ -157,6 +147,8 @@ public:
 		def["x_max"]= tostring(ur.x_);
 		def["x_automatic"]= "off";
 	}
+	virtual void dataMinMax(double min, double max) { assert(false); }
+    virtual void dataMinMax(double min, double max, const string&) { assert(false); }
 };
 
 class YCoordinate : public Coordinate
@@ -186,6 +178,8 @@ public:
 			def["y_max"]= tostring(ur.y_);
 			def["y_automatic"]= "off";
 		}
+	virtual void dataMinMax(double min, double max) { assert(false); }
+	virtual void dataMinMax(double min, double max, const string&) { assert(false); }
 };
 
 class RegularCoordinate 
@@ -238,30 +232,29 @@ public:
     virtual void setAutomatic(AxisAutomaticSetting automatic) { automatic_ = automatic; }
     virtual void  automatic(bool automatic) { automatic_ = automatic?m_both:m_off; set(); }
 
-    void min(double m) {
+    void minmax(double min, double max) {
 
       	switch ( automatic_ ) {
       					case m_both:
       					case m_min_only:
       						if ( reverse_ )
-      							max_ = std::max(max_, m);
+      							max_ = std::max(max_, max);
       						else
-      							min_ = std::min(min_, m);
+      							min_ = std::min(min_, max);
       						break;
       					default:
       						break;
       				}
       	automatic_ = (automatic_ == m_both) ? m_max_only : m_off;
-      }
-      void max(double m) {
+
 
       	switch ( automatic_ ) {
       		case m_both:
       		case m_max_only:
       			if ( reverse_ )
-      				min_ = std::min(min_, m);
+      				min_ = std::min(min_, min);
       			else
-      				max_ = std::max(max_, m);
+      				max_ = std::max(max_, min);
       			break;
       		default:
       			break;
@@ -318,16 +311,16 @@ public:
     double minpc() { return min_; }
     double maxpc() { return max_; }
     virtual void setAutomatic(AxisAutomaticSetting automatic) { automatic_ = automatic; set(); }
-    void min(double m) {
+    void minmax(double min, double max) {
     	AxisAutomaticSetting setting = automatic_;
     	switch ( automatic_ ) {
     					case m_both:
     						setting = m_max_only;
     					case m_min_only:
     						if ( reverse_ )
-    							max_ = std::max(m, max_);
+    							max_ = std::max(min, max_);
     						else
-    							min_ = std::min(m, min_);
+    							min_ = std::min(min, min_);
 
 
     						break;
@@ -335,17 +328,16 @@ public:
     						break;
     				}
     	automatic_ = setting;
-    }
-    void max(double m) {
-    	AxisAutomaticSetting setting = automatic_;
+
+
     	switch ( automatic_ ) {
     		case m_both:
     			setting = m_min_only;
     		case m_max_only:
     			if ( reverse_ )
-    				min_ = std::min(m, min_);
+    				min_ = std::min(max, min_);
     			else
-    				max_ = std::max(m, max_);
+    				max_ = std::max(max, max_);
     			break;
     		default:
     			break;
@@ -424,28 +416,27 @@ public:
     					break;
     			}
     	}
-    void min(double m) {
+    void minmax(double min, double max) {
     	switch ( automatic_ ) {
     					case m_both:
     					case m_min_only:
       						if ( reverse_ )
-      							max_ = std::max(max_, m);
+      							max_ = std::max(max_, min);
       						else
-      							min_ = std::min(min_, m);
+      							min_ = std::min(min_, min);
     						break;
     					default:
     						break;
     				}
     	automatic_ = (automatic_ == m_both) ? m_max_only : m_off;
-    }
-    void max(double m) {
+
     	switch ( automatic_ ) {
     		case m_both:
     		case m_max_only:
     			if ( reverse_ )
-    				min_ = std::min(m, min_);
+    				min_ = std::min(max, min_);
     			else
-    				max_ = std::max(m, max_);
+    				max_ = std::max(max, max_);
     			break;
     		default:
     			break;
@@ -470,6 +461,9 @@ public:
 		def["x_max"]= tostring( ur.x_);
 		def["x_automatic"]= "off";
     }
+
+    virtual void dataMinMax(double min, double max) { assert(false); }
+        virtual void dataMinMax(double min, double max, const string&) { assert(false); }
     AxisAutomaticSetting automatic() { return automatic_; }
     virtual void automatic(bool automatic) { automatic_ = (automatic?m_both:m_off);}
     virtual void setAutomatic(AxisAutomaticSetting automatic) { automatic_ = automatic; }
@@ -519,29 +513,29 @@ public:
     double max() { return max_; }
     double minpc() { return (*this)(min_); }
     double maxpc() { return (*this)(max_); }
-
-    void min(double m) {
+    virtual void dataMinMax(double min, double max) { assert(false); }
+        virtual void dataMinMax(double min, double max, const string&) { assert(false); }
+    void minmax(double min, double max) {
     	switch ( automatic_ ) {
     					case m_both:
     					case m_min_only:
       						if ( reverse_ )
-      							max_ = std::max(max_, m);
+      							max_ = std::max(max_, min);
       						else
-      							min_ = std::min(min_, m);
+      							min_ = std::min(min_, min);
     						break;
     					default:
     						break;
     				}
     	automatic_ = (automatic_ == m_both) ? m_max_only : m_off;
-    }
-    void max(double m) {
+
     	switch ( automatic_ ) {
     		case m_both:
     		case m_max_only:
     			if ( reverse_ )
-    				min_ = std::min(m, min_);
+    				min_ = std::min(max, min_);
     			else
-    				max_ = std::max(m, max_);
+    				max_ = std::max(max, max_);
     			break;
     			break;
     		default:
@@ -558,8 +552,8 @@ public:
     }
     AxisAutomaticSetting automatic() { return automatic_; }
     
-    void setMin(double min) { min_ = min; }
-    void setMax(double max) { max_ = max; }
+    void setMinMax(double min, double max) { min_ = min; max_ = max; }
+
     double operator()(double c ) {  return (c) ? log10(c) :0 ; }
     double revert(double c ) { return ::pow(10.,c); }
     virtual YCoordinate* clone() const {
@@ -622,10 +616,10 @@ public:
     void automatic(bool automatic) { automatic_ = (automatic?m_both:m_off); }
     virtual void setAutomatic(AxisAutomaticSetting automatic) { automatic_ = (automatic); }
     
-    void setMin(const string& min) { date_min_ = min; }
-    void setMax(const string& max) { date_max_ = max;}
+    void setMinMax(const string& min, const string& max ) { date_min_ = min;  date_max_ = max; }
+
     
-    void dataMin(double min, const string& date) { 
+    void dataMinMax(double min, double max, const string& date) {
     	switch ( automatic_ ) {
     		case m_both:
     		case m_min_only: {
@@ -647,8 +641,7 @@ public:
 
     	automatic_ = (automatic_ == m_both) ? m_max_only : m_off;
 
-    }
-    void dataMax(double max, const string& date) { 
+
     	switch ( automatic_ ) {
 			case m_both:
 			case m_max_only: {
@@ -728,18 +721,18 @@ public:
     }
     AxisAutomaticSetting automatic() { return automatic_ ? m_both:  m_off; }
     
-    void setMin(double) { }
-    void setMax(double) { }
+    void setMinMax(double, double) { }
+
     
-    void setMin(const string& min) { date_min_ = min; }
-    void setMax(const string& max) { date_max_ = max;}
+    void setMinMax(const string& min, const string& max) { date_min_ = min; date_max_ = max;}
+
     
     double operator()(double c ) { return c; }
     double operator()(const string& val) const  { 
     	DateTime date(val); 
     	return date -  DateTime(date_min_);
     }
-    void dataMin(double min, const string& date) { 
+    void dataMinMax(double min, double max, const string& date) {
         	switch ( automatic_ ) {
         		case m_both:
         		case m_min_only: {
@@ -762,8 +755,7 @@ public:
         	automatic_ = (automatic_ == m_both) ? m_max_only : m_off;
 
 
-        }
-        void dataMax(double max, const string& date) {
+
         	switch ( automatic_ ) {
     			case m_both:
     			case m_max_only: {
@@ -827,8 +819,8 @@ public:
     }
     AxisAutomaticSetting automatic() { return automatic_ ; }
     
-    void setMin(double) { }
-    void setMax(double) { }
+    void setMinMax(double, double) { }
+
     
     vector<double> mins() { vector<double> mins; mins.push_back(min_lon_); mins.push_back(min_lat_);  return mins; }
      vector<double> maxs() {  vector<double> maxs; maxs.push_back(max_lon_); maxs.push_back(max_lat_);  return maxs; }
@@ -847,7 +839,7 @@ public:
 		def["y_min_longitude"]= tostring(lon1);
 		def["y_max_longitude"]= tostring(lon2);
      }
-     void dataMin(double min, const string& info) {
+     void dataMinMax(double min, double max, const string& info) {
 
     	 //interpret the info : lonmin/latmin
     	 Tokenizer tokenizer("/");
@@ -873,12 +865,11 @@ public:
             	}
             	automatic_ = (automatic_ == m_both) ? m_max_only : m_off;
 
-            }
-            void dataMax(double max, const string& info) {
+
 
             	//interpret the info : lonmin/latmin
-            	Tokenizer tokenizer("/");
-            	vector<string> tokens;
+
+            	tokens.clear();
             	tokenizer(info, tokens);
             	switch ( automatic_ ) {
         			case m_both:
@@ -932,11 +923,11 @@ public:
     }
     AxisAutomaticSetting automatic() { return automatic_ ? m_both:  m_off; }
     
-    void setMin(double) { }
-    void setMax(double) { }
+    void setMinMax(double, double) { }
+
     
      string type() const { return "geoline"; }
-     void dataMin(double min, const string& info) {
+     void dataMinMax(double min, double max,  const string& info) {
 
     	 //interpret the info : lonmin/latmin
     	 Tokenizer tokenizer("/");
@@ -960,12 +951,10 @@ public:
             	}
 
             	automatic_ = (automatic_ == m_both) ? m_max_only : m_off;
-            }
-            void dataMax(double max, const string& info) {
 
             	//interpret the info : lonmin/latmin
-            	Tokenizer tokenizer("/");
-            	vector<string> tokens;
+
+            	tokens.clear();
             	tokenizer(info, tokens);
             	switch ( automatic_ ) {
             	case m_both:
