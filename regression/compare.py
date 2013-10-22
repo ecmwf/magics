@@ -21,6 +21,12 @@ from optparse import OptionParser
 from datetime import datetime
 from regression_util import extension,prefix,suffix,writeHtmlReport,usage2Dict,ImageMagick_compare,PerceptualDiff_compare,splitOutput
 
+
+def log(obj):
+    namespace= globals()
+    names= [name for name in namespace if namespace[name] is obj]
+    for name in names: print name,'=',obj 
+
 #####################################################################
 #####################################################################
 #####################################################################
@@ -53,6 +59,7 @@ def compare(versions,interpreter,executable,reference,threshold,output_dir):
 
     #Split the output into page images
     ref_pages= splitOutput(reference)
+    log(ref_pages)
     
     #Split the reference versions into page images
     ref_ver_pages= {}
@@ -64,6 +71,7 @@ def compare(versions,interpreter,executable,reference,threshold,output_dir):
         except:
             sys.stderr.write(u"TEST FAILED: Output file '%s' has %d pages but reference file '%s' has %d pages.\n"%(reference,len(ref_pages),ver_ref,ref_ver_pages[version]))
             sys.exit(1)            
+    log(ref_ver_pages)
 
     #get number of pixels of output images
     pixels= []
@@ -143,7 +151,7 @@ def compare(versions,interpreter,executable,reference,threshold,output_dir):
             max_perc= p
 
     #fail if, FOR ANY TEST, the threshold is passed
-    if 100.0*max_diff/pixels>=threshold:
+    if max_perc>=threshold:
         sys.stderr.write(u"TEST FAILED: Maximum number of different pixels is %d (%.2f%%).\n"%(max_diff,max_perc))
         sys.exit(1)
     else:
