@@ -296,31 +296,30 @@ void NetcdfMatrixInterpretor::visit(Transformation& transformation)
 
 			if ( transformation.getAutomaticX() ) {
 				if ( !this->baseDateX_.empty() ) {
-					transformation.setDataMinX(columns_.front(), this->baseDateX_);
-					transformation.setDataMaxX(columns_.back(), this->baseDateX_);
+					transformation.setDataMinMaxX(columns_.front(), columns_.back(), this->baseDateX_);
+
 				}
 				else if ( !this->geoMinX_.empty() ) {
-					transformation.setDataMinX(columns_.front(), this->geoMinX_);
-					transformation.setDataMaxX(columns_.back(), this->geoMaxX_);
+					transformation.setDataMinMaxX(columns_.front(), columns_.back(), this->geoMinX_);
 				}
 				else
 				{
-					transformation.setMinX(columns_.front());
-					transformation.setMaxX(columns_.back());
+					transformation.setMinMaxX(columns_.front(), columns_.back());
+
 				}
 			}
 			if ( transformation.getAutomaticY() ) {
 				if ( !this->baseDateY_.empty() ) {
-					transformation.setDataMinY(rows_.front(), this->baseDateY_);
-					transformation.setDataMaxY(rows_.back(), this->baseDateY_);
+					transformation.setDataMinMaxY(rows_.front(), rows_.back(), this->baseDateY_);
+
 				}
 				else if ( !this->geoMinY_.empty() ) {
-					transformation.setDataMinY(rows_.front(), this->geoMinY_);
-					transformation.setDataMaxY(rows_.back(), this->geoMaxY_);
+					transformation.setDataMinMaxY(rows_.front(), rows_.back(),this->geoMinY_);
+
 				}
 				else {
-					transformation.setMinY(rows_.front());
-					transformation.setMaxY(rows_.back());
+					transformation.setMinMaxY(rows_.front(), rows_.back());
+
 				}
 			}
 

@@ -295,12 +295,11 @@ void XYList::visit(Transformation& transformation)
 		this->prepare();
 
 				if ( transformation.getAutomaticX() ) {
-					transformation.setMinX(*std::min_element(this->x_.begin(), this->x_.end()));
-					transformation.setMaxX(*std::max_element(this->x_.begin(), this->x_.end()));
-				}
+					transformation.setMinMaxX(*std::min_element(this->x_.begin(), this->x_.end()),
+								*std::max_element(this->x_.begin(), this->x_.end()));				}
 				if ( transformation.getAutomaticY() ) {
-					transformation.setMinY(*std::min_element(this->y_.begin(), this->y_.end()));
-					transformation.setMaxY(*std::max_element(this->y_.begin(), this->y_.end()));
+					transformation.setMinMaxY(*std::min_element(this->y_.begin(), this->y_.end()),
+								*std::max_element(this->y_.begin(), this->y_.end()) );
 				}
 			}
 			catch ( ... )

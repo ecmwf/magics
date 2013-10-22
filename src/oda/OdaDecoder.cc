@@ -204,10 +204,9 @@ void OdaGeoDecoder::visit(Transformation& transformation) {MagLog::info() <<  "N
 		if ( maxy < (*point)->y_ ) maxy = (*point)->y_;
 	}
 
-	transformation.setDataMinX(minx);
-	transformation.setDataMinY(miny);
-	transformation.setDataMaxX(maxx);
-	transformation.setDataMaxY(maxy);
+	transformation.setDataMinMaxX(minx, maxx);
+	transformation.setDataMinMaxY(miny, maxy);
+
 }
 void OdaGeoDecoder::decode()
 {    
@@ -1047,10 +1046,9 @@ void OdaXYDecoder::visit(Transformation& transformation) {
 		if ( maxy < (*point)->y_ ) maxy = (*point)->y_;
 	}
 
-	transformation.setDataMinX(minx);
-		transformation.setDataMinY(miny);
-		transformation.setDataMaxX(maxx);
-		transformation.setDataMaxY(maxy);
+	transformation.setDataMinMaxX(minx, maxx);
+		transformation.setDataMinMaxY(miny, maxy);
+
 
 }
 
