@@ -88,7 +88,7 @@ def TextDiff(reference,ver_ref):
     #if True:
         #call the difference tool
         ver_dif= suffix(ver_ref,'_tdif')
-        command='python /home/graphics/cgjd/development/git/coderev/codediff.py -o %s %s %s'%(ver_dif,reference,ver_ref)
+        command='python /home/graphics/cgjd/development/git/coderev/codediff.py -y -o %s %s %s'%(ver_dif,reference,ver_ref)
         p= Popen(command,stdout=PIPE,stderr=PIPE,shell=True)
         stdout,stderr = p.communicate()
         
@@ -103,8 +103,43 @@ def TextDiff(reference,ver_ref):
         
     return diff
 
-        
-def writeHtmlReport(params,usage,stdout,stderr):
+def splitOutput(reference):
+    #splits a pdf or ps reference output document into a set of png files (one for each document page)
+    resolution= '150'#dpi
+    png_files= [] 
+    try:
+        if reference[-2:]=='ps':
+            command='pstopnm -dpi=%s %s'%(resolution,reference)
+            assert(0==call(command,stdout=PIPE,stderr=PIPE,shell=True))
+            #output filename: reference999.ppm
+            ppm_pat= re.compile(reference[:-3]+'[0-9]+.ppm')
+            ppm_files= [f for f in os.listdir('.') if ppm_pat.match(f)]
+            for ppm_file in ppm_files:
+                png_file= ppm_file.replace('.ppm','.png')
+                command='pnmtopng %s > %s; rm -f %s'%(ppm_file,png_file,ppm_file)
+                assert(0==call(command,shell=True))
+                #final filename: reference999.png
+                png_files.append(png_file) 
+                
+        elif reference[-3:]=='pdf':
+            command='pdftoppm -png -r %s %s %s'%(resolution,reference,reference[:-4])
+            #output filename: reference-9.png 
+            assert(0==call(command,shell=True))
+            tmp_pat= re.compile(reference[:-4]+'-[0-9]+.png')
+            tmp_files= [f for f in os.listdir('.') if tmp_pat.match(f)]
+            for tmp_file in tmp_files:
+                pag_num= int((tmp_file.split('-')[1]).split('.')[0])
+                png_file= '%s%03d.png'%(reference[:-4],pag_num)
+                command='mv %s %s'%(tmp_file,png_file)
+                assert(0==call(command,shell=True))
+                #final filename: reference999.png
+                png_files.append(png_file) 
+    except:
+        sys.stderr.write("ERROR splitting the file '%s' into png images"%(reference))
+    png_files.sort()
+    return png_files
+    
+def writeHtmlReport(params,usage,stdout,stderr,ref_pages,ref_ver_pages):
 
     with open('report_template.html','r') as f: report= f.read()
 
@@ -122,23 +157,29 @@ def writeHtmlReport(params,usage,stdout,stderr):
 
     #stdout section
     def stdout_TextDiff(stdout,ver,reference):
-        print 'STDOUT',ver,reference,
         ref= extension(reference,'out')
         with open(ref,'w') as f: f.write(stdout)
         ref_ver= prefix(ref,ver+'_')
-        print 'done'
         return TextDiff(ref,ref_ver)
-        
     stdout_difs= ''
     for ver in params['versions']: stdout_difs+= '<h3> Comparing output with version '+ver+'</h3>'+stdout_TextDiff(stdout,ver,params['reference'])
     report= report.replace('STDOUT_DIFS',stdout_difs) 
 
-    #stderr section
-    report= report.replace('STDERR',stderr) 
+    #stderr section    def stdout_TextDiff(stdout,ver,reference):
+    def stderr_TextDiff(stderr,ver,reference):
+        ref= extension(reference,'err')
+        with open(ref,'w') as f: f.write(stderr)
+        ref_ver= prefix(ref,ver+'_')
+        return TextDiff(ref,ref_ver)
+    stderr_difs= ''
+    for ver in params['versions']: stderr_difs+= '<h3> Comparing output with version '+ver+'</h3>'+stderr_TextDiff(stderr,ver,params['reference'])
+    report= report.replace('STDERR_DIFS',stderr_difs) 
+    
+    
+    #report= report.replace('STDERR',stderr) 
     
     #output plots
-    def plots(ver,ref):
-        ref_ver  = prefix(ref,ver+'_')
+    def plots(ref,ref_ver):
         ref_dif  = suffix(ref_ver,'_diff')
         ref_pdif = suffix(ref_ver,'_pdif')
        
@@ -155,7 +196,11 @@ def writeHtmlReport(params,usage,stdout,stderr):
         </tr></table>
         '''%(ref,ref,ref_dif,ref_dif,ref_pdif,ref_pdif,ref_ver,ref_ver)
     output_plots= ''
-    for ver in params['versions']: output_plots+= '<h3> Comparing with version '+ver+'</h3>'+plots(ver,params['reference'])
+    for ver in params['versions']:
+        for ipage in range(len(ref_pages)):
+            ref_page= ref_pages[ipage]
+            ref_ver_page= ref_ver_pages[ipage]
+            output_plots+= '<h3> Comparing Page '+str(ipage+1)+' with version '+ver+'</h3>'+plots(ref_page,ref_ver_page)
     report= report.replace('OUTPUT_PLOTS',output_plots) 
     
     return report

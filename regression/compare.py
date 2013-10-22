@@ -19,7 +19,7 @@ import resource
 from subprocess import call,check_output,Popen,PIPE
 from optparse import OptionParser
 from datetime import datetime
-from regression_util import extension,prefix,suffix,writeHtmlReport,usage2Dict,ImageMagick_compare,PerceptualDiff_compare
+from regression_util import extension,prefix,suffix,writeHtmlReport,usage2Dict,ImageMagick_compare,PerceptualDiff_compare,splitOutput
 
 #####################################################################
 #####################################################################
@@ -48,25 +48,46 @@ def compare(versions,interpreter,executable,reference,threshold,output_dir):
 
     #check if output generated
     if not os.path.exists(reference):
-        sys.stderr.write(u"TEST FAILED: Output file %s has not been generated.\n"%reference)
+        sys.stderr.write(u"TEST FAILED: Output file '%s' has not been generated.\n"%reference)
         sys.exit(1)
 
-    #get number of pixels of output image
-    description= check_output(['identify',reference])                 
-  
-    #description="reference PNG 994x1402 994x1402+0+0 8-bit PseudoClass 9c 33.6KB 0.020u 0:00.020"
-    x,y= [int(x) for x in description.split(' ')[2].split('x')]
-    pixels= x*y
+    #Split the output into page images
+    ref_pages= splitOutput(reference)
+    
+    #Split the reference versions into page images
+    ref_ver_pages= {}
+    for version in versions:
+        try:
+            ver_ref= prefix(reference,version+'_')
+            ref_ver_pages[version]= splitOutput(ver_ref)
+            assert(len(ref_pages)==len(ref_ver_pages[version]))
+        except:
+            sys.stderr.write(u"TEST FAILED: Output file '%s' has %d pages but reference file '%s' has %d pages.\n"%(reference,len(ref_pages),ver_ref,ref_ver_pages[version]))
+            sys.exit(1)            
+
+    #get number of pixels of output images
+    pixels= []
+    for ipage in range(len(ref_pages)):
+        description= check_output(['identify',ref_pages[ipage]])                 
+        #description="reference PNG 994x1402 994x1402+0+0 8-bit PseudoClass 9c 33.6KB 0.020u 0:00.020"
+        x,y= [int(x) for x in description.split(' ')[2].split('x')]
+        pixels[ipage]= x*y
 
     #for each reference version
     diff,pdiff= {},{}
     for version in versions:
-        #compare with test's output and keep number of different pixels
         ver_ref= prefix(reference,version+'_')
-        ver_dif= suffix(ver_ref,'_diff')
-        diff[version]=  ImageMagick_compare(reference,ver_ref,ver_dif)
-        ver_pdiff= suffix(ver_ref,'_pdif')
-        pdiff[version]= PerceptualDiff_compare(reference,ver_ref,ver_pdiff)
+        
+        #for each page and reference page
+        for ipage in range(len(ref_pages)):
+            ref_page= ref_pages[ipage]
+            ref_ver_page= ref_ver_pages[version][ipage]
+            
+            #compare with test's output and keep number of different pixels
+            ver_dif_page= suffix(ref_ver_page,'_diff')
+            diff[version,ipage]=  ImageMagick_compare(ref_page,ref_ver_page,ver_dif_page)
+            ver_pdiff_page= suffix(ref_ver_page,'_pdif')
+            pdiff[version,ipage]= PerceptualDiff_compare(ref_page,ref_ver_page,ver_pdiff_page)
 
     #save all test files into specified output directory 
     if output_dir:
@@ -78,20 +99,20 @@ def compare(versions,interpreter,executable,reference,threshold,output_dir):
 
         #save parameters as well
         params= {
-            'versions':    versions, 
-            'interpreter': interpreter, 
-            'executable':  executable, 
-            'reference':   reference, 
-            'threshold':   threshold, 
-            'output_dir':  output_dir,
-            'time':        str(datetime.now()),
-            'diff':        diff,
-            'pdiff':       pdiff
+            'versions':      versions, 
+            'interpreter':   interpreter, 
+            'executable':    executable, 
+            'reference':     reference, 
+            'threshold':     threshold, 
+            'output_dir':    output_dir,
+            'time':          str(datetime.now()),
+            'diff':          diff,
+            'pdiff':         pdiff
         }
         with open(extension(reference,'par'),'w') as f: f.write(json.dumps(params,sort_keys=True,indent=4, separators=(',', ': ')))
 
         #generate an output report
-        report= writeHtmlReport(params,usage,stdout,stderr)
+        report= writeHtmlReport(params,usage,stdout,stderr,ref_pages,ref_ver_pages)
         report_filename= extension(reference,'html')        
         with open(report_filename,'w') as f: f.write(report)
         
@@ -112,13 +133,21 @@ def compare(versions,interpreter,executable,reference,threshold,output_dir):
             if not e==0:
                 sys.stderr.write("ERROR coping the file '%s' into '%s'"%(filename,target))
 
-    #fail if, FOR ANY TEST, the threshold is passed 
-    max_diff = max(diff.values())
+    #compute maximum number of different pixels and percentage, FOR ALL VERSIONS, FOR ALL PAGES
+    max_diff,max_perc = 0,0
+    for v,i in diff:
+        d= diff[v,i]
+        p= 100.0*d/pixels[i]
+        if p>max_perc:
+            max_diff= d
+            max_perc= p
+
+    #fail if, FOR ANY TEST, the threshold is passed
     if 100.0*max_diff/pixels>=threshold:
-        sys.stderr.write(u"TEST FAILED: Maximum number of different pixels is %d (%.2f%%).\n"%(max_diff,100.0*max_diff/pixels))
+        sys.stderr.write(u"TEST FAILED: Maximum number of different pixels is %d (%.2f%%).\n"%(max_diff,max_perc))
         sys.exit(1)
     else:
-        sys.stderr.write(u"TEST OK: Maximum number of different pixels is %d (%.2f%%).\n"%(max_diff,100.0*max_diff/pixels))
+        sys.stderr.write(u"TEST OK: Maximum number of different pixels is %d (%.2f%%).\n"%(max_diff,max_perc))
         sys.exit(0)
 
 #####################################################################
@@ -195,7 +224,7 @@ if __name__ == "__main__":
             sys.stderr.write(u"No version reference file '%s' found.\n"%(ver+'_'+reference,))
             sys.exit(1)
 
-    #output dir
+    #output report directory
     output_dir= optional.output
     if output_dir:
         try:
