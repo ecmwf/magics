@@ -103,7 +103,7 @@ void LogarithmicAxisMethod::prepare(const Axis& axis,  AxisItems& items)
 
 
 	for ( std::set<double>::const_iterator step = ticks.begin(); step != ticks.end(); ++step) {
-		items.push_back(new AxisItem(*step));
+		items.push_back(new AxisItem(*step, axis.label_format_));
 	}
 }
 
@@ -324,7 +324,7 @@ void AxisMethod::prepare(const Axis& axis, AxisItems& items)
 			}
 		}
 		last = *i;
-		addItem(items,*i);
+		addItem(items,*i, axis.label_format_);
 	}
 }
 
@@ -348,7 +348,7 @@ void     PositionListAxisMethod::prepare(const Axis& axis, AxisItems& items)
 {
 	for ( vector<double>::const_iterator tick = axis.positions_.begin(); tick != axis.positions_.end(); ++tick)
 	{
-		items.push_back(new AxisItem(*tick));
+		items.push_back(new AxisItem(*tick, axis.label_format_));
 	}
 }
 

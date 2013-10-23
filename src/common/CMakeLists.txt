@@ -137,6 +137,7 @@ if ( WITH_METVIEW )
                 common/ImageProperties.h
                 common/ColourTable.h
                 common/ColourTableDefinition.h
+                common/PointsHandler.h
 				)
 	set( metview_include ${metview_include} PARENT_SCOPE )
 endif()

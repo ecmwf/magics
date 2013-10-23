@@ -66,8 +66,8 @@ public:
     double min() const { return min_; }
     double max() const { return max_; }
 
-    virtual void addItem(AxisItems& items, double val) const 
-    	{ items.push_back(new AxisItem(val));  }
+    virtual void addItem(AxisItems& items, double val, const string& format) const
+    	{ items.push_back(new AxisItem(val, format));  }
 protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).
 	 virtual void print(ostream&) const; 
