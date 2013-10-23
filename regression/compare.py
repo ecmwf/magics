@@ -12,6 +12,7 @@ __author__  = 'cgjd'
 __date__    = '2013-09-24'
 __version__ = '0.1'
 
+#Python standard library 
 import sys
 import json
 import os
@@ -19,13 +20,9 @@ import resource
 from subprocess import call,check_output,Popen,PIPE
 from optparse import OptionParser
 from datetime import datetime
+
+#Project modules
 from regression_util import extension,prefix,suffix,writeHtmlReport,usage2Dict,ImageMagick_compare,PerceptualDiff_compare,splitOutput
-
-
-def log(obj):
-    namespace= globals()
-    names= [name for name in namespace if namespace[name] is obj]
-    for name in names: print name,'=',obj 
 
 #####################################################################
 #####################################################################
@@ -57,34 +54,47 @@ def compare(versions,interpreter,executable,reference,threshold,output_dir):
         sys.stderr.write(u"TEST FAILED: Output file '%s' has not been generated.\n"%reference)
         sys.exit(1)
 
-    #Split the output into page images
-    ref_pages= splitOutput(reference)
-    log(ref_pages)
-    
-    #Split the reference versions into page images
+    #check if output is a PS or PDF file      
+    ref_pages= {}
     ref_ver_pages= {}
-    for version in versions:
-        try:
+    if reference[-2:]=='ps' or reference[-2:]=='pdf': 
+
+        #POSSIBLY SEVERAL pages -> split output into one-page images
+        ref_pages= splitOutput(reference)
+        
+        #Split the reference versions into one-page images
+        for version in versions:
+            try:
+                ver_ref= prefix(reference,version+'_')
+                ref_ver_pages[version]= splitOutput(ver_ref)
+                assert(len(ref_pages)==len(ref_ver_pages[version]))
+            except:
+                sys.stderr.write(u"TEST FAILED: Output file '%s' has %d pages but reference file '%s' has %d pages. They can not be compared.\n"%(reference,len(ref_pages),ver_ref,ref_ver_pages[version]))
+                sys.exit(1)
+        print 'ref_ver_pages=',ref_ver_pages
+
+    else:
+        #only a single page -> single image
+        ref_pages= [reference]
+        for version in versions:
             ver_ref= prefix(reference,version+'_')
-            ref_ver_pages[version]= splitOutput(ver_ref)
-            assert(len(ref_pages)==len(ref_ver_pages[version]))
-        except:
-            sys.stderr.write(u"TEST FAILED: Output file '%s' has %d pages but reference file '%s' has %d pages.\n"%(reference,len(ref_pages),ver_ref,ref_ver_pages[version]))
-            sys.exit(1)            
-    log(ref_ver_pages)
+            ref_ver_pages[version]= [ver_ref]
+    print 'ref_pages=',ref_pages
+    print 'ref_ver_pages=',ref_ver_pages
 
     #get number of pixels of output images
     pixels= []
-    for ipage in range(len(ref_pages)):
-        description= check_output(['identify',ref_pages[ipage]])                 
+    for ref_page in ref_pages:
+        description= check_output(['identify',ref_page])                 
         #description="reference PNG 994x1402 994x1402+0+0 8-bit PseudoClass 9c 33.6KB 0.020u 0:00.020"
         x,y= [int(x) for x in description.split(' ')[2].split('x')]
-        pixels[ipage]= x*y
+        pixels.append(x*y)
 
     #for each reference version
     diff,pdiff= {},{}
     for version in versions:
-        ver_ref= prefix(reference,version+'_')
+        if not diff.has_key(version):  diff[version]=  {}
+        if not pdiff.has_key(version): pdiff[version]= {}
         
         #for each page and reference page
         for ipage in range(len(ref_pages)):
@@ -93,9 +103,9 @@ def compare(versions,interpreter,executable,reference,threshold,output_dir):
             
             #compare with test's output and keep number of different pixels
             ver_dif_page= suffix(ref_ver_page,'_diff')
-            diff[version,ipage]=  ImageMagick_compare(ref_page,ref_ver_page,ver_dif_page)
+            diff[version][ipage]= ImageMagick_compare(ref_page,ref_ver_page,ver_dif_page)
             ver_pdiff_page= suffix(ref_ver_page,'_pdif')
-            pdiff[version,ipage]= PerceptualDiff_compare(ref_page,ref_ver_page,ver_pdiff_page)
+            pdiff[version][ipage]= PerceptualDiff_compare(ref_page,ref_ver_page,ver_pdiff_page)
 
     #save all test files into specified output directory 
     if output_dir:
@@ -125,32 +135,35 @@ def compare(versions,interpreter,executable,reference,threshold,output_dir):
         with open(report_filename,'w') as f: f.write(report)
         
         #finally, copy the files into output directory
-        files_to_copy=  [reference,
-                         extension(reference,'html'),
+        files_to_copy=  [extension(reference,'html'),
                          extension(reference,'out'),
                          extension(reference,'usa'),
                          extension(reference,'err'),
                          extension(reference,'par')]
-        files_to_copy+= [prefix(reference,version+'_') for version in versions]#version reference files
-        files_to_copy+= [suffix(prefix(reference,version+'_'),'_diff') for version in versions]#difference calculated by ImageMagick
-        files_to_copy+= [suffix(prefix(reference,version+'_'),'_pdif') for version in versions]#difference calculated by PerceptualDiff
-        
+        files_to_copy+= ref_pages                                        #output images
+        for v in versions:         
+            files_to_copy+= ref_ver_pages[v]                             #version reference images
+            files_to_copy+= [suffix(e,'_diff') for e in ref_ver_pages[v]]#difference images by ImageMagick
+            files_to_copy+= [suffix(e,'_pdif') for e in ref_ver_pages[v]]#difference images by PerceptualDiff
         for filename in files_to_copy:
             target= output_dir+'/'+filename
             e= call(["scp",filename,target])
             if not e==0:
                 sys.stderr.write("ERROR coping the file '%s' into '%s'"%(filename,target))
 
-    #compute maximum number of different pixels and percentage, FOR ALL VERSIONS, FOR ALL PAGES
+    #compute maximum number of different pixels and percentage...
     max_diff,max_perc = 0,0
-    for v,i in diff:
-        d= diff[v,i]
-        p= 100.0*d/pixels[i]
-        if p>max_perc:
-            max_diff= d
-            max_perc= p
+    #...for all versions
+    for v in diff:
+        #...for all pages
+        for i in diff[v]:
+            d= diff[v][i]
+            p= 100.0*d/pixels[i]
+            if p>max_perc:
+                max_diff= d
+                max_perc= p
 
-    #fail if, FOR ANY TEST, the threshold is passed
+    #fail if, FOR ANY VERSION OR PAGE, the threshold is passed
     if max_perc>=threshold:
         sys.stderr.write(u"TEST FAILED: Maximum number of different pixels is %d (%.2f%%).\n"%(max_diff,max_perc))
         sys.exit(1)
@@ -167,7 +180,6 @@ if __name__ == "__main__":
 #####################################################################
 #####################################################################
 #####################################################################
-
     
     cmd_parser = OptionParser(usage="usage: %prog <executable> <reference-file>", version='%prog : '+__version__, description = __doc__, prog = 'compare.py')
 

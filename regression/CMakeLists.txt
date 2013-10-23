@@ -6,9 +6,6 @@ endif()
 set( REGRESSION_SCRIPT_DIRECTORY  ${CMAKE_CURRENT_SOURCE_DIR} )
 
 
-
-
-
 function( add_magics_test )
 
     set( options PYTHON  JSON)
@@ -60,12 +57,12 @@ function( add_magics_test )
 		set( file ${version}_${_p_IMAGE} )	 
 		set( err ${version}_${log}.err )
 		set( out ${version}_${log}.out )	
+		set( usa ${version}_${log}.usa )
 		set (todos)  
 		list (APPEND todos ${file})
 		list (APPEND todos ${err})
 		list (APPEND todos ${out})
-		
-		
+		list (APPEND todos ${usa})
 		
 		foreach ( todo  ${todos} )
 		    debug_var(todo)

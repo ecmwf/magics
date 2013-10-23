@@ -4,16 +4,22 @@
    - The output image (reference)
    - The execution stdout (reference.out)
    - The execution stderr (reference.err)
+   - The process resource usage info (reference.usa)
 into "http://download.ecmwf.int/" server to use them as Magics version reference.
 """
 
+#Python standard library 
 import sys
 import os
+import json
+import resource
 from subprocess import Popen,PIPE
 from optparse import OptionParser
-from regression_util import extension,prefix,upload
 
-__author__  = 'cgs'
+#Project modules
+from regression_util import extension,prefix,upload,usage2Dict
+
+__author__  = 'cgs,cgjd'
 __date__    = '2013-10-01'
 __version__ = '0.1'
 
@@ -25,18 +31,26 @@ def uploadTest(version,executable,reference,destination,interpreter,run):
         if interpreter:
             p = Popen([interpreter,executable],stdout=PIPE, stderr=PIPE)
         else:
-            p = Popen(executable,stdout=PIPE, stderr=PIPE,shell=True)
+            p = Popen(executable,stdout=PIPE,stderr=PIPE,shell=True)
+
+        #get test's run information
         stdout,stderr= p.communicate()
+        usage= usage2Dict(resource.getrusage(resource.RUSAGE_CHILDREN))
+                
         with open(extension(reference,'out'),'w') as f: f.write(stdout)
         with open(extension(reference,'err'),'w') as f: f.write(stderr)
+        with open(extension(reference,'usa'),'w') as f: f.write(json.dumps(usage,sort_keys=True,indent=4, separators=(',', ': ')))
 
-    #check if output is available     
-    if not os.path.exists(reference):
-        print "File %s has not been generated"%reference
-        sys.exit(1)
+    ofiles= [reference,extension(reference,'out'),extension(reference,'err'),extension(reference,'usa')]
+
+    #check if output is available  
+    for filename in ofiles:   
+        if not os.path.exists(filename):
+            print "File %s has not been generated"%reference
+            sys.exit(1)
 
     #upload the files
-    for filename in [reference,extension(reference,'out'),extension(reference,'err')]:
+    for filename in ofiles:
         try:
             target= destination+'/'+prefix(filename,version+'_')
             upload(filename,target)

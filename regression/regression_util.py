@@ -1,8 +1,13 @@
+#Python standard library 
 import sys
 import re
-from subprocess import call,Popen,PIPE,check_output
-from BeautifulSoup import BeautifulSoup
 import os
+import json
+from subprocess import call,Popen,PIPE
+
+#Third party modules
+from BeautifulSoup import BeautifulSoup
+
 
 #resources usage
 usage= {0: 'time in user mode',    # (float)
@@ -65,13 +70,14 @@ def ImageMagick_compare(reference,ver_ref,ver_dif):
         diff= int(stderr)
     except:
         sys.stderr.write("ERROR comparing '%s' and '%s' with ImageMagick_compare"%(reference,ver_ref))
+    #print 'ImageMagick_compare',(reference,ver_ref,ver_dif),diff
     return diff
 
 def PerceptualDiff_compare(reference,ver_ref,ver_dif,pix_thres=100):
     #compare with test's output and return number of different pixels
     diff= 0
     try:
-        command='/var/tmp/cgjd/perforce/magics/tools/versioncmp/pdiff/perceptualdiff/perceptualdiff -verbose -fov 90 -threshold %d %s %s -output %s'%(pix_thres,reference,ver_ref,ver_dif)
+        command='/usr/local/apps/perceptualdiff/1.1.2/bin/perceptualdiff -verbose -fov 90 -threshold %d %s %s -output %s'%(pix_thres,reference,ver_ref,ver_dif)
         p= Popen(command,stdout=PIPE,stderr=PIPE,shell=True)
         stdout,_ = p.communicate()
         p= re.compile('([0-9]+) pixels are different')
@@ -79,6 +85,7 @@ def PerceptualDiff_compare(reference,ver_ref,ver_dif,pix_thres=100):
         diff= int(m.group(1))
     except:
         sys.stderr.write("ERROR comparing '%s' and '%s' with PerceptualDiff"%(reference,ver_ref))
+    #print 'PerceptualDiff_compare',(reference,ver_ref,ver_dif),diff
     return diff
 
 def TextDiff(reference,ver_ref):
@@ -105,9 +112,10 @@ def TextDiff(reference,ver_ref):
 
 def splitOutput(reference):
     #splits a pdf or ps reference output document into a set of png files (one for each document page)
-    resolution= '150'#dpi
-    png_files= [] 
+    resolution= '50'#dpi
+    png_files= []
     try:
+        print reference
         if reference[-2:]=='ps':
             command='pstopnm -dpi=%s %s'%(resolution,reference)
             assert(0==call(command,stdout=PIPE,stderr=PIPE,shell=True))
@@ -150,9 +158,21 @@ def writeHtmlReport(params,usage,stdout,stderr,ref_pages,ref_ver_pages):
     #parameters and result section
     for name in params: report= report.replace(name.upper(),str(params[name]))
 
+    usa_ver= {}
+    for ver in params['versions']:
+        ref= prefix(extension(params['reference'],'usa'),ver+'_')
+        with open(ref) as f: usa_ver[ver]= json.loads(f.read())
+
     #run info section
-    run_info=''
-    for name in usage: run_info+= '<tr><td>'+name+':</td><td>'+str(usage[name])+'</td></tr>'
+    run_info='<tr><td></td><td>test</td>'
+    
+    for ver in params['versions']: run_info+= '<td>'+ver+'</td>'
+    run_info='</tr><tr>'
+    for name in usage:
+        run_info+= '<td>'+name+':</td><td>'+str(usage[name])+'</td>'
+        for ver in params['versions']:
+            run_info+= '<td>'+str(usa_ver[ver][name])+'</td>'
+    run_info='</tr>'
     report= report.replace('RUN_INFO',run_info) 
 
     #stdout section
@@ -196,10 +216,11 @@ def writeHtmlReport(params,usage,stdout,stderr,ref_pages,ref_ver_pages):
         </tr></table>
         '''%(ref,ref,ref_dif,ref_dif,ref_pdif,ref_pdif,ref_ver,ref_ver)
     output_plots= ''
+    print 
     for ver in params['versions']:
         for ipage in range(len(ref_pages)):
             ref_page= ref_pages[ipage]
-            ref_ver_page= ref_ver_pages[ipage]
+            ref_ver_page= ref_ver_pages[ver][ipage]
             output_plots+= '<h3> Comparing Page '+str(ipage+1)+' with version '+ver+'</h3>'+plots(ref_page,ref_ver_page)
     report= report.replace('OUTPUT_PLOTS',output_plots) 
     
