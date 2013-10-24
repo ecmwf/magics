@@ -270,7 +270,7 @@ void DateAxisMethod::years(AxisItems& list)
 				list.push_back(new AxisDateItem(label - base_, label));
 				tick = DateTime(date, MagTime(0, 0, 0));
 
-				list.push_back(new AxisTickItem(tick - base_));
+				list.push_back(new AxisTickItem(tick - base_, ""));
 
 				if (frequency == 1) {
 					for ( int i = 0; i < 4; i++) {
@@ -352,7 +352,7 @@ void DateAxisMethod::months(AxisItems& list)
 			list.push_back(new AxisDateItem(label - base_, label));
 			tick = DateTime(date, MagTime(0, 0, 0));
 
-			list.push_back(new AxisTickItem(tick - base_));
+			list.push_back(new AxisTickItem(tick - base_, ""));
 
 
 
@@ -457,7 +457,7 @@ void DateAxisMethod::days(AxisItems& list)
 			list.push_back(new AxisDateItem(label - from_, label));
 			tick = DateTime(date, MagTime(0, 0, 0));
 
-			list.push_back(new AxisTickItem(tick - from_));
+			list.push_back(new AxisTickItem(tick - from_, ""));
 			if ( frequency == 1 ) {
 				for (int i = 6; i < 24; i+=6 ) {
 				tick = DateTime(date, MagTime(i, 0, 0));
@@ -561,7 +561,7 @@ void DateAxisMethod::hours(AxisItems& list)
 				tick = DateTime(date, MagTime(i, 0, 0));
 				if ( i%frequency == 0) {
 					list.push_back(new AxisDateItem(tick - base_, tick));
-					list.push_back(new AxisTickItem(tick - base_));
+					list.push_back(new AxisTickItem(tick - base_, ""));
 				}
 				else {
 					list.push_back(new AxisMinorTickItem(tick - base_));

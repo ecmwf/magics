@@ -50,7 +50,6 @@ function( add_magics_test )
 
 	get_filename_component(log ${_p_IMAGE} NAME_WE)
              
-    debug_var(log)            
 	
 	foreach( version ${MAGICS_REFERENCE_VERSIONS} )
 	    
@@ -64,7 +63,6 @@ function( add_magics_test )
 		list (APPEND todos ${out})
 		list (APPEND todos ${usa})		
 		foreach ( todo  ${todos} )
-		    debug_var(todo)
         	string( REGEX REPLACE "[^A-Za-z0-9_]" "_" target "test_data_${todo}" )
         	list( APPEND targets "${target}")
 	    
@@ -79,6 +77,7 @@ function( add_magics_test )
 	
 	set(target "magics_a_${_p_NAME}")
 	
+
 	
 
 	set(target_load "magics_load_${_p_NAME}")
@@ -102,7 +101,7 @@ function( add_magics_test )
                    COMMAND  ${REGRESSION_SCRIPT_DIRECTORY}/compare.py
                    DEPENDS  ${targets}  
                    RESOURCES  ${_p_RESOURCES} 
-                   ARGS ${_p_SOURCES} ${_p_IMAGE} -t ${_p_THRESHOLD}  -o ${MAGICS_HTML_ROOT}  -v ${versions} -f -i python
+                   ARGS ${_p_SOURCES} ${_p_IMAGE} -n ${BRANCH_NAME} -t ${_p_THRESHOLD}  -o ${MAGICS_HTML_ROOT}  -v ${versions} -f -i python
             ENVIRONMENT PYTHONPATH=${MAG_PYTHON_PATH} )
         
             return() 
@@ -123,7 +122,7 @@ function( add_magics_test )
                    COMMAND  ${REGRESSION_SCRIPT_DIRECTORY}/compare.py
                    DEPENDS  ${targets}  
                    RESOURCES  ${_p_RESOURCES} 
-                   ARGS ${_p_SOURCES} ${_p_IMAGE} -t ${_p_THRESHOLD}  -o ${MAGICS_HTML_ROOT}  -v ${versions} -i magjson -f
+                   ARGS ${_p_SOURCES} ${_p_IMAGE}  -n ${BRANCH_NAME} -t ${_p_THRESHOLD}  -o ${MAGICS_HTML_ROOT}  -v ${versions} -i magjson -f
 					ENVIRONMENT PYTHONPATH=${MAG_PYTHON_PATH} )
             return()
 	endif()
@@ -145,7 +144,7 @@ function( add_magics_test )
                    DEPENDS ${targets}
                    RESOURCES  ${_p_RESOURCES} 
                    COMMAND  ${REGRESSION_SCRIPT_DIRECTORY}/compare.py  
-                   ARGS  ./${target} ${_p_IMAGE} -t ${_p_THRESHOLD}  -o ${MAGICS_HTML_ROOT}  -v ${versions} -f )
+                   ARGS  ./${target} ${_p_IMAGE}  -n ${BRANCH_NAME}  -t ${_p_THRESHOLD}  -o ${MAGICS_HTML_ROOT}  -v ${versions} -f )
 
 
 endfunction(add_magics_test)

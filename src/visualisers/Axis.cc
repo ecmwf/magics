@@ -512,6 +512,7 @@ void VerticalAxis::title(VerticalAxisVisitor& out)
 {
 	if ( !title_ )
 		return;
+	out.frameIt();
 	double angle = out.angleTitle();
 	double x = title_position_;
 

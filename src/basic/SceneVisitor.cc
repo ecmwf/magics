@@ -91,7 +91,7 @@ void VerticalAxisVisitor::minortick(double&, double&, bool) {}
 double VerticalAxisVisitor::offsetTickLabel(double, double) { return 0; }
 double VerticalAxisVisitor::angleTickLabel() {return 0;}
 double VerticalAxisVisitor::angleTitle() {return 0;}
-double VerticalAxisVisitor::offsetTitle() {return 0;}
+double VerticalAxisVisitor::offsetTitle(int) {return 0;}
 double VerticalAxisVisitor::angleTip() {return 0;}
 double VerticalAxisVisitor::offsetTip() {return 0;}
 
@@ -100,7 +100,7 @@ void HorizontalAxisVisitor::minortick(double&, double&, bool) {}
 double HorizontalAxisVisitor::offsetTickLabel(double, double) {return 0;}
 double HorizontalAxisVisitor::angleTickLabel() {return 0;}
 double HorizontalAxisVisitor::angleTitle() {return 0;}
-double HorizontalAxisVisitor::offsetTitle() {return 0;} 
+double HorizontalAxisVisitor::offsetTitle(int) {return 0;}
 double HorizontalAxisVisitor::angleTip() {return 0;}
 double HorizontalAxisVisitor::offsetTip() {return 0;} 
 
@@ -184,7 +184,7 @@ double  LeftAxisVisitor::angleTitle()
 	return 3*3.14/2;
 }
 
-double  LeftAxisVisitor::offsetTitle()
+double  LeftAxisVisitor::offsetTitle(int)
 {
 	return current_->xmin_;
 }
@@ -229,7 +229,7 @@ double  RightAxisVisitor::angleTitle()
 	return 3.14/2;
 }
 
-double  RightAxisVisitor::offsetTitle()
+double  RightAxisVisitor::offsetTitle(int)
 {
 	return current_->xmax_;
 }
@@ -273,7 +273,7 @@ double  TopAxisVisitor::angleTitle()
 	return 0;
 }
 
-double  TopAxisVisitor::offsetTitle()
+double  TopAxisVisitor::offsetTitle(int)
 {
 	return current_->ymax_;
 }
@@ -323,7 +323,7 @@ double  BottomAxisVisitor::angleTitle()
 	return 0;
 }
 
-double  BottomAxisVisitor::offsetTitle()
+double  BottomAxisVisitor::offsetTitle(int)
 {
 	return current_->ymin_;
 }

@@ -384,7 +384,7 @@ mepswave = make_action("mepswave", Magics.epswave)
 mepsshading = make_action("mepsshading", Magics.epsshading)
 mepsgraph = make_action("mepsgraph", Magics.epsgraph)
 mepsplumes = make_action("mepsplumes", Magics.epsplumes)
-
+mtephi = make_action("mtephi", Magics.tephi)
 
 
 def examine(*args):

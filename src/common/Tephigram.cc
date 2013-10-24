@@ -120,9 +120,9 @@ PaperPoint Tephigram::operator()(const UserPoint& xy)  const
 		double coefficient = pow(100000./(xy.y()*100),KAPPA);
 		double y = (maxpcx+(273.15*(cosinus-sinus)))*((sinus + (coefficient*cosinus)))/(cosinus -(coefficient*sinus)) - 2713.15*(sinus+cosinus);
 		MagLog::dev() << xy.y() << "-->" << y << "??? " << minPCY_ << "<<" <<  maxPCY_<< endl;
-		double x =  (maxPCX_ - maxpcx)/2 + maxpcx;
+		double x =  (maxPCX_ - maxpcx)*(xy.x()-1000.) + maxpcx;
 		MagLog::dev() << x << endl;
-		return PaperPoint(x, y);
+		return PaperPoint(x, y, xy.value());
 	}
 	// UserPoint X = temperature in deg Y = Pressure in hPa
 	// First we calculate theta and we rotate!
@@ -131,7 +131,7 @@ PaperPoint Tephigram::operator()(const UserPoint& xy)  const
 	double x = ((tempe * cosinus) - (theta * sinus) );
 	double y = (tempe * sinus) + (theta * cosinus);
 
-	return PaperPoint(x, y);
+	return PaperPoint(x, y, xy.value());
 }
 
 

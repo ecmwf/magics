@@ -35,36 +35,41 @@
 #include <cfloat>
 #include "Axis.h"
 #include "MagFont.h"
+#include "MagicsFormat.h"
 
 using namespace magics;
 
-AxisItem::AxisItem(double position, const string label, int level) :
+AxisItem::AxisItem(double position, const string& label, int level) :
 	position_(position), label_(label), level_(level), colour_("undef"), height_(DBL_MIN), font_("undef"), style_("undef")
 {
 	
 }
 
-AxisItem::AxisItem(double position, const string label, int level, const string& colour, double height) :
+AxisItem::AxisItem(double position, const string& label, int level, const string& colour, double height) :
 	position_(position), label_(label), level_(level), colour_(colour), height_(height), font_("undef"), style_("undef")
 {
 	
 }
-AxisItem::AxisItem(double position) :
+AxisItem::AxisItem(double position, const string& format) :
 	position_(position), label_(tostring(position)), level_(0),
 	colour_("undef"), height_(DBL_MIN), font_("undef"), style_("undef")
 {
 	if ( same(position_, 0) ) position_ = 0;
-	char tmp[1024];
 
-	sprintf(tmp, "%g", position_);
 
-	label_ = string(tmp);
+
+	ostringstream nice;
+
+	nice << MagicsFormat(format.empty() ? "(automatic)" : format, position);
+
+
+	label_ = nice.str();
 
 }
 
 
 
-AxisHyperItem::AxisHyperItem(double position, vector<double>& values) : AxisItem(position)	
+AxisHyperItem::AxisHyperItem(double position, vector<double>& values) : AxisItem(position, "")
 {
 	// Specialised in lat/lon axis!!!
 	double lat = values[1];

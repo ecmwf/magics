@@ -118,6 +118,7 @@ public:
 	
 	void x_values(const json_spirit::Value&);
 	void y_values(const json_spirit::Value&);
+	void values(const json_spirit::Value&);
 	void x_date_values(const json_spirit::Value&);
 	void y_date_values(const json_spirit::Value&);
 

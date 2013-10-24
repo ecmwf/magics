@@ -146,7 +146,6 @@ if( WITH_METVIEW )
                         ${MAGICS_EXTRA_LIBRARIES}
                     TYPE STATIC		
                     )
-   debug_var (metview_include)
    list( APPEND attributes_include
 				OutputHandlerAttributes.h 
 				FortranRootSceneNodeAttributes.h  

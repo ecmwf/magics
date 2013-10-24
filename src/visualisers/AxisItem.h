@@ -45,9 +45,9 @@ class AxisItem
 {
 
 public:
-	AxisItem(double position, const string label, int level = 0);
-	AxisItem(double position, const string label, int level, const string& colour, double height);
-	AxisItem(double x);
+	AxisItem(double position, const string& label, int level);
+	AxisItem(double position, const string& label, int level, const string& colour, double height);
+	AxisItem(double x, const string& fmt);
 	virtual ~AxisItem();
 	virtual AxisItem* clone() const { 
 		AxisItem* item = new AxisItem(position_, label_, level_, colour_, height_); 
@@ -120,7 +120,7 @@ public:
 class AxisTickItem : public AxisItem
 {
 public:
-	AxisTickItem(double pos) : AxisItem(pos) { label_ = ""; }
+	AxisTickItem(double pos, const string& format) : AxisItem(pos, format) { label_ = ""; }
 	~AxisTickItem() {}
 	bool isLabel() const { return false; }
 
@@ -158,7 +158,7 @@ protected:
 class AxisMinorTickItem : public AxisItem
 {
 public:
-	AxisMinorTickItem(double pos) : AxisItem(pos) { label_ = ""; }
+	AxisMinorTickItem(double pos) : AxisItem(pos, "") { label_ = ""; }
 	~AxisMinorTickItem() {}
 	bool isTick() const   { return false; }
 	bool isLabel() const { return false; }
