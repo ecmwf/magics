@@ -154,6 +154,9 @@ def writeHtmlReport(params,usage,stdout,stderr,ref_pages,ref_ver_pages):
     #test name
     test_name= params['reference'].split('.')[0]
     report= report.replace('TEST_NAME',test_name)
+    
+    #branch name
+    report= report.replace('BRANCH_NAME',params['branch_name'])
 
     #parameters and result section
     for name in params: report= report.replace(name.upper(),str(params[name]))
@@ -164,15 +167,15 @@ def writeHtmlReport(params,usage,stdout,stderr,ref_pages,ref_ver_pages):
         with open(ref) as f: usa_ver[ver]= json.loads(f.read())
 
     #run info section
-    run_info='<tr><td></td><td>test</td>'
+    run_info='<tr><td></td><td><b>test</b></td>'
     
-    for ver in params['versions']: run_info+= '<td>'+ver+'</td>'
-    run_info='</tr><tr>'
+    for ver in params['versions']: run_info+= '<td><b>'+ver+'</b></td>'
+    run_info+='</tr>'
     for name in usage:
-        run_info+= '<td>'+name+':</td><td>'+str(usage[name])+'</td>'
+        run_info+= '<tr><td>'+name+':</td><td>'+str(usage[name])+'</td>'
         for ver in params['versions']:
             run_info+= '<td>'+str(usa_ver[ver][name])+'</td>'
-    run_info='</tr>'
+        run_info+='</tr>'
     report= report.replace('RUN_INFO',run_info) 
 
     #stdout section

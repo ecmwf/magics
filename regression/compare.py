@@ -28,7 +28,7 @@ from regression_util import extension,prefix,suffix,writeHtmlReport,usage2Dict,I
 #####################################################################
 #####################################################################
 
-def compare(versions,interpreter,executable,reference,threshold,output_dir):
+def compare(branch_name,versions,interpreter,executable,reference,threshold,output_dir):
 
     #print input parameters
     def l(t,n): return (t+' '*n)[:n]
@@ -123,6 +123,7 @@ def compare(versions,interpreter,executable,reference,threshold,output_dir):
             'reference':     reference, 
             'threshold':     threshold, 
             'output_dir':    output_dir,
+            'branch_name':   branch_name,
             'time':          str(datetime.now()),
             'diff':          diff,
             'pdiff':         pdiff
@@ -190,10 +191,11 @@ if __name__ == "__main__":
     cmd_parser.add_option("-f", "--force",action="store_true", dest="force",help="Force overwrite of existing output files")
     
     #options
-    cmd_parser.add_option("-i", "--interpreter" , default=None,  help="Interpreter command")
-    cmd_parser.add_option("-t", "--threshold" ,   default='1.0', help="Maximum percentage of different pixels")
-    cmd_parser.add_option("-v", "--versions",     default=None,  help='List of reference versions, defined as "<ver1> ... <verN>"')
-    cmd_parser.add_option("-o", "--output",       default=None,  help="Output report directory (HTML)")
+    cmd_parser.add_option("-i", "--interpreter" , default=None,      help="Interpreter command")
+    cmd_parser.add_option("-t", "--threshold" ,   default='1.0',     help="Maximum percentage of different pixels")
+    cmd_parser.add_option("-n", "--name",         default='NONAME',  help="Testing branch's name")
+    cmd_parser.add_option("-v", "--versions",     default=None,      help='List of reference versions, defined as "<ver1> ... <verN>"')
+    cmd_parser.add_option("-o", "--output",       default=None,      help="Output report directory (HTML)")
 
     (optional, positional) = cmd_parser.parse_args()
 
@@ -234,6 +236,9 @@ if __name__ == "__main__":
         sys.stderr.write(u"Invalid threshold '%s': can not convert into float number.\n"%optional.threshold)
         sys.exit(1)
 
+    #name of GIT branch being tested
+    branch_name= optional.name 
+
     #versions
     versions= []
     if optional.versions: versions= optional.versions.strip().split(' ')
@@ -253,5 +258,5 @@ if __name__ == "__main__":
             sys.stderr.write(u"No output directory '%s' found.\n"%output_dir)
             sys.exit(1)
 
-    compare(versions,interpreter,executable,reference,threshold,output_dir)
+    compare(branch_name,versions,interpreter,executable,reference,threshold,output_dir)
     
