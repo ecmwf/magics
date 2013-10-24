@@ -53,7 +53,6 @@ function( add_magics_test )
 
 	get_filename_component(log ${_p_IMAGE} NAME_WE)
              
-    debug_var(log)            
 	
 	foreach( version ${MAGICS_REFERENCE_VERSIONS} )
 	    
@@ -68,7 +67,6 @@ function( add_magics_test )
 		
 		
 		foreach ( todo  ${todos} )
-		    debug_var(todo)
         	string( REGEX REPLACE "[^A-Za-z0-9_]" "_" target "test_data_${todo}" )
         	list( APPEND targets "${target}")
 	    
@@ -83,6 +81,7 @@ function( add_magics_test )
 	
 	set(target "magics_a_${_p_NAME}")
 	
+
 	
 
 	set(target_load "magics_load_${_p_NAME}")
