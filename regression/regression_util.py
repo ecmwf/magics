@@ -146,6 +146,26 @@ def splitOutput(reference):
         sys.stderr.write("ERROR splitting the file '%s' into png images"%(reference))
     png_files.sort()
     return png_files
+
+def writeTab(tabs,tab_class='nav-tabs'):
+    tab_lines=''
+    tab_contents=''
+    first= True
+    for tab in tabs:
+        if first:
+            tab_lines+= '<li class="active"><a data-toggle="tab" href="#%s">%s</a></li>'%(tab['id'],tab['title'])
+            tab_contents+='<div id="%s" class="tab-pane active">%s</div>'%(tab['id'],tab['content'])
+            first= False
+        else:
+            tab_lines+= '\n\t<li><a data-toggle="tab" href="#%s">%s</a></li>'%(tab['id'],tab['title'])
+            tab_contents+='<div id="%s" class="tab-pane">%s</div>'%(tab['id'],tab['content'])
+    return '''
+    <div class="tabbable">
+        <ul class="nav %s">%s</ul>
+        <div class="tab-content">%s</div><!-- /.tab-content -->
+    </div><!-- /.tabbable -->
+    '''%(tab_class,tab_lines,tab_contents)
+
     
 def writeHtmlReport(params,usage,stdout,stderr,ref_pages,ref_ver_pages):
 
@@ -168,68 +188,120 @@ def writeHtmlReport(params,usage,stdout,stderr,ref_pages,ref_ver_pages):
 
     #run info section
     run_info='<tr><td></td><td><b>test</b></td>'
-    
     for ver in params['versions']: run_info+= '<td><b>'+ver+'</b></td>'
-    run_info+='</tr>'
-    for name in usage:
-        run_info+= '<tr><td>'+name+':</td><td>'+str(usage[name])+'</td>'
-        for ver in params['versions']:
-            run_info+= '<td>'+str(usa_ver[ver][name])+'</td>'
-        run_info+='</tr>'
+    run_info+='</tr>\n'
+    def run_info_line_colour(name,test_value,ver_values):
+        def colour(v1,v0):
+            CF= 0.5 #chage factor: 0.5 ~ 50%
+            r,g,b= (0,0,0)
+            try:
+                r= max(0,min(255,int(255.0*(v1-v0)/(v0*CF))))
+                g= max(0,min(255,int(255.0*(v0-v1)/(v0*CF))))
+            except:
+                if v1>v0: r=255
+            return 'rgb(%d,%d,%d)'%(r,g,b)
+        def precision(v):
+            if   v==0:  return '0'
+            elif v>=10: return '%d'%int(v)
+            else:       return '%.2f'%v
+        res= '<tr style="text-align:right"><td>%s</td><td style="color:%s">%s</td>'%(name,colour(test_value,ver_values[0]),precision(test_value))
+        for i in range(len(ver_values)):
+            if i+1<len(ver_values):
+                res+= '<td style="color:%s">%s</td>'%(colour(ver_values[i],ver_values[i+1]),precision(ver_values[i]))
+            else:
+                res+= '<td style="color:%s">%s</td>'%('rgb(0,0,0)',precision(ver_values[i]))
+        res+= '</tr>\n'
+        return res
+    usa_names= usage.keys()
+    usa_names.sort() 
+    for name in usa_names:
+        run_info+= run_info_line_colour(name,usage[name],[usa_ver[ver][name] for ver in params['versions']])
+#        run_info+= '<tr><td>'+name+':</td><td>'+str(usage[name])+'</td>'
+#        for ver in params['versions']:
+#            run_info+= '<td>'+str(usa_ver[ver][name])+'</td>'
+#        run_info+='</tr>'
     report= report.replace('RUN_INFO',run_info) 
 
-    #stdout section
-    def stdout_TextDiff(stdout,ver,reference):
-        ref= extension(reference,'out')
-        with open(ref,'w') as f: f.write(stdout)
-        ref_ver= prefix(ref,ver+'_')
-        return TextDiff(ref,ref_ver)
-    stdout_difs= ''
-    for ver in params['versions']: stdout_difs+= '<h3> Comparing output with version '+ver+'</h3>'+stdout_TextDiff(stdout,ver,params['reference'])
-    report= report.replace('STDOUT_DIFS',stdout_difs) 
+###################################
 
-    #stderr section    def stdout_TextDiff(stdout,ver,reference):
-    def stderr_TextDiff(stderr,ver,reference):
-        ref= extension(reference,'err')
-        with open(ref,'w') as f: f.write(stderr)
-        ref_ver= prefix(ref,ver+'_')
-        return TextDiff(ref,ref_ver)
-    stderr_difs= ''
-    for ver in params['versions']: stderr_difs+= '<h3> Comparing output with version '+ver+'</h3>'+stderr_TextDiff(stderr,ver,params['reference'])
-    report= report.replace('STDERR_DIFS',stderr_difs) 
-    
-    
-    #report= report.replace('STDERR',stderr) 
-    
-    #output plots
-    def plots(ref,ref_ver):
-        ref_dif  = suffix(ref_ver,'_diff')
-        ref_pdif = suffix(ref_ver,'_pdif')
-       
-        return '''
-        <table>
-            <tr><td>%s</td></tr>
-            <tr><td><image src="%s"></td></tr>
-            <tr><td>%s</td></tr>
-            <tr><td><image src="%s"></td></tr>
-            <tr><td>%s</td></tr>
-            <tr><td><image src="%s"></td></tr>
-            <tr><td>%s</td></tr>
-            <tr><td><image src="%s"></td></tr>
-        </tr></table>
-        '''%(ref,ref,ref_dif,ref_dif,ref_pdif,ref_pdif,ref_ver,ref_ver)
-    output_plots= ''
-    print 
+    tabs= []
     for ver in params['versions']:
+       
+        tab= {'title': 'VERSION %s'%ver,
+              'id':    'ver'+ver.replace('.','-')}
+        
+        #stdout section
+        def stdout_TextDiff(stdout,ver,reference):
+            ref= extension(reference,'out')
+            with open(ref,'w') as f: f.write(stdout)
+            ref_ver= prefix(ref,ver+'_')
+            return TextDiff(ref,ref_ver)
+        stdout_difs= ''
+        stdout_difs+= '<h3> Comparing output with version '+ver+'</h3>'+stdout_TextDiff(stdout,ver,params['reference'])
+
+        #stderr section    
+        def stderr_TextDiff(stderr,ver,reference):
+            ref= extension(reference,'err')
+            with open(ref,'w') as f: f.write(stderr)
+            ref_ver= prefix(ref,ver+'_')
+            return TextDiff(ref,ref_ver)
+        stderr_difs= ''
+        stderr_difs+= '<h3> Comparing error with version '+ver+'</h3>'+stderr_TextDiff(stderr,ver,params['reference'])
+       
+        #output plots
+        def plots(ref,ref_ver):
+            ref_dif  = suffix(ref_ver,'_diff')
+            #ref_pdif = suffix(ref_ver,'_pdif')
+
+            return '''
+                <div id="left" class="image left" style="border:0px solid #DA0000" onscroll="onScrollDiv(this);">
+                    %s<br>
+                    <image src="%s">
+                </div>
+                <div id="diff" class="image center" style="border:0px solid #DA0000" onscroll="onScrollDiv(this);">
+                    %s<br>
+                    <image src="%s">
+                </div>
+                <div id="right" class="image right" style="border:0px solid #AAAAAA" onscroll="onScrollDiv(this);">
+                    %s<br>
+                    <image src="%s">
+                </div>
+            '''%(ref,ref,ref_dif,ref_dif,ref_ver,ref_ver)
+           
+#             return '''
+#             <table>
+#                 <tr><td>%s</td></tr>
+#                 <tr><td><image src="%s"></td></tr>
+#                 <tr><td>%s</td></tr>
+#                 <tr><td><image src="%s"></td></tr>
+#                 <tr><td>%s</td></tr>
+#                 <tr><td><image src="%s"></td></tr>
+#                 <tr><td>%s</td></tr>
+#                 <tr><td><image src="%s"></td></tr>
+#             </tr></table>
+#             '''%(ref,ref,ref_dif,ref_dif,ref_pdif,ref_pdif,ref_ver,ref_ver)
+
+        output_plots= ''
+        page_tabs= []
         for ipage in range(len(ref_pages)):
             ref_page= ref_pages[ipage]
             ref_ver_page= ref_ver_pages[ver][ipage]
-            output_plots+= '<h3> Comparing Page '+str(ipage+1)+' with version '+ver+'</h3>'+plots(ref_page,ref_ver_page)
-    report= report.replace('OUTPUT_PLOTS',output_plots) 
+            page_tabs+= [{'id':tab['id']+'-page'+str(ipage),'title':'Page '+str(ipage+1),'content': plots(ref_page,ref_ver_page)}]
+        output_plots+= writeTab(page_tabs)
+
+        #tab content
+        tab_content= [{'id':tab['id']+'-plot',   'title':'Output Plot',      'content': output_plots},
+                      {'id':tab['id']+'-stdout', 'title':'Standard Output',  'content': stdout_difs},
+                      {'id':tab['id']+'-stderr',  'title':'Standard Error',  'content': stderr_difs}]
+        tab['content']= writeTab(tab_content)
+        
+        tabs.append(tab)
+   
+    tab_vers= writeTab(tabs,tab_class='nav-pills')
+    report= report.replace('TAB_VERS',tab_vers)
     
-    return report
-   
-   
+    #last step: nicely indent  the HTML code
+    return BeautifulSoup(report).prettify()
     
     
 #     n=0

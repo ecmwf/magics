@@ -47,6 +47,23 @@
           white-space: pre;
         }
 
+	.image {
+        width:33.3%;
+        height:500px;
+        overflow:auto;
+        margin-top:5px;
+        margin-bottom:20px;
+    }
+ 
+    .left {
+        float:left;
+        text-align:left;
+    }
+
+    .right {
+        float:right;
+        text-align:left;
+
     </style>
 
     <!-- codediff.py style definitions -->
@@ -74,6 +91,38 @@
     <!-- Le fav and touch icons -->
     <link rel="shortcut icon" href="http://download.ecmwf.int/test-data/magics/regression_output/static/favicon.ico">
 
+
+<script type="text/javascript"> 
+        
+        function onScrollDiv (div) 
+        {
+            if (div.className.search("image") >= 0)
+            {
+                setScroll(document.getElementById("left"), div);
+                setScroll(document.getElementById("diff"), div);
+                setScroll(document.getElementById("right"), div);
+            }
+            else if (div.className.search("errortxt") >= 0)
+            {
+                setScroll(document.getElementById("left_error_txt"), div);
+                setScroll(document.getElementById("right_error_txt"), div);
+            }
+            else if (div.className.search("output") >= 0)
+            {
+                setScroll(document.getElementById("left_output_txt"), div);
+                setScroll(document.getElementById("right_output_txt"), div);
+            }
+        }
+
+        function setScroll(from_div, to_div) 
+        {
+            from_div.scrollLeft = to_div.scrollLeft;
+            from_div.scrollTop = to_div.scrollTop;
+        }   
+
+    </script>
+
+
   </head>
 
   <!--   <body onload="prettyPrint()">-->
@@ -92,7 +141,7 @@
               <li><a href="#parameters" title="Go to the test parameters">     Parameters         </a></li>
               <li><a href="#results"    title="Go to test results">            Results            </a></li>
               <li><a href="#run_info"   title="Go to test run resource usage"> Run Info           </a></li>
-              <li><a href="#stdout"     title="Go to test standard output">    Stdout             </a></li>
+              <li><a href="#compare"    title="Go to test compare">            Compare            </a></li>
               <li><a href="#stderr"     title="Go to test standard error">     Stderr             </a></li>
               <li><a href="#plots"      title="Go to test output plots">       Plots              </a></li>
               <li><a href="#comment"    title="Submit comments to JIRA">       JIRA               </a></li>
@@ -102,16 +151,14 @@
       </div>
     </div>
 
-    <div id="dict">
-    </div>
+    <div class="container">
 
-    <div class="container ">
         <a name="top" class="bookmark"></a>
             
         <a name="parameters" class="bookmark"></a>
         <section>
             <div class="page-header">
-                <h2>Test parameters <small>some comments<small></h2>
+                <h2>Test parameters <small>some comments</small></h2>
             </div>
             <div class="row">
               <div class="span8">
@@ -132,7 +179,7 @@
         <a name="results" class="bookmark"></a>
         <section>
             <div class="page-header">
-                <h2>Test Results <small>some comments<small> </h2>
+                <h2>Test Results <small>some comments</small> </h2>
             </div>
             <div class="row">
               <div class="span8">
@@ -149,54 +196,53 @@
         <a name="run_info" class="bookmark"><br></a>
         <section>
             <div class="page-header">
-                <h2>Run Info <small>some comments<small></h2>
+                <h2>Run Info <small>some comments</small></h2>
             </div>
             <div class="row">
                 <div class="span12 control" name="source_frame" id="source_frame">
-	                <table>
+	                <table border="1px">
 	                	RUN_INFO	
     	            </table>
                 </div>
             </div>
             </section>
 
+
+        <a name="compare" class="bookmark"><br></a>
+        <section>
+            <div class="row">
+            	TAB_VERS
+            </div>
+        </section>
+
+<!--
+
+OLD STUFF
+
         <a name="stdout" class="bookmark"><br></a>
         <section>
             <div class="page-header">
-                <h2>Standard Output <small>some comments<small></h2>
+                <h2>Standard Output <small>some comments</small></h2>
             </div>
-            <!-- COMMENTED OUT
-            <div class="row">
-                <div class="span12 control" name="source_frame" id="source_frame">
-	    	       <pre>STDOUT</pre>	
-                </div>
-            </div>
-            -->
             STDOUT_DIFS
             </section>
 
         <a name="stderr" class="bookmark"><br></a>
         <section>
             <div class="page-header">
-                <h2>Standard Error <small>some comments<small></h2>
+                <h2>Standard Error <small>some comments</small></h2>
             </div>
-            <!-- COMMENTED OUT
-            <div class="row">
-                <div class="span12 control" name="source_frame" id="source_frame">
-	               <pre>STDERR</pre>	
-                </div>
-            </div>
-            -->
             STDERR_DIFS
          </section>
 
         <a name="plots" class="bookmark"><br></a>
         <section>
             <div class="page-header">
-                <h2>Output Plots <small>some comments<small></h2>
+                <h2>Output Plots <small>some comments</small></h2>
             </div>
 			OUTPUT_PLOTS            
         </section>
+-->
 
       <a name="target" class="bookmark"></a>
         <section>
