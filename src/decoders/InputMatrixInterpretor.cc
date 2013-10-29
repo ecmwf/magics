@@ -102,11 +102,11 @@ Matrix* InputMatrixRegularInterpretor::geoInterpret(Matrix* in, const InputMatri
 	
 	for (int i = 0; i < nblat; i++) {		
 		in->rowsAxis().push_back(lat);
+	    MagLog::dev()<< in->rowsAxis().back() << endl;
 		lat += latitude_step_;
 	}
 	in->setMapsAxis();
 	in->missing(std::numeric_limits<double>::max());
-	MagLog::dev()<< in << endl;
     return in;
 	}
 

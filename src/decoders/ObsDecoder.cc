@@ -712,7 +712,8 @@ void ObsDecoder::customisedPoints(const Transformation& transformation, const st
 				   for (VectorOfPointers<vector<BufrAccessor*> >::const_iterator accessor = accessors.begin(); accessor != accessors.end(); ++accessor)
 				   {
 					   (**accessor)(*this, obs, value);	    
-					   if (value != kBufrMissingValue)  (*point)[(*accessor)->keyword()] = value;
+					   if (value != kBufrMissingValue)  
+                            (*point)[(*accessor)->keyword()] = value;
 				   }
 				   if ( !(*point).empty())
 				   {

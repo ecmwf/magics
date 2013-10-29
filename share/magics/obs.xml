@@ -36,9 +36,21 @@
 	<obs_cloud low_row='-1' low_column='0' medium_row='1' medium_column='0' high_row='2' high_column='0'/>
  </obs_template>
 
+
  <obs_template type='dribu_surface' rows='3' columns='3'>
-	<obs_station_ring/>
+        <obs_cloud_wind/>
+        <obs_temperature row='1' column='-1'/>
+        <obs_pressure row='1' column='1'/>
+        <obs_pressure_tendency row='0' column='1'/>
+        <obs_dewpoint row='-1' column='-1'/>
+        <obs_visibility row='0' column='-2'/>
+        <obs_present_weather row='0' column='-1'/>
+        <obs_past_weather row='-1' column='1'/>
+        <obs_cloud low_row='-1' low_column='0'
+        medium_row='1' medium_column='0'
+        high_row='2' high_column='0'/>
  </obs_template>
+
 
  <obs_template type='synop' rows='5' columns='5'>
 	<obs_cloud_wind/>
@@ -105,6 +117,19 @@
      <obs_demo_item_2 row='1' column='-1'/>
  </obs_template>
 
+ <obs_template type='buoy' rows='5' columns='7'>
+    <obs_station_ring row='0' column='0'/>
+	<obs_temperature row='1' column='-1'/>
+	<obs_pressure row='1' column='1'/>
+	<obs_pressure_tendency row='0' column='1'/>
+	<obs_dewpoint row='-1' column='-1'/>
+	<obs_visibility row='0' column='-2'/>
+	<obs_present_weather row='0' column='-1'/>
+	<obs_past_weather row='-1' column='1'/>
+	
+     <obs_wave_period_height row='-2' column='0'/>
+     <obs_sea_temperature row='-1' column='-2'/>
+ </obs_template>
 
 
 </observations>

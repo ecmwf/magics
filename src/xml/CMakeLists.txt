@@ -178,10 +178,8 @@ NoOutLayerTechnique.xml
 NoPageID.xml
 NoPreviewVisitor.xml
 NoValuePlot.xml
-ObsCloud.xml
 ObsDecoder.xml
 ObsDemoItem2.xml
-ObsDewPoint.xml
 ObsHeight.xml
 ObsIdentifier.xml
 ObsItem.xml

@@ -82,7 +82,7 @@ public:
 		station->y(row_);		
 		station->colour(*attributes_->colour_);
 		station->symbol("circle");
-		station->height(size_);
+		station->height(ring_size_);
 		symbol.add(station);
 	} 
 
@@ -176,7 +176,29 @@ protected:
 	ObsTemperatureAttributes* attributes_; // Here we are delegating instead of inheriting ...
 };
 
+class ObsSeaTemperature : public ObsItemBox
+{
+public:
+	ObsSeaTemperature() {}
+	~ObsSeaTemperature()  {}
+	void visit(std::set<string>& tokens);
+	void operator()(CustomisedPoint&,  ComplexSymbol& symbol) const;
 
+protected:
+	void print(ostream& out) const { out << "ObsSeaTemperature";  }
+
+};
+class ObsWave : public ObsItemBox
+{
+public:
+	ObsWave() {}
+	~ObsWave()  {}
+	void visit(std::set<string>& tokens);
+	void operator()(CustomisedPoint&,  ComplexSymbol& symbol) const;
+
+protected:
+	void print(ostream& out) const { out << "ObsWave"; }
+};
 class ObsPressure : public ObsItemBox
 {
 public:
@@ -236,14 +258,14 @@ protected:
 class ObsDewPoint : public ObsItemBox
 {
 public:
-	ObsDewPoint() : attributes_(0) {}
+	ObsDewPoint()  {}
 	~ObsDewPoint()  {}
 	void visit(std::set<string>& tokens);
 	void operator()(CustomisedPoint&,  ComplexSymbol&) const;
 
 protected:
 	void print(ostream& out) const { out << "ObsDewPoint";  }
-	ObsDewPointAttributes* attributes_; // Here we are delegating instead of inheriting ...
+
 };
 
 
@@ -320,7 +342,7 @@ protected:
 class ObsCloud : public ObsItemBox
 {
 public:
-	ObsCloud() : attributes_(0) {}
+	ObsCloud(){}
 	~ObsCloud()  {}
 	void set(const map<string, string>& def);
 	void visit(std::set<string>& tokens);	
@@ -328,7 +350,6 @@ public:
 
 protected:
 	void print(ostream& out) const { out << "ObsCloud";  }
-	ObsCloudAttributes* attributes_; // Here we are delegating instead of inheriting ...
 	int lowRow_;
 	int lowColumn_;
 	int mediumRow_;

@@ -84,7 +84,8 @@ void ObsPlotting::operator()(Data& data, BasicGraphicsObjectContainer& out)
 			obs.set(apart_);
 		
 			for (CustomisedPointsList::const_iterator val = values.begin(); val != values.end(); ++val) 	{
-				if ( type->second == (*val)->type() ) { 
+
+				if ( type->second == (*val)->type() ) {
 					obs(*(*val), out);
 				}
 			}
@@ -95,18 +96,6 @@ void ObsPlotting::operator()(Data& data, BasicGraphicsObjectContainer& out)
 	}
 }
 
-//void ObsPlotting::filter(const CustomisedPointsList& in, CustomisedPointsList& out)
-//{
-//	out.push_back(in.front());
-//	const Transformation& transformation = getLayout().getTransformation();
-//	
-//	MagLog::dev()<< " ObsPlotting::filter--->" << transformation << endl;
-//	
-//	
-//	for (CustomisedPointsList::const_iterator point = in.begin(); point != in.end(); ++point) {
-//		out.push_back(*point);
-//	}
-//}
 	
 
 /*!
@@ -143,4 +132,7 @@ static SimpleObjectMaker<ObsHeight, ObsItem> ObsHeight("obs_height");
 static SimpleObjectMaker<ObsThickness, ObsItem> ObsThicjness("obs_thickness");
 static SimpleObjectMaker<ObsDemoItem1, ObsItem> ObsDemo1("obs_demo_item_1");
 static SimpleObjectMaker<ObsDemoItem2, ObsItem> ObsDemo2("obs_demo_item_2");
+static SimpleObjectMaker<ObsWave, ObsItem> Wave("obs_wave_period_height");
 static SimpleObjectMaker<ObsEra, ObsItem> Era("obs_era");
+static SimpleObjectMaker<ObsSeaTemperature, ObsItem> SeaTempe("obs_sea_temperature");
+
