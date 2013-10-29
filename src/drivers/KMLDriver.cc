@@ -126,6 +126,7 @@ void KMLDriver::open()
 		<< "     xmlns:atom=\"http://www.w3.org/2005/Atom\">\n"
 		<< "<Document>\n"<< " <name>"<<title_<<"</name>\n"
 		<< " <open>1</open>\n";
+	pFile_  << " <atom:generator>"<<getMagicsVersionString()<<"</atom:generator>\n";
 	if(!author_.empty()) pFile_ << " <atom:author><atom:name>"<<author_<<"</atom:name></atom:author>\n";
 	if(!link_.empty())   pFile_ << " <atom:link href=\""<<link_<<"\" />\n";
 	pFile_	<< " <description>\n"
@@ -493,6 +494,27 @@ MAGICS_NO_EXPORT void KMLDriver::setNewColour(const Colour &colour) const
 	currentColour_ = colour;
 }
 
+MAGICS_NO_EXPORT void KMLDriver::writeColour(const Colour &col) const
+{
+		const int r = (int)col.red()*255;
+		const int g = (int)col.green()*255;
+		const int b = (int)col.blue()*255;
+		const int a = (int)(transparency_ * 2.55);
+
+		pFile_	<< "\t<!-- r:"<<r<<" g:"<<g<<" b:"<<b <<" -->"<< endl;
+
+		pFile_	<< "\t<color>" <<hex;
+			if(a>15)	pFile_ <<a;
+			else		pFile_ <<"0"<< a;
+			if(b>15)	pFile_ <<b;
+			else		pFile_ <<"0"<< b;
+			if(g>15)	pFile_ <<g;
+			else		pFile_ <<"0"<< g;
+			if(r>15)	pFile_ <<r;
+			else		pFile_ <<"0"<< r;
+		pFile_	<< "</color>\n" << dec;
+}
+
 /*!
   \brief sets a new line width
 
@@ -574,25 +596,10 @@ MAGICS_NO_EXPORT void KMLDriver::renderPolyline(const int n, MFloat *x, MFloat *
 
 		kml_placemark_=true;
 
-		const int r = (int)currentColour_.red()*255;
-		const int g = (int)currentColour_.green()*255;
-		const int b = (int)currentColour_.blue()*255;
-		const int a = (int)(transparency_ * 2.55);
 
-		pFile_	<< "<!-- r:"<<r<<" g:"<<g<<" b:"<<b <<" -->"<< endl;
-
-		pFile_	<< "<Style>\n<LineStyle>\n"
-			<< "\t<color>" <<hex;
-			if(a>15)	pFile_ <<a;
-			else		pFile_ <<"0"<< a;
-			if(b>15)	pFile_ <<b;
-			else		pFile_ <<"0"<< b;
-			if(g>15)	pFile_ <<g;
-			else		pFile_ <<"0"<< g;
-			if(r>15)	pFile_ <<r;
-			else		pFile_ <<"0"<< r;
-		pFile_	<< "</color>\n" << dec
-			<< "\t<width>"<<currentLineWidth_<<"</width>\n"<<"</LineStyle>\n"
+		pFile_	<< "<Style>\n<LineStyle>\n";
+		writeColour(currentColour_);
+		pFile_	<< "\t<width>"<<currentLineWidth_<<"</width>\n"<<"</LineStyle>\n"
 			<< "</Style>\n"
 			<< "<MultiGeometry>\n";
 		MultiGeometrySet_=true;
@@ -646,10 +653,6 @@ MAGICS_NO_EXPORT void KMLDriver::renderSimplePolygon(const int n, MFloat* xx, MF
 	if (!render_) return;
 	if (kml_placemark_) closePlacemark();
 
-	const int r = (int)(currentColour_.red()*255.);
-	const int g = (int)(currentColour_.green()*255.);
-	const int b = (int)(currentColour_.blue()*255.);
-	if (r*g*b < 0) return;
 //pFile_	<< "<!-- r:"<<r<<" g:"<<g<<" b:"<<b <<" -->"<< endl;
 	pFile_	<< "<Placemark>\n";
 //	if(layer_)
@@ -687,31 +690,13 @@ MAGICS_NO_EXPORT void KMLDriver::renderSimplePolygon(const int n, MFloat* xx, MF
 
 	const int a = (int)(transparency_ * 2.55);
 
-	pFile_	<< "<Style>\n<PolyStyle>\n"
-		<< "\t<color>" <<hex;
-		if(a>15)	pFile_ <<a;
-		else		pFile_ <<"0"<< a;
-		if(b>15)	pFile_ <<b;
-		else		pFile_ <<"0"<< b;
-		if(g>15)	pFile_ <<g;
-		else		pFile_ <<"0"<< g;
-		if(r>15)	pFile_ <<r;
-		else		pFile_ <<"0"<< r;
-	pFile_	<< "</color>\n" << dec
-		<< "\t<fill>1</fill>\n</PolyStyle>\n"
+	pFile_	<< "<Style>\n<PolyStyle>\n";
+	writeColour(currentColour_);
+	pFile_	<< "\t<fill>1</fill>\n</PolyStyle>\n"
 		<< "<LineStyle>\n"
-		<< "\t<width>"<<2<<"</width>\n"
-		<< "\t<color>" <<hex;
-		if(a>15)	pFile_ <<a;
-		else		pFile_ <<"0"<< a;
-		if(b>15)	pFile_ <<b;
-		else		pFile_ <<"0"<< b;
-		if(g>15)	pFile_ <<g;
-		else		pFile_ <<"0"<< g;
-		if(r>15)	pFile_ <<r;
-		else		pFile_ <<"0"<< r;
-	pFile_	<< "</color>\n" << dec
-		<< "</LineStyle>\n"
+		<< "\t<width>"<<2<<"</width>\n";
+	writeColour(currentColour_);
+	pFile_	<< "</LineStyle>\n"
 		<< "</Style>\n"
 		<< "<MultiGeometry>\n";
 	MultiGeometrySet_=true;
@@ -741,8 +726,11 @@ MAGICS_NO_EXPORT void KMLDriver::renderSimplePolygon(const int n, MFloat* xx, MF
 
 void KMLDriver::renderSimplePolygon(const Polyline& line) const
 {
+	if (!render_) return;
+	if (kml_placemark_) closePlacemark();
 	const unsigned int n = line.size();
 	if(n<3) return;
+
 	Colour tmpcol = currentColour_;
 	setNewColour(line.getFillColour());
 
@@ -754,9 +742,97 @@ void KMLDriver::renderSimplePolygon(const Polyline& line) const
 		x[i] = pp.x();
 		y[i] = pp.y();
 	}
-	renderSimplePolygon(line.size(),x,y);
+
+	pFile_	<< "<Placemark>\n";
+//	if(layer_)
+//	{
+//		pFile_ << "<name>"<<currentLayer_<<"</name>\n"
+//		       << "<description><![CDATA["<<currentLayer_<<"]]></description>\n";
+//	}
+//	    << "<altitudeMode>clampToGround</altitudeMode>\n"
+	if(layer_)
+	{
+		pFile_ << "<name>"<<currentLayer_<<"</name>\n";
+		if(!currentTimeBegin_.empty())
+		{
+//			   if(magCompare(currentTimeBegin_,currentTimeEnd_))
+//			   {
+//				pFile_	<< "<TimeStamp>\n"
+//					<< " <when>"<<currentTimeBegin_<<"</when>\n"
+// 					<< "</TimeStamp>\n"
+//					<< "<styleUrl>#hiker-icon</styleUrl>\n";
+//			   }
+//			   else
+		   {
+			pFile_	<< "<TimeSpan>\n"
+				<< " <begin>"<<currentTimeBegin_<<"</begin>\n"
+				<< " <end>"<<currentTimeEnd_<<"</end>\n"
+				<< "</TimeSpan>\n";
+		   }
+		}
+		pFile_	<< "<description><![CDATA["<<currentLayer_<<"]]></description>\n";
+	}
+
+	pFile_<< "<visibility>1</visibility>\n<open>0</open>\n";
+
+	pFile_	<< "<Style>\n<PolyStyle>\n";
+	writeColour(currentColour_);
+	pFile_	<< "\t<fill>1</fill>\n</PolyStyle>\n"
+		<< "<LineStyle>\n"
+		<< "\t<width>"<<2<<"</width>\n";
+	writeColour(currentColour_);
+	pFile_	<< "</LineStyle>\n"
+		<< "</Style>\n"
+		<< "<MultiGeometry>\n";
+	MultiGeometrySet_=true;
+
+	pFile_ << "<Polygon>\n"
+	       << " <extrude>1</extrude>\n"
+	//       << " <altitudeMode>relativeToGround</altitudeMode>\n"
+	       << " <altitudeMode>clampToGround</altitudeMode>\n"
+	       << " <tessellate>0</tessellate>\n"
+	       << "  <outerBoundaryIs>\n"
+	       << "   <LinearRing>\n"
+	       << "    <coordinates>\n";
+
+	for(int it=0;it<n;it++)
+	{
+		pFile_ <<"\t"<< x[it] <<","<< y[it] <<","<<height_*1000<<"\n";
+	}
 	delete [] x;
 	delete [] y;
+
+	pFile_ << "    </coordinates>\n"
+	       << "   </LinearRing>\n"
+	       << "  </outerBoundaryIs>\n";
+
+	Polyline::Holes::const_iterator h = line.beginHoles();
+	Polyline::Holes::const_iterator he = line.endHoles();
+
+	for (; h != he; ++h)
+	{
+	   pFile_ << "  <innerBoundaryIs>\n"
+	          << "   <LinearRing>\n"
+	          << "    <coordinates>\n";
+
+	   vector<double> x;
+	   vector<double> y;
+	   line.hole(h,x,y);
+	   if ( x.empty() ) 
+	     continue;
+	   vector<double>::const_iterator yt = y.begin();
+	   vector<double>::const_iterator xt = x.begin();
+	   for(int it=0;it<x.size();it++)
+	    {
+	       pFile_ <<"\t"<< x[it] <<","<< y[it] <<","<<height_*1000<<"\n";
+	    }
+
+	    pFile_ << "    </coordinates>\n"
+	           << "   </LinearRing>\n"
+	           << "  </innerBoundaryIs>\n";
+	}
+	pFile_ << "</Polygon>\n";
+	pFile_ << "</MultiGeometry>\n</Placemark>";
 	setNewColour(tmpcol);
 }
 
@@ -1267,29 +1343,14 @@ MAGICS_NO_EXPORT void KMLDriver::renderWindArrow(const Arrow &arrow) const
 
 //	const ArrowPosition pos = arrow.getArrowPosition();
 
-    setNewColour(arrow.getColour());
-    const int r = (int)(currentColour_.red()*255.);
-    const int g = (int)(currentColour_.green()*255.);
-    const int b = (int)(currentColour_.blue()*255.);
-    const int a = (int)(transparency_ * 2.55);
-
     Arrow::const_iterator arr = arrow.begin();
 	for(unsigned int pts=0;pts<arrPoNo;pts++)
 	{
         pFile_  << "<Placemark>\n"
                 << "<Style>\n"
-                << "<IconStyle>\n"
-                << "<color>" <<hex;
-        if(a>15)    pFile_ <<a;
-        else        pFile_ <<"0"<< a;
-        if(b>15)    pFile_ <<b;
-        else        pFile_ <<"0"<< b;
-        if(g>15)    pFile_ <<g;
-        else        pFile_ <<"0"<< g;
-        if(r>15)    pFile_ <<r;
-        else        pFile_ <<"0"<< r;
-        pFile_  << "</color>\n" << dec
-                << "<heading>"<<90.+(arr->angle()*-57.29578)<<"</heading>\n"
+                << "<IconStyle>\n";
+        writeColour(arrow.getColour());
+        pFile_  << "<heading>"<<90.+(arr->angle()*-57.29578)<<"</heading>\n"
                 << "<scale>"<<arr->norm()*0.2<<"</scale>\n"
                 << "<Icon>\n"
                 << "<href>magics_kml_icons.png</href>\n"

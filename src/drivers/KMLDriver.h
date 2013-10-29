@@ -88,6 +88,7 @@ private:
 
 	MAGICS_NO_EXPORT void setNewLineWidth(const MFloat) const;
 	MAGICS_NO_EXPORT void setNewColour(const Colour &col) const;
+	MAGICS_NO_EXPORT void writeColour(const Colour &col) const;
 	MAGICS_NO_EXPORT int setLineParameters(const LineStyle style, const MFloat w) const;
 
 	MAGICS_NO_EXPORT void renderPolyline(const int, MFloat *, MFloat *) const;
@@ -107,7 +108,7 @@ private:
 	MAGICS_NO_EXPORT void debugOutput(const string &s) const;
 
 	/* K M L specific */
-    MAGICS_NO_EXPORT void redisplay(const LegendLayout& legend) const;
+	MAGICS_NO_EXPORT void redisplay(const LegendLayout& legend) const;
 	MAGICS_NO_EXPORT void closePlacemark() const;
 	mutable ofstream	pFile_;    //!< Output stream to file.
 	mutable Layout*		layout_;
