@@ -142,7 +142,7 @@ MvObsSet :: _init( const  char *aName )
      cout << "MvObsSet::_init - PrepBUFR support NOT available!!!!" << endl;
 #endif
    }
-   cout << "in MvObsSet::_init(" << aName << ")" << endl;
+   //cout << "in MvObsSet::_init(" << aName << ")" << endl;
 }
 //____________________________________________________________________ setSubsetMax
 void
