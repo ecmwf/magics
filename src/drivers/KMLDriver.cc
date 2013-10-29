@@ -496,9 +496,9 @@ MAGICS_NO_EXPORT void KMLDriver::setNewColour(const Colour &colour) const
 
 MAGICS_NO_EXPORT void KMLDriver::writeColour(const Colour &col) const
 {
-		const int r = (int)col.red()*255;
-		const int g = (int)col.green()*255;
-		const int b = (int)col.blue()*255;
+		const int r = (int)(col.red()*255.);
+		const int g = (int)(col.green()*255.);
+		const int b = (int)(col.blue()*255.);
 		const int a = (int)(transparency_ * 2.55);
 
 		pFile_	<< "\t<!-- r:"<<r<<" g:"<<g<<" b:"<<b <<" -->"<< endl;
