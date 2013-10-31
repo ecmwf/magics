@@ -126,7 +126,8 @@ def compare(branch_name,versions,interpreter,executable,reference,threshold,outp
             'branch_name':   branch_name,
             'time':          str(datetime.now()),
             'diff':          diff,
-            'pdiff':         pdiff
+            'pdiff':         pdiff,
+            'pixels':        pixels, 
         }
         with open(extension(reference,'par'),'w') as f: f.write(json.dumps(params,sort_keys=True,indent=4, separators=(',', ': ')))
 

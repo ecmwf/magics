@@ -9,6 +9,8 @@
 
     <!-- Le styles -->
     <link href="http://download.ecmwf.int/test-data/magics/regression_output/static/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+
     <link href="http://download.ecmwf.int/test-data/magics/regression_output/static/jquery-ui/development-bundle/themes/base/jquery.ui.all.css" rel="stylesheet">
     <link href="http://download.ecmwf.int/test-data/magics/regression_output/static/jquery-ui/css/ui-lightness/jquery-ui-1.8.18.custom.css" rel="stylesheet">
     <style>
@@ -48,11 +50,8 @@
         }
 
 	.image {
-        width:33.3%;
-        height:500px;
         overflow:auto;
-        margin-top:5px;
-        margin-bottom:20px;
+        max-height:600px;
     }
  
     .left {
@@ -62,13 +61,18 @@
 
     .right {
         float:right;
-        text-align:left;
+        text-align:right;
+
+    .center {
+        float:center;
+        text-align:center;
+	}
 
     </style>
 
     <!-- codediff.py style definitions -->
     <style type="text/css">
-        table.diff {font-family:Courier; border:medium;}
+        table.diff {font-family:Courier; font-size:12px; border:medium;}
         .diff_header {background-color:#e0e0e0}
         td.diff_header {text-align:right}
         .diff_next {background-color:#c0c0c0}
@@ -76,7 +80,7 @@
         .diff_chg {background-color:#ffff77}
         .diff_sub {background-color:#ffaaaa}
         /* customized style */
-        table.diff {font-family:monospace; border:medium;}
+        table.diff {font-family:monospace; font-size:12px; border:medium;}
     </style>
    
     <link href="http://download.ecmwf.int/test-data/magics/regression_output/static/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
@@ -92,26 +96,21 @@
     <link rel="shortcut icon" href="http://download.ecmwf.int/test-data/magics/regression_output/static/favicon.ico">
 
 
-<script type="text/javascript"> 
+	<script type="text/javascript"> 
         
         function onScrollDiv (div) 
         {
+        	/*
+        	var prefix= div.id.split("_")[0];
             if (div.className.search("image") >= 0)
             {
-                setScroll(document.getElementById("left"), div);
-                setScroll(document.getElementById("diff"), div);
-                setScroll(document.getElementById("right"), div);
+                setScroll(document.getElementById(prefix+"_left"),  div);
+                setScroll(document.getElementById(prefix+"_diff"),  div);
+                setScroll(document.getElementById(prefix+"_right"), div);
             }
-            else if (div.className.search("errortxt") >= 0)
-            {
-                setScroll(document.getElementById("left_error_txt"), div);
-                setScroll(document.getElementById("right_error_txt"), div);
-            }
-            else if (div.className.search("output") >= 0)
-            {
-                setScroll(document.getElementById("left_output_txt"), div);
-                setScroll(document.getElementById("right_output_txt"), div);
-            }
+            */
+            var images= document.getElementsByClassName("image");
+            for (i in images) setScroll(images[i],div);
         }
 
         function setScroll(from_div, to_div) 
@@ -119,7 +118,28 @@
             from_div.scrollLeft = to_div.scrollLeft;
             from_div.scrollTop = to_div.scrollTop;
         }   
-
+        
+        function onClickZoom(zoom) 
+        {
+            var plots= document.getElementsByClassName("plot");
+            for (i in plots) plots[i].style.width= zoom + "%";
+        }
+		
+		function onClickDiff(type) 
+        {
+        	var pixels= PIXEL_DIFS;
+        	for (v in pixels){
+        		var p= "Difference: "+pixels[v][type][0]+" ("+pixels[v][type][1] +"%) pixels";
+        		document.getElementById(v+"_pixel_diff").innerHTML= p;
+        	}
+        	
+        	var plots= document.getElementsByClassName("plot_diff");
+        	for (i in plots){
+        		var ver_id= plots[i].id.split("_")[0];        	
+        		if (type=="mdiff") plots[i].src= plots[i].src.replace("_pdif","_diff");
+        		if (type=="pdiff") plots[i].src= plots[i].src.replace("_diff","_pdif");
+        	}
+        }
     </script>
 
 
@@ -138,13 +158,10 @@
           <a class="brand" href="#" title="Title">BRANCH_NAME: TEST_NAME</a>
           <div class="nav-collapse">
             <ul class="nav">
-              <li><a href="#parameters" title="Go to the test parameters">     Parameters         </a></li>
-              <li><a href="#results"    title="Go to test results">            Results            </a></li>
-              <li><a href="#run_info"   title="Go to test run resource usage"> Run Info           </a></li>
-              <li><a href="#compare"    title="Go to test compare">            Compare            </a></li>
-              <li><a href="#stderr"     title="Go to test standard error">     Stderr             </a></li>
-              <li><a href="#plots"      title="Go to test output plots">       Plots              </a></li>
-              <li><a href="#comment"    title="Submit comments to JIRA">       JIRA               </a></li>
+              <li><a href="#overview"   title="Go to the summary results">      Overview           </a></li>
+              <li><a href="#compare"    title="Go to the detailed results">     Compare            </a></li>
+              <li><a href="#parameters" title="Go to the test parameters">      Parameters         </a></li>
+              <li><a href="#comment"    title="Submit comments to JIRA">        JIRA               </a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div>
@@ -155,109 +172,51 @@
 
         <a name="top" class="bookmark"></a>
             
-        <a name="parameters" class="bookmark"></a>
+        <a name="overview" class="bookmark"></a>
         <section>
-            <div class="page-header">
-                <h2>Test parameters <small>some comments</small></h2>
+            <div>
+                <h3>Overview <small>test results</small> </h3>
             </div>
             <div class="row">
-              <div class="span8">
-                <table>
-                  <tr><td>branch:      </td><td>BRANCH_NAME </td></tr> 
-                  <tr><td>versions:    </td><td>VERSIONS    </td></tr> 
-                  <tr><td>interpreter: </td><td>INTERPRETER </td></tr>
-                  <tr><td>executable:  </td><td>EXECUTABLE  </td></tr>
-                  <tr><td>reference:   </td><td>REFERENCE   </td></tr>
-                  <tr><td>threshold:   </td><td>THRESHOLD   </td></tr>
-                  <tr><td>output_dir:  </td><td>OUTPUT_DIR  </td></tr>
-                  <tr><td>time:        </td><td>TIME        </td></tr>
-                </table>
+              <div class="span12">
+              	
+              	TEST_RESULTS
+              
               </div>
           </div>
         </section>
-
-        <a name="results" class="bookmark"></a>
-        <section>
-            <div class="page-header">
-                <h2>Test Results <small>some comments</small> </h2>
-            </div>
-            <div class="row">
-              <div class="span8">
-                <table>
-                  <tr><td>pixel diff:        </td><td>DIFF        </td></tr>
-                  <tr><td>perceptual diff:   </td><td>PDIFF       </td></tr>
-
-                </table>
-              </div>
-          </div>
-        </section>
-
-
-        <a name="run_info" class="bookmark"><br></a>
-        <section>
-            <div class="page-header">
-                <h2>Run Info <small>some comments</small></h2>
-            </div>
-            <div class="row">
-                <div class="span12 control" name="source_frame" id="source_frame">
-	                <table border="1px">
-	                	RUN_INFO	
-    	            </table>
-                </div>
-            </div>
-            </section>
-
 
         <a name="compare" class="bookmark"><br></a>
         <section>
+            <div>
+                <h3>Comparison<small></small></h3>
+            </div>
             <div class="row">
+              <div class="span12">
             	TAB_VERS
+              </div>
             </div>
         </section>
 
-<!--
-
-OLD STUFF
-
-        <a name="stdout" class="bookmark"><br></a>
+        <a name="parameters" class="bookmark"></a>
         <section>
-            <div class="page-header">
-                <h2>Standard Output <small>some comments</small></h2>
+            <div>
+                <h3>Parameters <small>test input</small></h3>
             </div>
-            STDOUT_DIFS
-            </section>
-
-        <a name="stderr" class="bookmark"><br></a>
-        <section>
-            <div class="page-header">
-                <h2>Standard Error <small>some comments</small></h2>
-            </div>
-            STDERR_DIFS
-         </section>
-
-        <a name="plots" class="bookmark"><br></a>
-        <section>
-            <div class="page-header">
-                <h2>Output Plots <small>some comments</small></h2>
-            </div>
-			OUTPUT_PLOTS            
-        </section>
--->
-
-      <a name="target" class="bookmark"></a>
-        <section>
             <div class="row">
-                <div class="span12 control" name="target_frame" id="target_frame">
-                </div>
-            </div>
-        </section>
-
-        <a name="detail" class="bookmark"></a>
-        <section>
-            <div class="row">
-                <div class="span12" name="detail_frame" id="detail_frame" >
-                </div>
-            </div>
+              <div class="span6">
+                <table class="table table-bordered">
+                  <tr><td>branch      </td><td>BRANCH_NAME </td></tr> 
+                  <tr><td>versions    </td><td>VERSIONS    </td></tr> 
+                  <tr><td>interpreter </td><td>INTERPRETER </td></tr>
+                  <tr><td>executable  </td><td>EXECUTABLE  </td></tr>
+                  <tr><td>reference   </td><td>REFERENCE   </td></tr>
+                  <tr><td>threshold   </td><td>THRESHOLD   </td></tr>
+                  <tr><td>output_dir  </td><td>OUTPUT_DIR  </td></tr>
+                  <tr><td>time        </td><td>TIME        </td></tr>
+                </table>
+              </div>
+          </div>
         </section>
        
         <a name="comment" class="bookmark"></a>
@@ -285,6 +244,8 @@ target="_blank">Apache License v2.0</a>. Documentation licensed under <a href="h
     <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
+    <script src="http://download.ecmwf.int/test-data/magics/regression_output/static/bootstrap/js/bootstrap.js"></script>
+    <!--    
     <script src="http://download.ecmwf.int/test-data/magics/regression_output/static/bootstrap/js/bootstrap-transition.js"></script>
     <script src="http://download.ecmwf.int/test-data/magics/regression_output/static/bootstrap/js/bootstrap-alert.js"></script>
     <script src="http://download.ecmwf.int/test-data/magics/regression_output/static/bootstrap/js/bootstrap-modal.js"></script>
@@ -300,7 +261,7 @@ target="_blank">Apache License v2.0</a>. Documentation licensed under <a href="h
     <script src="http://download.ecmwf.int/test-data/magics/regression_output/static/bootstrap/js/bootstrap-typeahead.js"></script>
     <script src="http://download.ecmwf.int/test-data/magics/regression_output/static/datatables/media/js/jquery.dataTables.js"></script>
     <script type="text/javascript" language="javascript" src="http://download.ecmwf.int/test-data/magics/regression_output/static/bootstrap-datatables.js"></script>
-
+	-->
 </body>
 </html>
 

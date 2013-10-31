@@ -178,18 +178,59 @@ def writeHtmlReport(params,usage,stdout,stderr,ref_pages,ref_ver_pages):
     #branch name
     report= report.replace('BRANCH_NAME',params['branch_name'])
 
-    #parameters and result section
+    #parameters  section
     for name in params: report= report.replace(name.upper(),str(params[name]))
+
+    #results section
+    thre= params['threshold']
+    diff= params['diff'] 
+    pdif= params['pdiff']
+    pixe= params['pixels']
+    def result_style(thres,val):
+        if   val==0:          return "success"
+        elif val<0.5*thres: return "info"
+        elif val<thres:       return "warning"
+        else:                 return "error"
+    def result_text(thres,diff,pdiff,pixels):
+        d,pd= 100*diff/pixels,100*pdiff/pixels
+        val= max(d,pd)
+        text= 'OK',"green"
+        if   0<val<0.5*thres:      text='Check',"blue"
+        elif 0.5*thres<=val<thres: text='Warning',"yellow"
+        elif thres<=val:           text='Error',"red"
+        return '<td><b style="color:%s">%s</b> <small>(%d%%)</small></td>'%(text[1],text[0],val)
+    def result_colour(thres,diff,pdiff,pixels):
+        d,pd= 100*diff/pixels,100*pdiff/pixels
+        val= max(d,pd)
+        text= "green"
+        if   0<val<0.5*thres:      text="blue"
+        elif 0.5*thres<=val<thres: text="yellow"
+        elif thres<=val:           text="red"
+        return text
+    results= ''
+    for i in range(len(pixe)): results+= '<th>page %d</th>'%(i+1,)
+    results= '<tr><th>diff threshold %d%%</th>%s<tr>\n'%(int(params['threshold']),results)
+    for ver in params['versions']:
+        vals= []
+        pages=''
+        for i in range(len(pixe)):
+            val= max(100*diff[ver][i]/pixe[i],100*pdif[ver][i]/pixe[i])
+            pages+= result_text(thre,diff[ver][i],pdif[ver][i],pixe[i])
+            vals+= [val]
+        results+='<tr class="%s"><th>%s</th>%s</tr>\n'%(result_style(thre,max(vals)),ver,pages)
+    results='''
+        <table class="table table-bordered">
+        %s
+        </table>
+    '''%results
+    report= report.replace('TEST_RESULTS',results)
+                    
+    #for name in params: report= report.replace(name.upper(),str(params[name]))
 
     usa_ver= {}
     for ver in params['versions']:
         ref= prefix(extension(params['reference'],'usa'),ver+'_')
         with open(ref) as f: usa_ver[ver]= json.loads(f.read())
-
-    #run info section
-    run_info='<tr><td></td><td><b>test</b></td>'
-    for ver in params['versions']: run_info+= '<td><b>'+ver+'</b></td>'
-    run_info+='</tr>\n'
     def run_info_line_colour(name,test_value,ver_values):
         def colour(v1,v0):
             CF= 0.5 #chage factor: 0.5 ~ 50%
@@ -212,23 +253,21 @@ def writeHtmlReport(params,usage,stdout,stderr,ref_pages,ref_ver_pages):
                 res+= '<td style="color:%s">%s</td>'%('rgb(0,0,0)',precision(ver_values[i]))
         res+= '</tr>\n'
         return res
+
     usa_names= usage.keys()
     usa_names.sort() 
-    for name in usa_names:
-        run_info+= run_info_line_colour(name,usage[name],[usa_ver[ver][name] for ver in params['versions']])
-#        run_info+= '<tr><td>'+name+':</td><td>'+str(usage[name])+'</td>'
-#        for ver in params['versions']:
-#            run_info+= '<td>'+str(usa_ver[ver][name])+'</td>'
-#        run_info+='</tr>'
-    report= report.replace('RUN_INFO',run_info) 
+#    for name in usa_names:
+#        run_info+= run_info_line_colour(name,usage[name],[usa_ver[ver][name] for ver in params['versions']])
+#    report= report.replace('RUN_INFO',run_info) 
 
 ###################################
 
     tabs= []
+    pixel_difs= {}
     for ver in params['versions']:
-       
-        tab= {'title': 'VERSION %s'%ver,
-              'id':    'ver'+ver.replace('.','-')}
+        ver_id= 'ver'+ver.replace('.','-')
+        tab= {'title': '<h4>with %s</h4>'%ver,
+              'id':    ver_id}
         
         #stdout section
         def stdout_TextDiff(stdout,ver,reference):
@@ -236,8 +275,7 @@ def writeHtmlReport(params,usage,stdout,stderr,ref_pages,ref_ver_pages):
             with open(ref,'w') as f: f.write(stdout)
             ref_ver= prefix(ref,ver+'_')
             return TextDiff(ref,ref_ver)
-        stdout_difs= ''
-        stdout_difs+= '<h3> Comparing output with version '+ver+'</h3>'+stdout_TextDiff(stdout,ver,params['reference'])
+        stdout_difs= stdout_TextDiff(stdout,ver,params['reference'])
 
         #stderr section    
         def stderr_TextDiff(stderr,ver,reference):
@@ -245,82 +283,94 @@ def writeHtmlReport(params,usage,stdout,stderr,ref_pages,ref_ver_pages):
             with open(ref,'w') as f: f.write(stderr)
             ref_ver= prefix(ref,ver+'_')
             return TextDiff(ref,ref_ver)
-        stderr_difs= ''
-        stderr_difs+= '<h3> Comparing error with version '+ver+'</h3>'+stderr_TextDiff(stderr,ver,params['reference'])
+        stderr_difs= stderr_TextDiff(stderr,ver,params['reference'])
+
+        #run info section
+        run_info='<tr><th>resource</th><th>%s</th><th>%s</th></tr>\n'%(params['branch_name'],ver)
+        for name in usa_names: run_info+= run_info_line_colour(name,usage[name],[usa_ver[ver][name]])
+        run_info= '<table class="table table-bordered">'+run_info+'</table>'
        
         #output plots
-        def plots(ref,ref_ver):
+        def plots(div_id,page,npix,ndif,npdif,ref,ref_ver):
             ref_dif  = suffix(ref_ver,'_diff')
-            #ref_pdif = suffix(ref_ver,'_pdif')
-
+            def size(fn): return int(os.stat(fn).st_size/1024)
+            
+            comparison='''
+            <div style="text-align:center;">
+                <span id="%s_pixel_diff">Difference: %d (%d%%) pixels</span>
+            </div>'''%(div_id,ndif,100*ndif/npix)
+            
             return '''
-                <div id="left" class="image left" style="border:0px solid #DA0000" onscroll="onScrollDiv(this);">
-                    %s<br>
-                    <image src="%s">
+            <div class="row" style="">
+                <div class="span4 left" style=" ">
+                %s - %dK
                 </div>
-                <div id="diff" class="image center" style="border:0px solid #DA0000" onscroll="onScrollDiv(this);">
-                    %s<br>
-                    <image src="%s">
+                <div class="span4 center" style=" ">
+                %s
                 </div>
-                <div id="right" class="image right" style="border:0px solid #AAAAAA" onscroll="onScrollDiv(this);">
-                    %s<br>
-                    <image src="%s">
+                <div class="span4 right" style=" ">
+                %s - %dK
                 </div>
-            '''%(ref,ref,ref_dif,ref_dif,ref_ver,ref_ver)
-           
-#             return '''
-#             <table>
-#                 <tr><td>%s</td></tr>
-#                 <tr><td><image src="%s"></td></tr>
-#                 <tr><td>%s</td></tr>
-#                 <tr><td><image src="%s"></td></tr>
-#                 <tr><td>%s</td></tr>
-#                 <tr><td><image src="%s"></td></tr>
-#                 <tr><td>%s</td></tr>
-#                 <tr><td><image src="%s"></td></tr>
-#             </tr></table>
-#             '''%(ref,ref,ref_dif,ref_dif,ref_pdif,ref_pdif,ref_ver,ref_ver)
+            </div>            
+            <div class="row" style="margin:0;">
+                <div id="%s_left" class="image left span4" style="margin:0;width:33.1%%;border:1px solid #DA0000" onscroll="onScrollDiv(this);">
+                    <image class="plot" style="max-width:none;width:100%%" src="%s">
+                </div>
+                <div id="%s_diff" class="image center span4" style="margin:0;width:33.1%%;border:1px solid #DA0000" onscroll="onScrollDiv(this);">
+                    <image class="plot plot_diff" style="max-width:none;width:100%%" src="%s">
+                </div>
+                <div id="%s_right" class="image right span4" style="margin:0;width:33.1%%;border:1px solid #AAAAAA" onscroll="onScrollDiv(this);">
+                    <image class="plot" style="max-width:none;width:100%%" src="%s">
+                </div>
+            </div>
+            '''%(ref,size(ref),comparison,ref_ver,size(ref_ver),div_id,ref,div_id,ref_dif,div_id,ref_ver)
 
-        output_plots= ''
         page_tabs= []
         for ipage in range(len(ref_pages)):
             ref_page= ref_pages[ipage]
             ref_ver_page= ref_ver_pages[ver][ipage]
-            page_tabs+= [{'id':tab['id']+'-page'+str(ipage),'title':'Page '+str(ipage+1),'content': plots(ref_page,ref_ver_page)}]
-        output_plots+= writeTab(page_tabs)
+            npix= params['pixels'][ipage]
+            ndif= params['diff'][ver][ipage]
+            npdif= params['pdiff'][ver][ipage]
+            ver_id= ver + '-' + str(ipage)
+            pixel_difs[ver_id]= {'pdiff':[npdif,100*npdif/npix],'mdiff':[ndif,100*ndif/npix]}
+            page_title= '<span style="color:'+result_colour(params['threshold'],ndif,npdif,npix)+'">Page '+str(ipage+1)+'</span>' 
+            page_tabs+= [{'id':tab['id']+'-page'+str(ipage),'title': page_title,'content': plots(ver_id,ipage,npix,ndif,npdif,ref_page,ref_ver_page)}]
+        output_plots= writeTab(page_tabs)
+        output_plots+= '''
+        <div style="text-align:center;">
+            <br>
+            <form id="zoom_form" name="zoom_form">
+                    Zoom: 
+                    <input type="radio" name="zoomgroup" value="100" checked onclick="onClickZoom(this.value);"> 100%&nbsp;
+                    <input type="radio" name="zoomgroup" value="200" onclick="onClickZoom(this.value);">         200%&nbsp;
+                    <input type="radio" name="zoomgroup" value="400" onclick="onClickZoom(this.value);">         400%&nbsp;
+                    <input type="radio" name="zoomgroup" value="800" onclick="onClickZoom(this.value);">         800%&nbsp;
+            </form>
+            <form id="diff_form" name="diff_form">
+                    <input type="radio" name="diffgroup" value="mdiff" checked onclick="onClickDiff(this.value);">ImageMagick&nbsp;
+                    <input type="radio" name="diffgroup" value="pdiff" onclick="onClickDiff(this.value);">Perceptual Diff&nbsp;
+                    <br>
+            </form>
+        </div>'''
+
 
         #tab content
-        tab_content= [{'id':tab['id']+'-plot',   'title':'Output Plot',      'content': output_plots},
-                      {'id':tab['id']+'-stdout', 'title':'Standard Output',  'content': stdout_difs},
-                      {'id':tab['id']+'-stderr',  'title':'Standard Error',  'content': stderr_difs}]
+        tab_content= [{'id':tab['id']+'-plot',    'title':'Output Plot',      'content': output_plots},
+                      {'id':tab['id']+'-stdout',  'title':'Standard Output',  'content': stdout_difs},
+                      {'id':tab['id']+'-stderr',  'title':'Standard Error',   'content': stderr_difs},
+                      {'id':tab['id']+'-runinfo', 'title':'Run Info',         'content': run_info}]
         tab['content']= writeTab(tab_content)
         
         tabs.append(tab)
    
-    tab_vers= writeTab(tabs,tab_class='nav-pills')
+    tab_vers= writeTab(tabs)#,tab_class='nav-pills')
     report= report.replace('TAB_VERS',tab_vers)
+
+    report= report.replace('PIXEL_DIFS',json.dumps(pixel_difs))
     
-    #last step: nicely indent  the HTML code
-    return BeautifulSoup(report).prettify()
-    
-    
-#     n=0
-#     tab_nav=''
-#     for ver in params['versions']:
-#         if n==0: tab_nav+= '<li class="active"><a href="#'+ver+'" data-toggle="tab"> version '+ver+'</a></li>\n'
-#         else:    tab_nav+= '<li><a href="#'+ver+'"data-toggle="tab"> version '+ver+'</a></li>\n'
-#         n+=1
-#     tab_nav= '<ul class="nav nav-tabs">'+tab_nav+'<ul>\n'
-# 
-#     n=0
-#     tab_con=''
-#     for ver in params['versions']:
-#         if n==0: tab_con+= '<div id="'+ver+'" class="tab-pane active">'+plots(ver,params['reference'])+'</div>'
-#         else:    tab_con+= '<div id="'+ver+'" class="tab-pane">'+plots(ver,params['reference'])+'</div>'
-#         n+=1
-#     tab_con= '<div class="tab-content">'+tab_con+'</div>'
-#     
-#     output_plots= '<div>'+tab_nav+tab_con+'</div>'
+                #last step: nicely indent  the HTML code
+    return report#BeautifulSoup(report).prettify()
     
     
     #1 calculate image diff
