@@ -132,22 +132,7 @@ public:
 	\\brief return the ymax in user coordinates!
 	*/
 	virtual double getMaxY() const;
-	/*!
-	\\brief set the xmin in user coordinates!
-	*/
-	virtual void setMinX(double) ;
-	/*!
-	\\brief return the ymin in user coordinates!
-	*/
-	virtual void setMinY(double) ;
-	/*!
-	\\brief return the xmax in user coordinates!
-	*/
-	virtual void setMaxX(double) ;
-	/*!
-	\\brief return the ymax in user coordinates!
-	*/
-	virtual void setMaxY(double) ;
+
 	/*!
 	\\brief return the xmin in projection coordinates!
 	*/

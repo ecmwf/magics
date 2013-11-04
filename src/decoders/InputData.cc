@@ -309,12 +309,12 @@ void InputData::visit(Transformation& transformation)
 			}
 			if ( magCompare(x_type_, "date" ) ) {
 
-				transformation.setDataMinX(min, baseDateX_);
-				transformation.setDataMaxX(max, baseDateX_);
+				transformation.setDataMinMaxX(min, max, baseDateX_);
+
 			}
 			else {
-				transformation.setMinX(min);
-				transformation.setMaxX(max);
+				transformation.setMinMaxX(min, max);
+
 			}
 		}
 		if ( transformation.getAutomaticY() ) {
@@ -331,12 +331,12 @@ void InputData::visit(Transformation& transformation)
 				if ( max < *y ) max = *y;
 			}
 			if ( magCompare(y_type_, "date" ) ) {
-				transformation.setDataMinY(min, baseDateY_);
-				transformation.setDataMaxY(max, baseDateY_);
+				transformation.setDataMinMaxY(min, max, baseDateY_);
+
 			}
 			else {
-				transformation.setMinY(min);
-				transformation.setMaxY(max);
+				transformation.setMinMaxY(min, max);
+
 			}
 		}
 

@@ -221,20 +221,20 @@ public:
 	}
 	
 
-	virtual void setDataMinX(double minx) const { dataMinX_ = std::min(minx, dataMinX_); }
-	virtual void setDataMaxX(double maxx) const { dataMaxX_ = std::max(maxx, dataMaxX_); }
-	virtual void setDataMinY(double miny) const { dataMinY_ = std::min(miny, dataMinY_); }
-	virtual void setDataMaxY(double maxy) const { dataMaxY_ = std::max(maxy, dataMaxY_); }
+	virtual void setDataMinMaxX(double minx, double maxx) const
+		{ dataMinX_ = std::min(minx, dataMinX_);  dataMaxX_ = std::max(maxx, dataMaxX_);}
+	virtual void setDataMinMaxY(double miny, double maxy) const
+		{ dataMinY_ = std::min(miny, dataMinY_);  dataMaxY_ = std::max(maxy, dataMaxY_);}
+
 	
 	virtual void setAutomaticX(bool) {}
 	virtual void setAutomaticY(bool) {}
 	virtual bool getAutomaticX() const { return false; } 
 	virtual bool getAutomaticY() const { return false; }
 	
-    virtual void setDataMinX(double minx, const string& ref) const; 
-	virtual void setDataMaxX(double maxx, const string& ref) const; 
-	virtual void setDataMinY(double miny, const string& ref) const; 
-	virtual void setDataMaxY(double maxy, const string& ref) const; 
+    virtual void setDataMinMaxX(double minx,double maxx, const string& ref) const;
+	virtual void setDataMinMaxY(double miny, double maxy, const string& ref) const;
+
 	
 	virtual vector<double> getDataVectorMinX() const  { return vector<double>(); }
 	virtual vector<double> getDataVectorMaxX() const  { return vector<double>(); }
@@ -265,10 +265,9 @@ public:
 	virtual double getMinY() const { return -1; }
 	virtual double getMaxY() const { return -1; }
 	
-	virtual void setMinX(double) {}
-	virtual void setMaxX(double) {}
-	virtual void setMinY(double) {}
-	virtual void setMaxY(double) {}
+	virtual void setMinMaxX(double, double) {}
+	virtual void setMinMaxY(double, double) {}
+
 
 	virtual double getMinPCX() const { return -1; }
 	virtual double getMaxPCX() const { return -1; }

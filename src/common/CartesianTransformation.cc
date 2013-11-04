@@ -111,8 +111,8 @@ void CartesianTransformation::adjustXAxis(Layout& layout) const
 	
 	if (dataMaxX_ - dataMinX_ < 4 ) dataMaxX_ = dataMinX_ + 4;// this needs to be done with more care later!
 	// Should become a user option...
-	const_cast<CartesianTransformation*>(this)->x_->min(dataMinX_);
-	const_cast<CartesianTransformation*>(this)->x_->max(dataMaxX_);
+	const_cast<CartesianTransformation*>(this)->x_->minmax(dataMinX_, dataMaxX_);
+
 	
 	(*this)(layout);
 }
@@ -126,9 +126,9 @@ void CartesianTransformation::adjustYAxis(Layout& layout) const
 	MagLog::dev() << "CartesianTransformation::adjustYAxis()--->[" << dataMinY_ << ", " << dataMaxY_ << "]\n";
 	if (dataMaxY_ - dataMinY_ < 4) dataMaxY_ = dataMinY_ + 4; // this needs to be done with more care later!
 	// Should become a user option...
-	const_cast<CartesianTransformation*>(this)->y_->min(dataMinY_);
-	const_cast<CartesianTransformation*>(this)->y_->max(dataMaxY_);
+	const_cast<CartesianTransformation*>(this)->y_->minmax(dataMinY_, dataMaxY_);
 	const_cast<CartesianTransformation*>(this)->referenceY_ = dataReferenceY_;
+
 	(*this)(layout);
 	
 }

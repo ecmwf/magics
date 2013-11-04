@@ -195,11 +195,9 @@ void Histogram::visit(const IntervalMap<Colour>& beans, Data& data, PointsHandle
 				   	cartesian->setAutomaticX(true);
 				   	cartesian->setAutomaticY(true);
 
-				   cartesian->setMinX(xmin_-width_*0.1);
-				   cartesian->setMaxX(xmax_+width_*0.1);
-				   cartesian->setMinY(-height_*0.1);
-				   MagLog::dev()<<  "maxy=" << *std::max_element(y.begin(), y.end()) << endl;
-				   cartesian->setMaxY(ymax_+height_*0.1);
+				   cartesian->setMinMaxX(xmin_-width_*0.1, xmax_+width_*0.1);
+				   cartesian->setMinMaxY(-height_*0.1, ymax_+height_*0.1);
+
 				   visitor.transformation(cartesian);
 	Polyline* frame = new Polyline();
 	frame->setColour(Colour("navy"));

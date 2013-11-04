@@ -6,4 +6,5 @@
 *.grb
 *.out
 *.keep
-
+docs
+Debug

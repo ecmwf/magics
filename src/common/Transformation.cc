@@ -382,27 +382,19 @@ void Transformation::cleaninit()
 
 }
 
-void Transformation::setDataMinX(double minx, const string& ref) const
+void Transformation::setDataMinMaxX(double minx, double maxx, const string& ref) const
 { 
 	// WE will have to take into acount the date!
 	dataMinX_ = std::min(minx, dataMinX_); 
+	dataMaxX_ = std::max(maxx, dataMaxX_);
 	dataReferenceX_ = ref;
 }
 
-void Transformation::setDataMaxX(double maxx, const string& ref) const 
-{ 
-	dataMaxX_ = std::max(maxx, dataMaxX_); 
-	dataReferenceX_ = ref;
-}
 
-void Transformation::setDataMinY(double miny, const string& ref) const
+
+void Transformation::setDataMinMaxY(double miny, double maxy, const string& ref) const
 { 
 	dataMinY_ = std::min(miny, dataMinY_);
-	dataReferenceY_ = ref; 
-}
-
-void Transformation::setDataMaxY(double maxy, const string& ref) const 
-{ 
 	dataMaxY_ = std::max(maxy, dataMaxY_); 
 	dataReferenceY_ = ref; 
 }
