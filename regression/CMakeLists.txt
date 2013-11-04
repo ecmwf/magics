@@ -19,7 +19,7 @@ function( add_magics_test )
     
     ### check parameters
 
-    if( NOT _p_NAME )
+    if( NOT _p_NAME )CMakeLists.txt.next
       message(FATAL_ERROR "add_magics_test() expects a NAME")
     endif()
 
@@ -154,3 +154,7 @@ add_subdirectory( basic )
 add_subdirectory( efas )
 add_subdirectory( macc )
 add_subdirectory( plumes )
+
+
+ execute_process( COMMAND   ${REGRESSION_SCRIPT_DIRECTORY}/summary.py )
+
