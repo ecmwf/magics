@@ -88,6 +88,15 @@ def PerceptualDiff_compare(reference,ver_ref,ver_dif,pix_thres=100):
     #print 'PerceptualDiff_compare',(reference,ver_ref,ver_dif),diff
     return diff
 
+def resultLabel(thres,diff,pdiff,pixels):
+        d,pd= 100*diff/pixels,100*pdiff/pixels
+        val= max(d,pd)
+        text= 'OK'
+        if   0<val<0.5*thres:      text='Check'
+        elif 0.5*thres<=val<thres: text='Warning'
+        elif thres<=val:           text='Error'
+        return text
+
 def TextDiff(reference,ver_ref):
     #compares 2 text files and return an HTML table (an string as well) with the diff results
     diff= ''

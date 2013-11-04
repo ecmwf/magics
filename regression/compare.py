@@ -20,9 +20,10 @@ import resource
 from subprocess import call,check_output,Popen,PIPE
 from optparse import OptionParser
 from datetime import datetime
-
+from persistentDict import PersistentDict
+ 
 #Project modules
-from regression_util import extension,prefix,suffix,writeHtmlReport,usage2Dict,ImageMagick_compare,PerceptualDiff_compare,splitOutput
+from regression_util import extension,prefix,suffix,writeHtmlReport,usage2Dict,ImageMagick_compare,PerceptualDiff_compare,splitOutput,resultLabel
 
 #####################################################################
 #####################################################################
@@ -71,7 +72,7 @@ def compare(branch_name,versions,interpreter,executable,reference,threshold,outp
             except:
                 sys.stderr.write(u"TEST FAILED: Output file '%s' has %d pages but reference file '%s' has %d pages. They can not be compared.\n"%(reference,len(ref_pages),ver_ref,ref_ver_pages[version]))
                 sys.exit(1)
-        print 'ref_ver_pages=',ref_ver_pages
+        #print 'ref_ver_pages=',ref_ver_pages
 
     else:
         #only a single page -> single image
@@ -79,8 +80,8 @@ def compare(branch_name,versions,interpreter,executable,reference,threshold,outp
         for version in versions:
             ver_ref= prefix(reference,version+'_')
             ref_ver_pages[version]= [ver_ref]
-    print 'ref_pages=',ref_pages
-    print 'ref_ver_pages=',ref_ver_pages
+    #print 'ref_pages=',ref_pages
+    #print 'ref_ver_pages=',ref_ver_pages
 
     #get number of pixels of output images
     pixels= []
@@ -91,11 +92,12 @@ def compare(branch_name,versions,interpreter,executable,reference,threshold,outp
         pixels.append(x*y)
 
     #for each reference version
-    diff,pdiff= {},{}
+    diff,pdiff,result= {},{},{}
     for version in versions:
-        if not diff.has_key(version):  diff[version]=  {}
-        if not pdiff.has_key(version): pdiff[version]= {}
-        
+        if not diff.has_key(version):   diff[version]=   {}
+        if not pdiff.has_key(version):  pdiff[version]=  {}
+        if not result.has_key(version): result[version]= {}
+                
         #for each page and reference page
         for ipage in range(len(ref_pages)):
             ref_page= ref_pages[ipage]
@@ -106,6 +108,9 @@ def compare(branch_name,versions,interpreter,executable,reference,threshold,outp
             diff[version][ipage]= ImageMagick_compare(ref_page,ref_ver_page,ver_dif_page)
             ver_pdiff_page= suffix(ref_ver_page,'_pdif')
             pdiff[version][ipage]= PerceptualDiff_compare(ref_page,ref_ver_page,ver_pdiff_page)
+            
+            #Get the result labels: OK,Check,Warning,Error
+            result[version][ipage]= resultLabel(threshold,diff[version][ipage],pdiff[version][ipage],pixels[ipage]) 
 
     #save all test files into specified output directory 
     if output_dir:
@@ -127,6 +132,7 @@ def compare(branch_name,versions,interpreter,executable,reference,threshold,outp
             'time':          str(datetime.now()),
             'diff':          diff,
             'pdiff':         pdiff,
+            'result':        result,
             'pixels':        pixels, 
         }
         with open(extension(reference,'par'),'w') as f: f.write(json.dumps(params,sort_keys=True,indent=4, separators=(',', ': ')))
@@ -152,6 +158,10 @@ def compare(branch_name,versions,interpreter,executable,reference,threshold,outp
             e= call(["scp",filename,target])
             if not e==0:
                 sys.stderr.write("ERROR coping the file '%s' into '%s'"%(filename,target))
+        
+        
+        #save compare results into a db file
+        
 
     #compute maximum number of different pixels and percentage...
     max_diff,max_perc = 0,0
