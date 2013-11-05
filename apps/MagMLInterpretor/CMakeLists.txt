@@ -18,9 +18,8 @@ ecbuild_add_executable( TARGET    magjsonx
                         json.cc
                      DEFINITIONS
                         ${MAGICS_EXTRA_DEFINITIONS}
-               
                     LIBS
-                        MagPlus ${MAGICS_EXTRA_LIBRARIES}
+                        MagPlusShared ${MAGICS_EXTRA_LIBRARIES}
                     )
                     
 ecbuild_add_executable( TARGET    magmlx
@@ -29,5 +28,5 @@ ecbuild_add_executable( TARGET    magmlx
                      DEFINITIONS
                         ${MAGICS_EXTRA_DEFINITIONS}
 					 LIBS
-                        MagPlus ${MAGICS_EXTRA_LIBRARIES}
+                        MagPlusShared ${MAGICS_EXTRA_LIBRARIES}
                     )
