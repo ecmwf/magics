@@ -20,7 +20,6 @@ import resource
 from subprocess import call,check_output,Popen,PIPE
 from optparse import OptionParser
 from datetime import datetime
-from persistentDict import PersistentDict
  
 #Project modules
 from regression_util import extension,prefix,suffix,writeHtmlReport,usage2Dict,ImageMagick_compare,PerceptualDiff_compare,splitOutput,resultLabel
@@ -38,6 +37,7 @@ def compare(branch_name,versions,interpreter,executable,reference,threshold,outp
     print l('threshold:',        20), '%.2f%%'%threshold
     print l('versions:',         20), versions 
     print l('output dir (HTML):',20), output_dir
+
 
     #run the test
     p= None
@@ -114,6 +114,10 @@ def compare(branch_name,versions,interpreter,executable,reference,threshold,outp
 
     #save all test files into specified output directory 
     if output_dir:
+
+        #define test sub-directory
+        output_subdir= output_dir+'/'+reference.split('.')[0]
+        if not os.path.exists(output_subdir): call(['mkdir',output_subdir])
     
         #save test run information into files
         with open(extension(reference,'out'),'w') as f: f.write(stdout)
@@ -129,7 +133,7 @@ def compare(branch_name,versions,interpreter,executable,reference,threshold,outp
             'threshold':     threshold, 
             'output_dir':    output_dir,
             'branch_name':   branch_name,
-            'time':          str(datetime.now()),
+            'time':          datetime.now().strftime('%Y%m%d_%H%M%S'),
             'diff':          diff,
             'pdiff':         pdiff,
             'result':        result,
@@ -154,8 +158,8 @@ def compare(branch_name,versions,interpreter,executable,reference,threshold,outp
             files_to_copy+= [suffix(e,'_diff') for e in ref_ver_pages[v]]#difference images by ImageMagick
             files_to_copy+= [suffix(e,'_pdif') for e in ref_ver_pages[v]]#difference images by PerceptualDiff
         for filename in files_to_copy:
-            target= output_dir+'/'+filename
-            e= call(["scp",filename,target])
+            target= output_subdir+'/'+filename
+            e= call(['scp',filename,target])
             if not e==0:
                 sys.stderr.write("ERROR coping the file '%s' into '%s'"%(filename,target))
         

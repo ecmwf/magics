@@ -129,7 +129,7 @@
         {
         	var pixels= PIXEL_DIFS;
         	for (v in pixels){
-        		var p= "Difference: "+pixels[v][type][0]+" ("+pixels[v][type][1] +"%) pixels";
+        		var p= "Difference: "+pixels[v][type][0]+" ("+(pixels[v][type][1]).toFixed(1)+"%) pixels";
         		document.getElementById(v+"_pixel_diff").innerHTML= p;
         	}
         	

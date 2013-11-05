@@ -56,7 +56,7 @@ def extension(filename,newExtension):
 def upload(filename,destination):
     print 'scp',filename,destination
     destination = "deploy@download-admin:test-data/%s"%destination
-    e= call(["scp",filename, destination])
+    e= call(["scp","-r".filename, destination])
     if not e==0:
         sys.stderr.write("ERROR uploading the file '%s' into '%s'"%(filename,destination))
         
@@ -88,14 +88,35 @@ def PerceptualDiff_compare(reference,ver_ref,ver_dif,pix_thres=100):
     #print 'PerceptualDiff_compare',(reference,ver_ref,ver_dif),diff
     return diff
 
+
+def maxResult(labels):
+    for lab in ['Error','Check','MinorDiff']:
+        if lab in labels: return lab
+    return labels[0]#should be Identical
+
+def result(thres,diff,pdiff,pixels):
+    d,pd= 100.0*diff/pixels,100.0*pdiff/pixels
+    val= max(d,pd)
+    text,colour,style= ['']*3
+    if diff==pdiff==0:         text,colour,style= 'Identical', 'green',  'success'
+    elif val<0.5*thres:        text,colour,style= 'MinorDiff', 'blue',   'info' 
+    elif 0.5*thres<=val<thres: text,colour,style= 'Check',     'yellow', 'warning'
+    elif thres<=val:           text,colour,style= 'Error',     'red',    'error'
+    return text,colour,style,val
+
 def resultLabel(thres,diff,pdiff,pixels):
-        d,pd= 100*diff/pixels,100*pdiff/pixels
-        val= max(d,pd)
-        text= 'OK'
-        if   0<val<0.5*thres:      text='Check'
-        elif 0.5*thres<=val<thres: text='Warning'
-        elif thres<=val:           text='Error'
-        return text
+    return result(thres,diff,pdiff,pixels)[0]
+
+def resultColour(thres,diff,pdiff,pixels):
+    return result(thres,diff,pdiff,pixels)[1]
+
+def resultStyle(thres,val):    
+    return result(thres,val,val,100)[2]
+
+def resultText(thres,diff,pdiff,pixels):
+    lab,col,_,val= result(thres,diff,pdiff,pixels)
+    return '<td><b style="color:%s">%s</b> <small>(%.1f%%)</small></td>'%(col,lab,val)
+
 
 def TextDiff(reference,ver_ref):
     #compares 2 text files and return an HTML table (an string as well) with the diff results
@@ -187,35 +208,11 @@ def writeHtmlReport(params,usage,stdout,stderr,ref_pages,ref_ver_pages):
     #branch name
     report= report.replace('BRANCH_NAME',params['branch_name'])
 
-    #parameters  section
-    for name in params: report= report.replace(name.upper(),str(params[name]))
-
     #results section
     thre= params['threshold']
     diff= params['diff'] 
     pdif= params['pdiff']
     pixe= params['pixels']
-    def result_style(thres,val):
-        if   val==0:          return "success"
-        elif val<0.5*thres: return "info"
-        elif val<thres:       return "warning"
-        else:                 return "error"
-    def result_text(thres,diff,pdiff,pixels):
-        d,pd= 100*diff/pixels,100*pdiff/pixels
-        val= max(d,pd)
-        text= 'OK',"green"
-        if   0<val<0.5*thres:      text='Check',"blue"
-        elif 0.5*thres<=val<thres: text='Warning',"yellow"
-        elif thres<=val:           text='Error',"red"
-        return '<td><b style="color:%s">%s</b> <small>(%d%%)</small></td>'%(text[1],text[0],val)
-    def result_colour(thres,diff,pdiff,pixels):
-        d,pd= 100*diff/pixels,100*pdiff/pixels
-        val= max(d,pd)
-        text= "green"
-        if   0<val<0.5*thres:      text="blue"
-        elif 0.5*thres<=val<thres: text="yellow"
-        elif thres<=val:           text="red"
-        return text
     results= ''
     for i in range(len(pixe)): results+= '<th>page %d</th>'%(i+1,)
     results= '<tr><th>diff threshold %d%%</th>%s<tr>\n'%(int(params['threshold']),results)
@@ -223,19 +220,22 @@ def writeHtmlReport(params,usage,stdout,stderr,ref_pages,ref_ver_pages):
         vals= []
         pages=''
         for i in range(len(pixe)):
-            val= max(100*diff[ver][i]/pixe[i],100*pdif[ver][i]/pixe[i])
-            pages+= result_text(thre,diff[ver][i],pdif[ver][i],pixe[i])
+            val= result(thre,diff[ver][i],pdif[ver][i],pixe[i])[3]
+            pages+= resultText(thre,diff[ver][i],pdif[ver][i],pixe[i])
             vals+= [val]
-        results+='<tr class="%s"><th>%s</th>%s</tr>\n'%(result_style(thre,max(vals)),ver,pages)
+        results+='<tr class="%s"><th>%s</th>%s</tr>\n'%(resultStyle(thre,max(vals)),ver,pages)
     results='''
         <table class="table table-bordered">
         %s
         </table>
     '''%results
     report= report.replace('TEST_RESULTS',results)
-                    
-    #for name in params: report= report.replace(name.upper(),str(params[name]))
 
+
+    #parameters  section
+    for name in params: report= report.replace(name.upper(),str(params[name]))
+                    
+    #usage tabs
     usa_ver= {}
     for ver in params['versions']:
         ref= prefix(extension(params['reference'],'usa'),ver+'_')
@@ -262,12 +262,8 @@ def writeHtmlReport(params,usage,stdout,stderr,ref_pages,ref_ver_pages):
                 res+= '<td style="color:%s">%s</td>'%('rgb(0,0,0)',precision(ver_values[i]))
         res+= '</tr>\n'
         return res
-
     usa_names= usage.keys()
     usa_names.sort() 
-#    for name in usa_names:
-#        run_info+= run_info_line_colour(name,usage[name],[usa_ver[ver][name] for ver in params['versions']])
-#    report= report.replace('RUN_INFO',run_info) 
 
 ###################################
 
@@ -306,8 +302,8 @@ def writeHtmlReport(params,usage,stdout,stderr,ref_pages,ref_ver_pages):
             
             comparison='''
             <div style="text-align:center;">
-                <span id="%s_pixel_diff">Difference: %d (%d%%) pixels</span>
-            </div>'''%(div_id,ndif,100*ndif/npix)
+                <span id="%s_pixel_diff">Difference: %d (%.1f%%) pixels</span>
+            </div>'''%(div_id,ndif,100.0*ndif/npix)
             
             return '''
             <div class="row" style="">
@@ -342,8 +338,8 @@ def writeHtmlReport(params,usage,stdout,stderr,ref_pages,ref_ver_pages):
             ndif= params['diff'][ver][ipage]
             npdif= params['pdiff'][ver][ipage]
             ver_id= ver + '-' + str(ipage)
-            pixel_difs[ver_id]= {'pdiff':[npdif,100*npdif/npix],'mdiff':[ndif,100*ndif/npix]}
-            page_title= '<span style="color:'+result_colour(params['threshold'],ndif,npdif,npix)+'">Page '+str(ipage+1)+'</span>' 
+            pixel_difs[ver_id]= {'pdiff':[npdif,100.0*npdif/npix],'mdiff':[ndif,100.0*ndif/npix]}
+            page_title= '<span style="color:'+resultColour(params['threshold'],ndif,npdif,npix)+'">Page '+str(ipage+1)+'</span>' 
             page_tabs+= [{'id':tab['id']+'-page'+str(ipage),'title': page_title,'content': plots(ver_id,ipage,npix,ndif,npdif,ref_page,ref_ver_page)}]
         output_plots= writeTab(page_tabs)
         output_plots+= '''
@@ -380,12 +376,4 @@ def writeHtmlReport(params,usage,stdout,stderr,ref_pages,ref_ver_pages):
     
                 #last step: nicely indent  the HTML code
     return report#BeautifulSoup(report).prettify()
-    
-    
-    #1 calculate image diff
-    
-    #2 calculate stdout diff
-    
-    #3 calculate stderr diff
-    
-    #4 calculate usage diff
+
