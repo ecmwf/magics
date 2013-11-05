@@ -234,7 +234,7 @@ add_subdirectory( python )
 add_subdirectory( apps )
 
 # Test directory
-add_subdirectory( test )
+#add_subdirectory( test )
 add_subdirectory( regression )
 
 # Directories not need in the distribution tar ball!
