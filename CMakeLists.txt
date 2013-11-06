@@ -37,6 +37,7 @@ endif()
 
 option( WITH_CAIRO         "wether to use Cairo"       ON  )
 option( WITH_METVIEW       "enable Metview support"    OFF )
+option( WITH_QT            "enable qt support"    OFF )
 option( WITH_GRIB          "enable grib"               ON  )
 option( WITH_NETCDF        "enable netcdf"             ON  )
 option( WITH_BUFR          "enable bufr"               OFF )
@@ -77,7 +78,6 @@ endif()
 set( MAGICS_ONLY 1)
 
 if( WITH_METVIEW )
-	set( WITH_QT 1 )
     unset(MAGICS_ONLY)
 endif()
 
