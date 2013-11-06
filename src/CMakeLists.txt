@@ -112,13 +112,13 @@ ecbuild_add_library( TARGET    MagPlusShared
                      TEMPLATES
                         ${common_templates}
                      DEFINITIONS
-                        ${MAGICS_EXTRA_DEFINITIONS}
+                        ${MAGICS_EXTRA_DEFINITIONS} MAGICS_EXCEPTION=on
                     LIBS
                         ${MAGICS_EXTRA_LIBRARIES}
 		            TYPE SHARED		     
                     )
-
-	     
+SET_TARGET_PROPERTIES(MagPlusShared PROPERTIES OUTPUT_NAME "MagPlus")
+if ( WITH_STATIC_LIBRARY ) 	     
 ecbuild_add_library( TARGET    MagPlusStatic
                      DEPENDS   magics_params
                      SOURCES
@@ -137,14 +137,16 @@ ecbuild_add_library( TARGET    MagPlusStatic
                      TEMPLATES
                         ${common_templates}
                      DEFINITIONS
-                        ${MAGICS_EXTRA_DEFINITIONS}
+                        ${MAGICS_EXTRA_DEFINITIONS}  
                     LIBS
                         ${MAGICS_EXTRA_LIBRARIES}
 		            TYPE STATIC		     
                     )
 
-SET_TARGET_PROPERTIES(MagPlusStatic PROPERTIES OUTPUT_NAME "MagPlus")
-SET_TARGET_PROPERTIES(MagPlusShared PROPERTIES OUTPUT_NAME "MagPlus")
+    SET_TARGET_PROPERTIES(MagPlusStatic PROPERTIES OUTPUT_NAME "MagPlus")
+
+endif()
+
 if( WITH_METVIEW )
   ecbuild_add_library( TARGET    MagWrapper
                      DEPENDS   mv_params
@@ -172,7 +174,6 @@ if( WITH_METVIEW )
                         ${MAGICS_EXTRA_LIBRARIES}
                     TYPE STATIC		
                     )
-   debug_var (metview_include)
    list( APPEND attributes_include
 				OutputHandlerAttributes.h 
 				FortranRootSceneNodeAttributes.h  

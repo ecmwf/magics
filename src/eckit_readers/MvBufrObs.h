@@ -422,19 +422,19 @@ public:
     // Section 0,1,2 and 3 just delegated to bufr class.
 
 //! Prints BUFR section 0 to output stream 'aStream'
-    boolean  printSection0(ostream &aStream = cout)
+    bool  printSection0(ostream &aStream = cout)
       { return _bufrIn->printSection_012(aStream,0); }
 
 //! Prints BUFR section 1 to output stream 'aStream'
-    boolean  printSection1(ostream &aStream = cout)
+    bool  printSection1(ostream &aStream = cout)
       { return _bufrIn->printSection_012(aStream,1); }
 
 //! Prints BUFR section 2 to output stream 'aStream'
-    boolean  printSection2(ostream &aStream = cout)
+    bool  printSection2(ostream &aStream = cout)
       { return _bufrIn->printSection_012(aStream,2); }
 
 //! Prints BUFR section 3 to output stream 'aStream'
-    boolean  printSection3(ostream &aStream = cout)
+    bool  printSection3(ostream &aStream = cout)
       { return _bufrIn->printSection(aStream,3); }
 
 //! Decode BUFR section 2 and place the result into an std::map
@@ -444,7 +444,7 @@ public:
 //! Prints all data values into standard output
 /*! For output format see method 'writeAllValues' below
  */
-    boolean  printAllValues();
+    bool  printAllValues();
 
 //! Writes all data values into output stream 'aStream'
 /*! Writes the data, one data value per line. Each line consists of:
@@ -470,15 +470,15 @@ public:
  *     ...
  * </PRE>
  */
-    boolean  writeAllValues( ostream& aStream );
+    bool  writeAllValues( ostream& aStream );
 
 //! Writes all data values into file 'aPathName'
 /*! For output format see the version of method 'writeAllValues' above
  */
-    boolean  writeAllValues( const char* aPathName );
+    bool  writeAllValues( const char* aPathName );
 
 //! Calls 'bufren' routine BUPRTBOX to write feedback data into stream 'aStream'
-    boolean  writeBufrBox( ostream& aStream = cout );
+    bool  writeBufrBox( ostream& aStream = cout );
 
     //-- APIs for accessing original section 1 and 2 headers --//
 
@@ -534,7 +534,7 @@ public:
  //protected:
     float  pressureLevel( int firstIndexValue );
     float  level( long levelDescriptor, int firstIndexValue );
-    boolean writeValues(ostream &aStream,int first, int last);
+    bool writeValues(ostream &aStream,int first, int last);
 
  private:
         int  subsetOffset() const;

@@ -43,10 +43,8 @@ using namespace magics;
 void EpsBufr::visit(Transformation& transformation)
 {
 	decode();
-	transformation.setDataMinX((minstep_ - shift_) * 3600, base_);
-	transformation.setDataMaxX((maxstep_ + 6) * 3600, base_);
-	transformation.setDataMinY(miny_);
-	transformation.setDataMaxY(maxy_);
+	transformation.setDataMinMaxX((minstep_ - shift_) * 3600, (maxstep_ + 6) * 3600, base_);
+	transformation.setDataMinMaxY(miny_, maxy_);
 }
 		
 void EpsBufr::decode()

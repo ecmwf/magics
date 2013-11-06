@@ -309,7 +309,7 @@ class MvBufr : public MvBufrBase
  EElementValueType  elementValueType( const long aDescriptor, const int aSubsetNr );
  EElementValueType  elementValueTypeByIndex( const int anIndex, const int aSubsetNr );
 
- boolean  Value( const long aDescriptor
+ bool  Value( const long aDescriptor
 		 , const long aSubsetNumber
 		 , fortfloat &aDataValue
 		 , int   firstIndex = 0 );
@@ -339,8 +339,8 @@ class MvBufr : public MvBufrBase
     string  name( void );
     string  nameByIndex( const int anIndex );
 
-   boolean  SetFirstDescriptor( void );
-   boolean  SetNextDescriptor( void );
+   bool  SetFirstDescriptor( void );
+   bool  SetNextDescriptor( void );
       long  CurrentDescriptor( void ){ return _currentDescr; }
  fortfloat  CurrentValue( const int aSubsetNr ){ return DataValue( _currentDescrInd, aSubsetNr); }
 
@@ -406,7 +406,7 @@ class MvBufrOut : public MvBufrBase
        int  differentHeader( const MvObs& anObs ) const;
        int  shouldBeWritten( void );
       void  setSubsetCount( int MaxNrSubsets );
-   boolean  isDelayedDescriptor( const long aDescriptor ) const;
+   bool  isDelayedDescriptor( const long aDescriptor ) const;
      // long  msgLength( void ) { return _msgIntLen*sizeof( fortint ); }
 
  protected:

@@ -196,9 +196,9 @@ extern "C" {
           , char* CBOXU );
 
  // Helper functions
- boolean redirect_6(const char *);  //-- Trick to redirect Fortran unit 6.
- boolean reconnect_6();
- boolean file_to_stream(const char *,ostream&,int skip);
+ bool redirect_6(const char *);  //-- Trick to redirect Fortran unit 6.
+ bool reconnect_6();
+ bool file_to_stream(const char *,ostream&,int skip);
  void delete_print_file(const char *);
  void eraseWhiteSpaceFromStringEnd(string &str);
  int CIND(int i) { return i-1;}
@@ -859,7 +859,7 @@ MvBufr :: PeekDataValue( const int aDescrArrayInd, const long aSubsetNumber )
      return In_VALUES[ aDescrArrayInd + ( aSubsetNumber - 1 ) * In_KELEM ];
 }
 //__________________________________________________________ Value
-boolean
+bool
 MvBufr :: Value( const long aDescriptor
 	       , const long aSubsetNumber
 	       , fortfloat &aDataValue
@@ -1124,7 +1124,7 @@ MvBufr :: nameByIndex( const int anIndex )
          else
             break;
 
-      boolean retainCapital = true;      //-- change to lower case
+      bool retainCapital = true;      //-- change to lower case
       for( pos = 0; pos < (int)(strlen( strbuf )); pos++ )
       {
          if( isupper( strbuf[ pos ] ) )
@@ -1177,7 +1177,7 @@ MvBufr :: elementValueTypeByIndex( const int anIndex, const int aSubsetNr )
 // Make sure msg has been expanded!
 //
 
-boolean
+bool
 MvBufr :: SetFirstDescriptor( void )
 {
    if( _inState == kBufrIn_Error )
@@ -1200,7 +1200,7 @@ MvBufr :: SetFirstDescriptor( void )
 // Check that it still points ok.
 //
 
-boolean
+bool
 MvBufr :: SetNextDescriptor( void )
 {
   if( _currentDescrInd < 0 )
@@ -1386,7 +1386,7 @@ MvBufr::getBufrBoxSize( int& rows, int& cols, int aSubsetNr )
 bool
 MvBufr :: printSection( ostream& aStream,int which)
 {
-  boolean return_val = true;
+  bool return_val = true;
   if( _inState == kBufrIn_Error )
     {
       aStream << "!!!!!!!!!!! Bad BUFR message " << endl;
@@ -1591,7 +1591,7 @@ MvBufr :: printSection_012( ostream& aStream,int which)
   if(which <0 || which > 2)
 	return false;
 
-  boolean return_val = true;
+  bool return_val = true;
   if( _inState == kBufrIn_Error )
     {
       aStream << "!!!!!!!!!!! Bad BUFR message " << endl;
@@ -2020,7 +2020,7 @@ MvBufrOut :: setSubsetCount( int maxNrSubsets )
   _maxNrSubsets = maxNrSubsets;
 }
 //______________________________________________________________ isDelayedDescriptor
-boolean
+bool
 MvBufrOut :: isDelayedDescriptor( const long aDescr ) const
 {
 //  if( aDescr == 31001 || aDescr == 31002 || aDescr == 31011 || aDescr == 31012 )
@@ -2568,14 +2568,14 @@ MvObs :: valueByLayer( float firstLevel
 
 
 //______________________________________________________________ printAllValues
-boolean
+bool
 MvObs :: printAllValues()
 {
    ostream* myStream = &cout;
    return writeAllValues( *myStream );
 }
 //_______________________________________________________________ writeAllValues
-boolean
+bool
 MvObs :: writeAllValues( ostream& aStream )
 {
   if( ! msg_ok() )
@@ -2594,7 +2594,7 @@ MvObs :: writeAllValues( ostream& aStream )
    return false;
 }
 
-boolean
+bool
 MvObs::writeValues(ostream& aStream, int firstIndex, int lastIndex)
 {
    if( ! msg_ok() )
@@ -2651,7 +2651,7 @@ MvObs::writeValues(ostream& aStream, int firstIndex, int lastIndex)
 }
 
 //_______________________________________________________________ writeAllValues
-boolean
+bool
 MvObs :: writeAllValues( const char* aPathName )
 {
   ofstream myStream( aPathName, ios::out );
@@ -2667,12 +2667,12 @@ MvObs :: writeAllValues( const char* aPathName )
   return writeAllValues( myStream );
 }
 //_______________________________________________________________ writeBufrBox
-boolean
+bool
 MvObs :: writeBufrBox( ostream& aStream )
 {
-   boolean return_value = true;
+   bool return_value = true;
 
-   boolean b_ret = _bufrIn->writeBufrBox( _subsetNr );
+   bool b_ret = _bufrIn->writeBufrBox( _subsetNr );
    if( ! b_ret )
    {
       aStream << "\n   >>> Problems encountered!!! <<<\n" << endl;
@@ -3154,7 +3154,7 @@ MvBufrParam :: PrintAllKnownParameters() const
 // The first time the function is run, it tries to find a temporary dir.
 // to use ( class could be used outside metview ).
 
-boolean redirect_6(const char *fname)
+bool redirect_6(const char *fname)
 {
   cout << " redirect_6: redirect stdout into file " << fname << endl;
   char *tmp_dir;
@@ -3200,7 +3200,7 @@ boolean redirect_6(const char *fname)
 //
 // Will reconnect stdout by using a file descriptor saved from earlier.
 //
-boolean reconnect_6()
+bool reconnect_6()
 {
   // Make sure we get everything before closing.
   fflush(NULL);
@@ -3221,7 +3221,7 @@ boolean reconnect_6()
 //
 // Read a file and write the contents to given stream
 //
-boolean file_to_stream(const char *fname,ostream &aStream,int skip)
+bool file_to_stream(const char *fname,ostream &aStream,int skip)
 {
   const int MAX_LINE_LEN = 512;
   char      supposedToBeANewLine;

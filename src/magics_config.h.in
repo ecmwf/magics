@@ -79,8 +79,6 @@
 /* Period of Copyright. */
 #cmakedefine MAGICS_COPYRIGHT_PERIOD
 
-/* Turn on the use of Exceptions (not recommended used by Static library!) */
-#cmakedefine MAGICS_EXCEPTION
 
 /* Defines GIF output is supported. */
 #cmakedefine MAGICS_GIF
