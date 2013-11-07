@@ -19,7 +19,7 @@ function( add_magics_test )
     
     ### check parameters
 
-    if( NOT _p_NAME )CMakeLists.txt.next
+    if( NOT _p_NAME )
       message(FATAL_ERROR "add_magics_test() expects a NAME")
     endif()
 

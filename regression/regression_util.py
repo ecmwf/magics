@@ -54,9 +54,9 @@ def extension(filename,newExtension):
     return '.'.join(aux)
 
 def upload(filename,destination):
-    print 'scp',filename,destination
     destination = "deploy@download-admin:test-data/%s"%destination
-    e= call(["scp","-r".filename, destination])
+    command= ' '.join(["scp","-r",filename, destination]) 
+    e= call(command,shell=True)
     if not e==0:
         sys.stderr.write("ERROR uploading the file '%s' into '%s'"%(filename,destination))
         
@@ -88,6 +88,19 @@ def PerceptualDiff_compare(reference,ver_ref,ver_dif,pix_thres=100):
     #print 'PerceptualDiff_compare',(reference,ver_ref,ver_dif),diff
     return diff
 
+def resultLabelStyle(lab):
+    c= {'Identical': 'success',
+        'MinorDiff': 'info',
+        'Check':     'warning',
+        'Error':     'important'}
+    return c[lab]
+
+def resultLabelColour(lab):
+    c= {'Identical':  'green',
+        'MinorDiff': 'blue',
+        'Check':     'yellow',
+        'Error':     'red'}
+    return c[lab]
 
 def maxResult(labels):
     for lab in ['Error','Check','MinorDiff']:
