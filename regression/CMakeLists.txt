@@ -31,7 +31,7 @@ function( add_magics_test )
     endif()
     
     list(APPEND tools "report_template.html")
-     
+    list(APPEND tools "summary_template.html")    
     
    	foreach( file ${tools} )
           execute_process( COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_SOURCE_DIR}/../${file} ${CMAKE_CURRENT_BINARY_DIR} )
