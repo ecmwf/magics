@@ -329,7 +329,7 @@ bool MagPlus::qtdriver(magics::MagRequest& /*in*/)
 		assert(qtScene_);
 		qtDriver_ = new magics::QtDriver();
         qtDriver_->scene_= qtScene_;
-qtScene_
+
 	}
 #ifndef MAG_NEXT
 	drivers_.push_back(qtDriver_);   
