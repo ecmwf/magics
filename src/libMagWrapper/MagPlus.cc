@@ -128,6 +128,7 @@ MagPlus::MagPlus() : root_(0), superpage_(-1), geographical_(true), mode_(intera
 {
 #ifdef MAGICS_QT
 	qtDriver_ = 0;
+    qtScene_ = 0;
 #endif
 	if ( sceneUpdators_.empty()) {
 		sceneUpdators_["PAGE"] = &MagPlus::page_update;
@@ -318,15 +319,16 @@ bool MagPlus::pdfdriver(magics::MagRequest& in)
 #ifdef MAGICS_QT
 void MagPlus::setQtScene(QGraphicsScene *scene)
 {
-	ParameterManager::set("output_qt_scene", scene);;
+	qtScene_ =  scene;
 }
 
 bool MagPlus::qtdriver(magics::MagRequest& /*in*/)
 {
 	if ( !qtDriver_)
 	{
-		//ParameterManager::set("ouptup_qt_scene", widget);
+		assert(qtScene_);
 		qtDriver_ = new magics::QtDriver();
+        qtDriver_->scene_= qtScene_;
 
 	}
 #ifndef MAG_NEXT

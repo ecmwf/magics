@@ -325,11 +325,11 @@ void GribRegularGaussianInterpretor::latitudes(const GribDecoder& grib, vector<d
 
 	for ( int i = 0; i < 2*res; i++ )
 	{
-		if ( same(array[i],north, 10e-6) ) {
+		if ( same(array[i],north, 10e-2) ) {
 			latitudes.push_back(array[i]);
 			continue;
 		}
-		if ( same(array[i],south, 10e-6) ) {
+		if ( same(array[i],south, 10e-2) ) {
 			latitudes.push_back(array[i]);
 			continue;
 		}
