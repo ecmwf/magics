@@ -429,13 +429,16 @@ void FortranMagics::pobs()
 		return;
 	}
 #endif
+    MagLog::warning() << "No Support for BUFR Plotting" << endl;
 #ifdef JSON
 	action_ = new VisualAction();
 	action_->data(new ObsJSon());
 	top()->push_back(action_);
 	action_->visdef(new ObsPlotting());
+	return;
 #endif
 
+    MagLog::warning() << "No Support for Obs Plotting" << endl;
 }
 
 
