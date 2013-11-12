@@ -328,10 +328,6 @@ def summary(base_dir):
         with open(parfile) as f: params= json.loads(f.read())
 
         #create local hierarchy
-        #tmpbranchdir= tmpdir+'/'+params['branch_name']
-        #if not os.path.exists(tmpbranchdir): call(['mkdir',tmpbranchdir])
-        #tmptestdir=   tmpbranchdir+'/'+test
-        #if not os.path.exists(tmptestdir): call(['mkdir',tmptestdir])
         tmptestdir= tmpdir+'/'+params['branch_name']+'/'+test+'/'+time
         if not os.path.exists(tmptestdir): call(['mkdir','-p',tmptestdir])
         
@@ -342,13 +338,12 @@ def summary(base_dir):
         
         #keep relevant parameters to database: branch,test,time,version,result
         for ver in  params['versions']:
-#             d= {}
-#             d['branch']=  params['branch_name']
-#             d['test']=    test
-#             d['time']=    params['time']
-#             d['version']= ver
-#             d['result']=  maxResult(params['result'][ver].values())
-            data.append((params['branch_name'],test,time,ver,maxResult(params['result'][ver].values())))
+            p_branch= params['branch_name']
+            p_test= test
+            p_time= time
+            p_version= ver
+            p_result= maxResult(params['result'][ver].values())
+            data.append((p_branch,p_test,p_time,p_version,p_result))
         
     #upload all tests hierarchy to the server
     upload(tmpdir+'/*','magics/regression_output')
