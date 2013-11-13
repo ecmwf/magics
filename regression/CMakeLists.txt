@@ -80,6 +80,9 @@ function( add_magics_test )
 
 	
 	set(target "magics_a_${_p_NAME}")
+
+    list(APPEND summary_depend ${target} )
+
 	
 	set(target_load "magics_load_${_p_NAME}")
 	
@@ -160,6 +163,7 @@ add_subdirectory( plumes )
 #final test 
 ecbuild_add_test(  TARGET   summary
                    TYPE SCRIPT
+                   DEPENDS ${summary_depend}
                    COMMAND  ${REGRESSION_SCRIPT_DIRECTORY}/summary.py
                    ARGS ${MAGICS_HTML_ROOT} ${TIMESTAMP}
                    )                   
