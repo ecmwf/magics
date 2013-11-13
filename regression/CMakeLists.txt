@@ -156,5 +156,10 @@ add_subdirectory( efas )
 add_subdirectory( macc )
 add_subdirectory( plumes )
 
-execute_process( COMMAND ${REGRESSION_SCRIPT_DIRECTORY}/summary.py ARGS ${MAGICS_HTML_ROOT} ${TIMESTAMP} )
 
+#final test 
+ecbuild_add_test(  TARGET   summary
+                   TYPE SCRIPT
+                   COMMAND  ${REGRESSION_SCRIPT_DIRECTORY}/summary.py
+                   ARGS ${MAGICS_HTML_ROOT} ${TIMESTAMP}
+                   )                   
