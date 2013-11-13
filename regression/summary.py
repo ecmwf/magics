@@ -304,13 +304,14 @@ def buildSummaryReport(data):
 #####################################################################
 #####################################################################
 
-def summary(base_dir):
+def summary(base_dir,time):
 
     ##################################################
     # "Time of testing" is shared for all tests
     # collected in the summary
-    time= datetime.datetime.now().strftime('%Y%m%d_%H%M%S')
+    #time= datetime.datetime.now().strftime('%Y%m%d_%H%M%S')
     #################################################
+    print 'TIMESTAMP:',time
 
     #read test sub-directories
     tests= [f for f in os.listdir(base_dir) if os.path.isdir(base_dir+'/'+f) and os.path.isfile(base_dir+'/'+f+'/'+f+'.par') ]
@@ -375,13 +376,14 @@ def summary(base_dir):
 
 if __name__ == "__main__":
     
-    cmd_parser = OptionParser(usage="usage: %prog <input-reports-dir>", version='%prog : '+__version__, description = __doc__, prog = 'summary.py')
+    cmd_parser = OptionParser(usage="usage: %prog <input-reports-dir> <timestamp>", version='%prog : '+__version__, description = __doc__, prog = 'summary.py')
 
     print sys.argv
     
     _,positional = cmd_parser.parse_args()
-    input_dir= None
+    input_dir,timestamp= None,None
 
     if positional: input_dir= positional.pop(0)     
-
-    summary(input_dir)
+    if positional: timestamp= positional.pop(0)
+    
+    summary(input_dir,timestamp)

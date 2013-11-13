@@ -28,10 +28,11 @@ from regression_util import extension,prefix,suffix,writeHtmlReport,usage2Dict,I
 #####################################################################
 #####################################################################
 
-def compare(branch_name,versions,interpreter,executable,reference,threshold,output_dir):
+def compare(timestamp,branch_name,versions,interpreter,executable,reference,threshold,output_dir):
 
     #print input parameters
     def l(t,n): return (t+' '*n)[:n]
+    print l('timestamp:',        20), timestamp
     print l('test executable:',  20), (interpreter +' '+ executable).strip()
     print l('test reference:',   20), reference
     print l('threshold:',        20), '%.2f%%'%threshold
@@ -133,7 +134,7 @@ def compare(branch_name,versions,interpreter,executable,reference,threshold,outp
             'threshold':     threshold, 
             'output_dir':    output_dir,
             'branch_name':   branch_name,
-            'time':          datetime.now().strftime('%Y%m%d_%H%M%S'),
+            'time':          timestamp,#datetime.now().strftime('%Y%m%d_%H%M%S'),
             'diff':          diff,
             'pdiff':         pdiff,
             'result':        result,
@@ -197,7 +198,7 @@ if __name__ == "__main__":
 #####################################################################
 #####################################################################
     
-    cmd_parser = OptionParser(usage="usage: %prog <executable> <reference-file>", version='%prog : '+__version__, description = __doc__, prog = 'compare.py')
+    cmd_parser = OptionParser(usage="usage: %prog <timestamp> <executable> <reference-file>", version='%prog : '+__version__, description = __doc__, prog = 'compare.py')
 
     print sys.argv#REMOVE??
     
@@ -213,6 +214,16 @@ if __name__ == "__main__":
     cmd_parser.add_option("-o", "--output",       default=None,      help="Output report directory (HTML)")
 
     (optional, positional) = cmd_parser.parse_args()
+
+    #time-stamp
+    timestamp= ''
+    if positional: timestamp= positional.pop(0)
+    try:
+        assert(datetime.strptime(timestamp,'%Y%m%d_%H%M%S'))
+    except:
+        sys.stderr.write(u"Timestamp '%s' is not defined or is not in YYYYMMDD_HHMMSS format.\n"%timestamp)
+        sys.exit(1)
+
 
     #executable
     executable= ''
@@ -273,5 +284,5 @@ if __name__ == "__main__":
             sys.stderr.write(u"No output directory '%s' found.\n"%output_dir)
             sys.exit(1)
 
-    compare(branch_name,versions,interpreter,executable,reference,threshold,output_dir)
+    compare(timestamp,branch_name,versions,interpreter,executable,reference,threshold,output_dir)
     

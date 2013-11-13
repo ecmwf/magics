@@ -5,6 +5,10 @@ endif()
 
 set( REGRESSION_SCRIPT_DIRECTORY  ${CMAKE_CURRENT_SOURCE_DIR} )
 
+#set tests timestamp
+execute_process(COMMAND date +\"%Y%m%d_%H%M%S\" OUTPUT_VARIABLE TIMESTAMP)
+STRING(REGEX REPLACE "\"" "" TIMESTAMP ${TIMESTAMP})
+STRING(REGEX REPLACE "\n" "" TIMESTAMP ${TIMESTAMP})
 
 function( add_magics_test )
 
@@ -77,9 +81,6 @@ function( add_magics_test )
 	
 	set(target "magics_a_${_p_NAME}")
 	
-
-	
-
 	set(target_load "magics_load_${_p_NAME}")
 	
 	list(APPEND _p_RESOURCES ${_p_SOURCES} )
@@ -101,7 +102,7 @@ function( add_magics_test )
                    COMMAND  ${REGRESSION_SCRIPT_DIRECTORY}/compare.py
                    DEPENDS  ${targets}  
                    RESOURCES  ${_p_RESOURCES} 
-                   ARGS ${_p_SOURCES} ${_p_IMAGE} -n ${BRANCH_NAME} -t ${_p_THRESHOLD}  -o ${MAGICS_HTML_ROOT}  -v ${versions} -f -i python
+                   ARGS ${TIMESTAMP} ${_p_SOURCES} ${_p_IMAGE} -n ${BRANCH_NAME} -t ${_p_THRESHOLD}  -o ${MAGICS_HTML_ROOT}  -v ${versions} -f -i python
             ENVIRONMENT PYTHONPATH=${MAG_PYTHON_PATH} )
         
             return() 
@@ -122,7 +123,7 @@ function( add_magics_test )
                    COMMAND  ${REGRESSION_SCRIPT_DIRECTORY}/compare.py
                    DEPENDS  ${targets}  
                    RESOURCES  ${_p_RESOURCES} 
-                   ARGS ${_p_SOURCES} ${_p_IMAGE}  -n ${BRANCH_NAME} -t ${_p_THRESHOLD}  -o ${MAGICS_HTML_ROOT}  -v ${versions} -i magjson -f
+                   ARGS ${TIMESTAMP} ${_p_SOURCES} ${_p_IMAGE}  -n ${BRANCH_NAME} -t ${_p_THRESHOLD}  -o ${MAGICS_HTML_ROOT}  -v ${versions} -i magjson -f
 					ENVIRONMENT PYTHONPATH=${MAG_PYTHON_PATH} )
             return()
 	endif()
@@ -144,7 +145,7 @@ function( add_magics_test )
                    DEPENDS ${targets}
                    RESOURCES  ${_p_RESOURCES} 
                    COMMAND  ${REGRESSION_SCRIPT_DIRECTORY}/compare.py  
-                   ARGS  ./${target} ${_p_IMAGE}  -n ${BRANCH_NAME}  -t ${_p_THRESHOLD}  -o ${MAGICS_HTML_ROOT}  -v ${versions} -f )
+                   ARGS  ${TIMESTAMP} ./${target} ${_p_IMAGE}  -n ${BRANCH_NAME}  -t ${_p_THRESHOLD}  -o ${MAGICS_HTML_ROOT}  -v ${versions} -f )
 
 
 endfunction(add_magics_test)
@@ -155,6 +156,5 @@ add_subdirectory( efas )
 add_subdirectory( macc )
 add_subdirectory( plumes )
 
-
- execute_process( COMMAND ${REGRESSION_SCRIPT_DIRECTORY}/summary.py ARGS ${MAGICS_HTML_ROOT} )
+execute_process( COMMAND ${REGRESSION_SCRIPT_DIRECTORY}/summary.py ARGS ${MAGICS_HTML_ROOT} ${TIMESTAMP} )
 
