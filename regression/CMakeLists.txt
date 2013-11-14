@@ -10,6 +10,9 @@ execute_process(COMMAND date +\"%Y%m%d_%H%M%S\" OUTPUT_VARIABLE TIMESTAMP)
 STRING(REGEX REPLACE "\"" "" TIMESTAMP ${TIMESTAMP})
 STRING(REGEX REPLACE "\n" "" TIMESTAMP ${TIMESTAMP})
 
+#initialize summary dependencies
+#set( summary_depend "")
+
 function( add_magics_test )
 
     set( options PYTHON  JSON)
@@ -81,8 +84,8 @@ function( add_magics_test )
 	
 	set(target "magics_a_${_p_NAME}")
 
-    list(APPEND summary_depend ${target} )
-
+	#summary depends of all previous tests
+    #list(APPEND summary_depend "${target}")
 	
 	set(target_load "magics_load_${_p_NAME}")
 	
@@ -154,16 +157,19 @@ function( add_magics_test )
 endfunction(add_magics_test)
 
 
+
+
 add_subdirectory( basic )
 add_subdirectory( efas )
 add_subdirectory( macc )
 add_subdirectory( plumes )
 
+#debug_var( summary_depend )
 
 #final test 
-ecbuild_add_test(  TARGET   summary
-                   TYPE SCRIPT
-                   DEPENDS ${summary_depend}
-                   COMMAND  ${REGRESSION_SCRIPT_DIRECTORY}/summary.py
-                   ARGS ${MAGICS_HTML_ROOT} ${TIMESTAMP}
-                   )                   
+#ecbuild_add_test(  TARGET   summary
+#                   TYPE SCRIPT
+#                   DEPENDS ${summary_depend}
+#                   COMMAND  ${REGRESSION_SCRIPT_DIRECTORY}/summary.py
+#                   ARGS ${MAGICS_HTML_ROOT}
+#                   )                   

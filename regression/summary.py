@@ -304,14 +304,13 @@ def buildSummaryReport(data):
 #####################################################################
 #####################################################################
 
-def summary(base_dir,time):
+def summary(base_dir):
 
     ##################################################
     # "Time of testing" is shared for all tests
     # collected in the summary
     #time= datetime.datetime.now().strftime('%Y%m%d_%H%M%S')
     #################################################
-    print 'TIMESTAMP:',time
 
     #read test sub-directories
     tests= [f for f in os.listdir(base_dir) if os.path.isdir(base_dir+'/'+f) and os.path.isfile(base_dir+'/'+f+'/'+f+'.par') ]
@@ -329,7 +328,7 @@ def summary(base_dir,time):
         with open(parfile) as f: params= json.loads(f.read())
 
         #create local hierarchy
-        tmptestdir= tmpdir+'/'+params['branch_name']+'/'+test+'/'+time
+        tmptestdir= tmpdir+'/'+params['branch_name']+'/'+test+'/'+params['time']
         if not os.path.exists(tmptestdir): call(['mkdir','-p',tmptestdir])
         
         #copy test directory to temporal hierarchy
@@ -341,7 +340,7 @@ def summary(base_dir,time):
         for ver in  params['versions']:
             p_branch= params['branch_name']
             p_test= test
-            p_time= time
+            p_time= params['time']
             p_version= ver
             p_result= maxResult(params['result'][ver].values())
             data.append((p_branch,p_test,p_time,p_version,p_result))
@@ -381,9 +380,8 @@ if __name__ == "__main__":
     print sys.argv
     
     _,positional = cmd_parser.parse_args()
-    input_dir,timestamp= None,None
+    input_dir= None
 
     if positional: input_dir= positional.pop(0)     
-    if positional: timestamp= positional.pop(0)
     
-    summary(input_dir,timestamp)
+    summary(input_dir)
