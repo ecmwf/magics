@@ -53,20 +53,20 @@ public:
 	virtual void visit(Transformation&) {}
 	virtual void getReady(const Transformation&) {}
     virtual bool interpretAsMatrix(Matrix**)
-    	{ MagLog::dev() << "Method  NetcdfInterpretor::interpretAsMatrix() --> Not yet implemented.\n"; }
+        { MagLog::dev() << "Method  NetcdfInterpretor::interpretAsMatrix() --> Not yet implemented.\n"; return false; }
     virtual bool interpretAsVectors(Matrix**, Matrix**)
-    	{ MagLog::dev() << "Method  NetcdfInterpretor::interpretAsVectors() --> Not yet implemented.\n"; }
+        { MagLog::dev() << "Method  NetcdfInterpretor::interpretAsVectors() --> Not yet implemented.\n"; return false; }
     virtual bool interpretAsRaster(RasterData&)
-    	{ MagLog::dev() << "Method  NetcdfInterpretor::interpretAsRaster() --> Not yet implemented.\n"; }
+        { MagLog::dev() << "Method  NetcdfInterpretor::interpretAsRaster() --> Not yet implemented.\n"; return false; }
     virtual bool interpretAsPoints(PointsList&)
-    	{ MagLog::dev() << "Method  NetcdfInterpretor::interpretAsPoints() --> Not yet implemented.\n"; }
+        { MagLog::dev() << "Method  NetcdfInterpretor::interpretAsPoints() --> Not yet implemented.\n"; return false; }
     virtual void customisedPoints(const std::set<string>&, CustomisedPointsList&)  
         	{ MagLog::dev() << "Method  NetcdfInterpretor::customisedPoints() --> Not yet implemented.\n"; }
     virtual void customisedPoints(const Transformation&, const std::set<string>&, CustomisedPointsList&)  
             	{ MagLog::dev() << "Method  NetcdfInterpretor::customisedPoints() --> Not yet implemented.\n"; }
 
     virtual bool interpretAsPoints(PointsList& points, const Transformation&)
-    	{ interpretAsPoints(points);}
+        { return interpretAsPoints(points);}
     virtual void set(const map<string, string>& params) { NetcdfInterpretorAttributes::set(params); }
     virtual void set(const XmlNode& node) { NetcdfInterpretorAttributes::set(node); }
      virtual bool accept(const string& node) { return NetcdfInterpretorAttributes::accept(node); }

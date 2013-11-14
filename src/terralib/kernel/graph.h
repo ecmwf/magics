@@ -25,13 +25,13 @@ of this library and its documentation.
 	\note this code came from the book "Desining Components with C++ STL" -
 	Ulrich Breymann - Addison-Wesley - pag 243
 */
-#ifndef GRAPH_H
-#define GRAPH_H
-#include<cassert>
-#include<vector>
-#include<map>
-#include<stack>
-#include<iostream>
+#ifndef TL_GRAPH_H
+#define TL_GRAPH_H
+#include <cassert>
+#include <vector>
+#include <map>
+#include <stack>
+#include <iostream>
 #include <TeDefines.h>
 
 namespace br_stl

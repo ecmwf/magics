@@ -444,11 +444,11 @@ namespace
                 // first we convert the semantic action class methods to functors with the 
                 // parameter signature expected by spirit
 
-                typedef function< void( Char_type )            > Char_action;
-                typedef function< void( Iter_type, Iter_type ) > Str_action;
-                typedef function< void( double )               > Real_action;
-                typedef function< void( int64_t )              > Int_action;
-                typedef function< void( uint64_t )             > Uint64_action;
+                typedef std::function< void( Char_type )            > Char_action;
+                typedef std::function< void( Iter_type, Iter_type ) > Str_action;
+                typedef std::function< void( double )               > Real_action;
+                typedef std::function< void( int64_t )              > Int_action;
+                typedef std::function< void( uint64_t )             > Uint64_action;
 
                 Char_action   begin_obj  ( bind( &Semantic_actions_t::begin_obj,   &self.actions_, _1 ) );
                 Char_action   end_obj    ( bind( &Semantic_actions_t::end_obj,     &self.actions_, _1 ) );

@@ -106,7 +106,7 @@ namespace br_stl
 	// {
 	assert(idx < csize);   // value still present in the queue?
 
-	if(*c[idx] != k)       // in case of equality, do nothing
+    if(*c[idx] != k) {      // in case of equality, do nothing
 		if(k > *c[idx])
 		{
 			*c[idx] = k;   // enter heavier value
@@ -117,6 +117,7 @@ namespace br_stl
 			*c[idx] = k;   // enter lighter value
 			goUp(idx);     // reorganize heap
 		}
+    }
 	//	 }
 	// else cout << "erro no dynamic_priority_queue<key_type>::changeKeyAt" << idx << csize << k << endl;
 	}

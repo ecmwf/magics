@@ -137,7 +137,7 @@ public:
 	void print(ostream& out) const {  }
     virtual AxisAutomaticSetting automatic() { return m_off; }
     virtual void automatic(bool val) {  }
-    bool accept(const string& tag) { }
+    bool accept(const string& tag) { return false; }
     //! Overloaded << operator to call print().
 	friend ostream& operator<<(ostream& s,const XCoordinate& p)
 		{ p.print(s); return s; }
