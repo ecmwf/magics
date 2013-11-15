@@ -55,7 +55,7 @@ bool Error_position::operator==( const Error_position& lhs ) const
 
     return ( reason_ == lhs.reason_ ) &&
            ( line_   == lhs.line_ ) &&
-           ( column_ == lhs.column_ ); 
+           ( column_ == lhs.column_ );
 }
 
 //
@@ -94,7 +94,7 @@ namespace
         const Char_type c2( *( ++begin ) );
 
         return ( hex_to_num( c1 ) << 4 ) + hex_to_num( c2 );
-    }       
+    }
 
     template< class Char_type, class Iter_type >
     Char_type unicode_str_to_char( Iter_type& begin )
@@ -104,19 +104,19 @@ namespace
         const Char_type c3( *( ++begin ) );
         const Char_type c4( *( ++begin ) );
 
-        return ( hex_to_num( c1 ) << 12 ) + 
-               ( hex_to_num( c2 ) <<  8 ) + 
-               ( hex_to_num( c3 ) <<  4 ) + 
+        return ( hex_to_num( c1 ) << 12 ) +
+               ( hex_to_num( c2 ) <<  8 ) +
+               ( hex_to_num( c3 ) <<  4 ) +
                hex_to_num( c4 );
     }
 
     template< class String_type >
-    void append_esc_char_and_incr_iter( String_type& s, 
-                                        typename String_type::const_iterator& begin, 
+    void append_esc_char_and_incr_iter( String_type& s,
+                                        typename String_type::const_iterator& begin,
                                         typename String_type::const_iterator end )
     {
         typedef typename String_type::value_type Char_type;
-             
+
         const Char_type c2( *begin );
 
         switch( c2 )
@@ -129,19 +129,19 @@ namespace
             case '\\': s += '\\'; break;
             case '/':  s += '/';  break;
             case '"':  s += '"';  break;
-            case 'x':  
+            case 'x':
             {
                 if( end - begin >= 3 )  //  expecting "xHH..."
                 {
-                    s += hex_str_to_char< Char_type >( begin );  
+                    s += hex_str_to_char< Char_type >( begin );
                 }
                 break;
             }
-            case 'u':  
+            case 'u':
             {
                 if( end - begin >= 5 )  //  expecting "uHHHH..."
                 {
-                    s += unicode_str_to_char< Char_type >( begin );  
+                    s += unicode_str_to_char< Char_type >( begin );
                 }
                 break;
             }
@@ -149,7 +149,7 @@ namespace
     }
 
     template< class String_type >
-    String_type substitute_esc_chars( typename String_type::const_iterator begin, 
+    String_type substitute_esc_chars( typename String_type::const_iterator begin,
                                    typename String_type::const_iterator end )
     {
         typedef typename String_type::const_iterator Iter_type;
@@ -157,7 +157,7 @@ namespace
         if( end - begin < 2 ) return String_type( begin, end );
 
         String_type result;
-        
+
         result.reserve( end - begin );
 
         const Iter_type end_minus_1( end - 1 );
@@ -172,7 +172,7 @@ namespace
                 result.append( substr_start, i );
 
                 ++i;  // skip the '\'
-             
+
                 append_esc_char_and_incr_iter( result, i, end );
 
                 substr_start = i + 1;
@@ -185,7 +185,7 @@ namespace
     }
 
     template< class String_type >
-    String_type get_str_( typename String_type::const_iterator begin, 
+    String_type get_str_( typename String_type::const_iterator begin,
                        typename String_type::const_iterator end )
     {
         assert( end - begin >= 2 );
@@ -207,7 +207,7 @@ namespace
     {
         return get_str_< wstring >( begin, end );
     }
-    
+
     template< class String_type, class Iter_type >
     String_type get_str( Iter_type begin, Iter_type end )
     {
@@ -222,7 +222,7 @@ namespace
     // NB Iter_type could be a std::string iterator, wstring iterator, a position iterator or a multipass iterator
     //
     template< class Value_type, class Iter_type >
-    class Semantic_actions 
+    class Semantic_actions
     {
     public:
 
@@ -255,7 +255,7 @@ namespace
         void begin_array( Char_type c )
         {
             assert( c == '[' );
-     
+
             begin_compound< Array_type >();
        }
 
@@ -347,9 +347,9 @@ namespace
             if( current_p_ != &value_ )
             {
                 current_p_ = stack_.back();
-                
+
                 stack_.pop_back();
-            }    
+            }
         }
 
         Value_type* add_to_current( const Value_type& value )
@@ -362,9 +362,9 @@ namespace
             {
                 current_p_->get_array().push_back( value );
 
-                return &current_p_->get_array().back(); 
+                return &current_p_->get_array().back();
             }
-            
+
             assert( current_p_->type() == obj_type );
 
             return &Config_type::add( current_p_->get_obj(), name_, value );
@@ -390,7 +390,7 @@ namespace
        throw reason;
     }
 
-    // the spirit grammer 
+    // the spirit grammer
     //
     template< class Value_type, class Iter_type >
     class Json_grammer : public grammar< Json_grammer< Value_type, Iter_type > >
@@ -441,14 +441,14 @@ namespace
             {
                 typedef typename Value_type::String_type::value_type Char_type;
 
-                // first we convert the semantic action class methods to functors with the 
+                // first we convert the semantic action class methods to functors with the
                 // parameter signature expected by spirit
 
-                typedef std::function< void( Char_type )            > Char_action;
-                typedef std::function< void( Iter_type, Iter_type ) > Str_action;
-                typedef std::function< void( double )               > Real_action;
-                typedef std::function< void( int64_t )              > Int_action;
-                typedef std::function< void( uint64_t )             > Uint64_action;
+                typedef boost::function< void( Char_type )            > Char_action;
+                typedef boost::function< void( Iter_type, Iter_type ) > Str_action;
+                typedef boost::function< void( double )               > Real_action;
+                typedef boost::function< void( int64_t )              > Int_action;
+                typedef boost::function< void( uint64_t )             > Uint64_action;
 
                 Char_action   begin_obj  ( bind( &Semantic_actions_t::begin_obj,   &self.actions_, _1 ) );
                 Char_action   end_obj    ( bind( &Semantic_actions_t::end_obj,     &self.actions_, _1 ) );
@@ -470,16 +470,16 @@ namespace
                     ;
 
                 value_
-                    = string_[ new_str ] 
-                    | number_ 
-                    | object_ 
-                    | array_ 
-                    | str_p( "true" ) [ new_true  ] 
-                    | str_p( "false" )[ new_false ] 
+                    = string_[ new_str ]
+                    | number_
+                    | object_
+                    | array_
+                    | str_p( "true" ) [ new_true  ]
+                    | str_p( "false" )[ new_false ]
                     | str_p( "null" ) [ new_null  ]
                     ;
 
-                object_ 
+                object_
                     = ch_p('{')[ begin_obj ]
                     >> !members_
                     >> ( ch_p('}')[ end_obj ] | eps_p[ &throw_not_object ] )
@@ -505,20 +505,20 @@ namespace
                     = value_ >> *( ',' >> value_ )
                     ;
 
-                string_ 
+                string_
                     = lexeme_d // this causes white space inside a string to be retained
                       [
                           confix_p
-                          ( 
-                              '"', 
+                          (
+                              '"',
                               *lex_escape_ch_p,
                               '"'
-                          ) 
+                          )
                       ]
                     ;
 
                 number_
-                    = strict_real_p[ new_real   ] 
+                    = strict_real_p[ new_real   ]
                     | int64_p      [ new_int    ]
                     | uint64_p     [ new_uint64 ]
                     ;
@@ -536,9 +536,9 @@ namespace
     Iter_type read_range_or_throw( Iter_type begin, Iter_type end, Value_type& value )
     {
         Semantic_actions< Value_type, Iter_type > semantic_actions( value );
-     
-        const parse_info< Iter_type > info = parse( begin, end, 
-                                                    Json_grammer< Value_type, Iter_type >( semantic_actions ), 
+
+        const parse_info< Iter_type > info = parse( begin, end,
+                                                    Json_grammer< Value_type, Iter_type >( semantic_actions ),
                                                     space_p );
 
         if( !info.hit )
@@ -557,7 +557,7 @@ namespace
 
         const Posn_iter_t posn_begin( begin, end );
         const Posn_iter_t posn_end( end, end );
-     
+
         read_range_or_throw( posn_begin, posn_end, value );
     }
 
