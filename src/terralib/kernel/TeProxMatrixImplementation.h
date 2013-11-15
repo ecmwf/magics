@@ -28,7 +28,7 @@ of this library and its documentation.
 #define TeProxMatrixImplementation_H
 
 #include "TeNeighbours.h"
-#include <graph.h>
+#include "graph.h"
 
 //! An abstract class to represent proximity matrix   
 class TL_DLL TeProxMatrixImplementation  

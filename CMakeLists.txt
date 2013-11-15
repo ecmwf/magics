@@ -66,7 +66,10 @@ set( MAG_PYTHON_PATH ${CMAKE_BINARY_DIR}/python )
 
 # ecbuild_use_package( PROJECT eckit VERSION 0.3 REQUIRED )
 
-ecbuild_enable_fortran()
+
+if( WITH_FORTRAN)
+	ecbuild_enable_fortran()
+endif()
 
 if( WITH_ODB)
   ecbuild_use_package( PROJECT odb_api  VERSION 0.9.28 )
