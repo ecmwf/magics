@@ -158,6 +158,7 @@ add_subdirectory( basic )
 add_subdirectory( efas )
 add_subdirectory( macc )
 add_subdirectory( plumes )
+add_subdirectory( axis )
 
 
 #final test 
