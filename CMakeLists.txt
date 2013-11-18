@@ -72,7 +72,7 @@ if( WITH_FORTRAN)
 endif()
 
 if( WITH_ODB)
-  ecbuild_use_package( PROJECT odb_api  VERSION 0.9.28 )
+  ecbuild_use_package( PROJECT odb_api  VERSION 0.9.31 )
   if( ODB_API_FOUND )
         set( MAGICS_ODB 1 )
   endif()
