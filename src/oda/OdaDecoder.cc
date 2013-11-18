@@ -31,7 +31,7 @@
 #include <map>
 #include <set>
 
-#include "odblib/oda.h"
+#include "odblib/odb_api.h"
 extern "C" {
 #include "odblib/odbcapi.h"
 }
