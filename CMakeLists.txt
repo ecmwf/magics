@@ -48,6 +48,7 @@ option( WITH_FORTRAN       "enable Fortran interface"  ON  )
 option( WITH_STATIC_LIBRARY  "Build static Library"    OFF  )
 option( WITH_REGRESSION     "Internal use only: enable regression test"  OFF  )
 option( WITH_REGRESSION_UPLOAD     "Internal use only : enable upload of reference image"  OFF  )
+
 set( MAGICS_NAME          "Magics" )
 set( MAGICS_EXCEPTION     "ON" )
 set( MAGICS_SITE          "ecmwf" )
