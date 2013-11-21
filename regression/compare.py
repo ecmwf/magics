@@ -71,7 +71,7 @@ def compare(timestamp,branch_name,versions,interpreter,executable,reference,thre
                 ref_ver_pages[version]= splitOutput(ver_ref)
                 assert(len(ref_pages)==len(ref_ver_pages[version]))
             except:
-                sys.stderr.write(u"TEST FAILED: Output file '%s' has %d pages but reference file '%s' has %d pages. They can not be compared.\n"%(reference,len(ref_pages),ver_ref,ref_ver_pages[version]))
+                sys.stderr.write(u"TEST FAILED: Output file '%s' has %d pages but reference file '%s' has %d pages. They can not be compared.\n"%(reference,len(ref_pages),ver_ref,len(ref_ver_pages[version])))
                 sys.exit(1)
         #print 'ref_ver_pages=',ref_ver_pages
 
