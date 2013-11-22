@@ -8,9 +8,9 @@ set( REGRESSION_SCRIPT_DIRECTORY  ${CMAKE_CURRENT_SOURCE_DIR} )
 #set tests timestamp
 execute_process(COMMAND date +\"%Y%m%d_%H%M%S\" OUTPUT_VARIABLE TIMESTAMP)
 STRING(REGEX REPLACE "\"" "" TIMESTAMP ${TIMESTAMP})
-STRING(REGEX REPLACE "\n" "" TIMESTAMP ${TIMESTAMP})
 
-#initialize summary dependencies
+STRING(REGEX REPLACE "\n" ""  TIMESTAMP ${TIMESTAMP})
+
 #set( summary_depend "")
 
 function( add_magics_test )
@@ -24,6 +24,7 @@ function( add_magics_test )
       message(FATAL_ERROR "Unknown keywords given to add_magics_test(): \"${_p_UNPARSED_ARGUMENTS}\"")
     endif()
     
+   debug_var(_p_NAME)
     ### check parameters
 
     if( NOT _p_NAME )
@@ -44,16 +45,18 @@ function( add_magics_test )
           execute_process( COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_SOURCE_DIR}/../${file} ${CMAKE_CURRENT_BINARY_DIR} )
     endforeach()
     
+	get_filename_component(where ${CMAKE_CURRENT_SOURCE_DIR} NAME )
     set( targets "" )
 	foreach( data ${_p_DATA} )
-        string( REGEX REPLACE "[^A-Za-z0-9_]" "_" target "test_data_${data}" )
-        ecbuild_get_test_data( NAME ${data} NOCHECK )
+        string( REGEX REPLACE "[^A-Za-z0-9_]" "_" target "${_p_NAME}_data_${data}" )
+        debug_var(target)
+        ecbuild_get_test_data( NAME ${data} TARGET ${target} NOCHECK 
+            DIRNAME magics/regression/${where})
         list( APPEND targets  "${target}")
 	endforeach()
 
 	set( versions "" ) 
 
-	get_filename_component(where ${CMAKE_CURRENT_SOURCE_DIR} NAME )
 
 	get_filename_component(log ${_p_IMAGE} NAME_WE)
              
@@ -164,6 +167,8 @@ add_subdirectory( efas )
 add_subdirectory( macc )
 add_subdirectory( plumes )
 add_subdirectory( axis )
+add_subdirectory( contour )
+add_subdirectory( web )
 
 #debug_var( summary_depend )
 

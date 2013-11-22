@@ -114,9 +114,6 @@ while test $# -gt 0; do
 	--with-qt)
 		echo "@qt@"
 		;;
-	--with-gd)
-		echo "@raster@"
-		;;
 	--with-bufr)
 		echo "@bufr@"
 		;;
