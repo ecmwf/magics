@@ -672,18 +672,15 @@ MatrixHandler& WrepJSon::matrix()
 	}
 
 
-	
-
 	for (IntervalMap<int>::iterator interval = array.begin(); interval!= array.end(); ++interval) {
 		double row = (interval->first.max_ - interval->first.min_)/2 +interval->first.min_ ;
 		matrix_.rowsAxis().push_back(row);
-
 	}
 
 	matrix_.columnsAxis().push_back(steps.front());
 	vector<double>::iterator s = steps.begin();
 	s++;
-	for (s; s != steps.end(); ++s) {
+	for (; s != steps.end(); ++s) {
 
 		matrix_.columnsAxis().push_back(*s);
 	}
@@ -694,7 +691,6 @@ MatrixHandler& WrepJSon::matrix()
 
 	for (vector<CustomisedPoint*>::const_iterator point = points_.begin(); point != points_.end(); ++point)
 	{
-
 		for (IntervalMap<int>::iterator interval = array.begin(); interval!= array.end(); ++interval) {
 			interval->second = 0;
 		}
