@@ -82,7 +82,11 @@ endif()
 set( MAGICS_ONLY 1)
 
 if( WITH_METVIEW )
+	set( WITH_QT 1 )
+    set ( metview "on")
     unset(MAGICS_ONLY)
+else()
+    set ( metview "off")
 endif()
 
 if( WITH_GRIB )
@@ -135,10 +139,12 @@ if( WITH_NETCDF )
 	endif()
 endif()
 
+set (cairo "off")
 if( WITH_CAIRO )
 	find_package( PangoCairo  )
 	if( PANGOCAIRO_FOUND )
     	set( MAGICS_CAIRO 1 )
+        set (cairo "on")
     endif()
 endif()
 
@@ -148,11 +154,13 @@ install( FILES ${CMAKE_CURRENT_BINARY_DIR}/magics-config
 			PERMISSIONS OWNER_READ GROUP_READ WORLD_READ 
 				        OWNER_EXECUTE GROUP_EXECUTE WORLD_EXECUTE)
 
+set ( qt off)
 if( WITH_QT )
 	find_package(Qt4 4.4.3 REQUIRED QtCore QtGui QtXml )
 	if( QT_FOUND )
 		include( ${QT_USE_FILE} )
 		set( MAGICS_QT 1)
+        set ( qt on)
 	endif()
 endif()
 

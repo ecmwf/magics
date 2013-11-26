@@ -9,3 +9,10 @@
 docs
 Debug
 CMakeLists.txt.user
+*.nc
+*.err
+*.usa
+*.pyc
+*.log
+
+

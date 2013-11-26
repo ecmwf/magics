@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>TEST_NAME test (BRANCH_NAME branch)</title>
+    <title>Magics Regression Tests</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -86,6 +86,7 @@
     <link href="http://download.ecmwf.int/test-data/magics/regression_output/static/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
     <script src="http://download.ecmwf.int/test-data/magics/regression_output/static/jquery/jquery-1.7.1.min.js"></script>
     <script src="http://download.ecmwf.int/test-data/magics/regression_output/static/jquery-ui/js/jquery-ui-1.8.18.custom.min.js"></script>
+    <script src="http://download.ecmwf.int/test-data/magics/regression_output/static/moment.min.js"></script>
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -95,44 +96,14 @@
     <!-- Le fav and touch icons -->
     <link rel="shortcut icon" href="http://download.ecmwf.int/test-data/magics/regression_output/static/favicon.ico">
 
-
 	<script type="text/javascript"> 
-        
-        function onScrollDiv (div) 
+		var results= RESULTS;
+	
+        function  setActiveResult(bra,ver,res) 
         {
-            var images= document.getElementsByClassName("image");
-            for (i in images) setScroll(images[i],div);
-        }
-
-        function setScroll(from_div, to_div) 
-        {
-            from_div.scrollLeft = to_div.scrollLeft;
-            from_div.scrollTop = to_div.scrollTop;
-        }   
-        
-        function onClickZoom(zoom) 
-        {
-            var plots= document.getElementsByClassName("plot");
-            for (i in plots) plots[i].style.width= zoom + "%";
-        }
-		
-		function onClickDiff(type) 
-        {
-        	var pixels= PIXEL_DIFS;
-        	for (v in pixels){
-        		var p= "Difference: "+pixels[v][type][0]+" ("+(pixels[v][type][1]).toFixed(1)+"%) pixels";
-        		document.getElementById(v+"_pixel_diff").innerHTML= p;
-        	}
-        	
-        	var plots= document.getElementsByClassName("plot_diff");
-        	for (i in plots){
-        		var ver_id= plots[i].id.split("_")[0];        	
-        		if (type=="mdiff") plots[i].src= plots[i].src.replace("_pdif","_diff");
-        		if (type=="pdiff") plots[i].src= plots[i].src.replace("_diff","_pdif");
-        	}
+        	document.getElementById("results-overview").innerHTML= results[bra][ver][res];
         }
     </script>
-
 
   </head>
 
@@ -146,13 +117,13 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="#" title="Title">BRANCH_NAME: TEST_NAME</a>
+          <a class="brand" href="#" title="Title">Magics: Regression Tests</a>
           <div class="nav-collapse">
             <ul class="nav">
-              <li><a href="#overview"   title="Go to the summary results">      Overview           </a></li>
-              <li><a href="#compare"    title="Go to the detailed results">     Compare            </a></li>
-              <li><a href="#parameters" title="Go to the test parameters">      Parameters         </a></li>
-              <li><a href="#comment"    title="Submit comments to JIRA">        JIRA               </a></li>
+              <li><a href="#overview"  title="Go to the Branches/Versions summary">      Overview         </a></li>
+              <li><a href="#branches"  title="Go to the Branch detailed view">           Branches         </a></li>
+              <li><a href="#versions"  title="Go to the Branch-Version detailed view">   Versions         </a></li>
+              <li><a href="#comment"   title="Submit comments to JIRA">                  JIRA             </a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div>
@@ -166,48 +137,41 @@
         <a name="overview" class="bookmark"></a>
         <section>
             <div>
-                <h3>Overview <small>test results</small> </h3>
+                <h3>Overview <small>Branches and versions summary</small></h3>
             </div>
             <div class="row">
               <div class="span12">
-              	
-              	TEST_RESULTS
-              
+              	OVERVIEW
+              </div>
+          </div>
+            <div class="row">
+              <div id="results-overview" class="span12">
               </div>
           </div>
         </section>
 
-        <a name="compare" class="bookmark"><br></a>
+        <a name="branches" class="bookmark"><br></a>
         <section>
             <div>
-                <h3>Comparison<small></small></h3>
+                <h3>Last Run Tests <small>Results summary per branch and version</small></h3>
             </div>
             <div class="row">
               <div class="span12">
-            	TAB_VERS
+            	TAB_BRANCHES
               </div>
             </div>
         </section>
 
-        <a name="parameters" class="bookmark"></a>
+        <a name="versions" class="bookmark"></a>
         <section>
             <div>
-                <h3>Parameters <small>test input</small></h3>
+                <h3>All Run Tests <small>Results summary per branch, version and compilation time</small></h3>
             </div>
             <div class="row">
-              <div class="span6">
-                <table class="table table-bordered">
-                  <tr><td>branch           </td><td>BRANCH_NAME </td></tr> 
-                  <tr><td>versions         </td><td>VERSIONS    </td></tr> 
-                  <tr><td>interpreter      </td><td>INTERPRETER </td></tr>
-                  <tr><td>executable       </td><td>EXECUTABLE  </td></tr>
-                  <tr><td>reference        </td><td>REFERENCE   </td></tr>
-                  <tr><td>threshold        </td><td>THRESHOLD   </td></tr>
-                  <tr><td>output_dir       </td><td>OUTPUT_DIR  </td></tr>
-                  <tr><td>compilation_time </td><td>TIME        </td></tr>
-                </table>
+              <div class="span12">
+            	TAB_VERSIONS
               </div>
-          </div>
+           </div>
         </section>
        
         <a name="comment" class="bookmark"></a>
@@ -253,6 +217,16 @@ target="_blank">Apache License v2.0</a>. Documentation licensed under <a href="h
     <script src="http://download.ecmwf.int/test-data/magics/regression_output/static/datatables/media/js/jquery.dataTables.js"></script>
     <script type="text/javascript" language="javascript" src="http://download.ecmwf.int/test-data/magics/regression_output/static/bootstrap-datatables.js"></script>
 	-->
+
+    //process all times stamps
+	<script type="text/javascript"> 
+        var times= document.getElementsByClassName("timestamp");
+        for (i in times) {
+        	var st= times[i].innerHTML;
+        	times[i].innerHTML= moment(st,"YYYYMMDD-HHmmss").fromNow() 
+        }
+    </script>
+
 </body>
 </html>
 
