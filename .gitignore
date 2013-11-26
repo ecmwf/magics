@@ -6,4 +6,10 @@
 *.grb
 *.out
 *.keep
+*.nc
+*.err
+*.usa
+*.pyc
+*.log
+
 
