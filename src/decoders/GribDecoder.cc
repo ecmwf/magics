@@ -566,8 +566,8 @@ void GribDecoder::customisedPoints(const BasicThinningMethod& thinning, const Tr
 
 		// Compute the thinning factor...
 
-		double ypoints= 0;
-		double xpoints= 0;
+		int ypoints= 0;
+		int xpoints= 0;
 		if ( thinning.factor() > 1 ) {
 			double x1 = 0;
 			double y1 = 60;
@@ -585,7 +585,7 @@ void GribDecoder::customisedPoints(const BasicThinningMethod& thinning, const Tr
 
 			double xmax = transformation.getMaxPCX();
 			double xmin = transformation.getMinPCX();
-			xpoints = abs((ymax-ymin)/((x2-x1)*thinning.factor()));
+			xpoints = abs((xmax-xmin)/((x2-x1)*thinning.factor()));
 
 
 
