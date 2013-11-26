@@ -169,6 +169,9 @@ add_subdirectory( plumes )
 add_subdirectory( axis )
 add_subdirectory( contour )
 add_subdirectory( web )
+add_subdirectory( data )
+add_subdirectory( metops )
+add_subdirectory( wind )
 
 #debug_var( summary_depend )
 
