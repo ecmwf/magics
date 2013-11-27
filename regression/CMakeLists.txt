@@ -172,6 +172,9 @@ add_subdirectory( web )
 add_subdirectory( data )
 add_subdirectory( metops )
 add_subdirectory( wind )
+add_subdirectory( graph )
+add_subdirectory( layout )
+add_subdirectory( rotated )
 
 #debug_var( summary_depend )
 
