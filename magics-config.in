@@ -114,6 +114,9 @@ while test $# -gt 0; do
 	--with-qt)
 		echo "@qt@"
 		;;
+	--with-qtlib)
+		echo "@qtlib@"
+		;;
 	--with-bufr)
 		echo "@bufr@"
 		;;

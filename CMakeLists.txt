@@ -158,15 +158,18 @@ install( FILES ${CMAKE_CURRENT_BINARY_DIR}/magics-config
 			PERMISSIONS OWNER_READ GROUP_READ WORLD_READ 
 				        OWNER_EXECUTE GROUP_EXECUTE WORLD_EXECUTE)
 
-set ( qt off)
+set ( qt no)
 if( WITH_QT )
 	find_package(Qt4 4.4.3 REQUIRED QtCore QtGui QtXml )
 	if( QT_FOUND )
 		include( ${QT_USE_FILE} )
 		set( MAGICS_QT 1)
-        set ( qt on)
+        set ( qt yes)
 	endif()
 endif()
+
+# whether we have a separate libMagPlusQt or not - currently we never have
+set (qtlib no)
 
 ###############################################################################
 # contents
