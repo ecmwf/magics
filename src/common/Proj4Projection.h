@@ -286,7 +286,7 @@ public:
 class Proj4Geose : public Proj4Projection
 {
 public:
-	Proj4Geose() : Proj4Projection("goes-e") {}
+	Proj4Geose() : Proj4Projection("goes-east") {}
 };
 class Proj4Geosw : public Proj4Projection
 {

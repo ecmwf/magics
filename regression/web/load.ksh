@@ -1,8 +1,8 @@
 #!/bin/ksh
 
 versions="current++ new++" 
-src="classic_10days.json"
-output="10_days.ps" 
+src="epsgram_sample.py"
+output="epsgram_sample.ps" 
 suffix="F" 
 dir=`pwd`
 name=`basename $dir`
@@ -13,8 +13,9 @@ do
 for v in $versions
 do
 	echo $v
-	/usr/local/apps/Magics/$v/bin/magjson $sf 
+	#/usr/local/apps/Magics/$v/bin/magjson $sf 
+    python $sf 
 	version=`/usr/local/apps/Magics/$v/bin/magics-config --version`
-     ../upload.py $version ./$sf $output magics/reference/$version/web -i magjson
+     ../upload.py $version ./$sf $output magics/reference/$version/web -i python
 done
 done
