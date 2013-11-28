@@ -175,6 +175,7 @@ add_subdirectory( wind )
 add_subdirectory( graph )
 add_subdirectory( layout )
 add_subdirectory( rotated )
+add_subdirectory( proj4 )
 
 #debug_var( summary_depend )
 

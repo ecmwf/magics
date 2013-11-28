@@ -1,0 +1,290 @@
+	PROGRAM GRAF03
+C
+C	THIS PROGRAM DEMONSTRATES MAGICS GRAPH PLOTTING FACILITIES.
+C	THERE ARE TWO FEATURES DEMONSTRATED:
+
+C	(1) AUTOMATIC AXIS SYSTEM
+C	(2) CURVES ON MAPS
+C
+C	OPEN MAGICS
+C
+	CALL POPEN
+      CALL PARSE_COMMAND_LINE ('graf03')
+C
+	CALL PSETC ('PAGE_ID_LINE_USER_TEXT','TESTS/GRAF03')
+C
+C	CURVE PLOTTING WITH AUTOMATIC AXIS SYSTEM           
+C
+	CALL GRAF03_ONE
+	CALL PNEW ('PAGE')
+C
+C	CURVE PLOTTING ON MAP                               
+C
+	CALL GRAF03_TWO
+	CALL PCLOSE
+	STOP
+	END
+	SUBROUTINE GRAF03_ONE
+C
+C	THIS ROUTINE DEMONSTRATES THE PLOTTING OF CURVES ON AN
+C	AUTOMATICALLY GENERATED AXIS SYSTEM
+C
+C	THE AXIS SYSTEM IS GENERATED FROM THE VALUES OF THE GRAPH
+C	INPUT X/Y VALUES
+C
+	DIMENSION XVAL(10),YVAL(10)
+	DATA YVAL /5.0,8.,10.,21.,25.,33.,23.,12.,3.,10./
+	DATA XVAL /-10.0,-8.,0.,5.,15.,20.,15.,22.,28.,35./
+C
+C	SET CURVE VALUES BUT NO AXIS SETUP    
+C
+	CALL PSETC ('GRAPH_TYPE','CURVE')
+	CALL PSETC ('SUBPAGE_MAP_PROJECTION','NONE')
+	CALL PSET1R ('GRAPH_CURVE_X_VALUES',XVAL,10)     
+	CALL PSET1R ('GRAPH_CURVE_Y_VALUES',YVAL,10)     
+	CALL PSETI ('GRAPH_LINE_THICKNESS',2)          
+	CALL PSETC ('GRAPH_LINE_COLOUR','RED')        
+	CALL PGRAPH
+C
+C	GENERATE TEXT FOR TITLE
+C
+	CALL PSETC ('TEXT_JUSTIFICATION','CENTRE')
+	CALL PSETC ('TEXT_LINE_1',
+     1'GRAPH Plotting - Example of Automatic Axis for Curves')
+	CALL PTEXT
+	RETURN     
+	END
+	SUBROUTINE GRAF03_TWO
+C
+C	THIS ROUTINE DEMONSTRATES THE PLOTTING OF CURVES ON MAPS
+C
+C	THE AXIS SYSTEM IS GENERATED INTERNALLY BY MAGICS FROM
+C	THE MAP COORDINATES
+C
+	DIMENSION XVAL(10),YVAL(10)
+	DATA YVAL /45.0,48.,50.,51.,55.,60.,65.,62.,53.,40./
+	DATA XVAL /-10.0,-8.,0.,5.,15.,20.,15.,22.,28.,35./
+C
+C	DEFINE MAP AREA AND PROJECTION
+C
+	CALL PSETC ('SUBPAGE_MAP_PROJECTION','POLAR_STEREOGRAPHIC')
+	CALL PSETC ('SUBPAGE_MAP_AREA_DEFINITION','CENTRE')
+	CALL PSETR ('SUBPAGE_MAP_CENTRE_LONGITUDE',5.0)
+	CALL PSETR ('SUBPAGE_MAP_CENTRE_LATITUDE',55.0)
+	CALL PSETR ('SUBPAGE_MAP_VERTICAL_LONGITUDE',5.0)
+	CALL PSETR ('SUBPAGE_MAP_SCALE',30.E6)
+C
+C	SET UP GRAPH BUT NOT AXIS               
+C
+	CALL PSETC ('GRAPH_TYPE','CURVE')
+	CALL PSETC ('GRAPH_LINE_COLOUR','BLUE')
+	CALL PSETC ('GRAPH_POSITION_MODE','GEOGRAPHIC')
+	CALL PSET1R ('GRAPH_CURVE_X_VALUES',XVAL,10)     
+	CALL PSET1R ('GRAPH_CURVE_Y_VALUES',YVAL,10)     
+	CALL PSETI ('GRAPH_LINE_THICKNESS',4)          
+	CALL PCOAST
+	CALL PGRAPH
+C
+C	GENERATE TEXT FOR TITLE
+C
+	CALL PSETC ('TEXT_LINE_1',
+     1            'GRAPH Plotting - Example of Curves on Maps ') 
+	CALL PTEXT
+	RETURN     
+	END
+
+
+C --------------------------------------------------------------------
+C     PARSE_COMMAND_LINE
+C     Checks the command-line for any arguments.
+C     Arguments can come in pairs. Currently supported arguments are:
+C     PROJECTION <CYLINDRICAL | POLAR_STEREOGRAPHIC>
+C     DEVICE <PS | SVG | PNG>
+C     e.g. Run the program with:
+C       <progname> PROJECTION CYLINDRICAL  DEVICE SVG
+C --------------------------------------------------------------------
+
+      SUBROUTINE PARSE_COMMAND_LINE (OUTROOTNAME)
+
+      CHARACTER*32 ARG
+      CHARACTER*64 ID_TEXT
+      CHARACTER*32 PROJECTION
+      CHARACTER*32 DEVICE
+      CHARACTER*48 EXENAME
+      CHARACTER*8  MINIMAL
+      CHARACTER*8  SEPARATOR
+      CHARACTER*64 OUTNAME
+      CHARACTER*(*) OUTROOTNAME
+
+      CHARACTER*16 FORMATS_PS_GIF
+      DIMENSION    FORMATS_PS_GIF(2)
+      DATA         FORMATS_PS_GIF /'PS', 'GIF_ANIMATION'/
+
+      CHARACTER*16 FORMATS_PS_GIF_PDF
+      DIMENSION    FORMATS_PS_GIF_PDF(3)
+      DATA         FORMATS_PS_GIF_PDF /'PS', 'GIF_ANIMATION', 'PDF'/
+
+      CHARACTER*16 FORMATS_PS_GIF_SVG
+      DIMENSION    FORMATS_PS_GIF_SVG(3)
+      DATA         FORMATS_PS_GIF_SVG /'PS', 'GIF_ANIMATION', 'SVG'/
+
+      CHARACTER*16 FORMATS_PS_PNG_SVG
+      DIMENSION    FORMATS_PS_PNG_SVG(3)
+      DATA         FORMATS_PS_PNG_SVG /'PS', 'PNG', 'SVG'/
+
+      CHARACTER*16 FORMATS_PS_GIF_PNG_SVG
+      DIMENSION    FORMATS_PS_GIF_PNG_SVG(4)
+      DATA         FORMATS_PS_GIF_PNG_SVG /'PS', 'GIF_ANIMATION', 
+     +                                     'PNG', 'SVG'/
+
+      CHARACTER*16 FORMATS_ALL
+      DIMENSION    FORMATS_ALL(5)
+      DATA         FORMATS_ALL /'PS', 'SVG', 'PDF',
+     +                          'KML', 'PNG'/
+
+      INTEGER NUM_ARGS
+      INTEGER DEVICE_SET
+
+      DEVICE_SET = 0
+
+      ID_TEXT = ''
+
+      NUM_ARGS = IARGC()
+
+      I = 1
+C
+C  Start GoTo
+C
+20    IF (I.LE.NUM_ARGS) THEN
+          CALL GETARG ( I, ARG )
+C
+C         Set the projection?
+C
+          IF (ARG.EQ.'PROJECTION') THEN
+              I = I + 1 
+              CALL GETARG ( I, PROJECTION ) 
+              CALL PSETC ('SUBPAGE_MAP_PROJECTION', PROJECTION)
+C
+C        Set the device?
+C
+          ELSEIF (ARG.EQ.'DEVICE') THEN
+              I = I + 1 
+              CALL GETARG ( I, DEVICE ) 
+
+C             Set the output filename
+
+              IF     (DEVICE.EQ.'PS')  THEN
+                OUTNAME = OUTROOTNAME //   '.ps'
+                CALL PSETC ('DEVICE',       DEVICE)
+                CALL PSETC ('PS_DEVICE',   'ps_a4')
+                CALL PSETC ('PS_FILE_NAME', OUTNAME)
+              ELSEIF (DEVICE.EQ.'PS_NEW') THEN
+                CALL PSETC ('OUTPUT_FORMAT',  'PS')
+                CALL PSETC ('OUTPUT_NAME', OUTROOTNAME)
+              ELSEIF (DEVICE.EQ.'EPS') THEN
+                CALL PSETC ('OUTPUT_FORMAT',  'EPS')
+                CALL PSETC ('OUTPUT_NAME', OUTROOTNAME)
+              ELSEIF (DEVICE.EQ.'GIF') THEN
+                CALL PSETC ('OUTPUT_FORMAT',  'GIF_ANIMATION')
+                CALL PSETC ('OUTPUT_NAME', OUTROOTNAME)
+                CALL PSETI ('OUTPUT_GIF_DELAY',     150)
+              ELSEIF (DEVICE.EQ.'GIF_MULTI') THEN
+                CALL PSETC ('OUTPUT_FORMAT',  'GIF')
+                CALL PSETC ('OUTPUT_NAME', OUTROOTNAME)
+              ELSEIF (DEVICE.EQ.'PNG') THEN
+                CALL PSETC ('OUTPUT_FORMAT',  'PNG')
+                CALL PSETC ('OUTPUT_NAME', OUTROOTNAME)
+              ELSEIF (DEVICE.EQ.'JPEG') THEN
+                CALL PSETC ('OUTPUT_FORMAT',  'JPEG')
+                CALL PSETC ('OUTPUT_NAME', OUTROOTNAME)
+              ELSEIF (DEVICE.EQ.'SVG') THEN
+                CALL PSETC ('OUTPUT_FORMAT',  'SVG')
+                CALL PSETC ('OUTPUT_NAME', OUTROOTNAME)
+              ELSEIF (DEVICE.EQ.'CSVG') THEN
+                CALL PSETC ('OUTPUT_FORMAT',  'CSVG')
+                CALL PSETC ('OUTPUT_NAME', OUTROOTNAME)
+              ELSEIF (DEVICE.EQ.'KML') THEN
+                CALL PSETC ('OUTPUT_FORMAT',  'KML')
+                CALL PSETC ('OUTPUT_NAME', OUTROOTNAME)
+
+              ELSEIF (DEVICE.EQ.'BAD') THEN
+                CALL PSETC ('OUTPUT_FORMAT',  'BAD')
+                CALL PSETC ('OUTPUT_NAME', OUTROOTNAME)
+
+              ELSEIF (DEVICE.EQ.'PS_GIF') THEN
+                CALL PSET1C ('OUTPUT_FORMATS', FORMATS_PS_GIF, 2)
+                CALL PSETC  ('OUTPUT_NAME', OUTROOTNAME)
+              ELSEIF (DEVICE.EQ.'PS_GIF_PDF') THEN
+                CALL PSET1C ('OUTPUT_FORMATS', FORMATS_PS_GIF_PDF, 3)
+                CALL PSETC  ('OUTPUT_NAME', OUTROOTNAME)
+              ELSEIF (DEVICE.EQ.'PS_GIF_SVG') THEN
+                CALL PSET1C ('OUTPUT_FORMATS', FORMATS_PS_GIF_SVG, 3)
+                CALL PSETC  ('OUTPUT_NAME', OUTROOTNAME)
+              ELSEIF (DEVICE.EQ.'PS_PNG_SVG') THEN
+                CALL PSET1C ('OUTPUT_FORMATS', FORMATS_PS_PNG_SVG, 3)
+                CALL PSETC  ('OUTPUT_NAME', OUTROOTNAME)
+              ELSEIF (DEVICE.EQ.'PS_GIF_PNG_SVG') THEN
+                CALL PSET1C ('OUTPUT_FORMATS',
+     +                               FORMATS_PS_GIF_PNG_SVG, 4)
+                CALL PSETC  ('OUTPUT_NAME', OUTROOTNAME)
+              ELSEIF (DEVICE.EQ.'ALL') THEN
+                CALL PSET1C ('OUTPUT_FORMATS', FORMATS_ALL, 5)
+                CALL PSETC  ('OUTPUT_NAME', OUTROOTNAME)
+              ELSE
+                WRITE(*, '(A)') 'BAD DEVICE: ', DEVICE
+              ENDIF
+            
+            DEVICE_SET = 1
+C
+C        Split the PostScript pages into separate files?
+C
+          ELSEIF (ARG.EQ.'PS_SPLIT') THEN
+                CALL PSETC ('OUTPUT_PS_SPLIT',     'ON')
+C
+C        Turn on the numbering for the first page?
+C
+          ELSEIF (ARG.EQ.'FIRST_PAGE_NUMBER') THEN
+                CALL PSETC ('OUTPUT_NAME_FIRST_PAGE_NUMBER', 'ON')
+C
+C         Set the minimal filename number width?
+C
+          ELSEIF (ARG.EQ.'MINIMAL') THEN
+              I = I + 1 
+              CALL GETARG (I, MINIMAL) 
+              IF     (MINIMAL.EQ.'0')  THEN
+                CALL PSETI ('OUTPUT_FILE_MINIMAL_WIDTH', 0)
+              ELSEIF (MINIMAL.EQ.'1')  THEN
+                CALL PSETI ('OUTPUT_FILE_MINIMAL_WIDTH', 1)
+              ELSEIF (MINIMAL.EQ.'2') THEN
+                CALL PSETI ('OUTPUT_FILE_MINIMAL_WIDTH', 2)
+              ELSEIF (MINIMAL.EQ.'3') THEN
+                CALL PSETI ('OUTPUT_FILE_MINIMAL_WIDTH', 3)
+              ENDIF
+C
+C         Set the file number separator?
+C
+          ELSEIF (ARG.EQ.'SEP') THEN
+              I = I + 1 
+              CALL GETARG ( I, SEPARATOR ) 
+              CALL PSETC ('OUTPUT_FILE_SEPARATOR', SEPARATOR)
+C
+C        Run using linear contouring?
+C
+          ELSEIF (ARG.EQ.'LINEAR') THEN
+                CALL PSETC ('CONTOUR_METHOD', 'LINEAR')
+                CALL PSETC ('PAGE_ID_LINE_USER_TEXT_PLOT', 'ON')
+                CALL PSETC ('PAGE_ID_LINE_USER_TEXT', 'LINEAR')
+          ENDIF
+          I = I + 1 
+          GOTO 20
+      ENDIF
+C
+C     If no device has been set, then use PostScript by default
+C
+      IF (DEVICE_SET.EQ.0) THEN
+        OUTNAME = OUTROOTNAME // '.ps'
+        CALL PSETC ('PS_DEVICE',    'ps_a4')
+        CALL PSETC ('PS_FILE_NAME', OUTNAME)
+      ENDIF
+C
+      END
