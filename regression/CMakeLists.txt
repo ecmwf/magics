@@ -176,6 +176,8 @@ add_subdirectory( graph )
 add_subdirectory( layout )
 add_subdirectory( rotated )
 add_subdirectory( proj4 )
+add_subdirectory( venice )
+add_subdirectory( gallery )
 
 #debug_var( summary_depend )
 
