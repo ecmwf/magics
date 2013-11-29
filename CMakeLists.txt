@@ -36,6 +36,7 @@ endif()
 # some variables of this project
 
 option( WITH_QT            "wether to use Qt"          OFF )
+option( WITH_QT_DEBUG      "wether to use Qt"          OFF )
 option( WITH_CAIRO         "wether to use Cairo"       ON  )
 option( WITH_METVIEW       "enable Metview support"    OFF )
 option( WITH_GRIB          "enable grib"               ON  )
@@ -204,6 +205,9 @@ message(STATUS "MAGICS_EXTRA_LIBRARIES    => ${MAGICS_EXTRA_LIBRARIES}")
 
 if( MAGICS_BUFR )
 	list( APPEND MAGICS_EXTRA_DEFINITIONS   fortfloat=double fortint=int boolean=bool )
+endif()
+if( WITH_QT_DEBUG )
+	list( APPEND MAGICS_EXTRA_DEFINITIONS QT_NO_DEBUG_OUTPUT )
 endif()
 
 if( MAGICS_QT )
