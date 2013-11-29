@@ -30,6 +30,9 @@ from regression_util import extension,prefix,suffix,writeHtmlReport,usage2Dict,I
 
 def compare(timestamp,branch_name,versions,interpreter,executable,reference,threshold,output_dir):
 
+    #exit status and message
+    EXIT,EMES=0,""
+
     #print input parameters
     def l(t,n): return (t+' '*n)[:n]
     print l('timestamp:',        20), timestamp
@@ -38,7 +41,6 @@ def compare(timestamp,branch_name,versions,interpreter,executable,reference,thre
     print l('threshold:',        20), '%.2f%%'%threshold
     print l('versions:',         20), versions 
     print l('output dir (HTML):',20), output_dir
-
 
     #run the test
     p= None
@@ -53,8 +55,8 @@ def compare(timestamp,branch_name,versions,interpreter,executable,reference,thre
 
     #check if output generated
     if not os.path.exists(reference):
-        sys.stderr.write(u"TEST FAILED: Output file '%s' has not been generated.\n"%reference)
-        sys.exit(1)
+        EMES= u"TEST FAILED: Output file '%s' has not been generated."%reference
+        EXIT= 1
 
     #check if output is a PS or PDF file      
     ref_pages= {}
@@ -71,18 +73,14 @@ def compare(timestamp,branch_name,versions,interpreter,executable,reference,thre
                 ref_ver_pages[version]= splitOutput(ver_ref)
                 assert(len(ref_pages)==len(ref_ver_pages[version]))
             except:
-                sys.stderr.write(u"TEST FAILED: Output file '%s' has %d pages but reference file '%s' has %d pages. They can not be compared.\n"%(reference,len(ref_pages),ver_ref,len(ref_ver_pages[version])))
-                sys.exit(1)
-        #print 'ref_ver_pages=',ref_ver_pages
-
+                EMES= u"TEST FAILED: Output file '%s' has %d pages but reference file '%s' has %d pages. They can not be compared."%(reference,len(ref_pages),ver_ref,len(ref_ver_pages[version]))
+                EXIT= 1
     else:
         #only a single page -> single image
         ref_pages= [reference]
         for version in versions:
             ver_ref= prefix(reference,version+'_')
             ref_ver_pages[version]= [ver_ref]
-    #print 'ref_pages=',ref_pages
-    #print 'ref_ver_pages=',ref_ver_pages
 
     #get number of pixels of output images
     pixels= []
@@ -113,6 +111,26 @@ def compare(timestamp,branch_name,versions,interpreter,executable,reference,thre
             #Get the result labels: OK,Check,Warning,Error
             result[version][ipage]= resultLabel(threshold,diff[version][ipage],pdiff[version][ipage],pixels[ipage]) 
 
+    #compute maximum number of different pixels and percentage...
+    max_diff,max_perc = 0,0
+    #...for all versions
+    for v in diff:
+        #...for all pages
+        for i in diff[v]:
+            d= diff[v][i]
+            p= 100.0*d/pixels[i]
+            if p>max_perc:
+                max_diff= d
+                max_perc= p
+
+    #fail if, FOR ANY VERSION OR PAGE, the threshold is passed
+    if max_perc>=threshold:
+        EMES= u"TEST FAILED: Maximum number of different pixels is %d (%.2f%%)."%(max_diff,max_perc)
+        EXIT= 1
+    else:
+        EMES= u"TEST OK: Maximum number of different pixels is %d (%.2f%%)."%(max_diff,max_perc)
+        EXIT= 0
+
     #save all test files into specified output directory 
     if output_dir:
 
@@ -139,7 +157,8 @@ def compare(timestamp,branch_name,versions,interpreter,executable,reference,thre
             'diff':          diff,
             'pdiff':         pdiff,
             'result':        result,
-            'pixels':        pixels, 
+            'pixels':        pixels,
+            'exit_message':  EMES 
         }
         with open(extension(reference,'par'),'w') as f: f.write(json.dumps(params,sort_keys=True,indent=4, separators=(',', ': ')))
 
@@ -163,28 +182,8 @@ def compare(timestamp,branch_name,versions,interpreter,executable,reference,thre
             target= output_subdir+'/'+filename
             e= call(['scp',filename,target])
             if not e==0:
-                sys.stderr.write("ERROR coping the file '%s' into '%s'"%(filename,target))
-       
-
-    #compute maximum number of different pixels and percentage...
-    max_diff,max_perc = 0,0
-    #...for all versions
-    for v in diff:
-        #...for all pages
-        for i in diff[v]:
-            d= diff[v][i]
-            p= 100.0*d/pixels[i]
-            if p>max_perc:
-                max_diff= d
-                max_perc= p
-
-    #fail if, FOR ANY VERSION OR PAGE, the threshold is passed
-    if max_perc>=threshold:
-        sys.stderr.write(u"TEST FAILED: Maximum number of different pixels is %d (%.2f%%).\n"%(max_diff,max_perc))
-        sys.exit(1)
-    else:
-        sys.stderr.write(u"TEST OK: Maximum number of different pixels is %d (%.2f%%).\n"%(max_diff,max_perc))
-        sys.exit(0)
+                EMES= "ERROR coping the file '%s' into '%s.'"%(filename,target)
+    return EXIT,EMES
 
 #####################################################################
 #####################################################################
@@ -282,5 +281,8 @@ if __name__ == "__main__":
             sys.stderr.write(u"No output directory '%s' found.\n"%output_dir)
             sys.exit(1)
 
-    compare(timestamp,branch_name,versions,interpreter,executable,reference,threshold,output_dir)
+    #compare and exit
+    EXIT,EMES= compare(timestamp,branch_name,versions,interpreter,executable,reference,threshold,output_dir)
+    sys.stderr.write(EMES+"\n")
+    sys.exit(EXIT)   
     
