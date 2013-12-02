@@ -35,9 +35,10 @@ endif()
 ###############################################################################
 # some variables of this project
 
+option( WITH_QT            "wether to use Qt"          OFF )
+option( WITH_QT_DEBUG      "wether to use Qt"          OFF )
 option( WITH_CAIRO         "wether to use Cairo"       ON  )
 option( WITH_METVIEW       "enable Metview support"    OFF )
-option( WITH_QT            "enable qt support"    OFF )
 option( WITH_GRIB          "enable grib"               ON  )
 option( WITH_NETCDF        "enable netcdf"             ON  )
 option( WITH_BUFR          "enable bufr"               OFF )
@@ -72,17 +73,23 @@ if( WITH_FORTRAN)
 	ecbuild_enable_fortran()
 endif()
 
+set ( odb "no")
 if( WITH_ODB)
   ecbuild_use_package( PROJECT odb_api  VERSION 0.9.31 )
   if( ODB_API_FOUND )
         set( MAGICS_ODB 1 )
+        set ( odb "yes")
   endif()
 endif()
 
 set( MAGICS_ONLY 1)
 
 if( WITH_METVIEW )
+	set( WITH_QT 1 )
+    set ( metview "yes")
     unset(MAGICS_ONLY)
+else()
+    set ( metview "no")
 endif()
 
 if( WITH_GRIB )
@@ -92,10 +99,12 @@ if( WITH_GRIB )
   endif()
 endif()
 
+set ( bufr "no")
 if( WITH_BUFR )
   find_package( EMOS  )
    if( EMOS_FOUND )
         set( MAGICS_BUFR 1 )
+        set ( bufr "yes")
   endif()
 endif()
  
@@ -135,10 +144,12 @@ if( WITH_NETCDF )
 	endif()
 endif()
 
+set (cairo "no")
 if( WITH_CAIRO )
 	find_package( PangoCairo  )
 	if( PANGOCAIRO_FOUND )
     	set( MAGICS_CAIRO 1 )
+        set (cairo "yes")
     endif()
 endif()
 
@@ -148,13 +159,18 @@ install( FILES ${CMAKE_CURRENT_BINARY_DIR}/magics-config
 			PERMISSIONS OWNER_READ GROUP_READ WORLD_READ 
 				        OWNER_EXECUTE GROUP_EXECUTE WORLD_EXECUTE)
 
+set ( qt no)
 if( WITH_QT )
 	find_package(Qt4 4.4.3 REQUIRED QtCore QtGui QtXml )
 	if( QT_FOUND )
 		include( ${QT_USE_FILE} )
 		set( MAGICS_QT 1)
+        set ( qt yes)
 	endif()
 endif()
+
+# whether we have a separate libMagPlusQt or not - currently we never have
+set (qtlib no)
 
 ###############################################################################
 # contents
@@ -201,6 +217,9 @@ message(STATUS "MAGICS_EXTRA_LIBRARIES    => ${MAGICS_EXTRA_LIBRARIES}")
 
 if( MAGICS_BUFR )
 	list( APPEND MAGICS_EXTRA_DEFINITIONS   fortfloat=double fortint=int )
+endif()
+if( WITH_QT_DEBUG )
+	list( APPEND MAGICS_EXTRA_DEFINITIONS QT_NO_DEBUG_OUTPUT )
 endif()
 
 if( MAGICS_QT )

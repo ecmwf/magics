@@ -2,13 +2,15 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>TEST_NAME regression test</title>
+    <title>TEST_NAME test (BRANCH_NAME branch)</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
 
     <!-- Le styles -->
     <link href="http://download.ecmwf.int/test-data/magics/regression_output/static/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+
     <link href="http://download.ecmwf.int/test-data/magics/regression_output/static/jquery-ui/development-bundle/themes/base/jquery.ui.all.css" rel="stylesheet">
     <link href="http://download.ecmwf.int/test-data/magics/regression_output/static/jquery-ui/css/ui-lightness/jquery-ui-1.8.18.custom.css" rel="stylesheet">
     <style>
@@ -47,7 +49,40 @@
           white-space: pre;
         }
 
+	.image {
+        overflow:auto;
+        max-height:600px;
+    }
+ 
+    .left {
+        float:left;
+        text-align:left;
+    }
+
+    .right {
+        float:right;
+        text-align:right;
+
+    .center {
+        float:center;
+        text-align:center;
+	}
+
     </style>
+
+    <!-- codediff.py style definitions -->
+    <style type="text/css">
+        table.diff {font-family:Courier; font-size:12px; border:medium;}
+        .diff_header {background-color:#e0e0e0}
+        td.diff_header {text-align:right}
+        .diff_next {background-color:#c0c0c0}
+        .diff_add {background-color:#aaffaa}
+        .diff_chg {background-color:#ffff77}
+        .diff_sub {background-color:#ffaaaa}
+        /* customized style */
+        table.diff {font-family:monospace; font-size:12px; border:medium;}
+    </style>
+   
     <link href="http://download.ecmwf.int/test-data/magics/regression_output/static/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
     <script src="http://download.ecmwf.int/test-data/magics/regression_output/static/jquery/jquery-1.7.1.min.js"></script>
     <script src="http://download.ecmwf.int/test-data/magics/regression_output/static/jquery-ui/js/jquery-ui-1.8.18.custom.min.js"></script>
@@ -59,6 +94,45 @@
 
     <!-- Le fav and touch icons -->
     <link rel="shortcut icon" href="http://download.ecmwf.int/test-data/magics/regression_output/static/favicon.ico">
+
+
+	<script type="text/javascript"> 
+        
+        function onScrollDiv (div) 
+        {
+            var images= document.getElementsByClassName("image");
+            for (i in images) setScroll(images[i],div);
+        }
+
+        function setScroll(from_div, to_div) 
+        {
+            from_div.scrollLeft = to_div.scrollLeft;
+            from_div.scrollTop = to_div.scrollTop;
+        }   
+        
+        function onClickZoom(zoom) 
+        {
+            var plots= document.getElementsByClassName("plot");
+            for (i in plots) plots[i].style.width= zoom + "%";
+        }
+		
+		function onClickDiff(type) 
+        {
+        	var pixels= PIXEL_DIFS;
+        	for (v in pixels){
+        		var p= "Difference: "+pixels[v][type][0]+" ("+(pixels[v][type][1]).toFixed(1)+"%) pixels";
+        		document.getElementById(v+"_pixel_diff").innerHTML= p;
+        	}
+        	
+        	var plots= document.getElementsByClassName("plot_diff");
+        	for (i in plots){
+        		var ver_id= plots[i].id.split("_")[0];        	
+        		if (type=="mdiff") plots[i].src= plots[i].src.replace("_pdif","_diff");
+        		if (type=="pdiff") plots[i].src= plots[i].src.replace("_diff","_pdif");
+        	}
+        }
+    </script>
+
 
   </head>
 
@@ -72,123 +146,69 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="#" title="Title">TEST_NAME</a>
+          <a class="brand" href="#" title="Title">BRANCH_NAME: TEST_NAME</a>
           <div class="nav-collapse">
             <ul class="nav">
-              <li><a href="#parameters" title="Go to the test parameters">     Parameters         </a></li>
-              <li><a href="#results"    title="Go to test results">            Results            </a></li>
-              <li><a href="#run_info"   title="Go to test run resource usage"> Run Info           </a></li>
-              <li><a href="#stdout"     title="Go to test standard output">    Stdout             </a></li>
-              <li><a href="#stderr"     title="Go to test standard error">     Stderr             </a></li>
-              <li><a href="#plots"      title="Go to test output plots">       Plots              </a></li>
-              <li><a href="#comment"    title="Submit comments to JIRA">       JIRA               </a></li>
+              <li><a href="#overview"   title="Go to the summary results">      Overview           </a></li>
+              <li><a href="#compare"    title="Go to the detailed results">     Compare            </a></li>
+              <li><a href="#parameters" title="Go to the test parameters">      Parameters         </a></li>
+              <li><a href="#comment"    title="Submit comments to JIRA">        JIRA               </a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div>
       </div>
     </div>
 
-    <div id="dict">
-    </div>
+    <div class="container">
 
-    <div class="container ">
         <a name="top" class="bookmark"></a>
             
+        <a name="overview" class="bookmark"></a>
+        <section>
+            <div>
+                <h3>Overview <small>test results</small> </h3>
+            </div>
+            <div class="row">
+              <div class="span12">
+              	
+              	TEST_RESULTS
+              
+              </div>
+          </div>
+        </section>
+
+        <a name="compare" class="bookmark"><br></a>
+        <section>
+            <div>
+                <h3>Comparison<small></small></h3>
+            </div>
+            <div class="row">
+              <div class="span12">
+            	TAB_VERS
+              </div>
+            </div>
+        </section>
+
         <a name="parameters" class="bookmark"></a>
         <section>
-            <div class="page-header">
-                <h2>Test parameters <small>some comments<small></h2>
+            <div>
+                <h3>Parameters <small>test input</small></h3>
             </div>
             <div class="row">
-              <div class="span8">
-                <table>
-                  <tr><td>versions:    </td><td>VERSIONS    </td></tr> 
-                  <tr><td>interpreter: </td><td>INTERPRETER </td></tr>
-                  <tr><td>executable:  </td><td>EXECUTABLE  </td></tr>
-                  <tr><td>reference:   </td><td>REFERENCE   </td></tr>
-                  <tr><td>threshold:   </td><td>THRESHOLD   </td></tr>
-                  <tr><td>output_dir:  </td><td>OUTPUT_DIR  </td></tr>
-                  <tr><td>time:        </td><td>TIME        </td></tr>
+              <div class="span6">
+                <table class="table table-bordered">
+                  <tr><td>branch           </td><td>BRANCH_NAME </td></tr> 
+                  <tr><td>versions         </td><td>VERSIONS    </td></tr> 
+                  <tr><td>interpreter      </td><td>INTERPRETER </td></tr>
+                  <tr><td>executable       </td><td>EXECUTABLE  </td></tr>
+                  <tr><td>reference        </td><td>REFERENCE   </td></tr>
+                  <tr><td>threshold        </td><td>THRESHOLD   </td></tr>
+                  <tr><td>input_dir        </td><td>INPUT_DIR   </td></tr>
+                  <tr><td>output_dir       </td><td>OUTPUT_DIR  </td></tr>
+                  <tr><td>compilation_time </td><td>TIME        </td></tr>
                 </table>
               </div>
           </div>
-        </section>
-
-        <a name="results" class="bookmark"></a>
-        <section>
-            <div class="page-header">
-                <h2>Test Results <small>some comments<small> </h2>
-            </div>
-            <div class="row">
-              <div class="span8">
-                <table>
-                  <tr><td>diff:        </td><td>DIFF        </td></tr>
-                </table>
-              </div>
-          </div>
-        </section>
-
-
-        <a name="run_info" class="bookmark"><br></a>
-        <section>
-            <div class="page-header">
-                <h2>Run Info <small>some comments<small></h2>
-            </div>
-            <div class="row">
-                <div class="span12 control" name="source_frame" id="source_frame">
-	                <table>
-	                	RUN_INFO	
-    	            </table>
-                </div>
-            </div>
-            </section>
-
-        <a name="stdout" class="bookmark"><br></a>
-        <section>
-            <div class="page-header">
-                <h2>Standard Output <small>some comments<small></h2>
-            </div>
-            <div class="row">
-                <div class="span12 control" name="source_frame" id="source_frame">
-	    	       <pre>STDOUT</pre>	
-                </div>
-            </div>
-            </section>
-
-        <a name="stderr" class="bookmark"><br></a>
-        <section>
-            <div class="page-header">
-                <h2>Standard Error <small>some comments<small></h2>
-            </div>
-            <div class="row">
-                <div class="span12 control" name="source_frame" id="source_frame">
-	               <pre>STDERR</pre>	
-                </div>
-            </div>
-         </section>
-
-        <a name="plots" class="bookmark"><br></a>
-        <section>
-            <div class="page-header">
-                <h2>Output Plots <small>some comments<small></h2>
-            </div>
-			OUTPUT_PLOTS            
-        </section>
-
-      <a name="target" class="bookmark"></a>
-        <section>
-            <div class="row">
-                <div class="span12 control" name="target_frame" id="target_frame">
-                </div>
-            </div>
-        </section>
-
-        <a name="detail" class="bookmark"></a>
-        <section>
-            <div class="row">
-                <div class="span12" name="detail_frame" id="detail_frame" >
-                </div>
-            </div>
         </section>
        
         <a name="comment" class="bookmark"></a>
@@ -216,6 +236,8 @@ target="_blank">Apache License v2.0</a>. Documentation licensed under <a href="h
     <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
+    <script src="http://download.ecmwf.int/test-data/magics/regression_output/static/bootstrap/js/bootstrap.js"></script>
+    <!--    
     <script src="http://download.ecmwf.int/test-data/magics/regression_output/static/bootstrap/js/bootstrap-transition.js"></script>
     <script src="http://download.ecmwf.int/test-data/magics/regression_output/static/bootstrap/js/bootstrap-alert.js"></script>
     <script src="http://download.ecmwf.int/test-data/magics/regression_output/static/bootstrap/js/bootstrap-modal.js"></script>
@@ -231,7 +253,7 @@ target="_blank">Apache License v2.0</a>. Documentation licensed under <a href="h
     <script src="http://download.ecmwf.int/test-data/magics/regression_output/static/bootstrap/js/bootstrap-typeahead.js"></script>
     <script src="http://download.ecmwf.int/test-data/magics/regression_output/static/datatables/media/js/jquery.dataTables.js"></script>
     <script type="text/javascript" language="javascript" src="http://download.ecmwf.int/test-data/magics/regression_output/static/bootstrap-datatables.js"></script>
-
+	-->
 </body>
 </html>
 

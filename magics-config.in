@@ -94,7 +94,7 @@ while test $# -gt 0; do
 		echo_prefix=yes
 		;;
 	--version)
-		echo @MAGICS_PACKAGE_VERSION@
+		echo "@MAGICS_VERSION_STR@"
 		;;
 	--with-cairo)
 		echo "@cairo@"
@@ -114,11 +114,14 @@ while test $# -gt 0; do
 	--with-qt)
 		echo "@qt@"
 		;;
-	--with-gd)
-		echo "@raster@"
+	--with-qtlib)
+		echo "@qtlib@"
 		;;
 	--with-bufr)
 		echo "@bufr@"
+		;;
+	--with-gd)
+		echo "no"
 		;;
 	--with-spot)
 		echo "@spot@"
