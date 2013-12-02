@@ -1,0 +1,160 @@
+{
+
+    "249.140": {
+        "east": [
+            16.0, 
+            0.0, 
+            0.0, 
+            0.0, 
+            0.0, 
+            0.0, 
+            2.0, 
+            0.0, 
+            0.0, 
+            1.0
+        ], 
+        "nord": [
+            0.0, 
+            0.0, 
+            0.0, 
+            0.0, 
+            0.0, 
+            0.0, 
+            1.0, 
+            0.0, 
+            0.0, 
+            0.0
+        ], 
+        "nord_east": [
+            4.0, 
+            0.0, 
+            0.0, 
+            0.0, 
+            0.0, 
+            0.0, 
+            0.0, 
+            0.0, 
+            0.0, 
+            0.0
+        ], 
+        "nord_west": [
+            0.0, 
+            0.0, 
+            0.0, 
+            0.0, 
+            0.0, 
+            0.0, 
+            2.0, 
+            0.0, 
+            0.0, 
+            0.0
+        ], 
+        "south": [
+            1.0, 
+            35.0, 
+            34.0, 
+            33.0, 
+            43.0, 
+            37.0, 
+            25.0, 
+            39.0, 
+            29.0, 
+            29.0
+        ], 
+        "south_east": [
+            29.0, 
+            6.0, 
+            1.0, 
+            17.0, 
+            5.0, 
+            12.0, 
+            15.0, 
+            9.0, 
+            21.0, 
+            18.0
+        ], 
+        "south_west": [
+            0.0, 
+            9.0, 
+            15.0, 
+            0.0, 
+            2.0, 
+            1.0, 
+            5.0, 
+            2.0, 
+            0.0, 
+            2.0
+        ], 
+        "steps": [
+            "12", 
+            "36", 
+            "60", 
+            "84", 
+            "108", 
+            "132", 
+            "156", 
+            "180", 
+            "204", 
+            "228"
+        ], 
+        "west": [
+            0.0, 
+            0.0, 
+            0.0, 
+            0.0, 
+            0.0, 
+            0.0, 
+            0.0, 
+            0.0, 
+            0.0, 
+            0.0
+        ]
+    }, 
+    "date": "20130109", 
+    "deterministic_height": 1.0, 
+    "distance": {
+        "angle": 0.0, 
+        "direction": "north", 
+        "distance": 0, 
+        "distance_unit": "km"
+    }, 
+    "eps_height": 1.0, 
+    "height": 0, 
+    "land_sea_mask": 1.0, 
+    "location": {
+        "lat": 0.0, 
+        "lon": 0.0
+    }, 
+    "metadata": {
+        "date": "20130109", 
+        "db": "10_days_wave", 
+        "deterministic_height": 1.0, 
+        "deterministic_resolution": null, 
+        "distance": {
+            "angle": 0.0, 
+            "direction": "north", 
+            "distance": 0, 
+            "distance_unit": "km"
+        }, 
+        "eps_height": 1.0, 
+        "eps_resolution": null, 
+        "height": 0, 
+        "land_sea_mask": 1.0, 
+        "location": {
+            "lat": 25.0, 
+            "lon": 10.0
+        }, 
+        "points_along_meridian": 361, 
+        "requested_location": {
+            "lat": 0.0, 
+            "lon": 0.0
+        }, 
+        "temperature_adjustment": null, 
+        "temperature_correction": true, 
+        "time": "0000", 
+        "wave_resolution": null
+    }, 
+    "points_along_meridian": 361, 
+    "station_name": "10-day wave epsgram", 
+    "time": "0000"
+}

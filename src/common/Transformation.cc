@@ -723,6 +723,10 @@ void useRef(double ref, double inc, double& min, double& max)
 void Transformation::thin(int dimx, int dimy, vector<UserPoint>& in) const
 {
 	Timer timer("thiining", "");
+    if ( dimx < 2 || dimy < 2)  {
+        MagLog::info() << " No flags to plot." << endl;
+        return;
+        }
 
 	double minx = getMinPCX();
 	double maxx = getMaxPCX();
@@ -740,10 +744,10 @@ void Transformation::thin(int dimx, int dimy, vector<UserPoint>& in) const
 
 
 
-	minx = floor((minx)/stepx)*stepx;
-	maxx = ceil((maxx)/stepx)*stepx;
-	miny = floor((miny)/stepy)*stepy;
-	maxy = ceil((maxy)/stepy)*stepy;
+	//minx = floor((minx)/stepx)*stepx;
+	//maxx = ceil((maxx)/stepx)*stepx;
+	//miny = floor((miny)/stepy)*stepy;
+	//maxy = ceil((maxy)/stepy)*stepy;
 
 	for ( PointIter pt = in.begin(); pt != in.end(); ++pt ) {
 		double x = pt->x_;
@@ -756,20 +760,40 @@ void Transformation::thin(int dimx, int dimy, vector<UserPoint>& in) const
 		double x0 = minx + (xx*stepx) +(stepx/2);
 		double y0 = miny + (yy*stepy)+(stepy/2);
 
-		PointIter& last = helper[yy*dimx +xx ];
+        vector<pair<int, int> > check;
+        check.push_back(make_pair(yy, xx));
+        check.push_back(make_pair(yy, xx-1));
+        check.push_back(make_pair(yy, xx+1));
+        check.push_back(make_pair(yy+1, xx));
+        check.push_back(make_pair(yy+1, xx-1));
+        check.push_back(make_pair(yy+1, xx+1));
+        check.push_back(make_pair(yy-1, xx));
+        check.push_back(make_pair(yy-1, xx-1));
+        check.push_back(make_pair(yy-1, xx+1));
+
+        for ( vector<pair<int, int> >::iterator ind = check.begin(); ind != check.end(); ++ind) {
+            int i = ind->first*dimx + ind->second;
+            if ( i < 0 || i >= dimx*dimy) 
+                continue;
+             double x0 = minx + ( ind->second*stepx) +(stepx/2);
+             double y0 = miny + ( ind->first*stepy)+(stepy/2);
+
+
+		PointIter& last = helper[i];
 
 		if ( last == in.end())
-			helper[yy*dimx +xx ]= pt;
+			helper[i ]= pt;
 		else {
 
-			double dist = ((x-x0) * (x-x0)) +  ((y - y0) * (y -y0));
+			double dist = sqrt(((x-x0) * (x-x0)) +  ((y - y0) * (y -y0)));
 			double lastx = last->x_;
 			double lasty = last->y_;
 			fast_reproject(lastx, lasty);
-			double min = ((lastx-x0) * (lastx-x0)) +  ((lasty - y0) * (lasty -y0));
+			double min = sqrt(((lastx-x0) * (lastx-x0)) +  ((lasty - y0) * (lasty -y0)));
 			if (dist < min)
-				helper[yy*dimx +xx ] = pt;
+				helper[i ] = pt;
 		}
+         }
 
 
 	}

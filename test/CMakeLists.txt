@@ -1,4 +1,5 @@
 
+return()
 if ( WITH_FORTRAN )
 	ecbuild_enable_fortran( REQUIRED )
 	add_subdirectory( fortran )

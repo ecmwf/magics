@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Magics Regression Tests</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="http://download.ecmwf.int/test-data/magics/regression_output/static/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+
+    <link href="http://download.ecmwf.int/test-data/magics/regression_output/static/jquery-ui/development-bundle/themes/base/jquery.ui.all.css" rel="stylesheet">
+    <link href="http://download.ecmwf.int/test-data/magics/regression_output/static/jquery-ui/css/ui-lightness/jquery-ui-1.8.18.custom.css" rel="stylesheet">
+    <style>
+      body {
+        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+        padding-bottom: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+        background-color: #fcfcfc
+      }
+
+      .hilite {
+          color: #0088cc;
+      }
+
+      .control {}
+ 
+      .test {
+            background-color: #EEEEEE;
+      }
+
+      .bookmark {
+          padding: 30px;
+      }
+       
+       .footer {
+            padding-top: 60px;
+      }
+
+      .scrollarea {
+          overflow:auto;
+          height:500px;        
+          }
+
+        pre {
+          overflow: auto;
+          word-wrap: normal;
+          white-space: pre;
+        }
+
+	.image {
+        overflow:auto;
+        max-height:600px;
+    }
+ 
+    .left {
+        float:left;
+        text-align:left;
+    }
+
+    .right {
+        float:right;
+        text-align:right;
+
+    .center {
+        float:center;
+        text-align:center;
+	}
+
+    </style>
+
+    <!-- codediff.py style definitions -->
+    <style type="text/css">
+        table.diff {font-family:Courier; font-size:12px; border:medium;}
+        .diff_header {background-color:#e0e0e0}
+        td.diff_header {text-align:right}
+        .diff_next {background-color:#c0c0c0}
+        .diff_add {background-color:#aaffaa}
+        .diff_chg {background-color:#ffff77}
+        .diff_sub {background-color:#ffaaaa}
+        /* customized style */
+        table.diff {font-family:monospace; font-size:12px; border:medium;}
+    </style>
+   
+    <link href="http://download.ecmwf.int/test-data/magics/regression_output/static/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+    <script src="http://download.ecmwf.int/test-data/magics/regression_output/static/jquery/jquery-1.7.1.min.js"></script>
+    <script src="http://download.ecmwf.int/test-data/magics/regression_output/static/jquery-ui/js/jquery-ui-1.8.18.custom.min.js"></script>
+    <script src="http://download.ecmwf.int/test-data/magics/regression_output/static/moment.min.js"></script>
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="http://download.ecmwf.int/test-data/magics/regression_output/static/favicon.ico">
+
+	<script type="text/javascript"> 
+		var results= RESULTS;
+	
+        function  setActiveResult(bra,ver,res) 
+        {
+        	document.getElementById("results-overview").innerHTML= results[bra][ver][res];
+        }
+    </script>
+
+  </head>
+
+  <!--   <body onload="prettyPrint()">-->
+  <body>
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="#" title="Title">Magics: Regression Tests</a>
+          <div class="nav-collapse">
+            <ul class="nav">
+              <li><a href="#overview"  title="Go to the Branches/Versions summary">      Overview         </a></li>
+              <li><a href="#branches"  title="Go to the Branch detailed view">           Branches         </a></li>
+              <li><a href="#versions"  title="Go to the Branch-Version detailed view">   Versions         </a></li>
+              <li><a href="#comment"   title="Submit comments to JIRA">                  JIRA             </a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+
+        <a name="top" class="bookmark"></a>
+            
+        <a name="overview" class="bookmark"></a>
+        <section>
+            <div>
+                <h3>Overview <small>Branches and versions summary</small></h3>
+            </div>
+            <div class="row">
+              <div class="span12">
+              	OVERVIEW
+              </div>
+          </div>
+            <div class="row">
+              <div id="results-overview" class="span12">
+              </div>
+          </div>
+        </section>
+
+        <a name="branches" class="bookmark"><br></a>
+        <section>
+            <div>
+                <h3>Last Run Tests <small>Results summary per branch and version</small></h3>
+            </div>
+            <div class="row">
+              <div class="span12">
+            	TAB_BRANCHES
+              </div>
+            </div>
+        </section>
+
+        <a name="versions" class="bookmark"></a>
+        <section>
+            <div>
+                <h3>All Run Tests <small>Results summary per branch, version and compilation time</small></h3>
+            </div>
+            <div class="row">
+              <div class="span12">
+            	TAB_VERSIONS
+              </div>
+           </div>
+        </section>
+       
+        <a name="comment" class="bookmark"></a>
+        <section>
+            <div class="row">
+                <div class="span12" name="jira_frame" id="jira_frame" >
+                </div>
+            </div>
+            </section>
+        
+
+     <!-- Footer
+      ================================================== -->
+
+      <footer class="footer">
+        <p class="pull-right"><a href="#">To the top</a></p>
+        <p>Built on <a href="http://twitter.github.com/bootstrap/index.html" target="_blank">Twitter Bootstrap</a>, licensed under the <a href="http://www.apache.org/licenses/LICENSE-2.0"
+target="_blank">Apache License v2.0</a>. Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>.</p>
+
+        <p>Icons from <a href="http://glyphicons.com">Glyphicons Free</a>, licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>.</p>
+      </footer>
+
+    </div> <!-- /container -->
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="http://download.ecmwf.int/test-data/magics/regression_output/static/bootstrap/js/bootstrap.js"></script>
+    <!--    
+    <script src="http://download.ecmwf.int/test-data/magics/regression_output/static/bootstrap/js/bootstrap-transition.js"></script>
+    <script src="http://download.ecmwf.int/test-data/magics/regression_output/static/bootstrap/js/bootstrap-alert.js"></script>
+    <script src="http://download.ecmwf.int/test-data/magics/regression_output/static/bootstrap/js/bootstrap-modal.js"></script>
+    <script src="http://download.ecmwf.int/test-data/magics/regression_output/static/bootstrap/js/bootstrap-navlist.js"></script>
+    <script src="http://download.ecmwf.int/test-data/magics/regression_output/static/bootstrap/js/bootstrap-dropdown.js"></script>
+    <script src="http://download.ecmwf.int/test-data/magics/regression_output/static/bootstrap/js/bootstrap-scrollspy.js"></script>
+    <script src="http://download.ecmwf.int/test-data/magics/regression_output/static/bootstrap/js/bootstrap-tab.js"></script>
+    <script src="http://download.ecmwf.int/test-data/magics/regression_output/static/bootstrap/js/bootstrap-tooltip.js"></script>
+    <script src="http://download.ecmwf.int/test-data/magics/regression_output/static/bootstrap/js/bootstrap-popover.js"></script>
+    <script src="http://download.ecmwf.int/test-data/magics/regression_output/static/bootstrap/js/bootstrap-button.js"></script>
+    <script src="http://download.ecmwf.int/test-data/magics/regression_output/static/bootstrap/js/bootstrap-collapse.js"></script>
+    <script src="http://download.ecmwf.int/test-data/magics/regression_output/static/bootstrap/js/bootstrap-carousel.js"></script>
+    <script src="http://download.ecmwf.int/test-data/magics/regression_output/static/bootstrap/js/bootstrap-typeahead.js"></script>
+    <script src="http://download.ecmwf.int/test-data/magics/regression_output/static/datatables/media/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" language="javascript" src="http://download.ecmwf.int/test-data/magics/regression_output/static/bootstrap-datatables.js"></script>
+	-->
+
+    //process all times stamps
+	<script type="text/javascript"> 
+        var times= document.getElementsByClassName("timestamp");
+        for (i in times) {
+        	var st= times[i].innerHTML;
+        	times[i].innerHTML= moment(st,"YYYYMMDD-HHmmss").fromNow() 
+        }
+    </script>
+
+</body>
+</html>
+
