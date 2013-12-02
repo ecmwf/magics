@@ -51,6 +51,16 @@
         high_row='2' high_column='0'/>
  </obs_template>
 
+ <obs_template type='position' rows='5' columns='5'>
+	<obs_cloud_wind/>
+	<obs_temperature row='1' column='-1'/>
+	<obs_pressure row='1' column='1'/>
+	<obs_pressure_tendency row='0' column='1'/>
+	<obs_dewpoint row='-1' column='-1'/>
+	<obs_visibility row='0' column='-2'/>
+	<obs_present_weather row='0' column='-1'/>
+	<obs_cloud low_row='-1' low_column='0' medium_row='1' medium_column='0' high_row='2' high_column='0'/>
+ </obs_template>
 
  <obs_template type='synop' rows='5' columns='5'>
 	<obs_cloud_wind/>
