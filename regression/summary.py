@@ -363,7 +363,10 @@ def summary(base_dir):
             p_test= group+test
             p_time= params['time']
             p_version= ver
-            p_result= maxResult(params['result'][ver].values())
+            try:
+                p_result= maxResult(params['result'][ver].values())
+            except:
+                p_result= 'Error'
             data.append((p_branch,p_test,p_time,p_version,p_result))
         
     #upload all tests hierarchy to the server
