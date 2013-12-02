@@ -30,7 +30,7 @@ __version__ = '0.1'
 #####################################################################
 
 
-def getDateDistance(timestamp):
+def getDateDistance(timestamp,colour='grey'):
     #old code
 #     d1= datetime.datetime.now()
 #     d0= datetime.datetime.strptime(timestamp,"%Y%m%d_%H%M%S")
@@ -42,7 +42,7 @@ def getDateDistance(timestamp):
 #         return '%dh'%(dd.seconds/3600,),'%d hours ago'%(dd.seconds/3600,),text
     d0= datetime.datetime.strptime(timestamp,"%Y%m%d_%H%M%S")
     text= d0.strftime("%Y.%m.%d %H:%M:%S")
-    dd= '<span class="timestamp">%s</span>'%timestamp
+    dd= '<span class="timestamp" style="color:%s">%s</span>'%(colour,timestamp)
     return dd,dd,text
 
 
@@ -102,12 +102,18 @@ def buildOverview(oData):
                 click= "setActiveResult('%s','%s','%s');"%(bra,ver,res)
                 row+= ' <a href="#" data-toggle="tooltip" style="text-decoration:none;" title="%d %s tests" onclick="%s"><span class="badge badge-%s">%s</span></a> '%(num,res,click,resultLabelStyle(res),num)
                 result=''
-                for tes,tim in oData[(bra,ver)][res]:
+                
+                #sort tests by name and show 
+                last_tests= oData[(bra,ver)][res]
+                last_tests.sort()
+                for tes,tim in last_tests:
                     _,_,dat= getDateDistance(tim)
+                    tesgrp= tes
+                    teslnk= tes.split('/')[-1]
                     result+='''<tr>
                                  <td><a href="/test-data/magics/regression_output/%s/%s/%s/%s.html">%s</a></td>
                                  <td><small>%s</small></td>
-                               <tr>'''%(bra,tes,tim,tes,tes,dat)
+                               <tr>'''%(bra,teslnk,tim,teslnk,tesgrp,dat)
                 result='''
                 <h4> %s  / %s  / <span class="badge badge-%s" style="font-size: 20px; height: 24px;line-height: 20px">%s</span></h4>
                 <table class="table table-bordered">
@@ -168,8 +174,11 @@ def buildBranches(bData):
         for tes in tests:
             #skip if test has not run for the branch
             if not data[bra].has_key(tes): continue
+
+            tesgrp= tes
+            teslnk= tes.split('/')[-1]
             
-            row='<th>%s</th>'%tes
+            row='<th>%s</th>'%tesgrp
 
             #for each version
             for ver in versions:
@@ -179,7 +188,7 @@ def buildBranches(bData):
                 else:
                     tim,res= data[bra][tes][ver]
                     row+='<td>'
-                    row+= '<a href="/test-data/magics/regression_output/%s/%s/%s/%s.html" data-toggle="tooltip" style="text-decoration:none;"><span class="label label-%s">%s</span></a>'%(bra,tes,tim,tes,resultLabelStyle(res),res)
+                    row+= '<a href="/test-data/magics/regression_output/%s/%s/%s/%s.html" data-toggle="tooltip" style="text-decoration:none;"><span class="label label-%s">%s</span></a>'%(bra,teslnk,tim,teslnk,resultLabelStyle(res),res)
                     short,_,dat= getDateDistance(tim)
                     row+=' <a href="#" data-toggle="tooltip" style="text-decoration:none;" title="Last test run: %s"><small>%s</small></a></td>\n'%(dat,short)
             content+='<tr>%s</tr>\n'%row
@@ -210,6 +219,10 @@ def getVersions(data):
         if not vdata[bra][ver].has_key(tes): vdata[bra][ver][tes]= {}
         vdata[bra][ver][tes][tim]= res
         times|= set([tim])
+    #sort timestamps from newest to oldest
+    times= list(times)
+    times.sort()
+    times.reverse()
     return vdata,times
     
 def buildVersions(vData):
@@ -231,23 +244,27 @@ def buildVersions(vData):
 
             #write a header row
             for tim in times:
-                _,tip,dat= getDateDistance(tim)
-                vcontent+= '<th>%s<br><small>%s</small></th>'%(tip,dat)
+                _,tip,dat= getDateDistance(tim,colour="black")
+                vcontent+= '<th><a href="#" data-toggle="tooltip" style="text-decoration:none;" title="run time: %s"><small>%s</small></a></th>'%(dat,tip)
+                #vcontent+= '<th>%s<br><small>%s</small></th>'%(tip,dat)
             vcontent= '<tr><th>tests</th>%s<tr>\n'%vcontent
 
             #for each test
             tests= data[bra][ver].keys()
             tests.sort()
             for tes in tests:
+                
+                tesgrp= tes
+                teslnk= tes.split('/')[-1]
                                 
-                row='<th>%s</th>'%tes
+                row='<th>%s</th>'%tesgrp
     
                 #for each run time
                 for tim in times:
                     if data[bra][ver][tes].has_key(tim):
                         res= data[bra][ver][tes][tim]
                         row+='<td>'
-                        row+= '<a href="/test-data/magics/regression_output/%s/%s/%s/%s.html" data-toggle="tooltip" style="text-decoration:none;"><span class="label label-%s">%s</span></a>'%(bra,tes,tim,tes,resultLabelStyle(res),res)
+                        row+= '<a href="/test-data/magics/regression_output/%s/%s/%s/%s.html" data-toggle="tooltip" style="text-decoration:none;"><span class="label label-%s">%s</span></a>'%(bra,teslnk,tim,teslnk,resultLabelStyle(res),res)
                         row+='</td>\n'
                     else:
                         row+='<td></td>\n'
@@ -336,10 +353,14 @@ def summary(base_dir):
         command= ' '.join(['cp',testdir+'/*',tmptestdir])
         call(command,shell=True)
         
-        #keep relevant parameters to database: branch,test,time,version,result
+        #get the test group from input directory
+        group=''
+        if params.has_key('input_dir'): group= params['input_dir'].split('/')[-1]+'/'
+        
+        #keep relevant parameters to database: branch,group+test,time,version,result
         for ver in  params['versions']:
             p_branch= params['branch_name']
-            p_test= test
+            p_test= group+test
             p_time= params['time']
             p_version= ver
             p_result= maxResult(params['result'][ver].values())
@@ -360,7 +381,7 @@ def summary(base_dir):
         with open('data.json') as f: olddata= [tuple(x) for x in json.loads(f.read())]
     else:
         olddata= []
-    newdata= list( set(olddata)| set(data) )
+    newdata= list( set(olddata) | set(data) )
     with open('data.json','w') as f: f.write(json.dumps(newdata,sort_keys=True,indent=4,separators=(',', ': ')))
     upload('data.json','magics/regression_output')   
     ########### REMARK! ideally, this operation should be atomic! ########### 
@@ -375,7 +396,7 @@ def summary(base_dir):
 
 if __name__ == "__main__":
     
-    cmd_parser = OptionParser(usage="usage: %prog <input-reports-dir> <timestamp>", version='%prog : '+__version__, description = __doc__, prog = 'summary.py')
+    cmd_parser = OptionParser(usage="usage: %prog <input-reports-dir>", version='%prog : '+__version__, description = __doc__, prog = 'summary.py')
 
     print sys.argv
     
