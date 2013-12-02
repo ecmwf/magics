@@ -1,0 +1,62 @@
+C
+C        INPUT OF PROGRAM PRSPP (PRINT SPECTRA)
+C        ======================================
+C
+C        USER INFORMATION IS BEING READ WITH THE PRESUMPTIONS THAT:
+C         1. EVERY LINE STARTING WITH 'C' IS A COMMENT LINE
+C         2. VALUES ARE PUT IN BELOW POSITIONS INDICATED WITH '-'
+C            (RIGHT-JUSTIFIED, BUT CHARACTER LEFT JUSTIFIED)
+C
+C           **** DATES AND TIME STEPS FOR OUTPUT  ****
+C
+C           IDATEA  = START DATE OF OUTPUT    (YYMMDDHHMM)
+C           IDATEE  = END DATE OF OUTPUT      (YYMMDDHHMM)
+C           IDELDO  = DATA OUTPUT TIME STEP   (SECOND) (HOUR)
+C           U       = TIME UNIT: H = HOURS, S = SECONDS
+C
+C    IDATEA      IDATEE   IDELDO  U
+C----------  ----------  -------  -
+ 1003070000  1003110000        3  H
+C
+C           **** ECFILE FREQUESTS ****
+C
+C           IDATEF  = DATE OF FIRST FILE NAME (YYMMDDHHMM)
+C           IDELFI  = FILE TIME STEP (SECONDS) (HOUR)
+C           USD     = 3 CHARACTER USER ID
+C           RID     = 3 CHARACTER RUN  ID (FOR CYBER_205 ONLY)
+C           FID     = 3 CHARACTER FILE ID (NORMALLY OUT)
+C           PATH    = 40 CHARACTER ECFILE PATH (NORMALY WAMOPER)
+C
+C    IDATEF   IDELFI  U  USD
+C----------  -------  -  ---
+ 9999999999       24  H  WMB
+C
+CRID  FID  PATH
+C---  ---  ---------+---------+---------+---------+---------+---------+
+ MED  XXX  work/oper
+C!!!  !!!  !!!!!!!!!
+C
+C           **** INFORMATION ON THE ACTUAL RUN ***
+C
+C              RUN  = INFORMATION TO BE WRITTEN ON PLOT
+C
+C         RUN
+C--------------------
+ ADRIAOPER ECMWF WIND
+C
+C           **** OUTPUT SIDES ****
+C
+C           XLONG   = LONGITUDE IN DEGREE
+C           XLAT    = LATITUDE IN DEGREE
+C           NAME    = SIDE NAME (UP TO 20 CHARACTER)
+C
+C           ----------------------------------------------
+C           THE PROGRAM DIMENSIONS ALLOW UP TO 26 SIDES
+C           ----------------------------------------------
+C
+C   XLONG      XLAT  NAME
+C--------  --------  ---------+---------+
+   12.500    45.250  ISDGM-TOWER
+C           THE INPUT LIST HAS TO BE CLOSED BY AN END LINE
+C
+    0.000     0.000  END

@@ -1,0 +1,1 @@
+{"magics.title":"","projection":{"name" : "cylindrical","top" : "197.494","left" : "60","img_width" : "680","img_height" : "340.206","width" : "800","height" : "566","pcxmin" : "-180","pcymin" : "-90","pcxmin" : "-180","pcymin" : "-90","pcwidth" : "360","pcheight" : "180","inwidth" : "1009.8","inheight" : "630","xorig" : "0","yorig" : "0","zoom_level" : "0"}}
