@@ -438,14 +438,14 @@ void TableDecoder::visit(Transformation& transformation)
 			if ( magCompare(this->x_type_, "date" ) ) {
 				double min = ( this->x_values_.empty() ) ? 0 : *std::min_element(this->x_values_.begin(), this->x_values_.end());
 				double max = ( this->x_values_.empty() ) ? 24*3600 : *std::max_element(this->x_values_.begin(), this->x_values_.end());
-				transformation.setDataMinX(min, this->baseDateX_);
-				transformation.setDataMaxX(max, this->baseDateX_);
+				transformation.setDataMinMaxX(min, max, this->baseDateX_);
+
 			}
 			else {
 				double min = ( this->x_values_.empty() ) ? 0 : *std::min_element(this->x_values_.begin(), this->x_values_.end());
 				double max = ( this->x_values_.empty() ) ? 100 : *std::max_element(this->x_values_.begin(), this->x_values_.end());
-				transformation.setMinX(min);
-				transformation.setMaxX(max);
+				transformation.setMinMaxX(min, max);
+
 			}
 		}
 		if ( transformation.getAutomaticY() ) {
@@ -453,15 +453,13 @@ void TableDecoder::visit(Transformation& transformation)
 				double min = ( this->y_values_.empty() ) ? 0 : *std::min_element(this->y_values_.begin(), this->y_values_.end());
 				double max = ( this->y_values_.empty() ) ? 24*3600 : *std::max_element(this->y_values_.begin(), this->y_values_.end());
 
-				transformation.setDataMinY(min, this->baseDateY_);
-				transformation.setDataMaxY(max, this->baseDateY_);
+				transformation.setDataMinMaxY(min, max, this->baseDateY_);
 			}
 			else {
 				double min = ( this->y_values_.empty() ) ? 0 : *std::min_element(this->y_values_.begin(), this->y_values_.end());
 				double max = ( this->y_values_.empty() ) ? 100 : *std::max_element(this->y_values_.begin(), this->y_values_.end());
 
-				transformation.setMinY(min);
-				transformation.setMaxY(max);
+				transformation.setMinMaxY(min, max);
 			}
 		}
 	}

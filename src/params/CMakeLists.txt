@@ -244,17 +244,13 @@ LandgramDecoder.xml
 MetgramCurve.xml
 MetgramFlags.xml
 MetgramGraph.xml
-ObsCloud.xml
-
 ObsDemoItem2.xml
-ObsDewPoint.xml
 ObsHeight.xml
 ObsIdentifier.xml
 ObsItem.xml
 ObsTable.xml
 ObsJSon.xml
 ObsPastWeather.xml
-
 ObsPresentWeather.xml
 ObsPressure.xml
 ObsPressureLevel.xml

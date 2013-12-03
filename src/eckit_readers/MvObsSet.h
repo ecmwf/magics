@@ -86,7 +86,7 @@ class MvObsSet
        int  messageNumber(){ return (int)_msgNumber; }
 
 //! Closes the input/output file
-   boolean  close();
+   bool  close();
 
 //! Prepares 'PrepBUFR' tables if the input file contains BUFR tables
       bool  prepBufrFile();
@@ -98,7 +98,7 @@ class MvObsSet
 
  protected:
      MvObs  next();
-   boolean  Open( const char* fileName );  //, char* aMode = "r" );
+   bool  Open( const char* fileName );  //, char* aMode = "r" );
       void  write( const char* aMsg, int aMsgLen );
       void  searchMinMaxTime();
  //Logical  currentInputBufferOK() {return _IO_buffer_OK;}
@@ -111,7 +111,7 @@ class MvObsSet
        long  _obsCount;
    TDynamicTime  _minTime;
    TDynamicTime  _maxTime;
-    boolean  _minMaxDone;
+    bool  _minMaxDone;
        long  _msgLen;
        char* _message;
        bool  _IO_buffer_OK;
@@ -300,22 +300,22 @@ class MvObsSetIterator
  protected:
 
      void  next();
-  boolean  AcceptedObs( MvObs& anObs ) const;
-  boolean  TimeOk( MvObs* anObs ) const;
-  boolean  WmoBlockOk( MvObs* anObs ) const;
-  boolean  WmoStationOk( MvObs* anObs ) const;
-  boolean  WithinXSectionLine( MvObs* anObs ) const;
-  boolean  msgTypeOk( MvObs* anObs ) const;
-  boolean  msgSubtypeOk( MvObs* anObs ) const;
-  boolean  InsideArea( MvObs* anObs ) const;
-  boolean  selectOk( MvObs* anObs ) const;
+  bool  AcceptedObs( MvObs& anObs ) const;
+  bool  TimeOk( MvObs* anObs ) const;
+  bool  WmoBlockOk( MvObs* anObs ) const;
+  bool  WmoStationOk( MvObs* anObs ) const;
+  bool  WithinXSectionLine( MvObs* anObs ) const;
+  bool  msgTypeOk( MvObs* anObs ) const;
+  bool  msgSubtypeOk( MvObs* anObs ) const;
+  bool  InsideArea( MvObs* anObs ) const;
+  bool  selectOk( MvObs* anObs ) const;
     float  distanceFromXSectionLine( const MvLocation& aPoint ); //-- used anywhere?
 
  protected:
-         boolean  _NoFiltersSet;
+         bool  _NoFiltersSet;
 	    bool  useObsTime_;
         TDynamicTime  fBeginTime, fEndTime;
-      // boolean  fTimeFilterSet;
+      // bool  fTimeFilterSet;
 ETimeFilterState  _TimeFilterState;
 	     int  _WmoBlockCount;
              int  _WmoBlockNumber[ MAX_FILTER_LIST_ARRAY_SIZE ];

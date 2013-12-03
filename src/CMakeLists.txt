@@ -53,7 +53,6 @@ if ( WITH_METVIEW )
       
       SET(qt_drivers_HEADERS drivers/MgQ/MgQPlotScene.h)
      QT4_WRAP_CPP(qt_drivers_HEADERS_MOC ${qt_drivers_HEADERS})
-     debug_var ( qt_drivers_HEADERS_MOC )
      list( APPEND drivers_srcs  drivers/MgQ/MgQPlotScene.cc  ${qt_drivers_HEADERS_MOC}) 
 
 endif()
@@ -95,8 +94,7 @@ ecbuild_add_library( TARGET    MagPlusDouble
 		     INCLUDES  ${CMAKE_CURRENT_SOURCE_DIR}/common
 		     TYPE STATIC)		     
 
-	     
-ecbuild_add_library( TARGET    MagPlus
+ecbuild_add_library( TARGET    MagPlusShared
                      DEPENDS   magics_params
                      SOURCES
                         magics.h
@@ -114,10 +112,40 @@ ecbuild_add_library( TARGET    MagPlus
                      TEMPLATES
                         ${common_templates}
                      DEFINITIONS
-                        ${MAGICS_EXTRA_DEFINITIONS}
+                        ${MAGICS_EXTRA_DEFINITIONS} MAGICS_EXCEPTION=on
                     LIBS
                         ${MAGICS_EXTRA_LIBRARIES}
+		            TYPE SHARED		     
                     )
+SET_TARGET_PROPERTIES(MagPlusShared PROPERTIES OUTPUT_NAME "MagPlus")
+if ( WITH_STATIC_LIBRARY ) 	     
+ecbuild_add_library( TARGET    MagPlusStatic
+                     DEPENDS   magics_params
+                     SOURCES
+                        magics.h
+                        ${magics_params_srcs} 
+                        ${common_srcs} 
+                        ${basic_srcs}
+                        ${web_srcs}
+                        ${visualisers_srcs}
+                        ${eckit_srcs}
+                        ${drivers_srcs}
+                        ${qt_srcs}
+                        ${decoders_srcs}
+                        ${terralib_srcs} 
+                        ${odb_srcs}
+                     TEMPLATES
+                        ${common_templates}
+                     DEFINITIONS
+                        ${MAGICS_EXTRA_DEFINITIONS}  
+                    LIBS
+                        ${MAGICS_EXTRA_LIBRARIES}
+		            TYPE STATIC		     
+                    )
+
+    SET_TARGET_PROPERTIES(MagPlusStatic PROPERTIES OUTPUT_NAME "MagPlus")
+
+endif()
 
 if( WITH_METVIEW )
   ecbuild_add_library( TARGET    MagWrapper

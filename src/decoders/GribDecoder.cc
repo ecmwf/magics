@@ -342,12 +342,12 @@ void GribDecoder::visit(Transformation& transformation)
 	decode();
 	// Here are in a dump ode .. the coordinates are pixels.
 	if ( transformation.getAutomaticX() ) {
-		transformation.setMinX(1);
-		transformation.setMaxX(matrix_->columns());
+		transformation.setMinMaxX(1, matrix_->columns());
+
 	}
 	if ( transformation.getAutomaticY() ) {
-		transformation.setMinY(1);
-		transformation.setMaxY(matrix_->rows());
+		transformation.setMinMaxY(1, matrix_->rows());
+
 	}
 
 

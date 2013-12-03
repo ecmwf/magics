@@ -34,8 +34,8 @@ using namespace magics;
 Coordinate::Coordinate() 
 {
 	if ( automatic() ) {
-		min(std::numeric_limits<double>::max());
-		max(-std::numeric_limits<double>::max());
+		minmax(std::numeric_limits<double>::max(), -std::numeric_limits<double>::max());
+
 	}
 
 }

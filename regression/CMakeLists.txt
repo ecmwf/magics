@@ -24,7 +24,6 @@ function( add_magics_test )
       message(FATAL_ERROR "Unknown keywords given to add_magics_test(): \"${_p_UNPARSED_ARGUMENTS}\"")
     endif()
     
-   debug_var(_p_NAME)
     ### check parameters
 
     if( NOT _p_NAME )
@@ -49,7 +48,6 @@ function( add_magics_test )
     set( targets "" )
 	foreach( data ${_p_DATA} )
         string( REGEX REPLACE "[^A-Za-z0-9_]" "_" target "${_p_NAME}_data_${data}" )
-        debug_var(target)
         ecbuild_get_test_data( NAME ${data} TARGET ${target} NOCHECK 
             DIRNAME magics/regression/${where})
         list( APPEND targets  "${target}")
@@ -141,7 +139,7 @@ function( add_magics_test )
 			ecbuild_add_test(  TARGET   ${target_load}
                    TYPE     SCRIPT
                    SOURCES  ${_p_SOURCES}                    
-                   LIBS MagPlus MagPlusSingle ${MAGICS_EXTRA_LIBRARIES} 
+                   LIBS MagPlusShared MagPlusSingle ${MAGICS_EXTRA_LIBRARIES} 
                    DEPENDS ${targets}
                    RESOURCES  ${_p_RESOURCES} 
                    COMMAND  ${REGRESSION_SCRIPT_DIRECTORY}/upload.py  
@@ -150,7 +148,7 @@ function( add_magics_test )
 	    ecbuild_add_test(  TARGET   ${target}
                    TYPE     SCRIPT
                    SOURCES  ${_p_SOURCES}                    
-                   LIBS MagPlus MagPlusSingle ${MAGICS_EXTRA_LIBRARIES} 
+                   LIBS MagPlusShared MagPlusSingle ${MAGICS_EXTRA_LIBRARIES} 
                    DEPENDS ${targets}
                    RESOURCES  ${_p_RESOURCES} 
                    COMMAND  ${REGRESSION_SCRIPT_DIRECTORY}/compare.py  
@@ -179,12 +177,12 @@ add_subdirectory( proj4 )
 add_subdirectory( venice )
 add_subdirectory( gallery )
 
-#debug_var( summary_depend )
+debug_var( summary_depend )
 
 #final test 
-#ecbuild_add_test(  TARGET   summary
-#                   TYPE SCRIPT
-#                   DEPENDS ${summary_depend}
-#                   COMMAND  ${REGRESSION_SCRIPT_DIRECTORY}/summary.py
-#                   ARGS ${MAGICS_HTML_ROOT}
-#                   )                   
+ecbuild_add_test(  TARGET   magics_summary
+                   TYPE PYTHON
+                   DEPENDS ${summary_depend}
+                   COMMAND  ${REGRESSION_SCRIPT_DIRECTORY}/summary.py
+                   ARGS ${MAGICS_HTML_ROOT} 
+                   )                   

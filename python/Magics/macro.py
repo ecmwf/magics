@@ -272,8 +272,26 @@ class Action(object):
 			print >>f, ""
 
 
+	def clean_object(self, obj):
+		if type(obj) in (int, float, str, bool):
+			return obj
+		elif type(obj) == unicode:
+			return str(obj)
+		elif type(obj) in (list, tuple, set):
+			obj = list(obj)
+			for i,v in enumerate(obj):
+				obj[i] = self.clean_object(v)
+		elif type(obj) == dict:
+			for i,v in obj.iteritems():
+				obj[i] = self.clean_object(v)
+		else:
+			print "invalid object in data, converting to string"
+			obj = str(obj) 
+		return obj
+
 
 	def execute(self):
+		self.args = self.clean_object(self.args)
 		for key in self.args.keys():
 			if isinstance(self.args[key], str):
 				if key == 'odb_data':

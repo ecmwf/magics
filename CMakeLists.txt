@@ -46,8 +46,10 @@ option( WITH_SPOT          "enable spot"               OFF )
 option( WITH_ODB           "enable odb"                OFF )
 option( WITH_PYTHON        "enable python interface"   ON  )
 option( WITH_FORTRAN       "enable Fortran interface"  ON  )
+option( WITH_STATIC_LIBRARY  "Build static Library"    OFF  )
 option( WITH_REGRESSION     "Internal use only: enable regression test"  OFF  )
 option( WITH_REGRESSION_UPLOAD     "Internal use only : enable upload of reference image"  OFF  )
+
 set( MAGICS_NAME          "Magics" )
 set( MAGICS_EXCEPTION     "ON" )
 set( MAGICS_SITE          "ecmwf" )
@@ -66,12 +68,17 @@ set( MAG_PYTHON_PATH ${CMAKE_BINARY_DIR}/python )
 
 # ecbuild_use_package( PROJECT eckit VERSION 0.3 REQUIRED )
 
-ecbuild_enable_fortran()
 
+if( WITH_FORTRAN)
+	ecbuild_enable_fortran()
+endif()
+
+set ( odb "no")
 if( WITH_ODB)
-  ecbuild_use_package( PROJECT odb_api  VERSION 0.9.28 )
+  ecbuild_use_package( PROJECT odb_api  VERSION 0.9.31 )
   if( ODB_API_FOUND )
         set( MAGICS_ODB 1 )
+        set ( odb "yes")
   endif()
 endif()
 
@@ -79,10 +86,10 @@ set( MAGICS_ONLY 1)
 
 if( WITH_METVIEW )
 	set( WITH_QT 1 )
-    set ( metview "on")
+    set ( metview "yes")
     unset(MAGICS_ONLY)
 else()
-    set ( metview "off")
+    set ( metview "no")
 endif()
 
 if( WITH_GRIB )
@@ -92,10 +99,12 @@ if( WITH_GRIB )
   endif()
 endif()
 
+set ( bufr "no")
 if( WITH_BUFR )
   find_package( EMOS  )
    if( EMOS_FOUND )
         set( MAGICS_BUFR 1 )
+        set ( bufr "yes")
   endif()
 endif()
  
@@ -135,12 +144,12 @@ if( WITH_NETCDF )
 	endif()
 endif()
 
-set (cairo "off")
+set (cairo "no")
 if( WITH_CAIRO )
 	find_package( PangoCairo  )
 	if( PANGOCAIRO_FOUND )
     	set( MAGICS_CAIRO 1 )
-        set (cairo "on")
+        set (cairo "yes")
     endif()
 endif()
 
@@ -150,15 +159,18 @@ install( FILES ${CMAKE_CURRENT_BINARY_DIR}/magics-config
 			PERMISSIONS OWNER_READ GROUP_READ WORLD_READ 
 				        OWNER_EXECUTE GROUP_EXECUTE WORLD_EXECUTE)
 
-set ( qt off)
+set ( qt no)
 if( WITH_QT )
 	find_package(Qt4 4.4.3 REQUIRED QtCore QtGui QtXml )
 	if( QT_FOUND )
 		include( ${QT_USE_FILE} )
 		set( MAGICS_QT 1)
-        set ( qt on)
+        set ( qt yes)
 	endif()
 endif()
+
+# whether we have a separate libMagPlusQt or not - currently we never have
+set (qtlib no)
 
 ###############################################################################
 # contents
@@ -204,7 +216,7 @@ message(STATUS "MAGICS_EXTRA_INCLUDE_DIRS => ${MAGICS_EXTRA_INCLUDE_DIRS}")
 message(STATUS "MAGICS_EXTRA_LIBRARIES    => ${MAGICS_EXTRA_LIBRARIES}")
 
 if( MAGICS_BUFR )
-	list( APPEND MAGICS_EXTRA_DEFINITIONS   fortfloat=double fortint=int boolean=bool )
+	list( APPEND MAGICS_EXTRA_DEFINITIONS   fortfloat=double fortint=int )
 endif()
 if( WITH_QT_DEBUG )
 	list( APPEND MAGICS_EXTRA_DEFINITIONS QT_NO_DEBUG_OUTPUT )
@@ -245,7 +257,7 @@ add_subdirectory( python )
 add_subdirectory( apps )
 
 # Test directory
-add_subdirectory( test )
+#add_subdirectory( test )
 add_subdirectory( regression )
 
 # Directories not need in the distribution tar ball!

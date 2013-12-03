@@ -142,7 +142,7 @@ MvObsSet :: _init( const  char *aName )
      cout << "MvObsSet::_init - PrepBUFR support NOT available!!!!" << endl;
 #endif
    }
-   cout << "in MvObsSet::_init(" << aName << ")" << endl;
+   //cout << "in MvObsSet::_init(" << aName << ")" << endl;
 }
 //____________________________________________________________________ setSubsetMax
 void
@@ -152,7 +152,7 @@ MvObsSet :: setSubsetMax( int subsetMax )
   _bufrOut->setSubsetCount( subsetMax );
 }
 //____________________________________________________________________ Open
-boolean
+bool
 MvObsSet :: Open( const char* aFileName )
 {
    _msgCount = -1;
@@ -172,7 +172,7 @@ MvObsSet :: Open( const char* aFileName )
    }
 }
 //____________________________________________________________________ close
-boolean
+bool
 MvObsSet :: close()
 {
    long myReturnValue = -1;
@@ -697,7 +697,7 @@ MvObsSetIterator :: distanceFromXSectionLine( const MvLocation& aPoint )
    return fXSectionLine.deltaInMeters( aPoint );
 }
 //____________________________________________________________________
-boolean
+bool
 MvObsSetIterator :: TimeOk( MvObs *anObs ) const
 {
    switch( _TimeFilterState )
@@ -746,7 +746,7 @@ MvObsSetIterator :: TimeOk( MvObs *anObs ) const
    return true;
 }
 //____________________________________________________________________
-boolean
+bool
 MvObsSetIterator :: WmoBlockOk( MvObs *anObs ) const
 {
   if( _WmoBlockCount < 1 )
@@ -759,7 +759,7 @@ MvObsSetIterator :: WmoBlockOk( MvObs *anObs ) const
   return false;
 }
 //____________________________________________________________________
-boolean
+bool
 MvObsSetIterator :: WmoStationOk( MvObs *anObs ) const
 {
    if( _WmoStationCount < 1 )
@@ -772,7 +772,7 @@ MvObsSetIterator :: WmoStationOk( MvObs *anObs ) const
   return false;
 }
 //____________________________________________________________________
-boolean
+bool
 MvObsSetIterator :: WithinXSectionLine( MvObs *anObs ) const
 {
    if( fXSectionLine.maxDelta() < 0 )    // not set ?
@@ -784,7 +784,7 @@ MvObsSetIterator :: WithinXSectionLine( MvObs *anObs ) const
      return false;
 }
 //____________________________________________________________________
-boolean
+bool
 MvObsSetIterator :: InsideArea( MvObs *anObs ) const
 {
    if( fArea.lowerLeft().latitude() == MISSING_LOC_VALUE )
@@ -793,7 +793,7 @@ MvObsSetIterator :: InsideArea( MvObs *anObs ) const
      return fArea.inside( anObs->location() );
 }
 //____________________________________________________________________
-boolean
+bool
 MvObsSetIterator :: msgTypeOk( MvObs *anObs ) const
 {
    if( _MsgTypeCount < 1 )
@@ -806,7 +806,7 @@ MvObsSetIterator :: msgTypeOk( MvObs *anObs ) const
   return false;
 }
 //____________________________________________________________________
-boolean
+bool
 MvObsSetIterator :: msgSubtypeOk( MvObs *anObs ) const
 {
    if( _MsgSubtypeCount < 1 )
@@ -819,7 +819,7 @@ MvObsSetIterator :: msgSubtypeOk( MvObs *anObs ) const
   return false;
 }
 //____________________________________________________________________
-boolean
+bool
 MvObsSetIterator :: selectOk( MvObs *anObs ) const
 {
   if( _SelectState == SF_notSet )
@@ -860,7 +860,7 @@ MvObsSetIterator :: selectOk( MvObs *anObs ) const
   return true;
 }
 //____________________________________________________________________
-boolean
+bool
 MvObsSetIterator :: AcceptedObs( MvObs& anObs ) const
 {
    if( _NoFiltersSet )

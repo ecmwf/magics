@@ -139,21 +139,21 @@ void WrepJSon::visit(Transformation& transformation)
 	else {
 		if ( xdate_ ) {
 
-				transformation.setDataMinX(minx_, xBase_);
-				transformation.setDataMaxX(maxx_, xBase_);
+				transformation.setDataMinMaxX(minx_, maxx_, xBase_);
+
 
 		}
 		else {
-			transformation.setDataMinX(minx_);
-			transformation.setDataMaxX(maxx_);
+			transformation.setDataMinMaxX(minx_, maxx_);
+
 		}
 		if ( ydate_ ) {
-			transformation.setDataMinY(miny_, yBase_);
-			transformation.setDataMaxY(maxy_, yBase_);
+			transformation.setDataMinMaxY(miny_, maxy_, yBase_);
+
 		}
 		else {
-			transformation.setDataMinY(miny_);
-			transformation.setDataMaxY(maxy_);
+			transformation.setDataMinMaxY(miny_, maxy_);
+
 		}
 
 	}
@@ -162,17 +162,17 @@ void WrepJSon::visit(Transformation& transformation)
 void WrepJSon::profile(Transformation& transformation)
 {
 
-	transformation.setDataMinX(minx_);
-	transformation.setDataMaxX(maxx_);
+	transformation.setDataMinMaxX(minx_, maxx_);
 
-	transformation.setDataMinY(miny_);
-	transformation.setDataMaxY(maxy_);
+
+	transformation.setDataMinMaxY(miny_, maxy_);
+
 }
 void WrepJSon::eps(Transformation& transformation)
 {
 	if ( keyword_ != "clim" ) {
-		transformation.setDataMinX(minx_  * 3600, base_);
-		transformation.setDataMaxX(maxx_ * 3600, base_);
+		transformation.setDataMinMaxX(minx_  * 3600, maxx_ * 3600, base_);
+
 	}
 	vector<double> maxs;
 	vector<double> allvalues;
@@ -224,22 +224,19 @@ void WrepJSon::eps(Transformation& transformation)
 
 	if ( same(miny_, maxy_) ) 
         	maxy_ = miny_ +5.;
-	transformation.setDataMinY(miny_);
-	transformation.setDataMaxY(maxy_);
+	transformation.setDataMinMaxY(miny_, maxy_);
+
 }
 void WrepJSon::cdf(Transformation& transformation)
 {
-	transformation.setDataMinX(minx_);
-	transformation.setDataMaxX(maxx_);
-	transformation.setDataMinY(0);
-	transformation.setDataMaxY(100);
+	transformation.setDataMinMaxX(minx_, maxx_);
+	transformation.setDataMinMaxY(0, 100);
+
 }
 void WrepJSon::efi(Transformation& transformation)
 {
-	transformation.setDataMinX(-100);
-	transformation.setDataMaxX(+100);
-	transformation.setDataMinY(miny_);
-	transformation.setDataMaxY(maxy_);
+	transformation.setDataMinMaxX(-100,100);
+	transformation.setDataMinMaxY(miny_, maxy_);
 }
 void WrepJSon::decode()
 {	
@@ -675,18 +672,15 @@ MatrixHandler& WrepJSon::matrix()
 	}
 
 
-	
-
 	for (IntervalMap<int>::iterator interval = array.begin(); interval!= array.end(); ++interval) {
 		double row = (interval->first.max_ - interval->first.min_)/2 +interval->first.min_ ;
 		matrix_.rowsAxis().push_back(row);
-
 	}
 
 	matrix_.columnsAxis().push_back(steps.front());
 	vector<double>::iterator s = steps.begin();
 	s++;
-	for (s; s != steps.end(); ++s) {
+	for (; s != steps.end(); ++s) {
 
 		matrix_.columnsAxis().push_back(*s);
 	}
@@ -697,7 +691,6 @@ MatrixHandler& WrepJSon::matrix()
 
 	for (vector<CustomisedPoint*>::const_iterator point = points_.begin(); point != points_.end(); ++point)
 	{
-
 		for (IntervalMap<int>::iterator interval = array.begin(); interval!= array.end(); ++interval) {
 			interval->second = 0;
 		}

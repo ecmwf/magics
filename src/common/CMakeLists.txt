@@ -107,6 +107,7 @@ if ( WITH_METVIEW )
 				common/Factory.h 
 				common/Factory.cc 
 				common/Colour.h 
+				common/Tokenizer.h 
 				common/MagException.h 
 				common/ParameterManager.h
 				common/PaperPoint.h 
