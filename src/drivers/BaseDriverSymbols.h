@@ -210,7 +210,7 @@ MAGICS_NO_EXPORT void BaseDriver::renderFlagItem(const FlagItem& flagItem, const
 	Flag flag;
 	flag.setLength(flagItem.length());
 	flag.setOriginMarker(flagItem.getOriginMarker());
-	flag.setOriginHeight(owner.getHeight());           // NOT flagItem.getOriginHeight() !!!
+	flag.setOriginHeight(flagItem.getOriginHeight());           // NOT flagItem.getOriginHeight() !!!
 	flag.setColour(flagItem.getColour());
 
 	flag.setHemisphere(flagItem.getHemisphere());

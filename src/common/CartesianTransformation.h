@@ -88,19 +88,17 @@ public:
 	double y(const string& val) const { return (*y_)(val); }
 
 	
-	virtual void setMinX(double x)   { x_->min(x); }
-	virtual void setMaxX(double x)   { x_->max(x); }
-	virtual void setMinY(double y)   { y_->min(y); }
-	virtual void setMaxY(double y)   { y_->max(y); }
+	virtual void setMinMaxX(double min, double max)   { x_->minmax(min, max); }
+	virtual void setMinMaxY(double min, double max)   { y_->minmax(min, max); }
+
 
     virtual const string& getReferenceX() const  { referenceX_ = x_->reference(); return referenceX_;}
     virtual const string& getReferenceY() const  { referenceY_ = y_->reference(); return referenceY_; }
 
 	
-	virtual void setDataMinX(double minx) const { x_->dataMin(minx); }
-	virtual void setDataMaxX(double maxx) const { x_->dataMax(maxx); }
-	virtual void setDataMinY(double miny) const { y_->dataMin(miny); }
-	virtual void setDataMaxY(double maxy) const { y_->dataMax(maxy); }
+	virtual void setDataMinMaxX(double min, double max) const { x_->dataMinMax(min, max); }
+	virtual void setDataMinMaxY(double min, double max) const { y_->dataMinMax(min, max); }
+
 	
 	vector<double> getDataVectorMinX() const  { return  x_->mins(); }
 	vector<double> getDataVectorMaxX() const { return  x_->maxs(); }
@@ -113,26 +111,16 @@ public:
 	void boxes() const;
 
 
-    virtual void setDataMinX(double minx, const string& ref) const { 
-    	dataMinX_ = std::min(minx, dataMinX_);
-    	x_->dataMin(dataMinX_, ref); 
+    virtual void setDataMinMaxX(double minx, double maxx, const string& ref) const {
+    	x_->dataMinMax(minx, maxx, ref);
     	referenceX_ = x_->reference();
     }
-	virtual void setDataMaxX(double maxx, const string& ref) const { 
-		dataMaxX_ = std::max(maxx, dataMaxX_);
-		x_->dataMax(dataMaxX_, ref); 
-		referenceX_ = x_->reference();
-	}
-	virtual void setDataMinY(double miny, const string& ref) const { 
-		dataMinY_ = std::min(miny, dataMinY_);
-		y_->dataMin(dataMinY_, ref); 
-		referenceY_ = y_->reference();
-	}
-	virtual void setDataMaxY(double maxy, const string& ref) const { 
-		dataMaxY_ = std::max(maxy, dataMaxY_);
-		y_->dataMax(dataMaxY_, ref); 
-		referenceY_ = y_->reference();
-	}; 
+    virtual void setDataMinMaxY(double min, double max, const string& ref) const {
+    	y_->dataMinMax(min, max, ref);
+    	referenceY_ = y_->reference();
+    }
+
+
 	virtual void setAutomaticX(bool automatic) { x_->automatic(automatic); }
 		virtual void setAutomaticY(bool automatic) { y_->automatic(automatic); }
 		virtual bool getAutomaticX() const { return  x_->automatic(); } 

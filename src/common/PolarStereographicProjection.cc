@@ -399,29 +399,8 @@ double PolarStereographicProjection::getMaxY()  const
 	return ymax_;
 }
 
-void PolarStereographicProjection::setMinX(double x)  
-{
-	MagLog::dev() << "PolarStereographicProjection::setMinX(...) needs implementing." << endl;
-	Transformation::setMinX(x);
-}
 
-void PolarStereographicProjection::setMinY(double y)  
-{
-	MagLog::dev() << "PolarStereographicProjection::setMinY(...) needs implementing." << endl;
-	Transformation::setMinY(y);
-}
 
-void PolarStereographicProjection::setMaxX(double x)  
-{
-	MagLog::dev() << "PolarStereographicProjection::setMaxX(...) needs implementing." << endl;
-	Transformation::setMaxX(x);
-}
-
-void PolarStereographicProjection::setMaxY(double y)  
-{
-	MagLog::dev() << "PolarStereographicProjection::setMaxY(...) needs implementing." << endl;
-	Transformation::setMaxY(y);
-}
 
 double PolarStereographicProjection::getMinPCX()  const
 {

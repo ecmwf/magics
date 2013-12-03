@@ -1,0 +1,329 @@
+{
+    "drivers": [
+        {
+            "format": "png", 
+            "fullname": "scores.png", 
+            "output_cairo_transparent_background": "off", 
+            "output_name_first_page_number": "off", 
+            "output_width": "900"
+        }
+    ], 
+    "height": "600", 
+    "method": "wrep", 
+    "page": {
+        "border": "off", 
+        "height": "100%", 
+        "map": {
+            "border": "on", 
+            "border-colour": "Rgb(0.5, 0.5, 0.5)", 
+            "cartesian": {
+                "x_date": {
+                    "automatic": "on"
+                }, 
+                "y_regular": {
+                    "automatic": "on"
+                }
+            }, 
+            "height": "100%", 
+            "horizontal_axis": {
+                "axis_date_type": "automatic", 
+                "axis_days_label_colour": "Rgb(0.5, 0.5, 0.5)", 
+                "axis_days_label_height": "0.40", 
+                "axis_grid": "on", 
+                "axis_grid_colour": "pink", 
+                "axis_grid_line_style": "solid", 
+                "axis_hours_label_height": "0.40", 
+                "axis_minor_tick": "on", 
+                "axis_minor_tick_colour": "grey", 
+                "axis_months_label_colour": "Rgb(0.5, 0.5, 0.5)", 
+                "axis_months_label_height": "0.40", 
+                "axis_tick_colour": "grey", 
+                "axis_type": "date", 
+                "axis_years_label_colour": "Rgb(0.5, 0.5, 0.5)", 
+                "axis_years_label_height": "0.40"
+            }, 
+            "legend": {
+                "blanking": "off", 
+                "border": "off", 
+                "bottom": "82%", 
+                "display": "absolute", 
+                "height": "10%", 
+                "left": "0%", 
+                "legend_column_count": "4", 
+                "legend_entry_text_width": "75", 
+                "legend_text_colour": "navy", 
+                "legend_text_composition": "automatic_text_only", 
+                "legend_text_font_size": "0.5", 
+                "width": "95%"
+            }, 
+            "margin_bottom": "8%", 
+            "margin_left": "10%", 
+            "margin_top": "20%", 
+            "missing": "-999", 
+            "plot": [
+                {
+                    "graph": {
+                        "graph_line_colour": "black", 
+                        "graph_line_style": "dot", 
+                        "graph_line_thickness": "3", 
+                        "legend": "on", 
+                        "legend_user_text": "BOM 00"
+                    }, 
+                    "wrepjson": {
+                        "wrepjson_family": "data", 
+                        "wrepjson_input_filename": "scores.data", 
+                        "wrepjson_keyword": "ammc_00", 
+                        "wrepjson_missing_value": "-999", 
+                        "wrepjson_temperature_correction": "False"
+                    }
+                }, 
+                {
+                    "graph": {
+                        "graph_line_colour": "black", 
+                        "graph_line_style": "solid", 
+                        "graph_line_thickness": "4", 
+                        "legend": "on", 
+                        "legend_user_text": "BOM 12"
+                    }, 
+                    "wrepjson": {
+                        "wrepjson_family": "data", 
+                        "wrepjson_input_filename": "scores.data", 
+                        "wrepjson_keyword": "ammc_12", 
+                        "wrepjson_missing_value": "-999", 
+                        "wrepjson_temperature_correction": "False"
+                    }
+                }, 
+                {
+                    "graph": {
+                        "graph_line_colour": "magenta", 
+                        "graph_line_style": "solid", 
+                        "graph_line_thickness": "4", 
+                        "legend": "on", 
+                        "legend_user_text": "CMC 12"
+                    }, 
+                    "wrepjson": {
+                        "wrepjson_family": "data", 
+                        "wrepjson_input_filename": "scores.data", 
+                        "wrepjson_keyword": "cwao_12", 
+                        "wrepjson_missing_value": "-999", 
+                        "wrepjson_temperature_correction": "False"
+                    }
+                }, 
+                {
+                    "graph": {
+                        "graph_line_colour": "red", 
+                        "graph_line_style": "chain_dash", 
+                        "graph_line_thickness": "3", 
+                        "legend": "on", 
+                        "legend_user_text": "ECMWF 12 (new)"
+                    }, 
+                    "wrepjson": {
+                        "wrepjson_family": "data", 
+                        "wrepjson_input_filename": "scores.data", 
+                        "wrepjson_keyword": "ecmf_12_new", 
+                        "wrepjson_missing_value": "-999", 
+                        "wrepjson_temperature_correction": "False"
+                    }
+                }, 
+                {
+                    "graph": {
+                        "graph_line_colour": "brown", 
+                        "graph_line_style": "solid", 
+                        "graph_line_thickness": "4", 
+                        "legend": "on", 
+                        "legend_user_text": "DWD 12"
+                    }, 
+                    "wrepjson": {
+                        "wrepjson_family": "data", 
+                        "wrepjson_input_filename": "scores.data", 
+                        "wrepjson_keyword": "edzw_12", 
+                        "wrepjson_missing_value": "-999", 
+                        "wrepjson_temperature_correction": "False"
+                    }
+                }, 
+                {
+                    "graph": {
+                        "graph_line_colour": "blue", 
+                        "graph_line_style": "solid", 
+                        "graph_line_thickness": "4", 
+                        "legend": "on", 
+                        "legend_user_text": "MetOffice 12"
+                    }, 
+                    "wrepjson": {
+                        "wrepjson_family": "data", 
+                        "wrepjson_input_filename": "scores.data", 
+                        "wrepjson_keyword": "egrr_12", 
+                        "wrepjson_missing_value": "-999", 
+                        "wrepjson_temperature_correction": "False"
+                    }
+                }, 
+                {
+                    "graph": {
+                        "graph_line_colour": "green", 
+                        "graph_line_style": "solid", 
+                        "graph_line_thickness": "4", 
+                        "legend": "on", 
+                        "legend_user_text": "NCEP 12"
+                    }, 
+                    "wrepjson": {
+                        "wrepjson_family": "data", 
+                        "wrepjson_input_filename": "scores.data", 
+                        "wrepjson_keyword": "kwbc_12", 
+                        "wrepjson_missing_value": "-999", 
+                        "wrepjson_temperature_correction": "False"
+                    }
+                }, 
+                {
+                    "graph": {
+                        "graph_line_colour": "olive", 
+                        "graph_line_style": "solid", 
+                        "graph_line_thickness": "4", 
+                        "legend": "on", 
+                        "legend_user_text": "Meteo-France 12"
+                    }, 
+                    "wrepjson": {
+                        "wrepjson_family": "data", 
+                        "wrepjson_input_filename": "scores.data", 
+                        "wrepjson_keyword": "lfpw_12", 
+                        "wrepjson_missing_value": "-999", 
+                        "wrepjson_temperature_correction": "False"
+                    }
+                }, 
+                {
+                    "graph": {
+                        "graph_line_colour": "violet", 
+                        "graph_line_style": "solid", 
+                        "graph_line_thickness": "4", 
+                        "legend": "on", 
+                        "legend_user_text": "JMA 12"
+                    }, 
+                    "wrepjson": {
+                        "wrepjson_family": "data", 
+                        "wrepjson_input_filename": "scores.data", 
+                        "wrepjson_keyword": "rjtd_12", 
+                        "wrepjson_missing_value": "-999", 
+                        "wrepjson_temperature_correction": "False"
+                    }
+                }, 
+                {
+                    "graph": {
+                        "graph_line_colour": "violet", 
+                        "graph_line_style": "chain_dash", 
+                        "graph_line_thickness": "3", 
+                        "legend": "on", 
+                        "legend_user_text": "JMA 12 (new)"
+                    }, 
+                    "wrepjson": {
+                        "wrepjson_family": "data", 
+                        "wrepjson_input_filename": "scores.data", 
+                        "wrepjson_keyword": "rjtd_12_new", 
+                        "wrepjson_missing_value": "-999", 
+                        "wrepjson_temperature_correction": "False"
+                    }
+                }, 
+                {
+                    "graph": {
+                        "graph_line_colour": "pink", 
+                        "graph_line_style": "solid", 
+                        "graph_line_thickness": "4", 
+                        "legend": "on", 
+                        "legend_user_text": "KMA 12"
+                    }, 
+                    "wrepjson": {
+                        "wrepjson_family": "data", 
+                        "wrepjson_input_filename": "scores.data", 
+                        "wrepjson_keyword": "rksl_12", 
+                        "wrepjson_missing_value": "-999", 
+                        "wrepjson_temperature_correction": "False"
+                    }
+                }, 
+                {
+                    "graph": {
+                        "graph_line_colour": "orange", 
+                        "graph_line_style": "solid", 
+                        "graph_line_thickness": "4", 
+                        "legend": "on", 
+                        "legend_user_text": "RUMS 12"
+                    }, 
+                    "wrepjson": {
+                        "wrepjson_family": "data", 
+                        "wrepjson_input_filename": "scores.data", 
+                        "wrepjson_keyword": "rums_12", 
+                        "wrepjson_missing_value": "-999", 
+                        "wrepjson_temperature_correction": "False"
+                    }
+                }, 
+                {
+                    "graph": {
+                        "graph_line_colour": "orange", 
+                        "graph_line_style": "chain_dash", 
+                        "graph_line_thickness": "3", 
+                        "legend": "on", 
+                        "legend_user_text": "RUMS 12 (new)"
+                    }, 
+                    "wrepjson": {
+                        "wrepjson_family": "data", 
+                        "wrepjson_input_filename": "scores.data", 
+                        "wrepjson_keyword": "rums_12_new", 
+                        "wrepjson_missing_value": "-999", 
+                        "wrepjson_temperature_correction": "False"
+                    }
+                }
+            ], 
+            "projection": {
+                "cartesian": {
+                    "x_date": {
+                        "automatic": "on"
+                    }, 
+                    "y_regular": {
+                        "automatic": "on"
+                    }
+                }, 
+                "projection": "cartesian"
+            }, 
+            "template": "scores.json", 
+            "text": {
+                "bottom": "92%", 
+                "display": "absolute", 
+                "height": "8%", 
+                "left": "0%", 
+                "text_colour": "navy", 
+                "text_font_size": "0.8", 
+                "text_line_1": "Step: 24 RMSEF/msl/n.hem/analysis", 
+                "text_line_count": "1", 
+                "width": "100%"
+            }, 
+            "vertical_axis": {
+                "axis_grid": "on", 
+                "axis_grid_colour": "pink", 
+                "axis_grid_line_style": "dash", 
+                "axis_grid_reference_level": "102000", 
+                "axis_grid_reference_line_style": "solid", 
+                "axis_grid_reference_thickness": "1", 
+                "axis_label_font": "sansserif", 
+                "axis_line": "on", 
+                "axis_line_colour": "grey", 
+                "axis_tick_colour": "grey", 
+                "axis_tick_label_colour": "Rgb(0.5, 0.5, 0.5)", 
+                "axis_tick_label_height": "0.4", 
+                "axis_tip_title": "off", 
+                "axis_tip_title_colour": "navy", 
+                "axis_tip_title_height": "0.5", 
+                "axis_tip_title_text": "hPa", 
+                "axis_title": "on", 
+                "axis_title_colour": "navy", 
+                "axis_title_height": "0.6", 
+                "axis_title_orientation": "parallel", 
+                "axis_title_text": "hPa", 
+                "id": "vaxis"
+            }, 
+            "width": "100%"
+        }, 
+        "meta": {
+            "javascript_path": "/home/mo/mot/git/webdev/dev/data/plot_meteogram_json-canary-20131017144724-25655-0001.js"
+        }, 
+        "page_id": "off"
+    }, 
+    "version": "3.0", 
+    "width": "900"
+}

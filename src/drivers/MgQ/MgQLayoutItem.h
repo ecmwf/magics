@@ -30,7 +30,7 @@
 #define _MgQLayoutItem_H
 
 #include <magics.h>
-#include <Layout.h>
+#include "Layout.h"
 #include <PaperPoint.h>
 
 #include "MgQ.h"

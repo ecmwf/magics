@@ -52,14 +52,13 @@ void EpsXmlInput::visit(Transformation& transformation)
 {
 	decode();
 	
-	transformation.setDataMinX((minstep_ - dateOffset_) * 3600, base_);
-	
-	transformation.setDataMaxX((maxstep_+dateOffset_) * 3600, base_);
+	transformation.setDataMinMaxX((minstep_ - dateOffset_) * 3600, (maxstep_+dateOffset_) * 3600, base_);
+
 	
 	dateOffset_ = minstep_ - dateOffset_;
 	
-	transformation.setMinY(miny_);
-	transformation.setMaxY(maxy_);
+	transformation.setMinMaxY(miny_, maxy_);
+
 }
 		
 void EpsXmlInput::decode()

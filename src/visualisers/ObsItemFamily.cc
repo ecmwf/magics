@@ -81,7 +81,7 @@ MagLog::debug() << "OBS ITEM - ObsWind - Lon/Lat: "<<point.longitude()<<" / "<<p
      << "\n\tcloud amount:   " << point["cloud_amount"]<<" -> "<<origin <<endl;
 
 
-	flag->setOriginHeight(0.01);
+	flag->setOriginHeight(ring_size_);
 	flag->setOriginMarker(origin);
 	flag->x(0);
 	flag->y(0);
@@ -122,7 +122,7 @@ void ObsCloudAndWind::operator()(CustomisedPoint& point, ComplexSymbol& symbol) 
 	{
 	 MagLog::debug() << " >>> "<<it->first<<" -> " << it->second << endl;
 	}
-
+	symbol.setHeight(size_);
 	CustomisedPoint::const_iterator speed = point.find("wind_speed");
 	if ( speed == point.end() ) return; 
 	CustomisedPoint::const_iterator direction = point.find("wind_direction");
@@ -141,7 +141,7 @@ MagLog::debug() << "OBS ITEM - ObsWind - Lon/Lat: "<<point.longitude()<<" / "<<p
      << "\n\twind_direction: " << point["wind_direction"]
      << "\n\tcloud amount:   " << point["cloud_amount"]<<" -> "<<origin <<endl;
 
-	flag->setOriginHeight(size_);
+	flag->setOriginHeight(ring_size_);
 	flag->setOriginMarker(origin);
 	flag->x(0);
 	flag->y(0);
@@ -262,9 +262,9 @@ void ObsPressureTendency::operator()(CustomisedPoint& point, ComplexSymbol& symb
 	ostringstream oss;	
 	oss << "a_"  << value->second;
 	tendancy->symbol(oss.str());
-#ifdef OBS_DEBUG_
+
 	MagLog::debug() << "\tPressure tendency--->" << oss.str() << "\n";
-#endif
+
 	tendancy->height(size_);
 	symbol.add(tendancy);
 }
@@ -272,21 +272,20 @@ void ObsPressureTendency::operator()(CustomisedPoint& point, ComplexSymbol& symb
 	
 void ObsDewPoint::visit(std::set<string>& tokens)
 {
-	if ( !attributes_ ) attributes_ = new ObsDewPointAttributes();
-	if (!attributes_->visible_) return;
-	if ( !colour_.empty() )  attributes_->colour_ = auto_ptr<Colour>(new Colour(colour_));
+
+	if (!dewpoint_visible_) return;
 	tokens.insert("dewpoint");
 }
 
 void ObsDewPoint::operator()(CustomisedPoint& point,  ComplexSymbol& symbol) const
 {
-	if (!attributes_->visible_) return;
+	if (!dewpoint_visible_) return;
 	CustomisedPoint::const_iterator value = point.find("dewpoint");
 	if ( value == point.end() ) return; 
 	TextItem*  object = new TextItem();
 	MagFont font("sansserif");
 	
-	font.colour(*attributes_->colour_);
+	font.colour(*dewpoint_colour_);
 	font.size(size_);
 	object->x(column_);
 	object->y(row_);
@@ -584,43 +583,38 @@ void ObsPastWeather::operator()(CustomisedPoint& point,  ComplexSymbol& symbol) 
 void ObsCloud::visit(std::set<string>& tokens) 
 {
 
-	if (!attributes_ ) attributes_ = new ObsCloudAttributes();
-	if (!attributes_->visible_) return;
-	if ( attributes_->low_ )
+
+	if (!cloud_visible_) return;
+	if ( low_ )
 	{
 		tokens.insert("low_cloud");
 		tokens.insert("low_cloud_nebulosity");
 		tokens.insert("low_cloud_height");
 	}
-	if ( attributes_->medium_ ) tokens.insert("medium_cloud");
-	if ( attributes_->high_ ) tokens.insert("high_cloud");
-	if ( !colour_.empty() )  {
+	if ( medium_ ) tokens.insert("medium_cloud");
+	if ( high_ ) tokens.insert("high_cloud");
 
-		attributes_->medium_colour_ = auto_ptr<Colour>(new Colour(colour_));
-		attributes_->low_colour_ = auto_ptr<Colour>(new Colour(colour_));
-		attributes_->high_colour_ = auto_ptr<Colour>(new Colour(colour_));
-	}
 }
 	
 void ObsCloud::operator()(CustomisedPoint& point, ComplexSymbol& symbol) const 
 { 
-	if (!attributes_->visible_) return;
-	
+	if (!cloud_visible_) return;
+	symbol.setHeight(size_);
 	CustomisedPoint::const_iterator value = point.find("low_cloud");
 	if ( value != point.end() )
 	{
 		SymbolItem*  cloud = new SymbolItem();
 		cloud->x(lowColumn_);
 		cloud->y(lowRow_);
-		cloud->colour(*attributes_->low_colour_);
+		cloud->colour(*low_colour_);
 		ostringstream oss;	
 		int type = int(value->second - (int (value->second/10) *10));
 		oss << "CL_"  << type;
 		cloud->symbol(oss.str());
-#ifdef OBS_DEBUG_
+
 		MagLog::debug() << "\tLow Cloud--->" << oss.str() << "\n";
-#endif
-		cloud->height(size_);
+
+		cloud->height(ring_size_);
 		symbol.add(cloud);
 	}
 
@@ -657,7 +651,7 @@ void ObsCloud::operator()(CustomisedPoint& point, ComplexSymbol& symbol) const
 		object->y(lowRow_-1);
 		MagFont font;
 		font.name("sansserif");
-		font.colour(*attributes_->low_colour_);
+		font.colour(*low_colour_);
 		font.size(size_*.6);
 #ifdef OBS_DEBUG_
 		MagLog::debug() << "\tLow Cloud Nebulosity--->" << value->second << "\n";
@@ -677,7 +671,7 @@ void ObsCloud::operator()(CustomisedPoint& point, ComplexSymbol& symbol) const
 		cloud->x(mediumColumn_);
 		cloud->y(mediumRow_);
 		
-		cloud->colour(*attributes_->medium_colour_);
+		cloud->colour(*medium_colour_);
 		ostringstream oss;
 		int type = int(value->second - (int (value->second/10.) *10));
 		oss << "CM_"  << type;
@@ -695,14 +689,14 @@ void ObsCloud::operator()(CustomisedPoint& point, ComplexSymbol& symbol) const
 		SymbolItem*  cloud = new SymbolItem();
 		cloud->x(highColumn_);
 		cloud->y(highRow_);
-		cloud->colour(*attributes_->high_colour_);
+		cloud->colour(*high_colour_);
 		ostringstream oss;	
 		int type = int(value->second - (int (value->second/10) *10));
 		oss << "CH_"  << type;
 		cloud->symbol(oss.str());
-#ifdef OBS_DEBUG_
+
 		MagLog::debug() << "\tHigh Cloud--->" << oss.str() << "\n";
-#endif
+
 		cloud->height(size_);
 		symbol.add(cloud);
 	}
@@ -800,4 +794,82 @@ void  ObsEra::operator()(CustomisedPoint& point,  ComplexSymbol& symbol) const
 	object->font(font);
 	symbol.add(object);
 
+}
+
+void  ObsSeaTemperature::visit(std::set<string>& tokens)
+{
+	if (!sea_temperature_visible_) return;
+	tokens.insert("sea_temperature");
+}
+
+void  ObsSeaTemperature::operator()(CustomisedPoint& point,  ComplexSymbol& symbol) const
+{
+	if (!sea_temperature_visible_) return;
+	CustomisedPoint::const_iterator value = point.find("sea_temperature");
+	if ( value == point.end() )  return;
+
+		TextItem*  object = new TextItem();
+		MagFont font("sansserif");
+		font.colour(*sea_temperature_colour_);
+		font.size(size_);
+		object->font(font);
+		object->x(column_);
+		object->y(row_);
+
+		// The temperature is displayed in Celsius.
+		double tempe = maground(value->second-273.25);
+
+		MagLog::debug() << "\tTemperature: " << tempe << " from "<<value->second<<"\n";
+
+		object->text(tostring(tempe));
+
+
+		symbol.add(object);
+
+}
+void  ObsWave::visit(std::set<string>& tokens)
+{
+	if (!waves_visible_) return;
+	tokens.insert("wind_wave_direction");
+	tokens.insert("wind_wave_period");
+	tokens.insert("wind_wave_height");
+
+	tokens.insert("swell_direction");
+	tokens.insert("swell_period");
+	tokens.insert("swell_height");
+
+	tokens.insert("wave_direction");
+	tokens.insert("wave_period");
+	tokens.insert("wave_height");
+
+
+}
+
+void  ObsWave::operator()(CustomisedPoint& point,  ComplexSymbol& symbol) const
+{
+	if (!waves_visible_) return;
+
+	CustomisedPoint::const_iterator period = point.find("wave_period");
+	CustomisedPoint::const_iterator height = point.find("wave_height");
+
+	if ( period == point.end() ||  height == point.end() )  return;
+	MagLog::debug() << "\theight: " << height->second << " period "<< period->second <<"\n";
+	// height of waves in units of 0.5
+	double h = maground(height->second/0.5);
+	double p = maground(period->second);
+	ostringstream oss;
+
+	oss << setw(2) << setfill('0') <<  p  << setw(2) << setfill('0') << h;
+
+	TextItem*  object = new TextItem();
+	MagFont font("sansserif");
+	font.colour(*waves_colour_);
+	font.size(size_);
+	object->font(font);
+	object->x(column_);
+	object->y(row_);
+
+	object->text(oss.str());
+
+	symbol.add(object);
 }

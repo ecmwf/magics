@@ -163,6 +163,15 @@ void ThreadControler::start()
 
 	proc_->data_ = 0;
 
+    size_t size = 2*1024*1024;
+
+    if (!getEnvVariable("MAGPLUS_STACK_SIZE").empty() ) {
+        size = tonumber(getEnvVariable("MAGPLUS_STACK_SIZE"));
+        MagLog::warning() << "MAGPLUS_STACK_SIZE jas been set to "<< size << endl;
+    }
+
+	pthread_attr_setstacksize(&attr,size);
+
 #if 0
 	const size_t size = 2*1024*1024;
 	void *stack = MemoryPool::largeAllocate(size);

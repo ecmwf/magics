@@ -418,21 +418,17 @@ void NetcdfXYpointsInterpretor::visit(Transformation& transformation)
 
 		if ( transformation.getAutomaticX() ) {
 			if ( !this->baseDateX_.empty() ) {
-				transformation.setDataMinX(points.minX(), this->baseDateX_);
-				transformation.setDataMaxX(points.maxX(), this->baseDateX_);
+				transformation.setDataMinMaxX(points.minX(), points.maxX(), this->baseDateX_);
+
 			}
 
 			else
 			{
-				transformation.setMinX(points.minX());
-				transformation.setMaxX(points.maxX());
+				transformation.setMinMaxX(points.minX(), points.maxX());
+
 			}
 		}
-
-
-
-		transformation.setMinY(points.minY());
-		transformation.setMaxY(points.maxY());
+		transformation.setMinMaxY(points.minY(), points.maxY());
 	}
 	catch ( ... ) {}
 }

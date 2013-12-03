@@ -6,6 +6,9 @@
 *.grb
 *.out
 *.keep
+docs
+Debug
+CMakeLists.txt.user
 *.nc
 *.err
 *.usa

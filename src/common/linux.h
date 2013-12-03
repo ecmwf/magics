@@ -30,9 +30,9 @@
 #include <fstream>
 #include <iomanip>
 
-#include <bits/stream_iterator.h>
 
 #include <sstream>
+#include <functional>
 #define HAS_STRINGSTREAM
 /* #include <strstream.h> */
 

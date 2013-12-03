@@ -140,6 +140,7 @@ protected:
 #ifdef MAGICS_QT
 	//! Keep the instance of the QtDrver!
 	QtDriver* qtDriver_;
+    QGraphicsScene * qtScene_;
 #endif
 };
 

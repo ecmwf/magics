@@ -113,7 +113,9 @@ public:
 
 } // end namespace magics
 
+#ifndef ASSERT
 #define ASSERT(a)  Assert(!(a),#a,__LINE__,__FILE__,__FUNCTION__)
+#endif 
 
 #endif
 // EXCEPTION_H_
