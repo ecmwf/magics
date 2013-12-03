@@ -98,7 +98,7 @@ def resultLabelStyle(lab):
 def resultLabelColour(lab):
     c= {'Identical':  'green',
         'MinorDiff': 'blue',
-        'Check':     'yellow',
+        'Check':     'goldenrod',
         'Error':     'red'}
     return c[lab]
 
@@ -111,10 +111,10 @@ def result(thres,diff,pdiff,pixels):
     d,pd= 100.0*diff/pixels,100.0*pdiff/pixels
     val= max(d,pd)
     text,colour,style= ['']*3
-    if diff==pdiff==0:         text,colour,style= 'Identical', 'green',  'success'
-    elif val<0.5*thres:        text,colour,style= 'MinorDiff', 'blue',   'info' 
-    elif 0.5*thres<=val<thres: text,colour,style= 'Check',     'yellow', 'warning'
-    elif thres<=val:           text,colour,style= 'Error',     'red',    'error'
+    if diff==pdiff==0:         text,colour,style= 'Identical', 'green',     'success'
+    elif val<0.5*thres:        text,colour,style= 'MinorDiff', 'blue',      'info' 
+    elif 0.5*thres<=val<thres: text,colour,style= 'Check',     'goldenrod', 'warning'
+    elif thres<=val:           text,colour,style= 'Error',     'red',       'error'
     return text,colour,style,val
 
 def resultLabel(thres,diff,pdiff,pixels):
@@ -229,7 +229,7 @@ def writeHtmlReport(params,usage,stdout,stderr,ref_pages,ref_ver_pages):
     mess= params['exit_message']
     results= ''
     for i in range(len(pixe)): results+= '<th>page %d</th>'%(i+1,)
-    results= '<tr><th>diff threshold %d%%</th>%s<tr>\n'%(int(params['threshold']),results)
+    results= '<tr><th>test threshold: <span style="color:red">%d%%</span></th>%s<tr>\n'%(int(params['threshold']),results)
     try:
         valss= []
         for ver in params['versions']:

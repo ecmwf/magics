@@ -129,16 +129,19 @@ def compare(timestamp,branch_name,versions,interpreter,executable,reference,thre
                     max_diff= d
                     max_perc= p
     
-        #fail if, FOR ANY VERSION OR PAGE, the threshold is passed
-        if max_perc>=threshold:
+        #fail if, FOR ANY VERSION OR PAGE, the threshold is passed OR MISSING IMAGES
+        MISSING_IMAGES= len(pixels)==0
+        if not MISSING_IMAGES and max_perc>=threshold:
             EMES= u"TEST FAILED: Maximum number of different pixels is %d (%.2f%%)."%(max_diff,max_perc)
             EXIT= 1
-        else:
+        elif not MISSING_IMAGES:
             EMES= u"TEST OK: Maximum number of different pixels is %d (%.2f%%)."%(max_diff,max_perc)
             EXIT= 0
-    
+        else:
+            EMES= u"TEST FAILED: No output images generated."
+            EXIT= 1
     except Exception, e:
-        EMES= str(e)
+        EMES= 'TEST FAILED: compare.py script raised an internal error: %s.'%str(e)
         EXIT= 1 
     
     #save all test files into specified output directory 

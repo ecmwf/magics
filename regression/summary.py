@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-"""The script runs should be called after the regresion tests have run. 
+"""The script runs should be called after the regression tests have run. 
    It uploads the output reports (HTML pages) to the server path:
    
    http://download.ecmwf.int/test-data/magics/regression_output/<BRANCH>/<TEST>/<TIMESTAMP>
@@ -19,7 +19,7 @@ from optparse import OptionParser
 import datetime
 
 #Project modules
-from regression_util import upload,maxResult,resultLabelStyle,writeTab
+from regression_util import upload,maxResult,resultLabelStyle,writeTab,resultLabelColour
 
 __author__  = 'cgs,cgjd'
 __date__    = '2013-11-01'
@@ -51,26 +51,26 @@ def getOverview(data):
     #count only last test run for branch/test/version    
     d={}    
     for row in data:
-        bra,tes,tim,ver,res= row
+        bra,tes,tim,ver,res,mes= row
         if d.has_key((bra,tes,ver)):
             dtim,_= d[(bra,tes,ver)]
-            if tim>dtim: d[(bra,tes,ver)]= (tim,res) 
+            if tim>dtim: d[(bra,tes,ver)]= (tim,res,mes) 
         else:
-            d[(bra,tes,ver)]= (tim,res)
+            d[(bra,tes,ver)]= (tim,res,mes)
 
 #   collect data by branch/version 
     odata={}
     for bra,tes,ver in d:
-        tim,res= d[(bra,tes,ver)]
+        tim,res,mes= d[(bra,tes,ver)]
         if odata.has_key((bra,ver)):
             #update result counters 
-            odata[(bra,ver)][res]+= [(tes,tim)]
+            odata[(bra,ver)][res]+= [(tes,tim,mes)]
             mint,maxt= odata[(bra,ver)]['time']
             odata[(bra,ver)]['time']= (min(mint,tim),max(maxt,tim))
         else:
             #new branch/version
             odata[(bra,ver)]= {'Identical':[],'MinorDiff':[],'Check':[],'Error':[],'time':(tim,tim)}
-            odata[(bra,ver)][res]+= [(tes,tim)]
+            odata[(bra,ver)][res]+= [(tes,tim,mes)]
         
     #odata[branch,version]= {Identical:x,MinorDiff:x,Check:x,Error:x,time:(mintime,maxtime)}
     return odata
@@ -89,7 +89,7 @@ def buildOverview(oData):
     results= {}
     
     for ver in versions: html+= '<th>%s</th>'%ver
-    html= '<tr><th>branches</th>%s<tr>\n'%html
+    html= '<tr><th>branches\\versions</th>%s<tr>\n'%html
     for bra in branches:
         results[bra]= {}
         row='<th>%s</th>'%bra
@@ -106,24 +106,25 @@ def buildOverview(oData):
                 #sort tests by name and show 
                 last_tests= oData[(bra,ver)][res]
                 last_tests.sort()
-                for tes,tim in last_tests:
+                for tes,tim,mes in last_tests:
                     _,_,dat= getDateDistance(tim)
                     tesgrp= tes
                     teslnk= tes.split('/')[-1]
                     result+='''<tr>
-                                 <td><a href="/test-data/magics/regression_output/%s/%s/%s/%s.html">%s</a></td>
+                                 <td><a href="/test-data/magics/regression_output/%s/%s/%s/%s.html"><span style="color:%s;">%s</span></a></td>
                                  <td><small>%s</small></td>
-                               <tr>'''%(bra,teslnk,tim,teslnk,tesgrp,dat)
+                                 <td><small>%s</small></td>
+                               <tr>'''%(bra,teslnk,tim,teslnk,resultLabelColour(res),tesgrp,dat,mes)
                 result='''
                 <h4> %s  / %s  / <span class="badge badge-%s" style="font-size: 20px; height: 24px;line-height: 20px">%s</span></h4>
                 <table class="table table-bordered">
-                <tr><th>test</th><th>time</th></tr>
+                <tr><th>test</th><th>compilation time</th><th>exit message</th></tr>
                 %s
                 </table>'''%(bra,ver,resultLabelStyle(res),res,result)
                 results[bra][ver][res]= result 
             maxt= oData[(bra,ver)]['time'][1]
             _,tip,dat= getDateDistance(maxt)
-            row+='<a href="#" data-toggle="tooltip" style="text-decoration:none;" title="Last test run: %s"><small>%s</small></a></td>\n'%(dat,tip)
+            row+='<a href="#" data-toggle="tooltip" style="text-decoration:none;" title="Last compilation: %s"><small>%s</small></a></td>\n'%(dat,tip)
         html+='<tr>%s</tr>\n'%row
 
     results= json.dumps(results) 
@@ -138,7 +139,7 @@ def getBranches(data):
     #count only last test run for branch/test/version    
     d={}    
     for row in data:
-        bra,tes,tim,ver,res= row
+        bra,tes,tim,ver,res,_= row
         if d.has_key((bra,tes,ver)):
             dtim,_= d[(bra,tes,ver)]
             if tim>dtim: d[(bra,tes,ver)]= (tim,res) 
@@ -168,7 +169,7 @@ def buildBranches(bData):
         
         #write a header row
         for ver in versions: content+= '<th>%s</th>'%ver
-        content= '<tr><th>tests</th>%s<tr>\n'%content
+        content= '<tr><th>tests\\versions</th>%s<tr>\n'%content
         
         #for each test
         for tes in tests:
@@ -178,7 +179,7 @@ def buildBranches(bData):
             tesgrp= tes
             teslnk= tes.split('/')[-1]
             
-            row='<th>%s</th>'%tesgrp
+            row='<td>%s</td>'%tesgrp
 
             #for each version
             for ver in versions:
@@ -190,7 +191,7 @@ def buildBranches(bData):
                     row+='<td>'
                     row+= '<a href="/test-data/magics/regression_output/%s/%s/%s/%s.html" data-toggle="tooltip" style="text-decoration:none;"><span class="label label-%s">%s</span></a>'%(bra,teslnk,tim,teslnk,resultLabelStyle(res),res)
                     short,_,dat= getDateDistance(tim)
-                    row+=' <a href="#" data-toggle="tooltip" style="text-decoration:none;" title="Last test run: %s"><small>%s</small></a></td>\n'%(dat,short)
+                    row+=' <a href="#" data-toggle="tooltip" style="text-decoration:none;" title="Last compilation: %s"><small>%s</small></a></td>\n'%(dat,short)
             content+='<tr>%s</tr>\n'%row
 
         content='''
@@ -213,7 +214,7 @@ def getVersions(data):
     #build data dictionaries hierarchy
     vdata= {}
     times= set()
-    for (bra,tes,tim,ver,res) in data:
+    for (bra,tes,tim,ver,res,_) in data:
         if not vdata.has_key(bra): vdata[bra]= {}
         if not vdata[bra].has_key(ver): vdata[bra][ver]= {}
         if not vdata[bra][ver].has_key(tes): vdata[bra][ver][tes]= {}
@@ -245,9 +246,9 @@ def buildVersions(vData):
             #write a header row
             for tim in times:
                 _,tip,dat= getDateDistance(tim,colour="black")
-                vcontent+= '<th><a href="#" data-toggle="tooltip" style="text-decoration:none;" title="run time: %s"><small>%s</small></a></th>'%(dat,tip)
+                vcontent+= '<th><a href="#" data-toggle="tooltip" style="text-decoration:none;" title="compilation time: %s"><small>%s</small></a></th>'%(dat,tip)
                 #vcontent+= '<th>%s<br><small>%s</small></th>'%(tip,dat)
-            vcontent= '<tr><th>tests</th>%s<tr>\n'%vcontent
+            vcontent= '<tr><th>tests\\times</th>%s<tr>\n'%vcontent
 
             #for each test
             tests= data[bra][ver].keys()
@@ -257,7 +258,7 @@ def buildVersions(vData):
                 tesgrp= tes
                 teslnk= tes.split('/')[-1]
                                 
-                row='<th>%s</th>'%tesgrp
+                row='<td>%s</td>'%tesgrp
     
                 #for each run time
                 for tim in times:
@@ -367,7 +368,8 @@ def summary(base_dir):
                 p_result= maxResult(params['result'][ver].values())
             except:
                 p_result= 'Error'
-            data.append((p_branch,p_test,p_time,p_version,p_result))
+            p_mess= params['exit_message']
+            data.append((p_branch,p_test,p_time,p_version,p_result,p_mess))
         
     #upload all tests hierarchy to the server
     upload(tmpdir+'/*','magics/regression_output')
