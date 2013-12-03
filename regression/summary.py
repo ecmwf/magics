@@ -17,6 +17,7 @@ import json
 from subprocess import call
 from optparse import OptionParser
 import datetime
+from BeautifulSoup import BeautifulSoup 
 
 #Project modules
 from regression_util import upload,maxResult,resultLabelStyle,writeTab,resultLabelColour
@@ -53,7 +54,7 @@ def getOverview(data):
     for row in data:
         bra,tes,tim,ver,res,mes= row
         if d.has_key((bra,tes,ver)):
-            dtim,_= d[(bra,tes,ver)]
+            dtim,_,_= d[(bra,tes,ver)]
             if tim>dtim: d[(bra,tes,ver)]= (tim,res,mes) 
         else:
             d[(bra,tes,ver)]= (tim,res,mes)
@@ -80,10 +81,12 @@ def buildOverview(oData):
     #sorted list of versions
     versions= list(set([k[1] for k in  oData.keys()]))
     versions.sort()
+    versions.reverse()
     
     #sorted list of branches
     branches= list(set([k[0] for k in  oData.keys()]))
     branches.sort()
+    branches.reverse()
 
     html= ''
     results= {}
@@ -101,6 +104,7 @@ def buildOverview(oData):
                 num= len(oData[(bra,ver)][res])
                 click= "setActiveResult('%s','%s','%s');"%(bra,ver,res)
                 row+= ' <a href="#" data-toggle="tooltip" style="text-decoration:none;" title="%d %s tests" onclick="%s"><span class="badge badge-%s">%s</span></a> '%(num,res,click,resultLabelStyle(res),num)
+                #row+= ' <a href="#" onclick="%s">%s</a> '%(click,num)
                 result=''
                 
                 #sort tests by name and show 
@@ -121,13 +125,14 @@ def buildOverview(oData):
                 <tr><th>test</th><th>compilation time</th><th>exit message</th></tr>
                 %s
                 </table>'''%(bra,ver,resultLabelStyle(res),res,result)
-                results[bra][ver][res]= result 
+                results[bra][ver][res]= result
+                 
             maxt= oData[(bra,ver)]['time'][1]
             _,tip,dat= getDateDistance(maxt)
             row+='<a href="#" data-toggle="tooltip" style="text-decoration:none;" title="Last compilation: %s"><small>%s</small></a></td>\n'%(dat,tip)
         html+='<tr>%s</tr>\n'%row
 
-    results= json.dumps(results) 
+    results= json.dumps(results,indent=4) 
     html='''
         <table class="table table-bordered">
         %s
@@ -157,17 +162,22 @@ def getBranches(data):
     tests.sort()
     versions= list(set([k[2] for k in  d.keys()]))
     versions.sort()
+    versions.reverse()
     return bdata,tests,versions
 
 def buildBranches(bData):
     data,tests,versions= bData
     tabs= []
-    content=''
     
     #for each branch
-    for bra in data:
-        
+    i= 0
+    branches= data.keys()
+    branches.sort()
+    branches.reverse()
+    for bra in branches:
+
         #write a header row
+        content=''
         for ver in versions: content+= '<th>%s</th>'%ver
         content= '<tr><th>tests\\versions</th>%s<tr>\n'%content
         
@@ -199,11 +209,12 @@ def buildBranches(bData):
         %s
         </table>
         '''%content
-        
+    
         #add a branch tab
         tab= {'title': '<h4>%s</h4>'%bra,
-                 'id':  'btab-%s'%bra,
-            'content':  content}
+                 'id': 'btab-%d'%i,
+            'content': content}
+        i+= 1
         tabs.append(tab)
     
     html= writeTab(tabs)
@@ -233,6 +244,8 @@ def buildVersions(vData):
     #for each branch
     branches= data.keys()
     branches.sort()
+    branches.reverse()
+    i=0
     for bra in branches:
         bcontent= ''
         vtabs=[]
@@ -240,11 +253,22 @@ def buildVersions(vData):
         #for each version
         versions= data[bra].keys()
         versions.sort()
+        versions.reverse()
+        j=0
         for ver in versions:
             vcontent= ''
 
-            #write a header row
+            #get timestamps for current version
+            vtimes= set()
             for tim in times:
+                for tes in data[bra][ver]:
+                    if data[bra][ver][tes].has_key(tim): vtimes|= set([tim])
+            
+            #write version header row
+            vtimes= list(vtimes)
+            vtimes.sort()
+            vtimes.reverse()
+            for tim in vtimes:
                 _,tip,dat= getDateDistance(tim,colour="black")
                 vcontent+= '<th><a href="#" data-toggle="tooltip" style="text-decoration:none;" title="compilation time: %s"><small>%s</small></a></th>'%(dat,tip)
                 #vcontent+= '<th>%s<br><small>%s</small></th>'%(tip,dat)
@@ -254,6 +278,8 @@ def buildVersions(vData):
             tests= data[bra][ver].keys()
             tests.sort()
             for tes in tests:
+
+
                 
                 tesgrp= tes
                 teslnk= tes.split('/')[-1]
@@ -261,7 +287,7 @@ def buildVersions(vData):
                 row='<td>%s</td>'%tesgrp
     
                 #for each run time
-                for tim in times:
+                for tim in vtimes:
                     if data[bra][ver][tes].has_key(tim):
                         res= data[bra][ver][tes][tim]
                         row+='<td>'
@@ -279,15 +305,17 @@ def buildVersions(vData):
 
             #add a version tab
             tab= {'title': '<h4>%s</h4>'%ver,
-                     'id':  'vtab-%s-%s'%(bra,ver),
-                'content':  vcontent}
+                     'id': 'vtab-%d-%d'%(i,j),
+                'content': vcontent}
+            j+=1
             vtabs.append(tab)
             
         #add a branch tab
         bcontent= writeTab(vtabs)
         tab= {'title': '<h4>%s</h4>'%bra,
-                 'id':  'vtab-%s'%bra,
-            'content':  bcontent}
+                 'id': 'vtab-%i'%i,
+            'content': bcontent}
+        i+=1
         btabs.append(tab)
     
     html= writeTab(btabs)
