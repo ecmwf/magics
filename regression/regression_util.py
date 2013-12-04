@@ -265,7 +265,11 @@ def writeHtmlReport(params,usage,stdout,stderr,ref_pages,ref_ver_pages):
     usa_ver= {}
     for ver in params['versions']:
         ref= prefix(extension(params['reference'],'usa'),ver+'_')
-        with open(ref) as f: usa_ver[ver]= json.loads(f.read())
+        try:
+            with open(ref) as f: usa_ver[ver]= json.loads(f.read())
+        except:
+            pass
+        
     def run_info_line_colour(name,test_value,ver_values):
         def colour(v1,v0):
             CF= 0.5 #chage factor: 0.5 ~ 50%
@@ -288,6 +292,7 @@ def writeHtmlReport(params,usage,stdout,stderr,ref_pages,ref_ver_pages):
                 res+= '<td style="color:%s">%s</td>'%('rgb(0,0,0)',precision(ver_values[i]))
         res+= '</tr>\n'
         return res
+    
     usa_names= usage.keys()
     usa_names.sort() 
 
@@ -318,7 +323,11 @@ def writeHtmlReport(params,usage,stdout,stderr,ref_pages,ref_ver_pages):
 
         #run info section
         run_info='<tr><th>resource</th><th>%s</th><th>%s</th></tr>\n'%(params['branch_name'],ver)
-        for name in usa_names: run_info+= run_info_line_colour(name,usage[name],[usa_ver[ver][name]])
+        for name in usa_names:
+            try:
+                run_info+= run_info_line_colour(name,usage[name],[usa_ver[ver][name]])
+            except:
+                pass
         run_info= '<table class="table table-bordered">'+run_info+'</table>'
        
         #output plots

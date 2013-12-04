@@ -28,10 +28,7 @@ from regression_util import extension,prefix,suffix,writeHtmlReport,usage2Dict,I
 #####################################################################
 #####################################################################
 
-def compare(timestamp,branch_name,versions,interpreter,executable,reference,threshold,output_dir):
-
-    #exit status and message
-    EXIT,EMES=0,""
+def compare(timestamp,branch_name,versions,interpreter,executable,reference,threshold,output_dir,EXIT=0,EMES=''):
 
     #declaration of parameters to be included in ".par" file
     diff,pdiff,result= {},{},{}
@@ -61,7 +58,7 @@ def compare(timestamp,branch_name,versions,interpreter,executable,reference,thre
     
         #check if output generated
         if not os.path.exists(reference):
-            EMES= u"TEST FAILED: Output file '%s' has not been generated."%reference
+            EMES+= u"TEST FAILED: Output file '%s' has not been generated.\n"%reference
             EXIT= 1
     
         #check if output is a PS or PDF file      
@@ -79,7 +76,7 @@ def compare(timestamp,branch_name,versions,interpreter,executable,reference,thre
                     ref_ver_pages[version]= splitOutput(ver_ref)
                     assert(len(ref_pages)==len(ref_ver_pages[version]))
                 except:
-                    EMES= u"TEST FAILED: Output file '%s' has %d pages but reference file '%s' has %d pages. They can not be compared."%(reference,len(ref_pages),ver_ref,len(ref_ver_pages[version]))
+                    EMES+= u"TEST FAILED: Output file '%s' has %d pages but reference file '%s' has %d pages. They can not be compared.\n"%(reference,len(ref_pages),ver_ref,len(ref_ver_pages[version]))
                     EXIT= 1
         else:
             #only a single page -> single image
@@ -132,16 +129,16 @@ def compare(timestamp,branch_name,versions,interpreter,executable,reference,thre
         #fail if, FOR ANY VERSION OR PAGE, the threshold is passed OR MISSING IMAGES
         MISSING_IMAGES= len(pixels)==0
         if not MISSING_IMAGES and max_perc>=threshold:
-            EMES= u"TEST FAILED: Maximum number of different pixels is %d (%.2f%%)."%(max_diff,max_perc)
+            EMES+= u"TEST FAILED: Maximum number of different pixels is %d (%.2f%%).\n"%(max_diff,max_perc)
             EXIT= 1
         elif not MISSING_IMAGES:
-            EMES= u"TEST OK: Maximum number of different pixels is %d (%.2f%%)."%(max_diff,max_perc)
-            EXIT= 0
+            EMES+= u"TEST FINISHED: Maximum number of different pixels is %d (%.2f%%).\n"%(max_diff,max_perc)
+            EXIT= max(0,EXIT)
         else:
-            EMES= u"TEST FAILED: No output images generated."
+            EMES+= u"TEST FAILED: No output images generated.\n"
             EXIT= 1
     except Exception, e:
-        EMES= 'TEST FAILED: compare.py script raised an internal error: %s.'%str(e)
+        EMES+= 'TEST FAILED: compare.py script raised an internal error: %s.\n'%str(e)
         EXIT= 1 
     
     #save all test files into specified output directory 
@@ -171,7 +168,7 @@ def compare(timestamp,branch_name,versions,interpreter,executable,reference,thre
             'pdiff':         pdiff,
             'result':        result,
             'pixels':        pixels,
-            'exit_message':  EMES 
+            'exit_message':  EMES.replace('\n','<br>')
         }
         with open(extension(reference,'par'),'w') as f: f.write(json.dumps(params,sort_keys=True,indent=4, separators=(',', ': ')))
 
@@ -195,7 +192,7 @@ def compare(timestamp,branch_name,versions,interpreter,executable,reference,thre
             target= output_subdir+'/'+filename
             e= call(['scp',filename,target])
             if not e==0:
-                EMES= "ERROR coping the file '%s' into '%s.'"%(filename,target)
+                EMES+= "ERROR coping the file '%s' into '%s.'\n"%(filename,target)
     return EXIT,EMES
 
 #####################################################################
@@ -211,6 +208,11 @@ if __name__ == "__main__":
     cmd_parser = OptionParser(usage="usage: %prog <timestamp> <executable> <reference-file>", version='%prog : '+__version__, description = __doc__, prog = 'compare.py')
 
     print sys.argv#REMOVE??
+    
+    #process exit value
+    EXIT= 0
+    #process exit message
+    EMES= '' 
     
     #flags
     #cmd_parser.add_option("-v", "--verbose", action="store_true", dest="verbose",help="Verbose output while running")
@@ -231,8 +233,8 @@ if __name__ == "__main__":
     try:
         assert(datetime.strptime(timestamp,'%Y%m%d_%H%M%S'))
     except:
-        sys.stderr.write(u"Timestamp '%s' is not defined or is not in YYYYMMDD_HHMMSS format.\n"%timestamp)
-        sys.exit(1)
+        EMES+= u"Timestamp '%s' is not defined or is not in YYYYMMDD_HHMMSS format.\n"%timestamp
+        EXIT= 1
 
     #executable
     executable= ''
@@ -240,21 +242,21 @@ if __name__ == "__main__":
     try:
         assert(os.path.exists(executable))
     except:
-        sys.stderr.write(u"No executable '%s' found.\n"%executable)
-        sys.exit(1)
+        EMES+= u"No executable '%s' found.\n"%executable
+        EXIT= 1
 
     #reference 
     reference= ''
     if positional:
         reference= positional.pop(0)
     else:
-        sys.stderr.write(u"No reference file defined.\n")
-        sys.exit(1)
+        EMES+= u"No reference file defined.\n"
+        EXIT= 1
     try:
         assert(optional.force or not os.path.exists(reference))
     except:
-        sys.stderr.write(u"Clean file '%s' before running the test. Use -f to force overwrite.\n"%reference)
-        sys.exit(1)
+        EMES+= u"Clean file '%s' before running the test. Use -f to force overwrite.\n"%reference
+        EXIT= 1
 
     #interpreter
     interpreter= ''
@@ -268,8 +270,8 @@ if __name__ == "__main__":
     try:
         threshold= float(optional.threshold)
     except:
-        sys.stderr.write(u"Invalid threshold '%s': can not convert into float number.\n"%optional.threshold)
-        sys.exit(1)
+        EMES+= u"Invalid threshold '%s': can not convert into float number.\n"%optional.threshold
+        EXIT= 1
 
     #name of GIT branch being tested
     branch_name= optional.name 
@@ -281,8 +283,8 @@ if __name__ == "__main__":
         try:
             assert(os.path.exists(ver+'_'+reference))
         except:
-            sys.stderr.write(u"No version reference file '%s' found.\n"%(ver+'_'+reference,))
-            sys.exit(1)
+            EMES+= u"No version reference file '%s' found.\n"%(ver+'_'+reference,)
+            EXIT= 1
 
     #output report directory
     output_dir= optional.output
@@ -290,11 +292,11 @@ if __name__ == "__main__":
         try:
             assert(os.path.exists(output_dir))
         except:
-            sys.stderr.write(u"No output directory '%s' found.\n"%output_dir)
-            sys.exit(1)
+            EMES+= u"No output directory '%s' found.\n"%output_dir
+            EXIT= 1
 
     #compare and exit
-    EXIT,EMES= compare(timestamp,branch_name,versions,interpreter,executable,reference,threshold,output_dir)
-    sys.stderr.write(EMES+"\n")
+    EXIT,EMES= compare(timestamp,branch_name,versions,interpreter,executable,reference,threshold,output_dir,EXIT,EMES)
+    sys.stderr.write(EMES)
     sys.exit(EXIT)   
     
