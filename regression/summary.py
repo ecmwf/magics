@@ -393,7 +393,7 @@ def summary(base_dir):
             p_time= params['time']
             p_version= ver
             p_mess= params['exit_message']
-            if p_mess.find('FAILED'):
+            if p_mess.find('FAILED')>=0:
                 p_result= 'Error'
             else:
                 try:
