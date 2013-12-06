@@ -133,6 +133,7 @@ def compare(timestamp,branch_name,versions,interpreter,executable,reference,thre
             'reference':     reference, 
             'threshold':     threshold, 
             'output_dir':    output_dir,
+            'input_dir':     os.path.realpath('.'),
             'branch_name':   branch_name,
             'time':          timestamp,#datetime.now().strftime('%Y%m%d_%H%M%S'),
             'diff':          diff,
@@ -163,10 +164,7 @@ def compare(timestamp,branch_name,versions,interpreter,executable,reference,thre
             e= call(['scp',filename,target])
             if not e==0:
                 sys.stderr.write("ERROR coping the file '%s' into '%s'"%(filename,target))
-        
-        
-        #save compare results into a db file
-        
+       
 
     #compute maximum number of different pixels and percentage...
     max_diff,max_perc = 0,0

@@ -1,0 +1,302 @@
+{
+    "drivers": [
+        {
+            "format": "${format=ps}", 
+            "fullname": "${path=10_days.ps}" 
+        }
+    ],
+    "definition":[
+          {
+                "class" :"vertical_axis",
+                "axis_grid": "on", 
+                "axis_grid_colour": "grey", 
+                "axis_grid_line_style": "dash", 
+                "axis_grid_reference_level": "0", 
+                "axis_grid_reference_thickness": "1", 
+                "axis_label_font": "sansserif", 
+                "axis_line": "on", 
+                "axis_line_colour": "navy", 
+                "axis_tick_colour": "navy", 
+                "axis_tick_label_colour": "navy", 
+                "id": "vaxis"
+            },
+            {
+                "class" :"horizontal_axis",
+                
+                "id" : "haxis",
+                "axis_grid": "on", 
+                "axis_grid_colour": "Rgb(0.5, 0.5, 0.5)", 
+                "axis_grid_line_style": "dash", 
+                "axis_line_colour": "navy", 
+                "axis_minor_tick": "on", 
+                "axis_minor_tick_colour": "navy", 
+                "axis_tick_colour": "navy", 
+                "axis_type": "date" 
+                
+            }
+    ],
+    "height": "${height=29.7}",
+     "page":[ {
+      "height": "7%",
+      "page_id": "off"
+    },
+    {
+        "border": "on", 
+        "height": "21%", 
+		"text" : {
+			"height":"20%",
+			"width":"100%",
+			"display" : "absolute",
+			"bottom" : "65%",
+			"border" : "off",
+			"text_justification" : "left",
+			"text_colour" : "navy",
+			"text_line_count":5,
+			"text_line_1":"EPS Meteogram",
+			"text_line_2":"<json_info key='location'/> <json_info key='grid_point'/> <json_info key='height'/>",
+            "text_line_3": "<json_info key='product_info'/><json_info key='date'/>" ,
+            "text_line_4":" ",
+			"text_line_5":"<font size='0.4'><json_info key='parameter_info'/></font>"
+		},
+		"nolegend" : {
+			"height":"20%",
+			"left" : "50%",
+			"width" : "60%",
+			"display" : "absolute",
+			"bottom" : "75%",
+			"border":"off",
+			"legend_text_colour" : "navy",
+			"legend_text_font_size" : "0.35",
+			"legend_column_count" : 5,
+			"legend_entry_text_width": "72%",
+			"legend_text_quality": "high",
+			"legend_text_composition" : "user_text_only",
+			"legend_user_lines" : "0.5-10%/1-30%/30-50%/50-100%/ /Oper/Ctr/Mmem"
+		},
+        "map": {
+            "border": "on", 
+            "border-colour": "navy", 
+            "cartesian": {
+                "x_date": {
+                    "automatic": "on"
+                }, 
+                "y_regular": {
+                    "y_min": "0",
+                    "y_max": "8"
+                }
+            }, 
+            "height": "100%", 
+            "horizontal_axis": {
+                "use_id" : "haxis",
+                "axis_tick_label":"off"
+                
+            }, 
+            "margin_bottom": "0%", 
+            "margin_top": "30%", 
+            "plot": {
+                "epsgraph": {},				
+                "wrepjson": {
+                    "wrepjson_family": "eps", 
+                    "wrepjson_input_filename": "${data=10days.json}", 
+                    "wrepjson_parameter": "164.128",
+                     "wrepjson_parameter_scaling_factor": "8", 
+                     "wrepjson_product_information": "Dterministic Forecast and EPS Distribution " ,
+                    "wrepjson_parameter_information": "Total Cloud Cover (okta) " 
+                }
+            }, 
+            "template": "plume.json", 
+            "vertical_axis": {
+                "use_id": "vaxis"
+            }
+        }, 
+        "meta": {
+            "javascript_path": "${js=js.js}"
+        }, 
+        "page_id": "off"
+    }, 
+        {
+        "border": "on", 
+        "height": "21%",
+        "text" : {
+			"height":"20%",
+			"width":"100%",
+			"display" : "absolute",
+			"bottom" : "75%",
+			"border" : "off",
+			"text_justification" : "left",
+			"text_colour" : "navy",
+            "text_font_size" : "0.4",
+			"text_line_count":1,
+			"text_line_1":"<json_info key='parameter_info'/>"
+		}, 
+        "map": {
+            "border": "on", 
+            "border-colour": "Rgb(0.5, 0.5, 0.5)", 
+            "cartesian": {
+                "x_date": {
+                    "automatic": "on"
+                }, 
+                "y_regular": {
+                    "automatic": "on"
+                }
+            }, 
+            "height": "100%", 
+             "horizontal_axis": {
+                "use_id":"haxis",
+                "axis_tick_label":"off"
+            }, 
+            "margin_bottom": "10%", 
+            "margin_top": "20%", 
+            "plot": {
+                "epsgraph": {}, 
+                "wrepjson": {
+                    "wrepjson_family": "eps", 
+                    "wrepjson_input_filename": "${data=10days.json}", 
+                    "wrepjson_parameter": "143.128", 
+                    "wrepjson_y_axis_threshold": "3",
+                    "wrepjson_parameter_information": "Total Precipitation (mm/6h)", 
+                    "wrepjson_parameter_scaling_factor": "1000" 
+                }
+            }, 
+            "template": "plume.json", 
+            "vertical_axis": {
+                "use_id": "vaxis"
+            }
+        }, 
+        "meta": {
+            "javascript_path": "${js=js.js}"
+        }, 
+        "page_id": "off"
+    },    {
+        "border": "on", 
+        "height": "21%",  
+        "text" : {
+			"height":"20%",
+			"width":"100%",
+			"display" : "absolute",
+			"bottom" : "85%",
+			"border" : "off",
+            "text_font_size" : "0.4",
+			"text_justification" : "left",
+			"text_colour" : "navy",
+			"text_line_count":1,
+			"text_line_1":"<json_info key='parameter_info'/>"
+		}, 
+        "map": {
+            "border": "on", 
+            "border-colour": "Rgb(0.5, 0.5, 0.5)", 
+            "cartesian": {
+                "x_date": {
+                    "automatic": "on"
+                }, 
+                "y_regular": {
+                    "automatic": "on"
+                }
+            }, 
+            "height": "100%", 
+            "horizontal_axis": {
+                "use_id" :"haxis"
+                
+            }, 
+            "margin_bottom": "20%", 
+            "margin_top": "10%", 
+            "plot": {
+               
+                "epsgraph": {}, 
+                "wrepjson": {
+                    "wrepjson_family": "eps", 
+                    "wrepjson_input_filename": "${data=10days.json}", 
+                    "wrepjson_parameter": "165.128",
+                    "wrepjson_parameter_information": "10m Wind Speed (m/s)" 
+                }
+            }, 
+            "template": "plume.json", 
+            "vertical_axis": {
+                "use_id": "vaxis"
+            }
+        }, 
+        "meta": {
+            "javascript_path": "${js=js.js}"
+        }, 
+        "page_id": "on"
+    },{
+        "border": "on", 
+        "height": "21%",  
+        "text" : {
+			"height":"20%",
+			"width":"100%",
+			"display" : "absolute",
+			"bottom" : "85%",
+			"border" : "off",
+            "text_font_size" : "0.4",
+			"text_justification" : "left",
+			"text_colour" : "navy",
+			"text_line_count":1,
+			"text_line_1":"<json_info key='parameter_info'/>"
+		}, 
+        "map": {
+            "border": "on", 
+            "border-colour": "Rgb(0.5, 0.5, 0.5)", 
+            "cartesian": {
+                "x_date": {
+                    "automatic": "on"
+                }, 
+                "y_regular": {
+                    "automatic": "on"
+                }
+            }, 
+            "height": "100%", 
+            "horizontal_axis": {
+                "use_id" :"haxis",
+                "axis_days_label": "both", 
+                "axis_days_label_colour": "navy", 
+                "axis_months_label_colour": "navy", 
+                "axis_years_label_colour": "navy", 
+                "axis_days_label_height": "0.3", 
+                "axis_months_label_height": "0.3", 
+                "axis_years_label_height": "0.3",                 
+                "axis_years_label_colour": "navy" 
+            }, 
+            "margin_bottom": "20%", 
+            "margin_top": "10%", 
+            "plot": {
+               
+                "epsgraph": {}, 
+                "wrepjson": {
+                    "wrepjson_family": "eps", 
+                    "wrepjson_input_filename": "${data=10days.json}", 
+                    "wrepjson_parameter": "167.128",
+                    "wrepjson_parameter_offset_factor" : "-273.15",
+                    "wrepjson_temperature_correction" : "on",
+                    "wrepjson_parameter_information": "2m Temperature(&deg;C)" 
+                }
+            }, 
+            "template": "plume.json", 
+            "vertical_axis": {
+                "use_id": "vaxis"
+            }
+        }, 
+        "meta": {
+            "javascript_path": "${js=js.js}"
+        }, 
+        "page_id": "on",
+        "legend" : {
+			"height":"40%",
+			"left" : "0%",
+			"width" : "50%",
+			"display" : "absolute",
+			"bottom" : "-40%",
+			"border":"off",
+			"legend_plot_direction":"column",
+            "legend_entry_text_width":"90."
+		}
+    },
+    {
+      "height": "5%",
+      "page_id": "on",
+      "page_frame": "on" 
+    }
+    ], 
+    "version": "3.0", 
+    "width": "${width=21}"
+}
