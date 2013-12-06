@@ -14,5 +14,6 @@ CMakeLists.txt.user
 *.usa
 *.pyc
 *.log
+*.html
 
 
