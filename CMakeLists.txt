@@ -29,7 +29,7 @@ project( magics CXX )
 # to ensure that the ecbuild header files are also put there
 set(MAGICS_INSTALL_INCLUDE_DIR include/magics)
 
-set( CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH} )
+set( CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/../ecbuild/cmake")
 
 include( ecbuild_system )
 
