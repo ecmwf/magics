@@ -8,7 +8,7 @@
 *.keep
 docs
 Debug
-CMakeLists.txt.user
+CMakeLists.txt.user*
 *.nc
 *.err
 *.usa
