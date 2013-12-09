@@ -488,7 +488,7 @@ MAGICS_NO_EXPORT void SVGDriver::renderInteractiveEnd(const InteractiveEnd&) con
 {
 	debugOutput("renderInteractiveEnd");
 	if( !magCompare(currentBox_,"non") ) unprojectBox();
-	pFile_ << "</g>"<<endl;
+	pFile_ << "</g>"<< std::endl;
 	interactive_=false;
 }
 */
@@ -498,7 +498,7 @@ MAGICS_NO_EXPORT void SVGDriver::openGroup(string g) const
 	if(!magCompare(g,groupString_))
 	{
 		closeGroup();
-		pFile_	<< "<g "<<g<<">" <<endl;
+		pFile_	<< "<g "<<g<<">" << std::endl;
 		groupString_ = g;
 	}
 }
@@ -507,7 +507,7 @@ MAGICS_NO_EXPORT void SVGDriver::closeGroup() const
 {
 	if(!groupString_.empty())
 	{
-		pFile_	<< "</g>"<<endl;
+		pFile_	<< "</g>"<< std::endl;
 		groupString_="";
 	}
 }
@@ -1121,7 +1121,7 @@ MAGICS_NO_EXPORT void SVGDriver::circle(const MFloat x, const MFloat y, const MF
 			<< static_cast<int>(currentColour_.blue() *255) << ")\"";
 		openGroup(stream.str());
 		pFile_	<< "<circle cx=\""<<cx<<"\" cy=\""<<cy<<"\" r=\""<<r<<"\"/>\n"
-			<< "<polyline points=\"0,"<<r*.9<<" 0,"<<-r*.9<<"\" width=\"2\" stroke=\"white\" fill=\"white\"/>"<<endl;
+			<< "<polyline points=\"0,"<<r*.9<<" 0,"<<-r*.9<<"\" width=\"2\" stroke=\"white\" fill=\"white\"/>"<< std::endl;
 	}
 
 }

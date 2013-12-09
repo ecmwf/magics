@@ -373,7 +373,7 @@ using namespace magics;
 */
 $class\::$class() 
 {
-	MagLog::debug() << "$class\::$class needs implementing." <<endl;
+	MagLog::debug() << "$class\::$class needs implementing." << std::endl;
 }
 
 /*!

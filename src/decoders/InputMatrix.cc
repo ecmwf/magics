@@ -135,7 +135,7 @@ pair<double, double> InputMatrix::sd2uv(double s, double d)
 	double a = 90 - (d);
 	double pi = 3.14/180.;
 	a *= pi;
-    return make_pair(s * -1 * cos(a), s*-1* sin(a));
+    return std::make_pair(s * -1 * cos(a), s*-1* sin(a));
 }
 
 
@@ -167,7 +167,7 @@ void InputMatrix::prepareComponents()
 					v.push_back(direction_->missing());
 			}
 			else {
-				pair<double, double> uv = sd2uv(*speed, *angle);
+				std::pair<double, double> uv = sd2uv(*speed, *angle);
 				u.push_back(uv.first);
 				v.push_back(uv.second);
 			}

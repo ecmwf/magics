@@ -135,11 +135,11 @@ PaperPoint PolarStereographicProjection::operator()(const PaperPoint& point)  co
 	return Transformation::operator()(point);
 }
 
-void PolarStereographicProjection::revert(const vector<pair<double, double> > & in, vector<pair<double, double> > & out) const
+void PolarStereographicProjection::revert(const vector< std::pair<double, double> > & in, vector< std::pair<double, double> > & out) const
 {
 	assert(projection_);
 	out.reserve(in.size());
-	for ( vector<pair<double, double> >::const_iterator pt = in.begin();  pt != in.end(); ++pt) {
+	for ( vector< std::pair<double, double> >::const_iterator pt = in.begin();  pt != in.end(); ++pt) {
 		TeCoord2D texy = TeCoord2D(pt->first, pt->second);
 		TeCoord2D geo = projection_->PC2LL(texy);
 		out.push_back(make_pair(geo.x()*TeCRD, geo.y()*TeCRD));
@@ -193,7 +193,7 @@ void PolarStereographicProjection::init(double width, double height)
 		// Create a grid 100/100 to calculate the corners ...
      
 		llx = ::min(urxy.x(), llxy.x());
-		urx = ::max(urxy.x(), llxy.x());
+		urx = std::max(urxy.x(), llxy.x());
 
 		if ( (urx - llx) < 10) {
 				urx = llx+10.;
@@ -201,7 +201,7 @@ void PolarStereographicProjection::init(double width, double height)
 		}
 
 		lly = ::min(urxy.y(), llxy.y());
-		ury = ::max(urxy.y(), llxy.y());
+		ury = std::max(urxy.y(), llxy.y());
 		if ( ( ury - lly ) < 10) {
 			ury = lly+10.;
 
@@ -243,18 +243,18 @@ void PolarStereographicProjection::init(double width, double height)
 	}
 	else {
 		llx = ::min(xmin_, xmax_);
-		urx = ::max(xmin_, xmax_);
+		urx = std::max(xmin_, xmax_);
 		lly = ::min(ymin_, ymax_);
-		ury = ::max(ymin_, ymax_);
+		ury = std::max(ymin_, ymax_);
 		TeCoord2D llxy(llx, lly);
 		TeCoord2D ll = projection_->PC2LL(llxy); 
 		TeCoord2D urxy(urx, ury);
 		TeCoord2D  ur = projection_->PC2LL(urxy); 
 		         
 		xmin_ =  ::min(ll.x()*TeCRD, ur.x()*TeCRD);
-		xmax_ = ::max(ll.x()*TeCRD, ur.x()*TeCRD); 
+		xmax_ = std::max(ll.x()*TeCRD, ur.x()*TeCRD); 
 		ymin_ =  ::min(ll.y()*TeCRD, ur.y()*TeCRD);
-		ymax_ =  ::max(ll.y()*TeCRD, ur.y()*TeCRD);
+		ymax_ =  std::max(ll.y()*TeCRD, ur.y()*TeCRD);
 		double stepx= (urx - llx)/100.;
 		double stepy= (ury - lly)/100.;
 		for (double x = llx; x <= urx; x += stepx )
@@ -332,8 +332,8 @@ void PolarStereographicProjection::aspectRatio(double& width, double& height)
 
 void PolarStereographicProjection::smallestBoundingBox(double& xmin, double& ymin, double& xmax, double& ymax)  const
 {
-		vector<pair<double, double> > geo;
-		vector<pair<double, double> > xy;
+		vector< std::pair<double, double> > geo;
+		vector< std::pair<double, double> > xy;
 
 		double xpcmax =  xpcmax_;
 		double xpcmin =  xpcmin_;
@@ -357,7 +357,7 @@ void PolarStereographicProjection::smallestBoundingBox(double& xmin, double& ymi
 		ymin=DBL_MAX;
 		ymax=DBL_MIN;
 
-		for (vector<pair<double, double> >::iterator point = geo.begin(); point != geo.end(); ++point) {
+		for (vector< std::pair<double, double> >::iterator point = geo.begin(); point != geo.end(); ++point) {
 			if ( xmin > point->first) xmin = point->first;
 			if ( xmax < point->first) xmax = point->first;
 			if ( ymin > point->second) ymin = point->second;
@@ -433,7 +433,7 @@ void PolarStereographicProjection::gridLongitudes(const GridPlotting& grid)  con
 		Polyline poly;
 
 		double min = ::min(latitudes.front(), latitudes.back());
-		double max = ::max(latitudes.front(), latitudes.back());
+		double max = std::max(latitudes.front(), latitudes.back());
 		
 
 		for (double lat = min; lat <= max; lat += 1) {

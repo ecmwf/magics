@@ -255,7 +255,7 @@ void GribDecoder::read(Matrix **matrix)
 			 valid_ = false;
 			 ostringstream msg;
 			 msg << "Grib Decoder: Representation [" << representation << "] not yet fully implemented";
-			 MagLog::error() <<  msg.str() <<endl;
+			 MagLog::error() <<  msg.str() << std::endl;
 			 throw MagicsException(msg.str());
 		}
 
@@ -291,7 +291,7 @@ void GribDecoder::read(Matrix **matrix, const Transformation&  transformation)
 	}
 	catch (NoFactoryException&)
 	{
-		MagLog::error() << "Grib Decoder: Representation [" << representation << "] not yet supported.\n"<<endl;;
+		MagLog::error() << "Grib Decoder: Representation [" << representation << "] not yet supported.\n"<< std::endl;;
 		valid_ = false;
 		throw MagicsException("Grib Decoder: Representation [] not yet supported.");
 	}
@@ -371,7 +371,7 @@ void GribDecoder::decode2D()
 	}
 	catch (NoFactoryException&)
 	{
-		MagLog::warning() << "Grib Decoder: Representation [" << representation << "] not yet supported.\n"<<endl;;
+		MagLog::warning() << "Grib Decoder: Representation [" << representation << "] not yet supported.\n"<< std::endl;;
 		valid_ = false;
 
 	}
@@ -425,7 +425,7 @@ void GribDecoder::customisedPoints(const AutomaticThinningMethod& thinning, cons
 	}
 	catch (NoFactoryException&)
 	{
-		MagLog::error() << "Grib Decoder: Representation [" << representation << "] not yet supported.\n"<<endl;;
+		MagLog::error() << "Grib Decoder: Representation [" << representation << "] not yet supported.\n"<< std::endl;;
 		throw MagicsException("Grib Decoder: Representation [] not yet supported.");
 	}
 }
@@ -533,7 +533,7 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 			assert(x->x_ == y->x_);
 			assert(x->y_ == y->y_);
 			CustomisedPoint* point = new CustomisedPoint(x->x_, x->y_, "");
-			pair<double, double> val = (*wind_mode_)(x->value_, y->value_);
+			std::pair<double, double> val = (*wind_mode_)(x->value_, y->value_);
 			point->insert(make_pair(xc, val.first));
 			point->insert(make_pair(yc, val.second));
 			if ( c != cin.end() ) {
@@ -599,7 +599,7 @@ void GribDecoder::customisedPoints(const BasicThinningMethod& thinning, const Tr
 	}
 	catch (NoFactoryException&)
 	{
-		MagLog::error() << "Grib Decoder: Representation [" << representation << "] not yet supported.\n"<<endl;;
+		MagLog::error() << "Grib Decoder: Representation [" << representation << "] not yet supported.\n"<< std::endl;;
 		throw MagicsException("Grib Decoder: Representation [] not yet supported.");
 	}
 }
@@ -629,7 +629,7 @@ void GribDecoder::decode2D(const Transformation&)
 	}
 	catch (NoFactoryException&)
 	{
-		MagLog::warning() << "Grib Decoder: Representation [" << representation << "] not yet supported.\n"<<endl;;
+		MagLog::warning() << "Grib Decoder: Representation [" << representation << "] not yet supported.\n"<< std::endl;;
 
 	}
 
@@ -696,7 +696,7 @@ grib_handle*  GribDecoder::open(grib_handle* grib, bool sendmsg)
 	handle_ = 0;
 	if (!file)
 	{
-		MagLog::error() << "file can not be opened [" << file_name_ << "]" <<endl;
+		MagLog::error() << "file can not be opened [" << file_name_ << "]" << std::endl;
 		MagLog::broadcast();
 		valid_ = false;
 		return 0;
@@ -707,7 +707,7 @@ grib_handle*  GribDecoder::open(grib_handle* grib, bool sendmsg)
 	if (handle_<=0 )
 	{
 		if (sendmsg) {
-			MagLog::error() << "can not access position [" << grib_field_position_<<" in " << file_name_ << "]" <<endl;
+			MagLog::error() << "can not access position [" << grib_field_position_<<" in " << file_name_ << "]" << std::endl;
 			MagLog::broadcast();
 			valid_ = false;
 			return 0;
@@ -777,7 +777,7 @@ void GribDecoder::decodePoints()
 		}
 		catch (NoFactoryException&)
 		{
-			MagLog::warning() << "Grib Decoder: Representation [" << representation << "] not yet supported.\n"<<endl;;
+			MagLog::warning() << "Grib Decoder: Representation [" << representation << "] not yet supported.\n"<< std::endl;;
 			scaling =1 ; offset =0;
 		}
 
@@ -876,7 +876,7 @@ bool  GribLoop::hasMore()
 	if (file_ == 0 ) {
 		file_ = fopen(path_.c_str(),"r");
 		if (!file_) {
-			MagLog::error() << "file can not be opened [" << path_ <<  "]" <<endl;
+			MagLog::error() << "file can not be opened [" << path_ <<  "]" << std::endl;
 			throw GribFileMagException(path_, 0);
 		}	
 	}
@@ -1266,7 +1266,7 @@ void GribDecoder::visit(ValuesCollector& points)
 	}      
 	catch (NoFactoryException&)
 	{
-		MagLog::warning() << "Grib Decoder: Representation [" << representation << "] not yet supported.\n"<<endl;;
+		MagLog::warning() << "Grib Decoder: Representation [" << representation << "] not yet supported.\n"<< std::endl;;
 		scaling =1 ; offset =0;
 	}
  	
@@ -1474,7 +1474,7 @@ void GribDecoder::visit(MetaDataCollector& step)
 					}	
 					catch (NoFactoryException&)
 					{
-						MagLog::warning() << "Grib Decoder: Representation [" << representation << "] not yet supported.\n"<<endl;;
+						MagLog::warning() << "Grib Decoder: Representation [" << representation << "] not yet supported.\n"<< std::endl;;
 						information_[key->first]="N/A";
 					}
 					

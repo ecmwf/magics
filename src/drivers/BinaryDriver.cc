@@ -40,7 +40,7 @@ using namespace magics;
 */
 BinaryDriver::BinaryDriver()
 {
-	MagLog::debug() << "BinaryDriver::BinaryDriver needs implementing." <<endl;
+	MagLog::debug() << "BinaryDriver::BinaryDriver needs implementing." << std::endl;
 }
 
 /*!
@@ -622,7 +622,7 @@ MAGICS_NO_EXPORT void BinaryDriver::circle(const MFloat x, const MFloat y, const
 MAGICS_NO_EXPORT bool BinaryDriver::renderPixmap(MFloat x0,MFloat y0,MFloat x1,MFloat y1,
                                             int w,int h,unsigned char* pixmap,int landscape, bool) const
 {
-	MagLog::debug() << "BinaryDriver::renderPixmap needs implementing." <<endl;
+	MagLog::debug() << "BinaryDriver::renderPixmap needs implementing." << std::endl;
 	return true;
 }
 

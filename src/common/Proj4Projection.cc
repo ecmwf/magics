@@ -895,12 +895,12 @@ void Proj4Projection::labels(const LabelPlotting& label, TopAxisVisitor& visitor
 	}
 }
 
-void Proj4Projection::revert(const vector<pair<double, double> > & in, vector<pair<double, double> > & out) const
+void Proj4Projection::revert(const vector< std::pair<double, double> > & in, vector< std::pair<double, double> > & out) const
 {
 
 
 	out.reserve(in.size());
-	for ( vector<pair<double, double> >::const_iterator pt = in.begin();  pt != in.end(); ++pt) {
+	for ( vector< std::pair<double, double> >::const_iterator pt = in.begin();  pt != in.end(); ++pt) {
 		  double x = pt->first;
 		  double y = pt->second;
 		  PaperPoint p(x, y);

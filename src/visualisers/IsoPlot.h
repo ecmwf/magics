@@ -181,10 +181,10 @@ class Cell
 public:	
 	Cell(const CellArray& parent) : parent_(parent), missing_(parent.missing_) { }
 	Cell(const CellArray& parent, int row, int column):  parent_(parent), row_(row), column_(column)  {
-		indexes_[0] = make_pair(row_, column_);
-		indexes_[1] = make_pair(row_, column_+1);
-		indexes_[2] = make_pair(row_+1, column_+1);
-		indexes_[3] = make_pair(row_+1, column_);
+		indexes_[0] = std::make_pair(row_, column_);
+		indexes_[1] = std::make_pair(row_, column_+1);
+		indexes_[2] = std::make_pair(row_+1, column_+1);
+		indexes_[3] = std::make_pair(row_+1, column_);
 			
 		min_  = 100000000;
 		max_ = -min_;
@@ -241,7 +241,7 @@ public:
 	
 	int outOfRange_;
 
-	pair<int, int> indexes_[4];
+	std::pair<int, int> indexes_[4];
 	
 	
 	

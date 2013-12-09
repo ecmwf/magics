@@ -107,7 +107,7 @@ public :
 	bool operator()(const string&)
 	{
 		MagLog::info() << "Compatibility issue: the parameter [" << parameter_ << "] is discontinued.\n"
-		            << "              Please use the grib_api interface  instead." <<endl;
+		            << "              Please use the grib_api interface  instead." << std::endl;
 		return true;
 	}
 
@@ -123,7 +123,7 @@ public :
 	~IgnoreConverter() {}
 	bool operator()(const string&)
 	{
-		MagLog::info() << "Deprecated: Parameter " << parameter_ << " is not needed anymore --> setting is ignored" <<endl;
+		MagLog::info() << "Deprecated: Parameter " << parameter_ << " is not needed anymore --> setting is ignored" << std::endl;
 		return true;
 	}
 
@@ -139,7 +139,7 @@ public :
 	~ComingSoonConverter() {}
 	bool operator()(const string&)
 	{
-		MagLog::info() << "Coming soon: Parameter " << parameter_ << " will be implemented soon" <<endl;
+		MagLog::info() << "Coming soon: Parameter " << parameter_ << " will be implemented soon" << std::endl;
 		return true;
 	}
 
@@ -158,7 +158,7 @@ public :
 	~GribSubareaExtraction() {}
 	bool operator()(const string& )
 	{
-		MagLog::info() << "Compatibility issue: Parameter grib_subarea_extraction not required anymore.\n"<<endl;
+		MagLog::info() << "Compatibility issue: Parameter grib_subarea_extraction not required anymore.\n"<< std::endl;
 		return true;
 	}
 };
@@ -311,7 +311,7 @@ public :
 	bool operator()(const string& leg)
 	{
 		MagLog::info() << "Compatibility issue: wind_arrow_legend is deprecated.\n"
-		            << "               Please use legend instead."<<endl;
+		            << "               Please use legend instead."<< std::endl;
 		ParameterManager::set("legend", leg);
 		return true;
 	}
@@ -352,7 +352,7 @@ public :
 	bool operator()(const string& file)
 	{
 		MagLog::info() << "Compatibility issue: ps_file_name is deprecated.\n"
-		            << "               Please use output_name instead."<<endl;
+		            << "               Please use output_name instead."<< std::endl;
 		ParameterManager::set("output_legacy_name", file);
 		ParameterManager::set("output_file_minimal_width", 0);  
 		return true;
@@ -368,7 +368,7 @@ public :
 	bool operator()(const string& )
 	{
 		MagLog::info() << "Compatibility issue: ps_device was removed.\n"
-		            << "               Please use other PostScript driver parameter instead."<<endl;
+		            << "               Please use other PostScript driver parameter instead."<< std::endl;
 		return true;
 	}
 };
@@ -381,7 +381,7 @@ public :
 	~OutputPsDevice() {}
 	bool operator()(const string& )
 	{
-		MagLog::info() << "Compatibility issue: output_ps_device is deprecated."<<endl;
+		MagLog::info() << "Compatibility issue: output_ps_device is deprecated."<< std::endl;
 		return true;
 	}
 };
@@ -394,7 +394,7 @@ public :
 	~PsHelp() {}
 	bool operator()(const string& )
 	{
-		MagLog::info() << "Compatibility issue: Parameter ps_help was removed.\n"<<endl;
+		MagLog::info() << "Compatibility issue: Parameter ps_help was removed.\n"<< std::endl;
 		return false;
 	}
 };
@@ -407,7 +407,7 @@ public :
 	~PsMetric() {}
 	bool operator()(const string& )
 	{
-		MagLog::info() << "Compatibility issue: Parameter ps_metric was removed.\n"<<endl;
+		MagLog::info() << "Compatibility issue: Parameter ps_metric was removed.\n"<< std::endl;
 		return false;
 	}
 };
@@ -442,28 +442,28 @@ public:
 	bool operator()(const doublearray& values)
 	{
 		MagLog::info() << "Compatibility issue: Parameter " << from_ << " is deprecated.\n"
-		            << "               Please use " << to_ << " instead."<<endl;
+		            << "               Please use " << to_ << " instead."<< std::endl;
 		ParameterManager::set(to_, values);  
 		return true;
 	}
 	bool operator()(const stringarray& values)
 	{
 		MagLog::info() << "Compatibility issue: Parameter " << from_ << " is deprecated.\n"
-		            << "               Please use " << to_ << " instead."<<endl;
+		            << "               Please use " << to_ << " instead."<< std::endl;
 		ParameterManager::set(to_, values);  
 		return true;
 	}
 	bool operator()(const string& value)
 	{
 		MagLog::info() << "Compatibility issue: Parameter " << from_ << " is deprecated.\n"
-		            << "               Please use " << to_ << " instead."<<endl;
+		            << "               Please use " << to_ << " instead."<< std::endl;
 		ParameterManager::set(to_, value);
 		return true;
 	}
 	bool operator()(double value)
 	{
 		MagLog::info() << "Compatibility issue: Parameter " << from_ << " is deprecated.\n"
-		            << "               Please use " << to_ << " instead."<<endl;
+		            << "               Please use " << to_ << " instead."<< std::endl;
 		ParameterManager::set(to_, value);
 		return true;
 	}
@@ -558,7 +558,7 @@ public :
 	bool operator()(const string& file)
 	{
 		MagLog::info() << "Compatibility issue: Parameter device_file_name is deprecated.\n"
-		            << "               Please use output_name instead."<<endl;
+		            << "               Please use output_name instead."<< std::endl;
 		ParameterManager::set("output_legacy_name", file);
 		ParameterManager::set("output_file_minimal_width", 0);  
 		return true;
@@ -576,7 +576,7 @@ public :
 	bool operator()(const int width)
 	{
 		MagLog::info() << "Compatibility issue: Parameter device_width is deprecated.\n"
-		               << "             Please use output_width instead."<<endl;
+		               << "             Please use output_width instead."<< std::endl;
 		ParameterManager::set("output_width", width);
 		return true;
 	}
@@ -593,7 +593,7 @@ public :
 	bool operator()(const int quality)
 	{
 		MagLog::info() << "Compatibility issue: Parameter device_quality_level is deprecated.\n"
-		               << "             Please use output_jpg_quality instead."<<endl;
+		               << "             Please use output_jpg_quality instead."<< std::endl;
 		ParameterManager::set("output_jpg_quality", quality);
 		return true;
 	}
@@ -612,7 +612,7 @@ public :
 	bool operator()(const string& quality)
 	{
 		MagLog::info() << "Compatibility issue: Parameter " << base_ << "quality is deprecated.\n"
-		            << "               Please use " << base_ << "font and " << base_ << "font_style instead."<<endl;
+		            << "               Please use " << base_ << "font and " << base_ << "font_style instead."<< std::endl;
 
 		if(magCompare(quality,"low") )
 		{
@@ -631,7 +631,7 @@ public :
 		}
 		else
 		{
-			MagLog::warning()<<"The setting "<<quality<<" for the parameter " << base_ << "_quality is not valid! Default font is used."<<endl;
+			MagLog::warning()<<"The setting "<<quality<<" for the parameter " << base_ << "_quality is not valid! Default font is used."<< std::endl;
 			ParameterManager::set(base_ +"font", "sansserif");
 			ParameterManager::set(base_ + "font_style", "normal");
 		}
@@ -651,7 +651,7 @@ public :
 	bool operator()(double height)
 	{
 		MagLog::warning() << "Compatibility issue: Parameter " << from_ << " is deprecated.\n"
-		               << "               Please use " << to_ << " instead. " << to_ << " has been set to "<<height<<endl;
+		               << "               Please use " << to_ << " instead. " << to_ << " has been set to "<<height<< std::endl;
 		ParameterManager::set(to_, height);
 		return true;
 	}	
@@ -668,7 +668,7 @@ public :
 	{
 		if (from_ != to_ ) {
 			MagLog::info() << "Compatibility issue: Parameter " << from_ << " is deprecated.\n"
-		               << "               Please use " << to_ << " instead. " << to_ << " has been set to "<<height<<endl;
+		               << "               Please use " << to_ << " instead. " << to_ << " has been set to "<<height<< std::endl;
 		}
 		else {
 			MagLog::info() << from_ << " is now expecting a string : consider to change your setting for psetc " << endl;
@@ -698,7 +698,7 @@ public :
 	bool operator()(const string& file)
 	{
 		MagLog::info() << "Compatibility issue: Parameter gd_file_name is deprecated.\n"
-		            << "              Please use output_name instead."<<endl;
+		            << "              Please use output_name instead."<< std::endl;
 		ParameterManager::set("output_legacy_name", file);
 		ParameterManager::set("output_file_minimal_width", 0); 
 		return true;
@@ -716,7 +716,7 @@ public :
 		{
 			fix="cartesian";
 			MagLog::info() << "Compatibility issue: The value [none] for Parameter subpage_map_projection is deprecated.\n"
-			               << "               Please use [cartesian] instead."<<endl;
+			               << "               Please use [cartesian] instead."<< std::endl;
 		}
 		ParameterManager::set("subpage_map_projection",fix);
 		return true;

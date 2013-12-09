@@ -42,7 +42,7 @@ pair<string, string> cut(const string& in)
 		var = current;
 		current = "";
 	}
-	return make_pair(var, current);
+	return std::make_pair(var, current);
 }
 
 
@@ -51,7 +51,7 @@ pair<string, string> cut(const string& in)
 
 string replace(const string& in, const map<string, string>& variables)
 {
-	pair<string, string> var = cut(in);
+	std::pair<string, string> var = cut(in);
 
 	map<string, string>::const_iterator variable = variables.find(var.first);
 

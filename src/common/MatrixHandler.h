@@ -104,17 +104,17 @@ public :
                 double y1, y2;
                 int r1, r2, c1, c2;
                 vector<double> distances;
-                map<double, pair<pair<double, double>,  pair<int, int> > > helper;
-                vector<pair<pair<double, double>,  pair<int, int> > > coordinates;
+                map<double, pair< std::pair<double, double>,  pair<int, int> > > helper;
+                vector< std::pair< std::pair<double, double>,  pair<int, int> > > coordinates;
                 if (ri != -1 ) {
                 	boundColumn(column, x1, c1, x2, c2);
-                	coordinates.push_back(make_pair(make_pair(row, x1), make_pair(ri, c1)));
-                	coordinates.push_back(make_pair(make_pair(row, x2), make_pair(ri, c2)));
+                	coordinates.push_back(make_pair(make_pair(row, x1), std::make_pair(ri, c1)));
+                	coordinates.push_back(make_pair(make_pair(row, x2), std::make_pair(ri, c2)));
                 }
                 else if (ci != -1 ) {
                 	boundRow(row, y1, r1, y2, r2);
-                	coordinates.push_back(make_pair(make_pair(y1, column), make_pair(r1, ci)));
-                	coordinates.push_back(make_pair(make_pair(y2, column), make_pair(r2, ci)));
+                	coordinates.push_back(make_pair(make_pair(y1, column), std::make_pair(r1, ci)));
+                	coordinates.push_back(make_pair(make_pair(y2, column), std::make_pair(r2, ci)));
 
                 }
                 else {
@@ -124,13 +124,13 @@ public :
                 // 4 points ...
                 // x1, y1 - x2, y1 -  x1, y2 - x2, y2
                 // find the nearest...
-                	coordinates.push_back(make_pair(make_pair(y1, x1), make_pair(r1, c1)));
-                	coordinates.push_back(make_pair(make_pair(y1, x2), make_pair(r1, c2)));
-                	coordinates.push_back(make_pair(make_pair(y2, x1), make_pair(r2, c1)));
-                	coordinates.push_back(make_pair(make_pair(y2, x2), make_pair(r2, c2)));
+                	coordinates.push_back(make_pair(make_pair(y1, x1), std::make_pair(r1, c1)));
+                	coordinates.push_back(make_pair(make_pair(y1, x2), std::make_pair(r1, c2)));
+                	coordinates.push_back(make_pair(make_pair(y2, x1), std::make_pair(r2, c1)));
+                	coordinates.push_back(make_pair(make_pair(y2, x2), std::make_pair(r2, c2)));
                 }
 
-                for (vector< pair<pair<double, double>, pair<int, int> > >::iterator coord = coordinates.begin(); coord != coordinates.end(); ++coord) {
+                for (vector< pair< std::pair<double, double>, pair<int, int> > >::iterator coord = coordinates.begin(); coord != coordinates.end(); ++coord) {
                 	double distance = (row- coord->first.first)*(row-coord->first.first) + (column - coord->first.second)*(column - coord->first.second);
                 	//cout << distance << " [ " << coord->first.first << ", " << coord->first.second << "]" << endl;
                 	distances.push_back(distance);
@@ -142,7 +142,7 @@ public :
 
 				double min = *std::min_element(distances.begin(), distances.end());
 
-                map<double, pair<pair<double, double>,  pair<int, int> > >::iterator near = helper.find(min);
+                map<double, pair< std::pair<double, double>,  pair<int, int> > >::iterator near = helper.find(min);
 
 				if ( near == helper.end() ) 
 					return  matrix_.missing();

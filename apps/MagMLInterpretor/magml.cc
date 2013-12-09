@@ -49,7 +49,7 @@ pair<string, string> cut(const string& in)
 		}
 		c++;
 	}
-	return make_pair(var, current);
+	return std::make_pair(var, current);
 }
 
 void setVariable(const string& in, map<string, string>& variables)

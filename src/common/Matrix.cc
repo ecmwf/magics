@@ -41,7 +41,7 @@ using namespace magics;
 
 void ProjectedMatrix::build()
 {
-	vector<pair<int, int>  > coords(4);
+	vector< std::pair<int, int>  > coords(4);
 	for (int r = 0; r < rows_; r++)
 		for (int c = 0; c < columns_; c++)
 			push_back(missing_);
@@ -65,7 +65,7 @@ void ProjectedMatrix::build()
 			vector<Point> points;
 			bool stop = true;
 			
-			for (vector<pair<int, int>  >::iterator p = coords.begin(); p != coords.end(); ++p) {
+			for (vector< std::pair<int, int>  >::iterator p = coords.begin(); p != coords.end(); ++p) {
 				int r = row+ p->first;
 				int c = column+ p->second;
 				double rr = rowsArray_[index(r, c)];
@@ -83,7 +83,7 @@ void ProjectedMatrix::build()
 				// Go to next cell...
 
 				continue;
-			for (vector<pair<int, int>  >::iterator p = coords.begin(); p != coords.end(); ++p) {
+			for (vector< std::pair<int, int>  >::iterator p = coords.begin(); p != coords.end(); ++p) {
 				
 				int r = row+ p->first;
 				int c = column+ p->second;

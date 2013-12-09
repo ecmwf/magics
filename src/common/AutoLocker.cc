@@ -30,12 +30,12 @@
 #include "MagExceptions.h"
 #endif
 
-typedef map<void*,pthread_t,less<void*> > GotMap;
-typedef map<pthread_t,void*,less<pthread_t> > WantMap;
+typedef map<void*,pthread_t,std::less<void*> > GotMap;
+typedef map<pthread_t,void*,std::less<pthread_t> > WantMap;
 static WantMap*   wantMap = 0;
 static GotMap*   gotMap = 0;
 static Mutex* texmu = 0;
-typedef set<pthread_t,less<pthread_t> > Set;
+typedef set<pthread_t,std::less<pthread_t> > Set;
 
 static pthread_once_t once = PTHREAD_ONCE_INIT;
 

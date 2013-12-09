@@ -75,7 +75,7 @@ struct InputWrep
 		 for (map< string, vector<double> >::iterator value = values_.begin(); value != values_.end(); ++ value) {
 			 string sep = value->first + "[";
 			 for (vector<double>::iterator val =  value->second.begin(); val !=  value->second.end(); ++ val) {
-			 	cout << sep << *val;
+			 	std::cout << sep << *val;
 			 	sep = ", ";
 			 }
 			 cout << "]" << endl;

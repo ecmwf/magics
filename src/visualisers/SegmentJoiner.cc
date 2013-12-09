@@ -436,7 +436,7 @@ static double compute(SegmentJoiner::SegList& v,list<deque<Segment> >& lines)
 
     // A bit of tidying up
 
-    for(list<deque<Segment> >::iterator k = lines.begin(); k != lines.end(); ++k)
+    for(std::list<deque<Segment> >::iterator k = lines.begin(); k != lines.end(); ++k)
     {
         deque<Segment>& p = (*k);
         if(p.size() >= 2) {
@@ -494,7 +494,7 @@ double SegmentJoiner::computePolygonLines(vector<vector<Point> >& result)
 
 
     size_t i = 0;
-    for(list<deque<Segment> >::iterator k = lines.begin(); k != lines.end(); ++k, ++i)
+    for(std::list<deque<Segment> >::iterator k = lines.begin(); k != lines.end(); ++k, ++i)
     {
 
         deque<Segment>& p = (*k);
@@ -561,7 +561,7 @@ double SegmentJoiner::punchHoles(vector<vector<Point> > &result) {
     }
 
     for(vector<vector<Point> >::iterator j = polys.begin() ; j != polys.end(); ++j) {
-        for(list<vector<Point> >::iterator h = holes.begin() ; h != holes.end(); ) {
+        for(std::list<vector<Point> >::iterator h = holes.begin() ; h != holes.end(); ) {
             list<vector<Point> >::iterator next = h; next++;
             if(pointInPoly((*h).front(), *j)) {
                 // If there are more holes, you need to choose different points
@@ -585,7 +585,7 @@ double SegmentJoiner::punchHoles(vector<vector<Point> > &result) {
 void SegmentJoiner::check(list<deque<Segment> >& lines)
 {
 
-    for(list<deque<Segment> >::iterator k = lines.begin(); k != lines.end(); ++k) {
+    for(std::list<deque<Segment> >::iterator k = lines.begin(); k != lines.end(); ++k) {
         deque<Segment>& p = (*k);
         ASSERT(p.size());
         deque<Segment>::iterator j = p.begin();
@@ -598,11 +598,11 @@ void SegmentJoiner::check(list<deque<Segment> >& lines)
     }
 
 
-    for(list<deque<Segment> >::iterator j = lines.begin();  j != lines.end(); ++j)
+    for(std::list<deque<Segment> >::iterator j = lines.begin();  j != lines.end(); ++j)
     {
         deque<Segment>& p = (*j);
 
-        for(list<deque<Segment> >::iterator k = lines.begin(); k != lines.end(); ++k)
+        for(std::list<deque<Segment> >::iterator k = lines.begin(); k != lines.end(); ++k)
         {
             deque<Segment>& q = (*k);
             if(k != j) {
@@ -615,7 +615,7 @@ void SegmentJoiner::check(list<deque<Segment> >& lines)
 
     int n =0;
 
-    for(list<deque<Segment> >::iterator k = lines.begin(); k != lines.end(); ++k) {
+    for(std::list<deque<Segment> >::iterator k = lines.begin(); k != lines.end(); ++k) {
         deque<Segment>& p = (*k);
         n += p.size();
     }

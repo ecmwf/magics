@@ -109,13 +109,13 @@ void GeoRectangularProjection::revert(const PaperPoint& xy, UserPoint& point)  c
 
 
 
-void GeoRectangularProjection::revert(const vector<pair<double, double> > & input, vector<pair<double, double> > & output) const
+void GeoRectangularProjection::revert(const vector< std::pair<double, double> > & input, vector< std::pair<double, double> > & output) const
 {
 	output.reserve(input.size());
-	const vector<pair<double, double> >::const_iterator in_end =input.end();
+	const vector< std::pair<double, double> >::const_iterator in_end =input.end();
 	if ( !projection_ )
 	{
-		for ( vector<pair<double, double> >::const_iterator pt = input.begin();  pt != in_end; ++pt)
+		for ( vector< std::pair<double, double> >::const_iterator pt = input.begin();  pt != in_end; ++pt)
 		{
 			output.push_back(*pt);
 		}
@@ -123,7 +123,7 @@ void GeoRectangularProjection::revert(const vector<pair<double, double> > & inpu
 	}
 	assert(projection_);
 
-	for ( vector<pair<double, double> >::const_iterator pt = input.begin();  pt != in_end; ++pt)
+	for ( vector< std::pair<double, double> >::const_iterator pt = input.begin();  pt != in_end; ++pt)
 	{
 		TeCoord2D texy = TeCoord2D(pt->first, pt->second);
 		TeCoord2D geo = projection_->PC2LL(texy);

@@ -429,7 +429,7 @@ MAGICS_NO_EXPORT bool BaseDriver::convertToPixmap(const string &fname, const Gra
 	bool alpha = (pixmapFormat == "rgba");
 	status = renderPixmap(x0,y0,x1,y1,col,row,image,Landscape,alpha);
 
-	if(!status) MagLog::warning() <<"BaseDriver::convertToPixmap() -> no Pixmap could be drawn! Zero size of at least one dimension."<<endl;
+	if(!status) MagLog::warning() <<"BaseDriver::convertToPixmap() -> no Pixmap could be drawn! Zero size of at least one dimension."<< std::endl;
 	delete [] image;
 
 	return status;
