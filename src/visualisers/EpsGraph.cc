@@ -777,7 +777,7 @@ void EpsGraph::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 	eps.push_back( (**point)["ninty"]);
 	eps.push_back( (**point)["max"]);
 
-	sort(eps.begin(), eps.end());
+	std::sort(eps.begin(), eps.end());
 
 	for (vector<double>::iterator e = eps.begin(); e != eps.end(); ++e)
 		if ( same(*e, 0) ) *e = 0;

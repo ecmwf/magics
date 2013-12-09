@@ -101,7 +101,7 @@ CairoDriver::~CairoDriver()
 */
 void CairoDriver::open()
 {
-	MagLog::dev() << "Cairo version used is: "<<cairo_version_string()<< " backend: "<<backend_ <<endl;
+	MagLog::dev() << "Cairo version used is: "<<cairo_version_string()<< " backend: "<<backend_ << std::endl;
 
 	MFloat ratio = getYDeviceLength() / getXDeviceLength();
 	int width = maground(width_);
@@ -130,7 +130,7 @@ void CairoDriver::open()
 		dimensionXglobal_ = cairo_image_surface_get_width (surface_);
                 dimensionYglobal_ = cairo_image_surface_get_height(surface_);
 #else
-		MagLog::error() << "CairoDriver: For contexts you need at least Cairo 1.2!" <<endl;
+		MagLog::error() << "CairoDriver: For contexts you need at least Cairo 1.2!" << std::endl;
 #endif
 	}
 	else
@@ -167,7 +167,7 @@ void CairoDriver::setupNewSurface() const
 
 	    surface_ = cairo_pdf_surface_create(filename_.c_str(), dimensionXglobal_, dimensionYglobal_);
 #else
-	    MagLog::error() << "CairoDriver: PDF output NOT supported! Enable PDF support in your Cairo installation." <<endl;
+	    MagLog::error() << "CairoDriver: PDF output NOT supported! Enable PDF support in your Cairo installation." << std::endl;
 #endif
 	}
 	else if(magCompare(backend_,"ps"))
@@ -187,7 +187,7 @@ void CairoDriver::setupNewSurface() const
                 surface_ = cairo_ps_surface_create(filename_.c_str(), dimensionXglobal,dimensionYglobal);
 //            }
 #else
-	    MagLog::error() << "CairoDriver: PS output NOT supported! Enable PS support in your Cairo installation." <<endl;
+	    MagLog::error() << "CairoDriver: PS output NOT supported! Enable PS support in your Cairo installation." << std::endl;
 #endif
 	}
 	else if(magCompare(backend_,"eps"))
@@ -198,7 +198,7 @@ void CairoDriver::setupNewSurface() const
 	    cairo_ps_surface_set_eps (surface_,true);
 #else
 	    MagLog::error() << "CairoDriver: EPS output NOT supported! You need at least version Cairo 1.5.2.\n"
-	                 << "PostScript is generated instead." <<endl;
+	                 << "PostScript is generated instead." << std::endl;
 	    filename_ = getFileName("ps");
 	    surface_ = cairo_ps_surface_create(filename_.c_str(), dimensionXglobal_, dimensionYglobal_);
 #endif
@@ -211,7 +211,7 @@ void CairoDriver::setupNewSurface() const
 	    surface_ = cairo_svg_surface_create (filename_.c_str(), dimensionXglobal_, dimensionYglobal_);
 //	    cairo_svg_surface_restrict_to_version (surface_, CAIRO_SVG_VERSION_1_2);
 #else
-	    MagLog::error() << "CairoDriver: SVG output NOT supported! Enable SVG support in your Cairo installation." <<endl;
+	    MagLog::error() << "CairoDriver: SVG output NOT supported! Enable SVG support in your Cairo installation." << std::endl;
 #endif
 	}
 	else if(magCompare(backend_,"x"))
@@ -222,7 +222,7 @@ void CairoDriver::setupNewSurface() const
 
 		if(!(dpy=XOpenDisplay(NULL)))
 		{
-			MagLog::error() << "CairoDriver: Could not open display for Xlib!"<<endl;
+			MagLog::error() << "CairoDriver: Could not open display for Xlib!"<< std::endl;
 			terminate();
 		}
 
@@ -238,19 +238,19 @@ void CairoDriver::setupNewSurface() const
 
 		surface_ = cairo_xlib_surface_create(dpy, win, DefaultVisual(dpy, 0), dimensionXglobal_, dimensionYglobal_);
 #else
-		MagLog::error() << "CairoDriver: Xlib output NOT supported! Enable Xlib support in your Cairo installation." <<endl;
+		MagLog::error() << "CairoDriver: Xlib output NOT supported! Enable Xlib support in your Cairo installation." << std::endl;
 #endif
 	}
 	else
 	{
-		MagLog::error() << "CairoDriver: The backend "<< backend_ <<" is NOT supported!" <<endl;
+		MagLog::error() << "CairoDriver: The backend "<< backend_ <<" is NOT supported!" << std::endl;
 	}
 
 	cairo_status_t status = cairo_surface_status(surface_);
 	if (status)
 	{
 		MagLog::error()	<< "CairoDriver: the surface ("<<backend_<<") could not be generated!\n"
-				<< " -> "<<cairo_status_to_string(status)<<endl;
+				<< " -> "<<cairo_status_to_string(status)<< std::endl;
 	}
 
 	if ( !cr_) cr_ = cairo_create (surface_);
@@ -839,7 +839,7 @@ MAGICS_NO_EXPORT void CairoDriver::renderSimplePolygon(const Polyline& line) con
 #else
                 if (currentShading_==M_SH_HATCH || currentShading_==M_SH_DOT)
                     MagLog::error() << "CairoDriver: For hatch and dot shading you need at least Cairo 1.2!\n"
-                                 << "             Solid shading used instead."<<endl;
+                                 << "             Solid shading used instead."<< std::endl;
 #endif
 	{
 	    if(cairo_get_antialias(cr_) != CAIRO_ANTIALIAS_NONE && currentColour_.alpha() > 0.9999 )
@@ -979,7 +979,7 @@ MAGICS_NO_EXPORT void CairoDriver::renderSimplePolygon(const int n, MFloat* x, M
 #else
                 if (currentShading_==M_SH_HATCH || currentShading_==M_SH_DOT)
                     MagLog::error() << "CairoDriver: For hatch and dot shading you need at least Cairo 1.2!\n"
-                                 << "             Solid shading used instead."<<endl;
+                                 << "             Solid shading used instead."<< std::endl;
 #endif
 	{
 	    if(cairo_get_antialias(cr_) != CAIRO_ANTIALIAS_NONE && currentColour_.alpha() > 0.9999 )

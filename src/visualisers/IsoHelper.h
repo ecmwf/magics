@@ -28,7 +28,7 @@ namespace magics {
 struct IsoData {
 public:
     IsoData() { more_ = true; }
-    deque<pair<double, pair<pair<double, double>, pair<double, double > > > > segments_;
+    deque< std::pair<double, pair< std::pair<double, double>, pair<double, double > > > > segments_;
     //deque<Shape*> shapes_;
     
     bool more_;

@@ -1597,7 +1597,7 @@ void removeDuplicatedCoords(vector<TeCoord2D>& coordSet)
 TePolygon ConvexHull(vector<TeCoord2D>& coordSet)
 {
 	// sorting the coords
-	sort(coordSet.begin(), coordSet.end(), xOrder<TeCoord2D>());
+	std::sort(coordSet.begin(), coordSet.end(), xOrder<TeCoord2D>());
 
 	register unsigned int i = 0;
 	register unsigned int n = coordSet.size();
@@ -2220,7 +2220,7 @@ TeLinearRing TeSimpleClosedPath(const TePointSet& pSet)
 
 	ThetaOrder tr(pSet[0].location());
 
-	sort(l.begin(), l.end(), tr);
+	std::sort(l.begin(), l.end(), tr);
 
 	l.add(l[0]);
 

@@ -154,7 +154,7 @@ bool TeCalculateStatistics(const It& itBegin, const It& itEnd, TeStatisticValMap
 	coefVar = (100*stDev)/mean;
 	amplitude = maxValue-minValue;  
 
-	sort(values.begin(), values.end());
+	std::sort(values.begin(), values.end());
 		
 	//calculate median 
 	if((count%2)==0)
@@ -295,7 +295,7 @@ bool TeCalculateStatistics(const It& itBegin, const It& itEnd, TeStatisticValMap
 	coefVar = (100*stDev)/mean;
 	amplitude = maxValue-minValue;  
 
-	sort(values.begin(), values.end());
+	std::sort(values.begin(), values.end());
 		
 	//calculate median 
 	if((count%2)==0)
@@ -420,7 +420,7 @@ bool TeCalculateStatistics(It& itBegin, It& itEnd, TeStatisticsDimensionVect& st
 		coefVar[jj] = (100*stDev[jj])/mean[jj];
 		amplitude[jj] = maxValue[jj]-minValue[jj];
 
-		sort(bandValues[jj].begin(), bandValues[jj].end());
+		std::sort(bandValues[jj].begin(), bandValues[jj].end());
 		
 		//calculate median
 		if((count%2)==0)

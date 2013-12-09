@@ -1245,7 +1245,7 @@ MAGICS_NO_EXPORT bool PostScriptDriver::renderPixmap(MFloat x0,MFloat y0,MFloat 
 		if ( (++nl)%12 == 0) *ps << "\n";
 	   }
 	 }
-	 *ps << "gr" <<endl;
+	 *ps << "gr" << std::endl;
 	 currentColour_ = Colour("none");
 	 delete [] t;
 	 return true;
@@ -1309,7 +1309,7 @@ MAGICS_NO_EXPORT bool PostScriptDriver::renderCellArray(const Image& image) cons
 				r = 1.;
 				g = 1.;
 				b = 1.;
-//				MagLog::info()<< "PostScriptDriver-> Cellshading colour not defined in table! Colour index: "<<c<<endl;
+//				MagLog::info()<< "PostScriptDriver-> Cellshading colour not defined in table! Colour index: "<<c<< std::endl;
 //    PostScript will always 'overpaint' anything below missing data!!!!
 //
 			}
@@ -1354,12 +1354,12 @@ MAGICS_NO_EXPORT bool PostScriptDriver::renderCellArray(const Image& image) cons
 			if ( (++nl)%12 == 0) *ps << "\n";
 		}
 	}
-	*ps << "gr" <<endl;
+	*ps << "gr" << std::endl;
 	delete [] t;
    }
    else
    {
-	MagLog::warning() << "PostScriptDriver: failed to plot CellArray with wrong dimensions! Width: "<<width<<" Height: "<<height <<endl;
+	MagLog::warning() << "PostScriptDriver: failed to plot CellArray with wrong dimensions! Width: "<<width<<" Height: "<<height << std::endl;
    }
    return true;
 }

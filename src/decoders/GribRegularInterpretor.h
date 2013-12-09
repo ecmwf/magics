@@ -127,8 +127,8 @@ public:
 	GribRotatedInterpretor(): original_(false) {}
 	virtual ~GribRotatedInterpretor() {}
 	
-	pair<double, double> unrotate(double lat, double lon) const;
-	pair<double, double> rotate(double lat, double lon) const;
+	std::pair<double, double> unrotate(double lat, double lon) const;
+	std::pair<double, double> rotate(double lat, double lon) const;
 	void raw(const GribDecoder&, const Transformation&, const string&, CustomisedPointsList&) const;
 	void keepOriginal(bool original) { original_ = original; }
 	void interpretAsMatrix(const GribDecoder&, Matrix**) const; 

@@ -792,7 +792,7 @@ void BaseDriver::redisplay(const BinaryObject& binary) const
   in.read((char *)(&lx), sizeof(MFloat));
   in.read((char *)(&ly), sizeof(MFloat));
   
-//  if(lx!=0 || ly != 0) MagLog::warning()<<"Reading Binary: dimension mismatch!!!"<<endl;
+//  if(lx!=0 || ly != 0) MagLog::warning()<<"Reading Binary: dimension mismatch!!!"<< std::endl;
   Layout la;
    la.x(binary.getMgb_x());
    la.y(binary.getMgb_y());

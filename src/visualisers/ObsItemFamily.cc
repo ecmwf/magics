@@ -78,7 +78,7 @@ void ObsWind::operator()(CustomisedPoint& point, ComplexSymbol& symbol) const
 MagLog::debug() << "OBS ITEM - ObsWind - Lon/Lat: "<<point.longitude()<<" / "<<point.latitude()
      << "\n\twind_speed:     " << point[speed_]
      << "\n\twind_direction: " << point[direction_]
-     << "\n\tcloud amount:   " << point["cloud_amount"]<<" -> "<<origin <<endl;
+     << "\n\tcloud amount:   " << point["cloud_amount"]<<" -> "<<origin << std::endl;
 
 
 	flag->setOriginHeight(ring_size_);
@@ -88,7 +88,7 @@ MagLog::debug() << "OBS ITEM - ObsWind - Lon/Lat: "<<point.longitude()<<" / "<<p
 	
 	const Transformation& transformation = symbol.parent().transformation();
 	PaperPoint pp(point.longitude(), point.latitude());
-	pair<double, double> wind = make_pair(speed->second, direction->second);
+	std::pair<double, double> wind = std::make_pair(speed->second, direction->second);
 	transformation.reprojectSpeedDirection(pp, wind);
 	
 	flag->speed(speed->second);
@@ -139,7 +139,7 @@ void ObsCloudAndWind::operator()(CustomisedPoint& point, ComplexSymbol& symbol) 
 MagLog::debug() << "OBS ITEM - ObsWind - Lon/Lat: "<<point.longitude()<<" / "<<point.latitude()
      << "\n\twind_speed:     " << point["wind_speed"] 
      << "\n\twind_direction: " << point["wind_direction"]
-     << "\n\tcloud amount:   " << point["cloud_amount"]<<" -> "<<origin <<endl;
+     << "\n\tcloud amount:   " << point["cloud_amount"]<<" -> "<<origin << std::endl;
 
 	flag->setOriginHeight(ring_size_);
 	flag->setOriginMarker(origin);
@@ -148,7 +148,7 @@ MagLog::debug() << "OBS ITEM - ObsWind - Lon/Lat: "<<point.longitude()<<" / "<<p
 	
 	const Transformation& transformation = symbol.parent().transformation();
 	PaperPoint pp(point.longitude(), point.latitude());
-	pair<double, double> wind = make_pair(speed->second, direction->second);
+	std::pair<double, double> wind = std::make_pair(speed->second, direction->second);
 	transformation.reprojectSpeedDirection(pp, wind);
 	
 	flag->speed(speed->second);

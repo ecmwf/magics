@@ -41,7 +41,7 @@ public:
 	
 	void broadcast()
 	{
-		cout << "BROADCAST---->" << str() << "<---BROADCAST----";
+		std::cout << "BROADCAST---->" << str() << "<---BROADCAST----";
 		flush();
 	}
 };
@@ -137,7 +137,7 @@ ostream& MagLog::warning()
 
 		if  ( log_.warnings_  < 100 ) {
 			if ( log_.observers_.empty() ) {
-				cout  << "Magics-warning: ";
+				std::cout  << "Magics-warning: ";
 				return cout;
 			}
 			log_.warningstream_ << "Magics-warning: ";
@@ -154,7 +154,7 @@ ostream& MagLog::error()
 	if (log_.error_)
 	{
 		if ( log_.observers_.empty() ) {
-			cout  << "Magics-ERROR: ";
+			std::cout  << "Magics-ERROR: ";
 			return cout;
 		}
 		log_.errorstream_ << "Magics-ERROR: ";
@@ -169,7 +169,7 @@ ostream& MagLog::debug()
 	if (log_.debug_)
 	{
 		string text = ( header_ )  ? "Magics-debug: " : "";
-		cout << text;
+		std::cout << text;
 		return cout;
 	}
 	return log_.devnull_;
@@ -180,7 +180,7 @@ ostream& MagLog::profile()
 	if (log_.profiling_)
 	{
 		string text = ( header_ )  ? "Magics-profile: " : "";
-		cout << text;
+		std::cout << text;
 		return cout;
 	}
 	return log_.devnull_;
@@ -190,7 +190,7 @@ ostream& MagLog::dev()
 {
 	if (log_.dev_) {
 		string text = ( header_ )  ? "Magics-dev: " : "";
-		cout << text;		
+		std::cout << text;		
 		return cout;
 	}
 	return log_.devnull_;
@@ -203,7 +203,7 @@ ostream& MagLog::info()
 	if (log_.info_)
 	{
 		if ( log_.observers_.empty() ) {
-			cout  << "Magics-warning: ";
+			std::cout  << "Magics-warning: ";
 			return cout;
 		}
 		log_.infostream_ << "Magics-info: ";
@@ -233,7 +233,7 @@ ostream& MagLog::userInfo()
 {
 	if (log_.userInfo_)
 	{
-		cout << "Magics :";
+		std::cout << "Magics :";
 		return cout;
 	}
 	return log_.devnull_;
@@ -266,7 +266,7 @@ ostream& MagLog::fatal()
 {
 	if (log_.fatal_)
 	{
-		cout << "Magics-fatal: ";
+		std::cout << "Magics-fatal: ";
 		return cout;
 	}
 	return log_.devnull_;

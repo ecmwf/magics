@@ -439,7 +439,7 @@ void WrepJSon::customisedPoints(const Transformation& transformation, const std:
 }
 void WrepJSon::customisedPoints(const std::set<string>&, CustomisedPointsList& out)
 {
-	MagLog::dev() << "WrepJSon::customisedPoints" <<endl;
+	MagLog::dev() << "WrepJSon::customisedPoints" << std::endl;
 	
 	decode();
 

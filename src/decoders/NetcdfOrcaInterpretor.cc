@@ -72,7 +72,7 @@ bool NetcdfOrcaInterpretor::interpretAsMatrix(Matrix** data)
 		typedef boost::geometry::model::d2::point_xy<double> point_type;
 		typedef boost::geometry::model::polygon<point_type> polygon_type;
 
-		vector<pair<point_type, pair<int, int> > > points;
+		vector< std::pair<point_type, pair<int, int> > > points;
 
 		matrix->missing(missing);
 		// get the data ...
@@ -128,7 +128,7 @@ bool NetcdfOrcaInterpretor::interpretAsMatrix(Matrix** data)
 
 						int column = 0;
 						for (vector<double>::iterator x = lon.begin(); x != lon.end(); ++x) {
-							h->second.insert(make_pair(*x, make_pair(row, column)));
+							h->second.insert(make_pair(*x, std::make_pair(row, column)));
 
 							matrix->push_back(missing);
 							column++;
@@ -199,7 +199,7 @@ bool NetcdfOrcaInterpretor::interpretAsMatrix(Matrix** data)
 
 									double lat = it->first;
 									double lon = lit->first;
-									pair<int, int> index = lit->second;
+									std::pair<int, int> index = lit->second;
 
 									// we interpolate at the point using the 4 points found!
 									double val = missing;

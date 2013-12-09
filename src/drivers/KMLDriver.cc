@@ -207,7 +207,7 @@ void KMLDriver::close()
 		void* buf = (void*)malloc(size_buf);
 		if (buf==0)
 		{
-			MagLog::error() <<"Error allocating memory for KMZ generation!"<<endl;
+			MagLog::error() <<"Error allocating memory for KMZ generation!"<< std::endl;
 			return;
 		}
 		stringarray::iterator it    = kml_output_resource_list_.begin();
@@ -544,7 +544,7 @@ MAGICS_NO_EXPORT int KMLDriver::setLineParameters(const LineStyle , const MFloat
 {
 	setNewLineWidth(w);
 
-//	MagLog::debug() << "KMLDriver::setLineParameters needs implementing." <<endl;
+//	MagLog::debug() << "KMLDriver::setLineParameters needs implementing." << std::endl;
 	return 0;
 }
 
@@ -1291,7 +1291,7 @@ MagLog::dev()<< "KML driver uses GD -> for better results use Cairo backend."<< 
 				g = 1.;
 				b = 1.;
 				a = 0.;
-//				MagLog::info()<< "PostScriptDriver-> Cellshading colour not defined in table! Colour index: "<<c<<endl;
+//				MagLog::info()<< "PostScriptDriver-> Cellshading colour not defined in table! Colour index: "<<c<< std::endl;
 //    PostScript will always 'overpaint' anything below missing data!!!!
 //
 			}
