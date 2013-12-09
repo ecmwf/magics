@@ -1,3 +1,4 @@
+
 /******************************** LICENSE ********************************
 
   Copyright 2007 European Centre for Medium-Range Weather Forecasts (ECMWF) 
@@ -315,11 +316,6 @@ void Transformation::thin(MatrixHandler& matrix, double x, double y, vector<User
 				//if ( in(box_matrix->column(lat, lon), box_matrix.row(lat, lon)) )
 					out.push_back(UserPoint(box_matrix->column(lat, lon), box_matrix->row(lat, lon), (*box_matrix)(lat, lon)));
 
-
-	
-
-
-
 }
 
 
@@ -361,8 +357,6 @@ void Transformation::init()
 	askedxmax_ =  std::max(getMinPCX(), getMaxPCX());
 	askedymin_ =  std::min(getMinPCY(), getMaxPCY());
 	askedymax_ =  std::max(getMinPCY(), getMaxPCY());
-
-
 }
 
 void Transformation::cleaninit()
@@ -719,35 +713,33 @@ void useRef(double ref, double inc, double& min, double& max)
 
 }
 
+/* refx, rey,stepx stepy Should in projection coordinates! */
 
-void Transformation::thin(int dimx, int dimy, vector<UserPoint>& in) const
+void Transformation::thin(double refx, double refy, double stepx,  double stepy, vector<UserPoint>& in) const
 {
 	Timer timer("thiining", "");
-    if ( dimx < 2 || dimy < 2)  {
-        MagLog::info() << " No flags to plot." << endl;
-        return;
-        }
+
 
 	double minx = getMinPCX();
 	double maxx = getMaxPCX();
 	double miny = getMinPCY();
 	double maxy = getMaxPCY();
 
-	double xref_ = 0;
-	double yref_ = 0;
+	minx = ceil((minx-refx)/stepx)*stepx + refx;
+	maxx = floor((maxx-refx)/stepx)*stepx + refx;
+	miny = ceil((miny-refy)/stepy)*stepy +refy ;
+	maxy = floor((maxy-refy)/stepy)*stepy +refy;
+
+	int dimx = ((maxx - minx) /stepx) +1;
+	int dimy = ((maxy - miny)) /stepy +1;
 
 	vector<PointIter> helper(dimx*dimy, in.end());
 
-	double stepx = (maxx-minx)/(dimx-1);
-	double stepy = (maxy-miny)/(dimy-1);
 
 
 
 
-	//minx = floor((minx)/stepx)*stepx;
-	//maxx = ceil((maxx)/stepx)*stepx;
-	//miny = floor((miny)/stepy)*stepy;
-	//maxy = ceil((maxy)/stepy)*stepy;
+
 
 	for ( PointIter pt = in.begin(); pt != in.end(); ++pt ) {
 		double x = pt->x_;
@@ -755,51 +747,60 @@ void Transformation::thin(int dimx, int dimy, vector<UserPoint>& in) const
 
 		fast_reproject(x, y);
 
-		double xx = floor((x-minx)/stepx);
-		double yy = floor((y-miny)/stepy);
-		double x0 = minx + (xx*stepx) +(stepx/2);
-		double y0 = miny + (yy*stepy)+(stepy/2);
 
-        vector<pair<int, int> > check;
-        check.push_back(make_pair(yy, xx));
-        check.push_back(make_pair(yy, xx-1));
-        check.push_back(make_pair(yy, xx+1));
-        check.push_back(make_pair(yy+1, xx));
-        check.push_back(make_pair(yy+1, xx-1));
-        check.push_back(make_pair(yy+1, xx+1));
-        check.push_back(make_pair(yy-1, xx));
-        check.push_back(make_pair(yy-1, xx-1));
-        check.push_back(make_pair(yy-1, xx+1));
-
-        for ( vector<pair<int, int> >::iterator ind = check.begin(); ind != check.end(); ++ind) {
-            int i = ind->first*dimx + ind->second;
-            if ( i < 0 || i >= dimx*dimy) 
-                continue;
-             double x0 = minx + ( ind->second*stepx) +(stepx/2);
-             double y0 = miny + ( ind->first*stepy)+(stepy/2);
+		int xx = ceil(x-minx)/stepx;
+		int yy = ceil(y-miny)/stepy;
 
 
-		PointIter& last = helper[i];
 
-		if ( last == in.end())
-			helper[i ]= pt;
-		else {
+		vector<pair<int, int> > check;
 
-			double dist = sqrt(((x-x0) * (x-x0)) +  ((y - y0) * (y -y0)));
-			double lastx = last->x_;
-			double lasty = last->y_;
-			fast_reproject(lastx, lasty);
-			double min = sqrt(((lastx-x0) * (lastx-x0)) +  ((lasty - y0) * (lasty -y0)));
-			if (dist < min)
-				helper[i ] = pt;
+		check.push_back(make_pair(yy, xx));
+		if ( xx + 1 < dimx )
+			check.push_back(make_pair(yy, xx+1));
+		if ( yy + 1 < dimy )
+			check.push_back(make_pair(yy+1, xx));
+		if ( xx + 1 < dimx && yy + 1 < dimy )
+			check.push_back(make_pair(yy+1, xx+1));
+
+
+
+		for ( vector<pair<int, int> >::iterator ind = check.begin(); ind != check.end(); ++ind) {
+			int i = ind->first*dimx + ind->second;
+
+			if ( i < 0 || i >= dimx*dimy)
+
+				continue;
+			double x0 = ind->second*stepx +minx;
+			double y0 = ind->first*stepy +miny;
+
+			double dist = sqrt(((x-x0) * (x-x0)) +  ((y - y0) * (y - y0)));
+
+			PointIter last = helper[i];
+
+			if ( last == in.end()) {
+				helper[i ]= pt;
+			}
+			else {
+
+				double dist = sqrt(((x-x0) * (x-x0)) +  ((y - y0) * (y - y0)));
+
+				double lastx = last->x_;
+				double lasty = last->y_;
+				fast_reproject(lastx, lasty);
+				double min = sqrt(((lastx-x0) * (lastx-x0)) +  ((lasty - y0) * (lasty -y0)));
+				if (dist < min){
+					helper[i ] = pt;
+				}
+			}
 		}
-         }
 
 
 	}
 
 	for ( int j = 0; j < dimx*dimy; j++) {
-			helper[j]->flagMissing();
+
+		helper[j]->flagMissing();
 	}
 
 }

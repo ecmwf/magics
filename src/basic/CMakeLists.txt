@@ -47,8 +47,7 @@ WebFormat.h
 XmlMagics.cc
 XmlMagics.h
 )
-
-if ( WITH_METVIEW )
+if ( ENABLE_METVIEW )
 	list (APPEND metview_include 
 			basic/MagicsObserver.h 
 			basic/MagicsEvent.h

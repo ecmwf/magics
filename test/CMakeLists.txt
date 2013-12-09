@@ -1,11 +1,11 @@
 
 return()
-if ( WITH_FORTRAN )
+if ( ENABLE_FORTRAN )
 	ecbuild_enable_fortran( REQUIRED )
 	add_subdirectory( fortran )
 endif()
 
-if ( WITH_PYTHON )
+if ( ENABLE_PYTHON )
 	add_subdirectory( python )
 endif()
 

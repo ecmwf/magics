@@ -128,7 +128,7 @@ endif()
 
 set( decoders_srcs ${decoders_srcs} PARENT_SCOPE )
 
-if ( WITH_METVIEW )
+if ( ENABLE_METVIEW )
 	list (APPEND metview_include 
 			decoders/DateTime.h 
 			decoders/GribDecoder.h 
