@@ -1,4 +1,4 @@
-if( WITH_PYTHON )
+if( ENABLE_PYTHON )
 
   ### python destination
 

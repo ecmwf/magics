@@ -524,8 +524,12 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 	vector<UserPoint>::iterator y = yin.begin();
 	vector<UserPoint>::iterator c = cin.begin();
 
+	// Get Reference !
+	double lat = getDouble("latitudeOfFirstGridPointInDegrees");
+	double lon = getDouble("longitudeOfFirstGridPointInDegrees");
+	transformation.fast_reproject(lon, lat);
 	if (thinit)
-		transformation.thin(xpts, ypts, xin);
+		transformation.thin(lon, lat, xpts, ypts, xin);
 	out.reserve(yin.size());
 	while ( x != xin.end() && y!= yin.end() )
 	{
@@ -574,27 +578,13 @@ void GribDecoder::customisedPoints(const BasicThinningMethod& thinning, const Tr
 			double x2 = interpretor_->XResolution(*this);
 			double y2 = 60+interpretor_->XResolution(*this);
 
-			transformation.fast_reproject(x1, y1);
-			transformation.fast_reproject(x2, y2);
-
-			double ymax = transformation.getMaxPCY();
-			double ymin = transformation.getMinPCY();
-
-			ypoints = abs((ymax-ymin)/((y2-y1)*thinning.factor()));
-
-
-			double xmax = transformation.getMaxPCX();
-			double xmin = transformation.getMinPCX();
-			xpoints = abs((xmax-xmin)/((x2-x1)*thinning.factor()));
-
-
-
+            transformation.fast_reproject(x1, y1);
+            transformation.fast_reproject(x2, y2);
+            ypoints = (y2-y1)*thinning.factor();
+            xpoints = (x2-x1)*thinning.factor();
 
 		}
-
 		customisedPoints(transformation, points, xpoints, ypoints);
-
-
 
 	}
 	catch (NoFactoryException&)
@@ -672,7 +662,6 @@ void GribDecoder::readColourComponent()
 	try {
 		colour_ = open(colour_, false);
 		read(&colourComponent_);
-
 	}
 
 	catch (...) {

@@ -1,7 +1,7 @@
 #!/usr/bin/ksh
 
-git_home="$HOME/git"
-install_home="/tmp/install"
+git_home="/tmp/$user/git"
+install_home="/tmp/$USER/install"
 debug="on"
 bufr="on"
 netcdf="on"
@@ -9,7 +9,7 @@ odb="on"
 grib="on"
 metview="off"
 cairo="on"
-regression="on"
+regression="off"
 
 cmake="/usr/local/apps/cmake/current/bin/cmake"
 boost="/usr/local/apps/boost/1.50.0"
@@ -28,34 +28,59 @@ args=" $args -DCMAKE_PREFIX_PATH=$python"
 if [[ $debug = "on" ]];then
     args="$args -DCMAKE_BUILD_TYPE=Debug"
     echo "Debug enabled"
+else
+    args="$args -DCMAKE_BUILD_TYPE=Release"
+    echo "Release Mode enabled"
 fi
 if [[ $regression = "on" ]];then
-    args="$args -DWITH_REGRESSION=ON -DWITH_REGRESSION_UPLOAD=on"
+    args="$args -DENABLE_REGRESSION=ON -DWITH_REGRESSION_UPLOAD=on"
     echo "Regression enabled"
+else
+    args="$args -DENABLE_REGRESSION=OFF"
+    echo "Regression disabled"
 fi
 if [[ $metview = "on" ]];then
-    args="$args -DWITH_METVIEW=ON"
+    args="$args -DENABLE_METVIEW_QT=ON"
     echo "Metview enabled"
 fi
+else
+    args="$args -DENABLE_MEVIEW_QT=OFF"
+    echo "Metview not required"
+fi
 if [[ $cairo = "on" ]];then
-    args="$args -DWITH_CAIRO=ON"
+    args="$args -DENABLE_CAIRO=ON"
     echo "Cairo enabled"
+else
+    args="$args -DENABLE_CAIRO=OFF"
+    echo "Cairo not required"
 fi
 if [[ $bufr = "on" ]];then
-    args=" $args -DBUFR=ON -DPGI_PATH=/usr/local/apps/pgi/pgi-10.8/linux86-64/10.8/libso"
+    args=" $args -DENABLE_BUFR=ON -DPGI_PATH=/usr/local/apps/pgi/pgi-10.8/linux86-64/10.8/libso"
     echo "Bufr enabled"
+else
+    args="$args -DENABLE_BUFR=OFF"
+    echo "Bufr not required"
 fi
 if [[ $netcdf = "on" ]];then
-    args=" $args -DWITH_NETCDF=ON -DNETCDF_PATH=${netcdf_lib}"
+    args=" $args -DENABLE_NETCDF=ON -DNETCDF_PATH=${netcdf_lib}"
     echo "Netcdf enabled"
+else
+    args="$args -DENABLE_NETCDF=OFF"
+    echo "NETCDF not required"
 fi
 if [[ $odb = "on" ]];then
-    args="$args -DWITH_ODB=ON -DODB_API_PATH=${odb_lib}"
+    args="$args -DENABLE_ODB=ON -DODB_API_PATH=${odb_lib}"
     echo "ODB enabled"
+else
+    args="$args -DENABLE_ODB=OFF"
+    echo "ODB not required"
 fi
 if [[ $grib = "on" ]];then
-    args="$args -DWITH_GRIB=ON -DGRIB_API_PATH=${grib_lib}"
+    args="$args -DENABLE_GRIB=ON -DGRIB_API_PATH=${grib_lib}"
     echo "GRIB enabled"
+else
+    args="$args -DENABLE_GRIB=OFF"
+    echo "GRIB not required"
 fi
 echo $args
 $cmake ${git_home}/magics $args

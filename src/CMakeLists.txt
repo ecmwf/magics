@@ -31,7 +31,7 @@ foreach( file ${magics_xmls} )
 
 endforeach()
      
-if ( WITH_METVIEW )      
+if ( metview )      
 	foreach( file ${metview_xmls} )
 	      get_filename_component( path     ${file} PATH   )
           get_filename_component( basefile ${file} NAME_WE )
@@ -76,7 +76,7 @@ add_subdirectory( decoders )
 add_subdirectory( terralib )
 add_subdirectory( eckit_readers )
 
-if( WITH_METVIEW )
+if( ENABLE_METVIEW_QT )
 	add_subdirectory( libMagWrapper )
 endif()
 
@@ -118,7 +118,7 @@ ecbuild_add_library( TARGET    MagPlusShared
 		            TYPE SHARED		     
                     )
 SET_TARGET_PROPERTIES(MagPlusShared PROPERTIES OUTPUT_NAME "MagPlus")
-if ( WITH_STATIC_LIBRARY ) 	     
+if ( ENABLE_STATIC_LIBRARY ) 	     
 ecbuild_add_library( TARGET    MagPlusStatic
                      DEPENDS   magics_params
                      SOURCES
@@ -147,7 +147,7 @@ ecbuild_add_library( TARGET    MagPlusStatic
 
 endif()
 
-if( WITH_METVIEW )
+if( metview )
   ecbuild_add_library( TARGET    MagWrapper
                      DEPENDS   mv_params
                      SOURCES

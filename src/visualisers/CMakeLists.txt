@@ -197,7 +197,7 @@ endforeach()
 
 set( visualisers_srcs ${visualisers_srcs} PARENT_SCOPE )
 
-if ( WITH_METVIEW )
+if ( ENABLE_METVIEW )
     list (APPEND metview_include 
             visualisers/LegendMethod.h      
              visualisers/ImagePlotting.h

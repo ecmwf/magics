@@ -44,7 +44,7 @@
             }, 
             "legend": {
                 "blanking": "off", 
-                "border": "off", 
+                "border": "on", 
                 "bottom": "82%", 
                 "display": "absolute", 
                 "height": "10%", 
@@ -61,22 +61,6 @@
             "margin_top": "20%", 
             "missing": "-999", 
             "plot": [
-                {
-                    "graph": {
-                        "graph_line_colour": "black", 
-                        "graph_line_style": "dot", 
-                        "graph_line_thickness": "3", 
-                        "legend": "on", 
-                        "legend_user_text": "BOM 00"
-                    }, 
-                    "wrepjson": {
-                        "wrepjson_family": "data", 
-                        "wrepjson_input_filename": "scores.data", 
-                        "wrepjson_keyword": "ammc_00", 
-                        "wrepjson_missing_value": "-999", 
-                        "wrepjson_temperature_correction": "False"
-                    }
-                }, 
                 {
                     "graph": {
                         "graph_line_colour": "black", 

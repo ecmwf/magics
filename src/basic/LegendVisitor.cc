@@ -271,13 +271,12 @@ void  LegendVisitor::horizontal()
 		int column = 0;
 
 		for (unsigned int i = 0; i < entriesNumber_; i++ ) {
-			MagLog::debug() << "add position [" <<  column*2+1 << ", " << rows << "]" << endl;
-			 positions_.push_back(PaperPoint(column*2+1, rows));
-			 column++;
 			 if ( columns_ > 1 && column >= columns_ ) {
 				column = 0;
 				rows++;
 			 }
+			 positions_.push_back(PaperPoint(column*2+1, rows));
+			 column++;
 		}
 
 		int nb = ( columns_ > 1) ? columns_: entriesNumber_;

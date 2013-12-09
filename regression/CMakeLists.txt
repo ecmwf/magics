@@ -1,5 +1,5 @@
 
-if( NOT WITH_REGRESSION ) 
+if( NOT ENABLE_REGRESSION ) 
 	return()
 endif()
 
@@ -94,7 +94,7 @@ function( add_magics_test )
 
     if( _p_PYTHON )
 	    
-		 if ( WITH_REGRESSION_UPLOAD ) 
+		 if ( ENABLE_REGRESSION_UPLOAD ) 
 			ecbuild_add_test(  TARGET   ${target_load}
                    TYPE SCRIPT
                    COMMAND  ${REGRESSION_SCRIPT_DIRECTORY}/upload.py
@@ -115,7 +115,7 @@ function( add_magics_test )
             return() 
     endif()
 	if( _p_JSON )
-	       if ( WITH_REGRESSION_UPLOAD ) 
+	       if ( ENABLE_REGRESSION_UPLOAD ) 
 				ecbuild_add_test(  TARGET   ${target_load}
                    TYPE SCRIPT
                    COMMAND  ${REGRESSION_SCRIPT_DIRECTORY}/upload.py
@@ -135,7 +135,7 @@ function( add_magics_test )
             return()
 	endif()
 # Run Test
-		if ( WITH_REGRESSION_UPLOAD ) 
+		if ( ENABLE_REGRESSION_UPLOAD ) 
 			ecbuild_add_test(  TARGET   ${target_load}
                    TYPE     SCRIPT
                    SOURCES  ${_p_SOURCES}                    

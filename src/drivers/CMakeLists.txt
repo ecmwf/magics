@@ -37,7 +37,6 @@ if( MAGICS_QT )
    
    
    set (qt_files_HEADERS MgQ/MgQPlotScene.h)
-   debug_var(qt_files_HEADERS)
    QT4_WRAP_CPP(qt_files_HEADERS_MOC ${qt_files_HEADERS})
   
    list( APPEND qt_srcs   ${qt_files_HEADERS_MOC}) 
@@ -48,7 +47,7 @@ if( MAGICS_CAIRO )
   list( APPEND _drivers_srcs CairoDriver.h CairoDriver.cc )
 endif()
 
-if ( WITH_METVIEW )
+if ( ENABLE_METVIEW )
 	list (APPEND metview_include 
 				drivers/DriverManager.h
 				drivers/BaseDriver.h 
