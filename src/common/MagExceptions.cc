@@ -36,7 +36,7 @@ void xldb_throw(const char *c) // To set a break point in xldb
 {
 	if(getenv("PAUSE_MagExceptionS"))
 	{
-		cout << "debug me " << getpid() << endl;
+		std::cout << "debug me " << getpid() << endl;
 		pause();
 	}
 

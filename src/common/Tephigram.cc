@@ -180,8 +180,8 @@ void Tephigram::aspectRatio(double& width, double& height)
 void Tephigram::boundingBox(double& xmin, double& ymin, double& xmax, double& ymax)  const
 {
 
-	vector<pair<double, double> > geo;
-	vector<pair<double, double> > xy;
+	vector< std::pair<double, double> > geo;
+	vector< std::pair<double, double> > xy;
 
 	double xpcmax =  maxpcx;
 	double xpcmin =  minPCX_;
@@ -418,10 +418,10 @@ PaperPoint TephiInfo::operator()(const PaperPoint& pt)  const
 	return PaperPoint(tempe, p);
 }
 
-void Tephigram::revert(const vector<pair<double, double> > & in, vector<pair<double, double> > & out) const
+void Tephigram::revert(const vector< std::pair<double, double> > & in, vector< std::pair<double, double> > & out) const
 {
     out.reserve(in.size());
-    for (vector<pair<double, double> >::const_iterator p = in.begin(); p != in.end(); ++p) {
+    for (vector< std::pair<double, double> >::const_iterator p = in.begin(); p != in.end(); ++p) {
 		double tempe = p->first *cosinus + p->second*sinus;
 		double theta = - (p->first * sinus) + p->second*cosinus;
 

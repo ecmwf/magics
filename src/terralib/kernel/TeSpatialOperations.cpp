@@ -921,7 +921,7 @@ bool TeTopologicalRelation(const string& actGeomTable, TeGeomRep actRep, TeKeys&
 	
 	} 
 		
-	sort(actIdsOut.begin(), actIdsOut.end());
+	std::sort(actIdsOut.begin(), actIdsOut.end());
 	unique(actIdsOut.begin(), actIdsOut.end());
 
 	delete portal;
@@ -1004,7 +1004,7 @@ bool TeTopologicalRelation(const string& actGeomTable, TeGeomRep actRep, TeKeys&
 						
 	delete portal;
 	
-	sort(visIdsOut.begin(), visIdsOut.end());
+	std::sort(visIdsOut.begin(), visIdsOut.end());
 	unique(visIdsOut.begin(), visIdsOut.end());
 
 	for (it = vetGeom.begin(); it != vetGeom.end(); it++)
@@ -1039,7 +1039,7 @@ bool TeTopologicalRelation(const string& actGeomTable, TeGeomRep actRep, TeGeome
 
 	delete portal;
 	
-	sort(actIdsOut.begin(), actIdsOut.end());
+	std::sort(actIdsOut.begin(), actIdsOut.end());
 	unique(actIdsOut.begin(), actIdsOut.end());
 
 	return true;

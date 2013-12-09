@@ -97,7 +97,7 @@ public:
 	*/
 	virtual void revert(const PaperPoint&, UserPoint&) const;
 
-	void revert(const vector<pair<double, double> > &, vector<pair<double, double> > &) const;
+	void revert(const vector< std::pair<double, double> > &, vector< std::pair<double, double> > &) const;
 	/*!
 	\\brief Does the projection needs the coastalines to be shifted!
 	*/

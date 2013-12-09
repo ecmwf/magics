@@ -78,7 +78,7 @@ void ColourTechnique::prepare(const LevelSelection& levels)
     {               
     	
          (*this)[*val] = ColourInfo(index, *val, left, right);
-         ranges_[*val] = make_pair(previous, *val);
+         ranges_[*val] = std::make_pair(previous, *val);
          previous = *val;
          index++;
          if ( min != std::numeric_limits<double>::max() ) {

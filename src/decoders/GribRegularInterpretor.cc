@@ -742,7 +742,7 @@ pair<double, double> GribRotatedInterpretor::unrotate( double lat_y, double lon_
 	if( ZSXMXC < 0.0)                                                                             
 		ZXMXC = -ZXMXC;                                                          
 	double PXREG = ZXMXC + southPoleLon_;                        
-	return make_pair( PYREG, PXREG );                                     
+	return std::make_pair( PYREG, PXREG );                                     
 }               
 
 pair<double, double> GribRotatedInterpretor::rotate( double lat_y, double lon_x) const
@@ -772,7 +772,7 @@ pair<double, double> GribRotatedInterpretor::rotate( double lat_y, double lon_x)
   if( ZSXROT < 0.0)
     PXROT = -PXROT;
 
-  return make_pair( PYROT, PXROT );
+  return std::make_pair( PYROT, PXROT );
 }
 
 
@@ -846,8 +846,8 @@ void GribLambertAzimutalInterpretor::interpretAsMatrix(const GribDecoder& grib, 
    minlon = *min_element(left.begin(), left.end());
    maxlon = *max_element(right.begin(), right.end());
       
-        MagLog::debug() << "lat [" << minlat << ", " << maxlat << "]" <<endl;
-		MagLog::debug()	<< "lon [" << minlon << ", " << maxlon << "]" <<endl;
+        MagLog::debug() << "lat [" << minlat << ", " << maxlat << "]" << std::endl;
+		MagLog::debug()	<< "lon [" << minlon << ", " << maxlon << "]" << std::endl;
 				
  
 	  
@@ -881,7 +881,7 @@ void GribLambertAzimutalInterpretor::interpretAsMatrix(const GribDecoder& grib, 
 
 						int column = 0;
 						for (vector<double>::iterator x = lon.begin(); x != lon.end(); ++x) {
-							h->second.insert(make_pair(*x, make_pair(row, column)));
+							h->second.insert(make_pair(*x, std::make_pair(row, column)));
 
 							(*matrix)->push_back(missing);
 							column++;
@@ -958,7 +958,7 @@ void GribLambertAzimutalInterpretor::interpretAsMatrix(const GribDecoder& grib, 
 
 									double lat = it->first;
 									double lon = lit->first;
-									pair<int, int> index = lit->second;
+									std::pair<int, int> index = lit->second;
 
 									// we interpolate at the point using the 4 points found!
 									double val = missing;
@@ -1059,7 +1059,7 @@ void GribRotatedInterpretor::interpretAsMatrix(const GribDecoder& grib, Matrix**
 			{
 				if ( i == 0 )
 					(*matrix)->columnsAxis().push_back(x);
-				pair<double, double> point = unrotate(y, x);
+				std::pair<double, double> point = unrotate(y, x);
 				columns.push_back(point.second);
 				rows.push_back(point.first);
 				x  = west + (j+1)*lon;
@@ -1176,7 +1176,7 @@ void GribRotatedInterpretor::interpretAsMatrix(const GribDecoder& grib, Matrix**
 		
 		for ( int i = 0; i < nblon; i++ )
 		{
-			pair<double, double> point = unrotate(lat,lon);
+			std::pair<double, double> point = unrotate(lat,lon);
 			
 			
 			
@@ -1245,8 +1245,8 @@ void GribRotatedInterpretor::interpret2D(double& lat, double& lon, double& uc, d
 	double speed = sqrt((uc * uc) + (vc * vc));
 	double angle = atan2(vc,uc);
 
-	pair<double, double> pt = rotate(lat, lon);
-	pair<double, double> pv = unrotate(pt.first, pt.second + 1);
+	std::pair<double, double> pt = rotate(lat, lon);
+	std::pair<double, double> pv = unrotate(pt.first, pt.second + 1);
 
 	double rangle = atan2(pv.first - lat ,pv.second - lon) + angle;
 	//components.second *= f;
@@ -1379,8 +1379,8 @@ void GribLambertInterpretor::interpretAsMatrix(const GribDecoder& grib, Matrix**
 
 
 
-        MagLog::debug() << "lat [" << minlat << ", " << maxlat << "]" <<endl;
-		MagLog::debug()	<< "lon [" << minlon << ", " << maxlon << "]" <<endl;
+        MagLog::debug() << "lat [" << minlat << ", " << maxlat << "]" << std::endl;
+		MagLog::debug()	<< "lon [" << minlon << ", " << maxlon << "]" << std::endl;
 
 
 
@@ -1411,7 +1411,7 @@ void GribLambertInterpretor::interpretAsMatrix(const GribDecoder& grib, Matrix**
 
 						int column = 0;
 						for (vector<double>::iterator x = lon.begin(); x != lon.end(); ++x) {
-							h->second.insert(make_pair(*x, make_pair(row, column)));
+							h->second.insert(make_pair(*x, std::make_pair(row, column)));
 
 							(*matrix)->push_back(missing);
 							column++;
@@ -1483,7 +1483,7 @@ void GribLambertInterpretor::interpretAsMatrix(const GribDecoder& grib, Matrix**
 
 									double lat = it->first;
 									double lon = lit->first;
-									pair<int, int> index = lit->second;
+									std::pair<int, int> index = lit->second;
 
 									// we interpolate at the point using the 4 points found!
 									double val = missing;

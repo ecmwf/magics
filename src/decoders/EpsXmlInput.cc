@@ -84,7 +84,7 @@ void EpsXmlInput::decode()
   	
 void EpsXmlInput::customisedPoints(const std::set<string>&, CustomisedPointsList& out)
 {
-	MagLog::dev() << "EpsXmlInput::customisedPoints-->need to be implemented" <<endl;
+	MagLog::dev() << "EpsXmlInput::customisedPoints-->need to be implemented" << std::endl;
 	MagLog::dev() << *this << endl;
 	decode();
 

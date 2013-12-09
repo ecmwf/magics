@@ -60,7 +60,7 @@ public:
     virtual void toxml(ostream&) {}
 
     virtual void x(Matrix**,  Matrix**, Matrix*, Matrix*) {}
-    virtual pair<double, double> operator()(double x, double y) { return make_pair(x, y); }
+    virtual pair<double, double> operator()(double x, double y) { return std::make_pair(x, y); }
 
     virtual ValuesCollectorData* values(double lon, double lat, double x, double y, double dist)
     { return new ValuesCollectorData(lon, lat, x, dist); }
@@ -91,7 +91,7 @@ public:
 	virtual ~UVWindMode() {}
 	WindMode* clone() const { return new UVWindMode(); }
 	virtual void x(Matrix** out,  Matrix**, Matrix* in1, Matrix* in2);
-	virtual pair<double, double> operator()(double x, double y) { return make_pair(x, y); }
+	virtual pair<double, double> operator()(double x, double y) { return std::make_pair(x, y); }
 	ValuesCollectorData* values(double lon, double lat, double x, double y, double dist)
 	{ return new ValuesCollectorUVData(lon, lat, x, y, dist); }
 	double norm(double x, double y) const {return sqrt(x*x+y*y);}

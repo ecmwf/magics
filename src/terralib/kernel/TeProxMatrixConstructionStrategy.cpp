@@ -691,7 +691,7 @@ TeProxMatrixOpenNetworkStrategy::Construct (TeProxMatrixImplementation* imp)
 	{
 		// Get object1 id and representation
 		string object_id1 = (*itobj1).getObjectId();
-		cout << object_id1 << "id " << id << endl;
+		std::cout << object_id1 << "id " << id << endl;
 
 		TeCoord2D p1; 
 		if (!TeFindObjectCentroid (itobj1->getGeometries(), params_.geom_rep1_, p1))
@@ -823,7 +823,7 @@ TeProxMatrixOpenNetworkStrategy2:: Construct (TeProxMatrixImplementation* imp)
 		{
 			// Get object1 id and representation
 			string object_id1 = (*itobj1).getObjectId();
-					cout << "object1 " << object_id1 << "id" << id << endl;
+					std::cout << "object1 " << object_id1 << "id" << id << endl;
 
 			TeCoord2D p1; 
 			if (!TeFindObjectCentroid (itobj1->getGeometries(), params_.geom_rep1_, p1))
@@ -859,7 +859,7 @@ TeProxMatrixOpenNetworkStrategy2:: Construct (TeProxMatrixImplementation* imp)
 		{
 			// Get object1 id and representation
 			string object_id2 = (*itobj2).getObjectId();
-					cout << "object2 " << object_id2 << "id" << id << endl;
+					std::cout << "object2 " << object_id2 << "id" << id << endl;
 
 			TeCoord2D p2; 
 			if (!TeFindObjectCentroid (itobj1->getGeometries(), params_.geom_rep2_, p2))

@@ -156,7 +156,7 @@ using namespace magics;
 */
 $class\::$class() 
 {
-	MagLog::debug() << "$class\::$class needs implementing." <<endl;
+	MagLog::debug() << "$class\::$class needs implementing." << std::endl;
 }
 
 /*!
@@ -171,7 +171,7 @@ $class\::~$class()
 */
 void $class\::open()
 {
-	MagLog::debug() << "$class\::open() needs implementing." <<endl;
+	MagLog::debug() << "$class\::open() needs implementing." << std::endl;
 }
 
 /*!
@@ -182,7 +182,7 @@ void $class\::close()
 	endPage();
 	currentPage_ = 0;
 
-	MagLog::debug() << "$class\::close() needs implementing." <<endl;
+	MagLog::debug() << "$class\::close() needs implementing." << std::endl;
 }
 
 /*!
@@ -195,7 +195,7 @@ MAGICS_NO_EXPORT void $class\::startPage() const
 {
 	if(currentPage_ > 0) endPage();
 
-	MagLog::debug() << "$class\::startPage needs implementing." <<endl;
+	MagLog::debug() << "$class\::startPage needs implementing." << std::endl;
 	
 	currentPage_++;
 	newPage_ = true;
@@ -209,7 +209,7 @@ MAGICS_NO_EXPORT void $class\::startPage() const
 */
 MAGICS_NO_EXPORT void $class\::endPage() const
 {
-	MagLog::debug() << "$class\::endPage needs implementing." <<endl;
+	MagLog::debug() << "$class\::endPage needs implementing." << std::endl;
 }
 
 /*!
@@ -221,7 +221,7 @@ MAGICS_NO_EXPORT void $class\::endPage() const
 */
 MAGICS_NO_EXPORT void $class\::project(const magics::Layout& layout) const
 {
-	MagLog::debug() << "$class\::project needs implementing." <<endl;
+	MagLog::debug() << "$class\::project needs implementing." << std::endl;
 }
 
 /*!
@@ -233,7 +233,7 @@ MAGICS_NO_EXPORT void $class\::project(const magics::Layout& layout) const
 */
 MAGICS_NO_EXPORT void $class\::unproject() const
 {
-	MagLog::debug() << "$class\::unproject needs implementing." <<endl;
+	MagLog::debug() << "$class\::unproject needs implementing." << std::endl;
 }
 
 
@@ -249,7 +249,7 @@ MAGICS_NO_EXPORT void $class\::setNewColour(const Colour &colour) const
 {
 	if(currentColour_ == colour) return;
 	currentColour_ = colour;
-	MagLog::debug() << "$class\::setNewColour needs checking." <<endl;
+	MagLog::debug() << "$class\::setNewColour needs checking." << std::endl;
 }
 
 /*!
@@ -263,7 +263,7 @@ MAGICS_NO_EXPORT void $class\::setNewColour(const Colour &colour) const
 MAGICS_NO_EXPORT void $class\::setNewLineWidth(const float width) const
 {
 	currentLineWidth_ = width;
-	MagLog::debug() << "$class\::setNewColour needs checking." <<endl;
+	MagLog::debug() << "$class\::setNewColour needs checking." << std::endl;
 }
 
 /*!
@@ -282,7 +282,7 @@ MAGICS_NO_EXPORT int $class\::setLineParameters(const LineStyle linestyle, const
 {
 	setNewLineWidth(w);
 
-	MagLog::debug() << "$class\::setLineParameters needs implementing." <<endl;
+	MagLog::debug() << "$class\::setLineParameters needs implementing." << std::endl;
 	return 0;
 }
 
@@ -301,7 +301,7 @@ MAGICS_NO_EXPORT int $class\::setLineParameters(const LineStyle linestyle, const
 */
 MAGICS_NO_EXPORT void $class\::renderPolyline(const int n, float *x, float *y) const
 {
-	MagLog::debug() << "$class\::renderPolyline needs implementing." <<endl;
+	MagLog::debug() << "$class\::renderPolyline needs implementing." << std::endl;
 }
 
 /*!
@@ -317,7 +317,7 @@ MAGICS_NO_EXPORT void $class\::renderPolyline(const int n, float *x, float *y) c
 */
 MAGICS_NO_EXPORT void $class\::renderPolyline2(const int n, float* x, float* y) const
 {
-	MagLog::debug() << "$class\::renderPolyline2 needs implementing." <<endl;
+	MagLog::debug() << "$class\::renderPolyline2 needs implementing." << std::endl;
 }
 
 /*!
@@ -333,7 +333,7 @@ MAGICS_NO_EXPORT void $class\::renderPolyline2(const int n, float* x, float* y) 
 */
 MAGICS_NO_EXPORT void $class\::renderSimplePolygon(const int n, float* x, float* y) const
 {
-	MagLog::debug() << "$class\::renderSimplePolygon needs implementing." <<endl;
+	MagLog::debug() << "$class\::renderSimplePolygon needs implementing." << std::endl;
 }
 
 /*!
@@ -349,7 +349,7 @@ MAGICS_NO_EXPORT void $class\::renderSimplePolygon(const int n, float* x, float*
 MAGICS_NO_EXPORT void $class\::renderText(const Text& text) const
 {
 	if(text.empty()) return;
-	MagLog::debug() << "$class\::renderText needs implementing." <<endl;
+	MagLog::debug() << "$class\::renderText needs implementing." << std::endl;
 }
 
 /*!
@@ -368,7 +368,7 @@ MAGICS_NO_EXPORT void $class\::renderText(const Text& text) const
 */
 MAGICS_NO_EXPORT void $class\::circle(const float x, const float y, const float r, const int s) const
 {
-	MagLog::debug() << "$class\::circle needs implementing." <<endl;
+	MagLog::debug() << "$class\::circle needs implementing." << std::endl;
 }
 
 /*!
@@ -391,7 +391,7 @@ MAGICS_NO_EXPORT void $class\::circle(const float x, const float y, const float 
 MAGICS_NO_EXPORT bool $class\::renderPixmap(float x0,float y0,float x1,float y1,
                                             int w,int h,unsigned char* pixmap,int landscape, bool) const
 {
-	MagLog::debug() << "$class\::renderPixmap needs implementing." <<endl;
+	MagLog::debug() << "$class\::renderPixmap needs implementing." << std::endl;
 	return true;
 }
 
@@ -407,7 +407,7 @@ MAGICS_NO_EXPORT bool $class\::renderPixmap(float x0,float y0,float x1,float y1,
 */
 MAGICS_NO_EXPORT bool $class\::renderCellArray(const Image& image) const
 {
-	MagLog::debug() << "$class\::renderCellArray needs implementing." <<endl;
+	MagLog::debug() << "$class\::renderCellArray needs implementing." << std::endl;
 	return true;
 }
 
