@@ -161,7 +161,7 @@ void Transformation::tile(double& width, double& height)
 
 		u = u/2.;
 	}
-	sort(levels.begin(), levels.end());
+	std::sort(levels.begin(), levels.end());
 
 
 	for ( vector<double>::iterator l = levels.begin(); l != levels.end(); ++l)
@@ -659,10 +659,10 @@ void Transformation::reprojectSpeedDirection(const PaperPoint& point, pair<doubl
 	
 }
 
-void Transformation::revert(const vector<pair<double, double> > & in, vector<pair<double, double> > & out) const
+void Transformation::revert(const vector< std::pair<double, double> > & in, vector< std::pair<double, double> > & out) const
 {
 	out.reserve(in.size());
-	for (vector<pair<double, double> >::const_iterator p = in.begin(); p != in.end(); ++p)
+	for (vector< std::pair<double, double> >::const_iterator p = in.begin(); p != in.end(); ++p)
 		out.push_back(make_pair(this->rx(p->first), this->ry(p->second)));
 
 }

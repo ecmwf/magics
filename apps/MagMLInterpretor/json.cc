@@ -26,14 +26,14 @@ pair<string, string> cut(const string& in)
 		}
 		c++;
 	}
-	return make_pair(var, current);
+	return std::make_pair(var, current);
 }
 
 void setVariable(const string& in, map<string, string>& variables)
 {
 	if(in[0] != '-')
 	{
-		MagLog::warning() << "argument " << in << " ignored."<<endl;
+		MagLog::warning() << "argument " << in << " ignored."<< std::endl;
 		return;
 	}
 	variables.insert(magml::cut(in.substr(1, in.size())));
@@ -48,7 +48,7 @@ int normal_main(int argc, char **argv)
 	MetaDataVisitor::start();
 	if(argc<2)
 	{
-		cout << " Usage: " << argv[0] << " file.json [-varname=varvalue]"<< endl;
+		std::cout << " Usage: " << argv[0] << " file.json [-varname=varvalue]"<< endl;
 		exit (1);
 	}
 
@@ -63,14 +63,14 @@ int normal_main(int argc, char **argv)
 			WebInterpretor::json(argv[1]);
 		}
 		catch (...) {
-			cout << argv[0] << " FAILED to dispatch JSON file!"<< endl;
+			std::cout << argv[0] << " FAILED to dispatch JSON file!"<< endl;
 			exit(1);
 		}
 	}
     }
     catch (MagicsException& e)
     {
-		cout << "MagJson: Catch Exception " << e << endl;
+		std::cout << "MagJson: Catch Exception " << e << endl;
 		exit(1);
     }
 }
@@ -88,7 +88,7 @@ int server_main(int argc, char **argv)
             WebInterpretor::json(line);
         }
 		catch (...) {
-			cout << argv[0] << " FAILED to dispatch JSON file!"<< endl;
+			std::cout << argv[0] << " FAILED to dispatch JSON file!"<< endl;
             cout << "CODE 1" << endl << flush;
 			exit(1);
 		}

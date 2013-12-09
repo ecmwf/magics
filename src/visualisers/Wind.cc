@@ -99,7 +99,7 @@ void Wind::operator()(Data& data, BasicGraphicsObjectContainer& parent)
 			 double x = (*point)->longitude();
 			 double y = (*point)->latitude();
 			 if ( transformation.in(x, y) ) {
-				 pair<double, double> component = make_pair(  (**point)["x_component"], (**point)["y_component"]);
+				 pair<double, double> component = std::make_pair(  (**point)["x_component"], (**point)["y_component"]);
 				 transformation.reprojectComponents(x, y, component);
 				  (*this->type_)(north, PaperPoint(x,y), component.first,  component.second, (**point)["colour_component"]);
 			 }

@@ -103,7 +103,7 @@ pair<double, double> SDWindMode::operator()(double s, double d)
 	double a = 90 - (d);    
 	double x = 3.14/180.;
 	a *= x;
-    return make_pair(s * -1 * cos(a), s*-1* sin(a)) ;
+    return std::make_pair(s * -1 * cos(a), s*-1* sin(a)) ;
   
 }
 

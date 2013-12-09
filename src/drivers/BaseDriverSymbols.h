@@ -134,7 +134,7 @@ MAGICS_NO_EXPORT void BaseDriver::renderTextSymbols(const TextSymbol& symbol) co
 		// default is M_NONE
 		if( symbol.position() == Symbol::M_NONE )
 		{
-//			cout<<"M_NONE"<<endl;
+//			std::cout<<"M_NONE"<< std::endl;
 		}
 		else if( symbol.position() == Symbol::M_RIGHT )
 		{
@@ -233,7 +233,7 @@ MAGICS_NO_EXPORT void BaseDriver::renderSymbolItem(const SymbolItem& symbol, con
 	setNewColour(symbol.colour());
 	setLineParameters(M_SOLID, 1.); // reset line
 	loadSymbols();
-	if(sym_.empty()) {MagLog::error() << "BaseDriver::renderSymbols("<<symbol.symbol()<<")-> NO symbols available!"<<endl; return;}
+	if(sym_.empty()) {MagLog::error() << "BaseDriver::renderSymbols("<<symbol.symbol()<<")-> NO symbols available!"<< std::endl; return;}
 
 	const int noSymbols = sym_.size();
 	svgSymbol sym;
@@ -332,7 +332,7 @@ MAGICS_NO_EXPORT void BaseDriver::renderSymbols(const Symbol& symbol) const
 	loadSymbols();
 
 	// if still empty
-	if(sym_.empty()) {MagLog::error() << "BaseDriver::renderSymbols("<<symbol.getSymbol()<<")-> NO symbols available!"<<endl; return;}
+	if(sym_.empty()) {MagLog::error() << "BaseDriver::renderSymbols("<<symbol.getSymbol()<<")-> NO symbols available!"<< std::endl; return;}
 
 	const int noSymbols = sym_.size();
 	svgSymbol sym;

@@ -85,7 +85,7 @@ void LevelSelection::thinLevels(int frequency, vector<double>& out) const
 		count++;
 	}
 
-	sort(out.begin(), out.end());
+	std::sort(out.begin(), out.end());
 	ostringstream level;
 	ostringstream sel;
 	for (  vector<double>::const_iterator l = begin(); l != end(); ++l)

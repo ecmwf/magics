@@ -124,12 +124,12 @@ void LandgramDecoder::decode()
 		for ( vector<double>::const_iterator height =heights_.begin(); height != heights_.end(); ++height) {
 			matrix_.rowsAxis().push_back(*height);
 		}	
-		MagLog::dev()<< " step-->" <<endl;
+		MagLog::dev()<< " step-->" << std::endl;
 		for ( vector<double>::const_iterator step = steps_.begin(); step != steps_.end(); ++step) {
 			matrix_.columnsAxis().push_back(*step);
 			MagLog::dev()<< *step << " ";
 		}
-		MagLog::dev()<< endl << "<--- step" <<endl;
+		MagLog::dev()<< endl << "<--- step" << std::endl;
 		matrix_.setMapsAxis();
 //		int i = 0;
 		for (unsigned int height = 0; height < heights_.size(); height++)

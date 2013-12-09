@@ -53,7 +53,7 @@ public:
 	virtual MatrixHandler& xComponent();
 	virtual MatrixHandler& yComponent();
 	void prepareComponents();
-	pair<double, double> sd2uv(double s, double d);
+	std::pair<double, double> sd2uv(double s, double d);
 	virtual PointsHandler& points(const Transformation&);
 	
 	void customisedPoints(const BasicThinningMethod&, const Transformation&, const std::set<string>&, CustomisedPointsList& );

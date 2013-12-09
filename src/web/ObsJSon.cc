@@ -103,7 +103,7 @@ void ObsJSon::print(ostream& out) const
 
 void ObsJSon::customisedPoints(const std::set<string>&, CustomisedPointsList& out)
 {
-	MagLog::dev() << "WrepJSon::customisedPoints" << *this <<endl;
+	MagLog::dev() << "WrepJSon::customisedPoints" << *this << std::endl;
 	
 	CustomisedPoint *point = new CustomisedPoint();
 

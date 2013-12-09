@@ -24,7 +24,12 @@ cmake_minimum_required( VERSION 2.8.4 FATAL_ERROR )
 
 project( magics CXX )
 
-set( CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH} )
+# make sure that the header files are installed into include/magics
+# note that this needs to be done before ecbuild_declare_project()
+# to ensure that the ecbuild header files are also put there
+set(MAGICS_INSTALL_INCLUDE_DIR include/magics)
+
+set( CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/../ecbuild/cmake")
 
 include( ecbuild_system )
 
@@ -166,7 +171,6 @@ if( ENABLE_METVIEW_QT )
         set ( qt yes)
     endif()
 endif()
-
 
 
 ecbuild_declare_project()
@@ -344,5 +348,3 @@ configure_file( magics-config.in  magics-config @ONLY )
 ecbuild_install_project( NAME Magics )
 
 ecbuild_print_summary()
-
-

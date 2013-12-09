@@ -88,7 +88,7 @@ static Mutex locklines_;
 
 void IsoHelper::run()
 {
-	deque<pair<double, pair<pair<double, double>, pair<double, double > > > > todo;
+	deque< std::pair<double, pair< std::pair<double, double>, pair<double, double > > > > todo;
 
     int last = 0;
     
@@ -130,11 +130,11 @@ void IsoHelper::run()
     }
     
     {AutoLock<Mutex> locklines(locklines_);
-    for ( deque<pair<double, pair<pair<double, double>, pair<double, double > > > >::iterator x = todo.begin();
+    for ( deque< std::pair<double, pair< std::pair<double, double>, pair<double, double > > > >::iterator x = todo.begin();
             x != todo.end(); ++x) {
         
     	
-        pair<pair<double, double>, pair<double, double > >& segment = x->second;  
+        pair< std::pair<double, double>, pair<double, double > >& segment = x->second;  
         
         
         double x1 = segment.first.first;

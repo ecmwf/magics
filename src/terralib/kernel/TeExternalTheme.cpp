@@ -533,7 +533,7 @@ bool TeExternalTheme::buildGrouping(const TeGrouping& g, TeChronon chr, vector<m
 		// Insert the attributes in a multimap that relates the attribute 
 		// representation and its statistic type
 		TeGroupingAttr attrMMap;
-		pair<TeAttributeRep, TeStatisticType> attr1 (
+		std::pair<TeAttributeRep, TeStatisticType> attr1 (
 			TeAttributeRep(grouping_.groupAttribute_), statType);
 		attrMMap.push_back(attr1);
 

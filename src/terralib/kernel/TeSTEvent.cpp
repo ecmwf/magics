@@ -60,7 +60,7 @@ bool TeSTEventSet::buildKdTree(const int& n)
     if(kdTree_)
 		delete kdTree_;
 
-	vector<pair<TeCoord2D, TePoint> >	dataSetAux; //auxiliary structure for kdTree
+	vector< std::pair<TeCoord2D, TePoint> >	dataSetAux; //auxiliary structure for kdTree
 	TeSTEventSet::iterator it = this->begin();
 	int index=0;
 	while(it!=this->end())

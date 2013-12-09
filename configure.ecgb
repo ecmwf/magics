@@ -4,7 +4,7 @@ git_home="$SCRATCH/git"
 version="2.21.0"
 install_home="/usr/local/apps/Magics/$version"
 
-bufr="on"
+bufr="off"
 netcdf="on"
 odb="on"
 grib="on"
@@ -21,7 +21,7 @@ netcdf_lib="/usr/local/apps/netcdf4/4.1.3/LP64"
 odb_lib="/usr/local/apps/odb_api/0.9.28"
 grib_lib="/usr/local/lib/metaps/lib/grib_api/1.11.0"
 
-args="-DCMAKE_INSTALL_PREFIX=${install_home}"
+args="-DCMAKE_INSTALL_PREFIX=${install_home} -DWITH_STATIC_LIBRARY=ON"
 args=" $args -DCMAKE_MODULE_PATH=${git_home}/ecbuild/cmake"
 args=" $args -DBOOST_ROOT=$boost"
 args=" $args -DPROJ4_PATH=$proj4"
@@ -46,7 +46,7 @@ if [[ $cairo = "on" ]];then
     echo "Cairo enabled"
 fi
 if [[ $bufr = "on" ]];then
-    args=" $args -DBUFR=ON"
+    args=" $args -DWITH_BUFR=ON"
     echo "Bufr enabled"
 fi
 if [[ $netcdf = "on" ]];then

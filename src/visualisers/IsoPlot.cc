@@ -383,7 +383,7 @@ public:
             		             		poly->push_back(PaperPoint(point->x_, point->y_));
 
 
-            	        for(list<vector<Point> >::iterator h = holes.begin() ; h != holes.end(); ) {
+            	        for(std::list<vector<Point> >::iterator h = holes.begin() ; h != holes.end(); ) {
             	            list<vector<Point> >::iterator next = h; next++;
 
 
@@ -586,7 +586,7 @@ void IsoPlot::isoline(Cell& cell, CellBox* box) const
         }
 
 
-        vector<pair<Shape*, Shape*> > shapes;
+        vector< std::pair<Shape*, Shape*> > shapes;
         
         // First, build the list of isolines in this triangle...
         vector<int> levels;        
@@ -1112,7 +1112,7 @@ void IsoPlot::isoline(Cell& cell, CellBox* box) const
               {
                  AutoLock<MutexCond> lock(segments_[t]->cond_);
                  segments_[t]->segments_.push_back(make_pair(levels_[*l], 
-                                                   make_pair(make_pair(x1, y1), make_pair(x2, y2))));
+                                                   std::make_pair(make_pair(x1, y1), std::make_pair(x2, y2))));
                  if ( segments_[t]->segments_.size() >= 2000 ) 
                        segments_[t]->cond_.signal();
                  }
@@ -1139,8 +1139,8 @@ void IsoPlot::isoline(Cell& cell, CellBox* box) const
 
         // Now we reduce the shape! 
 
-        vector<pair<Shape*, Shape*> >::iterator current = shapes.begin();    
-        vector<pair<Shape*, Shape*> >::iterator next = shapes.begin();
+        vector< std::pair<Shape*, Shape*> >::iterator current = shapes.begin();    
+        vector< std::pair<Shape*, Shape*> >::iterator next = shapes.begin();
         box->reshape(current->first);
 
         next++;
@@ -1591,8 +1591,8 @@ CellArray::CellArray(MatrixHandler& data, IntervalMap<int>& range, const Transfo
 	{
 		Timer timer("matrix", "prepare");
 
-		vector<pair<double, double> > xypoints;
-		vector<pair<double, double> > geopoints;
+		vector< std::pair<double, double> > xypoints;
+		vector< std::pair<double, double> > geopoints;
 		double x = firstx, y = firsty;
 		xypoints.reserve(rows_+1 * columns_+1);
 		for (int row = 0; row <= rows_; row++) {
@@ -1608,13 +1608,13 @@ CellArray::CellArray(MatrixHandler& data, IntervalMap<int>& range, const Transfo
 				}
 		}
 		transformation.revert(xypoints, geopoints);
-		vector<pair<double, double> >::iterator geo= geopoints.begin();
+		vector< std::pair<double, double> >::iterator geo= geopoints.begin();
 		double min =  data.min();
 		double max =  data.max();
 		double missing =  data.missing();
 
 		MagLog::dev() << "min = " << data.min() << "  max = " << data.max() << endl;
-		for (vector<pair<double, double> >::iterator xy = xypoints.begin(); xy != xypoints.end(); ++xy) {
+		for (vector< std::pair<double, double> >::iterator xy = xypoints.begin(); xy != xypoints.end(); ++xy) {
 
 					double value;
 					if  ( geo->second == -1000) {

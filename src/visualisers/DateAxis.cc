@@ -376,9 +376,9 @@ void DateAxisMethod::months_label(AxisItems& in, AxisItems& list)
 	if ( !months_ )
 		return;
 	map <string, pair<string, int> > formats;
-	formats["one"] = make_pair("%b", 1);
-	formats["full"] = make_pair("%B", -1);
-	formats["three"] = make_pair("%B", 3);
+	formats["one"] = std::make_pair("%b", 1);
+	formats["full"] = std::make_pair("%B", -1);
+	formats["three"] = std::make_pair("%B", 3);
 	AxisItem* last = 0;
 	AxisItem* current = 0;
 
@@ -480,14 +480,14 @@ void DateAxisMethod::days_label(AxisItems& in, AxisItems& list)
 	map <string, pair<string, int> > formats;
 
 	if ( magCompare(days_, "number" ) ) {
-		formats["one"] = make_pair("%e", -1);
-		formats["three"] = make_pair("%e", -1);
-		formats["full"] = make_pair("%e", -1);
+		formats["one"] = std::make_pair("%e", -1);
+		formats["three"] = std::make_pair("%e", -1);
+		formats["full"] = std::make_pair("%e", -1);
 	}
 	else {
-		formats["one"] = make_pair("%a", 1);
-		formats["three"] = make_pair("%a", 3);
-		formats["full"] = make_pair("%A", -1);
+		formats["one"] = std::make_pair("%a", 1);
+		formats["three"] = std::make_pair("%a", 3);
+		formats["full"] = std::make_pair("%A", -1);
 	}
 
 
