@@ -715,41 +715,64 @@ void useRef(double ref, double inc, double& min, double& max)
 
 /* refx, rey,stepx stepy Should in projection coordinates! */
 
-void Transformation::thin(double refx, double refy, double stepx,  double stepy, vector<UserPoint>& in) const
+void Transformation::thin(double xstep, double ystep, double gap,  vector<UserPoint>& in) const
 {
 	Timer timer("thiining", "");
 
 
-	double minx = getMinPCX();
-	double maxx = getMaxPCX();
-	double miny = getMinPCY();
-	double maxy = getMaxPCY();
-
-	minx = ceil((minx-refx)/stepx)*stepx + refx;
-	maxx = floor((maxx-refx)/stepx)*stepx + refx;
-	miny = ceil((miny-refy)/stepy)*stepy +refy ;
-	maxy = floor((maxy-refy)/stepy)*stepy +refy;
-
-	int dimx = ((maxx - minx) /stepx) +1;
-	int dimy = ((maxy - miny)) /stepy +1;
-
-	vector<PointIter> helper(dimx*dimy, in.end());
 
 
-
-
+	double uxmin, uxmax, uymin, uymax;
+	int dimx, dimy;
+	// Find the box..
+	uxmin = uxmax = in.front().x_;
+	uymin = uymax = in.front().y_;
 
 
 
 	for ( PointIter pt = in.begin(); pt != in.end(); ++pt ) {
 		double x = pt->x_;
 		double y = pt->y_;
+		if ( x < uxmin ) uxmin = x;
+		if ( y < uymin ) uymin = y;
+		if ( x > uxmax ) uxmax = x;
+		if ( y > uymax ) uymax = y;
+	}
 
-		fast_reproject(x, y);
 
 
-		int xx = ceil(x-minx)/stepx;
-		int yy = ceil(y-miny)/stepy;
+
+	dimx = ((uxmax - uxmin)  / xstep ) +1;
+	dimy = ((uymax - uymin ) / ystep ) +1;
+	vector<bool> mask(dimx*dimy, false);
+	for ( int y = 0; y < dimy; y++)	{
+		double lasty = uymin +(ystep*y);
+		double lastx = uxmin;
+		fast_reproject(lastx, lasty);
+		for ( int x = 0; x < dimx; x++) {
+			double y = uymin +(ystep*y);
+			double x = uxmin +(xstep*y);
+			fast_reproject(x, y);
+			if ( ( (x-lastx)*(x-lastx) + (y-lasty)*(y-lasty)) < gap )
+				mask[y*dimx+x] = true;
+			else {
+				lastx = x;
+				lasty = y;
+			}
+		}
+	}
+
+
+	vector<PointIter> helper(dimx*dimy, in.end());
+
+	for ( PointIter pt = in.begin(); pt != in.end(); ++pt ) {
+		double x = pt->x_;
+		double y = pt->y_;
+
+
+
+		int xx = ceil(x-uxmin)/xstep;
+		int yy = ceil(y-uymin)/ystep;
 
 
 
@@ -767,14 +790,16 @@ void Transformation::thin(double refx, double refy, double stepx,  double stepy,
 
 		for ( vector<pair<int, int> >::iterator ind = check.begin(); ind != check.end(); ++ind) {
 			int i = ind->first*dimx + ind->second;
-
-			if ( i < 0 || i >= dimx*dimy)
-
+			if ( mask[i] )
 				continue;
-			double x0 = ind->second*stepx +minx;
-			double y0 = ind->first*stepy +miny;
+			if ( i < 0 || i >= dimx*dimy)
+				continue;
 
-			double dist = sqrt(((x-x0) * (x-x0)) +  ((y - y0) * (y - y0)));
+			double x0 = ind->second * xstep + uxmin;
+			double y0 = ind->first * ystep + uymin;
+			if ( !this->in(x0, y0) )
+				continue;
+
 
 			PointIter last = helper[i];
 
@@ -787,7 +812,7 @@ void Transformation::thin(double refx, double refy, double stepx,  double stepy,
 
 				double lastx = last->x_;
 				double lasty = last->y_;
-				fast_reproject(lastx, lasty);
+
 				double min = sqrt(((lastx-x0) * (lastx-x0)) +  ((lasty - y0) * (lasty -y0)));
 				if (dist < min){
 					helper[i ] = pt;
@@ -799,8 +824,8 @@ void Transformation::thin(double refx, double refy, double stepx,  double stepy,
 	}
 
 	for ( int j = 0; j < dimx*dimy; j++) {
-
-		helper[j]->flagMissing();
+		if ( helper[j] != in.end() )
+			helper[j]->flagMissing();
 	}
 
 }
