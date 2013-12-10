@@ -147,7 +147,7 @@ sub localstation
     print OUT " pngfile='$params{pngfile}' "  unless $params{pngfile}  eq "";
     print OUT "/>\n</eps>\n";
 
-    system ($magplusbin . 'metgramx', $tmp);
+    system ($magplusbin . 'metgram.sh', $tmp);
     unlink $tmp;
     
 }
