@@ -98,7 +98,7 @@ def resultLabelStyle(lab):
 def resultLabelColour(lab):
     c= {'Identical':  'green',
         'MinorDiff': 'blue',
-        'Check':     'yellow',
+        'Check':     'goldenrod',
         'Error':     'red'}
     return c[lab]
 
@@ -111,10 +111,10 @@ def result(thres,diff,pdiff,pixels):
     d,pd= 100.0*diff/pixels,100.0*pdiff/pixels
     val= max(d,pd)
     text,colour,style= ['']*3
-    if diff==pdiff==0:         text,colour,style= 'Identical', 'green',  'success'
-    elif val<0.5*thres:        text,colour,style= 'MinorDiff', 'blue',   'info' 
-    elif 0.5*thres<=val<thres: text,colour,style= 'Check',     'yellow', 'warning'
-    elif thres<=val:           text,colour,style= 'Error',     'red',    'error'
+    if diff==pdiff==0:         text,colour,style= 'Identical', 'green',     'success'
+    elif val<0.5*thres:        text,colour,style= 'MinorDiff', 'blue',      'info' 
+    elif 0.5*thres<=val<thres: text,colour,style= 'Check',     'goldenrod', 'warning'
+    elif thres<=val:           text,colour,style= 'Error',     'red',       'error'
     return text,colour,style,val
 
 def resultLabel(thres,diff,pdiff,pixels):
@@ -226,22 +226,35 @@ def writeHtmlReport(params,usage,stdout,stderr,ref_pages,ref_ver_pages):
     diff= params['diff'] 
     pdif= params['pdiff']
     pixe= params['pixels']
+    mess= params['exit_message']
     results= ''
     for i in range(len(pixe)): results+= '<th>page %d</th>'%(i+1,)
-    results= '<tr><th>diff threshold %d%%</th>%s<tr>\n'%(int(params['threshold']),results)
-    for ver in params['versions']:
-        vals= []
-        pages=''
-        for i in range(len(pixe)):
-            val= result(thre,diff[ver][i],pdif[ver][i],pixe[i])[3]
-            pages+= resultText(thre,diff[ver][i],pdif[ver][i],pixe[i])
-            vals+= [val]
-        results+='<tr class="%s"><th>%s</th>%s</tr>\n'%(resultStyle(thre,max(vals)),ver,pages)
+    results= '<tr><th>test threshold: <span style="color:red">%d%%</span></th>%s<tr>\n'%(int(params['threshold']),results)
+    try:
+        valss= []
+        for ver in params['versions']:
+            vals= []
+            pages=''
+            for i in range(len(pixe)):
+                _,_,_,val= result(thre,diff[ver][i],pdif[ver][i],pixe[i])
+                pages+= resultText(thre,diff[ver][i],pdif[ver][i],pixe[i])
+                vals+= [val]
+                sty= resultStyle(thre,max(vals))
+            results+='<tr class="%s"><th>%s</th>%s</tr>\n'%(sty,ver,pages)
+            valss+= vals
+    except:
+        #SET ERROR VALUE 
+        valss= [100]
     results='''
+        <br>
+        <table class="table table-bordered">
+            <tr class="%s"><th>exit message</th><td><b>%s</b></td></tr>
+        </table>
+        <br>
         <table class="table table-bordered">
         %s
         </table>
-    '''%results
+    '''%(resultStyle(thre,max(valss)),mess,results)
     report= report.replace('TEST_RESULTS',results)
 
 
@@ -252,7 +265,11 @@ def writeHtmlReport(params,usage,stdout,stderr,ref_pages,ref_ver_pages):
     usa_ver= {}
     for ver in params['versions']:
         ref= prefix(extension(params['reference'],'usa'),ver+'_')
-        with open(ref) as f: usa_ver[ver]= json.loads(f.read())
+        try:
+            with open(ref) as f: usa_ver[ver]= json.loads(f.read())
+        except:
+            pass
+        
     def run_info_line_colour(name,test_value,ver_values):
         def colour(v1,v0):
             CF= 0.5 #chage factor: 0.5 ~ 50%
@@ -275,6 +292,7 @@ def writeHtmlReport(params,usage,stdout,stderr,ref_pages,ref_ver_pages):
                 res+= '<td style="color:%s">%s</td>'%('rgb(0,0,0)',precision(ver_values[i]))
         res+= '</tr>\n'
         return res
+    
     usa_names= usage.keys()
     usa_names.sort() 
 
@@ -305,7 +323,11 @@ def writeHtmlReport(params,usage,stdout,stderr,ref_pages,ref_ver_pages):
 
         #run info section
         run_info='<tr><th>resource</th><th>%s</th><th>%s</th></tr>\n'%(params['branch_name'],ver)
-        for name in usa_names: run_info+= run_info_line_colour(name,usage[name],[usa_ver[ver][name]])
+        for name in usa_names:
+            try:
+                run_info+= run_info_line_colour(name,usage[name],[usa_ver[ver][name]])
+            except:
+                pass
         run_info= '<table class="table table-bordered">'+run_info+'</table>'
        
         #output plots
@@ -344,16 +366,19 @@ def writeHtmlReport(params,usage,stdout,stderr,ref_pages,ref_ver_pages):
             '''%(ref,size(ref),comparison,ref_ver,size(ref_ver),div_id,ref,div_id,ref_dif,div_id,ref_ver)
 
         page_tabs= []
-        for ipage in range(len(ref_pages)):
-            ref_page= ref_pages[ipage]
-            ref_ver_page= ref_ver_pages[ver][ipage]
-            npix= params['pixels'][ipage]
-            ndif= params['diff'][ver][ipage]
-            npdif= params['pdiff'][ver][ipage]
-            ver_id= ver + '-' + str(ipage)
-            pixel_difs[ver_id]= {'pdiff':[npdif,100.0*npdif/npix],'mdiff':[ndif,100.0*ndif/npix]}
-            page_title= '<span style="color:'+resultColour(params['threshold'],ndif,npdif,npix)+'">Page '+str(ipage+1)+'</span>' 
-            page_tabs+= [{'id':tab['id']+'-page'+str(ipage),'title': page_title,'content': plots(ver_id,ipage,npix,ndif,npdif,ref_page,ref_ver_page)}]
+        try:
+            for ipage in range(len(ref_pages)):
+                ref_page= ref_pages[ipage]
+                ref_ver_page= ref_ver_pages[ver][ipage]
+                npix= params['pixels'][ipage]
+                ndif= params['diff'][ver][ipage]
+                npdif= params['pdiff'][ver][ipage]
+                ver_id= ver + '-' + str(ipage)
+                pixel_difs[ver_id]= {'pdiff':[npdif,100.0*npdif/npix],'mdiff':[ndif,100.0*ndif/npix]}
+                page_title= '<span style="color:'+resultColour(params['threshold'],ndif,npdif,npix)+'">Page '+str(ipage+1)+'</span>' 
+                page_tabs+= [{'id':tab['id']+'-page'+str(ipage),'title': page_title,'content': plots(ver_id,ipage,npix,ndif,npdif,ref_page,ref_ver_page)}]
+        except:
+            pass
         output_plots= writeTab(page_tabs)
         output_plots+= '''
         <div style="text-align:center;">

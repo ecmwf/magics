@@ -27,7 +27,7 @@
       .control {}
  
       .test {
-            background-color: #EEEEEE;
+            background-color: #F8F8FF;
       }
 
       .bookmark {
@@ -133,9 +133,8 @@
     <div class="container">
 
         <a name="top" class="bookmark"></a>
-            
         <a name="overview" class="bookmark"></a>
-        <section>
+        <section class="test">
             <div>
                 <h3>Overview <small>Branches and versions summary</small></h3>
             </div>
@@ -151,7 +150,7 @@
         </section>
 
         <a name="branches" class="bookmark"><br></a>
-        <section>
+        <section  class="test">
             <div>
                 <h3>Last Run Tests <small>Results summary per branch and version</small></h3>
             </div>
@@ -163,7 +162,7 @@
         </section>
 
         <a name="versions" class="bookmark"></a>
-        <section>
+        <section  class="test">
             <div>
                 <h3>All Run Tests <small>Results summary per branch, version and compilation time</small></h3>
             </div>
@@ -217,9 +216,8 @@ target="_blank">Apache License v2.0</a>. Documentation licensed under <a href="h
     <script src="http://download.ecmwf.int/test-data/magics/regression_output/static/datatables/media/js/jquery.dataTables.js"></script>
     <script type="text/javascript" language="javascript" src="http://download.ecmwf.int/test-data/magics/regression_output/static/bootstrap-datatables.js"></script>
 	-->
-
-    //process all times stamps
-	<script type="text/javascript"> 
+	<script type="text/javascript">
+    	//process all times stamps
         var times= document.getElementsByClassName("timestamp");
         for (i in times) {
         	var st= times[i].innerHTML;

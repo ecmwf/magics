@@ -28,7 +28,11 @@ from regression_util import extension,prefix,suffix,writeHtmlReport,usage2Dict,I
 #####################################################################
 #####################################################################
 
-def compare(timestamp,branch_name,versions,interpreter,executable,reference,threshold,output_dir):
+def compare(timestamp,branch_name,versions,interpreter,executable,reference,threshold,output_dir,EXIT=0,EMES=''):
+
+    #declaration of parameters to be included in ".par" file
+    diff,pdiff,result= {},{},{}
+    pixels= []
 
     #print input parameters
     def l(t,n): return (t+' '*n)[:n]
@@ -39,80 +43,104 @@ def compare(timestamp,branch_name,versions,interpreter,executable,reference,thre
     print l('versions:',         20), versions 
     print l('output dir (HTML):',20), output_dir
 
+    try:
 
-    #run the test
-    p= None
-    if not interpreter=='':
-        p = Popen([interpreter,executable],stdout=PIPE, stderr=PIPE)
-    else:
-        p = Popen(executable,stdout=PIPE,stderr=PIPE,shell=True)
-
-    #get test's run information
-    stdout,stderr= p.communicate()
-    usage= usage2Dict(resource.getrusage(resource.RUSAGE_CHILDREN))
-
-    #check if output generated
-    if not os.path.exists(reference):
-        sys.stderr.write(u"TEST FAILED: Output file '%s' has not been generated.\n"%reference)
-        sys.exit(1)
-
-    #check if output is a PS or PDF file      
-    ref_pages= {}
-    ref_ver_pages= {}
-    if reference[-2:]=='ps' or reference[-2:]=='pdf': 
-
-        #POSSIBLY SEVERAL pages -> split output into one-page images
-        ref_pages= splitOutput(reference)
-        
-        #Split the reference versions into one-page images
-        for version in versions:
-            try:
+        #run the test
+        p= None
+        if not interpreter=='':
+            p = Popen([interpreter,executable],stdout=PIPE, stderr=PIPE)
+        else:
+            p = Popen(executable,stdout=PIPE,stderr=PIPE,shell=True)
+    
+        #get test's run information
+        stdout,stderr= p.communicate()
+        usage= usage2Dict(resource.getrusage(resource.RUSAGE_CHILDREN))
+    
+        #check if output generated
+        if not os.path.exists(reference):
+            EMES+= u"TEST FAILED: Output file '%s' has not been generated.\n"%reference
+            EXIT= 1
+    
+        #check if output is a PS or PDF file      
+        ref_pages= {}
+        ref_ver_pages= {}
+        if reference[-2:]=='ps' or reference[-2:]=='pdf': 
+    
+            #POSSIBLY SEVERAL pages -> split output into one-page images
+            ref_pages= splitOutput(reference)
+            
+            #Split the reference versions into one-page images
+            for version in versions:
+                try:
+                    ver_ref= prefix(reference,version+'_')
+                    ref_ver_pages[version]= splitOutput(ver_ref)
+                    assert(len(ref_pages)==len(ref_ver_pages[version]))
+                except:
+                    EMES+= u"TEST FAILED: Output file '%s' has %d pages but reference file '%s' has %d pages. They can not be compared.\n"%(reference,len(ref_pages),ver_ref,len(ref_ver_pages[version]))
+                    EXIT= 1
+        else:
+            #only a single page -> single image
+            ref_pages= [reference]
+            for version in versions:
                 ver_ref= prefix(reference,version+'_')
-                ref_ver_pages[version]= splitOutput(ver_ref)
-                assert(len(ref_pages)==len(ref_ver_pages[version]))
-            except:
-                sys.stderr.write(u"TEST FAILED: Output file '%s' has %d pages but reference file '%s' has %d pages. They can not be compared.\n"%(reference,len(ref_pages),ver_ref,len(ref_ver_pages[version])))
-                sys.exit(1)
-        #print 'ref_ver_pages=',ref_ver_pages
-
-    else:
-        #only a single page -> single image
-        ref_pages= [reference]
+                ref_ver_pages[version]= [ver_ref]
+    
+        #get number of pixels of output images
+        pixels= []
+        for ref_page in ref_pages:
+            description= check_output(['identify',ref_page])                 
+            #description="reference PNG 994x1402 994x1402+0+0 8-bit PseudoClass 9c 33.6KB 0.020u 0:00.020"
+            x,y= [int(x) for x in description.split(' ')[2].split('x')]
+            pixels.append(x*y)
+    
+        #for each reference version
+        diff,pdiff,result= {},{},{}
         for version in versions:
-            ver_ref= prefix(reference,version+'_')
-            ref_ver_pages[version]= [ver_ref]
-    #print 'ref_pages=',ref_pages
-    #print 'ref_ver_pages=',ref_ver_pages
-
-    #get number of pixels of output images
-    pixels= []
-    for ref_page in ref_pages:
-        description= check_output(['identify',ref_page])                 
-        #description="reference PNG 994x1402 994x1402+0+0 8-bit PseudoClass 9c 33.6KB 0.020u 0:00.020"
-        x,y= [int(x) for x in description.split(' ')[2].split('x')]
-        pixels.append(x*y)
-
-    #for each reference version
-    diff,pdiff,result= {},{},{}
-    for version in versions:
-        if not diff.has_key(version):   diff[version]=   {}
-        if not pdiff.has_key(version):  pdiff[version]=  {}
-        if not result.has_key(version): result[version]= {}
+            if not diff.has_key(version):   diff[version]=   {}
+            if not pdiff.has_key(version):  pdiff[version]=  {}
+            if not result.has_key(version): result[version]= {}
+                    
+            #for each page and reference page
+            for ipage in range(len(ref_pages)):
+                ref_page= ref_pages[ipage]
+                ref_ver_page= ref_ver_pages[version][ipage]
                 
-        #for each page and reference page
-        for ipage in range(len(ref_pages)):
-            ref_page= ref_pages[ipage]
-            ref_ver_page= ref_ver_pages[version][ipage]
-            
-            #compare with test's output and keep number of different pixels
-            ver_dif_page= suffix(ref_ver_page,'_diff')
-            diff[version][ipage]= ImageMagick_compare(ref_page,ref_ver_page,ver_dif_page)
-            ver_pdiff_page= suffix(ref_ver_page,'_pdif')
-            pdiff[version][ipage]= PerceptualDiff_compare(ref_page,ref_ver_page,ver_pdiff_page)
-            
-            #Get the result labels: OK,Check,Warning,Error
-            result[version][ipage]= resultLabel(threshold,diff[version][ipage],pdiff[version][ipage],pixels[ipage]) 
-
+                #compare with test's output and keep number of different pixels
+                ver_dif_page= suffix(ref_ver_page,'_diff')
+                diff[version][ipage]= ImageMagick_compare(ref_page,ref_ver_page,ver_dif_page)
+                ver_pdiff_page= suffix(ref_ver_page,'_pdif')
+                pdiff[version][ipage]= PerceptualDiff_compare(ref_page,ref_ver_page,ver_pdiff_page)
+                
+                #Get the result labels: OK,Check,Warning,Error
+                result[version][ipage]= resultLabel(threshold,diff[version][ipage],pdiff[version][ipage],pixels[ipage]) 
+    
+        #compute maximum number of different pixels and percentage...
+        max_diff,max_perc = 0,0
+        #...for all versions
+        for v in diff:
+            #...for all pages
+            for i in diff[v]:
+                d= diff[v][i]
+                p= 100.0*d/pixels[i]
+                if p>max_perc:
+                    max_diff= d
+                    max_perc= p
+    
+        #fail if, FOR ANY VERSION OR PAGE, the threshold is passed OR MISSING IMAGES
+        MISSING_IMAGES= len(pixels)==0
+        if not MISSING_IMAGES and max_perc>=threshold:
+            EMES+= u"TEST FAILED: Maximum number of different pixels is %d (%.2f%%).\n"%(max_diff,max_perc)
+            EXIT= 1
+        elif not MISSING_IMAGES:
+            EMES+= u"TEST FINISHED: Maximum number of different pixels is %d (%.2f%%).\n"%(max_diff,max_perc)
+            EXIT= max(0,EXIT)
+        else:
+            EMES+= u"TEST FAILED: No output images generated.\n"
+            EXIT= 1
+    except Exception, e:
+        EMES+= 'TEST FAILED: compare.py script raised an internal error: %s.\n'%str(e)
+        EXIT= 1 
+    
     #save all test files into specified output directory 
     if output_dir:
 
@@ -139,7 +167,8 @@ def compare(timestamp,branch_name,versions,interpreter,executable,reference,thre
             'diff':          diff,
             'pdiff':         pdiff,
             'result':        result,
-            'pixels':        pixels, 
+            'pixels':        pixels,
+            'exit_message':  EMES.replace('\n','<br>')
         }
         with open(extension(reference,'par'),'w') as f: f.write(json.dumps(params,sort_keys=True,indent=4, separators=(',', ': ')))
 
@@ -163,28 +192,8 @@ def compare(timestamp,branch_name,versions,interpreter,executable,reference,thre
             target= output_subdir+'/'+filename
             e= call(['scp',filename,target])
             if not e==0:
-                sys.stderr.write("ERROR coping the file '%s' into '%s'"%(filename,target))
-       
-
-    #compute maximum number of different pixels and percentage...
-    max_diff,max_perc = 0,0
-    #...for all versions
-    for v in diff:
-        #...for all pages
-        for i in diff[v]:
-            d= diff[v][i]
-            p= 100.0*d/pixels[i]
-            if p>max_perc:
-                max_diff= d
-                max_perc= p
-
-    #fail if, FOR ANY VERSION OR PAGE, the threshold is passed
-    if max_perc>=threshold:
-        sys.stderr.write(u"TEST FAILED: Maximum number of different pixels is %d (%.2f%%).\n"%(max_diff,max_perc))
-        sys.exit(1)
-    else:
-        sys.stderr.write(u"TEST OK: Maximum number of different pixels is %d (%.2f%%).\n"%(max_diff,max_perc))
-        sys.exit(0)
+                EMES+= "ERROR coping the file '%s' into '%s.'\n"%(filename,target)
+    return EXIT,EMES
 
 #####################################################################
 #####################################################################
@@ -199,6 +208,11 @@ if __name__ == "__main__":
     cmd_parser = OptionParser(usage="usage: %prog <timestamp> <executable> <reference-file>", version='%prog : '+__version__, description = __doc__, prog = 'compare.py')
 
     print sys.argv#REMOVE??
+    
+    #process exit value
+    EXIT= 0
+    #process exit message
+    EMES= '' 
     
     #flags
     #cmd_parser.add_option("-v", "--verbose", action="store_true", dest="verbose",help="Verbose output while running")
@@ -219,9 +233,8 @@ if __name__ == "__main__":
     try:
         assert(datetime.strptime(timestamp,'%Y%m%d_%H%M%S'))
     except:
-        sys.stderr.write(u"Timestamp '%s' is not defined or is not in YYYYMMDD_HHMMSS format.\n"%timestamp)
-        sys.exit(1)
-
+        EMES+= u"Timestamp '%s' is not defined or is not in YYYYMMDD_HHMMSS format.\n"%timestamp
+        EXIT= 1
 
     #executable
     executable= ''
@@ -229,21 +242,21 @@ if __name__ == "__main__":
     try:
         assert(os.path.exists(executable))
     except:
-        sys.stderr.write(u"No executable '%s' found.\n"%executable)
-        sys.exit(1)
+        EMES+= u"No executable '%s' found.\n"%executable
+        EXIT= 1
 
     #reference 
     reference= ''
     if positional:
         reference= positional.pop(0)
     else:
-        sys.stderr.write(u"No reference file defined.\n")
-        sys.exit(1)
+        EMES+= u"No reference file defined.\n"
+        EXIT= 1
     try:
         assert(optional.force or not os.path.exists(reference))
     except:
-        sys.stderr.write(u"Clean file '%s' before running the test. Use -f to force overwrite.\n"%reference)
-        sys.exit(1)
+        EMES+= u"Clean file '%s' before running the test. Use -f to force overwrite.\n"%reference
+        EXIT= 1
 
     #interpreter
     interpreter= ''
@@ -257,8 +270,8 @@ if __name__ == "__main__":
     try:
         threshold= float(optional.threshold)
     except:
-        sys.stderr.write(u"Invalid threshold '%s': can not convert into float number.\n"%optional.threshold)
-        sys.exit(1)
+        EMES+= u"Invalid threshold '%s': can not convert into float number.\n"%optional.threshold
+        EXIT= 1
 
     #name of GIT branch being tested
     branch_name= optional.name 
@@ -270,8 +283,8 @@ if __name__ == "__main__":
         try:
             assert(os.path.exists(ver+'_'+reference))
         except:
-            sys.stderr.write(u"No version reference file '%s' found.\n"%(ver+'_'+reference,))
-            sys.exit(1)
+            EMES+= u"No version reference file '%s' found.\n"%(ver+'_'+reference,)
+            EXIT= 1
 
     #output report directory
     output_dir= optional.output
@@ -279,8 +292,11 @@ if __name__ == "__main__":
         try:
             assert(os.path.exists(output_dir))
         except:
-            sys.stderr.write(u"No output directory '%s' found.\n"%output_dir)
-            sys.exit(1)
+            EMES+= u"No output directory '%s' found.\n"%output_dir
+            EXIT= 1
 
-    compare(timestamp,branch_name,versions,interpreter,executable,reference,threshold,output_dir)
+    #compare and exit
+    EXIT,EMES= compare(timestamp,branch_name,versions,interpreter,executable,reference,threshold,output_dir,EXIT,EMES)
+    sys.stderr.write(EMES)
+    sys.exit(EXIT)   
     
