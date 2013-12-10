@@ -43,6 +43,8 @@ extern "C" {
 #include "SciMethods.h"
 #include "TextVisitor.h"
 
+#include "odblib/Reader.h"
+
 static int getOdbColumnIndex(odb::Reader::iterator &,const string&);
 
 int getOdbColumnIndex(odb::Reader::iterator &firstRowIt,const string& colName)
