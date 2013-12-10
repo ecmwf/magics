@@ -371,12 +371,10 @@ void MetgramParameter::interpretResult(spot_query_result* result, vector<Customi
 
 void MetgramParameter::setTransformation(Transformation& transformation)
 {
-	transformation.setDataMinX(minx_*3600, base_);
-	transformation.setDataMaxX(maxx_*3600, base_);
+	transformation.setDataMinMaxX(minx_*3600, maxx_*3600, base_);
 
 	double maxy =  (maxy_ == miny_ )  ? maxy_ + 1 : maxy_;
-	transformation.setDataMinY(miny_);
-	transformation.setDataMaxY(maxy);
+	transformation.setDataMinMaxY(miny_, maxy_);
 }
 
 spot_query_result* MtgTempe::prepare(const ClassicMtgDecoder& decoder, vector<CustomisedPoint*>& out)
