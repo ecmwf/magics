@@ -165,6 +165,7 @@ void GribInterpretor::raw(const GribDecoder& grib, const Transformation& transfo
 
 
     double lat, lon, value;
+
         /* Loop on all the lat/lon/values. */
     while(grib_iterator_next(iter,&lat,&lon,&value)) {   
 
@@ -174,7 +175,7 @@ void GribInterpretor::raw(const GribDecoder& grib, const Transformation& transfo
     		  value = (value*factor)+offset;
 
     		  transformation.populate(lon, lat, value, points);
-    	  }
+      }
 
 
     }

@@ -418,7 +418,7 @@ void GribDecoder::customisedPoints(const AutomaticThinningMethod& thinning, cons
 		double ypoints = (thinit) ? thinning.y() : 0;
 
 
-		customisedPoints(transformation, points, xpoints, ypoints);
+		customisedPoints(transformation, points, res*xpoints, res*ypoints, 0);
 
 
 
@@ -500,9 +500,9 @@ void GribDecoder::newPoint(const Transformation& transformation, double lat, dou
 
 		 }
 }
-void GribDecoder::customisedPoints(const Transformation& transformation, CustomisedPointsList& out, double xpts, double ypts)
+void GribDecoder::customisedPoints(const Transformation& transformation, CustomisedPointsList& out, double thinx, double thiny, double gap)
 {
-	bool thinit = (xpts && ypts);
+
 
 	vector<UserPoint> xin, yin, cin;
 
@@ -523,13 +523,10 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 	vector<UserPoint>::iterator x = xin.begin();
 	vector<UserPoint>::iterator y = yin.begin();
 	vector<UserPoint>::iterator c = cin.begin();
+	bool thinit = thinx || thiny;
 
-	// Get Reference !
-	double lat = getDouble("latitudeOfFirstGridPointInDegrees");
-	double lon = getDouble("longitudeOfFirstGridPointInDegrees");
-	transformation.fast_reproject(lon, lat);
 	if (thinit)
-		transformation.thin(lon, lat, xpts, ypts, xin);
+		transformation.thin(thinx, thiny, gap, xin);
 	out.reserve(yin.size());
 	while ( x != xin.end() && y!= yin.end() )
 	{
@@ -570,8 +567,8 @@ void GribDecoder::customisedPoints(const BasicThinningMethod& thinning, const Tr
 
 		// Compute the thinning factor...
 
-		int ypoints= 0;
-		int xpoints= 0;
+		double gap = 0;
+
 		if ( thinning.factor() > 1 ) {
 			double x1 = 0;
 			double y1 = 60;
@@ -580,11 +577,13 @@ void GribDecoder::customisedPoints(const BasicThinningMethod& thinning, const Tr
 
             transformation.fast_reproject(x1, y1);
             transformation.fast_reproject(x2, y2);
-            ypoints = (y2-y1)*thinning.factor();
-            xpoints = (x2-x1)*thinning.factor();
+
+            gap = ((x2-x1)*(x2-x1)) + ((y2-y1)*(y2-y1));
 
 		}
-		customisedPoints(transformation, points, xpoints, ypoints);
+		customisedPoints(transformation, points,
+				interpretor_->XResolution(*this)* thinning.factor(),
+				interpretor_->XResolution(*this)* thinning.factor(), gap);
 
 	}
 	catch (NoFactoryException&)

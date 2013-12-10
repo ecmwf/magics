@@ -175,7 +175,7 @@ public:
 
 	void customisedPoints(const AutomaticThinningMethod&, const Transformation&, const std::set<string>&, CustomisedPointsList&);
 	void customisedPoints(const BasicThinningMethod&, const Transformation&, const std::set<string>&, CustomisedPointsList& );
-	void customisedPoints(const Transformation& t,  CustomisedPointsList& out, double xpts, double ypts);
+	void customisedPoints(const Transformation& t,  CustomisedPointsList& out, double xpts, double ypts, double gap);
 
 
 	virtual grib_handle* open(grib_handle*, bool sendMsg = true);
