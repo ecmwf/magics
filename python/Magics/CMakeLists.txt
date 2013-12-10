@@ -1,4 +1,4 @@
-if( ENABLE_PYTHON )
+if( ENABLE_PYTHON AND NUMPY_FOUND )
 
   ### python destination
 
@@ -14,7 +14,7 @@ if( ENABLE_PYTHON )
 
   configure_file( Magics.i.in  Magics.i )
 
-  include_directories( ${PYTHON_INCLUDE_DIRS} ${PYTHON_SITE_PACKAGES}/numpy/core/include ${CMAKE_CURRENT_SOURCE_DIR} )
+  include_directories( ${PYTHON_INCLUDE_DIRS} ${NUMPY_INCLUDE_DIRS} ${CMAKE_CURRENT_SOURCE_DIR} )
 
   set_source_files_properties( Magics.i PROPERTIES GENERATED TRUE CXX ON )
 

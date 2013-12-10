@@ -33,9 +33,7 @@ set( CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH} 
 
 include( ecbuild_system )
 
-if( ECBUILD_MACRO_VERSION VERSION_LESS 1.1 )
-  message( FATAL_ERROR "${PROJECT_NAME} needs ecbuild >= 1.1" )
-endif()
+ecbuild_requires_macro_version( 1.2 )
 
 ###############################################################################
 # some variables of this project
@@ -76,6 +74,7 @@ set( MAG_PYTHON_PATH ${CMAKE_BINARY_DIR}/python )
 
 # ecbuild_use_package( PROJECT eckit VERSION 0.3 REQUIRED )
 
+### fortran
 
 if( ENABLE_FORTRAN )
 	ecbuild_enable_fortran( REQUIRED )
@@ -83,19 +82,24 @@ else()
     ecbuild_enable_fortran()
 endif()
 
+### python
+
 if( ENABLE_PYTHON )
-    ecbuild_find_python( VERSION 2.7 REQUIRED)
-    find_package( SWIG REQUIRED)
+	ecbuild_find_python( VERSION 2.7 REQUIRED )
+	find_package( SWIG REQUIRED )
+	find_package( NumPy REQUIRED )
 else() 
-    ecbuild_find_python( VERSION 2.7)
+	ecbuild_find_python( VERSION 2.7 )
     find_package( SWIG )
+	find_package( NumPy )
 endif()
 if( SWIG_FOUND )
    include(UseSWIG)
 endif()
 
+### grib
 
-set ( grib no)
+set( grib no )
 if( ENABLE_GRIB )
   ecbuild_use_package( PROJECT grib_api VERSION 1.9.16 REQUIRED)
 else() 
@@ -103,10 +107,12 @@ else()
 endif()
 if( GRIB_API_FOUND )
    set( MAGICS_GRIB 1 )
-   set ( grib yes)
+   set( grib yes )
 endif()
 
-set ( netcdf no)
+### netcdf
+
+set( netcdf no )
 set( PREFER_NETCDF4 1)
 set( NETCDF_CXX 1 )
 if ( ENABLE_NETCDF )
@@ -117,10 +123,12 @@ endif()
 if ( NETCDF_FOUND )
     list( APPEND MAGICS_TPLS  NetCDF )
     set(MAGICS_NETCDF 1)
-    set ( netcdf no)
+	set( netcdf no)
 endif()
 
-set ( odb no)
+### odb
+
+set( odb no )
 if( ENABLE_ODB )
   ecbuild_use_package( PROJECT odb_api  VERSION 0.9.31 REQUIRED)
 else() 
@@ -128,20 +136,23 @@ else()
 endif()
 if( ODB_API_FOUND )
       set( MAGICS_ODB 1 )
-      set ( odb yes)
+	  set( odb yes)
 endif()
 
-set ( bufr no)
+### bufr
+
+set( bufr no )
 if( ENABLE_BUFR )
   find_package( EMOS REQUIRED )
 endif()
 if( EMOS_FOUND )
    set( MAGICS_BUFR 1 )
-   set ( bufr yes)
+   set( bufr yes)
 endif()
- 
 
-set (cairo no)
+### cairo
+
+set( cairo no )
 if( ENABLE_CAIRO )
 	find_package( PangoCairo REQUIRED )
 else()
@@ -150,28 +161,28 @@ endif()
     
 if( PANGOCAIRO_FOUND )
    	set( MAGICS_CAIRO 1 )
-    set (cairo yes)
+	set( cairo yes )
 endif()
 
+### Qt
 
-set ( qt no )
-set (qtlib no)
-set ( metview no )
+set( qt no )
+set(qtlib no)
+set( metview no )
 if( ENABLE_METVIEW_NO_QT )
-    set ( metview yes)
+	set( metview yes)
     unset(MAGICS_ONLY)
 endif()
 if( ENABLE_METVIEW_QT )
-    set ( metview yes)
+	set( metview yes)
     unset(MAGICS_ONLY)
 	find_package(Qt4 4.4.3 REQUIRED QtCore QtGui QtXml )
 	if( QT_FOUND )
 		include( ${QT_USE_FILE} )
 		set( MAGICS_QT 1)
-        set ( qt yes)
+		set( qt yes)
     endif()
 endif()
-
 
 ecbuild_declare_project()
 
@@ -189,8 +200,6 @@ ecbuild_add_extra_search_paths( boost )
 find_package( Boost 1.49.0 )
 find_package( Proj4  )
 find_package( EXPAT  )
-
-
 
 
 install( FILES ${CMAKE_CURRENT_BINARY_DIR}/magics-config
@@ -238,9 +247,9 @@ foreach( _tpl ${MAGICS_TPLS} )
     list( APPEND MAGICS_EXTRA_LIBRARIES     ${${TPL}_LIBRARIES} )
 endforeach()
 
-message(STATUS "MAGICS_EXTRA_DEFINITIONS  => ${MAGICS_EXTRA_LIBRARIES}")
-message(STATUS "MAGICS_EXTRA_INCLUDE_DIRS => ${MAGICS_EXTRA_INCLUDE_DIRS}")
-message(STATUS "MAGICS_EXTRA_LIBRARIES    => ${MAGICS_EXTRA_LIBRARIES}")
+# message(STATUS "MAGICS_EXTRA_DEFINITIONS  => ${MAGICS_EXTRA_DEFINITIONS}")
+# message(STATUS "MAGICS_EXTRA_INCLUDE_DIRS => ${MAGICS_EXTRA_INCLUDE_DIRS}")
+# message(STATUS "MAGICS_EXTRA_LIBRARIES    => ${MAGICS_EXTRA_LIBRARIES}")
 
 if( MAGICS_BUFR )
 	list( APPEND MAGICS_EXTRA_DEFINITIONS   fortfloat=double fortint=int )
