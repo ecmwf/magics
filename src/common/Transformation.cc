@@ -754,7 +754,7 @@ void Transformation::thin(double xstep, double ystep, double gap,  vector<UserPo
 			double x = uxmin +(xstep*i);
 			fast_reproject(x, y);
 			if ( ( (x-lastx)*(x-lastx) + (y-lasty)*(y-lasty)) < gap )
-				mask[y*dimx+x] = true;
+				mask[j*dimx+i] = true;
 			else {
 				lastx = x;
 				lasty = y;
