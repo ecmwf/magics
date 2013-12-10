@@ -321,22 +321,18 @@ public:
 	{
 
 	if ( type_ == "eps15" ) {
-		transformation.setDataMinX(0, base_);
-		transformation.setDataMaxX(maxx_+18*3600, base_);
+		transformation.setDataMinMaxX(0, maxx_+18*3600, base_);
 
 	}
 	if ( type_ == "eps10" ) {
-		transformation.setDataMinX(0, base_);
-		transformation.setDataMaxX(maxx_ + 6*3600, base_);
+		transformation.setDataMinMaxX(0, maxx_ + 6*3600, base_);
 
 	}
 	else {
-		transformation.setDataMinX(minx_, base_);
-		transformation.setDataMaxX(maxx_ - 6*3600, base_);
+		transformation.setDataMinMaxX(minx_, maxx_ - 6*3600, base_);
 	}
 	
-	transformation.setDataMinY(miny_);
-	transformation.setDataMaxY(maxy_);
+	transformation.setDataMinMaxY(miny_, maxy_);
 }
 protected : 
 	map<string, string> titles_;
@@ -527,8 +523,7 @@ public:
 
 	void setTransformation(Transformation& transformation)
 	{
-	    transformation.setDataMinX(minx_);
-	    transformation.setDataMaxX(maxx_);
+	    transformation.setDataMinMaxX(minx_, maxx_);
 	}
 
 	virtual void stepvalues(double, vector<double>&) {}  
@@ -585,10 +580,8 @@ public:
 	}
 	void setTransformation(Transformation& transformation)
     {
-	    transformation.setDataMinX(minx_);
-	    transformation.setDataMaxX(maxx_);
-		transformation.setDataMinY(miny_);
-		transformation.setDataMaxY(maxy_);
+	    transformation.setDataMinMaxX(minx_, maxx_);
+	    transformation.setDataMinMaxY(miny_, maxy_);
 	}
 	virtual void stepvalues(double, vector<double>&) {}  
 	virtual void xvalues(double x, vector<double>& xpos) 
@@ -647,8 +640,7 @@ public:
 		}
 	void setTransformation(Transformation& transformation)
     {
-	    transformation.setDataMinX(minx_);
-	    transformation.setDataMaxX(maxx_);
+	    transformation.setDataMinMaxX(minx_, maxx_);
 		
 	}
 	virtual void stepvalues(double, vector<double>&) {}  
@@ -672,8 +664,7 @@ public:
 		{ return tostring( 2*tonumber(val)); } 
 	void setTransformation(Transformation& transformation)
     {
-	    transformation.setDataMinX(minx_);
-	    transformation.setDataMaxX(maxx_);
+	    transformation.setDataMinMaxX(minx_, maxx_);
 		
 	}
 	virtual void stepvalues(double, vector<double>&) {}  
@@ -696,8 +687,7 @@ public:
 	
 	void setTransformation(Transformation& transformation)
     {
-	    transformation.setDataMinX(minx_);
-	    transformation.setDataMaxX(maxx_);
+	    transformation.setDataMinMaxX(minx_, maxx_);
 		
 	}
 	
@@ -720,8 +710,7 @@ public:
 	
 	void setTransformation(Transformation& transformation)
     {
-	    transformation.setDataMinX(minx_);
-	    transformation.setDataMaxX(maxx_);
+	    transformation.setDataMinMaxX(minx_, maxx_);
 		
 	}
 	
@@ -746,8 +735,7 @@ public:
 	} 
 	 void setTransformation(Transformation& transformation)
     {
-	    transformation.setDataMinX(minx_);
-	    transformation.setDataMaxX(maxx_);
+	    transformation.setDataMinMaxX(minx_, maxx_);
 		
 	}
 	virtual void stepvalues(double, vector<double>&) {}  
@@ -822,8 +810,7 @@ public:
 	 } 
 	 void setTransformation(Transformation& transformation)
     {
-	    transformation.setDataMinX(minx_); 
-	    transformation.setDataMaxX(maxx_);
+	    transformation.setDataMinMaxX(minx_, maxx_); 
 		
 	}
 	virtual void stepvalues(double, vector<double>&) {}  
@@ -1942,34 +1929,27 @@ void EpsParameter::setTransformation(Transformation& transformation)
 {
 	
 	if ( type_ == "eps15" ) {
-		transformation.setDataMaxX(maxx_ + 18*3600, base_);
-		transformation.setDataMinX(0, base_);
+		transformation.setDataMinMaxX(0, maxx_ + 18*3600, base_);
 	}
 	else if ( type_ == "epswave" ) {
-		transformation.setDataMaxX(maxx_ + 6*3600, base_);
-		transformation.setDataMinX(0, base_);
+		transformation.setDataMinMaxX(0, maxx_ + 6*3600, base_);
 	}
 	else if ( type_ == "epsrose" ) {
-		transformation.setDataMaxX(maxx_ + 18*3600, base_);
-		transformation.setDataMinX(0, base_);
+		transformation.setDataMinMaxX(0, maxx_ + 18*3600, base_);
 	}
 	else if ( type_ == "eps10" ) {
-		transformation.setDataMinX(0, base_);
-		transformation.setDataMaxX(maxx_ + 6*3600, base_);
+		transformation.setDataMinMaxX(0, maxx_ + 6*3600, base_);
 	}
 	else  {
-	   transformation.setDataMinX(minx_, base_);
-	    transformation.setDataMaxX(maxx_ + 12*3600, base_);
+	    transformation.setDataMinMaxX(0, maxx_ + 12*3600, base_);
     }
 	
-	transformation.setDataMinY(miny_);
-	transformation.setDataMaxY(maxy_); 
+	transformation.setDataMinMaxY(miny_, maxy_);
 }
     
 
 void EfigramDecoder::visit(Transformation& transformation)
 {	
 	decode();
-	transformation.setDataMinX(minx_);
-	transformation.setDataMaxX(maxx_);
+	transformation.setDataMinMaxX(minx_, maxx_);
 }
