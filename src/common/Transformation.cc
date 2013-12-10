@@ -745,13 +745,13 @@ void Transformation::thin(double xstep, double ystep, double gap,  vector<UserPo
 	dimx = ((uxmax - uxmin)  / xstep ) +1;
 	dimy = ((uymax - uymin ) / ystep ) +1;
 	vector<bool> mask(dimx*dimy, false);
-	for ( int y = 0; y < dimy; y++)	{
-		double lasty = uymin +(ystep*y);
+	for ( int j = 0; j < dimy; j++)	{
+		double lasty = uymin +(ystep*j);
 		double lastx = uxmin;
 		fast_reproject(lastx, lasty);
-		for ( int x = 0; x < dimx; x++) {
-			double y = uymin +(ystep*y);
-			double x = uxmin +(xstep*y);
+		for ( int i = 0; i < dimx; i++) {
+			double y = uymin +(ystep*j);
+			double x = uxmin +(xstep*i);
 			fast_reproject(x, y);
 			if ( ( (x-lastx)*(x-lastx) + (y-lasty)*(y-lasty)) < gap )
 				mask[y*dimx+x] = true;
