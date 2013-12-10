@@ -131,6 +131,16 @@ if( ODB_API_FOUND )
       set ( odb yes)
 endif()
 
+set ( spot no)
+if( ENABLE_SPOT )
+    ecbuild_use_package( PROJECT spot  REQUIRED)
+    if( SPOT_FOUND )
+        set (MAGICS_SPOT 1)
+        set ( spot yes)
+    endif()
+else() 
+endif()
+
 set ( bufr no)
 if( ENABLE_BUFR )
   find_package( EMOS REQUIRED )
@@ -161,7 +171,7 @@ if( ENABLE_METVIEW_NO_QT )
     set ( metview yes)
     unset(MAGICS_ONLY)
 endif()
-if( ENABLE_METVIEW_QT )
+if( ENABLE_METVIEW )
     set ( metview yes)
     unset(MAGICS_ONLY)
 	find_package(Qt4 4.4.3 REQUIRED QtCore QtGui QtXml )
@@ -202,7 +212,7 @@ install( FILES ${CMAKE_CURRENT_BINARY_DIR}/magics-config
 ###############################################################################
 # contents
 
-set( MAGICS_TPLS grib_api odb_api EXPAT NetCDF PangoCairo Proj4 EMOS)
+set( MAGICS_TPLS grib_api spot odb_api EXPAT NetCDF PangoCairo Proj4 EMOS)
 set( MAGICS_INCLUDE_DIRS 
 	    ${CMAKE_CURRENT_SOURCE_DIR}/src 
         ${CMAKE_BINARY_SOURCE_DIR}/src 
