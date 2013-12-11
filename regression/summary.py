@@ -54,8 +54,8 @@ def getOverview(data):
     for row in data:
         bra,tes,tim,ver,res,mes,dif,thr= row
         if d.has_key((bra,tes,ver)):
-            dtim,_,_= d[(bra,tes,ver)]
-            if tim>dtim: d[(bra,tes,ver)]= (tim,res,mes) 
+            dtim,_,_,_,_= d[(bra,tes,ver)]
+            if tim>dtim: d[(bra,tes,ver)]= (tim,res,mes,dif,thr) 
         else:
             d[(bra,tes,ver)]= (tim,res,mes,dif,thr)
 
