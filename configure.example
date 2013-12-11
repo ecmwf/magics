@@ -44,7 +44,6 @@ fi
 if [[ $metview = "on" ]];then
     args="$args -DENABLE_METVIEW=ON"
     echo "Metview enabled"
-fi
 else
     args="$args -DENABLE_MEVIEW=OFF"
     echo "Metview not required"
