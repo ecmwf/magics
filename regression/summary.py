@@ -52,26 +52,26 @@ def getOverview(data):
     #count only last test run for branch/test/version    
     d={}    
     for row in data:
-        bra,tes,tim,ver,res,mes= row
+        bra,tes,tim,ver,res,mes,dif,thr= row
         if d.has_key((bra,tes,ver)):
             dtim,_,_= d[(bra,tes,ver)]
             if tim>dtim: d[(bra,tes,ver)]= (tim,res,mes) 
         else:
-            d[(bra,tes,ver)]= (tim,res,mes)
+            d[(bra,tes,ver)]= (tim,res,mes,dif,thr)
 
 #   collect data by branch/version 
     odata={}
     for bra,tes,ver in d:
-        tim,res,mes= d[(bra,tes,ver)]
+        tim,res,mes,dif,thr= d[(bra,tes,ver)]
         if odata.has_key((bra,ver)):
             #update result counters 
-            odata[(bra,ver)][res]+= [(tes,tim,mes)]
+            odata[(bra,ver)][res]+= [(tes,tim,mes,dif,thr)]
             mint,maxt= odata[(bra,ver)]['time']
             odata[(bra,ver)]['time']= (min(mint,tim),max(maxt,tim))
         else:
             #new branch/version
             odata[(bra,ver)]= {'Identical':[],'MinorDiff':[],'Check':[],'Error':[],'time':(tim,tim)}
-            odata[(bra,ver)][res]+= [(tes,tim,mes)]
+            odata[(bra,ver)][res]+= [(tes,tim,mes,dif,thr)]
         
     #odata[branch,version]= {Identical:x,MinorDiff:x,Check:x,Error:x,time:(mintime,maxtime)}
     return odata
@@ -110,19 +110,21 @@ def buildOverview(oData):
                 #sort tests by name and show 
                 last_tests= oData[(bra,ver)][res]
                 last_tests.sort()
-                for tes,tim,mes in last_tests:
+                for tes,tim,mes,dif,thr in last_tests:
                     _,_,dat= getDateDistance(tim)
                     tesgrp= tes
                     teslnk= tes.split('/')[-1]
                     result+='''<tr>
                                  <td><a href="/test-data/magics/regression_output/%s/%s/%s/%s.html"><span style="color:%s;">%s</span></a></td>
                                  <td><small>%s</small></td>
+                                 <td><small>%.1f%%</small></td>
+                                 <td><small>%.1f%%</small></td>
                                  <td><small>%s</small></td>
-                               <tr>'''%(bra,teslnk,tim,teslnk,resultLabelColour(res),tesgrp,dat,mes)
+                               <tr>'''%(bra,teslnk,tim,teslnk,resultLabelColour(res),tesgrp,dat,dif,thr,mes)
                 result='''
                 <h4> %s  / %s  / <span class="badge badge-%s" style="font-size: 20px; height: 24px;line-height: 20px">%s</span></h4>
                 <table class="table table-bordered">
-                <tr><th>test</th><th>compilation time</th><th>exit message</th></tr>
+                <tr><th>test</th><th>compilation time</th><th>dif.</th><th>thres.</th><th>exit message</th></tr>
                 %s
                 </table>'''%(bra,ver,resultLabelStyle(res),res,result)
                 results[bra][ver][res]= result
@@ -144,7 +146,7 @@ def getBranches(data):
     #count only last test run for branch/test/version    
     d={}    
     for row in data:
-        bra,tes,tim,ver,res,_= row
+        bra,tes,tim,ver,res,_,_,_= row
         if d.has_key((bra,tes,ver)):
             dtim,_= d[(bra,tes,ver)]
             if tim>dtim: d[(bra,tes,ver)]= (tim,res) 
@@ -225,7 +227,7 @@ def getVersions(data):
     #build data dictionaries hierarchy
     vdata= {}
     times= set()
-    for (bra,tes,tim,ver,res,_) in data:
+    for (bra,tes,tim,ver,res,_,_,_) in data:
         if not vdata.has_key(bra): vdata[bra]= {}
         if not vdata[bra].has_key(ver): vdata[bra][ver]= {}
         if not vdata[bra][ver].has_key(tes): vdata[bra][ver][tes]= {}
@@ -393,6 +395,8 @@ def summary(base_dir):
             p_time= params['time']
             p_version= ver
             p_mess= params['exit_message']
+            p_diff= params['max_difper']
+            p_thre= params['threshold'] 
             if p_mess.find('FAILED')>=0:
                 p_result= 'Error'
             else:
@@ -400,7 +404,7 @@ def summary(base_dir):
                     p_result= maxResult(params['result'][ver].values())
                 except:
                     p_result= 'Error'
-            data.append((p_branch,p_test,p_time,p_version,p_result,p_mess))
+            data.append((p_branch,p_test,p_time,p_version,p_result,p_mess,p_diff,p_thre))
         
     #upload all tests hierarchy to the server
     upload(tmpdir+'/*','magics/regression_output')
