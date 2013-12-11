@@ -21,10 +21,10 @@ python="/usr/local/apps/python/2.7.1-02"
 netcdf_lib="/usr/local/apps/netcdf4/4.1.3/LP64"
 odb_lib="/usr/local/apps/odb_api/0.9.31"
 grib_lib="/usr/local/lib/metaps/lib/grib_api/1.11.0"
-pgi_lib="/usr/local/apps/pgi/pgi-10.8/linux86-64/10.8/libso"
+pgi_lib="/usr/local/apps/pgi/pgi-10.8/linux86-64/10.8"
 
 args="-DCMAKE_INSTALL_PREFIX=${install_home}"
-args=" $args -DCMAKE_MODULE_PATH=${git_home}/ecbuild/cmake"
+args=" $args -DCMAKE_MODULE_PATH=${git_home}/ecbuild/cmake -DENABLE_STATIC_LIBRARY=ON"
 args=" $args -DBOOST_ROOT=$boost"
 args=" $args -DPROJ4_PATH=$proj4"
 args=" $args -DCMAKE_PREFIX_PATH=$python"
@@ -60,10 +60,10 @@ fi
 if [[ $bufr = "on" ]];then
     args=" $args -DENABLE_BUFR=ON"
     if [[ $pgi_lib != "" ]];then
-        args=" $args -DPGI_PATH=${pgi_lib}"
+        args=" $args -DWITH_PGI_FORTRAN=ON -DPGI_PATH=${pgi_lib}"
     fi
-    echo "Bufr enabled"
 else
+    echo "Bufr enabled"
     args="$args -DENABLE_BUFR=OFF"
     echo "Bufr not required"
 fi
