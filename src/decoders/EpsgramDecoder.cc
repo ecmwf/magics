@@ -883,42 +883,42 @@ public:
    
 };
 }
-SimpleObjectMaker<EfiMaxTemperature, EpsParameter> efi_2mt_max("efi-2mt-max");
-SimpleObjectMaker<EfiMinTemperature, EpsParameter> efi_2mt_min("efi-2mt-min");
-SimpleObjectMaker<EfiMeanTemperature, EpsParameter> efi_2mt_mean("efi-2mt-mean");
-SimpleObjectMaker<ClimMaxTemperature, EpsParameter> clim_2mt_max("clim-2mt-max");
-SimpleObjectMaker<ClimMinTemperature, EpsParameter> clim_2mt_min("clim-2mt-min");
-SimpleObjectMaker<ClimMeanTemperature, EpsParameter> clim_2mt_mean("clim-2mt-mean");
+static SimpleObjectMaker<EfiMaxTemperature, EpsParameter> efi_2mt_max("efi-2mt-max");
+static SimpleObjectMaker<EfiMinTemperature, EpsParameter> efi_2mt_min("efi-2mt-min");
+static SimpleObjectMaker<EfiMeanTemperature, EpsParameter> efi_2mt_mean("efi-2mt-mean");
+static SimpleObjectMaker<ClimMaxTemperature, EpsParameter> clim_2mt_max("clim-2mt-max");
+static SimpleObjectMaker<ClimMinTemperature, EpsParameter> clim_2mt_min("clim-2mt-min");
+static SimpleObjectMaker<ClimMeanTemperature, EpsParameter> clim_2mt_mean("clim-2mt-mean");
 
-SimpleObjectMaker<EfiWindGust, EpsParameter> efi_wind_gust("efi-wind-gust");
-SimpleObjectMaker<EfiWind, EpsParameter> efi_wind("efi-wind");
-SimpleObjectMaker<ClimWindGust, EpsParameter> clim_wind_gust("clim-wind-gust");
-SimpleObjectMaker<ClimWind, EpsParameter> clim_wind("clim-wind");
+static SimpleObjectMaker<EfiWindGust, EpsParameter> efi_wind_gust("efi-wind-gust");
+static SimpleObjectMaker<EfiWind, EpsParameter> efi_wind("efi-wind");
+static SimpleObjectMaker<ClimWindGust, EpsParameter> clim_wind_gust("clim-wind-gust");
+static SimpleObjectMaker<ClimWind, EpsParameter> clim_wind("clim-wind");
 
-SimpleObjectMaker<EfiPrecipitation, EpsParameter> efi_precip("efi-precip");
-SimpleObjectMaker<ClimPrecipitation, EpsParameter> clim_eps_precip("clim-precip");
+static SimpleObjectMaker<EfiPrecipitation, EpsParameter> efi_precip("efi-precip");
+static SimpleObjectMaker<ClimPrecipitation, EpsParameter> clim_eps_precip("clim-precip");
 
-SimpleObjectMaker<Eps2mTemperature, EpsParameter> mt("2mt");
-SimpleObjectMaker<ClimEpsMaxTemperature, EpsParameter> tempe_clim_max("clim-eps-2mt-max");
-SimpleObjectMaker<ClimEpsMinTemperature, EpsParameter> tempe_clim_min("clim-eps-2mt-min");
-SimpleObjectMaker<ClimEpsTemperature, EpsParameter> tempe_clim("clim-eps-2mt");
+static SimpleObjectMaker<Eps2mTemperature, EpsParameter> mt("2mt");
+static SimpleObjectMaker<ClimEpsMaxTemperature, EpsParameter> tempe_clim_max("clim-eps-2mt-max");
+static SimpleObjectMaker<ClimEpsMinTemperature, EpsParameter> tempe_clim_min("clim-eps-2mt-min");
+static SimpleObjectMaker<ClimEpsTemperature, EpsParameter> tempe_clim("clim-eps-2mt");
 
-SimpleObjectMaker<PlumeGeopotential, EpsParameter> z500("z500");
-SimpleObjectMaker<PlumeTemperature, EpsParameter> t850("t850");
-SimpleObjectMaker<PlumePrecip, EpsParameter> rr("rr");
+static SimpleObjectMaker<PlumeGeopotential, EpsParameter> z500("z500");
+static SimpleObjectMaker<PlumeTemperature, EpsParameter> t850("t850");
+static SimpleObjectMaker<PlumePrecip, EpsParameter> rr("rr");
 
 
-SimpleObjectMaker<EpsTemperature, EpsParameter> temperature("temperature");
-SimpleObjectMaker<ClTemperature, EpsParameter> cltemperature("clim-temperature");
-SimpleObjectMaker<EpsWindFF, EpsParameter> wind("10m-wind");
-SimpleObjectMaker<ClimEpsWindFF, EpsParameter> clim_wind_ff("clim-10m-wind");
-SimpleObjectMaker<EpsWindDD, EpsParameter> windDD("10m-wind-dd");
+static SimpleObjectMaker<EpsTemperature, EpsParameter> temperature("temperature");
+static SimpleObjectMaker<ClTemperature, EpsParameter> cltemperature("clim-temperature");
+static SimpleObjectMaker<EpsWindFF, EpsParameter> wind("10m-wind");
+static SimpleObjectMaker<ClimEpsWindFF, EpsParameter> clim_wind_ff("clim-10m-wind");
+static SimpleObjectMaker<EpsWindDD, EpsParameter> windDD("10m-wind-dd");
 
-SimpleObjectMaker<EpsCloudCover, EpsParameter> cloud("cloud-cover");
-SimpleObjectMaker<ClimEpsCloudCover, EpsParameter> clim_cloud("clim-eps-cloud-cover");
+static SimpleObjectMaker<EpsCloudCover, EpsParameter> cloud("cloud-cover");
+static SimpleObjectMaker<ClimEpsCloudCover, EpsParameter> clim_cloud("clim-eps-cloud-cover");
 
-SimpleObjectMaker<EpsPrecipitation, EpsParameter> precip("precip");
-SimpleObjectMaker<ClimEpsPrecipitation, EpsParameter> clim_precip("clim-eps-precip");
+static SimpleObjectMaker<EpsPrecipitation, EpsParameter> precip("precip");
+static SimpleObjectMaker<ClimEpsPrecipitation, EpsParameter> clim_precip("clim-eps-precip");
 
 
 spot_query_result* EpsParameter::prepare(const SpotDecoder& decoder, vector<CustomisedPoint*>& out)

@@ -1,10 +1,10 @@
 #!/usr/bin/ksh
 
 git_home="$SCRATCH/git"
-version="2.21.1"
+version="2.21.1.new"
 
 install_home="/usr/local/apps/Magics/$version"
-debug="off"
+debug="on"
 bufr="on"
 netcdf="on"
 odb="on"
@@ -16,10 +16,9 @@ spot='on'
 
 cmake="/usr/local/apps/cmake/current/bin/cmake"
 boost="/usr/local/apps/boost/1.50.0"
-
 proj4="/usr/local/apps/proj4/4.8.0/LP64"
-python="/usr/local/apps/python/2.7.1-02"
 
+python="/usr/local/apps/python/current"
 odb_lib="/usr/local/apps/odb_api/0.9.31"
 grib_lib="/usr/local/apps/grib_api/1.11.0"
 spot_lib="/usr/local/apps/spot_database/new"
@@ -29,13 +28,13 @@ args="-DCMAKE_INSTALL_PREFIX=${install_home} -DENABLE_STATIC_LIBRARY=ON"
 args=" $args -DCMAKE_MODULE_PATH=${git_home}/ecbuild/cmake"
 args=" $args -DBOOST_ROOT=$boost"
 args=" $args -DPROJ4_PATH=$proj4"
-args=" $args -DENABLE_PYTHON=ON"
+args=" $args -DENABLE_PYTHON=ON -DCMAKE_PREFIX_PATH=$python"
 
 if [[ $debug = "on" ]];then
     args="$args -DCMAKE_BUILD_TYPE=Debug"
     echo "Debug enabled"
 else
-    args="$args -DCMAKE_BUILD_TYPE=Release"
+    args="$args -DCMAKE_BUILD_TYPE=Production"
     echo "Release Mode enabled"
 fi
 if [[ $regression = "on" ]];then
