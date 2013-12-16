@@ -33,6 +33,7 @@ def compare(timestamp,branch_name,versions,interpreter,executable,reference,thre
     #declaration of parameters to be included in ".par" file
     diff,pdiff,result= {},{},{}
     pixels= []
+    max_perc= 0
 
     #print input parameters
     def l(t,n): return (t+' '*n)[:n]
@@ -115,7 +116,7 @@ def compare(timestamp,branch_name,versions,interpreter,executable,reference,thre
                 result[version][ipage]= resultLabel(threshold,diff[version][ipage],pdiff[version][ipage],pixels[ipage]) 
     
         #compute maximum number of different pixels and percentage...
-        max_diff,max_perc = 0,0
+        max_diff= 0
         #...for all versions
         for v in diff:
             #...for all pages
@@ -166,6 +167,7 @@ def compare(timestamp,branch_name,versions,interpreter,executable,reference,thre
             'time':          timestamp,#datetime.now().strftime('%Y%m%d_%H%M%S'),
             'diff':          diff,
             'pdiff':         pdiff,
+            'max_difper':    max_perc,
             'result':        result,
             'pixels':        pixels,
             'exit_message':  EMES.replace('\n','<br>')
