@@ -306,8 +306,8 @@ add_subdirectory( python )
 add_subdirectory( apps )
 
 # Test directory
-#add_subdirectory( test )
-add_subdirectory( regression )
+add_subdirectory( test )
+#add_subdirectory( regression )
 
 # Directories not need in the distribution tar ball!
 ecbuild_add_resources( TARGET src_MvObs DONT_PACK_DIRS src/MvObs)
