@@ -183,6 +183,7 @@ debug_var( summary_depend )
 ecbuild_add_test(  TARGET   magics_summary
                    TYPE PYTHON
                    DEPENDS ${summary_depend}
-                   COMMAND  ${REGRESSION_SCRIPT_DIRECTORY}/summary.py
+                   RESOURCES summary.py summary_template.py
+                   COMMAND  summary.py
                    ARGS ${MAGICS_HTML_ROOT} 
                    )                   

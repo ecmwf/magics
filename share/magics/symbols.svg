@@ -195,7 +195,7 @@
         <polyline points='-0.17,0.4 -0.25,0.35 -0.25,-0.35 -0.17,-0.4' fill='none'/>
    </g>   
    <g id='ww_17'>
-	<lightning cx='0' cy='0.3'  r='0.5'/>
+	<lightning cx='0' cy='0.0'  r='0.8'/>
    </g>
    <g id='ww_18'>
        <polyline points='0,0.1 0.2,0.2 0,-0.3 -0.2,0.2 0,0.1' fill='none'/>
@@ -252,7 +252,7 @@
       <polyline points='0.5,-0.45 0.5,0.45' fill='none'/>
         <polyline points='0.5,-0.45 0.35,-0.45' fill='none'/>
         <polyline points='0.5,0.45 0.35,0.45' fill='none'/>
-        <lightning cx='0' cy='0'  r='0.4'/>
+        <lightning cx='0' cy='0'  r='0.6'/>
 </g>
    <g id='ww_30'>
         <polyline points='0.2,0.30 0.1,0.38 0,0.4 -0.1,0.38 -0.2,0.27 -0.2,0.20 -0.16,0.14 0,0 0.16,-0.14 0.2,-0.20 0.2,-0.27 0.1,-0.38 0,-0.4 -0.1,-0.38 -0.2,-0.30' fill='none'/>
@@ -548,7 +548,53 @@
   <triangle cx='0' cy='0.25' r='0.25' fill='1'/>
   <triangle cx='0' cy='-0.3' r='-0.3' fill='0' line='1'/>
 </g>
-
+<g id='ww_91'> 
+      <polyline points='0.5,-0.45 0.5,0.45' fill='none'/>
+        <polyline points='0.5,-0.45 0.35,-0.45' fill='none'/>
+        <polyline points='0.5,0.45 0.35,0.45' fill='none'/>
+        <lightning cx='0' cy='0'  r='0.6'/>
+         <circle r="0.15" cx="0.75" cy="0" fill="8" />
+</g>
+<g id='ww_92'> 
+      <polyline points='0.5,-0.45 0.5,0.45' fill='none'/>
+      <polyline points='0.5,-0.45 0.35,-0.45' fill='none'/>
+      <polyline points='0.5,0.45 0.35,0.45' fill='none'/>
+      <lightning cx='0' cy='0'  r='0.6'/>
+      <circle r="0.15" cx="0.75" cy="0.2" fill="8" />
+      <circle r="0.15" cx="0.75" cy="-0.2" fill="8" />
+</g>
+<g id='ww_93'> 
+      <polyline points='0.5,-0.45 0.5,0.45' fill='none'/>
+      <polyline points='0.5,-0.45 0.35,-0.45' fill='none'/>
+      <polyline points='0.5,0.45 0.35,0.45' fill='none'/>
+      <lightning cx='0' cy='0'  r='0.6'/>
+      <snowflake cx='0.7' cy='0.3' r='0.2'/>
+      <polyline points='0.6,-0.3 1.,0.3' fill='none'/>
+	  <triangle  cx='1,' cy='-0.3' r='0.3' fill='0'/>
+</g>
+<g id='ww_94'> 
+      <polyline points='0.5,-0.45 0.5,0.45' fill='none'/>
+      <polyline points='0.5,-0.45 0.35,-0.45' fill='none'/>
+      <polyline points='0.5,0.45 0.35,0.45' fill='none'/>
+      <lightning cx='0' cy='0'  r='0.6'/>
+      <snowflake cx='0.8' cy='0.35' r='0.1'/>
+      <snowflake cx='0.6' cy='0.25' r='0.1'/>
+      <polyline points='0.6,-0.3 1.,0.3' fill='none'/>
+	  <triangle  cx='0.9' cy='-0.35' r='0.2' fill='0'/> 
+	  <triangle  cx='1.1' cy='-0.25' r='0.2' fill='0'/>
+</g>
+<g id="ww_95">
+    <circle r="0.1" cx="-0.25" cy="0.55" fill="8" />
+     <snowflake r="0.2" cx="0.25" cy="0.55" fill="8" />
+	<polyline points='-0.1,0.45 0.1,0.65' fill='none'/>
+    <lightning cx='0' cy='0'  r='0.5'/>
+</g>
+<g id="ww_96">
+    <triangle cx='0' cy='0.55' r='0.2' fill='0' />
+  
+  
+    <lightning cx='0' cy='0'  r='0.5'/>
+</g>
 
    <g id='N_0'>
  	<circle cx='0' cy='0' r='0.5' fill='0'/>
