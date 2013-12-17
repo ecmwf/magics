@@ -3,7 +3,7 @@
 		<documentation>
 		The Epsgraph is repsonsible for plotting the espgram using wind rose visualisation
 		</documentation>
-		<parameter member="colour" to="stringarray" default="stringarray()" from="stringarray" name="eps_rose_wind_colour"> 
+		<parameter member="colour" to="stringarray" default="stringarray()" from="stringarray" name="eps_rose_wave_colour"> 
     		<documentation> Rose wind darker colour  		</documentation>          
     	</parameter>
 </class></magics>
