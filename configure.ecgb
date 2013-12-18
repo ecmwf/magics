@@ -22,6 +22,7 @@ python="/usr/local/apps/python/current"
 odb_lib="/usr/local/apps/odb_api/0.9.31"
 grib_lib="/usr/local/apps/grib_api/1.11.0"
 spot_lib="/usr/local/apps/spot_database/new"
+emos_lib="/usr/local/apps/0bemos/00393"
 
 
 args="-DCMAKE_INSTALL_PREFIX=${install_home} -DENABLE_STATIC_LIBRARY=ON"
@@ -61,7 +62,10 @@ fi
 if [[ $bufr = "on" ]];then
     args=" $args -DENABLE_BUFR=ON"
     if [[ $pgi_lib != "" ]];then
-        args=" $args -DPGI_PATH=${pgi_lib}"
+        args=" $args -DWITH_PGI_FORTRAN=ON -DPGI_PATH=${pgi_lib}"
+    fi
+    if [[ $emos_lib != "" ]];then
+        args=" $args -DEMOS_PATH=${emos_lib}"
     fi
     echo "Bufr enabled"
 else
