@@ -483,13 +483,13 @@ MAGICS_NO_EXPORT void BaseDriver::snowflake(const MFloat x, const MFloat y, cons
 */
 MAGICS_NO_EXPORT void BaseDriver::drizzle(const MFloat x, const MFloat y, const MFloat size) const
 {
-	const MFloat s2 = size*.5;
+	const MFloat s2 = size*.4;
 
 	circle(x,y,s2 * coordRatioX_,8);
 
 	vector<PaperPoint> line;
-	  line.push_back(PaperPoint(x+(s2*0.8),y));
-	  line.push_back(PaperPoint(x,y-size));
+	  line.push_back(PaperPoint(x+(s2*0.9),y));
+	  line.push_back(PaperPoint(x-size*0.3,y-size*1.25));
 	renderPolyline2(line);
 }
 

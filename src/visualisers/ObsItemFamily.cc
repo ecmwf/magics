@@ -382,7 +382,7 @@ void ObsPresentWeather::operator()(CustomisedPoint& point,  ComplexSymbol& symbo
 	os << "ww_" << setw(2) << setfill('0') << value->second;
 
 	object->symbol(os.str());
-	cout << "\tPresent Weather--->" << os.str() << " in " << colour << "\n";
+	MagLog::debug() << "\tPresent Weather--->" << os.str() << " in " << colour << "\n";
 	//time->setJustification(MRIGHT);
 	object->height(owner_->size_);
 	symbol.add(object);
