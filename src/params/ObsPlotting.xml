@@ -1,9 +1,0 @@
-<magics>
-<class directory="visualisers" action_routine="pobs" prefix="obs" xmltag="obs" name="ObsPlotting">
-
- 	<parameter xml="distance_apart" from="float" name="obs_distance_apart" default="1.0" member="apart" to="float">
-   		<release>Magics++ 2.10		</release>
-   		<documentation>Minimum distance between the centre of any two observations in cm		</documentation>
- 	</parameter>
-
-</class></magics>

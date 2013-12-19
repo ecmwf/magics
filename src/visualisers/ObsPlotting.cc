@@ -36,6 +36,7 @@ using namespace magics;
 
 ObsPlotting::ObsPlotting() 
 {
+	ObsTable::print();
 }
 
 ObsPlotting::~ObsPlotting() 
@@ -58,6 +59,7 @@ void ObsPlotting::operator()(Data& data, BasicGraphicsObjectContainer& out)
 	{		
 		try {
 			const ObsTemplate& obs = ObsTable::getTemplate(type->second);
+			obs.set(apart_, this);
 			obs.visit(needs);
 		}
 		catch (std::exception&)
@@ -81,7 +83,8 @@ void ObsPlotting::operator()(Data& data, BasicGraphicsObjectContainer& out)
 	{
 		try {
 			const ObsTemplate& obs = ObsTable::getTemplate(type->second);
-			obs.set(apart_);
+
+
 		
 			for (CustomisedPointsList::const_iterator val = values.begin(); val != values.end(); ++val) 	{
 

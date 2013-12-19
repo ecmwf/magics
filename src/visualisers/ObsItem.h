@@ -34,22 +34,23 @@
 #include "Factory.h"
 #include "MagTranslator.h"
 #include "CustomisedPoint.h"
-#include "ObsItemAttributes.h"
+
 #include "Symbol.h"
 
 
 
 namespace magics {
 
+class ObsPlotting;
 
-class ObsItem : public ObsItemAttributes {
+class ObsItem {
 
 
 public:
-	ObsItem() {}
+	ObsItem(): owner_(0) {}
 	virtual ~ObsItem() {}
 	
-	virtual void set(const map<string, string>& map) { ObsItemAttributes::set(map); }
+
 	virtual void operator()(CustomisedPoint&, ComplexSymbol&) const {} 
 	virtual void visit(std::set<string>&) {}
 	
@@ -58,10 +59,14 @@ public:
 		map<string, string>::const_iterator val = def.find(keyword);
 		return ( val != def.end() ) ?  val->second : defaut;
 	}
- 
+
+	ObsPlotting* set(const ObsPlotting* owner) const { owner_ = owner; }
+
 protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).
 	 virtual void print(ostream& out) const { out << "obsItem";  }
+	mutable const ObsPlotting* owner_;
+
 
 private:
     //! Copy constructor - No copy allowed

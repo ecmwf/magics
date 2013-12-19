@@ -153,6 +153,7 @@ endif()
 
 ### bufr
 
+debug_var (ENABLE_BUFR )
 set( bufr no )
 if( ENABLE_BUFR )
   find_package( EMOS REQUIRED )
@@ -161,6 +162,8 @@ if( EMOS_FOUND )
    set( MAGICS_BUFR 1 )
    set( bufr yes)
 endif()
+
+debug_var ( EMOS_FOUND )
 
 ### cairo
 

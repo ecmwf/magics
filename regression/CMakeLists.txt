@@ -183,7 +183,7 @@ debug_var( summary_depend )
 ecbuild_add_test(  TARGET   magics_summary
                    TYPE PYTHON
                    DEPENDS ${summary_depend}
-                   RESOURCES summary.py summary_template.py
-                   COMMAND  summary.py
+                   RESOURCES summary_template.py
+                   COMMAND   ${CMAKE_CURRENT_SOURCE_DIR}/summary.py
                    ARGS ${MAGICS_HTML_ROOT} 
                    )                   
