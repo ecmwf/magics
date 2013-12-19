@@ -27,7 +27,7 @@
 
 namespace magics {
 
-
+class ObPlotting;
 
 class ObsTemplate: public vector<ObsItem*>
 {
@@ -45,7 +45,12 @@ public:
 		for ( const_iterator item = begin(); item != end(); ++item) 
 			    (*item)->visit(tokens);
 	}
-	void set(double apart) const { apart_ = apart; }
+	void set(double apart, const ObsPlotting* obs) const {
+		apart_ = apart;
+		for ( const_iterator item = begin(); item != end(); ++item)
+					    (*item)->set(obs);
+	}
+
 	void operator()(CustomisedPoint&, BasicGraphicsObjectContainer&) const;
 
 protected:

@@ -387,74 +387,74 @@
         <drizzle cx='0' cy='0' r='0.2'/>
    </g>
    <g id='ww_51'>
-	<drizzle cx='-0.3' cy='0' r='0.2'/>
-	<drizzle cx='0.3'  cy='0' r='0.2'/>
+	<drizzle cx='-0.3' cy='0' r='0.3'/>
+	<drizzle cx='0.3'  cy='0' r='0.3'/>
    </g>
    <g id='ww_52'>
-	<drizzle cx='0' cy='-0.3' r='0.2'/>
-	<drizzle cx='0' cy='0.3'  r='0.2'/>
+	<drizzle cx='0' cy='-0.3' r='0.3'/>
+	<drizzle cx='0' cy='0.3'  r='0.3'/>
    </g>
    <g id='ww_53'>
-        <drizzle cx='0' cy='0.3' r='0.2'/>
-        <drizzle cx='-0.3' cy='-0.3' r='0.2'/>
-        <drizzle cx='0.3' cy='-0.3' r='0.2'/>
+        <drizzle cx='0' cy='0.3' r='0.3'/>
+        <drizzle cx='-0.3' cy='-0.3' r='0.3'/>
+        <drizzle cx='0.3' cy='-0.3' r='0.3'/>
    </g>
    <g id='ww_54'>
-        <drizzle cx='0' cy='0.45' r='0.2'/>
-        <drizzle cx='0' cy='0' r='0.2'/>
-        <drizzle cx='0' cy='-0.45' r='0.2'/>
+        <drizzle cx='0' cy='0.45' r='0.3'/>
+        <drizzle cx='0' cy='0' r='0.3'/>
+        <drizzle cx='0' cy='-0.45' r='0.3'/>
    </g>
    <g id='ww_55'>
-        <drizzle cx='-0.3' cy='0' r='0.2'/>
-        <drizzle cx='0.3' cy='0' r='0.2'/>
-	<drizzle cx='0' cy='0.45' r='0.2'/>
-	<drizzle cx='0' cy='-0.45' r='0.2'/>
+        <drizzle cx='-0.3' cy='0' r='0.3'/>
+        <drizzle cx='0.3' cy='0' r='0.3'/>
+	<drizzle cx='0' cy='0.45' r='0.3'/>
+	<drizzle cx='0' cy='-0.45' r='0.3'/>
    </g>
 
    <g id='ww_58'>
-        <circle cx='0' cy='0.3' r='0.2' fill='8'/>
-        <drizzle cx='0' cy='-0.3' r='0.2'/>
+        <circle cx='0' cy='0.3' r='0.15' fill='8'/>
+        <drizzle cx='0' cy='-0.3' r='0.3'/>
    </g>
    <g id='ww_59'>
-        <drizzle cx='0' cy='0.45' r='0.2'/>
-        <circle cx='0' cy='0' r='0.2' fill='8'/>
-        <drizzle cx='0' cy='-0.45' r='0.2'/>
+        <drizzle cx='0' cy='0.45' r='0.3'/>
+        <circle cx='0' cy='0' r='0.15' fill='8'/>
+        <drizzle cx='0' cy='-0.45' r='0.3'/>
    </g>
    <g id='ww_60'>
-        <circle cx='0' cy='0' r='0.2' fill='8'/>
+        <circle cx='0' cy='0' r='0.15' fill='8'/>
    </g>
    <g id='ww_61'>
-        <circle cx='-0.3' cy='0' r='0.2' fill='8'/>
-        <circle cx='0.3' cy='0' r='0.2' fill='8'/>
+        <circle cx='-0.3' cy='0' r='0.15' fill='8'/>
+        <circle cx='0.3' cy='0' r='0.15' fill='8'/>
    </g>
    <g id='ww_62'>
-        <circle cx='0' cy='0.3' r='0.2' fill='8'/>
-        <circle cx='0' cy='-0.3' r='0.2' fill='8'/>
+        <circle cx='0' cy='0.3' r='0.15' fill='8'/>
+        <circle cx='0' cy='-0.3' r='0.15' fill='8'/>
    </g>
    <g id='ww_63'>
-        <circle cx='0' cy='0.3' r='0.2' fill='8'/>
-        <circle cx='-0.3' cy='-0.3' r='0.2' fill='8'/>
-        <circle cx='0.3' cy='-0.3' r='0.2' fill='8'/>
+        <circle cx='0' cy='0.3' r='0.15' fill='8'/>
+        <circle cx='-0.3' cy='-0.3' r='0.15' fill='8'/>
+        <circle cx='0.3' cy='-0.3' r='0.15' fill='8'/>
    </g>
    <g id='ww_64'>
-        <circle cx='0' cy='0.45' r='0.2' fill='8'/>
-        <circle cx='0' cy='0' r='0.2' fill='8'/>
-        <circle cx='0' cy='-0.45' r='0.2' fill='8'/>
+        <circle cx='0' cy='0.45' r='0.15' fill='8'/>
+        <circle cx='0' cy='0' r='0.15' fill='8'/>
+        <circle cx='0' cy='-0.45' r='0.15' fill='8'/>
    </g>
    <g id='ww_65'>
-        <circle cx='-0.3' cy='0' r='0.2' fill='8'/>
-        <circle cx='0.3' cy='0' r='0.2' fill='8'/>
-	<circle cx='0' cy='0.45' r='0.2' fill='8'/>
-	<circle cx='0' cy='-0.45' r='0.2' fill='8'/>
+        <circle cx='-0.3' cy='0' r='0.15' fill='8'/>
+        <circle cx='0.3' cy='0' r='0.15' fill='8'/>
+	<circle cx='0' cy='0.45' r='0.15' fill='8'/>
+	<circle cx='0' cy='-0.45' r='0.15' fill='8'/>
    </g>
 
    <g id='ww_68'>
-        <circle cx='0' cy='0.3' r='0.2' fill='8'/>
+        <circle cx='0' cy='0.3' r='0.15' fill='8'/>
         <snowflake cx='0' cy='-0.3' r='0.2'/>
    </g>
    <g id='ww_69'>
         <snowflake cx='0' cy='0.45' r='0.2'/>
-        <circle cx='0' cy='0' r='0.2' fill='8'/>
+        <circle cx='0' cy='0' r='0.15' fill='8'/>
         <snowflake cx='0' cy='-0.45' r='0.2'/>
    </g>
    <g id='ww_70'>
@@ -502,25 +502,25 @@
 	<circle cx='0' cy='0' r='0.05' fill='8'/>
    </g>
    <g id='ww_80'>
-        <circle cx='0' cy='0.3' r='0.2' fill='8'/>
+        <circle cx='0' cy='0.1' r='0.15' fill='8'/>
 	<triangle cx='0' cy='-0.3' r='-0.3' fill='0'/>
    </g>
    <g id='ww_81'>
-        <circle cx='0' cy='0.3' r='0.2' fill='8'/>
+        <circle cx='0' cy='0.15' r='0.15' fill='8'/>
 	<triangle cx='0' cy='-0.3' r='-0.3' fill='0' line='1'/>
    </g>
    <g id='ww_82'>
-        <circle cx='0' cy='0.45' r='0.2' fill='8'/>
-        <circle cx='0' cy='0' r='0.2' fill='8'/>
+        <circle cx='0' cy='0.4' r='0.15' fill='8'/>
+        <circle cx='0' cy='0' r='0.15' fill='8'/>
         <triangle cx='0' cy='-0.45' r='-0.3' fill='0'/>
    </g>
    <g id='ww_83'>
-        <circle cx='0' cy='0.45' r='0.2' fill='8'/>
+        <circle cx='0' cy='0.4' r='0.15' fill='8'/>
         <snowflake cx='0' cy='0' r='0.2'/>
         <triangle cx='0' cy='-0.45' r='-0.3' fill='0'/>
    </g>
    <g id='ww_84'>
-        <circle cx='0' cy='0.45' r='0.2' fill='8'/>
+        <circle cx='0' cy='0.4' r='0.15' fill='8'/>
         <snowflake cx='0' cy='0' r='0.2'/>
         <triangle cx='0' cy='-0.45' r='-0.3' fill='0' line='1'/>
    </g>
@@ -577,17 +577,13 @@
       <polyline points='0.5,-0.45 0.35,-0.45' fill='none'/>
       <polyline points='0.5,0.45 0.35,0.45' fill='none'/>
       <lightning cx='0' cy='0'  r='0.6'/>
-      <snowflake cx='0.8' cy='0.35' r='0.1'/>
-      <snowflake cx='0.6' cy='0.25' r='0.1'/>
-      <polyline points='0.6,-0.3 1.,0.3' fill='none'/>
-	  <triangle  cx='0.9' cy='-0.35' r='0.2' fill='0'/> 
-	  <triangle  cx='1.1' cy='-0.25' r='0.2' fill='0'/>
+     
+	  <triangle  cx='0.6' cy='-0.35' r='0.2' fill='0'/> 
+	  <triangle  cx='0.9' cy='0.35' r='0.2' fill='0'/>
 </g>
 <g id="ww_95">
-    <circle r="0.1" cx="-0.25" cy="0.55" fill="8" />
-     <snowflake r="0.2" cx="0.25" cy="0.55" fill="8" />
-	<polyline points='-0.1,0.45 0.1,0.65' fill='none'/>
-    <lightning cx='0' cy='0'  r='0.5'/>
+    <circle r="0.1" cx="0." cy="0.6" fill="8" />
+    <lightning cx='0' cy='0'  r='0.4'/>
 </g>
 <g id="ww_96">
     <triangle cx='0' cy='0.55' r='0.2' fill='0' />
@@ -595,7 +591,10 @@
   
     <lightning cx='0' cy='0'  r='0.5'/>
 </g>
-
+<g id="ww_97">
+    <circle r="0.1" cx="0." cy="0.6" fill="8" />
+    <lightning cx='0' cy='0'  r='0.4'/>
+</g>
    <g id='N_0'>
  	<circle cx='0' cy='0' r='0.5' fill='0'/>
    </g> 

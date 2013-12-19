@@ -499,20 +499,20 @@ MAGICS_NO_EXPORT void BaseDriver::drizzle(const MFloat x, const MFloat y, const 
 MAGICS_NO_EXPORT void BaseDriver::lightning(const MFloat x, const MFloat y, const MFloat size) const
 {
 	vector<PaperPoint> line;
-	  line.push_back(PaperPoint(x-(size*.3),y-(size)));
-	  line.push_back(PaperPoint(x-(size*.3),y+(size)));
-	renderPolyline(line);
-	line.clear();
-	  line.push_back(PaperPoint(x-(size*.3),y-(size)));
-	  line.push_back(PaperPoint(x+(size*.3),y-(size)));
-	  line.push_back(PaperPoint(x,y));
-	  line.push_back(PaperPoint(x+(size*.3),y+(size)));
-	renderPolyline(line);
-	line.clear();
-	  line.push_back(PaperPoint(x+(size*.35), y+(size*.3) ));
-	  line.push_back(PaperPoint(x+(size*.3), y+(size) ));
-	  line.push_back(PaperPoint(x, y+(size*.7)));
-	renderPolyline(line);
+		  line.push_back(PaperPoint(x-(size*.5),y-(size*.9)));
+		  line.push_back(PaperPoint(x-(size*.5),y+(size*.9)));
+		renderPolyline(line);
+		line.clear();
+		  line.push_back(PaperPoint(x-(size*.5),y+(size*.9)));
+		  line.push_back(PaperPoint(x+(size*.5),y+(size*.9)));
+		  line.push_back(PaperPoint(x+(size*.1),y));
+		  line.push_back(PaperPoint(x+(size*.5),y-(size*.9)));
+		renderPolyline(line);
+		line.clear();
+		  line.push_back(PaperPoint(x+(size*.4), y-(size*.4) ));
+		  line.push_back(PaperPoint(x+(size*.5), y-(size*.9) ));
+		  line.push_back(PaperPoint(x+(size*.3), y-(size*.8)));
+		renderPolyline(line);
 }
 
 /*!

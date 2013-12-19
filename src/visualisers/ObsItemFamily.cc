@@ -45,16 +45,16 @@ void  ObsWind::setOrigins()
 }
 void ObsWind::visit(std::set<string>& tokens)
 {
-	if (!attributes_ ) attributes_ = new ObsWindAttributes();
-	if ( !colour_.empty() )  attributes_->colour_ = auto_ptr<Colour>(new Colour(colour_));
-	if (!attributes_->visible_) return;
+
+
+	if (!owner_->wind_visible_) return;
 	tokens.insert(speed_);
 	tokens.insert(direction_);
 
 }
-void ObsWind::operator()(CustomisedPoint& point, ComplexSymbol& symbol) const
+void ObsWind::operator()( CustomisedPoint& point, ComplexSymbol& symbol) const
 {
-	if (!attributes_->visible_) return;
+	if (!owner_->wind_visible_) return;
 
 	map<string, double>::iterator it = point.begin();
 	map<string, double>::iterator en = point.end();
@@ -62,6 +62,7 @@ void ObsWind::operator()(CustomisedPoint& point, ComplexSymbol& symbol) const
 	{
 	 MagLog::debug() << " >>> "<<it->first<<" -> " << it->second << endl;
 	}
+	Colour colour =  owner_->wind_colour_->automatic() ? *owner_->colour_ : *owner_->wind_colour_;
 
 	CustomisedPoint::const_iterator speed = point.find(speed_);
 	if ( speed == point.end() ) return; 
@@ -69,8 +70,8 @@ void ObsWind::operator()(CustomisedPoint& point, ComplexSymbol& symbol) const
 	if ( direction == point.end() ) return; 
 
 	FlagItem* flag = new FlagItem();
-	flag->setColour(*attributes_->colour_);
-	flag->length(size_ * 1.5); // Size to be adjusted later!
+	flag->setColour(colour);
+	flag->length(owner_->size_ * 1.5); // Size to be adjusted later!
 
 	const string origin = "circle";
 
@@ -81,7 +82,7 @@ MagLog::debug() << "OBS ITEM - ObsWind - Lon/Lat: "<<point.longitude()<<" / "<<p
      << "\n\tcloud amount:   " << point["cloud_amount"]<<" -> "<<origin << std::endl;
 
 
-	flag->setOriginHeight(ring_size_);
+	flag->setOriginHeight(owner_->ring_size_);
 	flag->setOriginMarker(origin);
 	flag->x(0);
 	flag->y(0);
@@ -112,9 +113,11 @@ void  ObsCloudAndWind::setOrigins()
 	origins_[8] = "N_8";
 }
 
-void ObsCloudAndWind::operator()(CustomisedPoint& point, ComplexSymbol& symbol) const
+void ObsCloudAndWind::operator()( CustomisedPoint& point, ComplexSymbol& symbol) const
 {
-	if (!attributes_->visible_) return;
+	if (!owner_->wind_visible_) return;
+
+	Colour colour =  owner_->wind_colour_->automatic() ? *owner_->colour_ : *owner_->wind_colour_;
 
 	map<string, double>::iterator it = point.begin();
 	map<string, double>::iterator en = point.end();
@@ -122,15 +125,15 @@ void ObsCloudAndWind::operator()(CustomisedPoint& point, ComplexSymbol& symbol) 
 	{
 	 MagLog::debug() << " >>> "<<it->first<<" -> " << it->second << endl;
 	}
-	symbol.setHeight(size_);
+	symbol.setHeight(owner_->size_);
 	CustomisedPoint::const_iterator speed = point.find("wind_speed");
 	if ( speed == point.end() ) return; 
 	CustomisedPoint::const_iterator direction = point.find("wind_direction");
 	if ( direction == point.end() ) return; 
 
 	FlagItem* flag = new FlagItem();
-	flag->setColour(*attributes_->colour_);
-	flag->length(size_ * 1.5); // Size to be adjusted later!
+	flag->setColour(colour);
+	flag->length(owner_->size_ * 1.5); // Size to be adjusted later!
 
 	map<int, string>::const_iterator marker = origins_.find(int(point["cloud_amount"]));
 	const string origin = ( marker != origins_.end()) ? marker->second : "magics_13";
@@ -141,7 +144,7 @@ MagLog::debug() << "OBS ITEM - ObsWind - Lon/Lat: "<<point.longitude()<<" / "<<p
      << "\n\twind_direction: " << point["wind_direction"]
      << "\n\tcloud amount:   " << point["cloud_amount"]<<" -> "<<origin << std::endl;
 
-	flag->setOriginHeight(ring_size_);
+	flag->setOriginHeight(owner_->ring_size_);
 	flag->setOriginMarker(origin);
 	flag->x(0);
 	flag->y(0);
@@ -161,26 +164,29 @@ MagLog::debug() << "OBS ITEM - ObsWind - Lon/Lat: "<<point.longitude()<<" / "<<p
 
 void ObsPressure::visit(std::set<string>& tokens)
 {
-	if ( !attributes_ ) attributes_ = new ObsPressureAttributes();
-	if (!attributes_->visible_) return;
-	if ( !colour_.empty() )  attributes_->colour_ = auto_ptr<Colour>(new Colour(colour_));
+
+	if (!owner_->pressure_visible_) return;
+
 	tokens.insert("msl_pressure");
 }
 
 void ObsPressure::operator()(CustomisedPoint& point,  ComplexSymbol& symbol) const
 {
-	if (!attributes_->visible_) return;
+	if (!owner_->pressure_visible_) return;
+
 	CustomisedPoint::const_iterator value = point.find("msl_pressure");
 	if ( value == point.end() ) return;
 	
+	Colour colour =  owner_->pressure_colour_->automatic() ? *owner_->colour_ : *owner_->pressure_colour_;
+
 	TextItem*  object = new TextItem();
 	// for the pressure we show the 3 last digits of the pressure in decaPascal.
 	object->x(column_);
 	object->y(row_);
 	MagFont font;
-	font.colour(*attributes_->colour_);
+	font.colour(colour);
 	font.name("sansserif");
-	font.size(size_);
+	font.size(owner_->size_);
 	
 	ostringstream os;
 	double pressure = fmod(value->second/10, 1000);
@@ -196,46 +202,49 @@ void ObsPressure::operator()(CustomisedPoint& point,  ComplexSymbol& symbol) con
 
 void ObsPressureLevel::visit(std::set<string>& tokens)
 {
-	if ( !attributes_ ) attributes_ = new ObsPressureLevelAttributes();
-	if (!attributes_->visible_) return;
+
+	if (!owner_->upper_air_visible_) return;
 	tokens.insert("pressure");
 }
 
 void ObsPressureLevel::operator()(CustomisedPoint& point,  ComplexSymbol& symbol) const
 {
-	if (!attributes_->visible_) return;
+	if (!owner_->upper_air_visible_) return;
 	CustomisedPoint::const_iterator value = point.find("pressure");
 	if ( value == point.end() ) return;
 	TextItem*  object = new TextItem();
 	object->x(column_);
 	object->y(row_);
-	
+
 	MagFont font("sansserif");
-	font.colour(*attributes_->colour_);
+	Colour colour =  owner_->upper_air_colour_->automatic() ? *owner_->colour_ : *owner_->upper_air_colour_;
+	font.colour(colour);
 	
 	const double pressure = value->second/100.;
 
 	object->text(tostring(pressure));
 
 	MagLog::debug() << "\tPressureLevel: " << value->second << " = " << pressure << "\n";
-	font.size(size_);
+	font.size(owner_->size_);
 	object->font(font);
 	symbol.add(object);
 }
 	
 void ObsPressureTendency::visit(std::set<string>& tokens)
 {
-	if ( !attributes_ ) attributes_ = new ObsPressureTendencyAttributes();
-	if (!attributes_->visible_) return;
+
+	if (! owner_->pressure_tendency_visible_) return;
 	tokens.insert("pressure_tendency_amount");
 	tokens.insert("pressure_tendency_characteristic");
 }
 	
 void ObsPressureTendency::operator()(CustomisedPoint& point, ComplexSymbol& symbol) const
 {
-	if (!attributes_->visible_) return;
+	if (! owner_->pressure_tendency_visible_) return;
 	CustomisedPoint::const_iterator value = point.find("pressure_tendency_amount");
-	if ( value == point.end() ) return; 
+	if ( value == point.end() ) return;
+
+	Colour colour =  owner_->pressure_tendency_colour_->automatic() ? *owner_->colour_ : *owner_->pressure_tendency_colour_;
 	TextItem*  object = new TextItem();
 	object->x(column_);
 	object->y(row_);
@@ -246,10 +255,10 @@ void ObsPressureTendency::operator()(CustomisedPoint& point, ComplexSymbol& symb
 	
 	// The Pressure tendancy is red if negative!
 	MagFont font("sansserif");
-	font.colour(( value->second < 0 ) ? Colour("red") : *attributes_->colour_);
+	font.colour(( value->second < 0 ) ? Colour("red") :colour);
 
 	object->text(os.str());
-	font.size(size_);
+	font.size(owner_->size_);
 	object->font(font);
 	symbol.add(object);
 	value = point.find("pressure_tendency_characteristic");
@@ -258,14 +267,14 @@ void ObsPressureTendency::operator()(CustomisedPoint& point, ComplexSymbol& symb
 	tendancy->x(column_+1);
 	tendancy->y(row_);	
 	
-	tendancy->colour(*attributes_->colour_);
+	tendancy->colour(colour);
 	ostringstream oss;	
 	oss << "a_"  << value->second;
 	tendancy->symbol(oss.str());
 
 	MagLog::debug() << "\tPressure tendency--->" << oss.str() << "\n";
 
-	tendancy->height(size_);
+	tendancy->height(owner_->size_);
 	symbol.add(tendancy);
 }
 
@@ -273,20 +282,20 @@ void ObsPressureTendency::operator()(CustomisedPoint& point, ComplexSymbol& symb
 void ObsDewPoint::visit(std::set<string>& tokens)
 {
 
-	if (!dewpoint_visible_) return;
+	if (!owner_->dewpoint_visible_) return;
 	tokens.insert("dewpoint");
 }
 
 void ObsDewPoint::operator()(CustomisedPoint& point,  ComplexSymbol& symbol) const
 {
-	if (!dewpoint_visible_) return;
+	if (!owner_->dewpoint_visible_) return;
 	CustomisedPoint::const_iterator value = point.find("dewpoint");
 	if ( value == point.end() ) return; 
 	TextItem*  object = new TextItem();
 	MagFont font("sansserif");
-	
-	font.colour(*dewpoint_colour_);
-	font.size(size_);
+	Colour colour =  owner_->pressure_tendency_colour_->automatic() ? *owner_->colour_ : *owner_->pressure_tendency_colour_;
+	font.colour(colour);
+	font.size(owner_->size_);
 	object->x(column_);
 	object->y(row_);
 	
@@ -305,8 +314,7 @@ void ObsDewPoint::operator()(CustomisedPoint& point,  ComplexSymbol& symbol) con
 	
 void ObsVisibility::visit(std::set<string>& tokens)
 {
-	if ( !attributes_ ) attributes_ = new ObsVisibilityAttributes();
-	if (!attributes_->visible_) return;
+	if (!owner_->visibility_visible_) return;
 	tokens.insert("horizontal_visibility");
 }
 /*! 
@@ -315,16 +323,16 @@ void ObsVisibility::visit(std::set<string>& tokens)
 */
 void ObsVisibility::operator()(CustomisedPoint& point, ComplexSymbol& symbol) const
 {
-	if (!attributes_->visible_) return;
+	if (!owner_->visibility_visible_) return;
 	CustomisedPoint::const_iterator value = point.find("horizontal_visibility");
 	if ( value == point.end() ) return;
-
+	Colour colour =  owner_->visibility_colour_->automatic() ? *owner_->colour_ : *owner_->visibility_colour_;
 	TextItem*  object = new TextItem();
 	object->x(column_);
 	object->y(row_);
 
 	MagFont font("sansserif");
-	font.colour(*attributes_->colour_);
+	font.colour(colour);
 	
 	const double vv = value->second;
 	string val;
@@ -341,7 +349,7 @@ void ObsVisibility::operator()(CustomisedPoint& point, ComplexSymbol& symbol) co
 
 	MagLog::debug() << "\tVisibility: " << vv << " = " << val << "\n";
 
-	font.size(size_);
+	font.size(owner_->size_);
 	object->font(font);
 	//object->setJustification(MRIGHT);
 
@@ -350,47 +358,49 @@ void ObsVisibility::operator()(CustomisedPoint& point, ComplexSymbol& symbol) co
 	
 void ObsPresentWeather::visit(std::set<string>& tokens)
 {
-	if ( !attributes_ ) attributes_ = new ObsPresentWeatherAttributes();
-	if (!attributes_->visible_) return;
+
+	if (!owner_->present_ww_visible_) return;
 	tokens.insert("present_weather");
-	if ( !colour_.empty() )  attributes_->colour_ = auto_ptr<Colour>(new Colour(colour_));
+
 }
 
 void ObsPresentWeather::operator()(CustomisedPoint& point,  ComplexSymbol& symbol) const
 {
-	if (!attributes_->visible_) return;
+	if (!owner_->present_ww_visible_) return;
+
 	CustomisedPoint::const_iterator value = point.find("present_weather");
 	if ( value == point.end() ) return; 
 	SymbolItem*  object = new SymbolItem();
 	object->x(column_);
 	object->y(row_);
 	
-	object->colour(*attributes_->colour_);
+	Colour colour =  owner_->present_ww_colour_->automatic() ? *owner_->colour_ : *owner_->present_ww_colour_;
+	object->colour(colour);
 	//object->setFont("sansserif");
 	ostringstream os;
 	
 	os << "ww_" << setw(2) << setfill('0') << value->second;
 
 	object->symbol(os.str());
-#ifdef OBS_DEBUG_
-	MagLog::debug() << "\tPresent Weather--->" << os.str() << "\n";
-#endif
+	cout << "\tPresent Weather--->" << os.str() << " in " << colour << "\n";
 	//time->setJustification(MRIGHT);
-	object->height(size_);
+	object->height(owner_->size_);
 	symbol.add(object);
 }
 
 
 void ObsTemperature::operator()(CustomisedPoint& point,  ComplexSymbol& symbol) const
 {
-	if (!attributes_->visible_) return;
+	if (!owner_->temperature_visible_) return;
 	CustomisedPoint::const_iterator value = point.find("temperature");
 	if ( value == point.end() )  return;
 
+	Colour colour =  owner_->temperature_colour_->automatic() ? *owner_->colour_ : *owner_->temperature_colour_;
+
 	TextItem*  object = new TextItem();
 	MagFont font("sansserif");
-	font.colour(*attributes_->colour_);
-	font.size(size_);
+	font.colour(colour);
+	font.size(owner_->size_);
 	object->font(font);
 	object->x(column_);
 	object->y(row_);
@@ -410,22 +420,25 @@ void ObsTemperature::operator()(CustomisedPoint& point,  ComplexSymbol& symbol) 
 
 void ObsTimePlot::visit(std::set<string>&) 
 {
-	if ( !attributes_ ) attributes_ = new ObsTimePlotAttributes();
-	if (!attributes_->visible_) return;
+
+	if (!owner_->time_plot_visible_) return;
 }
 	
-void ObsTimePlot::operator()(CustomisedPoint& point,  ComplexSymbol& symbol) const 
+void ObsTimePlot::operator()(CustomisedPoint& point,  ComplexSymbol& symbol) const
 { 
-	if (!attributes_->visible_) return;
+	if (!owner_->time_plot_visible_) return;
 	CustomisedPoint::const_iterator value = point.find("time");
 	if ( value == point.end() ) return;
 #ifdef OBS_DEBUG_
 	MagLog::debug() << "\tTimePlot: " << value->second << "at[" << column_ << ", " << row_ << "]" << endl;
 #endif
+
+	Colour colour =  owner_->time_plot_colour_->automatic() ? *owner_->colour_ : *owner_->time_plot_colour_;
+
 	TextItem*  time = new TextItem();
 	MagFont font("sansserif");
-	font.colour(*attributes_->colour_);
-	font.size(size_);
+	font.colour(colour);
+	font.size(owner_->size_);
 	time->x(column_);
 	time->y(row_);
 	time->font(font);
@@ -439,24 +452,25 @@ void ObsTimePlot::operator()(CustomisedPoint& point,  ComplexSymbol& symbol) con
 
 void ObsHeight::visit(std::set<string>& tokens ) 
 {
-	if ( !attributes_ ) attributes_ = new ObsHeightAttributes();
-	if (!attributes_->visible_) return;
+
+	if (!owner_->height_visible_) return;
 	tokens.insert("geopotential");
 }
 	
-void ObsHeight::operator()(CustomisedPoint& point,  ComplexSymbol& symbol) const 
+void ObsHeight::operator()(CustomisedPoint& point,  ComplexSymbol& symbol) const
 { 
-	if (!attributes_->visible_) return;
+	if (!owner_->height_visible_) return;
 	CustomisedPoint::const_iterator value = point.find("geopotential");
 	if ( value == point.end() ) return;
 	double geop = maground(value->second/98.1);
 #ifdef OBS_DEBUG_
 	MagLog::debug() << "\tGeopotential: " << geop << "at[" << column_ << ", " << row_ << "]" << endl;
 #endif
+	Colour colour =  owner_->height_colour_->automatic() ? *owner_->colour_ : *owner_->height_colour_;
 	TextItem*  height = new TextItem();
 	MagFont font("sansserif");
-	font.colour(*attributes_->colour_);
-	font.size(size_);
+	font.colour(colour);
+	font.size(owner_->size_);
 	height->x(column_);
 	height->y(row_);
 
@@ -470,25 +484,26 @@ void ObsHeight::operator()(CustomisedPoint& point,  ComplexSymbol& symbol) const
 
 void ObsThickness::visit(std::set<string>& tokens ) 
 {
-	if ( !attributes_ ) attributes_ = new ObsThicknessAttributes();
-	if (!attributes_->visible_) return;
+
+	if (!owner_->thickness_visible_) return;
 	tokens.insert("thickness");
 }
 
 
-void ObsThickness::operator()(CustomisedPoint& point,  ComplexSymbol& symbol) const 
+void ObsThickness::operator()(CustomisedPoint& point,  ComplexSymbol& symbol) const
 { 
-	if (!attributes_->visible_) return;
+	if (!owner_->thickness_visible_) return;
 	CustomisedPoint::const_iterator value = point.find("thickness");
 	if ( value == point.end() ) return;
 	const double thickness = maground(value->second/98.1);
 #ifdef OBS_DEBUG_
 	MagLog::debug() << "\tThickness: " << thickness << "at[" << column_ << ", " << row_ << "]" << endl;
 #endif
+	Colour colour =  owner_->thickness_colour_->automatic() ? *owner_->colour_ : *owner_->thickness_colour_;
 	TextItem*  object = new TextItem();
 	MagFont font("sansserif");
-	font.colour(*attributes_->colour_);
-	font.size(size_);
+	font.colour(colour);
+	font.size(owner_->size_);
 	object->x(column_);
 	object->y(row_);
 	
@@ -503,21 +518,21 @@ void ObsThickness::operator()(CustomisedPoint& point,  ComplexSymbol& symbol) co
 
 void ObsIdentifier::visit(std::set<string>&) 
 {
-	if ( !attributes_ ) attributes_ = new ObsIdentifierAttributes();
-	MagLog::debug() << " ObsIdentifier" << *attributes_ << endl;
-	if (!attributes_->visible_) return;
+
+	if (!owner_->identifier_visible_) return;
 }
 	
-void ObsIdentifier::operator()(CustomisedPoint& point,  ComplexSymbol& symbol) const 
+void ObsIdentifier::operator()(CustomisedPoint& point,  ComplexSymbol& symbol) const
 { 
-	if (!attributes_->visible_) return;
+	if (!owner_->identifier_visible_) return;
 	TextItem*  time = new TextItem();
 #ifdef OBS_DEBUG_
 	MagLog::debug() << "Identification for " << point.identifier() << "at[" << column_ << ", " << row_ << "]" << endl;
 #endif
+	Colour colour =  owner_->identifier_colour_->automatic() ? *owner_->colour_ : *owner_->identifier_colour_;
 	MagFont font("sansserif");
-	font.colour(*attributes_->colour_);
-	font.size(size_);
+	font.colour(colour);
+	font.size(owner_->size_);
 	time->x(column_);
 	time->y(row_);
 	time->text(point.identifier());
@@ -531,30 +546,33 @@ void ObsIdentifier::operator()(CustomisedPoint& point,  ComplexSymbol& symbol) c
 
 void ObsPastWeather::visit(std::set<string>& tokens) 
 {
-	if ( !attributes_ ) attributes_ = new ObsPastWeatherAttributes();
-	if (!attributes_->visible_) return;
+
+	if (!owner_->past_ww_visible_) return;
 	tokens.insert("past_weather_1");
 	tokens.insert("past_weather_2");
 }
 
-void ObsPastWeather::operator()(CustomisedPoint& point,  ComplexSymbol& symbol) const 
+void ObsPastWeather::operator()(CustomisedPoint& point,  ComplexSymbol& symbol) const
 { 
-	if (!attributes_->visible_) return;
+	if (!owner_->past_ww_visible_) return;
 	CustomisedPoint::const_iterator value = point.find("past_weather_1");
 	if ( value == point.end() ) return;
+
+	Colour colour =  owner_->past_ww_colour_->automatic() ? *owner_->colour_ : *owner_->past_ww_colour_;
+
 	if(value->second > 2)
 	{
 		SymbolItem*  object = new SymbolItem();
 		object->x(column_);
 		object->y(row_);
-		object->colour(*attributes_->colour_);
+		object->colour(colour);
 		ostringstream os;	
 		os << "W_"  << value->second;	
 		object->symbol(os.str());
 #ifdef OBS_DEBUG_
 		MagLog::debug() << "\tPast Weather 1-> " << os.str() << "\n";
 #endif
-		object->height(size_);
+		object->height(owner_->size_);
 		symbol.add(object);
 
 		//second past weather
@@ -565,14 +583,14 @@ void ObsPastWeather::operator()(CustomisedPoint& point,  ComplexSymbol& symbol) 
 			SymbolItem* object2 = new SymbolItem();
 			object2->x(column_*2);
 			object2->y(row_);
-			object2->colour(*attributes_->colour_);
+			object2->colour(colour);
 			ostringstream os2;	
 			os2 << "W_"  << value->second;	
 			object2->symbol(os2.str());
 #ifdef OBS_DEBUG_
 			MagLog::debug() << "\tPast Weather 2-> " << os2.str() << "\n";
 #endif
-			object2->height(size_);
+			object2->height(owner_->size_);
 			symbol.add(object2);
 		}
 	}
@@ -584,29 +602,29 @@ void ObsCloud::visit(std::set<string>& tokens)
 {
 
 
-	if (!cloud_visible_) return;
-	if ( low_ )
+	if (!owner_->cloud_visible_) return;
+	if ( owner_->low_ )
 	{
 		tokens.insert("low_cloud");
 		tokens.insert("low_cloud_nebulosity");
 		tokens.insert("low_cloud_height");
 	}
-	if ( medium_ ) tokens.insert("medium_cloud");
-	if ( high_ ) tokens.insert("high_cloud");
+	if ( owner_->medium_ ) tokens.insert("medium_cloud");
+	if ( owner_->high_ ) tokens.insert("high_cloud");
 
 }
 	
-void ObsCloud::operator()(CustomisedPoint& point, ComplexSymbol& symbol) const 
+void ObsCloud::operator()(CustomisedPoint& point, ComplexSymbol& symbol) const
 { 
-	if (!cloud_visible_) return;
-	symbol.setHeight(size_);
+	if (!owner_->cloud_visible_) return;
+	symbol.setHeight(owner_->size_);
 	CustomisedPoint::const_iterator value = point.find("low_cloud");
 	if ( value != point.end() )
 	{
 		SymbolItem*  cloud = new SymbolItem();
 		cloud->x(lowColumn_);
 		cloud->y(lowRow_);
-		cloud->colour(*low_colour_);
+		cloud->colour(*owner_->low_colour_);
 		ostringstream oss;	
 		int type = int(value->second - (int (value->second/10) *10));
 		oss << "CL_"  << type;
@@ -614,7 +632,7 @@ void ObsCloud::operator()(CustomisedPoint& point, ComplexSymbol& symbol) const
 
 		MagLog::debug() << "\tLow Cloud--->" << oss.str() << "\n";
 
-		cloud->height(ring_size_);
+		cloud->height(owner_->ring_size_);
 		symbol.add(cloud);
 	}
 
@@ -651,8 +669,8 @@ void ObsCloud::operator()(CustomisedPoint& point, ComplexSymbol& symbol) const
 		object->y(lowRow_-1);
 		MagFont font;
 		font.name("sansserif");
-		font.colour(*low_colour_);
-		font.size(size_*.6);
+		font.colour(*owner_->low_colour_);
+		font.size(owner_->size_*.6);
 #ifdef OBS_DEBUG_
 		MagLog::debug() << "\tLow Cloud Nebulosity--->" << value->second << "\n";
 #endif
@@ -671,7 +689,7 @@ void ObsCloud::operator()(CustomisedPoint& point, ComplexSymbol& symbol) const
 		cloud->x(mediumColumn_);
 		cloud->y(mediumRow_);
 		
-		cloud->colour(*medium_colour_);
+		cloud->colour(*owner_->medium_colour_);
 		ostringstream oss;
 		int type = int(value->second - (int (value->second/10.) *10));
 		oss << "CM_"  << type;
@@ -679,7 +697,7 @@ void ObsCloud::operator()(CustomisedPoint& point, ComplexSymbol& symbol) const
 
 		MagLog::debug() << "\tMedium Cloud--->" <<value->second<<" > "<< oss.str() << "\n";
 
-		cloud->height(size_);
+		cloud->height(owner_->size_);
 		symbol.add(cloud);
 	}
 	
@@ -689,7 +707,7 @@ void ObsCloud::operator()(CustomisedPoint& point, ComplexSymbol& symbol) const
 		SymbolItem*  cloud = new SymbolItem();
 		cloud->x(highColumn_);
 		cloud->y(highRow_);
-		cloud->colour(*high_colour_);
+		cloud->colour(*owner_->high_colour_);
 		ostringstream oss;	
 		int type = int(value->second - (int (value->second/10) *10));
 		oss << "CH_"  << type;
@@ -697,7 +715,7 @@ void ObsCloud::operator()(CustomisedPoint& point, ComplexSymbol& symbol) const
 
 		MagLog::debug() << "\tHigh Cloud--->" << oss.str() << "\n";
 
-		cloud->height(size_);
+		cloud->height(owner_->size_);
 		symbol.add(cloud);
 	}
 }
@@ -745,7 +763,7 @@ void ObsDemoItem2::operator()(CustomisedPoint& point, ComplexSymbol& symbol) con
 {
 	string text;
 	if ( point.find("info_for_demo2") == point.end() )
-			text = attributes_->text_;
+			text = "todo";
 
 	else
 		text=tostring(point["info_for_demo2"]);
@@ -755,21 +773,15 @@ void ObsDemoItem2::operator()(CustomisedPoint& point, ComplexSymbol& symbol) con
 	object->y(row_);
 	MagFont font;
 	font.name("sansserif");
-	font.colour(attributes_->text_colour_);
-	font.size(size_);
+	font.colour(*owner_->colour_);
+	font.size(owner_->size_);
 	//object->colour(attributes_text_colour_);
 	object->text(text);
 	object->font(font);
 	symbol.add(object);
 }
 
-void ObsEra::set(const map<string, string>& def)
-{
-	key_ = find(def, "key");
-	colour_ = find(def, "colour");
-	row_ = atoi(find(def, "row").c_str());
-	column_ = atoi(find(def, "column").c_str());
-}
+
 
 void  ObsEra::visit(std::set<string>& tokens)
 {
@@ -788,7 +800,7 @@ void  ObsEra::operator()(CustomisedPoint& point,  ComplexSymbol& symbol) const
 	MagFont font;
 	font.name("sansserif");
 	font.colour(colour_);
-	font.size(size_);
+	font.size(owner_->size_);
 
 	object->text(text);
 	object->font(font);
@@ -798,20 +810,20 @@ void  ObsEra::operator()(CustomisedPoint& point,  ComplexSymbol& symbol) const
 
 void  ObsSeaTemperature::visit(std::set<string>& tokens)
 {
-	if (!sea_temperature_visible_) return;
+	if (!owner_->sea_temperature_visible_) return;
 	tokens.insert("sea_temperature");
 }
 
 void  ObsSeaTemperature::operator()(CustomisedPoint& point,  ComplexSymbol& symbol) const
 {
-	if (!sea_temperature_visible_) return;
+	if (!owner_->sea_temperature_visible_) return;
 	CustomisedPoint::const_iterator value = point.find("sea_temperature");
 	if ( value == point.end() )  return;
-
+	Colour colour =  owner_->sea_temperature_colour_->automatic() ? *owner_->colour_ : *owner_->sea_temperature_colour_;
 		TextItem*  object = new TextItem();
 		MagFont font("sansserif");
-		font.colour(*sea_temperature_colour_);
-		font.size(size_);
+		font.colour(colour);
+		font.size(owner_->size_);
 		object->font(font);
 		object->x(column_);
 		object->y(row_);
@@ -829,7 +841,7 @@ void  ObsSeaTemperature::operator()(CustomisedPoint& point,  ComplexSymbol& symb
 }
 void  ObsWave::visit(std::set<string>& tokens)
 {
-	if (!waves_visible_) return;
+	if (!owner_->waves_visible_) return;
 	tokens.insert("wind_wave_direction");
 	tokens.insert("wind_wave_period");
 	tokens.insert("wind_wave_height");
@@ -847,12 +859,15 @@ void  ObsWave::visit(std::set<string>& tokens)
 
 void  ObsWave::operator()(CustomisedPoint& point,  ComplexSymbol& symbol) const
 {
-	if (!waves_visible_) return;
+	if (!owner_->waves_visible_) return;
 
 	CustomisedPoint::const_iterator period = point.find("wave_period");
 	CustomisedPoint::const_iterator height = point.find("wave_height");
 
+	Colour colour =  owner_->waves_colour_->automatic() ? *owner_->colour_ : *owner_->waves_colour_;
+
 	if ( period == point.end() ||  height == point.end() )  return;
+
 	MagLog::debug() << "\theight: " << height->second << " period "<< period->second <<"\n";
 	// height of waves in units of 0.5
 	double h = maground(height->second/0.5);
@@ -863,8 +878,8 @@ void  ObsWave::operator()(CustomisedPoint& point,  ComplexSymbol& symbol) const
 
 	TextItem*  object = new TextItem();
 	MagFont font("sansserif");
-	font.colour(*waves_colour_);
-	font.size(size_);
+	font.colour(colour);
+	font.size(owner_->size_);
 	object->font(font);
 	object->x(column_);
 	object->y(row_);

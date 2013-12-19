@@ -121,7 +121,7 @@ void ObsTable::add(const string& tag, const map<string, string>& def)
  	else {
  		try {
  			ObsItem* obs = SimpleObjectMaker<ObsItem>::create(tag);
- 			obs->set(def);
+
  			current_->push_back(obs);
  		}
  		catch (NoFactoryException&) {
@@ -140,7 +140,7 @@ const ObsTemplate& ObsTable::get(const string& type)
 }   
 
 
-void ObsTemplate::operator()(CustomisedPoint& obs, BasicGraphicsObjectContainer& out) const 
+void ObsTemplate::operator()(CustomisedPoint& obs, BasicGraphicsObjectContainer& out) const
 {
 		if ( empty() ) 
 			return; // Nothing to display.
