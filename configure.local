@@ -16,7 +16,6 @@ spot="on"
 
 cmake="/usr/local/apps/cmake/current/bin/cmake"
 boost="/usr/local/apps/boost/1.50.0"
-
 proj4="/usr/local/apps/proj4/4.8.0/LP64"
 python="/usr/local/apps/python/2.7.1-02"
 netcdf_lib="/usr/local/apps/netcdf4/4.1.3/LP64"
@@ -36,7 +35,7 @@ if [[ $debug = "on" ]];then
     args="$args -DCMAKE_BUILD_TYPE=Debug"
     echo "Debug enabled"
 else
-    args="$args -DCMAKE_BUILD_TYPE=Release"
+    args="$args -DCMAKE_BUILD_TYPE=Production"
     echo "Release Mode enabled"
 fi
 if [[ $regression = "on" ]];then

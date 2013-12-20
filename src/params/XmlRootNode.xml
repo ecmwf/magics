@@ -1,8 +1,8 @@
 <magics>
-<class name="XmlRootNode" include='RootSceneNode.h'>
+<class name="XmlRootNode" include='RootSceneNode.h' prefix="root_node" xmltag="magics">
  	<parameter member="format" to="string" default="a4" from="string" name="root_node_format">
            		<release>Magics++2.4 		</release>
-         		<documentation>Format of super page (A4/A3/A2)		</documentation>
+          		<documentation>Format of super page (A4/A3/A2)		</documentation>
   	</parameter>
   
    	<parameter member="orientation" to="string" default="landscape" from="string" name="root_node_orientation">
