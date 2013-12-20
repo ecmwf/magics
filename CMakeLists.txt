@@ -310,20 +310,30 @@ add_subdirectory( apps )
 
 # Test directory
 add_subdirectory( test )
-add_subdirectory( regression )
+if( ENABLE_REGRESSION )
+    add_subdirectory( regression )
+endif()
 
 # Directories not need in the distribution tar ball!
-ecbuild_add_resources( TARGET src_MvObs DONT_PACK_DIRS src/MvObs)
-ecbuild_add_resources( TARGET src_libTable DONT_PACK_DIRS src/libTable)
-ecbuild_add_resources( TARGET docs DONT_PACK_DIRS docs)
-ecbuild_add_resources( TARGET regression 
+ecbuild_add_resources( TARGET old_src DONT_PACK_DIRS src/MvObs src/libTable src/xml src/terralib/functions)
+ecbuild_add_resources( TARGET bamboo DONT_PACK_DIRS bamboo)
+ecbuild_add_resources( TARGET old_ressources 
 		DONT_PACK_DIRS tools/versioncmp 
 					tools/regression 
+                    regression
+                    docs
+                    toolsjs
+                    test/old
 					tools/xml 
 					tools/use_scripts
 					tools/versioncmp_folders)
 
-
+ecbuild_add_resources( TARGET internal 
+		DONT_PACK configure.lxab
+                    configure.local
+                    configure.ecgb
+                    configure.ecmwf
+					)
 
 
 set(  __magics_tmp ${MAGICS_EXTRA_LIBRARIES} )
