@@ -119,7 +119,7 @@ if [[ $spot = "on" ]];then
     fi
 else
     args="$args -DENABLE_SPOT=OFF"
-    echo "GRIB not required"
+    echo "SPOT not required"
 fi
 echo $args
-$cmake ${home}/magics $args
+$cmake ${home} $args
