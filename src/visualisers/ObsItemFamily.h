@@ -36,12 +36,14 @@ public:
 	{   
 		row_ = atoi(find(def, "row").c_str());
 		column_ = atoi(find(def, "column").c_str());
-		colour_ = find(def, "colour");
+		colour_ = find(def, "colour", "black");
+		key_ = find(def, "key", "");
 	}
 protected:		
 	int row_;
 	int column_;
 	string colour_;
+	string key_;
 };
 
 class ObsStationRing : public ObsItemBox
@@ -381,8 +383,7 @@ public:
 
 protected:
 	void print(ostream& out) const { out << "ObsEra";  }
-	string key_;
-	string colour_;
+
 
 };
 #endif
