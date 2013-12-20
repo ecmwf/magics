@@ -1,15 +1,19 @@
 #!/usr/bin/ksh
 
-git_home="/tmp/$user/git"
-install_home="/tmp/$USER/install"
-debug="on"
+home=".."
+version="2.21.1"
+install_home="../../$version"
+
+debug="off"
 bufr="on"
 netcdf="on"
-odb="on"
+odb="off"
 grib="on"
 metview="off"
 cairo="on"
+spot="off"
 regression="off"
+static_lib="off"
 
 cmake="/usr/local/apps/cmake/current/bin/cmake"
 boost="/usr/local/apps/boost/1.50.0"
@@ -20,9 +24,11 @@ netcdf_lib="/usr/local/apps/netcdf4/4.1.3/LP64"
 odb_lib="/usr/local/apps/odb_api/0.9.31"
 grib_lib="/usr/local/lib/metaps/lib/grib_api/1.11.0"
 pgi_lib="/usr/local/apps/pgi/pgi-10.8/linux86-64/10.8/libso"
+spot_lib="/usr/local/lib/metaps/lib/spot_database/new"
+emos_lib="/usr/local/apps/libemos/000393"
 
 args="-DCMAKE_INSTALL_PREFIX=${install_home}"
-args=" $args -DCMAKE_MODULE_PATH=${git_home}/ecbuild/cmake"
+args=" $args -DCMAKE_MODULE_PATH=${home}/ecbuild/cmake -DENABLE_STATIC_LIBRARY=ON"
 args=" $args -DBOOST_ROOT=$boost"
 args=" $args -DPROJ4_PATH=$proj4"
 args=" $args -DCMAKE_PREFIX_PATH=$python"
@@ -31,8 +37,15 @@ if [[ $debug = "on" ]];then
     args="$args -DCMAKE_BUILD_TYPE=Debug"
     echo "Debug enabled"
 else
-    args="$args -DCMAKE_BUILD_TYPE=Release"
+    args="$args -DCMAKE_BUILD_TYPE=Production"
     echo "Release Mode enabled"
+fi
+if [[ $static_lib = "on" ]];then
+    args="$args  -DENABLE_STATIC_LIBRARY=ON"
+    echo "build static library"
+else
+    args="$args -DENABLE_STATIC_LIBRARY=OFF"
+    echo "No Static Mode enabled"
 fi
 if [[ $regression = "on" ]];then
     args="$args -DENABLE_REGRESSION=ON -DWITH_REGRESSION_UPLOAD=on"
@@ -58,7 +71,10 @@ fi
 if [[ $bufr = "on" ]];then
     args=" $args -DENABLE_BUFR=ON"
     if [[ $pgi_lib != "" ]];then
-        args=" $args -DPGI_PATH=${pgi_lib}"
+        args=" $args -DWITH_PGI_FORTRAN=ON -DPGI_PATH=${pgi_lib}"
+    fi 
+    if [[ $emos_lib != "" ]];then
+        args=" $args -DEMOS_PATH=${emos_lib}"
     fi
     echo "Bufr enabled"
 else
@@ -103,7 +119,7 @@ if [[ $spot = "on" ]];then
     fi
 else
     args="$args -DENABLE_SPOT=OFF"
-    echo "GRIB not required"
+    echo "SPOT not required"
 fi
 echo $args
-$cmake ${git_home}/magics $args
+$cmake ${home} $args

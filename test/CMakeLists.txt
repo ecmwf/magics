@@ -27,14 +27,14 @@ if ( ENABLE_GRIB )
        ecbuild_add_test( TARGET grib_python
                   TYPE PYTHON
                   ARGS grib.py
-                  RESOURCES grib.py test.grib
+                  RESOURCES grib.py data.grib
                   ENVIRONMENT PYTHONPATH=${MAG_PYTHON_PATH} )
     endif()
     if ( ENABLE_FORTRAN) 
         ecbuild_add_test( TARGET grib_fortran
                 SOURCES   grib.f90
                 LIBS      MagPlusSingle MagPlusShared
-                RESOURCES test.grib
+                RESOURCES data.grib
                 LINKER_LANGUAGE CXX )
     endif()
 endif()
