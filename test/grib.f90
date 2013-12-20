@@ -26,6 +26,7 @@
 	call psetc("map_grid", "on")
 	call psetc("map_coastline_colour", "tan")
 	call pcoast
+	call ptext
 
 	call preset('map_grid_colour')
 	call preset('map_grid')
