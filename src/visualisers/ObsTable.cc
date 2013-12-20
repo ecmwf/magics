@@ -121,7 +121,7 @@ void ObsTable::add(const string& tag, const map<string, string>& def)
  	else {
  		try {
  			ObsItem* obs = SimpleObjectMaker<ObsItem>::create(tag);
-
+ 			obs->set(def);
  			current_->push_back(obs);
  		}
  		catch (NoFactoryException&) {

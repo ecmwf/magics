@@ -50,7 +50,7 @@ public:
 	ObsItem(): owner_(0) {}
 	virtual ~ObsItem() {}
 	
-
+	virtual void set(const map<string, string>&) {}
 	virtual void operator()(CustomisedPoint&, ComplexSymbol&) const {} 
 	virtual void visit(std::set<string>&) {}
 	
