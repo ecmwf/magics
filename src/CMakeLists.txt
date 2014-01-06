@@ -50,10 +50,12 @@ if ( metview )
           set_source_files_properties( ${basefile}Wrapper.cc GENERATED )
           list( APPEND metview_wrappers_srcs ${metviewfiles} )
       endforeach()
-      
-      SET(qt_drivers_HEADERS drivers/MgQ/MgQPlotScene.h)
-     QT4_WRAP_CPP(qt_drivers_HEADERS_MOC ${qt_drivers_HEADERS})
-     list( APPEND drivers_srcs  drivers/MgQ/MgQPlotScene.cc  ${qt_drivers_HEADERS_MOC}) 
+
+     if(qt)
+        SET(qt_drivers_HEADERS drivers/MgQ/MgQPlotScene.h)
+        QT4_WRAP_CPP(qt_drivers_HEADERS_MOC ${qt_drivers_HEADERS})
+        list( APPEND drivers_srcs  drivers/MgQ/MgQPlotScene.cc  ${qt_drivers_HEADERS_MOC})
+     endif()
 
 endif()
 	 
@@ -76,7 +78,7 @@ add_subdirectory( decoders )
 add_subdirectory( terralib )
 add_subdirectory( eckit_readers )
 
-if( ENABLE_METVIEW_QT )
+if( metview )
 	add_subdirectory( libMagWrapper )
 endif()
 

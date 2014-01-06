@@ -38,19 +38,19 @@ ecbuild_requires_macro_version( 1.2 )
 ###############################################################################
 # some variables of this project
 
-option( ENABLE_GRIB        "enable grib support"               ON  )
-option( ENABLE_NETCDF      "enable netcdf support"             ON  )
+option( ENABLE_GRIB           "enable grib support"               ON  )
+option( ENABLE_NETCDF         "enable netcdf support"             ON  )
 
-option( ENABLE_ODB         "enable odb"                        OFF )
-option( ENABLE_BUFR        "enable bufr support"               OFF )
-option( ENABLE_SPOT        "enable spot support"               OFF )
-option( ENABLE_CAIRO       "enable cairo support[png/jpeg]"   OFF )
+option( ENABLE_ODB            "enable odb"                        OFF )
+option( ENABLE_BUFR           "enable bufr support"               OFF )
+option( ENABLE_SPOT           "enable spot support"               OFF )
+option( ENABLE_CAIRO          "enable cairo support[png/jpeg]"   OFF )
 
-option( ENABLE_PYTHON      "enable python interface"   ON  )
-option( ENABLE_FORTRAN     "enable fortran interface"  ON  )
+option( ENABLE_PYTHON         "enable python interface"   ON  )
+option( ENABLE_FORTRAN        "enable fortran interface"  ON  )
 
-option( ENABLE_METVIEW     "enable Metview interface"  OFF  )
-option( ENABLE_METVIEW_QT  "enable Metview interface with Qt"    OFF )
+option( ENABLE_METVIEW        "enable Metview interface"  OFF  )
+option( ENABLE_METVIEW_NO_QT  "enable Metview interface without Qt"    OFF )
 
 option( ENABLE_STATIC_LIBRARY  "Internal Build static Library"    OFF  )
 option( ENABLE_REGRESSION     "Internal use only: enable regression test"  OFF  )
@@ -179,14 +179,20 @@ if( PANGOCAIRO_FOUND )
 	set( cairo yes )
 endif()
 
-### Qt
+
+### Metview and Qt
+
+if(ENABLE_METVIEW AND ENABLE_METVIEW_NO_QT)
+    message(FATAL_ERROR "Do not set both ENABLE_METVIEW and ENABLE_METVIEW_NO_QT - only set one. You may have to remove your CMakeCache.txt to clear these settings.")
+endif()
 
 set( qt no )
 set( qtlib no )
 set( metview no )
+
 if( ENABLE_METVIEW_NO_QT )
 	set( metview yes )
-  unset(MAGICS_ONLY)
+	unset(MAGICS_ONLY)
 endif()
 
 if( ENABLE_METVIEW )
