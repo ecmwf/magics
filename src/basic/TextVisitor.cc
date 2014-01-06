@@ -36,7 +36,7 @@
 #include "AnimationRules.h"
 #include "Layer.h"
 #include "MagicsFormat.h"
-
+#include "OutputHandler.h"
 #include "MetaData.h"
 
 using namespace magics;
@@ -75,7 +75,6 @@ TextVisitor::TextVisitor() :positional_(true)
 		tags_["valid_date"] = "grib_info  key='end-date' format='%A %d %B %Y at %H UTC'";
 	}
 }
-
 
 
 TextVisitor::~TextVisitor() 
@@ -240,7 +239,8 @@ void TextVisitor::finish(BasicGraphicsObjectContainer& parent)
 
 	double height = (font_size_ /absheight)*100;
 	double last = (0.10/absheight)*100; //in %
-	double gap = height*1.2;
+	double ratio = OutputHandler::patchLineSpacing();
+	double gap = height*ratio;
 
 
 
@@ -257,7 +257,7 @@ void TextVisitor::finish(BasicGraphicsObjectContainer& parent)
 		(*text)->setJustification(justification_);
 		(*text)->setVerticalAlign(MBOTTOM);
 
-		gap = (*text)->noText() ?  height*1.2 : (((*text)->getFontMax()/absheight)*100)*1.2;
+		gap = (*text)->noText() ?  height*ratio : (((*text)->getFontMax()/absheight)*100)*ratio;
 		(*text)->push_back(PaperPoint(x, last)); // approximate position to be improved 
 
 		last += gap;

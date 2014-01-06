@@ -1158,10 +1158,12 @@ void WrepJSon::visit(TextVisitor& text)
 	ostringstream height;
 
 	height << height_ <<  " m";
+	if ( position_info_) {
 	text.update("json", "height", height.str());
 	text.update("json", "location", location.str());
 	text.update("json", "grid_point", (mask_ < 0.5 ) ? " (EPS sea point) " : " (EPS land point) ");
 
+	}
 
 	ostringstream full_correction;
 	ostringstream short_correction;
