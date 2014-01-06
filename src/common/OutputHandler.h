@@ -72,12 +72,17 @@ public:
 	
 	void clear() { factories_.clear(); }
 	
+	static double patchLineSpacing()  { return lineSpacing_; }
+
 	
    
 protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).
 	 virtual void print(ostream& out) const { out << "OutputHandler[]\n"; } 
 	 VectorOfPointers<vector<OutputFactory* > > factories_;
+	 static double lineSpacing_;
+
+
 
 private:
 	//! Copy constructor - No copy allowed	VectorOfPointers<OutputFactory* > factories_;

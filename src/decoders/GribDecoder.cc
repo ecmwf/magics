@@ -510,6 +510,8 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 	string xc = "x_component";
 	string yc = "y_component";
 	string cc = "colour_component";
+
+
 	interpretor_->raw(*this, transformation, xc, xin);
 
 	readColourComponent();
