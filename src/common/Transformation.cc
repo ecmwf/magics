@@ -779,12 +779,12 @@ void Transformation::thin(double xstep, double ystep, double gap,  vector<UserPo
 		vector<pair<int, int> > check;
 
 		check.push_back(make_pair(yy, xx));
-		if ( xx + 1 < dimx )
-			check.push_back(make_pair(yy, xx+1));
-		if ( yy + 1 < dimy )
-			check.push_back(make_pair(yy+1, xx));
-		if ( xx + 1 < dimx && yy + 1 < dimy )
-			check.push_back(make_pair(yy+1, xx+1));
+		//if ( xx + 1 < dimx )
+			//check.push_back(make_pair(yy, xx+1));
+		//if ( yy + 1 < dimy )
+			//check.push_back(make_pair(yy+1, xx));
+		//if ( xx + 1 < dimx && yy + 1 < dimy )
+			//check.push_back(make_pair(yy+1, xx+1));
 
 
 

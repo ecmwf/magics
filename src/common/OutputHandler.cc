@@ -30,6 +30,8 @@
 
 using namespace magics;
 
+double OutputHandler::lineSpacing_ = 1.2;
+
 void OutputHandler::set(DriverManager& magics) 
 {
 	if ( formats_.empty() ) formats_.push_back(format_);
@@ -43,12 +45,23 @@ void OutputHandler::set(DriverManager& magics)
 		factory->set(magics, node); 
 		factories_.push_back(factory);
 	}
+
+	// Patch for driver png : make the line spacing smaller in case of png !
+	if (  formats_.size() == 1 && formats_.front() == "png" )
+			lineSpacing_ = 1.;
+
+
 }
 
 void OutputHandler::set(const XmlNode& node, DriverManager& magics) 
 {
 	try {
 		OutputFactory* factory = MagTranslator<string, OutputFactory>()(node.name());
+		if (node.name() == "png" && factories_.empty() )
+			lineSpacing_ = 1.;
+		else
+			lineSpacing_ = 1.2;
+
         ASSERT(factory);
 	
 		factory->set(magics, node); 
