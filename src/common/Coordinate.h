@@ -201,8 +201,14 @@ public:
 	void set() {
 		switch ( automatic_ ) {
 			case m_both:
-				min_ = std::numeric_limits<double>::max();
-				max_ = -min_;
+				if (reverse_) {
+					max_ = std::numeric_limits<double>::max();
+					min_ = -max_;
+				}
+				else {
+					min_ = std::numeric_limits<double>::max();
+					max_ = -min_;
+				}
 				break;
 			case m_min_only:
 				min_ = std::numeric_limits<double>::max();
@@ -238,8 +244,8 @@ public:
     	    	case m_both:
     	    		// set the
     	    		if ( reverse_ ) {
-    	    			max_ = std::max(min, max_);
-    	    			min_ = std::min(max, min_);
+    	    			max_ = std::min(min, max_);
+    	    			min_ = std::max(max, min_);
     	    		}
     	    		else {
     	    			min_ = std::min(min, min_);
@@ -248,13 +254,13 @@ public:
     	    		break;
     	    	case m_min_only:
     	    		if ( reverse_ )
-    	    			max_ = std::max(min, max_);
+    	    			max_ = std::min(min, max_);
     	    		else
     	    			min_ = std::min(min, min_);
     	    		break;
     	    	case m_max_only:
     	    		if ( reverse_ )
-    	    			min_ = std::min(max, min_);
+    	    			min_ = std::max(max, min_);
     	    		else
     	    			max_ = std::max(max, max_);
     	    		break;
@@ -291,8 +297,14 @@ public:
 	void set() {
 		switch ( automatic_ ) {
 				case m_both:
-					min_ = std::numeric_limits<double>::max();
-					max_ = -min_;
+					if (reverse_) {
+						max_ = std::numeric_limits<double>::max();
+						min_ = -max_;
+					}
+					else {
+						min_ = std::numeric_limits<double>::max();
+						max_ = -min_;
+					}
 					break;
 				case m_min_only:
 
@@ -316,8 +328,8 @@ public:
     	    	case m_both:
     	    		// set the
     	    		if ( reverse_ ) {
-    	    			max_ = std::max(min, max_);
-    	    			min_ = std::min(max, min_);
+    	    			max_ = std::min(min, max_);
+    	    			min_ = std::max(max, min_);
     	    		}
     	    		else {
     	    			min_ = std::min(min, min_);
@@ -326,13 +338,13 @@ public:
     	    		break;
     	    	case m_min_only:
     	    		if ( reverse_ )
-    	    			max_ = std::max(min, max_);
+    	    			max_ = std::min(min, max_);
     	    		else
     	    			min_ = std::min(min, min_);
     	    		break;
     	    	case m_max_only:
     	    		if ( reverse_ )
-    	    			min_ = std::min(max, min_);
+    	    			min_ = std::max(max, min_);
     	    		else
     	    			max_ = std::max(max, max_);
     	    		break;
@@ -397,8 +409,14 @@ public:
     void set() {
     		switch ( automatic_ ) {
     				case m_both:
-    					min_ = std::numeric_limits<double>::max();
-    					max_ = -min_;
+						if (reverse_) {
+							max_ = std::numeric_limits<double>::max();
+							min_ = -max_;
+						}
+						else {
+							min_ = std::numeric_limits<double>::max();
+							max_ = -min_;
+						}
     					break;
     				case m_min_only:
     					automatic_ = m_off;
@@ -417,8 +435,8 @@ public:
     	    	case m_both:
     	    		// set the
     	    		if ( reverse_ ) {
-    	    			max_ = std::max(min, max_);
-    	    			min_ = std::min(max, min_);
+    	    			max_ = std::min(min, max_);
+    	    			min_ = std::max(max, min_);
     	    		}
     	    		else {
     	    			min_ = std::min(min, min_);
@@ -427,13 +445,13 @@ public:
     	    		break;
     	    	case m_min_only:
     	    		if ( reverse_ )
-    	    			max_ = std::max(min, max_);
+    	    			max_ = std::min(min, max_);
     	    		else
     	    			min_ = std::min(min, min_);
     	    		break;
     	    	case m_max_only:
     	    		if ( reverse_ )
-    	    			min_ = std::min(max, min_);
+    	    			min_ = std::max(max, min_);
     	    		else
     	    			max_ = std::max(max, max_);
     	    		break;
@@ -494,8 +512,14 @@ public:
 	void set() {
 		switch ( automatic_ ) {
 				case m_both:
-					min_ = std::numeric_limits<double>::max();
-					max_ = -min_;
+					if (reverse_) {
+						max_ = std::numeric_limits<double>::max();
+						min_ = -max_;
+					}
+					else {
+						min_ = std::numeric_limits<double>::max();
+						max_ = -min_;
+					}
 					break;
 				case m_min_only:
 					min_ = std::numeric_limits<double>::max();
@@ -518,8 +542,8 @@ public:
         	    	case m_both:
         	    		// set the
         	    		if ( reverse_ ) {
-        	    			max_ = std::max(min, max_);
-        	    			min_ = std::min(max, min_);
+        	    			max_ = std::min(min, max_);
+        	    			min_ = std::max(max, min_);
         	    		}
         	    		else {
         	    			min_ = std::min(min, min_);
@@ -528,13 +552,13 @@ public:
         	    		break;
         	    	case m_min_only:
         	    		if ( reverse_ )
-        	    			max_ = std::max(min, max_);
+        	    			max_ = std::min(min, max_);
         	    		else
         	    			min_ = std::min(min, min_);
         	    		break;
         	    	case m_max_only:
         	    		if ( reverse_ )
-        	    			min_ = std::min(max, min_);
+        	    			min_ = std::max(max, min_);
         	    		else
         	    			max_ = std::max(max, max_);
         	    		break;
@@ -634,8 +658,8 @@ public:
     			    	case m_both:
     			    		// set the
     			    		if ( reverse_ ) {
-    			    			maxd_ = std::max(mind, maxd_);
-    			    			mind_ = std::min(maxd, mind_);
+    			    			maxd_ = std::min(mind, maxd_);
+    			    			mind_ = std::max(maxd, mind_);
     			    		}
     			    		else {
     			    			mind_ = std::min(mind, mind_);
@@ -644,13 +668,13 @@ public:
     			    		break;
     			    	case m_min_only:
     			    		if ( reverse_ )
-    			    			maxd_ = std::max(mind, maxd_);
+    			    			maxd_ = std::min(mind, maxd_);
     			    		else
     			    			mind_ = std::min(mind, mind_);
     			    		break;
     			    	case m_max_only:
     			    		if ( reverse_ )
-    			    			mind_ = std::min(maxd, mind_);
+    			    			mind_ = std::max(maxd, mind_);
     			    		else
     			    			maxd_ = std::max(maxd, maxd_);
     			    		break;
@@ -748,8 +772,8 @@ public:
     	    			    	case m_both:
     	    			    		// set the
     	    			    		if ( reverse_ ) {
-    	    			    			maxd_ = std::max(mind, maxd_);
-    	    			    			mind_ = std::min(maxd, mind_);
+    	    			    			maxd_ = std::min(mind, maxd_);
+    	    			    			mind_ = std::max(maxd, mind_);
     	    			    		}
     	    			    		else {
     	    			    			mind_ = std::min(mind, mind_);
@@ -758,13 +782,13 @@ public:
     	    			    		break;
     	    			    	case m_min_only:
     	    			    		if ( reverse_ )
-    	    			    			maxd_ = std::max(mind, maxd_);
+    	    			    			maxd_ = std::min(mind, maxd_);
     	    			    		else
     	    			    			mind_ = std::min(mind, mind_);
     	    			    		break;
     	    			    	case m_max_only:
     	    			    		if ( reverse_ )
-    	    			    			mind_ = std::min(maxd, mind_);
+    	    			    			mind_ = std::max(maxd, mind_);
     	    			    		else
     	    			    			maxd_ = std::max(maxd, maxd_);
     	    			    		break;
@@ -877,13 +901,13 @@ public:
         			case m_both:
         			case m_max_only: {
         				if (reverse_) {
-        				            				min_lon_ = tonumber(tokens[0]);
-        				            				min_lat_ = tonumber(tokens[1]);
-        				            			}
-        				            			else {
-        				            				max_lon_ = tonumber(tokens[0]);
-        				            				max_lat_ = tonumber(tokens[1]);
-        				            			}
+        					min_lon_ = tonumber(tokens[2]);
+        					min_lat_ = tonumber(tokens[3]);
+        				}
+        				else {
+        					max_lon_ = tonumber(tokens[2]);
+        					max_lat_ = tonumber(tokens[3]);
+        				}
 
         				break;
         			}
@@ -956,18 +980,16 @@ public:
 
             	//interpret the info : lonmin/latmin
 
-            	tokens.clear();
-            	tokenizer(info, tokens);
             	switch ( automatic_ ) {
             	case m_both:
             	case m_max_only: {
             		if (reverse_) {
-            			min_lon_ = tonumber(tokens[0]);
-            			min_lat_ = tonumber(tokens[1]);
+            			min_lon_ = tonumber(tokens[2]);
+            			min_lat_ = tonumber(tokens[3]);
             		}
             		else {
-            			max_lon_ = tonumber(tokens[0]);
-            			max_lat_ = tonumber(tokens[1]);
+            			max_lon_ = tonumber(tokens[2]);
+            			max_lat_ = tonumber(tokens[3]);
             		}
 
 
