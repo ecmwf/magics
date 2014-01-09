@@ -2,9 +2,9 @@
 
 git_home="/home/graphics/cgs/git"
 version="2.22.1"
-magics="next-new"
-install_home="/usr/local/apps/Magics/$version"
-debug="off"
+magics="next-debug"
+install_home="/tmp/cgs/Magics/$version"
+debug="on"
 bufr="on"
 netcdf="on"
 odb="on"
@@ -20,8 +20,8 @@ run="1"
 
 case "${OS_VERSION}" in    
     opensuse113) # Local worksation
-        regression="on"
-        build_home="/tmp/cgs/magics_release/"
+        regression="off"
+        build_home="/tmp/cgs/magics_debug"
         cmake="/usr/local/apps/cmake/current/bin/cmake"
         boost="/usr/local/apps/boost/1.50.0"
         proj4="/usr/local/apps/proj4/4.8.0/LP64"
@@ -68,11 +68,11 @@ case "${OS_VERSION}" in
 
 args="-DCMAKE_INSTALL_PREFIX=${install_home}"
 args=" $args -DCMAKE_MODULE_PATH=${git_home}/ecbuild/cmake"
-args=" $args -DMAGICS_BUILD=${magics}"
+args=" $args -DMAGICS_BUILD=${magics} -DENABLE_STATIC_LIBRARY=OFF"
 args=" $args -DBOOST_ROOT=$boost"
 args=" $args -DPROJ4_PATH=$proj4"
 args=" $args -DCMAKE_PREFIX_PATH=$python"
-args="-DCMAKE_INSTALL_PREFIX=${install_home} -DENABLE_STATIC_LIBRARY=ON"
+args="-DCMAKE_INSTALL_PREFIX=${install_home} "
 args=" $args -DCMAKE_MODULE_PATH=${git_home}/ecbuild/cmake"
 args=" $args -DBOOST_ROOT=$boost"
 args=" $args -DPROJ4_PATH=$proj4"
