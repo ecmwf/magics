@@ -273,11 +273,12 @@ class Action(object):
 
 
 	def clean_object(self, obj):
-		if type(obj) in (int, float, str, bool):
+
+		if type(obj) in (int, float, str, bool, numpy.float64):
 			return obj
 		elif type(obj) == unicode:
 			return str(obj)
-		elif type(obj) in (list, tuple, set):
+		elif type(obj) in (list, tuple, set, numpy.ndarray):
 			obj = list(obj)
 			for i,v in enumerate(obj):
 				obj[i] = self.clean_object(v)
@@ -285,7 +286,8 @@ class Action(object):
 			for i,v in obj.iteritems():
 				obj[i] = self.clean_object(v)
 		else:
-			print "invalid object in data, converting to string"
+			print "Invalid object in data, converting to string: " 
+			print  type(obj)
 			obj = str(obj) 
 		return obj
 
