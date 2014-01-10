@@ -71,11 +71,6 @@ args=" $args -DCMAKE_MODULE_PATH=${git_home}/ecbuild/cmake"
 args=" $args -DMAGICS_BUILD=${magics} -DENABLE_STATIC_LIBRARY=OFF"
 args=" $args -DBOOST_ROOT=$boost"
 args=" $args -DPROJ4_PATH=$proj4"
-args=" $args -DCMAKE_PREFIX_PATH=$python"
-args="-DCMAKE_INSTALL_PREFIX=${install_home} "
-args=" $args -DCMAKE_MODULE_PATH=${git_home}/ecbuild/cmake"
-args=" $args -DBOOST_ROOT=$boost"
-args=" $args -DPROJ4_PATH=$proj4"
 args=" $args -DENABLE_PYTHON=ON -DCMAKE_PREFIX_PATH=$python"
 
 if [[ $debug = "on" ]];then
@@ -162,5 +157,7 @@ fi
 
 mkdir -p ${build_home}
 cd ${build_home}
+
+echo $args
 $cmake ${git_home}/magics $args
 make -j ${run} install
