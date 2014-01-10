@@ -1258,7 +1258,7 @@ void GribRotatedInterpretor::interpret2D(double& lat, double& lon, double& uc, d
 
 }
 
-void GribRotatedInterpretor::raw(const GribDecoder& grib, const Transformation& transformation, const string& key, CustomisedPointsList& points) const
+void GribRotatedInterpretor::raw(const GribDecoder& grib, const Transformation& transformation, const string& key, vector<UserPoint>& points) const
 {
 	double factor, offset;
 	scaling(grib, factor, offset);
@@ -1281,15 +1281,8 @@ void GribRotatedInterpretor::raw(const GribDecoder& grib, const Transformation& 
     	  std::stack<UserPoint>   duplicates;
     	  UserPoint geo(lon, lat);
     	  value = (value*factor)+offset;
+    	  transformation.populate(lon, lat, value, points);
 
-    	 transformation.wraparound(geo, duplicates);
-		 while (duplicates.empty() == false) {
-			UserPoint pt = duplicates.top();
-			CustomisedPoint *point = new CustomisedPoint(pt.x(), pt.y(), "");
-			point->insert(make_pair(key, value));
-			points.push_back(point);
-			duplicates.pop();
-		 }
 
       }
 
