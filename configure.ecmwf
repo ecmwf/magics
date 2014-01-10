@@ -2,7 +2,7 @@
 
 git_home="/home/graphics/cgs/git"
 version="2.22.1"
-magics="next-new"
+magics="daily"
 install_home="/usr/local/apps/Magics/$version"
 debug="off"
 bufr="on"
@@ -66,14 +66,9 @@ case "${OS_VERSION}" in
 
 
 
-args="-DCMAKE_INSTALL_PREFIX=${install_home}"
-args=" $args -DCMAKE_MODULE_PATH=${git_home}/ecbuild/cmake"
-args=" $args -DMAGICS_BUILD=${magics}"
-args=" $args -DBOOST_ROOT=$boost"
-args=" $args -DPROJ4_PATH=$proj4"
-args=" $args -DCMAKE_PREFIX_PATH=$python"
 args="-DCMAKE_INSTALL_PREFIX=${install_home} -DENABLE_STATIC_LIBRARY=ON"
 args=" $args -DCMAKE_MODULE_PATH=${git_home}/ecbuild/cmake"
+args=" $args -DMAGICS_BUILD=${magics}"
 args=" $args -DBOOST_ROOT=$boost"
 args=" $args -DPROJ4_PATH=$proj4"
 args=" $args -DENABLE_PYTHON=ON -DCMAKE_PREFIX_PATH=$python"
