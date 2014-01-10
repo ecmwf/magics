@@ -24,10 +24,10 @@
 #include "PaperPoint.h"
 #include "BasicSceneObject.h"
 #include "ObsTableAttributes.h"
+#include "ObsPlotting.h"
 
 namespace magics {
 
-class ObPlotting;
 
 class ObsTemplate: public vector<ObsItem*>
 {
@@ -45,8 +45,9 @@ public:
 		for ( const_iterator item = begin(); item != end(); ++item) 
 			    (*item)->visit(tokens);
 	}
-	void set(double apart, const ObsPlotting* obs) const {
-		apart_ = apart;
+	void set(const ObsPlotting* obs) const {
+		apart_ = obs->apart_;
+		height_ = obs->size_;
 		for ( const_iterator item = begin(); item != end(); ++item)
 					    (*item)->set(obs);
 	}
@@ -65,6 +66,7 @@ protected:
 	double           rows_;
 	mutable vector<PaperPoint> working_;
 	mutable double           apart_;
+	mutable double           height_;
 	mutable string          box_;
 	
 	friend ostream& operator<<(ostream& s,const ObsTemplate& p)
