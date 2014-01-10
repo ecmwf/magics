@@ -185,12 +185,12 @@ bool NetcdfMatrixInterpretor::x()
     		// small check to make sure that we do not have problem :
     		ostringstream geominx, geomaxx;
     		if ( magCompare(geo_x_convention_, "latlon") ) {
-    			geominx << aux.front() << "/" << columns_.front() << endl;
-    			geomaxx << aux.back() << "/" << columns_.back() << endl;
+    			geominx << aux.front() << "/" << columns_.front();
+    			geomaxx << aux.back() << "/" << columns_.back();
     		}
     		else {
-    			geominx << columns_.front() << "/" << aux.front() << endl;
-    			geomaxx << columns_.back() << "/" << aux.back() << endl;
+    			geominx << columns_.front() << "/" << aux.front();
+    			geomaxx << columns_.back() << "/" << aux.back();
     		}
     		geoMinX_ = geominx.str();
     		geoMaxX_ = geomaxx.str();
@@ -249,12 +249,12 @@ bool NetcdfMatrixInterpretor::y()
     	if ( !aux.empty() ) {
     		ostringstream geominy, geomaxy;
     		if ( magCompare(geo_y_convention_, "latlon") ) {
-    			geominy << rows_.front() << "/" << aux.front() << endl;
-    			geomaxy << rows_.back() << "/" << aux.back() << endl;
+    			geominy << rows_.front() << "/" << aux.front();
+    			geomaxy << rows_.back() << "/" << aux.back();
     		}
     		else {
-    			geominy << aux.front() << "/" << rows_.front() << endl;
-    			geomaxy << aux.back() << "/" << rows_.back() << endl;
+    			geominy << aux.front() << "/" << rows_.front();
+    			geomaxy << aux.back() << "/" << rows_.back();
     		}
 
     		geoMinY_ = geominy.str();
@@ -300,7 +300,8 @@ void NetcdfMatrixInterpretor::visit(Transformation& transformation)
 
 				}
 				else if ( !this->geoMinX_.empty() ) {
-					transformation.setDataMinMaxX(columns_.front(), columns_.back(), this->geoMinX_);
+					string coords = this->geoMinX_ + "/" + this->geoMaxX_;
+					transformation.setDataMinMaxX(columns_.front(), columns_.back(), coords);
 				}
 				else
 				{
