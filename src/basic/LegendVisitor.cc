@@ -109,7 +109,7 @@ PaperPoint LegendEntry::leftTextBox(const PaperPoint& middle)
 	// The width of the Symbol box is 100-width;
 
 	PaperPoint point(middle);
-	point.x_ = (middle.x_-1) + (2.5*(100-width_)/100);
+	point.x_ = (middle.x_-1) + (2.*(100-width_)/100);
 	MagLog::dev() << "LegendEntry::leftTextBox" << point << endl;
 	return point;
 }
