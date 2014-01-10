@@ -15,7 +15,7 @@ LegSymbHeight = 0.45
 
 myoutput = mag.output(output_formats = ['png'],
            output_name_first_page_number = 'off',
-           output_name = 'a')
+           output_name = 'efas_graph')
 
 
 

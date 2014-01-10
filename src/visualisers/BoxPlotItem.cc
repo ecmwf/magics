@@ -30,7 +30,6 @@
 #include "CustomisedPoint.h"
 #include "BoxPlotItem.h"
 #include "Polyline.h"
-#include "PaperPoint.h"
 #include "Transformation.h"
 using namespace magics;
 
@@ -47,11 +46,11 @@ void BoxPlotBox::operator()(BasicGraphicsObjectContainer& visitor, const Customi
 	CustomisedPoint::const_iterator lower = point.find("lower");
 	CustomisedPoint::const_iterator x = point.find("x");
 	if ( x == point.end() || upper == point.end() || lower == point.end() ) return;
-	box->push_back(PaperPoint(x->second-width, upper->second));
-	box->push_back(PaperPoint(x->second+width, upper->second));
-	box->push_back(PaperPoint(x->second+width, lower->second));
-	box->push_back(PaperPoint(x->second-width, lower->second));
-	box->push_back(PaperPoint(x->second-width, upper->second));
+	box->push_back(transformation(UserPoint(x->second-width, upper->second)));
+	box->push_back(transformation(UserPoint(x->second+width, upper->second)));
+	box->push_back(transformation(UserPoint(x->second+width, lower->second)));
+	box->push_back(transformation(UserPoint(x->second-width, lower->second)));
+	box->push_back(transformation(UserPoint(x->second-width, upper->second)));
 
 	(*border_)(*box);
 	visitor.push_back(box);
@@ -62,8 +61,8 @@ void BoxPlotBox::operator()(BasicGraphicsObjectContainer& visitor, const Customi
 
 	Polyline* line  = new Polyline();	
 
-	line->push_back(PaperPoint(x->second-width, median->second));
-	line->push_back(PaperPoint(x->second+width, median->second));
+	line->push_back(transformation(UserPoint(x->second-width, median->second)));
+	line->push_back(transformation(UserPoint(x->second+width, median->second)));
 
 	(*median_)(visitor, line);
 }
@@ -98,11 +97,11 @@ void BoxPlotWhiskerBox::top(BasicGraphicsObjectContainer& visitor, const Customi
 	CustomisedPoint::const_iterator upper = point.find("upper");
 	CustomisedPoint::const_iterator x = point.find("x");
 	if ( x == point.end() || max == point.end() || upper == point.end() ) return;
-	whisker->push_back(PaperPoint(x->second-width, max->second));
-	whisker->push_back(PaperPoint(x->second+width, max->second));
-	whisker->push_back(PaperPoint(x->second+width, upper->second));
-	whisker->push_back(PaperPoint(x->second-width, upper->second));
-	whisker->push_back(PaperPoint(x->second-width, max->second));
+	whisker->push_back(transformation(UserPoint(x->second-width, max->second)));
+	whisker->push_back(transformation(UserPoint(x->second+width, max->second)));
+	whisker->push_back(transformation(UserPoint(x->second+width, upper->second)));
+	whisker->push_back(transformation(UserPoint(x->second-width, upper->second)));
+	whisker->push_back(transformation(UserPoint(x->second-width, max->second)));
 
 	(*border_)(*whisker);
 	visitor.push_back(whisker);
@@ -121,11 +120,11 @@ void BoxPlotWhiskerBox::bottom(BasicGraphicsObjectContainer& visitor, const Cust
 	CustomisedPoint::const_iterator lower = point.find("lower");
 	CustomisedPoint::const_iterator x = point.find("x");
 	if ( x == point.end() || min == point.end() || lower == point.end() ) return;
-	whisker->push_back(PaperPoint(x->second-width, min->second));
-	whisker->push_back(PaperPoint(x->second+width, min->second));
-	whisker->push_back(PaperPoint(x->second+width, lower->second));
-	whisker->push_back(PaperPoint(x->second-width, lower->second));
-	whisker->push_back(PaperPoint(x->second-width, min->second));
+	whisker->push_back(transformation(UserPoint(x->second-width, min->second)));
+	whisker->push_back(transformation(UserPoint(x->second+width, min->second)));
+	whisker->push_back(transformation(UserPoint(x->second+width, lower->second)));
+	whisker->push_back(transformation(UserPoint(x->second-width, lower->second)));
+	whisker->push_back(transformation(UserPoint(x->second-width, min->second)));
 
 	(*border_)(*whisker);
 	visitor.push_back(whisker);
@@ -133,6 +132,7 @@ void BoxPlotWhiskerBox::bottom(BasicGraphicsObjectContainer& visitor, const Cust
 
 void BoxPlotWhiskerLine::top(BasicGraphicsObjectContainer& visitor, const CustomisedPoint& point) const
 {
+	const Transformation& transformation = visitor.transformation();
 	Polyline* whisker  = new Polyline();				
 	whisker->setColour(*colour_);
 	whisker->setLineStyle(style_);
@@ -142,8 +142,8 @@ void BoxPlotWhiskerLine::top(BasicGraphicsObjectContainer& visitor, const Custom
 	CustomisedPoint::const_iterator upper = point.find("upper");
 	CustomisedPoint::const_iterator x = point.find("x");
 	if ( x == point.end() || max == point.end() || upper == point.end() ) return;
-	whisker->push_back(PaperPoint(x->second, max->second));
-	whisker->push_back(PaperPoint(x->second, upper->second));
+	whisker->push_back(transformation(UserPoint(x->second, max->second)));
+	whisker->push_back(transformation(UserPoint(x->second, upper->second)));
 	
 
 	
@@ -152,6 +152,7 @@ void BoxPlotWhiskerLine::top(BasicGraphicsObjectContainer& visitor, const Custom
 
 void BoxPlotWhiskerLine::bottom(BasicGraphicsObjectContainer& visitor, const CustomisedPoint& point) const
 {
+	const Transformation& transformation = visitor.transformation();
 	Polyline* whisker  = new Polyline();			
 	whisker->setColour(*colour_);
 	whisker->setLineStyle(style_);
@@ -161,8 +162,8 @@ void BoxPlotWhiskerLine::bottom(BasicGraphicsObjectContainer& visitor, const Cus
 	CustomisedPoint::const_iterator lower = point.find("lower");
 	CustomisedPoint::const_iterator x = point.find("x");
 	if ( x == point.end() || min == point.end() || lower == point.end() ) return;
-	whisker->push_back(PaperPoint(x->second, min->second));
-	whisker->push_back(PaperPoint(x->second, lower->second));
+	whisker->push_back(transformation(UserPoint(x->second, min->second)));
+	whisker->push_back(transformation(UserPoint(x->second, lower->second)));
 	
 
 	
