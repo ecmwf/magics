@@ -59,7 +59,7 @@ void ObsPlotting::operator()(Data& data, BasicGraphicsObjectContainer& out)
 	{		
 		try {
 			const ObsTemplate& obs = ObsTable::getTemplate(type->second);
-			obs.set(apart_, this);
+			obs.set(this);
 			obs.visit(needs);
 		}
 		catch (std::exception&)
