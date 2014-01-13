@@ -168,7 +168,7 @@ void InputData::customisedPoints(const Transformation& transformation, const std
 		double angle = 0;
 		if ( xc != x_component_.end() && yc != y_component_.end() ) {
 			speed = sqrt( (*xc * *xc)  +  (*yc * *yc) );
-			angle = ( atan2(*xc, *yc)*(180/M_PI) );
+			angle = ( 270. - atan2(*yc, *xc)*(180/M_PI) );
 			if ( angle == 0 ) angle =0.1;
 			(*point)["x_component"] = *(xc++);
 			(*point)["y_component"] = *(yc++);
