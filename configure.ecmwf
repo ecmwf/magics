@@ -1,4 +1,4 @@
-#!/usr/ksh
+#!/usr/bin/ksh
 
 git_home="/home/graphics/cgs/git"
 version="2.22.1"
