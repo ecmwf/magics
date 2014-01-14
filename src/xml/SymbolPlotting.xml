@@ -63,7 +63,6 @@
             		    this  should give you easier control of the plot. </documentation>
 
         <set value='off' name='symbol_colour'/>
-        <set value='off' name='symbol_format'/>
         <set value='off' name='symbol_height'/>
         <set value='off' name='symbol_marker_mode'/>
         <set value='off' name='symbol_marker_index'/>
