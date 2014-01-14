@@ -368,7 +368,7 @@ def removeBranch(branch):
     
     if len(newdata)<len(olddata):  
         #remove the branch files in data server
-        command= 'ssh deploy@download-admin "rm -rf /home/deploy/test-data/magics/regression_output/%s"'%branch)
+        command= 'ssh deploy@download-admin "rm -rf /home/deploy/test-data/magics/regression_output/%s"'%branch
         call(command,shell=True)
     
         #build the html file
@@ -393,5 +393,7 @@ if __name__ == "__main__":
     branch= None
 
     if positional:
-        branch= positional.pop(0)     
+        branch= positional.pop(0) 
         removeBranch(branch)
+    else:
+        print 'Please provide a branch name. Nothing done.'
