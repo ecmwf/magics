@@ -368,7 +368,7 @@ def removeBranch(branch):
     
     if len(newdata)<len(olddata):  
         #remove the branch files in data server
-        command= ' '.join(['ssh deploy@download-admin;','rm -rf /test-data/magics/regression_output/%s;'%branch,'exit'])
+        command= 'ssh deploy@download-admin "rm -rf /home/deploy/test-data/magics/regression_output/%s"'%branch)
         call(command,shell=True)
     
         #build the html file
