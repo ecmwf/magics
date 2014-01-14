@@ -35,6 +35,8 @@ actions={
 	"minput": "pinput",
 	"mtable": "ptable",
 	"ptable": "ptable",
+	"pboxplot": "pboxplot",
+	"mboxplot": "pboxplot",
 	"pinput": "pinput"
 	}
 
