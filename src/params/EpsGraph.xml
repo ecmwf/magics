@@ -75,5 +75,7 @@
         	</parameter>
         	 
         	<parameter member="legend" to="bool" default="on" from="string" name="legend">           
+        	</parameter>
+        	<parameter member="grey_legend" to="bool" default="on" from="string" name="eps_grey_legend">           
         	</parameter>	 
 </class></magics>

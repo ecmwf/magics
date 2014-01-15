@@ -47,7 +47,7 @@ void OutputHandler::set(DriverManager& magics)
 	}
 
 	// Patch for driver png : make the line spacing smaller in case of png !
-	if (  formats_.size() == 1 && formats_.front() == "png" )
+	if (  formats_.size() == 1 && (formats_.front() == "png" || formats_.front() == "pdf") )
 			lineSpacing_ = 1.;
 
 
@@ -58,7 +58,9 @@ void OutputHandler::set(const XmlNode& node, DriverManager& magics)
 	try {
 		OutputFactory* factory = MagTranslator<string, OutputFactory>()(node.name());
 		if (node.name() == "png" && factories_.empty() )
-			lineSpacing_ = 1.;
+			lineSpacing_ = 0.8;
+		else if (node.name() == "pdf" && factories_.empty() )
+			lineSpacing_ = 0.8;
 		else
 			lineSpacing_ = 1.2;
 
