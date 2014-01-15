@@ -21,6 +21,32 @@ if ( ENABLE_FORTRAN)
      endif()
 endif()
     
+if ( ENABLE_BUFR )
+    if ( ENABLE_PYTHON )
+       ecbuild_add_test( TARGET bufr_python
+                  TYPE PYTHON
+                  ARGS bufr.py
+                  RESOURCES grib.py data.bufr 
+                  ENVIRONMENT PYTHONPATH=${MAG_PYTHON_PATH} )
+    endif()
+    if ( ENABLE_FORTRAN) 
+        ecbuild_add_test( TARGET bufr_fortran
+                SOURCES   bufr.f90
+                LIBS      MagPlusSingle MagPlusShared
+                RESOURCES data.bufr
+                LINKER_LANGUAGE CXX )
+        if ( ENABLE_STATIC_LIBRARY )
+             ecbuild_add_test( TARGET bufr_fortran_static
+                    SOURCES   bufr.f90
+                    RESOURCES data.bufr
+                    LIBS      MagPlusSingle MagPlusStatic
+                    LINKER_LANGUAGE CXX )       
+         endif()
+    endif()
+endif()
+
+
+
 
 if ( ENABLE_GRIB )
     if ( ENABLE_PYTHON )
