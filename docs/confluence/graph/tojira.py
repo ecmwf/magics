@@ -31,6 +31,9 @@ list = [ {"file" : "graph1",
                   "data" : []},
 		 {"file" : "graph10", 
 		 "title" : "Simple graph with Symbol and outline ( avalaiable from Magics2.20)...",
+                  "data" : []},
+		 {"file" : "graph11", 
+		 "title" : "Simple graph and boxplot ",
                   "data" : []}
 
 

@@ -948,13 +948,21 @@ void EpsGraph::visit(LegendVisitor& legend)
     if ( !legend_ ) return;
 	EpsEntry* entry = fullEps_ ? new FullEpsEntry() : new EpsEntry();
 	
-    entry->colour(*colour_);
-	entry->borderColour(*border_colour_);
-	
+	if ( grey_legend_ ) {
+		entry->colour(Colour("grey"));
+		entry->borderColour(Colour("charcoal"));
+	}
+	else {
+		entry->colour(*colour_);
+		entry->borderColour(*border_colour_);
+	}
     MagFont font(font_);
     font.style(font_style_);
 	font.size(legend_size_);
-	font.colour(*font_colour_);
+	if ( grey_legend_ ) {
+		font.colour( Colour("charcoal"));
+	}
+
 	entry->font(font);
 	if ( whisker_ && eps_ )	
         legend.add(entry);
@@ -2270,8 +2278,8 @@ void EpsShade::visit(LegendVisitor& legend)
 {
     EpsShadeEntry *entry = new EpsShadeEntry();
     entry->font_ = MagFont("sansserif");
-    entry->font_.size(0.25);
-    entry->font_.colour(Colour("Rgb(0.2, 0.2, 0.2)"));
+    entry->font_.size(0.4);
+    entry->font_.colour(legend.colour_->name());
     legend.add(entry);
 }
 

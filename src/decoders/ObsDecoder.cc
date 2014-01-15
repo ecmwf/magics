@@ -562,7 +562,10 @@ void ObsDecoder::decode()
 {
 	// Read observation file
 	MvObsSet obsSet(file_name_.c_str());
-
+	if ( obsSet.messageCount() <= 0 ) {
+		valid_ = false;
+		return;
+	}
 	// Test 
         MvObsSetIterator obsIterator(obsSet);
 	MvObs obs = obsIterator();
@@ -609,7 +612,8 @@ bool ObsDecoder::checkLevel(double level)
 void ObsDecoder::getInfo(const std::set<string>& tokens, multimap<string, string>& values)
 {
 	MvObsSet obsSet(file_name_.c_str());
-
+	if ( obsSet.messageCount() <= 0 )
+		return;
 	for (std::set<string>::const_iterator token = tokens.begin(); token != tokens.end(); ++token)
 	{
 		std::set<string> noduplicate;
@@ -647,6 +651,11 @@ void ObsDecoder::getInfo(const std::set<string>& tokens, multimap<string, string
 void ObsDecoder::customisedPoints(const Transformation& transformation, const std::set<string>& tokens, CustomisedPointsList& values)
 {
 	MvObsSet obsSet(file_name_.c_str());
+
+	if ( obsSet.messageCount() <= 0 ) {
+		valid_ = false;
+		return;
+	}
 
 	// Test 
 	MvObsSetIterator obsIterator(obsSet);
