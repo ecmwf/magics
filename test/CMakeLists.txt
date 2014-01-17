@@ -34,13 +34,13 @@ if ( ENABLE_BUFR )
                 SOURCES   bufr.f90
                 LIBS      MagPlusSingle MagPlusShared
                 RESOURCES data.bufr
-                LINKER_LANGUAGE CXX )
+                LINKER_LANGUAGE Fortran )
         if ( ENABLE_STATIC_LIBRARY )
              ecbuild_add_test( TARGET bufr_fortran_static
                     SOURCES   bufr.f90
                     RESOURCES data.bufr
                     LIBS      MagPlusSingle MagPlusStatic
-                    LINKER_LANGUAGE CXX )       
+                    LINKER_LANGUAGE Fortran )       
          endif()
     endif()
 endif()
