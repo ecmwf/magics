@@ -279,9 +279,6 @@ def buildVersions(vData):
             tests= data[bra][ver].keys()
             tests.sort()
             for tes in tests:
-
-
-                
                 tesgrp= tes
                 teslnk= tes.split('/')[-1]
                                 
