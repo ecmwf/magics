@@ -5,11 +5,10 @@
             "fullname": "15days_clim.png", 
             "output_cairo_transparent_background": "off", 
             "output_name_first_page_number": "off", 
-            "output_width": "650"
+            "output_width": "600"
         }
     ], 
-    "height": "916", 
-    "width": "650", 
+    "height": "900", 
     "method": "wrep", 
     "page": [
         {
@@ -68,12 +67,12 @@
                         }, 
                         "wrepjson": {
                             "wrepjson_family": "eps", 
-                            "wrepjson_input_filename": "15days_clim.data",
+                            "wrepjson_input_filename": "15days_clim.data", 
                             "wrepjson_keyword": "eps", 
                             "wrepjson_parameter": "164.128", 
                             "wrepjson_parameter_information": "Daily mean of Total Cloud Cover (okta) ", 
                             "wrepjson_parameter_scaling_factor": "8", 
-                            "wrepjson_product_information": "Extended Range Forecast based on EPS distribution "
+                            "wrepjson_product_information": "Extended Range Forecast based on ENS distribution "
                         }
                     }
                 ], 
@@ -105,10 +104,10 @@
                 "text_font_name": "sansserif", 
                 "text_font_style": "bold", 
                 "text_justification": "left", 
-                "text_line_1": "<font size='0.6'>EPS Meteogram</font>", 
+                "text_line_1": "<font size='0.6'>ENS Meteogram</font>", 
                 "text_line_2": "<font size='0.6'><json_info key='station_name'/></font><font size='0.6'><json_info key='location'/></font> <font size='0.6'><json_info key='grid_point'/></font> <font size='0.6'><json_info key='height'/></font>", 
                 "text_line_3": "<font size='0.6'><json_info key='product_info'/></font><font size='0.6'><json_info key='date'/></font>", 
-                "text_line_4": "<font size='0.2' colour ='white'>.</font>",
+                "text_line_4": "<font size='0.2' colour='white'>.</font>", 
                 "text_line_5": "<font size='0.5'><json_info key='parameter_info'/></font>", 
                 "text_line_count": "5", 
                 "width": "100%"
@@ -149,7 +148,7 @@
                             "eps_shade_line_thickness": "4"
                         }, 
                         "wrepjson": {
-                            "wrepjson_input_filename": "15days_clim.data",
+                            "wrepjson_input_filename": "15days_clim.data", 
                             "wrepjson_keyword": "clim", 
                             "wrepjson_parameter": "143.128", 
                             "wrepjson_parameter_scaling_factor": "1000"
@@ -164,7 +163,7 @@
                         }, 
                         "wrepjson": {
                             "wrepjson_family": "eps", 
-                            "wrepjson_input_filename": "15days_clim.data",
+                            "wrepjson_input_filename": "15days_clim.data", 
                             "wrepjson_keyword": "eps", 
                             "wrepjson_parameter": "143.128", 
                             "wrepjson_parameter_information": "Total Precipitation (mm/24h)", 
@@ -208,7 +207,7 @@
         }, 
         {
             "border": "off", 
-            "height": "6%", 
+            "height": "7%", 
             "legend": {
                 "blanking": "off", 
                 "border": "off", 
@@ -258,7 +257,7 @@
                     }, 
                     "wrepjson": {
                         "wrepjson_family": "eps", 
-                        "wrepjson_input_filename": "15days_clim.data",
+                        "wrepjson_input_filename": "15days_clim.data", 
                         "wrepjson_keyword": "eps", 
                         "wrepjson_parameter": "249.140", 
                         "wrepjson_parameter_information": "Daily Distribution of 10m Wind Direction"
@@ -327,7 +326,7 @@
                             "eps_shade_line_thickness": "4"
                         }, 
                         "wrepjson": {
-                            "wrepjson_input_filename": "15days_clim.data",
+                            "wrepjson_input_filename": "15days_clim.data", 
                             "wrepjson_keyword": "clim", 
                             "wrepjson_parameter": "165.128"
                         }
@@ -341,7 +340,7 @@
                         }, 
                         "wrepjson": {
                             "wrepjson_family": "eps", 
-                            "wrepjson_input_filename": "15days_clim.data",
+                            "wrepjson_input_filename": "15days_clim.data", 
                             "wrepjson_keyword": "eps", 
                             "wrepjson_parameter": "165.128", 
                             "wrepjson_parameter_information": "Daily mean of 10m Wind Speed (m/s)"
@@ -385,10 +384,19 @@
         {
             "border": "off", 
             "height": "30%", 
+            "legend": {
+                "border": "off", 
+                "bottom": "5%", 
+                "display": "absolute", 
+                "height": "30%", 
+                "left": "15%", 
+                "legend_plot_direction": "column", 
+                "legend_text_colour": "charcoal", 
+                "legend_text_font_size": "0.5", 
+                "width": "25%"
+            }, 
             "map": {
                 "border": "on", 
-                "height" : "60%",
-                "top_margin" : "15%",
                 "border-colour": "Rgb(0.5, 0.5, 0.5)", 
                 "cartesian": {
                     "x_date": {
@@ -398,7 +406,7 @@
                         "automatic": "on"
                     }
                 }, 
-                "height": "100%", 
+                "height": "55%", 
                 "horizontal_axis": {
                     "axis_days_label": "both", 
                     "axis_days_label_colour": "charcoal", 
@@ -425,7 +433,7 @@
                             "eps_shade_line_thickness": "4"
                         }, 
                         "wrepjson": {
-                            "wrepjson_input_filename": "15days_clim.data",
+                            "wrepjson_input_filename": "15days_clim.data", 
                             "wrepjson_keyword": "clim", 
                             "wrepjson_parameter": "122.128", 
                             "wrepjson_parameter_information": "none", 
@@ -439,7 +447,7 @@
                             "eps_shade_line_thickness": "4"
                         }, 
                         "wrepjson": {
-                            "wrepjson_input_filename": "15days_clim.data",
+                            "wrepjson_input_filename": "15days_clim.data", 
                             "wrepjson_keyword": "clim", 
                             "wrepjson_parameter": "121.128", 
                             "wrepjson_parameter_information": "none", 
@@ -449,16 +457,16 @@
                     }, 
                     {
                         "epsgraph": {
-                            "legend" : "off",
                             "eps_box_border_colour": "charcoal", 
                             "eps_box_border_thickness": "2", 
                             "eps_box_colour": "sky", 
                             "eps_box_shift": "-6", 
-                            "eps_box_width": "3"
+                            "eps_box_width": "3", 
+                            "legend": "off"
                         }, 
                         "wrepjson": {
                             "wrepjson_family": "eps", 
-                            "wrepjson_input_filename": "15days_clim.data",
+                            "wrepjson_input_filename": "15days_clim.data", 
                             "wrepjson_keyword": "eps", 
                             "wrepjson_parameter": "122.128", 
                             "wrepjson_parameter_information": "2m min/max Temperature (&deg;C)", 
@@ -472,13 +480,13 @@
                             "eps_box_border_thickness": "2", 
                             "eps_box_colour": "red", 
                             "eps_box_shift": "6", 
-                            "eps_box_width": "3",
-                            "eps_legend_font_size" : "0.3",
-                            "eps_grey_legend" : "on" 
+                            "eps_box_width": "3", 
+                            "eps_grey_legend": "on", 
+                            "eps_legend_font_size": "0.3"
                         }, 
                         "wrepjson": {
                             "wrepjson_family": "eps", 
-                            "wrepjson_input_filename": "15days_clim.data",
+                            "wrepjson_input_filename": "15days_clim.data", 
                             "wrepjson_keyword": "eps", 
                             "wrepjson_parameter": "121.128", 
                             "wrepjson_parameter_information": "none", 
@@ -487,6 +495,20 @@
                         }
                     }
                 ], 
+                "text": {
+                    "border": "off", 
+                    "bottom": "95%", 
+                    "display": "absolute", 
+                    "height": "20%", 
+                    "text_colour": "charcoal", 
+                    "text_font_name": "sansserif", 
+                    "text_font_size": "0.5", 
+                    "text_font_style": "bold", 
+                    "text_justification": "left", 
+                    "text_line_1": "<json_info key='parameter_info'/><json_info key='short_temperature_correction_info'/>", 
+                    "text_line_count": "1", 
+                    "width": "100%"
+                }, 
                 "vertical_axis": {
                     "axis_grid": "on", 
                     "axis_grid_colour": "grey", 
@@ -508,51 +530,25 @@
             "page_id": "off", 
             "text": {
                 "border": "off", 
-                "bottom": "93%", 
+                "bottom": "0%", 
                 "display": "absolute", 
                 "height": "20%", 
-                "text_colour": "charcoal", 
-                "text_font_name": "sansserif", 
-                "text_font_size": "0.5", 
-                "text_font_style": "bold", 
-                "text_justification": "left", 
-                "text_line_1": "<json_info key='parameter_info'/><json_info key='short_temperature_correction_info'/>", 
-                "text_line_count": "1", 
-                "width": "100%"
-            },
-            "text": {
-                "border": "off", 
-                "bottom": "3%", 
-                "display": "absolute", 
-                "height": "20%",
-                "width" :  "40%",
-                "left" : "40%", 
+                "left": "40%", 
                 "text_colour": "charcoal", 
                 "text_font_name": "sansserif", 
                 "text_font_size": "0.5", 
                 "text_justification": "left", 
-                "text_line_1": "<b>M-Climate</b>: this stands for Model Climate. It is a",
+                "text_line_1": "<b>M-Climate</b>: this stands for Model Climate. It is a", 
                 "text_line_2": "function of lead time, date (+/-15days), and model", 
-                "text_line_3": "version. It is derived by rerunning a 5 member",
-                "text_line_4": "ensemble over the last 20 years. once per week (500",
-                "text_line_5": "realisations). M-Climate is always from the same",
-                "text_line_6": "model version as the displayed EPS data.",
+                "text_line_3": "version. It is derived by rerunning a 5 member", 
+                "text_line_4": "ensemble over the last 20 years. once per week (500", 
+                "text_line_5": "realisations). M-Climate is always from the same", 
+                "text_line_6": "model version as the displayed ENS data.", 
                 "text_line_count": "6", 
                 "width": "100%"
-            },
-			"legend" : {
-				"display" : "absolute",
-				"bottom" : "5%",
-				"left" : "15%",
-				"width" : "25%",
-				"height" : "30%",
-				"border" : "off",
-				"legend_plot_direction" : "column",
-				"legend_text_colour" : "charcoal",
-				"legend_text_font_size" : "0.5"
-			}
-		        
+            }
         }
     ], 
-    "version": "3.0"
+    "version": "3.0", 
+    "width": "600"
 }
