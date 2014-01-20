@@ -1350,7 +1350,7 @@ void EpsWave::visit(LegendVisitor& legend)
 
 void EpsWind::visit(LegendVisitor& legend)
 {
-	
+	if ( !legend_ ) return;
 	MagFont font("sansserif", "normal", 0.25);
 	font.colour(Colour("Rgb(0.2, 0.2, 0.2)"));
 	
