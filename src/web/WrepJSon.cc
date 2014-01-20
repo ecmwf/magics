@@ -1180,7 +1180,8 @@ void WrepJSon::visit(TextVisitor& text)
 	text.update("json", "short_temperature_correction_info", short_correction.str());
 	text.update("json", "parameter_info", (param_info_ == "none") ? "": param_info_ );
 
-	text.update("json", "station_name", station_name_);
+	if (param_info_ != "none")
+		text.update("json", "station_name", station_name_);
 
 	//(**point)["y"]
 	text.update("json", "product_info", product_info_);
