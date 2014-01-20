@@ -1150,8 +1150,8 @@ void WrepJSon::visit(TextVisitor& text)
 
 	DateTime base(date_, time_);
 
-
-	text.update("json", "date", base.tostring("%A %e %B %Y %H UTC"));
+	if (param_info_ != "none")
+		text.update("json", "date", base.tostring("%A %e %B %Y %H UTC"));
 	ostringstream location;
 	UserPoint point(longitude_, latitude_);
 	location << " " << point.asLatitude() << " " << point.asLongitude();

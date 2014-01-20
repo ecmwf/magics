@@ -14,4 +14,7 @@
     	[ meteorological : Direction the parameter is coming from, 
     	  oceanographic : Direction the parameter is goint to]  		</documentation>       
     	</parameter>
+    	<parameter member="legend" to="bool" default="on" from="string" name="legend"> 
+    		<documentation> turn the legend (on/off)  		</documentation>          
+    	</parameter>
 </class></magics>
