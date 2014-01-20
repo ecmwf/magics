@@ -959,6 +959,7 @@ void EpsGraph::visit(LegendVisitor& legend)
     MagFont font(font_);
     font.style(font_style_);
 	font.size(legend_size_);
+	font.colour(*font_colour_);
 	if ( grey_legend_ ) {
 		font.colour( Colour("charcoal"));
 	}
