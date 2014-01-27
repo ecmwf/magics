@@ -2,98 +2,107 @@
 <class directory="visualisers" action_routine="pobs" prefix="obs" xmltag="obs" name="ObsPlotting">
 
  	<parameter xml="distance_apart" from="float" name="obs_distance_apart" default="1.0" member="apart" to="float">
-   		<release>Magics++ 2.10		</release>
    		<documentation>Minimum distance between the centre of any two observations in cm		</documentation>
  	</parameter>
-<parameter  from="string" name="obs_colour" default="black" member="colour" to="Colour">
+    <parameter  from="string" name="obs_colour" default="black" member="colour" to="Colour">
    		<release>Magics++ 2.10		</release>
-   		<documentation>Colour		</documentation>
+   		<documentation> Observation Colour		</documentation>
  	</parameter>
 
         <parameter member="size" to="float" default="0.2" from="float" name="obs_size">
-                <documentation> Height of plotted variables         </documentation>
+                <documentation> size of a single onservation in cm   </documentation>
         </parameter>
         <parameter member="ring_size" to="float" default="0.2" from="float" name="obs_ring_size">
-               <documentation> Size of the ring position       </documentation>
+               <documentation> Size of the station ring  in cm </documentation>
         </parameter>
 
-
 		<parameter member="present_ww_visible" to="bool" default="on" from="string" name="obs_present_weather">
-				<documentation> Turn On/off the pressure		</documentation>
+				<documentation> Turn On/off the present weather		</documentation>
+                <set name="obs_present_weather" value="on">        </set> 
     	</parameter>
 
     	<parameter member="present_ww_colour" to="Colour" default="automatic" from="string" name="obs_present_weather_colour">
-				<documentation> Colour the pressure info 		</documentation>
+				<documentation> Colour used to display  the present weather  		</documentation>
     	</parameter>
         
  	<parameter member="pressure_visible" to="bool" default="on" from="string" name="obs_pressure">
     		<documentation> Turn On/off the pressure		</documentation>
+            <set name="obs_pressure_colour" value="on">        </set> 
  	</parameter>
 
  	<parameter member="pressure_colour" to="Colour" default="automatic" from="string" name="obs_pressure_colour">
-    		<documentation> Colour the pressure info 		</documentation>
+    		<documentation> Colour used to display the pressure  		</documentation>
  	</parameter>
     <parameter member="upper_air_visible" to="bool" default="off" from="string" name="obs_upper_air_pressure">
-				<documentation> Turn On/off the pressure level ( satob)  		</documentation>
+				<documentation> Turn On/off the upper air pressure level ( satob)  		</documentation>
+            <set name="obs_upper_air_pressure" value="on">        </set> 
     	</parameter>
 
     	<parameter  from="string" name="obs_upper_level_pressure_colour" default="automatic" member="upper_air_colour" to="Colour">
-				<documentation> Colour the station ring 		</documentation>
+				<documentation> Colour used to display the upper air pressure level	</documentation>
     	</parameter>
         <parameter member="pressure_tendency_visible" to="bool" default="on" from="string" name="obs_pressure_tendency">
-				<documentation> Turn On/off the pressure		</documentation>
+				<documentation> Turn On/off the pressure tendency		</documentation>
+                <set name="obs_pressure_tendency" value="on">        </set> 
     	</parameter>
     
     	<parameter member="pressure_tendency_colour" to="Colour" default="automatic" from="string" name="obs_pressure_tendency_colour">
-				<documentation> Colour the pressure info 		</documentation>
+				<documentation> Colour used to display the pressure tendency 		</documentation>
     	</parameter>
         <parameter member="station_ring_visible" to="bool" default="on" from="string" name="obs_station_ring">
-    		<documentation> Turn On/off the station ring 		</documentation>
+    		<documentation> Turn On/off the station ring 			</documentation>
+            <set name="obs_station_ring" value="on">        </set> 
  	</parameter>
 
  	<parameter member="station_ring_colour" to="Colour" default="automatic" from="string" name="obs_station_ring_colour">
-   		<documentation> Colour the station ring 		</documentation>
+   		<documentation> Colour used to display the station ring    </documentation>
+
  	</parameter>
 <parameter member="temperature_visible" to="bool" default="on" from="string" name="obs_temperature">
     		<documentation> Turn On/off the Air temperature		</documentation>
+            <set name="obs_temperature" value="on">        </set> 
  	</parameter>
 
  	<parameter member="temperature_colour" to="Colour" default="automatic" from="string" name="obs_temperature_colour">
-    		<documentation> Colour the station ring 		</documentation>
+    		<documentation> Colour  used to display the Air temperature  </documentation>
  	</parameter>
     <parameter member="thickness_visible" to="bool" default="on" from="string" name="obs_thickness">
         		<documentation> Turn On/off the Thickness		</documentation>
+                <set name="obs_thickness" value="on">        </set> 
         		<release>2.6		</release>
     	</parameter>
     
     	<parameter member="thickness_colour" to="Colour" default="automatic" from="string" name="obs_thickness_colour">
-        		<documentation> Colour the thickness 		</documentation>
+        		<documentation> Colour  used to display the thickness 		</documentation>
     	</parameter>
         <parameter member="height_visible" to="bool" default="on" from="string" name="obs_height">
         		<documentation> Turn On/off the height (geopotential)  		</documentation>
+                <set name="obs_height" value="on">        </set> 
         		<release>2.6		</release>
     	</parameter>
     	<parameter member="height_colour" to="Colour" default="automatic" from="string" name="obs_height_colour">
-        		<documentation> Colour of the height information 		</documentation>
+        		<documentation> Colour  used to display  the height information 		</documentation>
         		<release>2.6		</release>
     	</parameter>
         <parameter member="identifier_visible" to="bool" default="off" from="string" name="obs_identification">
-				<documentation> Turn On/off the pressure level ( satob)  		</documentation>
+				<documentation> Turn On/off the station identification  		</documentation>
+                <set name="obs_identification" value="on">        </set> 
     	</parameter>
 
     	<parameter member="identifier_colour" to="Colour" default="automatic" from="string" name="obs_identification_colour">
-				<documentation> Colour the identification info 		</documentation>
+				<documentation> Colour  used to display  the station identification  		</documentation>
     	</parameter>
         <parameter member="cloud_visible" to="bool" default="on" from="string" name="obs_cloud">
-				<documentation> Turn On/off the pressure level ( satob)  		</documentation>
+				<documentation> Turn On/off the cloud   		</documentation>
     	</parameter>
 
     	<parameter member="low" to="bool" default="on" from="string" name="obs_low_cloud">
 				<documentation> Turn On/off the low cloud  		</documentation>
+                <set name="obs_low_cloud_colour" value="on">        </set> 
     	</parameter>
     
     	<parameter member="low_colour" to="Colour" default="automatic" from="string" name="obs_low_cloud_colour">
-				<documentation> Colour of the low cloud 		</documentation>
+				<documentation> Colour used to display the low cloud 		</documentation>
     	</parameter>
     
      	<parameter member="medium" to="bool" default="on" from="string" name="obs_medium_cloud">
@@ -101,64 +110,74 @@
     	</parameter>    
 
     	<parameter member="medium_colour" to="Colour" default="automatic" from="string" name="obs_medium_cloud_colour">
-       		<documentation> Colour of  medium cloud 		</documentation>
+       		<documentation> Colour used to display the  medium cloud 		</documentation>
+                <set name="obs_medium_cloud_colour" value="on">        </set> 
     	</parameter>
 
     	<parameter member="high" to="bool" default="on" from="string" name="obs_high_cloud">
       		<documentation> Turn On/off the high cloud  		</documentation>
+                <set name="obs_high_cloud_colour" value="on">        </set> 
     	</parameter>
 
     	<parameter member="high_colour" to="Colour" default="red" from="string" name="obs_high_cloud_colour">
-      		<documentation> Colour of the high cloud 		</documentation>
+      		<documentation> Colour used to display the high cloud 		</documentation>
  		</parameter>
 		<parameter member="dewpoint_visible" to="bool" default="on" from="string" name="obs_dewpoint">
-				<documentation> Turn On/off the pressure		</documentation>
+				<documentation> Turn On/off the dewpoint		</documentation>
+                <set name="obs_dewpoint_colour" value="on">        </set> 
     	</parameter>
     	
     	<parameter member="dewpoint_colour" to="Colour" default="red" from="string" name="obs_dewpoint_colour">
-				<documentation> Colour the pressure info 		</documentation>
+				<documentation> Colour used to display the dewpoint 		</documentation>
     	</parameter>
     	<parameter member="sea_temperature_visible" to="bool" default="on" from="string" name="obs_sea_temperature">
-				<documentation> Turn On/off the pressure		</documentation>
+				<documentation> Turn On/off the sea temperature		</documentation>
     	</parameter>
     	
     	<parameter member="sea_temperature_colour" to="Colour" default="black" from="string" name="obs_sea_temperature_colour">
-				<documentation> Colour the pressure info 		</documentation>
+				<documentation> Colour sed to display the sea temperature 		</documentation>
+                <set name="obs_sea_temperature_colour" value="on">        </set> 
     	</parameter>
     	
     	<parameter member="waves_visible" to="bool" default="on" from="string" name="obs_waves">
 				<documentation> Turn On/off the waves and swell information		</documentation>
+                <set name="obs_waves_colour" value="on">        </set> 
     	</parameter>
     	
     	<parameter member="waves_colour" to="Colour" default="black" from="string" name="obs_waves_colour">
-				<documentation> Colour the pressure info 		</documentation>
+				<documentation> Colour used to display  the waves and swell 		</documentation>
     	</parameter>
         <parameter member="past_ww_visible" to="bool" default="on" from="string" name="obs_past_weather">
-				<documentation> Turn On/off the pressure level (satob)		</documentation>
+				<documentation> Turn On/off the pas Weather level (satob)		</documentation>
+                <set name="obs_past_weather_colour" value="on">        </set> 
     	</parameter>
     
     	<parameter member="past_ww_colour" to="Colour" default="red" from="string" name="obs_past_weather_colour">
-				<documentation> Colour of the past weather 		</documentation>
+				<documentation> Colour  used to display  the past weather 		</documentation>
     	</parameter>
         <parameter member="time_plot_visible" to="bool" default="off" from="string" name="obs_time">
-				<documentation> Turn On/off the Air temperature		</documentation>
+				<documentation> Turn On/off the observation time  		</documentation>
+                <set name="obs_time_colour" value="on">        </set> 
     	</parameter>
     
     	<parameter member="time_plot_colour" to="Colour" default="automatic" from="string" name="obs_time_colour">
-				<documentation> Colour the station ring 		</documentation>
-    	</parameter> directory="visualisers" action_routine="pobs" prefix="obs" xmltag="visi" name="ObsVisibility">
+				<documentation> Colour used to display the observation time 		</documentation>
+        </parameter>
 		<parameter member="visibility_visible" to="bool" default="on" from="string" name="obs_visibility">
-				<documentation> Turn On/off the pressure		</documentation>
+				<documentation> Turn On/off the visibility</documentation>
+                <set name="obs_visibility_colour" value="on">        </set> 
     	</parameter>
     
     	<parameter member="visibility_colour" to="Colour" default="automatic" from="string" name="obs_visibility_colour">
-				<documentation> Colour the pressure info 		</documentation>
+				<documentation> Colour  used to display  the visibility 		</documentation>
     	</parameter>
         <parameter member="wind_visible" to="bool" default="on" from="string" name="obs_wind">
     		<documentation> Turn On/off the wind 		</documentation>
+                <set name="obs_wind" value="on">        </set> 
  	</parameter>
 
  	<parameter member="wind_colour" to="Colour" default="automatic" from="string" name="obs_wind_colour">
-    		<documentation> Colour the station ring 		</documentation>
+    		<documentation> Colour   used to display  wind 		</documentation>
  	</parameter>
-</class></magics>
+</class>
+</magics>
