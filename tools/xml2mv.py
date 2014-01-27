@@ -53,6 +53,8 @@ class ObjectHandler(ContentHandler):
 	ignore = False
 	mydef = []   # the growing list of parameters
 	param = ""
+	tag = ""
+	doc = "Documentation"
 	myoptions = []
 	optionalparams  = {}
 	optionalparams2 = {}  # see reorganiseOptionalParameters()
@@ -63,6 +65,7 @@ class ObjectHandler(ContentHandler):
 	classes = {}
 	#inheritedlast = ""
 	unset = {}
+	current = {}
 	filehistory = []  # a list of files we have opened (so that we don't open the same one twice)
 	debug = 0  # gives some output on stdout
 	toplevel = True
@@ -112,8 +115,11 @@ class ObjectHandler(ContentHandler):
 			self.file.write(" %s='%s'" % (key.upper() , attrs.getValue(key).upper()))
 		self.file.write(">\n")
 
-	def characters(self, data):
-		pass
+	def characters(self, content):
+		
+		if ( self.tag == "documentation" ) : 				
+				self.doc += content.lstrip();
+			
 	
 
 	# addhidden - if the appropriate flag is set in the attributes, return the text that will
@@ -125,7 +131,7 @@ class ObjectHandler(ContentHandler):
 			return ""
 
 	def toggle(self, attrs):
-		s = "\t%s\n%s\t{\n" % (attrs.get("name").upper(), self.addhidden(attrs))
+		s = "\t%s [ help_text = '%s' ]\n %s\t{\n" % (attrs.get("name").upper(), self.doc.strip(), self.addhidden(attrs))
 		s = s + "\t\tON;  ON\n"
 		s = s + "\t\tOFF; OFF\n"
 		s = s + "\t} = %s\n" % self.default(attrs).upper()
@@ -159,7 +165,7 @@ class ObjectHandler(ContentHandler):
 
 
 	def number(self, attrs):
-		s = "\t%s\n%s\t{\n" % (attrs.get("name").upper(), self.addhidden(attrs))
+		s = "\t%s[ help_text = '%s' ]\n%s\t{\n" % (attrs.get("name").upper(), self.doc.strip(), self.addhidden(attrs))
 		s = s + "\t\t*\n"
 		s = s + "\t} = %s\n" % self.default(attrs).upper()
 		return s
@@ -176,12 +182,12 @@ class ObjectHandler(ContentHandler):
 
 	def listofstrings(self, attrs):
 		if (attrs.get("colourlist") == "on" ) :
-			 s = "\t%s [ help = help_colour,interface = colour ]\n%s\t{ \n" % (attrs.get("name").upper(), self.addhidden(attrs))
+			 s = "\t%s [ help = help_colour,interface = colour, help_text='%s' ]\n%s\t{ \n" % (attrs.get("name").upper(), self.doc.strip(), self.addhidden(attrs))
 			 s = s + "\t\t&PARAMSHARE&COLOUR"
 			 s = s + "\t\t/\n"
 			 s = s + "\t} = %s\n" % self.default(attrs).upper()
 		elif (attrs.get("countrylist") == "on" ):
-			s = "\t%s [ help = help_multiple_selection, exclusive = False ]\n%s\t{\n" % (attrs.get("name").upper(),self.addhidden(attrs) )
+			s = "\t%s [ help = help_multiple_selection, exclusive = False, help_text='%s']\n%s\t{\n" % (attrs.get("name").upper(), self.doc.strip(), self.addhidden(attrs) )
 			countries = attrs.get("values").split("/")
 			for c in countries:
 				parts = c.split(':')
@@ -203,7 +209,7 @@ class ObjectHandler(ContentHandler):
 
 
 	def colour(self, attrs):
-		s = "\t%s [ help = help_colour,interface = colour ]\n%s\t{ \n" % (attrs.get("name").upper(), self.addhidden(attrs))
+		s = "\t%s [ help = help_colour,interface = colour, help_text='%s' ]\n%s\t{ \n" % (attrs.get("name").upper(), self.doc.strip(), self.addhidden(attrs))
 		s = s + "\t\t&PARAMSHARE&COLOUR\n"
 		mi = attrs.get("metview_interface")
 		if mi == "ColourWithExtra":
@@ -507,6 +513,7 @@ class ObjectHandler(ContentHandler):
 
 
 	def startElement(self, name, attrs):
+		self.tag = name;
 		if (name == "magics") :
 			return
 
@@ -553,32 +560,18 @@ class ObjectHandler(ContentHandler):
 						pass
 
 		if (name == "parameter") or (name == "metview_parameter"):
+		
 			self.ignore = False
 			self.param = attrs.get("name")
+			self.current = attrs
 			if (self.debug) :
 				print("  param: " + self.param)
-			if (attrs.get("implemented") == 'no'):
-				return
-			if (attrs.get("metview") == 'no'):
-				return
-			if (attrs.get("visible") == 'no') or (attrs.get("visible") == 'off') or (attrs.get("visible") == 'false'):
-				return
-			if (attrs.get("inherit_parent_reqs") != 'no'):
-				docclass = attrs.get("doc_class", None)
-				if docclass <> None:
-					paramclass = docclass
-				else:
-					paramclass = self.classname
-				self.addParameterToClass(self.param, paramclass)
-			type = attrs.get("to")
-			metview_type = attrs.get("metview_interface")
-			if metview_type <> None:
-				type = metview_type
-			if (self.types.has_key(type)):
-				f = self.types[type]
-				self.newparam(self.param, f(self, attrs), self.default(attrs))
-			else:
-				self.last = self.last + self.options(attrs)
+		   
+			
+				
+		if (name == "documentation"):
+			self.doc = "";
+		
 
 		if (name == "set"):
 			setname = attrs.get("name")
@@ -657,10 +650,37 @@ class ObjectHandler(ContentHandler):
 
 		if self.ignore:
 			return
-
-		if ((name == "parameter" or name == "metview_parameter") and len(self.myoptions) != 0) :
+	
+	
+		if (name == "parameter" or name == "metview_parameter") :
 		#if (name == "parameter") :
-			#print(self.myoptions)
+			print "param"
+			print(self.current)
+			attrs = self.current;
+			
+			if (attrs.get("implemented") == 'no'):
+				return
+			if (attrs.get("metview") == 'no'):
+				return
+			if (attrs.get("visible") == 'no') or (attrs.get("visible") == 'off') or (attrs.get("visible") == 'false'):
+				return
+			if (attrs.get("inherit_parent_reqs") != 'no'):
+				docclass = attrs.get("doc_class", None)
+				if docclass <> None:
+					paramclass = docclass
+				else:
+					paramclass = self.classname
+				self.addParameterToClass(self.param, paramclass)
+			type = attrs.get("to")
+			metview_type = attrs.get("metview_interface")
+			if metview_type <> None:
+				type = metview_type
+			if (self.types.has_key(type)):
+				f = self.types[type]
+				self.newparam(self.param, f(self, attrs), self.default(attrs))
+			else:
+				self.last = self.last + self.options(attrs)
+				
 			self.last = self.last + "\t} = %s\n" % self.defparam
 			self.newparam(self.param, self.last, self.defparam)
 			if (self.debug) :
