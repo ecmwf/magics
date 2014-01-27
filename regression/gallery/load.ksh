@@ -1,12 +1,11 @@
 #!/bin/ksh
 
-versions="current++ new++" 
-src=`ls projection*.py`
+versions="current++" 
+src=`ls *.py`
 
 dir=`pwd`
 name=`basename $dir`
 
-echo "" > CMakeLists.txt2
 
 for sf in $src 
 do
@@ -18,12 +17,11 @@ do
     if [ $v = "current++" ];
     then
        use magics++ 
-       echo $x >> CMakeLists.txt2
     else
        use newmagics++ 
     fi
 
 	version=`/usr/local/apps/Magics/$v/bin/magics-config --version`
-     ../upload.py $version ./$sf $s.png magics/reference/$version/gallery -i python
+     ../upload.py $version ./$sf $s.png magics/reference/$version/efas -i python
 done
 done
