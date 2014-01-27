@@ -2,7 +2,7 @@
 
 git_home="/home/graphics/cgs/git"
 version="2.22.1"
-magics="daily"
+magics=""
 install_home="/usr/local/apps/Magics/$version"
 debug="off"
 bufr="on"
@@ -80,7 +80,7 @@ else
     echo "Release Mode enabled"
 fi
 if [[ $regression = "on" ]];then
-    args="$args -DENABLE_REGRESSION=ON -DENABLE_REGRESSION_UPLOAD=on"
+    args="$args -DENABLE_REGRESSION=ON -DENABLE_REGRESSION_UPLOAD=ON"
     echo "Regression enabled"
 else
     args="$args -DENABLE_REGRESSION=OFF"
