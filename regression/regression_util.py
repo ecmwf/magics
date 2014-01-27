@@ -54,11 +54,21 @@ def extension(filename,newExtension):
     return '.'.join(aux)
 
 def upload(filename,destination):
+    #create destination directory path if it does not exist
+    dir_path= '/home/deploy/test-data/' + '/'.join(destination.split('/')[:-1])
+    command= 'ssh deploy@download-admin "mkdir -p %s"'%dir_path
+    e= call(command,shell=True)
+    if not e==0:
+        sys.stderr.write("ERROR uploading the file '%s': Server directory path '%s' cannot be created'"%(filename,dir_path))
+       
+    #upload using build scp destination path
     destination = "deploy@download-admin:test-data/%s"%destination
-    command= ' '.join(["scp","-r",filename, destination]) 
+    command= ' '.join(["scp","-r",filename, destination])
     e= call(command,shell=True)
     if not e==0:
         sys.stderr.write("ERROR uploading the file '%s' into '%s'"%(filename,destination))
+    return e
+    
         
 def ImageMagick_compare(reference,ver_ref,ver_dif):
     #compare with test's output and return number of different pixels

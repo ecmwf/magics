@@ -12,12 +12,12 @@ if ( ENABLE_FORTRAN)
     ecbuild_add_test( TARGET basic_fortran_shared
             SOURCES   coast.f90
             LIBS      MagPlusSingle MagPlusShared
-            LINKER_LANGUAGE CXX )
+            LINKER_LANGUAGE Fortran )
     if ( ENABLE_STATIC_LIBRARY )
         ecbuild_add_test( TARGET basic_fortran_static
             SOURCES   coast.f90
             LIBS      MagPlusSingle MagPlusStatic
-            LINKER_LANGUAGE CXX )       
+            LINKER_LANGUAGE Fortran )       
      endif()
 endif()
     
@@ -34,13 +34,13 @@ if ( ENABLE_BUFR )
                 SOURCES   bufr.f90
                 LIBS      MagPlusSingle MagPlusShared
                 RESOURCES data.bufr
-                LINKER_LANGUAGE CXX )
+                LINKER_LANGUAGE Fortran )
         if ( ENABLE_STATIC_LIBRARY )
              ecbuild_add_test( TARGET bufr_fortran_static
                     SOURCES   bufr.f90
                     RESOURCES data.bufr
                     LIBS      MagPlusSingle MagPlusStatic
-                    LINKER_LANGUAGE CXX )       
+                    LINKER_LANGUAGE Fortran )       
          endif()
     endif()
 endif()
@@ -61,7 +61,7 @@ if ( ENABLE_GRIB )
                 SOURCES   grib.f90
                 LIBS      MagPlusSingle MagPlusShared
                 RESOURCES data.grib
-                LINKER_LANGUAGE CXX )
+                LINKER_LANGUAGE Fortran )
     endif()
 endif()
 
@@ -79,7 +79,7 @@ if ( ENABLE_CAIRO )
         ecbuild_add_test( TARGET cairo_fortran
                 SOURCES   cairo.f90
                 LIBS      MagPlusSingle MagPlusShared
-                LINKER_LANGUAGE CXX )
+                LINKER_LANGUAGE Fortran )
     endif()
 endif()
 
