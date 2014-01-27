@@ -26,7 +26,7 @@ if ( ENABLE_BUFR )
        ecbuild_add_test( TARGET bufr_python
                   TYPE PYTHON
                   ARGS bufr.py
-                  RESOURCES grib.py data.bufr 
+                  RESOURCES bufr.py data.bufr 
                   ENVIRONMENT PYTHONPATH=${MAG_PYTHON_PATH} )
     endif()
     if ( ENABLE_FORTRAN) 
