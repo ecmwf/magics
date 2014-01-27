@@ -51,11 +51,11 @@ def uploadTest(version,executable,reference,destination,interpreter,run):
 
     #upload the files
     for filename in ofiles:
-        try:
-            target= destination+'/'+prefix(filename,version+'_')
-            upload(filename,target)
-        except:
-            pass
+        target= destination+'/'+prefix(filename,version+'_')
+        e= upload(filename,target)
+        if e>0:
+            print "File %s has not been upload"%reference
+            sys.exit(1)
 
 if __name__ == "__main__":
 

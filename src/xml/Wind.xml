@@ -193,7 +193,6 @@
         <option name='CalmIndicator' fortran='on' xml='calm' include='CalmIndicator.h' />
         <option name='NoCalmIndicator' fortran='off' xml='nocalm' include='CalmIndicator.h'  />
 	<set value='on' name='wind_flag_calm_indicator_size'/>
-	<set value='on' name='wind_flag_calm_below'/>
   </parameter>
 
   <parameter name='wind_flag_calm_indicator_size' from='float' to='float' member='calm_indicator_size'  default='0.3'>
@@ -269,7 +268,6 @@
 	  <option name='CalmIndicator' fortran='on' xml='calm' include='CalmIndicator.h' />
       <option name='NoCalmIndicator' fortran='off' xml='nocalm' include='CalmIndicator.h'  />
       <set value='on' name='wind_arrow_calm_indicator_size'/>
-      <set value='on' name='wind_arrow_calm_below'/>
 	<documentation>Plot calm indicator circle if wind speed is less than or equal to the value in WIND_ARROW_CALM_BELOW (ON / OFF)</documentation>
   </parameter>
 

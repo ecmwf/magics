@@ -959,6 +959,7 @@ void EpsGraph::visit(LegendVisitor& legend)
     MagFont font(font_);
     font.style(font_style_);
 	font.size(legend_size_);
+	font.colour(*font_colour_);
 	if ( grey_legend_ ) {
 		font.colour( Colour("charcoal"));
 	}
@@ -1350,7 +1351,7 @@ void EpsWave::visit(LegendVisitor& legend)
 
 void EpsWind::visit(LegendVisitor& legend)
 {
-	
+	if ( !legend_ ) return;
 	MagFont font("sansserif", "normal", 0.25);
 	font.colour(Colour("Rgb(0.2, 0.2, 0.2)"));
 	

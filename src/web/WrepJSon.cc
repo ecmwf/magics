@@ -1150,8 +1150,8 @@ void WrepJSon::visit(TextVisitor& text)
 
 	DateTime base(date_, time_);
 
-
-	text.update("json", "date", base.tostring("%A %e %B %Y %H UTC"));
+	if (param_info_ != "none")
+		text.update("json", "date", base.tostring("%A %e %B %Y %H UTC"));
 	ostringstream location;
 	UserPoint point(longitude_, latitude_);
 	location << " " << point.asLatitude() << " " << point.asLongitude();
@@ -1159,7 +1159,8 @@ void WrepJSon::visit(TextVisitor& text)
 
 	height << height_ <<  " m";
 	if ( position_info_) {
-	text.update("json", "height", height.str());
+	if (height_ != -9999 ) 
+        text.update("json", "height", height.str());
 	text.update("json", "location", location.str());
 	text.update("json", "grid_point", (mask_ < 0.5 ) ? " (EPS sea point) " : " (EPS land point) ");
 
@@ -1171,15 +1172,16 @@ void WrepJSon::visit(TextVisitor& text)
 	int dett = (points_along_meridian_ * 2) -1;
 	int epst = points_along_meridian_ -1;
 	if ( (correction_ && height_ != -9999 && param_info_!= "none") ) {
-		full_correction << " reduced to the station height from " << maground(detz_) << " m (T" << dett << ") and " << maground(epsz_) <<  " m (T" << epst <<")";
-		short_correction << " reduced to the station height from " <<maground(epsz_) <<  " m (T" << epst <<")";
+		full_correction << " reduced to " << height_ <<  " m (station height) from " << maground(detz_) << " m (T" << dett << ") and " << maground(epsz_) <<  " m (T" << epst <<")";
+		short_correction << " reduced to " << height_ <<  " m (station height) from " << maground(epsz_) <<  " m (T" << epst <<")";
 	}
 
 	text.update("json", "full_temperature_correction_info", full_correction.str());
 	text.update("json", "short_temperature_correction_info", short_correction.str());
 	text.update("json", "parameter_info", (param_info_ == "none") ? "": param_info_ );
 
-	text.update("json", "station_name", station_name_);
+	if (param_info_ != "none")
+		text.update("json", "station_name", station_name_);
 
 	//(**point)["y"]
 	text.update("json", "product_info", product_info_);
