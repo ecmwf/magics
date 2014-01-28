@@ -220,6 +220,9 @@ def writeTab(tabs,tab_class='nav-tabs'):
     </div><!-- /.tabbable -->
     '''%(tab_class,tab_lines,tab_contents)
 
+#####################################################################
+#####################################################################
+#####################################################################
     
 def writeHtmlReport(params,usage,stdout,stderr,ref_pages,ref_ver_pages):
 
@@ -426,6 +429,9 @@ def writeHtmlReport(params,usage,stdout,stderr,ref_pages,ref_ver_pages):
                 #last step: nicely indent  the HTML code
     return report#BeautifulSoup(report).prettify()
 
+#####################################################################
+#####################################################################
+#####################################################################
 
 def getDateDistance(timestamp,colour='grey'):
     #old code
@@ -552,16 +558,19 @@ def getBranches(data):
     
     #build data dictionaries hierarchy
     bdata= {}
+    versions= {}
     for bra,tes,ver in d:
         tim,res= d[(bra,tes,ver)]
         if not bdata.has_key(bra): bdata[bra]= {}
         if not bdata[bra].has_key(tes): bdata[bra][tes]= {}
         bdata[bra][tes][ver]= (tim,res)
+        if not versions.has_key(bra): versions[bra]= set([])
+        versions[bra]|= set([ver])
     tests= list(set([k[1] for k in  d.keys()]))
     tests.sort()
-    versions= list(set([k[2] for k in  d.keys()]))
-    versions.sort()
-    versions.reverse()
+    #versions= list(set([k[2] for k in  d.keys()]))
+    #versions.sort()
+    #versions.reverse()
     return bdata,tests,versions
 
 def buildBranches(bData):
@@ -577,7 +586,10 @@ def buildBranches(bData):
 
         #write a header row
         content=''
-        for ver in versions: content+= '<th>%s</th>'%ver
+        vs= list(versions[bra])
+        vs.sort()
+        vs.reverse()
+        for ver in vs: content+= '<th>%s</th>'%ver
         content= '<tr><th>tests\\versions</th>%s<tr>\n'%content
         
         #for each test
@@ -591,7 +603,7 @@ def buildBranches(bData):
             row='<td>%s</td>'%tesgrp
 
             #for each version
-            for ver in versions:
+            for ver in vs:
                 if not data[bra][tes].has_key(ver):
                     #blank if test has not run for the version
                     row+='<td></td>'
