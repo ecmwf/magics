@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 
-"""Run this script when you want to delete a branch results from the regression test summary. 
-   It removes the server path:
+"""Run this script when you want to delete a version results from the regression test summary. 
+   It removes the version results from file:
    
-   http://download.ecmwf.int/test-data/magics/regression_output/<BRANCH>/...
+   http://download.ecmwf.int/test-data/magics/regression_output/data.json
    
    and updates the summary output report:
 
@@ -24,6 +24,13 @@ __author__  = 'cgs,cgjd'
 __date__    = '2014-01-10'
 __version__ = '0.1'
 
+REMARK='''
+REMARK:
+This script does NOT remove any file from download.ecmwf.int server.
+This script does NOT modify any test result file to remove any reference to the version.
+This script ONLY removes references to the version in "data.json" file, used to build "summary.html" file.
+If you actually want to free space on download.ecmwf.int server, please use "remove_branch.py" script instead. 
+'''
 
 #####################################################################
 #####################################################################
@@ -54,7 +61,7 @@ def buildSummaryReport(data):
 #####################################################################
 #####################################################################
 
-def removeBranch(branch):
+def removeVersion(version):
     
     #remove branch from data file 
     ########### REMARK! ideally, this operation should be atomic! ########### 
@@ -64,23 +71,20 @@ def removeBranch(branch):
         with open('data.json') as f: olddata= [tuple(x) for x in json.loads(f.read())]
     else:
         olddata= []
-    newdata= [x for x in olddata if not x[0]==branch]
+    newdata= [x for x in olddata if not x[3]==version]
     with open('data.json','w') as f: f.write(json.dumps(newdata,sort_keys=True,indent=4,separators=(',', ': ')))
     upload('data.json','magics/regression_output')   
     ########### REMARK! ideally, this operation should be atomic! ########### 
     
     if len(newdata)<len(olddata):  
-        #remove the branch files in data server
-        command= 'ssh deploy@download-admin "rm -rf /home/deploy/test-data/magics/regression_output/%s"'%branch
-        call(command,shell=True)
-    
         #build the html file
         buildSummaryReport(newdata)
 
         n= len(olddata)-len(newdata)
-        print n,'test results have been deleted for branch "%s"'%branch
+        print n,'test results have been deleted for version "%s" in summary.html'%version
+        print REMARK
     else:
-        print 'No test results have been deleted for branch "%s". Is branch name correct?'% branch
+        print 'No test results have been deleted for version "%s". Is  name correct?'%version 
 
 #####################################################################
 #####################################################################
@@ -88,15 +92,15 @@ def removeBranch(branch):
 
 if __name__ == "__main__":
     
-    cmd_parser = OptionParser(usage="usage: %prog <branch>", version='%prog : '+__version__, description = __doc__, prog = 'remove_branch.py')
+    cmd_parser = OptionParser(usage="usage: %prog <version>", version='%prog : '+__version__, description = __doc__, prog = 'remove_version.py')
 
     print sys.argv
     
     _,positional = cmd_parser.parse_args()
-    branch= None
+    version= None
 
     if positional:
-        branch= positional.pop(0) 
-        removeBranch(branch)
+        version= positional.pop(0) 
+        removeVersion(version)
     else:
-        print 'Please provide a branch name. Nothing done.'
+        print 'Please provide a version name. Nothing done.'
