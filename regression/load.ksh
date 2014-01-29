@@ -1,8 +1,11 @@
 #!/bin/ksh
 
 versions="current++ new++" 
-src=`ls 15days*.json`
-where='web'
+src=`ls tephi.py`
+ext="py"
+img_ext="ps"
+where='graph'
+interpretor='python'
 
 dir=`pwd`
 name=`basename $dir`
@@ -10,7 +13,7 @@ name=`basename $dir`
 
 for sf in $src 
 do
-    s=`basename $sf .json`
+    s=`basename $sf .$ext`
 
 for v in $versions
 do
@@ -19,11 +22,14 @@ do
     then
        use magics++ 
 	    version=`/usr/local/apps/Magics/$v/bin/magics-config --version`
+        ../upload.py $version ./$sf $s.$img_ext magics/reference/$version/$where -i $interpretor
     else
        use newmagics++ 
 	   version='2.20.2'
+        ../upload.py $version ./$sf $s.$img_ext magics/reference/$version/$where -i $interpretor
+	   version='2.22.1'
+        ../upload.py $version ./$sf $s.$img_ext magics/reference/$version/$where -i $interpretor
     fi
 
-     ../upload.py $version ./$sf $s.png magics/reference/$version/$where -i magjson
 done
 done
