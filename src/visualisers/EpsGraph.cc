@@ -513,7 +513,7 @@ public:
 		// carefull here this text is depending of the resolution! 
 		MagLog::dev() << "EpsControl=>resolution" << resolution << endl; 
         int km = maground(40000/(2*(resolution+1)+2));  
-		title << "EPS Control(" + tostring(km) + " km)";
+		title << "ENS Control(" + tostring(km) + " km)";
 		title_ = title.str();
 	}
 	EpsControl(const string& title, double height) : LegendEntry(" "), legend_size_(height)
@@ -554,7 +554,7 @@ public:
 		MagLog::dev() << "EpsForecsat=>resolution" << resolution << endl; 
 		ostringstream title;
         int km = maground(40000/(2*(2*resolution+1)+2));        
-		title << "High Resolution Deterministic(" + tostring(km) + " km)";
+		title << "High Resolution (" + tostring(km) + " km)";
 		title_ = title.str();
 	}
 	

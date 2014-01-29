@@ -21,29 +21,29 @@
         <base_date format = '%A %d %B %Y %H UTC'/> <centre  format = "%s Forecast"/> <step format="t+%s"/> 
 <valid_date format = 'VT:%A %d %B %Y %H UTC'/> <level/> <parameter/> <units/> <expver/>  <plot_type/> 
     </title>
-    <title type='fc'>
+    <title dataType='fc'>
         <base_date format = '%A %d %B %Y %H UTC'/> <centre/> <product/> <step format="t+%s"/> 
 <valid_date format = 'VT:%A %d %B %Y %H UTC'/> <level/> <parameter/> <units/> <expver/>  <plot_type/> 
     </title>
     <!-- EPS Control Forecast forecasts -->
-     <title type='cf'>
+     <title dataType='cf'>
         <base_date format = '%A %d %B %Y %H UTC'/> <centre/> <product/> <step format="t+%s"/> 
 <valid_date format = 'VT:%A %d %B %Y %H UTC'/> <level/> <parameter/> <units/> <expver/>  <plot_type/> 
     </title>
     <!-- Normal analysis -->
-    <title type='an'>
+    <title dataType='an'>
         <centre/> <product/> <base_date format = 'VT: %A %d %B %Y %H UTC'/> <level/> <parameter/> <units/> <expver/>  <plot_type/> 
     </title>
     <!-- Ensemble means, Standard devs, and perturbed forecast -->
-    <title type='em' stream='enfo'>
+    <title dataType='em' stream='enfo'>
         <base_date format = '%A %d %B %Y %H UTC '/> <centre/> <product/> <step format="t+%s"/> <valid_date format = 'VT:%A %d %B %Y %H UTC'/>
 <newline/><level/><parameter/><units/><expver/><eps_number_info/>
      </title>
-     <title type='ep' stream='enfo'>
+     <title dataType='ep' stream='enfo'>
         <base_date format = '%A %d %B %Y %H UTC '/> <centre/> <product/> <step format="t+%s"/> <valid_date format = 'VT:%A %d %B %Y %H UTC'/>
 <newline/><level/><parameter/><units/><expver/><eps_number_info/>
      </title>
-     <title type='im'> <satellite/> <channel/> <date format = '%A %d %B %Y %H UTC '/> </title>
+     <title dataType='im'> <satellite/> <channel/> <date format = '%A %d %B %Y %H UTC '/> </title>
 </title>
  
  
