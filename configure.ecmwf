@@ -1,7 +1,7 @@
 #!/usr/bin/ksh
 
 git_home="/home/graphics/cgs/git"
-version="2.22.1"
+version="2.22.2"
 magics=""
 install_home="/usr/local/apps/Magics/$version"
 debug="off"
@@ -66,7 +66,7 @@ case "${OS_VERSION}" in
 
 
 args="-DCMAKE_INSTALL_PREFIX=${install_home} -DENABLE_STATIC_LIBRARY=ON"
-args=" $args -DCMAKE_MODULE_PATH=${git_home}/ecbuild/cmake"
+args=" $args "
 args=" $args -DMAGICS_BUILD=${magics}"
 args=" $args -DBOOST_ROOT=$boost"
 args=" $args -DPROJ4_PATH=$proj4"
