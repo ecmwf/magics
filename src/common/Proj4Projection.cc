@@ -898,7 +898,7 @@ void Proj4Projection::labels(const LabelPlotting& label, TopAxisVisitor& visitor
 void Proj4Projection::revert(const vector< std::pair<double, double> > & in, vector< std::pair<double, double> > & out) const
 {
 
-
+	const_cast<Proj4Projection*>(this)->init();
 	out.reserve(in.size());
 	for ( vector< std::pair<double, double> >::const_iterator pt = in.begin();  pt != in.end(); ++pt) {
 		  double x = pt->first;

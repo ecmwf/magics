@@ -135,7 +135,9 @@ function( add_magics_test )
             return()
 	endif()
 # Run Test
+        debug_var(ENABLE_REGRESSION_UPLOAD)
 		if ( ENABLE_REGRESSION_UPLOAD ) 
+           
 			ecbuild_add_test(  TARGET   ${target_load}
                    TYPE     SCRIPT
                    SOURCES  ${_p_SOURCES}                    
@@ -184,7 +186,7 @@ debug_var( summary_depend )
 ecbuild_add_test(  TARGET   magics_summary
                    TYPE PYTHON
                    DEPENDS ${summary_depend}
-                   RESOURCES summary_template.py
+                   RESSOURCES summary_template.py
                    COMMAND   ${CMAKE_CURRENT_SOURCE_DIR}/summary.py
                    ARGS ${MAGICS_HTML_ROOT} 
                    )                   
