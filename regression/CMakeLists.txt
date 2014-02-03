@@ -135,7 +135,6 @@ function( add_magics_test )
             return()
 	endif()
 # Run Test
-        debug_var(ENABLE_REGRESSION_UPLOAD)
 		if ( ENABLE_REGRESSION_UPLOAD ) 
            
 			ecbuild_add_test(  TARGET   ${target_load}
@@ -163,24 +162,23 @@ endfunction(add_magics_test)
 
 
 add_subdirectory( basic )
-#add_subdirectory( efas )
-#add_subdirectory( macc )
-#add_subdirectory( plumes )
-#add_subdirectory( axis )
-#add_subdirectory( contour )
-#add_subdirectory( web )
-#add_subdirectory( data )
-#add_subdirectory( metops )
-#add_subdirectory( wind )
-#add_subdirectory( graph )
-#add_subdirectory( layout )
-#add_subdirectory( rotated )
-#add_subdirectory( proj4 )
-#add_subdirectory( venice )
-#add_subdirectory( gallery )
-#add_subdirectory( era )
+add_subdirectory( efas )
+add_subdirectory( macc )
+add_subdirectory( plumes )
+add_subdirectory( axis )
+add_subdirectory( contour )
+add_subdirectory( web )
+add_subdirectory( data )
+add_subdirectory( metops )
+add_subdirectory( wind )
+add_subdirectory( graph )
+add_subdirectory( layout )
+add_subdirectory( rotated )
+add_subdirectory( proj4 )
+add_subdirectory( venice )
+add_subdirectory( gallery )
+add_subdirectory( era )
 
-debug_var( summary_depend )
 
 #final test 
 ecbuild_add_test(  TARGET   magics_summary
