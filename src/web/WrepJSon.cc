@@ -1148,11 +1148,10 @@ json_spirit::Value WrepJSon::station_name()
 }
 json_spirit::Value WrepJSon::height()
 {
-	Value value(tostring(height_));
+
 	if ( height_ == -9999 )
-		return deterministic_resolution();
-	value = Value("");
-	return value;
+		return Value("");
+	return Value(tostring(height_));
 }
 void WrepJSon::visit(TextVisitor& text)
 {
