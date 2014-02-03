@@ -120,6 +120,20 @@ void GeoPointsDecoder::lluv(const string& line, const Transformation& transforma
 	add(transformation, geo);
 
 }
+void GeoPointsDecoder::polar(const string& line, const Transformation& transformation)
+{
+	std::istringstream in(line);
+	double lat, lon, height, date, time, speed, direction;
+	in >> lat >> lon >> height >> date >> time >> speed >> direction;
+	CustomisedPoint geo(lon, lat, "polar");
+	double angle = (90 - (direction))*(PI/180.);
+
+
+	geo["x_component"] = speed * -cos(angle);
+	geo["y_component"] = speed * -sin(angle) ;
+	add(transformation, geo);
+
+}
 void GeoPointsDecoder::yxdtlv1(const string& line)
 {
 	std::istringstream in(line);
@@ -143,6 +157,7 @@ void GeoPointsDecoder::decode(const Transformation& transformation)
 		formats_["XYV"] = &GeoPointsDecoder::xyv2;
 		formats_["LLV"] = &GeoPointsDecoder::xyv2;
 		formats_["XY_VECTOR"] = &GeoPointsDecoder::lluv;
+		formats_["POLAR_VECTOR"] = &GeoPointsDecoder::polar;
 	}
 	
 	GeoPointsDecoder::Decode method = &GeoPointsDecoder::yxdtlv2;

@@ -63,11 +63,19 @@ void BoxPlotVisualiser::operator()(Data& data, BasicGraphicsObjectContainer& vis
 	CustomisedPointsList points; 
 	std::set<string> request;
 	
+	request.insert("min");
+	request.insert("max");
+	request.insert("lower");
+	request.insert("upper");
+	request.insert("median");
+
 	const Transformation& transformation = visitor.transformation();
 	data.customisedPoints(transformation, request, points, true); // we want all the points!
 	
 	double user = (transformation.getAbsoluteMaxX() - transformation.getAbsoluteMinX())/visitor.absoluteWidth();
 	
+	double max = transformation.getAbsoluteMaxY();
+	double min = transformation.getAbsoluteMinY();
 	
 	
 	if (points.empty()) return;	
@@ -77,9 +85,17 @@ void BoxPlotVisualiser::operator()(Data& data, BasicGraphicsObjectContainer& vis
 	whisker_->cm(user);
 	
 
+
 	for (CustomisedPointsList::const_iterator point = points.begin(); point != points.end(); ++point)
 	{
-	
+
+		for ( std::set<string>::iterator key = request.begin(); key != request.end(); ++key ) {
+			double val = (**point)[*key];
+			if (val < min) (**point)[*key] = min;
+			if  (val > max) (**point)[*key] = max;
+		}
+
+
 		(*box_)(visitor, **point);
 	    
 		whisker_->top(visitor, **point);

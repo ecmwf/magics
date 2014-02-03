@@ -146,6 +146,7 @@ public:
 	json_spirit::Value temperature_adjustment();
 	json_spirit::Value eps_resolution();
 	json_spirit::Value deterministic_resolution();
+	json_spirit::Value height();
 	json_spirit::Value station_name();
 	MatrixHandler& matrix();
 	void customisedPoints(const std::set<string>&, CustomisedPointsList&);

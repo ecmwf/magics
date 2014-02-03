@@ -89,7 +89,8 @@ WrepJSon::WrepJSon()  : missing_(-9999),
     metaMethods_["eps_resolution"] = &WrepJSon::eps_resolution;
     metaMethods_["deterministic_resolution"] = &WrepJSon::deterministic_resolution;
     metaMethods_["station_name"] = &WrepJSon::station_name;
-	
+    metaMethods_["height"] = &WrepJSon::height;
+
 	minx_ = std::numeric_limits<double>::max();
 	maxx_ = -std::numeric_limits<double>::max();
 	miny_ = std::numeric_limits<double>::max();
@@ -1143,6 +1144,14 @@ json_spirit::Value WrepJSon::deterministic_resolution()
 json_spirit::Value WrepJSon::station_name()
 {
 	Value value(station_name_);
+	return value;
+}
+json_spirit::Value WrepJSon::height()
+{
+	Value value(tostring(height_));
+	if ( height_ == -9999 )
+		return deterministic_resolution();
+	value = Value("");
 	return value;
 }
 void WrepJSon::visit(TextVisitor& text)
