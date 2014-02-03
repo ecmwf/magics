@@ -1,10 +1,10 @@
 #!/bin/ksh
 
 versions="current++ new++" 
-src=`ls tephi.py`
+src=`ls geowind.py`
 ext="py"
-img_ext="ps"
-where='graph'
+img_ext="png"
+where='wind'
 interpretor='python'
 
 dir=`pwd`
