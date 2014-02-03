@@ -203,6 +203,7 @@ MagPlus::MagPlus() : root_(0), superpage_(-1), geographical_(true), mode_(intera
  		sceneCreators_["PCONT"] = &MagPlus::contour;
  		sceneCreators_["MCONT"] = &MagPlus::contour;
  		sceneCreators_["POBS"] = &MagPlus::obs;
+ 		sceneCreators_["MOBS"] = &MagPlus::obs;
  		sceneCreators_["PSYMB"] = &MagPlus::symbol;
  		sceneCreators_["MSYMB"] = &MagPlus::symbol;
         sceneCreators_["PSYMBPLUS"] = &MagPlus::symbol;
