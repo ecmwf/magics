@@ -122,7 +122,7 @@ function( add_magics_test )
                    DEPENDS  ${targets} 
                    
                    RESOURCES  ${_p_RESOURCES} 
-                   ARGS ${MAGICS_VERSION} ${_p_SOURCES} ${_p_IMAGE} magics/reference/${MAGICS_VERSION}/${where} -i magjson
+                   ARGS ${MAGICS_VERSION} ${_p_SOURCES} ${_p_IMAGE} magics/reference/${MAGICS_VERSION}/${where} -i ${CMAKE_BINARY_DIR}/bin/magjsonx
 				 )
             endif()     
 			ecbuild_add_test(  TARGET   ${target}
@@ -130,12 +130,13 @@ function( add_magics_test )
                    COMMAND  ${REGRESSION_SCRIPT_DIRECTORY}/compare.py
                    DEPENDS  ${targets}  
                    RESOURCES  ${_p_RESOURCES} 
-                   ARGS ${TIMESTAMP} ${_p_SOURCES} ${_p_IMAGE}  -n ${BRANCH_NAME} -t ${_p_THRESHOLD}  -o ${MAGICS_HTML_ROOT}  -v ${versions} -i magjson -f
+                   ARGS ${TIMESTAMP} ${_p_SOURCES} ${_p_IMAGE}  -n ${BRANCH_NAME} -t ${_p_THRESHOLD}  -o ${MAGICS_HTML_ROOT}  -v ${versions} -i ${CMAKE_BINARY_DIR}/bin/magjsonx -f
 					ENVIRONMENT PYTHONPATH=${MAG_PYTHON_PATH} )
             return()
 	endif()
 # Run Test
 		if ( ENABLE_REGRESSION_UPLOAD ) 
+           
 			ecbuild_add_test(  TARGET   ${target_load}
                    TYPE     SCRIPT
                    SOURCES  ${_p_SOURCES}                    
@@ -178,13 +179,12 @@ add_subdirectory( venice )
 add_subdirectory( gallery )
 add_subdirectory( era )
 
-debug_var( summary_depend )
 
 #final test 
 ecbuild_add_test(  TARGET   magics_summary
                    TYPE PYTHON
                    DEPENDS ${summary_depend}
-                   RESOURCES summary_template.py
+                   RESSOURCES summary_template.py
                    COMMAND   ${CMAKE_CURRENT_SOURCE_DIR}/summary.py
                    ARGS ${MAGICS_HTML_ROOT} 
                    )                   

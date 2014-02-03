@@ -192,10 +192,11 @@ eud_graph = mgraph(graph_line_colour='red',
 				   legend_user_text="ECMWF")
 
 # box plot
+
 boxplot = mboxplot(boxplot_date_positions=data['FOR_PROBABILISTIC']['DATE'],
-        boxplot_minimum_values = data['FOR_PROBABILISTIC']['QMIN'],
-        boxplot_maximum_values = data['FOR_PROBABILISTIC']['QMAX'],
-        boxplot_box_upper_values = data['FOR_PROBABILISTIC']['Q75'],
+        boxplot_minimum_values = [x-50. for x in data['FOR_PROBABILISTIC']['QMIN']],
+        boxplot_maximum_values = [x +50. for x in data['FOR_PROBABILISTIC']['QMAX']],
+        boxplot_box_upper_values = [x +50. for x in data['FOR_PROBABILISTIC']['Q75']],
         boxplot_box_lower_values = data['FOR_PROBABILISTIC']['Q25'],
         boxplot_median_values = data['FOR_PROBABILISTIC']['QMED'],
 		boxplot_box_colour = "rgb(0.65,0.58,0.92)")

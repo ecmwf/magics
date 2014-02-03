@@ -28,7 +28,7 @@ spot_lib="/usr/local/lib/metaps/lib/spot_database/new"
 emos_lib="/usr/local/apps/libemos/000393"
 
 args="-DCMAKE_INSTALL_PREFIX=${install_home}"
-args=" $args -DCMAKE_MODULE_PATH=${home}/ecbuild/cmake -DENABLE_STATIC_LIBRARY=ON"
+args=" $args -DCMAKE_MODULE_PATH=${home}/cmake -DENABLE_STATIC_LIBRARY=ON"
 args=" $args -DBOOST_ROOT=$boost"
 args=" $args -DPROJ4_PATH=$proj4"
 args=" $args -DCMAKE_PREFIX_PATH=$python"
@@ -48,7 +48,7 @@ else
     echo "No Static Mode enabled"
 fi
 if [[ $regression = "on" ]];then
-    args="$args -DENABLE_REGRESSION=ON -DWITH_REGRESSION_UPLOAD=on"
+    args="$args -DENABLE_REGRESSION=ON -DENABLE_REGRESSION_UPLOAD=on"
     echo "Regression enabled"
 else
     args="$args -DENABLE_REGRESSION=OFF"
