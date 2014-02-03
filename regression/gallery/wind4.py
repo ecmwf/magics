@@ -37,7 +37,7 @@ uv700_wind = mwind(wind_arrow_unit_system= "automatic",
                    wind_flag_origin_marker= "dot",
                    wind_flag_origin_marker_size= 0.1,
                    wind_legend_text= "Black wind flags (in knots)",
-                   wind_thinning_factor= 2.5,
+                   wind_thinning_factor= 1.,
                    wind_thinning_method= "automatic")
 
 title = mtext( text_lines = ["<font size='1'>Vorticity and wind flags</font>",'Vorticity at 700 hPa'],
