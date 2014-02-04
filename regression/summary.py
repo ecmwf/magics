@@ -89,7 +89,8 @@ def summary(base_dir):
         group=''
         if params.has_key('input_dir'): group= params['input_dir'].split('/')[-1]+'/'
         
-        #keep relevant parameters to database: branch,group+test,time,version,result
+        #keep relevant parameters to database: branch,group+test,time,version,result,message,
+        #different pixels and threshold
         for ver in  params['versions']:
             p_branch= params['branch_name']
             p_test= group+test
@@ -106,7 +107,7 @@ def summary(base_dir):
                 except:
                     p_result= 'Error'
             data.append((p_branch,p_test,p_time,p_version,p_result,p_mess,p_diff,p_thre))
-        
+    
     #upload all tests hierarchy to the server
     upload(tmpdir+'/*','magics/regression_output')
 
@@ -120,9 +121,20 @@ def summary(base_dir):
     call(command,shell=True)
     if os.path.exists('data.json'):
         with open('data.json') as f: olddata= [tuple(x) for x in json.loads(f.read())]
+        
+        #find tests (branch,test,time,version) that will be updated (overwritten)  
+        newkeys= set([tuple(x[:4]) for x in data])
+        oldkeys= set([tuple(x[:4]) for x in olddata])
+        updkeys= newkeys & oldkeys
+
+	    #remove old test results from old dataset 
+        olddata= [x for x in olddata if not tuple(x[:4]) in updkeys]
     else:
         olddata= []
-    newdata= list( set(olddata) | set(data) )
+
+    #add new test results
+    newdata= olddata + data
+    
     with open('data.json','w') as f: f.write(json.dumps(newdata,sort_keys=True,indent=4,separators=(',', ': ')))
     upload('data.json','magics/regression_output')   
     ########### REMARK! ideally, this operation should be atomic! ########### 
