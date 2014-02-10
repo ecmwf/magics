@@ -779,8 +779,11 @@ void EpsGraph::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 
 	std::sort(eps.begin(), eps.end());
 
-	for (vector<double>::iterator e = eps.begin(); e != eps.end(); ++e)
+	for (vector<double>::iterator e = eps.begin(); e != eps.end(); ++e) {
 		if ( same(*e, 0) ) *e = 0;
+        //cout << *e << " ";
+    }
+    //cout << endl;
 
         double epsmin, eps10, eps25,  eps50, eps75, eps90, epsmax;
         if ( ninty != (*point)->end() ) {
@@ -826,25 +829,31 @@ void EpsGraph::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
         
         if ( ninty != (*point)->end() ) {
         	fullEps_ = true;
+        	if ( eps75 != eps90 ) {
             box->push_back(PaperPoint(x-(width/2), eps75));
             box->push_back(PaperPoint(x-(width/2), eps90) );
             box->push_back(PaperPoint(x+(width/2), eps90));
             box->push_back(PaperPoint(x+(width/2), eps75));
+        	}
             
         }
+        if ( eps75 != eps25 ) {
 		box->push_back(PaperPoint(x+width, eps75));
 		box->push_back(PaperPoint(x+width, eps25));
-
+        }
         if ( ten != (*point)->end() ) {
+        	if ( eps25 != eps10 ) {
+
             box->push_back(PaperPoint(x+(width/2), eps25));
             box->push_back(PaperPoint(x+(width/2),eps10));
             box->push_back(PaperPoint(x-(width/2), eps10));
             box->push_back(PaperPoint(x-(width/2), eps25));
-            
+        	}
         }
+        if ( eps25 != eps50 ) {
         box->push_back(PaperPoint(x-width, eps25));
         box->push_back(PaperPoint(x-width, eps50));
-
+        }
     	bar1->push_back(PaperPoint(x+width, eps25));
     	bar1->push_back(PaperPoint(x-width, eps25));
 

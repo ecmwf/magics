@@ -178,6 +178,7 @@ add_subdirectory( proj4 )
 add_subdirectory( venice )
 add_subdirectory( gallery )
 add_subdirectory( era )
+add_subdirectory( symbol )
 
 
 #final test 
