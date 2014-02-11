@@ -638,7 +638,11 @@ MAGICS_NO_EXPORT void SVGDriver::renderPolyline(const int n, MFloat *x, MFloat *
 MAGICS_NO_EXPORT void SVGDriver::renderPolyline2(const int n, MFloat* x, MFloat* y) const
 {
 	if(n != 2 || (currentColour_==Colour("none")) ) return;
-	pFile_ << "<path d=\"M"<<x[0]<< " " <<setY(y[0])<<"L"<< x[1] <<" "<< setY(y[1]) << "\"/>\n";
+	closeGroup();
+	const int r = static_cast<int>(currentColour_.red()  *255);
+	const int g = static_cast<int>(currentColour_.green()*255);
+	const int b = static_cast<int>(currentColour_.blue() *255);
+	pFile_ << "<path stroke=\"rgb("<<r<<","<<g<<","<<b<<")\" d=\"M"<<x[0]<< " " <<setY(y[0])<<"L"<< x[1] <<" "<< setY(y[1]) << "\"/>\n";
 }
 
 /*!
@@ -664,9 +668,8 @@ MAGICS_NO_EXPORT void SVGDriver::renderSimplePolygon(const int n, MFloat* x, MFl
 
 	ostringstream gStream;
 	if(currentColour_.alpha() < 1.) gStream << "fill-opacity=\""<<currentColour_.alpha()<<"\" stroke-opacity=\"0.01\" ";
-	gStream << "stroke=\"none\" fill-rule=\"evenodd\"";
+	gStream << "stroke=\"rgb("<<r<<","<<g<<","<<b<<")\" stroke-width=\"0.01\" fill-rule=\"evenodd\"";
 	openGroup(gStream.str());
-	//if(currentColour_.red()*currentColour_.green()*currentColour_.blue()<0) return;
 
 	int count = 1;
 	MFloat old_x = projectX(x[0]);
@@ -675,7 +678,7 @@ MAGICS_NO_EXPORT void SVGDriver::renderSimplePolygon(const int n, MFloat* x, MFl
 	double sumV = 0;
 	double sumH = 0;
 	ostringstream stream;
-	stream  <<" d=\"M"<<old_x<< " " << old_y;
+	stream  <<"d=\"M"<<old_x<< " " << old_y;
 
 	for(int is=1;is<n;is++)
 	{
@@ -710,9 +713,7 @@ MAGICS_NO_EXPORT void SVGDriver::renderSimplePolygon(const int n, MFloat* x, MFl
 	if     (fabs(sumV) > 0.001) {stream <<"v"<< sumV;}
 	else if(fabs(sumH) > 0.001) {stream <<"h"<< sumH;}
 
-//	if(!interactive_) stream  << "pointer-events=\"none\" ";
-
-	if(count > 3)
+	if(count > 2)
 	{
 		if(currentShading_==M_SH_DOT)
 		{
@@ -774,7 +775,7 @@ MAGICS_NO_EXPORT void SVGDriver::renderSimplePolygon(const int n, MFloat* x, MFl
 				<< r << ","
 				<< g << ","
 				<< b << ")\" ";
-//				<< "stroke=\"rgb("               // mde ECMWF logo blurry
+//				<< "stroke=\"rgb("               // made ECMWF logo blurry
 //				<< static_cast<int>(currentColour_.red()  *255) << ","
 //				<< static_cast<int>(currentColour_.green()*255) << ","
 //				<< static_cast<int>(currentColour_.blue() *255) << ")\" "
