@@ -123,66 +123,6 @@ public:
 };
 #endif
 
-#ifdef MAGICS_QT
-template<>
-class MagTranslator<QWidget*, QWidget*> {
-public:
-	QWidget* operator()(QWidget* value)
-	{
-		return value;
-	}
-    
-	QWidget* magics(const string& param)
-	{
-		QWidget* from;
-		ParameterManager::get(param, from);
-		return (*this)(from); 
-	}
-};
-
-template<>
-class MagTranslator<string,  QWidget*> {
-public:
-	QWidget* operator()(const string&)
-	{
-		return 0;
-	}
-	string magics(const string&)
-	{
-		return "unknown";
-	}
-};
-template<>
-class MagTranslator<QGraphicsScene*, QGraphicsScene*> {
-public:
-	QGraphicsScene* operator()(QGraphicsScene* value)
-	{
-		return value;
-	}
-    
-	QGraphicsScene* magics(const string& param)
-	{
-		QGraphicsScene* from;
-		ParameterManager::get(param, from);
-		return (*this)(from); 
-	}
-};
-
-template<>
-class MagTranslator<string,  QGraphicsScene*> {
-public:
-	QGraphicsScene* operator()(const string&)
-	{
-		return 0;
-	}
-	string magics(const string&)
-	{
-		return "unknown";
-	}
-};
-#endif
-
-
 template<>
 class MagTranslator<doublearray, doublearray> {
 public:

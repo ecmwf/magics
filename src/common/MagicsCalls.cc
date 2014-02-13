@@ -1303,14 +1303,6 @@ void mag_setp(const char* name, void* value)
        ParameterManager::set("output_cairo_drawing_context", (CairoPtr)value); 
     }
 #endif
-#ifdef MAGICS_QT
-    if ( magCompare(n, "output_qt_widget") ) {
-       ParameterManager::set("output_qt_widget", (QWidgetPtr)value); 
-    }
-    if ( magCompare(n, "output_qt_scene") ) {
-       ParameterManager::set("output_qt_scene", (QGraphicsScenePtr)value); 
-    }	
-#endif
 }
 
 void mag_act(const char* a, const char* b, const char* c)
