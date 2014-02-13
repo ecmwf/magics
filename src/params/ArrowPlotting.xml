@@ -7,7 +7,6 @@
 	  		<option xml="calm" fortran="on" include="CalmIndicator.h" name="CalmIndicator">		</option>
       		<option xml="nocalm" fortran="off" include="CalmIndicator.h" name="NoCalmIndicator">		</option>
       		<set name="wind_arrow_calm_indicator_size" value="on">		</set>
-      		<set name="wind_arrow_calm_below" value="on">		</set>
 			<documentation>Plot calm indicator circle if wind speed is less than or equal to the value in WIND_ARROW_CALM_BELOW (ON / OFF)		</documentation>
   	</parameter>
 

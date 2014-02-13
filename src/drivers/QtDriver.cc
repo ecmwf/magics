@@ -67,7 +67,7 @@ using namespace magics;
 */
 QtDriver::QtDriver() 
 {
-	//scene_ = 0;
+	scene_ = 0;
 	initialized_=false;
 	symbolManager_=0;
 	patternManager_=0;
