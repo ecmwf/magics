@@ -42,6 +42,7 @@
 using namespace magics;
 using namespace json_spirit;
 
+static map<char, string> specials;
 
 WrepJSon::WrepJSon()  : missing_(-9999),
 		height_(-9999),
@@ -97,6 +98,85 @@ WrepJSon::WrepJSon()  : missing_(-9999),
 	maxy_ = -std::numeric_limits<double>::max();
 	xdate_ = false;
 	ydate_ = false;
+
+    if ( specials.empty() ) {
+        specials['\242'] = "&cent;"; 
+        specials['\243'] = "&pound;"; 
+        specials['\244'] = "&euro;"; 
+        specials['\245'] = "&yen;"; 
+        specials['\260'] = "&deg;"; 
+        specials['\274'] = "&frac14;"; 
+        specials['\274'] = "&OElig;"; 
+        specials['\275'] = "&frac12;"; 
+        specials['\275'] = "&oelig;"; 
+        specials['\276'] = "&frac34;"; 
+        specials['\276'] = "&Yuml;"; 
+        specials['\241'] = "&iexcl;"; 
+        specials['\253'] = "&laquo;"; 
+        specials['\273'] = "&raquo;"; 
+        specials['\277'] = "&iquest;"; 
+        specials['\300'] = "&Agrave;"; 
+        specials['\301'] = "&Aacute;"; 
+        specials['\302'] = "&Acirc;"; 
+        specials['\303'] = "&Atilde;"; 
+        specials['\304'] = "&Auml;"; 
+        specials['\305'] = "&Aring;"; 
+        specials['\306'] = "&AElig;"; 
+        specials['\307'] = "&Ccedil;"; 
+        specials['\310'] = "&Egrave;"; 
+        specials['\311'] = "&Eacute;"; 
+        specials['\312'] = "&Ecirc;"; 
+        specials['\313'] = "&Euml;"; 
+        specials['\314'] = "&Igrave;"; 
+        specials['\315'] = "&Iacute;"; 
+        specials['\316'] = "&Icirc;"; 
+        specials['\317'] = "&Iuml;"; 
+        specials['\320'] = "&ETH;"; 
+        specials['\321'] = "&Ntilde;"; 
+        specials['\322'] = "&Ograve;"; 
+        specials['\323'] = "&Oacute;"; 
+        specials['\324'] = "&Ocirc;"; 
+        specials['\325'] = "&Otilde;"; 
+        specials['\326'] = "&Ouml;"; 
+        specials['\330'] = "&Oslash;"; 
+        specials['\331'] = "&Ugrave;"; 
+        specials['\332'] = "&Uacute;"; 
+        specials['\333'] = "&Ucirc;"; 
+        specials['\334'] = "&Uuml;"; 
+        specials['\335'] = "&Yacute;"; 
+        specials['\336'] = "&THORN;"; 
+        specials['\337'] = "&szlig;"; 
+        specials['\340'] = "&agrave;"; 
+        specials['\341'] = "&aacute;"; 
+        specials['\342'] = "&acirc;"; 
+        specials['\343'] = "&atilde;"; 
+        specials['\344'] = "&auml;"; 
+        specials['\345'] = "&aring;"; 
+        specials['\346'] = "&aelig;"; 
+        specials['\347'] = "&ccedil;"; 
+        specials['\350'] = "&egrave;"; 
+        specials['\351'] = "&eacute;"; 
+        specials['\352'] = "&ecirc;"; 
+        specials['\353'] = "&euml;"; 
+        specials['\354'] = "&igrave;"; 
+        specials['\355'] = "&iacute;"; 
+        specials['\356'] = "&icirc;"; 
+        specials['\357'] = "&iuml;"; 
+        specials['\360'] = "&eth;"; 
+        specials['\361'] = "&ntilde;"; 
+        specials['\362'] = "&ograve;"; 
+        specials['\363'] = "&oacute;"; 
+        specials['\364'] = "&ocirc;"; 
+        specials['\365'] = "&otilde;"; 
+        specials['\366'] = "&ouml;"; 
+        specials['\370'] = "&oslash;"; 
+        specials['\371'] = "&ugrave;"; 
+        specials['\372'] = "&uacute;"; 
+        specials['\373'] = "&ucirc;"; 
+        specials['\374'] = "&uuml;"; 
+        specials['\375'] = "&yacute;"; 
+        specials['\376'] = "&thorn;"; 
+      }
 
 }
 
@@ -525,12 +605,19 @@ void WrepJSon::location(const json_spirit::Value& value )
 }
 void WrepJSon::station_name(const json_spirit::Value& value )
 {
-
+    string station;
 	if  ( value.type() == str_type )
-		station_name_ = value.get_value<string>();
+		station = value.get_value<string>();
 
 
-
+    for ( string::iterator c = station.begin(); c != station.end(); ++c) {
+        map<char, string>::iterator s = specials.find(*c);
+        if ( s != specials.end()  ) {
+            station_name_ += s->second;
+        }
+        else 
+           station_name_ += *c;
+    }
 }
 void WrepJSon::epsz(const json_spirit::Value& value)
 {
@@ -611,6 +698,9 @@ void WrepJSon::parameter(const json_spirit::Value& value)
 	        		for (unsigned int i = 0; i < values.size(); i++) {
 
 	        			double val = values[i].get_value<double>();
+	        			if ( same(val, 0 ))  {
+                            val = 0;
+                        }
 	        			if ( val != missing_ ) {
 	        				val = (val * scaling_factor_) + offset_factor_;
 	        				if ( val < miny_) miny_ = val;

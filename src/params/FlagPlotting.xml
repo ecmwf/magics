@@ -6,7 +6,6 @@
         		<option xml="calm" fortran="on" include="CalmIndicator.h" name="CalmIndicator">		</option>
         		<option xml="nocalm" fortran="off" include="CalmIndicator.h" name="NoCalmIndicator">		</option>
 			<set name="wind_flag_calm_indicator_size" value="on">		</set>
-			<set name="wind_flag_calm_below" value="on">		</set>
   	</parameter>
 
   	<parameter member="calm_indicator_size" to="float" default="0.3" from="float" name="wind_flag_calm_indicator_size">

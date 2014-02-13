@@ -32,6 +32,9 @@
 #include <magics.h>
 #include "MgQ.h"
 
+#include <QGraphicsItem>
+#include <QGraphicsScene>
+
 class MgQRootItem : public QGraphicsItem
 {
 public:
