@@ -41,13 +41,6 @@
  typedef cairo_t* CairoPtr;
 #endif
 
-#ifdef MAGICS_QT
- #include "Qt/qwidget.h"
- #include "Qt/qgraphicsscene.h"	
- typedef QWidget* QWidgetPtr;
- typedef QGraphicsScene* QGraphicsScenePtr;
-#endif
-
 #ifdef LATER
 #include "grib_api.h"
 typedef grib_handle* GribHandlePtr ;
@@ -191,17 +184,6 @@ public:
 #endif
 	virtual string type() const = 0;
 	
-
-
-#ifdef MAGICS_QT
-	virtual void set(const QWidgetPtr&) { throw MistmatchType(name_, "qt_widget", type()); }
-	virtual void get(QWidgetPtr&) const { throw MistmatchType(name_, "qt_widget", type()); }
-	string getType(QWidgetPtr) const { return "qt_widget"; }
-
-	virtual void set(const QGraphicsScenePtr&) { throw MistmatchType(name_, "qt_scene", type()); }
-	virtual void get(QGraphicsScenePtr&) const { throw MistmatchType(name_, "qt_scene", type()); }
-	string getType(QGraphicsScenePtr) const { return "qt_scene"; }
-#endif
 
 #ifdef MAGICS_CAIRO
 	virtual void set(const CairoPtr&) { throw MistmatchType(name_, "cairo_context", type()); }

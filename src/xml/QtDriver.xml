@@ -21,19 +21,12 @@
  ******************************** LICENSE ********************************
 -->
 <magics>
-<class name='QtDriver' action='Qt' prefix='output/output_qt' xmltag='qt' directory='drivers' include='Qt/qgraphicsscene.h' inherits='BaseDriver'>
+<class name='QtDriver' action='Qt' prefix='output/output_qt' xmltag='qt' directory='drivers' inherits='BaseDriver'>
 
 <documentation>
 These are the attributes of the Qt output driver. This driver is intended for Qt applications such as Metview.
 </documentation>
 
-<parameter name='output_qt_widget' from='QWidget*' to='QWidget*' member='widget' default='0'>
-	<documentation>Enable an application to instantiate its own QGraphicsScene and to pass it to Magics++ for it to use it.</documentation>
-</parameter>
-
-<parameter name='output_qt_scene' from='QGraphicsScene*' to='QGraphicsScene*' member='scene' default='0'>
-	<documentation>Enable an application to instantiate its own QGraphicsScene and to pass it to Magics++ for it to use it.</documentation>
-</parameter>
 
 </class>
 </magics>

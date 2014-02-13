@@ -33,11 +33,13 @@
 #include <QtDriverAttributes.h>
 #include <XmlNode.h>
 
+#include <QColor>
 #include <QMap>
 
 //#include <Qt/qqwidget.h>
 
 class QGraphicsItem;
+class QGraphicsScene;
 class QPainterPath;
 
 class MgQHistoItem;
@@ -105,6 +107,9 @@ public:
 	MAGICS_NO_EXPORT void executeHisto(Layer *,MgQHistoItem*,QString,QString) const;
 	void setUpdateMode(bool mode) { updateMode_ = mode; }
 	bool getUpdateMode() const    { return updateMode_; }
+
+	void setScene(QGraphicsScene* sc) {scene_=sc;}
+
 private:
 
 	MAGICS_NO_EXPORT void startPage() const;
@@ -183,6 +188,7 @@ private:
 	friend ostream& operator<<(ostream& s,const QtDriver& p)
 		{ p.print(s); return s; }
 
+	QGraphicsScene *scene_;
 	mutable int stepToRender_;
 	mutable std::stack<MgQLayoutItem*>  layoutItemStack_;
 	mutable std::stack<MgQLayerItem*>   layerItemStack_;
