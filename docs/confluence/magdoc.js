@@ -662,10 +662,10 @@ var pythons = {
 		}
  
 var fortrans = {
-        "ppostscript" : "pset1c('output_formats' , /('ps')/, 1)",
-        "ppng" : "pset1c('output_formats' , /('png')/, 1)",
-        "psvg" : "pset1c('output_formats' , /('svg')/, 1)",
-        "pkml" : "pset1c('output_formats' , /('kml')/, 1)"
+        "ppostscript" : "pset1c('output_formats' , (/'ps'/), 1)",
+        "ppng"        : "pset1c('output_formats' , (/'png'/), 1)",
+        "psvg"        : "pset1c('output_formats' , (/'svg'/), 1)",
+        "pkml       " : "pset1c('output_formats' , (/'kml'/), 1)"
 }
 
 var $action;
