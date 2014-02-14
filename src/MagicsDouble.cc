@@ -73,16 +73,13 @@
  
  \section links Links
  
- - <a href="http://www.ecmwf.int/publications/manuals/magics/index.html">Magics++ homepage</a>
+ - <a href="http://software.ecmwf.int/magics">Magics++ homepage</a>
  
  - <a href="http://www.ecmwf.int/services/computing/training/material/com_mag.html">Training course</a>
- 
- - <a href="file:///scratch/graphics/cgi/mpptestsuite/html/test/fortran/timings.html">Magics++ test suite [ECMWF internal]</a>
- 
- 
+  
  \section copyright License
  
-  Copyright 2007 European Centre for Medium-Range Weather Forecasts (ECMWF)
+  Copyright 2007-2014 European Centre for Medium-Range Weather Forecasts (ECMWF)
 
   Licensed under the Apache License, Version 2.0 (the "License"); 
   you may not use this file except in compliance with the License. 
