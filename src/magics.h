@@ -305,7 +305,7 @@ inline MAGICS_NO_EXPORT bool fileReadable(const string &strFile)
 */
 
 #define MAGPLUS_PATH_TO_SHARE_ "/share/magics/"
-#define MAGPLUS_LINK_  "http://www.ecmwf.int/publications/manuals/magics"
+#define MAGPLUS_LINK_  "http://software.ecmwf.int/magics"
 #define MAGPLUS_PATH_TO_PS_FONTS_ POSTSCRIPT_FONT_PATH;
 }
 #endif
