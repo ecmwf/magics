@@ -381,6 +381,20 @@ MAGICS_NO_EXPORT void SVGDriver::unproject() const
 }
 
 
+MAGICS_NO_EXPORT string SVGDriver::buildLayerName(const Layer* layer, string type) const
+{
+  string s=layer->name();
+  if(s.empty()) return type;
+
+  char chars[] = "<>";
+  for (unsigned int i = 0; i < strlen(chars); ++i)
+  {
+    s.erase(std::remove(s.begin(), s.end(), chars[i]), s.end());
+  }
+  return s;
+}
+
+
 
 /*!
   \brief setup a new layer
@@ -392,10 +406,7 @@ MAGICS_NO_EXPORT void SVGDriver::unproject() const
 */
 MAGICS_NO_EXPORT void SVGDriver::redisplay(const StaticLayer& layer) const
 {
-	const string layName = layer.name();
-	currentLayer_ = (layName.empty()) ? "StaticLayer" : layName;
-//	currentTimeBegin_ = layer.kmlTimeBegin();
-//	currentTimeEnd_   = layer.kmlTimeEnd();
+	currentLayer_ = buildLayerName(&layer,string("StaticLayer"));
 
 	newLayer();
 	layer.visit(*this);
@@ -405,8 +416,7 @@ MAGICS_NO_EXPORT void SVGDriver::redisplay(const StaticLayer& layer) const
 
 MAGICS_NO_EXPORT void SVGDriver::redisplay(const StepLayer& layer) const
 {
-	const string layName = layer.name();
-	currentLayer_ = (layName.empty()) ? "Step" : layName;
+	currentLayer_ = buildLayerName(&layer,string("StepLayer"));
 
 	newLayer();
 	layer.visit(*this);
@@ -419,8 +429,7 @@ MAGICS_NO_EXPORT void SVGDriver::redisplay(const StepLayer& layer) const
  */
 MAGICS_NO_EXPORT void SVGDriver::redisplay(const NoDataLayer& layer) const
 {
-	const string layName = layer.name();
-	currentLayer_ = (layName.empty()) ? "Coast" : layName;
+	currentLayer_ = buildLayerName(&layer,string("Coastline"));
 
 	newLayer();
 	layer.visit(*this);
