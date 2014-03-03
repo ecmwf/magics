@@ -82,6 +82,7 @@ private:
 	MAGICS_NO_EXPORT void redisplay(const StaticLayer& layer) const;
 	MAGICS_NO_EXPORT void redisplay(const StepLayer& layer) const;
 	MAGICS_NO_EXPORT void redisplay(const NoDataLayer& layer) const;
+	MAGICS_NO_EXPORT string buildLayerName(const Layer* layer, string type) const;
 	MAGICS_NO_EXPORT void newLayer() const;
 	MAGICS_NO_EXPORT void closeLayer() const;
 //	MAGICS_NO_EXPORT void renderInteractiveBegin(const InteractiveBegin&) const;
