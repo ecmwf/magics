@@ -152,7 +152,7 @@ MagPlus::MagPlus() : root_(0), superpage_(-1), geographical_(true), mode_(intera
  		sceneCreators_["PAGE"] = &MagPlus::page;
  		sceneCreators_["NEWPAGE"] = &MagPlus::newpage;
  		sceneCreators_["MCOAST"] = &MagPlus::coastlines;
- 		sceneCreators_["MTEPHI"] = &MagPlus::tephigrid;
+ 		sceneCreators_["MTHERMOGRID"] = &MagPlus::tephigrid;
  		sceneCreators_["PCOAST"] = &MagPlus::oldcoastlines;
 
 
@@ -189,7 +189,7 @@ MagPlus::MagPlus() : root_(0), superpage_(-1), geographical_(true), mode_(intera
         sceneCreators_["TABLE_XY_BINNING"] = &MagPlus::table;
         sceneCreators_["TABLE_GEO_BINNING"] = &MagPlus::table;
         sceneCreators_["cartesian"] = &MagPlus::cartesianGrid;
-        sceneCreators_["tephigram"] = &MagPlus::tephiGrid;
+        sceneCreators_["thermogram"] = &MagPlus::tephiGrid;
         sceneCreators_["taylor"] = &MagPlus::taylorGrid;
 #ifdef MAGICS_ODB	
 	sceneCreators_["ODB_GEO_POINTS"] = &MagPlus::geoodb;
@@ -570,7 +570,7 @@ bool MagPlus::cartesianGrid(magics::MagRequest& in) {
 }
 bool MagPlus::tephiGrid(magics::MagRequest& in)
 {
-	magics::MagRequest& tephi = in.getSubRequest("TEPHIGRAM_GRID");
+	magics::MagRequest& tephi = in.getSubRequest("THERMO_GRID");
 	if ( tephi ) {
 
 		// use the user defined one
@@ -585,7 +585,7 @@ bool MagPlus::tephiGrid(magics::MagRequest& in)
 	}
 	else {
 		TephiGrid* grid = new TephiGrid();
-		grid->icon("Tephigram Grid", "MTEPHI");
+		grid->icon("Tephigram Grid", "MTHERMOGRID");
 		top()->push_back(grid);
 
 	}
@@ -639,8 +639,8 @@ bool MagPlus::tephigrid(magics::MagRequest& in)
 	MagLog::dev()<< "add Tephi Grid" << endl;
 
 
-	replace_string(in, "_NAME", "", "Tephigram");
-	replace_string(in, "_CLASS", "", "MTEPHI");
+	replace_string(in, "_NAME", "", "Thermogrid");
+	replace_string(in, "_CLASS", "", "MTHERMOGRID");
 	TephiGridWrapper helper;
 
 	helper.set(in);
