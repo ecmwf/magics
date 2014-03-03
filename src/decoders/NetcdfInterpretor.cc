@@ -45,7 +45,7 @@ void NetcdfInterpretor::setDimensions(const stringarray& value, map<string, stri
     first.clear();
     last.clear();
  
-    Tokenizer tokenizer("/ ");
+    Tokenizer tokenizer("/ :");
     vector<string> tokens;
     for (stringarray::const_iterator val = value.begin(); val != value.end(); ++val) {
         tokens.clear();

@@ -1,0 +1,322 @@
+PARAMSHARE ; ParamShare; PARAMSHARE
+{
+	COLOUR {
+		%include MagicsColors.h
+	}
+	STYLE {
+		SOLID; SOLID
+		DASH; DASH
+		DOT; DOT
+		CHAIN_DOT; CHAIN_DOT
+		CHAIN_DASH; CHAIN_DASH
+	}
+}
+
+MTHERMOGRID; Magics; Automatically generated
+{
+	THERMO_ISOTHERM_GRID [ help_text = 'Plot the isotherms' ]
+ 	{
+		ON;  ON
+		OFF; OFF
+	} = ON
+
+	THERMO_ISOTHERM_COLOUR [ help = help_colour,interface = colour, help_text='Colou of the isotherms' ]
+	{ 
+		&PARAMSHARE&COLOUR
+	} = CHARCOAL
+
+	THERMO_ISOTHERM_THICKNESS[ help_text = 'Thickness  of the isotherms' ]
+	{
+		*
+	} = 1
+
+	THERMO_ISOTHERM_STYLE
+	{
+		&PARAMSHARE&STYLE
+	} = SOLID
+
+	THERMO_ISOTHERM_INTERVAL[ help_text = 'interval for isotherms grid' ]
+	{
+		*
+	} = 10
+
+	THERMO_ISOTHERM_REFERENCE[ help_text = 'Reference   of the isotherms' ]
+	{
+		*
+	} = 0
+
+	THERMO_ISOTHERM_REFERENCE_COLOUR [ help = help_colour,interface = colour, help_text='Reference   of the isotherms' ]
+	{ 
+		&PARAMSHARE&COLOUR
+	} = RED
+
+	THERMO_ISOTHERM_REFERENCE_STYLE
+	{
+		&PARAMSHARE&STYLE
+	} = SOLID
+
+	THERMO_ISOTHERM_REFERENCE_THICKNESS[ help_text = 'Reference   of the isotherms' ]
+	{
+		*
+	} = 2
+
+	THERMO_ISOTHERM_LABEL_COLOUR [ help = help_colour,interface = colour, help_text='Label Colour for the isotherms' ]
+	{ 
+		&PARAMSHARE&COLOUR
+	} = CHARCOAL
+
+	THERMO_ISOTHERM_LABEL_FONT_NAME
+	{
+		@
+	} = SANSERIF
+
+	THERMO_ISOTHERM_LABEL_FONT_STYLE
+	{
+		NORMAL;NORMAL
+		BOLD;BOLD
+		ITALIC;ITALIC
+		BOLDITALIC;BOLDITALIC
+	} = NORMAL
+
+	THERMO_ISOTHERM_LABEL_FONT_SIZE[ help_text = 'Font Size used for the isotherms labels' ]
+	{
+		*
+	} = 0.3
+
+	THERMO_ISOTHERM_LABEL_FREQUENCY[ help_text = 'Isotherm frequency for labelling' ]
+	{
+		*
+	} = 1
+
+	THERMO_ISOBAR_GRID [ help_text = 'Plot the isobars' ]
+ 	{
+		ON;  ON
+		OFF; OFF
+	} = ON
+
+	THERMO_ISOBAR_COLOUR [ help = help_colour,interface = colour, help_text='Colou of the isobars' ]
+	{ 
+		&PARAMSHARE&COLOUR
+	} = EVERGREEN
+
+	THERMO_ISOBAR_THICKNESS[ help_text = 'Thickness  of the isobars' ]
+	{
+		*
+	} = 2
+
+	THERMO_ISOBAR_STYLE
+	{
+		&PARAMSHARE&STYLE
+	} = SOLID
+
+	THERMO_ISOBAR_INTERVAL[ help_text = 'Interval between isobars' ]
+	{
+		*
+	} = 100
+
+	THERMO_ISOBAR_REFERENCE[ help_text = 'Line Style  of the isobars' ]
+	{
+		*
+	} = 1000
+
+	THERMO_ISOBAR_LABEL_COLOUR [ help = help_colour,interface = colour, help_text='Label Colour for the isotherms' ]
+	{ 
+		&PARAMSHARE&COLOUR
+	} = EVERGREEN
+
+	THERMO_ISOBAR_LABEL_FONT_NAME
+	{
+		@
+	} = SANSERIF
+
+	THERMO_ISOBAR_LABEL_FONT_STYLE
+	{
+		NORMAL;NORMAL
+		BOLD;BOLD
+		ITALIC;ITALIC
+		BOLDITALIC;BOLDITALIC
+	} = NORMAL
+
+	THERMO_ISOBAR_LABEL_FONT_SIZE[ help_text = 'Font Size used for the isobars labels' ]
+	{
+		*
+	} = 0.3
+
+	THERMO_ISOBAR_LABEL_FREQUENCY[ help_text = 'isobar frequency for labelling' ]
+	{
+		*
+	} = 1
+
+	THERMO_DRY_ADIABATIC_GRID [ help_text = 'Plot the dry_adiabatics' ]
+ 	{
+		ON;  ON
+		OFF; OFF
+	} = ON
+
+	THERMO_DRY_ADIABATIC_COLOUR [ help = help_colour,interface = colour, help_text='Colou of the dry_adiabatics' ]
+	{ 
+		&PARAMSHARE&COLOUR
+	} = CHARCOAL
+
+	THERMO_DRY_ADIABATIC_THICKNESS[ help_text = 'Thickness  of the dry_adiabatics' ]
+	{
+		*
+	} = 1
+
+	THERMO_DRY_ADIABATIC_STYLE
+	{
+		&PARAMSHARE&STYLE
+	} = SOLID
+
+	THERMO_DRY_ADIABATIC_INTERVAL[ help_text = 'Interval between 2 dry_adiabatics.' ]
+	{
+		*
+	} = 10
+
+	THERMO_DRY_ADIABATIC_REFERENCE[ help_text = 'Reference   of the dry_adiabatics' ]
+	{
+		*
+	} = 0
+
+	THERMO_DRY_ADIABATIC_LABEL_COLOUR [ help = help_colour,interface = colour, help_text='Label Colour for the isotherms' ]
+	{ 
+		&PARAMSHARE&COLOUR
+	} = CHARCOAL
+
+	THERMO_DRY_ADIABATIC_LABEL_FONT_NAME
+	{
+		@
+	} = SANSERIF
+
+	THERMO_DRY_ADIABATIC_LABEL_FONT_STYLE
+	{
+		NORMAL;NORMAL
+		BOLD;BOLD
+		ITALIC;ITALIC
+		BOLDITALIC;BOLDITALIC
+	} = NORMAL
+
+	THERMO_DRY_ADIABATIC_LABEL_FONT_SIZE[ help_text = 'Font Size used for the dry_adiabatics labels' ]
+	{
+		*
+	} = 0.3
+
+	THERMO_DRY_ADIABATIC_LABEL_FREQUENCY[ help_text = 'frequency for dry_adiabatic labelling' ]
+	{
+		*
+	} = 1
+
+	THERMO_SATURATED_ADIABATIC_GRID [ help_text = 'Plot the saturated_adiabatics' ]
+ 	{
+		ON;  ON
+		OFF; OFF
+	} = ON
+
+	THERMO_SATURATED_ADIABATIC_COLOUR [ help = help_colour,interface = colour, help_text='Colou of the saturated_adiabatics' ]
+	{ 
+		&PARAMSHARE&COLOUR
+	} = CHARCOAL
+
+	THERMO_SATURATED_ADIABATIC_THICKNESS[ help_text = 'Thickness  of the dry_adiabatics' ]
+	{
+		*
+	} = 2
+
+	THERMO_SATURATED_ADIABATIC_STYLE
+	{
+		&PARAMSHARE&STYLE
+	} = SOLID
+
+	THERMO_SATURATED_ADIABATIC_INTERVAL[ help_text = 'interval for saturated_adiabatics grid' ]
+	{
+		*
+	} = 5
+
+	THERMO_SATURATED_ADIABATIC_REFERENCE[ help_text = 'Reference   of the saturated_adiabatics' ]
+	{
+		*
+	} = 0
+
+	THERMO_SATURATED_ADIABATIC_LABEL_COLOUR [ help = help_colour,interface = colour, help_text='Label Colour for the isotherms' ]
+	{ 
+		&PARAMSHARE&COLOUR
+	} = CHARCOAL
+
+	THERMO_SATURATED_ADIABATIC_LABEL_FONT_NAME
+	{
+		@
+	} = SANSERIF
+
+	THERMO_SATURATED_ADIABATIC_LABEL_FONT_STYLE
+	{
+		NORMAL;NORMAL
+		BOLD;BOLD
+		ITALIC;ITALIC
+		BOLDITALIC;BOLDITALIC
+	} = NORMAL
+
+	THERMO_SATURATED_ADIABATIC_LABEL_FONT_SIZE[ help_text = 'Font Size used for the saturated_adiabatics labels' ]
+	{
+		*
+	} = 0.3
+
+	THERMO_SATURATED_ADIABATIC_LABEL_FREQUENCY[ help_text = 'saturated_adiabatic frequency for labelling' ]
+	{
+		*
+	} = 1
+
+	THERMO_MIXING_RATIO_GRID [ help_text = 'Plot the mixing_ratios' ]
+ 	{
+		ON;  ON
+		OFF; OFF
+	} = ON
+
+	THERMO_MIXING_RATIO_COLOUR [ help = help_colour,interface = colour, help_text='Colou of the mixing_ratios' ]
+	{ 
+		&PARAMSHARE&COLOUR
+	} = PURPLE
+
+	THERMO_MIXING_RATIO_THICKNESS[ help_text = 'Thickness  of the mixing_ratios' ]
+	{
+		*
+	} = 1
+
+	THERMO_MIXING_RATIO_STYLE
+	{
+		&PARAMSHARE&STYLE
+	} = DASH
+
+	THERMO_MIXING_RATIO_FREQUENCY[ help_text = 'mixing_ratio frequency for grid' ]
+	{
+		*
+	} = 1
+
+	THERMO_MIXING_RATIO_LABEL_COLOUR [ help = help_colour,interface = colour, help_text='Label Colour for the isotherms' ]
+	{ 
+		&PARAMSHARE&COLOUR
+	} = PURPLE
+
+	THERMO_MIXING_RATIO_LABEL_FONT_NAME
+	{
+		@
+	} = SANSERIF
+
+	THERMO_MIXING_RATIO_LABEL_FONT_STYLE
+	{
+		NORMAL;NORMAL
+		BOLD;BOLD
+		ITALIC;ITALIC
+		BOLDITALIC;BOLDITALIC
+	} = NORMAL
+
+	THERMO_MIXING_RATIO_LABEL_FONT_SIZE[ help_text = 'Font Size used for the mixing_ratios labels' ]
+	{
+		*
+	} = 0.3
+
+	THERMO_MIXING_RATIO_LABEL_FREQUENCY[ help_text = 'mixing_ratio frequency for labelling' ]
+	{
+		*
+	} = 1
+
+}
