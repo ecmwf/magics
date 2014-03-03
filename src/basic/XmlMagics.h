@@ -72,7 +72,7 @@ public:
 	void map(const XmlNode&);
 	void coastlines(const XmlNode&);
 	void tephigrid(const XmlNode&);
-	void tephigram(const XmlNode&);
+	void thermo(const XmlNode&);
 	void taylor(const XmlNode&);
 	void layer(const XmlNode&);
 	void grib(const XmlNode&);

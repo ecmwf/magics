@@ -649,7 +649,7 @@ bool FortranMagics::geographical()
 	ParameterManager::get("subpage_map_projection", projection);
 	if ( magCompare(projection, "cartesian") ) return false;
 	if ( magCompare(projection, "taylor") ) return false;
-	if ( magCompare(projection, "tephigram") ) return false;
+	if ( magCompare(projection, "thermo") ) return false;
 	if ( magCompare(projection, "tephiinfo") ) return false;
 	return true;
 }

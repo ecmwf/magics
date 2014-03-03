@@ -45,7 +45,7 @@ Tephigram::Tephigram()
 /*!
   \brief Destructor
 */
-Tephigram::~Tephigram() 
+Tephigram::~Tephigram()
 {
 }
 
@@ -58,7 +58,7 @@ void Tephigram::print(ostream& out) const
 #define sinus  -0.7071
 #define cosinus  0.7071
 static double maxpcx;
-void Tephigram::init()  
+void Tephigram::init()
 {
 	if ( x_min_ == 0 && x_max_ == 100 ) {
 		x_min_ = -20;
@@ -170,7 +170,7 @@ bool Tephigram::needShiftedCoastlines()  const
 	return false;
 }
 
-void Tephigram::aspectRatio(double& width, double& height)  
+void Tephigram::aspectRatio(double& width, double& height)
 {
 
 
@@ -238,22 +238,22 @@ double Tephigram::getMaxY()  const
 	return y_max_;
 }
 
-void Tephigram::setMinX(double x)  
+void Tephigram::setMinX(double x)
 {
 	x_min_ = x;
 }
 
-void Tephigram::setMinY(double y)  
+void Tephigram::setMinY(double y)
 {
 	y_min_ = y;
 }
 
-void Tephigram::setMaxX(double x)  
+void Tephigram::setMaxX(double x)
 {
 	x_max_ = x;
 }
 
-void Tephigram::setMaxY(double y)  
+void Tephigram::setMaxY(double y)
 {
 	y_max_ = y;
 }
@@ -325,7 +325,7 @@ void Tephigram::setDefinition(const string& json)
 
 		XmlNode node = **helper.tree_.firstElement();
 
-		node.name("tephigram");
+		node.name("Tephigram");
 
 
 		set(node);
@@ -344,7 +344,7 @@ void toxml2(string& out, const map<string, string>& def)
 void Tephigram::getNewDefinition(const UserPoint& ll, const UserPoint& ur, string& out) const
 {
 	map<string, string> def;
-	def["subpage_map_projection"] = "tephigram";
+	def["subpage_map_projection"] = "Tephigram";
 
 	def["x_min"]= tostring(ll.x_);
 			def["x_max"]= tostring(ur.x_);

@@ -56,6 +56,8 @@ magics::MagTime::MagTime(const string& s)
 	//MagLog::debug() << "time-->[" << s << "]=" << s.length() << "\n";
 	switch(result.size())
 	{
+		case 0: 
+            break;
 		case 1:
 			// hh or hhmm or hhmmss
 			switch(s.length())

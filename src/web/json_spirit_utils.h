@@ -1,12 +1,10 @@
-#ifndef JASON_SPIRIT_UTILS
-#define JASON_SPIRIT_UTILS
+#ifndef JSON_SPIRIT_UTILS
+#define JSON_SPIRIT_UTILS
 
-/* Copyright (c) 2007-2009 John W Wilkinson
+//          Copyright John W. Wilkinson 2007 - 2013
+// Distributed under the MIT License, see accompanying file LICENSE.txt
 
-   This source code can be used for any purpose as long as
-   this comment is retained. */
-
-// json spirit version 4.00
+// json spirit version 4.06
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1020)
 # pragma once
@@ -39,9 +37,11 @@ namespace json_spirit
         }
     }
 
+#ifdef JSON_SPIRIT_VALUE_ENABLED
     typedef std::map< std::string, Value > Mapped_obj;
+#endif
 
-#ifndef BOOST_NO_STD_WSTRING
+#if defined( JSON_SPIRIT_WVALUE_ENABLED ) && !defined( BOOST_NO_STD_WSTRING )
     typedef std::map< std::wstring, wValue > wMapped_obj;
 #endif
 

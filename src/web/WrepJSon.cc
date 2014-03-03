@@ -487,7 +487,7 @@ void WrepJSon::profile()
 			}
 
 		}
-		// Test for tephigram
+		// Test for thermo
 		if ( (*point)["y"] > 100. )
 			points_.push_back(point);
 	}

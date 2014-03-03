@@ -1,19 +1,19 @@
 <magics>
-<class action="ptephi" inherits="Transformation" directory="common" xmltag="tephigram" name="Tephigram">
+<class action="ptephi" inherits="Transformation" directory="common" xmltag="thermo" name="Tephigram">
 
 	<parameter member="x_min" to="float" default="0" from="float" name="x_min">
-    		<release>Magics++0.1		</release>
+    		
 	</parameter>
 
 	<parameter member="x_max" to="float" default="100" from="float" name="x_max">
-    		<release>Magics++0.1		</release>
+    	
 	</parameter>    
 	<parameter member="y_min" to="float" default="0" from="float" name="y_min">
-    		<release>Magics++0.1		</release>
+    		
 	</parameter>
 
 	<parameter member="y_max" to="float" default="100" from="float" name="y_max">
-    		<release>Magics++0.1		</release>
+    		
 	</parameter>     
 
 

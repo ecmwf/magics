@@ -1,12 +1,10 @@
-#ifndef JASON_SPIRIT_VALUE
-#define JASON_SPIRIT_VALUE
+#ifndef JSON_SPIRIT_VALUE
+#define JSON_SPIRIT_VALUE
 
-/* Copyright (c) 2007-2009 John W Wilkinson
+//          Copyright John W. Wilkinson 2007 - 2013
+// Distributed under the MIT License, see accompanying file LICENSE.txt
 
-   This source code can be used for any purpose as long as
-   this comment is retained. */
-
-// json spirit version 4.00
+// json spirit version 4.06
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1020)
 # pragma once
@@ -16,14 +14,27 @@
 #include <map>
 #include <string>
 #include <cassert>
+#include <sstream>
+#include <stdexcept>
 #include <boost/config.hpp> 
 #include <boost/cstdint.hpp> 
 #include <boost/shared_ptr.hpp> 
+#include <boost/variant.hpp> 
+
+// comment out the value types you don't need to reduce build times and intermediate file sizes
+#define JSON_SPIRIT_VALUE_ENABLED
+#define JSON_SPIRIT_WVALUE_ENABLED
+#define JSON_SPIRIT_MVALUE_ENABLED
+#define JSON_SPIRIT_WMVALUE_ENABLED
 
 namespace json_spirit
 {
     enum Value_type{ obj_type, array_type, str_type, bool_type, int_type, real_type, null_type };
 
+    static std::string value_type_to_string( Value_type vtype );
+
+    struct Null{};
+    
     template< class Config >    // Config determines whether the value uses std::string or std::wstring and
                                 // whether JSON Objects are represented as vectors or maps
     class Value_impl
@@ -46,6 +57,12 @@ namespace json_spirit
         Value_impl( boost::int64_t     value );
         Value_impl( boost::uint64_t    value );
         Value_impl( double             value );
+
+        template< class Iter >
+        Value_impl( Iter first, Iter last );    // constructor from containers, e.g. std::vector or std::list
+
+        template< BOOST_VARIANT_ENUM_PARAMS( typename T ) >
+        Value_impl( const boost::variant< BOOST_VARIANT_ENUM_PARAMS(T) >& variant ); // constructor for compatible variant types
 
         Value_impl( const Value_impl& other );
 
@@ -77,21 +94,34 @@ namespace json_spirit
 
     private:
 
-        Value_type type_;
+        void check_type( const Value_type vtype ) const;
 
-        typedef boost::shared_ptr< Object > Object_ptr;
-        typedef boost::shared_ptr< Array > Array_ptr;
+        typedef boost::variant< boost::recursive_wrapper< Object >, boost::recursive_wrapper< Array >, 
+                                String_type, bool, boost::int64_t, double, Null, boost::uint64_t > Variant;
 
-        String_type str_;
-        Object_ptr obj_p_;
-        Array_ptr array_p_;
-        union
+        Variant v_;
+
+        class Variant_converter_visitor : public boost::static_visitor< Variant > 
         {
-           bool bool_;
-           boost::int64_t i_;
-           double d_;
+        public:
+         
+              template< typename T, typename A, template< typename, typename > class Cont >
+              Variant operator()( const Cont< T, A >& cont ) const 
+              {
+                  return Array( cont.begin(), cont.end() );
+              }
+             
+              Variant operator()( int i ) const 
+              {
+                  return static_cast< boost::int64_t >( i );
+              }
+           
+              template<class T>
+              Variant operator()( const T& t ) const 
+              {
+                  return t;
+              }
         };
-        bool is_uint64_;
     };
 
     // vector objects
@@ -102,6 +132,10 @@ namespace json_spirit
         typedef typename Config::String_type String_type;
         typedef typename Config::Value_type Value_type;
 
+        Pair_impl()
+        {
+        }
+
         Pair_impl( const String_type& name, const Value_type& value );
 
         bool operator==( const Pair_impl& lhs ) const;
@@ -110,6 +144,7 @@ namespace json_spirit
         Value_type value_;
     };
 
+#if defined( JSON_SPIRIT_VALUE_ENABLED ) || defined( JSON_SPIRIT_WVALUE_ENABLED )
     template< class String >
     struct Config_vector
     {
@@ -126,30 +161,32 @@ namespace json_spirit
             return obj.back().value_;
         }
                 
-        static String_type get_name( const Pair_type& pair )
+        static const String_type& get_name( const Pair_type& pair )
         {
             return pair.name_;
         }
                 
-        static Value_type get_value( const Pair_type& pair )
+        static const Value_type& get_value( const Pair_type& pair )
         {
             return pair.value_;
         }
     };
+#endif
 
     // typedefs for ASCII
 
+#ifdef JSON_SPIRIT_VALUE_ENABLED
     typedef Config_vector< std::string > Config;
 
     typedef Config::Value_type  Value;
     typedef Config::Pair_type   Pair;
     typedef Config::Object_type Object;
     typedef Config::Array_type  Array;
+#endif
 
     // typedefs for Unicode
 
-#ifndef BOOST_NO_STD_WSTRING
-
+#if defined( JSON_SPIRIT_WVALUE_ENABLED ) && !defined( BOOST_NO_STD_WSTRING )
     typedef Config_vector< std::wstring > wConfig;
 
     typedef wConfig::Value_type  wValue;
@@ -160,6 +197,7 @@ namespace json_spirit
 
     // map objects
 
+#if defined( JSON_SPIRIT_MVALUE_ENABLED ) || defined( JSON_SPIRIT_WMVALUE_ENABLED )
     template< class String >
     struct Config_map
     {
@@ -167,146 +205,135 @@ namespace json_spirit
         typedef Value_impl< Config_map > Value_type;
         typedef std::vector< Value_type > Array_type;
         typedef std::map< String_type, Value_type > Object_type;
-        typedef typename Object_type::value_type Pair_type;
+        typedef std::pair< const String_type, Value_type > Pair_type;
 
         static Value_type& add( Object_type& obj, const String_type& name, const Value_type& value )
         {
             return obj[ name ] = value;
         }
                 
-        static String_type get_name( const Pair_type& pair )
+        static const String_type& get_name( const Pair_type& pair )
         {
             return pair.first;
         }
                 
-        static Value_type get_value( const Pair_type& pair )
+        static const Value_type& get_value( const Pair_type& pair )
         {
             return pair.second;
         }
     };
+#endif
 
     // typedefs for ASCII
 
+#ifdef JSON_SPIRIT_MVALUE_ENABLED
     typedef Config_map< std::string > mConfig;
 
     typedef mConfig::Value_type  mValue;
     typedef mConfig::Object_type mObject;
     typedef mConfig::Array_type  mArray;
+#endif
 
     // typedefs for Unicode
 
-#ifndef BOOST_NO_STD_WSTRING
-
+#if defined( JSON_SPIRIT_WMVALUE_ENABLED ) && !defined( BOOST_NO_STD_WSTRING )
     typedef Config_map< std::wstring > wmConfig;
 
     typedef wmConfig::Value_type  wmValue;
     typedef wmConfig::Object_type wmObject;
     typedef wmConfig::Array_type  wmArray;
-
 #endif
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
     //
     // implementation
 
+    inline bool operator==( const Null&, const Null& )
+    {
+        return true;
+    }
+
     template< class Config >
     const Value_impl< Config > Value_impl< Config >::null;
 
     template< class Config >
     Value_impl< Config >::Value_impl()
-    :   type_( null_type )
-    ,   is_uint64_( false )
+    :   v_( Null() )
     {
     }
 
     template< class Config >
     Value_impl< Config >::Value_impl( const Const_str_ptr value )
-    :   type_( str_type )
-    ,   str_( value )
-    ,   is_uint64_( false )
+    :  v_( String_type( value ) )
     {
     }
 
     template< class Config >
     Value_impl< Config >::Value_impl( const String_type& value )
-    :   type_( str_type )
-    ,   str_( value )
-    ,   is_uint64_( false )
+    :   v_( value )
     {
     }
 
     template< class Config >
     Value_impl< Config >::Value_impl( const Object& value )
-    :   type_( obj_type )
-    ,   obj_p_( new Object( value ) )
-    ,   is_uint64_( false )
+    :   v_( value )
     {
     }
 
     template< class Config >
     Value_impl< Config >::Value_impl( const Array& value )
-    :   type_( array_type )
-    ,   array_p_( new Array( value ) )
-    ,   is_uint64_( false )
+    :   v_( value )
     {
     }
 
     template< class Config >
     Value_impl< Config >::Value_impl( bool value )
-    :   type_( bool_type )
-    ,   bool_( value )
-    ,   is_uint64_( false )
+    :   v_( value )
     {
     }
 
     template< class Config >
     Value_impl< Config >::Value_impl( int value )
-    :   type_( int_type )
-    ,   i_( value )
-    ,   is_uint64_( false )
+    :   v_( static_cast< boost::int64_t >( value ) )
     {
     }
 
     template< class Config >
     Value_impl< Config >::Value_impl( boost::int64_t value )
-    :   type_( int_type )
-    ,   i_( value )
-    ,   is_uint64_( false )
+    :   v_( value )
     {
     }
 
     template< class Config >
     Value_impl< Config >::Value_impl( boost::uint64_t value )
-    :   type_( int_type )
-    ,   i_( static_cast< boost::int64_t >( value ) )
-    ,   is_uint64_( true )
+    :   v_( value )
     {
     }
 
     template< class Config >
     Value_impl< Config >::Value_impl( double value )
-    :   type_( real_type )
-    ,   d_( value )
-    ,   is_uint64_( false )
+    :   v_( value )
     {
     }
 
     template< class Config >
     Value_impl< Config >::Value_impl( const Value_impl< Config >& other )
-    :   type_( other.type() )
-    ,   is_uint64_( other.is_uint64_ )
+    :   v_( other.v_ )
     {
-        switch( type_ )
-        {
-            case str_type:   str_     = other.get_str();                               break;
-            case obj_type:   obj_p_   = Object_ptr( new Object( other.get_obj() ) );   break;
-            case array_type: array_p_ = Array_ptr ( new Array ( other.get_array() ) ); break;
-            case bool_type:  bool_    = other.get_bool();                              break;
-            case int_type:   i_       = other.get_int64();                             break;
-            case real_type:  d_       = other.get_real();                              break;
-            case null_type:                                                            break;
-            default: assert( false );
-        };
+    }
+
+    template< class Config >
+    template< class Iter >
+    Value_impl< Config >::Value_impl( Iter first, Iter last )
+    :   v_( Array( first, last ) )
+    {
+    }
+
+    template< class Config >
+    template< BOOST_VARIANT_ENUM_PARAMS( typename T ) >
+    Value_impl< Config >::Value_impl( const boost::variant< BOOST_VARIANT_ENUM_PARAMS(T) >& variant )
+    :   v_( boost::apply_visitor( Variant_converter_visitor(), variant) )
+    {
     }
 
     template< class Config >
@@ -314,19 +341,7 @@ namespace json_spirit
     {
         Value_impl tmp( lhs );
 
-        std::swap( type_, tmp.type_ );
-        str_    .swap( tmp.str_ );
-        obj_p_  .swap( tmp.obj_p_ );
-        array_p_.swap( tmp.array_p_ );
-        std::swap( is_uint64_, tmp.is_uint64_ );
-
-        switch( type_ )
-        {
-            case bool_type:  std::swap( bool_,      tmp.bool_ );      break;
-            case int_type:   std::swap( i_,         tmp.i_ );         break;
-            case real_type:  std::swap( d_,         tmp.d_ );         break;
-	    default:  break;
-        };
+        std::swap( v_, tmp.v_ );
 
         return *this;
     }
@@ -338,33 +353,24 @@ namespace json_spirit
 
         if( type() != lhs.type() ) return false;
 
-        switch( type_ )
-        {
-            case str_type:   return get_str()   == lhs.get_str();
-            case obj_type:   return get_obj()   == lhs.get_obj();
-            case array_type: return get_array() == lhs.get_array();
-            case bool_type:  return get_bool()  == lhs.get_bool();
-            case int_type:   return ( get_int64() == lhs.get_int64() ) &&
-                                    ( is_uint64() == lhs.is_uint64() );
-            case real_type:  return get_real()  == lhs.get_real();
-            case null_type:  return true;
-        };
-
-        assert( false );
-
-        return false; 
+        return v_ == lhs.v_; 
     }
 
     template< class Config >
     Value_type Value_impl< Config >::type() const
     {
-        return type_;
+        if( is_uint64() )
+        {
+            return int_type;
+        }
+
+        return static_cast< Value_type >( v_.which() );
     }
 
     template< class Config >
     bool Value_impl< Config >::is_uint64() const
     {
-        return is_uint64_;
+        return v_.which() == null_type + 1;
     }
 
     template< class Config >
@@ -374,59 +380,82 @@ namespace json_spirit
     }
 
     template< class Config >
+    void Value_impl< Config >::check_type( const Value_type vtype ) const
+    {
+        if( type() != vtype ) 
+        {
+            std::ostringstream os;
+
+            os << "get_value< " << value_type_to_string( vtype ) << " > called on " << value_type_to_string( type() ) << " Value";
+
+            throw std::runtime_error( os.str() );
+        }
+    }
+
+    template< class Config >
     const typename Config::String_type& Value_impl< Config >::get_str() const
     {
-        assert( type() == str_type );
+        check_type( str_type );
 
-        return str_;
+        return *boost::get< String_type >( &v_ );
     }
 
     template< class Config >
     const typename Value_impl< Config >::Object& Value_impl< Config >::get_obj() const
     {
-        assert( type() == obj_type );
+        check_type( obj_type );
 
-        return *obj_p_;
+        return *boost::get< Object >( &v_ );
     }
      
     template< class Config >
     const typename Value_impl< Config >::Array& Value_impl< Config >::get_array() const
     {
-        assert( type() == array_type );
+        check_type( array_type );
 
-        return *array_p_;
+        return *boost::get< Array >( &v_ );
     }
      
     template< class Config >
     bool Value_impl< Config >::get_bool() const
     {
-        assert( type() == bool_type );
+        check_type( bool_type );
 
-        return bool_;
+        return boost::get< bool >( v_ );
     }
      
     template< class Config >
     int Value_impl< Config >::get_int() const
     {
-        assert( type() == int_type );
+        check_type( int_type );
 
-        return static_cast< int >( i_ );
+        return static_cast< int >( get_int64() );
     }
     
     template< class Config >
     boost::int64_t Value_impl< Config >::get_int64() const
     {
-        assert( type() == int_type );
+        check_type( int_type );
 
-        return i_;
+        if( is_uint64() )
+        {
+            return static_cast< boost::int64_t >( get_uint64() );
+        }
+
+        return boost::get< boost::int64_t >( v_ );
     }
     
     template< class Config >
     boost::uint64_t Value_impl< Config >::get_uint64() const
     {
-        assert( type() == int_type );
+        check_type( int_type );
 
-        return static_cast< boost::uint64_t >( i_ );
+        if( !is_uint64() )
+        {
+            return static_cast< boost::uint64_t >( get_int64() );
+        }
+
+        return boost::get< boost::uint64_t >( v_ );
     }
 
     template< class Config >
@@ -438,25 +467,25 @@ namespace json_spirit
                                : static_cast< double >( get_int64() );
         }
 
-        assert( type() == real_type );
+        check_type( real_type );
 
-        return d_;
+        return boost::get< double >( v_ );
     }
 
     template< class Config >
     typename Value_impl< Config >::Object& Value_impl< Config >::get_obj()
     {
-        assert( type() == obj_type );
+        check_type( obj_type );
 
-        return *obj_p_;
+        return *boost::get< Object >( &v_ );
     }
 
     template< class Config >
     typename Value_impl< Config >::Array& Value_impl< Config >::get_array()
     {
-        assert( type() == array_type );
+        check_type( array_type );
 
-        return *array_p_;
+        return *boost::get< Array >( &v_ );
     }
 
     template< class Config >
@@ -552,6 +581,24 @@ namespace json_spirit
     T Value_impl< Config >::get_value() const
     {
         return internal_::get_value( *this, internal_::Type_to_type< T >() );
+    }
+
+    static std::string value_type_to_string( const Value_type vtype )
+    {
+        switch( vtype )
+        {
+            case obj_type: return "Object";
+            case array_type: return "Array";
+            case str_type: return "string";
+            case bool_type: return "boolean";
+            case int_type: return "integer";
+            case real_type: return "real";
+            case null_type: return "null";
+        }
+
+        assert( false );
+
+        return "unknown type";
     }
 }
 

@@ -102,7 +102,7 @@ XmlMagics::XmlMagics() : root_(0),
 	actions_["coastlines"] = &XmlMagics::coastlines;
 	actions_["taylorgrid"] = &XmlMagics::taylor;
 	actions_["tephigrid"] = &XmlMagics::tephigrid;
-	actions_["tephigram"] = &XmlMagics::cartesian;
+	actions_["thermo"] = &XmlMagics::cartesian;
 	actions_["grib"] = &XmlMagics::grib;
 	actions_["netcdf"] = &XmlMagics::netcdf;
 	actions_["table"] = &XmlMagics::table;

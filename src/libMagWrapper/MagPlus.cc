@@ -1191,6 +1191,7 @@ void checknctypes() {
 	        nctypes["NETCDF_XY_POINTS"] = "xypoint";
 	        nctypes["NETCDF_XY_VECTORS"] = "vector";
 	        nctypes["NETCDF_XY_MATRIX"] = "matrix";
+	        nctypes["MATRIX"] = "complex_matrix";
 
 	        nctypes["NETCDF_GEOPOINTS"] = "geopoint";
 	        nctypes["NETCDF_GEOVECTORS"] = "geovector";
@@ -1214,7 +1215,7 @@ bool MagPlus::netcdf(magics::MagRequest& in)
     static map<string, string> types;
 
 
-    string type = get(in, "NETCDF_PLOT_TYPE", in.getVerb());
+    string type = get(in, "NETCDF_POSITION_TYPE", in.getVerb());
    	in("NETCDF_TYPE") = nctypes[type].c_str();
 
 	VisualAnimation* action = new VisualAnimation();

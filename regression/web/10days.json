@@ -332,7 +332,7 @@
                 "text_colour": "navy", 
                 "text_font_size": "0.5", 
                 "text_justification": "left", 
-                "text_line_1": "<json_info key='parameter_info'/><json_info key='short_temperature_correction_info'/>", 
+                "text_line_1": "<json_info key='parameter_info'/><json_info key='full_temperature_correction_info'/>", 
                 "text_line_count": "1", 
                 "width": "100%"
             }
