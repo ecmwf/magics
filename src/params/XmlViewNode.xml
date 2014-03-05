@@ -16,7 +16,7 @@
          		<option xml="mercator" fortran="mercator" include="GeoRectangularProjection.h" name="MercatorProjection">		</option>
 		 		<option xml="cartesian" fortran="none" include="CartesianTransformation.h" name="CartesianTransformation">		</option>
          		<option xml="taylor" fortran="taylor" include="TaylorProjection.h" name="TaylorProjection">		</option>
-         		<option xml="thermo" fortran="thermo" include="Tephigram.h" name="Tephigram">		</option>
+         		<option xml="tephigram" fortran="tephigram" include="Tephigram.h" name="Tephigram">		</option>
          
          
 		</parameter>

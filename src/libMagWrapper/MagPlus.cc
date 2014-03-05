@@ -189,7 +189,7 @@ MagPlus::MagPlus() : root_(0), superpage_(-1), geographical_(true), mode_(intera
         sceneCreators_["TABLE_XY_BINNING"] = &MagPlus::table;
         sceneCreators_["TABLE_GEO_BINNING"] = &MagPlus::table;
         sceneCreators_["cartesian"] = &MagPlus::cartesianGrid;
-        sceneCreators_["thermogram"] = &MagPlus::tephiGrid;
+        sceneCreators_["tephigram"] = &MagPlus::tephiGrid;
         sceneCreators_["taylor"] = &MagPlus::taylorGrid;
 #ifdef MAGICS_ODB	
 	sceneCreators_["ODB_GEO_POINTS"] = &MagPlus::geoodb;
@@ -585,7 +585,7 @@ bool MagPlus::tephiGrid(magics::MagRequest& in)
 	}
 	else {
 		TephiGrid* grid = new TephiGrid();
-		grid->icon("Tephigram Grid", "MTHERMOGRID");
+		grid->icon("Tephigram Grid", "MTHERMO_GRID");
 		top()->push_back(grid);
 
 	}
