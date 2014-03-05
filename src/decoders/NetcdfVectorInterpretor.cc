@@ -76,6 +76,50 @@ NetcdfGeoVectorInterpretor::~NetcdfGeoVectorInterpretor()
 {
 }
 
+void NetcdfVectorInterpretor::customisedPoints(const Transformation& transformation, const std::set<string>&, CustomisedPointsList& list)
+{
+	Netcdf netcdf(path_, dimension_method_);
+	try {
+			vector<double> x;
+			vector<double> y;
+			vector<double> x_component;
+			vector<double> y_component;
+			map<string, string> first, last;
+			setDimensions(dimension_, first, last);
+			
+			netcdf.get(x_component_, x_component, first, last);
+			netcdf.get(y_component_, y_component, first, last);
+			netcdf.get(x_, x, first, last);
+			netcdf.get(y_, y, first, last);
+			
+			vector<double>::iterator xi = x.begin();
+			vector<double>::iterator yi = y.begin();
+			vector<double>::const_iterator u = x_component.begin();
+			vector<double>::const_iterator v = y_component.begin();
+			
+			xi = x.begin();		
+			yi = y.begin();
+			while ( xi != x.end() && yi != y.end() &&
+						u != x_component.end() && v != y_component.end() ) {
+//				       if ( transformation.in( *xi, *yi) ) {
+				    	   CustomisedPoint* point = new CustomisedPoint();		
+				    	   point->longitude(*xi);
+				    	   point->latitude(*yi);
+				    	   (*point)["x_component"] = *u;
+				    	   (*point)["y_component"] = *v;
+				    	   list.push_back(point);
+//				       }
+						xi++;
+						yi++;
+						u++;
+						v++;
+			}
+	}
+	catch (MagicsException& e)
+	{
+		MagLog::error() << e << "\n";
+        }
+}
 
 void NetcdfGeoVectorInterpretor::customisedPoints(const Transformation& transformation, const std::set<string>&, CustomisedPointsList& list)
 {
