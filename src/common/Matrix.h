@@ -219,8 +219,6 @@ public:
     double regular_row(int i) const { return rowsAxis_[i]; } 
     double row(int i, int) const { return regular_row(i); }
     
-
-
     void release()
     {
     	rows_ = 0;
@@ -283,18 +281,8 @@ public:
     double nearest(double i, double j) const {double d1, d2; return nearest(i,j,d1,d2);}
     double nearest(double i, double j,double &iOut, double &jOut) const;
     
-   void multiply(double factor) 
-    {
-        if (factor == 1 ) return;
-        std::transform(begin(), end(), begin(), Multiply(factor, missing_));
-    }
-    
-    void plus(double offset) 
-    {
-        if (offset == 0 ) return;
-        std::transform(begin(), end(), begin(), Plus(offset, missing_));
-       
-    }
+    void multiply(double factor);   
+    void plus(double offset);
     
      virtual int firstRow() const { return 0; }
      virtual int nextRow(int i, int f) const   

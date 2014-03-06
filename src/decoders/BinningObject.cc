@@ -9,18 +9,14 @@
     
 */
 
-
-
+#include <algorithm>
 #include "BinningObject.h"
-
 
 using namespace magics;
 
 
-
 BinningObject::BinningObject() 
 {
-
 	binners_x_["count"] = &BinningObject::countx;
 	binners_x_["list"] = &BinningObject::listx;
 	binners_x_["interval"] = &BinningObject::intervalx;
@@ -28,9 +24,7 @@ BinningObject::BinningObject()
 	binners_y_["count"] = &BinningObject::county;
 	binners_y_["list"] = &BinningObject::listy;
 	binners_y_["interval"] = &BinningObject::intervaly;
-
 }
-
 
 BinningObject::~BinningObject() 
 {
@@ -65,10 +59,6 @@ void BinningObject::build(vector<double>& vals, IntervalMap<int>& binns)
 	}
 	max = vals.back();
 	binns.insert(make_pair(Interval(min, max), index));
-
-
-
-
 }
 
 /*
@@ -80,65 +70,56 @@ static double maxdef = 1.0e+21;
 
 void  BinningObject::countx(vector<double>& vals, double min, double max)
 {
-	double vmin = ( x_min_ == mindef) ? min : std::max(min, x_min_);
-	double vmax = ( x_max_ == maxdef) ? max : std::min(max, x_max_);
-
-	double step = (max-min)/(x_count_);
-
+	const double vmin = ( x_min_ == mindef) ? min : std::max(min, x_min_);
+	const double vmax = ( x_max_ == maxdef) ? max : std::min(max, x_max_);
+	const double step = (max-min)/(x_count_);
 
 	for (double val = vmin; val < vmax; val+=step) {
 		vals.push_back(val);
-
 	}
 
 	vals.push_back(vmax+epsilon);
-
 }
 
 void  BinningObject::county(vector<double>& vals, double min, double max)
 {
-	double vmin = ( y_min_ == mindef) ? min : std::max(min, y_min_);
-	double vmax = ( y_max_ == maxdef) ? max : std::min(max, y_max_);
-	double step = (max-min)/(y_count_);
-
+	const double vmin = ( y_min_ == mindef) ? min : std::max(min, y_min_);
+	const double vmax = ( y_max_ == maxdef) ? max : std::min(max, y_max_);
+	const double step = (max-min)/(y_count_);
 
 	for (double val = vmin; val < vmax; val+=step) {
 		vals.push_back(val);
-
 	}
 
 	vals.push_back(vmax+epsilon);
-
 }
 
 void  BinningObject::listx(vector<double>& vals, double min, double max)
 {
-	double vmin = ( y_min_ == mindef) ? min : std::max(min, y_min_);
-	double vmax = ( y_max_ == maxdef) ? max : std::min(max, y_max_);
+	const double vmin = ( y_min_ == mindef) ? min : std::max(min, y_min_);
+	const double vmax = ( y_max_ == maxdef) ? max : std::min(max, y_max_);
 
 	for (vector<double>::iterator val = x_list_.begin(); val != x_list_.end(); ++val) {
 		if ( *val >=vmin && *val <=vmax )
 			vals.push_back(*val);
 	}
-
-
 }
+
 void  BinningObject::listy(vector<double>& vals, double min, double max)
 {
-	double vmin = ( y_min_ == mindef) ? min : std::max(min, y_min_);
-	double vmax = ( y_max_ == maxdef) ? max : std::min(max, y_max_);
+	const double vmin = ( y_min_ == mindef) ? min : std::max(min, y_min_);
+	const double vmax = ( y_max_ == maxdef) ? max : std::min(max, y_max_);
 
 	for (vector<double>::iterator val = x_list_.begin(); val != x_list_.end(); ++val) {
 		if ( *val >=vmin && *val <=vmax )
 			vals.push_back(*val);
 	}
-
 }
 
 void  BinningObject::intervalx(vector<double>& vals, double min, double max)
 {
-	double vmin = ( x_min_ == mindef) ? min : std::max(min, x_min_);
-	double vmax = ( x_max_ == maxdef) ? max : std::min(max, x_max_);
+	const double vmin = ( x_min_ == mindef) ? min : std::max(min, x_min_);
+	const double vmax = ( x_max_ == maxdef) ? max : std::min(max, x_max_);
 
 	for (double val = x_reference_; val < vmax; val+= x_interval_)
 		vals.push_back(val);
@@ -146,16 +127,14 @@ void  BinningObject::intervalx(vector<double>& vals, double min, double max)
 		vals.push_back(val);
 
 	std::sort(vals.begin(), vals.end());
-
 	vals.insert(vals.begin(), vals.front()- x_interval_);
 	vals.push_back(vals.back() + x_interval_);
-
-
 }
+
 void  BinningObject::intervaly(vector<double>& vals, double min, double max)
 {
-	double vmin = ( y_min_ == mindef) ? min : std::max(min, y_min_);
-	double vmax = ( y_max_ == maxdef) ? max : std::min(max, y_max_);
+	const double vmin = ( y_min_ == mindef) ? min : std::max(min, y_min_);
+	const double vmax = ( y_max_ == maxdef) ? max : std::min(max, y_max_);
 
 	for (double val = y_reference_; val < vmax; val+= y_interval_)
 		vals.push_back(val);
@@ -166,8 +145,6 @@ void  BinningObject::intervaly(vector<double>& vals, double min, double max)
 	std::sort(vals.begin(), vals.end());
 	vals.insert(vals.begin(), vals.front()- y_interval_);
 	vals.push_back(vals.back() + y_interval_);
-
-
 }
 
 Matrix*   BinningObject::operator()(PointsList& points)

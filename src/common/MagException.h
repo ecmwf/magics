@@ -28,14 +28,14 @@ class MagicsException : public exception
 {
  public:
 	MagicsException( const string& why) : what_(why) {
-        if (::getenv("MAGICS_ABORT_EXCEPTION")) {
-            ::abort();
+        if (std::getenv("MAGICS_ABORT_EXCEPTION")) {
+            std::abort();
         }
     } 
 
     MagicsException() : what_("") {
-        if (::getenv("MAGICS_ABORT_EXCEPTION")) {
-            ::abort();
+        if (std::getenv("MAGICS_ABORT_EXCEPTION")) {
+            std::abort();
         }
     } 
 
