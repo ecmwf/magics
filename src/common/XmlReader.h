@@ -27,6 +27,8 @@
 #ifndef XmlReader_H
 #define XmlReader_H
 
+#include <stack>
+
 #include "magics.h"
 #include "XmlTree.h"
 

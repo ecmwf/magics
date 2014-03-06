@@ -80,11 +80,13 @@
 #define MAGICS_DEPRECATED
 #endif
 
+#include <cstdlib>
+
 #include <iostream>
 #include <cstring>
 #include <string>
 #include <sstream>
-#include <fstream>
+//#include <fstream>
 
 using std::string;
 using std::ostream;
@@ -96,21 +98,21 @@ using std::ostringstream;
 using std::ofstream;
 using std::ifstream;
 
-#include <list>
+//#include <list>
 #include <vector>
-#include <stack>
+//#include <stack>
 #include <memory>
 #include <map>
 #include <set>
-#include <iterator>
+//#include <iterator>
 #include <numeric>
 //#include <cfloat>
-#include <algorithm>
+//#include <algorithm>
 
 using std::allocator;
 using std::vector;
 using std::pair;
-using std::list;
+//using std::list;
 using std::map;
 using std::set;
 using std::auto_ptr;
