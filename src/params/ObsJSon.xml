@@ -3,4 +3,7 @@
  	<parameter member="path" to="string" default="" from="string" name="obsjson_input_filename">
   			<documentation> Path to the file containing the Observation data 		</documentation>
  	</parameter>
+ 	<parameter member="values" to="stringarray" default="stringarray()" from="stringarray" name="obsjson_info_list">
+  			<documentation> list of values  described using json format 		</documentation>
+ 	</parameter>
  </class></magics>
