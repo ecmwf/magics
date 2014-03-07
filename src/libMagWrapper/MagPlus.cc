@@ -16,8 +16,11 @@
 #include <GribLoopWrapper.h>
 #endif
 
-#include <GeoPointsDecoderWrapper.h>
+#ifdef MAGICS_NETCDF
 #include <NetcdfDecoderWrapper.h>
+#endif
+
+#include <GeoPointsDecoderWrapper.h>
 #include <BinningObjectWrapper.h>
 
 #ifdef MAGICS_ODB
@@ -135,6 +138,7 @@ MagPlus::MagPlus() : root_(0), superpage_(-1), geographical_(true), mode_(intera
 	}
 	if ( dataCreators_.empty()) {
 		dataCreators_["GEOPOINTS"] = &MagPlus::createGeopoints;
+#ifdef MAGICS_NETCDF
 		dataCreators_["NETCDF_GEOPOINTS"] = &MagPlus::createnetcdf;
 		dataCreators_["NETCDF_GEOVECTORS"] = &MagPlus::createnetcdf;
 		dataCreators_["NETCDF_GEOMATRIX"] = &MagPlus::createnetcdf;
@@ -147,6 +151,7 @@ MagPlus::MagPlus() : root_(0), superpage_(-1), geographical_(true), mode_(intera
 		dataCreators_["NETCDF_XY_POINTS"] = &MagPlus::createnetcdf;
 		dataCreators_["NETCDF_XY_VECTORS"] = &MagPlus::createnetcdf;
 		dataCreators_["NETCDF_XY_MATRIX"] = &MagPlus::createnetcdf;
+#endif
 	}
  	if ( sceneCreators_.empty()) { 		
  		sceneCreators_["PAGE"] = &MagPlus::page;
@@ -162,7 +167,8 @@ MagPlus::MagPlus() : root_(0), superpage_(-1), geographical_(true), mode_(intera
         sceneCreators_["GRIBLOOP"] = &MagPlus::gribloop;
         sceneCreators_["DATALOOP"] = &MagPlus::dataloop;
         sceneCreators_["GEOPOINTS"] = &MagPlus::geopoints;
- 		sceneCreators_["NETCDF_GEOPOINTS"] = &MagPlus::netcdf;
+#ifdef MAGICS_NETCDF
+        sceneCreators_["NETCDF_GEOPOINTS"] = &MagPlus::netcdf;
         sceneCreators_["NETCDF_GEOVECTORS"] = &MagPlus::netcdf;
         sceneCreators_["NETCDF_GEOMATRIX"] = &MagPlus::netcdf;
         sceneCreators_["NETCDF_GEO_POINTS"] = &MagPlus::netcdf;
@@ -174,6 +180,7 @@ MagPlus::MagPlus() : root_(0), superpage_(-1), geographical_(true), mode_(intera
         sceneCreators_["NETCDF_XY_POINTS"] = &MagPlus::netcdf;
         sceneCreators_["NETCDF_XY_VECTORS"] = &MagPlus::netcdf;
         sceneCreators_["NETCDF_XY_MATRIX"] = &MagPlus::netcdf;
+#endif
         sceneCreators_["BUFR"] = &MagPlus::bufr;
         sceneCreators_["INPUT_XY_POINTS"] = &MagPlus::input;
         sceneCreators_["INPUT_GEO_POINTS"] = &MagPlus::input;
@@ -1097,7 +1104,7 @@ bool MagPlus::rasterloop(magics::MagRequest& in)
 }
 
 
-#ifdef MAGICS_ODB	
+#ifdef MAGICS_ODB
 bool MagPlus::geoodb(magics::MagRequest& in)
 {
 	MagLog::dev()<< "add geo odb" << endl;
@@ -1181,6 +1188,8 @@ bool MagPlus::xyodb(magics::MagRequest& in)
 	return false; // do not exit
 }
 #endif
+
+#ifdef MAGICS_NETCDF
 static map<string, string> nctypes;
 
 void checknctypes() {
@@ -1200,6 +1209,7 @@ void checknctypes() {
 	        nctypes["NETCDF_GEO_MATRIX"] = "geomatrix";
 	    }
 }
+
 bool MagPlus::netcdf(magics::MagRequest& in)
 {
 	MagLog::dev()<< "add netcdf" << endl;
@@ -1210,12 +1220,12 @@ bool MagPlus::netcdf(magics::MagRequest& in)
 		magics::MagRequest& netcdf = in.getSubRequest("NETCDF_DATA");
 		path = string(netcdf("PATH"));
 	}
+
 	in("NETCDF_FILENAME") = path.c_str();
-    static map<string, string> types;
+	    static map<string, string> types;
 
-
-    string type = get(in, "NETCDF_PLOT_TYPE", in.getVerb());
-   	in("NETCDF_TYPE") = nctypes[type].c_str();
+	string type = get(in, "NETCDF_PLOT_TYPE", in.getVerb());
+	in("NETCDF_TYPE") = nctypes[type].c_str();
 
 	VisualAnimation* action = new VisualAnimation();
 	top()->push_back(action);
@@ -1237,27 +1247,26 @@ Data* MagPlus::createnetcdf(magics::MagRequest& in)
 {
 	// Extract the path ..
 	MagLog::dev()<< "add xy netcdf" << endl;
-		in.print();
-		checknctypes();
-		string path = get(in, "NETCDF_FILENAME", "OFF");
-		if (path == "OFF") {
-			magics::MagRequest& netcdf = in.getSubRequest("NETCDF_DATA");
-			path = string(netcdf("PATH"));
-		}
-		in("NETCDF_FILENAME") = path.c_str();
+	in.print();
+	checknctypes();
+	string path = get(in, "NETCDF_FILENAME", "OFF");
+	if (path == "OFF") {
+		magics::MagRequest& netcdf = in.getSubRequest("NETCDF_DATA");
+		path = string(netcdf("PATH"));
+	}
+	in("NETCDF_FILENAME") = path.c_str();
 
+	string type = get(in, "NETCDF_POSITION_TYPE", in.getVerb());
 
-	    string type = get(in, "NETCDF_POSITION_TYPE", in.getVerb());
+	in("NETCDF_TYPE") = nctypes[type].c_str();
 
-		in("NETCDF_TYPE") = nctypes[type].c_str();
-
-
-		NetcdfDecoderWrapper netcdf;
-		netcdf.set(in);
-		netcdf.object()->initInfo();
+	NetcdfDecoderWrapper netcdf;
+	netcdf.set(in);
+	netcdf.object()->initInfo();
 
 	return  netcdf.object();
 }
+#endif    // NetCDF
 
 Data* MagPlus::createGeopoints(magics::MagRequest& in)
 {
