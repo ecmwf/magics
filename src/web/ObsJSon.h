@@ -42,6 +42,7 @@
 namespace magics {
 
 
+
 class ObsJSon:
 			public ObsJSonAttributes,
 			public Decoder,
@@ -64,7 +65,8 @@ public:
 	void decode();
 	void  getInfo(const std::set<string>&, multimap<string, string>&);
 	void visit(MetaDataVisitor&);
-
+    CustomisedPoint* decode(json_spirit::Object&);
+    
 protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).
 	 virtual void print(ostream&) const; 
