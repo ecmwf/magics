@@ -114,7 +114,7 @@ endif()
 if ( NETCDF_FOUND )
     list( APPEND MAGICS_TPLS  NetCDF )
     set(MAGICS_NETCDF 1)
-	set( netcdf no)
+	set( netcdf yes)
 endif()
 
 ### odb
