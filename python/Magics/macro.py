@@ -264,7 +264,7 @@ class Action(object):
 				else :
 					print "type???->", key
 
-		if self.action != None and actions[self.verb] != "":
+		if self.action != None and actions[self.verb] != "" and actions[self.verb] != "pinput":
 			print >>f, "\tcall %s\n"%actions[self.verb] 
 			for key in self.args.keys():
 				print >>f, "\tcall preset('%s')"%key 
@@ -281,6 +281,8 @@ class Action(object):
 		elif type(obj) == unicode:
 			return str(obj)
 		elif type(obj) in (list, tuple, set, numpy.ndarray):
+			if type(obj[0]) != unicode:
+				return obj
 			obj = list(obj)
 			for i,v in enumerate(obj):
 				obj[i] = self.clean_object(v)
@@ -337,7 +339,7 @@ class Action(object):
 				if self.action == Magics.legend :
 					Magics.setc("legend", "on")
 				self.action()
-				if self.action != Magics.obs :
+				if self.action != Magics.obs and self.action != Magics.minput:
 					for key in self.args.keys():
 						Magics.reset(key)
 			else:
