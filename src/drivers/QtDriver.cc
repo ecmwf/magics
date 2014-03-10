@@ -1166,7 +1166,7 @@ MAGICS_NO_EXPORT void QtDriver::renderText(const Text& text) const
 	//Loop for all string CO-ORDINATES
 	unsigned int noTexts = text.size();
 	for(unsigned int nT=0;nT<noTexts;nT++)  
-	{		
+	{
 		const MFloat x0 = projectX(text[nT].x());
 		const MFloat y0 = projectY(text[nT].y());
 		const MFloat an = text.getAngle()*57.29577951;
@@ -1177,20 +1177,21 @@ MAGICS_NO_EXPORT void QtDriver::renderText(const Text& text) const
 		
 		if(sameFontForItems)
 		{
-               		const MagFont magfont=magfontFirst;
+			const MagFont magfont=magfontFirst;
 			const std::set<string>& styles = magfont.styles();
 
 			pheight = 72.*magfont.size()/2.54; //height in points
-			pheight/=dpiResolutionRatio_; 		
+			pheight/=dpiResolutionRatio_;
 			pheight*=fontSizeFactor_;
 		
 			QFont font(QString::fromStdString(magfont.name()), pheight);
 			font.setPointSizeF(pheight);
 		
-			if (styles.find("underlined") != styles.end()) font.setUnderline(true);
-                	if(styles.find("bold") != styles.end())        font.setBold(true);
-                	if(styles.find("italic") != styles.end())      font.setItalic(true);
-		
+			if(styles.find("underlined") != styles.end())  font.setUnderline(true);
+			if(styles.find("bold") != styles.end())        font.setBold(true);
+			if(styles.find("italic") != styles.end())      font.setItalic(true);
+			if(styles.find("bolditalic") != styles.end())  {font.setItalic(true);font.setBold(true);}
+
 			QString allText;
 			for(vector<NiceText>::const_iterator niceText=text.textBegin(); niceText != text.textEnd(); niceText++)
 			{	
@@ -1200,12 +1201,12 @@ MAGICS_NO_EXPORT void QtDriver::renderText(const Text& text) const
 			}
 			
 			QFontMetrics fm(font);
-                	int width  = fm.width(allText);
-                	int height = fm.height();
+			int width  = fm.width(allText);
+			int height = fm.height();
 
 			MFloat x = 0;
-                	if(horizontal == MCENTRE)     x = width*.5;
-                	else if(horizontal == MRIGHT) x = width;
+			if(horizontal == MCENTRE)     x = width*.5;
+			else if(horizontal == MRIGHT) x = width;
 
 			MFloat y = 0.;
                 	if (vertical==MBASE)        { y = height;}
@@ -1279,7 +1280,7 @@ MAGICS_NO_EXPORT void QtDriver::renderText(const Text& text) const
 				
 		  	//Loop for the indidual text items
 			for(vector<NiceText>::const_iterator niceText=text.textBegin(); niceText != text.textEnd(); niceText++)                               
-			{					
+			{
 				const MagFont magfont = niceText->font();	
 				const std::set<string>& styles = magfont.styles();
 	

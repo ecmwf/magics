@@ -1054,7 +1054,8 @@ MAGICS_NO_EXPORT void CairoDriver::renderText(const Text& text) const
 
 		  alltext << "<span color=\""<<col.str()<<"\" font_family=\""<<magfont.name()<<"\" size=\""<<int(magfont.size()*FONT_SCALE*1024)<<"\"";
 		  if(styles.find("bold")    != styles.end())  alltext << " weight=\"bold\"";
-		  if(styles.find("italic")  != styles.end())  alltext << " style=\"italic\"";
+		  else if(styles.find("italic")  != styles.end())  alltext << " style=\"italic\"";
+		  else if(styles.find("bolditalic") != styles.end())  alltext << " style=\"italic\" weight=\"bold\"";
 		  if(text.getBlanking()) alltext << " background=\"#FFFFFF\"";
 		  if(styles.find("underlined") != styles.end()) alltext << " underline=\"single\"";
 		  if((*niceText).elevation()==SUPERSCRIPT)    alltext << "><sup";

@@ -993,12 +993,15 @@ MAGICS_NO_EXPORT void SVGDriver::renderText(const Text& text) const
 		setNewColour(magfont.colour());
 		const MFloat dheight = magfont.size()*text_scale;
 		const std::set<string>& styles = magfont.styles();
-		string style = "";
-		if(styles.find("bold") != styles.end()) style = "bold";
-		if(styles.find("italic") != styles.end()) style += "italic";
-		if(style == "") style = "normal";
-		const string font   = magfont.name()+"_"+style;
-
+//		for (std::set<string>::iterator it=styles.begin(); it!=styles.end(); ++it)
+//		   std::cout << '_' << *it;
+//		string style = "";
+//		if(styles.find("bolditalic") != styles.end()) style = "bolditalic";
+//		else if(styles.find("bold") != styles.end()) style = "bold";
+//		else if(styles.find("italic") != styles.end()) style = "italic";
+		string style = "normal";
+//		cout << "___"<<style<<endl;
+		const string font = magfont.name()+"_"+style;
 		if (verticalAlign==MBASE )       vertical = dheight * .15;
 		else if (verticalAlign==MTOP)    vertical = dheight;
 		else if (verticalAlign==MHALF)   vertical = dheight * .5;
@@ -1024,8 +1027,9 @@ MAGICS_NO_EXPORT void SVGDriver::renderText(const Text& text) const
 		   {
 			ostringstream stream;
 			stream << "text-anchor=\""<<justification<< "\" font-size=\""<<dheight<<"cm\" font-family=\""<< ttf << "\" ";
-			if(styles.find("bold") != styles.end())   stream <<"font-weight=\"bold\" ";
-			if(styles.find("italic") != styles.end()) stream <<"font-style=\"italic\" ";
+			if(styles.find("bolditalic") != styles.end()) stream <<"font-weight=\"bold\" font-style=\"italic\" ";
+			else if(styles.find("bold")  != styles.end()) stream <<"font-weight=\"bold\" ";
+			else if(styles.find("italic")!= styles.end()) stream <<"font-style=\"italic\" ";
 			if(text.getAngle()!=0)
 				stream << "transform=\"rotate("<<text.getAngle()*57.29577951<<","<<xxx<<","<<yyy<<")\" ";
 			stream << "fill=\"rgb("<<static_cast<int>(currentColour_.red()*255)<<","<<static_cast<int>(currentColour_.green()*255)<<","
@@ -1045,8 +1049,9 @@ MAGICS_NO_EXPORT void SVGDriver::renderText(const Text& text) const
 		{
 		  pFile_ <<"<tspan "
 		      <<"font-size=\""<<dheight<<"cm\" font-family=\""<< ttf << "\" ";
-		  if(styles.find("bold") != styles.end())   pFile_ <<"font-weight=\"bold\" ";
-		  if(styles.find("italic") != styles.end()) pFile_ <<"font-style=\"italic\" ";
+		  if(styles.find("bolditalic") != styles.end()) pFile_ <<"font-weight=\"bold\" font-style=\"italic\" ";
+		  else if(styles.find("bold")  != styles.end()) pFile_ <<"font-weight=\"bold\" ";
+		  else if(styles.find("italic")!= styles.end()) pFile_ <<"font-style=\"italic\" ";
 		  pFile_ <<"fill=\"rgb("<<static_cast<int>(currentColour_.red()*255)<<","<<static_cast<int>(currentColour_.green()*255)<<","
 		      << static_cast<int>(currentColour_.blue()*255)<<")\""
 		      <<">"<<(*niceText).text()<<"</tspan>";
