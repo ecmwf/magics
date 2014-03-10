@@ -1018,7 +1018,8 @@ MAGICS_NO_EXPORT void PostScriptDriver::renderText(const Text& text) const
 		const std::set<string>& styles = magfont.styles();
 		string style = "";
 		if(styles.find("bold") != styles.end()) style = "bold";
-		if(styles.find("italic") != styles.end()) style += "italic";
+		else if(styles.find("italic") != styles.end()) style += "italic";
+		else if(styles.find("bolditalic") != styles.end()) style += "bolditalic";
 		if(style == "") style = "normal";
 		const string lowFont = lowerCase(magfont.name()+"_"+style);
 		fontMapIter iter = FontMap_.find(lowFont);
