@@ -29,15 +29,28 @@
     
 */
 
+#include <algorithm>
+
 #include "Matrix.h"
 #include "Timer.h"
 #include "SegmentJoiner.h"
 #include "MatrixHandler.h"
 #include "MatrixHandler.h"
+
 using namespace magics;
 
 
-
+void Matrix::multiply(double factor) 
+{
+    if (factor == 1 ) return;
+    std::transform(begin(), end(), begin(), Multiply(factor, missing_));
+}
+    
+void Matrix::plus(double offset) 
+{
+    if (offset == 0 ) return;
+    std::transform(begin(), end(), begin(), Plus(offset, missing_));
+}
 
 void ProjectedMatrix::build()
 {

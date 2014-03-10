@@ -24,6 +24,7 @@
  
    Apr 06: update for GCC 4.0 (Stephan) 
 */
+#include <algorithm>
 #include <Netcdf.h>
 #include <MagException.h>
 #include <MagLog.h>
@@ -62,8 +63,6 @@ void TypedAccessor<F,T>::operator() (vector<T>& to, vector<long>& start, vector<
 	// Convert the data....       
 	std::transform(from, from + to.size(), to.begin(), Convertor<F, T>(var));
 	delete[] from;
-	
-	
 }
 
 template <class F, class T> 
@@ -82,7 +81,6 @@ Netcdf::Netcdf(const string& path, const string& method) : file_(path.c_str())
 	{ 
 		NcVar* var = file_.get_var(v); 
 		variables_.insert(std::make_pair(var->name(), NetVariable(var->name(), var, file_, method)));
-
 
 		if (isVariable(var)) dataset_.insert(std::make_pair(var->name(), NetVariable(var->name(), var, file_, method)));
 	}
@@ -161,6 +159,7 @@ struct FloatIndex: public Index
 		throw MagicsException("No such value : " + val);
 	}
 };
+
 struct DoubleIndex: public Index
 {
 	DoubleIndex() : Index(ncDouble) {}

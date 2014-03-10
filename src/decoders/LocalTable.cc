@@ -26,6 +26,7 @@
     Changes:
     
 */
+#include <fstream>
 #include "LocalTable.h"
 #include "MagException.h"
 #include "expat.h"

@@ -51,14 +51,54 @@ ObsJSon::~ObsJSon()
 {
 }
 
+
+CustomisedPoint* ObsJSon::decode(Object& point)
+{
+    CustomisedPoint* current = new CustomisedPoint();
+				  for (vector<Pair>::const_iterator key = point.begin(); key !=  point.end(); ++key) {
+
+					  map<string,  ObsJSon::Method >::iterator method = methods_.find(key->name_);
+					  if ( method != methods_.end() ) {
+					  	     (this->*method->second)(key->value_, *current);
+					  }
+					  else {
+						  if ( key->value_.type() == real_type )
+							  (*current)[key->name_] = key->value_.get_value<double>();
+						  if ( key->value_.type() == int_type )
+								  (*current)[key->name_] = key->value_.get_value<int>();
+					  }
+				  }
+
+    return current;
+
+}
+
+
 void ObsJSon::decode()
 {
+
 	points_.clear();
+    if ( !values_.empty() ) {
+        for (vector<string>::iterator val = values_.begin(); val != values_.end(); ++val) {
+           json_spirit::Value value;
+           try {
+           json_spirit::read_or_throw(*val, value );
+		  Object point = value.get_value< Object >();
+		  points_.push_back(decode(point));
+          }
+	 catch (std::exception e) {
+		 MagLog::warning() << "Check value [" << *val << "]: " << e.what() << endl;
 
-	ifstream is( path_.c_str());
+     }
 
-	json_spirit::Value value;
+       }
+        return; 
+    }
+
 	try {
+	    ifstream is( path_.c_str());
+	    json_spirit::Value value;
+
 		  json_spirit::read_or_throw(is, value );
 		  Object object = value.get_value< Object >();
 
@@ -67,30 +107,14 @@ void ObsJSon::decode()
 			  Array points = entry->value_.get_value< Array>();
 
 			  for (unsigned int i = 0; i < points.size(); i++) {
-
-				  points_.push_back(new CustomisedPoint());
-				  CustomisedPoint& current = *points_.back();
 				  Object point = points[i].get_value< Object >();
-				  for (vector<Pair>::const_iterator key = point.begin(); key !=  point.end(); ++key) {
-
-					  map<string,  Method >::iterator method = methods_.find(key->name_);
-					  if ( method != methods_.end() ) {
-					  	     (this->*method->second)(key->value_, current);
-					  }
-					  else {
-						  if ( key->value_.type() == real_type )
-							  current[key->name_] = key->value_.get_value< double>();
-						  if ( key->value_.type() == int_type )
-								  current[key->name_] = key->value_.get_value<int>();
-					  }
-				  }
+				  points_.push_back(decode(point));
 			  }
 		  }
 	 }
 	 catch (std::exception e)
 	 {
 		 MagLog::error() << "Could not processed the file: " << path_ << ": " << e.what() << endl;
-		 abort();
 	 }
 }
 
