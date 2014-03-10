@@ -61,6 +61,8 @@
 #ifndef MPP_BaseDriver_H
 #define MPP_BaseDriver_H
 
+#include <stack>
+
 #include <magics.h>
 #include <MagTranslator.h>
 #include <Colour.h>

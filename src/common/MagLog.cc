@@ -25,6 +25,7 @@
     Changes:
 */
 
+#include <algorithm>
 #include <MagLog.h>
 #include "MagicsObserver.h"
 

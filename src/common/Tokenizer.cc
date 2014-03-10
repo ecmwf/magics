@@ -20,6 +20,7 @@
 #include "Tokenizer.h"
 #endif
 
+#include <algorithm>
 #include <fstream>
 
 Tokenizer::Tokenizer(const string& separators)

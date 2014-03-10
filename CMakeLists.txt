@@ -64,7 +64,7 @@ set( MAGICS_INSTALL_PATH  ${CMAKE_INSTALL_PREFIX} )
 
 # Regression definitions
 set( MAGICS_REFERENCE_VERSIONS            "2.22.1" )
-list( APPEND MAGICS_REFERENCE_VERSIONS    "2.18.14" )
+#list( APPEND MAGICS_REFERENCE_VERSIONS    "2.18.14" )
 set( MAGICS_HTML_ROOT        "${CMAKE_BINARY_DIR}/regression/html")
 file(MAKE_DIRECTORY ${MAGICS_HTML_ROOT} )
 
@@ -84,7 +84,7 @@ endif()
 ### python
 
 if( ENABLE_PYTHON )
-	ecbuild_find_python( VERSION 2.7 REQUIRED )
+	ecbuild_find_python( REQUIRED )
 	find_package( SWIG REQUIRED )
 	find_package( NumPy REQUIRED )
 endif()
@@ -114,7 +114,7 @@ endif()
 if ( NETCDF_FOUND )
     list( APPEND MAGICS_TPLS  NetCDF )
     set(MAGICS_NETCDF 1)
-	set( netcdf no)
+	set( netcdf yes)
 endif()
 
 ### odb
@@ -274,7 +274,7 @@ endif()
 
 list( APPEND MAGICS_EXTRA_LIBRARIES     ${CMAKE_THREAD_LIBS_INIT} )
 
-# set_directory_properties( PROPERTIES COMPILE_DEFINITIONS ${ECKIT_DEFINITIONS} )
+# set_directory_properties( PROPERTIES COMPILE_DEFINITIONS "${ECKIT_DEFINITIONS}" )
 get_directory_property( MAGICS_DEFINITIONS COMPILE_DEFINITIONS )
 
 include_directories( ${MAGICS_INCLUDE_DIRS} ${MAGICS_EXTRA_INCLUDE_DIRS} )

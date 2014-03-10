@@ -28,11 +28,10 @@
 
 #include "magics.h"
 
+#include <algorithm>
+
 #include "MagLog.h"
-
-
 #include "VectorOfPointers.h"
-
 
 namespace magics {
 
@@ -45,7 +44,7 @@ class BasicGraphicsObjectContainer;
 
 class BasicGraphicsObject {
 public:
-	BasicGraphicsObject();	
+	BasicGraphicsObject();
 	virtual ~BasicGraphicsObject();
 
 	virtual bool reproject(BasicGraphicsObjectContainer&) const 
@@ -78,8 +77,6 @@ public:
 	void heightResolution(int height) { heightResolution_ = height; }
 	int widthResolution() const { return widthResolution_; }
 	int heightResolution() const { return heightResolution_; }
-
-
 
 	virtual bool buildTree(const Layout&,  unsigned int, const BaseDriver&) const
 	{ return false; }
@@ -121,19 +118,17 @@ public:
 		object->parent(this);
 	}
 	void push_last(BasicGraphicsObject* object)
-		{
-			object->check(); // here we make sure that the object is not in 2 containres!
-			last_.push_back(object);
-			object->parent(this);
-		}
+	{
+		object->check(); // here we make sure that the object is not in 2 containres!
+		last_.push_back(object);
+		object->parent(this);
+	}
 
-	
 	void clear();
 	bool buildTree(const Layout&,  unsigned int, const BaseDriver&) const;
 	void release();
 	void remove(BasicGraphicsObject* object) {
 		std::remove(objects_.begin(), objects_.end(), object);
-
 	}
 
 
