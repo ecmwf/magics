@@ -30,6 +30,8 @@
 #ifndef RasterData_H
 #define RasterData_H
 
+
+#include <algorithm>
 #include "magics.h"
 
 class TeProjection;
