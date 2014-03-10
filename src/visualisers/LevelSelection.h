@@ -68,7 +68,7 @@ public:
     virtual void set(const LevelSelectionInterface&) {}
     
 	virtual void calculate(double, double, bool) {};
-	virtual double reference() const;
+	virtual double reference(int) const;
 	virtual void thinLevels(int frequency, vector<double>&) const;
 protected:
 	//! Method to print string about this class on to a stream of type ostream (virtual).
