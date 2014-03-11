@@ -67,7 +67,7 @@ public:
     }
 
     void calculate(double min, double max, bool); 
-    double reference() const { return reference_; }
+    double reference(int) const;
 protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).
 	 virtual void print(ostream&) const; 

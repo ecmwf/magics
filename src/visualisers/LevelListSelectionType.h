@@ -62,7 +62,7 @@ public:
     	return object;
     }
 
-    double reference() const { return  empty() ? -9999:    front(); }
+    double reference(int) const { return  empty() ? -9999:    front(); }
 
     void copy(const LevelListSelectionType& from) {
     	 LevelListSelectionTypeAttributes::copy(from);
