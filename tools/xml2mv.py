@@ -256,8 +256,13 @@ class ObjectHandler(ContentHandler):
 		return s.upper()
 	def font(self, attrs):
 		s = "\t%s\n%s\t{\n" % (attrs.get("name").upper(), self.addhidden(attrs))
+		s = s + "\t\tarial;arial\n"
+		s = s + "\t\tcourier;courier\n"
+		s = s + "\t\thelvetica;helvetica\n"
+		s = s + "\t\ttimes;times\n"
 		s = s + "\t\tserif;serif\n"
 		s = s + "\t\tsansserif;sansserif\n"
+		s = s + "\t\tsymbol;symbol\n"
 		s = s + "\t} = %s\n" % self.default(attrs).upper()
 		return s.upper()
 
