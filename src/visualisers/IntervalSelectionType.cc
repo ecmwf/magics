@@ -58,8 +58,6 @@ void IntervalSelectionType::calculate(double min, double max, bool shading)
 {
 	
     clear();
-    //double maxi = data.max();
-    //double mini = data.min();
 	std::set<double> levels;
 	
 	double lmax, lmin;
@@ -79,11 +77,13 @@ void IntervalSelectionType::calculate(double min, double max, bool shading)
    
    
        
-    levels.insert(lmax);
     levels.insert(lmin);
+    levels.insert(lmax);
     
     
     double level = reference_;
+    double newref;
+
     int i = 0;
     while ( level < lmax && !same(level, lmax) ) {
     	if ( level > lmin )
@@ -92,7 +92,7 @@ void IntervalSelectionType::calculate(double min, double max, bool shading)
         i++;
     }
     level = reference_;
-    i = 1;
+    
     while ( level > lmin &&   !same(level, lmin) ) {
         if ( level < lmax )
         	levels.insert(level);
@@ -109,10 +109,45 @@ void IntervalSelectionType::calculate(double min, double max, bool shading)
     out << "]" << endl;
     MagLog::dev()  << out.str() << endl;
     	
+    // Now make sure that the reference is inside the interval ..
+
+
     
 
 }
 
+double IntervalSelectionType::reference(int freq) const
+{
+    if ( empty() ) 
+        return reference_;
+    // Now make sure that the reference is inside the interval ..
+    
+    const_iterator reflev = find(begin(), end(), reference_);
 
+    if ( reflev != end() )
+        return reference_;
+
+    vector<double> values;
+    double val = reference_;
+    if ( reference_ < front() )  {
+        while ( val  <  back()) {
+            values.push_back(val);
+            val += ( freq * interval_);
+        }
+    }
+    if ( reference_ > back() )  {
+        while ( val  >  front()) {
+            values.push_back(val);
+            val -= ( freq * interval_);
+        }
+    }
+            
+    set_intersection(begin(), end(), values.begin(), values.end(), values.begin());
+
+    return values.front();
+
+            
+
+}
 
 

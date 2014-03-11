@@ -51,7 +51,7 @@ void LevelSelection::print(ostream& out)  const
 }
 void LevelSelection::thinLevels(int frequency, vector<double>& out) const
 {
-	double ref = reference();
+	double ref = reference(frequency);
 	int count = 0;
 	// Fisrt is the reference in the levels list?
 
@@ -97,7 +97,7 @@ void LevelSelection::thinLevels(int frequency, vector<double>& out) const
 	MagLog::dev() << "Level --->" << level.str() << endl << "selection(" << frequency << ")--->" << sel.str() << endl;
 }
 
-double LevelSelection::reference() const
+double LevelSelection::reference(int) const
 {
 	return empty() ? -9999: front();
 }

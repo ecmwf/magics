@@ -63,7 +63,7 @@ public:
     }
     void set(const LevelSelectionInterface&);
 
-    double reference() const { return reference_; }
+    double reference(int) const { return reference_; }
 
 protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).
