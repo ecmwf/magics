@@ -28,7 +28,7 @@ project( magics CXX )
 # note that this needs to be done before ecbuild_declare_project()
 # to ensure that the ecbuild header files are also put there
 # note also that we need to CACHE this so that ecbuild_declare_project() does not overwrite it
-set(MAGICS_INSTALL_INCLUDE_DIR include/magics CACHE PATH "Magics installation directory for header files")
+set(INSTALL_INCLUDE_DIR include/magics CACHE PATH "Magics installation directory for header files")
 
 set( CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/../ecbuild/cmake")
 
