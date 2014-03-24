@@ -1,7 +1,7 @@
 #!/usr/bin/ksh
 
 git_home="/home/graphics/cgs/git"
-version="2.22.2"
+version="2.22.4"
 magics=""
 install_home="/usr/local/apps/Magics/$version"
 debug="off"
@@ -76,7 +76,7 @@ if [[ $debug = "on" ]];then
     args="$args -DCMAKE_BUILD_TYPE=Debug"
     echo "Debug enabled"
 else
-    args="$args -DCMAKE_BUILD_TYPE=Production"
+    args="$args -DCMAKE_BUILD_TYPE=Release"
     echo "Release Mode enabled"
 fi
 if [[ $regression = "on" ]];then
@@ -156,5 +156,8 @@ fi
 
 mkdir -p ${build_home}
 cd ${build_home}
+rm -fR *
 $cmake ${git_home}/magics $args
 make -j ${run} install
+ctest
+ctest -R summary

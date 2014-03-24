@@ -41,6 +41,10 @@ Curve::Curve()
 	missingMethods_["ignore"] = &Curve::ignore;
 	missingMethods_["join"] = &Curve::join;
 	missingMethods_["drop"] = &Curve::drop;
+
+	curveMethods_["straight"] = &Curve::straight;
+	curveMethods_["stepped"] = &Curve::stepped;
+
 }
 
 
@@ -87,7 +91,11 @@ bool  Curve::missing(CustomisedPoint& point) const
 	return false;
 }
 
+void  Curve::stepped(const UserPoint& point, vector<UserPoint>& out)
+{
 
+
+}
 
 void Curve::operator()(Data& data, BasicGraphicsObjectContainer& task)
 {
@@ -109,7 +117,7 @@ void Curve::operator()(Data& data, BasicGraphicsObjectContainer& task)
 	bool last_out = false;	
 	
 	vector<PaperPoint> missing, sv;
-	PaperPoint last, current;
+	PaperPoint last, current, toadd;
 	
 	CustomisedPointsList::iterator point = points.begin();
 
@@ -122,41 +130,62 @@ void Curve::operator()(Data& data, BasicGraphicsObjectContainer& task)
     }
     
 
-
+    PaperPoint last_current = transformation(UserPoint((**point)["x"], (**point)["y"]));
+    ++point;
     while ( point != points.end() ) {
 
+    	vector<UserPoint> todo;
     	UserPoint up((**point)["x"], (**point)["y"]);
 
-    	current = transformation(up);
 
-		if (!this->missing(**point) ) {
-			if ( last_out ) {
-				bool result;
-				std::map<string, MissingMethod>::iterator method = missingMethods_.find(lowerCase(missing_mode_));
-				result = (method == missingMethods_.end() ) ?
-							ignore(last, missing.front(), missing, task) :
-							(this->*method->second)(last, current, missing, task);
-				if ( result ) {
-					if ( line_ )
-						transformation(*curve_, task);
-					curve_ = newCurve(task);
-				}
-				missing.clear();
-			}
+    		current = transformation(up);
+    		if (!this->missing(**point) ) {
+    			if ( last_out ) {
+    				bool result;
+    				std::map<string, MissingMethod>::iterator method = missingMethods_.find(lowerCase(missing_mode_));
+    				result = (method == missingMethods_.end() ) ?
+    						ignore(last, missing.front(), missing, task) :
+    						(this->*method->second)(last, current, missing, task);
+    				if ( result ) {
+    					if ( line_ )
+    						transformation(*curve_, task);
+    					curve_ = newCurve(task);
+    				}
+    				missing.clear();
+    			}
 
-			last = current;
-			last_out = false;
-			curve_->push_back(current);
-			sv.push_back(current);
-			  
-		} 
-		else {
-			missing.push_back( current );
-			last_out = true;
-		} 
+    			if ( magCompare(plot_method_, "stepped" ) ) {
+
+    				toadd = PaperPoint((current.x_ + last_current.x_)/2., last_current.y_);
+    				curve_->push_back(toadd);
+    				sv.push_back(toadd);
+    				toadd = PaperPoint((current.x_ + last_current.x_)/2., current.y_);
+    			}
+    			else
+    				toadd = current;
+
+    			last = toadd;
+    			last_current = current;
+
+    			last_out = false;
+    			curve_->push_back(toadd);
+    			sv.push_back(toadd);
+
+    		}
+    		else {
+    			missing.push_back( current );
+    			last_out = true;
+    		}
+
 		++point;
 
 	}
+    // add the last current if stepped method ..
+    if ( magCompare(plot_method_, "stepped" ) ) {
+    	curve_->push_back(current);
+    	sv.push_back(current);
+    }
+
     if ( missing.empty() == false ) {
     	std::map<string, MissingMethod>::iterator method = missingMethods_.find(lowerCase(missing_mode_));
     	if ( method == missingMethods_.end() )

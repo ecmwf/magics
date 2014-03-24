@@ -93,4 +93,9 @@
   	<parameter xml="thickness" from="int" name="graph_missing_data_thickness" default="1" member="missing_thickness" to="int">
          		<documentation> Thickness of the missing data part of curve  		</documentation>
   	</parameter>
+  	<parameter from="string" name="graph_curve_method" default="straight" member="plot_method" to="string" values="straight/stepped">
+         		<documentation> If stepped, use an histogram style 		</documentation>
+         		
+  	</parameter>
+  	
 </class></magics>

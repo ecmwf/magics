@@ -78,19 +78,12 @@ void ObsJSon::decode()
 {
 
 	points_.clear();
+	json_spirit::Value value;
     if ( !values_.empty() ) {
         for (vector<string>::iterator val = values_.begin(); val != values_.end(); ++val) {
-           json_spirit::Value value;
-           try {
-           json_spirit::read_or_throw(*val, value );
-		  Object point = value.get_value< Object >();
-		  points_.push_back(decode(point));
-          }
-	 catch (std::exception e) {
-		 MagLog::warning() << "Check value [" << *val << "]: " << e.what() << endl;
-
-     }
-
+		  json_spirit::read_or_throw(*val, value );
+		  Object object = value.get_value< Object >();
+		  points_.push_back(decode(object));
        }
         return; 
     }
