@@ -1,10 +1,10 @@
 #!/bin/ksh
 
 versions="current++ new++" 
-src=`ls geowind.py`
+src=`ls graph11.py`
 ext="py"
 img_ext="png"
-where='wind'
+where='gallery'
 interpretor='python'
 
 dir=`pwd`

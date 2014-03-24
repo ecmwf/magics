@@ -66,6 +66,10 @@ public:
     void legend_symbol(PaperPoint& point, BasicGraphicsObjectContainer& task);
 
     typedef bool (Curve::*MissingMethod)(const PaperPoint&, const PaperPoint&, const vector<PaperPoint>&, BasicGraphicsObjectContainer&);
+    typedef void (Curve::*CurveMethod)(const UserPoint&, vector<UserPoint>& );
+    void straight(const UserPoint& point, vector<UserPoint>& out) { out.push_back(point); }
+    void stepped(const UserPoint& point, vector<UserPoint>& out);
+
     virtual void legend(Polyline&) {}
     bool ignore(const PaperPoint&, const PaperPoint&, const vector<PaperPoint>&, BasicGraphicsObjectContainer&);
     bool join(const PaperPoint&, const PaperPoint&, const vector<PaperPoint>&, BasicGraphicsObjectContainer&);
@@ -76,6 +80,7 @@ protected:
 	 virtual void print(ostream&) const; 
 	 bool  missing(CustomisedPoint&) const;
 	 std::map<string, MissingMethod> missingMethods_;
+	 std::map<string, CurveMethod> curveMethods_;
 private:
     //! Copy constructor - No copy allowed
 	Curve(const Curve&);
