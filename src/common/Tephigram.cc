@@ -60,6 +60,7 @@ void Tephigram::print(ostream& out) const
 static double maxpcx;
 void Tephigram::init()
 {
+
 	if ( x_min_ == 0 && x_max_ == 100 ) {
 		x_min_ = -20;
 		x_max_ =40;
@@ -70,12 +71,19 @@ void Tephigram::init()
 			y_max_ = 200;
 		}
 
+
+
 	double tmin = x_min_;
 	double thmin= magics::theta(tmin+273.15, y_min_*100.)-273.15;
 
 	double thmax = magics::theta(tmin+273.15, y_max_*100.)-273.15;
 	double tmax = temperatureFromTheta(thmax+273.15,  y_max_*100. ) -273.15;
 
+	while (tmax < x_max_) { // we have to extend the y_max!
+		y_max_ += 100;
+		thmax = magics::theta(tmin+273.15, y_max_*100.)-273.15;
+		tmax = temperatureFromTheta(thmax+273.15,  y_max_*100. ) -273.15;
+	}
 
 	minPCX_ = ((tmin * cosinus) - (thmin * sinus) );
 	minPCY_ = (tmin * sinus) + (thmin * cosinus);
@@ -169,7 +177,20 @@ bool Tephigram::needShiftedCoastlines()  const
 {
 	return false;
 }
+void Tephigram::setMinMaxX(double min, double max)
+{
+	setMinX(min);
+	setMaxX(max);
+	init();
+}
 
+void Tephigram::setMinMaxY(double min, double max)
+{
+	// Careful, Tephicgram are in pressure levels...
+	setMinY(max);
+	setMaxY(min);
+	init();
+}
 void Tephigram::aspectRatio(double& width, double& height)
 {
 

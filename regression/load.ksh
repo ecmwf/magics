@@ -1,11 +1,11 @@
 #!/bin/ksh
 
 versions="current++ new++" 
-src=`ls geowind.py`
-ext="py"
+src=`ls 10days-zero.json`
+ext="json"
 img_ext="png"
-where='wind'
-interpretor='python'
+where='web'
+interpretor='magjson'
 
 dir=`pwd`
 name=`basename $dir`

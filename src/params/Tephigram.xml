@@ -4,7 +4,12 @@
 	<parameter member="x_min" to="float" default="0" from="float" name="x_min">
     		
 	</parameter>
-
+   <parameter member="x_automatic" to="bool" default="off" from="string" name="subpage_x_automatic">
+    		
+	</parameter> 
+	 <parameter member="y_automatic" to="bool" default="off" from="string" name="subpage_y_automatic">
+    		
+	</parameter>
 	<parameter member="x_max" to="float" default="100" from="float" name="x_max">
     	
 	</parameter>    
