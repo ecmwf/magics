@@ -50,7 +50,7 @@ case "${OS_VERSION}" in
         cmake="/usr/local/apps/cmake/current/bin/cmake"
         boost="/usr/local/apps/boost/1.50.0"
         proj4="/usr/local/apps/proj4/4.8.0/LP64"
-
+        magics="ecgb"
         python="/usr/local/apps/python/current"
         odb_lib="/usr/local/apps/odb_api/0.9.31"
         grib_lib="/usr/local/apps/grib_api/1.11.0"

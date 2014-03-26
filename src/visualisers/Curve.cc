@@ -161,6 +161,9 @@ void Curve::operator()(Data& data, BasicGraphicsObjectContainer& task)
     					sv.push_back(toadd);
     					toadd = PaperPoint((current.x_ + last_current.x_)/2., current.y_);
     				}
+                    else 
+                        toadd = current;
+
     			}
     			else
     				toadd = current;
