@@ -839,7 +839,7 @@ static IgnoreConverter graph_position_mode("graph_position_mode");
 static IgnoreConverter axis_date_units("axis_date_units");
 static IgnoreConverter legend_entry_maximum_width("legend_entry_maximum_width");
 
-static ComingSoonConverter graph_curve_method("graph_curve_method");
+
 
 static IgnoreConverter graph_curve_interpolation("graph_curve_interpolation");
 

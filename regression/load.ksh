@@ -1,11 +1,11 @@
 #!/bin/ksh
 
 versions="current++ new++" 
-src=`ls 10days-zero.json`
-ext="json"
+src=`ls graph11.py`
+ext="py"
 img_ext="png"
-where='web'
-interpretor='magjson'
+where='gallery'
+interpretor='python'
 
 dir=`pwd`
 name=`basename $dir`
