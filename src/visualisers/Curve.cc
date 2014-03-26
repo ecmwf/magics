@@ -131,7 +131,7 @@ void Curve::operator()(Data& data, BasicGraphicsObjectContainer& task)
     
 
     PaperPoint last_current = transformation(UserPoint((**point)["x"], (**point)["y"]));
-    ++point;
+
     while ( point != points.end() ) {
 
     	vector<UserPoint> todo;
@@ -155,11 +155,12 @@ void Curve::operator()(Data& data, BasicGraphicsObjectContainer& task)
     			}
 
     			if ( magCompare(plot_method_, "stepped" ) ) {
-
-    				toadd = PaperPoint((current.x_ + last_current.x_)/2., last_current.y_);
-    				curve_->push_back(toadd);
-    				sv.push_back(toadd);
-    				toadd = PaperPoint((current.x_ + last_current.x_)/2., current.y_);
+    				if ( current.x_ != last_current.x_ && current.y_ != last_current.y_ ) {
+    					toadd = PaperPoint((current.x_ + last_current.x_)/2., last_current.y_);
+    					curve_->push_back(toadd);
+    					sv.push_back(toadd);
+    					toadd = PaperPoint((current.x_ + last_current.x_)/2., current.y_);
+    				}
     			}
     			else
     				toadd = current;

@@ -13,7 +13,7 @@ metview="off"
 cairo="on"
 regression="off"
 spot="on"
-build_home="/scratch/graphics/cgs/build/${OS_VERSION}"
+build_home="/home/graphics/cgs/build/${OS_VERSION}"
 run="1"
 
 
@@ -153,10 +153,13 @@ else
     args="$args -DENABLE_SPOT=OFF"
     echo "GRIB not required"
 fi
+echo "start"
 
 mkdir -p ${build_home}
 cd ${build_home}
 rm -fR *
+
+
 $cmake ${git_home}/magics $args
 make -j ${run} install
 ctest
