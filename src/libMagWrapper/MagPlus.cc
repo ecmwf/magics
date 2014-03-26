@@ -1200,6 +1200,7 @@ void checknctypes() {
 	        nctypes["NETCDF_XY_POINTS"] = "xypoint";
 	        nctypes["NETCDF_XY_VECTORS"] = "vector";
 	        nctypes["NETCDF_XY_MATRIX"] = "matrix";
+	        nctypes["ARRAY"] = "matrix";
 	        nctypes["MATRIX"] = "complex_matrix";
 
 	        nctypes["NETCDF_GEOPOINTS"] = "geopoint";

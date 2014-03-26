@@ -1,376 +1,1596 @@
-<magics>
-<class xmltag="text" name="TextVisitor" xml_data="text_lines" directory="basic" prefix="text" xml_doc_inherits="XmlBasicNode" action="ptext">
-  	<documentation>	</documentation>
-  
+class: Contour
+  param: legend
+  endparam: legend
+  endparam SL: 
+	} = 
 
- 	<parameter from="string" name="text_html" default="on" metview="no" member="html" to="bool">
-         		<release>2.0		</release>
-         		<release_info> Change the default value from off to on in Magics2.12		</release_info>
-         		<documentation> enable use of HTML convention 		</documentation>
-  	</parameter>
+  param: contour
+    option: IsoPlot - on
+Opened (start option) ../src/params/IsoPlot.xml
+class: IsoPlot
+  param: contour_special_legend
+  param: contour_internal_reduction_factor
+  param: contour_internal_technique
+  param: contour_legend_text
+  param: contour_line_style
+  endparam: contour_line_style
+  endparam SL: 
+	} = 
 
+  param: contour_line_thickness
+  endparam: contour_line_thickness
+  endparam SL: 
+	} = 
 
- 	<parameter member="count" to="int" default="1" from="int" name="text_line_count">
-         		<release>0.1		</release>
-         		<release_info>deprecated parameter : see text_lines 		</release_info>
-         		<documentation> The number of lines of text to be plotted 		</documentation>
-         		<set name="text_line_1" value="1/2/3/4/5/6/7/8/9/10">		</set>
-         		<set name="text_line_2" value="2/3/4/5/6/7/8/9/10">		</set>
-         		<set name="text_line_3" value="3/4/5/6/7/8/9/10">		</set>
-         		<set name="text_line_4" value="4/5/6/7/8/9/10">		</set>
-         		<set name="text_line_5" value="5/6/7/8/9/10">		</set>
-         		<set name="text_line_6" value="6/7/8/9/10">		</set>
-         		<set name="text_line_7" value="7/8/9/10">		</set>
-         		<set name="text_line_8" value="8/9/10">		</set>
-         		<set name="text_line_9" value="9/10">		</set>
-         		<set name="text_line_10" value="10">		</set>
- 	</parameter>
+  param: contour_line_colour_rainbow
+  endparam: contour_line_colour_rainbow
+  endparam SL: 
+	} = 
 
-  	<parameter member="line1" to="string" default="&lt;magics_title/&gt;" from="string" name="text_line_1">
-         		<release>0.1		</release>    
-         		<release_info>deprecated parameter : see text_lines 		</release_info>
-         		<documentation> Character string for holding lines of text (n=1,10) 		</documentation>
-  	</parameter>
-  
- 	<parameter member="line2" to="string" default="" from="string" name="text_line_2">
-         		<release>0.1		</release>    
-         		<release_info>deprecated parameter : see text_lines 		</release_info>
-         		<documentation> Character string for holding lines of text (n=1,10) 		</documentation>
-  	</parameter>
-  
-   	<parameter member="line3" to="string" default="" from="string" name="text_line_3">
-         		<release>0.1		</release>    
-         		<release_info>deprecated parameter : see text_lines 		</release_info>
-         		<documentation> Character string for holding lines of text (n=1,10) 		</documentation>
-  	</parameter>
-  
-   	<parameter member="line4" to="string" default="" from="string" name="text_line_4">
-         		<release>0.1		</release>    
-         		<release_info>deprecated parameter : see text_lines 		</release_info>
-         		<documentation> Character string for holding lines of text (n=1,10) 		</documentation>
-  	</parameter>
-  
-   	<parameter member="line5" to="string" default="" from="string" name="text_line_5">
-         		<release>0.1		</release>    
-         		<release_info>deprecated parameter : see text_lines 		</release_info>
-         		<documentation> Character string for holding lines of text (n=1,10) 		</documentation>
-  	</parameter>
-  
-   	<parameter member="line6" to="string" default="" from="string" name="text_line_6">
-         		<release>0.1		</release>    
-         		<release_info>deprecated parameter : see text_lines 		</release_info>
-         		<documentation> Character string for holding lines of text (n=1,10) 		</documentation>
-  	</parameter>
+  param: contour_line_colour
+  endparam: contour_line_colour
+  endparam SL: 
+	} = 
 
-   	<parameter member="line7" to="string" default="" from="string" name="text_line_7">
-         		<release>0.1		</release>    
-         		<release_info>deprecated parameter : see text_lines 		</release_info>
-         		<documentation> Character string for holding lines of text (n=1,10) 		</documentation>
-  	</parameter>
-  
-   	<parameter member="line8" to="string" default="" from="string" name="text_line_8">
-         		<release>0.1		</release>    
-         		<release_info>deprecated parameter : see text_lines 		</release_info>
-         		<documentation> Character string for holding lines of text (n=1,10) 		</documentation>
-  	</parameter>
-  
-   	<parameter member="line9" to="string" default="" from="string" name="text_line_9">
-         		<release>0.1		</release>    
-         		<release_info>deprecated parameter : see text_lines 		</release_info>
-         		<documentation> Character string for holding lines of text (n=1,10) 		</documentation>
-  	</parameter>
-  
-   	<parameter member="line10" to="string" default="" from="string" name="text_line_10">
-         		<release>0.1		</release>    
-         		<release_info>deprecated parameter : see text_lines 		</release_info>
-         		<documentation> Character string for holding lines of text (n=1,10) 		</documentation>
-  	</parameter>
-  
+  param: contour_line_colour_rainbow_method
+  endparam: contour_line_colour_rainbow_method
+  endparam SL: 
+	} = 
 
-  	<parameter from="int" name="text_first_line" default="1" metview="no" member="first" to="int">
-          		<release>0.1		</release>    
-         		<release_info>deprecated parameter : see text_lines 		</release_info>
-         		<documentation> The first line in the text block to be plotted 		</documentation>
-  	</parameter>
-  
+  param: contour_line_colour_rainbow_max_level_colour
+  endparam: contour_line_colour_rainbow_max_level_colour
+  endparam SL: 
+	} = 
 
-  	<parameter from="string" name="text_colour" default="blue" member="font_colour" to="Colour" metview_default="navy">
-			<documentation>Colour of text in text block (Full choice of colours)		</documentation>
-			<release>1.0		</release>
-  	</parameter>
+  param: contour_line_colour_rainbow_min_level_colour
+  endparam: contour_line_colour_rainbow_min_level_colour
+  endparam SL: 
+	} = 
 
-  	<parameter xml="font" from="string" name="text_font" default="sansserif" member="font" to="string">
-			<documentation>Font name - please make sure this font is installed!		</documentation>
-			<release>1.0		</release>
-			<release_info>Much improved in version 1.3.		</release_info>
-  	</parameter>
-  
-  	<parameter member="font_style" to="string" default="normal" from="string" name="text_font_style">
-			<documentation>Font style. Set this to an empty string in order to remove all styling.		</documentation>
-  	</parameter>
-  
-  	<parameter from="string" name="text_font_size" default="0.5" member="font_dimension" to="string" metview_default="0.3">
-			<documentation>Font size, specified in cm.		</documentation>
-  	</parameter>
+  param: contour_line_colour_rainbow_direction
+  endparam: contour_line_colour_rainbow_direction
+  endparam SL: 
+	} = 
 
-  	<parameter member="justification" to="Justification" default="centre" from="string" name="text_justification">
-			<release>Magisc++0.3		</release>
-			<documentation> How text is to be positioned in each line (LEFT/CENTRE/RIGHT)		</documentation>
-  	</parameter>
+  param: contour_line_colour_rainbow_colour_list
+  endparam: contour_line_colour_rainbow_colour_list
+  endparam SL: 
+	} = 
 
+  param: contour_line_colour_rainbow_colour_list_policy
+  endparam: contour_line_colour_rainbow_colour_list_policy
+  endparam SL: 
+	} = 
 
-   	<parameter from="string" name="text_automatic" visible="no" default="on" member="automatic" to="bool">
-			<release>Magisc++2.1		</release>
-			<documentation>How text is to be positioned in each line (LEFT/CENTRE/RIGHT)		</documentation>
-  	</parameter>
+  param: contour_highlight
+    option: IsoHighlight - on
+Opened (start option) ../src/params/IsoHighlight.xml
+class: IsoHighlight
+  param: contour_highlight_style
+  endparam: contour_highlight_style
+  endparam SL: 
+	} = 
 
-  	<parameter member="lines" to="stringarray" default="stringarray()" from="stringarray" name="text_lines">
-         		<documentation> text block to be plotted 		</documentation>
-         		<migration> New Magics: Parameter text sent to new Magics[TextAction].  		</migration>
-  	</parameter>
- 	<parameter from="string" name="text_mode" default="title" member="mode" to="string" values="title/positional">
- 			<documentation>Whether text is to be a title or user positioned (TITLE/POSITIONAL)		</documentation>
-    		<set name="text_box_x_position" value="positional">		</set>
-    		<set name="text_box_y_position" value="positional">		</set>
-    		<set name="text_box_x_length" value="positional">		</set>
-    		<set name="text_box_y_length" value="positional">		</set>
-			<release>1.0		</release>
-  	</parameter>
-    	<parameter member="x" to="float" default="-1" from="float" name="text_box_x_position">
-         		<release>0.1		</release>
-         		<documentation> X coordinate of lower left corner of text box (Relative to PAGE_X_POSITION) 		</documentation>
-  	</parameter>
+  param: contour_reference_level
+  endparam: contour_reference_level
+  endparam SL: 
+	} = 
 
-  	<parameter member="y" to="float" default="-1" from="float" name="text_box_y_position">
-         		<release>0.1		</release>
-         		<documentation> Y coordinate of lower left corner of text box (Relative to PAGE_Y_POSITION) 		</documentation>
-  	</parameter>
+  param: contour_highlight_colour
+  endparam: contour_highlight_colour
+  endparam SL: 
+	} = 
 
-  	<parameter member="width" to="float" default="-1" from="float" name="text_box_x_length">
-         		<release>0.1		</release>
-         		<documentation> Length of text box in X direction 		</documentation>
-  	</parameter>
+  param: contour_highlight_thickness
+  endparam: contour_highlight_thickness
+  endparam SL: 
+	} = 
 
-  	<parameter xml="height" from="float" name="text_box_y_length" default="-1" member="height" to="float">
-         		<release>0.1		</release>
-         		<migration> New Magics: Parameter text_box_y_length sent to new Magics[TextBox].  		</migration>
-  	</parameter>
+  param: contour_highlight_frequency
+  endparam: contour_highlight_frequency
+  endparam SL: 
+	} = 
 
-  	<parameter member="blanking" to="bool" default="off" from="string" name="text_box_blanking">
-         		<release>0.1		</release>
-          		<release_info>Paremeter defined but not implemeted : expected for 0.6		</release_info>
-         		<documentation> All plotting in the text box previous to PTEXT call will be blanked out. Plotting after PTEXT call will not be affected. (ON/OFF) 		</documentation>
-  	</parameter>
+    option: NoIsoHighlight - off
+Opened (start option) ../src/params/NoIsoHighlight.xml
+class: NoIsoHighlight
+  endparam: contour_highlight
+  endparam SL: 
+		ON; ON
+		OFF; OFF
+	CONTOUR_HIGHLIGHT
+	{
+	} = ON
 
-  	<parameter member="border" to="bool" default="off" from="string" name="text_border">
-         		<release>0.5		</release>    
-         		<documentation> Plot border around text box (ON/OFF) 		</documentation>
-         		<migration> New Magics: Parameter text_border sent to new Magics[TextBox].  		</migration>
-         		<set name="text_border_line_style" value="on">		</set>
-         		<set name="text_border_colour" value="on">		</set>
-         		<set name="text_border_thickness" value="on">		</set>
-      
-  	</parameter>
-  
-  	<parameter member="border_line_style" to="LineStyle" default="solid" from="string" name="text_border_line_style">
-          		<release>0.5		</release>    
-         		<documentation> Line style of border around text box (SOLID/DASH/DOT/CHAIN_DASH/CHAIN_DOT) 		</documentation>
-  	</parameter>
+  param: contour_level_selection_type
+    option: CountSelectionType - count
+    option: IntervalSelectionType - interval
+Opened (start option) ../src/params/IntervalSelectionType.xml
+class: IntervalSelectionType
+Opened (start class)../src/params/LevelSelection.xml
+class: LevelSelection
+  param: contour_max_level
+  endparam: contour_max_level
+  endparam SL: 
+	} = 
 
-  	<parameter member="border_colour" to="Colour" default="blue" from="string" name="text_border_colour">
-          		<release>0.5		</release>    
-         		<documentation> Colour of border around text box (Full choice of colours) 		</documentation>
-  	</parameter>
+  param: contour_min_level
+  endparam: contour_min_level
+  endparam SL: 
+	} = 
 
-  	<parameter member="border_thickness" to="int" default="1" from="int" name="text_border_thickness">
-          		<release>0.5		</release>    
-         		<documentation> Thickness of text box border 		</documentation>
-  	</parameter>
-  
-    
-   	<parameter from="string" name="text_character_1" default="" metview="no" member="character1" to="string">
-         		<documentation> 10 MAGICS parameters enabling users to store CHARACTER info for plotting in text lines (n=1,10) 		</documentation>
-  	</parameter>
-  
-  	<parameter from="string" name="text_character_2" default="" metview="no" member="character2" to="string">
-         		<documentation> 10 MAGICS parameters enabling users to store CHARACTER info for plotting in text lines (n=1,10) 		</documentation>
-  	</parameter>
-  	<parameter from="string" name="text_character_3" default="" metview="no" member="character3" to="string">
-         		<documentation> 10 MAGICS parameters enabling users to store CHARACTER info for plotting in text lines (n=1,10) 		</documentation>
-  	</parameter>
-  	<parameter from="string" name="text_character_4" default="" metview="no" member="character4" to="string">
-         		<documentation> 10 MAGICS parameters enabling users to store CHARACTER info for plotting in text lines (n=1,10) 		</documentation>
-  	</parameter>
-  	<parameter from="string" name="text_character_5" default="" metview="no" member="character5" to="string">
-         		<documentation> 10 MAGICS parameters enabling users to store CHARACTER info for plotting in text lines (n=1,10) 		</documentation>
-  	</parameter>
-  	<parameter from="string" name="text_character_6" default="" metview="no" member="character6" to="string">
-         		<documentation> 10 MAGICS parameters enabling users to store CHARACTER info for plotting in text lines (n=1,10) 		</documentation>
-  	</parameter>
-  	<parameter from="string" name="text_character_7" default="" metview="no" member="character7" to="string">
-         		<documentation> 10 MAGICS parameters enabling users to store CHARACTER info for plotting in text lines (n=1,10) 		</documentation>
-  	</parameter>
-  	<parameter from="string" name="text_character_8" default="" metview="no" member="character8" to="string">
-         		<documentation> 10 MAGICS parameters enabling users to store CHARACTER info for plotting in text lines (n=1,10) 		</documentation>
-  	</parameter>
-  	<parameter from="string" name="text_character_9" default="" metview="no" member="character9" to="string">
-         		<documentation> 10 MAGICS parameters enabling users to store CHARACTER info for plotting in text lines (n=1,10) 		</documentation>
-  	</parameter>
-  	<parameter from="string" name="text_character_10" default="" metview="no" member="character10" to="string">
-         		<documentation> 10 MAGICS parameters enabling users to store CHARACTER info for plotting in text lines (n=1,10) 		</documentation>
-  	</parameter>
+  param: contour_shade_max_level
+  endparam: contour_shade_max_level
+  endparam SL: 
+	} = 
 
-  	<parameter from="int" name="text_integer_1" default="0" metview="no" member="integer1" to="int">
-          		<release_info>Needs user input to see the possible evolution of this parameter		</release_info>
-         		<documentation> 10 MAGICS parameters enabling users to store INTEGER info for plotting in text lines (n=1,10) 		</documentation>
-  	</parameter>
-  
-  
-   	<parameter from="int" name="text_integer_2" default="0" metview="no" member="integer2" to="int">
-          		<release_info>Needs user input to see the possible evolution of this parameter		</release_info>
-         		<documentation> 10 MAGICS parameters enabling users to store INTEGER info for plotting in text lines (n=1,10) 		</documentation>
-  	</parameter>
-   	<parameter from="int" name="text_integer_3" default="0" metview="no" member="integer3" to="int">
-          		<release_info>Needs user input to see the possible evolution of this parameter		</release_info>
-         		<documentation> 10 MAGICS parameters enabling users to store INTEGER info for plotting in text lines (n=1,10) 		</documentation>
-  	</parameter>
-   	<parameter from="int" name="text_integer_4" default="0" metview="no" member="integer4" to="int">
-          		<release_info>Needs user input to see the possible evolution of this parameter		</release_info>
-         		<documentation> 10 MAGICS parameters enabling users to store INTEGER info for plotting in text lines (n=1,10) 		</documentation>
-  	</parameter>
-   	<parameter from="int" name="text_integer_5" default="0" metview="no" member="integer5" to="int">
-          		<release_info>Needs user input to see the possible evolution of this parameter		</release_info>
-         		<documentation> 10 MAGICS parameters enabling users to store INTEGER info for plotting in text lines (n=1,10) 		</documentation>
-  	</parameter>
-   	<parameter from="int" name="text_integer_6" default="0" metview="no" member="integer6" to="int">
-          		<release_info>Needs user input to see the possible evolution of this parameter		</release_info>
-         		<documentation> 10 MAGICS parameters enabling users to store INTEGER info for plotting in text lines (n=1,10) 		</documentation>
-  	</parameter>
-   	<parameter from="int" name="text_integer_7" default="0" metview="no" member="integer7" to="int">
-          		<release_info>Needs user input to see the possible evolution of this parameter		</release_info>
-         		<documentation> 10 MAGICS parameters enabling users to store INTEGER info for plotting in text lines (n=1,10) 		</documentation>
-  	</parameter>
-   	<parameter from="int" name="text_integer_8" default="0" metview="no" member="integer8" to="int">
-          		<release_info>Needs user input to see the possible evolution of this parameter		</release_info>
-         		<documentation> 10 MAGICS parameters enabling users to store INTEGER info for plotting in text lines (n=1,10) 		</documentation>
-  	</parameter>
-   	<parameter from="int" name="text_integer_9" default="0" metview="no" member="integer9" to="int">
-          		<release_info>Needs user input to see the possible evolution of this parameter		</release_info>
-         		<documentation> 10 MAGICS parameters enabling users to store INTEGER info for plotting in text lines (n=1,10) 		</documentation>
-  	</parameter>
-   	<parameter from="int" name="text_integer_10" default="0" metview="no" member="integer10" to="int">
-          		<release_info>Needs user input to see the possible evolution of this parameter		</release_info>
-         		<documentation> 10 MAGICS parameters enabling users to store INTEGER info for plotting in text lines (n=1,10) 		</documentation>
-  	</parameter>
+  param: contour_shade_min_level
+  endparam: contour_shade_min_level
+  endparam SL: 
+	} = 
 
-  	<parameter from="float" name="text_real_1" default="0" metview="no" member="real1" to="float">
-          		<release_info>Needs user input to see the possible evolution of this parameter		</release_info>
-         		<documentation> 10 MAGICS parameters enabling users to store REAL information for plotting in text lines (n=1,10) 		</documentation>
-  	</parameter>
-  
-   	<parameter from="float" name="text_real_2" default="0" metview="no" member="real2" to="float">
-          		<release_info>Needs user input to see the possible evolution of this parameter		</release_info>
-         		<documentation> 10 MAGICS parameters enabling users to store REAL information for plotting in text lines (n=1,10) 		</documentation>
-  	</parameter>
-   	<parameter from="float" name="text_real_3" default="0" metview="no" member="real3" to="float">
-          		<release_info>Needs user input to see the possible evolution of this parameter		</release_info>
-         		<documentation> 10 MAGICS parameters enabling users to store REAL information for plotting in text lines (n=1,10) 		</documentation>
-  	</parameter>
-   	<parameter from="float" name="text_real_4" default="0" metview="no" member="real4" to="float">
-          		<release_info>Needs user input to see the possible evolution of this parameter		</release_info>
-         		<documentation> 10 MAGICS parameters enabling users to store REAL information for plotting in text lines (n=1,10) 		</documentation>
-  	</parameter>
-   	<parameter from="float" name="text_real_5" default="0" metview="no" member="real5" to="float">
-          		<release_info>Needs user input to see the possible evolution of this parameter		</release_info>
-         		<documentation> 10 MAGICS parameters enabling users to store REAL information for plotting in text lines (n=1,10) 		</documentation>
-  	</parameter>
-   	<parameter from="float" name="text_real_6" default="0" metview="no" member="real6" to="float">
-          		<release_info>Needs user input to see the possible evolution of this parameter		</release_info>
-         		<documentation> 10 MAGICS parameters enabling users to store REAL information for plotting in text lines (n=1,10) 		</documentation>
-  	</parameter>
-   	<parameter from="float" name="text_real_7" default="0" metview="no" member="real7" to="float">
-          		<release_info>Needs user input to see the possible evolution of this parameter		</release_info>
-         		<documentation> 10 MAGICS parameters enabling users to store REAL information for plotting in text lines (n=1,10) 		</documentation>
-  	</parameter>
-   	<parameter from="float" name="text_real_8" default="0" metview="no" member="real8" to="float">
-          		<release_info>Needs user input to see the possible evolution of this parameter		</release_info>
-         		<documentation> 10 MAGICS parameters enabling users to store REAL information for plotting in text lines (n=1,10) 		</documentation>
-  	</parameter>
-   	<parameter from="float" name="text_real_9" default="0" metview="no" member="real9" to="float">
-          		<release_info>Needs user input to see the possible evolution of this parameter		</release_info>
-         		<documentation> 10 MAGICS parameters enabling users to store REAL information for plotting in text lines (n=1,10) 		</documentation>
-  	</parameter>
-   	<parameter from="float" name="text_real_10" default="0" metview="no" member="real10" to="float">
-          		<release_info>Needs user input to see the possible evolution of this parameter		</release_info>
-         		<documentation> 10 MAGICS parameters enabling users to store REAL information for plotting in text lines (n=1,10) 		</documentation>
-  	</parameter>
-  
-  	<parameter from="float" name="text_line_height_ratio_1" default="1" metview="no" member="height_ratio_1" to="float">
-         		<release_info>Needs user input to see the possible evolution of this parameter		</release_info>
-         		<documentation> Ratio of height of text lines to text reference character height (n=1,10). See main text 		</documentation>
-  	</parameter>
-  
-  	<parameter from="float" name="text_line_height_ratio_2" default="1" metview="no" member="height_ratio_2" to="float">
-         		<release_info>Needs user input to see the possible evolution of this parameter		</release_info>
-         		<documentation> Ratio of height of text lines to text reference character height (n=1,10). See main text 		</documentation>
-  	</parameter>
-  	<parameter from="float" name="text_line_height_ratio_3" default="1" metview="no" member="height_ratio_3" to="float">
-         		<release_info>Needs user input to see the possible evolution of this parameter		</release_info>
-         		<documentation> Ratio of height of text lines to text reference character height (n=1,10). See main text 		</documentation>
-  	</parameter>
-  	<parameter from="float" name="text_line_height_ratio_4" default="1" metview="no" member="height_ratio_4" to="float">
-         		<release_info>Needs user input to see the possible evolution of this parameter		</release_info>
-         		<documentation> Ratio of height of text lines to text reference character height (n=1,10). See main text 		</documentation>
-  	</parameter>
-  	<parameter from="float" name="text_line_height_ratio_5" default="1" metview="no" member="height_ratio_5" to="float">
-         		<release_info>Needs user input to see the possible evolution of this parameter		</release_info>
-         		<documentation> Ratio of height of text lines to text reference character height (n=1,10). See main text 		</documentation>
-  	</parameter>
-  	<parameter from="float" name="text_line_height_ratio_6" default="1" metview="no" member="height_ratio_6" to="float">
-         		<release_info>Needs user input to see the possible evolution of this parameter		</release_info>
-         		<documentation> Ratio of height of text lines to text reference character height (n=1,10). See main text 		</documentation>
-  	</parameter>
-  	<parameter from="float" name="text_line_height_ratio_7" default="1" metview="no" member="height_ratio_7" to="float">
-         		<release_info>Needs user input to see the possible evolution of this parameter		</release_info>
-         		<documentation> Ratio of height of text lines to text reference character height (n=1,10). See main text 		</documentation>
-  	</parameter>
-  	<parameter from="float" name="text_line_height_ratio_8" default="1" metview="no" member="height_ratio_8" to="float">
-         		<release_info>Needs user input to see the possible evolution of this parameter		</release_info>
-         		<documentation> Ratio of height of text lines to text reference character height (n=1,10). See main text 		</documentation>
-  	</parameter>
-  	<parameter from="float" name="text_line_height_ratio_9" default="1" metview="no" member="height_ratio_9" to="float">
-         		<release_info>Needs user input to see the possible evolution of this parameter		</release_info>
-         		<documentation> Ratio of height of text lines to text reference character height (n=1,10). See main text 		</documentation>
-  	</parameter>
-  
-  	<parameter from="float" name="text_line_height_ratio_10" default="1" metview="no" member="height_ratio_10" to="float">
-         		<release_info>Needs user input to see the possible evolution of this parameter		</release_info>
-         		<documentation> Ratio of height of text lines to text reference character height (n=1,10). See main text 		</documentation>
-  	</parameter>
+  param: contour_reference_level
+  endparam: contour_reference_level
+  endparam SL: 
+	} = 
 
- 
-  	<parameter from="string" name="text_instruction_shift_character" default="\" metview="no" member="text_instruction_shift_character" to="string" implemented="no">
-         		<documentation> Symbol or character for indicating that an Instruction String follows 		</documentation>
-  	</parameter>
+  param: contour_interval
+  endparam: contour_interval
+  endparam SL: 
+	} = 
 
-  	<parameter from="string" name="text_escape_character" default="#" member="text_escape_character" to="string" implemented="no">
-         		<documentation> Symbol or character followed by 3 octal numbers - see one of Figure XIV-1 to Figure XIV-3 		</documentation>
-  	</parameter>
+    option: LevelListSelectionType - level_list
+Opened (start option) ../src/params/LevelListSelectionType.xml
+class: LevelListSelectionType
+  param: contour_level_list
+  endparam: contour_level_list
+  endparam SL: 
+	} = 
 
-  	<parameter from="string" name="text_parameter_escape_character" default="@" metview="no" member="parameter_escape" to="string">
-         		<documentation> Symbol or character for indicating that a MAGICS parameter follows. The MAGICS parameter is also terminated by the same symbol or character 		</documentation>
-  	</parameter>
-  
-  	<parameter xml="line_height_ratios" from="floatarray" name="text_line_height_ratios" default="floatarray()" metview="no" member="height_ratios" to="floatarray">
-         		<release_info>Needs user input to see the possible evolution of this parameter		</release_info>
-         		<documentation> Ratio of height of text lines to text reference character height (n=1,10). See main text 		</documentation>
-  	</parameter>
+  endparam: contour_level_selection_type
+  endparam SL: 
+		COUNT; COUNT
+		INTERVAL; INTERVAL
+		LEVEL_LIST; LEVEL_LIST
+	CONTOUR_LEVEL_SELECTION_TYPE
+	{
+	} = COUNT
 
-  	<parameter priory="0" from="float" name="text_line_space_ratio" default="1.5" member="text_line_space_ratio" to="float" implemented="no">
-         		<release_info>Needs user input to see the possible evolution of this parameter		</release_info>
-         		<documentation> Ratio of space above and below each line to text reference character height. See main text 		</documentation>
-  	</parameter>
+  param: contour_label
+    option: IsoLabel - on
+Opened (start option) ../src/params/IsoLabel.xml
+class: IsoLabel
+  param: contour_label_type
+  endparam: contour_label_type
+  endparam SL: 
+	} = 
 
-</class>
-</magics>
+  param: contour_label_text
+  endparam: contour_label_text
+  endparam SL: 
+	} = 
 
+  param: contour_label_height
+  endparam: contour_label_height
+  endparam SL: 
+	} = 
+
+  param: contour_label_format
+  endparam: contour_label_format
+  endparam SL: 
+	} = 
+
+  param: contour_label_blanking
+  endparam: contour_label_blanking
+  endparam SL: 
+	} = 
+
+  param: contour_label_quality
+  param: contour_label_font
+  endparam: contour_label_font
+  endparam SL: 
+	} = 
+
+  param: contour_label_font_style
+  endparam: contour_label_font_style
+  endparam SL: 
+	} = 
+
+  param: contour_label_colour
+  endparam: contour_label_colour
+  endparam SL: 
+	} = 
+
+  param: contour_label_frequency
+  endparam: contour_label_frequency
+  endparam SL: 
+	} = 
+
+    option: NoIsoLabel - off
+Opened (start option) ../src/params/NoIsoLabel.xml
+class: NoIsoLabel
+  endparam: contour_label
+  endparam SL: 
+		ON; ON
+		OFF; OFF
+	CONTOUR_LABEL
+	{
+	} = ON
+
+  param: contour_shade
+    option: IsoShading - on
+Opened (start option) ../src/params/IsoShading.xml
+class: IsoShading
+  param: contour_shade_technique
+    option: PolyShadingTechnique - polygon_shading
+Opened (start option) ../src/params/PolyShadingTechnique.xml
+class: PolyShadingTechnique
+Opened (start class)../src/params/ShadingTechnique.xml
+class: ShadingTechnique
+  param: contour_shade_method
+    option: PolyShadingMethod - area_fill
+Opened (start option) ../src/params/PolyShadingMethod.xml
+class: PolyShadingMethod
+    option: DotPolyShadingMethod - dot
+Opened (start option) ../src/params/DotPolyShadingMethod.xml
+class: DotPolyShadingMethod
+  param: contour_shade_dot_size
+  endparam: contour_shade_dot_size
+  endparam SL: 
+	} = 
+
+  param: contour_shade_max_level_density
+  endparam: contour_shade_max_level_density
+  endparam SL: 
+	} = 
+
+  param: contour_shade_min_level_density
+  endparam: contour_shade_min_level_density
+  endparam SL: 
+	} = 
+
+    option: HatchPolyShadingMethod - hatch
+Opened (start option) ../src/params/HatchPolyShadingMethod.xml
+class: HatchPolyShadingMethod
+  param: contour_shade_hatch_index
+  endparam: contour_shade_hatch_index
+  endparam SL: 
+	} = 
+
+  param: contour_shade_hatch_thickness
+  endparam: contour_shade_hatch_thickness
+  endparam SL: 
+	} = 
+
+  param: contour_shade_hatch_density
+  endparam: contour_shade_hatch_density
+  endparam SL: 
+	} = 
+
+  endparam: contour_shade_method
+  endparam SL: 
+		AREA_FILL; AREA_FILL
+		DOT; DOT
+		HATCH; HATCH
+	CONTOUR_SHADE_METHOD
+	{
+	} = DOT
+
+    option: GridShading - grid_shading
+Opened (start option) ../src/params/GridShading.xml
+class: GridShading
+  param: contour_grid_shading_position
+  endparam: contour_grid_shading_position
+  endparam SL: 
+	} = 
+
+    option: CellShading - cell_shading
+Opened (start option) ../src/params/CellShading.xml
+class: CellShading
+  param: contour_shade_cell_resolution
+  endparam: contour_shade_cell_resolution
+  endparam SL: 
+	} = 
+
+  param: contour_shade_cell_method
+  endparam: contour_shade_cell_method
+  endparam SL: 
+	} = 
+
+    option: DumpShading - dump_shading
+    option: MarkerShadingTechnique - marker
+Opened (start option) ../src/params/MarkerShadingTechnique.xml
+class: MarkerShadingTechnique
+  param: contour_shade_colour_table
+  endparam: contour_shade_colour_table
+  endparam SL: 
+	} = 
+
+  param: contour_shade_height_table
+  endparam: contour_shade_height_table
+  endparam SL: 
+	} = 
+
+  param: contour_shade_marker_table
+  endparam: contour_shade_marker_table
+  endparam SL: 
+	} = 
+
+  endparam: contour_shade_technique
+  endparam SL: 
+		POLYGON_SHADING; POLYGON_SHADING
+		GRID_SHADING; GRID_SHADING
+		CELL_SHADING; CELL_SHADING
+		MARKER; MARKER
+	CONTOUR_SHADE_TECHNIQUE
+	{
+	} = POLYGON_SHADING
+
+  param: contour_shade_max_level
+  endparam: contour_shade_max_level
+  endparam SL: 
+	} = POLYGON_SHADING
+
+  param: contour_shade_min_level
+  endparam: contour_shade_min_level
+  endparam SL: 
+	} = POLYGON_SHADING
+
+  param: contour_shade_colour_method
+    option: CalculateColourTechnique - calculate
+Opened (start option) ../src/params/CalculateColourTechnique.xml
+class: CalculateColourTechnique
+Opened (start class)../src/params/ColourTechnique.xml
+class: ColourTechnique
+  param: contour_shade_max_level_colour
+  endparam: contour_shade_max_level_colour
+  endparam SL: 
+	} = 
+
+  param: contour_shade_min_level_colour
+  endparam: contour_shade_min_level_colour
+  endparam SL: 
+	} = 
+
+  param: contour_shade_colour_direction
+  endparam: contour_shade_colour_direction
+  endparam SL: 
+	} = 
+
+    option: ListColourTechnique - list
+Opened (start option) ../src/params/ListColourTechnique.xml
+class: ListColourTechnique
+  param: contour_shade_colour_list
+  endparam: contour_shade_colour_list
+  endparam SL: 
+	} = 
+
+  endparam: contour_shade_colour_method
+  endparam SL: 
+		CALCULATE; CALCULATE
+		LIST; LIST
+	} = POLYGON_SHADING
+
+  param: contour_shade_label_blanking
+  endparam: contour_shade_label_blanking
+  endparam SL: 
+	} = POLYGON_SHADING
+
+    option: NoIsoShading - off
+Opened (start option) ../src/params/NoIsoShading.xml
+class: NoIsoShading
+  endparam: contour_shade
+  endparam SL: 
+		ON; ON
+		OFF; OFF
+	CONTOUR_SHADE
+	{
+	} = OFF
+
+  param: contour_legend_only
+  endparam: contour_legend_only
+  endparam SL: 
+	} = OFF
+
+    option: NoIsoPlot - off
+Opened (start option) ../src/params/NoIsoPlot.xml
+class: NoIsoPlot
+  endparam: contour
+  endparam SL: 
+		ON; ON
+		OFF; OFF
+	CONTOUR
+	{
+	} = ON
+
+  param: contour_method
+    option: AutomaticContourMethod - automatic
+    option: SampleContourMethod - sample
+Opened (start option) ../src/params/SampleContourMethod.xml
+class: SampleContourMethod
+  param: contour_sample_x_interval
+  endparam: contour_sample_x_interval
+  endparam SL: 
+	} = 
+
+  param: contour_sample_y_interval
+  endparam: contour_sample_y_interval
+  endparam SL: 
+	} = 
+
+    option: ContourMethod - linear
+Opened (start option) ../src/params/ContourMethod.xml
+class: ContourMethod
+    option: Akima760Method - akima760
+Opened (start option) ../src/params/Akima760Method.xml
+class: Akima760Method
+  param: contour_akima_x_resolution
+  endparam: contour_akima_x_resolution
+  endparam SL: 
+	} = 
+
+  param: contour_akima_y_resolution
+  endparam: contour_akima_y_resolution
+  endparam SL: 
+	} = 
+
+    option: Akima474Method - akima474
+Opened (start option) ../src/params/Akima474Method.xml
+class: Akima474Method
+  param: contour_akima_x_resolution
+  endparam: contour_akima_x_resolution
+  endparam SL: 
+	} = 
+
+  param: contour_akima_y_resolution
+  endparam: contour_akima_y_resolution
+  endparam SL: 
+	} = 
+
+  endparam: contour_method
+  endparam SL: 
+		AUTOMATIC; AUTOMATIC
+		SAMPLE; SAMPLE
+		LINEAR; LINEAR
+		AKIMA760; AKIMA760
+		AKIMA474; AKIMA474
+	CONTOUR_METHOD
+	{
+	} = AUTOMATIC
+
+  param: contour_interpolation_floor
+  endparam: contour_interpolation_floor
+  endparam SL: 
+	} = AUTOMATIC
+
+  param: contour_interpolation_ceiling
+  endparam: contour_interpolation_ceiling
+  endparam SL: 
+	} = AUTOMATIC
+
+  param: contour_automatic_setting
+  endparam: contour_automatic_setting
+  endparam SL: 
+	} = AUTOMATIC
+
+  param: contour_automatic_library_path
+  param: contour_hilo
+    option: HiLo - on
+Opened (start option) ../src/params/HiLo.xml
+class: HiLo
+Opened (start class)../src/params/HiLoBase.xml
+class: HiLoBase
+  param: contour_hilo_type
+    option: HiLoText - text
+Opened (start option) ../src/params/HiLoText.xml
+class: HiLoText
+Opened (start class)../src/params/HiLoTechnique.xml
+class: HiLoTechnique
+  param: contour_hilo_height
+  endparam: contour_hilo_height
+  endparam SL: 
+	} = 
+
+  param: contour_hilo_quality
+  endparam: contour_hilo_quality
+  endparam SL: 
+	} = 
+
+  param: contour_hi_colour
+  endparam: contour_hi_colour
+  endparam SL: 
+	} = 
+
+  param: contour_lo_colour
+  endparam: contour_lo_colour
+  endparam SL: 
+	} = 
+
+  param: contour_hi_text
+  endparam: contour_hi_text
+  endparam SL: 
+	} = 
+
+  param: contour_lo_text
+  endparam: contour_lo_text
+  endparam SL: 
+	} = 
+
+  param: contour_hilo_blanking
+  endparam: contour_hilo_blanking
+  endparam SL: 
+	} = 
+
+    option: HiLoNumber - number
+Opened (start option) ../src/params/HiLoNumber.xml
+class: HiLoNumber
+  param: contour_hilo_format
+  endparam: contour_hilo_format
+  endparam SL: 
+	} = 
+
+    option: HiLoBoth - both
+Opened (start option) ../src/params/HiLoBoth.xml
+class: HiLoBoth
+  endparam: contour_hilo_type
+  endparam SL: 
+		TEXT; TEXT
+		NUMBER; NUMBER
+		BOTH; BOTH
+	CONTOUR_HILO_TYPE
+	{
+	} = TEXT
+
+  param: contour_hilo_window_size
+  endparam: contour_hilo_window_size
+  endparam SL: 
+	} = TEXT
+
+  param: contour_hilo_reduction_radius
+  param: contour_hilo_suppress_radius
+  endparam: contour_hilo_suppress_radius
+  endparam SL: 
+	} = TEXT
+
+  param: contour_hilo_max_value
+  endparam: contour_hilo_max_value
+  endparam SL: 
+	} = TEXT
+
+  param: contour_hilo_min_value
+  endparam: contour_hilo_min_value
+  endparam SL: 
+	} = TEXT
+
+  param: contour_hi_max_value
+  endparam: contour_hi_max_value
+  endparam SL: 
+	} = TEXT
+
+  param: contour_hi_min_value
+  endparam: contour_hi_min_value
+  endparam SL: 
+	} = TEXT
+
+  param: contour_lo_max_value
+  endparam: contour_lo_max_value
+  endparam SL: 
+	} = TEXT
+
+  param: contour_lo_min_value
+  endparam: contour_lo_min_value
+  endparam SL: 
+	} = TEXT
+
+  param: contour_hilo_marker
+    option: HiLoMarker - on
+Opened (start option) ../src/params/HiLoMarker.xml
+class: HiLoMarker
+Opened (start class)../src/params/HiLoMarkerBase.xml
+class: HiLoMarkerBase
+  param: contour_hilo_marker_height
+  endparam: contour_hilo_marker_height
+  endparam SL: 
+	} = 
+
+  param: contour_hilo_marker_index
+  endparam: contour_hilo_marker_index
+  endparam SL: 
+	} = 
+
+  param: contour_hilo_marker_colour
+  endparam: contour_hilo_marker_colour
+  endparam SL: 
+	} = 
+
+    option: NoHiLoMarker - off
+Opened (start option) ../src/params/NoHiLoMarker.xml
+class: NoHiLoMarker
+  endparam: contour_hilo_marker
+  endparam SL: 
+		ON; ON
+		OFF; OFF
+	CONTOUR_HILO_MARKER
+	{
+	} = OFF
+
+    option: NoHiLo - off
+Opened (start option) ../src/params/NoHiLo.xml
+class: NoHiLo
+    option: HighHiLo - hi
+Opened (start option) ../src/params/HighHiLo.xml
+class: HighHiLo
+    option: LowHiLo - lo
+Opened (start option) ../src/params/LowHiLo.xml
+class: LowHiLo
+  endparam: contour_hilo
+  endparam SL: 
+		ON; ON
+		OFF; OFF
+		HI; HI
+		LO; LO
+	CONTOUR_HILO
+	{
+	} = OFF
+
+  param: contour_grid_value_plot
+    option: ValuePlot - on
+Opened (start option) ../src/params/ValuePlot.xml
+class: ValuePlot
+Opened (start class)../src/params/ValuePlotBase.xml
+class: ValuePlotBase
+  param: contour_grid_value_type
+  endparam: contour_grid_value_type
+  endparam SL: 
+	} = 
+
+  param: contour_grid_value_plot_type
+    option: ValuePlotMethod - value
+Opened (start option) ../src/params/ValuePlotMethod.xml
+class: ValuePlotMethod
+  param: contour_grid_value_min
+  endparam: contour_grid_value_min
+  endparam SL: 
+	} = 
+
+  param: contour_grid_value_max
+  endparam: contour_grid_value_max
+  endparam SL: 
+	} = 
+
+  param: contour_grid_value_lat_frequency
+  endparam: contour_grid_value_lat_frequency
+  endparam SL: 
+	} = 
+
+  param: contour_grid_value_lon_frequency
+  endparam: contour_grid_value_lon_frequency
+  endparam SL: 
+	} = 
+
+  param: contour_grid_value_height
+  endparam: contour_grid_value_height
+  endparam SL: 
+	} = 
+
+  param: contour_grid_value_colour
+  endparam: contour_grid_value_colour
+  endparam SL: 
+	} = 
+
+  param: contour_grid_value_format
+  endparam: contour_grid_value_format
+  endparam SL: 
+	} = 
+
+  param: contour_grid_value_quality
+  endparam: contour_grid_value_quality
+  endparam SL: 
+	} = 
+
+    option: MarkerValuePlotMethod - marker
+Opened (start option) ../src/params/MarkerValuePlotMethod.xml
+class: MarkerValuePlotMethod
+  param: contour_grid_value_marker_height
+  endparam: contour_grid_value_marker_height
+  endparam SL: 
+	} = 
+
+  param: contour_grid_value_marker_colour
+  endparam: contour_grid_value_marker_colour
+  endparam SL: 
+	} = 
+
+  param: contour_grid_value_marker_qual
+  endparam: contour_grid_value_marker_qual
+  endparam SL: 
+	} = 
+
+  param: contour_grid_value_marker_index
+  endparam: contour_grid_value_marker_index
+  endparam SL: 
+	} = 
+
+    option: BothValuePlotMethod - both
+Opened (start option) ../src/params/BothValuePlotMethod.xml
+class: BothValuePlotMethod
+  param: contour_grid_value_marker_height
+  endparam: contour_grid_value_marker_height
+  endparam SL: 
+	} = 
+
+  param: contour_grid_value_marker_colour
+  endparam: contour_grid_value_marker_colour
+  endparam SL: 
+	} = 
+
+  param: contour_grid_value_marker_qual
+  endparam: contour_grid_value_marker_qual
+  endparam SL: 
+	} = 
+
+  param: contour_grid_value_marker_index
+  endparam: contour_grid_value_marker_index
+  endparam SL: 
+	} = 
+
+  endparam: contour_grid_value_plot_type
+  endparam SL: 
+		VALUE; VALUE
+		MARKER; MARKER
+		BOTH; BOTH
+	CONTOUR_GRID_VALUE_PLOT_TYPE
+	{
+	} = VALUE
+
+    option: NoValuePlot - off
+Opened (start option) ../src/params/NoValuePlot.xml
+class: NoValuePlot
+  endparam: contour_grid_value_plot
+  endparam SL: 
+		ON; ON
+		OFF; OFF
+	CONTOUR_GRID_VALUE_PLOT
+	{
+	} = OFF
+
+  param: grib_scaling_of_retrieved_fields
+  endparam: grib_scaling_of_retrieved_fields
+  endparam SL: 
+	} = OFF
+
+  param: grib_scaling_of_derived_fields
+  endparam: grib_scaling_of_derived_fields
+  endparam SL: 
+	} = OFF
+
+PARAM START
+	LEGEND [ help_text = 'Turn legend on or off' ]
+ 	{
+		ON;  ON
+		OFF; OFF
+	} = OFF
+
+PARAM END
+PARAM START
+		ON; ON
+		OFF; OFF
+	CONTOUR
+	{
+	} = ON
+
+PARAM END
+PARAM START
+	CONTOUR_LINE_STYLE
+	{
+		&PARAMSHARE&STYLE
+	} = SOLID
+
+PARAM END
+PARAM START
+	CONTOUR_LINE_THICKNESS[ help_text = 'Thickness of contour line' ]
+	{
+		*
+	} = 1
+
+PARAM END
+PARAM START
+	CONTOUR_LINE_COLOUR_RAINBOW [ help_text = 'if On, rainbow colouring method will be used.' ]
+ 	{
+		ON;  ON
+		OFF; OFF
+	} = OFF
+
+PARAM END
+PARAM START
+	CONTOUR_LINE_COLOUR [ help = help_colour,interface = colour, help_text='Colour of contour line' ]
+	{ 
+		&PARAMSHARE&COLOUR
+	} = BLUE
+
+PARAM END
+PARAM START
+	CONTOUR_LINE_COLOUR_RAINBOW_METHOD
+	{
+		CALCULATE;CALCULATE
+		LIST;LIST
+	} = CALCULATE
+
+PARAM END
+PARAM START
+	CONTOUR_LINE_COLOUR_RAINBOW_MAX_LEVEL_COLOUR [ help = help_colour,interface = colour, help_text='Colour to be used for the max level' ]
+	{ 
+		&PARAMSHARE&COLOUR
+	} = BLUE
+
+PARAM END
+PARAM START
+	CONTOUR_LINE_COLOUR_RAINBOW_MIN_LEVEL_COLOUR [ help = help_colour,interface = colour, help_text='Colour to be used for the mainlevel' ]
+	{ 
+		&PARAMSHARE&COLOUR
+	} = RED
+
+PARAM END
+PARAM START
+	CONTOUR_LINE_COLOUR_RAINBOW_DIRECTION
+	{
+		CLOCKWISE;CLOCKWISE
+		ANTI-CLOCKWISE;ANTI-CLOCKWISE
+	} = ANTI_CLOCKWISE
+
+PARAM END
+PARAM START
+	CONTOUR_LINE_COLOUR_RAINBOW_COLOUR_LIST
+	{
+		@
+		/
+	} = ''
+
+PARAM END
+PARAM START
+	CONTOUR_LINE_COLOUR_RAINBOW_COLOUR_LIST_POLICY
+	{
+		LASTONE;LASTONE
+		CYCLE;CYCLE
+	} = LASTONE
+
+PARAM END
+PARAM START
+		ON; ON
+		OFF; OFF
+	CONTOUR_HIGHLIGHT
+	{
+	} = ON
+
+PARAM END
+PARAM START
+	CONTOUR_HIGHLIGHT_STYLE
+	{
+		&PARAMSHARE&STYLE
+	} = SOLID
+
+PARAM END
+PARAM START
+	CONTOUR_REFERENCE_LEVEL[ help_text = 'Contour level reference' ]
+	{
+		*
+	} = 0.0
+
+PARAM END
+PARAM START
+	CONTOUR_HIGHLIGHT_COLOUR [ help = help_colour,interface = colour, help_text='Colour of highlight line' ]
+	{ 
+		&PARAMSHARE&COLOUR
+	} = BLUE
+
+PARAM END
+PARAM START
+	CONTOUR_HIGHLIGHT_THICKNESS[ help_text = 'Thickness of highlight line' ]
+	{
+		*
+	} = 3
+
+PARAM END
+PARAM START
+	CONTOUR_HIGHLIGHT_FREQUENCY[ help_text = 'Frequency of highlight line' ]
+	{
+		*
+	} = 4
+
+PARAM END
+PARAM START
+		COUNT; COUNT
+		INTERVAL; INTERVAL
+		LEVEL_LIST; LEVEL_LIST
+	CONTOUR_LEVEL_SELECTION_TYPE
+	{
+	} = COUNT
+
+PARAM END
+PARAM START
+	CONTOUR_MAX_LEVEL[ help_text = 'Highest level for contours to be drawn' ]
+	{
+		*
+	} = 1.0E+21
+
+PARAM END
+PARAM START
+	CONTOUR_MIN_LEVEL[ help_text = 'Lowest level for contours to be drawn' ]
+	{
+		*
+	} = -1.0E+21
+
+PARAM END
+PARAM START
+	CONTOUR_SHADE_MAX_LEVEL[ help_text = 'Highest level for contours to be shaded' ]
+	{
+		*
+	} = 1.0E+21
+
+PARAM END
+PARAM START
+	CONTOUR_SHADE_MIN_LEVEL[ help_text = 'Lowest level for contours to be shaded' ]
+	{
+		*
+	} = -1.0E+21
+
+PARAM END
+PARAM START
+	CONTOUR_INTERVAL[ help_text = 'Interval in data units between two contour lines' ]
+	{
+		*
+	} = 8.0
+
+PARAM END
+PARAM START
+	CONTOUR_LEVEL_LIST
+	{
+		*
+		/
+	} = ''
+
+PARAM END
+PARAM START
+		ON; ON
+		OFF; OFF
+	CONTOUR_LABEL
+	{
+	} = ON
+
+PARAM END
+PARAM START
+	CONTOUR_LABEL_TYPE
+	{
+		@
+	} = NUMBER
+
+PARAM END
+PARAM START
+	CONTOUR_LABEL_TEXT
+	{
+		@
+	} = ''
+
+PARAM END
+PARAM START
+	CONTOUR_LABEL_HEIGHT[ help_text = 'Height of contour labels' ]
+	{
+		*
+	} = 0.3
+
+PARAM END
+PARAM START
+	CONTOUR_LABEL_FORMAT
+	{
+		@
+	} = '(AUTOMATIC)'
+
+PARAM END
+PARAM START
+	CONTOUR_LABEL_BLANKING [ help_text = 'Label Blanking' ]
+ 	{
+		ON;  ON
+		OFF; OFF
+	} = ON
+
+PARAM END
+PARAM START
+	CONTOUR_LABEL_FONT
+	{
+		ARIAL;ARIAL
+		COURIER;COURIER
+		HELVETICA;HELVETICA
+		TIMES;TIMES
+		SERIF;SERIF
+		SANSSERIF;SANSSERIF
+		SYMBOL;SYMBOL
+	} = SANSSERIF
+
+PARAM END
+PARAM START
+	CONTOUR_LABEL_FONT_STYLE
+	{
+		NORMAL;NORMAL
+		BOLD;BOLD
+		ITALIC;ITALIC
+		BOLDITALIC;BOLDITALIC
+	} = NORMAL
+
+PARAM END
+PARAM START
+	CONTOUR_LABEL_COLOUR [ help = help_colour,interface = colour, help_text='Colour of contour labels' ]
+	{ 
+		&PARAMSHARE&COLOUR
+		CONTOUR_LINE_COLOUR
+	} = CONTOUR_LINE_COLOUR
+
+PARAM END
+PARAM START
+	CONTOUR_LABEL_FREQUENCY[ help_text = 'Every Nth contour line is labelled' ]
+	{
+		*
+	} = 2
+
+PARAM END
+PARAM START
+		ON; ON
+		OFF; OFF
+	CONTOUR_SHADE
+	{
+	} = OFF
+
+PARAM END
+PARAM START
+		POLYGON_SHADING; POLYGON_SHADING
+		GRID_SHADING; GRID_SHADING
+		CELL_SHADING; CELL_SHADING
+		MARKER; MARKER
+	CONTOUR_SHADE_TECHNIQUE
+	{
+	} = POLYGON_SHADING
+
+PARAM END
+PARAM START
+		AREA_FILL; AREA_FILL
+		DOT; DOT
+		HATCH; HATCH
+	CONTOUR_SHADE_METHOD
+	{
+	} = DOT
+
+PARAM END
+PARAM START
+	CONTOUR_SHADE_DOT_SIZE[ help_text = 'Size of dot in shading pattern' ]
+	{
+		*
+	} = 0.02
+
+PARAM END
+PARAM START
+	CONTOUR_SHADE_MAX_LEVEL_DENSITY[ help_text = 'Dots/square centimetre in highest shading band' ]
+	{
+		*
+	} = 50.0
+
+PARAM END
+PARAM START
+	CONTOUR_SHADE_MIN_LEVEL_DENSITY[ help_text = 'Dots/square centimetre in lowest shading band' ]
+	{
+		*
+	} = 1.0
+
+PARAM END
+PARAM START
+	CONTOUR_SHADE_HATCH_INDEX[ help_text = 'The hatching pattern(s) to use. 0 Provides an automatic sequence of patterns, other values set a constant pattern across all contour bands.' ]
+	{
+		*
+	} = 0
+
+PARAM END
+PARAM START
+	CONTOUR_SHADE_HATCH_THICKNESS[ help_text = 'Thickness of hatch lines' ]
+	{
+		*
+	} = 1
+
+PARAM END
+PARAM START
+	CONTOUR_SHADE_HATCH_DENSITY[ help_text = 'Number of hatch lines per cm.' ]
+	{
+		*
+	} = 18.0
+
+PARAM END
+PARAM START
+	CONTOUR_GRID_SHADING_POSITION
+	{
+		MIDDLE;MIDDLE
+		BOTTOM_LEFT;BOTTOM_LEFT
+	} = MIDDLE
+
+PARAM END
+PARAM START
+	CONTOUR_SHADE_CELL_RESOLUTION[ help_text = 'Number of cells per cm for CELL shading' ]
+	{
+		*
+	} = 10
+
+PARAM END
+PARAM START
+	CONTOUR_SHADE_CELL_METHOD
+	{
+		NEAREST;NEAREST
+		INTERPOLATE;INTERPOLATE
+	} = NEAREST
+
+PARAM END
+PARAM START
+	CONTOUR_SHADE_COLOUR_TABLE
+	{
+		@
+		/
+	} = ''
+
+PARAM END
+PARAM START
+	CONTOUR_SHADE_HEIGHT_TABLE
+	{
+		*
+		/
+	} = ''
+
+PARAM END
+PARAM START
+	CONTOUR_SHADE_MARKER_TABLE
+	{
+		*
+		/
+	} = ''
+
+PARAM END
+PARAM START
+	CONTOUR_SHADE_COLOUR_METHOD
+	{
+		CALCULATE;CALCULATE
+		LIST;LIST
+	} = CALCULATE
+
+PARAM END
+PARAM START
+	CONTOUR_SHADE_MAX_LEVEL_COLOUR [ help = help_colour,interface = colour, help_text='Highest shading band colour' ]
+	{ 
+		&PARAMSHARE&COLOUR
+	} = BLUE
+
+PARAM END
+PARAM START
+	CONTOUR_SHADE_MIN_LEVEL_COLOUR [ help = help_colour,interface = colour, help_text='Lowest shading band colour' ]
+	{ 
+		&PARAMSHARE&COLOUR
+	} = RED
+
+PARAM END
+PARAM START
+	CONTOUR_SHADE_COLOUR_DIRECTION
+	{
+		CLOCKWISE;CLOCKWISE
+		ANTI_CLOCKWISE;ANTI_CLOCKWISE
+	} = ANTI_CLOCKWISE
+
+PARAM END
+PARAM START
+	CONTOUR_SHADE_COLOUR_LIST [ help = help_colour,interface = colour, help_text='List of colours to be used in contour shading.' ]
+	{ 
+		&PARAMSHARE&COLOUR		/
+	} = ''
+
+PARAM END
+PARAM START
+	CONTOUR_SHADE_LABEL_BLANKING [ help_text = 'Added for backwards compatibility with existing Metview Contour icons/macros' ]
+ 	[ visible = false ]
+	{
+		ON;  ON
+		OFF; OFF
+	} = ON
+
+PARAM END
+PARAM START
+	CONTOUR_LEGEND_ONLY [ help_text = 'Inform the contour object do generate only the legend and not the plot!' ]
+ 	{
+		ON;  ON
+		OFF; OFF
+	} = OFF
+
+PARAM END
+PARAM START
+		AUTOMATIC; AUTOMATIC
+		SAMPLE; SAMPLE
+		LINEAR; LINEAR
+		AKIMA760; AKIMA760
+		AKIMA474; AKIMA474
+	CONTOUR_METHOD
+	{
+	} = AUTOMATIC
+
+PARAM END
+PARAM START
+	CONTOUR_SAMPLE_X_INTERVAL[ help_text = 'X sampling interval used in 'sample' method (takes every nth point)		/>' ]
+	{
+		*
+	} = 2
+
+PARAM END
+PARAM START
+	CONTOUR_SAMPLE_Y_INTERVAL[ help_text = 'Y sampling interval used in 'sample' method (takes every nth point)		/>' ]
+	{
+		*
+	} = 2
+
+PARAM END
+PARAM START
+	CONTOUR_AKIMA_X_RESOLUTION[ help_text = 'X resolution of Akima interpolation' ]
+	{
+		*
+	} = 1.5
+
+PARAM END
+PARAM START
+	CONTOUR_AKIMA_Y_RESOLUTION[ help_text = 'Y resolution of Akima interpolation' ]
+	{
+		*
+	} = 1.5
+
+PARAM END
+PARAM START
+	CONTOUR_INTERPOLATION_FLOOR[ help_text = 'Any value below this floor will be forced  to the floor value.avoid the bubbles artificially created by the interpolation method' ]
+	{
+		*
+	} = -1.0E21
+
+PARAM END
+PARAM START
+	CONTOUR_INTERPOLATION_CEILING[ help_text = 'any value above this ceiling will be forced  to the ceiling value.avoid the bubbles artificially created by the interpolation method' ]
+	{
+		*
+	} = 1.0E21
+
+PARAM END
+PARAM START
+	CONTOUR_AUTOMATIC_SETTING
+	{
+		ON;ON
+		OFF;OFF
+		ECCHART;ECCHART
+	} = OFF
+
+PARAM END
+PARAM START
+		ON; ON
+		OFF; OFF
+		HI; HI
+		LO; LO
+	CONTOUR_HILO
+	{
+	} = OFF
+
+PARAM END
+PARAM START
+		TEXT; TEXT
+		NUMBER; NUMBER
+		BOTH; BOTH
+	CONTOUR_HILO_TYPE
+	{
+	} = TEXT
+
+PARAM END
+PARAM START
+	CONTOUR_HILO_HEIGHT[ help_text = 'Height of local maxima/minima text or numbers' ]
+	{
+		*
+	} = 0.4
+
+PARAM END
+PARAM START
+	CONTOUR_HILO_QUALITY
+	{
+		HIGH;HIGH
+		MEDIUM;MEDIUM
+		LOW;LOW
+	} = LOW
+
+PARAM END
+PARAM START
+	CONTOUR_HI_COLOUR [ help = help_colour,interface = colour, help_text='Colour of local maxima text or number' ]
+	{ 
+		&PARAMSHARE&COLOUR
+	} = BLUE
+
+PARAM END
+PARAM START
+	CONTOUR_LO_COLOUR [ help = help_colour,interface = colour, help_text='Colour of local minima text or number' ]
+	{ 
+		&PARAMSHARE&COLOUR
+	} = BLUE
+
+PARAM END
+PARAM START
+	CONTOUR_HI_TEXT
+	{
+		@
+	} = H
+
+PARAM END
+PARAM START
+	CONTOUR_LO_TEXT
+	{
+		@
+	} = L
+
+PARAM END
+PARAM START
+	CONTOUR_HILO_BLANKING [ help_text = 'Blank around highs and lows (ON/OFF)' ]
+ 	{
+		ON;  ON
+		OFF; OFF
+	} = OFF
+
+PARAM END
+PARAM START
+	CONTOUR_HILO_FORMAT
+	{
+		@
+	} = '(AUTOMATIC)'
+
+PARAM END
+PARAM START
+	CONTOUR_HILO_WINDOW_SIZE[ help_text = 'Size of the window used to calculate the Hi/Lo' ]
+	{
+		*
+	} = 3
+
+PARAM END
+PARAM START
+	CONTOUR_HILO_SUPPRESS_RADIUS[ help_text = 'Radius of HiLo search in grid points (default value is for global cylindrical map)' ]
+	{
+		*
+	} = 15.0
+
+PARAM END
+PARAM START
+	CONTOUR_HILO_MAX_VALUE[ help_text = 'Local HiLo above specified value are not drawn' ]
+	{
+		*
+	} = 1.0E+21
+
+PARAM END
+PARAM START
+	CONTOUR_HILO_MIN_VALUE[ help_text = 'Local HiLo below specified value are not drawn' ]
+	{
+		*
+	} = -1.0E+21
+
+PARAM END
+PARAM START
+	CONTOUR_HI_MAX_VALUE[ help_text = 'Local HI above specified value are not drawn' ]
+	{
+		*
+	} = 1.0E+21
+
+PARAM END
+PARAM START
+	CONTOUR_HI_MIN_VALUE[ help_text = 'Local HI below specified value are not drawn' ]
+	{
+		*
+	} = -1.0E+21
+
+PARAM END
+PARAM START
+	CONTOUR_LO_MAX_VALUE[ help_text = 'Local Lo above specified value are not drawn' ]
+	{
+		*
+	} = 1.0E+21
+
+PARAM END
+PARAM START
+	CONTOUR_LO_MIN_VALUE[ help_text = 'Local Lo below specified value are not drawn' ]
+	{
+		*
+	} = -1.0E+21
+
+PARAM END
+PARAM START
+		ON; ON
+		OFF; OFF
+	CONTOUR_HILO_MARKER
+	{
+	} = OFF
+
+PARAM END
+PARAM START
+	CONTOUR_HILO_MARKER_HEIGHT[ help_text = 'Height of HILO marker symbol' ]
+	{
+		*
+	} = 0.1
+
+PARAM END
+PARAM START
+	CONTOUR_HILO_MARKER_INDEX[ help_text = 'Table number of marker symbol. See chapter on Plotting Attributes' ]
+	{
+		*
+	} = 3
+
+PARAM END
+PARAM START
+	CONTOUR_HILO_MARKER_COLOUR [ help = help_colour,interface = colour, help_text='Colour of grid point markers(Full choice of colours)' ]
+	{ 
+		&PARAMSHARE&COLOUR
+	} = RED
+
+PARAM END
+PARAM START
+		ON; ON
+		OFF; OFF
+	CONTOUR_GRID_VALUE_PLOT
+	{
+	} = OFF
+
+PARAM END
+PARAM START
+	CONTOUR_GRID_VALUE_TYPE
+	{
+		NORMAL;NORMAL
+		REDUCED;REDUCED
+		AKIMA;AKIMA
+	} = NORMAL
+
+PARAM END
+PARAM START
+		VALUE; VALUE
+		MARKER; MARKER
+		BOTH; BOTH
+	CONTOUR_GRID_VALUE_PLOT_TYPE
+	{
+	} = VALUE
+
+PARAM END
+PARAM START
+	CONTOUR_GRID_VALUE_MIN[ help_text = 'The minimum value for which grid point values are to be plotted' ]
+	{
+		*
+	} = -1.0E+21
+
+PARAM END
+PARAM START
+	CONTOUR_GRID_VALUE_MAX[ help_text = 'The maximum value for which grid point values are to be plotted' ]
+	{
+		*
+	} = 1.0E+21
+
+PARAM END
+PARAM START
+	CONTOUR_GRID_VALUE_LAT_FREQUENCY[ help_text = 'The grid point values in every Nth latitude row are plotted' ]
+	{
+		*
+	} = 1
+
+PARAM END
+PARAM START
+	CONTOUR_GRID_VALUE_LON_FREQUENCY[ help_text = 'The grid point values in every Nth longitude column are plotted' ]
+	{
+		*
+	} = 1
+
+PARAM END
+PARAM START
+	CONTOUR_GRID_VALUE_HEIGHT[ help_text = 'Height of grid point values' ]
+	{
+		*
+	} = 0.25
+
+PARAM END
+PARAM START
+	CONTOUR_GRID_VALUE_COLOUR [ help = help_colour,interface = colour, help_text='Colour of grid point values (Full choice of colours)' ]
+	{ 
+		&PARAMSHARE&COLOUR
+	} = BLUE
+
+PARAM END
+PARAM START
+	CONTOUR_GRID_VALUE_FORMAT
+	{
+		@
+	} = '(AUTOMATIC)'
+
+PARAM END
+PARAM START
+	CONTOUR_GRID_VALUE_QUALITY
+	{
+		HIGH;HIGH
+		MEDIUM;MEDIUM
+		LOW;LOW
+	} = LOW
+
+PARAM END
+PARAM START
+	CONTOUR_GRID_VALUE_MARKER_HEIGHT[ help_text = 'Height of grid point markers' ]
+	{
+		*
+	} = 0.25
+
+PARAM END
+PARAM START
+	CONTOUR_GRID_VALUE_MARKER_COLOUR [ help = help_colour,interface = colour, help_text='Colour of grid point markers (Full choice of colours)' ]
+	{ 
+		&PARAMSHARE&COLOUR
+	} = RED
+
+PARAM END
+PARAM START
+	CONTOUR_GRID_VALUE_MARKER_QUAL
+	{
+		@
+	} = LOW
+
+PARAM END
+PARAM START
+	CONTOUR_GRID_VALUE_MARKER_INDEX[ help_text = 'Table number of marker index. See Appendix for Plotting Attributes' ]
+	{
+		*
+	} = 3
+
+PARAM END
+PARAM START
+	GRIB_SCALING_OF_RETRIEVED_FIELDS [ help_text = 'Certain parameters will be scaled into more user-friendly units if the data has not been manipulated' ]
+ 	{
+		ON;  ON
+		OFF; OFF
+	} = ON
+
+PARAM END
+PARAM START
+	GRIB_SCALING_OF_DERIVED_FIELDS [ help_text = 'Certain parameters will be scaled into more user-friendly units if the data has been manipulated' ]
+ 	{
+		ON;  ON
+		OFF; OFF
+	} = OFF
+
+PARAM END
+put into position 0
+put into position 1
+put into position 2
+put into position 3
+put into position 4
+put into position 5
+put into position 5
+put into position 7
+put into position 8
+put into position 9
+put into position 10
+put into position 11
+put into position 6
+put into position 4
+put into position 5
+put into position 15
+put into position 16
+put into position 9
+put into position 18
+put into position 19
+put into position 20
+put into position 21
+put into position 20
+put into position 21
+put into position 24
+put into position 12
+put into position 26
+put into position 27
+put into position 27
+put into position 29
+put into position 28
+put into position 31
+put into position 32
+put into position 33
+put into position 34
+put into position 23
+put into position 36
+put into position 30
+DONE

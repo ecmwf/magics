@@ -85,7 +85,10 @@ public:
 	/*!
 	\\brief 
 	*/
-
+	virtual bool getAutomaticX() const { return x_automatic_; }
+	virtual bool getAutomaticY() const { return y_automatic_; }
+	virtual void setMinMaxX(double, double);
+	virtual void setMinMaxY(double, double);
 	virtual PaperPoint operator()(const PaperPoint&) const;
 	/*!
 	\\brief 

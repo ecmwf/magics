@@ -92,6 +92,8 @@ bool NetcdfGeoMatrixInterpretor::interpretAsMatrix(Matrix** data)
 			for (vector<double>::iterator d = data.begin(); d != data.end(); ++d ) {
 				if ( !isnan(*d) ) {
 					matrix_->push_back(*d);
+                   if ( *d > 100 ) 
+                        cout << " STOP" << endl;
 				}
 				else 
 					matrix_->push_back(missing_value);

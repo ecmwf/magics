@@ -398,7 +398,7 @@ EOF
     		"AxisAutomaticSetting" => 1,
             "ArrowPosition" =>1, 
 	        "Justification" => 1,
-	        "Position" => 1,
+		"Position" => 1,
             "ListPolicy" => 1,
             "stringarray" =>1,
             "bool" =>1,
@@ -483,7 +483,7 @@ EOF
          }
          else {
          	    print "\t\tstring $member\_s = request.countValues(\"$name\") ?  (string) request(\"$name\") : \"$mv_default\";\n";
-         	    print "\t\tMagLog::dev() << \" $name set to \" << $member\_s << endl;\n";
+         	    print "\t\tMagLog::debug() << \" $name set to \" << $member\_s << endl;\n";
          	   	print "\t\t$wrapper_t* $member\_w = 0;\n";
                 print "#ifdef MAGICS_EXCEPTION\n";
                 print "\t\ttry\n";
