@@ -34,6 +34,31 @@ tempe_graph =  mgraph(
                 graph_line_thickness=4, 
 				)  
 
+tempe2 = minput(
+                input_x_values = [14., 29., 32.],
+				input_y_values = [1000., 800., 600.]
+                )
+
+dot_graph =  mgraph(
+				graph_line_colour="red",
+                graph_line_thickness=4, 
+                graph_line_style="dash", 
+				)  
+
+wind = minput(
+                input_x_values = [1000.5, 1000.5, 1000.5, 1000.5],
+				input_y_values = [1000., 800., 600., 300.],
+				input_x_component_values = [20., -20., 0., 0.],
+				input_y_component_values = [0., 0., 20., -20.]
+                )    
+dot =  msymb(
+			    symbol_type="marker",
+			    symbol_marker_index=15,
+			    symbol_colour="red",
+				graph_line_colour="red",
+                graph_line_thickness=4, 
+				)                 
+                
 t = minput(
                 input_x_values = [1000.5, 1000.5, 1000.5, 1000.5],
 				input_y_values = [900., 700., 500., 400.],
@@ -52,7 +77,9 @@ dot =  msymb(
                 graph_line_thickness=4, 
 				)                 
                 
-plot(output,  projection, tephi, tempe, tempe_graph, 
+plot(output,  projection, tephi, 
+    tempe, tempe_graph, 
+    tempe2, dot_graph, 
     t, dot,
     wind, mwind(),
     
