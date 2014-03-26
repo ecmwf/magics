@@ -13,7 +13,7 @@ metview="off"
 cairo="on"
 regression="off"
 spot="on"
-build_home="/scratch/graphics/cgs/build/${OS_VERSION}"
+build_home="/home/graphics/cgs/build/${OS_VERSION}"
 run="1"
 
 
@@ -50,7 +50,7 @@ case "${OS_VERSION}" in
         cmake="/usr/local/apps/cmake/current/bin/cmake"
         boost="/usr/local/apps/boost/1.50.0"
         proj4="/usr/local/apps/proj4/4.8.0/LP64"
-
+        magics="ecgb"
         python="/usr/local/apps/python/current"
         odb_lib="/usr/local/apps/odb_api/0.9.31"
         grib_lib="/usr/local/apps/grib_api/1.11.0"
@@ -153,10 +153,14 @@ else
     args="$args -DENABLE_SPOT=OFF"
     echo "GRIB not required"
 fi
+echo "start"
 
 mkdir -p ${build_home}
 cd ${build_home}
+rm -fR *
+
+
 $cmake ${git_home}/magics $args
 make -j ${run} install
-ctest 
+ctest
 ctest -R summary

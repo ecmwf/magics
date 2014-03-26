@@ -35,6 +35,7 @@ add_magics_test(NAME gallery_epswind SOURCES epswind.py IMAGE epswind.png RESOUR
 
 add_magics_test(NAME gallery_graph1 SOURCES graph1.py IMAGE graph1.png THRESHOLD 5 PYTHON)
 add_magics_test(NAME gallery_graph10 SOURCES graph10.py IMAGE graph10.png THRESHOLD 5 PYTHON)
+add_magics_test(NAME gallery_graph11 SOURCES graph11.py IMAGE graph11.png THRESHOLD 5 PYTHON)
 add_magics_test(NAME gallery_graph2 SOURCES graph2.py IMAGE graph2.png THRESHOLD 5 PYTHON)
 add_magics_test(NAME gallery_graph3 SOURCES graph3.py IMAGE graph3.png THRESHOLD 5 PYTHON)
 add_magics_test(NAME gallery_graph4 SOURCES graph4.py IMAGE graph4.png THRESHOLD 5 PYTHON)

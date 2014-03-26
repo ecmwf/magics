@@ -1,0 +1,140 @@
+{
+    "drivers": [
+        {
+            "format": "png", 
+            "fullname": "diagonal.png", 
+            "output_cairo_transparent_background": "off", 
+            "output_name_first_page_number": "off", 
+            "output_width": "800"
+        }
+    ], 
+    "height": "600", 
+    "method": "wrep", 
+    "page": {
+        "border": "off", 
+        "height": "100%", 
+        "map": {
+            "border": "on", 
+            "border-colour": "Rgb(0.5, 0.5, 0.5)", 
+            "cartesian": {
+                "x_regular": {
+                    "automatic": "on"
+                }, 
+                "y_regular": {
+                    "automatic": "on"
+                }
+            }, 
+            "height": "100%", 
+            "horizontal_axis": {
+                "axis_grid": "on", 
+                "axis_grid_colour": "grey", 
+                "axis_grid_line_style": "dot", 
+                "axis_grid_reference_level": "102000", 
+                "axis_grid_reference_line_style": "solid", 
+                "axis_grid_reference_thickness": "1", 
+                "axis_label_font": "sansserif", 
+                "axis_line": "on", 
+                "axis_line_colour": "black", 
+                "axis_tick_colour": "grey", 
+                "axis_tick_label_colour": "Rgb(0.5, 0.5, 0.5)", 
+                "axis_tick_label_height": "0.4", 
+                "axis_title_text": "Observation (ppb)", 
+                "id": "haxis"
+            }, 
+            "legend": {
+                "blanking": "off", 
+                "border": "on", 
+                "bottom": "10%", 
+                "display": "absolute", 
+                "height": "15%", 
+                "left": "80%", 
+                "legend_column_count": "1", 
+                "legend_entry_plot_direction": "column", 
+                "legend_entry_text_width": "75", 
+                "legend_text_colour": "navy", 
+                "legend_text_composition": "automatic_text_only", 
+                "legend_text_font_size": "0.5", 
+                "width": "10%"
+            }, 
+            "margin_bottom": "8%", 
+            "margin_left": "10%", 
+            "margin_top": "15%", 
+            "missing": "-999", 
+            "plot": [
+                {
+                    "graph": {
+                        "graph_line": "on", 
+                        "graph_line_colour": "grey", 
+                        "graph_line_style": "dash", 
+                        "graph_line_thickness": "3", 
+                        "legend": "off"
+                    }, 
+                    "wrepjson": {
+                        "wrepjson_family": "data", 
+                        "wrepjson_input_filename": "diagonal.data", 
+                        "wrepjson_keyword": "diagonal", 
+                        "wrepjson_missing_value": "-999", 
+                        "wrepjson_temperature_correction": "False"
+                    }
+                }, 
+                {
+                    "graph": {
+                        "graph_line": "off", 
+                        "graph_symbol": "on", 
+                        "graph_symbol_colour": "#4f81bd", 
+                        "graph_symbol_height": "0.4", 
+                        "graph_symbol_marker_index": "4", 
+                        "legend": "on", 
+                        "legend_user_text": "fnyp"
+                    }, 
+                    "wrepjson": {
+                        "wrepjson_family": "data", 
+                        "wrepjson_input_filename": "diagonal.data", 
+                        "wrepjson_keyword": "fnyp", 
+                        "wrepjson_missing_value": "-999", 
+                        "wrepjson_temperature_correction": "False"
+                    }
+                }
+            ], 
+            "template": "maccverif_mean-plot.json", 
+            "text": {
+                "bottom": "85%", 
+                "display": "absolute", 
+                "height": "5%", 
+                "left": "0%", 
+                "text_colour": "charcoal", 
+                "text_font_size": "0.5", 
+                "text_font_style": "bold", 
+                "text_justification": "left", 
+                "text_line_1": "MACC-II GAW verification scatter plot O3 2014-02-22~2014-03-24", 
+                "text_line_2": "Station: Hohenpeissenberg", 
+                "text_line_3": "Corrcoef: fnyp: 0.25", 
+                "text_line_count": "3", 
+                "width": "100%"
+            }, 
+            "vertical_axis": {
+                "axis_grid": "on", 
+                "axis_grid_colour": "grey", 
+                "axis_grid_line_style": "dot", 
+                "axis_grid_reference_level": "102000", 
+                "axis_grid_reference_line_style": "solid", 
+                "axis_grid_reference_thickness": "1", 
+                "axis_label_font": "sansserif", 
+                "axis_line": "on", 
+                "axis_line_colour": "black", 
+                "axis_tick_colour": "grey", 
+                "axis_tick_label_colour": "Rgb(0.5, 0.5, 0.5)", 
+                "axis_tick_label_height": "0.4", 
+                "axis_title_text": "Model (ppb)", 
+                "id": "vaxis"
+            }, 
+            "width": "100%"
+        }, 
+        "meta": {
+            "javascript_path": "diagonal.js"
+        }, 
+        "page_id": "off"
+    }, 
+    "version": "3.0", 
+    "width": "800"
+}
