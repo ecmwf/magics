@@ -319,3 +319,15 @@ set( magics_xmls ${magics_xmls} PARENT_SCOPE )
 set( metview_xmls ${metview_xmls} PARENT_SCOPE )
 
 
+add_metview_definition_file(FILE Contour.xml  BASENAME MCONT   ACTION MCONT)
+add_metview_definition_file(FILE SymbolPlotting.xml  BASENAME MSYMB ACTION   MSYMB)
+add_metview_definition_file(FILE Coastlines.xml      BASENAME MCOAST  ACTION MCOAST)
+add_metview_definition_file(FILE LegendVisitor.xml          BASENAME MLEGEND ACTION MLEGEND)
+add_metview_definition_file(FILE Wind.xml            BASENAME MWIND   ACTION MWIND)
+add_metview_definition_file(FILE GraphPlotting.xml   BASENAME MGRAPH  ACTION MGRAPH)
+add_metview_definition_file(FILE TextVisitor.xml     BASENAME MTEXT   ACTION MTEXT)
+add_metview_definition_file(FILE Axis.xml            BASENAME MAXIS   ACTION MAXIS)
+add_metview_definition_file(FILE BinningObject.xml   BASENAME BinningObject  ACTION MBINNING)
+add_metview_definition_file(FILE TephiGrid.xml   BASENAME MTHERMOGRID  ACTION MTHERMOGRID)
+add_metview_definition_file(FILE ObsPlotting.xml   BASENAME ObsPlotting  ACTION MOBS)
+
