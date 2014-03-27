@@ -6,7 +6,7 @@ from types import *
 import sys
 
 
-if(len(sys.argv) != 5) :
+if(len(sys.argv) != 6) :
     print "\n\tYou need to give 4 input parameters:"
     print "\n\t  %s source.xml targetDef CLASS_NAME rulesDef\n" % sys.argv[0]
     sys.exit()
@@ -524,7 +524,7 @@ class ObjectHandler(ContentHandler):
 			if doc_inherits != 'no' and self.inherits != '' and self.inherits != None:
 				self.classes[self.classname]["inherits_params_from"].add(self.inherits)
 				self.classes[self.classname]["inherits_reqs_from"].add(self.inherits)
-				fname = "../src/params/%s.xml" % self.inherits
+				fname = "%s/%s.xml" % (sys.argv[1], self.inherits)
 				if not (fname in self.filehistory):  # don't open the same file twice
 					try:
 						file = open(fname, "r")
@@ -603,9 +603,9 @@ class ObjectHandler(ContentHandler):
 					#	print "YClass " + attrs.get("name") + " inherits_reqs_from " + self.classname
 					if attrs.get("docdive") != 'no' and  attrs.get("doc_inherits") != 'no' :
 						if ( not(isinstance(attrs.get("xmlfile"), NoneType))):
-							fname = "../src/params/%s.xml" % attrs.get("xmlfile")
+							fname = "/%s.xml" % attrs.get("xmlfile")
 						else:
-							fname = "../src/params/%s.xml" % attrs.get("name")
+							fname = "%s/%s.xml" % (sys.argv[1], attrs.get("name"))
 						if not (fname in self.filehistory):  # don't open the same file twice
 							try:
 								file = open(fname, "r")
@@ -705,7 +705,7 @@ class ObjectHandler(ContentHandler):
 			if self.toplevel:
 				#print "SL (end class): " + self.last
 				#print('opt: ', self.optionalparams)
-				definition = open(sys.argv[2], "w")
+				definition = open(sys.argv[3], "w")
 				definition.write("PARAMSHARE ; ParamShare; PARAMSHARE\n");
 				definition.write("{\n\tCOLOUR {\n\t\t%include MagicsColors.h\n\t}\n")
 				definition.write("\tSTYLE {\n")
@@ -716,7 +716,7 @@ class ObjectHandler(ContentHandler):
 				definition.write("\t\tCHAIN_DASH; CHAIN_DASH\n")
 				definition.write("\t}\n")
 				definition.write("}\n\n")
-				definition.write("%s; Magics; Automatically generated\n{\n" % sys.argv[3])
+				definition.write("%s; Magics; Automatically generated\n{\n" % sys.argv[4])
 				for param in self.mydef:
 					#print('PARAM START')
 					#print(param[1])
@@ -754,7 +754,7 @@ class ObjectHandler(ContentHandler):
 
 				# two different ways to generate the rules
 				if False:
-					rules = open(sys.argv[4], "w")
+					rules = open(sys.argv[5], "w")
 					for optparam in self.optionalparams.keys():
 						rules.write("\n%if")
 						first = True
@@ -783,7 +783,7 @@ class ObjectHandler(ContentHandler):
 					#print "\n\n..............................\n"
 					#print self.optionalparams3
 
-					rules = open(sys.argv[4], "w")
+					rules = open(sys.argv[5], "w")
 					#for conditions in self.optionalparams2:
 					for clause in self.optionalparams3:
 						#print "CLAUSE"
@@ -830,6 +830,6 @@ object = ObjectHandler()
 saxparser = make_parser()
 saxparser.setContentHandler(object)
 
-datasource = open(sys.argv[1], "r")
+datasource = open(sys.argv[1] +"/" + sys.argv[2], "r")
 saxparser.parse(datasource)
 print "DONE"
