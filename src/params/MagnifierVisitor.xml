@@ -30,7 +30,7 @@
          		<release>Magics++2.8		</release>
 	</parameter>
 
-	<parameter member="text_font_name" to="string" default="sanserif" from="string" name="magnifier_text_font_name">
+	<parameter member="text_font_name" to="string" default="sanserif" from="string" name="magnifier_text_font">
          		<documentation for_docs="no"> Mv4: Colour of the symbol in the magnifier 		</documentation>
          		<release>Magics++2.8		</release>
 	</parameter>

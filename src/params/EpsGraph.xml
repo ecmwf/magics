@@ -29,7 +29,7 @@
         	</parameter>
         	<parameter xml="max" from="float" name="eps_maximum" default="INT_MAX" member="max" to="float">            
         	</parameter>
-        	<parameter xml="max_font_name" from="string" name="eps_maximum_font_name" default="sansserif" member="max_font_name" to="string">            
+        	<parameter  from="string" name="eps_maximum_font" default="sansserif" member="max_font_name" to="string">            
         	</parameter>
         	<parameter xml="max_font_style" from="string" name="eps_maximum_font_style" default="normal" member="max_font_style" to="string">            
         	</parameter>

@@ -84,6 +84,10 @@ class ObjectHandler(ContentHandler):
 			return "-1.0E21"
 		if (val.upper() == "INT_MAX"):
 			return "1.0E21"
+		if (val.upper() == "-LLONG_MAX"):
+			return "-1.0E21"
+		if (val.upper() == "LLONG_MAX"):
+			return "1.0E21"
 		if (val == "floatarray()"):
 			return "''"
 		if (val == "intarray()"):
@@ -250,8 +254,7 @@ class ObjectHandler(ContentHandler):
 		return s.upper()
 	def font(self, attrs):
 		s = "\t%s\n%s\t{\n" % (attrs.get("name").upper(), self.addhidden(attrs))
-		s = s + "\t\tserif;serif\n"
-		s = s + "\t\tsansserif;sansserif\n"
+		s = s + "\t\t&PARAMSHARE&FONT\n"
 		s = s + "\t} = %s\n" % self.default(attrs).upper()
 		return s.upper()
 
@@ -716,6 +719,17 @@ class ObjectHandler(ContentHandler):
 				definition.write("\t\tCHAIN_DASH; CHAIN_DASH\n")
 				definition.write("\t}\n")
 				definition.write("}\n\n")
+				definition.write("\tFONT {\n")
+				definition.write("\t\tARIAL; ARIAL\n")
+				definition.write("\t\tCOURIER; COURIER\n")
+				definition.write("\t\tHELVETICA; HELVETICA\n")
+				definition.write("\t\tTIMES; TIMES\n")
+				definition.write("\t\tSERIF; SERIF\n")
+				definition.write("\t\tSANSSERIF; SANSSERIF\n")
+				definition.write("\t\tSYMBOL; SYMBOL\n")
+				definition.write("\t}\n")
+				definition.write("}\n\n")
+
 				definition.write("%s; Magics; Automatically generated\n{\n" % sys.argv[4])
 				for param in self.mydef:
 					#print('PARAM START')

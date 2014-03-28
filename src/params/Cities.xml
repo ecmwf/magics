@@ -5,7 +5,7 @@
   		<documentation>Unit for city name sizes.		</documentation>
 	</parameter>
  
-	<parameter member="font_name" to="string" default="sansserif" from="string" name="map_cities_font_name">
+	<parameter member="font_name" to="string" default="sansserif" from="string" name="map_cities_font">
    		<documentation>Font used to display the city names.		</documentation>
 	</parameter>
  

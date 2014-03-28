@@ -150,7 +150,7 @@
         		<release>2.6		</release>
     	</parameter>
 
-    	<parameter member="text_font_name" to="string" default="sansserif" from="string" name="symbol_advanced_table_text_font_name">
+    	<parameter member="text_font_name" to="string" default="sansserif" from="string" name="symbol_advanced_table_text_font">
         		<documentation> Font to use for text plotting. 		</documentation>
     	</parameter>
 
