@@ -877,6 +877,11 @@ static SimpleTranslator graph_y_missing_value("graph_y_missing_value", "y_missin
 static SimpleTranslator symbol_marker("symbol_marker", "symbol_marker_index");
 
 
+// Clean font parametermap_cities_font_
+static SimpleTranslator map_cities_font_name("map_cities_font_name", "map_cities_font")
+static SimpleTranslator eps_maximum_font_name("eps_maximum_font_name", "eps_maximum_font")
+static SimpleTranslator magnifier_text_font_name("magnifier_text_font_name", "magnifier_text_font")
+static SimpleTranslator symbol_text_font_name("symbol_text_font_name", "symbol_text_font")
 extern "C" {
 
 /* **************************************************************************

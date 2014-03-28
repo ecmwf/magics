@@ -14,7 +14,7 @@
 
         		<set name="symbol_text_list" value="text">		</set>
         		<set name="symbol_text_position" value="text">		</set> 
-        		<set name="symbol_text_font_name" value="text">		</set>
+        		<set name="symbol_text_font" value="text">		</set>
         		<set name="symbol_text_font_size" value="text">		</set>
         		<set name="symbol_text_font_style" value="text">		</set>
         		<set name="symbol_text_font_colour" value="text">		</set>  
@@ -30,14 +30,14 @@
 
         		<set name="symbol_format" value="number">		</set>
         		<set name="symbol_text_position" value="number">		</set> 
-        		<set name="symbol_text_font_name" value="number">		</set>
+        		<set name="symbol_text_font" value="number">		</set>
         		<set name="symbol_text_font_size" value="number">		</set>
         		<set name="symbol_text_font_style" value="number">		</set>
         		<set name="symbol_text_font_colour" value="number">		</set>  
         		<set name="symbol_text_blanking" value="number">		</set>  
 
         		<set name="symbol_text_position" value="both">		</set> 
-        		<set name="symbol_text_font_name" value="both">		</set>
+        		<set name="symbol_text_font" value="both">		</set>
         		<set name="symbol_text_font_size" value="both">		</set>
         		<set name="symbol_text_font_style" value="both">		</set>
         		<set name="symbol_text_font_colour" value="both">		</set> 
@@ -68,7 +68,7 @@
         		<set name="symbol_marker_index" value="off">		</set>
         		<set name="symbol_marker_name" value="off">		</set>
         		<set name="symbol_text_position" value="off">		</set>
-        		<set name="symbol_text_font_name" value="off">		</set>
+        		<set name="symbol_text_font" value="off">		</set>
         		<set name="symbol_text_font_size" value="off">		</set>
         		<set name="symbol_text_font_style" value="off">		</set>
         		<set name="symbol_text_font_colour" value="off">		</set>
@@ -104,7 +104,7 @@
         		<set name="symbol_advanced_table_height_list_policy" value="advanced">		</set>
         		<set name="symbol_advanced_table_text_list" value="advanced">		</set>
         		<set name="symbol_advanced_table_text_list_policy" value="advanced">		</set>
-        		<set name="symbol_advanced_table_text_font_name" value="advanced">		</set>
+        		<set name="symbol_advanced_table_text_font" value="advanced">		</set>
         		<set name="symbol_advanced_table_text_font_size" value="advanced">		</set>
         		<set name="symbol_advanced_table_text_font_style" value="advanced">		</set>
         		<set name="symbol_advanced_table_text_font_colour" value="advanced">		</set>

@@ -58,7 +58,7 @@
         		<documentation> Position of the text 		</documentation>
     	</parameter>
 
-    	<parameter member="text_font_name" to="string" default="sansserif" from="string" name="symbol_text_font_name">
+    	<parameter member="text_font_name" to="string" default="sansserif" from="string" name="symbol_text_font">
         		<documentation> Font to use  		</documentation>
     	</parameter>
 
