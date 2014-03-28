@@ -22,7 +22,7 @@
       
   	<parameter member="method" to="ContourMethod" default="automatic" from="string" name="contour_method">
          		<documentation> Contouring method  		</documentation>
-         		<option xml="automatic" fortran="automatic" xmlfile="Akima" include="AutomaticContourMethod.h" name="AutomaticContourMethod">		</option>
+         		<option xml="automatic" fortran="automatic"  include="AutomaticContourMethod.h" name="AutomaticContourMethod">		</option>
          		<option xml="sample" fortran="sample" include="AutomaticContourMethod.h" name="SampleContourMethod">		</option>		
          		<option xml="linear" fortran="linear" include="ContourMethod.h" name="ContourMethod">		</option>
          		<option xml="akima760" fortran="akima760" include="Akima760Method.h" name="Akima760Method">		</option>

@@ -9,9 +9,9 @@
         		<migration> New Magics: Parameter contour_level_selection_type sent to new Magics[IsoPlot].  		</migration>
         		<release>2.6		</release>
 
-        		<option xml="count" fortran="count" docdive="no" include="CountSelectionType.h" name="CountSelectionType">		</option>
-        		<option xml="interval" fortran="interval" docdive="no" include="IntervalSelectionType.h" name="IntervalSelectionType">		</option>
-        		<option xml="list" fortran="list" docdive="no" include="LevelListSelectionType.h" name="LevelListSelectionType">		</option>
+        		<option xml="count" fortran="count"  include="CountSelectionType.h" name="CountSelectionType">		</option>
+        		<option xml="interval" fortran="interval"  include="IntervalSelectionType.h" name="IntervalSelectionType">		</option>
+        		<option xml="list" fortran="list"  include="LevelListSelectionType.h" name="LevelListSelectionType">		</option>
                
         		<set name="symbol_advanced_table_level_list" value="list">		</set>
         		<set name="symbol_advanced_table_interval" value="interval">		</set> 
@@ -58,8 +58,8 @@
 
     	<parameter member="colourMethod" to="ColourTechnique" default="calculate" from="string" name="symbol_advanced_table_colour_method">
         		<documentation> Method of generating the colours of the bands in polygon shading  		</documentation>
-        		<option xml="calculate" fortran="calculate" docdive="no" include="CalculateColourTechnique.h" name="CalculateColourTechnique">		</option>
-        		<option xml="list" fortran="list" docdive="no" include="ListColourTechnique.h" name="ListColourTechnique">		</option>
+        		<option xml="calculate" fortran="calculate"  include="CalculateColourTechnique.h" name="CalculateColourTechnique">		</option>
+        		<option xml="list" fortran="list" include="ListColourTechnique.h" name="ListColourTechnique">		</option>
         		<available>list		</available>
         		<release>2.6		</release>
         		<set name="symbol_advanced_table_colour_list" value="list">		</set>
@@ -106,8 +106,8 @@
   
     	<parameter member="height_method" to="HeightTechnique" default="list" from="string" name="symbol_advanced_table_height_method">
         		<documentation> Method of generating the height   		</documentation>
-        		<option xml="calculate" fortran="calculate" docdive="no" include="HeightTechnique.h" name="CalculateHeightTechnique">		</option>
-        		<option xml="list" fortran="list" docdive="no" include="HeightTechnique.h" name="ListHeightTechnique">		</option>
+        		<option xml="calculate" fortran="calculate"  include="HeightTechnique.h" name="CalculateHeightTechnique">		</option>
+        		<option xml="list" fortran="list"  include="HeightTechnique.h" name="ListHeightTechnique">		</option>
         		<set name="symbol_advanced_table_height_list" value="list">		</set>
         		<set name="symbol_advanced_table_height_list_policy" value="list">		</set>
         		<set name="symbol_advanced_table_height_max_value" value="calculate">		</set>
@@ -179,8 +179,8 @@
 
     	<parameter from="string" name="symbol_advanced_table_outlayer_method" default="none" member="outlayer" to="NoOutLayerTechnique" include="OutLayerTechnique.h">
         		<documentation> outlayer method 		</documentation> 
-        		<option xml="nooutlayer" fortran="none" docdive="no" include="OutLayerTechnique.h" name="NoOutLayerTechnique">		</option>
-        		<option xml="simple" name="SimpleOutLayerTechnique" fortran="simple" docdive="no" visible="no" include="OutLayerTechnique.h">		</option>                 
+        		<option xml="nooutlayer" fortran="none" include="OutLayerTechnique.h" name="NoOutLayerTechnique">		</option>
+        		<option xml="simple" name="SimpleOutLayerTechnique" fortran="simple"  visible="no" include="OutLayerTechnique.h">		</option>                 
         		<release>2.6		</release>
     	</parameter>    
 
