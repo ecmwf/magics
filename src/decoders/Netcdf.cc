@@ -250,7 +250,7 @@ int  NetDimension::value(const string& val)
 void NetDimension::first(const string& val)
 {
 
-	first_ = (method_ == "value") ? value(val) : index(val);
+	first_ = ( magCompare(method_, "value") ) ? value(val) : index(val);
 
 }
 
@@ -258,7 +258,7 @@ void NetDimension::first(const string& val)
 void NetDimension::last(const string& val)
 {
 
-	int last =  (method_ == "value") ? value(val) : index(val);
+	int last =  (magCompare(method_, "value")) ? value(val) : index(val);
 	if ( last < first_ )
 	{
 		MagLog::warning() << "last position (" + val + ") < first position: exchange " << "\n";
