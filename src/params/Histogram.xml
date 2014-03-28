@@ -7,9 +7,9 @@
     	<parameter member="levels" to="LevelSelection" default="count" from="string" name="histogram_selection_type">
          		<documentation>  (COUNT/ INTERVAL/ LEVEL_LIST) 		</documentation>
          		<release>Magics++2.6		</release>
-         		<option xml="count" fortran="count" docdive="no" include="CountSelectionType.h" name="CountSelectionType">		</option>
-         		<option xml="interval" fortran="interval" docdive="no" include="IntervalSelectionType.h" name="IntervalSelectionType">		</option>
-         		<option xml="list" fortran="list" docdive="no" include="LevelListSelectionType.h" name="LevelListSelectionType">		</option>
+         		<option xml="count" fortran="count"  include="CountSelectionType.h" name="CountSelectionType">		</option>
+         		<option xml="interval" fortran="interval"  include="IntervalSelectionType.h" name="IntervalSelectionType">		</option>
+         		<option xml="list" fortran="list"  include="LevelListSelectionType.h" name="LevelListSelectionType">		</option>
      	</parameter>     
 
   	<parameter member="min" to="float" default="-1.e21" from="float" name="histogram_min_value">

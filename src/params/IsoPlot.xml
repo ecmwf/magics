@@ -98,7 +98,7 @@
         		<documentation> count: calculate a reasonable  contour interval taking into account the min/max and the requested number of isolines. 
         interval: regularly spaced intervals using the reference_level as base.
         level_list: uses the given list of levels. 		</documentation>
-        		<option xml="count" fortran="count" xmlfile="LevelSelection" include="CountSelectionType.h" name="CountSelectionType">		</option>
+        		<option xml="count" fortran="count" include="CountSelectionType.h" name="CountSelectionType">		</option>
         		<option xml="interval" fortran="interval" include="IntervalSelectionType.h" name="IntervalSelectionType">		</option>
         		<option xml="list" fortran="level_list" include="LevelListSelectionType.h" name="LevelListSelectionType">		</option>
     	</parameter>

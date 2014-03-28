@@ -54,9 +54,9 @@
 
 
     	<parameter xml="table_mode" from="string" name="symbol_table_mode" default="OFF" member="mode" to="SymbolMode">
-        		<option xml="individual" fortran="off" docdive="no" include="SymbolMode.h" name="SymbolIndividualMode">		</option>
-        		<option xml="advanced" fortran="advanced" docdive="no" include="SymbolAdvancedTableMode.h" name="SymbolAdvancedTableMode">		</option>
-        		<option xml="table" fortran="on" docdive="no" include="SymbolMode.h" name="SymbolTableMode">		</option>
+        		<option xml="individual" fortran="off"  include="SymbolMode.h" name="SymbolIndividualMode">		</option>
+        		<option xml="advanced" fortran="advanced"  include="SymbolAdvancedTableMode.h" name="SymbolAdvancedTableMode">		</option>
+        		<option xml="table" fortran="on"  include="SymbolMode.h" name="SymbolTableMode">		</option>
         		<documentation> Specifies if plotting is to be in advanced, table (on) or individual mode (off).
             	        Note:  The simple table mode is not recommended anymore, try to use the advanced mode instead, 
             		    this  should give you easier control of the plot. 		</documentation>
