@@ -1,7 +1,7 @@
 #!/usr/bin/ksh
 
 git_home="/home/graphics/cgs/git"
-version="2.22.4"
+version="2.22.5"
 magics=""
 install_home="/usr/local/apps/Magics/$version"
 debug="off"
