@@ -129,6 +129,8 @@ void Curve::operator()(Data& data, BasicGraphicsObjectContainer& task)
     		break;
     }
     
+    if ( point == points.end() )
+    	return;
 
     PaperPoint last_current = transformation(UserPoint((**point)["x"], (**point)["y"]));
 
