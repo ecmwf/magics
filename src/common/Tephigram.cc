@@ -62,29 +62,21 @@ void Tephigram::init()
 {
 
 	if ( x_min_ == 0 && x_max_ == 100 ) {
-		x_min_ = -20;
-		x_max_ =40;
-	}
-
-	if ( y_min_ == 0 && y_max_ == 100 ) {
-			y_min_ = 1060.;
-			y_max_ = 200;
+			x_min_ = -90;
+			x_max_ = 50;
 		}
 
+		if ( y_min_ == 0 && y_max_ == 100 ) {
+				y_min_ = 1060.;
+				y_max_ = 200;
+			}
 
-
-	double tmin = x_min_;
-	double thmin= magics::theta(tmin+273.15, y_min_*100.)-273.15;
-
-	double thmax = magics::theta(tmin+273.15, y_max_*100.)-273.15;
-	double tmax = temperatureFromTheta(thmax+273.15,  y_max_*100. ) -273.15;
-
-	while (tmax < x_max_) { // we have to extend the y_max!
-		y_max_ += 100;
-		thmax = magics::theta(tmin+273.15, y_max_*100.)-273.15;
-		tmax = temperatureFromTheta(thmax+273.15,  y_max_*100. ) -273.15;
-	}
-
+		double tmin = (x_min_ + x_max_)/2.;
+		double pmin = std::max(y_min_, y_max_);
+		double pmax = std::min(y_min_, y_max_);
+		double thmin= magics::theta(tmin+273.15, pmin*100.)-273.15;
+		double thmax = magics::theta(tmin+273.15, pmax*100.)-273.15;
+		double tmax = temperatureFromTheta(thmax+273.15,  pmax*100. ) -273.15;
 	minPCX_ = ((tmin * cosinus) - (thmin * sinus) );
 	minPCY_ = (tmin * sinus) + (thmin * cosinus);
 	maxPCX_ = ((tmax * cosinus) - (thmax * sinus));
@@ -179,6 +171,7 @@ bool Tephigram::needShiftedCoastlines()  const
 }
 void Tephigram::setMinMaxX(double min, double max)
 {
+	if ( min > 1000 || max > 1000) return;
 	setMinX(min);
 	setMaxX(max);
 	init();
@@ -261,22 +254,26 @@ double Tephigram::getMaxY()  const
 
 void Tephigram::setMinX(double x)
 {
-	x_min_ = x;
+	if ( x < x_min_ )
+		x_min_ = x;
 }
 
 void Tephigram::setMinY(double y)
 {
-	y_min_ = y;
+	if ( y > y_min_ )
+		y_min_ = y;
 }
 
 void Tephigram::setMaxX(double x)
 {
-	x_max_ = x;
+	if ( x > x_max_ )
+		x_max_ = x;
 }
 
 void Tephigram::setMaxY(double y)
 {
-	y_max_ = y;
+	if ( y < y_max_ )
+		y_max_ = y;
 }
 
 double Tephigram::getMinPCX()  const
