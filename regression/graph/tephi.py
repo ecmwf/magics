@@ -7,7 +7,10 @@ output = output(output_formats=['ps'],
 
 projection = mmap(
     subpage_y_position=2.,
-    subpage_map_projection='tephigram'
+    subpage_map_projection='tephigram',
+    subpage_x_automatic="on",
+    subpage_y_automatic="on",
+
     )
 
 
@@ -35,7 +38,7 @@ tempe_graph =  mgraph(
 				)  
 
 tempe2 = minput(
-                input_x_values = [14., 29., 32.],
+                input_x_values = [14., 29., 44.],
 				input_y_values = [1000., 800., 600.]
                 )
 
@@ -86,13 +89,10 @@ dot =  msymb(
                 graph_line_thickness=4, 
 				)                 
                 
-plot(output,  projection, tephi, tempe, tempe_graph, 
-    t, dot,
-    wind_nc, mwind(),
 plot(output,  projection, tephi, 
     tempe, tempe_graph, 
     tempe2, dot_graph, 
     t, dot,
     wind, mwind(),
-    
 	)
+
