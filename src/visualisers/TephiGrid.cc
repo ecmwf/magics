@@ -90,7 +90,7 @@ void TephiGrid::visit(DrawingVisitor& out)
 	const Transformation& tephi = out.transformation();
 	vector<double> tempe;
 	double maxpcx = (tephi.getMaxPCX() + (tephi.getMinPCX()*.25))/1.25;
-
+	double minpcx = tephi.getMinPCX();
 	PaperPoint lr(maxpcx, tephi.getMinPCY());
 	UserPoint xy;
 	tephi.revert(lr, xy);
@@ -114,8 +114,8 @@ void TephiGrid::visit(DrawingVisitor& out)
 
 	double thmin = magics::theta(tmin+273.15, pmin*100.)-237.15;
 	thmin = -100;
-	double thmax = magics::theta(tmax+273.15, pmax*100.) -237.15;
-	thmax = +200;
+	double thmax = magics::theta(tmin+273.15, pmax*100.) -237.15;
+	thmax = +450;
 
 
 
@@ -149,13 +149,14 @@ void TephiGrid::visit(DrawingVisitor& out)
 			if ( label == labels.end() )
 				continue;
 			UserPoint point(*t, pressureFromTheta(theta, *t+273.15)/100.);
-			if ( tephi.in(point) ) {
+			PaperPoint xy = tephi(point);
+			if ( tephi.in(xy) ) {
 				Text* text = new Text();
 
 				text->addText("T=" + tostring(*t), font);
 				text->setAngle(-3.14/4);
 				text->setBlanking(true);
-				text->push_back(tephi(point));
+				text->push_back(xy);
 				out.push_back(text);
 			}
 
@@ -217,11 +218,21 @@ void TephiGrid::visit(DrawingVisitor& out)
 				if ( label == labels.end() )
 					continue;
 				if (xy.x() >= maxpcx ) {
-					map<double, PaperPoint>::iterator label = pressureLabels_.find(*p);
-					if ( label == pressureLabels_.end() ) {
+					map<double, PaperPoint>::iterator label = pressureRightLabels_.find(*p);
+					if ( label == pressureRightLabels_.end() ) {
 						xy.x(tephi.getMinPCX()*0.75);
-						pressureLabels_.insert(make_pair(*p, xy));
+						pressureRightLabels_.insert(make_pair(*p, xy));
 					}
+				}
+				if (xy.x() <= minpcx ) {
+					xy.x(tephi.getMaxPCX());
+					map<double, PaperPoint>::iterator label = pressureLeftLabels_.find(*p);
+					if ( label == pressureLeftLabels_.end() ) {
+						pressureLeftLabels_.insert(make_pair(*p, xy));
+					}
+					else
+						pressureLeftLabels_[*p] = xy;
+
 				}
 			}
 			tephi(poly, out.layout());
@@ -301,6 +312,7 @@ void TephiGrid::visit(DrawingVisitor& out)
 
 
 		for (std::set<double>::iterator  thetaw = sat.begin(); thetaw != sat.end(); ++thetaw ) {
+			if ( *thetaw > 65.) continue;
 			Polyline poly;
 			poly.setColour(*saturated_adiabatic_colour_);
 			poly.setLineStyle(saturated_adiabatic_style_);
@@ -308,7 +320,7 @@ void TephiGrid::visit(DrawingVisitor& out)
 			double s = thetaEq(*thetaw+273.15, *thetaw+273.15, 1000*100);
 
 			double pl = -1;
-			for ( double p = pmin; p < pmax; p += 1) {
+			for ( double p = 200; p < pmax; p += 1) {
 				double t = temperatureFromThetaEq(s, p*100)-273.15;
 				if (t >= -40 )
 					poly.push_back(tephi(UserPoint(t, p)));
@@ -345,8 +357,20 @@ void TephiGrid::print(ostream& out)  const
 }
 void TephiGrid::visit(LeftAxisVisitor& out)
 {
+	MagFont font(isobar_label_font_, isobar_label_style_, isobar_label_size_);
 
+		font.colour(*isobar_label_colour_);
 
+		for (map<double, PaperPoint>::iterator label = pressureLeftLabels_.begin(); label != pressureLeftLabels_.end(); ++label) {
+
+			Text *text= new Text();
+			text->setText(tostring(label->first));
+			text->setFont(font);
+			text->setBlanking(true);
+			text->setJustification(MRIGHT);
+			text->push_back(label->second);
+			out.push_back(text);
+		}
 }
 void TephiGrid::visit(RightAxisVisitor& out)
 {
@@ -354,7 +378,7 @@ void TephiGrid::visit(RightAxisVisitor& out)
 
 	font.colour(*isobar_label_colour_);
 
-	for (map<double, PaperPoint>::iterator label = pressureLabels_.begin(); label != pressureLabels_.end(); ++label) {
+	for (map<double, PaperPoint>::iterator label = pressureRightLabels_.begin(); label != pressureRightLabels_.end(); ++label) {
 
 		Text *text= new Text();
 		text->setText(tostring(label->first));

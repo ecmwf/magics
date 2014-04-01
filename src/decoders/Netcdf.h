@@ -241,6 +241,7 @@ struct NetVariable
     } 
     
     double getDefaultMissing();
+    double getMissing(const string&);
 
     template <class T>
     void get(vector<T>& vals, map<string, string> first, map<string, string> last)
@@ -289,6 +290,10 @@ public:
     	  if ( var == variables_.end() ) throw NoSuchNetcdfVariable(name);
     	  return var->second.getDefaultMissing();
     }
+
+    double getMissing(const string&, const string&);
+
+
 
     template <class T>
     void get(const string& name, vector<T>& vals, 

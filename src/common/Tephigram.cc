@@ -71,9 +71,13 @@ void Tephigram::init()
 				y_max_ = 200;
 			}
 
+		vector<double> x, y;
+
+
 		double tmin = (x_min_ + x_max_)/2.;
 		double pmin = std::max(y_min_, y_max_);
 		double pmax = std::min(y_min_, y_max_);
+
 		double thmin= magics::theta(tmin+273.15, pmin*100.)-273.15;
 		double thmax = magics::theta(tmin+273.15, pmax*100.)-273.15;
 		double tmax = temperatureFromTheta(thmax+273.15,  pmax*100. ) -273.15;
@@ -179,7 +183,13 @@ void Tephigram::setMinMaxX(double min, double max)
 
 void Tephigram::setMinMaxY(double min, double max)
 {
-	// Careful, Tephicgram are in pressure levels...
+	// Careful, Tephigram are in pressure levels...
+	if ( min < 50.) {
+		MagLog::warning() << " Top Pressure reset to 50." << endl;
+		min = 50.;
+	}
+
+
 	setMinY(max);
 	setMaxY(min);
 	init();

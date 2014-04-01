@@ -59,7 +59,8 @@ public:
 protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).
 	 virtual void print(ostream&) const; 
-	 map<double, PaperPoint> pressureLabels_;
+	 map<double, PaperPoint> pressureRightLabels_;
+	 map<double, PaperPoint> pressureLeftLabels_;
 	 map<double, PaperPoint> mixingLabels_;
 	 map<double, PaperPoint> isothermLabels_;
 	 map<double, PaperPoint> isothetaLabels_;
