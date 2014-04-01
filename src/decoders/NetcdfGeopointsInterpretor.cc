@@ -287,8 +287,8 @@ bool NetcdfXYpointsInterpretor::interpretAsPoints(PointsList& list, const Transf
 		setDim(netcdf, x_, xs, first, last);
 		setDim(netcdf, y_, ys, first, last);
 
-		double xmissing = netcdf.getDefaultMissing(x_);
-		double ymissing = netcdf.getDefaultMissing(y_);
+		double xmissing = netcdf.getMissing(x_, missing_attribute_);
+		double ymissing = netcdf.getMissing(y_, missing_attribute_);
 
 		vector<double>::iterator x = xs.begin();
 		vector<double>::iterator y = ys.begin();
@@ -341,9 +341,9 @@ bool NetcdfXYpointsInterpretor::interpretAsPoints(PointsList& list, const std::s
 		}
 		setDim(netcdf, x_, xs, first, last);
 		setDim(netcdf, y_, ys, first, last);
-		//double xmissing = netcdf.getDefaultMissing(x_);
-		double ymissing = netcdf.getDefaultMissing(y_);
-		ymissing = netcdf.getVariableAttribute(y_, missing_attribute_, ymissing);
+
+		double xmissing = netcdf.getMissing(x_, missing_attribute_);
+		double ymissing = netcdf.getMissing(y_, missing_attribute_);
 
 		 baseDateX_ = "";
 		 if ( !reference_date(netcdf, x_, refDateX_, baseDateX_, xs, datex) )
@@ -362,8 +362,8 @@ bool NetcdfXYpointsInterpretor::interpretAsPoints(PointsList& list, const std::s
 			 	value = *val;
 			 	val++;
 			}
-
-			list.push_back(new UserPoint(*x,*y,value, same(*y,ymissing) ));
+			if ( !same(*y,ymissing) || !same(*x,xmissing) )
+				list.push_back(new UserPoint(*x,*y,value));
 
 			x++;
 			y++;
@@ -428,7 +428,9 @@ void NetcdfXYpointsInterpretor::visit(Transformation& transformation)
 
 			}
 		}
-		transformation.setMinMaxY(points.minY(), points.maxY());
+		if ( transformation.getAutomaticY() ) {
+			transformation.setMinMaxY(points.minY(), points.maxY());
+		}
 	}
 	catch ( ... ) {}
 }

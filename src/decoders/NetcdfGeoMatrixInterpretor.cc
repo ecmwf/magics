@@ -55,9 +55,9 @@ bool NetcdfGeoMatrixInterpretor::interpretAsMatrix(Matrix** data)
    
 	Netcdf netcdf(path_, dimension_method_);
 
-	double missing_value = netcdf.getDefaultMissing(field_);
 
-	missing_value = netcdf.getVariableAttribute(field_, missing_attribute_, missing_value);
+
+	double missing_value = netcdf.getMissing(field_, missing_attribute_);
 
 
 	// get the data ...

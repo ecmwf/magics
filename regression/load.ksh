@@ -1,10 +1,10 @@
 #!/bin/ksh
 
 versions="current++ new++" 
-src=`ls graph11.py`
+src=`ls tephi_mv.py`
 ext="py"
 img_ext="png"
-where='gallery'
+where='graph'
 interpretor='python'
 
 dir=`pwd`
