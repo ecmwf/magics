@@ -42,7 +42,9 @@
 #include <QDesktopWidget>
 #include <QGraphicsItem>
 #include <QPainter>
+#ifdef Q_WS_X11
 #include <QX11Info>
+#endif
 
 #include "MgQPlotScene.h"
 
@@ -132,7 +134,11 @@ void QtDriver::open()
 	//We find out the screen dpy from Qt. It can be diffrenet to the value
 	//given by 'xdpyinfo' returned by scene->dpiResolution(). So we compute
 	//their ratio to correctly set font size for rendering!
-	int qtDpiResolution=QX11Info::appDpiY(0);
+#ifdef Q_WS_X11  // Do we work with a X11 display?
+	const int qtDpiResolution=QX11Info::appDpiY(0);
+#else     // for MacOS X
+	const int qtDpiResolution=72;
+#endif
 	if(qtDpiResolution < 50 || qtDpiResolution > 150)
 	{
 	  	dpiResolutionRatio_=1.;		
