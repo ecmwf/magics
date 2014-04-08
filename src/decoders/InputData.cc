@@ -45,16 +45,18 @@ void InputData::print(ostream& out)  const
 }
 
 
-void  InputData::dateSetting(vector<string>& dates, vector<double>& values, DateTime& base)
+void  InputData::dateSetting(vector<string>& dates, vector<double>& values, DateTime& base, bool update)
 {
 	if ( dates.empty() )
 		return;
-	base = DateTime(dates.front());
+	if ( update )
+		base = DateTime(dates.front());
 	for (vector<string>:: iterator date = dates.begin(); date != dates.end(); ++ date ) {
 		DateTime d(*date);
 		values.push_back(d-base);
 	}
 }
+
 
 
 void  InputData::numberSetting(vector<double>& from, vector<double>& values)
@@ -68,8 +70,8 @@ void  InputData::prepare()
     if ( !x_values_.empty() ) return;
 
     if ( magCompare(x_type_, "date" ) ) {
-    	dateSetting(date_x_, x_values_, baseDateX_);
-    	dateSetting(date_x2_, x2_values_, baseDateX_);
+    	dateSetting(date_x_, x_values_, baseDateX_, true);
+    	dateSetting(date_x2_, x2_values_, baseDateX_, false);
     }
     else {
     	numberSetting(x_,  x_values_);
@@ -77,8 +79,8 @@ void  InputData::prepare()
     	numberSetting(longitudes_,  x_values_);
     }
     if ( magCompare(y_type_, "date" ) ) {
-      	dateSetting(date_y_, y_values_, baseDateY_);
-      	dateSetting(date_y2_, y2_values_, baseDateY_);
+      	dateSetting(date_y_, y_values_, baseDateY_, true);
+      	dateSetting(date_y2_, y2_values_, baseDateY_, false);
      }
      else {
       	numberSetting(y_,  y_values_);
@@ -103,16 +105,7 @@ void  InputData::prepare()
     	++y;
 
     }
-    while ( x2 != x2_values_.rend() && y2 != y2_values_.rend() ) {
-        	double val = 0;
-        	if ( v != values_.end() ) {
-        		val = *v;
-        		++v;
-        	}
-        	push_back(new UserPoint(*x2, *y2, val));
-        	++x2;
-        	++y2;
-        }
+
 }
  
 void InputData::customisedPoints(const Transformation& transformation, const std::set<string>& needs, CustomisedPointsList& out, bool)
