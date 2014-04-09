@@ -332,6 +332,8 @@ public :
     
     
     MatrixHandler* getReady(const Transformation& transformation) {
+    	if ( !&matrix_ )
+    		return 0;
     	return matrix_.getReady(transformation);
 
     }

@@ -107,7 +107,10 @@ void Contour::operator()(Data& data, BasicGraphicsObjectContainer& parent)
     data.getReady(parent.transformation());
 
 	MatrixHandler* box =  data.matrix().getReady(parent.transformation());
-
+	if (!box  ){
+		MagLog::error() << "Invalid data for contouring" << endl;
+		return;
+	}
 	if ( !box->rows() ||  !box->columns() ) {
 		(*this->contour_)(data, parent);
 		(*this->grid_)(data, parent);
