@@ -1,11 +1,11 @@
 #!/bin/ksh
 
 versions="current++ new++" 
-src=`ls 10days-zero.json`
-ext="json"
+src=`ls osb_wind.py wind_legend.py`
+ext="py"
 img_ext="png"
-where='web'
-interpretor='magjson'
+where='wind'
+interpretor='python'
 
 dir=`pwd`
 name=`basename $dir`
