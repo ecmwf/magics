@@ -4,10 +4,10 @@ add_magics_test(NAME graph_graf01 SOURCES graf01.F IMAGE graf01.ps     THRESHOLD
 add_magics_test(NAME graph_graf02 SOURCES graf02.F IMAGE graf02.ps    THRESHOLD 2)
 add_magics_test(NAME graph_graf03 SOURCES graf03.F IMAGE graf03.ps     THRESHOLD 2)
 add_magics_test(NAME graph_graf04 SOURCES graf04.F IMAGE graf04.ps     THRESHOLD 2)
-add_magics_test(NAME graph_tephi SOURCES tephi.py RESSOURCES thermoBufr.nc IMAGE tephi.ps  THRESHOLD 2 PYTHON)
-add_magics_test(NAME graph_tephi_mv SOURCES tephi_mv.py RESSOURCES obs.nc IMAGE tephi_mv.png  THRESHOLD 2 PYTHON)
+add_magics_test(NAME graph_tephi SOURCES tephi.py RESOURCES thermoBufr.nc IMAGE tephi.ps  THRESHOLD 2 PYTHON)
+add_magics_test(NAME graph_tephi_mv SOURCES tephi_mv.py RESOURCES obs.nc IMAGE tephi_mv.png  THRESHOLD 2 PYTHON)
 add_magics_test(NAME graph_lines SOURCES graph_lines.F IMAGE graph_lines.ps  THRESHOLD 2)
-add_magics_test(NAME graph_venice_01 SOURCES graph_venice_01.f IMAGE graph_venice_01.ps 
-            DATA TOWER.ope_2010 WAS_RES.2010 THRESHOLD 2)
-add_magics_test(NAME graph_venice_02 SOURCES graph_venice_02.F IMAGE graph_venice_02.ps  
-            DATA ANCON.ope_2010 MONOP.ope_2010 PESCA.ope_2010 POMAE.ope_2010 graph_venice_02_stdin.txt THRESHOLD 2)
+#add_magics_test(NAME graph_venice_01 SOURCES graph_venice_01.f IMAGE graph_venice_01.ps 
+#            DATA TOWER.ope_2010 WAS_RES.2010 THRESHOLD 2)
+#add_magics_test(NAME graph_venice_02 SOURCES graph_venice_02.F IMAGE graph_venice_02.ps  
+#            DATA ANCON.ope_2010 MONOP.ope_2010 PESCA.ope_2010 POMAE.ope_2010 graph_venice_02_stdin.txt THRESHOLD 2)
