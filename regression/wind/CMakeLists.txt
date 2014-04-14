@@ -9,3 +9,5 @@ add_magics_test(NAME wind_test SOURCES wind_test.F IMAGE wind_test.ps DATA   win
 add_magics_test(NAME wind_vector_array SOURCES wind_vector_array.F IMAGE wind_vector_array.ps  THRESHOLD 5)
 add_magics_test(NAME wind_venice SOURCES wind_venice.F IMAGE wind_venice.ps DATA    venice_wind_speed.grib venice_wind.grib   THRESHOLD 5)
 add_magics_test(NAME wind_geowind SOURCES geowind.py IMAGE geowind.png RESOURCES testwind.geo THRESHOLD 5 PYTHON)
+add_magics_test(NAME wind_odb_wind SOURCES odb_wind.py IMAGE odb_wind.png RESOURCES ascat.odb THRESHOLD 5 PYTHON)
+add_magics_test(NAME wind_wind_legend SOURCES wind_legend.py IMAGE wind_legend.png RESOURCES ascat.odb THRESHOLD 5 PYTHON)
