@@ -1,10 +1,10 @@
 #!/bin/ksh
 
 versions="current++ new++" 
-src=`ls osb_wind.py wind_legend.py`
+src=`ls symbol_ww.py`
 ext="py"
-img_ext="png"
-where='wind'
+img_ext="ps"
+where='symbol'
 interpretor='python'
 
 dir=`pwd`

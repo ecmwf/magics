@@ -10,7 +10,7 @@ foreach( z ${zs} )
     add_magics_test(NAME contour_${z} SOURCES ${z}.F IMAGE ${z}.ps   THRESHOLD 2)
 endforeach()
 
-#add_magics_test(NAME contour_cont08 SOURCES cont08.F IMAGE cont08.ps  DATA z500.grb THRESHOLD 2)
+add_magics_test(NAME contour_cont08 SOURCES cont08.F IMAGE cont08.ps  DATA z500.grb THRESHOLD 2)
 add_magics_test(NAME contour_alternate SOURCES cont_alternate.F IMAGE cont_alternate.ps  DATA t300.grb THRESHOLD 2)
 add_magics_test(NAME contour_auto_t1279 SOURCES cont_auto_t1279.F IMAGE cont_auto_t1279.ps  DATA t1279_gg640_lev85.grib THRESHOLD 2)
 add_magics_test(NAME contour_auto_t799 SOURCES cont_auto_t799.F IMAGE cont_auto_t799.ps  DATA t799_ll.grib THRESHOLD 2)
