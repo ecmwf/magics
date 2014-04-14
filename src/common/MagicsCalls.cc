@@ -1554,7 +1554,7 @@ public:
 				if (magCompare(val, "position_list") ){
 					MagLog::warning() << "position_list is now using the user coordinates system and not cm" << endl;
 					MagLog::warning() << "please check your coordinates system" << endl;
-					ParameterManager::set(vertical_, "regular");
+
 				}
 				else
 					ParameterManager::set(horizontal_, val);
@@ -1564,7 +1564,7 @@ public:
 				if (magCompare(val, "position_list") ){
 					MagLog::warning() << "position_list is now using the user coordinates system and not cm" << endl;
 					MagLog::warning() << "please check your coordinates system" << endl;
-					ParameterManager::set(vertical_, "regular");
+
 				}
 				else
 					ParameterManager::set(vertical_, val);
