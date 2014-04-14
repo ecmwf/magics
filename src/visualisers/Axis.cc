@@ -356,11 +356,14 @@ void VerticalAxis::label(VerticalAxisVisitor& axis)
 	{
 		if ( (*y)->isLabel() == false)
 			continue;
+
+		string label = createLabel(**y);
+
 		if ( !transformation.inY((*y)->position()) ) continue;
 
 		if ( (*y)->isFirst()   && !label_first_ ) continue;
 		if ( (*y)->isLast() && !label_last_ ) continue;
-		string label = createLabel(**y);
+
 
 		if ( label.empty() ) continue;
 		count++;
