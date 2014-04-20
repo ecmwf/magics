@@ -66,7 +66,8 @@ public:
 		     magCompare(node.name(), "cairo_ps") ||
 		     magCompare(node.name(), "cairo_svg") ||
 		     magCompare(node.name(), "x") ||
-		     magCompare(node.name(), "cairo_eps") )
+		     magCompare(node.name(), "cairo_eps") ||
+		     magCompare(node.name(), "geotiff") )
 		{
 			XmlNode basic = node;
 			basic.name("driver");
@@ -85,12 +86,13 @@ public:
 		CairoDriverAttributes::set(map);
 	}
 
-	void setPNG() const {backend_ = "PNG";}
-	void setPDF() const {backend_ = "PDF";}
-	void setPS () const {backend_ = "PS";}
-	void setEPS() const {backend_ = "EPS";}
-	void setSVG() const {backend_ = "SVG";}
-	void setX()   const {backend_ = "X";}
+	void setPNG() const {backend_ = "png";}
+	void setPDF() const {backend_ = "pdf";}
+	void setPS () const {backend_ = "ps";}
+	void setEPS() const {backend_ = "eps";}
+	void setSVG() const {backend_ = "svg";}
+	void setX()   const {backend_ = "x";}
+	void setGEOTIFF() const {backend_ = "geotiff";}
 	void setCairo() const {backend_ = "cairo";}
 
 private:
@@ -134,7 +136,9 @@ private:
 	MAGICS_NO_EXPORT MFloat setSymbolY(const MFloat y) const {return -y;}
 	MAGICS_NO_EXPORT MFloat setFlagY(const MFloat y) const {return -y;}
 	MAGICS_NO_EXPORT MFloat setY(const MFloat y) const {return y;}
-
+#ifdef MAGICS_GEOTIFF
+	MAGICS_NO_EXPORT void write_tiff() const;
+#endif
 	mutable MFloat offsetX_;
 	mutable MFloat offsetY_;
 	mutable stack<MFloat> offsetsX_;

@@ -45,7 +45,9 @@ option( ENABLE_NETCDF         "enable netcdf support"             ON  )
 option( ENABLE_ODB            "enable odb"                        OFF )
 option( ENABLE_BUFR           "enable bufr support"               OFF )
 option( ENABLE_SPOT           "enable spot support"               OFF )
-option( ENABLE_CAIRO          "enable cairo support[png/jpeg]"   OFF )
+option( ENABLE_CAIRO          "enable cairo support[png/jpeg]"    OFF )
+option( ENABLE_TIFF           "enable tiff support[implies tiff]" OFF )
+option( ENABLE_GEOTIFF        "enable geotiff support [implies cairo and tiff]" OFF )
 
 option( ENABLE_PYTHON         "enable python interface"   ON  )
 option( ENABLE_FORTRAN        "enable fortran interface"  ON  )
@@ -53,9 +55,9 @@ option( ENABLE_FORTRAN        "enable fortran interface"  ON  )
 option( ENABLE_METVIEW        "enable Metview interface"  OFF  )
 option( ENABLE_METVIEW_NO_QT  "enable Metview interface without Qt"    OFF )
 
-option( ENABLE_STATIC_LIBRARY  "Internal Build static Library"    OFF  )
-option( ENABLE_REGRESSION     "Internal use only: enable regression test"  OFF  )
-option( ENABLE_REGRESSION_UPLOAD     "Internal use only : enable upload of reference image"  OFF  )
+option( ENABLE_STATIC_LIBRARY    "Internal Build static Library"    OFF  )
+option( ENABLE_REGRESSION        "Internal use only: enable regression test"  OFF  )
+option( ENABLE_REGRESSION_UPLOAD "Internal use only : enable upload of reference image"  OFF  )
 
 set( MAGICS_NAME          "Magics" )
 set( MAGICS_EXCEPTION     "ON" )
@@ -162,8 +164,17 @@ if( ENABLE_CAIRO )
 endif()
     
 if( PANGOCAIRO_FOUND )
-   	set( MAGICS_CAIRO 1 )
+	set( MAGICS_CAIRO 1 )
 	set( cairo yes )
+	if( ENABLE_GEOTIFF )
+	   find_package( GeoTIFF REQUIRED )
+	   if( GEOTIFF_FOUND )
+	      set( MAGICS_TIFF 1 )
+	      set( MAGICS_GEOTIFF 1 )
+	   else()
+	     message(ERROR "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
+	   endif()
+	endif()
 endif()
 
 
@@ -256,10 +267,6 @@ foreach( _tpl ${MAGICS_TPLS} )
     list( APPEND MAGICS_EXTRA_LIBRARIES     ${${TPL}_LIBRARIES} )
 endforeach()
 
-# message(STATUS "MAGICS_EXTRA_DEFINITIONS  => ${MAGICS_EXTRA_DEFINITIONS}")
-# message(STATUS "MAGICS_EXTRA_INCLUDE_DIRS => ${MAGICS_EXTRA_INCLUDE_DIRS}")
-# message(STATUS "MAGICS_EXTRA_LIBRARIES    => ${MAGICS_EXTRA_LIBRARIES}")
-
 if( MAGICS_BUFR )
 	list( APPEND MAGICS_EXTRA_DEFINITIONS   fortfloat=double fortint=int )
 endif()
@@ -272,7 +279,19 @@ if( MAGICS_QT )
 	list( APPEND MAGICS_EXTRA_LIBRARIES     ${QT_LIBRARIES} )
 endif()
 
+if( MAGICS_GEOTIFF )
+	list( APPEND MAGICS_EXTRA_INCLUDE_DIRS  ${GEOTIFF_INCLUDE_DIR} )
+	list( APPEND MAGICS_EXTRA_LIBRARIES  ${GEOTIFF_LIBRARY} )
+	list( APPEND MAGICS_EXTRA_DEFINITIONS MAGICS_GEOTIFF )
+endif()
+
 list( APPEND MAGICS_EXTRA_LIBRARIES     ${CMAKE_THREAD_LIBS_INIT} )
+
+message(STATUS "MAGICS_EXTRA_DEFINITIONS  => ${MAGICS_EXTRA_DEFINITIONS}")
+message(STATUS "MAGICS_EXTRA_INCLUDE_DIRS => ${MAGICS_EXTRA_INCLUDE_DIRS}")
+message(STATUS "MAGICS_EXTRA_LIBRARIES    => ${MAGICS_EXTRA_LIBRARIES}")
+
+
 
 # set_directory_properties( PROPERTIES COMPILE_DEFINITIONS "${ECKIT_DEFINITIONS}" )
 get_directory_property( MAGICS_DEFINITIONS COMPILE_DEFINITIONS )
