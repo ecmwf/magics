@@ -443,41 +443,35 @@ MAGICS_NO_EXPORT void CairoDriver::endPage() const
 		cairo_surface_write_to_png(surface_, filename_.c_str());
 		if(!filename_.empty()) printOutputName("CAIRO png "+filename_);
 	}
-	else if (magCompare(backend_,"tiff") )
-	{
-#ifdef MAGICS_TIFF
-		filename_ = getFileName("tiff" ,currentPage_);
-		write_tiff();
-#else
-		MagLog::error() << "CairoDriver: TIFF format not supported!"<< std::endl;
-#endif
-	}
 	else if (magCompare(backend_,"geotiff") )
 	{
 #ifdef MAGICS_GEOTIFF
-		filename_ = getFileName("tiff" ,currentPage_);
+		filename_ = getFileName("tif" ,currentPage_);
 		write_tiff();
 #else
-		MagLog::error() << "CairoDriver: GEOTIFF not supported!"<< std::endl;
+		MagLog::error() << "CairoDriver: GEOTIFF not enabled!"<< std::endl;
 #endif
 	}
 }
 
-#ifdef MAGICS_TIFF
+#ifdef MAGICS_GEOTIFF
 
-#include "geotiffio.h"
+#include <geotiffio.h>
 #include <tiffio.h>
 /*!
-  \brief write raster into Tiff or GeoTiff
+  \brief write raster into (Geo)Tiff
 
   Only the raw raster (normally written to a PNG) is here written into a (Geo)Tiff.
+
+  \sa http://trac.osgeo.org/geotiff/
+  \sa http://www.remotesensing.org/geotiff/spec/geotiffhome.html
+  \sa http://www.remotesensing.org/geotiff/spec/geotiff6.html
 
 */
 MAGICS_NO_EXPORT void CairoDriver::write_tiff() const
 {
     int compression = 1;
-    int res = 50;
- MagLog::warning() << "Cabbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"<<filename_.c_str()<< std::endl; 
+
     unsigned char *data = cairo_image_surface_get_data(surface_);
     int           width = cairo_image_surface_get_width(surface_);
     int          height = cairo_image_surface_get_height(surface_);
@@ -496,39 +490,36 @@ MAGICS_NO_EXPORT void CairoDriver::write_tiff() const
         return;
     }
 
-    TIFFSetField(tif, TIFFTAG_IMAGEWIDTH, width);
-    TIFFSetField(tif, TIFFTAG_IMAGELENGTH, height);
+    TIFFSetField(tif, TIFFTAG_IMAGEWIDTH,      width);
+    TIFFSetField(tif, TIFFTAG_IMAGELENGTH,     height);
     TIFFSetField(tif, TIFFTAG_SAMPLESPERPIXEL, 4);
-    TIFFSetField(tif, TIFFTAG_BITSPERSAMPLE, 8);
-    TIFFSetField(tif, TIFFTAG_ORIENTATION, ORIENTATION_TOPLEFT);
-    TIFFSetField(tif, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
-    TIFFSetField(tif, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_RGB);
+    TIFFSetField(tif, TIFFTAG_BITSPERSAMPLE,   8);
+    TIFFSetField(tif, TIFFTAG_ORIENTATION,     ORIENTATION_TOPLEFT);
+    TIFFSetField(tif, TIFFTAG_PLANARCONFIG,    PLANARCONFIG_CONTIG);
+    TIFFSetField(tif, TIFFTAG_PHOTOMETRIC,     PHOTOMETRIC_RGB);
+    TIFFSetField(tif, TIFFTAG_SOFTWARE,        "Magics");
 
-	GTIFKeySet(gtif, GTModelTypeGeoKey, TYPE_SHORT, 1, ModelGeographic);
-	GTIFKeySet(gtif, GTRasterTypeGeoKey, TYPE_SHORT, 1, RasterPixelIsArea);
-	GTIFKeySet(gtif, GTCitationGeoKey, TYPE_ASCII, 0, "MagicsPlot");
-	GTIFKeySet(gtif, GeographicTypeGeoKey, TYPE_SHORT,  1, KvUserDefined);
-	GTIFKeySet(gtif, GeogCitationGeoKey, TYPE_ASCII, 0, "Everest Ellipsoid Used.");
-	GTIFKeySet(gtif, GeogAngularUnitsGeoKey, TYPE_SHORT,  1, Angular_Degree);
-	GTIFKeySet(gtif, GeogLinearUnitsGeoKey, TYPE_SHORT,  1, Linear_Meter);
-	GTIFKeySet(gtif, GeogGeodeticDatumGeoKey, TYPE_SHORT,     1, KvUserDefined);
-	GTIFKeySet(gtif, GeogEllipsoidGeoKey, TYPE_SHORT,     1, Ellipse_Everest_1830_1967_Definition);
-	GTIFKeySet(gtif, GeogSemiMajorAxisGeoKey, TYPE_DOUBLE, 1, (double)6377298.556);
-	GTIFKeySet(gtif, GeogInvFlatteningGeoKey, TYPE_DOUBLE, 1, (double)300.8017);
-    
+    GTIFKeySet(gtif, GTModelTypeGeoKey,       TYPE_SHORT,  1, ModelGeographic);
+    GTIFKeySet(gtif, GTRasterTypeGeoKey,      TYPE_SHORT,  1, RasterPixelIsArea);
+    GTIFKeySet(gtif, GTCitationGeoKey,        TYPE_ASCII,  0, "MagicsPlot");
+    GTIFKeySet(gtif, GeographicTypeGeoKey,    TYPE_SHORT,  1, KvUserDefined);
+    GTIFKeySet(gtif, GeogCitationGeoKey,      TYPE_ASCII,  0, "Everest Ellipsoid Used.");
+    GTIFKeySet(gtif, GeogAngularUnitsGeoKey,  TYPE_SHORT,  1, Angular_Degree);
+    GTIFKeySet(gtif, GeogLinearUnitsGeoKey,   TYPE_SHORT,  1, Linear_Meter);
+    GTIFKeySet(gtif, GeogGeodeticDatumGeoKey, TYPE_SHORT,  1, KvUserDefined);
+    GTIFKeySet(gtif, GeogEllipsoidGeoKey,     TYPE_SHORT,  1, Ellipse_WGS_84);
+    GTIFKeySet(gtif, GeogSemiMajorAxisGeoKey, TYPE_DOUBLE, 1, (double)6377298.556);
+    GTIFKeySet(gtif, GeogInvFlatteningGeoKey, TYPE_DOUBLE, 1, (double)300.8017);
+
     if(compression > 1) {
-        if (compression > 10) {
-            TIFFSetField(tif, TIFFTAG_COMPRESSION, compression - 10);
-            TIFFSetField(tif, TIFFTAG_PREDICTOR, 2);
-        } else
-            TIFFSetField(tif, TIFFTAG_COMPRESSION, compression);
+        if (compression > 10) compression = 10;
+        TIFFSetField(tif, TIFFTAG_COMPRESSION, compression);
     }
 
-    if (res > 0) {
-        TIFFSetField(tif, TIFFTAG_RESOLUTIONUNIT, RESUNIT_INCH);
-        TIFFSetField(tif, TIFFTAG_XRESOLUTION, (float) res);
-        TIFFSetField(tif, TIFFTAG_YRESOLUTION, (float) res);
-    }
+    // DPI
+    TIFFSetField(tif, TIFFTAG_RESOLUTIONUNIT, RESUNIT_INCH);
+    TIFFSetField(tif, TIFFTAG_XRESOLUTION, (float) resolution_);
+    TIFFSetField(tif, TIFFTAG_YRESOLUTION, (float) resolution_);
 
     unsigned char *buf;
     if (TIFFScanlineSize(tif))
@@ -551,7 +542,7 @@ MAGICS_NO_EXPORT void CairoDriver::write_tiff() const
     _TIFFfree(buf);
     return;
 }
-#endif  // MAGICS_TIFF
+#endif  // MAGICS_GEOTIFF
 
 /*!
   \brief project to a new Layout

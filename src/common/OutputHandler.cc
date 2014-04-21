@@ -113,12 +113,9 @@ static SimpleObjectMaker<CAIRO_CairoOutputFactory,  OutputFactory> cairo("cairo"
 static SimpleObjectMaker<CAIRO_SvgOutputFactory,    OutputFactory> csvg("cairo_svg");
 static SimpleObjectMaker<CAIRO_PsOutputFactory,     OutputFactory> cps("cairo_ps");
 static SimpleObjectMaker<CAIRO_EpsOutputFactory,    OutputFactory> ceps("cairo_eps");
-//#ifdef MAGICS_TIFF
-//static SimpleObjectMaker<CAIRO_TiffOutputFactory,   OutputFactory> tiff("tiff");
 #ifdef MAGICS_GEOTIFF
 static SimpleObjectMaker<CAIRO_GeoTiffOutputFactory,OutputFactory> geotiff("geotiff");
 #endif
-//#endif
 #endif
 
 static SimpleObjectMaker<KML_KmlOutputFactory, OutputFactory> kml("kml");
