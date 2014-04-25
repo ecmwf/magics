@@ -140,6 +140,8 @@ double IntervalSelectionType::reference(int freq) const
             values.push_back(val);
             val -= ( freq * interval_);
         }
+        // revert 
+        std::reverse(values.begin(), values.end());
     }
             
     set_intersection(begin(), end(), values.begin(), values.end(), values.begin());
