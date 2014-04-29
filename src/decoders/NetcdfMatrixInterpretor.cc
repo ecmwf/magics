@@ -63,7 +63,7 @@ bool NetcdfMatrixInterpretor::interpretAsMatrix(Matrix** matrix)
 	matrix_->missing(std::numeric_limits<double>::max());
 
 	Netcdf netcdf(path_, dimension_method_);
-	double missing =  netcdf.getVariableAttribute(field_, missing_attribute_,netcdf.getDefaultMissing(field_));
+	double missing =  netcdf.getMissing(field_, missing_attribute_);
 	matrix_->missing(missing);
 
 	string title = netcdf.getAttribute("title", "NO TITLE");

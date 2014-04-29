@@ -84,7 +84,7 @@ void IntervalSelectionType::calculate(double min, double max, bool shading)
     double level = reference_;
     double newref;
 
-    int i = 0;
+    int i = 1;
     while ( level < lmax && !same(level, lmax) ) {
     	if ( level > lmin )
     		levels.insert(level);
@@ -92,7 +92,7 @@ void IntervalSelectionType::calculate(double min, double max, bool shading)
         i++;
     }
     level = reference_;
-    
+    i=1;
     while ( level > lmin &&   !same(level, lmin) ) {
         if ( level < lmax )
         	levels.insert(level);
@@ -140,6 +140,8 @@ double IntervalSelectionType::reference(int freq) const
             values.push_back(val);
             val -= ( freq * interval_);
         }
+        // revert 
+        std::reverse(values.begin(), values.end());
     }
             
     set_intersection(begin(), end(), values.begin(), values.end(), values.begin());

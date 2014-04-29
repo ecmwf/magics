@@ -160,9 +160,13 @@ Colour& WindPlotting::advanced(Colour& colour, double u, double v, double col)
 void WindPlotting::visit(LegendVisitor& legend)
 {
 	if ( !legend_ )
-			return;
-	if (magCompare(advanced_method_, "advanced") ||  magCompare(advanced_method_, "on") ) {
+		return;
 
+	if (magCompare(advanced_method_, "advanced") ||  magCompare(advanced_method_, "on") ) {
+		if   ( map_.empty() ) {
+			// no legend to plot
+			return;
+		}
 		IntervalMap<Colour>::const_iterator interval;
 		IntervalMap<Colour>::const_iterator last =  map_.end();
 		--last;

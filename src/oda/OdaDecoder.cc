@@ -291,10 +291,13 @@ void OdaGeoDecoder:: visit(TextVisitor& title)
 	{
 		ostringstream text;
 		if ( !info("stats::min").empty() && !info("stats::max").empty() ) {
-			text  << "Min: " << info("stats::min") << " Max: " << info("stats::max") << " (" <<  size() << " points)";
+			text  << "Min: " << info("stats::min") << " Max: " << info("stats::max") << " (" << info("stats::points") << " points)";
 		}
-		else
-			text << size() << " points";
+		else {
+			string pts = info("stats::points").empty() ? "0" : info("stats::points");
+			text << pts << " points";
+		}
+
 		title.addAutomaticTitle(text.str());
 	}
 	else if (info("stats::points").empty())
