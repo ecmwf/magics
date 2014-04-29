@@ -297,7 +297,9 @@ class Action(object):
 
 
 	def execute(self):
-		self.args = self.clean_object(self.args)
+
+		if ( self.action != Magics.odb) :
+		    self.args = self.clean_object(self.args)
 		for key in self.args.keys():
 			if isinstance(self.args[key], str):
 				if key == 'odb_data':
