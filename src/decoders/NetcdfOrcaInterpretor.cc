@@ -68,7 +68,7 @@ bool NetcdfOrcaInterpretor::interpretAsMatrix(Matrix** data)
 		*data = matrix;
 
 
-		double missing =  netcdf.getVariableAttribute(field_, missing_attribute_,netcdf.getDefaultMissing(field_));
+		double missing =  netcdf.getMissing(field_, missing_attribute_);
 		typedef boost::geometry::model::d2::point_xy<double> point_type;
 		typedef boost::geometry::model::polygon<point_type> polygon_type;
 

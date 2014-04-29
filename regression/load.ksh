@@ -1,11 +1,11 @@
 #!/bin/ksh
 
 versions="current++ new++" 
-src=`ls graph11.py`
-ext="py"
+src=`ls 10days-zero.json`
+ext="json"
 img_ext="png"
-where='gallery'
-interpretor='python'
+where='web'
+interpretor='magjson'
 
 dir=`pwd`
 name=`basename $dir`
@@ -27,7 +27,7 @@ do
        use newmagics++ 
 	   version='2.20.2'
         ../upload.py $version ./$sf $s.$img_ext magics/reference/$version/$where -i $interpretor
-	   version='2.22.1'
+	   version='2.22.6'
         ../upload.py $version ./$sf $s.$img_ext magics/reference/$version/$where -i $interpretor
     fi
 

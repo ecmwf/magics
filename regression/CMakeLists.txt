@@ -185,7 +185,7 @@ add_subdirectory( symbol )
 ecbuild_add_test(  TARGET   magics_summary
                    TYPE PYTHON
                    DEPENDS ${summary_depend}
-                   RESOURCES summary_template.py
+                   RESOURCES summary_template.html
                    COMMAND   ${CMAKE_CURRENT_SOURCE_DIR}/summary.py
                    ARGS ${MAGICS_HTML_ROOT} 
                    )                   

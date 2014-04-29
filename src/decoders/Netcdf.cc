@@ -101,6 +101,13 @@ Netcdf::Netcdf(const string& path, const string& method) : file_(path.c_str())
 Netcdf::~Netcdf() 
 {	
 }
+double Netcdf::getMissing(const string& var, const string& attr)
+{
+
+	double missing = getAttribute(attr, getDefaultMissing(var));
+	missing = getVariableAttribute(var, attr, missing);
+	return missing;
+}
 
 void Netcdf::print(ostream& out)  const
 {
@@ -291,6 +298,7 @@ NetVariable::NetVariable(const string& name, NcVar* id, const NcFile& file, cons
 			attributes_[att->name()] = NetAttribute(att->name(), att); 
 		}
 	}
+
 double NetVariable::getDefaultMissing()
 {
 
@@ -298,6 +306,8 @@ double NetVariable::getDefaultMissing()
 		return NC_FILL_DOUBLE;
 	return NC_FILL_FLOAT;
 }
+
+
 
 namespace magics {
 	template<> map<NcType, Accessor<double>*>*  Accessor<double>::accessors_ = 0;

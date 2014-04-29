@@ -43,12 +43,15 @@ void PolyShadingMethod::operator()(Polyline& poly) const
     {
        
 		int index = poly.index();
-		if (index < 0) 
+		if (index < 0  ) 
 			return;
         poly.setFilled(true);      
         poly.setStroke(false);
         poly.setFilled(true);
-        poly.setFillColour(colours_[index]);
+        if ( index >= colours_.size() )
+            poly.setFillColour(colours_.back());
+        else 
+            poly.setFillColour(colours_[index]);
         FillShadingProperties* shading = new FillShadingProperties();                      
         poly.setShading(shading);
     };

@@ -36,17 +36,16 @@ inline MAGICS_NO_EXPORT void writeMagLog(const std::string &interface)
 {
   if(magCompare(MAGICS_SITE,"ecmwf"))
   {
-//   string logpath = getEnvVariable("MAG_LOGGING_FILE");
-//   if(logpath.empty()) logpath = "/vol/netlog/magics/usage_log";
-//   FILE* filePtr_ = fopen(logpath.c_str(),"a");
-   FILE* filePtr_ = fopen("/vol/netlog/magics/usage_log","a");
+     string id = getEnvVariable("USER"); //user-id
 
-   if(filePtr_)
-   {
-	string id = getEnvVariable("USER"); //user-id
-
-	if(! (id=="cgm" || id=="cgs" || id=="cgi" || id=="cgk" || id=="cgr" || id=="cgjd" ) )
-	{
+     if(! (id=="cgm" || id=="cgs" || id=="cgi" || id=="cgk" || id=="cgr" ) )
+     {
+//     string logpath = getEnvVariable("MAG_LOGGING_FILE");
+//     if(logpath.empty()) logpath = "/vol/netlog/magics/usage_log";
+//     FILE* filePtr_ = fopen(logpath.c_str(),"a");
+       FILE* filePtr_ = fopen("/vol/netlog/magics/usage_log","a");
+       if(filePtr_)
+       {
 		char            host[64];
 		char            mytime[24];
 		time_t          when;
@@ -69,10 +68,9 @@ inline MAGICS_NO_EXPORT void writeMagLog(const std::string &interface)
 		fprintf(filePtr_,"%s\n",logline.c_str());
 
 		fflush(filePtr_);
-
-	}//endif NOT cgm or cgs
-	fclose(filePtr_);
-   }
+		fclose(filePtr_);
+       }
+     }//endif NOT cgm or cgs
   }
 }
 

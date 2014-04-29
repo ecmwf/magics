@@ -70,7 +70,7 @@ public:
 protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).
 	 virtual void print(ostream&) const; 
-	 void  dateSetting(vector<string>&, vector<double>& , DateTime&);
+	 void  dateSetting(vector<string>&, vector<double>& , DateTime&, bool);
 	 void  numberSetting(vector<double>& , vector<double>&);
 	
      vector<double> x_values_;
