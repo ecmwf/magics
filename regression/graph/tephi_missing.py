@@ -8,11 +8,6 @@ output = output(output_formats=['ps'],
 projection = mmap(
     subpage_y_position=2.,
     subpage_map_projection='tephigram',
-    subpage_x_automatic="on",
-    subpage_y_automatic="on",
-    thermo_annotation_width= 50.,
-
-
     )
 
 
@@ -31,8 +26,8 @@ tephi = mtephi()
 # Curve
 
 td = minput(
-        input_x_values = [ -6., -16, -27, -56, -65, 1.7e+38, -71, -83,  1.7e+38],
-        input_y_values = [675., 500, 400, 300, 250, 214, 200, 170, 155]
+        input_x_values = [ -6., -16, -14, -27, -56,  1.7e+38, -71, -69,  1.7e+38],
+        input_y_values = [675., 500, 0., 400,  280, 214, 200, 180, 155]
         )
 
 graph = mgraph(

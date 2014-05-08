@@ -1,7 +1,9 @@
 <magics>
 <class action="ptephi" directory="visualisers" name="TephiGrid">
 		<documentation> description of the grid 	</documentation>
-	
+	 <parameter member="annotation_width" to="float" default="25" from="float" name="thermo_annotation_width">
+    		<documentation> Percentage of the width used to display the annotation on the right side . </documentation>
+	</parameter>  
 		<parameter from="string" name="thermo_isotherm_grid" default="on" member="isotherm" to="bool" values="on/off">
             		<documentation>
               	Plot the isotherms
@@ -33,7 +35,7 @@
            		</documentation>
            		<release>Magics++2.20		</release> 
         	</parameter> 
-        
+       
         
        	<parameter member="isotherm_style" to="LineStyle" default="solid" from="string" name="thermo_isotherm_style">
             		<documentation>

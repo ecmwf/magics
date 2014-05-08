@@ -470,7 +470,7 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib, 
 	*matrix = new Matrix();
 	size_t nb;
 	grib_get_size(grib.id(), "values", &nb);
-
+	bool interpolate = grib.interpolate_method_;
 	MagLog::dev() << "numberOfFieldValues[" << nb << "]" << "\n";
 	double missing = std::numeric_limits<double>::max();
 	grib.setDouble("missingValue", missing);
