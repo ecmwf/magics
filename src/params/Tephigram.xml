@@ -20,6 +20,8 @@
 	<parameter member="y_max" to="float" default="100" from="float" name="y_max">
     		
 	</parameter>     
-
+	<parameter member="annotation_width" to="float" default="25" from="float" name="thermo_annotation_width">
+    		<documentation> Percentage of the width used to display the annotation on the right side . </documentation>
+	</parameter>  
 
 </class></magics>

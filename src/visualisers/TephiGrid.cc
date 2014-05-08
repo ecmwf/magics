@@ -225,7 +225,7 @@ void TephiGrid::visit(DrawingVisitor& out)
 					}
 				}
 				if (xy.x() <= minpcx ) {
-					xy.x(tephi.getMaxPCX());
+					xy.x(tephi.getMaxPCX()*0.85);
 					map<double, PaperPoint>::iterator label = pressureLeftLabels_.find(*p);
 					if ( label == pressureLeftLabels_.end() ) {
 						pressureLeftLabels_.insert(make_pair(*p, xy));

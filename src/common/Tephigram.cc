@@ -90,7 +90,7 @@ void Tephigram::init()
 	maxpcx = maxPCX_;
 
 	MagLog::dev() << "useful in tephi " << maxpcx << endl;
-	maxPCX_ += (maxPCX_ - minPCX_)*0.25;
+	maxPCX_ += (maxPCX_ - minPCX_)*(annotation_width_/100.);
 	MagLog::dev() << "set in tephi in grid " << maxpcx << endl;
 
 
@@ -119,11 +119,16 @@ void TephiInfo::init()
 const double KAPPA=0.285611;
 PaperPoint Tephigram::operator()(const UserPoint& xy)  const
 {
+
+
+	double p = (same(xy.y(), 0) ) ? 1. : xy.y();
 	if (  xy.x() >= 1000 ) {// x = x
 	// y = p
-		double coefficient = pow(100000./(xy.y()*100),KAPPA);
+
+
+		double coefficient = pow(100000./(p*100),KAPPA);
 		double y = (maxpcx+(273.15*(cosinus-sinus)))*((sinus + (coefficient*cosinus)))/(cosinus -(coefficient*sinus)) - 2713.15*(sinus+cosinus);
-		MagLog::dev() << xy.y() << "-->" << y << "??? " << minPCY_ << "<<" <<  maxPCY_<< endl;
+		MagLog::dev() << p << "-->" << y << "??? " << minPCY_ << "<<" <<  maxPCY_<< endl;
 		double x =  (maxPCX_ - maxpcx)*(xy.x()-1000.) + maxpcx;
 		MagLog::dev() << x << endl;
 		return PaperPoint(x, y, xy.value());
@@ -131,7 +136,8 @@ PaperPoint Tephigram::operator()(const UserPoint& xy)  const
 	// UserPoint X = temperature in deg Y = Pressure in hPa
 	// First we calculate theta and we rotate!
 	double tempe = xy.x();
-	double theta = magics::theta(tempe+273.15, (xy.y())*100.)-273.15;
+
+	double theta = magics::theta(tempe+273.15, p*100.)-273.15;
 	double x = ((tempe * cosinus) - (theta * sinus) );
 	double y = (tempe * sinus) + (theta * cosinus);
 
