@@ -106,7 +106,7 @@ void Curve::operator()(Data& data, BasicGraphicsObjectContainer& task)
 
 
     std::set<string> needs;
-    CustomisedPointsList points;
+    CustomisedPointsList raw, points;
 
     data.customisedPoints(transformation, needs, points, true);
 
@@ -120,6 +120,10 @@ void Curve::operator()(Data& data, BasicGraphicsObjectContainer& task)
 	PaperPoint last, current, toadd;
 	
 	CustomisedPointsList::iterator point = points.begin();
+
+	// we clean the list;
+
+
 
     while ( point != points.end() ) {
     	if ( this->missing(**point) ) {
@@ -193,6 +197,7 @@ void Curve::operator()(Data& data, BasicGraphicsObjectContainer& task)
     }
 
     if ( missing.empty() == false ) {
+
     	std::map<string, MissingMethod>::iterator method = missingMethods_.find(lowerCase(missing_mode_));
     	if ( method == missingMethods_.end() )
     	{
@@ -396,6 +401,8 @@ bool Curve::ignore(const PaperPoint&, const PaperPoint&, const vector<PaperPoint
 
 bool Curve::join(const PaperPoint& p1, const PaperPoint& p2, const vector<PaperPoint>& , BasicGraphicsObjectContainer& task)
 {
+	if ( !task.transformation().in(p2) )
+		return true;
 	Polyline* curve  = new Polyline();
 	(*curve).setColour(*missing_colour_);
 	(*curve).setLineStyle(missing_style_);
