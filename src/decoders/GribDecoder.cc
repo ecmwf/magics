@@ -18,15 +18,15 @@
 
 /*! \file GribDecoder.cc
     \brief Implementation of the Template class GribDecoder.
-    
+
     Magics Team - ECMWF 2004
-    
+
     Started: Tue 16-Mar-2004
-    
+
     Changes:
-    
-*/
- 
+
+ */
+
 #include "GribDecoder.h"
 #include "Factory.h"
 #include <limits>
@@ -69,7 +69,7 @@ string getLongNameCentre(int centre)
             t = s;
         }
 }
-*/
+ */
 using namespace magics;
 
 int  GribDecoder::count_ = 0;
@@ -136,7 +136,7 @@ long GribDecoder::getLong(const string& key, bool warnIfKeyAbsent) const
 		if (warnIfKeyAbsent)
 		{
 			MagLog::warning() << "Grib API: can not find key [" << key << "]\n"
-			               << grib_get_error_message(err) <<"\n";
+					<< grib_get_error_message(err) <<"\n";
 		}
 		return 0;
 	}
@@ -162,10 +162,10 @@ string GribDecoder::getstring(const string& key, bool warnIfKeyAbsent, bool cach
 	{
 		if (warnIfKeyAbsent)
 		{
-				MagLog::warning() << "Grib API: can not find key [" << key << "]\n"
-				               << grib_get_error_message(err) <<"\n";
-			}
-			return "";
+			MagLog::warning() << "Grib API: can not find key [" << key << "]\n"
+					<< grib_get_error_message(err) <<"\n";
+		}
+		return "";
 	}
 	if ( cache )
 		sKeys_.insert(make_pair(key, val));
@@ -204,9 +204,9 @@ string GribDecoder::getString(const string& key, bool warnIfKeyAbsent) const
 double GribDecoder::getDouble(const string& key, bool warnIfKeyAbsent) const
 {
 	map<string, double>::const_iterator dk = dKeys_.find(key);
-		if ( dk != dKeys_.end() ) {
-			return dk->second;
-		}
+	if ( dk != dKeys_.end() ) {
+		return dk->second;
+	}
 	double val;
 	int err = grib_get_double(handle_, key.c_str(), &val);
 	if ( err )
@@ -214,7 +214,7 @@ double GribDecoder::getDouble(const string& key, bool warnIfKeyAbsent) const
 		if (warnIfKeyAbsent)
 		{
 			MagLog::warning() << "Grib API: can not find key [" << key << "]\n"
-			               << grib_get_error_message(err) <<"\n";
+					<< grib_get_error_message(err) <<"\n";
 		}
 		return 0;
 	}
@@ -230,7 +230,7 @@ void   GribDecoder::setDouble(const string& key, double val) const
 	if ( err )
 	{
 		MagLog::warning() << "Grib API: can not find key [" << key << "]\n"
-		               << grib_get_error_message(err) <<"\n";
+				<< grib_get_error_message(err) <<"\n";
 	}
 }
 
@@ -252,11 +252,11 @@ void GribDecoder::read(Matrix **matrix)
 		}
 		interpretor_->interpretAsMatrix(*this, matrix);
 		if ( *matrix == 0 ) {
-			 valid_ = false;
-			 ostringstream msg;
-			 msg << "Grib Decoder: Representation [" << representation << "] not yet fully implemented";
-			 MagLog::error() <<  msg.str() << std::endl;
-			 throw MagicsException(msg.str());
+			valid_ = false;
+			ostringstream msg;
+			msg << "Grib Decoder: Representation [" << representation << "] not yet fully implemented";
+			MagLog::error() <<  msg.str() << std::endl;
+			throw MagicsException(msg.str());
 		}
 
 		interpretor_->scaling(*this, matrix);
@@ -284,8 +284,8 @@ void GribDecoder::read(Matrix **matrix, const Transformation&  transformation)
 
 	try {
 		if ( !interpretor_ ) {
-					interpretor_ = SimpleObjectMaker<GribInterpretor>::create(representation);
-				}
+			interpretor_ = SimpleObjectMaker<GribInterpretor>::create(representation);
+		}
 		interpretor_->interpretAsMatrix(*this, matrix, transformation);
 		interpretor_->scaling(*this, matrix);
 	}
@@ -300,7 +300,7 @@ void GribDecoder::read(Matrix **matrix, const Transformation&  transformation)
 
 /*!
  Class information are given to the output-stream.
-*/		
+ */
 void GribDecoder::print(ostream& out)  const
 {
 	out << "GribDecoder[";
@@ -323,14 +323,14 @@ void GribDecoder::release()
 		yComponent_ = 0;
 	}
 	if ( colourComponent_ ) {
-			delete colourComponent_;
-			colourComponent_ = 0;
-		}
+		delete colourComponent_;
+		colourComponent_ = 0;
+	}
 
 	for (PointsList::iterator point = points_.begin(); point != points_.end(); ++point) {
-				delete *point;
-				*point = 0;
-		}
+		delete *point;
+		*point = 0;
+	}
 	points_.clear();
 
 }
@@ -364,7 +364,7 @@ void GribDecoder::decode2D()
 	try {
 
 		if ( !interpretor_ ) {
-					interpretor_ = SimpleObjectMaker<GribInterpretor>::create(representation);
+			interpretor_ = SimpleObjectMaker<GribInterpretor>::create(representation);
 		}
 		interpretor_->keepOriginal(true);
 
@@ -380,7 +380,7 @@ void GribDecoder::decode2D()
 	read(&w1);
 	openSecondComponent();
 	read(&w2);
-    Data::dimension_ = ( colourComponent_ ) ? 3 : 2;
+	Data::dimension_ = ( colourComponent_ ) ? 3 : 2;
 
 
 
@@ -462,52 +462,52 @@ void GribDecoder::newPoint(const Transformation& transformation, double lat, dou
 
 
 	std::stack<UserPoint>   duplicates;
-  	UserPoint geo(lon, lat);
+	UserPoint geo(lon, lat);
 
 
 
 
-  	 transformation.wraparound(geo, duplicates);
-		 while (duplicates.empty() == false) {
-			UserPoint pt = duplicates.top();
-			// we try to see if no to near neighborg ...
+	transformation.wraparound(geo, duplicates);
+	while (duplicates.empty() == false) {
+		UserPoint pt = duplicates.top();
+		// we try to see if no to near neighborg ...
 
-			map<double, std::set<double> >::iterator row =  positions_.find(pt.y());
-			if ( row == positions_.end() )
-				positions_.insert(make_pair(pt.y(), std::set<double>()));
-			row =  positions_.find(pt.y());
-			std::set<double>::iterator low =  row->second.lower_bound(pt.x());
-			bool add = true;
+		map<double, std::set<double> >::iterator row =  positions_.find(pt.y());
+		if ( row == positions_.end() )
+			positions_.insert(make_pair(pt.y(), std::set<double>()));
+		row =  positions_.find(pt.y());
+		std::set<double>::iterator low =  row->second.lower_bound(pt.x());
+		bool add = true;
+		if ( low != row->second.end() ) {
+			double diff = fabs(*low-pt.x());
+			if ( diff <= grid )
+				add = false;
+			++low;
 			if ( low != row->second.end() ) {
-				double diff = fabs(*low-pt.x());
+				double diff = fabs(*low -pt.x());
 				if ( diff <= grid )
 					add = false;
-				++low;
-				if ( low != row->second.end() ) {
-					double diff = fabs(*low -pt.x());
-					if ( diff <= grid )
-						add = false;
-				}
 			}
-			if ( !add ) {
-				duplicates.pop();
-				continue;
-			}
+		}
+		if ( !add ) {
+			duplicates.pop();
+			continue;
+		}
 
-			row->second.insert(pt.x());
+		row->second.insert(pt.x());
 
-			CustomisedPoint *point = new CustomisedPoint(pt.x(), pt.y(), "");
+		CustomisedPoint *point = new CustomisedPoint(pt.x(), pt.y(), "");
 
-			point->insert(make_pair("x_component", uc));
-            point->insert(make_pair("y_component", vc));
-		    points.push_back(point);
-		    if ( cc != -9999 ) {
-				point->insert(make_pair("colour_component", cc));
+		point->insert(make_pair("x_component", uc));
+		point->insert(make_pair("y_component", vc));
+		points.push_back(point);
+		if ( cc != -9999 ) {
+			point->insert(make_pair("colour_component", cc));
 
-			}
-		    duplicates.pop();
+		}
+		duplicates.pop();
 
-		 }
+	}
 }
 
 #define DIST(a,b) ((a*a) + (b*b))
@@ -515,11 +515,11 @@ void GribDecoder::newPoint(const Transformation& transformation, double lat, dou
 struct Compare
 {
 
-   template< typename T1, typename T2 >
-   bool operator()( T1 const& t1, T2 const& t2 ) const
-   {
-       return t1.first < t2;
-   }
+	template< typename T1, typename T2 >
+	bool operator()( T1 const& t1, T2 const& t2 ) const
+	{
+		return t1.first < t2;
+	}
 };
 
 void GribDecoder::customisedPoints(const Transformation& transformation, CustomisedPointsList& out, double thinx, double thiny, double gap)
@@ -571,7 +571,7 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 		openSecondComponent();
 		grib_nearest_find_multiple(handle_, 0, inlats, inlons, nb, outlats, outlons, yval, distances, indexes);
 	}
-*/
+	 */
 	vector<pair<double, vector<pair<double, CustomisedPoint*> > > > points;
 
 	interpretor_->raw(*this, transformation, points);
@@ -651,28 +651,37 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 		out.push_back(add);
 		i++;
 	}
-*/
+	 */
 
 	out.reserve(positions.size());
 	double missing = getDouble("missingValue");
 
 	std::reverse(points.begin(),points.end());
 
-		for ( pos = positions.begin(); pos != positions.end(); ++pos) {
-			vector<pair<double, vector<pair<double, CustomisedPoint*> > > >::iterator y;
-			vector<pair<double, CustomisedPoint*> >::iterator x;
+	for ( pos = positions.begin(); pos != positions.end(); ++pos) {
+		vector<pair<double, vector<pair<double, CustomisedPoint*> > > >::iterator y;
+		vector<pair<double, CustomisedPoint*> >::iterator x;
 
 
-			y = std::lower_bound(points.begin(), points.end(), pos->second, Compare());
-            if (y == points.end() )
-            	continue;
+		y = std::lower_bound(points.begin(), points.end(), pos->second, Compare());
+		if (y == points.end() )
+			continue;
 
-			map<double, CustomisedPoint*> result;
-			double small, distance;
+		map<double, CustomisedPoint*> result;
+		double small, distance;
 
 
-			double lon = pos->first;
-			if ( lon < 0) lon +=360;
+		double lon = pos->first;
+		if ( lon < 0) lon +=360;
+		x = std::lower_bound(y->second.begin(), y->second.end(), lon, Compare());
+		result.insert(make_pair(DIST(x->first -lon, y->first - pos->second), x->second));
+		if ( x != y->second.begin() ) {
+			--x;
+			result.insert(make_pair(DIST(x->first -lon, y->first - pos->second), x->second));
+		}
+
+		if (y != points.begin() ) {
+			--y;
 			x = std::lower_bound(y->second.begin(), y->second.end(), lon, Compare());
 			result.insert(make_pair(DIST(x->first -lon, y->first - pos->second), x->second));
 			if ( x != y->second.begin() ) {
@@ -680,31 +689,23 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 				result.insert(make_pair(DIST(x->first -lon, y->first - pos->second), x->second));
 			}
 
-			if (y != points.begin() ) {
-				--y;
-				x = std::lower_bound(y->second.begin(), y->second.end(), lon, Compare());
-				result.insert(make_pair(DIST(x->first -lon, y->first - pos->second), x->second));
-				if ( x != y->second.begin() ) {
-					--x;
-					result.insert(make_pair(DIST(x->first -lon, y->first - pos->second), x->second));
-				}
-
-			}
-
-
-			CustomisedPoint *point = result.begin()->second;
-
-			lon = point->longitude();
-			if ( lon > 180 ) lon -= 360;
-			if ( (*point)["x_component"] != missing && (*point)["y_component"]) {
-				CustomisedPoint *add = new CustomisedPoint(lon, point->latitude(), "");
-				add->insert(make_pair("x_component", (*point)["x_component"]));
-				add->insert(make_pair("y_component", (*point)["y_component"]));
-				out.push_back(add);
-			}
-			i++;
-
 		}
+
+
+		CustomisedPoint *point = result.begin()->second;
+
+		lon = point->longitude();
+		if ( lon > 180 ) lon -= 360;
+		if ( (*point)["x_component"] != missing && (*point)["y_component"]) {
+			CustomisedPoint *add = new CustomisedPoint(lon, point->latitude(), "");
+			pair<double, double> value = (*wind_mode_)((*point)["x_component"], (*point)["y_component"]);
+			add->insert(make_pair("x_component", value.first));
+			add->insert(make_pair("y_component", value.second));
+			out.push_back(add);
+		}
+		i++;
+
+	}
 
 
 
@@ -740,10 +741,10 @@ void GribDecoder::customisedPoints(const BasicThinningMethod& thinning, const Tr
 		double x2 = interpretor_->XResolution(*this);
 		double y2 = 60+interpretor_->XResolution(*this);
 
-        transformation.fast_reproject(x1, y1);
-        transformation.fast_reproject(x2, y2);
+		transformation.fast_reproject(x1, y1);
+		transformation.fast_reproject(x2, y2);
 
-        gap = sqrt( ((x2-x1)*(x2-x1)) + ((y2-y1)*(y2-y1)) );
+		gap = sqrt( ((x2-x1)*(x2-x1)) + ((y2-y1)*(y2-y1)) );
 
 
 		customisedPoints(transformation, points,
@@ -771,14 +772,14 @@ void GribDecoder::decode2D(const Transformation&)
 
 	try {
 		if ( !interpretor_ ) {
-					interpretor_ = SimpleObjectMaker<GribInterpretor>::create(representation);
-				}
+			interpretor_ = SimpleObjectMaker<GribInterpretor>::create(representation);
+		}
 		readColourComponent();
 
-			openFirstComponent();
-			read(&w1);
-			openSecondComponent();
-			read(&w2);
+		openFirstComponent();
+		read(&w1);
+		openSecondComponent();
+		read(&w2);
 
 	}
 	catch (NoFactoryException&)
@@ -801,10 +802,10 @@ void GribDecoder::openFirstComponent()
 
 }
 grib_handle* GribEntryDecoder::open(grib_handle* handle, bool) {
-		if ( !handle_ ) {
-			return handle_;
-		}
-		return handle;
+	if ( !handle_ ) {
+		return handle_;
+	}
+	return handle;
 }
 
 void GribDecoder::openSecondComponent() 
@@ -883,25 +884,25 @@ bool GribDecoder::id(const string& id, const string& where) const
 bool GribDecoder::verify(const string& val) const
 {
 	// we except a string with the following format "key1=val,key2=val2,...,keyn=valn"
-			Tokenizer tokenizer(",= ");
-			vector<string> tokens;
-			map<string, string> where;
-			tokenizer(val, tokens);
-			vector<string>::iterator token = tokens.begin();
+	Tokenizer tokenizer(",= ");
+	vector<string> tokens;
+	map<string, string> where;
+	tokenizer(val, tokens);
+	vector<string>::iterator token = tokens.begin();
 
-			string key, value;
-			while (true) {
-				if (token == tokens.end() )
-					break;
-				key = *token;
-				++token;
-				if (token == tokens.end() )
-					break;
-				value = *token;
-				where.insert(make_pair(key, value));
+	string key, value;
+	while (true) {
+		if (token == tokens.end() )
+			break;
+		key = *token;
+		++token;
+		if (token == tokens.end() )
+			break;
+		value = *token;
+		where.insert(make_pair(key, value));
 
-				++token;
-			}
+		++token;
+	}
 	for (  map<string, string>::const_iterator w = where.begin(); w != where.end(); ++w) {
 		string val = getString(w->first);
 		if ( magCompare(val, w->second) == false )
@@ -924,8 +925,8 @@ void GribDecoder::decodePoints()
 		double missing = getDouble("missingValue");
 		try {
 			if ( !interpretor_ ) {
-						interpretor_ = SimpleObjectMaker<GribInterpretor>::create(representation);
-					}
+				interpretor_ = SimpleObjectMaker<GribInterpretor>::create(representation);
+			}
 			interpretor_->scaling(*this, scaling, offset);
 		}
 		catch (NoFactoryException&)
@@ -987,10 +988,10 @@ void GribDecoder::decodePoints()
 
 GribLoop::~GribLoop()
 {
-    for (vector<GribDecoder*>::const_iterator g = gribs_.begin(); g != gribs_.end(); ++g)
-    {
-        delete *g;
-    }
+	for (vector<GribDecoder*>::const_iterator g = gribs_.begin(); g != gribs_.end(); ++g)
+	{
+		delete *g;
+	}
 }
 
 
@@ -1033,146 +1034,146 @@ bool  GribLoop::hasMore()
 			throw GribFileMagException(path_, 0);
 		}	
 	}
-	
-    
-
-    // Now we have to find the right Entry!!! 
-    
-
-   if ( currentDim_ == dimension_.end() )
-	   return false;
-    
-   
-    if ( *currentDim_ == 1 ) {
-    	if (  dim_.empty() ) {
-    		 // case 1 dimension= 1 and loop on all the fields! 
-    		int error;
-    		grib_handle* handle = grib_handle_new_from_file(0, file_, &error) ;
-    		if (handle <=0)
-    			return false;
-    		currentgrib_ = new GribEntryDecoder(handle);
-
-    		currentgrib_->set(*this, counter_++);
-
-            gribs_.push_back(currentgrib_);
-    	}
-    	else {
-    		if ( currentPos_ == dim_.end() )
-    			return false;
-    		 // Case 3 Dimension = 1 but we only used  a subset of fields
-
-    		grib_handle* handle =  (*address_mode_)(0, file_, *currentPos_);
-    		currentPos_++;
-    		if (handle <=0)  
-    			return false;
-    		currentgrib_ = new GribEntryDecoder(handle);
-    		currentgrib_->set(*this, counter_++);
-            gribs_.push_back(currentgrib_);
-    	}
-    }
-    
-   
-    if ( *currentDim_  == 2)
-    {
-    	if ( dim_.empty()  )
-    	{
-    		// case 2 Dimension = 2 and loop on all the field!
-    		int error;
-    		grib_handle* handle1 = grib_handle_new_from_file(0, file_, &error) ;
-    		if (handle1 <=0)  return false;
-    		grib_handle* handle2 = grib_handle_new_from_file(0, file_, &error) ;
-    		if (handle2 <=0)  return false;
-    		currentgrib_ = new GribEntryDecoder(handle1, handle2);
-    		currentgrib_->set(*this, counter_++);
-    		gribs_.push_back(currentgrib_);
-    	}
-    	else {
-    		// Case 4 Dimesnion = 2 and we only used a subset of fields!
-    		vector<int>::iterator dim1 =  currentPos_;
-    		if ( currentPos_ ==  dim_.end() )
-    			return false;
-    		currentPos_++;
-    		vector<int>::iterator dim2 =  currentPos_;
-    		if ( currentPos_ ==  dim_.end() )
-    			return false;
-    		currentPos_++;
 
 
-    		grib_handle* handle1 =  (*address_mode_)(0, file_, *dim1);
-    		grib_handle* handle2 =  (*address_mode_)(0, file_, *dim2);
-    		if ( handle1 <=0 )
-    			return false;
-    		if ( handle2 <=0 )
-    			return false;
-    		currentgrib_ = new GribEntryDecoder(handle1, handle2);
-    		currentgrib_->set(*this, counter_++);
 
-    		gribs_.push_back(currentgrib_);
+	// Now we have to find the right Entry!!!
 
-    	}
-    }
+
+	if ( currentDim_ == dimension_.end() )
+		return false;
+
+
+	if ( *currentDim_ == 1 ) {
+		if (  dim_.empty() ) {
+			// case 1 dimension= 1 and loop on all the fields!
+			int error;
+			grib_handle* handle = grib_handle_new_from_file(0, file_, &error) ;
+			if (handle <=0)
+				return false;
+			currentgrib_ = new GribEntryDecoder(handle);
+
+			currentgrib_->set(*this, counter_++);
+
+			gribs_.push_back(currentgrib_);
+		}
+		else {
+			if ( currentPos_ == dim_.end() )
+				return false;
+			// Case 3 Dimension = 1 but we only used  a subset of fields
+
+			grib_handle* handle =  (*address_mode_)(0, file_, *currentPos_);
+			currentPos_++;
+			if (handle <=0)
+				return false;
+			currentgrib_ = new GribEntryDecoder(handle);
+			currentgrib_->set(*this, counter_++);
+			gribs_.push_back(currentgrib_);
+		}
+	}
+
+
+	if ( *currentDim_  == 2)
+	{
+		if ( dim_.empty()  )
+		{
+			// case 2 Dimension = 2 and loop on all the field!
+			int error;
+			grib_handle* handle1 = grib_handle_new_from_file(0, file_, &error) ;
+			if (handle1 <=0)  return false;
+			grib_handle* handle2 = grib_handle_new_from_file(0, file_, &error) ;
+			if (handle2 <=0)  return false;
+			currentgrib_ = new GribEntryDecoder(handle1, handle2);
+			currentgrib_->set(*this, counter_++);
+			gribs_.push_back(currentgrib_);
+		}
+		else {
+			// Case 4 Dimesnion = 2 and we only used a subset of fields!
+			vector<int>::iterator dim1 =  currentPos_;
+			if ( currentPos_ ==  dim_.end() )
+				return false;
+			currentPos_++;
+			vector<int>::iterator dim2 =  currentPos_;
+			if ( currentPos_ ==  dim_.end() )
+				return false;
+			currentPos_++;
+
+
+			grib_handle* handle1 =  (*address_mode_)(0, file_, *dim1);
+			grib_handle* handle2 =  (*address_mode_)(0, file_, *dim2);
+			if ( handle1 <=0 )
+				return false;
+			if ( handle2 <=0 )
+				return false;
+			currentgrib_ = new GribEntryDecoder(handle1, handle2);
+			currentgrib_->set(*this, counter_++);
+
+			gribs_.push_back(currentgrib_);
+
+		}
+	}
 
 	if ( *currentDim_  == 3)
+	{
+		if ( dim_.empty()  )
 		{
-			if ( dim_.empty()  )
-			{
-				// case 2 Dimension = 2 and loop on all the field!
-	    			int error;
-	       			grib_handle* handle1 = grib_handle_new_from_file(0, file_, &error) ;
-	       			if (handle1 <=0)  return false;
-	       			grib_handle* handle2 = grib_handle_new_from_file(0, file_, &error) ;
-	        		if (handle2 <=0)  return false;
-	        		grib_handle* handle3 = grib_handle_new_from_file(0, file_, &error) ;
-	        		if (handle3 <=0)  return false;
-	        		currentgrib_ = new GribEntryDecoder(handle1, handle2, handle3);
-	        		currentgrib_->set(*this, counter_++);
-	        		gribs_.push_back(currentgrib_);
-			}
-			else {
-	        		// Case 4 Dimesnion = 2 and we only used a subset of fields!
-					vector<int>::iterator dim1 =  currentPos_;
-					if ( currentPos_ ==  dim_.end() )
-						return false;
-					currentPos_++;
-					vector<int>::iterator dim2 =  currentPos_;
-					if ( currentPos_ ==  dim_.end() )
-						return false;
-					currentPos_++;
-					vector<int>::iterator dim3 =  currentPos_;
-										if ( currentPos_ ==  dim_.end() )
-											return false;
-										currentPos_++;
-
-	        		grib_handle* handle1 =  (*address_mode_)(0, file_, *dim1);
-	        		grib_handle* handle2 =  (*address_mode_)(0, file_, *dim2);
-	        		grib_handle* handle3 =  (*address_mode_)(0, file_, *dim3);
-
-	        		if ( handle1 <=0 )
-	        			return false;
-	        		if ( handle2 <=0 )
-	        		       return false;
-	        		if ( handle3 <=0 )
-	        			        		       return false;
-	        		currentgrib_ = new GribEntryDecoder(handle1, handle2, handle3);
-	        		currentgrib_->set(*this, counter_++);
-
-	        		gribs_.push_back(currentgrib_);
-
-			}
+			// case 2 Dimension = 2 and loop on all the field!
+			int error;
+			grib_handle* handle1 = grib_handle_new_from_file(0, file_, &error) ;
+			if (handle1 <=0)  return false;
+			grib_handle* handle2 = grib_handle_new_from_file(0, file_, &error) ;
+			if (handle2 <=0)  return false;
+			grib_handle* handle3 = grib_handle_new_from_file(0, file_, &error) ;
+			if (handle3 <=0)  return false;
+			currentgrib_ = new GribEntryDecoder(handle1, handle2, handle3);
+			currentgrib_->set(*this, counter_++);
+			gribs_.push_back(currentgrib_);
 		}
+		else {
+			// Case 4 Dimesnion = 2 and we only used a subset of fields!
+			vector<int>::iterator dim1 =  currentPos_;
+			if ( currentPos_ ==  dim_.end() )
+				return false;
+			currentPos_++;
+			vector<int>::iterator dim2 =  currentPos_;
+			if ( currentPos_ ==  dim_.end() )
+				return false;
+			currentPos_++;
+			vector<int>::iterator dim3 =  currentPos_;
+			if ( currentPos_ ==  dim_.end() )
+				return false;
+			currentPos_++;
+
+			grib_handle* handle1 =  (*address_mode_)(0, file_, *dim1);
+			grib_handle* handle2 =  (*address_mode_)(0, file_, *dim2);
+			grib_handle* handle3 =  (*address_mode_)(0, file_, *dim3);
+
+			if ( handle1 <=0 )
+				return false;
+			if ( handle2 <=0 )
+				return false;
+			if ( handle3 <=0 )
+				return false;
+			currentgrib_ = new GribEntryDecoder(handle1, handle2, handle3);
+			currentgrib_->set(*this, counter_++);
+
+			gribs_.push_back(currentgrib_);
+
+		}
+	}
 	currentDim_++;
 	currentgrib_->setPath(path_);
 	if ( iconName_.empty() )
 	{
-    		map<string, string>::iterator id = ids_.find(path_);
-    		if ( id == ids_.end() )
+		map<string, string>::iterator id = ids_.find(path_);
+		if ( id == ids_.end() )
 		{
-    		    	iconName_ = "Grib" + tostring(index_);
-    		    	index_++;
-    		    	ids_.insert(make_pair(path_, iconName_));  		
-    		 }
-    		 else 
-    		    	iconName_ = id->second;
+			iconName_ = "Grib" + tostring(index_);
+			index_++;
+			ids_.insert(make_pair(path_, iconName_));
+		}
+		else
+			iconName_ = id->second;
 	}
 	currentgrib_->icon(*this);
 	return true;
@@ -1193,7 +1194,7 @@ class GribTag: public XmlNodeVisitor
 public:
 	GribTag(GribDecoder& grib, TagHandler& title) : grib_(grib), title_(title) {
 	}
-	
+
 	~GribTag() {}
 	string baseDate(const XmlNode& node)
 	{
@@ -1206,48 +1207,48 @@ public:
 		MagDate part1 = MagDate(day);
 		MagTime part2 = MagTime(hour, mn, 0);
 		DateTime full(part1, part2);
-	    
+
 		return full.tostring(format);
-		
+
 	}
 
 	string startDate(const XmlNode& node)
 	{
-			string format= node.getAttribute("format");
-			if ( format.empty() )  
-				format =  "%A %d %B %Y at %H UTC";
-			const long day  = grib_.getLong("date");  
-			const long hour = grib_.getLong("hour");  
-			const long mn   = grib_.getLong("minute");
-			const long step = grib_.getLong("startStep");  // default is in hours. Set 'stepUnits' to change.
+		string format= node.getAttribute("format");
+		if ( format.empty() )
+			format =  "%A %d %B %Y at %H UTC";
+		const long day  = grib_.getLong("date");
+		const long hour = grib_.getLong("hour");
+		const long mn   = grib_.getLong("minute");
+		const long step = grib_.getLong("startStep");  // default is in hours. Set 'stepUnits' to change.
 
-			MagDate part1 = MagDate(day);
-			MagTime part2 = MagTime(hour, mn, 0);
-			DateTime full(part1, part2);	
-			full = full + (step*3600);
-			    
-			return full.tostring(format);
+		MagDate part1 = MagDate(day);
+		MagTime part2 = MagTime(hour, mn, 0);
+		DateTime full(part1, part2);
+		full = full + (step*3600);
+
+		return full.tostring(format);
 	}
 
 	string validDate(const XmlNode& node)
 	{
-			string format= node.getAttribute("format");
-			if ( format.empty() )  
-				format =  "%A %d %B %Y at %H UTC";
-			const long day =  grib_.getLong("date");  
-			const long hour = grib_.getLong("hour");  
-			const long mn =  grib_.getLong("minute");
-			const long step =  grib_.getLong("stepRange");  // default is in hours. Set 'stepUnits' to change.
-			
+		string format= node.getAttribute("format");
+		if ( format.empty() )
+			format =  "%A %d %B %Y at %H UTC";
+		const long day =  grib_.getLong("date");
+		const long hour = grib_.getLong("hour");
+		const long mn =  grib_.getLong("minute");
+		const long step =  grib_.getLong("stepRange");  // default is in hours. Set 'stepUnits' to change.
 
-						
-			MagDate part1 = MagDate(day);
-			MagTime part2 = MagTime(hour, mn, 0);
-			DateTime full(part1, part2);	
-			full = full + (step*3600);
 
-			return full.tostring(format);
-			
+
+		MagDate part1 = MagDate(day);
+		MagTime part2 = MagTime(hour, mn, 0);
+		DateTime full(part1, part2);
+		full = full + (step*3600);
+
+		return full.tostring(format);
+
 	}
 
 	string endDate(const XmlNode& node)
@@ -1264,9 +1265,9 @@ public:
 		MagTime part2 = MagTime(hour, mn, 0);
 		DateTime full(part1, part2);	
 		full = full + ( step*3600 );
-		    
+
 		return full.tostring(format);
-		
+
 	}
 
 
@@ -1279,18 +1280,18 @@ public:
 			string where = node.getAttribute("where");
 			if ( !grib_.id(grib, where)) {
 
-					return;
+				return;
 			}
 			string def = node.getAttribute("key");
 			if (def.empty()) {
-				 def = node.getAttribute("definition");
-				 // for backward compatibility with the first version! 
+				def = node.getAttribute("definition");
+				// for backward compatibility with the first version!
 			}
 			if ( def== "valid-date") {
-							title_.update("grib"+grib, def, validDate(node));
-							return;
-						}
-			
+				title_.update("grib"+grib, def, validDate(node));
+				return;
+			}
+
 			if ( def == "base-date") {
 				title_.update("grib"+grib, def, baseDate(node));
 				return;
@@ -1321,7 +1322,7 @@ public:
 					char tmp[256];
 					sprintf(tmp, format.c_str(), val.c_str());
 					val = tmp;
-					
+
 				}
 			}
 			else
@@ -1331,12 +1332,12 @@ public:
 				sst << longVal;
 				val=sst.str(); 
 			}
-	
+
 			if ( val.empty() ) 
 				val =  node.getAttribute("default");
 			title_.update("grib"+grib, def, val);
 		}		
-		
+
 		if ( magCompare(node.name(), "magics_title") )
 		{
 			string grib = node.getAttribute("id");
@@ -1356,12 +1357,12 @@ public:
 		}
 		node.visit(*this);	
 	}
-	
+
 	void decode(const string& line)
 	{
 		XmlReader parser;
 		XmlTree tree;
-	
+
 		ostringstream xml;
 		xml << "<?xml version='1.0' ?> \n";		
 		xml << "<xml> \n";
@@ -1375,8 +1376,8 @@ public:
 		catch (MagicsException& e) {
 			MagLog::debug() << e.what() << endl;
 		}	
-     } 
-     string str() const { return out.str(); }
+	}
+	string str() const { return out.str(); }
 protected :
 	GribDecoder& grib_;
 	TagHandler& title_;
@@ -1391,7 +1392,7 @@ void GribDecoder::visit(ValuesCollector& points)
 {
 	field_ = open(field_);
 	const Transformation& transformation = points.transformation();
-		
+
 	points.setCollected(true);
 
 	int nb = points.size();
@@ -1407,14 +1408,14 @@ void GribDecoder::visit(ValuesCollector& points)
 	double scaling, offset;
 	string oriUnits, derivedUnits;
 	string representation = getString("typeOfGrid");
-		
+
 	//Scaling works only for scalar data!!!
-	
+
 	try 
 	{
 		if ( !interpretor_ ) {
-					interpretor_ = SimpleObjectMaker<GribInterpretor>::create(representation);
-				}
+			interpretor_ = SimpleObjectMaker<GribInterpretor>::create(representation);
+		}
 		interpretor_->scaling(*this, scaling, offset,oriUnits,derivedUnits);
 	}      
 	catch (NoFactoryException&)
@@ -1422,24 +1423,24 @@ void GribDecoder::visit(ValuesCollector& points)
 		MagLog::warning() << "Grib Decoder: Representation [" << representation << "] not yet supported.\n"<< std::endl;;
 		scaling =1 ; offset =0;
 	}
- 	
+
 	for (int i =0; i < nb; i++)
 	{
-		 
-	  	 inlats[i] = points[i].y();
-		 inlons[i] = std::fmod(points[i].x(),360.);
-		 if(inlons[i] < 0.) inlons[i]+=360.;
-		 i++;
+
+		inlats[i] = points[i].y();
+		inlons[i] = std::fmod(points[i].x(),360.);
+		if(inlons[i] < 0.) inlons[i]+=360.;
+		i++;
 	}
- 
+
 	double missing = getDouble("missingValue");
-		
+
 	if ( Data::dimension_ == 1 ) {
-	  	bool scaled=(scaling==1 && offset == 0)?false:true;
+		bool scaled=(scaling==1 && offset == 0)?false:true;
 		points.setScaled(scaled);
 		points.setUnits(oriUnits);
 		points.setScaledUnits(derivedUnits);
-	  
+
 		field_ = open(field_);
 		grib_nearest_find_multiple(handle_, 0, inlats, inlons, nb, outlats, outlons, values, distances, indexes);
 		for (int i =0; i < nb; i++) 
@@ -1448,7 +1449,7 @@ void GribDecoder::visit(ValuesCollector& points)
 			if(scaled)
 				points[i].back()->setScaledValue(scaling*values[i] + offset);
 			if(values[i] == missing)
-			  	points[i].back()->setMissing(true);
+				points[i].back()->setMissing(true);
 		}
 	}
 	else if ( Data::dimension_ == 2  ) {
@@ -1456,12 +1457,12 @@ void GribDecoder::visit(ValuesCollector& points)
 		oriUnits=getString("units",false);
 		if(oriUnits.find("/") == string::npos)
 		{
-		  	oriUnits=oriUnits + "/" + oriUnits;
+			oriUnits=oriUnits + "/" + oriUnits;
 		}	
 		points.setUnits(oriUnits);
 		points.setScaledUnits("/");
-				  			
-		
+
+
 		openFirstComponent();
 		grib_nearest_find_multiple(handle_, 0, inlats, inlons, nb, outlats, outlons, x, distances, indexes);
 		openSecondComponent();
@@ -1473,28 +1474,28 @@ void GribDecoder::visit(ValuesCollector& points)
 				points[i].back()->setMissing(true);	  
 		}
 	}
-		else   {
-			bool scaled=(scaling==1 && offset == 0)?false:true;
-					oriUnits=getString("units",false);
-					if(oriUnits.find("/") == string::npos)
-					{
-					  	oriUnits=oriUnits + "/" + oriUnits;
-					}
-					points.setUnits(oriUnits);
-					points.setScaledUnits("/");
-
-
-					openFirstComponent();
-					grib_nearest_find_multiple(handle_, 0, inlats, inlons, nb, outlats, outlons, x, distances, indexes);
-					openSecondComponent();
-					grib_nearest_find_multiple(handle_, 0, inlats, inlons, nb, outlats, outlons, y, distances, indexes);
-					for (int i =0; i < nb; i++)
-					{
-						points[i].push_back(wind_mode_->values(outlons[i],outlats[i],x[i],y[i], distances[i]));
-						if(x[i] == missing || y[i] == missing)
-							points[i].back()->setMissing(true);
-					}
+	else   {
+		bool scaled=(scaling==1 && offset == 0)?false:true;
+		oriUnits=getString("units",false);
+		if(oriUnits.find("/") == string::npos)
+		{
+			oriUnits=oriUnits + "/" + oriUnits;
 		}
+		points.setUnits(oriUnits);
+		points.setScaledUnits("/");
+
+
+		openFirstComponent();
+		grib_nearest_find_multiple(handle_, 0, inlats, inlons, nb, outlats, outlons, x, distances, indexes);
+		openSecondComponent();
+		grib_nearest_find_multiple(handle_, 0, inlats, inlons, nb, outlats, outlons, y, distances, indexes);
+		for (int i =0; i < nb; i++)
+		{
+			points[i].push_back(wind_mode_->values(outlons[i],outlats[i],x[i],y[i], distances[i]));
+			if(x[i] == missing || y[i] == missing)
+				points[i].back()->setMissing(true);
+		}
+	}
 
 }
 
@@ -1520,7 +1521,7 @@ const DateDescription& GribDecoder::timeStamp()
 	TagHandler helper;
 	GribTag tag1(*this, helper);
 	for ( vector<string>::const_iterator t = need.begin(); t != need.end(); ++t )
-			tag1.decode(*t);
+		tag1.decode(*t);
 
 
 	timeStamp_ = DateDescription(helper.get("grib", "valid-date"), index_, internalIndex_);
@@ -1541,63 +1542,63 @@ void GribDecoder::visit(MetaDataCollector& step)
 {
 	// Here we gather information for the label!
 	const Transformation& transformation = step.transformation();
-	
+
 	field_ = open(field_); // just to be sure the file is opened!
 
 	initInfo();
 
-	 //Collect infos
+	//Collect infos
 	if(step.empty())
 	{
 		MetviewIcon::visit(step);
-	   	return;
+		return;
 	}
-	   
+
 	try {	  
 		bool members=false;
 		vector<string> need;
 		if(name_.empty())
 		{
 			members=true;
-		  	need.push_back("<grib_info key='shortName'/>");
+			need.push_back("<grib_info key='shortName'/>");
 			need.push_back("<grib_info key='level'/>");
 			need.push_back("<grib_info key='start-date' format='%Y-%m-%d %H:%M:00'/>");
 			need.push_back("<grib_info key='end-date' format='%Y-%m-%d %H:%M:00'/>");
 		}
-		
+
 		for(map<string, string>::iterator key = step.begin(); key != step.end(); ++key )
 		{	    
 			//If key is not found in information we use gribapi
-		  	if(information_.find(key->first) == information_.end())
+			if(information_.find(key->first) == information_.end())
 			{  
 				//Compute stats
 				if (step.attribute(key->first).group() == MetaDataAttribute::StatsGroup)
 				{
 					stats_.clear();
-					
+
 
 					PointsHandler& points = this->points(transformation, false);
 
 					points.setToFirst();
-	
+
 					while( points.more() )
 					{
 						stats_["value"].push_back(points.current().value());						
 						points.advance();
 					}
-					
+
 					computeStats();
-					
+
 
 				}
 				//We use gribapi
 				else if(step.attribute(key->first).source() == MetaDataAttribute::AnySource ||
-				   step.attribute(key->first).source() == MetaDataAttribute::GribApiSource)
+						step.attribute(key->first).source() == MetaDataAttribute::GribApiSource)
 				{  					  
 					if(step.attribute(key->first).type() != MetaDataAttribute::NumberType)   
 					{
 						need.push_back("<grib_info key='"+key->first+ "'/>");
-		   			}
+					}
 					else
 					{
 						need.push_back("<grib_info key='"+key->first+ "' readAsLong='yes'/>");
@@ -1630,50 +1631,50 @@ void GribDecoder::visit(MetaDataCollector& step)
 						MagLog::warning() << "Grib Decoder: Representation [" << representation << "] not yet supported.\n"<< std::endl;;
 						information_[key->first]="N/A";
 					}
-					
+
 				}       	
-				
+
 			}	
 			//If key is found in information_ we copy it
 			else
 			{
-				  	key->second=information_[key->first];
+				key->second=information_[key->first];
 			}	
 		}
-		
-		
+
+
 		if(!need.empty())	
 		{
 			TagHandler helper;
 			GribTag tag1(*this, helper);
 			for ( vector<string>::const_iterator t = need.begin(); t != need.end(); ++t ) 
 			{
-	   			tag1.decode(*t);
+				tag1.decode(*t);
 			}	
-				
-	   		if(members)
-			{  
-	   			name_ = helper.get("grib", "shortName") +  " " +  helper.get("grib", "level");
 
-	   			from_ = DateTime(helper.get("grib", "start-date"));
-	   			to_ =  DateTime(helper.get("grib", "end-date"));
+			if(members)
+			{  
+				name_ = helper.get("grib", "shortName") +  " " +  helper.get("grib", "level");
+
+				from_ = DateTime(helper.get("grib", "start-date"));
+				to_ =  DateTime(helper.get("grib", "end-date"));
 			}
-			
+
 			for(map<string, string>::iterator key = step.begin(); key != step.end(); ++key )
 			{	    
 				if(information_.find(key->first) == information_.end())
 				{  
 					if(step.attribute(key->first).source() == MetaDataAttribute::AnySource ||
-				   	   step.attribute(key->first).source() == MetaDataAttribute::GribApiSource)
+							step.attribute(key->first).source() == MetaDataAttribute::GribApiSource)
 					{  					  
-					 	key->second = helper.get("grib", key->first);
+						key->second = helper.get("grib", key->first);
 						setInfo(key->first,key->second);
 					}	
 				} 
 
 			}	  
-			
-	   	}
+
+		}
 	}
 
 	catch (...) {}
@@ -1692,25 +1693,25 @@ MatrixHandler& GribDecoder::direction() {
 	vector<double> directions;
 	//	MagLog::dev()<< "missing1-->" << in1->missing() << endl;
 	//	MagLog::dev()<< "missing2-->" << in2->missing() << endl;
-		while ( x != xComponent_->end() &&  x != yComponent_->end() ) {
-			if ( *x == xComponent_->missing() || *y == yComponent_->missing() )
-	    	   directions.push_back(xComponent_->missing());
-			else
-				directions.push_back(atan2((*y), (*x)) );
-			++x;
-			++y;
-		}
-		matrix_->clear();
-		xComponent_ = 0;
+	while ( x != xComponent_->end() &&  x != yComponent_->end() ) {
+		if ( *x == xComponent_->missing() || *y == yComponent_->missing() )
+			directions.push_back(xComponent_->missing());
+		else
+			directions.push_back(atan2((*y), (*x)) );
+		++x;
+		++y;
+	}
+	matrix_->clear();
+	xComponent_ = 0;
 
 
 
-		for (vector<double>::iterator d = directions.begin(); d != directions.end(); ++d) {
-				matrix_->push_back(*d);
-		}
+	for (vector<double>::iterator d = directions.begin(); d != directions.end(); ++d) {
+		matrix_->push_back(*d);
+	}
 
-		matrixHandlers_.push_back(new MatrixHandler(*matrix_));
-		return *(matrixHandlers_.back());
+	matrixHandlers_.push_back(new MatrixHandler(*matrix_));
+	return *(matrixHandlers_.back());
 
 }
 void GribDecoder::decode(const Transformation& transformation) 
@@ -1719,9 +1720,9 @@ void GribDecoder::decode(const Transformation& transformation)
 
 	field_ = open(field_);
 
-		read(&matrix_, transformation);
+	read(&matrix_, transformation);
 	if (!matrix_) return;
-	
+
 	// here we build information for the layers!
 	TagHandler helper; 
 	vector<string> need;
@@ -1745,7 +1746,7 @@ void GribDecoder::decode(const Transformation& transformation)
 
 void GribDecoder::decode() 
 {
-	
+
 	if ( dimension_ == 1) {
 		if (matrix_) return;
 		field_ = open(field_);
@@ -1789,12 +1790,12 @@ void GribDecoder::visit(TextVisitor& title)
 	{
 		return;
 	}
-	
+
 	vector<string> titles;
 
 	title.titles(titles);
 	GribTag tag(*this, title);
-	
+
 	for ( vector<string>::const_iterator t = titles.begin(); t != titles.end(); ++t ) {
 		tag.decode(*t);
 	}
@@ -1805,21 +1806,21 @@ void GribDecoder::visit(TextVisitor& title)
 void GribDecoder::decodeRaster(const Transformation& transformation) 
 {
 	field_ = open(field_);
-	
+
 	string representation = getString("typeOfGrid");
-	
+
 	try {
 		if ( !interpretor_ ) {
-					interpretor_ = SimpleObjectMaker<GribInterpretor>::create(representation);
-				}
+			interpretor_ = SimpleObjectMaker<GribInterpretor>::create(representation);
+		}
 		interpretor_->interpretAsRaster(*this, raster_, transformation);
 	}
-    
-    catch (NoFactoryException&)
-    {
-    	MagLog::error() << "Grib Decoder: Representation [" << representation << "] not yet supported.\n";
-    	throw MagicsException("Grib Decoder: Representation [] not yet supported.");
-    }
+
+	catch (NoFactoryException&)
+	{
+		MagLog::error() << "Grib Decoder: Representation [" << representation << "] not yet supported.\n";
+		throw MagicsException("Grib Decoder: Representation [] not yet supported.");
+	}
 }
 
 
@@ -1827,14 +1828,14 @@ void GribDecoder::initInfo()
 {
 	if(information_.find("_datatype") == information_.end())
 	{
-	  	setInfo("_datatype","GRIB");
-		
+		setInfo("_datatype","GRIB");
+
 		char buf[1024];
-    		int count = readlink(file_name_.c_str(), buf, sizeof(buf));
-    		if (count > 0)
+		int count = readlink(file_name_.c_str(), buf, sizeof(buf));
+		if (count > 0)
 		{
-		    	buf[count] = '\0';
-   			setInfo("path", string(buf));
+			buf[count] = '\0';
+			setInfo("path", string(buf));
 		}	
 		else
 		{  
@@ -1864,7 +1865,7 @@ public:
 	void operator()(ostream& out, const GribDecoder& grib)
 	{
 		string val = grib.getString("name");
- 		out << val;
+		out << val;
 	}
 };
 
@@ -1932,10 +1933,10 @@ public:
 	void operator()(TitleField&, vector<string>& title, const GribDecoder& grib)
 	{
 
-        ostringstream out;
+		ostringstream out;
 		string local = grib.getString("observationDiagnostic");       
-        out << "diagnostic =" << local << " ";   
-        title.back() += out.str();
+		out << "diagnostic =" << local << " ";
+		title.back() += out.str();
 	}
 };
 
@@ -2001,7 +2002,7 @@ public:
 	{
 
 		string param = grib.getString("name");
- 		title.back()+=param;
+		title.back()+=param;
 	}
 };
 
@@ -2013,16 +2014,16 @@ public:
 	~GribKeyHandler() {}
 	void operator()(TitleField& field, vector<string>& title, const GribDecoder& grib)
 	{
-		
+
 
 		char x[256];
-		
+
 		string key = field.attribute("key", ""); 	
 		string value  = grib.getString(key);       
 		string format = field.attribute("format", "%s");
 		sprintf(x, format.c_str(), value.c_str());
 
-	    title.back() += string(x);
+		title.back() += string(x);
 
 	}
 };
@@ -2045,9 +2046,9 @@ public:
 		MagDate part1 = MagDate(date);
 		MagTime part2 = MagTime(hour, mn, 0);
 		DateTime full(part1, part2);
-	
+
 		string format = field.attribute("format", "%A %d %B %Y at %H UTC");
-	
+
 		title.back() += full.tostring(format);
 	}	
 };
@@ -2055,47 +2056,47 @@ public:
 class GribValidDateHandler : public TitleFieldHandler
 {
 public:
-    GribValidDateHandler() {}
-    ~GribValidDateHandler() {}
-    void operator()(TitleField& field, vector<string>& title, const GribDecoder& grib)
-    {
-	    ostringstream out;
-        long date = grib.getLong("date");    
-        long hour = grib.getLong("hour");  
-        long mn   = grib.getLong("minute"); 
-        long step = grib.getLong("step") * 3600; // needs steps in second!   // default is in hours. Set 'stepUnits' to change.
-       
-        MagDate part1 = MagDate(date);
-        MagTime part2 = MagTime(hour, mn, 0);
-        DateTime full(part1, part2);
-        full = full + step;
+	GribValidDateHandler() {}
+	~GribValidDateHandler() {}
+	void operator()(TitleField& field, vector<string>& title, const GribDecoder& grib)
+	{
+		ostringstream out;
+		long date = grib.getLong("date");
+		long hour = grib.getLong("hour");
+		long mn   = grib.getLong("minute");
+		long step = grib.getLong("step") * 3600; // needs steps in second!   // default is in hours. Set 'stepUnits' to change.
 
-        
-	    string format = field.attribute("format", "%A %d %B %Y %H UTC");
-	        
-	    title.back() += full.tostring(format);
-       
+		MagDate part1 = MagDate(date);
+		MagTime part2 = MagTime(hour, mn, 0);
+		DateTime full(part1, part2);
+		full = full + step;
 
-    }
+
+		string format = field.attribute("format", "%A %d %B %Y %H UTC");
+
+		title.back() += full.tostring(format);
+
+
+	}
 };
 
 class GribStepHandler : public TitleFieldHandler
 {
 public:
-    GribStepHandler() {}
-    ~GribStepHandler() {}
-    void operator()(TitleField& field, vector<string>& title, const GribDecoder& grib)
-    {
+	GribStepHandler() {}
+	~GribStepHandler() {}
+	void operator()(TitleField& field, vector<string>& title, const GribDecoder& grib)
+	{
 
-        ostringstream out;
-        long istep = grib.getLong("startStep");
+		ostringstream out;
+		long istep = grib.getLong("startStep");
 
 
-        ostringstream step;
-        step << istep;
-        string format = field.attribute("format", "t+%s");
-        out << SimpleStringFormat(step.str(), format);
-        title.back() += out.str();
+		ostringstream step;
+		step << istep;
+		string format = field.attribute("format", "t+%s");
+		out << SimpleStringFormat(step.str(), format);
+		title.back() += out.str();
 	}
 };
 
@@ -2103,38 +2104,38 @@ public:
 class GribLevelHandler : public TitleFieldHandler
 {
 public:
-    GribLevelHandler() { 
-    	if (map_.empty()) {
-    		map_["Surface"] = &GribLevelHandler::surface;
-    		map_["Unknown"] = &GribLevelHandler::surface;
-    		map_["isobaricInhPa"] = &GribLevelHandler::isobaricInhPa;
-    		map_["heightAboveGround"] = &GribLevelHandler::heightAboveGround;
-    		map_["heightAboveGround"] = &GribLevelHandler::heightAboveGround;
-    		map_["hybrid"] = &GribLevelHandler::hybrid;
-    	}
-    }
-    
-    ~GribLevelHandler() {}
-    typedef string (GribLevelHandler::*Builder)(const string& def, const GribDecoder& grib) const;
-    
-    void operator()(TitleField&, vector<string>& title, const GribDecoder& grib)
-    {
-    	ostringstream out;
+	GribLevelHandler() {
+		if (map_.empty()) {
+			map_["Surface"] = &GribLevelHandler::surface;
+			map_["Unknown"] = &GribLevelHandler::surface;
+			map_["isobaricInhPa"] = &GribLevelHandler::isobaricInhPa;
+			map_["heightAboveGround"] = &GribLevelHandler::heightAboveGround;
+			map_["heightAboveGround"] = &GribLevelHandler::heightAboveGround;
+			map_["hybrid"] = &GribLevelHandler::hybrid;
+		}
+	}
 
-        string level = grib.getString("typeOfLevel");
+	~GribLevelHandler() {}
+	typedef string (GribLevelHandler::*Builder)(const string& def, const GribDecoder& grib) const;
 
-        
-        map<string,  GribLevelHandler::Builder>::iterator help = map_.find(level);
-        if ( help != map_.end() ) out << (this->*help->second)(level, grib) << " ";
-        else out << level << " ";    
-        
-        title.back() +=  out.str();
-        
-    }
-    
+	void operator()(TitleField&, vector<string>& title, const GribDecoder& grib)
+	{
+		ostringstream out;
+
+		string level = grib.getString("typeOfLevel");
+
+
+		map<string,  GribLevelHandler::Builder>::iterator help = map_.find(level);
+		if ( help != map_.end() ) out << (this->*help->second)(level, grib) << " ";
+		else out << level << " ";
+
+		title.back() +=  out.str();
+
+	}
+
 protected: 
 	static map<string, GribLevelHandler::Builder> map_;
-	
+
 	string surface(const string&, const GribDecoder& ) const
 	{
 		return "";
@@ -2153,12 +2154,12 @@ protected:
 		return out.str();
 	}	
 	string pv(const string& , const GribDecoder& grib) const
-		{
-			ostringstream out;
-			long level = grib.getLong("level");
-			out  << level  <<  " mPVU";
-			return out.str();
-		}
+	{
+		ostringstream out;
+		long level = grib.getLong("level");
+		out  << level  <<  " mPVU";
+		return out.str();
+	}
 	string heightAboveGround(const string& , const GribDecoder& grib) const
 	{
 		ostringstream out;
@@ -2180,20 +2181,20 @@ map<string, GribLevelHandler::Builder> GribLevelHandler::map_;
 class GribTimeHandler : public TitleFieldHandler
 {
 public:
-    GribTimeHandler() {}
-    ~GribTimeHandler() {}
-    void operator()(TitleField&, vector<string>& title, const GribDecoder& grib)
-    {
-//        if (!grib.getText()) return;
-//        ostringstream out;
-//        grib_int_t idate;
-//        grib_get(grib.id(),(grib_string_t*)"time","I",&idate);      
-//     
-//        out << "Time:" << idate;
-//        title.add(out.str());
+	GribTimeHandler() {}
+	~GribTimeHandler() {}
+	void operator()(TitleField&, vector<string>& title, const GribDecoder& grib)
+	{
+		//        if (!grib.getText()) return;
+		//        ostringstream out;
+		//        grib_int_t idate;
+		//        grib_get(grib.id(),(grib_string_t*)"time","I",&idate);
+		//
+		//        out << "Time:" << idate;
+		//        title.add(out.str());
 
-          title.back() +=  "Time? ";
-    }
+		title.back() +=  "Time? ";
+	}
 };
 
 class GribCentreHandler : public TitleFieldHandler
@@ -2214,147 +2215,147 @@ public:
 class GribProductHandler : public TitleFieldHandler
 {
 public:
-    GribProductHandler() {}
-    ~GribProductHandler() {}
-    void operator()(TitleField&, vector<string>& title, const GribDecoder& grib)
-    {
+	GribProductHandler() {}
+	~GribProductHandler() {}
+	void operator()(TitleField&, vector<string>& title, const GribDecoder& grib)
+	{
 
-       long type = grib.getLong("type");
+		long type = grib.getLong("type");
 
-       GeneralDef def = TypeTable::definition(type);
-       title.back() += def.longTitle();
-    }
+		GeneralDef def = TypeTable::definition(type);
+		title.back() += def.longTitle();
+	}
 };
 
 
 class GribPlotTypeHandler : public TitleFieldHandler
 {
 public:
-    GribPlotTypeHandler() {}
-    ~GribPlotTypeHandler() {}
-    void operator()(TitleField&, vector<string>&,const GribDecoder&)
-    {
-         //MagLog::warning() << "Plot Type: not implemented--> wait for the specification." << "\n";
-    }
+	GribPlotTypeHandler() {}
+	~GribPlotTypeHandler() {}
+	void operator()(TitleField&, vector<string>&,const GribDecoder&)
+	{
+		//MagLog::warning() << "Plot Type: not implemented--> wait for the specification." << "\n";
+	}
 };
 
 
 class NewLineHandler : public TitleFieldHandler
 {
 public:
-    NewLineHandler() {}
-    ~NewLineHandler() {}
-    void operator()(TitleField&, vector<string>& title,const GribDecoder&)
-    {
-        title.push_back("");
-    }
+	NewLineHandler() {}
+	~NewLineHandler() {}
+	void operator()(TitleField&, vector<string>& title,const GribDecoder&)
+	{
+		title.push_back("");
+	}
 };
 
 
 class SatelliteHandler : public TitleFieldHandler
 {
 public:
-    SatelliteHandler()  {}
-    ~SatelliteHandler() {}
-    void operator()(TitleField&, vector<string>& title,const GribDecoder& grib)
-    {
-       ostringstream out;
-       long ident =  grib.getLong("ident");
+	SatelliteHandler()  {}
+	~SatelliteHandler() {}
+	void operator()(TitleField&, vector<string>& title,const GribDecoder& grib)
+	{
+		ostringstream out;
+		long ident =  grib.getLong("ident");
 
-       out << "Sat:" << ident << " ";
-       title.back() += out.str();
-    }
+		out << "Sat:" << ident << " ";
+		title.back() += out.str();
+	}
 };
 
 class ChannelHandler : public TitleFieldHandler
 {
 public:
-    ChannelHandler()  {}
-    ~ChannelHandler() {}
-    void operator()(TitleField&, vector<string>& title,const GribDecoder& grib)
-    {       
-    	ostringstream out;
-        long band = grib.getLong("obstype");
-        out << "Band:" << band << " ";
-        title.back() += out.str();
-    }
+	ChannelHandler()  {}
+	~ChannelHandler() {}
+	void operator()(TitleField&, vector<string>& title,const GribDecoder& grib)
+	{
+		ostringstream out;
+		long band = grib.getLong("obstype");
+		out << "Band:" << band << " ";
+		title.back() += out.str();
+	}
 };
 
 
 class GribExpverHandler : public TitleFieldHandler
 {
 public:
-    GribExpverHandler() {}
-    ~GribExpverHandler() {}
-    void operator()(TitleField& field, vector<string>& title, const GribDecoder& grib)
-    {
+	GribExpverHandler() {}
+	~GribExpverHandler() {}
+	void operator()(TitleField& field, vector<string>& title, const GribDecoder& grib)
+	{
 
-       if ( !grib.getExpver() ) return; 
-       ostringstream out;    
-       string expver = grib.getString("mars.experimentVersionNumber");
-       string format = field.attribute("format", "Expver=%s");          
-       out << SimpleStringFormat(expver, format);
-       title.back() += out.str();
-   }
+		if ( !grib.getExpver() ) return;
+		ostringstream out;
+		string expver = grib.getString("mars.experimentVersionNumber");
+		string format = field.attribute("format", "Expver=%s");
+		out << SimpleStringFormat(expver, format);
+		title.back() += out.str();
+	}
 };
 
 
 class GribEpsNumberInfoHandler : public TitleFieldHandler
 {
 public:
-    GribEpsNumberInfoHandler() {}
-    ~GribEpsNumberInfoHandler() {}
-    void operator()(TitleField& field, vector<string>& title, const GribDecoder& grib)
-    {
-	    
-//       if (!grib.getText()) return;
-//        ostringstream out;
-//       grib_int_t local;
-//       grib_get(grib.id(),(grib_string_t*)"localDefinition","I","localDefinitionNumber",&local);
-//       if (local != 1) return;
-//
-//       char number[1024];
-//       grib_get(grib.id(),(grib_string_t*)"localDefinition","s","total",number);
-//       string format = field.attribute("format", "(%s members)");     
-//      
-//      out << SimpleStringFormat(number, format);
-//        title.add(out.str());
+	GribEpsNumberInfoHandler() {}
+	~GribEpsNumberInfoHandler() {}
+	void operator()(TitleField& field, vector<string>& title, const GribDecoder& grib)
+	{
 
-    	 title.back() +=  "epsnumber?";
+		//       if (!grib.getText()) return;
+		//        ostringstream out;
+		//       grib_int_t local;
+		//       grib_get(grib.id(),(grib_string_t*)"localDefinition","I","localDefinitionNumber",&local);
+		//       if (local != 1) return;
+		//
+		//       char number[1024];
+		//       grib_get(grib.id(),(grib_string_t*)"localDefinition","s","total",number);
+		//       string format = field.attribute("format", "(%s members)");
+		//
+		//      out << SimpleStringFormat(number, format);
+		//        title.add(out.str());
 
-    }
+		title.back() +=  "epsnumber?";
+
+	}
 };
 
 
 class GribUnitHandler : public TitleFieldHandler
 {
 public:
-    GribUnitHandler() {}
-    ~GribUnitHandler() {}
-    void operator()(TitleField& field, vector<string>& title, const GribDecoder& grib)
-    {
-/*
+	GribUnitHandler() {}
+	~GribUnitHandler() {}
+	void operator()(TitleField& field, vector<string>& title, const GribDecoder& grib)
+	{
+		/*
 		if (!grib.getText()) return;
         if ( !grib.getUnits() ) return; 
         ostringstream out;      
-     
+
         double id   = grib.getDouble("paramId");
         long centre  = grib.getLong("centre");
-        				
+
         long param = (long) id;
         long table   = (id - param )*100;
 
-          
+
         const ParamDef& parameter = LocalTable::localInfo(param, table, centre);
-           
+
         string format = field.attribute("format", "Units:%s");           
         string unit = (grib.getScaling()) ? parameter.derivedUnit() :  parameter.originalUnit();
         out << SimpleStringFormat(unit, format);
-      
-        
+
+
         title.back() += out.str();
-   */
-    }
+		 */
+	}
 };
 
 }// end namespace magics
