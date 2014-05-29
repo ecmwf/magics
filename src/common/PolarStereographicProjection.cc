@@ -213,6 +213,8 @@ void PolarStereographicProjection::init(double width, double height)
 
 		double stepx= (urx - llx)/100.;
 		double stepy= (ury - lly)/100.;
+		if (same(stepx, 0) )return;
+		if (same(stepy, 0) ) return;;
 		for (double x = llx; x <= urx; x += stepx )
 		{
 		   for (double y = lly; y <= ury; y += stepy )
@@ -734,7 +736,7 @@ void PolarStereographicProjection::centre(double width, double height)
 
 
 
-/*!
+/*!polar
  Read in the documentation:	
  For Polar Stereographic projections, the thinning factor is the distance, 
  in both X and Y directions, corresponding to the projected INPUT_FIELD_LONGITUDE_STEP ,
