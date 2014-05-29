@@ -563,11 +563,11 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 		double lon = pos->first;
 		while ( lon < minlon ) {
 			lon += 360;
-			offset += 360;
+			offset -= 360;
 		}
 		while ( lon > maxlon ) {
 			lon -= 360.;
-			offset -= 360;
+			offset += 360;
 		}
 
 		vector<pair<double, vector<pair<double, CustomisedPoint*> > > >::iterator y;
