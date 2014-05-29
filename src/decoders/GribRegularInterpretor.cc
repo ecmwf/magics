@@ -148,7 +148,62 @@ void GribInterpretor::scaling(const GribDecoder& grib, Matrix** matrix) const
 }
 
 
-void GribInterpretor::raw(const GribDecoder& grib, const Transformation& transformation, const string& key, vector<UserPoint>& points) const
+void GribInterpretor::raw(const GribDecoder& grib, const Transformation& transformation, const string& key, vector<pair<double, vector<pair<double, CustomisedPoint*> > > >& points) const
+{
+/*
+	Timer timer("grib", "raw");
+	double factor, offset;
+	scaling(grib, factor, offset);
+	int err;
+
+
+	long nblon = grib.getLong("numberOfPointsAlongAParallel");
+	long nblat = grib.getLong("numberOfPointsAlongAMeridian");
+
+	points.reserve(nblat);
+
+
+	grib_iterator* iter = grib_iterator_new(grib.handle(), 0,&err);
+    double missing = grib.getDouble("missingValue");
+
+
+    double lat, lon, value;
+    double last = -99999999;
+
+
+    while ( grib_iterator_next(iter,&lat,&lon,&val) ) {
+
+      if ( transformation.in(lon, lat) || transformation.in(lon-360, lat)) {
+    	  if ( value != missing )
+    		  value = (value*factor)+offset;
+    	  if (lat != last) {
+    		  points.push_back(make_pair(lat, vector<pair<double,  CustomisedPoint*> >()));
+    		  points.back().second.reserve(nblon);
+    		  last = lat;
+    	  }
+    	  points.back().second.push_back(new CustomisedPoint(lon, lat, ""));
+    	  points.back().second.back(make_pair(key, value));
+
+
+
+      }
+
+
+
+
+
+    }
+
+
+
+
+    grib_iterator_delete(iter);
+*/
+
+}
+
+
+void GribInterpretor::raw(const GribDecoder& grib, const Transformation& transformation, const string& key,map<double, map<double, CustomisedPoint*> >& points) const
 {
 	Timer timer("grib", "raw");
 	double factor, offset;
@@ -157,8 +212,10 @@ void GribInterpretor::raw(const GribDecoder& grib, const Transformation& transfo
 	size_t nb;
 	grib_get_size(grib.id(), "values", &nb);
 
-	points.reserve(nb);
 
+
+	map<double, map<double, CustomisedPoint*> >::iterator ilat;
+	map<double, CustomisedPoint*>::iterator ilon;
 
 	grib_iterator* iter = grib_iterator_new(grib.handle(), 0,&err);
     double missing = grib.getDouble("missingValue");
@@ -166,19 +223,43 @@ void GribInterpretor::raw(const GribDecoder& grib, const Transformation& transfo
 
     double lat, lon, value;
 
+
         /* Loop on all the lat/lon/values. */
-    while(grib_iterator_next(iter,&lat,&lon,&value)) {   
+    while ( grib_iterator_next(iter,&lat,&lon,&value) ) {
 
-      
-      if (value != missing ) {
-
+      if ( transformation.in(lon, lat) || transformation.in(lon-360, lat)) {
+    	  if ( value != missing )
     		  value = (value*factor)+offset;
 
-    		  transformation.populate(lon, lat, value, points);
-      }
+    	  ilat = points.find(lat);
+    	  if ( ilat == points.end()  ) {
+
+    		  points.insert(make_pair(lat, map<double,  CustomisedPoint*>()));
+    		  ilat = points.find(lat);
+
+    	  }
+    	  ilon = ilat->second.find(lon);
+
+    	  if  ( ilon ==  ilat->second.end() ) {
+    		  CustomisedPoint* pt =  new CustomisedPoint(lon, lat, "");
+    		  pt->missing(true);
+    		  ilat->second.insert(make_pair(lon, pt));
+    		  ilon = ilat->second.find(lon);
+
+    	  }
+    	  ilon->second->insert(make_pair(key, value));
+
+
+
+
+
+
+     }
 
 
     }
+
+
 
         /* At the end the iterator is deleted to free memory. */
     grib_iterator_delete(iter);               
@@ -470,7 +551,7 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib, 
 	*matrix = new Matrix();
 	size_t nb;
 	grib_get_size(grib.id(), "values", &nb);
-	bool interpolate = grib.interpolate_method_;
+	bool interpolate = grib.interpolation_method_;
 	MagLog::dev() << "numberOfFieldValues[" << nb << "]" << "\n";
 	double missing = std::numeric_limits<double>::max();
 	grib.setDouble("missingValue", missing);
@@ -547,10 +628,16 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib, 
 				(*matrix)->push_back(p[p1]);
 			}
 			else {
-				if (p[p1] == missing ||  p[p2] == missing)
-					val = missing;
-				else
-					val = (p[p1] * d1) + (p[p2] * d2);
+				if ( interpolate ) {
+					if (p[p1] == missing ||  p[p2] == missing)
+						val = missing;
+					else
+						val = (p[p1] * d1) + (p[p2] * d2);
+				}
+				else {
+					val = ( d1 < 0.5 ) ? p[p1] : p[p2];
+
+				}
 				(*matrix)->push_back(val);
 			}
 			lon += step;
@@ -1258,7 +1345,7 @@ void GribRotatedInterpretor::interpret2D(double& lat, double& lon, double& uc, d
 
 }
 
-void GribRotatedInterpretor::raw(const GribDecoder& grib, const Transformation& transformation, const string& key, vector<UserPoint>& points) const
+void GribRotatedInterpretor::raw(const GribDecoder& grib, const Transformation& transformation, const string& key, map<double, map<double, CustomisedPoint*>  >& points) const
 {
 	double factor, offset;
 	scaling(grib, factor, offset);
@@ -1278,11 +1365,12 @@ void GribRotatedInterpretor::raw(const GribDecoder& grib, const Transformation& 
       lat = coords.first;
       lon = coords.second;
       if (value != missing ) {
+    	  /*
     	  std::stack<UserPoint>   duplicates;
     	  UserPoint geo(lon, lat);
     	  value = (value*factor)+offset;
     	  transformation.populate(lon, lat, value, points);
-
+*/
 
       }
 

@@ -292,7 +292,7 @@ public:
 	virtual double height() const { return getMaxX() - getMinX(); }
 	
 	virtual void thin(double, double, double, vector<UserPoint>&) const;
-
+	virtual void thin(double, double, vector<pair<double, double> >&) const;
 	virtual void getNewDefinition(const UserPoint&, const UserPoint&, string&) const
 		{ assert(false); }
 	virtual void setDefinition(const string&)
