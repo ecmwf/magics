@@ -542,116 +542,15 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 	vector<pair<double, double> >::iterator pos = positions.begin();
 
 	int nb = positions.size();
-	double inlats[nb];
-	double inlons[nb];
-	double outlats[nb];
-	double outlons[nb];
-	double xval[nb];
-	double yval[nb];
-	double cval[nb];
-	double x[nb];
-	double y[nb];
-	double distances[nb];
-	int indexes[nb];
+
 	int i = 0;
 
 
-	/*
-	{
-	Timer grib("gribpai", "");
-	while ( pos != positions.end() ) {
-		 inlats[i] = pos->second;
-		 inlons[i] = std::fmod(pos->first,360.);
-		 if(inlons[i] < 0.) inlons[i]+=360.;
-		 ++pos;
-		 i++;
-	}
-		openFirstComponent();
-		grib_nearest_find_multiple(handle_, 0, inlats, inlons, nb, outlats, outlons, xval, distances, indexes);
-		openSecondComponent();
-		grib_nearest_find_multiple(handle_, 0, inlats, inlons, nb, outlats, outlons, yval, distances, indexes);
-	}
-	 */
+
 	vector<pair<double, vector<pair<double, CustomisedPoint*> > > > points;
+    double minlon, maxlon;
+	interpretor_->raw(*this, transformation, points, minlon, maxlon);
 
-	interpretor_->raw(*this, transformation, points);
-	/*map<double, map<double, CustomisedPoint*> > points;
-	{
-		Timer magics("magics", "");
-		openFirstComponent();
-		interpretor_->raw(*this, transformation, xc, points);
-		openSecondComponent();
-		interpretor_->raw(*this, transformation, yc, points);
-	}
-
-
-	i = 0;
-	// Should check if global;
-    for (map<double, map<double, CustomisedPoint*> >::iterator ilat = points.begin(); ilat != points.end(); ++ilat ) {
-    	map<double, CustomisedPoint*>& lons = ilat->second;
-    	int nb = lons.size();
-    	CustomisedPoint* first = ilat->second.begin()->second;
-    	CustomisedPoint* last =  ilat->second.rbegin()->second;
-    	if (last->longitude() - first->longitude() > interpretor_->XResolution(*this)) {
-
-    		 CustomisedPoint* dup =  new CustomisedPoint(first->longitude()+360, first->latitude(), "");
-    		 dup->insert(make_pair("x_component", (*first)["x_component"]));
-    		 dup->insert(make_pair("y_component", (*first)["y_component"]));
-    		 lons.insert(make_pair(dup->longitude(), dup));
-    	}
-
-
-    }
-
-	out.reserve(positions.size());
-	for ( pos = positions.begin(); pos != positions.end(); ++pos) {
-		vector<pair<double, vector<pair<double, CustomisedPoint*> > > >::iterator y1, y2;
-		vector<pair<double, CustomisedPoint*>::iterator x1, x2;
-
-
-		y1 = lower_bound(points.begin(), points.end(), pos->second);
-		y2 = points.lower_bound(pos->second);
-
-		map<double, CustomisedPoint*> result;
-		double small, distance;
-		--y1;
-		double lon = pos->first;
-		if ( lon < 0) lon +=360;
-
-		if (y1 !=  points.end() ) {
-			x1 = x2 = y1->second.lower_bound(lon);
-			--x1;
-			result.insert(make_pair(DIST(x2->first -lon, y1->first - pos->second), x2->second));
-			if (x1 != y1->second.end() ) {
-
-				result.insert(make_pair(DIST(x1->first - lon, y1->first - pos->second), x1->second));
-			}
-			else
-				cout << "why " << lon << endl;
-
-		}
-		if (y2 !=  points.end() ) {
-
-			x1 = x2 = y2->second.lower_bound(lon);
-			--x1;
-			result.insert(make_pair(DIST(x2->first -lon, y2->first - pos->second), x2->second));
-			if ( x1 != y2->second.end() ) {
-				result.insert(make_pair(DIST(x1->first -lon, y2->first - pos->second), x1->second));
-			}
-			else
-				cout << "why " << lon << endl;
-		}
-		CustomisedPoint *point = result.begin()->second;
-		cout << "select " << point->latitude() << " " << point->longitude() << endl;
-		lon = point->longitude();
-		if ( lon > 180 ) lon -= 360;
-		CustomisedPoint *add = new CustomisedPoint(lon, point->latitude(), "");
-		add->insert(make_pair("x_component", (*point)["x_component"]));
-		add->insert(make_pair("y_component", (*point)["y_component"]));
-		out.push_back(add);
-		i++;
-	}
-	 */
 
 	out.reserve(positions.size());
 	double missing = getDouble("missingValue");
@@ -659,6 +558,13 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 	std::reverse(points.begin(),points.end());
 
 	for ( pos = positions.begin(); pos != positions.end(); ++pos) {
+		// First make sure tthat the lon is between the minlon and maxlon.
+		double lon = pos->first;
+		while ( lon < minlon )
+			lon += 360;
+		while ( lon > maxlon )
+			lon -= 360.;
+
 		vector<pair<double, vector<pair<double, CustomisedPoint*> > > >::iterator y;
 		vector<pair<double, CustomisedPoint*> >::iterator x;
 
@@ -670,9 +576,6 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 		map<double, CustomisedPoint*> result;
 		double small, distance;
 
-
-		double lon = pos->first;
-		if ( lon < 0) lon +=360;
 		x = std::lower_bound(y->second.begin(), y->second.end(), lon, Compare());
 		result.insert(make_pair(DIST(x->first -lon, y->first - pos->second), x->second));
 		if ( x != y->second.begin() ) {
@@ -695,14 +598,33 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 		CustomisedPoint *point = result.begin()->second;
 
 		lon = point->longitude();
-		if ( lon > 180 ) lon -= 360;
+
 		if ( (*point)["x_component"] != missing && (*point)["y_component"]) {
 			CustomisedPoint *add = new CustomisedPoint(lon, point->latitude(), "");
 			pair<double, double> value = (*wind_mode_)((*point)["x_component"], (*point)["y_component"]);
 			add->insert(make_pair("x_component", value.first));
 			add->insert(make_pair("y_component", value.second));
 			out.push_back(add);
+
+			lon = point->longitude()-360.;
+			while ( transformation.in(lon, point->latitude()) ){
+				add = new CustomisedPoint(lon, point->latitude(), "");
+				add->insert(make_pair("x_component", value.first));
+				add->insert(make_pair("y_component", value.second));
+				out.push_back(add);
+				lon -=360.;
+			}
+			lon = point->longitude()+360.;
+			while ( transformation.in(lon, point->latitude()) ) {
+				add = new CustomisedPoint(lon, point->latitude(), "");
+				add->insert(make_pair("x_component", value.first));
+				add->insert(make_pair("y_component", value.second));
+				out.push_back(add);
+				lon +=360.;
+
+			}
 		}
+
 		i++;
 
 	}

@@ -148,7 +148,7 @@ void GribInterpretor::scaling(const GribDecoder& grib, Matrix** matrix) const
 }
 
 
-void GribInterpretor::raw(GribDecoder& grib, const Transformation& transformation,  vector<pair<double, vector<pair<double, CustomisedPoint*> > > >& points) const
+void GribInterpretor::raw(GribDecoder& grib, const Transformation& transformation,  vector<pair<double, vector<pair<double, CustomisedPoint*> > > >& points, double& minlon, double& maxlon) const
 {
 
 	Timer timer("grib", "raw");
@@ -175,10 +175,17 @@ void GribInterpretor::raw(GribDecoder& grib, const Transformation& transformatio
     double lat, lon, u, v;
     double last = -99999999;
 
+    minlon = 999999;
+    maxlon = -999999;
+
 
     while ( grib_iterator_next(uiter,&lat,&lon,&u) && grib_iterator_next(viter,&lat,&lon,&v) ) {
 
       if ( transformation.in(lon, lat) || transformation.in(lon-360, lat)) {
+    	  if ( minlon > lon)
+    		  minlon = lon;
+    	  if ( maxlon < lon)
+    		  maxlon = lon;
     	  if ( u != missing )
     		  u = (u*factor)+offset;
     	  if ( v != missing )
