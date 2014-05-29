@@ -43,6 +43,12 @@ void setVariable(const string& in, map<string, string>& variables)
 
 } //end of namespace magml
 
+void catch_alarm(int)
+{
+    printf("MagPlus ERROR: Operation timed out. Exiting...\n");
+    abort();
+}
+
 int normal_main(int argc, char **argv)
 {
   try
