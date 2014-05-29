@@ -2,9 +2,9 @@
 
 versions="current++" 
 versions="current++ new++" 
-src=`ls *F`
+src=`ls tephi_missing.py`
 output="ps" 
-suffix="F" 
+suffix="py" 
 dir=`pwd`
 name=`basename $dir`
 

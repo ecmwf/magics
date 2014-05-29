@@ -53,7 +53,7 @@ public:
 	virtual ~GribInterpretor() {}
 	virtual double XResolution(const GribDecoder&) const { return 0; }
 	virtual void raw(const GribDecoder&, const Transformation&, const string&, map<double, map<double, CustomisedPoint*> >&) const;
-	virtual void raw(const GribDecoder&, const Transformation&, const string&, vector<pair<double, vector<pair<double, CustomisedPoint*> > > >&) const;
+	virtual void raw(GribDecoder&, const Transformation&, vector<pair<double, vector<pair<double, CustomisedPoint*> > > >&) const;
 
 	virtual void interpretAsMatrix(const GribDecoder&, Matrix** matrix) const { *matrix = 0; }
 	virtual void interpretAsMatrix(const GribDecoder& grib, Matrix** matrix, const Transformation&) const

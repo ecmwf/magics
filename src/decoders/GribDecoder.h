@@ -197,6 +197,9 @@ public:
 	bool      id(const string&, const string&) const;
 
 
+	grib_handle*  uHandle(string&);
+	grib_handle*  vHandle(string&);
+	grib_handle*  cHandle(string&);
 
 	grib_handle*  handle() const { return handle_; }
         void initInfo();
