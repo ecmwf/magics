@@ -423,7 +423,24 @@ void GribDecoder::customisedPoints(const AutomaticThinningMethod& thinning, cons
 }
 
 
+grib_handle*  GribDecoder::uHandle(string& name)
+{
+	openFirstComponent();
+	name = "x_component";
+	return handle_;
+}
 
+grib_handle*  GribDecoder::vHandle(string& name)
+{
+	openSecondComponent();
+	name = "y_component";
+	return handle_;
+}
+
+grib_handle*  GribDecoder::cHandle(string&)
+{
+	return 0;
+}
 
 
 
@@ -495,6 +512,16 @@ void GribDecoder::newPoint(const Transformation& transformation, double lat, dou
 
 #define DIST(a,b) ((a*a) + (b*b))
 
+struct Compare
+{
+
+   template< typename T1, typename T2 >
+   bool operator()( T1 const& t1, T2 const& t2 ) const
+   {
+       return t1.first < t2;
+   }
+};
+
 void GribDecoder::customisedPoints(const Transformation& transformation, CustomisedPointsList& out, double thinx, double thiny, double gap)
 {
 
@@ -528,6 +555,10 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 	int indexes[nb];
 	int i = 0;
 
+
+	/*
+	{
+	Timer grib("gribpai", "");
 	while ( pos != positions.end() ) {
 		 inlats[i] = pos->second;
 		 inlons[i] = std::fmod(pos->first,360.);
@@ -535,19 +566,16 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 		 ++pos;
 		 i++;
 	}
-	/*
-	{
-	Timer grib("gribpai", "");
-
 		openFirstComponent();
 		grib_nearest_find_multiple(handle_, 0, inlats, inlons, nb, outlats, outlons, xval, distances, indexes);
 		openSecondComponent();
 		grib_nearest_find_multiple(handle_, 0, inlats, inlons, nb, outlats, outlons, yval, distances, indexes);
 	}
 */
+	vector<pair<double, vector<pair<double, CustomisedPoint*> > > > points;
 
-	map<double, map<double, CustomisedPoint*> > points;
-
+	interpretor_->raw(*this, transformation, points);
+	/*map<double, map<double, CustomisedPoint*> > points;
 	{
 		Timer magics("magics", "");
 		openFirstComponent();
@@ -555,6 +583,8 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 		openSecondComponent();
 		interpretor_->raw(*this, transformation, yc, points);
 	}
+
+
 	i = 0;
 	// Should check if global;
     for (map<double, map<double, CustomisedPoint*> >::iterator ilat = points.begin(); ilat != points.end(); ++ilat ) {
@@ -575,11 +605,11 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 
 	out.reserve(positions.size());
 	for ( pos = positions.begin(); pos != positions.end(); ++pos) {
-		map<double, map<double, CustomisedPoint*> >::iterator y1, y2;
-		map<double, CustomisedPoint*>::iterator x1, x2;
+		vector<pair<double, vector<pair<double, CustomisedPoint*> > > >::iterator y1, y2;
+		vector<pair<double, CustomisedPoint*>::iterator x1, x2;
 
 
-		y1 = points.lower_bound(pos->second);
+		y1 = lower_bound(points.begin(), points.end(), pos->second);
 		y2 = points.lower_bound(pos->second);
 
 		map<double, CustomisedPoint*> result;
@@ -621,13 +651,68 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 		out.push_back(add);
 		i++;
 	}
+*/
+
+	out.reserve(positions.size());
+	double missing = getDouble("missingValue");
+
+	std::reverse(points.begin(),points.end());
+
+		for ( pos = positions.begin(); pos != positions.end(); ++pos) {
+			vector<pair<double, vector<pair<double, CustomisedPoint*> > > >::iterator y;
+			vector<pair<double, CustomisedPoint*> >::iterator x;
 
 
+			y = std::lower_bound(points.begin(), points.end(), pos->second, Compare());
+            if (y == points.end() )
+            	continue;
+
+			map<double, CustomisedPoint*> result;
+			double small, distance;
+
+
+			double lon = pos->first;
+			if ( lon < 0) lon +=360;
+			x = std::lower_bound(y->second.begin(), y->second.end(), lon, Compare());
+			result.insert(make_pair(DIST(x->first -lon, y->first - pos->second), x->second));
+			if ( x != y->second.begin() ) {
+				--x;
+				result.insert(make_pair(DIST(x->first -lon, y->first - pos->second), x->second));
+			}
+
+			if (y != points.begin() ) {
+				--y;
+				x = std::lower_bound(y->second.begin(), y->second.end(), lon, Compare());
+				result.insert(make_pair(DIST(x->first -lon, y->first - pos->second), x->second));
+				if ( x != y->second.begin() ) {
+					--x;
+					result.insert(make_pair(DIST(x->first -lon, y->first - pos->second), x->second));
+				}
+
+			}
+
+
+			CustomisedPoint *point = result.begin()->second;
+
+			lon = point->longitude();
+			if ( lon > 180 ) lon -= 360;
+			if ( (*point)["x_component"] != missing && (*point)["y_component"]) {
+				CustomisedPoint *add = new CustomisedPoint(lon, point->latitude(), "");
+				add->insert(make_pair("x_component", (*point)["x_component"]));
+				add->insert(make_pair("y_component", (*point)["y_component"]));
+				out.push_back(add);
+			}
+			i++;
+
+		}
 
 
 
 	// Now we have to clean the data ...
 
+	for ( vector<pair<double, vector<pair<double, CustomisedPoint*> > > >::iterator y = points.begin(); y != points.end(); ++y )
+		for ( vector<pair<double, CustomisedPoint*> >::iterator x = y->second.begin(); x != y->second.end(); ++x)
+			delete x->second;
 
 
 

@@ -148,14 +148,18 @@ void GribInterpretor::scaling(const GribDecoder& grib, Matrix** matrix) const
 }
 
 
-void GribInterpretor::raw(const GribDecoder& grib, const Transformation& transformation, const string& key, vector<pair<double, vector<pair<double, CustomisedPoint*> > > >& points) const
+void GribInterpretor::raw(GribDecoder& grib, const Transformation& transformation,  vector<pair<double, vector<pair<double, CustomisedPoint*> > > >& points) const
 {
-/*
+
 	Timer timer("grib", "raw");
 	double factor, offset;
 	scaling(grib, factor, offset);
 	int err;
 
+	string uname, vname;
+
+	grib_handle* uc = grib.uHandle(uname);
+	grib_handle* vc = grib.vHandle(vname);
 
 	long nblon = grib.getLong("numberOfPointsAlongAParallel");
 	long nblat = grib.getLong("numberOfPointsAlongAMeridian");
@@ -163,27 +167,32 @@ void GribInterpretor::raw(const GribDecoder& grib, const Transformation& transfo
 	points.reserve(nblat);
 
 
-	grib_iterator* iter = grib_iterator_new(grib.handle(), 0,&err);
+	grib_iterator* uiter = grib_iterator_new(uc, 0,&err);
+	grib_iterator* viter = grib_iterator_new(vc, 0,&err);
     double missing = grib.getDouble("missingValue");
 
 
-    double lat, lon, value;
+    double lat, lon, u, v;
     double last = -99999999;
 
 
-    while ( grib_iterator_next(iter,&lat,&lon,&val) ) {
+    while ( grib_iterator_next(uiter,&lat,&lon,&u) && grib_iterator_next(viter,&lat,&lon,&v) ) {
 
       if ( transformation.in(lon, lat) || transformation.in(lon-360, lat)) {
-    	  if ( value != missing )
-    		  value = (value*factor)+offset;
+    	  if ( u != missing )
+    		  u = (u*factor)+offset;
+    	  if ( v != missing )
+    	    		  v = (v*factor)+offset;
     	  if (lat != last) {
     		  points.push_back(make_pair(lat, vector<pair<double,  CustomisedPoint*> >()));
-    		  points.back().second.reserve(nblon);
+    		  points.back().second.reserve(nblat*2);
     		  last = lat;
     	  }
-    	  points.back().second.push_back(new CustomisedPoint(lon, lat, ""));
-    	  points.back().second.back(make_pair(key, value));
+    	  CustomisedPoint* point = new CustomisedPoint(lon, lat, "");
+    	  point->insert(make_pair(uname, u));
+    	  point->insert(make_pair(vname, v));
 
+    	  points.back().second.push_back(make_pair(lon, point));
 
 
       }
@@ -195,10 +204,24 @@ void GribInterpretor::raw(const GribDecoder& grib, const Transformation& transfo
     }
 
 
+    grib_iterator_delete(viter);
+    grib_iterator_delete(uiter);
+
+    for (vector<pair<double, vector<pair<double, CustomisedPoint*> > > >::iterator ilat = points.begin(); ilat != points.end(); ++ilat ) {
+    	vector<pair<double, CustomisedPoint*> >& lons = ilat->second;
+
+    	CustomisedPoint* first = lons.front().second;;
+    	CustomisedPoint* last =  lons.back().second;
+    	//if (last->longitude() - first->longitude() > XResolution(grib)) {
+    		 CustomisedPoint* dup =  new CustomisedPoint(first->longitude()+360, first->latitude(), "");
+    		 dup->insert(make_pair("x_component", (*first)["x_component"]));
+    		 dup->insert(make_pair("y_component", (*first)["y_component"]));
+    		 lons.push_back(make_pair(dup->longitude(), dup));
+    	//}
 
 
-    grib_iterator_delete(iter);
-*/
+    }
+
 
 }
 
