@@ -1,3 +1,5 @@
+#include <unistd.h>
+#include <signal.h>
 #include "WebFormat.h"
 #include "MetaData.h"
 
@@ -14,9 +16,9 @@ pair<string, string> cut(const string& in)
 	bool  param = true;
 
 	while ( c != in.end() )
-	{		
+	{
 		if ( *c == '='  && param )
-		{			
+		{
 			var = current;
 			current = "";
 			param= false;
@@ -57,10 +59,16 @@ int normal_main(int argc, char **argv)
 	for( int i = 2; i < argc; i++ )
 		magml::setVariable(argv[i], WebInterpretor::parameters());
 
-	//for ( int i = 0; i < 10; i++) 
+	//for ( int i = 0; i < 10; i++)
 	{
 		try {
-			WebInterpretor::json(argv[1]);
+            map<string, string>::const_iterator out = WebInterpretor::parameters().find("timeout");
+            int timeout = (out == WebInterpretor::parameters().end() ) ? 0 : tonumber(out->second);
+            MagLog::info() << "Time out armed for " << timeout << endl;
+            signal(SIGALRM, catch_alarm);
+            alarm(timeout);
+            WebInterpretor::json(argv[1]);
+            alarm(0);
 		}
 		catch (...) {
 			std::cout << argv[0] << " FAILED to dispatch JSON file!"<< endl;
@@ -79,7 +87,7 @@ int server_main(int argc, char **argv)
 {
     char line[10240];
     cout << "MAGJSON_SERVER_MODE Ready" << endl;
-    for(;;) 
+    for(;;)
     {
         cin.getline(line, sizeof(line));
         cout << "Running " << line << endl;
