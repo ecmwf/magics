@@ -405,20 +405,12 @@ void GribDecoder::customisedPoints(const AutomaticThinningMethod& thinning, cons
 
 
 
-		double max = transformation.getMaxY();
-		double min = transformation.getMinY();
+
+		double xstep = ( transformation.getMaxPCX() - transformation.getMinPCX())/ thinning.x();
+		double ystep = ( transformation.getMaxPCY() - transformation.getMinPCY())/ thinning.y();
 
 
-		double res = interpretor_->XResolution(*this);
-
-
-		bool thinit =  ( (max-min)/thinning.y() > 2*res );
-
-		double xpoints = (thinit) ? thinning.x() : 0;
-		double ypoints = (thinit) ? thinning.y() : 0;
-
-
-		customisedPoints(transformation, points, res*xpoints, res*ypoints, 0);
+		customisedPoints(transformation, points, xstep, ystep, 0);
 
 
 
@@ -500,11 +492,14 @@ void GribDecoder::newPoint(const Transformation& transformation, double lat, dou
 
 		 }
 }
+
+#define DIST(a,b) ((a*a) + (b*b))
+
 void GribDecoder::customisedPoints(const Transformation& transformation, CustomisedPointsList& out, double thinx, double thiny, double gap)
 {
 
 
-	vector<UserPoint> xin, yin, cin;
+	map<double, map<double, CustomisedPoint*> > data;
 
 
 	string xc = "x_component";
@@ -512,44 +507,127 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 	string cc = "colour_component";
 
 
-	interpretor_->raw(*this, transformation, xc, xin);
 
-	readColourComponent();
-	if ( colourComponent_ ) {
-		interpretor_->raw(*this, transformation, cc, cin);
+	vector<pair<double, double> > positions;
 
+
+	transformation.thin(thinx, thiny, positions);
+	vector<pair<double, double> >::iterator pos = positions.begin();
+
+	int nb = positions.size();
+	double inlats[nb];
+	double inlons[nb];
+	double outlats[nb];
+	double outlons[nb];
+	double xval[nb];
+	double yval[nb];
+	double cval[nb];
+	double x[nb];
+	double y[nb];
+	double distances[nb];
+	int indexes[nb];
+	int i = 0;
+
+	while ( pos != positions.end() ) {
+		 inlats[i] = pos->second;
+		 inlons[i] = std::fmod(pos->first,360.);
+		 if(inlons[i] < 0.) inlons[i]+=360.;
+		 ++pos;
+		 i++;
 	}
-	openSecondComponent();
-	interpretor_->raw(*this, transformation, yc, yin);
-
-	vector<UserPoint>::iterator x = xin.begin();
-	vector<UserPoint>::iterator y = yin.begin();
-	vector<UserPoint>::iterator c = cin.begin();
-	bool thinit = thinx || thiny;
-
-	if (thinit)
-		transformation.thin(thinx, thiny, gap, xin);
-	out.reserve(yin.size());
-	while ( x != xin.end() && y!= yin.end() )
+	/*
 	{
-		if ( x->missing() || !thinit ) {
-			assert(x->x_ == y->x_);
-			assert(x->y_ == y->y_);
-			CustomisedPoint* point = new CustomisedPoint(x->x_, x->y_, "");
-			std::pair<double, double> val = (*wind_mode_)(x->value_, y->value_);
-			point->insert(make_pair(xc, val.first));
-			point->insert(make_pair(yc, val.second));
-			if ( c != cin.end() ) {
-				point->insert(make_pair(cc, c->value_));
-			}
-			out.push_back(point);
-		}
-		x++;
-		y++;
-		if ( c != cin.end() ) {
-			c++;
-		}
+	Timer grib("gribpai", "");
+
+		openFirstComponent();
+		grib_nearest_find_multiple(handle_, 0, inlats, inlons, nb, outlats, outlons, xval, distances, indexes);
+		openSecondComponent();
+		grib_nearest_find_multiple(handle_, 0, inlats, inlons, nb, outlats, outlons, yval, distances, indexes);
 	}
+*/
+
+	map<double, map<double, CustomisedPoint*> > points;
+
+	{
+		Timer magics("magics", "");
+		openFirstComponent();
+		interpretor_->raw(*this, transformation, xc, points);
+		openSecondComponent();
+		interpretor_->raw(*this, transformation, yc, points);
+	}
+	i = 0;
+	// Should check if global;
+    for (map<double, map<double, CustomisedPoint*> >::iterator ilat = points.begin(); ilat != points.end(); ++ilat ) {
+    	map<double, CustomisedPoint*>& lons = ilat->second;
+    	int nb = lons.size();
+    	CustomisedPoint* first = ilat->second.begin()->second;
+    	CustomisedPoint* last =  ilat->second.rbegin()->second;
+    	if (last->longitude() - first->longitude() > interpretor_->XResolution(*this)) {
+
+    		 CustomisedPoint* dup =  new CustomisedPoint(first->longitude()+360, first->latitude(), "");
+    		 dup->insert(make_pair("x_component", (*first)["x_component"]));
+    		 dup->insert(make_pair("y_component", (*first)["y_component"]));
+    		 lons.insert(make_pair(dup->longitude(), dup));
+    	}
+
+
+    }
+
+	out.reserve(positions.size());
+	for ( pos = positions.begin(); pos != positions.end(); ++pos) {
+		map<double, map<double, CustomisedPoint*> >::iterator y1, y2;
+		map<double, CustomisedPoint*>::iterator x1, x2;
+
+
+		y1 = points.lower_bound(pos->second);
+		y2 = points.lower_bound(pos->second);
+
+		map<double, CustomisedPoint*> result;
+		double small, distance;
+		--y1;
+		double lon = pos->first;
+		if ( lon < 0) lon +=360;
+
+		if (y1 !=  points.end() ) {
+			x1 = x2 = y1->second.lower_bound(lon);
+			--x1;
+			result.insert(make_pair(DIST(x2->first -lon, y1->first - pos->second), x2->second));
+			if (x1 != y1->second.end() ) {
+
+				result.insert(make_pair(DIST(x1->first - lon, y1->first - pos->second), x1->second));
+			}
+			else
+				cout << "why " << lon << endl;
+
+		}
+		if (y2 !=  points.end() ) {
+
+			x1 = x2 = y2->second.lower_bound(lon);
+			--x1;
+			result.insert(make_pair(DIST(x2->first -lon, y2->first - pos->second), x2->second));
+			if ( x1 != y2->second.end() ) {
+				result.insert(make_pair(DIST(x1->first -lon, y2->first - pos->second), x1->second));
+			}
+			else
+				cout << "why " << lon << endl;
+		}
+		CustomisedPoint *point = result.begin()->second;
+		cout << "select " << point->latitude() << " " << point->longitude() << endl;
+		lon = point->longitude();
+		if ( lon > 180 ) lon -= 360;
+		CustomisedPoint *add = new CustomisedPoint(lon, point->latitude(), "");
+		add->insert(make_pair("x_component", (*point)["x_component"]));
+		add->insert(make_pair("y_component", (*point)["y_component"]));
+		out.push_back(add);
+		i++;
+	}
+
+
+
+
+
+	// Now we have to clean the data ...
+
 
 
 
@@ -571,21 +649,21 @@ void GribDecoder::customisedPoints(const BasicThinningMethod& thinning, const Tr
 
 		double gap = 0;
 
-		if ( thinning.factor() > 1 ) {
-			double x1 = 0;
-			double y1 = 60;
-			double x2 = interpretor_->XResolution(*this);
-			double y2 = 60+interpretor_->XResolution(*this);
 
-            transformation.fast_reproject(x1, y1);
-            transformation.fast_reproject(x2, y2);
+		double x1 = 0;
+		double y1 = 60;
+		double x2 = interpretor_->XResolution(*this);
+		double y2 = 60+interpretor_->XResolution(*this);
 
-            gap = ((x2-x1)*(x2-x1)) + ((y2-y1)*(y2-y1));
+        transformation.fast_reproject(x1, y1);
+        transformation.fast_reproject(x2, y2);
 
-		}
+        gap = sqrt( ((x2-x1)*(x2-x1)) + ((y2-y1)*(y2-y1)) );
+
+
 		customisedPoints(transformation, points,
-				interpretor_->XResolution(*this)* thinning.factor(),
-				interpretor_->XResolution(*this)* thinning.factor(), gap);
+				gap * thinning.factor(),
+				gap * thinning.factor(), gap);
 
 	}
 	catch (NoFactoryException&)

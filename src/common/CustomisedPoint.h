@@ -70,6 +70,10 @@ public:
 	bool missing() const { return missing_; }
 	void missing(bool missing) { missing_  = missing; }
 
+	double distance(double lat, double lon) const {
+		return sqrt( (lat-latitude_)*(lat-latitude_) +(lon-longitude_)*(lon-longitude_) );
+	}
+
 protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).
 	 virtual void print(ostream& out) const

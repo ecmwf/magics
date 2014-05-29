@@ -713,6 +713,8 @@ void useRef(double ref, double inc, double& min, double& max)
 
 }
 
+
+
 /* refx, rey,stepx stepy Should in projection coordinates! */
 
 void Transformation::thin(double xstep, double ystep, double gap,  vector<UserPoint>& in) const
@@ -827,5 +829,24 @@ void Transformation::thin(double xstep, double ystep, double gap,  vector<UserPo
 		if ( helper[j] != in.end() )
 			helper[j]->flagMissing();
 	}
+
+}
+
+void Transformation::thin(double xstep, double ystep, vector<pair<double, double> >& points) const
+{
+	Timer timer("thinning", "");
+
+	vector< std::pair<double, double> > xypoints;
+	double minx = getMinPCX();
+	double maxx = getMaxPCX();
+	double miny = getMinPCY();
+	double maxy = getMaxPCY();
+	double xs = (maxx-minx)/10.;
+	double ys = (maxy-miny)/10.;
+	for ( double x = minx; x < maxx; x += xstep)
+		for ( double y = miny; y < maxy; y+= ystep )
+			xypoints.push_back(make_pair(x, y));
+
+	revert(xypoints, points);
 
 }
