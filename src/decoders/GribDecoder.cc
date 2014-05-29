@@ -558,12 +558,17 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 	std::reverse(points.begin(),points.end());
 
 	for ( pos = positions.begin(); pos != positions.end(); ++pos) {
+		double offset = 0;
 		// First make sure tthat the lon is between the minlon and maxlon.
 		double lon = pos->first;
-		while ( lon < minlon )
+		while ( lon < minlon ) {
 			lon += 360;
-		while ( lon > maxlon )
+			offset += 360;
+		}
+		while ( lon > maxlon ) {
 			lon -= 360.;
+			offset -= 360;
+		}
 
 		vector<pair<double, vector<pair<double, CustomisedPoint*> > > >::iterator y;
 		vector<pair<double, CustomisedPoint*> >::iterator x;
@@ -597,32 +602,15 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 
 		CustomisedPoint *point = result.begin()->second;
 
-		lon = point->longitude();
 
 		if ( (*point)["x_component"] != missing && (*point)["y_component"]) {
-			CustomisedPoint *add = new CustomisedPoint(lon, point->latitude(), "");
+			CustomisedPoint *add = new CustomisedPoint(point->longitude()+offset, point->latitude(), "");
 			pair<double, double> value = (*wind_mode_)((*point)["x_component"], (*point)["y_component"]);
 			add->insert(make_pair("x_component", value.first));
 			add->insert(make_pair("y_component", value.second));
 			out.push_back(add);
 
-			lon = point->longitude()-360.;
-			while ( transformation.in(lon, point->latitude()) ){
-				add = new CustomisedPoint(lon, point->latitude(), "");
-				add->insert(make_pair("x_component", value.first));
-				add->insert(make_pair("y_component", value.second));
-				out.push_back(add);
-				lon -=360.;
-			}
-			lon = point->longitude()+360.;
-			while ( transformation.in(lon, point->latitude()) ) {
-				add = new CustomisedPoint(lon, point->latitude(), "");
-				add->insert(make_pair("x_component", value.first));
-				add->insert(make_pair("y_component", value.second));
-				out.push_back(add);
-				lon +=360.;
 
-			}
 		}
 
 		i++;
