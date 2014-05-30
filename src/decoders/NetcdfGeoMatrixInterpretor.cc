@@ -219,4 +219,58 @@ void NetcdfGeoMatrixInterpretor::visit(ValuesCollector& vcp,PointsList&)
 	}
 }
 
+void NetcdfGeoMatrixInterpretor::customisedPoints(const Transformation& transformation, const std::set<string>&, CustomisedPointsList& out)
+{
+	Netcdf netcdf(path_, dimension_method_);
 
+		// get the data ...
+		try
+		{
+			vector<double> latitudes;
+			vector<double> longitudes;
+			vector<double> xcomponent;
+			vector<double> ycomponent;
+			vector<double> colcomponent;
+			map<string, string> first, last;
+			setDimensions(dimension_, first, last);
+			double missing_value = missing(netcdf);
+
+			netcdf.get(x_component_, xcomponent, first, last);
+			netcdf.get(y_component_, ycomponent, first, last);
+			if ( !colour_component_.empty() )
+				netcdf.get(colour_component_, colcomponent, first, last);
+			netcdf.get(longitude_, longitudes, first, last);
+			netcdf.get(latitude_, latitudes, first, last);
+			unsigned int val = 0;
+
+			for (unsigned int  lat  =0 ; lat < latitudes.size(); lat+=latitude_sample_) {
+				for ( unsigned int lon = 0; lon < longitudes.size(); lon+=longitude_sample_) {
+					val = (lat* longitudes.size() + lon);
+					if ( val >= xcomponent.size() ) return;
+					if ( val >= ycomponent.size() ) return;
+					if ( !colour_component_.empty() )
+						if ( val >= colcomponent.size() ) return;
+					if ( same(xcomponent[val], missing_value ) ) continue;
+					if ( same(ycomponent[val], missing_value ) ) continue;
+					vector<UserPoint> points;
+					transformation.populate(longitudes[lon], latitudes[lat], 0, points);
+					for (vector<UserPoint>::iterator  pt = points.begin(); pt != points.end(); ++pt ) {
+						CustomisedPoint* point = new CustomisedPoint(pt->x_, pt->y_, "");
+							(*point)["x_component"] = xcomponent[val];
+						(*point)["y_component"] = ycomponent[val];
+						if ( !colour_component_.empty() )
+							(*point)[""] = ycomponent[val];
+						out.push_back(point);
+					}
+				}
+			}
+	 		MagLog::dev()<< "everything ok" << endl;
+		}
+		catch (MagicsException& e)
+		{
+			MagLog::error() << e << "\n";
+
+		}
+
+
+}

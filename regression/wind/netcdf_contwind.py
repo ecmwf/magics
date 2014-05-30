@@ -2,7 +2,7 @@ from Magics.macro import *
 #setting the output
 output = output(   
                 output_formats = ['png'],
-                output_name = "xsect_step6",
+                output_name = "netcdf_contwind",
                 output_name_first_page_number = "off"
         )
 # Setting the cartesian view
@@ -21,10 +21,13 @@ contour = mcont()
 wind_data = mnetcdf(netcdf_filename = "fc_surf.nc",
 		netcdf_type = "geomatrix",
 		netcdf_x_component_variable = "v10u",
-		netcdf_y_component_variable = "v10v"
+		netcdf_y_component_variable = "v10v",
+		netcdf_colour_component_variable = "v2t"
 		)
 
-wind = mwind() 
+wind = mwind(wind_advanced_method = "on",
+  wind_advanced_colour_parameter = "parameter"
+  ) 
 
 title = mtext(
         text_lines= ['Example of NetcdfData contour and Wind...',
@@ -35,4 +38,5 @@ title = mtext(
         text_colour= 'charcoal',
         )
  
-plot(output, projection, coastlines, tempe, contour, wind_data, wind, title)
+#plot(output, projection, coastlines, tempe, contour, wind_data, wind, title)
+plot(output, projection, coastlines,  wind_data, wind, title)
