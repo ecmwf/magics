@@ -19,7 +19,18 @@
              		<release>Magics++0.1		</release>
             		<documentation>sample the input data by taking a latitude every nth latitude		</documentation>
         	</parameter>
-        
+        	<parameter member="x_component" to="string" default="" from="string" name="netcdf_x_component_variable">
+              		<release>Magics++2.6		</release>
+              		<documentation>Variable name representing the x component of the vector		</documentation>
+        	</parameter> 
+         	<parameter member="y_component" to="string" default="" from="string" name="netcdf_y_component_variable">
+             		<release>Magics++2.6		</release>
+            		<documentation>Variable name representing the y component of the vector		</documentation>
+        	</parameter>
+        	<parameter member="colour_component" to="string" default="" from="string" name="netcdf_colour_component_variable">
+             		<release>Magics++2.6		</release>
+            		<documentation>Variable name representing the colour component of the vector ( in case of coloured wind)		</documentation>
+        	</parameter>
             	<parameter member="primary_index" to="string" default="longitude" from="string" name="netcdf_matrix_primary_index">
              		<release>Magics++2.4		</release>
             		<documentation> Primary index latitude/longitude		</documentation>
