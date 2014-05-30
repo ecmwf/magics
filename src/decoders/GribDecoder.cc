@@ -533,27 +533,17 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 	string yc = "y_component";
 	string cc = "colour_component";
 
-
-
+	vector<pair<double, vector<pair<double, CustomisedPoint*> > > > points;
+	double minlon, maxlon;
+	interpretor_->raw(*this, transformation, points, minlon, maxlon);
+	double missing = getDouble("missingValue");
+	if ( thinx ) {
 	vector<pair<double, double> > positions;
 
 
 	transformation.thin(thinx, thiny, positions);
 	vector<pair<double, double> >::iterator pos = positions.begin();
-
-	int nb = positions.size();
-
-	int i = 0;
-
-
-
-	vector<pair<double, vector<pair<double, CustomisedPoint*> > > > points;
-    double minlon, maxlon;
-	interpretor_->raw(*this, transformation, points, minlon, maxlon);
-
-
 	out.reserve(positions.size());
-	double missing = getDouble("missingValue");
 
 	std::reverse(points.begin(),points.end());
 
@@ -613,17 +603,36 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 
 		}
 
-		i++;
+
 
 	}
-
-
-
-	// Now we have to clean the data ...
 
 	for ( vector<pair<double, vector<pair<double, CustomisedPoint*> > > >::iterator y = points.begin(); y != points.end(); ++y )
 		for ( vector<pair<double, CustomisedPoint*> >::iterator x = y->second.begin(); x != y->second.end(); ++x)
 			delete x->second;
+	}
+	else {
+		for ( vector<pair<double, vector<pair<double, CustomisedPoint*> > > >::iterator y = points.begin(); y != points.end(); ++y )
+			for ( vector<pair<double, CustomisedPoint*> >::iterator x = y->second.begin(); x != y->second.end(); ++x) {
+				CustomisedPoint *point = x->second;
+				if ( (*point)["x_component"] != missing && (*point)["y_component"] != missing ) {
+					double lon = point->longitude();
+					double lat = point->latitude();
+					vector<UserPoint> pos;
+					transformation.populate(lon, lat, 0, pos);
+					for ( vector<UserPoint>::iterator p = pos.begin(); p != pos.end(); ++p) {
+						CustomisedPoint *add = new CustomisedPoint(p->x_, p->y_, "");
+						pair<double, double> value = (*wind_mode_)((*point)["x_component"], (*point)["y_component"]);
+						add->insert(make_pair("x_component", value.first));
+						add->insert(make_pair("y_component", value.second));
+						out.push_back(add);
+					}
+				}
+				delete point;
+
+			}
+	}
+
 
 
 
@@ -655,7 +664,10 @@ void GribDecoder::customisedPoints(const BasicThinningMethod& thinning, const Tr
 		transformation.fast_reproject(x2, y2);
 
 		gap = sqrt( ((x2-x1)*(x2-x1)) + ((y2-y1)*(y2-y1)) );
+		if ( thinning.factor() == 1 ) {
+			gap = 0;
 
+		}
 
 		customisedPoints(transformation, points,
 				gap * thinning.factor(),
