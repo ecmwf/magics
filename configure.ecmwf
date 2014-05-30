@@ -36,7 +36,7 @@ case "${OS_VERSION}" in
         regression="off"
         spot="off"
         odb="off"
-        bufr="off"
+        bufr="on"
         cmake="cmake"
         boost="/usr/local/apps/boost/1.50.0"
         proj4="/usr/local/apps/proj4/4.8.0/LP64"
@@ -44,9 +44,8 @@ case "${OS_VERSION}" in
         netcdf_lib="/usr/local/apps/netcdf4/4.1.3/LP64"
         odb_lib="/usr/local/apps/odb_api/0.9.31"
         grib_lib="/usr/local/lib/metaps/lib/grib_api/1.11.0"
-        pgi_lib="/usr/local/apps/pgi/pgi-10.8/linux86-64/10.8/libso"
         spot_lib="/usr/local/lib/metaps/lib/spot_database/new"
-        emos_lib="/usr/local/apps/libemos/000393"
+        emos_lib="/usr/local/apps/libemos/000394"
         run="10"
     ;;
     sles11) # lxab
@@ -82,6 +81,7 @@ case "${OS_VERSION}" in
 
 
 args="-DCMAKE_INSTALL_PREFIX=${install_home} -DENABLE_STATIC_LIBRARY=ON"
+args="-DCMAKE_INSTALL_PREFIX=${install_home}"
 args=" $args "
 args=" $args -DMAGICS_BUILD=${magics}"
 args=" $args -DBOOST_ROOT=$boost"
