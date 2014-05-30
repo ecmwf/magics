@@ -159,6 +159,8 @@ debug_var ( EMOS_FOUND )
 set( cairo no )
 if( ENABLE_CAIRO )
 	find_package( PangoCairo REQUIRED )
+else()
+    find_package( PangoCairo )
 endif()
     
 if( PANGOCAIRO_FOUND )
@@ -206,9 +208,9 @@ find_package( Threads )
 # set(Boost_USE_MULTITHREADED      ON)
 ecbuild_add_extra_search_paths( boost )
 
-find_package( Boost 1.49.0 )
-find_package( Proj4  )
-find_package( EXPAT  )
+find_package( Boost 1.49.0 REQUIRED)
+find_package( Proj4 REQUIRED )
+find_package( EXPAT  REQUIRED )
 
 
 install( FILES ${CMAKE_CURRENT_BINARY_DIR}/magics-config
