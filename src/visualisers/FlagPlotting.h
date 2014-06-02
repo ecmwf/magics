@@ -42,7 +42,7 @@ class FlagPlotting: public WindPlotting, public FlagPlottingAttributes
 {
 
 public:
-	FlagPlotting() : northFlags_(0), southFlags_(0) {}
+	FlagPlotting() {}
 	virtual ~FlagPlotting() {}
 	virtual void set(const map<string, string>& map) 
 		{ WindPlottingAttributes::set(map); FlagPlottingAttributes::set(map); }
@@ -57,19 +57,21 @@ public:
 	}
 	
 	virtual void operator()(bool, const PaperPoint& point, double x, double y,double);
-
+	Flag* southFlag(const Colour& colour);
+	Flag* northFlag(const Colour& colour);
 	virtual void prepare(BasicGraphicsObjectContainer& task, double);
 	void visit(LegendVisitor& legend);
 	void visit(Data&, PointsHandler&, HistoVisitor&);
 	double minSpeed() { return min_speed_; }
 	double maxSpeed() { return max_speed_; }
+	void finish(BasicGraphicsObjectContainer&);
 
 protected:     	 
      	 //! Method to print string about this class on to a stream of type ostream (virtual).
 	 virtual void print(ostream& out) const
 	 { out << "FlagPlotting<P>"; } 
-	  Flag* northFlags_;
-	  Flag* southFlags_;
+	map<Colour, Flag*> northFlags_;
+	map<Colour, Flag*> southFlags_;
 
 private:
     //! Copy constructor - No copy allowed

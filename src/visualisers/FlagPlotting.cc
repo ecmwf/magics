@@ -33,22 +33,67 @@
 
 using namespace magics;
 
-void FlagPlotting::operator()(bool north, const PaperPoint& point, double x, double y,double)
+void FlagPlotting::operator()(bool north, const PaperPoint& point, double x, double y,double val)
 { 
 	   if (legendOnly_ )
 		   return;
 		double speed = sqrt((x*x)+(y*y));
-		 if ( !levels_->empty() && (speed < levels_->front() || speed > levels_->back()) ) return;
+		 if ( !levels_->empty() && (val < levels_->front() || val  > levels_->back()) ) return;
 		   if ( speed < min_speed_ || speed > max_speed_ ) return;
 		
 	   if ((*calm_)(point, x, y)) return;
-	
-		if ( north )
-			northFlags_->push_back(ArrowPoint(x, y, point));
-		else southFlags_->push_back(ArrowPoint(x, y, point));
+	   Colour colour = this->colour(*colour_, x, y, val);
+	   if ( north )
+	   	   northFlag(colour)->push_back(ArrowPoint(x, y, point));
+	   else
+	   	   southFlag(colour)->push_back(ArrowPoint(x, y, point));
+
 		
 		
 }
+//! Setting for south Hemisphere wind
+Flag* FlagPlotting::southFlag(const Colour& colour)
+{
+	map<Colour, Flag* >:: iterator flag =  southFlags_.find(colour);
+	if ( flag !=southFlags_.end()  )
+		return flag->second;
+
+	 Flag* south = new Flag();
+	   south->setColour(colour);
+	   south->setThickness(thickness_);
+	   south->setOriginHeight(origin_marker_size_);
+	   south->setStyle(this->style_);
+	   south->setCrossBoundary(cross_boundary_);
+	   south->setOriginHeight(calm_indicator_size_);
+	   south->setHemisphere(SOUTH);
+	   south->setLength(length_);
+	   southFlags_.insert(make_pair(colour, south));
+	   (*origin_).prepare(*south);
+	   return south;
+}
+
+
+//! Setting for north Hemisphere wind
+Flag* FlagPlotting::northFlag(const Colour& colour)
+{
+	map<Colour, Flag* >:: iterator flag =  northFlags_.find(colour);
+	if ( flag != northFlags_.end()  )
+	return flag->second;
+
+	Flag *north = new Flag();
+	north->setColour(colour);
+	north->setOriginHeight(origin_marker_size_);
+	north->setThickness(thickness_);
+	north->setCrossBoundary(cross_boundary_);
+	north->setOriginHeight(calm_indicator_size_);
+	north->setHemisphere(NORTH);
+	northFlags_.insert(make_pair(colour, north));
+	north->setLength(length_);
+	(*origin_).prepare(*north);
+
+    return north;
+}
+
 
 void FlagPlotting::prepare(BasicGraphicsObjectContainer& task, double)
 { 
@@ -61,38 +106,16 @@ void FlagPlotting::prepare(BasicGraphicsObjectContainer& task, double)
     
   
     
-    
-    // Setting for south Hemisphere wind	
-	southFlags_ = new Flag();
-	southFlags_->setColour(*colour_);
-	southFlags_->setThickness(thickness_);
-	southFlags_->setStyle(style_);
-	southFlags_->setCrossBoundary(cross_boundary_);
-	southFlags_->setHemisphere(SOUTH);
-	southFlags_->setOriginHeight(calm_indicator_size_);
-	southFlags_->setLength(length_);
-	
-	// Setting for south Hemisphere wind	
-	northFlags_ = new Flag();
-	northFlags_->setColour(*colour_);
-	northFlags_->setThickness(thickness_);
-	northFlags_->setCrossBoundary(cross_boundary_);
-	northFlags_->setOriginHeight(calm_indicator_size_);
-	northFlags_->setHemisphere(NORTH);
-	northFlags_->setLength(length_);
-	
-	// Origin Indicator 	  
-    (*origin_).prepare(*southFlags_);
-    (*origin_).prepare(*northFlags_);
-    
-    northFlags_->setOriginHeight(origin_marker_size_);
-    southFlags_->setOriginHeight(origin_marker_size_);
+
+
 	if ( legendOnly_) {
 
 		return;
 	}
-	task.push_back(southFlags_);	
-	task.push_back(northFlags_);	
+	// We also empty the containers to get a clean new plot
+	northFlags_.clear();
+	southFlags_.clear();
+
 }
 
 void FlagPlotting::visit(LegendVisitor& legend)
@@ -143,9 +166,46 @@ void FlagPlotting::visit(Data& data, PointsHandler& points, HistoVisitor& visito
 		} 	
             	beans.insert(make_pair(Interval(*from, *to), colour ));
             	++from;
-        }		  	
+        }
     }
     
     Histogram helper;
     helper.visit(beans, data, points, visitor);
 }  
+
+struct SortHelper
+{
+	SortHelper() {}
+	~SortHelper() {}
+	MAGICS_NO_EXPORT bool operator()(const Arrow* first, const Arrow* second)
+	{
+ 		return first->size() > second->size();
+	}
+};
+void FlagPlotting::finish(BasicGraphicsObjectContainer& out)
+{
+	if ( legendOnly_) {
+		// and now we reset
+		northFlags_.clear();
+		southFlags_.clear();
+		return;
+	}
+
+	vector<Flag*> flags;
+	for ( map<Colour, Flag*>::iterator flag = northFlags_.begin(); flag != northFlags_.end(); ++flag)
+		flags.push_back(flag->second);
+
+	for ( map<Colour, Flag*>::iterator flag = southFlags_.begin(); flag != southFlags_.end(); ++flag)
+		flags.push_back(flag->second);
+
+	 std::sort(flags.begin(), flags.end(), SortHelper());
+
+	// Now we feed the task...
+	for (vector<Flag* >::iterator flag = flags.begin(); flag != flags.end(); ++flag) {
+		if ( !(*flag)->empty() ) {
+
+		     out.push_back(*flag);
+		}
+	}
+
+}
