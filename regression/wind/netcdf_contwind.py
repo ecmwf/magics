@@ -26,7 +26,8 @@ wind_data = mnetcdf(netcdf_filename = "fc_surf.nc",
 		)
 
 wind = mwind(wind_advanced_method = "on",
-  wind_advanced_colour_parameter = "parameter"
+        wind_advanced_colour_parameter = "parameter",
+        wind_field_type='flags'
   ) 
 
 title = mtext(
@@ -38,5 +39,4 @@ title = mtext(
         text_colour= 'charcoal',
         )
  
-#plot(output, projection, coastlines, tempe, contour, wind_data, wind, title)
-plot(output, projection, coastlines,  wind_data, wind, title)
+plot(output, projection, coastlines, tempe, contour, wind_data, wind, title)

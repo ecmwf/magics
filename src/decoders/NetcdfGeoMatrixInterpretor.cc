@@ -92,8 +92,7 @@ bool NetcdfGeoMatrixInterpretor::interpretAsMatrix(Matrix** data)
 			for (vector<double>::iterator d = data.begin(); d != data.end(); ++d ) {
 				if ( !isnan(*d) ) {
 					matrix_->push_back(*d);
-                   if ( *d > 100 ) 
-                        cout << " STOP" << endl;
+
 				}
 				else 
 					matrix_->push_back(missing_value);
@@ -259,7 +258,7 @@ void NetcdfGeoMatrixInterpretor::customisedPoints(const Transformation& transfor
 							(*point)["x_component"] = xcomponent[val];
 						(*point)["y_component"] = ycomponent[val];
 						if ( !colour_component_.empty() )
-							(*point)[""] = ycomponent[val];
+							(*point)["colour_component"] = colcomponent[val];
 						out.push_back(point);
 					}
 				}

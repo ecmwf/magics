@@ -38,10 +38,11 @@ void ArrowPlotting::operator()(bool north, const PaperPoint& point, double x, do
    if ( maxVelocity_ < speed )
        maxVelocity_ = speed;
 
-   if ( !levels_->empty() && (speed < levels_->front() || speed > levels_->back()) ) return;
+   if ( !levels_->empty() && (val < levels_->front() || val > levels_->back()) ) return;
    if ( speed < min_speed_ || speed > max_speed_ ) return;
 
    if ((*this->calm_)(point, x, y)) return; 
+
 
    Colour colour = this->colour(*colour_, x, y, val);
    if ( north )

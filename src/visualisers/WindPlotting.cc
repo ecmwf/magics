@@ -87,6 +87,7 @@ void WindPlotting::adjust( CustomisedPointsList& points, const Transformation& t
 
 	double min = *std::min_element(values.begin(), values.end());
 	double max = *std::max_element(values.begin(), values.end());
+	cout << "min" << min << "    max " << max << endl;
 	if ( same(min, max) ) return;
 	string value = lowerCase(advanced_method_);
 	map<string,  MinMaxMethod >::const_iterator method = minMaxMethods_.find(value);
@@ -130,6 +131,7 @@ Colour& WindPlotting::colour(Colour& colour, double x, double y, double col)
 
 double WindPlotting::parameter(double, double, double col)
 {
+
 	return col;
 }
 
