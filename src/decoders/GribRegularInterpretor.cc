@@ -616,7 +616,7 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib, 
 	(*matrix)->reserve(aux * 4 * res);
 
 	double *data = new double[nb];
-
+    interpolate = true;
 	size_t aux2 = size_t(nb);
 	int nblon = 4*res;
 	double width = east-west;
