@@ -33,7 +33,7 @@
          		<release>Magics++2.10		</release>
          		<documentation> Apply a scaling offset to the field. 		</documentation>
   	</parameter>
-    <parameter member="interpolation_method" to="bool" default="on" from="string" name="grib_interpolation_method" >
+    <parameter member="interpolation_method" to="string" default="interpolate" from="string" name="grib_interpolation_method" values='interpolate/nearest' >
          		<release>Magics++2.10		</release>
          		<documentation> Used for reduced gaussian grid: use an linear interpolation to convert from reduced to regular		</documentation>
   	</parameter>

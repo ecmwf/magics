@@ -109,7 +109,7 @@ public:
 		return title_;
 	}
 
-
+	bool interpolate() const { magCompare(interpolation_method_, "interpolate"); }
 	bool getExpver() const { return expver_; }
 	void version();
 	

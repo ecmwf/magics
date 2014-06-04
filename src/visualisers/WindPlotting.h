@@ -94,9 +94,15 @@ protected:
 	 typedef Colour& (WindPlotting::*AdvancedMethod)(Colour&, double, double, double);
 	 typedef double (WindPlotting::*ColouringMethod)(double, double, double);
 	 typedef void (WindPlotting::*MinMaxMethod)(double&, double&);
+	 typedef void (WindPlotting::*SettingMethod)(double&, double&);
 	 static map<string,  WindPlotting::AdvancedMethod > methods_;
 	 static map<string,  WindPlotting::ColouringMethod > colouringMethods_;
 	 static map<string,  WindPlotting::MinMaxMethod > minMaxMethods_;
+	 static map<string,  WindPlotting::SettingMethod > settingMethods_;
+
+	 void setAdvanced(double&, double&);
+	 void setNormal(double&, double&) {}
+
 	 IntervalMap<Colour>  map_;
 	 virtual double minSpeed() { assert(false); }
 	 virtual double maxSpeed() { assert(false); }
