@@ -37,6 +37,7 @@ using namespace magics;
 map<string,  WindPlotting::AdvancedMethod > WindPlotting::methods_;
 map<string,  WindPlotting::ColouringMethod > WindPlotting::colouringMethods_;
 map<string,  WindPlotting::MinMaxMethod > WindPlotting::minMaxMethods_;
+map<string,  WindPlotting::SettingMethod > WindPlotting::settingMethods_;
 
 WindPlotting::WindPlotting() : legendOnly_(false)
 {
@@ -50,6 +51,11 @@ WindPlotting::WindPlotting() : legendOnly_(false)
 			minMaxMethods_["on"] = &WindPlotting::advancedMinMax;
 			minMaxMethods_["advanced"] =&WindPlotting::advancedMinMax;
 			minMaxMethods_["off"] = &WindPlotting::offMinMax;
+		}
+	if ( settingMethods_.empty() ) {
+			settingMethods_["on"] = &WindPlotting::setAdvanced;
+			settingMethods_["advanced"] =&WindPlotting::setAdvanced;
+			settingMethods_["off"] = &WindPlotting::setNormal;
 		}
 	if ( colouringMethods_.empty() ) {
 		colouringMethods_["speed"] = &WindPlotting::speed;
@@ -69,7 +75,28 @@ void WindPlotting::offMinMax(double& min, double& max)
 	if ( max > maxSpeed() )
 		max = maxSpeed();
 }
+void WindPlotting::setAdvanced(double& min, double& max)
+{
 
+	advancedMinMax(min, max);
+	levels_->set(*this);
+	colourMethod_->set(*this);
+	levels_->calculate(min, max, false);
+	LevelSelection::const_iterator level = levels_->begin();
+	colourMethod_->prepare(*levels_);
+	Colour last;
+	map_.clear();
+	while ( true) {
+		if (level+1 == levels_->end() ) break;
+		MagLog::debug() << "[" << *level << ", " << *(level+1) << "]=" << colourMethod_->right(*level) << endl;
+		map_[ Interval(*level, *(level+1)) ] = colourMethod_->right(*level);
+		last = colourMethod_->right(*level);
+		++level;
+	}
+	// we add a last small one for the maax
+	map_[ Interval(levels_->back(), levels_->back() + epsilon) ] = last;
+
+}
 
 void WindPlotting::adjust( CustomisedPointsList& points, const Transformation& transformation)
 {
@@ -87,32 +114,18 @@ void WindPlotting::adjust( CustomisedPointsList& points, const Transformation& t
 
 	double min = *std::min_element(values.begin(), values.end());
 	double max = *std::max_element(values.begin(), values.end());
-	cout << "min" << min << "    max " << max << endl;
-	if ( same(min, max) ) return;
+
 	string value = lowerCase(advanced_method_);
-	map<string,  MinMaxMethod >::const_iterator method = minMaxMethods_.find(value);
-	if  ( method ==  minMaxMethods_.end() ) {
-		MagLog::warning() << advanced_method_ << " is not valid value for  'wind_advanced_method': reset to default[off]" << endl;
-		offMinMax(min, max);
-	}
-	else
-		(this->*method->second)(min, max);
-	levels_->set(*this);	
-	colourMethod_->set(*this);
-	levels_->calculate(min, max, false);
-	LevelSelection::const_iterator level = levels_->begin();
-	colourMethod_->prepare(*levels_);
-	Colour last;
-	map_.clear();
-	 while ( true) {
-	    	if (level+1 == levels_->end() ) break;
-	    	MagLog::debug() << "[" << *level << ", " << *(level+1) << "]=" << colourMethod_->right(*level) << endl;
-	    	map_[ Interval(*level, *(level+1)) ] = colourMethod_->right(*level);
-	    	last = colourMethod_->right(*level);
-	    	++level;
-	 }
-	 // we add a last small one for the maax
-	 map_[ Interval(levels_->back(), levels_->back() + epsilon) ] = last;
+
+
+
+	map<string,  SettingMethod >::const_iterator set = settingMethods_.find(value);
+		if  ( set ==  settingMethods_.end() ) {
+			MagLog::warning() << advanced_method_ << " is not valid value for  'wind_advanced_method': reset to default[off]" << endl;
+			setNormal(min,max);
+		}
+		else
+			(this->*set->second)(min, max);
 
 }
 
@@ -137,6 +150,7 @@ double WindPlotting::parameter(double, double, double col)
 
 double WindPlotting::speed(double x, double y, double)
 {
+
 	return sqrt(x*x+y*y);
 }
 
@@ -155,6 +169,7 @@ double WindPlotting::value(double x, double y, double col)
 Colour& WindPlotting::advanced(Colour& colour, double u, double v, double col)
 {
 	static Colour x("red");
+
 	x = map_.find(value(u, v, col), colour);
 	return x;
 }
