@@ -1,7 +1,7 @@
 from Magics.macro import *
 #setting the output
 output = output(   
-                output_formats = ['png'],
+                output_formats = ['png2'],
                 output_name = "netcdf_contwind",
                 output_name_first_page_number = "off"
         )
