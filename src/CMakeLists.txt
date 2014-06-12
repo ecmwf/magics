@@ -141,7 +141,7 @@ ecbuild_add_library( TARGET    MagPlusStatic
                      DEFINITIONS
                         ${MAGICS_EXTRA_DEFINITIONS}  
                     LIBS
-                        ${MAGICS_EXTRA_LIBRARIES}
+                        ${MAGICS_EXTRA_LIBRARIES} 
 		            TYPE STATIC		     
                     )
 
