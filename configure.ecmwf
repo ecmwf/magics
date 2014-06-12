@@ -1,7 +1,7 @@
 #!/usr/bin/ksh
 
 git_home="/home/graphics/cgs/git"
-version="2.22.6"
+version="2.22.7"
 magics=""
 install_home="/usr/local/apps/Magics/$version"
 debug="off"
@@ -13,14 +13,16 @@ metview="off"
 cairo="on"
 regression="off"
 spot="on"
-build_home="/home/graphics/cgs/build/2.22.6/${OS_VERSION}"
+static="on"
+build_home="/home/graphics/cgs/build/2.22.7/${OS_VERSION}"
 run="1"
+cmake="cmake"
 
 
 
 case "${OS_VERSION}" in    
     opensuse113) # Local worksation
-        regression="on"
+        regression="off"
         cmake="/usr/local/apps/cmake/current/bin/cmake"
         boost="/usr/local/apps/boost/1.50.0"
         proj4="/usr/local/apps/proj4/4.8.0/LP64"
@@ -29,6 +31,7 @@ case "${OS_VERSION}" in
         odb_lib="/usr/local/apps/odb_api/0.9.31"
         grib_lib="/usr/local/lib/metaps/lib/grib_api/1.11.0"
         spot_lib="/usr/local/lib/metaps/lib/spot_database/new"
+        pgi_lib="/usr/local/apps/pgi/pgi-10.8/linux86-64/10.8/libso"
         emos_lib="/usr/local/apps/libemos/000393"
         run="4"
     ;;
@@ -37,7 +40,7 @@ case "${OS_VERSION}" in
         spot="off"
         odb="off"
         bufr="on"
-        cmake="cmake"
+        static="off"
         boost="/usr/local/apps/boost/1.50.0"
         proj4="/usr/local/apps/proj4/4.8.0/LP64"
         python="/usr/local/apps/python/2.7.1-02"
@@ -53,7 +56,7 @@ case "${OS_VERSION}" in
         boost="/usr/local/apps/boost/1.50.0"
         proj4="/usr/local/apps/proj4/4.8.0/LP64"
         python="/usr/local/apps/python/2.7.1-02"
-        netcdf_lib="/home/graphics/cgs/netcdf_lib/LP64"
+        netcdf_lib="/usr/local/apps/netcdf_lib/LP64"
         odb_lib="/usr/local/apps/odb_api/0.9.31"
         grib_lib="/usr/local/lib/metaps/lib/grib_api/1.11.0"
         emos_lib="/usr/local/apps/libemos/000393"
@@ -80,7 +83,6 @@ case "${OS_VERSION}" in
 
 
 
-args="-DCMAKE_INSTALL_PREFIX=${install_home} -DENABLE_STATIC_LIBRARY=ON"
 args="-DCMAKE_INSTALL_PREFIX=${install_home}"
 args=" $args "
 args=" $args -DMAGICS_BUILD=${magics}"
@@ -88,6 +90,13 @@ args=" $args -DBOOST_ROOT=$boost"
 args=" $args -DPROJ4_PATH=$proj4"
 args=" $args -DENABLE_PYTHON=ON -DCMAKE_PREFIX_PATH=$python"
 
+if [[ $static = "on" ]];then
+    args="$args  -DENABLE_STATIC_LIBRARY=ON"
+    echo "static enabled"
+else
+    args="$args -DENABLE_STATIC=OFF"
+    echo "No static library"
+fi
 if [[ $debug = "on" ]];then
     args="$args -DCMAKE_BUILD_TYPE=Debug"
     echo "Debug enabled"
@@ -170,14 +179,11 @@ else
     echo "GRIB not required"
 fi
 echo "start"
-echo $args
 
 mkdir -p ${build_home}
 cd ${build_home}
 rm -fR *
 
 
-$cmake ${git_home}/magics $args
+${cmake} ${git_home}/magics $args
 make -j ${run} install
-ctest
-ctest -R summary
