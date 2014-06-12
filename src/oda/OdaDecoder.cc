@@ -31,9 +31,19 @@
 #include <map>
 #include <set>
 
-#include "odblib/odb_api.h"
+#ifdef ODB_ECKIT
+    #include <odb_api/ColumnType.h>
+    #include <odb_api/Reader.h>
+#else
+    #include <odblib/odb_api.h>
+#endif
+
 extern "C" {
-#include "odblib/odbcapi.h"
+#ifdef ODB_ECKIT
+    #include <odb_api/odbcapi.h>
+#else
+    #include <odblib/odbcapi.h>
+#endif
 }
 
 
@@ -43,14 +53,13 @@ extern "C" {
 #include "SciMethods.h"
 #include "TextVisitor.h"
 
-#include "odblib/Reader.h"
 
 static int getOdbColumnIndex(odb::Reader::iterator &,const string&);
 
 int getOdbColumnIndex(odb::Reader::iterator &firstRowIt,const string& colName)
 {
 	int index=0;
-  	for(odb::MetaData::iterator it=firstRowIt->columns().begin(); it != firstRowIt->columns().end(); ++it)
+  	for(odb::MetaData::const_iterator it=firstRowIt->columns().begin(); it != firstRowIt->columns().end(); ++it)
 	{			
 		string s=(*it)->name();
 		if(s == colName)

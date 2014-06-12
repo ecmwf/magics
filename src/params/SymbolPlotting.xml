@@ -62,7 +62,6 @@
             		    this  should give you easier control of the plot. 		</documentation>
 
         		<set name="symbol_colour" value="off">		</set>
-        		<set name="symbol_format" value="off">		</set>
         		<set name="symbol_height" value="off">		</set>
         		<set name="symbol_marker_mode" value="off">		</set>
         		<set name="symbol_marker_index" value="off">		</set>
