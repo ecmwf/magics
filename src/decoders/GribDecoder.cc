@@ -658,7 +658,7 @@ void GribDecoder::customisedPoints(const BasicThinningMethod& thinning, const Tr
 		double x1 = 0;
 		double y1 = 60;
 		double x2 = interpretor_->XResolution(*this);
-		double y2 = 60+interpretor_->XResolution(*this);
+		double y2 = 60;
 
 		transformation.fast_reproject(x1, y1);
 		transformation.fast_reproject(x2, y2);
