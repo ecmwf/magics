@@ -510,7 +510,11 @@ void GribDecoder::newPoint(const Transformation& transformation, double lat, dou
 	}
 }
 
-#define DIST(a,b) ((a*a) + (b*b))
+double dist(double a, double b)
+{
+
+	return (a*a) + (b*b);
+}
 
 struct Compare
 {
@@ -540,8 +544,9 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 	if ( thinx ) {
 	vector<pair<double, double> > positions;
 
+	PaperPoint xy = transformation(interpretor_->origin(*this));
 
-	transformation.thin(thinx, thiny, positions);
+	transformation.thin(thinx, xy, positions);
 	vector<pair<double, double> >::iterator pos = positions.begin();
 	out.reserve(positions.size());
 
@@ -551,6 +556,7 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 		double offset = 0;
 		// First make sure tthat the lon is between the minlon and maxlon.
 		double lon = pos->first;
+		double lat = pos->second;
 		while ( lon < minlon ) {
 			lon += 360;
 			offset -= 360;
@@ -569,25 +575,35 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 			continue;
 
 		map<double, CustomisedPoint*> result;
-		double small, distance;
 
 		x = std::lower_bound(y->second.begin(), y->second.end(), lon, Compare());
-		result.insert(make_pair(DIST(x->first -lon, y->first - pos->second), x->second));
+		double xx = (*x).first;
+		double yy =  (*y).first;
+		double val = dist(xx -lon, yy - lat);
+
+
+		result.insert(make_pair(dist(x->first -lon, y->first - lat), x->second));
+
 		if ( x != y->second.begin() ) {
 			--x;
-			result.insert(make_pair(DIST(x->first -lon, y->first - pos->second), x->second));
+
+			result.insert(make_pair(dist(x->first -lon, y->first - lat), x->second));
 		}
 
 		if (y != points.begin() ) {
 			--y;
+
 			x = std::lower_bound(y->second.begin(), y->second.end(), lon, Compare());
-			result.insert(make_pair(DIST(x->first -lon, y->first - pos->second), x->second));
+
+			result.insert(make_pair(dist(x->first -lon, y->first - lat), x->second));
 			if ( x != y->second.begin() ) {
 				--x;
-				result.insert(make_pair(DIST(x->first -lon, y->first - pos->second), x->second));
+
+				result.insert(make_pair(dist(x->first -lon, y->first - lat), x->second));
 			}
 
 		}
+
 
 
 		CustomisedPoint *point = result.begin()->second;
