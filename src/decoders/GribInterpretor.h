@@ -62,6 +62,7 @@ public:
 
     virtual void interpret2D(double&, double&, double&, double&) const {}
     virtual void keepOriginal(bool) {}
+    virtual UserPoint origin(const GribDecoder&) { assert(false); }
     virtual void interpretAsRaster(const GribDecoder&, RasterData&, const Transformation&) const {}
     virtual void scaling(const GribDecoder&, Matrix**) const;
     virtual void scaling(const GribDecoder& grib, double& scaling, double& offset) const;
