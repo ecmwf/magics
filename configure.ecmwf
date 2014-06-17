@@ -1,6 +1,6 @@
 #!/usr/bin/ksh
 
-git_home="/home/graphics/cgs/git"
+git_home="/home/graphics/cgs/gitdev"
 version="2.23.0"
 magics=""
 install_home="/usr/local/apps/Magics/$version"
@@ -34,11 +34,13 @@ case "${OS_VERSION}" in
         run="4"
     ;;
     opensuse131) # New Local worksation
-        regression="on"
+        regression="off"
+        debug="on"
         odb="off"
-        bufr="on"
+        bufr="off"
         spot="off"
         cmake="cmake"
+        magics="debug"
         boost="/usr/local/apps/boost/1.50.0"
         proj4="/usr/local/apps/proj4/4.8.0/LP64"
         python="/usr/local/apps/python/2.7.1-02"
@@ -172,9 +174,11 @@ else
 fi
 echo "start"
 
+echo ${build_home}
 mkdir -p ${build_home}
 cd ${build_home}
 rm -fR *
+
 
 
 $cmake ${git_home}/magics $args

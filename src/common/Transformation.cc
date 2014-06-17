@@ -715,124 +715,11 @@ void useRef(double ref, double inc, double& min, double& max)
 
 
 
-/* refx, rey,stepx stepy Should in projection coordinates! */
-
-void Transformation::thin(double xstep, double ystep, double gap,  vector<UserPoint>& in) const
-{
-	Timer timer("thiining", "");
 
 
 
 
-	double uxmin, uxmax, uymin, uymax;
-	int dimx, dimy;
-	// Find the box..
-	uxmin = uxmax = in.front().x_;
-	uymin = uymax = in.front().y_;
-
-
-
-	for ( PointIter pt = in.begin(); pt != in.end(); ++pt ) {
-		double x = pt->x_;
-		double y = pt->y_;
-		if ( x < uxmin ) uxmin = x;
-		if ( y < uymin ) uymin = y;
-		if ( x > uxmax ) uxmax = x;
-		if ( y > uymax ) uymax = y;
-	}
-
-
-
-
-	dimx = ((uxmax - uxmin)  / xstep ) +1;
-	dimy = ((uymax - uymin ) / ystep ) +1;
-	vector<bool> mask(dimx*dimy, false);
-	for ( int j = 0; j < dimy; j++)	{
-		double lasty = uymin +(ystep*j);
-		double lastx = uxmin;
-		fast_reproject(lastx, lasty);
-		for ( int i = 0; i < dimx; i++) {
-			double y = uymin +(ystep*j);
-			double x = uxmin +(xstep*i);
-			fast_reproject(x, y);
-			if ( ( (x-lastx)*(x-lastx) + (y-lasty)*(y-lasty)) < gap )
-				mask[j*dimx+i] = true;
-			else {
-				lastx = x;
-				lasty = y;
-			}
-		}
-	}
-
-
-	vector<PointIter> helper(dimx*dimy, in.end());
-
-	for ( PointIter pt = in.begin(); pt != in.end(); ++pt ) {
-		double x = pt->x_;
-		double y = pt->y_;
-
-
-
-		int xx = ceil(x-uxmin)/xstep;
-		int yy = ceil(y-uymin)/ystep;
-
-
-
-		vector<pair<int, int> > check;
-
-		check.push_back(make_pair(yy, xx));
-		//if ( xx + 1 < dimx )
-			//check.push_back(make_pair(yy, xx+1));
-		//if ( yy + 1 < dimy )
-			//check.push_back(make_pair(yy+1, xx));
-		//if ( xx + 1 < dimx && yy + 1 < dimy )
-			//check.push_back(make_pair(yy+1, xx+1));
-
-
-
-		for ( vector<pair<int, int> >::iterator ind = check.begin(); ind != check.end(); ++ind) {
-			int i = ind->first*dimx + ind->second;
-			if ( mask[i] )
-				continue;
-			if ( i < 0 || i >= dimx*dimy)
-				continue;
-
-			double x0 = ind->second * xstep + uxmin;
-			double y0 = ind->first * ystep + uymin;
-			if ( !this->in(x0, y0) )
-				continue;
-
-
-			PointIter last = helper[i];
-
-			if ( last == in.end()) {
-				helper[i ]= pt;
-			}
-			else {
-
-				double dist = sqrt(((x-x0) * (x-x0)) +  ((y - y0) * (y - y0)));
-
-				double lastx = last->x_;
-				double lasty = last->y_;
-
-				double min = sqrt(((lastx-x0) * (lastx-x0)) +  ((lasty - y0) * (lasty -y0)));
-				if (dist < min){
-					helper[i ] = pt;
-				}
-			}
-		}
-
-
-	}
-
-	for ( int j = 0; j < dimx*dimy; j++) {
-		if ( helper[j] != in.end() )
-			helper[j]->flagMissing();
-	}
-
-}
-
-void Transformation::thin(double xstep, double ystep, vector<pair<double, double> >& points) const
+void Transformation::thin(double step, PaperPoint& origin, vector<pair<double, double> >& points) const
 {
 	Timer timer("thinning", "");
 
@@ -841,11 +728,33 @@ void Transformation::thin(double xstep, double ystep, vector<pair<double, double
 	double maxx = getMaxPCX();
 	double miny = getMinPCY();
 	double maxy = getMaxPCY();
-	double xs = (maxx-minx)/10.;
-	double ys = (maxy-miny)/10.;
-	for ( double x = minx; x < maxx; x += xstep)
-		for ( double y = miny; y < maxy; y+= ystep )
-			xypoints.push_back(make_pair(x, y));
+
+
+	vector<double> xl, yl;
+
+
+
+	for ( double x = origin.x(), i = 1; x <= maxx; x = origin.x() + i*step, i++) {
+		if ( x > minx )
+			xl.push_back(x);
+	}
+	for ( double x = origin.x(), i = 1; x >= minx; x = origin.x() - i*step, i++)
+		if ( x < maxx )
+			xl.push_back(x);
+	for ( double y = origin.y(), i = 1; y <= maxy; y += origin.y() + i*step, i++)
+		if ( y > miny )
+			yl.push_back(y);
+	for ( double y = origin.y(), i = 1; y >= miny; y = origin.y() - i*step, i++)
+		if ( y < maxy ) {
+			yl.push_back(y);
+
+		}
+	for (vector<double>::iterator x = xl.begin(); x != xl.end(); ++x)
+		for (vector<double>::iterator y = yl.begin(); y != yl.end(); ++y){
+
+							xypoints.push_back(make_pair(*x, *y));
+					}
+
 
 	revert(xypoints, points);
 

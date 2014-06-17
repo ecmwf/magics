@@ -462,8 +462,12 @@ double GribRegularInterpretor::longitudeIncrement(const GribDecoder& grib) const
 	
 }
 
-
-
+UserPoint GribRegularInterpretor::origin(const GribDecoder& grib)
+{
+	double lon  = grib.getDouble("longitudeOfFirstGridPointInDegrees");
+	double lat  = grib.getDouble("latitudeOfFirstGridPointInDegrees");
+	return UserPoint(lon, lat);
+}
 
 void GribRegularInterpretor::interpretAsRaster(const GribDecoder& grib, RasterData& raster,const Transformation& transformation) const
 {
@@ -693,6 +697,12 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib, 
 	(*matrix)->setMapsAxis();
 }
 
+UserPoint GribReducedLatLonInterpretor::origin(const GribDecoder& grib)
+{
+	double lon  = grib.getDouble("longitudeOfFirstGridPointInDegrees");
+	double lat  = grib.getDouble("latitudeOfFirstGridPointInDegrees");
+	return UserPoint(lon, lat);
+}
 void GribReducedLatLonInterpretor::print(ostream& out)  const
 {
 	out << "GribReducedLatLonInterpretor[";
@@ -862,7 +872,13 @@ pair<double, double> GribRotatedInterpretor::unrotate( double lat_y, double lon_
 	double PXREG = ZXMXC + southPoleLon_;                        
 	return std::make_pair( PYREG, PXREG );                                     
 }               
-
+UserPoint GribRotatedInterpretor::origin(const GribDecoder& grib)
+{
+	double lon  = grib.getDouble("longitudeOfFirstGridPointInDegrees");
+	double lat  = grib.getDouble("latitudeOfFirstGridPointInDegrees");
+	pair<double, double> xy = unrotate(lat, lon);
+	return UserPoint(xy.second, xy.first);
+}
 pair<double, double> GribRotatedInterpretor::rotate( double lat_y, double lon_x) const
 {
   const double cToRadians         = M_PI/180.0;
@@ -1661,3 +1677,7 @@ void GribLambertInterpretor::print(ostream& out)  const
 	out << "GribLambertInterpretor[";
 	out << "]";
 }
+
+UserPoint GribReducedGaussianInterpretor::origin(const GribDecoder&) { assert(false); }
+UserPoint GribLambertAzimutalInterpretor::origin(const GribDecoder&) { assert(false); }
+
