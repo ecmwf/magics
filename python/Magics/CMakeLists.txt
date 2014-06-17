@@ -2,8 +2,14 @@ if( ENABLE_PYTHON AND NUMPY_FOUND )
 
   ### python destination
 
-  set(PYTHON_SITE "lib/python${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}/site-packages" )
-  set(PYTHON_DEST "${PYTHON_SITE}/Magics" )
+  set( PYTHON_SITE "lib/python${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}/site-packages" )
+  set( PYTHON_DEST "${PYTHON_SITE}/Magics" )
+
+  file( RELATIVE_PATH relative_rpath "${CMAKE_INSTALL_PREFIX}/${PYTHON_DEST}" "${${PNAME}_FULL_INSTALL_LIB_DIR}" )
+
+#   debug_var( relative_rpath )
+
+  ecbuild_append_to_rpath( ${relative_rpath} )
 
   ### place in build tree so we can run python tests
 
