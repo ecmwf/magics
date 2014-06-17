@@ -10,7 +10,6 @@ projection = mmap(
     subpage_map_projection='tephigram',
     subpage_x_automatic="on",
     subpage_y_automatic="on",
-    thermo_annotation_width= 50.,
 
 
     )

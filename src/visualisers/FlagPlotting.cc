@@ -38,7 +38,7 @@ void FlagPlotting::operator()(bool north, const PaperPoint& point, double x, dou
 	   if (legendOnly_ )
 		   return;
 		double speed = sqrt((x*x)+(y*y));
-		cout << "FFFFFFF" << levels_->size() << endl;
+
 		double value = this->value(x, y, val);
 		 if ( !levels_->empty() && (value < levels_->front() || value  > levels_->back()) ) return;
 		   if ( speed < min_speed_ || speed > max_speed_ ) return;
