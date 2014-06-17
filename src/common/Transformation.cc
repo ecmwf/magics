@@ -718,6 +718,7 @@ void useRef(double ref, double inc, double& min, double& max)
 
 
 
+
 void Transformation::thin(double step, PaperPoint& origin, vector<pair<double, double> >& points) const
 {
 	Timer timer("thinning", "");
@@ -733,19 +734,21 @@ void Transformation::thin(double step, PaperPoint& origin, vector<pair<double, d
 
 
 
-	for ( double x = origin.x(); x < maxx; x += step)
+	for ( double x = origin.x(), i = 1; x <= maxx; x = origin.x() + i*step, i++) {
 		if ( x > minx )
 			xl.push_back(x);
-	for ( double x = origin.x(); x > minx; x -= step)
+	}
+	for ( double x = origin.x(), i = 1; x >= minx; x = origin.x() - i*step, i++)
 		if ( x < maxx )
 			xl.push_back(x);
-		for ( double y = origin.y(); y < maxy; y += step)
-				if ( y > miny )
-					yl.push_back(y);
-			for ( double y = origin.y(); y > miny; y -= step)
-				if ( y < maxx )
-					yl.push_back(y);
+	for ( double y = origin.y(), i = 1; y <= maxy; y += origin.y() + i*step, i++)
+		if ( y > miny )
+			yl.push_back(y);
+	for ( double y = origin.y(), i = 1; y >= miny; y = origin.y() - i*step, i++)
+		if ( y < maxy ) {
+			yl.push_back(y);
 
+		}
 	for (vector<double>::iterator x = xl.begin(); x != xl.end(); ++x)
 		for (vector<double>::iterator y = yl.begin(); y != yl.end(); ++y){
 
