@@ -751,11 +751,13 @@ void Transformation::thin(double step, PaperPoint& origin, vector<pair<double, d
 		}
 	for (vector<double>::iterator x = xl.begin(); x != xl.end(); ++x)
 		for (vector<double>::iterator y = yl.begin(); y != yl.end(); ++y){
-
+				cout << *x << " " << *y << endl;
 							xypoints.push_back(make_pair(*x, *y));
 					}
 
 
 	revert(xypoints, points);
+	for (vector<pair<double, double> >::iterator p = points.begin(); p != points.end(); ++p)
+		cout << p->first << " " << p->second << endl;
 
 }
