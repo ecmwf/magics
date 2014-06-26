@@ -718,7 +718,6 @@ class ObjectHandler(ContentHandler):
 				definition.write("\t\tCHAIN_DOT; CHAIN_DOT\n")
 				definition.write("\t\tCHAIN_DASH; CHAIN_DASH\n")
 				definition.write("\t}\n")
-				definition.write("}\n\n")
 				definition.write("\tFONT {\n")
 				definition.write("\t\tARIAL; ARIAL\n")
 				definition.write("\t\tCOURIER; COURIER\n")
