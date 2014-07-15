@@ -79,10 +79,14 @@ void IsoLabel::operator()(Polyline& object, double l)  const
 	label.setVisible(true);
 	label.setHeight(height_);
 	label.setBlanking(blanking_);
-	MagFont font(font_, "", height_); 
+	MagFont font(font_, style_, height_);
 	font.colour(colour );
+
 	label.font(font);
 	object.setLabel(label);
+
+
+
 } 
 
 

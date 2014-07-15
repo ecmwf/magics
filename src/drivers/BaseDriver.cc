@@ -542,14 +542,17 @@ void BaseDriver::printLine(const Polyline &line) const
 		PaperPoint pp(pro_x,pro_y);		
 		text.push_back(pp);
 
-		const Label label= line.getLabel();
+		Label label= line.getLabel();
+		MagFont font = label.font();
 
-		text.addText(label.getText(),label.getFontColour(),label.getFontSize()); 
+		text.setFont(font);
+		text.addText(label.getText(),font.colour(),font.size());
 		text.setBlanking(label.getBlanking());
 		text.setJustification(label.getJustification());
 		text.setVerticalAlign(MHALF);
-		text.setAngle(-setAngleY(angle));	
 
+		text.setAngle(-setAngleY(angle));	
+		text.setFont(font);
 		renderText(text);
 
 		labelx [num_labels] = x[i];

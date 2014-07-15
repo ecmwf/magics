@@ -1357,6 +1357,8 @@ void IsoPlot::isoline(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
         }
         (*label_)(**poly, (*poly)->front().value());
 
+
+
         parent.push_back(*poly);
       }
       delete *lines;
