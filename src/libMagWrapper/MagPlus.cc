@@ -10,6 +10,7 @@
 #include <AxisWrapper.h>
 #include <VisualAction.h>
 #include "MetaDataWrapper.h"
+#include "ImportObjectHandlerWrapper.h"
 
 #ifdef MAGICS_GRIB
 #include <GribDecoderWrapper.h>
@@ -679,9 +680,12 @@ bool MagPlus::axis(magics::MagRequest& in)
 	return false; // do not exit
 }
 
-bool MagPlus::import(magics::MagRequest& /*in*/)
+bool MagPlus::import(magics::MagRequest& in)
 {
-	MagLog::dev()<< "ignore for now!!!" << endl;
+
+	ImportObjectHandlerWrapper object;
+	object.set(in);
+	top()->push_back(object.object());
 	return false; // do not exit
 }
 
