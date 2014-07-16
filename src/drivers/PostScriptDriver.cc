@@ -1016,12 +1016,14 @@ MAGICS_NO_EXPORT void PostScriptDriver::renderText(const Text& text) const
 		}
 
 		const std::set<string>& styles = magfont.styles();
+
 		string style = "";
 		if(styles.find("bold") != styles.end()) style = "bold";
 		else if(styles.find("italic") != styles.end()) style += "italic";
 		else if(styles.find("bolditalic") != styles.end()) style += "bolditalic";
 		if(style == "") style = "normal";
 		const string lowFont = lowerCase(magfont.name()+"_"+style);
+
 		fontMapIter iter = FontMap_.find(lowFont);
 
 		const bool underlined = (styles.find("underlined") != styles.end()) ? true : false;
@@ -1032,7 +1034,7 @@ MAGICS_NO_EXPORT void PostScriptDriver::renderText(const Text& text) const
 		else
 		{
 			font = 0; // if not found get default
-			MagLog::info() << "PostScriptDriver: Font "<< lowFont << " is not registered!\n   Default font used for "<<(*niceText).text()<<"."<< endl;
+			MagLog::warning() << "PostScriptDriver: Font "<< lowFont << " is not registered!\n   Default font used for "<<(*niceText).text()<<"."<< endl;
 		}
 
 		setNewColour(magfont.colour());
