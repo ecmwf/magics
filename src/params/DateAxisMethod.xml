@@ -18,7 +18,7 @@
          		<documentation> Label colour for 'YEARS' 		</documentation> 
   	</parameter>
 
-  	<parameter member="year_font" to="string" default="sanserif" from="string" name="axis_years_label_font">
+  	<parameter member="year_font" to="string" default="sansserif" from="string" name="axis_years_label_font">
          		<documentation> Font to use for the label  		</documentation>
   	</parameter>
    	<parameter member="year_font_style" to="string" default="normal" from="string" name="axis_years_label_font_style">
@@ -44,7 +44,7 @@
          		<documentation> Label colour for months 		</documentation>
   	</parameter>
 
-   	<parameter member="month_font" to="string" default="sanserif" from="string" name="axis_months_label_font">
+   	<parameter member="month_font" to="string" default="sansserif" from="string" name="axis_months_label_font">
          		<documentation> Font to use for the label  		</documentation>
   	</parameter>
    	<parameter member="month_font_style" to="string" default="normal" from="string" name="axis_months_label_font_style">
@@ -81,7 +81,7 @@
   	<parameter member="sunday_colour" to="Colour" default="red" from="string" name="axis_days_sunday_label_colour">
          		<documentation> Label colour for sundays 		</documentation>
   	</parameter>
-  	<parameter member="day_font" to="string" default="sanserif" from="string" name="axis_days_label_font">
+  	<parameter member="day_font" to="string" default="sansserif" from="string" name="axis_days_label_font">
          		<documentation> Font to use for the label  		</documentation>
   	</parameter>
    	<parameter member="day_font_style" to="string" default="normal" from="string" name="axis_days_label_font_style">
@@ -102,7 +102,7 @@
    	<parameter member="hour_colour" to="Colour" default="black" from="string" name="axis_hours_label_colour">
          		<documentation> Label quality for hours 		</documentation>
   	</parameter>
-   	<parameter member="hour_font" to="string" default="sanserif" from="string" name="axis_hours_label_font">
+   	<parameter member="hour_font" to="string" default="sansserif" from="string" name="axis_hours_label_font">
          		<documentation> Font to use for the label  		</documentation>
   	</parameter>
    	<parameter member="hour_font_style" to="string" default="normal" from="string" name="axis_hours_label_font_style">

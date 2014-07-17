@@ -7,19 +7,19 @@
   		<documentation>Specify the format of the imported file 		</documentation>
 	</parameter>
 
-	<parameter member="x" to="float" default="0" from="float" name="import_x_position">
+	<parameter member="import_x" to="float" default="0" from="float" name="import_x_position">
   		<documentation>X position of the imported image 		</documentation>
 	</parameter>
   
-	<parameter member="y" to="float" default="0" from="float" name="import_y_position">
+	<parameter member="import_y" to="float" default="0" from="float" name="import_y_position">
   		<documentation>Y position of the imported image 		</documentation>
 	</parameter>
 
-	<parameter member="width" to="float" default="-1" from="float" name="import_width">
+	<parameter member="import_width" to="float" default="-1" from="float" name="import_width">
   		<documentation>Width of the imported image (-1 means use the dimension of the image)		</documentation>
 	</parameter>
 
-	<parameter member="height" to="float" default="-1" from="float" name="import_height">
+	<parameter member="import_height" to="float" default="-1" from="float" name="import_height">
   		<documentation>Height of the imported image (-1 means use the dimension of the image)		</documentation>
 	</parameter>
 
