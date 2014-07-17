@@ -5,7 +5,7 @@ from Magics.macro import *
 
 ref = 'axis2'
 #Setting of the output file name
-output = output(output_formats = ['png'], 
+output = output(output_formats = ['ps'], 
 		output_name_first_page_number = "off",
 		output_name = ref)
 
@@ -23,6 +23,8 @@ projection = mmap(subpage_y_position= 2.,
 vertical = maxis(axis_orientation = "vertical",
 				 axis_grid =  "on",
 				 axis_type =  "regular",
+				 axis_tick_label_font_style = "bold",
+				 axis_tick_label_height = 0.6,
 				 axis_grid_colour = "grey",
 				 axis_grid_thickness = 1,
 				 axis_grid_reference_level = 0.,
@@ -34,9 +36,16 @@ vertical = maxis(axis_orientation = "vertical",
 horizontal = maxis(axis_orientation = "horizontal",
 				 axis_type =  "date",
 				 axis_grid =  "on",
-				 axis_days_label_height =  0.4,
-				 axis_months_label_height =  0.4,
-				 axis_years_label_height =  0.4,
+				 axis_months_label_font_style = "italic",
+				 axis_months_label_font = "times",
+				 axis_days_label_font_style = "italic",
+				 axis_days_label_font_name = "times",
+				 #axis_tick_label_font_style = "bold",
+                 axis_years_label_font_style = "italic",
+				 axis_tick_label_height = 0.6,
+				 axis_days_label_height =  0.6,
+				 axis_months_label_height =  0.6,
+				 axis_years_label_height =  0.6,
 				 axis_grid_colour = "grey",
 				 axis_grid_thickness = 1,
 				 axis_grid_line_style = "dot")
@@ -56,22 +65,4 @@ title = mtext({
 
 #To the plot
 plot(output, projection, vertical, horizontal, title)
-
-#For documentation only
-tofortran(ref, output, projection, vertical, horizontal, title)
-tomv4(ref, vertical)
-tohtml(ref, projection, vertical, horizontal)
-
-
-
-
-
-
-
-
-
-
-
-
-
 

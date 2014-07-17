@@ -252,8 +252,11 @@ void DateAxisMethod::years(AxisItems& list)
 		    else if ( max-min < 50*seconds_a_year ) {
 		    	frequency = 2;
 		    }
-		    else
+		    else if ( max-min < 100*seconds_a_year ) {
 		    	frequency = 5;
+		    }
+		    else
+		    	frequency = 10;
 		}
 		else {
 			frequency = (int) interval_;

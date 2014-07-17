@@ -158,6 +158,7 @@ Proj4Geose.xml
 SDWindMode.xml
 SVGDriver.xml
 SampleContourMethod.xml
+ImportObjectHandler.xml
 
 SelectionMode.xml
 ShadingTechnique.xml
@@ -227,7 +228,7 @@ YRegularCoordinate.xml
 		EpsgramDecoder.xml
 		EquidistantTableMode.xml
 		FixedTableMode.xml
-		ImportObjectHandler.xml
+		
 		EfiDataDecoder.xml
 		EfiGraph.xml
 		EfiJSon.xml
@@ -318,6 +319,7 @@ endforeach()
 set( magics_xmls ${magics_xmls} PARENT_SCOPE )
 set( metview_xmls ${metview_xmls} PARENT_SCOPE )
 
+add_metview_definition_file(FILE ImportObjectHandler.xml  BASENAME MIMPORT   ACTION MIMPORT)
 
 add_metview_definition_file(FILE Contour.xml  BASENAME MCONT   ACTION MCONT)
 add_metview_definition_file(FILE SymbolPlotting.xml  BASENAME MSYMB ACTION   MSYMB)

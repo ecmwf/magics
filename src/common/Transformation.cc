@@ -730,28 +730,27 @@ void Transformation::thin(double step, PaperPoint& origin, vector<pair<double, d
 	double maxy = getMaxPCY();
 
 
-	vector<double> xl, yl;
+	std::set<double> xl, yl;
 
 
 
 	for ( double x = origin.x(), i = 1; x <= maxx; x = origin.x() + i*step, i++) {
 		if ( x > minx )
-			xl.push_back(x);
+			xl.insert(x);
 	}
 	for ( double x = origin.x(), i = 1; x >= minx; x = origin.x() - i*step, i++)
 		if ( x < maxx )
-			xl.push_back(x);
-	for ( double y = origin.y(), i = 1; y <= maxy; y += origin.y() + i*step, i++)
+			xl.insert(x);
+	for ( double y = origin.y(), i = 1; y <= maxy; y = origin.y() + i*step, i++)
 		if ( y > miny )
-			yl.push_back(y);
+			yl.insert(y);
 	for ( double y = origin.y(), i = 1; y >= miny; y = origin.y() - i*step, i++)
 		if ( y < maxy ) {
-			yl.push_back(y);
+			yl.insert(y);
 
 		}
-	for (vector<double>::iterator x = xl.begin(); x != xl.end(); ++x)
-		for (vector<double>::iterator y = yl.begin(); y != yl.end(); ++y){
-
+	for (std::set<double>::iterator x = xl.begin(); x != xl.end(); ++x)
+		for (std::set<double>::iterator y = yl.begin(); y != yl.end(); ++y){
 							xypoints.push_back(make_pair(*x, *y));
 					}
 

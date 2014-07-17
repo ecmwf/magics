@@ -1,7 +1,7 @@
 #!/usr/bin/ksh
 
 git_home="/home/graphics/cgs/gitdev"
-version="2.23.0"
+version="2.23.1"
 magics=""
 install_home="/usr/local/apps/Magics/$version"
 debug="off"
@@ -20,7 +20,7 @@ run="1"
 
 case "${OS_VERSION}" in    
     opensuse113) # Local worksation
-        regression="on"
+        regression="off"
         cmake="/usr/local/apps/cmake/current/bin/cmake"
         boost="/usr/local/apps/boost/1.50.0"
         proj4="/usr/local/apps/proj4/4.8.0/LP64"
@@ -34,13 +34,13 @@ case "${OS_VERSION}" in
         run="4"
     ;;
     opensuse131) # New Local worksation
-        regression="off"
-        debug="on"
+        regression="on"
+        debug="off"
         odb="off"
-        bufr="off"
+        bufr="on"
         spot="off"
         cmake="cmake"
-        magics="debug"
+        magics="new"
         boost="/usr/local/apps/boost/1.50.0"
         proj4="/usr/local/apps/proj4/4.8.0/LP64"
         python="/usr/local/apps/python/2.7.1-02"
@@ -183,5 +183,20 @@ rm -fR *
 
 $cmake ${git_home}/magics $args
 make -j ${run} install
-#ctest
-#ctest -R summary
+ctest
+ctest -R summary
+
+
+echo "Removing existing embedded cmake directory"
+rm -rf ${git_home}/magics/cmake
+echo "copying new embedded cmake directory"
+cp -r ${git_home}/ecbuild/cmake ${src_home}
+echo "creating tarball..."
+make package_source
+echo "Removing embedded cmake directory"
+rm -rf ${git_home}/magics/cmake
+
+
+echo "Generated make_package_source script for creating source tarballs"
+echo ""
+
