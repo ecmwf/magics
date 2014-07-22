@@ -56,12 +56,12 @@ void  ImportObjectHandler::visit(SceneLayer& tree, vector<LayoutVisitor*>&)
 
    //layout_->frame(true, true, Colour("blue"), M_DOT, 3);
    //layout_->frameIt();
-   import_height
+
    ImportObject* object = new ImportObject();
    object->setPath(path_);
    object->setOrigin(PaperPoint(0, 0));
    object->setWidth(import_width_ == -1 ? import_width_ : 100);
-   object->setHeight(import_height == -1 ? import_height : 100);
+   object->setHeight(import_height_ == -1 ? import_height_: 100);
    object->setFormat(format_);
    object->setOriginReference(ImportObject::bottom_left);
    layout_->push_back(object);
