@@ -1162,9 +1162,11 @@ void IsoPlot::isoline(Cell& cell, CellBox* box) const
 
 void IsoPlot::isoline(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
 {
+
     const Transformation& transformation = parent.transformation();
     levels_.clear();
-
+    if ( levelSelection_->empty() )
+    	return;
     // Find the used levels!
     const vector<double>::const_iterator end = (*levelSelection_).end();
     vector<double>::const_iterator previous = (*levelSelection_).end();

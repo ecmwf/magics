@@ -71,7 +71,7 @@ void ObsWind::operator()( CustomisedPoint& point, ComplexSymbol& symbol) const
 
 	FlagItem* flag = new FlagItem();
 	flag->setColour(colour);
-	flag->length(owner_->size_ * 1.5); // Size to be adjusted later!
+	flag->length(owner_->size_ * 2.5); // Size to be adjusted later!
 
 	const string origin = "circle";
 
@@ -133,7 +133,7 @@ void ObsCloudAndWind::operator()( CustomisedPoint& point, ComplexSymbol& symbol)
 
 	FlagItem* flag = new FlagItem();
 	flag->setColour(colour);
-	flag->length(owner_->size_ * 1.5); // Size to be adjusted later!
+	flag->length(owner_->size_ * 2.5); // Size to be adjusted later!
 
 	map<int, string>::const_iterator marker = origins_.find(int(point["cloud_amount"]));
 	const string origin = ( marker != origins_.end()) ? marker->second : "magics_13";
@@ -255,6 +255,8 @@ void ObsPressureTendency::operator()(CustomisedPoint& point, ComplexSymbol& symb
 	
 	// The Pressure tendancy is red if negative!
 	MagFont font("sansserif");
+	if ( value->second < 0 )
+		colour = Colour("red");
 	font.colour(( value->second < 0 ) ? Colour("red") :colour);
 
 	object->text(os.str());
