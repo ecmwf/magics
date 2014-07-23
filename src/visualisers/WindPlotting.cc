@@ -180,6 +180,7 @@ void WindPlotting::visit(LegendVisitor& legend)
 		return;
 
 	if (magCompare(advanced_method_, "advanced") ||  magCompare(advanced_method_, "on") ) {
+		legend.newLegend();
 		if   ( map_.empty() ) {
 			// no legend to plot
 			return;
