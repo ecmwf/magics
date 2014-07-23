@@ -282,7 +282,7 @@ class Action(object):
 			return str(obj)
 		elif type(obj) in (list, tuple, set, numpy.ndarray):
 			if type(obj[0]) != unicode:
-				return list(obj)
+				return obj
 			obj = list(obj)
 			for i,v in enumerate(obj):
 				obj[i] = self.clean_object(v)
