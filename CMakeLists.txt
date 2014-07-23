@@ -93,6 +93,7 @@ if( SWIG_FOUND )
 endif()
 
 ### grib
+cmake_add_cxx_flags("-gdwarf-2")
 
 set( grib no )
 if( ENABLE_GRIB )

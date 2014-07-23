@@ -139,10 +139,15 @@ void PolarStereographicProjection::revert(const vector< std::pair<double, double
 {
 	assert(projection_);
 	out.reserve(in.size());
+
 	for ( vector< std::pair<double, double> >::const_iterator pt = in.begin();  pt != in.end(); ++pt) {
 		TeCoord2D texy = TeCoord2D(pt->first, pt->second);
 		TeCoord2D geo = projection_->PC2LL(texy);
-		out.push_back(make_pair(geo.x()*TeCRD, geo.y()*TeCRD));
+
+		if ( texy.y() > 0 && same(texy.x(), 0) )
+			out.push_back(make_pair(-180, geo.y()*TeCRD));
+		else
+			out.push_back(make_pair(geo.x()*TeCRD, geo.y()*TeCRD));
 	}
 }
 

@@ -1,10 +1,10 @@
 #!/usr/bin/ksh
 
-git_home="/home/graphics/cgs/git"
-version="2.22.6"
-magics="next-debug"
-install_home="/tmp/cgs/Magics/$version"
-debug="on"
+git_home="/home/graphics/cgs/gitdev"
+version="2.23.0-debug"
+magics=""
+install_home="/home/graphics/cgs/magics/$version"
+debug="off"
 bufr="on"
 netcdf="on"
 odb="on"
@@ -13,7 +13,7 @@ metview="off"
 cairo="on"
 regression="off"
 spot="on"
-build_home="/scratch/graphics/cgs/build/${OS_VERSION}"
+build_home="/home/graphics/cgs/build/$version/${OS_VERSION}"
 run="1"
 
 
@@ -21,7 +21,7 @@ run="1"
 case "${OS_VERSION}" in    
     opensuse113) # Local worksation
         regression="off"
-        build_home="/tmp/cgs/magics_debug"
+        debug="on"
         cmake="/usr/local/apps/cmake/current/bin/cmake"
         boost="/usr/local/apps/boost/1.50.0"
         proj4="/usr/local/apps/proj4/4.8.0/LP64"
@@ -32,6 +32,24 @@ case "${OS_VERSION}" in
         pgi_lib="/usr/local/apps/pgi/pgi-10.8/linux86-64/10.8/libso"
         spot_lib="/usr/local/lib/metaps/lib/spot_database/new"
         emos_lib="/usr/local/apps/libemos/000393"
+        run="4"
+    ;;
+    opensuse131) # New Local worksation
+        regression="off"
+        debug="on"
+        odb="off"
+        bufr="on"
+        spot="off"
+        cmake="cmake"
+        magics="debug"
+        boost="/usr/local/apps/boost/1.50.0"
+        proj4="/usr/local/apps/proj4/4.8.0/LP64"
+        python="/usr/local/apps/python/2.7.1-02"
+        netcdf_lib="/usr/local/apps/netcdf4/4.1.3/LP64"
+        odb_lib="/usr/local/apps/odb_api/0.9.31"
+        grib_lib="/usr/local/apps/grib_api/1.12.3"
+        spot_lib="/usr/local/lib/metaps/lib/spot_database/new"
+        emos_lib="/usr/local/apps/libemos/000394"
         run="4"
     ;;
     sles11) # lxab
@@ -51,7 +69,7 @@ case "${OS_VERSION}" in
         cmake="/usr/local/apps/cmake/current/bin/cmake"
         boost="/usr/local/apps/boost/1.50.0"
         proj4="/usr/local/apps/proj4/4.8.0/LP64"
-
+        magics="ecgb"
         python="/usr/local/apps/python/current"
         odb_lib="/usr/local/apps/odb_api/0.9.31"
         grib_lib="/usr/local/apps/grib_api/1.11.0"
@@ -66,9 +84,10 @@ case "${OS_VERSION}" in
 
 
 
+args="-DCMAKE_INSTALL_PREFIX=${install_home} -DENABLE_STATIC_LIBRARY=ON"
 args="-DCMAKE_INSTALL_PREFIX=${install_home}"
-args=" $args -DCMAKE_MODULE_PATH=${git_home}/ecbuild/cmake"
-args=" $args -DMAGICS_BUILD=${magics} -DENABLE_STATIC_LIBRARY=OFF"
+args=" $args "
+args=" $args -DMAGICS_BUILD=${magics}"
 args=" $args -DBOOST_ROOT=$boost"
 args=" $args -DPROJ4_PATH=$proj4"
 args=" $args -DENABLE_PYTHON=ON -DCMAKE_PREFIX_PATH=$python"
@@ -77,11 +96,11 @@ if [[ $debug = "on" ]];then
     args="$args -DCMAKE_BUILD_TYPE=Debug"
     echo "Debug enabled"
 else
-    args="$args -DCMAKE_BUILD_TYPE=Production"
+    args="$args -DCMAKE_BUILD_TYPE=Release"
     echo "Release Mode enabled"
 fi
 if [[ $regression = "on" ]];then
-    args="$args -DENABLE_REGRESSION=ON -DENABLE_REGRESSION_UPLOAD=on"
+    args="$args -DENABLE_REGRESSION=ON -DENABLE_REGRESSION_UPLOAD=ON"
     echo "Regression enabled"
 else
     args="$args -DENABLE_REGRESSION=OFF"
@@ -154,10 +173,20 @@ else
     args="$args -DENABLE_SPOT=OFF"
     echo "GRIB not required"
 fi
+echo "start"
 
+echo ${build_home}
 mkdir -p ${build_home}
 cd ${build_home}
+rm -fR *
 
+echo ${build_home}
 echo $args
+
+
+echo "$cmake ${git_home}/magics $args"
+
 $cmake ${git_home}/magics $args
 make -j ${run} install
+#ctest
+#ctest -R summary

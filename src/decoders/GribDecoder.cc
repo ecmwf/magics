@@ -609,13 +609,13 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 				add->insert(make_pair("x_component", value.first));
 				add->insert(make_pair("y_component", value.second));
 				out.push_back(add);
-
+/*
 				add = new CustomisedPoint(inlons[i], inlats[i], "");
 
 				add->insert(make_pair("x_component", 0));
 				add->insert(make_pair("y_component", 0));
 				out.push_back(add);
-
+*/
 			}
 		}
 
