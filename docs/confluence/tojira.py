@@ -12,7 +12,6 @@ list = [
 	["gallery/gallery.js", "Gallery", "Magics gallery generator"],
     ["magics.css", "Reference guide", "Magics table stylesheet"],
 	["coast.json", "Coastlines", "Coastlines documentation"],
-	["wind.json", "Wind Plotting", "Wind Plotting documentation"],
 	["postscript.json", "Postscript output", "Postscript Driver documentation"],
 	["png.json", "PNG output", "CAIRO Driver documentation"],
 	["svg.json", "SVG output", "SVG Driver documentation"],
@@ -28,15 +27,19 @@ list = [
 	["input.json",    "Input Data", "Input Data  documentation"],
 	["import.json",   "Import Object", "Import facility documentation"],
 	["magdoc.js",     "Reference guide", "Magics gallery generator"],
-	["cont.json",     "Contouring", "Contouring documentation"],
 	["text.json",     "Text Plotting", " Text documentation"],
 	["table.json",    "CSV Input", "CSV Input documentation"],
 	["subpage.json", "Subpage",         "Subpage documentation"],
+	["cont.json",     "Contouring", "Contouring documentation"],
+	["symbol.json",     "Symbol", " Symbol Plotting documentation"],
+	["graph.json",     "Graph Plotting", " Graph Plotting documentation"],
+    ["netcdf.json", "Netcdf Input", "Netcdf Input documentation"]
+	["wind.json", "Wind Plotting", "Wind Plotting documentation"],
 ]
 """
 
 list = [
-	["symb.json", "Symbol", "Symbol Plotting documentation"],
+    ["netcdf.json", "Netcdf Input", "Netcdf Input documentation"]
 ]
 
 """
