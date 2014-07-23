@@ -51,6 +51,7 @@ void LevelSelection::print(ostream& out)  const
 }
 void LevelSelection::thinLevels(int frequency, vector<double>& out) const
 {
+	if ( empty() ) return;
 	double ref = reference(frequency);
 	int count = 0;
 	// Fisrt is the reference in the levels list?

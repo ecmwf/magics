@@ -51,6 +51,8 @@ void CountSelectionType::calculate(double min, double max, bool)
         i += ( max_ >  1000000000) ? 1 : 0;
         i += ( min_ < -1000000000) ? 1 : 0;
         
+        if ( same(min, max) )
+        	return;
         
         
         double nb = levelCount_-1;
