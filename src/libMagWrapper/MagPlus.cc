@@ -223,7 +223,7 @@ MagPlus::MagPlus() : root_(0), superpage_(-1), geographical_(true), mode_(intera
         sceneCreators_["MTEXT"] = &MagPlus::text;
         sceneCreators_["MLEGEND"] = &MagPlus::legend;
         sceneCreators_["DEVICE"] = &MagPlus::device;
-        sceneCreators_["PIMPORT"] = &MagPlus::import; 
+        sceneCreators_["MIMPORT"] = &MagPlus::import;
         sceneCreators_["PRASTER"] = &MagPlus::raster;
         sceneCreators_["PRASTERLOOP"] = &MagPlus::rasterloop;
         sceneCreators_["BINNING_OBJECT"] = &MagPlus::binning;
