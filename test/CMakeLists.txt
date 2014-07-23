@@ -16,7 +16,7 @@ if ( ENABLE_FORTRAN)
     if ( ENABLE_STATIC_LIBRARY )
         ecbuild_add_test( TARGET basic_fortran_static
             SOURCES   coast.f90
-            LIBS      MagPlusSingle MagPlusStatic
+            LIBS      MagPlusSingle MagPlusStatic ${MAGICS_EXTRA_LIBRARIES} 
             LINKER_LANGUAGE Fortran )       
      endif()
 endif()
