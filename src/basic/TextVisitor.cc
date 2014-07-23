@@ -236,11 +236,15 @@ void TextVisitor::finish(BasicGraphicsObjectContainer& parent)
 	current_->blankIt();
 
 	double absheight = current_->absoluteHeight();
-
+	double abswidth = current_->absoluteWidth();
 	double height = (font_size_ /absheight)*100;
-	double last = (0.10/absheight)*100; //in %
+
+	double last = orientation_ == "horizontal" ? (0.10/absheight)*100 : (0.10/abswidth)*100;//in %
 	double ratio = OutputHandler::patchLineSpacing();
 	double gap = height*ratio;
+
+	double angle = 0;
+
 
 
 
@@ -250,6 +254,7 @@ void TextVisitor::finish(BasicGraphicsObjectContainer& parent)
 
 		// Calculate the position depending on the jsutification.
 		double x;
+
 		if (justification_ == MLEFT) x = .1; // 0.1% 
 		else if (justification_ == MRIGHT) x = 98.; //98 %
 		else x = 50.; 
@@ -257,9 +262,35 @@ void TextVisitor::finish(BasicGraphicsObjectContainer& parent)
 		(*text)->setJustification(justification_);
 		(*text)->setVerticalAlign(MBOTTOM);
 
-		gap = (*text)->noText() ?  height*ratio : (((*text)->getFontMax()/absheight)*100)*ratio;
-		(*text)->push_back(PaperPoint(x, last)); // approximate position to be improved 
 
+
+		if ( orientation_ == "horizontal" ) {
+			angle = 0;
+			gap = (*text)->noText() ?  (font_size_ /absheight)*100 *ratio : (((*text)->getFontMax()/absheight)*100)*ratio;
+			(*text)->push_back(PaperPoint(x, last)); // approximate position to be improved
+		}
+		if ( magCompare(orientation_, "bottom_top" ) ) {
+
+			angle = 3*3.14/2;;
+			(*text)->setVerticalAlign(MTOP);
+			gap = (*text)->noText() ?  (font_size_ /abswidth)*100 *ratio : (((*text)->getFontMax()/abswidth)*100)*ratio;
+			(*text)->push_back(PaperPoint(last, x)); // approximate position to be improved
+		}
+
+		if ( magCompare(orientation_, "top_bottom" ) ) {
+			if (justification_ == MLEFT) x = 98.; // 0.1%
+			else if (justification_ == MRIGHT) x = .1; //98 %
+			else x = 50.;
+			angle = 3.14/2;
+			gap = (*text)->noText() ?  (font_size_ /abswidth) *ratio : (((*text)->getFontMax()/abswidth)*100)*ratio;
+			(*text)->push_back(PaperPoint(last, x)); // approximate position to be improved
+		}
+
+		(*text)->setJustification(justification_);
+
+
+
+		(*text)->setAngle(angle);
 		last += gap;
 
 		current_->push_back(*text);
@@ -379,7 +410,7 @@ void XmlTextVisitor::getReady()
 	layout_->display(ABSOLUTE);
 	layout_->frame(TextVisitorAttributes::blanking_, TextVisitorAttributes::border_, *TextVisitorAttributes::border_colour_, M_SOLID, 1);
 
-	}
+}
 
 FortranTextVisitor::FortranTextVisitor()
 {

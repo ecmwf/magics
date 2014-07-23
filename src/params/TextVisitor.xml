@@ -117,7 +117,9 @@
 			<release>Magisc++0.3		</release>
 			<documentation> How text is to be positioned in each line (LEFT/CENTRE/RIGHT)		</documentation>
   	</parameter>
-
+	<parameter from="string" name="text_orientation" default="horizontal" member="orientation" to="string" values="horizontal/top_bottom/bottom_top">
+    		<documentation> Orientation of the text		</documentation>
+	</parameter>
 
    	<parameter from="string" name="text_automatic" visible="no" default="on" member="automatic" to="bool">
 			<release>Magisc++2.1		</release>
