@@ -81,7 +81,8 @@ public:
     
     MatrixHandler& matrix() {
         MagLog::dev() << "NetcdfDecoder::matrix! " << "\n";
-        valid_ = (*interpretor_).interpretAsMatrix(&data_);
+        if ( !data_ )
+        	valid_ = (*interpretor_).interpretAsMatrix(&data_);
         this->matrixHandlers_.push_back(new MatrixHandler(*data_));
         return *(this->matrixHandlers_.back());
     } 
