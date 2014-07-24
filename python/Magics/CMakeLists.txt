@@ -10,6 +10,7 @@ if( ENABLE_PYTHON AND NUMPY_FOUND )
   debug_var( relative_rpath )
 
   ecbuild_append_to_rpath( ${relative_rpath} )
+  ecbuild_append_to_rpath( "../../lib" ) # for the ctest to find magics libs
 
   ### place in build tree so we can run python tests
 
