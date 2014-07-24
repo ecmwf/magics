@@ -90,7 +90,8 @@ void Histogram::prepare(PointsHandler& points)
 {
 		levels_->set(*this);
 		levels_->calculate(points.min(), points.max(), false);
-	
+		if ( levels_->empty() )
+			return;
 		
 		double delta=0;
 		LevelSelection::const_iterator min = levels_->begin();
