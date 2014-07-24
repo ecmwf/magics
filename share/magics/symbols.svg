@@ -75,8 +75,8 @@
    </g>
    <g id='magics_13'>
       	<circle cx='0' cy='0' r='0.5' fill='0'/>
-   	<polyline points='-0.5,-0.5 0.5,0.5' fill='none'/>
-	<polyline points='-0.5,0.5 0.5,-0.5' fill='none'/>
+   	<polyline points='-0.35,-0.35 0.35,0.35' fill='none'/>
+	<polyline points='-0.35,0.35 0.35,-0.35' fill='none'/>
    </g>
    <g id='magics_14'>
 	<polyline points='-0.5,-0.5 -0.5,0.5 0.5,0.5 0.5,-0.5 -0.5,-0.5' fill='none'/>
@@ -587,12 +587,15 @@
 </g>
 <g id="ww_96">
     <triangle cx='0' cy='0.55' r='0.2' fill='0' />
-  
-  
     <lightning cx='0' cy='0'  r='0.5'/>
 </g>
 <g id="ww_97">
     <circle r="0.1" cx="0." cy="0.6" fill="8" />
+    <lightning cx='0' cy='0'  r='0.4'/>
+</g>
+
+<g id="ww_99">
+	<triangle cx='0' cy='0.55' r='0.3' fill='0' />
     <lightning cx='0' cy='0'  r='0.4'/>
 </g>
    <g id='N_0'>
