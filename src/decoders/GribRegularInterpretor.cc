@@ -1678,6 +1678,13 @@ void GribLambertInterpretor::print(ostream& out)  const
 	out << "]";
 }
 
-UserPoint GribReducedGaussianInterpretor::origin(const GribDecoder&) { assert(false); }
+UserPoint GribReducedGaussianInterpretor::origin(const GribDecoder& grib)
+{
+		double lon  = grib.getDouble("longitudeOfFirstGridPointInDegrees");
+		double lat  = grib.getDouble("latitudeOfFirstGridPointInDegrees");
+
+		return UserPoint(lon, lat);
+}
+
 UserPoint GribLambertAzimutalInterpretor::origin(const GribDecoder&) { assert(false); }
 
