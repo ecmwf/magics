@@ -92,7 +92,7 @@ public:
 	void decode();
 	void decode2D();
 	void decode(const Transformation&);
-		void decode2D(const Transformation&);
+	void decode2D(const Transformation&);
 	void decodeRaster(const Transformation&);
 	void decodePoints();
 	void release();
@@ -109,7 +109,7 @@ public:
 		return title_;
 	}
 
-	bool interpolate() const { magCompare(interpolation_method_, "interpolate"); }
+	bool interpolate() const { return magCompare(interpolation_method_, "interpolate"); }
 	bool getExpver() const { return expver_; }
 	void version();
 	
