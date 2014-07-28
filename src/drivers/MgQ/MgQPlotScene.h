@@ -26,7 +26,7 @@
     Started: March 2010
 */
 
-#ifndef MgPlotScene_H
+#ifndef MgQPlotScene_H
 #define MgQPlotScene_H
 
 #include <QGraphicsScene>
