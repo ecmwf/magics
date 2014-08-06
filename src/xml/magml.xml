@@ -50,6 +50,7 @@
       <element name='kml'           occurrence='01'  object='KMLDriver'        chapter='drivers'/> 
       <element name='pdf'           occurrence='01'  object='CairoDriver'      chapter='drivers'  linkid='Cairo_Driver'/>  
       <element name='png'           occurrence='01'  object='CairoDriver'      chapter='drivers'  linkid='Cairo_Driver'/>  
+      <element name='geotiff'       occurrence='01'  object='CairoDriver'      chapter='drivers'  linkid='Cairo_Driver'/>  
       <element name='gif'           occurrence='01'  object='GDDriver'         chapter='drivers'  linkid='GD_Driver' />  
       <element name='gif_animation' occurrence='01'  object='GDDriver'         chapter='drivers'  linkid='GD_Driver' />  
       <!-- <element name='cairo' occurrence='0+'  object='KMLDriver'        chapter='drivers'/> -->
