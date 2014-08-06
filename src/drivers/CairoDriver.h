@@ -111,6 +111,7 @@ private:
 	MAGICS_NO_EXPORT void renderPolyline2(const int n, MFloat *x, MFloat *y) const;
 	MAGICS_NO_EXPORT void renderSimplePolygon(const int, MFloat *, MFloat *) const;
 	MAGICS_NO_EXPORT void renderSimplePolygon(const Polyline& line) const;
+	MAGICS_NO_EXPORT void renderSimplePolygon() const;
 	MAGICS_NO_EXPORT void renderText(const Text& text) const;
 	MAGICS_NO_EXPORT void circle(const MFloat x, const MFloat y, const MFloat r, const int) const;
 	MAGICS_NO_EXPORT bool renderPixmap(MFloat,MFloat,MFloat,MFloat,int,int,unsigned char*,int,bool) const;

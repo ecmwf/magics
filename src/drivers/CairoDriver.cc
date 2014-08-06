@@ -841,113 +841,7 @@ MAGICS_NO_EXPORT void CairoDriver::renderSimplePolygon(const Polyline& line) con
 	}
 
 //	cairo_close_path (cr_);
-
-#if CAIRO_VERSION >= CAIRO_VERSION_ENCODE(1, 2, 0)
-	if (currentShading_==M_SH_DOT)
-	{
-		const DotShadingProperties *pro = (DotShadingProperties*)currentShadingProperties_;
-		const int density = (int)sqrt(pro->density_);
-		if(density<=0) return;
-		const int s = (int)(pro->size_*convertCM(1.)*5.);
-		const MFloat square_size = convertCM(1.)/density;
-
-		cairo_surface_t *pat_surface;
-		cairo_pattern_t *pattern;
-		cairo_t *cr2;
-
-		pat_surface = cairo_surface_create_similar(cairo_get_group_target(cr_),CAIRO_CONTENT_COLOR_ALPHA, square_size, square_size);
-		cr2 = cairo_create (pat_surface);
-
-		cairo_set_source_rgba(cr2,currentColour_.red(),currentColour_.green(),currentColour_.blue(),currentColour_.alpha());
-		const MFloat off = (square_size)*.5;
-		cairo_rectangle (cr2, off, off, s, s);
-		cairo_fill (cr2);
-
-		pattern = cairo_pattern_create_for_surface (cairo_get_target (cr2));
-
-		cairo_pattern_set_extend (pattern, CAIRO_EXTEND_REPEAT);
-
-		cairo_set_source (cr_, pattern);
-		cairo_fill (cr_);
-
-		cairo_pattern_destroy(pattern);
-		cairo_surface_destroy (pat_surface);
-		cairo_destroy (cr2);
-	}
-	else if (currentShading_==M_SH_HATCH)
-	{
-		const HatchShadingProperties *pro = (HatchShadingProperties*)currentShadingProperties_;
-		indexHatch_ = pro->index_;
-		if(indexHatch_<1 || indexHatch_>6)
-		{
-			MagLog::warning() << "CairoDriver::renderSimplePolygon > Hatch index " <<indexHatch_<<" is wrong. No hatch sahding possible!" << endl;
-			return;
-		}
-		const int density = (int)(1./pro->density_*150);
-
-		cairo_surface_t *pat_surface;
-		cairo_pattern_t *pattern;
-		cairo_t *cr2;
-
-		pat_surface = cairo_surface_create_similar(cairo_get_group_target(cr_),CAIRO_CONTENT_COLOR_ALPHA, density, density);
-		cr2 = cairo_create (pat_surface);
-		cairo_surface_destroy (pat_surface);
-
-		cairo_set_source_rgba(cr2,currentColour_.red(),currentColour_.green(),currentColour_.blue(),currentColour_.alpha());
-		if(indexHatch_==1 || indexHatch_==3) // horizontal
-		{
-			cairo_move_to(cr2,       0, density*.5+.5);
-			cairo_line_to(cr2, density+.5, density*.5+.5);
-		}
-		if(indexHatch_==2 || indexHatch_==3) // vertical
-		{
-			cairo_move_to(cr2, density+.5*.5, 0);
-			cairo_line_to(cr2, density+.5*.5, density+.5);
-		}
-		if(indexHatch_==4 || indexHatch_==6) 
-		{
-			cairo_move_to(cr2,       0, 0);
-			cairo_line_to(cr2, density+.5, density+.5);
-		}
-		if(indexHatch_==5 || indexHatch_==6)
-		{
-			cairo_move_to(cr2, density+.5, 0);
-			cairo_line_to(cr2,       0, density+.5);
-		}
-                cairo_identity_matrix (cr_);
-		cairo_set_line_width (cr_,pro->thickness_*.5);
-		cairo_stroke(cr2);
-
-		pattern = cairo_pattern_create_for_surface (cairo_get_target (cr2));
-		cairo_destroy (cr2);
-
-		cairo_pattern_set_extend (pattern, CAIRO_EXTEND_REPEAT);
-
-		cairo_set_source (cr_, pattern);
-		cairo_fill (cr_);
-
-		cairo_pattern_destroy(pattern);
-	}
-	else
-#else
-                if (currentShading_==M_SH_HATCH || currentShading_==M_SH_DOT)
-                    MagLog::error() << "CairoDriver: For hatch and dot shading you need at least Cairo 1.2!\n"
-                                 << "             Solid shading used instead."<< std::endl;
-#endif
-	{
-	    if(magCompare(backend_,"png")) // if(cairo_get_antialias(cr_) != CAIRO_ANTIALIAS_NONE && currentColour_.alpha() > 0.9999 )
-	    {
-	        cairo_fill_preserve(cr_);
-	        cairo_set_line_width(cr_, 1.);
-	        cairo_stroke(cr_);
-	    }
-	    else
-	    {
-	        cairo_fill(cr_);
-	    }
-	}
-	cairo_restore(cr_);
-	currentShading_=M_SH_SOLID;
+	renderSimplePolygon();
 }
 
 
@@ -982,7 +876,23 @@ MAGICS_NO_EXPORT void CairoDriver::renderSimplePolygon(const int n, MFloat* x, M
 
 	cairo_close_path (cr_);
 
-#if CAIRO_VERSION >= CAIRO_VERSION_ENCODE(1, 2, 0)
+	renderSimplePolygon();
+}
+
+/*!
+  \brief renders a filled polygon
+
+  This method renders a filled polygon. The style is
+  determined by what is described in the current LineStyle.
+
+  \sa setLineParameters()
+  \param n number of points
+  \param x array of x values
+  \param y array of y values
+*/
+MAGICS_NO_EXPORT void CairoDriver::renderSimplePolygon() const
+{
+  #if CAIRO_VERSION >= CAIRO_VERSION_ENCODE(1, 2, 0)
 	if (currentShading_==M_SH_DOT)
 	{
 		const DotShadingProperties *pro = (DotShadingProperties*)currentShadingProperties_;
@@ -1089,6 +999,9 @@ MAGICS_NO_EXPORT void CairoDriver::renderSimplePolygon(const int n, MFloat* x, M
 	cairo_restore(cr_);
 	currentShading_=M_SH_SOLID;
 }
+
+
+
 
 /*!
   \brief renders text strings
