@@ -255,6 +255,15 @@ void CAIRO_XOutputFactory::set(DriverManager& magics, const XmlNode& node)
 	
 	magics.push_back(driver);
 }
+
+void CAIRO_GeoTiffOutputFactory::set(DriverManager& magics, const XmlNode& node)
+{
+	CairoDriver* driver = new CairoDriver();
+	driver->set(node);
+	driver->setGEOTIFF();
+
+	magics.push_back(driver);
+}
 #endif
 
 #include "KMLDriver.h"
