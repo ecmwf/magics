@@ -154,7 +154,7 @@ void CairoDriver::open()
 
 void CairoDriver::setupNewSurface() const
 {
-	if(magCompare(backend_,"png"))
+	if(magCompare(backend_,"png") || magCompare(backend_,"geotiff"))
 	{
 	    surface_ = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, dimensionXglobal_, dimensionYglobal_);
 	}
@@ -293,7 +293,7 @@ void CairoDriver::setupNewSurface() const
 #if CAIRO_VERSION >= CAIRO_VERSION_ENCODE(1, 2, 0)
 	cairo_surface_set_fallback_resolution (surface_, resolution_, resolution_);
 #endif
-	if(magCompare(transparent_,"off") || !magCompare(backend_,"png"))
+	if(magCompare(transparent_,"off") || !(magCompare(backend_,"png") || magCompare(backend_,"geotiff")) )
 	{
 		cairo_set_source_rgb (cr_, 1.0, 1.0, 1.0); /* white */
 	}
@@ -361,7 +361,7 @@ MAGICS_NO_EXPORT void CairoDriver::startPage() const
 {
 	if(currentPage_ > 0)
 	{
-		if (magCompare(backend_,"png") )
+		if (magCompare(backend_,"png") || magCompare(backend_,"geotiff"))
 		{
 			cairo_destroy (cr_);
 			cairo_surface_destroy (surface_);
@@ -442,14 +442,107 @@ MAGICS_NO_EXPORT void CairoDriver::endPage() const
 		filename_ = getFileName("png" ,currentPage_);
 		cairo_surface_write_to_png(surface_, filename_.c_str());
 		if(!filename_.empty()) printOutputName("CAIRO png "+filename_);
-
-	//	filename_ = getFileName("jpg" ,currentPage_);
-	//	write_jpeg(surface_, "test.jpg", JCS_RGB, JCS_RGB, 3, false, true);
-	//	filename_ = getFileName("tiff" ,currentPage_);
-	//	write_tiff(surface_, "test.tiff");
+	}
+	else if (magCompare(backend_,"geotiff") )
+	{
+#ifdef MAGICS_GEOTIFF
+		filename_ = getFileName("tif" ,currentPage_);
+		write_tiff();
+#else
+		MagLog::error() << "CairoDriver: GEOTIFF not enabled!"<< std::endl;
+#endif
 	}
 }
 
+#ifdef MAGICS_GEOTIFF
+
+#include <geotiffio.h>
+#include <tiffio.h>
+/*!
+  \brief write raster into (Geo)Tiff
+
+  Only the raw raster (normally written to a PNG) is here written into a (Geo)Tiff.
+
+  \sa http://trac.osgeo.org/geotiff/
+  \sa http://www.remotesensing.org/geotiff/spec/geotiffhome.html
+  \sa http://www.remotesensing.org/geotiff/spec/geotiff6.html
+
+*/
+MAGICS_NO_EXPORT void CairoDriver::write_tiff() const
+{
+    int compression = 1;
+
+    unsigned char *data = cairo_image_surface_get_data(surface_);
+    int           width = cairo_image_surface_get_width(surface_);
+    int          height = cairo_image_surface_get_height(surface_);
+    const int    stride = cairo_image_surface_get_stride(surface_);
+
+    TIFF *tif = TIFFOpen(filename_.c_str(), "w");
+    if (!tif) {
+        MagLog::warning() << "CairoDriver: Unable to open TIFF file "<<filename_.c_str()<< std::endl;
+        return;
+    }
+    
+    GTIF *gtif = GTIFNew(tif);
+    if (!gtif)
+    {
+        MagLog::warning() << "CairoDriver: Unable to open GeoTIFF file "<<filename_.c_str()<< std::endl;
+        return;
+    }
+
+    TIFFSetField(tif, TIFFTAG_IMAGEWIDTH,      width);
+    TIFFSetField(tif, TIFFTAG_IMAGELENGTH,     height);
+    TIFFSetField(tif, TIFFTAG_SAMPLESPERPIXEL, 4);
+    TIFFSetField(tif, TIFFTAG_BITSPERSAMPLE,   8);
+    TIFFSetField(tif, TIFFTAG_ORIENTATION,     ORIENTATION_TOPLEFT);
+    TIFFSetField(tif, TIFFTAG_PLANARCONFIG,    PLANARCONFIG_CONTIG);
+    TIFFSetField(tif, TIFFTAG_PHOTOMETRIC,     PHOTOMETRIC_RGB);
+    TIFFSetField(tif, TIFFTAG_SOFTWARE,        "Magics");
+
+    GTIFKeySet(gtif, GTModelTypeGeoKey,       TYPE_SHORT,  1, ModelGeographic);
+    GTIFKeySet(gtif, GTRasterTypeGeoKey,      TYPE_SHORT,  1, RasterPixelIsArea);
+    GTIFKeySet(gtif, GTCitationGeoKey,        TYPE_ASCII,  0, "MagicsPlot");
+    GTIFKeySet(gtif, GeographicTypeGeoKey,    TYPE_SHORT,  1, KvUserDefined);
+    GTIFKeySet(gtif, GeogCitationGeoKey,      TYPE_ASCII,  0, "Everest Ellipsoid Used.");
+    GTIFKeySet(gtif, GeogAngularUnitsGeoKey,  TYPE_SHORT,  1, Angular_Degree);
+    GTIFKeySet(gtif, GeogLinearUnitsGeoKey,   TYPE_SHORT,  1, Linear_Meter);
+    GTIFKeySet(gtif, GeogGeodeticDatumGeoKey, TYPE_SHORT,  1, KvUserDefined);
+    GTIFKeySet(gtif, GeogEllipsoidGeoKey,     TYPE_SHORT,  1, Ellipse_WGS_84);
+    GTIFKeySet(gtif, GeogSemiMajorAxisGeoKey, TYPE_DOUBLE, 1, (double)6377298.556);
+    GTIFKeySet(gtif, GeogInvFlatteningGeoKey, TYPE_DOUBLE, 1, (double)300.8017);
+
+    if(compression > 1) {
+        if (compression > 10) compression = 10;
+        TIFFSetField(tif, TIFFTAG_COMPRESSION, compression);
+    }
+
+    // DPI
+    TIFFSetField(tif, TIFFTAG_RESOLUTIONUNIT, RESUNIT_INCH);
+    TIFFSetField(tif, TIFFTAG_XRESOLUTION, (float) resolution_);
+    TIFFSetField(tif, TIFFTAG_YRESOLUTION, (float) resolution_);
+
+    unsigned char *buf;
+    if (TIFFScanlineSize(tif))
+        buf = (unsigned char *)_TIFFmalloc(4 * width);
+    else
+        buf = (unsigned char *)_TIFFmalloc(TIFFScanlineSize(tif));
+
+    unsigned char *pscanline;
+    for (unsigned int i = 0; i < height; i++) {
+        pscanline = buf;
+        for(unsigned int j = 0; j < stride; j++) {
+            *pscanline++ = data[i*stride+j++];
+            *pscanline++ = data[i*stride+j++];
+            *pscanline++ = data[i*stride+j++];
+            *pscanline++ = data[i*stride+j];
+        }
+        TIFFWriteScanline(tif, buf, i, 0);
+    }
+    TIFFClose(tif);
+    _TIFFfree(buf);
+    return;
+}
+#endif  // MAGICS_GEOTIFF
 
 /*!
   \brief project to a new Layout
@@ -505,7 +598,7 @@ MAGICS_NO_EXPORT void CairoDriver::project(const Layout& layout) const
 	else obsBox_=false;
 */
 	// write meta info
-	if(layout.isNavigable() && (magCompare(backend_,"png") || magCompare(backend_,"svg")) )
+	if(layout.isNavigable() && (magCompare(backend_,"png") || magCompare(backend_,"svg") || magCompare(backend_,"geotiff")) )
 	{
 		const double offsetX = projectX(layout.minX());
 		const double offsetY = projectY(layout.maxY());
@@ -748,113 +841,7 @@ MAGICS_NO_EXPORT void CairoDriver::renderSimplePolygon(const Polyline& line) con
 	}
 
 //	cairo_close_path (cr_);
-
-#if CAIRO_VERSION >= CAIRO_VERSION_ENCODE(1, 2, 0)
-	if (currentShading_==M_SH_DOT)
-	{
-		const DotShadingProperties *pro = (DotShadingProperties*)currentShadingProperties_;
-		const int density = (int)sqrt(pro->density_);
-		if(density<=0) return;
-		const int s = (int)(pro->size_*convertCM(1.)*5.);
-		const MFloat square_size = convertCM(1.)/density;
-
-		cairo_surface_t *pat_surface;
-		cairo_pattern_t *pattern;
-		cairo_t *cr2;
-
-		pat_surface = cairo_surface_create_similar(cairo_get_group_target(cr_),CAIRO_CONTENT_COLOR_ALPHA, square_size, square_size);
-		cr2 = cairo_create (pat_surface);
-
-		cairo_set_source_rgba(cr2,currentColour_.red(),currentColour_.green(),currentColour_.blue(),currentColour_.alpha());
-		const MFloat off = (square_size)*.5;
-		cairo_rectangle (cr2, off, off, s, s);
-		cairo_fill (cr2);
-
-		pattern = cairo_pattern_create_for_surface (cairo_get_target (cr2));
-
-		cairo_pattern_set_extend (pattern, CAIRO_EXTEND_REPEAT);
-
-		cairo_set_source (cr_, pattern);
-		cairo_fill (cr_);
-
-		cairo_pattern_destroy(pattern);
-		cairo_surface_destroy (pat_surface);
-		cairo_destroy (cr2);
-	}
-	else if (currentShading_==M_SH_HATCH)
-	{
-		const HatchShadingProperties *pro = (HatchShadingProperties*)currentShadingProperties_;
-		indexHatch_ = pro->index_;
-		if(indexHatch_<1 || indexHatch_>6)
-		{
-			MagLog::warning() << "CairoDriver::renderSimplePolygon > Hatch index " <<indexHatch_<<" is wrong. No hatch sahding possible!" << endl;
-			return;
-		}
-		const int density = (int)(1./pro->density_*150);
-
-		cairo_surface_t *pat_surface;
-		cairo_pattern_t *pattern;
-		cairo_t *cr2;
-
-		pat_surface = cairo_surface_create_similar(cairo_get_group_target(cr_),CAIRO_CONTENT_COLOR_ALPHA, density, density);
-		cr2 = cairo_create (pat_surface);
-		cairo_surface_destroy (pat_surface);
-
-		cairo_set_source_rgba(cr2,currentColour_.red(),currentColour_.green(),currentColour_.blue(),currentColour_.alpha());
-		if(indexHatch_==1 || indexHatch_==3) // horizontal
-		{
-			cairo_move_to(cr2,       0, density*.5+.5);
-			cairo_line_to(cr2, density+.5, density*.5+.5);
-		}
-		if(indexHatch_==2 || indexHatch_==3) // vertical
-		{
-			cairo_move_to(cr2, density+.5*.5, 0);
-			cairo_line_to(cr2, density+.5*.5, density+.5);
-		}
-		if(indexHatch_==4 || indexHatch_==6) 
-		{
-			cairo_move_to(cr2,       0, 0);
-			cairo_line_to(cr2, density+.5, density+.5);
-		}
-		if(indexHatch_==5 || indexHatch_==6)
-		{
-			cairo_move_to(cr2, density+.5, 0);
-			cairo_line_to(cr2,       0, density+.5);
-		}
-                cairo_identity_matrix (cr_);
-		cairo_set_line_width (cr_,pro->thickness_*.5);
-		cairo_stroke(cr2);
-
-		pattern = cairo_pattern_create_for_surface (cairo_get_target (cr2));
-		cairo_destroy (cr2);
-
-		cairo_pattern_set_extend (pattern, CAIRO_EXTEND_REPEAT);
-
-		cairo_set_source (cr_, pattern);
-		cairo_fill (cr_);
-
-		cairo_pattern_destroy(pattern);
-	}
-	else
-#else
-                if (currentShading_==M_SH_HATCH || currentShading_==M_SH_DOT)
-                    MagLog::error() << "CairoDriver: For hatch and dot shading you need at least Cairo 1.2!\n"
-                                 << "             Solid shading used instead."<< std::endl;
-#endif
-	{
-	    if(cairo_get_antialias(cr_) != CAIRO_ANTIALIAS_NONE && currentColour_.alpha() > 0.9999 )
-	    {
-	        cairo_fill_preserve(cr_);
-	        cairo_set_line_width(cr_, 1.);
-	        cairo_stroke(cr_);
-	    }
-	    else
-	    {
-	        cairo_fill(cr_);
-	    }
-	}
-	cairo_restore(cr_);
-	currentShading_=M_SH_SOLID;
+	renderSimplePolygon();
 }
 
 
@@ -889,7 +876,23 @@ MAGICS_NO_EXPORT void CairoDriver::renderSimplePolygon(const int n, MFloat* x, M
 
 	cairo_close_path (cr_);
 
-#if CAIRO_VERSION >= CAIRO_VERSION_ENCODE(1, 2, 0)
+	renderSimplePolygon();
+}
+
+/*!
+  \brief renders a filled polygon
+
+  This method renders a filled polygon. The style is
+  determined by what is described in the current LineStyle.
+
+  \sa setLineParameters()
+  \param n number of points
+  \param x array of x values
+  \param y array of y values
+*/
+MAGICS_NO_EXPORT void CairoDriver::renderSimplePolygon() const
+{
+  #if CAIRO_VERSION >= CAIRO_VERSION_ENCODE(1, 2, 0)
 	if (currentShading_==M_SH_DOT)
 	{
 		const DotShadingProperties *pro = (DotShadingProperties*)currentShadingProperties_;
@@ -982,7 +985,7 @@ MAGICS_NO_EXPORT void CairoDriver::renderSimplePolygon(const int n, MFloat* x, M
                                  << "             Solid shading used instead."<< std::endl;
 #endif
 	{
-	    if(cairo_get_antialias(cr_) != CAIRO_ANTIALIAS_NONE && currentColour_.alpha() > 0.9999 )
+	    if(magCompare(backend_,"png")) // if(cairo_get_antialias(cr_) != CAIRO_ANTIALIAS_NONE && currentColour_.alpha() > 0.9999 )
 	    {
 	        cairo_fill_preserve(cr_);
 	        cairo_set_line_width(cr_, 1.);
@@ -996,6 +999,9 @@ MAGICS_NO_EXPORT void CairoDriver::renderSimplePolygon(const int n, MFloat* x, M
 	cairo_restore(cr_);
 	currentShading_=M_SH_SOLID;
 }
+
+
+
 
 /*!
   \brief renders text strings
