@@ -28,13 +28,11 @@
 	<parameter from="float" name="contour_hilo_reduction_radius" default="0.0" member="reduction_radius" to="float" implemented="no">
          		<documentation> Search radius (in grid points) for reducing the number of minima 		</documentation>
          		<migration> New Magics: Parameter contour_hilo_reduction_radius sent to new Magics[HiLo].  		</migration>
-         		<release_info>Parameter defined but not implemented : expected in 0.7		</release_info>
 	</parameter>
   
-	<parameter member="suppress_radius" to="float" default="15.0" from="float" name="contour_hilo_suppress_radius">
+	<parameter member="suppress_radius" to="float" default="15.0" from="float" name="contour_hilo_suppress_radius" implemented='no'>
          		<documentation> Radius of HiLo search in grid points (default value is for global cylindrical map) 		</documentation>
          		<migration> New Magics: Parameter contour_hilo_suppress_radius sent to new Magics[HiLo].  		</migration>
-         		<release_info>Parameter defined but not implemented: expected in 0.7		</release_info>
 	</parameter>
 
 	<parameter member="hilo_max_value" to="float" default="1.0e+21" from="float" name="contour_hilo_max_value">

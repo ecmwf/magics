@@ -10,7 +10,7 @@ ref = 'symbol_ww'
 
 # Setting of the output file name
 
-output = output(output_formats=['ps'],
+output = output(output_formats=['png', "ps"],
                 output_name_first_page_number='off',
                 output_name=ref)
 
