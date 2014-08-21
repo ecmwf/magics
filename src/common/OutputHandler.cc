@@ -106,13 +106,16 @@ static SimpleObjectMaker<SVG_SvgOutputFactory, OutputFactory> svg("svg");
 static SimpleObjectMaker<BinaryOutputFactory, OutputFactory> binary("mgb");
 
 #ifdef MAGICS_CAIRO
-static SimpleObjectMaker<CAIRO_PngOutputFactory,   OutputFactory> png("png");
+static SimpleObjectMaker<CAIRO_PngOutputFactory,    OutputFactory> png("png");
 static SimpleObjectMaker<CAIRO_PdfOutputFactory,    OutputFactory> pdf("pdf");
-static SimpleObjectMaker<CAIRO_XOutputFactory,       OutputFactory> x("x");
+static SimpleObjectMaker<CAIRO_XOutputFactory,      OutputFactory> x("x");
 static SimpleObjectMaker<CAIRO_CairoOutputFactory,  OutputFactory> cairo("cairo");
 static SimpleObjectMaker<CAIRO_SvgOutputFactory,    OutputFactory> csvg("cairo_svg");
-static SimpleObjectMaker<CAIRO_PsOutputFactory,      OutputFactory> cps("cairo_ps");
+static SimpleObjectMaker<CAIRO_PsOutputFactory,     OutputFactory> cps("cairo_ps");
 static SimpleObjectMaker<CAIRO_EpsOutputFactory,    OutputFactory> ceps("cairo_eps");
+#ifdef MAGICS_GEOTIFF
+static SimpleObjectMaker<CAIRO_GeoTiffOutputFactory,OutputFactory> geotiff("geotiff");
+#endif
 #endif
 
 static SimpleObjectMaker<KML_KmlOutputFactory, OutputFactory> kml("kml");

@@ -270,6 +270,16 @@ public:
 	virtual OutputFactory* clone() const  { return new CAIRO_XOutputFactory(); }    
 	virtual void set(DriverManager&, const XmlNode&);
 };
+
+class CAIRO_GeoTiffOutputFactory : public OutputFactory
+{
+public:
+	CAIRO_GeoTiffOutputFactory() {}
+	virtual ~CAIRO_GeoTiffOutputFactory() {}
+	
+	virtual OutputFactory* clone() const  { return new CAIRO_GeoTiffOutputFactory(); }    
+	virtual void set(DriverManager&, const XmlNode&);
+};
 #endif
 
 class KML_KmlOutputFactory : public OutputFactory
