@@ -187,7 +187,9 @@ rm -fR *
 $cmake ${git_home}/magics $args
 make -j ${run} install
 ctest
-ctest -R summary
+if [[ $regression = "on" ]];then
+    ctest -R summary
+fi
 
 
 echo "Removing existing embedded cmake directory"
