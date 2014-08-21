@@ -23,9 +23,9 @@ if( ENABLE_PYTHON AND NUMPY_FOUND )
 
   include_directories( ${PYTHON_INCLUDE_DIRS} ${NUMPY_INCLUDE_DIRS} ${CMAKE_CURRENT_SOURCE_DIR} )
 
-  set_source_files_properties( Magics.i PROPERTIES GENERATED TRUE CXX ON )
+  set_source_files_properties( ${CMAKE_CURRENT_BINARY_DIR}/Magics.i PROPERTIES GENERATED TRUE CXX ON )
 
-  swig_add_module( Magics python Magics_interface.cc Magics.i )
+  swig_add_module( Magics python Magics_interface.cc ${CMAKE_CURRENT_BINARY_DIR}/Magics.i )
 
   set_source_files_properties(partio.i PROPERTIES SWIG_FLAGS "-includeall")
 

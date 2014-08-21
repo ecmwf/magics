@@ -110,20 +110,29 @@ void GribSatelliteInterpretor::interpretAsRaster(const GribDecoder& grib, Raster
      raster.setLowerLeftCorner(west, south);
      raster.setProjection(projection);
 
+     // set the missing value indicator?
+     // note that it seems to be the case that we should ensure that this number
+     // is the same as is set in Metview/ReprojectionService.cc
+     long hasBitmap = grib.getLong("bitmapPresent");
+     double missingValue = 65535;
+     if (hasBitmap)
+        grib_set_double(grib.id(),"missingValue", missingValue);
+
+     // get the array of values
      size_t nb=0;
      grib_get_size(grib.id(), "values", &nb);
-     raster.reserve(nb);
+     raster.resize(nb);
+     grib_get_double_array(grib.id(),"values",&raster.front(),&nb);
+
 
      // If value is temperature in degrees K then add 145 to pixel value
      double offset = (grib.getLong("functionCode") == 1) ? 145. : 0.;
-     
-    grib_get_double_array(grib.id(),"values",&raster.front(),&nb);
-    
+
      if (offset) { 
-    	 for (unsigned int i = 0; i < nb; i++) {
-    		 	raster[i] +=offset;
-    	       
-    	 }
+        for (unsigned int i = 0; i < nb; i++) {
+            if (hasBitmap && raster[i]!=missingValue)
+                raster[i] +=offset;
+        }
      }
      
 
