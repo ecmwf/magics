@@ -130,11 +130,10 @@ void GribSatelliteInterpretor::interpretAsRaster(const GribDecoder& grib, Raster
 
      if (offset) { 
         for (unsigned int i = 0; i < nb; i++) {
-            if (hasBitmap && raster[i]!=missingValue)
+            if (!hasBitmap || raster[i]!=missingValue)  // if not missing value
                 raster[i] +=offset;
         }
      }
-     
 
 }
 
