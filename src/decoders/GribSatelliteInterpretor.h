@@ -45,8 +45,7 @@ public:
 	virtual void interpretAsRaster(const GribDecoder&, RasterData&, const Transformation&) const;
     virtual void interpretAsVectors(const GribDecoder&, Matrix&, Matrix&) const 
     	{ throw  NotYetImplemented("Satellite representation", " Vectors"); }
-    virtual void interpretAsMatrix(const GribDecoder&, Matrix&) const 
-    	{ throw  NotYetImplemented("Satellite representation", " Matrix "); }
+    virtual void interpretAsMatrix(const GribDecoder&, Matrix**) const;
 
 	
 
