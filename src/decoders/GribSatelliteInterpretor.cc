@@ -62,7 +62,7 @@ void GribSatelliteInterpretor::interpretAsMatrix(const GribDecoder& grib, Matrix
 	MagLog::dev() << "GribRegularInterpretor::interpretAsMatrix" << "\n";
 
 	double altitude = grib.getDouble("NrInRadiusOfEarth");
-	if ( !altitude ) altitude =  6610839;
+	if ( !altitude ) altitude =  6610839.;
 	altitude *= 0.000001;
 	long   nx   = grib.getLong("numberOfPointsAlongXAxis");
 	long   ny   = grib.getLong("numberOfPointsAlongYAxis");
