@@ -90,7 +90,11 @@ void GribDecoder::version()
 	done = true;
 	MagLog::info() << "GribAPI Version :" << grib_get_api_version() << endl;
 }
+double dist(double a, double b)
+{
 
+	return (a*a) + (b*b);
+}
 GribDecoder::~GribDecoder() 
 {
 	if ( matrix_) delete matrix_;
@@ -404,11 +408,20 @@ void GribDecoder::customisedPoints(const AutomaticThinningMethod& thinning, cons
 		// Compute the thinning factor...
 
 
+		double x1 = 0;
+		double y1 = 60;
+		double x2 = 0;
+		double y2 = 60 + interpretor_->XResolution(*this);
 
+		transformation.fast_reproject(x1, y1);
+		transformation.fast_reproject(x2, y2);
+		double res = sqrt(dist(x1-x2, y1-y2));
 
 		double xstep = ( transformation.getMaxPCX() - transformation.getMinPCX())/ thinning.x();
 		double ystep = ( transformation.getMaxPCY() - transformation.getMinPCY())/ thinning.y();
 
+		xstep = int(xstep/res) * res;
+		ystep = int(ystep/res) * res;
 
 		customisedPoints(transformation, points, xstep, ystep, 0);
 
@@ -510,11 +523,7 @@ void GribDecoder::newPoint(const Transformation& transformation, double lat, dou
 	}
 }
 
-double dist(double a, double b)
-{
 
-	return (a*a) + (b*b);
-}
 
 struct Compare
 {
@@ -553,68 +562,88 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 		std::reverse(points.begin(),points.end());
 
 		for ( pos = positions.begin(); pos != positions.end(); ++pos) {
-			double offset = 0;
+			double offset = 0.;
 			// First make sure tthat the lon is between the minlon and maxlon.
 			double lon = pos->first;
 			double lat = pos->second;
 			while ( lon < minlon ) {
 				lon += 360;
-				offset -= 360;
+				offset -= 360.;
 			}
 			while ( lon > maxlon ) {
 				lon -= 360.;
-				offset += 360;
+				offset += 360.;
 			}
+
 
 			vector<pair<double, vector<pair<double, CustomisedPoint*> > > >::iterator y;
 			vector<pair<double, CustomisedPoint*> >::iterator x;
 
 
 			y = std::lower_bound(points.begin(), points.end(), pos->second, Compare());
-			if (y == points.end() )
+
+
+			if (y == points.end() ) {
+
 				continue;
+                }
+
+			if (y!=points.begin() )
 
 			map<double, CustomisedPoint*> result;
 
 			x = std::lower_bound(y->second.begin(), y->second.end(), lon, Compare());
-			double xx = (*x).first;
-			double yy =  (*y).first;
-			double val = dist(xx -lon, yy - lat);
+			double val = dist(x->first - lon, y->first - lat);
+			double min = val;
+			CustomisedPoint* point = x->second;
 
-
-			result.insert(make_pair(dist(x->first -lon, y->first - lat), x->second));
 
 			if ( x != y->second.begin() ) {
 				--x;
+				val = dist(x->first -lon, y->first - lat);
+				if ( val < min ) {
+					min = val;
+					point = x->second;
+				}
 
-				result.insert(make_pair(dist(x->first -lon, y->first - lat), x->second));
 			}
 
 			if (y != points.begin() ) {
 				--y;
 
 				x = std::lower_bound(y->second.begin(), y->second.end(), lon, Compare());
+				val = dist(x->first -lon, y->first - lat);
+				if ( val < min ) {
+					min = val;
+					point = x->second;
+				}
 
-				result.insert(make_pair(dist(x->first -lon, y->first - lat), x->second));
+
 				if ( x != y->second.begin() ) {
 					--x;
+					val = dist(x->first -lon, y->first - lat);
+					if ( val < min ) {
+						min = val;
+						point = x->second;
+					}
 
-					result.insert(make_pair(dist(x->first -lon, y->first - lat), x->second));
 				}
 
 			}
 
 
 
-			CustomisedPoint *point = result.begin()->second;
 
 
-			if ( (*point)["x_component"] != missing && (*point)["y_component"]) {
+			if ( (*point)["x_component"] != missing && (*point)["y_component"] != missing) {
+
 				CustomisedPoint *add = new CustomisedPoint(point->longitude()+offset, point->latitude(), "");
-				pair<double, double> value = (*wind_mode_)((*point)["x_component"], (*point)["y_component"]);
-				add->insert(make_pair("x_component", value.first));
-				add->insert(make_pair("y_component", value.second));
-				out.push_back(add);
+								pair<double, double> value = (*wind_mode_)((*point)["x_component"], (*point)["y_component"]);
+
+								add->insert(make_pair("x_component", value.first));
+								add->insert(make_pair("x_component", value.first));
+								add->insert(make_pair("y_component", value.second));
+								out.push_back(add);
 
 
 			}
