@@ -420,8 +420,13 @@ void GribDecoder::customisedPoints(const AutomaticThinningMethod& thinning, cons
 		double xstep = ( transformation.getMaxPCX() - transformation.getMinPCX())/ thinning.x();
 		double ystep = ( transformation.getMaxPCY() - transformation.getMinPCY())/ thinning.y();
 
-		xstep = int(xstep/res) * res;
-		ystep = int(ystep/res) * res;
+		int nb = (xstep/res);
+		cout << nb << endl;
+
+
+		xstep = ( nb < 3)  ? 0 : nb * res;
+		ystep = ( nb < 3)  ? 0 : int(ystep/res) * res;
+
 
 		customisedPoints(transformation, points, xstep, ystep, 0);
 
