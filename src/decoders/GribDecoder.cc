@@ -914,6 +914,7 @@ void GribDecoder::decodePoints()
 		if (!iter)
 		{
 			MagLog::error() << "Grib Iterator not yet supported on this kind of grib\n";
+			MagLog::broadcast();
 			throw MagicsException("Grib Iterator not yet supported.");
 		}
 
