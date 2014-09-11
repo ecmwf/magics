@@ -249,12 +249,12 @@ bool NetcdfMatrixInterpretor::y()
     	if ( !aux.empty() ) {
     		ostringstream geominy, geomaxy;
     		if ( magCompare(geo_y_convention_, "latlon") ) {
-    			geominy << rows_.front() << "/" << aux.front();
-    			geomaxy << rows_.back() << "/" << aux.back();
-    		}
-    		else {
     			geominy << aux.front() << "/" << rows_.front();
     			geomaxy << aux.back() << "/" << rows_.back();
+    		}
+    		else {
+    			geominy << rows_.front() << "/" << aux.front();
+    			geomaxy << rows_.back() << "/" << aux.back();
     		}
 
     		geoMinY_ = geominy.str();
