@@ -295,12 +295,12 @@ void NetcdfMatrixInterpretor::visit(Transformation& transformation)
 			y();
 
 			if ( transformation.getAutomaticX() ) {
-				if ( !this->baseDateX_.empty() ) {
-					transformation.setDataMinMaxX(columns_.front(), columns_.back(), this->baseDateX_);
+				if ( !baseDateX_.empty() ) {
+					transformation.setDataMinMaxX(columns_.front(), columns_.back(), baseDateX_);
 
 				}
-				else if ( !this->geoMinX_.empty() ) {
-					string coords = this->geoMinX_ + "/" + this->geoMaxX_;
+				else if ( !geoMinX_.empty() ) {
+					string coords = geoMinX_ + "/" + geoMaxX_;
 					transformation.setDataMinMaxX(columns_.front(), columns_.back(), coords);
 				}
 				else
@@ -310,12 +310,13 @@ void NetcdfMatrixInterpretor::visit(Transformation& transformation)
 				}
 			}
 			if ( transformation.getAutomaticY() ) {
-				if ( !this->baseDateY_.empty() ) {
-					transformation.setDataMinMaxY(rows_.front(), rows_.back(), this->baseDateY_);
+				if ( !baseDateY_.empty() ) {
+					transformation.setDataMinMaxY(rows_.front(), rows_.back(), baseDateY_);
 
 				}
-				else if ( !this->geoMinY_.empty() ) {
-					transformation.setDataMinMaxY(rows_.front(), rows_.back(),this->geoMinY_);
+				else if ( !geoMinY_.empty() ) {
+					string coords = geoMinY_ + "/" + geoMaxY_;
+					transformation.setDataMinMaxY(rows_.front(), rows_.back(),coords);
 
 				}
 				else {
