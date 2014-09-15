@@ -139,8 +139,7 @@ long GribDecoder::getLong(const string& key, bool warnIfKeyAbsent) const
 	{
 		if (warnIfKeyAbsent)
 		{
-			MagLog::warning() << "Grib API: can not find key [" << key << "]\n"
-					<< grib_get_error_message(err) <<"\n";
+			MagLog::warning() << "Grib API: can not find key [" << key << "]  - "<< grib_get_error_message(err) <<"\n";
 		}
 		return 0;
 	}
@@ -166,8 +165,7 @@ string GribDecoder::getstring(const string& key, bool warnIfKeyAbsent, bool cach
 	{
 		if (warnIfKeyAbsent)
 		{
-			MagLog::warning() << "Grib API: can not find key [" << key << "]\n"
-					<< grib_get_error_message(err) <<"\n";
+			MagLog::warning() << "Grib API: can not find key [" << key << "]  - "<< grib_get_error_message(err) <<"\n";
 		}
 		return "";
 	}
@@ -217,8 +215,7 @@ double GribDecoder::getDouble(const string& key, bool warnIfKeyAbsent) const
 	{
 		if (warnIfKeyAbsent)
 		{
-			MagLog::warning() << "Grib API: can not find key [" << key << "]\n"
-					<< grib_get_error_message(err) <<"\n";
+			MagLog::warning() << "Grib API: can not find key [" << key << "]  - " << grib_get_error_message(err) <<"\n";
 		}
 		return 0;
 	}
@@ -233,8 +230,7 @@ void   GribDecoder::setDouble(const string& key, double val) const
 	int err = grib_set_double(handle_, key.c_str(), val);
 	if ( err )
 	{
-		MagLog::warning() << "Grib API: can not find key [" << key << "]\n"
-				<< grib_get_error_message(err) <<"\n";
+		MagLog::warning() << "Grib API: can not find key [" << key << "]  - "<< grib_get_error_message(err) <<"\n";
 	}
 }
 
@@ -757,9 +753,7 @@ void GribDecoder::decode2D(const Transformation&)
 	catch (NoFactoryException&)
 	{
 		MagLog::warning() << "Grib Decoder: Representation [" << representation << "] not yet supported.\n"<< std::endl;;
-
 	}
-
 	wind_mode_->x(&xComponent_, &yComponent_, w1, w2);
 }
 
