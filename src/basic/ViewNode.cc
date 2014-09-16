@@ -378,7 +378,7 @@ void XmlViewNode::getReady()
 	
 	// Fitted can be: expand/tiling/crop/off
 
-	if ( fitted_  == "expand" )
+	if ( fitted_  == "expand-test" )
 	{
 		viewTransformation_->fill(waa, haa);
 		absoluteRootWidth(waa);
@@ -387,12 +387,15 @@ void XmlViewNode::getReady()
 		w2 = waa / width.absolute() *100;
 		h2 = haa / height.absolute() *100;
 	}
-	if ( fitted_  == "tiling" )
+	if ( fitted_  == "expand" )
 	{
 
 		viewTransformation_->tile(waa, haa);
+
 		absoluteRootWidth(waa);
 		absoluteRootHeight(haa);
+		viewTransformation_->aspectRatio(waa, haa);
+
 	}
 	if ( fitted_  == "crop" )
 	{
