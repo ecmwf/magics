@@ -123,8 +123,8 @@ void Transformation::tile(double& width, double& height)
 	double pxheight = height*40.;
 	double pxwidth = width*40.;
 
-	tile_ = 256;
-	double tile = 256;
+	tile_ = 512;
+	double tile = 512;
 
 	int xtile = ceil(pxwidth/tile);
 	int ytile = ceil(pxheight/tile);
