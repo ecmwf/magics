@@ -57,10 +57,11 @@ void Transformation::forceNewArea(double xpcmin, double ypmin, double xpcmax, do
 {
 	
 }
+#define PRINT(w, a) MagLog::dev() << w << "---> " << #a << ": " << (a) << std::endl
 void Transformation::fill(double& width, double& height)
 {
+    init();
 
-	init();
 		// with and height will only
 		double w = getAbsoluteMaxPCX() - getAbsoluteMinPCX();
 		double h = getAbsoluteMaxPCY() - getAbsoluteMinPCY();
@@ -91,175 +92,73 @@ void Transformation::fill(double& width, double& height)
 
 			  	askedWidth_ = width*40;
 			  		askedHeight_ = height*40;
-		
+
+			  		 PRINT ("fill", minx);
+			  		    PRINT ("fill", miny);
+			  		    PRINT ("fill", maxx);
+			  		    PRINT ("fill", maxy);
 			setNewPCBox(minx, miny, maxx, maxy);
 }
 
-#define PRINT(w, a) MagLog::dev() << w << "---> " << #a << ": " << (a) << std::endl
 
 
 void Transformation::tile(double& width, double& height)
 {
-	init();
+	fill(width, height);
+
 	// here we assume we are in the wrepMode, this should be checked!
-
-
-	// with and height will only
-	double awidth = getAbsoluteMaxPCX() - getAbsoluteMinPCX();
-	double aheight = getAbsoluteMaxPCY() - getAbsoluteMinPCY();
+	init();
 
 	double minx =  getAbsoluteMinPCX();
 	double maxx =  getAbsoluteMaxPCX();
 	double miny =  getAbsoluteMinPCY();
 	double maxy =  getAbsoluteMaxPCY();
-
-	awidth = maxx -minx;
-	aheight = maxy -miny;
-
-
-
-
-			int tiles;
-			double nw = (width/height) * aheight;
-
-
-
-
-
-
-
-
-
-
+	  PRINT ("B", minx);
+	    PRINT ("Btile", miny);
+	    PRINT ("Btile", maxx);
+	    PRINT ("Btile", maxy);
+    double pcwidth = maxx - minx;
+    double pcheight = maxy - miny;
 
 	double pxheight = height*40.;
 	double pxwidth = width*40.;
 
-	// Try to see if we have already a number of tile.
-	if (same((pxheight/tile_ - int(pxheight)/tile_), 0)) {
-		pxheight = int(pxheight);
+	tile_ = 256;
+	double tile = 256;
 
-	}
-	if (same((pxwidth/tile_ - int(pxwidth)/tile_), 0)) {
-		pxwidth = int(pxwidth);
+	int xtile = ceil(pxwidth/tile);
+	int ytile = ceil(pxheight/tile);
 
-	}
 
 	askedWidth_ = pxwidth;
 	askedHeight_ = pxheight;
 
-	double pcwidth = maxx-minx;
-	double pcheight = maxy-miny;
-	PRINT("pcwidth", pcwidth);
-	PRINT("pcheight", pcheight);
-	vector<double> levels;
-	double u = unit_;
-	for ( float i = 6; i > 0; i--) {
-
-		levels.push_back((u)/tile_);
+	width = xtile * tile;
+	height = ytile * tile;
 
 
-		u = u/2.;
-	}
-	std::sort(levels.begin(), levels.end());
+    double xoffset = ((width - pxwidth)/pxwidth)*pcwidth; 
+    double yoffset = ((height - pxheight)/pxheight)*pcheight; 
+    xoffset /=2;
+    yoffset /=2;
+    
+    minx -= xoffset;
+    miny -= yoffset;
+    maxx += xoffset;
+    maxy += yoffset;
+    xTile_ = (width - pxwidth)/2;
+    yTile_ = (height - pxheight)/2;
+    // Now we fill
 
-
-	for ( vector<double>::iterator l = levels.begin(); l != levels.end(); ++l)
-		MagLog::debug()  << *l << ", ";
-
-	double ratio = ( nw > awidth) ? pcheight/pxheight : pcwidth/pxwidth;
-					  	// we need to extend in the x direction
-
-
-
-
-
-
-	vector<double>::iterator l = levels.begin();
-	while ( l != levels.end() ) {
-
-		if ( ratio - *l   <  unitEpsilon_  ) {
-			break;
-		}
-		++l;
-	}
-
-
-
-
-	double level = ( l == levels.end() ) ? levels.back() : *l;
-
-
-	int ytiles = ceil((pcheight/level)/tile_);
-	int xtiles = ceil((pcwidth/level)/tile_);
-
-	zoomLevel_ = ytiles;
-
-
-	pxwidth  = tile_*xtiles;
-	pxheight = tile_*ytiles;
-
-
-	// compute new pxminx, pxminy, pxmaxx, pxmaxy
-
-	int pxminx, pxminy, pxmaxx, pxmaxy;
-
-	pxminx = (minx-originX_)/level;
-	pxminy = (miny-originY_)/level;;
-	pxmaxx = (maxx-originX_)/level;
-	pxmaxy = (maxy-originY_)/level;
-
-	xTile_ = pxminx;
-	yTile_ = pxmaxy;
-
-
-
-	// compute  new minx
-
-	pxminx = floor((float)pxminx/tile_)*tile_;
-	pxminy = floor((float)pxminy/tile_)*tile_;
-
-	pxmaxx =  ceil((float)pxmaxx/tile_)*tile_;
-	pxmaxy =  ceil((float)pxmaxy/tile_)*tile_;
-
-
-
-
-	// now we can compute the new minx,,,
-	minx = (pxminx * level) + originX_;
-	miny =  (pxminy * level) + originY_;
-	maxx = (pxmaxx * level) + originX_;
-	maxy = (pxmaxy * level) + originY_;
-	// now we jsut have to count the number of tiles to find the width and the hieght
-
-	width = (pxmaxx-pxminx);
-	height = (pxmaxy-pxminy);
-
-	if ( askedWidth_ > width ) {
-		maxx += level*tile_;
-		width += tile_;
-
-	}
-	if ( askedHeight_ > height ) {
-
-			miny -= level*tile_;
-			height +=tile_;
-
-	}
-	width /=40.;
-	height /=40.;
-
-
-
-
-	xTile_ = xTile_ - pxminx;
-	yTile_ = pxmaxy - yTile_;
-
-
-
-
+    PRINT ("tile", minx);
+    PRINT ("tile", miny);
+    PRINT ("tile", maxx);
+    PRINT ("tile", maxy);
+	width = width/40.;
+	height = height/40.;
 	setNewPCBox(minx, miny, maxx, maxy);
 	init();
+
 }
 
 void Transformation::aspectRatio(double& width, double& height)
