@@ -157,7 +157,7 @@ void Transformation::tile(double& width, double& height)
 	width = width/40.;
 	height = height/40.;
 	setNewPCBox(minx, miny, maxx, maxy);
-	init();
+
 
 }
 
@@ -312,8 +312,8 @@ void Transformation::visit(MetaDataVisitor& visitor,
 
 	java << "\"pcxmin\" : \"" << getMinPCX() <<  "\",";		
 	java << "\"pcymin\" : \"" << getMinPCY() <<  "\",";		
-	java << "\"pcxmin\" : \"" << getMinPCX() <<  "\",";
-	java << "\"pcymin\" : \"" << getMinPCY() <<  "\",";
+	java << "\"pcxmax\" : \"" << getMaxPCX() <<  "\",";
+	java << "\"pcymax\" : \"" << getMaxPCY() <<  "\",";
 
 	java << "\"pcwidth\" : \"" << w <<  "\",";	
 	java << "\"pcheight\" : \"" << h <<  "\",";
