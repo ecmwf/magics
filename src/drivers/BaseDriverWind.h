@@ -104,8 +104,8 @@ MAGICS_NO_EXPORT void BaseDriver::renderWindArrow(const Arrow &arrow) const
 
 	  vector<PaperPoint> line;
 	  (pos==M_TAIL) ? line.push_back(PaperPoint(0.,0.)) : line.push_back(PaperPoint( -0.5*norm,0.));
-	  double xx       = (pos==M_TAIL) ? norm  :       0.5  * norm;
-	  if(index==2) xx = (pos==M_TAIL) ? norm2 : (base-0.5) * norm;
+	  double xx                       = (pos==M_TAIL) ? norm  :       0.5  * norm;
+	  if((index==2) || (index==1)) xx = (pos==M_TAIL) ? norm2 : (base-0.5) * norm;
 
 	  line.push_back(PaperPoint(xx,0));
 	  for_each(line.begin(),line.end(),rotate(angle,ratio) );
@@ -132,18 +132,12 @@ MAGICS_NO_EXPORT void BaseDriver::renderWindArrow(const Arrow &arrow) const
 	  if(index == 0)
 	  {
 		line.clear();
-		line.push_back(PaperPoint(xx,0. ));
 		line.push_back(PaperPoint(xx-bx,-by));
-		for_each(line.begin(),line.end(),rotate(angle,ratio) );
-		for_each(line.begin(),line.end(),translate(arr->point_) );
-		renderPolyline2(line);
-
-		line.clear();
 		line.push_back(PaperPoint(xx,0. ));
 		line.push_back(PaperPoint(xx-bx,by));
 		for_each(line.begin(),line.end(),rotate(angle,ratio) );
 		for_each(line.begin(),line.end(),translate(arr->point_) );
-		renderPolyline2(line);
+		renderPolyline(line);
 	  }
 	  else
 	  {
