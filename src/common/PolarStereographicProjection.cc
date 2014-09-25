@@ -1010,5 +1010,11 @@ void PolarStereographicProjection::setDefinition(const string& json)
 
 
 }
+UserPoint PolarStereographicProjection::reference() const
+{
+	UserPoint ll = ( hemisphere_ ==  NORTH ) ? UserPoint(0, 60) : UserPoint(0, -60);
 
+
+	return ll;
+}
 

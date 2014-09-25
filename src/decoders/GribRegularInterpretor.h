@@ -44,7 +44,6 @@ public:
 	
 	void interpretAsMatrix(const GribDecoder&, Matrix**) const; 
 	virtual double XResolution(const GribDecoder& grib) const { return  longitudeIncrement(grib); }
-	UserPoint origin(const GribDecoder&);
 	void interpretAsMatrix(const GribDecoder&, Matrix**, const Transformation&) const; 
 	virtual void interpretAsRaster(const GribDecoder&, RasterData&, const Transformation&) const;
     virtual void latitudes(const GribDecoder&, vector<double>&) const;
@@ -76,7 +75,6 @@ public:
 	void interpretAsMatrix(const GribDecoder&, Matrix**) const; 
 	void interpretAsMatrix(const GribDecoder&, Matrix**, const Transformation&) const; 
 	void interpretAsRaster(const GribDecoder&, RasterData&, const Transformation&) const;
-	UserPoint origin(const GribDecoder&);
 	
 protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).
@@ -100,7 +98,7 @@ class GribReducedLatLonInterpretor: public GribInterpretor {
 public:
 	GribReducedLatLonInterpretor() {}
 	virtual ~GribReducedLatLonInterpretor() {}
-	UserPoint origin(const GribDecoder&);
+
 	void interpretAsMatrix(const GribDecoder&, Matrix**) const; 
 	virtual double XResolution(const GribDecoder& grib) const;
 	
@@ -129,12 +127,11 @@ public:
 	
 	std::pair<double, double> unrotate(double lat, double lon) const;
 	std::pair<double, double> rotate(double lat, double lon) const;
-	UserPoint origin(const GribDecoder&);
+	PaperPoint reference(const GribDecoder&, const Transformation&);
 	void raw(const GribDecoder&, const Transformation&, const string&, map<double, map<double, CustomisedPoint*> >& ) const;
 	void keepOriginal(bool original) { original_ = original; }
 	void interpretAsMatrix(const GribDecoder&, Matrix**) const; 
 	void interpret2D(double&, double&, double&, double&) const;
-	UserPoint origin();
 protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).
 	 virtual void print(ostream&) const; 
@@ -154,7 +151,7 @@ public:
 	
 	UserPoint unrotate(double lat, double lon) const;
 	void interpretAsMatrix(const GribDecoder&, Matrix**) const; 
-	UserPoint origin(const GribDecoder&);
+	PaperPoint reference(const GribDecoder&, const Transformation&);
 protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).
 	 virtual void print(ostream&) const; 

@@ -187,7 +187,7 @@ public:
 	virtual void fill(double&, double&); // fill the space , can adapt the coordiantes to return the biggest area..
 	virtual void tile(double&, double&); // fill the space , can adapt the coordiantes to return the biggest area..
     virtual void forceNewArea(double, double, double, double, double&, double&);
-	
+	virtual UserPoint reference() const;
 	
 // Basic reprojection method! 
 	virtual PaperPoint operator()(const UserPoint& xy) const 
