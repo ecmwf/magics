@@ -179,6 +179,7 @@ public:
         { return parent.absoluteHeight(); }
 	void getNewDefinition(const UserPoint&, const UserPoint&, string&) const;
 	void setDefinition(const string&);
+	UserPoint reference() const;
 protected:
 	//! Method to print string about this class on to a stream of type ostream (virtual).
 	virtual void print(ostream&) const; 

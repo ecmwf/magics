@@ -657,3 +657,11 @@ void Transformation::thin(double step, PaperPoint& origin, vector<pair<double, d
 	revert(xypoints, points);
 
 }
+
+UserPoint Transformation::reference() const
+{
+	PaperPoint xy((getMinPCX() +  getMaxPCX())/2., (getMinPCY() +  getMaxPCY())/2.);
+	UserPoint ll;
+	revert(xy, ll);
+	return ll;
+}

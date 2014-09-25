@@ -554,7 +554,7 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 		if ( thinx ) {
 		vector<pair<double, double> > positions;
 
-		PaperPoint xy = transformation(interpretor_->origin(*this));
+		PaperPoint xy = interpretor_->reference(*this, transformation);
 
 		transformation.thin(thinx, xy, positions);
 		vector<pair<double, double> >::iterator pos = positions.begin();
@@ -699,17 +699,15 @@ void GribDecoder::customisedPoints(const BasicThinningMethod& thinning, const Tr
 		// Compute the thinning factor...
 
 		double gap = 0;
+		// find the middle point :
+		UserPoint ll = transformation.reference();
+		PaperPoint xy1 = transformation(ll);
+		ll.y_ = ll.y_ + interpretor_->XResolution(*this);
+		PaperPoint xy2 = transformation(ll);
 
 
-		double x1 = 0;
-		double y1 = 60;
-		double x2 = 0;
-		double y2 = 60 + interpretor_->XResolution(*this);
 
-		transformation.fast_reproject(x1, y1);
-		transformation.fast_reproject(x2, y2);
-
-		gap = sqrt( ((x2-x1)*(x2-x1)) + ((y2-y1)*(y2-y1)) );
+		gap = xy1.distance(xy2);
 		if ( thinning.factor() == 1 ) {
 			gap = 0;
 
