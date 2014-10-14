@@ -174,7 +174,7 @@ void LegendVisitor::build()
 	current_->clear();
 	current_->blankIt();
 	current_->push_back(legend_);
-	
+	positions_.clear();
 
 	grid();
 
