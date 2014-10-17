@@ -321,6 +321,7 @@ public:
 	   if (in(lon, lat) )
 		   out.push_back(UserPoint(lon, lat, val));
    }
+   double distance(UserPoint&, UserPoint&) const;
 protected:
 	virtual void print(ostream&) const;    
     

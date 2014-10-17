@@ -665,3 +665,17 @@ UserPoint Transformation::reference() const
 	revert(xy, ll);
 	return ll;
 }
+
+double Transformation::distance(UserPoint& point1, UserPoint& point2) const
+{
+	double x1 = point1.x_;
+	double y1 = point1.y_;
+	double x2 = point2.x_;
+	double y2 = point2.y_;
+	fast_reproject(x1, y1);
+	fast_reproject(x2, y2);
+
+	return sqrt (( x1-x2 ) *  ( x1-x2 ) + ( y1-y2 ) *  ( y1-y2 ));
+
+
+}

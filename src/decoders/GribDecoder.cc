@@ -90,11 +90,7 @@ void GribDecoder::version()
 	done = true;
 	MagLog::info() << "GribAPI Version :" << grib_get_api_version() << endl;
 }
-double dist(double a, double b)
-{
 
-	return (a*a) + (b*b);
-}
 GribDecoder::~GribDecoder() 
 {
 	if ( matrix_) delete matrix_;
@@ -409,19 +405,20 @@ void GribDecoder::customisedPoints(const AutomaticThinningMethod& thinning, cons
 		double x2 = 0;
 		double y2 = 60 + interpretor_->XResolution(*this);
 
-		transformation.fast_reproject(x1, y1);
-		transformation.fast_reproject(x2, y2);
-		double res = sqrt(dist(x1-x2, y1-y2));
+		UserPoint p1(x1, y1);
+		UserPoint p2(x2, y2);
+
+		double res = transformation.distance(p1, p2);
 
 		double xstep = ( transformation.getMaxPCX() - transformation.getMinPCX())/ thinning.x();
 		double ystep = ( transformation.getMaxPCY() - transformation.getMinPCY())/ thinning.y();
 
 		int nb = (xstep/res);
-		cout << nb << endl;
 
 
-		xstep = ( nb < 3)  ? 0 : nb * res;
-		ystep = ( nb < 3)  ? 0 : int(ystep/res) * res;
+
+		xstep = nb * res;
+		ystep = int(ystep/res) * res;
 
 
 		customisedPoints(transformation, points, xstep, ystep, 0);
@@ -575,7 +572,7 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 				lon -= 360.;
 				offset += 360.;
 			}
-
+			UserPoint ref(lon, lat);
 
 			vector<pair<double, vector<pair<double, CustomisedPoint*> > > >::iterator y;
 			vector<pair<double, CustomisedPoint*> >::iterator x;
@@ -594,14 +591,17 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 			map<double, CustomisedPoint*> result;
 
 			x = std::lower_bound(y->second.begin(), y->second.end(), lon, Compare());
-			double val = dist(x->first - lon, y->first - lat);
+			UserPoint check(x->first, y->first);
+
+			double val = transformation.distance(check, ref);
 			double min = val;
 			CustomisedPoint* point = x->second;
 
 
 			if ( x != y->second.begin() ) {
 				--x;
-				val = dist(x->first -lon, y->first - lat);
+				UserPoint check(x->first, y->first);
+				val = transformation.distance( check, ref );
 				if ( val < min ) {
 					min = val;
 					point = x->second;
@@ -613,7 +613,8 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 				--y;
 
 				x = std::lower_bound(y->second.begin(), y->second.end(), lon, Compare());
-				val = dist(x->first -lon, y->first - lat);
+				UserPoint check(x->first, y->first);
+				val = transformation.distance( check, ref );
 				if ( val < min ) {
 					min = val;
 					point = x->second;
@@ -622,7 +623,9 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 
 				if ( x != y->second.begin() ) {
 					--x;
-					val = dist(x->first -lon, y->first - lat);
+					UserPoint check(x->first, y->first);
+					val = transformation.distance( check, ref );
+
 					if ( val < min ) {
 						min = val;
 						point = x->second;
