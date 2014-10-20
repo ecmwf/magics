@@ -985,7 +985,9 @@ MAGICS_NO_EXPORT void CairoDriver::renderSimplePolygon() const
                                  << "             Solid shading used instead."<< std::endl;
 #endif
 	{
-	    if(magCompare(backend_,"png")) // if(cairo_get_antialias(cr_) != CAIRO_ANTIALIAS_NONE && currentColour_.alpha() > 0.9999 )
+        if(cairo_get_antialias(cr_) != CAIRO_ANTIALIAS_NONE && currentColour_.alpha() > 0.9999 )
+
+	    //if(magCompare(backend_,"png")) // if(cairo_get_antialias(cr_) != CAIRO_ANTIALIAS_NONE && currentColour_.alpha() > 0.9999 )
 	    {
 	        cairo_fill_preserve(cr_);
 	        cairo_set_line_width(cr_, 1.);
