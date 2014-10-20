@@ -410,8 +410,8 @@ void GribDecoder::customisedPoints(const AutomaticThinningMethod& thinning, cons
 
 		double res = transformation.distance(p1, p2);
 
-		double xstep = ( transformation.getMaxPCX() - transformation.getMinPCX())/ thinning.x();
-		double ystep = ( transformation.getMaxPCY() - transformation.getMinPCY())/ thinning.y();
+		double xstep = ( transformation.getMaxPCX() - transformation.getMinPCX())/ (thinning.x()-1);
+		double ystep = ( transformation.getMaxPCY() - transformation.getMinPCY())/ (thinning.y()-1);
 
 		int nb = (xstep/res);
 
