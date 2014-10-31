@@ -53,7 +53,6 @@
 #include "XYList.h"
 #include "GraphPlotting.h"
 #include "InputMatrix.h"
-#include "ImagePlotting.h"
 #include "BoxPlotDecoder.h"
 #include "BoxPlotVisualiser.h"
 #include "SimplePolylineInput.h"
@@ -554,13 +553,7 @@ void FortranMagics::pgrib()
 
 void FortranMagics::pimage()
 {
-	actions();
-	if ( !action_ ) {
-		action_ = new VisualAction();
-		action_->data(new GribDecoder());
-	}
-	action_->visdef(new ImagePlotting());
-	action_ = 0;
+	MagLog::warning() <<" pimage is deprecated! Please use pcont."<< endl;
 }
 #else
 void FortranMagics::pgrib()
@@ -569,6 +562,7 @@ void FortranMagics::pgrib()
 
 void FortranMagics::pimage()
 {
+	MagLog::warning() <<" pimage is deprecated! Please use pcont."<< endl;
 }
 #endif
 

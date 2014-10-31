@@ -102,8 +102,6 @@ Histogram.cc
 Histogram.h
 ImageCalculateColourTechnique.h
 ImageListColourTechnique.h
-ImagePlotting.cc
-ImagePlotting.h
 ImportPlot.h
 IntervalSelectionType.cc
 IntervalSelectionType.h
@@ -200,8 +198,7 @@ set( visualisers_srcs ${visualisers_srcs} PARENT_SCOPE )
 if ( ENABLE_METVIEW )
     list (APPEND metview_include 
             visualisers/LegendMethod.h      
-             visualisers/ImagePlotting.h
-             visualisers/LookupTableMode.h
+            visualisers/LookupTableMode.h
             )
     set( metview_include ${metview_include} PARENT_SCOPE )
 endif()
