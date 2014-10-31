@@ -93,7 +93,7 @@ public:
     //! Methods to access the data as a file used by pplot action routine
     virtual string path() { throw DataInMemory(); }
     //! Methods to access the data as a RasterData used by pimage action routine.
-    virtual RasterData& raster(const Transformation&) { throw MethodNotYetImplemented("Data<P>::raster"); }
+    //virtual RasterData& raster(const Transformation&) { throw MethodNotYetImplemented("Data<P>::raster"); }
     
     virtual void getInfo(const std::set<string>&, multimap<string, string>&) 
     { throw MethodNotYetImplemented("Data::getInfo"); }

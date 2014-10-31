@@ -39,6 +39,208 @@
 
 using namespace magics;
 
+
+////////////////////////////
+
+/* parameters used in the routines as given in Ref. [1] */
+//const double  PI         =     3.14159265359;
+const double  SAT_HEIGHT = 42164.0;       /* distance from Earth centre to satellite     */
+const double  R_EQ       =  6378.169;     /* radius from Earth centre to equator         */
+const double  R_POL      =  6356.5838;    /* radius from Earth centre to pol             */
+//const double  SUB_LON    =     0.0;       /* longitude of sub-satellite point in radiant */
+
+//const double  CFAC_NONHRV  =  -781648343;      /* scaling coefficients (see note above)  */
+//const double  LFAC_NONHRV  =  -781648343;      /* scaling coefficients (see note above)  */
+
+//const double  CFAC_HRV     =   -2344945030.;   /* scaling coefficients (see note above)  */
+//const double  LFAC_HRV     =   -2344945030.;   /* scaling coefficients (see note above)  */
+
+
+const long    COFF_NONHRV  =        1856;      /* scaling coefficients (see note above)  */
+const long    LOFF_NONHRV  =        1856;      /* scaling coefficients (see note above)  */
+
+const long    COFF_HRV     =        5566;      /* scaling coefficients (see note above)  */
+const long    LOFF_HRV     =        5566;      /* scaling coefficients (see note above)  */
+				       
+
+//////////////////////////////////////////////////////////////////////////
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<math.h>
+
+
+/* this function returns the nearest integer to the value val */
+/* and is used in function geocoord2pixcoord */
+
+int nint(double val){
+
+  double a=0.0; /* integral  part of val */
+  double b=0.0; /* frational part of val */
+
+  b = modf(val,&a);
+  
+  if ( b > 0.5 ){
+    val = ceil(val);
+  } 
+  else{
+    val = floor(val);
+  }
+
+  return (int)val;
+
+}
+
+/**************************************************************
+ * function geocoord2pixcoord                                 *
+ *                                                            *
+ * PURPOSE:                                                   *
+ *   return the pixel column and line of an MSG image         *
+ *   for a given pair of latitude/longitude.                  *
+ *   (based on the formulas given in Ref. [1])                *
+ *                                                            *
+ *                                                            *
+ * DEPENDENCIES:                                              *
+ *   none                                                     * 
+ *                                                            *
+ *                                                            *
+ * REFERENCE:                                                 *
+ * [1] LRIT/HRIT Global Specification                         * 
+ *     (CGMS 03, Issue 2.6, 12.08.1999)                       *
+ *     for the parameters used in the program                 *
+ * [2] MSG Ground Segment LRIT/HRIT Mission Specific          *
+ *     Implementation, EUMETSAT Document,                     *
+ *     (EUM/MSG/SPE/057, Issue 6, 21. June 2006).             *
+ *                                                            *
+ *                                                            *
+ * MODIFICATION HISTORY:                                      *
+ *   Version 1.02                                             *
+ *  30.11.2011 added HRV to the calculation                   *
+ *             Implemented with introducing CFAC/LFAC in      *
+ *             function call                                  *
+ *   Copyright(c) EUMETSAT 2005, 2009, 2011                   *
+ *                                                            *
+ *   Updated by ECMWF (31.10.2014) to take sublon as a        *
+ *   parameter                                                *
+ *                                                            *
+ * INPUT:                                                     *
+ *   latitude  (double) geographic Latitude of a point        *
+ *                      [Degrees]                             *
+ *   longitude (double) geographic Longitude of a point       *
+ *                      [Degrees]                             *
+ *   coff (int)   coefficient of the scalling function        *
+ *                (see page 28, Ref [1])                      *
+ *   loff (int)   coefficient of the scalling function        *
+ *                (see page 28, Ref [1])                      *
+ *   cfac  (real) image "spread" in the EW direction          *
+ *   lfac  (real) image "spread" in the NS direction          *
+ *   sublon (real) longitude of the sub-latitude point        *
+ *                                                            *
+ *                                                            *
+ * OUTPUT:                                                    *
+ *   row    (int) row-value of the wanted pixel               *
+ *   column (int) column-value of the wanted pixel            *
+ *                                                            *
+ *************************************************************/
+
+int geocoord2pixcoord(double latitude, double longitude, int coff, int loff,
+		      double cfac, double lfac, double sublon,
+		      int *column, int *row){
+
+  int ccc=0, lll=0;
+
+  double lati=0.0, longi=0.0;
+  double c_lat=0.0;
+  double lat=0.0;
+  double lon=0.0;
+  double r1=0.0, r2=0.0, r3=0.0, rn=0.0, re=0.0, rl=0.0;
+  double xx=0.0, yy=0.0;
+  double cc=0.0, ll=0.0; 
+  double dotprod=0.0;
+
+  lati= latitude;
+  longi= longitude;
+
+  /* check if the values are sane, otherwise return error values */
+  if (lati < -90.0 || lati > 90.0 || longi < -180.0 || longi > 180.0 ){ 
+    *row = -999;
+    *column = -999;
+    return (-1);
+  }
+
+
+  /* convert them to radiants */
+  lat = lati*PI / (double)180.;
+  lon = longi *PI / (double)180.;
+    
+  /* calculate the geocentric latitude from the          */
+  /* geograhpic one using equations on page 24, Ref. [1] */
+
+  c_lat = atan ( ((double)0.993243*(sin(lat)/cos(lat)) ));
+      
+
+  /* using c_lat calculate the length form the Earth */
+  /* centre to the surface of the Earth ellipsoid    */
+  /* equations on page 23, Ref. [1]                  */
+  
+  re = R_POL / sqrt( ((double)1.0 - (double)0.00675701 * cos(c_lat) * cos(c_lat) ) );
+
+
+  /* calculate the forward projection using equations on */
+  /* page 24, Ref. [1]                                        */
+
+  rl = re; 
+  r1 = SAT_HEIGHT - rl * cos(c_lat) * cos(lon - sublon);
+  r2 = - rl *  cos(c_lat) * sin(lon - sublon);
+  r3 = rl * sin(c_lat);
+  rn = sqrt( r1*r1 + r2*r2 +r3*r3 );
+  
+  
+  /* check for visibility, whether the point on the Earth given by the */
+  /* latitude/longitude pair is visible from the satellte or not. This */ 
+  /* is given by the dot product between the vectors of:               */
+  /* 1) the point to the spacecraft,			               */
+  /* 2) the point to the centre of the Earth.			       */
+  /* If the dot product is positive the point is visible otherwise it  */
+  /* is invisible.						       */
+     
+  dotprod = r1*(rl * cos(c_lat) * cos(lon - sublon)) - r2*r2 - r3*r3*(pow((R_EQ/R_POL),2));
+     
+  if (dotprod <= 0 ){
+    *column = -999;
+    *row = -999;
+    return (-1);
+  }
+  
+
+  /* the forward projection is x and y */
+
+  xx = atan( (-r2/r1) );
+  yy = asin( (-r3/rn) );
+
+
+  /* convert to pixel column and row using the scaling functions on */
+  /* page 28, Ref. [1]. And finding nearest integer value for them. */
+
+
+  cc = coff + xx *  pow(2,-16) * cfac ;
+  ll = loff + yy *  pow(2,-16) * lfac ;
+
+
+  ccc=nint(cc);
+  lll=nint(ll);		
+
+  *column = ccc;
+  *row = lll;
+
+      
+  return (0);
+
+}
+
+
+
+
 GribSatelliteInterpretor::GribSatelliteInterpretor() 
 {
 }
@@ -63,53 +265,44 @@ void GribSatelliteInterpretor::interpretAsMatrix(const GribDecoder& grib, Matrix
 
 	double altitude = grib.getDouble("NrInRadiusOfEarth");
 	if ( !altitude ) altitude =  6610839.;
-	altitude *= 0.000001;
+		altitude *= 0.000001;
 	long   nx   = grib.getLong("numberOfPointsAlongXAxis");
 	long   ny   = grib.getLong("numberOfPointsAlongYAxis");
+	long   dx   = grib.getLong("dx");
+	long   dy   = grib.getLong("dy");
 	double offx = grib.getDouble("xCoordinateOfOriginOfSectorImage");
 	double offy = grib.getDouble("yCoordinateOfOriginOfSectorImage");
-	double prj  = 2*asin(1/altitude)/grib.getDouble("dx");
-	double pri  = 2*asin(1/altitude)/grib.getDouble("dy");
+	double prj  = 2*asin(1/altitude)/dx;
+	double pri  = 2*asin(1/altitude)/dy;
 	double pjs  = grib.getDouble("XpInGridLengths");
 	double pis  = grib.getDouble("YpInGridLengths");
 	double lao  = grib.getDouble("latitudeOfSubSatellitePointInDegrees") *TeCDR;
-	double lono = grib.getDouble("longitudeOfSubSatellitePointInDegrees")*TeCDR;
+	double slon = grib.getDouble("longitudeOfSubSatellitePointInDegrees");
+	double lono = slon*TeCDR;
 	double prs  = altitude * TeEARTHRADIUS;
 	double scn  = 0;
 	double yaw  = grib.getDouble("orientationOfTheGrid");
+	double target_dx = 0.1;  // resolution, in degrees of output lat/lon matrix
+	double target_dy = 0.1;  // resolution, in degrees of output lat/lon matrix
 
 	yaw = RAD(yaw/1000);
 	if (yaw < 0.) yaw += PI;
-	else          yaw -= PI;
+	else		  yaw -= PI;
 
-	double resx = (double)(abs(( atan( tan(pri) * (altitude-1.) ) * TeEARTHRADIUS )));
-	double resy = (double)(abs(( atan( tan(prj) * (altitude-1.) ) * TeEARTHRADIUS )));
+//	double resx = (double)(abs(( atan( tan(pri) * (altitude-1.) ) * TeEARTHRADIUS )));
+//	double resy = (double)(abs(( atan( tan(prj) * (altitude-1.) ) * TeEARTHRADIUS )));
+	double resx = (double)(abs(( atan( tan(pri) * (altitude-1.) ))));
+	double resy = (double)(abs(( atan( tan(prj) * (altitude-1.) ))));
 
-	double west  = offx * resx;
-	double east  = (offx + nx - 1) * resx;
-	double north = -(offy * resy);
-	double south = -(offy + ny - 1) * resy;
+//	double west  = slon - 90 + (offx * resx);
+//	double east  = slon + 90 + ((offx + nx - 1) * resx);
+//	double north = -(offy * resy);
+//	double south = -(offy + ny - 1) * resy;
 
-	TeSatelliteProjection* projection = new TeSatelliteProjection(TeDatum(), offx, offy, pri, prj, pis, pjs, lao, lono, prs, scn, yaw);
-
-	TeRasterParams in;
-	in.ncols_  = nx;
-	in.nlines_ = ny;
-	in.resx_   = resx;
-	in.resy_   = resy;
-	in.projection (projection);
-
-	in.boundingBoxResolution(west, south, east, north, resx, resy, TeBox::TeLOWERLEFT);
-	in.nBands(1);
-	in.setDataType(TeUNSIGNEDSHORT);
-
-	in.setCompressionMode(TeRasterParams::TeNoCompression);
-	in.decName("MEM");
-
-		// Copy input image to the raster structure
-	TeRaster rastin(in);
-
-	bool ok = rastin.init(in);
+	double west  = -180;
+	double east  = 180;
+	double north = 90;
+	double south = -90;
 
 	long hasBitmap = grib.getLong("bitmapPresent");
 	double missingValue = 65535;
@@ -123,53 +316,22 @@ void GribSatelliteInterpretor::interpretAsMatrix(const GribDecoder& grib, Matrix
 	grib_get_double_array(grib.id(),"values",&raster.front(),&nb);
 
 
-		// If value is temperature in degrees K then add 145 to pixel value
-		double offset = (grib.getLong("functionCode") == 1) ? 145. : 0.;
+	// If value is temperature in degrees K then add 145 to pixel value
+	double offset = (grib.getLong("functionCode") == 1) ? 145. : 0.;
 
-		if (offset) {
-			for (unsigned int i = 0; i < nb; i++) {
-				if (hasBitmap && raster[i]!=missingValue)
-					raster[i] +=offset;
-
-			}
+	if (offset) {
+		for (unsigned int i = 0; i < nb; i++) {
+			if (!hasBitmap || raster[i]!=missingValue)  // if not missing value
+				raster[i] +=offset;
 		}
-	vector<double>::iterator val = raster.begin();
-
-	for (int i = 0; i < ny; i++)
-		for (int j = 0; j < nx; j++) {
-			rastin.setElement(i,j,*val, 0);
-			++val;
-		}
+	}
 
 
 
-
-	GeoRectangularProjection latlon;
-	TeRasterParams parout;
-	TeProjection& projout = latlon.getProjection();
-	parout.projection(&projout);
-	parout.decName("MEM");
-
-	parout.boundingBoxResolution(latlon.getMinPCX(),latlon.getMinPCY(), latlon.getMaxPCX(), latlon.getMaxPCY(),0.1,0.1,TeBox::TeLOWERLEFT );
-	parout.decName("MEM");
-	parout.nBands(1);
-	parout.setDataType(TeUNSIGNEDSHORT);
-	parout.setCompressionMode(TeRasterParams::TeNoCompression);
-
-	// Initialise raster structure
-	TeRaster rastout(parout);
-	ok = rastout.init(parout);
-
-	// Reproject input data
-	TeRasterRemap reproj(&rastin,&rastout);
-	ok = reproj.apply();
-
-
-	long nblon = parout.ncols_;
-	long nblat =  parout.nlines_;
+	long nblon = ((east - west) / target_dx);// + 1;
+	long nblat = ((north - south) / target_dy);// + 1;
 
 	if ( *matrix == 0 ) *matrix = new Matrix(nblat, nblon);
-
 
 
 	double missing = INT_MAX;
@@ -177,141 +339,75 @@ void GribSatelliteInterpretor::interpretAsMatrix(const GribDecoder& grib, Matrix
 	(*matrix)->missing(missing);
 
 
-	north = latlon.getMaxPCY();
-	west  =  latlon.getMinPCX();
-	south = latlon.getMinPCY();
-	east  = latlon.getMaxPCX();
-
-
-
-
 	MagLog::dev() << "NewAPI---> area[" << west << ", " << north << ", " << east << ", " << south << "]" << "\n";
 
-	double lon = (east-west)/(nblon-1);
-	double lat = (south-north)/(nblat-1);
+	double dlon = (east-west)/(nblon-1);
+	double dlat = (south-north)/(nblat-1);
 
-	MagLog::dev() << "calcul -->" << lon << " (from->" << west << " to-->" << west + (nblon-1) *lon << ")" <<  endl;
+	MagLog::dev() << "calcul -->" << dlon << " (from->" << west << " to-->" << west + (nblon-1) *dlon << ")" <<  endl;
 
 	double x = west;
 	for (int i = 1; i <= nblon; i++)
 	{
 
 		(*matrix)->columnsAxis().push_back(x);
-		x  = west + (i*lon);
+		x  = west + (i*dlon);
 	}
+
 	double y = north;
 	for (int i = 1; i <= nblat; i++)
 	{
 
 		(*matrix)->rowsAxis().push_back(y);
-		y  = north + (i*lat);
+		y  = north + (i*dlat);
 	}
 	(*matrix)->setMapsAxis();
+
+
+
+	// coff, loff, cfac and lfac are 'normalised' on the NONHRV resolution of MSG images
+	double coff, loff, cfac, lfac;
+	double scale = (double)ny / (double)3711;
+
+
+	coff = COFF_NONHRV * scale;
+	loff = LOFF_NONHRV * scale;
+
+	double rx = 2 * asin(1.0/altitude) / dx;
+	cfac = (-65536.0 / (rx));
+	lfac = cfac;
 
 
 	int k = 0;
 
 	for (int j=0;j < nblat;j++) {
+		for (int i=0;i < nblon;i++) {
+			double val;
+			int srcCol, srcRow;
+			double lat = south - j*dlat;
+			double lon = east  - i*dlon;
 
-	        for (int i=0;i < nblon;i++) {
-	            double val;
-	            rastout.getElement(i,j,val,0);
-	            (**matrix)[k++] = val;
+			geocoord2pixcoord(lat,
+							lon,
+							coff, loff,
+							cfac, lfac,
+							-lono,  // sub-satellite longitude in radians; unclear why we have to negate it
+							&srcCol, &srcRow);
 
-		      }
+			if (srcCol == -999 || srcRow == -999)
+				val = 65535;
+			else
+				val = raster[srcRow*nx + srcCol];
 
-	      }
-
-
-		(*matrix)->missing(missingValue);
-
-
-
-}
-
-
-void GribSatelliteInterpretor::interpretAsRaster(const GribDecoder& grib, RasterData& raster,const Transformation&) const
-{
-     MagLog::dev() << "GribSatelliteInterpretor::interpretAsRaster" << "\n";
-/*
-     \param datum:    planimetric datum
-     \param offx:     x offset
-     \param offy:     y offset
-     \param Pri:      Sensor angle resolution along y axis in radians
-     \param Prj:      Sensor angle resolution along x axis in radians
-     \param Pis:      Y-coordinate of sub-satellite point 
-     \param Pjs:      X-coordinate of sub-satellite point
-     \param Pla0:     Latitude of sub-satellite point in radians
-     \param Plo0:     Longitude of sub-satellite point in radians
-     \param Prs:      Radius of satellite orbit in meters
-     \param Pscn:     Scanning mode: 0-WE/NS, 1-SN/EW
-     \param Pyaw:     Grid orientation, i.e., angle in radians between
-			 the increasing y axis and the meridian of the
-			 sub-satellite point along the direction of
-			 increasing latitude.
-*/
-     double altitude = grib.getDouble("NrInRadiusOfEarth") * 0.000001;
-     long   nx   = grib.getLong("numberOfPointsAlongXAxis");
-     long   ny   = grib.getLong("numberOfPointsAlongYAxis");
-     double offx = grib.getDouble("xCoordinateOfOriginOfSectorImage");
-     double offy = grib.getDouble("yCoordinateOfOriginOfSectorImage");
-     double prj  = 2*asin(1/altitude)/grib.getDouble("dx");
-     double pri  = 2*asin(1/altitude)/grib.getDouble("dy");
-     double pjs  = grib.getDouble("XpInGridLengths");
-     double pis  = grib.getDouble("YpInGridLengths");
-     double lao  = grib.getDouble("latitudeOfSubSatellitePointInDegrees") *TeCDR;
-     double lono = grib.getDouble("longitudeOfSubSatellitePointInDegrees")*TeCDR;
-     double prs  = altitude * TeEARTHRADIUS;
-     double scn  = 0; // scanning mode later! 
-     double yaw  = grib.getDouble("orientationOfTheGrid");
-
-     yaw = RAD(yaw/1000);
-     if (yaw < 0.) yaw += PI;
-     else          yaw -= PI; 
-
-     TeSatelliteProjection* projection = new TeSatelliteProjection(TeDatum(), offx, offy, pri, prj, pis, pjs, lao, lono, prs, scn, yaw);
-
-     double resx = (double)( atan( tan(pri) * (altitude-1.) ) * TeEARTHRADIUS );
-     double resy = (double)( atan( tan(prj) * (altitude-1.) ) * TeEARTHRADIUS );
-
-     double west  = offx * resx;
-     double east  = (offx + nx - 1) * resx;
-     double north = -(offy * resy);
-     double south = -(offy + ny - 1) * resy;
-
-     raster.setXResolution(resx);
-     raster.setYResolution(resy);
-     raster.setColumns(nx);
-     raster.setRows(ny);
-     raster.setUpperRightCorner(east, north);
-     raster.setLowerLeftCorner(west, south);
-     raster.setProjection(projection);
-
-     // set the missing value indicator?
-     // note that it seems to be the case that we should ensure that this number
-     // is the same as is set in Metview/ReprojectionService.cc
-     long hasBitmap = grib.getLong("bitmapPresent");
-     double missingValue = 65535;
-     if (hasBitmap)
-        grib_set_double(grib.id(),"missingValue", missingValue);
-
-     // get the array of values
-     size_t nb=0;
-     grib_get_size(grib.id(), "values", &nb);
-     raster.resize(nb);
-     grib_get_double_array(grib.id(),"values",&raster.front(),&nb);
+			(**matrix)[k++] = val;
+		}
+	}
 
 
-     // If value is temperature in degrees K then add 145 to pixel value
-     double offset = (grib.getLong("functionCode") == 1) ? 145. : 0.;
-
-     if (offset) { 
-        for (unsigned int i = 0; i < nb; i++) {
-            if (!hasBitmap || raster[i]!=missingValue)  // if not missing value
-                raster[i] +=offset;
-        }
-     }
+	(*matrix)->missing(missingValue);
 
 }
+
+
 
 static SimpleObjectMaker<GribSatelliteInterpretor, GribInterpretor> gribsatellite("90");

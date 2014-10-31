@@ -150,3 +150,55 @@ SHALL THE COPYRIGHT HOLDERS OR ANYONE DISTRIBUTING THE SOFTWARE BE LIABLE
 FOR ANY DAMAGES OR OTHER LIABILITY, WHETHER IN CONTRACT, TORT OR OTHERWISE,
 ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
+
+
+
+EUMETSAT Image Navigation Code
+==============================
+
+http://www.eumetsat.int/website/home/Data/DataDelivery/SupportSoftwareandTools/index.html
+
+(c)(2014) EUMETSAT
+
+Freeware -  freely available software, which doesn't require a signed licence
+or the formal acceptance of licensing conditions.
+
+The navigation software incorporates source code written in Fortran 90 and C-Code,
+for the conversion of image coordinates (pixel column and row) into the corresponding
+geographical coordinates (Latitude and Longitude) of all MSG Satellites
+(Meteosat-8, Meteosat-9 and Meteosat-10) Level 1.5 VIS/IR data. The theoretical
+basis for the software is the CGMS (Coordination Group for Meteorological Satellites)
+LRIT/HRIT Global Specifications (PDF, 260 KB) . Additional information about how to
+use the software is given as comments in the source code.
+
+* COPYRIGHT AND LICENCE INFORMATION
+* 
+* Freeware Licence Disclaimer
+* 
+* The user acknowledges and shall at all times respect EUMETSAT's
+* intellectual property rights in the software. EUMETSAT shall at all
+* times retain such intellectual property rights in the software and in
+* all copies thereof regardless of form.
+* 
+* The user may freely use, copy, modify and/or distribute the software.
+* The user agrees when using the software in any recognisable form to
+* name EUMETSAT as the source by including "(c)(year)
+* EUMETSAT". Furthermore, In any distributed version of the software,
+* including modifications or derivatives, the present licence text shall
+* be included.  The user of the software may provide feedback, report
+* problems and suggest enhancements to the software to EUMETSAT. In
+* addition, the user shall grant to EUMETSAT unrestricted use of this
+* information.
+* 
+* Neither EUMETSAT nor its Member States are liable for the usefulness
+* or proper functioning of software, nor do they accept any liability
+* for any consequences, whether direct or indirect, of any use of
+* software or for any results related to the use of software or for any
+* right or claims by third parties related to all or any part of
+* software or its use. Where the source code is made available to users
+* this is done without any warranty, and EUMETSAT will not provide any
+* support for its use and customisation."
+*
+
+Note that we (ECMWF) have made some small modifications to the code in order to allow
+it to be used also for non-MSG satellite images.

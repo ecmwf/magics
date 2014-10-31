@@ -46,7 +46,6 @@
 #include "XYList.h"
 #include "EpsXmlInput.h"
 #include "WrepJSon.h"
-#include "ImagePlotting.h"
 #include "SymbolPlotting.h"
 #include "Contour.h"
 #include "Wind.h"
@@ -853,16 +852,7 @@ void XmlMagics::contour(const XmlNode& node)
 
 void XmlMagics::image(const XmlNode& node)
 {
-	if ( geographical_ ) {
-		ImagePlotting* image =  new ImagePlotting();
-		image->set(node);
-		top()->visdef(image);
-	}
-	else {
-		ImagePlotting* image =  new ImagePlotting();
-		image->set(node);
-		top()->visdef(image);
-	}
+	MagLog::warning() <<" Image has been deprecated! Please use contour."<< endl;
 }
 
 #include "ImportObjectHandler.h"
