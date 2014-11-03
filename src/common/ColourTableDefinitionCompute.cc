@@ -86,7 +86,7 @@ void ColourTableDefinitionCompute::set(ColourTable& table, int nb)
 	MagLog::dev() << "ColourTableDefinitionCompute::set->min-->" << minColour_ << endl;
 	MagLog::dev() << "ColourTableDefinitionCompute::set->max-->" << maxColour_ << endl;
 	MagLog::dev() << "nb interval-->" << nb << endl;
-    Hsl hmin = minColour_.hsl()
+    Hsl hmin = minColour_.hsl();
     Hsl hmax = maxColour_.hsl();
     if (nb == 1) {
        	table.push_back(minColour_);
