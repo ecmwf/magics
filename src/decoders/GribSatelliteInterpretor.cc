@@ -280,6 +280,11 @@ void GribSatelliteInterpretor::AdjustBadlyEncodedGribs(int satId, int chanId, lo
 		dx = dy = 880;  // obtained through trial-and-error to get the best match with the coastlines
 		xp = yp = 450;
 	}
+	else if (satId == 57 && dx == 1732)  // MSG (Meteosat second generation), non-HRV channels
+	{
+		dx = dy = 1811;  // obtained through trial-and-error to get the best match with the coastlines
+		xp = yp = 928;
+	}
 }
 
 /*!
