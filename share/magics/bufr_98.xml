@@ -56,6 +56,7 @@
     <past_weather_1 descriptor='20004'/>
     <past_weather_2 descriptor='20005'/>
     <cloud_amount descriptor='20011'/>
+    <station_type descriptor='2001'/>
     <height_of_cloud_base descriptor='20013'/>
     <dewpoint_2meters descriptor='12006'/>
     <sea_temperature descriptor='22042'/>
