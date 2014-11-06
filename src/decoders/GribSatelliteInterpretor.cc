@@ -256,7 +256,7 @@ GribSatelliteInterpretor::~GribSatelliteInterpretor()
 	Correct the information provided in the headers of certain satellite imagery that
 	we have available. This is a very specific function.
 */
-void GribSatelliteInterpretor::AdjustBadlyEncodedGribs(int satId, int chanId, long &nx, long &ny, long &dx, long &dy, double &xp, double &yp, double &slon) const
+void GribSatelliteInterpretor::AdjustBadlyEncodedGribs(int satId, int chanId, long &nx, long &ny, long &dx, long &dy, double &xp, double &yp, double &slon, long &functionCode) const
 {
 	if (satId == 172 && slon == 140.0) // MTSAT-2, pre-2015 data
 	{
@@ -269,6 +269,7 @@ void GribSatelliteInterpretor::AdjustBadlyEncodedGribs(int satId, int chanId, lo
 		nx = ny = 900;
 		dx = dy = 853;  // obtained through trial-and-error to get the best match with the coastlines
 		xp = yp = 450;
+		functionCode = 1;  // wrongly encoded as 0
 	}
 	else if (satId == 54 && chanId == 3 && dx == 1179)  // Meteosat 7, channel 3
 	{
@@ -319,9 +320,10 @@ void GribSatelliteInterpretor::interpretAsMatrix(const GribDecoder& grib, Matrix
 	double slon = grib.getDouble("longitudeOfSubSatellitePointInDegrees");
 	long   sat  = grib.getLong("satelliteIdentifier");
 	long   chan = grib.getLong("channelNumber");
+	long   functionCode = grib.getLong("functionCode");
 
 	// correct bad GRIB headers that we know exist
-	AdjustBadlyEncodedGribs(sat, chan, nx, ny, dx, dy, pjs, pis, slon);
+	AdjustBadlyEncodedGribs(sat, chan, nx, ny, dx, dy, pjs, pis, slon, functionCode);
 
 	double lono = slon*TeCDR;
 	double prs  = altitude * TeEARTHRADIUS;
@@ -362,7 +364,7 @@ void GribSatelliteInterpretor::interpretAsMatrix(const GribDecoder& grib, Matrix
 
 
 	// If value is temperature in degrees K then add 145 to pixel value
-	double offset = (grib.getLong("functionCode") == 1) ? 145. : 0.;
+	double offset = (functionCode == 1) ? 145. : 0.;
 
 	if (offset) {
 		for (unsigned int i = 0; i < nb; i++) {
