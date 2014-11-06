@@ -689,18 +689,18 @@ void GribReducedLatLonInterpretor::interpretAsMatrix(const GribDecoder& grib,
 	size_t nb;
 	grib_get_size(grib.id(), "values", &nb);
 
-	MagLog::dev() << "numberOfFieldValues[" << nb << "]" << "\n";
+
 	double missing = std::numeric_limits<double>::max();
 	grib.setDouble("missingValue", missing);
+
 	(*matrix)->missing(missing);
 	(*matrix)->akimaEnabled();
 
 	double north = grib.getDouble("latitudeOfFirstGridPointInDegrees");
 	double west = grib.getDouble("longitudeOfFirstGridPointInDegrees");
 	double south = grib.getDouble("latitudeOfLastGridPointInDegrees");
-	;
 	double east = grib.getDouble("longitudeOfLastGridPointInDegrees");
-	;
+
 	longitudesSanityCheck(west, east);
 	size_t res = grib.getLong("Nj");
 
@@ -719,70 +719,109 @@ void GribReducedLatLonInterpretor::interpretAsMatrix(const GribDecoder& grib,
 	double *data = new double[nb];
 
 	size_t aux2 = size_t(nb);
-	int nblon = 2 * res;
-	float width = east - west;
-	float step = (width) / (nblon - 1);
+
+	int nblon = 0;
+	for ( int i = 0; i < res; i++)
+		if (nblon < pl[i] )
+			nblon = pl[i];
+
+
+
 	// We have to determine if the field is global! 
-	bool global = east - west > 360 - 5 * step;
+	bool global =  true;
+
 	if (global) {
 		MagLog::dev() << "YES THE FIELD IS GLOBAL" << endl;
 		east = west + 360;
 	}
-
+	double width = east - west;
+	double step = width / nblon;
 	grib_get_double_array(grib.id(), "values", data, &aux2);
 	int d = 0;
-	for (size_t i = 0; i < res; i++) {
-		float lon = west;
 
-		float lon1 = west;
+
+	for (size_t i = 0; i < res; i++) {
+
+
+
 		if (pl[i] == 0) {
 			// add missing data 
 			for (int x = 0; x < nblon; x++)
 				(*matrix)->push_back(missing);
-		} else {
+		}
+		else {
 			unsigned int p1 = 0;
-			unsigned int p2 = 1;
 			vector<double> p;
+			vector<double> lons;
 
+			double datastep = width / pl[i];
 			for (int ii = 0; ii < pl[i]; ii++) {
 				p.push_back(data[d]);
+				lons.push_back( west + (ii*datastep) );
+
+
 				d++;
 			}
+			assert( p.size() ==  pl[i]);
 
-			float lon2 = lon1 + (width / (p.size() - 1));
+
+			vector<double>::iterator val = p.begin();
+			vector<double>::iterator lval = lons.begin();
+			vector<double>::iterator nval = p.begin();
+			nval++;
+			vector<double>::iterator nlval = lons.begin();
+			nlval++;
 
 			for (int x = 0; x < nblon; x++) {
-				float d1 = (lon2 - lon) / (lon2 - lon1);
-				float d2 = 1 - d1;
-				double val;
-				if (p[p1] == missing || p[p2] == missing)
-					val = missing;
-				else
-					val = (p[p1] * d1) + (p[p2] * d2);
-				(*matrix)->push_back(val);
-				lon += step;
-				if (lon >= lon2) {
-					p1++;
-					if (p1 == p.size()) {
-						p1 = 0;
+
+				double lon = west + (x*step);
+
+				if ( lon > *lval ) {
+
+					lval++;
+					val++;
+
+
+					if ( lval == lons.end() ) {
+						val = p.begin();
+						lval = lons.begin();
 					}
-					p2++;
-					if (p2 == p.size()) {
-						p2 = 0;
+					nval++;
+					nlval++;
+					if ( nlval == lons.end() ) {
+						nval = p.begin();
+						nlval = lons.begin();
 					}
-					lon1 = lon2;
-					lon2 += (width) / (p.size() - 1);
+
+
 				}
+
+
+
+
+				if ( *val == missing ||  *nval == missing)
+					(*matrix)->push_back(*val);
+				else {
+
+
+					double d1 = ( *nlval - lon) / (datastep);
+					if ( d1 <  0 ) d1 = 1;
+					double d2 = 1 - d1;
+					(*matrix)->push_back( ( d1 * (*val)) + (d2 * (*nval)));
+				}
+
+
+
+
 			}
 		}
 	}
 
 	delete[] data;
 
-	float lon = (width) / (nblon - 1);
-	//	float lat = (north - south) / (2 *res);
+
 	for (int x = 0; x < nblon; x++) {
-		(*matrix)->columnsAxis().push_back(west + (x * lon));
+		(*matrix)->columnsAxis().push_back(west + (x * step));
 	}
 
 	double y = north;
