@@ -250,6 +250,25 @@ GribSatelliteInterpretor::~GribSatelliteInterpretor()
 {
 }
 
+
+/*
+	GribSatelliteInterpretor::AdjustBadlyEncodedGribs
+	Correct the information provided in the headers of certain satellite imagery that
+	we have available. This is a very specific function.
+*/
+void GribSatelliteInterpretor::AdjustBadlyEncodedGribs(int satId, int chanId, long &nx, long &ny, long &dx, long &dy, double &xp, double &yp, double &slon) const
+{
+	// MTSAT-2, pre-2015 data
+	if (satId == 172 && slon == 140.0)
+	{
+		dx   = 888;
+		dy   = 888;
+		xp   = nx/2;
+		yp   = nx/2;
+		slon = 145.0;
+	}
+}
+
 /*!
  Class information are given to the output-stream.
 */		
@@ -276,8 +295,16 @@ void GribSatelliteInterpretor::interpretAsMatrix(const GribDecoder& grib, Matrix
 	double pri  = 2*asin(1/altitude)/dy;
 	double pjs  = grib.getDouble("XpInGridLengths");
 	double pis  = grib.getDouble("YpInGridLengths");
+
+
 	double lao  = grib.getDouble("latitudeOfSubSatellitePointInDegrees") *TeCDR;
 	double slon = grib.getDouble("longitudeOfSubSatellitePointInDegrees");
+	long   sat  = grib.getLong("satelliteIdentifier");
+	long   chan = grib.getLong("channelNumber");
+
+	// correct bad GRIB headers that we know exist
+	AdjustBadlyEncodedGribs(sat, chan, nx, ny, dx, dy, pjs, pis, slon);
+
 	double lono = slon*TeCDR;
 	double prs  = altitude * TeEARTHRADIUS;
 	double scn  = 0;
