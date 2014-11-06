@@ -250,6 +250,44 @@ GribSatelliteInterpretor::~GribSatelliteInterpretor()
 {
 }
 
+
+/*
+	GribSatelliteInterpretor::AdjustBadlyEncodedGribs
+	Correct the information provided in the headers of certain satellite imagery that
+	we have available. This is a very specific function.
+*/
+void GribSatelliteInterpretor::AdjustBadlyEncodedGribs(int satId, int chanId, long &nx, long &ny, long &dx, long &dy, double &xp, double &yp, double &slon, long &functionCode) const
+{
+	if (satId == 172 && slon == 140.0) // MTSAT-2, pre-2015 data
+	{
+		dx = dy = 888;
+		xp = yp = nx/2;
+		slon = 145.0;
+	}
+	else if (satId == 54 && chanId == 2 && dx == 1179)  // Meteosat 7, channel 2
+	{
+		nx = ny = 900;
+		dx = dy = 853;  // obtained through trial-and-error to get the best match with the coastlines
+		xp = yp = 450;
+		functionCode = 1;  // wrongly encoded as 0
+	}
+	else if (satId == 54 && chanId == 3 && dx == 1179)  // Meteosat 7, channel 3
+	{
+		dx = dy = 1184;  // obtained through trial-and-error to get the best match with the coastlines
+		xp = yp = 635;
+	}
+	else if (satId == 259 && chanId == 4 && dx == 1185)  // GOES-15 (West) channel 4
+	{
+		dx = dy = 880;  // obtained through trial-and-error to get the best match with the coastlines
+		xp = yp = 450;
+	}
+	else if (satId == 57 && dx == 1732)  // MSG (Meteosat second generation), non-HRV channels
+	{
+		dx = dy = 1811;  // obtained through trial-and-error to get the best match with the coastlines
+		xp = yp = 928;
+	}
+}
+
 /*!
  Class information are given to the output-stream.
 */		
@@ -276,8 +314,17 @@ void GribSatelliteInterpretor::interpretAsMatrix(const GribDecoder& grib, Matrix
 	double pri  = 2*asin(1/altitude)/dy;
 	double pjs  = grib.getDouble("XpInGridLengths");
 	double pis  = grib.getDouble("YpInGridLengths");
+
+
 	double lao  = grib.getDouble("latitudeOfSubSatellitePointInDegrees") *TeCDR;
 	double slon = grib.getDouble("longitudeOfSubSatellitePointInDegrees");
+	long   sat  = grib.getLong("satelliteIdentifier");
+	long   chan = grib.getLong("channelNumber");
+	long   functionCode = grib.getLong("functionCode");
+
+	// correct bad GRIB headers that we know exist
+	AdjustBadlyEncodedGribs(sat, chan, nx, ny, dx, dy, pjs, pis, slon, functionCode);
+
 	double lono = slon*TeCDR;
 	double prs  = altitude * TeEARTHRADIUS;
 	double scn  = 0;
@@ -317,7 +364,7 @@ void GribSatelliteInterpretor::interpretAsMatrix(const GribDecoder& grib, Matrix
 
 
 	// If value is temperature in degrees K then add 145 to pixel value
-	double offset = (grib.getLong("functionCode") == 1) ? 145. : 0.;
+	double offset = (functionCode == 1) ? 145. : 0.;
 
 	if (offset) {
 		for (unsigned int i = 0; i < nb; i++) {
