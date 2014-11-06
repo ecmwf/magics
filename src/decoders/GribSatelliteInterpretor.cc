@@ -258,14 +258,22 @@ GribSatelliteInterpretor::~GribSatelliteInterpretor()
 */
 void GribSatelliteInterpretor::AdjustBadlyEncodedGribs(int satId, int chanId, long &nx, long &ny, long &dx, long &dy, double &xp, double &yp, double &slon) const
 {
-	// MTSAT-2, pre-2015 data
-	if (satId == 172 && slon == 140.0)
+	if (satId == 172 && slon == 140.0) // MTSAT-2, pre-2015 data
 	{
-		dx   = 888;
-		dy   = 888;
-		xp   = nx/2;
-		yp   = nx/2;
+		dx = dy = 888;
+		xp = yp = nx/2;
 		slon = 145.0;
+	}
+	else if (satId == 54 && chanId == 2 && dx == 1179)  // Meteosat 7, channel 2
+	{
+		nx = ny = 900;
+		dx = dy = 853;  // obtained through trial-and-error to get the best match with the coastlines
+		xp = yp = 450;
+	}
+	else if (satId == 54 && chanId == 3 && dx == 1179)  // Meteosat 7, channel 3
+	{
+		dx = dy = 1184;  // obtained through trial-and-error to get the best match with the coastlines
+		xp = yp = 635;
 	}
 }
 
