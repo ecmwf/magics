@@ -275,6 +275,11 @@ void GribSatelliteInterpretor::AdjustBadlyEncodedGribs(int satId, int chanId, lo
 		dx = dy = 1184;  // obtained through trial-and-error to get the best match with the coastlines
 		xp = yp = 635;
 	}
+	else if (satId == 259 && chanId == 4 && dx == 1185)  // GOES-15 (West) channel 4
+	{
+		dx = dy = 880;  // obtained through trial-and-error to get the best match with the coastlines
+		xp = yp = 450;
+	}
 }
 
 /*!
