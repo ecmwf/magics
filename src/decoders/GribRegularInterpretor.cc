@@ -725,17 +725,19 @@ void GribReducedLatLonInterpretor::interpretAsMatrix(const GribDecoder& grib,
 		if (nblon < pl[i] )
 			nblon = pl[i];
 
-
-
-	// We have to determine if the field is global! 
-	bool global =  true;
-
-	if (global) {
-		MagLog::dev() << "YES THE FIELD IS GLOBAL" << endl;
-		east = west + 360;
-	}
 	double width = east - west;
 	double step = width / nblon;
+
+	// We have to determine if the field is global! 
+	// We have to determine if the field is global!
+	bool global = east - west > 360 - 5 * step;
+
+	if (global) {
+		east = west + 360;
+		width = east - west;
+		step = width / nblon;
+	}
+
 	grib_get_double_array(grib.id(), "values", data, &aux2);
 	int d = 0;
 
