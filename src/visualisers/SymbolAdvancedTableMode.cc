@@ -203,8 +203,8 @@ void SymbolAdvancedTableMode::visit(Data& data, LegendVisitor& legend)
 	legend.newLegend();
 	IntervalMap<SymbolProperties>::const_iterator last = map_.end();
 		    				--last;
-	IntervalMap<SymbolProperties>::reverse_iterator first = map_.rbegin();
-		    						    				++first;;
+	IntervalMap<SymbolProperties>::iterator first = map_.begin();
+
 	    	switch (legend.legendType())  {
 	    		case LegendMethod::CONTINUOUS:
 	    		{
@@ -226,7 +226,7 @@ void SymbolAdvancedTableMode::visit(Data& data, LegendVisitor& legend)
 	    		}
 	    		case LegendMethod::DISJOINT:
 	    		{
-	    			  for ( IntervalMap<SymbolProperties>::reverse_iterator interval = first; interval != map_.rend(); ++interval) {
+	    			  for ( IntervalMap<SymbolProperties>::iterator interval = first; interval != last; ++interval) {
 	    				Symbol* symbol = new Symbol();
 	    				(*symbol).setColour(interval->second.colour_);
 	    				(*symbol).setSymbol(interval->second.marker_);
