@@ -1212,7 +1212,7 @@ MAGICS_NO_EXPORT bool PostScriptDriver::renderPixmap(MFloat x0,MFloat y0,MFloat 
 		switch ( col_model )
 		{
 			 case 0:
-				 sprintf(t,"%02hx%02hx%02hx",r,g,b);
+				 sprintf(t,"%02hhx%02hhx%02hhx",r,g,b);
 				 break;
 			 case 1:
 				 cc = 1. - (r*0.00392156); cm = 1. - (g*0.00392156); cy = 1. - (b*0.00392156);
@@ -1241,7 +1241,7 @@ MAGICS_NO_EXPORT bool PostScriptDriver::renderPixmap(MFloat x0,MFloat y0,MFloat 
 				 sprintf(t,"%02hx%02hx%02hx",kr,kr,kr);
 				 break;
 			 default:
-				 sprintf(t,"%02hx%02hx%02hx",r,g,b);
+				 sprintf(t,"%02hhx%02hhx%02hhx",r,g,b);
 				 break;
 		}
 		*ps << t;
