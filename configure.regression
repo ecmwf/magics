@@ -1,0 +1,195 @@
+#!/usr/bin/ksh
+
+git_home="/tmp/cgs/git"
+version="2.23.6"
+magics="develop"
+feature="develop"
+install_home="/home/graphics/cgs/Magics/regression/${version}-${feature}"
+debug="on"
+bufr="on"
+netcdf="on"
+odb="on"
+grib="on"
+metview="off"
+cairo="on"
+regression="off"
+spot="on"
+build_home="/tmp/cgs/build/regression/${version}-${feature}/${OS_VERSION}"
+run="1"
+
+
+
+case "${OS_VERSION}" in    
+    opensuse113) # Local worksation
+        regression="off"
+        debug="off"
+        odb="off"
+        bufr="off"
+        cmake="/usr/local/apps/cmake/current/bin/cmake"
+        boost="/usr/local/apps/boost/1.50.0"
+        proj4="/usr/local/apps/proj4/4.8.0/LP64"
+        python="/usr/local/apps/python/2.7.1-02"
+        netcdf_lib="/usr/local/apps/netcdf4/4.1.3/LP64"
+        odb_lib="/usr/local/apps/odb_api/0.9.31"
+        grib_lib="/usr/local/lib/metaps/lib/grib_api/1.13.0"
+        pgi_lib="/usr/local/apps/pgi/pgi-10.8/linux86-64/10.8/libso"
+        spot_lib="/usr/local/lib/metaps/lib/spot_database/new"
+        emos_lib="/usr/local/apps/libemos/000393"
+        run="4"
+    ;;
+    opensuse131) # New Local worksation
+        regression="on"
+        debug="off"
+        odb="on"
+        bufr="on"
+        spot="off"
+        cmake="cmake"
+        magics="${feature}_regression"
+        boost="/usr/local/apps/boost/1.50.0"
+        proj4="/usr/local/apps/proj4/4.8.0/LP64"
+        python="/usr/local/apps/python/2.7.1-02"
+        netcdf_lib="/usr/local/apps/netcdf4/4.1.3/LP64"
+        #odb_lib="/usr/local/apps/odb_api/0.9.31"
+        grib_lib="/usr/local/apps/grib_api/1.13.0"
+        spot_lib="/usr/local/lib/metaps/lib/spot_database/new"
+        emos_lib="/usr/local/apps/libemos/000394"
+        run="10"
+    ;;
+    sles11) # lxab
+        cmake="/usr/local/apps/cmake/current/bin/cmake"
+        boost="/usr/local/apps/boost/1.50.0"
+        proj4="/usr/local/apps/proj4/4.8.0/LP64"
+        python="/usr/local/apps/python/2.7.1-02"
+        netcdf_lib="/usr/local/apps/netcdf4/4.1.3/LP64"
+        odb_lib="/usr/local/apps/odb_api/0.9.31"
+        grib_lib="/usr/local/lib/metaps/lib/grib_api/1.11.0"
+        emos_lib="/usr/local/apps/libemos/000393"
+        pgi_lib="/usr/local/apps/pgi/pgi-10.8/linux86-64/10.8/libso"
+        spot_lib="/usr/local/lib/metaps/lib/spot_database/new"
+        run="4"
+    ;;
+    rhel6) #ecgb
+        cmake="/usr/local/apps/cmake/current/bin/cmake"
+        boost="/usr/local/apps/boost/1.50.0"
+        proj4="/usr/local/apps/proj4/4.8.0/LP64"
+        magics="ecgb"
+        python="/usr/local/apps/python/current"
+        odb_lib="/usr/local/apps/odb_api/0.9.31"
+        grib_lib="/usr/local/apps/grib_api/1.11.0"
+        spot_lib="/usr/local/apps/spot_database/new"
+        emos_lib="/usr/local/apps/libemos/000393"
+        run="10"
+    ;;
+
+ esac   
+    
+
+
+
+
+args="-DCMAKE_INSTALL_PREFIX=${install_home} -DENABLE_STATIC_LIBRARY=ON"
+args="-DCMAKE_MODULE_PATH=${git_home}/ecbuild/cmake -DCMAKE_INSTALL_PREFIX=${install_home}"
+args=" $args "
+args=" $args -DMAGICS_BUILD=${magics}"
+args=" $args -DBOOST_ROOT=$boost"
+args=" $args -DPROJ4_PATH=$proj4"
+args=" $args -DENABLE_PYTHON=ON -DCMAKE_PREFIX_PATH=$python"
+
+if [[ $debug = "on" ]];then
+    args="$args -DCMAKE_BUILD_TYPE=Debug"
+    echo "Debug enabled"
+else
+    args="$args -DCMAKE_BUILD_TYPE=Release"
+    echo "Release Mode enabled"
+fi
+if [[ $regression = "on" ]];then
+    args="$args -DENABLE_REGRESSION=ON -DENABLE_REGRESSION_UPLOAD=ON"
+    echo "Regression enabled"
+else
+    args="$args -DENABLE_REGRESSION=OFF"
+    echo "Regression disabled"
+fi
+if [[ $metview = "on" ]];then
+    args="$args -DENABLE_METVIEW=ON"
+    echo "Metview enabled"
+else
+    args="$args -DENABLE_MEVIEW=OFF"
+    echo "Metview not required"
+fi
+if [[ $cairo = "on" ]];then
+    args="$args -DENABLE_CAIRO=ON"
+    echo "Cairo enabled"
+else
+    args="$args -DENABLE_CAIRO=OFF"
+    echo "Cairo not required"
+fi
+if [[ $bufr = "on" ]];then
+    args=" $args -DENABLE_BUFR=ON"
+    if [[ $pgi_lib != "" ]];then
+        args=" $args -DWITH_PGI_FORTRAN=ON -DPGI_PATH=${pgi_lib}"
+    fi
+    if [[ $emos_lib != "" ]];then
+        args=" $args -DEMOS_PATH=${emos_lib}"
+    fi
+    echo "Bufr enabled"
+else
+    args="$args -DENABLE_BUFR=OFF"
+    echo "Bufr not required"
+fi
+if [[ $netcdf = "on" ]];then
+    args=" $args -DENABLE_NETCDF=ON "
+    echo "Netcdf enabled"
+    if [[ $netcdf_lib != "" ]];then
+        args=" $args -DNETCDF_PATH=${netcdf_lib}"
+    fi
+else
+    args="$args -DENABLE_NETCDF=OFF"
+    echo "NETCDF not required"
+fi
+if [[ $odb = "on" ]];then
+    args="$args -DENABLE_ODB=ON "
+    echo "ODB enabled"
+    if [[ $odb_lib != "" ]];then
+        args=" $args -DODB_API_PATH=${odb_lib}"
+    fi
+else
+    args="$args -DENABLE_ODB=OFF"
+    echo "ODB not required"
+fi
+if [[ $grib = "on" ]];then
+    args="$args -DENABLE_GRIB=ON "
+    echo "GRIB enabled"
+    if [[ $grib_lib != "" ]];then
+        args=" $args -DGRIB_API_PATH=${grib_lib}"
+    fi
+else
+    args="$args -DENABLE_GRIB=OFF"
+    echo "GRIB not required"
+fi
+if [[ $spot = "on" ]];then
+    args="$args -DENABLE_SPOT=ON "
+    echo "SPOT enabled"
+    if [[ $spot_lib != "" ]];then
+        args=" $args -DSPOT_PATH=${spot_lib}"
+    fi
+else
+    args="$args -DENABLE_SPOT=OFF"
+    echo "GRIB not required"
+fi
+echo "start"
+
+echo ${build_home}
+mkdir -p ${build_home}
+cd ${build_home}
+rm -fR *
+
+echo ${build_home}
+echo $args
+
+
+echo "$cmake ${git_home}/magics $args"
+
+$cmake ${git_home}/${feature}/magics $args
+make  install
+ctest
+ctest -R summary
