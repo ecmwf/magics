@@ -26,7 +26,7 @@
     Started: April 2010
 */
 
-#ifndef MgQDriverObjectH
+#ifndef MgQDriverObject_H
 #define MgQDriverObject_H
 
 #include "QtDriver.h"
