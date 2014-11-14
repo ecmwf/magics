@@ -406,9 +406,11 @@ action["NetcdfDecoder"] = ["NetcdfDecoder.xml", "NetcdfInterpretor.xml", "Netcdf
         "NetcdfGeoMatrixInterpretor.xml", "NetcdfVectorInterpretor.xml", "NetcdfGeoVectorInterpretor.xml", 
         "NetcdfGeoPolarMatrixInterpretor.xml", "NetcdfGeopointsInterpretor.xml", "NetcdfXYpointsInterpretor.xml", "NetcdfOrcaInterpretor.xml", ]
 
+action["Page"] = ["FortranSceneNode.xml", "PageID.xml", "NoPageID.xml", "LogoPlotting.xml", "NoLogoPlotting.xml" ]
+action["SuperPage"] = ["FortranRootSceneNode.xml"  ]
 #createAction("graph",  "GraphPlotting", action["GraphPlotting"])
 #createAction("contour",  "Contour", action["Contour"])
-createAction("netcdf",  "NetcdfDecoder", action["NetcdfDecoder"])
+createAction("superpage",  "FortranRootSceneNode", action["SuperPage"])
 
 
 sys.exit()

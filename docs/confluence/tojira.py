@@ -39,7 +39,8 @@ list = [
 """
 
 list = [
-    ["netcdf.json", "Netcdf Input", "Netcdf Input documentation"]
+    ["page.json", "Page", "Page documentation"],
+    ["superpage.json", "Superpage", "Super Page documentation"]
 ]
 
 """
