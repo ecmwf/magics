@@ -211,10 +211,10 @@ public:
 	void simple();
 	void add(double, double);
 	double patchDistance(double) const;
-
+	const string& name() const { return definition_; }
 	void getNewDefinition(const UserPoint&, const UserPoint&, string&) const;
 	void setDefinition(const string&);
-
+	void reprojectComponents(double&, double&, pair<double, double>&) const;
 protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).
 	 typedef void (Proj4Projection::*SettingHelper)();
@@ -233,6 +233,11 @@ protected:
 	 double max_pcy_;
 	 mutable Epsg*   projection_;
 	 string definition_;
+	 double gridMinLon_;
+	 double gridMinLat_;
+	 double gridMaxLon_;
+	 double gridMaxLat_;
+
 
 private:
     //! Copy constructor - No copy allowed

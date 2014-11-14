@@ -1,10 +1,11 @@
 #!/usr/bin/ksh
 
-git_home="/home/graphics/cgs/gitdev"
-version="2.23.7"
-magics="debug"
-install_home="/usr/local/apps/Magics/$version"
-debug="off"
+git_home="/tmp/cgs/git"
+version="2.23.8"
+magics="proj4"
+feature="proj4"
+install_home="/home/graphics/cgs/Magics/debug/${version}-${feature}"
+debug="on"
 bufr="on"
 netcdf="on"
 odb="on"
@@ -13,7 +14,7 @@ metview="off"
 cairo="on"
 regression="off"
 spot="on"
-build_home="/tmp/cgs/build/$version/${OS_VERSION}"
+build_home="/tmp/cgs/build/debug/${version}-${feature}/${OS_VERSION}"
 run="1"
 
 
@@ -43,16 +44,16 @@ case "${OS_VERSION}" in
         bufr="on"
         spot="off"
         cmake="cmake"
-        magics="debug"
-        boost="/usr/local/apps/boost/1.50.0"
+        magics="${feature}-debug"
+        boost="/usr/local/apps/boost/1.57.0"
         proj4="/usr/local/apps/proj4/4.8.0/LP64"
         python="/usr/local/apps/python/2.7.1-02"
         netcdf_lib="/usr/local/apps/netcdf4/4.1.3/LP64"
         #odb_lib="/usr/local/apps/odb_api/0.9.31"
-        grib_lib="/usr/local/apps/grib_api/1.12.3"
+        grib_lib="/usr/local/apps/grib_api/1.13.0"
         spot_lib="/usr/local/lib/metaps/lib/spot_database/new"
         emos_lib="/usr/local/apps/libemos/000394"
-        run="4"
+        run="10"
     ;;
     sles11) # lxab
         cmake="/usr/local/apps/cmake/current/bin/cmake"
@@ -87,7 +88,7 @@ case "${OS_VERSION}" in
 
 
 args="-DCMAKE_INSTALL_PREFIX=${install_home} -DENABLE_STATIC_LIBRARY=ON"
-args="-DCMAKE_INSTALL_PREFIX=${install_home}"
+args="-DCMAKE_MODULE_PATH=${git_home}/ecbuild/cmake -DCMAKE_INSTALL_PREFIX=${install_home}"
 args=" $args "
 args=" $args -DMAGICS_BUILD=${magics}"
 args=" $args -DBOOST_ROOT=$boost"
@@ -187,8 +188,10 @@ echo $args
 
 
 echo "$cmake ${git_home}/magics $args"
+echo `which python`
 
-$cmake ${git_home}/magics $args
+
+cmake ${git_home}/${feature}/magics $args
 make -j ${run} install
 #ctest
 #ctest -R summary
