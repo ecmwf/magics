@@ -180,6 +180,7 @@ bool CellShading::prepare(const LevelSelection& levels, const ColourTechnique& t
 	// First Interval ...
 	
 	map_.clear();
+	colours_.clear();
 	map_[Interval(INT_MIN, levels.front())] = 0;
 	colours_.push_back(Colour("none"));
 	for (unsigned int i = 0; i < levels.size() -1; i++)
