@@ -19,3 +19,4 @@ CMakeLists.txt.user*
 .project
 
 
+*.sublime-workspace
