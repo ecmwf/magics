@@ -1,5 +1,5 @@
 
-set ( _version 2.23.8 )
+set ( _version 2.23.9 )
 if ( MAGICS_BUILD )
     set( ${PROJECT_NAME}_VERSION_STR  "${_version}-${MAGICS_BUILD}" )   
 else ()
