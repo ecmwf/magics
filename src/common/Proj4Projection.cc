@@ -41,8 +41,9 @@
 namespace magics
 {
 
-struct Epsg
+class Epsg
 {
+public:
 	Epsg(const string& name) : name_(name) {
 		epsgs_.insert(make_pair(lowerCase(name), this));
 		methods_["definition"] = &Epsg::definition;
@@ -51,13 +52,15 @@ struct Epsg
 		methods_["max_longitude"] = &Epsg::maxlon;
 		methods_["max_latitude"] = &Epsg::maxlat;
 		methods_["method"] = &Epsg::method;
+		initMethods_["geos"] = &Epsg::geosinit;
 	}
 	string name_;
 	string definition_;
 
-
+	typedef void (Epsg::*InitMethod)(const Proj4Projection&);
 	typedef void (Epsg::*Method)(const json_spirit::Value&);
 	map<string,  Method> methods_;
+	map<string,  InitMethod> initMethods_;
 
 	void definition(const json_spirit::Value& value) {
 		definition_ =  value.get_value<string>();
@@ -78,6 +81,28 @@ struct Epsg
 		method_ =  value.get_value<string>();
 	}
 
+	void init(const Proj4Projection& from) {
+		map<string,  InitMethod >::iterator initmethod = initMethods_.find(name_);
+		if ( initmethod != initMethods_.end() ) {
+			( this->*initmethod->second)(from) ;
+		}
+	}
+
+	void geosinit(const Proj4Projection& from) {
+		//cout <<  from.vertical_longitude_ << endl;
+		minlon_ = from.vertical_longitude_ - 80;
+		maxlon_ = from.vertical_longitude_ + 80;
+		minlat_ = -80;
+		maxlat_ = 80;
+		//cout <<  minlon_ << "   " << maxlon_ << endl;
+		ostringstream def;
+		def << "+proj=geos +h=42164000 +ellps=WGS84 +lon_0=" << from.vertical_longitude_;
+
+		definition_ = def.str();
+		//cout << definition_ << endl;
+	}
+
+
 	double minlon_ ;
 	double minlat_;
 	double maxlon_ ;
@@ -89,18 +114,23 @@ struct Epsg
 
 	void  set(const json_spirit::Value&);
 
-	static Epsg* find(const string& name) {
-		map<string, Epsg*>::iterator epsg = epsgs_.find(lowerCase(name));
+	static Epsg* find(const Proj4Projection& from) {
+		string name = lowerCase(from.name());
+		map<string, Epsg*>::iterator epsg = epsgs_.find(name);
 		if ( epsg == epsgs_.end() )  {
 			MagLog::warning() << "Can not find information on " << name << ": use epsg instead" << endl;
-			return find("EPSG:4326");
+			return epsgs_.find("EPSG:4326")->second;
 		}
+		epsg->second->init(from);
+
 		return epsg->second;
 	}
+
 	const char* definition() { return definition_.c_str(); }
 
-
 };
+
+
 
 class EpsgConfig : public MagConfig
 {
@@ -152,51 +182,26 @@ void  EpsgConfig::callback(const string& name, const json_spirit::Value& value)
 	}
 
 }
-/*
-static Epsg epsg_4336("EPSG:4326",
-		"+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs",
-		-180, -90, +180, 90,
-		-180, -90, +180, 90,
-		20, 20, true
-		);
 
-static Epsg cylindrical("cylindrical",
-				"+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs",
-				-180, -90, +180, 90,
-				-180, -90, +180, 90,
-				20, 20, true
-				);
-
-static Epsg polar_north("polar_north",
-				"+proj=stere +lat_0=90 +lat_ts=90 +lon_0=0 +k=0.994 +x_0=2000000 +y_0=2000000 +ellps=WGS84 +datum=WGS84 +units=m +no_defs",
-				-180, -20, +180, -20,// line this one is to find the limit of the projection coordinate system.
-				-45, -20, 135, -20, // this one to define the default full extend
-				2,2, false
-				);
-static Epsg epsg_32661("EPSG:32661",
-				"+proj=stere +lat_0=90 +lat_ts=90 +lon_0=0 +k=0.994 +x_0=2000000 +y_0=2000000 +ellps=WGS84 +datum=WGS84 +units=m +no_defs",
-				-180, -20, +180, -20,// line this one is to find the limit of the projection coordinate system.
-				-45, -20, 135, -20, // this one to define the default full extend
-				2,2, false
-				);
-static Epsg geos("geos",
-				"+proj=goode",
-				-160,  0, 160, 0,// line this one is to find the limit of the projection coordinate system.
-				-180,  -90, 180, 90, // this one to define the default full extend
-				2,2, false
-				);
-*/
 /*!
   \brief Constructor
 */
-Proj4Projection::Proj4Projection(const string& definition) : definition_(definition)
+Proj4Projection::Proj4Projection(const string& definition) : definition_(definition),
+						gridMinLon_(DBL_MAX),
+						gridMinLat_(DBL_MAX),
+						gridMaxLon_(-DBL_MAX),
+						gridMaxLat_(-DBL_MAX)
+
 {
 
 	//init();
 	EpsgConfig config;
 	config.init();
 }
-Proj4Projection::Proj4Projection()
+Proj4Projection::Proj4Projection(): gridMinLon_(DBL_MAX),
+		gridMinLat_(DBL_MAX),
+		gridMaxLon_(-DBL_MAX),
+		gridMaxLat_(-DBL_MAX)
 {
 
 	//init();
@@ -244,13 +249,15 @@ void Proj4Projection::init()
 
 
 	from_ = pj_init_plus("+proj=longlat +ellps=WGS84 +datum=WGS84");
-	projection_ = Epsg::find(definition_);
+	projection_ = Epsg::find(*this);
 	to_    = pj_init_plus(projection_->definition());
 	if ( !to_) {
 		MagLog::error() << pj_strerrno(pj_errno) << endl;
 		MagLog::error() << " proj4 error " << projection_->definition() << endl;
 		assert(false);
 	}
+
+
 
 	methods_["geos"] = &Proj4Projection::geos;
 	methods_["conic"] = &Proj4Projection::conic;
@@ -260,6 +267,8 @@ void Proj4Projection::init()
 		(this->*method->second)();
 	else
 		simple();
+
+
 	helpers_["full"] = &Proj4Projection::full;
 	helpers_["corners"] = &Proj4Projection::corners;
 	helpers_["centre"] = &Proj4Projection::centre;
@@ -320,7 +329,7 @@ PaperPoint Proj4Projection::operator()(const UserPoint& point)  const
 {
 	if ( ! from_ ) {
 		from_ = pj_init_plus("+proj=longlat +ellps=WGS84 +datum=WGS84");
-		projection_ = Epsg::find(definition_);
+		projection_ = Epsg::find(*this);
 		to_    = pj_init_plus(projection_->definition());
 	}
 	double x = point.x();
@@ -401,10 +410,6 @@ void Proj4Projection::aspectRatio(double& width, double& height)
 	Transformation::aspectRatio(width, height);
 }
 
-static double gridMinLon_ = DBL_MAX;
-static double gridMinLat_= DBL_MAX;
-static double gridMaxLon_= -DBL_MAX;
-static double gridMaxLat_= -DBL_MAX;
 
 void Proj4Projection::add(double lon, double lat)
 {
@@ -486,6 +491,11 @@ void Proj4Projection::geos()
 		min_pcy_ = DBL_MAX;
 		max_pcx_ = -DBL_MAX;
 		max_pcy_ = -DBL_MAX;
+
+
+		PCEnveloppe_->correct();
+		userEnveloppe_->correct();
+
 		map<double, vector<double> > helper;
 
 		for ( int lat = projection_->minlat_; lat <= projection_->maxlat_; lat++) {
@@ -528,12 +538,14 @@ void Proj4Projection::boundingBox(double& xmin, double& ymin, double& xmax, doub
 	if ( ! from_ ) {
 			from_ = pj_init_plus("+proj=longlat +ellps=WGS84 +datum=WGS84");
 			projection_ = Epsg::find(definition_);
-			to_    = pj_init_plus(projection_->definition());
+			to_    = pj_init_plus(proj4_definition_.c_str());
 		}
 	ymin = gridMinLat_;
 	xmin = gridMinLon_-5;
 	ymax = gridMaxLat_;
 	xmax = gridMaxLon_+5;
+
+	//cout << "Bounding box ->" << xmin << " " << xmax << endl;
 
 }
 
@@ -894,6 +906,27 @@ void Proj4Projection::labels(const LabelPlotting& label, TopAxisVisitor& visitor
 		horizontalLabels(label, max_pcy_, y, MBOTTOM);
 	}
 }
+void Proj4Projection::reprojectComponents(double& x, double& y, pair<double, double>& components) const
+{
+	double speed = sqrt((components.first * components.first) + (components.second * components.second));
+	double angle = atan2(components.second,components.first);
+
+
+	double ppx=x+cos(angle);
+	double ppy=y+sin(angle);
+
+	fast_reproject(ppx, ppy);
+	fast_reproject(x, y);
+
+
+
+	double rotation = atan2((ppy - y), (ppx - x));
+
+		// we the angle and the spped we compute u/v...
+		components.first = speed * cos(rotation);
+		components.second = speed * sin(rotation);
+
+}
 
 void Proj4Projection::revert(const vector< std::pair<double, double> > & in, vector< std::pair<double, double> > & out) const
 {
@@ -918,6 +951,8 @@ void Proj4Projection::revert(const vector< std::pair<double, double> > & in, vec
 		  }
 		  else {
 			  double lon = x*RAD_TO_DEG;
+			  if ( lon > gridMaxLon_ ) lon -= 360.;
+			  else if ( lon < gridMinLon_ ) lon += 360.;
 			  double lat = y*RAD_TO_DEG;
 			  out.push_back(make_pair(lon, lat));
 		  }

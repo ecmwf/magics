@@ -30,9 +30,12 @@
          		<release>Magics++0.1		</release>
          		<documentation> Longitude of upper right corner of map. 		</documentation>
   	</parameter> 
-  	<parameter member="vertical_longitude" to="float" default="0" from="float" name="subpage_map_vertical_longitude">
-       
+  	<parameter member="vertical_longitude" to="float" default="0" from="float" name="subpage_map_vertical_longitude">  
          		<documentation> Developement in progress 		</documentation>
+  	</parameter>
+  
+  	<parameter member="sweep" to="float" default="0" from="float" name="subpage_map_geos_sweep">  
+         		<documentation> the sweep angle axis of the viewing instrument		</documentation>
   	</parameter>
   	<parameter from="string" name="subpage_map_proj4_definition" visible="no" default="" member="proj4_definition" to="string">
          		<documentation> Proj4 defintion string : to be used very carefully --&gt; possible side effect  		</documentation>
