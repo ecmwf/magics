@@ -332,13 +332,12 @@ void ShapeDecoder::decode(vector<Polyline>& data, const Transformation& transfor
 			double shift = 0;
 
 			if ( west < -180 )
-				shift = -180;
+				shift = 360;
 			if ( east > 180 )
-				shift = 180;
-
+				shift = 360;
 			if ( ( east - west ) > 360. )
 				shift = 0;
-			cout << west << " " << east<< " " << shift << endl;
+
 
 
 			SHPObject	*psShape = 0;
@@ -364,10 +363,10 @@ void ShapeDecoder::decode(vector<Polyline>& data, const Transformation& transfor
 				if ( psShape->dfYMin  >= north ) continue;
 				if ( psShape->dfXMax + shift  <= west) in = false;
 				if ( psShape->dfXMin  + shift >=  east) in = false;
-				if ( psShape->dfXMax-360 > transformation.getMinX() &&  !same(psShape->dfXMax-360, transformation.getMinX())) {
+				if ( psShape->dfXMax + shift -360 > transformation.getMinX() &&  !same(psShape->dfXMax-360, transformation.getMinX())) {
 					        left = true;
 				}
-				if ( psShape->dfXMin+360 < transformation.getMaxX() && !same(psShape->dfXMin+360, transformation.getMaxX() ) ) {
+				if ( psShape->dfXMin + shift +360 < transformation.getMaxX() && !same(psShape->dfXMin+360, transformation.getMaxX() ) ) {
 						right = true;
 				}
 
