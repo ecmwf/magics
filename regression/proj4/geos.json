@@ -91,7 +91,9 @@
                 "map_grid": "on",
 				"map_label": "on"}, 
             "projection": "geos",
-            "map_area_definition": "full"
+            "map_area_definition": "full",
+            "map_geos_sweep" : "33",
+            "map_proj4_definition" : "+proj=geos +h=35786023 +a= 6378137.0 +b= 6356752.3141403561 +sweep=y +lon_0=-75 x_0=-.151844 y_0=.151844 +no_defs"
         }, 
         "meta": {
             "javascript_path": "${js=js.js}"

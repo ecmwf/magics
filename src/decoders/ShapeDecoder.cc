@@ -324,7 +324,22 @@ void ShapeDecoder::decode(vector<Polyline>& data, const Transformation& transfor
 			data.clear();
 			SHPGetInfo( hSHP, &nEntities, &nShapeType, adfMinBound, adfMaxBound );
 
-			//vector<polygon_2d> polys;
+			double south =  transformation.getMinY();
+			double north =  transformation.getMaxY();
+			double west =  transformation.getMinX();
+			double east =  transformation.getMaxX();
+
+			double shift = 0;
+
+			if ( west < -180 )
+				shift = 360;
+			if ( east > 180 )
+				shift = 360;
+			if ( ( east - west ) > 360. )
+				shift = 0;
+
+
+
 			SHPObject	*psShape = 0;
 			int nb  = 0;
 			for( i = 0; i < nEntities; i++ )
@@ -341,14 +356,17 @@ void ShapeDecoder::decode(vector<Polyline>& data, const Transformation& transfor
 				bool left = false;
 				bool right = false;
 
-				if ( psShape->dfYMax <= transformation.getMinY() ) continue;
-				if ( psShape->dfYMin >= transformation.getMaxY() ) continue;
-				if ( psShape->dfXMax <= transformation.getMinX() ) in = false;
-				if ( psShape->dfXMin >=  transformation.getMaxX()) in = false;
-				if ( psShape->dfXMax-360 > transformation.getMinX() &&  !same(psShape->dfXMax-360, transformation.getMinX())) {
+
+
+
+				if ( psShape->dfYMax  <= south ) continue;
+				if ( psShape->dfYMin  >= north ) continue;
+				if ( psShape->dfXMax + shift  <= west) in = false;
+				if ( psShape->dfXMin  + shift >=  east) in = false;
+				if ( psShape->dfXMax + shift -360 > transformation.getMinX() &&  !same(psShape->dfXMax-360, transformation.getMinX())) {
 					        left = true;
 				}
-				if ( psShape->dfXMin+360 < transformation.getMaxX() && !same(psShape->dfXMin+360, transformation.getMaxX() ) ) {
+				if ( psShape->dfXMin + shift +360 < transformation.getMaxX() && !same(psShape->dfXMin+360, transformation.getMaxX() ) ) {
 						right = true;
 				}
 
@@ -372,9 +390,10 @@ void ShapeDecoder::decode(vector<Polyline>& data, const Transformation& transfor
                 
 				left = false;
 				right=false;
-				double last;
+
 				for( j = 0, iPart = 1, hole = false; j < psShape->nVertices ; j++ )
 				{
+					bool patch = false;
 					if( iPart < psShape->nParts && psShape->panPartStart[iPart] == j )
 					{
 						iPart++;
@@ -392,10 +411,7 @@ void ShapeDecoder::decode(vector<Polyline>& data, const Transformation& transfor
 
 					else {
 						double x = psShape->padfX[j];
-
-						last = psShape->padfX[j];
-
-
+							x += shift;
 						double y = psShape->padfY[j];
 
 						if ( iPart==1 ) {
@@ -404,11 +420,11 @@ void ShapeDecoder::decode(vector<Polyline>& data, const Transformation& transfor
 							}
 
 							if ( polyleft ) {
-								x -= 360;
-								polyleft->push_back(PaperPoint(x, y));
+
+								polyleft->push_back(PaperPoint(x-360, y));
 							}
 							if ( polyright ) {
-								polyright->push_back(PaperPoint(psShape->padfX[j]+360,  psShape->padfY[j]));
+								polyright->push_back(PaperPoint(x+360,  y));
 							}
 
 						}
@@ -418,12 +434,12 @@ void ShapeDecoder::decode(vector<Polyline>& data, const Transformation& transfor
 							}
 
 							if ( polyleft ) {
-								x -= 360;
-								polyleft->push_back_hole(PaperPoint(x, y));
+
+								polyleft->push_back_hole(PaperPoint(x-360, y));
 
 							}
 							if ( polyright ) {
-								polyright->push_back_hole(PaperPoint(psShape->padfX[j]+360, psShape->padfY[j]));
+								polyright->push_back_hole(PaperPoint(x+360, y));
 							}
 						 }
 					}
@@ -433,15 +449,12 @@ void ShapeDecoder::decode(vector<Polyline>& data, const Transformation& transfor
 				}
 				
 
-	// first we clip
+	             /// first we clip
 					for (vector<Polyline*>::iterator poly = polys.begin(); poly != polys.end(); ++poly ) {
 						(*poly)->sanityCheck();
-					//polyleft.sanityCheck();
 						vector<Polyline> clipped;
 						geobox.intersect(**poly, clipped);
 
-
-	                //geobox.intersect(polyleft, clipped);
 	                // then we reproject!
 						for (vector<Polyline>::iterator clip = clipped.begin(); clip != clipped.end(); ++clip ) {
 							clip->reproject(transformation);

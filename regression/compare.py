@@ -43,6 +43,7 @@ def compare(timestamp,branch_name,versions,interpreter,executable,reference,thre
     print l('threshold:',        20), '%.2f%%'%threshold
     print l('versions:',         20), versions 
     print l('output dir (HTML):',20), output_dir
+    print l('output dir (HTML):',20), "<a href='http://download.ecmwf.org/test-data/magics/regression_output/summary.html'>%s</a>" % output_dir
 
     try:
 
