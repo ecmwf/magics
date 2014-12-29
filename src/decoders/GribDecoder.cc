@@ -1168,7 +1168,7 @@ public:
 	{
 		string format= node.getAttribute("format");
 		if ( format.empty() )  
-			format =  "%A %d %B %Y at %H UTC";
+			format =  "%A %d %B %Y at %H%M UTC";
 		const long day  = grib_.getLong("date");  
 		const long hour = grib_.getLong("hour");  
 		const long mn   = grib_.getLong("minute"); 
@@ -1190,7 +1190,7 @@ public:
 	{
 		string format= node.getAttribute("format");
 		if ( format.empty() )
-			format =  "%A %d %B %Y at %H UTC";
+			format =  "%A %d %B %Y at %H%M UTC";
 		const long day  = grib_.getLong("date");
 		const long hour = grib_.getLong("hour");
 		const long mn   = grib_.getLong("minute");
@@ -1208,7 +1208,7 @@ public:
 	{
 		string format= node.getAttribute("format");
 		if ( format.empty() )
-			format =  "%A %d %B %Y at %H UTC";
+			format =  "%A %d %B %Y at %H%M UTC";
 		const long day =  grib_.getLong("date");
 		const long hour = grib_.getLong("hour");
 		const long mn =  grib_.getLong("minute");
@@ -1232,7 +1232,7 @@ public:
 	{
 		string format=  node.getAttribute("format");
 		if ( format.empty() )  
-			format =  "%A %d %B %Y at %H UTC";
+			format =  "%A %d %B %Y at %H%M UTC";
 		const long day =  grib_.getLong("date");  
 		const long hour = grib_.getLong("hour");  
 		const long mn =  grib_.getLong("minute");
@@ -2029,7 +2029,7 @@ public:
 		    full = full + (step*-3600);
         }
 
-		string format = field.attribute("format", "%A %d %B %Y at %H UTC");
+		string format = field.attribute("format", "%A %d %B %Y at %H%M UTC");
 
 		title.back() += full.tostring(format);
 	}	
@@ -2057,7 +2057,7 @@ public:
         }
 
 
-		string format = field.attribute("format", "%A %d %B %Y %H UTC");
+		string format = field.attribute("format", "%A %d %B %Y %H%M UTC");
 
 		title.back() += full.tostring(format);
 
