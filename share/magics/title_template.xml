@@ -13,6 +13,9 @@
     <title 	timeRangeIndicator='1'>
         <base_date format = '%A %d %B %Y %H UTC'/> <centre format = "%s Analysis"/> <level/> <parameter/> <units/> <expver/>  <plot_type/> 
     </title>
+    <title dataType='im' timeRangeIndicator='0'> 
+        <base_date format = '%A %d %B %Y %H UTC'/> <centre  format = "%s Forecast"/> <step format="t+%s"/> <valid_date format = 'VT:%A %d %B %Y %H UTC'/> <satellite/> <channel/> 
+    </title>
     <title typeOfGeneratingProcess='2'>
         <base_date format = '%A %d %B %Y %H UTC'/> <centre  format = "%s Forecast"/> <step format="t+%s"/> 
 <valid_date format = 'VT:%A %d %B %Y %H UTC'/> <level/> <parameter/> <units/> <expver/>  <plot_type/> 
@@ -47,7 +50,6 @@
         <base_date format = '%A %d %B %Y %H UTC '/> <centre/> <product/> <step format="t+%s"/> <valid_date format = 'VT:%A %d %B %Y %H UTC'/>
 <newline/><level/><parameter/><units/><expver/><eps_number_info/>
      </title>
-     <title dataType='im'> <satellite/> <channel/> <date format = '%A %d %B %Y %H UTC '/> </title>
 </title>
  
  
