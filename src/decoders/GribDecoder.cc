@@ -1176,6 +1176,12 @@ public:
 		MagTime part2 = MagTime(hour, mn, 0);
 		DateTime full(part1, part2);
 
+		const long type  = grib_.getLong("significanceOfReferenceTime", false);  
+        if ( type == 2 ) { //     Verifying time of forecast
+		    const long step =  grib_.getLong("stepRange");  // default is in hours. Set 'stepUnits' to change.
+            full = full + (step*-3600);
+        }
+
 		return full.tostring(format);
 
 	}
@@ -1213,7 +1219,10 @@ public:
 		MagDate part1 = MagDate(day);
 		MagTime part2 = MagTime(hour, mn, 0);
 		DateTime full(part1, part2);
-		full = full + (step*3600);
+		const long type  = grib_.getLong("significanceOfReferenceTime", false);
+        if ( type != 2 ) { //     Verifying time of forecast
+		    full = full + (step*3600);
+        }
 
 		return full.tostring(format);
 
@@ -2014,6 +2023,11 @@ public:
 		MagDate part1 = MagDate(date);
 		MagTime part2 = MagTime(hour, mn, 0);
 		DateTime full(part1, part2);
+		const long type  = grib.getLong("significanceOfReferenceTime", false);
+        if ( type == 2 ) { //     Verifying time of forecast
+		    long step = grib.getLong("step"); // needs steps in second!   // default is in hours. Set 'stepUnits' to change.
+		    full = full + (step*-3600);
+        }
 
 		string format = field.attribute("format", "%A %d %B %Y at %H UTC");
 
@@ -2037,7 +2051,10 @@ public:
 		MagDate part1 = MagDate(date);
 		MagTime part2 = MagTime(hour, mn, 0);
 		DateTime full(part1, part2);
-		full = full + step;
+		const long type  = grib.getLong("significanceOfReferenceTime", false);
+        if ( type != 2 ) { //     Verifying time of forecast
+		    full = full + (step*3600);
+        }
 
 
 		string format = field.attribute("format", "%A %d %B %Y %H UTC");
