@@ -2227,11 +2227,23 @@ public:
 	~SatelliteHandler() {}
 	void operator()(TitleField&, vector<string>& title,const GribDecoder& grib)
 	{
-		ostringstream out;
-		long ident =  grib.getLong("ident");
+        static map<long, string> names;
+        if ( names.empty() ){
+            names[54] = "METEOSAT-7";
+            names[57] = "METEOSAT-10";
+            names[172] = "MTSAT-2";
+            names[257] = "GOES-13";
+            names[259] = "GOES-15";
+        }
 
-		out << "Sat:" << ident << " ";
-		title.back() += out.str();
+		long ident =  grib.getLong("ident");
+        map<long, string>::iterator sat = names.find(ident);
+
+        if ( sat != names.end() ) 
+            title.back() += sat->second;
+        else 
+            title.back() += "satellite identifier " + tostring(ident);
+
 	}
 };
 
@@ -2242,10 +2254,55 @@ public:
 	~ChannelHandler() {}
 	void operator()(TitleField&, vector<string>& title,const GribDecoder& grib)
 	{
+        map<long, map<long, string> > channels;
+        if ( channels.empty() ) {
+            map<long, string>  l54;
+            l54[1] = "WV 6-4";
+            l54[2] = "IR 11-5";
+            l54[3] = "VIS 00-7";
+            channels[54] = l54;
+            map<long, string>  l57;
+            l57[1] = "VIS 0-6";
+            l57[4] = "IR 3-9";
+            l57[5] = "WV 6-2";
+            l57[6] = "WV 7-3";
+            l57[8] = "IR 9-7";
+            l57[9] = "IR 10-8";
+            l57[10] = "IR 12-0";
+            channels[57] = l57;
+            map<long, string>  l172;
+            l172[2] = "IR 10-8";
+            l172[4] = "WV 6-8";
+            l172[9] = "IR 10-8";
+            channels[172] = l172;
+            map<long, string>  l257;
+            l257[1] = "VIS 00-7";
+            l257[3] = "WV 6-6";
+            l257[4] = "IR 10-7";
+            channels[257] = l257;
+            map<long, string>  l259;
+            l259[1] = "VIS 00-7";
+            l259[3] = "WV 6-6";
+            l259[4] = "IR 10-7";
+            channels[259] = l259;
+        }
 		ostringstream out;
-		long band = grib.getLong("obstype");
-		out << "Band:" << band << " ";
-		title.back() += out.str();
+		long ident = grib.getLong("ident");
+		long band = grib.getLong("channel");
+
+        map<long, map<long, string> >::iterator sat = channels.find(ident);
+
+        if ( sat == channels.end() )  {
+            title.back() += "channel " + tostring(band);
+            return;
+        }
+        map<long, string>::iterator channel = sat->second.find(band);
+        if ( channel == sat->second.end() )  {
+            title.back() += "channel " + tostring(band);
+            return;
+        }
+
+		title.back() += channel->second;
 	}
 };
 
@@ -2366,6 +2423,7 @@ static SimpleObjectMaker<GribLocalCriter, MatchCriteria > gribtypecriter("type")
 static SimpleObjectMaker<GribLocalCriter, MatchCriteria > gribclasscriter("class");
 static SimpleObjectMaker<GribLocalCriter, MatchCriteria > typeOfgeneratingProcess("typeOfGeneratingProcess");
 static SimpleObjectMaker<GribLocalCriter, MatchCriteria > timeRangeIndicator("timeRangeIndicator");
+static SimpleObjectMaker<GribLocalCriter, MatchCriteria > dataType("dataType");
 
 #include "GribRegularInterpretor.h"
 static SimpleObjectMaker<GribRegularInterpretor, GribInterpretor> regular_ll("regular_ll");
