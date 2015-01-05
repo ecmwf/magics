@@ -179,6 +179,22 @@ protected:
 };
 
 
+class GribPolarStereoInterpretor: public GribRegularInterpretor {
+
+public:
+	GribPolarStereoInterpretor() {}
+	virtual ~GribPolarStereoInterpretor() {}
+
+
+	void interpretAsMatrix(const GribDecoder&, Matrix**) const;
+
+protected:
+     //! Method to print string about this class on to a stream of type ostream (virtual).
+	 virtual void print(ostream&) const;
+
+
+
+};
 
 
 class GribRegularGaussianInterpretor: public GribRegularInterpretor 

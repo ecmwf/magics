@@ -1580,9 +1580,8 @@ CellArray::CellArray(MatrixHandler& data, IntervalMap<int>& range, const Transfo
 {
 	Timer timer("CellArray", "CellArray");
 	int r = height/resol;
-	//r = 10;
 	int c = (int) width/resol;
-	//c = 10;
+
 	rows_ = r;
 	columns_ = c;
 

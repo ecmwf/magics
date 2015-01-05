@@ -2450,6 +2450,7 @@ static SimpleObjectMaker<GribReducedGaussianInterpretor, GribInterpretor> reduce
 static SimpleObjectMaker<GribRotatedInterpretor, GribInterpretor> rotated_ll("rotated_ll");
 static SimpleObjectMaker<GribLambertAzimutalInterpretor, GribInterpretor> lambert_azimuthal_equal_area("lambert_azimuthal_equal_area");
 static SimpleObjectMaker<GribLambertInterpretor, GribInterpretor> lambert("lambert");
+static SimpleObjectMaker<GribPolarStereoInterpretor, GribInterpretor> polar("polar_stereographic");
 
 
 #include "GribSatelliteInterpretor.h"

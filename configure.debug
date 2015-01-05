@@ -2,8 +2,8 @@
 
 git_home="/tmp/cgs/git"
 version="2.23.8"
-magics="proj4"
-feature="proj4"
+magics="develop"
+feature="develop"
 install_home="/home/graphics/cgs/Magics/debug/${version}-${feature}"
 debug="on"
 bufr="on"
@@ -50,7 +50,7 @@ case "${OS_VERSION}" in
         python="/usr/local/apps/python/2.7.1-02"
           netcdf_lib="/usr/local/apps/netcdf4/4.3.2/$EC_COMPILER_FAMILY/$EC_COMPILER_VERSION"
         odb_lib="/usr/local/apps/odb_api/0.10.2/$EC_COMPILER_FAMILY/$EC_COMPILER_VERSION"
-        grib_lib="/usr/local/apps/grib_api/1.12.3/$EC_COMPILER_FAMILY/$EC_COMPILER_VERSION"
+        grib_lib="/usr/local/apps/grib_api/1.13.0/$EC_COMPILER_FAMILY/$EC_COMPILER_VERSION"
         spot_lib="/usr/local/lib/metaps/lib/spot_database/new"
         emos_lib="/usr/local/apps/libemos/000400/$EC_COMPILER_FAMILY/$EC_COMPILER_VERSION/lib"
      
