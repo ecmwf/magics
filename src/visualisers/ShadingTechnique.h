@@ -46,6 +46,7 @@ class BasicGraphicsObjectContainer;
 class Polyline;
 class CellArray;
 class Transformation;
+class ContourMethod;
 
 class ShadingTechnique  {
 
@@ -74,7 +75,7 @@ public:
        		const Transformation& transformation, int width, int height,
        		float resolution, const string& technique) { assert(0); }
     virtual bool needClipping() { return false; }
-   
+    virtual bool method(ContourMethod*) { return false; }
 protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).
 	 virtual void print(ostream&) const {}

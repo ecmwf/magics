@@ -228,21 +228,9 @@ Matrix*   BinningObject::operator()(PointsList& points)
 			}
 		}
 	}
-
-	else {
-		for (unsigned int i = 0; i < matrix->size(); ++i) {
-			if ( (*matrix)[i] == 0 ) {
-				(*matrix)[i] = matrix->missing();
-
-			}
-		}
-	}
-#ifdef need_debug
-		for ( int r = 0; r < rows; ++r) {
-					for ( int c = 0; c < columns; ++c) {
-						log::dev() << "[" << matrix->row(r,c) << ",  " << matrix->column(r,c) << "] = " << (*matrix)(r, c) << endl;
+	for ( int c = 0; c < columns; ++c) {
+						MagLog::dev() << "[" << matrix->row(r,c) << ",  " << matrix->column(r,c) << "] = " << (*matrix)(r, c) << endl;
 					}
 		}
-#endif
 	return matrix;
 }

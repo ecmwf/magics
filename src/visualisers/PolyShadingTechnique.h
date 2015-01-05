@@ -38,7 +38,7 @@
 #include "DotPolyShadingMethod.h"
 #include "HatchPolyShadingMethod.h"
 #include "GridShadingAttributes.h"
-
+#include "ContourMethod.h"
 
 namespace magics {
     
@@ -118,9 +118,11 @@ public:
     	    		const Transformation& transformation, int width, int height,
     	    		float resolution, const string& technique);
     virtual bool needClipping() { return true; }
+    bool method(ContourMethod* method) { method = new ContourMethod(); return true; }
 protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).
 	 void print(ostream&) const {}
+
 
 
 private:

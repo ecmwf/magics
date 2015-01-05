@@ -455,7 +455,7 @@ static double compute(SegmentJoiner::SegList& v,list<deque<Segment> >& lines)
     }
 #endif
     // For debugging
-    //if(true) check(lines);
+    if(true) SegmentJoiner::check(lines);
 
     //return total.elapsed();
     return 0;
@@ -510,6 +510,7 @@ double SegmentJoiner::computePolygonLines(vector<vector<Point> >& result)
         for(; j != p.end(); ++j) {
             w.push_back((*j).to_);
         }
+
     }
     return e;
 }
@@ -623,4 +624,39 @@ void SegmentJoiner::check(list<deque<Segment> >& lines)
 
 }
 
+class checker {
+    public:
+	checker(const Segment& seg ) : segment_(seg) {}
+       bool operator()(const Segment& other)
+       { return segment_.cancels(other); }
+    Segment segment_;
+};
+
+void SegmentJoiner::push_back(const Point& from, const Point& to)
+{
+	Segment add(from, to);
+	checker check(add);
+	deque<Segment>::iterator done =  std::remove_if(segments_.begin(), segments_.end(), check);
+
+	if ( done == segments_.end() )
+			 segments_.push_back(Segment(from,to));
+	else		{
+		segments_.erase(done, segments_.end());
+	}
+}
+
+void SegmentJoiner::push_back(const Segment& s)
+{
+	if((s.from_ == s.to_))
+		return;
+	checker check(s);
+   	deque<Segment>::iterator done =  std::remove_if(segments_.begin(), segments_.end(), check);
+
+	if ( done == segments_.end() )
+			 segments_.push_back(s);
+	else{
+
+		segments_.erase(done, segments_.end());
+	}
+}
 

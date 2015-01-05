@@ -606,7 +606,7 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
 	(*matrix)->reserve(aux * 4 * res);
 
 	double *data = new double[nb];
-	interpolate = true;
+
 	size_t aux2 = size_t(nb);
 	int nblon = 4 * res;
 	double width = east - west;
@@ -649,7 +649,7 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
 					else
 						val = (p[p1] * d1) + (p[p2] * d2);
 				} else {
-					val = (d1 < 0.5) ? p[p1] : p[p2];
+					val = (d2 < 0.5) ? p[p1] : p[p2];
 
 				}
 				(*matrix)->push_back(val);

@@ -128,7 +128,7 @@ public:
 	bool buildTree(const Layout&,  unsigned int, const BaseDriver&) const;
 	void release();
 	void remove(BasicGraphicsObject* object) {
-		std::remove(objects_.begin(), objects_.end(), object);
+		objects_.erase(std::remove(objects_.begin(), objects_.end(), object), objects_.end());
 	}
 
 

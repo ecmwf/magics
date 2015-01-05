@@ -1,7 +1,7 @@
 #!/usr/bin/ksh
 
 git_home="/tmp/cgs/git"
-version="2.23.8"
+version="2.23.9"
 magics="daily"
 feature="develop"
 install_home="/usr/local/apps/Magics//${version}"
@@ -83,8 +83,7 @@ case "${OS_VERSION}" in
 
 
 
-args="-DCMAKE_INSTALL_PREFIX=${install_home} -DENABLE_STATIC_LIBRARY=OFF"
-args="-DCMAKE_MODULE_PATH=${git_home}/ecbuild/cmake  -DENABLE_STATIC_LIBRARY=OFF -DCMAKE_INSTALL_PREFIX=${install_home}"
+args="-DCMAKE_MODULE_PATH=${git_home}/ecbuild/cmake  -DENABLE_STATIC_LIBRARY=ON -DCMAKE_INSTALL_PREFIX=${install_home}"
 args=" $args -DMAGICS_BUILD=${magics}"
 args=" $args -DBOOST_ROOT=$boost"
 args=" $args -DPROJ4_PATH=$proj4"
