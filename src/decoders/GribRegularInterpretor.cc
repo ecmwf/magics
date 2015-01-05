@@ -1648,3 +1648,67 @@ PaperPoint GribLambertAzimutalInterpretor::reference(const GribDecoder&, const T
 
 }
 
+void GribPolarStereoInterpretor::print(ostream& out) const {
+	out << "GribLambertInterpretor[";
+	out << "]";
+}
+void GribPolarStereoInterpretor::interpretAsMatrix(const GribDecoder& grib,
+		Matrix** matrix) const {
+	long im = 3600;
+	long jm = 1800;
+
+	*matrix = new Matrix(im, jm);
+	double steplon= 0.1;
+	double lon0 = 0 - (steplon/2);
+	double steplat= 0.1;
+	double lat0 = -90 - (steplat/2);
+
+	double missing =  grib.getDouble("missingValue");
+	for (int i = 0; i < im; i++) {
+		double x = 0 + (i*steplon);
+		(*matrix)->columnsAxis().push_back(x);
+
+	}
+
+	for (int i = 0; i < jm; i++) {
+		double y = -90 + (i*steplat);
+		(*matrix)->rowsAxis().push_back(y);
+
+
+	}
+	vector<double> distance(im*jm, 999999);
+
+
+	for (int i = 0; i < im; i++) {
+		for (int j = 0; j < jm; j++)
+		(**matrix)[i + (j * im)] = missing;
+	}
+	(*matrix)->missing(missing);
+	int err;
+
+	(*matrix)->setMapsAxis();
+	grib_iterator* iter = grib_iterator_new(grib.handle(), 0, &err);
+	cout << grib_get_api_version() << endl;
+
+	double lat, lon, value;
+	/* Loop on all the lat/lon/values. */
+	while (grib_iterator_next(iter, &lat, &lon, &value)) {
+		int ix =  (lon - lon0 )/steplon;
+		double x = ix * steplon + 0;
+		int iy =  (lat - lat0 )/steplat;
+		double y = iy * steplat -90;
+		double dist = ((lon - x)*(lon - x)) + ((lat - y)*(lat - y));
+		if ( dist < distance[ix + (iy * im)] ) {
+			(**matrix)[ix + (iy * im)] = value;
+			distance[ix + (iy * im)]= dist;
+		}
+	}
+
+
+
+	MagLog::dev() << **matrix << "\n";
+
+
+
+
+}
