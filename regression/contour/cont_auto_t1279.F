@@ -22,7 +22,7 @@ C     Pass the data to MAGICS
  
       CALL PSETC ('GRIB_INPUT_TYPE',      'FILE')
       CALL PSETC ('GRIB_INPUT_FILE_NAME',
-     +            'data/t1279_gg640_lev85.grib')
+     +            't1279_gg640_lev85.grib')
       CALL PSETC ('GRIB_SPECIFICATION',   'OFF')
       CALL PGRIB
       

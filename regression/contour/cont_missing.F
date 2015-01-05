@@ -19,7 +19,7 @@ C     Set up the coastline attributes
 C     Pass the data to MAGICS
 
       CALL PSETC ('GRIB_INPUT_TYPE',      'FILE')
-      CALL PSETC ('GRIB_INPUT_FILE_NAME', 'data/sst.grib')
+      CALL PSETC ('GRIB_INPUT_FILE_NAME', 'sst.grib')
       CALL PSETC ('GRIB_SPECIFICATION',   'OFF')
 
       CALL PSETC ('GRIB_AUTOMATIC_SCALING', 'OFF')

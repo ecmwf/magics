@@ -29,7 +29,7 @@ C     Set up the coastline attributes
 C     Pass the data to MAGICS
  
       CALL PSETC ('GRIB_INPUT_TYPE',      'FILE')
-      CALL PSETC ('GRIB_INPUT_FILE_NAME', 'data/z500.grb')
+      CALL PSETC ('GRIB_INPUT_FILE_NAME', 'z500.grb')
       CALL PGRIB
       
 
