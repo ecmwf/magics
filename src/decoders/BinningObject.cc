@@ -228,9 +228,10 @@ Matrix*   BinningObject::operator()(PointsList& points)
 			}
 		}
 	}
+    /*
 	for ( int c = 0; c < columns; ++c) {
 						MagLog::dev() << "[" << matrix->row(r,c) << ",  " << matrix->column(r,c) << "] = " << (*matrix)(r, c) << endl;
 					}
-		}
+		}i*/
 	return matrix;
 }
