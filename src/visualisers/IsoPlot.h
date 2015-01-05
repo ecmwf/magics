@@ -47,78 +47,6 @@ namespace magics {
 
 
 
-struct Shape
-{
-	Shape() : index_(-1),
-	minx_(numeric_limits<double>::max()), 
-	maxx_(-numeric_limits<double>::max()), 
-	miny_(numeric_limits<double>::max()), 
-	maxy_(-numeric_limits<double>::max()) {}
-
-	Shape(int index) :
-				index_(index),
-
-				minx_(numeric_limits<double>::max()), 
-				maxx_(-numeric_limits<double>::max()), 
-				miny_(numeric_limits<double>::max()), 
-				maxy_(-numeric_limits<double>::max()) {
-
-	}
-
-	int index_;
-	~Shape() {}
-
-
-	void push_back(double x, double y) {
-
-		points_.push_back(Point(x,y));
-
-
-		if ( x < minx_ ) minx_ = x;
-		if ( x > maxx_ ) maxx_ = x;
-		if ( y < miny_ ) miny_ = y;
-		if ( y > maxy_ ) maxy_ = y;
-	}
-
-
-	double minx_;
-	double maxx_;
-	double miny_;	
-	double maxy_;
-	vector<Point> points_;
-	
-
-	bool intersect(Shape& other) {
-		if ( minx_ > other.maxx_ ) return false;
-		if ( maxx_ < other.minx_ ) return false;
-		if ( miny_ > other.maxy_ ) return false;
-		if ( maxy_ < other.miny_ ) return false;
-		return true;
-	}
-	
-
-	void clean() {
-		points_.clear();
-
-		minx_ = numeric_limits<double>::max();
-		maxx_ = -numeric_limits<double>::max();
-		miny_ = numeric_limits<double>::max();
-		maxy_ = -numeric_limits<double>::max();
-	}
-
-
-	void intersection(Shape& other);
-
-	friend ostream& operator<<(ostream& s,const Shape& p) 
-	{
-	  s << "Shape[\n";
-
-	  s<< "]\n";
-	  return s; 
-	}
-};
-
-
 
 class Cell;
 
@@ -410,15 +338,14 @@ public:
 		return this->shading_->shadingIndex(value);
 	}
 
-	bool reshape(Shape&,Shape&);
-	void reshape(const Colour&, Shape&);
-	bool reduce( list<Shape>&, list<Shape>::iterator&);
+
 	void isoline(Cell&, CellBox* = 0) const;
 	virtual bool needIsolines() const { return true; }
 	void operator()(Data& data, BasicGraphicsObjectContainer& parent) {
 			(*this->shading_)(data, parent); 
 		}
 	virtual void visit(Data&, PointsHandler&, HistoVisitor&);
+	virtual bool method(ContourMethod* method) { return (*this->shading_).method(method);  }
 
 protected:
 	//! Method to print string about this class on to a stream of type ostream (virtual).
@@ -485,6 +412,7 @@ public:
 	}
 	bool needIsolines() { return this->label_->label(); }
     void visit(Data&, LegendVisitor&);
+    bool method(ContourMethod*) { return false; }
 protected:
  	void print(ostream& out) const 
  	{ out << "NoIsoPlot" << "\n"; }

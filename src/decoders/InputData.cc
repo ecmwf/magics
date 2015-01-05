@@ -259,8 +259,11 @@ MatrixHandler& InputData::matrix()
 {
 	if  ( !matrix_ ) {
 		prepare();
-		if (binning_)
+		if (binning_) {
 			matrix_ = (*binning_)(*this);
+        }
+		else if ( input_binning_.get() )
+			matrix_ = (*input_binning_)(*this);
 	}
 
 	matrixHandlers_.push_back(new MatrixHandler(*matrix_));

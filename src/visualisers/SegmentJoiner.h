@@ -111,14 +111,16 @@ public:
     size_t size() const
     { return segments_.size(); }
 
-    void push_back(const Segment& s)
+    void push_back(const Segment& s);
+
+    void add(const SegmentJoiner& other)
     {
-        if(!(s.from_ == s.to_))
-            segments_.push_back(s);
+    	for (SegList::const_iterator segment = other.segments_.begin(); segment != other.segments_.end(); ++segment)
+    	   push_back(*segment);
     }
 
-    void push_back(const Point& from, const Point& to)
-    { segments_.push_back(Segment(from,to)); }
+    void push_back(const Point& from, const Point& to);
+
 
     void push_back(double x1, double y1, double x2, double y2)
     { segments_.push_back(Segment(Point(x1,y1),Point(x2,y2))); }
@@ -136,6 +138,7 @@ public:
 
     static bool pointInPoly(const Point&,const vector<Point>& p);
     static void check(list<deque<Segment> >& lines);
+    int index_;
 
 private:
 

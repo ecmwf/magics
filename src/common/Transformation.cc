@@ -347,67 +347,109 @@ void Transformation::operator()(const Polyline& from, BasicGraphicsObjectContain
 	PaperPoint ur(getMaxPCX(), getMaxPCY());
 	boost::geometry::model::box<PaperPoint> box(ll, ur);
 	boost::geometry::correct(box);
+
+
+
+
+	vector<deque<PaperPoint> > holes;
+	vector<Polyline*> forholes;
+
 	if ( from.closed() ) {
+	try {
 		deque<PaperPoint> line;
-
+			//line.reserve( from.size());
 		for (unsigned i = 0; i < from.size(); i++) {
-			line.push_back(from.get(i));
+				line.push_back(from.get(i));
 
 		}
-
-		boost::geometry::correct(line);
 		vector<deque<PaperPoint> > result;
-		try {
-			boost::geometry::intersection(box, line, result);
-
-			// Now we feed the graphic container!
-
-			for (vector<deque<PaperPoint> >::iterator l = result.begin(); l != result.end(); l++)
-			{
-				Polyline* poly = from.getNew();
-
-				for (deque<PaperPoint>::iterator point = l->begin(); point != l->end(); ++point)
-					poly->push_back(*point);
-
-				if ( !poly->empty() )
-					out.push_back(poly);
-			}
-		}
-		catch (...) {
-			MagLog::warning() << "error clipping->line ignored" << endl;
-		}
-	}
-	else {
-		vector<PaperPoint> line;
-
-		for (unsigned i = 0; i < from.size(); i++) {
-			line.push_back(from.get(i));
-		}
 		boost::geometry::correct(line);
-		vector<vector<PaperPoint> > result;
-		try {
 		boost::geometry::intersection(box, line, result);
 
 		// Now we feed the graphic container!
 
-		for (vector<vector<PaperPoint> >::iterator l = result.begin(); l != result.end(); l++)
+		for (vector<deque<PaperPoint> >::iterator l = result.begin(); l != result.end(); l++)
 		{
 			Polyline* poly = from.getNew();
 
-			for (vector<PaperPoint>::iterator point = l->begin(); point != l->end(); ++point)
+			for (deque<PaperPoint>::iterator point = l->begin(); point != l->end(); ++point)
 				poly->push_back(*point);
 
-			if ( !poly->empty() )
+			if ( !poly->empty() ) {
 				out.push_back(poly);
-		}
+				forholes.push_back(poly);
+			}
+			// Now we add the holes
 		}
 
-				catch (...) {
-					MagLog::warning() << "error clipping->line ignored" << endl;
+		for (Polyline::Holes::const_iterator h = from.beginHoles(); h !=  from.endHoles(); ++h) {
+
+			deque<PaperPoint> hole;
+			for (deque<PaperPoint>::const_iterator pt = h->begin(); pt != h->end(); ++pt) {
+				hole.push_back(*pt);
+			}
+
+			vector<deque<PaperPoint> > clip;
+			boost::geometry::correct(hole);
+			boost::geometry::intersection(box, hole, clip);
+			for (vector<deque<PaperPoint> >::iterator l = clip.begin(); l != clip.end(); l++) {
+				if ( l->size() ) {
+					holes.push_back(deque<PaperPoint>());
+					for (deque<PaperPoint>::iterator point = l->begin(); point != l->end(); ++point)
+						holes.back().push_back(*point);
 				}
 
+			}
+		}
 
+		for ( vector<Polyline*>::const_iterator poly = forholes.begin(); poly != forholes.end(); ++poly)
+			for (vector<deque<PaperPoint> >::iterator x = holes.begin(); x != holes.end(); x++) {
+
+				if ( (*poly)->within(x->front()) ) {
+					(*poly)->newHole();
+					for (deque<PaperPoint>::iterator point = x->begin(); point != x->end(); ++point)
+						(*poly)->push_back_hole(*point);
+				}
+			}
 	}
+	catch (...) {
+		MagLog::warning() << "error clipping->line ignored" << endl;
+	}
+	return;
+	}
+	try {
+			vector<PaperPoint> line;
+				//line.reserve( from.size());
+			for (unsigned i = 0; i < from.size(); i++) {
+					line.push_back(from.get(i));
+
+			}
+			vector<vector<PaperPoint> > result;
+			boost::geometry::correct(line);
+			boost::geometry::intersection(box, line, result);
+
+			// Now we feed the graphic container!
+
+			for (vector<vector<PaperPoint> >::iterator l = result.begin(); l != result.end(); l++)
+			{
+				Polyline* poly = from.getNew();
+
+				for (vector<PaperPoint>::iterator point = l->begin(); point != l->end(); ++point)
+					poly->push_back(*point);
+				if ( !poly->empty() )
+					out.push_back(poly);
+
+			}
+	}
+
+	catch (...) {
+		MagLog::warning() << "error clipping->line ignored" << endl;
+	}
+
+
+
+
+
 }
 
 

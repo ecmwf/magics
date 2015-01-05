@@ -73,19 +73,19 @@ class CellBox : public VectorOfPointers<vector<CellBox* > >
 public:
     CellBox(const CellArray* parent, int row1, int row2, int column1, int column2) :
              parent_(parent), row1_(row1), row2_(row2), column1_(column1), column2_(column2) {
-        shape_ = 0;
+
 
 
     }
 
     CellBox(const CellArray* parent) :
             parent_(parent), row1_(0), row2_(parent->rows_-1), column1_(0), column2_(parent->columns_-1) {
-        shape_ = 0;
+
     }
     
     CellBox() :
             parent_(0), row1_(0), row2_(0), column1_(0), column2_(0) {
-    		shape_ = 0;
+
     }
 
      ~CellBox() {
@@ -144,86 +144,179 @@ public:
 
     }
 
-    void reshape(vector<Shape*>& shapes, vector<Shape*>& out)
-    {
-    	Timer timer("reduce", "reduce");
+    void push_back(int index, double x1, double y1, double x2, double y2 ){
+    	if ( index == -1 )
+    		return;
+
+
+    	map<int, SegmentJoiner*>::iterator helper = helper_.find(index);
+    	if ( helper == helper_.end() ) {
+    		helper_.insert(make_pair(index, new SegmentJoiner()));
+    		helper = helper_.find(index);
+    	}
+    	helper->second->push_back(x1, y1, x2, y2);
     }
 
+    void push_back(int index, vector<PaperPoint>& points) {
+    	if ( index == -1 || points.empty() )
+    		return;
 
-    void reshape(Shape* cell)
-    {
-        int index = cell->index_;
-        if ( index < 0 ) {
-        	delete cell;
-        	return;
+    	map<int, SegmentJoiner*>::iterator helper = helper_.find(index);
+        if ( helper == helper_.end()  ) {
+        	helper_.insert(make_pair(index, new SegmentJoiner()));
+        	helper = helper_.find(index);
         }
-        if ( cell->points_.size() < 2 ) {
+        if ( helper->second-> size() == 0 ) {
+        	int size = points.size();
+        	////cout << " line" << endl;
+        	for ( int i = 0; i < size; i++ ) {
+        		int j = (i+1)%size;
+        		helper->second->push_back(points[i].x_, points[i].y_, points[j].x_, points[j].y_);
+        		////cout << points[i].x_ << " " << points[i].y_<< " " <<  points[j].x_<< " " <<  points[j].y_ << endl;
+        	}
+        	////cout << "end line" << endl;
 
-        	delete cell;
-        	return;
         }
-        cell->points_.push_back(cell->points_.front());
+        else {
+        	// intersect !
+        	// Create line from 1first
 
-        if (SegmentJoiner::isHole(cell->points_) )
-        	std::reverse(cell->points_.begin(), cell->points_.end());
+			typedef boost::geometry::model::polygon<PaperPoint > polygon;
+
+
+			polygon previous, pts;
+
+        	for ( vector<PaperPoint>::iterator pt = points.begin();  pt != points.end(); ++pt ) {
+       	       pts.outer().push_back(*pt);
+        	}
+        	pts.outer().push_back(points.front());
+        	vector<vector<Point> > result;
+        	helper->second->computePolygonLines(result);
+        	assert( result.size() == 1);
+        	for ( vector<Point>::iterator pt = result.front().begin();  pt != result.front().end(); ++pt ) {
+        	     previous.outer().push_back(PaperPoint(pt->x_, pt->y_));
+        	}
+
+        	helper_[index] = new SegmentJoiner();
+
+
+        	std::vector<polygon > output;
 
 
 
-        HelperStruct::iterator entry = helper_.find(index);
-        if (entry == helper_.end() ) {
-            helper_.insert(make_pair(index, vector<Shape*>())) ;
-            entry = helper_.find(index);
+        	boost::geometry::intersection(previous, pts, output);
+
+
+
+        	if (output.size() == 1){
+        		//cout << "REMOVE " <<  boost::geometry::area(pts) << endl;
+        	   for ( vector<PaperPoint>::iterator pt = pts.outer().begin();  pt != pts.outer().end(); ++pt ) {
+        	        		   //cout << *pt << endl;
+
+        	        		 }
+        	        		//cout << "--------------------- " << endl;
+        	        		//cout << "FROM " << boost::geometry::area(previous) << endl;
+        	        		for ( vector<PaperPoint>::iterator pt = previous.outer().begin();  pt != previous.outer().end(); ++pt ) {
+        	         		   //cout << *pt << endl;
+
+        	         		 }//cout << "--------------------- " << endl;
+        	         		vector<PaperPoint> xx;
+        	        		//cout << "RESULT " << boost::geometry::area(previous) << endl;
+        	        		        	        		for ( vector<PaperPoint>::iterator pt = output.front().outer().begin();  pt != output.front().outer().end(); ++pt ) {
+        	        		        	         		   //cout << *pt << endl;
+        	        		        	         		   xx.push_back(*pt);
+        	        		        	         		 }//cout << "--------------------- " << endl;
+
+        	        		        	         		push_back(index, xx);
+
+        	}
+        	else
+        		{
+
+        		//cout << "rremove " <<  boost::geometry::area(pts) << endl;
+        		for ( vector<PaperPoint>::iterator pt = pts.outer().begin();  pt != pts.outer().end(); ++pt ) {
+        		   //cout << *pt << endl;
+
+        		 }
+        		//cout << "--------------------- " << endl;
+        		//cout << "from " << boost::geometry::area(previous) << endl;
+        		for ( vector<PaperPoint>::iterator pt = previous.outer().begin();  pt != previous.outer().end(); ++pt ) {
+         		   //cout << *pt << endl;
+
+         		 }
+        		//cout << "--------------------- " << endl;
+
+        			boost::geometry::union_(pts, previous, output);
+        			//cout << "UNION ???" << output.size()<< endl;
+        	        		if (output.size() == 1){
+        	        			push_back(index, output.front().outer());
+        	        		}
+        	        		else
+        	        			push_back(index, previous.outer());
+
+        		}
+
         }
 
-        entry->second.push_back(cell);
+
 
     }
 
-    void reshape(CellBox* parent)
-    {
-        if ( parent == this) return;
-        for (HelperStruct::iterator entry = helper_.begin(); entry != helper_.end(); ++entry) {
-                    for (vector<Shape*>::iterator shape = entry->second.begin(); shape != entry->second.end(); ++shape) {
-                            parent->reshape(*shape);                    
-                }
-        }
-        helper_.clear();
+    void push_back(int index, const SegmentJoiner& segment) {
+    	if ( index == -1 )
+    		return;
+    	map<int, SegmentJoiner*>::iterator helper = helper_.find(index);
+    	if ( helper == helper_.end() ) {
+    		helper_.insert(make_pair(index, new SegmentJoiner()));
+    		helper = helper_.find(index);
+    	}
+    	helper->second->add(segment);
+    }
+
+    void push_back(CellBox* box) {
+    	VectorOfPointers<vector<CellBox* > >::push_back(box);
     }
 
     void split();
     
-     Shape* shape(int index)
+    void addShape(int index)
     {
-        if (!shape_)
-        {
-        	shape_ = new Shape();
-            Cell* cell;
-            
-            // bottom 
-            for (int column = column1_; column <= column2_; column++) {
-                cell = (*parent_)(row1_, column);
-                shape_->push_back(cell->column(0), cell->row(0));
-            }
+    	if ( index == -1 )
+    		return;
+    	Cell *cell;
 
-            // right
-            for (int row = row1_; row <= row2_; row++) {
-                cell = (*parent_)(row, column2_);
-                shape_->push_back(cell->column(1), cell->row(1));
-            }
+    	// bottom
+		for (int column = column1_; column <= column2_; column++) {
+			cell = (*parent_)(row1_, column);
+			push_back(index, cell->column(0), cell->row(0),  cell->column(1), cell->row(0) );
+		}
 
-            for (int column = column2_; column >= column1_; column--) {
-                cell = (*parent_)(row2_, column);
-                shape_->push_back(cell->column(2), cell->row(2));
-            }
-
-            for (int row = row2_; row >= row1_; row--) {
-                cell = (*parent_)(row, column1_);    
-                shape_->push_back(cell->column(3), cell->row(3));
-            }
-        }
-        shape_->index_= index;
-        return shape_;
+		// right
+		for (int row = row1_; row <= row2_; row++) {
+			cell = (*parent_)(row, column2_);
+			push_back(index, cell->column(1), cell->row(0), cell->column(1), cell->row(2));
+		}
+		// top
+		for (int column = column2_; column >= column1_; column--) {
+			cell = (*parent_)(row2_, column);
+			push_back(index, cell->column(1), cell->row(2), cell->column(0), cell->row(2));
+		}
+		//left
+		for (int row = row2_; row >= row1_; row--) {
+			cell = (*parent_)(row, column1_);
+			push_back(index, cell->column(0), cell->row(2), cell->column(0), cell->row(0));
+		}
     }
+
+    void reshape(CellBox* parent)
+    {
+    	if ( parent == this) return;
+    	for (map<int, SegmentJoiner*>::iterator entry = helper_.begin(); entry != helper_.end(); ++entry) {
+    		parent->push_back(entry->first, *entry->second);
+    	}
+    	helper_.clear();
+    }
+
     
     void shade(const IsoPlot& owner);
     
@@ -237,8 +330,7 @@ public:
 
           case singleRange: 
 
-
-                parent->reshape(shape(owner.shadingIndex(value())));
+               addShape(owner.shadingIndex(value()));
 
                 break;
 
@@ -277,7 +369,7 @@ public:
     	for (vector<Polyline*>::iterator poly = polylines_.begin(); poly != polylines_.end(); ++poly) {
 
     		(*owner.shading_)(*poly);
-    		(*poly)->correct();
+
     		if ( (*owner.shading_).needClipping()  ) {
     			transformation(**poly, out);
     			delete *poly;
@@ -294,137 +386,69 @@ public:
     void finish()
     {
 
-        Timer timer("Feed", "Feed");
-        for ( HelperStruct::iterator index = helper_.begin(); index!= helper_.end(); ++index) {
-        	if (index->first == -1) {
-				continue;
-        	}
-        	SegmentJoiner joiner;
-        	int count = 0;
+    	Timer timer("Feed", "Feed");
+    	for ( map<int, SegmentJoiner*>::iterator index = helper_.begin(); index!= helper_.end(); ++index) {
+    		vector<vector<Point> > result;
+    		vector<vector<Point> > polys;
+    		list<vector<Point> > holes;
+    		SegmentJoiner& joiner = *index->second;
+    		joiner.computePolygonLines(result);
+    		Polyline* poly = 0;
+    		for (vector<vector<Point> >::iterator j = result.begin() ; j != result.end(); ++j) {
 
-        	for ( vector<Shape*>::iterator s = index->second.begin(); s != index->second.end(); ++s) {
-        		vector<Point>& points = (*s)->points_;
+    			if ( joiner.isHole((*j)) ) {
 
+    				holes.push_back(vector<Point>());
 
-        		count += (*s)->points_.size();
-
-
-        	}
-        	joiner.reserve(count);
+    				std::swap((*j),holes.back());
 
 
-        	// feed the joiner
-        	for ( vector<Shape*>::iterator s = index->second.begin(); s !=index->second.end(); ++s) {
-        		vector<Point>& points = (*s)->points_;
+    			}
+    			else {
+    				polys.push_back(vector<Point>());
+    				std::swap((*j),polys.back());
+    			}
+    		}
+
+    		for(vector<vector<Point> >::iterator j = polys.begin() ; j != polys.end(); ++j) {
+    			poly = new Polyline();
+    			polylines_.push_back(poly);
+
+    			poly->reserve(j->size());
+    			poly->index(index->first);
 
 
-        		if ( SegmentJoiner::isHole(points) ) {
-
-        			vector<Point>::reverse_iterator from = points.rbegin();
-        			vector<Point>::reverse_iterator to = points.rbegin();
-        			to++;
-        			while ( to != points.rend() ) {
-
-        				joiner.push_back(*from, *to);
-        				++from;
-        				++to;
-        			}
-        		}
-        		else {
-
-        			vector<Point>::iterator from = points.begin();
-        			vector<Point>::iterator to = points.begin();
-        			to++;
-        			while ( to != points.end() ) {
-
-        				joiner.push_back(*from, *to);
-        				++from;
-        				++to;
-        			}
-        		}
-        	}
+    			for (vector<Point>::iterator point = j->begin(); point != j->end(); ++point)
+    				poly->push_back(PaperPoint(point->x_, point->y_));
 
 
 
+    			for(std::list<vector<Point> >::iterator h = holes.begin() ; h != holes.end(); ) {
+    				list<vector<Point> >::iterator next = h; next++;
 
-        	vector<vector<Point> > result;
-        	vector<vector<Point> > polys;
-        	list<vector<Point> > holes;
+    				if ( joiner.pointInPoly((*h).front(), *j) ) {
 
+    					poly->newHole();
+    					for (vector<Point>::iterator point = h->begin(); point != h->end(); ++point)
+    						poly->push_back_hole(PaperPoint(point->x_, point->y_));
+    					holes.erase(h);
+    				}
+    				h = next;
+    			}
+    		}
+    		delete index->second;
+    	}
 
-
-        	joiner.computePolygonLines(result);
-
-        	Polyline* poly = 0;
-
-
-
-            	 for(vector<vector<Point> >::iterator j = result.begin() ; j != result.end(); ++j) {
-            	        if(joiner.isHole((*j))) {
-            	            holes.push_back(vector<Point>());
-            	            std::swap((*j),holes.back());
-            	        }
-            	        else {
-            	            polys.push_back(vector<Point>());
-            	            std::swap((*j),polys.back());
-            	        }
-            	    }
-
-            	 for(vector<vector<Point> >::iterator j = polys.begin() ; j != polys.end(); ++j) {
-
-            		 poly = new Polyline();
-            		             	polylines_.push_back(poly);
-            		             	poly->reserve(j->size());
+    }
 
 
-            		             		poly->index(index->first);
-
-            		             	for (vector<Point>::iterator point = j->begin(); point != j->end(); ++point)
-            		             		poly->push_back(PaperPoint(point->x_, point->y_));
-
-
-            	        for(std::list<vector<Point> >::iterator h = holes.begin() ; h != holes.end(); ) {
-            	            list<vector<Point> >::iterator next = h; next++;
-
-
-            	            	if ( joiner.pointInPoly((*h).front(), *j) ) {
-
-
-            	            	poly->newHole();
-            	            	for (vector<Point>::iterator point = h->begin(); point != h->end(); ++point)
-            	            	   poly->push_back_hole(PaperPoint(point->x_, point->y_));
-
-            	            	 holes.erase(h);
-            	            }
-            	            h = next;
-            	        }
-
-            	 }
-
-        }
-
-        // Release the memory.
-        for ( HelperStruct::iterator colour = helper_.begin(); colour!= helper_.end(); ++colour) {
-        	for ( vector<Shape*>::iterator s = colour->second.begin(); s !=colour->second.end(); ++s) {
-        		delete *s;
-        		*s = 0;
-        	}
-        	colour->second.clear();
-
-        }
-
-        }
-    
-    Shape* shape_;
     const CellArray* parent_;
     int row1_;
     int row2_;
     int column1_;
     int column2_;
 
-    typedef map<int, vector<Shape*> > HelperStruct;
-
-    HelperStruct helper_;
+    map<int, SegmentJoiner*> helper_;
     vector<Polyline*> polylines_;
 };
 
@@ -544,617 +568,598 @@ private:
 
 
 
-void IsoPlot::isoline(Cell& cell, CellBox* box) const
+void IsoPlot::isoline(Cell& cell, CellBox* parent) const
 {
-   static int cases[3][3][3] = { { { 0, 1, 2 },   { 3, 4, 5 },    { 6, 7, 8 } }, 
-                               { { 9, 10, 11 }, { 12, 13, 14 }, { 15, 16, 17 } }, 
-                               { { 18, 19, 20 },{ 21, 22, 23 }, { 24, 25, 0 } } };
-   int p1, p2, p3;
-   int current;
-   double x1=0, x2=0, y1=0, y2=0;
+	static int cases[3][3][3] = { { { 0, 1, 2 },   { 3, 4, 5 },    { 6, 7, 8 } },
+			{ { 9, 10, 11 }, { 12, 13, 14 }, { 15, 16, 17 } },
+			{ { 18, 19, 20 },{ 21, 22, 23 }, { 24, 25, 0 } } };
+	int p1, p2, p3;
+	int current;
+	double x1=0, x2=0, y1=0, y2=0;
 
-   RangeType def = cell.range();
+	RangeType def = cell.range();
 
-   if ( def == outOfRange )
-        return;
-   if ( def == singleRange )
-   {
-        if ( !box  ) // NO Shading == Nothing to do! 
-            return;
-        else {
-            const double contour = levels_[cell.min_];
-            Shape* x = new Shape();
-            for (int i = 0; i < 4; i++) {
-                    x->push_back(cell.column(i), cell.row(i));            
-            }
-            x->index_  = shading_->shadingIndex(cell.value(0));
-            box->reshape(x);
-            return;
-        }
-   }
+	if ( def == outOfRange )
+		return;
+	if ( def == singleRange )
+	{
+		if ( !parent  ) // NO Shading == Nothing to do!
+			return;
+		else {
+			const double contour = levels_[cell.min_];
+			int index  = shading_->shadingIndex(cell.value(0));
+			for (int i = 0; i < 4; i++) {
+				parent->push_back(index, cell.column(i), cell.row(i),  cell.column((i+1)%4), cell.row((i+1)%4));
+				return;
+			}
+		}
+	}
 
-   for (int p=0; p<2; p++)
-   {
-        p1 = p;
-        p2 = p1+1;
-        p3 = 3;
-
-        //int count = 0;
-        if (cell.missing(p1) || cell.missing(p2) || cell.missing(p3)) {
-
-        continue;
-        }
+	for (int p=0; p<2; p++)
+	{
+		p1 = p;
+		p2 = p1+1;
+		p3 = 3;
 
 
-        vector< std::pair<Shape*, Shape*> > shapes;
-        
-        // First, build the list of isolines in this triangle...
-        vector<int> levels;        
-
-        for (int l = cell.min_; l != cell.max_; ++l) {
-            const double contour = levels_[l];
-            const int    out     = cases[cell.coef(p1, contour)][cell.coef(p2, contour)][cell.coef(p3, contour)];
-            if ( out != 0 ) {
-                levels.push_back(l);
-            }
-        }
-        
-        if ( levels.empty() && box ) {
-
-            Shape* shape = new Shape(shading_->shadingIndex(cell.value(p1)));
-            shape->push_back(cell.column(p1), cell.row(p1));
-            shape->push_back(cell.column(p2), cell.row(p2));
-            shape->push_back(cell.column(p3), cell.row(p3));
+		if (cell.missing(p1) || cell.missing(p2) || cell.missing(p3)) {
+			continue;
+		}
 
 
-            box->reshape(shape);
-
-        }
-        else {
-
-    bool complex = ( levels.size() > 1);
-    for (vector<int>::const_iterator l = levels.begin(); l != levels.end(); ++l)
-    {
-        int level = *l;                
-        // First make a quich check to see if there is at l
-        
-        const double contour=levels_[level];
 
 
-        current = cases[cell.coef(p1, contour)][cell.coef(p2, contour)][cell.coef(p3, contour)];
+		// First, build the list of isolines in this triangle...
+		vector<int> levels;
 
-        int add = 2;
-        Shape* leftcell  = (box) ? new Shape(shading_->leftIndex(contour))  :0;
-        Shape* rightcell = (box) ? new Shape(shading_->rightIndex(contour)) :0;
-        
+		for (int l = cell.min_; l != cell.max_; ++l) {
+			const double contour = levels_[l];
+			const int    out     = cases[cell.coef(p1, contour)][cell.coef(p2, contour)][cell.coef(p3, contour)];
+			if ( out != 0 ) {
+				levels.push_back(l);
+			}
+		}
 
-        switch (current)
-        {
-        //-------------------------------------------------------------------------------------------------------
-        //     Case 0 -point out!
-        //-------------------------------------------------------------------------------------------------------
-        case 0:
-            add = 0;
-            break;
-            if ( !box ) break;
-            
-            if (cell.height(p1, contour) < 0) {
-                leftcell->push_back(cell.column(p1), cell.row(p1));
-                leftcell->push_back(cell.column(p2), cell.row(p2));
-                leftcell->push_back(cell.column(p3), cell.row(p3));
-            }
-            else {
-                rightcell->push_back(cell.column(p1), cell.row(p1));
-                rightcell->push_back(cell.column(p2), cell.row(p2));
-                rightcell->push_back(cell.column(p3), cell.row(p3));
-            }
-            break;
 
-        //-------------------------------------------------------------------------------------------------------
-        //     Case 1 -Single point 3
-        //-------------------------------------------------------------------------------------------------------
-        case 1:
-            x1=cell.column(p3);
-            y1=cell.row(p3);
-            add = 1;
-            if ( !box) break;
-            if (cell.height(p1, contour) < 0) {
-                leftcell->push_back(cell.column(p1), cell.row(p1));
-                leftcell->push_back(cell.column(p2), cell.row(p2));
-                leftcell->push_back(cell.column(p3), cell.row(p3));
-            }
-            else {
-                rightcell->push_back(cell.column(p1), cell.row(p1));
-                rightcell->push_back(cell.column(p2), cell.row(p2));
-                rightcell->push_back(cell.column(p3), cell.row(p3));
-            }
-            break;
+		if ( levels.empty() && parent ) {
+			int index = shading_->shadingIndex(cell.value(p1));
 
-        //-------------------------------------------------------------------------------------------------------
-        //     Case 2 - Line between sides 2-3 and 3-1
-        //-------------------------------------------------------------------------------------------------------
-        case 2:
-            cell.xysect(p2,p3, contour, x1, y1);
-            cell.xysect(p3,p1, contour, x2, y2);
-        
-            if ( !box ) break;
-            leftcell->push_back(x1, y1);
-            leftcell->push_back(x2, y2);
-            leftcell->push_back(cell.column(p1), cell.row(p1));
-            leftcell->push_back(cell.column(p2), cell.row(p2));
-            
-            rightcell->push_back(x1, y1);
-            rightcell->push_back(cell.column(p3), cell.row(p3));
-            rightcell->push_back(x2, y2);
-            break;
+			parent->push_back(index, cell.column(p1), cell.row(p1), cell.column(p2), cell.row(p2));
+			parent->push_back(index, cell.column(p2), cell.row(p2), cell.column(p3), cell.row(p3));
+			parent->push_back(index, cell.column(p3), cell.row(p3), cell.column(p1), cell.row(p1));
+		}
+		else {
+			CellBox* box = (parent) ? new CellBox() : 0;
 
-        //-------------------------------------------------------------------------------------------------------
-        //     Case 3 -Single point 2
-        //-------------------------------------------------------------------------------------------------------
-        case 3:
-            x1=cell.column(p2);
-            y1=cell.row(p2);
-            add = 1;
-            if ( !box) break;
-            
-            if (cell.height(p1, contour) < 0) {
-                  leftcell->push_back(cell.column(p1), cell.row(p1));
-                  leftcell->push_back(cell.column(p2), cell.row(p2));
-                  leftcell->push_back(cell.column(p3), cell.row(p3));
-            }
-            else {
-                  rightcell->push_back(cell.column(p1), cell.row(p1));
-                  rightcell->push_back(cell.column(p2), cell.row(p2));
-                  rightcell->push_back(cell.column(p3), cell.row(p3));
-            }
-            break;
+			for (vector<int>::const_iterator l = levels.begin(); l != levels.end(); ++l)
+			{
+				int level = *l;
+				// First make a quich check to see if there is at l
 
-        //-------------------------------------------------------------------------------------------------------
-        //     Case 4 - Line between vertex 2 and vertex 3
-        //-------------------------------------------------------------------------------------------------------
-        case 4:
-            
-            x1=cell.column(p2);
-            y1=cell.row(p2);
-            x2=cell.column(p3);
-            y2=cell.row(p3);
-            if ( !box ) break;
-            
-            leftcell->push_back(cell.column(p1), cell.row(p1));
-            leftcell->push_back(cell.column(p2), cell.row(p2));
-            leftcell->push_back(cell.column(p3), cell.row(p3));
-            break;
+				const double contour=levels_[level];
 
-        //-------------------------------------------------------------------------------------------------------
-        //     Case 5 - Line between vertex 2 and side 3-1
-        //-------------------------------------------------------------------------------------------------------
-        case 5:            
-            x1=cell.column(p2);
-            y1=cell.row(p2);
-            
-            cell.xysect(p3,p1, contour,x2, y2);
-            if ( !box ) break;
-            leftcell->push_back(cell.column(p1), cell.row(p1));
-            leftcell->push_back(x1, y1);
-            leftcell->push_back(x2, y2);
-            
-            rightcell->push_back(x1, y1);
-            rightcell->push_back(cell.column(p3), cell.row(p3));
-            rightcell->push_back(x2, y2);   
-            break;
 
-        //-------------------------------------------------------------------------------------------------------
-        //     Case 6 - Line between side 1-2  and side 2.3
-        //-------------------------------------------------------------------------------------------------------
-        case 6:
-            
-            cell.xysect(p1,p2, contour, x1, y1);
-            cell.xysect(p2,p3, contour, x2, y2);
-    
-            if ( !box ) break;
-            leftcell->push_back(cell.column(p1), cell.row(p1));
-            leftcell->push_back(x1, y1);
-            leftcell->push_back(x2, y2);
-            leftcell->push_back(cell.column(p3), cell.row(p3));
-            
-            rightcell->push_back(x1, y1);
-            rightcell->push_back(cell.column(p2), cell.row(p2));
-            rightcell->push_back(x2, y2);
-            
-            break;
-        //-------------------------------------------------------------------------------------------------------
-        //     Case 7 - Line between sides 1-2 aanve vertex 3
-        //-------------------------------------------------------------------------------------------------------
-        case 7:
-            cell.xysect(p1,p2, contour, x1, y1);
-            x2=cell.column(p3);
-            y2=cell.row(p3);
-            
-            if ( !box ) break;
-            leftcell->push_back(cell.column(p1), cell.row(p1));
-            leftcell->push_back(x1, y1);
-            leftcell->push_back(x2, y2);
+				current = cases[cell.coef(p1, contour)][cell.coef(p2, contour)][cell.coef(p3, contour)];
 
-            rightcell->push_back(x1, y1);
-            rightcell->push_back(cell.column(p2), cell.row(p2));
-            rightcell->push_back(x2, y2);
-            break;
+				int add = 2;
+				int leftindex  = shading_->leftIndex(contour);
+				int rightindex = shading_->rightIndex(contour);
+				vector<PaperPoint> left, right;
 
-        //-------------------------------------------------------------------------------------------------------
-        //     Case 8 - Line between sides 1-2 and 3-1
-        //-------------------------------------------------------------------------------------------------------
-        case 8:            
-            cell.xysect(p1,p2, contour, x1, y1);
-            cell.xysect(p3,p1, contour, x2, y2);
-            
-            if ( !box ) break;
-            leftcell->push_back(cell.column(p1), cell.row(p1));
-            leftcell->push_back(x1, y1);
-            leftcell->push_back(x2, y2);
 
-            rightcell->push_back(x1, y1);
-            rightcell->push_back(cell.column(p2), cell.row(p2));
-            rightcell->push_back(cell.column(p3), cell.row(p3));
-            rightcell->push_back(x2, y2);            
-            break;
 
-        //-------------------------------------------------------------------------------------------------------
-        //     Case 9 -single point 1
-        //-------------------------------------------------------------------------------------------------------
-        case 9:            
-            x1=cell.column(p1);
-            y1=cell.row(p1);
-            add = 1;
-            if ( !box) break;
-            if (cell.height(p2, contour) < 0) {
-                   leftcell->push_back(cell.column(p1), cell.row(p1));
-                   leftcell->push_back(cell.column(p2), cell.row(p2));
-                   leftcell->push_back(cell.column(p3), cell.row(p3));
-            }
-            else {
-                   rightcell->push_back(cell.column(p1), cell.row(p1));
-                   rightcell->push_back(cell.column(p2), cell.row(p2));
-                   rightcell->push_back(cell.column(p3), cell.row(p3));
-            }
-            break;
+				switch (current)
+				        {
+				        //-------------------------------------------------------------------------------------------------------
+				        //     Case 0 -point out!
+				        //-------------------------------------------------------------------------------------------------------
+				        case 0:
+				            add = 0;
+				            break;
+				            if ( !box ) break;
 
-        //-------------------------------------------------------------------------------------------------------
-        //     Case 10 - Line between vertex 3 and vertex 1
-        //-------------------------------------------------------------------------------------------------------
-        case 10:
-            
-            x1=cell.column(p3);
-            y1=cell.row(p3);
-            x2=cell.column(p1);
-            y2=cell.row(p1);
-            if ( !box) break;
+				            if (cell.height(p1, contour) < 0) {
+				                left.push_back(PaperPoint(cell.column(p1), cell.row(p1)));
+				                left.push_back(PaperPoint(cell.column(p2), cell.row(p2)));
+				                left.push_back(PaperPoint(cell.column(p3), cell.row(p3)));
+				            }
+				            else {
+				                right.push_back(PaperPoint(cell.column(p1), cell.row(p1)));
+				                right.push_back(PaperPoint(cell.column(p2), cell.row(p2)));
+				                right.push_back(PaperPoint(cell.column(p3), cell.row(p3)));
+				            }
 
-            leftcell->push_back(cell.column(p1), cell.row(p1));
-            leftcell->push_back(cell.column(p2), cell.row(p2));
-            leftcell->push_back(cell.column(p3), cell.row(p3));
-            break;
+				            break;
 
-        //-------------------------------------------------------------------------------------------------------
-        //     Case 11 - Line between side 3-2 and vertex 1
-        //-------------------------------------------------------------------------------------------------------
-        case 11:
-            cell.xysect(p3,p2, contour, x1, y1);
-            x2=cell.column(p1);
-            y2=cell.row(p1);
-            if ( !box ) break;
-            leftcell->push_back(cell.column(p1), cell.row(p1));
-            leftcell->push_back(cell.column(p2), cell.row(p2));
-            leftcell->push_back(x1, y1);
-            
-            rightcell->push_back(x1, y1);
-            rightcell->push_back(cell.column(p3), cell.row(p3));
-            rightcell->push_back(x2, y2);
-            break;
+				        //-------------------------------------------------------------------------------------------------------
+				        //     Case 1 -Single point 3
+				        //-------------------------------------------------------------------------------------------------------
+				        case 1:
+				            x1=cell.column(p3);
+				            y1=cell.row(p3);
+				            add = 1;
+				            if ( !box) break;
+				            if (cell.height(p1, contour) < 0) {
+				                left.push_back(PaperPoint(cell.column(p1), cell.row(p1)));
+				                left.push_back(PaperPoint(cell.column(p2), cell.row(p2)));
+				                left.push_back(PaperPoint(cell.column(p3), cell.row(p3)));
+				            }
+				            else {
+				                right.push_back(PaperPoint(cell.column(p1), cell.row(p1)));
+				                right.push_back(PaperPoint(cell.column(p2), cell.row(p2)));
+				                right.push_back(PaperPoint(cell.column(p3), cell.row(p3)));
+				            }
+				            break;
 
-        //-------------------------------------------------------------------------------------------------------
-        //     Case 12 - Line between vertex 1 and vertex 2
-        //-------------------------------------------------------------------------------------------------------
-        case 12:
-            x1=cell.column(p1);
-            y1=cell.row(p1);
-            x2=cell.column(p2);
-            y2=cell.row(p2);
-            if ( !box ) break;
-        
-            leftcell->push_back(cell.column(p1), cell.row(p1));
-            leftcell->push_back(cell.column(p2), cell.row(p2));
-            leftcell->push_back(cell.column(p3), cell.row(p3));
-            break;
+				        //-------------------------------------------------------------------------------------------------------
+				        //     Case 2 - Line between sides 2-3 and 3-1
+				        //-------------------------------------------------------------------------------------------------------
+				        case 2:
+				            cell.xysect(p2,p3, contour, x1, y1);
+				            cell.xysect(p3,p1, contour, x2, y2);
 
-        //-------------------------------------------------------------------------------------------------------
-        //     Case 13 - Flat Area all vertex have the isoline value!
-        //-------------------------------------------------------------------------------------------------------
-        case 13:
-            add = 0;
-            if ( !box ) break;
-            if (cell.height(p1, contour) < 0) {
-                   leftcell->push_back(cell.column(p1), cell.row(p1));
-                   leftcell->push_back(cell.column(p2), cell.row(p2));
-                   leftcell->push_back(cell.column(p3), cell.row(p3));
-            }
-            else {
-                   rightcell->push_back(cell.column(p1), cell.row(p1));
-                   rightcell->push_back(cell.column(p2), cell.row(p2));
-                   rightcell->push_back(cell.column(p3), cell.row(p3));
-            }
-            break;
+				            if ( !box ) break;
+				            left.push_back(PaperPoint(x1, y1));
+				            left.push_back(PaperPoint(x2, y2));
+				            left.push_back(PaperPoint(cell.column(p1), cell.row(p1)));
+				            left.push_back(PaperPoint(cell.column(p2), cell.row(p2)));
 
-        //-------------------------------------------------------------------------------------------------------
-        //     Case 14 - Line between vertex 2 and vertex 1
-        //-------------------------------------------------------------------------------------------------------
-        case 14:
-            x1=cell.column(p2);
-            y1=cell.row(p2);
-            x2=cell.column(p1);
-            y2=cell.row(p1);
-            if ( !box ) break;
-            
-            rightcell->push_back(cell.column(p1), cell.row(p1));
-            rightcell->push_back(cell.column(p2), cell.row(p2));
-            rightcell->push_back(cell.column(p3), cell.row(p3));
-            break;
+				            right.push_back(PaperPoint(x1, y1));
+				            right.push_back(PaperPoint(cell.column(p3), cell.row(p3)));
+				            right.push_back(PaperPoint(x2, y2));
+				            break;
 
-        //-------------------------------------------------------------------------------------------------------
-        //     Case 15 - Line between vertex 1 and side3-2
-        //-------------------------------------------------------------------------------------------------------
-        case 15:
-            x1=cell.column(p1);
-            y1=cell.row(p1);
-            cell.xysect(p3,p2, contour, x2, y2);
-            if ( !box ) break;
+				        //-------------------------------------------------------------------------------------------------------
+				        //     Case 3 -Single point 2
+				        //-------------------------------------------------------------------------------------------------------
+				        case 3:
+				            x1=cell.column(p2);
+				            y1=cell.row(p2);
+				            add = 1;
+				            if ( !box) break;
 
-            leftcell->push_back(x1, y1);
-            leftcell->push_back(x2, y2);
-            leftcell->push_back(cell.column(p3), cell.row(p3));
-            
-            rightcell->push_back(x1, y1);
-            rightcell->push_back(cell.column(p2), cell.row(p2));
-            rightcell->push_back(x2, y2);
-            break;
+				            if (cell.height(p1, contour) < 0) {
+				                  left.push_back(PaperPoint(cell.column(p1), cell.row(p1)));
+				                  left.push_back(PaperPoint(cell.column(p2), cell.row(p2)));
+				                  left.push_back(PaperPoint(cell.column(p3), cell.row(p3)));
+				            }
+				            else {
+				                  right.push_back(PaperPoint(cell.column(p1), cell.row(p1)));
+				                  right.push_back(PaperPoint(cell.column(p2), cell.row(p2)));
+				                  right.push_back(PaperPoint(cell.column(p3), cell.row(p3)));
+				            }
+				            break;
 
-        //-------------------------------------------------------------------------------------------------------
-        //     Case 16 - Line between vertex 1 and vertex 3
-        //-------------------------------------------------------------------------------------------------------
-        case 16:
-            x1=cell.column(p1);
-            y1=cell.row(p1);
-            x2=cell.column(p3);
-            y2=cell.row(p3);
-            if ( !box ) break;
-            rightcell->push_back(x1, y1);
-            rightcell->push_back(cell.column(p2), cell.row(p2));
-            rightcell->push_back(x2, y2);
+				        //-------------------------------------------------------------------------------------------------------
+				        //     Case 4 - Line between vertex 2 and vertex 3
+				        //-------------------------------------------------------------------------------------------------------
+				        case 4:
 
-            break;
+				            x1=cell.column(p2);
+				            y1=cell.row(p2);
+				            x2=cell.column(p3);
+				            y2=cell.row(p3);
+				            if ( !box ) break;
 
-        //-------------------------------------------------------------------------------------------------------
-        //     Case 17 - single point 1
-        //-------------------------------------------------------------------------------------------------------
-        case 17:
-            x1=cell.column(p1);
-            y1=cell.row(p1);
-            add = 1;
-            if ( !box ) break;
-            if (cell.height(p2, contour) < 0) {
-                      leftcell->push_back(cell.column(p1), cell.row(p1));
-                      leftcell->push_back(cell.column(p2), cell.row(p2));
-                      leftcell->push_back(cell.column(p3), cell.row(p3));
-            }
-            else {
-                      rightcell->push_back(cell.column(p1), cell.row(p1));
-                      rightcell->push_back(cell.column(p2), cell.row(p2));
-                      rightcell->push_back(cell.column(p3), cell.row(p3));
-            }
-            break;
+				            left.push_back(PaperPoint(cell.column(p1), cell.row(p1)));
+				            left.push_back(PaperPoint(cell.column(p2), cell.row(p2)));
+				            left.push_back(PaperPoint(cell.column(p3), cell.row(p3)));
+				            break;
 
-        //-------------------------------------------------------------------------------------------------------
-        //     Case 18 - Line between side3-1 and side1-2
-        //-------------------------------------------------------------------------------------------------------
-        case 18:
-            cell.xysect(p3,p1, contour, x1, y1);
-            cell.xysect(p1,p2, contour, x2, y2);
-            
-            if ( !box ) break;
-            leftcell->push_back(x1, y1);
-            leftcell->push_back(x2, y2);
-            leftcell->push_back(cell.column(p2), cell.row(p2));
-            leftcell->push_back(cell.column(p3), cell.row(p3));
-        
-            rightcell->push_back(x1, y1);
-            rightcell->push_back(cell.column(p1), cell.row(p1));
-            rightcell->push_back(x2, y2);
-        
-            break;
+				        //-------------------------------------------------------------------------------------------------------
+				        //     Case 5 - Line between vertex 2 and side 3-1
+				        //-------------------------------------------------------------------------------------------------------
+				        case 5:
+				            x1=cell.column(p2);
+				            y1=cell.row(p2);
 
-        //-------------------------------------------------------------------------------------------------------
-        //     Case 19 - Line between vertex 3 and side1-2
-        //-------------------------------------------------------------------------------------------------------
-        case 19:
-            x1=cell.column(p3);
-            y1=cell.row(p3);
-        
-            cell.xysect(p1,p2, contour, x2, y2);
-            
-            if ( !box ) break;
-            leftcell->push_back(x1, y1);
-            leftcell->push_back(x2, y2);
-            leftcell->push_back(cell.column(p2), cell.row(p2));
-        
-            rightcell->push_back(x1, y1);
-            rightcell->push_back(cell.column(p1), cell.row(p1));
-            rightcell->push_back(x2, y2);
-            break;
+				            cell.xysect(p3,p1, contour,x2, y2);
+				            if ( !box ) break;
+				            left.push_back(PaperPoint(cell.column(p1), cell.row(p1)));
+				            left.push_back(PaperPoint(x1, y1));
+				            left.push_back(PaperPoint(x2, y2));
 
-        //-------------------------------------------------------------------------------------------------------
-        //     Case 20 - Line between side3-2 and side1-2
-        //-------------------------------------------------------------------------------------------------------
-        case 20:
-            cell.xysect(p3,p2, contour, x1, y1);
-            cell.xysect(p1,p2, contour, x2, y2);
-            
-            if ( !box ) break;
-            leftcell->push_back(x1, y1);
-            leftcell->push_back(x2, y2);
-            leftcell->push_back(cell.column(p2), cell.row(p2));
-        
-            rightcell->push_back(x1, y1);
-            rightcell->push_back(cell.column(p3), cell.row(p3));
-            rightcell->push_back(cell.column(p1), cell.row(p1));
-            rightcell->push_back(x2, y2);
-            break;
+				            right.push_back(PaperPoint(x1, y1));
+				            right.push_back(PaperPoint(cell.column(p3), cell.row(p3)));
+				            right.push_back(PaperPoint(x2, y2));
+				            break;
 
-        //-------------------------------------------------------------------------------------------------------
-        //     Case 21 - Line between side 3-1 and vertex 2 
-        //-------------------------------------------------------------------------------------------------------
-        case 21:
-            cell.xysect(p3,p1, contour, x1, y1);
-            
-            x2=cell.column(p2);
-            y2=cell.row(p2);
-            if ( !box ) break;
-            
-            leftcell->push_back(x1, y1);
-            leftcell->push_back(x2, y2);
-            leftcell->push_back(cell.column(p3), cell.row(p3));
-                
-            rightcell->push_back(x1, y1);
-            rightcell->push_back(cell.column(p1), cell.row(p1));
-            rightcell->push_back(cell.column(p2), cell.row(p2));
-            break;
+				        //-------------------------------------------------------------------------------------------------------
+				        //     Case 6 - Line between side 1-2  and side 2.3
+				        //-------------------------------------------------------------------------------------------------------
+				        case 6:
 
-        //-------------------------------------------------------------------------------------------------------
-        //     Case 22 - Line between vertex 3 and vertex 2
-        //-------------------------------------------------------------------------------------------------------
-        case 22:
-            x1=cell.column(p3);
-            y1=cell.row(p3);
-            x2=cell.column(p2);
-            y2=cell.row(p2);
-            if ( !box) break;
-            rightcell->push_back(cell.column(p1), cell.row(p1));
-            rightcell->push_back(cell.column(p2), cell.row(p2));
-            rightcell->push_back(cell.column(p3), cell.row(p3));
-            break;
+				            cell.xysect(p1,p2, contour, x1, y1);
+				            cell.xysect(p2,p3, contour, x2, y2);
 
-        //-------------------------------------------------------------------------------------------------------
-        //     Case 23 - single point 2
-        //-------------------------------------------------------------------------------------------------------
-        case 23:
-            x1=cell.column(p2);
-            y1=cell.row(p2);
-            add = 1;
-            if ( !box) break;
-            if (cell.height(p1, contour) < 0) {
-                     leftcell->push_back(cell.column(p1), cell.row(p1));
-                     leftcell->push_back(cell.column(p2), cell.row(p2));
-                     leftcell->push_back(cell.column(p3), cell.row(p3));
-            }
-            else {
-                     rightcell->push_back(cell.column(p1), cell.row(p1));
-                     rightcell->push_back(cell.column(p2), cell.row(p2));
-                     rightcell->push_back(cell.column(p3), cell.row(p3));
-            }
-            break;
+				            if ( !box ) break;
+				            left.push_back(PaperPoint(cell.column(p1), cell.row(p1)));
+				            left.push_back(PaperPoint(x1, y1));
+				            left.push_back(PaperPoint(x2, y2));
+				            left.push_back(PaperPoint(cell.column(p3), cell.row(p3)));
 
-        //-------------------------------------------------------------------------------------------------------
-        //     Case 24 - Line between side1-3  and side3-2
-        //-------------------------------------------------------------------------------------------------------
-        case 24:
-            cell.xysect(p1,p3, contour, x1, y1);
-            cell.xysect(p3,p2, contour, x2, y2);
-            if ( !box) break;
-            leftcell->push_back(x1, y1);
-            leftcell->push_back(x2, y2);
-            leftcell->push_back(cell.column(p3), cell.row(p3));
-            
-            rightcell->push_back(x1, y1);
-            rightcell->push_back(cell.column(p1), cell.row(p1));
-            rightcell->push_back(cell.column(p2), cell.row(p2));
-            rightcell->push_back(x2, y2);
-            break;
+				            right.push_back(PaperPoint(x1, y1));
+				            right.push_back(PaperPoint(cell.column(p2), cell.row(p2)));
+				            right.push_back(PaperPoint(x2, y2));
 
-        //-------------------------------------------------------------------------------------------------------
-        //     Case 25 - single point C
-        //-------------------------------------------------------------------------------------------------------
-        case 25:
-            x1=cell.column(p3);
-            y1=cell.row(p3);
-            add = 1;
-            if ( !box) break;
-            if (cell.height(p1, contour) < 0) {
-                     leftcell->push_back(cell.column(p1), cell.row(p1));
-                     leftcell->push_back(cell.column(p2), cell.row(p2));
-                     leftcell->push_back(cell.column(p3), cell.row(p3));
-            }
-            else {
-                     rightcell->push_back(cell.column(p1), cell.row(p1));
-                     rightcell->push_back(cell.column(p2), cell.row(p2));
-                     rightcell->push_back(cell.column(p3), cell.row(p3));
-            }
-            break;
-            
-        default:
-            break;
-        }
-        
-        if (add == 2 && needIsolines() )
-        {
-            // here we have 2 Points to add! 
-            // We send it to a thread! 
-            const int t = (*l) % threads_;
-            {     
-              AutoLock<MutexCond> lockproducer(producerMutex_);
-              {
-                 AutoLock<MutexCond> lock(segments_[t]->cond_);
-                 segments_[t]->segments_.push_back(make_pair(levels_[*l], 
-                                                   std::make_pair(make_pair(x1, y1), std::make_pair(x2, y2))));
-                 if ( segments_[t]->segments_.size() >= 2000 ) 
-                       segments_[t]->cond_.signal();
-                 }
-                 producerMutex_.signal();
-              }
-            }
+				            break;
+				        //-------------------------------------------------------------------------------------------------------
+				        //     Case 7 - Line between sides 1-2 aanve vertex 3
+				        //-------------------------------------------------------------------------------------------------------
+				        case 7:
+				            cell.xysect(p1,p2, contour, x1, y1);
+				            x2=cell.column(p3);
+				            y2=cell.row(p3);
 
-            if ( !box) {
-                continue;
-            }
-            
-            if ( !complex ) {
+				            if ( !box ) break;
+				            left.push_back(PaperPoint(cell.column(p1), cell.row(p1)));
+				            left.push_back(PaperPoint(x1, y1));
+				            left.push_back(PaperPoint(x2, y2));
 
-            	box->reshape(leftcell);
-                box->reshape(rightcell);
-            }
-           else {
-                shapes.push_back(make_pair(leftcell, rightcell));
-           }
-        } // end of levels...
-        
-        if ( shapes.empty() ) continue;
-        
+				            right.push_back(PaperPoint(x1, y1));
+				            right.push_back(PaperPoint(cell.column(p2), cell.row(p2)));
+				            right.push_back(PaperPoint(x2, y2));
+				            break;
 
-        // Now we reduce the shape! 
+				        //-------------------------------------------------------------------------------------------------------
+				        //     Case 8 - Line between sides 1-2 and 3-1
+				        //-------------------------------------------------------------------------------------------------------
+				        case 8:
+				            cell.xysect(p1,p2, contour, x1, y1);
+				            cell.xysect(p3,p1, contour, x2, y2);
 
-        vector< std::pair<Shape*, Shape*> >::iterator current = shapes.begin();    
-        vector< std::pair<Shape*, Shape*> >::iterator next = shapes.begin();
-        box->reshape(current->first);
+				            if ( !box ) break;
+				            left.push_back(PaperPoint(cell.column(p1), cell.row(p1)));
+				            left.push_back(PaperPoint(x1, y1));
+				            left.push_back(PaperPoint(x2, y2));
 
-        next++;
-        while ( next != shapes.end() ) {
-            current->second->intersection(*next->second);
-            box->reshape(current->second);
-            delete next->first;
-            current++;
-            next++ ;
-        }
-        box->reshape(current->second);
+				            right.push_back(PaperPoint(x1, y1));
+				            right.push_back(PaperPoint(cell.column(p2), cell.row(p2)));
+				            right.push_back(PaperPoint(cell.column(p3), cell.row(p3)));
+				            right.push_back(PaperPoint(x2, y2));
+				            break;
 
-        }
-    } // step to next triangle
+				        //-------------------------------------------------------------------------------------------------------
+				        //     Case 9 -single point 1
+				        //-------------------------------------------------------------------------------------------------------
+				        case 9:
+				            x1=cell.column(p1);
+				            y1=cell.row(p1);
+				            add = 1;
+				            if ( !box) break;
+				            if (cell.height(p2, contour) < 0) {
+				                   left.push_back(PaperPoint(cell.column(p1), cell.row(p1)));
+				                   left.push_back(PaperPoint(cell.column(p2), cell.row(p2)));
+				                   left.push_back(PaperPoint(cell.column(p3), cell.row(p3)));
+				            }
+				            else {
+				                   right.push_back(PaperPoint(cell.column(p1), cell.row(p1)));
+				                   right.push_back(PaperPoint(cell.column(p2), cell.row(p2)));
+				                   right.push_back(PaperPoint(cell.column(p3), cell.row(p3)));
+				            }
+				            break;
+
+				        //-------------------------------------------------------------------------------------------------------
+				        //     Case 10 - Line between vertex 3 and vertex 1
+				        //-------------------------------------------------------------------------------------------------------
+				        case 10:
+
+				            x1=cell.column(p3);
+				            y1=cell.row(p3);
+				            x2=cell.column(p1);
+				            y2=cell.row(p1);
+				            if ( !box) break;
+
+				            left.push_back(PaperPoint(cell.column(p1), cell.row(p1)));
+				            left.push_back(PaperPoint(cell.column(p2), cell.row(p2)));
+				            left.push_back(PaperPoint(cell.column(p3), cell.row(p3)));
+				            break;
+
+				        //-------------------------------------------------------------------------------------------------------
+				        //     Case 11 - Line between side 3-2 and vertex 1
+				        //-------------------------------------------------------------------------------------------------------
+				        case 11:
+				            cell.xysect(p3,p2, contour, x1, y1);
+				            x2=cell.column(p1);
+				            y2=cell.row(p1);
+				            if ( !box ) break;
+				            left.push_back(PaperPoint(cell.column(p1), cell.row(p1)));
+				            left.push_back(PaperPoint(cell.column(p2), cell.row(p2)));
+				            left.push_back(PaperPoint(x1, y1));
+
+				            right.push_back(PaperPoint(x1, y1));
+				            right.push_back(PaperPoint(cell.column(p3), cell.row(p3)));
+				            right.push_back(PaperPoint(x2, y2));
+				            break;
+
+				        //-------------------------------------------------------------------------------------------------------
+				        //     Case 12 - Line between vertex 1 and vertex 2
+				        //-------------------------------------------------------------------------------------------------------
+				        case 12:
+				            x1=cell.column(p1);
+				            y1=cell.row(p1);
+				            x2=cell.column(p2);
+				            y2=cell.row(p2);
+				            if ( !box ) break;
+
+				            left.push_back(PaperPoint(cell.column(p1), cell.row(p1)));
+				            left.push_back(PaperPoint(cell.column(p2), cell.row(p2)));
+				            left.push_back(PaperPoint(cell.column(p3), cell.row(p3)));
+				            break;
+
+				        //-------------------------------------------------------------------------------------------------------
+				        //     Case 13 - Flat Area all vertex have the isoline value!
+				        //-------------------------------------------------------------------------------------------------------
+				        case 13:
+				            add = 0;
+				            if ( !box ) break;
+				            if (cell.height(p1, contour) < 0) {
+				                   left.push_back(PaperPoint(cell.column(p1), cell.row(p1)));
+				                   left.push_back(PaperPoint(cell.column(p2), cell.row(p2)));
+				                   left.push_back(PaperPoint(cell.column(p3), cell.row(p3)));
+				            }
+				            else {
+				                   right.push_back(PaperPoint(cell.column(p1), cell.row(p1)));
+				                   right.push_back(PaperPoint(cell.column(p2), cell.row(p2)));
+				                   right.push_back(PaperPoint(cell.column(p3), cell.row(p3)));
+				            }
+				            break;
+
+				        //-------------------------------------------------------------------------------------------------------
+				        //     Case 14 - Line between vertex 2 and vertex 1
+				        //-------------------------------------------------------------------------------------------------------
+				        case 14:
+				            x1=cell.column(p2);
+				            y1=cell.row(p2);
+				            x2=cell.column(p1);
+				            y2=cell.row(p1);
+				            if ( !box ) break;
+
+				            right.push_back(PaperPoint(cell.column(p1), cell.row(p1)));
+				            right.push_back(PaperPoint(cell.column(p2), cell.row(p2)));
+				            right.push_back(PaperPoint(cell.column(p3), cell.row(p3)));
+				            break;
+
+				        //-------------------------------------------------------------------------------------------------------
+				        //     Case 15 - Line between vertex 1 and side3-2
+				        //-------------------------------------------------------------------------------------------------------
+				        case 15:
+				            x1=cell.column(p1);
+				            y1=cell.row(p1);
+				            cell.xysect(p3,p2, contour, x2, y2);
+				            if ( !box ) break;
+
+				            left.push_back(PaperPoint(x1, y1));
+				            left.push_back(PaperPoint(x2, y2));
+				            left.push_back(PaperPoint(cell.column(p3), cell.row(p3)));
+
+				            right.push_back(PaperPoint(x1, y1));
+				            right.push_back(PaperPoint(cell.column(p2), cell.row(p2)));
+				            right.push_back(PaperPoint(x2, y2));
+				            break;
+
+				        //-------------------------------------------------------------------------------------------------------
+				        //     Case 16 - Line between vertex 1 and vertex 3
+				        //-------------------------------------------------------------------------------------------------------
+				        case 16:
+				            x1=cell.column(p1);
+				            y1=cell.row(p1);
+				            x2=cell.column(p3);
+				            y2=cell.row(p3);
+				            if ( !box ) break;
+				            right.push_back(PaperPoint(x1, y1));
+				            right.push_back(PaperPoint(cell.column(p2), cell.row(p2)));
+				            right.push_back(PaperPoint(x2, y2));
+
+				            break;
+
+				        //-------------------------------------------------------------------------------------------------------
+				        //     Case 17 - single point 1
+				        //-------------------------------------------------------------------------------------------------------
+				        case 17:
+				            x1=cell.column(p1);
+				            y1=cell.row(p1);
+				            add = 1;
+				            if ( !box ) break;
+				            if (cell.height(p2, contour) < 0) {
+				                      left.push_back(PaperPoint(cell.column(p1), cell.row(p1)));
+				                      left.push_back(PaperPoint(cell.column(p2), cell.row(p2)));
+				                      left.push_back(PaperPoint(cell.column(p3), cell.row(p3)));
+				            }
+				            else {
+				                      right.push_back(PaperPoint(cell.column(p1), cell.row(p1)));
+				                      right.push_back(PaperPoint(cell.column(p2), cell.row(p2)));
+				                      right.push_back(PaperPoint(cell.column(p3), cell.row(p3)));
+				            }
+				            break;
+
+				        //-------------------------------------------------------------------------------------------------------
+				        //     Case 18 - Line between side3-1 and side1-2
+				        //-------------------------------------------------------------------------------------------------------
+				        case 18:
+				            cell.xysect(p3,p1, contour, x1, y1);
+				            cell.xysect(p1,p2, contour, x2, y2);
+
+				            if ( !box ) break;
+				            left.push_back(PaperPoint(x1, y1));
+				            left.push_back(PaperPoint(x2, y2));
+				            left.push_back(PaperPoint(cell.column(p2), cell.row(p2)));
+				            left.push_back(PaperPoint(cell.column(p3), cell.row(p3)));
+
+				            right.push_back(PaperPoint(x1, y1));
+				            right.push_back(PaperPoint(cell.column(p1), cell.row(p1)));
+				            right.push_back(PaperPoint(x2, y2));
+
+				            break;
+
+				        //-------------------------------------------------------------------------------------------------------
+				        //     Case 19 - Line between vertex 3 and side1-2
+				        //-------------------------------------------------------------------------------------------------------
+				        case 19:
+				            x1=cell.column(p3);
+				            y1=cell.row(p3);
+
+				            cell.xysect(p1,p2, contour, x2, y2);
+
+				            if ( !box ) break;
+				            left.push_back(PaperPoint(x1, y1));
+				            left.push_back(PaperPoint(x2, y2));
+				            left.push_back(PaperPoint(cell.column(p2), cell.row(p2)));
+
+				            right.push_back(PaperPoint(x1, y1));
+				            right.push_back(PaperPoint(cell.column(p1), cell.row(p1)));
+				            right.push_back(PaperPoint(x2, y2));
+				            break;
+
+				        //-------------------------------------------------------------------------------------------------------
+				        //     Case 20 - Line between side3-2 and side1-2
+				        //-------------------------------------------------------------------------------------------------------
+				        case 20:
+				            cell.xysect(p3,p2, contour, x1, y1);
+				            cell.xysect(p1,p2, contour, x2, y2);
+
+				            if ( !box ) break;
+				            left.push_back(PaperPoint(x1, y1));
+				            left.push_back(PaperPoint(x2, y2));
+				            left.push_back(PaperPoint(cell.column(p2), cell.row(p2)));
+
+				            right.push_back(PaperPoint(x1, y1));
+				            right.push_back(PaperPoint(cell.column(p3), cell.row(p3)));
+				            right.push_back(PaperPoint(cell.column(p1), cell.row(p1)));
+				            right.push_back(PaperPoint(x2, y2));
+				            break;
+
+				        //-------------------------------------------------------------------------------------------------------
+				        //     Case 21 - Line between side 3-1 and vertex 2
+				        //-------------------------------------------------------------------------------------------------------
+				        case 21:
+				            cell.xysect(p3,p1, contour, x1, y1);
+
+				            x2=cell.column(p2);
+				            y2=cell.row(p2);
+				            if ( !box ) break;
+
+				            left.push_back(PaperPoint(x1, y1));
+				            left.push_back(PaperPoint(x2, y2));
+				            left.push_back(PaperPoint(cell.column(p3), cell.row(p3)));
+
+				            right.push_back(PaperPoint(x1, y1));
+				            right.push_back(PaperPoint(cell.column(p1), cell.row(p1)));
+				            right.push_back(PaperPoint(cell.column(p2), cell.row(p2)));
+				            break;
+
+				        //-------------------------------------------------------------------------------------------------------
+				        //     Case 22 - Line between vertex 3 and vertex 2
+				        //-------------------------------------------------------------------------------------------------------
+				        case 22:
+				            x1=cell.column(p3);
+				            y1=cell.row(p3);
+				            x2=cell.column(p2);
+				            y2=cell.row(p2);
+				            if ( !box) break;
+				            right.push_back(PaperPoint(cell.column(p1), cell.row(p1)));
+				            right.push_back(PaperPoint(cell.column(p2), cell.row(p2)));
+				            right.push_back(PaperPoint(cell.column(p3), cell.row(p3)));
+				            break;
+
+				        //-------------------------------------------------------------------------------------------------------
+				        //     Case 23 - single point 2
+				        //-------------------------------------------------------------------------------------------------------
+				        case 23:
+				            x1=cell.column(p2);
+				            y1=cell.row(p2);
+				            add = 1;
+				            if ( !box) break;
+				            if (cell.height(p1, contour) < 0) {
+				                     left.push_back(PaperPoint(cell.column(p1), cell.row(p1)));
+				                     left.push_back(PaperPoint(cell.column(p2), cell.row(p2)));
+				                     left.push_back(PaperPoint(cell.column(p3), cell.row(p3)));
+				            }
+				            else {
+				                     right.push_back(PaperPoint(cell.column(p1), cell.row(p1)));
+				                     right.push_back(PaperPoint(cell.column(p2), cell.row(p2)));
+				                     right.push_back(PaperPoint(cell.column(p3), cell.row(p3)));
+				            }
+				            break;
+
+				        //-------------------------------------------------------------------------------------------------------
+				        //     Case 24 - Line between side1-3  and side3-2
+				        //-------------------------------------------------------------------------------------------------------
+				        case 24:
+				            cell.xysect(p1,p3, contour, x1, y1);
+				            cell.xysect(p3,p2, contour, x2, y2);
+				            if ( !box) break;
+				            left.push_back(PaperPoint(x1, y1));
+				            left.push_back(PaperPoint(x2, y2));
+				            left.push_back(PaperPoint(cell.column(p3), cell.row(p3)));
+
+				            right.push_back(PaperPoint(x1, y1));
+				            right.push_back(PaperPoint(cell.column(p1), cell.row(p1)));
+				            right.push_back(PaperPoint(cell.column(p2), cell.row(p2)));
+				            right.push_back(PaperPoint(x2, y2));
+				            break;
+
+				        //-------------------------------------------------------------------------------------------------------
+				        //     Case 25 - single point C
+				        //-------------------------------------------------------------------------------------------------------
+				        case 25:
+				            x1=cell.column(p3);
+				            y1=cell.row(p3);
+				            add = 1;
+				            if ( !box) break;
+				            if (cell.height(p1, contour) < 0) {
+				                     left.push_back(PaperPoint(cell.column(p1), cell.row(p1)));
+				                     left.push_back(PaperPoint(cell.column(p2), cell.row(p2)));
+				                     left.push_back(PaperPoint(cell.column(p3), cell.row(p3)));
+				            }
+				            else {
+				                     right.push_back(PaperPoint(cell.column(p1), cell.row(p1)));
+				                     right.push_back(PaperPoint(cell.column(p2), cell.row(p2)));
+				                     right.push_back(PaperPoint(cell.column(p3), cell.row(p3)));
+				            }
+				            break;
+
+				        default:
+				            break;
+				        }
+
+				if (add == 2 && needIsolines() )
+				{
+					// here we have 2 Points to add!
+					// We send it to a thread!
+					const int t = (*l) % threads_;
+					{
+						AutoLock<MutexCond> lockproducer(producerMutex_);
+						{
+							AutoLock<MutexCond> lock(segments_[t]->cond_);
+							segments_[t]->segments_.push_back(make_pair(levels_[*l],
+									std::make_pair(make_pair(x1, y1), std::make_pair(x2, y2))));
+							if ( segments_[t]->segments_.size() >= 2000 )
+								segments_[t]->cond_.signal();
+						}
+						producerMutex_.signal();
+					}
+				}
+
+				if (box)
+						box->push_back(leftindex, left);
+						box->push_back(rightindex, right);
+
+
+
+
+			} // end of levels...
+
+
+			box->reshape(parent);
+
+
+
+		}// step to next triangle
+
+
+	}
+
 }
 
 
@@ -1243,7 +1248,7 @@ void IsoPlot::isoline(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
         // let's start 4 producers...
         int c = 0;
         VectorOfPointers<vector<IsoProducerData*> > datas;
-        //for (CellBox::iterator cell = view.begin(); cell != view.end(); ++cell)
+
         for ( int i = 0; i < view.size(); i++)
 
         {
@@ -1575,7 +1580,9 @@ CellArray::CellArray(MatrixHandler& data, IntervalMap<int>& range, const Transfo
 {
 	Timer timer("CellArray", "CellArray");
 	int r = height/resol;
+	//r = 10;
 	int c = (int) width/resol;
+	//c = 10;
 	rows_ = r;
 	columns_ = c;
 
@@ -1736,70 +1743,4 @@ GridCell::GridCell(const CellArray& data, int row, int column, const Transformat
 		}
 
 	}
-void Shape::intersection(Shape& other) {
 
-	vector<Point > opoints = other.points_;
-
-		std::reverse(opoints.begin(), opoints.end());
-
-
-
-	vector<Point  >::iterator p1= points_.begin();
-
-	Point top;
-
-
-	while (p1!= points_.end() ) {
-		vector<Point  >::iterator p2= opoints.begin();
-		while ( p2!= opoints.end()) {
-			if ( *p1 == *p2) {
-				std::rotate(opoints.begin(), p2, opoints.end());
-				p1++;
-
-				points_.insert(p1, opoints.begin(), opoints.end());
-
-				//now we need to take off the duplicates!
-
-				stack<Point > helper;
-				vector<Point  >::const_iterator point = points_.begin();
-
-
-				for (point = points_.begin();  point != points_.end(); ++point) {
-					if ( helper.empty() ) {
-						helper.push(*point);
-						continue;
-					}
-
-					top =  helper.top();
-					helper.pop();
-
-					if ( !( top == *point ) ) {
-						helper.push(top);
-						helper.push(*point);
-					}
-
-				}
-				clean();
-
-
-
-				while ( !helper.empty() ) {
-					push_back(helper.top().x_, helper.top().y_);
-					helper.pop();
-				}
-
-				if ( SegmentJoiner::isHole(points_) ) {
-
-				       std::reverse(points_.begin(), points_.end());
-
-				      }
-
-				return;
-			}
-			p2++;
-		}
-		p1++;
-	}
-
-
-}

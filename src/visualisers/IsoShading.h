@@ -39,8 +39,10 @@
 #include "Polyline.h"
 #include "MatrixHandler.h"
 #include "LegendVisitor.h"
+
 namespace magics {
 
+class ContourMethod;
 
 class NoIsoShading  {
 
@@ -78,6 +80,7 @@ public:
 	virtual void operator()(Polyline*) const {}
 	virtual void colour(double, Colour&) {};
 	virtual bool needClipping() { return false;}
+	virtual bool method(ContourMethod*) { return false; }
 	
 protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).
@@ -146,6 +149,7 @@ public:
 		if ( icolour != colourMethod_->end() )
 			colour = icolour->second.right_;
 	}
+	virtual bool method(ContourMethod* method) { return (*this->technique_).method(method);  }
 
 protected:
 	//! Method to print string about this class on to a stream of type ostream (virtual).
