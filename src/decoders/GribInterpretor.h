@@ -69,6 +69,8 @@ public:
     virtual void scaling(const GribDecoder& grib, double& scaling, double& offset, string& originalUnits, string& derivedUnits) const;
     void longitudesSanityCheck(double&, double&) const;
 
+    void interpolate(const GribDecoder& grib, Matrix& matrix) const;
+
     
 protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).
