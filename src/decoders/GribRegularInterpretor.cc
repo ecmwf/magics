@@ -1684,26 +1684,9 @@ void GribPolarStereoInterpretor::interpretAsMatrix(const GribDecoder& grib,
 		(**matrix)[i + (j * im)] = missing;
 	}
 	(*matrix)->missing(missing);
-	int err;
-
 	(*matrix)->setMapsAxis();
-	grib_iterator* iter = grib_iterator_new(grib.handle(), 0, &err);
-	cout << grib_get_api_version() << endl;
 
-	double lat, lon, value;
-	/* Loop on all the lat/lon/values. */
-	while (grib_iterator_next(iter, &lat, &lon, &value)) {
-		int ix =  (lon - lon0 )/steplon;
-		double x = ix * steplon + 0;
-		int iy =  (lat - lat0 )/steplat;
-		double y = iy * steplat -90;
-		double dist = ((lon - x)*(lon - x)) + ((lat - y)*(lat - y));
-		if ( dist < distance[ix + (iy * im)] ) {
-			(**matrix)[ix + (iy * im)] = value;
-			distance[ix + (iy * im)]= dist;
-		}
-	}
-
+	interpolate(grib, **matrix);
 
 
 	MagLog::dev() << **matrix << "\n";
@@ -1712,3 +1695,47 @@ void GribPolarStereoInterpretor::interpretAsMatrix(const GribDecoder& grib,
 
 
 }
+
+void GribInterpretor::interpolate(const GribDecoder& grib, Matrix& matrix) const
+{
+	int err;
+
+	grib_iterator* iter = grib_iterator_new(grib.handle(), 0, &err);
+	if ( err ) {
+		MagLog::warning() << "Grib Iterator not available : Chech Grib Api Version " << grib_get_api_version() << endl;
+		return;
+	}
+	double xres = matrix.XResolution();
+	double yres = matrix.YResolution();
+
+	double xbase = matrix.left() - (xres/2);
+	double ybase = matrix.bottom() - (yres/2);
+	double columns = matrix.columns();
+	double rows = matrix.rows();
+
+	vector<double> distance(columns*rows, 999999);
+
+	double lat, lon, value;
+	/* Loop on all the lat/lon/values. */
+	while (grib_iterator_next(iter, &lat, &lon, &value)) {
+		int ix =  (lon - xbase )/xres;
+		double x = (ix * xres) + xbase;
+		int iy =  (lat - ybase )/yres;
+		double y = (iy * yres) + ybase;
+		double dist = ((lon - x)*(lon - x)) + ((lat - y)*(lat - y));
+		if ( dist < distance[ix + (iy * columns)] ) {
+			matrix[ix + (iy * columns)] = value;
+			distance[ix + (iy * columns)]= dist;
+		}
+	}
+	/* At the end the iterator is deleted to free memory. */
+	grib_iterator_delete(iter);
+
+
+
+
+
+
+
+}
+
