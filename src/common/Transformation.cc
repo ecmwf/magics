@@ -700,6 +700,49 @@ void Transformation::thin(double step, PaperPoint& origin, vector<pair<double, d
 
 }
 
+void Transformation::thin(double step, PaperPoint& origin, Matrix& matrix, double missing) const
+{
+/*
+	Timer timer("thinning", "");
+
+	vector< std::pair<double, double> > xypoints;
+	double minx = getMinPCX();
+	double maxx = getMaxPCX();
+	double miny = getMinPCY();
+	double maxy = getMaxPCY();
+
+
+	std::set<double> xl, yl;
+
+
+
+	for ( double x = origin.x(), i = 1; x <= maxx; x = origin.x() + i*step, i++) {
+		if ( x > minx )
+			xl.insert(x);
+	}
+	for ( double x = origin.x(), i = 1; x >= minx; x = origin.x() - i*step, i++)
+		if ( x < maxx )
+			xl.insert(x);
+	for ( double y = origin.y(), i = 1; y <= maxy; y = origin.y() + i*step, i++)
+		if ( y > miny )
+			yl.insert(y);
+	for ( double y = origin.y(), i = 1; y >= miny; y = origin.y() - i*step, i++)
+		if ( y < maxy ) {
+			yl.insert(y);
+
+		}
+
+	matrix.set(x.size(), y.size(), missing);
+
+	for ( std::set<double>::iterator x = xl.begin(), x != xl.end(); ++x )
+		matrix.columns().push_back(*x);
+	for ( std::set<double>::iterator y = yl.begin(), y != yl.end(); ++y )
+			matrix.columns().push_back(*y);
+
+	(*matrix)->setMapsAxis();
+*/
+}
+
 UserPoint Transformation::reference() const
 {
 	PaperPoint xy((getMinPCX() +  getMaxPCX())/2., (getMinPCY() +  getMaxPCY())/2.);

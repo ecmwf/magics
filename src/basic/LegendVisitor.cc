@@ -1391,3 +1391,10 @@ void SimpleSymbolEntry::columnBox(const PaperPoint& point, BasicGraphicsObjectCo
 	box->setColour(colour);
 	legend.push_back(box);
 }
+
+SymbolEntry::~SymbolEntry() {} // { delete symbol_; }
+FlagEntry::~FlagEntry(){} //{ delete flag_; }
+BoxEntry::~BoxEntry() {} //{ delete box_; }
+ArrowEntry::~ArrowEntry() {} //{ delete arrow_; }
+DoubleLineEntry::~DoubleLineEntry() {} //{ { delete line1_; delete line2_; }
+LineEntry::~LineEntry() {} //{ delete line_;}

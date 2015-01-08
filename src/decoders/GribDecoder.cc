@@ -42,34 +42,7 @@
 #include "VisualAction.h"
 #include "AnimationRules.h"
 #include "Transformation.h"
-/*
-#include "grib_api_internal.h"
 
-
-string getLongNameCentre(int centre)
-{
-        grib_context* context = grib_context_get_default();
-        grib_codetable* t = context->codetable;
-        while(t)
-        {
-            grib_codetable* s = t->next;
-            for(int i = 0; i < t->size; i++)
-            {
-                char* the_title = t->entries[i].title;
-                char* the_recomposed_name = t->recomposed_name[0];
-                if (strcmp(the_recomposed_name, "grib1/0.table") ==0 )
-                {
-                    if (the_title && i==centre)
-                    {
-                        printf("title for centre %d is %s\n", i, t->entries[i].title);
-                        return t->entries[i].title;
-                    }
-                }
-            }
-            t = s;
-        }
-}
- */
 using namespace magics;
 
 int  GribDecoder::count_ = 0;

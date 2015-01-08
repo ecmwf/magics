@@ -35,10 +35,12 @@
 #include "GribDecoder.h"
 using namespace magics;
 
+static bool ignore_space_;
 static void XMLCALL
 startElement(void *userData, const char *name, const char **atts)
 {
 	TitleTemplate* object  = (TitleTemplate*) userData; 
+
 	if (string(name) == "title" )
 	{
 		TitleTemplate* title = new TitleTemplate();
@@ -48,7 +50,11 @@ startElement(void *userData, const char *name, const char **atts)
 		}
 		object->top()->push_back(title);
 		object->push(title);
+		ignore_space_ = true;
+		return;
 	}
+	if (string(name) == "text"  )
+		ignore_space_ = false;
 	else
 	{
 		TitleMetaField* meta = new TitleMetaField(name);
@@ -59,16 +65,22 @@ startElement(void *userData, const char *name, const char **atts)
 		}
 		object->top()->add(meta);
 	}
+
 }
 
 static void XMLCALL
 endElement(void *userData, const char *name)
 {
+
 	if (string(name) == "title" )
 	{
 		TitleTemplate* object  = (TitleTemplate*) userData;
 		object->pop();
+		ignore_space_ = true;
+
 	}
+	if (string(name) == "text"  )
+			ignore_space_ = true;
 }
 
 
@@ -77,10 +89,16 @@ static void XMLCALL character (void *userData,
                             const char *s,
                             int len)
 {
-	//int *depthPtr = (int*)userData;
+
+
+	string data(s, len);
+
 	TitleTemplate* object  = (TitleTemplate*) userData;
-	if (  std::string(s, len) == "\n" ) return;
-	object->top()->add(new TitleStringField(string(s, len)));
+	if (  data == "\n" ) return;
+	if( ignore_space_ && data.find_first_not_of(" \n\t") == std::string::npos)
+		return;
+
+	object->top()->add(new TitleStringField(data));
 }
 
 static void XMLCALL startData(void *)
@@ -105,7 +123,7 @@ void TitleTemplate::decode()
 	singleton_ = this;
 	string filename = getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_ + file_;
 	char buf[BUFSIZ];
-
+	ignore_space_ = true;
 	push(this);
 	XML_Parser parser = XML_ParserCreate(NULL);
 	int done;

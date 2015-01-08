@@ -111,7 +111,7 @@ public:
 	template <class D>
 	void operator()(vector<string>& out, const D& data) const
 	{
-		if ( !verify(data) ) return;
+
 		vector<string> lines;
 		lines.push_back("");
 		for (const_iterator child = begin(); child != end(); ++child)

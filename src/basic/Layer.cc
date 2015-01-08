@@ -583,6 +583,7 @@ void TextLayer::getInfo(int i, const BaseDriver&  driver) const
 		parent->push_back(layout);
 	}
 	parent->redisplay(driver);
+	delete parent;
 }
 
 void TextLayer::collectText(vector<TextVisitor*>& texts, LegendVisitor* legend)
