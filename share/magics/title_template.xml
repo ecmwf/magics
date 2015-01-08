@@ -1,54 +1,69 @@
 
  <!-- Default title  -->
-<title> <centre/> <gribapi key='typeOfGeneratingProcess'/> <base_date format = 'Base Time: %A %d %B %Y %H UTC'/> <parameter/>
+<title> 
+	<text>
+	<centre/> <gribapi key='typeOfGeneratingProcess'/> <base_date format = 'Base Time: %A %d %B %Y %H UTC'/> <parameter/>
+	</text>
     <!-- OBSTAT -->
-    <title observationDiagnostic=''>Statistics for <gribapi key='codeType'/> from  <gribapi key='platform'/> / <gribapi key='instrument'/> 
-         <newline/><gribapi key='observationDiagnostic'/> [ <gribapi key='units'/> ] ( <gribapi key='dataSelection'/> ) 
-         <newline/>Exp = <gribapi key='experimentVersionNumber'/> Channel =   <gribapi key='scaledValueOfFirstFixedSurface'/> 
-         <newline/>Min: <gribapi key='min'/> Max: <gribapi key='max'/> Mean: <gribapi key='average'/>
+    <title observationDiagnostic=''>
+    	<text>Statistics for <gribapi key='codeType'/> from  <gribapi key='platform'/> / <gribapi key='instrument'/> 
+        	 <newline/><gribapi key='observationDiagnostic'/> [ <gribapi key='units'/> ] ( <gribapi key='dataSelection'/> ) 
+         	<newline/>Exp = <gribapi key='experimentVersionNumber'/> Channel =   <gribapi key='scaledValueOfFirstFixedSurface'/> 
+         	<newline/>Min: <gribapi key='min'/> Max: <gribapi key='max'/> Mean: <gribapi key='average'/>
+         </text>
     </title>   	 
-    <title typeOfGeneratingProcess='1'>
-        <base_date format = '%A %d %B %Y %H UTC'/> <centre format = "%s Analysis"/> <level/> <parameter/> <units/> <expver/>  <plot_type/> 
+    <title typeOfGeneratingProcess='1'> 
+    	<text><base_date format = '%A %d %B %Y %H UTC'/> <centre format = "%s Analysis"/> <level/> <parameter/> <units/> <expver/>  <plot_type/> 
+    	</text>
     </title>
     <title 	timeRangeIndicator='1'>
-        <base_date format = '%A %d %B %Y %H UTC'/> <centre format = "%s Analysis"/> <level/> <parameter/> <units/> <expver/>  <plot_type/> 
+    	<text><base_date format = '%A %d %B %Y %H UTC'/> <centre format = "%s Analysis"/> <level/> <parameter/> <units/> <expver/>  <plot_type/> 
+    	</text>
     </title>
     <title dataType='im' timeRangeIndicator='0'> 
-        <base_date format = '%A %d %B %Y %H%M UTC'/> <centre  format = "%s Forecast"/> <step format="t+%s"/> <valid_date format = 'VT:%A %d %B %Y %H%M UTC'/> <satellite/> <channel/> 
+    	<text><base_date format = '%A %d %B %Y %H%M UTC'/> <centre  format = "%s Forecast"/> <step format="t+%s"/> <valid_date format = 'VT:%A %d %B %Y %H%M UTC'/> <satellite/> <channel/> 
+    	</text>
     </title>
     <title typeOfGeneratingProcess='2'>
-        <base_date format = '%A %d %B %Y %H UTC'/> <centre  format = "%s Forecast"/> <step format="t+%s"/> 
-<valid_date format = 'VT:%A %d %B %Y %H UTC'/> <level/> <parameter/> <units/> <expver/>  <plot_type/> 
+    	<text><base_date format = '%A %d %B %Y %H UTC'/> <centre  format = "%s Forecast"/> <step format="t+%s"/> 
+			<valid_date format = 'VT:%A %d %B %Y %H UTC'/> <level/> <parameter/> <units/> <expver/>  <plot_type/> 
+    	</text>
     </title>
     <title timeRangeIndicator='0'>
-        <base_date format = '%A %d %B %Y %H UTC'/> <centre  format = "%s Forecast"/> <step format="t+%s"/> 
-<valid_date format = 'VT:%A %d %B %Y %H UTC'/> <level/> <parameter/> <units/> <expver/>  <plot_type/> 
+    	<text><base_date format = '%A %d %B %Y %H UTC'/> <centre  format = "%s Forecast"/> <step format="t+%s"/> <valid_date format = 'VT:%A %d %B %Y %H UTC'/> <level/> <parameter/> <units/> <expver/>  <plot_type/> 
+    	</text>
     </title>
     <title timeRangeIndicator='4'>
-        <base_date format = '%A %d %B %Y %H UTC'/> <centre  format = "%s Forecast"/> <step format="t+%s"/> 
+    	<text><base_date format = '%A %d %B %Y %H UTC'/> <centre  format = "%s Forecast"/> <step format="t+%s"/> 
 <valid_date format = 'VT:%A %d %B %Y %H UTC'/> <level/> <parameter/> <units/> <expver/>  <plot_type/> 
+    	</text>
     </title>
     <title dataType='fc'>
-        <base_date format = '%A %d %B %Y %H UTC'/> <centre/> <product/> <step format="t+%s"/> 
+    	<text><base_date format = '%A %d %B %Y %H UTC'/> <centre/> <product/> <step format="t+%s"/> 
 <valid_date format = 'VT:%A %d %B %Y %H UTC'/> <level/> <parameter/> <units/> <expver/>  <plot_type/> 
+    	</text>
     </title>
     <!-- EPS Control Forecast forecasts -->
-     <title dataType='cf'>
-        <base_date format = '%A %d %B %Y %H UTC'/> <centre/> <product/> <step format="t+%s"/> 
+    <title dataType='cf'>
+    	<text><base_date format = '%A %d %B %Y %H UTC'/> <centre/> <product/> <step format="t+%s"/> 
 <valid_date format = 'VT:%A %d %B %Y %H UTC'/> <level/> <parameter/> <units/> <expver/>  <plot_type/> 
+    	</text>
     </title>
     <!-- Normal analysis -->
     <title dataType='an'>
-        <centre/> <product/> <base_date format = 'VT: %A %d %B %Y %H UTC'/> <level/> <parameter/> <units/> <expver/>  <plot_type/> 
+    	<text><centre/> <product/> <base_date format = 'VT: %A %d %B %Y %H UTC'/> <level/> <parameter/> <units/> <expver/>  <plot_type/> 
+    	</text>
     </title>
     <!-- Ensemble means, Standard devs, and perturbed forecast -->
     <title dataType='em' stream='enfo'>
-        <base_date format = '%A %d %B %Y %H UTC '/> <centre/> <product/> <step format="t+%s"/> <valid_date format = 'VT:%A %d %B %Y %H UTC'/>
+    	<text><base_date format = '%A %d %B %Y %H UTC '/> <centre/> <product/> <step format="t+%s"/> <valid_date format = 'VT:%A %d %B %Y %H UTC'/>
 <newline/><level/><parameter/><units/><expver/><eps_number_info/>
+		</text>
      </title>
      <title dataType='ep' stream='enfo'>
-        <base_date format = '%A %d %B %Y %H UTC '/> <centre/> <product/> <step format="t+%s"/> <valid_date format = 'VT:%A %d %B %Y %H UTC'/>
+    	<text><base_date format = '%A %d %B %Y %H UTC '/> <centre/> <product/> <step format="t+%s"/> <valid_date format = 'VT:%A %d %B %Y %H UTC'/>
 <newline/><level/><parameter/><units/><expver/><eps_number_info/>
+		</text>
      </title>
 </title>
  

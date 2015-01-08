@@ -293,6 +293,7 @@ public:
 	
 
 	virtual void thin(double, PaperPoint&, vector<pair<double, double> >&) const;
+	virtual void thin(double, PaperPoint&, Matrix&, double) const;
 	virtual void getNewDefinition(const UserPoint&, const UserPoint&, string&) const
 		{ assert(false); }
 	virtual void setDefinition(const string&)

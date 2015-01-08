@@ -173,7 +173,7 @@ public:
 	virtual void rowBox(const PaperPoint&, BasicGraphicsObjectContainer&);
 		virtual void columnBox(const PaperPoint&, BasicGraphicsObjectContainer&);
     void set(const PaperPoint&, BasicGraphicsObjectContainer&);
-    
+    ~SymbolEntry();
 protected:
 	Symbol* symbol_;
 	Colour colour();
@@ -208,6 +208,7 @@ public:
     void set(const PaperPoint&, BasicGraphicsObjectContainer&);
     virtual void rowBox(const PaperPoint&, BasicGraphicsObjectContainer&);
 	virtual void columnBox(const PaperPoint&, BasicGraphicsObjectContainer&);
+	~LineEntry();
 protected:
 	Polyline* line_;
 	Colour colour();
@@ -229,6 +230,7 @@ public:
     virtual void rowBox(const PaperPoint&, BasicGraphicsObjectContainer&);
 	virtual void columnBox(const PaperPoint&, BasicGraphicsObjectContainer&);
 	bool needContinuousText() { return true;  }
+	~DoubleLineEntry();
 protected:
 	Polyline* line1_;
 	Polyline* line2_;
@@ -246,6 +248,7 @@ public:
 	ArrowEntry(const double min, double max, Arrow* arrow = 0 ) : 
 		LegendEntry(min, max), arrow_(arrow)
         { format(min, max); }
+	~ArrowEntry();
 	void setArrow(Arrow* arrow) { arrow_ = arrow; }
 	void set(const PaperPoint&, BasicGraphicsObjectContainer&);
 	virtual void rowBox(const PaperPoint&, BasicGraphicsObjectContainer&);
@@ -267,6 +270,7 @@ public:
 	FlagEntry(const double min, double max, Flag* flag = 0 ) : 
 		LegendEntry(min, max), flag_(flag)
         { format(min, max); }
+	~FlagEntry();
 	void setArrow(Flag* flag) { flag_ = flag; }
 	void set(const PaperPoint&, BasicGraphicsObjectContainer&);
 	 virtual void rowBox(const PaperPoint&, BasicGraphicsObjectContainer&);
@@ -288,6 +292,7 @@ public:
 	BoxEntry(double min, double max, Polyline* box = 0 ) : 
 		LegendEntry(min, max), box_(box)
         { format(min, max); }
+	~BoxEntry();
 	void set(const PaperPoint&, BasicGraphicsObjectContainer&);
 	void rowBox(const PaperPoint&, BasicGraphicsObjectContainer&);
 	void columnBox(const PaperPoint&, BasicGraphicsObjectContainer&);

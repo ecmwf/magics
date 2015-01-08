@@ -232,7 +232,7 @@ public:
         	}
         	else
         		{
-
+/*
         		//cout << "rremove " <<  boost::geometry::area(pts) << endl;
         		for ( vector<PaperPoint>::iterator pt = pts.outer().begin();  pt != pts.outer().end(); ++pt ) {
         		   //cout << *pt << endl;
@@ -244,6 +244,7 @@ public:
          		   //cout << *pt << endl;
 
          		 }
+         		 */
         		//cout << "--------------------- " << endl;
 
         			boost::geometry::union_(pts, previous, output);
@@ -313,7 +314,9 @@ public:
     	if ( parent == this) return;
     	for (map<int, SegmentJoiner*>::iterator entry = helper_.begin(); entry != helper_.end(); ++entry) {
     		parent->push_back(entry->first, *entry->second);
+    		delete (entry->second);
     	}
+
     	helper_.clear();
     }
 
@@ -1152,6 +1155,7 @@ void IsoPlot::isoline(Cell& cell, CellBox* parent) const
 
 
 			box->reshape(parent);
+			delete box;
 
 
 
