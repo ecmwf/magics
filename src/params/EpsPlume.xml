@@ -6,6 +6,9 @@
 			<parameter from="string" name="eps_plume_method" default="time_serie" member="method" to="string" values="time_serie/vertical_profile">           
             		<documentation> Type of visualisation required : time_serie or vertical_profile 		</documentation>
         	</parameter>
+        	<parameter from="string" name="eps_plume_legend" default="on" member="legend" to="bool" visible='false'>           
+            		<documentation> ignore legend 		</documentation>
+        	</parameter>
          	<parameter member="line" to="bool" default="on" from="string" name="eps_plume_members">           
             		<documentation>show the eps members  		</documentation>
         	</parameter>

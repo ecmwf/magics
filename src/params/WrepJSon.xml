@@ -6,7 +6,10 @@
     	<parameter member="param_info" to="string" default="" from="string" name="wrepjson_parameter_information">
          		<documentation> Product information for  key=parameter_info  		</documentation>
         	</parameter> 
-        		
+        <parameter member="title" to="bool" default="on" from="string" name="wrepjson_title" visible='false'>
+         		<documentation> Do not create automatic title	</documentation>
+        	</parameter>   
+        			
         	<parameter member="position_info" to="bool" default="on" from="string" name="wrepjson_position_information">
          		<documentation> Switch on/off the position information in the title. 		</documentation>
         	</parameter> 

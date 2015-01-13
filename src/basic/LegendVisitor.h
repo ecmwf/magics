@@ -208,6 +208,7 @@ public:
     void set(const PaperPoint&, BasicGraphicsObjectContainer&);
     virtual void rowBox(const PaperPoint&, BasicGraphicsObjectContainer&);
 	virtual void columnBox(const PaperPoint&, BasicGraphicsObjectContainer&);
+	bool needContinuousText() { return true;  }
 	~LineEntry();
 protected:
 	Polyline* line_;

@@ -352,24 +352,30 @@ protected:
 	virtual void print(ostream&) const; 
 
 	void isoline(MatrixHandler&, BasicGraphicsObjectContainer&);
-	
+
 	bool prepare(MatrixHandler&);
-	
+
 	double min_;
 	double max_;
 
-        vector<vector<Polyline* >* > lines_;
+	vector<vector<Polyline* >* > lines_;
 
-		double missing_;
-		vector<double>  levels_;
-		bool shadingMode_; 
+	double missing_;
+	vector<double>  levels_;
+	bool shadingMode_;
+
+	vector<IsoData*> segments_;
+
+	map<Colour, IsoData*> colourShapes_;
+	int threads_;
 		
-		vector<IsoData*> segments_; 
-		
-		map<Colour, IsoData*> colourShapes_; 
-		int threads_;
-		
+	map<double, int> thickness_list_;
+	map<double, LineStyle> line_style_list_;
 	
+	void setThicknessAndStyle();
+
+	int thickness(double);
+	LineStyle line_style(double);
 	
 
 private:

@@ -55,13 +55,16 @@ void ColourTechnique::print(ostream& out)  const
 	out << "]";
 }
 
-void ColourTechnique::prepare(const LevelSelection& levels) 
+void ColourTechnique::prepare(const LevelSelection& levels, bool rainbow)
 {
 	if (levels.empty() ) return; 
 	clear();
 	bands_.clear();
 	ColourTable table;
-	set(table, levels.size());
+	if ( rainbow )
+		set(table, levels.size()+1);
+	else
+		set(table, levels.size());
 	
 	if ( table.empty()) table.push_back(Colour("none"));
     ColourTable::ColourIterator colour = table.begin(); 
@@ -73,11 +76,15 @@ void ColourTechnique::prepare(const LevelSelection& levels)
     
     double previous = 0;
     int index = 0;
-   
+
     for (LevelSelection::const_iterator  val  = levels.begin();  val != levels.end(); ++val)
     {               
-    	
-         (*this)[*val] = ColourInfo(index, *val, left, right);
+    	 if ( rainbow ) {
+    		 (*this)[*val] = ColourInfo(index, *val, right, right);
+    	 }
+    	 else {
+    		 (*this)[*val] = ColourInfo(index, *val, left, right);
+    	 }
          ranges_[*val] = std::make_pair(previous, *val);
          previous = *val;
          index++;
@@ -96,7 +103,8 @@ void ColourTechnique::prepare(const LevelSelection& levels)
          else right = colour->colour();
 
     }
-    bands_.insert(make_pair(Interval(levels.back(), levels.back() + epsilon), left));
+    if ( !rainbow )
+    	bands_.insert(make_pair(Interval(levels.back(), levels.back() + epsilon), left));
 
     MagLog::dev() << levels.back() << "<<" << left << "<<" << levels.back() + epsilon << endl;
 } 
@@ -107,9 +115,11 @@ Colour ColourTechnique::operator()(double value) const
     const_iterator info = find(value);
     if (info == end() ) {
 
-        //MagLog::warning() << "canot find a colour for " << value << "\n";
+
         return Colour(-1, -1, -1);
     }
+    Colour colour =   info->second.left_;
+
 
     return info->second.left_;
 } 
@@ -188,7 +198,8 @@ void ColourTechnique::visit(LegendVisitor& legend)
         
         legend.add(new BoxEntry(min, max, box));
      
-	}	
+	}
+
 }
 
 

@@ -139,16 +139,20 @@ void LineEntry::rowBox(const PaperPoint& point, BasicGraphicsObjectContainer& ou
 {
 	double x = point.x();
 	double y = point.y();
-	double width = 1;
-	line_->push_back(PaperPoint(x- width, y));
-	line_->push_back(PaperPoint(x, y));
+
+	line_->push_back(PaperPoint(x-0.5, y));
+	line_->push_back(PaperPoint(x+0.5, y));
 	out.push_back(line_);
 }
 void LineEntry::columnBox(const PaperPoint& point, BasicGraphicsObjectContainer& out)
 {
-	set(point, out);
-}
+	double x = point.x();
+	double y = point.y();
 
+	line_->push_back(PaperPoint(x-15, y));
+	line_->push_back(PaperPoint(x+1, y));
+	out.push_back(line_);
+}
 void DoubleLineEntry::rowBox(const PaperPoint& point, BasicGraphicsObjectContainer& out)
 {
 	set(point, out);
