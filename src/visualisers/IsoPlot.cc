@@ -1340,29 +1340,40 @@ void IsoPlot::isoline(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
     (*shading_)(data, parent);
     (*highlight_).prepare(*levelSelection_);
 
-    rainbowMethod_->set(*this);
-    rainbowMethod_->prepare(*levelSelection_);
+    if ( rainbow_ ) {
+    	rainbowMethod_->set(*this);
+    	rainbowMethod_->prepare(*levelSelection_, true);
+    	setThicknessAndStyle();
 
+	}
     // Now we feed the task...   
     for (vector<vector<Polyline* >* >::const_iterator lines = lines_.begin(); lines != lines_.end(); ++lines)
     {
       for (vector<Polyline* >::const_iterator poly = (*lines)->begin(); poly != (*lines)->end(); ++poly)
       {
         if ( (*poly)->empty() ) continue;
-        (*poly)->setLineStyle(style_);
-        (*poly)->setThickness(thickness_);
+        double level = (*poly)->front().value();
 
-        if ( !rainbow_ )
+
+        if ( !rainbow_ ) {
         	(*poly)->setColour(*colour_);
-        else
-        	(*poly)->setColour((*rainbowMethod_)((*poly)->front().value()));
+        	(*highlight_)(*(*poly));
+        	(*poly)->setLineStyle(style_);
+        	(*poly)->setThickness(thickness_);
+        }
+        else {
+        	double level = (*poly)->front().value();
+        	(*poly)->setColour((*rainbowMethod_)(level));
+        	(*poly)->setLineStyle(line_style(level));
+        	(*poly)->setThickness(thickness(level));
+        }
 #ifdef ISOPLOT_DEBUG
         (*poly)->setColour(*colour);
         colour++;
         if ( colour == colours.end()) 
             colour = colours.begin();
 #endif
-        (*highlight_)(*(*poly));
+
         if ( rainbow_ ) {
         	(*poly)->setColour((*rainbowMethod_)((*poly)->front().value()));
         }
@@ -1438,7 +1449,23 @@ void IsoPlot::visit(Data& data, LegendVisitor& legend) {
 		case LegendMethod::DISJOINT: {
 			(*shading_).visit(legend);
 			if (shading_->hasLegend() ) return;
+			if ( rainbow_) {
+					//LegendEntryBuilder helper(legend, colour);
+			        //std::adjacent_find(colour.begin(), colour.end(), LegendEntryBuilder(legend, this, colour));
+			       // if ( colour.size() == 1 ) {
+			        	//	helper(*colour.begin(), *colour.begin());
+			        //	}
+			        //legend.last(); // Flag the last entry as being the last! To get a nice labelling in countinuous mode!!!
+				for ( vector<double>::iterator level = levelSelection_->begin(); level != levelSelection_->end(); ++level) {
+					Polyline* line = new Polyline();
 
+					line->setColour((*rainbowMethod_)(*level));
+					line->setLineStyle(line_style(*level));
+					line->setThickness(thickness(*level));
+					legend.add(new LineEntry(*level, line));
+				}
+				break;
+			}
 			Polyline* line1 = new Polyline();
 			Polyline* line2 = 0;
 			line1->setColour(*colour_);
@@ -1747,3 +1774,56 @@ GridCell::GridCell(const CellArray& data, int row, int column, const Transformat
 
 	}
 
+void IsoPlot::setThicknessAndStyle()
+{
+	if ( rainbowThicknessList_.empty() )
+		rainbowThicknessList_.push_back(thickness_);
+
+	vector<LineStyle> styles;
+	MagTranslator<string, LineStyle> translator;
+	for (vector<string>::iterator style = rainbowStyleList_.begin(); style != rainbowStyleList_.end(); ++style ) {
+		styles.push_back(translator(*style));
+	}
+
+	if ( styles.empty() )
+		styles.push_back(style_);
+
+	vector<int>::iterator thickness = rainbowThicknessList_.begin();
+	vector<LineStyle>::iterator style = styles.begin();
+
+	for (vector<double>::iterator level = levelSelection_->begin(); level != levelSelection_->end(); ++level ) {
+		thickness_list_.insert(make_pair(*level, *thickness));
+		line_style_list_.insert(make_pair(*level, *style));
+		++thickness;
+		if ( thickness == rainbowThicknessList_.end() ) {
+			if ( rainbowThicknessListPolicy_ == M_LASTONE)
+				--thickness;
+			else
+				thickness = rainbowThicknessList_.begin();
+		}
+		++style;
+		if ( style == styles.end() ) {
+			if ( rainbowStyleListPolicy_ == M_LASTONE)
+				--style;
+			else
+				style = styles.begin();
+		}
+
+	}
+	//*levelSelection_
+}
+
+int IsoPlot::thickness(double level)
+{
+	map<double, int>::iterator thickness = thickness_list_.find(level);
+	if ( thickness !=  thickness_list_.end() )
+		return thickness->second;
+	return thickness_;
+}
+LineStyle IsoPlot::line_style(double level)
+{
+	map<double, LineStyle>::iterator style = line_style_list_.find(level);
+		if ( style !=  line_style_list_.end() )
+			return style->second;
+		return style_;
+}

@@ -1245,7 +1245,8 @@ json_spirit::Value WrepJSon::height()
 }
 void WrepJSon::visit(TextVisitor& text)
 {
-
+	if ( !title_ )
+		return;
 	DateTime base(date_, time_);
 
 	if (param_info_ != "none")

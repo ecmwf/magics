@@ -25,13 +25,13 @@
 
     	<parameter xml="style" from="string" name="contour_line_style" default="solid" member="style" to="LineStyle">
         		<documentation> Style of contour line  		</documentation>
-        		<migration> New Magics: Parameter contour_line_style sent to new Magics[IsoPlot].  		</migration>
+        		
         		<release>0.1		</release>
     	</parameter>
 
     	<parameter xml="thickness" from="int" name="contour_line_thickness" default="1" member="thickness" to="int">
         		<documentation> Thickness of contour line 		</documentation>
-        		<migration> New Magics: Parameter contour_line_thickness sent to new Magics[IsoPlot].  		</migration>
+        		
         		<release>0.1		</release>
     	</parameter>
 
@@ -39,9 +39,10 @@
         		<documentation> if On, rainbow colouring method will be used.  		</documentation>
         		<release>2.20		</release>
         		<set name="contour_line_colour" value="off">		</set> 
-        		<set name="contour_line_colour_rainbow_method" value="on">		</set>
-        		<set name="contour_line_colour_rainbow_max_level_colour" value="on">		</set>
-        		<set name="contour_line_colour_rainbow_min_level_colour" value="on">		</set>
+        		<set name="contour_hightlight" value="off">		</set> 
+        		
+        		<set name="contour_line_colour_rainbow_max_level_colour" value="red">		</set>
+        		<set name="contour_line_colour_rainbow_min_level_colour" value="blue">		</set>
         		<set name="contour_line_colour_rainbow_direction" value="on">		</set>
         		<set name="contour_line_colour_rainbow_colour_list" value="on">		</set>
         		<set name="contour_line_colour_rainbow_colour_list_policy" value="on">		</set>
@@ -50,7 +51,7 @@
 
     	<parameter xml="colour" from="string" name="contour_line_colour" default="blue" member="colour" to="Colour">
         		<documentation> Colour of contour line 		</documentation>
-        		<migration> New Magics: Parameter contour_line_colour sent to new Magics[IsoPlot].  		</migration>
+        	
         		<release>0.1		</release>
     	</parameter>
 
@@ -82,10 +83,26 @@
         		<release>2.6		</release>
     	</parameter>
 
-    	<parameter member="rainbowColourPolicy" to="ListPolicy" default="lastone" from="string" name="contour_line_colour_rainbow_colour_list_policy">
+    	<parameter member="rainbowColourPolicy" to="ListPolicy" default="lastone" from="string" 
+    			name="contour_line_colour_rainbow_colour_list_policy">
         		<documentation> What to do if the list of colours is smaller that the list of contour: lastone/cycle 		</documentation>           
     	</parameter>
-
+    	<parameter member="rainbowThicknessList" to="intarray" default="intarray()" from="intarray" 
+    			name="contour_line_thickess_rainbow_list">
+        		<documentation> List of thickness to used when rainbow method is on </documentation>           
+    	</parameter>
+		<parameter member="rainbowThicknessListPolicy" to="ListPolicy" default="lastone" from="string" 
+				name="contour_line_thickness_rainbow_list_policy">
+        		<documentation> What to do if the list of thickness is smaller that the list of contour: lastone/cycle 		</documentation>           
+    	</parameter>
+    	<parameter member="rainbowStyleList" to="stringarray" default="stringarray()" 
+    			from="stringarray" name="contour_line_style_rainbow_list">
+        		<documentation> List of line style to used when rainbow method is on </documentation>           
+    	</parameter>
+		<parameter member="rainbowStyleListPolicy" to="ListPolicy" default="lastone" from="string" 
+				name="contour_line_style_rainbow_list_policy">
+        		<documentation> What to do if the list of line styles is smaller that the list of contour: lastone/cycle 		</documentation>           
+    	</parameter>
     	<parameter xml="highlight" priority="0.2" from="string" name="contour_highlight" default="on" member="highlight" to="NoIsoHighlight" include="IsoHighlight.h">
         		<documentation> Plot contour highlights (ON/OFF) 		</documentation>
         		<option xml="highlight" fortran="on" include="IsoHighlight.h" name="IsoHighlight">		</option>

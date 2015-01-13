@@ -88,12 +88,13 @@ public:
     double rightRange(double) const;
     
     virtual void set(ColourTable&, int) const {}
-    void prepare(const LevelSelection&);  
+    void prepare(const LevelSelection&, bool rainbow = false);
     
     void colours(vector<string>&) const; 
     
 	void visit(LegendVisitor&);
 	ListPolicy getPolicy() const { return policy_; }
+
 protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).
 	 virtual void print(ostream&) const; 

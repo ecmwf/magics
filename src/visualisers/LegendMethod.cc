@@ -81,8 +81,9 @@ void ContinuousLegendMethod::row(LegendEntry& entry, double x, double y, Text& l
 	entry.rowBox(middle, task);
 
 	if ( entry.needContinuousText() ) {
-		legend.setJustification(MLEFT);		
-		legend.push_back(entry.leftTextBox(middle)); // WE attach the text on the bottom of the sumbol!
+		legend.setJustification(MLEFT);
+		middle.y_ -= 0.5;
+		legend.push_back(middle); // We attach the text on the top middle of the symbol!
 	}
 
 	labelCount_++;

@@ -2428,6 +2428,7 @@ EpsPlume::EpsPlume()
 
 void EpsPlume::visit(LegendVisitor& legend)
 {
+	if (!legend_) return;
 	if ( shading_ )
 	{
 		for ( vector<Colour>::iterator entry = shading_legend_.begin(); entry != shading_legend_.end(); ++entry) {
