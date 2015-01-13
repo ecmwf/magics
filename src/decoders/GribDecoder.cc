@@ -95,7 +95,32 @@ void GribDecoder::set(const GribLoop& loop, int index)
 	internalIndex_ = index;
 
 }
+long computeStep( const GribDecoder& grib,const string&  key)
+{
+	static map<string, double> stepUnits;
+	if ( stepUnits.empty() ) {
+		stepUnits["h"] = 3600;
+		stepUnits["s"] = 1;
+		stepUnits["m"] = 60;
+		stepUnits["3h"] = stepUnits["h"] * 3;
+		stepUnits["6h"] = stepUnits["h"] * 6;
+		stepUnits["12h"] = stepUnits["h"] * 6;
+		stepUnits["D"] = stepUnits["h"] * 24;
+		stepUnits["M"] = stepUnits["D"] * 30;
+		stepUnits["Y"] = stepUnits["M"] * 12;
+		stepUnits["10Y"] = stepUnits["M"] * 10;
+		stepUnits["30Y"] = stepUnits["M"] * 30;
+		stepUnits["C"] = stepUnits["M"] * 100;
+	}
+	string units = grib.getString("stepUnits");
+	long step = grib.getLong(key);
 
+	map<string, double>::iterator stepunit = stepUnits.find(units);
+	double factor = 1;
+	if ( stepunit != stepUnits.end() )
+		factor = stepunit->second;
+	return step * factor;
+}
 long GribDecoder::getLong(const string& key, bool warnIfKeyAbsent) const
 {
 	long val;
@@ -1151,8 +1176,8 @@ public:
 
 		const long type  = grib_.getLong("significanceOfReferenceTime", false);  
         if ( type == 2 ) { //     Verifying time of forecast
-		    const long step =  grib_.getLong("stepRange");  // default is in hours. Set 'stepUnits' to change.
-            full = full + (step*-3600);
+		    const long step =  computeStep(grib_, "stepRange");
+            full = full + (step * -1);
         }
 
 		return full.tostring(format);
@@ -1167,12 +1192,12 @@ public:
 		const long day  = grib_.getLong("date");
 		const long hour = grib_.getLong("hour");
 		const long mn   = grib_.getLong("minute");
-		const long step = grib_.getLong("startStep");  // default is in hours. Set 'stepUnits' to change.
+		const long step = computeStep(grib_, "startStep");
 
 		MagDate part1 = MagDate(day);
 		MagTime part2 = MagTime(hour, mn, 0);
 		DateTime full(part1, part2);
-		full = full + (step*3600);
+		full = full + step;
 
 		return full.tostring(format);
 	}
@@ -1185,7 +1210,7 @@ public:
 		const long day =  grib_.getLong("date");
 		const long hour = grib_.getLong("hour");
 		const long mn =  grib_.getLong("minute");
-		const long step =  grib_.getLong("stepRange");  // default is in hours. Set 'stepUnits' to change.
+		const long step =  computeStep(grib_, "stepRange");  // default is in hours. Set 'stepUnits' to change.
 
 
 
@@ -1194,7 +1219,7 @@ public:
 		DateTime full(part1, part2);
 		const long type  = grib_.getLong("significanceOfReferenceTime", false);
         if ( type != 2 ) { //     Verifying time of forecast
-		    full = full + (step*3600);
+		    full = full + step;
         }
 
 		return full.tostring(format);
@@ -1209,12 +1234,12 @@ public:
 		const long day =  grib_.getLong("date");  
 		const long hour = grib_.getLong("hour");  
 		const long mn =  grib_.getLong("minute");
-		const long step =  grib_.getLong("endStep");  // default is in hours. Set 'stepUnits' to change.
+		const long step = computeStep(grib_, "endStep");
 
 		MagDate part1 = MagDate(day);
 		MagTime part2 = MagTime(hour, mn, 0);
 		DateTime full(part1, part2);	
-		full = full + ( step*3600 );
+		full = full + step;
 
 		return full.tostring(format);
 
@@ -1799,6 +1824,8 @@ void GribDecoder::initInfo()
 
 namespace magics {
 
+
+
 class GribInfo
 {
 public:
@@ -2008,6 +2035,7 @@ public:
 	}	
 };
 
+
 class GribValidDateHandler : public TitleFieldHandler
 {
 public:
@@ -2015,18 +2043,22 @@ public:
 	~GribValidDateHandler() {}
 	void operator()(TitleField& field, vector<string>& title, const GribDecoder& grib)
 	{
+
+
 		ostringstream out;
 		long date = grib.getLong("date");
 		long hour = grib.getLong("hour");
 		long mn   = grib.getLong("minute");
-		long step = grib.getLong("step") * 3600; // needs steps in second!   // default is in hours. Set 'stepUnits' to change.
+
+
+		long step = computeStep(grib, "step");
 
 		MagDate part1 = MagDate(date);
 		MagTime part2 = MagTime(hour, mn, 0);
 		DateTime full(part1, part2);
 		const long type  = grib.getLong("significanceOfReferenceTime", false);
         if ( type != 2 ) { //     Verifying time of forecast
-		    full = full + (step*3600);
+		    full = full + step;
         }
 
 
