@@ -78,7 +78,7 @@
         		<documentation> Direction of colour sequencing for colouring 		</documentation>
     	</parameter>
 
-    	<parameter member="rainbowColours" to="stringarray" default="stringarray()" from="stringarray" name="contour_line_colour_rainbow_colour_list">
+    	<parameter member="rainbowColours" to="stringarray" default="stringarray()" from="stringarray" name="contour_line_colour_rainbow_colour_list" colourlist="on">
         		<documentation> List of colours to be used in rainbow isolines 		</documentation>
         		<release>2.6		</release>
     	</parameter>
