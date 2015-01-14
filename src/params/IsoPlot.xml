@@ -88,7 +88,7 @@
         		<documentation> What to do if the list of colours is smaller that the list of contour: lastone/cycle 		</documentation>           
     	</parameter>
     	<parameter member="rainbowThicknessList" to="intarray" default="intarray()" from="intarray" 
-    			name="contour_line_thickess_rainbow_list">
+    			name="contour_line_thickness_rainbow_list">
         		<documentation> List of thickness to used when rainbow method is on </documentation>           
     	</parameter>
 		<parameter member="rainbowThicknessListPolicy" to="ListPolicy" default="lastone" from="string" 
