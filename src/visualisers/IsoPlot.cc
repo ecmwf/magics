@@ -57,7 +57,7 @@ static MutexCond producerMutex_;
 /*!
  Class information are given to the output-stream.
  */
-void IsoPlot::print(ostream& out) const {
+ void IsoPlot::print(ostream& out) const {
     out << "IsoPlot[";
     IsoPlotAttributes::print(out);
     out << "]";
@@ -372,14 +372,15 @@ public:
     	for (vector<Polyline*>::iterator poly = polylines_.begin(); poly != polylines_.end(); ++poly) {
 
     		(*owner.shading_)(*poly);
-
+/*
     		if ( (*owner.shading_).needClipping()  ) {
-    			transformation(**poly, out);
-    			delete *poly;
-    		}
-    		else {
-    			out.push_back(*poly);
-    		}
+#				transformation(**poly, out);
+# 				delete *poly;
+#		}
+#		else {
+*/
+  			out.push_back(*poly);
+    		//}
 
 
     	}
@@ -557,7 +558,7 @@ protected:
     IsoProducerData&  objects_;
 
 private:
-    //! Copy constructor - No copy allowed
+    //! Copy constructor - No copy allowedf
     IsoProducer(const IsoProducer&);
     //! Overloaded << operator to copy - No copy allowed
     IsoProducer& operator=(const IsoProducer&);
@@ -1356,10 +1357,10 @@ void IsoPlot::isoline(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
 
 
         if ( !rainbow_ ) {
-        	(*poly)->setLineStyle(style_);
-        	(*poly)->setThickness(thickness_);
         	(*poly)->setColour(*colour_);
         	(*highlight_)(*(*poly));
+        	(*poly)->setLineStyle(style_);
+        	(*poly)->setThickness(thickness_);
         }
         else {
         	double level = (*poly)->front().value();
@@ -1765,11 +1766,22 @@ GridCell::GridCell(const CellArray& data, int row, int column, const Transformat
 			rows_[3] =  data.data_.row(row2, column);
 			}
 
+		double minx = transformation.getMinPCX();
+		double maxx = transformation.getMaxPCX();
+		double miny = transformation.getMinPCY();
+		double maxy = transformation.getMaxPCY();
+
 		for (int i = 0; i < 4; i++) {
 
 			transformation.fast_reproject(columns_[i], rows_[i]);
-
-
+			if ( columns_[i] < minx )
+				columns_[i] = minx;
+			if ( columns_[i] > maxx )
+				columns_[i] = maxx;
+			if ( rows_[i] < miny )
+				rows_[i] = miny;
+			if ( rows_[i] > maxy )
+				rows_[i] = maxy;
 		}
 
 	}

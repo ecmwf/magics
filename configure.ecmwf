@@ -40,7 +40,7 @@ case "${OS_VERSION}" in
     ;;
     opensuse131) # New Local worksation
         tar='on'
-        regression="on"
+        regression="off"
         debug="off"
         odb="on"
         bufr="on"
@@ -57,7 +57,7 @@ case "${OS_VERSION}" in
         run="4"
     ;;
     sles11) # lxab lxop
-        if [[ $HOST = "lxop1" ]];then
+        if [[ $HOST = "lxop01" ]];then
             build_home="/home/graphics/cgs/build/$version/${HOST}"
             odb='off'
             bufr='off'

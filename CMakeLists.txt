@@ -122,7 +122,7 @@ endif()
 
 set( odb no )
 if( ENABLE_ODB )
-  ecbuild_use_package( PROJECT odb_api  VERSION 0.9.31 REQUIRED)
+  ecbuild_use_package( PROJECT odb_api  VERSION 0.10.2 REQUIRED)
 endif()
 if( ODB_API_FOUND )
       set( MAGICS_ODB 1 )
@@ -151,7 +151,6 @@ endif()
 
 ### bufr
 
-debug_var (ENABLE_BUFR )
 set( bufr no )
 if( ENABLE_BUFR )
   find_package( EMOS REQUIRED )
@@ -161,7 +160,6 @@ if( EMOS_FOUND )
    set( bufr yes)
 endif()
 
-debug_var ( EMOS_FOUND )
 
 ### cairo
 
@@ -364,7 +362,6 @@ set(MAGICS_EXTRA_LIBS "")
 foreach( lib ${__magics_tmp} )
   if( lib MATCHES "^/.*" )
 # Need to split -L/path and -l libd
-	
 	 get_filename_component(ext ${lib} EXT)
 	  if ( ${ext} MATCHES ${CMAKE_SHARED_LIBRARY_SUFFIX} )
 		
@@ -372,7 +369,6 @@ foreach( lib ${__magics_tmp} )
 		
 		list( APPEND RPATH "-Wl,-rpath,${path}")
 	  endif()
-	 #set(MAGICS_EXTRA_LIBS "${MAGICS_EXTRA_LIBS} ${lib}" )
   else()
     if( NOT lib MATCHES "^-l.*" )
 		set( lib "-l${lib}" )
@@ -383,12 +379,13 @@ foreach( lib ${__magics_tmp} )
 endforeach()
 
 set(MAGICS_EXTRA_LIBS "${MAGICS_EXTRA_LIBS} -Wl,-rpath,${CMAKE_INSTALL_PREFIX}/lib" )
+set(MAGICS_RPATH " -Wl,-rpath,${CMAKE_INSTALL_PREFIX}/lib" )
 
 
 list(REMOVE_DUPLICATES RPATH)
 		
-foreach( lib ${RPATH} )
-	set(MAGICS_EXTRA_LIBS "${MAGICS_EXTRA_LIBS} ${lib}" )
+foreach( path ${RPATH} )
+	set(MAGICS_EXTRA_LIBS "${MAGICS_EXTRA_LIBS} ${path}" )
 endforeach()
 	
 
