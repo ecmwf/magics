@@ -57,7 +57,7 @@ static MutexCond producerMutex_;
 /*!
  Class information are given to the output-stream.
  */
- void IsoPlot::print(ostream& out) const {
+void IsoPlot::print(ostream& out) const {
     out << "IsoPlot[";
     IsoPlotAttributes::print(out);
     out << "]";
@@ -1356,10 +1356,10 @@ void IsoPlot::isoline(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
 
 
         if ( !rainbow_ ) {
-        	(*poly)->setColour(*colour_);
-        	(*highlight_)(*(*poly));
         	(*poly)->setLineStyle(style_);
         	(*poly)->setThickness(thickness_);
+        	(*poly)->setColour(*colour_);
+        	(*highlight_)(*(*poly));
         }
         else {
         	double level = (*poly)->front().value();
