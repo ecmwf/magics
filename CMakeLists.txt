@@ -107,10 +107,8 @@ endif()
 ### netcdf
 
 set( netcdf no )
-set( PREFER_NETCDF4 1)
-set( NETCDF_CXX 1 )
 if ( ENABLE_NETCDF )
-  find_package( NetCDF REQUIRED)
+	find_package( NetCDF 4 COMPONENTS C CXX )
 endif()
 if ( NETCDF_FOUND )
     list( APPEND MAGICS_TPLS  NetCDF )
