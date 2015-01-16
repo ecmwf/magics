@@ -125,6 +125,10 @@ if( ENABLE_ODB )
   ecbuild_use_package( PROJECT odb_api  VERSION 0.10.2 REQUIRED)
 endif()
 if( ODB_API_FOUND )
+
+    get_filename_component( odb_api_install_dir ${ODB_API_CMAKE_DIR}/../../../lib ABSOLUTE )
+    get_filename_component( eckit_install_dir   ${ECKIT_CMAKE_DIR}/../../../lib ABSOLUTE )
+
       set( MAGICS_ODB 1 )
 	  set( odb yes)
 
@@ -356,12 +360,19 @@ set(  __magics_tmp ${MAGICS_EXTRA_LIBRARIES} )
 
 list(REMOVE_ITEM __magics_tmp debug )
 list(REMOVE_ITEM __magics_tmp optimized )
+if( ODB_API_FOUND )
+    list(REMOVE_ITEM __magics_tmp Odb)
+    list(REMOVE_ITEM __magics_tmp eckit)
+    list(REMOVE_ITEM __magics_tmp eckit_web)
+    list(REMOVE_ITEM __magics_tmp eckit_geometry)
+endif()
 
 set(MAGICS_EXTRA_LIBS "")
 
 foreach( lib ${__magics_tmp} )
   if( lib MATCHES "^/.*" )
 # Need to split -L/path and -l libd
+	
 	 get_filename_component(ext ${lib} EXT)
 	  if ( ${ext} MATCHES ${CMAKE_SHARED_LIBRARY_SUFFIX} )
 		
@@ -369,6 +380,7 @@ foreach( lib ${__magics_tmp} )
 		
 		list( APPEND RPATH "-Wl,-rpath,${path}")
 	  endif()
+	 
   else()
     if( NOT lib MATCHES "^-l.*" )
 		set( lib "-l${lib}" )
@@ -378,15 +390,29 @@ foreach( lib ${__magics_tmp} )
   set(MAGICS_EXTRA_LIBS "${MAGICS_EXTRA_LIBS} ${lib}" )
 endforeach()
 
-set(MAGICS_EXTRA_LIBS "${MAGICS_EXTRA_LIBS} -Wl,-rpath,${CMAKE_INSTALL_PREFIX}/lib" )
+
 set(MAGICS_RPATH " -Wl,-rpath,${CMAKE_INSTALL_PREFIX}/lib" )
+
+if( ODB_API_FOUND )
+
+    set(MAGICS_EXTRA_LIBS "${MAGICS_EXTRA_LIBS} -L${odb_api_install_dir} -lOdb")
+    set(MAGICS_EXTRA_LIBS "${MAGICS_EXTRA_LIBS} -L${eckit_install_dir} -leckit")
+    set(MAGICS_EXTRA_LIBS "${MAGICS_EXTRA_LIBS} -L${eckit_install_dir} -leckit_web")
+    set(MAGICS_EXTRA_LIBS "${MAGICS_EXTRA_LIBS} -L${eckit_install_dir} -leckit_geometry")
+    set(MAGICS_RPATH "${MAGICS_RPATH}  -Wl,-rpath,${eckit_install_dir}" ) 
+    set(MAGICS_RPATH "${MAGICS_RPATH}  -Wl,-rpath,${odb_api_install_dir}" )
+endif()
+
+
 
 
 list(REMOVE_DUPLICATES RPATH)
-		
+
 foreach( path ${RPATH} )
-	set(MAGICS_EXTRA_LIBS "${MAGICS_EXTRA_LIBS} ${path}" )
+	set(MAGICS_RPATH "${MAGICS_RPATH} ${path}" )
 endforeach()
+
+debug_var(MAGICS_RPATH)
 	
 
 configure_file( magics-config.in  magics-config @ONLY )					
