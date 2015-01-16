@@ -4,7 +4,7 @@
 		This is the default driver for Magics, and PostScript is the default output format. 
 		</documentation>
 
-	<parameter from="string" name="output_ps_colour_model" default="cmyk" member="colour_model" to="string" values="rgb/cmyk/monochrome/gray/cmyk_monochrome/cmyk_gray">
+	<parameter from="string" name="output_ps_colour_model" default="rgb" member="colour_model" to="string" values="rgb/cmyk/monochrome/gray/cmyk_monochrome/cmyk_gray">
    		<metview default="" class="">  		</metview>
    		<documentation>Defines the PostScript colour model .		</documentation>
 
