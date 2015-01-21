@@ -168,13 +168,10 @@ public:
         }
         if ( helper->second-> size() == 0 ) {
         	int size = points.size();
-        	////cout << " line" << endl;
         	for ( int i = 0; i < size; i++ ) {
         		int j = (i+1)%size;
         		helper->second->push_back(points[i].x_, points[i].y_, points[j].x_, points[j].y_);
-        		////cout << points[i].x_ << " " << points[i].y_<< " " <<  points[j].x_<< " " <<  points[j].y_ << endl;
         	}
-        	////cout << "end line" << endl;
 
         }
         else {
@@ -209,46 +206,18 @@ public:
 
 
         	if (output.size() == 1){
-        		//cout << "REMOVE " <<  boost::geometry::area(pts) << endl;
-        	   for ( vector<PaperPoint>::iterator pt = pts.outer().begin();  pt != pts.outer().end(); ++pt ) {
-        	        		   //cout << *pt << endl;
-
-        	        		 }
-        	        		//cout << "--------------------- " << endl;
-        	        		//cout << "FROM " << boost::geometry::area(previous) << endl;
-        	        		for ( vector<PaperPoint>::iterator pt = previous.outer().begin();  pt != previous.outer().end(); ++pt ) {
-        	         		   //cout << *pt << endl;
-
-        	         		 }//cout << "--------------------- " << endl;
         	         		vector<PaperPoint> xx;
-        	        		//cout << "RESULT " << boost::geometry::area(previous) << endl;
         	        		        	        		for ( vector<PaperPoint>::iterator pt = output.front().outer().begin();  pt != output.front().outer().end(); ++pt ) {
-        	        		        	         		   //cout << *pt << endl;
         	        		        	         		   xx.push_back(*pt);
-        	        		        	         		 }//cout << "--------------------- " << endl;
+        	        		        	         		 }
 
         	        		        	         		push_back(index, xx);
 
         	}
         	else
         		{
-/*
-        		//cout << "rremove " <<  boost::geometry::area(pts) << endl;
-        		for ( vector<PaperPoint>::iterator pt = pts.outer().begin();  pt != pts.outer().end(); ++pt ) {
-        		   //cout << *pt << endl;
-
-        		 }
-        		//cout << "--------------------- " << endl;
-        		//cout << "from " << boost::geometry::area(previous) << endl;
-        		for ( vector<PaperPoint>::iterator pt = previous.outer().begin();  pt != previous.outer().end(); ++pt ) {
-         		   //cout << *pt << endl;
-
-         		 }
-         		 */
-        		//cout << "--------------------- " << endl;
 
         			boost::geometry::union_(pts, previous, output);
-        			//cout << "UNION ???" << output.size()<< endl;
         	        		if (output.size() == 1){
         	        			push_back(index, output.front().outer());
         	        		}
@@ -266,6 +235,7 @@ public:
     void push_back(int index, const SegmentJoiner& segment) {
     	if ( index == -1 )
     		return;
+
     	map<int, SegmentJoiner*>::iterator helper = helper_.find(index);
     	if ( helper == helper_.end() ) {
     		helper_.insert(make_pair(index, new SegmentJoiner()));
@@ -285,6 +255,14 @@ public:
     	if ( index == -1 )
     		return;
     	Cell *cell;
+        if ( column1_ == column2_ && row1_ == row2_ ) {
+            cell = (*parent_)(row1_, column1_);
+			push_back(index, cell->column(0), cell->row(0),  cell->column(1), cell->row(0) );
+			push_back(index, cell->column(1), cell->row(0), cell->column(1), cell->row(2));
+			push_back(index, cell->column(1), cell->row(2), cell->column(0), cell->row(2));
+			push_back(index, cell->column(0), cell->row(2), cell->column(0), cell->row(0));
+            return;
+         }
 
     	// bottom
 		for (int column = column1_; column <= column2_; column++) {
@@ -333,7 +311,7 @@ public:
 
           case singleRange: 
 
-               addShape(owner.shadingIndex(value()));
+                    addShape(owner.shadingIndex(value()));
 
                 break;
 
@@ -368,21 +346,9 @@ public:
 
     void feed(IsoPlot& owner, BasicGraphicsObjectContainer& out)
     {
-    	const Transformation& transformation = out.transformation();
     	for (vector<Polyline*>::iterator poly = polylines_.begin(); poly != polylines_.end(); ++poly) {
-
     		(*owner.shading_)(*poly);
-/*
-    		if ( (*owner.shading_).needClipping()  ) {
-#				transformation(**poly, out);
-# 				delete *poly;
-#		}
-#		else {
-*/
   			out.push_back(*poly);
-    		//}
-
-
     	}
     	polylines_.clear();
     }
@@ -396,6 +362,9 @@ public:
     		vector<vector<Point> > polys;
     		list<vector<Point> > holes;
     		SegmentJoiner& joiner = *index->second;
+           
+            if (index->first == 4) 
+                joiner.print();
     		joiner.computePolygonLines(result);
     		Polyline* poly = 0;
     		for (vector<vector<Point> >::iterator j = result.begin() ; j != result.end(); ++j) {
@@ -411,6 +380,7 @@ public:
     			else {
     				polys.push_back(vector<Point>());
     				std::swap((*j),polys.back());
+                    
     			}
     		}
 
@@ -424,7 +394,6 @@ public:
 
     			for (vector<Point>::iterator point = j->begin(); point != j->end(); ++point)
     				poly->push_back(PaperPoint(point->x_, point->y_));
-
 
 
     			for(std::list<vector<Point> >::iterator h = holes.begin() ; h != holes.end(); ) {
@@ -1255,7 +1224,6 @@ void IsoPlot::isoline(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
         VectorOfPointers<vector<IsoProducerData*> > datas;
 
         for ( int i = 0; i < view.size(); i++)
-
         {
 
            IsoProducerData* data = new IsoProducerData(shading_->shadingMode(), *this, *(view[i]));
@@ -1771,18 +1739,43 @@ GridCell::GridCell(const CellArray& data, int row, int column, const Transformat
 		double miny = transformation.getMinPCY();
 		double maxy = transformation.getMaxPCY();
 
+        bool clip = false;
+        static int count = 0;
+        count++;
+
 		for (int i = 0; i < 4; i++) {
 
 			transformation.fast_reproject(columns_[i], rows_[i]);
-			if ( columns_[i] < minx )
+            
+			if ( columns_[i] < minx ) {
 				columns_[i] = minx;
-			if ( columns_[i] > maxx )
-				columns_[i] = maxx;
-			if ( rows_[i] < miny )
-				rows_[i] = miny;
-			if ( rows_[i] > maxy )
+                clip = true;
+               }
+			if ( columns_[i] > maxx ) {
+				columns_[i] = maxx ;
+                clip = true;
+                }
+			if( rows_[i] < miny ) {
+				rows_[i] = miny ;
+                clip = true;
+                }
+			if ( rows_[i] > maxy ) {
 				rows_[i] = maxy;
+                clip = true;
+                }
+            
 		}
+        if ( clip) { 
+            double xmin = std::min(columns_[0], columns_[2]);
+            double xmax = std::max(columns_[0], columns_[2]);
+            double ymin = std::min(rows_[0], rows_[2]);
+            double ymax = std::max(rows_[0], rows_[2]);
+            if ( xmin == xmax || ymin == ymax) {
+			    range_ = -1;
+                outOfRange_ = 4;
+            }
+
+        }
 
 	}
 
