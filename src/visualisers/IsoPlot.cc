@@ -53,32 +53,6 @@ static MutexCond producerMutex_;
 
  IsoPlot::~IsoPlot() {
 }
-void correct(vector<PaperPoint>& poly)
-{
-
-    // majke sure poly is closed
-    PaperPoint front = poly.front();
-    PaperPoint back = poly.back();
-
-    if ( front.x_ != back.x_ &&  front.y_ != back.y_)
-        poly.push_back(poly.front());
-
-    double area = 0;
-
-    int nb = poly.size()-1;
-
-
-    for(int i = 0; i < nb; i++)
-    {
-        area += (poly[i].x_*poly[i+1].y_) -  (poly[i+1].x_*poly[i].y_) ;
-    }
-
-   if ( area < 0 ) {
-        std::reverse(poly.begin(), poly.end());
-        cout << "REVERSE" << endl;
-    }
-    poly.pop_back();
-}
 
 /*!
  Class information are given to the output-stream.
@@ -290,9 +264,9 @@ public:
             points.push_back(PaperPoint(cell->column(1), cell->row(0)));
             points.push_back(PaperPoint(cell->column(1), cell->row(2)));
             points.push_back(PaperPoint(cell->column(0), cell->row(2)));
-            points.push_back(PaperPoint(cell->column(0), cell->row(0)));
 
-            correct(points);
+
+
 
             push_back(index, points);
             return;
@@ -323,7 +297,7 @@ public:
             points.push_back(PaperPoint(cell->column(0), cell->row(2)));
             points.push_back(PaperPoint(cell->column(0), cell->row(0)));
         }
-        correct(points);
+
         push_back(index, points);
     }
 
@@ -403,24 +377,37 @@ public:
             list<vector<Point> > holes;
             SegmentJoiner& joiner = *index->second;
 
-            if (index->first == 4)
-                joiner.print();
+            //if (index->first == 4)
+                //joiner.print();
             joiner.computePolygonLines(result);
             Polyline* poly = 0;
+            bool reverse = joiner.isHole(result.front());
+
             for (vector<vector<Point> >::iterator j = result.begin() ; j != result.end(); ++j) {
 
-                if ( joiner.isHole((*j)) ) {
-
+                if ( reverse ) {
+                if ( !joiner.isHole((*j)) ) {
                     holes.push_back(vector<Point>());
-
                     std::swap((*j),holes.back());
-
 
                 }
                 else {
                     polys.push_back(vector<Point>());
                     std::swap((*j),polys.back());
 
+                }
+                }
+                else {
+                if ( joiner.isHole((*j)) ) {
+                    holes.push_back(vector<Point>());
+                    std::swap((*j),holes.back());
+
+                }
+                else {
+                    polys.push_back(vector<Point>());
+                    std::swap((*j),polys.back());
+
+                }
                 }
             }
 
@@ -606,7 +593,7 @@ void IsoPlot::isoline(Cell& cell, CellBox* parent) const
             for (int i = 0; i < 4; i++) {
                  points.push_back(PaperPoint(cell.column(i), cell.row(i)));
 
-            correct(points);
+
             parent->push_back(index, points);
 
                 return;
@@ -642,15 +629,10 @@ void IsoPlot::isoline(Cell& cell, CellBox* parent) const
 
         if ( levels.empty() && parent ) {
             int index = shading_->shadingIndex(cell.value(p1));
-            vector<PaperPoint> points;
-            points.push_back(PaperPoint(cell.column(p1), cell.row(p1)));
-            points.push_back(PaperPoint(cell.column(p2), cell.row(p2)));
-            points.push_back(PaperPoint(cell.column(p3), cell.row(p3)));
-
-            correct(points);
 
 
-           //parent->push_back(index, points);
+
+
 
             parent->push_back(index, cell.column(p1), cell.row(p1), cell.column(p2), cell.row(p2));
             parent->push_back(index, cell.column(p2), cell.row(p2), cell.column(p3), cell.row(p3));
@@ -1171,8 +1153,7 @@ void IsoPlot::isoline(Cell& cell, CellBox* parent) const
                 }
 
                 if (box) {
-                        correct(left);
-                        correct(right);
+
                         box->push_back(leftindex, left);
                         box->push_back(rightindex, right);
                 }
@@ -1201,6 +1182,11 @@ void IsoPlot::isoline(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
 {
 
     const Transformation& transformation = parent.transformation();
+    Polyline& x = transformation.getPCBoundingBox();
+
+    cout << endl;
+
+
     levels_.clear();
     if ( levelSelection_->empty() )
         return;
@@ -1477,12 +1463,7 @@ void IsoPlot::visit(Data& data, LegendVisitor& legend) {
             (*shading_).visit(legend);
             if (shading_->hasLegend() ) return;
             if ( rainbow_) {
-                    //LegendEntryBuilder helper(legend, colour);
-                    //std::adjacent_find(colour.begin(), colour.end(), LegendEntryBuilder(legend, this, colour));
-                   // if ( colour.size() == 1 ) {
-                        //  helper(*colour.begin(), *colour.begin());
-                    //  }
-                    //legend.last(); // Flag the last entry as being the last! To get a nice labelling in countinuous mode!!!
+
                 for ( vector<double>::iterator level = levelSelection_->begin(); level != levelSelection_->end(); ++level) {
                     Polyline* line = new Polyline();
 
