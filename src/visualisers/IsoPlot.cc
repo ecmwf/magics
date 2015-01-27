@@ -1370,9 +1370,9 @@ void IsoPlot::isoline(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
 
         if ( !rainbow_ ) {
             (*poly)->setColour(*colour_);
-            (*highlight_)(*(*poly));
             (*poly)->setLineStyle(style_);
             (*poly)->setThickness(thickness_);
+            (*highlight_)(*(*poly));
         }
         else {
             double level = (*poly)->front().value();
