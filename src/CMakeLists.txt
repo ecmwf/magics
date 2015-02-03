@@ -108,14 +108,14 @@ if( MAGICS_ODB )
 	add_subdirectory( oda )
 endif()
 
+include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/common )
+
 ecbuild_add_library( TARGET    MagPlusSingle 
 		     SOURCES MagicsSingle.cc
-		     INCLUDES  ${CMAKE_CURRENT_SOURCE_DIR}/common
 		     TYPE STATIC)
 		     
 ecbuild_add_library( TARGET    MagPlusDouble 
 		     SOURCES MagicsDouble.cc
-		     INCLUDES  ${CMAKE_CURRENT_SOURCE_DIR}/common
 		     TYPE STATIC)		     
 
 ecbuild_add_library( TARGET    MagPlusShared
@@ -172,16 +172,8 @@ ecbuild_add_library( TARGET    MagPlusStatic
 endif()
 
 if( metview )
-  ecbuild_add_library( TARGET    MagWrapper
-                     DEPENDS   mv_params magics_params
-                     SOURCES
-                        magics.h
-                        ${metview_srcs} 
-                        ${metview_wrappers_srcs} 
-                     DEFINITIONS
-                        ${MAGICS_EXTRA_DEFINITIONS}
-                     INCLUDES  
-                        ${CMAKE_CURRENT_SOURCE_DIR} 
+
+  include_directories(  ${CMAKE_CURRENT_SOURCE_DIR} 
                         ${CMAKE_CURRENT_BINARY_DIR} 
                         ${CMAKE_CURRENT_BINARY_DIR}/params 
                         ${CMAKE_CURRENT_SOURCE_DIR}/common  
@@ -193,7 +185,17 @@ if( metview )
                         ${CMAKE_CURRENT_SOURCE_DIR}/terralib
                         ${CMAKE_CURRENT_SOURCE_DIR}/terralib/kernel
                         ${CMAKE_CURRENT_SOURCE_DIR}/terralib/utils 
-                        ${CMAKE_CURRENT_SOURCE_DIR}/libMagWrapper
+                        ${CMAKE_CURRENT_SOURCE_DIR}/libMagWrapper )
+  
+
+  ecbuild_add_library( TARGET    MagWrapper
+                     DEPENDS   mv_params magics_params
+                     SOURCES
+                        magics.h
+                        ${metview_srcs} 
+                        ${metview_wrappers_srcs} 
+                     DEFINITIONS
+                        ${MAGICS_EXTRA_DEFINITIONS}
                     LIBS
                         ${MAGICS_EXTRA_LIBRARIES}
                     TYPE STATIC		
