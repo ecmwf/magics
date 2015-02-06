@@ -110,14 +110,6 @@ endif()
 
 include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/common )
 
-ecbuild_add_library( TARGET    MagPlusSingleShared 
-		     SOURCES MagicsSingle.cc
-		     TYPE SHARED)
-		     
-ecbuild_add_library(TARGET    MagPlusDoubleShared 
-		     SOURCES MagicsDouble.cc
-		     TYPE SHARED)		     
-
 ecbuild_add_library( TARGET    MagPlusShared
                      DEPENDS   magics_params
                      SOURCES
@@ -141,21 +133,21 @@ ecbuild_add_library( TARGET    MagPlusShared
                         ${MAGICS_EXTRA_LIBRARIES}
 		            TYPE SHARED		     
                     )
+
+ecbuild_add_library( TARGET    MagPlusSingleShared 
+		     SOURCES MagicsSingle.cc
+		     TYPE SHARED)
+		     
+ecbuild_add_library(TARGET    MagPlusDoubleShared 
+		     SOURCES MagicsDouble.cc
+		     TYPE SHARED)		     
+
 SET_TARGET_PROPERTIES(MagPlusShared PROPERTIES OUTPUT_NAME "MagPlus")
 SET_TARGET_PROPERTIES(MagPlusDoubleShared PROPERTIES OUTPUT_NAME "MagPlusDouble")
 SET_TARGET_PROPERTIES(MagPlusSingleShared PROPERTIES OUTPUT_NAME "MagPlusSingle")
 
 
 if ( ENABLE_STATIC_LIBRARY ) 	     
-ecbuild_add_library( TARGET    MagPlusSingleStatic 
-		     SOURCES MagicsSingle.cc
-		     INCLUDES  ${CMAKE_CURRENT_SOURCE_DIR}/common
-		     TYPE SHARED)
-		     
-ecbuild_add_library(TARGET    MagPlusDoubleStatic 
-		     SOURCES MagicsDouble.cc
-		     INCLUDES  ${CMAKE_CURRENT_SOURCE_DIR}/common
-		     TYPE SHARED)
 ecbuild_add_library( TARGET    MagPlusStatic
                      DEPENDS   magics_params
                      SOURCES
@@ -179,6 +171,15 @@ ecbuild_add_library( TARGET    MagPlusStatic
                         ${MAGICS_EXTRA_LIBRARIES} 
 		            TYPE STATIC		     
                     )
+ecbuild_add_library( TARGET    MagPlusSingleStatic 
+		     SOURCES MagicsSingle.cc
+		     INCLUDES  ${CMAKE_CURRENT_SOURCE_DIR}/common
+		     TYPE SHARED)
+		     
+ecbuild_add_library(TARGET    MagPlusDoubleStatic 
+		     SOURCES MagicsDouble.cc
+		     INCLUDES  ${CMAKE_CURRENT_SOURCE_DIR}/common
+		     TYPE SHARED)
 
     SET_TARGET_PROPERTIES(MagPlusStatic PROPERTIES OUTPUT_NAME "MagPlus")
     SET_TARGET_PROPERTIES(MagPlusDoubleStatic PROPERTIES OUTPUT_NAME "MagPlusDouble")
