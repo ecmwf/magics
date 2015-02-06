@@ -108,15 +108,15 @@ if( MAGICS_ODB )
 	add_subdirectory( oda )
 endif()
 
-ecbuild_add_library( TARGET    MagPlusSingle 
+include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/common )
+
+ecbuild_add_library( TARGET    MagPlusSingleShared 
 		     SOURCES MagicsSingle.cc
-		     INCLUDES  ${CMAKE_CURRENT_SOURCE_DIR}/common
-		     TYPE STATIC)
+		     TYPE SHARED)
 		     
-ecbuild_add_library( TARGET    MagPlusDouble 
+ecbuild_add_library(TARGET    MagPlusDoubleShared 
 		     SOURCES MagicsDouble.cc
-		     INCLUDES  ${CMAKE_CURRENT_SOURCE_DIR}/common
-		     TYPE STATIC)		     
+		     TYPE SHARED)		     
 
 ecbuild_add_library( TARGET    MagPlusShared
                      DEPENDS   magics_params
@@ -142,7 +142,20 @@ ecbuild_add_library( TARGET    MagPlusShared
 		            TYPE SHARED		     
                     )
 SET_TARGET_PROPERTIES(MagPlusShared PROPERTIES OUTPUT_NAME "MagPlus")
+SET_TARGET_PROPERTIES(MagPlusDoubleShared PROPERTIES OUTPUT_NAME "MagPlusDouble")
+SET_TARGET_PROPERTIES(MagPlusSingleShared PROPERTIES OUTPUT_NAME "MagPlusSingle")
+
+
 if ( ENABLE_STATIC_LIBRARY ) 	     
+ecbuild_add_library( TARGET    MagPlusSingleStatic 
+		     SOURCES MagicsSingle.cc
+		     INCLUDES  ${CMAKE_CURRENT_SOURCE_DIR}/common
+		     TYPE SHARED)
+		     
+ecbuild_add_library(TARGET    MagPlusDoubleStatic 
+		     SOURCES MagicsDouble.cc
+		     INCLUDES  ${CMAKE_CURRENT_SOURCE_DIR}/common
+		     TYPE SHARED)
 ecbuild_add_library( TARGET    MagPlusStatic
                      DEPENDS   magics_params
                      SOURCES
@@ -168,20 +181,13 @@ ecbuild_add_library( TARGET    MagPlusStatic
                     )
 
     SET_TARGET_PROPERTIES(MagPlusStatic PROPERTIES OUTPUT_NAME "MagPlus")
+    SET_TARGET_PROPERTIES(MagPlusDoubleStatic PROPERTIES OUTPUT_NAME "MagPlusDouble")
+    SET_TARGET_PROPERTIES(MagPlusSingleStatic PROPERTIES OUTPUT_NAME "MagPlusSingle")
 
 endif()
 
 if( metview )
-  ecbuild_add_library( TARGET    MagWrapper
-                     DEPENDS   mv_params
-                     SOURCES
-                        magics.h
-                        ${metview_srcs} 
-                        ${metview_wrappers_srcs} 
-                     DEFINITIONS
-                        ${MAGICS_EXTRA_DEFINITIONS}
-                     INCLUDES  
-                        ${CMAKE_CURRENT_SOURCE_DIR} 
+ include_directories(  ${CMAKE_CURRENT_SOURCE_DIR} 
                         ${CMAKE_CURRENT_BINARY_DIR} 
                         ${CMAKE_CURRENT_BINARY_DIR}/params 
                         ${CMAKE_CURRENT_SOURCE_DIR}/common  
@@ -193,7 +199,16 @@ if( metview )
                         ${CMAKE_CURRENT_SOURCE_DIR}/terralib
                         ${CMAKE_CURRENT_SOURCE_DIR}/terralib/kernel
                         ${CMAKE_CURRENT_SOURCE_DIR}/terralib/utils 
-                        ${CMAKE_CURRENT_SOURCE_DIR}/libMagWrapper
+                        ${CMAKE_CURRENT_SOURCE_DIR}/libMagWrapper )
+                        
+  ecbuild_add_library( TARGET    MagWrapper
+                     DEPENDS   mv_params magics_params
+                     SOURCES
+                        magics.h
+                        ${metview_srcs} 
+                        ${metview_wrappers_srcs} 
+                     DEFINITIONS
+                        ${MAGICS_EXTRA_DEFINITIONS}                   
                     LIBS
                         ${MAGICS_EXTRA_LIBRARIES}
                     TYPE STATIC		

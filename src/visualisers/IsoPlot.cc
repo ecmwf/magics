@@ -258,6 +258,7 @@ public:
             return;
         Cell* cell;
         vector<PaperPoint> points;
+        /*
         if ( column1_ == column2_ && row1_ == row2_ ) {
             cell = (*parent_)(row1_, column1_);
             points.push_back(PaperPoint(cell->column(0), cell->row(0)));
@@ -271,33 +272,39 @@ public:
             push_back(index, points);
             return;
          }
+         */
 
         // bottom
         for (int column = column1_; column <= column2_; column++) {
             cell = (*parent_)(row1_, column);
             points.push_back(PaperPoint(cell->column(0), cell->row(0)));
-            points.push_back(PaperPoint(cell->column(1), cell->row(0)));
+
         }
 
         // right
         for (int row = row1_; row <= row2_; row++) {
             cell = (*parent_)(row, column2_);
-            points.push_back(PaperPoint(cell->column(1), cell->row(0)));
-            points.push_back(PaperPoint(cell->column(1), cell->row(2)));
+            points.push_back(PaperPoint(cell->column(1), cell->row(1)));
+
         }
         // top
         for (int column = column2_; column >= column1_; column--) {
             cell = (*parent_)(row2_, column);
-            points.push_back(PaperPoint(cell->column(1), cell->row(2)));
-            points.push_back(PaperPoint(cell->column(0), cell->row(2)));
+            points.push_back(PaperPoint(cell->column(2), cell->row(2)));
+
         }
         //left
         for (int row = row2_; row >= row1_; row--) {
             cell = (*parent_)(row, column1_);
-            points.push_back(PaperPoint(cell->column(0), cell->row(2)));
-            points.push_back(PaperPoint(cell->column(0), cell->row(0)));
+
+            points.push_back(PaperPoint(cell->column(3), cell->row(3)));
         }
 
+
+        cout << "---------------Box-----------" << endl;
+        for ( vector<PaperPoint>::iterator pt = points.begin(); pt != points.end(); ++pt)
+            cout << fixed << "[" << pt->x_ << ", " << pt->y_ << "]" << endl;
+        cout << "---------------Box-----------" << endl;
         push_back(index, points);
     }
 
@@ -1184,7 +1191,7 @@ void IsoPlot::isoline(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
     const Transformation& transformation = parent.transformation();
     Polyline& x = transformation.getPCBoundingBox();
 
-    cout << endl;
+
 
 
     levels_.clear();
@@ -1241,7 +1248,7 @@ void IsoPlot::isoline(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
        CellBox view(array);
 
        threads_ = (needIsolines())  ? 4: 0;
-
+        //threads_ = 1;
        vector<IsoHelper*> consumers_;
        vector<IsoProducer* >  producers_;
 
@@ -1266,8 +1273,8 @@ void IsoPlot::isoline(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
         // let's start 4 producers...
         int c = 0;
         VectorOfPointers<vector<IsoProducerData*> > datas;
-
         for ( int i = 0; i < view.size(); i++)
+        //int i = 0;
         {
 
            IsoProducerData* data = new IsoProducerData(shading_->shadingMode(), *this, *(view[i]));
@@ -1781,10 +1788,13 @@ GridCell::GridCell(const CellArray& data, int row, int column, const Transformat
         bool clip = false;
         static int count = 0;
         count++;
+        cout << "---------------" << endl;
 
         for (int i = 0; i < 4; i++) {
-
+            double lon = columns_[i];
+            double lat =  rows_[i];
             transformation.fast_reproject(columns_[i], rows_[i]);
+            cout << std::fixed << "[" << lon << ", " << lat << "]-->[" << "[" << columns_[i] << ", " << rows_[i] << "]" << endl;
 
             if ( columns_[i] < minx ) {
                 columns_[i] = minx;
@@ -1803,7 +1813,9 @@ GridCell::GridCell(const CellArray& data, int row, int column, const Transformat
                 clip = true;
                 }
 
+
         }
+        cout << "---------------" << endl;
         if ( clip) {
             double xmin = std::min(columns_[0], columns_[2]);
             double xmax = std::max(columns_[0], columns_[2]);
