@@ -172,7 +172,7 @@ echo "start"
 echo ${build_home}
 mkdir -p ${build_home}
 cd ${build_home}
-rm -fR *
+#rm -fR *
 
 
 cmd="${git_home}/ecbuild/bin/ecbuild ${git_home}/magics $args"
@@ -181,7 +181,6 @@ ${git_home}/ecbuild/bin/ecbuild ${git_home}/magics $args
 
 
 echo ${build_home}
-exit 
 make -j ${run} install
 ctest
 if [[ $regression = "on" ]];then
@@ -194,7 +193,7 @@ if [[ $tar = "on" ]];then
     #echo "Removing existing embedded cmake directory"
     #rm -rf ${git_home}/magics/cmake
     #echo "copying new embedded cmake directory"
-    'cp  -r ${git_home}/ecbuild/cmake ${git_home}
+    #'cp  -r ${git_home}/ecbuild/cmake ${git_home}
     echo "creating tarball..."
     make package_source
     echo "Removing embedded cmake directory"

@@ -343,7 +343,7 @@ void SymbolTableMode::visit(Data& data, LegendVisitor& legend)
     		}
     		case LegendMethod::DISJOINT:
     		{
-    			  for ( IntervalMap<SymbolProperties>::reverse_iterator interval = map_.rbegin(); interval != map_.rend(); ++interval) {
+    			  for ( IntervalMap<SymbolProperties>::iterator interval = map_.begin(); interval != map_.end(); ++interval) {
     				Symbol* symbol = new Symbol();
     				(*symbol).setColour(interval->second.colour_);
     				(*symbol).setSymbol(interval->second.marker_);

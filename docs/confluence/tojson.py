@@ -341,9 +341,10 @@ class ObjectHandler(ContentHandler):
 
 def createAction(abbr, name, files):
 
+    print files
     object = ObjectHandler()
     for f in files:
-        print f
+        print "FILE", f
         x = object.parse(f)
 
 
@@ -408,9 +409,16 @@ action["NetcdfDecoder"] = ["NetcdfDecoder.xml", "NetcdfInterpretor.xml", "Netcdf
 
 action["Page"] = ["FortranSceneNode.xml", "PageID.xml", "NoPageID.xml", "LogoPlotting.xml", "NoLogoPlotting.xml" ]
 action["SuperPage"] = ["FortranRootSceneNode.xml"  ]
+action["PostScript"] = ["PostScriptDriver.xml", "BaseDriver.xml" ] 
+action["BoxPlotVisualiser"] = ["BoxPlotBox.xml",  "BoxPlotBoxBorder.xml",  "BoxPlotDecoder.xml",  
+        "BoxPlotMedian.xml",  "BoxPlotVisualiser.xml",  "BoxPlotWhiskerBorder.xml",
+        "BoxPlotWhiskerBox.xml", "BoxPlotWhiskerLine.xml", "NoBoxPlotBoxBorder.xml",  "NoBoxPlotMedian.xml"]
+
 #createAction("graph",  "GraphPlotting", action["GraphPlotting"])
 #createAction("contour",  "Contour", action["Contour"])
-createAction("superpage",  "FortranRootSceneNode", action["SuperPage"])
+#createAction("superpage",  "FortranRootSceneNode", action["SuperPage"])
+#createAction("postscript",  "PostScript", action["PostScript"])
+createAction("boxplot",  "BoxPlotVisualiser", action["BoxPlotVisualiser"])
 
 
 sys.exit()

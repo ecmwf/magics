@@ -136,15 +136,19 @@ ecbuild_add_library( TARGET    MagPlusShared
 
 ecbuild_add_library( TARGET    MagPlusSingleShared 
 		     SOURCES MagicsSingle.cc
+             LIBS MagPlusShared
 		     TYPE SHARED)
 		     
 ecbuild_add_library(TARGET    MagPlusDoubleShared 
+             LIBS MagPlusShared
 		     SOURCES MagicsDouble.cc
 		     TYPE SHARED)		     
 
 SET_TARGET_PROPERTIES(MagPlusShared PROPERTIES OUTPUT_NAME "MagPlus")
 SET_TARGET_PROPERTIES(MagPlusDoubleShared PROPERTIES OUTPUT_NAME "MagPlusDouble")
 SET_TARGET_PROPERTIES(MagPlusSingleShared PROPERTIES OUTPUT_NAME "MagPlusSingle")
+
+
 
 
 if ( ENABLE_STATIC_LIBRARY ) 	     
