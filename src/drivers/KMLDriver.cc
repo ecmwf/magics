@@ -57,8 +57,6 @@ extern "C"{
 #include <CairoDriver.h>
 #endif
 
-// #include <boost/filesystem.hpp>
-
 using namespace magics;
 
 bool copy_file(string from, string to)
@@ -161,134 +159,134 @@ void KMLDriver::close()
 
     // Wind icon file
     const string iconfile="magics_kml_icons.png";
-    const string path=getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_ + iconfile;
-//    boost::filesystem::path from(path);
-//    boost::filesystem::path to(iconfile);
-//    boost::filesystem::copy_file(from, to);
-    bool is_copied = copy_file(path,iconfile);
+    const string path=getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_;
+    const string icon_path=path + iconfile;
+
+    bool is_copied = copy_file(icon_path,iconfile);
     if(is_copied) kml_output_resource_list_.push_back(iconfile);
 
-	if(ecmwf_logo_)
+    if(ecmwf_logo_)
+    {
+       const string logofilename = "kml_logo.png";
+       const string logofile = path + logofilename;
+       is_copied = copy_file(logofile,logofilename);
+       if(is_copied) kml_output_resource_list_.push_back(logofilename);
+   
+       pFile_ << "<ScreenOverlay id=\"logo\">\n"
+              << "<name>MagLogo</name>\n"
+              << "<Icon>\n"
+              << " <href>"<<logofilename<<"</href>\n"
+              << "</Icon>\n"
+              << "<overlayXY x=\"0\" y=\"0\" xunits=\"fraction\" yunits=\"fraction\"/>\n"
+              << "<screenXY x=\"0\" y=\"0\" xunits=\"fraction\" yunits=\"fraction\"/>\n"
+              << "<size x=\"-1\" y=\"0.1\" xunits=\"fraction\" yunits=\"fraction\"/>\n"
+              << "</ScreenOverlay>\n";
+    }
+
+    pFile_ << "</Document>\n</kml>\n";
+    pFile_.close();
+    kml_output_resource_list_.push_back(fileName_);
+
+    /***********************  K M Z ********************************/    
+    if(kmz_ && !kml_output_resource_list_.empty())
+    {
+      fileName_ = getFileName("kmz");
+      zipFile zf;
+      int err=0;
+
+      zf = zipOpen(fileName_.c_str(),0);
+      if (zf == 0)
+      {
+        printf("ERROR opening zip file %s\n",fileName_.c_str());
+      }
+      else
+      {
+	int size_buf = WRITEBUFFERSIZE;
+	void* buf = (void*)malloc(size_buf);
+	if (buf==0)
 	{
-	   const string logofilename = "kml_logo.png";
-	   const string logofile = getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_ + logofilename;
-           is_copied = copy_file(logofile,logofilename);
-           if(is_copied) kml_output_resource_list_.push_back(logofilename);
-	   
-		pFile_	<< "<ScreenOverlay id=\"logo\">\n"
-			<< "<name>MagLogo</name>\n"
-			<< "<Icon>\n"
-			<< " <href>"<<logofilename<<"</href>\n"
-			<< "</Icon>\n"
-			<< "<overlayXY x=\"0\" y=\"0\" xunits=\"fraction\" yunits=\"fraction\"/>\n"
-			<< "<screenXY x=\"0\" y=\"0\" xunits=\"fraction\" yunits=\"fraction\"/>\n"
-			<< "<size x=\"-1\" y=\"0.1\" xunits=\"fraction\" yunits=\"fraction\"/>\n"
-			<< "</ScreenOverlay>\n";
+		MagLog::error() <<"Error allocating memory for KMZ generation!"<< std::endl;
+		return;
 	}
-	pFile_ << "</Document>\n</kml>\n";
-	pFile_.close();
-	kml_output_resource_list_.push_back(fileName_);
-
-	if(kmz_ && !kml_output_resource_list_.empty())
+	stringarray::iterator it    = kml_output_resource_list_.begin();
+	stringarray::iterator itend = kml_output_resource_list_.end();
+	for(; it != itend; it++)
 	{
-	   fileName_ = getFileName("kmz");
+		if(debug_) MagLog::dev()<< "KMLDriver.close() > Start adding file " <<  *it << " to KMZ file.\n";
+		FILE * fin;
+		int size_read;
 
-	   zipFile zf;
-	   int err=0;
+		const char *filename = (*it).c_str();
 
-	   zf = zipOpen(fileName_.c_str(),0);
-           if (zf == 0)
-           {
-               printf("ERROR opening zip file %s\n",fileName_.c_str());
-           }
-           else
-	   {
-		int size_buf = WRITEBUFFERSIZE;
-		void* buf = (void*)malloc(size_buf);
-		if (buf==0)
+		err = zipOpenNewFileInZip(zf,filename, 0, 0, 0, 0, 0, 0, Z_DEFLATED, Z_DEFAULT_COMPRESSION);
+
+		if(err != ZIP_OK)
+			MagLog::error() << "Could NOT open KMZ file "<< filename << endl;
+		else
 		{
-			MagLog::error() <<"Error allocating memory for KMZ generation!"<< std::endl;
-			return;
-		}
-		stringarray::iterator it    = kml_output_resource_list_.begin();
-		stringarray::iterator itend = kml_output_resource_list_.end();
-		for(; it != itend; it++)
-		{
-			if(debug_) MagLog::dev()<< "KMLDriver.close() > Start adding file " <<  *it << " to KMZ file.\n";
-			FILE * fin;
-			int size_read;
+		  fin = fopen(filename,"rb");
+		  if(fin==0)
+		  {
+		     MagLog::error() << "Open file "<<filename<<" to be added to KMZ FAILED!"<< endl;
+		     return;
+		  }
+		  else
+		  {
+		    do{
+			err=ZIP_OK;
+			size_read = (int)fread(buf,1,size_buf,fin);
+			if (size_read < size_buf)
+			  if (feof(fin)==0)
+			  {
+				MagLog::error() << "Could NOT add "<<(*it) << endl;
+				err = ZIP_ERRNO;
+			  }
 
-			const char *filename = (*it).c_str();
-
-			err = zipOpenNewFileInZip(zf,filename, 0, 0, 0, 0, 0, 0, Z_DEFLATED, Z_DEFAULT_COMPRESSION);
-
-			if(err != ZIP_OK)
-				MagLog::error() << "Could NOT open KMZ file "<< filename << endl;
-			else
+			if (size_read>0)
 			{
-			  fin = fopen(filename,"rb");
-			  if(fin==0)
+			  err = zipWriteInFileInZip(zf,buf,size_read);
+			  if (err<0)
 			  {
-			     MagLog::error() << "Open file "<<filename<<" to be added to KMZ FAILED!"<< endl;
-			     return;
+				MagLog::error() << "Could NOT write KMZ file "<< fileName_<< endl;
 			  }
-			  else
-			  {
-			    do{
-				err=ZIP_OK;
-				size_read = (int)fread(buf,1,size_buf,fin);
-				if (size_read < size_buf)
-				  if (feof(fin)==0)
-				  {
-					MagLog::error() << "Could NOT add "<<(*it) << endl;
-					err = ZIP_ERRNO;
-				  }
-
-				if (size_read>0)
-				{
-				  err = zipWriteInFileInZip(zf,buf,size_read);
-				  if (err<0)
-				  {
-					MagLog::error() << "Could NOT write KMZ file "<< fileName_<< endl;
-				  }
-				}
-			     } while ((err==ZIP_OK) && (size_read>0));
-			  }
-			  if (fin)
-				fclose(fin);
 			}
-
-			err = zipCloseFileInZip(zf);
-			if (err!=ZIP_OK)
-				MagLog::error() << "Could NOT close KMZ file "<< fileName_<< endl;
-//			delete [] filename;
+		     } while ((err==ZIP_OK) && (size_read>0));
+		  }
+		  if (fin)
+			fclose(fin);
 		}
-		free(buf);
 
-		err = zipClose(zf,0);
-		if (err != ZIP_OK)
+		err = zipCloseFileInZip(zf);
+		if (err!=ZIP_OK)
 			MagLog::error() << "Could NOT close KMZ file "<< fileName_<< endl;
-		else if (!debug_)
-		{
-			stringarray::iterator it = kml_output_resource_list_.begin();
-			stringarray::iterator itend = kml_output_resource_list_.end();
-			for(; it != itend; it++)
-			{
-				remove((*it).c_str());
-			}
-			printOutputName("KML kmz "+fileName_);
-		}
-	   }// Zipping ---> K M Z
+//		delete [] filename;
 	}
-	else if(!kmz_)
+	free(buf);
+
+	err = zipClose(zf,0);
+	if (err != ZIP_OK)
+		MagLog::error() << "Could NOT close KMZ file "<< fileName_<< endl;
+	else if (!debug_)
 	{
 		stringarray::iterator it = kml_output_resource_list_.begin();
 		stringarray::iterator itend = kml_output_resource_list_.end();
 		for(; it != itend; it++)
 		{
-			printOutputName("KML misc "+(*it));
+			remove((*it).c_str());
 		}
+		printOutputName("KML kmz "+fileName_);
 	}
+   }// Zipping ---> K M Z
+  }
+  else if(!kmz_)
+  {
+	stringarray::iterator it = kml_output_resource_list_.begin();
+	stringarray::iterator itend = kml_output_resource_list_.end();
+	for(; it != itend; it++)
+	{
+		printOutputName("KML misc "+(*it));
+	}
+  }
 }
 
 /*!
@@ -307,7 +305,8 @@ MAGICS_NO_EXPORT void KMLDriver::startPage() const
 
 	polyline_begin_ = true;
 	polygon_begin_  = true;
-	currentLayer_   = "none";
+	currentLayer_   = "Page";
+	newLayer();
 }
 
 /*!
@@ -321,8 +320,7 @@ MAGICS_NO_EXPORT void KMLDriver::startPage() const
 MAGICS_NO_EXPORT void KMLDriver::endPage() const
 {
 	if (kml_placemark_) closePlacemark();
-
-	layer_=false;
+	closeLayer();
 	debugOutput("Close page");
 }
 
@@ -384,38 +382,35 @@ MAGICS_NO_EXPORT void KMLDriver::redisplay(const magics::LegendLayout& layout) c
 */
 MAGICS_NO_EXPORT void KMLDriver::redisplay(const StaticLayer& layer) const
 {
-//  if(!magCompare("coastlines",layer.name()) ||coastlines_ )
-  {
-//	if(!magCompare(currentLayer_,layer.name()))
-//	{
-		currentLayer_     = (layer.name().empty()) ? "StaticLayer" : layer.name();
-		currentTimeBegin_ = layer.kmlTimeBegin();
-		currentTimeEnd_   = layer.kmlTimeEnd();
-		newLayer();
-		layer.visit(*this);
-		closeLayer();
-//	}
-//	else
-//		layer.visit(*this);
-  }
+	currentLayer_     = (layer.name().empty()) ? "StaticLayer" : layer.name();
+	currentTimeBegin_ = layer.timeBegin();
+	currentTimeEnd_   = layer.timeEnd();
+	currentTimeStamp_ = layer.timeStamp();
+	newLayer();
+	layer.visit(*this);
+	closeLayer();
 }
 
 MAGICS_NO_EXPORT void KMLDriver::redisplay(const StepLayer& layer) const
 {
-//  if(!magCompare("coastlines",layer.name()) || coastlines_ )
-  {
-//	if(!magCompare(currentLayer_,layer.name()))
-//	{
-		currentLayer_     = (layer.name().empty()) ? "Step" : layer.name();
-		currentTimeBegin_ = layer.kmlTimeBegin();
-		currentTimeEnd_   = layer.kmlTimeEnd();
-		newLayer();
-		layer.visit(*this);
-		closeLayer();
-//	}
-//	else
-//		layer.visit(*this);
-  }
+	currentLayer_     = (layer.name().empty()) ? "Step" : layer.name();
+	currentTimeBegin_ = layer.timeBegin();
+	currentTimeEnd_   = layer.timeEnd();
+	currentTimeStamp_ = layer.timeStamp();
+	newLayer();
+	layer.visit(*this);
+	closeLayer();
+}
+
+MAGICS_NO_EXPORT void KMLDriver::redisplay(const SceneLayer& layer) const
+{
+	currentLayer_     = (layer.name().empty()) ? "Scene" : layer.name();
+//	currentTimeBegin_ = layer.timeBegin();
+//	currentTimeEnd_   = layer.timeEnd();
+//	currentTimeStamp_ = layer.timeStamp();
+	newLayer();
+	layer.visit(*this);
+	closeLayer();
 }
 
 /*!
@@ -427,9 +422,9 @@ MAGICS_NO_EXPORT void KMLDriver::redisplay(const NoDataLayer& layer) const
 {
 	if( coastlines_ )
 	{
-		currentLayer_     = (layer.name().empty()) ? "Step" : layer.name();
-		currentTimeBegin_ = layer.kmlTimeBegin();
-		currentTimeEnd_   = layer.kmlTimeEnd();
+		currentLayer_     = (layer.name().empty()) ? "NoData" : layer.name();
+		currentTimeBegin_ = layer.timeBegin();
+		currentTimeEnd_   = layer.timeEnd();
 		newLayer();
 		layer.visit(*this);
 		closeLayer();
@@ -444,11 +439,31 @@ MAGICS_NO_EXPORT void KMLDriver::newLayer() const
 {
 	if (kml_placemark_) closePlacemark();
 
+	// cut off path (especially for Metview
+	unsigned found = currentLayer_.find_last_of("/\\");
+	currentLayer_=currentLayer_.substr(found+1);
+
 	debugOutput("Start Layer - "+currentLayer_);
 
-	pFile_ << "<Folder>\n<name>"<<currentLayer_<<"</name>\n<open>0</open>\n"
+	pFile_ << "<Folder>\n<name>Layer:"<<currentLayer_<<"</name>\n<open>0</open>\n"
 	       << " <styleUrl>#check-hide-children</styleUrl>\n";
+	if(!currentTimeBegin_.empty())
+	{
+		pFile_	<< "<TimeStamp>\n"
+			<< " <when>"<<currentTimeStamp_<<"</when>\n"
+ 			<< "</TimeStamp>\n"
+			<< "<styleUrl>#hiker-icon</styleUrl>\n";
+	}
+	else
+	{
+		pFile_	<< "<TimeSpan>\n"
+			<< " <begin>"<<currentTimeBegin_<<"</begin>\n"
+			<< " <end>"<<currentTimeEnd_<<"</end>\n"
+ 			<< "</TimeSpan>\n";
+			//<< "<styleUrl>#hiker-icon</styleUrl>\n";
+	}
 
+	pFile_ << "<description><![CDATA[Layer:"<<currentLayer_<<"]]></description>\n";
 	polyline_begin_=true;
 	polygon_begin_=true;
 	layer_=true;
@@ -578,33 +593,8 @@ MAGICS_NO_EXPORT void KMLDriver::renderPolyline(const int n, MFloat *x, MFloat *
 	{
 		if (kml_placemark_) closePlacemark();
 		pFile_ << "<Placemark>\n";
-		if(layer_)
-		{
-			pFile_ << "<name>"<<currentLayer_<<"</name>\n";
-			if(!currentTimeBegin_.empty())
-			{
-//			   if(magCompare(currentTimeBegin_,currentTimeEnd_))
-//			   {
-//				pFile_	<< "<TimeStamp>\n"
-//					<< " <when>"<<currentTimeBegin_<<"</when>\n"
-// 					<< "</TimeStamp>\n"
-//					<< "<styleUrl>#hiker-icon</styleUrl>\n";
-//			   }
-//			   else
-			   {
-				pFile_	<< "<TimeSpan>\n"
-					<< " <begin>"<<currentTimeBegin_<<"</begin>\n"
-					<< " <end>"<<currentTimeEnd_<<"</end>\n"
- 					<< "</TimeSpan>\n";
-					//<< "<styleUrl>#hiker-icon</styleUrl>\n";
-			   }
-			}
-			pFile_	<< "<description><![CDATA["<<currentLayer_<<"]]></description>\n";
-		}
 		pFile_ << "<visibility>1</visibility>\n<open>0</open>\n";
-
 		kml_placemark_=true;
-
 
 		pFile_	<< "<Style>\n<LineStyle>\n";
 		writeColour(currentColour_);
@@ -631,20 +621,6 @@ MAGICS_NO_EXPORT void KMLDriver::renderPolyline(const int n, MFloat *x, MFloat *
 }
 
 
-/*!
-  \brief renders a single line
-
-  This method renders a polyline with two points.The style is
-  determined by what is described in the current LineStyle.
-
-  \sa setLineParameters()
-  \param n number of points
-  \param x array of x values
-  \param y array of y values
-*/
-MAGICS_NO_EXPORT void KMLDriver::renderPolyline2(const int , MFloat* , MFloat* ) const
-{
-}
 
 /*!
   \brief renders a filled polygon
@@ -662,40 +638,8 @@ MAGICS_NO_EXPORT void KMLDriver::renderSimplePolygon(const int n, MFloat* xx, MF
 	if (!render_) return;
 	if (kml_placemark_) closePlacemark();
 
-//pFile_	<< "<!-- r:"<<r<<" g:"<<g<<" b:"<<b <<" -->"<< endl;
-	pFile_	<< "<Placemark>\n";
-//	if(layer_)
-//	{
-//		pFile_ << "<name>"<<currentLayer_<<"</name>\n"
-//		       << "<description><![CDATA["<<currentLayer_<<"]]></description>\n";
-//	}
-//	    << "<altitudeMode>clampToGround</altitudeMode>\n"
-	if(layer_)
-	{
-		pFile_ << "<name>"<<currentLayer_<<"</name>\n";
-		if(!currentTimeBegin_.empty())
-		{
-//			   if(magCompare(currentTimeBegin_,currentTimeEnd_))
-//			   {
-//				pFile_	<< "<TimeStamp>\n"
-//					<< " <when>"<<currentTimeBegin_<<"</when>\n"
-// 					<< "</TimeStamp>\n"
-//					<< "<styleUrl>#hiker-icon</styleUrl>\n";
-//			   }
-//			   else
-		   {
-			pFile_	<< "<TimeSpan>\n"
-				<< " <begin>"<<currentTimeBegin_<<"</begin>\n"
-				<< " <end>"<<currentTimeEnd_<<"</end>\n"
-				<< "</TimeSpan>\n";
-		   }
-		}
-		pFile_	<< "<description><![CDATA["<<currentLayer_<<"]]></description>\n";
-	}
-
-	pFile_<< "<visibility>1</visibility>\n<open>0</open>\n";
-
-//	kml_placemark_=true;
+	pFile_ << "<Placemark>\n";
+	pFile_ << "<visibility>1</visibility>\n<open>0</open>\n";
 
 	const int a = (int)(transparency_ * 2.55);
 
@@ -709,7 +653,6 @@ MAGICS_NO_EXPORT void KMLDriver::renderSimplePolygon(const int n, MFloat* xx, MF
 		<< "</Style>\n"
 		<< "<MultiGeometry>\n";
 	MultiGeometrySet_=true;
-//		polygon_begin_=false;
 
 	pFile_ << "<Polygon>\n"
 	       << " <extrude>1</extrude>\n"
@@ -752,37 +695,8 @@ void KMLDriver::renderSimplePolygon(const Polyline& line) const
 		y[i] = pp.y();
 	}
 
-	pFile_	<< "<Placemark>\n";
-//	if(layer_)
-//	{
-//		pFile_ << "<name>"<<currentLayer_<<"</name>\n"
-//		       << "<description><![CDATA["<<currentLayer_<<"]]></description>\n";
-//	}
-//	    << "<altitudeMode>clampToGround</altitudeMode>\n"
-	if(layer_)
-	{
-		pFile_ << "<name>"<<currentLayer_<<"</name>\n";
-		if(!currentTimeBegin_.empty())
-		{
-//			   if(magCompare(currentTimeBegin_,currentTimeEnd_))
-//			   {
-//				pFile_	<< "<TimeStamp>\n"
-//					<< " <when>"<<currentTimeBegin_<<"</when>\n"
-// 					<< "</TimeStamp>\n"
-//					<< "<styleUrl>#hiker-icon</styleUrl>\n";
-//			   }
-//			   else
-		   {
-			pFile_	<< "<TimeSpan>\n"
-				<< " <begin>"<<currentTimeBegin_<<"</begin>\n"
-				<< " <end>"<<currentTimeEnd_<<"</end>\n"
-				<< "</TimeSpan>\n";
-		   }
-		}
-		pFile_	<< "<description><![CDATA["<<currentLayer_<<"]]></description>\n";
-	}
-
-	pFile_<< "<visibility>1</visibility>\n<open>0</open>\n";
+	pFile_ << "<Placemark>\n";
+	pFile_ << "<visibility>1</visibility>\n<open>0</open>\n";
 
 	pFile_	<< "<Style>\n<PolyStyle>\n";
 	writeColour(currentColour_);
@@ -855,26 +769,9 @@ void KMLDriver::renderSimplePolygon(const Polyline& line) const
 */
 MAGICS_NO_EXPORT void KMLDriver::renderText(const Text& text) const
 {
-	if(text.empty()) return;
 }
 
-/*!
-  \brief drawing a circle
 
-  This method renders given text strings.
-
-  The meaning of the last parameter <i>s</i> is as follows:
-     - 0-8 determines how many quarters of the circle are filled. Starting from the top clock-wise.
-     - 9 fills the whole circle but leaves a vertical bar empty in the middle of the circle.
-
-  \param x X Position
-  \param y Y Position
-  \param r Radius of circle
-  \param s Style which determines how the circle is shaded
-*/
-MAGICS_NO_EXPORT void KMLDriver::circle(const MFloat , const MFloat , const MFloat , const int ) const
-{
-}
 
 /*!
   \brief render pixmaps
@@ -908,29 +805,7 @@ MagLog::dev()<< "KML driver Image import uses GD -> for better results use Cairo
 	out << 15 * kml_output_resource_list_.size();
 	const string filename = "KML_overlay_"+out.str()+"png";
 
-	pFile_	<< "<GroundOverlay>\n";
-	if(layer_)
-	{
-		if(!currentTimeBegin_.empty())
-		{
-//			   if(magCompare(currentTimeBegin_,currentTimeEnd_))
-//			   {
-//				pFile_	<< "<TimeStamp>\n"
-//					<< " <when>"<<currentTimeBegin_<<"</when>\n"
-// 					<< "</TimeStamp>\n"
-//					<< "<styleUrl>#hiker-icon</styleUrl>\n";
-//			   }
-//			   else
-			   {
-				pFile_	<< "<TimeSpan>\n"
-					<< " <begin>"<<currentTimeBegin_<<"</begin>\n"
-					<< " <end>"<<currentTimeEnd_<<"</end>\n"
- 					<< "</TimeSpan>\n"
-					<< "<styleUrl>#hiker-icon</styleUrl>\n";
-			   }
-		}
-		pFile_	<< "<name><![CDATA[Layer: "<<currentLayer_<<"]]></name>\n";
-	}
+	pFile_ << "<GroundOverlay>\n";
 
 	const int a = (int)(transparency_ * 2.55);
 	pFile_ << "<styleUrl>#hiker-icon</styleUrl>\n"
@@ -993,28 +868,6 @@ MagLog::dev()<< "KML driver Image import uses GD -> for better results use Cairo
 	string filename = "KML_overlay_"+out.str()+"png";
 
 	pFile_	<< "<GroundOverlay>\n";
-	if(layer_)
-	{
-		if(!currentTimeBegin_.empty())
-		{
-//			   if(magCompare(currentTimeBegin_,currentTimeEnd_))
-//			   {
-//				pFile_	<< "<TimeStamp>\n"
-//					<< " <when>"<<currentTimeBegin_<<"</when>\n"
-// 					<< "</TimeStamp>\n"
-//					<< "<styleUrl>#hiker-icon</styleUrl>\n";
-//			   }
-//			   else
-			   {
-				pFile_	<< "<TimeSpan>\n"
-					<< " <begin>"<<currentTimeBegin_<<"</begin>\n"
-					<< " <end>"<<currentTimeEnd_<<"</end>\n"
- 					<< "</TimeSpan>\n"
-					<< "<styleUrl>#hiker-icon</styleUrl>\n";
-			   }
-		}
-		pFile_	<< "<name><![CDATA[Time: "<<currentLayer_<<"]]></name>\n";
-	}
 
 	const int a = (int)(transparency_ * 2.55);
 	pFile_	<< "<styleUrl>#hiker-icon</styleUrl>\n"
@@ -1120,28 +973,6 @@ MagLog::dev()<< "KML driver uses GD -> for better results use Cairo backend."<< 
 	const string filename = "KML_cell_overlay_"+layer_name+"_"+out.str()+".png";
 
 	pFile_	<< "<GroundOverlay>\n";
-	if(layer_)
-	{
-		if(!currentTimeBegin_.empty())
-		{
-//			   if(magCompare(currentTimeBegin_,currentTimeEnd_))
-//			   {
-//				pFile_	<< "<TimeStamp>\n"
-//					<< " <when>"<<currentTimeBegin_<<"</when>\n"
-// 					<< "</TimeStamp>\n"
-//					<< "<styleUrl>#hiker-icon</styleUrl>\n";
-//			   }
-//			   else
-			   {
-				pFile_	<< "<TimeSpan>\n"
-					<< " <begin>"<<currentTimeBegin_<<"</begin>\n"
-					<< " <end>"<<currentTimeEnd_<<"</end>\n"
- 					<< "</TimeSpan>\n"
-					<< "<styleUrl>#hiker-icon</styleUrl>\n";
-			   }
-		}
-		pFile_	<< "<name><![CDATA[Layer: "<<currentLayer_<<"]]></name>\n";
-	}
 
 	const int a = (int)(transparency_ * 2.55);
 	pFile_	<< "<color>"<<hex;
@@ -1218,28 +1049,6 @@ MagLog::dev()<< "KML driver uses GD -> for better results use Cairo backend."<< 
         }
 
 	pFile_	<< "<GroundOverlay>\n";
-	if(layer_)
-	{
-		if(!currentTimeBegin_.empty())
-		{
-//			   if(magCompare(currentTimeBegin_,currentTimeEnd_))
-//			   {
-//				pFile_	<< "<TimeStamp>\n"
-//					<< " <when>"<<currentTimeBegin_<<"</when>\n"
-// 					<< "</TimeStamp>\n"
-//					<< "<styleUrl>#hiker-icon</styleUrl>\n";
-//			   }
-//			   else
-			   {
-				pFile_	<< "<TimeSpan>\n"
-					<< " <begin>"<<currentTimeBegin_<<"</begin>\n"
-					<< " <end>"<<currentTimeEnd_<<"</end>\n"
- 					<< "</TimeSpan>\n"
-					<< "<styleUrl>#hiker-icon</styleUrl>\n";
-			   }
-		}
-		pFile_	<< "<name><![CDATA[Layer: "<<currentLayer_<<"]]></name>\n";
-	}
 
 	const int a = (int)(transparency_ * 2.55);
 	pFile_	<< "<color>"<<hex;

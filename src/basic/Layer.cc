@@ -125,21 +125,21 @@ string Layer::timeEnd(const string& fmt) const
 	return to_.tostring(fmt);
 }
 
-static string kml("%Y-%m-%dT%H:%M:00Z");
+static string iso_time("%Y-%m-%dT%H:%M:00Z");
 
-string Layer::kmlTimeBegin() const 
+string Layer::timeBegin() const 
 { 
-	return timeBegin(kml); 
+	return timeBegin(iso_time); 
 }
 
-string Layer::kmlTimeEnd() const 
+string Layer::timeEnd() const 
 { 
-	return timeEnd(kml);  
+	return timeEnd(iso_time);  
 }
 
-string Layer::kmlTimeStamp() const
+string Layer::timeStamp() const
 {
-	return timeStamp(kml);
+	return timeStamp(iso_time);
 }
 
 void Layer:: execute(const BaseDriver& ) const 

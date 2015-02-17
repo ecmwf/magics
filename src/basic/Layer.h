@@ -78,7 +78,7 @@ public:
 	void visibility(bool visibility) { visibility_ = visibility; }
 	void zindex(int zindex) { zindex_ = zindex; }
 	void transparency(int transparency) { transparency_ = transparency; }
-	void valid(const DateTime& from, const DateTime& to) { from_ = from; to_ = to; }
+	void validTime(const DateTime& from, const DateTime& to) { from_ = from; to_ = to; }
 	
 	bool visibility() const { return visibility_; }
 	int transparency() const { return transparency_; }
@@ -106,9 +106,9 @@ public:
 	string timeBegin(const string&) const;
 	string timeEnd(const string&) const;
 
-	string kmlTimeBegin() const;
-	string kmlTimeEnd() const;
-	string kmlTimeStamp() const ;
+	string timeBegin() const;
+	string timeEnd() const;
+	string timeStamp() const ;
 	
 	const string& metadata(const string&);
 	void metadata(const string&, const string&);
