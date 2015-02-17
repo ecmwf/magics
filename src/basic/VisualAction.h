@@ -52,8 +52,8 @@ public:
 	void set2D()     { data_->dimension(2); }
 	void visdef(Visdef* visdef) { visdefs_.push_back(visdef); }
 	void binning(BinningObject* binning)     { if (data_) data_->binning(binning); }
-	const string& name();
-    const string& id();
+	const string name();
+	const string id();
 
     // A visual Action is valid, if the data have been set and the list of visdef is not empty!
     bool isValid() const { return data_ && visdefs_.empty() == false; }
@@ -90,8 +90,7 @@ protected:
 
 	 void visit(DateDescription&);
 	 void visit(LevelDescription&);
-	
-	 
+
 private:
     //! Copy constructor - No copy allowed
 	VisualAction(const VisualAction&);
@@ -102,7 +101,6 @@ private:
     //! Overloaded << operator to call print().
 	friend ostream& operator<<(ostream& s,const VisualAction& p)
 		{ p.print(s); return s; }
-
 };
 
 
@@ -127,8 +125,6 @@ protected:
     
     DataLoop* loop_;
     StepLayer* layer_;
-    
-    
 };
 
 } // namespace magics
