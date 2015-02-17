@@ -384,7 +384,7 @@ MAGICS_NO_EXPORT void KMLDriver::redisplay(const magics::LegendLayout& layout) c
 */
 MAGICS_NO_EXPORT void KMLDriver::redisplay(const StaticLayer& layer) const
 {
-  if(!magCompare("coastlines",layer.name()) ||coastlines_ )
+//  if(!magCompare("coastlines",layer.name()) ||coastlines_ )
   {
 //	if(!magCompare(currentLayer_,layer.name()))
 //	{
@@ -402,7 +402,7 @@ MAGICS_NO_EXPORT void KMLDriver::redisplay(const StaticLayer& layer) const
 
 MAGICS_NO_EXPORT void KMLDriver::redisplay(const StepLayer& layer) const
 {
-  if(!magCompare("coastlines",layer.name()) || coastlines_ )
+//  if(!magCompare("coastlines",layer.name()) || coastlines_ )
   {
 //	if(!magCompare(currentLayer_,layer.name()))
 //	{
@@ -425,6 +425,15 @@ MAGICS_NO_EXPORT void KMLDriver::redisplay(const StepLayer& layer) const
  */
 MAGICS_NO_EXPORT void KMLDriver::redisplay(const NoDataLayer& layer) const
 {
+	if( coastlines_ )
+	{
+		currentLayer_     = (layer.name().empty()) ? "Step" : layer.name();
+		currentTimeBegin_ = layer.kmlTimeBegin();
+		currentTimeEnd_   = layer.kmlTimeEnd();
+		newLayer();
+		layer.visit(*this);
+		closeLayer();
+	}
 }
 
 /*!
