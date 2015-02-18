@@ -100,7 +100,6 @@ void SVGDriver::close()
 MAGICS_NO_EXPORT void SVGDriver::startPage() const
 {
 	debugOutput("Page - START");
-//	bool fixSize = fixSize_;
 	MFloat ratio = getRatio();
 	int   wid   = width_;
 
@@ -157,7 +156,7 @@ MAGICS_NO_EXPORT void SVGDriver::startPage() const
 	         << "inkscape:version=\"0.46\"\n"
 	         << "inkscape:output_extension=\"org.inkscape.output.svg.inkscape\"\n";
 	
-//	if(fixSize) pFile_<< "width=\""<<width<<"px\" height=\""<<height<<"px\" ";          ?????????????????????????????????????????????????????
+	if(fixSize_) pFile_<< "width=\""<<width<<"px\" height=\""<<height<<"px\" ";
 
 	pFile_ << "viewBox=\"0 0 "<<width+1<<" "<<height+1<<"\" xml:space=\"preserve\"";   
 //	 preserveAspectRatio=\"xMidYMid meet\"\n"
