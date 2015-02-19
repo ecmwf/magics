@@ -114,9 +114,6 @@ public:
 	void metadata(const string&, const string&);
 	virtual void update(const Layout&) {}
 
-
-
-
 	vector<MetviewIcon >::const_iterator iconsBegin() { return icons_.begin(); }
 	vector<MetviewIcon >::const_iterator iconsEnd() { return icons_.end(); }
 	void  icon(const string& iconname, const string& iconclass,const string& iconid) 
@@ -256,7 +253,7 @@ protected:
 };
 
 /*
- * A NoDataLayer is a static layer that do not contain ant data information :ie some driver like KML may 
+ * A NoDataLayer is a static layer that do not contain any data information :ie some driver like KML may 
  * not need to handle them
  */
 class NoDataLayer : public StaticLayer
@@ -269,6 +266,8 @@ public:
 	void redisplay(const BaseDriver&) const;
 	void getReady() const {}
 };
+
+
 class TextLayer : public StepLayer
 {
 public:
@@ -280,6 +279,8 @@ public:
 	void getInfo(int, const BaseDriver&) const;
 	void collectText(vector<TextVisitor*>&, LegendVisitor*); // update the text informations!
 };
+
+
 /*
  * A SceneLayer is attach to a SceneNode...
  * It contains the list of layers needed to perform a plot.
@@ -385,22 +386,22 @@ class ValuesCollectorData
 public:
 	ValuesCollectorData(double x, double y, double value, double distance,int index=-1) :
 	   x_(x), y_(y), value_(value), distance_(distance), missing_(false), index_(index) {}
-	   
+   
 	double x() const {return x_;}
 	double y() const {return y_;}
-  	double value() const {return value_;}
-  	double distance() const {return distance_;}  
-  	void setScaledValue(double d) {scaledValue_=d;}
-  	double scaledValue() const {return scaledValue_;}
-  	bool missing() {return missing_;}
-  	void setMissing(bool b) {missing_=b;}
-  	int index() const {return index_;}
-  	virtual void visit(ValuesCollectorVisitor& visitor) {
-  		 visitor.visit(*this);
-  	}
+	double value() const {return value_;}
+	double distance() const {return distance_;}  
+	void setScaledValue(double d) {scaledValue_=d;}
+	double scaledValue() const {return scaledValue_;}
+	bool missing() {return missing_;}
+	void setMissing(bool b) {missing_=b;}
+	int index() const {return index_;}
+	virtual void visit(ValuesCollectorVisitor& visitor) {
+		 visitor.visit(*this);
+	}
 
 protected: 
-  	virtual void print(ostream&) const;
+	virtual void print(ostream&) const;
 	double x_;
 	double y_;
 	double value_;
@@ -412,7 +413,7 @@ protected:
 	//! Overloaded << operator to call print().
 	friend ostream& operator<<(ostream& s,const ValuesCollectorData& p)
 		{ p.print(s); return s; }
-};	
+};
 
 class ValuesCollectorUVData : public ValuesCollectorData
 {
@@ -420,20 +421,20 @@ public:
 	ValuesCollectorUVData(double x, double y, double u, double v, double distance,int index=-1) :
 		ValuesCollectorData(x, y, 0, distance,index), xComponent_(u), yComponent_(v) {}
 
- 	virtual void visit(ValuesCollectorVisitor& visitor)
- 		{ visitor.visit(*this); }
+	virtual void visit(ValuesCollectorVisitor& visitor)
+		{ visitor.visit(*this); }
 
- 	double  xComponent() const { return xComponent_; }
- 	double  yComponent() const { return yComponent_; }
- 	double  scaledXComponent() const { return scaledXComponent_; }
- 	double  scaledYComponent() const { return scaledYComponent_; }
+	double  xComponent() const { return xComponent_; }
+	double  yComponent() const { return yComponent_; }
+	double  scaledXComponent() const { return scaledXComponent_; }
+	double  scaledYComponent() const { return scaledYComponent_; }
 
 protected:
- 	virtual void print(ostream&) const;
+	virtual void print(ostream&) const;
 	double xComponent_;
 	double yComponent_;
 	double scaledXComponent_;
-	double scaledYComponent_;	
+	double scaledYComponent_;
 };
 
 class ValuesCollectorSDData : public ValuesCollectorData
