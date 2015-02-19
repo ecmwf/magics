@@ -21,6 +21,8 @@
 #include "DateTime.h"
 #include "Tokenizer.h"
 
+#include "MagLog.h"
+
 #include <time.h>
 #include <iomanip>
 
@@ -138,9 +140,13 @@ long MagDate::parse(const string& s)
 			err = true;
 			break;
 	}
+/*
+ *   Stephan: Removed exception - caused Metview to not plot the field (but title) - see MAGP-455 
+ */
+//	if(err) 
+//		throw MagicsException(string("Invalid date ") + s);
+	MagLog::warning() << "The date read looks invalid: " << s << ". Please check your title!\n";
 
-	if(err) 
-		throw MagicsException(string("Invalid date ") + s);
 
 	// Come back here....
 	// temp patch for monthly means
