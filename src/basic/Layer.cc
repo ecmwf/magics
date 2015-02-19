@@ -626,17 +626,14 @@ bool SceneLayer::buildTree(const Layout& parent,  unsigned int frame, const Base
 	layout_->x(parent.x());
 	layout_->y(parent.y());
 
-
-
 	getReady(frame);
 	execute(frame, out);
 	textHandler_.getInfo(frame, out);
 
-
-
-
 	return ( frame+1 < numberOfSteps() );
 }
+
+
 void SceneLayer::redisplay(const BaseDriver& driver) const
 {
 	intarray frames = driver.frames();
@@ -759,7 +756,7 @@ vector<Layer*>& SceneLayer::prepare(int i) const
 	return steps_[i];
 } 
 
-void  SceneLayer:: execute(int i, const BaseDriver& driver) const 
+void  SceneLayer::execute(int i, const BaseDriver& driver) const 
 {
 	// Look for the step! 
 	int size =  (rules_) ? rules_->size() : 0;
@@ -1003,7 +1000,7 @@ void MagnifierCollector::visit(const BaseDriver& driver)
 	Symbol* points = new Symbol();
 	points->setSymbol("magics_3"); // A little dot
 	points->setHeight(0.2); 
-	points->setColour(Colour("red")); 				
+	points->setColour(Colour("red"));
 
 	for ( iterator point = begin(); point != end(); ++point)
 		points->push_back(*point);
@@ -1017,7 +1014,7 @@ void MetviewIcon::visit(Layer& layer)
 {
 	if ( !iconClass_.empty() && !iconName_.empty() )
 	{
-		layer.icon(iconName_,iconClass_,iconId_);	 
+		layer.icon(iconName_,iconClass_,iconId_);
 	}
 
 	//if ( !iconClass_.empty() && !iconName_.empty() )
@@ -1085,7 +1082,6 @@ void DateDescription::update(const DateDescription& current) const
 
 bool DateDescription::operator < (const DateDescription& other) const // DEclaration function in Data.h
 {
-
 	if ( this->valid_ == other.valid_ )
 		if ( this->set_ == other.set_ )
 			return this->index_ < other.index_;
@@ -1100,23 +1096,24 @@ LevelDescription::LevelDescription(): surface_(true)
 LevelDescription::~LevelDescription()
 {
 }
+
 DateDescription::~DateDescription()
 {
 }
+
 LevelDescription& SingleLayer::dataLevel() const
 {
 	static LevelDescription level;
 	object_->visit(level_);
 	return level_;
-
 }
 
 DateDescription& SingleLayer::timeStamp() const
 {
 	object_->visit(stamp_);
-
 	return stamp_;
 }
+
 ValuesCollectorPoint::~ValuesCollectorPoint()
 {
 	while (!empty()) {
@@ -1124,10 +1121,7 @@ ValuesCollectorPoint::~ValuesCollectorPoint()
 		pop_back();
 		//delete data;
 	}
-
-
 }
-
 
 void ValuesCollectorData::print(ostream& out) const
 {
@@ -1158,23 +1152,19 @@ void ValuesCollectorSDData::print(ostream& out) const
 	out << ", direction=" << direction_;
 	out << "]";
 }
+
 void ValuesCollectorVisitor::visit(const ValuesCollectorData& data)
 {
-
 }
 
 void ValuesCollectorVisitor::visit(const ValuesCollectorUVData& data)
 {
-
 }
 
 void ValuesCollectorVisitor::visit(const ValuesCollectorSDData& data)
 {
-
 }
 
 ValuesCollectorVisitor::ValuesCollectorVisitor()
 {
-
 }
-
