@@ -303,14 +303,14 @@ MAGICS_NO_EXPORT void SVGDriver::endPage() const
 	pFile_.close();
 
 	layers_.clear();
-/*
+
 	stringarray::iterator it    = svg_output_resource_list_.begin();
 	stringarray::iterator itend = svg_output_resource_list_.end();
 	for(; it != itend; it++)
 	{
 		printOutputName("SVG misc "+(*it));
 	}
-*/
+
 }
 
 /*!
