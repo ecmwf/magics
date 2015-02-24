@@ -301,10 +301,6 @@ public:
         }
 
 
-        cout << "---------------Box-----------" << endl;
-        for ( vector<PaperPoint>::iterator pt = points.begin(); pt != points.end(); ++pt)
-            cout << fixed << "[" << pt->x_ << ", " << pt->y_ << "]" << endl;
-        cout << "---------------Box-----------" << endl;
         push_back(index, points);
     }
 

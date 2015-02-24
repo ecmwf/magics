@@ -1,55 +1,55 @@
 {
     "drivers": [
         {
-            "format": "png", 
+            "format": "png",
             "fullname": "macc_taylor.png",
-            "output_cairo_transparent_background": "off", 
-            "output_name_first_page_number": "off", 
+            "output_cairo_transparent_background": "off",
+            "output_name_first_page_number": "off",
             "output_width": "900"
         }
-    ], 
-    "height": "600", 
-    "method": "wrep", 
+    ],
+    "height": "600",
+    "method": "wrep",
     "page": {
-        "border": "off", 
-        "height": "100%", 
+        "border": "off",
+        "height": "100%",
         "map": {
-            "border": "off", 
-        
+            "border": "off",
+
             "taylor": {
                 "min": 0,
                 "max": 2
-             }, 
-            "height": "100%", 
+             },
+            "height": "100%",
             "horizontal_axis": {
-                "axis_grid": "on", 
-                "axis_grid_colour": "grey", 
-                "axis_grid_line_style": "dash", 
-                "axis_label_font": "sansserif", 
-                "axis_line": "on", 
-                "axis_line_colour": "grey", 
-                "axis_title": "on", 
-                "axis_title_text": "stdev ratio", 
+                "axis_grid": "on",
+                "axis_grid_colour": "grey",
+                "axis_grid_line_style": "dash",
+                "axis_label_font": "sansserif",
+                "axis_line": "on",
+                "axis_line_colour": "grey",
+                "axis_title": "on",
+                "axis_title_text": "stdev ratio",
                 "axis_tick_interval": 2
-            }, 
+            },
             "legend": {
-                "blanking": "off", 
-                "border": "off", 
-                "bottom": "77%", 
-                "display": "absolute", 
-                "height": "15%", 
-                "left": "0%", 
-                "legend_column_count": "4", 
-                "legend_entry_text_width": "75", 
-                "legend_text_colour": "navy", 
-                "legend_text_composition": "automatic_text_only", 
-                "legend_text_font_size": "0.5", 
+                "blanking": "off",
+                "border": "off",
+                "bottom": "77%",
+                "display": "absolute",
+                "height": "15%",
+                "left": "0%",
+                "legend_column_count": "4",
+                "legend_entry_text_width": "75",
+                "legend_text_colour": "navy",
+                "legend_text_composition": "automatic_text_only",
+                "legend_text_font_size": "0.5",
                 "width": "95%"
-            }, 
-            "margin_bottom": "8%", 
-            "margin_left": "10%", 
-            "margin_top": "20%", 
-            "missing": "-999", 
+            },
+            "margin_bottom": "8%",
+            "margin_left": "10%",
+            "margin_top": "20%",
+            "missing": "-999",
             "plot": [
                 {
                     "symbol": {
@@ -58,53 +58,43 @@
                         "symbol_marker_index" : "15",
                         "symbol_colour" : "red",
                         "symbol_height" : "0.5",
-                        "legend": "on", 
+                        "legend": "on",
                         "legend_user_text": "obs"
-                       
-                    }, 
+
+                    },
                     "wrepjson": {
-                        "wrepjson_family": "data", 
+                        "wrepjson_family": "data",
                         "wrepjson_input_filename": "taylordata.json",
-                        "wrepjson_keyword": "data", 
+                        "wrepjson_keyword": "data",
                         "wrepjson_missing_value": "-999"
                     }
                 }
-            ], 
-            "projection": {
-                "cartesian": {
-                    "x_date": {
-                        "automatic": "on"
-                    }, 
-                    "y_regular": {
-                        "automatic": "on"
-                    }
-                }, 
-                "projection": "cartesian"
-            }, 
-            "template": "scores.json", 
+            ],
+
+            "template": "scores.json",
             "text": {
-                "bottom": "82%", 
-                "display": "absolute", 
-                "height": "8%", 
-                "left": "0%", 
-                "text_colour": "charcoal", 
-                "text_font_size": "0.8", 
-                "text_line_1": "Taylor diagram", 
-                "text_line_2": "Station: 42R831 - BERENDRECHT (EMEP)", 
-                "text_line_count": "2", 
+                "bottom": "82%",
+                "display": "absolute",
+                "height": "8%",
+                "left": "0%",
+                "text_colour": "charcoal",
+                "text_font_size": "0.8",
+                "text_line_1": "Taylor diagram",
+                "text_line_2": "Station: 42R831 - BERENDRECHT (EMEP)",
+                "text_line_count": "2",
                 "width": "100%"
-            }, 
+            },
             "vertical_axis": {
-                "axis_grid": "on", 
-                "axis_grid_colour": "grey", 
-                "axis_grid_line_style": "dash", 
-                "axis_label_font": "sansserif", 
-                "axis_line": "on", 
-                "axis_line_colour": "grey", 
-                "axis_title": "on", 
-                "axis_title_text": "stdev ratio", 
+                "axis_grid": "on",
+                "axis_grid_colour": "grey",
+                "axis_grid_line_style": "dash",
+                "axis_label_font": "sansserif",
+                "axis_line": "on",
+                "axis_line_colour": "grey",
+                "axis_title": "on",
+                "axis_title_text": "stdev ratio",
                 "axis_tick_interval": 2
-            }, 
+            },
         "taylorgrid" : {
                  "reference":1,
                  "taylor_label_colour":"black",
@@ -120,15 +110,15 @@
                  "taylor_secondary_grid_line_colour":"evergreen",
                  "taylor_secondary_grid_line_style":"dot",
                  "taylor_secondary_grid_reference":1,
-                 "taylor_secondary_grid_increment":0.2 
+                 "taylor_secondary_grid_increment":0.2
             },
             "width": "100%"
-        }, 
+        },
         "meta": {
             "javascript_path": "info.js"
-        }, 
+        },
         "page_id": "off"
-    }, 
-    "version": "3.0", 
+    },
+    "version": "3.0",
     "width": "900"
 }
