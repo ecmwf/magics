@@ -274,9 +274,9 @@ void KMLDriver::close()
 		{
 			remove((*it).c_str());
 		}
-		printOutputName("KML kmz "+fileName_);
 	}
-   }// Zipping ---> K M Z
+	printOutputName("KML kmz "+fileName_);
+   }// end Zipping ---> K M Z
   }
   else if(!kmz_)
   {
