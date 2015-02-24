@@ -403,6 +403,7 @@ mtable = make_action("mtable", Magics.mtable, "CSV+Table+Decoder")
 
 
 mwrepjson = make_action("mwrepjson", Magics.wrepjson, "WrepJSon")
+mepsinput = make_action("mepsinput", Magics.epsinput, "EpsInput")
 mepscloud = make_action("mepscloud", Magics.epscloud)
 mepsbar = make_action("mepsbar", Magics.epsbar)
 mepswind = make_action("mepswind", Magics.epswind)

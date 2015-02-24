@@ -35,12 +35,13 @@ list = [
 	["graph.json",     "Graph Plotting", " Graph Plotting documentation"],
     ["netcdf.json", "Netcdf Input", "Netcdf Input documentation"]
 	["wind.json", "Wind Plotting", "Wind Plotting documentation"],
+    ["page.json", "Page", "Page documentation"],
+    ["superpage.json", "Superpage", "Super Page documentation"]
 ]
 """
 
 list = [
-    ["page.json", "Page", "Page documentation"],
-    ["superpage.json", "Superpage", "Super Page documentation"]
+	["kml.json", "KML output", "KML Driver documentation"],
 ]
 
 """

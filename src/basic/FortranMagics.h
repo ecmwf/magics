@@ -81,6 +81,7 @@ public:
 	void simplelegend();
 
 	//Wrep-Eps family!
+	void epsinput();
 	void wrepjson();
 	void epscloud();
 	void epsplumes();

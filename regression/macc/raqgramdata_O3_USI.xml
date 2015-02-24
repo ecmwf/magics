@@ -1,0 +1,13 @@
+<forecast date='20150223' latitude='45.81' longitude='15.98' station='Zagreb' time='00' title='MACC RAQ EPSGRAM'>
+  <param name='O3_USI' title='Ozone [ &#181;g/m3 ]   N=7                              threshold ("max daily 8h mean")=120 µg/m3 ' >
+    <step value="0" min="22.086184" ten="23.213434" twentyfive="27.876091" median="49.624835" seventyfive="58.181431" ninety="63.267355" max="70.346271"  control="120" />
+    <step value="3" min="20.434912" ten="21.646495" twentyfive="24.701053" median="46.416001" seventyfive="55.748077" ninety="61.342011" max="68.578259"  control="120" />
+    <step value="6" min="12.074725" ten="13.151030" twentyfive="19.140595" median="29.256186" seventyfive="46.916933" ninety="52.555616" max="59.789180"  control="120" />
+    <step value="9" min="20.439332" ten="20.635461" twentyfive="22.556398" median="24.588099" seventyfive="44.598674" ninety="51.855870" max="58.074636"  control="120" />
+    <step value="12" min="19.032559" ten="21.911642" twentyfive="28.338408" median="39.822409" seventyfive="51.965655" ninety="66.111741" max="76.993145"  control="120" />
+    <step value="15" min="17.134973" ten="18.718267" twentyfive="25.027426" median="34.785443" seventyfive="60.656885" ninety="72.879677" max="84.269063"  control="120" />
+    <step value="18" min="6.135406" ten="11.171149" twentyfive="21.423483" median="29.229296" seventyfive="47.558289" ninety="55.963854" max="66.621622"  control="120" />
+    <step value="21" min="5.650076" ten="11.206311" twentyfive="15.659129" median="19.803479" seventyfive="34.130112" ninety="46.539451" max="63.330173"  control="120" />
+    <step value="24" min="0.303704" ten="7.432019" twentyfive="14.785537" median="22.089963" seventyfive="27.002142" ninety="39.604668" max="55.371929"  control="120" />
+  </param>
+</forecast>

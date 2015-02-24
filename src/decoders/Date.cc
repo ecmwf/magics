@@ -143,9 +143,9 @@ long MagDate::parse(const string& s)
 /*
  *   Stephan: Removed exception - caused Metview to not plot the field (but title) - see MAGP-455 
  */
-//	if(err) 
+	if(err) 
 //		throw MagicsException(string("Invalid date ") + s);
-	MagLog::warning() << "The date read looks invalid: " << s << ". Please check your title!\n";
+	    MagLog::warning() << "The date read looks invalid: " << s << ". Please check your title!\n";
 
 
 	// Come back here....
