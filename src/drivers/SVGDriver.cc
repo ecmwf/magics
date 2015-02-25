@@ -161,7 +161,7 @@ MAGICS_NO_EXPORT void SVGDriver::startPage() const
 	pFile_ << "viewBox=\"0 0 "<<width+1<<" "<<height+1<<"\" xml:space=\"preserve\"";   
 //	 preserveAspectRatio=\"xMidYMid meet\"\n"
 //	 << " shape-rendering=\"optimizeSpeed\" text-rendering=\"optimizeSpeed\""
-	if(scripting_) pFile_<< " onload=\"OnLoadEvent(evt)\"";
+///	if(scripting_) pFile_<< " onload=\"OnLoadEvent(evt)\"";
 	pFile_<< ">\n<title>"<<title_<<"</title>\n";
 
 	if(!desc_.empty()) pFile_<< "<desc>"<<desc_<<"</desc>\n";
@@ -179,7 +179,7 @@ MAGICS_NO_EXPORT void SVGDriver::startPage() const
 	      << "\t<dc:coverage>Plot of meteorological data</dc:coverage>\n";
 	if(!meta_.empty()) pFile_<< "<!-- \n"<<meta_<<"\n-->\n";
 	pFile_<<"</cc:Work></rdf:RDF>\n</metadata>\n";
-
+/*
 	if(scripting_)
 	{
 		pFile_ << "<defs>\n"
@@ -188,6 +188,7 @@ MAGICS_NO_EXPORT void SVGDriver::startPage() const
 		       << " </clipPath>\n"
 		       << "</defs>\n";
 	}
+*/
 	pFile_<< "<g id=\"page\" transform=\"translate(0,"<<dimensionY_<<")\" vector-effect=\"non-scaling-stroke\">\n";
 }
 
@@ -205,7 +206,7 @@ MAGICS_NO_EXPORT void SVGDriver::endPage() const
 	debugOutput("Page - END");
 	closeGroup();
 	pFile_	<< "</g><!--ePage-->\n";   // needed for y-axis translation in beginning!
-
+/*
 	if(scripting_)
 	{
 		pFile_ << "<g id=\"menu\" visibility=\"visible\" fill=\"blue\" stroke=\"none\" font-size=\"10\" transform=\"translate("<<static_cast<int>(dimensionX_)-100<<" 5)\""
@@ -298,7 +299,7 @@ MAGICS_NO_EXPORT void SVGDriver::endPage() const
 			}
 			pFile_	<< "]]></script>\n";
 	}
-
+*/
 	pFile_ << "</svg>\n";
 	pFile_.close();
 
