@@ -89,6 +89,11 @@ void wrepjson() {
   mag_wrepjson();
 }
 
+
+void epsinput() {
+  mag_epsinput();
+}
+
 void epsgraph() {
   mag_epsgraph();
 }

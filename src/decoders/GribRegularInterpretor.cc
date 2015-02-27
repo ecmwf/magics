@@ -579,9 +579,7 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
 	double north = grib.getDouble("latitudeOfFirstGridPointInDegrees");
 	double west = grib.getDouble("longitudeOfFirstGridPointInDegrees");
 	double south = grib.getDouble("latitudeOfLastGridPointInDegrees");
-	;
 	double east = grib.getDouble("longitudeOfLastGridPointInDegrees");
-	;
 	double plp = grib.getDouble("PLPresent");
 	long res = grib.getLong("numberOfParallelsBetweenAPoleAndTheEquator");
 	longitudesSanityCheck(west, east);
@@ -594,6 +592,13 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
 
 	size_t aux = 2 * res;
 	grib_get_double_array(grib.id(), "pl", pl, &aux);
+    int x = 0;
+    for ( int i = 0; i < aux; i++)
+        x += pl[i];
+
+	double array[2 * res];
+	long par = grib.getLong("numberOfParallelsBetweenAPoleAndTheEquator");
+	grib_get_gaussian_latitudes(par, array);
 
 	// We have to determine if the field is global!
 	if (north - south > 175.) {
@@ -613,6 +618,7 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
 	double step = (width) / (nblon);
 
 	grib_get_double_array(grib.id(), "values", data, &aux2);
+    cout << x << "==" << aux2  << " ??? " << endl;
 	int d = 0;
 	for (size_t i = 0; i < aux; i++) {
 		vector<double> p;
@@ -665,9 +671,6 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
 		(*matrix)->columnsAxis().push_back(west + (x * step));
 	}
 
-	double array[2 * res];
-	long par = grib.getLong("numberOfParallelsBetweenAPoleAndTheEquator");
-	grib_get_gaussian_latitudes(par, array);
 
 	for (int i = 0; i < 2 * res; i++) {
 		(*matrix)->rowsAxis().push_back(array[i]);

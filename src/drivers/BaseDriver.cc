@@ -150,6 +150,7 @@ void BaseDriver::printOutputName(const std::string & str) const
 {
 	if(filelist_)
 	{
+		if(filelist_reset_) remove(filelist_name_.c_str()); 
 		const SystemInfo info;
 		fstream fs;
 		if(numFiles_ == 0)
