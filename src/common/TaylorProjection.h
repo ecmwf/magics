@@ -77,6 +77,7 @@ public:
 	\\brief Initialise the projection
 	*/
 	virtual void init() ;
+    virtual void cleanPCEnveloppe();
 	/*!
 	\\brief 
 	*/
