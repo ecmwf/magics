@@ -43,7 +43,7 @@
 
 namespace magics {
 
- static double testLevels;
+ 
 
 static MutexCond producerMutex_;
 
@@ -589,7 +589,7 @@ void IsoPlot::isoline(Cell& cell, CellBox* parent) const
         if ( !parent  ) // NO Shading == Nothing to do!
             return;
         else {
-            const double contour = levels_[cell.min_];
+            
             int index  = shading_->shadingIndex(cell.value(0));
 
                   vector<PaperPoint> points;
@@ -1195,8 +1195,7 @@ void IsoPlot::isoline(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
         return;
     // Find the used levels!
     const vector<double>::const_iterator end = (*levelSelection_).end();
-    vector<double>::const_iterator previous = (*levelSelection_).end();
-    vector<double>::const_iterator last = (*levelSelection_).end();
+        vector<double>::const_iterator last = (*levelSelection_).end();
 
     double min = data.min();
     double max = data.max();
