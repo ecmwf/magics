@@ -247,11 +247,7 @@ void Transformation::init()
 {
 	PCEnveloppe_->clear();
 
-	PCEnveloppe_->push_back(PaperPoint(getMinPCX(), getMinPCY()));
-	PCEnveloppe_->push_back(PaperPoint(getMinPCX(), getMaxPCY()));
-	PCEnveloppe_->push_back(PaperPoint(getMaxPCX(), getMaxPCY()));
-	PCEnveloppe_->push_back(PaperPoint(getMaxPCX(), getMinPCY()));
-	PCEnveloppe_->push_back(PaperPoint(getMinPCX(), getMinPCY()));
+	getPCBoundingBox();
 	askedxmin_ =  std::min(getMinPCX(), getMaxPCX());
 	askedxmax_ =  std::max(getMinPCX(), getMaxPCX());
 	askedymin_ =  std::min(getMinPCY(), getMaxPCY());
@@ -260,6 +256,9 @@ void Transformation::init()
 
 void Transformation::cleaninit()
 {
+
+	PCEnveloppe_->clear();
+	getPCBoundingBox();
 	askedxmin_ =  std::min(getMinPCX(), getMaxPCX());
 	askedxmax_ =  std::max(getMinPCX(), getMaxPCX());
 	askedymin_ =  std::min(getMinPCY(), getMaxPCY());

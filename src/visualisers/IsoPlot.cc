@@ -1783,13 +1783,11 @@ GridCell::GridCell(const CellArray& data, int row, int column, const Transformat
         bool clip = false;
         static int count = 0;
         count++;
-        cout << "---------------" << endl;
 
         for (int i = 0; i < 4; i++) {
             double lon = columns_[i];
             double lat =  rows_[i];
             transformation.fast_reproject(columns_[i], rows_[i]);
-            cout << std::fixed << "[" << lon << ", " << lat << "]-->[" << "[" << columns_[i] << ", " << rows_[i] << "]" << endl;
 
             if ( columns_[i] < minx ) {
                 columns_[i] = minx;
@@ -1810,7 +1808,6 @@ GridCell::GridCell(const CellArray& data, int row, int column, const Transformat
 
 
         }
-        cout << "---------------" << endl;
         if ( clip) {
             double xmin = std::min(columns_[0], columns_[2]);
             double xmax = std::max(columns_[0], columns_[2]);
