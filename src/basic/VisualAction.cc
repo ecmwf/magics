@@ -76,7 +76,6 @@ void VisualAction::getReady()
 
 void VisualAction::release()
 {
-
 	if ( data_ )
 		data_->release();
 }
@@ -97,7 +96,6 @@ void VisualAction::visit(LevelDescription& level) {
 
 void VisualAction::visit(DrawingVisitor& drawing)
 {
-
 	if ( !data_ || ( data_ && !data_->valid() ) || visdefs_.empty() )
 	{
 		MagLog::warning() << " Check data or visual action!" << endl;
@@ -117,9 +115,7 @@ void VisualAction::visit(HistoVisitor& drawing)
 {
 	if ( !visdefs_.empty() ) {
 		// We only send it to the first action...
-
-
-		 
+ 
 		drawing.basic(true);
 		drawing.dataLayoutTransformation(&transformation());
 		 
@@ -132,12 +128,8 @@ void VisualAction::visit(HistoVisitor& drawing)
 				drawing.basic(false);
 				(*visdef)->visit(*data_, drawing);
 				return;	
-			}  
-			  
-			  	
+			}
 		}
-
-
 		visdefs_.front()->visit(*data_, drawing);
 	}
 }
@@ -234,21 +226,17 @@ void VisualAction::visit(AnimationRules& rules)
 	if ( data_  && data_->valid() ) data_->visit(rules);
 }
 
-static string unknown("unknown");
-const string& VisualAction::name()
+const string VisualAction::name()
 {
-
-	return ( data_ ) ? data_->name() : unknown;
+	return ( data_ ) ? data_->name() : "unknown";
 }
 
 
-const string& VisualAction::id() {
-	static string name("unknown");
-	return ( data_  ) ? data_->layerId() : unknown;
+const string VisualAction::id()
+{
+	return ( data_  ) ? data_->layerId() : "unknown";
 }
 
-
-	
 
 VisualAnimation::VisualAnimation():loop_(0)
 {
@@ -257,7 +245,6 @@ VisualAnimation::VisualAnimation():loop_(0)
 
 VisualAnimation::~VisualAnimation()
 {
-
 	if (loop_) delete loop_;
 }
 
@@ -293,8 +280,6 @@ void VisualAnimation::prepare()
 
 		layer_->addStep(action);
 
-
-
 		loop_->next();
 	}
 }
@@ -325,11 +310,11 @@ void VisualAnimation::visit(Transformation& transformation)
 
 void VisualAnimation::visit(SceneLayer& layer, vector<LayoutVisitor*>& visitors)
 {
-   	layer.add(layer_);
- 	for  (vector<LayoutVisitor*>::iterator visitor = visitors.begin(); visitor != visitors.end(); ++visitor) {
-   		layer.addVisitor(*visitor); 
-   		layer_->addVisitor(*visitor);  
-   	}
+	layer.add(layer_);
+	for  (vector<LayoutVisitor*>::iterator visitor = visitors.begin(); visitor != visitors.end(); ++visitor) {
+		layer.addVisitor(*visitor); 
+		layer_->addVisitor(*visitor);  
+	}
 }
 
 bool VisualAction::needLegend()
@@ -345,7 +330,6 @@ bool VisualAction::needLegend()
 void VisualAction::visit(SceneLayer& layer, vector<LayoutVisitor*>& visitors)
 {
 	layer_ = new StaticLayer(this);
-	
 
 	if ( data_ ) 
 		data_->visit(*layer_);
@@ -360,7 +344,4 @@ void VisualAction::visit(SceneLayer& layer, vector<LayoutVisitor*>& visitors)
 	{    
 		(*visdef)->visit(*layer_);
 	}
-
-
 }
-

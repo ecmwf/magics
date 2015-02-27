@@ -82,9 +82,6 @@ public:
     void binning(BinningObject* binning) { binning_ = binning; }
 
   
-
-
-
     virtual void release() {}
     
     virtual void getReady(const Transformation&) {}
@@ -123,7 +120,7 @@ public:
     virtual void visit(Layer& layer) { 
     	MetviewIcon::visit(layer);
     	layer.name(name());
-    	layer.valid(from(), to());
+    	layer.validTime(from(), to());
     }
    bool valid() { return valid_; }
     virtual void visit(MetaDataCollector& collector)  {MetviewIcon::visit(collector);}  
