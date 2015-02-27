@@ -186,11 +186,14 @@ Polyline& TaylorProjection::getPCBoundingBox() const
 	if ( PCEnveloppe_->empty() ) {
 		PCEnveloppe_->push_back(PaperPoint(min_, min_));
 		PCEnveloppe_->push_back(PaperPoint(min_, max_));
-		PCEnveloppe_->push_back(PaperPoint(max_, max_));
+
+		for ( float i = 0; i <= (3.14/2); i = i +0.1) {
+			PCEnveloppe_->push_back(PaperPoint(max_*cos(i), max_*sin(i)));
+		}
+
 		PCEnveloppe_->push_back(PaperPoint(max_, min_));
 		PCEnveloppe_->push_back(PaperPoint(min_, min_));
 	}
-
 	return *PCEnveloppe_;
 
 }
