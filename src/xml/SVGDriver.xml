@@ -18,11 +18,11 @@
 	<parameter name='output_svg_use_external_files' from='string' to='bool' member='external' default='off'>
 		<documentation>Can the SVG driver use external files for cell and image plotting. External files will reduce the SVG file size but add an external dependency!</documentation>
 	</parameter>
-
+<!--
 	<parameter name='output_svg_scripting' from='string' to='bool' member='scripting' default='off'>
 		<documentation>Integrates scripting for interaction (toggle layers and pan/zooming).</documentation>
 	</parameter>
-
+-->
 	<parameter name='output_svg_fix_size' from='string' to='bool' member='fixSize' default='off' >
 		<documentation>Decides if the size is fixed in the SVG document.</documentation>
 	</parameter>
