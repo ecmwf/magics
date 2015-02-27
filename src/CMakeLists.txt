@@ -109,17 +109,6 @@ if( MAGICS_ODB )
 endif()
 
 include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/common )
-<<<<<<< HEAD
-
-ecbuild_add_library( TARGET    MagPlusSingle 
-		     SOURCES MagicsSingle.cc
-		     TYPE STATIC)
-		     
-ecbuild_add_library( TARGET    MagPlusDouble 
-		     SOURCES MagicsDouble.cc
-		     TYPE STATIC)		     
-=======
->>>>>>> release/2.24
 
 ecbuild_add_library( TARGET    MagPlusShared
                      DEPENDS   magics_params
