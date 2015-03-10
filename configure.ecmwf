@@ -183,7 +183,7 @@ echo "start"
 echo ${build_home}
 mkdir -p ${build_home}
 cd ${build_home}
-#rm -fR *
+rm -fR *
 
 
 cmd="${git_home}/ecbuild/bin/ecbuild ${git_home}/magics $args"
@@ -191,7 +191,6 @@ echo ${cmd}
 ${git_home}/ecbuild/bin/ecbuild ${git_home}/magics $args
 
 
-exit
 echo ${build_home}
 make -j ${run} install
 ctest

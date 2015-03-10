@@ -22,6 +22,22 @@ class ObjectHandler(ContentHandler):
     keywords = ""
     done = {}
 
+    def reset(self):
+        self.path ="../../src/params/"
+        self.tag = ""
+        self.doc = ""
+        self.magics = {}
+        self.objects = {}
+        self.object = {}
+        self.param = {}
+        self.paramdoc = ""
+        self.actiondoc = ""
+        self.parameters = {}
+        self.result = []
+        self.keywords = ""
+        self.done = {}
+        print "RESET"
+
     def boolset(p, attrs):
         p["set"] = "psetc"
         p["values"] = ["on", "off"]
@@ -44,6 +60,11 @@ class ObjectHandler(ContentHandler):
     def listpolicy(p, attrs):
         p["set"] = "psetc"
         p["values"] = ["lastone", "cycle"]
+        p["type"] = "toggle"
+
+    def colourtechnique(p, attrs):
+        p["set"] = "psetc"
+        p["values"] = ["calculate", "list"]
         p["type"] = "toggle"
 
     def anyset(p, attrs):
@@ -110,6 +131,7 @@ class ObjectHandler(ContentHandler):
         "Colour": anyset,
         "LineStyle": lineset,
         "ListPolicy": listpolicy,
+        "ColourTechnique": colourtechnique,
         "ArrowPosition": arrowposition,
         "Justification": justification,
         "thickness": thickness,
@@ -128,6 +150,7 @@ class ObjectHandler(ContentHandler):
         p = {}
         self.parameters[attrs.get("name")] = p
         p["name"] = attrs.get("name")
+        print "newparam", p["name"]
         p["type"] = attrs.get("to")
         specials=["frequency", "thickness"]
         for key in specials:
@@ -249,7 +272,7 @@ class ObjectHandler(ContentHandler):
 
     def  prepareParam(self, param):
         self.keywords +=  ", " + param["name"]
-
+        print "keywords", self.keywords
         newparam = {}
         for p in param:
             newparam[p] = param[p]
@@ -301,7 +324,7 @@ class ObjectHandler(ContentHandler):
             parent = self.magics[object["inherits"]]
             for param in parent["parameters"]:
 
-                print "add-->" + param["name"]
+
                 if isinstance(param["name"], (list, tuple)):
                     values = values + param["name"]
                 else:
@@ -312,12 +335,11 @@ class ObjectHandler(ContentHandler):
         # Add own parameters:
 
         for param in object["parameters"]:
-            print "add my own-->" + param["name"]
+
             print json.dumps(param, indent=2)
-            print "<--------------------"
-            print "!!!!!!!!!!!!!", param["name"], "!!!!!!!!!!!!!!!!!!"
+
             if isinstance(param["name"], (list, tuple)):
-                print "!!!!!!!!!!!!!", param["name"], "TUPLE!!!!!!!!!!!!!!!!!!"
+
                 values = values + param["name"]
             else:
                 values.append(param["name"])
@@ -339,16 +361,16 @@ class ObjectHandler(ContentHandler):
 
 
 
-def createAction(abbr, name, files):
+def createAction(version, abbr, name, files):
 
-    print files
     object = ObjectHandler()
+    object.reset()
     for f in files:
         print "FILE", f
         x = object.parse(f)
 
 
-    object.printDef(name)
+    #object.printDef(name)
     parameters = object.getParams(name);
     doc = object.getDoc(name);
 
@@ -358,96 +380,17 @@ def createAction(abbr, name, files):
     action["action"]= abbr;
     action["metview"]="m" + abbr
     action["fortran"]="p" + abbr
-    action["documentation"]=doc + "[version 2.22.7]"
+    action["documentation"]=doc + "[version " + version + "]"
     action["parameters"]=object.result
     magics["magics"].append(action)
 
 
 
-    f = open(abbr+'.json', "w")
+    f = open(abbr+".json", "w")
+
     f.write(json.dumps(magics, indent=1))
 
     return
 
 
 
-action = {}
-
-action["SymbolPlotting"] = ["SymbolPlotting.xml", "SymbolMode.xml",
-        "SymbolIndividualMode.xml",
-        "SymbolAdvancedTableMode.xml", "SymbolTableMode.xml",
-        "CountSelectionType.xml", "IntervalSelectionType.xml",
-        "LevelSelection.xml", "LevelListSelectionType.xml", "CalculateColourTechnique.xml",
-        "ColourTechnique.xml", "HeightTechnique.xml", "ListColourTechnique.xml", "CalculateHeightTechnique.xml"]
-
-action["GraphPlotting"] = ["Graph.xml", "GraphPlotting.xml", "Curve.xml", "Bar.xml", "GraphFlag.xml", "GraphArrow.xml",
-        "CurveArea.xml", "GraphShade.xml", "NoGraphShade.xml", "GraphShade.xml",
-        "NoGraphShade.xml", "GraphShadeStyle.xml", "HatchGraphShadeStyle.xml",
-        "DotGraphShadeStyle.xml", "GraphShadeStyle.xml", "HatchGraphShadeStyle.xml",
-        "DotGraphShadeStyle.xml", ]
-
-action["Wind"] = ["Wind.xml", "WindPlotting.xml", "ArrowPlotting.xml", "FlagPlotting.xml"]
-
-action["Contour"] = ["Contour.xml","IsoPlot.xml", "NoIsoPlot.xml",
-    "AutomaticContourMethod.xml", "SampleContourMethod.xml", "ContourMethod.xml",
-    "Akima760Method.xml", "Akima474Method.xml", "HiLo.xml", "NoHiLo.xml", "HighHiLo.xml",
-    "LowHiLo.xml", "ValuePlot.xml", "NoValuePlot.xml", "IsoHighlight.xml",
-    "NoIsoHighlight.xml", "CountSelectionType.xml", "LevelSelection.xml", "IntervalSelectionType.xml",
-    "LevelListSelectionType.xml", "IsoLabel.xml", "NoIsoLabel.xml", "IsoShading.xml",
-    "NoIsoShading.xml", "HiLoBase.xml", "HiLoTechnique.xml","HiLoText.xml",
-    "HiLoNumber.xml", "HiLoBoth.xml", "HiLoMarker.xml","HiLoMarkerBase.xml",
-    "NoHiLoMarker.xml", "ValuePlotBase.xml", "ValuePlotMethod.xml", "MarkerValuePlotMethod.xml",
-    "BothValuePlotMethod.xml", "ShadingTechnique.xml", "PolyShadingTechnique.xml", "GridShading.xml",
-    "CellShading.xml", "DumpShading.xml", "MarkerShadingTechnique.xml", "ColourTechnique.xml",
-    "CalculateColourTechnique.xml", "ListColourTechnique.xml", "PolyShadingMethod.xml",
-    "DotPolyShadingMethod.xml", "HatchPolyShadingMethod.xml", ]
-
-
-action["NetcdfDecoder"] = ["NetcdfDecoder.xml", "NetcdfInterpretor.xml", "NetcdfMatrixInterpretor.xml", 
-        "NetcdfGeoMatrixInterpretor.xml", "NetcdfVectorInterpretor.xml", "NetcdfGeoVectorInterpretor.xml", 
-        "NetcdfGeoPolarMatrixInterpretor.xml", "NetcdfGeopointsInterpretor.xml", "NetcdfXYpointsInterpretor.xml", "NetcdfOrcaInterpretor.xml", ]
-
-action["Page"] = ["FortranSceneNode.xml", "PageID.xml", "NoPageID.xml", "LogoPlotting.xml", "NoLogoPlotting.xml" ]
-action["SuperPage"] = ["FortranRootSceneNode.xml"  ]
-action["PostScript"] = ["PostScriptDriver.xml", "BaseDriver.xml" ] 
-action["PNG"] = ["CairoDriver.xml", "BaseDriver.xml" ] 
-action["SVG"] = ["SVGDriver.xml", "BaseDriver.xml" ] 
-action["KML"] = ["KMLDriver.xml", "BaseDriver.xml" ] 
-
-action["BoxPlotVisualiser"] = ["BoxPlotBox.xml",  "BoxPlotBoxBorder.xml",  "BoxPlotDecoder.xml",  
-        "BoxPlotMedian.xml",  "BoxPlotVisualiser.xml",  "BoxPlotWhiskerBorder.xml",
-        "BoxPlotWhiskerBox.xml", "BoxPlotWhiskerLine.xml", "NoBoxPlotBoxBorder.xml",  "NoBoxPlotMedian.xml"]
-
-createAction("kml",  "KMLDriver", action["KML"])
-sys.exit()
-createAction("postscript",  "PostScriptDriver", action["PostScript"])
-createAction("png",  "CairoDriver", action["PNG"])
-createAction("svg",  "SVGDriver", action["SVG"])
-
-
-createAction("graph",  "GraphPlotting", action["GraphPlotting"])
-createAction("contour",  "Contour", action["Contour"])
-createAction("superpage",  "FortranRootSceneNode", action["SuperPage"])
-createAction("postscript",  "PostScript", action["PostScript"])
-createAction("boxplot",  "BoxPlotVisualiser", action["BoxPlotVisualiser"])
-
-
-
-createAction("taylor",  "TaylorGrid", ["Taylor.xml"])
-createAction("Netcdf",  "Wind", ["Wind.xml"])
-createAction("text",  "TextVisitor", ["TextVisitor.xml"])
-createAction("wind",  "Wind", ["Wind.xml"])
-createAction("coast", "Coastlines",  ["Coastlines.xml", "CoastPlotting.xml", "LabelPlotting.xml", "GridPlotting.xml"])
-createAction("axis",  "Axis", ["Axis.xml"])
-createAction("subpage",  "FortranViewNode", ["SubPage.xml", "GeoRectangularProjection.xml", "XYTransformation.xml", "Proj4Projection.xml", "PolarStereographicProjection.xml"])
-createAction("wind",  "Wind", ["Wind.xml"])
-createAction("graph",  "GraphPlotting", ["graph_params.xml"])
-
-
-createAction("legend",  "LegendVisitor", ["Legend.xml"])
-createAction("tephi",  "TephiGrid", ["Tephigram.xml"])
-createAction("input",  "InputData", ["InputData.xml", "BinningObject.xml"])
-createAction("wrepjson",  "WrepJSon", ["EpsJSon.xml"])
-createAction("input",  "InputData", ["InputData.xml"])
-createAction("geo_odb",  "OdaGeoDecoder", ["OdaDecoder.xml"])
-createAction("xy_odb",  "OdaXYDecoder", ["OdaDecoder.xml"])
