@@ -19,6 +19,8 @@ run="4"
 tar="off"
 
 
+module unload python 
+module load python
 module unload boost 
 module load boost/1.53.0
 module unload proj4 
@@ -31,7 +33,8 @@ module load odb_api/0.10.2
 module unload emos
 module load emos/400
 module unload netcdf
-module load netcdf4/4.3.2
+#module load netcdf4/4.3.2
+module load netcdf4
 module unload hdf5
 module load hdf5
 
@@ -50,7 +53,7 @@ case "${OS_VERSION}" in
         use='daily'
         if [[ $use = 'daily' ]]; then
             tar='on'
-            regression="on"
+            regression="off"
             metview='off'
             debug='off'
             build_home="/tmp/cgs/build/$version/daily"
@@ -183,7 +186,7 @@ echo "start"
 echo ${build_home}
 mkdir -p ${build_home}
 cd ${build_home}
-rm -fR *
+rm -fR ${build_home}/*
 
 
 cmd="${git_home}/ecbuild/bin/ecbuild ${git_home}/magics $args"
