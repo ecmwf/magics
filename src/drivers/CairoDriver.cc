@@ -14,6 +14,7 @@
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
   limitations under the License.
+European Centre for Medium-Range Weather Forecasts
 
 
  ******************************** LICENSE ********************************/
@@ -438,9 +439,9 @@ MAGICS_NO_EXPORT void CairoDriver::endPage() const
 	else if (magCompare(backend_,"png") )
 	{
 		Timer timer("cairo", "write png");
-//		write_png(surface_, "test256.png");
 		filename_ = getFileName("png" ,currentPage_);
 		cairo_surface_write_to_png(surface_, filename_.c_str());
+		write_8bit_png();
 		if(!filename_.empty()) printOutputName("CAIRO png "+filename_);
 	}
 	else if (magCompare(backend_,"geotiff") )
@@ -479,14 +480,14 @@ MAGICS_NO_EXPORT void CairoDriver::write_tiff() const
 
     TIFF *tif = TIFFOpen(filename_.c_str(), "w");
     if (!tif) {
-        MagLog::warning() << "CairoDriver: Unable to open TIFF file "<<filename_.c_str()<< std::endl;
+        MagLog::warning() << "CairoDriver: Unable to open TIFF file "<<filename_<< std::endl;
         return;
     }
     
     GTIF *gtif = GTIFNew(tif);
     if (!gtif)
     {
-        MagLog::warning() << "CairoDriver: Unable to open GeoTIFF file "<<filename_.c_str()<< std::endl;
+        MagLog::warning() << "CairoDriver: Unable to open GeoTIFF file "<<filename_<< std::endl;
         return;
     }
 
@@ -543,6 +544,74 @@ MAGICS_NO_EXPORT void CairoDriver::write_tiff() const
     return;
 }
 #endif  // MAGICS_GEOTIFF
+
+#include <png.h>
+/*!
+  \brief write raster into 8 bit PNG
+
+  Only the raw raster (normally written to a 32 bit PNG) is here written into a 8 bit.
+
+*/
+MAGICS_NO_EXPORT void CairoDriver::write_8bit_png() const
+{
+    const string filename = filename_ +"_8bit";    
+    FILE * fp = fopen (filename.c_str(), "wb");
+    if (! fp) {
+        MagLog::error() << "CairoDriver: Unable to open 8 bit PNG file "<<filename<< std::endl;
+        return;        
+    }
+
+    cairo_surface_flush (surface_);
+	unsigned char *data = cairo_image_surface_get_data(surface_);
+    int           width = cairo_image_surface_get_width(surface_);
+    int          height = cairo_image_surface_get_height(surface_);
+//    const int    stride = cairo_image_surface_get_stride(surface_);
+    const int     depth = 8;
+
+    png_structp png_ptr = png_create_write_struct (PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
+    if(!png_ptr)
+    {
+    	MagLog::error() << "CairoDriver: Unable to create WRITE struct for 8 bit PNG file "<<filename<< std::endl;
+        return;
+    }
+ 
+    png_infop info_ptr  = png_create_info_struct (png_ptr);
+    if(!png_ptr)
+    {
+    	MagLog::error() << "CairoDriver: Unable to create INFO struct for 8 bit PNG file "<<filename<< std::endl;
+        return;
+    }
+//    setjmp (png_jmpbuf (png_ptr));
+    
+    // Set image attributes
+    png_set_IHDR (png_ptr,
+                  info_ptr,
+                  width,
+                  height,
+                  depth,
+                  PNG_COLOR_TYPE_RGBA,
+                  PNG_INTERLACE_NONE,
+                  PNG_COMPRESSION_TYPE_DEFAULT,
+                  PNG_FILTER_TYPE_DEFAULT);
+    
+    /* Initialize rows of PNG. */
+    png_bytep *row_pointers = (png_bytep*) malloc(3 * width * sizeof(png_byte));
+
+    for (size_t y = 0; y < height; ++y) {
+        row_pointers[y] = data + width * 4 * y;
+    }
+    
+    // Write the image data to file
+    png_init_io   (png_ptr, fp);
+    png_set_rows  (png_ptr, info_ptr, row_pointers);
+    png_write_png (png_ptr, info_ptr, PNG_TRANSFORM_BGR, NULL);
+
+ //   free (row_pointers); 
+ //   png_destroy_write_struct (&png_ptr, &info_ptr);  
+    fclose (fp);
+   return;
+}
+
 
 /*!
   \brief project to a new Layout

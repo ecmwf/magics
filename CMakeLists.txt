@@ -185,6 +185,15 @@ if( PANGOCAIRO_FOUND )
 	endif()
 endif()
 
+ecbuild_add_option( FEATURE PNG
+    DESCRIPTION "support for PNG decoding/encoding"
+    DEFAULT ON
+    REQUIRED_PACKAGES PNG
+)
+
+if( HAVE_PNG )
+    add_definitions( ${PNG_DEFINITIONS} )
+endif()
 
 ### Metview and Qt
 
@@ -239,7 +248,7 @@ install( FILES ${CMAKE_CURRENT_BINARY_DIR}/magics-config
 ###############################################################################
 # contents
 
-set( MAGICS_TPLS grib_api spot odb_api EXPAT NetCDF PangoCairo Proj4 EMOS)
+set( MAGICS_TPLS grib_api spot odb_api EXPAT NetCDF PangoCairo PNG Proj4 EMOS)
 set( MAGICS_INCLUDE_DIRS 
 	    ${CMAKE_CURRENT_SOURCE_DIR}/src 
         ${CMAKE_BINARY_SOURCE_DIR}/src 
