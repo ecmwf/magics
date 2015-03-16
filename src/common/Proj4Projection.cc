@@ -227,7 +227,7 @@ void Proj4Projection::print(ostream& out) const
 
 Polyline& Proj4Projection::getPCBoundingBox() const
 {
-
+   
 	return *PCEnveloppe_;
 }
 
