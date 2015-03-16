@@ -238,6 +238,8 @@ bool NetcdfOrcaInterpretor::interpretAsMatrix(Matrix** data)
 
 
 					}
+					matrix->multiply(scaling_);
+					matrix->plus(offset_);
 
 
 					 matrix->setMapsAxis();
