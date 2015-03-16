@@ -150,6 +150,8 @@ actions = ["coast", "axis", "symb", "wind", "graph", "contour"]
 actions = ["wind"]
 actions = ["legend"]
 actions = ["taylor"]
+actions = ["kml"]
+actions = ["boxplot"]
 
 for action in actions:
 	f = open( action + '.json', "r")

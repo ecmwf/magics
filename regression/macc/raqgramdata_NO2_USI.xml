@@ -1,0 +1,13 @@
+<forecast date='20150223' latitude='45.81' longitude='15.98' station='Zagreb' time='00' title='MACC RAQ EPSGRAM'>
+  <param name='NO2_USI' title='Nitrogen Dioxide [ &#181;g/m3 ]   N=7                              threshold ("1h max")=200 µg/m3 ' >
+    <step value="0" min="3.622888" ten="5.077419" twentyfive="7.081515" median="8.408067" seventyfive="11.397413" ninety="16.089287" max="19.724792"  control="200" />
+    <step value="3" min="3.298223" ten="4.791195" twentyfive="6.394023" median="7.721109" seventyfive="10.604604" ninety="15.867612" max="19.957777"  control="200" />
+    <step value="6" min="8.138126" ten="9.955710" twentyfive="11.878605" median="12.830241" seventyfive="13.975051" ninety="17.808433" max="21.997350"  control="200" />
+    <step value="9" min="6.500652" ten="9.374954" twentyfive="12.209855" median="14.502142" seventyfive="14.904713" ninety="16.326338" max="18.004448"  control="200" />
+    <step value="12" min="8.623823" ten="8.708965" twentyfive="9.520646" median="11.803579" seventyfive="14.906329" ninety="15.842587" max="16.292650"  control="200" />
+    <step value="15" min="9.030275" ten="9.494991" twentyfive="10.047303" median="14.749046" seventyfive="16.567960" ninety="18.809401" max="19.505111"  control="200" />
+    <step value="18" min="13.520290" ten="15.100070" twentyfive="18.132586" median="21.493476" seventyfive="27.613221" ninety="30.861605" max="33.578757"  control="200" />
+    <step value="21" min="17.755229" ten="17.939182" twentyfive="19.551985" median="21.651694" seventyfive="24.981417" ninety="33.597683" max="45.031839"  control="200" />
+    <step value="24" min="11.400620" ten="15.323839" twentyfive="19.653207" median="23.054970" seventyfive="29.156548" ninety="36.501211" max="39.711112"  control="200" />
+  </param>
+</forecast>

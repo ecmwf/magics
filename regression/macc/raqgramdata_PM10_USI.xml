@@ -1,0 +1,13 @@
+<forecast date='20150223' latitude='45.81' longitude='15.98' station='Zagreb' time='00' title='MACC RAQ EPSGRAM'>
+  <param name='PM10_USI' title='PM10 Aerosol [ &#181;g/m3 ]   N=7                              threshold ("24h mean")=50 µg/m3 ' >
+    <step value="0" min="0.396123" ten="1.327795" twentyfive="2.124586" median="3.759199" seventyfive="9.378804" ninety="12.866492" max="13.611052"  control="50" />
+    <step value="3" min="0.149049" ten="1.632971" twentyfive="3.286530" median="6.858090" seventyfive="10.225003" ninety="13.356209" max="14.202197"  control="50" />
+    <step value="6" min="1.372581" ten="2.745435" twentyfive="6.029420" median="9.803947" seventyfive="12.998810" ninety="15.161263" max="16.230828"  control="50" />
+    <step value="9" min="2.578590" ten="4.822991" twentyfive="10.752467" median="16.016881" seventyfive="17.775040" ninety="19.430803" max="19.490387"  control="50" />
+    <step value="12" min="3.362201" ten="4.912915" twentyfive="8.586011" median="14.208268" seventyfive="22.855832" ninety="23.501994" max="23.854799"  control="50" />
+    <step value="15" min="4.829094" ten="5.510974" twentyfive="7.764639" median="12.572823" seventyfive="24.240827" ninety="26.567501" max="29.698148"  control="50" />
+    <step value="18" min="5.513513" ten="6.604939" twentyfive="8.182793" median="14.097886" seventyfive="24.515237" ninety="32.848673" max="35.057420"  control="50" />
+    <step value="21" min="4.525854" ten="5.338720" twentyfive="6.091301" median="16.319572" seventyfive="26.189425" ninety="35.745970" max="35.942210"  control="50" />
+    <step value="24" min="2.039124" ten="3.640380" twentyfive="6.238422" median="15.609949" seventyfive="25.811694" ninety="36.949745" max="41.356453"  control="50" />
+  </param>
+</forecast>

@@ -83,6 +83,7 @@ private:
 	MAGICS_NO_EXPORT void redisplay(const StaticLayer&) const;
 	MAGICS_NO_EXPORT void redisplay(const NoDataLayer&) const;
 	MAGICS_NO_EXPORT void redisplay(const StepLayer&) const;
+	MAGICS_NO_EXPORT void redisplay(const SceneLayer&) const;
 	MAGICS_NO_EXPORT void newLayer() const;
 	MAGICS_NO_EXPORT void closeLayer() const;
 
@@ -92,11 +93,11 @@ private:
 	MAGICS_NO_EXPORT int setLineParameters(const LineStyle style, const MFloat w) const;
 
 	MAGICS_NO_EXPORT void renderPolyline(const int, MFloat *, MFloat *) const;
-	MAGICS_NO_EXPORT void renderPolyline2(const int n, MFloat *x, MFloat *y) const;
+	MAGICS_NO_EXPORT void renderPolyline2(const int n, MFloat *x, MFloat *y) const {}
 	MAGICS_NO_EXPORT void renderSimplePolygon(const int, MFloat *, MFloat *) const;
 	MAGICS_NO_EXPORT void renderSimplePolygon(const Polyline& line) const;
 	MAGICS_NO_EXPORT void renderText(const Text& text) const;
-	MAGICS_NO_EXPORT void circle(const MFloat x, const MFloat y, const MFloat r, const int) const;
+	MAGICS_NO_EXPORT void circle(const MFloat x, const MFloat y, const MFloat r, const int) const {}
 	MAGICS_NO_EXPORT bool renderPixmap(MFloat,MFloat,MFloat,MFloat,int,int,unsigned char*,int, bool) const;
 	MAGICS_NO_EXPORT bool renderCellArray(const Image& obj) const;
 	MAGICS_NO_EXPORT void renderSymbols(const Symbol& symbol) const;
@@ -115,6 +116,7 @@ private:
 	mutable string		currentLayerPath_;
 	mutable string		currentTimeBegin_;
 	mutable string		currentTimeEnd_;
+	mutable string		currentTimeStamp_;
 	mutable bool		doKmz_;
 	mutable bool		kml_placemark_;
 	mutable bool		polyline_begin_;

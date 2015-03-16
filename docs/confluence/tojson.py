@@ -341,9 +341,10 @@ class ObjectHandler(ContentHandler):
 
 def createAction(abbr, name, files):
 
+    print files
     object = ObjectHandler()
     for f in files:
-        print f
+        print "FILE", f
         x = object.parse(f)
 
 
@@ -408,16 +409,29 @@ action["NetcdfDecoder"] = ["NetcdfDecoder.xml", "NetcdfInterpretor.xml", "Netcdf
 
 action["Page"] = ["FortranSceneNode.xml", "PageID.xml", "NoPageID.xml", "LogoPlotting.xml", "NoLogoPlotting.xml" ]
 action["SuperPage"] = ["FortranRootSceneNode.xml"  ]
-#createAction("graph",  "GraphPlotting", action["GraphPlotting"])
-#createAction("contour",  "Contour", action["Contour"])
-createAction("superpage",  "FortranRootSceneNode", action["SuperPage"])
+action["PostScript"] = ["PostScriptDriver.xml", "BaseDriver.xml" ] 
+action["PNG"] = ["CairoDriver.xml", "BaseDriver.xml" ] 
+action["SVG"] = ["SVGDriver.xml", "BaseDriver.xml" ] 
+action["KML"] = ["KMLDriver.xml", "BaseDriver.xml" ] 
 
+action["BoxPlotVisualiser"] = ["BoxPlotBox.xml",  "BoxPlotBoxBorder.xml",  "BoxPlotDecoder.xml",  
+        "BoxPlotMedian.xml",  "BoxPlotVisualiser.xml",  "BoxPlotWhiskerBorder.xml",
+        "BoxPlotWhiskerBox.xml", "BoxPlotWhiskerLine.xml", "NoBoxPlotBoxBorder.xml",  "NoBoxPlotMedian.xml"]
 
+createAction("kml",  "KMLDriver", action["KML"])
 sys.exit()
+createAction("postscript",  "PostScriptDriver", action["PostScript"])
+createAction("png",  "CairoDriver", action["PNG"])
+createAction("svg",  "SVGDriver", action["SVG"])
 
-createAction("cont",  "Contour", ["Contour.xml", "IsoPlot.xml",
- "IsoShading.xml", "IsoLabel.xml", "ValuePlot.xml",
-                               "Akima.xml", "IsoHighlight.xml", "LevelSelection.xml", "HiLo.xml", "HiLoText.xml"])
+
+createAction("graph",  "GraphPlotting", action["GraphPlotting"])
+createAction("contour",  "Contour", action["Contour"])
+createAction("superpage",  "FortranRootSceneNode", action["SuperPage"])
+createAction("postscript",  "PostScript", action["PostScript"])
+createAction("boxplot",  "BoxPlotVisualiser", action["BoxPlotVisualiser"])
+
+
 
 createAction("taylor",  "TaylorGrid", ["Taylor.xml"])
 createAction("Netcdf",  "Wind", ["Wind.xml"])
@@ -427,10 +441,6 @@ createAction("coast", "Coastlines",  ["Coastlines.xml", "CoastPlotting.xml", "La
 createAction("axis",  "Axis", ["Axis.xml"])
 createAction("subpage",  "FortranViewNode", ["SubPage.xml", "GeoRectangularProjection.xml", "XYTransformation.xml", "Proj4Projection.xml", "PolarStereographicProjection.xml"])
 createAction("wind",  "Wind", ["Wind.xml"])
-createAction("postscript",  "PostScriptDriver", ["BaseDriver.xml", "PostScriptDriver.xml"])
-createAction("png",  "CairoDriver", ["BaseDriver.xml", "CairoDriver.xml"])
-createAction("svg",  "SVGDriver", ["BaseDriver.xml", "SVGDriver.xml"])
-createAction("kml",  "KMLDriver", ["BaseDriver.xml", "KMLDriver.xml"])
 createAction("graph",  "GraphPlotting", ["graph_params.xml"])
 
 

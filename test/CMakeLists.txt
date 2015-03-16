@@ -11,12 +11,12 @@ endif()
 if ( ENABLE_FORTRAN) 
     ecbuild_add_test( TARGET basic_fortran_shared
             SOURCES   coast.f90
-            LIBS      MagPlusSingle MagPlusShared
+            LIBS      MagPlusSingleShared MagPlusShared
             LINKER_LANGUAGE Fortran )
     if ( ENABLE_STATIC_LIBRARY )
         ecbuild_add_test( TARGET basic_fortran_static
             SOURCES   coast.f90
-            LIBS      MagPlusSingle MagPlusStatic ${MAGICS_EXTRA_LIBRARIES} 
+            LIBS      MagPlusSingleStatic MagPlusStatic ${MAGICS_EXTRA_LIBRARIES} 
             LINKER_LANGUAGE Fortran )       
      endif()
 endif()
@@ -32,14 +32,14 @@ if ( ENABLE_BUFR )
     if ( ENABLE_FORTRAN) 
         ecbuild_add_test( TARGET bufr_fortran
                 SOURCES   bufr.f90
-                LIBS      MagPlusSingle MagPlusShared
+                LIBS      MagPlusSingleShared MagPlusShared
                 RESOURCES data.bufr
                 LINKER_LANGUAGE Fortran )
         if ( ENABLE_STATIC_LIBRARY )
              ecbuild_add_test( TARGET bufr_fortran_static
                     SOURCES   bufr.f90
                     RESOURCES data.bufr
-                    LIBS      MagPlusSingle MagPlusStatic
+                    LIBS      MagPlusSingleStatic MagPlusStatic
                     LINKER_LANGUAGE Fortran )       
          endif()
     endif()
@@ -59,7 +59,7 @@ if ( ENABLE_GRIB )
     if ( ENABLE_FORTRAN) 
         ecbuild_add_test( TARGET grib_fortran
                 SOURCES   grib.f90
-                LIBS      MagPlusSingle MagPlusShared
+                LIBS      MagPlusSingleShared MagPlusShared
                 RESOURCES data.grib
                 LINKER_LANGUAGE Fortran )
     endif()
@@ -78,7 +78,7 @@ if ( ENABLE_CAIRO )
       if ( ENABLE_FORTTAN )
         ecbuild_add_test( TARGET cairo_fortran
                 SOURCES   cairo.f90
-                LIBS      MagPlusSingle MagPlusShared
+                LIBS      MagPlusSingleShared MagPlusShared
                 LINKER_LANGUAGE Fortran )
     endif()
 endif()
