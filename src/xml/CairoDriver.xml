@@ -18,7 +18,7 @@
  </parameter>
 
  <parameter name='output_geotiff_quality' from='int' to='int' member='quality' default='1'>
-  <documentation>Defines the quality of GeoTiff output. The default of 1. Should be a value in the range 0-10.</documentation>
+  <documentation for_docs='no'>Defines the quality of GeoTiff output. The default of 1. Should be a value in the range 0-10.</documentation>
  </parameter>
 </class>
 </magics>

@@ -1,0 +1,13 @@
+<forecast date='20150223' latitude='45.81' longitude='15.98' station='Zagreb' time='00' title='MACC RAQ EPSGRAM'>
+  <param name='SO2_USI' title='Sulphur Dioxide [ &#181;g/m3 ]   N=7                              threshold ("1h max")=350 µg/m3 ' >
+    <step value="0" min="0.231333" ten="0.499243" twentyfive="0.703867" median="1.681438" seventyfive="2.187135" ninety="2.344127" max="2.511475"  control="350" />
+    <step value="3" min="0.220992" ten="0.571167" twentyfive="1.024653" median="1.461521" seventyfive="2.237875" ninety="2.913954" max="2.957828"  control="350" />
+    <step value="6" min="0.335040" ten="1.033024" twentyfive="2.019116" median="2.751798" seventyfive="3.912559" ninety="4.764543" max="4.888572"  control="350" />
+    <step value="9" min="0.662847" ten="2.643187" twentyfive="3.966873" median="3.979730" seventyfive="6.235073" ninety="9.497452" max="12.690595"  control="350" />
+    <step value="12" min="2.386600" ten="3.181566" twentyfive="4.073409" median="6.603780" seventyfive="7.612555" ninety="9.941400" max="12.168322"  control="350" />
+    <step value="15" min="1.651216" ten="2.879150" twentyfive="4.552624" median="6.670022" seventyfive="6.961305" ninety="7.947210" max="9.171173"  control="350" />
+    <step value="18" min="0.866732" ten="2.785463" twentyfive="4.369499" median="5.675177" seventyfive="7.948246" ninety="10.035109" max="10.356167"  control="350" />
+    <step value="21" min="0.643514" ten="2.113562" twentyfive="4.494074" median="6.803490" seventyfive="9.237320" ninety="10.266835" max="10.418031"  control="350" />
+    <step value="24" min="0.865437" ten="1.394095" twentyfive="3.223902" median="5.547765" seventyfive="10.193693" ninety="11.751329" max="12.016900"  control="350" />
+  </param>
+</forecast>

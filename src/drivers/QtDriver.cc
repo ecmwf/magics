@@ -136,8 +136,10 @@ void QtDriver::open()
 	//their ratio to correctly set font size for rendering!
 #ifdef Q_WS_X11  // Do we work with a X11 display?
 	const int qtDpiResolution=QX11Info::appDpiY(0);
-#else     // for MacOS X
-	const int qtDpiResolution=72;
+#elif defined(Q_WS_MAC)
+    const int qtDpiResolution=227; // \Warning Assumes Retina display!!!
+#else
+	const int qtDpiResolution=72;  // Standard screen DPI
 #endif
 	if(qtDpiResolution < 50 || qtDpiResolution > 150)
 	{

@@ -140,7 +140,7 @@ function( add_magics_test )
 			ecbuild_add_test(  TARGET   ${target_load}
                    TYPE     SCRIPT
                    SOURCES  ${_p_SOURCES}                    
-                   LIBS MagPlusShared MagPlusSingle ${MAGICS_EXTRA_LIBRARIES} 
+                   LIBS MagPlusShared MagPlusSingleShared ${MAGICS_EXTRA_LIBRARIES} 
                    DEPENDS ${targets}
                    RESOURCES  ${_p_RESOURCES} 
                    COMMAND  ${REGRESSION_SCRIPT_DIRECTORY}/upload.py  
@@ -149,7 +149,7 @@ function( add_magics_test )
 	    ecbuild_add_test(  TARGET   ${target}
                    TYPE     SCRIPT
                    SOURCES  ${_p_SOURCES}                    
-                   LIBS MagPlusShared MagPlusSingle ${MAGICS_EXTRA_LIBRARIES} 
+                   LIBS MagPlusShared MagPlusSingleShared ${MAGICS_EXTRA_LIBRARIES} 
                    DEPENDS ${targets}
                    RESOURCES  ${_p_RESOURCES} 
                    COMMAND  ${REGRESSION_SCRIPT_DIRECTORY}/compare.py  

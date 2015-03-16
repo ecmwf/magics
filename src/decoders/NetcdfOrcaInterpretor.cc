@@ -265,11 +265,6 @@ bool NetcdfOrcaInterpretor::interpretAsMatrix(Matrix** data)
 bool NetcdfOrcaInterpretor::interpretAsPoints(PointsList& points)
 {
 	
-    Matrix latitudes;
-    Matrix longitudes;
-	Matrix matrix;
-	
-	matrix.missing(std::numeric_limits<double>::max());
 	// later!
 
 	// get the data ...
@@ -279,6 +274,7 @@ bool NetcdfOrcaInterpretor::interpretAsPoints(PointsList& points)
 		Netcdf netcdf(path_, dimension_method_);
 		map<string, string> first, last;
 		setDimensions(dimension_, first, last);
+        double missing =  netcdf.getMissing(field_, missing_attribute_);
 		vector<double> latm;
 		vector<double> lonm;
 		vector<double> data;
@@ -297,7 +293,14 @@ bool NetcdfOrcaInterpretor::interpretAsPoints(PointsList& points)
         vector<double>::iterator val = data.begin();
         
 		while (lat != latm.end() ) {
-		  	points.push_back(new UserPoint(*lon, *lat, *val));
+            double value = *val;
+           if (isnan(value) ) 
+                value = missing;
+
+            if ( value  != missing) { 
+                value = (value * scaling_) + offset_;
+		  	    points.push_back(new UserPoint(*lon, *lat, value));
+            }
 			++lat;
 			++lon;
 			++val;

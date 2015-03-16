@@ -65,7 +65,7 @@ public :
     virtual double   height() const = 0;
     virtual bool akimaEnable() const { return false; }
 
-    virtual MatrixHandler* getReady(const Transformation&) const { assert(false); }
+    virtual MatrixHandler* getReady(const Transformation&) const { assert(false); return 0;}
 
    
    

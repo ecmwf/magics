@@ -116,8 +116,16 @@ public:
     void add(const SegmentJoiner& other)
     {
     	for (SegList::const_iterator segment = other.segments_.begin(); segment != other.segments_.end(); ++segment)
-    	   push_back(*segment);
+    	    push_back(*segment);
     }
+    void print() const
+    {
+        cout << "---------Segment-----------" << endl;
+    	for (SegList::const_iterator segment = segments_.begin(); segment != segments_.end(); ++segment)
+    	   cout << *segment << " " << endl;
+        cout << "---------------------------" << endl;
+    }
+
 
     void push_back(const Point& from, const Point& to);
 

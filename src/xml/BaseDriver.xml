@@ -58,9 +58,11 @@
   <documentation>Defines if extra debug information are written in the output file (PS, EPS, SVG) or console (GIF/PNG).</documentation>
   <release>2.1</release>        
 </parameter>
+
 <parameter name='output_width' from='int' to='int' member='width' default='800'>
   <documentation>Defines the width of the image in pixels.(For GD and SVG)</documentation>
 </parameter>
+
 <parameter name='output_resolution' from='int' to='int' member='resolution' default='300'>
   <documentation>Defines the resolution of the (graphical) output in dpi (72 - screen, 300 - print).</documentation>
 </parameter>
@@ -74,6 +76,11 @@
 <parameter name='output_filelist_name' from='string' to='string' member='filelist_name' default='magics_outputs.lst'>
  <documentation>Defines the name of the file containing the list of generated files.</documentation>
  <release>2.7.10</release>
+</parameter>
+
+<parameter name='output_filelist_reset' from='string' to='bool' member='filelist_reset' default='off'>
+ <documentation>Defines if the file containing the list of generated files is started from scratch or appends to previous file.</documentation>
+ <release>2.24.1</release>
 </parameter>
  
  <parameter name='output_frame_list' from='intarray' to='intarray' member='frame_list' default='intarray()' visible='no'>

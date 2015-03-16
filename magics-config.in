@@ -259,15 +259,18 @@ if test -f ${libdir}/libMagPlus@CMAKE_SHARED_LIBRARY_SUFFIX@; then
 fi
 
 if test "$double" = "yes"; then
-	precision="${FXX} ${libdir}/libMagPlusDouble.a"
+	precision_static="${FXX} ${libdir}/libMagPlusDouble.a"
+	precision_shared="${FXX} -L${libdir} -lMagPlusDouble"
 else
-	precision="${FXX} ${libdir}/libMagPlusSingle.a"
+	precision_static="${FXX} ${libdir}/libMagPlusSingle.a"
+	precision_shared="${FXX} -L${libdir} -lMagPlusSingle"
 fi
 
 
 if test "$echo_static" = "yes"; then
 	if test -f ${libdir}/libMagPlus.a ; then
-	  static="${precision} ${libdir}/libMagPlus.a -L${libdir} @LDFLAGS@ @MAGICS_EXTRA_LIBS@ $CPPLIBS"
+	  static="${precision_static} ${libdir}/libMagPlus.a -L${libdir} @LDFLAGS@ @MAGICS_EXTRA_LIBS@  @MAGICS_RPATH@ $CPPLIBS"
+      precision=${precision_static}
 	  echo ${static}
 	else
 	  echo "magics-config: NO STATIC LIBRARY available"
@@ -278,8 +281,9 @@ fi
 
 if test "$echo_shared" = "yes"; then
 	if test -f ${libdir}/libMagPlus@CMAKE_SHARED_LIBRARY_SUFFIX@ ; then
-	  shared=" ${precision} -L${libdir} -lMagPlus @LDFLAGS@ @MAGICS_EXTRA_LIBS@ $CPPLIBS"
+	  shared=" ${precision_shared} -L${libdir} -lMagPlus @LDFLAGS@ @MAGICS_RPATH@ $CPPLIBS"
 	  echo ${shared}
+      precision=${precision_shared}
 	else
 	  echo "magics-config: NO SHARED LIBRARY"
 	fi
