@@ -27,6 +27,8 @@ europe = mmap(
 
 coast = mcoast(map_grid='on', map_grid_colour='tan',
                map_coastline_colour='tan',
+               map_coastline_land_shade='on',
+               map_coastline_sea_shade='on',
                )
 
 # Import the z500 data
@@ -36,7 +38,7 @@ data = mgrib(grib_input_file_name='data.grib',
 
 
 
-cont = mcont()
+cont = mcont(contour_automatic_setting='ecchart')
 
 title = \
     mtext(text_lines=["<font size='1'>Grib Field</font>"
@@ -64,7 +66,6 @@ legend = mlegend(
 # To the plot
 
 print "plot"
-plot( output,  europe, data, cont, coast, )
-tofortran(ref, output,  europe, data, cont, coast, )
+plot( output,  europe, data, cont, coast, title)
 
 

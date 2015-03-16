@@ -15,9 +15,6 @@
          		<documentation> Turn contouring on or off  		</documentation>
           		<option xml="isoline" fortran="on" include="IsoPlot.h" name="IsoPlot">		</option>
           		<option xml="noisoline" fortran="off" include="IsoPlot.h" name="NoIsoPlot">		</option>
-		 		<unset name="contour_line_style" value="off">		</unset>
-		 		<unset name="contour_line_thickness" value="off">		</unset>
-		 		<unset name="contour_line_colour" value="off">		</unset>
   	</parameter> 
       
   	<parameter member="method" to="ContourMethod" default="automatic" from="string" name="contour_method">

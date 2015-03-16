@@ -19,14 +19,15 @@
 	call preset('grib_id')
 	call preset('grib_input_file_name')
 
+	call psetc("contour_automatic_setting", "ecchart")
 	call pcont
 
+	call preset('contour_automatic_setting')
 
 	call psetc("map_grid_colour", "tan")
 	call psetc("map_grid", "on")
 	call psetc("map_coastline_colour", "tan")
 	call pcoast
-	call ptext
 
 	call preset('map_grid_colour')
 	call preset('map_grid')
