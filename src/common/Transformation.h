@@ -111,6 +111,7 @@ public:
 	Transformation();
 	virtual ~Transformation();
 	virtual void init();
+    virtual void cleanPCEnveloppe();
 	void cleaninit();
 	enum CoordinateType {GeoType,XyType};
 	CoordinateType coordinateType() const {return coordinateType_;}	
@@ -125,8 +126,8 @@ public:
 		return object;
 	}
 	
-	virtual Polyline& getUserBoundingBox() const  { assert(false); }
-	virtual Polyline& getPCBoundingBox()   const  { assert(false); }
+	virtual Polyline& getUserBoundingBox() const  { assert(false);}
+	virtual Polyline& getPCBoundingBox()   const  { assert(false);}
 	
 	bool needTopAxis() const   { return topAxis_; }
 	void needTopAxis(bool top) { topAxis_ = top; }
@@ -197,7 +198,7 @@ public:
 	virtual void fast_reproject(double& x, double& y) const
 			{ }
 
-	virtual double patchDistance(double) const { assert(false); }
+	virtual double patchDistance(double) const { assert(false);  return 0;}
 
 	virtual PaperPoint operator()(const PaperPoint& xy) const 
 		{ return xy; }

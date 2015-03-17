@@ -1177,6 +1177,10 @@ void pwrepjson_()
 {
 	magics_->wrepjson();
 }
+void pepsinput_()
+{
+	magics_->epsinput();
+}
 void pepscloud_()
 {
 	magics_->epscloud();
@@ -1250,6 +1254,7 @@ void mag_boxplot()  {pboxplot_();}
 void mag_taylor()  {ptaylor_();}
 void mag_tephi()  {ptephi_();}
 void mag_wrepjson()  { pwrepjson_(); }
+void mag_epsinput()  { pepsinput_(); }
 void mag_epscloud()  { pepscloud_(); }
 
 void mag_epsgraph()  	   { pepsgraph_(); }

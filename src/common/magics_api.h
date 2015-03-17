@@ -58,7 +58,7 @@ void mag_input();
 void mag_table();
 
 void mag_wrepjson();
-void mag_epsxml();
+void mag_epsinput();
 void mag_epscloud();
 void mag_epsplumes();
 void mag_epsgraph();

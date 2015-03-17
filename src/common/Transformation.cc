@@ -245,28 +245,30 @@ bool ViewFilter::in(const PaperPoint& xy){
 
 void Transformation::init()
 {
-	PCEnveloppe_->clear();
-
-	PCEnveloppe_->push_back(PaperPoint(getMinPCX(), getMinPCY()));
-	PCEnveloppe_->push_back(PaperPoint(getMinPCX(), getMaxPCY()));
-	PCEnveloppe_->push_back(PaperPoint(getMaxPCX(), getMaxPCY()));
-	PCEnveloppe_->push_back(PaperPoint(getMaxPCX(), getMinPCY()));
-	PCEnveloppe_->push_back(PaperPoint(getMinPCX(), getMinPCY()));
+    cleanPCEnveloppe();
 	askedxmin_ =  std::min(getMinPCX(), getMaxPCX());
 	askedxmax_ =  std::max(getMinPCX(), getMaxPCX());
 	askedymin_ =  std::min(getMinPCY(), getMaxPCY());
 	askedymax_ =  std::max(getMinPCY(), getMaxPCY());
 }
 
+void Transformation::cleanPCEnveloppe()
+{
+    PCEnveloppe_->clear();
+        
+        PCEnveloppe_->push_back(PaperPoint(getMinPCX(), getMinPCY()));
+        PCEnveloppe_->push_back(PaperPoint(getMinPCX(), getMaxPCY()));
+        PCEnveloppe_->push_back(PaperPoint(getMaxPCX(), getMaxPCY()));
+        PCEnveloppe_->push_back(PaperPoint(getMaxPCX(), getMinPCY()));
+        PCEnveloppe_->push_back(PaperPoint(getMinPCX(), getMinPCY()));
+    
+    
+}
+
 void Transformation::cleaninit()
 {
-	PCEnveloppe_->clear();
-
-	PCEnveloppe_->push_back(PaperPoint(getMinPCX(), getMinPCY()));
-	PCEnveloppe_->push_back(PaperPoint(getMinPCX(), getMaxPCY()));
-	PCEnveloppe_->push_back(PaperPoint(getMaxPCX(), getMaxPCY()));
-	PCEnveloppe_->push_back(PaperPoint(getMaxPCX(), getMinPCY()));
-	PCEnveloppe_->push_back(PaperPoint(getMinPCX(), getMinPCY()));
+    cleanPCEnveloppe();
+	
 	askedxmin_ =  std::min(getMinPCX(), getMaxPCX());
 	askedxmax_ =  std::max(getMinPCX(), getMaxPCX());
 	askedymin_ =  std::min(getMinPCY(), getMaxPCY());
@@ -494,6 +496,7 @@ bool Transformation::in(const UserPoint& point) const
 bool Transformation::in(const PaperPoint& point) const
 {
 	if ( PCEnveloppe_->empty()) {
+        
 		PCEnveloppe_->push_back(PaperPoint(getMinPCX(), getMinPCY()));
 		PCEnveloppe_->push_back(PaperPoint(getMinPCX(), getMaxPCY()));
 		PCEnveloppe_->push_back(PaperPoint(getMaxPCX(), getMaxPCY()));

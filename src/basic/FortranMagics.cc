@@ -849,6 +849,7 @@ void FortranMagics::pline()
 }
 
 #include "WrepJSon.h"
+#include "EpsXmlInput.h"
 #include "EpsGraph.h"
 void  FortranMagics::wrepjson()
 {
@@ -863,6 +864,18 @@ void  FortranMagics::wrepjson()
 	action_->data(wrep);
 
 }
+void  FortranMagics::epsinput()
+{
+	actions();
+	action_ = new VisualAction();
+
+	EpsXmlInput* input = new EpsXmlInput();
+
+	top()->push_back(action_);
+	action_->data(input);
+}
+
+
 
 void  FortranMagics::epscloud()
 {

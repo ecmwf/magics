@@ -2,36 +2,48 @@
 
 
 
-add_magics_test(NAME macc_geomap 
-                SOURCES geomap.json 
-                RESOURCES geodata.json 
-                IMAGE geomap.png 
-                THRESHOLD 1 
+add_magics_test(NAME macc_geomap
+                SOURCES geomap.json
+                RESOURCES geodata.json
+                IMAGE geomap.png
+                THRESHOLD 1
                 JSON)
 
-add_magics_test(NAME macc_graph 
-                SOURCES graph.json 
-                RESOURCES xydata.json 
-                IMAGE macc_graph.png 
-                THRESHOLD 1 
+add_magics_test(NAME macc_graph
+                SOURCES graph.json
+                RESOURCES xydata.json
+                IMAGE macc_graph.png
+                THRESHOLD 1
                 JSON)
 
-add_magics_test(NAME macc_symb 
-                SOURCES symb.json 
-                RESOURCES xydata.json 
-                IMAGE macc_symb.png 
-                THRESHOLD 1 
+add_magics_test(NAME macc_symb
+                SOURCES symb.json
+                RESOURCES xydata.json
+                IMAGE macc_symb.png
+                THRESHOLD 1
                 JSON)
 
-add_magics_test(NAME macc_taylor 
-                SOURCES taylor.json 
-                RESOURCES taylordata.json 
-                IMAGE macc_taylor.png 
-                THRESHOLD 1 
+add_magics_test(NAME macc_taylor
+                SOURCES taylor.json
+                RESOURCES taylordata.json
+                IMAGE macc_taylor.png
+                THRESHOLD 1
                 JSON)
-add_magics_test(NAME macc_diagonal 
-                SOURCES diagonal.json 
-                RESOURCES diagonal.data 
-                IMAGE diagonal.png 
-                THRESHOLD 1 
+add_magics_test(NAME macc_diagonal
+                SOURCES diagonal.json
+                RESOURCES diagonal.data
+                IMAGE diagonal.png
+                THRESHOLD 1
                 JSON)
+add_magics_test(NAME macc_taylor2
+                SOURCES taylor.py
+                RESOURCES taylordata.json
+                IMAGE taylor.png
+                THRESHOLD 1
+                PYTHON)
+add_magics_test(NAME macc_raqgram
+                SOURCES raqgram.py
+                RESOURCES  raqgramdata_NO2_USI.xml   raqgramdata_PM10_USI.xml raqgramdata_O3_USI.xml    raqgramdata_SO2_USI.xml
+                IMAGE raqgram.png
+                THRESHOLD 1
+                PYTHON)
