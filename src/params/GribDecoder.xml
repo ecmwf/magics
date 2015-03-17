@@ -33,7 +33,7 @@
          		<release>Magics++2.10		</release>
          		<documentation> Apply a scaling offset to the field. 		</documentation>
   	</parameter>
-    <parameter member="interpolation_method" to="string" default="interpolate" from="string" name="grib_interpolation_method" values='interpolate/nearest' >
+    <parameter member="interpolation_method" to="string" default="nearest" from="string" name="grib_interpolation_method" values='interpolate/nearest' >
          		<release>Magics++2.10		</release>
          		<documentation> Used for reduced gaussian grid: use an linear interpolation to convert from reduced to regular		</documentation>
   	</parameter>
@@ -47,12 +47,6 @@
          		<release>Magics++0.3		</release>
          		<documentation> Include the units of the input field in the automatic text  		</documentation>
   	</parameter>
-
-
-
-
-
-
 
   	<parameter from="string" name="grib_file_address_mode" default="record" metview="on" member="address_mode" to="GribAddressMode">
 	     		<option xml="record" fortran="record" include="GribAddressMode.h" name="GribAddressRecordMode">		</option>
@@ -71,16 +65,9 @@
          		<option xml="vdmode" fortran="sd" include="WindMode.h" name="SDWindMode">		</option>
   	</parameter>
 
-
-
   	<parameter member="grib_field_position" to="int" default="1" from="int" name="grib_field_position">
          		<documentation> The position in the input file of a field other than a wind component 		</documentation>
   	</parameter>
-
-
-
-
-
 
   	<parameter member="position_1" to="int" default="1" from="int" name="grib_wind_position_1">
          		<documentation> The position in the input file of a wind component field 		</documentation>
@@ -94,7 +81,6 @@
   	<parameter member="colour_position" to="int" default="3" from="int" name="grib_wind_position_colour">
          		<documentation> The position in the input file of a wind component field used to colour the flag		</documentation>
   	</parameter>
-
 
 
   	<parameter from="float" name="grib_missing_value_indicator" visible="false" default="-1.5e+21" member="missing_value" to="float">

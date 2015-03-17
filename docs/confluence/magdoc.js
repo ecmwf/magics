@@ -87,6 +87,7 @@ var show = function(val, def)
         AJS.$("#" + param ).attr('class', "active");
         // Show also the children... 
       
+        console.info("SHOW" + param)
         newdef = find(param)
         show(newdef.default, newdef)
    });
@@ -351,6 +352,7 @@ var load  = function(file, where, python_only ) {
 			 update(param, param.default);
           }); 
          
+         console.info("add buutton in" + "#"+genname);
          AJS.$("#"+genname).append(AJS.$('<input>').attr({
 				type: "button", 
                 value : "generate python"})

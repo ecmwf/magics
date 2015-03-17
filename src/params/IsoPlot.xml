@@ -38,14 +38,12 @@
     	<parameter member="rainbow" to="bool" default="off" from="string" name="contour_line_colour_rainbow">
         		<documentation> if On, rainbow colouring method will be used.  		</documentation>
         		<release>2.20		</release>
-        		<set name="contour_line_colour" value="off">		</set> 
-        		<set name="contour_hightlight" value="off">		</set> 
-        		
-        		<set name="contour_line_colour_rainbow_max_level_colour" value="red">		</set>
-        		<set name="contour_line_colour_rainbow_min_level_colour" value="blue">		</set>
-        		<set name="contour_line_colour_rainbow_direction" value="on">		</set>
-        		<set name="contour_line_colour_rainbow_colour_list" value="on">		</set>
-        		<set name="contour_line_colour_rainbow_colour_list_policy" value="on">		</set>
+
+        		<set name="contour_line_colour_rainbow_method" value="on">		</set>
+        		<set name="contour_line_thickness_rainbow_list" value="on">		</set>
+        		<set name="contour_line_thickness_rainbow_list_policy" value="on">		</set>
+        		<set name="contour_line_style_rainbow_list" value="on">		</set>
+        		<set name="contour_line_style_rainbow_list_policy" value="on">		</set>
     	</parameter>
 
 
