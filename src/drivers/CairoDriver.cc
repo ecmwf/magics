@@ -80,6 +80,12 @@ Display *dpy;
 
 #define FONT_SCALE 25*.7  //! \todo clean-up!!!
 
+extern "C"{
+#include "libimagequant/rwpng.h"
+//#include "libimagequant/libimagequant.h"
+#include "libimagequant/pngquant.c"
+}
+
 using namespace magics;
 
 /*!
@@ -441,7 +447,13 @@ MAGICS_NO_EXPORT void CairoDriver::endPage() const
 		Timer timer("cairo", "write png");
 		filename_ = getFileName("png" ,currentPage_);
 		cairo_surface_write_to_png(surface_, filename_.c_str());
-		write_8bit_png();
+	//	write_8bit_png();
+		const string filename = filename_ +"_8bit";
+		struct pngquant_options options = {
+        .floyd = 1.f, // floyd-steinberg dithering
+         };
+        options.liq = liq_attr_create();
+		pngquant_file(filename_.c_str(), filename.c_str(), &options);
 		if(!filename_.empty()) printOutputName("CAIRO png "+filename_);
 	}
 	else if (magCompare(backend_,"geotiff") )
@@ -552,6 +564,8 @@ MAGICS_NO_EXPORT void CairoDriver::write_tiff() const
   Only the raw raster (normally written to a 32 bit PNG) is here written into a 8 bit.
 
 */
+#define PNG_DEBUG 3
+
 MAGICS_NO_EXPORT void CairoDriver::write_8bit_png() const
 {
     const string filename = filename_ +"_8bit";    
