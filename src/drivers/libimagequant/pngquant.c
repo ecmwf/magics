@@ -281,7 +281,7 @@ static const struct option long_options[] = {
 
 pngquant_error pngquant_file(const char *filename, const char *outname, struct pngquant_options *options);
 
-
+/*
 int main(int argc, char *argv[])
 {
     struct pngquant_options options = {
@@ -438,7 +438,7 @@ int main(int argc, char *argv[])
     if (newext == NULL) {
         newext = options.floyd > 0 ? "-ie-fs8.png" : "-ie-or8.png";
         if (!options.ie_mode) {
-            newext += 3;    /* skip "-ie" */
+            newext += 3;
         }
     }
 
@@ -538,6 +538,7 @@ int main(int argc, char *argv[])
 
     return latest_error;
 }
+*/
 
 pngquant_error pngquant_file(const char *filename, const char *outname, struct pngquant_options *options)
 {
