@@ -10,6 +10,12 @@ list( APPEND _drivers_srcs
   minizip/ioapi.c minizip/zip.c
   minizip/ioapi.h minizip/zip.h minizip/crypt.h
 
+# libimagequant
+  libimagequant/blur.h libimagequant/libimagequant.c libimagequant/mediancut.c	
+  libimagequant/mempool.c libimagequant/nearest.c libimagequant/pam.c 
+  libimagequant/viter.c libimagequant/blur.c libimagequant/libimagequant.h	
+  libimagequant/mediancut.h	libimagequant/mempool.h	libimagequant/nearest.h	libimagequant/pam.h	libimagequant/viter.h
+  libimagequant/rwpng.c libimagequant/rwpng.h
 )
 
 if( MAGICS_QT )
