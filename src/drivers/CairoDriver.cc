@@ -449,9 +449,7 @@ MAGICS_NO_EXPORT void CairoDriver::endPage() const
 		cairo_surface_write_to_png(surface_, filename_.c_str());
 	//	write_8bit_png();
 		const string filename = filename_ +"_8bit";
-		struct pngquant_options options = {
-        .floyd = 1.f, // floyd-steinberg dithering
-         };
+		struct pngquant_options options = { };
         options.liq = liq_attr_create();
 		pngquant_file(filename_.c_str(), filename.c_str(), &options);
 		if(!filename_.empty()) printOutputName("CAIRO png "+filename_);
