@@ -15,9 +15,13 @@
  	<parameter xml="antialias" from="string" name="output_cairo_antialias" default="on" member="antialias" to="string" values="on/off">
    		<documentation>Defines if lines are antialiased (only for PNG).</documentation>
  	</parameter>
-<!--
+
+	<parameter xml="palette" from="string" name="output_cairo_palette" default="on" member="palette" to="string" values="on/off">
+   		<documentation>Defines if PNG uses palettes to reduce file size.</documentation>
+ 	</parameter>
+
 	 <parameter xml="quality" name='output_geotiff_quality' from='int' to='int' member='quality' default='1'>
 	 	 <documentation for_docs='no'>Defines the quality of GeoTiff output. The default of 1. Should be a value in the range 0-10.</documentation>
 	 </parameter>
- -->
+
  </class></magics>
