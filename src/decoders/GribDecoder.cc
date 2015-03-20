@@ -1206,7 +1206,7 @@ public:
 	{
 		string format= node.getAttribute("format");
 		if ( format.empty() )
-			format =  "%A %d %B %Y at %H%M UTC";
+			format =  "%A %d %B %Y %H%M UTC";
 		const long day =  grib_.getLong("date");
 		const long hour = grib_.getLong("hour");
 		const long mn =  grib_.getLong("minute");
