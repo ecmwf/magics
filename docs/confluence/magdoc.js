@@ -61,6 +61,8 @@ var create = function(parent, param) {
     $param.append(AJS.$('<td>').attr('id', param.name).text(param.name));
     $param.append(AJS.$('<td>').text(param.documentation));
     
+    console.info("name", param.name);
+    console.info(param.type);
     $param.append(factory[param.type](param));
     $param.append(AJS.$('<td>').text(param.default));
     $param.append(AJS.$('<td>').attr({
@@ -310,6 +312,7 @@ var number = function(def)
         "bool" : toggle,
         "number" : number,
         "string" : any,
+        "svg" : any,
         "stringlist" : stringlist,
         "intlist" : intlist,
         "numberlist" : floatlist,
@@ -404,7 +407,11 @@ var python = function(event) {
 
 var metview = function(event) {
    var action = event.handleObj.data.action
-    var code = "<b> Metview4 icon </b><br/>  " + action + "(";
+	if  (macros[action]  != undefined ) {
+		action =  macros[action];
+    }
+   
+   var code = "<b> Metview4 icon </b><br/>  " + action + "(";
    var where = event.handleObj.data.where
    var table = event.handleObj.data.table
     var sep = "";
@@ -662,6 +669,12 @@ var pythons = {
         "msvg" : "output(output_formats=['svg']",
         "mkml" : "output(output_formats=['kml']",
 		}
+var macros = {
+        "mpostscript" : "ps_output",
+        "mpng" : "png_output",
+        "msvg" : "svg_output",
+        "mkml" : "kml_output",
+        }
  
 var fortrans = {
         "ppostscript" : "pset1c('output_formats' , (/'ps'/), 1)",
