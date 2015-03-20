@@ -117,36 +117,17 @@ pngquant_error pngquant_file(const char *filename, const char *outname, struct p
 
 pngquant_error pngquant_file(const char *filename, const char *outname, struct pngquant_options *options)
 {
-    pngquant_error retval = SUCCESS;
+    pngquant_error  retval             = SUCCESS;
+    liq_image*      input_image        = NULL;
+    png24_image     input_image_rwpng  = {};
 
-    verbose_printf(options, "%s:", filename);
-
-    liq_image *input_image = NULL;
-    png24_image input_image_rwpng = {};
-    bool keep_input_pixels = options->skip_if_larger || (options->using_stdout && options->min_quality_limit); // original may need to be output to stdout
-    if (SUCCESS == retval) {
-        retval = read_image(options->liq, filename, options->using_stdin, &input_image_rwpng, &input_image, keep_input_pixels, options->verbose);
-    }
+   retval = read_image(options->liq, filename, options->using_stdin, &input_image_rwpng, &input_image, false, options->verbose);
 
     int quality_percent = 90; // quality on 0-100 scale, updated upon successful remap
     png8_image output_image = {};
+
     if (SUCCESS == retval) {
         verbose_printf(options, "  read %luKB file", (input_image_rwpng.file_size+1023UL)/1024UL);
-
-#if USE_LCMS
-        if (input_image_rwpng.lcms_status == ICCP) {
-            verbose_printf(options, "  used embedded ICC profile to transform image to sRGB colorspace");
-        } else if (input_image_rwpng.lcms_status == GAMA_CHRM) {
-            verbose_printf(options, "  used gAMA and cHRM chunks to transform image to sRGB colorspace");
-        } else if (input_image_rwpng.lcms_status == ICCP_WARN_GRAY) {
-            verbose_printf(options, "  warning: ignored ICC profile in GRAY colorspace");
-        }
-#endif
-
-        if (input_image_rwpng.gamma != 0.45455) {
-            verbose_printf(options, "  corrected image from gamma %2.1f to sRGB gamma",
-                           1.0/input_image_rwpng.gamma);
-        }
 
         // when using image as source of a fixed palette the palette is extracted using regular quantization
         liq_result *remap = liq_quantize_image(options->liq, options->fixed_palette_image ? options->fixed_palette_image : input_image);
@@ -176,23 +157,11 @@ pngquant_error pngquant_file(const char *filename, const char *outname, struct p
     }
 
     if (SUCCESS == retval) {
-
-        if (options->skip_if_larger) {
-            // this is very rough approximation, but generally avoid losing more quality than is gained in file size.
-            // Quality is squared, because even greater savings are needed to justify big quality loss.
-            double quality = quality_percent/100.0;
-            output_image.maximum_file_size = (input_image_rwpng.file_size-1) * quality*quality;
-        }
-
         output_image.fast_compression = options->fast_compression;
         output_image.chunks = input_image_rwpng.chunks; input_image_rwpng.chunks = NULL;
         retval = write_image(&output_image, NULL, outname, options);
-
-        if (TOO_LARGE_FILE == retval) {
-            verbose_printf(options, "  file exceeded expected size of %luKB", (unsigned long)output_image.maximum_file_size/1024UL);
-        }
     }
-
+/*
     if (options->using_stdout && keep_input_pixels && (TOO_LARGE_FILE == retval || TOO_LOW_QUALITY == retval)) {
         // when outputting to stdout it'd be nasty to create 0-byte file
         // so if quality is too low, output 24-bit original
@@ -201,13 +170,13 @@ pngquant_error pngquant_file(const char *filename, const char *outname, struct p
             retval = write_retval;
         }
     }
-
+*/
     liq_image_destroy(input_image);
     rwpng_free_image24(&input_image_rwpng);
     rwpng_free_image8(&output_image);
-
     return retval;
 }
+
 
 static void set_palette(liq_result *result, png8_image *output_image)
 {
