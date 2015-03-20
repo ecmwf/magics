@@ -447,9 +447,15 @@ MAGICS_NO_EXPORT void CairoDriver::endPage() const
 		Timer timer("cairo", "write png");
 		filename_ = getFileName("png" ,currentPage_);
 		if(magCompare(palette_,"on"))
-		   write_8bit_png();
+		   if(!write_8bit_png())
+		   {
+             MagLog::warning() << "CairoDriver::renderPNG > palletted 8 bit PNG failed! Try 24 bit one ..." << endl;
+             cairo_surface_write_to_png(surface_, filename_.c_str());	
+		   }
 		else
+		{
 		   cairo_surface_write_to_png(surface_, filename_.c_str());
+		}
 		if(!filename_.empty()) printOutputName("CAIRO png "+filename_);
 	}
 	else if (magCompare(backend_,"geotiff") )
@@ -562,14 +568,13 @@ MAGICS_NO_EXPORT void CairoDriver::write_tiff() const
 */
 #define PNG_DEBUG 3
 
-MAGICS_NO_EXPORT void CairoDriver::write_8bit_png() const
+MAGICS_NO_EXPORT bool CairoDriver::write_8bit_png() const
 {
     cairo_surface_flush (surface_);
     unsigned char *data = cairo_image_surface_get_data(surface_);
     const int     width = cairo_image_surface_get_width(surface_);
     const int    height = cairo_image_surface_get_height(surface_);
   
-    const string filename = filename_ +"_8bit";
     struct pngquant_options options_ = { };
     options_.liq = liq_attr_create();
     struct pngquant_options *options = &options_;
@@ -627,12 +632,14 @@ MAGICS_NO_EXPORT void CairoDriver::write_8bit_png() const
     if (SUCCESS == retval) {
         output_image.fast_compression  = false; //  (fast_compression ? Z_BEST_SPEED : Z_BEST_COMPRESSION);
 
-        retval = write_image(&output_image, NULL, filename.c_str(), options);
+        retval = write_image(&output_image, NULL, filename_.c_str(), options);
     }
 
     liq_image_destroy(input_image);
     rwpng_free_image8(&output_image);
-    return;
+
+    if (SUCCESS == retval) return true;
+    return false;
 }
 
 /*  

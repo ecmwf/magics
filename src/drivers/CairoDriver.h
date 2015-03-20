@@ -140,7 +140,7 @@ private:
 #ifdef MAGICS_GEOTIFF
 	MAGICS_NO_EXPORT void write_tiff() const;
 #endif
-	MAGICS_NO_EXPORT void write_8bit_png() const;
+	MAGICS_NO_EXPORT bool write_8bit_png() const;
 	mutable MFloat offsetX_;
 	mutable MFloat offsetY_;
 	mutable stack<MFloat> offsetsX_;
