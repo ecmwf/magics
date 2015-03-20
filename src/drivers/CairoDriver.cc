@@ -447,11 +447,13 @@ MAGICS_NO_EXPORT void CairoDriver::endPage() const
 		Timer timer("cairo", "write png");
 		filename_ = getFileName("png" ,currentPage_);
 		if(magCompare(palette_,"on"))
+		{
 		   if(!write_8bit_png())
 		   {
-             MagLog::warning() << "CairoDriver::renderPNG > palletted 8 bit PNG failed! Try 24 bit one ..." << endl;
-             cairo_surface_write_to_png(surface_, filename_.c_str());	
+		     MagLog::warning() << "CairoDriver::renderPNG > palletted PNG failed! Generate 24 bit one ..." << endl;
+		     cairo_surface_write_to_png(surface_, filename_.c_str());
 		   }
+		}
 		else
 		{
 		   cairo_surface_write_to_png(surface_, filename_.c_str());
@@ -588,15 +590,14 @@ MAGICS_NO_EXPORT bool CairoDriver::write_8bit_png() const
     {
       for(int w=0; w<(width*4); w=w+4)
       {
-	data2[h*4*width+w  ] = data[h*4*width+w+1];  // r
-	data2[h*4*width+w+1] = data[h*4*width+w+2];
-	data2[h*4*width+w+2] = data[h*4*width+w+3];  // b
-	data2[h*4*width+w+3] = 255;    // a
+	data2[h*4*width+w  ] = data[h*4*width+w+2];  // r
+	data2[h*4*width+w+1] = data[h*4*width+w+1];  // g
+	data2[h*4*width+w+2] = data[h*4*width+w  ];  // b
+	data2[h*4*width+w+3] = data[h*4*width+w+3];  // a
       }
     }
  
     input_image = liq_image_create_rgba(options->liq, data2, width, height, 0);
-
     if (!input_image) {
         //return OUT_OF_MEMORY_ERROR;
     }
@@ -608,7 +609,7 @@ MAGICS_NO_EXPORT bool CairoDriver::write_8bit_png() const
      liq_result *remap = liq_quantize_image(options->liq, options->fixed_palette_image ? options->fixed_palette_image : input_image);
 
      if (remap) {
-            liq_set_output_gamma(remap, 0.45455); // fixed gamma ~2.2 for the web. PNG can't store exact 1/2.2
+            //liq_set_output_gamma(remap, 0.45455); // fixed gamma ~2.2 for the web. PNG can't store exact 1/2.2
             liq_set_dithering_level(remap, options->floyd);
 
             retval = prepare_output_image(remap, input_image, &output_image);
