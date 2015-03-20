@@ -78,7 +78,7 @@ if ( ENABLE_CAIRO )
                   TYPE PYTHON
                   ARGS cairo.py
                   RESOURCES cairo.py 
-                  ENVIRONMENT PYTHONPATH=${MAG_PYTHON_PATH}  MAGPLUS_HOME=${CMAKE_SOURCE_DIR)
+                  ENVIRONMENT PYTHONPATH=${MAG_PYTHON_PATH}  MAGPLUS_HOME=${CMAKE_SOURCE_DIR})
     endif()
       if ( ENABLE_FORTTAN )
         ecbuild_add_test( TARGET cairo_fortran
@@ -95,7 +95,7 @@ if ( ENABLE_ODB )
                   TYPE PYTHON
                   ARGS odb.py
                   RESOURCES odb.py test.odb
-                  ENVIRONMENT PYTHONPATH=${MAG_PYTHON_PATH} MAGPLUS_HOME=${CMAKE_SOURCE_DIR))
+                  ENVIRONMENT PYTHONPATH=${MAG_PYTHON_PATH} MAGPLUS_HOME=${CMAKE_SOURCE_DIR} )
     endif()
 endif()
 
