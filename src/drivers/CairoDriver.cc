@@ -446,12 +446,10 @@ MAGICS_NO_EXPORT void CairoDriver::endPage() const
 	{
 		Timer timer("cairo", "write png");
 		filename_ = getFileName("png" ,currentPage_);
-		cairo_surface_write_to_png(surface_, filename_.c_str());
-	//	write_8bit_png();
-		const string filename = filename_ +"_8bit";
-		struct pngquant_options options = { };
-        options.liq = liq_attr_create();
-		pngquant_file(filename_.c_str(), filename.c_str(), &options);
+		if(magCompare(palette_,"on"))
+		   write_8bit_png();
+		else
+		   cairo_surface_write_to_png(surface_, filename_.c_str());
 		if(!filename_.empty()) printOutputName("CAIRO png "+filename_);
 	}
 	else if (magCompare(backend_,"geotiff") )
@@ -566,6 +564,80 @@ MAGICS_NO_EXPORT void CairoDriver::write_tiff() const
 
 MAGICS_NO_EXPORT void CairoDriver::write_8bit_png() const
 {
+    cairo_surface_flush (surface_);
+    unsigned char *data = cairo_image_surface_get_data(surface_);
+    const int     width = cairo_image_surface_get_width(surface_);
+    const int    height = cairo_image_surface_get_height(surface_);
+  
+    const string filename = filename_ +"_8bit";
+    struct pngquant_options options_ = { };
+    options_.liq = liq_attr_create();
+    struct pngquant_options *options = &options_;
+    //    pngquant_file(filename_.c_str(), filename.c_str(), &options);
+
+    pngquant_error  retval             = SUCCESS;
+    liq_image*      input_image        = NULL;
+
+    unsigned char *data2 = new unsigned char[4*width*height];
+    for(int h=0; h<height; h++)
+    {
+      for(int w=0; w<(width*4); w=w+4)
+      {
+	data2[h*4*width+w  ] = data[h*4*width+w+1];  // r
+	data2[h*4*width+w+1] = data[h*4*width+w+2];
+	data2[h*4*width+w+2] = data[h*4*width+w+3];  // b
+	data2[h*4*width+w+3] = 255;    // a
+      }
+    }
+ 
+    input_image = liq_image_create_rgba(options->liq, data2, width, height, 0);
+
+    if (!input_image) {
+        //return OUT_OF_MEMORY_ERROR;
+    }
+    
+    int quality_percent = 90; // quality on 0-100 scale, updated upon successful remap
+    png8_image output_image = {};
+
+     // when using image as source of a fixed palette the palette is extracted using regular quantization
+     liq_result *remap = liq_quantize_image(options->liq, options->fixed_palette_image ? options->fixed_palette_image : input_image);
+
+     if (remap) {
+            liq_set_output_gamma(remap, 0.45455); // fixed gamma ~2.2 for the web. PNG can't store exact 1/2.2
+            liq_set_dithering_level(remap, options->floyd);
+
+            retval = prepare_output_image(remap, input_image, &output_image);
+            if (SUCCESS == retval) {
+                if (LIQ_OK != liq_write_remapped_image_rows(remap, input_image, output_image.row_pointers)) {
+                    retval = OUT_OF_MEMORY_ERROR;
+                }
+
+                set_palette(remap, &output_image);
+
+                double palette_error = liq_get_quantization_error(remap);
+                if (palette_error >= 0) {
+                    quality_percent = liq_get_quantization_quality(remap);
+                }
+            }
+            liq_result_destroy(remap);
+    } else {
+            retval = TOO_LOW_QUALITY;
+    }
+
+    if (SUCCESS == retval) {
+        output_image.fast_compression  = false; //  (fast_compression ? Z_BEST_SPEED : Z_BEST_COMPRESSION);
+
+        retval = write_image(&output_image, NULL, filename.c_str(), options);
+    }
+
+    liq_image_destroy(input_image);
+    rwpng_free_image8(&output_image);
+    return;
+}
+
+/*  
+MAGICS_NO_EXPORT void CairoDriver::write_8bit_png() const
+{
     const string filename = filename_ +"_8bit";    
     FILE * fp = fopen (filename.c_str(), "wb");
     if (! fp) {
@@ -606,7 +678,7 @@ MAGICS_NO_EXPORT void CairoDriver::write_8bit_png() const
                   PNG_COMPRESSION_TYPE_DEFAULT,
                   PNG_FILTER_TYPE_DEFAULT);
     
-    /* Initialize rows of PNG. */
+    // Initialize rows of PNG.
     png_bytep *row_pointers = (png_bytep*) malloc(3 * width * sizeof(png_byte));
 
     for (size_t y = 0; y < height; ++y) {
@@ -623,7 +695,7 @@ MAGICS_NO_EXPORT void CairoDriver::write_8bit_png() const
     fclose (fp);
    return;
 }
-
+*/
 
 /*!
   \brief project to a new Layout
