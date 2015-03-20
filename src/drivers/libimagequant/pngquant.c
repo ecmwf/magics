@@ -70,7 +70,6 @@ static void set_palette(liq_result *result, png8_image *output_image);
 static pngquant_error read_image(liq_attr *options, const char *filename, int using_stdin, png24_image *input_image_p, liq_image **liq_image_p, bool keep_input_pixels, bool verbose);
 static pngquant_error write_image(png8_image *output_image, png24_image *output_image24, const char *outname, struct pngquant_options *options);
 static char *add_filename_extension(const char *filename, const char *newext);
-static bool file_exists(const char *outname);
 
 static void verbose_printf(struct pngquant_options *context, const char *fmt, ...)
 {
@@ -89,30 +88,8 @@ static void verbose_printf(struct pngquant_options *context, const char *fmt, ..
     }
 }
 
-static void log_callback(const liq_attr *attr, const char *msg, void* user_info)
-{
-    fprintf(stderr, "%s\n", msg);
-}
 
 
-static void print_full_version(FILE *fd)
-{
-    fprintf(fd, "pngquant, by Greg Roelofs, Kornel Lesinski.\n"
-        #ifndef NDEBUG
-                    "   DEBUG (slow) version.\n" /* NDEBUG disables assert() */
-        #endif
-        #if USE_SSE
-                    "   Compiled with SSE instructions.\n"
-        #endif
-        );
-    rwpng_version_info(fd);
-    fputs("\n", fd);
-}
-
-
-
-
-pngquant_error pngquant_file(const char *filename, const char *outname, struct pngquant_options *options);
 
 
 pngquant_error pngquant_file(const char *filename, const char *outname, struct pngquant_options *options)
@@ -126,10 +103,9 @@ pngquant_error pngquant_file(const char *filename, const char *outname, struct p
     int quality_percent = 90; // quality on 0-100 scale, updated upon successful remap
     png8_image output_image = {};
 
-    if (SUCCESS == retval) {
-        verbose_printf(options, "  read %luKB file", (input_image_rwpng.file_size+1023UL)/1024UL);
-
-        // when using image as source of a fixed palette the palette is extracted using regular quantization
+    if (SUCCESS == retval)
+    {
+         // when using image as source of a fixed palette the palette is extracted using regular quantization
         liq_result *remap = liq_quantize_image(options->liq, options->fixed_palette_image ? options->fixed_palette_image : input_image);
 
         if (remap) {
@@ -147,7 +123,7 @@ pngquant_error pngquant_file(const char *filename, const char *outname, struct p
                 double palette_error = liq_get_quantization_error(remap);
                 if (palette_error >= 0) {
                     quality_percent = liq_get_quantization_quality(remap);
-                    verbose_printf(options, "  mapped image to new colors...MSE=%.3f (Q=%d)", palette_error, quality_percent);
+                    //verbose_printf(options, "  mapped image to new colors...MSE=%.3f (Q=%d)", palette_error, quality_percent);
                 }
             }
             liq_result_destroy(remap);
@@ -157,8 +133,10 @@ pngquant_error pngquant_file(const char *filename, const char *outname, struct p
     }
 
     if (SUCCESS == retval) {
-        output_image.fast_compression = options->fast_compression;
-        output_image.chunks = input_image_rwpng.chunks; input_image_rwpng.chunks = NULL;
+        output_image.fast_compression  = options->fast_compression;
+        output_image.chunks            = input_image_rwpng.chunks;
+        input_image_rwpng.chunks       = NULL;
+
         retval = write_image(&output_image, NULL, outname, options);
     }
 /*
@@ -177,7 +155,9 @@ pngquant_error pngquant_file(const char *filename, const char *outname, struct p
     return retval;
 }
 
-
+/**************************************************************************
+ * 
+ */
 static void set_palette(liq_result *result, png8_image *output_image)
 {
     const liq_palette *palette = liq_get_palette(result);
@@ -196,17 +176,9 @@ static void set_palette(liq_result *result, png8_image *output_image)
 }
 
 
-static bool file_exists(const char *outname)
-{
-    FILE *outfile = fopen(outname, "rb");
-    if ((outfile ) != NULL) {
-        fclose(outfile);
-        return true;
-    }
-    return false;
-}
-
-
+/**************************************************************************
+ * 
+ */
 static char *temp_filename(const char *basename) {
     size_t x = strlen(basename);
 
@@ -220,16 +192,9 @@ static char *temp_filename(const char *basename) {
 }
 
 
-static const char *filename_part(const char *path)
-{
-    const char *outfilename = strrchr(path, '/');
-    if (outfilename) {
-        return outfilename+1;
-    } else {
-        return path;
-    }
-}
-
+/**************************************************************************
+ * 
+ */
 static pngquant_error write_image(png8_image *output_image, png24_image *output_image24, const char *outname, struct pngquant_options *options)
 {
     FILE *outfile;
@@ -245,9 +210,9 @@ static pngquant_error write_image(png8_image *output_image, png24_image *output_
         }
 
         if (output_image) {
-            verbose_printf(options, "  writing %d-color image as %s", output_image->num_palette, filename_part(outname));
+            verbose_printf(options, "  writing %d-color image as %s", output_image->num_palette, outname);
         } else {
-            verbose_printf(options, "  writing truecolor image as %s", filename_part(outname));
+            verbose_printf(options, "  writing truecolor image as %s", outname);
         }
 
     pngquant_error retval;
@@ -277,10 +242,12 @@ static pngquant_error write_image(png8_image *output_image, png24_image *output_
     if (retval && retval != TOO_LARGE_FILE) {
         fprintf(stderr, "  error: failed writing image to %s\n", outname);
     }
-
     return retval;
 }
 
+/**************************************************************************
+ * 
+ */
 static pngquant_error read_image(liq_attr *options, const char *filename, int using_stdin, png24_image *input_image_p, liq_image **liq_image_p, bool keep_input_pixels, bool verbose)
 {
     FILE *infile;
@@ -313,10 +280,12 @@ static pngquant_error read_image(liq_attr *options, const char *filename, int us
         input_image_p->row_pointers = NULL;
         input_image_p->rgba_data = NULL;
     }
-
     return SUCCESS;
 }
 
+/**************************************************************************
+ * 
+ */
 static pngquant_error prepare_output_image(liq_result *result, liq_image *input_image, png8_image *output_image)
 {
     output_image->width = liq_image_get_width(input_image);
@@ -326,7 +295,6 @@ static pngquant_error prepare_output_image(liq_result *result, liq_image *input_
     /*
     ** Step 3.7 [GRR]: allocate memory for the entire indexed image
     */
-
     output_image->indexed_data = (unsigned char *)malloc(output_image->height * output_image->width);
     output_image->row_pointers = (unsigned char **)malloc(output_image->height * sizeof(output_image->row_pointers[0]));
 
@@ -347,6 +315,5 @@ static pngquant_error prepare_output_image(liq_result *result, liq_image *input_
             output_image->num_trans = i+1;
         }
     }
-
     return SUCCESS;
 }
