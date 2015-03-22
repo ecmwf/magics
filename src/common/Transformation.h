@@ -111,6 +111,7 @@ public:
 	Transformation();
 	virtual ~Transformation();
 	virtual void init();
+    virtual void cleanPCEnveloppe();
 	void cleaninit();
 	enum CoordinateType {GeoType,XyType};
 	CoordinateType coordinateType() const {return coordinateType_;}	
