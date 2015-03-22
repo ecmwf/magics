@@ -85,6 +85,14 @@ endif()
 
 if( ENABLE_PYTHON )
 	ecbuild_find_python( REQUIRED )
+
+    debug_var( PYTHON_INCLUDE_DIRS )
+    debug_var( PYTHON_LIBRARIES )
+
+    if( NOT PYTHON_INCLUDE_DIRS OR NOT PYTHON_LIBRARIES )
+        message( FATAL_ERROR "Couldn't find Python libraries" )
+    endif()
+
 	find_package( SWIG REQUIRED )
 	find_package( NumPy REQUIRED )
 endif()
@@ -93,7 +101,7 @@ if( SWIG_FOUND )
 endif()
 
 ### grib
-cmake_add_cxx_flags("-gdwarf-2")
+#cmake_add_cxx_flags("-gdwarf-2")
 
 set( grib no )
 if( ENABLE_GRIB )

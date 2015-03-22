@@ -14,15 +14,9 @@
         		<documentation> Height of symbols.  		</documentation>
     	</parameter>
 
-    	<parameter from="string" name="symbol_marker_mode" default="index" member="marker_mode" to="string" values="index/name/image">
+    	<parameter from="string" name="symbol_marker_mode" default="index" member="marker_mode" to="string" >
         		<documentation> Method to select a marker : by name, by index, by image : in that case, Magics will use an external image as marker.
         		</documentation>
-        		<set name="symbol_marker_index" value="index">		</set>
-        		<noset name="symbol_marker_name" value="name">		</noset>
-        		<set name="symbol_image_path" value="image">		</set>
-        		<set name="symbol_image_format" value="image">		</set> 
-        		<set name="symbol_image_width" value="image">		</set>
-        		<set name="symbol_image_height" value="image">		</set>
     	</parameter>
         
        

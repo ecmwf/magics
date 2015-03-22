@@ -35,7 +35,7 @@
          		<documentation>Type used for Y variable_index: number or date 		</documentation>
   	</parameter>
   
-  	<parameter from="string" name="table_variable_identifier_type" default="index" member="name_mode" to="string" values="index/name">
+  	<parameter from="string" name="table_variable_identifier_type" default="index" member="name_mode" to="string" >
          		<documentation> are we refering to the columns by names or index (index/name) 		</documentation>
   	</parameter>
   
