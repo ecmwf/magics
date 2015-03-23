@@ -1193,8 +1193,8 @@ void IsoPlot::isoline(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
     levels_.clear();
     if ( levelSelection_->empty() )
         return;
-    levels_ = *levelSelection_;
-    /*
+
+
     // Find the used levels!
     const vector<double>::const_iterator end = (*levelSelection_).end();
         vector<double>::const_iterator last = (*levelSelection_).end();
@@ -1224,7 +1224,7 @@ void IsoPlot::isoline(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
     else
         levels_.push_back(max);
 
-*/
+
 
 
     missing_ = data.missing();
