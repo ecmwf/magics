@@ -48,8 +48,8 @@ case "${OS_VERSION}" in
     ;;
     opensuse131) # New Local worksation
         #module load boost/1.55.0
-        use='daily'
         use='metview-debug'
+        use='daily'
         if [[ $use = 'daily' ]]; then
             tar='on'
             regression="on"
@@ -185,7 +185,7 @@ echo "start"
 echo ${build_home}
 mkdir -p ${build_home}
 cd ${build_home}
-#rm -fR ${build_home}/*
+rm -fR ${build_home}/*
 
 
 cmd="${git_home}/ecbuild/bin/ecbuild ${git_home}/magics $args"
