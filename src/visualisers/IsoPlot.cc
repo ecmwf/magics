@@ -1193,6 +1193,8 @@ void IsoPlot::isoline(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
     levels_.clear();
     if ( levelSelection_->empty() )
         return;
+
+
     // Find the used levels!
     const vector<double>::const_iterator end = (*levelSelection_).end();
         vector<double>::const_iterator last = (*levelSelection_).end();
@@ -1236,8 +1238,8 @@ void IsoPlot::isoline(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
        if (level+1!= levels_.end() )
           range.insert(make_pair(Interval(*level, *(level+1)), r++));
        }
-       if ( shading_->shadingMode())
-           range.insert(make_pair(Interval(levels_.back(), levels_.back()+epsilon), r));
+       if ( shading_->shadingMode() )
+           range.insert(make_pair(Interval(levels_.back(), levels_.back()+epsilon), r-1));
        CellArray* array = shading_->array(data, range, transformation, parent.widthResolution(), parent.heightResolution(),
             resolution_, technique_);
        CellBox view(array);

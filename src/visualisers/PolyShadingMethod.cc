@@ -89,7 +89,8 @@ int PolyShadingMethod::leftIndex(double value)
 	if ( value < first_) return -1;
 	if ( same(value, first_) ) return -1;
 	if ( same(value, last_) )  return indexes_.size() -1;
-	return indexes_.find(value, -1) - 1;
+	int index = indexes_.find(value, -1);
+	return  ( index == -1 ) ? - 1 : index -1;
 
 }
 void PolyShadingMethod::prepare(const LevelSelection& levels, const ColourTechnique& colours)
