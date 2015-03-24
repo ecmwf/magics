@@ -568,7 +568,7 @@ MAGICS_NO_EXPORT void CairoDriver::write_tiff() const
   Only the raw raster (normally written to a 32 bit PNG) is here written into a 8 bit.
 
 */
-#define PNG_DEBUG 3
+//#define PNG_DEBUG 3
 
 MAGICS_NO_EXPORT bool CairoDriver::write_8bit_png() const
 {
