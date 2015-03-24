@@ -101,6 +101,7 @@ if( SWIG_FOUND )
 endif()
 
 ### grib
+
 #cmake_add_cxx_flags("-gdwarf-2")
 cmake_add_c_flags("-std=c99")
 
@@ -259,7 +260,7 @@ install( FILES ${CMAKE_CURRENT_BINARY_DIR}/magics-config
 
 set( MAGICS_TPLS grib_api spot odb_api EXPAT NetCDF PangoCairo PNG Proj4 EMOS)
 set( MAGICS_INCLUDE_DIRS 
-	    ${CMAKE_CURRENT_SOURCE_DIR}/src 
+        ${CMAKE_CURRENT_SOURCE_DIR}/src 
         ${CMAKE_BINARY_SOURCE_DIR}/src 
         ${CMAKE_CURRENT_SOURCE_DIR}/src/common 
         ${CMAKE_CURRENT_BINARY_DIR}/src/params 
@@ -275,13 +276,13 @@ set( MAGICS_INCLUDE_DIRS
         ${CMAKE_CURRENT_SOURCE_DIR}/src/terralib
         ${CMAKE_CURRENT_SOURCE_DIR}/src/terralib/kernel
         ${CMAKE_CURRENT_SOURCE_DIR}/src/terralib/utils
-	    ${Boost_INCLUDE_DIRS} )
-	    
+        ${Boost_INCLUDE_DIRS} )
+    
 if( MAGICS_ODB )
     list( APPEND MAGICS_INCLUDE_DIRS
-			${CMAKE_CURRENT_SOURCE_DIR}/src/oda 
-			${ODB_API_INCLUDE_DIRS}/../eclib 
-		)
+		${CMAKE_CURRENT_SOURCE_DIR}/src/oda 
+		${ODB_API_INCLUDE_DIRS}/../eclib 
+	)
 endif()
 
 set( MAGICS_LIBRARIES    MagPlus )
@@ -357,21 +358,21 @@ ecbuild_add_resources( TARGET old_src DONT_PACK_DIRS src/MvObs src/libTable src/
 ecbuild_add_resources( TARGET bamboo DONT_PACK_DIRS bamboo)
 ecbuild_add_resources( TARGET old_ressources 
 		DONT_PACK_DIRS tools/versioncmp 
-					tools/regression 
-                    regression
-                    docs
-                    toolsjs
-                    test/old
-					tools/xml 
-					tools/use_scripts
-					tools/versioncmp_folders)
+		tools/regression 
+		regression
+		docs
+		toolsjs
+		test/old
+		tools/xml 
+		tools/use_scripts
+		tools/versioncmp_folders)
 
 ecbuild_add_resources( TARGET internal 
 		DONT_PACK configure.lxab
-                    configure.local
-                    configure.ecgb
-                    configure.ecmwf
-					)
+		configure.local
+		configure.ecgb
+		configure.ecmwf
+)
 
 
 set(  __magics_tmp ${MAGICS_EXTRA_LIBRARIES} )
