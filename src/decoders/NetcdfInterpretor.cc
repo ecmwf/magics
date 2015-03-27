@@ -140,8 +140,19 @@ bool NetcdfInterpretor::cf_date(Netcdf& netcdf, const string& var, const string&
 
 
 	basedate = tokens[2];
-	double diff = ( refdate.empty() ) ? 0 : DateTime(basedate) - DateTime(refdate) ;
+	double diff;
 	map<string, double>::const_iterator factor = factors.find(tokens[0]);
+	if ( refdate.empty() ) {
+		diff = Multiply(factor->second, std::numeric_limits<double>::max())(coords.front());
+		DateTime newref = DateTime(basedate) + Second(diff);
+		basedate =  newref.tostring("%F %T");
+		diff = -diff;
+	}
+	else {
+		diff = DateTime(basedate) - DateTime(refdate) ;
+	}
+
+
 	if ( factor != factors.end() )
 		std::transform(coords.begin(), coords.end(),  coords.begin(), Multiply(factor->second, std::numeric_limits<double>::max()));
 	std::transform(coords.begin(), coords.end(),  coords.begin(), Plus(diff, std::numeric_limits<double>::max()));

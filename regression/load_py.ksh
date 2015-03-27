@@ -4,13 +4,13 @@
 set +x
 
 versions="2.24.2" 
-src="frame"
+src="cmf_graph"
 echo $src
 git="/home/graphics/cgs/git/magics"
 
 ext="py"
 img_ext="png"
-where='gallery'
+where='web'
 interpretor='python'
 
 dir=`pwd`
