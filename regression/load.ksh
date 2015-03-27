@@ -1,11 +1,10 @@
 #!/bin/ksh
 
 versions="current++ new++" 
-src=`ls tephi_missing.py`
-ext="py"
-img_ext="ps"
-where='graph'
-interpretor='python'
+src=`cmf_timeseries.json`
+img_ext="png"
+where='web'
+interpretor='json'
 
 dir=`pwd`
 name=`basename $dir`
