@@ -91,7 +91,7 @@
          		<set name="subpage_frame_thickness" value="on">		</set>
 	</parameter>
 
-	<parameter member="frame_colour" to="Colour" default="black" from="string" name="subpage_frame_colour">
+	<parameter member="frame_colour" to="Colour" default="charcoal" from="string" name="subpage_frame_colour">
          		<documentation> Colour of subpage frame (Full choice of colours) 		</documentation>
 	</parameter>
 

@@ -333,6 +333,8 @@ public:
 	void visit(BasicSceneObject&);
 	 void visit(AnimationStep&);
 	bool positional() { return positional_; }
+	bool right() { return magCompare(box_position_, "right"); }
+	bool top() { return magCompare(box_position_, "top"); }
 	void finish(BasicGraphicsObjectContainer&);
 	LegendMethod::LegendType legendType() const { return method_->name(); }
 	void last() {
