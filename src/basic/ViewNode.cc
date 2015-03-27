@@ -203,12 +203,21 @@ void ViewNode::prepareLayout(SceneLayer& tree)
 	if ( legend_)
 	{
 		tree.legend(legend_);
-		legend_->height(5);
-		helper.attachTop(legend_);
-		legend_->x(drawing_left_);
-		legend_->width(100-drawing_left_-drawing_right_);
-		if ( !legend_->positional() )
+		if ( !legend_->positional() ) {
+			if ( legend_->top() ) {
+				legend_->height(5);
+				helper.attachTop(legend_);
+				legend_->x(drawing_left_);
+				legend_->width(100-drawing_left_-drawing_right_);
+			}
+			else {
+				legend_->width(7.5);
+				helper.attachRight(legend_);
+				legend_->y(drawing_bottom_);
+				legend_->height(100-drawing_top_-drawing_bottom_);
+			}
 			helper.add(legend_);
+		}
 		((BasicSceneObject*)legend_)->parent((BasicSceneObject*)this);
 		legend_->getReady();
 

@@ -77,12 +77,18 @@
 	</parameter>  
         
 	<parameter from="string" name="legend_box_mode" default="automatic" member="box" to="string" values="automatic/positional">
-        	
+        			<set name="legend_automatic_position" value="automatic">		</set>
+        			
         			<set name="legend_box_x_position" value="positional">		</set>
         			<set name="legend_box_x_length" value="positional">		</set>
         			<set name="legend_box_y_position" value="positional">		</set>
         			<set name="legend_box_y_length" value="positional">		</set>
         			<documentation>Whether legend box is positioned automatically or by the user  		</documentation>
+	</parameter>
+	<parameter from="string" name="legend_automatic_position" default="top" member="box_position" to="string" values="top/right">
+        	
+        			
+        			<documentation>Whether legend box is positioned on the top or on the right of the drawing area  		</documentation>
 	</parameter>
 	<parameter xml="font" from="string" name="legend_text_font" default="sansserif" member="font" to="string">
 			<documentation>Font name - please make sure this font is installed!		</documentation>
