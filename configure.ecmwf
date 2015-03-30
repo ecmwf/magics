@@ -1,7 +1,7 @@
 #!/usr/bin/ksh
 
-version="2.24.3"
-git_home="/home/graphics/cgs/git"
+version="2.25.0"
+git_home="/tmp/cgs/git/develop"
 magics=""
 debug="off"
 bufr="on"
