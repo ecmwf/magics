@@ -8,5 +8,5 @@ add_magics_test(NAME web_10days_zero SOURCES 10days-zero.json RESOURCES 10days-z
 add_magics_test(NAME web_epsgram_sample SOURCES epsgram_sample.py 
         RESOURCES cloud-cover-clim-data.json  cloud-data.json wave-data.json IMAGE epsgram_sample.ps THRESHOLD 5 PYTHON)
 add_magics_test(NAME web_cmf_timeseries SOURCES cmf_timeseries.json  IMAGE cmf_timeseries.png DATA cmf.nc THRESHOLD 5 JSON)
-add_magics_test(NAME web_cmf_graph SOURCES cmf_graph.json  IMAGE cmf_graph.png DATA cmf.nc THRESHOLD 5 JSON)
+add_magics_test(NAME web_cmf_graph SOURCES cmf_graph.json  IMAGE cmf_graph.png DATA cmf.nc THRESHOLD 5 PYTHON)
 
