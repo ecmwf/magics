@@ -3,13 +3,14 @@
 
 set +x
 
-versions="2.24.0" 
-src="axis2.py"
+versions="2.24.2" 
+src="cmf_graph"
 echo $src
+git="/home/graphics/cgs/git/magics"
 
 ext="py"
 img_ext="png"
-where='gallery'
+where='web'
 interpretor='python'
 
 dir=`pwd`
@@ -23,8 +24,9 @@ do
 
 for v in $versions
 do
+  module load Magics/$v
   echo "magics/reference/$v/$where"
-  ../upload.py $v ./$sf $s.$img_ext magics/reference/$v/$where -i $interpretor
+  $git/regression/upload.py $v ./$sf $s.$img_ext magics/reference/$v/$where -i $interpretor
 
 done
 done
