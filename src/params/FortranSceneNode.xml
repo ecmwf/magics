@@ -27,7 +27,7 @@
          		<migration> Default as changed from magics6) 		</migration>
   	</parameter>
 
-  	<parameter member="frame_colour" to="Colour" default="blue" from="string" name="page_frame_colour">
+  	<parameter member="frame_colour" to="Colour" default="charcoal" from="string" name="page_frame_colour">
          		<release>Magics++0.5		</release>
          		<documentation> Colour of page frame (Full choice of colours) 		</documentation>
   	</parameter>
@@ -37,7 +37,7 @@
          		<documentation> Style of page frame(SOLID/DASH/DOT/CHAIN_DASH/CHAIN_DOT) 		</documentation>
   	</parameter>
 
-  	<parameter member="frame_thickness" to="int" default="1" from="int" name="page_frame_thickness">
+  	<parameter member="frame_thickness" to="int" default="2" from="int" name="page_frame_thickness">
          		<documentation> Thickness of page frame 		</documentation>
          		<release>Magics++0.5		</release>
   	</parameter>

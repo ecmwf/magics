@@ -28,6 +28,8 @@ add_magics_test(NAME gallery_contour9 SOURCES contour9.py IMAGE contour9.png DAT
 
 add_magics_test(NAME gallery_epsboxplot SOURCES epsboxplot.py IMAGE epsboxplot.png RESOURCES cloud_box.json THRESHOLD 5 PYTHON)
 
+add_magics_test(NAME gallery_frame SOURCES frame.py IMAGE frame.png  THRESHOLD 1 PYTHON)
+
 add_magics_test(NAME gallery_epsrose SOURCES epsrose.py IMAGE epsrose.png RESOURCES cloud_rose.json THRESHOLD 5 PYTHON)
 add_magics_test(NAME gallery_epswave SOURCES epswave.py IMAGE epswave.png RESOURCES wave.json THRESHOLD 5 PYTHON)
 add_magics_test(NAME gallery_epswind SOURCES epswind.py IMAGE epswind.png RESOURCES wind_direction.json THRESHOLD 5 PYTHON)
@@ -48,6 +50,7 @@ add_magics_test(NAME gallery_graph9 SOURCES graph9.py IMAGE graph9.png THRESHOLD
 add_magics_test(NAME gallery_legend1 SOURCES legend1.py IMAGE legend1.png DATA z500.grb t850.grb THRESHOLD 5 PYTHON)
 add_magics_test(NAME gallery_legend2 SOURCES legend2.py IMAGE legend2.png DATA t850.grb THRESHOLD 5 PYTHON)
 add_magics_test(NAME gallery_legend3 SOURCES legend3.py IMAGE legend3.png DATA z500.grb t850.grb THRESHOLD 5 PYTHON)
+add_magics_test(NAME gallery_legend4 SOURCES legend4.py IMAGE legend4.png DATA z500.grb t850.grb THRESHOLD 5 PYTHON)
 
 add_magics_test(NAME gallery_projection1 SOURCES projection1.py IMAGE projection1.png THRESHOLD 5 PYTHON)
 add_magics_test(NAME gallery_projection2 SOURCES projection2.py IMAGE projection2.png THRESHOLD 5 PYTHON)

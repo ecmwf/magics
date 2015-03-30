@@ -192,8 +192,7 @@ void LayoutFrame::frame(Layout& owner)
 	frame->setLineStyle(style_);
 	frame->setThickness(thickness_);
 	frame->setColour(colour_); 
-	frame->setThickness(2);
-		frame->setColour(Colour("charcoal"));
+
 	double px = (owner.maxX() - owner.minX())*0.00;
 	double py = (owner.maxY() - owner.minY())*0.00;
 	
