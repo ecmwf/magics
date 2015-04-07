@@ -3,15 +3,15 @@
 
 set +x
 
-versions="2.24.2" 
-src="cmf_graph"
+versions="2.24.3" 
+src="cmf_timeseries"
 echo $src
 git="/home/graphics/cgs/git/magics"
 
-ext="py"
+ext="json"
 img_ext="png"
 where='web'
-interpretor='python'
+interpretor='magjson'
 
 dir=`pwd`
 name=`basename $dir`
