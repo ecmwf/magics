@@ -130,7 +130,7 @@ public:
 	// set the meta data to be collected
 	void askId(MetaDataCollector&);
 
-	bool checkId(MetaDataCollector&,MetaDataCollector&) { false; }
+	bool checkId(MetaDataCollector&,MetaDataCollector&) { return true; }
 	void setCriteria(MetaDataCollector&, const string&);
 
 	// set the map to set the contour!
