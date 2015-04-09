@@ -4,14 +4,14 @@
 set +x
 
 versions="2.24.3" 
-src="cmf_timeseries"
+src="octrahydro"
 echo $src
 git="/home/graphics/cgs/git/magics"
 
-ext="json"
+ext="py"
 img_ext="png"
-where='web'
-interpretor='magjson'
+where='data'
+interpretor='python'
 
 dir=`pwd`
 name=`basename $dir`
