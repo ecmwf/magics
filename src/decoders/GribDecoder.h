@@ -4,7 +4,7 @@
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
- You may obtain a copy of the License at 
+ You may obtain a copy of the License at
 
     http://www.apache.org/licenses/LICENSE-2.0
 
@@ -18,11 +18,11 @@
 
 /*! \file GribDecoder.h
     \brief Definition of the Template class GribDecoder.
-    
+
     Magics Team - ECMWF 2004
-    
+
     Started: Tue 16-Mar-2004
-    
+
     Changes:
 
 */
@@ -34,7 +34,7 @@
 #include "MagException.h"
 
 
-#include "Decoder.h"
+#include "common/Decoder.h"
 #include "Data.h"
 #include "GribDecoderAttributes.h"
 #include "UserPoint.h"
@@ -61,28 +61,28 @@ class GribMagException : public MagicsException
 public:
 	 GribMagException( const string& why ):
 		MagicsException("Grib API error message: " +  why){}
-}; 
+};
 class GribFileMagException : public MagicsException
 {
 public:
 	GribFileMagException(const string& file, int index)
-	{ 
+	{
 		ostringstream s;
 		s << "Grib decoding failed: field " << index << " in " << file << endl;
 		what_ = s.str();
 	}
-}; 
+};
 
 class GribLoop;
 
-class GribDecoder: 
-    public Decoder, 
+class GribDecoder:
+    public Decoder,
     public Data,
     public GribDecoderAttributes
 {
 public:
 	GribDecoder();
-	virtual ~GribDecoder();    
+	virtual ~GribDecoder();
 
 	// implements BaseSceneObject interface
 	virtual void set(const map<string, string>& params) { GribDecoderAttributes::set(params); }
@@ -99,12 +99,12 @@ public:
 	void newPoint(const Transformation&, double, double, double, double, double, vector<CustomisedPoint*>&, double);
 	bool verify(const string& where) const;
 	MatrixHandler& direction();
-	// Data Interface : info for the layer managment! 
+	// Data Interface : info for the layer managment!
 	 string layerId()  { decode(); return layerId_; }
 	 string name() { decode(); return name_; }
 	 const DateTime& from() { decode(); return from_; }
 	 const DateTime& to()  { decode(); return to_; }
-	
+
 	string title() {
 		return title_;
 	}
@@ -112,33 +112,33 @@ public:
 	bool interpolate() const { return magCompare(interpolation_method_, "interpolate"); }
 	bool getExpver() const { return expver_; }
 	void version();
-	
-	
+
+
 	// implements Decoder
 		void visit(AnimationRules&);
 		void visit(MetaDataCollector&);
 		void visit(MagnifierCollector&);
 		void visit(ValuesCollector&);
 		void visit(Transformation&);
-		
+
 		 const DateDescription& timeStamp();
 		 const LevelDescription& level() ;
 
 	// implements Decoder
 	void visit(TextVisitor&);
-    
+
 	PointsHandler& points()
 	{
 		decodePoints();
 		pointsHandlers_.push_back(new PointsHandler(points_));
-		return *(pointsHandlers_.back()); 
-	} 
+		return *(pointsHandlers_.back());
+	}
 	PointsHandler& points(const Transformation& transformation)
 		{
 			decodePoints();
 			pointsHandlers_.push_back(new BoxPointsHandler(points_, transformation, true));
-			return *(pointsHandlers_.back()); 
-		} 
+			return *(pointsHandlers_.back());
+		}
 	PointsHandler& points(const Transformation& transformation, bool all) {
 		decodePoints();
 		pointsHandlers_.push_back(new BoxPointsHandler(points_, transformation, !all));
@@ -150,7 +150,7 @@ public:
 
 		decode();
 		matrixHandlers_.push_back(new MatrixHandler(*matrix_));
-		return *(matrixHandlers_.back()); 
+		return *(matrixHandlers_.back());
 	}
 	MatrixHandler& matrix(const Transformation& transformation)
 		{
@@ -158,16 +158,16 @@ public:
 
 			decode(transformation);
 			matrixHandlers_.push_back(new MatrixHandler(*matrix_));
-			return *(matrixHandlers_.back()); 
+			return *(matrixHandlers_.back());
 		}
-	
+
 	void setPath(const string& path) { file_name_ = path; }
-	
+
 	RasterData&  raster(const Transformation& transformation)
 	{
 		decodeRaster(transformation);
-		return raster_; 
-	} 
+		return raster_;
+	}
 	void customisedPoints(const Transformation& t, const std::set<string>& n, CustomisedPointsList& out, bool all)
 	{
 
@@ -206,13 +206,13 @@ public:
 
 protected:
 	//! Method to print string about this class on to a stream of type ostream (virtual).
-	 virtual void print(ostream&) const; 
-     
+	 virtual void print(ostream&) const;
+
 	void handle(grib_handle*);
 
 	mutable Matrix*     matrix_;
 	mutable Matrix*     xComponent_;
-	mutable Matrix*     yComponent_;     
+	mutable Matrix*     yComponent_;
 	mutable Matrix*     colourComponent_;
 	mutable RasterData raster_;
 	mutable PointsList points_;
@@ -226,14 +226,14 @@ protected:
 	map<double, std::set<double> > positions_;
 
 
- 
+
 
 	grib_handle*  handle_;
 	grib_handle*  field_;
 	grib_handle*  component1_;
 	grib_handle*  component2_;
 	grib_handle*  colour_;
-	
+
 	string title_;
 	static int count_;
 	friend class GribInterpretor;
@@ -261,9 +261,9 @@ public:
 		Data::dimension_ = 1;
 
 	}
-	GribEntryDecoder(grib_handle* handle1, grib_handle* handle2) { 
+	GribEntryDecoder(grib_handle* handle1, grib_handle* handle2) {
 		handle_ = handle1;
-		handle1_ = handle1; 
+		handle1_ = handle1;
 		handle2_ = handle2;
 		handle3_ = 0;
 
@@ -280,12 +280,12 @@ public:
 
 	grib_handle* open(grib_handle*, bool sendMsg = true);
 
-	void openFirstComponent() { 
+	void openFirstComponent() {
 		assert(handle1_);
 		handle_ = handle1_;
 	}
-	
-	void openSecondComponent() { 
+
+	void openSecondComponent() {
 		assert(handle2_);
 		handle_ = handle2_;
 	}
@@ -301,7 +301,7 @@ public:
 		else
 			colourComponent_ = 0;
 	}
-	
+
 protected:
 	grib_handle*  handle1_;
 	grib_handle*  handle2_;
@@ -313,36 +313,36 @@ class GribLoop : public GribLoopAttributes, public DataLoop
 public:
 	GribLoop();
 	virtual ~GribLoop();
-	
-	
-	
+
+
+
 	void set(const map<string, string>& map) { GribLoopAttributes::set(map); }
 	void set(const XmlNode& node) { GribLoopAttributes::set(node); }
-	
-	
+
+
 	Data* current();
 	bool         hasMore();
 	void         next();
 	void setToFirst();
-	
-	
-	
+
+
+
 
 protected:
-	virtual void print(ostream&) const; 
+	virtual void print(ostream&) const;
 	vector<GribDecoder*> gribs_;
     GribDecoder* currentgrib_;
 	friend class GribDecoder;
 	vector<int>::iterator currentDim_;
 	vector<int>::iterator currentPos_;
 
-	
+
 	FILE* file_;
 	static map<string, string>  ids_;
 	static int  index_;
 	int uniqueId_;
 	int counter_;
-	
+
 private:
 	//! Copy constructor - No copy allowed
 	GribLoop(const GribLoop&);
@@ -353,7 +353,7 @@ private:
 	//! Overloaded << operator to call print().
 	friend ostream& operator<<(ostream& s,const GribLoop& p)
 		{ p.print(s); return s; }
-	
+
 };
 
 
