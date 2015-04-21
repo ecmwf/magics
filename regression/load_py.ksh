@@ -3,14 +3,14 @@
 
 set +x
 
-versions="2.24.2" 
-src="cmf_graph"
+versions="2.24.3" 
+src="octrahydro"
 echo $src
 git="/home/graphics/cgs/git/magics"
 
 ext="py"
 img_ext="png"
-where='web'
+where='data'
 interpretor='python'
 
 dir=`pwd`
