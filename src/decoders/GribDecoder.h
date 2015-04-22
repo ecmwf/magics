@@ -34,7 +34,7 @@
 #include "MagException.h"
 
 
-#include "common/Decoder.h"
+#include "Decoder.h"
 #include "Data.h"
 #include "GribDecoderAttributes.h"
 #include "UserPoint.h"
