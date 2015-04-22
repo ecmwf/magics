@@ -312,5 +312,5 @@ from tojson import  createAction
 put("magdoc.js",     "Reference guide", "Magics gallery generator")
 for i in all:
     definition = action[i]
-    createAction("2.24.3", definition["json"], i, definition["files"])
+    createAction("2.24.5", definition["json"], i, definition["files"])
     put(definition["json"]+".json", definition["jira"],  definition["doc"])
