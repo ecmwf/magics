@@ -238,7 +238,6 @@ if( metview )
                 FixedTableModeAttributes.h
 
 				)
-   install( FILES magics.h  DESTINATION ${INSTALL_INCLUDE_DIR})
    install( FILES terralib/kernel/TeProjection.h
 				   terralib/kernel/TeCoord2D.h 
 				   terralib/kernel/TeDefines.h 
@@ -257,3 +256,4 @@ if( metview )
    endforeach()
    install( FILES ${metview_include} DESTINATION ${INSTALL_INCLUDE_DIR})
 endif()
+install( FILES magics.h  DESTINATION ${INSTALL_INCLUDE_DIR})
