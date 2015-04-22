@@ -1,5 +1,14 @@
 
+
+
 # Basic test 
+ecbuild_add_test( TARGET basic_c
+            SOURCES   coast.c
+            LIBS      MagPlusSingleShared MagPlusShared
+            ENVIRONMENT MAGPLUS_HOME=${CMAKE_SOURCE_DIR}
+            LINKER_LANGUAGE C )
+
+
 if ( ENABLE_PYTHON )
    ecbuild_add_test( TARGET basic_python
               TYPE PYTHON
