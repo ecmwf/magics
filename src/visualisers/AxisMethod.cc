@@ -272,7 +272,8 @@ void AxisMethod::prepare(const Axis& axis, AxisItems& items)
 			}
 			i++;
 		}
-		list.insert(value(last+inc));
+		if ( last-inc <= max )
+			list.insert(value(last+inc));
 
 	}
 	else
@@ -287,7 +288,8 @@ void AxisMethod::prepare(const Axis& axis, AxisItems& items)
 			}
 			i++;
 		}
-		list.insert(value(last-inc));
+		if ( last-inc >= max )
+			list.insert(value(last-inc));
 	}
 	std::set<double> slist;
 	int mod  = (list.size() / 10);
