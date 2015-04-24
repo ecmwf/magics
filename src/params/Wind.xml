@@ -16,11 +16,16 @@
          user : wind_thining_factor will determine the minimal distance in user coordinates betvween 2 winds. 
          the default is "data" for backward compatibility.
           		</documentation>
-         		<release>2.9		</release>
+         
   	</parameter>
 
   	<parameter member="thinning_factor" to="float" default="2.0" from="float" name="wind_thinning_factor">
          		<documentation> Controls the actual number of wind arrows or flags plotted. See main text for explanation. Needs to 1.0 or larger.		</documentation>
-         		<release>0.6		</release>
+         	
   	</parameter>
-</class></magics>
+  	<parameter name='wind_thinning_debug' from='string' to='bool' member='thinning_debug' default='off'  visible='false'>
+         <documentation> Add Position requiered for thiniing [ Debug mode only] </documentation>
+        
+  </parameter>
+</class>
+</magics>

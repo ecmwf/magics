@@ -217,6 +217,9 @@ protected:
 	mutable RasterData raster_;
 	mutable PointsList points_;
 
+
+	bool thinning_debug_;
+
 	mutable map<string, string> sKeys_;
 	mutable map<string, long> lKeys_;
 	mutable map<string, double> dKeys_;
