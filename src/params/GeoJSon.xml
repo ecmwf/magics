@@ -1,0 +1,9 @@
+<magics>
+<class xmltag="geojson" name="GeoJSon" directory="web" prefix="geojson" action="pgeojson" include="GeoJSon.h">
+ 	<parameter member="path" to="string" default="" from="string" name="geojson_input_filename">
+  			<documentation> Path to the file containing the GeoJson data 		</documentation>
+ 	</parameter>
+        
+</class>
+
+</magics>
