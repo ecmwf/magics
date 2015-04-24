@@ -27,8 +27,8 @@
     
 */
 
-#ifndef EpsJSon_H
-#define EpsJSon_H
+#ifndef GeoJSon_H
+#define GeoJSon_H
 
 #include "magics.h"
 
@@ -40,6 +40,7 @@
 #include "UserPoint.h"
 #include "DateTime.h"
 #include "json_spirit.h"
+#include "PointsHandler.h"
 
 #include <limits>
 
@@ -58,122 +59,24 @@ public:
 	
 	typedef void (GeoJSon::*Method)(const json_spirit::Value&);
 	typedef void (GeoJSon::*Decoder)();
-	typedef void (GeoJSon::*TransformationHandler)(Transformation&);
-    typedef double (GeoJSon::*HeightCorrection)(double);
-    typedef json_spirit::Value (GeoJSon::*MetaMethod)();
+
 	map<string,  Method> methods_;
 	map<string,  Decoder> decoders_;
 	
-
-	void efi();
-	void cdf();
-	void eps();
-	void basic();
-	void data();
-	void profile();
+    void decode();
 	
-	void profile(Transformation&);
-	void eps(Transformation&);
-	void efi(Transformation&);
-	void cdf(Transformation&);
-	
-	void x_values(const json_spirit::Value&);
-	void y_values(const json_spirit::Value&);
-	void values(const json_spirit::Value&);
-	void x_date_values(const json_spirit::Value&);
-	void y_date_values(const json_spirit::Value&);
-
-	void location(const json_spirit::Value&);
-	void station_name(const json_spirit::Value&);
-	void epsz(const json_spirit::Value&);
-	void detz(const json_spirit::Value&);
-	void date(const json_spirit::Value&);
-	void height(const json_spirit::Value&);
-	void time(const json_spirit::Value&);
-	virtual void parameter(const json_spirit::Value&);
-	virtual void eps(const json_spirit::Value&);
-	virtual void clim(const json_spirit::Value&);
-	virtual void efi(const json_spirit::Value&);
-	void dig(const json_spirit::Value&);
-	void ignore(const json_spirit::Value&) {}
-	void missing(const json_spirit::Value&);
-	void mask(const json_spirit::Value&);
-	void station(const json_spirit::Value&);
-	void metadata(const json_spirit::Value&);
-	void temperature_correction(const json_spirit::Value&);
-	void points_along_meridian(const json_spirit::Value&);
-
-	json_spirit::Value temperature_correction();
-	json_spirit::Value temperature_adjustment();
-	json_spirit::Value eps_resolution();
-	json_spirit::Value deterministic_resolution();
-	json_spirit::Value height();
-	json_spirit::Value station_name();
-	MatrixHandler& matrix();
-	void customisedPoints(const std::set<string>&, CustomisedPointsList&);
-	void customisedPoints(const Transformation&, const std::set<string>&, CustomisedPointsList&);
-
-	virtual void set(const map<string, string>& map) 	{ GeoJSonAttributes::set(map);  }
-	virtual void set(const XmlNode& node) { GeoJSonAttributes::set(node); }
-	
-	virtual void visit(Transformation&);
-	virtual void visit(TextVisitor&);
-	void visit(const XmlNode& node);
-		
-	virtual void decode();
-    
-    double correctDetz(double);
-    double correctEpsz(double);
-
-    void visit(MetaDataVisitor&);
     void points(const Transformation&, vector<UserPoint>&);
-    void customisedPoints(const Transformation& t, const std::set<string>& n, CustomisedPointsList& out, bool all)
-    {
-       	customisedPoints(t, n, out);
-     }
-     PointsHandler& points(const Transformation& t, bool);
+    void customisedPoints(const Transformation&, const std::set<string>&, CustomisedPointsList&, bool );
+    PointsHandler& points(const Transformation&, bool);
 
 
 protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).
 	 virtual void print(ostream&) const; 
-	 DateTime base_;
-	 vector<CustomisedPoint*> points_; 
-	 PointsList list_;
-     double minx_;
-	 double maxx_;
-	 double miny_;
-	 double maxy_;
-	 double shift_;
-	 double missing_;
-	 double latitude_;
-	 double longitude_;
-	 double height_;
-     double epsz_;
-     double detz_;
-	 double scaling_factor_;
-	 double offset_factor_;
-	 double mask_;
-	 string station_name_;
-	 double station_latitude_;
-	 double station_longitude_;
-	 string date_;
-	 string time_;
-	 string file_;
-	 json_spirit::Value metadata_;
-	 InputWrep   values_;
-	 InputWrep* current_;
-	 InputWrep clim_;
-	 map<string, InputWrep> eps_;
-	 map<string, InputWrep> efi_;
-	 int points_along_meridian_;
-	 Matrix matrix_;
+	 
+	 
 
-	 bool xdate_;
-	 DateTime xBase_;
-	 bool ydate_;
-	 DateTime yBase_;
-	 bool regular_;
+    
 
 private:
     //! Copy constructor - No copy allowed

@@ -79,7 +79,7 @@ public:
 	void podb();
 	void plegend();
 	void simplelegend();
-
+	void geojson();
 	//Wrep-Eps family!
 	void epsinput();
 	void wrepjson();

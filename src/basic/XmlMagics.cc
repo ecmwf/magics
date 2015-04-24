@@ -46,6 +46,7 @@
 #include "XYList.h"
 #include "EpsXmlInput.h"
 #include "WrepJSon.h"
+#include "GeoJSon.h"
 #include "SymbolPlotting.h"
 #include "Contour.h"
 #include "Wind.h"
@@ -133,7 +134,7 @@ XmlMagics::XmlMagics() : root_(0),
 
 	actions_["epsxml"] = &XmlMagics::epsxml;
 	actions_["wrepjson"] = &XmlMagics::wrepjson;
-
+	actions_["geojson"] = &XmlMagics::geojson;
 	
 	actions_["epsbufr"] = &XmlMagics::epsbufr;
 	actions_["epsgraph"] = &XmlMagics::epsgraph;
@@ -708,7 +709,13 @@ void XmlMagics::wrepjson(const XmlNode& node)
 	wrep->set(node);
 	top()->data(wrep);
 }
+void XmlMagics::geojson(const XmlNode& node)
+{
 
+	GeoJSon* geo = new GeoJSon();
+	geo->set(node);
+	top()->data(geo);
+}
 
 #ifdef MAGICS_BUFR
 #include "EpsBufr.h"

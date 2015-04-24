@@ -847,7 +847,20 @@ void FortranMagics::pline()
 
 
 }
+#include "GeoJSon.h"
+void  FortranMagics::geojson()
+{
+	actions();
 
+
+	action_ = new VisualAction();
+
+	GeoJSon* geo = new GeoJSon();
+
+	top()->push_back(action_);
+	action_->data(geo);
+
+}
 #include "WrepJSon.h"
 #include "EpsXmlInput.h"
 #include "EpsGraph.h"
@@ -864,6 +877,7 @@ void  FortranMagics::wrepjson()
 	action_->data(wrep);
 
 }
+
 void  FortranMagics::epsinput()
 {
 	actions();
