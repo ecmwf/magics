@@ -11,4 +11,9 @@ add_magics_test(NAME wind_vector_array SOURCES wind_vector_array.F IMAGE wind_ve
 add_magics_test(NAME wind_geowind SOURCES geowind.py IMAGE geowind.png RESOURCES testwind.geo THRESHOLD 5 PYTHON)
 add_magics_test(NAME wind_odb_wind SOURCES odb_wind.py IMAGE odb_wind.png RESOURCES ascat.odb THRESHOLD 5 PYTHON)
 add_magics_test(NAME wind_wind_legend SOURCES wind_legend.py IMAGE wind_legend.png RESOURCES ascat.odb THRESHOLD 5 PYTHON)
+
+add_magics_test(NAME wind_wind_thinning SOURCES wind_thinning.py IMAGE wind_thinning.png RESOURCES wind.grib speed.grib THRESHOLD 2 PYTHON)
+add_magics_test(NAME wind_wind_global SOURCES wind_global.py IMAGE wind_global.png RESOURCES wind_global.grib THRESHOLD 2 PYTHON)
+add_magics_test(NAME wind_wind_gaussian SOURCES wind_gaussian.py IMAGE wind_gaussian.png RESOURCES wind_reduced_gg.grib THRESHOLD 2 PYTHON)
+
 #add_magics_test(NAME wind_netcdf_contwind SOURCES netcdf_contwind.py IMAGE netcdf_contwind.png DATA fc_surf.nc THRESHOLD 5 PYTHON)
