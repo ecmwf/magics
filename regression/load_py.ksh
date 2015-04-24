@@ -3,14 +3,14 @@
 
 set +x
 
-versions="2.24.3" 
-src="octrahydro"
+versions="2.24.4" 
+src="wind_thinning.py wind_global.py wind_gaussian.py"
 echo $src
 git="/home/graphics/cgs/git/magics"
 
 ext="py"
 img_ext="png"
-where='data'
+where='wind'
 interpretor='python'
 
 dir=`pwd`
