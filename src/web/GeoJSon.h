@@ -58,12 +58,12 @@ public:
 	virtual ~GeoJSon();
 	
 	typedef void (GeoJSon::*Method)(const json_spirit::Value&);
-	typedef void (GeoJSon::*Decoder)();
+
 
 	map<string,  Method> methods_;
-	map<string,  Decoder> decoders_;
 	
-    void decode();
+
+
 	
     void points(const Transformation&, vector<UserPoint>&);
     void customisedPoints(const Transformation&, const std::set<string>&, CustomisedPointsList&, bool );
@@ -73,8 +73,11 @@ public:
 protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).
 	 virtual void print(ostream&) const; 
-	 
-	 
+	 void decode();
+	 void coordinates(const json_spirit::Value&);
+	 void properties(const json_spirit::Value&);
+	 void type(const json_spirit::Value&);
+	 vector<CustomisedPoint*> points_;
 
     
 

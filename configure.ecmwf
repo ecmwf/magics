@@ -48,8 +48,8 @@ case "${OS_VERSION}" in
     ;;
     opensuse131) # New Local worksation
         #module load boost/1.55.0
-        use='daily'
         use='metview-debug'
+        use='daily'
         if [[ $use = 'daily' ]]; then
             tar='on'
             regression="on"
