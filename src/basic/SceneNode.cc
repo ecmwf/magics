@@ -128,6 +128,7 @@ void FortranSceneNode::visit(BasicGraphicsObjectContainer& tree)
 		layout_->push_back(sceneLayer_);
 		page_id_->visit(*layout_);
 		layout_->id(iconId_); // For Metview
+		layout_->frameIt();
 	}
 #ifdef MAG_NEXT
 	else 
