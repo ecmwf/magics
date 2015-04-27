@@ -255,6 +255,7 @@ ObsStatDecoder.xml
 SimplePolyline.xml
 SimplePolylineInput.xml
 WrepJSon.xml
+GeoJSon.xml
 WrepRootNode.xml
 XmlBasicNode.xml
 XmlRootNode.xml
