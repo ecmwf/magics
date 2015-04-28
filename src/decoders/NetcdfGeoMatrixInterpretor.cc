@@ -210,7 +210,7 @@ void NetcdfGeoMatrixInterpretor::visit(ValuesCollector& vcp,PointsList&)
 {	
 	vcp.setCollected(true);
 	
-  	assert(matrix_); 
+  	ASSERT(matrix_); 
   	const Transformation& transformation = vcp.transformation();
   	MatrixHandler* box =  transformation.prepareData(*matrix_);
 	for (ValuesCollector::iterator point =  vcp.begin(); point != vcp.end(); ++point) {

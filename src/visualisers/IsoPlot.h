@@ -175,7 +175,7 @@ public:
 	
 	
 	const pair<int, int>& index(int i) {
-		assert(i < 4);
+		ASSERT(i < 4);
 		return indexes_[i];		
 	}
 	
@@ -268,7 +268,7 @@ public:
 					return columns_[i];
 		}
 	const pair<int, int>& index(int i) {
-		assert(i < 4);
+		ASSERT(i < 4);
 		return indexes_[i];
 	}
 

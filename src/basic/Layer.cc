@@ -63,7 +63,7 @@ Layer::~Layer()
 
 void Layer::execute(int , const BaseDriver&, const Layout&) const
 {
-	assert(false);
+	ASSERT(false);
 }
 
 void Layer::getReady(int) const
@@ -243,7 +243,7 @@ void SingleLayer::execute(const BaseDriver& driver) const
 	if ( !parentLayer_->visibility() )
 		return;
 
-	assert(objects_);
+	ASSERT(objects_);
 	objects_->redisplay(driver);
 
 }
@@ -256,7 +256,7 @@ void SingleLayer::release()
 
 void SingleLayer::update(const Layout& parent)
 {
-	assert(objects_);
+	ASSERT(objects_);
 	objects_->width(parent.width());
 	objects_->height(parent.height());
 	objects_->x(parent.x());
@@ -268,7 +268,7 @@ void SingleLayer::getReady() const
 	if ( !parentLayer_->visibility() )
 		return;
 	if ( parentLayer_->parent()->state() == geometry_changed) {
-		assert(objects_);
+		ASSERT(objects_);
 		objects_->clear();
 	}
 	if ( !objects_ ) {
@@ -735,7 +735,7 @@ vector<Layer*>& SceneLayer::prepare(int i) const
 	map<int, vector<Layer*> >::iterator step = steps_.find(i);
 	if ( step != steps_.end() ) 
 		return step->second;
-	assert(rules_); 
+	ASSERT(rules_); 
 	steps_.insert(make_pair(i, vector<Layer*>()));
 	if ( i >= (int)(*rules_).size() )
 	{
@@ -820,7 +820,7 @@ void  SceneLayer::execute(Layer* stepLayer, int i, const BaseDriver& out) const
 
 
 	// Look for the step! 
-	assert(rules_);    
+	ASSERT(rules_);    
 	if  ( rules_->size() > i ) {    	
 		AnimationStep* step = (*rules_)[i];
 		map<Layer*, int>::iterator l = step->find(stepLayer);
@@ -830,7 +830,7 @@ void  SceneLayer::execute(Layer* stepLayer, int i, const BaseDriver& out) const
 			stepLayer->getInfo(i, out);
 	}
 	else {
-		assert(false);
+		ASSERT(false);
 		//stepLayer->execute(i, driver);
 	}
 }
@@ -851,7 +851,7 @@ Layer*  SceneLayer::findLayer(Layer* stepLayer,int i) const
 		return 0;
 
 	// Look for the step! 
-	assert(rules_); 
+	ASSERT(rules_); 
 
 	//Temporary fix!!
 	if(i >= rules_->size())
@@ -891,7 +891,7 @@ void SceneLayer::getReady(int i ) const
 		}
 	}
 	else {
-		assert(rules_);
+		ASSERT(rules_);
 		AnimationStep* step = (*rules_)[i];
 
 		for (vector<Layer*>::const_iterator layer = layers_.begin(); layer != layers_.end(); ++layer) {
@@ -953,7 +953,7 @@ void SceneLayer::executeInfo(int i, const BaseDriver&) const
 
 	}
 	else {
-		assert(rules_);
+		ASSERT(rules_);
 
 		if ( rules_->size() > 0 ) {
 			AnimationStep* step = (*rules_)[i];
@@ -1001,7 +1001,7 @@ void SceneLayer::executeInfo(int i, const BaseDriver&) const
 
 void MagnifierCollector::visit(const BaseDriver& driver)
 {
-	assert(layout_);
+	ASSERT(layout_);
 
 	Symbol* points = new Symbol();
 	points->setSymbol("magics_3"); // A little dot

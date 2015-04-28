@@ -57,7 +57,7 @@ public:
 	void customisedPoints(const Transformation&, const std::set<string>&, CustomisedPointsList& );
 	void customisedPoints(const Transformation& t, const std::set<string>& n, CustomisedPointsList& out, bool all);
 
-	PointsHandler& points(const Transformation&, bool) { assert(false); }
+	PointsHandler& points(const Transformation&, bool) { ASSERT(false); }
 
 	virtual void set(const map<string, string>& map) 	{ ObsJSonAttributes::set(map); }
 	virtual void set(const XmlNode& node) { ObsJSonAttributes::set(node); }

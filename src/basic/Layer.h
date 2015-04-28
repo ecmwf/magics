@@ -319,7 +319,7 @@ public:
 	void redisplay(const BaseDriver& driver) const;
 	void redisplayAll(const BaseDriver& driver) const;
 	void add(Layer*);
-	Layout* layoutPtr()  { assert (layout_); return layout_; }
+	Layout* layoutPtr()  { ASSERT (layout_); return layout_; }
 	BasicGraphicsObjectContainer* parent() { return parent_; }
 	void addVisitor(LayoutVisitor* visitor) { visitors_.insert(visitor); }
 	void setMagicsMode(MagicsMode mode) { mode_ = mode; }

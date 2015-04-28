@@ -662,7 +662,7 @@ void ClassicMtgDecoder::visit(Transformation& transformation)
 {
 	decode();
 	
-	assert(parameter_);
+	ASSERT(parameter_);
 	parameter_->setTransformation(transformation);
 
 	

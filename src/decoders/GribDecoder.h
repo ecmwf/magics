@@ -284,16 +284,16 @@ public:
 	grib_handle* open(grib_handle*, bool sendMsg = true);
 
 	void openFirstComponent() {
-		assert(handle1_);
+		ASSERT(handle1_);
 		handle_ = handle1_;
 	}
 
 	void openSecondComponent() {
-		assert(handle2_);
+		ASSERT(handle2_);
 		handle_ = handle2_;
 	}
 	void openThirdComponent() {
-			assert(handle3_);
+			ASSERT(handle3_);
 			handle_ = handle3_;
 		}
 	void readColourComponent() {

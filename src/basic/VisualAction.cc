@@ -303,7 +303,7 @@ void VisualAnimation::visit(AnimationRules& rules)
 
 void VisualAnimation::visit(Transformation& transformation)
 {
-	assert(loop_);
+	ASSERT(loop_);
 	loop_->visit(transformation);
 } 
 

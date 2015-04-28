@@ -177,9 +177,9 @@ void ProjectedMatrix::build()
 
 void ProjectedMatrix::getReady()
 {
-	assert(!values_.empty());
-	assert(!rowsArray_.empty());
-	assert(!columnsArray_.empty());
+	ASSERT(!values_.empty());
+	ASSERT(!rowsArray_.empty());
+	ASSERT(!columnsArray_.empty());
 	
 	// find the bounding box! 
 	//columns_ = 100;

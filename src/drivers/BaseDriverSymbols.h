@@ -117,7 +117,7 @@ MAGICS_NO_EXPORT void BaseDriver::renderTextSymbols(const TextSymbol& symbol) co
 	const int nPos  = symbol.size();
 	const int nText = symbol.text().size();
 
-	assert(nText >= nPos);
+	ASSERT(nText >= nPos);
 	if(nText < nPos) MagLog::debug() << " BaseDriverSymbols > Not enough texts ("<<nText<<") for "<<nPos<<" symbols!";
 
 	//Loop for all positions

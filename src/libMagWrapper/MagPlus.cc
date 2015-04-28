@@ -335,7 +335,7 @@ bool MagPlus::qtdriver(magics::MagRequest& /*in*/)
 {
 	if ( !qtDriver_)
 	{
-		assert(qtScene_);
+		ASSERT(qtScene_);
 		qtDriver_ = new magics::QtDriver();
         qtDriver_->setScene(qtScene_);
 
@@ -1709,7 +1709,7 @@ void MagPlus::execute( magics::MagRequest& in)
         	MagLog::warning() << "Sorry, nothing to to display!" << endl;
         	return;
         }
-		assert(root_);
+		ASSERT(root_);
 
 			root_->getReady();
 			drivers_.setDriversWidth(root_->absoluteWidth());
