@@ -191,7 +191,7 @@ public:
             pts.outer().push_back(points.front());
             vector<vector<Point> > result;
             helper->second->computePolygonLines(result);
-            assert( result.size() == 1);
+            ASSERT( result.size() == 1);
             for ( vector<Point>::iterator pt = result.front().begin();  pt != result.front().end(); ++pt ) {
                  previous.outer().push_back(PaperPoint(pt->x_, pt->y_));
             }
@@ -335,8 +335,8 @@ public:
           default:
                 split();
                 if (empty()) {
-                    assert( row1_ == row2_);
-                    assert( column1_ == column2_);
+                    ASSERT( row1_ == row2_);
+                    ASSERT( column1_ == column2_);
                     owner.isoline(*(*parent_)(row1_, column1_), this);
 
                 }

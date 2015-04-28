@@ -62,7 +62,7 @@ public:
     virtual void visit(TopAxisVisitor&) {}
     virtual void visit(Transformation&, Data&) {}
     virtual void visit(Layer& layer) { MetviewIcon::visit(layer); }
-    virtual void beanInfo(IntervalMap<Colour>&) { assert(false); }
+    virtual void beanInfo(IntervalMap<Colour>&) { ASSERT(false); }
     virtual bool needLegend() { return false; }
     virtual void  getReady(const LegendVisitor& legend) { legendOnly_ = legend.only_; }
 protected:

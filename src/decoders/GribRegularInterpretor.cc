@@ -646,7 +646,7 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
 			double d2 = 1 - d1;
 			double val;
 
-			assert(p1 < p.size());
+			ASSERT(p1 < p.size());
 			if (p2 == p.size()) {
 				(*matrix)->push_back(p[p1]);
 			} else {
@@ -769,7 +769,7 @@ void GribReducedLatLonInterpretor::interpretAsMatrix(const GribDecoder& grib,
 
 				d++;
 			}
-			assert( p.size() ==  pl[i]);
+			ASSERT( p.size() ==  pl[i]);
 
 
 			vector<double>::iterator val = p.begin();
@@ -1649,7 +1649,7 @@ void GribLambertInterpretor::print(ostream& out) const {
 
 PaperPoint GribLambertAzimutalInterpretor::reference(const GribDecoder&, const Transformation&)
 {
-	assert(false);
+	ASSERT(false);
 
 }
 

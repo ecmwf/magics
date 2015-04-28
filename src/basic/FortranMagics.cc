@@ -84,7 +84,7 @@ FortranMagics::FortranMagics() :  drivers_(0), output_(0), action_(0), empty_(tr
 		gribindex_(0),legend_todo_(false), symbolinput_todo_ (false), matrixinput_todo_(false), polyinput_todo_(false)
 
 {
-	assert (singleton_ == 0);
+	ASSERT (singleton_ == 0);
 	singleton_ = this;
 
 	writeMagLog("fortran");
@@ -629,7 +629,7 @@ void FortranMagics::podb()
 
 void FortranMagics::data(Data* data)
 {
-	assert ( action_ == 0);
+	ASSERT ( action_ == 0);
 	action_ = new VisualAction();
 	action_->data(data);
 	top()->push_back(action_);

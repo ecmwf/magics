@@ -68,7 +68,7 @@ public:
        {
        	customisedPoints(n, out);
        }
-       PointsHandler& points(const Transformation& t, bool) { assert(false);}
+       PointsHandler& points(const Transformation& t, bool) { ASSERT(false);}
 	
 	virtual void visit(TextVisitor&);
 	virtual void visit(MetaDataVisitor&);

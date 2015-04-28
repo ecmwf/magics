@@ -39,7 +39,7 @@ MatrixTestDecoder::MatrixTestDecoder()
 {
 	
 	ifstream f("/home/graphics/cgs/public/map.txt");
-	assert(f);
+	ASSERT(f);
 	int rows, columns;
 	double lon, lat, inclon, inclat;
 	f >> rows >> columns;

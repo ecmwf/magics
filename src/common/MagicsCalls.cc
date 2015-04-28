@@ -171,7 +171,7 @@ public :
 	~GribFieldPosition() {}
 	bool operator()(int)
 	{
-		assert(magics_);
+		ASSERT(magics_);
 		magics_->resetGrib();
 		return false;
 	}

@@ -216,7 +216,7 @@ Polyline& TaylorProjection::getUserBoundingBox() const
 
 void TaylorProjection::setDefinition(const string& def)
 {
-	assert(def.empty());
+	ASSERT(def.empty());
 }
 
 

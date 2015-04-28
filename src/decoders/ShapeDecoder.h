@@ -63,17 +63,17 @@ public:
 	void set(const map<string, string>& map ) { ShapeDecoderAttributes::set(map); }
 	void set(const XmlNode& node ) { ShapeDecoderAttributes::set(node); }
 	void customisedPoints(const std::set<string>&, CustomisedPointsList&);
-	void decode() {assert(false);}
+	void decode() {ASSERT(false);}
 	void needHoles(bool holes) { holes_ = holes; }
 	void setPath(const string& path) { path_ = path; }
 	PointsHandler& points()
 	{
-		assert(false);
+		ASSERT(false);
 	}
 
 	PointsHandler& points(const Transformation&, bool )
 	{
-		assert(false);
+		ASSERT(false);
 	}
 	void customisedPoints(const Transformation&, const std::set<string>& n, CustomisedPointsList& out, bool)
 	{

@@ -186,7 +186,7 @@ void XmlMagics::execute(XmlTree& tree)
 	if ( driversToSet_ ) 
 		output_.set(drivers_);
 
-	assert(root_);
+	ASSERT(root_);
 
 	root_->execute();
 
@@ -255,7 +255,7 @@ void XmlMagics::display(const string& file)
 	if ( driversToSet_ ) 
 		output_.set(drivers_);
 
-	assert(root_);
+	ASSERT(root_);
 	root_->getReady();
 	drivers_.setDriversWidth(root_->absoluteWidth());
 	drivers_.setDriversHeight(root_->absoluteHeight());
@@ -497,7 +497,7 @@ void XmlMagics::gribloop(const XmlNode& node)
 void XmlMagics::splitinloop(const XmlNode& ) 
 {
 	/* later!
-	assert(gribloop_);
+	ASSERT(gribloop_);
 
 	LayerNode* layer = new LayerNode();
 	layer->set(node);
@@ -511,7 +511,7 @@ void XmlMagics::splitinloop(const XmlNode& )
 
 void XmlMagics::gribinloop(const XmlNode&)
 {	
-	assert(gribloop_);
+	ASSERT(gribloop_);
 	top()->data(gribloop_->current());
 }
 

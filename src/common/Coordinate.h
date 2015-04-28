@@ -95,7 +95,7 @@ public:
     virtual double operator()(const string& val) const { return tonumber(val); }
     virtual string type() const { return "regular"; }
     
-    virtual void minmax(double max, double min) { assert(false); }
+    virtual void minmax(double max, double min) { ASSERT(false); }
     
     virtual void dataMinMax(double min, double max) = 0;
     virtual void dataMinMax(double min, double max, const string&) = 0;
@@ -478,8 +478,8 @@ public:
 		def["x_automatic"]= "off";
     }
 
-    virtual void dataMinMax(double min, double max) { assert(false); }
-        virtual void dataMinMax(double min, double max, const string&) { assert(false); }
+    virtual void dataMinMax(double min, double max) { ASSERT(false); }
+        virtual void dataMinMax(double min, double max, const string&) { ASSERT(false); }
     AxisAutomaticSetting automatic() { return automatic_; }
     virtual void automatic(bool automatic) { automatic_ = (automatic?m_both:m_off);}
     virtual void setAutomatic(AxisAutomaticSetting automatic) { automatic_ = automatic; }
@@ -535,8 +535,8 @@ public:
     double max() { return max_; }
     double minpc() { return (*this)(min_); }
     double maxpc() { return (*this)(max_); }
-    virtual void dataMinMax(double min, double max) { assert(false); }
-        virtual void dataMinMax(double min, double max, const string&) { assert(false); }
+    virtual void dataMinMax(double min, double max) { ASSERT(false); }
+        virtual void dataMinMax(double min, double max, const string&) { ASSERT(false); }
         void minmax(double min, double max) {
         	switch ( automatic_ ) {
         	    	case m_both:
@@ -624,7 +624,7 @@ public:
     string reference() { return  DateTime(date_min_); }
     virtual XCoordinate* clone() const {
     	XDateCoordinate* x = new XDateCoordinate();
-    	//x->copy(*this);
+
         return x;
     }
     virtual string type() const { return "date"; }

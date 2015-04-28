@@ -49,7 +49,7 @@ public:
 	Histogram();
 	virtual ~Histogram();
     
-	    void operator()(Data&, BasicGraphicsObjectContainer& ) { assert(false); }
+	    void operator()(Data&, BasicGraphicsObjectContainer& ) { ASSERT(false); }
 	    void visit(LegendVisitor& legend);
 	    // Implements the set method ... 
 	    void set(const map<string, string>& map ) { HistogramAttributes::set(map); }

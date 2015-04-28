@@ -884,13 +884,13 @@ protected :
 	int columnIndex(int column) const
 	{
 		map<int, int>::const_iterator index = columnIndex_.find(column);
-		assert( index != columnIndex_.end() );
+		ASSERT( index != columnIndex_.end() );
 		return index->second;
 	}
 	int rowIndex(int row) const
 	{
 		map<int, int>::const_iterator index = rowIndex_.find(row);
-		assert( index != rowIndex_.end() );
+		ASSERT( index != rowIndex_.end() );
 		return index->second;
 	}
 	int  frequencyRow_;
