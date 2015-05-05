@@ -21,6 +21,7 @@ actions={
 	"pcont": "pcont",
 	"mcont": "pcont",
 	"pgeo": "pgeo",
+	"mgeojson": "pgeojson",
 	"mgeo": "pgeo",
 	"mlegend": "",
 	"plegend": "",
@@ -402,6 +403,7 @@ minput = make_action("minput", Magics.minput, "Input+Data")
 mtable = make_action("mtable", Magics.mtable, "CSV+Table+Decoder")
 
 
+mgeojson = make_action("mgeojson", Magics.geojson, "GeoJSon")
 mwrepjson = make_action("mwrepjson", Magics.wrepjson, "WrepJSon")
 mepsinput = make_action("mepsinput", Magics.epsinput, "EpsInput")
 mepscloud = make_action("mepscloud", Magics.epscloud)

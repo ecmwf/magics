@@ -35,11 +35,12 @@
 
 #include "WrepJSonAttributes.h"
 
+#include "json_spirit.h"
 #include "Decoder.h"
 #include "Data.h"
 #include "UserPoint.h"
 #include "DateTime.h"
-#include "json_spirit.h"
+
 #include "Matrix.h"
 #include <limits>
 

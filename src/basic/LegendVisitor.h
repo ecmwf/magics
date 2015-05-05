@@ -316,10 +316,10 @@ public:
 	LegendVisitor();
 	virtual ~LegendVisitor();
 	virtual void getReady();
-	virtual LegendVisitor* clone() { assert(false); return 0; }
-	virtual Layout& layout() const { assert( layout_); return *layout_; }
-	virtual Layout* layoutPtr() const { assert( layout_); return layout_; }
-	//virtual Layout* legend()  { assert( layout_); return this; }
+	virtual LegendVisitor* clone() { ASSERT(false); return 0; }
+	virtual Layout& layout() const { ASSERT( layout_); return *layout_; }
+	virtual Layout* layoutPtr() const { ASSERT( layout_); return layout_; }
+	//virtual Layout* legend()  { ASSERT( layout_); return this; }
     
     void set(const XmlNode& node) { LegendVisitorAttributes::set(node); }	
     void add(LegendEntry* entry) { VectorOfPointers<vector<LegendEntry*> >::push_back(entry); }

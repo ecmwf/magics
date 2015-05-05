@@ -34,6 +34,7 @@
 #include "UserPoint.h"
 
 #include "VectorOfPointers.h"
+#include "MagException.h"
 
 namespace magics {
 
@@ -95,13 +96,13 @@ public:
 		}  
 	}
 	//! Method to set the current position to the first point.(abstract)
-	virtual void setToFirst()  {assert(false);};
+	virtual void setToFirst()  {ASSERT(false);};
 	//! Method to test the end of collection.
-	virtual bool more()  {assert(false);return false;};
+	virtual bool more()  {ASSERT(false);return false;};
 	//! Method to return the current value
-	virtual const UserPoint& current()  {assert(false);};
+	virtual const UserPoint& current()  {ASSERT(false);};
 	//! Method to advance
-	virtual void advance()  {assert(false);};
+	virtual void advance()  {ASSERT(false);};
 
 	virtual int size()  {
 		points_ = 0;

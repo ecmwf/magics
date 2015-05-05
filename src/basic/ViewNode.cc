@@ -356,7 +356,7 @@ XmlViewNode::~XmlViewNode()
 
 void XmlViewNode::getReady()
 {
-	assert (parent_);
+	ASSERT (parent_);
 	viewTransformation_ = XmlViewNodeAttributes::transformation_.get();
 
 	Dimension bottom(bottom_, parent_->absoluteHeight(), 0);
@@ -540,7 +540,7 @@ protected:
 
 void FortranViewNode::getReady()
 {
-	assert (parent_);
+	ASSERT (parent_);
 	
 	viewTransformation_ = FortranViewNodeAttributes::transformation_.get();
 	viewTransformation_->setDefinition(json_);

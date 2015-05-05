@@ -51,9 +51,9 @@ public:
 	
 	 void customisedPoints(const Transformation& t, const std::set<string>& n, CustomisedPointsList& out, bool all)
 	    {
-	    	assert(false);
+	    	ASSERT(false);
 	    }
-	    PointsHandler& points(const Transformation& t, bool) { assert(false); }
+	    PointsHandler& points(const Transformation& t, bool) { ASSERT(false); }
 	
     
 	PointsHandler& points() { throw MethodNotYetImplemented("MatrixTestDecoder::points()"); }

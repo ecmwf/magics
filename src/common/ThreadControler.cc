@@ -153,7 +153,7 @@ void *ThreadControler::startThread(void *data)
 
 void ThreadControler::start()
 {
-	assert(thread_ == 0);
+	ASSERT(thread_ == 0);
 
 	pthread_attr_t attr;
 	pthread_attr_init(&attr);

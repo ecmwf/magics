@@ -32,6 +32,7 @@
 
 #include "MagLog.h"
 #include "VectorOfPointers.h"
+#include "MagException.h"
 
 namespace magics {
 
@@ -48,18 +49,18 @@ public:
 	virtual ~BasicGraphicsObject();
 
 	virtual bool reproject(BasicGraphicsObjectContainer&) const 
-	{ MagLog::error() << "BasicGraphicsObject::reproject(...)--->Need to be implemented!\n"; assert(0); return false; }
+	{ MagLog::error() << "BasicGraphicsObject::reproject(...)--->Need to be implemented!\n"; ASSERT(0); return false; }
 
 	virtual void redisplay(const BaseDriver&) const 
 	{ MagLog::dev() << "BasicGraphicsObject::redisplay(...)--->Not yet implemented\n"; }
 
 	void parent(BasicGraphicsObjectContainer* parent)
 	{
-		//assert(parent_ == 0);
+		//ASSERT(parent_ == 0);
 		parent_ = parent; 
 	}
 	void check();
-	BasicGraphicsObjectContainer& parent() { assert(parent_); return *parent_; }
+	BasicGraphicsObjectContainer& parent() { ASSERT(parent_); return *parent_; }
 
 	void makeBrother(const BasicGraphicsObject& brother)
 	{ parent_ = brother.parent_; }
@@ -136,7 +137,7 @@ public:
 
 	double absoluteX() const //absolute position from the root
 	{
-		assert(parent_); return parent_->absoluteX();
+		ASSERT(parent_); return parent_->absoluteX();
 	}
 	
 	virtual void getDriverInfo(double& x, double& y, double& width, double& height)
@@ -147,32 +148,32 @@ public:
 	
 	virtual double absoluteY() const //absolute position from the root
 	{
-		assert(parent_); return parent_->absoluteY();
+		ASSERT(parent_); return parent_->absoluteY();
 	}
 
 	virtual double absoluteWidth()  const //absolute position from the root
 	{
-		assert(parent_); return parent_->absoluteWidth();
+		ASSERT(parent_); return parent_->absoluteWidth();
 	}
 
 	virtual double absoluteHeight() const //absolute position from the root
 	{
-		assert(parent_); return parent_->absoluteHeight();
+		ASSERT(parent_); return parent_->absoluteHeight();
 	}
 	
 	virtual double absoluteWidth(double width)  const //absolute position from the root
 	{
-		assert(parent_); return parent_->absoluteWidth(width);
+		ASSERT(parent_); return parent_->absoluteWidth(width);
 	}
 
 	virtual double absoluteHeight(double height) const //absolute position from the root
 	{
-		assert(parent_); return parent_->absoluteHeight(height);
+		ASSERT(parent_); return parent_->absoluteHeight(height);
 	}
 	
 	virtual const Transformation& transformation() const //returns the Transformation
 	{
-		assert(parent_); return parent_->transformation();
+		ASSERT(parent_); return parent_->transformation();
 	}
 	const vector<BasicGraphicsObject*>& objects() { //
 		//first we add

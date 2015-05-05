@@ -121,7 +121,7 @@ void GeoRectangularProjection::revert(const vector< std::pair<double, double> > 
 		}
 		return;
 	}
-	assert(projection_);
+	ASSERT(projection_);
 
 	for ( vector< std::pair<double, double> >::const_iterator pt = input.begin();  pt != in_end; ++pt)
 	{

@@ -56,7 +56,7 @@ void MagJSon::interpret(const string& def)
 
 	json_spirit::Value value;
 	json_spirit::read_or_throw(is, value );
-	assert( value.type() == obj_type );
+	ASSERT( value.type() == obj_type );
 	Object object = value.get_value< Object >();
 	//buils the Magics XmlNode!
 	build(*tree_.root(), "magics", object);
@@ -64,21 +64,21 @@ void MagJSon::interpret(const string& def)
 
 void MagJSon::drivers(XmlNode& parent, const json_spirit::Value& value)
 {
-	assert (value.type() == array_type);
+	ASSERT (value.type() == array_type);
 	XmlNode* drivers = new XmlNode("drivers");
 	parent.push_back(drivers);
 	 Array all =  value.get_value< Array >();
 	
 	 for (Array::iterator entry = all.begin(); entry != all.end(); ++entry) {
-		 assert( entry->type() == obj_type);
+		 ASSERT( entry->type() == obj_type);
 		 Object driver = entry->get_value< Object >();	     		
 		 map<string, string> attributes;
 		 for (vector<Pair>::const_iterator elt = driver.begin(); elt !=  driver.end(); ++elt) {
-	    	assert(elt->value_.type() == str_type);
+	    	ASSERT(elt->value_.type() == str_type);
 	    	attributes.insert(make_pair(elt->name_, elt->value_.get_value< string >()));
 	     }
 		 map<string, string>::iterator format = attributes.find("format");
-		 assert(format!=attributes.end());
+		 ASSERT(format!=attributes.end());
 		 drivers->push_back(tree_.newNode(format->second, attributes));
 	  }
 }
@@ -86,22 +86,22 @@ void MagJSon::drivers(XmlNode& parent, const json_spirit::Value& value)
 
 void MagJSon::definitions(XmlNode& parent, const json_spirit::Value& value)
 {
-	assert (value.type() == array_type);
+	ASSERT (value.type() == array_type);
 
 	XmlNode* definitions = new XmlNode("definition");
 	tree_.definition(definitions);
 	
 	 Array all =  value.get_value< Array >();
 	 for (Array::iterator entry = all.begin(); entry != all.end(); ++entry) {
-		 assert( entry->type() == obj_type);
+		 ASSERT( entry->type() == obj_type);
 		 Object def = entry->get_value< Object >();	     		
 		 map<string, string> attributes;
 		 for (vector<Pair>::const_iterator elt = def.begin(); elt !=  def.end(); ++elt) {
-	    	assert(elt->value_.type() == str_type);
+	    	ASSERT(elt->value_.type() == str_type);
 	    	attributes.insert(make_pair(elt->name_, elt->value_.get_value< string >()));
 	     }
 		 map<string, string>::iterator type = attributes.find("class");
-		 assert(type!=attributes.end());
+		 ASSERT(type!=attributes.end());
 		 definitions->push_back(tree_.newNode(type->second, attributes));
 	  }
 }
@@ -160,7 +160,7 @@ void MagJSon::build(XmlNode& parent, const string& name, Object& object)
 
 void MagJSon::magics(const json_spirit::Value& value)
 {
-	assert( value.type() == obj_type );
+	ASSERT( value.type() == obj_type );
 	Object object = value.get_value< Object >();
 	
 	XmlMagics magics;

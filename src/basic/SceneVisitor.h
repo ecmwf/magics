@@ -65,43 +65,43 @@ public:
 	
 	
 	const Transformation& transformation() const { 
-	    	assert(layout_); 
+	    	ASSERT(layout_); 
 	    	return layout_->transformation(); 
 	    }
 	void push_back(BasicGraphicsObject* object);
 	
 	void parent(BasicGraphicsObjectContainer* parent) 
-		{  assert(layout_); layout_->parent(parent); }
+		{  ASSERT(layout_); layout_->parent(parent); }
 	double minX()  const 
-		{ assert(layout_);  return layout_->minX(); }
+		{ ASSERT(layout_);  return layout_->minX(); }
 	double maxX()  const 
-		{  assert(layout_); return layout_->maxX(); }
+		{  ASSERT(layout_); return layout_->maxX(); }
 	double minY()  const
-		{   assert(layout_); return layout_->minY(); }
+		{   ASSERT(layout_); return layout_->minY(); }
 	double maxY()  const 
-		{  assert(layout_); return layout_->maxY(); }
+		{  ASSERT(layout_); return layout_->maxY(); }
 	void width(double width)   
-		{  assert(layout_); return layout_->width(width); }
+		{  ASSERT(layout_); return layout_->width(width); }
 	void height(double height)  
-		{  assert(layout_); return layout_->height(height); }
+		{  ASSERT(layout_); return layout_->height(height); }
 	void widthResolution(double width)   
-		{  assert(layout_); return layout_->widthResolution(width); }
+		{  ASSERT(layout_); return layout_->widthResolution(width); }
 	void heightResolution(double height)  
-		{  assert(layout_); return layout_->heightResolution(height); }
+		{  ASSERT(layout_); return layout_->heightResolution(height); }
 	void x(double x) 
-		{  assert(layout_); return layout_->x(x); }
+		{  ASSERT(layout_); return layout_->x(x); }
 	void y(double y) 
-		{  assert(layout_); return layout_->y(y); }
+		{  ASSERT(layout_); return layout_->y(y); }
 	 void transformation(Layout& layout) const
 	    { layout.transformation(layout_->transformation_);  }
 	void transformation(Transformation* transformation)   
-		{  assert(layout_); return layout_->transformation(transformation); }
-	void id(const string& id)   {  assert(layout_); return layout_->id(id); }
-	void zoomable(bool zoomable)   {  assert(layout_); return layout_->zoomable(zoomable); }
-	void zoomLevels(int zl)   {  assert(layout_); return layout_->zoomLevels(zl); }
-	void zoomCurrentLevel(int level)   {  assert(layout_); return layout_->zoomCurrentLevel(level); }
-	void frameIt()   {  assert(layout_); return layout_->frameIt(); }
-	void frame(Layout& layout) { assert(layout_); layout_->frame(layout); }
+		{  ASSERT(layout_); return layout_->transformation(transformation); }
+	void id(const string& id)   {  ASSERT(layout_); return layout_->id(id); }
+	void zoomable(bool zoomable)   {  ASSERT(layout_); return layout_->zoomable(zoomable); }
+	void zoomLevels(int zl)   {  ASSERT(layout_); return layout_->zoomLevels(zl); }
+	void zoomCurrentLevel(int level)   {  ASSERT(layout_); return layout_->zoomCurrentLevel(level); }
+	void frameIt()   {  ASSERT(layout_); return layout_->frameIt(); }
+	void frame(Layout& layout) { ASSERT(layout_); layout_->frame(layout); }
 protected:
 	void print(ostream&) const; 
 	Layout* layout_; 	 

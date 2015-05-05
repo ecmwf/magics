@@ -84,7 +84,7 @@ FortranMagics::FortranMagics() :  drivers_(0), output_(0), action_(0), empty_(tr
 		gribindex_(0),legend_todo_(false), symbolinput_todo_ (false), matrixinput_todo_(false), polyinput_todo_(false)
 
 {
-	assert (singleton_ == 0);
+	ASSERT (singleton_ == 0);
 	singleton_ = this;
 
 	writeMagLog("fortran");
@@ -629,7 +629,7 @@ void FortranMagics::podb()
 
 void FortranMagics::data(Data* data)
 {
-	assert ( action_ == 0);
+	ASSERT ( action_ == 0);
 	action_ = new VisualAction();
 	action_->data(data);
 	top()->push_back(action_);
@@ -836,18 +836,34 @@ void FortranMagics::pline()
 	actions();
 
 
-	action_ = new VisualAction();
-	polyinput_todo_ = false;
-	SimplePolylineInput* input = new SimplePolylineInput();
-	top()->push_back(action_);
-	action_->data(input);
+	if ( !action_ ) {
+		action_ = new VisualAction();
+
+		polyinput_todo_ = false;
+		SimplePolylineInput* input = new SimplePolylineInput();
+		top()->push_back(action_);
+		action_->data(input);
+	}
 
 	action_->visdef(new SimplePolylineVisualiser());
 
 
 
 }
+#include "GeoJSon.h"
+void  FortranMagics::geojson()
+{
+	actions();
 
+
+	action_ = new VisualAction();
+
+	GeoJSon* geo = new GeoJSon();
+
+	top()->push_back(action_);
+	action_->data(geo);
+
+}
 #include "WrepJSon.h"
 #include "EpsXmlInput.h"
 #include "EpsGraph.h"
@@ -864,6 +880,7 @@ void  FortranMagics::wrepjson()
 	action_->data(wrep);
 
 }
+
 void  FortranMagics::epsinput()
 {
 	actions();

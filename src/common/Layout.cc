@@ -221,13 +221,13 @@ double Layout::absoluteY() const
 
 double Layout::absoluteWidth() const
 {
-    assert(parent_);
+    ASSERT(parent_);
     return width_ * parent_->absoluteWidth() /100;
 }
 
 double Layout::absoluteHeight() const
 {
-	assert(parent_);
+	ASSERT(parent_);
 	return height_ * parent_->absoluteHeight() /100;
 }
 

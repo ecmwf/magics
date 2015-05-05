@@ -63,7 +63,7 @@ public:
 	template  <class T>
 	static void set(const string& name, const T& value)
 	{
-		assert(table_);
+		ASSERT(table_);
 		BaseParameter* param = (*table_).parameter(name);
 		if (param)
 		{
@@ -81,7 +81,7 @@ public:
 
 	static void set(const string& name, const char* value)
 	{
-		assert(table_);
+		ASSERT(table_);
 		BaseParameter* param = (*table_).parameter(name);
 		if (param)
 			try {
@@ -97,7 +97,7 @@ public:
 	
 	static void setLocal(const BaseParameter* from)
 	{
-		assert(table_);
+		ASSERT(table_);
 		BaseParameter* param = (*table_).parameter(from->name());
 		if (param)
 			try {
@@ -113,7 +113,7 @@ public:
 
 	static void resetLocal(const string& name)
 	{
-		assert(table_);
+		ASSERT(table_);
 		BaseParameter* param = (*table_).parameter(name);
 		if (param)
 		{
@@ -132,7 +132,7 @@ public:
 
 	static void reset(const string& name)
 	{
-		assert(table_);
+		ASSERT(table_);
 		BaseParameter* param = (*table_).parameter(name);
 		if (param) param->reset();
 	}
@@ -144,7 +144,7 @@ public:
 
 	static BaseParameter* getCopy(const string& name)
 	{
-	     assert(table_);
+	     ASSERT(table_);
 	     BaseParameter* param = (*table_).parameter(name);
 	     return (param) ? param->clone() : 0;
 	}
@@ -152,7 +152,7 @@ public:
 	template <class T>
 	static void get(const string& name, T& value)
 	{
-		assert(table_);
+		ASSERT(table_);
 		BaseParameter* param = (*table_).parameter(name);
 		if (param) param->get(value);
 	}
@@ -219,7 +219,7 @@ public:
 		if (!table_) {
      			MagLog::error() << "Problem in setting the parameter [" << name <<  "] ---> contact Magics team" << endl;
 		}
-		assert(table_);
+		ASSERT(table_);
 
 		BaseParameter* param = (*table_).parameter(name);
 		if (!param)
@@ -302,7 +302,7 @@ private:
 
 	// -- Friends
 	friend ostream& operator<<(ostream& s,const ParameterManager& p)
-		{ assert(table_); (*p.table_).print(s); return s; }
+		{ ASSERT(table_); (*p.table_).print(s); return s; }
 };
 
 } // namespace magics

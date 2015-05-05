@@ -80,20 +80,20 @@ public:
 
 	static void execute() 
 	{
-		assert(singleton_);
+		ASSERT(singleton_);
 		MagLog::dev() << "Execute --->" << *(singleton_->magics_->root()) << "\n";
 		singleton_->magics_->execute();
 	}
 
 	static VisualTask<UserPoint>* getGeoTask()
 	{
-		assert(singleton_);
+		ASSERT(singleton_);
 		return singleton_->geoTask();
 	}
 
 	static VisualTask<UserPoint>* getXYTask()
 	{
-		assert(singleton_);
+		ASSERT(singleton_);
 		return singleton_->xyTask();
 	}
 
