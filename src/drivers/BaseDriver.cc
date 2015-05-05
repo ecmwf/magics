@@ -498,7 +498,7 @@ void BaseDriver::printLine(const Polyline &line) const
 
     if (line.getLabel().isVisible() && line.getLabel().getText() != "" && (n > minimum_points_for_labelling))
     {
-	assert(staLayouts_.empty() == false);
+	ASSERT(staLayouts_.empty() == false);
 
 	MFloat *labelx = new MFloat[n];  // in theory, we shouldn't need this many entries...
 	MFloat *labely = new MFloat[n];  // in theory, we shouldn't need this many entries...

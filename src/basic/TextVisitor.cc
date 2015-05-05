@@ -384,7 +384,7 @@ void XmlTextVisitor::set(const XmlNode& node)
 
 void XmlTextVisitor::getReady()
 {
-	assert (BasicSceneObject::parent_);
+	ASSERT (BasicSceneObject::parent_);
 
 	Dimension bottom(bottom_, BasicSceneObject::parent_->absoluteWidth(), 0);
 	Dimension left(left_, BasicSceneObject::parent_->absoluteHeight(), 0);

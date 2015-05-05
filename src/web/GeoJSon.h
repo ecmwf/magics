@@ -27,80 +27,70 @@
     
 */
 
-#ifndef EpsXmlDecoder_H
-#define EpsXmlDecoder_H
+#ifndef GeoJSon_H
+#define GeoJSon_H
 
 #include "magics.h"
 
-#include "EpsXmlInputAttributes.h"
+
+#include "GeoJSonAttributes.h"
+
 #include "Decoder.h"
 #include "Data.h"
 #include "UserPoint.h"
-#include "BasicSceneObject.h"
-#include "XmlReader.h"
 #include "DateTime.h"
+#include "json_spirit.h"
+#include "PointsHandler.h"
 
 #include <limits>
 
 namespace magics {
 
 
-class EpsXmlInput:
-			public Decoder,
+
+class GeoJSon:
 			public Data,
 			public PointsList,
-			public EpsXmlInputAttributes,
-			public XmlNodeVisitor {
+			public GeoJSonAttributes 
+{
 public:
-	EpsXmlInput();
-	virtual ~EpsXmlInput();
+	GeoJSon();
+	virtual ~GeoJSon();
 	
-	virtual void set(const map<string, string>& map) 	{EpsXmlInputAttributes::set(map); }
-	virtual void set(const XmlNode& node) { EpsXmlInputAttributes::set(node); }
+	typedef void (GeoJSon::*Method)(const json_spirit::Value&);
+
+
+	map<string,  Method> methods_;
 	
-	virtual void visit(Transformation&);
-	void visit(const XmlNode& node);
-		
-	virtual void decode();
-  	
-    void customisedPoints(const std::set<string>&, CustomisedPointsList&);
-    void customisedPoints(const Transformation& t, const std::set<string>& n, CustomisedPointsList& out, bool all)
-       {
-       	customisedPoints(n, out);
-       }
-       PointsHandler& points(const Transformation& t, bool) { ASSERT(false);}
+
+
 	
-	virtual void visit(TextVisitor&);
-	virtual void visit(MetaDataVisitor&);
-	
+    void points(const Transformation&, vector<UserPoint>&);
+    void customisedPoints(const Transformation&, const std::set<string>&, CustomisedPointsList&, bool );
+    PointsHandler& points(const Transformation&, bool);
+
+
 protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).
 	 virtual void print(ostream&) const; 
-	 DateTime base_;
+	 void decode();
+	 void coordinates(const json_spirit::Value&);
+	 void properties(const json_spirit::Value&);
+	 void type(const json_spirit::Value&);
 	 vector<CustomisedPoint*> points_;
-	 double minstep_;
-	 double maxstep_;
-	 double miny_;
-	 double maxy_;
-	 string   station_;
-	 double latitude_;
-	 double longitude_;
-	 string   title_;
-	 string   parameter_;
-	 int dateOffset_;
 
-	 
+    
+
 private:
     //! Copy constructor - No copy allowed
-	EpsXmlInput(const EpsXmlInput&);
+	GeoJSon(const GeoJSon&);
     //! Overloaded << operator to copy - No copy allowed
-	EpsXmlInput& operator=(const EpsXmlInput&);
+	GeoJSon& operator=(const GeoJSon&);
 
 // -- Friends
     //! Overloaded << operator to call print().
-	friend ostream& operator<<(ostream& s,const EpsXmlInput& p)
+	friend ostream& operator<<(ostream& s,const GeoJSon& p)
 		{ p.print(s); return s; }
-
 };
 
 } // namespace magics

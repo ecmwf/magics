@@ -506,7 +506,7 @@ MAGICS_NO_EXPORT void QtDriver::unproject() const
 	{
 		MagLog::error() << "--->UNPROJECT (" <<
 			      ") Dimension stack error!" << endl;
-		assert(dimensionStack_.empty() == false);
+		ASSERT(dimensionStack_.empty() == false);
 	}
 
 	coordRatioX_= scalesX_.top();
@@ -640,7 +640,7 @@ MAGICS_NO_EXPORT void QtDriver::closeLayer(MgQLayerItem *qln) const
 	if(!qln) return;
 
 	//Get current layer item
-	//assert(qln->layer().id() == layer.id()); 
+	//ASSERT(qln->layer().id() == layer.id()); 
 
 	//Pop layer item from the stack
 	layerItemStack_.pop();

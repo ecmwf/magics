@@ -154,7 +154,7 @@ void EpsgConfig::init()
 }
 void Epsg::set(const json_spirit::Value& value)
 {
-	assert (value.type() == json_spirit::obj_type);
+	ASSERT (value.type() == json_spirit::obj_type);
 	json_spirit::Object object =value.get_value< json_spirit::Object >();
 	for (vector<json_spirit::Pair>::const_iterator entry = object.begin(); entry !=  object.end(); ++entry) {
 
@@ -170,7 +170,7 @@ void  EpsgConfig::callback(const string& name, const json_spirit::Value& value)
 
 	// here we get an Array of epsg!
 
-	assert (value.type() == json_spirit::array_type);
+	ASSERT (value.type() == json_spirit::array_type);
 	json_spirit::Array values = value.get_value<json_spirit::Array>();
 	for (unsigned int i = 0; i < values.size(); i++) {
 		json_spirit::Object object = values[i].get_value< json_spirit::Object >();
@@ -254,7 +254,7 @@ void Proj4Projection::init()
 	if ( !to_) {
 		MagLog::error() << pj_strerrno(pj_errno) << endl;
 		MagLog::error() << " proj4 error " << projection_->definition() << endl;
-		assert(false);
+		ASSERT(false);
 	}
 
 

@@ -110,7 +110,7 @@ void Coastlines::visit(SceneLayer& layer, vector<LayoutVisitor*>& visitors)
 	// First we create the layer!
 	// and push It to the parent layer! 
 	if (layer.state() == geometry_changed ) {
-		assert (layer_);
+		ASSERT (layer_);
 		layer_->clean();
 	}
 	else 

@@ -218,10 +218,10 @@ public:
     AnimationRules* animationRules() const { return animationRules_; }
     
     const Transformation& transformation() const { 
-    	assert(transformation_); 
+    	ASSERT(transformation_); 
     	return *transformation_; 
     }
-    virtual bool childOfRoot() const { assert(parent_); return parent_->root(); }
+    virtual bool childOfRoot() const { ASSERT(parent_); return parent_->root(); }
     
     void transformation(Transformation* );
     void transformation(Layout& layout) const

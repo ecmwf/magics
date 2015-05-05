@@ -171,7 +171,7 @@ public :
 	~GribFieldPosition() {}
 	bool operator()(int)
 	{
-		assert(magics_);
+		ASSERT(magics_);
 		magics_->resetGrib();
 		return false;
 	}
@@ -1177,6 +1177,10 @@ void pwrepjson_()
 {
 	magics_->wrepjson();
 }
+void pgeojson_()
+{
+	magics_->geojson();
+}
 void pepsinput_()
 {
 	magics_->epsinput();
@@ -1253,6 +1257,7 @@ void mag_symb()  {psymb_();}
 void mag_boxplot()  {pboxplot_();}
 void mag_taylor()  {ptaylor_();}
 void mag_tephi()  {ptephi_();}
+void mag_geojson()  { pgeojson_(); }
 void mag_wrepjson()  { pwrepjson_(); }
 void mag_epsinput()  { pepsinput_(); }
 void mag_epscloud()  { pepscloud_(); }
