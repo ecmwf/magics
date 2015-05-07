@@ -15,7 +15,7 @@ STRING(REGEX REPLACE "\n" ""  TIMESTAMP ${TIMESTAMP})
 
 function( add_magics_test )
 
-    set( options PYTHON  JSON)
+    set( options PYTHON  JSON MAGML)
     set( single_value_args NAME IMAGE THRESHOLD)
     set( multi_value_args  SOURCES DATA RESOURCES )
     cmake_parse_arguments( _p "${options}" "${single_value_args}" "${multi_value_args}"  ${_FIRST_ARG} ${ARGN} )
@@ -114,6 +114,26 @@ function( add_magics_test )
         
             return() 
     endif()
+	if( _p_MAGML )
+	       if ( ENABLE_REGRESSION_UPLOAD ) 
+				ecbuild_add_test(  TARGET   ${target_load}
+                   TYPE SCRIPT
+                   COMMAND  ${REGRESSION_SCRIPT_DIRECTORY}/upload.py
+                   DEPENDS  ${targets} 
+                   
+                   RESOURCES  ${_p_RESOURCES} 
+                   ARGS ${MAGICS_VERSION} ${_p_SOURCES} ${_p_IMAGE} magics/reference/${MAGICS_VERSION}/${where} -i ${CMAKE_BINARY_DIR}/bin/magmlx
+				 )
+            endif()     
+			ecbuild_add_test(  TARGET   ${target}
+                   TYPE SCRIPT
+                   COMMAND  ${REGRESSION_SCRIPT_DIRECTORY}/compare.py
+                   DEPENDS  ${targets}  
+                   RESOURCES  ${_p_RESOURCES} 
+                   ARGS ${TIMESTAMP} ${_p_SOURCES} ${_p_IMAGE}  -n ${BRANCH_NAME} -t ${_p_THRESHOLD}  -o ${MAGICS_HTML_ROOT}  -v ${versions} -i ${CMAKE_BINARY_DIR}/bin/magjmlx -f
+					ENVIRONMENT PYTHONPATH=${MAG_PYTHON_PATH} )
+            return()
+	endif()
 	if( _p_JSON )
 	       if ( ENABLE_REGRESSION_UPLOAD ) 
 				ecbuild_add_test(  TARGET   ${target_load}

@@ -94,8 +94,12 @@ void MarkerShadingTechnique::visit(LegendVisitor& legend, const ColourTechnique&
      {
          Interval   range  = interval->first;
          Symbol* symbol = interval->second;
+         Symbol* add = new Symbol();
+         add->setColour(symbol->getColour());
+         add->setMarker(symbol->getMarker());
+         add->setHeight(symbol->getHeight());
                  
-         legend.add(new SymbolEntry(range.min_, range.max_, symbol));
+         legend.add(new SymbolEntry(range.min_, range.max_, add));
      }
 
 }
