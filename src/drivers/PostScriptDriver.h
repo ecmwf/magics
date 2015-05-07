@@ -113,7 +113,7 @@ private:
 
 	MAGICS_NO_EXPORT void writePSFileHeader() const;
 	MAGICS_NO_EXPORT void writePSFileEnd() const;
-	MAGICS_NO_EXPORT void copyMacro(fstream *m, const string &file) const;
+	//MAGICS_NO_EXPORT void copyMacro(fstream *m, const string &file) const;
 	MAGICS_NO_EXPORT void setDeviceColourModel(const string &m) const;
 	MAGICS_NO_EXPORT fstream* getStream() const {return &PSOut_;}
 	MAGICS_NO_EXPORT int getDeviceColourModel() const {return deviceColourModel_;}
