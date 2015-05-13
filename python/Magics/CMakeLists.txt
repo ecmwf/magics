@@ -39,6 +39,11 @@ if( ENABLE_PYTHON AND NUMPY_FOUND )
   # set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
   set_target_properties(_Magics PROPERTIES INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
 
+  ### make it available in the build dir
+
+  file( MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/${PYTHON_SITE} )
+
+  execute_process( COMMAND ${CMAKE_COMMAND} -E create_symlink ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_BINARY_DIR}/${PYTHON_DEST} )
 
   ### install to final destination
 
