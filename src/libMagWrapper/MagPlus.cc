@@ -398,7 +398,6 @@ bool MagPlus::page(magics::MagRequest& in)
 
 	while ( !empty() ) pop();
 
-	replace_string(in, "PAGE_FRAME_COLOUR", "BLUE", "grey");
 	geographical_ = true;
 	in.print();
 	FortranSceneNodeWrapper scenehelper;

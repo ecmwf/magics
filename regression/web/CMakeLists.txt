@@ -10,3 +10,5 @@ add_magics_test(NAME web_epsgram_sample SOURCES epsgram_sample.py
 add_magics_test(NAME web_cmf_timeseries SOURCES cmf_timeseries.json  IMAGE cmf_timeseries.png DATA cmf.nc THRESHOLD 2 JSON)
 add_magics_test(NAME web_cmf_graph SOURCES cmf_graph.py  IMAGE cmf_graph.png DATA cmf.nc THRESHOLD 2 PYTHON)
 
+add_magics_test(NAME web_globalefi SOURCES globalefi.magml  IMAGE globalefi.png DATA efi_2t0.grib  efi_fx0.grib  efi_tp0.grib  em0.grib THRESHOLD 2 MAGML)
+
