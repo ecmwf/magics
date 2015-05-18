@@ -1,6 +1,6 @@
 #!/usr/bin/ksh
 
-version="2.25.0"
+version="2.25.1"
 git_home="/tmp/cgs/git/develop"
 magics=""
 debug="off"
@@ -48,11 +48,11 @@ case "${OS_VERSION}" in
     ;;
     opensuse131) # New Local worksation
         #module load boost/1.55.0
-        use='metview-debug'
         use='daily'
+        use='metview-debug'
         if [[ $use = 'daily' ]]; then
             tar='on'
-            regression="on"
+            regression="off"
             metview='off'
             debug='off'
             build_home="/tmp/cgs/build/$version/daily"

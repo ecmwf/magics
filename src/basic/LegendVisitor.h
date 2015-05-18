@@ -88,6 +88,7 @@ public:
 	void first() { first_ = true; }
 	void notext() { text_ = false; }
 	void text() { text_ = true; }
+	void factor(double factor) { factor_ = factor; }
 	
 	void width(double width) { width_ = width; }
 	PaperPoint centreSymbolBox(const PaperPoint&);
@@ -121,6 +122,7 @@ protected:
 	MagFont font_;
 	double angle_;
 	double width_;
+	double factor_;
 
 	int population_;
 	int totalPopulation_;
