@@ -174,7 +174,7 @@ double BasicSceneNode::absoluteHeight()   const
 
 void BasicSceneNode::newpage()
 {
-	assert(manager_);
+	ASSERT(manager_);
 	manager_->newpage();
 }
 

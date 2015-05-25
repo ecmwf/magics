@@ -81,9 +81,7 @@ Display *dpy;
 #define FONT_SCALE 25*.7  //! \todo clean-up!!!
 
 extern "C"{
-#include "libimagequant/rwpng.h"
-//#include "libimagequant/libimagequant.h"
-#include "libimagequant/pngquant.c"
+#include "libimagequant/pngquant.h"
 }
 
 using namespace magics;

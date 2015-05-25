@@ -218,6 +218,7 @@ void LegendVisitor::build()
 		MagFont font(font_, font_style_, font_size_);
 		font.colour(*colour_);
 		(*entry)->font(font);
+		(*entry)->factor(symbol_factor_);
 		(*entry)->angle((orientation_/180.)*3.14);
 		(*entry)->borderColour(entry_border_ ? *entry_border_colour_ : Colour("automatic"));
 
@@ -1146,7 +1147,7 @@ void LegendVisitor::getReady()
 
 void XmlLegendVisitor::getReady()
 {
-	assert(BasicSceneObject::parent_);
+	ASSERT(BasicSceneObject::parent_);
 
 	Dimension bottom(bottom_, BasicSceneObject::parent_->absoluteWidth(), 0);
 	Dimension left(left_, BasicSceneObject::parent_->absoluteHeight(), 0);
@@ -1250,6 +1251,8 @@ void LegendEntry::set(const LegendVisitor& attributes)
 
 void SimpleSymbolEntry::set(const PaperPoint& point, BasicGraphicsObjectContainer& legend)
 {
+	symbol_->setHeight(symbol_->getHeight()*factor_);
+
 	symbol_->push_back(centreSymbolBox(point));
 	legend.push_back(symbol_);
 }
@@ -1277,6 +1280,7 @@ const string& LegendEntry::label() const
 }
 void SimpleSymbolEntry::rowBox(const PaperPoint& point, BasicGraphicsObjectContainer& legend)
 {
+
 	Polyline* box = new Polyline();
 	FillShadingProperties* shading = new FillShadingProperties();
 	box->setFillColour(colour());

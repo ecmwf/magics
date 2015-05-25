@@ -135,13 +135,13 @@ struct Index
 	}
 	virtual int operator()(const string& val,  NcValues* values, long nb )
 	{
-		assert(false);
+		ASSERT(false);
 	}
 	static int get(const NcType& type, const string& val,  NcValues* values, long nb)
 	{
 		map<NcType, Index*>::const_iterator tool = tools_->find(type);
 		if ( tool == tools_->end() ) {
-			assert(false);
+			ASSERT(false);
 			throw new MagicsException("No Index available");
 		}
         

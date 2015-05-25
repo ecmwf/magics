@@ -1565,20 +1565,124 @@ MAGICS_NO_EXPORT void PostScriptDriver::writePSFileHeader() const
 	if(!isEPS()) *ps << "/S { gr showpage } def\n";
 	else *ps << "/S {gr} def\n"; // define "showpage" empty for EPS files
 
-	copyMacro(ps,"PostScriptMacro1.ps");
+	//copyMacro(ps,"PostScriptMacro1.ps");
+	*ps << "/m {moveto} def /st {stroke} def /rl {rlineto} def /ro {rotate} def /cp {closepath} def /d { {rmoveto rlineto} repeat stroke} bind def /gr {grestore} def /gs {gsave} def /n { newpath } def\n" 
+	    << "/sa {save} def /lw {setlinewidth } def /ar {arc fill} def /arn {arcn fill} def\n"
+	    << "/sd {setdash} def /C { setrgbcolor } def /Y { setcmykcolor } def  /B { moveto rlineto stroke } bind def /BB { moveto lineto stroke } bind def /t { translate } def /s {scale} def /K { /UY exch def /UX exch def /LY exch def \n"
+	    << "/LX exch def gsave newpath LX LY moveto UX LY lineto UX UY lineto LX UY lineto closepath newpath } def /lp { moveto rlineto } bind def /p { moveto {rlineto} repeat stroke} bind def /po { moveto {rlineto} repeat } bind def\n"
+	    << "/q {moveto rlineto stroke} bind def /f {moveto {rlineto} repeat fill} bind def /e {moveto {rlineto} repeat eofill} bind def /F {moveto {rlineto} repeat} bind def /E {eofill} bind def /P { closepath } bind def\n"
+	    << "/SAVEMT matrix def\n"
+	    << "/Degreevec\n"
+	    << "[\n"
+	    << "	8#100 /at 8#251 /copyright 8#260 /degree 8#306 /AE 8#301 /Aacute 8#304 /Adieresis 8#300 /Agrave 8#305 /Aring 8#303 /Atilde 8#307 /Ccedilla 8#311 /Eacute 8#312 /Ecircumflex 8#313 /Edieresis 8#310 /Egrave\n"
+	    << "	8#320 /Eth 8#315 /Iacute 8#316 /Icircumflex 8#317 /Idieresis 8#314 /Igrave 8#321 /Ntilde 8#323 /Oacute 8#325 /Odieresis 8#322 /Ograve 8#330 /Oslash 8#325 /Otilde 8#336 /Thorn 8#332 /Uacute 8#333 /Ucircumflex\n"
+	    << "	8#334 /Udieresis 8#331 /Ugrave 8#335 /Yacute 8#341 /aacute 8#342 /acircumflex 8#222 /acute 8#264 /acute 8#344 /adieresis 8#346 /ae 8#340 /agrave 8#345 /aring 8#343 /atilde\n"
+	    << "	8#226 /breve 8#246 /brokenbar 8#237 /caron 8#347 /ccedilla 8#270 /cedilla 8#242 /cent 8#223 /circumflex 8#244 /currency 8#250 /dieresis 8#227 /dotaccent 8#220 /dotlessi\n"
+	    << "	8#351 /eacute 8#352 /ecircumflex 8#350 /egrave 8#360 /eth 8#241 /exclamdown 8#337 /germandbls 8#221 /grave 8#253 /guillemotleft 8#273 /guillemotright 8#235 /hungarumlaut\n"
+	    << "	8#255 /hyphen 8#355 /iacute 8#356 /icircumflex 8#357 /idieresis 8#354 /igrave 8#254 /logicalnot 8#257 /macron 8#265 /mu\n"
+	    << "	8#327 /multiply 8#361 /ntilde 8#363 /oacute 8#364 /odieresis 8#236 /ogonek 8#362 /ograve 8#275 /onehalf 8#274 /onequarter 8#271 /onesuperior 8#252 /ordfeminine\n"
+	    << "	8#272 /ordmasculine 8#370 /oslash 8#365 /otilde 8#266 /paragraph 8#267 /periodcentered 8#261 /plusminus 8#277 /questiondown 8#256 /registered 8#232 /ring 8#247 /section 8#243 /sterling\n"
+	    << "	8#376 /thorn 8#276 /threequarters 8#263 /threesuperior 8#224 /tilde 8#262 /twosuperior 8#372 /uacute 8#373 /ucircumflex 8#374 /udieresis 8#371 /ugrave 8#375 /yacute 8#377 /ydieresis 8#245 /yen\n"
+	    << "] def\n"
+	    << "/reencsmalldict 12 dict def\n"
+	    << "/ReEncodeSmall\n"
+	    << "{	reencsmalldict begin\n"
+	    << "	/basefontname exch def\n"
+	    << "	/basefontdict basefontname findfont def\n"
+	    << "	/newfont basefontdict maxlength dict def\n"
+	    << "	basefontdict\n"
+	    << "	{ exch dup /FID ne\n"
+	    << "		{ dup /Encoding eq\n"
+	    << "			{ exch dup length array copy newfont 3 1 roll put}\n"
+	    << "		{exch newfont 3 1 roll put}\n"
+	    << "		ifelse\n"
+	    << "	}\n"
+	    << "	{ pop pop }\n"
+	    << "	ifelse\n"
+	    << "	} forall\n"
+	    << "	newfont /FontName /Magicsfontname put\n"
+	    << "	Degreevec aload pop\n"
+	    << "	Degreevec length 2 idiv\n"
+	    << "	{newfont /Encoding get 3 1 roll put\n"
+	    << "	} repeat\n"
+	    << "	/Magicsfontname newfont definefont pop\n"
+	    << "	end\n"
+	    << "} def\n"
+	    << "/SF\n"
+	    << "{\n"
+	    << "/Height exch def\n"
+	    << "/Font exch def\n";
 
 	fontMapIter mapit;
 
 	for(mapit = FontMap_.begin();mapit != FontMap_.end(); mapit++)
 		*ps << "Font " << (*mapit).second.id << " eq { /"<< (*mapit).second.ps_name<< " } if\n";
 
-	copyMacro(ps,"PostScriptMacro2.ps");
-	*ps << endl;
+	//copyMacro(ps,"PostScriptMacro2.ps");
+	*ps << "ReEncodeSmall /Magicsfontname findfont Height scalefont setfont\n"
+	    << "} def\n"
+	    << "/SUP\n"
+	    << "{ /CHUPY exch def /CHUPX exch def } def\n"
+	    << "/ST\n"
+	    << "{ /YPOS exch def /XPOS exch def [ CHUPY CHUPX neg CHUPX CHUPY XPOS YPOS ] concat} def\n"
+	    << "/SHA\n"
+	    << "{ /a exch def a 0 eq { /HA 0 def  } if a 1 eq { /HA -0.5 def } if a 2 eq { /HA -1 def } if } def\n"
+	    << "/SVA\n"
+	    << "{ /b exch def\n"
+	    << "	Font  4 lt { b 0 eq { /VA 0 def } if b 1 eq { /VA -0.7 def } if b 2 eq { /VA -0.6625 def } if b 3 eq { /VA -0.33125 def } if b 4 eq { /VA 0 def } if b 5 eq { /VA 0.0375 def } if\n"
+	    << "	} if\n"
+	    << "	Font  8 lt { b 0 eq { /VA 0 def } if b 1 eq { /VA -0.76 def } if b 2 eq { /VA -0.725 def } if b 3 eq { /VA -0.3625 def } if b 4 eq { /VA 0 def } if b 5 eq { /VA 0.035 def } if\n"
+	    << "	} if\n"
+	    << "	Font 12 lt { b 0 eq { /VA 0 def } if b 1 eq { /VA -0.7 def } if b 2 eq { /VA -0.6625 def } if b 3 eq { /VA -0.33125 def } if b 4 eq { /VA 0 def } if b 5 eq { /VA 0.0375 def } if\n"
+	    << "	} if\n"
+	    << "	Font 12 eq { b 0 eq { /VA 0 def } if b 1 eq { /VA -0.7 def } if b 2 eq { /VA -0.6625 def } if b 3 eq { /VA -0.33125 def } if b 4 eq { /VA 0 def } if b 5 eq { /VA 0.0375 def } if\n"
+	    << "	} if\n"
+	    << "	Font 12 gt { b 0 eq { /VA 0 def } if b 1 eq { /VA -0.7 def } if b 2 eq { /VA -0.6625 def } if b 3 eq { /VA -0.33125 def } if b 4 eq { /VA 0 def } if b 5 eq { /VA 0.0375 def } if\n"
+	    << "	} if\n"
+	    << "} def\n"
+	    << "/T\n"
+	    << "{\n"
+	    << "	ST\n"
+	    << "	/text exch def\n"
+	    << "	text stringwidth pop HA mul VA Height mul moveto\n"
+	    << "	text show\n"
+	    << "} def\n"
+	    << "/TU\n"
+	    << "{\n"
+	    << "	ST\n"
+	    << "	/text exch def\n"
+	    << "	text stringwidth pop HA mul VA Height mul moveto\n"
+	    << "	text show\n"
+	    << "	n\n"
+	    << "	text stringwidth pop HA mul VA Height mul moveto\n"
+	    << "	text stringwidth rl\n"
+	    << "	cp st\n"
+	    << "} def\n"
+	    << "/TB\n"
+	    << "{\n"
+	    << "	ST\n"
+	    << "	/text exch def\n"
+	    << "	text stringwidth\n"
+	    << "	4 add /y1 exch def\n"
+	    << "	4 add /x1 exch def\n"
+	    << "	text stringwidth pop HA mul VA Height mul moveto\n"
+	    << "	gs n x1 -2 add HA mul VA Height mul -2 add moveto x1 0 rlineto 0 12 Height add .7 mul rlineto x1 neg 0 rlineto cp 1 setgray fill gr\n"
+	    << "	text show\n"
+	    << "} def\n"
+	    << "/ushow\n"
+	    << "{\n"
+	    << "	SAVEMT currentmatrix pop\n"
+	    << "	/text exch def\n"
+	    << "	text show\n"
+	    << "	SAVEMT setmatrix\n"
+	    << "} def\n"
+	    << "%%EndProlog" << endl;
 }
 
 /*!
    \brief Method copying macro code in the PostScript file header.
 */
+/*
 MAGICS_NO_EXPORT void PostScriptDriver::copyMacro(fstream *ps, const string &file) const
 {
 	const string s = getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_ + file;
@@ -1593,7 +1697,7 @@ MAGICS_NO_EXPORT void PostScriptDriver::copyMacro(fstream *ps, const string &fil
 	while (psfile.get(ch)){ps->put(ch);}
 	psfile.close();
 }
-
+*/
 
 MAGICS_NO_EXPORT void PostScriptDriver::writePSFileEnd() const
 {

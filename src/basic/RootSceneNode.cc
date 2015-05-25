@@ -375,7 +375,7 @@ BasicSceneNode* RootSceneNode::insert(BasicPositionalObject* node)
 
 BasicSceneNode* RootScenePage::newNode(BasicPositionalObject* node)
 {
-	assert(root_);
+	ASSERT(root_);
 	
 	RootScenePage* page = newPage();
 	page->manager_ = manager_->clone();
@@ -452,7 +452,7 @@ void RootScenePage::resize(double width, double height)
 {
 	width_ = width;
 	height_ = height;
-	assert(layout_);
+	ASSERT(layout_);
 	layout_->resize(width, height);
 
 }

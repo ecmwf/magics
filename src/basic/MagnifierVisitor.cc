@@ -118,7 +118,7 @@ void MagnifierVisitor::redisplay(const BaseDriver& driver, vector<PaperPoint>& p
 		// Update the view from the transfomation
 		
 		// visit the owner to get the info!
-		assert(owner_);
+		ASSERT(owner_);
 		double xmin = pp.front().x();
 		double xmax = pp.front().x();
 		double ymin = pp.front().y();

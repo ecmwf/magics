@@ -91,7 +91,7 @@ AsIsAnimationRules::~AsIsAnimationRules()
 
 void AnimationRules::add(StepLayer& )
 {
-	assert(false);
+	ASSERT(false);
 }
 
 void AsIsAnimationRules::add(StepLayer& objects )

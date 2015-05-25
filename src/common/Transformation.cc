@@ -763,7 +763,7 @@ double Transformation::distance(UserPoint& point1, UserPoint& point2) const
 	fast_reproject(x1, y1);
 	fast_reproject(x2, y2);
 
-	return sqrt (( x1-x2 ) *  ( x1-x2 ) + ( y1-y2 ) *  ( y1-y2 ));
+	return sqrt ((( x1-x2 ) *  ( x1-x2 ) ) + (( y1-y2 ) *  ( y1-y2 )));
 
 
 }
