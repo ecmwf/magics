@@ -57,7 +57,7 @@ void ContourLibrary::askId(MetaDataCollector& meta)
 
 bool ContourLibrary::checkId(MetaDataCollector& metaId,MetaDataCollector& metaKey)
 {
-	//Obstat
+   	//Obstat
 	if(metaId["observationDiagnostic"] !="")
 	{		
 		if(!setInfoObject("ObstatGrib"))
