@@ -46,6 +46,7 @@
 #include "XYList.h"
 #include "EpsXmlInput.h"
 #include "WrepJSon.h"
+#include "GeoJSon.h"
 #include "SymbolPlotting.h"
 #include "Contour.h"
 #include "Wind.h"
@@ -133,7 +134,7 @@ XmlMagics::XmlMagics() : root_(0),
 
 	actions_["epsxml"] = &XmlMagics::epsxml;
 	actions_["wrepjson"] = &XmlMagics::wrepjson;
-
+	actions_["geojson"] = &XmlMagics::geojson;
 	
 	actions_["epsbufr"] = &XmlMagics::epsbufr;
 	actions_["epsgraph"] = &XmlMagics::epsgraph;
@@ -185,7 +186,7 @@ void XmlMagics::execute(XmlTree& tree)
 	if ( driversToSet_ ) 
 		output_.set(drivers_);
 
-	assert(root_);
+	ASSERT(root_);
 
 	root_->execute();
 
@@ -254,7 +255,7 @@ void XmlMagics::display(const string& file)
 	if ( driversToSet_ ) 
 		output_.set(drivers_);
 
-	assert(root_);
+	ASSERT(root_);
 	root_->getReady();
 	drivers_.setDriversWidth(root_->absoluteWidth());
 	drivers_.setDriversHeight(root_->absoluteHeight());
@@ -496,7 +497,7 @@ void XmlMagics::gribloop(const XmlNode& node)
 void XmlMagics::splitinloop(const XmlNode& ) 
 {
 	/* later!
-	assert(gribloop_);
+	ASSERT(gribloop_);
 
 	LayerNode* layer = new LayerNode();
 	layer->set(node);
@@ -510,7 +511,7 @@ void XmlMagics::splitinloop(const XmlNode& )
 
 void XmlMagics::gribinloop(const XmlNode&)
 {	
-	assert(gribloop_);
+	ASSERT(gribloop_);
 	top()->data(gribloop_->current());
 }
 
@@ -708,7 +709,13 @@ void XmlMagics::wrepjson(const XmlNode& node)
 	wrep->set(node);
 	top()->data(wrep);
 }
+void XmlMagics::geojson(const XmlNode& node)
+{
 
+	GeoJSon* geo = new GeoJSon();
+	geo->set(node);
+	top()->data(geo);
+}
 
 #ifdef MAGICS_BUFR
 #include "EpsBufr.h"

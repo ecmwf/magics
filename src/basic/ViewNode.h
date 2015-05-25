@@ -51,7 +51,7 @@ public:
 	virtual ~ViewNode();
 	void setInteractiveInfo(const string& id, int levels, int level) {
 		name(id);
-		assert(layout_);
+		ASSERT(layout_);
 		layout_->id(id);
 		id_ = id;
 		zoomLevels_ = levels;
@@ -85,7 +85,7 @@ protected:
 	
 	 virtual void copy(const ViewNode&);
 
-	 Transformation& transformation() const { assert(viewTransformation_); return *viewTransformation_; }
+	 Transformation& transformation() const { ASSERT(viewTransformation_); return *viewTransformation_; }
 	 
 	 Transformation* viewTransformation_;
 	 

@@ -290,7 +290,7 @@ double  TopAxisVisitor::offsetTip()
 
 void BottomAxisVisitor::tick(double& y1, double& y2, bool out )
 {
-	assert(current_);
+	ASSERT(current_);
 	double length =  ((current_->ymax_ - current_->ymin_)/current_->absoluteHeight()) * 0.15; 
 	y2 = current_->ymax_;
 	y1 =  (out) ? y2 - length : y2 + length;
@@ -340,7 +340,7 @@ double  BottomAxisVisitor::offsetTip()
 
 void LayoutVisitor::push_back(BasicGraphicsObject* object)
 {
-	assert(current_);
+	ASSERT(current_);
 	current_->push_back(object);
 }
 void DrawingVisitor::set(MagnifierCollector& magnifier) 
@@ -353,8 +353,8 @@ void DrawingVisitor::set(MagnifierCollector& magnifier)
 void LayoutVisitor::newLayout() const { current_ = layout_->clone(); }
 
 Layout&  LayoutVisitor::layout() const { if ( !current_ ) newLayout(); return *current_; }
-Layout*  LayoutVisitor::layoutPtr() const { assert(layout_);  return current_;  }
-Layout*  LayoutVisitor::mainLayout() const { assert(layout_); return layout_; }
+Layout*  LayoutVisitor::layoutPtr() const { ASSERT(layout_);  return current_;  }
+Layout*  LayoutVisitor::mainLayout() const { ASSERT(layout_); return layout_; }
 
 Justification TopAxisVisitor::justificationTickLabel(const string& orientation)
 {

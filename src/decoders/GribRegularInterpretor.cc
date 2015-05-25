@@ -582,6 +582,7 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
 	double east = grib.getDouble("longitudeOfLastGridPointInDegrees");
 	double plp = grib.getDouble("PLPresent");
 	long res = grib.getLong("numberOfParallelsBetweenAPoleAndTheEquator");
+
 	longitudesSanityCheck(west, east);
 	MagLog::dev() << "NewAPI---> area[" << west << ", " << north << ", " << east
 			<< ", " << south << "]" << "\n";
@@ -589,16 +590,16 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
 	MagLog::dev() << "Res---> " << res << "\n";
 
 	double pl[2 * res];
-
 	size_t aux = 2 * res;
 	grib_get_double_array(grib.id(), "pl", pl, &aux);
-    int x = 0;
+    int nblon = 0;
     for ( int i = 0; i < aux; i++)
-        x += pl[i];
+        if ( pl[i] > nblon) nblon = pl[i];
 
 	double array[2 * res];
-	long par = grib.getLong("numberOfParallelsBetweenAPoleAndTheEquator");
-	grib_get_gaussian_latitudes(par, array);
+	grib_get_gaussian_latitudes(res, array);
+
+	MagLog::dev() << "Resolution ---> " << nblon << "???" << 4 * res << "\n";
 
 	// We have to determine if the field is global!
 	if (north - south > 175.) {
@@ -608,17 +609,17 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
 	// compute the number of points we'll be adding to the matrix so that we can
 	// allocate them in one go, rather than allowing the STL to re-allocate
 	// when we reach the capacity
-	(*matrix)->reserve(aux * 4 * res);
+	(*matrix)->reserve(aux * nblon);
 
 	double *data = new double[nb];
 
 	size_t aux2 = size_t(nb);
-	int nblon = 4 * res;
+
 	double width = east - west;
 	double step = (width) / (nblon);
 
 	grib_get_double_array(grib.id(), "values", data, &aux2);
-    cout << x << "==" << aux2  << " ??? " << endl;
+
 	int d = 0;
 	for (size_t i = 0; i < aux; i++) {
 		vector<double> p;
@@ -633,7 +634,7 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
 		double lon1 = west;
 		double lon2 = lon1 + (width / (p.size()));
 
-		for (int x = 0; x < 4 * res; x++) {
+		for (int x = 0; x < nblon; x++) {
 
 			if (lon >= lon2) {
 				p1++;
@@ -645,7 +646,7 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
 			double d2 = 1 - d1;
 			double val;
 
-			assert(p1 < p.size());
+			ASSERT(p1 < p.size());
 			if (p2 == p.size()) {
 				(*matrix)->push_back(p[p1]);
 			} else {
@@ -673,6 +674,7 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
 
 
 	for (int i = 0; i < 2 * res; i++) {
+
 		(*matrix)->rowsAxis().push_back(array[i]);
 	}
 	(*matrix)->setMapsAxis();
@@ -767,7 +769,7 @@ void GribReducedLatLonInterpretor::interpretAsMatrix(const GribDecoder& grib,
 
 				d++;
 			}
-			assert( p.size() ==  pl[i]);
+			ASSERT( p.size() ==  pl[i]);
 
 
 			vector<double>::iterator val = p.begin();
@@ -1647,7 +1649,7 @@ void GribLambertInterpretor::print(ostream& out) const {
 
 PaperPoint GribLambertAzimutalInterpretor::reference(const GribDecoder&, const Transformation&)
 {
-	assert(false);
+	ASSERT(false);
 
 }
 

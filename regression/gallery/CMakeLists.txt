@@ -29,6 +29,7 @@ add_magics_test(NAME gallery_contour9 SOURCES contour9.py IMAGE contour9.png DAT
 add_magics_test(NAME gallery_epsboxplot SOURCES epsboxplot.py IMAGE epsboxplot.png RESOURCES cloud_box.json THRESHOLD 5 PYTHON)
 
 add_magics_test(NAME gallery_frame SOURCES frame.py IMAGE frame.png  THRESHOLD 1 PYTHON)
+add_magics_test(NAME gallery_geojson_multilines SOURCES geojson_multilines.py IMAGE geojson_multilines.png RESOURCES warm_fronts.geojson cold_fronts.geojson THRESHOLD 1 PYTHON)
 
 add_magics_test(NAME gallery_epsrose SOURCES epsrose.py IMAGE epsrose.png RESOURCES cloud_rose.json THRESHOLD 5 PYTHON)
 add_magics_test(NAME gallery_epswave SOURCES epswave.py IMAGE epswave.png RESOURCES wave.json THRESHOLD 5 PYTHON)

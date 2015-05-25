@@ -68,12 +68,12 @@ public:
     virtual void operator()(Polyline*) const {};
     virtual bool prepare(const LevelSelection&, const ColourTechnique&)  { return false; }   
     virtual void visit(LegendVisitor&, const ColourTechnique&) {}   
-    virtual int index(double) { assert(0); return -1; }
-    virtual int leftIndex(double) { assert(0); return -1; }
-    virtual int rightIndex(double) { assert(0); return -1; }
+    virtual int index(double) {  return -1; }
+    virtual int leftIndex(double) {  return -1; }
+    virtual int rightIndex(double) {  return -1; }
     virtual CellArray* array(MatrixHandler& matrix, IntervalMap<int>& range,
        		const Transformation& transformation, int width, int height,
-       		float resolution, const string& technique) { assert(0); return 0;}
+       		float resolution, const string& technique) { ASSERT(0); return 0;}
     virtual bool needClipping() { return false; }
     virtual bool method(ContourMethod*) { return false; }
 protected:

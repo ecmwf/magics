@@ -91,6 +91,7 @@ void GribDecoder::set(const GribLoop& loop, int index)
 	scaling_offset_  = loop.scaling_offset_;
 	scaling_factor_  = loop.scaling_factor_;
 	index_           = loop.uniqueId_;
+	interpolation_method_ = loop.interpolation_method_;
 	wind_mode_       = auto_ptr<WindMode>(loop.wind_mode_->clone());
 	internalIndex_ = index;
 
@@ -538,15 +539,15 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 	map<double, map<double, CustomisedPoint*> > data;
 
 
-		string xc = "x_component";
-		string yc = "y_component";
-		string cc = "colour_component";
+	string xc = "x_component";
+	string yc = "y_component";
+	string cc = "colour_component";
 
-		vector<pair<double, vector<pair<double, CustomisedPoint*> > > > points;
-		double minlon, maxlon;
-		interpretor_->raw(*this, transformation, points, minlon, maxlon);
-		double missing = getDouble("missingValue");
-		if ( thinx ) {
+	vector<pair<double, vector<pair<double, CustomisedPoint*> > > > points;
+	double minlon, maxlon;
+	interpretor_->raw(*this, transformation, points, minlon, maxlon);
+	double missing = getDouble("missingValue");
+	if ( thinx ) {
 		vector<pair<double, double> > positions;
 
 		PaperPoint xy = interpretor_->reference(*this, transformation);
@@ -555,7 +556,8 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 		vector<pair<double, double> >::iterator pos = positions.begin();
 		out.reserve(positions.size());
 
-		std::reverse(points.begin(),points.end());
+		if ( points.front().first > points.back().first )
+			std::reverse(points.begin(),points.end());
 
 		for ( pos = positions.begin(); pos != positions.end(); ++pos) {
 			double offset = 0.;
@@ -571,121 +573,154 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 				offset += 360.;
 			}
 			UserPoint ref(lon, lat);
+			//cout << "Reference " << ref << endl;
 
 			vector<pair<double, vector<pair<double, CustomisedPoint*> > > >::iterator y;
 			vector<pair<double, CustomisedPoint*> >::iterator x;
-
-
-			y = std::lower_bound(points.begin(), points.end(), pos->second, Compare());
-
-
-			if (y == points.end() ) {
-
-				continue;
-                }
-
-			if (y!=points.begin() )
-
-			map<double, CustomisedPoint*> result;
-
-			x = std::lower_bound(y->second.begin(), y->second.end(), lon, Compare());
-			UserPoint check(x->first, y->first);
-
-			double val = transformation.distance(check, ref);
-			double min = val;
-			CustomisedPoint* point = x->second;
-
-
-			if ( x != y->second.begin() ) {
-				--x;
-				UserPoint check(x->first, y->first);
-				val = transformation.distance( check, ref );
-				if ( val < min ) {
-					min = val;
-					point = x->second;
-				}
-
+			CustomisedPoint* point = 0;
+			if (thinning_debug_) {
+				CustomisedPoint* add = new CustomisedPoint(lon, lat, "");
+							add->insert(make_pair("x_component", 0.1));
+							add->insert(make_pair("y_component", 0.1));
+				out.push_back(add);
 			}
+			y = std::lower_bound(points.begin(), points.end(), lat, Compare());
 
-			if (y != points.begin() ) {
-				--y;
+			if ( same(y->first,lat) ) {
 
 				x = std::lower_bound(y->second.begin(), y->second.end(), lon, Compare());
-				UserPoint check(x->first, y->first);
-				val = transformation.distance( check, ref );
-				if ( val < min ) {
-					min = val;
+				if ( x->first == lon ) {
 					point = x->second;
 				}
-
-
-				if ( x != y->second.begin() ) {
-					--x;
+				else {
 					UserPoint check(x->first, y->first);
-					val = transformation.distance( check, ref );
 
+					double val = transformation.distance(check, ref);
+					double min = val;
+					point = x->second;
+					//cout << "CHECK1" << check << " -->" << val << endl;
+					--x;
+					check = UserPoint(x->first, y->first);
+					val = transformation.distance( check, ref );
+					//cout << "CHECK2" << check << " -->" << val << endl;
 					if ( val < min ) {
 						min = val;
 						point = x->second;
 					}
-
 				}
 
+				if ( (*point)["x_component"] != missing && (*point)["y_component"] != missing ) {
+					CustomisedPoint *add = new CustomisedPoint(point->longitude()+offset, point->latitude(), "");
+					pair<double, double> value = (*wind_mode_)((*point)["x_component"], (*point)["y_component"]);
+					add->insert(make_pair("x_component", value.first));
+					add->insert(make_pair("y_component", value.second));
+					//cout << "add " << *add << endl;
+					out.push_back(add);
+
+				}
+				continue;
+			}
+
+
+			if ( y == points.end() || y == points.begin()) {
+				//point is outside!
+				continue;
 			}
 
 
 
+			x = std::lower_bound(y->second.begin(), y->second.end(), lon, Compare());
 
+			if ( x == y->second.end() )
+				continue;
+			if ( x == y->second.begin() && !same(x->first,lon) ) {
+				//point is outside!
+				continue;
+			}
+
+			UserPoint check(x->first, y->first);
+			double val = transformation.distance(check, ref);
+			double min = val;
+			//cout << "CHECK3" << check << " -->" << val << endl;
+			point = x->second;
+			if ( x != y->second.begin() ) {
+				--x;
+				check = UserPoint(x->first, y->first);
+				val = transformation.distance( check, ref );
+				//cout << "CHECK4" << check << " -->" << val << endl;
+				if ( val < min ) {
+					min = val;
+					point = x->second;
+				}
+			}
+
+			--y;
+			x = std::lower_bound(y->second.begin(), y->second.end(), lon, Compare());
+			//cout << "x=" << x->first << endl;
+
+
+
+				check = UserPoint(x->first, y->first);
+				val = transformation.distance( check, ref );
+				//cout << "CHECK5" << check << " -->" << val << endl;
+				if ( val < min ) {
+					min = val;
+					point = x->second;
+				}
+				if ( x != y->second.begin() ) {
+					--x;
+					check = UserPoint(x->first, y->first);
+					val = transformation.distance( check, ref );
+					//cout << "CHECK6" << check << " -->" << val << endl;
+					if ( val < min ) {
+						min = val;
+						point = x->second;
+					}
+				}
 
 			if ( (*point)["x_component"] != missing && (*point)["y_component"] != missing) {
-
 				CustomisedPoint *add = new CustomisedPoint(point->longitude()+offset, point->latitude(), "");
-								pair<double, double> value = (*wind_mode_)((*point)["x_component"], (*point)["y_component"]);
+				pair<double, double> value = (*wind_mode_)((*point)["x_component"], (*point)["y_component"]);
 
-								add->insert(make_pair("x_component", value.first));
-								add->insert(make_pair("x_component", value.first));
-								add->insert(make_pair("y_component", value.second));
-								out.push_back(add);
-
+				add->insert(make_pair("x_component", value.first));
+				add->insert(make_pair("y_component", value.second));
+				//cout << "add " << *add << endl;
+				out.push_back(add);
 
 			}
 
+	}
 
 
-		}
 
+	for ( vector<pair<double, vector<pair<double, CustomisedPoint*> > > >::iterator y = points.begin(); y != points.end(); ++y )
+		for ( vector<pair<double, CustomisedPoint*> >::iterator x = y->second.begin(); x != y->second.end(); ++x)
+			delete x->second;
+	}
+	else {
 		for ( vector<pair<double, vector<pair<double, CustomisedPoint*> > > >::iterator y = points.begin(); y != points.end(); ++y )
-			for ( vector<pair<double, CustomisedPoint*> >::iterator x = y->second.begin(); x != y->second.end(); ++x)
-				delete x->second;
-		}
-		else {
-			for ( vector<pair<double, vector<pair<double, CustomisedPoint*> > > >::iterator y = points.begin(); y != points.end(); ++y )
-				for ( vector<pair<double, CustomisedPoint*> >::iterator x = y->second.begin(); x != y->second.end(); ++x) {
-					CustomisedPoint *point = x->second;
-					if ( (*point)["x_component"] != missing && (*point)["y_component"] != missing ) {
-						double lon = point->longitude();
-						double lat = point->latitude();
-						vector<UserPoint> pos;
-						transformation.populate(lon, lat, 0, pos);
-						for ( vector<UserPoint>::iterator p = pos.begin(); p != pos.end(); ++p) {
-							CustomisedPoint *add = new CustomisedPoint(p->x_, p->y_, "");
-							pair<double, double> value = (*wind_mode_)((*point)["x_component"], (*point)["y_component"]);
-							add->insert(make_pair("x_component", value.first));
-							add->insert(make_pair("y_component", value.second));
-							out.push_back(add);
-						}
+			for ( vector<pair<double, CustomisedPoint*> >::iterator x = y->second.begin(); x != y->second.end(); ++x) {
+				CustomisedPoint *point = x->second;
+				if ( (*point)["x_component"] != missing && (*point)["y_component"] != missing ) {
+					double lon = point->longitude();
+					double lat = point->latitude();
+					vector<UserPoint> pos;
+					transformation.populate(lon, lat, 0, pos);
+					for ( vector<UserPoint>::iterator p = pos.begin(); p != pos.end(); ++p) {
+						CustomisedPoint *add = new CustomisedPoint(p->x_, p->y_, "");
+						pair<double, double> value = (*wind_mode_)((*point)["x_component"], (*point)["y_component"]);
+						add->insert(make_pair("x_component", value.first));
+						add->insert(make_pair("y_component", value.second));
+						out.push_back(add);
 					}
-					delete point;
-
 				}
-		}
+				delete point;
 
-
-
-
+			}
+	}
 }
 
-void GribDecoder::customisedPoints(const BasicThinningMethod& thinning, const Transformation& transformation, const std::set<string>&, CustomisedPointsList& points)
+void GribDecoder::customisedPoints(const BasicThinningMethod& thinning, const Transformation& transformation, const std::set<string>& needs, CustomisedPointsList& points)
 {
 
 	openFirstComponent();
@@ -713,7 +748,7 @@ void GribDecoder::customisedPoints(const BasicThinningMethod& thinning, const Tr
 			gap = 0;
 
 		}
-
+		thinning_debug_ = ( needs.find("debug") != needs.end() );
 		customisedPoints(transformation, points,
 				gap * thinning.factor(),
 				gap * thinning.factor(), gap);

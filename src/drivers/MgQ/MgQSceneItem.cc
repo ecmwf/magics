@@ -376,7 +376,7 @@ void MgQSceneItem::addLayerItem(MgQLayerItem* item)
 {
 	layerItems_.push_back(item);
 	//item->setStackLevel(layerItems_.count()-1);
-	assert(item->layer().zindex() >= 0);
+	ASSERT(item->layer().zindex() >= 0);
 	item->setStackLevel(item->layer().zindex());
 }
 

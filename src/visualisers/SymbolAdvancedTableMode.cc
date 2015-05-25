@@ -120,9 +120,11 @@ void SymbolAdvancedTableMode::adjust(double min, double max)
 	if ( markers_.empty() ) {
 		markers_.push_back(15);
 	}
+	if ( markers_names_.empty() ) {
+			markers_names_.push_back("ww_01");
+	}
 	
 	TextSymbol::TextPosition position;
-	
 	
 	
 	if ( text_list_.empty() ) {
@@ -144,12 +146,22 @@ void SymbolAdvancedTableMode::adjust(double min, double max)
 	
     LevelSelection::const_iterator level = levels_->begin();
     vector<int>::const_iterator marker = markers_.begin();
+    vector<string>::const_iterator marker_name = markers_names_.begin();
+    bool index = magCompare(parent_->marker_mode_, "index");
     SymbolProperties last;
     vector<string>::const_iterator text = text_list_.begin();
     while ( true) {
     	if (level+1 == levels_->end() ) break;
+
     	MagLog::debug() << "[" << *level << ", " << *(level+1) << "]=" << *marker << "(marker)" << *text << "(text)"<< endl;
-    	SymbolProperties properties(colourMethod_->right(*level), height_method_->height(*level),  *marker, *text);
+
+    	SymbolProperties properties;
+    	if ( index )
+    		properties = SymbolProperties(colourMethod_->right(*level), height_method_->height(*level), *marker, *text);
+    	else
+
+    		properties = SymbolProperties(colourMethod_->right(*level), height_method_->height(*level),  *marker_name, *text);
+
     	properties.position_ = position;
     	properties.font_ = font;
 
@@ -171,6 +183,12 @@ void SymbolAdvancedTableMode::adjust(double min, double max)
     	}
     	else 
     		marker++;
+    	if ( marker_name+1 == markers_names_.end() ) {
+        		if ( marker_policy_ == M_CYCLE )
+                    marker_name =  markers_names_.begin();
+        	}
+        else
+        		marker_name++;
     	if ( text+1 == text_list_.end() ) {
     	    	if ( text_policy_ == M_CYCLE )
     	                text =  text_list_.begin(); 
@@ -226,22 +244,25 @@ void SymbolAdvancedTableMode::visit(Data& data, LegendVisitor& legend)
 	    		}
 	    		case LegendMethod::DISJOINT:
 	    		{
-	    			  for ( IntervalMap<SymbolProperties>::iterator interval = first; interval != last; ++interval) {
+	    			for ( IntervalMap<SymbolProperties>::iterator interval = first; interval != last; ++interval) {
+	    				if ( magCompare(interval->second.marker_, "none") )
+	    					// ignore entry
+	    					continue;
 	    				Symbol* symbol = new Symbol();
 	    				(*symbol).setColour(interval->second.colour_);
 	    				(*symbol).setSymbol(interval->second.marker_);
 	    				(*symbol).setHeight(interval->second.height_);
-				
-					string str=data.legendText(interval->first.min_,interval->first.max_);
-					if(str.empty())
-					{				  	
+
+	    				string str=data.legendText(interval->first.min_,interval->first.max_);
+	    				if(str.empty())
+	    				{
 	    					ostringstream text;
 	    					text << interval->first.min_ << "-" <<  interval->first.max_;
-		        			str=text.str();
-					}	
-					legend.add(new SimpleSymbolEntry(interval->second.label_.empty() ? str : interval->second.label_, symbol));
+	    					str=text.str();
+	    				}
+	    				legend.add(new SimpleSymbolEntry(interval->second.label_.empty() ? str : interval->second.label_, symbol));
 	    			}
-		        	break;
+	    			break;
 	    		}
 	    		case LegendMethod::HISTOGRAM:
 	    		{

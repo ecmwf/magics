@@ -89,6 +89,9 @@ void wrepjson() {
   mag_wrepjson();
 }
 
+void geojson() {
+  mag_geojson();
+}
 
 void epsinput() {
   mag_epsinput();

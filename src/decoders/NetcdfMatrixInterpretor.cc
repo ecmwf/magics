@@ -372,7 +372,7 @@ void NetcdfMatrixInterpretor::visit(ValuesCollector& vcp,PointsList&)
 {
 	vcp.setCollected(true);
 	
-	assert(matrix_); 
+	ASSERT(matrix_); 
 		
 	const Transformation& transformation = vcp.transformation();
   	MatrixHandler* box =  transformation.prepareData(*matrix_);

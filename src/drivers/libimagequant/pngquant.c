@@ -48,30 +48,9 @@
 #include <stdbool.h>
 #include <unistd.h>
 
-extern char *optarg;
-extern int optind, opterr;
+#include "pngquant.h"
 
-#include "rwpng.h"  /* typedefs, common macros, public prototypes */
-#include "libimagequant.h"
-
-struct pngquant_options {
-    liq_attr *liq;
-    liq_image *fixed_palette_image;
-    liq_log_callback_function *log_callback;
-    void *log_callback_user_info;
-    float floyd;
-    bool using_stdin, using_stdout, force, fast_compression, ie_mode,
-        min_quality_limit, skip_if_larger,
-        verbose;
-};
-
-static pngquant_error prepare_output_image(liq_result *result, liq_image *input_image, png8_image *output_image);
-static void set_palette(liq_result *result, png8_image *output_image);
-static pngquant_error read_image(liq_attr *options, const char *filename, int using_stdin, png24_image *input_image_p, liq_image **liq_image_p, bool keep_input_pixels, bool verbose);
-static pngquant_error write_image(png8_image *output_image, png24_image *output_image24, const char *outname, struct pngquant_options *options);
-static char *add_filename_extension(const char *filename, const char *newext);
-
-static void verbose_printf(struct pngquant_options *context, const char *fmt, ...)
+void verbose_printf(struct pngquant_options *context, const char *fmt, ...)
 {
     if (context->log_callback) {
         va_list va;
@@ -87,9 +66,6 @@ static void verbose_printf(struct pngquant_options *context, const char *fmt, ..
         context->log_callback(context->liq, buf, context->log_callback_user_info);
     }
 }
-
-
-
 
 
 pngquant_error pngquant_file(const char *filename, const char *outname, struct pngquant_options *options)
@@ -158,7 +134,7 @@ pngquant_error pngquant_file(const char *filename, const char *outname, struct p
 /**************************************************************************
  * 
  */
-static void set_palette(liq_result *result, png8_image *output_image)
+void set_palette(liq_result *result, png8_image *output_image)
 {
     const liq_palette *palette = liq_get_palette(result);
 
@@ -179,7 +155,7 @@ static void set_palette(liq_result *result, png8_image *output_image)
 /**************************************************************************
  * 
  */
-static char *temp_filename(const char *basename) {
+char *temp_filename(const char *basename) {
     size_t x = strlen(basename);
 
     char *outname = (char *)malloc(x+1+4);
@@ -195,7 +171,7 @@ static char *temp_filename(const char *basename) {
 /**************************************************************************
  * 
  */
-static pngquant_error write_image(png8_image *output_image, png24_image *output_image24, const char *outname, struct pngquant_options *options)
+pngquant_error write_image(png8_image *output_image, png24_image *output_image24, const char *outname, struct pngquant_options *options)
 {
     FILE *outfile;
     char *tempname = NULL;
@@ -248,7 +224,7 @@ static pngquant_error write_image(png8_image *output_image, png24_image *output_
 /**************************************************************************
  * 
  */
-static pngquant_error read_image(liq_attr *options, const char *filename, int using_stdin, png24_image *input_image_p, liq_image **liq_image_p, bool keep_input_pixels, bool verbose)
+pngquant_error read_image(liq_attr *options, const char *filename, int using_stdin, png24_image *input_image_p, liq_image **liq_image_p, bool keep_input_pixels, bool verbose)
 {
     FILE *infile;
 
@@ -286,7 +262,7 @@ static pngquant_error read_image(liq_attr *options, const char *filename, int us
 /**************************************************************************
  * 
  */
-static pngquant_error prepare_output_image(liq_result *result, liq_image *input_image, png8_image *output_image)
+pngquant_error prepare_output_image(liq_result *result, liq_image *input_image, png8_image *output_image)
 {
     output_image->width = liq_image_get_width(input_image);
     output_image->height = liq_image_get_height(input_image);
