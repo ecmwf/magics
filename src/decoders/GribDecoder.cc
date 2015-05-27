@@ -993,6 +993,12 @@ GribLoop::~GribLoop()
 	{
 		delete *g;
 	}
+
+	if (file_ != 0)
+	{
+		fclose(file_);
+		file_ = 0;
+	}
 }
 
 
