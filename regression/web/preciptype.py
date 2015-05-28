@@ -22,7 +22,8 @@ output = output(output_formats = ['png'],
         output_name = ref)
 
 #Setting the coordinates of the geographical area
-projection = mmap(subpage_map_projection = 'cylindrical')
+projection = mmap(subpage_map_projection = 'cylindrical',
+                page_id_line='off')
 
 
 #Coastlines setting
@@ -56,6 +57,17 @@ symbol = msymb(legend='on', symbol_table_mode = "advanced",
     symbol_advanced_table_marker_name_list =  ["ww_60", "none", "ww_66", "none", "ww_70", "ww_68", "ww_79"],
     symbol_advanced_table_level_list = [1.00, 2.00, 3.00, 4.00, 5.00, 6.00, 8.00, 9.00],
     )
+
+
+symbol = msymb(legend='on', symbol_table_mode = "advanced",
+    symbol_type="marker",
+    symbol_advanced_table_selection_type = "list",
+    symbol_advanced_table_colour_method = "list",
+    symbol_advanced_table_colour_list = ["green", "none", "red", "none", "navy", "turquoise", "orange_yellow"],
+    symbol_advanced_table_marker_list =  [18],
+    symbol_advanced_table_level_list = [1.00, 2.00, 3.00, 4.00, 5.00, 6.00, 8.00, 9.00],
+    )
+
 
 
 

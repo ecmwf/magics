@@ -14,7 +14,7 @@ if ( ENABLE_PYTHON )
               TYPE PYTHON
               ARGS coast.py
               RESOURCES coast.py 
-              ENVIRONMENT PYTHONPATH=${MAG_PYTHON_PATH} MAGPLUS_HOME=${CMAKE_SOURCE_DIR} )
+              ENVIRONMENT PYTHONPATH=${MAG_PYTHON_PATH} LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib MAGPLUS_HOME=${CMAKE_SOURCE_DIR} )
 endif()
 
 if ( ENABLE_FORTRAN) 
@@ -38,7 +38,7 @@ if ( ENABLE_BUFR )
                   TYPE PYTHON
                   ARGS bufr.py
                   RESOURCES bufr.py data.bufr 
-                  ENVIRONMENT PYTHONPATH=${MAG_PYTHON_PATH} MAGPLUS_HOME=${CMAKE_SOURCE_DIR})
+                  ENVIRONMENT PYTHONPATH=${MAG_PYTHON_PATH} LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib MAGPLUS_HOME=${CMAKE_SOURCE_DIR} )
     endif()
     if ( ENABLE_FORTRAN) 
         ecbuild_add_test( TARGET bufr_fortran
@@ -67,7 +67,7 @@ if ( ENABLE_GRIB )
                   TYPE PYTHON
                   ARGS grib.py
                   RESOURCES grib.py data.grib
-                  ENVIRONMENT PYTHONPATH=${MAG_PYTHON_PATH}  MAGPLUS_HOME=${CMAKE_SOURCE_DIR})
+                  ENVIRONMENT PYTHONPATH=${MAG_PYTHON_PATH} LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib MAGPLUS_HOME=${CMAKE_SOURCE_DIR} )
     endif()
     if ( ENABLE_FORTRAN) 
         ecbuild_add_test( TARGET grib_fortran
@@ -87,7 +87,7 @@ if ( ENABLE_CAIRO )
                   TYPE PYTHON
                   ARGS cairo.py
                   RESOURCES cairo.py 
-                  ENVIRONMENT PYTHONPATH=${MAG_PYTHON_PATH}  MAGPLUS_HOME=${CMAKE_SOURCE_DIR})
+                  ENVIRONMENT PYTHONPATH=${MAG_PYTHON_PATH} LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib MAGPLUS_HOME=${CMAKE_SOURCE_DIR} )
     endif()
       if ( ENABLE_FORTTAN )
         ecbuild_add_test( TARGET cairo_fortran
@@ -104,7 +104,7 @@ if ( ENABLE_ODB )
                   TYPE PYTHON
                   ARGS odb.py
                   RESOURCES odb.py test.odb
-                  ENVIRONMENT PYTHONPATH=${MAG_PYTHON_PATH} MAGPLUS_HOME=${CMAKE_SOURCE_DIR} )
+                  ENVIRONMENT PYTHONPATH=${MAG_PYTHON_PATH} LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib MAGPLUS_HOME=${CMAKE_SOURCE_DIR} )
     endif()
 endif()
 

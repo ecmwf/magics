@@ -582,7 +582,7 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
 	double east = grib.getDouble("longitudeOfLastGridPointInDegrees");
 	double plp = grib.getDouble("PLPresent");
 	long res = grib.getLong("numberOfParallelsBetweenAPoleAndTheEquator");
-
+	long nblat = grib.getLong("Nj");
 	longitudesSanityCheck(west, east);
 	MagLog::dev() << "NewAPI---> area[" << west << ", " << north << ", " << east
 			<< ", " << south << "]" << "\n";
@@ -593,16 +593,40 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
 	size_t aux = 2 * res;
 	grib_get_double_array(grib.id(), "pl", pl, &aux);
     int nblon = 0;
-    for ( int i = 0; i < aux; i++)
-        if ( pl[i] > nblon) nblon = pl[i];
+    int ii = 0;
 
-	double array[2 * res];
-	grib_get_gaussian_latitudes(res, array);
+    double origin = 0;
+
+    vector<vector<double> > rows;
+
+    for ( int i = 0; i < nblat; i++) {
+    	// compute find first grid point ..
+    	double dx = 360./pl[i];
+    	rows.push_back(vector<double>());
+    	for ( int n = 0; n < pl[i]; n++) {
+    		double x = (n*dx );
+
+    		if ( x > east) x-=360.;
+
+    		if ( x >= west && x <= east) {
+    			rows.back().push_back(x);
+
+    		}
+    	}
+    	std::sort(rows.back().begin(), rows.back().end());
+
+
+        if ( rows.back().size() > nblon) nblon = rows.back().size();
+        ii +=  rows.back().size();
+    }
+
+
+
 
 	MagLog::dev() << "Resolution ---> " << nblon << "???" << 4 * res << "\n";
 
 	// We have to determine if the field is global!
-	if (north - south > 175.) {
+	if (east - west > 355.) {
 		east = west + 360.;
 	}
 
@@ -621,9 +645,9 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
 	grib_get_double_array(grib.id(), "values", data, &aux2);
 
 	int d = 0;
-	for (size_t i = 0; i < aux; i++) {
+	for (vector<vector<double> >::iterator row = rows.begin(); row != rows.end(); ++row) {
 		vector<double> p;
-		for (int ii = 0; ii < pl[i]; ii++) {
+		for (int ii = 0; ii < row->size(); ii++) {
 			p.push_back(data[d]);
 			d++;
 		}
@@ -631,25 +655,39 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
 		double lon = west;
 		unsigned int p1 = 0;
 		unsigned int p2 = 1;
-		double lon1 = west;
-		double lon2 = lon1 + (width / (p.size()));
+		double dx =  ( row->back() - row->front() / (p.size() - 1));
+		vector<double>::iterator r = row->begin();
+		double lon1 = *r;
+		r++;
+		double lon2 = *r;
 
-		for (int x = 0; x < nblon; x++) {
-
-			if (lon >= lon2) {
+		int x = 0;
+		while (x < nblon) {
+			if ( lon < lon1 ) {
+				(*matrix)->push_back(p[0]);
+				x++;
+				lon = west + ( x*step);
+				continue;
+			}
+			if ( lon > row->back() ) {
+				(*matrix)->push_back(p.back());
+				x++;
+				lon = west + ( x*step);
+				continue;
+			}
+			if ( lon >= lon2) {
 				p1++;
 				p2++;
 				lon1 = lon2;
-				lon2 += (width) / (p.size());
+				r++;
+				lon2 = (*r);
 			}
 			double d1 = (lon2 - lon) / (lon2 - lon1);
 			double d2 = 1 - d1;
 			double val;
 
-			ASSERT(p1 < p.size());
-			if (p2 == p.size()) {
-				(*matrix)->push_back(p[p1]);
-			} else {
+
+
 				if (interpolate) {
 					if (p[p1] == missing || p[p2] == missing)
 						val = missing;
@@ -660,8 +698,8 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
 
 				}
 				(*matrix)->push_back(val);
-			}
-			lon += step;
+			x++;
+			lon = west + ( x*step);
 		}
 
 	}
@@ -672,11 +710,21 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
 		(*matrix)->columnsAxis().push_back(west + (x * step));
 	}
 
+	double array[2 * res];
+	grib_get_gaussian_latitudes(res, array);
 
-	for (int i = 0; i < 2 * res; i++) {
+	for (int i = 0; i < 2*res; i++) {
 
-		(*matrix)->rowsAxis().push_back(array[i]);
+		if ( same(array[i], north, 0.001) )
+			(*matrix)->rowsAxis().push_back(array[i]);
+		if ( same(array[i], south, 0.001) )
+			(*matrix)->rowsAxis().push_back(array[i]);
+		if ( array[i] < north && array[i] > south)
+			(*matrix)->rowsAxis().push_back(array[i]);
 	}
+
+	cout << nblat << " " << (*matrix)->rowsAxis().size() << endl;
+
 	(*matrix)->setMapsAxis();
 }
 
