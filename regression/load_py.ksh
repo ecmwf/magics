@@ -3,7 +3,7 @@
 
 set +x
 
-versions="2.24.5" 
+versions="2.24.7" 
 src="geojson_multilines.py"
 echo $src
 git="/home/graphics/cgs/git/magics"
@@ -24,6 +24,7 @@ do
 
 for v in $versions
 do
+  module load Magics/$v
   echo "magics/reference/$v/$where"
   $git/regression/upload.py $v ./$sf $s.$img_ext magics/reference/$v/$where -i $interpretor
 

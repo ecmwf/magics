@@ -65,7 +65,7 @@ set( MAGICS_SITE          "ecmwf" )
 set( MAGICS_INSTALL_PATH  ${CMAKE_INSTALL_PREFIX} )
 
 # Regression definitions
-set( MAGICS_REFERENCE_VERSIONS            "2.24.5" )
+set( MAGICS_REFERENCE_VERSIONS            "2.24.7" )
 set( MAGICS_HTML_ROOT        "${CMAKE_BINARY_DIR}/regression/html")
 file(MAKE_DIRECTORY ${MAGICS_HTML_ROOT} )
 
