@@ -52,6 +52,9 @@ WrepJSon::WrepJSon()  : missing_(-9999),
 		station_longitude_(9999), 
 		latitude_(0), longitude_(0)
 {
+	methods_["date"] = &WrepJSon::date;
+	methods_["time"] = &WrepJSon::time;
+	methods_["eps_height"] = &WrepJSon::epsz;
 	methods_["height"] = &WrepJSon::height;
 	methods_["deterministic_height"] = &WrepJSon::detz;
 	methods_["tracker"] = &WrepJSon::ignore;
