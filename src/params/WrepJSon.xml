@@ -81,5 +81,8 @@
 
         	</parameter>
 
-        
+        <parameter member="ignore_keys" to="stringarray" default="stringarray()" from="stringarray" name="wrepjson_ignore_keys" visible='off'>
+            		<documentation> List of keys to ignore when reading onput data  </documentation>
+
+        	</parameter>
 </class></magics>
