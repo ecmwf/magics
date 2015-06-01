@@ -171,4 +171,9 @@
     	<parameter member="connect_style" to="LineStyle" default="solid" from="string" name="symbol_connect_line_style">
         		<documentation> Line Style of  connecting line 		</documentation>
     	</parameter>
-</class></magics>
+    		<parameter member="legend_only" to="bool" default="off" from="string" name="symbol_legend_only" visible='off'>  
+      		<documentation> Inform the contour object do generate only the legend and not the plot .. [Web sdpecific]		</documentation>  		       
+      		
+   	</parameter>
+</class>
+</magics>
