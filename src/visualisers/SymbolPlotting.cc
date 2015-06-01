@@ -155,6 +155,8 @@ void SymbolPlotting::operator()(Data& data, BasicGraphicsObjectContainer& out)
     	// Some Mode need to know the min and max of the data, in order to adjust the 
     	// computation of the levels
  		(*mode_).adjust(points.min(), points.max());
+ 		if ( legend_only_ )
+ 			return;
 
     	points.setToFirst();
     	while (points.more()) {
