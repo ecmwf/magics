@@ -692,6 +692,14 @@ void WrepJSon::parameter(const json_spirit::Value& value)
 	        	     }
 	        	}
 	        	else {
+	        		bool add = true;
+	        		for ( vector<string>::iterator i = ignore_keys_.begin(); i != ignore_keys_.end(); ++i)
+	        			if ( *i == info->name_ )
+	        				add = false;
+	        		if ( !add ) {
+	        			cout << " ignore -->" << info->name_ << endl;
+	        			continue;
+	        		}
 	        		map<string, vector<double> >& xv = current_->values_;
 	        		xv.insert(make_pair(info->name_, vector<double>()));
 	        		vector<double>& vals =  xv[info->name_];
