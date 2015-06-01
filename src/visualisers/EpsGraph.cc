@@ -1903,6 +1903,8 @@ void EpsShade::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 	std::set<string> request;
 	const Transformation& transformation = visitor.transformation();
 	data.customisedPoints(transformation, request, points, true); // we want all the points!
+	double max = transformation.getMaxPCY();
+
 	
 	if (points.empty()) return;
 
@@ -2017,6 +2019,7 @@ void EpsShade::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 		CustomisedPoint::const_iterator y50 = (*point)->find("50");
 		CustomisedPoint::const_iterator y25 = (*point)->find("25");
 		CustomisedPoint::const_iterator y75 = (*point)->find("75");
+
         if ( (**point)["tmin"] ) {		
             tenmin.push_back(PaperPoint(x, y10->second));
 		    nintymin.push_back(PaperPoint(x, y90->second));
@@ -2101,26 +2104,26 @@ void EpsShade::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
      
    
    
-    if ( !first->empty() ) visitor.push_back(first);
-	if ( !second->empty() ) visitor.push_back(second);
+    if ( !first->empty() ) transformation(*first, visitor);
+	if ( !second->empty() ) transformation(*second, visitor);
 	
-    if ( !firstmin->empty() ) visitor.push_back(firstmin);
-	if ( !secondmin->empty() ) visitor.push_back(secondmin);
+    if ( !firstmin->empty() ) transformation(*firstmin, visitor);
+	if ( !secondmin->empty() ) transformation(*secondmin, visitor);
     
 	
-    if ( !firstmax->empty() ) visitor.push_back(firstmax);
-	if ( !secondmax->empty() ) visitor.push_back(secondmax);
+    if ( !firstmax->empty() ) transformation(*firstmax, visitor);
+	if ( !secondmax->empty() ) transformation(*secondmax, visitor);
     
-	if ( !median->empty() ) visitor.push_back(median);
-    if ( !medianmin->empty() ) visitor.push_back(medianmin);
-    if ( !medianmax->empty() ) visitor.push_back(medianmax);
+	if ( !median->empty() ) transformation(*median, visitor);
+    if ( !medianmin->empty() ) transformation(*medianmin, visitor);
+    if ( !medianmax->empty() ) transformation(*medianmax, visitor);
     
-    if ( !backbottom->empty() ) visitor.push_back(backbottom);
-    if ( !backtop->empty() ) visitor.push_back(backtop);
-    if ( !backbottommin->empty() ) visitor.push_back(backbottommin);
-    if ( !backtopmin->empty() ) visitor.push_back(backtopmin);
-    if ( !backbottommax->empty() ) visitor.push_back(backbottommax);
-    if ( !backtopmax->empty() ) visitor.push_back(backtopmax);
+    if ( !backbottom->empty() ) transformation(*backbottom, visitor);
+    if ( !backtop->empty() ) transformation(*backtop, visitor);
+    if ( !backbottommin->empty() ) transformation(*backbottommin, visitor);
+    if ( !backtopmin->empty() ) transformation(*backtopmin, visitor);
+    if ( !backbottommax->empty() ) transformation(*backbottommax, visitor);
+    if ( !backtopmax->empty() ) transformation(*backtopmax, visitor);
     
 	
 }
