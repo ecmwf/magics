@@ -86,8 +86,8 @@ void Wind::operator()(Data& data, BasicGraphicsObjectContainer& parent)
 	request.insert("x_component");
 	request.insert("y_component");
 	request.insert("colour_component");
-	if ( thinning_debug_ )
-		request.insert("debug");
+	//if ( thinning_debug_ )
+		//request.insert("debug");
 	(*method)(data, transformation, request, points);
 	if (points.empty() )
 		return;
