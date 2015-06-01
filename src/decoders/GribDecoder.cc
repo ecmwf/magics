@@ -578,12 +578,14 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 			vector<pair<double, vector<pair<double, CustomisedPoint*> > > >::iterator y;
 			vector<pair<double, CustomisedPoint*> >::iterator x;
 			CustomisedPoint* point = 0;
+			/*
 			if (thinning_debug_) {
 				CustomisedPoint* add = new CustomisedPoint(lon, lat, "");
 							add->insert(make_pair("x_component", 0.1));
 							add->insert(make_pair("y_component", 0.1));
-				out.push_back(add);
+				//out.push_back(add);
 			}
+			*/
 			y = std::lower_bound(points.begin(), points.end(), lat, Compare());
 
 			if ( same(y->first,lat) ) {
