@@ -697,7 +697,6 @@ void WrepJSon::parameter(const json_spirit::Value& value)
 	        			if ( *i == info->name_ )
 	        				add = false;
 	        		if ( !add ) {
-	        			cout << " ignore -->" << info->name_ << endl;
 	        			continue;
 	        		}
 	        		map<string, vector<double> >& xv = current_->values_;
