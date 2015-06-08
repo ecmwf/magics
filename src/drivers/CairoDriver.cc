@@ -1144,8 +1144,7 @@ MAGICS_NO_EXPORT void CairoDriver::renderSimplePolygon() const
                                  << "             Solid shading used instead."<< std::endl;
 #endif
 	{
-        if(cairo_get_antialias(cr_) != CAIRO_ANTIALIAS_NONE && currentColour_.alpha() > 0.9999 )
-
+/*        if(cairo_get_antialias(cr_) != CAIRO_ANTIALIAS_NONE && currentColour_.alpha() > 0.9999 )
 	    //if(magCompare(backend_,"png")) // if(cairo_get_antialias(cr_) != CAIRO_ANTIALIAS_NONE && currentColour_.alpha() > 0.9999 )
 	    {
 	        cairo_fill_preserve(cr_);
@@ -1153,6 +1152,7 @@ MAGICS_NO_EXPORT void CairoDriver::renderSimplePolygon() const
 	        cairo_stroke(cr_);
 	    }
 	    else
+*/
 	    {
 	        cairo_fill(cr_);
 	    }
@@ -1518,7 +1518,7 @@ MAGICS_NO_EXPORT bool CairoDriver::renderCellArray(const Image& image) const
 		}
 		else
 		{
-			const double al = tr;//lt[c].alpha();
+			const double al = lt[c].alpha();
 			chImage[jj]=char(int(255.*cb *al )); jj++;
 			chImage[jj]=char(int(255.*cg *al )); jj++;
 			chImage[jj]=char(int(255.*cr *al )); jj++;
