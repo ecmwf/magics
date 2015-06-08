@@ -597,6 +597,10 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
 
     double origin = 0;
 
+    // We have to determine if the field is global!
+    	if (east - west > 355.) {
+    		east = west + 360.;
+    	}
     vector<vector<double> > rows;
 
     for ( int i = 0; i < nblat; i++) {
@@ -625,10 +629,7 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
 
 	MagLog::dev() << "Resolution ---> " << nblon << "???" << 4 * res << "\n";
 
-	// We have to determine if the field is global!
-	if (east - west > 355.) {
-		east = west + 360.;
-	}
+
 
 	// compute the number of points we'll be adding to the matrix so that we can
 	// allocate them in one go, rather than allowing the STL to re-allocate
@@ -723,7 +724,7 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
 			(*matrix)->rowsAxis().push_back(array[i]);
 	}
 
-	cout << nblat << " " << (*matrix)->rowsAxis().size() << endl;
+
 
 	(*matrix)->setMapsAxis();
 }
