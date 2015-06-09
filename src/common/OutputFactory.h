@@ -292,6 +292,16 @@ public:
 	virtual void set(DriverManager&, const XmlNode&); 
 };
 
+class GEOJSON_GeoJsonOutputFactory : public OutputFactory
+{
+public:
+	GEOJSON_GeoJsonOutputFactory() {}
+	virtual ~GEOJSON_GeoJsonOutputFactory() {}
+	
+	virtual OutputFactory* clone() const {return new GEOJSON_GeoJsonOutputFactory();}
+	virtual void set(DriverManager&, const XmlNode&); 
+};
+
 
 template <>
 class MagTranslator<string, OutputFactory> { 

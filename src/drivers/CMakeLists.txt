@@ -5,6 +5,7 @@ list( APPEND _drivers_srcs
   System.h BaseDriverImages.h BaseDriverWind.h BaseDriverSymbols.h 
   BaseDriver.cc DriverManager.cc BinaryDriver.cc PostScriptDriver.cc
   KMLDriver.h  KMLDriver.cc
+  GeoJsonDriver.h  GeoJsonDriver.cc
   SVGDriver.h  SVGDriver.cc
 # minizip
   minizip/ioapi.c minizip/zip.c
