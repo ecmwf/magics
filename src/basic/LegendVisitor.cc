@@ -59,6 +59,7 @@ LegendVisitor::LegendVisitor()
 	view_y_ = 5; 
 	view_width_ = 90; 
 	view_height_=90;
+	positional_ = false;
 }
 
 

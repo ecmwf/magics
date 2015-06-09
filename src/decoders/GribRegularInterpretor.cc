@@ -676,11 +676,13 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
 				lon = west + ( x*step);
 				continue;
 			}
-			if ( lon >= lon2) {
+			if ( lon > lon2) {
 				p1++;
 				p2++;
 				lon1 = lon2;
 				r++;
+				if ( r == row->end() )
+					r--;
 				lon2 = (*r);
 			}
 			double d1 = (lon2 - lon) / (lon2 - lon1);

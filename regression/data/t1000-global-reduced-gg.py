@@ -28,7 +28,7 @@ data = mgrib(grib_input_file_name='t1000-global-reduced-gg.grb')
 # Define the simple contouring for z500
 
 contour = mcont(
-    legend='off',
+    legend='on',
     contour_shade='on',
     contour_shade_method='area_fill',
     contour_line_colour='navy',
@@ -55,5 +55,6 @@ plot(
     contour,
     coast,
     mtext(),
+    mlegend(legend_display_type= "continuous"),
     )
 
