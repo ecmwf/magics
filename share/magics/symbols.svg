@@ -253,8 +253,8 @@
 </g>
 <g id='ww_27'>
  <polyline points='0.15,0.5 0.45,0.5 0.45,-0.5 0.15,-0.5' fill='none'/>
- <triangle cx='0' cy='0.25' r='0.25' fill='0'/>
- <triangle cx='0' cy='-0.25' r='-0.3' fill='0'/>
+ <triangle cx='0' cy='0.22' r='0.25' fill='0'/>
+ <triangle cx='0' cy='-0.22' r='-0.3' fill='0'/>
 </g>
 <g id='ww_28'>
         <polyline points='-0.35,0.3 0.35,0.3' fill='none'/>
@@ -414,31 +414,31 @@
    </g>
  
    <g id='ww_50'>
-        <drizzle cx='0' cy='0' r='0.2'/>
+        <drizzle cx='0' cy='0' r='0.25'/>
    </g>
    <g id='ww_51'>
-	<drizzle cx='-0.3' cy='0' r='0.2'/>
-	<drizzle cx='0.3'  cy='0' r='0.2'/>
+	<drizzle cx='-0.3' cy='0' r='0.25'/>
+	<drizzle cx='0.3'  cy='0' r='0.25'/>
    </g>
    <g id='ww_52'>
-	<drizzle cx='0' cy='-0.3' r='0.2'/>
-	<drizzle cx='0' cy='0.3'  r='0.2'/>
+	<drizzle cx='0' cy='-0.3' r='0.25'/>
+	<drizzle cx='0' cy='0.3'  r='0.25'/>
    </g>
    <g id='ww_53'>
-        <drizzle cx='0' cy='0.3' r='0.2'/>
-        <drizzle cx='-0.3' cy='-0.3' r='0.2'/>
-        <drizzle cx='0.3' cy='-0.3' r='0.2'/>
+        <drizzle cx='0' cy='0.3' r='0.25'/>
+        <drizzle cx='-0.3' cy='-0.3' r='0.25'/>
+        <drizzle cx='0.3' cy='-0.3' r='0.25'/>
    </g>
    <g id='ww_54'>
-        <drizzle cx='0' cy='0.45' r='0.3'/>
-        <drizzle cx='0' cy='0' r='0.3'/>
-        <drizzle cx='0' cy='-0.45' r='0.3'/>
+        <drizzle cx='0' cy='0.45' r='0.25'/>
+        <drizzle cx='0' cy='0' r='0.25'/>
+        <drizzle cx='0' cy='-0.45' r='0.25'/>
    </g>
    <g id='ww_55'>
-    <drizzle cx='-0.3' cy='0' r='0.3'/>
-    <drizzle cx='0.3' cy='0' r='0.3'/>
-  	<drizzle cx='0' cy='0.45' r='0.3'/>
-	  <drizzle cx='0' cy='-0.45' r='0.3'/>
+    <drizzle cx='-0.3' cy='0' r='0.25'/>
+    <drizzle cx='0.3' cy='0' r='0.25'/>
+  	<drizzle cx='0' cy='0.45' r='0.25'/>
+	  <drizzle cx='0' cy='-0.45' r='0.25'/>
    </g>
    <g id='ww_56'>
     <polyline points='-0.35,-0.1 -0.4,0.05 -0.37,0.1 -0.30,0.15 -0.23,0.15 -0.18,0.1
@@ -454,12 +454,12 @@
 
    <g id='ww_58'>
         <circle cx='0' cy='0.3' r='0.15' fill='8'/>
-        <drizzle cx='0' cy='-0.3' r='0.3'/>
+        <drizzle cx='0' cy='-0.3' r='0.25'/>
    </g>
    <g id='ww_59'>
-        <drizzle cx='0' cy='0.45' r='0.3'/>
+        <drizzle cx='0' cy='0.45' r='0.25'/>
         <circle cx='0' cy='0' r='0.15' fill='8'/>
-        <drizzle cx='0' cy='-0.45' r='0.3'/>
+        <drizzle cx='0' cy='-0.45' r='0.25'/>
    </g>
    <g id='ww_60'>
         <circle cx='0' cy='0' r='0.15' fill='8'/>
@@ -631,8 +631,8 @@
       <polyline points='0.5,0.45 0.35,0.45' fill='none'/>
       <lightning cx='0' cy='0'  r='0.6'/>
      
-	  <triangle  cx='0.6' cy='-0.35' r='0.2' fill='0'/> 
-	  <triangle  cx='0.9' cy='0.35' r='0.2' fill='0'/>
+	  <triangle  cx='0.7' cy='-0.3' r='0.2' fill='0'/> 
+	  <triangle  cx='0.7' cy='0.3'  r='0.2' fill='0'/>
 </g>
 <g id="ww_95">
     <circle r="0.1" cx="0." cy="0.6" fill="8" />

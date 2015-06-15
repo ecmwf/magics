@@ -488,9 +488,11 @@ MAGICS_NO_EXPORT void BaseDriver::drizzle(const MFloat x, const MFloat y, const 
 	circle(x,y,s2 * coordRatioX_,8);
 
 	vector<PaperPoint> line;
-	  line.push_back(PaperPoint(x+(s2*0.9),y));
-	  line.push_back(PaperPoint(x         ,y+size*1.5));
-	renderPolyline2(line);
+	  line.push_back(PaperPoint(x+  s2        ,y));
+	  line.push_back(PaperPoint(x+ (s2 * 0.9) ,y+s2*2.));
+	  line.push_back(PaperPoint(x             ,y+s2*5.));
+	  line.push_back(PaperPoint(x +(s2 * 0.2) ,y+s2*2.));	  
+	renderSimplePolygon(line);
 }
 
 /*!
