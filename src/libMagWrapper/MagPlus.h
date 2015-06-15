@@ -123,6 +123,7 @@ protected:
 	bool pngdriver(magics::MagRequest&);
 	bool svgdriver(magics::MagRequest&);
 	bool kmldriver(magics::MagRequest&);  
+	bool geojsondriver(magics::MagRequest&);  
 	bool psdriver(magics::MagRequest&);
 	bool epsdriver(magics::MagRequest&);
     
