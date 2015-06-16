@@ -44,7 +44,7 @@ option( ENABLE_GRIB           "enable grib support"               ON  )
 option( ENABLE_NETCDF         "enable netcdf support"             ON  )
 
 option( ENABLE_ODB            "enable odb"                        OFF )
-option( ENABLE_BUFR           "enable bufr support"               OFF )
+option( ENABLE_BUFR           "enable bufr support"               ON )
 option( ENABLE_SPOT           "enable spot support"               OFF )
 option( ENABLE_CAIRO          "enable cairo support[png/jpeg]"    OFF )
 option( ENABLE_GEOTIFF        "enable geotiff support [implies cairo]" OFF )
