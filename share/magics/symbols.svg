@@ -127,20 +127,20 @@
    </g>
 
    <g id='ww_00'>
-        <circle cx='0' cy='0' r='0.4' fill='0'/>
+        <circle cx='0' cy='0' r='0.35' fill='0'/>
    </g>
    <g id='ww_01'>
-        <circle cx='0' cy='0' r='0.4' fill='0'/>
-        <polyline points='0.,-0.4 0.,-0.65' fill='none'/>
+        <circle cx='0' cy='0' r='0.35' fill='0'/>
+        <polyline points='0.,-0.35 0.,-0.55' fill='none'/>
    </g>
    <g id='ww_02'>
-        <circle cx='0' cy='0' r='0.4' fill='0'/>
-        <polyline points='-0.65,0. -0.4,0.' fill='none'/>
-        <polyline points='0.65,0. 0.4,0.' fill='none'/>
+        <circle cx='0' cy='0' r='0.35' fill='0'/>
+        <polyline points='-0.55,0. -0.35,0.' fill='none'/>
+        <polyline points='0.55,0. 0.35,0.' fill='none'/>
    </g>
    <g id='ww_03'>
-        <circle cx='0' cy='0' r='0.4' fill='0'/>
-        <polyline points='0.,0.4 0.,0.65' fill='none'/>
+        <circle cx='0' cy='0' r='0.35' fill='0'/>
+        <polyline points='0.,0.35 0.,0.55' fill='none'/>
    </g>
    <g id='ww_04'>
 	<polyline points='-0.3,-0.3 -0.3,0.2 -0.2,0.3 -0.1,0.2 0,0.3 0.1,0.2 0.2,0.3' fill='none'/>
