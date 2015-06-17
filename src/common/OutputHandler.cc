@@ -61,6 +61,8 @@ void OutputHandler::set(const XmlNode& node, DriverManager& magics)
 			lineSpacing_ = 0.8;
 		else if (node.name() == "pdf" && factories_.empty() )
 			lineSpacing_ = 0.8;
+		else if (node.name() == "mgb" && factories_.empty() )
+				lineSpacing_ = 0.8;
 		else
 			lineSpacing_ = 1.2;
 
