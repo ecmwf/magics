@@ -77,6 +77,7 @@ IsoLabel.xml
 IsoPlot.xml
 IsoShading.xml
 KMLDriver.xml
+GeoJsonDriver.xml
 LabelPlotting.xml
 
 ObsPlotting.xml

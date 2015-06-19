@@ -1328,24 +1328,24 @@ MAGICS_NO_EXPORT void CairoDriver::circle(const MFloat x, const MFloat y, const 
 
 	int fill = s;
 
-	if(s > 8) fill = 8;
-	if(s > 0)
+	//if(s > 8) fill = 8;
+	if( (s > 0) && (fill != 9) )
 	{
 		cairo_arc (cr_, xx, yy, r, -M_PI * .5, M_PI * ((0.25 * fill)-.5) );
+		cairo_line_to (cr_, xx, yy);
 		cairo_fill(cr_);
 	}
 
 	if(fill == 9)
 	{
-		cairo_set_source_rgb(cr_,1,1,1);
-		cairo_move_to (cr_, xx, yy+r-1);
-		cairo_line_to (cr_, xx, yy-r+1);
-	        cairo_stroke(cr_);
-		cairo_set_source_rgba(cr_,currentColour_.red(),currentColour_.green(),currentColour_.blue(),currentColour_.alpha());
+		cairo_arc (cr_, xx-0.5, yy, r,  M_PI * .5, -M_PI * .5 );
+		cairo_fill(cr_);
+		cairo_arc (cr_, xx+0.5, yy, r, -M_PI * .5, M_PI * .5 );
+		cairo_fill(cr_);
 	}
 
 	cairo_arc (cr_, xx, yy, r, 0., M_PI * 2.);
-        cairo_stroke(cr_);
+	cairo_stroke(cr_);
 	cairo_restore(cr_);
 #else
         MagLog::warning() << "CairoDriver::circle requires at least cairo version 1.2!" << endl;
