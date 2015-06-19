@@ -42,6 +42,7 @@
 #include "VisualAction.h"
 #include "AnimationRules.h"
 #include "Transformation.h"
+#include "MetaDataVisitor.h"
 
 using namespace magics;
 
@@ -1556,6 +1557,34 @@ const LevelDescription& GribDecoder::level()
 	return dataLevel_;
 }
 
+void GribDecoder::visit(MetaDataVisitor& meta)
+{
+    
+    vector<string> need;
+
+    need.push_back("<grib_info key='shortName'/>");
+    need.push_back("<grib_info key='name'/>");
+    need.push_back("<grib_info key='level'/>");
+    need.push_back("<grib_info key='base-date' format='%Y-%m-%d %H:%M:00'/>");
+    need.push_back("<grib_info key='valid-date' format='%Y-%m-%d %H:%M:00'/>");
+
+
+    TagHandler helper;
+    GribTag tag1(*this, helper);
+    for ( vector<string>::const_iterator t = need.begin(); t != need.end(); ++t )
+    {
+        tag1.decode(*t);
+    }
+
+    ostringstream grib;
+    grib << "{\"level\":\""<<  helper.get("grib", "level") << "\",";
+    grib << "\"name\":\""<<  helper.get("grib", "name") << "\",";
+    grib << "\"base-date\":\""<<  helper.get("grib", "base-date") << "\",";
+    grib << "\"valid-date\":\""<<  helper.get("grib", "valid-date") << "\"}";
+
+    meta.add("grib", grib.str());
+
+}
 void GribDecoder::visit(MetaDataCollector& step)
 {
 	// Here we gather information for the label!

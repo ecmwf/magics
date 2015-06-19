@@ -120,6 +120,7 @@ public:
 		void visit(MagnifierCollector&);
 		void visit(ValuesCollector&);
 		void visit(Transformation&);
+		void visit(MetaDataVisitor&);
 
 		 const DateDescription& timeStamp();
 		 const LevelDescription& level() ;
