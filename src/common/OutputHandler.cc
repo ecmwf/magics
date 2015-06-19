@@ -121,3 +121,4 @@ static SimpleObjectMaker<CAIRO_GeoTiffOutputFactory,OutputFactory> geotiff("geot
 #endif
 
 static SimpleObjectMaker<KML_KmlOutputFactory, OutputFactory> kml("kml");
+static SimpleObjectMaker<GEOJSON_GeoJsonOutputFactory, OutputFactory> geojson("geojson");

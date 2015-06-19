@@ -26,6 +26,8 @@
 #include "OutputFactory.h"
 #include "DriverManager.h"
 #include "PostScriptDriver.h"
+#include "KMLDriver.h"
+#include "GeoJsonDriver.h"
 
 #ifdef MAGICS_RASTER
 #include "GDDriver.h"
@@ -266,10 +268,17 @@ void CAIRO_GeoTiffOutputFactory::set(DriverManager& magics, const XmlNode& node)
 }
 #endif
 
-#include "KMLDriver.h"
 void KML_KmlOutputFactory::set(DriverManager& magics, const XmlNode& node)
 {
 	KMLDriver* driver = new KMLDriver();
+	driver->set(node);
+
+	magics.push_back(driver);
+}
+
+void GEOJSON_GeoJsonOutputFactory::set(DriverManager& magics, const XmlNode& node)
+{
+	GeoJsonDriver* driver = new GeoJsonDriver();
 	driver->set(node);
 
 	magics.push_back(driver);

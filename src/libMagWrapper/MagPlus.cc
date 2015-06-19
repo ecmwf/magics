@@ -62,6 +62,7 @@
 
 #include <SVGDriverWrapper.h>
 #include <KMLDriverWrapper.h>
+#include <GeoJsonDriverWrapper.h>
 
 #ifdef MAGICS_QT
 #include <QtDriver.h>
@@ -237,6 +238,7 @@ MagPlus::MagPlus() : root_(0), superpage_(-1), geographical_(true), mode_(intera
  	driverCreators_["PSOUTPUT"] = &MagPlus::psdriver;
         driverCreators_["PNGOUTPUT"] = &MagPlus::pngdriver;
         driverCreators_["KMLOUTPUT"] = &MagPlus::kmldriver;
+        driverCreators_["GEOJSONOUTPUT"] = &MagPlus::geojsondriver;
         driverCreators_["PDFOUTPUT"] = &MagPlus::pdfdriver;
         driverCreators_["SVGOUTPUT"] = &MagPlus::svgdriver;
         driverCreators_["EPSOUTPUT"] = &MagPlus::epsdriver;
@@ -366,6 +368,17 @@ bool MagPlus::kmldriver(magics::MagRequest& in)
 {
 	KMLDriverWrapper helper;
 	in("KML_DESCRIPTION") = "Metview/Magics++";
+	helper.set(in); 
+	mode_ = paper;
+	drivers_.push_back(helper.object());   
+
+	return false;
+}
+
+bool MagPlus::geojsondriver(magics::MagRequest& in)
+{
+	GeoJsonDriverWrapper helper;
+	in("GEOJSON_DESCRIPTION") = "Metview/Magics++";
 	helper.set(in); 
 	mode_ = paper;
 	drivers_.push_back(helper.object());   
