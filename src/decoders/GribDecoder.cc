@@ -42,7 +42,7 @@
 #include "VisualAction.h"
 #include "AnimationRules.h"
 #include "Transformation.h"
-#include "MetaDataVisitor.h"
+#include "MetaData.h"
 
 using namespace magics;
 
