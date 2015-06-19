@@ -734,9 +734,7 @@
        <polyline points='0.2,0.2 0,-0.3 -0.2,0.2 0.2,0.2 0' fill='none'/>
    </g>
    <g id='W_9'>
-	<lightning cx='0' cy='0.3'  r='0.5'/>
-   </g>
-   <g id='W_/'>
+	<lightning cx='0' cy='0.3' r='0.7'/>
    </g>
 
    <g id='CL_0'>
