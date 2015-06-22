@@ -102,7 +102,7 @@ void TextVisitor::getReady()
 
 
 void TextVisitor::visit(MetaDataVisitor& meta){
-	meta.add("magics.title", "\"" + label_ + "\"");
+	//meta.add("magics.title", "\"" + label_ + "\"");
 
 
 
