@@ -181,8 +181,8 @@ int GribInterpretor::nearest(double lon, double lat, double& nlon, double& nlat)
 		x = (lon - x1->first < x2->first - lon) ? x1 : x2;
 	}
 	nlon = x->first;
-	#int index = x->second;
-	#x->second = -1;
+	//int index = x->second;
+	//x->second = -1;
 	return x->second;
 
 }
