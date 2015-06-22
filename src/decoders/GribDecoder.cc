@@ -42,6 +42,7 @@
 #include "VisualAction.h"
 #include "AnimationRules.h"
 #include "Transformation.h"
+#include "MetaData.h"
 
 using namespace magics;
 
@@ -49,7 +50,7 @@ int  GribDecoder::count_ = 0;
 
 GribDecoder::GribDecoder() :  matrix_(0),  xComponent_(0), yComponent_(0),
 		colourComponent_(0), handle_(0), interpretor_(0),
-		field_(0), component1_(0), component2_(0), colour_(0)
+		field_(0), component1_(0), component2_(0), colour_(0), xValues_(0), yValues_(0)
 {
 	count_++;
 	title_ = "grib_" + tostring(count_);
@@ -544,26 +545,34 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 	string cc = "colour_component";
 
 	vector<pair<double, vector<pair<double, CustomisedPoint*> > > > points;
-	double minlon, maxlon;
-	interpretor_->raw(*this, transformation, points, minlon, maxlon);
+
+
+	// Initialise index and data
+	interpretor_->index(*this);
+	uComponent();
+	vComponent();
+	double minlon = interpretor_->west_;
+	double maxlon = interpretor_->east_;
+
 	double missing = getDouble("missingValue");
 	if ( thinx ) {
 		vector<pair<double, double> > positions;
 
 		PaperPoint xy = interpretor_->reference(*this, transformation);
-
 		transformation.thin(thinx, xy, positions);
+
 		vector<pair<double, double> >::iterator pos = positions.begin();
 		out.reserve(positions.size());
 
-		if ( points.front().first > points.back().first )
-			std::reverse(points.begin(),points.end());
+
 
 		for ( pos = positions.begin(); pos != positions.end(); ++pos) {
 			double offset = 0.;
 			// First make sure tthat the lon is between the minlon and maxlon.
 			double lon = pos->first;
 			double lat = pos->second;
+			double nlon, nlat;
+
 			while ( lon < minlon ) {
 				lon += 360;
 				offset -= 360.;
@@ -572,134 +581,31 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 				lon -= 360.;
 				offset += 360.;
 			}
-			UserPoint ref(lon, lat);
-			//cout << "Reference " << ref << endl;
 
-			vector<pair<double, vector<pair<double, CustomisedPoint*> > > >::iterator y;
-			vector<pair<double, CustomisedPoint*> >::iterator x;
-			CustomisedPoint* point = 0;
-			/*
-			if (thinning_debug_) {
-				CustomisedPoint* add = new CustomisedPoint(lon, lat, "");
-							add->insert(make_pair("x_component", 0.1));
-							add->insert(make_pair("y_component", 0.1));
-				//out.push_back(add);
-			}
-			*/
-			y = std::lower_bound(points.begin(), points.end(), lat, Compare());
+			int index = interpretor_->nearest(lon, lat, nlon, nlat);
 
-			if ( same(y->first,lat) ) {
+			if ( index != -1 ) {
+				double u = uComponent(index);
+				double v = vComponent(index);
 
-				x = std::lower_bound(y->second.begin(), y->second.end(), lon, Compare());
-				if ( x->first == lon ) {
-					point = x->second;
-				}
-				else {
-					UserPoint check(x->first, y->first);
 
-					double val = transformation.distance(check, ref);
-					double min = val;
-					point = x->second;
-					//cout << "CHECK1" << check << " -->" << val << endl;
-					--x;
-					check = UserPoint(x->first, y->first);
-					val = transformation.distance( check, ref );
-					//cout << "CHECK2" << check << " -->" << val << endl;
-					if ( val < min ) {
-						min = val;
-						point = x->second;
-					}
-				}
+				if ( u != missing && v != missing) {
+					CustomisedPoint *add = new CustomisedPoint(nlon+offset, nlat, "");
+					pair<double, double> value = (*wind_mode_)(u, v);
 
-				if ( (*point)["x_component"] != missing && (*point)["y_component"] != missing ) {
-					CustomisedPoint *add = new CustomisedPoint(point->longitude()+offset, point->latitude(), "");
-					pair<double, double> value = (*wind_mode_)((*point)["x_component"], (*point)["y_component"]);
 					add->insert(make_pair("x_component", value.first));
 					add->insert(make_pair("y_component", value.second));
-					//cout << "add " << *add << endl;
+					cout << *add << endl;
 					out.push_back(add);
-
-				}
-				continue;
-			}
-
-
-			if ( y == points.end() || y == points.begin()) {
-				//point is outside!
-				continue;
-			}
-
-
-
-			x = std::lower_bound(y->second.begin(), y->second.end(), lon, Compare());
-
-			if ( x == y->second.end() )
-				continue;
-			if ( x == y->second.begin() && !same(x->first,lon) ) {
-				//point is outside!
-				continue;
-			}
-
-			UserPoint check(x->first, y->first);
-			double val = transformation.distance(check, ref);
-			double min = val;
-			//cout << "CHECK3" << check << " -->" << val << endl;
-			point = x->second;
-			if ( x != y->second.begin() ) {
-				--x;
-				check = UserPoint(x->first, y->first);
-				val = transformation.distance( check, ref );
-				//cout << "CHECK4" << check << " -->" << val << endl;
-				if ( val < min ) {
-					min = val;
-					point = x->second;
 				}
 			}
-
-			--y;
-			x = std::lower_bound(y->second.begin(), y->second.end(), lon, Compare());
-			//cout << "x=" << x->first << endl;
-
-
-
-				check = UserPoint(x->first, y->first);
-				val = transformation.distance( check, ref );
-				//cout << "CHECK5" << check << " -->" << val << endl;
-				if ( val < min ) {
-					min = val;
-					point = x->second;
-				}
-				if ( x != y->second.begin() ) {
-					--x;
-					check = UserPoint(x->first, y->first);
-					val = transformation.distance( check, ref );
-					//cout << "CHECK6" << check << " -->" << val << endl;
-					if ( val < min ) {
-						min = val;
-						point = x->second;
-					}
-				}
-
-			if ( (*point)["x_component"] != missing && (*point)["y_component"] != missing) {
-				CustomisedPoint *add = new CustomisedPoint(point->longitude()+offset, point->latitude(), "");
-				pair<double, double> value = (*wind_mode_)((*point)["x_component"], (*point)["y_component"]);
-
-				add->insert(make_pair("x_component", value.first));
-				add->insert(make_pair("y_component", value.second));
-				//cout << "add " << *add << endl;
-				out.push_back(add);
-
-			}
-
+		}
 	}
 
 
-
-	for ( vector<pair<double, vector<pair<double, CustomisedPoint*> > > >::iterator y = points.begin(); y != points.end(); ++y )
-		for ( vector<pair<double, CustomisedPoint*> >::iterator x = y->second.begin(); x != y->second.end(); ++x)
-			delete x->second;
-	}
-	else {
+	else { // no thinning !
+		// get all the points of the index!
+		/*
 		for ( vector<pair<double, vector<pair<double, CustomisedPoint*> > > >::iterator y = points.begin(); y != points.end(); ++y )
 			for ( vector<pair<double, CustomisedPoint*> >::iterator x = y->second.begin(); x != y->second.end(); ++x) {
 				CustomisedPoint *point = x->second;
@@ -718,8 +624,9 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 				}
 				delete point;
 
-			}
+			}*/
 	}
+
 }
 
 void GribDecoder::customisedPoints(const BasicThinningMethod& thinning, const Transformation& transformation, const std::set<string>& needs, CustomisedPointsList& points)
@@ -1554,6 +1461,35 @@ const LevelDescription& GribDecoder::level()
 {
 	timeStamp();
 	return dataLevel_;
+}
+
+void GribDecoder::visit(MetaDataVisitor& meta)
+{
+
+	vector<string> need;
+
+	need.push_back("<grib_info key='shortName'/>");
+	need.push_back("<grib_info key='name'/>");
+	need.push_back("<grib_info key='level'/>");
+	need.push_back("<grib_info key='base-date' format='%Y-%m-%d %H:%M:00'/>");
+	need.push_back("<grib_info key='valid-date' format='%Y-%m-%d %H:%M:00'/>");
+
+
+	TagHandler helper;
+	GribTag tag1(*this, helper);
+	for ( vector<string>::const_iterator t = need.begin(); t != need.end(); ++t )
+	{
+		tag1.decode(*t);
+	}
+
+	ostringstream grib;
+	grib << "{\"level\":\""<<  helper.get("grib", "level") << "\",";
+	grib << "\"name\":\""<<  helper.get("grib", "name") << "\",";
+	grib << "\"base-date\":\""<<  helper.get("grib", "base-date") << "\",";
+	grib << "\"valid-date\":\""<<  helper.get("grib", "valid-date") << "\"}";
+
+	meta.add("grib", grib.str());
+
 }
 
 void GribDecoder::visit(MetaDataCollector& step)
@@ -2447,7 +2383,40 @@ public:
 		 */
 	}
 };
+double GribDecoder::uComponent(int index)
+{
+	return xValues_[index];
+}
 
+double GribDecoder::vComponent(int index)
+{
+	return yValues_[index];
+}
+void GribDecoder::uComponent()
+{
+	if ( xValues_ )
+		return;
+	size_t nb;
+	string name;
+	grib_handle* handle = uHandle(name);
+
+	grib_get_size(handle, "values", &nb);
+	xValues_ = new double[nb];
+	grib_get_double_array(handle, "values", xValues_, &nb);
+}
+void GribDecoder::vComponent()
+{
+	if ( yValues_ )
+		return;
+
+	string name;
+	grib_handle* handle = vHandle(name);
+	size_t nb;
+	grib_get_size(handle, "values", &nb);
+
+	yValues_ = new double[nb];
+	grib_get_double_array(handle, "values", yValues_, &nb);
+}
 }// end namespace magics
 
 
