@@ -71,12 +71,18 @@ public:
 
     void interpolate(const GribDecoder& grib, Matrix& matrix) const;
 
-    
+    virtual void  index(const GribDecoder& grib);
+    virtual int nearest(double, double, double&, double&);
+    double west_;
+    double east_;
 protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).
 	 virtual void print(ostream& out) const { out <<  "GribInterpretor" << endl; }
+	 map<double, map<double, int> > index_;
+
 
 private:
+
     //! Copy constructor - No copy allowed
 	GribInterpretor(const GribInterpretor&);
     //! Overloaded << operator to copy - No copy allowed

@@ -137,6 +137,52 @@ void GribInterpretor::scaling(const GribDecoder& grib, Matrix** matrix) const {
 	(*matrix)->multiply(factor);
 	(*matrix)->plus(offset);
 }
+void  GribInterpretor::index(const GribDecoder& grib)
+{
+	throw MethodNotYetImplemented("GribInterpretor::index");
+}
+
+
+
+int GribInterpretor::nearest(double lon, double lat, double& nlon, double& nlat)
+{
+
+	map<double, map<double, int> >::iterator y1, y2, y;
+	map<double, int>::iterator x1, x2, x;
+
+	if ( lat < index_.begin()->first)
+		return -1;
+	if ( lat > index_.rbegin()->first)
+		return -1;
+	y2 = index_.lower_bound(lat);
+	if ( y2 == index_.begin() ) {
+		y = y2;
+	}
+	else {
+		y1 = y2;
+		y1--;
+		y  = (lat - y1->first < y2->first - lat) ? y1 : y2;
+	}
+	nlat = y->first;
+
+
+
+	if ( lon < y->second.begin()->first)
+		return -1;
+	if ( lon > y->second.rbegin()->first)
+		return -1;
+	x2 = y->second.lower_bound(lon);
+	if ( x2 == y->second.begin() ) {
+		x = x2;
+	}
+	else {
+		x1 = x2;
+		x1--;
+		x = (lon - x1->first < x2->first - lon) ? x1 : x2;
+	}
+	nlon = x->first;
+	return x->second;
+}
 
 void GribInterpretor::raw(GribDecoder& grib,
 		const Transformation& transformation,
@@ -284,6 +330,80 @@ void GribRegularInterpretor::interpretAsMatrix(const GribDecoder& grib,
 	interpretAsMatrix(grib, matrix);
 }
 
+void GribRegularInterpretor::index(const GribDecoder& grib)
+{
+	if ( !index_.empty() )
+		return;
+	long nblon = grib.getLong("numberOfPointsAlongAParallel");
+	long nblat = grib.getLong("numberOfPointsAlongAMeridian");
+
+	double north = grib.getDouble("latitudeOfFirstGridPointInDegrees");
+	west_ = grib.getDouble("longitudeOfFirstGridPointInDegrees");
+	double south = grib.getDouble("latitudeOfLastGridPointInDegrees");
+	east_ = grib.getDouble("longitudeOfLastGridPointInDegrees");
+
+	longitudesSanityCheck(west_, east_);
+
+	double loni = longitudeIncrement(grib);
+	double lon = (east_ - west_) / (nblon - 1);
+
+	vector<double> latitudes;
+	vector<double> longitudes;
+
+	this->latitudes(grib, latitudes);
+
+	double x = west_;
+	for (int i = 0; i < nblon; i++) {
+		longitudes.push_back(x);
+		x = west_ + (i + 1) * lon;
+	}
+
+
+
+
+	long jPointsAreConsecutive = grib.getLong("jPointsAreConsecutive");
+	int index = 0;
+	try {
+
+
+		if (jPointsAreConsecutive) {
+/*
+ * 			vector<double> *d = new vector<double>(nb);  // temporary array
+			double *d1 = &d->front();                 // temporary array pointer
+			double *d2 = &(*matrix)->front();            // final array
+
+			grib_get_double_array(grib.id(), "values", d1, &aux);
+
+			for (int i = 0; i < nblon; i++) {
+				for (int j = 0; j < nblat; j++) {
+					d2[j * nblon + i] = d1[i * nblat + j];
+				}
+			}
+
+			delete d;
+*/
+		}
+		else  // otherwise, just copy the array of values as they are
+		{
+			for ( vector<double>::iterator lat = latitudes.begin(); lat != latitudes.end(); ++lat) {
+				index_.insert(make_pair(*lat, map<double, int>()));
+				for ( vector<double>::iterator lon = longitudes.begin(); lon != longitudes.end(); ++lon) {
+					index_[*lat].insert(make_pair(*lon, index));
+					index++;
+				}
+			}
+		}
+
+	}
+
+	catch (...) {
+		throw MagicsException("GribRegularInterpretor - Not enough memory");
+	}
+
+
+
+}
+
 void GribRegularInterpretor::interpretAsMatrix(const GribDecoder& grib,
 		Matrix** matrix) const {
 	Timer timer("gribapi", " read grib");
@@ -367,6 +487,9 @@ void GribRegularInterpretor::interpretAsMatrix(const GribDecoder& grib,
 		throw MagicsException("GribRegularInterpretor - Not enough memory");
 	}
 }
+
+
+
 
 void GribRegularInterpretor::latitudes(const GribDecoder& grib,
 		vector<double>& latitudes) const {
@@ -737,6 +860,68 @@ void GribReducedLatLonInterpretor::print(ostream& out) const {
 	out << "]";
 }
 
+void GribReducedGaussianInterpretor::index(GribDecoder const& grib)
+{
+	cout << "INDEX" << endl;
+	if ( !index_.empty() )
+		return;
+	double north = grib.getDouble("latitudeOfFirstGridPointInDegrees");
+	west_ = grib.getDouble("longitudeOfFirstGridPointInDegrees");
+	double south = grib.getDouble("latitudeOfLastGridPointInDegrees");
+	east_ = grib.getDouble("longitudeOfLastGridPointInDegrees");
+	double plp = grib.getDouble("PLPresent");
+	long res = grib.getLong("numberOfParallelsBetweenAPoleAndTheEquator");
+	long nblat = grib.getLong("Nj");
+	longitudesSanityCheck(west_, east_);
+
+	double pl[2 * res];
+	size_t aux;
+	grib_get_double_array(grib.id(), "pl", pl, &aux);
+    double array[2 * res];
+
+	grib_get_gaussian_latitudes(res, array);
+
+    int index = 0;
+    bool global;
+
+    // We have to determine if the field is global!
+    if (east_ - west_ > 355.) {
+    	global = true;
+    }
+
+
+    for ( int i = 0; i < nblat; i++) {
+    	map<double, map<double, int> >::iterator add = index_.end();
+    	if ( same(array[i], north, 0.001) )
+    		index_.insert(make_pair(array[i], map<double, int>()));
+    	if ( same(array[i], north, 0.001) )
+    		index_.insert(make_pair(array[i], map<double, int>()));
+    	if ( array[i] < north && array[i] > south)
+    		index_.insert(make_pair(array[i], map<double, int>()));
+    	add = index_.find(array[i]);
+    	if ( add ==  index_.end() )
+    		continue;
+
+    	// compute find first grid point ..
+    	double dx = 360./pl[i];
+
+    	for ( int n = 0; n < pl[i]; n++) {
+    		double x = (n*dx );
+
+    		if ( x > east_) x-=360.;
+
+    		if ( x >= west_ && x <= east_) {
+    			add->second.insert(make_pair(x, index));
+    		}
+    		index++;
+    	}
+    	if (global) {
+    		map<double, int>::iterator first = add->second.begin();
+    		add->second.insert(make_pair(first->first+360, first->second));
+    	}
+    }
+
+}
 void GribReducedLatLonInterpretor::interpretAsMatrix(const GribDecoder& grib,
 		Matrix** matrix) const {
 
@@ -1029,172 +1214,7 @@ void GribLambertAzimutalInterpretor::interpretAsMatrix(const GribDecoder& grib,
 				lonm[i] -= 360.;
 
 		}
-		/*
-		 vector<double> left;
-		 vector<double> right;
-		 for (int l = 0; l < jm; l++ ) {
-		 left.push_back(lonm[l*im]);
-		 right.push_back(lonm[(im-1)+(l*im)]);
 
-
-		 }
-		 minlon = *min_element(left.begin(), left.end());
-		 maxlon = *max_element(right.begin(), right.end());
-
-		 MagLog::debug() << "lat [" << minlat << ", " << maxlat << "]" << std::endl;
-		 MagLog::debug()	<< "lon [" << minlon << ", " << maxlon << "]" << std::endl;
-
-
-
-
-
-		 vector<double>& lon = (*matrix)->columnsAxis();
-		 for (vector<double>::iterator l = lon.begin(); l != lon.end(); ++l )
-		 if ( *l > 180) *l  -=360;
-
-		 vector<double>& lat = (*matrix)->rowsAxis();
-
-		 // for the lon we take the fisrt line :
-		 double inci = (maxlon - minlon)/((im) -1);
-		 double incj = (maxlat - minlat)/((jm) -1);
-		 for (int i = 0; i < im; i++)
-		 lon.push_back(minlon + (i*inci));
-		 // for the lon we take the fisrt column :
-		 for (int i = 0; i < jm; i++)
-		 lat.push_back(minlat + (i*incj));
-
-		 typedef map<double, map<double, pair<int, int> > > Helper;
-
-		 //typedef map<double, double> Helper;
-		 Helper helper;
-		 int row = 0;
-		 for (vector<double>::iterator y = lat.begin(); y != lat.end(); ++y) {
-
-		 helper.insert(make_pair(*y, map<double, pair<int, int>  >()));
-
-		 Helper::iterator h = helper.find(*y);
-
-		 int column = 0;
-		 for (vector<double>::iterator x = lon.begin(); x != lon.end(); ++x) {
-		 h->second.insert(make_pair(*x, std::make_pair(row, column)));
-
-		 (*matrix)->push_back(missing);
-		 column++;
-
-		 }
-		 row++;
-		 }
-
-
-
-		 int r = 0;
-		 int c = 0;
-
-		 double lat11, lat12, lat21, lat22;
-		 double lon11, lon12, lon21, lon22;
-		 double val11, val12, val21, val22;
-
-		 for (int r = 0; r < jm -1; r++) {
-		 for (int c = 0;  c < im -1; c++) {
-
-		 lat11 = latm[c + (im*r)];
-
-		 lat12 = latm[(c+1) + (im*r)];
-		 minlat = std::min(lat11, lat12);
-		 maxlat = std::max(lat11, lat12);
-		 lat21 = latm[c + (im* (r+1))];
-		 minlat = std::min(minlat, lat21);
-		 maxlat = std::max(maxlat, lat21);
-		 lat22 = latm[(c+1) + (im* (r+1))];
-		 minlat = std::min(minlat, lat22);
-		 maxlat = std::max(maxlat, lat22);
-
-		 lon11 = lonm[c + (im*r)];
-		 lon12 = lonm[(c+1) + (im*r)];
-		 if ( lon12 < lon11 )
-		 lon12 +=360.;
-		 minlon = std::min(lon11, lon12);
-		 maxlon = std::max(lon11, lon12);
-		 lon21 = lonm[c + (im* (r+1))];
-		 minlon = std::min(minlon, lon21);
-		 maxlon = std::max(maxl  inline double column(int, int column) const {
-		 return regular_longitudes_[column];
-		 }
-		 inline double row(int row, int) const {
-		 return regular_latitudes_[row];
-		 }on, lon21);
-		 lon22 = lonm[(c+1) + (im* (r+1))];
-		 if ( lon22 < lon21 )
-		 lon22 +=360.;
-		 minlon = std::min(minlon, lon22);
-		 maxlon = std::max(maxlon, lon22);
-
-		 val11 = data[c + (im*r)];
-		 val12 = data[(c+1) + (im*r)];
-		 val21 = data[c + (im* (r+1))];
-		 val22 = data[(c+1) + (im* (r+1))];
-
-
-
-		 // find the points from the helper!
-		 Helper::iterator low,up;
-		 low = helper.lower_bound(minlat);
-		 up = helper.lower_bound(maxlat);
-		 if ( low == helper.end() || up == helper.end() )
-		 break;
-		 for (Helper::iterator it = low; it != up; ++it) {
-		 if (it == helper.end()) break;
-		 map<double, pair<int, int> >&  lons = it->second;
-		 map<double, pair<int, int> >::iterator llow = lons.lower_bound(minlon);
-		 map<double, pair<int, int> >::iterator lup = lons.lower_bound(maxlon);
-		 if ( llow == lons.end() || lup == lons.end() )
-		 break;;
-		 for (map<double, pair<int, int> >::iterator lit = llow; lit != lup; ++lit) {
-
-		 double lat = it->first;
-		 double lon = lit->first;
-		 std::pair<int, int> index = lit->second;
-
-		 // we interpolate at the point using the 4 points found!
-		 double val = missing;
-		 map<double, double> values;
-		 vector<double> distances;
-
-		 distances.push_back((lon12 - lon)*(lon12 - lon) + (lat12 -lat) *(lat12 -lat));
-		 values[distances.back()] = val12;
-		 distances.push_back((lon11 - lon)*(lon11 - lon) + (lat11 -lat) *(lat11 -lat));
-		 values[distances.back()] = val11;
-		 distances.push_back((lon21 - lon)*(lon21 - lon) + (lat21 -lat) *(lat21 -lat));
-		 values[distances.back()] = val21;
-		 distances.push_back((lon22 - lon)*(lon22 - lon) + (lat22 -lat) *(lat22 -lat));
-		 values[distances.back()] = val22;
-		 if ( (**matrix)[index.second +( index.first*im)] == missing )
-		 (**matrix)[index.second +( index.first*im)] = values[*std::min_element(distances.begin(), distances.end())];
-
-		 //we compute the distance ... we take the vlaue of the nearest non_missing point!
-
-
-		 }
-
-
-		 }
-
-
-		 }
-
-
-		 (*matrix)->setMapsAxis();
-		 (*matrix)->missing(missing);
-		 }
-
-
-
-
-
-		 MagLog::dev() << **matrix << "\n";
-
-
-		 */
 	} catch (MagicsException& e) {
 		MagLog::error() << e << "\n";
 	}
