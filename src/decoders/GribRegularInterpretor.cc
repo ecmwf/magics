@@ -183,6 +183,7 @@ int GribInterpretor::nearest(double lon, double lat, double& nlon, double& nlat)
 	nlon = x->first;
 	int index = x->second;
 	x->second = -1;
+	return index;
 
 }
 
