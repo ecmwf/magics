@@ -1465,7 +1465,6 @@ const LevelDescription& GribDecoder::level()
 
 void GribDecoder::visit(MetaDataVisitor& meta)
 {
-
 	vector<string> need;
 
 	need.push_back("<grib_info key='shortName'/>");
