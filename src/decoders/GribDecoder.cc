@@ -600,7 +600,7 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 
 
 										add->insert(make_pair("x_component", 0.01));
-										add->insert(make_pair("y_component", 0.01))
+										add->insert(make_pair("y_component", 0.01));
 					out.push_back(add);
 				}
 			}
@@ -1470,7 +1470,6 @@ const LevelDescription& GribDecoder::level()
 
 void GribDecoder::visit(MetaDataVisitor& meta)
 {
-/*
 	vector<string> need;
 
 	need.push_back("<grib_info key='shortName'/>");
@@ -1494,7 +1493,6 @@ void GribDecoder::visit(MetaDataVisitor& meta)
 	grib << "\"valid-date\":\""<<  helper.get("grib", "valid-date") << "\"}";
 
 	meta.add("grib", grib.str());
-*/
 }
 
 void GribDecoder::visit(MetaDataCollector& step)
