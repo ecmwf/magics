@@ -595,7 +595,7 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 
 					add->insert(make_pair("x_component", value.first));
 					add->insert(make_pair("y_component", value.second));
-					cout << *add << endl;
+
 					out.push_back(add);
 				}
 			}
