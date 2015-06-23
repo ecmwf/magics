@@ -524,7 +524,7 @@ MAGICS_NO_EXPORT void BinaryDriver::renderText(const Text& text) const
 	out_.write((char *)(&s),sizeof(int));
 
 	MagFont magfont = (*niceText).font();
-	Colour colour = magfont.colour();
+	const Colour& colour = magfont.colour();
 	const MFloat r=colour.red();
 	const MFloat g=colour.green();
 	const MFloat b=colour.blue();
