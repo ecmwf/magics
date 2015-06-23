@@ -536,7 +536,7 @@ struct Compare
 void GribDecoder::customisedPoints(const Transformation& transformation, CustomisedPointsList& out, double thinx, double thiny, double gap)
 {
 
-
+/*
 	map<double, map<double, CustomisedPoint*> > data;
 
 
@@ -546,7 +546,7 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 
 	vector<pair<double, vector<pair<double, CustomisedPoint*> > > > points;
 
-
+*/
 	// Initialise index and data
 	interpretor_->index(*this);
 	uComponent();
@@ -596,11 +596,13 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 					add->insert(make_pair("x_component", value.first));
 					add->insert(make_pair("y_component", value.second));
 					out.push_back(add);
+                    /*
 					add = new CustomisedPoint(lon+offset, lat, "");
 
 					add->insert(make_pair("x_component", 0.01));
 					add->insert(make_pair("y_component", 0.01));
 					out.push_back(add);
+                    */
 				}
 			}
 		}
@@ -609,26 +611,30 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 
 	else { // no thinning !
 		// get all the points of the index!
-		/*
-		for ( vector<pair<double, vector<pair<double, CustomisedPoint*> > > >::iterator y = points.begin(); y != points.end(); ++y )
-			for ( vector<pair<double, CustomisedPoint*> >::iterator x = y->second.begin(); x != y->second.end(); ++x) {
-				CustomisedPoint *point = x->second;
-				if ( (*point)["x_component"] != missing && (*point)["y_component"] != missing ) {
-					double lon = point->longitude();
-					double lat = point->latitude();
+		double lat, lon;
+		int index;
+		for ( map<double, map<double, int> >::iterator row = interpretor_->index().begin(); row != interpretor_->index().end(); ++row ) {
+			lat = row->first;
+			for (  map<double, int>::iterator column = row->second.begin(); column != row->second.end(); ++column) {
+				lon = column->first;
+				index = column->second;
+				if ( index == -1 )
+					continue;
+				double u = uComponent(index);
+				double v = vComponent(index);
+				if ( u != missing && v != missing) {
+					pair<double, double> value = (*wind_mode_)(u, v);
 					vector<UserPoint> pos;
 					transformation.populate(lon, lat, 0, pos);
 					for ( vector<UserPoint>::iterator p = pos.begin(); p != pos.end(); ++p) {
-						CustomisedPoint *add = new CustomisedPoint(p->x_, p->y_, "");
-						pair<double, double> value = (*wind_mode_)((*point)["x_component"], (*point)["y_component"]);
+						CustomisedPoint *add = new CustomisedPoint(p->x(), p->y(), "");
 						add->insert(make_pair("x_component", value.first));
 						add->insert(make_pair("y_component", value.second));
 						out.push_back(add);
 					}
 				}
-				delete point;
-
-			}*/
+			}
+		}
 	}
 
 }
