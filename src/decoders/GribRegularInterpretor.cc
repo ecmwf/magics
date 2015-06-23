@@ -863,7 +863,7 @@ void GribReducedLatLonInterpretor::print(ostream& out) const {
 
 void GribReducedGaussianInterpretor::index(GribDecoder const& grib)
 {
-	cout << "INDEX" << endl;
+
 	if ( !index_.empty() )
 		return;
 	double north = grib.getDouble("latitudeOfFirstGridPointInDegrees");
@@ -874,11 +874,12 @@ void GribReducedGaussianInterpretor::index(GribDecoder const& grib)
 	long res = grib.getLong("numberOfParallelsBetweenAPoleAndTheEquator");
 	long nblat = grib.getLong("Nj");
 	longitudesSanityCheck(west_, east_);
+	size_t aux = 2 * res;
+	double pl[aux];
 
-	double pl[2 * res];
-	size_t aux;
+
 	grib_get_double_array(grib.id(), "pl", pl, &aux);
-    double array[2 * res];
+    double array[aux];
 
 	grib_get_gaussian_latitudes(res, array);
 
