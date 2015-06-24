@@ -679,7 +679,7 @@ void WrepJSon::valid_time(const json_spirit::Value& value)
 	// intrepret datetime ...
 	string info = value.get_value<string>();
 	DateTime to(info.substr(0,8), info.substr(8,4));
-	DateTime from = to + (-24*3600);
+	DateTime from = to + (-24*3600L);
 	ostringstream vt;
 	vt << "from " << from.tostring("%A %e %B %Y %H UTC") << " to " << to.tostring("%A %e %B %Y %H UTC") << endl;
 	valid_time_ =  vt.str();
