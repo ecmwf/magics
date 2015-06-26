@@ -23,7 +23,6 @@
 #include "BaseDriver.h"
 
 using namespace magics;
-saasjhg
 BasicGraphicsObject::BasicGraphicsObject() : 
 	parent_(0)
 {
