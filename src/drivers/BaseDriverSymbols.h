@@ -243,7 +243,11 @@ MAGICS_NO_EXPORT void BaseDriver::renderSymbolItem(const SymbolItem& symbol, con
 		sym = sym_[ii];
 		if(sym.id==symbol.symbol()) break;
 	}
-	if(ii==noSymbols) sym = sym_[0];
+	if(ii==noSymbols)
+	{
+	  sym = sym_[0];
+	  MagLog::warning() << "BaseDriver::renderSymbols("<<symbol.symbol()<<")-> symbol NOT available! use question mark."<< std::endl;
+	}
 
 	const unsigned int si = sym.elements.size();
 	const MFloat pX = 1. / coordRatioX_;
