@@ -1,156 +1,156 @@
 <?xml version='1.0' standalone='no'?>
 <!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'>
-
 <svg width='100%' height='100%' version='1.1' xmlns='http://www.w3.org/2000/svg'>
-   <g id='unknown'>
-	<polyline points='-0.3,0.4 0.3,0.4 0.3,0.1 -0.3,0.1 -0.3,-0.2 0.3,-0.2' fill='none'/>
-	<circle cx='0' cy='-0.4' r='0.1' fill='8'/>
-   </g>
 
-   <g id='box'>
-	<polyline points='-0.5,-0.5 -0.5,0.5 0.5,0.5 0.5,-0.5 -0.5,-0.5' fill='none'/>
-   </g>
-   <g id='circle'>
-   	<circle cx='0' cy='0' r='0.5' fill='0'/>
-   </g>
-   <g id='snowflake'>
-	<snowflake cx='0' cy='0' r='0.3'/>
-   </g>
-   <g id='plus'>
-   	<polyline points='-0.5,0 0.5,0' fill='none'/>
-	<polyline points='0,-0.5 0,0.5' fill='none'/>
-   </g>
+<g id='unknown'>
+ <polyline points='-0.3,0.4 0.3,0.4 0.3,0.1 -0.3,0.1 -0.3,-0.2 0.3,-0.2' fill='none'/>
+ <circle cx='0' cy='-0.4' r='0.1' fill='8'/>
+</g>
+
+<g id='box'>
+ <polyline points='-0.5,-0.5 -0.5,0.5 0.5,0.5 0.5,-0.5 -0.5,-0.5' fill='none'/>
+</g>
+<g id='circle'>
+ <circle cx='0' cy='0' r='0.5' fill='0'/>
+</g>
+<g id='snowflake'>
+ <snowflake cx='0' cy='0' r='0.3'/>
+</g>
+<g id='plus'>
+ <polyline points='-0.5,0 0.5,0' fill='none'/>
+ <polyline points='0,-0.5 0,0.5' fill='none'/>
+</g>
    
-   <g id='magics_0'>
-	<polyline points='-0.5,-0.5 -0.5,0.5 0.5,0.5 0.5,-0.5 -0.5,-0.5' fill='none'/>
-   </g>
-   <g id='magics_1'>
-   	<circle cx='0' cy='0' r='0.5' fill='0'/>
-   </g>
-   <g id='magics_2'>
-   	<polyline points='-0.5,-0.5 0.5,-0.5 0,0.5 -0.5,-0.5' fill='none'/>
-   </g>
-   <g id='magics_3'>
-   	<polyline points='-0.5,0 0.5,0' fill='none'/>
+<g id='magics_0'>
+ <polyline points='-0.5,-0.5 -0.5,0.5 0.5,0.5 0.5,-0.5 -0.5,-0.5' fill='none'/>
+</g>
+<g id='magics_1'>
+  <circle cx='0' cy='0' r='0.5' fill='0'/>
+</g>
+<g id='magics_2'>
+<polyline points='-0.5,-0.5 0.5,-0.5 0,0.5 -0.5,-0.5' fill='none'/>
+</g>
+<g id='magics_3'>
+	<polyline points='-0.5,0 0.5,0' fill='none'/>
 	<polyline points='0,-0.5 0,0.5' fill='none'/>
-   </g>
-   <g id='magics_4'>
-   	<polyline points='-0.5,-0.5 0.5,0.5' fill='none'/>
+</g>
+<g id='magics_4'>
+ 	<polyline points='-0.5,-0.5 0.5,0.5' fill='none'/>
 	<polyline points='-0.5,0.5 0.5,-0.5' fill='none'/>
-   </g>
-   <g id='magics_5'>
-   	<polyline points='0,-0.5 0.5,0, 0,0.5 -0.5,0 0,-0.5' fill='none'/>
-   </g>
-   <g id='magics_6'>
-   	<polyline points='-0.5,0.5 0.5,0.5 0,-0.5 -0.5,0.5' fill='none'/>
-   </g>
-   <g id='magics_7'>
+</g>
+<g id='magics_5'>
+ 	<polyline points='0,-0.5 0.5,0, 0,0.5 -0.5,0 0,-0.5' fill='none'/>
+</g>
+<g id='magics_6'>
+	<polyline points='-0.5,0.5 0.5,0.5 0,-0.5 -0.5,0.5' fill='none'/>
+</g>
+<g id='magics_7'>
 	<polyline points='-0.5,-0.5 -0.5,0.5 0.5,0.5 0.5,-0.5 -0.5,-0.5' fill='none'/>
-   	<polyline points='-0.5,-0.5 0.5,0.5' fill='none'/>
+ 	<polyline points='-0.5,-0.5 0.5,0.5' fill='none'/>
 	<polyline points='-0.5,0.5 0.5,-0.5' fill='none'/>	
-   </g>  
-   <g id='magics_8'>
-      	<polyline points='-0.5,0 0.5,0' fill='none'/>
-   	<polyline points='-0.5,-0.5 0.5,0.5' fill='none'/>
+</g>  
+<g id='magics_8'>
+  <polyline points='-0.5,0 0.5,0' fill='none'/>
+  <polyline points='-0.5,-0.5 0.5,0.5' fill='none'/>
 	<polyline points='-0.5,0.5 0.5,-0.5' fill='none'/>	
-   </g>
-   <g id='magics_9'>
-     	<polyline points='0,-0.5 0.5,0, 0,0.5 -0.5,0 0,-0.5' fill='none'/> 
-   	<polyline points='-0.5,0 0.5,0' fill='none'/>
+</g>
+<g id='magics_9'>
+  <polyline points='0,-0.5 0.5,0, 0,0.5 -0.5,0 0,-0.5' fill='none'/> 
+  <polyline points='-0.5,0 0.5,0' fill='none'/>
 	<polyline points='0,-0.5 0,0.5' fill='none'/>   
-   </g>
-   <g id='magics_10'>
-   	<circle cx='0' cy='0' r='0.5' fill='0'/>
-   	<polyline points='-0.5,0 0.5,0' fill='none'/>
+</g>
+<g id='magics_10'>
+  <circle cx='0' cy='0' r='0.5' fill='0'/>
+  <polyline points='-0.5,0 0.5,0' fill='none'/>
 	<polyline points='0,-0.5 0,0.5' fill='none'/>
-   </g>
-   <g id='magics_11'>
-      	<polyline points='-0.5,-0.5 0.5,-0.5 0,0.5 -0.5,-0.5' fill='none'/>
-   	<polyline points='-0.5,0.5 0.5,0.5 0,-0.5 -0.5,0.5' fill='none'/>
-   </g>
-   <g id='magics_12'>
+</g>
+<g id='magics_11'>
+  <polyline points='-0.5,-0.5 0.5,-0.5 0,0.5 -0.5,-0.5' fill='none'/>
+  <polyline points='-0.5,0.5 0.5,0.5 0,-0.5 -0.5,0.5' fill='none'/>
+</g>
+<g id='magics_12'>
 	<polyline points='-0.5,-0.5 -0.5,0.5 0.5,0.5 0.5,-0.5 -0.5,-0.5' fill='none'/>
-   	<polyline points='-0.5,0 0.5,0' fill='none'/>
+  <polyline points='-0.5,0 0.5,0' fill='none'/>
 	<polyline points='0,-0.5 0,0.5' fill='none'/>
-   </g>
-   <g id='magics_13'>
-      	<circle cx='0' cy='0' r='0.5' fill='0'/>
-   	<polyline points='-0.35,-0.35 0.35,0.35' fill='none'/>
-	<polyline points='-0.35,0.35 0.35,-0.35' fill='none'/>
-   </g>
-   <g id='magics_14'>
+</g>
+<g id='magics_13'>
+ <circle cx='0' cy='0' r='0.5' fill='0'/>
+ <polyline points='-0.35,-0.35 0.35,0.35' fill='none'/>
+ <polyline points='-0.35,0.35 0.35,-0.35' fill='none'/>
+</g>
+<g id='magics_14'>
 	<polyline points='-0.5,-0.5 -0.5,0.5 0.5,0.5 0.5,-0.5 -0.5,-0.5' fill='none'/>
 	<polyline points='-0.5,-0.5 0.5,-0.5 0,0.5 -0.5,-0.5' fill='none'/>
-   </g>
-   <g id='magics_15'>
-   	<circle cx='0' cy='0' r='0.5' fill='8'/>
-   </g>
-   <g id='magics_16'>
-      	<polyline points='-0.5,-0.5 0.5,-0.5 0,0.5 -0.5,-0.5' fill='black'/>
-   	<polyline points='-0.5,0.5 0.5,0.5 0,-0.5 -0.5,0.5' fill='black'/>
-   </g>
-   <g id='magics_17'>
-   	<polyline points='0,-0.5 0.5,0, 0,0.5 -0.5,0 0,-0.5' fill='black'/>
-   </g>
-   <g id='magics_18'>
+</g>
+<g id='magics_15'>
+	<circle cx='0' cy='0' r='0.5' fill='8'/>
+</g>
+<g id='magics_16'>
+  <polyline points='-0.5,-0.5 0.5,-0.5 0,0.5 -0.5,-0.5' fill='black'/>
+  <polyline points='-0.5,0.5 0.5,0.5 0,-0.5 -0.5,0.5' fill='black'/>
+</g>
+<g id='magics_17'>
+	<polyline points='0,-0.5 0.5,0, 0,0.5 -0.5,0 0,-0.5' fill='black'/>
+</g>
+<g id='magics_18'>
 	<polyline points='-0.5,-0.5 -0.5,0.5 0.5,0.5 0.5,-0.5 -0.5,-0.5' fill='black'/>
-   </g>
-   <g id='magics_19'>
-   	<polyline points='-0.5,-0.5 0.5,-0.5 0,0.5 -0.5,-0.5' fill='black'/>
-   </g>
-   <g id='magics_20'>
-   	<polyline points='-0.5,0.5 0.5,0.5 0,-0.5 -0.5,0.5' fill='black'/>
-   </g>
-   <g id='magics_21'>
- 	<circle cx='0' cy='0' r='0.5' fill='1'/>
-   </g>
-   <g id='magics_22'>
- 	<circle cx='0' cy='0' r='0.5' fill='2'/>
-   </g>
-   <g id='magics_23'>
- 	<circle cx='0' cy='0' r='0.5' fill='3'/>
-   </g>
-   <g id='magics_24'>
+</g>
+<g id='magics_19'>
+ 	<polyline points='-0.5,-0.5 0.5,-0.5 0,0.5 -0.5,-0.5' fill='black'/>
+</g>
+<g id='magics_20'>
+	<polyline points='-0.5,0.5 0.5,0.5 0,-0.5 -0.5,0.5' fill='black'/>
+</g>
+<g id='magics_21'>
+ <circle cx='0' cy='0' r='0.5' fill='1'/>
+</g>
+<g id='magics_22'>
+  <circle cx='0' cy='0' r='0.5' fill='2'/>
+</g>
+<g id='magics_23'>
+ <circle cx='0' cy='0' r='0.5' fill='3'/>
+</g>
+<g id='magics_24'>
  	<circle cx='0' cy='0' r='0.5' fill='4'/>
-   </g>
-   <g id='magics_25'>
+</g>
+<g id='magics_25'>
  	<circle cx='0' cy='0' r='0.5' fill='5'/>
-   </g>
-   <g id='magics_26'>
+</g>
+<g id='magics_26'>
  	<circle cx='0' cy='0' r='0.5' fill='6'/>
-   </g>
-   <g id='magics_27'>
+</g>
+<g id='magics_27'>
  	<circle cx='0' cy='0' r='0.5' fill='7'/>
-   </g>
-   <g id='magics_28'>
+</g>
+<g id='magics_28'>
  	<circle cx='0' cy='0' r='0.5' fill='8'/>
-   </g>
+ </g>
 
-   <g id='ww_00'>
-        <circle cx='0' cy='0' r='0.35' fill='0'/>
-   </g>
-   <g id='ww_01'>
-        <circle cx='0' cy='0' r='0.35' fill='0'/>
-        <polyline points='0.,-0.35 0.,-0.55' fill='none'/>
-   </g>
-   <g id='ww_02'>
-        <circle cx='0' cy='0' r='0.35' fill='0'/>
-        <polyline points='-0.55,0. -0.35,0.' fill='none'/>
-        <polyline points='0.55,0. 0.35,0.' fill='none'/>
-   </g>
-   <g id='ww_03'>
-        <circle cx='0' cy='0' r='0.35' fill='0'/>
-        <polyline points='0.,0.35 0.,0.55' fill='none'/>
-   </g>
-   <g id='ww_04'>
+<g id='ww_00'>
+ <circle cx='0' cy='0' r='0.35' fill='0'/>
+</g>
+<g id='ww_01'>
+  <circle cx='0' cy='0' r='0.35' fill='0'/>
+  <polyline points='0.,-0.35 0.,-0.55' fill='none'/>
+</g>
+<g id='ww_02'>
+  <circle cx='0' cy='0' r='0.35' fill='0'/>
+  <polyline points='-0.55,0. -0.35,0.' fill='none'/>
+  <polyline points='0.55,0. 0.35,0.' fill='none'/>
+</g>
+<g id='ww_03'>
+  <circle cx='0' cy='0' r='0.35' fill='0'/>
+  <polyline points='0.,0.35 0.,0.55' fill='none'/>
+</g>
+<g id='ww_04'>
 	<polyline points='-0.3,-0.3 -0.3,0.2 -0.2,0.3 -0.1,0.2 0,0.3 0.1,0.2 0.2,0.3' fill='none'/>
-   </g>
-   <g id='ww_05'>
+</g>
+<g id='ww_05'>
 	<polyline points='-0.2,-0.2 0.2,0.2 0.35,0.25 0.4,0.21 0.5,0.1 0.5,-0.1 0.4,-0.21 0.35,-0.25 0.2,-0.2 -0.2,0.2 -0.35,0.25 -0.4,0.21 -0.5,0.1 -0.5,-0.1 -0.4,-0.21 -0.35,-0.25 -0.2,-0.2' fill='none'/>
-   </g>
-   <g id='ww_06'>
+</g>
+<g id='ww_06'>
 	<polyline points='0.2,0.30 0.1,0.38 0,0.4 -0.1,0.38 -0.2,0.27 -0.2,0.20 -0.16,0.14 0,0 0.16,-0.14 0.2,-0.20 0.2,-0.27 0.1,-0.38 0,-0.4 -0.1,-0.38 -0.2,-0.30' fill='none'/>
-   </g>
+</g>
 <g id='ww_07'>
 	<polyline points='0.2,0.30 0.1,0.38 0,0.4 -0.1,0.38 -0.2,0.27 -0.2,0.20 -0.16,0.14 0,0 0.16,-0.14 0.2,-0.20 0.2,-0.27 0.1,-0.38 0,-0.4 -0.1,-0.38 -0.2,-0.30' fill='none'/>
 	<polyline points='0.,0.45 0.,-0.45' fill='none'/>
@@ -166,81 +166,81 @@
     ' fill='none'/>
 </g>   
 <g id='ww_09'>
-        <polyline points='0.2,0.30 0.1,0.38 0,0.4 -0.1,0.38 -0.2,0.27 -0.2,0.20 -0.16,0.14 0,0 0.16,-0.14 0.2,-0.20 0.2,-0.27 0.1,-0.38 0,-0.4 -0.1,-0.38 -0.2,-0.30' fill='none'/>
-        <polyline points='-0.38,0 0.38,0' fill='none'/>
-        <polyline points='0.4,0 0.22,0.13' fill='none'/>
-        <polyline points='0.4,0 0.22,-0.13' fill='none'/>
+  <polyline points='0.2,0.30 0.1,0.38 0,0.4 -0.1,0.38 -0.2,0.27 -0.2,0.20 -0.16,0.14 0,0 0.16,-0.14 0.2,-0.20 0.2,-0.27 0.1,-0.38 0,-0.4 -0.1,-0.38 -0.2,-0.30' fill='none'/>
+  <polyline points='-0.38,0 0.38,0' fill='none'/>
+  <polyline points='0.4,0 0.22,0.13' fill='none'/>
+  <polyline points='0.4,0 0.22,-0.13' fill='none'/>
 	<polyline points='0.39,0.45 0.42,0.35 0.46,0.1 0.46,-0.1 0.42,-0.35 0.39,-0.45' fill='none'/>
 	<polyline points='-0.39,0.45 -0.42,0.35 -0.46,0.1 -0.46,-0.1 -0.42,-0.35 -0.39,-0.45' fill='none'/>
-   </g>
-   <g id='ww_10'>
-        <polyline points='-0.4,0.15 0.4,0.15' fill='none'/>
-        <polyline points='-0.4,-0.15 0.4,-0.15' fill='none'/>
-   </g>
-   <g id='ww_11'>
-        <polyline points='-0.4,0.3 -0.1,0.3' fill='none'/>
-        <polyline points='0.1,0.3  0.4,0.3' fill='none'/>
-        <polyline points='-0.4,0 -0.1,0' fill='none'/>
-        <polyline points='0.1,0  0.4,0' fill='none'/>
-        <polyline points='-0.4,-0.3 -0.1,-0.3' fill='none'/>
-        <polyline points='0.1,-0.3  0.4,-0.3' fill='none'/>
-   </g>
-   <g id='ww_12'>
-        <polyline points='-0.4,0.3 -0.1,0.3' fill='none'/>
-        <polyline points='0.1,0.3  0.4,0.3' fill='none'/>
-        <polyline points='-0.4,0 -0.1,0' fill='none'/>
-        <polyline points='0.1,0  0.4,0' fill='none'/>
-        <polyline points='-0.4,-0.3 0.4,-0.3' fill='none'/>
-   </g>
-   <g id='ww_13'>
-        <polyline points='0.3,0.4 -0.3,0 0.3,-0.4' fill='none'/>
-        <polyline points='0.2,-0.2  0.3,-0.4 0.1,-0.4' fill='none'/>
-   </g>
-   <g id='ww_14'>
-        <circle cx='0' cy='0' r='0.1' fill='8'/>
+</g>
+<g id='ww_10'>
+  <polyline points='-0.4,0.15 0.4,0.15' fill='none'/>
+  <polyline points='-0.4,-0.15 0.4,-0.15' fill='none'/>
+</g>
+<g id='ww_11'>
+  <polyline points='-0.4,0.3 -0.1,0.3' fill='none'/>
+  <polyline points='0.1,0.3  0.4,0.3' fill='none'/>
+  <polyline points='-0.4,0 -0.1,0' fill='none'/>
+  <polyline points='0.1,0  0.4,0' fill='none'/>
+  <polyline points='-0.4,-0.3 -0.1,-0.3' fill='none'/>
+  <polyline points='0.1,-0.3  0.4,-0.3' fill='none'/>
+</g>
+<g id='ww_12'>
+  <polyline points='-0.4,0.3 -0.1,0.3' fill='none'/>
+  <polyline points='0.1,0.3  0.4,0.3' fill='none'/>
+  <polyline points='-0.4,0 -0.1,0' fill='none'/>
+  <polyline points='0.1,0  0.4,0' fill='none'/>
+  <polyline points='-0.4,-0.3 0.4,-0.3' fill='none'/>
+</g>
+<g id='ww_13'>
+  <polyline points='0.3,0.4 -0.3,0 0.3,-0.4' fill='none'/>
+  <polyline points='0.2,-0.2  0.3,-0.4 0.1,-0.4' fill='none'/>
+</g>
+<g id='ww_14'>
+  <circle cx='0' cy='0' r='0.1' fill='8'/>
 	<polyline points='0.4,-0.17 0.35,-0.25 -0.35,-0.25 -0.4,-0.17' fill='none'/>
-   </g>
-   <g id='ww_15'>
-        <circle cx='0' cy='0' r='0.1' fill='8'/>
-        <polyline points='0.33,0.4 0.25,0.35 0.25,-0.35 0.33,-0.4' fill='none'/>
-        <polyline points='-0.33,0.4 -0.25,0.35 -0.25,-0.35 -0.33,-0.4' fill='none'/>
-   </g>
-   <g id='ww_16'>
-        <circle cx='0' cy='0' r='0.1' fill='8'/>
-        <polyline points='0.17,0.4 0.25,0.35 0.25,-0.35 0.17,-0.4' fill='none'/>
-        <polyline points='-0.17,0.4 -0.25,0.35 -0.25,-0.35 -0.17,-0.4' fill='none'/>
-   </g>   
-   <g id='ww_17'>
+</g>
+<g id='ww_15'>
+  <circle cx='0' cy='0' r='0.1' fill='8'/>
+  <polyline points='0.33,0.4 0.25,0.35 0.25,-0.35 0.33,-0.4' fill='none'/>
+  <polyline points='-0.33,0.4 -0.25,0.35 -0.25,-0.35 -0.33,-0.4' fill='none'/>
+</g>
+<g id='ww_16'>
+  <circle cx='0' cy='0' r='0.1' fill='8'/>
+  <polyline points='0.17,0.4 0.25,0.35 0.25,-0.35 0.17,-0.4' fill='none'/>
+  <polyline points='-0.17,0.4 -0.25,0.35 -0.25,-0.35 -0.17,-0.4' fill='none'/>
+</g>   
+<g id='ww_17'>
 	<lightning cx='0' cy='0.0'  r='0.8'/>
-   </g>
-   <g id='ww_18'>
-       <polyline points='0,0.1 0.2,0.2 0,-0.3 -0.2,0.2 0,0.1' fill='none'/>
-   </g>
-   <g id='ww_19'>
-       <polyline points='-0.2,0.4 -0.1,0.3 -0.1,-0.3 -0.2,-0.4' fill='none'/> 
-       <polyline points='0.2,0.4 0.1,0.3 0.1,-0.3 0.2,-0.4' fill='none'/> 
-   </g>
-   <g id='ww_20'>
-        <drizzle cx='0' cy='0' r='0.2'/>
+</g>
+<g id='ww_18'>
+  <polyline points='0,0.1 0.2,0.2 0,-0.3 -0.2,0.2 0,0.1' fill='none'/>
+</g>
+<g id='ww_19'>
+  <polyline points='-0.2,0.4 -0.1,0.3 -0.1,-0.3 -0.2,-0.4' fill='none'/> 
+  <polyline points='0.2,0.4 0.1,0.3 0.1,-0.3 0.2,-0.4' fill='none'/> 
+</g>
+<g id='ww_20'>
+  <drizzle cx='0' cy='0' r='0.2'/>
 	<polyline points='0,0.45 0.3,0.45 0.3,-0.45 0,-0.45' fill='none'/>
-   </g>
-   <g id='ww_21'>
-        <circle cx='0' cy='0' r='0.15' fill='8'/>
+</g>
+<g id='ww_21'>
+  <circle cx='0' cy='0' r='0.15' fill='8'/>
 	<polyline points='0,0.45 0.3,0.45 0.3,-0.45 0,-0.45' fill='none'/>
-   </g>
-   <g id='ww_22'>
-        <snowflake cx='0' cy='0' r='0.2'/>
+</g>
+<g id='ww_22'>
+  <snowflake cx='0' cy='0' r='0.2'/>
 	<polyline points='0,0.45 0.3,0.45 0.3,-0.45 0,-0.45' fill='none'/>
-   </g>
-   <g id='ww_23'>
-        <circle cx='0' cy='0.24' r='0.15' fill='8'/>
-        <snowflake cx='0' cy='-0.24' r='0.2'/>
+</g>
+<g id='ww_23'>
+  <circle cx='0' cy='0.24' r='0.15' fill='8'/>
+  <snowflake cx='0' cy='-0.24' r='0.2'/>
 	<polyline points='0,0.5 0.3,0.5 0.3,-0.5 0,-0.5' fill='none'/>
-  </g>
-  <g id='ww_24'>
-	<polyline points='0.15,0.5 0.45,0.5 0.45,-0.5 0.15,-0.5' fill='none'/>
-        <polyline points='-0.3,-0.1 -0.35,0.05 -0.32,0.1 -0.25,0.15 -0.18,0.15 -0.13,0.1 0.13,-0.11  0.13,-0.11 0.18,-0.15 0.25,-0.15 0.32,-0.1 0.35,-0.05 0.3,0.1' fill='none'/>
-   </g>
+</g>
+<g id='ww_24'>
+ <polyline points='0.15,0.5 0.45,0.5 0.45,-0.5 0.15,-0.5' fill='none'/>
+ <polyline points='-0.3,-0.1 -0.35,0.05 -0.32,0.1 -0.25,0.15 -0.18,0.15 -0.13,0.1 0.13,-0.11  0.13,-0.11 0.18,-0.15 0.25,-0.15 0.32,-0.1 0.35,-0.05 0.3,0.1' fill='none'/>
+</g>
 <g id='ww_25'>
  <polyline points='0.15,0.5 0.45,0.5 0.45,-0.5 0.15,-0.5' fill='none'/>
  <circle cx='0' cy='0.25' r='0.15' fill='8'/>
@@ -257,326 +257,322 @@
  <triangle cx='0' cy='-0.22' r='-0.3' fill='0'/>
 </g>
 <g id='ww_28'>
-        <polyline points='-0.35,0.3 0.35,0.3' fill='none'/>
-        <polyline points='-0.35,0 0.35,0' fill='none'/>
-        <polyline points='-0.35,-0.3 0.35,-0.3' fill='none'/>
-        <polyline points='0.5,-0.45 0.5,0.45' fill='none'/>
-        <polyline points='0.5,-0.45 0.35,-0.45' fill='none'/>
-        <polyline points='0.5,0.45 0.35,0.45' fill='none'/>
+  <polyline points='-0.35,0.3 0.35,0.3' fill='none'/>
+  <polyline points='-0.35,0 0.35,0' fill='none'/>
+  <polyline points='-0.35,-0.3 0.35,-0.3' fill='none'/>
+  <polyline points='0.5,-0.45 0.5,0.45' fill='none'/>
+  <polyline points='0.5,-0.45 0.35,-0.45' fill='none'/>
+  <polyline points='0.5,0.45 0.35,0.45' fill='none'/>
 </g>
 <g id='ww_29'> 
-      <polyline points='0.5,-0.45 0.5,0.45' fill='none'/>
-        <polyline points='0.5,-0.45 0.35,-0.45' fill='none'/>
-        <polyline points='0.5,0.45 0.35,0.45' fill='none'/>
-        <lightning cx='0' cy='0'  r='0.6'/>
+  <polyline points='0.5,-0.45 0.5,0.45' fill='none'/>
+  <polyline points='0.5,-0.45 0.35,-0.45' fill='none'/>
+  <polyline points='0.5,0.45 0.35,0.45' fill='none'/>
+  <lightning cx='0' cy='0'  r='0.6'/>
 </g>
-   <g id='ww_30'>
-        <polyline points='0.2,0.30 0.1,0.38 0,0.4 -0.1,0.38 -0.2,0.27 -0.2,0.20 -0.16,0.14 0,0 0.16,-0.14 0.2,-0.20 0.2,-0.27 0.1,-0.38 0,-0.4 -0.1,-0.38 -0.2,-0.30' fill='none'/>
-        <polyline points='-0.38,0 0.38,0' fill='none'/>
-        <polyline points='0.4,0 0.22,0.13' fill='none'/>
-        <polyline points='0.4,0 0.22,-0.13' fill='none'/>
+<g id='ww_30'>
+  <polyline points='0.2,0.30 0.1,0.38 0,0.4 -0.1,0.38 -0.2,0.27 -0.2,0.20 -0.16,0.14 0,0 0.16,-0.14 0.2,-0.20 0.2,-0.27 0.1,-0.38 0,-0.4 -0.1,-0.38 -0.2,-0.30' fill='none'/>
+  <polyline points='-0.38,0 0.38,0' fill='none'/>
+  <polyline points='0.4,0 0.22,0.13' fill='none'/>
+  <polyline points='0.4,0 0.22,-0.13' fill='none'/>
 	<polyline points='0.46,0.45 0.46,-0.45' fill='none'/>
-   </g>
-   <g id='ww_31'>
-        <polyline points='0.2,0.30 0.1,0.38 0,0.4 -0.1,0.38 -0.2,0.27 -0.2,0.20 -0.16,0.14 0,0 
-             0.16,-0.14 0.2,-0.20 0.2,-0.27 0.1,-0.38 0,-0.4 -0.1,-0.38 -0.2,-0.30' fill='none'/>
-        <polyline points='-0.38,0 0.38,0' fill='none'/>
-        <polyline points='0.4,0 0.22,0.13' fill='none'/>
-        <polyline points='0.4,0 0.22,-0.13' fill='none'/>
-   </g>
-   <g id='ww_32'>
-        <polyline points='0.2,0.30 0.1,0.38 0,0.4 -0.1,0.38 -0.2,0.27 -0.2,0.20 -0.16,0.14 0,0 0.16,-0.14 0.2,-0.20 0.2,-0.27 0.1,-0.38 0,-0.4 -0.1,-0.38 -0.2,-0.30' fill='none'/>
-        <polyline points='-0.38,0 0.38,0' fill='none'/>
-        <polyline points='0.4,0 0.22,0.13' fill='none'/>
-        <polyline points='0.4,0 0.22,-0.13' fill='none'/>
+</g>
+<g id='ww_31'>
+  <polyline points='0.2,0.30 0.1,0.38 0,0.4 -0.1,0.38 -0.2,0.27 -0.2,0.20 -0.16,0.14 0,0 
+    0.16,-0.14 0.2,-0.20 0.2,-0.27 0.1,-0.38 0,-0.4 -0.1,-0.38 -0.2,-0.30' fill='none'/>
+  <polyline points='-0.38,0 0.38,0' fill='none'/>
+  <polyline points='0.4,0 0.22,0.13' fill='none'/>
+  <polyline points='0.4,0 0.22,-0.13' fill='none'/>
+</g>
+<g id='ww_32'>
+  <polyline points='0.2,0.30 0.1,0.38 0,0.4 -0.1,0.38 -0.2,0.27 -0.2,0.20 -0.16,0.14 0,0 0.16,-0.14 0.2,-0.20 0.2,-0.27 0.1,-0.38 0,-0.4 -0.1,-0.38 -0.2,-0.30' fill='none'/>
+  <polyline points='-0.38,0 0.38,0' fill='none'/>
+  <polyline points='0.4,0 0.22,0.13' fill='none'/>
+  <polyline points='0.4,0 0.22,-0.13' fill='none'/>
 	<polyline points='-0.46,0.45 -0.46,-0.45' fill='none'/>
-   </g>
-   <g id='ww_33'>
-        <polyline points='0.2,0.30 0.1,0.38 0,0.4 -0.1,0.38 -0.2,0.27 -0.2,0.20 -0.16,0.14 0,0 0.16,-0.14 0.2,-0.20 0.2,-0.27 0.1,-0.38 0,-0.4 -0.1,-0.38 -0.2,-0.30' fill='none'/>
-        <polyline points='-0.38,0.05  0.34,0.05' fill='none'/>
-        <polyline points='-0.38,-0.05 0.34,-0.05' fill='none'/>
-        <polyline points='0.4,0 0.22,0.13' fill='none'/>
-        <polyline points='0.4,0 0.22,-0.13' fill='none'/>
+</g>
+<g id='ww_33'>
+  <polyline points='0.2,0.30 0.1,0.38 0,0.4 -0.1,0.38 -0.2,0.27 -0.2,0.20 -0.16,0.14 0,0 0.16,-0.14 0.2,-0.20 0.2,-0.27 0.1,-0.38 0,-0.4 -0.1,-0.38 -0.2,-0.30' fill='none'/>
+  <polyline points='-0.38,0.05  0.34,0.05' fill='none'/>
+  <polyline points='-0.38,-0.05 0.34,-0.05' fill='none'/>
+  <polyline points='0.4,0 0.22,0.13' fill='none'/>
+  <polyline points='0.4,0 0.22,-0.13' fill='none'/>
 	<polyline points='0.46,0.45 0.46,-0.45' fill='none'/>
-   </g>
-   <g id='ww_34'>
-        <polyline points='0.2,0.30 0.1,0.38 0,0.4 -0.1,0.38 -0.2,0.27 -0.2,0.20 -0.16,0.14 0,0 0.16,-0.14 0.2,-0.20 0.2,-0.27 0.1,-0.38 0,-0.4 -0.1,-0.38 -0.2,-0.30' fill='none'/>
-        <polyline points='-0.38,0.05  0.34,0.05' fill='none'/>
-        <polyline points='-0.38,-0.05 0.34,-0.05' fill='none'/>
-        <polyline points='0.4,0 0.22,0.13' fill='none'/>
-        <polyline points='0.4,0 0.22,-0.13' fill='none'/>
-   </g>
-   <g id='ww_35'>
-        <polyline points='0.2,0.30 0.1,0.38 0,0.4 -0.1,0.38 -0.2,0.27 -0.2,0.20 -0.16,0.14 0,0 0.16,-0.14 0.2,-0.20 0.2,-0.27 0.1,-0.38 0,-0.4 -0.1,-0.38 -0.2,-0.30' fill='none'/>
-        <polyline points='-0.38,0.05  0.34,0.05' fill='none'/>
-        <polyline points='-0.38,-0.05 0.34,-0.05' fill='none'/>
-        <polyline points='0.4,0 0.22,0.13' fill='none'/>
-        <polyline points='0.4,0 0.22,-0.13' fill='none'/>
+</g>
+<g id='ww_34'>
+  <polyline points='0.2,0.30 0.1,0.38 0,0.4 -0.1,0.38 -0.2,0.27 -0.2,0.20 -0.16,0.14 0,0 0.16,-0.14 0.2,-0.20 0.2,-0.27 0.1,-0.38 0,-0.4 -0.1,-0.38 -0.2,-0.30' fill='none'/>
+  <polyline points='-0.38,0.05  0.34,0.05' fill='none'/>
+  <polyline points='-0.38,-0.05 0.34,-0.05' fill='none'/>
+  <polyline points='0.4,0 0.22,0.13' fill='none'/>
+  <polyline points='0.4,0 0.22,-0.13' fill='none'/>
+</g>
+<g id='ww_35'>
+  <polyline points='0.2,0.30 0.1,0.38 0,0.4 -0.1,0.38 -0.2,0.27 -0.2,0.20 -0.16,0.14 0,0 0.16,-0.14 0.2,-0.20 0.2,-0.27 0.1,-0.38 0,-0.4 -0.1,-0.38 -0.2,-0.30' fill='none'/>
+  <polyline points='-0.38,0.05  0.34,0.05' fill='none'/>
+  <polyline points='-0.38,-0.05 0.34,-0.05' fill='none'/>
+  <polyline points='0.4,0 0.22,0.13' fill='none'/>
+  <polyline points='0.4,0 0.22,-0.13' fill='none'/>
 	<polyline points='-0.46,0.45 -0.46,-0.45' fill='none'/>
-   </g>
-   <g id='ww_36'>
-       <polyline points='-0.38,0 0.38,0' fill='none'/>
-       <polyline points='0.4,0 0.22,0.13' fill='none'/>
-       <polyline points='0.4,0 0.22,-0.13' fill='none'/>
-       <polyline points='0,-0.4 0,0.38' fill='none'/>
-       <polyline points='0,-0.4 -0.13,-0.22' fill='none'/>
-       <polyline points='0,-0.4  0.13,-0.22' fill='none'/>
-   </g>
-   <g id='ww_37'>
-       <polyline points='-0.38,0.05  0.34,0.05' fill='none'/>
-       <polyline points='-0.38,-0.05 0.34,-0.05' fill='none'/>
-       <polyline points='0.4,0 0.22,0.13' fill='none'/>
-       <polyline points='0.4,0 0.22,-0.13' fill='none'/>
-       <polyline points='0,-0.4 0,0.38' fill='none'/>
-       <polyline points='0,-0.4 -0.13,-0.22' fill='none'/>
-       <polyline points='0,-0.4  0.13,-0.22' fill='none'/>
-   </g>
-   <g id='ww_38'>
-       <polyline points='-0.38,0 0.38,0' fill='none'/>
-       <polyline points='0.4,0 0.22,0.13' fill='none'/>
-       <polyline points='0.4,0 0.22,-0.13' fill='none'/>
-       <polyline points='0,0.4 0,-0.38' fill='none'/>
-       <polyline points='0,0.4 -0.13,0.22' fill='none'/>
-       <polyline points='0,0.4  0.13,0.22' fill='none'/>
-   </g>
-   <g id='ww_39'>
-       <polyline points='-0.38,0.05  0.34,0.05' fill='none'/>
-       <polyline points='-0.38,-0.05 0.34,-0.05' fill='none'/>
-       <polyline points='0.4,0 0.22,0.13' fill='none'/>
-       <polyline points='0.4,0 0.22,-0.13' fill='none'/>
-       <polyline points='0,0.4 0,-0.38' fill='none'/>
-       <polyline points='0,0.4 -0.13,0.22' fill='none'/>
-       <polyline points='0,0.4  0.13,0.22' fill='none'/>
-   </g>
-   <g id='ww_40'>
-        <polyline points='-0.35,0.3 0.35,0.3' fill='none'/>
-        <polyline points='-0.35,0 0.35,0' fill='none'/>
-        <polyline points='-0.35,-0.3 0.35,-0.3' fill='none'/>
+</g>
+<g id='ww_36'>
+  <polyline points='-0.38,0 0.38,0' fill='none'/>
+  <polyline points='0.4,0 0.22,0.13' fill='none'/>
+  <polyline points='0.4,0 0.22,-0.13' fill='none'/>
+  <polyline points='0,-0.4 0,0.38' fill='none'/>
+  <polyline points='0,-0.4 -0.13,-0.22' fill='none'/>
+  <polyline points='0,-0.4  0.13,-0.22' fill='none'/>
+</g>
+<g id='ww_37'>
+  <polyline points='-0.38,0.05  0.34,0.05' fill='none'/>
+  <polyline points='-0.38,-0.05 0.34,-0.05' fill='none'/>
+  <polyline points='0.4,0 0.22,0.13' fill='none'/>
+  <polyline points='0.4,0 0.22,-0.13' fill='none'/>
+  <polyline points='0,-0.4 0,0.38' fill='none'/>
+  <polyline points='0,-0.4 -0.13,-0.22' fill='none'/>
+  <polyline points='0,-0.4  0.13,-0.22' fill='none'/>
+</g>
+<g id='ww_38'>
+  <polyline points='-0.38,0 0.38,0' fill='none'/>
+  <polyline points='0.4,0 0.22,0.13' fill='none'/>
+  <polyline points='0.4,0 0.22,-0.13' fill='none'/>
+  <polyline points='0,0.4 0,-0.38' fill='none'/>
+  <polyline points='0,0.4 -0.13,0.22' fill='none'/>
+  <polyline points='0,0.4  0.13,0.22' fill='none'/>
+</g>
+<g id='ww_39'>
+  <polyline points='-0.38,0.05  0.34,0.05' fill='none'/>
+  <polyline points='-0.38,-0.05 0.34,-0.05' fill='none'/>
+  <polyline points='0.4,0 0.22,0.13' fill='none'/>
+  <polyline points='0.4,0 0.22,-0.13' fill='none'/>
+  <polyline points='0,0.4 0,-0.38' fill='none'/>
+  <polyline points='0,0.4 -0.13,0.22' fill='none'/>
+  <polyline points='0,0.4  0.13,0.22' fill='none'/>
+</g>
+<g id='ww_40'>
+  <polyline points='-0.35,0.3 0.35,0.3' fill='none'/>
+  <polyline points='-0.35,0 0.35,0' fill='none'/>
+  <polyline points='-0.35,-0.3 0.35,-0.3' fill='none'/>
 	<polyline points='0.39,0.45 0.42,0.35 0.46,0.1 0.46,-0.1 0.42,-0.35 0.39,-0.45' fill='none'/>
 	<polyline points='-0.39,0.45 -0.42,0.35 -0.46,0.1 -0.46,-0.1 -0.42,-0.35 -0.39,-0.45' fill='none'/>
-   </g>
-   <g id='ww_41'>
-        <polyline points='-0.35,0.3 -0.1,0.3' fill='none'/>
-        <polyline points='0.1,0.3  0.35,0.3' fill='none'/>
-        <polyline points='-0.35,0 0.35,0' fill='none'/>
-        <polyline points='-0.35,-0.3 -0.1,-0.3' fill='none'/>
-        <polyline points='0.1,-0.3  0.35,-0.3' fill='none'/>
-   </g>
-   <g id='ww_42'>
-        <polyline points='-0.35,0.3 -0.1,0.3' fill='none'/>
-        <polyline points='0.1,0.3  0.35,0.3' fill='none'/>
-        <polyline points='-0.35,0 0.35,0' fill='none'/>
-        <polyline points='-0.35,-0.3 0.35,-0.3' fill='none'/>
-        <polyline points='0.5,-0.35 0.5,0.35' fill='none'/>
-   </g>
-   <g id='ww_43'>
-        <polyline points='-0.35,0.3 0.35,0.3' fill='none'/>
-        <polyline points='-0.35,0 0.35,0' fill='none'/>
-        <polyline points='-0.35,-0.3 0.35,-0.3' fill='none'/>
-        <polyline points='0.5,-0.35 0.5,0.35' fill='none'/>
-   </g>
-   <g id='ww_44'>
-        <polyline points='-0.35,0.3 -0.1,0.3' fill='none'/>
-        <polyline points='0.1,0.3 0.35,0.3' fill='none'/>
-        <polyline points='-0.35,0 0.35,0' fill='none'/>
-        <polyline points='-0.35,-0.3 0.35,-0.3' fill='none'/>
-   </g>
-   <g id='ww_45'>
-        <polyline points='-0.35,0.3 0.35,0.3' fill='none'/>
-        <polyline points='-0.35,0 0.35,0' fill='none'/>
-        <polyline points='-0.35,-0.3 0.35,-0.3' fill='none'/>
-   </g>
-   <g id='ww_46'>
-        <polyline points='-0.35,0.3 -0.1,0.3' fill='none'/>
-        <polyline points='0.1,0.3  0.35,0.3' fill='none'/>
-        <polyline points='-0.35,0 0.35,0' fill='none'/>
-        <polyline points='-0.35,-0.3 0.35,-0.3' fill='none'/>
-        <polyline points='-0.5,-0.35 -0.5,0.35' fill='none'/>
-   </g>
-   <g id='ww_47'>
-        <polyline points='-0.35,0.3 0.35,0.3' fill='none'/>
-        <polyline points='-0.35,0 0.35,0' fill='none'/>
-        <polyline points='-0.35,-0.3 0.35,-0.3' fill='none'/>
-        <polyline points='-0.5,-0.35 -0.5,0.35' fill='none'/>
-   </g>
-  <g id='ww_48'>
-        <polyline points='-0.1,0. 0,-0.3 0.1,0.' fill='8'/>
-        <polyline points='-0.35,0.3 -0.15,0.3 0,-0.3 0.15,0.3 0.35,0.3' fill='none'/>
-        <polyline points='-0.35,0 0.35,0' fill='none'/>
-        <polyline points='-0.35,-0.3 0.35,-0.3' fill='none'/>
-   </g>
-  <g id='ww_49'>
-        <polyline points='-0.35,0.3 0.35,0.3' fill='none'/>
-        <polyline points='-0.1,0. 0,-0.3 0.1,0.' fill='8'/>
-        <polyline points='-0.15,0.3 0,-0.3 0.15,0.3' fill='none'/>
-        <polyline points='-0.35,0 0.35,0' fill='none'/>
-        <polyline points='-0.35,-0.3 0.35,-0.3' fill='none'/>
-   </g>
- 
-   <g id='ww_50'>
-        <drizzle cx='0' cy='0' r='0.25'/>
-   </g>
-   <g id='ww_51'>
+</g>
+<g id='ww_41'>
+  <polyline points='-0.35,0.3 -0.1,0.3' fill='none'/>
+  <polyline points='0.1,0.3  0.35,0.3' fill='none'/>
+  <polyline points='-0.35,0 0.35,0' fill='none'/>
+  <polyline points='-0.35,-0.3 -0.1,-0.3' fill='none'/>
+  <polyline points='0.1,-0.3  0.35,-0.3' fill='none'/>
+</g>
+<g id='ww_42'>
+  <polyline points='-0.35,0.3 -0.1,0.3' fill='none'/>
+  <polyline points='0.1,0.3  0.35,0.3' fill='none'/>
+  <polyline points='-0.35,0 0.35,0' fill='none'/>
+  <polyline points='-0.35,-0.3 0.35,-0.3' fill='none'/>
+  <polyline points='0.5,-0.35 0.5,0.35' fill='none'/>
+</g>
+<g id='ww_43'>
+  <polyline points='-0.35,0.3 0.35,0.3' fill='none'/>
+  <polyline points='-0.35,0 0.35,0' fill='none'/>
+  <polyline points='-0.35,-0.3 0.35,-0.3' fill='none'/>
+  <polyline points='0.5,-0.35 0.5,0.35' fill='none'/>
+</g>
+<g id='ww_44'>
+  <polyline points='-0.35,0.3 -0.1,0.3' fill='none'/>
+  <polyline points='0.1,0.3 0.35,0.3' fill='none'/>
+  <polyline points='-0.35,0 0.35,0' fill='none'/>
+  <polyline points='-0.35,-0.3 0.35,-0.3' fill='none'/>
+</g>
+<g id='ww_45'>
+  <polyline points='-0.35,0.3 0.35,0.3' fill='none'/>
+  <polyline points='-0.35,0 0.35,0' fill='none'/>
+  <polyline points='-0.35,-0.3 0.35,-0.3' fill='none'/>
+</g>
+<g id='ww_46'>
+  <polyline points='-0.35,0.3 -0.1,0.3' fill='none'/>
+  <polyline points='0.1,0.3  0.35,0.3' fill='none'/>
+  <polyline points='-0.35,0 0.35,0' fill='none'/>
+  <polyline points='-0.35,-0.3 0.35,-0.3' fill='none'/>
+  <polyline points='-0.5,-0.35 -0.5,0.35' fill='none'/>
+</g>
+<g id='ww_47'>
+  <polyline points='-0.35,0.3 0.35,0.3' fill='none'/>
+  <polyline points='-0.35,0 0.35,0' fill='none'/>
+  <polyline points='-0.35,-0.3 0.35,-0.3' fill='none'/>
+  <polyline points='-0.5,-0.35 -0.5,0.35' fill='none'/>
+</g>
+<g id='ww_48'>
+  <polyline points='-0.1,0. 0,-0.3 0.1,0.' fill='8'/>
+  <polyline points='-0.35,0.3 -0.15,0.3 0,-0.3 0.15,0.3 0.35,0.3' fill='none'/>
+  <polyline points='-0.35,0 0.35,0' fill='none'/>
+  <polyline points='-0.35,-0.3 0.35,-0.3' fill='none'/>
+</g>
+<g id='ww_49'>
+  <polyline points='-0.35,0.3 0.35,0.3' fill='none'/>
+  <polyline points='-0.1,0. 0,-0.3 0.1,0.' fill='8'/>
+  <polyline points='-0.15,0.3 0,-0.3 0.15,0.3' fill='none'/>
+  <polyline points='-0.35,0 0.35,0' fill='none'/>
+  <polyline points='-0.35,-0.3 0.35,-0.3' fill='none'/>
+</g>
+<g id='ww_50'>
+  <drizzle cx='0' cy='0' r='0.25'/>
+</g>
+<g id='ww_51'>
 	<drizzle cx='-0.3' cy='0' r='0.25'/>
 	<drizzle cx='0.3'  cy='0' r='0.25'/>
-   </g>
-   <g id='ww_52'>
+</g>
+<g id='ww_52'>
 	<drizzle cx='0' cy='-0.3' r='0.25'/>
 	<drizzle cx='0' cy='0.3'  r='0.25'/>
-   </g>
-   <g id='ww_53'>
-        <drizzle cx='0' cy='0.3' r='0.25'/>
-        <drizzle cx='-0.3' cy='-0.3' r='0.25'/>
-        <drizzle cx='0.3' cy='-0.3' r='0.25'/>
-   </g>
-   <g id='ww_54'>
-        <drizzle cx='0' cy='0.45' r='0.25'/>
-        <drizzle cx='0' cy='0' r='0.25'/>
-        <drizzle cx='0' cy='-0.45' r='0.25'/>
-   </g>
-   <g id='ww_55'>
-    <drizzle cx='-0.3' cy='0' r='0.25'/>
-    <drizzle cx='0.3' cy='0' r='0.25'/>
-  	<drizzle cx='0' cy='0.45' r='0.25'/>
-	  <drizzle cx='0' cy='-0.45' r='0.25'/>
-   </g>
-   <g id='ww_56'>
-    <polyline points='-0.35,-0.1 -0.4,0.05 -0.37,0.1 -0.30,0.15 -0.23,0.15 -0.18,0.1
+</g>
+<g id='ww_53'>
+ <drizzle cx='0' cy='0.3' r='0.25'/>
+ <drizzle cx='-0.3' cy='-0.3' r='0.25'/>
+ <drizzle cx='0.3' cy='-0.3' r='0.25'/>
+</g>
+<g id='ww_54'>
+ <drizzle cx='0' cy='0.45' r='0.25'/>
+ <drizzle cx='0' cy='0' r='0.25'/>
+ <drizzle cx='0' cy='-0.45' r='0.25'/>
+</g>
+<g id='ww_55'>
+  <drizzle cx='-0.3' cy='0' r='0.25'/>
+  <drizzle cx='0.3' cy='0' r='0.25'/>
+  <drizzle cx='0' cy='0.45' r='0.25'/>
+	<drizzle cx='0' cy='-0.45' r='0.25'/>
+</g>
+<g id='ww_56'>
+ <polyline points='-0.35,-0.1 -0.4,0.05 -0.37,0.1 -0.30,0.15 -0.23,0.15 -0.18,0.1
        0.18,-0.1 0.23,-0.15 0.3,-0.15 0.37,-0.1 0.4,-0.05 0.35,0.1' fill='none'/>
-    <drizzle cx='-0.18' cy='-0.2' r='0.2'/>
-   </g>
-   <g id='ww_57'>
-    <polyline points='-0.35,-0.1 -0.4,0.05 -0.37,0.1 -0.30,0.15 -0.23,0.15 -0.18,0.1
-       0.18,-0.1 0.23,-0.15 0.3,-0.15 0.37,-0.1 0.4,-0.05 0.35,0.1' fill='none'/>
-    <drizzle cx='-0.18' cy='-0.2' r='0.2'/>
-    <drizzle cx='0.18' cy='0.2' r='0.2'/>
-   </g>
-
-   <g id='ww_58'>
-        <circle cx='0' cy='0.3' r='0.15' fill='8'/>
-        <drizzle cx='0' cy='-0.3' r='0.25'/>
-   </g>
-   <g id='ww_59'>
-        <drizzle cx='0' cy='0.45' r='0.25'/>
-        <circle cx='0' cy='0' r='0.15' fill='8'/>
-        <drizzle cx='0' cy='-0.45' r='0.25'/>
-   </g>
-   <g id='ww_60'>
-        <circle cx='0' cy='0' r='0.15' fill='8'/>
-   </g>
-   <g id='ww_61'>
-        <circle cx='-0.3' cy='0' r='0.15' fill='8'/>
-        <circle cx='0.3' cy='0' r='0.15' fill='8'/>
-   </g>
-   <g id='ww_62'>
-        <circle cx='0' cy='0.3' r='0.15' fill='8'/>
-        <circle cx='0' cy='-0.3' r='0.15' fill='8'/>
-   </g>
-   <g id='ww_63'>
-        <circle cx='0' cy='0.3' r='0.15' fill='8'/>
-        <circle cx='-0.3' cy='-0.3' r='0.15' fill='8'/>
-        <circle cx='0.3' cy='-0.3' r='0.15' fill='8'/>
-   </g>
-   <g id='ww_64'>
-        <circle cx='0' cy='0.45' r='0.15' fill='8'/>
-        <circle cx='0' cy='0' r='0.15' fill='8'/>
-        <circle cx='0' cy='-0.45' r='0.15' fill='8'/>
-   </g>
-   <g id='ww_65'>
-        <circle cx='-0.3' cy='0' r='0.15' fill='8'/>
-        <circle cx='0.3' cy='0' r='0.15' fill='8'/>
+ <drizzle cx='-0.18' cy='-0.2' r='0.2'/>
+</g>
+<g id='ww_57'>
+ <polyline points='-0.35,-0.1 -0.4,0.05 -0.37,0.1 -0.30,0.15 -0.23,0.15 -0.18,0.1
+  0.18,-0.1 0.23,-0.15 0.3,-0.15 0.37,-0.1 0.4,-0.05 0.35,0.1' fill='none'/>
+ <drizzle cx='-0.18' cy='-0.2' r='0.2'/>
+ <drizzle cx='0.18' cy='0.2' r='0.2'/>
+</g>
+<g id='ww_58'>
+  <circle cx='0' cy='0.3' r='0.15' fill='8'/>
+  <drizzle cx='0' cy='-0.3' r='0.25'/>
+</g>
+<g id='ww_59'>
+  <drizzle cx='0' cy='0.45' r='0.25'/>
+  <circle cx='0' cy='0' r='0.15' fill='8'/>
+  <drizzle cx='0' cy='-0.45' r='0.25'/>
+</g>
+<g id='ww_60'>
+  <circle cx='0' cy='0' r='0.15' fill='8'/>
+</g>
+<g id='ww_61'>
+  <circle cx='-0.3' cy='0' r='0.15' fill='8'/>
+  <circle cx='0.3' cy='0' r='0.15' fill='8'/>
+</g>
+<g id='ww_62'>
+  <circle cx='0' cy='0.3' r='0.15' fill='8'/>
+  <circle cx='0' cy='-0.3' r='0.15' fill='8'/>
+</g>
+<g id='ww_63'>
+  <circle cx='0' cy='0.3' r='0.15' fill='8'/>
+  <circle cx='-0.3' cy='-0.3' r='0.15' fill='8'/>
+  <circle cx='0.3' cy='-0.3' r='0.15' fill='8'/>
+</g>
+<g id='ww_64'>
+  <circle cx='0' cy='0.45' r='0.15' fill='8'/>
+  <circle cx='0' cy='0' r='0.15' fill='8'/>
+  <circle cx='0' cy='-0.45' r='0.15' fill='8'/>
+</g>
+<g id='ww_65'>
+  <circle cx='-0.3' cy='0' r='0.15' fill='8'/>
+  <circle cx='0.3' cy='0' r='0.15' fill='8'/>
 	<circle cx='0' cy='0.45' r='0.15' fill='8'/>
 	<circle cx='0' cy='-0.45' r='0.15' fill='8'/>
-   </g>
-   <g id='ww_66'>
-    <polyline points='-0.35,-0.1 -0.4,0.05 -0.37,0.1 -0.30,0.15 -0.23,0.15 -0.18,0.1
-       0.18,-0.1 0.23,-0.15 0.3,-0.15 0.37,-0.1 0.4,-0.05 0.35,0.1' fill='none'/>
-    <snowflake cx='-0.18' cy='-0.2' r='0.2'/>
-   </g>
-   <g id='ww_67'>
-    <polyline points='-0.35,-0.1 -0.4,0.05 -0.37,0.1 -0.30,0.15 -0.23,0.15 -0.18,0.1
-       0.18,-0.1 0.23,-0.15 0.3,-0.15 0.37,-0.1 0.4,-0.05 0.35,0.1' fill='none'/>
-    <snowflake cx='-0.18' cy='-0.2' r='0.2'/>
-    <snowflake cx='0.18' cy='0.2' r='0.2'/>
-   </g>
-
-
-   <g id='ww_68'>
-        <circle cx='0' cy='0.3' r='0.15' fill='8'/>
-        <snowflake cx='0' cy='-0.3' r='0.2'/>
-   </g>
-   <g id='ww_69'>
-        <snowflake cx='0' cy='0.45' r='0.2'/>
-        <circle cx='0' cy='0' r='0.15' fill='8'/>
-        <snowflake cx='0' cy='-0.45' r='0.2'/>
-   </g>
-   <g id='ww_70'>
+</g>
+<g id='ww_66'>
+  <polyline points='-0.35,-0.1 -0.4,0.05 -0.37,0.1 -0.30,0.15 -0.23,0.15 -0.18,0.1
+    0.18,-0.1 0.23,-0.15 0.3,-0.15 0.37,-0.1 0.4,-0.05 0.35,0.1' fill='none'/>
+  <snowflake cx='-0.18' cy='-0.2' r='0.2'/>
+</g>
+<g id='ww_67'>
+  <polyline points='-0.35,-0.1 -0.4,0.05 -0.37,0.1 -0.30,0.15 -0.23,0.15 -0.18,0.1
+     0.18,-0.1 0.23,-0.15 0.3,-0.15 0.37,-0.1 0.4,-0.05 0.35,0.1' fill='none'/>
+  <snowflake cx='-0.18' cy='-0.2' r='0.2'/>
+  <snowflake cx='0.18' cy='0.2' r='0.2'/>
+</g>
+<g id='ww_68'>
+  <circle cx='0' cy='0.3' r='0.15' fill='8'/>
+  <snowflake cx='0' cy='-0.3' r='0.2'/>
+</g>
+<g id='ww_69'>
+  <snowflake cx='0' cy='0.45' r='0.2'/>
+  <circle cx='0' cy='0' r='0.15' fill='8'/>
+  <snowflake cx='0' cy='-0.45' r='0.2'/>
+</g>
+<g id='ww_70'>
 	<snowflake cx='0' cy='0' r='0.2'/>
-   </g>
-   <g id='ww_71'>
+</g>
+<g id='ww_71'>
 	<snowflake cx='-0.3' cy='0' r='0.2'/>
 	<snowflake cx='0.3'  cy='0' r='0.2'/>
-   </g>
-   <g id='ww_72'>
+</g>
+<g id='ww_72'>
 	<snowflake cx='0' cy='-0.3' r='0.2'/>
 	<snowflake cx='0' cy='0.3'  r='0.2'/>
-   </g>
-   <g id='ww_73'>
-        <snowflake cx='0' cy='0.3' r='0.2'/>
-        <snowflake cx='-0.3' cy='-0.3' r='0.2'/>
-        <snowflake cx='0.3' cy='-0.3' r='0.2'/>
-   </g>
-   <g id='ww_74'>
-        <snowflake cx='0' cy='0.45' r='0.2'/>
-        <snowflake cx='0' cy='0' r='0.2'/>
-        <snowflake cx='0' cy='-0.45' r='0.2'/>
-   </g>
-   <g id='ww_75'>
-        <snowflake cx='-0.3' cy='0' r='0.2'/>
-        <snowflake cx='0.3' cy='0' r='0.2'/>
+</g>
+<g id='ww_73'>
+  <snowflake cx='0' cy='0.3' r='0.2'/>
+  <snowflake cx='-0.3' cy='-0.3' r='0.2'/>
+  <snowflake cx='0.3' cy='-0.3' r='0.2'/>
+</g>
+<g id='ww_74'>
+  <snowflake cx='0' cy='0.45' r='0.2'/>
+  <snowflake cx='0' cy='0' r='0.2'/>
+  <snowflake cx='0' cy='-0.45' r='0.2'/>
+</g>
+<g id='ww_75'>
+  <snowflake cx='-0.3' cy='0' r='0.2'/>
+  <snowflake cx='0.3' cy='0' r='0.2'/>
 	<snowflake cx='0' cy='0.45' r='0.2'/>
 	<snowflake cx='0' cy='-0.45' r='0.2'/>
-   </g>
-   <g id='ww_76'>
+</g>
+<g id='ww_76'>
 	<polyline points='-0.45,0 0.45,0' fill='none'/>
 	<polyline points='-0.3,0.2 -0.45,0. -0.3,-0.2' fill='none'/>
 	<polyline points='0.3,0.2 0.45,0. 0.3,-0.2' fill='none'/>
-   </g>
-   <g id='ww_77'>
+</g>
+<g id='ww_77'>
 	<triangle cx='0' cy='0' r='0.3' fill='0'/>
 	<polyline points='-0.35,0 0.35,0' fill='none'/>
-   </g>
-   <g id='ww_78'>
+</g>
+<g id='ww_78'>
 	<snowflake cx='0' cy='0' r='0.2'/>
 	<polyline points='-0.35,0 0.35,0' fill='none'/>
-   </g>
-   <g id='ww_79'>
+</g>
+<g id='ww_79'>
 	<polyline points='0,0.45 0.4,-0.35 -0.4,-0.35 0,0.45' fill='none'/>
 	<circle cx='0' cy='0' r='0.05' fill='8'/>
-   </g>
-   <g id='ww_80'>
-        <circle cx='0' cy='0.1' r='0.15' fill='8'/>
+</g>
+<g id='ww_80'>
+  <circle cx='0' cy='0.1' r='0.15' fill='8'/>
 	<triangle cx='0' cy='-0.3' r='-0.3' fill='0'/>
-   </g>
-   <g id='ww_81'>
-        <circle cx='0' cy='0.15' r='0.15' fill='8'/>
+</g>
+<g id='ww_81'>
+  <circle cx='0' cy='0.15' r='0.15' fill='8'/>
 	<triangle cx='0' cy='-0.3' r='-0.3' fill='0' line='1'/>
-   </g>
-   <g id='ww_82'>
-        <circle cx='0' cy='0.4' r='0.15' fill='8'/>
-        <circle cx='0' cy='0' r='0.15' fill='8'/>
-        <triangle cx='0' cy='-0.45' r='-0.3' fill='0'/>
-   </g>
-   <g id='ww_83'>
-        <circle cx='0' cy='0.4' r='0.15' fill='8'/>
-        <snowflake cx='0' cy='0' r='0.2'/>
-        <triangle cx='0' cy='-0.45' r='-0.3' fill='0'/>
-   </g>
-   <g id='ww_84'>
-        <circle cx='0' cy='0.4' r='0.15' fill='8'/>
-        <snowflake cx='0' cy='0' r='0.2'/>
-        <triangle cx='0' cy='-0.45' r='-0.3' fill='0' line='1'/>
-   </g>
+</g>
+<g id='ww_82'>
+  <circle cx='0' cy='0.4' r='0.15' fill='8'/>
+  <circle cx='0' cy='0' r='0.15' fill='8'/>
+  <triangle cx='0' cy='-0.45' r='-0.3' fill='0'/>
+</g>
+<g id='ww_83'>
+  <circle cx='0' cy='0.4' r='0.15' fill='8'/>
+  <snowflake cx='0' cy='0' r='0.2'/>
+  <triangle cx='0' cy='-0.45' r='-0.3' fill='0'/>
+</g>
+<g id='ww_84'>
+  <circle cx='0' cy='0.4' r='0.15' fill='8'/>
+  <snowflake cx='0' cy='0' r='0.2'/>
+  <triangle cx='0' cy='-0.45' r='-0.3' fill='0' line='1'/>
+</g>
 <g id='ww_85'>
   <snowflake cx='0' cy='0.3' r='0.2'/>
  <triangle  cx='0' cy='-0.3' r='-0.3' fill='0'/>
@@ -602,45 +598,44 @@
   <triangle cx='0' cy='-0.3' r='-0.3' fill='0' line='1'/>
 </g>
 <g id='ww_91'> 
-      <polyline points='0.5,-0.45 0.5,0.45' fill='none'/>
-        <polyline points='0.5,-0.45 0.35,-0.45' fill='none'/>
-        <polyline points='0.5,0.45 0.35,0.45' fill='none'/>
-        <lightning cx='0' cy='0'  r='0.6'/>
-         <circle r="0.15" cx="0.75" cy="0" fill="8" />
+  <polyline points='0.5,-0.45 0.5,0.45' fill='none'/>
+  <polyline points='0.5,-0.45 0.35,-0.45' fill='none'/>
+  <polyline points='0.5,0.45 0.35,0.45' fill='none'/>
+  <lightning cx='0' cy='0'  r='0.6'/>
+  <circle r="0.15" cx="0.75" cy="0" fill="8" />
 </g>
 <g id='ww_92'> 
-      <polyline points='0.5,-0.45 0.5,0.45' fill='none'/>
-      <polyline points='0.5,-0.45 0.35,-0.45' fill='none'/>
-      <polyline points='0.5,0.45 0.35,0.45' fill='none'/>
-      <lightning cx='0' cy='0'  r='0.6'/>
-      <circle r="0.15" cx="0.75" cy="0.2" fill="8" />
-      <circle r="0.15" cx="0.75" cy="-0.2" fill="8" />
+  <polyline points='0.5,-0.45 0.5,0.45' fill='none'/>
+  <polyline points='0.5,-0.45 0.35,-0.45' fill='none'/>
+  <polyline points='0.5,0.45 0.35,0.45' fill='none'/>
+  <lightning cx='0' cy='0'  r='0.6'/>
+  <circle r="0.15" cx="0.75" cy="0.2" fill="8" />
+  <circle r="0.15" cx="0.75" cy="-0.2" fill="8" />
 </g>
 <g id='ww_93'> 
-      <polyline points='0.5,-0.45 0.5,0.45' fill='none'/>
-      <polyline points='0.5,-0.45 0.35,-0.45' fill='none'/>
-      <polyline points='0.5,0.45 0.35,0.45' fill='none'/>
-      <lightning cx='0' cy='0'  r='0.6'/>
-      <snowflake cx='0.7' cy='0.3' r='0.2'/>
-      <polyline points='0.6,-0.3 1.,0.3' fill='none'/>
-	  <triangle  cx='1,' cy='-0.3' r='0.3' fill='0'/>
+  <polyline points='0.5,-0.45 0.5,0.45' fill='none'/>
+  <polyline points='0.5,-0.45 0.35,-0.45' fill='none'/>
+  <polyline points='0.5,0.45 0.35,0.45' fill='none'/>
+  <lightning cx='0' cy='0'  r='0.6'/>
+  <snowflake cx='0.7' cy='0.3' r='0.2'/>
+  <polyline points='0.6,-0.3 1.,0.3' fill='none'/>
+	<triangle  cx='1,' cy='-0.3' r='0.3' fill='0'/>
 </g>
 <g id='ww_94'> 
-      <polyline points='0.5,-0.45 0.5,0.45' fill='none'/>
-      <polyline points='0.5,-0.45 0.35,-0.45' fill='none'/>
-      <polyline points='0.5,0.45 0.35,0.45' fill='none'/>
-      <lightning cx='0' cy='0'  r='0.6'/>
-     
-	  <triangle  cx='0.7' cy='-0.3' r='0.2' fill='0'/> 
-	  <triangle  cx='0.7' cy='0.3'  r='0.2' fill='0'/>
+  <polyline points='0.5,-0.45 0.5,0.45' fill='none'/>
+  <polyline points='0.5,-0.45 0.35,-0.45' fill='none'/>
+  <polyline points='0.5,0.45 0.35,0.45' fill='none'/>
+  <lightning cx='0' cy='0'  r='0.6'/>
+	<triangle  cx='0.7' cy='-0.3' r='0.2' fill='0'/> 
+	<triangle  cx='0.7' cy='0.3'  r='0.2' fill='0'/>
 </g>
 <g id="ww_95">
-    <circle r="0.1" cx="0." cy="0.6" fill="8" />
-    <lightning cx='0' cy='0'  r='0.4'/>
+  <circle r="0.1" cx="0." cy="0.6" fill="8" />
+  <lightning cx='0' cy='0'  r='0.4'/>
 </g>
 <g id="ww_96">
-    <triangle cx='0' cy='0.55' r='0.2' fill='0' />
-    <lightning cx='0' cy='0'  r='0.5'/>
+  <triangle cx='0' cy='0.55' r='0.2' fill='0' />
+  <lightning cx='0' cy='0'  r='0.5'/>
 </g>
 <g id="ww_97">
     <circle r="0.1" cx="0." cy="0.6" fill="8" />
@@ -658,154 +653,155 @@
   <triangle cx='0' cy='0.55' r='0.3' fill='0' />
   <lightning cx='0' cy='0' r='0.4'/>
 </g>
-   <g id='N_0'>
+
+<g id='N_0'>
  	<circle cx='0' cy='0' r='0.5' fill='0'/>
-   </g> 
-   <g id='N_1'>
+</g> 
+<g id='N_1'>
 	<circle cx='0' cy='0' r='0.5' fill='0'/>
 	<polyline points='0,0.5 0,-0.5' fill='none'/>
-   </g> 
-   <g id='N_2'>
+</g> 
+<g id='N_2'>
 	<circle cx='0' cy='0' r='0.5' fill='2'/>
-   </g> 
-   <g id='N_3'>
+</g> 
+<g id='N_3'>
 	<circle cx='0' cy='0' r='0.5' fill='2'/>
 	<polyline points='0,0.5 0,-0.5' fill='none'/>
-   </g>   
-   <g id='N_4'>
+</g>   
+<g id='N_4'>
 	<circle cx='0' cy='0' r='0.5' fill='4'/>
-   </g> 
-   <g id='N_5'>
+</g> 
+<g id='N_5'>
 	<circle cx='0' cy='0' r='0.5' fill='4'/>
 	<polyline points='0.5,0 -0.5,0' fill='none'/>
-   </g>    
-   <g id='N_6'>
+</g>    
+<g id='N_6'>
 	<circle cx='0' cy='0' r='0.5' fill='6'/>
-   </g> 
-   <g id='N_7'>
+</g> 
+<g id='N_7'>
 	<circle cx='0' cy='0' r='0.5' fill='9'/>
-   </g> 
-   <g id='N_8'>
+</g> 
+<g id='N_8'>
 	<circle cx='0' cy='0' r='0.5' fill='8'/>
-   </g>
-   <g id='N_9'>
+</g>
+<g id='N_9'>
 	<circle cx='0' cy='0' r='0.5' fill='0'/>
 	<polyline points='0.354,0.354 -0.354,-0.354' fill='none'/>
 	<polyline points='-0.354,0.354 0.354,-0.354' fill='none'/>
-   </g>
-   <g id='N_/'>
-      	<circle cx='0' cy='0' r='0.5' fill='0'/>
-   	<polyline points='-0.5,-0.5 0.5,0.5' fill='none'/>
+</g>
+<g id='N_/'>
+  <circle cx='0' cy='0' r='0.5' fill='0'/>
+  <polyline points='-0.5,-0.5 0.5,0.5' fill='none'/>
 	<polyline points='-0.5,0.5 0.5,-0.5' fill='none'/>
-   </g>
+</g>
 
-   <g id='W_0'>
+<g id='W_0'>
  	<circle cx='0' cy='0' r='0.5' fill='0'/>
-   </g> 
-   <g id='W_1'>
+</g> 
+<g id='W_1'>
 	<circle cx='0' cy='0' r='0.5' fill='4'/>
-   </g>
-   <g id='W_2'>
+</g>
+<g id='W_2'>
 	<circle cx='0' cy='0' r='0.5' fill='9'/>
-   </g> 
-   <g id='W_3'>
-       <polyline points='-0.38,0 0.38,0' fill='none'/>
-       <polyline points='0.4,0 0.22,0.13' fill='none'/>
-       <polyline points='0.4,0 0.22,-0.13' fill='none'/>
-       <polyline points='0,0.4 0,-0.38' fill='none'/>
-       <polyline points='0,0.4 -0.13,0.22' fill='none'/>
-       <polyline points='0,0.4  0.13,0.22' fill='none'/>
-   </g>
-   <g id='W_4'>
-        <polyline points='-0.3,0.3 0.3,0.3' fill='none'/>
-        <polyline points='-0.3,0 0.3,0' fill='none'/>
-        <polyline points='-0.3,-0.3 0.3,-0.3' fill='none'/>
-   </g>
-   <g id='W_5'>
-       <drizzle cx='0' cy='0' r='0.2'/> 
-   </g>
-   <g id='W_6'>
-       <circle cx='0' cy='0' r='0.2' fill='8'/> 
-   </g>
-   <g id='W_7'>
-       <snowflake cx='0' cy='0' r='0.2'/> 
-   </g>
-   <g id='W_8'>
-       <polyline points='0.2,0.2 0,-0.3 -0.2,0.2 0.2,0.2 0' fill='none'/>
-   </g>
-   <g id='W_9'>
+</g> 
+<g id='W_3'>
+   <polyline points='-0.38,0 0.38,0' fill='none'/>
+   <polyline points='0.4,0 0.22,0.13' fill='none'/>
+   <polyline points='0.4,0 0.22,-0.13' fill='none'/>
+   <polyline points='0,0.4 0,-0.38' fill='none'/>
+   <polyline points='0,0.4 -0.13,0.22' fill='none'/>
+   <polyline points='0,0.4  0.13,0.22' fill='none'/>
+</g>
+<g id='W_4'>
+  <polyline points='-0.3,0.3 0.3,0.3' fill='none'/>
+  <polyline points='-0.3,0 0.3,0' fill='none'/>
+  <polyline points='-0.3,-0.3 0.3,-0.3' fill='none'/>
+</g>
+<g id='W_5'>
+   <drizzle cx='0' cy='0' r='0.2'/> 
+</g>
+<g id='W_6'>
+   <circle cx='0' cy='0' r='0.2' fill='8'/> 
+</g>
+<g id='W_7'>
+   <snowflake cx='0' cy='0' r='0.2'/> 
+</g>
+<g id='W_8'>
+   <polyline points='0.2,0.2 0,-0.3 -0.2,0.2 0.2,0.2 0' fill='none'/>
+</g>
+<g id='W_9'>
 	<lightning cx='0' cy='0.3' r='0.7'/>
-   </g>
+</g>
 
-   <g id='CL_0'>
-   </g>
-   <g id='CL_1'>
-        <polyline points='-0.5,-0.1 0.5,-0.1 0.4,0.16 0.25,0.3 0.1,0.35  -0.1,0.35 -0.25,0.3 -0.4,0.16 -0.5,-0.1' fill='none'/>   
-   </g>
-   <g id='CL_2'>
-        <polyline points='-0.5,-0.1 0.5,-0.1 0.4,0.16 0.25,0.3 0.1,0.35  -0.1,0.35 -0.25,0.3 -0.4,0.16 -0.5,-0.1' fill='none'/>
+<g id='CL_0'>
+</g>
+<g id='CL_1'>
+  <polyline points='-0.5,-0.1 0.5,-0.1 0.4,0.16 0.25,0.3 0.1,0.35  -0.1,0.35 -0.25,0.3 -0.4,0.16 -0.5,-0.1' fill='none'/>   
+</g>
+<g id='CL_2'>
+  <polyline points='-0.5,-0.1 0.5,-0.1 0.4,0.16 0.25,0.3 0.1,0.35  -0.1,0.35 -0.25,0.3 -0.4,0.16 -0.5,-0.1' fill='none'/>
 	<polyline points='0.25,0.3 0.27,0.4 0.2,0.51 0.05,0.57  -0.05,0.57 -0.2,0.51 -0.27,0.4 -0.25,0.3' fill='none'/>
-   </g>
-   <g id='CL_3'>
-        <polyline points='-0.5,-0.1 0.5,-0.1 0.4,0.16 0.25,0.3 0.1,0.35  -0.1,0.35 -0.25,0.3 -0.4,0.16 -0.5,-0.1' fill='none'/>
+</g>
+<g id='CL_3'>
+  <polyline points='-0.5,-0.1 0.5,-0.1 0.4,0.16 0.25,0.3 0.1,0.35  -0.1,0.35 -0.25,0.3 -0.4,0.16 -0.5,-0.1' fill='none'/>
 	<polyline points='0.25,0.3 0.27,0.4 0.2,0.51 0.05,0.57  -0.05,0.57 -0.2,0.51 -0.27,0.4 -0.25,0.3' fill='none'/>
 	<polyline points='0,0.57 0,0.1' fill='none'/>
-   </g>
-   <g id='CL_4'>
-       <polyline points='0.43,-0.1 0.34,0.14 0.25,0.28 0.1,0.33  -0.1,0.33 -0.25,0.28 -0.34,0.14 -0.43,-0.1' fill='none'/>
-       <polyline points='-0.52,-0.1 -0.2,-0.1 -0.1,-0.2 0.1,-0.2 0.2,-0.1 0.52,-0.1' fill='none'/>
-   </g>   
-   <g id='CL_5'>
-       <polyline points='-0.5,0.2 -0.22,0.2 -0.1,0. 0.1,0. 0.22,0.2 0.5,0.2' fill='none'/>
-   </g>
-   <g id='CL_6'>
-       <polyline points='0.3,0 -0.3,0' fill='none'/>
-   </g>
-   <g id='CL_7'>
-       <polyline points='-0.4,0 -0.2,0' fill='none'/>
-       <polyline points='-0.1,0 0.1,0' fill='none'/>
-       <polyline points='0.2,0 0.4,0' fill='none'/>
-   </g>
-   <g id='CL_8'>
-        <polyline points='-0.5,0.5 -0.2,0.5 -0.1,0.4 0.1,0.4 0.2,0.5 0.5,0.5' fill='none'/>
-        <polyline points='-0.5,-0.2 0.5,-0.2 0.4,0.06 0.23,0.2 0.1,0.22 -0.1,0.22 -0.23,0.2 -0.4,0.06 -0.5,-0.2' fill='none'/>
-   </g>
-   <g id='CL_9'>
-        <polyline points='-0.5,-0.1 0.5,-0.1 0.4,0.16 0.25,0.3 0.1,0.35 -0.1,0.35 -0.25,0.3 -0.4,0.16 -0.5,-0.1' fill='none'/>
+</g>
+<g id='CL_4'>
+   <polyline points='0.43,-0.1 0.34,0.14 0.25,0.28 0.1,0.33  -0.1,0.33 -0.25,0.28 -0.34,0.14 -0.43,-0.1' fill='none'/>
+   <polyline points='-0.52,-0.1 -0.2,-0.1 -0.1,-0.2 0.1,-0.2 0.2,-0.1 0.52,-0.1' fill='none'/>
+</g>
+<g id='CL_5'>
+   <polyline points='-0.5,0.2 -0.22,0.2 -0.1,0. 0.1,0. 0.22,0.2 0.5,0.2' fill='none'/>
+</g>
+<g id='CL_6'>
+   <polyline points='0.3,0 -0.3,0' fill='none'/>
+</g>
+<g id='CL_7'>
+   <polyline points='-0.4,0 -0.2,0' fill='none'/>
+   <polyline points='-0.1,0 0.1,0' fill='none'/>
+   <polyline points='0.2,0 0.4,0' fill='none'/>
+</g>
+<g id='CL_8'>
+  <polyline points='-0.5,0.5 -0.2,0.5 -0.1,0.4 0.1,0.4 0.2,0.5 0.5,0.5' fill='none'/>
+  <polyline points='-0.5,-0.2 0.5,-0.2 0.4,0.06 0.23,0.2 0.1,0.22 -0.1,0.22 -0.23,0.2 -0.4,0.06 -0.5,-0.2' fill='none'/>
+</g>
+<g id='CL_9'>
+  <polyline points='-0.5,-0.1 0.5,-0.1 0.4,0.16 0.25,0.3 0.1,0.35 -0.1,0.35 -0.25,0.3 -0.4,0.16 -0.5,-0.1' fill='none'/>
 	<polyline points='0.25,0.3 0.32,0.55 -0.32,0.55 -0.25,0.3' fill='none'/>
-   </g>
-   <g id='CL_/'>
-   </g>
+</g>
+<g id='CL_/'>
+</g>
 
-   <g id='CM_0'>
-   </g>
-   <g id='CM_1'>
-       <polyline points='0.3,0 -0.3,0 0.3,0.3' fill='none'/>
-   </g>
-   <g id='CM_2'>
-       <polyline points='0.3,0 -0.3,0 0.3,0.3' fill='none'/>
-       <polyline points='0,0 0.3,0.15' fill='none'/>
-   </g>
-   <g id='CM_3'>
-       <polyline points='-0.4,0 -0.3,-0.2 -0.1,-0.2 0,0 0.1,-0.2 0.3,-0.2 0.4,0' fill='none'/>
-   </g>
-   <g id='CM_4'>
-       <polyline points='0.2,0.3 -0.4,0 -0.3,-0.2 -0.1,-0.2 0,0' fill='none'/>
-   </g>
+<g id='CM_0'>
+</g>
+<g id='CM_1'>
+   <polyline points='0.3,0 -0.3,0 0.3,0.3' fill='none'/>
+</g>
+<g id='CM_2'>
+   <polyline points='0.3,0 -0.3,0 0.3,0.3' fill='none'/>
+   <polyline points='0,0 0.3,0.15' fill='none'/>
+</g>
+<g id='CM_3'>
+   <polyline points='-0.4,0 -0.3,-0.2 -0.1,-0.2 0,0 0.1,-0.2 0.3,-0.2 0.4,0' fill='none'/>
+</g>
+<g id='CM_4'>
+   <polyline points='0.2,0.3 -0.4,0 -0.3,-0.2 -0.1,-0.2 0,0' fill='none'/>
+</g>
 <g id='CM_5'>
  <polyline points='0.2,0.3 -0.4,0 -0.3,-0.2 -0.1,-0.2 0,0 0.1,-0.2 0.3,-0.2 0.4,0' fill='none'/>
 </g>
-   <g id='CM_6'>
-       <polyline points='-0.4,0.3 -0.3,0.1 -0.1,0.1 0,0.3 0.1,0.1 0.3,0.1 0.4,0.3' fill='none'/>
-       <polyline points='0.5,-0.4 0.4,-0.14 0.23,0 0.1,0.02 -0.1,0.02 -0.23,0 -0.4,-0.14 -0.5,-0.4' fill='none'/>
-   </g>
-   <g id='CM_7'>
-       <polyline points='0.2,0.3 -0.4,0 -0.3,-0.2 -0.1,-0.2 0,0 0.1,-0.2 0.3,-0.2 0.4,0' fill='none'/>
-       <polyline points='-0.4,0 0.4,0' fill='none'/>
-   </g>
-   <g id='CM_8'>
-       <polyline points='-0.3,-0.35 -0.3,0.35 -0.15,0.29 -0.05,0.25 0,0.23 0.05,0.25 0.15,0.29 0.3,0.35 0.3,-0.35' fill='none'/>
-   </g>
+<g id='CM_6'>
+   <polyline points='-0.4,0.3 -0.3,0.1 -0.1,0.1 0,0.3 0.1,0.1 0.3,0.1 0.4,0.3' fill='none'/>
+   <polyline points='0.5,-0.4 0.4,-0.14 0.23,0 0.1,0.02 -0.1,0.02 -0.23,0 -0.4,-0.14 -0.5,-0.4' fill='none'/>
+</g>
+<g id='CM_7'>
+   <polyline points='0.2,0.3 -0.4,0 -0.3,-0.2 -0.1,-0.2 0,0 0.1,-0.2 0.3,-0.2 0.4,0' fill='none'/>
+   <polyline points='-0.4,0 0.4,0' fill='none'/>
+</g>
+<g id='CM_8'>
+   <polyline points='-0.3,-0.35 -0.3,0.35 -0.15,0.29 -0.05,0.25 0,0.23 0.05,0.25 0.15,0.29 0.3,0.35 0.3,-0.35' fill='none'/>
+</g>
 <g id='CM_9'>
  <polyline points='0.2,0.3 -0.4,0 -0.3,-0.2 -0.1,-0.2 0,0' fill='none'/>
  <polyline points='-0.45,0 -0.31,-0.25 -0.09,-0.25 0.05,0' fill='none'/>
@@ -816,20 +812,24 @@
 <g id='CH_0'>
 </g>
 <g id='CH_1'>
- <polyline points='-0.3,0 0.28,0 0.29,0.06 0.3,0.1 0.29,0.14 0.28,0.2' fill='none'/>
+ <polyline points='-0.3,0 0.28,0 0.29,0.06 0.3,0.1 0.29,0.14 0.28,0.2 0.2,0.22' fill='none'/>
 </g>
 <g id='CH_2'>
- <polyline points='-0.3,0 0.28,0 0.29,0.06 0.3,0.1 0.29,0.14 0.28,0.2' fill='none'/>
- <polyline points='0.18,0 0.19,0.06 0.2,0.1 0.19,0.14 0.18,0.2' fill='none'/>
+ <polyline points='-0.3,0 0.28,0 0.29,0.06 0.3,0.1 0.29,0.14 0.28,0.2 0.2,0.22' fill='none'/>
+ <polyline points='0.18,0 0.19,0.06 0.2,0.1 0.19,0.14 0.18,0.2 0.1,0.22' fill='none'/>
 </g>
 <g id='CH_3'>
- <polyline points='-0.3,0 0.28,0 0.29,-0.06 0.3,-0.1 0.29,-0.14 0.28,-0.2' fill='none'/>
+ <polyline points='-0.3,0 0.28,0 0.29,-0.06 0.3,-0.1 0.29,-0.14 0.28,-0.2 0.2,-0.22' fill='none'/>
 </g>
-
+<g id='CH_4'>
+ <polyline points='-0.35,-0.4 0.35,0.4 0.32,0.44 0.25,0.48 0.15,0.44 ' fill='none'/>
+</g>
 <g id='CH_5'>
  <polyline points='-0.3,0.2 -0.29,0.14 -0.28,0.1 -0.29,0.06 -0.3,0 0.3,0' fill='none'/>
 </g>
-
+<g id='CH_6'>
+ <polyline points='-0.1,-0.4 -0.35,-0.4 0.35,0.4 0.32,0.44 0.25,0.48 0.15,0.44 ' fill='none'/>
+</g>
 <g id='CH_7'>
  <polyline points='-0.3,0.2 -0.29,0.14 -0.28,0.1 -0.29,0.06 -0.3,0 0.3,0 0.29,0.06 0.28,0.1 0.29,0.14 0.3,0.2' fill='none'/>
 </g>
@@ -841,126 +841,142 @@
 </g>
 <g id='CH_/'>
 </g>
-   
-   <g id='C_4'>
-       <polyline points='0.3,0 -0.3,0 0.3,0.3' fill='none'/>
-       <polyline points='0,0 0.15,0.075' fill='none'/>
-   </g>
-   <g id='C_5'>
-       <polyline points='0.3,0 -0.3,0 0.3,0.3' fill='none'/>
-       <polyline points='0,0 0.3,0.15 0.3,0' fill='none'/>
-   </g>
-   <g id='C_7'>
-       <polyline points='-0.3,0 -0.1,0' fill='none'/>
-       <polyline points='0.1,0 0.3,0' fill='none'/>
-   </g>
-   <g id='C_8'>
-        <polyline points='0.5,-0.1 0.4,0.16 0.25,0.3 0.1,0.35  -0.1,0.35 -0.25,0.3 -0.4,0.16 -0.5,-0.1' fill='none'/>
-	<polyline points='0.25,0.3 0.27,0.4 0.2,0.51 0.05,0.57  -0.05,0.57 -0.2,0.51 -0.27,0.4 -0.25,0.3' fill='none'/>
-   </g>
-   <g id='C_9'>
-        <polyline points='0.5,-0.1 0.4,0.16 0.25,0.3 0.1,0.35  -0.1,0.35 -0.25,0.3 -0.4,0.16 -0.5,-0.1' fill='none'/>
-	<polyline points='0.25,0.3 0.32,0.55  -0.32,0.55 -0.25,0.3' fill='none'/>
-   </g>
-   <g id='C_/'>
-   </g>
 
-   <g id='a_0'>
-       <polyline points='-0.4,-0.4 0.1,0.4 0.3,0.2' fill='none'/>
-   </g>
-   <g id='a_1'>
-       <polyline points='-0.4,-0.4 0.05,0.4 0.35,0.4' fill='none'/>
-   </g>
-   <g id='a_2'>
-       <polyline points='-0.3,-0.4 0.3,0.4' fill='none'/>
-   </g>
-   <g id='a_3'>
-       <polyline points='-0.3,-0.2 -0.05,-0.4 0.4,0.4' fill='none'/>
-   </g>
-   <g id='a_4'>
-   </g>
-   <g id='a_5'>
-       <polyline points='-0.4,0.4 0.05,-0.4 0.3,-0.2' fill='none'/>
-   </g>
-   <g id='a_6'>
-       <polyline points='-0.4,0.4 0.05,-0.4 0.35,-0.4' fill='none'/>
-   </g>
-   <g id='a_7'>
-       <polyline points='-0.3,0.4 0.3,-0.4' fill='none'/>
-   </g>
-   <g id='a_8'>
-       <polyline points='-0.3,0.2 -0.05,0.4 0.4,-0.4' fill='none'/>
-   </g>
-   <g id='a_9'>
-   </g>
-   <g id='a_/'>
-   </g>
+<g id='C_0'>
+ <polyline points='-0.3,0 0.28,0 0.29,0.06 0.3,0.1 0.29,0.14 0.28,0.2 0.2,0.22' fill='none'/>
+ <polyline points='0.28,0 0.29,-0.06 0.3,-0.1 0.29,-0.14 0.28,-0.2 0.2,-0.22' fill='none'/>
+</g>
+<g id='C_1'>
+ <polyline points='-0.15,-0.44 -0.25,-0.48 -0.32,-0.44 -0.35,-0.4 0.35,0.4 0.32,0.44 0.25,0.48 0.15,0.44' fill='none'/>
+</g>
+<g id='C_2'>
+ <polyline points='0.4,-0.4 -0.35,-0.4 0.35,0.4 0.32,0.44 0.25,0.48 0.15,0.44 ' fill='none'/>
+</g>
+<g id='C_3'>
+ <polyline points='-0.35,0.3 -0.35,0.15 -0.33,0.1 -0.3,0.0 -0.25,-0.1 -0.1,-0.19  0.,-0.2
+  0.1,-0.19 0.25,-0.1 0.3,0.0 0.33,0.1 0.35,0.15 0.35,0.3' fill='none'/>
+</g>
+<g id='C_4'>
+ <polyline points='0.3,0 -0.3,0 0.3,0.3' fill='none'/>
+ <polyline points='0,0 0.15,0.075' fill='none'/>
+</g>
+<g id='C_5'>
+  <polyline points='0.3,0 -0.3,0 0.3,0.3' fill='none'/>
+  <polyline points='0,0 0.3,0.15 0.3,0' fill='none'/>
+</g>
+<g id='C_6'>
+  <polyline points='-0.5, 0.1 -0.22, 0.1 -0.1, .3 0.1, .3 0.22, 0.1 0.5, 0.1' fill='none'/>
+  <polyline points='-0.5,-0.1 -0.22,-0.1 -0.1,-.3 0.1,-.3 0.22,-0.1 0.5,-0.1' fill='none'/>
+</g>
+<g id='C_7'>
+ <polyline points='-0.3,0 -0.1,0' fill='none'/>
+ <polyline points='0.1,0 0.3,0' fill='none'/>
+</g>
+<g id='C_8'>
+ <polyline points='0.5,-0.1 0.4,0.16 0.25,0.3 0.1,0.35  -0.1,0.35 -0.25,0.3 -0.4,0.16 -0.5,-0.1' fill='none'/>
+ <polyline points='0.25,0.3 0.27,0.4 0.2,0.51 0.05,0.57  -0.05,0.57 -0.2,0.51 -0.27,0.4 -0.25,0.3' fill='none'/>
+</g>
+<g id='C_9'>
+ <polyline points='0.5,-0.1 0.4,0.16 0.25,0.3 0.1,0.35  -0.1,0.35 -0.25,0.3 -0.4,0.16 -0.5,-0.1' fill='none'/>
+ <polyline points='0.25,0.3 0.32,0.55  -0.32,0.55 -0.25,0.3' fill='none'/>
+</g>
+<g id='C_/'>
+</g>
 
-   <g id='DS_0'>
-   </g>
-   <g id='DS_1'>
-       <polyline points='-0.4,-0.4 0.4,0.4' fill='none'/>
-       <polyline points='0.4,0.4 0.33,0.12' fill='none'/>
-       <polyline points='0.4,0.4 0.12,0.33' fill='none'/>
-   </g>
-   <g id='DS_2'>
-       <polyline points='-0.4,0 0.4,0' fill='none'/>
-       <polyline points='0.4,0 0.14,0.15' fill='none'/>
-       <polyline points='0.4,0 0.14,-0.15' fill='none'/>
-   </g>
-   <g id='DS_3'>
-       <polyline points='-0.4,0.4 0.4,-0.4' fill='none'/>
-       <polyline points='0.4,-0.4 0.33,-0.12' fill='none'/>
-       <polyline points='0.4,-0.4 0.12,-0.33' fill='none'/>
-   </g>
-   <g id='DS_4'>
-       <polyline points='0,-0.4 0,0.4' fill='none'/>
-       <polyline points='0,-0.4 -0.15,-0.14' fill='none'/>
-       <polyline points='0,-0.4  0.15,-0.14' fill='none'/>
-   </g>
-   <g id='DS_5'>
-       <polyline points='-0.4,-0.4 0.4,0.4' fill='none'/>
-       <polyline points='-0.4,-0.4 -0.33,-0.12' fill='none'/>
-       <polyline points='-0.4,-0.4 -0.12,-0.33' fill='none'/>
-   </g>
-   <g id='DS_6'>
-       <polyline points='-0.4,0 0.4,0' fill='none'/>
-       <polyline points='-0.4,0 -0.14,0.15' fill='none'/>
-       <polyline points='-0.4,0 -0.14,-0.15' fill='none'/>
-   </g>
-   <g id='DS_7'>
-       <polyline points='-0.4,0.4 0.4,-0.4' fill='none'/>
-       <polyline points='-0.4,0.4 -0.33,0.12' fill='none'/>
-       <polyline points='-0.4,0.4 -0.12,0.33' fill='none'/>
-   </g>
-   <g id='DS_8'>
-       <polyline points='0,-0.4 0,0.4' fill='none'/>
-       <polyline points='0,0.4 -0.15,0.14' fill='none'/>
-       <polyline points='0,0.4  0.15,0.14' fill='none'/>
-   </g>
+<g id='a_0'>
+ <polyline points='-0.4,-0.4 0.1,0.4 0.3,0.2' fill='none'/>
+</g>
+<g id='a_1'>
+ <polyline points='-0.4,-0.4 0.05,0.4 0.35,0.4' fill='none'/>
+</g>
+<g id='a_2'>
+ <polyline points='-0.3,-0.4 0.3,0.4' fill='none'/>
+</g>
+<g id='a_3'>
+ <polyline points='-0.3,-0.2 -0.05,-0.4 0.4,0.4' fill='none'/>
+</g>
+<g id='a_4'>
+</g>
+<g id='a_5'>
+ <polyline points='-0.4,0.4 0.05,-0.4 0.3,-0.2' fill='none'/>
+</g>
+<g id='a_6'>
+ <polyline points='-0.4,0.4 0.05,-0.4 0.35,-0.4' fill='none'/>
+</g>
+<g id='a_7'>
+  <polyline points='-0.3,0.4 0.3,-0.4' fill='none'/>
+</g>
+<g id='a_8'>
+ <polyline points='-0.3,0.2 -0.05,0.4 0.4,-0.4' fill='none'/>
+</g>
+<g id='a_9'>
+</g>
+<g id='a_/'>
+</g>
 
+<g id='DS_0'>
+</g>
+<g id='DS_1'>
+ <polyline points='-0.4,-0.4 0.4,0.4' fill='none'/>
+ <polyline points='0.4,0.4 0.33,0.12' fill='none'/>
+ <polyline points='0.4,0.4 0.12,0.33' fill='none'/>
+</g>
+<g id='DS_2'>
+ <polyline points='-0.4,0 0.4,0' fill='none'/>
+ <polyline points='0.4,0 0.14,0.15' fill='none'/>
+ <polyline points='0.4,0 0.14,-0.15' fill='none'/>
+</g>
+<g id='DS_3'>
+ <polyline points='-0.4,0.4 0.4,-0.4' fill='none'/>
+ <polyline points='0.4,-0.4 0.33,-0.12' fill='none'/>
+ <polyline points='0.4,-0.4 0.12,-0.33' fill='none'/>
+</g>
+<g id='DS_4'>
+ <polyline points='0,-0.4 0,0.4' fill='none'/>
+ <polyline points='0,-0.4 -0.15,-0.14' fill='none'/>
+ <polyline points='0,-0.4  0.15,-0.14' fill='none'/>
+</g>
+<g id='DS_5'>
+ <polyline points='-0.4,-0.4 0.4,0.4' fill='none'/>
+ <polyline points='-0.4,-0.4 -0.33,-0.12' fill='none'/>
+ <polyline points='-0.4,-0.4 -0.12,-0.33' fill='none'/>
+</g>
+<g id='DS_6'>
+ <polyline points='-0.4,0 0.4,0' fill='none'/>
+ <polyline points='-0.4,0 -0.14,0.15' fill='none'/>
+ <polyline points='-0.4,0 -0.14,-0.15' fill='none'/>
+</g>
+<g id='DS_7'>
+ <polyline points='-0.4,0.4 0.4,-0.4' fill='none'/>
+ <polyline points='-0.4,0.4 -0.33,0.12' fill='none'/>
+ <polyline points='-0.4,0.4 -0.12,0.33' fill='none'/>
+</g>
+<g id='DS_8'>
+ <polyline points='0,-0.4 0,0.4' fill='none'/>
+ <polyline points='0,0.4 -0.15,0.14' fill='none'/>
+ <polyline points='0,0.4  0.15,0.14' fill='none'/>
+</g>
+<g id='DS_9'>
+</g>
+<g id='DS_/'>
+</g>
 
-   <g id='DS_9'>
-   </g>
-   <g id='DS_/'>
-   </g>
-
-   <g id='logo_ecmwf'>
-       <!-- top -->
-       <polyline points='-3.375,0.125 -3.3,0.325 -3.15,0.5 -3,0.575 -2.85,0.6 -2.75,0.6 -2.5,0.55    -2.25,0.6 -2.2,0.6 -2.05,0.56 -1.85,0.44 -1.725,0.3 -1.675,0.125 -2.025,0.125 -2.125,0.225 -2.25,0.25 -2.375,0.2375 -2.45,0.175 -2.5,0.0875    -2.525,0.0875 -2.5625,0.175 -2.6625,0.2375 -2.775,0.25 -2.9,0.225    -3,0.125 -3.375,0.125' fill='blue'/>
-       <!-- bottom -->
-       <polyline points='-3.375,-0.125 -3.3,-0.325 -3.15,-0.5 -3,-0.575 -2.85,-0.6 -2.75,-0.6 -2.5,-0.55    -2.25,-0.6 -2.2,-0.6 -2.05,-0.56 -1.85,-0.44 -1.725,-0.3 -1.675,-0.125 -2.025,-0.125 -2.125,-0.225 -2.25,-0.25 -2.375,-0.2375 -2.45,-0.175 -2.5,-0.0875    -2.525,-0.0875 -2.5625,-0.175 -2.6625,-0.2375 -2.775,-0.25 -2.9,-0.225    -3,-0.125 -3.375,-0.125' fill='blue'/>
-       <!-- line -->
-       <polyline points='-3.4,-0.065 -3.4,0.065 -2.9,0.065 -2.9,-0.065 -3.4,-0.065' fill='blue'/>
-       <!-- E -->
-       <polyline points='-1.575,-.5 -1.575,.5 -0.825,.5 -0.825,.4 -0.925,.3 -1.2,.3 -1.2,.1 -1,.1 -1,-0.125 -1.2,-0.125 -1.2,-0.275 -0.925,-0.275 -0.825,-0.425 -0.825,-.5 -1.575,-.5' fill='blue'/>
-       <!-- C -->
-       <polyline points='-.025,0.175 -.025,0.45 -0.175,0.5 -0.3,0.51 -0.475,0.51 -0.6625,0.45 -0.75,0.4 -0.875,0.2875 -0.95,0.1    -0.95,-0.075 -0.9,-0.2375 -0.8,-0.375 -0.475,-0.51 -0.35,-0.51 -0.15,-0.495 -.025,-0.425 -.025,-0.1625    -.2,-0.225 -0.4,-0.2375 -0.5375,-0.1625 -.6,-0.075  -.6,0.075  -.5,0.2 -0.375,0.2375 -0.2125,0.225 -.025,0.175' fill='blue'/>
-       <!-- M -->
-       <polyline points='0.028,-0.5 0.028,0.5 0.35,0.5 0.625,0.125 0.9,0.5 1.225,0.5 1.225,-0.5 0.9,-0.5 0.9,0 0.625,-0.325 0.35,0 0.35,-0.5 0.028,-0.5' fill='blue'/>
-       <!-- W -->
-       <polyline points='1.3,0.2 1.3,0.5 1.55,0.5 1.675,0.075 1.8,0.5 2.05,0.5 2.175,0.075 2.3,0.5 2.55,0.5 2.55,0.2 2.275,-0.5 2.05,-0.5 1.925,-0.05 1.8,-0.5 1.575,-0.5 1.3,0.2' fill='blue'/>
-       <!-- F -->
-       <polyline points='2.625,-0.5 2.625,0.5 3.375,0.5 3.375,0.3 3,0.3 3,0.125 3.35,0.125 3.35,-0.1 3,-0.1 3,-0.5 2.625,-0.5' fill='blue'/>
-   </g>
+<g id='logo_ecmwf'>
+<!-- top -->
+ <polyline points='-3.375,0.125 -3.3,0.325 -3.15,0.5 -3,0.575 -2.85,0.6 -2.75,0.6 -2.5,0.55    -2.25,0.6 -2.2,0.6 -2.05,0.56 -1.85,0.44 -1.725,0.3 -1.675,0.125 -2.025,0.125 -2.125,0.225 -2.25,0.25 -2.375,0.2375 -2.45,0.175 -2.5,0.0875    -2.525,0.0875 -2.5625,0.175 -2.6625,0.2375 -2.775,0.25 -2.9,0.225    -3,0.125 -3.375,0.125' fill='blue'/>
+  <!-- bottom -->
+ <polyline points='-3.375,-0.125 -3.3,-0.325 -3.15,-0.5 -3,-0.575 -2.85,-0.6 -2.75,-0.6 -2.5,-0.55    -2.25,-0.6 -2.2,-0.6 -2.05,-0.56 -1.85,-0.44 -1.725,-0.3 -1.675,-0.125 -2.025,-0.125 -2.125,-0.225 -2.25,-0.25 -2.375,-0.2375 -2.45,-0.175 -2.5,-0.0875    -2.525,-0.0875 -2.5625,-0.175 -2.6625,-0.2375 -2.775,-0.25 -2.9,-0.225    -3,-0.125 -3.375,-0.125' fill='blue'/>
+ <!-- line -->
+ <polyline points='-3.4,-0.065 -3.4,0.065 -2.9,0.065 -2.9,-0.065 -3.4,-0.065' fill='blue'/>
+ <!-- E -->
+ <polyline points='-1.575,-.5 -1.575,.5 -0.825,.5 -0.825,.4 -0.925,.3 -1.2,.3 -1.2,.1 -1,.1 -1,-0.125 -1.2,-0.125 -1.2,-0.275 -0.925,-0.275 -0.825,-0.425 -0.825,-.5 -1.575,-.5' fill='blue'/>
+ <!-- C -->
+ <polyline points='-.025,0.175 -.025,0.45 -0.175,0.5 -0.3,0.51 -0.475,0.51 -0.6625,0.45 -0.75,0.4 -0.875,0.2875 -0.95,0.1    -0.95,-0.075 -0.9,-0.2375 -0.8,-0.375 -0.475,-0.51 -0.35,-0.51 -0.15,-0.495 -.025,-0.425 -.025,-0.1625    -.2,-0.225 -0.4,-0.2375 -0.5375,-0.1625 -.6,-0.075  -.6,0.075  -.5,0.2 -0.375,0.2375 -0.2125,0.225 -.025,0.175' fill='blue'/>
+ <!-- M -->
+ <polyline points='0.028,-0.5 0.028,0.5 0.35,0.5 0.625,0.125 0.9,0.5 1.225,0.5 1.225,-0.5 0.9,-0.5 0.9,0 0.625,-0.325 0.35,0 0.35,-0.5 0.028,-0.5' fill='blue'/>
+ <!-- W -->
+ <polyline points='1.3,0.2 1.3,0.5 1.55,0.5 1.675,0.075 1.8,0.5 2.05,0.5 2.175,0.075 2.3,0.5 2.55,0.5 2.55,0.2 2.275,-0.5 2.05,-0.5 1.925,-0.05 1.8,-0.5 1.575,-0.5 1.3,0.2' fill='blue'/>
+ <!-- F -->
+ <polyline points='2.625,-0.5 2.625,0.5 3.375,0.5 3.375,0.3 3,0.3 3,0.125 3.35,0.125 3.35,-0.1 3,-0.1 3,-0.5 2.625,-0.5' fill='blue'/>
+</g>
 </svg>
