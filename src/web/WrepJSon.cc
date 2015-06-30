@@ -1309,6 +1309,7 @@ void WrepJSon::visit(TextVisitor& text)
 	text.update("json", "product_info", product_info_);
 	text.update("json", "plumes_interval", tostring(plumes_));
 	text.update("json", "efi_date", valid_time_);
+	text.update("json", "min_max_values", "Max = " +  tostring(maground(maxx_)) + ", Min = " +  tostring(maground(minx_)));
 }
 
 void WrepJSon::points(const Transformation& transformation, vector<UserPoint>& points)

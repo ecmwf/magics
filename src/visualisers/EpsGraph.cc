@@ -1709,7 +1709,7 @@ CdfGraph::~CdfGraph()
 void CdfGraph::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 {
 
-	
+
 	CustomisedPointsList points; 
 	std::set<string> request;
 	const Transformation& transformation = visitor.transformation();
@@ -1779,7 +1779,7 @@ void CdfGraph::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 		box->push_back(PaperPoint(transformation.getMaxX(), 43));
 		
 		
-		
+	/*
 		Text* mint = new Text();
 		mint->setJustification(MLEFT);		
 		mint->push_back(PaperPoint(transformation.getMaxX()-(w*.95), 46));
@@ -1798,7 +1798,7 @@ void CdfGraph::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 			maxt->addText("Max: ?" , Colour("navy"), 0.3);
 			mint->addText( "Min : ?", Colour("navy"), 0.3);
 		}
-        
+      */
 		
 	vector<string>::iterator style = style_.begin();
 	vector<int>::iterator thickness = thickness_.begin();
@@ -1834,7 +1834,7 @@ void CdfGraph::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 			map<string, double>::const_iterator info = (*point)->find(key.str());
 			int s = info->second;
 			ostringstream legend;
-			legend << "Eps t+ [" << s - 24 << "-" << s <<"h] " ;
+			legend << "t+ [" << s - 24 << "-" << s <<"h] " ;
 			legend_.push_back(legend.str());
 			
 		}
@@ -1856,9 +1856,9 @@ void CdfGraph::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
         for ( vector<BasicGraphicsObject*>::reverse_iterator object = sorter.rbegin(); object != sorter.rend(); ++object) 
         	visitor.push_back(*object);
             
-//        visitor.push_back(box);
-//		visitor.push_back(mint);
-//		visitor.push_back(maxt);/
+       //visitor.push_back(box);
+		//visitor.push_back(mint);
+		//visitor.push_back(maxt);
 
 }
 
@@ -1867,6 +1867,13 @@ void CdfGraph::visit(LegendVisitor& legend)
 
 {
 
+	Polyline* line = new Polyline();
+
+		                    line->setColour(Colour("black"));
+
+		                    line->setThickness(4);
+		                    legend.add(new LineEntry("", line));
+		                    return;
 	
 	vector<string>::reverse_iterator style = style_.rbegin();
 	vector<int>::reverse_iterator thickness = thickness_.rbegin();
@@ -2709,7 +2716,7 @@ void EfiGraph::operator()(Data& data, BasicGraphicsObjectContainer& out)
 
 			int s = (**point)[step.str()];
 			ostringstream legend;
-			legend << "Eps t+ [" << s - 36 << "-" << s - 12 <<"h] " ;
+			legend << "t+ [" << s - 36 << "-" << s - 12 <<"h] " ;
 
 			Polyline* box  = new Polyline();
 			box->setColour(*border_colour_);
