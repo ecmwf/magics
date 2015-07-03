@@ -136,10 +136,8 @@ void QtDriver::open()
 	//their ratio to correctly set font size for rendering!
 #ifdef Q_WS_X11  // Do we work with a X11 display?
 	const int qtDpiResolution=QX11Info::appDpiY(0);
-#elif defined(Q_WS_MAC)
-    const int qtDpiResolution=227; // \Warning Assumes Retina display!!!
-#else
-	const int qtDpiResolution=72;  // Standard screen DPI
+#else     // for MacOS X
+	const int qtDpiResolution=72;
 #endif
 	if(qtDpiResolution < 50 || qtDpiResolution > 150)
 	{
@@ -506,7 +504,7 @@ MAGICS_NO_EXPORT void QtDriver::unproject() const
 	{
 		MagLog::error() << "--->UNPROJECT (" <<
 			      ") Dimension stack error!" << endl;
-		ASSERT(dimensionStack_.empty() == false);
+		assert(dimensionStack_.empty() == false);
 	}
 
 	coordRatioX_= scalesX_.top();
@@ -640,7 +638,7 @@ MAGICS_NO_EXPORT void QtDriver::closeLayer(MgQLayerItem *qln) const
 	if(!qln) return;
 
 	//Get current layer item
-	//ASSERT(qln->layer().id() == layer.id()); 
+	//assert(qln->layer().id() == layer.id()); 
 
 	//Pop layer item from the stack
 	layerItemStack_.pop();
@@ -1393,6 +1391,83 @@ MAGICS_NO_EXPORT void QtDriver::renderText(const Text& text) const
 
 MAGICS_NO_EXPORT void QtDriver::circle(const MFloat x, const MFloat y, const MFloat r, const int s) const
 {
+    int fill = s;
+    
+    MFloat cx=projectX(x);
+    MFloat cy=projectY(y);
+   
+    //Fill wedges   
+    if(fill > 0 && fill < 8)
+    {
+        QPainterPath path;
+        path.moveTo(QPointF(cx,cy));
+        path.arcTo(cx-r,cy-r,2.*r,2.*r, 45.*(fill-2.), -45.*fill);
+        
+        QBrush brush(getQtColour(currentColour_));  
+        QPen pen(Qt::NoPen);
+       
+        QGraphicsPathItem* item=new QGraphicsPathItem(path);
+          
+        item->setParentItem(currentItem_);
+        item->setPen(pen);
+        item->setBrush(brush);
+    }
+
+    //Full filled circle
+    else if(fill==8)
+    {
+         QPainterPath path;
+        
+         path.addEllipse(QPointF(cx,cy),r,r);  
+         
+         QBrush brush(getQtColour(currentColour_));  
+         QPen pen(Qt::NoPen);
+       
+         QGraphicsPathItem* item=new QGraphicsPathItem(path);
+          
+         item->setParentItem(currentItem_);
+         item->setPen(pen);
+         item->setBrush(brush);
+    }
+
+    //Full filled circle whit a white vertical bar in the middle 
+    else if(fill == 9)
+    {
+        QPainterPath path;
+           
+        path.arcMoveTo(cx-r,cy-r,2.*r,2.*r,110);
+        path.arcTo(cx-r,cy-r,2.*r,2.*r, 110, 140);
+        path.closeSubpath();
+        
+        path.arcMoveTo(cx-r,cy-r,2.*r,2.*r,290);
+        path.arcTo(cx-r,cy-r,2.*r,2.*r, 290, 140);
+        path.closeSubpath();
+        
+        QBrush brush(getQtColour(currentColour_));  
+        QPen pen(Qt::NoPen);
+       
+        QGraphicsPathItem* item=new QGraphicsPathItem(path);
+          
+        item->setParentItem(currentItem_);
+        item->setPen(pen);
+        item->setBrush(brush);
+    }
+
+    //Outline
+    if(fill < 8)
+    {
+        QPainterPath path;
+        path.addEllipse(QPointF(cx,cy),r,r);    
+   
+        QBrush brush(Qt::NoBrush);  
+        QPen pen(getQtColour(currentColour_));
+        
+        QGraphicsPathItem* item=new QGraphicsPathItem(path);
+          
+        item->setParentItem(currentItem_);
+        item->setPen(pen);
+        item->setBrush(brush);
+    }      
 }
 
 MAGICS_NO_EXPORT void QtDriver::circle(const MFloat x, const MFloat y, const MFloat r, const int s,MgQSymbolItem *qSym) const
