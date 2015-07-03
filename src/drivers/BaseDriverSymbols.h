@@ -243,7 +243,11 @@ MAGICS_NO_EXPORT void BaseDriver::renderSymbolItem(const SymbolItem& symbol, con
 		sym = sym_[ii];
 		if(sym.id==symbol.symbol()) break;
 	}
-	if(ii==noSymbols) sym = sym_[0];
+	if(ii==noSymbols)
+	{
+	  sym = sym_[0];
+	  MagLog::warning() << "BaseDriver::renderSymbols("<<symbol.symbol()<<")-> symbol NOT available! use question mark."<< std::endl;
+	}
 
 	const unsigned int si = sym.elements.size();
 	const MFloat pX = 1. / coordRatioX_;
@@ -488,10 +492,12 @@ MAGICS_NO_EXPORT void BaseDriver::drizzle(const MFloat x, const MFloat y, const 
 	circle(x,y,s2 * coordRatioX_,8);
 
 	vector<PaperPoint> line;
-	  line.push_back(PaperPoint(x+  s2        ,y));
-	  line.push_back(PaperPoint(x+ (s2 * 0.9) ,y+s2*2.));
-	  line.push_back(PaperPoint(x             ,y+s2*5.));
-	  line.push_back(PaperPoint(x +(s2 * 0.2) ,y+s2*2.));	  
+	  line.push_back(PaperPoint(x+ s2      ,y));
+	  line.push_back(PaperPoint(x+ s2      ,y-(s2*(25./coordRatioX_))));
+	  line.push_back(PaperPoint(x          ,y-(s2*(45./coordRatioX_))));
+	  line.push_back(PaperPoint(x          ,y-(s2*(37./coordRatioX_))));
+	  line.push_back(PaperPoint(x+(s2*0.4) ,y-(s2*(25./coordRatioX_))));
+	  line.push_back(PaperPoint(x+(s2*0.4) ,y-s2));	  
 	renderSimplePolygon(line);
 }
 
@@ -501,19 +507,19 @@ MAGICS_NO_EXPORT void BaseDriver::drizzle(const MFloat x, const MFloat y, const 
 MAGICS_NO_EXPORT void BaseDriver::lightning(const MFloat x, const MFloat y, const MFloat size) const
 {
 	vector<PaperPoint> line;
-	  line.push_back(PaperPoint(x-(size*.3),y-(size)));
 	  line.push_back(PaperPoint(x-(size*.3),y+(size)));
-	renderPolyline(line);
-	line.clear();
 	  line.push_back(PaperPoint(x-(size*.3),y-(size)));
-	  line.push_back(PaperPoint(x+(size*.3),y-(size)));
-	  line.push_back(PaperPoint(x,y));
-	  line.push_back(PaperPoint(x+(size*.3),y+(size)));
 	renderPolyline(line);
 	line.clear();
-	  line.push_back(PaperPoint(x+(size*.35), y+(size*.3) ));
-	  line.push_back(PaperPoint(x+(size*.3), y+(size) ));
-	  line.push_back(PaperPoint(x, y+(size*.7)));
+	  line.push_back(PaperPoint(x-(size*.3),y+(size)));
+	  line.push_back(PaperPoint(x+(size*.3),y+(size)));
+	  line.push_back(PaperPoint(x,y));
+	  line.push_back(PaperPoint(x+(size*.3),y-(size)));
+	renderPolyline(line);
+	line.clear();
+	  line.push_back(PaperPoint(x+(size*.35),y-(size*.3) ));
+	  line.push_back(PaperPoint(x+(size*.3), y-(size) ));
+	  line.push_back(PaperPoint(x, y-(size*.7)));
 	renderPolyline(line);
 }
 
@@ -525,18 +531,18 @@ MAGICS_NO_EXPORT void BaseDriver::triangle(const MFloat x, const MFloat y, const
 	const MFloat s = 0.5 * size;
 
 	vector<PaperPoint> line;
-	  line.push_back(PaperPoint( x+s, y+s) );
-	  line.push_back(PaperPoint( x-s, y+s) );
-	  line.push_back(PaperPoint(   x, y-size) );
-	  line.push_back(PaperPoint( x+s, y+s) );
+	  line.push_back(PaperPoint( x+s, y-s) );
+	  line.push_back(PaperPoint( x-s, y-s) );
+	  line.push_back(PaperPoint(   x, y+size) );
+	  line.push_back(PaperPoint( x+s, y-s) );
 	if(fill < 1)
 	{
 		renderPolyline(line);
 		if(l>0)
 		{
 			line.clear();
-			line.push_back(PaperPoint( x+s*.6, y+(s*.5)) );
-			line.push_back(PaperPoint( x-s*.6, y+(s*.5)) );
+			line.push_back(PaperPoint( x+s*.6, y-(s*.5)) );
+			line.push_back(PaperPoint( x-s*.6, y-(s*.5)) );
 			renderPolyline(line);
 		}
 	}

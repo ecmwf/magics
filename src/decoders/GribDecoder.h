@@ -120,6 +120,7 @@ public:
 		void visit(MagnifierCollector&);
 		void visit(ValuesCollector&);
 		void visit(Transformation&);
+		void visit(MetaDataVisitor&);
 
 		 const DateDescription& timeStamp();
 		 const LevelDescription& level() ;
@@ -201,6 +202,11 @@ public:
 	grib_handle*  vHandle(string&);
 	grib_handle*  cHandle(string&);
 
+	double uComponent(int);
+	double vComponent(int);
+	void uComponent();
+	void vComponent();
+
 	grib_handle*  handle() const { return handle_; }
         void initInfo();
 
@@ -211,6 +217,8 @@ protected:
 	void handle(grib_handle*);
 
 	mutable Matrix*     matrix_;
+	mutable double*     xValues_;
+	mutable double*     yValues_;
 	mutable Matrix*     xComponent_;
 	mutable Matrix*     yComponent_;
 	mutable Matrix*     colourComponent_;
