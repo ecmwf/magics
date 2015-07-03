@@ -9,10 +9,10 @@
    		<documentation> Observation Colour		</documentation>
  	</parameter>
 
-        <parameter member="size" to="float" default="0.2" from="float" name="obs_size">
+        <parameter member="size" to="float" default="0.25" from="float" name="obs_size">
                 <documentation> size of a single onservation in cm   </documentation>
         </parameter>
-        <parameter member="ring_size" to="float" default="0.2" from="float" name="obs_ring_size">
+        <parameter member="ring_size" to="float" default="-1" from="float" name="obs_ring_size">
                <documentation> Size of the station ring  in cm </documentation>
         </parameter>
 
@@ -46,7 +46,7 @@
                 <set name="obs_pressure_tendency_colour" value="on"/>
     	</parameter>
     
-    	<parameter member="pressure_tendency_colour" to="Colour" default="automatic" from="string" name="obs_pressure_tendency_colour">
+    	<parameter member="pressure_tendency_colour" to="Colour" default="red" from="string" name="obs_pressure_tendency_colour">
 				<documentation> Colour used to display the pressure tendency </documentation>
     	</parameter>
         <parameter member="station_ring_visible" to="bool" default="on" from="string" name="obs_station_ring">
