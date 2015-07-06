@@ -259,7 +259,7 @@ void ObsPressureTendency::operator()(CustomisedPoint& point, ComplexSymbol& symb
 	object->y(row_);
 	
 	ostringstream os;	
-	if(value->second>0) os <<  setw(2) << setfill('0') << value->second * .1;
+	if(value->second>=0) os <<  setw(2) << setfill('0') << value->second * .1;
 	else os << "-" << setw(2) << setfill('0') << value->second * -.1;
 	
 	// The Pressure tendancy is red if negative!
