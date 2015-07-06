@@ -111,6 +111,10 @@ void  ObsCloudAndWind::setOrigins()
 	origins_[6] = "N_6";
 	origins_[7] = "N_7";
 	origins_[8] = "N_8";
+	origins_[59] = "N_9";
+	origins_[60] = "N_9";
+	origins_[61] = "N_9";
+	origins_[62] = "N_9";
 }
 
 void ObsCloudAndWind::operator()( CustomisedPoint& point, ComplexSymbol& symbol) const
@@ -137,7 +141,11 @@ void ObsCloudAndWind::operator()( CustomisedPoint& point, ComplexSymbol& symbol)
 	flag->length(owner_->size_*2.5); // Size to be adjusted later!
 
 	map<int, string>::const_iterator marker = origins_.find(int(point["cloud_amount"]));
-	const string origin = ( marker != origins_.end()) ? marker->second : "magics_13";
+
+	string origin = ( marker != origins_.end()) ? marker->second : "magics_13";
+	marker = origins_.find(int(point["low_cloud"]));
+	if ( marker != origins_.end() )
+		origin = marker->second;
 
 
 MagLog::debug() << "OBS ITEM - ObsWind - Lon/Lat: "<<point.longitude()<<" / "<<point.latitude()
@@ -303,10 +311,10 @@ void ObsDewPoint::operator()(CustomisedPoint& point,  ComplexSymbol& symbol) con
 	object->y(row_);
 	
 	// The temperature is displayed in Celsius.
-	const double tempe = maground(value->second-273.25);
-#ifdef OBS_DEBUG_
+	const double tempe = maground(value->second-273.15);
+
 	MagLog::debug() << "\tDewPoint--->" << point["dewpoint_2meters"] << " = " << tempe << "\n";
-#endif
+
 	object->text(tostring(tempe));
 	object->font(font);
 	//object->setJustification(MCENTRE);	
@@ -412,10 +420,10 @@ void ObsTemperature::operator()(CustomisedPoint& point,  ComplexSymbol& symbol) 
 	object->y(row_);
 	
 	// The temperature is displayed in Celsius.		
-	double tempe = maground(value->second-273.25);
-#ifdef OBS_DEBUG_
+	double tempe = maground(value->second-273.15);
+
 	MagLog::debug() << "\tTemperature: " << tempe << " from "<<value->second<<"\n";
-#endif
+
 	object->text(tostring(tempe));
 	//object->setJustification(MCENTRE);
 
@@ -435,9 +443,9 @@ void ObsTimePlot::operator()(CustomisedPoint& point,  ComplexSymbol& symbol) con
 	if (!owner_->time_plot_visible_) return;
 	CustomisedPoint::const_iterator value = point.find("time");
 	if ( value == point.end() ) return;
-#ifdef OBS_DEBUG_
+
 	MagLog::debug() << "\tTimePlot: " << value->second << "at[" << column_ << ", " << row_ << "]" << endl;
-#endif
+
 
 	Colour colour =  owner_->time_plot_colour_->automatic() ? *owner_->colour_ : *owner_->time_plot_colour_;
 
@@ -469,9 +477,8 @@ void ObsHeight::operator()(CustomisedPoint& point,  ComplexSymbol& symbol) const
 	CustomisedPoint::const_iterator value = point.find("geopotential");
 	if ( value == point.end() ) return;
 	double geop = maground(value->second/98.1);
-#ifdef OBS_DEBUG_
+
 	MagLog::debug() << "\tGeopotential: " << geop << "at[" << column_ << ", " << row_ << "]" << endl;
-#endif
 	Colour colour =  owner_->height_colour_->automatic() ? *owner_->colour_ : *owner_->height_colour_;
 	TextItem*  height = new TextItem();
 	MagFont font("sansserif");
@@ -575,9 +582,9 @@ void ObsPastWeather::operator()(CustomisedPoint& point,  ComplexSymbol& symbol) 
 		ostringstream os;	
 		os << "W_"  << value->second;	
 		object->symbol(os.str());
-#ifdef OBS_DEBUG_
+
 		MagLog::debug() << "\tPast Weather 1-> " << os.str() << "\n";
-#endif
+
 		object->height(owner_->size_);
 		symbol.add(object);
 
@@ -593,9 +600,9 @@ void ObsPastWeather::operator()(CustomisedPoint& point,  ComplexSymbol& symbol) 
 			ostringstream os2;	
 			os2 << "W_"  << value->second;	
 			object2->symbol(os2.str());
-#ifdef OBS_DEBUG_
+
 			MagLog::debug() << "\tPast Weather 2-> " << os2.str() << "\n";
-#endif
+
 			object2->height(owner_->size_);
 			symbol.add(object2);
 		}
@@ -734,7 +741,7 @@ void ObsCloud::operator()(CustomisedPoint& point, ComplexSymbol& symbol) const
 
 			MagLog::debug() << "\tLow Cloud--->" << value->second << "-->" << low->second << "\n";
 
-			cloud->height(owner_->ring_size_);
+			cloud->height(owner_->size_);
 			symbol.add(cloud);
 		}
 	}
@@ -887,7 +894,7 @@ void  ObsSeaTemperature::operator()(CustomisedPoint& point,  ComplexSymbol& symb
 		object->y(row_);
 
 		// The temperature is displayed in Celsius.
-		double tempe = maground(value->second-273.25);
+		double tempe = maground(value->second-273.15);
 
 		MagLog::debug() << "\tTemperature: " << tempe << " from "<<value->second<<"\n";
 

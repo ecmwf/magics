@@ -129,6 +129,9 @@ public:
 		tokens.insert("wind_speed");
 		tokens.insert("wind_direction");
 		tokens.insert("cloud_amount");
+		tokens.insert("low_cloud");
+		tokens.insert("medium_cloud");
+		tokens.insert("high_cloud");
 	}
 
 	virtual void operator()(CustomisedPoint&,  ComplexSymbol&) const;
