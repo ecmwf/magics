@@ -43,10 +43,10 @@ ecbuild_requires_macro_version( 1.6 )
 option( ENABLE_GRIB           "enable grib support"               ON  )
 option( ENABLE_NETCDF         "enable netcdf support"             ON  )
 
-option( ENABLE_ODB            "enable odb"                        AUTO )
-option( ENABLE_BUFR           "enable bufr support"               AUTO )
+option( ENABLE_ODB            "enable odb"                        ON )
+option( ENABLE_BUFR           "enable bufr support"               ON )
 option( ENABLE_SPOT           "enable spot support"               OFF )
-option( ENABLE_CAIRO          "enable cairo support[png/jpeg]"    AUTO )
+option( ENABLE_CAIRO          "enable cairo support[png/jpeg]"    ON )
 option( ENABLE_GEOTIFF        "enable geotiff support [implies cairo]" OFF )
 
 option( ENABLE_PYTHON         "enable python interface"   ON  )
