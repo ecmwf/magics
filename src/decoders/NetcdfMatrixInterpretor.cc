@@ -330,7 +330,36 @@ void NetcdfMatrixInterpretor::visit(Transformation& transformation)
 		
 
 }
+void NetcdfMatrixInterpretor::customisedPoints(const Transformation& transformation, const std::set<string>&, CustomisedPointsList& points)
+{
+	refDateX_ = transformation.getReferenceX();
+	refDateY_ = transformation.getReferenceY();
 
+	Matrix* uc = 0;
+	Matrix* vc = 0;
+	field_ = u_component_;
+	if (!interpretAsMatrix(&uc) )
+		return;
+	field_ = v_component_;
+	if ( !interpretAsMatrix(&vc) )
+		return;
+
+	vector<double>::iterator u = uc->begin();
+	vector<double>::iterator v = vc->begin();
+	for (vector<double>::iterator row = rows_.begin(); row != rows_.end(); ++row)
+			for (vector<double>::iterator column = columns_.begin(); column != columns_.end(); ++column) {
+
+				CustomisedPoint* point = new CustomisedPoint();
+				point->longitude(*column);
+				point->latitude(*row);
+				(*point)["x_component"] = *u;
+				(*point)["y_component"] = *v;
+
+				++u;
+				++v;
+				points.push_back(point);
+			}
+}
 void NetcdfMatrixInterpretor::statsData(map<string,vector<double> >& stats)
 {
 	if(matrix_)

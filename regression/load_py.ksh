@@ -4,13 +4,13 @@
 set +x
 
 versions="2.24.7 2.25.1" 
-src="t1000-global-reduced-gg.py"
+src="xsect_wind.py"
 echo $src
 git="/home/graphics/cgs/git/magics"
 
 ext="py"
 img_ext="png"
-where='data'
+where='wind'
 interpretor='python'
 
 dir=`pwd`
