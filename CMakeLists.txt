@@ -278,7 +278,7 @@ install( FILES ${CMAKE_CURRENT_BINARY_DIR}/magics-config
 ###############################################################################
 # contents
 
-set( MAGICS_TPLS grib_api spot odb_api EXPAT NetCDF PangoCairo PNG Proj4 EMOS)
+set( MAGICS_TPLS grib_api spot odb_api EXPAT NetCDF PangoCairo PNG Proj4 libemos )
 set( MAGICS_INCLUDE_DIRS
         ${CMAKE_CURRENT_SOURCE_DIR}/src
         ${CMAKE_BINARY_SOURCE_DIR}/src
