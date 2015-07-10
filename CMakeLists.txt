@@ -53,7 +53,7 @@ ecbuild_add_option( FEATURE BUFR
 ecbuild_add_option( FEATURE ODB
                     DEFAULT ON
                     DESCRIPTION "ODB support"
-                    REQUIRED_PACKAGES "PROJECT libemos VERSION 4.0.5" )
+                    REQUIRED_PACKAGES "PROJECT odb_api VERSION 0.10.2" )
 
 ecbuild_add_option( FEATURE CAIRO
                     DEFAULT ON
