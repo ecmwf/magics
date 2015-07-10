@@ -4,7 +4,7 @@
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
- You may obtain a copy of the License at 
+ You may obtain a copy of the License at
 
     http://www.apache.org/licenses/LICENSE-2.0
 
@@ -31,18 +31,18 @@ class MagicsException : public exception
         if (std::getenv("MAGICS_ABORT_EXCEPTION")) {
             std::abort();
         }
-    } 
+    }
 
     MagicsException() : what_("") {
         if (std::getenv("MAGICS_ABORT_EXCEPTION")) {
             std::abort();
         }
-    } 
+    }
 
 	virtual const char *what() const throw() {  return what_.c_str(); }
 	virtual ~MagicsException() throw() {}
  protected:
-    virtual void print(ostream& out) const 
+    virtual void print(ostream& out) const
     {
         out << what_;
     }
@@ -59,35 +59,35 @@ class NoSuchFileException : public MagicsException
 public:
 	 NoSuchFileException( const string& file ):
 		MagicsException("No Such File: " +  file){}
-};     
+};
 
 class NoWritePermissionException : public MagicsException
 {
 public:
 	 NoWritePermissionException( const string& file ):
 		MagicsException("No write permission to write file: " +  file){}
-};     
-    
+};
+
 class NotYetImplemented : public MagicsException
 {
 public:
 	 NotYetImplemented(const string& type, const string& method ):
 		MagicsException( type + " " + method  + " : not yet implemented... "){}
-};         
+};
 
 class MethodNotYetImplemented : public NotYetImplemented
 {
 public:
 	 MethodNotYetImplemented(const string& method):
-		NotYetImplemented("Method",  method) {}  
-};    
-     
+		NotYetImplemented("Method",  method) {}
+};
+
 class ParameterNotYetImplemented : public NotYetImplemented
 {
 public:
 	 ParameterNotYetImplemented(const string& param):
 		NotYetImplemented("Parameter", param){}
-}; 
+};
 
 class AssertionFailed : public MagicsException {
 public:
@@ -115,7 +115,11 @@ public:
 
 #ifndef ASSERT
 #define ASSERT(a)  Assert(!(a),#a,__LINE__,__FILE__,__FUNCTION__)
-#endif 
+#endif
+
+#ifndef NOTIMP
+#define NOTIMP     throw MethodNotYetImplemented(__FUNCTION__)
+#endif
 
 #endif
 // EXCEPTION_H_
