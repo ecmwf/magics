@@ -124,7 +124,7 @@ public:
     void customisedPoints(const std::set<string>&, CustomisedPointsList&);
 	void customisedPoints(const Transformation&, const std::set<string>& n, CustomisedPointsList& out, bool)
 	{ customisedPoints(n, out); }
-	PointsHandler& points(const Transformation&, bool) { ASSERT(false); }
+	PointsHandler& points(const Transformation&, bool) { NOTIMP; }
 	void visit(TextVisitor&);
 	void moreTitle(TextVisitor&);
 	void visit(Transformation&);
