@@ -89,7 +89,7 @@ public:
 	void shift(double shift)   { shift_ = shift; }
 	virtual void stepvalues(double step, vector<double>& xpos) { xpos.push_back( step); }  
 	virtual void xvalues(double, vector<double>&) {}
-	virtual double  plumesInterval() { ASSERT(false); } 
+	virtual double  plumesInterval() { NOTIMP; } 
 	 
 void type(const string& type) { type_ = type; }
 protected:
