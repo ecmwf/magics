@@ -129,7 +129,6 @@ endif()
 cmake_add_c_flags("-std=c99")
 
 set( grib no )
-endif()
 if( HAVE_GRIB )
    set( MAGICS_GRIB 1 )
    set( grib yes )
