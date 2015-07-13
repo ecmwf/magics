@@ -40,10 +40,7 @@ ecbuild_requires_macro_version( 1.8 )
 ###############################################################################
 # some variables of this project
 
-ecbuild_add_option( FEATURE GRIB
-                    DEFAULT ON
-                    DESCRIPTION "GRIB support"
-                    REQUIRED_PACKAGES "PROJECT grib_api VERSION 1.13.0" )
+ecbuild_use_package(PROJECT grib_api VERSION 1.12.3 REQUIRED)
 
 ecbuild_add_option( FEATURE BUFR
                     DEFAULT ON
@@ -61,7 +58,7 @@ ecbuild_add_option( FEATURE CAIRO
                     REQUIRED_PACKAGES PangoCairo )
 
 ecbuild_add_option( FEATURE GEOTIFF
-                    DEFAULT ON
+                    DEFAULT OFF
                     DESCRIPTION "geotiff support [implies cairo]"
                     CONDITION HAVE_CAIRO
                     REQUIRED_PACKAGES GeoTIFF )
