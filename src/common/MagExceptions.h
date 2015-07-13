@@ -4,7 +4,7 @@
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
- You may obtain a copy of the License at 
+ You may obtain a copy of the License at
 
     http://www.apache.org/licenses/LICENSE-2.0
 
@@ -132,24 +132,24 @@ protected:
 	FileError()					{  }
 };
 
-class CantOpenFile : public FileError { 
+class CantOpenFile : public FileError {
 	bool retry_;
 	virtual bool retryOnServer() const { return retry_; }
 public:
 	CantOpenFile(const string&,bool retry = false);
 };
 
-class WriteError : public FileError { 
+class WriteError : public FileError {
 public:
 	WriteError(const string&);
 };
 
-class ReadError : public FileError { 
+class ReadError : public FileError {
 public:
 	ReadError(const string&);
 };
 
-class ShortFile : public ReadError { 
+class ShortFile : public ReadError {
 public:
 	ShortFile(const string&);
 };
@@ -185,10 +185,10 @@ inline void Assert(int code,const char *msg,int line,const char *file,
 	*/
 }
 
-inline void Panic(int code,const char *msg,int line,const char *file, 
+inline void Panic(int code,const char *msg,int line,const char *file,
 	const char *proc)
 {
-	if(code != 0) 
+	if(code != 0)
 		Panic(msg,line,file,proc);
 }
 
@@ -207,7 +207,5 @@ public:
 #define SYSCALL(a) SysCall(a,#a,__LINE__,__FILE__,__FUNCTION__)
 #define ASSERT(a)  Assert(!(a),#a,__LINE__,__FILE__,__FUNCTION__)
 #define PANIC(a)   Panic((a),#a,__LINE__,__FILE__,__FUNCTION__)
-#define NOTIMP     throw NotImplemented(__LINE__,__FILE__,__FUNCTION__)
-
 
 #endif

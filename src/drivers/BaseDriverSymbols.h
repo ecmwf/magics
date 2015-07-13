@@ -487,18 +487,35 @@ MAGICS_NO_EXPORT void BaseDriver::snowflake(const MFloat x, const MFloat y, cons
 */
 MAGICS_NO_EXPORT void BaseDriver::drizzle(const MFloat x, const MFloat y, const MFloat size) const
 {
-	const MFloat s2 = size*.5;
+	const MFloat s5  = size*.6;
+	const MFloat s25 = size*.3;
 
-	circle(x,y,s2 * coordRatioX_,8);
+	vector<PaperPoint> line;
+	  line.push_back(PaperPoint( x+s25, y-s5) );
+	  line.push_back(PaperPoint( x-s25, y-s5) );
+	  line.push_back(PaperPoint( x-s5,  y-s25));
+	  line.push_back(PaperPoint( x-s5,  y+s25));
+	  line.push_back(PaperPoint( x-s25, y+s5) );
+	  line.push_back(PaperPoint( x+s25, y+s5) );
+	  line.push_back(PaperPoint( x+s5,  y+s25));
+	  line.push_back(PaperPoint( x+s5,  y-s25));
+	  line.push_back(PaperPoint( x+(size*.58), y-(size*.85)));
+	  line.push_back(PaperPoint( x+(size*.45), y-(size*1.1)));
+	  line.push_back(PaperPoint( x+(size*.1), y-(size*1.4)));
+	  line.push_back(PaperPoint( x+s25, y-(size*.7)));
+
+    renderSimplePolygon(line);
+/*	circle(x,y,s2 * coordRatioX_,8);
 
 	vector<PaperPoint> line;
 	  line.push_back(PaperPoint(x+ s2      ,y));
-	  line.push_back(PaperPoint(x+ s2      ,y-(s2*(25./coordRatioX_))));
-	  line.push_back(PaperPoint(x          ,y-(s2*(45./coordRatioX_))));
-	  line.push_back(PaperPoint(x          ,y-(s2*(37./coordRatioX_))));
-	  line.push_back(PaperPoint(x+(s2*0.4) ,y-(s2*(25./coordRatioX_))));
+	  line.push_back(PaperPoint(x+ s2      ,y-(s2*1.75)));
+	  line.push_back(PaperPoint(x          ,y-(s2*1.95)));
+	  line.push_back(PaperPoint(x          ,y-(s2*1.77)));
+	  line.push_back(PaperPoint(x+(s2*0.4) ,y-(s2*1.25)));
 	  line.push_back(PaperPoint(x+(s2*0.4) ,y-s2));	  
 	renderSimplePolygon(line);
+*/
 }
 
 /*!

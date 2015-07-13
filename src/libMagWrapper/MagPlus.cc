@@ -587,7 +587,9 @@ bool MagPlus::cartesianGrid(magics::MagRequest& in) {
 		top()->push_back(vaxis);
 
 	}
+	return true; //< @note return value was missing, what should it return?
 }
+
 bool MagPlus::tephiGrid(magics::MagRequest& in)
 {
 	magics::MagRequest& tephi = in.getSubRequest("THERMO_GRID");
@@ -609,6 +611,7 @@ bool MagPlus::tephiGrid(magics::MagRequest& in)
 		top()->push_back(grid);
 
 	}
+	return true; //< @note return value was missing, what should it return?
 }
 bool MagPlus::taylorGrid(magics::MagRequest& in)
 {
@@ -630,11 +633,13 @@ bool MagPlus::taylorGrid(magics::MagRequest& in)
 		grid->icon("Taylor Grid", "MTAYLOR");
 		top()->push_back(grid);
 	}
+	return true; //< @note return value was missing, what should it return?
 }
 bool MagPlus::oldcoastlines(magics::MagRequest& in)
 {
 	replace_string(in, "MAP_COASTLINE_RESOLUTION", "MEDIUM", "automatic");
 	coastlines(in);
+	return true; //< @note return value was missing, what should it return?
 }
 bool MagPlus::coastlines(magics::MagRequest& in)
 {
