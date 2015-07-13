@@ -57,7 +57,7 @@ public:
 		if (!owner_->station_ring_visible_) return;
 		tokens.insert("latitude");
 		tokens.insert("longitude");
-		tokens.insert("cloud_amount");
+		tokens.insert("total_cloud");
 	}
 
 	void operator()(CustomisedPoint&,  ComplexSymbol& symbol) const
@@ -128,7 +128,7 @@ public:
 		if (!owner_->wind_visible_) return;
 		tokens.insert("wind_speed");
 		tokens.insert("wind_direction");
-		tokens.insert("cloud_amount");
+		tokens.insert("total_cloud");
 		tokens.insert("low_cloud");
 		tokens.insert("medium_cloud");
 		tokens.insert("high_cloud");
