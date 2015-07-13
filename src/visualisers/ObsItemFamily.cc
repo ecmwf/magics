@@ -79,7 +79,7 @@ void ObsWind::operator()( CustomisedPoint& point, ComplexSymbol& symbol) const
 MagLog::debug() << "OBS ITEM - ObsWind - Lon/Lat: "<<point.longitude()<<" / "<<point.latitude()
      << "\n\twind_speed:     " << point[speed_]
      << "\n\twind_direction: " << point[direction_]
-     << "\n\tcloud amount:   " << point["cloud_amount"]<<" -> "<<origin << std::endl;
+     << "\n\tcloud amount:   " << point["total_cloud"]<<" -> "<<origin << std::endl;
 
 
 	flag->setOriginHeight(owner_->ring_size_);
@@ -140,18 +140,26 @@ void ObsCloudAndWind::operator()( CustomisedPoint& point, ComplexSymbol& symbol)
 	flag->setColour(colour);
 	flag->length(owner_->size_*2.5); // Size to be adjusted later!
 
-	map<int, string>::const_iterator marker = origins_.find(int(point["cloud_amount"]));
 
-	string origin = ( marker != origins_.end()) ? marker->second : "magics_13";
-	marker = origins_.find(int(point["low_cloud"]));
-	if ( marker != origins_.end() )
-		origin = marker->second;
+	int total_cloud = maground((point["total_cloud"]/100.)*8);
+	MagLog::debug() << "total_cloud-->" << point["total_cloud"] << "--->" << total_cloud << endl;
+	map<int, string>::const_iterator marker = origins_.find(total_cloud);
+	string origin;
 
+	if  ( marker != origins_.end() )
+		origin =  marker->second;
+	else {
+
+		// here we check that the sky is not obscured
+			marker = origins_.find(int(point["low_cloud"]));
+			origin = marker != origins_.end() ? marker->second : "magics_13";
+
+	}
 
 MagLog::debug() << "OBS ITEM - ObsWind - Lon/Lat: "<<point.longitude()<<" / "<<point.latitude()
      << "\n\twind_speed:     " << point["wind_speed"] 
      << "\n\twind_direction: " << point["wind_direction"]
-     << "\n\tcloud amount:   " << point["cloud_amount"]<<" -> "<<origin << std::endl;
+     << "\n\tcloud amount:   " << point["total_cloud"]<< "--->" << total_cloud << "--->" << origin << std::endl;
 
 	flag->setOriginHeight(owner_->ring_size_);
 	flag->setOriginMarker(origin);
@@ -375,13 +383,40 @@ void ObsPresentWeather::visit(std::set<string>& tokens)
 
 }
 
+static map<int, string> presentweather;
 void ObsPresentWeather::operator()(CustomisedPoint& point,  ComplexSymbol& symbol) const
 {
 	if (!owner_->present_ww_visible_) return;
-
+	if ( presentweather.empty() ) {
+		/*presentweather[100] = "ww_00";
+		presentweather[101] = "ww_01";
+		presentweather[102] = "ww_02";
+		presentweather[103] = "ww_03";
+		presentweather[104] = "ww_04";*/
+	}
 	CustomisedPoint::const_iterator value = point.find("present_weather");
 	if ( value == point.end() ) return; 
 	if ( value->second < 4 )
+		return;
+	if ( value->second > 500 )
+		return;
+	string ww;
+
+	if ( value->second < 100 ) {
+		ostringstream os;
+		os << "ww_" << setw(2) << setfill('0') << value->second;
+		ww = os.str();
+	}
+	else {
+		map<int, string>::iterator w = presentweather.find(value->second);
+		if ( w == presentweather.end() ) {
+			MagLog::warning() << "Present Weather " << value->second << " is not recognised yet, pease conatct the magics team " << endl;
+		}
+		else
+			ww = w->second;
+	}
+
+	if ( ww.empty() )
 		return;
 	SymbolItem*  object = new SymbolItem();
 	object->x(column_);
@@ -389,14 +424,10 @@ void ObsPresentWeather::operator()(CustomisedPoint& point,  ComplexSymbol& symbo
 	
 	Colour colour =  owner_->present_ww_colour_->automatic() ? *owner_->colour_ : *owner_->present_ww_colour_;
 	object->colour(colour);
-	//object->setFont("sansserif");
-
-	ostringstream os;
 	
-	os << "ww_" << setw(2) << setfill('0') << value->second;
 
-	object->symbol(os.str());
-	MagLog::debug() << "\tPresent Weather--->" << os.str() << " in " << colour << "\n";
+	object->symbol(ww);
+	MagLog::debug() << "\tPresent Weather--->" << ww << " in " << colour << "\n";
 	//time->setJustification(MRIGHT);
 	object->height(owner_->size_);
 	symbol.add(object);
@@ -564,49 +595,96 @@ void ObsPastWeather::visit(std::set<string>& tokens)
 	tokens.insert("past_weather_1");
 	tokens.insert("past_weather_2");
 }
+/*
+WMO table 020004: PAST WEATHER (1)
 
+code  meaning
+----  -------
+   0  CLOUD COVERING 1/2 OR LESS OF THE SKY THROUGHOUT THE APPROPRIATE PERIOD
+   1  CLOUD COVERING MORE THAN 1/2 OF THE SKY DURING PART OF THE APPROPRIATE
+      PERIOD AND COVERING 1/2 OR LESS DURING PART OF THE PERIOD
+   2  CLOUD COVERING MORE THAN 1/2 OF THE SKY THROUGHOUT THE APPROPRIATE PERIOD
+   3  SANSTORM, DUSTSTORM OR BLOWING SNOW
+   4  FOG OR ICE OR THICK HAZE
+   5  DRIZZLE
+   6  RAIN
+   7  SNOW, OR RAIN AND SNOW MIXED
+   8  SHOWER(S)
+   9  THUNDERSTORM(S) WITH OR WITHOUT PRECIPITATION
+  10  NO SIGNIFICANT WEATHER OBSERVED
+  11  VISIBILITY REDUCED
+  12  BLOWING PHENOMENA, VISIBILITY REDUCED
+  13  FOG
+  14  PRECIPITATION
+  15  DRIZZLE
+  16  RAIN
+  17  SNOW OR ICE PELLETS
+  18  SHOWERS OR INTERMITTENT PRECIPITATION
+  19  THUNDERSTORM
+  31  MISSING VALUE
+*/
+static map<int, string> pastweather;
 void ObsPastWeather::operator()(CustomisedPoint& point,  ComplexSymbol& symbol) const
 { 
+	if ( pastweather.empty() ) {
+		pastweather[3] = "W_3";
+		pastweather[4] = "W_4";
+		pastweather[5] = "W_5";
+		pastweather[6] = "W_6";
+		pastweather[7] = "W_6";
+		pastweather[8] = "W_8";
+		pastweather[9] = "W_9";
+		pastweather[11] = "W_4";
+		pastweather[12] = "W_4";
+		pastweather[13] = "W_4";
+		pastweather[14] = "W_6";
+		pastweather[15] = "W_5";
+		pastweather[17] = "W_7";
+		pastweather[18] = "W_8";
+		pastweather[19] = "W_9";
+	}
+
 	if (!owner_->past_ww_visible_) return;
 	CustomisedPoint::const_iterator value = point.find("past_weather_1");
 	if ( value == point.end() ) return;
 
 	Colour colour =  owner_->past_ww_colour_->automatic() ? *owner_->colour_ : *owner_->past_ww_colour_;
 
-	if(value->second > 2)
+	map<int, string>::iterator ww =  pastweather.find(value->second);
+
+	if( ww != pastweather.end() )
 	{
 		SymbolItem*  object = new SymbolItem();
 		object->x(column_);
 		object->y(row_);
 		object->colour(colour);
-		ostringstream os;	
-		os << "W_"  << value->second;	
-		object->symbol(os.str());
 
-		MagLog::debug() << "\tPast Weather 1-> " << os.str() << "\n";
+		object->symbol(ww->second);
+
+		MagLog::debug() << "\tPast Weather 1-> " << ww->second << "\n";
 
 		object->height(owner_->size_);
 		symbol.add(object);
-
+	}
 		//second past weather
-		value = point.find("past_weather_2");
-		if ( value == point.end() ) return;
-		if(value->second > 2)
+	value = point.find("past_weather_2");
+	if ( value == point.end() ) return;
+	ww =  pastweather.find(value->second);
+	if( ww != pastweather.end())
 		{
 			SymbolItem* object2 = new SymbolItem();
 			object2->x(column_*2);
 			object2->y(row_);
 			object2->colour(colour);
-			ostringstream os2;	
-			os2 << "W_"  << value->second;	
-			object2->symbol(os2.str());
 
-			MagLog::debug() << "\tPast Weather 2-> " << os2.str() << "\n";
+			object2->symbol(ww->second);
+
+			MagLog::debug() << "\tPast Weather 2-> " <<  ww->second << "\n";
 
 			object2->height(owner_->size_);
 			symbol.add(object2);
 		}
-	}
+
 } 
 
 ///////////////////////////////////////////////////////////////////////////////////
