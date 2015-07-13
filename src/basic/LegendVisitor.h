@@ -318,7 +318,7 @@ public:
 	LegendVisitor();
 	virtual ~LegendVisitor();
 	virtual void getReady();
-	virtual LegendVisitor* clone() { ASSERT(false); return 0; }
+	virtual LegendVisitor* clone() { NOTIMP; return 0; }
 	virtual Layout& layout() const { ASSERT( layout_); return *layout_; }
 	virtual Layout* layoutPtr() const { ASSERT( layout_); return layout_; }
 	//virtual Layout* legend()  { ASSERT( layout_); return this; }

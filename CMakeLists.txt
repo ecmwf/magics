@@ -35,19 +35,37 @@ set( CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH} 
 
 include( ecbuild_system )
 
-ecbuild_requires_macro_version( 1.6 )
+ecbuild_requires_macro_version( 1.8 )
 
 ###############################################################################
 # some variables of this project
 
-option( ENABLE_GRIB           "enable grib support"               ON  )
+ecbuild_use_package(PROJECT grib_api VERSION 1.12.3 REQUIRED)
+
+ecbuild_add_option( FEATURE BUFR
+                    DEFAULT ON
+                    DESCRIPTION "BUFR support"
+                    REQUIRED_PACKAGES "PROJECT libemos VERSION 4.0.5" )
+
+ecbuild_add_option( FEATURE ODB
+                    DEFAULT ON
+                    DESCRIPTION "ODB support"
+                    REQUIRED_PACKAGES "PROJECT odb_api VERSION 0.10.2" )
+
+ecbuild_add_option( FEATURE CAIRO
+                    DEFAULT ON
+                    DESCRIPTION "cairo support[png/jpeg]"
+                    REQUIRED_PACKAGES PangoCairo )
+
+ecbuild_add_option( FEATURE GEOTIFF
+                    DEFAULT OFF
+                    DESCRIPTION "geotiff support [implies cairo]"
+                    CONDITION HAVE_CAIRO
+                    REQUIRED_PACKAGES GeoTIFF )
+
 option( ENABLE_NETCDF         "enable netcdf support"             ON  )
 
-option( ENABLE_ODB            "enable odb"                        ON )
-option( ENABLE_BUFR           "enable bufr support"               ON )
 option( ENABLE_SPOT           "enable spot support"               OFF )
-option( ENABLE_CAIRO          "enable cairo support[png/jpeg]"    ON )
-option( ENABLE_GEOTIFF        "enable geotiff support [implies cairo]" OFF )
 
 option( ENABLE_PYTHON         "enable python interface"   ON  )
 option( ENABLE_FORTRAN        "enable fortran interface"  ON  )
@@ -107,14 +125,11 @@ endif()
 #cmake_add_cxx_flags("-gdwarf-2")
 cmake_add_c_flags("-std=c99")
 
-set( grib no )
-if( ENABLE_GRIB )
-  ecbuild_use_package( PROJECT grib_api VERSION 1.13.0 REQUIRED)
-endif()
-if( GRIB_API_FOUND )
+#set( grib no )
+#if( HAVE_GRIB )
    set( MAGICS_GRIB 1 )
    set( grib yes )
-endif()
+#endif()
 
 ### netcdf
 
@@ -133,15 +148,12 @@ endif()
 ### odb
 
 set( odb no )
-if( ENABLE_ODB )
-  ecbuild_use_package( PROJECT odb_api  VERSION 0.10.2 REQUIRED)
-endif()
-if( ODB_API_FOUND )
+if( HAVE_ODB )
 
     get_filename_component( odb_api_install_dir ${ODB_API_CMAKE_DIR}/../../../lib ABSOLUTE )
     get_filename_component( eckit_install_dir   ${ECKIT_CMAKE_DIR}/../../../lib ABSOLUTE )
 
-      set( MAGICS_ODB 1 )
+    set( MAGICS_ODB 1 )
 	  set( odb yes)
 
 	  # does this version use eckit?
@@ -162,16 +174,12 @@ if( ENABLE_SPOT )
         set (MAGICS_SPOT 1)
         set ( spot yes)
     endif()
-else() 
+else()
 endif()
 
 ### bufr
 
-set( bufr no )
-if( ENABLE_BUFR )
-  find_package( EMOS REQUIRED )
-endif()
-if( EMOS_FOUND )
+if( HAVE_BUFR ) # set by ecbuild_add_option()
    set( MAGICS_BUFR 1 )
    set( bufr yes)
 endif()
@@ -180,21 +188,13 @@ endif()
 ### cairo
 
 set( cairo no )
-if( ENABLE_CAIRO )
-	find_package( PangoCairo REQUIRED )
-else()
-    find_package( PangoCairo )
-endif()
-    
-if( PANGOCAIRO_FOUND )
+
+if( HAVE_CAIRO )
 	set( MAGICS_CAIRO 1 )
 	set( cairo yes )
-	if( ENABLE_GEOTIFF )
-	   find_package( GeoTIFF REQUIRED )
-	   if( GEOTIFF_FOUND )
+  if( HAVE_GEOTIFF )
 	      set( MAGICS_GEOTIFF 1 )
-	   endif()
-	endif()
+  endif()
 endif()
 
 ecbuild_add_option( FEATURE PNG
@@ -254,7 +254,7 @@ ecbuild_declare_project()
 # find extra packages
 
 set( CMAKE_THREAD_PREFER_PTHREAD 1 )
-find_package( Threads ) 
+find_package( Threads )
 
 # set(Boost_USE_STATIC_LIBS        ON)
 # set(Boost_NO_SYSTEM_PATHS        ON)
@@ -267,22 +267,22 @@ find_package( EXPAT  REQUIRED )
 
 
 install( FILES ${CMAKE_CURRENT_BINARY_DIR}/magics-config
-			DESTINATION ${INSTALL_BIN_DIR} 
-			PERMISSIONS OWNER_READ GROUP_READ WORLD_READ 
+			DESTINATION ${INSTALL_BIN_DIR}
+			PERMISSIONS OWNER_READ GROUP_READ WORLD_READ
 				        OWNER_EXECUTE GROUP_EXECUTE WORLD_EXECUTE)
 
 
 ###############################################################################
 # contents
 
-set( MAGICS_TPLS grib_api spot odb_api EXPAT NetCDF PangoCairo PNG Proj4 EMOS)
-set( MAGICS_INCLUDE_DIRS 
-        ${CMAKE_CURRENT_SOURCE_DIR}/src 
-        ${CMAKE_BINARY_SOURCE_DIR}/src 
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/common 
-        ${CMAKE_CURRENT_BINARY_DIR}/src/params 
-        ${CMAKE_CURRENT_BINARY_DIR}/src 
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/common  
+set( MAGICS_TPLS grib_api spot odb_api EXPAT NetCDF PangoCairo PNG Proj4 libemos )
+set( MAGICS_INCLUDE_DIRS
+        ${CMAKE_CURRENT_SOURCE_DIR}/src
+        ${CMAKE_BINARY_SOURCE_DIR}/src
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/common
+        ${CMAKE_CURRENT_BINARY_DIR}/src/params
+        ${CMAKE_CURRENT_BINARY_DIR}/src
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/common
         ${CMAKE_CURRENT_SOURCE_DIR}/src/basic
         ${CMAKE_CURRENT_SOURCE_DIR}/src/web
         ${CMAKE_CURRENT_SOURCE_DIR}/src/visualisers
@@ -295,11 +295,11 @@ set( MAGICS_INCLUDE_DIRS
         ${CMAKE_CURRENT_SOURCE_DIR}/src/terralib/utils
         ${CMAKE_CURRENT_SOURCE_DIR}/src/libMagWrapper
         ${Boost_INCLUDE_DIRS} )
-    
+
 if( MAGICS_ODB )
     list( APPEND MAGICS_INCLUDE_DIRS
-		${CMAKE_CURRENT_SOURCE_DIR}/src/oda 
-		${ODB_API_INCLUDE_DIRS}/../eclib 
+		${CMAKE_CURRENT_SOURCE_DIR}/src/oda
+		${ODB_API_INCLUDE_DIRS}/../eclib
 	)
 endif()
 
@@ -307,7 +307,9 @@ set( MAGICS_LIBRARIES    MagPlus )
 
 foreach( _tpl ${MAGICS_TPLS} )
     string( TOUPPER ${_tpl} TPL )
-    list( APPEND MAGICS_EXTRA_DEFINITIONS   ${${TPL}_DEFINITIONS}  )
+    if( NOT ${TPL} STREQUAL "LIBEMOS" ) # don't add libemos definitions
+      list( APPEND MAGICS_EXTRA_DEFINITIONS   ${${TPL}_DEFINITIONS}  )
+    endif()
     list( APPEND MAGICS_EXTRA_INCLUDE_DIRS  ${${TPL}_INCLUDE_DIRS} )
     list( APPEND MAGICS_EXTRA_LIBRARIES     ${${TPL}_LIBRARIES} )
 endforeach()
@@ -351,7 +353,7 @@ include_directories( ${MAGICS_INCLUDE_DIRS} ${MAGICS_EXTRA_INCLUDE_DIRS} )
 set(  __magics_inc_tmp ${MAGICS_EXTRA_INCLUDE_DIRS} )
 set(MAGICS_EXTRA_INCLUDES "")
 
-foreach( inc ${__magics_inc_tmp} ) 
+foreach( inc ${__magics_inc_tmp} )
   set(MAGICS_EXTRA_INCLUDES "${MAGICS_EXTRA_INCLUDES} -I${inc}" )
 endforeach()
 
@@ -364,7 +366,7 @@ add_subdirectory( src )
 # shared files
 add_subdirectory( share )
 
-# python interface 
+# python interface
 add_subdirectory( python )
 
 # apps directory
@@ -379,18 +381,18 @@ endif()
 # Directories not need in the distribution tar ball!
 ecbuild_add_resources( TARGET old_src DONT_PACK_DIRS src/MvObs src/libTable src/xml src/terralib/functions)
 ecbuild_add_resources( TARGET bamboo DONT_PACK_DIRS bamboo)
-ecbuild_add_resources( TARGET old_ressources 
-		DONT_PACK_DIRS tools/versioncmp 
-		tools/regression 
+ecbuild_add_resources( TARGET old_ressources
+		DONT_PACK_DIRS tools/versioncmp
+		tools/regression
 		regression
 		docs
 		toolsjs
 		test/old
-		tools/xml 
+		tools/xml
 		tools/use_scripts
 		tools/versioncmp_folders)
 
-ecbuild_add_resources( TARGET internal 
+ecbuild_add_resources( TARGET internal
 		DONT_PACK configure.lxab
 		configure.local
 		configure.ecgb
@@ -414,21 +416,21 @@ set(MAGICS_EXTRA_LIBS "")
 foreach( lib ${__magics_tmp} )
   if( lib MATCHES "^/.*" )
 # Need to split -L/path and -l libd
-	
+
 	 get_filename_component(ext ${lib} EXT)
 	  if ( ${ext} MATCHES ${CMAKE_SHARED_LIBRARY_SUFFIX} )
-		
+
 		get_filename_component(path ${lib} PATH)
-		
+
 		list( APPEND RPATH "-Wl,-rpath,${path}")
 	  endif()
-	 
+
   else()
     if( NOT lib MATCHES "^-l.*" )
 		set( lib "-l${lib}" )
 	endif()
   endif()
-  
+
   set(MAGICS_EXTRA_LIBS "${MAGICS_EXTRA_LIBS} ${lib}" )
 endforeach()
 
@@ -441,7 +443,7 @@ if( ODB_API_FOUND )
     set(MAGICS_EXTRA_LIBS "${MAGICS_EXTRA_LIBS} -L${eckit_install_dir} -leckit")
     set(MAGICS_EXTRA_LIBS "${MAGICS_EXTRA_LIBS} -L${eckit_install_dir} -leckit_web")
     set(MAGICS_EXTRA_LIBS "${MAGICS_EXTRA_LIBS} -L${eckit_install_dir} -leckit_geometry")
-    set(MAGICS_RPATH "${MAGICS_RPATH}  -Wl,-rpath,${eckit_install_dir}" ) 
+    set(MAGICS_RPATH "${MAGICS_RPATH}  -Wl,-rpath,${eckit_install_dir}" )
     set(MAGICS_RPATH "${MAGICS_RPATH}  -Wl,-rpath,${odb_api_install_dir}" )
 endif()
 
@@ -455,11 +457,11 @@ foreach( path ${RPATH} )
 endforeach()
 
 debug_var(MAGICS_RPATH)
-	
 
-configure_file( magics-config.in  magics-config @ONLY )					
+
+configure_file( magics-config.in  magics-config @ONLY )
 # ecbuild/cmake is needed in the the distribution tar ball!
-					
+
 ############################################################################################
 # finalize
 
