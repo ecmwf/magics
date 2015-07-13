@@ -125,11 +125,11 @@ endif()
 #cmake_add_cxx_flags("-gdwarf-2")
 cmake_add_c_flags("-std=c99")
 
-set( grib no )
-if( HAVE_GRIB )
+#set( grib no )
+#if( HAVE_GRIB )
    set( MAGICS_GRIB 1 )
    set( grib yes )
-endif()
+#endif()
 
 ### netcdf
 
