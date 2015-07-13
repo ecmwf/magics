@@ -307,7 +307,9 @@ set( MAGICS_LIBRARIES    MagPlus )
 
 foreach( _tpl ${MAGICS_TPLS} )
     string( TOUPPER ${_tpl} TPL )
-    list( APPEND MAGICS_EXTRA_DEFINITIONS   ${${TPL}_DEFINITIONS}  )
+    if( NOT ${TPL} STREQUAL "LIBEMOS" ) # don't add libemos definitions
+      list( APPEND MAGICS_EXTRA_DEFINITIONS   ${${TPL}_DEFINITIONS}  )
+    endif()
     list( APPEND MAGICS_EXTRA_INCLUDE_DIRS  ${${TPL}_INCLUDE_DIRS} )
     list( APPEND MAGICS_EXTRA_LIBRARIES     ${${TPL}_LIBRARIES} )
 endforeach()
