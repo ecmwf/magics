@@ -316,6 +316,8 @@ endforeach()
 
 if( MAGICS_BUFR )
 	list( APPEND MAGICS_EXTRA_DEFINITIONS   fortfloat=double fortint=int )
+    ecbuild_find_fortranlibs()
+	list( APPEND MAGICS_EXTRA_LIBRARIES ${FORTRAN_LIBRARIES} )
 endif()
 if( WITH_QT_DEBUG )
 	list( APPEND MAGICS_EXTRA_DEFINITIONS QT_NO_DEBUG_OUTPUT )
