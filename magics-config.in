@@ -2,7 +2,7 @@
 
 prefix=@CMAKE_INSTALL_PREFIX@
 exec_prefix=@CMAKE_INSTALL_PREFIX@/bin
-libdir=@CMAKE_INSTALL_PREFIX@/lib
+libdir=@CMAKE_INSTALL_PREFIX@/@INSTALL_LIB_DIR@/
 includedir=@CMAKE_INSTALL_PREFIX@/include/magics
 F77="@CMAKE_Fortran_COMPILER@"
 CC="@CMAKE_C_COMPILER@"
@@ -303,7 +303,7 @@ if test "$compile" = "yes"; then
 	if test ${name} != ${f77_file} ; then
 	      out="-o $name "              ### avoid overriding source file
 	fi
-	echo "$F77 ${out}$f77_file ${FFLAGS} ${precision} -L${libdir} -lMagPlus @LDFLAGS@ @MAGICS_EXTRA_LIBS@ $CPPLIBS"
+	echo "$F77 ${out}$f77_file ${FFLAGS} ${precision_shared} -L${libdir} -lMagPlus @LDFLAGS@ @MAGICS_EXTRA_LIBS@ $CPPLIBS"
 	$F77 ${out}$f77_file ${FFLAGS} ${precision} -L${libdir} -Wl,-rpath,${libdir} -lMagPlus @LDFLAGS@ @MAGICS_EXTRA_LIBS@ $CPPLIBS
 fi
 
