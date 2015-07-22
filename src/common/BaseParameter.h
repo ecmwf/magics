@@ -37,12 +37,12 @@
 #include "Matrix.h"
 
 #ifdef MAGICS_CAIRO
- #include "cairo.h"
+ #include <cairo.h>
  typedef cairo_t* CairoPtr;
 #endif
 
 #ifdef LATER
-#include "grib_api.h"
+#include <grib_api.h>
 typedef grib_handle* GribHandlePtr ;
 #endif
 
