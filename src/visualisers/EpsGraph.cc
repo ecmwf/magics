@@ -2600,14 +2600,14 @@ void EpsPlume::timeserie(Data& data, BasicGraphicsObjectContainer& visitor)
 	}
 	if ( line_)
 			for ( map<string, Polyline* >::const_iterator line = lines.begin(); line != lines.end(); ++line) {
-			visitor.push_back(line->second);
+			transformation(*line->second, visitor);
 		}
 		if (control_)
-			visitor.push_back(control);
+			transformation(*control, visitor);
 		if (forecast_)
-			visitor.push_back(forecast);
+			transformation(*forecast, visitor);
 		if (median_)
-			visitor.push_back(median);
+			transformation(*median, visitor);
 
 }
 
