@@ -1241,9 +1241,9 @@ MAGICS_NO_EXPORT void QtDriver::renderText(const Text& text) const
 
 			if(an !=0 &&  an != 360)
 			{
-				item->setPos(x,y);
-				item->setRotation(an);
-				item->setPos(-x,-y);	
+				item->translate(x,y);
+				item->rotate(an);
+				item->translate(-x,-y);
 			}
 
 			item->setPos(x0,y0);
@@ -1329,7 +1329,7 @@ MAGICS_NO_EXPORT void QtDriver::renderText(const Text& text) const
 				item->setPos(x0,y0);
 				
 				if(an !=0 &&  an != 360)	
-					item->setRotation(an);
+					item->rotate(an);
 				
 				QTransform tr;
 				tr.scale(1.,-1.);
