@@ -4,7 +4,7 @@
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
- You may obtain a copy of the License at 
+ You may obtain a copy of the License at
 
     http://www.apache.org/licenses/LICENSE-2.0
 
@@ -18,13 +18,13 @@
 
 /*! \file ObsItem.h
     \brief Definition of the Template class ObsItem.
-    
+
     Magics Team - ECMWF 2005
-    
+
     Started: Wed 18-May-2005
-    
+
     Changes:
-    
+
 */
 
 #ifndef ObsItem_H
@@ -49,18 +49,18 @@ class ObsItem {
 public:
 	ObsItem(): owner_(0) {}
 	virtual ~ObsItem() {}
-	
+
 	virtual void set(const map<string, string>&) {}
-	virtual void operator()(CustomisedPoint&, ComplexSymbol&) const {} 
+	virtual void operator()(CustomisedPoint&, ComplexSymbol&) const {}
 	virtual void visit(std::set<string>&) {}
-	
+
 	string find(const map<string, string>& def, const string& keyword, const string& defaut = "")
 	{
 		map<string, string>::const_iterator val = def.find(keyword);
 		return ( val != def.end() ) ?  val->second : defaut;
 	}
 
-	ObsPlotting* set(const ObsPlotting* owner) const { owner_ = owner; }
+	void set(const ObsPlotting* owner) const { owner_ = owner; }
 
 protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).
@@ -82,12 +82,12 @@ private:
 };
 
 template<>
-class MagTranslator<string, ObsItem> { 
+class MagTranslator<string, ObsItem> {
 public:
 	ObsItem* operator()(const string& val )
 	{
 		return SimpleObjectMaker<ObsItem>::create(val);
-	}     
+	}
 
 	ObsItem* magics(const string& param)
 	{

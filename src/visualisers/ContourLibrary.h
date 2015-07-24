@@ -1,12 +1,12 @@
 /*! \file ContourLibrary.h
     \brief Definition of the Template class ContourLibrary.
-    
+
     Magics Team - ECMWF 2010
-    
+
     Started: Fri 16-Jul-2010
-    
+
     Changes:
-    
+
 */
 
 #ifndef ContourLibrary_H
@@ -36,17 +36,17 @@ public:
 
 	// se the map to set the contour!
 	virtual void getAttributes(MetaDataCollector&, map<string, string>&);
-	
+
 protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).
-	 virtual void print(ostream&) const; 
+	 virtual void print(ostream&) const;
 
 private:
     //! Copy constructor - No copy allowed
 	ContourLibrary(const ContourLibrary&);
     //! Overloaded << operator to copy - No copy allowed
 	ContourLibrary& operator=(const ContourLibrary&);
-	
+
 	bool setInfoObject(string);
 
 // -- Friends
@@ -86,6 +86,7 @@ public:
 			s << "]" << endl;
 		}
 		s << "read from " << p.path_;
+		return s;
 	}
 
 };
@@ -116,6 +117,7 @@ public:
 			s << "]" << endl;
 		}
 		s << "read from " << p.path_;
+		return s;
 	}
 
 };
