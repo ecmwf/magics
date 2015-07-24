@@ -368,21 +368,18 @@ void GribRegularInterpretor::index(const GribDecoder& grib)
 
 
 		if (jPointsAreConsecutive) {
-/*
- * 			vector<double> *d = new vector<double>(nb);  // temporary array
-			double *d1 = &d->front();                 // temporary array pointer
-			double *d2 = &(*matrix)->front();            // final array
+			for ( vector<double>::iterator lat = latitudes.begin(); lat != latitudes.end(); ++lat) {
+				index_.insert(make_pair(*lat, map<double, int>()));
+			}
+			for ( vector<double>::iterator lon = longitudes.begin(); lon != longitudes.end(); ++lon) {
 
-			grib_get_double_array(grib.id(), "values", d1, &aux);
+				for ( vector<double>::iterator lat = latitudes.begin(); lat != latitudes.end(); ++lat) {
 
-			for (int i = 0; i < nblon; i++) {
-				for (int j = 0; j < nblat; j++) {
-					d2[j * nblon + i] = d1[i * nblat + j];
+					index_[*lat].insert(make_pair(*lon, index));
+					index++;
 				}
 			}
 
-			delete d;
-*/
 		}
 		else  // otherwise, just copy the array of values as they are
 		{
