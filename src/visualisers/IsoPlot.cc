@@ -43,7 +43,7 @@
 
 namespace magics {
 
- 
+
 
 static MutexCond producerMutex_;
 
@@ -142,6 +142,7 @@ public:
             return singleRange;
         }
 
+        /// @warning What should be retuned if function arrives here?
     }
 
     void push_back(int index, double x1, double y1, double x2, double y2 ){
@@ -589,7 +590,7 @@ void IsoPlot::isoline(Cell& cell, CellBox* parent) const
         if ( !parent  ) // NO Shading == Nothing to do!
             return;
         else {
-            
+
             int index  = shading_->shadingIndex(cell.value(0));
 
                   vector<PaperPoint> points;
