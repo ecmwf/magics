@@ -147,25 +147,21 @@ endif()
 
 ### odb
 
-set( odb no )
 if( HAVE_ODB )
 
     get_filename_component( odb_api_install_dir ${ODB_API_CMAKE_DIR}/../../../lib ABSOLUTE )
     get_filename_component( eckit_install_dir   ${ECKIT_CMAKE_DIR}/../../../lib ABSOLUTE )
 
       set( MAGICS_ODB 1 )
-	  set( odb yes)
 
 endif()
 
 ### spot
 
-set( spot no )
 if( ENABLE_SPOT )
     ecbuild_use_package( PROJECT spot  REQUIRED)
     if( SPOT_FOUND )
         set (MAGICS_SPOT 1)
-        set ( spot yes)
     endif()
 else() 
 endif()
@@ -174,17 +170,13 @@ endif()
 
 if( HAVE_BUFR ) # set by ecbuild_add_option()
    set( MAGICS_BUFR 1 )
-   set( bufr yes)
 endif()
 
 
 ### cairo
 
-set( cairo no )
-    
 if( HAVE_CAIRO )
 	set( MAGICS_CAIRO 1 )
-	set( cairo yes )
   if( HAVE_GEOTIFF )
 	      set( MAGICS_GEOTIFF 1 )
 	   endif()
@@ -207,7 +199,6 @@ if(ENABLE_METVIEW AND ENABLE_METVIEW_NO_QT)
 endif()
 
 set( qt no )
-set( qtlib no )
 set( metview no )
 
 if( ENABLE_METVIEW_NO_QT )
