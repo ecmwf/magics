@@ -156,13 +156,6 @@ if( HAVE_ODB )
       set( MAGICS_ODB 1 )
 	  set( odb yes)
 
-	  # does this version use eckit?
-	  list(FIND ODB_API_LIBRARIES eckit ODB_ECKIT_INDEX)
-
-    if ((NOT ODB_ECKIT_INDEX EQUAL -1) OR (DEFINED ODB_ECKIT))  # is an eckit version
-        add_definitions(-DODB_ECKIT)
-    endif()
-
 endif()
 
 ### spot

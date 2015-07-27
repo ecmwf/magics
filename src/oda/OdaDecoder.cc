@@ -31,19 +31,11 @@
 #include <map>
 #include <set>
 
-#ifdef ODB_ECKIT
-    #include <odb_api/ColumnType.h>
-    #include <odb_api/Reader.h>
-#else
-    #include <odblib/odb_api.h>
-#endif
+#include <odb_api/ColumnType.h>
+#include <odb_api/Reader.h>
 
 extern "C" {
-#ifdef ODB_ECKIT
-    #include <odb_api/odbcapi.h>
-#else
-    #include <odblib/odbcapi.h>
-#endif
+#include <odb_api/odbcapi.h>
 }
 
 
