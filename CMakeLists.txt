@@ -448,7 +448,8 @@ if( ODB_API_FOUND )
 
     set(MAGICS_EXTRA_LIBS "${MAGICS_EXTRA_LIBS} -L${odb_api_install_dir} -lOdb")
     set(MAGICS_EXTRA_LIBS "${MAGICS_EXTRA_LIBS} -L${eckit_install_dir} -leckit")
-    set(MAGICS_RPATH "${MAGICS_RPATH}  -Wl,-rpath,${eckit_install_dir}" ) 
+    set(MAGICS_EXTRA_LIBS "${MAGICS_EXTRA_LIBS} -L${eckit_install_dir} -leckit_ecml")
+    set(MAGICS_RPATH "${MAGICS_RPATH}  -Wl,-rpath,${eckit_install_dir}" )
     set(MAGICS_RPATH "${MAGICS_RPATH}  -Wl,-rpath,${odb_api_install_dir}" )
 endif()
 
