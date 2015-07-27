@@ -269,7 +269,7 @@ install( FILES ${CMAKE_CURRENT_BINARY_DIR}/magics-config
 ###############################################################################
 # contents
 
-set( MAGICS_TPLS grib_api spot odb_api EXPAT NetCDF PangoCairo PNG Proj4 libemos )
+set( MAGICS_TPLS grib_api spot EXPAT NetCDF PangoCairo PNG Proj4 libemos )
 
 set( MAGICS_INCLUDE_DIRS 
         ${CMAKE_CURRENT_SOURCE_DIR}/src 
@@ -315,6 +315,11 @@ foreach( _tpl ${MAGICS_TPLS} )
     list( APPEND MAGICS_EXTRA_INCLUDE_DIRS  ${${TPL}_INCLUDE_DIRS} )
     list( APPEND MAGICS_EXTRA_LIBRARIES     ${${TPL}_LIBRARIES} )
 endforeach()
+
+if( MAGICS_ODB )
+    list( APPEND MAGICS_EXTRA_INCLUDE_DIRS  ${ODB_API_INCLUDE_DIRS} )
+    list( APPEND MAGICS_EXTRA_LIBRARIES     Odb )
+endif()
 
 if( MAGICS_BUFR )
 	list( APPEND MAGICS_EXTRA_DEFINITIONS   fortfloat=double fortint=int )
