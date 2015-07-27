@@ -427,7 +427,6 @@ foreach( lib ${__magics_tmp} )
 		
 		get_filename_component(path ${lib} PATH)
 		
-		list( APPEND RPATH "-Wl,-rpath,${path}")
 	  endif()
 	 
   else()
@@ -440,27 +439,11 @@ foreach( lib ${__magics_tmp} )
 endforeach()
 
 
-set(MAGICS_RPATH " -Wl,-rpath,${CMAKE_INSTALL_PREFIX}/lib" )
-
 if( ODB_API_FOUND )
-
     set(MAGICS_EXTRA_LIBS "${MAGICS_EXTRA_LIBS} -L${odb_api_install_dir} -lOdb")
     set(MAGICS_EXTRA_LIBS "${MAGICS_EXTRA_LIBS} -L${eckit_install_dir} -leckit")
     set(MAGICS_EXTRA_LIBS "${MAGICS_EXTRA_LIBS} -L${eckit_install_dir} -leckit_ecml")
-    set(MAGICS_RPATH "${MAGICS_RPATH}  -Wl,-rpath,${eckit_install_dir}" )
-    set(MAGICS_RPATH "${MAGICS_RPATH}  -Wl,-rpath,${odb_api_install_dir}" )
 endif()
-
-
-
-list(REMOVE_DUPLICATES RPATH)
-
-foreach( path ${RPATH} )
-	set(MAGICS_RPATH "${MAGICS_RPATH} ${path}" )
-endforeach()
-
-debug_var(MAGICS_RPATH)
-	
 
 configure_file( magics-config.in  magics-config @ONLY )					
 # ecbuild/cmake is needed in the the distribution tar ball!
