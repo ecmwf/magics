@@ -98,10 +98,8 @@ public :
 	virtual grib_handle* operator()(grib_context*, FILE* file, int position) const
 	{
 		grib_handle* handle = 0;
-		void* msg=NULL;
-		size_t size=0;
-		off_t offset=0;
-		int err;
+
+
 		grib_context* context = grib_context_get_default();
 		int error;
 		for (int i = 0; i < position-1; i++)
@@ -134,7 +132,7 @@ public:
 	
 	virtual grib_handle* operator()(grib_context* context, FILE* file, int position) const
 	{
-		fseek(file, position, SEEK_SET);
+		fseek(file, (long int)  position, SEEK_SET);
         grib_handle* handle = 0;
 
 		int error;
