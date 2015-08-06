@@ -68,9 +68,7 @@
         		<documentation> Font colour.  		</documentation>
     	</parameter> 
 
-    	<parameter member="text_blanking" to="bool" default="off" from="string" name="symbol_text_blanking">
-        		<documentation> blanking of the text 		</documentation>
-    	</parameter>
+    	
     	<parameter member="legend_height" to="float" default="-1" from="float" name="symbol_legend_height">
          		<documentation> If set, the height will be used to plot the symbols in the legend 		</documentation>
   		</parameter>

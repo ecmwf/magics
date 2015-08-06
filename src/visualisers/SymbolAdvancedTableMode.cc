@@ -174,6 +174,7 @@ void SymbolAdvancedTableMode::adjust(double min, double max)
     	properties.connectLineColour_ = (parent_->automatic_connect_colour_ ) ? colourMethod_->right(*level) : *parent_->connect_colour_;
     	properties.connectLineStyle_ = parent_->connect_style_;
     	properties.connectLineThickness_ = parent_->connect_thickness_;
+    	properties.blanking_ = parent_->text_blanking_;
     	last = properties;
     	map_[Interval(*level, *(level+1)) ] = properties;
     	
