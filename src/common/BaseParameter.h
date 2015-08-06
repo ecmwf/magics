@@ -93,6 +93,10 @@ public:
 	virtual void setLocal(const magvector<int>&) { throw MistmatchType(name_, "integer", type()); }
 	virtual void get(magvector<int>&) const { throw MistmatchType(name_, "integer", type()); }
 
+	virtual void set(const magvector<long int>&) { throw MistmatchType(name_, "long integer", type()); }
+	virtual void setLocal(const magvector<long int>&) { throw MistmatchType(name_, "long integer", type()); }
+	virtual void get(magvector<long int>&) const { throw MistmatchType(name_, "long integer", type()); }
+
 	virtual void set(const string&) { throw MistmatchType(name_, "string", type()); }
 	virtual void setLocal(const string&) { throw MistmatchType(name_, "string", type()); }
 	virtual void get(string&) const { throw MistmatchType(name_, "string", type()); }
@@ -149,6 +153,10 @@ public:
 	virtual void setLocal(const magvector<int>&) { MagLog::dev()<< "Magics-warning:" << MistmatchType(name_, "integer", type()) << "\n"; }
 	virtual void get(magvector<int>&) const { MagLog::dev()<< "Magics-warning:" << MistmatchType(name_, "integer", type()) << "\n"; }
 
+	virtual void set(const magvector<long int>&) { MagLog::dev()<< "Magics-warning:" << MistmatchType(name_, "long int", type()) << "\n"; }
+	virtual void setLocal(const magvector<long int>&) { MagLog::dev()<< "Magics-warning:" << MistmatchType(name_, "long int", type()) << "\n"; }
+	virtual void get(magvector<long int>&) const { MagLog::dev()<< "Magics-warning:" << MistmatchType(name_, "long int", type()) << "\n"; }
+
 	virtual void set(const string&) { MagLog::dev()<< "Magics-warning:" << MistmatchType(name_, "string", type()) << "\n"; }
 	virtual void setLocal(const string&) { MagLog::dev()<< "Magics-warning:" << MistmatchType(name_, "string", type()) << "\n"; }
 	virtual void get(string&) const { MagLog::dev()<< "Magics-warning:" << MistmatchType(name_, "string", type()) << "\n"; }
@@ -202,12 +210,14 @@ public:
 	string getType(const double&) const { return "real"; }
 	string getType(const magvector<string>&) const { return "array of string"; }
 	string getType(const magvector<int>&) const { return "array of integer"; }
+	string getType(const magvector<long int>&) const { return "array of long integer"; }
 	string getType(const magvector<double>&) const { return "array of real"; }
 	string getType(LineStyle) const { return "LineStyle"; }
 	string getType(AxisAutomaticSetting) const { return "AxisAutomaticSetting"; }
 	string getType(Justification) const { return "Justification"; }
 	string getType(ArrowPosition) const { return "ArrowPosition"; }
 	string getType(Matrix) const { return "2DMatrix"; }
+
 
 protected:
 	virtual void print(ostream&) const;

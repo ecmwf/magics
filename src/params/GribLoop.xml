@@ -2,7 +2,7 @@
 <class xmltag="gribloop" name="GribLoop" directory="decoders" prefix="grib" action="pgrib" include="GribDecoder.h">
 		<documentation>
 		The purpose of the GRIB loop is to easily create an animation. This feature
-        is only available in MagML.
+        is only available in MagML.  
 		</documentation> 
 		<parameter member="address_mode" to="GribAddressMode" default="record" from="string" name="grib_file_address_mode">
 	     		<option xml="record" fortran="record" include="GribAddressMode.h" name="GribAddressRecordMode">		</option>
@@ -12,17 +12,17 @@
 		<parameter member="dimension" to="intarray" default="intarray()" from="intarray" name="grib_dimension">
          		<documentation> Metview:dimension of the input : 1 for field, 2 for wind 		</documentation>
   	</parameter>
-  
-  	<parameter member="dim_1" to="intarray" default="intarray()" from="intarray" name="grib_position_1">
+   
+  	<parameter member="dim_1" to="longintarray" default="longintarray()" from="longintarray" name="grib_position_1">
          		<documentation> Metview:position of the fields for x component in the fieldset 		</documentation>
   	</parameter>
-  	<parameter member="dim_2" to="intarray" default="intarray()" from="intarray" name="grib_position_2">
+  	<parameter member="dim_2" to="longintarray" default="longintarray()" from="longintarray" name="grib_position_2">
          		<documentation>  Metview:position of the fields for y component in the fieldset 		</documentation>
   	</parameter>
-  	<parameter member="dim_colour" to="intarray" default="intarray()" from="intarray" name="grib_position_colour">
+  	<parameter member="dim_colour" to="longintarray" default="longintarray()" from="longintarray" name="grib_position_colour">
          		<documentation>  Metview:position of the fields for colour component in the fieldset 		</documentation>
   	</parameter>
-  	<parameter member="dim" to="intarray" default="intarray()" from="intarray" name="grib_position">
+  	<parameter member="dim" to="longintarray" default="longintarray()" from="longintarray" name="grib_position">
          		<documentation> Metview:position of the fields to plot in the fieldset 		</documentation>
   	</parameter>
 		<parameter member="path" to="string" default="" from="string" name="grib_loop_path">

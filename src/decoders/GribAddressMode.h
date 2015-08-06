@@ -66,6 +66,10 @@ public:
         MagLog::dev() << "GribAddressMode::toxml(ostream&, int = 0)---> to be checked!...\n";
         return 0;
     }
+    virtual grib_handle* operator()(grib_context*, FILE*, long int) const {
+        MagLog::dev() << "GribAddressMode::toxml(ostream&, int = 0)---> to be checked!...\n";
+        return 0;
+    }
     
 protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).
@@ -132,14 +136,30 @@ public:
 	
 	virtual grib_handle* operator()(grib_context* context, FILE* file, int position) const
 	{
+		long int offset = (long int)  position;
+		cout << "OFFSET-->" << offset << endl;
 		fseek(file, (long int)  position, SEEK_SET);
         grib_handle* handle = 0;
 
 		int error;
 		handle = grib_handle_new_from_file(0, file, &error) ;
-         return handle;
+
+		return handle;
            
     }
+	virtual grib_handle* operator()(grib_context* context, FILE* file, long int position) const
+		{
+
+
+			fseek(file, position, SEEK_SET);
+	        grib_handle* handle = 0;
+
+			int error;
+			handle = grib_handle_new_from_file(0, file, &error) ;
+
+			return handle;
+
+	    }
     
 protected :
     void print(ostream& out) const { out << "GribAddressRecordMode\n"; } 
