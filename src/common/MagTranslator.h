@@ -232,7 +232,28 @@ public:
 	}
 };
 
+template<>
+class MagTranslator<string, longintarray> {
+public:
+	longintarray operator()(const string& value)
+	{
+		longintarray array;
+		vector<string> list;
+		Tokenizer tokenizer("/");
+		tokenizer(value, list);
 
+		for(vector<string>::const_iterator item = list.begin(); item != list.end(); ++item) {
+			array.push_back(atoi((*item).c_str()));
+		}
+		return array;
+	}
+	longintarray magics(const string& param)
+	{
+		longintarray from;
+		ParameterManager::get(param, from);
+		return from;
+	}
+};
 template<>
 class MagTranslator<intarray, intarray> {
 public:
@@ -243,6 +264,20 @@ public:
 	intarray magics(const string& param)
 	{
 		intarray from;
+		ParameterManager::get(param, from);
+		return (*this)(from);
+	}
+};
+template<>
+class MagTranslator<longintarray, longintarray> {
+public:
+	longintarray operator()(longintarray value)
+	{
+		return value;
+	}
+	longintarray magics(const string& param)
+	{
+		longintarray from;
 		ParameterManager::get(param, from);
 		return (*this)(from);
 	}

@@ -1015,11 +1015,11 @@ bool  GribLoop::hasMore()
 		}
 		else {
 			// Case 4 Dimesnion = 2 and we only used a subset of fields!
-			vector<int>::iterator dim1 =  currentPos_;
+			vector<long int>::iterator dim1 =  currentPos_;
 			if ( currentPos_ ==  dim_.end() )
 				return false;
 			currentPos_++;
-			vector<int>::iterator dim2 =  currentPos_;
+			vector<long int>::iterator dim2 =  currentPos_;
 			if ( currentPos_ ==  dim_.end() )
 				return false;
 			currentPos_++;
@@ -1057,15 +1057,15 @@ bool  GribLoop::hasMore()
 		}
 		else {
 			// Case 4 Dimesnion = 2 and we only used a subset of fields!
-			vector<int>::iterator dim1 =  currentPos_;
+			vector<long int>::iterator dim1 =  currentPos_;
 			if ( currentPos_ ==  dim_.end() )
 				return false;
 			currentPos_++;
-			vector<int>::iterator dim2 =  currentPos_;
+			vector<long int>::iterator dim2 =  currentPos_;
 			if ( currentPos_ ==  dim_.end() )
 				return false;
 			currentPos_++;
-			vector<int>::iterator dim3 =  currentPos_;
+			vector<long int>::iterator dim3 =  currentPos_;
 			if ( currentPos_ ==  dim_.end() )
 				return false;
 			currentPos_++;

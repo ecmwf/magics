@@ -345,7 +345,7 @@ protected:
     GribDecoder* currentgrib_;
 	friend class GribDecoder;
 	vector<int>::iterator currentDim_;
-	vector<int>::iterator currentPos_;
+	vector<long int>::iterator currentPos_;
 
 
 	FILE* file_;
