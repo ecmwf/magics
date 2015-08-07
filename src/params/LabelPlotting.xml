@@ -3,11 +3,12 @@
 		<documentation>
 		This object will control the settings of the Map Labels.
 		</documentation>
-        	<parameter member="quality" to="string" default="MEDIUM" from="string" name="map_label_quality">
-            		<documentation>
-            Quality of grid labels
-           		</documentation>
-            		<release>Magics++0.1		</release>
+      
+       	<parameter member="font" to="string" default="sansserif" from="string" name="map_label_font">
+       		<documentation> Font of grid labels </documentation>
+       	</parameter>	
+       	<parameter member="font_style" to="string" default="normal" from="string" name="map_label_font_style">
+            <documentation> Font of grid labels </documentation>          	
        	</parameter>
        	<parameter member="colour" to="Colour" default="black" from="string" name="map_label_colour">
             		<documentation>
@@ -18,8 +19,14 @@
        	<parameter member="height" to="float" default="0.25" from="float" name="map_label_height">
             		<documentation>
             Height og grid labels
-           		</documentation>
+           		</documentation> 
             		<release>Magics++0.1		</release>
+       	</parameter>
+       		<parameter member="blanking" to="bool" default="on" from="string" name="map_label_blanking">
+            		<documentation>
+            Blanking of the grid labels
+           		</documentation> 
+            	
        	</parameter>
        
         	<parameter member="latFrequency" to="int" default="1" from="int" name="map_label_latitude_frequency">
