@@ -318,6 +318,13 @@ endif()
 
 set( MAGICS_LIBRARIES    MagPlus )
 
+
+
+# remove eckit_cmd because it's not needed for Magics, and causes problems when linked
+# with Metview
+list(REMOVE_ITEM ODB_API_LIBRARIES eckit_cmd)
+
+
 foreach( _tpl ${MAGICS_TPLS} )
     string( TOUPPER ${_tpl} TPL )
     if( NOT ${TPL} STREQUAL "LIBEMOS" ) # don't add libemos definitions
