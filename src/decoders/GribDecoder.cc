@@ -49,7 +49,7 @@ using namespace magics;
 int  GribDecoder::count_ = 0;
 
 GribDecoder::GribDecoder() :  matrix_(0),  xComponent_(0), yComponent_(0),
-		colourComponent_(0), handle_(0), interpretor_(0),
+		colourComponent_(0), handle_(0), nearest_(0), interpretor_(0),
 		field_(0), component1_(0), component2_(0), colour_(0), xValues_(0), yValues_(0)
 {
 	count_++;
@@ -75,6 +75,10 @@ GribDecoder::~GribDecoder()
 		grib_handle_delete (handle_);
 
 	}
+
+	if (nearest_)
+		grib_nearest_delete(nearest_);
+
 	for (PointsList::iterator point = points_.begin(); point != points_.end(); ++point) {
 		delete *point;
 		*point = 0;
@@ -792,6 +796,25 @@ grib_handle*  GribDecoder::open(grib_handle* grib, bool sendmsg)
 }
 
 
+grib_nearest* GribDecoder::nearest_point_handle(bool keep)
+{
+	int err;
+
+	if (!keep)
+	{
+		return grib_nearest_new(handle_, &err); // create a new one
+	}
+	else
+	{	// we want to retain this and only create a new one if needed
+		if (!nearest_)
+		{
+			nearest_ = grib_nearest_new(handle_, &err); // only used in Metview's Cursor Data facility
+		}
+		return nearest_;
+	}
+}
+
+
 bool GribDecoder::id(const string& id, const string& where) const
 {
 	if ( id_.empty() && id.empty() ){
@@ -1323,6 +1346,57 @@ void GribDecoder::visit(AnimationRules& )
 {
 }
 
+
+
+// GribDecoder::nearestGridpoints
+// For a list of input gridpoint locations, returns the locations and values for the closest actual data
+// point to each.
+// Note that we cannot yet apply the same method to all grid types because there is a bug in GRIB_API versions
+// prior to 1.15.0 which means that grib_nearest_find() does not work with Lambert grids when we keep the
+// same grib_nearest object.
+void GribDecoder::nearestGridpoints(double *inlats, double *inlons, double *outlats, double *outlons, double *values, double *distances, int nb, string &representation)
+{
+	bool retainGribNearestHandle = false;
+	grib_nearest *nearHandle = NULL;
+	double outlats4[4];   // grib_nearest_find returns 4 results
+	double outlons4[4];   // grib_nearest_find returns 4 results
+	double outvals4[4];   // grib_nearest_find returns 4 results
+	double outdist4[4];   // grib_nearest_find returns 4 results
+	int    outindexes[4]; // grib_nearest_find returns 4 results
+	size_t len;
+
+	if (representation == "regular_ll" ||
+		representation == "reduced_ll" || 
+		representation == "regular_gg" ||
+		representation == "reduced_gg")
+	{
+		retainGribNearestHandle = true;  // more efficient
+	}
+
+
+	nearHandle = nearest_point_handle(retainGribNearestHandle);
+
+
+	for (int i=0; i < nb; i++) 
+	{
+		grib_nearest_find(nearHandle, handle_, inlats[i], inlons[i], GRIB_NEAREST_SAME_GRID, outlats4, outlons4,
+			outvals4, outdist4, outindexes, &len);
+		vector<double> vdistances(outdist4, outdist4+4);
+		int closestIndex = distance(vdistances.begin(), min_element(vdistances.begin(), vdistances.end()));
+		outlats[i]   = outlats4[closestIndex];
+		outlons[i]   = outlons4[closestIndex];
+		values[i]    = outvals4[closestIndex];
+		distances[i] = outdist4[closestIndex];
+//			grib_nearest_find_multiple(handle_, 0, inlats, inlons, nb, outlats, outlons, values, distances, indexes);
+//			int closestIndex = 0;
+	}
+
+
+	if (!retainGribNearestHandle)	// was this a temporary handle?
+		grib_nearest_delete(nearHandle);
+
+}
+
 void GribDecoder::visit(ValuesCollector& points)
 {
 	field_ = open(field_);
@@ -1377,8 +1451,10 @@ void GribDecoder::visit(ValuesCollector& points)
 		points.setScaledUnits(derivedUnits);
 
 		field_ = open(field_);
-		grib_nearest_find_multiple(handle_, 0, inlats, inlons, nb, outlats, outlons, values, distances, indexes);
-		for (int i =0; i < nb; i++) 
+
+		nearestGridpoints(inlats, inlons, outlats, outlons, values, distances, nb, representation);
+
+		for (int i=0; i < nb; i++) 
 		{
 			points[i].push_back(new ValuesCollectorData(outlons[i],outlats[i],values[i],distances[i]));
 			if(scaled)
@@ -1387,7 +1463,7 @@ void GribDecoder::visit(ValuesCollector& points)
 				points[i].back()->setMissing(true);
 		}
 	}
-	else if ( Data::dimension_ == 2  ) {
+	else { //if ( Data::dimension_ == 2  ) {
 		bool scaled=(scaling==1 && offset == 0)?false:true;		
 		oriUnits=getString("units",false);
 		if(oriUnits.find("/") == string::npos)
@@ -1399,9 +1475,9 @@ void GribDecoder::visit(ValuesCollector& points)
 
 
 		openFirstComponent();
-		grib_nearest_find_multiple(handle_, 0, inlats, inlons, nb, outlats, outlons, x, distances, indexes);
+		nearestGridpoints(inlats, inlons, outlats, outlons, x, distances, nb, representation);
 		openSecondComponent();
-		grib_nearest_find_multiple(handle_, 0, inlats, inlons, nb, outlats, outlons, y, distances, indexes);
+		nearestGridpoints(inlats, inlons, outlats, outlons, y, distances, nb, representation);
 		for (int i =0; i < nb; i++) 
 		{
 			points[i].push_back(wind_mode_->values(outlons[i],outlats[i],x[i],y[i], distances[i]));
@@ -1409,29 +1485,6 @@ void GribDecoder::visit(ValuesCollector& points)
 				points[i].back()->setMissing(true);	  
 		}
 	}
-	else   {
-		bool scaled=(scaling==1 && offset == 0)?false:true;
-		oriUnits=getString("units",false);
-		if(oriUnits.find("/") == string::npos)
-		{
-			oriUnits=oriUnits + "/" + oriUnits;
-		}
-		points.setUnits(oriUnits);
-		points.setScaledUnits("/");
-
-
-		openFirstComponent();
-		grib_nearest_find_multiple(handle_, 0, inlats, inlons, nb, outlats, outlons, x, distances, indexes);
-		openSecondComponent();
-		grib_nearest_find_multiple(handle_, 0, inlats, inlons, nb, outlats, outlons, y, distances, indexes);
-		for (int i =0; i < nb; i++)
-		{
-			points[i].push_back(wind_mode_->values(outlons[i],outlats[i],x[i],y[i], distances[i]));
-			if(x[i] == missing || y[i] == missing)
-				points[i].back()->setMissing(true);
-		}
-	}
-
 }
 
 void GribDecoder::visit(MagnifierCollector& magnifier)
