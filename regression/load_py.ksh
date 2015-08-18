@@ -4,13 +4,13 @@
 set +x
 
 versions="2.24.7 2.25.1" 
-src="xsect_wind.py"
+src="coastlines5.py"
 echo $src
 git="/home/graphics/cgs/git/magics"
 
 ext="py"
 img_ext="png"
-where='wind'
+where='gallery'
 interpretor='python'
 
 dir=`pwd`

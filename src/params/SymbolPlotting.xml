@@ -124,10 +124,13 @@
         		<set name="symbol_image_height" value="image">		</set>
     	</parameter>
 
+
     	<parameter xml="format" from="string" name="symbol_format" default="(automatic)" member="format" to="string">
         		<documentation> Format used to plot values (MAGICS Format/(AUTOMATIC)) 		</documentation>
     	</parameter>
-
+		<parameter member="text_blanking" to="bool" default="off" from="string" name="symbol_text_blanking">
+        		<documentation> blanking of the text 		</documentation>
+    	</parameter>
 		<parameter member="outline" to="bool" default="off" from="string" name="symbol_outline"> 
         		<set name="symbol_outline_colour" value="on">		</set> 
         		<set name="symbol_outline_thickness" value="on">		</set>
