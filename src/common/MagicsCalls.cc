@@ -820,6 +820,7 @@ static TextQuality axis_tick_label_quality("axis_tick_label");
 static TextQuality axis_Title_quality("axis_title");
 static TextQuality page_id_quality("page_id_line");
 static TextQuality contour_label_quality("contour_label") ;
+static TextQuality map_label_quality("map_label_quality");
 static WindArrowIndexHead wind_arrow_index_head;
 
 static TextFontHeight text_reference_character_height("text_reference_character_height", "text_font_size");

@@ -139,6 +139,7 @@ void SymbolIndividualMode::properties() const
     properties_.connectLineColour_ = (parent_->automatic_connect_colour_) ? *colour_ : *parent_->connect_colour_;
     properties_.connectLineStyle_ = parent_->connect_style_;
     properties_.connectLineThickness_ = parent_->connect_thickness_;
+    properties_.blanking_ = parent_->text_blanking_;
 
     if ( current_ != text_.end() ) {
     	properties_.label(*current_);
@@ -152,7 +153,7 @@ void SymbolIndividualMode::properties() const
     font.size(text_font_size_);
     font.style(text_font_style_);
     properties_.font_ = font;
-    properties_.blanking_ = text_blanking_;
+
     properties_.position_ = position;
     properties_.setSymbol(symbol_, 0);
 
@@ -235,7 +236,7 @@ void SymbolTableMode::prepare()
     for (doublearray::const_iterator min = min_.begin(); min != min_.end(); ++min) {
 
         map_[Interval(*min, *max) ] = SymbolProperties(Colour(*colour),  *height,  *symbol);
-        
+        map_[Interval(*min, *max) ].blanking_ = parent_->text_blanking_;
         if ( ++colour == colour_.end()) --colour;  
         if ( ++height == height_.end())  --height;
         if ( ++symbol == symbol_.end()) --symbol;

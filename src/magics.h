@@ -175,6 +175,7 @@ public:
 
 typedef magvector<string>	stringarray;
 typedef magvector<int>		intarray;
+typedef magvector<long int>		longintarray;
 typedef magvector<double>	doublearray;
 typedef magvector<double>	floatarray;
 
