@@ -125,15 +125,8 @@ set( MAG_PYTHON_PATH ${CMAKE_BINARY_DIR}/python )
 
 # ecbuild_use_package( PROJECT eckit VERSION 0.3 REQUIRED )
 
-### grib
-
 #cmake_add_cxx_flags("-gdwarf-2")
 cmake_add_c_flags("-std=c99")
-
-#set( grib no )
-#if( HAVE_GRIB )
-   set( grib yes )
-#endif()
 
 ### odb
 
