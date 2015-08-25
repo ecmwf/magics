@@ -170,14 +170,14 @@ ecbuild_add_library( TARGET    MagPlusStatic
 
 ecbuild_add_library( TARGET      MagPlusSingleStatic 
                      SOURCES     MagicsSingle.cc
-                     INCLUDES    ${CMAKE_CURRENT_SOURCE_DIR}/common
-                     TYPE        SHARED
+                     LIBS        MagPlusStatic
+                     TYPE        STATIC
                      OUTPUT_NAME MagPlusSingle )
 
-ecbuild_add_library( TARGET    MagPlusDoubleStatic 
-                     SOURCES MagicsDouble.cc
-                     INCLUDES  ${CMAKE_CURRENT_SOURCE_DIR}/common
-                     TYPE SHARED
+ecbuild_add_library( TARGET      MagPlusDoubleStatic
+                     SOURCES     MagicsDouble.cc
+                     LIBS        MagPlusStatic
+                     TYPE        STATIC
                      OUTPUT_NAME MagPlusDouble )
 
 endif()
