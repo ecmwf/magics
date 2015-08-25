@@ -102,7 +102,7 @@ decoders/NetcdfVectorInterpretor.h
 )
 endif()
 
-if (MAGICS_BUFR)
+if (HAVE_BUFR)
      list( APPEND decoders_srcs 
 # Bufr --->
 decoders/EpsBufr.cc

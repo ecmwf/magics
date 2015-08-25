@@ -29,7 +29,7 @@
 #include <OdaXYDecoderWrapper.h>
 #endif
 
-#ifdef MAGICS_BUFR
+#ifdef HAVE_BUFR
 #include <ObsDecoderWrapper.h>
 #include <ObsPlottingWrapper.h>
 #endif
@@ -1341,7 +1341,7 @@ bool MagPlus::geopoints(magics::MagRequest& in)
 }
 bool MagPlus::bufr(magics::MagRequest& in)
 {
-#ifdef MAGICS_BUFR
+#ifdef HAVE_BUFR
 	/*
 	// Extract the path ..
 	magics::MagRequest record = in("RECORD");
@@ -1409,7 +1409,7 @@ bool  MagPlus::graph(magics::MagRequest& in)
 
 bool MagPlus::obs(magics::MagRequest& in)
 {
-#ifdef MAGICS_BUFR
+#ifdef HAVE_BUFR
 	ObsPlottingWrapper visdef;
 	// here we have to set up manullay the parameters because the obs object is more complex!
 	// This is not the right solution just a workaround before we find a clean solution...

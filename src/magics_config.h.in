@@ -71,7 +71,7 @@
 #cmakedefine MAGICS_ALLHEADERS
 
 /* Turn off the BUFR support */
-#cmakedefine MAGICS_BUFR
+#cmakedefine HAVE_BUFR
 
 /* Turn on the Cairo output support */
 #cmakedefine MAGICS_CAIRO
