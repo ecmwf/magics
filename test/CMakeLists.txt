@@ -18,21 +18,20 @@ ecbuild_add_test( TARGET basic_python
                               LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib
                               MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/.. )
 
-if ( ENABLE_FORTRAN) 
-    ecbuild_add_test( TARGET basic_fortran_shared
-            SOURCES   coast.f90
-            LIBS      MagPlusSingleShared MagPlusShared
-            ENVIRONMENT MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/..
-            LINKER_LANGUAGE Fortran )
-    if ( ENABLE_STATIC_LIBRARY )
-        ecbuild_add_test( TARGET basic_fortran_static
-            SOURCES   coast.f90
-            LIBS      MagPlusSingleStatic MagPlusStatic ${MAGICS_EXTRA_LIBRARIES} 
-            ENVIRONMENT MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/..
-            LINKER_LANGUAGE Fortran )       
-     endif()
-endif()
-    
+ecbuild_add_test( TARGET basic_fortran_shared
+                  SOURCES   coast.f90
+                  LIBS      MagPlusSingleShared MagPlusShared
+                  CONDITION HAVE_FORTRAN
+                  ENVIRONMENT MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/..
+                  LINKER_LANGUAGE Fortran )
+
+ecbuild_add_test( TARGET basic_fortran_static
+                  SOURCES   coast.f90
+                  LIBS      MagPlusSingleStatic MagPlusStatic ${MAGICS_EXTRA_LIBRARIES} 
+                  CONDITION HAVE_FORTRAN AND ENABLE_STATIC_LIBRARY
+                  ENVIRONMENT MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/..
+                  LINKER_LANGUAGE Fortran )       
+
 if ( ENABLE_BUFR )
     ecbuild_add_test( TARGET bufr_python
                       TYPE PYTHON
@@ -43,22 +42,21 @@ if ( ENABLE_BUFR )
                                   LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib
                                   MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/.. )
 
-    if ( ENABLE_FORTRAN) 
-        ecbuild_add_test( TARGET bufr_fortran
-                SOURCES   bufr.f90
-                LIBS      MagPlusSingleShared MagPlusShared
-                RESOURCES data.bufr
-                LINKER_LANGUAGE Fortran 
-                ENVIRONMENT MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/..)
-        if ( ENABLE_STATIC_LIBRARY )
-             ecbuild_add_test( TARGET bufr_fortran_static
-                    SOURCES   bufr.f90
-                    RESOURCES data.bufr
-                    LIBS      MagPlusSingleStatic MagPlusStatic
-                    ENVIRONMENT MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/..
-                    LINKER_LANGUAGE Fortran )       
-         endif()
-    endif()
+    ecbuild_add_test( TARGET bufr_fortran
+                      SOURCES   bufr.f90
+                      LIBS      MagPlusSingleShared MagPlusShared
+                      CONDITION HAVE_FORTRAN
+                      RESOURCES data.bufr
+                      LINKER_LANGUAGE Fortran 
+                      ENVIRONMENT MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/..)
+
+    ecbuild_add_test( TARGET bufr_fortran_static
+                      SOURCES   bufr.f90
+                      RESOURCES data.bufr
+                      LIBS      MagPlusSingleStatic MagPlusStatic
+                      CONDITION HAVE_FORTRAN AND ENABLE_STATIC_LIBRARY
+                      ENVIRONMENT MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/..
+                      LINKER_LANGUAGE Fortran )       
 endif()
 
 
@@ -74,14 +72,13 @@ if ( ENABLE_GRIB )
                                   LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib
                                   MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/.. )
 
-    if ( ENABLE_FORTRAN) 
-        ecbuild_add_test( TARGET grib_fortran
-                SOURCES   grib.f90
-                LIBS      MagPlusSingleShared MagPlusShared
-                RESOURCES data.grib
-                ENVIRONMENT MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/..
-                LINKER_LANGUAGE Fortran )
-    endif()
+    ecbuild_add_test( TARGET grib_fortran
+                      SOURCES   grib.f90
+                      LIBS      MagPlusSingleShared MagPlusShared
+                      RESOURCES data.grib
+                      CONDITION HAVE_FORTRAN
+                      ENVIRONMENT MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/..
+                      LINKER_LANGUAGE Fortran )
 endif()
 
 
@@ -96,13 +93,12 @@ if ( ENABLE_CAIRO )
                                   LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib
                                   MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/.. )
 
-      if ( ENABLE_FORTTAN )
-        ecbuild_add_test( TARGET cairo_fortran
-                SOURCES   cairo.f90
-                LIBS      MagPlusSingleShared MagPlusShared
-                ENVIRONMENT MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/..
-                LINKER_LANGUAGE Fortran )
-    endif()
+    ecbuild_add_test( TARGET cairo_fortran
+                      SOURCES   cairo.f90
+                      LIBS      MagPlusSingleShared MagPlusShared
+                      CONDITION HAVE_FORTRAN
+                      ENVIRONMENT MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/..
+                      LINKER_LANGUAGE Fortran )
 endif()
 
 if ( ENABLE_ODB )
