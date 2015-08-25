@@ -38,7 +38,7 @@
 #include "BinaryObject.h"
 #include "TephiGrid.h"
 #include "TaylorGrid.h"
-#ifdef MAGICS_GRIB
+#ifdef HAVE_GRIB
 #include "GribDecoder.h"
 #endif
 #include "TableDecoder.h"
@@ -476,7 +476,7 @@ void XmlMagics::layer(const XmlNode& node)
 	pop();
 }
 
-#ifdef MAGICS_GRIB
+#ifdef HAVE_GRIB
 GribDecoder* grib_handler;
 
 void XmlMagics::gribloop(const XmlNode& node)
@@ -880,7 +880,7 @@ void XmlMagics::wind(const XmlNode& node)
 	else {
 		MagLog::warning() << " wind not yet implemented for cartesian system" << endl;
 	}
-#ifdef MAGICS_GRIB
+#ifdef HAVE_GRIB
 	if ( gribloop_ ) gribloop_->next();
 #endif
 }

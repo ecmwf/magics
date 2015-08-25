@@ -39,7 +39,7 @@
 #include "TextVisitor.h"
 #include "LegendVisitor.h"
 #include "VisualAction.h"
-#ifdef MAGICS_GRIB
+#ifdef HAVE_GRIB
 #include "GribDecoder.h"
 #endif
 #include "MapGenDecoder.h"
@@ -516,7 +516,7 @@ void FortranMagics::pmapgen()
 
 }
 
-#ifdef MAGICS_GRIB
+#ifdef HAVE_GRIB
 void FortranMagics::pgrib()
 {
 	actions();
@@ -716,7 +716,7 @@ void FortranMagics::pcont()
 				action_->data(input);
 			else {
 				delete input;
-#ifdef MAGICS_GRIB
+#ifdef HAVE_GRIB
 			// Sylvie: Is this causing GribDecoder MagExceptions when matrx input is faulty?
 				action_->data(new GribDecoder());
 #else
@@ -746,7 +746,7 @@ void FortranMagics::pwind()
 			action_->data(input);
 		else {
 			delete input;
-#ifdef MAGICS_GRIB
+#ifdef HAVE_GRIB
 			// Sylvie: Is this causing GribDecoder MagExceptions when matrx input is faulty?
 			GribDecoder* grib = new GribDecoder();
 			grib->dimension(2);
