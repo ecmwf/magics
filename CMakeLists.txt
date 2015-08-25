@@ -98,7 +98,9 @@ ecbuild_add_option( FEATURE METVIEW_NO_QT
                     DEFAULT OFF
                     DESCRIPTION "enable Metview interface without Qt" )
 
-option( ENABLE_QT5            "use Qt5 instead of version 4"        OFF )
+ecbuild_add_option( FEATURE QT5
+                    DEFAULT OFF
+                    DESCRIPTION "use Qt5 instead of version 4" )
 
 option( ENABLE_STATIC_LIBRARY    "Internal Build static Library"    OFF  )
 option( ENABLE_REGRESSION        "Internal use only: enable regression test"  OFF  )
@@ -188,7 +190,7 @@ if( HAVE_METVIEW )
     message(STATUS "TESTING for Metview ...")
     unset(MAGICS_ONLY)
 
-    if( ENABLE_QT5 )
+    if( HAVE_QT5 )
       find_package(Qt5Widgets REQUIRED)
       if( Qt5Widgets_FOUND )
           message(STATUS "Qt5 was found ... ${Qt5Widgets_VERSION_STRING}")
@@ -200,14 +202,14 @@ if( HAVE_METVIEW )
       else()
           message(FATAL_ERROR "Qt5 was NOT found ...")
       endif()
-    else( ENABLE_QT5 )
+    else()
     find_package(Qt4 4.4.3 REQUIRED QtCore QtGui QtXml )
     if( QT_FOUND )
 		  include( ${QT_USE_FILE} )
 		  set( MAGICS_QT 1)
 		  set( qt yes)
     endif()
-    endif( ENABLE_QT5 )
+    endif()
 endif()
 
 ecbuild_declare_project()
