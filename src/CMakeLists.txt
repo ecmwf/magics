@@ -126,27 +126,22 @@ ecbuild_add_library( TARGET    MagPlusShared
                         ${common_templates}
                      DEFINITIONS
                         ${MAGICS_EXTRA_DEFINITIONS} MAGICS_EXCEPTION=on
-                    LIBS
+                     LIBS
                         ${MAGICS_EXTRA_LIBRARIES}
-		            TYPE SHARED		     
-                    )
+                     TYPE SHARED
+                     OUTPUT_NAME MagPlus )
 
-ecbuild_add_library( TARGET    MagPlusSingleShared 
-		     SOURCES MagicsSingle.cc
-             LIBS MagPlusShared
-		     TYPE SHARED)
-		     
-ecbuild_add_library(TARGET    MagPlusDoubleShared 
-             LIBS MagPlusShared
-		     SOURCES MagicsDouble.cc
-		     TYPE SHARED)		     
+ecbuild_add_library( TARGET      MagPlusSingleShared 
+                     SOURCES     MagicsSingle.cc
+                     LIBS        MagPlusShared
+                     TYPE        SHARED
+                     OUTPUT_NAME MagPlusSingle )
 
-SET_TARGET_PROPERTIES(MagPlusShared PROPERTIES OUTPUT_NAME "MagPlus")
-SET_TARGET_PROPERTIES(MagPlusDoubleShared PROPERTIES OUTPUT_NAME "MagPlusDouble")
-SET_TARGET_PROPERTIES(MagPlusSingleShared PROPERTIES OUTPUT_NAME "MagPlusSingle")
-
-
-
+ecbuild_add_library( TARGET      MagPlusDoubleShared 
+                     SOURCES     MagicsDouble.cc
+                     LIBS        MagPlusShared
+                     TYPE        SHARED
+                     OUTPUT_NAME MagPlusDouble )
 
 if ( ENABLE_STATIC_LIBRARY ) 	     
 ecbuild_add_library( TARGET    MagPlusStatic
@@ -168,23 +163,22 @@ ecbuild_add_library( TARGET    MagPlusStatic
                         ${common_templates}
                      DEFINITIONS
                         ${MAGICS_EXTRA_DEFINITIONS}  
-                    LIBS
+                     LIBS
                         ${MAGICS_EXTRA_LIBRARIES} 
-		            TYPE STATIC		     
-                    )
-ecbuild_add_library( TARGET    MagPlusSingleStatic 
-		     SOURCES MagicsSingle.cc
-		     INCLUDES  ${CMAKE_CURRENT_SOURCE_DIR}/common
-		     TYPE SHARED)
-		     
-ecbuild_add_library(TARGET    MagPlusDoubleStatic 
-		     SOURCES MagicsDouble.cc
-		     INCLUDES  ${CMAKE_CURRENT_SOURCE_DIR}/common
-		     TYPE SHARED)
+                     TYPE STATIC
+                     OUTPUT_NAME MagPlus )
 
-    SET_TARGET_PROPERTIES(MagPlusStatic PROPERTIES OUTPUT_NAME "MagPlus")
-    SET_TARGET_PROPERTIES(MagPlusDoubleStatic PROPERTIES OUTPUT_NAME "MagPlusDouble")
-    SET_TARGET_PROPERTIES(MagPlusSingleStatic PROPERTIES OUTPUT_NAME "MagPlusSingle")
+ecbuild_add_library( TARGET      MagPlusSingleStatic 
+                     SOURCES     MagicsSingle.cc
+                     INCLUDES    ${CMAKE_CURRENT_SOURCE_DIR}/common
+                     TYPE        SHARED
+                     OUTPUT_NAME MagPlusSingle )
+
+ecbuild_add_library( TARGET    MagPlusDoubleStatic 
+                     SOURCES MagicsDouble.cc
+                     INCLUDES  ${CMAKE_CURRENT_SOURCE_DIR}/common
+                     TYPE SHARED
+                     OUTPUT_NAME MagPlusDouble )
 
 endif()
 
