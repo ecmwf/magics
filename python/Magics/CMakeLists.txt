@@ -1,4 +1,4 @@
-if( ENABLE_PYTHON AND NUMPY_FOUND )
+if( HAVE_PYTHON )
 
   ### python destination
 
