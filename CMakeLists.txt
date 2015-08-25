@@ -135,8 +135,6 @@ if( HAVE_ODB )
     get_filename_component( odb_api_install_dir ${ODB_API_CMAKE_DIR}/../../../lib ABSOLUTE )
     get_filename_component( eckit_install_dir   ${ECKIT_CMAKE_DIR}/../../../lib ABSOLUTE )
 
-      set( MAGICS_ODB 1 )
-
 endif()
 
 ### bufr
@@ -255,7 +253,7 @@ set( MAGICS_INCLUDE_DIRS
         ${CMAKE_CURRENT_SOURCE_DIR}/src/libMagWrapper
         ${Boost_INCLUDE_DIRS} )
     
-if( MAGICS_ODB )
+if( HAVE_ODB )
     list( APPEND MAGICS_INCLUDE_DIRS
 		${CMAKE_CURRENT_SOURCE_DIR}/src/oda 
 		${ODB_API_INCLUDE_DIRS}/../eclib 
@@ -287,7 +285,7 @@ foreach( _tpl ${MAGICS_TPLS} )
     list( APPEND MAGICS_EXTRA_LIBRARIES     ${${TPL}_LIBRARIES} )
 endforeach()
 
-if( MAGICS_ODB )
+if( HAVE_ODB )
     list( APPEND MAGICS_EXTRA_INCLUDE_DIRS  ${ODB_API_INCLUDE_DIRS} )
     list( APPEND MAGICS_EXTRA_LIBRARIES     Odb )
 endif()

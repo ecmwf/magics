@@ -611,13 +611,13 @@ void XmlMagics::histogram(const XmlNode& node)
 
 ***************************************************************************/
 
-#ifdef MAGICS_ODB
+#ifdef HAVE_ODB
 #include "OdaDecoder.h"
 #endif
 
 void XmlMagics::odb(const XmlNode& node)
 {
-#ifdef MAGICS_ODB
+#ifdef HAVE_ODB
 	OdaGeoDecoder* odb = new OdaGeoDecoder();
 	odb->set(node);
 	top()->data(odb);

@@ -120,7 +120,7 @@
 #cmakedefine HAVE_NETCDF
 
 /* Turn off the ODB support */
-#cmakedefine MAGICS_ODB
+#cmakedefine HAVE_ODB
 
 /* Gives the list of output formats */
 #cmakedefine MAGICS_OUTPUTS

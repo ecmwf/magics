@@ -24,7 +24,7 @@
 #include <GeoPointsDecoderWrapper.h>
 #include <BinningObjectWrapper.h>
 
-#ifdef MAGICS_ODB
+#ifdef HAVE_ODB
 #include <OdaGeoDecoderWrapper.h>
 #include <OdaXYDecoderWrapper.h>
 #endif
@@ -200,7 +200,7 @@ MagPlus::MagPlus() : root_(0), superpage_(-1), geographical_(true), mode_(intera
         sceneCreators_["cartesian"] = &MagPlus::cartesianGrid;
         sceneCreators_["tephigram"] = &MagPlus::tephiGrid;
         sceneCreators_["taylor"] = &MagPlus::taylorGrid;
-#ifdef MAGICS_ODB
+#ifdef HAVE_ODB
 	sceneCreators_["ODB_GEO_POINTS"] = &MagPlus::geoodb;
 	sceneCreators_["ODB_GEO_VECTORS"] = &MagPlus::geoodb;
 	sceneCreators_["ODB_XY_POINTS"] = &MagPlus::xyodb;
@@ -1125,7 +1125,7 @@ bool MagPlus::rasterloop(magics::MagRequest& in)
 }
 
 
-#ifdef MAGICS_ODB
+#ifdef HAVE_ODB
 bool MagPlus::geoodb(magics::MagRequest& in)
 {
 	MagLog::dev()<< "add geo odb" << endl;
