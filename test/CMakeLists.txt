@@ -9,13 +9,14 @@ ecbuild_add_test( TARGET basic_c
             LINKER_LANGUAGE C )
 
 
-if ( ENABLE_PYTHON )
-   ecbuild_add_test( TARGET basic_python
-              TYPE PYTHON
-              ARGS coast.py
-              RESOURCES coast.py 
-              ENVIRONMENT PYTHONPATH=${MAG_PYTHON_PATH} LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/.. )
-endif()
+ecbuild_add_test( TARGET basic_python
+                  TYPE PYTHON
+                  CONDITION HAVE_PYTHON
+                  ARGS coast.py
+                  RESOURCES coast.py 
+                  ENVIRONMENT PYTHONPATH=${MAG_PYTHON_PATH}
+                              LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib
+                              MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/.. )
 
 if ( ENABLE_FORTRAN) 
     ecbuild_add_test( TARGET basic_fortran_shared
@@ -33,13 +34,15 @@ if ( ENABLE_FORTRAN)
 endif()
     
 if ( ENABLE_BUFR )
-    if ( ENABLE_PYTHON )
-       ecbuild_add_test( TARGET bufr_python
-                  TYPE PYTHON
-                  ARGS bufr.py
-                  RESOURCES bufr.py data.bufr 
-                  ENVIRONMENT PYTHONPATH=${MAG_PYTHON_PATH} LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/.. )
-    endif()
+    ecbuild_add_test( TARGET bufr_python
+                      TYPE PYTHON
+                      CONDITION HAVE_PYTHON
+                      ARGS bufr.py
+                      RESOURCES bufr.py data.bufr 
+                      ENVIRONMENT PYTHONPATH=${MAG_PYTHON_PATH}
+                                  LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib
+                                  MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/.. )
+
     if ( ENABLE_FORTRAN) 
         ecbuild_add_test( TARGET bufr_fortran
                 SOURCES   bufr.f90
@@ -62,13 +65,15 @@ endif()
 
 
 if ( ENABLE_GRIB )
-    if ( ENABLE_PYTHON )
-       ecbuild_add_test( TARGET grib_python
-                  TYPE PYTHON
-                  ARGS grib.py
-                  RESOURCES grib.py data.grib
-                  ENVIRONMENT PYTHONPATH=${MAG_PYTHON_PATH} LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/.. )
-    endif()
+    ecbuild_add_test( TARGET grib_python
+                      TYPE PYTHON
+                      CONDITION HAVE_PYTHON
+                      ARGS grib.py
+                      RESOURCES grib.py data.grib
+                      ENVIRONMENT PYTHONPATH=${MAG_PYTHON_PATH}
+                                  LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib
+                                  MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/.. )
+
     if ( ENABLE_FORTRAN) 
         ecbuild_add_test( TARGET grib_fortran
                 SOURCES   grib.f90
@@ -82,13 +87,15 @@ endif()
 
 
 if ( ENABLE_CAIRO ) 
-    if ( ENABLE_PYTHON )
-        ecbuild_add_test( TARGET cairo_python
-                  TYPE PYTHON
-                  ARGS cairo.py
-                  RESOURCES cairo.py 
-                  ENVIRONMENT PYTHONPATH=${MAG_PYTHON_PATH} LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/.. )
-    endif()
+    ecbuild_add_test( TARGET cairo_python
+                      TYPE PYTHON
+                      CONDITION HAVE_PYTHON
+                      ARGS cairo.py
+                      RESOURCES cairo.py 
+                      ENVIRONMENT PYTHONPATH=${MAG_PYTHON_PATH}
+                                  LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib
+                                  MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/.. )
+
       if ( ENABLE_FORTTAN )
         ecbuild_add_test( TARGET cairo_fortran
                 SOURCES   cairo.f90
@@ -99,12 +106,13 @@ if ( ENABLE_CAIRO )
 endif()
 
 if ( ENABLE_ODB )
-    if ( ENABLE_PYTHON )
-        ecbuild_add_test( TARGET odb_python
-                  TYPE PYTHON
-                  ARGS odb.py
-                  RESOURCES odb.py test.odb
-                  ENVIRONMENT PYTHONPATH=${MAG_PYTHON_PATH} LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/.. )
-    endif()
+    ecbuild_add_test( TARGET odb_python
+                      TYPE PYTHON
+                      CONDITION HAVE_PYTHON
+                      ARGS odb.py
+                      RESOURCES odb.py test.odb
+                      ENVIRONMENT PYTHONPATH=${MAG_PYTHON_PATH}
+                                  LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib
+                                  MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/.. )
 endif()
 
