@@ -56,7 +56,7 @@
 
 #include <PostScriptDriverWrapper.h>
 
-#ifdef MAGICS_CAIRO
+#ifdef HAVE_CAIRO
 #include <CairoDriverWrapper.h>
 #endif
 
@@ -304,7 +304,7 @@ bool MagPlus::epsdriver(magics::MagRequest& in)
 
 bool MagPlus::pngdriver(magics::MagRequest&  in)
 {
-#ifdef MAGICS_CAIRO
+#ifdef HAVE_CAIRO
 	CairoDriverWrapper helper;
 	helper.set(in);
 	helper.me()->setPNG();
@@ -316,7 +316,7 @@ bool MagPlus::pngdriver(magics::MagRequest&  in)
 
 bool MagPlus::pdfdriver(magics::MagRequest& in)
 {
-#ifdef MAGICS_CAIRO
+#ifdef HAVE_CAIRO
 	   CairoDriverWrapper helper;
 	   helper.set(in);
 	   helper.me()->setPDF();

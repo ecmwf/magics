@@ -202,7 +202,7 @@ public:
 #endif
 */
 
-#ifdef MAGICS_CAIRO
+#ifdef HAVE_CAIRO
 class CAIRO_PngOutputFactory : public OutputFactory
 {
 public:

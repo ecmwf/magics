@@ -140,7 +140,6 @@ endif()
 ### cairo
 
 if( HAVE_CAIRO )
-	set( MAGICS_CAIRO 1 )
   if( HAVE_GEOTIFF )
 	      set( MAGICS_GEOTIFF 1 )
 	   endif()

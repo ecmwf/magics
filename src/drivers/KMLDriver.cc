@@ -52,7 +52,7 @@ extern "C"{
 #include <gd.h>
 #endif
 
-#ifdef MAGICS_CAIRO
+#ifdef HAVE_CAIRO
 #include <cairo.h>
 #include <CairoDriver.h>
 #endif
@@ -338,7 +338,7 @@ MAGICS_NO_EXPORT void KMLDriver::project(const magics::Layout& layout) const
 
 MAGICS_NO_EXPORT void KMLDriver::redisplay(const magics::LegendLayout& layout) const
 {
-#ifdef MAGICS_CAIRO
+#ifdef HAVE_CAIRO
     //redisplay((const Layout&) legend);
     const string filename = "legend.png";
     cairo_surface_t* surface_ = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, layout.width(), layout.height());
@@ -796,7 +796,7 @@ MAGICS_NO_EXPORT bool KMLDriver::renderPixmap(MFloat x0,MFloat y0,MFloat x1,MFlo
   if(render_)
   {
 	if (kml_placemark_) closePlacemark();
-#ifndef MAGICS_CAIRO
+#ifndef HAVE_CAIRO
 #ifndef MAGICS_RASTER
 	MagLog::warning() << "Image import is not implemented for the used driver!!!" << endl; return false;
 #else
@@ -962,7 +962,7 @@ MAGICS_NO_EXPORT bool KMLDriver::renderCellArray(const Image& image) const
    if(render_)
    {
 	if (kml_placemark_) closePlacemark();
-#ifndef MAGICS_CAIRO
+#ifndef HAVE_CAIRO
 #ifndef MAGICS_RASTER
 	MagLog::warning() << "Image import is not implemented for the used driver!!!" << endl; return false;
 #else

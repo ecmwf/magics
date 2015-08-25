@@ -93,7 +93,7 @@ static SimpleObjectMaker<PS_EpsOutputFactory, OutputFactory> eps("eps");
 static SimpleObjectMaker<PS_PdfOutputFactory,  OutputFactory> ps_pdf("ps_pdf");
 
 #ifdef MAGICS_RASTER
-#ifdef MAGICS_CAIRO
+#ifdef HAVE_CAIRO
 static SimpleObjectMaker<GD_PngOutputFactory, OutputFactory> gdpng("gd_png");
 #else
 static SimpleObjectMaker<GD_PngOutputFactory, OutputFactory> gdpng("png");
@@ -107,7 +107,7 @@ static SimpleObjectMaker<SVG_SvgOutputFactory, OutputFactory> svg("svg");
 
 static SimpleObjectMaker<BinaryOutputFactory, OutputFactory> binary("mgb");
 
-#ifdef MAGICS_CAIRO
+#ifdef HAVE_CAIRO
 static SimpleObjectMaker<CAIRO_PngOutputFactory,    OutputFactory> png("png");
 static SimpleObjectMaker<CAIRO_PdfOutputFactory,    OutputFactory> pdf("pdf");
 static SimpleObjectMaker<CAIRO_XOutputFactory,      OutputFactory> x("x");
