@@ -100,7 +100,7 @@ endforeach()
 set( common_srcs ${common_srcs} PARENT_SCOPE )
 set( common_templates ${common_templates} PARENT_SCOPE )
 
-if ( ENABLE_METVIEW )
+if ( HAVE_METVIEW )
 	list (APPEND metview_include 
 				common/MagLog.h 
 				common/MagTranslator.h 
