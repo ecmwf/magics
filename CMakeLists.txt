@@ -139,12 +139,6 @@ endif()
 
 ### cairo
 
-if( HAVE_CAIRO )
-  if( HAVE_GEOTIFF )
-	      set( MAGICS_GEOTIFF 1 )
-	   endif()
-	endif()
-
 ecbuild_add_option( FEATURE PNG
     DESCRIPTION "support for PNG decoding/encoding"
     DEFAULT ON
@@ -301,10 +295,10 @@ if( MAGICS_QT )
 endif()
 endif()
 
-if( MAGICS_GEOTIFF )
+if( HAVE_GEOTIFF )
 	list( APPEND MAGICS_EXTRA_INCLUDE_DIRS  ${GEOTIFF_INCLUDE_DIR} )
 	list( APPEND MAGICS_EXTRA_LIBRARIES  ${GEOTIFF_LIBRARY} )
-	list( APPEND MAGICS_EXTRA_DEFINITIONS MAGICS_GEOTIFF )
+  list( APPEND MAGICS_EXTRA_DEFINITIONS HAVE_GEOTIFF )
 endif()
 
 list( APPEND MAGICS_EXTRA_LIBRARIES     ${CMAKE_THREAD_LIBS_INIT} )

@@ -79,6 +79,8 @@
 /* Period of Copyright. */
 #cmakedefine MAGICS_COPYRIGHT_PERIOD
 
+/* Turn on the GeoTIFF output support */
+#cmakedefine HAVE_GEOTIFF
 
 /* Defines GIF output is supported. */
 #cmakedefine MAGICS_GIF
