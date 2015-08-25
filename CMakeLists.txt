@@ -104,6 +104,16 @@ ecbuild_add_option( FEATURE QT5
                     DEFAULT OFF
                     DESCRIPTION "use Qt5 instead of version 4" )
 
+ecbuild_add_option( FEATURE PNG
+                    DESCRIPTION "support for PNG decoding/encoding"
+                    DEFAULT ON
+                    REQUIRED_PACKAGES PNG
+)
+
+if( HAVE_PNG )
+    add_definitions( ${PNG_DEFINITIONS} )
+endif()
+
 option( ENABLE_STATIC_LIBRARY    "Internal Build static Library"    OFF  )
 option( ENABLE_REGRESSION        "Internal use only: enable regression test"  OFF  )
 option( ENABLE_REGRESSION_UPLOAD "Internal use only : enable upload of reference image"  OFF  )
@@ -135,18 +145,6 @@ if( HAVE_ODB )
     get_filename_component( odb_api_install_dir ${ODB_API_CMAKE_DIR}/../../../lib ABSOLUTE )
     get_filename_component( eckit_install_dir   ${ECKIT_CMAKE_DIR}/../../../lib ABSOLUTE )
 
-endif()
-
-### cairo
-
-ecbuild_add_option( FEATURE PNG
-    DESCRIPTION "support for PNG decoding/encoding"
-    DEFAULT ON
-    REQUIRED_PACKAGES PNG
-)
-
-if( HAVE_PNG )
-    add_definitions( ${PNG_DEFINITIONS} )
 endif()
 
 ### Metview and Qt
