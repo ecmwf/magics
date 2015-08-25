@@ -63,7 +63,10 @@ ecbuild_add_option( FEATURE GEOTIFF
                     CONDITION HAVE_CAIRO
                     REQUIRED_PACKAGES GeoTIFF )
 
-option( ENABLE_NETCDF         "enable netcdf support"             ON  )
+ecbuild_add_option( FEATURE NETCDF
+                    DEFAULT ON
+                    DESCRIPTION "enable netcdf support"
+                    REQUIRED_PACKAGES "NetCDF 4 COMPONENTS C CXX" )
 
 option( ENABLE_SPOT           "enable spot support"               OFF )
 
@@ -130,20 +133,6 @@ cmake_add_c_flags("-std=c99")
    set( MAGICS_GRIB 1 )
    set( grib yes )
 #endif()
-
-### netcdf
-
-set( netcdf no )
-# set( PREFER_NETCDF4 1)
-set( NETCDF_CXX 1 )
-if ( ENABLE_NETCDF )
-  find_package( NetCDF 4 COMPONENTS C CXX REQUIRED)
-endif()
-if ( NETCDF_FOUND )
-    list( APPEND MAGICS_TPLS  NetCDF )
-    set(MAGICS_NETCDF 1)
-	set( netcdf yes)
-endif()
 
 ### odb
 
