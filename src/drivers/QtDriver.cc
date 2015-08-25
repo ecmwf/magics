@@ -42,7 +42,11 @@
 #include <QDesktopWidget>
 #include <QGraphicsItem>
 #include <QPainter>
-#ifdef Q_WS_X11
+
+#ifdef MAGICS_QT5
+#include <QGuiApplication>
+#include <QScreen>
+#elif defined(Q_WS_X11)
 #include <QX11Info>
 #endif
 
@@ -131,22 +135,36 @@ void QtDriver::open()
 
 	currentPolylineSetItem_=0;
 		
-	//We find out the screen dpy from Qt. It can be diffrenet to the value
-	//given by 'xdpyinfo' returned by scene->dpiResolution(). So we compute
-	//their ratio to correctly set font size for rendering!
-#ifdef Q_WS_X11  // Do we work with a X11 display?
+	//We find out the screen dpy from Qt. It can be different to the value
+	//returned by scene->dpiResolution(), which it isdefined externally by
+	// a reliable command (e.g. by 'xdpyinfo') and avialiable through  
+	//the env var METVIEW_SCREEN_RESOLUTION on the metview side.  
+	
+	//So we need to compute their ratio to correctly set font size for rendering!
+#ifdef MAGICS_QT5
+	QList<QScreen*> scList=QGuiApplication::screens();
+	const int qtDpiResolution=(!scList.isEmpty())?scList.at(0)->logicalDotsPerInchY():72;
+#elif defined(Q_WS_X11)  // Do we work with a X11 display?
 	const int qtDpiResolution=QX11Info::appDpiY(0);
-#else     // for MacOS X
-	const int qtDpiResolution=72;
-#endif
-	if(qtDpiResolution < 50 || qtDpiResolution > 150)
+#else   // for MacOS X with Qt4
+	const int qtDpiResolution=95;	
+#endif	
+
+	//By default the ratio between the physical pixel size according to the external definition and Qt is 1 
+	dpiResolutionRatio_=1.;	
+	
+	//If we have the physical pixel size from an external definition
+	if(scene->dpiResolution() != -1)
 	{
-	  	dpiResolutionRatio_=1.;		
+	    //We compute the correct ratio
+	    dpiResolutionRatio_=static_cast<float>(qtDpiResolution)/static_cast<float>(scene->dpiResolution());
 	}
+	//Otherwise we suppose it is the same as given by Qt (thus their ratio will be 1)
 	else
-	{  
-		dpiResolutionRatio_=static_cast<float>(qtDpiResolution)/static_cast<float>(scene->dpiResolution());
-	}
+	{
+	    scene->setDpiResolution(qtDpiResolution);
+	}		
+
 	
 	setCMscale(static_cast<float>(scene->dpiResolution())/2.54); // cm -> pixel
 	
