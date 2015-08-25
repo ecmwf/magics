@@ -73,7 +73,15 @@ ecbuild_add_option( FEATURE SPOT
                     DESCRIPTION "enable spot support"
                     REQUIRED_PACKAGES "PROJECT spot" )
 
-option( ENABLE_PYTHON         "enable python interface"   ON  )
+ecbuild_add_option( FEATURE PYTHON
+                    DEFAULT ON
+                    DESCRIPTION "enable python interface"
+                    REQUIRED_PACKAGES Python SWIG NumPy )
+
+if( HAVE_PYTHON )
+   include(UseSWIG)
+endif()
+
 option( ENABLE_FORTRAN        "enable fortran interface"  ON  )
 
 option( ENABLE_METVIEW        "enable Metview interface"  OFF  )
@@ -105,25 +113,6 @@ set( MAG_PYTHON_PATH ${CMAKE_BINARY_DIR}/python )
 
 if( ENABLE_FORTRAN )
 	ecbuild_enable_fortran( REQUIRED )
-endif()
-
-### python
-
-if( ENABLE_PYTHON )
-	ecbuild_find_python( REQUIRED )
-
-    debug_var( PYTHON_INCLUDE_DIRS )
-    debug_var( PYTHON_LIBRARIES )
-
-    if( NOT PYTHON_INCLUDE_DIRS OR NOT PYTHON_LIBRARIES )
-        message( FATAL_ERROR "Couldn't find Python libraries" )
-    endif()
-
-	find_package( SWIG REQUIRED )
-	find_package( NumPy REQUIRED )
-endif()
-if( SWIG_FOUND )
-   include(UseSWIG)
 endif()
 
 ### grib
