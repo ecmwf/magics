@@ -82,7 +82,13 @@ if( HAVE_PYTHON )
    include(UseSWIG)
 endif()
 
-option( ENABLE_FORTRAN        "enable fortran interface"  ON  )
+ecbuild_add_option( FEATURE FORTRAN
+                    DEFAULT ON
+                    DESCRIPTION "enable Fortran interface" )
+
+if( HAVE_FORTRAN )
+	ecbuild_enable_fortran( REQUIRED )
+endif()
 
 option( ENABLE_METVIEW        "enable Metview interface"  OFF  )
 option( ENABLE_METVIEW_NO_QT  "enable Metview interface without Qt"    OFF )
@@ -108,12 +114,6 @@ set( MAG_PYTHON_PATH ${CMAKE_BINARY_DIR}/python )
 # projects
 
 # ecbuild_use_package( PROJECT eckit VERSION 0.3 REQUIRED )
-
-### fortran
-
-if( ENABLE_FORTRAN )
-	ecbuild_enable_fortran( REQUIRED )
-endif()
 
 ### grib
 
