@@ -101,7 +101,7 @@ if( metview )
 	add_subdirectory( libMagWrapper )
 endif()
 
-if( MAGICS_ODB )
+if( HAVE_ODB )
 	add_subdirectory( oda )
 endif()
 

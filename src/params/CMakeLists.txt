@@ -290,7 +290,7 @@ if( HAVE_NETCDF )
 		NetcdfXYpointsInterpretor.xml )
 endif()
 
-if ( MAGICS_ODB ) 
+if ( HAVE_ODB )
 	list ( APPEND _common_xmls 
 		OdaGeoDecoder.xml
 		OdaXYDecoder.xml )

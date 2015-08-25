@@ -88,7 +88,7 @@ protected:
 	bool bufr(magics::MagRequest&);
 	bool visdef(magics::MagRequest&);
 	
-#ifdef MAGICS_ODB	
+#ifdef HAVE_ODB
 	bool geoodb(magics::MagRequest&);
 	bool xyodb(magics::MagRequest&);
 #endif

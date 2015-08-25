@@ -610,13 +610,13 @@ void FortranMagics::ptable()
 
 }
 
-#ifdef MAGICS_ODB
+#ifdef HAVE_ODB
 #include "OdaDecoder.h"
 #endif
 void FortranMagics::podb()
 {
 	actions();
-#ifdef MAGICS_ODB
+#ifdef HAVE_ODB
 
 
     	action_ = new VisualAction();
