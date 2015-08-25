@@ -141,7 +141,7 @@
 #define MAGICS_SITE "@MAGICS_SITE@"
 
 /* Turn off the SPOT support */
-#cmakedefine MAGICS_SPOT
+#cmakedefine HAVE_SPOT
 
 /* Turn on/off thread support. */
 #cmakedefine MAGICS_THREADS
