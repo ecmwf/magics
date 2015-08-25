@@ -117,7 +117,7 @@
 #define MAGICS_NAME "@MAGICS_NAME@"
 
 /* Turn off the netCDF support */
-#cmakedefine MAGICS_NETCDF
+#cmakedefine HAVE_NETCDF
 
 /* Turn off the ODB support */
 #cmakedefine MAGICS_ODB

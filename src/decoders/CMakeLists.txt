@@ -75,7 +75,7 @@ decoders/GribSatelliteInterpretor.h
 endif()
 
 
-if (MAGICS_NETCDF) 
+if (HAVE_NETCDF) 
      list( APPEND decoders_srcs 
 #Netcdf--->
 decoders/NetcdfOrcaInterpretor.cc
