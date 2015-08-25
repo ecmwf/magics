@@ -40,7 +40,7 @@
 #include <climits>
 
 // do the export restriction only if NOT for Metview
-#ifndef MAGICS_METVIEW
+#ifndef HAVE_METVIEW
 
 #ifdef WIN32
   #define MAGICS_IMPORT __declspec(dllimport)
