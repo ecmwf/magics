@@ -66,7 +66,7 @@
 #include "MetaData.h"
 
 
-#ifdef MAGICS_SPOT
+#ifdef HAVE_SPOT
 #include "ClassicMtgDecoder.h"
 #include "EpsgramDecoder.h"
 #include "MetgramGraph.h"
@@ -632,7 +632,7 @@ void XmlMagics::odb(const XmlNode& node)
 
 void XmlMagics::efigram(const XmlNode& node)
 {
-#ifdef MAGICS_SPOT
+#ifdef HAVE_SPOT
 	EfigramDecoder* efi = new EfigramDecoder();
 	efi->set(node);
 	top()->data(efi);
@@ -670,7 +670,7 @@ void XmlMagics::epsdirection(const XmlNode& node)
 
 void XmlMagics::metgram(const XmlNode& node)
 {
-#ifdef MAGICS_SPOT
+#ifdef HAVE_SPOT
 	ClassicMtgDecoder* metgram = new ClassicMtgDecoder();
 	metgram->set(node);
 	top()->data(metgram);
@@ -679,7 +679,7 @@ void XmlMagics::metgram(const XmlNode& node)
 
 void XmlMagics::metgraph(const XmlNode& node)
 {
-#ifdef MAGICS_SPOT
+#ifdef HAVE_SPOT
 	MetgramGraph* metgraph = new MetgramGraph();
 	metgraph->set(node);
 	top()->visdef(metgraph);
@@ -689,7 +689,7 @@ void XmlMagics::metgraph(const XmlNode& node)
 
 void XmlMagics::epsgram(const XmlNode& node)
 {
-#ifdef MAGICS_SPOT
+#ifdef HAVE_SPOT
 	EpsgramDecoder* eps = new EpsgramDecoder();
 	eps->set(node);
 	top()->data(eps);

@@ -115,7 +115,7 @@ decoders/ObsDecoder.h
 endif()
 
 
-if (MAGICS_SPOT)
+if (HAVE_SPOT)
      list( APPEND decoders_srcs 
 #Spot ---> 
 decoders/ClassicMtgDecoder.cc
