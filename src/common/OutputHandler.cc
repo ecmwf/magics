@@ -115,7 +115,7 @@ static SimpleObjectMaker<CAIRO_CairoOutputFactory,  OutputFactory> cairo("cairo"
 static SimpleObjectMaker<CAIRO_SvgOutputFactory,    OutputFactory> csvg("cairo_svg");
 static SimpleObjectMaker<CAIRO_PsOutputFactory,     OutputFactory> cps("cairo_ps");
 static SimpleObjectMaker<CAIRO_EpsOutputFactory,    OutputFactory> ceps("cairo_eps");
-#ifdef MAGICS_GEOTIFF
+#ifdef HAVE_GEOTIFF
 static SimpleObjectMaker<CAIRO_GeoTiffOutputFactory,OutputFactory> geotiff("geotiff");
 #endif
 #endif
