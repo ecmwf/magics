@@ -111,7 +111,7 @@
 #cmakedefine MAGICS_METGRAM
 
 /* Installation used by metview */
-#cmakedefine MAGICS_METVIEW
+#cmakedefine HAVE_METVIEW
 
 /* Name of this package. */
 #define MAGICS_NAME "@MAGICS_NAME@"
