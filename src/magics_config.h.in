@@ -87,7 +87,7 @@
 #cmakedefine MAGICS_GIF_ANIMATED
 
 /* Turn off the GRIB 1/2 support */
-#cmakedefine MAGICS_GRIB
+#cmakedefine HAVE_GRIB
 
 /* Install path. */
 #define MAGICS_INSTALL_PATH "@CMAKE_INSTALL_PREFIX@"

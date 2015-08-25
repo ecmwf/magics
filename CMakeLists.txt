@@ -41,6 +41,8 @@ ecbuild_requires_macro_version( 1.8 )
 # some variables of this project
 
 ecbuild_use_package(PROJECT grib_api VERSION 1.12.3 REQUIRED)
+# grib_api is required for now
+set( HAVE_GRIB 1 )
 
 ecbuild_add_option( FEATURE BUFR
                     DEFAULT ON
@@ -130,7 +132,6 @@ cmake_add_c_flags("-std=c99")
 
 #set( grib no )
 #if( HAVE_GRIB )
-   set( MAGICS_GRIB 1 )
    set( grib yes )
 #endif()
 

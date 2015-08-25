@@ -265,7 +265,7 @@ XmlViewNode.xml
 		)
 	
 
-if( MAGICS_GRIB )
+if( HAVE_GRIB )
 	list( APPEND _common_xmls GribAddressByteMode.xml
 		GribAddressMode.xml
 		GribAddressRecordMode.xml

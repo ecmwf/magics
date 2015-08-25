@@ -12,7 +12,7 @@
 #include "MetaDataWrapper.h"
 #include "ImportObjectHandlerWrapper.h"
 
-#ifdef MAGICS_GRIB
+#ifdef HAVE_GRIB
 #include <GribDecoderWrapper.h>
 #include <GribLoopWrapper.h>
 #endif
@@ -747,7 +747,7 @@ bool MagPlus::binning(magics::MagRequest& in)
 
 bool MagPlus::grib(magics::MagRequest& in)
 {
-#ifdef MAGICS_GRIB
+#ifdef HAVE_GRIB
 	MagLog::dev()<< "add grib" << endl;
 	in.print();
 
@@ -920,7 +920,7 @@ void MagPlus::setIconInfo(magics::MagRequest& mv, MetviewIcon& object)
 
 bool MagPlus::gribloop(magics::MagRequest& in)
 {
-#ifdef MAGICS_GRIB
+#ifdef HAVE_GRIB
 	MagLog::dev()<< "add gribloop" << endl;
 	in.print();
 	string loop("loop");

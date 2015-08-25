@@ -59,7 +59,7 @@ foreach( file ${_decoders_srcs} )
   list( APPEND decoders_srcs decoders/${file} )
 endforeach()
 
-if (MAGICS_GRIB) 
+if (HAVE_GRIB)
      list( APPEND decoders_srcs 
 decoders/GribAddressMode.h
 decoders/GribDecoder.cc
