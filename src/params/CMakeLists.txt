@@ -276,7 +276,7 @@ if( MAGICS_GRIB )
 		)		
 endif()
 
-if( MAGICS_NETCDF )
+if( HAVE_NETCDF )
 	list( APPEND _common_xmls 
 		NetcdfDecoder.xml
 		NetcdfGeoMatrixInterpretor.xml
