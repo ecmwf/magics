@@ -193,7 +193,7 @@ void QT_OutputFactory::set(DriverManager& magics, const XmlNode& node)
 #endif
 */
 
-#ifdef MAGICS_CAIRO
+#ifdef HAVE_CAIRO
 #include "CairoDriver.h"
 void CAIRO_PdfOutputFactory::set(DriverManager& magics, const XmlNode& node)
 {

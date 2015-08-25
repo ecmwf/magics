@@ -1316,7 +1316,7 @@ void mag_seti(const char* name, const int value)
 void mag_setp(const char* name, void* value)
 {
 	string n(name);
-#ifdef MAGICS_CAIRO
+#ifdef HAVE_CAIRO
     if ( magCompare(n, "output_cairo_drawing_context") ) {
        ParameterManager::set("output_cairo_drawing_context", (CairoPtr)value); 
     }

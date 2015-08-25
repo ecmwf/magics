@@ -296,7 +296,7 @@ if ( HAVE_ODB )
 		OdaXYDecoder.xml )
 endif()
 
-if( MAGICS_CAIRO )
+if( HAVE_CAIRO )
     list( APPEND _common_xmls CairoDriver.xml )
 endif()
 
