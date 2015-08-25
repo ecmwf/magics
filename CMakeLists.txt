@@ -90,7 +90,10 @@ if( HAVE_FORTRAN )
 	ecbuild_enable_fortran( REQUIRED )
 endif()
 
-option( ENABLE_METVIEW        "enable Metview interface"  OFF  )
+ecbuild_add_option( FEATURE METVIEW
+                    DEFAULT OFF
+                    DESCRIPTION "enable Metview interface" )
+
 option( ENABLE_METVIEW_NO_QT  "enable Metview interface without Qt"    OFF )
 option( ENABLE_QT5            "use Qt5 instead of version 4"        OFF )
 
@@ -165,8 +168,8 @@ endif()
 
 ### Metview and Qt
 
-if(ENABLE_METVIEW AND ENABLE_METVIEW_NO_QT)
-    message(FATAL_ERROR "Do not set both ENABLE_METVIEW and ENABLE_METVIEW_NO_QT - only set one. You may have to remove your CMakeCache.txt to clear these settings.")
+if(HAVE_METVIEW AND ENABLE_METVIEW_NO_QT)
+    message(FATAL_ERROR "Do not set both HAVE_METVIEW and ENABLE_METVIEW_NO_QT - only set one. You may have to remove your CMakeCache.txt to clear these settings.")
 endif()
 
 set( qt no )
@@ -177,7 +180,7 @@ if( ENABLE_METVIEW_NO_QT )
 	unset(MAGICS_ONLY)
 endif()
 
-if( ENABLE_METVIEW )
+if( HAVE_METVIEW )
     set ( metview yes)
     message(STATUS "TESTING for Metview ...")
     unset(MAGICS_ONLY)
