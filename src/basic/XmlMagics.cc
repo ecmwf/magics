@@ -717,12 +717,12 @@ void XmlMagics::geojson(const XmlNode& node)
 	top()->data(geo);
 }
 
-#ifdef MAGICS_BUFR
+#ifdef HAVE_BUFR
 #include "EpsBufr.h"
 #endif
 void XmlMagics::epsbufr(const XmlNode& node)
 {
-#ifdef MAGICS_BUFR
+#ifdef HAVE_BUFR
 	EpsBufr* eps = new EpsBufr();
 	eps->set(node);
 	top()->data(eps);

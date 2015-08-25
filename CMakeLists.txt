@@ -137,13 +137,6 @@ if( HAVE_ODB )
 
 endif()
 
-### bufr
-
-if( HAVE_BUFR ) # set by ecbuild_add_option()
-   set( MAGICS_BUFR 1 )
-endif()
-
-
 ### cairo
 
 if( HAVE_CAIRO )
@@ -290,7 +283,7 @@ if( HAVE_ODB )
     list( APPEND MAGICS_EXTRA_LIBRARIES     Odb )
 endif()
 
-if( MAGICS_BUFR )
+if( HAVE_BUFR )
 	list( APPEND MAGICS_EXTRA_DEFINITIONS   fortfloat=double fortint=int )
     ecbuild_find_fortranlibs()
 	list( APPEND MAGICS_EXTRA_LIBRARIES ${FORTRAN_LIBRARIES} )

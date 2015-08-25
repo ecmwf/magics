@@ -70,7 +70,7 @@
 #include "NetcdfDecoder.h"
 #endif
 
-#ifdef MAGICS_BUFR
+#ifdef HAVE_BUFR
 #include "ObsDecoder.h"
 #endif
 
@@ -418,7 +418,7 @@ void FortranMagics::ptephi()
 void FortranMagics::pobs()
 {
 	actions();
-#ifdef MAGICS_BUFR
+#ifdef HAVE_BUFR
 	action_ = new VisualAction();
 	ObsDecoder* obs = new ObsDecoder();
 	if ( obs->defined() ) {
