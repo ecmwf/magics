@@ -94,7 +94,10 @@ ecbuild_add_option( FEATURE METVIEW
                     DEFAULT OFF
                     DESCRIPTION "enable Metview interface" )
 
-option( ENABLE_METVIEW_NO_QT  "enable Metview interface without Qt"    OFF )
+ecbuild_add_option( FEATURE METVIEW_NO_QT
+                    DEFAULT OFF
+                    DESCRIPTION "enable Metview interface without Qt" )
+
 option( ENABLE_QT5            "use Qt5 instead of version 4"        OFF )
 
 option( ENABLE_STATIC_LIBRARY    "Internal Build static Library"    OFF  )
@@ -168,14 +171,14 @@ endif()
 
 ### Metview and Qt
 
-if(HAVE_METVIEW AND ENABLE_METVIEW_NO_QT)
-    message(FATAL_ERROR "Do not set both HAVE_METVIEW and ENABLE_METVIEW_NO_QT - only set one. You may have to remove your CMakeCache.txt to clear these settings.")
+if(HAVE_METVIEW AND HAVE_METVIEW_NO_QT)
+    message(FATAL_ERROR "Do not set both HAVE_METVIEW and HAVE_METVIEW_NO_QT - only set one. You may have to remove your CMakeCache.txt to clear these settings.")
 endif()
 
 set( qt no )
 set( metview no )
 
-if( ENABLE_METVIEW_NO_QT )
+if( HAVE_METVIEW_NO_QT )
 	set( metview yes )
 	unset(MAGICS_ONLY)
 endif()
