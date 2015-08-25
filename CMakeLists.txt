@@ -68,7 +68,10 @@ ecbuild_add_option( FEATURE NETCDF
                     DESCRIPTION "enable netcdf support"
                     REQUIRED_PACKAGES "NetCDF 4 COMPONENTS C CXX" )
 
-option( ENABLE_SPOT           "enable spot support"               OFF )
+ecbuild_add_option( FEATURE SPOT
+                    DEFAULT OFF
+                    DESCRIPTION "enable spot support"
+                    REQUIRED_PACKAGES "PROJECT spot" )
 
 option( ENABLE_PYTHON         "enable python interface"   ON  )
 option( ENABLE_FORTRAN        "enable fortran interface"  ON  )
@@ -143,16 +146,6 @@ if( HAVE_ODB )
 
       set( MAGICS_ODB 1 )
 
-endif()
-
-### spot
-
-if( ENABLE_SPOT )
-    ecbuild_use_package( PROJECT spot  REQUIRED)
-    if( SPOT_FOUND )
-        set (MAGICS_SPOT 1)
-    endif()
-else() 
 endif()
 
 ### bufr
