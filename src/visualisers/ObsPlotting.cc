@@ -119,6 +119,7 @@ void ObsPlotting::visit(MetaDataVisitor& visitor)
 
 
 #include "ObsItemFamily.h"
+static SimpleObjectMaker<ObsStationTriangle, ObsItem> ObsStationTriangle("obs_station_triangle");
 static SimpleObjectMaker<ObsStationRing, ObsItem> ObsStationRing("obs_station_ring");
 static SimpleObjectMaker<ObsTimePlot, ObsItem> ObsTimePlot("obs_time_plot");
 static SimpleObjectMaker<ObsWind, ObsItem> ObsWind("obs_wind");
