@@ -1,6 +1,5 @@
-
-
-
+# Copy metgram executable to the build tree
+configure_file( metgram  metgram COPYONLY )
 configure_file( metgram-script.in  metgram.sh @ONLY )
 
 install ( DIRECTORY templates DESTINATION ${INSTALL_DATA_DIR}/.. FILE_PERMISSIONS OWNER_READ GROUP_READ WORLD_READ)
@@ -20,5 +19,3 @@ ecbuild_add_executable( TARGET    metgramx
                     LIBS
                         MagPlusShared ${MAGICS_EXTRA_LIBRARIES}
                     )
-
-
