@@ -361,45 +361,6 @@ ecbuild_add_resources( TARGET internal
 		configure.ecmwf
 )
 
-
-set(  __magics_tmp ${MAGICS_EXTRA_LIBRARIES} )
-
-list(REMOVE_ITEM __magics_tmp debug )
-list(REMOVE_ITEM __magics_tmp optimized )
-if( ODB_API_FOUND )
-    list(REMOVE_ITEM __magics_tmp Odb)
-    list(REMOVE_ITEM __magics_tmp eckit)
-endif()
-
-set(MAGICS_EXTRA_LIBS "")
-
-foreach( lib ${__magics_tmp} )
-  if( lib MATCHES "^/.*" )
-# Need to split -L/path and -l libd
-	
-	 get_filename_component(ext ${lib} EXT)
-	  if ( ${ext} MATCHES ${CMAKE_SHARED_LIBRARY_SUFFIX} )
-		
-		get_filename_component(path ${lib} PATH)
-		
-	  endif()
-	 
-  else()
-    if( NOT lib MATCHES "^-l.*" )
-		set( lib "-l${lib}" )
-	endif()
-  endif()
-  
-  set(MAGICS_EXTRA_LIBS "${MAGICS_EXTRA_LIBS} ${lib}" )
-endforeach()
-
-
-if( ODB_API_FOUND )
-    set(MAGICS_EXTRA_LIBS "${MAGICS_EXTRA_LIBS} -L${odb_api_install_dir} -lOdb")
-    set(MAGICS_EXTRA_LIBS "${MAGICS_EXTRA_LIBS} -L${eckit_install_dir} -leckit")
-    set(MAGICS_EXTRA_LIBS "${MAGICS_EXTRA_LIBS} -L${eckit_install_dir} -leckit_ecml")
-endif()
-
 configure_file( magics-config.in  magics-config @ONLY )					
 # ecbuild/cmake is needed in the the distribution tar ball!
 					
