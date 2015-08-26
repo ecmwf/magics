@@ -809,6 +809,8 @@ grib_nearest* GribDecoder::nearest_point_handle(bool keep)
 		if (!nearest_)
 		{
 			nearest_ = grib_nearest_new(handle_, &err); // only used in Metview's Cursor Data facility
+			if (err)
+				return 0;
 		}
 		return nearest_;
 	}
@@ -1377,22 +1379,33 @@ void GribDecoder::nearestGridpoints(double *inlats, double *inlons, double *outl
 	nearHandle = nearest_point_handle(retainGribNearestHandle);
 
 
+
 	for (int i=0; i < nb; i++) 
 	{
-		grib_nearest_find(nearHandle, handle_, inlats[i], inlons[i], GRIB_NEAREST_SAME_GRID, outlats4, outlons4,
-			outvals4, outdist4, outindexes, &len);
-		vector<double> vdistances(outdist4, outdist4+4);
-		int closestIndex = distance(vdistances.begin(), min_element(vdistances.begin(), vdistances.end()));
-		outlats[i]   = outlats4[closestIndex];
-		outlons[i]   = outlons4[closestIndex];
-		values[i]    = outvals4[closestIndex];
-		distances[i] = outdist4[closestIndex];
+		if (nearHandle)
+		{
+			grib_nearest_find(nearHandle, handle_, inlats[i], inlons[i], GRIB_NEAREST_SAME_GRID, outlats4, outlons4,
+				outvals4, outdist4, outindexes, &len);
+			vector<double> vdistances(outdist4, outdist4+4);
+			int closestIndex = distance(vdistances.begin(), min_element(vdistances.begin(), vdistances.end()));
+			outlats[i]   = outlats4[closestIndex];
+			outlons[i]   = outlons4[closestIndex];
+			values[i]    = outvals4[closestIndex];
+			distances[i] = outdist4[closestIndex];
+		}
+		else
+		{
+			outlats[i]   = 0;
+			outlons[i]   = 0;
+			values[i]    = 0;
+			distances[i] = 0;
+		}
 //			grib_nearest_find_multiple(handle_, 0, inlats, inlons, nb, outlats, outlons, values, distances, indexes);
 //			int closestIndex = 0;
 	}
 
 
-	if (!retainGribNearestHandle)	// was this a temporary handle?
+	if (!retainGribNearestHandle && nearHandle)	// was this a temporary handle?
 		grib_nearest_delete(nearHandle);
 
 }
