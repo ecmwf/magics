@@ -406,6 +406,10 @@ configure_file( magics-config.in  magics-config @ONLY )
 ############################################################################################
 # finalize
 
+set( MAGICS_DESCRIPTION "Multi-platform meteorological graphics library" )
+set( MAGICS_URL "https://software.ecmwf.int/wiki/display/MAGP/Magics" )
+ecbuild_pkgconfig()
+
 ecbuild_install_project( NAME Magics )
 
 ecbuild_print_summary()
