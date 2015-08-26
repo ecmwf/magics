@@ -28,7 +28,7 @@ ecbuild_add_test( TARGET basic_fortran_shared
 ecbuild_add_test( TARGET basic_fortran_static
                   SOURCES   coast.f90
                   LIBS      MagPlusSingleStatic MagPlusStatic ${MAGICS_EXTRA_LIBRARIES} 
-                  CONDITION HAVE_FORTRAN AND ENABLE_STATIC_LIBRARY
+                  CONDITION HAVE_FORTRAN AND BUILD_SHARED_LIBS STREQUAL "BOTH"
                   ENVIRONMENT MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/..
                   LINKER_LANGUAGE Fortran )       
 
@@ -54,7 +54,7 @@ if ( ENABLE_BUFR )
                       SOURCES   bufr.f90
                       RESOURCES data.bufr
                       LIBS      MagPlusSingleStatic MagPlusStatic
-                      CONDITION HAVE_FORTRAN AND ENABLE_STATIC_LIBRARY
+                      CONDITION HAVE_FORTRAN AND BUILD_SHARED_LIBS STREQUAL "BOTH"
                       ENVIRONMENT MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/..
                       LINKER_LANGUAGE Fortran )       
 endif()

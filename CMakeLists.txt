@@ -114,7 +114,7 @@ if( HAVE_PNG )
     add_definitions( ${PNG_DEFINITIONS} )
 endif()
 
-option( ENABLE_STATIC_LIBRARY    "Internal Build static Library"    OFF  )
+option( BUILD_SHARED_LIBS  "Set to BOTH to build static library in addition to shared"  ON )
 option( ENABLE_REGRESSION        "Internal use only: enable regression test"  OFF  )
 option( ENABLE_REGRESSION_UPLOAD "Internal use only : enable upload of reference image"  OFF  )
 

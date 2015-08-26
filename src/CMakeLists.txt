@@ -143,7 +143,7 @@ ecbuild_add_library( TARGET      MagPlusDoubleShared
                      TYPE        SHARED
                      OUTPUT_NAME MagPlusDouble )
 
-if ( ENABLE_STATIC_LIBRARY ) 	     
+if ( BUILD_SHARED_LIBS STREQUAL "BOTH" )
 ecbuild_add_library( TARGET    MagPlusStatic
                      DEPENDS   magics_params
                      SOURCES
