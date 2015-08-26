@@ -388,11 +388,39 @@ void ObsPresentWeather::operator()(CustomisedPoint& point,  ComplexSymbol& symbo
 {
 	if (!owner_->present_ww_visible_) return;
 	if ( presentweather.empty() ) {
-		/*presentweather[100] = "ww_00";
+		presentweather[100] = "ww_00";
 		presentweather[101] = "ww_01";
 		presentweather[102] = "ww_02";
 		presentweather[103] = "ww_03";
-		presentweather[104] = "ww_04";*/
+		presentweather[104] = "ww_04";
+		presentweather[110] = "ww_10";
+		presentweather[120] = "ww_45";
+		presentweather[121] = "ww_60";
+		presentweather[122] = "ww_20";
+		presentweather[123] = "ww_61";
+		presentweather[130] = "ww_45"; // Fog
+		presentweather[131] = "ww_41";
+		presentweather[132] = "ww_42";
+		presentweather[133] = "ww_44";
+		presentweather[134] = "ww_46";
+		presentweather[140] = "ww_60";
+		presentweather[141] = "ww_61";
+		presentweather[150] = "ww_51";
+		presentweather[151] = "ww_51";
+		presentweather[152] = "ww_52";
+		presentweather[153] = "ww_55";
+		presentweather[157] = "ww_58";
+		presentweather[158] = "ww_59";
+		presentweather[160] = "ww_60";
+		presentweather[161] = "ww_61";
+		presentweather[162] = "ww_62";
+		presentweather[163] = "ww_65";
+		presentweather[180] = "ww_80";
+		presentweather[181] = "ww_80";
+		presentweather[182] = "ww_81";
+		presentweather[183] = "ww_81";
+		presentweather[189] = "ww_89";
+
 	}
 	CustomisedPoint::const_iterator value = point.find("present_weather");
 	if ( value == point.end() ) return; 
