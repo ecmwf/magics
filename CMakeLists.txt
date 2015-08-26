@@ -33,7 +33,7 @@ set(INSTALL_INCLUDE_DIR include/magics CACHE PATH "Magics installation directory
 
 set( CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/../ecbuild/cmake")
 
-include( ecbuild_system )
+include( ecbuild_system NO_POLICY_SCOPE )
 
 ecbuild_requires_macro_version( 1.8 )
 
@@ -317,6 +317,13 @@ endif()
 
 
 set( MAGICS_LIBRARIES    MagPlus )
+
+
+
+# remove eckit_cmd because it's not needed for Magics, and causes problems when linked
+# with Metview
+list(REMOVE_ITEM ODB_API_LIBRARIES eckit_cmd)
+
 
 foreach( _tpl ${MAGICS_TPLS} )
     string( TOUPPER ${_tpl} TPL )
