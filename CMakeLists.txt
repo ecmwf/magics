@@ -196,13 +196,6 @@ find_package( Boost 1.49.0 REQUIRED)
 find_package( Proj4 REQUIRED )
 find_package( EXPAT  REQUIRED )
 
-
-install( FILES ${CMAKE_CURRENT_BINARY_DIR}/magics-config
-			DESTINATION ${INSTALL_BIN_DIR} 
-			PERMISSIONS OWNER_READ GROUP_READ WORLD_READ 
-				        OWNER_EXECUTE GROUP_EXECUTE WORLD_EXECUTE)
-
-
 ###############################################################################
 # contents
 
@@ -345,9 +338,6 @@ ecbuild_add_resources( TARGET internal
 		configure.ecmwf
 )
 
-configure_file( magics-config.in  magics-config @ONLY )					
-# ecbuild/cmake is needed in the the distribution tar ball!
-					
 ############################################################################################
 # finalize
 
