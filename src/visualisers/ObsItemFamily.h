@@ -76,7 +76,34 @@ protected:
 	void print(ostream& out) const { out << "ObsStationRing" ;  }
 
 };
+class ObsStationTriangle : public ObsItemBox
+{
+public:
+	ObsStationTriangle()  {}
+	~ObsStationTriangle()  {}
+	void visit(std::set<string>& tokens)
+	{
 
+		if (!owner_->station_ring_visible_) return;
+
+	}
+
+	void operator()(CustomisedPoint&,  ComplexSymbol& symbol) const
+	{
+		if (!owner_->station_ring_visible_) return;
+		SymbolItem*  station = new SymbolItem();
+		station->x(column_);
+		station->y(row_);
+		station->colour(*owner_->station_ring_colour_);
+		station->symbol("triangle"); // triangle
+		station->height(owner_->ring_size_*0.5);
+		symbol.add(station);
+	}
+
+protected:
+	void print(ostream& out) const { out << "ObsStationTriangle" ;  }
+
+};
 
 class ObsTimePlot : public ObsItemBox
 {

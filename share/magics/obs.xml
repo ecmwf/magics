@@ -38,7 +38,7 @@
 
 
  <obs_template type='dribu_surface' rows='3' columns='3'>
-        <obs_cloud_wind/>
+        <obs_station_triangle/>
         <obs_temperature row='1' column='-1'/>
         <obs_pressure row='1' column='1'/>
         <obs_pressure_tendency row='0' column='1'/>
