@@ -312,13 +312,6 @@ get_directory_property( MAGICS_DEFINITIONS COMPILE_DEFINITIONS )
 
 include_directories( ${MAGICS_INCLUDE_DIRS} ${MAGICS_EXTRA_INCLUDE_DIRS} )
 
-set(  __magics_inc_tmp ${MAGICS_EXTRA_INCLUDE_DIRS} )
-set(MAGICS_EXTRA_INCLUDES "")
-
-foreach( inc ${__magics_inc_tmp} ) 
-  set(MAGICS_EXTRA_INCLUDES "${MAGICS_EXTRA_INCLUDES} -I${inc}" )
-endforeach()
-
 # scripts
 add_subdirectory( tools )
 
