@@ -138,15 +138,6 @@ set( MAG_PYTHON_PATH ${CMAKE_BINARY_DIR}/python )
 #cmake_add_cxx_flags("-gdwarf-2")
 cmake_add_c_flags("-std=c99")
 
-### odb
-
-if( HAVE_ODB )
-
-    get_filename_component( odb_api_install_dir ${ODB_API_CMAKE_DIR}/../../../lib ABSOLUTE )
-    get_filename_component( eckit_install_dir   ${ECKIT_CMAKE_DIR}/../../../lib ABSOLUTE )
-
-endif()
-
 ### Metview and Qt
 
 if(HAVE_METVIEW AND HAVE_METVIEW_NO_QT)
