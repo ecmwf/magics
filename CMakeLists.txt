@@ -222,10 +222,10 @@ set( MAGICS_INCLUDE_DIRS
         ${Boost_INCLUDE_DIRS} )
     
 if( HAVE_ODB )
-    list( APPEND MAGICS_INCLUDE_DIRS
-		${CMAKE_CURRENT_SOURCE_DIR}/src/oda 
-		${ODB_API_INCLUDE_DIRS}/../eclib 
-	)
+  list( APPEND MAGICS_TPLS odb_api )
+  list( APPEND MAGICS_INCLUDE_DIRS
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/oda
+        ${ODB_API_INCLUDE_DIRS}/../eclib )
 endif()
 
 
@@ -245,11 +245,6 @@ foreach( _tpl ${MAGICS_TPLS} )
     list( APPEND MAGICS_EXTRA_INCLUDE_DIRS  ${${TPL}_INCLUDE_DIRS} )
     list( APPEND MAGICS_EXTRA_LIBRARIES     ${${TPL}_LIBRARIES} )
 endforeach()
-
-if( HAVE_ODB )
-    list( APPEND MAGICS_EXTRA_INCLUDE_DIRS  ${ODB_API_INCLUDE_DIRS} )
-    list( APPEND MAGICS_EXTRA_LIBRARIES     Odb )
-endif()
 
 if( HAVE_BUFR )
 	list( APPEND MAGICS_EXTRA_DEFINITIONS   fortfloat=double fortint=int )
