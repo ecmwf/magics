@@ -1,0 +1,5 @@
+if( @PNAME@_IS_BUILD_DIR_EXPORT )
+  set( MAGICS_METEOGRAM_SCRIPT @CMAKE_BINARY_DIR@/apps/metgram/metgram )
+else()
+  set( MAGICS_METEOGRAM_SCRIPT @CMAKE_INSTALL_PREFIX@/bin/metgram )
+endif()
