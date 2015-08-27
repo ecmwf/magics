@@ -17,5 +17,5 @@ ecbuild_add_executable( TARGET    metgramx
                      DEFINITIONS
                         ${MAGICS_EXTRA_DEFINITIONS}
                     LIBS
-                        MagPlusShared ${MAGICS_EXTRA_LIBRARIES}
+                        MagPlus ${MAGICS_EXTRA_LIBRARIES}
                     )

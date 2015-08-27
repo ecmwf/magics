@@ -1,7 +1,7 @@
 # Basic test 
 ecbuild_add_test( TARGET basic_c
                   SOURCES   coast.c
-                  LIBS      MagPlusSingleShared MagPlusShared
+                  LIBS      MagPlusSingle MagPlus
                   ENVIRONMENT MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/..
                   LINKER_LANGUAGE C )
 
@@ -16,7 +16,7 @@ ecbuild_add_test( TARGET basic_python
 
 ecbuild_add_test( TARGET basic_fortran_shared
                   SOURCES   coast.f90
-                  LIBS      MagPlusSingleShared MagPlusShared
+                  LIBS      MagPlusSingle MagPlus
                   CONDITION HAVE_FORTRAN
                   ENVIRONMENT MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/..
                   LINKER_LANGUAGE Fortran )
@@ -39,7 +39,7 @@ ecbuild_add_test( TARGET bufr_python
 
 ecbuild_add_test( TARGET bufr_fortran
                   SOURCES   bufr.f90
-                  LIBS      MagPlusSingleShared MagPlusShared
+                  LIBS      MagPlusSingle MagPlus
                   CONDITION HAVE_BUFR AND HAVE_FORTRAN
                   RESOURCES data.bufr
                   LINKER_LANGUAGE Fortran 
@@ -64,7 +64,7 @@ ecbuild_add_test( TARGET grib_python
 
 ecbuild_add_test( TARGET grib_fortran
                   SOURCES   grib.f90
-                  LIBS      MagPlusSingleShared MagPlusShared
+                  LIBS      MagPlusSingle MagPlus
                   RESOURCES data.grib
                   CONDITION HAVE_GRIB AND HAVE_FORTRAN
                   ENVIRONMENT MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/..
@@ -81,7 +81,7 @@ ecbuild_add_test( TARGET cairo_python
 
 ecbuild_add_test( TARGET cairo_fortran
                   SOURCES   cairo.f90
-                  LIBS      MagPlusSingleShared MagPlusShared
+                  LIBS      MagPlusSingle MagPlus
                   CONDITION HAVE_CAIRO AND HAVE_FORTRAN
                   ENVIRONMENT MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/..
                   LINKER_LANGUAGE Fortran )
