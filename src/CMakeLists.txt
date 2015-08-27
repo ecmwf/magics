@@ -105,7 +105,7 @@ endif()
 
 include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/common )
 
-ecbuild_add_library( TARGET    MagPlusShared
+ecbuild_add_library( TARGET    MagPlus
                      DEPENDS   magics_params
                      SOURCES
                         magics.h
@@ -126,20 +126,17 @@ ecbuild_add_library( TARGET    MagPlusShared
                         ${MAGICS_EXTRA_DEFINITIONS} MAGICS_EXCEPTION=on
                      LIBS
                         ${MAGICS_EXTRA_LIBRARIES}
-                     TYPE SHARED
-                     OUTPUT_NAME MagPlus )
+                     TYPE SHARED )
 
-ecbuild_add_library( TARGET      MagPlusSingleShared 
+ecbuild_add_library( TARGET      MagPlusSingle
                      SOURCES     MagicsSingle.cc
-                     LIBS        MagPlusShared
-                     TYPE        SHARED
-                     OUTPUT_NAME MagPlusSingle )
+                     LIBS        MagPlus
+                     TYPE        SHARED )
 
-ecbuild_add_library( TARGET      MagPlusDoubleShared 
+ecbuild_add_library( TARGET      MagPlusDouble
                      SOURCES     MagicsDouble.cc
-                     LIBS        MagPlusShared
-                     TYPE        SHARED
-                     OUTPUT_NAME MagPlusDouble )
+                     LIBS        MagPlus
+                     TYPE        SHARED )
 
 if ( BUILD_SHARED_LIBS STREQUAL "BOTH" )
 ecbuild_add_library( TARGET    MagPlusStatic
