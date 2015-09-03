@@ -202,25 +202,26 @@ find_package( EXPAT  REQUIRED )
 set( MAGICS_TPLS grib_api spot EXPAT NetCDF PangoCairo PNG Proj4 libemos )
 
 set( MAGICS_INCLUDE_DIRS 
-        ${CMAKE_CURRENT_SOURCE_DIR}/src 
-        ${CMAKE_BINARY_SOURCE_DIR}/src 
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/common 
-        ${CMAKE_CURRENT_BINARY_DIR}/src/params 
-        ${CMAKE_CURRENT_BINARY_DIR}/src 
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/common  
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/basic
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/web
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/visualisers
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/drivers
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/drivers/MgQ
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/eckit_readers
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/decoders
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/terralib
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/terralib/kernel
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/terralib/utils
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/libMagWrapper
-        ${Boost_INCLUDE_DIRS} )
-    
+     ${CMAKE_CURRENT_SOURCE_DIR}/src 
+     ${CMAKE_BINARY_SOURCE_DIR}/src 
+     ${CMAKE_CURRENT_SOURCE_DIR}/src/common 
+     ${CMAKE_CURRENT_BINARY_DIR}/src/params 
+     ${CMAKE_CURRENT_BINARY_DIR}/src 
+     ${CMAKE_CURRENT_SOURCE_DIR}/src/common  
+     ${CMAKE_CURRENT_SOURCE_DIR}/src/basic
+     ${CMAKE_CURRENT_SOURCE_DIR}/src/web
+     ${CMAKE_CURRENT_SOURCE_DIR}/src/visualisers
+     ${CMAKE_CURRENT_SOURCE_DIR}/src/drivers
+     ${CMAKE_CURRENT_SOURCE_DIR}/src/drivers/MgQ
+     ${CMAKE_CURRENT_SOURCE_DIR}/src/eckit_readers
+     ${CMAKE_CURRENT_SOURCE_DIR}/src/decoders
+     ${CMAKE_CURRENT_SOURCE_DIR}/src/terralib
+     ${CMAKE_CURRENT_SOURCE_DIR}/src/terralib/kernel
+     ${CMAKE_CURRENT_SOURCE_DIR}/src/terralib/utils
+     ${CMAKE_CURRENT_SOURCE_DIR}/src/libMagWrapper
+     ${Boost_INCLUDE_DIRS}
+     ${PANGOCAIRO_INCLUDE_DIRS} )
+
 if( HAVE_ODB )
   list( APPEND MAGICS_TPLS odb_api )
   list( APPEND MAGICS_INCLUDE_DIRS
