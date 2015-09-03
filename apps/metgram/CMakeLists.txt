@@ -2,6 +2,9 @@
 configure_file( metgram  metgram COPYONLY )
 configure_file( metgram-script.in  metgram.sh @ONLY )
 
+# Set metgram script path for use by dependencies in a bundle
+set( MAGICS_METEOGRAM_SCRIPT ${CMAKE_CURRENT_SOURCE_DIR}/metgram )
+
 install ( DIRECTORY templates DESTINATION ${INSTALL_DATA_DIR}/.. FILE_PERMISSIONS OWNER_READ GROUP_READ WORLD_READ)
 
 
