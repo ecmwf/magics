@@ -229,13 +229,6 @@ if( HAVE_ODB )
         ${ODB_API_INCLUDE_DIRS}/../eclib )
 endif()
 
-
-if (metview)
-    # required if building as part of a bundle
-    list( APPEND MAGICS_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/src/libMagWrapper)
-endif()
-
-
 set( MAGICS_LIBRARIES    MagPlus )
 
 foreach( _tpl ${MAGICS_TPLS} )
