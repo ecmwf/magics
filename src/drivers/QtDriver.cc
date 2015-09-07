@@ -1260,13 +1260,9 @@ MAGICS_NO_EXPORT void QtDriver::renderText(const Text& text) const
 			if(an !=0 &&  an != 360)
 			{
 #ifdef MAGICS_QT5
-//				item->moveBy(x,y);
-				item->setPos(x,y);
-	//			item->setTransform(QTransform::fromTranslate(x, y), true);
-				item->setRotation(an);
-//				item->moveBy(-x,-y);
-				item->setPos(-x,-y);
-	//			item->setTransform(QTransform::fromTranslate(-x, -y), true);
+			    item->setTransform(QTransform::fromTranslate(x, y), true);
+				item->setTransform(QTransform().rotate(an), true);                
+				item->setTransform(QTransform::fromTranslate(-x, -y), true);              
 #else
 				item->translate(x,y);
 				item->rotate(an);
