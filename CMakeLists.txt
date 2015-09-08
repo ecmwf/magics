@@ -122,8 +122,8 @@ endif()
 
 ### grib
 
-#cmake_add_cxx_flags("-gdwarf-2")
-cmake_add_c_flags("-std=c99")
+#ecbuild_add_cxx_flags("-gdwarf-2")
+ecbuild_add_c_flags("-std=c99")
 
 #set( grib no )
 #if( HAVE_GRIB )
