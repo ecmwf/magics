@@ -134,11 +134,10 @@ public:
 	void label(Transformation&);
 	void add(Text* text) const
 	{
-		MagFont font;
+		MagFont font(font_, font_style_, height_);
 		font.colour(*colour_);
-		font.size(height_);
 		text->setFont(font);
-		text->setBlanking(true);
+		text->setBlanking(blanking_);
 		layer_->push_back(text);
 	}
 

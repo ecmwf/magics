@@ -16,7 +16,7 @@ function( add_metview_definition_file )
      
     add_custom_command( 
             OUTPUT ${_p_BASENAME}Def ${_p_BASENAME}Rules
-            COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_SOURCE_DIR}/tools/xml2mv.py ${CMAKE_CURRENT_SOURCE_DIR} ${_p_FILE}  ${_p_BASENAME}Def ${_p_ACTION} ${_p_BASENAME}Rules
+            COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/../../tools/xml2mv.py ${CMAKE_CURRENT_SOURCE_DIR} ${_p_FILE}  ${_p_BASENAME}Def ${_p_ACTION} ${_p_BASENAME}Rules
             DEPENDS ${_p_FILE}
       )
      
@@ -40,7 +40,7 @@ foreach( file ${magics_xmls} )
       # generate the code
       add_custom_command( 
             OUTPUT  ${ouputfiles}
-            COMMAND ${PERL_EXECUTABLE} ${CMAKE_SOURCE_DIR}/tools/xml2cc_new.pl ${CMAKE_CURRENT_SOURCE_DIR}/${file} ${CMAKE_CURRENT_BINARY_DIR}/params nosubdir
+            COMMAND ${PERL_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/../tools/xml2cc_new.pl ${CMAKE_CURRENT_SOURCE_DIR}/${file} ${CMAKE_CURRENT_BINARY_DIR}/params nosubdir
             DEPENDS ${file}
       )
 
@@ -53,7 +53,6 @@ endforeach()
      
 if ( metview )
 
-      
 	foreach( file ${metview_xmls} )
 	      get_filename_component( path     ${file} PATH   )
           get_filename_component( basefile ${file} NAME_WE )
@@ -64,7 +63,7 @@ if ( metview )
 		# generate the code
 		  add_custom_command( 
 				OUTPUT  ${metviewfiles}
-				COMMAND ${PERL_EXECUTABLE} ${CMAKE_SOURCE_DIR}/tools/xml2mv.pl ${CMAKE_CURRENT_SOURCE_DIR}/${file} ${CMAKE_CURRENT_BINARY_DIR}/params nosubdir
+				COMMAND ${PERL_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/../tools/xml2mv.pl ${CMAKE_CURRENT_SOURCE_DIR}/${file} ${CMAKE_CURRENT_BINARY_DIR}/params nosubdir
 				DEPENDS ${file}
 			)
 
@@ -75,16 +74,14 @@ if ( metview )
 
      if(qt)
         SET(qt_drivers_HEADERS drivers/MgQ/MgQPlotScene.h)
-        QT4_WRAP_CPP(qt_drivers_HEADERS_MOC ${qt_drivers_HEADERS})
+        if( MAGICS_QT5 )
+          QT5_WRAP_CPP(qt_drivers_HEADERS_MOC ${qt_drivers_HEADERS})
+        else()
+          QT4_WRAP_CPP(qt_drivers_HEADERS_MOC ${qt_drivers_HEADERS})
+        endif()        
         list( APPEND drivers_srcs  drivers/MgQ/MgQPlotScene.cc  ${qt_drivers_HEADERS_MOC})
      endif()
-
 endif()
-	 
-
-
-
-
 
 
 add_custom_target( magics_params DEPENDS ${magics_params_srcs} )

@@ -104,8 +104,8 @@ protected:
 	 void setNormal(double&, double&) {}
 
 	 IntervalMap<Colour>  map_;
-	 virtual double minSpeed() { ASSERT(false); return 0;}
-	 virtual double maxSpeed() { ASSERT(false); return 0;}
+	 virtual double minSpeed() { NOTIMP; return 0;}
+	 virtual double maxSpeed() { NOTIMP; return 0;}
 	 
 
 private:

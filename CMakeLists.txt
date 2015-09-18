@@ -33,27 +33,46 @@ set(INSTALL_INCLUDE_DIR include/magics CACHE PATH "Magics installation directory
 
 set( CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/../ecbuild/cmake")
 
-include( ecbuild_system )
+include( ecbuild_system NO_POLICY_SCOPE )
 
-ecbuild_requires_macro_version( 1.2 )
+ecbuild_requires_macro_version( 1.9 )
 
 ###############################################################################
 # some variables of this project
 
-option( ENABLE_GRIB           "enable grib support"               ON  )
+ecbuild_use_package(PROJECT grib_api VERSION 1.12.3 REQUIRED)
+
+ecbuild_add_option( FEATURE BUFR
+                    DEFAULT ON
+                    DESCRIPTION "BUFR support"
+                    REQUIRED_PACKAGES "PROJECT libemos VERSION 4.0.5" )
+
+ecbuild_add_option( FEATURE ODB
+                    DEFAULT ON
+                    DESCRIPTION "ODB support"
+                    REQUIRED_PACKAGES "PROJECT odb_api VERSION 0.10.2" )
+
+ecbuild_add_option( FEATURE CAIRO
+                    DEFAULT ON
+                    DESCRIPTION "cairo support[png/jpeg]"
+                    REQUIRED_PACKAGES PangoCairo )
+
+ecbuild_add_option( FEATURE GEOTIFF
+                    DEFAULT OFF
+                    DESCRIPTION "geotiff support [implies cairo]"
+                    CONDITION HAVE_CAIRO
+                    REQUIRED_PACKAGES GeoTIFF )
+
 option( ENABLE_NETCDF         "enable netcdf support"             ON  )
 
-option( ENABLE_ODB            "enable odb"                        OFF )
-option( ENABLE_BUFR           "enable bufr support"               OFF )
 option( ENABLE_SPOT           "enable spot support"               OFF )
-option( ENABLE_CAIRO          "enable cairo support[png/jpeg]"    OFF )
-option( ENABLE_GEOTIFF        "enable geotiff support [implies cairo]" OFF )
 
 option( ENABLE_PYTHON         "enable python interface"   ON  )
 option( ENABLE_FORTRAN        "enable fortran interface"  ON  )
 
 option( ENABLE_METVIEW        "enable Metview interface"  OFF  )
 option( ENABLE_METVIEW_NO_QT  "enable Metview interface without Qt"    OFF )
+option( ENABLE_QT5            "use Qt5 instead of version 4"        OFF )
 
 option( ENABLE_STATIC_LIBRARY    "Internal Build static Library"    OFF  )
 option( ENABLE_REGRESSION        "Internal use only: enable regression test"  OFF  )
@@ -65,7 +84,7 @@ set( MAGICS_SITE          "ecmwf" )
 set( MAGICS_INSTALL_PATH  ${CMAKE_INSTALL_PREFIX} )
 
 # Regression definitions
-set( MAGICS_REFERENCE_VERSIONS            "2.24.5" )
+set( MAGICS_REFERENCE_VERSIONS            "2.24.7" )
 set( MAGICS_HTML_ROOT        "${CMAKE_BINARY_DIR}/regression/html")
 file(MAKE_DIRECTORY ${MAGICS_HTML_ROOT} )
 
@@ -103,17 +122,14 @@ endif()
 
 ### grib
 
-#cmake_add_cxx_flags("-gdwarf-2")
-cmake_add_c_flags("-std=c99")
+#ecbuild_add_cxx_flags("-gdwarf-2")
+ecbuild_add_c_flags("-std=c99")
 
-set( grib no )
-if( ENABLE_GRIB )
-  ecbuild_use_package( PROJECT grib_api VERSION 1.9 REQUIRED)
-endif()
-if( GRIB_API_FOUND )
+#set( grib no )
+#if( HAVE_GRIB )
    set( MAGICS_GRIB 1 )
    set( grib yes )
-endif()
+#endif()
 
 ### netcdf
 
@@ -132,10 +148,7 @@ endif()
 ### odb
 
 set( odb no )
-if( ENABLE_ODB )
-  ecbuild_use_package( PROJECT odb_api  VERSION 0.10.2 REQUIRED)
-endif()
-if( ODB_API_FOUND )
+if( HAVE_ODB )
 
     get_filename_component( odb_api_install_dir ${ODB_API_CMAKE_DIR}/../../../lib ABSOLUTE )
     get_filename_component( eckit_install_dir   ${ECKIT_CMAKE_DIR}/../../../lib ABSOLUTE )
@@ -146,7 +159,7 @@ if( ODB_API_FOUND )
 	  # does this version use eckit?
 	  list(FIND ODB_API_LIBRARIES eckit ODB_ECKIT_INDEX)
 
-    if (NOT ODB_ECKIT_INDEX EQUAL -1)  # is an eckit version
+    if ((NOT ODB_ECKIT_INDEX EQUAL -1) OR (DEFINED ODB_ECKIT))  # is an eckit version
         add_definitions(-DODB_ECKIT)
     endif()
 
@@ -166,11 +179,7 @@ endif()
 
 ### bufr
 
-set( bufr no )
-if( ENABLE_BUFR )
-  find_package( EMOS REQUIRED )
-endif()
-if( EMOS_FOUND )
+if( HAVE_BUFR ) # set by ecbuild_add_option()
    set( MAGICS_BUFR 1 )
    set( bufr yes)
 endif()
@@ -179,22 +188,14 @@ endif()
 ### cairo
 
 set( cairo no )
-if( ENABLE_CAIRO )
-	find_package( PangoCairo REQUIRED )
-else()
-    find_package( PangoCairo )
-endif()
     
-if( PANGOCAIRO_FOUND )
+if( HAVE_CAIRO )
 	set( MAGICS_CAIRO 1 )
 	set( cairo yes )
-	if( ENABLE_GEOTIFF )
-	   find_package( GeoTIFF REQUIRED )
-	   if( GEOTIFF_FOUND )
+  if( HAVE_GEOTIFF )
 	      set( MAGICS_GEOTIFF 1 )
 	   endif()
 	endif()
-endif()
 
 ecbuild_add_option( FEATURE PNG
     DESCRIPTION "support for PNG decoding/encoding"
@@ -223,13 +224,29 @@ endif()
 
 if( ENABLE_METVIEW )
     set ( metview yes)
+    message(STATUS "TESTING for Metview ...")
     unset(MAGICS_ONLY)
+
+    if( ENABLE_QT5 )
+      find_package(Qt5Widgets REQUIRED)
+      if( Qt5Widgets_FOUND )
+          message(STATUS "Qt5 was found ... ${Qt5Widgets_VERSION_STRING}")
+          include_directories(${Qt5Widgets_INCLUDE_DIRS})
+          set( MAGICS_QT 1)
+          set( MAGICS_QT5 1)
+          set( qt yes)
+          add_definitions( -DMAGICS_QT5 )
+      else()
+          message(FATAL_ERROR "Qt5 was NOT found ...")
+      endif()
+    else( ENABLE_QT5 )
     find_package(Qt4 4.4.3 REQUIRED QtCore QtGui QtXml )
     if( QT_FOUND )
 		  include( ${QT_USE_FILE} )
 		  set( MAGICS_QT 1)
 		  set( qt yes)
     endif()
+    endif( ENABLE_QT5 )
 endif()
 
 ecbuild_declare_project()
@@ -259,7 +276,12 @@ install( FILES ${CMAKE_CURRENT_BINARY_DIR}/magics-config
 ###############################################################################
 # contents
 
-set( MAGICS_TPLS grib_api spot odb_api EXPAT NetCDF PangoCairo PNG Proj4 EMOS)
+set( MAGICS_TPLS grib_api spot odb_api EXPAT NetCDF PangoCairo PNG Proj4 libemos )
+
+if (DEFINED SEPARATE_ECKIT)
+    list (APPEND MAGICS_TPLS eckit)
+endif()
+
 set( MAGICS_INCLUDE_DIRS 
         ${CMAKE_CURRENT_SOURCE_DIR}/src 
         ${CMAKE_BINARY_SOURCE_DIR}/src 
@@ -277,6 +299,7 @@ set( MAGICS_INCLUDE_DIRS
         ${CMAKE_CURRENT_SOURCE_DIR}/src/terralib
         ${CMAKE_CURRENT_SOURCE_DIR}/src/terralib/kernel
         ${CMAKE_CURRENT_SOURCE_DIR}/src/terralib/utils
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/libMagWrapper
         ${Boost_INCLUDE_DIRS} )
     
 if( MAGICS_ODB )
@@ -286,25 +309,48 @@ if( MAGICS_ODB )
 	)
 endif()
 
+
+if (metview)
+    # required if building as part of a bundle
+    list( APPEND MAGICS_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/src/libMagWrapper)
+endif()
+
+
 set( MAGICS_LIBRARIES    MagPlus )
+
+
+
+# remove eckit_cmd because it's not needed for Magics, and causes problems when linked
+# with Metview
+list(REMOVE_ITEM ODB_API_LIBRARIES eckit_cmd)
+
 
 foreach( _tpl ${MAGICS_TPLS} )
     string( TOUPPER ${_tpl} TPL )
+    if( NOT ${TPL} STREQUAL "LIBEMOS" ) # don't add libemos definitions
     list( APPEND MAGICS_EXTRA_DEFINITIONS   ${${TPL}_DEFINITIONS}  )
+    endif()
     list( APPEND MAGICS_EXTRA_INCLUDE_DIRS  ${${TPL}_INCLUDE_DIRS} )
     list( APPEND MAGICS_EXTRA_LIBRARIES     ${${TPL}_LIBRARIES} )
 endforeach()
 
 if( MAGICS_BUFR )
 	list( APPEND MAGICS_EXTRA_DEFINITIONS   fortfloat=double fortint=int )
+    ecbuild_find_fortranlibs()
+	list( APPEND MAGICS_EXTRA_LIBRARIES ${FORTRAN_LIBRARIES} )
 endif()
 if( WITH_QT_DEBUG )
 	list( APPEND MAGICS_EXTRA_DEFINITIONS QT_NO_DEBUG_OUTPUT )
 endif()
 
 if( MAGICS_QT )
+  if( MAGICS_QT5 )
+    list( APPEND MAGICS_EXTRA_INCLUDE_DIRS  ${Qt5Widgets_INCLUDE_DIR} )
+    list( APPEND MAGICS_EXTRA_LIBRARIES     ${Qt5Widgets_LIBRARIES} )
+  else()
 	list( APPEND MAGICS_EXTRA_INCLUDE_DIRS  ${QT_INCLUDE_DIR} )
 	list( APPEND MAGICS_EXTRA_LIBRARIES     ${QT_LIBRARIES} )
+endif()
 endif()
 
 if( MAGICS_GEOTIFF )
@@ -422,7 +468,6 @@ if( ODB_API_FOUND )
     set(MAGICS_RPATH "${MAGICS_RPATH}  -Wl,-rpath,${eckit_install_dir}" ) 
     set(MAGICS_RPATH "${MAGICS_RPATH}  -Wl,-rpath,${odb_api_install_dir}" )
 endif()
-
 
 
 

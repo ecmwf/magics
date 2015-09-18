@@ -5,6 +5,7 @@ list( APPEND _drivers_srcs
   System.h BaseDriverImages.h BaseDriverWind.h BaseDriverSymbols.h 
   BaseDriver.cc DriverManager.cc BinaryDriver.cc PostScriptDriver.cc
   KMLDriver.h  KMLDriver.cc
+  GeoJsonDriver.h  GeoJsonDriver.cc
   SVGDriver.h  SVGDriver.cc
 # minizip
   minizip/ioapi.c minizip/zip.c
@@ -39,7 +40,11 @@ if( MAGICS_QT )
           MgQ/MgQPattern.cc MgQ/MgQHistoItem.cc
    )   
    set (qt_files_HEADERS MgQ/MgQPlotScene.h)
-   QT4_WRAP_CPP(qt_files_HEADERS_MOC ${qt_files_HEADERS})
+   if( MAGICS_QT5 )
+     QT5_WRAP_CPP(qt_files_HEADERS_MOC ${qt_files_HEADERS})
+   else()
+     QT4_WRAP_CPP(qt_files_HEADERS_MOC ${qt_files_HEADERS})
+   endif()
    list( APPEND qt_srcs   ${qt_files_HEADERS_MOC}) 
 endif()
 

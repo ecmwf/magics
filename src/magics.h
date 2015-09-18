@@ -175,6 +175,7 @@ public:
 
 typedef magvector<string>	stringarray;
 typedef magvector<int>		intarray;
+typedef magvector<long int>		longintarray;
 typedef magvector<double>	doublearray;
 typedef magvector<double>	floatarray;
 
@@ -188,7 +189,7 @@ enum Shading { M_SH_NONE, M_SH_SOLID, M_SH_HATCH, M_SH_DOT };
 enum ArrowPosition { M_TAIL, M_CENTRE };
 enum DisplayType { ABSOLUTE, INLINE, BLOCK, NONE, HIDDEN };
 enum ListPolicy { M_LASTONE, M_CYCLE };
-enum GraphicsFormat {PS, EPS, PDF, SVG, KML, PNG, X, CPS, CSVG, GIF, AGIF, JPG, QT};
+enum GraphicsFormat {PS, EPS, PDF, SVG, KML, PNG, X, CPS, CSVG, GIF, AGIF, JPG, QT, GEOJSON};
 enum AxisAutomaticSetting {m_off, m_both, m_min_only, m_max_only};
 
 /*

@@ -62,6 +62,7 @@
 
 #include <SVGDriverWrapper.h>
 #include <KMLDriverWrapper.h>
+#include <GeoJsonDriverWrapper.h>
 
 #ifdef MAGICS_QT
 #include <QtDriver.h>
@@ -237,6 +238,7 @@ MagPlus::MagPlus() : root_(0), superpage_(-1), geographical_(true), mode_(intera
  	driverCreators_["PSOUTPUT"] = &MagPlus::psdriver;
         driverCreators_["PNGOUTPUT"] = &MagPlus::pngdriver;
         driverCreators_["KMLOUTPUT"] = &MagPlus::kmldriver;
+        driverCreators_["GEOJSONOUTPUT"] = &MagPlus::geojsondriver;
         driverCreators_["PDFOUTPUT"] = &MagPlus::pdfdriver;
         driverCreators_["SVGOUTPUT"] = &MagPlus::svgdriver;
         driverCreators_["EPSOUTPUT"] = &MagPlus::epsdriver;
@@ -373,6 +375,17 @@ bool MagPlus::kmldriver(magics::MagRequest& in)
 	return false;
 }
 
+bool MagPlus::geojsondriver(magics::MagRequest& in)
+{
+	GeoJsonDriverWrapper helper;
+	in("GEOJSON_DESCRIPTION") = "Metview/Magics++";
+	helper.set(in); 
+	mode_ = paper;
+	drivers_.push_back(helper.object());   
+
+	return false;
+}
+
 bool MagPlus::page_update(magics::MagRequest& in)
 {
 
@@ -398,7 +411,6 @@ bool MagPlus::page(magics::MagRequest& in)
 
 	while ( !empty() ) pop();
 
-	replace_string(in, "PAGE_FRAME_COLOUR", "BLUE", "grey");
 	geographical_ = true;
 	in.print();
 	FortranSceneNodeWrapper scenehelper;
@@ -575,7 +587,9 @@ bool MagPlus::cartesianGrid(magics::MagRequest& in) {
 		top()->push_back(vaxis);
 
 	}
+	return true; //< @note return value was missing, what should it return?
 }
+
 bool MagPlus::tephiGrid(magics::MagRequest& in)
 {
 	magics::MagRequest& tephi = in.getSubRequest("THERMO_GRID");
@@ -597,6 +611,7 @@ bool MagPlus::tephiGrid(magics::MagRequest& in)
 		top()->push_back(grid);
 
 	}
+	return true; //< @note return value was missing, what should it return?
 }
 bool MagPlus::taylorGrid(magics::MagRequest& in)
 {
@@ -618,11 +633,13 @@ bool MagPlus::taylorGrid(magics::MagRequest& in)
 		grid->icon("Taylor Grid", "MTAYLOR");
 		top()->push_back(grid);
 	}
+	return true; //< @note return value was missing, what should it return?
 }
 bool MagPlus::oldcoastlines(magics::MagRequest& in)
 {
 	replace_string(in, "MAP_COASTLINE_RESOLUTION", "MEDIUM", "automatic");
 	coastlines(in);
+	return true; //< @note return value was missing, what should it return?
 }
 bool MagPlus::coastlines(magics::MagRequest& in)
 {

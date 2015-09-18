@@ -120,6 +120,7 @@ public:
 		void visit(MagnifierCollector&);
 		void visit(ValuesCollector&);
 		void visit(Transformation&);
+		void visit(MetaDataVisitor&);
 
 		 const DateDescription& timeStamp();
 		 const LevelDescription& level() ;
@@ -196,10 +197,17 @@ public:
 	void      read(Matrix **matrix, const Transformation&);
 	bool      id(const string&, const string&) const;
 
+	grib_nearest* nearest_point_handle(bool keep);
+    void nearestGridpoints(double *inlats, double *inlons, double *outlats, double *outlons, double *values, double *distances, int nb, string &representation);
 
 	grib_handle*  uHandle(string&);
 	grib_handle*  vHandle(string&);
 	grib_handle*  cHandle(string&);
+
+	double uComponent(int);
+	double vComponent(int);
+	void uComponent();
+	void vComponent();
 
 	grib_handle*  handle() const { return handle_; }
         void initInfo();
@@ -211,6 +219,8 @@ protected:
 	void handle(grib_handle*);
 
 	mutable Matrix*     matrix_;
+	mutable double*     xValues_;
+	mutable double*     yValues_;
 	mutable Matrix*     xComponent_;
 	mutable Matrix*     yComponent_;
 	mutable Matrix*     colourComponent_;
@@ -232,6 +242,7 @@ protected:
 
 
 	grib_handle*  handle_;
+	grib_nearest* nearest_;
 	grib_handle*  field_;
 	grib_handle*  component1_;
 	grib_handle*  component2_;
@@ -337,7 +348,7 @@ protected:
     GribDecoder* currentgrib_;
 	friend class GribDecoder;
 	vector<int>::iterator currentDim_;
-	vector<int>::iterator currentPos_;
+	vector<long int>::iterator currentPos_;
 
 
 	FILE* file_;

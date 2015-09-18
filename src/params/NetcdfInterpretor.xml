@@ -18,6 +18,12 @@
         
          	<parameter member="field" to="string" default="" from="string" name="netcdf_value_variable">
               		<documentation>Variable to plot</documentation>
+        	</parameter> 	
+        	<parameter member="u_component" to="string" default="" from="string" name="netcdf_x_component_variable">
+              		<documentation>x_component for vector plotting</documentation>
+        	</parameter> 
+       		<parameter member="v_component" to="string" default="" from="string" name="netcdf_y_component_variable">
+              		<documentation>y_component for vector plotting</documentation>
         	</parameter> 
        
           	<parameter member="scaling" to="float" default="1" from="float" name="netcdf_field_scaling_factor">
