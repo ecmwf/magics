@@ -52,6 +52,9 @@ WrepJSon::WrepJSon()  : missing_(-9999),
 		station_longitude_(9999), 
 		latitude_(0), longitude_(0)
 {
+	methods_["date"] = &WrepJSon::date;
+	methods_["time"] = &WrepJSon::time;
+	methods_["eps_height"] = &WrepJSon::epsz;
 	methods_["height"] = &WrepJSon::height;
 	methods_["deterministic_height"] = &WrepJSon::detz;
 	methods_["tracker"] = &WrepJSon::ignore;
@@ -62,6 +65,7 @@ WrepJSon::WrepJSon()  : missing_(-9999),
 	methods_["land_sea_mask"] = &WrepJSon::mask;
 	methods_["metadata"] = &WrepJSon::metadata;
 	methods_["points_along_meridian"] = &WrepJSon::points_along_meridian;
+	methods_["valid_time"] = &WrepJSon::valid_time;
 	
 	methods_["x_values"] = &WrepJSon::x_values;
 	methods_["x_date_values"] = &WrepJSon::x_date_values;
@@ -667,7 +671,19 @@ void WrepJSon::time(const json_spirit::Value& value)
 	MagLog::dev() << "found -> time= " <<  value.get_value<string>() << endl;
 	time_ =  value.get_value<string>();
 }
+void WrepJSon::valid_time(const json_spirit::Value& value)
+{
 
+	ASSERT( value.type() == str_type);
+
+	// intrepret datetime ...
+	string info = value.get_value<string>();
+	DateTime to(info.substr(0,8), info.substr(8,4));
+	DateTime from = to + (-24*3600L);
+	ostringstream vt;
+	vt << "from " << from.tostring("%A %e %B %Y %H UTC") << " to " << to.tostring("%A %e %B %Y %H UTC") << endl;
+	valid_time_ =  vt.str();
+}
 void WrepJSon::parameter(const json_spirit::Value& value)
 {
 	ASSERT( value.type() == obj_type );
@@ -689,6 +705,13 @@ void WrepJSon::parameter(const json_spirit::Value& value)
 	        	     }
 	        	}
 	        	else {
+	        		bool add = true;
+	        		for ( vector<string>::iterator i = ignore_keys_.begin(); i != ignore_keys_.end(); ++i)
+	        			if ( *i == info->name_ )
+	        				add = false;
+	        		if ( !add ) {
+	        			continue;
+	        		}
 	        		map<string, vector<double> >& xv = current_->values_;
 	        		xv.insert(make_pair(info->name_, vector<double>()));
 	        		vector<double>& vals =  xv[info->name_];
@@ -948,7 +971,7 @@ void WrepJSon::clim(const json_spirit::Value& value)
 
 	dig(value);
 
-	clim_.print();
+	//clim_.print();
 
 
 
@@ -967,11 +990,12 @@ void WrepJSon::efi(const json_spirit::Value& value)
 	        	current_ = &(efi_[info->name_]);
 	        	dig(info->value_);   
 	  }
-	        
+	/*
 	for (map<string,  InputWrep>::iterator info = efi_.begin(); info !=  efi_.end(); ++info) {
 		
 		info->second.print();
 	}
+	*/
 	        
 	
 }
@@ -990,11 +1014,12 @@ void WrepJSon::eps(const json_spirit::Value& value)
 			        	current_ = &(eps_[info->name_]);
 			        	dig(info->value_);   
 			  }
-			        
+			/*
 			for (map<string,  InputWrep>::iterator info = eps_.begin(); info !=  eps_.end(); ++info) {
 				
-				info->second.print();
+				//info->second.print();
 			}
+			*/
 }
 	 
 double WrepJSon::correctDetz(double value)
@@ -1283,7 +1308,8 @@ void WrepJSon::visit(TextVisitor& text)
 	//(**point)["y"]
 	text.update("json", "product_info", product_info_);
 	text.update("json", "plumes_interval", tostring(plumes_));
-
+	text.update("json", "efi_date", valid_time_);
+	text.update("json", "min_max_values", "Max = " +  tostring(maground(maxx_)) + ", Min = " +  tostring(maground(minx_)));
 }
 
 void WrepJSon::points(const Transformation& transformation, vector<UserPoint>& points)

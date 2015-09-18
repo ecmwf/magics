@@ -3,10 +3,13 @@ add_magics_test(NAME gallery_axis1 SOURCES axis1.py IMAGE axis1.png THRESHOLD 5 
 add_magics_test(NAME gallery_axis2 SOURCES axis2.py IMAGE axis2.png  THRESHOLD 5 PYTHON)
 add_magics_test(NAME gallery_axis3 SOURCES axis3.py IMAGE axis3.png  THRESHOLD 5 PYTHON)
 add_magics_test(NAME gallery_axis4 SOURCES axis4.py IMAGE axis4.png  THRESHOLD 5 PYTHON)
+
 add_magics_test(NAME gallery_coastlines1 SOURCES coastlines1.py IMAGE coastlines1.png  THRESHOLD 5 PYTHON)
 add_magics_test(NAME gallery_coastlines2 SOURCES coastlines2.py IMAGE coastlines2.png  THRESHOLD 5 PYTHON)
 add_magics_test(NAME gallery_coastlines3 SOURCES coastlines3.py IMAGE coastlines3.png  THRESHOLD 5 PYTHON)
 add_magics_test(NAME gallery_coastlines4 SOURCES coastlines4.py IMAGE coastlines4.png  THRESHOLD 5 PYTHON)
+add_magics_test(NAME gallery_coastlines5 SOURCES coastlines5.py IMAGE coastlines5.png  THRESHOLD 5 PYTHON)
+
 add_magics_test(NAME gallery_contour1 SOURCES contour1.py IMAGE contour1.png DATA z500.grib THRESHOLD 5 PYTHON)
 add_magics_test(NAME gallery_contour10 SOURCES contour10.py IMAGE contour10.png DATA 2m_temperature.grib THRESHOLD 5 PYTHON)
 add_magics_test(NAME gallery_contour11 SOURCES contour11.py IMAGE contour11.png DATA Total_precipitation.grib THRESHOLD 5 PYTHON)

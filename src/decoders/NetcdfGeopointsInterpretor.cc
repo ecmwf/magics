@@ -363,6 +363,8 @@ bool NetcdfXYpointsInterpretor::interpretAsPoints(PointsList& list, const std::s
 			 	val++;
 			}
 			if ( !same(*y,ymissing) || !same(*x,xmissing) ) {
+				if ( same(*x,xmissing) )
+					cout << "found missing" << endl;
 				list.push_back(new UserPoint(*x,*y,value, (same(*y,ymissing) || same(*x,xmissing)) ));
 
 			}

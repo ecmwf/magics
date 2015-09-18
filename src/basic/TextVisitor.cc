@@ -102,7 +102,10 @@ void TextVisitor::getReady()
 
 
 void TextVisitor::visit(MetaDataVisitor& meta){
-	meta.add("magics.title", "\"" + label_ + "\"");
+	//meta.add("magics.title", "\"" + label_ + "\"");
+
+
+
 
 }
 
@@ -132,6 +135,7 @@ void  TextVisitor::visit() {
 			Text* text = new Text();
 
 			converter.decode(*line, text);	
+			label_ = label_ + *line + "<br/>";
 			currentTexts_[*line].push_back(text);
 		}
 	}
@@ -207,11 +211,14 @@ void TextVisitor::visit(BasicSceneObject& parent)
 
 			for (vector<TextEntry*  >::reverse_iterator entry = key->second.rbegin(); entry !=  key->second.rend(); ++entry) {
 				Text* text = new Text();
+
 				converter.decode((*entry)->entry_, text);
 				if (text->noText()) {
 					delete text;
 					continue;
 				}
+
+				label_ = label_ + converter.label() + "<br/>";
 				if ( currentTexts_.find(*line) == currentTexts_.end() )
 					currentTexts_[*line] = vector<Text*>();
 				currentTexts_[*line].push_back(text);

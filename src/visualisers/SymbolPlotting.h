@@ -57,7 +57,7 @@ public:
     bool needLegend() { return legend_; }
     virtual void visit(Data&, HistoVisitor&);
     void operator()(const PaperPoint&, BasicGraphicsObjectContainer&) const; 
-    
+    void  getReady(const LegendVisitor& legend) { legend_only_ = legend.only_; }
     
     void set(const map<string, string>& map ) { SymbolPlottingAttributes::set(map); }
     void set(const XmlNode& node ) { SymbolPlottingAttributes::set(node); }

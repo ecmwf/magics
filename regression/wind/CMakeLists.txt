@@ -21,4 +21,6 @@ add_magics_test(NAME wind_streamlines SOURCES streamlines.py IMAGE streamlines.p
 add_magics_test(NAME wind_streamlines SOURCES global_streamlines.py IMAGE global_streamlines.png DATA uv500.grb THRESHOLD 2 PYTHON)
 
 add_magics_test(NAME wind_ex SOURCES wind_ex.F IMAGE wind_ex.ps DATA uv500.grb THRESHOLD 5)
+add_magics_test(NAME wind_xsect_wind SOURCES xsect_wind.py IMAGE xsect_wind.png RESOURCES xsect_wind.nc THRESHOLD 2 PYTHON)
+
 #add_magics_test(NAME wind_netcdf_contwind SOURCES netcdf_contwind.py IMAGE netcdf_contwind.png DATA fc_surf.nc THRESHOLD 5 PYTHON)

@@ -24,14 +24,16 @@ public:
 	virtual operator double() const { return dvalue_; }
 	virtual operator string() const { return svalue_;}
 	virtual operator int() const { return ivalue_; }
+	virtual operator long int() const { return lvalue_; }
 	
 	virtual MagParam& operator=(int i) { ivalue_ = i; cout << "set int" << ivalue_ << endl; return *this;}
 	virtual MagParam& operator=(string s) { svalue_ = s; cout << "set string" << svalue_ << endl; return *this;}
 	virtual MagParam& operator=(double d) { dvalue_ = d; cout << "set double" << dvalue_ << endl; return *this; }
-
+	virtual MagParam& operator=(long int i) { ivalue_ = i; cout << "set long int" << ivalue_ << endl; return *this; }
 protected:
 	string svalue_;
     int ivalue_;
+    int lvalue_;
     double dvalue_;
 };
 

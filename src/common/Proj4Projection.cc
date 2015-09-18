@@ -284,7 +284,10 @@ void Proj4Projection::init()
 		full();
 	}
 
-
+	askedxmin_ =  std::min(min_pcx_, max_pcx_);
+	askedxmax_ =  std::max(min_pcx_, max_pcx_);
+	askedymin_ =  std::min(min_pcy_, max_pcy_);
+	askedymax_ =  std::max(min_pcy_, max_pcy_);
 }
 
 void Proj4Projection::full()
