@@ -1123,9 +1123,9 @@ DateDescription& SingleLayer::timeStamp() const
 ValuesCollectorPoint::~ValuesCollectorPoint()
 {
 	while (!empty()) {
-		ValuesCollectorData* data = back();
+		
 		pop_back();
-		//delete data;
+		
 	}
 }
 

@@ -110,7 +110,7 @@ public:
     
     virtual void operator()(Polyline& poly) {
     	if (poly.empty()) return;
-        PaperPoint point = poly.back();
+        
         //MagLog::dev() << "HIGHTLIGHT?--->" << point << "=" << point.value() << "\n";
         const_iterator high = find(poly.back().value());
         if ( high == end() ) return;

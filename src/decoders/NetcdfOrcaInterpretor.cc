@@ -138,8 +138,6 @@ bool NetcdfOrcaInterpretor::interpretAsMatrix(Matrix** data)
 		}
 
 
-		int r = 0;
-		int c = 0;
 
 		double lat11, lat12, lat21, lat22;
 		double lon11, lon12, lon21, lon22;

@@ -84,9 +84,8 @@ void Bar::operator()(Data& data, BasicGraphicsObjectContainer& out)
 
 	data.customisedPoints(out.transformation(), request, points, true);
 	if (points.empty()) return;
-	double previous =  (**points.begin())["x"];
-	double next =  (**points.begin())["x"];
-	double x, top, bottom, left, right;
+    double next =  (**points.begin())["x"];
+	double x, top, bottom;
 	
 	if (width_ == INT_MAX) {
 		if ( points.size() > 1 ) 

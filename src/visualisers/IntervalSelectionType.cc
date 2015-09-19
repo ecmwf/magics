@@ -82,8 +82,7 @@ void IntervalSelectionType::calculate(double min, double max, bool shading)
     
     
     double level = reference_;
-    double newref;
-
+    
     int i = 1;
     while ( level < lmax && !same(level, lmax) ) {
     	if ( level > lmin )

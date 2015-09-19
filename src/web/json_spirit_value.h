@@ -583,7 +583,7 @@ namespace json_spirit
         return internal_::get_value( *this, internal_::Type_to_type< T >() );
     }
 
-    static std::string value_type_to_string( const Value_type vtype )
+    inline static std::string value_type_to_string( const Value_type vtype )
     {
         switch( vtype )
         {
