@@ -616,7 +616,7 @@ void PolarStereographicProjection::labels(const LabelPlotting& label, DrawingVis
 	   	   label.add(text); // This will set the font!
 	   	   text->setText(writeLatitude(point));
 	       text->push_back(xy);
-	       text->setBlanking(true);
+
 
 	    }
 	}

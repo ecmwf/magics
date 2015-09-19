@@ -349,6 +349,7 @@ void TagConverter::check(const string& text) {
 		TagConverter converter(owner_);
 		converter.font(font_);
 		converter.decode(text, text_);
+		label_ = text;
 	}
 	
 
@@ -418,7 +419,7 @@ void TagConverter::decode(const string& line, Text* text)
 		tree.visit(*this);
 	else {
 
-		label_ += line;
+		//label_ += line;
 		text_->addText(line, font_);
 	}
 	if (automatic_ == 0 ) {

@@ -27,8 +27,8 @@ if(ODB_API_FOUND)
   message( STATUS "         libs     : [${ODB_API_LIBRARIES}]" )
 endif()
 
-if(EMOS_FOUND)
-  message( STATUS " EMOS   libs      : [${EMOS_LIBRARIES}]" )
+if(LIBEMOS_FOUND)
+  message( STATUS " LIBEMOS libs      : [${LIBEMOS_LIBRARIES}]" )
 endif()
 
 if(FORTRANLIBS_FOUND)

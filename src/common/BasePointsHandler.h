@@ -96,13 +96,13 @@ public:
 		}  
 	}
 	//! Method to set the current position to the first point.(abstract)
-	virtual void setToFirst()  {ASSERT(false);};
+	virtual void setToFirst()  {NOTIMP;};
 	//! Method to test the end of collection.
-	virtual bool more()  {ASSERT(false);return false;};
+	virtual bool more()  {NOTIMP;return false;};
 	//! Method to return the current value
-	virtual const UserPoint& current()  {ASSERT(false);};
+	virtual const UserPoint& current()  {NOTIMP;};
 	//! Method to advance
-	virtual void advance()  {ASSERT(false);};
+	virtual void advance()  {NOTIMP;};
 
 	virtual int size()  {
 		points_ = 0;

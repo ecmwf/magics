@@ -212,20 +212,15 @@ int geocoord2pixcoord(double latitude, double longitude, int coff, int loff,
     return (-1);
   }
   
-
   /* the forward projection is x and y */
-
   xx = atan( (-r2/r1) );
   yy = asin( (-r3/rn) );
-
 
   /* convert to pixel column and row using the scaling functions on */
   /* page 28, Ref. [1]. And finding nearest integer value for them. */
 
-
-  cc = coff + xx *  pow(2,-16) * cfac ;
-  ll = loff + yy *  pow(2,-16) * lfac ;
-
+  cc = coff + xx *  pow(2.,-16) * cfac ;
+  ll = loff + yy *  pow(2.,-16) * lfac ;
 
   ccc=nint(cc);
   lll=nint(ll);		
@@ -233,11 +228,8 @@ int geocoord2pixcoord(double latitude, double longitude, int coff, int loff,
   *column = ccc;
   *row = lll;
 
-      
   return (0);
-
 }
-
 
 
 

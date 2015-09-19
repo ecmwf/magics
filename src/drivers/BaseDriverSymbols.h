@@ -243,7 +243,11 @@ MAGICS_NO_EXPORT void BaseDriver::renderSymbolItem(const SymbolItem& symbol, con
 		sym = sym_[ii];
 		if(sym.id==symbol.symbol()) break;
 	}
-	if(ii==noSymbols) sym = sym_[0];
+	if(ii==noSymbols)
+	{
+	  sym = sym_[0];
+	  MagLog::warning() << "BaseDriver::renderSymbols("<<symbol.symbol()<<")-> symbol NOT available! use question mark."<< std::endl;
+	}
 
 	const unsigned int si = sym.elements.size();
 	const MFloat pX = 1. / coordRatioX_;
@@ -260,7 +264,7 @@ MAGICS_NO_EXPORT void BaseDriver::renderSymbolItem(const SymbolItem& symbol, con
 		{
 			const MFloat r  = atof(sym.elements[i].attributes["r"].c_str())  * scaling;
 			const MFloat cx = atof(sym.elements[i].attributes["cx"].c_str()) * scaling * pX;
-			const MFloat cy = atof(sym.elements[i].attributes["cy"].c_str()) * scaling * pY;
+			const MFloat cy = setSymbolY(atof(sym.elements[i].attributes["cy"].c_str()) * scaling * pY);
 			const int s = atoi(sym.elements[i].attributes["fill"].c_str());
 			circle(posX+cx,posY+cy,r,s);
 		}
@@ -268,14 +272,14 @@ MAGICS_NO_EXPORT void BaseDriver::renderSymbolItem(const SymbolItem& symbol, con
 		{
 			const MFloat r = atof(sym.elements[i].attributes["r"].c_str())   * scaling * pX;
 			const MFloat cx = atof(sym.elements[i].attributes["cx"].c_str()) * scaling * pX;
-			const MFloat cy = atof(sym.elements[i].attributes["cy"].c_str()) * scaling * pY;
+			const MFloat cy = setSymbolY(atof(sym.elements[i].attributes["cy"].c_str()) * scaling * pY);
 			snowflake(posX+cx,posY+cy,r);
 		}
 		else if(sym.elements[i].name == "drizzle")
 		{
 			const MFloat r = atof(sym.elements[i].attributes["r"].c_str())   * scaling * pX;
 			const MFloat cx = atof(sym.elements[i].attributes["cx"].c_str()) * scaling * pX;
-			const MFloat cy = atof(sym.elements[i].attributes["cy"].c_str()) * scaling * pY;
+			const MFloat cy = setSymbolY(atof(sym.elements[i].attributes["cy"].c_str()) * scaling * pY);
 			drizzle(posX+cx,posY+cy,r);
 		}
 		else if(sym.elements[i].name == "triangle")
@@ -283,7 +287,7 @@ MAGICS_NO_EXPORT void BaseDriver::renderSymbolItem(const SymbolItem& symbol, con
 			const MFloat r = atof(sym.elements[i].attributes["r"].c_str()) * scaling * pX;
 			const int s = atoi(sym.elements[i].attributes["fill"].c_str());
 			const MFloat cx = atof(sym.elements[i].attributes["cx"].c_str()) * scaling * pX;
-			const MFloat cy = atof(sym.elements[i].attributes["cy"].c_str()) * scaling * pY;
+			const MFloat cy = setSymbolY(atof(sym.elements[i].attributes["cy"].c_str()) * scaling * pY);
 			const int li = atoi(sym.elements[i].attributes["line"].c_str());
 			triangle(posX+cx,posY+cy,r,s,li);
 		}
@@ -291,7 +295,7 @@ MAGICS_NO_EXPORT void BaseDriver::renderSymbolItem(const SymbolItem& symbol, con
 		{
 			const MFloat r = atof(sym.elements[i].attributes["r"].c_str()) * scaling * pX;
 			const MFloat cx = atof(sym.elements[i].attributes["cx"].c_str()) * scaling * pX;
-			const MFloat cy = atof(sym.elements[i].attributes["cy"].c_str()) * scaling * pY;
+			const MFloat cy = setSymbolY(atof(sym.elements[i].attributes["cy"].c_str()) * scaling * pY);
 			lightning(posX+cx,posY+cy,r);
 		}
 		if(sym.elements[i].name == "polyline")
@@ -360,7 +364,7 @@ MAGICS_NO_EXPORT void BaseDriver::renderSymbols(const Symbol& symbol) const
 		{
 			const MFloat r  = atof(sym.elements[i].attributes["r"].c_str())  * scaling;
 			const MFloat cx = atof(sym.elements[i].attributes["cx"].c_str()) * scaling * pX;
-			const MFloat cy = setY(atof(sym.elements[i].attributes["cy"].c_str()) * scaling * pY);
+			const MFloat cy = setSymbolY(setY(atof(sym.elements[i].attributes["cy"].c_str()) * scaling * pY));
 			const int s = atoi(sym.elements[i].attributes["fill"].c_str());
 			for(long l=0;l<n;l++)
 			{
@@ -380,14 +384,14 @@ MAGICS_NO_EXPORT void BaseDriver::renderSymbols(const Symbol& symbol) const
 		{
 			const MFloat r = atof(sym.elements[i].attributes["r"].c_str()) * scaling * pX;
 			const MFloat cx = atof(sym.elements[i].attributes["cx"].c_str()) * scaling * pX;
-			const MFloat cy = atof(sym.elements[i].attributes["cy"].c_str()) * scaling * pY;
+			const MFloat cy = setSymbolY(atof(sym.elements[i].attributes["cy"].c_str()) * scaling * pY);
 			for(long l=0;l<n;l++) snowflake(symbol[l].x()+cx,symbol[l].y()+cy,r);
 		}
 		else if(sym.elements[i].name == "drizzle")
 		{
 			const MFloat r = atof(sym.elements[i].attributes["r"].c_str()) * scaling * pX;
 			const MFloat cx = atof(sym.elements[i].attributes["cx"].c_str()) * scaling * pX;
-			const MFloat cy = atof(sym.elements[i].attributes["cy"].c_str()) * scaling * pY;
+			const MFloat cy = setSymbolY(atof(sym.elements[i].attributes["cy"].c_str()) * scaling * pY);
 			for(long l=0;l<n;l++) drizzle(symbol[l].x()+cx,symbol[l].y()+cy,r);
 		}
 		else if(sym.elements[i].name == "triangle")
@@ -395,7 +399,7 @@ MAGICS_NO_EXPORT void BaseDriver::renderSymbols(const Symbol& symbol) const
 			const MFloat r = atof(sym.elements[i].attributes["r"].c_str()) * scaling * pX;
 			const int s = atoi(sym.elements[i].attributes["fill"].c_str());
 			const MFloat cx = atof(sym.elements[i].attributes["cx"].c_str()) * scaling * pX;
-			const MFloat cy = atof(sym.elements[i].attributes["cy"].c_str()) * scaling * pY;
+			const MFloat cy = setSymbolY(atof(sym.elements[i].attributes["cy"].c_str()) * scaling * pY);
 			const int li = atoi(sym.elements[i].attributes["line"].c_str());
 
 			for(long l=0;l<n;l++)
@@ -416,7 +420,7 @@ MAGICS_NO_EXPORT void BaseDriver::renderSymbols(const Symbol& symbol) const
 		{
 			const MFloat r = atof(sym.elements[i].attributes["r"].c_str()) * scaling * pX;
 			const MFloat cx = atof(sym.elements[i].attributes["cx"].c_str()) * scaling * pX;
-			const MFloat cy = atof(sym.elements[i].attributes["cy"].c_str()) * scaling * pY;
+			const MFloat cy = setSymbolY(atof(sym.elements[i].attributes["cy"].c_str()) * scaling * pY);
 			for(long l=0;l<n;l++) lightning(symbol[l].x()+cx,symbol[l].y()+cy,r);
 		}
 		if(sym.elements[i].name == "polyline")
@@ -461,20 +465,20 @@ MAGICS_NO_EXPORT void BaseDriver::renderSymbols(const Symbol& symbol) const
 */
 MAGICS_NO_EXPORT void BaseDriver::snowflake(const MFloat x, const MFloat y, const MFloat size) const
 {
-	const MFloat s5 = size;
-	const MFloat s3 = size * 0.78;
+	const MFloat s5 = size * 1.2;
+	const MFloat s3 = size * 0.75;
 
 	vector<PaperPoint> line;
-	  line.push_back(PaperPoint(x-s5,y));
-	  line.push_back(PaperPoint(x+s5,y));
+	  line.push_back(PaperPoint(x-size,y));
+	  line.push_back(PaperPoint(x+size,y));
 	renderPolyline2(line);
 	line.clear();
-	  line.push_back(PaperPoint(x-s3,y+s3));
-	  line.push_back(PaperPoint(x+s3,y-s3));
+	  line.push_back(PaperPoint(x-s3,y+s5));
+	  line.push_back(PaperPoint(x+s3,y-s5));
 	renderPolyline2(line);
 	line.clear();
-	  line.push_back(PaperPoint(x-s3,y-s3));
-	  line.push_back(PaperPoint(x+s3,y+s3));
+	  line.push_back(PaperPoint(x-s3,y-s5));
+	  line.push_back(PaperPoint(x+s3,y+s5));
 	renderPolyline2(line);
 }
 
@@ -483,14 +487,35 @@ MAGICS_NO_EXPORT void BaseDriver::snowflake(const MFloat x, const MFloat y, cons
 */
 MAGICS_NO_EXPORT void BaseDriver::drizzle(const MFloat x, const MFloat y, const MFloat size) const
 {
-	const MFloat s2 = size*.4;
-
-	circle(x,y,s2 * coordRatioX_,8);
+	const MFloat s5  = size*.6;
+	const MFloat s25 = size*.3;
 
 	vector<PaperPoint> line;
-	  line.push_back(PaperPoint(x+(s2*0.9),y));
-	  line.push_back(PaperPoint(x-size*0.3,y-size*1.25));
-	renderPolyline2(line);
+	  line.push_back(PaperPoint( x+s25, y-s5) );
+	  line.push_back(PaperPoint( x-s25, y-s5) );
+	  line.push_back(PaperPoint( x-s5,  y-s25));
+	  line.push_back(PaperPoint( x-s5,  y+s25));
+	  line.push_back(PaperPoint( x-s25, y+s5) );
+	  line.push_back(PaperPoint( x+s25, y+s5) );
+	  line.push_back(PaperPoint( x+s5,  y+s25));
+	  line.push_back(PaperPoint( x+s5,  y-s25));
+	  line.push_back(PaperPoint( x+(size*.58), y-(size*.85)));
+	  line.push_back(PaperPoint( x+(size*.45), y-(size*1.1)));
+	  line.push_back(PaperPoint( x+(size*.1), y-(size*1.4)));
+	  line.push_back(PaperPoint( x+s25, y-(size*.7)));
+
+    renderSimplePolygon(line);
+/*	circle(x,y,s2 * coordRatioX_,8);
+
+	vector<PaperPoint> line;
+	  line.push_back(PaperPoint(x+ s2      ,y));
+	  line.push_back(PaperPoint(x+ s2      ,y-(s2*1.75)));
+	  line.push_back(PaperPoint(x          ,y-(s2*1.95)));
+	  line.push_back(PaperPoint(x          ,y-(s2*1.77)));
+	  line.push_back(PaperPoint(x+(s2*0.4) ,y-(s2*1.25)));
+	  line.push_back(PaperPoint(x+(s2*0.4) ,y-s2));	  
+	renderSimplePolygon(line);
+*/
 }
 
 /*!
@@ -499,19 +524,19 @@ MAGICS_NO_EXPORT void BaseDriver::drizzle(const MFloat x, const MFloat y, const 
 MAGICS_NO_EXPORT void BaseDriver::lightning(const MFloat x, const MFloat y, const MFloat size) const
 {
 	vector<PaperPoint> line;
-	  line.push_back(PaperPoint(x-(size*.3),y-(size)));
 	  line.push_back(PaperPoint(x-(size*.3),y+(size)));
-	renderPolyline(line);
-	line.clear();
 	  line.push_back(PaperPoint(x-(size*.3),y-(size)));
-	  line.push_back(PaperPoint(x+(size*.3),y-(size)));
-	  line.push_back(PaperPoint(x,y));
-	  line.push_back(PaperPoint(x+(size*.3),y+(size)));
 	renderPolyline(line);
 	line.clear();
-	  line.push_back(PaperPoint(x+(size*.35), y+(size*.3) ));
-	  line.push_back(PaperPoint(x+(size*.3), y+(size) ));
-	  line.push_back(PaperPoint(x, y+(size*.7)));
+	  line.push_back(PaperPoint(x-(size*.3),y+(size)));
+	  line.push_back(PaperPoint(x+(size*.3),y+(size)));
+	  line.push_back(PaperPoint(x,y));
+	  line.push_back(PaperPoint(x+(size*.3),y-(size)));
+	renderPolyline(line);
+	line.clear();
+	  line.push_back(PaperPoint(x+(size*.35),y-(size*.3) ));
+	  line.push_back(PaperPoint(x+(size*.3), y-(size) ));
+	  line.push_back(PaperPoint(x, y-(size*.7)));
 	renderPolyline(line);
 }
 

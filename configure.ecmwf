@@ -1,6 +1,6 @@
 #!/usr/bin/ksh
 
-version="2.25.1"
+version="2.25.2"
 git_home="/tmp/cgs/git/develop"
 magics=""
 debug="off"
@@ -19,11 +19,11 @@ run="4"
 tar="off"
 
 
-module unload python 
+module unload python
 module load python
-module unload boost 
+module unload boost
 module load boost/1.53.0
-module unload proj4 
+module unload proj4
 module load proj4/4.8.0
 module load hdf5
 module unload grib_api
@@ -39,7 +39,7 @@ module load hdf5
 
 echo "NETCDF4_DIR ${NETCDF4_DIR}"
 
-case "${OS_VERSION}" in    
+case "${OS_VERSION}" in
     opensuse113) # Local worksation
         spot="on"
         build_home="/tmp/cgs/build/$version/${HOST}"
@@ -48,20 +48,28 @@ case "${OS_VERSION}" in
     ;;
     opensuse131) # New Local worksation
         #module load boost/1.55.0
+        use='metview'
+        use='debug'
         use='daily'
-        use='metview-debug'
         if [[ $use = 'daily' ]]; then
             tar='on'
-            regression="off"
+            regression="on"
             metview='off'
             debug='off'
             build_home="/tmp/cgs/build/$version/daily"
             install_home="/tmp/cgs/Magics/$version/daily"
-        else 
+        fi
+        if [[ $use = 'debug' ]]; then
             metview='off'
             debug='on'
             build_home="/tmp/cgs/build/$version/debug"
             install_home="/tmp/cgs/Magics/$version/debug"
+        fi
+        if [[ $use = 'metview' ]]; then
+            metview='on'
+            debug='on'
+            build_home="/tmp/cgs/build/$version/debug"
+            install_home="/tmp/cgs/Magics/metview/metview"
         fi
         static='off'
         run="10"
@@ -71,18 +79,18 @@ case "${OS_VERSION}" in
             bufr='off'
             netcdf='off'
         fi
-       
+
         pgi_lib="/usr/local/apps/pgi/pgi-10.8/linux86-64/10.8/libso"
         build_home="/home/graphics/cgs/build/$version/${HOST}"
         run="4"
     ;;
-    rhel6) #ecgb ## Something is wrong wuth the setting of netcdf ! 
+    rhel6) #ecgb ## Something is wrong wuth the setting of netcdf !
         build_home="/home/graphics/cgs/build/$version/${HOST}"
         run="10"
     ;;
 
- esac   
-    
+ esac
+
 
 
 
@@ -134,7 +142,7 @@ if [[ $bufr = "on" ]];then
         args=" $args -DWITH_PGI_FORTRAN=ON -DPGI_PATH=${pgi_lib}"
     fi
     if [[ $emos_lib != "" ]];then
-        args=" $args -DEMOS_PATH=${emos_lib}"
+        args=" $args -DLIBEMOS_PATH=${emos_lib}"
     fi
     echo "Bufr enabled"
 else
@@ -186,7 +194,7 @@ echo "start"
 echo ${build_home}
 mkdir -p ${build_home}
 cd ${build_home}
-#rm -fR ${build_home}/*
+rm -fR ${build_home}/*
 
 
 cmd="${git_home}/ecbuild/bin/ecbuild ${git_home}/magics $args"
@@ -196,7 +204,7 @@ ${git_home}/ecbuild/bin/ecbuild ${git_home}/magics $args
 
 echo ${build_home}
 make -j ${run} install
-ctest 
+ctest
 if [[ $regression = "on" ]];then
     ctest -R summary
 fi

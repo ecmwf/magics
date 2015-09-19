@@ -19,10 +19,10 @@ ID	MAGICS(PostScript)      PostScript name      PostScriptFontfile  TTF		CSS (SV
 14	times_bold	     	Times-Bold	    	n021004l.pfb    timesbd.ttf     Times
 15	times_bolditalic     	Times-BoldItalic     	n021024l.pfb    timesbi.ttf     Times
 16	symbol_normal		Symbol		     	s050000l.pfb    symbol.ttf      Symbol
-50	sansserif_normal	Helvetica 		n019003l.pfb    DejaVuSans.ttf	             Helvetica	   
-51	sansserif_italic	Helvetica-Oblique 	n019023l.pfb    DejaVuSans-Oblique.ttf       Helvetica
-52	sansserif_bold	     	Helvetica-Bold		n019004l.pfb    DejaVuSans-Bold.ttf	     Helvetica
-53	sansserif_bolditalic    Helvetica-BoldOblique	n019024l.pfb    DejaVuSans-BoldOblique.ttf   Helvetica
+50	sansserif_normal	Helvetica 		n019003l.pfb    arial.ttf	             Helvetica	   
+51	sansserif_italic	Helvetica-Oblique 	n019023l.pfb    ariali.ttf       Helvetica
+52	sansserif_bold	     	Helvetica-Bold		n019004l.pfb    arialbd.ttf	     Helvetica
+53	sansserif_bolditalic    Helvetica-BoldOblique	n019024l.pfb    arialbi.ttf   Helvetica
 54	serif_normal	     	Times-Roman		n021003l.pfb    DejaVuSerif.ttf	             Times
 55	serif_italic	     	Times-Italic  	    	n021023l.pfb    DejaVuSerif-Oblique.ttf      Times
 56	serif_bold	     	Times-Bold		n021004l.pfb    DejaVuSerif-Bold.ttf         Times

@@ -57,7 +57,7 @@ public:
 		if (!owner_->station_ring_visible_) return;
 		tokens.insert("latitude");
 		tokens.insert("longitude");
-		tokens.insert("cloud_amount");
+		tokens.insert("total_cloud");
 	}
 
 	void operator()(CustomisedPoint&,  ComplexSymbol& symbol) const
@@ -76,7 +76,34 @@ protected:
 	void print(ostream& out) const { out << "ObsStationRing" ;  }
 
 };
+class ObsStationTriangle : public ObsItemBox
+{
+public:
+	ObsStationTriangle()  {}
+	~ObsStationTriangle()  {}
+	void visit(std::set<string>& tokens)
+	{
 
+		if (!owner_->station_ring_visible_) return;
+
+	}
+
+	void operator()(CustomisedPoint&,  ComplexSymbol& symbol) const
+	{
+		if (!owner_->station_ring_visible_) return;
+		SymbolItem*  station = new SymbolItem();
+		station->x(column_);
+		station->y(row_);
+		station->colour(*owner_->station_ring_colour_);
+		station->symbol("triangle"); // triangle
+		station->height(owner_->ring_size_*0.5);
+		symbol.add(station);
+	}
+
+protected:
+	void print(ostream& out) const { out << "ObsStationTriangle" ;  }
+
+};
 
 class ObsTimePlot : public ObsItemBox
 {
@@ -128,7 +155,10 @@ public:
 		if (!owner_->wind_visible_) return;
 		tokens.insert("wind_speed");
 		tokens.insert("wind_direction");
-		tokens.insert("cloud_amount");
+		tokens.insert("total_cloud");
+		tokens.insert("low_cloud");
+		tokens.insert("medium_cloud");
+		tokens.insert("high_cloud");
 	}
 
 	virtual void operator()(CustomisedPoint&,  ComplexSymbol&) const;
