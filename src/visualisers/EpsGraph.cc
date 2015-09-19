@@ -1910,8 +1910,7 @@ void EpsShade::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 	std::set<string> request;
 	const Transformation& transformation = visitor.transformation();
 	data.customisedPoints(transformation, request, points, true); // we want all the points!
-	double max = transformation.getMaxPCY();
-
+	
 	
 	if (points.empty()) return;
 

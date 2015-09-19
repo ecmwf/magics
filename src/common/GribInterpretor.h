@@ -307,6 +307,8 @@ double Matrix::interpolate(double i, double j) const
 	   return (*this)(ii, jj);
 }
 
+
+
 double Matrix::nearest(double row, double col,double &rowOut, double &colOut) const    
 {  
 	double xleft = std::min( left(), right());

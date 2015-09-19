@@ -141,6 +141,7 @@ public:
                 return multipleRange;
             return singleRange;
         }
+        return outOfRange;
 
     }
 
@@ -1185,7 +1186,7 @@ void IsoPlot::isoline(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
 {
 
     const Transformation& transformation = parent.transformation();
-    Polyline& x = transformation.getPCBoundingBox();
+    
 
 
 
@@ -1369,7 +1370,7 @@ void IsoPlot::isoline(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
       for (vector<Polyline* >::const_iterator poly = (*lines)->begin(); poly != (*lines)->end(); ++poly)
       {
         if ( (*poly)->empty() ) continue;
-        double level = (*poly)->front().value();
+       
 
 
         if ( !rainbow_ ) {
@@ -1619,7 +1620,7 @@ void IsoPlot::visit(Data& data, PointsHandler& points, HistoVisitor& visitor)
 }
 
 CellArray::CellArray(MatrixHandler& data, IntervalMap<int>& range, const Transformation& transformation, int width, int height, float resol, const string& technique) :
-        data_(data), rangeFinder_(range)
+        rangeFinder_(range),data_(data)
 {
     Timer timer("CellArray", "CellArray");
     int r = height/resol;
@@ -1703,7 +1704,7 @@ CellArray::CellArray(MatrixHandler& data, IntervalMap<int>& range, const Transfo
 }
 
 
-CellArray::CellArray(MatrixHandler& data, IntervalMap<int>& range) : data_(data), rangeFinder_(range)
+CellArray::CellArray(MatrixHandler& data, IntervalMap<int>& range) : rangeFinder_(range), data_(data)
 {
 
 }
@@ -1787,8 +1788,8 @@ GridCell::GridCell(const CellArray& data, int row, int column, const Transformat
         count++;
 
         for (int i = 0; i < 4; i++) {
-            double lon = columns_[i];
-            double lat =  rows_[i];
+           
+            
             transformation.fast_reproject(columns_[i], rows_[i]);
 
             if ( columns_[i] < minx ) {

@@ -203,7 +203,7 @@ Matrix*   BinningObject::operator()(PointsList& points)
 		}
 
 	double columns = matrix->columns();
-	double rows = matrix->rows();
+	
 	points.setToFirst();
 	while ( points.more() ) {
 		const UserPoint& point = points.current();

@@ -59,8 +59,6 @@ const double  R_POL      =  6356.5838;    /* radius from Earth centre to pol    
 const long    COFF_NONHRV  =        1856;      /* scaling coefficients (see note above)  */
 const long    LOFF_NONHRV  =        1856;      /* scaling coefficients (see note above)  */
 
-const long    COFF_HRV     =        5566;      /* scaling coefficients (see note above)  */
-const long    LOFF_HRV     =        5566;      /* scaling coefficients (see note above)  */
 				       
 
 //////////////////////////////////////////////////////////////////////////
@@ -300,15 +298,13 @@ void GribSatelliteInterpretor::interpretAsMatrix(const GribDecoder& grib, Matrix
 	long   ny   = grib.getLong("numberOfPointsAlongYAxis");
 	long   dx   = grib.getLong("dx");
 	long   dy   = grib.getLong("dy");
-	double offx = grib.getDouble("xCoordinateOfOriginOfSectorImage");
-	double offy = grib.getDouble("yCoordinateOfOriginOfSectorImage");
-	double prj  = 2*asin(1/altitude)/dx;
-	double pri  = 2*asin(1/altitude)/dy;
+
+	
 	double pjs  = grib.getDouble("XpInGridLengths");
 	double pis  = grib.getDouble("YpInGridLengths");
 
 
-	double lao  = grib.getDouble("latitudeOfSubSatellitePointInDegrees") *TeCDR;
+
 	double slon = grib.getDouble("longitudeOfSubSatellitePointInDegrees");
 	long   sat  = grib.getLong("satelliteIdentifier");
 	long   chan = grib.getLong("channelNumber");
@@ -318,8 +314,7 @@ void GribSatelliteInterpretor::interpretAsMatrix(const GribDecoder& grib, Matrix
 	AdjustBadlyEncodedGribs(sat, chan, nx, ny, dx, dy, pjs, pis, slon, functionCode);
 
 	double lono = slon*TeCDR;
-	double prs  = altitude * TeEARTHRADIUS;
-	double scn  = 0;
+
 	double yaw  = grib.getDouble("orientationOfTheGrid");
 	double target_dx = 0.1;  // resolution, in degrees of output lat/lon matrix
 	double target_dy = 0.1;  // resolution, in degrees of output lat/lon matrix
@@ -327,16 +322,6 @@ void GribSatelliteInterpretor::interpretAsMatrix(const GribDecoder& grib, Matrix
 	yaw = RAD(yaw/1000);
 	if (yaw < 0.) yaw += PI;
 	else		  yaw -= PI;
-
-//	double resx = (double)(abs(( atan( tan(pri) * (altitude-1.) ) * TeEARTHRADIUS )));
-//	double resy = (double)(abs(( atan( tan(prj) * (altitude-1.) ) * TeEARTHRADIUS )));
-	double resx = (double)(abs(( atan( tan(pri) * (altitude-1.) ))));
-	double resy = (double)(abs(( atan( tan(prj) * (altitude-1.) ))));
-
-//	double west  = slon - 90 + (offx * resx);
-//	double east  = slon + 90 + ((offx + nx - 1) * resx);
-//	double north = -(offy * resy);
-//	double south = -(offy + ny - 1) * resy;
 
 	double west  = -180;
 	double east  = 180;

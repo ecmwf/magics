@@ -85,20 +85,6 @@ static void XMLCALL dataHandler (void *data, const char *value, int len)
 }
 
 
-static int externalEntityRefHandler( XML_Parser ,//	 parser,
-		const XML_Char *  	context,
-		const XML_Char *  	base,
-		const XML_Char *  	systemID,
-		const XML_Char *  	publicID
-	)
-{
-	//MagLog::dev()<< "context--->" << context << endl;
-	//MagLog::dev()<< "base--->" << base << endl;
-	//MagLog::dev()<< "systemID--->" << systemID << endl;
-	//MagLog::dev()<< "publicID--->" << publicID << endl;
-	return 0;
-}
-
 
 
 void XmlReader::newElement(const string& name, const map<string, string>& def)

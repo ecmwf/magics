@@ -383,7 +383,7 @@ public:
     {
         vector<From> from;
         netcdf_.get(name, from, start_, end_);
-        int i = 0;
+        
         for (typename vector<From>::const_iterator val = from.begin(); val != from.end(); ++val) {
             To add = To(*val);
          

@@ -213,7 +213,7 @@ static double compute(SegmentJoiner::SegList& v,list<deque<Segment> >& lines)
 {
     //magics::Timer total("SegmentJoiner:: compute", "");
 
-    hash_t count = v.size();
+
 
 
     Hasher hash(v);

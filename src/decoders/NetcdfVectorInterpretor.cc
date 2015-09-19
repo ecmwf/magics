@@ -226,9 +226,6 @@ void NetcdfGeoPolarMatrixInterpretor::customisedPoints(const Transformation&, co
 			
 			vector<double>::iterator lat = latitudes.begin();
 			vector<double>::iterator lon = longitudes.begin();
-			vector<double>::const_iterator x = speed.begin();
-			vector<double>::const_iterator y = direction.begin();
-			
 			//If the lat-lon units is specified as "radians" convert lat-lon 
 			//to degrees. By default the units are sipposed to be "degrees"
 			const char *units = 0;
