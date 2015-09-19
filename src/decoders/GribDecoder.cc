@@ -42,14 +42,15 @@
 #include "VisualAction.h"
 #include "AnimationRules.h"
 #include "Transformation.h"
+#include "MetaData.h"
 
 using namespace magics;
 
 int  GribDecoder::count_ = 0;
 
 GribDecoder::GribDecoder() :  matrix_(0),  xComponent_(0), yComponent_(0),
-		colourComponent_(0), handle_(0), interpretor_(0),
-		field_(0), component1_(0), component2_(0), colour_(0)
+		colourComponent_(0), handle_(0), nearest_(0), interpretor_(0),
+		field_(0), component1_(0), component2_(0), colour_(0), xValues_(0), yValues_(0)
 {
 	count_++;
 	title_ = "grib_" + tostring(count_);
@@ -74,6 +75,10 @@ GribDecoder::~GribDecoder()
 		grib_handle_delete (handle_);
 
 	}
+
+	if (nearest_)
+		grib_nearest_delete(nearest_);
+
 	for (PointsList::iterator point = points_.begin(); point != points_.end(); ++point) {
 		delete *point;
 		*point = 0;
@@ -535,7 +540,7 @@ struct Compare
 void GribDecoder::customisedPoints(const Transformation& transformation, CustomisedPointsList& out, double thinx, double thiny, double gap)
 {
 
-
+/*
 	map<double, map<double, CustomisedPoint*> > data;
 
 
@@ -544,26 +549,34 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 	string cc = "colour_component";
 
 	vector<pair<double, vector<pair<double, CustomisedPoint*> > > > points;
-	double minlon, maxlon;
-	interpretor_->raw(*this, transformation, points, minlon, maxlon);
+
+*/
+	// Initialise index and data
+	interpretor_->index(*this);
+	uComponent();
+	vComponent();
+	double minlon = interpretor_->west_;
+	double maxlon = interpretor_->east_;
+
 	double missing = getDouble("missingValue");
 	if ( thinx ) {
 		vector<pair<double, double> > positions;
 
 		PaperPoint xy = interpretor_->reference(*this, transformation);
-
 		transformation.thin(thinx, xy, positions);
+
 		vector<pair<double, double> >::iterator pos = positions.begin();
 		out.reserve(positions.size());
 
-		if ( points.front().first > points.back().first )
-			std::reverse(points.begin(),points.end());
+
 
 		for ( pos = positions.begin(); pos != positions.end(); ++pos) {
 			double offset = 0.;
 			// First make sure tthat the lon is between the minlon and maxlon.
 			double lon = pos->first;
 			double lat = pos->second;
+			double nlon, nlat;
+
 			while ( lon < minlon ) {
 				lon += 360;
 				offset -= 360.;
@@ -572,152 +585,62 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 				lon -= 360.;
 				offset += 360.;
 			}
-			UserPoint ref(lon, lat);
-			//cout << "Reference " << ref << endl;
 
-			vector<pair<double, vector<pair<double, CustomisedPoint*> > > >::iterator y;
-			vector<pair<double, CustomisedPoint*> >::iterator x;
-			CustomisedPoint* point = 0;
-			if (thinning_debug_) {
-				CustomisedPoint* add = new CustomisedPoint(lon, lat, "");
-							add->insert(make_pair("x_component", 0.1));
-							add->insert(make_pair("y_component", 0.1));
-				out.push_back(add);
-			}
-			y = std::lower_bound(points.begin(), points.end(), lat, Compare());
+			int index = interpretor_->nearest(lon, lat, nlon, nlat);
 
-			if ( same(y->first,lat) ) {
+			if ( index != -1 ) {
+				double u = uComponent(index);
+				double v = vComponent(index);
 
-				x = std::lower_bound(y->second.begin(), y->second.end(), lon, Compare());
-				if ( x->first == lon ) {
-					point = x->second;
-				}
-				else {
-					UserPoint check(x->first, y->first);
 
-					double val = transformation.distance(check, ref);
-					double min = val;
-					point = x->second;
-					//cout << "CHECK1" << check << " -->" << val << endl;
-					--x;
-					check = UserPoint(x->first, y->first);
-					val = transformation.distance( check, ref );
-					//cout << "CHECK2" << check << " -->" << val << endl;
-					if ( val < min ) {
-						min = val;
-						point = x->second;
-					}
-				}
+				if ( u != missing && v != missing) {
+					CustomisedPoint *add = new CustomisedPoint(nlon+offset, nlat, "");
+					pair<double, double> value = (*wind_mode_)(u, v);
 
-				if ( (*point)["x_component"] != missing && (*point)["y_component"] != missing ) {
-					CustomisedPoint *add = new CustomisedPoint(point->longitude()+offset, point->latitude(), "");
-					pair<double, double> value = (*wind_mode_)((*point)["x_component"], (*point)["y_component"]);
 					add->insert(make_pair("x_component", value.first));
 					add->insert(make_pair("y_component", value.second));
-					//cout << "add " << *add << endl;
 					out.push_back(add);
+                    /*
+					add = new CustomisedPoint(lon+offset, lat, "");
 
-				}
-				continue;
-			}
-
-
-			if ( y == points.end() || y == points.begin()) {
-				//point is outside!
-				continue;
-			}
-
-
-
-			x = std::lower_bound(y->second.begin(), y->second.end(), lon, Compare());
-
-			if ( x == y->second.end() )
-				continue;
-			if ( x == y->second.begin() && !same(x->first,lon) ) {
-				//point is outside!
-				continue;
-			}
-
-			UserPoint check(x->first, y->first);
-			double val = transformation.distance(check, ref);
-			double min = val;
-			//cout << "CHECK3" << check << " -->" << val << endl;
-			point = x->second;
-			if ( x != y->second.begin() ) {
-				--x;
-				check = UserPoint(x->first, y->first);
-				val = transformation.distance( check, ref );
-				//cout << "CHECK4" << check << " -->" << val << endl;
-				if ( val < min ) {
-					min = val;
-					point = x->second;
+					add->insert(make_pair("x_component", 0.01));
+					add->insert(make_pair("y_component", 0.01));
+					out.push_back(add);
+                    */
 				}
 			}
-
-			--y;
-			x = std::lower_bound(y->second.begin(), y->second.end(), lon, Compare());
-			//cout << "x=" << x->first << endl;
-
-
-
-				check = UserPoint(x->first, y->first);
-				val = transformation.distance( check, ref );
-				//cout << "CHECK5" << check << " -->" << val << endl;
-				if ( val < min ) {
-					min = val;
-					point = x->second;
-				}
-				if ( x != y->second.begin() ) {
-					--x;
-					check = UserPoint(x->first, y->first);
-					val = transformation.distance( check, ref );
-					//cout << "CHECK6" << check << " -->" << val << endl;
-					if ( val < min ) {
-						min = val;
-						point = x->second;
-					}
-				}
-
-			if ( (*point)["x_component"] != missing && (*point)["y_component"] != missing) {
-				CustomisedPoint *add = new CustomisedPoint(point->longitude()+offset, point->latitude(), "");
-				pair<double, double> value = (*wind_mode_)((*point)["x_component"], (*point)["y_component"]);
-
-				add->insert(make_pair("x_component", value.first));
-				add->insert(make_pair("y_component", value.second));
-				//cout << "add " << *add << endl;
-				out.push_back(add);
-
-			}
-
+		}
 	}
 
 
-
-	for ( vector<pair<double, vector<pair<double, CustomisedPoint*> > > >::iterator y = points.begin(); y != points.end(); ++y )
-		for ( vector<pair<double, CustomisedPoint*> >::iterator x = y->second.begin(); x != y->second.end(); ++x)
-			delete x->second;
-	}
-	else {
-		for ( vector<pair<double, vector<pair<double, CustomisedPoint*> > > >::iterator y = points.begin(); y != points.end(); ++y )
-			for ( vector<pair<double, CustomisedPoint*> >::iterator x = y->second.begin(); x != y->second.end(); ++x) {
-				CustomisedPoint *point = x->second;
-				if ( (*point)["x_component"] != missing && (*point)["y_component"] != missing ) {
-					double lon = point->longitude();
-					double lat = point->latitude();
+	else { // no thinning !
+		// get all the points of the index!
+		double lat, lon;
+		int index;
+		for ( map<double, map<double, int> >::iterator row = interpretor_->index().begin(); row != interpretor_->index().end(); ++row ) {
+			lat = row->first;
+			for (  map<double, int>::iterator column = row->second.begin(); column != row->second.end(); ++column) {
+				lon = column->first;
+				index = column->second;
+				if ( index == -1 )
+					continue;
+				double u = uComponent(index);
+				double v = vComponent(index);
+				if ( u != missing && v != missing) {
+					pair<double, double> value = (*wind_mode_)(u, v);
 					vector<UserPoint> pos;
 					transformation.populate(lon, lat, 0, pos);
 					for ( vector<UserPoint>::iterator p = pos.begin(); p != pos.end(); ++p) {
-						CustomisedPoint *add = new CustomisedPoint(p->x_, p->y_, "");
-						pair<double, double> value = (*wind_mode_)((*point)["x_component"], (*point)["y_component"]);
+						CustomisedPoint *add = new CustomisedPoint(p->x(), p->y(), "");
 						add->insert(make_pair("x_component", value.first));
 						add->insert(make_pair("y_component", value.second));
 						out.push_back(add);
 					}
 				}
-				delete point;
-
 			}
+		}
 	}
+
 }
 
 void GribDecoder::customisedPoints(const BasicThinningMethod& thinning, const Transformation& transformation, const std::set<string>& needs, CustomisedPointsList& points)
@@ -873,6 +796,27 @@ grib_handle*  GribDecoder::open(grib_handle* grib, bool sendmsg)
 }
 
 
+grib_nearest* GribDecoder::nearest_point_handle(bool keep)
+{
+	int err;
+
+	if (!keep)
+	{
+		return grib_nearest_new(handle_, &err); // create a new one
+	}
+	else
+	{	// we want to retain this and only create a new one if needed
+		if (!nearest_)
+		{
+			nearest_ = grib_nearest_new(handle_, &err); // only used in Metview's Cursor Data facility
+			if (err)
+				return 0;
+		}
+		return nearest_;
+	}
+}
+
+
 bool GribDecoder::id(const string& id, const string& where) const
 {
 	if ( id_.empty() && id.empty() ){
@@ -993,6 +937,12 @@ GribLoop::~GribLoop()
 	{
 		delete *g;
 	}
+
+	if (file_ != 0)
+	{
+		fclose(file_);
+		file_ = 0;
+	}
 }
 
 
@@ -1090,11 +1040,11 @@ bool  GribLoop::hasMore()
 		}
 		else {
 			// Case 4 Dimesnion = 2 and we only used a subset of fields!
-			vector<int>::iterator dim1 =  currentPos_;
+			vector<long int>::iterator dim1 =  currentPos_;
 			if ( currentPos_ ==  dim_.end() )
 				return false;
 			currentPos_++;
-			vector<int>::iterator dim2 =  currentPos_;
+			vector<long int>::iterator dim2 =  currentPos_;
 			if ( currentPos_ ==  dim_.end() )
 				return false;
 			currentPos_++;
@@ -1132,15 +1082,15 @@ bool  GribLoop::hasMore()
 		}
 		else {
 			// Case 4 Dimesnion = 2 and we only used a subset of fields!
-			vector<int>::iterator dim1 =  currentPos_;
+			vector<long int>::iterator dim1 =  currentPos_;
 			if ( currentPos_ ==  dim_.end() )
 				return false;
 			currentPos_++;
-			vector<int>::iterator dim2 =  currentPos_;
+			vector<long int>::iterator dim2 =  currentPos_;
 			if ( currentPos_ ==  dim_.end() )
 				return false;
 			currentPos_++;
-			vector<int>::iterator dim3 =  currentPos_;
+			vector<long int>::iterator dim3 =  currentPos_;
 			if ( currentPos_ ==  dim_.end() )
 				return false;
 			currentPos_++;
@@ -1398,6 +1348,68 @@ void GribDecoder::visit(AnimationRules& )
 {
 }
 
+
+
+// GribDecoder::nearestGridpoints
+// For a list of input gridpoint locations, returns the locations and values for the closest actual data
+// point to each.
+// Note that we cannot yet apply the same method to all grid types because there is a bug in GRIB_API versions
+// prior to 1.15.0 which means that grib_nearest_find() does not work with Lambert grids when we keep the
+// same grib_nearest object.
+void GribDecoder::nearestGridpoints(double *inlats, double *inlons, double *outlats, double *outlons, double *values, double *distances, int nb, string &representation)
+{
+	bool retainGribNearestHandle = false;
+	grib_nearest *nearHandle = NULL;
+	double outlats4[4];   // grib_nearest_find returns 4 results
+	double outlons4[4];   // grib_nearest_find returns 4 results
+	double outvals4[4];   // grib_nearest_find returns 4 results
+	double outdist4[4];   // grib_nearest_find returns 4 results
+	int    outindexes[4]; // grib_nearest_find returns 4 results
+	size_t len;
+
+	if (representation == "regular_ll" ||
+		representation == "reduced_ll" || 
+		representation == "regular_gg" ||
+		representation == "reduced_gg")
+	{
+		retainGribNearestHandle = true;  // more efficient
+	}
+
+
+	nearHandle = nearest_point_handle(retainGribNearestHandle);
+
+
+
+	for (int i=0; i < nb; i++) 
+	{
+		if (nearHandle)
+		{
+			grib_nearest_find(nearHandle, handle_, inlats[i], inlons[i], GRIB_NEAREST_SAME_GRID, outlats4, outlons4,
+				outvals4, outdist4, outindexes, &len);
+			vector<double> vdistances(outdist4, outdist4+4);
+			int closestIndex = distance(vdistances.begin(), min_element(vdistances.begin(), vdistances.end()));
+			outlats[i]   = outlats4[closestIndex];
+			outlons[i]   = outlons4[closestIndex];
+			values[i]    = outvals4[closestIndex];
+			distances[i] = outdist4[closestIndex];
+		}
+		else
+		{
+			outlats[i]   = 0;
+			outlons[i]   = 0;
+			values[i]    = 0;
+			distances[i] = 0;
+		}
+//			grib_nearest_find_multiple(handle_, 0, inlats, inlons, nb, outlats, outlons, values, distances, indexes);
+//			int closestIndex = 0;
+	}
+
+
+	if (!retainGribNearestHandle && nearHandle)	// was this a temporary handle?
+		grib_nearest_delete(nearHandle);
+
+}
+
 void GribDecoder::visit(ValuesCollector& points)
 {
 	field_ = open(field_);
@@ -1452,8 +1464,10 @@ void GribDecoder::visit(ValuesCollector& points)
 		points.setScaledUnits(derivedUnits);
 
 		field_ = open(field_);
-		grib_nearest_find_multiple(handle_, 0, inlats, inlons, nb, outlats, outlons, values, distances, indexes);
-		for (int i =0; i < nb; i++) 
+
+		nearestGridpoints(inlats, inlons, outlats, outlons, values, distances, nb, representation);
+
+		for (int i=0; i < nb; i++) 
 		{
 			points[i].push_back(new ValuesCollectorData(outlons[i],outlats[i],values[i],distances[i]));
 			if(scaled)
@@ -1462,7 +1476,7 @@ void GribDecoder::visit(ValuesCollector& points)
 				points[i].back()->setMissing(true);
 		}
 	}
-	else if ( Data::dimension_ == 2  ) {
+	else { //if ( Data::dimension_ == 2  ) {
 		bool scaled=(scaling==1 && offset == 0)?false:true;		
 		oriUnits=getString("units",false);
 		if(oriUnits.find("/") == string::npos)
@@ -1474,9 +1488,9 @@ void GribDecoder::visit(ValuesCollector& points)
 
 
 		openFirstComponent();
-		grib_nearest_find_multiple(handle_, 0, inlats, inlons, nb, outlats, outlons, x, distances, indexes);
+		nearestGridpoints(inlats, inlons, outlats, outlons, x, distances, nb, representation);
 		openSecondComponent();
-		grib_nearest_find_multiple(handle_, 0, inlats, inlons, nb, outlats, outlons, y, distances, indexes);
+		nearestGridpoints(inlats, inlons, outlats, outlons, y, distances, nb, representation);
 		for (int i =0; i < nb; i++) 
 		{
 			points[i].push_back(wind_mode_->values(outlons[i],outlats[i],x[i],y[i], distances[i]));
@@ -1484,29 +1498,6 @@ void GribDecoder::visit(ValuesCollector& points)
 				points[i].back()->setMissing(true);	  
 		}
 	}
-	else   {
-		bool scaled=(scaling==1 && offset == 0)?false:true;
-		oriUnits=getString("units",false);
-		if(oriUnits.find("/") == string::npos)
-		{
-			oriUnits=oriUnits + "/" + oriUnits;
-		}
-		points.setUnits(oriUnits);
-		points.setScaledUnits("/");
-
-
-		openFirstComponent();
-		grib_nearest_find_multiple(handle_, 0, inlats, inlons, nb, outlats, outlons, x, distances, indexes);
-		openSecondComponent();
-		grib_nearest_find_multiple(handle_, 0, inlats, inlons, nb, outlats, outlons, y, distances, indexes);
-		for (int i =0; i < nb; i++)
-		{
-			points[i].push_back(wind_mode_->values(outlons[i],outlats[i],x[i],y[i], distances[i]));
-			if(x[i] == missing || y[i] == missing)
-				points[i].back()->setMissing(true);
-		}
-	}
-
 }
 
 void GribDecoder::visit(MagnifierCollector& magnifier)
@@ -1546,6 +1537,33 @@ const LevelDescription& GribDecoder::level()
 {
 	timeStamp();
 	return dataLevel_;
+}
+
+void GribDecoder::visit(MetaDataVisitor& meta)
+{
+	vector<string> need;
+
+	need.push_back("<grib_info key='shortName'/>");
+	need.push_back("<grib_info key='name'/>");
+	need.push_back("<grib_info key='level'/>");
+	need.push_back("<grib_info key='base-date' format='%Y-%m-%d %H:%M:00'/>");
+	need.push_back("<grib_info key='valid-date' format='%Y-%m-%d %H:%M:00'/>");
+
+
+	TagHandler helper;
+	GribTag tag1(*this, helper);
+	for ( vector<string>::const_iterator t = need.begin(); t != need.end(); ++t )
+	{
+		tag1.decode(*t);
+	}
+
+	ostringstream grib;
+	grib << "{\"level\":\""<<  helper.get("grib", "level") << "\",";
+	grib << "\"name\":\""<<  helper.get("grib", "name") << "\",";
+	grib << "\"base-date\":\""<<  helper.get("grib", "base-date") << "\",";
+	grib << "\"valid-date\":\""<<  helper.get("grib", "valid-date") << "\"}";
+
+	meta.add("grib", grib.str());
 }
 
 void GribDecoder::visit(MetaDataCollector& step)
@@ -2439,7 +2457,40 @@ public:
 		 */
 	}
 };
+double GribDecoder::uComponent(int index)
+{
+	return xValues_[index];
+}
 
+double GribDecoder::vComponent(int index)
+{
+	return yValues_[index];
+}
+void GribDecoder::uComponent()
+{
+	if ( xValues_ )
+		return;
+	size_t nb;
+	string name;
+	grib_handle* handle = uHandle(name);
+
+	grib_get_size(handle, "values", &nb);
+	xValues_ = new double[nb];
+	grib_get_double_array(handle, "values", xValues_, &nb);
+}
+void GribDecoder::vComponent()
+{
+	if ( yValues_ )
+		return;
+
+	string name;
+	grib_handle* handle = vHandle(name);
+	size_t nb;
+	grib_get_size(handle, "values", &nb);
+
+	yValues_ = new double[nb];
+	grib_get_double_array(handle, "values", yValues_, &nb);
+}
 }// end namespace magics
 
 

@@ -196,6 +196,12 @@ public:
 			return value;
 		}
 
+	static longintarray getLongIntArray(const string& name)
+	{
+		longintarray value;
+		get(name, value);
+		return value;
+	}
 	static bool getBool(const string& name)
 	{
 

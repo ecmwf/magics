@@ -1709,7 +1709,7 @@ CdfGraph::~CdfGraph()
 void CdfGraph::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 {
 
-	
+
 	CustomisedPointsList points; 
 	std::set<string> request;
 	const Transformation& transformation = visitor.transformation();
@@ -1779,7 +1779,7 @@ void CdfGraph::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 		box->push_back(PaperPoint(transformation.getMaxX(), 43));
 		
 		
-		
+	/*
 		Text* mint = new Text();
 		mint->setJustification(MLEFT);		
 		mint->push_back(PaperPoint(transformation.getMaxX()-(w*.95), 46));
@@ -1798,7 +1798,7 @@ void CdfGraph::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 			maxt->addText("Max: ?" , Colour("navy"), 0.3);
 			mint->addText( "Min : ?", Colour("navy"), 0.3);
 		}
-        
+      */
 		
 	vector<string>::iterator style = style_.begin();
 	vector<int>::iterator thickness = thickness_.begin();
@@ -1834,7 +1834,7 @@ void CdfGraph::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 			map<string, double>::const_iterator info = (*point)->find(key.str());
 			int s = info->second;
 			ostringstream legend;
-			legend << "Eps t+ [" << s - 24 << "-" << s <<"h] " ;
+			legend << "t+ [" << s - 24 << "-" << s <<"h] " ;
 			legend_.push_back(legend.str());
 			
 		}
@@ -1856,9 +1856,9 @@ void CdfGraph::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
         for ( vector<BasicGraphicsObject*>::reverse_iterator object = sorter.rbegin(); object != sorter.rend(); ++object) 
         	visitor.push_back(*object);
             
-//        visitor.push_back(box);
-//		visitor.push_back(mint);
-//		visitor.push_back(maxt);/
+       //visitor.push_back(box);
+		//visitor.push_back(mint);
+		//visitor.push_back(maxt);
 
 }
 
@@ -1867,6 +1867,13 @@ void CdfGraph::visit(LegendVisitor& legend)
 
 {
 
+	Polyline* line = new Polyline();
+
+		                    line->setColour(Colour("black"));
+
+		                    line->setThickness(4);
+		                    legend.add(new LineEntry("", line));
+		                    return;
 	
 	vector<string>::reverse_iterator style = style_.rbegin();
 	vector<int>::reverse_iterator thickness = thickness_.rbegin();
@@ -1903,6 +1910,8 @@ void EpsShade::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 	std::set<string> request;
 	const Transformation& transformation = visitor.transformation();
 	data.customisedPoints(transformation, request, points, true); // we want all the points!
+	double max = transformation.getMaxPCY();
+
 	
 	if (points.empty()) return;
 
@@ -2017,6 +2026,7 @@ void EpsShade::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 		CustomisedPoint::const_iterator y50 = (*point)->find("50");
 		CustomisedPoint::const_iterator y25 = (*point)->find("25");
 		CustomisedPoint::const_iterator y75 = (*point)->find("75");
+
         if ( (**point)["tmin"] ) {		
             tenmin.push_back(PaperPoint(x, y10->second));
 		    nintymin.push_back(PaperPoint(x, y90->second));
@@ -2101,26 +2111,26 @@ void EpsShade::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
      
    
    
-    if ( !first->empty() ) visitor.push_back(first);
-	if ( !second->empty() ) visitor.push_back(second);
+    if ( !first->empty() ) transformation(*first, visitor);
+	if ( !second->empty() ) transformation(*second, visitor);
 	
-    if ( !firstmin->empty() ) visitor.push_back(firstmin);
-	if ( !secondmin->empty() ) visitor.push_back(secondmin);
+    if ( !firstmin->empty() ) transformation(*firstmin, visitor);
+	if ( !secondmin->empty() ) transformation(*secondmin, visitor);
     
 	
-    if ( !firstmax->empty() ) visitor.push_back(firstmax);
-	if ( !secondmax->empty() ) visitor.push_back(secondmax);
+    if ( !firstmax->empty() ) transformation(*firstmax, visitor);
+	if ( !secondmax->empty() ) transformation(*secondmax, visitor);
     
-	if ( !median->empty() ) visitor.push_back(median);
-    if ( !medianmin->empty() ) visitor.push_back(medianmin);
-    if ( !medianmax->empty() ) visitor.push_back(medianmax);
+	if ( !median->empty() ) transformation(*median, visitor);
+    if ( !medianmin->empty() ) transformation(*medianmin, visitor);
+    if ( !medianmax->empty() ) transformation(*medianmax, visitor);
     
-    if ( !backbottom->empty() ) visitor.push_back(backbottom);
-    if ( !backtop->empty() ) visitor.push_back(backtop);
-    if ( !backbottommin->empty() ) visitor.push_back(backbottommin);
-    if ( !backtopmin->empty() ) visitor.push_back(backtopmin);
-    if ( !backbottommax->empty() ) visitor.push_back(backbottommax);
-    if ( !backtopmax->empty() ) visitor.push_back(backtopmax);
+    if ( !backbottom->empty() ) transformation(*backbottom, visitor);
+    if ( !backtop->empty() ) transformation(*backtop, visitor);
+    if ( !backbottommin->empty() ) transformation(*backbottommin, visitor);
+    if ( !backtopmin->empty() ) transformation(*backtopmin, visitor);
+    if ( !backbottommax->empty() ) transformation(*backbottommax, visitor);
+    if ( !backtopmax->empty() ) transformation(*backtopmax, visitor);
     
 	
 }
@@ -2590,14 +2600,14 @@ void EpsPlume::timeserie(Data& data, BasicGraphicsObjectContainer& visitor)
 	}
 	if ( line_)
 			for ( map<string, Polyline* >::const_iterator line = lines.begin(); line != lines.end(); ++line) {
-			visitor.push_back(line->second);
+			transformation(*line->second, visitor);
 		}
 		if (control_)
-			visitor.push_back(control);
+			transformation(*control, visitor);
 		if (forecast_)
-			visitor.push_back(forecast);
+			transformation(*forecast, visitor);
 		if (median_)
-			visitor.push_back(median);
+			transformation(*median, visitor);
 
 }
 
@@ -2706,7 +2716,7 @@ void EfiGraph::operator()(Data& data, BasicGraphicsObjectContainer& out)
 
 			int s = (**point)[step.str()];
 			ostringstream legend;
-			legend << "Eps t+ [" << s - 36 << "-" << s - 12 <<"h] " ;
+			legend << "t+ [" << s - 36 << "-" << s - 12 <<"h] " ;
 
 			Polyline* box  = new Polyline();
 			box->setColour(*border_colour_);

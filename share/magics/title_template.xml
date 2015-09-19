@@ -30,6 +30,10 @@
     	<text><base_date format = '%A %d %B %Y %H UTC'/> <centre  format = "%s Forecast"/> <step format="t+%s"/> 
 <valid_date format = 'VT:%A %d %B %Y %H UTC'/> <level/> <parameter/><units/><expver/></text>
     </title>
+    <title timeRangeIndicator='10'>
+    	<text><base_date format = '%A %d %B %Y %H UTC'/> <centre  format = "%s Forecast"/> <step format="t+%s"/> 
+<valid_date format = 'VT:%A %d %B %Y %H UTC'/> <level/> <parameter/><units/><expver/></text>
+    </title>
     <title dataType='fc'>
     	<text><base_date format = '%A %d %B %Y %H UTC'/> <centre/> <product/> <step format="t+%s"/> 
 <valid_date format = 'VT:%A %d %B %Y %H UTC'/> <level/> <parameter/><units/><expver/></text>
