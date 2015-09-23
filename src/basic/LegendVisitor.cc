@@ -303,6 +303,8 @@ void  LegendVisitor::horizontal()
 }
 void  LegendVisitor::vertical()
 {
+	double xmin, xmax, ymin, ymax;
+	double xtitle, ytitle;
 	int row = 1;
 	int column = 1;
 	int rows = entriesNumber_/columns_;
@@ -390,7 +392,8 @@ void  LegendVisitor::leftTitle()
 	bool column =  ( legend_->absoluteWidth() <  legend_->absoluteHeight() );
 
 	titleJustification_ = ( column ) ?  MCENTRE : MRIGHT;
-    titleAngle_ =  ( column ) ?  magics::PI * 1.5 : 0;
+	float factor =  ( column ) ?  0.25 : 0.15;
+	titleAngle_ =  ( column ) ?  magics::PI * 1.5 : 0;
 
 	double width = (100 /(100-title_ratio_))*(maxx - minx);
 	double newminx = maxx - width;

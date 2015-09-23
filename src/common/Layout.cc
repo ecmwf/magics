@@ -39,6 +39,9 @@
 
 using namespace magics;
 
+const double axisHeight_ = 3;
+const double axisWidth_ = 3;
+const double legendHeight_ = 3;
 
 #define CLEAR(a) if (a) delete a;
 

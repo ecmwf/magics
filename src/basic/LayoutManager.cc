@@ -87,7 +87,8 @@ BasicSceneNode* MagMLLayoutManager::inline_display(BasicSceneNode* parent, Basic
 	Layout& layout = node->layout();
 	// first fits in width! 
 	const double x = ( layout.x() ? layout.x() : x_);
-    const double width  = x + layout.width();
+	const double y = ( layout.y() ? layout.y() : y_);
+	const double width  = x + layout.width();
 	const double height =     layout.height();
 
 	if (100 - y_ - height >=  0 )

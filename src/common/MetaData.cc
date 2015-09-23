@@ -97,6 +97,9 @@ void MetaDataVisitor::collectMetaData()
 	try {
 	 ofstream out(profile_.c_str());
 
+	    	double t;
+	       struct timeval tim;
+
 
 
 

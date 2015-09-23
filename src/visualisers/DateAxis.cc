@@ -243,7 +243,7 @@ void DateAxisMethod::years(AxisItems& list)
 
 		int frequency;
 		const long long seconds_a_year=24*3600*365;
-		
+		const long decade=10;
 
 		if ( interval_ == INT_MAX ) {
 		    if ( max-min < 20*seconds_a_year ) {
@@ -383,7 +383,7 @@ void DateAxisMethod::months_label(AxisItems& in, AxisItems& list)
 	formats["full"] = std::make_pair("%B", -1);
 	formats["three"] = std::make_pair("%B", 3);
 	AxisItem* last = 0;
-	
+	AxisItem* current = 0;
 
 	for ( AxisItems::iterator item = in.begin(); item != in.end(); ++item) {
 		AxisItem* month = (*item)->clone();
