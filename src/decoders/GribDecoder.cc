@@ -539,20 +539,9 @@ struct Compare
 
 void GribDecoder::customisedPoints(const Transformation& transformation, CustomisedPointsList& out, double thinx, double thiny, double gap)
 {
-
-/*
-	map<double, map<double, CustomisedPoint*> > data;
-
-
-	string xc = "x_component";
-	string yc = "y_component";
-	string cc = "colour_component";
-
-	vector<pair<double, vector<pair<double, CustomisedPoint*> > > > points;
-
-*/
 	// Initialise index and data
-	interpretor_->index(*this);
+	interpretor_->new_index(*this);
+    
 	uComponent();
 	vComponent();
 	double minlon = interpretor_->west_;
@@ -575,7 +564,7 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 			// First make sure tthat the lon is between the minlon and maxlon.
 			double lon = pos->first;
 			double lat = pos->second;
-			double nlon, nlat;
+			
 
 			while ( lon < minlon ) {
 				lon += 360;
@@ -586,21 +575,21 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 				offset += 360.;
 			}
 
-			int index = interpretor_->nearest(lon, lat, nlon, nlat);
-
-			if ( index != -1 ) {
-				double u = uComponent(index);
-				double v = vComponent(index);
+			Index index = interpretor_->nearest(lat, lon);
+            //cout << "[" << lat << ", " << lon << "]-->[" << index.index_ << ", " << index.lat_ << ", " << index.lon_ << "]" << endl;
+			if ( index.index_ != -1 ) {
+				double u = uComponent(index.index_);
+				double v = vComponent(index.index_);
 
 
 				if ( u != missing && v != missing) {
-					CustomisedPoint *add = new CustomisedPoint(nlon+offset, nlat, "");
+					CustomisedPoint *add = new CustomisedPoint(index.lon_+offset, index.lat_, "");
 					pair<double, double> value = (*wind_mode_)(u, v);
 
 					add->insert(make_pair("x_component", value.first));
 					add->insert(make_pair("y_component", value.second));
 					out.push_back(add);
-                    /*
+                    /* for debug!
 					add = new CustomisedPoint(lon+offset, lat, "");
 
 					add->insert(make_pair("x_component", 0.01));
@@ -615,31 +604,26 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 
 	else { // no thinning !
 		// get all the points of the index!
-		double lat, lon;
-		int index;
-		for ( map<double, map<double, int> >::iterator row = interpretor_->index().begin(); row != interpretor_->index().end(); ++row ) {
-			lat = row->first;
-			for (  map<double, int>::iterator column = row->second.begin(); column != row->second.end(); ++column) {
-				lon = column->first;
-				index = column->second;
-				if ( index == -1 )
-					continue;
-				double u = uComponent(index);
-				double v = vComponent(index);
-				if ( u != missing && v != missing) {
-					pair<double, double> value = (*wind_mode_)(u, v);
-					vector<UserPoint> pos;
-					transformation.populate(lon, lat, 0, pos);
-					for ( vector<UserPoint>::iterator p = pos.begin(); p != pos.end(); ++p) {
-						CustomisedPoint *add = new CustomisedPoint(p->x(), p->y(), "");
-						add->insert(make_pair("x_component", value.first));
-						add->insert(make_pair("y_component", value.second));
-						out.push_back(add);
-					}
-				}
-			}
-		}
-	}
+        
+        for ( vector<vector<Index> >:: iterator cell = interpretor_->helper_.begin(); cell != interpretor_->helper_.end(); ++cell) {
+            for ( vector<Index>::iterator index = cell->begin(); index != cell->end(); ++index) {
+                double u = uComponent(index->index_);
+                double v = vComponent(index->index_);
+                if ( u != missing && v != missing) {
+                    pair<double, double> value = (*wind_mode_)(u, v);
+                    vector<UserPoint> pos;
+                    transformation.populate(index->lon_, index->lat_, 0, pos);
+                    for ( vector<UserPoint>::iterator p = pos.begin(); p != pos.end(); ++p) {
+                        CustomisedPoint *add = new CustomisedPoint(p->x(), p->y(), "");
+                        add->insert(make_pair("x_component", value.first));
+                        add->insert(make_pair("y_component", value.second));
+                        out.push_back(add);
+                    }
+                }
+
+            }
+        }
+    }
 
 }
 
@@ -1413,7 +1397,7 @@ void GribDecoder::nearestGridpoints(double *inlats, double *inlons, double *outl
 void GribDecoder::visit(ValuesCollector& points)
 {
 	field_ = open(field_);
-	const Transformation& transformation = points.transformation();
+	
 
 	points.setCollected(true);
 
@@ -1426,7 +1410,7 @@ void GribDecoder::visit(ValuesCollector& points)
 	double x[nb];
 	double y[nb];
 	double distances[nb];
-	int indexes[nb];
+	
 	double scaling, offset;
 	string oriUnits, derivedUnits;
 	string representation = getString("typeOfGrid");
@@ -1477,7 +1461,7 @@ void GribDecoder::visit(ValuesCollector& points)
 		}
 	}
 	else { //if ( Data::dimension_ == 2  ) {
-		bool scaled=(scaling==1 && offset == 0)?false:true;		
+			
 		oriUnits=getString("units",false);
 		if(oriUnits.find("/") == string::npos)
 		{

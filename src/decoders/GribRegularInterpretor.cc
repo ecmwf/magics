@@ -66,6 +66,100 @@ void GribInterpretor::scaling(const GribDecoder& grib, double& scaling,
 	this->scaling(grib, scaling, offset, originalUnits, derivedUnits);
 }
 
+void GribInterpretor::new_index(const GribDecoder& grib)
+{
+    //Use the grib Iterator to create the index
+    
+    indexStep_ = XResolution(grib);
+    indexLon_ = 360/indexStep_+1;
+    indexLat_ = 180/indexStep_+1;
+    
+    helper_.reserve(indexLon_*indexLat_);
+    grib_handle* handle = grib.handle();
+    
+    for (int j = 0; j < indexLat_; j++)
+        for (int i = 0; i < indexLon_; i++)
+            helper_.push_back(vector<Index>());
+    
+    int error;
+        
+    
+    grib_iterator* iter = grib_iterator_new(handle, 0, &error);
+    
+  
+    
+    double lat, lon, u;
+    int ilat, ilon;
+   
+    int i = 0;
+    while (grib_iterator_next(iter, &lat, &lon, &u) ) {
+
+        ilat = floor((lat+90)/indexStep_);
+        ilon = floor(lon/indexStep_);
+        helper_[ilat * indexLon_ + ilon].push_back(Index(i, lat, lon));
+        i++;
+    }
+    west_ = 0;
+    east_ = 360.;
+    
+    
+}
+
+Index GribInterpretor::nearest(double lat, double lon)
+{
+    
+    int ilat = floor((lat+90)/indexStep_);
+    int ilon = floor(lon/indexStep_);
+    int lat1, lat2;
+    vector<int> lonn;
+    
+    
+    
+    lat1 = (ilat) ? ilat : ilat - 1;
+    lat2 = (ilat == indexLat_) ? ilat : ilat + 1;
+    
+    if ( ilon == 0 ) {
+        lonn.push_back(indexLon_);
+        lonn.push_back(0);
+        lonn.push_back(1);
+    }
+    else if (ilon == indexLon_) {
+        lonn.push_back(ilon-1);
+        lonn.push_back(ilon);
+        lonn.push_back(0);
+    }
+    else {
+        lonn.push_back(ilon-1);
+        lonn.push_back(ilon);
+        lonn.push_back(ilon+1);
+    }
+    //ghdjshj
+    
+    double nearest = 999999999;
+    Index index(-1, 0, 0);
+    if ( lat == -1000. || lon == -1000.)
+    	return index;
+    for ( ilat = lat1; ilat < lat2; ilat++ )
+        for ( vector<int>::iterator ilon = lonn.begin(); ilon != lonn.end(); ++ilon ) {
+            
+            vector<Index>& points = helper_[ilat * indexLon_ + *ilon];
+            for (vector<Index>::iterator point = points.begin(); point != points.end(); ++point) {
+                Index i = *point;
+                if ( i.used_ ) continue;
+                double distance = (( lon- index.lon_ ) * (lon - index.lon_ )) + (( lat - index.lat_ ) * (lat - index.lat_ ));
+                if ( distance < nearest ) {
+                    nearest = distance;
+                    index = i;
+                }
+            }
+            
+        }
+    if ( index.lon_ < 0 )
+        index.lon_ += 360.;
+    index.used_ = true;
+    return index;
+}
+
 void GribInterpretor::scaling(const GribDecoder& grib, double& scaling,
 		double& offset, string& originalUnits, string& derivedUnits) const {
 	scaling = 1;
@@ -200,7 +294,7 @@ void GribInterpretor::raw(GribDecoder& grib,
 	grib_handle* uc = grib.uHandle(uname);
 	grib_handle* vc = grib.vHandle(vname);
 
-	long nblon = grib.getLong("numberOfPointsAlongAParallel");
+	
 	long nblat = grib.getLong("numberOfPointsAlongAMeridian");
 
 	points.reserve(nblat);
@@ -255,7 +349,7 @@ void GribInterpretor::raw(GribDecoder& grib,
 
 		CustomisedPoint* first = lons.front().second;
 		;
-		CustomisedPoint* last = lons.back().second;
+		
 		//if (last->longitude() - first->longitude() > XResolution(grib)) {
 		CustomisedPoint* dup = new CustomisedPoint(first->longitude() + 360,first->latitude(), "");
 		dup->insert(make_pair("x_component", (*first)["x_component"]));
@@ -336,16 +430,14 @@ void GribRegularInterpretor::index(const GribDecoder& grib)
 	if ( !index_.empty() )
 		return;
 	long nblon = grib.getLong("numberOfPointsAlongAParallel");
-	long nblat = grib.getLong("numberOfPointsAlongAMeridian");
-
-	double north = grib.getDouble("latitudeOfFirstGridPointInDegrees");
+    
 	west_ = grib.getDouble("longitudeOfFirstGridPointInDegrees");
-	double south = grib.getDouble("latitudeOfLastGridPointInDegrees");
+	
 	east_ = grib.getDouble("longitudeOfLastGridPointInDegrees");
 
 	longitudesSanityCheck(west_, east_);
 
-	double loni = longitudeIncrement(grib);
+	
 	double lon = (east_ - west_) / (nblon - 1);
 
 	vector<double> latitudes;
@@ -716,7 +808,7 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
     int nblon = 0;
     int ii = 0;
 
-    double origin = 0;
+    
 
     // We have to determine if the field is global!
     	if (east - west > 355.) {
@@ -777,7 +869,7 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
 		double lon = west;
 		unsigned int p1 = 0;
 		unsigned int p2 = 1;
-		double dx =  ( row->back() - row->front() / (p.size() - 1));
+		
 		vector<double>::iterator r = row->begin();
 		double lon1 = *r;
 		r++;
@@ -867,7 +959,7 @@ void GribReducedGaussianInterpretor::index(GribDecoder const& grib)
 	west_ = grib.getDouble("longitudeOfFirstGridPointInDegrees");
 	double south = grib.getDouble("latitudeOfLastGridPointInDegrees");
 	east_ = grib.getDouble("longitudeOfLastGridPointInDegrees");
-	double plp = grib.getDouble("PLPresent");
+	
 	long res = grib.getLong("numberOfParallelsBetweenAPoleAndTheEquator");
 	long nblat = grib.getLong("Nj");
 	longitudesSanityCheck(west_, east_);
@@ -992,7 +1084,7 @@ void GribReducedLatLonInterpretor::interpretAsMatrix(const GribDecoder& grib,
 				(*matrix)->push_back(missing);
 		}
 		else {
-			unsigned int p1 = 0;
+			
 			vector<double> p;
 			vector<double> lons;
 
@@ -1527,9 +1619,8 @@ void GribLambertInterpretor::interpretAsMatrix(const GribDecoder& grib,
 			maxlon -= 360;
 
 		grib_get_double_array(grib.id(), "values", &(data.front()), &aux);
-		double min = *min_element(data.begin(), data.end());
-		double max = *max_element(data.begin(), data.end());
-		;
+	
+		
 
 		for (int i = 0; i < nb; i++) {
 			if (lonm[i] > 50.)
@@ -1585,8 +1676,7 @@ void GribLambertInterpretor::interpretAsMatrix(const GribDecoder& grib,
 			row++;
 		}
 
-		int r = 0;
-		int c = 0;
+		
 
 		double lat11, lat12, lat21, lat22;
 		double lon11, lon12, lon21, lon22;
@@ -1720,6 +1810,7 @@ void GribLambertInterpretor::print(ostream& out) const {
 PaperPoint GribLambertAzimutalInterpretor::reference(const GribDecoder&, const Transformation&)
 {
 	ASSERT(false);
+    return PaperPoint();
 
 }
 
@@ -1734,9 +1825,9 @@ void GribPolarStereoInterpretor::interpretAsMatrix(const GribDecoder& grib,
 
 	*matrix = new Matrix(im, jm);
 	double steplon= 0.1;
-	double lon0 = 0 - (steplon/2);
+	
 	double steplat= 0.1;
-	double lat0 = -90 - (steplat/2);
+	
 
 	double missing =  grib.getDouble("missingValue");
 	for (int i = 0; i < im; i++) {
