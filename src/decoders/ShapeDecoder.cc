@@ -167,6 +167,7 @@ void ShapeDecoder::decode(const Transformation& transformation, const string& fi
 		double  minx, miny, maxx, maxy;
 		transformation.smallestBoundingBox(minx, miny, maxx, maxy);
 
+		Polyline& box = transformation.getUserBoundingBox();
 
 		int     nWidth, nDecimals;
 		int     nShapeType, nEntities, i, iPart;
@@ -340,7 +341,7 @@ void ShapeDecoder::decode(vector<Polyline>& data, const Transformation& transfor
 
 
 			SHPObject	*psShape = 0;
-			
+			int nb  = 0;
 			for( i = 0; i < nEntities; i++ )
 			{
 				int		j;
@@ -392,6 +393,7 @@ void ShapeDecoder::decode(vector<Polyline>& data, const Transformation& transfor
 
 				for( j = 0, iPart = 1, hole = false; j < psShape->nVertices ; j++ )
 				{
+					bool patch = false;
 					if( iPart < psShape->nParts && psShape->panPartStart[iPart] == j )
 					{
 						iPart++;

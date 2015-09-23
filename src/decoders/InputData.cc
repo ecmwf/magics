@@ -91,6 +91,9 @@ void  InputData::prepare()
     vector<double>::iterator x = x_values_.begin();
 	vector<double>::iterator y = y_values_.begin();
 	vector<double>::iterator v = values_.begin();
+	vector<double>::reverse_iterator x2 = x2_values_.rbegin();
+	vector<double>::reverse_iterator y2 = y2_values_.rbegin();
+
     while ( x != x_values_.end() && y != y_values_.end() ) {
     	double val = 0;
     	if ( v != values_.end() ) {
@@ -203,7 +206,7 @@ void InputData::customisedPoints(const Transformation& transformation, const std
 
 	}
 	while (  xr2 != x2_values_.rend() && yr2 != y2_values_.rend()  ) {
-		
+		double x = *xr2;
 
 		CustomisedPoint* point = new CustomisedPoint();
 		if ( same(*xr2, x_missing_) )

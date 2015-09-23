@@ -129,7 +129,6 @@ public:
 	void epsz(const json_spirit::Value&);
 	void detz(const json_spirit::Value&);
 	void date(const json_spirit::Value&);
-    void expver(const json_spirit::Value&);
 	void height(const json_spirit::Value&);
 	void time(const json_spirit::Value&);
 
@@ -204,7 +203,6 @@ protected:
 	 string time_;
 	 string file_;
 	 string valid_time_;
-     string expver_;
 
 	 json_spirit::Value metadata_;
 	 InputWrep   values_;

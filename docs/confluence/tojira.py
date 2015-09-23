@@ -37,7 +37,12 @@ action["Wind"] = {
     "json" : "wind",
     "jira" : "Wind Plotting",
     "doc" : "Wind Plotting documentation",
-    "files" : ["Wind.xml", "WindPlotting.xml", "ArrowPlotting.xml", "FlagPlotting.xml"]
+    "files" : ["Wind.xml", "WindPlotting.xml", "ArrowPlotting.xml", "FlagPlotting.xml", 
+            "IntervalSelectionType.xml",
+            "CalmIndicator.xml", "NoCalmIndicator.xml","OriginMarker.xml",
+            "CalculateColourTechnique.xml", "ColourTechnique.xml",
+            "CircleOriginMarker.xml", "DotOriginMarker.xml", "LevelListSelectionType.xml", 
+            "CountSelectionType.xml", "LevelSelection.xml"]
     }
 
 
@@ -301,7 +306,7 @@ all = [ "Contour", "SymbolPlotting", "GraphPlotting", "Wind",
 
 list = [ "FortranRootSceneNode",  "FortranSceneNode", "FortranViewNode" ]
 list = [  "LegendVisitor", "TextVisitor", "ImportObjectHandler" ]
-list = [ "WrepJSon"]
+list = [ "Wind"]
 """
 minicolor = [
     ["jquery.miniColors.js",  "Reference guide", "MiniColor"],
@@ -310,7 +315,7 @@ minicolor = [
 """
 from tojson import  createAction
 put("magdoc.js",     "Reference guide", "Magics gallery generator")
-for i in all:
+for i in list:
     definition = action[i]
     createAction("2.24.5", definition["json"], i, definition["files"])
     put(definition["json"]+".json", definition["jira"],  definition["doc"])

@@ -529,6 +529,8 @@ void FortranTextVisitor::interpret(string& line, stringarray& lines)
 	}
 
 	string key, format;
+	int where;
+	int howmany;
 
 	vector<KeyInfo> keys;
 
@@ -646,7 +648,7 @@ void TextVisitor::add(const string& line, TextEntry* entry)
 
 void TextVisitor::extract(const string& line, vector<KeyInfo>& keys)
 {
-	
+	int count = 0;
 
 	char escape = *(parameter_escape_.begin());
 	bool special = false;

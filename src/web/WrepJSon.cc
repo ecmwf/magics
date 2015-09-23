@@ -48,11 +48,12 @@ static map<char, string> specials;
 WrepJSon::WrepJSon()  : missing_(-9999),
 		height_(-9999),
 		mask_(9999),
-		latitude_(0), station_longitude_(9999), longitude_(0)
+		station_latitude_(9999),
+		station_longitude_(9999), 
+		latitude_(0), longitude_(0)
 {
 	methods_["date"] = &WrepJSon::date;
 	methods_["time"] = &WrepJSon::time;
-    methods_["expver"] = &WrepJSon::expver;
 	methods_["eps_height"] = &WrepJSon::epsz;
 	methods_["height"] = &WrepJSon::height;
 	methods_["deterministic_height"] = &WrepJSon::detz;
@@ -662,14 +663,6 @@ void WrepJSon::date(const json_spirit::Value& value)
 	MagLog::dev() << "found -> date= " <<  value.get_value<string>() << endl;
 	date_ =  value.get_value<string>();
 	
-}
-void WrepJSon::expver(const json_spirit::Value& value)
-{
-    
-    ASSERT( value.type() == str_type);
-    MagLog::dev() << "found -> expver= " <<  value.get_value<string>() << endl;
-    expver_ =  value.get_value<string>();
-    
 }
 void WrepJSon::time(const json_spirit::Value& value)
 {
@@ -1312,12 +1305,8 @@ void WrepJSon::visit(TextVisitor& text)
 	if (param_info_ != "none")
 		text.update("json", "station_name", station_name_);
 
-	
-    if ( !expver_.empty() ) {
-        text.update("json", "expver",  " [" + expver_ + "] ");
-    }
-	else
-        text.update("json", "product_info", product_info_);
+	//(**point)["y"]
+	text.update("json", "product_info", product_info_);
 	text.update("json", "plumes_interval", tostring(plumes_));
 	text.update("json", "efi_date", valid_time_);
 	text.update("json", "min_max_values", "Max = " +  tostring(maground(maxx_)) + ", Min = " +  tostring(maground(minx_)));

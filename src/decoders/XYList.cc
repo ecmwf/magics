@@ -83,7 +83,7 @@ void XYList::customisedPoints(const std::set<string>& needs, CustomisedPointsLis
 	vector<double>::const_iterator y_lower = y_lower_.begin();
 	
 	bool bar = (needs.find("bar") != needs.end());
-	
+	bool area = (needs.find("area") != needs.end());
 	while (  x != x_.end() ) {
 		    	CustomisedPoint* point = new CustomisedPoint();
 

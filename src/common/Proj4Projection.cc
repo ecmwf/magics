@@ -418,7 +418,7 @@ void Proj4Projection::add(double lon, double lat)
 {
 	double x = lon*DEG_TO_RAD;
 	double y = DEG_TO_RAD*lat;
-	
+	int error =  pj_transform(from_, to_, 1, 1, &x, &y, NULL );
 	userEnveloppe_->push_back(PaperPoint(lon, lat));
 	PCEnveloppe_->push_back(PaperPoint(x, y));
 	if ( x < min_pcx_ )  min_pcx_ = x;
@@ -1046,7 +1046,7 @@ double Proj4Projection::patchDistance(double res) const {
 	fast_reproject(x1, y1);
 	fast_reproject(x2, y2);
 
-	
+	double degree = ((x1-x2) * (x1-x2)) + ((y1-y2) * (y1-y2));
 	return 1000000000;
 
 }

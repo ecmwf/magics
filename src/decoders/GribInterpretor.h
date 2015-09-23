@@ -45,14 +45,6 @@ class Transformation;
 
 class RasterData;
 
-struct Index
-    {
-        int    index_;
-        double lat_;
-        double lon_;
-        bool   used_;
-        Index(int index, double lat, double lon) : index_(index), lat_(lat), lon_(lon), used_(false) {}
-    };
 
 class GribInterpretor  {
 
@@ -80,22 +72,14 @@ public:
     void interpolate(const GribDecoder& grib, Matrix& matrix) const;
 
     virtual void  index(const GribDecoder& grib);
-    virtual void  new_index(const GribDecoder& grib);
-    
     virtual int nearest(double, double, double&, double&);
-    Index nearest(double, double);
     double west_;
     double east_;
-
-    vector<vector<Index> > helper_;
-    
+    map<double, map<double, int> >& index() { return index_; }
 protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).
 	 virtual void print(ostream& out) const { out <<  "GribInterpretor" << endl; }
 	 map<double, map<double, int> > index_;
-    int indexLon_;
-    int indexLat_;
-    double indexStep_;
 
 
 private:

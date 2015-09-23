@@ -75,16 +75,15 @@ void LevelSelection::thinLevels(int frequency, vector<double>& out) const
 				break;
 			++rlevel;
 		}
-	
+	count=1;
 	++rlevel;
-    count = 0;
+
 	for (rlevel; rlevel != rend(); ++rlevel) {
 		if ( count%frequency == 0 ) {
 			out.push_back(*rlevel);
-            
+
 		}
-        count++;
-		
+		count++;
 	}
 
 	std::sort(out.begin(), out.end());
