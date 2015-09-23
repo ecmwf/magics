@@ -70,16 +70,13 @@ void GribInterpretor::new_index(const GribDecoder& grib)
 {
     //Use the grib Iterator to create the index
     
-    indexStep_ = XResolution(grib);
+    indexStep_ = 0.25;
     indexLon_ = 360/indexStep_+1;
     indexLat_ = 180/indexStep_+1;
     
-    helper_.reserve(indexLon_*indexLat_);
+    helper_ = vector<vector<Index> >(indexLon_*indexLat_, vector<Index>());
     grib_handle* handle = grib.handle();
     
-    for (int j = 0; j < indexLat_; j++)
-        for (int i = 0; i < indexLon_; i++)
-            helper_.push_back(vector<Index>());
     
     int error;
         
@@ -1181,6 +1178,11 @@ UserPoint GribLambertAzimutalInterpretor::unrotate(double lat,
 	return UserPoint(lon, lat);
 }
 
+double GribLambertAzimutalInterpretor::XResolution(const GribDecoder& grib) const
+{
+    return 0.25;
+}
+
 pair<double, double> GribRotatedInterpretor::unrotate(double lat_y,
 		double lon_x) const {
 	const double cToRadians = M_PI / 180.0;
@@ -1809,9 +1811,7 @@ void GribLambertInterpretor::print(ostream& out) const {
 
 PaperPoint GribLambertAzimutalInterpretor::reference(const GribDecoder&, const Transformation&)
 {
-	ASSERT(false);
     return PaperPoint();
-
 }
 
 void GribPolarStereoInterpretor::print(ostream& out) const {

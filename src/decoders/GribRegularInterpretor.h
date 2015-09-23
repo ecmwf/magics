@@ -156,6 +156,8 @@ public:
 	UserPoint unrotate(double lat, double lon) const;
 	void interpretAsMatrix(const GribDecoder&, Matrix**) const; 
 	PaperPoint reference(const GribDecoder&, const Transformation&);
+	double XResolution(const GribDecoder& grib) const;
+
 protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).
 	 virtual void print(ostream&) const; 
