@@ -4,7 +4,7 @@
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
- You may obtain a copy of the License at 
+ You may obtain a copy of the License at
 
     http://www.apache.org/licenses/LICENSE-2.0
 
@@ -18,13 +18,13 @@
 
 /*! \file ShapeDecoder.h
     \brief Definition of the Template class ShapeDecoder.
-    
+
     Magics Team - ECMWF 2005
-    
+
     Started: Mon 12-Dec-2005
-    
+
     Changes:
-    
+
 */
 
 #ifndef ShapeDecoder_H
@@ -45,10 +45,10 @@ typedef boost::geometry::model::polygon< boost::geometry::model::d2::point_xy<do
 typedef boost::geometry::model::box<     boost::geometry::model::d2::point_xy<double> >     box_2d;
 
 namespace magics {
-	
+
 class XmlNode;
 
-class ShapeDecoder: public ShapeDecoderAttributes, 
+class ShapeDecoder: public ShapeDecoderAttributes,
 		public Data, public Decoder, public vector<PointsList* >
 {
 public:
@@ -68,13 +68,14 @@ public:
 	void setPath(const string& path) { path_ = path; }
 	PointsHandler& points()
 	{
-		ASSERT(false);
+		NOTIMP;
 	}
 
 	PointsHandler& points(const Transformation&, bool )
 	{
-		ASSERT(false);
+		NOTIMP;
 	}
+
 	void customisedPoints(const Transformation&, const std::set<string>& n, CustomisedPointsList& out, bool)
 	{
 		customisedPoints(n, out);
@@ -82,7 +83,7 @@ public:
 
 protected:
 	//! Method to print string about this class on to a stream of type ostream (virtual).
-	virtual void print(ostream&) const; 
+	virtual void print(ostream&) const;
 	bool holes_; // Do we need to deal with the holes during decoding!.
 
     //! Method to ensure all inner rings lie within outer ring of polygon

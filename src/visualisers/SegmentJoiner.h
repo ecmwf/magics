@@ -138,8 +138,7 @@ public:
 
     double computeSegmentLines(list<deque<Segment> >& result);
 
-    double punchHoles(vector<vector<Point> >& result);
-
+    void punchHoles(vector<vector<Point> >& result);
 
     static double area(const vector<Point>& );
     static bool isHole(const vector<Point>& p) { return area(p) < 0; }
