@@ -41,6 +41,8 @@ ecbuild_requires_macro_version( 1.9 )
 # some variables of this project
 
 ecbuild_use_package(PROJECT grib_api VERSION 1.12.3 REQUIRED)
+# grib_api is required for now
+set( HAVE_GRIB 1 )
 
 ecbuild_add_option( FEATURE BUFR
                     DEFAULT ON
@@ -63,18 +65,56 @@ ecbuild_add_option( FEATURE GEOTIFF
                     CONDITION HAVE_CAIRO
                     REQUIRED_PACKAGES GeoTIFF )
 
-option( ENABLE_NETCDF         "enable netcdf support"             ON  )
+ecbuild_add_option( FEATURE NETCDF
+                    DEFAULT ON
+                    DESCRIPTION "enable netcdf support"
+                    REQUIRED_PACKAGES "NetCDF 4 COMPONENTS C CXX" )
 
-option( ENABLE_SPOT           "enable spot support"               OFF )
+ecbuild_add_option( FEATURE SPOT
+                    DEFAULT OFF
+                    DESCRIPTION "enable spot support"
+                    REQUIRED_PACKAGES "PROJECT spot" )
 
-option( ENABLE_PYTHON         "enable python interface"   ON  )
-option( ENABLE_FORTRAN        "enable fortran interface"  ON  )
+ecbuild_add_option( FEATURE PYTHON
+                    DEFAULT ON
+                    DESCRIPTION "enable python interface"
+                    REQUIRED_PACKAGES Python SWIG NumPy )
 
-option( ENABLE_METVIEW        "enable Metview interface"  OFF  )
-option( ENABLE_METVIEW_NO_QT  "enable Metview interface without Qt"    OFF )
-option( ENABLE_QT5            "use Qt5 instead of version 4"        OFF )
+if( HAVE_PYTHON )
+   include(UseSWIG)
+endif()
 
-option( ENABLE_STATIC_LIBRARY    "Internal Build static Library"    OFF  )
+ecbuild_add_option( FEATURE FORTRAN
+                    DEFAULT ON
+                    DESCRIPTION "enable Fortran interface" )
+
+if( HAVE_FORTRAN )
+	ecbuild_enable_fortran( REQUIRED )
+endif()
+
+ecbuild_add_option( FEATURE METVIEW
+                    DEFAULT OFF
+                    DESCRIPTION "enable Metview interface" )
+
+ecbuild_add_option( FEATURE METVIEW_NO_QT
+                    DEFAULT OFF
+                    DESCRIPTION "enable Metview interface without Qt" )
+
+ecbuild_add_option( FEATURE QT5
+                    DEFAULT OFF
+                    DESCRIPTION "use Qt5 instead of version 4" )
+
+ecbuild_add_option( FEATURE PNG
+                    DESCRIPTION "support for PNG decoding/encoding"
+                    DEFAULT ON
+                    REQUIRED_PACKAGES PNG
+)
+
+if( HAVE_PNG )
+    add_definitions( ${PNG_DEFINITIONS} )
+endif()
+
+option( BUILD_SHARED_LIBS  "Set to BOTH to build static library in addition to shared"  ON )
 option( ENABLE_REGRESSION        "Internal use only: enable regression test"  OFF  )
 option( ENABLE_REGRESSION_UPLOAD "Internal use only : enable upload of reference image"  OFF  )
 
@@ -95,139 +135,29 @@ set( MAG_PYTHON_PATH ${CMAKE_BINARY_DIR}/python )
 
 # ecbuild_use_package( PROJECT eckit VERSION 0.3 REQUIRED )
 
-### fortran
-
-if( ENABLE_FORTRAN )
-	ecbuild_enable_fortran( REQUIRED )
-endif()
-
-### python
-
-if( ENABLE_PYTHON )
-	ecbuild_find_python( REQUIRED )
-
-    debug_var( PYTHON_INCLUDE_DIRS )
-    debug_var( PYTHON_LIBRARIES )
-
-    if( NOT PYTHON_INCLUDE_DIRS OR NOT PYTHON_LIBRARIES )
-        message( FATAL_ERROR "Couldn't find Python libraries" )
-    endif()
-
-	find_package( SWIG REQUIRED )
-	find_package( NumPy REQUIRED )
-endif()
-if( SWIG_FOUND )
-   include(UseSWIG)
-endif()
-
-### grib
-
-#ecbuild_add_cxx_flags("-gdwarf-2")
-ecbuild_add_c_flags("-std=c99")
-
-#set( grib no )
-#if( HAVE_GRIB )
-   set( MAGICS_GRIB 1 )
-   set( grib yes )
-#endif()
-
-### netcdf
-
-set( netcdf no )
-# set( PREFER_NETCDF4 1)
-set( NETCDF_CXX 1 )
-if ( ENABLE_NETCDF )
-  find_package( NetCDF 4 COMPONENTS C CXX REQUIRED)
-endif()
-if ( NETCDF_FOUND )
-    list( APPEND MAGICS_TPLS  NetCDF )
-    set(MAGICS_NETCDF 1)
-	set( netcdf yes)
-endif()
-
-### odb
-
-set( odb no )
-if( HAVE_ODB )
-
-    get_filename_component( odb_api_install_dir ${ODB_API_CMAKE_DIR}/../../../lib ABSOLUTE )
-    get_filename_component( eckit_install_dir   ${ECKIT_CMAKE_DIR}/../../../lib ABSOLUTE )
-
-      set( MAGICS_ODB 1 )
-	  set( odb yes)
-
-	  # does this version use eckit?
-	  list(FIND ODB_API_LIBRARIES eckit ODB_ECKIT_INDEX)
-
-    if ((NOT ODB_ECKIT_INDEX EQUAL -1) OR (DEFINED ODB_ECKIT))  # is an eckit version
-        add_definitions(-DODB_ECKIT)
-    endif()
-
-endif()
-
-### spot
-
-set( spot no )
-if( ENABLE_SPOT )
-    ecbuild_use_package( PROJECT spot  REQUIRED)
-    if( SPOT_FOUND )
-        set (MAGICS_SPOT 1)
-        set ( spot yes)
-    endif()
-else() 
-endif()
-
-### bufr
-
-if( HAVE_BUFR ) # set by ecbuild_add_option()
-   set( MAGICS_BUFR 1 )
-   set( bufr yes)
-endif()
-
-
-### cairo
-
-set( cairo no )
-    
-if( HAVE_CAIRO )
-	set( MAGICS_CAIRO 1 )
-	set( cairo yes )
-  if( HAVE_GEOTIFF )
-	      set( MAGICS_GEOTIFF 1 )
-	   endif()
-	endif()
-
-ecbuild_add_option( FEATURE PNG
-    DESCRIPTION "support for PNG decoding/encoding"
-    DEFAULT ON
-    REQUIRED_PACKAGES PNG
-)
-
-if( HAVE_PNG )
-    add_definitions( ${PNG_DEFINITIONS} )
-endif()
+#cmake_add_cxx_flags("-gdwarf-2")
+cmake_add_c_flags("-std=c99")
 
 ### Metview and Qt
 
-if(ENABLE_METVIEW AND ENABLE_METVIEW_NO_QT)
-    message(FATAL_ERROR "Do not set both ENABLE_METVIEW and ENABLE_METVIEW_NO_QT - only set one. You may have to remove your CMakeCache.txt to clear these settings.")
+if(HAVE_METVIEW AND HAVE_METVIEW_NO_QT)
+    message(FATAL_ERROR "Do not set both HAVE_METVIEW and HAVE_METVIEW_NO_QT - only set one. You may have to remove your CMakeCache.txt to clear these settings.")
 endif()
 
 set( qt no )
-set( qtlib no )
 set( metview no )
 
-if( ENABLE_METVIEW_NO_QT )
+if( HAVE_METVIEW_NO_QT )
 	set( metview yes )
 	unset(MAGICS_ONLY)
 endif()
 
-if( ENABLE_METVIEW )
+if( HAVE_METVIEW )
     set ( metview yes)
     message(STATUS "TESTING for Metview ...")
     unset(MAGICS_ONLY)
 
-    if( ENABLE_QT5 )
+    if( HAVE_QT5 )
       find_package(Qt5Widgets REQUIRED)
       if( Qt5Widgets_FOUND )
           message(STATUS "Qt5 was found ... ${Qt5Widgets_VERSION_STRING}")
@@ -239,14 +169,14 @@ if( ENABLE_METVIEW )
       else()
           message(FATAL_ERROR "Qt5 was NOT found ...")
       endif()
-    else( ENABLE_QT5 )
+    else()
     find_package(Qt4 4.4.3 REQUIRED QtCore QtGui QtXml )
     if( QT_FOUND )
 		  include( ${QT_USE_FILE} )
 		  set( MAGICS_QT 1)
 		  set( qt yes)
     endif()
-    endif( ENABLE_QT5 )
+    endif()
 endif()
 
 ecbuild_declare_project()
@@ -266,64 +196,40 @@ find_package( Boost 1.49.0 REQUIRED)
 find_package( Proj4 REQUIRED )
 find_package( EXPAT  REQUIRED )
 
-
-install( FILES ${CMAKE_CURRENT_BINARY_DIR}/magics-config
-			DESTINATION ${INSTALL_BIN_DIR} 
-			PERMISSIONS OWNER_READ GROUP_READ WORLD_READ 
-				        OWNER_EXECUTE GROUP_EXECUTE WORLD_EXECUTE)
-
-
 ###############################################################################
 # contents
 
-set( MAGICS_TPLS grib_api spot odb_api EXPAT NetCDF PangoCairo PNG Proj4 libemos )
-
-if (DEFINED SEPARATE_ECKIT)
-    list (APPEND MAGICS_TPLS eckit)
-endif()
+set( MAGICS_TPLS grib_api spot EXPAT NetCDF PangoCairo PNG Proj4 libemos )
 
 set( MAGICS_INCLUDE_DIRS 
-        ${CMAKE_CURRENT_SOURCE_DIR}/src 
-        ${CMAKE_BINARY_SOURCE_DIR}/src 
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/common 
-        ${CMAKE_CURRENT_BINARY_DIR}/src/params 
-        ${CMAKE_CURRENT_BINARY_DIR}/src 
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/common  
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/basic
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/web
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/visualisers
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/drivers
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/drivers/MgQ
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/eckit_readers
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/decoders
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/terralib
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/terralib/kernel
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/terralib/utils
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/libMagWrapper
-        ${Boost_INCLUDE_DIRS} )
-    
-if( MAGICS_ODB )
-    list( APPEND MAGICS_INCLUDE_DIRS
-		${CMAKE_CURRENT_SOURCE_DIR}/src/oda 
-		${ODB_API_INCLUDE_DIRS}/../eclib 
-	)
+     ${CMAKE_CURRENT_SOURCE_DIR}/src 
+     ${CMAKE_BINARY_SOURCE_DIR}/src 
+     ${CMAKE_CURRENT_SOURCE_DIR}/src/common 
+     ${CMAKE_CURRENT_BINARY_DIR}/src/params 
+     ${CMAKE_CURRENT_BINARY_DIR}/src 
+     ${CMAKE_CURRENT_SOURCE_DIR}/src/common  
+     ${CMAKE_CURRENT_SOURCE_DIR}/src/basic
+     ${CMAKE_CURRENT_SOURCE_DIR}/src/web
+     ${CMAKE_CURRENT_SOURCE_DIR}/src/visualisers
+     ${CMAKE_CURRENT_SOURCE_DIR}/src/drivers
+     ${CMAKE_CURRENT_SOURCE_DIR}/src/drivers/MgQ
+     ${CMAKE_CURRENT_SOURCE_DIR}/src/eckit_readers
+     ${CMAKE_CURRENT_SOURCE_DIR}/src/decoders
+     ${CMAKE_CURRENT_SOURCE_DIR}/src/terralib
+     ${CMAKE_CURRENT_SOURCE_DIR}/src/terralib/kernel
+     ${CMAKE_CURRENT_SOURCE_DIR}/src/terralib/utils
+     ${CMAKE_CURRENT_SOURCE_DIR}/src/libMagWrapper
+     ${Boost_INCLUDE_DIRS}
+     ${PANGOCAIRO_INCLUDE_DIRS} )
+
+if( HAVE_ODB )
+  list( APPEND MAGICS_TPLS odb_api )
+  list( APPEND MAGICS_INCLUDE_DIRS
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/oda
+        ${ODB_API_INCLUDE_DIRS}/../eclib )
 endif()
-
-
-if (metview)
-    # required if building as part of a bundle
-    list( APPEND MAGICS_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/src/libMagWrapper)
-endif()
-
 
 set( MAGICS_LIBRARIES    MagPlus )
-
-
-
-# remove eckit_cmd because it's not needed for Magics, and causes problems when linked
-# with Metview
-list(REMOVE_ITEM ODB_API_LIBRARIES eckit_cmd)
-
 
 foreach( _tpl ${MAGICS_TPLS} )
     string( TOUPPER ${_tpl} TPL )
@@ -334,7 +240,7 @@ foreach( _tpl ${MAGICS_TPLS} )
     list( APPEND MAGICS_EXTRA_LIBRARIES     ${${TPL}_LIBRARIES} )
 endforeach()
 
-if( MAGICS_BUFR )
+if( HAVE_BUFR )
 	list( APPEND MAGICS_EXTRA_DEFINITIONS   fortfloat=double fortint=int )
     ecbuild_find_fortranlibs()
 	list( APPEND MAGICS_EXTRA_LIBRARIES ${FORTRAN_LIBRARIES} )
@@ -353,31 +259,22 @@ if( MAGICS_QT )
 endif()
 endif()
 
-if( MAGICS_GEOTIFF )
+if( HAVE_GEOTIFF )
 	list( APPEND MAGICS_EXTRA_INCLUDE_DIRS  ${GEOTIFF_INCLUDE_DIR} )
 	list( APPEND MAGICS_EXTRA_LIBRARIES  ${GEOTIFF_LIBRARY} )
-	list( APPEND MAGICS_EXTRA_DEFINITIONS MAGICS_GEOTIFF )
+  list( APPEND MAGICS_EXTRA_DEFINITIONS HAVE_GEOTIFF )
 endif()
 
 list( APPEND MAGICS_EXTRA_LIBRARIES     ${CMAKE_THREAD_LIBS_INIT} )
 
-message(STATUS "MAGICS_EXTRA_DEFINITIONS  => ${MAGICS_EXTRA_DEFINITIONS}")
-message(STATUS "MAGICS_EXTRA_INCLUDE_DIRS => ${MAGICS_EXTRA_INCLUDE_DIRS}")
-message(STATUS "MAGICS_EXTRA_LIBRARIES    => ${MAGICS_EXTRA_LIBRARIES}")
-
-
+ecbuild_debug("MAGICS_EXTRA_DEFINITIONS  => ${MAGICS_EXTRA_DEFINITIONS}")
+ecbuild_debug("MAGICS_EXTRA_INCLUDE_DIRS => ${MAGICS_EXTRA_INCLUDE_DIRS}")
+ecbuild_debug("MAGICS_EXTRA_LIBRARIES    => ${MAGICS_EXTRA_LIBRARIES}")
 
 # set_directory_properties( PROPERTIES COMPILE_DEFINITIONS "${ECKIT_DEFINITIONS}" )
 get_directory_property( MAGICS_DEFINITIONS COMPILE_DEFINITIONS )
 
 include_directories( ${MAGICS_INCLUDE_DIRS} ${MAGICS_EXTRA_INCLUDE_DIRS} )
-
-set(  __magics_inc_tmp ${MAGICS_EXTRA_INCLUDE_DIRS} )
-set(MAGICS_EXTRA_INCLUDES "")
-
-foreach( inc ${__magics_inc_tmp} ) 
-  set(MAGICS_EXTRA_INCLUDES "${MAGICS_EXTRA_INCLUDES} -I${inc}" )
-endforeach()
 
 # scripts
 add_subdirectory( tools )
@@ -421,70 +318,12 @@ ecbuild_add_resources( TARGET internal
 		configure.ecmwf
 )
 
-
-set(  __magics_tmp ${MAGICS_EXTRA_LIBRARIES} )
-
-list(REMOVE_ITEM __magics_tmp debug )
-list(REMOVE_ITEM __magics_tmp optimized )
-if( ODB_API_FOUND )
-    list(REMOVE_ITEM __magics_tmp Odb)
-    list(REMOVE_ITEM __magics_tmp eckit)
-    list(REMOVE_ITEM __magics_tmp eckit_web)
-    list(REMOVE_ITEM __magics_tmp eckit_geometry)
-endif()
-
-set(MAGICS_EXTRA_LIBS "")
-
-foreach( lib ${__magics_tmp} )
-  if( lib MATCHES "^/.*" )
-# Need to split -L/path and -l libd
-	
-	 get_filename_component(ext ${lib} EXT)
-	  if ( ${ext} MATCHES ${CMAKE_SHARED_LIBRARY_SUFFIX} )
-		
-		get_filename_component(path ${lib} PATH)
-		
-		list( APPEND RPATH "-Wl,-rpath,${path}")
-	  endif()
-	 
-  else()
-    if( NOT lib MATCHES "^-l.*" )
-		set( lib "-l${lib}" )
-	endif()
-  endif()
-  
-  set(MAGICS_EXTRA_LIBS "${MAGICS_EXTRA_LIBS} ${lib}" )
-endforeach()
-
-
-set(MAGICS_RPATH " -Wl,-rpath,${CMAKE_INSTALL_PREFIX}/lib" )
-
-if( ODB_API_FOUND )
-
-    set(MAGICS_EXTRA_LIBS "${MAGICS_EXTRA_LIBS} -L${odb_api_install_dir} -lOdb")
-    set(MAGICS_EXTRA_LIBS "${MAGICS_EXTRA_LIBS} -L${eckit_install_dir} -leckit")
-    set(MAGICS_EXTRA_LIBS "${MAGICS_EXTRA_LIBS} -L${eckit_install_dir} -leckit_web")
-    set(MAGICS_EXTRA_LIBS "${MAGICS_EXTRA_LIBS} -L${eckit_install_dir} -leckit_geometry")
-    set(MAGICS_RPATH "${MAGICS_RPATH}  -Wl,-rpath,${eckit_install_dir}" ) 
-    set(MAGICS_RPATH "${MAGICS_RPATH}  -Wl,-rpath,${odb_api_install_dir}" )
-endif()
-
-
-
-list(REMOVE_DUPLICATES RPATH)
-
-foreach( path ${RPATH} )
-	set(MAGICS_RPATH "${MAGICS_RPATH} ${path}" )
-endforeach()
-
-debug_var(MAGICS_RPATH)
-	
-
-configure_file( magics-config.in  magics-config @ONLY )					
-# ecbuild/cmake is needed in the the distribution tar ball!
-					
 ############################################################################################
 # finalize
+
+set( MAGICS_DESCRIPTION "Multi-platform meteorological graphics library" )
+set( MAGICS_URL "https://software.ecmwf.int/wiki/display/MAGP/Magics" )
+ecbuild_pkgconfig()
 
 ecbuild_install_project( NAME Magics )
 

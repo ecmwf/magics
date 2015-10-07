@@ -71,14 +71,16 @@
 #cmakedefine MAGICS_ALLHEADERS
 
 /* Turn off the BUFR support */
-#cmakedefine MAGICS_BUFR
+#cmakedefine HAVE_BUFR
 
 /* Turn on the Cairo output support */
-#cmakedefine MAGICS_CAIRO
+#cmakedefine HAVE_CAIRO
 
 /* Period of Copyright. */
 #cmakedefine MAGICS_COPYRIGHT_PERIOD
 
+/* Turn on the GeoTIFF output support */
+#cmakedefine HAVE_GEOTIFF
 
 /* Defines GIF output is supported. */
 #cmakedefine MAGICS_GIF
@@ -87,7 +89,7 @@
 #cmakedefine MAGICS_GIF_ANIMATED
 
 /* Turn off the GRIB 1/2 support */
-#cmakedefine MAGICS_GRIB
+#cmakedefine HAVE_GRIB
 
 /* Install path. */
 #define MAGICS_INSTALL_PATH "@CMAKE_INSTALL_PREFIX@"
@@ -111,22 +113,22 @@
 #cmakedefine MAGICS_METGRAM
 
 /* Installation used by metview */
-#cmakedefine MAGICS_METVIEW
+#cmakedefine HAVE_METVIEW
 
 /* Name of this package. */
 #define MAGICS_NAME "@MAGICS_NAME@"
 
 /* Turn off the netCDF support */
-#cmakedefine MAGICS_NETCDF
+#cmakedefine HAVE_NETCDF
 
 /* Turn off the ODB support */
-#cmakedefine MAGICS_ODB
+#cmakedefine HAVE_ODB
 
 /* Gives the list of output formats */
 #cmakedefine MAGICS_OUTPUTS
 
-/* Enable Python interface (based on swik). */
-#cmakedefine MAGICS_PYTHON
+/* Enable Python interface (based on SWIG). */
+#cmakedefine HAVE_PYTHON
 
 /* Turn on Qt related modules. */
 #cmakedefine MAGICS_QT
@@ -141,7 +143,7 @@
 #define MAGICS_SITE "@MAGICS_SITE@"
 
 /* Turn off the SPOT support */
-#cmakedefine MAGICS_SPOT
+#cmakedefine HAVE_SPOT
 
 /* Turn on/off thread support. */
 #cmakedefine MAGICS_THREADS

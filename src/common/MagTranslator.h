@@ -92,7 +92,7 @@ public:
 	}
 };
 
-#ifdef MAGICS_CAIRO
+#ifdef HAVE_CAIRO
 template<>
 class MagTranslator<cairo_t*, cairo_t*> {
 public:

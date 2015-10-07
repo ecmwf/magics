@@ -5,7 +5,7 @@ set( _eckit_srcs
 
 
 
-if ( MAGICS_BUFR )
+if ( HAVE_BUFR )
 	list (APPEND   _eckit_srcs
 		MvLocation.cc  
 		MvObsSet.cc   

@@ -460,7 +460,7 @@ MAGICS_NO_EXPORT void CairoDriver::endPage() const
 	}
 	else if (magCompare(backend_,"geotiff") )
 	{
-#ifdef MAGICS_GEOTIFF
+#ifdef HAVE_GEOTIFF
 		filename_ = getFileName("tif" ,currentPage_);
 		write_tiff();
 #else
@@ -469,7 +469,7 @@ MAGICS_NO_EXPORT void CairoDriver::endPage() const
 	}
 }
 
-#ifdef MAGICS_GEOTIFF
+#ifdef HAVE_GEOTIFF
 
 #include <geotiffio.h>
 #include <tiffio.h>
@@ -557,7 +557,7 @@ MAGICS_NO_EXPORT void CairoDriver::write_tiff() const
     _TIFFfree(buf);
     return;
 }
-#endif  // MAGICS_GEOTIFF
+#endif  // HAVE_GEOTIFF
 
 #include <png.h>
 /*!

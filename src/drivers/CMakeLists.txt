@@ -48,11 +48,11 @@ if( MAGICS_QT )
    list( APPEND qt_srcs   ${qt_files_HEADERS_MOC}) 
 endif()
 
-if( MAGICS_CAIRO )
+if( HAVE_CAIRO )
   list( APPEND _drivers_srcs CairoDriver.h CairoDriver.cc )
 endif()
 
-if ( ENABLE_METVIEW )
+if ( HAVE_METVIEW )
    list (APPEND metview_include 
 	drivers/DriverManager.h
 	drivers/BaseDriver.h 

@@ -4,7 +4,7 @@
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
- You may obtain a copy of the License at 
+ You may obtain a copy of the License at
 
     http://www.apache.org/licenses/LICENSE-2.0
 
@@ -18,13 +18,13 @@
 
 /*! \file FortranMagics.cc
     \brief Implementation of the Template class FortranMagics.
-    
+
     Magics Team - ECMWF 2007
-    
+
     Started: Fri 9-Mar-2007
 
     Changes:
-    
+
 */
 
 
@@ -39,7 +39,7 @@
 #include "TextVisitor.h"
 #include "LegendVisitor.h"
 #include "VisualAction.h"
-#ifdef MAGICS_GRIB
+#ifdef HAVE_GRIB
 #include "GribDecoder.h"
 #endif
 #include "MapGenDecoder.h"
@@ -66,11 +66,11 @@
 
 #include "MetaData.h"
 
-#ifdef MAGICS_NETCDF
+#ifdef HAVE_NETCDF
 #include "NetcdfDecoder.h"
 #endif
 
-#ifdef MAGICS_BUFR
+#ifdef HAVE_BUFR
 #include "ObsDecoder.h"
 #endif
 
@@ -88,17 +88,17 @@ FortranMagics::FortranMagics() :  drivers_(0), output_(0), action_(0), empty_(tr
 	singleton_ = this;
 
 	writeMagLog("fortran");
-}	
+}
 
 
-FortranMagics::~FortranMagics() 
+FortranMagics::~FortranMagics()
 {
 	if ( drivers_ ) delete drivers_;
 //	if ( root_ ) delete root_;
 	if ( output_ ) delete output_;
 	singleton_ = 0;
-	
-	/* 
+
+	/*
 	ParameterManager::release();
 	TitleTemplate::release();
 
@@ -108,7 +108,7 @@ FortranMagics::~FortranMagics()
 
 /*!
  Class information are given to the output-stream.
-*/		
+*/
 void FortranMagics::print(ostream& out)  const
 {
 	out << "FortranMagics[";
@@ -127,7 +127,7 @@ void FortranMagics::popen()
 	MagLog::userInfo() << "\n";
 	MagLog::userInfo() << " Meteorological Applications Graphics Integrated Colour System\n";
 	MagLog::userInfo() << "\n";
-	MagLog::userInfo() << "			    Developed By\n";	 
+	MagLog::userInfo() << "			    Developed By\n";
 	MagLog::userInfo() << "\n";
 	MagLog::userInfo() << "   The European Centre for Medium-Range Weather Forecasts\n";
 	MagLog::userInfo() << "\n";
@@ -136,14 +136,14 @@ void FortranMagics::popen()
 	MagLog::userInfo() << "------------------------------------------------------------------\n";
    }
   // actions_.push(&FortranMagics::legend);
-   actions_.push(&FortranMagics::subpage);	
-   actions_.push(&FortranMagics::page);	
-   actions_.push(&FortranMagics::superpage);	
-   actions_.push(&FortranMagics::drivers);	
+   actions_.push(&FortranMagics::subpage);
+   actions_.push(&FortranMagics::page);
+   actions_.push(&FortranMagics::superpage);
+   actions_.push(&FortranMagics::drivers);
 }
 
 /*! \brief Main dispatch method
-  Here is where the real magics is happen. Everything is dispatched, followed 
+  Here is where the real magics is happen. Everything is dispatched, followed
   by a comprehensive clean-up.
 */
 void FortranMagics::pclose()
@@ -193,7 +193,7 @@ void FortranMagics::pclose()
 		stringarray::iterator itend = output_resource_list_.end();
 		for(; it != itend; it++)
 		{
-			MagLog::userInfo() << "  - "<<(*it)<<"\n";  
+			MagLog::userInfo() << "  - "<<(*it)<<"\n";
 		}
 		MagLog::userInfo() << "\n";
 	*/
@@ -215,7 +215,7 @@ void FortranMagics::drivers()
 
 void FortranMagics::subpage()
 {
-	axisContainer_ = new FortranViewNode();	
+	axisContainer_ = new FortranViewNode();
 
 	axisContainer_->push_back(new MetaDataVisitor());
 	top()->push_back(axisContainer_);
@@ -229,7 +229,7 @@ void FortranMagics::page()
 	if ( empty() ) return;
 
 	while (top() != root_) {
-		pop(); 
+		pop();
 		if ( empty() ) break;
 	}
 
@@ -247,7 +247,7 @@ void FortranMagics::newpage()
 {
 	if ( empty() ) return;
 	BasicSceneObject* to = top();
-	
+
 	while ( to != root_) {
 		pop();
 		to = top();
@@ -275,8 +275,8 @@ void FortranMagics::superpage()
 
 void FortranMagics::simplelegend()
 {
-	// used fronm the python interface! 
-	// add a new legend! 
+	// used fronm the python interface!
+	// add a new legend!
 	legends_.clear();
 
 	legend();
@@ -285,29 +285,29 @@ void FortranMagics::simplelegend()
 void FortranMagics::legend()
 {
     if ( legends_.empty() == false ) return;
-    
+
     if (!legend_todo_) return;
 
     legend_todo_ = false;
-    string mode;	
+    string mode;
     ParameterManager::get("legend_box_mode", mode);
-  
-    if (magCompare(mode, "positional") ) 
-    	legends_.push_back(new FortranPositionalLegendVisitor()); 
-    else 
-    	legends_.push_back(new FortranAutomaticLegendVisitor()); 		
+
+    if (magCompare(mode, "positional") )
+    	legends_.push_back(new FortranPositionalLegendVisitor());
+    else
+    	legends_.push_back(new FortranAutomaticLegendVisitor());
 }
 
 
 void FortranMagics::plegend()
-{    
+{
 	legend_todo_ = true;
 	legends_.clear();
     actions_.push(&FortranMagics::legend);
 }
 
 void FortranMagics::poverlay()
-{    
+{
 	actions();
 
 
@@ -339,7 +339,7 @@ void FortranMagics::pnew(const string& type)
 		finish();
 		pop();
 		actions_.push(&FortranMagics::legend);
-		actions_.push(&FortranMagics::subpage);	
+		actions_.push(&FortranMagics::subpage);
 	}
 	if ( magCompare(type, "page") )
 	{
@@ -348,8 +348,8 @@ void FortranMagics::pnew(const string& type)
 				dispatch();
         empty_ = true;
 		pop();
-		actions_.push(&FortranMagics::legend);	
-		actions_.push(&FortranMagics::subpage);	
+		actions_.push(&FortranMagics::legend);
+		actions_.push(&FortranMagics::subpage);
 		actions_.push(&FortranMagics::page);
 
 	}
@@ -363,16 +363,16 @@ void FortranMagics::pnew(const string& type)
 			dispatch();
             empty_ = true;
 			actions_.push(&FortranMagics::legend);
-		    actions_.push(&FortranMagics::subpage);	
-		    actions_.push(&FortranMagics::page);	
+		    actions_.push(&FortranMagics::subpage);
+		    actions_.push(&FortranMagics::page);
 			actions_.push(&FortranMagics::newpage);
 
 	}
-	// WE reset ! 
+	// WE reset !
 	axisContainer_ = 0;
 	action_ = 0;
 
-	
+
 	string legend;
 	ParameterManager::get("legend", legend);
 	legend_todo_ = magCompare(legend, "on");
@@ -387,7 +387,7 @@ void FortranMagics::actions()
 		Action action = actions_.top();
 		(this->*action)();
 		actions_.pop();
-		empty_ = false; 
+		empty_ = false;
 	}
 }
 
@@ -402,7 +402,7 @@ void FortranMagics::pcoast()
 
 void FortranMagics::ptaylor()
 {
-	actions();		
+	actions();
 
 	TaylorGrid* taylor = new TaylorGrid();
 	top()->push_back(taylor);
@@ -418,7 +418,7 @@ void FortranMagics::ptephi()
 void FortranMagics::pobs()
 {
 	actions();
-#ifdef MAGICS_BUFR
+#ifdef HAVE_BUFR
 	action_ = new VisualAction();
 	ObsDecoder* obs = new ObsDecoder();
 	if ( obs->defined() ) {
@@ -452,22 +452,22 @@ void FortranMagics::ptest()
 
 
 /*!  \brief Finish plot by checking axis, legend and texts
- * 
+ *
 */
 void FortranMagics::finish()
 {
 	if ( !empty_ ) {
-		actions(); // The flag to force the generation of the plot has been set!  
+		actions(); // The flag to force the generation of the plot has been set!
 		while ( !axis_.empty() )
 		{
 			axisContainer_->push_back(axis_.top());
 			axis_.pop();
 		}
 	}
-	
+
 	if ( !axisContainer_ ) return;
-	// check if we have to add a legend! 
-	if ( !legends_.empty() && axisContainer_ &&  !axisContainer_->items_empty() ) 
+	// check if we have to add a legend!
+	if ( !legends_.empty() && axisContainer_ &&  !axisContainer_->items_empty() )
 	{
 		legend();
 		for (vector<LegendVisitor* >::iterator legend = legends_.begin();  legend != legends_.end(); ++legend)
@@ -477,13 +477,13 @@ void FortranMagics::finish()
 		legends_.clear();
 	}
 
-	// Check any text	
+	// Check any text
 	for (vector<BasicSceneObject* >::iterator other = later_.begin();  other != later_.end(); ++other)
 	{
 		top()->push_back(*other);
 	}
 	later_.clear();
-	
+
 	for (vector<FortranTextVisitor* >::iterator text = texts_.begin();  text != texts_.end(); ++text)
 	{
 		top()->text(*text);
@@ -516,18 +516,18 @@ void FortranMagics::pmapgen()
 
 }
 
-#ifdef MAGICS_GRIB
+#ifdef HAVE_GRIB
 void FortranMagics::pgrib()
 {
 	actions();
 	action_ = new VisualAction();
 	static string gribfile;
-	
+
 	string grib;
 	ParameterManager::get("grib_input_file_name", grib);
 	int index;
 	ParameterManager::get("grib_field_position", index);
-	
+
 
 	if ( grib == gribfile  )
 	{
@@ -546,7 +546,7 @@ void FortranMagics::pgrib()
     	gribfile = grib;
     	gribindex_ = index;
     }
-    
+
 	action_->data(new GribDecoder());
 	top()->push_back(action_);
 }
@@ -576,7 +576,7 @@ void FortranMagics::pgeo()
 
 void FortranMagics::pnetcdf()
 {
-#ifdef MAGICS_NETCDF
+#ifdef HAVE_NETCDF
 	actions();
 
 	action_ = new VisualAction();
@@ -610,13 +610,13 @@ void FortranMagics::ptable()
 
 }
 
-#ifdef MAGICS_ODB
+#ifdef HAVE_ODB
 #include "OdaDecoder.h"
 #endif
 void FortranMagics::podb()
 {
 	actions();
-#ifdef MAGICS_ODB
+#ifdef HAVE_ODB
 
 
     	action_ = new VisualAction();
@@ -669,20 +669,20 @@ void split(VisualAction& action) {
 			ParameterManager::get("contour_min_level", min);
 			// set the below contour
 			ParameterManager::set("contour_max_level", level);
-			
+
 			LineStyle style, highlightstyle;
 			double thickness, highlightthickness;
 			string colour, highlightcolour;
-			
+
 			param("contour_below_line_style", "contour_line_style", style);
 			param("contour_below_line_thickness", "contour_line_thickness", thickness);
 			param("contour_below_line_colour", "contour_line_colour", colour);
 			param("contour_below_highlight_style", "contour_highlight_line_style", highlightstyle);
 			param("contour_below_highlight_thickness", "contour_highlight_line_thickness", highlightthickness);
 			param("contour_below_highlight_colour", "contour_highlight_line_colour",highlightcolour);
-			
+
 			action.visdef(new Contour());
-			
+
 			// set the above contour
 			ParameterManager::set("contour_max_level", max);
 			ParameterManager::set("contour_min_level", level);
@@ -693,19 +693,19 @@ void split(VisualAction& action) {
 			param("contour_above_highlight_thickness", "contour_highlight_line_thickness", thickness);
 			param("contour_above_highlight_colour", "contour_highlight_line_colour", colour);
 			action.visdef(new Contour());
-			// Should we reset???			
+			// Should we reset???
 	}
 	else {   */
 		action.visdef(new Contour());
 //	}
 }
-		
+
 
 void FortranMagics::pcont()
 {
-	// First check any split contour! I hate it! 
+	// First check any split contour! I hate it!
 	Timer timer("pcont", "setting");
-	actions();		
+	actions();
 
 		if ( !action_  || matrixinput_todo_ )
 		{
@@ -716,7 +716,7 @@ void FortranMagics::pcont()
 				action_->data(input);
 			else {
 				delete input;
-#ifdef MAGICS_GRIB
+#ifdef HAVE_GRIB
 			// Sylvie: Is this causing GribDecoder MagExceptions when matrx input is faulty?
 				action_->data(new GribDecoder());
 #else
@@ -733,7 +733,7 @@ void FortranMagics::pcont()
 
 void FortranMagics::pwind()
 {
-	actions();		
+	actions();
 	if ( matrixinput_todo_ ) {
 		action_ = 0;
 	}
@@ -742,11 +742,11 @@ void FortranMagics::pwind()
 		action_ = new VisualAction();
 		InputMatrix* input = new InputMatrix();
 		matrixinput_todo_ = false;
-		if (input->defined() ) 
+		if (input->defined() )
 			action_->data(input);
 		else {
 			delete input;
-#ifdef MAGICS_GRIB
+#ifdef HAVE_GRIB
 			// Sylvie: Is this causing GribDecoder MagExceptions when matrx input is faulty?
 			GribDecoder* grib = new GribDecoder();
 			grib->dimension(2);
@@ -770,22 +770,22 @@ void FortranMagics::ptext()
 {
 	string mode;
 	ParameterManager::get("text_mode", mode);
-	
+
 	FortranTextVisitor* node;
-	if ( magCompare(mode, "positional") ) 
-		node = new FortranPositionalTextVisitor(); 
-	else 
-		node = new FortranAutomaticTextVisitor();	
-	
+	if ( magCompare(mode, "positional") )
+		node = new FortranPositionalTextVisitor();
+	else
+		node = new FortranAutomaticTextVisitor();
+
 	texts_.push_back(node);
 	empty_ = false;
 }
-	
+
 
 void FortranMagics::psymb()
 {
-	actions();	
- 
+	actions();
+
  	string mode;
  	string wind;
  	ParameterManager::get("symbol_position_mode", mode);
@@ -971,15 +971,15 @@ void FortranMagics::paxis()
 {
 	try {
 		string orientation;
-		
-		ParameterManager::get("axis_orientation", orientation); 
-//		
+
+		ParameterManager::get("axis_orientation", orientation);
+//
 		if (magCompare(orientation, "vertical") ) {
-			Axis* vaxis = new VerticalAxis();		  
+			Axis* vaxis = new VerticalAxis();
 			MagLog::dev() << *vaxis << "\n";
 			axis_.push(vaxis);
-		} 
-		else {			
+		}
+		else {
 			Axis* haxis = new HorizontalAxis();
 			MagLog::dev() << *haxis << "\n";
 			axis_.push(haxis);
@@ -1029,14 +1029,14 @@ void FortranMagics::pgraph()
 void FortranMagics::pboxplot()
 {
 	actions();
-	
+
 	action_ = new VisualAction();
-	
+
  	BoxPlotDecoder* input = new BoxPlotDecoder();
  	BoxPlotVisualiser* plot = new BoxPlotVisualiser();
 	top()->push_back(action_);
 	action_->data(input);
-	MagLog::dev() << *input << "\n";   
+	MagLog::dev() << *input << "\n";
 	action_->visdef(plot);
 }
 
