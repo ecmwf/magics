@@ -59,7 +59,7 @@ foreach( file ${_decoders_srcs} )
   list( APPEND decoders_srcs decoders/${file} )
 endforeach()
 
-if (MAGICS_GRIB) 
+if (HAVE_GRIB)
      list( APPEND decoders_srcs 
 decoders/GribAddressMode.h
 decoders/GribDecoder.cc
@@ -75,7 +75,7 @@ decoders/GribSatelliteInterpretor.h
 endif()
 
 
-if (MAGICS_NETCDF) 
+if (HAVE_NETCDF) 
      list( APPEND decoders_srcs 
 #Netcdf--->
 decoders/NetcdfOrcaInterpretor.cc
@@ -102,7 +102,7 @@ decoders/NetcdfVectorInterpretor.h
 )
 endif()
 
-if (MAGICS_BUFR)
+if (HAVE_BUFR)
      list( APPEND decoders_srcs 
 # Bufr --->
 decoders/EpsBufr.cc
@@ -115,7 +115,7 @@ decoders/ObsDecoder.h
 endif()
 
 
-if (MAGICS_SPOT)
+if (HAVE_SPOT)
      list( APPEND decoders_srcs 
 #Spot ---> 
 decoders/ClassicMtgDecoder.cc
@@ -128,7 +128,7 @@ endif()
 
 set( decoders_srcs ${decoders_srcs} PARENT_SCOPE )
 
-if ( ENABLE_METVIEW )
+if ( HAVE_METVIEW )
 	list (APPEND metview_include 
 			decoders/DateTime.h 
 			decoders/GribDecoder.h 

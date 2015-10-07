@@ -265,7 +265,7 @@ XmlViewNode.xml
 		)
 	
 
-if( MAGICS_GRIB )
+if( HAVE_GRIB )
 	list( APPEND _common_xmls GribAddressByteMode.xml
 		GribAddressMode.xml
 		GribAddressRecordMode.xml
@@ -276,7 +276,7 @@ if( MAGICS_GRIB )
 		)		
 endif()
 
-if( MAGICS_NETCDF )
+if( HAVE_NETCDF )
 	list( APPEND _common_xmls 
 		NetcdfDecoder.xml
 		NetcdfGeoMatrixInterpretor.xml
@@ -290,13 +290,13 @@ if( MAGICS_NETCDF )
 		NetcdfXYpointsInterpretor.xml )
 endif()
 
-if ( MAGICS_ODB ) 
+if ( HAVE_ODB )
 	list ( APPEND _common_xmls 
 		OdaGeoDecoder.xml
 		OdaXYDecoder.xml )
 endif()
 
-if( MAGICS_CAIRO )
+if( HAVE_CAIRO )
     list( APPEND _common_xmls CairoDriver.xml )
 endif()
 

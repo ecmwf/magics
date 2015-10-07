@@ -1,4 +1,4 @@
-if( ENABLE_PYTHON AND NUMPY_FOUND )
+if( HAVE_PYTHON )
 
   ### python destination
 
@@ -30,7 +30,7 @@ if( ENABLE_PYTHON AND NUMPY_FOUND )
 
   set_source_files_properties(partio.i PROPERTIES SWIG_FLAGS "-includeall")
 
-  swig_link_libraries( Magics MagPlusShared ${PYTHON_LIBRARIES} )
+  swig_link_libraries( Magics MagPlus ${PYTHON_LIBRARIES} )
 
   execute_process( COMMAND ${CMAKE_COMMAND} -E create_symlink ${CMAKE_CURRENT_BINARY_DIR}/Magics.py ${CMAKE_CURRENT_BINARY_DIR}/__init__.py )
 

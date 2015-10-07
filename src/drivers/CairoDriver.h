@@ -137,7 +137,7 @@ private:
 	MAGICS_NO_EXPORT MFloat setSymbolY(const MFloat y) const {return -y;}
 	MAGICS_NO_EXPORT MFloat setFlagY(const MFloat y) const {return -y;}
 	MAGICS_NO_EXPORT MFloat setY(const MFloat y) const {return y;}
-#ifdef MAGICS_GEOTIFF
+#ifdef HAVE_GEOTIFF
 	MAGICS_NO_EXPORT void write_tiff() const;
 #endif
 	MAGICS_NO_EXPORT bool write_8bit_png() const;

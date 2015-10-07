@@ -12,24 +12,24 @@
 #include "MetaDataWrapper.h"
 #include "ImportObjectHandlerWrapper.h"
 
-#ifdef MAGICS_GRIB
+#ifdef HAVE_GRIB
 #include <GribDecoderWrapper.h>
 #include <GribLoopWrapper.h>
 #endif
 
-#ifdef MAGICS_NETCDF
+#ifdef HAVE_NETCDF
 #include <NetcdfDecoderWrapper.h>
 #endif
 
 #include <GeoPointsDecoderWrapper.h>
 #include <BinningObjectWrapper.h>
 
-#ifdef MAGICS_ODB
+#ifdef HAVE_ODB
 #include <OdaGeoDecoderWrapper.h>
 #include <OdaXYDecoderWrapper.h>
 #endif
 
-#ifdef MAGICS_BUFR
+#ifdef HAVE_BUFR
 #include <ObsDecoderWrapper.h>
 #include <ObsPlottingWrapper.h>
 #endif
@@ -56,7 +56,7 @@
 
 #include <PostScriptDriverWrapper.h>
 
-#ifdef MAGICS_CAIRO
+#ifdef HAVE_CAIRO
 #include <CairoDriverWrapper.h>
 #endif
 
@@ -77,9 +77,9 @@ void replace(magics::MagRequest& request, const string& name, T from, T to)
 		return;
 	}
 	T val = request(name);
-	if (val == from) 
+	if (val == from)
 		request(name) = to;
-	
+
 }
 
 void replace_string(magics::MagRequest& request, const string& name, const string& from, const string& to)
@@ -89,9 +89,9 @@ void replace_string(magics::MagRequest& request, const string& name, const strin
 		return;
 	}
 	string val =  request(name);
-	if (val == from) 
+	if (val == from)
 		request(name) = to;
-	
+
 }
 
 template <class T>
@@ -102,19 +102,19 @@ void replace(magics::MagRequest& request, const string& name, T from, const stri
 		return;
 	}
 	T val = request(name);
-	if (val == from) 
+	if (val == from)
 		request(newname) = to;
-	else 
+	else
 		request(newname) = val;
 }
 
 string get(magics::MagRequest& request, const string& param, const string& val)
 {
-	
+
 	string v = request(param);
-	
-	return ( !v.empty() ) ? v : val; 
-} 
+
+	return ( !v.empty() ) ? v : val;
+}
 
 using namespace std;
 using namespace magics;
@@ -140,7 +140,7 @@ MagPlus::MagPlus() : root_(0), superpage_(-1), geographical_(true), mode_(intera
 	}
 	if ( dataCreators_.empty()) {
 		dataCreators_["GEOPOINTS"] = &MagPlus::createGeopoints;
-#ifdef MAGICS_NETCDF
+#ifdef HAVE_NETCDF
 		dataCreators_["NETCDF_GEOPOINTS"] = &MagPlus::createnetcdf;
 		dataCreators_["NETCDF_GEOVECTORS"] = &MagPlus::createnetcdf;
 		dataCreators_["NETCDF_GEOMATRIX"] = &MagPlus::createnetcdf;
@@ -155,7 +155,7 @@ MagPlus::MagPlus() : root_(0), superpage_(-1), geographical_(true), mode_(intera
 		dataCreators_["NETCDF_XY_MATRIX"] = &MagPlus::createnetcdf;
 #endif
 	}
- 	if ( sceneCreators_.empty()) { 		
+ 	if ( sceneCreators_.empty()) {
  		sceneCreators_["PAGE"] = &MagPlus::page;
  		sceneCreators_["NEWPAGE"] = &MagPlus::newpage;
  		sceneCreators_["MCOAST"] = &MagPlus::coastlines;
@@ -169,7 +169,7 @@ MagPlus::MagPlus() : root_(0), superpage_(-1), geographical_(true), mode_(intera
         sceneCreators_["GRIBLOOP"] = &MagPlus::gribloop;
         sceneCreators_["DATALOOP"] = &MagPlus::dataloop;
         sceneCreators_["GEOPOINTS"] = &MagPlus::geopoints;
-#ifdef MAGICS_NETCDF
+#ifdef HAVE_NETCDF
         sceneCreators_["NETCDF_GEOPOINTS"] = &MagPlus::netcdf;
         sceneCreators_["NETCDF_GEOVECTORS"] = &MagPlus::netcdf;
         sceneCreators_["NETCDF_GEOMATRIX"] = &MagPlus::netcdf;
@@ -200,7 +200,7 @@ MagPlus::MagPlus() : root_(0), superpage_(-1), geographical_(true), mode_(intera
         sceneCreators_["cartesian"] = &MagPlus::cartesianGrid;
         sceneCreators_["tephigram"] = &MagPlus::tephiGrid;
         sceneCreators_["taylor"] = &MagPlus::taylorGrid;
-#ifdef MAGICS_ODB	
+#ifdef HAVE_ODB
 	sceneCreators_["ODB_GEO_POINTS"] = &MagPlus::geoodb;
 	sceneCreators_["ODB_GEO_VECTORS"] = &MagPlus::geoodb;
 	sceneCreators_["ODB_XY_POINTS"] = &MagPlus::xyodb;
@@ -229,7 +229,7 @@ MagPlus::MagPlus() : root_(0), superpage_(-1), geographical_(true), mode_(intera
         sceneCreators_["PRASTERLOOP"] = &MagPlus::rasterloop;
         sceneCreators_["BINNING_OBJECT"] = &MagPlus::binning;
  	}
-    
+
     if ( driverCreators_.empty())
     {
 #ifdef MAGICS_QT
@@ -259,15 +259,15 @@ bool MagPlus::superpage(magics::MagRequest& in)
 	if ( superpage == superpage_) return false;
 	superpage_ = superpage;
 	in("LAYOUT") = "positional";
-    
+
     replace_string(in, "SUPER_PAGE_FRAME_COLOUR", "BLUE", "grey");
-  
+
     in.print();
     MvRootSceneNodeWrapper helper;
 	helper.set(in);
-		
+
 	root_ = helper.object();
-    
+
 	MagLog::dev()<< "<----superpage" << endl;
 	return false;
 }
@@ -285,9 +285,9 @@ bool MagPlus::newpage(magics::MagRequest& in)
 bool MagPlus::psdriver(magics::MagRequest& in)
 {
 	PostScriptDriverWrapper helper;
-	helper.set(in); 
-	  
-	drivers_.push_back(helper.object());  
+	helper.set(in);
+
+	drivers_.push_back(helper.object());
 	mode_ = paper;
 	return false;
 }
@@ -295,20 +295,20 @@ bool MagPlus::psdriver(magics::MagRequest& in)
 bool MagPlus::epsdriver(magics::MagRequest& in)
 {
 	PostScriptDriverWrapper helper;
-	helper.set(in); 
+	helper.set(in);
 	helper.me()->setEPS(true);
-	drivers_.push_back(helper.object());  
+	drivers_.push_back(helper.object());
 	mode_ = paper;
 	return false;
 }
 
 bool MagPlus::pngdriver(magics::MagRequest&  in)
 {
-#ifdef MAGICS_CAIRO
+#ifdef HAVE_CAIRO
 	CairoDriverWrapper helper;
-	helper.set(in); 
+	helper.set(in);
 	helper.me()->setPNG();
-	drivers_.push_back(helper.object());   
+	drivers_.push_back(helper.object());
 	mode_ = paper;
 #endif
 	return false;
@@ -316,13 +316,13 @@ bool MagPlus::pngdriver(magics::MagRequest&  in)
 
 bool MagPlus::pdfdriver(magics::MagRequest& in)
 {
-#ifdef MAGICS_CAIRO
+#ifdef HAVE_CAIRO
 	   CairoDriverWrapper helper;
-	   helper.set(in); 
+	   helper.set(in);
 	   helper.me()->setPDF();
-       drivers_.push_back(helper.object());  
+       drivers_.push_back(helper.object());
        mode_ = paper;
-       
+
 #endif
        return false;
 }
@@ -343,7 +343,7 @@ bool MagPlus::qtdriver(magics::MagRequest& /*in*/)
 
 	}
 #ifndef MAG_NEXT
-	drivers_.push_back(qtDriver_);   
+	drivers_.push_back(qtDriver_);
 #else
 	if ( mvMode_ == creation )
 		drivers_.push_back(qtDriver_);
@@ -357,9 +357,9 @@ bool MagPlus::qtdriver(magics::MagRequest& /*in*/)
 bool MagPlus::svgdriver(magics::MagRequest& in)
 {
 	SVGDriverWrapper helper;
-	helper.set(in); 
+	helper.set(in);
 
-	drivers_.push_back(helper.object());   
+	drivers_.push_back(helper.object());
 	mode_ = paper;
 	return false;
 }
@@ -368,9 +368,9 @@ bool MagPlus::kmldriver(magics::MagRequest& in)
 {
 	KMLDriverWrapper helper;
 	in("KML_DESCRIPTION") = "Metview/Magics++";
-	helper.set(in); 
+	helper.set(in);
 	mode_ = paper;
-	drivers_.push_back(helper.object());   
+	drivers_.push_back(helper.object());
 
 	return false;
 }
@@ -379,9 +379,9 @@ bool MagPlus::geojsondriver(magics::MagRequest& in)
 {
 	GeoJsonDriverWrapper helper;
 	in("GEOJSON_DESCRIPTION") = "Metview/Magics++";
-	helper.set(in); 
+	helper.set(in);
 	mode_ = paper;
-	drivers_.push_back(helper.object());   
+	drivers_.push_back(helper.object());
 
 	return false;
 }
@@ -440,7 +440,7 @@ bool MagPlus::page(magics::MagRequest& in)
 		pages_[i] = viewhelper;
 		if ( !id.empty() )
 		{
-			view->setInteractiveInfo(id.c_str(), 
+			view->setInteractiveInfo(id.c_str(),
 			in("ZOOM_NUMBER_OF_LEVELS"), in("ZOOM_CURRENT_LEVEL"));
 		}
 		top()->insert(view);
@@ -462,7 +462,7 @@ bool MagPlus::page(magics::MagRequest& in)
 		int id = in("METVIEW_ID");
 		pages_[id] = page_;
 	}
-	
+
 	MagLog::dev()<< "<----page and subpage" << endl;
 	return false; // do not exit
 }
@@ -481,11 +481,11 @@ bool MagPlus::cartesian(magics::MagRequest& in) {
 			if (  !id.empty()  )
 			{
 				string id =  in("METVIEW_ID");
-				view->setInteractiveInfo(id.c_str(), 
+				view->setInteractiveInfo(id.c_str(),
 				in("ZOOM_NUMBER_OF_LEVELS"), in("ZOOM_CURRENT_LEVEL"));
 			}
 			top()->insert(view);
-			push(view);	
+			push(view);
 
 			in.print();
 
@@ -644,19 +644,19 @@ bool MagPlus::oldcoastlines(magics::MagRequest& in)
 bool MagPlus::coastlines(magics::MagRequest& in)
 {
 	MagLog::dev()<< "add coastlines" << endl;
-	
+
 
 	replace_string(in, "_NAME", "", "Coastlines");
 	replace_string(in, "_CLASS", "", "MCOAST");
 	CoastlinesWrapper helper;
-	
+
 	helper.set(in);
-	
+
 	top()->push_back(helper.object());
 	setIconInfo(in,*helper.object());
 	MagLog::dev()<< top() << endl;
 	MagLog::dev()<< *helper.object() << endl;
-	
+
 	return false; // do not exit
 }
 bool MagPlus::tephigrid(magics::MagRequest& in)
@@ -683,14 +683,14 @@ bool MagPlus::axis(magics::MagRequest& in)
 	MagLog::dev()<< "add axis" << endl;
 	 string orientation =  in("AXIS_ORIENTATION");
 	 Axis* axis = 0;
-	 if ( magCompare(orientation, "vertical") ) 
+	 if ( magCompare(orientation, "vertical") )
 		 axis = new VerticalAxis();
-	 else 
+	 else
 		 axis = new HorizontalAxis();
-	 
-	AxisWrapper helper(axis);				
+
+	AxisWrapper helper(axis);
 	helper.set(in);
-	
+
 	top()->push_back(axis);
 	MagLog::dev() << *axis << "\n";
 
@@ -709,24 +709,24 @@ bool MagPlus::import(magics::MagRequest& in)
 bool MagPlus::raster(magics::MagRequest& in)
 {
 	MagLog::dev()<< "import a raster object" << endl;
-	
+
 	in.print();
 
 	in("IMPORT_FILE_NAME") =  in("IMPORT_FILE_PATH");
 	in("IMPORT_FORMAT") =  in("IMPORT_FILE_TYPE");
-	
+
 	ImportActionWrapper object;
 	ImportPlotWrapper visdef;
-	
+
 	object.set(in);
 	visdef.set(in);
 	setIconInfo(in, *object.object());
 	setIconInfo(in, *visdef.object());
-	
-	
+
+
 		VisualAction* action = new VisualAction();
 		top()->push_back(action);
-		push(action);		
+		push(action);
 		top()->data(object.object());
 		top()->visdef(visdef.object());
 		pop();
@@ -747,14 +747,14 @@ bool MagPlus::binning(magics::MagRequest& in)
 
 bool MagPlus::grib(magics::MagRequest& in)
 {
-#ifdef MAGICS_GRIB
+#ifdef HAVE_GRIB
 	MagLog::dev()<< "add grib" << endl;
 	in.print();
-	
+
 	VisualAction* action = new VisualAction();
 	top()->push_back(action);
-	push(action);	
-  
+	push(action);
+
 	GribDecoderWrapper grib;
 	grib.set(in);
 	setIconInfo(in, *grib.object());
@@ -770,29 +770,29 @@ bool MagPlus::table(magics::MagRequest& in)
 	MagLog::dev()<< "add table" << endl;
 
 	in.print();
-	// First set the table_filename...	
+	// First set the table_filename...
 	magics::MagRequest&  data = in.getSubRequest("TABLE_DATA");
 	if(data)
-	{	
+	{
 	  	if(data.getVerb() == "TABLE" || data.getVerb() == "NOTE" || data.getVerb() == "GEOPOINTS")
 		{
 	  		string x = data("PATH");
 			in("TABLE_FILENAME") = x;
-		}	
-			
-		else if( data.getVerb() == "TABLE_READER" ) 
+		}
+
+		else if( data.getVerb() == "TABLE_READER" )
 		{
 			magics::MagRequest&  d = data.getSubRequest("DATA");
-			if (d) 
+			if (d)
 			{
 				in("TABLE_FILENAME") = d("PATH");
 			}
-			else 
+			else
 			{
 				in("TABLE_FILENAME") = data("TABLE_FILENAME");
 
 			}
-		}	
+		}
 	}
 
 	if ( geographical_ ) {
@@ -908,40 +908,40 @@ bool MagPlus::input(magics::MagRequest& in)
 	return false; // do not exit
 }
 
-void MagPlus::setIconInfo(magics::MagRequest& mv, MetviewIcon& object) 
+void MagPlus::setIconInfo(magics::MagRequest& mv, MetviewIcon& object)
 {
 	string iconname =  get(mv, "_NAME", "");
 	string iconclass =  get(mv, "_CLASS", "");
 	if(iconclass.empty())
-		 iconclass =  get(mv, "_VERB", ""); 
+		 iconclass =  get(mv, "_VERB", "");
 	string iconid =  get(mv, "_ID", "");
 	object.icon(iconname, iconclass, iconid);
 }
 
 bool MagPlus::gribloop(magics::MagRequest& in)
 {
-#ifdef MAGICS_GRIB
+#ifdef HAVE_GRIB
 	MagLog::dev()<< "add gribloop" << endl;
 	in.print();
 	string loop("loop");
 	string mode =  get(in, "GRIB_VISIT_MODE", loop);
-	
-	if ( !magCompare(mode, loop) ) 
+
+	if ( !magCompare(mode, loop) )
 		// we assume it is not an animation...
 		return grib(in);
-	
+
 	string file =  get(in, "GRIB_INPUT_FILE_NAME", "");
-	
+
 
 	in("GRIB_LOOP_PATH") = file.c_str();
 	VisualAnimation* action = new VisualAnimation();
 	top()->push_back(action);
-	push(action);	
-  
+	push(action);
+
 	GribLoopWrapper grib;
 	grib.set(in);
 	setIconInfo(in, *grib.object());
-	
+
 	action->loop(grib.object());
 #else
 	MagLog::dev()<< "can NOT add gribloop (disabled in Magics!)" << endl;
@@ -953,28 +953,28 @@ bool MagPlus::rasterloop(magics::MagRequest& in)
 {
 	MagLog::dev()<< "add rasterloop" << endl;
 	in.print();
-	
+
 	VisualAnimation* geoloop = new VisualAnimation();
 	top()->push_back(geoloop);
 	push(geoloop);
-	
+
 		ImportPlotWrapper visdef;
 
 		visdef.set(in);
-		
+
 		setIconInfo(in, *visdef.object());
 
 	ImportLoop* loop = new ImportLoop();
 	setIconInfo(in, *loop);
 	geoloop->loop(loop);
 	geoloop->visdef(visdef.object());
-	
+
 	in.countValues("RASTERS");
-	
+
 	magics::MagRequest& rasters = in.getSubRequest("RASTERS");
 	rasters.print();
 
-	//At this point we do not know the exact type, 
+	//At this point we do not know the exact type,
 	//later we refine it
 	loop->setInfo("_datatype","RASTERLOOP");
 
@@ -990,7 +990,7 @@ bool MagPlus::rasterloop(magics::MagRequest& in)
 		rasters("IMPORT_FILE_NAME") = path;
 		rasters("IMPORT_FORMAT") =  rasters("IMPORT_FILE_TYPE");
 		rasters("IMPORT_VALID_TIME") =  rasters("TIME");
-		
+
 		ImportActionWrapper object;
 		object.set(rasters);
 
@@ -1000,7 +1000,7 @@ bool MagPlus::rasterloop(magics::MagRequest& in)
 		//WMS related part
 
 		string service_name =  rasters("SERVICE");
-	
+
 		if(service_name == "WMS")
 		{
 			string service_title =  rasters("SERVICE_TITLE");
@@ -1009,9 +1009,9 @@ bool MagPlus::rasterloop(magics::MagRequest& in)
 			string description =  rasters("DESCRIPTION");
 			string legend =  rasters("LEGEND");
 			string logo =  rasters("LOGO");
-			string dimName = rasters("DIM_NAME");		
+			string dimName = rasters("DIM_NAME");
 			string dimValue = rasters("DIM_VALUE");
-			
+
 			if(first)
 			{
 				loop->setInfo("_datatype","RASTERLOOP_WMS");
@@ -1041,7 +1041,7 @@ bool MagPlus::rasterloop(magics::MagRequest& in)
 
 			//Temporal dimensions
 			vector<string> dimNameLst,dimValueLst;
-		
+
     			std::stringstream ssN(dimName);
    			std::string item;
 
@@ -1049,7 +1049,7 @@ bool MagPlus::rasterloop(magics::MagRequest& in)
 			{
         			dimNameLst.push_back(item);
    			}
-    		
+
 			std::stringstream ssV(dimValue);
     			while(std::getline(ssV, item,'/'))
 			{
@@ -1092,7 +1092,7 @@ bool MagPlus::rasterloop(magics::MagRequest& in)
 						object.object()->setInfo("time",dataTime);
 						object.object()->setInfo("dataTime",dataTime);
 						object.object()->setInfo("time.dataTime",dataTime);
-												
+
 					}
 					else if(dimNameLst[i] == "DIM_FORECAST")
 					{
@@ -1105,17 +1105,17 @@ bool MagPlus::rasterloop(magics::MagRequest& in)
 						object.object()->setInfo("level",dimValueLst[i]);
 						object.object()->setInfo("vertical.level",dimValueLst[i]);
 					}
-		
+
 				}
 
 			}
 
 		}
 
-		
+
 
 		loop->add(object.object());
-		
+
 		rasters.advance();
 
 		first=false;
@@ -1125,7 +1125,7 @@ bool MagPlus::rasterloop(magics::MagRequest& in)
 }
 
 
-#ifdef MAGICS_ODB
+#ifdef HAVE_ODB
 bool MagPlus::geoodb(magics::MagRequest& in)
 {
 	MagLog::dev()<< "add geo odb" << endl;
@@ -1136,26 +1136,26 @@ bool MagPlus::geoodb(magics::MagRequest& in)
 		path = string(odb("PATH"));
 	}
 	in("ODB_FILENAME") = path.c_str();
-    
+
 	static map<string, string> types;
-    	if ( types.empty() ) 
+    	if ( types.empty() )
 	{
         	types["ODB_GEO_POINTS"] = "geopoint";
         	types["ODB_GEO_VECTORS"] = "geovector";
     	}
-        
+
 	in("ODB_TYPE") = types[in.getVerb()].c_str();
 	VisualAction* action = new VisualAction();
 	top()->push_back(action);
-	push(action);	
-  
+	push(action);
+
 	OdaGeoDecoderWrapper geoodb;
 	geoodb.set(in);
 	setIconInfo(in, *geoodb.object());
 	top()->data(geoodb.object());
 
 	//Meta-data
-	geoodb.object()->initInfo();		
+	geoodb.object()->initInfo();
 
 	return false; // do not exit
 }
@@ -1170,21 +1170,21 @@ bool MagPlus::xyodb(magics::MagRequest& in)
 		path = string(odb("PATH"));
 	}
 	in("ODB_FILENAME") = path.c_str();
-    
+
 	static map<string, string> types;
     	if ( types.empty() ) {
         	types["ODB_XY_POINTS"] = "xypoint";
         	types["ODB_XY_VECTORS"] = "xyvector";
 		types["ODB_XY_BINNING"] = "xybinning";
    	 }
-        
+
 	in("ODB_TYPE") = types[in.getVerb()].c_str();
 	VisualAction* action = new VisualAction();
 	top()->push_back(action);
-	push(action);	
-  	
+	push(action);
+
 	OdaXYDecoderWrapper xyodb;
-	
+
 	magics::MagRequest&  bin = in.getSubRequest("ODB_BINNING");
 	if(bin)
 	{
@@ -1195,10 +1195,10 @@ bool MagPlus::xyodb(magics::MagRequest& in)
 	{
 	  	in("ODB_BINNING") = "off";
 		bin("ODB_BINNING") = "off";
-	} 	
-	xyodb.set(in);	
-	xyodb.set(bin);	
-	  
+	}
+	xyodb.set(in);
+	xyodb.set(bin);
+
 	setIconInfo(in, *xyodb.object());
 	top()->data(xyodb.object());
 	geographical_ = false;
@@ -1210,7 +1210,7 @@ bool MagPlus::xyodb(magics::MagRequest& in)
 }
 #endif
 
-#ifdef MAGICS_NETCDF
+#ifdef HAVE_NETCDF
 static map<string, string> nctypes;
 
 void checknctypes() {
@@ -1252,16 +1252,16 @@ bool MagPlus::netcdf(magics::MagRequest& in)
 
 	VisualAnimation* action = new VisualAnimation();
 	top()->push_back(action);
-	push(action);	
-  
+	push(action);
+
 	NetcdfDecoderWrapper geonet;
 	geonet.set(in);
-	
+
 	NetcdfLoop* loop = new NetcdfLoop(geonet.object());
 	setIconInfo(in, *geonet.object());
 	setIconInfo(in, *loop);
 	action->loop(loop);
-	
+
 	return false; // do not exit
 }
 
@@ -1321,38 +1321,38 @@ bool MagPlus::geopoints(magics::MagRequest& in)
 
 	// Extract the path ..
 	magics::MagRequest& record = in.getSubRequest("RECORD");
-	
+
 	string path =  record("PATH");
 	in("GEO_INPUT_FILE_NAME") = path;
 	in.print();
 	VisualAction* action = new VisualAction();
 	top()->push_back(action);
-	push(action);	
-  
+	push(action);
+
 	GeoPointsDecoderWrapper geopoints;
 	geopoints.set(in);
 	setIconInfo(in, *geopoints.object());
 	top()->data(geopoints.object());
 
 	//Meta-data
-	geopoints.object()->initInfo();	
-	
+	geopoints.object()->initInfo();
+
 	return false; // do not exit
 }
 bool MagPlus::bufr(magics::MagRequest& in)
 {
-#ifdef MAGICS_BUFR
+#ifdef HAVE_BUFR
 	/*
 	// Extract the path ..
 	magics::MagRequest record = in("RECORD");
-	
+
 	in("GEO_INPUT_FILE_NAME") = record("PATH");
 	*/
 	in.print();
 	VisualAction* action = new VisualAction();
 	top()->push_back(action);
-	push(action);	
-  
+	push(action);
+
 	ObsDecoderWrapper obs;
 	obs.set(in);
 	top()->data(obs.object());
@@ -1367,16 +1367,16 @@ bool MagPlus::symbol(magics::MagRequest& in)
 	}
     string verb = in.getVerb();
     if ( verb == "PSYMBPLUS" ) {
-        in("SYMBOL_TABLE_MODE") = "advanced"; 
-        in("SYMBOL_TYPE") = "marker"; 
-    } 
-    
-    FortranAutomaticLegendVisitor* node = new FortranAutomaticLegendVisitor();	
+        in("SYMBOL_TABLE_MODE") = "advanced";
+        in("SYMBOL_TYPE") = "marker";
+    }
+
+    FortranAutomaticLegendVisitor* node = new FortranAutomaticLegendVisitor();
     		LegendMethod* method = new ContinuousLegendMethod();
     		node->method_ = auto_ptr<LegendMethod>(method);
     		node->getReady();
     		//top()->legend(node);
-	if ( geographical_ ) {		
+	if ( geographical_ ) {
 		SymbolPlottingWrapper symbol;
 		symbol.set(in);
 		setIconInfo(in, *symbol.object());
@@ -1409,15 +1409,15 @@ bool  MagPlus::graph(magics::MagRequest& in)
 
 bool MagPlus::obs(magics::MagRequest& in)
 {
-#ifdef MAGICS_BUFR
+#ifdef HAVE_BUFR
 	ObsPlottingWrapper visdef;
 	// here we have to set up manullay the parameters because the obs object is more complex!
 	// This is not the right solution just a workaround before we find a clean solution...
-	
+
 	for (int i = 0; i <    in.countParameters(); i++) {
 		string param = in.getParameter(i);
 	    string val =  in(param.c_str());
-	
+
 	   ParameterManager::set(param, val);
 }
 
@@ -1425,9 +1425,9 @@ bool MagPlus::obs(magics::MagRequest& in)
 	visdef.set(in);
 	MagLog::dev()<< "add obs" << *visdef.object() << endl;
 	top()->visdef(visdef.object());
-	pop();	
-	
-	
+	pop();
+
+
 #endif
 	return false; // do not exit
 }
@@ -1477,7 +1477,7 @@ bool MagPlus::dataloop(magics::MagRequest& in)
 
 bool MagPlus::wind(magics::MagRequest& in)
 {
-	
+
 
 	WindWrapper wind;
 	wind.set(in);
@@ -1497,13 +1497,13 @@ bool MagPlus::wind(magics::MagRequest& in)
 bool MagPlus::visdef(magics::MagRequest& in)
 {
 	MagLog::dev()<< "found visdef" << endl;
-	
+
 	MagRequest& visdefs = in.getSubRequest("ACTIONS");
-	
+
 	visdefs.print();
 	bool dopop = false;
 	while (visdefs) {
-		
+
 		string verb = visdefs.getVerb();
 		{
 	   	    map<string,  ObjectCreator >::iterator creator = sceneHandler_->find(verb);
@@ -1571,10 +1571,10 @@ bool MagPlus::multi(magics::MagRequest& in)
 bool MagPlus::contour(magics::MagRequest& in)
 {
 	MagLog::dev()<< "add contour" << endl;
-	
+
 	//replace(in, "CONTOUR_LABEL_HEIGHT", 0.3, 0.2);
 	string legend  = get(in, "CONTOUR_LEGEND", "ON");
-	
+
 	ContourWrapper contour;
 	contour.set(in);
 	setIconInfo(in, *contour.object());
@@ -1588,14 +1588,14 @@ bool MagPlus::contour(magics::MagRequest& in)
 	return false; // do not exit
 }
 
-bool MagPlus::ptext(magics::MagRequest& in)   
+bool MagPlus::ptext(magics::MagRequest& in)
 {
 	MagLog::dev()<< "add Text" << endl;
 	in.print();
 	sceneCreators_["MLEGEND"] = &MagPlus::ignore;
 
 	replace(in, "TEXT_REFERENCE_CHARACTER_HEIGHT", 2.0 , "TEXT_FONT_SIZE", 0.3);
-	replace_string(in, "TEXT_COLOUR", "BLUE", "navy"); 
+	replace_string(in, "TEXT_COLOUR", "BLUE", "navy");
 	in("TEXT_HTML") = "on";
 	text(in);
 	legend(in);
@@ -1603,25 +1603,25 @@ bool MagPlus::ptext(magics::MagRequest& in)
 	return false; // do not exit
 }
 
-bool MagPlus::text(magics::MagRequest& in)   
+bool MagPlus::text(magics::MagRequest& in)
 {
-	
+
 	MagLog::dev()<< "add Text-->" << endl;
 	in.print();
 	MagLog::dev()<< "<--add Text" << endl;
 	string mode = get(in, "TEXT_MODE", "automatic");
-	
-	
+
+
 	in("TEXT_HTML") = "on";
 
 	TextVisitor* node;
 	if (magCompare(mode, "positional") )
 		node = new FortranPositionalTextVisitor();
-	else 
-		node = new FortranAutomaticTextVisitor();	
-	
+	else
+		node = new FortranAutomaticTextVisitor();
+
 	TextVisitorWrapper helper(node);
-	helper.set(in);	
+	helper.set(in);
 	top()->text(node);
 
 
@@ -1631,7 +1631,7 @@ bool MagPlus::text(magics::MagRequest& in)
 
 bool MagPlus::legend(magics::MagRequest& in)
 {
-	
+
 	MagLog::dev()<< "add legend-->" << endl;
 	in.print();
 	MagLog::dev()<< "<--add legend" << endl;
@@ -1640,12 +1640,12 @@ bool MagPlus::legend(magics::MagRequest& in)
 	LegendVisitor* legend;
 	if ( magCompare(mode, "positional") ) {
 		legend = new FortranPositionalLegendVisitor();
-	
+
 	}
-	else 
+	else
 		legend = new FortranAutomaticLegendVisitor();
 	LegendVisitorWrapper helper(legend);
-	helper.set(in);	
+	helper.set(in);
 	top()->legend(legend);
 	return false; // do not exit
 }
@@ -1662,18 +1662,18 @@ bool MagPlus::device(magics::MagRequest& in)
 	XmlNode* driver = 0;
 	if ( !in.countValues("FORMAT") ) return false;
     string fmt =  in("FORMAT");
-    
-   
+
+
     string format(fmt);
-    
+
     if ( format == "POSTSCRIPT") {
-    	
+
     	map<string, string> attributes;
     	attributes["output_fullname"] =  string(in("FILE"));
-    
+
     	driver = new XmlNode("ps", attributes);
     }
-	
+
 	output_.set(*driver, drivers_);
     if ( driver) delete(driver);
 	return false; // do not exit
@@ -1686,7 +1686,7 @@ void MagPlus::execute( magics::MagRequest& in)
 	in.print();
 	cout << "<---MagPlus::execute" << endl;
 	try {
-	// Start from a fersh tree! 
+	// Start from a fersh tree!
 #ifndef MAG_NEXT
 		if (root_)
 		{
@@ -1713,7 +1713,7 @@ void MagPlus::execute( magics::MagRequest& in)
    	    	  if ( (this->*creator->second)(request) ) return;
    	    }
         }
-        { 
+        {
         map<string,  ObjectCreator >::iterator creator = driverCreators_.find(verb);
    	    if ( creator != driverCreators_.end() ) {
    	    	  magics::MagRequest& request = in.justOneRequest();
@@ -1732,7 +1732,7 @@ void MagPlus::execute( magics::MagRequest& in)
 			drivers_.setDriversWidth(root_->absoluteWidth());
 			drivers_.setDriversHeight(root_->absoluteHeight());
 			root_->mode(mode_);
-		
+
 			root_->execute();
 
 		drivers_.openDrivers();
@@ -1745,7 +1745,7 @@ void MagPlus::execute( magics::MagRequest& in)
    	/*! \todo Why is this MagMagException empty???  */
 	   MagLog::error() << "Something went really wrong!" << e << endl;
 
-   } 
+   }
 }
 
 
@@ -1753,16 +1753,16 @@ void MagPlus::execute( magics::MagRequest& in)
 void MagPlus::notify(MagicsEvent& event)
 {
 	MagLog::dev()<< "NOTIFY---" << event << endl;
-	 for (vector<MagicsObserver*>::iterator observer = observers_.begin(); observer != observers_.end(); ++observer) 
+	 for (vector<MagicsObserver*>::iterator observer = observers_.begin(); observer != observers_.end(); ++observer)
 			event.notify(**observer);
 }
 
 void MagPlus::unregisterObserver(MagicsObserver* observer)
 {
 
-    observers_.erase(std::remove_if(observers_.begin(), observers_.end(), 
+    observers_.erase(std::remove_if(observers_.begin(), observers_.end(),
     	bind2nd(std::equal_to<MagicsObserver*>(), observer)), observers_.end());
-    	  
+
 }
 
 

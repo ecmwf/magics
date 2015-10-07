@@ -36,7 +36,7 @@
 #include <PaperPoint.h>
 #include "Matrix.h"
 
-#ifdef MAGICS_CAIRO
+#ifdef HAVE_CAIRO
  #include <cairo.h>
  typedef cairo_t* CairoPtr;
 #endif
@@ -193,7 +193,7 @@ public:
 	virtual string type() const = 0;
 	
 
-#ifdef MAGICS_CAIRO
+#ifdef HAVE_CAIRO
 	virtual void set(const CairoPtr&) { throw MistmatchType(name_, "cairo_context", type()); }
 	virtual void get(CairoPtr&) const { throw MistmatchType(name_, "cairo_context", type()); }
 	string getType(CairoPtr) const { return "cairo_context"; }

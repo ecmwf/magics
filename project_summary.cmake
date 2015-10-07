@@ -50,4 +50,4 @@ if(EXPAT_FOUND)
   message( STATUS "         libs     : [${EXPAT_LIBRARIES}]" )
 endif()
 
-message( STATUS " Magics extra libs      : [${MAGICS_EXTRA_LIBS}]" )
+message( STATUS " Magics extra libs      : [${MAGICS_EXTRA_LIBRARIES}]" )
