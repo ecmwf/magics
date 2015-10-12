@@ -228,6 +228,7 @@ public:
     { layout.transformation(transformation_);  }
   
     void frameIt() { frame_.frame(*this); }
+    void clippIt(bool clipping) { clipping_ = clipping; }
     void blankIt() { frame_.blank(*this); }
     void resolve(bool resolve) { resolve_  = resolve; }
     bool resolve() const { return resolve_; }
@@ -263,6 +264,8 @@ protected:
 	bool resizable_;
 	bool resolve_;
 	
+	bool clipping_;
+
 	LayoutFrame frame_;
 		
 	static vector<DriverInfo> driverInfos_;

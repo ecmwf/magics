@@ -151,18 +151,19 @@ void ViewNode::prepareLayout(SceneLayer& tree)
 	}
 
 	drawing_->transformation(viewTransformation_);
-		drawing_->y(drawing_bottom_);
-		drawing_->x(drawing_left_);
-		drawing_->height(height);
-		drawing_->width(width);
-		drawing_->id(id_);
-		drawing_->widthResolution(widthResolution()*width/100);
-		drawing_->heightResolution(heightResolution()*width/100);
-		drawing_->zoomable(true);
-		drawing_->zoomLevels(zoomLevels_);
-		drawing_->zoomCurrentLevel(zoomCurrentLevel_);
-		drawing_->frame(*layout_);
-		drawing_->frameIt();
+	drawing_->y(drawing_bottom_);
+	drawing_->x(drawing_left_);
+	drawing_->height(height);
+	drawing_->width(width);
+	drawing_->id(id_);
+	drawing_->widthResolution(widthResolution()*width/100);
+	drawing_->heightResolution(heightResolution()*width/100);
+	drawing_->zoomable(true);
+	drawing_->zoomLevels(zoomLevels_);
+	drawing_->zoomCurrentLevel(zoomCurrentLevel_);
+	drawing_->frame(*layout_);
+	drawing_->frameIt();
+
 	components_.push_back(drawing_);
 	helper.add(drawing_);
 
@@ -598,6 +599,7 @@ void FortranViewNode::getReady()
 	ParameterManager::set("subpage_y_position_internal", absy);
 
 	layout_->frame(true, frame_, *frame_colour_, frame_line_style_, frame_thickness_);
+	layout_->clippIt(clipping_);
 
 	BasicSceneObject::getReady();
 }

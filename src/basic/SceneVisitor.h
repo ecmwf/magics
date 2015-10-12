@@ -102,6 +102,7 @@ public:
 	void zoomCurrentLevel(int level)   {  ASSERT(layout_); return layout_->zoomCurrentLevel(level); }
 	void frameIt()   {  ASSERT(layout_); return layout_->frameIt(); }
 	void frame(Layout& layout) { ASSERT(layout_); layout_->frame(layout); }
+	void clippIt(bool clip)   {  ASSERT(layout_); layout_->clippIt(clip); }
 protected:
 	void print(ostream&) const; 
 	Layout* layout_; 	 
