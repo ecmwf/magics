@@ -163,6 +163,8 @@ void ViewNode::prepareLayout(SceneLayer& tree)
 	drawing_->zoomCurrentLevel(zoomCurrentLevel_);
 	drawing_->frame(*layout_);
 	drawing_->frameIt();
+	drawing_->clippIt(layout_->clipp());
+
 
 	components_.push_back(drawing_);
 	helper.add(drawing_);

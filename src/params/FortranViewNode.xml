@@ -80,7 +80,7 @@
 	</parameter>
 	<parameter from="string" name="subpage_clipping"  default="on" member="clipping" to="bool">
          	
-         		<documentation> Apply a clipping to the subpage to avaoid any symbol, flag or arrow to go outside of the plotting area</documentation>
+         		<documentation> Apply a clipping to the subpage to avoid any symbol, flag or arrow to go outside of the plotting area</documentation>
 	</parameter>
 
 
