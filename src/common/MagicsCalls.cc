@@ -433,6 +433,23 @@ public :
 	}
 };
 
+/*! \brief nforms users that output_resolution is dreprecated
+
+  This parameter is not required anymore.
+*/
+class OutputResolution: public CompatibilityHelper {
+public :
+	OutputResolution() : CompatibilityHelper("output_resolution") {}
+	~OutputResolution() {}
+	bool operator()(int )
+	{
+		MagLog::info() << "Deprecated parameter: output_resolution is not used anymore.\n"
+		            << "        Vector formats already used highes resolution and PNG uses 300 DPI."<< std::endl; 
+		return true;
+	}
+};
+
+
 class GraphValuesConverter : public CompatibilityHelper
 {
 public:
@@ -801,6 +818,7 @@ public :
 	}
 };
 
+static OutputResolution outputresolution;
 static WindArrowLegend windarrowlegend;
 static PsFileName ps_file_name;
 static GribSubareaExtraction grib_subarea_extraction;

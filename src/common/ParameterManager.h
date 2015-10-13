@@ -18,11 +18,9 @@
 
 /*! \file ParameterManager.h
     \brief Handles the Magics Parameters
-    \author Meteorological Visualisation Section, ECMWF
+    \author Development Section, ECMWF
 
     Started: Jan 2004
-
-    Changes:
 
 */
 
@@ -45,9 +43,8 @@ public :
     UnknownParameter(const string& name) :
         MagicsException(name + ": unknown parameter, the call is ignored.")
    {
-	MagLog::info() << "The parameter " << name << " is unknown in Magics++.\n"
-	            << "Please check the documentation or contact\n"
-	            << "the Meteorological Visualisation Section at ECMWF.\n";
+	MagLog::info() << "The parameter " << name << " is unknown in Magics.\n"
+	            << "Please check the documentation or contact Software Support at ECMWF.\n";
    }
 };
 

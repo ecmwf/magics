@@ -295,9 +295,9 @@ void CairoDriver::setupNewSurface() const
 #endif
 	}
 
-#if CAIRO_VERSION >= CAIRO_VERSION_ENCODE(1, 2, 0)
-	cairo_surface_set_fallback_resolution (surface_, resolution_, resolution_);
-#endif
+//#if CAIRO_VERSION >= CAIRO_VERSION_ENCODE(1, 2, 0)
+//	cairo_surface_set_fallback_resolution (surface_, resolution_, resolution_);
+//#endif
 	if(magCompare(transparent_,"off") || !(magCompare(backend_,"png") || magCompare(backend_,"geotiff")) )
 	{
 		cairo_set_source_rgb (cr_, 1.0, 1.0, 1.0); /* white */
