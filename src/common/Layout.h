@@ -229,6 +229,7 @@ public:
   
     void frameIt() { frame_.frame(*this); }
     void clippIt(bool clipping) { clipping_ = clipping; }
+    bool clipp() { return clipping_; }
     void blankIt() { frame_.blank(*this); }
     void resolve(bool resolve) { resolve_  = resolve; }
     bool resolve() const { return resolve_; }
