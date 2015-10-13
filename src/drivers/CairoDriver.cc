@@ -740,22 +740,15 @@ MAGICS_NO_EXPORT void CairoDriver::project(const Layout& layout) const
 	offsetX_ = projectX( -layout.minX());
 	offsetY_ = projectY( -layout.minY() );
 
-/*
-	if(box->getClip())
+
+	if(layout.clipp())
 	{
 //		cairo_set_source_rgb(cr_, 1,0,0);
-		cairo_rectangle (cr_, projectX(Xmin),projectY(Ymin),projectX(Xmax)-projectX(Xmin),projectY(Ymax)-projectY(Ymin) );
+		cairo_rectangle (cr_, projectX(layout.minX()),projectY(layout.minY()),projectX(layout.maxX())-projectX(layout.minX()),projectY(layout.maxY())-projectY(layout.minY()) );
 		cairo_clip(cr_);
 //		cairo_stroke(cr_);
 	}
-	if(box->centered())
-	{
-		Xoff += Xlength*0.5;
-		Yoff += Ylength*0.5;
-		obsBox_=true;
-	}
-	else obsBox_=false;
-*/
+
 	// write meta info
 	if(layout.isNavigable() && (magCompare(backend_,"png") || magCompare(backend_,"svg") || magCompare(backend_,"geotiff")) )
 	{
