@@ -4,4 +4,7 @@
          		<release>Magics++1.1		</release>
          		<documentation> The name of the input file containing the GeoPoints code field(s) 		</documentation>
   	</parameter>
+  	<parameter member="missing" to="float" default="3.0E+38" from="float" name="geo_missing_value">
+         		<documentation> missing value for geopoints  		</documentation> 
+  	</parameter>
 </class></magics>
