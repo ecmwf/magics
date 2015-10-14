@@ -179,56 +179,59 @@ public:
 
         }
         else {
-            // intersect !
-            // Create line from 1first
+        	// intersect !
+        	// Create line from 1first
 
-            typedef boost::geometry::model::polygon<PaperPoint > polygon;
-
-
-            polygon previous, pts;
-
-            for ( vector<PaperPoint>::iterator pt = points.begin();  pt != points.end(); ++pt ) {
-               pts.outer().push_back(*pt);
-            }
-            pts.outer().push_back(points.front());
-            vector<vector<Point> > result;
-            helper->second->computePolygonLines(result);
-            ASSERT( result.size() == 1);
-            for ( vector<Point>::iterator pt = result.front().begin();  pt != result.front().end(); ++pt ) {
-                 previous.outer().push_back(PaperPoint(pt->x_, pt->y_));
-            }
-
-            helper_[index] = new SegmentJoiner();
+        	typedef boost::geometry::model::polygon<PaperPoint > polygon;
 
 
-            std::vector<polygon > output;
+        	polygon previous, pts;
+
+        	for ( vector<PaperPoint>::iterator pt = points.begin();  pt != points.end(); ++pt ) {
+        		pts.outer().push_back(*pt);
+        	}
+        	pts.outer().push_back(points.front());
+        	vector<vector<Point> > result;
+        	helper->second->computePolygonLines(result);
+        	ASSERT( result.size() == 1);
+        	for ( vector<Point>::iterator pt = result.front().begin();  pt != result.front().end(); ++pt ) {
+        		previous.outer().push_back(PaperPoint(pt->x_, pt->y_));
+        	}
+
+        	helper_[index] = new SegmentJoiner();
 
 
-
-            boost::geometry::intersection(previous, pts, output);
-
+        	std::vector<polygon > output;
 
 
-            if (output.size() == 1){
-                            vector<PaperPoint> xx;
-                                                        for ( vector<PaperPoint>::iterator pt = output.front().outer().begin();  pt != output.front().outer().end(); ++pt ) {
-                                                           xx.push_back(*pt);
-                                                         }
+        	try {
+        		boost::geometry::intersection(previous, pts, output);
 
-                                                        push_back(index, xx);
 
-            }
-            else
-                {
+        		if (output.size() == 1){
+        			vector<PaperPoint> xx;
+        			for ( vector<PaperPoint>::iterator pt = output.front().outer().begin();  pt != output.front().outer().end(); ++pt ) {
+        				xx.push_back(*pt);
+        			}
 
-                    boost::geometry::union_(pts, previous, output);
-                            if (output.size() == 1){
-                                push_back(index, output.front().outer());
-                            }
-                            else
-                                push_back(index, previous.outer());
+        			push_back(index, xx);
 
-                }
+        		}
+        		else
+        		{
+
+        			boost::geometry::union_(pts, previous, output);
+        			if (output.size() == 1){
+        				push_back(index, output.front().outer());
+        			}
+        			else
+        				push_back(index, previous.outer());
+
+        		}
+        	}
+        	catch (...) {
+        		// ignore
+        	}
 
         }
 
@@ -1247,7 +1250,7 @@ void IsoPlot::isoline(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
        CellBox view(array);
 
        threads_ = (needIsolines())  ? 4: 0;
-        //threads_ = 1;
+       //threads_ = 1;
        vector<IsoHelper*> consumers_;
        vector<IsoProducer* >  producers_;
 
@@ -1273,7 +1276,7 @@ void IsoPlot::isoline(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
         int c = 0;
         VectorOfPointers<vector<IsoProducerData*> > datas;
         for ( int i = 0; i < view.size(); i++)
-        //int i = 0;
+        //int i = 1;
         {
 
            IsoProducerData* data = new IsoProducerData(shading_->shadingMode(), *this, *(view[i]));
