@@ -8,13 +8,8 @@
     		<documentation>Defines a title for the output which gets displayed if the format supports it.		</documentation>
 	</parameter>
 
-
-
-
-
-
 	<parameter member="name" to="string" default="" from="string" name="output_name">
-    		<documentation>Defines the root of output filename.		</documentation>
+    		<documentation>Defines the root of output filename.</documentation>
 	</parameter>
 
 	<parameter member="firstnumber" to="bool" default="on" from="string" name="output_name_first_page_number">
@@ -46,8 +41,8 @@
 	</parameter>
 
 	<parameter member="debug" to="bool" default="off" from="string" name="output_debug">
-  		<documentation>Defines if extra debug information are written in the output file (PS, EPS, SVG) or console (GIF/PNG).</documentation>
-  		<release>2.1		</release>        
+  		<documentation>Defines if extra debug information are written in the output file (PS, EPS, SVG) or console (PNG).</documentation>
+  		<release>2.1</release>        
 	</parameter>
 	<parameter member="width" to="int" default="800" from="int" name="output_width">
   		<documentation>Defines the width of the image in pixels.(For GD and SVG)</documentation>

@@ -73,10 +73,12 @@ Something like:
 #include <cairo-svg.h>
 #endif
 
+/*
 #if CAIRO_HAS_XLIB_SURFACE
 #include <cairo-xlib.h>
 Display *dpy;
 #endif
+*/
 
 #define FONT_SCALE 25*.7  //! \todo clean-up!!!
 
@@ -219,6 +221,7 @@ void CairoDriver::setupNewSurface() const
 	    MagLog::error() << "CairoDriver: SVG output NOT supported! Enable SVG support in your Cairo installation." << std::endl;
 #endif
 	}
+/*
 	else if(magCompare(backend_,"x"))
 	{
 #if CAIRO_HAS_XLIB_SURFACE
@@ -246,6 +249,7 @@ void CairoDriver::setupNewSurface() const
 		MagLog::error() << "CairoDriver: Xlib output NOT supported! Enable Xlib support in your Cairo installation." << std::endl;
 #endif
 	}
+*/
 	else
 	{
 		MagLog::error() << "CairoDriver: The backend "<< backend_ <<" is NOT supported!" << std::endl;
@@ -339,6 +343,7 @@ void CairoDriver::close()
 		cairo_surface_destroy (surface_);
 		cairo_destroy (cr_);
 	}
+/*
 #if CAIRO_HAS_XLIB_SURFACE
 	if(magCompare(backend_,"x"))
 	{
@@ -353,6 +358,7 @@ void CairoDriver::close()
 		XCloseDisplay(dpy);
 	}
 #endif
+*/
 }
 
 
