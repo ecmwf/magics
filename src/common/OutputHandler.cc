@@ -110,7 +110,7 @@ static SimpleObjectMaker<BinaryOutputFactory, OutputFactory> binary("mgb");
 #ifdef HAVE_CAIRO
 static SimpleObjectMaker<CAIRO_PngOutputFactory,    OutputFactory> png("png");
 static SimpleObjectMaker<CAIRO_PdfOutputFactory,    OutputFactory> pdf("pdf");
-static SimpleObjectMaker<CAIRO_XOutputFactory,      OutputFactory> x("x");
+//static SimpleObjectMaker<CAIRO_XOutputFactory,      OutputFactory> x("x");
 static SimpleObjectMaker<CAIRO_CairoOutputFactory,  OutputFactory> cairo("cairo");
 static SimpleObjectMaker<CAIRO_SvgOutputFactory,    OutputFactory> csvg("cairo_svg");
 static SimpleObjectMaker<CAIRO_PsOutputFactory,     OutputFactory> cps("cairo_ps");
