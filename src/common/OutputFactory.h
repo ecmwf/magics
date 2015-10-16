@@ -260,7 +260,7 @@ public:
 	virtual OutputFactory* clone() const  { return new CAIRO_SvgOutputFactory(); }    
 	virtual void set(DriverManager&, const XmlNode&);
 };
-
+/*
 class CAIRO_XOutputFactory : public OutputFactory
 {
 public:
@@ -270,6 +270,7 @@ public:
 	virtual OutputFactory* clone() const  { return new CAIRO_XOutputFactory(); }    
 	virtual void set(DriverManager&, const XmlNode&);
 };
+*/
 
 class CAIRO_GeoTiffOutputFactory : public OutputFactory
 {

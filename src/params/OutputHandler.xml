@@ -2,13 +2,13 @@
 <class action="popen" directory="common" xmltag="output" name="OutputHandler">    
 
    	<parameter xml="format" from="string" name="output_format" default="ps" member="format" to="string">
-         		<documentation>Defines the device to be used (ps/gif/svg).		</documentation>
-	 		<release>1.2		</release>
+         		<documentation>Defines the device to be used (ps/png/pdf/svg/kml).</documentation>
+	 		<release>1.2</release>
    	</parameter>
 
    	<parameter xml="formats" from="stringarray" name="output_formats" default="stringarray()" member="formats" to="stringarray">
-         		<documentation>Defines the list of devices to be used (ps/gif/svg).		</documentation>
-         		<release>1.2		</release>        
+         		<documentation>Defines the list of devices to be used (ps/png/pdf/svg/kml).</documentation>
+         		<release>1.2</release>        
    	</parameter>  
 
 </class></magics>
