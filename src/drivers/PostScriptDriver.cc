@@ -286,6 +286,10 @@ MAGICS_NO_EXPORT void PostScriptDriver::project(const magics::Layout& layout) co
 
 	fstream *ps = getStream();
 	*ps	<< "gs";
+	if(layout.clipp())
+	{
+		*ps<<" "<< offsetX_ <<" "<< offsetY_ <<" "<< dimensionX_ <<" "<< dimensionY_ <<" rectclip";
+	}
 //	if(fabs(X_) > 0.0001 && fabs(Y_) > 0.0001 )
 		*ps<<" "<< X_ <<" "<< Y_ <<" t";
 	*ps	<<"\n";
