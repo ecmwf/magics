@@ -576,7 +576,7 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 			}
 
 			Index index = interpretor_->nearest(lat, lon);
-            //cout << "[" << lat << ", " << lon << "]-->[" << index.index_ << ", " << index.lat_ << ", " << index.lon_ << "]" << endl;
+            cout << "[" << lat << ", " << lon << "]-->[" << index.index_ << ", " << index.lat_ << ", " << index.lon_ << "]" << endl;
 			if ( index.index_ != -1 ) {
 				double u = uComponent(index.index_);
 				double v = vComponent(index.index_);
@@ -589,13 +589,13 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 					add->insert(make_pair("x_component", value.first));
 					add->insert(make_pair("y_component", value.second));
 					out.push_back(add);
-                    /* for debug!
+                    ///* for debug!
 					add = new CustomisedPoint(lon+offset, lat, "");
 
 					add->insert(make_pair("x_component", 0.01));
 					add->insert(make_pair("y_component", 0.01));
 					out.push_back(add);
-                    */
+                    //*///
 				}
 			}
 		}
@@ -1709,7 +1709,7 @@ MatrixHandler& GribDecoder::direction() {
 		if ( *x == xComponent_->missing() || *y == yComponent_->missing() )
 			directions.push_back(xComponent_->missing());
 		else
-			directions.push_back(atan2((*y), (*x)) );
+			directions.push_back(atan2((*x), (*y)) );
 		++x;
 		++y;
 	}

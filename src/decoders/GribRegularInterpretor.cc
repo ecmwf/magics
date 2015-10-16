@@ -112,7 +112,7 @@ Index GribInterpretor::nearest(double lat, double lon)
     
     
     
-    lat1 = (ilat) ? ilat : ilat - 1;
+    lat1 = (ilat==0) ? ilat : ilat - 1;
     lat2 = (ilat == indexLat_) ? ilat : ilat + 1;
     
     if ( ilon == 0 ) {
@@ -142,8 +142,8 @@ Index GribInterpretor::nearest(double lat, double lon)
             vector<Index>& points = helper_[ilat * indexLon_ + *ilon];
             for (vector<Index>::iterator point = points.begin(); point != points.end(); ++point) {
                 Index i = *point;
-                if ( i.used_ ) continue;
-                double distance = (( lon- index.lon_ ) * (lon - index.lon_ )) + (( lat - index.lat_ ) * (lat - index.lat_ ));
+                //if ( i.used_ ) continue;
+                double distance = (( lon- i.lon_ ) * (lon - i.lon_ )) + (( lat - i.lat_ ) * (lat - i.lat_ ));
                 if ( distance < nearest ) {
                     nearest = distance;
                     index = i;
@@ -153,7 +153,7 @@ Index GribInterpretor::nearest(double lat, double lon)
         }
     if ( index.lon_ < 0 )
         index.lon_ += 360.;
-    index.used_ = true;
+    //index.used_ = true;
     return index;
 }
 
