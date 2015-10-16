@@ -71,27 +71,7 @@ public:
 	double x_;
 	double y_;
 	double value_;
-	/*
-	bool in(double left, double right, double bottom, double top,std::stack<UserPoint*>& points)
-	{
-		double miny = std::min(top, bottom);
-		double maxy = std::max(top, bottom);
-		double minx = std::min(left, right);
-		double maxx = std::max(left, right);
 
-		if (y_ > maxy)
-			return false;
-		if (y_ < miny)
-			return false;
-		if (x_ < minx)
-			return false;
-		if (x_ > maxx)
-			return false;
-		UserPoint* point = this;
-		points.push(point);
-		return true;
-	}
-	*/
 	void high(bool high) { high_ = high; }
 	void low(bool low)   { low_ = low; }
 	bool high() const { return high_; }
@@ -110,7 +90,7 @@ public:
 	string asLongitude() const
 	{
 		ostringstream lon;
-//		string ew = "#232"; // degree symbol
+
 		string ew = "&#176;";
 		UserPoint nice = shift(-180, 180);
 
@@ -124,7 +104,7 @@ public:
 	string asLatitude() const
 	{
 		ostringstream lat;
-		//string ns = "#232"; // degree symbol
+
 		string ns = "&#176;";
 		if ( y_ < 0 ) ns += "S";
 		if ( y_ >= 0 ) ns += "N";
