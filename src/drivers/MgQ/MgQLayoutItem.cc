@@ -26,6 +26,7 @@
     Started: February 2010
 */
 
+#include <QPainter>
 #include <QDebug>
 
 #include "MgQLayoutItem.h"
@@ -35,7 +36,9 @@
 using namespace magics;
 
 
-MgQLayoutItem::MgQLayoutItem(const Layout &l) : layout_(l)
+MgQLayoutItem::MgQLayoutItem(const Layout &l) : 
+  layout_(l),
+  clipped_(l.clipp())
 {
 }
 
@@ -46,9 +49,15 @@ MgQLayoutItem::MgQLayoutItem(const MgQLayoutItem& ori) :
 	dimensionX_(ori.dimensionX_),
 	dimensionY_(ori.dimensionY_),
 	projectedMinX_(ori.projectedMinX_),
-	projectedMinY_(ori.projectedMinY_)
-	{}
+	projectedMinY_(ori.projectedMinY_),
+    clipped_(ori.clipped_)	
+{}
 
+	
+void MgQLayoutItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
+{
+}
+   	
 QRectF MgQLayoutItem::boundingRect() const
 {
 	return QRectF(projectedMinX_,projectedMinY_,
