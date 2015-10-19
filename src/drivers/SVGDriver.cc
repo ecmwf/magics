@@ -1496,8 +1496,7 @@ MAGICS_NO_EXPORT void SVGDriver::renderSymbols(const Symbol& symbol) const
 	  const MFloat y = projectY(symbol[0].y());
 
 	  string logofile;
-	  if(magCompare(location,"WWW")) logofile = "http://old.ecmwf.int/publications/manuals/magics/magplus/resources/ecmwf_logo.png";
-	  else if(magCompare(location,"LOCAL")) logofile = "ecmwf_logo.png";
+	  if(magCompare(location,"LOCAL")) logofile = "ecmwf_logo.png";
 	  else logofile = getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_ + "ecmwf_logo.png";
 	  svg_output_resource_list_.push_back(logofile);
 	  pFile_ << "<a xlink:href=\"http://www.ecmwf.int\">"
