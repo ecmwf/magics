@@ -28,6 +28,8 @@
 
 
 #include "MgQScene.h"
+#include "MgQ.h"
+#include "MgQLayoutItem.h"
 
 #include <QDebug>
 #include <QGraphicsItem>
@@ -134,19 +136,42 @@ void MgQScene::renderContents(QPainter *painter,
 
 void MgQScene::renderItemRecursively(QGraphicsItem* item,QPainter *painter,const QStyleOptionGraphicsItem *option)
 {
-	//
 	if(checkItemIsVisible(item) == true &&
 	   item->type() != MgQ::PreviewLayoutItemType)
 	{
 		painter->save();
 		painter->setTransform(item->sceneTransform(), true);
 		item->paint(painter, option, 0);
-          	painter->restore();
-
+        painter->restore();
+       
+        bool clipSet=false;
+        QRectF oriClipRect;
+        
+        if(item->type() == MgQ::LayoutItemType)
+        {        
+            if(MgQLayoutItem* layout=static_cast<MgQLayoutItem*>(item))       
+            {                 
+                if(layout->clipped())
+                {
+                    painter->save();
+                    clipSet=true;
+                    oriClipRect=painter->clipRegion().boundingRect();
+                    painter->setClipRect(item->mapToScene(item->boundingRect()).boundingRect(),
+                                     Qt::IntersectClip);                
+                }
+            }    
+        }        
+        
 		foreach(QGraphicsItem *childItem,item->childItems())
 		{
 			renderItemRecursively(childItem,painter,option);
 		}
+		
+		if(clipSet)
+        {    
+            painter->setClipRect(oriClipRect);
+            painter->restore();       
+        }    
 	}
 }
 
@@ -159,7 +184,7 @@ bool MgQScene::checkItemIsVisible(QGraphicsItem *item)
 	}
 	else	 
 	{
-	    	return item->data(MgQ::ItemIsVisibleKey).toBool();
+	    return item->data(MgQ::ItemIsVisibleKey).toBool();
 	}
 }
 

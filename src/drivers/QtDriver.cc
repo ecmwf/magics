@@ -136,7 +136,7 @@ void QtDriver::open()
 	currentPolylineSetItem_=0;
 		
 	//We find out the screen dpy from Qt. It can be different to the value
-	//returned by scene->dpiResolution(), which it isdefined externally by
+	//returned by scene->dpiResolution(), which is defined externally by
 	// a reliable command (e.g. by 'xdpyinfo') and avialiable through  
 	//the env var METVIEW_SCREEN_RESOLUTION on the metview side.  
 	
@@ -482,7 +482,7 @@ MAGICS_NO_EXPORT void QtDriver::project(MgQLayoutItem *item) const
 		r->setParentItem(layoutItem);
 	}
 #endif
-
+    
 	//Update item history
 	currentItem_=item;
 	layoutItemStack_.push(item);
