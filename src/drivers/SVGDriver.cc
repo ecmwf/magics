@@ -647,7 +647,7 @@ MAGICS_NO_EXPORT void SVGDriver::renderPolyline(const int n, MFloat *x, MFloat *
 MAGICS_NO_EXPORT void SVGDriver::renderPolyline2(const int n, MFloat* x, MFloat* y) const
 {
 	if(n != 2 || (currentColour_==Colour("none")) ) return;
-	closeGroup();
+//	closeGroup();
 	const int r = static_cast<int>(currentColour_.red()  *255);
 	const int g = static_cast<int>(currentColour_.green()*255);
 	const int b = static_cast<int>(currentColour_.blue() *255);
