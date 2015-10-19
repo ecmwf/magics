@@ -329,6 +329,7 @@ MAGICS_NO_EXPORT void SVGDriver::project(const magics::Layout& layout) const
 	dimensionStack_.push(dimensionX_);
 	dimensionStack_.push(dimensionY_);
 	const MFloat oldHeight = dimensionY_;
+	const MFloat oldWidth  = dimensionX_;
 	scalesX_.push(coordRatioX_);
 	scalesY_.push(coordRatioY_);
 
@@ -351,12 +352,24 @@ MAGICS_NO_EXPORT void SVGDriver::project(const magics::Layout& layout) const
 
 	group_counter_++;
 
+	if(layout.clipp())
+	{
+		pFile_ << "<defs>\n"
+		       << " <clipPath id=\"clip_"<<layout.name()<<"\">\n"
+		       << "  <rect x=\""<<projectX(layout.minX())<<"\" y=\""<<projectY(layout.minY())-setY(y_set)<<"\" width=\""<<projectX(layout.maxX())-projectX(layout.minX())<<"\" height=\""<<projectY(layout.maxY())-projectY(layout.minY())<<"\" />\n"
+		       << " </clipPath>\n"
+		       << "</defs>"<<endl;
+	}
+
 	pFile_ << "<g";
 	if(!layout.name().empty()) pFile_ << " id=\""<<layout.name()<<"\"";
 	if( !zero(x_set) || !zero(y_set) ) pFile_ << " transform=\"translate("<<x_set <<","<<setY(y_set)<<")\"";
 
-	//if(showCoordinates_ && area=="drawing_area") pFile_ << " onmouseover=\"setLonScale("<<coordRatioX_<<");showCoords(evt)\"";
-	//if(box->getClip()) pFile_ << " clip-path=\"url(#clip_"<<area<<")\"";
+	//if(showCoordinates_ && area=="drawing_area") pFile_ << " onmouseover=\"setLonScale("<<coordRatioX_<<");showCoords(evt)\"";
+	if(layout.clipp())
+	{
+		pFile_ << " clip-path=\"url(#clip_"<<layout.name()<<")\"";
+	}
 	pFile_ << ">\n";
 
 	if(layout.isNavigable())
