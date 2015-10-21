@@ -1006,20 +1006,13 @@ MAGICS_NO_EXPORT void SVGDriver::renderText(const Text& text) const
 		setNewColour(magfont.colour());
 		const MFloat dheight = magfont.size()*text_scale;
 		const std::set<string>& styles = magfont.styles();
-//		for (std::set<string>::iterator it=styles.begin(); it!=styles.end(); ++it)
-//		   std::cout << '_' << *it;
-//		string style = "";
-//		if(styles.find("bolditalic") != styles.end()) style = "bolditalic";
-//		else if(styles.find("bold") != styles.end()) style = "bold";
-//		else if(styles.find("italic") != styles.end()) style = "italic";
 		string style = "normal";
-//		cout << "___"<<style<<endl;
 		const string font = magfont.name()+"_"+style;
-		if (verticalAlign==MBASE )       vertical = dheight * .15;
-		else if (verticalAlign==MTOP)    vertical = dheight;
-		else if (verticalAlign==MHALF)   vertical = dheight * .5;
-// default	else if (verticalAlign==MBOTTOM) vertical = 0.;
-//		vertical = -vertical/dheight *100;
+
+		string verticalJustification = "no-change";
+		if (verticalAlign==MBASE )       verticalJustification = "alphabetic";
+		else if (verticalAlign==MTOP)    verticalJustification = "hanging";
+		else if (verticalAlign==MHALF)   verticalJustification = "middle";
 
 		fontMapIter iter = FontMap_.find(font);
 		string ttf;
@@ -1050,13 +1043,10 @@ MAGICS_NO_EXPORT void SVGDriver::renderText(const Text& text) const
 			openGroup(stream.str());
 		   }
 
-		   pFile_ << "<text x=\""<<xxx<<"\" y=\""<<yyy<<"\"";
+		   pFile_ << "<text x=\""<<xxx<<"\" y=\""<<yyy<<"\" dominant-baseline=\""<<verticalJustification<< "\"";
 //		   if(text.getBlanking())
 //			   pFile_ << " background-color=\"white\"";
-		   if(zero(vertical))
-		     pFile_ << ">"<<(*niceText).text();
-		   else 
-		     pFile_ << "><tspan dy=\""<<vertical<<"cm\">"<<(*niceText).text()<<"</tspan>";
+		   pFile_ << ">"<<(*niceText).text();
 		}
 		else
 		{
@@ -1072,7 +1062,6 @@ MAGICS_NO_EXPORT void SVGDriver::renderText(const Text& text) const
 	}// end for all strings
 	pFile_ <<"</text>\n";
    }// end for all co-ordinates
-//   pFile_ <<"</g>\n";
 }
 
 /*!
