@@ -78,7 +78,7 @@
          		<release>Magics++2.4		</release>
          		<documentation> Y-Coordinate of upper left hand corner of subpage 		</documentation>
 	</parameter>
-	<parameter from="string" name="subpage_clipping"  default="on" member="clipping" to="bool">
+	<parameter from="string" name="subpage_clipping"  default="off" member="clipping" to="bool">
          	
          		<documentation> Apply a clipping to the subpage to avoid any symbol, flag or arrow to go outside of the plotting area</documentation>
 	</parameter>
