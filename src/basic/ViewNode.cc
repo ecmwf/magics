@@ -170,7 +170,6 @@ void ViewNode::prepareLayout(SceneLayer& tree)
 	frameHelper_->x(drawing_left_);
 	frameHelper_->height(height);
 	frameHelper_->width(width);
-
 	frameHelper_->widthResolution(widthResolution()*width/100);
 	frameHelper_->heightResolution(heightResolution()*width/100);
 
