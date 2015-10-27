@@ -97,17 +97,18 @@ protected:
 	 string animation_; 
 	 
 	 DrawingVisitor* 		drawing_;
-	 TopAxisVisitor*    		topAxis_;
-	 BottomAxisVisitor*   bottomAxis_;
+	 DrawingVisitor* 		frameHelper_;
+	 TopAxisVisitor*    	topAxis_;
+	 BottomAxisVisitor*     bottomAxis_;
 	 LeftAxisVisitor*    	leftAxis_;
 	 RightAxisVisitor*    	rightAxis_;
 	 double                 vaxis_;
 	 double                 haxis_;
-	 
-	 AnimationRules*         rules_;
+
+	 AnimationRules*        rules_;
 
 	 LegendVisitor* 		legend_;
-	 vector<TextVisitor*>     texts_;
+	 vector<TextVisitor*>   texts_;
 	 vector<LayoutVisitor*> components_;
 	
 	
