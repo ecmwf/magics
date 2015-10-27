@@ -132,11 +132,14 @@ void CountSelectionType::calculate(double min, double max, bool)
             // special case - if the value is close to zero then set it to precisely zero to avoid later formatting issues
             if (fabs(val) < epsilon)
                 push_back(0.0);
+            else if ( same(val, maxi) )
+            		push_back(maxi);
             else
-            push_back(val);                
+            	push_back(val);
         }
 	
-        push_back(maxi);
+        if ( maxi != back() )
+        	push_back(maxi);
         int si = static_cast<int>(size());
 
 
