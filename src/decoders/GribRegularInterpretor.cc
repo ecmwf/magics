@@ -1017,7 +1017,7 @@ void GribReducedLatLonInterpretor::interpretAsMatrix(const GribDecoder& grib,
 	*matrix = new Matrix();
 	size_t nb;
 	grib_get_size(grib.id(), "values", &nb);
-
+	bool interpolate = grib.interpolate();
 
 	double missing = std::numeric_limits<double>::max();
 	grib.setDouble("missingValue", missing);
@@ -1089,11 +1089,14 @@ void GribReducedLatLonInterpretor::interpretAsMatrix(const GribDecoder& grib,
 			for (int ii = 0; ii < pl[i]; ii++) {
 				p.push_back(data[d]);
 				lons.push_back( west + (ii*datastep) );
-
-
 				d++;
 			}
 			ASSERT( p.size() ==  pl[i]);
+			if ( global ) {
+				p.push_back(p.front());
+				lons.push_back( lons.back() + datastep );
+
+			}
 
 
 			vector<double>::iterator val = p.begin();
@@ -1107,21 +1110,23 @@ void GribReducedLatLonInterpretor::interpretAsMatrix(const GribDecoder& grib,
 
 				double lon = west + (x*step);
 
-				if ( lon > *lval ) {
+				if ( lon > *nlval ) {
 
 					lval++;
 					val++;
 
-
 					if ( lval == lons.end() ) {
 						val = p.begin();
 						lval = lons.begin();
+						cout << "TO CHECK" << endl;
 					}
 					nval++;
 					nlval++;
 					if ( nlval == lons.end() ) {
 						nval = p.begin();
 						nlval = lons.begin();
+
+
 					}
 
 
@@ -1130,21 +1135,28 @@ void GribReducedLatLonInterpretor::interpretAsMatrix(const GribDecoder& grib,
 
 
 
-				if ( *val == missing ||  *nval == missing)
-					(*matrix)->push_back(*val);
-				else {
 
+				double d1 = ( *nlval - lon) / (datastep);
+				if ( d1 <  0 ) d1 = 1;
+				double d2 = 1 - d1;
+				double value;
 
-					double d1 = ( *nlval - lon) / (datastep);
-					if ( d1 <  0 ) d1 = 1;
-					double d2 = 1 - d1;
-					(*matrix)->push_back( ( d1 * (*val)) + (d2 * (*nval)));
+				if (interpolate) {
+					if (*val == missing || *nval == missing)
+						value = missing;
+					else
+						value =  (d1 * (*val)) + (d2 * (*nval));
 				}
-
-
-
-
+				else {
+					value = (d2 < 0.5) ? *val : *nval;
+				}
+				(*matrix)->push_back(value);
 			}
+
+
+
+
+
 		}
 	}
 
