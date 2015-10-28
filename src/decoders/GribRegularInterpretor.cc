@@ -130,11 +130,13 @@ Index GribInterpretor::nearest(double lat, double lon)
         lonn.push_back(ilon);
         lonn.push_back(ilon+1);
     }
-    //ghdjshj
     
+
     double nearest = 999999999;
     Index index(-1, 0, 0);
     if ( lat == -1000. || lon == -1000.)
+    	return index;
+    if ( lat > 90 || lat < -90)
     	return index;
     for ( ilat = lat1; ilat < lat2; ilat++ )
         for ( vector<int>::iterator ilon = lonn.begin(); ilon != lonn.end(); ++ilon ) {
@@ -1118,7 +1120,7 @@ void GribReducedLatLonInterpretor::interpretAsMatrix(const GribDecoder& grib,
 					if ( lval == lons.end() ) {
 						val = p.begin();
 						lval = lons.begin();
-						cout << "TO CHECK" << endl;
+
 					}
 					nval++;
 					nlval++;
@@ -1192,7 +1194,7 @@ UserPoint GribLambertAzimutalInterpretor::unrotate(double lat,
 
 double GribLambertAzimutalInterpretor::XResolution(const GribDecoder& grib) const
 {
-    return 0.25;
+    return 0.0125;
 }
 
 pair<double, double> GribRotatedInterpretor::unrotate(double lat_y,
