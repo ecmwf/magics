@@ -97,7 +97,7 @@ protected:
 	 string animation_; 
 	 
 	 DrawingVisitor* 		drawing_;
-	 DrawingVisitor* 		frameHelper_;
+	 FrameVisitor* 		frameHelper_;
 	 TopAxisVisitor*    	topAxis_;
 	 BottomAxisVisitor*     bottomAxis_;
 	 LeftAxisVisitor*    	leftAxis_;

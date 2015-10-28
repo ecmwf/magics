@@ -2,6 +2,7 @@
 
 add_magics_test(NAME web_scores SOURCES scores.json RESOURCES score-data.json IMAGE scores.png THRESHOLD 5 JSON)
 add_magics_test(NAME web_15days_clim SOURCES 15days_clim.json RESOURCES 15days_clim.data IMAGE 15days_clim.png THRESHOLD 5 JSON)
+add_magics_test(NAME web_wave SOURCES wave-template.json RESOURCES wave-data.json IMAGE wave.png THRESHOLD 5 JSON)
 add_magics_test(NAME web_10days SOURCES 10days.json RESOURCES 10days.data IMAGE 10days.png THRESHOLD 5 JSON)
 add_magics_test(NAME web_10days_special SOURCES 10days-special.json RESOURCES 10days-special.data IMAGE 10days-special.png THRESHOLD 5 JSON)
 add_magics_test(NAME web_10days_zero SOURCES 10days-zero.json RESOURCES 10days-zero.data IMAGE 10days-zero.png THRESHOLD 5 JSON)
