@@ -590,11 +590,11 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 					add->insert(make_pair("y_component", value.second));
 					out.push_back(add);
                     ///* for debug!
-					add = new CustomisedPoint(lon+offset, lat, "");
+					//add = new CustomisedPoint(lon+offset, lat, "");
 
-					add->insert(make_pair("x_component", 0.01));
-					add->insert(make_pair("y_component", 0.01));
-					out.push_back(add);
+					//add->insert(make_pair("x_component", 0.01));
+					//add->insert(make_pair("y_component", 0.01));
+					//out.push_back(add);
                     //*///
 				}
 			}
