@@ -72,7 +72,7 @@ public:
 class Data: public MetviewIcon{
 
 public:
-	Data(): name_("no_name"), binning_(0), dimension_(1), valid_(true) {}
+	Data(): name_("no_name"), binning_(0), dimension_(1), valid_(true), thinningFactor_(1) {}
 	virtual ~Data() { if ( binning_ ) delete binning_; }
     //! Method to access the data as a matrix Used by pcont action routine
     virtual MatrixHandler& matrix() { throw MethodNotYetImplemented("Data::matrix"); }
@@ -110,8 +110,8 @@ public:
 
     virtual void customisedPoints(const AutomaticThinningMethod&, const Transformation& transformation, const std::set<string>& need , CustomisedPointsList& out)
            { customisedPoints(transformation, need, out, false); }
-    virtual void customisedPoints(const BasicThinningMethod&, const Transformation& transformation, const std::set<string>& need , CustomisedPointsList& out) 
-             { customisedPoints(transformation, need, out, false); }
+    virtual void customisedPoints(const BasicThinningMethod& thinning, const Transformation& transformation, const std::set<string>& need , CustomisedPointsList& out)
+             { thinningFactor_ = thinning.factor(); customisedPoints(transformation, need, out, false); }
     virtual void visit(TextVisitor&) {}
     virtual void visit(LegendVisitor&) {}
     virtual void visit(AnimationRules&) {}
@@ -158,6 +158,7 @@ protected:
      int dimension_;
      int index_;
      bool valid_;
+     int thinningFactor_;
      static int uniqueOwnerId_; // Metview usage for overlay control
 
  	 DateDescription timeStamp_;

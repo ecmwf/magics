@@ -62,7 +62,7 @@ public:
         { MagLog::dev() << "Method  NetcdfInterpretor::interpretAsPoints() --> Not yet implemented.\n"; return false; }
     virtual void customisedPoints(const std::set<string>&, CustomisedPointsList&)  
         	{ MagLog::dev() << "Method  NetcdfInterpretor::customisedPoints() --> Not yet implemented.\n"; }
-    virtual void customisedPoints(const Transformation&, const std::set<string>&, CustomisedPointsList&)  
+    virtual void customisedPoints(const Transformation&, const std::set<string>&, CustomisedPointsList&, int thinning)
             	{ MagLog::dev() << "Method  NetcdfInterpretor::customisedPoints() --> Not yet implemented.\n"; }
 
     virtual bool interpretAsPoints(PointsList& points, const Transformation&)

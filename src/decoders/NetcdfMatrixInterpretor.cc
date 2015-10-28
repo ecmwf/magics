@@ -330,7 +330,7 @@ void NetcdfMatrixInterpretor::visit(Transformation& transformation)
 		
 
 }
-void NetcdfMatrixInterpretor::customisedPoints(const Transformation& transformation, const std::set<string>&, CustomisedPointsList& points)
+void NetcdfMatrixInterpretor::customisedPoints(const Transformation& transformation, const std::set<string>&, CustomisedPointsList& points, int thinning)
 {
 	refDateX_ = transformation.getReferenceX();
 	refDateY_ = transformation.getReferenceY();
@@ -346,19 +346,23 @@ void NetcdfMatrixInterpretor::customisedPoints(const Transformation& transformat
 
 	vector<double>::iterator u = uc->begin();
 	vector<double>::iterator v = vc->begin();
-	for (vector<double>::iterator row = rows_.begin(); row != rows_.end(); ++row)
-			for (vector<double>::iterator column = columns_.begin(); column != columns_.end(); ++column) {
+
+
+	for (int row = 0; row < rows_.size(); row += thinning)
+		for (int column = 0; column < columns_.size(); column += thinning) {
+
 
 				CustomisedPoint* point = new CustomisedPoint();
-				point->longitude(*column);
-				point->latitude(*row);
-				(*point)["x_component"] = *u;
-				(*point)["y_component"] = *v;
+				point->longitude(columns_[column]);
+				point->latitude(rows_[row]);
+				(*point)["x_component"] = (*uc)(row, column);
+				(*point)["y_component"] =  (*vc)(row, column);
 
 				++u;
 				++v;
 				points.push_back(point);
-			}
+		}
+
 }
 void NetcdfMatrixInterpretor::statsData(map<string,vector<double> >& stats)
 {
