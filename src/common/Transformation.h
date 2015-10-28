@@ -114,7 +114,10 @@ public:
     virtual void cleanPCEnveloppe();
 	void cleaninit();
 	enum CoordinateType {GeoType,XyType};
-	CoordinateType coordinateType() const {return coordinateType_;}	
+	CoordinateType coordinateType() const {return coordinateType_;}
+
+	virtual void geoProjection(int& geo) const { geo = 0; } // Useful for Streamlines !
+
 	virtual void toxml(ostream&) const {}
 	// Xml Methods ! 
 	virtual void set(const map<string, string>& ) {}
