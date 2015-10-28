@@ -194,6 +194,12 @@ void WrepJSon::visit(Transformation& transformation)
 
 	decode();
 
+	if ( miny_ == std::numeric_limits<double>::max() ) {
+		// All data missing
+		miny_ = 0;
+		maxy_ = 0;
+	}
+
 	double add = (maxy_ - miny_ ) * y_percent_ /100.;
 	maxy_ += add;
 	miny_ -= add;
