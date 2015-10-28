@@ -140,7 +140,7 @@ void ViewNode::prepareLayout(SceneLayer& tree)
 	LayoutHelper helper;
 	components_.clear();
 	drawing_= new DrawingVisitor();
-	frameHelper_= new DrawingVisitor();
+	frameHelper_= new FrameVisitor();
 	const double width  = 100-drawing_left_-drawing_right_;
 	const double height = 100-drawing_top_-drawing_bottom_;
 	double vaxis  = 100/absoluteWidth() *vaxis_;

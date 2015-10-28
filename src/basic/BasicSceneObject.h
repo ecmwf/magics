@@ -58,6 +58,7 @@ class BottomAxisVisitor;
 class LeftAxisVisitor;
 class RightAxisVisitor;
 class BackgroundVisitor;
+class FrameVisitor;
 class TextVisitor;
 class MetaDataVisitor;
 class LegendVisitor;
@@ -149,6 +150,7 @@ public:
 	virtual void visit(LeftAxisVisitor& left)  { dispatch(left); }
 	virtual void visit(RightAxisVisitor& right)  { dispatch(right); }
 	virtual void visit(BackgroundVisitor& background)  { dispatch(background); }
+	virtual void visit(FrameVisitor& frame)  { dispatch(frame); }
 	
 	virtual void visit(TextVisitor& text)  { dispatch(text); }
 	virtual void visit(LegendVisitor& legend)  { dispatch(legend); }

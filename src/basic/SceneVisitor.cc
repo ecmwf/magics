@@ -74,7 +74,15 @@ HorizontalAxisVisitor::HorizontalAxisVisitor(const DrawingVisitor&)
 HorizontalAxisVisitor::~HorizontalAxisVisitor()
 {
 }
+FrameVisitor::FrameVisitor()
+{
+	layout_ = new Layout();
+	layout_->name("frame");
+}
 
+FrameVisitor::~FrameVisitor()
+{
+}
 VerticalAxisVisitor::VerticalAxisVisitor(const DrawingVisitor&)
 {
 }

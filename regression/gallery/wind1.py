@@ -14,6 +14,11 @@ output = output(output_formats= ['png'],
 australia = mmap(subpage_upper_right_longitude= 180.,
                  subpage_upper_right_latitude= -5.,
                  subpage_lower_left_longitude= 105.,
+                 subpage_clipping='on',
+                 subpage_frame_colour = "evergreen",
+                             subpage_frame_line_style = "dot",
+                                         subpage_frame_thickness = 5,
+
                  subpage_map_projection= 'cylindrical',
                  subpage_lower_left_latitude= -55.)
 

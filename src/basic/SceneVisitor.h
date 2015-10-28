@@ -123,7 +123,15 @@ public:
 protected:
 	
 };
+class FrameVisitor: public LayoutVisitor
+{
+public:
+	FrameVisitor();
+	~FrameVisitor();
+	void visit(BasicSceneObject& object) { object.visit(*this); }
 
+
+};
 
 class HorizontalAxisVisitor: public LayoutVisitor
 {
