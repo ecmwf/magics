@@ -180,6 +180,7 @@ public:
 	void getNewDefinition(const UserPoint&, const UserPoint&, string&) const;
 	void setDefinition(const string&);
 	UserPoint reference() const;
+	virtual void geoProjection(int& geo) const { geo = 1; } // Useful for Streamlines !
 protected:
 	//! Method to print string about this class on to a stream of type ostream (virtual).
 	virtual void print(ostream&) const; 

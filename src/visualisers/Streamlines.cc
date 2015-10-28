@@ -71,6 +71,7 @@ bool Streamlines::operator()(Data& data, BasicGraphicsObjectContainer& parent)
     gs->dx = handler.XResolution();
     gs->dy = -handler.YResolution();
     gs->period_x = 0.;
+    transformation.geoProjection(gs->gs_geo);
 
     OneLineClass ** result = 0;
     int size;

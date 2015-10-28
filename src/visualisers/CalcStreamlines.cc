@@ -140,6 +140,7 @@ int CalcStreamlines(int density, const float *dir, const GSStruct *gs, OneLineCl
 	float dx_2e = dx_2 * 1.001;
 	float dy_2e = dy_2 * 1.001;
 	int period_x = gs->period_x;
+	int gs_geo =  gs->gs_geo;
 	//int period_y = gs->period_y;
 
 	float *dir_tmp = 0x0;
@@ -151,8 +152,7 @@ int CalcStreamlines(int density, const float *dir, const GSStruct *gs, OneLineCl
 				abut_x = 1;
 		}
 
-	// Find out if the grid is on the Earth or no
-	int gs_geo = 0; // 0 -> not on Earth
+
 	// x_min and x_per are used for ShiftPeriod function
 	float x_min = 0.f, x_per = 360.f; // for grids on the Earth
 	if( !gs_geo )
