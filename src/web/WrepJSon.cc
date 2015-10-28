@@ -1319,11 +1319,11 @@ void WrepJSon::visit(TextVisitor& text)
 		text.update("json", "station_name", station_name_);
 
 	
-    if ( !expver_.empty() ) {
+    if ( !expver_.empty() && expver_ != "0001") {
         text.update("json", "expver",  " [" + expver_ + "] ");
     }
-	else
-        text.update("json", "product_info", product_info_);
+
+    text.update("json", "product_info", product_info_);
 	text.update("json", "plumes_interval", tostring(plumes_));
 	text.update("json", "efi_date", valid_time_);
 	text.update("json", "min_max_values", "Max = " +  tostring(maground(maxx_)) + ", Min = " +  tostring(maground(minx_)));
