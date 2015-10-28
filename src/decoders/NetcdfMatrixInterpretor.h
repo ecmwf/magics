@@ -92,7 +92,7 @@ public:
     virtual void statsData(map<string,vector<double> >&);
 	virtual bool x();
 	virtual bool y();
-	void customisedPoints(const Transformation&, const std::set<string>&, CustomisedPointsList&);
+	void customisedPoints(const Transformation&, const std::set<string>&, CustomisedPointsList&, int thinning);
 
 protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).

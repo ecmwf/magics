@@ -76,7 +76,7 @@ NetcdfGeoVectorInterpretor::~NetcdfGeoVectorInterpretor()
 {
 }
 
-void NetcdfVectorInterpretor::customisedPoints(const Transformation& transformation, const std::set<string>&, CustomisedPointsList& list)
+void NetcdfVectorInterpretor::customisedPoints(const Transformation& transformation, const std::set<string>&, CustomisedPointsList& list, int thinning)
 {
 	Netcdf netcdf(path_, dimension_method_);
 	try {
@@ -92,36 +92,24 @@ void NetcdfVectorInterpretor::customisedPoints(const Transformation& transformat
 			netcdf.get(x_, x, first, last);
 			netcdf.get(y_, y, first, last);
 			
-			vector<double>::iterator xi = x.begin();
-			vector<double>::iterator yi = y.begin();
-			vector<double>::const_iterator u = x_component.begin();
-			vector<double>::const_iterator v = y_component.begin();
+			// here we assume that the 4 verctors have the same size
 			
-			xi = x.begin();		
-			yi = y.begin();
-			while ( xi != x.end() && yi != y.end() &&
-						u != x_component.end() && v != y_component.end() ) {
-//				       if ( transformation.in( *xi, *yi) ) {
-				    	   CustomisedPoint* point = new CustomisedPoint();		
-				    	   point->longitude(*xi);
-				    	   point->latitude(*yi);
-				    	   (*point)["x_component"] = *u;
-				    	   (*point)["y_component"] = *v;
-				    	   list.push_back(point);
-//				       }
-						xi++;
-						yi++;
-						u++;
-						v++;
+			for ( int ind = 0; ind < x.size(); ind += thinning) {
+				CustomisedPoint* point = new CustomisedPoint();
+				point->longitude(x[ind]);
+				point->latitude(y[ind]);
+				(*point)["x_component"] = x_component[ind];
+				(*point)["y_component"] = y_component[ind];
+				list.push_back(point);
 			}
 	}
 	catch (MagicsException& e)
 	{
 		MagLog::error() << e << "\n";
-        }
+    }
 }
 
-void NetcdfGeoVectorInterpretor::customisedPoints(const Transformation& transformation, const std::set<string>&, CustomisedPointsList& list)
+void NetcdfGeoVectorInterpretor::customisedPoints(const Transformation& transformation, const std::set<string>&, CustomisedPointsList& list, int thinning)
 {
 	Netcdf netcdf(path_, dimension_method_);
 	try {
@@ -139,8 +127,7 @@ void NetcdfGeoVectorInterpretor::customisedPoints(const Transformation& transfor
 			
 			vector<double>::iterator lat = latitudes.begin();
 			vector<double>::iterator lon = longitudes.begin();
-			vector<double>::const_iterator x = x_component.begin();
-			vector<double>::const_iterator y = y_component.begin();
+
 			
 			//If the lat-lon units is specified as "radians" convert lat-lon 
 			//to degrees. By default the units are sipposed to be "degrees"
@@ -161,22 +148,15 @@ void NetcdfGeoVectorInterpretor::customisedPoints(const Transformation& transfor
 				}  			
 			}		
 
-			lat = latitudes.begin();		
-			lon = longitudes.begin();
-			while ( lat != latitudes.end() && lon != longitudes.end() &&
-						x != x_component.end() && y != y_component.end() ) {
-				       //if ( transformation.in( *lon, *lat) ) {
-				    	   CustomisedPoint* point = new CustomisedPoint();		
-				    	   point->longitude(*lon);
-				    	   point->latitude(*lat);
-				    	   (*point)["x_component"] = *x;
-				    	   (*point)["y_component"] = *y;
-				    	   list.push_back(point);
-				       //}
-						lon++;
-						lat++;
-						x++;
-						y++;
+			// here we assume that the 4 verctors have the same size
+
+			for ( int ind = 0; ind < latitudes.size(); ind += thinning) {
+				CustomisedPoint* point = new CustomisedPoint();
+				point->longitude(longitudes[ind]);
+				point->latitude(latitudes[ind]);
+				(*point)["x_component"] = x_component[ind];
+				(*point)["y_component"] = y_component[ind];
+				list.push_back(point);
 			}
 	}
 	catch (MagicsException& e)

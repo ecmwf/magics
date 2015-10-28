@@ -56,7 +56,8 @@ public:
 
     bool interpretAsPoints(PointsList&);
     bool interpretAsMatrix(Matrix**);
-   
+    void customisedPoints(const Transformation& transformation, const std::set<string>&, CustomisedPointsList& out, int thinning);
+
     
 protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).
