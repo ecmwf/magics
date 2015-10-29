@@ -930,10 +930,14 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
 
 	for (int i = 0; i < 2*res; i++) {
 
-		if ( same(array[i], north, 0.001) )
+		if ( same(array[i], north, 0.001) ) {
 			(*matrix)->rowsAxis().push_back(array[i]);
-		if ( same(array[i], south, 0.001) )
+			continue;
+		}
+		if ( same(array[i], south, 0.001) ) {
 			(*matrix)->rowsAxis().push_back(array[i]);
+			continue;
+		}
 		if ( array[i] < north && array[i] > south)
 			(*matrix)->rowsAxis().push_back(array[i]);
 	}
