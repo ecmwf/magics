@@ -139,7 +139,7 @@ Index GribInterpretor::nearest(double lat, double lon)
     Index index(-1, 0, 0);
     if ( lat == -1000. || lon == -1000.)
     	return index;
-    if ( lat > 90 || lat < -90)
+    if ( lat >= 90 || lat <= -90)
     	return index;
     for ( ilat = lat1; ilat <= lat2; ilat++ )
         for ( vector<int>::iterator ilon = lonn.begin(); ilon != lonn.end(); ++ilon ) {
