@@ -286,9 +286,11 @@ void InputData::getReady(const Transformation& transformation)
 	
 }
 pair<double, double>  adjust(double min, double max) {
-    double epsilon = 1 - ((max - min) * 0.00001);
-    min = min * epsilon;
-    max = max * epsilon;
+
+    double epsilon = max > min ? 0.00001 : -0.00001;
+    min = min - (min*epsilon);
+    max = max + (max*epsilon);
+
     return make_pair(min, max);
 }
 
