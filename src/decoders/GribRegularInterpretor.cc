@@ -70,7 +70,7 @@ void GribInterpretor::new_index(const GribDecoder& grib)
 {
     //Use the grib Iterator to create the index
     
-    indexStep_ = 0.25;
+    indexStep_ = 1.;
     indexLon_ = 360/indexStep_+1;
     indexLat_ = 180/indexStep_+1;
     
@@ -93,6 +93,7 @@ void GribInterpretor::new_index(const GribDecoder& grib)
 
         ilat = floor((lat+90)/indexStep_);
         ilon = floor(lon/indexStep_);
+
         helper_[ilat * indexLon_ + ilon].push_back(Index(i, lat, lon));
         i++;
     }
@@ -104,7 +105,7 @@ void GribInterpretor::new_index(const GribDecoder& grib)
 
 Index GribInterpretor::nearest(double lat, double lon)
 {
-    
+
     int ilat = floor((lat+90)/indexStep_);
     int ilon = floor(lon/indexStep_);
     int lat1, lat2;
@@ -132,19 +133,21 @@ Index GribInterpretor::nearest(double lat, double lon)
     }
     
 
-    double nearest = 999999999;
+
+
+    double nearest = std::numeric_limits<double>::max();
     Index index(-1, 0, 0);
     if ( lat == -1000. || lon == -1000.)
     	return index;
     if ( lat > 90 || lat < -90)
     	return index;
-    for ( ilat = lat1; ilat < lat2; ilat++ )
+    for ( ilat = lat1; ilat <= lat2; ilat++ )
         for ( vector<int>::iterator ilon = lonn.begin(); ilon != lonn.end(); ++ilon ) {
             
             vector<Index>& points = helper_[ilat * indexLon_ + *ilon];
             for (vector<Index>::iterator point = points.begin(); point != points.end(); ++point) {
                 Index i = *point;
-                //if ( i.used_ ) continue;
+
                 double distance = (( lon- i.lon_ ) * (lon - i.lon_ )) + (( lat - i.lat_ ) * (lat - i.lat_ ));
                 if ( distance < nearest ) {
                     nearest = distance;
@@ -155,7 +158,7 @@ Index GribInterpretor::nearest(double lat, double lon)
         }
     if ( index.lon_ < 0 )
         index.lon_ += 360.;
-    //index.used_ = true;
+
     return index;
 }
 
