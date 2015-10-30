@@ -70,7 +70,7 @@ void GribInterpretor::new_index(const GribDecoder& grib)
 {
     //Use the grib Iterator to create the index
 
-    indexStep_ = 5.;
+    indexStep_ = 20.;
     indexLon_ = 360/indexStep_+1;
     indexLat_ = 180/indexStep_+1;
 
