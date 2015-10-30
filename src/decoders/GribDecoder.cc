@@ -583,7 +583,8 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 
 			Index index = interpretor_->nearest(lat, lon);
             //cout << "[" << lat << ", " << lon << "]-->[" << index.index_ << ", " << index.lat_ << ", " << index.lon_ << "]" << endl;
-			if ( index.index_ != -1 ) {
+			if ( index.index_ != -1 && !index.used_ ) {
+				index.used_ = true;
 				double u = uComponent(index.index_);
 				double v = vComponent(index.index_);
 
