@@ -97,6 +97,8 @@ void GribInterpretor::new_index(const GribDecoder& grib)
         helper_[ilat * indexLon_ + ilon].push_back(Index(i, lat, lon));
         i++;
     }
+
+
     west_ = 0;
     east_ = 360.;
 
@@ -116,23 +118,9 @@ Index GribInterpretor::nearest(double lat, double lon)
     lat1 = (ilat==0) ? ilat : ilat - 1;
     lat2 = (ilat == indexLat_) ? ilat : ilat + 1;
 
-    if ( ilon == 0 ) {
-        lonn.push_back(indexLon_);
-        lonn.push_back(0);
-        lonn.push_back(1);
-    }
-    else if (ilon == indexLon_) {
-        lonn.push_back(ilon-1);
-        lonn.push_back(ilon);
-        lonn.push_back(0);
-    }
-    else {
-    	lonn.push_back(ilon);
-    	for (int i = 1; i < 10; i++) {
-    		lonn.push_back(ilon-i);
-    		lonn.push_back(ilon+i);
-    	}
-    }
+    // now make sure that we have
+
+
 
 
 
@@ -143,7 +131,48 @@ Index GribInterpretor::nearest(double lat, double lon)
         return index;
     if ( lat >= 90 || lat <= -90)
         return index;
-    for ( ilat = lat1; ilat <= lat2; ilat++ )
+    for ( ilat = lat1; ilat <= lat2; ilat++ ) {
+    	// find the first non empty cell
+    	// Try ilon ..
+    	vector<Index>& points = helper_[ilat * indexLon_ + ilon];
+    	if ( points.empty() ) {
+    		bool empty = true;
+    		int count = 0;
+    		// Try the first cell not empty on the left
+    		int lon = ilon;
+    		while ( empty && count <  indexLon_) {
+    			if ( lon == 0 ) {
+    				lon = indexLon_;
+    			}
+    			lon--;
+    			points = helper_[ilat * indexLon_ + lon];
+    			if ( !points.empty() ) {
+    				lonn.push_back(lon);
+    				empty = false;
+    			}
+    			count++;
+    		}
+    		empty = true;
+    		count = 0;
+    		lon = ilon;
+    		// try the first cell not empty on the right
+    		while ( empty ) {
+    			if ( lon == indexLon_ ) {
+    				lon = 0;
+    			}
+    			lon++;
+    			points = helper_[ilat * indexLon_ + lon];
+    			if ( !points.empty() ) {
+    				lonn.push_back(lon);
+    				empty = false;
+    			}
+    			count++;
+    		}
+    	}
+    	else {
+    		lonn.push_back(ilon);
+    	}
+
         for ( vector<int>::iterator ilon = lonn.begin(); ilon != lonn.end(); ++ilon ) {
 
             vector<Index>& points = helper_[ilat * indexLon_ + *ilon];
@@ -158,6 +187,7 @@ Index GribInterpretor::nearest(double lat, double lon)
             }
 
         }
+    }
     if ( index.lon_ < 0 )
         index.lon_ += 360.;
 
