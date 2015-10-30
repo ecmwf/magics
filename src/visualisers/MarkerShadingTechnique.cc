@@ -121,14 +121,23 @@ bool MarkerShadingTechnique::prepare(const LevelSelection& levels, const ColourT
     if ( height_.empty() ) {
         height_.push_back(0.2);
     }
+
     if ( marker_.empty() ) {
         marker_.push_back(18);
+    }
+    if ( marker_.empty() ) {
+        marker_.push_back(18);
+    }
+
+    if (symbol_.empty() ) {
+    	for ( intarray::iterator marker = marker_.begin(); marker != marker_.end(); ++marker )
+    		symbol_.push_back(Symbol::convert(*marker));
     }
      
     // Prepare the table ...
     stringarray::iterator colour = colour_.begin();
     doublearray::iterator height = height_.begin();
-    intarray::iterator marker = marker_.begin();
+    stringarray::iterator name = symbol_.begin();
 
 
     for (unsigned int i = 0; i < levels.size() -1; i++)
@@ -137,11 +146,11 @@ bool MarkerShadingTechnique::prepare(const LevelSelection& levels, const ColourT
      
         Symbol* symbol =  new Symbol();
         symbol->setColour(Colour(*colour));
-        symbol->setMarker(*marker);
+
         symbol->setHeight(*height);
         Symbol* legend =  new Symbol();
         legend->setColour(Colour(*colour));
-        legend->setMarker(*marker);
+        legend->setSymbol(*name);
         legend->setHeight(*height);
         map_[Interval(levels[i], levels[i+1])] = symbol;
         legend_[Interval(levels[i], levels[i+1])] = legend;
@@ -155,9 +164,9 @@ bool MarkerShadingTechnique::prepare(const LevelSelection& levels, const ColourT
 	            MagLog::warning() << "MarkerShading --> not enough heights defined!\n";
 	            height = height_.begin();
 	        }  
-	        if ( ++marker == marker_.end()) {
+	        if ( ++name == symbol_.end()) {
 	            MagLog::warning() << "MarkerShading --> not enough markers defined!\n";
-	            marker = marker_.begin();
+	            name = symbol_.begin();
 	        }
         }
     }
