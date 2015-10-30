@@ -146,7 +146,7 @@ bool MarkerShadingTechnique::prepare(const LevelSelection& levels, const ColourT
      
         Symbol* symbol =  new Symbol();
         symbol->setColour(Colour(*colour));
-
+        symbol->setSymbol(*name);
         symbol->setHeight(*height);
         Symbol* legend =  new Symbol();
         legend->setColour(Colour(*colour));
