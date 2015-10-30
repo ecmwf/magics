@@ -16,7 +16,7 @@
    		<documentation>Defines if lines are antialiased (only for PNG).</documentation>
  	</parameter>
 
-	<parameter xml="palette" from="string" name="output_cairo_palette" default="off" member="palette" to="string" values="on/off">
+	<parameter xml="palette" from="string" name="output_cairo_palette" default="on" member="palette" to="string" values="on/off">
    		<documentation>Defines if PNG uses palettes to reduce file size.</documentation>
  	</parameter>
 
