@@ -14,4 +14,8 @@
          		<documentation> Marker table to be used with MARKER shading technique 		</documentation>
          		<release>0.2		</release>
   	</parameter>
+  	<parameter member="symbol" to="stringarray" default="stringarray()" from="stringarray" name="contour_shade_marker_name_table">
+         		<documentation> Marker name table to be used with MARKER shading technique 		</documentation>
+         		<release>0.2		</release>
+  	</parameter>
 </class></magics>
