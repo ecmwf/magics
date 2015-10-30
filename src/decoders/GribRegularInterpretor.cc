@@ -111,7 +111,7 @@ Index GribInterpretor::nearest(double lat, double lon)
     int ilat = floor((lat+90)/indexStep_);
     int ilon = floor(lon/indexStep_);
     int lat1, lat2;
-    vector<int> lonn;
+
 
 
 
@@ -131,42 +131,46 @@ Index GribInterpretor::nearest(double lat, double lon)
         return index;
     if ( lat >= 90 || lat <= -90)
         return index;
-    for ( ilat = lat1; ilat <= lat2; ilat++ ) {
+
+    for ( int clat = lat1; clat <= lat2; clat++ ) {
     	// find the first non empty cell
     	// Try ilon ..
-    	vector<Index>& points = helper_[ilat * indexLon_ + ilon];
+    	vector<Index>& points = helper_[clat * indexLon_ + ilon];
+    	vector<int> lonn;
     	if ( points.empty() ) {
     		bool empty = true;
     		int count = 0;
     		// Try the first cell not empty on the left
     		int lon = ilon;
-    		while ( empty && count <  indexLon_) {
+    		while ( empty  && count <  indexLon_) {
     			if ( lon == 0 ) {
-    				lon = indexLon_;
+    				lon = indexLon_ -1;
     			}
-    			lon--;
-    			points = helper_[ilat * indexLon_ + lon];
+
+    			points = helper_[clat * indexLon_ + lon];
     			if ( !points.empty() ) {
     				lonn.push_back(lon);
     				empty = false;
     			}
     			count++;
+    			lon--;
     		}
     		empty = true;
     		count = 0;
     		lon = ilon;
     		// try the first cell not empty on the right
-    		while ( empty ) {
+    		while ( empty  && count <  indexLon_ ) {
     			if ( lon == indexLon_ ) {
     				lon = 0;
     			}
-    			lon++;
-    			points = helper_[ilat * indexLon_ + lon];
+
+    			points = helper_[clat * indexLon_ + lon];
     			if ( !points.empty() ) {
     				lonn.push_back(lon);
     				empty = false;
     			}
     			count++;
+    			lon++;
     		}
     	}
     	else {
@@ -175,7 +179,7 @@ Index GribInterpretor::nearest(double lat, double lon)
 
         for ( vector<int>::iterator ilon = lonn.begin(); ilon != lonn.end(); ++ilon ) {
 
-            vector<Index>& points = helper_[ilat * indexLon_ + *ilon];
+            vector<Index>& points = helper_[clat * indexLon_ + *ilon];
             for (vector<Index>::iterator point = points.begin(); point != points.end(); ++point) {
                 Index i = *point;
 

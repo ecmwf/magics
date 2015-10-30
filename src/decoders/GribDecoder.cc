@@ -548,6 +548,7 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 	double maxlon = interpretor_->east_;
 
 	double missing = getDouble("missingValue");
+
 	if ( thinx ) {
 		vector<pair<double, double> > positions;
 
@@ -559,13 +560,17 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 
 
 
+
+		int i = 0;
 		for ( pos = positions.begin(); pos != positions.end(); ++pos) {
 			double offset = 0.;
 			// First make sure tthat the lon is between the minlon and maxlon.
 			double lon = pos->first;
 			double lat = pos->second;
-			
 
+
+
+			i++;
 			while ( lon < minlon ) {
 				lon += 360;
 				offset -= 360.;
@@ -574,6 +579,7 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 				lon -= 360.;
 				offset += 360.;
 			}
+
 
 			Index index = interpretor_->nearest(lat, lon);
             //cout << "[" << lat << ", " << lon << "]-->[" << index.index_ << ", " << index.lat_ << ", " << index.lon_ << "]" << endl;
