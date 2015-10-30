@@ -127,9 +127,11 @@ Index GribInterpretor::nearest(double lat, double lon)
         lonn.push_back(0);
     }
     else {
-        lonn.push_back(ilon-1);
-        lonn.push_back(ilon);
-        lonn.push_back(ilon+1);
+    	lonn.push_back(ilon);
+    	for (int i = 1; i < 10; i++) {
+    		lonn.push_back(ilon-i);
+    		lonn.push_back(ilon+i);
+    	}
     }
 
 
