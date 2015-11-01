@@ -70,9 +70,9 @@ void GribInterpretor::new_index(const GribDecoder& grib)
 {
     //Use the grib Iterator to create the index
 
-    indexStep_ = 5.;
-    indexLon_ = 360/indexStep_+1;
-    indexLat_ = 180/indexStep_+1;
+    indexStep_ = 10.;
+    indexLon_ = 360/indexStep_;
+    indexLat_ = 180/indexStep_;
 
     helper_ = vector<vector<Index> >(indexLon_*indexLat_, vector<Index>());
     grib_handle* handle = grib.handle();
@@ -142,7 +142,7 @@ Index GribInterpretor::nearest(double ulat, double ulon)
     int ilon = floor(ulon/indexStep_);
     int lat1, lat2;
 
-
+    //cout << indexStep_ << ", " << indexLon_ << ":" << ulon <<"-->" << ilon << "[ ";
 
 
     lat1 = (ilat==0) ? ilat : ilat - 1;
@@ -163,53 +163,54 @@ Index GribInterpretor::nearest(double ulat, double ulon)
         return index;
 
     for ( int clat = lat1; clat <= lat2; clat++ ) {
-    	// find the first non empty cell
-    	// Try ilon ..
-    	vector<Index>& points = helper_[clat * indexLon_ + ilon];
-    	vector<int> lonn;
-    	if ( points.empty() ) {
-    		bool empty = true;
-    		int count = 0;
-    		// Try the first cell not empty on the left
-    		int lon = ilon;
-    		while ( empty  && count <  indexLon_) {
-    			if ( lon == 0 ) {
-    				lon = indexLon_ -1;
-    			}
+        // find the first non empty cell
+        // Try ilon ..
+        vector<Index>& points = helper_[clat * indexLon_ + ilon];
+        set<int> lonn;
+        if ( points.empty() ) {
+            bool empty = true;
+            int count = 0;
+            // Try the first cell not empty on the left
+            int lon = ilon;
+            while ( empty  && count <  indexLon_) {
+                if ( lon == 0 ) {
+                    lon = indexLon_ -1;
+                }
 
-    			points = helper_[clat * indexLon_ + lon];
-    			if ( !points.empty() ) {
-    				lonn.push_back(lon);
-    				empty = false;
-    			}
-    			count++;
-    			lon--;
-    		}
-    		empty = true;
-    		count = 0;
-    		lon = ilon;
-    		// try the first cell not empty on the right
-    		while ( empty  && count <  indexLon_ ) {
-    			if ( lon == indexLon_ ) {
-    				lon = 0;
-    			}
+                points = helper_[clat * indexLon_ + lon];
+                if ( !points.empty() ) {
+                    lonn.insert(lon);
+                    empty = false;
+                }
+                count++;
+                lon--;
+            }
+            empty = true;
+            count = 0;
+            lon = ilon;
+            // try the first cell not empty on the right
+            while ( empty  && count <  indexLon_ ) {
+                if ( lon == indexLon_ ) {
+                    lon = 0;
+                }
 
-    			points = helper_[clat * indexLon_ + lon];
-    			if ( !points.empty() ) {
-    				lonn.push_back(lon);
-    				empty = false;
-    			}
-    			count++;
-    			lon++;
-    		}
-    	}
-    	else {
-    		lonn.push_back(ilon);
-    	}
+                points = helper_[clat * indexLon_ + lon];
+                if ( !points.empty() ) {
+                    lonn.insert(lon);
+                    empty = false;
+                }
+                count++;
+                lon++;
+            }
+        }
+        else {
+            lonn.insert(ilon);
+        }
 
-        for ( vector<int>::iterator ilon = lonn.begin(); ilon != lonn.end(); ++ilon ) {
-
+        for ( set<int>::iterator ilon = lonn.begin(); ilon != lonn.end(); ++ilon ) {
+               // cout << *ilon << " ";
             vector<Index>& points = helper_[clat * indexLon_ + *ilon];
+            //cout << points.size() << " ";
             for (vector<Index>::iterator point = points.begin(); point != points.end(); ++point) {
                 Index i = *point;
                 double dist = distance(ulat, ulon, i.lat_, i.lon_);
@@ -222,11 +223,14 @@ Index GribInterpretor::nearest(double ulat, double ulon)
 
         }
     }
+    //cout << endl;
     if ( index.lon_ < 0 )
         index.lon_ += 360.;
 
     return index;
 }
+
+
 
 void GribInterpretor::scaling(const GribDecoder& grib, double& scaling,
         double& offset, string& originalUnits, string& derivedUnits) const {
