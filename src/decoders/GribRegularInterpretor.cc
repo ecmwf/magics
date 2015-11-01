@@ -74,7 +74,7 @@ void GribInterpretor::new_index(const GribDecoder& grib)
     indexLon_ = 360/indexStep_;
     indexLat_ = 180/indexStep_;
 
-    helper_ = vector<vector<Index> >(indexLon_*indexLat_, vector<Index>());
+    helper_ = vector<vector<Index> >((indexLon_+1)*(indexLat_+1), vector<Index>());
     grib_handle* handle = grib.handle();
 
 
@@ -211,7 +211,7 @@ Index GribInterpretor::nearest(double ulat, double ulon)
         }
 
         for ( set<int>::iterator ilon = lonn.begin(); ilon != lonn.end(); ++ilon ) {
-               // cout << *ilon << " ";
+                //cout << *ilon << " ";
             vector<Index>& points = helper_[clat * indexLon_ + *ilon];
             //cout << points.size() << " ";
             for (vector<Index>::iterator point = points.begin(); point != points.end(); ++point) {
