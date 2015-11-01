@@ -363,8 +363,6 @@ bool NetcdfXYpointsInterpretor::interpretAsPoints(PointsList& list, const std::s
 			 	val++;
 			}
 			if ( !same(*y,ymissing) || !same(*x,xmissing) ) {
-				if ( same(*x,xmissing) )
-					cout << "found missing" << endl;
 				list.push_back(new UserPoint(*x,*y,value, (same(*y,ymissing) || same(*x,xmissing)) ));
 
 			}
@@ -439,7 +437,7 @@ void NetcdfXYpointsInterpretor::visit(Transformation& transformation)
 	catch ( ... ) {}
 }
 
-void NetcdfXYpointsInterpretor::customisedPoints(const Transformation& transformation, const std::set<string>& needs, CustomisedPointsList& out)
+void NetcdfXYpointsInterpretor::customisedPoints(const Transformation& transformation, const std::set<string>& needs, CustomisedPointsList& out, int)
 {
 	refDateX_ = transformation.getReferenceX();
     refDateY_ = transformation.getReferenceY();
