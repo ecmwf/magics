@@ -142,6 +142,9 @@ Index GribInterpretor::nearest(double ulat, double ulon)
     int ilon = floor(ulon/indexStep_);
     int lat1, lat2;
 
+    if ( ilon == indexLon_ )
+        ilon = 0;
+
     //cout << indexStep_ << ", " << indexLon_ << ":" << ulon <<"-->" << ilon << "[ ";
 
 
