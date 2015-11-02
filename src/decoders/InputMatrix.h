@@ -72,6 +72,7 @@ public:
 	}
 	void filter(Matrix&);
 	void release();
+	void visit(MetaDataCollector&);
 
 protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).
