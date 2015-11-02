@@ -385,10 +385,11 @@ public:
             list<vector<Point> > holes;
             SegmentJoiner& joiner = *index->second;
 
-            //if (index->first == 4)
-                //joiner.print();
+
             joiner.computePolygonLines(result);
             Polyline* poly = 0;
+            if ( result.empty() )
+            		continue;
             bool reverse = joiner.isHole(result.front());
 
             for (vector<vector<Point> >::iterator j = result.begin() ; j != result.end(); ++j) {
