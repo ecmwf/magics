@@ -62,6 +62,37 @@ void MagJSon::interpret(const string& def)
 	build(*tree_.root(), "magics", object);
 }
 
+void ParamJSon::magics(const json_spirit::Value& value)
+{
+	ASSERT( value.type() == obj_type );
+	Object object = value.get_value< Object >();
+	for (vector<Pair>::const_iterator entry = object.begin(); entry !=  object.end(); ++entry)
+	{
+		if ( entry->value_.type() == str_type) {
+			this->insert(make_pair(entry->name_, entry->value_.get_value<string>()));
+		}
+		if ( entry->value_.type() == int_type) {
+			string value = tostring(entry->value_.get_value<int>());
+			this->insert(make_pair(entry->name_, value));
+		}
+		if ( entry->value_.type() ==real_type) {
+			string value = tostring(entry->value_.get_value<double>());
+			this->insert(make_pair(entry->name_, value));
+		}
+
+	}
+}
+
+ParamJSon::ParamJSon(const string& param)
+{
+	istringstream is(param);
+	json_spirit::Value value;
+	json_spirit::read_or_throw(is, value);
+	magics(value);
+
+}
+
+
 void MagJSon::drivers(XmlNode& parent, const json_spirit::Value& value)
 {
 	ASSERT (value.type() == array_type);

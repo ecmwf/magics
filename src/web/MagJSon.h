@@ -67,7 +67,18 @@ protected:
 
 };
 
+class ParamJSon : public map<string, string>
+{
+public:
+	ParamJSon(const string&);
+	~ParamJSon() {}
 
+protected:
+    void magics(const json_spirit::Value&);
+
+
+
+};
 
 
 
