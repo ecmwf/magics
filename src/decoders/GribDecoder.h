@@ -109,6 +109,8 @@ public:
 		return title_;
 	}
 
+	static void scale(const string&, double&, double&);
+
 	bool interpolate() const { return magCompare(interpolation_method_, "interpolate"); }
 	bool getExpver() const { return expver_; }
 	void version();

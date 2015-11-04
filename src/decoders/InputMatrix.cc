@@ -254,3 +254,5 @@ void InputMatrix::customisedPoints(const BasicThinningMethod& thinning, const Tr
 	delete inx;
 	delete iny;
 }
+
+

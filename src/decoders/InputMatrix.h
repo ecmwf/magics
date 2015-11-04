@@ -60,7 +60,7 @@ public:
 	void customisedPoints(const Transformation& t, const std::set<string>& n, CustomisedPointsList& out, bool all)
 	{}
 	PointsHandler& points(const Transformation& t, bool) { return points(t); }
-	
+	double scale(double);
 	bool defined()
 	{
 	   return !field_.empty() || 
