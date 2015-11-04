@@ -63,7 +63,7 @@ void GribInterpretor::longitudesSanityCheck(double& west, double& east) const {
 void GribInterpretor::scaling(const GribDecoder& grib, double& scaling,
         double& offset) const {
     string originalUnits, derivedUnits;
-    this->scaling(grib, scaling, offset, originalUnits, derivedUnits);
+   this->scaling(grib, scaling, offset, originalUnits, derivedUnits);
 }
 
 void GribInterpretor::new_index(const GribDecoder& grib)
@@ -90,8 +90,12 @@ void GribInterpretor::new_index(const GribDecoder& grib)
 
     int i = 0;
     while (grib_iterator_next(iter, &lat, &lon, &u) ) {
-
-        ilat = floor((lat+90)/indexStep_);
+    	// Send a warning if lat lon are not in the expected rangs :
+    	if ( lat < -90 || lat > 90 || lon < -180 || lon > 360) {
+    		MagLog::warning() << "Check Grib Iterator: Position is not in the expected range [" << lat << ", " << lon << "]" << endl;
+    		continue;
+    	}
+    	ilat = floor((lat+90)/indexStep_);
         ilon = floor(lon/indexStep_);
 
         helper_[ilat * indexLon_ + ilon].push_back(Index(i, lat, lon));
@@ -103,7 +107,9 @@ void GribInterpretor::new_index(const GribDecoder& grib)
     east_ = 360.;
 
 
-}    /// @brief The usual PI/180 constant
+}
+
+/// @brief The usual PI/180 constant
 static const double DEG_TO_RAD = 0.017453292519943295769236907684886;
 /// @brief Earth's quatratic mean radius for WGS-84
 static const double EARTH_RADIUS_IN_METERS = 6372797.560856;

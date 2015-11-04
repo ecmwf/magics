@@ -42,16 +42,6 @@ void ContourLibrary::askId(MetaDataCollector& meta)
 {
 	meta["observationDiagnostic"]="";
 
-	/*if(!obstat_)
-		obstat_ = new ObstatVisdefManager;
-
-	for(int i=0; i < obstat_->keys().size(); i++)
-	{
-		meta[obstat_->keys().at(i)]="";
-	}*/
-
-	//meta["shortName"] = "";
-	//meta["lev"] = "";
 }
 
 
@@ -83,8 +73,7 @@ bool ContourLibrary::checkId(MetaDataCollector& metaId,MetaDataCollector& metaKe
 
 	return true;
 
-	//meta["shortName"] = "";
-	//meta["lev"] = "";
+
 }
 
 
@@ -105,21 +94,6 @@ void ContourLibrary::getAttributes(MetaDataCollector& meta, map<string, string>&
 		info_->getAttributes(meta,attributes);
 	}
 
-	/*if(!obstat_)
-		obstat_ = new ObstatVisdefManager;
-
-	MagLog::dev() << "ContourLibrary::set-->" << endl;
-
-	for(map<string,string>::iterator it=meta.begin(); it != meta.end(); it++)
-	{
-		MagLog::dev() << it.first << "--> " << it.second << endl; 
-	}
-	//MagLog::dev() << "shortName-->" << meta["shortName"] << endl;
-	//MagLog::dev() << "level-->" << meta["lev"] << endl;
-	
-	//attributes["contour_line_colour"] = "red";
-
-	obstat_->setVisDefAttributes(meta,attributes);*/
 	
 }	
 
