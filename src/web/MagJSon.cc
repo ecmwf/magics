@@ -51,6 +51,7 @@ void MagJSon::parse(const string& file)
 
 void MagJSon::interpret(const string& def)
 {
+
      MagLog::dev()<< "interpret-->" << def << endl;
      istringstream is(def);
 
@@ -85,6 +86,8 @@ void ParamJSon::magics(const json_spirit::Value& value)
 
 ParamJSon::ParamJSon(const string& param)
 {
+	if ( param.empty() )
+		return;
 	istringstream is(param);
 	json_spirit::Value value;
 	json_spirit::read_or_throw(is, value);
