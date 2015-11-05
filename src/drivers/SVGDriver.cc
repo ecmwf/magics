@@ -354,9 +354,11 @@ MAGICS_NO_EXPORT void SVGDriver::project(const magics::Layout& layout) const
 
 	if(layout.clipp())
 	{
+		const double clip_height=projectY(layout.maxY())-projectY(layout.minY());
 		pFile_ << "<defs>\n"
 		       << " <clipPath id=\"clip_"<<layout.name()<<"\">\n"
-		       << "  <rect x=\""<<projectX(layout.minX())<<"\" y=\""<<projectY(layout.minY())-setY(y_set)<<"\" width=\""<<projectX(layout.maxX())-projectX(layout.minX())<<"\" height=\""<<projectY(layout.maxY())-projectY(layout.minY())<<"\" />\n"
+//		       << "  <rect x=\""<<projectX(layout.minX())<<"\" y=\""<<projectY(layout.minY())-setY(y_set)<<"\" width=\""<<projectX(layout.maxX())-projectX(layout.minX())<<"\" height=\""<<projectY(layout.maxY())-projectY(layout.minY())<<"\" />\n"
+		       << "  <rect x=\""<<projectX(layout.minX())<<"\" y=\""<<projectY(setY(layout.minY()))-clip_height<<"\" width=\""<<projectX(layout.maxX())-projectX(layout.minX())<<"\" height=\""<<clip_height<<"\" />\n"
 		       << " </clipPath>\n"
 		       << "</defs>"<<endl;
 	}
