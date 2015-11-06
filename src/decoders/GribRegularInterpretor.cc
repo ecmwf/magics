@@ -890,9 +890,10 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
     int ii = 0;
 
 
+    long global = grib.getLong("global");
 
     // We have to determine if the field is global!
-        if (east - west > 355.) {
+        if (global) {
             east = west + 360.;
         }
     vector<vector<double> > rows;
