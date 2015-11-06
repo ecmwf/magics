@@ -38,7 +38,7 @@
 #include <ImportActionWrapper.h>
 #include <InputDataWrapper.h>
 #include <TableDecoderWrapper.h>
-
+#include <GeoJSonWrapper.h>
 #include <ContourWrapper.h>
 
 #include <TextVisitor.h>
@@ -52,7 +52,7 @@
 
 #include <UserPoint.h>
 #include "MagicsEvent.h"
-
+#include "MagJSon.h"
 
 #include <PostScriptDriverWrapper.h>
 
@@ -166,6 +166,7 @@ MagPlus::MagPlus() : root_(0), superpage_(-1), geographical_(true), mode_(intera
  		sceneCreators_["PAXIS"] = &MagPlus::axis;
  		sceneCreators_["CARTESIANVIEW"] = &MagPlus::cartesian;
  		sceneCreators_["PGRIB"] = &MagPlus::gribloop;
+ 		sceneCreators_["GEOJSON"] = &MagPlus::geojson;
         sceneCreators_["GRIBLOOP"] = &MagPlus::gribloop;
         sceneCreators_["DATALOOP"] = &MagPlus::dataloop;
         sceneCreators_["GEOPOINTS"] = &MagPlus::geopoints;
@@ -1339,6 +1340,24 @@ bool MagPlus::geopoints(magics::MagRequest& in)
 
 	return false; // do not exit
 }
+
+bool MagPlus::geojson(magics::MagRequest& in)
+{
+	VisualAction* action = new VisualAction();
+	top()->push_back(action);
+	push(action);
+
+	GeoJSonWrapper geo;
+	geo.set(in);
+	setIconInfo(in, *geo.object());
+	top()->data(geo.object());
+
+	//Meta-data
+	geo.object()->initInfo();
+
+	return false; // do not exit
+}
+
 bool MagPlus::bufr(magics::MagRequest& in)
 {
 #ifdef HAVE_BUFR
@@ -1765,6 +1784,42 @@ void MagPlus::unregisterObserver(MagicsObserver* observer)
 
 }
 
+void setDouble(const string& key, const ParamJSon& json, MagRequest& out)
+{
+	ParamJSon::const_iterator param = json.find(key);
+	if ( param != json.end() )
+		out(key) = tonumber(param->second);
+}
+
+void setString(const string& key, const ParamJSon& json, MagRequest& out)
+{
+	ParamJSon::const_iterator param = json.find(key);
+	if ( param != json.end() )
+		out(key) = param->second;
+}
+void MagPlus::decode(MagRequest& out, const string& json)
+{
+	ParamJSon params(json);
+/*
+	'{"subpage_lower_left_latitude" : "40.8424",\
+	"subpage_lower_left_longitude" : "-20.5033",\
+	"subpage_map_area_definition" : "corners",\
+	"subpage_map_hemisphere" : "north",\
+	"subpage_map_projection" : "polar_stereographic",\
+	"subpage_map_vertical_longitude" : "0",\
+	"subpage_upper_right_latitude" : "62.073",\
+	"subpage_upper_right_longitude" : "28.3054"}'
+*/
+	setDouble("subpage_lower_left_latitude", params, out);
+	setDouble("subpage_lower_left_longitude", params, out);
+	setString("subpage_map_area_definition", params, out);
+	setString("subpage_map_hemisphere", params, out);
+	setString("subpage_map_projection", params, out);
+	setDouble("subpage_map_vertical_longitude", params, out);
+	setDouble("subpage_upper_right_latitude", params, out);
+	setDouble("subpage_upper_right_longitude", params, out);
+
+}
 
 //_____________________________________________________________________
 

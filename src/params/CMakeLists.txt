@@ -198,7 +198,7 @@ XHyperCoordinate.xml
 XLogarithmicCoordinate.xml
 XRegularCoordinate.xml
 XYList.xml
-
+GeoJSon.xml
 YCoordinate.xml
 YDateCoordinate.xml
 YHyperCoordinate.xml
@@ -256,7 +256,7 @@ ObsStatDecoder.xml
 SimplePolyline.xml
 SimplePolylineInput.xml
 WrepJSon.xml
-GeoJSon.xml
+
 WrepRootNode.xml
 XmlBasicNode.xml
 XmlRootNode.xml

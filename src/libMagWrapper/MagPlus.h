@@ -38,6 +38,8 @@ public:
 
 	void execute(MagRequest&);
 
+	static void decode(MagRequest&, const string&);
+
 	void registerObserver(MagicsObserver* observer) { observers_.push_back(observer); }
 	void unregisterObserver(MagicsObserver* observer);
 	//! Notify drivers about an event (GUI -> Qt)
@@ -82,6 +84,7 @@ protected:
 	bool oldcoastlines(magics::MagRequest&);
 	bool axis(magics::MagRequest&);
 	bool grib(magics::MagRequest&);
+	bool geojson(magics::MagRequest&);
 	bool gribloop(magics::MagRequest&);
 	bool rasterloop(magics::MagRequest&);
 	bool dataloop(magics::MagRequest&);

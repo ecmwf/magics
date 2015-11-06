@@ -1,9 +1,15 @@
 <magics>
 <class xmltag="geojson" name="GeoJSon" directory="web" prefix="geojson" action="pgeojson" include="GeoJSon.h">
+	<parameter member="type" to="string" default="file" from="string" name="geojson_input_type" values='string/file'>
+  			<documentation> data are in a file ( file ) or passed as a string (string)		</documentation>
+ 	</parameter>
+   
  	<parameter member="path" to="string" default="" from="string" name="geojson_input_filename">
   			<documentation> Path to the file containing the GeoJson data 		</documentation>
  	</parameter>
-        
+    <parameter member="input" to="string" default="{}" from="string" name="geojson_input">
+  			<documentation> String containing the GeoJson data 		</documentation>
+ 	</parameter>   
 </class>
 
 </magics>

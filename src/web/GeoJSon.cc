@@ -84,9 +84,16 @@ void GeoJSon::decode()
 	points_.clear();
 
 	try {
-		ifstream is( path_.c_str());
 		json_spirit::Value value;
-		json_spirit::read_or_throw(is, value );
+		if ( magCompare(type_, "string" ) ) {
+			istringstream is(input_);
+			json_spirit::read_or_throw(is, value );
+		}
+		else {
+			ifstream is(path_.c_str());
+			json_spirit::read_or_throw(is, value );
+		}
+
 		Object object = value.get_value< Object >();
 
 
