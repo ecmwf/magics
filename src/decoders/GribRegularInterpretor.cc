@@ -80,9 +80,11 @@ void GribInterpretor::new_index(const GribDecoder& grib)
 
     int error;
 
-
+    if ( grib.getLong("jScansPositively") || grib.getLong("iScansPositively") ) {
+    	MagLog::error() << " Scanning mode not yet supported" << endl;
+    	return;
+    }
     grib_iterator* iter = grib_iterator_new(handle, 0, &error);
-
 
 
     double lat, lon, u;
