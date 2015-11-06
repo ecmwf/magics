@@ -129,7 +129,10 @@ bool MarkerShadingTechnique::prepare(const LevelSelection& levels, const ColourT
         marker_.push_back(18);
     }
 
-    if (symbol_.empty() ) {
+    if ( magCompare(type_, "index") ) {
+    	symbol_.clear();
+    }
+    if ( symbol_.empty() ) {
     	for ( intarray::iterator marker = marker_.begin(); marker != marker_.end(); ++marker )
     		symbol_.push_back(Symbol::convert(*marker));
     }
