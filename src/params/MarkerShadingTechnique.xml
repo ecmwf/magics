@@ -7,15 +7,20 @@
 
   	<parameter member="height" to="floatarray" default="floatarray()" from="floatarray" name="contour_shade_height_table">
          		<documentation> Height table to be used with MARKER shading technique 		</documentation>
-         		<release>0.2		</release>
+         		
   	</parameter>
+  	<parameter member="type" to="string" default="index" from="string" name="contour_shade_marker_table_type" values="index/name">
+         		<documentation> index: using contour_shade_marker_table and  definiing  the markers by index, name: using contour_shade_marker_name_table and defining the symbols by their names </documentation>
+         	
+  	</parameter>
+  
 
   	<parameter member="marker" to="intarray" default="intarray()" from="intarray" name="contour_shade_marker_table">
          		<documentation> Marker table to be used with MARKER shading technique 		</documentation>
-         		<release>0.2		</release>
+         		
   	</parameter>
   	<parameter member="symbol" to="stringarray" default="stringarray()" from="stringarray" name="contour_shade_marker_name_table">
          		<documentation> Marker name table to be used with MARKER shading technique 		</documentation>
-         		<release>0.2		</release>
+         	
   	</parameter>
 </class></magics>

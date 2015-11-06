@@ -17,12 +17,16 @@ Values of ptype defined in the IFS:
 
 ref = 'preciptype'
 #Setting of the output file name
-output = output(output_formats = ['png'],
+output = output(output_formats = ['ps'],
         output_name_first_page_number = "off",
         output_name = ref)
 
 #Setting the coordinates of the geographical area
 projection = mmap(subpage_map_projection = 'cylindrical',
+                subpage_lower_left_latitude = 40., 
+                subpage_lower_left_longitude =  -0.,
+                subpage_upper_right_latitude = 50.,
+                subpage_upper_right_longitude =  20.,
                 page_id_line='off')
 
 
@@ -42,10 +46,12 @@ precip =  mgrib(grib_input_file_name  = "fc_type.grib")
 contour = mcont(contour_level_selection_type = "level_list",
   contour_level_list = [1.00, 2.00, 3.00, 4.00, 5.00, 6.00, 8.00, 9.00],
   contour_shade = "on",
+  contour = "off",
   contour_shade_technique = "marker",
-  contour_shade_colour_table = ["green", "none", "green", "none", "evergreen", "green", "evergreen"],
-  contour_shade_height_table = [0.10],
-  contour_shade_marker_table = ["ww_60", "none", "ww_66", "none", "ww_70", "ww_68", "ww_79"]
+  contour_shade_colour_table = ["green", "none", "red", "none", "navy", "turquoise", "orange_yellow"],
+  contour_shade_height_table = [0.50],
+  contour_shade_marker_name_table = ["ww_60", "none", "ww_66", "none", "ww_70", "ww_68", "ww_79"],
+  contour_shade_marker_table_type = "name"
 )
 
 symbol = msymb(legend='on', symbol_table_mode = "advanced",
@@ -86,7 +92,7 @@ legend = mlegend(legend_user_lines = ["Rain", "Freezing rain", "Snow", "Wet snow
 
 
 #To the plot
-plot(output, projection, coast, precip, symbol, title, legend)
+plot(output, projection, coast, precip, contour, title, legend)
 
 
 
