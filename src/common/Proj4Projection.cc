@@ -983,11 +983,11 @@ void Proj4Projection::coastSetting(map<string, string>& setting, double abswidth
 	}
 	resol = "110m";
 	setting["resolution"]      = resol;
-	setting["lakes"]      = resol + "/" + resol + "_lakes";
-	setting["land"]       = resol + "/" + resol + "_land";
-	setting["rivers"]     = resol + "/" + resol + "_rivers_lake_centerlines";
-	setting["boundaries"] = resol + "/" + resol + "_admin_0_boundary_lines_land";
-	setting["administrative_boundaries"] = resol + "/" + resol + "_admin_1_states_provinces_shp";
+	setting["lakes"]      = resol + "/ne_" + resol + "_lakes";
+	setting["land"]       = resol + "/ne_" + resol + "_land";
+	setting["rivers"]     = resol + "/ne_" + resol + "_rivers_lake_centerlines";
+	setting["boundaries"] = resol + "/ne_" + resol + "_admin_0_boundary_lines_land";
+	setting["administrative_boundaries"] = resol + "/ne_" + resol + "_admin_1_states_provinces";
 
 	MagLog::dev() << "GeoRectangularProjection::coastSetting[" << abswidth << ", " << absheight << "]->" <<  ratio << " resol: "<<resol<< endl;
 }
