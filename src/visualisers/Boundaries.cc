@@ -70,7 +70,7 @@ void Boundaries::operator()(const map<string, string>& setting, BasicGraphicsObj
 
 	boundaries.setPath(file);
 	vector<string> treaty;
-	treaty.push_back("Treaty");
+	treaty.push_back("International boundary");
 	treaty.push_back("Country_Boundary");
 
 	boundaries.decode(task.transformation(), "featurecla", treaty);
@@ -166,6 +166,3 @@ void NoBoundaries::print(ostream& out)  const
 	out << "NoBoundaries[";
 	out << "]";
 }
-
-
-

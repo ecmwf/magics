@@ -129,7 +129,6 @@ void CoastPlotting::operator()(PreviewVisitor& parent)
 		npoly->setFillColour(Colour("cream"));
 		npoly->setShading(shading);
 		npoly->setFilled(true);
-
 		parent.push_back(npoly);
 	}
 
@@ -207,48 +206,45 @@ void CoastPlotting::operator()(DrawingVisitor& parent)
   //if ( !layer_) layer_ = &parent;
 
   const Transformation& transformation = parent.transformation();
-
   transformation.collect(meta_);
-
-
 
   coast_.clear();
   ocean_.clear();
   lake_.clear();
 
-  coastSet_["administrative_boundaries"] = "10m/10m_admin_1_states_provinces_shp";
+  coastSet_["administrative_boundaries"] = "10m/ne_10m_admin_1_states_provinces";
 
   if ( magCompare(NoCoastPlottingAttributes::resolution_, "full") ) {
         string resol = "10m";
         coastSet_["resolution"] = "10m full";
-        coastSet_["lakes"]      = resol + "_full/" + resol + "_lakes";
-        coastSet_["land"]       = resol + "_full/" + resol + "_land";
-        coastSet_["rivers"]     = resol + "_full/" + resol + "_rivers_lake_centerlines";
-        coastSet_["boundaries"] = resol + "/" + resol + "_admin_0_boundary_lines_land";
+        coastSet_["lakes"]      = resol + "_full/ne_" + resol + "_lakes";
+        coastSet_["land"]       = resol + "_full/ne_" + resol + "_land";
+        coastSet_["rivers"]     = resol + "_full/ne_" + resol + "_rivers_lake_centerlines";
+        coastSet_["boundaries"] = resol + "/ne_" + resol + "_admin_0_boundary_lines_land";
   }
   else if ( magCompare(NoCoastPlottingAttributes::resolution_, "high") ) {
         string resol = "10m";
         coastSet_["resolution"] = resol;
-        coastSet_["lakes"]      = resol + "/" + resol + "_lakes";
-        coastSet_["land"]       = resol + "/" + resol + "_land";
-        coastSet_["rivers"]     = resol + "/" + resol + "_rivers_lake_centerlines";
-        coastSet_["boundaries"] = resol + "/" + resol + "_admin_0_boundary_lines_land";
+        coastSet_["lakes"]      = resol + "/ne_" + resol + "_lakes";
+        coastSet_["land"]       = resol + "/ne_" + resol + "_land";
+        coastSet_["rivers"]     = resol + "/ne_" + resol + "_rivers_lake_centerlines";
+        coastSet_["boundaries"] = resol + "/ne_" + resol + "_admin_0_boundary_lines_land";
   }
   else if ( magCompare(NoCoastPlottingAttributes::resolution_, "medium") ) {
         string resol = "50m";
         coastSet_["resolution"] = resol;
-        coastSet_["lakes"]      = resol + "/" + resol + "_lakes";
-        coastSet_["land"]       = resol + "/" + resol + "_land";
-        coastSet_["rivers"]     = resol + "/" + resol + "_rivers_lake_centerlines";
-        coastSet_["boundaries"] = resol + "/" + resol + "_admin_0_boundary_lines_land";
+        coastSet_["lakes"]      = resol + "/ne_" + resol + "_lakes";
+        coastSet_["land"]       = resol + "/ne_" + resol + "_land";
+        coastSet_["rivers"]     = resol + "/ne_" + resol + "_rivers_lake_centerlines";
+        coastSet_["boundaries"] = resol + "/ne_" + resol + "_admin_0_boundary_lines_land";
   }
   else if ( magCompare(NoCoastPlottingAttributes::resolution_, "low") ) {
         string resol = "110m";
         coastSet_["resolution"] = resol;
-        coastSet_["lakes"]      = resol + "/" + resol + "_lakes";
-        coastSet_["land"]       = resol + "/" + resol + "_land";
-        coastSet_["rivers"]     = resol + "/" + resol + "_rivers_lake_centerlines";
-        coastSet_["boundaries"] = resol + "/" + resol + "_admin_0_boundary_lines_land";
+        coastSet_["lakes"]      = resol + "/ne_" + resol + "_lakes";
+        coastSet_["land"]       = resol + "/ne_" + resol + "_land";
+        coastSet_["rivers"]     = resol + "/ne_" + resol + "_rivers_lake_centerlines";
+        coastSet_["boundaries"] = resol + "/ne_" + resol + "_admin_0_boundary_lines_land";
   }
   else {       // automatic
         transformation.coastSetting(coastSet_, parent.layout().absoluteWidth(), parent.layout().absoluteHeight());
@@ -277,7 +273,7 @@ void CoastPlotting::operator()(DrawingVisitor& parent)
 
 
 /*!
-  Here we send send a big rectangle for the ocean
+  Here we send a big rectangle for the ocean
   We send the coastlines as land and lakes as holes of coastlines as polylines.
 */
 void CoastPlotting::landsea(Layout& out)
@@ -310,8 +306,6 @@ void CoastPlotting::landonly(Layout& out)
 	{
 		Polyline* coast = poly->clone();
 		setLandShading(*coast);
-
-
 		out.push_back(coast);
 	}
 }
@@ -338,16 +332,12 @@ void CoastPlotting::seaonly(Layout& out)
 			out.push_back(h);
 		}
 	}
-
-
 }
 
 #include <boost/geometry/algorithms/distance.hpp>
 
 void CoastPlotting::nolandsea(Layout& visitor)
 {
-
-
 	for (vector<Polyline>::iterator coast = coast_.begin(); coast != coast_.end(); ++coast)
 	{
 		if ( coast->empty() )
@@ -373,7 +363,6 @@ void CoastPlotting::nolandsea(Layout& visitor)
 
 			poly->push_back(*point);
 			++point;
-
 		}
 		visitor.push_back(poly);
 		// now the lakes!
@@ -413,7 +402,6 @@ void CoastPlotting::setLandShading(Polyline& line)
 {
 	FillShadingProperties* shading = new FillShadingProperties();
 	line.setFillColour(*land_colour_);
-
 	line.setColour(*land_colour_);
 	line.setShading(shading);
 	line.setFilled(true);
@@ -443,11 +431,6 @@ void CoastPlotting::decode(const Layout& parent )
 	
 	const Transformation& transformation = parent.transformation();
 
-
-
-
-
-
 	vector<Polyline> coastlines;
 	vector<Polyline> lakes;
 	coast_.clear();
@@ -462,8 +445,7 @@ void CoastPlotting::decode(const Layout& parent )
 	lake_decoder.setPath(file);
 	lake_decoder.decode(lakes, transformation);
 
-
-
+cout << ">>>>>>>>>>>>>>>>>>>>> LAND-POLYGONS: "<< coastlines.size() <<" versus LAKES: "<<lakes.size()<< endl;
 
 	//! Secondly we try to put the lakes in the continents!!!
 	for (vector<Polyline>::iterator coast = coastlines.begin(); coast != coastlines.end(); ++coast )
@@ -484,13 +466,13 @@ void CoastPlotting::decode(const Layout& parent )
 		lakes = todolakes;
 		coast_.push_back(*coast);
 	}
-
 }
 
 void NoCoastPlotting::visit(MetaDataCollector& meta)
 {
 	meta["Coastlines Resolution"] = coastSet_["resolution"];
 	meta["Coastlines DataSet"] = "Natural Earth";
+	meta["Coastlines Date"] = "November 2015";
 	for (map<string, string>::const_iterator entry = meta_.begin(); entry != meta_.end(); ++entry ) {
 		meta[entry->first] = entry->second;
 	}
