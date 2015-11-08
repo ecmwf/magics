@@ -191,19 +191,18 @@ Proj4Projection::Proj4Projection(const string& definition) : definition_(definit
 						gridMinLat_(DBL_MAX),
 						gridMaxLon_(-DBL_MAX),
 						gridMaxLat_(-DBL_MAX)
-
 {
 
 	//init();
 	EpsgConfig config;
 	config.init();
 }
+
 Proj4Projection::Proj4Projection(): gridMinLon_(DBL_MAX),
 		gridMinLat_(DBL_MAX),
 		gridMaxLon_(-DBL_MAX),
 		gridMaxLat_(-DBL_MAX)
 {
-
 	//init();
 	EpsgConfig config;
 	config.init();
@@ -214,8 +213,7 @@ Proj4Projection::Proj4Projection(): gridMinLon_(DBL_MAX),
   \brief Destructor
 */
 Proj4Projection::~Proj4Projection() 
-{
-	
+{	
 }
 
 void Proj4Projection::print(ostream& out) const
@@ -227,26 +225,17 @@ void Proj4Projection::print(ostream& out) const
 
 Polyline& Proj4Projection::getPCBoundingBox() const
 {
-   
 	return *PCEnveloppe_;
 }
 
 Polyline& Proj4Projection::getUserBoundingBox() const
 {
-
-
-		return *userEnveloppe_;
-
-
-
+	return *userEnveloppe_;
 }
 
 void Proj4Projection::init()  
 {
-
 	MagLog::dev() << "Proj4Projection::init()" << *this << endl;
-
-
 
 	from_ = pj_init_plus("+proj=longlat +ellps=WGS84 +datum=WGS84");
 	projection_ = Epsg::find(*this);
@@ -256,8 +245,6 @@ void Proj4Projection::init()
 		MagLog::error() << " proj4 error " << projection_->definition() << endl;
 		ASSERT(false);
 	}
-
-
 
 	methods_["geos"] = &Proj4Projection::geos;
 	methods_["conic"] = &Proj4Projection::conic;
@@ -297,18 +284,13 @@ void Proj4Projection::full()
 void Proj4Projection::corners()
 {
 	// we have to update the PVBounding box!
-
 		min_pcx_ = min_longitude_;
 		min_pcy_ = min_latitude_;
 		max_pcx_ = max_longitude_;
 		max_pcy_ = max_latitude_;
 
-
 		fast_reproject(min_pcx_, min_pcy_);
 		fast_reproject(max_pcx_, max_pcy_);
-
-
-
 
 		Polyline box;
 		box.box(PaperPoint(min_pcx_, min_pcy_), PaperPoint(max_pcx_, max_pcy_));
@@ -325,7 +307,6 @@ void Proj4Projection::corners()
 
 void Proj4Projection::centre()
 {
-
 }
 
 PaperPoint Proj4Projection::operator()(const UserPoint& point)  const
@@ -344,13 +325,9 @@ PaperPoint Proj4Projection::operator()(const UserPoint& point)  const
     int error = pj_transform(from_, to_, 1, 1, &x, &y, NULL);
     if ( error ) {
 		MagLog::debug() << pj_strerrno(error) << " for " << point << endl;
-
 		return PaperPoint(-1000000, -10000000);
-
 	}
-
-	return PaperPoint(x, y, point.value_, point.missing());
-	               
+	return PaperPoint(x, y, point.value_, point.missing());	               
 }
 
 PaperPoint Proj4Projection::operator()(const PaperPoint& point)  const
@@ -380,11 +357,8 @@ void Proj4Projection::setNewPCBox(double minx, double miny, double maxx, double 
 
 void Proj4Projection::revert(const PaperPoint& xy, UserPoint& point)  const
 {
-
-
 	double x = xy.x();
 	double y = xy.y();
-		
 
 	int error = pj_transform(to_, from_, 1, 1, &x, &y, NULL );
 
@@ -398,7 +372,6 @@ void Proj4Projection::revert(const PaperPoint& xy, UserPoint& point)  const
 	y *= RAD_TO_DEG;
 	point = UserPoint(x, y);
 }
-
 
 
 bool Proj4Projection::needShiftedCoastlines()  const
@@ -429,9 +402,6 @@ void Proj4Projection::add(double lon, double lat)
 	if ( lat < gridMinLat_ )  gridMinLat_ = lat;
 	if ( lon > gridMaxLon_)  gridMaxLon_ = lon;
 	if ( lat > gridMaxLat_ )  gridMaxLat_ = lat;
-
-
-
 }
 
 void Proj4Projection::conic()
@@ -495,7 +465,6 @@ void Proj4Projection::geos()
 		max_pcx_ = -DBL_MAX;
 		max_pcy_ = -DBL_MAX;
 
-
 		PCEnveloppe_->correct();
 		userEnveloppe_->correct();
 
@@ -525,13 +494,7 @@ void Proj4Projection::geos()
 				continue;
 			add(lat->second.back(), lat->first);
 			userEnveloppe_->push_back(PaperPoint(lat->second.back(), lat->first));
-
 		}
-
-
-
-
-
 }
 
 
@@ -547,9 +510,7 @@ void Proj4Projection::boundingBox(double& xmin, double& ymin, double& xmax, doub
 	xmin = gridMinLon_-5;
 	ymax = gridMaxLat_;
 	xmax = gridMaxLon_+5;
-
 	//cout << "Bounding box ->" << xmin << " " << xmax << endl;
-
 }
 
 double Proj4Projection::getMinX()  const
@@ -559,7 +520,6 @@ double Proj4Projection::getMinX()  const
 
 double Proj4Projection::getMinY()  const
 {
-	
 	return gridMinLat_;
 }
 
@@ -585,13 +545,11 @@ void Proj4Projection::setMinY(double y)
 
 void Proj4Projection::setMaxX(double x)  
 {
-	
 	max_longitude_ = x;
 }
 
 void Proj4Projection::setMaxY(double y)  
 {
-
 	max_latitude_ = y;
 }
 
@@ -618,7 +576,6 @@ double Proj4Projection::getMaxPCY()  const
 
 void Proj4Projection::gridLongitudes(const GridPlotting& grid)  const
 {
-
 	Polyline boundaries;
 
 	for (Polyline::MagLine::const_iterator point = PCEnveloppe_->begin(); point != PCEnveloppe_->end(); ++point )
@@ -675,7 +632,6 @@ void Proj4Projection::gridLatitudes(const GridPlotting& grid)  const
 
 void Proj4Projection::labels(const LabelPlotting& label, DrawingVisitor& visitor)  const
 {
-
 	vector<double> pro4_longitudes;
 	pro4_longitudes.push_back(0);
 	pro4_longitudes.push_back(90);
@@ -702,7 +658,6 @@ void Proj4Projection::labels(const LabelPlotting& label, DrawingVisitor& visitor
 			text->setText(writeLatitude(point));
 			text->push_back(xy);
 			text->setBlanking(true);
-
 		}
 	}
 }
@@ -710,7 +665,6 @@ void Proj4Projection::labels(const LabelPlotting& label, DrawingVisitor& visitor
 
 void Proj4Projection::labels(const LabelPlotting& label, LeftAxisVisitor& visitor)  const
 {
-
 	if ( false ) {
 		const vector<double>& latitudes = label.latitudes();
 
@@ -727,20 +681,17 @@ void Proj4Projection::labels(const LabelPlotting& label, LeftAxisVisitor& visito
 			text->setJustification(MRIGHT);
 			text->setVerticalAlign(MHALF);
 			text->setBlanking(true);
-
 		}
 	}
 	else {
 		double x = max_pcx_ - ((max_pcx_-min_pcx_)*.1);
 		// we calculate the intersection of the longitudes with the left side
 		verticalLabels(label, min_pcx_, x, MRIGHT);
-
 	}
 }
 
 void Proj4Projection::labels(const LabelPlotting& label, RightAxisVisitor& visitor)  const
 {
-
 	if ( false ) {
 		const vector<double>& latitudes = label.latitudes();
 		for (unsigned int lat = 0; lat < latitudes.size(); lat++ )
@@ -756,20 +707,17 @@ void Proj4Projection::labels(const LabelPlotting& label, RightAxisVisitor& visit
 			text->setJustification(MLEFT);
 			text->setVerticalAlign(MHALF);
 			text->setBlanking(true);
-
 		}
 	}
 	else {
 		// we calculate the intersection of the longitudes with the right side
 		double x = min_pcx_ + ((max_pcx_-min_pcx_)*.1);
 		verticalLabels(label, max_pcx_, x, MLEFT);
-
 	}
 }
 
 void Proj4Projection::labels(const LabelPlotting& label, BottomAxisVisitor& visitor)  const
 {
-
 	if ( false ) {
 		const vector<double>& longitudes = label.longitudes();
 		const double lat = min_latitude_ + (max_latitude_-min_latitude_)*.8;
@@ -785,7 +733,6 @@ void Proj4Projection::labels(const LabelPlotting& label, BottomAxisVisitor& visi
 			text->setJustification(MCENTRE);
 			text->setVerticalAlign(MTOP);
 			text->setBlanking(true);
-
 		}
 	}
 	else {
@@ -809,10 +756,12 @@ inline double CX(double a, double b, double y)
 {
     return (a) ? (y - b)/a : 0;
 }
+
 inline double CY(double a, double b, double x)
 {
     return (a * x) + b;
 }
+
 inline bool between(double x, double x1, double x2)
 {
 	return ( std::min(x1, x2) <= x && x <= std::max(x1, x2) );
@@ -820,7 +769,6 @@ inline bool between(double x, double x1, double x2)
 
 void Proj4Projection::verticalLabels(const LabelPlotting& label, double x, double pos, Justification justif)  const
 {
-
     const vector<double>& longitudes = label.longitudes();
     for (vector<double>::const_iterator lon = longitudes.begin(); lon != longitudes.end(); ++lon)
     {
@@ -845,15 +793,13 @@ void Proj4Projection::verticalLabels(const LabelPlotting& label, double x, doubl
     			text->setVerticalAlign(MHALF);
     		    text->setText(writeLongitude(geo));
     		    text->push_back(xy);
-
     		}
     	}
     }
-
 }
+
 void Proj4Projection::horizontalLabels(const LabelPlotting& label, double y, double pos, VerticalAlign align)  const
 {
-
 	const vector<double>& longitudes = label.longitudes();
 	for (vector<double>::const_iterator lon = longitudes.begin(); lon != longitudes.end(); ++lon) {
 	    // find the equation of the line using 2 points : lon/-20 -->lon/ +20
@@ -877,7 +823,6 @@ void Proj4Projection::horizontalLabels(const LabelPlotting& label, double y, dou
 	        	text->setVerticalAlign(align);
 	        	text->setText(writeLongitude(geo));
 	        	text->push_back(xy);
-
 			}
 		}
 	}
@@ -900,7 +845,6 @@ void Proj4Projection::labels(const LabelPlotting& label, TopAxisVisitor& visitor
 			text->setJustification(MCENTRE);
 			text->setVerticalAlign(MBOTTOM);
 			text->setBlanking(true);
-
 		}
 	}
 	else {
@@ -909,31 +853,26 @@ void Proj4Projection::labels(const LabelPlotting& label, TopAxisVisitor& visitor
 		horizontalLabels(label, max_pcy_, y, MBOTTOM);
 	}
 }
+
 void Proj4Projection::reprojectComponents(double& x, double& y, pair<double, double>& components) const
 {
-	double speed = sqrt((components.first * components.first) + (components.second * components.second));
-	double angle = atan2(components.second,components.first);
-
-
+	const double speed = sqrt((components.first * components.first) + (components.second * components.second));
+	const double angle = atan2(components.second,components.first);
 	double ppx=x+cos(angle);
 	double ppy=y+sin(angle);
 
 	fast_reproject(ppx, ppy);
 	fast_reproject(x, y);
 
+	const double rotation = atan2((ppy - y), (ppx - x));
 
-
-	double rotation = atan2((ppy - y), (ppx - x));
-
-		// we the angle and the spped we compute u/v...
-		components.first = speed * cos(rotation);
-		components.second = speed * sin(rotation);
-
+	// we the angle and the spped we compute u/v...
+	components.first  = speed * cos(rotation);
+	components.second = speed * sin(rotation);
 }
 
 void Proj4Projection::revert(const vector< std::pair<double, double> > & in, vector< std::pair<double, double> > & out) const
 {
-
 	const_cast<Proj4Projection*>(this)->init();
 	out.reserve(in.size());
 	for ( vector< std::pair<double, double> >::const_iterator pt = in.begin();  pt != in.end(); ++pt) {
@@ -959,7 +898,6 @@ void Proj4Projection::revert(const vector< std::pair<double, double> > & in, vec
 			  double lat = y*RAD_TO_DEG;
 			  out.push_back(make_pair(lon, lat));
 		  }
-
 	}
 }
 
@@ -985,18 +923,19 @@ void Proj4Projection::coastSetting(map<string, string>& setting, double abswidth
 	setting["resolution"]      = resol;
 	setting["lakes"]      = resol + "/ne_" + resol + "_lakes";
 	setting["land"]       = resol + "/ne_" + resol + "_land";
+	setting["coast"]      = resol + "/ne_" + resol + "_coastline";
 	setting["rivers"]     = resol + "/ne_" + resol + "_rivers_lake_centerlines";
 	setting["boundaries"] = resol + "/ne_" + resol + "_admin_0_boundary_lines_land";
 	setting["administrative_boundaries"] = resol + "/ne_" + resol + "_admin_1_states_provinces";
 
 	MagLog::dev() << "GeoRectangularProjection::coastSetting[" << abswidth << ", " << absheight << "]->" <<  ratio << " resol: "<<resol<< endl;
 }
+
 void Proj4Projection::visit(MetaDataVisitor& visitor, 
 	double left, double top, 
 	double width, double height,
 	double iwidth, double iheight)
 {
-
 	ostringstream java;
 	double w = getMaxPCX() - getMinPCX();
 	double h = getMaxPCY() - getMinPCY();
@@ -1010,12 +949,10 @@ void Proj4Projection::visit(MetaDataVisitor& visitor,
 	java << "\"height\" : \"" << height <<  "\",";
 	java << "\"img_width\" : \"" << iwidth <<  "\",";
 	java << "\"img_height\" : \"" << iheight <<  "\",";
-
 	java << "\"pcxmin\" : \"" << getMinPCX() <<  "\",";
 	java << "\"pcymin\" : \"" << getMinPCY() <<  "\",";
 	java << "\"pcwidth\" : \"" << w <<  "\",";
 	java << "\"pcheight\" : \"" << h <<  "\"";
-
 	java << "}";
 	visitor.add("projection", java.str());
 	ostringstream wf;
@@ -1048,14 +985,15 @@ double Proj4Projection::patchDistance(double res) const {
 
 	double degree = ((x1-x2) * (x1-x2)) + ((y1-y2) * (y1-y2));
 	return 1000000000;
-
 }
+
 void  Proj4Projection::collect(MetaDataCollector& collector) const
 {
 
 	collector["Projection"] = definition_;
 	collector["Proj4  Definition"] = projection_->definition();
 }
+
 void Proj4Projection::getNewDefinition(const UserPoint& ll, const UserPoint& ur, string& out) const
 {
 	map<string, string> def;
@@ -1067,26 +1005,17 @@ void Proj4Projection::getNewDefinition(const UserPoint& ll, const UserPoint& ur,
 	def["subpage_upper_right_latitude"] = tostring(ur.y_);
 	::toxml(out, def);
 	out = "{" + out + "}";
-
 }
-
 
 void Proj4Projection::setDefinition(const string& json)
 {
 	if (json.empty())
 				return;
 
-
-
 			MagJSon helper;
 			helper.interpret(json);
 
 			XmlNode node = **helper.tree_.firstElement();
-
 			node.name("");
-
-
 			set(node);
-
-
 }

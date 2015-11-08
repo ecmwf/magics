@@ -82,7 +82,6 @@ PaperPoint GeoRectangularProjection::operator()(const UserPoint& point)  const
 
 	}
 
-	
 	TeCoord2D geo = TeCoord2D(point.x()*TeCDR, point.y()*TeCDR);
 	TeCoord2D xy = projection_->LL2PC(geo);
 
@@ -298,7 +297,6 @@ void GeoRectangularProjection::labels(const LabelPlotting& label, TopAxisVisitor
 			text->setJustification(MCENTRE);
 			text->setVerticalAlign(MBOTTOM);
 			text->push_back((*this)(point));
-
 		}
 	}       	
 }
@@ -325,7 +323,6 @@ void GeoRectangularProjection::labels(const LabelPlotting& label, BottomAxisVisi
 			text->setJustification(MCENTRE);
 			text->setVerticalAlign(MTOP);
 			text->push_back((*this)(point));
-
 		}
 	}
 }
@@ -352,7 +349,6 @@ void GeoRectangularProjection::labels(const LabelPlotting& label, LeftAxisVisito
 	        text->setJustification(MRIGHT);
 			text->setVerticalAlign(MHALF);
 			text->push_back((*this)(point));
-
 		}
 	}
 }
@@ -387,9 +383,9 @@ void GeoRectangularProjection::labels(const LabelPlotting& label, RightAxisVisit
 		}
 	}
 }
+
 double GeoRectangularProjection::patchDistance(double res) const
 {
-
 	return res;
 }
 
@@ -436,7 +432,6 @@ void GeoRectangularProjection::init()
 //	if ( min_latitude_ < -90) min_latitude_ = -90.;
 //	if ( max_latitude_ > 90 ) max_latitude_ = 90;
 
-
 	xpcmin_ = min_longitude_;
 	ypcmin_ = min_latitude_;
 	xpcmax_ = max_longitude_;
@@ -458,7 +453,6 @@ void GeoRectangularProjection::init()
 			askedxmax_ =  std::max(xpcmin_, xpcmax_);
 			askedymin_ =  std::min(ypcmin_, ypcmax_);
 			askedymax_ =  std::max(ypcmin_, ypcmax_);
-
 }
 
 MercatorProjection::MercatorProjection()
@@ -522,17 +516,15 @@ void MercatorProjection::init()
 				askedxmax_ =  std::max(xpcmin_, xpcmax_);
 				askedymin_ =  std::min(ypcmin_, ypcmax_);
 				askedymax_ =  std::max(ypcmin_, ypcmax_);
+}
 
-} 
 void MercatorProjection::fast_reproject(double& x, double& y) const
 {
-
 	TeCoord2D geo = TeCoord2D(x*TeCDR, y*TeCDR);
 	TeCoord2D xy = projection_->LL2PC(geo);
 
 	x = xy.x();
 	y = xy.y();
-
 }
 
 
@@ -583,6 +575,7 @@ void GeoRectangularProjection::coastSetting(map<string, string>& setting, double
 	setting["resolution"] = resol;
 	setting["lakes"]      = resol + "/ne_" + resol + "_lakes";
 	setting["land"]       = resol + "/ne_" + resol + "_land";
+	setting["coast"]      = resol + "/ne_" + resol + "_coastline";
 	setting["rivers"]     = resol + "/ne_" + resol + "_rivers_lake_centerlines";
 	setting["boundaries"] = resol + "/ne_" + resol + "_admin_0_boundary_lines_land";
 	
@@ -601,10 +594,6 @@ MatrixHandler* GeoRectangularProjection::prepareData(const AbstractMatrix& matri
 
 void GeoRectangularProjection::populate(double lon, double lat, double value, vector<UserPoint>& out) const
 {
-
-
-
-
 	 while ( lon < min_longitude_)
 	      lon += 360;
 	 while ( lon > min_longitude_ + 360. )
@@ -612,7 +601,6 @@ void GeoRectangularProjection::populate(double lon, double lat, double value, ve
 
 	 if ( !in(lon, lat) )
 	 		return;
-
 
 	 out.push_back(UserPoint(lon, lat, value));
 
@@ -627,7 +615,6 @@ void GeoRectangularProjection::populate(double lon, double lat, double value, ve
 	 	out.push_back(UserPoint(lon, lat, value));
 	 	lon -= 360;
 	 }
-
 }
 
 void GeoRectangularProjection::wraparound(const UserPoint& origin, stack<UserPoint>& out) const
@@ -635,8 +622,6 @@ void GeoRectangularProjection::wraparound(const UserPoint& origin, stack<UserPoi
 	 UserPoint point = origin;
 	 if (point.y_ > max_latitude_ || point.y_ < min_latitude_ )
 	    return;
-
-
 
 	 while ( point.x_ < min_longitude_)
 	      point.x_ += 360;
@@ -664,12 +649,10 @@ void GeoRectangularProjection::wraparound(const UserPoint& origin, stack<UserPoi
 	 	out.push(point);
 	 	point.x_ -= 360;
 	 }
-
 }
 
 Polyline& GeoRectangularProjection::getPCBoundingBox() const
 {
-
 	if ( PCEnveloppe_->empty() ) {
 		PCEnveloppe_->push_back(PaperPoint(xpcmin_, ypcmin_));
 		PCEnveloppe_->push_back(PaperPoint(xpcmin_, ypcmax_));
@@ -677,8 +660,6 @@ Polyline& GeoRectangularProjection::getPCBoundingBox() const
 		PCEnveloppe_->push_back(PaperPoint(xpcmax_, ypcmin_));
 		PCEnveloppe_->push_back(PaperPoint(xpcmin_, ypcmin_));
 	}
-
-
 	return *PCEnveloppe_;
 }
 
@@ -692,7 +673,6 @@ Polyline& GeoRectangularProjection::getUserBoundingBox() const
 		userEnveloppe_->push_back(PaperPoint(max_longitude_, min_latitude_));
 		userEnveloppe_->push_back(PaperPoint(min_longitude_, min_latitude_));
 	}
-
 	return *userEnveloppe_;
 }
 
@@ -714,20 +694,14 @@ void GeoRectangularProjection::setDefinition(const string& json)
 	if (json.empty())
 			return;
 
-
-
 		MagJSon helper;
 		helper.interpret(json);
 
 		XmlNode node = **helper.tree_.firstElement();
-
 		node.name("cylindrical");
-
-
 		set(node);
-
-
 }
+
 double MercatorProjection::patchDistance(double) const
 {
 	return 1000000;
