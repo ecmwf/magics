@@ -406,9 +406,6 @@ double PolarStereographicProjection::getMaxY()  const
 	return ymax_;
 }
 
-
-
-
 double PolarStereographicProjection::getMinPCX()  const
 {
 	return xpcmin_;
@@ -532,8 +529,6 @@ void PolarStereographicProjection::horizontalLabels(const LabelPlotting& label, 
         label.add(text);
         text->setText(writeLongitude(geo));
         text->push_back(point);
-			
-
      }
 }
 
@@ -587,8 +582,6 @@ void PolarStereographicProjection::verticalLabels(const LabelPlotting& label, do
         text->setVerticalAlign(MHALF);    
         text->setText(writeLongitude(geo));
         text->push_back(point);
-	
-
      }
 }
 
@@ -616,8 +609,6 @@ void PolarStereographicProjection::labels(const LabelPlotting& label, DrawingVis
 	   	   label.add(text); // This will set the font!
 	   	   text->setText(writeLatitude(point));
 	       text->push_back(xy);
-
-
 	    }
 	}
 }
@@ -709,9 +700,6 @@ void PolarStereographicProjection::corners()
 	xmax_ = max_longitude_;
 	ymin_ = min_latitude_;
 	ymax_ = max_latitude_;
-		
-	
-	
 }
 
 
@@ -755,8 +743,6 @@ void PolarStereographicProjection::thin(MatrixHandler& matrix, double x, double 
 	Transformation::thin(matrix, x, y, out);
 	return;
 	int yfactor = (int) ceil((float) x);
-    
-
 
 	int columns = matrix.columns();
 	int rows = matrix.rows();
@@ -800,8 +786,6 @@ void PolarStereographicProjection::setNewPCBox(double minx, double miny, double 
 	min_latitude_ = ll.y();
 	max_latitude_ = ur.y(); 
 
-
-
 	corners();
 
 	xpcmin_ = minx;
@@ -844,9 +828,6 @@ void PolarStereographicProjection::reprojectComponents(double& x, double& y, pai
 	// we the angle and the spped we compute u/v...
 	components.first = speed * cos(angle+rotation);
 	components.second = speed * sin(angle+rotation);
-
-
-
 }
 
 void PolarStereographicProjection::reprojectSpeedDirection(const PaperPoint& point, pair<double, double>& wind) const
@@ -882,6 +863,7 @@ void PolarStereographicProjection::coastSetting(map<string, string>& setting, do
 	setting["resolution"]      = resol;
 	setting["lakes"]      = resol + "/ne_" + resol + "_lakes";
 	setting["land"]       = resol + "/ne_" + resol + "_land";
+	setting["coast"]      = resol + "/ne_" + resol + "_coastline";
 	setting["rivers"]     = resol + "/ne_" + resol + "_rivers_lake_centerlines";
 	setting["boundaries"] = resol + "/ne_" + resol + "_admin_0_boundary_lines_land";
 	
@@ -899,57 +881,43 @@ void PolarStereographicProjection::wraparound(const UserPoint& point, stack<User
 	if ( in(point) ) {
 		duplicates.push(point);
 	}
-
 }
 
 Polyline& PolarStereographicProjection::getPCBoundingBox() const
 {
-
-
 	if ( PCEnveloppe_->empty() ) {
 		getUserBoundingBox();
 	}
-
 	return *PCEnveloppe_;
 }
 
 Polyline& PolarStereographicProjection::getUserBoundingBox() const
 {
-
-	double minlat = -90;
-	double maxlat = 90; 
-	double minlon = -180;
-	double maxlon = 180; 
+	const double minlat = -90.;
+	const double maxlat =  90.; 
+	const double minlon = -180.;
+	const double maxlon =  180.; 
 
 	if ( userEnveloppe_->empty() ) {
 		// left
 		for ( int lat = minlat; lat <= maxlat; lat++) {
 			userEnveloppe_->push_back(PaperPoint(minlon,lat));
-
 		}
 		// top
 		for ( int lon = minlon; lon <= maxlon; lon++) {
 			userEnveloppe_->push_back(PaperPoint(lon, maxlat));
-
 		}
 		// right
 		for ( int lat = maxlat; lat >= minlat; lat--) {
 
 			userEnveloppe_->push_back(PaperPoint(maxlon, lat));
-
 		}
 		// bottom
 		for ( int lon = maxlon; lon >= minlon; lon--) {
 			userEnveloppe_->push_back(PaperPoint(lon, minlat));
-
 		}
-
 	}
-
 	return *userEnveloppe_;
-
-
-
 }
 
 #include <boost/geometry/algorithms/distance.hpp>
@@ -965,7 +933,6 @@ double PolarStereographicProjection::patchDistance(double res) const
 	double x = xy1.distance(xy2);
 	*/
 	return 100000*res;
-
 }
 
 void  PolarStereographicProjection::fast_reproject(double& x, double& y) const
@@ -974,7 +941,6 @@ void  PolarStereographicProjection::fast_reproject(double& x, double& y) const
 	TeCoord2D xy = projection_->LL2PC(geo);
 	x = xy.x();
 	y = xy.y();
-
 }
 
 void PolarStereographicProjection::getNewDefinition(const UserPoint& ll, const UserPoint& ur, string& out) const
@@ -991,8 +957,8 @@ void PolarStereographicProjection::getNewDefinition(const UserPoint& ll, const U
 	def["subpage_upper_right_latitude"] = tostring(ur.y_);
 	::toxml(out, def);
 	out = "{" + out + "}";
-
 }
+
 void PolarStereographicProjection::setDefinition(const string& json)
 {
 	if (json.empty())
@@ -1002,19 +968,13 @@ void PolarStereographicProjection::setDefinition(const string& json)
 	helper.interpret(json);
 
 	XmlNode node = **helper.tree_.firstElement();
-
 	node.name("polar_stereographic");
-
-
 	set(node);
-
-
 }
+
 UserPoint PolarStereographicProjection::reference() const
 {
 	UserPoint ll = ( hemisphere_ ==  NORTH ) ? UserPoint(0, 60) : UserPoint(0, -60);
-
-
 	return ll;
 }
 

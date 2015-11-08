@@ -187,10 +187,9 @@ protected:
 	string coast_resolution_;
 
 	vector<Polyline> coast_;
+//	vector<Polyline> coastlines_;
 	vector<Polyline> lake_;
 	vector<Polyline> ocean_;
-
-
 };
 
 
@@ -208,7 +207,6 @@ public:
 		ParameterManager::get(param, val);
 		return (*this)(val);
 	}
-
 };
 
 } // namespace magics
