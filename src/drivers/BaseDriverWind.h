@@ -95,11 +95,7 @@ MAGICS_NO_EXPORT void BaseDriver::renderWindArrow(const Arrow &arrow) const
 	for(unsigned int pts=0;pts<arrPoNo;pts++)
 	{
 	  const double angle = setAngleY(arr->angle());
-	  double norm  = arr->norm()*scaling;
-
-	  // The next line was making very small wind artificially bigger!
-	  // if(fabs(norm) < 0.01) norm = scaling;
-
+	  const double norm  = arr->norm()*scaling;
 	  const double norm2 = norm * base;
 
 	  vector<PaperPoint> line;
