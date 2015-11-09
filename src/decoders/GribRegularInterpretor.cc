@@ -79,8 +79,16 @@ void GribInterpretor::new_index(const GribDecoder& grib)
 
 
     int error;
-
-    if ( grib.getLong("jScansPositively") || grib.getLong("iScansPositively") ) {
+/* scanning mode :
+    bit	value	meaning
+    1	0	Points scan in +i direction
+    1	1	Points scan in -i direction
+    2	0	Points scan in -j direction
+    2	1	Points scan in +j direction
+    3	0	Adjacent points in i direction are consecutive
+    3	1	Adjacent points in j direction are consecutive
+*/
+    if ( grib.getLong("jScansPositively") == 1 || grib.getLong("iScansPositively") == 0 ) {
     	MagLog::error() << " Scanning mode not yet supported" << endl;
     	return;
     }
