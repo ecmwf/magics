@@ -89,10 +89,11 @@ bool Streamlines::operator()(Data& data, BasicGraphicsObjectContainer& parent)
 
 
         ArrowProperties* arrow = new ArrowProperties();
+        arrow->setHeadIndex(head_);
+        arrow->setHeadRatio(ratio_);
         poly.setArrow(arrow);
         for(int i = 0; i < result[l]->Len; i++)
         {
-
 
                 poly.push_back(transformation(UserPoint(result[l]->X[i], result[l]->Y[i])));
 

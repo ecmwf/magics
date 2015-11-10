@@ -33,6 +33,14 @@
         line style of streamlines
      		</documentation> 
     	</parameter>
+    	<parameter member="head" to="int" default="0" from="int" name="wind_streamline_head_shape">	
+			<documentation>Table number, XY, indicating shape of arrowhead X		</documentation>
+  	</parameter>
+  
+  	<parameter member="ratio" to="float" default="0.3" from="float" name="wind_streamline_head_ratio">
+		
+			<documentation> Table number, XY, indicating style and shape of arrowhead X 		</documentation>
+  	</parameter>
 
 
     
