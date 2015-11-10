@@ -95,25 +95,32 @@ MAGICS_NO_EXPORT void BaseDriver::renderWindArrow(const Arrow &arrow) const
 	for(unsigned int pts=0;pts<arrPoNo;pts++)
 	{
 	  const double angle = setAngleY(arr->angle());
-	  const double norm  = arr->norm()*scaling;
+	  double norm  = arr->norm()*scaling;
+
+	  // The next line was making very small wind artificially bigger!
+	  // if(fabs(norm) < 0.01) norm = scaling;
+
 	  const double norm2 = norm * base;
-
+	  double xx=0.;
 	  vector<PaperPoint> line;
-	  (pos==M_TAIL) ? line.push_back(PaperPoint(0.,0.)) : line.push_back(PaperPoint( -0.5*norm,0.));
-	  double xx                       = (pos==M_TAIL) ? norm  :       0.5  * norm;
-	  if((index==2) || (index==1)) xx = (pos==M_TAIL) ? norm2 : (base-0.5) * norm;
 
-	  line.push_back(PaperPoint(xx,0));
-	  for_each(line.begin(),line.end(),rotate(angle,ratio) );
-	  for_each(line.begin(),line.end(),translate(arr->point_) );
+      if(pos!=M_HEAD_ONLY)
+      {
+	     (pos==M_TAIL) ? line.push_back(PaperPoint(0.,0.)) : line.push_back(PaperPoint( -0.5*norm,0.));
+	     xx                              = (pos==M_TAIL) ? norm  :       0.5  * norm;
+	     if((index==2) || (index==1)) xx = (pos==M_TAIL) ? norm2 : (base-0.5) * norm;
 
-	  xx = (pos==M_TAIL) ? norm : 0.5*(norm); // reset length
+	     line.push_back(PaperPoint(xx,0));
+	     for_each(line.begin(),line.end(),rotate(angle,ratio) );
+	     for_each(line.begin(),line.end(),translate(arr->point_) );
+ 	     xx = (pos==M_TAIL) ? norm : 0.5*(norm); // reset length
 
-	// Arrow base
-	  const int old_currentColourIndex = currentLineStyle_;
-	  currentLineStyle_ = setLineParameters(style,thickness);
-	  renderPolyline2(line);
-	  currentLineStyle_ = old_currentColourIndex;
+	     // Arrow base
+	     const int old_currentColourIndex = currentLineStyle_;
+	     currentLineStyle_ = setLineParameters(style,thickness);
+	     renderPolyline2(line);
+	     currentLineStyle_ = old_currentColourIndex;
+      }
 
 	// Arrow head
 	  const MFloat bx = (1.0-base) * norm; // a third of the length of arrow
@@ -125,9 +132,9 @@ MAGICS_NO_EXPORT void BaseDriver::renderWindArrow(const Arrow &arrow) const
 		index = 0;
 	  }
 
+      line.clear();
 	  if(index == 0)
 	  {
-		line.clear();
 		line.push_back(PaperPoint(xx-bx,-by));
 		line.push_back(PaperPoint(xx,0. ));
 		line.push_back(PaperPoint(xx-bx,by));
@@ -137,7 +144,6 @@ MAGICS_NO_EXPORT void BaseDriver::renderWindArrow(const Arrow &arrow) const
 	  }
 	  else
 	  {
-		line.clear();
 		line.push_back(PaperPoint(xx,0.));
 		line.push_back(PaperPoint(xx-bx,-by));
 		line.push_back(PaperPoint(xx-bx, by));
