@@ -82,28 +82,23 @@ bool Streamlines::operator()(Data& data, BasicGraphicsObjectContainer& parent)
     for(int l = 0; l < size; l++)
     {
 
-        Polyline poly, shift;
+        Polyline poly;
         poly.setColour(*colour_);
         poly.setThickness(thickness_);
         poly.setLineStyle(style_);
-        shift.setColour(*colour_);
-        shift.setThickness(thickness_);
-        shift.setLineStyle(style_);
+
 
         ArrowProperties* arrow = new ArrowProperties();
+        arrow->setHeadIndex(head_);
+        arrow->setHeadRatio(ratio_);
         poly.setArrow(arrow);
         for(int i = 0; i < result[l]->Len; i++)
         {
-            //if (result[l]->X[i] < 180)
-                
-                poly.push_back(transformation(UserPoint(result[l]->X[i], result[l]->Y[i])));
-            //else
-              //  poly.push_back(transformation(UserPoint(result[l]->X[i]-360., result[l]->Y[i])));
-            //poly.push_back(transformation(UserPoint(result[l]->X[i], result[l]->Y[i])));
 
-            transformation(poly, parent);
-            transformation(shift, parent);
+                poly.push_back(transformation(UserPoint(result[l]->X[i], result[l]->Y[i])));
+
         }
+        transformation(poly, parent);
 
     }
     return true;
