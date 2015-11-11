@@ -497,7 +497,7 @@ void BaseDriver::printLine(const Polyline &line) const
 	  }
     }
 
-    const unsigned int minimum_points_for_labelling = 11;  // must be at least -15 : see function LSF above
+    const unsigned int minimum_points_for_labelling = 25;  // must be at least -15 : see function LSF above
 
     if ( (arrowHead || (line.getLabel().isVisible() && line.getLabel().getText() != "") ) && (n > minimum_points_for_labelling))
     {
@@ -536,7 +536,7 @@ void BaseDriver::printLine(const Polyline &line) const
 
 	    const double distance_squared = ((THIS_X - PREV_X) * (THIS_X - PREV_X)) + ((THIS_Y - PREV_Y) * (THIS_Y - PREV_Y));
 
-	    //if (distance_squared > min_square_distance_between_labels)
+	    if ( (arrowHead) || (distance_squared > min_square_distance_between_labels) ) 
 	    {
 	       if(arrowHead)
 	       {
