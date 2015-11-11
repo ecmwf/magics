@@ -782,8 +782,8 @@ int CalcStreamlines(int density, const float *dir, const GSStruct *gs, OneLineCl
 									}
 								else
 									{
-										if( cell_shift == -1 && act_cell % nx == 0 ||
-												cell_shift == 1 && act_cell % nx == nx-1 )
+										if( ((cell_shift == -1) && (act_cell % nx == 0)) ||
+											((cell_shift ==  1) && (act_cell % nx == nx-1)) )
 											break;
 										act_cell += cell_shift;
 									}
