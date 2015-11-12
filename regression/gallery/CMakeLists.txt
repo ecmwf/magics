@@ -33,6 +33,7 @@ add_magics_test(NAME gallery_epsboxplot SOURCES epsboxplot.py IMAGE epsboxplot.p
 
 add_magics_test(NAME gallery_frame SOURCES frame.py IMAGE frame.png  THRESHOLD 1 PYTHON)
 add_magics_test(NAME gallery_geojson_multilines SOURCES geojson_multilines.py IMAGE geojson_multilines.png RESOURCES warm_fronts.geojson cold_fronts.geojson THRESHOLD 1 PYTHON)
+add_magics_test(NAME gallery_geojson_input SOURCES geojson_input.py IMAGE geojson_input.png THRESHOLD 1 PYTHON)
 
 add_magics_test(NAME gallery_epsrose SOURCES epsrose.py IMAGE epsrose.png RESOURCES cloud_rose.json THRESHOLD 5 PYTHON)
 add_magics_test(NAME gallery_epswave SOURCES epswave.py IMAGE epswave.png RESOURCES wave.json THRESHOLD 5 PYTHON)
@@ -77,3 +78,8 @@ add_magics_test(NAME gallery_wind1 SOURCES wind1.py IMAGE wind1.png DATA msl.grb
 add_magics_test(NAME gallery_wind2 SOURCES wind2.py IMAGE wind2.png DATA speed200.grb uv200.grb THRESHOLD 5 PYTHON)
 add_magics_test(NAME gallery_wind3 SOURCES wind3.py IMAGE wind3.png DATA uv200.grb THRESHOLD 5 PYTHON)
 add_magics_test(NAME gallery_wind4 SOURCES wind4.py IMAGE wind4.png DATA wind.grib vorticity.grib THRESHOLD 5 PYTHON)
+
+add_magics_test(NAME gallery_missing1 SOURCES handling_missing1.py IMAGE handling_missing1.png DATA sst.grb THRESHOLD 2 PYTHON)
+add_magics_test(NAME gallery_missing2 SOURCES handling_missing2.py IMAGE handling_missing1.png DATA sst.grb THRESHOLD 2 PYTHON)
+add_magics_test(NAME gallery_missing3 SOURCES handling_missing3.py IMAGE handling_missing1.png DATA sst.grb THRESHOLD 2 PYTHON)
+add_magics_test(NAME gallery_missing4 SOURCES handling_missing4.py IMAGE handling_missing1.png DATA sst.grb THRESHOLD 2 PYTHON)
