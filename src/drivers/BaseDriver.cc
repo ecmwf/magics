@@ -552,7 +552,7 @@ void BaseDriver::printLine(const Polyline &line) const
 ////		      const double dx=projectX(x[i+3])-projectX(x[i]);//sin(angle+1.5707963267949);
 ////		      const double dy=projectY(y[i+3])-projectY(y[i]);//cos(angle+1.5707963267949);
 		      const double dx=sin(angle+1.5707963267949);
-		      const double dy=cos(angle+1.5707963267949);
+		      const double dy=setAngleY(cos(angle+1.5707963267949));
 		      PaperPoint pp(pro_x,pro_y);
 		      ArrowPoint apoint(dx,dy,pp);
 		      arrow.push_back(apoint);
