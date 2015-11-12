@@ -53,6 +53,11 @@
          		<release>Magics++2.10		</release>
          		<documentation> Used for reduced gaussian grid: use an linear interpolation to convert from reduced to regular		</documentation>
   	</parameter>
+  	<parameter member="interpolation_method_missing_fill_count" to="int" default="1" from="int" name="grib_interpolation_count"  >
+         		
+         		<documentation> Number of missing values to fill with the nearest valid value </documentation>
+  	</parameter>
+  	
   	<parameter member="wind_mode" to="WindMode" default="uv" from="string" name="grib_wind_mode">
          		<documentation> The incoming wind field may contain data other than wind components, e.g. wave height and direction.
 	                 grib_wind_mode should be set to indicate how to interpret the incoming wind field, 
