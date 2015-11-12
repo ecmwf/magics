@@ -80,6 +80,6 @@ add_magics_test(NAME gallery_wind3 SOURCES wind3.py IMAGE wind3.png DATA uv200.g
 add_magics_test(NAME gallery_wind4 SOURCES wind4.py IMAGE wind4.png DATA wind.grib vorticity.grib THRESHOLD 5 PYTHON)
 
 add_magics_test(NAME gallery_missing1 SOURCES handling_missing1.py IMAGE handling_missing1.png DATA sst.grb THRESHOLD 2 PYTHON)
-add_magics_test(NAME gallery_missing2 SOURCES handling_missing2.py IMAGE handling_missing1.png DATA sst.grb THRESHOLD 2 PYTHON)
-add_magics_test(NAME gallery_missing3 SOURCES handling_missing3.py IMAGE handling_missing1.png DATA sst.grb THRESHOLD 2 PYTHON)
-add_magics_test(NAME gallery_missing4 SOURCES handling_missing4.py IMAGE handling_missing1.png DATA sst.grb THRESHOLD 2 PYTHON)
+add_magics_test(NAME gallery_missing2 SOURCES handling_missing2.py IMAGE handling_missing2.png DATA sst.grb THRESHOLD 2 PYTHON)
+add_magics_test(NAME gallery_missing3 SOURCES handling_missing3.py IMAGE handling_missing3.png DATA sst.grb THRESHOLD 2 PYTHON)
+add_magics_test(NAME gallery_missing4 SOURCES handling_missing4.py IMAGE handling_missing4.png DATA sst.grb THRESHOLD 2 PYTHON)
