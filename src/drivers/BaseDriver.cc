@@ -433,7 +433,13 @@ double BaseDriver::LSF(MFloat *x,MFloat *y, int i0) const
 		sxx  += (xi*xi);
 		sxy  += (xi*yi);
 	}
-	if( (abs(sxx) > 0.00001) && (abs(sxy) > 0.00001) ) angle = atan2( (sxy/sxx) ,1.);
+
+//	if( (abs(sxx) > 0.00001) && (abs(sxy) > 0.00001) ) angle = atan2( (sxy/sxx) ,1.);
+	if( (abs(sxx) > 0.00001) )
+	{
+	 angle = atan2( (sxy/sxx) ,1.);
+	 if( (x[i0]-x[i0+3]) < 0.) angle += PI;
+	}
 	else 
 	{
 		angle=10.;
@@ -547,17 +553,30 @@ void BaseDriver::printLine(const Polyline &line) const
 		      arrow.copy(*line.arrowProperties());
 		      arrow.setColour(line.getColour());
 		      arrow.setArrowPosition(M_HEAD_ONLY);
-//		      arrow.setHeadRatio(2.0);
+//		      arrow.setHeadRatio(1.5);
 //		      arrow.setHeadIndex(1);
-////		      const double dx=projectX(x[i+3])-projectX(x[i]);//sin(angle+1.5707963267949);
-////		      const double dy=projectY(y[i+3])-projectY(y[i]);//cos(angle+1.5707963267949);
 		      const double dx=sin(angle+1.5707963267949);
 		      const double dy=-setAngleY(cos(angle+1.5707963267949));
 		      PaperPoint pp(pro_x,pro_y);
 		      ArrowPoint apoint(dx,dy,pp);
 		      arrow.push_back(apoint);
 		      renderWindArrow(arrow);
-//cout << "STREAMLINES >>>>>>>>>>>>>>>>>>>  angle: " << angle<<"   x:"<<pro_x<<"  y:"<<pro_y<< endl;
+/*
+      {
+        cout << "STREAMLINES >>>>>>>>>>>>>>>>>>>  angle: " << angle<<"   x:"<<pro_x<<"  y:"<<pro_y<< endl;
+    	int ewn=5;
+    	setNewColour(Colour("red"));
+    	setNewLineWidth(4.);
+    	renderPolyline(ewn, &x[i], &y[i]);
+
+    	TextSymbol textSymbol;
+		textSymbol.position(TextSymbol::M_BELOW);
+		ostringstream nice;
+    	nice << angle;      
+	    textSymbol.push_back(pp, nice.str()); 				
+		renderTextSymbols(textSymbol);
+       }
+*/
 	       }
 	       else
 	       {
@@ -577,7 +596,6 @@ void BaseDriver::printLine(const Polyline &line) const
 		      text.setFont(font);
 		      renderText(text);
 		   }
-
 		   labelx [num_labels] = x[i];
 		   labely [num_labels] = y[i];
 		   num_labels++;
@@ -591,7 +609,7 @@ void BaseDriver::printLine(const Polyline &line) const
     }// endif enough points for a label
 /*
     {
-    	int ewn=3;
+    	int ewn=2;
     	setNewColour(Colour("red"));
     	setNewLineWidth(4.);
     	renderPolyline(ewn, x, y);
