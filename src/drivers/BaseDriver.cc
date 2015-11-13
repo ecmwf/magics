@@ -438,7 +438,6 @@ double BaseDriver::LSF(MFloat *x,MFloat *y, int i0) const
 	if( (abs(sxx) > 0.00001) )
 	{
 	 angle = atan2( (sxy/sxx) ,1.);
-	 if( (x[i0]-x[i0+3]) < 0.) angle += PI;
 	}
 	else 
 	{
@@ -530,7 +529,7 @@ void BaseDriver::printLine(const Polyline &line) const
 	  unsigned int i = 10;
 	  while(i < n-minimum_points_for_labelling)
 	  {
-	   const double angle  = LSF(x,y,i);
+	   double angle  = LSF(x,y,i);
 	   const double angle2 = LSF(x,y,i+1);
 
 	   if( (angle <4.) && (angle2 <4.) && fabs(angle-angle2)< 0.01)
@@ -555,6 +554,7 @@ void BaseDriver::printLine(const Polyline &line) const
 		      arrow.setArrowPosition(M_HEAD_ONLY);
 //		      arrow.setHeadRatio(1.5);
 //		      arrow.setHeadIndex(1);
+		      if( (x[i]-x[i+3]) < 0.) angle += PI;
 		      const double dx=sin(angle+1.5707963267949);
 		      const double dy=-setAngleY(cos(angle+1.5707963267949));
 		      PaperPoint pp(pro_x,pro_y);
