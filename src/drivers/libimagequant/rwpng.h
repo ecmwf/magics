@@ -5,7 +5,7 @@
   ---------------------------------------------------------------------------
 
    © 1998-2000 by Greg Roelofs.
-   © 2009-2014 by Kornel Lesiński.
+   © 2009-2015 by Kornel Lesiński.
 
    All rights reserved.
 
@@ -53,6 +53,7 @@ typedef enum {
     WRONG_ARCHITECTURE = 18, // Missing SSE
     PNG_OUT_OF_MEMORY_ERROR = 24,
     LIBPNG_FATAL_ERROR = 25,
+    WRONG_INPUT_COLOR_TYPE = 26,
     LIBPNG_INIT_ERROR = 35,
     TOO_LARGE_FILE = 98,
     TOO_LOW_QUALITY = 99,
@@ -116,8 +117,8 @@ typedef union {
 void rwpng_version_info(FILE *fp);
 
 pngquant_error rwpng_read_image24(FILE *infile, png24_image *mainprog_ptr, int verbose);
-pngquant_error rwpng_write_image8(FILE *outfile, const png8_image *mainprog_ptr);
-pngquant_error rwpng_write_image24(FILE *outfile, const png24_image *mainprog_ptr);
+pngquant_error rwpng_write_image8(FILE *outfile, png8_image *mainprog_ptr);
+pngquant_error rwpng_write_image24(FILE *outfile, png24_image *mainprog_ptr);
 void rwpng_free_image24(png24_image *);
 void rwpng_free_image8(png8_image *);
 
