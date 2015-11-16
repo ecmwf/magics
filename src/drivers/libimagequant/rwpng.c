@@ -5,7 +5,7 @@
   ---------------------------------------------------------------------------
 
    © 1998-2000 by Greg Roelofs.
-   © 2009-2014 by Kornel Lesiński.
+   © 2009-2015 by Kornel Lesiński.
 
    All rights reserved.
 
@@ -35,6 +35,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <limits.h>
 
 #include "png.h"
 #include "rwpng.h"
@@ -55,8 +56,8 @@
 #define omp_get_max_threads() 1
 #endif
 
-#if PNG_LIBPNG_VER < 10600
-//typedef png_const_charp png_const_bytep;
+#if PNG_LIBPNG_VER < 10500
+typedef png_const_charp png_const_bytep;
 #endif
 
 static void rwpng_error_handler(png_structp png_ptr, png_const_charp msg);
@@ -70,11 +71,11 @@ void rwpng_version_info(FILE *fp)
     const char *pngver = png_get_header_ver(NULL);
 
 #if USE_COCOA
-    fprintf(fp, "   Using Apple Cocoa image reader and libpng %s.\n", pngver);
+    fprintf(fp, "   Color profiles are supported via Cocoa. Using libpng %s.\n", pngver);
 #elif USE_LCMS
-    fprintf(fp, "   Using libpng %s with Little CMS color profile support.\n", pngver);
+    fprintf(fp, "   Color profiles are supported via Little CMS. Using libpng %s.\n", pngver);
 #else
-    fprintf(fp, "   Using libpng %s.\n", pngver);
+    fprintf(fp, "   Compiled without support for color profiles. Using libpng %s.\n", pngver);
 #endif
 
 #if PNG_LIBPNG_VER < 10600
@@ -122,11 +123,7 @@ static void user_write_data(png_structp png_ptr, png_bytep data, png_size_t leng
         return;
     }
 
-    if (write_state->maximum_file_size && write_state->bytes_written + length > write_state->maximum_file_size) {
-        write_state->retval = TOO_LARGE_FILE;
-    }
-
-    if (!fwrite(data, 1, length, write_state->outfile)) {
+    if (!fwrite(data, length, 1, write_state->outfile)) {
         write_state->retval = CANT_WRITE_ERROR;
     }
 
@@ -139,7 +136,7 @@ static void user_flush_data(png_structp png_ptr)
 }
 
 
-static png_bytepp rwpng_create_row_pointers(png_infop info_ptr, png_structp png_ptr, unsigned char *base, unsigned int height, unsigned int rowbytes)
+static png_bytepp rwpng_create_row_pointers(png_infop info_ptr, png_structp png_ptr, unsigned char *base, unsigned int height, png_size_t rowbytes)
 {
     if (!rowbytes) {
         rowbytes = png_get_rowbytes(png_ptr, info_ptr);
@@ -147,7 +144,7 @@ static png_bytepp rwpng_create_row_pointers(png_infop info_ptr, png_structp png_
 
     png_bytepp row_pointers = malloc(height * sizeof(row_pointers[0]));
     if (!row_pointers) return NULL;
-    for(unsigned int row = 0;  row < height;  ++row) {
+    for(size_t row = 0; row < height; row++) {
         row_pointers[row] = base + row * rowbytes;
     }
     return row_pointers;
@@ -188,7 +185,7 @@ static int read_chunk_callback(png_structp png_ptr, png_unknown_chunkp in_chunk)
     26 = wrong PNG color type (no alpha channel)
  */
 
-pngquant_error rwpng_read_image24_libpng(FILE *infile, png24_image *mainprog_ptr, int verbose)
+static pngquant_error rwpng_read_image24_libpng(FILE *infile, png24_image *mainprog_ptr, int verbose)
 {
     png_structp  png_ptr = NULL;
     png_infop    info_ptr = NULL;
@@ -226,7 +223,6 @@ pngquant_error rwpng_read_image24_libpng(FILE *infile, png24_image *mainprog_ptr
 
     png_read_info(png_ptr, info_ptr);  /* read all PNG info up to image data */
 
-
     /* alternatively, could make separate calls to png_get_image_width(),
      * etc., but want bit_depth and color_type for later [don't care about
      * compression_type and filter_type => NULLs] */
@@ -234,6 +230,11 @@ pngquant_error rwpng_read_image24_libpng(FILE *infile, png24_image *mainprog_ptr
     png_get_IHDR(png_ptr, info_ptr, &mainprog_ptr->width, &mainprog_ptr->height,
                  &bit_depth, &color_type, NULL, NULL, NULL);
 
+    // For overflow safety reject images that won't fit in 32-bit
+    if (mainprog_ptr->width > INT_MAX/mainprog_ptr->height) {
+        png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
+        return PNG_OUT_OF_MEMORY_ERROR;  /* not quite true, but whatever */
+    }
 
     /* expand palette images to RGB, low-bit-depth grayscale images to 8 bits,
      * transparency chunks to full alpha channel; strip 16-bit-per-sample
@@ -248,7 +249,7 @@ pngquant_error rwpng_read_image24_libpng(FILE *infile, png24_image *mainprog_ptr
 #else
         fprintf(stderr, "pngquant readpng:  image is neither RGBA nor GA\n");
         png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
-        mainprog_ptr->retval = 26;
+        mainprog_ptr->retval = WRONG_INPUT_COLOR_TYPE;
         return mainprog_ptr->retval;
 #endif
     }
@@ -282,7 +283,7 @@ pngquant_error rwpng_read_image24_libpng(FILE *infile, png24_image *mainprog_ptr
 
     rowbytes = png_get_rowbytes(png_ptr, info_ptr);
 
-    if ((mainprog_ptr->rgba_data = malloc(rowbytes*mainprog_ptr->height)) == NULL) {
+    if ((mainprog_ptr->rgba_data = malloc(rowbytes * mainprog_ptr->height)) == NULL) {
         fprintf(stderr, "pngquant readpng:  unable to allocate image data\n");
         png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
         return PNG_OUT_OF_MEMORY_ERROR;
@@ -468,7 +469,7 @@ static pngquant_error rwpng_write_image_init(rwpng_png_image *mainprog_ptr, png_
 }
 
 
-void rwpng_write_end(png_infopp info_ptr_p, png_structpp png_ptr_p, png_bytepp row_pointers)
+static void rwpng_write_end(png_infopp info_ptr_p, png_structpp png_ptr_p, png_bytepp row_pointers)
 {
     png_write_info(*png_ptr_p, *info_ptr_p);
 
@@ -481,14 +482,14 @@ void rwpng_write_end(png_infopp info_ptr_p, png_structpp png_ptr_p, png_bytepp r
     png_destroy_write_struct(png_ptr_p, info_ptr_p);
 }
 
-void rwpng_set_gamma(png_infop info_ptr, png_structp png_ptr, double gamma)
+static void rwpng_set_gamma(png_infop info_ptr, png_structp png_ptr, double gamma)
 {
     /* remap sets gamma to 0.45455 */
     png_set_gAMA(png_ptr, info_ptr, gamma);
     png_set_sRGB(png_ptr, info_ptr, 0); // 0 = Perceptual
 }
 
-pngquant_error rwpng_write_image8(FILE *outfile, const png8_image *mainprog_ptr)
+pngquant_error rwpng_write_image8(FILE *outfile, png8_image *mainprog_ptr)
 {
     png_structp png_ptr;
     png_infop info_ptr;
@@ -554,10 +555,14 @@ pngquant_error rwpng_write_image8(FILE *outfile, const png8_image *mainprog_ptr)
 
     rwpng_write_end(&info_ptr, &png_ptr, mainprog_ptr->row_pointers);
 
+    if (SUCCESS == write_state.retval && write_state.maximum_file_size && write_state.bytes_written > write_state.maximum_file_size) {
+        return TOO_LARGE_FILE;
+    }
+
     return write_state.retval;
 }
 
-pngquant_error rwpng_write_image24(FILE *outfile, const png24_image *mainprog_ptr)
+pngquant_error rwpng_write_image24(FILE *outfile, png24_image *mainprog_ptr)
 {
     png_structp png_ptr;
     png_infop info_ptr;
@@ -605,7 +610,7 @@ static void rwpng_error_handler(png_structp png_ptr, png_const_charp msg)
      * regardless of whether _BSD_SOURCE or anything else has (or has not)
      * been defined. */
 
-    fprintf(stderr, "  error: %s\n", msg);
+    fprintf(stderr, "  error: %s (libpng failed)\n", msg);
     fflush(stderr);
 
     mainprog_ptr = png_get_error_ptr(png_ptr);
