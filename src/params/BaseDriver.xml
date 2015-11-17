@@ -4,42 +4,37 @@
   These parameters are common to all the output drivers and can be used whichever output format is selected.
 	</documentation>
 
-	<parameter member="title" to="string" default="Magics++ plot" from="string" name="output_title">
-    		<documentation>Defines a title for the output which gets displayed if the format supports it.		</documentation>
+	<parameter member="title" to="string" default="Magics plot" from="string" name="output_title">
+    		<documentation>Defines a title for the output which gets displayed if the format supports it.</documentation>
 	</parameter>
-
 	<parameter member="name" to="string" default="" from="string" name="output_name">
     		<documentation>Defines the root of output filename.</documentation>
 	</parameter>
-
 	<parameter member="firstnumber" to="bool" default="on" from="string" name="output_name_first_page_number">
   		<documentation>Determines whether, for the first page of multipage output, the number is included in the filename.</documentation>
 	</parameter>
-
 	<parameter member="firstvalue" to="int" default="1" from="int" name="output_name_first_page_number_value">
   		<documentation>Sets the number of the first page. All other pages are number from this value onwards.</documentation>
 	</parameter>
-
 	<parameter member="fullname" to="string" default="" from="string" name="output_fullname">
   		<documentation>Alternative way of specifying the output filename. Will be overwritten by output_name if defined.</documentation>
 	</parameter>
-
 	<parameter from="string" name="output_legacy_name" visible="no" default="" member="legacyname" to="string">
   		<documentation>Alternative way of specifying the output filename. Will be overwritten by output_name if defined.</documentation>
 	</parameter>
-
 	<parameter member="numberingwidth" to="int" default="1" from="int" name="output_file_minimal_width">
   		<documentation>Width of numbering of multi-file outputs (eg, 'plot.1.png' or 'plot.001.png').</documentation>
 	</parameter>
-
 	<parameter member="separator" to="string" default="." from="string" name="output_file_separator">
   		<documentation>Defines the separator between root name and the page number. Default is a dot.</documentation>
 	</parameter>
-
+	<parameter from="string" name="output_creator" visible="no" default="" member="output_creator" to="string">
+  		<documentation for_docs="no">Option for software using magics to put their name and version.</documentation>
+  		<release>2.27.0</release>
+	</parameter>
 	<parameter from="string" name="output_mgb_template" visible="no" default="" member="mgb_template" to="string">
   		<documentation for_docs="no">Path to the magics binary file to be used as a template</documentation>
 	</parameter>
-
 	<parameter member="debug" to="bool" default="off" from="string" name="output_debug">
   		<documentation>Defines if extra debug information are written in the output file (PS, EPS, SVG) or console (PNG).</documentation>
   		<release>2.1</release>        
@@ -57,18 +52,16 @@
  		<set name="output_filelist_name" value="on"></set>
  		<release>2.7.10</release>
 	</parameter>   
-
 	<parameter member="filelist_name" to="string" default="magics_outputs.lst" from="string" name="output_filelist_name">
  		<documentation>Defines the name of the file containing the list of generated files.</documentation>
  		<release>2.7.10</release>
 	</parameter>
-	
 	<parameter name='output_filelist_reset' from='string' to='bool' member='filelist_reset' default='off'>
 	 <documentation>Defines if the file containing the list of generated files is started from scratch or appends to previous file.</documentation>
 	 <release>2.24.1</release>
 	</parameter>
- 
  	<parameter from="intarray" name="output_frame_list" visible="no" default="intarray()" member="frame_list" to="intarray">
  		<documentation for_docs="no">Defines the list of frames to plot ( if empty, all the frames will be plotted!).</documentation>
  	</parameter>
-</class></magics>
+</class>
+</magics>
