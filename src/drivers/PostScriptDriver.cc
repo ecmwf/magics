@@ -1514,8 +1514,9 @@ MAGICS_NO_EXPORT void PostScriptDriver::writePSFileHeader() const
 
 	*ps << "%!PS-Adobe-3.0";
 	if(isEPS()) *ps << " EPSF-3.0";
-	*ps << "\n%%Title: "<< title_
-	    << "\n%%Creator: "<< getMagicsVersionString() <<"\n%%CreationDate: " << info.getTime()
+	*ps << "\n%%Title: "<< title_<< "\n%%Creator: ";
+	if(!output_creator_.empty()) *ps << output_creator_<< " and ";
+    *ps << getMagicsVersionString() <<"\n%%CreationDate: " << info.getTime()
 	    << "\n%%For: " << info.getUserID() << "@" << info.getHostName() << " " << info.getUserName()<<"\n";
 
 	MFloat dimensionX = getXDeviceLength() * 72. / 2.54; // 72   = points / inch

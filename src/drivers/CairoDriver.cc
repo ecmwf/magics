@@ -42,7 +42,7 @@ Something like:
 
     Started: Mon Oct 15 20:49:32 2007
 
-   \todo Fix 'convert' dependency
+   \todo Fix 'convert' dependency in "renderImage"
    \todo Check how much drivers are dependent on writing temp files in local directory (thread safety)
 */
 #include <cairo.h>
@@ -271,7 +271,7 @@ void CairoDriver::setupNewSurface() const
 	  const SystemInfo info;
 	  const string s1 = "%%Title: " + title_;
 	  cairo_ps_surface_dsc_comment (surface_, s1.c_str());
-	  const string s2 = "%%Creator2: " + getMagicsVersionString();
+	  const string s2 = "%%Creator2: "+ output_creator_+ " "+ getMagicsVersionString();
 	  cairo_ps_surface_dsc_comment (surface_, s2.c_str());
 	  const string s3 = "%%For: " + info.getUserID() + "@" + info.getHostName() + " " + info.getUserName();
 	  cairo_ps_surface_dsc_comment (surface_, s3.c_str());
