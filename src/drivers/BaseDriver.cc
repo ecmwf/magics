@@ -975,30 +975,29 @@ void BaseDriver::redisplay(const BinaryObject& binary) const
 		}
 		break;
 
-	case 'I':
+	case 'I':    // Images
 		{
 			MFloat x0=0.;
 			MFloat x1=0.;
 			MFloat y0=0.;
 			MFloat y1 = 0.;
-			int he=0;
-			int wi=0;
-			int si=0;
+			int height=0;
+			int width=0;
+			int noOfColours=0;
 			double red=0.;double green=0.;double blue=0.;double alpha=0.;
 
-			in.read((char *)(&wi), sizeof(int));
-			in.read((char *)(&he), sizeof(int));
+			in.read((char *)(&width), sizeof(int));
+			in.read((char *)(&height), sizeof(int));
 			in.read((char *)(&x0), sizeof(MFloat));
 			in.read((char *)(&y0), sizeof(MFloat));
 			in.read((char *)(&x1), sizeof(MFloat));
 			in.read((char *)(&y1), sizeof(MFloat));
-			const int d=wi*he;
+			const int d=width*height;
 
-			in.read((char *)(&si), sizeof(int));
+			in.read((char *)(&noOfColours), sizeof(int));
 			ColourTable table;
 
-
-			for(int v=0;v<si;v++)
+			for(int v=0;v<noOfColours;v++)
 			{
 			  in.read((char *)(&red  ), sizeof(double));
 			  in.read((char *)(&green), sizeof(double));
@@ -1007,18 +1006,19 @@ void BaseDriver::redisplay(const BinaryObject& binary) const
 			  table.push_back(ColourTableEntry(Colour(red,green,blue,alpha)));
 			}
 
-			short cc[d];
-			in.read((char *)(cc), sizeof(short)*d);
+			short *pixels = new short[d];
+			in.read((char *)(pixels), sizeof(short)*d);
 
 			Image object;
 			PaperPoint pp(x0,y0,0.);
 			object.setOrigin(pp);
 			object.setWidth(x1);
 			object.setHeight(y1);
-			object.set(he,wi);
-			for(int i=0;i<d;i++) object.push_back(cc[i]);
+			object.set(height,width);
+			for(int i=0;i<d;i++) object.push_back(pixels[i]);  // object(std::begin(pixels), std::end(pixels));
 			object.setColourTable(table);
 			renderCellArray(object);
+			delete [] pixels;
 		}
 		break;
 
