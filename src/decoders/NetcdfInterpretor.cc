@@ -99,6 +99,8 @@ bool NetcdfInterpretor::reference_date(Netcdf& netcdf, const string& var, const 
 		factors["hours"] = 3600;
 		factors["days"] = 24*3600;
 	}
+
+	double missing_value = netcdf.getMissing(var, missing_attribute_);
 	string date = netcdf.getVariableAttribute(var, "reference_date", "");
 	if ( date.empty() ) return false;
 	originals.reserve(coords.size());
@@ -108,9 +110,10 @@ bool NetcdfInterpretor::reference_date(Netcdf& netcdf, const string& var, const 
 	basedate = date;
 	double diff = ( refdate.empty() ) ? 0 : DateTime(date) - DateTime(refdate) ;
 	map<string, double>::const_iterator factor = factors.find(units);
+	cout << "last point in days!" << coords.back() << endl;
 	if ( factor != factors.end() )
-		std::transform(coords.begin(), coords.end(),  coords.begin(), Multiply(factor->second, std::numeric_limits<double>::max()));
-	std::transform(coords.begin(), coords.end(),  coords.begin(), Plus(diff, std::numeric_limits<double>::max()));
+		std::transform(coords.begin(), coords.end(),  coords.begin(), Multiply(factor->second, missing_value));
+	std::transform(coords.begin(), coords.end(),  coords.begin(), Plus(diff, missing_value));
 }
 
 bool NetcdfInterpretor::cf_date(Netcdf& netcdf, const string& var, const string& refdate, string& basedate, vector<double>& coords, vector<double>& originals)
@@ -121,10 +124,12 @@ bool NetcdfInterpretor::cf_date(Netcdf& netcdf, const string& var, const string&
 	if ( factors.empty() ) {
 		factors["hours"] = 3600;
 		factors["days"] = 24*3600;
+
 	}
+	double missing_value = netcdf.getMissing(var, missing_attribute_);
 	string date = netcdf.getVariableAttribute(var, "long_name", "");
 	if ( date.empty() ) return false;
-	if ( date != "time" ) return false;
+	if ( date != "time" && date != "date and time") return false;
 
 	string units = netcdf.getVariableAttribute(var, "units", "");
 	if ( units.empty() ) return false;
@@ -143,7 +148,7 @@ bool NetcdfInterpretor::cf_date(Netcdf& netcdf, const string& var, const string&
 	double diff;
 	map<string, double>::const_iterator factor = factors.find(tokens[0]);
 	if ( refdate.empty() ) {
-		diff = Multiply(factor->second, std::numeric_limits<double>::max())(coords.front());
+		diff = Multiply(factor->second, missing_value)(coords.front());
 		DateTime newref = DateTime(basedate) + Second(diff);
 		basedate =  newref.tostring("%F %T");
 		diff = -diff;
@@ -154,8 +159,9 @@ bool NetcdfInterpretor::cf_date(Netcdf& netcdf, const string& var, const string&
 
 
 	if ( factor != factors.end() )
-		std::transform(coords.begin(), coords.end(),  coords.begin(), Multiply(factor->second, std::numeric_limits<double>::max()));
-	std::transform(coords.begin(), coords.end(),  coords.begin(), Plus(diff, std::numeric_limits<double>::max()));
+		std::transform(coords.begin(), coords.end(),  coords.begin(), Multiply(factor->second, missing_value));
+	std::transform(coords.begin(), coords.end(),  coords.begin(), Plus(diff, missing_value));
+
 }
 string NetcdfInterpretor::getAttribute(const string& var, const string& attr, const string& def)
 {

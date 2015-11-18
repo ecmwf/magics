@@ -79,7 +79,7 @@ void ObsWind::operator()( CustomisedPoint& point, ComplexSymbol& symbol) const
 MagLog::debug() << "OBS ITEM - ObsWind - Lon/Lat: "<<point.longitude()<<" / "<<point.latitude()
      << "\n\twind_speed:     " << point[speed_]
      << "\n\twind_direction: " << point[direction_]
-     << "\n\tcloud amount:   " << point["cloud_amount"]<<" -> "<<origin << std::endl;
+     << "\n\tcloud amount:   " << point["total_cloud"]<<" -> "<<origin << std::endl;
 
 
 	flag->setOriginHeight(owner_->ring_size_);
@@ -111,10 +111,15 @@ void  ObsCloudAndWind::setOrigins()
 	origins_[6] = "N_6";
 	origins_[7] = "N_7";
 	origins_[8] = "N_8";
+	origins_[59] = "N_9";
+	origins_[60] = "N_9";
+	origins_[61] = "N_9";
+	origins_[62] = "N_9";
 }
 
 void ObsCloudAndWind::operator()( CustomisedPoint& point, ComplexSymbol& symbol) const
 {
+
 	if (!owner_->wind_visible_) return;
 
 	Colour colour =  owner_->wind_colour_->automatic() ? *owner_->colour_ : *owner_->wind_colour_;
@@ -133,16 +138,28 @@ void ObsCloudAndWind::operator()( CustomisedPoint& point, ComplexSymbol& symbol)
 
 	FlagItem* flag = new FlagItem();
 	flag->setColour(colour);
-	flag->length(owner_->size_ * 2.5); // Size to be adjusted later!
+	flag->length(owner_->size_*2.5); // Size to be adjusted later!
 
-	map<int, string>::const_iterator marker = origins_.find(int(point["cloud_amount"]));
-	const string origin = ( marker != origins_.end()) ? marker->second : "magics_13";
 
+	int total_cloud = maground((point["total_cloud"]/100.)*8);
+	MagLog::debug() << "total_cloud-->" << point["total_cloud"] << "--->" << total_cloud << endl;
+	map<int, string>::const_iterator marker = origins_.find(total_cloud);
+	string origin;
+
+	if  ( marker != origins_.end() )
+		origin =  marker->second;
+	else {
+
+		// here we check that the sky is not obscured
+			marker = origins_.find(int(point["low_cloud"]));
+			origin = marker != origins_.end() ? marker->second : "magics_13";
+
+	}
 
 MagLog::debug() << "OBS ITEM - ObsWind - Lon/Lat: "<<point.longitude()<<" / "<<point.latitude()
      << "\n\twind_speed:     " << point["wind_speed"] 
      << "\n\twind_direction: " << point["wind_direction"]
-     << "\n\tcloud amount:   " << point["cloud_amount"]<<" -> "<<origin << std::endl;
+     << "\n\tcloud amount:   " << point["total_cloud"]<< "--->" << total_cloud << "--->" << origin << std::endl;
 
 	flag->setOriginHeight(owner_->ring_size_);
 	flag->setOriginMarker(origin);
@@ -250,7 +267,7 @@ void ObsPressureTendency::operator()(CustomisedPoint& point, ComplexSymbol& symb
 	object->y(row_);
 	
 	ostringstream os;	
-	if(value->second>0) os <<  setw(2) << setfill('0') << value->second * .1;
+	if(value->second>=0) os <<  setw(2) << setfill('0') << value->second * .1;
 	else os << "-" << setw(2) << setfill('0') << value->second * -.1;
 	
 	// The Pressure tendancy is red if negative!
@@ -276,7 +293,7 @@ void ObsPressureTendency::operator()(CustomisedPoint& point, ComplexSymbol& symb
 
 	MagLog::debug() << "\tPressure tendency--->" << oss.str() << "\n";
 
-	tendancy->height(owner_->size_);
+	tendancy->height(owner_->size_*0.2); // A bit too big !
 	symbol.add(tendancy);
 }
 
@@ -295,17 +312,17 @@ void ObsDewPoint::operator()(CustomisedPoint& point,  ComplexSymbol& symbol) con
 	if ( value == point.end() ) return; 
 	TextItem*  object = new TextItem();
 	MagFont font("sansserif");
-	Colour colour =  owner_->pressure_tendency_colour_->automatic() ? *owner_->colour_ : *owner_->pressure_tendency_colour_;
+	Colour colour =  owner_->dewpoint_colour_->automatic() ? *owner_->colour_ : *owner_->dewpoint_colour_;
 	font.colour(colour);
 	font.size(owner_->size_);
 	object->x(column_);
 	object->y(row_);
 	
 	// The temperature is displayed in Celsius.
-	const double tempe = maground(value->second-273.25);
-#ifdef OBS_DEBUG_
+	const double tempe = maground(value->second-273.15);
+
 	MagLog::debug() << "\tDewPoint--->" << point["dewpoint_2meters"] << " = " << tempe << "\n";
-#endif
+
 	object->text(tostring(tempe));
 	object->font(font);
 	//object->setJustification(MCENTRE);	
@@ -366,25 +383,79 @@ void ObsPresentWeather::visit(std::set<string>& tokens)
 
 }
 
+static map<int, string> presentweather;
 void ObsPresentWeather::operator()(CustomisedPoint& point,  ComplexSymbol& symbol) const
 {
 	if (!owner_->present_ww_visible_) return;
+	if ( presentweather.empty() ) {
+		presentweather[100] = "ww_00";
+		presentweather[101] = "ww_01";
+		presentweather[102] = "ww_02";
+		presentweather[103] = "ww_03";
+		presentweather[104] = "ww_04";
+		presentweather[110] = "ww_10";
+		presentweather[120] = "ww_45";
+		presentweather[121] = "ww_60";
+		presentweather[122] = "ww_20";
+		presentweather[123] = "ww_61";
+		presentweather[130] = "ww_45"; // Fog
+		presentweather[131] = "ww_41";
+		presentweather[132] = "ww_42";
+		presentweather[133] = "ww_44";
+		presentweather[134] = "ww_46";
+		presentweather[140] = "ww_60";
+		presentweather[141] = "ww_61";
+		presentweather[150] = "ww_51";
+		presentweather[151] = "ww_51";
+		presentweather[152] = "ww_52";
+		presentweather[153] = "ww_55";
+		presentweather[157] = "ww_58";
+		presentweather[158] = "ww_59";
+		presentweather[160] = "ww_60";
+		presentweather[161] = "ww_61";
+		presentweather[162] = "ww_62";
+		presentweather[163] = "ww_65";
+		presentweather[180] = "ww_80";
+		presentweather[181] = "ww_80";
+		presentweather[182] = "ww_81";
+		presentweather[183] = "ww_81";
+		presentweather[189] = "ww_89";
 
+	}
 	CustomisedPoint::const_iterator value = point.find("present_weather");
 	if ( value == point.end() ) return; 
+	if ( value->second < 4 )
+		return;
+	if ( value->second > 500 )
+		return;
+	string ww;
+
+	if ( value->second < 100 ) {
+		ostringstream os;
+		os << "ww_" << setw(2) << setfill('0') << value->second;
+		ww = os.str();
+	}
+	else {
+		map<int, string>::iterator w = presentweather.find(value->second);
+		if ( w == presentweather.end() ) {
+			MagLog::warning() << "Present Weather " << value->second << " is not recognised yet, pease conatct the magics team " << endl;
+		}
+		else
+			ww = w->second;
+	}
+
+	if ( ww.empty() )
+		return;
 	SymbolItem*  object = new SymbolItem();
 	object->x(column_);
 	object->y(row_);
 	
 	Colour colour =  owner_->present_ww_colour_->automatic() ? *owner_->colour_ : *owner_->present_ww_colour_;
 	object->colour(colour);
-	//object->setFont("sansserif");
-	ostringstream os;
 	
-	os << "ww_" << setw(2) << setfill('0') << value->second;
 
-	object->symbol(os.str());
-	MagLog::debug() << "\tPresent Weather--->" << os.str() << " in " << colour << "\n";
+	object->symbol(ww);
+	MagLog::debug() << "\tPresent Weather--->" << ww << " in " << colour << "\n";
 	//time->setJustification(MRIGHT);
 	object->height(owner_->size_);
 	symbol.add(object);
@@ -408,10 +479,10 @@ void ObsTemperature::operator()(CustomisedPoint& point,  ComplexSymbol& symbol) 
 	object->y(row_);
 	
 	// The temperature is displayed in Celsius.		
-	double tempe = maground(value->second-273.25);
-#ifdef OBS_DEBUG_
+	double tempe = maground(value->second-273.15);
+
 	MagLog::debug() << "\tTemperature: " << tempe << " from "<<value->second<<"\n";
-#endif
+
 	object->text(tostring(tempe));
 	//object->setJustification(MCENTRE);
 
@@ -431,9 +502,9 @@ void ObsTimePlot::operator()(CustomisedPoint& point,  ComplexSymbol& symbol) con
 	if (!owner_->time_plot_visible_) return;
 	CustomisedPoint::const_iterator value = point.find("time");
 	if ( value == point.end() ) return;
-#ifdef OBS_DEBUG_
+
 	MagLog::debug() << "\tTimePlot: " << value->second << "at[" << column_ << ", " << row_ << "]" << endl;
-#endif
+
 
 	Colour colour =  owner_->time_plot_colour_->automatic() ? *owner_->colour_ : *owner_->time_plot_colour_;
 
@@ -465,9 +536,8 @@ void ObsHeight::operator()(CustomisedPoint& point,  ComplexSymbol& symbol) const
 	CustomisedPoint::const_iterator value = point.find("geopotential");
 	if ( value == point.end() ) return;
 	double geop = maground(value->second/98.1);
-#ifdef OBS_DEBUG_
+
 	MagLog::debug() << "\tGeopotential: " << geop << "at[" << column_ << ", " << row_ << "]" << endl;
-#endif
 	Colour colour =  owner_->height_colour_->automatic() ? *owner_->colour_ : *owner_->height_colour_;
 	TextItem*  height = new TextItem();
 	MagFont font("sansserif");
@@ -553,49 +623,96 @@ void ObsPastWeather::visit(std::set<string>& tokens)
 	tokens.insert("past_weather_1");
 	tokens.insert("past_weather_2");
 }
+/*
+WMO table 020004: PAST WEATHER (1)
 
+code  meaning
+----  -------
+   0  CLOUD COVERING 1/2 OR LESS OF THE SKY THROUGHOUT THE APPROPRIATE PERIOD
+   1  CLOUD COVERING MORE THAN 1/2 OF THE SKY DURING PART OF THE APPROPRIATE
+      PERIOD AND COVERING 1/2 OR LESS DURING PART OF THE PERIOD
+   2  CLOUD COVERING MORE THAN 1/2 OF THE SKY THROUGHOUT THE APPROPRIATE PERIOD
+   3  SANSTORM, DUSTSTORM OR BLOWING SNOW
+   4  FOG OR ICE OR THICK HAZE
+   5  DRIZZLE
+   6  RAIN
+   7  SNOW, OR RAIN AND SNOW MIXED
+   8  SHOWER(S)
+   9  THUNDERSTORM(S) WITH OR WITHOUT PRECIPITATION
+  10  NO SIGNIFICANT WEATHER OBSERVED
+  11  VISIBILITY REDUCED
+  12  BLOWING PHENOMENA, VISIBILITY REDUCED
+  13  FOG
+  14  PRECIPITATION
+  15  DRIZZLE
+  16  RAIN
+  17  SNOW OR ICE PELLETS
+  18  SHOWERS OR INTERMITTENT PRECIPITATION
+  19  THUNDERSTORM
+  31  MISSING VALUE
+*/
+static map<int, string> pastweather;
 void ObsPastWeather::operator()(CustomisedPoint& point,  ComplexSymbol& symbol) const
 { 
+	if ( pastweather.empty() ) {
+		pastweather[3] = "W_3";
+		pastweather[4] = "W_4";
+		pastweather[5] = "W_5";
+		pastweather[6] = "W_6";
+		pastweather[7] = "W_6";
+		pastweather[8] = "W_8";
+		pastweather[9] = "W_9";
+		pastweather[11] = "W_4";
+		pastweather[12] = "W_4";
+		pastweather[13] = "W_4";
+		pastweather[14] = "W_6";
+		pastweather[15] = "W_5";
+		pastweather[17] = "W_7";
+		pastweather[18] = "W_8";
+		pastweather[19] = "W_9";
+	}
+
 	if (!owner_->past_ww_visible_) return;
 	CustomisedPoint::const_iterator value = point.find("past_weather_1");
 	if ( value == point.end() ) return;
 
 	Colour colour =  owner_->past_ww_colour_->automatic() ? *owner_->colour_ : *owner_->past_ww_colour_;
 
-	if(value->second > 2)
+	map<int, string>::iterator ww =  pastweather.find(value->second);
+
+	if( ww != pastweather.end() )
 	{
 		SymbolItem*  object = new SymbolItem();
 		object->x(column_);
 		object->y(row_);
 		object->colour(colour);
-		ostringstream os;	
-		os << "W_"  << value->second;	
-		object->symbol(os.str());
-#ifdef OBS_DEBUG_
-		MagLog::debug() << "\tPast Weather 1-> " << os.str() << "\n";
-#endif
+
+		object->symbol(ww->second);
+
+		MagLog::debug() << "\tPast Weather 1-> " << ww->second << "\n";
+
 		object->height(owner_->size_);
 		symbol.add(object);
-
+	}
 		//second past weather
-		value = point.find("past_weather_2");
-		if ( value == point.end() ) return;
-		if(value->second > 2)
+	value = point.find("past_weather_2");
+	if ( value == point.end() ) return;
+	ww =  pastweather.find(value->second);
+	if( ww != pastweather.end())
 		{
 			SymbolItem* object2 = new SymbolItem();
 			object2->x(column_*2);
 			object2->y(row_);
 			object2->colour(colour);
-			ostringstream os2;	
-			os2 << "W_"  << value->second;	
-			object2->symbol(os2.str());
-#ifdef OBS_DEBUG_
-			MagLog::debug() << "\tPast Weather 2-> " << os2.str() << "\n";
-#endif
+
+			object2->symbol(ww->second);
+
+			MagLog::debug() << "\tPast Weather 2-> " <<  ww->second << "\n";
+
 			object2->height(owner_->size_);
 			symbol.add(object2);
 		}
-	}
+
 } 
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -615,28 +732,64 @@ void ObsCloud::visit(std::set<string>& tokens)
 	if ( owner_->high_ ) tokens.insert("high_cloud");
 
 }
-	
+
+
+static map<int, string> clouds_;
+
 void ObsCloud::operator()(CustomisedPoint& point, ComplexSymbol& symbol) const
 { 
+	if ( clouds_.empty() ) {
+		clouds_[1] = "CH_1"; // CIRROCUMULUS (CC)
+		clouds_[2] = "CH_2"; // 2 2 CIRROSTRATUS (CS)
+		clouds_[3] = "CH_3"; // 3 3 ALTOCUMULUS (AC)
+		clouds_[4] = "CH_4"; // 4 4 ALTOSTRATUS (AS)
+		clouds_[5] = "CH_5"; // 5 5 NIMBOSTRATUS (NS)
+		clouds_[6] = "CH_6"; // 6 6 STRATOCUMULUS (SC)
+		clouds_[7] = "CH_7"; // 7 7 STRATUS (ST)
+		clouds_[8] = "CH_8"; // 8 8 CUMULUS (CU)
+		clouds_[9] = "CH_0"; // 9 9 CUMULONIMBUS (CB)
+		//10 10 NO CH CLOUDS
+		clouds_[11] = "CH_1"; // 11 11 CIRRUS FIBRATUS, SOMETIMES UNCINUS, NOT PROGRESSIVELY INVADING THE SKY
+		clouds_[12] = "CH_2"; //12 12 CIRRUS SPISSATUS, IN PATCHES OR ENTANGLED SHEAVES, WHICH USUALLY DO NOT INCREASE AND SOMETIMES SEEM TO BE THE REMAINS OF THE UPPER PART OF A CUMULONIMBUS; OR CIRRUS CASTELLANUS OR FLOCCUS
+		clouds_[13] = "CH_3"; //13 13 CIRRUS SPISSATUS CUMULONIMBOGENITUS
+		clouds_[14] = "CH_4"; // 14 14 CIRRUS UNCINUS OR FIBRATUS, OR BOTH, PROGRESSIVELY INVADING THE SKY; THEY GENERALLY THICKEN AS A WHOLE
+		clouds_[15] = "CH_5"; //15 15 CIRRUS (OFTEN IN BANDS) AND CIRROSTRATUS, OR CIRROSTRATUS ALONE, PROGRESSIVELY INVADING THE SKY; THEY GENERALLY THICKEN AS A WHOLE, BUT THE CONTINUOUS VEIL DOES NOT REACH 45 DEGREES ABOVE THE HORIZON
+		clouds_[16] = "CH_6"; //16 16 CIRRUS (OFTEN IN BANDS) AND CIRROSTRATUS, OR CIRROSTRATUS ALONE, PROGRESSIVELY INVADING THE SKY; THEY GENERALLY THICKEN AS A WHOLE; THE CONTINUOUS VEIL EXTENDS MORE THAN 45 DEGREES ABOVE THE HORIZON, WITHOUT THE SKY BEING TOTALLY COVERED
+		clouds_[17] = "CH_7"; //17 17 CIRROSTRATUS COVERING THE WHOLE SKY
+		clouds_[18] = "CH_8"; //18 18 CIRROSTRATUS NOT PROGRESSIVELY INVADING THE SKY AND NOT ENTIRELY COVERING IT
+		clouds_[19] = "CH_9"; //19 19 CIRROCUMULUS ALONE, OR CIRROCUMULUS PREDOMINANT AMONG THE CH CLOUDS
+		//20 20 NO CM CLOUDS
+		clouds_[21] = "CM_1"; //21 21 ALTOSTRATUS TRANSLUCIDUS
+		clouds_[22] = "CM_2"; //22 22 ALTOSTRATUS OPACUS OR NIMBOSTRATUS
+		clouds_[23] = "CM_3"; //23 23 ALTOCUMULUS TRANSLUCIDUS AT A SINGLE LEVEL
+		clouds_[24] = "CM_4"; //24 24 PATCHES (OFTEN LENTICULAR) OF ALTOCUMULUS TRANSLUCIDUS, CONTINUALLY CHANGING AND OCCURRING AT ONE OR MORE LEVELS
+		clouds_[25] = "CM_5"; //25 25 ALTOCUMULUS TRANSLUCIDUS IN BANDS, OR ONE OR MORE LAYERS OF ALTOCUMULUS TRANSLUCIDUS OR OPACUS, PROGRESSIVELY INVADING THE SKY; THESE ALTOCUMULUS CLOUDS GENERALLY THICKEN AS A WHOLE
+		clouds_[26] = "CM_6"; //26 26 ALTOCUMULUS CUMULOGENITUS (OR CUMULONIMBOGENITUS)
+		clouds_[27] = "CM_7"; //27 27 ALTOCUMULUS TRANSLUCIDUS OR OPACUS IN TWO OR MORE LAYERS, OR ALTOCUMULUS OPACUS IN A SINGLE LAYER, NOT PROGRESSIVELY INVADING THE SKY, OR ALTOCUMULUS WITH ALTOSTRATUS OR NIMBOSTRATUS
+		clouds_[28] = "CM_8"; //		28 28 ALTOCUMULUS CASTELLANUS OR FLOCCUS
+		clouds_[29] = "CM_9"; //29 29 ALTOCUMULUS OF A CHAOTIC SKY, GENERALLY AT SEVERAL LEVELS
+		//30 30 NO CL CLOUDS
+		clouds_[31] = "CL_1"; //31 31 CUMULUS HUMILIS OR CUMULUS FRACTUS OTHER THAN OF BAD WEATHER,* OR BOTH
+		clouds_[32] = "CL_2"; //32 32 CUMULUS MEDIOCRIS OR CONGESTUS, TOWERING CUMULUS (TCU), WITH OR WITHOUT CUMULUS OF SPECIES FRACTUS OR HUMILIS OR STRATOCUMULUS, ALL HAVING THEIR BASES AT THE SAME LEVEL
+		clouds_[33] = "CL_3"; //33 33 CUMULONIMBUS CALVUS, WITH OR WITHOUT CUMULUS, STRATOCUMULUS OR STRATUS
+		clouds_[34] = "CL_4"; //34 34 STRATOCUMULUS CUMULOGENITUS
+		clouds_[35] = "CL_5"; //35 35 STRATOCUMULUS OTHER THAN STRATOCUMULUS CUMULOGENITUS
+		clouds_[36] = "CL_6"; //36 36 STRATUS NEBULOSUS OR STRATUS FRACTUS OTHER THAN OF BAD WEATHER,* OR BOTH
+		clouds_[37] = "CL_7"; //37 37 STRATUS FRACTUS OR CUMULUS FRACTUS OF BAD WEATHER,* OR BOTH (PANNUS), USUALLY BELOW ALTOSTRATUS OR NIMBOSTRATUS
+		clouds_[38] = "CL_8"; //38 38 CUMULUS AND STRATOCUMULUS OTHER THAN STRATOCUMULUS CUMULOGENITUS, WITH BASES AT DIFFERENT LEVELS
+		clouds_[39] = "CL_9"; //39 39 CUMULONIMBUS CAPILLATUS (OFTEN WITH AN ANVIL), WITH OR WITHOUT CUMULONIMBUS CALVUS, CUMULUS, STRATOCUMULUS, STRATUS OR PANNUS
+		//0 40 CH
+		//41 41 CM
+		//42 42 CL
+		//59 59 CLOUD NOT VISIBLE OWING TO DARKNESS, FOG, DUSTSTORM, SANDSTORM, OR OTHER ANALOGOUS PHENOMENA
+		//60 60 CH CLOUDS INVISIBLE OWING TO DARKNESS, FOG, BLOWING DUST OR SAND, OR OTHER SIMILAR PHENOMENA, OR BECAUSE OF A CONTINUOUS LAYER OF LOWER CLOUDS
+		//61 61 CM CLOUDS INVISIBLE OWING TO DARKNESS, FOG, BLOWING DUST OR SAND, OR OTHER SIMILAR PHENOMENA, OR BECAUSE OF CONTINUOUS LAYER OF LOWER CLOUDS
+		//62 62 CL CLOUDS INVISIBLE OWING TO DARKNESS, FOG, BLOWING DUST OR SAND, OR OTHER SIMILAR PHENOMENA
+	}
+
 	if (!owner_->cloud_visible_) return;
 	symbol.setHeight(owner_->size_);
-	CustomisedPoint::const_iterator value = point.find("low_cloud");
-	if ( value != point.end() )
-	{
-		SymbolItem*  cloud = new SymbolItem();
-		cloud->x(lowColumn_);
-		cloud->y(lowRow_);
-		cloud->colour(*owner_->low_colour_);
-		ostringstream oss;	
-		int type = int(value->second - (int (value->second/10) *10));
-		oss << "CL_"  << type;
-		cloud->symbol(oss.str());
 
-		MagLog::debug() << "\tLow Cloud--->" << oss.str() << "\n";
-
-		cloud->height(owner_->ring_size_);
-		symbol.add(cloud);
-	}
 
 	CustomisedPoint::const_iterator height = point.find("low_cloud_height");
 	CustomisedPoint::const_iterator nebul = point.find("low_cloud_nebulosity");
@@ -672,53 +825,69 @@ void ObsCloud::operator()(CustomisedPoint& point, ComplexSymbol& symbol) const
 		MagFont font;
 		font.name("sansserif");
 		font.colour(*owner_->low_colour_);
-		font.size(owner_->size_*.6);
-#ifdef OBS_DEBUG_
-		MagLog::debug() << "\tLow Cloud Nebulosity--->" << value->second << "\n";
-#endif
+		font.size(owner_->size_* 0.8);
+
+		MagLog::debug() << "\tLow Cloud--->" << nh.str() << "\n";
 		object->text(nh.str());
 		object->font(font);
 		symbol.add(object);
 	}
 
-	value = point.find("medium_cloud");
-	if ( value != point.end() )
+	CustomisedPoint::const_iterator value = point.find("low_cloud");
+	if ( value != point.end() ) {
+		map<int, string>::iterator low = clouds_.find(value->second);
+		if ( low != clouds_.end() )
+		{
+			SymbolItem*  cloud = new SymbolItem();
+			cloud->x(lowColumn_);
+			cloud->y(lowRow_);
+			cloud->colour(*owner_->low_colour_);
+
+			cloud->symbol(low->second);
+
+			MagLog::debug() << "\tLow Cloud--->" << value->second << "-->" << low->second << "\n";
+
+			cloud->height(owner_->size_);
+			symbol.add(cloud);
+		}
+	}
 
 	value = point.find("medium_cloud");
-	if ( value != point.end() )
-	{
-		SymbolItem*  cloud = new SymbolItem();
-		cloud->x(mediumColumn_);
-		cloud->y(mediumRow_);
-		
-		cloud->colour(*owner_->medium_colour_);
-		ostringstream oss;
-		int type = int(value->second - (int (value->second/10.) *10));
-		oss << "CM_"  << type;
-		cloud->symbol(oss.str());
+	if ( value != point.end() ) {
+		map<int, string>::iterator medium = clouds_.find(value->second);
 
-		MagLog::debug() << "\tMedium Cloud--->" <<value->second<<" > "<< oss.str() << "\n";
+		if ( medium != clouds_.end() )
+		{
+			SymbolItem*  cloud = new SymbolItem();
+			cloud->x(mediumColumn_);
+			cloud->y(mediumRow_);
+			cloud->colour(*owner_->medium_colour_);
+			cloud->symbol(medium->second);
 
-		cloud->height(owner_->size_);
-		symbol.add(cloud);
+			MagLog::debug() << "\tMedium Cloud--->" << value->second<< " --> "<< medium->second  << "\n";
+
+			cloud->height(owner_->size_);
+			symbol.add(cloud);
+		}
 	}
 	
 	value = point.find("high_cloud");
-	if ( value != point.end() )
-	{
-		SymbolItem*  cloud = new SymbolItem();
-		cloud->x(highColumn_);
-		cloud->y(highRow_);
-		cloud->colour(*owner_->high_colour_);
-		ostringstream oss;	
-		int type = int(value->second - (int (value->second/10) *10));
-		oss << "CH_"  << type;
-		cloud->symbol(oss.str());
+	if ( value != point.end() ) {
+		map<int, string>::iterator high = clouds_.find(value->second);
 
-		MagLog::debug() << "\tHigh Cloud--->" << oss.str() << "\n";
+		if ( high != clouds_.end() )
+		{
+			SymbolItem*  cloud = new SymbolItem();
+			cloud->x(highColumn_);
+			cloud->y(highRow_);
+			cloud->colour(*owner_->high_colour_);
+			cloud->symbol(high->second);
 
-		cloud->height(owner_->size_);
-		symbol.add(cloud);
+			MagLog::debug() << "\tHigh Cloud--->"  <<value->second << "-->" << high->second << "\n";
+
+			cloud->height(owner_->size_);
+			symbol.add(cloud);
+		}
 	}
 }
 
@@ -831,7 +1000,7 @@ void  ObsSeaTemperature::operator()(CustomisedPoint& point,  ComplexSymbol& symb
 		object->y(row_);
 
 		// The temperature is displayed in Celsius.
-		double tempe = maground(value->second-273.25);
+		double tempe = maground(value->second-273.15);
 
 		MagLog::debug() << "\tTemperature: " << tempe << " from "<<value->second<<"\n";
 

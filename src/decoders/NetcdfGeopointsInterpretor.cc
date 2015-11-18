@@ -437,7 +437,7 @@ void NetcdfXYpointsInterpretor::visit(Transformation& transformation)
 	catch ( ... ) {}
 }
 
-void NetcdfXYpointsInterpretor::customisedPoints(const Transformation& transformation, const std::set<string>& needs, CustomisedPointsList& out)
+void NetcdfXYpointsInterpretor::customisedPoints(const Transformation& transformation, const std::set<string>& needs, CustomisedPointsList& out, int)
 {
 	refDateX_ = transformation.getReferenceX();
     refDateY_ = transformation.getReferenceY();

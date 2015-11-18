@@ -60,7 +60,7 @@ public:
 	void customisedPoints(const Transformation& t, const std::set<string>& n, CustomisedPointsList& out, bool all)
 	{}
 	PointsHandler& points(const Transformation& t, bool) { return points(t); }
-	
+	double scale(double);
 	bool defined()
 	{
 	   return !field_.empty() || 
@@ -72,6 +72,7 @@ public:
 	}
 	void filter(Matrix&);
 	void release();
+	void visit(MetaDataCollector&);
 
 protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).

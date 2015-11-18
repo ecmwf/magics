@@ -79,13 +79,13 @@ class TableDefinitionInterface
 public:
 	TableDefinitionInterface() : helper_(0) {}
 	virtual void set(const XmlNode& node) 
-		{  assert(helper_); helper_->set(node); } 
-	int size() 								{ assert(helper_); return helper_->size(); }
-	typename TableDefinition<T>::TableIterator begin() { assert(helper_); return helper_->begin(); }
-	typename TableDefinition<T>::TableIterator end()   { assert(helper_); return helper_->end(); }
-	void adjust(T min, T max)     { assert(helper_); helper_->adjust(min, max); }
-	bool empty()     							{ assert(helper_); return helper_->empty(); }
-	void push_back(T val)     			{ assert(helper_); helper_->push_back(val); }
+		{  ASSERT(helper_); helper_->set(node); } 
+	int size() 								{ ASSERT(helper_); return helper_->size(); }
+	typename TableDefinition<T>::TableIterator begin() { ASSERT(helper_); return helper_->begin(); }
+	typename TableDefinition<T>::TableIterator end()   { ASSERT(helper_); return helper_->end(); }
+	void adjust(T min, T max)     { ASSERT(helper_); helper_->adjust(min, max); }
+	bool empty()     							{ ASSERT(helper_); return helper_->empty(); }
+	void push_back(T val)     			{ ASSERT(helper_); helper_->push_back(val); }
 
 	
 protected:

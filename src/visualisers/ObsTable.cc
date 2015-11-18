@@ -156,7 +156,8 @@ void ObsTemplate::operator()(CustomisedPoint& obs, BasicGraphicsObjectContainer&
 		
 		symbol->push_back(pp);
 		symbol->setDistanceApart(apart_);
-		symbol->setHeight(height_);
+
+		symbol->setHeight(height_*0.5);
 		
 		out.push_back(symbol);
 

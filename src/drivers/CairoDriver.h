@@ -65,7 +65,7 @@ public:
 		     magCompare(node.name(), "pdf") ||
 		     magCompare(node.name(), "cairo_ps") ||
 		     magCompare(node.name(), "cairo_svg") ||
-		     magCompare(node.name(), "x") ||
+		//     magCompare(node.name(), "x") ||
 		     magCompare(node.name(), "cairo_eps") ||
 		     magCompare(node.name(), "geotiff") )
 		{
@@ -91,7 +91,7 @@ public:
 	void setPS () const {backend_ = "ps";}
 	void setEPS() const {backend_ = "eps";}
 	void setSVG() const {backend_ = "svg";}
-	void setX()   const {backend_ = "x";}
+//	void setX()   const {backend_ = "x";}
 	void setGEOTIFF() const {backend_ = "geotiff";}
 	void setCairo() const {backend_ = "cairo";}
 
@@ -137,9 +137,10 @@ private:
 	MAGICS_NO_EXPORT MFloat setSymbolY(const MFloat y) const {return -y;}
 	MAGICS_NO_EXPORT MFloat setFlagY(const MFloat y) const {return -y;}
 	MAGICS_NO_EXPORT MFloat setY(const MFloat y) const {return y;}
-#ifdef MAGICS_GEOTIFF
+#ifdef HAVE_GEOTIFF
 	MAGICS_NO_EXPORT void write_tiff() const;
 #endif
+	MAGICS_NO_EXPORT bool write_8bit_png() const;
 	mutable MFloat offsetX_;
 	mutable MFloat offsetY_;
 	mutable stack<MFloat> offsetsX_;

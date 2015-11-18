@@ -54,7 +54,7 @@ public:
         hashSize_ = (1<<bits_);
 
         // Size of the hash table
-        
+
         while(hashSize_ <= count && bits_ < MAX_BITS) {
             bits_ += 2;
             hashSize_ = (1<<bits_);
@@ -547,7 +547,7 @@ bool SegmentJoiner::pointInPoly(const Point &p, const vector<Point> &poly) {
 	    return (n%2 == 1);
 }
 
-double SegmentJoiner::punchHoles(vector<vector<Point> > &result) {
+void SegmentJoiner::punchHoles(vector<vector<Point> > &result) {
     vector<vector<Point> > polys;
     list<vector<Point> > holes;
     for(vector<vector<Point> >::iterator j = result.begin() ; j != result.end(); ++j) {

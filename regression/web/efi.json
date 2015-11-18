@@ -1,0 +1,78 @@
+{
+    "drivers": [
+        {
+            "format": "mgb", 
+            "fullname": "efi.mgb",
+            "output_cairo_transparent_background": "off", 
+            "output_name_first_page_number": "off", 
+            "output_width": "600"
+        }
+    ], 
+    "height": "800", 
+    "method": "wrep", 
+    "page": [
+        {
+            "border": "off", 
+            "map": {
+                "border": "on", 
+                "border_colour": "charcoal", 
+                "bottom": "5%", 
+                "cartesian": {
+                    "x_regular": {
+                        "automatic": "on"
+                    }, 
+                    "y_regular": {
+                        "automatic": "on"
+                    }
+                }, 
+                "display": "absolute", 
+                "height": "70%", 
+                "horizontal_axis": {
+                    "axis_grid": "on", 
+                    "axis_grid_colour": "sky", 
+                    "axis_grid_line_style": "dash", 
+                    "axis_label": "off", 
+                    "axis_line": "on", 
+                    "axis_line_colour": "navy", 
+                    "axis_tick": "off", 
+                    "axis_tick_interval": "50", 
+                    "axis_tick_label": "off"
+                }, 
+                "left": "5%", 
+                "plot": [
+                    {
+                        "efigraph": {
+                            "efi_box_colour_array": "purplish_red/blue_purple/RGB(0,0.2,1)/RGB(0,0.3,1)/RGB(0,0.4,1)/RGB(0,0.5,1)/RGB(0,0.6,1)/RGB(0,0.7,1)/RGB(0,0.9,1)/RGB(0,1,1)", 
+                            "efi_font_colour": "navy", 
+                            "efi_font_size": "0.4"
+                        }, 
+                        "wrepjson": {
+                            "wrepjson_family": "efi", 
+                            "wrepjson_input_filename": "efi.data",
+                            "wrepjson_parameter": "143.128", 
+                            "wrepjson_steps": "12/24/36/48/60/72/84/96/108/120", 
+                            "wrepjson_temperature_correction": "False"
+                        }
+                    }
+                ], 
+                "vertical_axis": {
+                    "axis_grid": "on", 
+                    "axis_grid_colour": "sky", 
+                    "axis_grid_line_style": "dash", 
+                    "axis_line": "on", 
+                    "axis_line_colour": "navy", 
+                    "axis_tick": "off", 
+                    "axis_tick_interval": "1", 
+                    "axis_tick_label": "off"
+                }, 
+                "width": "40%"
+            }, 
+            "meta": {
+                "javascript_path": "efi.js"
+            }, 
+            "page_id": "off"
+        }
+    ], 
+    "version": "3.0", 
+    "width": "600"
+}

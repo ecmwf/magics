@@ -121,7 +121,7 @@ void GeoRectangularProjection::revert(const vector< std::pair<double, double> > 
 		}
 		return;
 	}
-	assert(projection_);
+	ASSERT(projection_);
 
 	for ( vector< std::pair<double, double> >::const_iterator pt = input.begin();  pt != in_end; ++pt)
 	{
@@ -518,6 +518,10 @@ void MercatorProjection::init()
 	ypcmax_ = xy.y();
 	userEnveloppe_->clear();
 	PCEnveloppe_->clear();
+	askedxmin_ =  std::min(xpcmin_, xpcmax_);
+				askedxmax_ =  std::max(xpcmin_, xpcmax_);
+				askedymin_ =  std::min(ypcmin_, ypcmax_);
+				askedymax_ =  std::max(ypcmin_, ypcmax_);
 
 } 
 void MercatorProjection::fast_reproject(double& x, double& y) const

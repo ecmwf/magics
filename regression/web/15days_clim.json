@@ -152,6 +152,7 @@
                             "wrepjson_input_filename": "15days_clim.data", 
                             "wrepjson_keyword": "clim", 
                             "wrepjson_parameter": "143.128", 
+                            "wrepjson_ignore_keys": "100", 
                             "wrepjson_parameter_scaling_factor": "1000"
                         }
                     }, 

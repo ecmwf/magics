@@ -329,6 +329,7 @@ MAGICS_NO_EXPORT void SVGDriver::project(const magics::Layout& layout) const
 	dimensionStack_.push(dimensionX_);
 	dimensionStack_.push(dimensionY_);
 	const MFloat oldHeight = dimensionY_;
+	const MFloat oldWidth  = dimensionX_;
 	scalesX_.push(coordRatioX_);
 	scalesY_.push(coordRatioY_);
 
@@ -351,12 +352,26 @@ MAGICS_NO_EXPORT void SVGDriver::project(const magics::Layout& layout) const
 
 	group_counter_++;
 
+	if(layout.clipp())
+	{
+		const double clip_height=projectY(layout.maxY())-projectY(layout.minY());
+		pFile_ << "<defs>\n"
+		       << " <clipPath id=\"clip_"<<layout.name()<<"\">\n"
+//		       << "  <rect x=\""<<projectX(layout.minX())<<"\" y=\""<<projectY(layout.minY())-setY(y_set)<<"\" width=\""<<projectX(layout.maxX())-projectX(layout.minX())<<"\" height=\""<<projectY(layout.maxY())-projectY(layout.minY())<<"\" />\n"
+		       << "  <rect x=\""<<projectX(layout.minX())<<"\" y=\""<<projectY(setY(layout.minY()))-clip_height<<"\" width=\""<<projectX(layout.maxX())-projectX(layout.minX())<<"\" height=\""<<clip_height<<"\" />\n"
+		       << " </clipPath>\n"
+		       << "</defs>"<<endl;
+	}
+
 	pFile_ << "<g";
 	if(!layout.name().empty()) pFile_ << " id=\""<<layout.name()<<"\"";
 	if( !zero(x_set) || !zero(y_set) ) pFile_ << " transform=\"translate("<<x_set <<","<<setY(y_set)<<")\"";
 
-	//if(showCoordinates_ && area=="drawing_area") pFile_ << " onmouseover=\"setLonScale("<<coordRatioX_<<");showCoords(evt)\"";
-	//if(box->getClip()) pFile_ << " clip-path=\"url(#clip_"<<area<<")\"";
+	//if(showCoordinates_ && area=="drawing_area") pFile_ << " onmouseover=\"setLonScale("<<coordRatioX_<<");showCoords(evt)\"";
+	if(layout.clipp())
+	{
+		pFile_ << " clip-path=\"url(#clip_"<<layout.name()<<")\"";
+	}
 	pFile_ << ">\n";
 
 	if(layout.isNavigable())
@@ -647,7 +662,7 @@ MAGICS_NO_EXPORT void SVGDriver::renderPolyline(const int n, MFloat *x, MFloat *
 MAGICS_NO_EXPORT void SVGDriver::renderPolyline2(const int n, MFloat* x, MFloat* y) const
 {
 	if(n != 2 || (currentColour_==Colour("none")) ) return;
-	closeGroup();
+//	closeGroup();
 	const int r = static_cast<int>(currentColour_.red()  *255);
 	const int g = static_cast<int>(currentColour_.green()*255);
 	const int b = static_cast<int>(currentColour_.blue() *255);
@@ -993,20 +1008,13 @@ MAGICS_NO_EXPORT void SVGDriver::renderText(const Text& text) const
 		setNewColour(magfont.colour());
 		const MFloat dheight = magfont.size()*text_scale;
 		const std::set<string>& styles = magfont.styles();
-//		for (std::set<string>::iterator it=styles.begin(); it!=styles.end(); ++it)
-//		   std::cout << '_' << *it;
-//		string style = "";
-//		if(styles.find("bolditalic") != styles.end()) style = "bolditalic";
-//		else if(styles.find("bold") != styles.end()) style = "bold";
-//		else if(styles.find("italic") != styles.end()) style = "italic";
 		string style = "normal";
-//		cout << "___"<<style<<endl;
 		const string font = magfont.name()+"_"+style;
-		if (verticalAlign==MBASE )       vertical = dheight * .15;
-		else if (verticalAlign==MTOP)    vertical = dheight;
-		else if (verticalAlign==MHALF)   vertical = dheight * .5;
-// default	else if (verticalAlign==MBOTTOM) vertical = 0.;
-//		vertical = -vertical/dheight *100;
+
+		string verticalJustification = "no-change";
+		if (verticalAlign==MBASE )       verticalJustification = "alphabetic";
+		else if (verticalAlign==MTOP)    verticalJustification = "hanging";
+		else if (verticalAlign==MHALF)   verticalJustification = "middle";
 
 		fontMapIter iter = FontMap_.find(font);
 		string ttf;
@@ -1037,13 +1045,10 @@ MAGICS_NO_EXPORT void SVGDriver::renderText(const Text& text) const
 			openGroup(stream.str());
 		   }
 
-		   pFile_ << "<text x=\""<<xxx<<"\" y=\""<<yyy<<"\"";
+		   pFile_ << "<text x=\""<<xxx<<"\" y=\""<<yyy<<"\" dominant-baseline=\""<<verticalJustification<< "\"";
 //		   if(text.getBlanking())
 //			   pFile_ << " background-color=\"white\"";
-		   if(zero(vertical))
-		     pFile_ << ">"<<(*niceText).text();
-		   else 
-		     pFile_ << "><tspan dy=\""<<vertical<<"cm\">"<<(*niceText).text()<<"</tspan>";
+		   pFile_ << ">"<<(*niceText).text();
 		}
 		else
 		{
@@ -1059,7 +1064,6 @@ MAGICS_NO_EXPORT void SVGDriver::renderText(const Text& text) const
 	}// end for all strings
 	pFile_ <<"</text>\n";
    }// end for all co-ordinates
-//   pFile_ <<"</g>\n";
 }
 
 /*!
@@ -1483,8 +1487,7 @@ MAGICS_NO_EXPORT void SVGDriver::renderSymbols(const Symbol& symbol) const
 	  const MFloat y = projectY(symbol[0].y());
 
 	  string logofile;
-	  if(magCompare(location,"WWW")) logofile = "http://old.ecmwf.int/publications/manuals/magics/magplus/resources/ecmwf_logo.png";
-	  else if(magCompare(location,"LOCAL")) logofile = "ecmwf_logo.png";
+	  if(magCompare(location,"LOCAL")) logofile = "ecmwf_logo.png";
 	  else logofile = getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_ + "ecmwf_logo.png";
 	  svg_output_resource_list_.push_back(logofile);
 	  pFile_ << "<a xlink:href=\"http://www.ecmwf.int\">"

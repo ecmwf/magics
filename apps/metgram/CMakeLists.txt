@@ -1,7 +1,10 @@
-
-
-
+# Copy metgram executable to the build tree
+configure_file( metgram  metgram COPYONLY )
 configure_file( metgram-script.in  metgram.sh @ONLY )
+
+# Set metgram script path for use by dependencies in a bundle
+set( MAGICS_METEOGRAM_SCRIPT ${CMAKE_CURRENT_SOURCE_DIR}/metgram
+     CACHE FILEPATH "Path to metgram script" )
 
 install ( DIRECTORY templates DESTINATION ${INSTALL_DATA_DIR}/.. FILE_PERMISSIONS OWNER_READ GROUP_READ WORLD_READ)
 
@@ -18,7 +21,5 @@ ecbuild_add_executable( TARGET    metgramx
                      DEFINITIONS
                         ${MAGICS_EXTRA_DEFINITIONS}
                     LIBS
-                        MagPlusShared ${MAGICS_EXTRA_LIBRARIES}
+                        MagPlus ${MAGICS_EXTRA_LIBRARIES}
                     )
-
-

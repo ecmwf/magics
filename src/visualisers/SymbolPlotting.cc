@@ -61,7 +61,7 @@ void SymbolPlotting::operator()(const PaperPoint& point, BasicGraphicsObjectCont
 	
 
 	try {
-    	
+    	if ( point.missing() ) return;
     	if ( (*mode_).accept(point.value()) == false ) return;
     	
         SymbolProperties properties = (*mode_)(point.value());
@@ -155,6 +155,8 @@ void SymbolPlotting::operator()(Data& data, BasicGraphicsObjectContainer& out)
     	// Some Mode need to know the min and max of the data, in order to adjust the 
     	// computation of the levels
  		(*mode_).adjust(points.min(), points.max());
+ 		if ( legend_only_ )
+ 			return;
 
     	points.setToFirst();
     	while (points.more()) {
@@ -174,7 +176,7 @@ void SymbolPlotting::operator()(Data& data, BasicGraphicsObjectContainer& out)
 	    
 	    std::sort(work.begin(), work.end(), SortHelper());
 	   
-	    // Now we feed the task...     
+	    // Now we feed the task...     f
 	    for (vector<Symbol* >::iterator symbol = work.begin(); symbol != work.end(); ++symbol) {
 
 	     	if ( !(*symbol)->empty() ) {

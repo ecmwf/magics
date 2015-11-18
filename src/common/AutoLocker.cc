@@ -34,32 +34,10 @@ typedef map<void*,pthread_t,std::less<void*> > GotMap;
 typedef map<pthread_t,void*,std::less<pthread_t> > WantMap;
 static WantMap*   wantMap = 0;
 static GotMap*   gotMap = 0;
-static Mutex* texmu = 0;
+
 typedef set<pthread_t,std::less<pthread_t> > Set;
 
-static pthread_once_t once = PTHREAD_ONCE_INIT;
 
-static void lock()
-{
-#ifdef CHECK_DEAD_LOCKS
-	 mutex->lock();
-#endif
-}
-
-static void unlock()
-{
-#ifdef CHECK_DEAD_LOCKS
-	mutex->unlock();
-#endif
-}
-
-static void init(void)
-{
-    texmu   = new Mutex;
-	wantMap = new WantMap;
-	gotMap  = new GotMap;
-	pthread_atfork(lock,unlock,unlock);
-}
 
 
 void AutoLocker::want(void* resource)

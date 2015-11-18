@@ -38,7 +38,7 @@
 #include <Image.h>
 #include <Symbol.h>
 #include <PaperPoint.h>
-#include "AnimationRules.h"
+//#include "AnimationRules.h"
 
 #include <BaseDriverSymbols.h>
 #include <BaseDriverWind.h>
@@ -342,8 +342,6 @@ void BaseDriver::redisplay(const Polyline& line) const
 {
 	if(line.isFilled())   renderSimplePolygon(line);
 	if(line.isStroked())  printLine(line);
-//	ArrowProperties* pArrowProperties = line.arrowProperties();
-//	if(pArrowProperties)
 }
 
 void BaseDriver::redisplay(const Arrow& arrow) const
@@ -415,7 +413,7 @@ double BaseDriver::LSF(MFloat *x,MFloat *y, int i0) const
 	double angle = 0.;
 	double x_sum = 0.;
 	double y_sum = 0.;
-	const unsigned int n = 15;
+	const unsigned int n = 3;
 
 	for(unsigned int r=0;r<n;r++)
 	{
@@ -435,9 +433,17 @@ double BaseDriver::LSF(MFloat *x,MFloat *y, int i0) const
 		sxx  += (xi*xi);
 		sxy  += (xi*yi);
 	}
-	if(sxx != 0) angle = atan2( (sxy/sxx) ,1.);
-	else MagLog::debug() << "BaseDriver: Devision through zero prevented in calculation of Label angle!" << endl;
 
+//	if( (abs(sxx) > 0.00001) && (abs(sxy) > 0.00001) ) angle = atan2( (sxy/sxx) ,1.);
+	if( (abs(sxx) > 0.00001) )
+	{
+	 angle = atan2( (sxy/sxx) ,1.);
+	}
+	else 
+	{
+		angle=10.;
+		MagLog::warning() << "BaseDriver: Devision through zero prevented in calculation of Label angle!" << endl;
+	}
 	return angle;
 }
 
@@ -451,7 +457,9 @@ double BaseDriver::LSF(MFloat *x,MFloat *y, int i0) const
 void BaseDriver::printLine(const Polyline &line) const
 {
     const unsigned long n = line.size();
-    if(n < 1) return;
+    if(n < 2) return;
+
+    bool arrowHead = (line.arrowProperties()) ? true :false;
 
     MFloat *x      = new MFloat[n];
     MFloat *y      = new MFloat[n];
@@ -465,18 +473,18 @@ void BaseDriver::printLine(const Polyline &line) const
     // render line - driver specific part
     if(line.getThickness()>0  && !(line.getColour()==Colour("NONE")) )
     {
-	setNewColour(line.getColour());
-	currentLineStyle_ = setLineParameters(line.getLineStyle(),line.getThickness());
+	  setNewColour(line.getColour());
+	  currentLineStyle_ = setLineParameters(line.getLineStyle(),line.getThickness());
 
-//	if(line.getAntiAliasing()) polylineAntialiasing_=true;
-	renderPolyline(n, x, y);
-//	polylineAntialiasing_=false;
+//	  if(line.getAntiAliasing()) polylineAntialiasing_=true;
+	  renderPolyline(n, x, y);
+//	  polylineAntialiasing_=false;
     
-	Polyline::Holes::const_iterator h  = line.beginHoles();
-	Polyline::Holes::const_iterator he = line.endHoles();
+	  Polyline::Holes::const_iterator h  = line.beginHoles();
+	  Polyline::Holes::const_iterator he = line.endHoles();
 
-	for (; h != he; ++h)
-	{
+	  for (; h != he; ++h)
+	  {
 		vector<double> xx;
 		vector<double> yy;
 		line.hole(h,xx,yy);
@@ -491,40 +499,41 @@ void BaseDriver::printLine(const Polyline &line) const
 		renderPolyline(nn, nx, ny);
 		delete [] nx;
 		delete [] ny;
-	}
+	  }
     }
 
-    const unsigned int minimum_points_for_labelling = 32;  // must be at least -15 : see function LSF above
+    const unsigned int minimum_points_for_labelling = 25;  // must be at least -15 : see function LSF above
 
-    if (line.getLabel().isVisible() && line.getLabel().getText() != "" && (n > minimum_points_for_labelling))
+    if ( (arrowHead || (line.getLabel().isVisible() && line.getLabel().getText() != "") ) && (n > minimum_points_for_labelling))
     {
-	assert(staLayouts_.empty() == false);
+	  ASSERT(staLayouts_.empty() == false);
 
-	MFloat *labelx = new MFloat[n];  // in theory, we shouldn't need this many entries...
-	MFloat *labely = new MFloat[n];  // in theory, we shouldn't need this many entries...
+	  MFloat *labelx = new MFloat[n];  // in theory, we shouldn't need this many entries...
+	  MFloat *labely = new MFloat[n];  // in theory, we shouldn't need this many entries...
 
-	// Store the minimum x,y corner, pretending that we're going to plot a label there.
-	// We won't actually plot a label there though - it's just to make sure that
-	// we don't plot one too close to that point.
-	int num_labels = 1;
-	labelx [0] = staLayouts_.top()->minX();
-	labely [0] = staLayouts_.top()->minY();
+	  // Store the minimum x,y corner, pretending that we're going to plot a label there.
+	  // We won't actually plot a label there though - it's just to make sure that
+	  // we don't plot one too close to that point.
+	  int num_labels = 1;
+	  labelx [0] = staLayouts_.top()->minX();
+	  labely [0] = staLayouts_.top()->minY();
 
-	// Calculate how far apart the labels should be.
-	// Our algorithm is to take the average of the width and height and divide by 2.
-	// This should give us approximately 3 labels over the width of the page.
-	const MFloat  coords_range_x = fabs(staLayouts_.top()->maxX()-staLayouts_.top()->minX());
-	const MFloat  coords_range_y = fabs(staLayouts_.top()->maxY()-staLayouts_.top()->minY());
-	const MFloat  min_distance_between_labels = (coords_range_x + coords_range_y) / 4.;
-	const MFloat  min_square_distance_between_labels = (min_distance_between_labels * min_distance_between_labels);
+	  // Calculate how far apart the labels should be.
+	  // Our algorithm is to take the average of the width and height and divide by 2.
+	  // This should give us approximately 3 labels over the width of the page.
+	  const MFloat  coords_range_x = fabs(staLayouts_.top()->maxX()-staLayouts_.top()->minX());
+	  const MFloat  coords_range_y = fabs(staLayouts_.top()->maxY()-staLayouts_.top()->minY());
+	  const MFloat  min_distance_between_labels = (coords_range_x + coords_range_y) / 4.;
+	  const MFloat  min_square_distance_between_labels = (min_distance_between_labels * min_distance_between_labels);
 
-	unsigned int i = 15;
-	while(i < n-minimum_points_for_labelling)
-	{
-	  const double angle = LSF(x,y,i);
-	  const double angle2 = LSF(x,y,i+1);
-	  if(fabs(angle-angle2)< 0.01)
+	  unsigned int i = 10;
+	  while(i < n-minimum_points_for_labelling)
 	  {
+	   double angle  = LSF(x,y,i);
+	   const double angle2 = LSF(x,y,i+1);
+
+	   if( (angle <4.) && (angle2 <4.) && fabs(angle-angle2)< 0.01)
+	   {
 	    const MFloat THIS_X = x[i];
 	    const MFloat THIS_Y = y[i];
 	    const MFloat PREV_X = labelx[num_labels - 1];
@@ -532,44 +541,82 @@ void BaseDriver::printLine(const Polyline &line) const
 
 	    const double distance_squared = ((THIS_X - PREV_X) * (THIS_X - PREV_X)) + ((THIS_Y - PREV_Y) * (THIS_Y - PREV_Y));
 
-	    if (distance_squared > min_square_distance_between_labels)
+	    if ( (arrowHead) || (distance_squared > min_square_distance_between_labels) ) 
 	    {
-                // line fitting
-                MFloat pro_x = x[i+2];
-                MFloat pro_y = y[i+2];  // lines not needed
-                // end of line fitting
-		
-                Text text;
-		PaperPoint pp(pro_x,pro_y);		
-		text.push_back(pp);
+	       if(arrowHead)
+	       {
+              MFloat pro_x = x[i];
+              MFloat pro_y = y[i];
 
-		Label label= line.getLabel();
-		MagFont font = label.font();
+		      Arrow arrow;
+		      arrow.copy(*line.arrowProperties());
+		      arrow.setColour(line.getColour());
+		      arrow.setArrowPosition(M_HEAD_ONLY);
+//		      arrow.setHeadRatio(1.5);
+//		      arrow.setHeadIndex(1);
+		      if( (x[i]-x[i+3]) < 0.) angle += PI;
+		      const double dx=sin(angle+1.5707963267949);
+		      const double dy=-setAngleY(cos(angle+1.5707963267949));
+		      PaperPoint pp(pro_x,pro_y);
+		      ArrowPoint apoint(dx,dy,pp);
+		      arrow.push_back(apoint);
+		      renderWindArrow(arrow);
+/*
+      {
+        cout << "STREAMLINES >>>>>>>>>>>>>>>>>>>  angle: " << angle<<"   x:"<<pro_x<<"  y:"<<pro_y<< endl;
+    	int ewn=5;
+    	setNewColour(Colour("red"));
+    	setNewLineWidth(4.);
+    	renderPolyline(ewn, &x[i], &y[i]);
 
-		text.setFont(font);
-		text.addText(label.getText(),font.colour(),font.size());
-		text.setBlanking(label.getBlanking());
-		text.setJustification(label.getJustification());
-		text.setVerticalAlign(MHALF);
-
-		text.setAngle(-setAngleY(angle));	
-		text.setFont(font);
-		renderText(text);
-
-		labelx [num_labels] = x[i];
-		labely [num_labels] = y[i];
-		num_labels++;
-	     }
-	  }//angles are not the same
-	  i++;i++;
-        }
-        delete [] labelx;
-        delete [] labely;
+    	TextSymbol textSymbol;
+		textSymbol.position(TextSymbol::M_BELOW);
+		ostringstream nice;
+    	nice << angle;      
+	    textSymbol.push_back(pp, nice.str()); 				
+		renderTextSymbols(textSymbol);
+       }
+*/
+	       }
+	       else
+	       {
+              MFloat pro_x = x[i+2];
+              MFloat pro_y = y[i+2];
+              Text text;
+		      PaperPoint pp(pro_x,pro_y);		
+		      text.push_back(pp);
+		      Label label= line.getLabel();
+		      MagFont font = label.font();
+		      text.setFont(font);
+		      text.addText(label.getText(),font.colour(),font.size());
+		      text.setBlanking(label.getBlanking());
+		      text.setJustification(label.getJustification());
+		      text.setVerticalAlign(MHALF);
+		      text.setAngle(-setAngleY(angle));	
+		      text.setFont(font);
+		      renderText(text);
+		   }
+		   labelx [num_labels] = x[i];
+		   labely [num_labels] = y[i];
+		   num_labels++;
+		   i+=5;
+	    }
+	   }//angles are not the same
+	   i+=5;
+      }
+      delete [] labelx;
+      delete [] labely;
     }// endif enough points for a label
-
+/*
+    {
+    	int ewn=2;
+    	setNewColour(Colour("red"));
+    	setNewLineWidth(4.);
+    	renderPolyline(ewn, x, y);
+    }
+*/
     delete [] x;
     delete [] y;
-
     currentColour_ = Colour("none");
 }
 
@@ -975,30 +1022,29 @@ void BaseDriver::redisplay(const BinaryObject& binary) const
 		}
 		break;
 
-	case 'I':
+	case 'I':    // Images
 		{
 			MFloat x0=0.;
 			MFloat x1=0.;
 			MFloat y0=0.;
 			MFloat y1 = 0.;
-			int he=0;
-			int wi=0;
-			int si=0;
+			int height=0;
+			int width=0;
+			int noOfColours=0;
 			double red=0.;double green=0.;double blue=0.;double alpha=0.;
 
-			in.read((char *)(&wi), sizeof(int));
-			in.read((char *)(&he), sizeof(int));
+			in.read((char *)(&width), sizeof(int));
+			in.read((char *)(&height), sizeof(int));
 			in.read((char *)(&x0), sizeof(MFloat));
 			in.read((char *)(&y0), sizeof(MFloat));
 			in.read((char *)(&x1), sizeof(MFloat));
 			in.read((char *)(&y1), sizeof(MFloat));
-			const int d=wi*he;
+			const int d=width*height;
 
-			in.read((char *)(&si), sizeof(int));
+			in.read((char *)(&noOfColours), sizeof(int));
 			ColourTable table;
 
-
-			for(int v=0;v<si;v++)
+			for(int v=0;v<noOfColours;v++)
 			{
 			  in.read((char *)(&red  ), sizeof(double));
 			  in.read((char *)(&green), sizeof(double));
@@ -1007,18 +1053,19 @@ void BaseDriver::redisplay(const BinaryObject& binary) const
 			  table.push_back(ColourTableEntry(Colour(red,green,blue,alpha)));
 			}
 
-			short cc[d];
-			in.read((char *)(cc), sizeof(short)*d);
+			short *pixels = new short[d];
+			in.read((char *)(pixels), sizeof(short)*d);
 
 			Image object;
 			PaperPoint pp(x0,y0,0.);
 			object.setOrigin(pp);
 			object.setWidth(x1);
 			object.setHeight(y1);
-			object.set(he,wi);
-			for(int i=0;i<d;i++) object.push_back(cc[i]);
+			object.set(height,width);
+			for(int i=0;i<d;i++) object.push_back(pixels[i]);  // object(std::begin(pixels), std::end(pixels));
 			object.setColourTable(table);
 			renderCellArray(object);
+			delete [] pixels;
 		}
 		break;
 

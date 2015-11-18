@@ -210,7 +210,7 @@ void NetcdfGeoMatrixInterpretor::visit(ValuesCollector& vcp,PointsList&)
 {	
 	vcp.setCollected(true);
 	
-  	assert(matrix_); 
+  	ASSERT(matrix_); 
   	const Transformation& transformation = vcp.transformation();
   	MatrixHandler* box =  transformation.prepareData(*matrix_);
 	for (ValuesCollector::iterator point =  vcp.begin(); point != vcp.end(); ++point) {
@@ -218,7 +218,7 @@ void NetcdfGeoMatrixInterpretor::visit(ValuesCollector& vcp,PointsList&)
 	}
 }
 
-void NetcdfGeoMatrixInterpretor::customisedPoints(const Transformation& transformation, const std::set<string>&, CustomisedPointsList& out)
+void NetcdfGeoMatrixInterpretor::customisedPoints(const Transformation& transformation, const std::set<string>&, CustomisedPointsList& out, int thinning)
 {
 	Netcdf netcdf(path_, dimension_method_);
 
@@ -242,8 +242,8 @@ void NetcdfGeoMatrixInterpretor::customisedPoints(const Transformation& transfor
 			netcdf.get(latitude_, latitudes, first, last);
 			unsigned int val = 0;
 
-			for (unsigned int  lat  =0 ; lat < latitudes.size(); lat+=latitude_sample_) {
-				for ( unsigned int lon = 0; lon < longitudes.size(); lon+=longitude_sample_) {
+			for (unsigned int  lat  =0 ; lat < latitudes.size(); lat+=thinning) {
+				for ( unsigned int lon = 0; lon < longitudes.size(); lon+=thinning) {
 					val = (lat* longitudes.size() + lon);
 					if ( val >= xcomponent.size() ) return;
 					if ( val >= ycomponent.size() ) return;

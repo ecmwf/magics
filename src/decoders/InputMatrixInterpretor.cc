@@ -29,6 +29,7 @@
 
 #include "InputMatrixInterpretor.h"
 #include "InputMatrix.h"
+#include "GribDecoder.h"
 #include <limits>
 
 using namespace magics;
@@ -85,9 +86,20 @@ Matrix* InputMatrixRegularInterpretor::geoInterpret(Matrix* in, const InputMatri
 	else 
 		(this->*mapper->second)();
 
+
+
+
 	if ( in->columnsAxis().empty() == false )
 		// The initialisation has already been done return;
 		return in;
+
+	//Apply scaling !
+	double scaling;
+	double offset;
+	GribDecoder::scale(info.metadata_, scaling, offset);
+	for ( int i  = 0; i < in->size(); ++i)
+		(*in)[i] = ((*in)[i] * scaling) + offset;
+
 
 	int nblon =  in->columns();
 	double lon = longitude_;
@@ -108,7 +120,7 @@ Matrix* InputMatrixRegularInterpretor::geoInterpret(Matrix* in, const InputMatri
 	in->setMapsAxis();
 	in->missing(std::numeric_limits<double>::max());
     return in;
-	}
+}
 
 Matrix* InputMatrixRegularInterpretor::xyInterpret(Matrix* in, const InputMatrix& info)
 {
@@ -185,9 +197,14 @@ Matrix* InputMatrixIrregularInterpretor::geoInterpret(Matrix* in, const InputMat
     vector<double>& values = matrix->values();
     vector<double>& rows = matrix->rowsArray();
     vector<double>& columns = matrix->columnsArray();
- 
+
+    double scaling;
+    double offset;
+    GribDecoder::scale(info.metadata_, scaling, offset);
+    for ( int i  = 0; i < in->size(); ++i)
+    		(*in)[i] = ((*in)[i] * scaling) + offset;
 	for (vector<double>::iterator val = in->begin(); val != in->end(); ++val) {
-            values.push_back(*val);  
+            values.push_back( ((*val) * scaling ) + offset);
 	}
            
             

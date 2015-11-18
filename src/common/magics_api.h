@@ -56,7 +56,7 @@ void mag_taylor();
 void mag_tephi();
 void mag_input();
 void mag_table();
-
+void mag_geojson();
 void mag_wrepjson();
 void mag_epsinput();
 void mag_epscloud();

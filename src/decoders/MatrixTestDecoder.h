@@ -4,7 +4,7 @@
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
- You may obtain a copy of the License at 
+ You may obtain a copy of the License at
 
     http://www.apache.org/licenses/LICENSE-2.0
 
@@ -18,13 +18,13 @@
 
 /*! \file MatrixTestDecoder.h
     \brief Definition of the Template class MatrixTestDecoder.
-    
+
     Magics Team - ECMWF 2004
-    
+
     Started: Thu 25-Mar-2004
-    
+
     Changes:
-    
+
 */
 
 #ifndef MatrixTestDecoder_H
@@ -48,14 +48,15 @@ public:
 	void decode() {}
 
 	virtual void set(const map<string, string>& ) {}
-	
+
 	 void customisedPoints(const Transformation& t, const std::set<string>& n, CustomisedPointsList& out, bool all)
-	    {
-	    	assert(false);
-	    }
-	    PointsHandler& points(const Transformation& t, bool) { assert(false); }
-	
-    
+	{
+	    	NOTIMP;
+	}
+
+	PointsHandler& points(const Transformation& t, bool) { NOTIMP; }
+
+
 	PointsHandler& points() { throw MethodNotYetImplemented("MatrixTestDecoder::points()"); }
 	virtual MatrixHandler& matrix()
 	{
@@ -66,7 +67,7 @@ public:
 
 protected:
 	//! Method to print string about this class on to a stream of type ostream (virtual).
-	virtual void print(ostream&) const; 
+	virtual void print(ostream&) const;
 	Matrix matrix_;
 
 private:

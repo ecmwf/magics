@@ -14,6 +14,7 @@
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
   limitations under the License.
+European Centre for Medium-Range Weather Forecasts
 
 
  ******************************** LICENSE ********************************/
@@ -72,12 +73,18 @@ Something like:
 #include <cairo-svg.h>
 #endif
 
+/*
 #if CAIRO_HAS_XLIB_SURFACE
 #include <cairo-xlib.h>
 Display *dpy;
 #endif
+*/
 
 #define FONT_SCALE 25*.7  //! \todo clean-up!!!
+
+extern "C"{
+#include "libimagequant/pngquant.h"
+}
 
 using namespace magics;
 
@@ -214,6 +221,7 @@ void CairoDriver::setupNewSurface() const
 	    MagLog::error() << "CairoDriver: SVG output NOT supported! Enable SVG support in your Cairo installation." << std::endl;
 #endif
 	}
+/*
 	else if(magCompare(backend_,"x"))
 	{
 #if CAIRO_HAS_XLIB_SURFACE
@@ -241,6 +249,7 @@ void CairoDriver::setupNewSurface() const
 		MagLog::error() << "CairoDriver: Xlib output NOT supported! Enable Xlib support in your Cairo installation." << std::endl;
 #endif
 	}
+*/
 	else
 	{
 		MagLog::error() << "CairoDriver: The backend "<< backend_ <<" is NOT supported!" << std::endl;
@@ -290,9 +299,9 @@ void CairoDriver::setupNewSurface() const
 #endif
 	}
 
-#if CAIRO_VERSION >= CAIRO_VERSION_ENCODE(1, 2, 0)
-	cairo_surface_set_fallback_resolution (surface_, resolution_, resolution_);
-#endif
+//#if CAIRO_VERSION >= CAIRO_VERSION_ENCODE(1, 2, 0)
+//	cairo_surface_set_fallback_resolution (surface_, resolution_, resolution_);
+//#endif
 	if(magCompare(transparent_,"off") || !(magCompare(backend_,"png") || magCompare(backend_,"geotiff")) )
 	{
 		cairo_set_source_rgb (cr_, 1.0, 1.0, 1.0); /* white */
@@ -334,6 +343,7 @@ void CairoDriver::close()
 		cairo_surface_destroy (surface_);
 		cairo_destroy (cr_);
 	}
+/*
 #if CAIRO_HAS_XLIB_SURFACE
 	if(magCompare(backend_,"x"))
 	{
@@ -348,6 +358,7 @@ void CairoDriver::close()
 		XCloseDisplay(dpy);
 	}
 #endif
+*/
 }
 
 
@@ -438,14 +449,24 @@ MAGICS_NO_EXPORT void CairoDriver::endPage() const
 	else if (magCompare(backend_,"png") )
 	{
 		Timer timer("cairo", "write png");
-//		write_png(surface_, "test256.png");
 		filename_ = getFileName("png" ,currentPage_);
-		cairo_surface_write_to_png(surface_, filename_.c_str());
+		if(magCompare(palette_,"on"))
+		{
+		   if(!write_8bit_png())
+		   {
+		     MagLog::warning() << "CairoDriver::renderPNG > palletted PNG failed! Generate 24 bit one ..." << endl;
+		     cairo_surface_write_to_png(surface_, filename_.c_str());
+		   }
+		}
+		else
+		{
+		   cairo_surface_write_to_png(surface_, filename_.c_str());
+		}
 		if(!filename_.empty()) printOutputName("CAIRO png "+filename_);
 	}
 	else if (magCompare(backend_,"geotiff") )
 	{
-#ifdef MAGICS_GEOTIFF
+#ifdef HAVE_GEOTIFF
 		filename_ = getFileName("tif" ,currentPage_);
 		write_tiff();
 #else
@@ -454,7 +475,7 @@ MAGICS_NO_EXPORT void CairoDriver::endPage() const
 	}
 }
 
-#ifdef MAGICS_GEOTIFF
+#ifdef HAVE_GEOTIFF
 
 #include <geotiffio.h>
 #include <tiffio.h>
@@ -479,14 +500,14 @@ MAGICS_NO_EXPORT void CairoDriver::write_tiff() const
 
     TIFF *tif = TIFFOpen(filename_.c_str(), "w");
     if (!tif) {
-        MagLog::warning() << "CairoDriver: Unable to open TIFF file "<<filename_.c_str()<< std::endl;
+        MagLog::warning() << "CairoDriver: Unable to open TIFF file "<<filename_<< std::endl;
         return;
     }
     
     GTIF *gtif = GTIFNew(tif);
     if (!gtif)
     {
-        MagLog::warning() << "CairoDriver: Unable to open GeoTIFF file "<<filename_.c_str()<< std::endl;
+        MagLog::warning() << "CairoDriver: Unable to open GeoTIFF file "<<filename_<< std::endl;
         return;
     }
 
@@ -542,7 +563,151 @@ MAGICS_NO_EXPORT void CairoDriver::write_tiff() const
     _TIFFfree(buf);
     return;
 }
-#endif  // MAGICS_GEOTIFF
+#endif  // HAVE_GEOTIFF
+
+#include <png.h>
+/*!
+  \brief write raster into 8 bit PNG
+
+  Only the raw raster (normally written to a 32 bit PNG) is here written into a 8 bit.
+
+*/
+//#define PNG_DEBUG 3
+
+MAGICS_NO_EXPORT bool CairoDriver::write_8bit_png() const
+{
+    cairo_surface_flush (surface_);
+    unsigned char *data = cairo_image_surface_get_data(surface_);
+    const int     width = cairo_image_surface_get_width(surface_);
+    const int    height = cairo_image_surface_get_height(surface_);
+  
+    struct pngquant_options options_ = { };
+    options_.liq = liq_attr_create();
+    struct pngquant_options *options = &options_;
+    //    pngquant_file(filename_.c_str(), filename.c_str(), &options);
+
+    pngquant_error  retval             = SUCCESS;
+    liq_image*      input_image        = NULL;
+
+    unsigned char *data2 = new unsigned char[4*width*height];
+    for(int h=0; h<height; h++)
+    {
+      for(int w=0; w<(width*4); w=w+4)
+      {
+	data2[h*4*width+w  ] = data[h*4*width+w+2];  // r
+	data2[h*4*width+w+1] = data[h*4*width+w+1];  // g
+	data2[h*4*width+w+2] = data[h*4*width+w  ];  // b
+	data2[h*4*width+w+3] = data[h*4*width+w+3];  // a
+      }
+    }
+ 
+    input_image = liq_image_create_rgba(options->liq, data2, width, height, 0);
+    if (!input_image) {
+        //return OUT_OF_MEMORY_ERROR;
+    }
+    
+    int quality_percent = 90; // quality on 0-100 scale, updated upon successful remap
+    png8_image output_image = {};
+
+     // when using image as source of a fixed palette the palette is extracted using regular quantization
+     liq_result *remap = liq_quantize_image(options->liq, options->fixed_palette_image ? options->fixed_palette_image : input_image);
+
+     if (remap) {
+            //liq_set_output_gamma(remap, 0.45455); // fixed gamma ~2.2 for the web. PNG can't store exact 1/2.2
+            liq_set_dithering_level(remap, options->floyd);
+
+            retval = prepare_output_image(remap, input_image, &output_image);
+            if (SUCCESS == retval) {
+                if (LIQ_OK != liq_write_remapped_image_rows(remap, input_image, output_image.row_pointers)) {
+                    retval = OUT_OF_MEMORY_ERROR;
+                }
+
+                set_palette(remap, &output_image);
+
+                double palette_error = liq_get_quantization_error(remap);
+                if (palette_error >= 0) {
+                    quality_percent = liq_get_quantization_quality(remap);
+                }
+            }
+            liq_result_destroy(remap);
+    } else {
+            retval = TOO_LOW_QUALITY;
+    }
+
+    if (SUCCESS == retval) {
+        output_image.fast_compression  = false; //  (fast_compression ? Z_BEST_SPEED : Z_BEST_COMPRESSION);
+
+        retval = write_image(&output_image, NULL, filename_.c_str(), options);
+    }
+
+    liq_image_destroy(input_image);
+    rwpng_free_image8(&output_image);
+
+    if (SUCCESS == retval) return true;
+    return false;
+}
+
+/*  
+MAGICS_NO_EXPORT void CairoDriver::write_8bit_png() const
+{
+    const string filename = filename_ +"_8bit";    
+    FILE * fp = fopen (filename.c_str(), "wb");
+    if (! fp) {
+        MagLog::error() << "CairoDriver: Unable to open 8 bit PNG file "<<filename<< std::endl;
+        return;        
+    }
+
+    cairo_surface_flush (surface_);
+	unsigned char *data = cairo_image_surface_get_data(surface_);
+    int           width = cairo_image_surface_get_width(surface_);
+    int          height = cairo_image_surface_get_height(surface_);
+//    const int    stride = cairo_image_surface_get_stride(surface_);
+    const int     depth = 8;
+
+    png_structp png_ptr = png_create_write_struct (PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
+    if(!png_ptr)
+    {
+    	MagLog::error() << "CairoDriver: Unable to create WRITE struct for 8 bit PNG file "<<filename<< std::endl;
+        return;
+    }
+ 
+    png_infop info_ptr  = png_create_info_struct (png_ptr);
+    if(!png_ptr)
+    {
+    	MagLog::error() << "CairoDriver: Unable to create INFO struct for 8 bit PNG file "<<filename<< std::endl;
+        return;
+    }
+//    setjmp (png_jmpbuf (png_ptr));
+    
+    // Set image attributes
+    png_set_IHDR (png_ptr,
+                  info_ptr,
+                  width,
+                  height,
+                  depth,
+                  PNG_COLOR_TYPE_RGBA,
+                  PNG_INTERLACE_NONE,
+                  PNG_COMPRESSION_TYPE_DEFAULT,
+                  PNG_FILTER_TYPE_DEFAULT);
+    
+    // Initialize rows of PNG.
+    png_bytep *row_pointers = (png_bytep*) malloc(3 * width * sizeof(png_byte));
+
+    for (size_t y = 0; y < height; ++y) {
+        row_pointers[y] = data + width * 4 * y;
+    }
+    
+    // Write the image data to file
+    png_init_io   (png_ptr, fp);
+    png_set_rows  (png_ptr, info_ptr, row_pointers);
+    png_write_png (png_ptr, info_ptr, PNG_TRANSFORM_BGR, NULL);
+
+ //   free (row_pointers); 
+ //   png_destroy_write_struct (&png_ptr, &info_ptr);  
+    fclose (fp);
+   return;
+}
+*/
 
 /*!
   \brief project to a new Layout
@@ -581,22 +746,15 @@ MAGICS_NO_EXPORT void CairoDriver::project(const Layout& layout) const
 	offsetX_ = projectX( -layout.minX());
 	offsetY_ = projectY( -layout.minY() );
 
-/*
-	if(box->getClip())
+
+	if(layout.clipp())
 	{
 //		cairo_set_source_rgb(cr_, 1,0,0);
-		cairo_rectangle (cr_, projectX(Xmin),projectY(Ymin),projectX(Xmax)-projectX(Xmin),projectY(Ymax)-projectY(Ymin) );
+		cairo_rectangle (cr_, projectX(layout.minX()),projectY(layout.minY()),projectX(layout.maxX())-projectX(layout.minX()),projectY(layout.maxY())-projectY(layout.minY()) );
 		cairo_clip(cr_);
 //		cairo_stroke(cr_);
 	}
-	if(box->centered())
-	{
-		Xoff += Xlength*0.5;
-		Yoff += Ylength*0.5;
-		obsBox_=true;
-	}
-	else obsBox_=false;
-*/
+
 	// write meta info
 	if(layout.isNavigable() && (magCompare(backend_,"png") || magCompare(backend_,"svg") || magCompare(backend_,"geotiff")) )
 	{
@@ -985,8 +1143,7 @@ MAGICS_NO_EXPORT void CairoDriver::renderSimplePolygon() const
                                  << "             Solid shading used instead."<< std::endl;
 #endif
 	{
-        if(cairo_get_antialias(cr_) != CAIRO_ANTIALIAS_NONE && currentColour_.alpha() > 0.9999 )
-
+/*        if(cairo_get_antialias(cr_) != CAIRO_ANTIALIAS_NONE && currentColour_.alpha() > 0.9999 )
 	    //if(magCompare(backend_,"png")) // if(cairo_get_antialias(cr_) != CAIRO_ANTIALIAS_NONE && currentColour_.alpha() > 0.9999 )
 	    {
 	        cairo_fill_preserve(cr_);
@@ -994,6 +1151,7 @@ MAGICS_NO_EXPORT void CairoDriver::renderSimplePolygon() const
 	        cairo_stroke(cr_);
 	    }
 	    else
+*/
 	    {
 	        cairo_fill(cr_);
 	    }
@@ -1169,24 +1327,24 @@ MAGICS_NO_EXPORT void CairoDriver::circle(const MFloat x, const MFloat y, const 
 
 	int fill = s;
 
-	if(s > 8) fill = 8;
-	if(s > 0)
+	//if(s > 8) fill = 8;
+	if( (s > 0) && (fill != 9) )
 	{
 		cairo_arc (cr_, xx, yy, r, -M_PI * .5, M_PI * ((0.25 * fill)-.5) );
+		cairo_line_to (cr_, xx, yy);
 		cairo_fill(cr_);
 	}
 
 	if(fill == 9)
 	{
-		cairo_set_source_rgb(cr_,1,1,1);
-		cairo_move_to (cr_, xx, yy+r-1);
-		cairo_line_to (cr_, xx, yy-r+1);
-	        cairo_stroke(cr_);
-		cairo_set_source_rgba(cr_,currentColour_.red(),currentColour_.green(),currentColour_.blue(),currentColour_.alpha());
+		cairo_arc (cr_, xx-0.5, yy, r,  M_PI * .5, -M_PI * .5 );
+		cairo_fill(cr_);
+		cairo_arc (cr_, xx+0.5, yy, r, -M_PI * .5, M_PI * .5 );
+		cairo_fill(cr_);
 	}
 
 	cairo_arc (cr_, xx, yy, r, 0., M_PI * 2.);
-        cairo_stroke(cr_);
+	cairo_stroke(cr_);
 	cairo_restore(cr_);
 #else
         MagLog::warning() << "CairoDriver::circle requires at least cairo version 1.2!" << endl;
@@ -1359,7 +1517,7 @@ MAGICS_NO_EXPORT bool CairoDriver::renderCellArray(const Image& image) const
 		}
 		else
 		{
-			const double al = tr;//lt[c].alpha();
+			const double al = lt[c].alpha();
 			chImage[jj]=char(int(255.*cb *al )); jj++;
 			chImage[jj]=char(int(255.*cg *al )); jj++;
 			chImage[jj]=char(int(255.*cr *al )); jj++;

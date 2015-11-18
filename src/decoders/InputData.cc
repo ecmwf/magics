@@ -285,6 +285,14 @@ void InputData::getReady(const Transformation& transformation)
 	catch (...) {}
 	
 }
+pair<double, double>  adjust(double min, double max) {
+
+    double epsilon = max > min ? 0.00001 : -0.00001;
+    min = min - (min*epsilon);
+    max = max + (max*epsilon);
+
+    return make_pair(min, max);
+}
 
 void InputData::visit(Transformation& transformation)
 {
@@ -304,13 +312,15 @@ void InputData::visit(Transformation& transformation)
 				if ( min > *x ) min = *x;
 				if ( max < *x ) max = *x;
 			}
-			if ( magCompare(x_type_, "date" ) ) {
+			pair<double, double> minmax = adjust(min, max);
 
-				transformation.setDataMinMaxX(min, max, baseDateX_);
+
+			if ( magCompare(x_type_, "date" ) ) {
+				transformation.setDataMinMaxX(minmax.first, minmax.second, baseDateX_);
 
 			}
 			else {
-				transformation.setMinMaxX(min, max);
+				transformation.setMinMaxX(minmax.first, minmax.second);
 
 			}
 		}
@@ -327,12 +337,13 @@ void InputData::visit(Transformation& transformation)
 				if ( min > *y ) min = *y;
 				if ( max < *y ) max = *y;
 			}
+			pair<double, double> minmax = adjust(min, max);
 			if ( magCompare(y_type_, "date" ) ) {
-				transformation.setDataMinMaxY(min, max, baseDateY_);
+				transformation.setDataMinMaxY(minmax.first, minmax.second, baseDateY_);
 
 			}
 			else {
-				transformation.setMinMaxY(min, max);
+				transformation.setMinMaxY(minmax.first, minmax.second);
 
 			}
 		}

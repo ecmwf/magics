@@ -176,7 +176,11 @@
 
 	<parameter from="string" name="legend_user_text_10" visible="off" default="" member="text10" to="string">
              		<documentation> User text to be associated with a legend sub-entry from a multiple entry 		</documentation>
-	</parameter> 
+	</parameter>
+	<parameter from="float" name="legend_symbol_height_factor" default="1" member="symbol_factor" to="float" >
+			<documentation>	 Factor to apply to the symbol_height in the legend </documentation>
+	</parameter>
+	 
 
 	<parameter member="box_x" to="float" default="-1" from="float" name="legend_box_x_position">
          		<documentation> X coordinate of lower left corner of legend box (Relative to page_x_position) 		</documentation>

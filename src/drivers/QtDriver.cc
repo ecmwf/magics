@@ -42,7 +42,11 @@
 #include <QDesktopWidget>
 #include <QGraphicsItem>
 #include <QPainter>
-#ifdef Q_WS_X11
+
+#ifdef MAGICS_QT5
+#include <QGuiApplication>
+#include <QScreen>
+#elif defined(Q_WS_X11)
 #include <QX11Info>
 #endif
 
@@ -131,22 +135,36 @@ void QtDriver::open()
 
 	currentPolylineSetItem_=0;
 		
-	//We find out the screen dpy from Qt. It can be diffrenet to the value
-	//given by 'xdpyinfo' returned by scene->dpiResolution(). So we compute
-	//their ratio to correctly set font size for rendering!
-#ifdef Q_WS_X11  // Do we work with a X11 display?
+	//We find out the screen dpy from Qt. It can be different to the value
+	//returned by scene->dpiResolution(), which is defined externally by
+	// a reliable command (e.g. by 'xdpyinfo') and avialiable through  
+	//the env var METVIEW_SCREEN_RESOLUTION on the metview side.  
+	
+	//So we need to compute their ratio to correctly set font size for rendering!
+#ifdef MAGICS_QT5
+	QList<QScreen*> scList=QGuiApplication::screens();
+	const int qtDpiResolution=(!scList.isEmpty())?scList.at(0)->logicalDotsPerInchY():72;
+#elif defined(Q_WS_X11)  // Do we work with a X11 display?
 	const int qtDpiResolution=QX11Info::appDpiY(0);
-#else     // for MacOS X
-	const int qtDpiResolution=72;
-#endif
-	if(qtDpiResolution < 50 || qtDpiResolution > 150)
+#else   // for MacOS X with Qt4
+	const int qtDpiResolution=95;	
+#endif	
+
+	//By default the ratio between the physical pixel size according to the external definition and Qt is 1 
+	dpiResolutionRatio_=1.;	
+	
+	//If we have the physical pixel size from an external definition
+	if(scene->dpiResolution() != -1)
 	{
-	  	dpiResolutionRatio_=1.;		
+	    //We compute the correct ratio
+	    dpiResolutionRatio_=static_cast<float>(qtDpiResolution)/static_cast<float>(scene->dpiResolution());
 	}
+	//Otherwise we suppose it is the same as given by Qt (thus their ratio will be 1)
 	else
-	{  
-		dpiResolutionRatio_=static_cast<float>(qtDpiResolution)/static_cast<float>(scene->dpiResolution());
-	}
+	{
+	    scene->setDpiResolution(qtDpiResolution);
+	}		
+
 	
 	setCMscale(static_cast<float>(scene->dpiResolution())/2.54); // cm -> pixel
 	
@@ -464,7 +482,7 @@ MAGICS_NO_EXPORT void QtDriver::project(MgQLayoutItem *item) const
 		r->setParentItem(layoutItem);
 	}
 #endif
-
+    
 	//Update item history
 	currentItem_=item;
 	layoutItemStack_.push(item);
@@ -1241,11 +1259,16 @@ MAGICS_NO_EXPORT void QtDriver::renderText(const Text& text) const
 
 			if(an !=0 &&  an != 360)
 			{
+#ifdef MAGICS_QT5
+			    item->setTransform(QTransform::fromTranslate(x, y), true);
+				item->setTransform(QTransform().rotate(an), true);                
+				item->setTransform(QTransform::fromTranslate(-x, -y), true);              
+#else
 				item->translate(x,y);
 				item->rotate(an);
-				item->translate(-x,-y);	
+				item->translate(-x,-y);
+#endif
 			}
-
 			item->setPos(x0,y0);
 		}
 		
@@ -1329,7 +1352,7 @@ MAGICS_NO_EXPORT void QtDriver::renderText(const Text& text) const
 				item->setPos(x0,y0);
 				
 				if(an !=0 &&  an != 360)	
-					item->rotate(an);
+					item->setRotation(an);
 				
 				QTransform tr;
 				tr.scale(1.,-1.);
@@ -1391,6 +1414,83 @@ MAGICS_NO_EXPORT void QtDriver::renderText(const Text& text) const
 
 MAGICS_NO_EXPORT void QtDriver::circle(const MFloat x, const MFloat y, const MFloat r, const int s) const
 {
+    int fill = s;
+    
+    MFloat cx=projectX(x);
+    MFloat cy=projectY(y);
+   
+    //Fill wedges   
+    if(fill > 0 && fill < 8)
+    {
+        QPainterPath path;
+        path.moveTo(QPointF(cx,cy));
+        path.arcTo(cx-r,cy-r,2.*r,2.*r, 45.*(fill-2.), -45.*fill);
+        
+        QBrush brush(getQtColour(currentColour_));  
+        QPen pen(Qt::NoPen);
+       
+        QGraphicsPathItem* item=new QGraphicsPathItem(path);
+          
+        item->setParentItem(currentItem_);
+        item->setPen(pen);
+        item->setBrush(brush);
+    }
+
+    //Full filled circle
+    else if(fill==8)
+    {
+         QPainterPath path;
+        
+         path.addEllipse(QPointF(cx,cy),r,r);  
+         
+         QBrush brush(getQtColour(currentColour_));  
+         QPen pen(Qt::NoPen);
+       
+         QGraphicsPathItem* item=new QGraphicsPathItem(path);
+          
+         item->setParentItem(currentItem_);
+         item->setPen(pen);
+         item->setBrush(brush);
+    }
+
+    //Full filled circle whit a white vertical bar in the middle 
+    else if(fill == 9)
+    {
+        QPainterPath path;
+           
+        path.arcMoveTo(cx-r,cy-r,2.*r,2.*r,110);
+        path.arcTo(cx-r,cy-r,2.*r,2.*r, 110, 140);
+        path.closeSubpath();
+        
+        path.arcMoveTo(cx-r,cy-r,2.*r,2.*r,290);
+        path.arcTo(cx-r,cy-r,2.*r,2.*r, 290, 140);
+        path.closeSubpath();
+        
+        QBrush brush(getQtColour(currentColour_));  
+        QPen pen(Qt::NoPen);
+       
+        QGraphicsPathItem* item=new QGraphicsPathItem(path);
+          
+        item->setParentItem(currentItem_);
+        item->setPen(pen);
+        item->setBrush(brush);
+    }
+
+    //Outline
+    if(fill < 8)
+    {
+        QPainterPath path;
+        path.addEllipse(QPointF(cx,cy),r,r);    
+   
+        QBrush brush(Qt::NoBrush);  
+        QPen pen(getQtColour(currentColour_));
+        
+        QGraphicsPathItem* item=new QGraphicsPathItem(path);
+          
+        item->setParentItem(currentItem_);
+        item->setPen(pen);
+        item->setBrush(brush);
+    }      
 }
 
 MAGICS_NO_EXPORT void QtDriver::circle(const MFloat x, const MFloat y, const MFloat r, const int s,MgQSymbolItem *qSym) const

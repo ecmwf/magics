@@ -133,7 +133,6 @@ void ViewNode::visit(HistoVisitor& histo)
 
 
 
-
 void ViewNode::prepareLayout(SceneLayer& tree)
 {
 
@@ -141,7 +140,7 @@ void ViewNode::prepareLayout(SceneLayer& tree)
 	LayoutHelper helper;
 	components_.clear();
 	drawing_= new DrawingVisitor();
-
+	frameHelper_= new FrameVisitor();
 	const double width  = 100-drawing_left_-drawing_right_;
 	const double height = 100-drawing_top_-drawing_bottom_;
 	double vaxis  = 100/absoluteWidth() *vaxis_;
@@ -151,19 +150,36 @@ void ViewNode::prepareLayout(SceneLayer& tree)
 	}
 
 	drawing_->transformation(viewTransformation_);
-		drawing_->y(drawing_bottom_);
-		drawing_->x(drawing_left_);
-		drawing_->height(height);
-		drawing_->width(width);
-		drawing_->id(id_);
-		drawing_->widthResolution(widthResolution()*width/100);
-		drawing_->heightResolution(heightResolution()*width/100);
-		drawing_->zoomable(true);
-		drawing_->zoomLevels(zoomLevels_);
-		drawing_->zoomCurrentLevel(zoomCurrentLevel_);
-		drawing_->frame(*layout_);
-		drawing_->frameIt();
+	drawing_->y(drawing_bottom_);
+	drawing_->x(drawing_left_);
+	drawing_->height(height);
+	drawing_->width(width);
+	drawing_->id(id_);
+	drawing_->widthResolution(widthResolution()*width/100);
+	drawing_->heightResolution(heightResolution()*width/100);
+	drawing_->zoomable(true);
+	drawing_->zoomLevels(zoomLevels_);
+	drawing_->zoomCurrentLevel(zoomCurrentLevel_);
+	drawing_->frame(*layout_);
+	drawing_->frameIt();
+	drawing_->clippIt(layout_->clipp());
+
+
+	frameHelper_->transformation(viewTransformation_);
+	frameHelper_->y(drawing_bottom_);
+	frameHelper_->x(drawing_left_);
+	frameHelper_->height(height);
+	frameHelper_->width(width);
+	frameHelper_->widthResolution(widthResolution()*width/100);
+	frameHelper_->heightResolution(heightResolution()*width/100);
+
+	frameHelper_->frame(*layout_);
+	frameHelper_->frameIt();
+	frameHelper_->clippIt(false);
+
+
 	components_.push_back(drawing_);
+	components_.push_back(frameHelper_);
 	helper.add(drawing_);
 
 	// Then the axis!
@@ -298,9 +314,9 @@ void ViewNode::visit(SceneLayer& tree)
 	for ( vector<BasicSceneObject*>::iterator item = items_.begin(); item != items_.end(); ++item)  {
 		(*item)->visit(tree, components_);
 	}
-	if ( drawing_->layoutPtr() )
+	if ( frameHelper_->layoutPtr() )
 	{
-		drawing_->layout().frameIt();
+		frameHelper_->layout().frameIt();
 	}
 
 	if( mode() == interactif )
@@ -356,7 +372,7 @@ XmlViewNode::~XmlViewNode()
 
 void XmlViewNode::getReady()
 {
-	assert (parent_);
+	ASSERT (parent_);
 	viewTransformation_ = XmlViewNodeAttributes::transformation_.get();
 
 	Dimension bottom(bottom_, parent_->absoluteHeight(), 0);
@@ -540,7 +556,7 @@ protected:
 
 void FortranViewNode::getReady()
 {
-	assert (parent_);
+	ASSERT (parent_);
 	
 	viewTransformation_ = FortranViewNodeAttributes::transformation_.get();
 	viewTransformation_->setDefinition(json_);
@@ -598,6 +614,7 @@ void FortranViewNode::getReady()
 	ParameterManager::set("subpage_y_position_internal", absy);
 
 	layout_->frame(true, frame_, *frame_colour_, frame_line_style_, frame_thickness_);
+	layout_->clippIt(clipping_);
 
 	BasicSceneObject::getReady();
 }

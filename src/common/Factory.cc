@@ -77,7 +77,7 @@ B* SimpleFactory<B>::create(const string& name)
 template<class B>
 SimpleFactory<B>* SimpleFactory<B>::get(const string& name)
 {	 
-	assert(map_);
+	ASSERT(map_);
 	typename map<string, SimpleFactory<B>*>::iterator maker = (*map_).find(lowerCase(name));
 	if (maker != (*map_).end()) return  (*maker).second;
 #ifdef MAGICS_EXCEPTION

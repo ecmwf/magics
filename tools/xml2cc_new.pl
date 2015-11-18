@@ -21,6 +21,7 @@ my %basetype = (
     "floatarray" =>1,
     "stringarray" => 1,
     "intarray" => 1, 
+    "longintarray" => 1, 
     "LineStyle" =>1,
     "ListPolicy" =>1,
     "Hemisphere" =>1,
@@ -46,7 +47,8 @@ my %translator = (
     "bool" => "ParameterManager::getBool",
     "doublearray" => "ParameterManager::getDoubleArray",
     "floatarray" => "ParameterManager::getDoubleArray",
-    "intarray" => "ParameterManager::getIntArray"
+    "intarray" => "ParameterManager::getIntArray",
+    "longintarray" => "ParameterManager::getLongIntArray"
     
 );
 my %magtype = (
@@ -66,6 +68,7 @@ my %arraytype = (
 	"floatarray" => "atof(data)",
 	"stringarray" => "data",
 	"intarray" => "atoi(data)",
+	"longintarray" => "atoi(data)",
 );
 
 my %quote = (

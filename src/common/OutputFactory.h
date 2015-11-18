@@ -202,7 +202,7 @@ public:
 #endif
 */
 
-#ifdef MAGICS_CAIRO
+#ifdef HAVE_CAIRO
 class CAIRO_PngOutputFactory : public OutputFactory
 {
 public:
@@ -260,7 +260,7 @@ public:
 	virtual OutputFactory* clone() const  { return new CAIRO_SvgOutputFactory(); }    
 	virtual void set(DriverManager&, const XmlNode&);
 };
-
+/*
 class CAIRO_XOutputFactory : public OutputFactory
 {
 public:
@@ -270,6 +270,7 @@ public:
 	virtual OutputFactory* clone() const  { return new CAIRO_XOutputFactory(); }    
 	virtual void set(DriverManager&, const XmlNode&);
 };
+*/
 
 class CAIRO_GeoTiffOutputFactory : public OutputFactory
 {
@@ -289,6 +290,16 @@ public:
 	virtual ~KML_KmlOutputFactory() {}
 	
 	virtual OutputFactory* clone() const {return new KML_KmlOutputFactory();}
+	virtual void set(DriverManager&, const XmlNode&); 
+};
+
+class GEOJSON_GeoJsonOutputFactory : public OutputFactory
+{
+public:
+	GEOJSON_GeoJsonOutputFactory() {}
+	virtual ~GEOJSON_GeoJsonOutputFactory() {}
+	
+	virtual OutputFactory* clone() const {return new GEOJSON_GeoJsonOutputFactory();}
 	virtual void set(DriverManager&, const XmlNode&); 
 };
 

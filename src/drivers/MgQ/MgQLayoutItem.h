@@ -50,12 +50,14 @@ public:
 	virtual int type() const {return Type;}
 	virtual QRectF boundingRect() const;
 	void paint(QPainter *, const QStyleOptionGraphicsItem *,
-                QWidget *) {};
+                QWidget *);
 	
 	const Layout& layout() {return layout_;};
 	AnimationRules* animationRules() {return layout_.animationRules();};
 	//void animationRules(AnimationRules *anr) {animationRules_=anr;};
 
+    bool clipped() const {return clipped_;}
+    
 	void  coordRatioX(double f) {coordRatioX_=f;};	 
 	void  coordRatioY(double f) {coordRatioY_=f;};
 	double coordRatioX() {return coordRatioX_;};	 
@@ -107,6 +109,7 @@ protected:
 	double projectedMaxY_;
 
 	QGraphicsItem *parentItemInMainScene_;
+    bool clipped_;
 	//AnimationRules *animationRules_;			
 };
 

@@ -89,7 +89,7 @@ void MultiVisdef::visit(TopAxisVisitor& top)
 
 void MultiVisdef::visit(Transformation&, Data&)
 {
-	assert(false);
+	ASSERT(false);
 }
 
 void MultiVisdef::visit(Layer& layer)

@@ -26,6 +26,8 @@
 #include "OutputFactory.h"
 #include "DriverManager.h"
 #include "PostScriptDriver.h"
+#include "KMLDriver.h"
+#include "GeoJsonDriver.h"
 
 #ifdef MAGICS_RASTER
 #include "GDDriver.h"
@@ -191,7 +193,7 @@ void QT_OutputFactory::set(DriverManager& magics, const XmlNode& node)
 #endif
 */
 
-#ifdef MAGICS_CAIRO
+#ifdef HAVE_CAIRO
 #include "CairoDriver.h"
 void CAIRO_PdfOutputFactory::set(DriverManager& magics, const XmlNode& node)
 {
@@ -247,6 +249,7 @@ void CAIRO_SvgOutputFactory::set(DriverManager& magics, const XmlNode& node)
 	magics.push_back(driver);
 }
 
+/*
 void CAIRO_XOutputFactory::set(DriverManager& magics, const XmlNode& node)
 {
 	CairoDriver* driver = new CairoDriver();
@@ -255,6 +258,7 @@ void CAIRO_XOutputFactory::set(DriverManager& magics, const XmlNode& node)
 	
 	magics.push_back(driver);
 }
+*/
 
 void CAIRO_GeoTiffOutputFactory::set(DriverManager& magics, const XmlNode& node)
 {
@@ -266,10 +270,17 @@ void CAIRO_GeoTiffOutputFactory::set(DriverManager& magics, const XmlNode& node)
 }
 #endif
 
-#include "KMLDriver.h"
 void KML_KmlOutputFactory::set(DriverManager& magics, const XmlNode& node)
 {
 	KMLDriver* driver = new KMLDriver();
+	driver->set(node);
+
+	magics.push_back(driver);
+}
+
+void GEOJSON_GeoJsonOutputFactory::set(DriverManager& magics, const XmlNode& node)
+{
+	GeoJsonDriver* driver = new GeoJsonDriver();
 	driver->set(node);
 
 	magics.push_back(driver);

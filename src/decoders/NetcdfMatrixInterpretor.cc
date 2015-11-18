@@ -330,7 +330,40 @@ void NetcdfMatrixInterpretor::visit(Transformation& transformation)
 		
 
 }
+void NetcdfMatrixInterpretor::customisedPoints(const Transformation& transformation, const std::set<string>&, CustomisedPointsList& points, int thinning)
+{
+	refDateX_ = transformation.getReferenceX();
+	refDateY_ = transformation.getReferenceY();
 
+	Matrix* uc = 0;
+	Matrix* vc = 0;
+	field_ = u_component_;
+	if (!interpretAsMatrix(&uc) )
+		return;
+	field_ = v_component_;
+	if ( !interpretAsMatrix(&vc) )
+		return;
+
+	vector<double>::iterator u = uc->begin();
+	vector<double>::iterator v = vc->begin();
+
+
+	for (int row = 0; row < rows_.size(); row += thinning)
+		for (int column = 0; column < columns_.size(); column += thinning) {
+
+
+				CustomisedPoint* point = new CustomisedPoint();
+				point->longitude(columns_[column]);
+				point->latitude(rows_[row]);
+				(*point)["x_component"] = (*uc)(row, column);
+				(*point)["y_component"] =  (*vc)(row, column);
+
+				++u;
+				++v;
+				points.push_back(point);
+		}
+
+}
 void NetcdfMatrixInterpretor::statsData(map<string,vector<double> >& stats)
 {
 	if(matrix_)
@@ -372,7 +405,7 @@ void NetcdfMatrixInterpretor::visit(ValuesCollector& vcp,PointsList&)
 {
 	vcp.setCollected(true);
 	
-	assert(matrix_); 
+	ASSERT(matrix_); 
 		
 	const Transformation& transformation = vcp.transformation();
   	MatrixHandler* box =  transformation.prepareData(*matrix_);

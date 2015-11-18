@@ -49,6 +49,8 @@ struct GSStruct
 	// Distance between the gridpoints
 	float dx;
 	float dy;
+	// Find out if the grid is on the Earth or no
+	int gs_geo; // 0 -> not on Earth
 
 	// Is it periodic? (0/1)
 	int period_x;

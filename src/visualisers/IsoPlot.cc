@@ -43,7 +43,7 @@
 
 namespace magics {
 
- 
+
 
 static MutexCond producerMutex_;
 
@@ -141,7 +141,9 @@ public:
                 return multipleRange;
             return singleRange;
         }
+        return outOfRange;
 
+        /// @warning What should be retuned if function arrives here?
     }
 
     void push_back(int index, double x1, double y1, double x2, double y2 ){
@@ -177,56 +179,59 @@ public:
 
         }
         else {
-            // intersect !
-            // Create line from 1first
+        	// intersect !
+        	// Create line from 1first
 
-            typedef boost::geometry::model::polygon<PaperPoint > polygon;
-
-
-            polygon previous, pts;
-
-            for ( vector<PaperPoint>::iterator pt = points.begin();  pt != points.end(); ++pt ) {
-               pts.outer().push_back(*pt);
-            }
-            pts.outer().push_back(points.front());
-            vector<vector<Point> > result;
-            helper->second->computePolygonLines(result);
-            assert( result.size() == 1);
-            for ( vector<Point>::iterator pt = result.front().begin();  pt != result.front().end(); ++pt ) {
-                 previous.outer().push_back(PaperPoint(pt->x_, pt->y_));
-            }
-
-            helper_[index] = new SegmentJoiner();
+        	typedef boost::geometry::model::polygon<PaperPoint > polygon;
 
 
-            std::vector<polygon > output;
+        	polygon previous, pts;
+
+        	for ( vector<PaperPoint>::iterator pt = points.begin();  pt != points.end(); ++pt ) {
+        		pts.outer().push_back(*pt);
+        	}
+        	pts.outer().push_back(points.front());
+        	vector<vector<Point> > result;
+        	helper->second->computePolygonLines(result);
+        	ASSERT( result.size() == 1);
+        	for ( vector<Point>::iterator pt = result.front().begin();  pt != result.front().end(); ++pt ) {
+        		previous.outer().push_back(PaperPoint(pt->x_, pt->y_));
+        	}
+
+        	helper_[index] = new SegmentJoiner();
 
 
-
-            boost::geometry::intersection(previous, pts, output);
-
+        	std::vector<polygon > output;
 
 
-            if (output.size() == 1){
-                            vector<PaperPoint> xx;
-                                                        for ( vector<PaperPoint>::iterator pt = output.front().outer().begin();  pt != output.front().outer().end(); ++pt ) {
-                                                           xx.push_back(*pt);
-                                                         }
+        	try {
+        		boost::geometry::intersection(previous, pts, output);
 
-                                                        push_back(index, xx);
 
-            }
-            else
-                {
+        		if (output.size() == 1){
+        			vector<PaperPoint> xx;
+        			for ( vector<PaperPoint>::iterator pt = output.front().outer().begin();  pt != output.front().outer().end(); ++pt ) {
+        				xx.push_back(*pt);
+        			}
 
-                    boost::geometry::union_(pts, previous, output);
-                            if (output.size() == 1){
-                                push_back(index, output.front().outer());
-                            }
-                            else
-                                push_back(index, previous.outer());
+        			push_back(index, xx);
 
-                }
+        		}
+        		else
+        		{
+
+        			boost::geometry::union_(pts, previous, output);
+        			if (output.size() == 1){
+        				push_back(index, output.front().outer());
+        			}
+        			else
+        				push_back(index, previous.outer());
+
+        		}
+        	}
+        	catch (...) {
+        		// ignore
+        	}
 
         }
 
@@ -335,8 +340,8 @@ public:
           default:
                 split();
                 if (empty()) {
-                    assert( row1_ == row2_);
-                    assert( column1_ == column2_);
+                    ASSERT( row1_ == row2_);
+                    ASSERT( column1_ == column2_);
                     owner.isoline(*(*parent_)(row1_, column1_), this);
 
                 }
@@ -380,10 +385,11 @@ public:
             list<vector<Point> > holes;
             SegmentJoiner& joiner = *index->second;
 
-            //if (index->first == 4)
-                //joiner.print();
+
             joiner.computePolygonLines(result);
             Polyline* poly = 0;
+            if ( result.empty() )
+            		continue;
             bool reverse = joiner.isHole(result.front());
 
             for (vector<vector<Point> >::iterator j = result.begin() ; j != result.end(); ++j) {
@@ -589,7 +595,7 @@ void IsoPlot::isoline(Cell& cell, CellBox* parent) const
         if ( !parent  ) // NO Shading == Nothing to do!
             return;
         else {
-            
+
             int index  = shading_->shadingIndex(cell.value(0));
 
                   vector<PaperPoint> points;
@@ -1185,7 +1191,7 @@ void IsoPlot::isoline(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
 {
 
     const Transformation& transformation = parent.transformation();
-    Polyline& x = transformation.getPCBoundingBox();
+    
 
 
 
@@ -1245,7 +1251,7 @@ void IsoPlot::isoline(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
        CellBox view(array);
 
        threads_ = (needIsolines())  ? 4: 0;
-        //threads_ = 1;
+       //threads_ = 1;
        vector<IsoHelper*> consumers_;
        vector<IsoProducer* >  producers_;
 
@@ -1271,7 +1277,7 @@ void IsoPlot::isoline(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
         int c = 0;
         VectorOfPointers<vector<IsoProducerData*> > datas;
         for ( int i = 0; i < view.size(); i++)
-        //int i = 0;
+        //int i = 1;
         {
 
            IsoProducerData* data = new IsoProducerData(shading_->shadingMode(), *this, *(view[i]));
@@ -1369,7 +1375,7 @@ void IsoPlot::isoline(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
       for (vector<Polyline* >::const_iterator poly = (*lines)->begin(); poly != (*lines)->end(); ++poly)
       {
         if ( (*poly)->empty() ) continue;
-        double level = (*poly)->front().value();
+       
 
 
         if ( !rainbow_ ) {
@@ -1619,7 +1625,7 @@ void IsoPlot::visit(Data& data, PointsHandler& points, HistoVisitor& visitor)
 }
 
 CellArray::CellArray(MatrixHandler& data, IntervalMap<int>& range, const Transformation& transformation, int width, int height, float resol, const string& technique) :
-        data_(data), rangeFinder_(range)
+        rangeFinder_(range),data_(data)
 {
     Timer timer("CellArray", "CellArray");
     int r = height/resol;
@@ -1703,7 +1709,7 @@ CellArray::CellArray(MatrixHandler& data, IntervalMap<int>& range, const Transfo
 }
 
 
-CellArray::CellArray(MatrixHandler& data, IntervalMap<int>& range) : data_(data), rangeFinder_(range)
+CellArray::CellArray(MatrixHandler& data, IntervalMap<int>& range) : rangeFinder_(range), data_(data)
 {
 
 }
@@ -1787,8 +1793,8 @@ GridCell::GridCell(const CellArray& data, int row, int column, const Transformat
         count++;
 
         for (int i = 0; i < 4; i++) {
-            double lon = columns_[i];
-            double lat =  rows_[i];
+           
+            
             transformation.fast_reproject(columns_[i], rows_[i]);
 
             if ( columns_[i] < minx ) {

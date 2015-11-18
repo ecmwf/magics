@@ -112,11 +112,25 @@
         		<set name="symbol_advanced_table_outlayer_min_value" value="advanced">		</set>
         		<set name="symbol_advanced_table_outlayer_max_value" value="advanced">		</set>
     	</parameter>
+    	<parameter from="string" name="symbol_marker_mode" default="index" member="marker_mode" to="string" values="index/name/image">
+        		<documentation> Method to select a marker : by name, by index, by image : in that case, Magics will use an external image as marker.
+        		</documentation>
+        		<set name="symbol_marker_index" value="index">		</set>
+        		<set name="symbol_advanced_table_marker_name_list" value="name">		</set>
+        		<noset name="symbol_marker_name" value="name">		</noset>
+        		<set name="symbol_image_path" value="image">		</set>
+        		<set name="symbol_image_format" value="image">		</set> 
+        		<set name="symbol_image_width" value="image">		</set>
+        		<set name="symbol_image_height" value="image">		</set>
+    	</parameter>
+
 
     	<parameter xml="format" from="string" name="symbol_format" default="(automatic)" member="format" to="string">
         		<documentation> Format used to plot values (MAGICS Format/(AUTOMATIC)) 		</documentation>
     	</parameter>
-
+		<parameter member="text_blanking" to="bool" default="off" from="string" name="symbol_text_blanking">
+        		<documentation> blanking of the text 		</documentation>
+    	</parameter>
 		<parameter member="outline" to="bool" default="off" from="string" name="symbol_outline"> 
         		<set name="symbol_outline_colour" value="on">		</set> 
         		<set name="symbol_outline_thickness" value="on">		</set>
@@ -160,4 +174,9 @@
     	<parameter member="connect_style" to="LineStyle" default="solid" from="string" name="symbol_connect_line_style">
         		<documentation> Line Style of  connecting line 		</documentation>
     	</parameter>
-</class></magics>
+    		<parameter member="legend_only" to="bool" default="off" from="string" name="symbol_legend_only" visible='off'>  
+      		<documentation> Inform the contour object do generate only the legend and not the plot .. [Web sdpecific]		</documentation>  		       
+      		
+   	</parameter>
+</class>
+</magics>

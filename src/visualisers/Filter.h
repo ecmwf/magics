@@ -4,7 +4,7 @@
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
- You may obtain a copy of the License at 
+ You may obtain a copy of the License at
 
     http://www.apache.org/licenses/LICENSE-2.0
 
@@ -18,13 +18,13 @@
 
 /*! \file Filter.h
     \brief Definition of the Template class Filter.
-    
+
     Magics Team - ECMWF 2004
-    
+
     Started: Wed 14-Jun-2004
-    
+
     Changes:
-    
+
 */
 
 #ifndef Filter_H
@@ -38,10 +38,10 @@ namespace magics {
 
 class Filter: public vector<UserPoint>
 {
-public : 
+public :
 
     Filter(MatrixHandler& matrix, int nrows, int ncols);
-    virtual ~Filter(); 
+    virtual ~Filter();
 
     //!  Get number of columns of the Mask
     int DimensionX () const { return ncols_; }
@@ -50,7 +50,7 @@ public :
     int DimensionY () const { return nrows_; }
 
     //!  Start the processing of the filters
-    virtual bool Process () {}
+    virtual bool Process () { return true; }
 
 protected :
 
@@ -103,7 +103,7 @@ public:
 	MinMaxFilter (MatrixHandler& matrix, int nrows, int ncols, int flag=3);
 
 	virtual ~MinMaxFilter();
-    
+
         /*!
           Convolutes the filter over the input matrix
           Return:
@@ -125,7 +125,7 @@ private:
     MinMaxFilter(const MinMaxFilter&);
     //! Overloaded << operator to copy - No copy allowed
     MinMaxFilter& operator=(const MinMaxFilter&);
-    
+
 // -- Friends
     //! Overloaded << operator to call print().
     friend ostream& operator<<(ostream& s,const MinMaxFilter& p)

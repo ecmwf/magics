@@ -1,10 +1,8 @@
 ###############################################################################
 
 configure_file( magics_config.h.in  magics_config.h  )
-configure_file( magics.pc.in  magics.pc @ONLY  )
 
 install ( FILES ${CMAKE_CURRENT_BINARY_DIR}/magics_config.h  DESTINATION ${INSTALL_INCLUDE_DIR})
-install ( FILES ${CMAKE_CURRENT_BINARY_DIR}/magics.pc      DESTINATION ${INSTALL_LIB_DIR}/pkgconfig)
 
 ###############################################################################
 
@@ -16,7 +14,7 @@ function( add_metview_definition_file )
      
     add_custom_command( 
             OUTPUT ${_p_BASENAME}Def ${_p_BASENAME}Rules
-            COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_SOURCE_DIR}/tools/xml2mv.py ${CMAKE_CURRENT_SOURCE_DIR} ${_p_FILE}  ${_p_BASENAME}Def ${_p_ACTION} ${_p_BASENAME}Rules
+            COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/../../tools/xml2mv.py ${CMAKE_CURRENT_SOURCE_DIR} ${_p_FILE}  ${_p_BASENAME}Def ${_p_ACTION} ${_p_BASENAME}Rules
             DEPENDS ${_p_FILE}
       )
      
@@ -40,7 +38,7 @@ foreach( file ${magics_xmls} )
       # generate the code
       add_custom_command( 
             OUTPUT  ${ouputfiles}
-            COMMAND ${PERL_EXECUTABLE} ${CMAKE_SOURCE_DIR}/tools/xml2cc_new.pl ${CMAKE_CURRENT_SOURCE_DIR}/${file} ${CMAKE_CURRENT_BINARY_DIR}/params nosubdir
+            COMMAND ${PERL_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/../tools/xml2cc_new.pl ${CMAKE_CURRENT_SOURCE_DIR}/${file} ${CMAKE_CURRENT_BINARY_DIR}/params nosubdir
             DEPENDS ${file}
       )
 
@@ -53,7 +51,6 @@ endforeach()
      
 if ( metview )
 
-      
 	foreach( file ${metview_xmls} )
 	      get_filename_component( path     ${file} PATH   )
           get_filename_component( basefile ${file} NAME_WE )
@@ -64,7 +61,7 @@ if ( metview )
 		# generate the code
 		  add_custom_command( 
 				OUTPUT  ${metviewfiles}
-				COMMAND ${PERL_EXECUTABLE} ${CMAKE_SOURCE_DIR}/tools/xml2mv.pl ${CMAKE_CURRENT_SOURCE_DIR}/${file} ${CMAKE_CURRENT_BINARY_DIR}/params nosubdir
+				COMMAND ${PERL_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/../tools/xml2mv.pl ${CMAKE_CURRENT_SOURCE_DIR}/${file} ${CMAKE_CURRENT_BINARY_DIR}/params nosubdir
 				DEPENDS ${file}
 			)
 
@@ -75,16 +72,14 @@ if ( metview )
 
      if(qt)
         SET(qt_drivers_HEADERS drivers/MgQ/MgQPlotScene.h)
-        QT4_WRAP_CPP(qt_drivers_HEADERS_MOC ${qt_drivers_HEADERS})
+        if( MAGICS_QT5 )
+          QT5_WRAP_CPP(qt_drivers_HEADERS_MOC ${qt_drivers_HEADERS})
+        else()
+          QT4_WRAP_CPP(qt_drivers_HEADERS_MOC ${qt_drivers_HEADERS})
+        endif()        
         list( APPEND drivers_srcs  drivers/MgQ/MgQPlotScene.cc  ${qt_drivers_HEADERS_MOC})
      endif()
-
 endif()
-	 
-
-
-
-
 
 
 add_custom_target( magics_params DEPENDS ${magics_params_srcs} )
@@ -104,13 +99,13 @@ if( metview )
 	add_subdirectory( libMagWrapper )
 endif()
 
-if( MAGICS_ODB )
+if( HAVE_ODB )
 	add_subdirectory( oda )
 endif()
 
 include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/common )
 
-ecbuild_add_library( TARGET    MagPlusShared
+ecbuild_add_library( TARGET    MagPlus
                      DEPENDS   magics_params
                      SOURCES
                         magics.h
@@ -129,29 +124,21 @@ ecbuild_add_library( TARGET    MagPlusShared
                         ${common_templates}
                      DEFINITIONS
                         ${MAGICS_EXTRA_DEFINITIONS} MAGICS_EXCEPTION=on
-                    LIBS
+                     LIBS
                         ${MAGICS_EXTRA_LIBRARIES}
-		            TYPE SHARED		     
-                    )
+                     TYPE SHARED )
 
-ecbuild_add_library( TARGET    MagPlusSingleShared 
-		     SOURCES MagicsSingle.cc
-             LIBS MagPlusShared
-		     TYPE SHARED)
-		     
-ecbuild_add_library(TARGET    MagPlusDoubleShared 
-             LIBS MagPlusShared
-		     SOURCES MagicsDouble.cc
-		     TYPE SHARED)		     
+ecbuild_add_library( TARGET      MagPlusSingle
+                     SOURCES     MagicsSingle.cc
+                     LIBS        MagPlus
+                     TYPE        SHARED )
 
-SET_TARGET_PROPERTIES(MagPlusShared PROPERTIES OUTPUT_NAME "MagPlus")
-SET_TARGET_PROPERTIES(MagPlusDoubleShared PROPERTIES OUTPUT_NAME "MagPlusDouble")
-SET_TARGET_PROPERTIES(MagPlusSingleShared PROPERTIES OUTPUT_NAME "MagPlusSingle")
+ecbuild_add_library( TARGET      MagPlusDouble
+                     SOURCES     MagicsDouble.cc
+                     LIBS        MagPlus
+                     TYPE        SHARED )
 
-
-
-
-if ( ENABLE_STATIC_LIBRARY ) 	     
+if ( BUILD_SHARED_LIBS STREQUAL "BOTH" )
 ecbuild_add_library( TARGET    MagPlusStatic
                      DEPENDS   magics_params
                      SOURCES
@@ -171,23 +158,22 @@ ecbuild_add_library( TARGET    MagPlusStatic
                         ${common_templates}
                      DEFINITIONS
                         ${MAGICS_EXTRA_DEFINITIONS}  
-                    LIBS
+                     LIBS
                         ${MAGICS_EXTRA_LIBRARIES} 
-		            TYPE STATIC		     
-                    )
-ecbuild_add_library( TARGET    MagPlusSingleStatic 
-		     SOURCES MagicsSingle.cc
-		     INCLUDES  ${CMAKE_CURRENT_SOURCE_DIR}/common
-		     TYPE SHARED)
-		     
-ecbuild_add_library(TARGET    MagPlusDoubleStatic 
-		     SOURCES MagicsDouble.cc
-		     INCLUDES  ${CMAKE_CURRENT_SOURCE_DIR}/common
-		     TYPE SHARED)
+                     TYPE STATIC
+                     OUTPUT_NAME MagPlus )
 
-    SET_TARGET_PROPERTIES(MagPlusStatic PROPERTIES OUTPUT_NAME "MagPlus")
-    SET_TARGET_PROPERTIES(MagPlusDoubleStatic PROPERTIES OUTPUT_NAME "MagPlusDouble")
-    SET_TARGET_PROPERTIES(MagPlusSingleStatic PROPERTIES OUTPUT_NAME "MagPlusSingle")
+ecbuild_add_library( TARGET      MagPlusSingleStatic 
+                     SOURCES     MagicsSingle.cc
+                     LIBS        MagPlusStatic
+                     TYPE        STATIC
+                     OUTPUT_NAME MagPlusSingle )
+
+ecbuild_add_library( TARGET      MagPlusDoubleStatic
+                     SOURCES     MagicsDouble.cc
+                     LIBS        MagPlusStatic
+                     TYPE        STATIC
+                     OUTPUT_NAME MagPlusDouble )
 
 endif()
 
@@ -205,6 +191,8 @@ if( metview )
                         ${CMAKE_CURRENT_SOURCE_DIR}/terralib/kernel
                         ${CMAKE_CURRENT_SOURCE_DIR}/terralib/utils 
                         ${CMAKE_CURRENT_SOURCE_DIR}/libMagWrapper )
+  
+
                         
   ecbuild_add_library( TARGET    MagWrapper
                      DEPENDS   mv_params magics_params

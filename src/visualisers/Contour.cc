@@ -95,7 +95,10 @@ void Contour::operator()(Data& data, BasicGraphicsObjectContainer& parent)
 		if(library->checkId(needId,needAttributes))
 		{			
     			data.visit(needAttributes);
+
+
     			library->getAttributes(needAttributes,attributes);
+
     			this->set(attributes);
     	}
 		else {

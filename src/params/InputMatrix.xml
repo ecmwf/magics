@@ -25,6 +25,10 @@
          		<option xml="irregular" fortran="nonregular" include="InputMatrixInterpretor.h" name="InputMatrixIrregularInterpretor">		</option>
          		<documentation> How data is organized in the input field (REGULAR /IRREGULAR/) 		</documentation>
   	</parameter>
+	<parameter xml="input_mars_metadata" from="string" name="input_mars_metadata" default="{}" member="metadata" to="string">
+
+         		<documentation> Json Object that contains metadata to descrive the the input data: will be used by the automatic eccharts contouring 		</documentation>
+  	</parameter>
 
   	<parameter xml="input_field_subpage_mapping" from="string" name="input_field_subpage_mapping" default="upper_left" member="mapping" to="string">
          		<documentation> Position of first point of array (1,1) on the subpage, (see text)(UPPER_LEFT / UPPER_RIGHT / LOWER_LEFT / LOWER_RIGHT /
