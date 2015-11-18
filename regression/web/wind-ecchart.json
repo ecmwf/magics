@@ -1,0 +1,56 @@
+{
+    "_name": "wind", 
+    "drivers": [
+        {
+            "format": "png", 
+            "fullname": "wind-ecchart.png", 
+            "output_cairo_transparent_background": "off", 
+            "output_name_first_page_number": "off", 
+            "output_width": "1625"
+        }
+    ], 
+    "height": "788", 
+    "method": "wrep", 
+    "page": {
+        "map": {
+            "border": "off", 
+            "fitted_mode": "expand", 
+            "margin_bottom": "0", 
+            "margin_left": "0", 
+            "margin_right": "0", 
+            "margin_top": "0", 
+            "plot": {
+                "grib": {
+                    "grib_wind_position_1": "1", 
+                    "grib_wind_position_2": "2", 
+                    "input_file_name": "wind.grib"
+                }, 
+                "wind": {
+                    "wind_arrow_unit_system": "automatic", 
+                    "wind_arrow_unit_velocity": "10", 
+                    "wind_field_type": "Flags", 
+                    "wind_flag_colour": "green", 
+                    "wind_flag_length": "0.3", 
+                    "wind_flag_origin_marker": "dot", 
+                    "wind_flag_origin_marker_size": "0.1", 
+                    "wind_legend_text": "Black wind flags (in knots)", 
+                    "wind_thinning_factor": "2.5", 
+                    "wind_thinning_method": "automatic"
+                }
+            }, 
+            "subpage_lower_left_latitude": "-90", 
+            "subpage_lower_left_longitude": "-185.596", 
+            "subpage_map_projection": "cylindrical", 
+            "subpage_upper_right_latitude": "90", 
+            "subpage_upper_right_longitude": "185.597"
+        }, 
+        "meta": {
+            "javascript_path": "wind-ecchart.js",
+            "profile_path": "wind-ecchart-info.js"
+        }, 
+        "page_id": "off"
+    }, 
+    "render": "render", 
+    "version": "3.0", 
+    "width": "1625"
+}

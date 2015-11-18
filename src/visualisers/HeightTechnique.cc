@@ -117,7 +117,7 @@ void CalculateHeightTechnique::set(const HeightTechniqueInterface& interface)
 
 void CalculateHeightTechnique::prepare(LevelSelection& levels) 
 {
-	assert(levels.size() > 1);
+	ASSERT(levels.size() > 1);
 	heights_.clear();
 	double step = (levels.size() == 2) ?  (max_ - min_)  : (max_ - min_) / (levels.size() - 2);
 	LevelSelection::const_iterator level = levels.begin();

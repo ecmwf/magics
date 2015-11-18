@@ -87,7 +87,7 @@ public:
 	   virtual void customisedPoints(const Transformation&, const std::set<string>&, CustomisedPointsList&, bool ) {}
 	    //! Method to access the data as a list of points
 	     // needMissing : if true the list will contain all the points (If they are outside the area: They will be flagged missing)
-	     virtual PointsHandler& points(const Transformation&, bool) { assert(false); }
+	     virtual PointsHandler& points(const Transformation&, bool) { NOTIMP; }
 protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).
 	 virtual void print(ostream& out) const { out << "ImportAction["; ImportActionAttributes::print(out); out << "]"; }

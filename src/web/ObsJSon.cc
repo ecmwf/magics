@@ -165,19 +165,19 @@ void ObsJSon::getInfo(const std::set<string>& what, multimap<string, string>& in
 
 void ObsJSon::latitude(const json_spirit::Value& value, CustomisedPoint& point)
 {
-	assert( value.type() == real_type);
+	ASSERT( value.type() == real_type);
 	point.latitude(value.get_value< double>());
 }
 
 void ObsJSon::longitude(const json_spirit::Value& value, CustomisedPoint& point)
 {
-	assert( value.type() == real_type);
+	ASSERT( value.type() == real_type);
 	point.longitude(value.get_value< double>());
 }
 
 void ObsJSon::type(const json_spirit::Value& value, CustomisedPoint& point)
 {
-	assert( value.type() == str_type);
+	ASSERT( value.type() == str_type);
 	string type=value.get_value<string>();
 	point.type(type);
 	types_.insert(type);
@@ -185,7 +185,7 @@ void ObsJSon::type(const json_spirit::Value& value, CustomisedPoint& point)
 
 void ObsJSon::identifier(const json_spirit::Value& value, CustomisedPoint& point)
 {
-	assert( value.type() == str_type);
+	ASSERT( value.type() == str_type);
 	string type=value.get_value<string>();
 	point.identifier(type);
 }

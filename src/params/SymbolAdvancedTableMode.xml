@@ -98,7 +98,10 @@
         		<documentation> List of markers to be used in symbol plotting 		</documentation>
         		<release>2.6		</release>
     	</parameter>
-
+	    <parameter member="markers_names" to="stringarray" default="stringarray()" from="stringarray" name="symbol_advanced_table_marker_name_list">
+        		<documentation> List of markers to be used in symbol plotting symbol		</documentation>
+        		<release>2.6		</release>
+    	</parameter>
     	<parameter member="marker_policy" to="ListPolicy" default="lastone" from="string" name="symbol_advanced_table_marker_list_policy">
         		<documentation>What to do if  the list of markers is smaller than the list of intervals: lastone/cycle 		</documentation>
         		<release>2.6		</release>

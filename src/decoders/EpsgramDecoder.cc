@@ -1920,7 +1920,7 @@ void SpotDecoder::visit(Transformation& transformation)
 	{
 		return;
 	}
-	assert(parameter_);
+	ASSERT(parameter_);
 	parameter_->setTransformation(transformation);
 }
 

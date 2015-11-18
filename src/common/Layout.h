@@ -218,16 +218,18 @@ public:
     AnimationRules* animationRules() const { return animationRules_; }
     
     const Transformation& transformation() const { 
-    	assert(transformation_); 
+    	ASSERT(transformation_); 
     	return *transformation_; 
     }
-    virtual bool childOfRoot() const { assert(parent_); return parent_->root(); }
+    virtual bool childOfRoot() const { ASSERT(parent_); return parent_->root(); }
     
     void transformation(Transformation* );
     void transformation(Layout& layout) const
     { layout.transformation(transformation_);  }
   
     void frameIt() { frame_.frame(*this); }
+    void clippIt(bool clipping) { clipping_ = clipping; }
+    bool clipp() const { return clipping_; }
     void blankIt() { frame_.blank(*this); }
     void resolve(bool resolve) { resolve_  = resolve; }
     bool resolve() const { return resolve_; }
@@ -263,6 +265,8 @@ protected:
 	bool resizable_;
 	bool resolve_;
 	
+	bool clipping_;
+
 	LayoutFrame frame_;
 		
 	static vector<DriverInfo> driverInfos_;

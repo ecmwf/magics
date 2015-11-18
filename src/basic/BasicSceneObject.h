@@ -58,6 +58,7 @@ class BottomAxisVisitor;
 class LeftAxisVisitor;
 class RightAxisVisitor;
 class BackgroundVisitor;
+class FrameVisitor;
 class TextVisitor;
 class MetaDataVisitor;
 class LegendVisitor;
@@ -96,8 +97,8 @@ public:
 	
 	bool items_empty() { return items_.empty(); }
 	
-	virtual void text(TextVisitor* text) { assert(parent_); parent_->text(text); }
-	virtual void legend(LegendVisitor* legend) { assert(parent_); parent_->legend(legend); }
+	virtual void text(TextVisitor* text) { ASSERT(parent_); parent_->text(text); }
+	virtual void legend(LegendVisitor* legend) { ASSERT(parent_); parent_->legend(legend); }
 	virtual void  getReady(const LegendVisitor&);
 
 
@@ -118,7 +119,7 @@ public:
 	}
 	
 	void orphan() { parent_ = 0; }
-	BasicSceneObject& parent() const { assert(parent_); return *parent_; }
+	BasicSceneObject& parent() const { ASSERT(parent_); return *parent_; }
 	virtual void set(const XmlNode&) 
 		{ MagLog::dev() << "Warning:  BasicSceneObject::set(const XmlNode&)-->Not implemented!" << endl; }
 	virtual void resolve();
@@ -149,6 +150,7 @@ public:
 	virtual void visit(LeftAxisVisitor& left)  { dispatch(left); }
 	virtual void visit(RightAxisVisitor& right)  { dispatch(right); }
 	virtual void visit(BackgroundVisitor& background)  { dispatch(background); }
+	virtual void visit(FrameVisitor& frame)  { dispatch(frame); }
 	
 	virtual void visit(TextVisitor& text)  { dispatch(text); }
 	virtual void visit(LegendVisitor& legend)  { dispatch(legend); }
@@ -161,44 +163,44 @@ public:
 
 	virtual void execute()
 	{
-	  assert(parent_); 
+	  ASSERT(parent_); 
 	  return parent_->execute(); 
 	} 
 
 	virtual  BasicGraphicsObject* visualise()
 	{
-		  assert(parent_);
+		  ASSERT(parent_);
 		  return parent_->visualise();
 	}
-	virtual MagicsMode mode() { assert(parent_); return parent_->mode(); }
+	virtual MagicsMode mode() { ASSERT(parent_); return parent_->mode(); }
 
 	virtual Transformation& transformation() const
-		{ assert(parent_); return parent_->transformation(); } 
+		{ ASSERT(parent_); return parent_->transformation(); } 
 	virtual const Layout& layout() const 
-		{ assert(parent_); return parent_->layout(); } 
+		{ ASSERT(parent_); return parent_->layout(); } 
 	virtual BasicGraphicsObject* toDisplay()
-		{ assert(parent_); return parent_->toDisplay(); }
+		{ ASSERT(parent_); return parent_->toDisplay(); }
 	virtual double absoluteWidth()    const 
-		{ assert ( parent_ ); return  parent_->absoluteWidth(); } 
+		{ ASSERT ( parent_ ); return  parent_->absoluteWidth(); } 
    	virtual double absoluteHeight()   const 
-		{ assert ( parent_ ); return  parent_->absoluteHeight(); } 
+		{ ASSERT ( parent_ ); return  parent_->absoluteHeight(); } 
    	virtual void absoluteRootWidth(double width)   
-		{ assert ( parent_ ); return  parent_->absoluteRootWidth(width); } 
+		{ ASSERT ( parent_ ); return  parent_->absoluteRootWidth(width); } 
    	virtual void absoluteRootHeight(double height)   
-   		{ assert ( parent_ ); return  parent_->absoluteRootHeight(height); }
+   		{ ASSERT ( parent_ ); return  parent_->absoluteRootHeight(height); }
  	virtual int rootWidthResolution()   const
-		{ assert ( parent_ ); return  parent_->rootWidthResolution(); } 
+		{ ASSERT ( parent_ ); return  parent_->rootWidthResolution(); } 
    	virtual int rootHeightResolution() const   
-   		{ assert ( parent_ ); return  parent_->rootHeightResolution(); }
+   		{ ASSERT ( parent_ ); return  parent_->rootHeightResolution(); }
    	virtual int widthResolution()   const
-   			{ assert ( parent_ ); return  parent_->rootWidthResolution(); } 
+   			{ ASSERT ( parent_ ); return  parent_->rootWidthResolution(); } 
    	virtual int heightResolution() const   
-   	   		{ assert ( parent_ ); return  parent_->rootHeightResolution(); }
+   	   		{ ASSERT ( parent_ ); return  parent_->rootHeightResolution(); }
    
 	const string& name() const { return name_; }
 	void name(const string& name)  { name_ = name; }
 
-	virtual BasicSceneNode* insert(BasicPositionalObject*) { assert (false);  return 0;}
+	virtual BasicSceneNode* insert(BasicPositionalObject*) { ASSERT (false);  return 0;}
 
 
 protected:
@@ -266,7 +268,7 @@ public:
 	virtual BasicSceneNode* insert(BasicPositionalObject*); // Return the node tinto which the object has been inserted! 
 	Layout& layout() const
 	{
-	  { assert(layout_); return *layout_; } 
+	  { ASSERT(layout_); return *layout_; } 
 	}    
 	virtual void getReady();  
 	virtual BasicSceneNode* clone();

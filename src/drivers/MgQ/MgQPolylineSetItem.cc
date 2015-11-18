@@ -77,7 +77,7 @@ void MgQPolylineSetItem::paint(QPainter *painter, const QStyleOptionGraphicsItem
 	int brushIndex,penIndex;
 	int prevBrushIndex=-1,prevPenIndex=-1;
 
-	//qDebug() <<  "POLYLINESET" << polylines_.count() << painter->clipRegion() << painter->transform().mapRect(boundingRect_);
+	//qDebug() <<  "POLYLINESET" << polylines_.count() << painter->clipRegion().boundingRect() << boundingRect_ << painter->transform().mapRect(boundingRect_);
 
 	bool antialias=painter->renderHints() & QPainter::Antialiasing;
 	

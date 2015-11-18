@@ -1,6 +1,7 @@
 *~
 *.o
 *.ps
+*.js
 *.png
 *.grib
 *.grb

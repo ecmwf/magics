@@ -112,7 +112,7 @@ public:
 	VisualAnimation();
 	virtual ~VisualAnimation();
 	void loop(DataLoop* data)     { loop_ = data; }
-	DataLoop& loop() { assert(loop_); return *loop_; }
+	DataLoop& loop() { ASSERT(loop_); return *loop_; }
     
 protected:
 	

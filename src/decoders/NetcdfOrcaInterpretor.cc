@@ -232,7 +232,8 @@ bool NetcdfOrcaInterpretor::interpretAsMatrix(Matrix** data)
 							(*matrix)[index.second +( index.first*im)] = val;
 
 					}
-
+					matrix->multiply(scaling_);
+					matrix->plus(offset_);
 
 				}
 
@@ -313,7 +314,40 @@ bool NetcdfOrcaInterpretor::interpretAsPoints(PointsList& points)
 
 }
 
+void NetcdfOrcaInterpretor::customisedPoints(const Transformation& transformation, const std::set<string>&, CustomisedPointsList& out, int thinning)
+{
 
+		try
+		{
+			MagLog::dev() << " Netcdf File Path --->" << path_ << "\n";
+			Netcdf netcdf(path_, dimension_method_);
+			map<string, string> first, last;
+			setDimensions(dimension_, first, last);
+	        double missing =  netcdf.getMissing(field_, missing_attribute_);
+			vector<double> latitudes;
+			vector<double> longitudes;
+			vector<double> x_component, y_component;
+
+			netcdf.get(longitude_, longitudes, first, last);
+			netcdf.get(latitude_,  latitudes, first, last);
+			netcdf.get(u_component_, x_component, first, last);
+			netcdf.get(v_component_, y_component, first, last);
+
+			for ( int ind = 0; ind < latitudes.size(); ind += thinning) {
+				CustomisedPoint* point = new CustomisedPoint();
+				point->longitude(longitudes[ind]);
+				point->latitude(latitudes[ind]);
+				(*point)["x_component"] = x_component[ind];
+				(*point)["y_component"] = y_component[ind];
+				out.push_back(point);
+			}
+		}
+
+		catch (MagicsException& e)
+		{
+			MagLog::error() << e << "\n";
+		}
+}
 
 /*!
  Class information are given to the output-stream.

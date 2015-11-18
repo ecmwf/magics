@@ -30,6 +30,7 @@
 #include "InputMatrix.h"
 #include "Transformation.h"
 #include "Timer.h"
+#include "MagJSon.h"
 #include <limits>
 
 using namespace magics;
@@ -49,7 +50,6 @@ InputMatrix::InputMatrix():  matrix_(0), u_(0), v_(0), speed_(0), direction_(0)
 InputMatrix::~InputMatrix()
 {
 }
-
 /*!
  Class information are given to the output-stream.
 */
@@ -77,7 +77,15 @@ void InputMatrix::filter(Matrix& data)
 		if ( data[i] <= suppress_below_ || data[i] >= suppress_above_ ) 
 			data[i] = data.missing();
 }
+void InputMatrix::visit(MetaDataCollector& visitor)
+{
+	ParamJSon data = ParamJSon(metadata_);
+	for(map<string, string>::iterator key = data.begin(); key != data.end(); ++key )
+	{
+		visitor.insert(make_pair(key->first, key->second));
+	}
 
+}
 
 void InputMatrix::getReady(const Transformation& transformation)
 {
@@ -246,3 +254,5 @@ void InputMatrix::customisedPoints(const BasicThinningMethod& thinning, const Tr
 	delete inx;
 	delete iny;
 }
+
+

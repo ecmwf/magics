@@ -30,7 +30,7 @@ void IsoHelper::concatenate_back(vector<Polyline* >& lines, Polyline* poly)
 	double x = poly->back().x();
 	double y = poly->back().y();
 
-	vector<Polyline* >::iterator todelete =  lines.end();
+	
 	for (vector<Polyline* >::iterator line = lines.begin(); line != lines.end(); ++line) {
 		if ( *line == poly || (*line)->empty() ) {
 			continue;

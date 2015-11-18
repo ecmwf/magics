@@ -77,6 +77,7 @@ IsoLabel.xml
 IsoPlot.xml
 IsoShading.xml
 KMLDriver.xml
+GeoJsonDriver.xml
 LabelPlotting.xml
 
 ObsPlotting.xml
@@ -197,7 +198,7 @@ XHyperCoordinate.xml
 XLogarithmicCoordinate.xml
 XRegularCoordinate.xml
 XYList.xml
-
+GeoJSon.xml
 YCoordinate.xml
 YDateCoordinate.xml
 YHyperCoordinate.xml
@@ -255,6 +256,7 @@ ObsStatDecoder.xml
 SimplePolyline.xml
 SimplePolylineInput.xml
 WrepJSon.xml
+
 WrepRootNode.xml
 XmlBasicNode.xml
 XmlRootNode.xml
@@ -263,7 +265,7 @@ XmlViewNode.xml
 		)
 	
 
-if( MAGICS_GRIB )
+if( HAVE_GRIB )
 	list( APPEND _common_xmls GribAddressByteMode.xml
 		GribAddressMode.xml
 		GribAddressRecordMode.xml
@@ -274,7 +276,7 @@ if( MAGICS_GRIB )
 		)		
 endif()
 
-if( MAGICS_NETCDF )
+if( HAVE_NETCDF )
 	list( APPEND _common_xmls 
 		NetcdfDecoder.xml
 		NetcdfGeoMatrixInterpretor.xml
@@ -288,13 +290,13 @@ if( MAGICS_NETCDF )
 		NetcdfXYpointsInterpretor.xml )
 endif()
 
-if ( MAGICS_ODB ) 
+if ( HAVE_ODB )
 	list ( APPEND _common_xmls 
 		OdaGeoDecoder.xml
 		OdaXYDecoder.xml )
 endif()
 
-if( MAGICS_CAIRO )
+if( HAVE_CAIRO )
     list( APPEND _common_xmls CairoDriver.xml )
 endif()
 

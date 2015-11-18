@@ -111,7 +111,7 @@ public:
 	void epsbufr(const XmlNode&);
 	void epsxml(const XmlNode&);
 	void wrepjson(const XmlNode&);
-	
+	void geojson(const XmlNode&);
 	void epswind(const XmlNode&);
 	void epscloud(const XmlNode&);
 	void epsbar(const XmlNode&);

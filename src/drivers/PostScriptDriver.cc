@@ -162,7 +162,7 @@ PostScriptDriver::~PostScriptDriver()
 void PostScriptDriver::open()
 {
 	currentPage_ = 0;
-	setCMscale(resolution_/2.54);// cm -> pixel
+	setCMscale(300./2.54);// cm -> pixel / based on 300 DPI
 	if(!isSplit()) openFile();
 }
 
@@ -190,7 +190,7 @@ MAGICS_NO_EXPORT void PostScriptDriver::startPage() const
 	dimensionX_ = convertCM(getXDeviceLength()); // 72   = points / inch
 	dimensionY_ = convertCM(getYDeviceLength()); // 2.54 = cm / inch
 
-	MFloat resolution=resolution_;
+	MFloat resolution=300.; // work with 300 DPI
 	MFloat ratio=1.;
 	int    width=0;
 	string mbg_tmpl = mgb_template_;
@@ -286,6 +286,10 @@ MAGICS_NO_EXPORT void PostScriptDriver::project(const magics::Layout& layout) co
 
 	fstream *ps = getStream();
 	*ps	<< "gs";
+	if(layout.clipp())
+	{
+		*ps<<" "<< offsetX_ <<" "<< offsetY_ <<" "<< dimensionX_ <<" "<< dimensionY_ <<" rectclip";
+	}
 //	if(fabs(X_) > 0.0001 && fabs(Y_) > 0.0001 )
 		*ps<<" "<< X_ <<" "<< Y_ <<" t";
 	*ps	<<"\n";

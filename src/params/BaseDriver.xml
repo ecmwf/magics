@@ -8,13 +8,8 @@
     		<documentation>Defines a title for the output which gets displayed if the format supports it.		</documentation>
 	</parameter>
 
-
-
-
-
-
 	<parameter member="name" to="string" default="" from="string" name="output_name">
-    		<documentation>Defines the root of output filename.		</documentation>
+    		<documentation>Defines the root of output filename.</documentation>
 	</parameter>
 
 	<parameter member="firstnumber" to="bool" default="on" from="string" name="output_name_first_page_number">
@@ -46,25 +41,26 @@
 	</parameter>
 
 	<parameter member="debug" to="bool" default="off" from="string" name="output_debug">
-  		<documentation>Defines if extra debug information are written in the output file (PS, EPS, SVG) or console (GIF/PNG).</documentation>
-  		<release>2.1		</release>        
+  		<documentation>Defines if extra debug information are written in the output file (PS, EPS, SVG) or console (PNG).</documentation>
+  		<release>2.1</release>        
 	</parameter>
 	<parameter member="width" to="int" default="800" from="int" name="output_width">
   		<documentation>Defines the width of the image in pixels.(For GD and SVG)</documentation>
 	</parameter>
+<!--	
 	<parameter member="resolution" to="int" default="300" from="int" name="output_resolution">
   		<documentation>Defines the resolution of the (graphical) output in dpi (72 - screen, 300 - print).</documentation>
 	</parameter>
-
+-->
 	<parameter member="filelist" to="bool" default="off" from="string" name="output_filelist">
  		<documentation>Defines if a list of all generated files should be written.</documentation>
- 		<set name="output_filelist_name" value="on">		</set>
- 		<release>2.7.10		</release>
+ 		<set name="output_filelist_name" value="on"></set>
+ 		<release>2.7.10</release>
 	</parameter>   
 
 	<parameter member="filelist_name" to="string" default="magics_outputs.lst" from="string" name="output_filelist_name">
  		<documentation>Defines the name of the file containing the list of generated files.</documentation>
- 		<release>2.7.10		</release>
+ 		<release>2.7.10</release>
 	</parameter>
 	
 	<parameter name='output_filelist_reset' from='string' to='bool' member='filelist_reset' default='off'>

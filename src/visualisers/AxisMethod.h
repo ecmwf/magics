@@ -51,7 +51,7 @@ public:
 	AxisMethod();
 	virtual ~AxisMethod();
 
-	AxisMethod* clone() { assert(false);  return 0;}
+	AxisMethod* clone() { NOTIMP;  return 0;}
 	virtual void set(const map<string, string>& map) {
 		AxisMethodAttributes::set(map);
 	}

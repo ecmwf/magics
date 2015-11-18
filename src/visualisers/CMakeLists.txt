@@ -195,7 +195,7 @@ endforeach()
 
 set( visualisers_srcs ${visualisers_srcs} PARENT_SCOPE )
 
-if ( ENABLE_METVIEW )
+if ( HAVE_METVIEW )
     list (APPEND metview_include 
             visualisers/LegendMethod.h      
             visualisers/LookupTableMode.h

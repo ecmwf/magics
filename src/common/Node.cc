@@ -218,7 +218,7 @@ void RootNode::print(ostream& out)  const
 
 Layout& RootNode::getLayout() 
 { 
-	assert(frameNode_);
+	ASSERT(frameNode_);
 	return frameNode_->getLayout();
 }
 	

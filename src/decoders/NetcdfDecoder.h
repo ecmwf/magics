@@ -91,7 +91,8 @@ public:
     	(*interpretor_).customisedPoints(request, out); 
     }
     void customisedPoints(const Transformation& transformation, const std::set<string>& request, CustomisedPointsList& out) {
-       	(*interpretor_).customisedPoints(transformation, request, out); 
+
+       	(*interpretor_).customisedPoints(transformation, request, out, thinningFactor_);
        }
     
     void visit(AnimationStep& step) {

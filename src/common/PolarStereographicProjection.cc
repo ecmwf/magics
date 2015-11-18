@@ -120,7 +120,7 @@ double PolarStereographicProjection::height() const {
 
 PaperPoint PolarStereographicProjection::operator()(const UserPoint& point)  const
 {
-	assert(projection_);
+	ASSERT(projection_);
 
 	TeCoord2D geo = TeCoord2D(point.x()*TeCDR, point.y()*TeCDR);
 	TeCoord2D xy = projection_->LL2PC(geo);
@@ -137,7 +137,7 @@ PaperPoint PolarStereographicProjection::operator()(const PaperPoint& point)  co
 
 void PolarStereographicProjection::revert(const vector< std::pair<double, double> > & in, vector< std::pair<double, double> > & out) const
 {
-	assert(projection_);
+	ASSERT(projection_);
 	out.reserve(in.size());
 
 	for ( vector< std::pair<double, double> >::const_iterator pt = in.begin();  pt != in.end(); ++pt) {
@@ -153,7 +153,7 @@ void PolarStereographicProjection::revert(const vector< std::pair<double, double
 
 void PolarStereographicProjection::revert(const PaperPoint& xy, UserPoint& point)  const
 {
-	assert(projection_);
+	ASSERT(projection_);
 	TeCoord2D texy = TeCoord2D(xy.x(), xy.y());
 	TeCoord2D geo = projection_->PC2LL(texy);
   
@@ -616,7 +616,7 @@ void PolarStereographicProjection::labels(const LabelPlotting& label, DrawingVis
 	   	   label.add(text); // This will set the font!
 	   	   text->setText(writeLatitude(point));
 	       text->push_back(xy);
-	       text->setBlanking(true);
+
 
 	    }
 	}
@@ -770,7 +770,7 @@ void PolarStereographicProjection::thin(MatrixHandler& matrix, double x, double 
 		}
 		else {
 			double coeff = (1-((lat/90.)*(lat/90.)));
-			assert ( coeff != 0);
+			ASSERT ( coeff != 0);
 			incrementx = yfactor / coeff;
 			if (incrementx < 0 )
 				incrementx = 1;

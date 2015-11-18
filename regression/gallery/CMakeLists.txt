@@ -3,10 +3,13 @@ add_magics_test(NAME gallery_axis1 SOURCES axis1.py IMAGE axis1.png THRESHOLD 5 
 add_magics_test(NAME gallery_axis2 SOURCES axis2.py IMAGE axis2.png  THRESHOLD 5 PYTHON)
 add_magics_test(NAME gallery_axis3 SOURCES axis3.py IMAGE axis3.png  THRESHOLD 5 PYTHON)
 add_magics_test(NAME gallery_axis4 SOURCES axis4.py IMAGE axis4.png  THRESHOLD 5 PYTHON)
+
 add_magics_test(NAME gallery_coastlines1 SOURCES coastlines1.py IMAGE coastlines1.png  THRESHOLD 5 PYTHON)
 add_magics_test(NAME gallery_coastlines2 SOURCES coastlines2.py IMAGE coastlines2.png  THRESHOLD 5 PYTHON)
 add_magics_test(NAME gallery_coastlines3 SOURCES coastlines3.py IMAGE coastlines3.png  THRESHOLD 5 PYTHON)
 add_magics_test(NAME gallery_coastlines4 SOURCES coastlines4.py IMAGE coastlines4.png  THRESHOLD 5 PYTHON)
+add_magics_test(NAME gallery_coastlines5 SOURCES coastlines5.py IMAGE coastlines5.png  THRESHOLD 5 PYTHON)
+
 add_magics_test(NAME gallery_contour1 SOURCES contour1.py IMAGE contour1.png DATA z500.grib THRESHOLD 5 PYTHON)
 add_magics_test(NAME gallery_contour10 SOURCES contour10.py IMAGE contour10.png DATA 2m_temperature.grib THRESHOLD 5 PYTHON)
 add_magics_test(NAME gallery_contour11 SOURCES contour11.py IMAGE contour11.png DATA Total_precipitation.grib THRESHOLD 5 PYTHON)
@@ -29,6 +32,8 @@ add_magics_test(NAME gallery_contour9 SOURCES contour9.py IMAGE contour9.png DAT
 add_magics_test(NAME gallery_epsboxplot SOURCES epsboxplot.py IMAGE epsboxplot.png RESOURCES cloud_box.json THRESHOLD 5 PYTHON)
 
 add_magics_test(NAME gallery_frame SOURCES frame.py IMAGE frame.png  THRESHOLD 1 PYTHON)
+add_magics_test(NAME gallery_geojson_multilines SOURCES geojson_multilines.py IMAGE geojson_multilines.png RESOURCES warm_fronts.geojson cold_fronts.geojson THRESHOLD 1 PYTHON)
+add_magics_test(NAME gallery_geojson_input SOURCES geojson_input.py IMAGE geojson_input.png THRESHOLD 1 PYTHON)
 
 add_magics_test(NAME gallery_epsrose SOURCES epsrose.py IMAGE epsrose.png RESOURCES cloud_rose.json THRESHOLD 5 PYTHON)
 add_magics_test(NAME gallery_epswave SOURCES epswave.py IMAGE epswave.png RESOURCES wave.json THRESHOLD 5 PYTHON)
@@ -73,3 +78,8 @@ add_magics_test(NAME gallery_wind1 SOURCES wind1.py IMAGE wind1.png DATA msl.grb
 add_magics_test(NAME gallery_wind2 SOURCES wind2.py IMAGE wind2.png DATA speed200.grb uv200.grb THRESHOLD 5 PYTHON)
 add_magics_test(NAME gallery_wind3 SOURCES wind3.py IMAGE wind3.png DATA uv200.grb THRESHOLD 5 PYTHON)
 add_magics_test(NAME gallery_wind4 SOURCES wind4.py IMAGE wind4.png DATA wind.grib vorticity.grib THRESHOLD 5 PYTHON)
+
+add_magics_test(NAME gallery_missing1 SOURCES handling_missing1.py IMAGE handling_missing1.png DATA sst.grb THRESHOLD 2 PYTHON)
+add_magics_test(NAME gallery_missing2 SOURCES handling_missing2.py IMAGE handling_missing2.png DATA sst.grb THRESHOLD 2 PYTHON)
+add_magics_test(NAME gallery_missing3 SOURCES handling_missing3.py IMAGE handling_missing3.png DATA sst.grb THRESHOLD 2 PYTHON)
+add_magics_test(NAME gallery_missing4 SOURCES handling_missing4.py IMAGE handling_missing4.png DATA sst.grb THRESHOLD 2 PYTHON)

@@ -20,6 +20,7 @@
 
 
 #include <stdio.h>
+#include <iostream>
 #include <stdlib.h>
 #include <math.h>
 #include <float.h>
@@ -139,6 +140,7 @@ int CalcStreamlines(int density, const float *dir, const GSStruct *gs, OneLineCl
 	float dx_2e = dx_2 * 1.001;
 	float dy_2e = dy_2 * 1.001;
 	int period_x = gs->period_x;
+	int gs_geo =  gs->gs_geo;
 	//int period_y = gs->period_y;
 
 	float *dir_tmp = 0x0;
@@ -150,8 +152,7 @@ int CalcStreamlines(int density, const float *dir, const GSStruct *gs, OneLineCl
 				abut_x = 1;
 		}
 
-	// Find out if the grid is on the Earth or no
-	int gs_geo = 1; // 0 -> not on Earth
+
 	// x_min and x_per are used for ShiftPeriod function
 	float x_min = 0.f, x_per = 360.f; // for grids on the Earth
 	if( !gs_geo )
@@ -781,8 +782,8 @@ int CalcStreamlines(int density, const float *dir, const GSStruct *gs, OneLineCl
 									}
 								else
 									{
-										if( cell_shift == -1 && act_cell % nx == 0 ||
-												cell_shift == 1 && act_cell % nx == nx-1 )
+										if( ((cell_shift == -1) && (act_cell % nx == 0)) ||
+											((cell_shift ==  1) && (act_cell % nx == nx-1)) )
 											break;
 										act_cell += cell_shift;
 									}
@@ -826,9 +827,12 @@ int CalcStreamlines(int density, const float *dir, const GSStruct *gs, OneLineCl
 											{
 												line->X[k] = x[l];
 												line->Y[k] = y[l];
+                                               // std:: << k << " = " << "[" <<  line->X[k] << ", " << line->Y[k] << "]" << std::endl;
 												k++;
 											}
 									}
+
+                              //  std::cout << "-----------------------------------------------------------" << std::endl;
 
 								linenum++;
 								OneLineClass** new_str_lines = new OneLineClass*[linenum];

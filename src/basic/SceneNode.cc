@@ -128,6 +128,7 @@ void FortranSceneNode::visit(BasicGraphicsObjectContainer& tree)
 		layout_->push_back(sceneLayer_);
 		page_id_->visit(*layout_);
 		layout_->id(iconId_); // For Metview
+		layout_->frameIt();
 	}
 #ifdef MAG_NEXT
 	else 
@@ -147,7 +148,7 @@ void FortranSceneNode::visit(BasicGraphicsObjectContainer& tree)
 
 void FortranSceneNode::getReady()
 {	
-	assert(parent_);
+	ASSERT(parent_);
 	
 	// Make sure that the dimensions are not bigger that the paper size!
 
@@ -213,7 +214,7 @@ void XmlSceneNode::getReady()
 	
 	MagLog::dev() << " SceneNode::getReady() \n";
 	MagLog::dev() << "XmlSceneNode::getReady() \n";
-	assert (parent_);
+	ASSERT (parent_);
 	Dimension bottom(bottom_, parent_->absoluteWidth(), 0);
 	Dimension left(left_, parent_->absoluteHeight(), 0);
 	Dimension width(width_, parent_->absoluteWidth(), 100);

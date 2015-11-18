@@ -73,6 +73,7 @@ void GeoPointsDecoder::add(const Transformation& transformation, CustomisedPoint
 		UserPoint p = duplicates.top();
 		push_back(new UserPoint(p));
 		CustomisedPoint*  cp = new CustomisedPoint(p.x(), p.y(), point.identifier());
+
 		for ( CustomisedPoint::iterator key = point.begin(); key != point.end(); ++key)
 			cp->insert(make_pair(key->first, key->second));
 		customisedPoints_.push_back(cp);
@@ -96,7 +97,7 @@ void GeoPointsDecoder::yxdtlv2(const string& line, const Transformation& transfo
 	std::istringstream in(line);
 	double lat, lon, date, time, level, value;
 	in >> lat >> lon >> level >> date >> time >>  value;
-	UserPoint geo(lon, lat, value);
+	UserPoint geo(lon, lat, value, value == missing_);
 	add(transformation, geo);
 }
 
@@ -105,7 +106,7 @@ void GeoPointsDecoder::xyv2(const string& line, const Transformation& transforma
 	std::istringstream in(line);
 	double lat, lon, value;
 	in >> lon >> lat >> value;
-	UserPoint geo(lon, lat, value);
+	UserPoint geo(lon, lat, value, value == missing_);
 	add(transformation, geo);
 	
 }
@@ -117,6 +118,8 @@ void GeoPointsDecoder::lluv(const string& line, const Transformation& transforma
 	CustomisedPoint geo(lon, lat, "lluv");
 	geo["x_component"] = u;
 	geo["y_component"] = v;
+	if ( u == missing_ || v == missing_ )
+		geo.missing(true);
 	add(transformation, geo);
 
 }
@@ -125,12 +128,20 @@ void GeoPointsDecoder::polar(const string& line, const Transformation& transform
 	std::istringstream in(line);
 	double lat, lon, height, date, time, speed, direction;
 	in >> lat >> lon >> height >> date >> time >> speed >> direction;
+
 	CustomisedPoint geo(lon, lat, "polar");
-	double angle = (90 - (direction))*(PI/180.);
+
+	if ( speed == missing_ || direction == missing_ )
+			geo.missing(true);
+
+	else {
+		double angle = (90 - (direction))*(PI/180.);
+		geo["x_component"] = speed * -cos(angle);
+		geo["y_component"] = speed * -sin(angle) ;
+	}
 
 
-	geo["x_component"] = speed * -cos(angle);
-	geo["y_component"] = speed * -sin(angle) ;
+
 	add(transformation, geo);
 
 }
@@ -140,7 +151,7 @@ void GeoPointsDecoder::yxdtlv1(const string& line)
 	double lat, lon, date, time, level, value;
 	in >> lat >> lon >> level >> date >> time >>  value;
 
-	push_back(new UserPoint(lon, lat, value));
+	push_back(new UserPoint(lon, lat, value, value == missing_));
 }
 
 void GeoPointsDecoder::xyv1(const string& line)
@@ -148,7 +159,7 @@ void GeoPointsDecoder::xyv1(const string& line)
 	std::istringstream in(line);
 	double lat, lon, value;
 	in >> lon >> lat >> value;
-	push_back(new UserPoint(lon, lat, value));
+	push_back(new UserPoint(lon, lat, value, value == missing_));
 	
 }
 void GeoPointsDecoder::decode(const Transformation& transformation)
@@ -261,9 +272,7 @@ void GeoPointsDecoder::initInfo()
 	setInfo("_datatype","GEOPOINTS");
 	setInfo("path",path_);
 	setInfo("MV_Format","GEOPOINTS");
-	//setInfo("value",getValue());
-	//setInfo("x",getX());
-	//setInfo("y",getY());
+
 }
 
 void GeoPointsDecoder::visit(MetaDataCollector& mdc)
@@ -288,9 +297,7 @@ void GeoPointsDecoder::visit(ValuesCollector& points)
 	if(points.size() <=0 || size() == 0)
 	  	return;
 	
-	//if(value_.empty())
-	//	points.setHasValue(false);
-		
+
 	for (ValuesCollector::iterator point =  points.begin(); point != points.end(); ++point)
 	{
 	  	double lat=(*point).y();

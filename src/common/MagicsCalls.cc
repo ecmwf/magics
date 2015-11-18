@@ -171,7 +171,7 @@ public :
 	~GribFieldPosition() {}
 	bool operator()(int)
 	{
-		assert(magics_);
+		ASSERT(magics_);
 		magics_->resetGrib();
 		return false;
 	}
@@ -432,6 +432,23 @@ public :
 		return false;
 	}
 };
+
+/*! \brief nforms users that output_resolution is dreprecated
+
+  This parameter is not required anymore.
+*/
+class OutputResolution: public CompatibilityHelper {
+public :
+	OutputResolution() : CompatibilityHelper("output_resolution") {}
+	~OutputResolution() {}
+	bool operator()(int )
+	{
+		MagLog::info() << "Deprecated parameter: output_resolution is not used anymore.\n"
+		            << "        Vector formats already used highes resolution and PNG uses 300 DPI."<< std::endl; 
+		return true;
+	}
+};
+
 
 class GraphValuesConverter : public CompatibilityHelper
 {
@@ -801,6 +818,7 @@ public :
 	}
 };
 
+static OutputResolution outputresolution;
 static WindArrowLegend windarrowlegend;
 static PsFileName ps_file_name;
 static GribSubareaExtraction grib_subarea_extraction;
@@ -820,6 +838,7 @@ static TextQuality axis_tick_label_quality("axis_tick_label");
 static TextQuality axis_Title_quality("axis_title");
 static TextQuality page_id_quality("page_id_line");
 static TextQuality contour_label_quality("contour_label") ;
+static TextQuality map_label_quality("map_label_quality");
 static WindArrowIndexHead wind_arrow_index_head;
 
 static TextFontHeight text_reference_character_height("text_reference_character_height", "text_font_size");
@@ -852,7 +871,7 @@ static SimpleTranslator graph_shade_colour("graph_shade_colour", "graph_bar_colo
 static SimpleTranslator graph_bar_colour("graph_bar_colour", "graph_shade_colour", true);
 static SimpleTranslator subpage_map_area_definition("subpage_map_area_definition", "subpage_map_area_definition_polar", true);
 static SimpleTranslator wind_arrow_legend("wind_arrow_legend", "legend");
-#ifdef MAGICS_ODB
+#ifdef HAVE_ODB
 static SimpleTranslator odb_latitude("odb_latitude", "odb_latitude_variable");
 static SimpleTranslator odb_longitude("odb_longitude", "odb_longitude_variable");
 static SimpleTranslator odb_y_component("odb_y_component", "odb_y_component_variable");
@@ -934,7 +953,7 @@ void ptest_()
 
 void podb_()
 {
-#ifdef MAGICS_ODB
+#ifdef HAVE_ODB
 	magics_->podb();
 #else
 	MagLog::warning() << "ODB support is NOT enabled!\n";
@@ -1177,6 +1196,10 @@ void pwrepjson_()
 {
 	magics_->wrepjson();
 }
+void pgeojson_()
+{
+	magics_->geojson();
+}
 void pepsinput_()
 {
 	magics_->epsinput();
@@ -1253,6 +1276,7 @@ void mag_symb()  {psymb_();}
 void mag_boxplot()  {pboxplot_();}
 void mag_taylor()  {ptaylor_();}
 void mag_tephi()  {ptephi_();}
+void mag_geojson()  { pgeojson_(); }
 void mag_wrepjson()  { pwrepjson_(); }
 void mag_epsinput()  { pepsinput_(); }
 void mag_epscloud()  { pepscloud_(); }
@@ -1310,7 +1334,7 @@ void mag_seti(const char* name, const int value)
 void mag_setp(const char* name, void* value)
 {
 	string n(name);
-#ifdef MAGICS_CAIRO
+#ifdef HAVE_CAIRO
     if ( magCompare(n, "output_cairo_drawing_context") ) {
        ParameterManager::set("output_cairo_drawing_context", (CairoPtr)value); 
     }

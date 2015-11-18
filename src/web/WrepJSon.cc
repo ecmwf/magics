@@ -35,6 +35,7 @@
 #include "CustomisedPoint.h"
 #include "DateTime.h"
 #include "TextVisitor.h"
+#include "MagException.h"
 #include "json_spirit.h"
 #include "IntervalMap.h"
 #include "EfiLegendEntry.h"
@@ -47,12 +48,11 @@ static map<char, string> specials;
 WrepJSon::WrepJSon()  : missing_(-9999),
 		height_(-9999),
 		mask_(9999),
-		station_latitude_(9999),
-		station_longitude_(9999), 
-		latitude_(0), longitude_(0)
+		latitude_(0), station_longitude_(9999), longitude_(0)
 {
 	methods_["date"] = &WrepJSon::date;
 	methods_["time"] = &WrepJSon::time;
+    methods_["expver"] = &WrepJSon::expver;
 	methods_["eps_height"] = &WrepJSon::epsz;
 	methods_["height"] = &WrepJSon::height;
 	methods_["deterministic_height"] = &WrepJSon::detz;
@@ -64,6 +64,7 @@ WrepJSon::WrepJSon()  : missing_(-9999),
 	methods_["land_sea_mask"] = &WrepJSon::mask;
 	methods_["metadata"] = &WrepJSon::metadata;
 	methods_["points_along_meridian"] = &WrepJSon::points_along_meridian;
+	methods_["valid_time"] = &WrepJSon::valid_time;
 	
 	methods_["x_values"] = &WrepJSon::x_values;
 	methods_["x_date_values"] = &WrepJSon::x_date_values;
@@ -192,6 +193,12 @@ void WrepJSon::visit(Transformation& transformation)
 	missing_ = missing_value_;
 
 	decode();
+
+	if ( miny_ == std::numeric_limits<double>::max() ) {
+		// All data missing
+		miny_ = 0;
+		maxy_ = 0;
+	}
 
 	double add = (maxy_ - miny_ ) * y_percent_ /100.;
 	maxy_ += add;
@@ -578,7 +585,7 @@ void WrepJSon::metadata(const json_spirit::Value& value )
 
 void WrepJSon::station(const json_spirit::Value& value )
 {
-	assert( value.type() == obj_type );
+	ASSERT( value.type() == obj_type );
 	Object location = value.get_value<Object>();
 	const json_spirit::Value lat = find_value(location, "lat");
 	const json_spirit::Value lon = find_value(location, "lon");
@@ -593,7 +600,7 @@ void WrepJSon::station(const json_spirit::Value& value )
 void WrepJSon::location(const json_spirit::Value& value )
 {
 	
-	assert( value.type() == obj_type );
+	ASSERT( value.type() == obj_type );
 	Object location = value.get_value<Object>();
 	const json_spirit::Value lat = find_value(location, "lat");
 	const json_spirit::Value lon = find_value(location, "lon");
@@ -621,7 +628,7 @@ void WrepJSon::station_name(const json_spirit::Value& value )
 }
 void WrepJSon::epsz(const json_spirit::Value& value)
 {
-	assert( value.type() == real_type);
+	ASSERT( value.type() == real_type);
 	epsz_ = value.get_value< double>();
 	MagLog::dev() << "found -> epsz= " <<  epsz_ << endl;
 }
@@ -638,45 +645,65 @@ void WrepJSon::height(const json_spirit::Value& value)
 
 void WrepJSon::detz(const json_spirit::Value& value )
 {
-	assert( value.type() == real_type);
+	ASSERT( value.type() == real_type);
 	detz_ = value.get_value< double>();
 	MagLog::dev() << "found -> detz= " <<  detz_ << endl;
 }
 void WrepJSon::mask(const json_spirit::Value& value )
 {
-	assert( value.type() == real_type);
+	ASSERT( value.type() == real_type);
 	mask_ = value.get_value< double>();
 	MagLog::dev() << "found -> mask= " <<  mask_ << endl;
 }
 void WrepJSon::missing(const json_spirit::Value& value )
 {
-	assert( value.type() == str_type);
+	ASSERT( value.type() == str_type);
 	MagLog::dev() << "found -> missing= " <<  value.get_value<string>() << endl;
 	missing_ = tonumber(value.get_value<string>());
 }
 void WrepJSon::date(const json_spirit::Value& value)
 {
 
-	assert( value.type() == str_type);
+	ASSERT( value.type() == str_type);
 	MagLog::dev() << "found -> date= " <<  value.get_value<string>() << endl;
 	date_ =  value.get_value<string>();
 	
 }
+void WrepJSon::expver(const json_spirit::Value& value)
+{
+    
+    ASSERT( value.type() == str_type);
+    MagLog::dev() << "found -> expver= " <<  value.get_value<string>() << endl;
+    expver_ =  value.get_value<string>();
+    
+}
 void WrepJSon::time(const json_spirit::Value& value)
 {
 
-	assert( value.type() == str_type);
+	ASSERT( value.type() == str_type);
 	MagLog::dev() << "found -> time= " <<  value.get_value<string>() << endl;
 	time_ =  value.get_value<string>();
 }
+void WrepJSon::valid_time(const json_spirit::Value& value)
+{
 
+	ASSERT( value.type() == str_type);
+
+	// intrepret datetime ...
+	string info = value.get_value<string>();
+	DateTime to(info.substr(0,8), info.substr(8,4));
+	DateTime from = to + (-24*3600L);
+	ostringstream vt;
+	vt << "from " << from.tostring("%A %e %B %Y %H UTC") << " to " << to.tostring("%A %e %B %Y %H UTC") << endl;
+	valid_time_ =  vt.str();
+}
 void WrepJSon::parameter(const json_spirit::Value& value)
 {
-	assert( value.type() == obj_type );
+	ASSERT( value.type() == obj_type );
 	Object param = value.get_value< Object >();
 	        		        
 	for (vector<Pair>::const_iterator info = param.begin(); info !=  param.end(); ++info) {
-				assert (info->value_.type() == array_type);
+				ASSERT (info->value_.type() == array_type);
 	        	Array values = info->value_.get_value<Array>();
 	        	if ( info->name_ == "steps" ) {
 	        		for (unsigned int i = 0; i < values.size(); i++) {
@@ -691,6 +718,13 @@ void WrepJSon::parameter(const json_spirit::Value& value)
 	        	     }
 	        	}
 	        	else {
+	        		bool add = true;
+	        		for ( vector<string>::iterator i = ignore_keys_.begin(); i != ignore_keys_.end(); ++i)
+	        			if ( *i == info->name_ )
+	        				add = false;
+	        		if ( !add ) {
+	        			continue;
+	        		}
 	        		map<string, vector<double> >& xv = current_->values_;
 	        		xv.insert(make_pair(info->name_, vector<double>()));
 	        		vector<double>& vals =  xv[info->name_];
@@ -717,7 +751,7 @@ void WrepJSon::parameter(const json_spirit::Value& value)
 }
 void WrepJSon::dig(const json_spirit::Value& value)
 {
-	assert( value.type() == obj_type );
+	ASSERT( value.type() == obj_type );
 	Object object = value.get_value< Object >();
 	  for (vector<Pair>::const_iterator entry = object.begin(); entry !=  object.end(); ++entry) {
       		  map<string,  Method >::iterator method = methods_.find(entry->name_);
@@ -950,7 +984,7 @@ void WrepJSon::clim(const json_spirit::Value& value)
 
 	dig(value);
 
-	clim_.print();
+	//clim_.print();
 
 
 
@@ -958,7 +992,7 @@ void WrepJSon::clim(const json_spirit::Value& value)
 void WrepJSon::efi(const json_spirit::Value& value)
 {
 	
-	assert( value.type() == obj_type );
+	ASSERT( value.type() == obj_type );
 	Object param = value.get_value< Object >();
 	scaling_factor_ = 100;
 	offset_factor_ = 0;
@@ -969,11 +1003,12 @@ void WrepJSon::efi(const json_spirit::Value& value)
 	        	current_ = &(efi_[info->name_]);
 	        	dig(info->value_);   
 	  }
-	        
+	/*
 	for (map<string,  InputWrep>::iterator info = efi_.begin(); info !=  efi_.end(); ++info) {
 		
 		info->second.print();
 	}
+	*/
 	        
 	
 }
@@ -983,7 +1018,7 @@ void WrepJSon::eps(const json_spirit::Value& value)
 	
 	scaling_factor_ = param_scaling_factor_;
 		offset_factor_ = param_offset_factor_;
-		assert( value.type() == obj_type );
+		ASSERT( value.type() == obj_type );
 		Object param = value.get_value< Object >();
 		        		        
 		for (vector<Pair>::const_iterator info = param.begin(); info !=  param.end(); ++info) {				
@@ -992,11 +1027,12 @@ void WrepJSon::eps(const json_spirit::Value& value)
 			        	current_ = &(eps_[info->name_]);
 			        	dig(info->value_);   
 			  }
-			        
+			/*
 			for (map<string,  InputWrep>::iterator info = eps_.begin(); info !=  eps_.end(); ++info) {
 				
-				info->second.print();
+				//info->second.print();
 			}
+			*/
 }
 	 
 double WrepJSon::correctDetz(double value)
@@ -1071,14 +1107,14 @@ Value  WrepJSon::temperature_adjustment()
 
 void WrepJSon::points_along_meridian(const json_spirit::Value& value)
 {
-	assert( value.type() == int_type);
+	ASSERT( value.type() == int_type);
 	points_along_meridian_ = value.get_value< int>();
 	MagLog::dev() << "found -> points_along_meridian_mask= " <<  mask_ << endl;
 }
 
 void WrepJSon::x_values(const json_spirit::Value& value)
 {
-	assert (value.type() == array_type);
+	ASSERT (value.type() == array_type);
 	Array values = value.get_value<Array>();
 	bool newpoint = points_.empty();
 	vector<double> minmax;
@@ -1105,7 +1141,7 @@ void WrepJSon::x_values(const json_spirit::Value& value)
 }
 void WrepJSon::values(const json_spirit::Value& value)
 {
-	assert (value.type() == array_type);
+	ASSERT (value.type() == array_type);
 	Array values = value.get_value<Array>();
 	bool newpoint = points_.empty();
 
@@ -1129,7 +1165,7 @@ void WrepJSon::values(const json_spirit::Value& value)
 }
 void WrepJSon::y_values(const json_spirit::Value& value)
 {
-	assert (value.type() == array_type);
+	ASSERT (value.type() == array_type);
 	Array values = value.get_value<Array>();
 	bool newpoint = points_.empty();
 	vector<double> minmax;
@@ -1161,7 +1197,7 @@ void WrepJSon::y_values(const json_spirit::Value& value)
 void WrepJSon::x_date_values(const json_spirit::Value& value)
 {
 
-	assert (value.type() == array_type);
+	ASSERT (value.type() == array_type);
 	Array values = value.get_value<Array>();
 	if ( !regular_) {
 		xdate_ = true;
@@ -1195,7 +1231,7 @@ void WrepJSon::x_date_values(const json_spirit::Value& value)
 
 void WrepJSon::y_date_values(const json_spirit::Value& value)
 {
-	assert (value.type() == array_type);
+	ASSERT (value.type() == array_type);
 	Array values = value.get_value<Array>();
 	ydate_ = true;
 	yBase_ = DateTime(values[0].get_value<string>());
@@ -1282,10 +1318,15 @@ void WrepJSon::visit(TextVisitor& text)
 	if (param_info_ != "none")
 		text.update("json", "station_name", station_name_);
 
-	//(**point)["y"]
-	text.update("json", "product_info", product_info_);
-	text.update("json", "plumes_interval", tostring(plumes_));
+	
+    if ( !expver_.empty() && expver_ != "0001") {
+        text.update("json", "expver",  " [" + expver_ + "] ");
+    }
 
+    text.update("json", "product_info", product_info_);
+	text.update("json", "plumes_interval", tostring(plumes_));
+	text.update("json", "efi_date", valid_time_);
+	text.update("json", "min_max_values", "Max = " +  tostring(maground(maxx_)) + ", Min = " +  tostring(maground(minx_)));
 }
 
 void WrepJSon::points(const Transformation& transformation, vector<UserPoint>& points)

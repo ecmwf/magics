@@ -1733,5 +1733,6 @@
     }, 
     "points_along_meridian": 640, 
     "station_name": "", 
-    "time": "0000"
+    "time": "0000",
+    "expver": "show expver"
 }

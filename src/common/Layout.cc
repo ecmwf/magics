@@ -49,7 +49,7 @@ Layout::Layout()  :
 	owner_(0),animationRules_(0), transformation_(0),
 	width_(100), height_(100), x_(0), y_(0), display_(INLINE),
 	xmin_(0), xmax_(100), ymin_(0), ymax_(100),
-	zoomable_(false), navigable_(false), resizable_(false), resolve_(false)
+	zoomable_(false), navigable_(false), resizable_(false), resolve_(false), clipping_(false)
 {
 }
 
@@ -221,13 +221,13 @@ double Layout::absoluteY() const
 
 double Layout::absoluteWidth() const
 {
-    assert(parent_);
+    ASSERT(parent_);
     return width_ * parent_->absoluteWidth() /100;
 }
 
 double Layout::absoluteHeight() const
 {
-	assert(parent_);
+	ASSERT(parent_);
 	return height_ * parent_->absoluteHeight() /100;
 }
 
@@ -333,27 +333,28 @@ Layout*  Layout::clone() const
 {
 	Layout* layout = newLayout();
 	
-	layout->name_ = this->name_;
-	layout->width_ = this->width_;
-	layout->height_ = this->height_;
-	layout->x_ = this->x_;	
-	layout->y_ = this->y_;	
+	layout->name_ = name_;
+	layout->width_ = width_;
+	layout->height_ = height_;
+	layout->x_ = x_;
+	layout->y_ = y_;
 	
-	layout->xmin_ = this->xmin_;		
-	layout->xmax_ = this->xmax_;		
-	layout->ymin_ = this->ymin_;	
-	layout->ymax_ = this->ymax_;
-	layout->transformation_ = this->transformation_;
-	layout->parent_ = this->parent_;
+	layout->xmin_ = xmin_;
+	layout->xmax_ = xmax_;
+	layout->ymin_ = ymin_;
+	layout->ymax_ = ymax_;
+	layout->transformation_ = transformation_;
+	layout->parent_ = parent_;
 	
-	layout->id_ = this->id_;		
-	layout->zoomable_ = this->zoomable_;
-	layout->navigable_ = this->navigable_;
-	layout->zoomLevels_ = this->zoomLevels_;		
-	layout->zoomCurrentLevel_ = this->zoomCurrentLevel_;			
-	layout->widthResolution_ = this->widthResolution_;
-	layout->heightResolution_ = this->heightResolution_;
-	layout->resizable_ = this->resizable_;				
+	layout->id_ = id_;
+	layout->zoomable_ = zoomable_;
+	layout->navigable_ = navigable_;
+	layout->zoomLevels_ = zoomLevels_;
+	layout->zoomCurrentLevel_ = zoomCurrentLevel_;
+	layout->widthResolution_ = widthResolution_;
+	layout->heightResolution_ = heightResolution_;
+	layout->resizable_ = resizable_;
+	layout->clipping_ = clipping_;
 
 	layout->frame(*this);
 	

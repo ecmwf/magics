@@ -35,11 +35,12 @@
 
 #include "WrepJSonAttributes.h"
 
+#include "json_spirit.h"
 #include "Decoder.h"
 #include "Data.h"
 #include "UserPoint.h"
 #include "DateTime.h"
-#include "json_spirit.h"
+
 #include "Matrix.h"
 #include <limits>
 
@@ -124,11 +125,14 @@ public:
 
 	void location(const json_spirit::Value&);
 	void station_name(const json_spirit::Value&);
+	void valid_time(const json_spirit::Value&);
 	void epsz(const json_spirit::Value&);
 	void detz(const json_spirit::Value&);
 	void date(const json_spirit::Value&);
+    void expver(const json_spirit::Value&);
 	void height(const json_spirit::Value&);
 	void time(const json_spirit::Value&);
+
 	virtual void parameter(const json_spirit::Value&);
 	virtual void eps(const json_spirit::Value&);
 	virtual void clim(const json_spirit::Value&);
@@ -199,6 +203,9 @@ protected:
 	 string date_;
 	 string time_;
 	 string file_;
+	 string valid_time_;
+     string expver_;
+
 	 json_spirit::Value metadata_;
 	 InputWrep   values_;
 	 InputWrep* current_;

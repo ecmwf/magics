@@ -76,7 +76,7 @@ class TitleFieldHandler
 public :
     TitleFieldHandler() {}
     virtual ~TitleFieldHandler() {};
-    virtual void operator()(TitleField& field, vector<string>& lines, const GribDecoder&) { assert (false); }
+    virtual void operator()(TitleField& field, vector<string>& lines, const GribDecoder&) { ASSERT (false); }
 
 };
 

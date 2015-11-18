@@ -51,7 +51,7 @@ public:
 	virtual ~ViewNode();
 	void setInteractiveInfo(const string& id, int levels, int level) {
 		name(id);
-		assert(layout_);
+		ASSERT(layout_);
 		layout_->id(id);
 		id_ = id;
 		zoomLevels_ = levels;
@@ -85,7 +85,7 @@ protected:
 	
 	 virtual void copy(const ViewNode&);
 
-	 Transformation& transformation() const { assert(viewTransformation_); return *viewTransformation_; }
+	 Transformation& transformation() const { ASSERT(viewTransformation_); return *viewTransformation_; }
 	 
 	 Transformation* viewTransformation_;
 	 
@@ -97,17 +97,18 @@ protected:
 	 string animation_; 
 	 
 	 DrawingVisitor* 		drawing_;
-	 TopAxisVisitor*    		topAxis_;
-	 BottomAxisVisitor*   bottomAxis_;
+	 FrameVisitor* 		frameHelper_;
+	 TopAxisVisitor*    	topAxis_;
+	 BottomAxisVisitor*     bottomAxis_;
 	 LeftAxisVisitor*    	leftAxis_;
 	 RightAxisVisitor*    	rightAxis_;
 	 double                 vaxis_;
 	 double                 haxis_;
-	 
-	 AnimationRules*         rules_;
+
+	 AnimationRules*        rules_;
 
 	 LegendVisitor* 		legend_;
-	 vector<TextVisitor*>     texts_;
+	 vector<TextVisitor*>   texts_;
 	 vector<LayoutVisitor*> components_;
 	
 	

@@ -1,4 +1,4 @@
-if( ENABLE_PYTHON AND NUMPY_FOUND )
+if( HAVE_PYTHON )
 
   ### python destination
 
@@ -9,6 +9,7 @@ if( ENABLE_PYTHON AND NUMPY_FOUND )
 
   debug_var( relative_rpath )
 
+  # See comment below, where the following lines are overriden
   ecbuild_append_to_rpath( ${relative_rpath} )
   ecbuild_append_to_rpath( "../../lib" ) # for the ctest to find magics libs
 
@@ -29,10 +30,21 @@ if( ENABLE_PYTHON AND NUMPY_FOUND )
 
   set_source_files_properties(partio.i PROPERTIES SWIG_FLAGS "-includeall")
 
-  swig_link_libraries( Magics MagPlusShared ${PYTHON_LIBRARIES} )
+  swig_link_libraries( Magics MagPlus ${PYTHON_LIBRARIES} )
 
   execute_process( COMMAND ${CMAKE_COMMAND} -E create_symlink ${CMAKE_CURRENT_BINARY_DIR}/Magics.py ${CMAKE_CURRENT_BINARY_DIR}/__init__.py )
-  
+
+  # On the MAC, only one RPATH cat be set (Mac does not understand path:path:path)
+  # Someone, please fix
+  # set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
+  set_target_properties(_Magics PROPERTIES INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
+
+  ### make it available in the build dir
+
+  file( MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/${PYTHON_SITE} )
+
+  execute_process( COMMAND ${CMAKE_COMMAND} -E create_symlink ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_BINARY_DIR}/${PYTHON_DEST} )
+
   ### install to final destination
 
   install( TARGETS _Magics DESTINATION ${PYTHON_DEST} )

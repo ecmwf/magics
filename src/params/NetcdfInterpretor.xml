@@ -18,6 +18,12 @@
         
          	<parameter member="field" to="string" default="" from="string" name="netcdf_value_variable">
               		<documentation>Variable to plot</documentation>
+        	</parameter> 	
+        	<parameter member="u_component" to="string" default="" from="string" name="netcdf_x_component_variable">
+              		<documentation>x_component for vector plotting</documentation>
+        	</parameter> 
+       		<parameter member="v_component" to="string" default="" from="string" name="netcdf_y_component_variable">
+              		<documentation>y_component for vector plotting</documentation>
         	</parameter> 
        
           	<parameter member="scaling" to="float" default="1" from="float" name="netcdf_field_scaling_factor">
@@ -26,7 +32,7 @@
          	<parameter member="offset" to="float" default="0" from="float" name="netcdf_field_add_offset">
             		<documentation>Offset added to the field values		</documentation>
            	</parameter>
-           	<parameter member="missing_attribute" to="string" default="missing_value" from="string" name="netcdf_missing_attribute">
+           	<parameter member="missing_attribute" to="string" default="_FillValue" from="string" name="netcdf_missing_attribute">
             		<documentation>Attribute indicating the value used to indicate a missing value in the data		</documentation>
            	</parameter>  
             	<parameter member="reference" to="string" default="0" from="string" name="netcdf_reference_date">

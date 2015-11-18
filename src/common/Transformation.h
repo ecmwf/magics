@@ -114,7 +114,10 @@ public:
     virtual void cleanPCEnveloppe();
 	void cleaninit();
 	enum CoordinateType {GeoType,XyType};
-	CoordinateType coordinateType() const {return coordinateType_;}	
+	CoordinateType coordinateType() const {return coordinateType_;}
+
+	virtual void geoProjection(int& geo) const { geo = 0; } // Useful for Streamlines !
+
 	virtual void toxml(ostream&) const {}
 	// Xml Methods ! 
 	virtual void set(const map<string, string>& ) {}
@@ -126,8 +129,8 @@ public:
 		return object;
 	}
 	
-	virtual Polyline& getUserBoundingBox() const  { assert(false);}
-	virtual Polyline& getPCBoundingBox()   const  { assert(false);}
+	virtual Polyline& getUserBoundingBox() const  { NOTIMP;}
+	virtual Polyline& getPCBoundingBox()   const  { NOTIMP;}
 	
 	bool needTopAxis() const   { return topAxis_; }
 	void needTopAxis(bool top) { topAxis_ = top; }
@@ -138,7 +141,7 @@ public:
 	string writeLatitude(const UserPoint&) const;
 
 	virtual bool wrapAround(const Polyline&) const { return false; }
-	virtual void coastSetting(map<string, string>&, double, double) const { assert(false); }
+	virtual void coastSetting(map<string, string>&, double, double) const { NOTIMP; }
 	virtual bool verifyDef(const string&) const { return false; }   
 
 
@@ -198,7 +201,7 @@ public:
 	virtual void fast_reproject(double& x, double& y) const
 			{ }
 
-	virtual double patchDistance(double) const { assert(false);  return 0;}
+	virtual double patchDistance(double) const { NOTIMP; }
 
 	virtual PaperPoint operator()(const PaperPoint& xy) const 
 		{ return xy; }
@@ -296,9 +299,9 @@ public:
 	virtual void thin(double, PaperPoint&, vector<pair<double, double> >&) const;
 	virtual void thin(double, PaperPoint&, Matrix&, double) const;
 	virtual void getNewDefinition(const UserPoint&, const UserPoint&, string&) const
-		{ assert(false); }
+		{ NOTIMP; }
 	virtual void setDefinition(const string&)
-		{ assert(false); }
+		{ NOTIMP; }
 
    virtual void thin(MatrixHandler&, double x, double y, vector<UserPoint>&) const;
    

@@ -289,7 +289,7 @@ public:
 	{
 		const BufrIdentifiers& table =  BufrIdentTable::get(obs.originatingCentre());
 		val = obs.value(table.ident(descriptor_));
-		MagLog::dev()<< "BufrAccessor-Descriptor--->" << descriptor_ << " Value--->" << val << endl;
+
 	}
 	virtual void print() {}
 	const string& keyword() { return descriptor_; }

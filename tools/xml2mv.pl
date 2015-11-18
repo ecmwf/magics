@@ -24,6 +24,7 @@ my %basetype = (
     "stringarray" => 1,
      "stringarray" => 1,
     "intarray" => 1, 
+    "longintarray" => 1, 
     "LineStyle" =>1,
     "Hemisphere" =>1,
     "ArrowPosition" => 1,
@@ -44,6 +45,7 @@ my %arraytype = (
 	"doublearray" => "atof(data)",
 	"stringarray" => "data",
 	"intarray" => "atoi(data)",
+	"longintarray" => "atoi(data)",
 );
 
 my %pointertype = {
@@ -409,6 +411,7 @@ EOF
 	    	"floatarray" => "(double)",
 	    	"stringarray" => "(string)",
 	    	"intarray" => "(int)",
+		"longintarray" => "(long int)",
     	);
 	    my %pointertype = (
 	    	"Colour" => "1",
