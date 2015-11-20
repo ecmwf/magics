@@ -368,7 +368,7 @@ bool TableReader::readUserMetaData (char *line, size_t sizeOfLine, string &error
                 if (tokens2.size() != 2)  // should only be 2 tokens: PARAM and VALUE
                 {
                     char msg [2000];
-                    sprintf (msg, "Error parsing parameter %d: '%s'", j+1, tokens[j]);
+                    sprintf (msg, "Error parsing parameter %lu: '%s'", j+1, tokens[j]);
                     errorMessage = msg;
                     return false;
                 }

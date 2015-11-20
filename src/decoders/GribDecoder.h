@@ -75,6 +75,8 @@ public:
 
 class GribLoop;
 
+
+
 class GribDecoder:
     public Decoder,
     public Data,
@@ -83,6 +85,8 @@ class GribDecoder:
 public:
 	GribDecoder();
 	virtual ~GribDecoder();
+
+	enum InterpolateMethod { nearest, nearest_valid, interpolate };
 
 	// implements BaseSceneObject interface
 	virtual void set(const map<string, string>& params) { GribDecoderAttributes::set(params); }
@@ -111,7 +115,15 @@ public:
 
 	static void scale(const string&, double&, double&);
 
-	bool interpolate() const { return magCompare(interpolation_method_, "interpolate"); }
+	InterpolateMethod interpolateMethod() const {
+		if ( magCompare(interpolation_method_, "interpolate") )
+			return interpolate;
+		if ( magCompare(interpolation_method_, "nearest") )
+			return nearest;
+		if ( magCompare(interpolation_method_, "nearest_valid") )
+			return nearest_valid;
+	}
+	int missingFill() const { return missing_fill_count_; }
 	bool getExpver() const { return expver_; }
 	void version();
 
