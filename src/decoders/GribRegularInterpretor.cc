@@ -872,7 +872,7 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
     *matrix = new Matrix();
     size_t nb;
     grib_get_size(grib.id(), "values", &nb);
-    bool interpolate = grib.interpolate();
+    GribDecoder::InterpolateMethod interpolate = grib.interpolateMethod();
     MagLog::dev() << "numberOfFieldValues[" << nb << "]" << "\n";
     double missing = std::numeric_limits<double>::max();
     grib.setDouble("missingValue", missing);
@@ -932,7 +932,7 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
 
 
 
-    MagLog::dev() << "Resolution ---> " << nblon << "???" << 4 * res << "\n";
+
 
 
 
@@ -951,12 +951,82 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
     grib_get_double_array(grib.id(), "values", data, &aux2);
 
     int d = 0;
+
+    vector<double> missingLon;
+
     for (vector<vector<double> >::iterator row = rows.begin(); row != rows.end(); ++row) {
         vector<double> p;
+
         for (int ii = 0; ii < row->size(); ii++) {
             p.push_back(data[d]);
             d++;
         }
+        if (interpolate == GribDecoder::nearest_valid ) {
+        	// Fill left vector
+        	vector<double> left;
+        	int last = 0;
+        	int c = 0;
+        	bool print = false;
+        	for ( vector<double>::iterator val = p.begin(); val != p.end(); ++val) {
+        		if ( *val != missing ) {
+        			last = c;
+        		}
+        		else {
+        			print = true;
+        		}
+        		left.push_back(last);
+        		c++;
+        	}
+        	// Fill right vector
+        	vector<double> right(p.size(), 0);
+        	last = 0;
+        	c = p.size()-1;
+        	for ( vector<double>::reverse_iterator val = p.rbegin(); val != p.rend(); ++val) {
+        		if ( *val != missing ) {
+        			last = c;
+        		}
+        		right[c] = last;
+        		c--;
+        	}
+
+        	int fill = grib.missingFill();
+
+        	int todo = 0;
+        	for (int ii = 0; ii < p.size(); ii++) {
+        		double keep = p[ii];
+        		if ( p[ii] == missing && todo < fill ) {
+        			double lon = (*row)[ii];
+        			double lon1 = (*row)[left[ii]];
+        			double lon2 = (*row)[right[ii]];
+        			double d1 = (lon2 - lon) / (lon2 - lon1);
+        			double d2 = 1 - d1;
+        			p[ii] = (d2 < 0.5) ? p[left[ii]] : p[right[ii]];
+        			todo++;
+        		}
+        		if ( keep != missing ) {
+        			todo = 0;
+        		}
+        	}
+
+        	todo = 0;
+        	for (int ii =  p.size()-1; ii >= 0; ii--) {
+        		double keep = p[ii];
+        		if ( p[ii] == missing && todo < fill ) {
+        			double lon = (*row)[ii];
+        			double lon1 = (*row)[left[ii]];
+        			double lon2 = (*row)[right[ii]];
+        			double d1 = (lon2 - lon) / (lon2 - lon1);
+        			double d2 = 1 - d1;
+        			p[ii] = (d2 < 0.5) ? p[left[ii]] : p[right[ii]];
+        			todo++;
+        		}
+        		if ( keep != missing ) {
+        			todo = 0;
+        		}
+
+        	}
+        }
+
 
         double lon = west;
         unsigned int p1 = 0;
@@ -996,22 +1066,25 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
 
 
 
-                if (interpolate) {
-                    if (p[p1] == missing || p[p2] == missing)
-                        val = missing;
-                    else
-                        val = (p[p1] * d1) + (p[p2] * d2);
-                } else {
-                    val = (d2 < 0.5) ? p[p1] : p[p2];
 
-                }
-                (*matrix)->push_back(val);
+            if (interpolate == GribDecoder::interpolate) {
+                  if (p[p1] == missing )
+                        val = p[p2];
+                   else
+                	   if ( p[p2] != missing )
+                		   val = (p[p1] * d1) + (p[p2] * d2);
+                  (*matrix)->push_back(val);
+
+            }
+            else {
+                 val = (d2 < 0.5) ? p[p1] : p[p2];
+                 (*matrix)->push_back(val);
+            }
             x++;
             lon = west + ( x*step);
         }
 
     }
-
     delete[] data;
 
     for (int x = 0; x < nblon; x++) {
@@ -1034,9 +1107,6 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
         if ( array[i] < north && array[i] > south)
             (*matrix)->rowsAxis().push_back(array[i]);
     }
-
-
-
     (*matrix)->setMapsAxis();
 }
 
@@ -1116,7 +1186,7 @@ void GribReducedLatLonInterpretor::interpretAsMatrix(const GribDecoder& grib,
     *matrix = new Matrix();
     size_t nb;
     grib_get_size(grib.id(), "values", &nb);
-    bool interpolate = grib.interpolate();
+    GribDecoder::InterpolateMethod interpolate = grib.interpolateMethod();
 
     double missing = std::numeric_limits<double>::max();
     grib.setDouble("missingValue", missing);
@@ -1240,7 +1310,7 @@ void GribReducedLatLonInterpretor::interpretAsMatrix(const GribDecoder& grib,
                 double d2 = 1 - d1;
                 double value;
 
-                if (interpolate) {
+                if (interpolate == GribDecoder::interpolate) {
                     if (*val == missing || *nval == missing)
                         value = missing;
                     else

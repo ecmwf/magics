@@ -33,9 +33,13 @@
          		<release>Magics++2.10		</release>
          		<documentation> Apply a scaling offset to the field. 		</documentation>
   	</parameter>
-    <parameter member="interpolation_method" to="string" default="interpolate" from="string" name="grib_interpolation_method" values='interpolate/nearest' >
-         		<release>Magics++2.10		</release>
+    <parameter member="interpolation_method" to="string" default="interpolate" from="string" name="grib_interpolation_method" values='interpolate/nearest/nearest_valid' >
+         		
          		<documentation> Used for reduced gaussian grid: use an linear interpolation to convert from reduced to regular		</documentation>
+  	</parameter>
+  	<parameter member="missing_fill_count" to="int" default="1" from="int" name="grib_interpolation_method_missing_fill_count"  >
+         		
+         		<documentation> Number of missing values to fill with the nearest valid value </documentation>		
   	</parameter>
 
   	<parameter from="string" name="grib_text_experiment" visible="false" default="off" member="expver" to="bool">

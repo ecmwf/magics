@@ -49,13 +49,14 @@ void LevelSelection::print(ostream& out)  const
 	doublearray::print(out);
 	out << "]";
 }
+
 void LevelSelection::thinLevels(int frequency, vector<double>& out) const
 {
 	if ( empty() ) return;
 	double ref = reference(frequency);
 	int count = 0;
-	// Fisrt is the reference in the levels list?
 
+	// First is the reference in the levels list?
 	const_iterator reflev = find(begin(), end(), ref);
 	if ( reflev == end() )
 		reflev = begin();
@@ -66,22 +67,20 @@ void LevelSelection::thinLevels(int frequency, vector<double>& out) const
 		count++;
 	}
 
-// now we have to reverse!
+	// now we have to reverse!
 	const_reverse_iterator rlevel = rbegin();
 
 	while ( rlevel != rend() ) {
-
 			if (*rlevel == *reflev )
 				break;
 			++rlevel;
-		}
+	}
 	count=1;
 	++rlevel;
 
-	for (rlevel; rlevel != rend(); ++rlevel) {
+	for (; rlevel != rend(); ++rlevel) {
 		if ( count%frequency == 0 ) {
 			out.push_back(*rlevel);
-
 		}
 		count++;
 	}

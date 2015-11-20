@@ -1,3 +1,8 @@
+/*
+** © 2011-2015 by Kornel Lesiński.
+** All rights reserved.
+** See COPYRIGHT file for full license.
+*/
 
 #include "libimagequant.h"
 #include "pam.h"
@@ -47,19 +52,21 @@ LIQ_PRIVATE void viter_finalize(colormap *map, const unsigned int max_threads, c
             total += average_color[offset].total;
         }
 
-        if (total) {
+        if (total && !map->palette[i].fixed) {
             map->palette[i].acolor = (f_pixel){
                 .a = a / total,
                 .r = r / total,
                 .g = g / total,
                 .b = b / total,
             };
+        } else {
+            total = i/1024.0;
         }
         map->palette[i].popularity = total;
     }
 }
 
-LIQ_PRIVATE double viter_do_iteration(histogram *hist, colormap *const map, const float min_opaque_val, viter_callback callback, const bool fast_palette)
+LIQ_PRIVATE double viter_do_iteration(histogram *hist, colormap *const map, viter_callback callback, const bool fast_palette)
 {
     const unsigned int max_threads = omp_get_max_threads();
     viter_state average_color[(VITER_CACHE_LINE_GAP+map->colors) * max_threads];
@@ -73,7 +80,7 @@ LIQ_PRIVATE double viter_do_iteration(histogram *hist, colormap *const map, cons
         schedule(static) default(none) shared(average_color,callback) reduction(+:total_diff)
     for(int j=0; j < hist_size; j++) {
         float diff;
-        unsigned int match = nearest_search(n, achv[j].acolor, achv[j].tmp.likely_colormap_index, min_opaque_val, &diff);
+        unsigned int match = nearest_search(n, &achv[j].acolor, achv[j].tmp.likely_colormap_index, &diff);
         achv[j].tmp.likely_colormap_index = match;
         total_diff += diff * achv[j].perceptual_weight;
 
