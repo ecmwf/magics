@@ -52,21 +52,6 @@ using namespace magics;
 #define PATH(a) getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_ + a;
 
 
-bool test110(const UserPoint& from, const UserPoint& to)
-{
-	if  (from.x_ == to.x_ )
-		return true;
-	if (abs(from.x_ - to.x_) == 360. )
-		return true;
-	return false;
-}
-
-bool test(const UserPoint& from, const UserPoint& to)
-{
-	return ( abs(from.x_ - to.x_ ) > 1 || abs(from.y_ - to.y_ ) > 1);
-}
-
-
 CoastPlotting::CoastPlotting() 
 {
 	MagLog::debug() << "DELETE COAST PLOTTING! " << endl;
@@ -340,8 +325,7 @@ void CoastPlotting::nolandsea(Layout& visitor)
 {
 	for (vector<Polyline>::iterator coast = coast_.begin(); coast != coast_.end(); ++coast)
 	{
-		if ( coast->empty() )
-			continue;
+		if ( coast->empty() ) continue;
 
 		Polyline* poly = new Polyline();
 		setLine(*poly);
@@ -350,8 +334,8 @@ void CoastPlotting::nolandsea(Layout& visitor)
 		++point;
 		while ( point!=coast->end() ) {
 
-			double dist = point->distance(poly->back());
-			double res = tonumber(coastSet_["resolution"]);
+			const double dist = point->distance(poly->back());
+			const double res = tonumber(coastSet_["resolution"]);
 
 			if ( dist > visitor.transformation().patchDistance(res) ) {
 					if ( !poly->empty() ) {
