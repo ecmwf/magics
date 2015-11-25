@@ -90,7 +90,7 @@ void CoastPlotting::operator()(PreviewVisitor& parent)
 	CoastPlotting& preview = parent.coastlines();
 	transformation.coastSetting(preview.coastSet_, 10, 5);
 	preview.decode(parent);
-
+/*
 	for (vector<Polyline>::iterator poly = preview.ocean_.begin(); poly != preview.ocean_.end(); ++poly)
 	{
 		Polyline* npoly= poly->clone();
@@ -103,7 +103,7 @@ void CoastPlotting::operator()(PreviewVisitor& parent)
 		npoly->setFilled(true);
 		parent.push_back(npoly);
 	}
-
+*/
 	for (vector<Polyline>::iterator poly = preview.coast_.begin(); poly != preview.coast_.end(); ++poly)
 	{
 		Polyline* npoly= poly->clone();
@@ -428,8 +428,6 @@ void CoastPlotting::decode(const Layout& parent )
 	file = PATH(coastSet_["lakes"]);
 	lake_decoder.setPath(file);
 	lake_decoder.decode(lakes, transformation);
-
-cout << ">>>>>>>>>>>>>>>>>>>>> LAND-POLYGONS: "<< coastlines.size() <<" versus LAKES: "<<lakes.size()<< endl;
 
 	//! Secondly we try to put the lakes in the continents!!!
 	for (vector<Polyline>::iterator coast = coastlines.begin(); coast != coastlines.end(); ++coast )
