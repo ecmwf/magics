@@ -53,6 +53,7 @@ XYList.h
 shapefil.h
 shpopen.c
 dbfopen.c
+safileio.c
 )
 
 foreach( file ${_decoders_srcs} )
