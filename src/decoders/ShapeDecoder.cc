@@ -333,10 +333,10 @@ void ShapeDecoder::decode(vector<Polyline>& data, const Transformation& transfor
 				shift = 0;
 
  			SHPObject	*psShape = 0;
+				VectorOfPointers<vector<Polyline *> > polys;
 
 			for( i = 0; i < nEntities; i++ )
 			{
-				int		j;
 				SHPDestroyObject(psShape);
 				psShape = SHPReadObject( hSHP, i );
 
@@ -360,52 +360,43 @@ void ShapeDecoder::decode(vector<Polyline>& data, const Transformation& transfor
 
 				if ( !in && !right && !left ) continue;
 
-				VectorOfPointers<vector<Polyline *> > polys;
-				Polyline* poly = new Polyline();
-                polys.push_back(poly);
+				Polyline* polyline = new Polyline();
+                polys.push_back(polyline);
 
 				double poly_shift = 0.;
 				if ( left )  poly_shift = -360.;
                 if ( right ) poly_shift =  360.;
                 
-				for( j = 0, iPart = 1, hole = false; j < psShape->nVertices ; j++ )
+				for( int j = 0, iPart = 1; j < psShape->nVertices ; j++ )
 				{
-					if( iPart < psShape->nParts && psShape->panPartStart[iPart] == j )
+					if( iPart < psShape->nParts && psShape->panPartStart[iPart] == j )  // new part/vertix
 					{
+						polyline = new Polyline();
+                		polys.push_back(polyline);
 						iPart++;
-						hole=true;
-						// We create a new hole!
-						poly->newHole();
 					}
 					else
 					{
 						const double x = psShape->padfX[j] + shift;
 						const double y = psShape->padfY[j];
-
-						if ( iPart==1 ) {
-							poly->push_back(PaperPoint(x + poly_shift, y));
-						}
-						else
-						{
-							poly->push_back_hole(PaperPoint(x + poly_shift, y));
-						}
+						polyline->push_back(PaperPoint(x + poly_shift, y));
 					}
 				} // endfor j
+			} // end for all entities i
 
-	            /// first we clip
-				for (vector<Polyline*>::iterator poly = polys.begin(); poly != polys.end(); ++poly ) {
-					(*poly)->sanityCheck();
-					vector<Polyline> clipped;
-					geobox.intersect(**poly, clipped);
+	        /// first we clip
+			for (vector<Polyline*>::iterator poly = polys.begin(); poly != polys.end(); ++poly ) {
+				(*poly)->sanityCheck();
+				vector<Polyline> clipped;
+				geobox.intersect(**poly, clipped);
 
-	                // then we reproject!
-					for (vector<Polyline>::iterator clip = clipped.begin(); clip != clipped.end(); ++clip ) {
-						clip->reproject(transformation);
-						clip->sanityCheck();
-						box.intersect(*clip, data);
-					}
-	            }
-			}
+	            // then we reproject!
+				for (vector<Polyline>::iterator clip = clipped.begin(); clip != clipped.end(); ++clip ) {
+					clip->reproject(transformation);
+					clip->sanityCheck();
+					box.intersect(*clip, data);
+				}
+	        }
 			SHPDestroyObject(psShape);
 			SHPClose( hSHP );
 		}
