@@ -887,8 +887,8 @@ void WrepJSon::cdf()
 				double value =  correctEpsz(val->second[index]);
 									if ( minx_ > value ) minx_ = value;
 									if ( maxx_ < value ) maxx_ = value;
-									if ( minClim_ > value ) minx_ = value;
-									if ( maxClim_ < value ) maxx_ = value;
+									if ( minClim_ > value ) minClim_ = value;
+									if ( maxClim_ < value ) maxClim_ = value;
 			}
 			
 
