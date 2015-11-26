@@ -433,7 +433,12 @@ double BaseDriver::LSF(MFloat *x,MFloat *y, int i0) const
 		sxx  += (xi*xi);
 		sxy  += (xi*yi);
 	}
-	if( (abs(sxx) > 0.00001) && (abs(sxy) > 0.00001) ) angle = atan2( (sxy/sxx) ,1.);
+
+//	if( (abs(sxx) > 0.00001) && (abs(sxy) > 0.00001) ) angle = atan2( (sxy/sxx) ,1.);
+	if( (abs(sxx) > 0.00001) )
+	{
+	 angle = atan2( (sxy/sxx) ,1.);
+	}
 	else 
 	{
 		angle=10.;
@@ -524,7 +529,7 @@ void BaseDriver::printLine(const Polyline &line) const
 	  unsigned int i = 10;
 	  while(i < n-minimum_points_for_labelling)
 	  {
-	   const double angle  = LSF(x,y,i);
+	   double angle  = LSF(x,y,i);
 	   const double angle2 = LSF(x,y,i+1);
 
 	   if( (angle <4.) && (angle2 <4.) && fabs(angle-angle2)< 0.01)
@@ -547,17 +552,31 @@ void BaseDriver::printLine(const Polyline &line) const
 		      arrow.copy(*line.arrowProperties());
 		      arrow.setColour(line.getColour());
 		      arrow.setArrowPosition(M_HEAD_ONLY);
-//		      arrow.setHeadRatio(2.0);
+//		      arrow.setHeadRatio(1.5);
 //		      arrow.setHeadIndex(1);
-////		      const double dx=projectX(x[i+3])-projectX(x[i]);//sin(angle+1.5707963267949);
-////		      const double dy=projectY(y[i+3])-projectY(y[i]);//cos(angle+1.5707963267949);
+		      if( (x[i]-x[i+3]) < 0.) angle += PI;
 		      const double dx=sin(angle+1.5707963267949);
 		      const double dy=-setAngleY(cos(angle+1.5707963267949));
 		      PaperPoint pp(pro_x,pro_y);
 		      ArrowPoint apoint(dx,dy,pp);
 		      arrow.push_back(apoint);
 		      renderWindArrow(arrow);
-//cout << "STREAMLINES >>>>>>>>>>>>>>>>>>>  angle: " << angle<<"   x:"<<pro_x<<"  y:"<<pro_y<< endl;
+/*
+      {
+        cout << "STREAMLINES >>>>>>>>>>>>>>>>>>>  angle: " << angle<<"   x:"<<pro_x<<"  y:"<<pro_y<< endl;
+    	int ewn=5;
+    	setNewColour(Colour("red"));
+    	setNewLineWidth(4.);
+    	renderPolyline(ewn, &x[i], &y[i]);
+
+    	TextSymbol textSymbol;
+		textSymbol.position(TextSymbol::M_BELOW);
+		ostringstream nice;
+    	nice << angle;      
+	    textSymbol.push_back(pp, nice.str()); 				
+		renderTextSymbols(textSymbol);
+       }
+*/
 	       }
 	       else
 	       {
@@ -577,7 +596,6 @@ void BaseDriver::printLine(const Polyline &line) const
 		      text.setFont(font);
 		      renderText(text);
 		   }
-
 		   labelx [num_labels] = x[i];
 		   labely [num_labels] = y[i];
 		   num_labels++;
@@ -591,7 +609,7 @@ void BaseDriver::printLine(const Polyline &line) const
     }// endif enough points for a label
 /*
     {
-    	int ewn=3;
+    	int ewn=2;
     	setNewColour(Colour("red"));
     	setNewLineWidth(4.);
     	renderPolyline(ewn, x, y);
@@ -1004,30 +1022,29 @@ void BaseDriver::redisplay(const BinaryObject& binary) const
 		}
 		break;
 
-	case 'I':
+	case 'I':    // Images
 		{
 			MFloat x0=0.;
 			MFloat x1=0.;
 			MFloat y0=0.;
 			MFloat y1 = 0.;
-			int he=0;
-			int wi=0;
-			int si=0;
+			int height=0;
+			int width=0;
+			int noOfColours=0;
 			double red=0.;double green=0.;double blue=0.;double alpha=0.;
 
-			in.read((char *)(&wi), sizeof(int));
-			in.read((char *)(&he), sizeof(int));
+			in.read((char *)(&width), sizeof(int));
+			in.read((char *)(&height), sizeof(int));
 			in.read((char *)(&x0), sizeof(MFloat));
 			in.read((char *)(&y0), sizeof(MFloat));
 			in.read((char *)(&x1), sizeof(MFloat));
 			in.read((char *)(&y1), sizeof(MFloat));
-			const int d=wi*he;
+			const int d=width*height;
 
-			in.read((char *)(&si), sizeof(int));
+			in.read((char *)(&noOfColours), sizeof(int));
 			ColourTable table;
 
-
-			for(int v=0;v<si;v++)
+			for(int v=0;v<noOfColours;v++)
 			{
 			  in.read((char *)(&red  ), sizeof(double));
 			  in.read((char *)(&green), sizeof(double));
@@ -1036,18 +1053,19 @@ void BaseDriver::redisplay(const BinaryObject& binary) const
 			  table.push_back(ColourTableEntry(Colour(red,green,blue,alpha)));
 			}
 
-			short cc[d];
-			in.read((char *)(cc), sizeof(short)*d);
+			short *pixels = new short[d];
+			in.read((char *)(pixels), sizeof(short)*d);
 
 			Image object;
 			PaperPoint pp(x0,y0,0.);
 			object.setOrigin(pp);
 			object.setWidth(x1);
 			object.setHeight(y1);
-			object.set(he,wi);
-			for(int i=0;i<d;i++) object.push_back(cc[i]);
+			object.set(height,width);
+			for(int i=0;i<d;i++) object.push_back(pixels[i]);  // object(std::begin(pixels), std::end(pixels));
 			object.setColourTable(table);
 			renderCellArray(object);
+			delete [] pixels;
 		}
 		break;
 
