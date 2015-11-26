@@ -185,6 +185,8 @@ protected:
 	 PointsList list_;
      double minx_;
 	 double maxx_;
+	 double minClim_;
+	 double maxClim_;
 	 double miny_;
 	 double maxy_;
 	 double shift_;
