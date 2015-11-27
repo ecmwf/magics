@@ -864,6 +864,8 @@ void WrepJSon::cdf()
 	// setminmax ...
 	minx_ = std::numeric_limits<double>::max();
 		maxx_ = -std::numeric_limits<double>::max();
+		minClim_ = std::numeric_limits<double>::max();
+		maxClim_ = -std::numeric_limits<double>::max();
 		for (map<string,  InputWrep>::iterator info = eps_.begin(); info !=  eps_.end(); ++info) {
 							
 							// find the index in the steps..
@@ -885,6 +887,8 @@ void WrepJSon::cdf()
 				double value =  correctEpsz(val->second[index]);
 									if ( minx_ > value ) minx_ = value;
 									if ( maxx_ < value ) maxx_ = value;
+									if ( minClim_ > value ) minClim_ = value;
+									if ( maxClim_ < value ) maxClim_ = value;
 			}
 			
 
@@ -1326,7 +1330,7 @@ void WrepJSon::visit(TextVisitor& text)
     text.update("json", "product_info", product_info_);
 	text.update("json", "plumes_interval", tostring(plumes_));
 	text.update("json", "efi_date", valid_time_);
-	text.update("json", "min_max_values", "Max = " +  tostring(maground(maxx_)) + ", Min = " +  tostring(maground(minx_)));
+	text.update("json", "min_max_values", "Max = " +  tostring(maground(maxClim_)) + ", Min = " +  tostring(maground(minClim_)));
 }
 
 void WrepJSon::points(const Transformation& transformation, vector<UserPoint>& points)
