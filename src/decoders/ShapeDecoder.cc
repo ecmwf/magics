@@ -304,8 +304,7 @@ void ShapeDecoder::decode(vector<Polyline>& data, const Transformation& transfor
 	Polyline& geobox = transformation.getUserBoundingBox();
 	Polyline& box = transformation.getPCBoundingBox();
 	try {
-			int	nShapeType, nEntities, i, iPart;
-			bool hole=false;
+			int	nShapeType, nEntities;
 			double 	adfMinBound[4], adfMaxBound[4];
 			const string shp = path_ + ".shp";
 			const string dbf = path_ + ".dbf";
@@ -333,9 +332,9 @@ void ShapeDecoder::decode(vector<Polyline>& data, const Transformation& transfor
 				shift = 0;
 
  			SHPObject	*psShape = 0;
-				VectorOfPointers<vector<Polyline *> > polys;
+			VectorOfPointers<vector<Polyline *> > polys;
 
-			for( i = 0; i < nEntities; i++ )
+			for(int i = 0; i < nEntities; i++ )
 			{
 				SHPDestroyObject(psShape);
 				psShape = SHPReadObject( hSHP, i );
@@ -360,27 +359,25 @@ void ShapeDecoder::decode(vector<Polyline>& data, const Transformation& transfor
 
 				if ( !in && !right && !left ) continue;
 
-				Polyline* polyline = new Polyline();
-                polys.push_back(polyline);
-
 				double poly_shift = 0.;
 				if ( left )  poly_shift = -360.;
                 if ( right ) poly_shift =  360.;
+
+				Polyline* polyline = new Polyline();
+                polys.push_back(polyline);
                 
 				for( int j = 0, iPart = 1; j < psShape->nVertices ; j++ )
 				{
-					if( iPart < psShape->nParts && psShape->panPartStart[iPart] == j )  // new part/vertix
+//cout << " ...... "<< j<< "   "<< iPart<< endl;
+					if( (iPart < psShape->nParts) && (psShape->panPartStart[iPart] == j) )  // new part/vertex
 					{
-						polyline = new Polyline();
-                		polys.push_back(polyline);
+						polyline->newHole();
 						iPart++;
 					}
-					else
-					{
-						const double x = psShape->padfX[j] + shift;
-						const double y = psShape->padfY[j];
-						polyline->push_back(PaperPoint(x + poly_shift, y));
-					}
+					const double x = psShape->padfX[j] + shift + poly_shift;
+					const double y = psShape->padfY[j];
+					if(iPart==1) polyline->push_back(PaperPoint(x,y));
+					else polyline->push_back_hole(PaperPoint(x,y));
 				} // endfor j
 			} // end for all entities i
 

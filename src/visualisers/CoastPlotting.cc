@@ -423,16 +423,16 @@ void CoastPlotting::decode(const Layout& parent )
 	string file = PATH(coastSet_["land"]);
 	coastline_decoder.setPath(file);
 	coastline_decoder.decode(coastlines, transformation);
-
+/*
 	ShapeDecoder lake_decoder;
 	file = PATH(coastSet_["lakes"]);
 	lake_decoder.setPath(file);
 	lake_decoder.decode(lakes, transformation);
-
+*/
 	//! Secondly we try to put the lakes in the continents!!!
 	for (vector<Polyline>::iterator coast = coastlines.begin(); coast != coastlines.end(); ++coast )
 	{
-		vector<Polyline> todolakes;
+/*		vector<Polyline> todolakes;
 		for (vector<Polyline>::iterator l = lakes.begin(); l != lakes.end(); ++l )
 		{
 			// we find the lake!
@@ -446,7 +446,7 @@ void CoastPlotting::decode(const Layout& parent )
 			}
 		}
 		lakes = todolakes;
-		coast_.push_back(*coast);
+*/		coast_.push_back(*coast);
 	}
 }
 
