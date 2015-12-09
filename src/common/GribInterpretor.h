@@ -226,6 +226,7 @@ RotatedMatrix::RotatedMatrix(int rows, int columns): Matrix(rows, columns)
 	rowsArray_.reserve(rows*columns);
 	columnsArray_.reserve(rows*columns);
 	values_.reserve(rows*columns);
+
 }
 
 

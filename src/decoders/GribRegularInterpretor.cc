@@ -66,59 +66,6 @@ void GribInterpretor::scaling(const GribDecoder& grib, double& scaling,
    this->scaling(grib, scaling, offset, originalUnits, derivedUnits);
 }
 
-void GribInterpretor::new_index(const GribDecoder& grib)
-{
-    //Use the grib Iterator to create the index
-
-    indexStep_ = 5.;
-    indexLon_ = 360/indexStep_;
-    indexLat_ = 180/indexStep_;
-
-    helper_ = vector<vector<Index> >((indexLon_+1)*(indexLat_+1), vector<Index>());
-    grib_handle* handle = grib.handle();
-
-
-    int error;
-/* scanning mode :
-    bit	value	meaning
-    1	0	Points scan in +i direction
-    1	1	Points scan in -i direction
-    2	0	Points scan in -j direction
-    2	1	Points scan in +j direction
-    3	0	Adjacent points in i direction are consecutive
-    3	1	Adjacent points in j direction are consecutive
-*/
-    if ( grib.getLong("jScansPositively") == 1 || grib.getLong("iScansPositively") == 0 ) {
-    	MagLog::error() << " Scanning mode not yet supported" << endl;
-    	return;
-    }
-    grib_iterator* iter = grib_iterator_new(handle, 0, &error);
-
-
-    double lat, lon, u;
-    int ilat, ilon;
-
-    int i = 0;
-    while (grib_iterator_next(iter, &lat, &lon, &u) ) {
-    	// Send a warning if lat lon are not in the expected rangs :
-    	if ( lat < -90 || lat > 90 || lon < -180 || lon > 360) {
-    		MagLog::warning() << "Check Grib Iterator: Position is not in the expected range [" << lat << ", " << lon << "]" << endl;
-    		continue;
-    	}
-    	ilat = floor((lat+90)/indexStep_);
-        ilon = floor(lon/indexStep_);
-
-        helper_[ilat * indexLon_ + ilon].push_back(Index(i, lat, lon));
-        i++;
-    }
-
-
-    west_ = 0;
-    east_ = 360.;
-
-
-}
-
 /// @brief The usual PI/180 constant
 static const double DEG_TO_RAD = 0.017453292519943295769236907684886;
 /// @brief Earth's quatratic mean radius for WGS-84
@@ -150,9 +97,125 @@ double distance(double lat1, double lon1, double lat2, double lon2) {
     return EARTH_RADIUS_IN_METERS* (2.0 * asin(sqrt(latitudeH + tmp*lontitudeH)));
 }
 
+void GribInterpretor::new_index(const GribDecoder& grib)
+{
+    //Use the grib Iterator to create the index
+
+    grib_handle* handle = grib.handle();
+
+
+    int error;
+
+    grib_iterator* iter = grib_iterator_new(handle, 0, &error);
+
+    double lat1, lon1, lat2, lon2, val;
+    grib_iterator_next(iter, &lat1, &lon1, &val) ;
+    grib_iterator_next(iter, &lat2, &lon2, &val) ;
+
+
+
+    grib_iterator_delete(iter);
+    // Get the fisrt 2 points ...
+
+
+    indexStep_ = distance(lat1, lon1, lat2, lon2) * 4;
+    indexStep_ = 0.5;
+
+    indexLon_ = 360./indexStep_;
+    indexLat_ = 180./indexStep_;
+
+
+/* scanning mode :
+    bit	value	meaning
+    1	0	Points scan in +i direction
+    1	1	Points scan in -i direction
+    2	0	Points scan in -j direction
+    2	1	Points scan in +j direction
+    3	0	Adjacent points in i direction are consecutive
+    3	1	Adjacent points in j direction are consecutive
+*/
+    if ( grib.getLong("jScansPositively") == 1 || grib.getLong("iScansPositively") == 0 ) {
+    	MagLog::error() << " Scanning mode not yet supported" << endl;
+    	return;
+    }
+
+    helper_ = vector<vector<Index> >((indexLon_+1)*(indexLat_+1), vector<Index>());
+
+    iter = grib_iterator_new(handle, 0, &error);
+
+
+    double lat, lon, u;
+    int ilat, ilon;
+    {
+
+    Timer timer("index", "index");
+    int i = 0;
+    bool flag_error = true;
+    //prepare enveloppe
+    minlon_ = 360;
+    maxlon_ = 0;
+    minlat_ = 90;
+    maxlat_ = -90;
+
+    while (grib_iterator_next(iter, &lat, &lon, &u) ) {
+    	// Send a warning if lat lon are not in the expected rangs :
+    	if ( lat < -90 || lat > 90 || lon < -180 || lon > 360) {
+    		if ( flag_error ) {
+                MagLog::warning() << "Check Grib Iterator: Position is not in the expected range [" << lat << ", " << lon << "]" << endl;
+                flag_error = false;
+            }
+            continue;
+    	}
+
+        if ( minlat_ > lat) minlat_ = lat;
+        if ( maxlat_ < lat) maxlat_ = lat;
+        if ( minlon_ > lon) minlon_ = lon;
+        if ( maxlon_ < lon) maxlon_ = lon;
+
+    	ilat = floor((lat+90)/indexStep_);
+        ilon = floor(lon/indexStep_);
+
+
+
+        helper_[ilat * indexLon_ + ilon].push_back(Index(i, lat, lon));
+
+        i++;
+    }
+
+
+    west_ = 0;
+    east_ = 360.;
+    grib_iterator_delete(iter);
+    }
+
+
+}
+
+
 
 Index GribInterpretor::nearest(double ulat, double ulon)
 {
+
+
+
+    Index index(-1, 0, 0);
+    if ( ulat < minlat_ ) 
+        return index;
+    if ( ulat > maxlat_ ) 
+        return index;
+    if ( ulon < minlon_ ) 
+        return index;
+    if ( ulon > maxlon_ ) 
+        return index;
+
+    
+    if ( ulat == -1000. || ulon == -1000.)
+          return index;
+    if ( ulat >= 90 || ulat <= -90)
+          return index;
+
+
+
 
     int ilat = floor((ulat+90)/indexStep_);
     int ilon = floor(ulon/indexStep_);
@@ -161,7 +224,7 @@ Index GribInterpretor::nearest(double ulat, double ulon)
     if ( ilon == indexLon_ )
         ilon = 0;
 
-    //cout << indexStep_ << ", " << indexLon_ << ":" << ulon <<"-->" << ilon << "[ ";
+
 
 
     lat1 = (ilat==0) ? ilat : ilat - 1;
@@ -174,77 +237,79 @@ Index GribInterpretor::nearest(double ulat, double ulon)
 
 
 
-    double nearest = std::numeric_limits<double>::max();
-    Index index(-1, 0, 0);
-    if ( ulat == -1000. || ulon == -1000.)
-        return index;
-    if ( ulat >= 90 || ulat <= -90)
-        return index;
+    
 
+    double nearest = std::numeric_limits<double>::max();
     for ( int clat = lat1; clat <= lat2; clat++ ) {
         // find the first non empty cell
         // Try ilon ..
-        vector<Index>& points = helper_[clat * indexLon_ + ilon];
+        vector<Index> points = helper_[clat * indexLon_ + ilon];
         set<int> lonn;
-        if ( points.empty() ) {
-            bool empty = true;
-            int count = 0;
-            // Try the first cell not empty on the left
-            int lon = ilon;
-            while ( empty  && count <  indexLon_) {
-                if ( lon == 0 ) {
-                    lon = indexLon_ -1;
-                }
 
-                points = helper_[clat * indexLon_ + lon];
-                if ( !points.empty() ) {
-                    lonn.insert(lon);
-                    empty = false;
-                }
-                count++;
-                lon--;
-            }
-            empty = true;
-            count = 0;
-            lon = ilon;
-            // try the first cell not empty on the right
-            while ( empty  && count <  indexLon_ ) {
-                if ( lon == indexLon_ ) {
-                    lon = 0;
-                }
+        lonn.insert(ilon);
+        bool empty = true;
+        int count = 0;
+        // Try the first cell not empty on the left
+        int lon = ilon-1;
 
-                points = helper_[clat * indexLon_ + lon];
-                if ( !points.empty() ) {
-                    lonn.insert(lon);
-                    empty = false;
-                }
-                count++;
-                lon++;
-            }
+        while ( empty  && count <  indexLon_) {
+        	if ( lon < 0 ) {
+        		lon = indexLon_ -1;
+        	}
+
+        	points = helper_[clat * indexLon_ + lon];
+        	if ( !points.empty() ) {
+        		lonn.insert(lon);
+        		empty = false;
+        	}
+        	count++;
+        	lon--;
         }
-        else {
-            lonn.insert(ilon);
+        empty = true;
+        count = 0;
+        lon = ilon +1;
+        // try the first cell not empty on the right
+        while ( empty  && count <  indexLon_ ) {
+        	if ( lon >= indexLon_ ) {
+        		lon = 0;
+        	}
+
+        	points = helper_[clat * indexLon_ + lon];
+        	if ( !points.empty() ) {
+        		lonn.insert(lon);
+        		empty = false;
+        	}
+        	count++;
+        	lon++;
         }
 
-        for ( set<int>::iterator ilon = lonn.begin(); ilon != lonn.end(); ++ilon ) {
-                //cout << *ilon << " ";
-            vector<Index>& points = helper_[clat * indexLon_ + *ilon];
-            //cout << points.size() << " ";
+
+
+        for ( set<int>::iterator lon = lonn.begin(); lon != lonn.end(); ++lon ) {
+
+            vector<Index> points = helper_[clat * indexLon_ + (*lon)];
+
+
+
             for (vector<Index>::iterator point = points.begin(); point != points.end(); ++point) {
                 Index i = *point;
+
                 double dist = distance(ulat, ulon, i.lat_, i.lon_);
-                //(( ulon- i.lon_ ) * (ulon - i.lon_ )) + (( ulat - i.lat_ ) * (ulat - i.lat_ ));
+
                 if ( dist < nearest ) {
                     nearest = dist;
                     index = i;
+
                 }
             }
 
         }
+
+
     }
-    //cout << endl;
-    if ( index.lon_ < 0 )
-        index.lon_ += 360.;
+
+    //if ( index.lon_ < 0 )
+      //  index.lon_ += 360.;
 
     return index;
 }
