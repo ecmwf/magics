@@ -215,7 +215,7 @@ void EpsBufr::visit(TextVisitor& title)
 	if ( short_title_ ) {
 		title.add(new TextEntry(""));
 		if ( param_title_.empty() ) 
-			param_title_ = "" + param_descriptor_; 
+			param_title_ = "" + magics::tostring(param_descriptor_); 
 		title.add(new TextEntry(param_title_));
 	}
 }

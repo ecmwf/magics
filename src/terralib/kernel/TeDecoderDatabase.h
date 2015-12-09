@@ -24,7 +24,7 @@ of this library and its documentation.
     \brief This file deals with decoding of raster structures stored in a TerraLib database
 */
 
-#ifndef  __TERRALIB_INTERNAL_DECODERDATADASE_H
+#ifndef  __TERRALIB_INTERNAL_DECODERDATABASE_H
 #define  __TERRALIB_INTERNAL_DECODERDATABASE_H
 
 #include "TeDefines.h"

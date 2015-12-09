@@ -1241,7 +1241,7 @@ TeTin::testDelaunayAt(long t, long v, std::set<long>& triangles)
 
 	//	If not, change edge between tri and ntri
 	bool status;
-	if ( status = this->swapEdges(t, tviz, e) )
+	if ( (status = this->swapEdges(t, tviz, e)) )
 	{
 		triangles.insert(t);
 		triangles.insert(tviz);
