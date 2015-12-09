@@ -36,6 +36,7 @@ of this library and its documentation.
 #include <sys/stat.h>
 #include <stdio.h>
 #include <sstream>
+#include <cstring>
 
 typedef map<int,TeNode> TeNodeMap;
 
