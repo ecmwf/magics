@@ -237,7 +237,7 @@ bool MvPrepBufrPrep::createDataDecodeLinks()
   MvObsSetIterator iter( obsSet_ );
   MvObs obs;
 
-  while( obs = iter() )                     //-- search all msgs for the required 'bufrdc' table names
+  while( (obs = iter()) )                     //-- search all msgs for the required 'bufrdc' table names
   {
      if( obs.messageType() == 11 )          //-- skip if msg contains BUFR tables
         continue;
