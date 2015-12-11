@@ -360,7 +360,7 @@ yyloop:
     }
     if (yyerrflag) goto yyinrecovery;
 #if defined(lint) || defined(__GNUC__)
-	yyerror("syntax error");
+//	yyerror("syntax error");
    ++yynerrs;
 #endif
 yyinrecovery:
@@ -483,7 +483,7 @@ to state %d\n", YYPREFIX, *yyssp, yystate);
     *++yyvsp = yyval;
     goto yyloop;
 yyoverflow:
-    yyerror("yacc stack overflow");
+//    yyerror("yacc stack overflow");
 yyabort:
     return (1);
 yyaccept:

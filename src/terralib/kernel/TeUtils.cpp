@@ -138,7 +138,7 @@ TeGetExtension ( const char* value )
 		return string("");
 	string name = string(value);
 	int len = strlen ( value );
-	unsigned int ip = name.rfind('.');
+	size_t ip = name.rfind('.');
 	if (ip == std::string::npos)
 		return "";
 	else
@@ -168,7 +168,7 @@ TeGetBaseName ( const char* value )
 		return string("");
 	string name = string(value);
 	int ip = name.rfind('.');
-	unsigned int is = name.rfind('\\');
+	size_t  is = name.rfind('\\');
 	if (is == std::string::npos)
 		is = name.rfind('/');
 	return name.substr(is+1,ip-is-1);
