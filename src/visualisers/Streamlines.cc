@@ -47,11 +47,15 @@ bool Streamlines::operator()(Data& data, BasicGraphicsObjectContainer& parent)
     GeoRectangularProjection geo;
 
     MatrixHandler& dir = data.direction();
-    geo.setMinX(dir.left()+1);
-    geo.setMaxX(dir.right()-1);
-    geo.setMinY(dir.bottom()+1);
-    geo.setMaxY(dir.top()-1);
 
+    //Make sure that the data are prepared correcly for the Streamlines..
+
+    if (dir.right() -  dir.left() < 350) {
+		geo.setMinX(dir.left()+1);
+		geo.setMaxX(dir.right()-1);
+		geo.setMinY(dir.bottom()+1);
+		geo.setMaxY(dir.top()-1);
+	}
 
     MatrixHandler& handler = *geo.prepareData(data.direction());
 
