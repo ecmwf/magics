@@ -1104,10 +1104,12 @@ MAGICS_NO_EXPORT void SVGDriver::circle(const MFloat x, const MFloat y, const MF
 		else
 		{
 		 const short  i   = (s<4) ? 1 : 0;
-		 const double rad = s*0.7853981634*r;
-		 pFile_	<< "<path d=\"M"<<cx<<" "<<cy-r<<" A"<<r<<","<<r<<" 0 "<<i<<" 1 "
-			<< cx+cos(rad)<<" "<<cy+sin(rad)<<"\" "
-			<< "fill=\"rgb("
+		 const double rad = s*0.7853981634;
+
+		 if(s==2)      pFile_ << "<path d=\"M"<<cx<<" "<<cy-r<<" v"<<r<<" h"<<r<<" a"<<r<<","<<r<<" 0 0 0 "<< -r<<","<<-r<<"\" ";
+		 else if(s==4) pFile_ << "<path d=\"M"<<cx<<" "<<cy-r<<" v"<<2*r<<" a"<<r<<","<<r<<" 0 0 0 "<< 0<<","<<-2*r<<"\" ";
+		 else if(s==6) pFile_ << "<path d=\"M"<<cx<<" "<<cy-r<<" v"<<r<<" h"<<-r<<" a"<<r<<","<<r<<" 1 1 0 "<< r<<","<<-r<<"\" ";
+		 pFile_	<< "fill=\"rgb("
 			<< static_cast<int>(currentColour_.red()  *255) << ","
 			<< static_cast<int>(currentColour_.green()*255) << ","
 			<< static_cast<int>(currentColour_.blue() *255) << ")\""
@@ -1141,7 +1143,7 @@ MAGICS_NO_EXPORT void SVGDriver::circle(const MFloat x, const MFloat y, const MF
 			<< static_cast<int>(currentColour_.blue() *255) << ")\"";
 		openGroup(stream.str());
 		pFile_	<< "<circle cx=\""<<cx<<"\" cy=\""<<cy<<"\" r=\""<<r<<"\"/>\n"
-			<< "<polyline points=\"0,"<<r*.9<<" 0,"<<-r*.9<<"\" width=\"2\" stroke=\"white\" fill=\"white\"/>"<< std::endl;
+			<< "<polyline points=\""<<cx<<","<<cy+(r*.9)<<" "<<cx<<","<<cy-(r*.9)<<"\" width=\"2\" stroke=\"white\" fill=\"white\"/>"<< std::endl;
 	}
 
 }
