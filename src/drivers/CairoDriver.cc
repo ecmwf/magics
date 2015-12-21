@@ -1579,10 +1579,10 @@ void CairoDriver::print(ostream& out)  const
 MAGICS_NO_EXPORT void CairoDriver::renderSymbols(const Symbol& symbol) const
 {
 	debugOutput("Start CairoDriver Symbols");
-/*
+
 	if(symbol.getSymbol()=="logo_ecmwf")
 	{
-		const string logofile = getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_ + "ecmwf_logo.png";
+		const string logofile = getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_ + "ecmwf_logo_2014.png";
 		cairo_surface_t *image = cairo_image_surface_create_from_png(logofile.c_str());
 
 		if(image)
@@ -1592,8 +1592,8 @@ MAGICS_NO_EXPORT void CairoDriver::renderSymbols(const Symbol& symbol) const
 			int h = cairo_image_surface_get_height(image);
 
 			cairo_translate (cr_, projectX(symbol[0].x()), projectY(symbol[0].y()));
-			const MFloat scaling = convertCM(symbol.getHeight()*.5) / coordRatioY_;
-//			cairo_scale (cr_, 0.3, 0.3);
+			const MFloat scaling = convertCM(symbol.getHeight()*.1) / coordRatioY_;
+			cairo_scale (cr_, 0.1, 0.1);
 			cairo_set_source_surface(cr_, image, w*scaling, h*scaling);
 			cairo_paint(cr_);
 
@@ -1602,9 +1602,8 @@ MAGICS_NO_EXPORT void CairoDriver::renderSymbols(const Symbol& symbol) const
 		}
 		else MagLog::warning() << "CairoDriver-> Could NOT read the logo file "<< logofile << " !" << endl;
 	}
-//	else if(symbol.getSymbol().compare(0,7,"magics_")==0 )
 	else
-*/	{
+	{
 		BaseDriver::renderSymbols(symbol);
 	}
 }
