@@ -61,8 +61,6 @@ void LogoPlotting::operator()(BasicGraphicsObjectContainer& tree) const
 {
 	Symbol* symbol = new Symbol();
 
-
-
 	double x =  (0.3 * 6.75 * 100) / tree.absoluteWidth();
 	x = 90;
     double y = (0.3/tree.absoluteHeight())*100; 	 // 0.2
@@ -80,7 +78,6 @@ UserLogoPlotting::UserLogoPlotting()
 {
 }
 
-
 UserLogoPlotting::~UserLogoPlotting()
 {
 }
@@ -96,7 +93,6 @@ void UserLogoPlotting::print(ostream& out)  const
 
 void UserLogoPlotting::operator()(BasicGraphicsObjectContainer& tree) const
 {
-    
     ImportObject* object = new ImportObject();
     
 	object->setPath(UserLogoPlottingAttributes::path_);
@@ -106,11 +102,10 @@ void UserLogoPlotting::operator()(BasicGraphicsObjectContainer& tree) const
 	
 	double x = UserLogoPlottingAttributes::x_;
 	double y = UserLogoPlottingAttributes::y_;
-	
-	
-	double height = tree.absoluteHeight();    
-	double width = tree.absoluteWidth();
-	// Diemnsion 
+
+	const double height = tree.absoluteHeight();    
+	const double width = tree.absoluteWidth();
+	// Dimensions
 	if ( UserLogoPlottingAttributes::bottom_.empty() || UserLogoPlottingAttributes::left_.empty() ) {
 		if ( magCompare(UserLogoPlottingAttributes::units_, "cm") ) {
 			
@@ -125,8 +120,5 @@ void UserLogoPlotting::operator()(BasicGraphicsObjectContainer& tree) const
 		y = bottom.percent();
 	}
 	object->setOrigin(PaperPoint(x, y));
-	
 	tree.push_back(object);    
 }
-
-

@@ -1053,8 +1053,8 @@ MAGICS_NO_EXPORT void SVGDriver::renderText(const Text& text) const
 		}
 		else
 		{
-		  pFile_ <<"<tspan "
-		      <<"font-size=\""<<dheight<<"cm\" font-family=\""<< ttf << "\" ";
+		  pFile_ <<"<tspan dominant-baseline=\""<<verticalJustification<< "\""
+		      <<" font-size=\""<<dheight<<"cm\" font-family=\""<< ttf << "\" ";
 		  if(styles.find("bolditalic") != styles.end()) pFile_ <<"font-weight=\"bold\" font-style=\"italic\" ";
 		  else if(styles.find("bold")  != styles.end()) pFile_ <<"font-weight=\"bold\" ";
 		  else if(styles.find("italic")!= styles.end()) pFile_ <<"font-style=\"italic\" ";
@@ -1477,24 +1477,40 @@ MAGICS_NO_EXPORT void SVGDriver::renderSymbols(const Symbol& symbol) const
 	debugOutput("Symbols - START");
 	closeGroup();
 
-	const string location = logoLocation_;
-
-	if(symbol.getSymbol()=="logo_ecmwf" && !magCompare(location,"INLINE") )
+	if(symbol.getSymbol()=="logo_ecmwf")
 	{
-          if(inkscape_) pFile_ << "<g inkscape:groupmode=\"layer\" inkscape:label=\"ECMWF_logo\">\n"
+      if(inkscape_) pFile_ << "<g inkscape:groupmode=\"layer\" inkscape:label=\"ECMWF_logo\">\n"
                                << " <title>ECMWF_logo</title>\n";
-
 	  const MFloat x = projectX(symbol[0].x());
 	  const MFloat y = projectY(symbol[0].y());
 
-	  string logofile;
-	  if(magCompare(location,"LOCAL")) logofile = "ecmwf_logo.png";
-	  else logofile = getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_ + "ecmwf_logo.png";
-	  svg_output_resource_list_.push_back(logofile);
-	  pFile_ << "<a xlink:href=\"http://www.ecmwf.int\">"
+	  if(!magCompare(logoLocation_,"INLINE") )
+	  {
+	    string logofile;
+	    if(magCompare(logoLocation_,"LOCAL")) logofile = "ecmwf_logo.png";
+	    else logofile = getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_ + "ecmwf_logo.png";
+	    svg_output_resource_list_.push_back(logofile);
+	    pFile_ << "<a xlink:href=\"http://www.ecmwf.int\">"
 	         << "<image x=\""<<x-(y*1.35)<<"\" y=\""<<setY(y+(y*.5))<<"\" width=\""<<y*5.4<<"\" height=\""<<y<<"\" xlink:href=\""<<logofile<<"\" />"
 	         << "</a>\n";
-	  if(inkscape_) pFile_ << "</g>\n";
+	  }
+	  else
+	  {
+	  	pFile_ << "<g transform=\"translate("<<x-(y*1.35)<<","<<setY(y+(y*.5))<<")\">\n";
+	  	const string s = getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_ + "ecmwf_logo_2014.svg";
+	    ifstream psfile(s.c_str());
+
+	    if(!psfile){
+		  MagLog::error() << "PostScriptDriver::copyMacro() --> Cannot open PostScript Macro file! " << s <<
+		   " Is MAGPLUS_HOME set correctly?\n";
+		  return;
+	    }
+	    char ch;
+	    while (psfile.get(ch)){pFile_.put(ch);}
+	    psfile.close();
+	    pFile_ << "</g>\n";
+	  }
+	  if(inkscape_) pFile_ << "</g><!-- Logo end -->\n";
 	}
 	else 
 		BaseDriver::renderSymbols(symbol);

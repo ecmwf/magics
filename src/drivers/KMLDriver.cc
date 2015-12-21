@@ -167,13 +167,13 @@ void KMLDriver::close()
 
     if(ecmwf_logo_)
     {
-       const string logofilename = "kml_logo.png";
+       const string logofilename = "kml_logo_2014.png";
        const string logofile = path + logofilename;
        is_copied = copy_file(logofile,logofilename);
        if(is_copied) kml_output_resource_list_.push_back(logofilename);
    
        pFile_ << "<ScreenOverlay id=\"logo\">\n"
-              << "<name>MagLogo</name>\n"
+              << "<name>MagicsLogo</name>\n"
               << "<Icon>\n"
               << " <href>"<<logofilename<<"</href>\n"
               << "</Icon>\n"
