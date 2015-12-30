@@ -313,6 +313,7 @@ void Colour::init() {
 	 colours_["none"] = Rgb(-1., -1., -1.); 
 	 colours_["background"] = Rgb(1., 1., 1.); 
 	 colours_["foreground"] = Rgb(0., 0., 0.); 
+	 colours_["ecmwf_blue"] = Rgb(0.25, 0.43, 0.7); 
 	 colours_["red"] = Rgb(1.0000, 0.0000, 0.0000); 
 	 colours_["green"] = Rgb(0.0000, 1.0000, 0.0000); 
 	 colours_["blue"] = Rgb(0.0000, 0.0000, 1.0000);
