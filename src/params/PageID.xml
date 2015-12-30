@@ -4,7 +4,7 @@
          		<documentation> Height of identification line</documentation>
          		<release>2.0</release>
   	</parameter>
- 	<parameter member="colour" to="Colour" default="blue" from="string" name="page_id_line_colour">
+ 	<parameter member="colour" to="Colour" default="ecmwf_blue" from="string" name="page_id_line_colour">
          		<documentation>Colour of identification line. Default based on page_y_length</documentation>
          		<release>2.0</release>
   	</parameter>
