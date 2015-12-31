@@ -37,16 +37,6 @@
 #include "Polyline.h"
 #include "ParameterSettings.h"
 
-//#define BOOST_VERSION 104701
-#define BOOST_GEOMETRY_OVERLAY_NO_THROW
-
-#include <boost/geometry/geometry.hpp>
-#include <boost/geometry/geometries/point_xy.hpp>
-#include <boost/geometry/geometries/polygon.hpp>
-#include <boost/geometry/geometries/box.hpp>
-
-
-
 using namespace magics;
 
 #define PATH(a) getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_ + a;
@@ -86,24 +76,10 @@ void CoastPlotting::visit(LegendVisitor& legend)
 void CoastPlotting::operator()(PreviewVisitor& parent)
 {
 	const Transformation& transformation = parent.transformation();
-	//transformation.coastSetting(coastSet_, 10, 5);
 	CoastPlotting& preview = parent.coastlines();
 	transformation.coastSetting(preview.coastSet_, 10, 5);
 	preview.decode(parent);
-/*
-	for (vector<Polyline>::iterator poly = preview.ocean_.begin(); poly != preview.ocean_.end(); ++poly)
-	{
-		Polyline* npoly= poly->clone();
-		npoly->setThickness(thickness_);
-		npoly->setColour(*colour_);
-		npoly->setLineStyle(style_);
-		FillShadingProperties* shading = new FillShadingProperties();
-		npoly->setFillColour(Colour("white"));
-		npoly->setShading(shading);
-		npoly->setFilled(true);
-		parent.push_back(npoly);
-	}
-*/
+
 	for (vector<Polyline>::iterator poly = preview.coast_.begin(); poly != preview.coast_.end(); ++poly)
 	{
 		Polyline* npoly= poly->clone();
@@ -195,7 +171,6 @@ void CoastPlotting::operator()(DrawingVisitor& parent)
 
   coast_.clear();
   ocean_.clear();
-  lake_.clear();
 
   coastSet_["administrative_boundaries"] = "10m/ne_10m_admin_1_states_provinces";
 
@@ -272,21 +247,6 @@ void CoastPlotting::landsea(Layout& out)
 }
 
 
-Polyline*  CoastPlotting::ocean(Layout& out)
-{
-	/*
-	const Transformation& transformation = out.transformation();
-	Polyline& box = transformation.getPCBoundingBox();
-	Polyline* ocean = box.clone();
-	setSeaShading(*ocean);
-
-	out.push_back(ocean);
-	return ocean;
-	*/
-}
-
-
-
 /*!
   Here we send the coastlines as land.
   We send the lakes as holes ... and the holes in the lakes as land!
@@ -315,31 +275,7 @@ void CoastPlotting::seaonly(Layout& out)
 		setSeaShading(*coast);
 		out.push_back(coast);
 	}
-/*
-	Polyline* big = ocean(out);
-
-	for (vector<Polyline>::iterator poly = coast_.begin(); poly != coast_.end(); ++poly)
-	{
-		big->newHole(*poly);
-
-		// Now we add the holes as sea polylines!
-		for (Polyline::Holes::const_iterator hole = poly->beginHoles(); hole!= poly->endHoles(); ++hole) {
-			Polyline* h = poly->getNew();
-			setSeaShading(*h);
-			poly->hole(hole, *h);
-		    for (Polyline::Holes::const_iterator island = hole->beginHoles(); island!= poly->endHoles(); ++island) {
-			  Polyline* h2 = poly->getNew();
-			  setLandShading(*h2);
-			  hole->hole(island, *h2);
-			  h.push_back(h2);
-		    }
-			out.push_back(h);
-		}
-	}
-*/
 }
-
-#include <boost/geometry/algorithms/distance.hpp>
 
 void CoastPlotting::nolandsea(Layout& visitor)
 {
@@ -437,25 +373,18 @@ void CoastPlotting::decode(const Layout& parent )
 
 	vector<Polyline> coastlines;
 	vector<Polyline> oceans;
-	vector<Polyline> lakes;
 	coast_.clear();
 	ocean_.clear();
 
 	ShapeDecoder coastline_decoder;
-	string file = PATH(coastSet_["land"]);
+	const string file = PATH(coastSet_["land"]);
 	coastline_decoder.setPath(file);
 	coastline_decoder.decode(coastlines, transformation);
 
-	ShapeDecoder ocean_decoder;
-	string file_ocean = PATH(coastSet_["ocean"]);
-	ocean_decoder.setPath(file_ocean);
-	ocean_decoder.decode(oceans, transformation);
-/*
-	ShapeDecoder lake_decoder;
-	file = PATH(coastSet_["lakes"]);
-	lake_decoder.setPath(file);
-	lake_decoder.decode(lakes, transformation);
-*/
+	const string file_ocean = PATH(coastSet_["ocean"]);
+	coastline_decoder.setPath(file_ocean);
+	coastline_decoder.decode(oceans, transformation);
+
 	//! Secondly we try to put the lakes in the continents!!!
 	for (vector<Polyline>::iterator coast = coastlines.begin(); coast != coastlines.end(); ++coast )
 	{
