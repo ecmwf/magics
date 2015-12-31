@@ -923,6 +923,7 @@ void Proj4Projection::coastSetting(map<string, string>& setting, double abswidth
 	setting["resolution"]      = resol;
 	setting["lakes"]      = resol + "/ne_" + resol + "_lakes";
 	setting["land"]       = resol + "/ne_" + resol + "_land";
+	setting["ocean"]      = resol + "/ne_" + resol + "_ocean";
 	setting["coast"]      = resol + "/ne_" + resol + "_coastline";
 	setting["rivers"]     = resol + "/ne_" + resol + "_rivers_lake_centerlines";
 	setting["boundaries"] = resol + "/ne_" + resol + "_admin_0_boundary_lines_land";
