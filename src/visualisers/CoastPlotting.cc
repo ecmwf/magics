@@ -204,6 +204,7 @@ void CoastPlotting::operator()(DrawingVisitor& parent)
         coastSet_["resolution"] = "10m full";
         coastSet_["lakes"]      = resol + "_full/ne_" + resol + "_lakes";
         coastSet_["land"]       = resol + "_full/ne_" + resol + "_land";
+        coastSet_["ocean"]      = resol + "_full/ne_" + resol + "_ocean";
         coastSet_["rivers"]     = resol + "_full/ne_" + resol + "_rivers_lake_centerlines";
         coastSet_["boundaries"] = resol + "/ne_" + resol + "_admin_0_boundary_lines_land";
   }
@@ -212,6 +213,7 @@ void CoastPlotting::operator()(DrawingVisitor& parent)
         coastSet_["resolution"] = resol;
         coastSet_["lakes"]      = resol + "/ne_" + resol + "_lakes";
         coastSet_["land"]       = resol + "/ne_" + resol + "_land";
+        coastSet_["ocean"]      = resol + "/ne_" + resol + "_ocean";
         coastSet_["rivers"]     = resol + "/ne_" + resol + "_rivers_lake_centerlines";
         coastSet_["boundaries"] = resol + "/ne_" + resol + "_admin_0_boundary_lines_land";
   }
@@ -220,6 +222,7 @@ void CoastPlotting::operator()(DrawingVisitor& parent)
         coastSet_["resolution"] = resol;
         coastSet_["lakes"]      = resol + "/ne_" + resol + "_lakes";
         coastSet_["land"]       = resol + "/ne_" + resol + "_land";
+        coastSet_["ocean"]      = resol + "/ne_" + resol + "_ocean";
         coastSet_["rivers"]     = resol + "/ne_" + resol + "_rivers_lake_centerlines";
         coastSet_["boundaries"] = resol + "/ne_" + resol + "_admin_0_boundary_lines_land";
   }
@@ -228,6 +231,7 @@ void CoastPlotting::operator()(DrawingVisitor& parent)
         coastSet_["resolution"] = resol;
         coastSet_["lakes"]      = resol + "/ne_" + resol + "_lakes";
         coastSet_["land"]       = resol + "/ne_" + resol + "_land";
+        coastSet_["ocean"]      = resol + "/ne_" + resol + "_ocean";
         coastSet_["rivers"]     = resol + "/ne_" + resol + "_rivers_lake_centerlines";
         coastSet_["boundaries"] = resol + "/ne_" + resol + "_admin_0_boundary_lines_land";
   }
@@ -270,6 +274,7 @@ void CoastPlotting::landsea(Layout& out)
 
 Polyline*  CoastPlotting::ocean(Layout& out)
 {
+	/*
 	const Transformation& transformation = out.transformation();
 	Polyline& box = transformation.getPCBoundingBox();
 	Polyline* ocean = box.clone();
@@ -277,6 +282,7 @@ Polyline*  CoastPlotting::ocean(Layout& out)
 
 	out.push_back(ocean);
 	return ocean;
+	*/
 }
 
 
@@ -303,6 +309,13 @@ void CoastPlotting::landonly(Layout& out)
 */
 void CoastPlotting::seaonly(Layout& out)
 {
+	for (vector<Polyline>::iterator poly = ocean_.begin(); poly != ocean_.end(); ++poly)
+	{
+		Polyline* coast = poly->clone();
+		setSeaShading(*coast);
+		out.push_back(coast);
+	}
+/*
 	Polyline* big = ocean(out);
 
 	for (vector<Polyline>::iterator poly = coast_.begin(); poly != coast_.end(); ++poly)
@@ -314,9 +327,16 @@ void CoastPlotting::seaonly(Layout& out)
 			Polyline* h = poly->getNew();
 			setSeaShading(*h);
 			poly->hole(hole, *h);
+		    for (Polyline::Holes::const_iterator island = hole->beginHoles(); island!= poly->endHoles(); ++island) {
+			  Polyline* h2 = poly->getNew();
+			  setLandShading(*h2);
+			  hole->hole(island, *h2);
+			  h.push_back(h2);
+		    }
 			out.push_back(h);
 		}
 	}
+*/
 }
 
 #include <boost/geometry/algorithms/distance.hpp>
@@ -416,13 +436,20 @@ void CoastPlotting::decode(const Layout& parent )
 	const Transformation& transformation = parent.transformation();
 
 	vector<Polyline> coastlines;
+	vector<Polyline> oceans;
 	vector<Polyline> lakes;
 	coast_.clear();
+	ocean_.clear();
 
 	ShapeDecoder coastline_decoder;
 	string file = PATH(coastSet_["land"]);
 	coastline_decoder.setPath(file);
 	coastline_decoder.decode(coastlines, transformation);
+
+	ShapeDecoder ocean_decoder;
+	string file_ocean = PATH(coastSet_["ocean"]);
+	ocean_decoder.setPath(file_ocean);
+	ocean_decoder.decode(oceans, transformation);
 /*
 	ShapeDecoder lake_decoder;
 	file = PATH(coastSet_["lakes"]);
@@ -432,21 +459,11 @@ void CoastPlotting::decode(const Layout& parent )
 	//! Secondly we try to put the lakes in the continents!!!
 	for (vector<Polyline>::iterator coast = coastlines.begin(); coast != coastlines.end(); ++coast )
 	{
-/*		vector<Polyline> todolakes;
-		for (vector<Polyline>::iterator l = lakes.begin(); l != lakes.end(); ++l )
-		{
-			// we find the lake!
-			bool inside = l->in(*coast);
-			if ( inside )
-			{
-				coast->newHole(*l);
-			}
-			else {
-				todolakes.push_back(*l);
-			}
-		}
-		lakes = todolakes;
-*/		coast_.push_back(*coast);
+		coast_.push_back(*coast);
+	}
+	for (vector<Polyline>::iterator coast = oceans.begin(); coast != oceans.end(); ++coast )
+	{
+		ocean_.push_back(*coast);
 	}
 }
 
