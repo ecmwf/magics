@@ -861,7 +861,6 @@ void PolarStereographicProjection::coastSetting(map<string, string>& setting, do
 		resol = "50m";
 	}
 	setting["resolution"]      = resol;
-	setting["lakes"]      = resol + "/ne_" + resol + "_lakes";
 	setting["land"]       = resol + "/ne_" + resol + "_land";
 	setting["ocean"]      = resol + "/ne_" + resol + "_ocean";
 	setting["coast"]      = resol + "/ne_" + resol + "_coastline";

@@ -177,7 +177,6 @@ void CoastPlotting::operator()(DrawingVisitor& parent)
   if ( magCompare(NoCoastPlottingAttributes::resolution_, "full") ) {
         string resol = "10m";
         coastSet_["resolution"] = "10m full";
-        coastSet_["lakes"]      = resol + "_full/ne_" + resol + "_lakes";
         coastSet_["land"]       = resol + "_full/ne_" + resol + "_land";
         coastSet_["ocean"]      = resol + "_full/ne_" + resol + "_ocean";
         coastSet_["rivers"]     = resol + "_full/ne_" + resol + "_rivers_lake_centerlines";
@@ -186,7 +185,6 @@ void CoastPlotting::operator()(DrawingVisitor& parent)
   else if ( magCompare(NoCoastPlottingAttributes::resolution_, "high") ) {
         string resol = "10m";
         coastSet_["resolution"] = resol;
-        coastSet_["lakes"]      = resol + "/ne_" + resol + "_lakes";
         coastSet_["land"]       = resol + "/ne_" + resol + "_land";
         coastSet_["ocean"]      = resol + "/ne_" + resol + "_ocean";
         coastSet_["rivers"]     = resol + "/ne_" + resol + "_rivers_lake_centerlines";
@@ -195,7 +193,6 @@ void CoastPlotting::operator()(DrawingVisitor& parent)
   else if ( magCompare(NoCoastPlottingAttributes::resolution_, "medium") ) {
         string resol = "50m";
         coastSet_["resolution"] = resol;
-        coastSet_["lakes"]      = resol + "/ne_" + resol + "_lakes";
         coastSet_["land"]       = resol + "/ne_" + resol + "_land";
         coastSet_["ocean"]      = resol + "/ne_" + resol + "_ocean";
         coastSet_["rivers"]     = resol + "/ne_" + resol + "_rivers_lake_centerlines";
@@ -204,7 +201,6 @@ void CoastPlotting::operator()(DrawingVisitor& parent)
   else if ( magCompare(NoCoastPlottingAttributes::resolution_, "low") ) {
         string resol = "110m";
         coastSet_["resolution"] = resol;
-        coastSet_["lakes"]      = resol + "/ne_" + resol + "_lakes";
         coastSet_["land"]       = resol + "/ne_" + resol + "_land";
         coastSet_["ocean"]      = resol + "/ne_" + resol + "_ocean";
         coastSet_["rivers"]     = resol + "/ne_" + resol + "_rivers_lake_centerlines";
@@ -339,7 +335,7 @@ void CoastPlotting::decode(const Layout& parent )
 {
 	//Read the shape file ...
 	Timer timer("geometry", "Simplify+clip");
-	
+
 	const Transformation& transformation = parent.transformation();
 
 	vector<Polyline> coastlines;
