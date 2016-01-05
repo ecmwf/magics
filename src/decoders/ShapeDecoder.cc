@@ -33,10 +33,6 @@
 #include "shapefil.h"
 #include "Polyline.h"
 
-//#include <boost/geometry/geometry.hpp>
-//#include <boost/geometry/algorithms/make.hpp>
-
-// #define BOOST_VERSION 104700
 
 ShapeDecoder::ShapeDecoder() :holes_(false)
 {
@@ -140,9 +136,9 @@ void ShapeDecoder::customisedPoints(const std::set<string>&, CustomisedPointsLis
 			    	out.push_back(point);
 			}
 			SHPDestroyObject( psShape );
-		}
-		SHPClose( hSHP ); 
-        DBFClose( hDBF ); 
+		    }
+		    SHPClose( hSHP ); 
+            DBFClose ( hDBF ); 
 	}
 	catch (...)
 	{
@@ -184,22 +180,21 @@ void ShapeDecoder::decode(const Transformation& transformation, const string& fi
 		
 		for( i = 0; i < DBFGetFieldCount(hDBF); i++ )
 		{
-		    DBFGetFieldInfo( hDBF, i, szTitle, &nWidth, &nDecimals );
-		    attributes.insert(make_pair(lowerCase(szTitle), i));
+		            DBFGetFieldInfo( hDBF, i, szTitle, &nWidth, &nDecimals );
+		            attributes.insert(make_pair(lowerCase(szTitle), i));
 		}
 		map<string, int>::iterator index =  filter.empty() ? attributes.end() : attributes.find(filter);
 
 		if ( index == attributes.end() && !filter.empty() ) {
 			MagLog::info() << "ShapeDecoder: can not find attribute " << filter << " -> Data will not be filtered!" << endl;
 		}
-
 		SHPObject *psShape = 0;
 		for( i = 0; i < nEntities; i++ )
 		{
 			int       j;
 			if ( psShape ) {
-				SHPDestroyObject(psShape);
-			}
+								SHPDestroyObject(psShape);
+							}
 
 			psShape = SHPReadObject( hSHP, i );
 		
@@ -257,7 +252,7 @@ void ShapeDecoder::decode(const Transformation& transformation, const string& fi
 						if ( holes_ == false ) break;
 						iPart++;
 						if (in) {
-        					push_back(new PointsList());
+        						push_back(new PointsList());
 							inlist = back();
 						}
 						if (left) {
@@ -270,7 +265,7 @@ void ShapeDecoder::decode(const Transformation& transformation, const string& fi
 						}
 					}
 					if (in) {
-						inlist->push_back(new UserPoint(psShape->padfX[j], psShape->padfY[j], i));
+							inlist->push_back(new UserPoint(psShape->padfX[j], psShape->padfY[j], i));
 					}
 					if (left) {
 						leftlist->push_back(new UserPoint(psShape->padfX[j]-360., psShape->padfY[j], i));
@@ -301,14 +296,16 @@ void ShapeDecoder::decode(vector<Polyline>& data, const Transformation& transfor
 {
 	Timer timer("Read Shape file ", "read shape file" + path_);
 
-	Polyline& geobox = transformation.getUserBoundingBox();
-	Polyline& box = transformation.getPCBoundingBox();
-	try {
-			int	nShapeType, nEntities;
+		Polyline& geobox = transformation.getUserBoundingBox();
+		Polyline& box = transformation.getPCBoundingBox();
+		try {
+			SHPHandle  hSHP;
+			int	nShapeType, nEntities, i, iPart;
+			bool hole=false;
 			double 	adfMinBound[4], adfMaxBound[4];
-			const string shp = path_ + ".shp";
-			const string dbf = path_ + ".dbf";
-			SHPHandle hSHP = SHPOpen( shp.c_str(), "rb" );
+			string shp = path_ + ".shp";
+			string dbf = path_ + ".dbf";
+			hSHP = SHPOpen( shp.c_str(), "rb" );
 			if ( !hSHP  ) {
 			    	MagLog::error() << "Can not open Shapefile " << path_ << endl;
 			    	return;
@@ -331,11 +328,11 @@ void ShapeDecoder::decode(vector<Polyline>& data, const Transformation& transfor
 			if ( ( east - west ) > 360. )
 				shift = 0;
 
- 			SHPObject	*psShape = 0;
-			VectorOfPointers<vector<Polyline *> > polys;
-
-			for(int i = 0; i < nEntities; i++ )
+			SHPObject *psShape = 0;
+			int nb  = 0;
+			for( i = 0; i < nEntities; i++ )
 			{
+				int	j;
 				SHPDestroyObject(psShape);
 				psShape = SHPReadObject( hSHP, i );
 
@@ -345,55 +342,97 @@ void ShapeDecoder::decode(vector<Polyline>& data, const Transformation& transfor
 
 				if ( psShape->dfYMax  <= south ) continue;
 				if ( psShape->dfYMin  >= north ) continue;
-				if ( (psShape->dfXMax + shift) <= west) in = false;
-				if ( (psShape->dfXMin + shift) >= east) in = false;
-
-				if ( psShape->dfXMax + shift -360 > transformation.getMinX() && !same(psShape->dfXMax-360, transformation.getMinX()))
-				{
-					left = true;
+				if ( psShape->dfXMax + shift  <= west) in = false;
+				if ( psShape->dfXMin  + shift >=  east) in = false;
+				if ( psShape->dfXMax + shift -360 > transformation.getMinX() &&  !same(psShape->dfXMax-360, transformation.getMinX())) {
+					        left = true;
 				}
-				if ( psShape->dfXMin + shift +360 < transformation.getMaxX() && !same(psShape->dfXMin+360, transformation.getMaxX() ) )
-				{
-					right = true;
+				if ( psShape->dfXMin + shift +360 < transformation.getMaxX() && !same(psShape->dfXMin+360, transformation.getMaxX() ) ) {
+						right = true;
 				}
 
 				if ( !in && !right && !left ) continue;
-
-				double poly_shift = 0.;
-				if ( left )  poly_shift = -360.;
-                if ( right ) poly_shift =  360.;
-
-				Polyline* polyline = new Polyline();
-                polys.push_back(polyline);
+				VectorOfPointers<vector<Polyline *> > polys;
+				Polyline* poly = 0;
+                Polyline* polyleft = 0;
+                Polyline* polyright = 0; 
+                if ( in) {
+                    poly  = new Polyline();
+                    polys.push_back(poly);
+                }
+				if ( left ) {
+                    polyleft  = new Polyline();
+                    polys.push_back(polyleft);
+                }
+                if ( right ) {
+                    polyright  = new Polyline();
+                    polys.push_back(polyright);
+                }
                 
-				for( int j = 0, iPart = 1; j < psShape->nVertices ; j++ )
+				left = false;
+				right=false;
+
+				for( j = 0, iPart = 1, hole = false; j < psShape->nVertices ; j++ )
 				{
-//cout << " ...... "<< j<< "   "<< iPart<< endl;
-					if( (iPart < psShape->nParts) && (psShape->panPartStart[iPart] == j) )  // new part/vertex
+					bool patch = false;
+					if( iPart < psShape->nParts && psShape->panPartStart[iPart] == j )
 					{
-						polyline->newHole();
 						iPart++;
+						hole=true;
+						// We create a new hole!
+
+						if (poly)
+							poly->newHole();
+						if (polyleft)
+							polyleft->newHole();
+						if (polyright)
+							polyright->newHole();
 					}
-					const double x = psShape->padfX[j] + shift + poly_shift;
-					const double y = psShape->padfY[j];
-					if(iPart==1) polyline->push_back(PaperPoint(x,y));
-					else polyline->push_back_hole(PaperPoint(x,y));
-				} // endfor j
-			} // end for all entities i
 
-	        /// first we clip
-			for (vector<Polyline*>::iterator poly = polys.begin(); poly != polys.end(); ++poly ) {
-				//(*poly)->sanityCheck();
-				vector<Polyline> clipped;
-				geobox.intersect(**poly, clipped);
+					else {
+						double x = psShape->padfX[j];
+						x += shift;
+						const double y = psShape->padfY[j];
 
-	            // then we reproject!
-				for (vector<Polyline>::iterator clip = clipped.begin(); clip != clipped.end(); ++clip ) {
-					clip->reproject(transformation);
-					//clip->sanityCheck();
-					box.intersect(*clip, data);
+						if ( iPart==1 ) {
+							if ( poly ) {
+								poly->push_back(PaperPoint(x, y));
+							}
+							if ( polyleft ) {
+								polyleft->push_back(PaperPoint(x-360, y));
+							}
+							if ( polyright ) {
+								polyright->push_back(PaperPoint(x+360,  y));
+							}
+						}
+						else {
+							if ( in ) {
+								poly->push_back_hole(PaperPoint(x, y));
+							}
+							if ( polyleft ) {
+								polyleft->push_back_hole(PaperPoint(x-360, y));
+							}
+							if ( polyright ) {
+								polyright->push_back_hole(PaperPoint(x+360, y));
+							}
+						 }
+					}
 				}
-	        }
+
+	             	/// first we clip
+					for (vector<Polyline*>::iterator poly = polys.begin(); poly != polys.end(); ++poly ) {
+						//(*poly)->sanityCheck();
+						vector<Polyline> clipped;
+						geobox.intersect(**poly, clipped);
+
+	                	// then we reproject!
+						for (vector<Polyline>::iterator clip = clipped.begin(); clip != clipped.end(); ++clip ) {
+							clip->reproject(transformation);
+							//clip->sanityCheck();
+							box.intersect(*clip, data);
+						}
+	                }
+			}
 			SHPDestroyObject(psShape);
 			SHPClose( hSHP );
 		}
