@@ -277,42 +277,13 @@ void CoastPlotting::seaonly(Layout& out)
 	}
 }
 
-void CoastPlotting::nolandsea(Layout& visitor)
+void CoastPlotting::nolandsea(Layout& out)
 {
 	for (vector<Polyline>::iterator coast = coast_.begin(); coast != coast_.end(); ++coast)
 	{
-		if ( coast->empty() ) continue;
-
-		Polyline* poly = new Polyline();
+		Polyline* poly = coast->clone();
 		setLine(*poly);
-		Polyline::MagLine::const_iterator point = coast->begin();
-		poly->push_back(*point);
-		++point;
-		while ( point!=coast->end() ) {
-
-			const double dist = point->distance(poly->back());
-			const double res = tonumber(coastSet_["resolution"]);
-
-			if ( dist > visitor.transformation().patchDistance(res) ) {
-					if ( !poly->empty() ) {
-						visitor.push_back(poly);
-						poly = new Polyline();
-						setLine(*poly);
-					}
-			}
-
-			poly->push_back(*point);
-			++point;
-		}
-		visitor.push_back(poly);
-		// now the lakes!
-		for (Polyline::Holes::const_iterator lake = coast->beginHoles(); lake != coast->endHoles(); ++lake) {
-			Polyline* poly = new Polyline();
-			setLine(*poly);
-			for ( Polyline::MagLine::const_iterator point = lake->begin(); point != lake->end(); ++point)
-				poly->push_back(*point);
-			visitor.push_back(poly);
-		}
+		out.push_back(poly);
 	}
 }
 
@@ -372,28 +343,30 @@ void CoastPlotting::decode(const Layout& parent )
 	const Transformation& transformation = parent.transformation();
 
 	vector<Polyline> coastlines;
-	vector<Polyline> oceans;
 	coast_.clear();
-	ocean_.clear();
-
 	ShapeDecoder coastline_decoder;
 	const string file = PATH(coastSet_["land"]);
 	coastline_decoder.setPath(file);
 	coastline_decoder.decode(coastlines, transformation);
 
-	const string file_ocean = PATH(coastSet_["ocean"]);
-	coastline_decoder.setPath(file_ocean);
-	coastline_decoder.decode(oceans, transformation);
-
-	//! Secondly we try to put the lakes in the continents!!!
 	for (vector<Polyline>::iterator coast = coastlines.begin(); coast != coastlines.end(); ++coast )
 	{
 		coast_.push_back(*coast);
 	}
+
+  if( sea_ )
+  {
+	vector<Polyline> oceans;
+	ocean_.clear();
+	const string file_ocean = PATH(coastSet_["ocean"]);
+	coastline_decoder.setPath(file_ocean);
+	coastline_decoder.decode(oceans, transformation);
+
 	for (vector<Polyline>::iterator coast = oceans.begin(); coast != oceans.end(); ++coast )
 	{
 		ocean_.push_back(*coast);
 	}
+  }
 }
 
 void NoCoastPlotting::visit(MetaDataCollector& meta)
