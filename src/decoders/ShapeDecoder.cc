@@ -421,14 +421,14 @@ void ShapeDecoder::decode(vector<Polyline>& data, const Transformation& transfor
 
 	             	/// first we clip
 					for (vector<Polyline*>::iterator poly = polys.begin(); poly != polys.end(); ++poly ) {
-						//(*poly)->sanityCheck();
+						(*poly)->sanityCheck();
 						vector<Polyline> clipped;
 						geobox.intersect(**poly, clipped);
 
 	                	// then we reproject!
 						for (vector<Polyline>::iterator clip = clipped.begin(); clip != clipped.end(); ++clip ) {
 							clip->reproject(transformation);
-							//clip->sanityCheck();
+							clip->sanityCheck();
 							box.intersect(*clip, data);
 						}
 	                }
