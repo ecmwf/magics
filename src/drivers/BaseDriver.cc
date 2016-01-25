@@ -442,7 +442,7 @@ double BaseDriver::LSF(MFloat *x,MFloat *y, int i0) const
 	else 
 	{
 		angle=10.;
-		MagLog::warning() << "BaseDriver: Devision through zero prevented in calculation of Label angle!" << endl;
+		MagLog::debug() << "BaseDriver: Devision through zero prevented in calculation of Label angle!" << endl;
 	}
 	return angle;
 }
