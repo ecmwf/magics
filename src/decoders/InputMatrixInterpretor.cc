@@ -106,7 +106,7 @@ Matrix* InputMatrixRegularInterpretor::geoInterpret(Matrix* in, const InputMatri
 	
 	for (int i = 0; i < nblon; i++) {		
 		in->columnsAxis().push_back(lon);
-		lon += longitude_step_;		
+		lon = longitude_ +( i * longitude_step_);
 	}
 
 	int nblat =  in->rows();
@@ -115,7 +115,7 @@ Matrix* InputMatrixRegularInterpretor::geoInterpret(Matrix* in, const InputMatri
 	for (int i = 0; i < nblat; i++) {		
 		in->rowsAxis().push_back(lat);
 	    MagLog::dev()<< in->rowsAxis().back() << endl;
-		lat += latitude_step_;
+		lat = latitude_ + (i*latitude_step_);
 	}
 	in->setMapsAxis();
 	in->missing(std::numeric_limits<double>::max());
