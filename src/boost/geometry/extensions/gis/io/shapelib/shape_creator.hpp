@@ -36,6 +36,7 @@ public:
     {
         return m_filename.c_str();
     }
+    virtual ~shapelib_file_create_exception() throw() { }
 private :
     std::string m_filename;
 };
