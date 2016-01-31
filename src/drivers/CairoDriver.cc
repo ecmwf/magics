@@ -539,8 +539,8 @@ MAGICS_NO_EXPORT void CairoDriver::write_tiff() const
 
     // DPI
     TIFFSetField(tif, TIFFTAG_RESOLUTIONUNIT, RESUNIT_INCH);
-    TIFFSetField(tif, TIFFTAG_XRESOLUTION, (float) resolution_);
-    TIFFSetField(tif, TIFFTAG_YRESOLUTION, (float) resolution_);
+    TIFFSetField(tif, TIFFTAG_XRESOLUTION, (float) 90.;// resolution_);
+    TIFFSetField(tif, TIFFTAG_YRESOLUTION, (float) 90.;// resolution_);
 
     unsigned char *buf;
     if (TIFFScanlineSize(tif))
