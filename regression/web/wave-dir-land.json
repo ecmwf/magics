@@ -1,0 +1,105 @@
+{
+    "drivers": [
+        {
+            "format": "png",
+            "fullname": "wave-dir-land.png",
+            "output_cairo_transparent_background": "off",
+            "output_name_first_page_number": "off",
+            "output_width": "650"
+        }
+    ],
+    "height": "916",
+    "method": "wrep",
+    "page": [
+        {
+            "border": "off",
+            "bottom": "37%",
+            "display": "absolute",
+            "height": "10%",
+            "legend": {
+                "blanking": "off",
+                "border": "off",
+                "bottom": "70%",
+                "display": "absolute",
+                "height": "50%",
+                "left": "60%",
+                "legend_text_font_size": "0.7",
+                "text_colour": "navy",
+                "text_justification": "left",
+                "width": "20%"
+            },
+            "map": {
+                "border": "on",
+                "border-colour": "Rgb(0.5, 0.5, 0.5)",
+                "cartesian": {
+                    "unit_ratio": [
+                        {},
+                        {}
+                    ],
+                    "x_date": {
+                        "automatic": "on"
+                    },
+                    "y_regular": {
+                        "y_max": "43200",
+                        "y_min": "-43200"
+                    }
+                },
+                "height": "100%",
+                "horizontal_axis": {
+                    "axis_grid": "on",
+                    "axis_grid_colour": "evergreen",
+                    "axis_grid_line_style": "dash",
+                    "axis_line_colour": "navy",
+                    "axis_minor_tick": "on",
+                    "axis_minor_tick_colour": "navy",
+                    "axis_tick_colour": "navy",
+                    "axis_tick_label": "off",
+                    "axis_type": "date"
+                },
+                "margin_bottom": "17%",
+                "margin_top": "15%",
+                "plot": {
+                    "epswave": {
+                        "rose_wind_border_colour": "Rgb(0.5000, 0.5000, 0.5000)",
+                        "rose_wind_colour": "RGB(0.925,0.609,0.953)",
+                        "rose_wind_convention": "oceanographic"
+                    },
+                    "wrepjson": {
+                        "wrepjson_family": "eps",
+                        "wrepjson_input_filename": "wave-dir-land.data",
+                        "wrepjson_missing_value": "9999.0",
+                        "wrepjson_parameter": "230.140",
+                        "wrepjson_parameter_information": "Mean Wave Direction ( oceanographic convention) "
+                    }
+                },
+                "template": "15d_rose.json",
+                "vertical_axis": {
+                    "axis_grid": "on",
+                    "axis_grid_colour": "evergreen",
+                    "axis_grid_line_style": "dash",
+                    "axis_line": "on",
+                    "axis_line_colour": "navy",
+                    "axis_tick": "off",
+                    "axis_tick_label": "off"
+                }
+            },
+            "meta": {
+                "javascript_path": "wave-dir-land.js"
+            },
+            "page_id": "off",
+            "text": {
+                "border": "off",
+                "bottom": "83%",
+                "display": "absolute",
+                "height": "20%",
+                "text_colour": "navy",
+                "text_justification": "left",
+                "text_line_1": "<font size='0.5'><json_info key='parameter_info'/></font>",
+                "text_line_count": "1",
+                "width": "100%"
+            }
+        }
+    ],
+    "version": "3.0",
+    "width": "650"
+}
