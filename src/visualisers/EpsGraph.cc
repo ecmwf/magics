@@ -1694,7 +1694,7 @@ void EpsWave::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 		// Draw the Forecast
 		if ( (*point)->find("forecast") != (*point)->end() ) {
 			Polyline* hres = new Polyline();
-			hres->setColour(Colour("black"));
+			hres->setColour(Colour("blue"));
 			hres->setThickness(2);
 			hres->setLineStyle(M_SOLID);
 
