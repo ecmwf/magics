@@ -66,8 +66,8 @@ void mag_epsbar();
 void mag_epsshading();
 void mag_epswind();
 void mag_epswave();
-
-
+void mag_metgraph();
+void mag_metbufr();
 
 void mag_new(const char* page);
 

@@ -72,6 +72,7 @@
 
 #ifdef HAVE_BUFR
 #include "ObsDecoder.h"
+#include "EpsBufr.h"
 #endif
 
 #include "ObsJSon.h"
@@ -880,7 +881,19 @@ void  FortranMagics::wrepjson()
 	action_->data(wrep);
 
 }
+void  FortranMagics::metbufr()
+{
+	actions();
 
+
+	action_ = new VisualAction();
+
+	EpsBufr* bufr = new EpsBufr();
+
+	top()->push_back(action_);
+	action_->data(bufr);
+
+}
 void  FortranMagics::epsinput()
 {
 	actions();
@@ -891,8 +904,18 @@ void  FortranMagics::epsinput()
 	top()->push_back(action_);
 	action_->data(input);
 }
+#include "MetgramGraph.h"
+void  FortranMagics::metgraph()
+{
+	actions();
+	if ( !action_ ) {
+		MagLog::error() << "epscloud -> No data defined " << endl;
+		exit(1);
+	}
+	MetgramGraph* graph = new MetgramGraph();
 
-
+	action_->visdef(graph);
+}
 
 void  FortranMagics::epscloud()
 {
