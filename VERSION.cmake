@@ -1,6 +1,6 @@
 
-set ( metabuilder_version 2.27.0 )
-set ( _version 2.27.0 )
+set ( metabuilder_version 2.27.3 )
+set ( _version 2.27.3 )
 if ( MAGICS_BUILD )
     set( ${PROJECT_NAME}_VERSION_STR  "${_version}-${MAGICS_BUILD}" )   
 else ()
