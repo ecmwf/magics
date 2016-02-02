@@ -84,7 +84,12 @@ void tephi() {
 void mimport() {
   mag_import();
 }
-
+void mmetgraph() {
+  mag_metgraph();
+}
+void mmetbufr() {
+	mag_metbufr();
+}
 void wrepjson() {
   mag_wrepjson();
 }
@@ -93,10 +98,13 @@ void geojson() {
   mag_geojson();
 }
 
-void epsinput() {
+void metgraph() {
   mag_epsinput();
 }
 
+void epsinput() {
+  mag_epsinput();
+}
 void epsgraph() {
   mag_epsgraph();
 }

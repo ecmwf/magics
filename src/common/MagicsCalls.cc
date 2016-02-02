@@ -1204,6 +1204,15 @@ void pepsinput_()
 {
 	magics_->epsinput();
 }
+void pmetgraph_()
+{
+	magics_->metgraph();
+}
+void pmetbufr_()
+{
+	magics_->metbufr();
+}
+
 void pepscloud_()
 {
 	magics_->epscloud();
@@ -1280,6 +1289,8 @@ void mag_geojson()  { pgeojson_(); }
 void mag_wrepjson()  { pwrepjson_(); }
 void mag_epsinput()  { pepsinput_(); }
 void mag_epscloud()  { pepscloud_(); }
+void mag_metgraph()  { pmetgraph_(); }
+void mag_metbufr()  { pmetbufr_(); }
 
 void mag_epsgraph()  	   { pepsgraph_(); }
 void mag_epswave()       { pepswave_(); }
