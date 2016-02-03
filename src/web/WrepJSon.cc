@@ -1308,11 +1308,29 @@ void WrepJSon::visit(TextVisitor& text)
 	ostringstream full_correction;
 	ostringstream short_correction;
 
+
+
 	int dett = (points_along_meridian_ * 2) -1;
 	int epst = points_along_meridian_ -1;
-	if ( (correction_ && height_ != -9999 && param_info_!= "none") ) {
-		full_correction << " reduced to " << height_ <<  " m (station height) from " << maground(detz_) << " m (T" << dett << ") and " << maground(epsz_) <<  " m (T" << epst <<")";
-		short_correction << " reduced to " << height_ <<  " m (station height) from " << maground(epsz_) <<  " m (T" << epst <<")";
+
+	if ( points_along_meridian_ > 640 ) {
+		int dett = (points_along_meridian_ * 2) -1;
+		int epst = points_along_meridian_ -1;
+
+		if ( (correction_ && height_ != -9999 && param_info_!= "none") ) {
+			full_correction << " reduced to " << height_ <<  " m (station height) from " << maground(detz_) << " m (T" << dett << ") and " << maground(epsz_) <<  " m (T" << epst <<")";
+			short_correction << " reduced to " << height_ <<  " m (station height) from " << maground(epsz_) <<  " m (T" << epst <<")";
+		}
+	}
+
+	else {
+		int dett = points_along_meridian_;
+		int epst = points_along_meridian_ / 2;
+
+		if ( (correction_ && height_ != -9999 && param_info_!= "none") ) {
+			full_correction << " reduced to " << height_ <<  " m (station height) from " << maground(detz_) << " m (O" << dett << ") and " << maground(epsz_) <<  " m (T" << epst <<")";
+			short_correction << " reduced to " << height_ <<  " m (station height) from " << maground(epsz_) <<  " m (O" << epst <<")";
+		}
 	}
 
 	text.update("json", "full_temperature_correction_info", full_correction.str());

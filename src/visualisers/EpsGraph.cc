@@ -553,7 +553,7 @@ public:
 	{
 		MagLog::dev() << "EpsForecsat=>resolution" << resolution << endl; 
 		ostringstream title;
-        int km = maground(40000/(2*(2*resolution+1)+2));        
+        int km = maground(40000/(4*(resolution+1));
 		title << "High Resolution (" + tostring(km) + " km)";
 		title_ = title.str();
 	}
@@ -711,17 +711,11 @@ void EpsGraph::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 	forecast->setColour(*deterministic_colour_);
 	forecast->setThickness(deterministic_thickness_);
 	forecast->setLineStyle(deterministic_style_);
-    
-   
-	
-	
 
 	resolution_ = (*points.front())["resolution"];
 	
-	
-	
 		
-		DateTime base = points.front()->base();
+	DateTime base = points.front()->base();
 		
 	
     vector<BasicGraphicsObject*> list, list2;
