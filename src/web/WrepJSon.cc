@@ -1301,7 +1301,7 @@ void WrepJSon::visit(TextVisitor& text)
 	if (height_ != -9999 ) 
         text.update("json", "height", height.str());
 	text.update("json", "location", location.str());
-	text.update("json", "grid_point", (mask_ < 0.5 ) ? " (EPS sea point) " : " (EPS land point) ");
+	text.update("json", "grid_point", (mask_ < 0.5 ) ? " (ENS sea point) " : " (ENS land point) ");
 
 	}
 
@@ -1310,16 +1310,14 @@ void WrepJSon::visit(TextVisitor& text)
 
 
 
-	int dett = (points_along_meridian_ * 2) -1;
-	int epst = points_along_meridian_ -1;
 
 	if ( points_along_meridian_ > 640 ) {
 		int dett = (points_along_meridian_ * 2) -1;
 		int epst = points_along_meridian_ -1;
 
 		if ( (correction_ && height_ != -9999 && param_info_!= "none") ) {
-			full_correction << " reduced to " << height_ <<  " m (station height) from " << maground(detz_) << " m (T" << dett << ") and " << maground(epsz_) <<  " m (T" << epst <<")";
-			short_correction << " reduced to " << height_ <<  " m (station height) from " << maground(epsz_) <<  " m (T" << epst <<")";
+			full_correction << points_along_meridian_ << " reduced to " << height_ <<  " m (station height) from " << maground(detz_) << " m (T" << dett << ") and " << maground(epsz_) <<  " m (T" << epst <<")";
+			short_correction <<  points_along_meridian_ << " reduced to " << height_ <<  " m (station height) from " << maground(epsz_) <<  " m (T" << epst <<")";
 		}
 	}
 
@@ -1328,8 +1326,8 @@ void WrepJSon::visit(TextVisitor& text)
 		int epst = points_along_meridian_ / 2;
 
 		if ( (correction_ && height_ != -9999 && param_info_!= "none") ) {
-			full_correction << " reduced to " << height_ <<  " m (station height) from " << maground(detz_) << " m (O" << dett << ") and " << maground(epsz_) <<  " m (T" << epst <<")";
-			short_correction << " reduced to " << height_ <<  " m (station height) from " << maground(epsz_) <<  " m (O" << epst <<")";
+			full_correction <<  points_along_meridian_ << "  reduced to " << height_ <<  " m (station height) from " << maground(detz_) << " m (O" << dett << ") and " << maground(epsz_) <<  " m (T" << epst <<")";
+			short_correction <<  points_along_meridian_ << " reduced to " << height_ <<  " m (station height) from " << maground(epsz_) <<  " m (O" << epst <<")";
 		}
 	}
 
