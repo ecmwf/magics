@@ -553,7 +553,7 @@ public:
 	{
 		MagLog::dev() << "EpsForecsat=>resolution" << resolution << endl; 
 		ostringstream title;
-        int km = maground(40000/(4*(resolution+1));
+        int km = maground(40000/(4*(resolution+1)));
 		title << "High Resolution (" + tostring(km) + " km)";
 		title_ = title.str();
 	}
