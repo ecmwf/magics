@@ -883,8 +883,7 @@ void  FortranMagics::wrepjson()
 }
 void  FortranMagics::metbufr()
 {
-	actions();
-
+#ifdef HAVE_BUFR
 
 	action_ = new VisualAction();
 
@@ -892,6 +891,10 @@ void  FortranMagics::metbufr()
 
 	top()->push_back(action_);
 	action_->data(bufr);
+	return;
+
+#endif
+	MagLog::warning() << "No Support for Weather Parameters Plotting" << endl;
 
 }
 void  FortranMagics::epsinput()
