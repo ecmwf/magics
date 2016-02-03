@@ -1311,13 +1311,13 @@ void WrepJSon::visit(TextVisitor& text)
 
 
 
-	if ( points_along_meridian_ > 640 ) {
+	if ( points_along_meridian_ < 1000 ) {
 		int dett = (points_along_meridian_ * 2) -1;
 		int epst = points_along_meridian_ -1;
 
 		if ( (correction_ && height_ != -9999 && param_info_!= "none") ) {
-			full_correction << points_along_meridian_ << " reduced to " << height_ <<  " m (station height) from " << maground(detz_) << " m (T" << dett << ") and " << maground(epsz_) <<  " m (T" << epst <<")";
-			short_correction <<  points_along_meridian_ << " reduced to " << height_ <<  " m (station height) from " << maground(epsz_) <<  " m (T" << epst <<")";
+			full_correction << " reduced to " << height_ <<  " m (station height) from " << maground(detz_) << " m (T" << dett << ") and " << maground(epsz_) <<  " m (T" << epst <<")";
+			short_correction <<  " reduced to " << height_ <<  " m (station height) from " << maground(epsz_) <<  " m (T" << epst <<")";
 		}
 	}
 
@@ -1326,8 +1326,8 @@ void WrepJSon::visit(TextVisitor& text)
 		int epst = points_along_meridian_ / 2;
 
 		if ( (correction_ && height_ != -9999 && param_info_!= "none") ) {
-			full_correction <<  points_along_meridian_ << "  reduced to " << height_ <<  " m (station height) from " << maground(detz_) << " m (O" << dett << ") and " << maground(epsz_) <<  " m (T" << epst <<")";
-			short_correction <<  points_along_meridian_ << " reduced to " << height_ <<  " m (station height) from " << maground(epsz_) <<  " m (O" << epst <<")";
+			full_correction <<   "  reduced to " << height_ <<  " m (station height) from " << maground(detz_) << " m (O" << dett << ") and " << maground(epsz_) <<  " m (T" << epst <<")";
+			short_correction <<  " reduced to " << height_ <<  " m (station height) from " << maground(epsz_) <<  " m (O" << epst <<")";
 		}
 	}
 
