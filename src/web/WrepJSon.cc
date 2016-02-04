@@ -1313,11 +1313,11 @@ void WrepJSon::visit(TextVisitor& text)
 
 
 	int dett = (points_along_meridian_ * 2) -1;
-		int epst = points_along_meridian_ -1;
+	int epst = points_along_meridian_ -1;
 
 	if ( (correction_ && height_ != -9999 && param_info_!= "none") ) {
-			full_correction << " reduced to " << height_ <<  " m (station height) from " << maground(detz_) << " m (HRES) and " << maground(epsz_) <<  " m (ENS")";
-			short_correction <<  " reduced to " << height_ <<  " m (station height) from " << maground(epsz_) <<  " m (ENS")";
+			full_correction << " reduced to " << height_ <<  " m (station height) from " << maground(detz_) << " m (HRES) and " << maground(epsz_) <<  " m (ENS)";
+			short_correction <<  " reduced to " << height_ <<  " m (station height) from " << maground(epsz_) <<  " m (ENS)";
 	}
 
 
