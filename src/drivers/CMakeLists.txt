@@ -19,7 +19,7 @@ list( APPEND _drivers_srcs
   libimagequant/pngquant.c libimagequant/pngquant.h
 )
 
-if( MAGICS_QT )
+if( qt )
    list( APPEND _drivers_srcs
           QtDriver.h QtDriver.cc
           MgQ/MgQ.h
@@ -52,11 +52,17 @@ if( HAVE_CAIRO )
   list( APPEND _drivers_srcs CairoDriver.h CairoDriver.cc )
 endif()
 
-if ( HAVE_METVIEW )
+if ( metview )
    list (APPEND metview_include 
 	drivers/DriverManager.h
 	drivers/BaseDriver.h 
 	${CMAKE_CURRENT_BINARY_DIR}/../params/BaseDriverAttributes.h
+	)
+   set( metview_include ${metview_include} PARENT_SCOPE )
+endif()
+
+if ( qt )
+   list (APPEND metview_include 
 	drivers/MgQ/MgQPlotScene.h
 	drivers/MgQ/MgQScene.h
 	drivers/QtDriver.h 
@@ -67,8 +73,8 @@ if ( HAVE_METVIEW )
 	drivers/MgQ/MgQRootItem.h
 	drivers/MgQ/MgQStepMetaData.h
 	)
-   set( metview_include ${metview_include} PARENT_SCOPE )
 endif()
+
 
 if( MAGICS_RASTER )
   list( APPEND _drivers_srcs   GDDriver.h  GDDriver.cc )
