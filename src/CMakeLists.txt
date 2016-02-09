@@ -226,7 +226,7 @@ if( metview )
 				)
    if(qt)
      list(APPEND attributes_include
-                 QtDriverAttributes)
+                 QtDriverAttributes.h)
    endif()
 
    install( FILES terralib/kernel/TeProjection.h
