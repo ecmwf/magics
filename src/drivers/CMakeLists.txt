@@ -73,6 +73,7 @@ if ( qt )
 	drivers/MgQ/MgQRootItem.h
 	drivers/MgQ/MgQStepMetaData.h
 	)
+   set( metview_include ${metview_include} PARENT_SCOPE )
 endif()
 
 
