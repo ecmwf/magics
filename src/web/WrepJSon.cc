@@ -1328,8 +1328,9 @@ void WrepJSon::visit(TextVisitor& text)
 
 	if (param_info_ != "none") {
 		text.update("json", "station_name", station_name_);
-		if ( !expver_.empty() && expver_ != "0001") {
+		if ( !expver_.empty() && expver_ != "0001")
 			text.update("json", "expver",  " [" + expver_ + "] ");
+
 	}
 
     text.update("json", "product_info", product_info_);
