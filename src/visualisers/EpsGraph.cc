@@ -506,14 +506,14 @@ public:
 class EpsControl : public LegendEntry
 {
 public:
-	EpsControl(double resolution, const string& type, double height) : 
+	EpsControl(const string& model, double resolution, const string& type, double height) :
 			LegendEntry(" "), legend_size_(height)
 	{
 		ostringstream title;
 		// carefull here this text is depending of the resolution! 
 		MagLog::dev() << "EpsControl=>resolution" << resolution << endl; 
         int km = maground(40000/(2*(resolution+1)+2));  
-		title << "ENS Control(" + tostring(km) + " km)";
+		title << model << "(" << tostring(km) + " km)";
 		title_ = title.str();
 	}
 	EpsControl(const string& title, double height) : LegendEntry(" "), legend_size_(height)
@@ -548,13 +548,13 @@ protected:
 class EpsForecast : public LegendEntry
 {
 public:
-	EpsForecast(double resolution, const string& type, double height) : 
+	EpsForecast(const string& model, double resolution, const string& type, double height) :
 		LegendEntry(" "), legend_size_(height)
 	{
 		MagLog::dev() << "EpsForecsat=>resolution" << resolution << endl; 
 		ostringstream title;
         int km = maground(40000/(4*(resolution+1)));
-		title << "High Resolution (" + tostring(km) + " km)";
+		title <<  model << " (" + tostring(km) + " km)";
 		title_ = title.str();
 	}
 	
@@ -975,13 +975,15 @@ void EpsGraph::visit(LegendVisitor& legend)
     if ( control_  )   {
     	MagLog::dev() << "LEGEND-> " << legend_control_text_ << endl;
     	if (legend_control_text_.empty() )
-    		legend.add(new EpsControl(resolution_, legend_resolution_, legend_size_));
+
+    		legend.add(new EpsControl(control_legend_, resolution_, legend_resolution_, legend_size_));
     	else 
+
     		legend.add(new EpsControl(legend_control_text_, legend_size_));
     }
     if ( forecast_  ) {
     	if (legend_forecast_text_.empty() )
-    	    legend.add(new EpsForecast(resolution_, legend_resolution_, legend_size_));
+    	    legend.add(new EpsForecast(deterministic_legend_, resolution_, legend_resolution_, legend_size_));
     	else 
     	    legend.add(new EpsForecast(legend_forecast_text_, legend_size_));
     }
@@ -1335,7 +1337,7 @@ void EpsWind::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 
 void EpsWave::visit(LegendVisitor& legend)
 {
-	MagFont font("sansserif", "normal", 0.25);
+	MagFont font(legend.font_, legend.font_style_, tonumber(legend.font_dimension_));
 	font.colour(Colour("Rgb(0.2, 0.2, 0.2)"));
 	vector<Colour> colours;
 	colours.push_back(Colour("greenish_blue"));
@@ -1355,7 +1357,7 @@ void EpsWave::visit(LegendVisitor& legend)
 void EpsWind::visit(LegendVisitor& legend)
 {
 	if ( !legend_ ) return;
-	MagFont font("sansserif", "normal", 0.25);
+	MagFont font(legend.font_, legend.font_style_, tonumber(legend.font_dimension_));
 	font.colour(Colour("Rgb(0.2, 0.2, 0.2)"));
 	
        WindRoseEntry* wind = new WindRoseEntry(*colour_);
