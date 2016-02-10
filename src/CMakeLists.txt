@@ -217,15 +217,18 @@ if( metview )
                 LegendVisitorAttributes.h
 				XmlRootNodeAttributes.h 
 				WrepRootNodeAttributes.h
-				QtDriverAttributes.h
                 ContinuousLegendMethodAttributes.h
                 HistogramLegendMethodAttributes.h
                 XmlBasicNodeAttributes.h
                 ImagePlottingAttributes.h
                 LookupTableModeAttributes.h
                 FixedTableModeAttributes.h
-
 				)
+   if(qt)
+     list(APPEND attributes_include
+                 QtDriverAttributes.h)
+   endif()
+
    install( FILES terralib/kernel/TeProjection.h
 				   terralib/kernel/TeCoord2D.h 
 				   terralib/kernel/TeDefines.h 
