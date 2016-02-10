@@ -46,7 +46,8 @@
         	   	<parameter member="legend_size" to="float" default="0.3" from="float" name="eps_legend_font_size">	</parameter>	 
        	  	<parameter member="legend_forecast_text" to="string" default="" from="string" name="eps_legend_forecast_text">	</parameter>	 
        	
-        	 
+        	
+        	
          	<parameter member="deterministic" to="bool" default="on" from="string" name="eps_deterministic">
         	 		<documentation> plot the deterministic Forecast		</documentation>
         	</parameter>
@@ -60,7 +61,10 @@
         	<parameter member="deterministic_thickness" to="int" default="2" from="int" name="eps_deterministic_line_thickness">
         	 		<documentation>line style of  deterministic Forecast		</documentation>
         	</parameter>
-                 	<parameter member="control" to="bool" default="on" from="string" name="eps_control">
+            <parameter member="deterministic_legend" to="string" default="High Resolution" from="string" name="eps_deterministic_legend_text">
+        	 		<documentation> Text to be used in the legend		</documentation>
+        	</parameter>
+            <parameter member="control" to="bool" default="on" from="string" name="eps_control">
         	 		<documentation> plot the deterministic Forecast		</documentation>
         	</parameter>
          	<parameter member="control_colour" to="Colour" default="red" from="string" name="eps_control_line_colour">
@@ -72,6 +76,10 @@
         	</parameter>
         	<parameter member="control_thickness" to="int" default="2" from="int" name="eps_control_line_thickness">
         	 		<documentation>line style of  deterministic Forecast		</documentation>
+        	</parameter>
+        	
+        	  <parameter member="control_legend" to="string" default="ENS Control" from="string" name="eps_control_legend_text">
+        	 		<documentation> Text to be used in the legend		</documentation>
         	</parameter>
         	 
         	<parameter member="legend" to="bool" default="on" from="string" name="legend">           
