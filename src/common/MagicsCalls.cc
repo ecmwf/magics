@@ -1480,11 +1480,11 @@ void mag_enqr(const char* fname, double *value)
 	special.push_back("subpage_y_length");
 	// parameters needs magics to get reday! 
 
-	 string projection;
+	string projection;
 	 
-	 ParameterManager::get("subpage_map_projection", projection);
+	ParameterManager::get("subpage_map_projection", projection);
 
-	for (vector<string>::iterator param = special.begin(); param != special.end(); ++param)  
+	for (vector<string>::iterator param = special.begin(); param != special.end(); ++param) {
 		if (magCompare(name, *param) ) {
 			double val;
 			ParameterManager::get(name,val);
@@ -1493,6 +1493,7 @@ void mag_enqr(const char* fname, double *value)
 		 		name  = name + "_internal";	
 			}
 		}
+	}
 	double magics;
 	ParameterManager::get(name,magics);
 	*value=magics;
@@ -1559,9 +1560,7 @@ public:
 	bool operator()(double val)
 	{
 		ParameterManager::set(from_, val);
-
 		update(val);
-
 		return false;
 	}
 
@@ -1570,7 +1569,6 @@ public:
 	{
 		string orientation;
 		ParameterManager::get("axis_orientation", orientation);
-		
 
 		if ( magCompare(orientation, "horizontal") )
 		{
@@ -1579,38 +1577,28 @@ public:
 		else
 		{
 			ParameterManager::set(vertical_, val);
-
 		}
 	}
 
 	void update(const string& val)
 	{
-			string orientation;
-			ParameterManager::get("axis_orientation", orientation);
+		string orientation;
+		ParameterManager::get("axis_orientation", orientation);
 
-
-			if ( magCompare(orientation, "horizontal") )
-			{
-				if (magCompare(val, "position_list") ){
-					MagLog::warning() << "position_list is now using the user coordinates system and not cm" << endl;
-					MagLog::warning() << "please check your coordinates system" << endl;
-
-				}
-				else
-					ParameterManager::set(horizontal_, val);
-			}
-			else
-			{
-				if (magCompare(val, "position_list") ){
-					MagLog::warning() << "position_list is now using the user coordinates system and not cm" << endl;
-					MagLog::warning() << "please check your coordinates system" << endl;
-
-				}
-				else
-					ParameterManager::set(vertical_, val);
-
-			}
+		if (magCompare(val, "position_list") ){
+			MagLog::info() << "position_list is now using the user coordinates system and not cm" << endl;
+			return;
 		}
+
+		if ( magCompare(orientation, "horizontal") )
+		{
+			ParameterManager::set(horizontal_, val);
+		}
+		else
+		{
+			ParameterManager::set(vertical_, val);
+		}
+	}
 
 	bool operator()(const string& value)
 	{
