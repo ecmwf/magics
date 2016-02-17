@@ -94,7 +94,7 @@
   	</parameter>
   
 
-  	<parameter from="string" name="text_colour" default="ecmwf_blue" member="font_colour" to="Colour" metview_default="navy">
+  	<parameter from="string" name="text_colour" default="navy" member="font_colour" to="Colour" metview_default="navy">
 			<documentation>Colour of text in text block (Full choice of colours)		</documentation>
 			<release>1.0		</release>
   	</parameter>
