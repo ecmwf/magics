@@ -201,7 +201,7 @@ find_package( EXPAT  REQUIRED )
 ###############################################################################
 # contents
 
-set( MAGICS_TPLS grib_api spot EXPAT NetCDF PangoCairo PNG Proj4 libemos )
+set( MAGICS_TPLS grib_api spot EXPAT NetCDF PNG Proj4 libemos )
 
 set( MAGICS_INCLUDE_DIRS 
      ${CMAKE_CURRENT_SOURCE_DIR}/src 
@@ -221,8 +221,12 @@ set( MAGICS_INCLUDE_DIRS
      ${CMAKE_CURRENT_SOURCE_DIR}/src/terralib/kernel
      ${CMAKE_CURRENT_SOURCE_DIR}/src/terralib/utils
      ${CMAKE_CURRENT_SOURCE_DIR}/src/libMagWrapper
-     ${Boost_INCLUDE_DIRS}
-     ${PANGOCAIRO_INCLUDE_DIRS} )
+     ${Boost_INCLUDE_DIRS} )
+
+if( HAVE_CAIRO )
+  list( APPEND MAGICS_TPLS PangoCairo )
+  list( APPEND MAGICS_INCLUDE_DIRS ${PANGOCAIRO_INCLUDE_DIRS} )
+endif()
 
 if( HAVE_ODB )
   list( APPEND MAGICS_TPLS odb_api )
