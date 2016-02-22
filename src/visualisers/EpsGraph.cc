@@ -511,7 +511,7 @@ public:
 	{
 		ostringstream title;
 		if ( resolution == 1280 ) {
-			title << model << "( ~18 km)";
+			title << model << "(~18 km)";
 		}
 		else { 
 			// carefull here this text is depending of the resolution! 
@@ -539,7 +539,7 @@ public:
 		MagLog::dev() << "Legend at Point[" << point.x() << ", " << point.y() << "]" << endl;
 	
 		Text* text  = new Text();
-		text->addText(title_, Colour("red"),  legend_size_); // should be customisable
+		text->addText(title_, Colour("red"),  legend_size_*1.2); // should be customisable
 		text->setJustification(MLEFT);
 		(*text).push_back(PaperPoint(x + 1*0.04, y));
 		visitor.push_back(text);
@@ -560,7 +560,7 @@ public:
 		MagLog::dev() << "EpsForecsat=>resolution" << resolution << endl; 
 		ostringstream title;
 		if ( resolution == 1280 ) {
-			title << model << "( ~9 km)";
+			title << model << "(~9 km)";
 		}
 		else {
         	int km = maground(40000/(4*(resolution+1)));
@@ -586,7 +586,7 @@ public:
 
 		
 		Text* text  = new Text();
-		text->addText(title_, Colour("blue"),  legend_size_); // should be customisable
+		text->addText(title_, Colour("blue"),  legend_size_*1.2); // should be customisable
 		text->setJustification(MLEFT);
 		(*text).push_back(PaperPoint(x + 1*0.04, y));
 		visitor.push_back(text);
