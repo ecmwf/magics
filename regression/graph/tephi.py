@@ -19,7 +19,6 @@ projection = mmap(
 tephi = mtephi( 
                 thermo_isotherm_grid_colour = "magenta",
 				thermo_isotherm_grid_thickness = 5,
-				thermo_isotherm_label_font_style= "bold",
 				thermo_isotherm_label_colour= "red",
 				thermo_isotherm_label_frequency= 5,
 				thermo_isotherm_label_font_size= 0.5)
