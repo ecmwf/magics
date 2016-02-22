@@ -1721,7 +1721,7 @@
             "lat": 56.6276092529, 
             "lon": 12.8395061493
         }, 
-        "points_along_meridian": 640, 
+        "points_along_meridian": 1280, 
         "requested_location": {
             "lat": 56.68, 
             "lon": 12.73
@@ -1731,7 +1731,7 @@
         "time": "0000", 
         "wave_resolution": null
     }, 
-    "points_along_meridian": 640, 
+    "points_along_meridian": 1280, 
     "station_name": "Fr\u00f6sM\u016k\u015full, Sweden", 
     "time": "0000"
 }

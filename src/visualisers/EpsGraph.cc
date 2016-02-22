@@ -539,7 +539,7 @@ public:
 		MagLog::dev() << "Legend at Point[" << point.x() << ", " << point.y() << "]" << endl;
 	
 		Text* text  = new Text();
-		text->addText(title_, Colour("red"),  legend_size_*1.2); // should be customisable
+		text->addText(title_, Colour("red"),  legend_size_*1.5); // should be customisable
 		text->setJustification(MLEFT);
 		(*text).push_back(PaperPoint(x + 1*0.04, y));
 		visitor.push_back(text);
@@ -586,7 +586,7 @@ public:
 
 		
 		Text* text  = new Text();
-		text->addText(title_, Colour("blue"),  legend_size_*1.2); // should be customisable
+		text->addText(title_, Colour("blue"),  legend_size_*1.5); // should be customisable
 		text->setJustification(MLEFT);
 		(*text).push_back(PaperPoint(x + 1*0.04, y));
 		visitor.push_back(text);
