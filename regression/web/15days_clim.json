@@ -554,7 +554,7 @@
                             "wrepjson_parameter": "122.128", 
                             "wrepjson_parameter_information": "none", 
                             "wrepjson_parameter_offset_factor": "-273.15", 
-                            "wrepjson_temperature_correction": "True"
+                            "wrepjson_temperature_correction": true
                         }
                     }, 
                     {
@@ -568,7 +568,7 @@
                             "wrepjson_parameter": "121.128", 
                             "wrepjson_parameter_information": "none", 
                             "wrepjson_parameter_offset_factor": "-273.15", 
-                            "wrepjson_temperature_correction": "True"
+                            "wrepjson_temperature_correction": true
                         }
                     }, 
                     {
@@ -587,7 +587,7 @@
                             "wrepjson_parameter": "122.128", 
                             "wrepjson_parameter_information": "2m min/max Temperature (&deg;C)", 
                             "wrepjson_parameter_offset_factor": "-273.15", 
-                            "wrepjson_temperature_correction": "True"
+                            "wrepjson_temperature_correction": true
                         }
                     }, 
                     {
@@ -607,7 +607,7 @@
                             "wrepjson_parameter": "121.128", 
                             "wrepjson_parameter_information": "none", 
                             "wrepjson_parameter_offset_factor": "-273.15", 
-                            "wrepjson_temperature_correction": "True"
+                            "wrepjson_temperature_correction": true
                         }
                     }
                 ], 

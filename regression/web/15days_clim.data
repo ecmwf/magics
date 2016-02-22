@@ -1364,7 +1364,7 @@
             "distance_unit": "km"
         }, 
         "eps_height": 141.145019531, 
-        "height": 100, 
+        "height": 80000, 
         "land_sea_mask": 1.0, 
         "location": {
             "lat": 9.82838058472, 
@@ -1383,7 +1383,7 @@
             }, 
             "eps_height": 141.145019531, 
             "eps_resolution": null, 
-            "height": 100, 
+            "height": 80000, 
             "land_sea_mask": 1.0, 
             "location": {
                 "lat": 9.82838058472, 
@@ -6508,7 +6508,7 @@
             "distance_unit": "km"
         }, 
         "eps_height": 141.145019531, 
-        "height": 100, 
+        "height": 80000, 
         "land_sea_mask": 1.0, 
         "location": {
             "lat": 9.82838058472, 
@@ -6527,7 +6527,7 @@
             }, 
             "eps_height": 141.145019531, 
             "eps_resolution": null, 
-            "height": 100, 
+            "height": 80000, 
             "land_sea_mask": 1.0, 
             "location": {
                 "lat": 9.82838058472, 

@@ -12,8 +12,8 @@ output = output(output_formats= ['png'],
 
 #Setting the coordinates of the geographical area
 area = mmap(subpage_upper_right_longitude= 60.,
-                 subpage_upper_right_latitude= 20.,
-                 subpage_lower_left_longitude= 20.,
+                 subpage_upper_right_latitude= 40.,
+                 subpage_lower_left_longitude= -20.,
                  subpage_map_projection= 'cylindrical',
                  subpage_lower_left_latitude= 0.)
 
@@ -36,7 +36,7 @@ foreground = mcoast(  map_grid= 'on',
 
 
 #Import the  wind  at 200hPa uv200 
-uv200 =  mgrib( grib_input_file_name = './uv500.grb',grib_id= 'uv200')
+uv200 =  mgrib( grib_input_file_name = './uv.grib',grib_id= 'uv200')
 
 streamlines = mwind(
                 legend= 'on',
@@ -65,5 +65,5 @@ legend = mlegend(legend= 'on',
 	   legend_text_font_size = '0.5')
 
 #To the plot
-plot(output, area, background, uv200, streamlines,foreground, title, legend)
+plot(output, area, background, uv200, streamlines, uv200, mwind(), foreground, title, legend)
 

@@ -3,10 +3,9 @@
 
 set +x
 
-versions="2.24.7 2.25.1" 
-src="coastlines5.py"
+versions="2.24.7 2.25.2" 
+src="handling_missing1.py handling_missing2.py handling_missing3.py handling_missing4.py "
 echo $src
-git="/home/graphics/cgs/git/magics"
 
 ext="py"
 img_ext="png"
@@ -27,7 +26,7 @@ do
   module unload Magics
   module load Magics/$v
   echo "magics/reference/$v/$where"
-  $git/regression/upload.py $v ./$sf $s.$img_ext magics/reference/$v/$where -i $interpretor
+  ../upload.py $v ./$sf $s.$img_ext magics/reference/$v/$where -i $interpretor
 
 done
 done

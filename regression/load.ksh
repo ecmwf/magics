@@ -2,13 +2,14 @@
 
 set +x
 
-src='wind-ecchart.json'
+src='wave-dir-land.json'
 img_ext="png"
+img="wave-dir-land.png"
 where='web'
 interpretor='magjson'
 ext="json"
 
-version="2.24.7"
+version="2.26.0"
 dir=`pwd`
 name=`basename $dir`
 
@@ -18,6 +19,5 @@ do
     s=`basename $sf .$ext`
 
     module load Magics/$version
-    ../upload.py $version ./$sf $s.$img_ext magics/reference/$version/$where -i $interpretor
-
+    ../upload.py $version ./$sf $img magics/reference/$version/$where -i $interpretor
 done
