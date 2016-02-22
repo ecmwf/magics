@@ -510,11 +510,17 @@ public:
 			LegendEntry(" "), legend_size_(height)
 	{
 		ostringstream title;
-		// carefull here this text is depending of the resolution! 
-		MagLog::dev() << "EpsControl=>resolution" << resolution << endl; 
-        int km = maground(40000/(2*(resolution+1)+2));  
-		title << model << "(" << tostring(km) + " km)";
+		if ( resolution == 1280 ) {
+			title << model << "( ~18 km)";
+		}
+		else { 
+			// carefull here this text is depending of the resolution! 
+			MagLog::dev() << "EpsControl=>resolution" << resolution << endl; 
+        	int km = maground(40000/(2*(resolution+1)+2));  
+			title << model << "(" << tostring(km) + " km)";
+		}
 		title_ = title.str();
+
 	}
 	EpsControl(const string& title, double height) : LegendEntry(" "), legend_size_(height)
 	{
@@ -553,8 +559,13 @@ public:
 	{
 		MagLog::dev() << "EpsForecsat=>resolution" << resolution << endl; 
 		ostringstream title;
-        int km = maground(40000/(4*(resolution+1)));
-		title <<  model << " (" + tostring(km) + " km)";
+		if ( resolution == 1280 ) {
+			title << model << "( ~9 km)";
+		}
+		else {
+        	int km = maground(40000/(4*(resolution+1)));
+			title <<  model << " (" + tostring(km) + " km)";
+		}
 		title_ = title.str();
 	}
 	
