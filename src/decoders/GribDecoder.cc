@@ -575,13 +575,11 @@ struct Compare
 
 void GribDecoder::customisedPoints(const Transformation& transformation, CustomisedPointsList& out, double thinx, double thiny, double gap)
 {
-    // Initialise index and data
-    interpretor_->new_index(*this);
-
     uComponent();
     vComponent();
-    double minlon = interpretor_->west_;
-    double maxlon = interpretor_->east_;
+
+    double minlon = 0.;
+    double maxlon = 360.;
 
     double missing = getDouble("missingValue");
 
@@ -595,7 +593,16 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
         out.reserve(positions.size());
 
 
-
+        //id GribDecoder::nearestGridpoints(double *inlats, double *inlons, double *outlats, double *outlons, double *values, double *distances, int nb, string &representation)
+        int nb = positions.size();
+        double inlats[nb];
+        double inlons[nb];
+        double outlats[nb];
+        double outlons[nb];
+        double offsets[nb];
+        double us[nb];
+        double vs[nb];
+        double distances[nb];
 
         int i = 0;
         for ( pos = positions.begin(); pos != positions.end(); ++pos) {
@@ -606,7 +613,7 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 
 
 
-            i++;
+
             while ( lon < minlon ) {
                 lon += 360;
                 offset -= 360.;
@@ -616,17 +623,31 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
                 offset += 360.;
             }
 
+            inlats[i] = lat;
+            inlons[i] = lon;
+            offsets[i] = offset;
+            i++;
+        }
 
-            Index index = interpretor_->nearest(lat, lon);
-            //cout << "[" << lat << ", " << lon << "]-->[" << index.index_ << ", " << index.lat_ << ", " << index.lon_ << "]" << endl;
-            if ( index.index_ != -1 && !index.used_ ) {
-                index.used_ = true;
-                double u = uComponent(index.index_);
-                double v = vComponent(index.index_);
+        string uname, vname;
+
+        grib_handle* uc = uHandle(uname);
+        grib_handle* vc = vHandle(vname);
+        handle_ = uc;
+        string representation = getString("typeOfGrid");
+        nearestGridpoints(inlats, inlons, outlats, outlons, us, distances, nb, representation);
+        handle_ = vc;
+        nearestGridpoints(inlats, inlons, outlats, outlons, vs, distances, nb, representation);
+
+        for ( i = 0; i < nb; i++ )
+        {
+        	double u = us[i];
+        	double v = vs[i];
+
 
 
                 if ( u != missing && v != missing) {
-                    CustomisedPoint *add = new CustomisedPoint(index.lon_+offset, index.lat_, "");
+                    CustomisedPoint *add = new CustomisedPoint(outlons[i]+offsets[i], outlats[i], "");
                     pair<double, double> value = (*wind_mode_)(u, v);
 
                     add->insert(make_pair("x_component", value.first));
@@ -641,7 +662,6 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
                     //*/
                 }
             }
-        }
     }
 
 
@@ -1401,6 +1421,7 @@ void GribDecoder::nearestGridpoints(double *inlats, double *inlons, double *outl
     {
         retainGribNearestHandle = true;  // more efficient
     }
+
 
 
     nearHandle = nearest_point_handle(retainGribNearestHandle);
