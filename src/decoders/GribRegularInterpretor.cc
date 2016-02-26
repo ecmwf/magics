@@ -331,7 +331,7 @@ void  GribInterpretor::index(const GribDecoder& grib)
 
 int GribInterpretor::nearest(double lon, double lat, double& nlon, double& nlat)
 {
-
+/*
     map<double, map<double, int> >::iterator y1, y2, y;
     map<double, int>::iterator x1, x2, x;
 
@@ -367,7 +367,7 @@ int GribInterpretor::nearest(double lon, double lat, double& nlon, double& nlat)
     }
     nlon = x->first;
     return x->second;
-
+*/
 }
 
 void GribInterpretor::raw(GribDecoder& grib,
@@ -875,6 +875,7 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
     GribDecoder::InterpolateMethod interpolate = grib.interpolateMethod();
     MagLog::dev() << "numberOfFieldValues[" << nb << "]" << "\n";
     double missing = std::numeric_limits<double>::max();
+
     grib.setDouble("missingValue", missing);
 
     (*matrix)->missing(missing);
@@ -957,22 +958,6 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
                 n = 0;
         }
 
-/*
-        // this is the previous version of the code (before using grib_get_reduced_row())
-        // compute find first grid point ..
-        double dx = 360./pl[i];
-        rows.push_back(vector<double>());
-        for ( int n = 0; n < pl[i]; n++) {
-            double x = (n*dx );
-
-            if ( x > east) x-=360.;
-
-            if ( x >= west && x <= east) {
-                rows.back().push_back(x);
-
-            }
-        }
-*/
         std::sort(rows.back().begin(), rows.back().end());
 
 
@@ -980,12 +965,31 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
         ii +=  rows.back().size();
     }
 
+// Find the latitudes
+
+    double array[2 * res];
+    grib_get_gaussian_latitudes(res, array);
+
+    for (int i = 0; i < 2*res; i++) {
+
+    	if ( same(array[i], north, 0.001) ) {
+    		(*matrix)->rowsAxis().push_back(array[i]);
+    		(*matrix)->index_[array[i]] = map<double, double>();
+    		continue;
+    	}
+    	if ( same(array[i], south, 0.001) ) {
+    		(*matrix)->rowsAxis().push_back(array[i]);
+    		(*matrix)->index_[array[i]] = map<double, double>();
+    		continue;
+    	}
+    	if ( array[i] < north && array[i] > south)
+    		(*matrix)->rowsAxis().push_back(array[i]);
+    		(*matrix)->index_[array[i]] = map<double, double>();
+
+    }
 
 
-
-
-
-
+    vector<double>::iterator ll = (*matrix)->rowsAxis().begin();
 
     // compute the number of points we'll be adding to the matrix so that we can
     // allocate them in one go, rather than allowing the STL to re-allocate
@@ -1011,7 +1015,9 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
         for (int ii = 0; ii < row->size(); ii++) {
             p.push_back(data[d]);
             d++;
+            (*matrix)->index_[*ll].insert(make_pair((*row)[ii], p.back()));
         }
+        ++ll;
         if (interpolate == GribDecoder::nearest_valid ) {
         	// Fill left vector
         	vector<double> left;
@@ -1131,6 +1137,7 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
                  val = (d2 < 0.5) ? p[p1] : p[p2];
                  (*matrix)->push_back(val);
             }
+
             x++;
             lon = west + ( x*step);
         }
@@ -1142,22 +1149,7 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
         (*matrix)->columnsAxis().push_back(west + (x * step));
     }
 
-    double array[2 * res];
-    grib_get_gaussian_latitudes(res, array);
 
-    for (int i = 0; i < 2*res; i++) {
-
-        if ( same(array[i], north, 0.001) ) {
-            (*matrix)->rowsAxis().push_back(array[i]);
-            continue;
-        }
-        if ( same(array[i], south, 0.001) ) {
-            (*matrix)->rowsAxis().push_back(array[i]);
-            continue;
-        }
-        if ( array[i] < north && array[i] > south)
-            (*matrix)->rowsAxis().push_back(array[i]);
-    }
     (*matrix)->setMapsAxis();
 }
 

@@ -33,9 +33,9 @@
 
 #include "Matrix.h"
 #include "Timer.h"
-#include "SegmentJoiner.h"
+//#include "SegmentJoiner.h"
 #include "MatrixHandler.h"
-#include "MatrixHandler.h"
+
 
 using namespace magics;
 
@@ -54,6 +54,7 @@ void Matrix::plus(double offset)
 
 void ProjectedMatrix::build()
 {
+	/*
 	vector< std::pair<int, int>  > coords(4);
 	for (int r = 0; r < rows_; r++)
 		for (int c = 0; c < columns_; c++)
@@ -173,6 +174,7 @@ void ProjectedMatrix::build()
 				ii++;
 			}
 		}
+		*/
 }
 
 void ProjectedMatrix::getReady()
@@ -308,8 +310,107 @@ double Matrix::interpolate(double i, double j) const
 }
 
 
+/// @brief The usual PI/180 constant
+static const double DEG_TO_RAD = 0.017453292519943295769236907684886;
+/// @brief Earth's quatratic mean radius for WGS-84
+static const double EARTH_RADIUS_IN_METERS = 6372797.560856;
 
-double Matrix::nearest(double row, double col,double &rowOut, double &colOut) const    
+/** @brief Computes the arc, in radian, between two WGS-84 positions.
+ *
+ * The result is equal to <code>Distance(from,to)/EARTH_RADIUS_IN_METERS</code>
+ *    <code>= 2*asin(sqrt(h(d/EARTH_RADIUS_IN_METERS )))</code>
+ *
+ * where:<ul>
+ *    <li>d is the distance in meters between 'from' and 'to' positions.</li>
+ *    <li>h is the haversine function: <code>h(x)=sin²(x/2)</code></li>
+ * </ul>
+ *
+ * The haversine formula gives:
+ *    <code>h(d/R) = h(from.lat-to.lat)+h(from.lon-to.lon)+cos(from.lat)*cos(to.lat)</code>
+ *
+ * @sa http://en.wikipedia.org/wiki/Law_of_haversines
+ */
+double geodistance(double lat1, double lon1, double lat2, double lon2) {
+	double latitudeArc  = (lat1 - lat2) * DEG_TO_RAD;
+	double longitudeArc = (lon1 - lon2) * DEG_TO_RAD;
+	double latitudeH = sin(latitudeArc * 0.5);
+	latitudeH *= latitudeH;
+	double lontitudeH = sin(longitudeArc * 0.5);
+	lontitudeH *= lontitudeH;
+	double tmp = cos(lat1*DEG_TO_RAD) * cos(lat2*DEG_TO_RAD);
+	return EARTH_RADIUS_IN_METERS* (2.0 * asin(sqrt(latitudeH + tmp*lontitudeH)));
+}
+
+#include <limits>
+double Matrix::nearest_index(double row, double col,double &rowOut, double &colOut) const
+{
+	map<double, map<double, double> >::const_iterator  row_index;
+	map<double, double>::const_iterator column_index;
+	rowOut = missing();
+	colOut = missing();
+	vector<pair<double, map<double, double>::const_iterator> > points;
+	row_index = index_.find(row);
+
+	if ( row_index != index_.end() ) {
+		rowOut = row;
+		// We have to find the columns
+		column_index = row_index->second.find(col);
+		if ( column_index != row_index->second.end() ) {
+			// Perfect match !
+			colOut = col;
+			return column_index->second;
+		}
+		column_index = row_index->second.lower_bound(col);
+		if ( column_index == row_index->second.end() || column_index == row_index->second.begin()) {
+			rowOut = missing();
+			return missing();
+		}
+		// here we have 2 points : find the nearest
+		points.push_back(make_pair(row, column_index));
+		column_index--;
+		points.push_back(make_pair(row, column_index));
+	}
+	else {
+		row_index = index_.lower_bound(row);
+		if ( row_index == index_.end() || row_index == index_.begin()) {
+			rowOut = missing();
+			return missing();
+		}
+		// Here we may have 4 points!
+		// Deal with the first row
+		column_index = row_index->second.lower_bound(col);
+		if ( column_index != row_index->second.end() || column_index != row_index->second.begin()) {
+			points.push_back(make_pair(row, column_index));
+			column_index--;
+			points.push_back(make_pair(row, column_index));
+		}
+		row_index--;
+		column_index = row_index->second.lower_bound(col);
+		if ( column_index != row_index->second.end() || column_index != row_index->second.begin()) {
+			points.push_back(make_pair(row, column_index));
+			column_index--;
+			points.push_back(make_pair(row, column_index));
+		}
+
+	}
+	// Now we find the nearest!
+	double min = numeric_limits<double>::infinity();
+	double value = missing();
+	for (vector<pair<double, map<double, double>::const_iterator> >::iterator point = points.begin(); point != points.end(); ++point) {
+		double dist = geodistance(point->first, point->second->first, row, col);
+		if (dist < min ) {
+			min = dist;
+			rowOut = point->first;
+			colOut = point->second->first;
+			value =  point->second->second;
+		}
+	}
+
+	return value;
+
+}
+
+double Matrix::nearest(double row, double col,double &rowOut, double &colOut) const
 {  
 	double xleft = std::min( left(), right());
 	double xright = std::max( left(), right());
