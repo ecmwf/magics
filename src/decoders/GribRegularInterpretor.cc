@@ -625,6 +625,9 @@ void GribRegularInterpretor::interpretAsMatrix(const GribDecoder& grib,
 
     latitudes(grib, (*matrix)->rowsAxis());
 
+    for ( vector<double>::iterator lat = (*matrix)->rowsAxis().begin(); lat != (*matrix)->rowsAxis().end(); ++lat)
+    	(*matrix)->index_.insert(make_pair(*lat, map<double, double>()));
+
     double x = west;
     for (int i = 0; i < nblon; i++) {
         (*matrix)->columnsAxis().push_back(x);
@@ -661,7 +664,13 @@ void GribRegularInterpretor::interpretAsMatrix(const GribDecoder& grib,
             grib_get_double_array(grib.id(), "values", &(*matrix)->front(),
                     &aux);
         }
-
+        for (int i = 0; i < nblon; i++) {
+        	double lon = (*matrix)->columnsAxis()[i];
+             for (int j = 0; j < nblat; j++) {
+            	   double lat = (*matrix)->rowsAxis()[j];
+            	   (*matrix)->index_[lat].insert(make_pair(lon, (**matrix)(j, i)));
+                       }
+                   }
         (*matrix)->missing(missing);
 
     } catch (...) {
@@ -1279,12 +1288,24 @@ void GribReducedLatLonInterpretor::interpretAsMatrix(const GribDecoder& grib,
         step = width / nblon;
     }
 
+    for (int x = 0; x < nblon; x++) {
+           (*matrix)->columnsAxis().push_back(west + (x * step));
+       }
+
+       double y = north;
+       for (long i = 0; i < nblat; i++) {
+           (*matrix)->rowsAxis().push_back(y);
+           (*matrix)->index_.insert(make_pair(y, map<double, double>()));
+           y += lat;
+       }
+
+
     grib_get_double_array(grib.id(), "values", data, &aux2);
     int d = 0;
 
 
     for (size_t i = 0; i < res; i++) {
-
+    	double lat = (*matrix)->rowsAxis()[i];
 
 
         if (pl[i] == 0) {
@@ -1300,14 +1321,16 @@ void GribReducedLatLonInterpretor::interpretAsMatrix(const GribDecoder& grib,
             double datastep = width / pl[i];
             for (int ii = 0; ii < pl[i]; ii++) {
                 p.push_back(data[d]);
-                lons.push_back( west + (ii*datastep) );
+                double lon = west + (ii*datastep);
+                lons.push_back( lon );
+                (*matrix)->index_[lat].insert(make_pair(lon, data[d]));
                 d++;
             }
             ASSERT( p.size() ==  pl[i]);
             if ( global ) {
                 p.push_back(p.front());
                 lons.push_back( lons.back() + datastep );
-
+                (*matrix)->index_[lat].insert(make_pair(lons.back(), p.front()));
             }
 
 
@@ -1375,15 +1398,6 @@ void GribReducedLatLonInterpretor::interpretAsMatrix(const GribDecoder& grib,
     delete[] data;
 
 
-    for (int x = 0; x < nblon; x++) {
-        (*matrix)->columnsAxis().push_back(west + (x * step));
-    }
-
-    double y = north;
-    for (long i = 0; i < nblat; i++) {
-        (*matrix)->rowsAxis().push_back(y);
-        y += lat;
-    }
 
     (*matrix)->setMapsAxis();
 }
