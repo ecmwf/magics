@@ -45,6 +45,8 @@ class Transformation;
 
 class RasterData;
 
+
+
 struct Index
     {
         int    index_;
@@ -64,8 +66,7 @@ public:
 	virtual void raw(GribDecoder&, const Transformation&, vector<pair<double, vector<pair<double, CustomisedPoint*> > > >&, double&, double&) const;
 
 	virtual void interpretAsMatrix(const GribDecoder&, Matrix** matrix) const { *matrix = 0; }
-	virtual void interpretAsMatrix(const GribDecoder& grib, Matrix** matrix, const Transformation&) const
-		{ interpretAsMatrix(grib, matrix); }
+
 
 
     virtual void interpret2D(double&, double&, double&, double&) const {}
@@ -88,7 +89,7 @@ public:
     double east_;
 
     vector<vector<Index> > helper_;
-    
+
 protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).
 	 virtual void print(ostream& out) const { out <<  "GribInterpretor" << endl; }
@@ -96,6 +97,8 @@ protected:
     int indexLon_;
     int indexLat_;
     double indexStep_;
+
+
 
 
 private:

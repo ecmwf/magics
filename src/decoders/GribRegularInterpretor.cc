@@ -511,10 +511,6 @@ void GribRegularInterpretor::print(ostream& out) const {
     out << "]";
 }
 
-void GribRegularInterpretor::interpretAsMatrix(const GribDecoder& grib,
-        Matrix** matrix, const Transformation&) const {
-    interpretAsMatrix(grib, matrix);
-}
 
 void GribRegularInterpretor::index(const GribDecoder& grib)
 {
@@ -586,7 +582,7 @@ void GribRegularInterpretor::index(const GribDecoder& grib)
 }
 
 void GribRegularInterpretor::interpretAsMatrix(const GribDecoder& grib,
-        Matrix** matrix) const {
+        Matrix** matrix, grib_handle* handle) const {
     Timer timer("gribapi", " read grib");
     MagLog::dev() << "GribRegularInterpretor::interpretAsMatrix" << "\n";
     long nblon = grib.getLong("numberOfPointsAlongAParallel");
@@ -604,11 +600,11 @@ void GribRegularInterpretor::interpretAsMatrix(const GribDecoder& grib,
     (*matrix)->missing(missing);
     (*matrix)->akimaEnabled();
 
-    double north = grib.getDouble("latitudeOfFirstGridPointInDegrees");
-    double west = grib.getDouble("longitudeOfFirstGridPointInDegrees");
-    double south = grib.getDouble("latitudeOfLastGridPointInDegrees");
+    double north = grib.getDouble("latitudeOfFirstGridPointInDegrees", handle);
+    double west = grib.getDouble("longitudeOfFirstGridPointInDegrees", handle);
+    double south = grib.getDouble("latitudeOfLastGridPointInDegrees", handle);
     ;
-    double east = grib.getDouble("longitudeOfLastGridPointInDegrees");
+    double east = grib.getDouble("longitudeOfLastGridPointInDegrees", handle);
     ;
     longitudesSanityCheck(west, east);
 
@@ -636,7 +632,7 @@ void GribRegularInterpretor::interpretAsMatrix(const GribDecoder& grib,
 
     (*matrix)->setMapsAxis();
 
-    long jPointsAreConsecutive = grib.getLong("jPointsAreConsecutive");
+    long jPointsAreConsecutive = grib.getLong("jPointsAreConsecutive", handle);
 
     try {
         (*matrix)->resize(nb);
@@ -650,7 +646,7 @@ void GribRegularInterpretor::interpretAsMatrix(const GribDecoder& grib,
             double *d1 = &d->front();                 // temporary array pointer
             double *d2 = &(*matrix)->front();            // final array
 
-            grib_get_double_array(grib.id(), "values", d1, &aux);
+            grib_get_double_array(handle, "values", d1, &aux);
 
             for (int i = 0; i < nblon; i++) {
                 for (int j = 0; j < nblat; j++) {
@@ -661,7 +657,7 @@ void GribRegularInterpretor::interpretAsMatrix(const GribDecoder& grib,
             delete d;
         } else  // otherwise, just copy the array of values as they are
         {
-            grib_get_double_array(grib.id(), "values", &(*matrix)->front(),
+            grib_get_double_array(handle, "values", &(*matrix)->front(),
                     &aux);
         }
         for (int i = 0; i < nblon; i++) {

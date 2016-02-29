@@ -45,6 +45,9 @@
 #include "MetaData.h"
 #include "MagJSon.h"
 
+#include "Thread.h"
+
+
 using namespace magics;
 
 int  GribDecoder::count_ = 0;
@@ -129,14 +132,17 @@ long computeStep( const GribDecoder& grib,const string&  key)
         factor = stepunit->second;
     return step * factor;
 }
-long GribDecoder::getLong(const string& key, bool warnIfKeyAbsent) const
+long GribDecoder::getLong(const string& key, bool warnIfKeyAbsent,  grib_handle* handle) const
 {
-    long val;
+	if ( handle == NULL)
+		handle = handle_;
+
+	long val;
     map<string, long>::const_iterator lk = lKeys_.find(key);
     if ( lk != lKeys_.end() ) {
         return lk->second;
     }
-    int err = grib_get_long(handle_, key.c_str(), &val);
+    int err = grib_get_long(handle, key.c_str(), &val);
     if ( err )
     {
         if (warnIfKeyAbsent)
@@ -176,14 +182,16 @@ string GribDecoder::getstring(const string& key, bool warnIfKeyAbsent, bool cach
     return string(val);
 }
 
-string GribDecoder::getString(const string& key, bool warnIfKeyAbsent) const
+string GribDecoder::getString(const string& key, bool warnIfKeyAbsent, grib_handle* handle) const
 {
+	if ( handle == NULL)
+		handle = handle_;
 
-    if ( Data::dimension_ == 1 )
+	if ( Data::dimension_ == 1 )
         return getstring(key, warnIfKeyAbsent, false);
 
     string value;
-    grib_handle* handle = handle_;
+
     // otherwise we build a name...
 
     GribDecoder* grib = const_cast<GribDecoder*>(this);
@@ -205,14 +213,17 @@ string GribDecoder::getString(const string& key, bool warnIfKeyAbsent) const
 }
 
 
-double GribDecoder::getDouble(const string& key, bool warnIfKeyAbsent) const
+double GribDecoder::getDouble(const string& key, bool warnIfKeyAbsent, grib_handle* handle) const
 {
-    map<string, double>::const_iterator dk = dKeys_.find(key);
+	if ( handle == NULL)
+		handle = handle_;
+
+	map<string, double>::const_iterator dk = dKeys_.find(key);
     if ( dk != dKeys_.end() ) {
         return dk->second;
     }
     double val;
-    int err = grib_get_double(handle_, key.c_str(), &val);
+    int err = grib_get_double(handle, key.c_str(), &val);
     if ( err )
     {
         if (warnIfKeyAbsent)
@@ -271,10 +282,13 @@ void GribDecoder::scale(const string& metadata, double& scaling, double& offset)
 
 }
 
-void GribDecoder::read(Matrix **matrix)
-{
 
-    if ( handle_ <=0 ) {
+
+void GribDecoder::read(Matrix **matrix, grib_handle* handle)
+{
+	if ( handle == NULL)
+		handle = handle_;
+    if ( handle <=0 ) {
         *matrix = 0;
         return;
     }
@@ -286,7 +300,8 @@ void GribDecoder::read(Matrix **matrix)
         if ( !interpretor_ ) {
             interpretor_ = SimpleObjectMaker<GribInterpretor>::create(representation);
         }
-        interpretor_->interpretAsMatrix(*this, matrix);
+
+        interpretor_->interpretAsMatrix(*this, matrix, handle);
         if ( *matrix == 0 ) {
             valid_ = false;
             ostringstream msg;
@@ -295,7 +310,7 @@ void GribDecoder::read(Matrix **matrix)
             throw MagicsException(msg.str());
         }
 
-        interpretor_->scaling(*this, matrix);
+        interpretor_->scaling(*this, matrix, handle);
     }
     catch (NoFactoryException&)
     {
@@ -310,27 +325,7 @@ void GribDecoder::read(Matrix **matrix)
 
 void GribDecoder::read(Matrix **matrix, const Transformation&  transformation)
 {
-    if ( handle_ <=0 ) {
-        *matrix = 0;
-        return;
-    }
-    long repres;
-    grib_get_long(handle_,"dataRepresentationType",&repres);
-    const string representation = getString("typeOfGrid");
-
-    try {
-        if ( !interpretor_ ) {
-            interpretor_ = SimpleObjectMaker<GribInterpretor>::create(representation);
-        }
-        interpretor_->interpretAsMatrix(*this, matrix, transformation);
-        interpretor_->scaling(*this, matrix);
-    }
-    catch (NoFactoryException&)
-    {
-        MagLog::error() << "Grib Decoder: Representation [" << representation << "] not yet supported.\n"<< std::endl;;
-        valid_ = false;
-        throw MagicsException("Grib Decoder: Representation [] not yet supported.");
-    }
+    read(matrix);
 }
 
 
@@ -413,9 +408,16 @@ void GribDecoder::decode2D()
     }
     readColourComponent();
     openFirstComponent();
-    read(&w1);
+    ThreadControler thread1(new GribReader(*this, &w1), false);
+
     openSecondComponent();
-    read(&w2);
+	ThreadControler thread2(new GribReader(*this, &w2)), false);
+
+	thread1.start();
+	thread2.start();
+	thread1.wait();
+	thread2.wait();
+
     Data::dimension_ = ( colourComponent_ ) ? 3 : 2;
 
 
@@ -595,7 +597,7 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 
         int i = 0;
         for ( pos = positions.begin(); pos != positions.end(); ++pos) {
-            double offset = 0.;
+
             // First make sure tthat the lon is between the minlon and maxlon.
             double lon = pos->first;
             double lat = pos->second;
@@ -603,33 +605,24 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 
 
 
-            while ( lon < minlon ) {
-                lon += 360;
-                offset -= 360.;
-            }
-            while ( lon > maxlon ) {
-                lon -= 360.;
-                offset += 360.;
-            }
-
             double u = xComponent_->nearest_index(lat, lon, nlat, nlon);
             double v = yComponent_->nearest_index(nlat, nlon, nlat, nlon);
 
 
                 if ( u != missing && v != missing) {
-                    CustomisedPoint *add = new CustomisedPoint(nlon + offset, nlat, "");
+                    CustomisedPoint *add = new CustomisedPoint(nlon, nlat, "");
                     pair<double, double> value = (*wind_mode_)(u, v);
 
                     add->insert(make_pair("x_component", value.first));
                     add->insert(make_pair("y_component", value.second));
                     out.push_back(add);
-                    /* for debug!
+                    /*/ for debug!
                     add = new CustomisedPoint(lon+offset, lat, "");
 
                     add->insert(make_pair("x_component", 0.01));
                     add->insert(make_pair("y_component", 0.01));
                     out.push_back(add);
-                    //*/
+                    /*/
                 }
             }
     }
@@ -701,6 +694,41 @@ void GribDecoder::customisedPoints(const BasicThinningMethod& thinning, const Tr
     }
 }
 
+
+class GribReader: public Thread {
+
+public:
+    GribReader(GribDecoder& grib, Matrix** matrix) :  grib_(grib), matrix_(matrix) { handle_ = grib_.handle();}
+    void run()
+    {
+
+            Timer timer("Read", "GRIB");
+            grib.read(matrix_, handle_);
+
+    }
+     ~GribReader() {}
+
+protected:
+     //! Method to print string about this class on to a stream of type ostream (virtual).
+    void print(ostream&) const {}
+    int n_;
+    grib_handle* handle_;
+    GribDecoder& grib_;
+    Matrix** matrix_;
+
+private:
+    //! Copy constructor - No copy allowedf
+    GribReader(const GribReader&);
+    //! Overloaded << operator to copy - No copy allowed
+GribReader& operator=(const GribReader&);
+
+    // -- Friends
+    //! Overloaded << operator to call print().
+    friend ostream& operator<<(ostream& s,const GribReader& p)
+        { p.print(s); return s; }
+};
+
+
 void GribDecoder::decode2D(const Transformation&)
 {
     Data::dimension_ = 2;
@@ -717,11 +745,18 @@ void GribDecoder::decode2D(const Transformation&)
             interpretor_ = SimpleObjectMaker<GribInterpretor>::create(representation);
         }
         readColourComponent();
-
         openFirstComponent();
-        read(&w1);
+        ThreadControler thread1(new GribReader(*this, &w1), false);
+
         openSecondComponent();
-        read(&w2);
+        ThreadControler thread2(new GribReader(*this, &w2)), false);
+
+        thread1.start();
+        thread2.start();
+        thread1.wait();
+        thread2.wait();
+
+
 
     }
     catch (NoFactoryException&)

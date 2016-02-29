@@ -342,8 +342,16 @@ double geodistance(double lat1, double lon1, double lat2, double lon2) {
 }
 
 #include <limits>
-double Matrix::nearest_index(double row, double col,double &rowOut, double &colOut) const
+double Matrix::nearest_index(double row, double column,double &rowOut, double &colOut) const
 {
+	double col, offset;
+
+	col = fmod(column - minX(), 360.) + minX();
+
+	offset = column - col;
+
+	//cout << col << "-->" << column << "-->" << offset << "--->";
+
 	map<double, map<double, double> >::const_iterator  row_index;
 	map<double, double>::const_iterator column_index;
 	rowOut = missing();
@@ -401,7 +409,8 @@ double Matrix::nearest_index(double row, double col,double &rowOut, double &colO
 		if (dist < min ) {
 			min = dist;
 			rowOut = point->first;
-			colOut = point->second->first;
+			colOut = point->second->first + offset;
+			//cout << colOut << endl;
 			value =  point->second->second;
 		}
 	}

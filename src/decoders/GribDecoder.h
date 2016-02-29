@@ -188,6 +188,7 @@ public:
 
 	}
 
+
 	void customisedPoints(const AutomaticThinningMethod&, const Transformation&, const std::set<string>&, CustomisedPointsList&);
 	void customisedPoints(const BasicThinningMethod&, const Transformation&, const std::set<string>&, CustomisedPointsList& );
 	void customisedPoints(const Transformation& t,  CustomisedPointsList& out, double xpts, double ypts, double gap);
@@ -200,16 +201,18 @@ public:
 	virtual void readColourComponent();
 
 	grib_handle*  id() const { if (!handle_) const_cast<GribDecoder*>(this)->decode(); return handle_; }
-	long      getLong(const string&,   bool warnIfKeyAbsent = true) const;
-	string    getString(const string&, bool warnIfKeyAbsent = true) const;
-	double    getDouble(const string&, bool warnIfKeyAbsent = true) const;
+	long      getLong(const string&,   bool warnIfKeyAbsent = true, grib_handle* = NULL) const;
+	string    getString(const string&, bool warnIfKeyAbsent = true, grib_handle* = NULL) const;
+	double    getDouble(const string&, bool warnIfKeyAbsent = true, grib_handle* = NULL) const;
     void      setDouble(const string&, double) const;
 
     string    getstring(const string&, bool warnIfKeyAbsent = true, bool cache= true) const;
 
-	void      read(Matrix **matrix);
+	void      read(Matrix **matrix, grib_handle* = NULL);
 	void      read(Matrix **matrix, const Transformation&);
 	bool      id(const string&, const string&) const;
+
+
 
 	grib_nearest* nearest_point_handle(bool keep);
     void nearestGridpoints(double *inlats, double *inlons, double *outlats, double *outlons, double *values, double *distances, int nb, string &representation);
@@ -223,8 +226,9 @@ public:
 	void uComponent();
 	void vComponent();
 
-	grib_handle*  handle() const { return handle_; }
-        void initInfo();
+
+
+    void initInfo();
 
 protected:
 	//! Method to print string about this class on to a stream of type ostream (virtual).
