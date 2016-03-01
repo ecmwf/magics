@@ -923,14 +923,18 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
         // produce the correct result when given a global field, so we need
         // to make that a separate case.
 
+        double add = 0;
+
         if (global) {
             numPts     = globalPointsInThisRow;
             indexFirst = 0;
             indexLast  = numPts-1;
+
         }
         else {
             grib_get_reduced_row(globalPointsInThisRow, west, east,
                                  &numPts, &indexFirst,&indexLast);
+            add = 2*dx;
         }
 
         rows.push_back(vector<double>());
@@ -949,7 +953,7 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
 
         while (n != indexLast+1){
             double thisLon = n*dx;
-            if ( thisLon > east) thisLon -= 360.;
+            if ( thisLon > east +add) thisLon -= 360.;
 
             rows.back().push_back(thisLon);
             n++;
@@ -972,7 +976,7 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
 
             }
         }
-*/
+*/		// This line is suspicious! but I keep it ... Jsut in case!
         std::sort(rows.back().begin(), rows.back().end());
 
 
