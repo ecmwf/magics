@@ -874,7 +874,8 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
         Matrix** matrix,  grib_handle* handle) const {
     MagLog::dev() << "GribRegularInterpretor::interpretAsMatrix" << "\n";
     MagLog::dev() << "GribRegularInterpretor::interpretAsMatrix" << "\n";
-
+    if ( !handle )
+    	handle = grib.id();
     Timer timer("gribapi", " read grib");
     *matrix = new Matrix();
     size_t nb;
@@ -1010,7 +1011,7 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
     double width = east - west;
     double step = (width) / (nblon);
 
-    grib_get_double_array(grib.id(), "values", data, &aux2);
+    grib_get_double_array(handle, "values", data, &aux2);
 
     int d = 0;
 
