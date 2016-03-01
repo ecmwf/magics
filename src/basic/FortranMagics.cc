@@ -885,7 +885,7 @@ void  FortranMagics::metbufr()
 {
 
 #ifdef HAVE_BUFR
-	actions()
+	actions();
 	action_ = new VisualAction();
 
 	EpsBufr* bufr = new EpsBufr();

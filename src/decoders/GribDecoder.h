@@ -204,7 +204,7 @@ public:
 	long      getLong(const string&,   bool warnIfKeyAbsent = true, grib_handle* = NULL) const;
 	string    getString(const string&, bool warnIfKeyAbsent = true, grib_handle* = NULL) const;
 	double    getDouble(const string&, bool warnIfKeyAbsent = true, grib_handle* = NULL) const;
-    void      setDouble(const string&, double) const;
+    void      setDouble(const string&, double, grib_handle* = NULL) const;
 
     string    getstring(const string&, bool warnIfKeyAbsent = true, bool cache= true) const;
 

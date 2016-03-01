@@ -64,6 +64,12 @@ action["Contour"] = {
     "CalculateColourTechnique.xml", "ListColourTechnique.xml", "PolyShadingMethod.xml",
     "DotPolyShadingMethod.xml", "HatchPolyShadingMethod.xml", ]
     }
+action["MarkerShadingTechnique"] = {
+    "json" : "cont",
+    "jira" : "Contouring",
+    "doc" : "Contouring documentation",
+    "files" : ["ShadingTechnique.xml", "MarkerShadingTechnique.xml"]
+    }
 
 action["PostScriptDriver"] =  {
     "json" : "postscript",
@@ -307,6 +313,7 @@ all = [ "Contour", "SymbolPlotting", "GraphPlotting", "Wind",
 list = [ "FortranRootSceneNode",  "FortranSceneNode", "FortranViewNode" ]
 list = [  "LegendVisitor", "TextVisitor", "ImportObjectHandler" ]
 list = [ "Wind"]
+list = [ "MarkerShadingTechnique"]
 """
 minicolor = [
     ["jquery.miniColors.js",  "Reference guide", "MiniColor"],
@@ -314,8 +321,9 @@ minicolor = [
 ]
 """
 from tojson import  createAction
-put("magdoc.js",     "Reference guide", "Magics gallery generator")
+#put("magdoc.js",     "Reference guide", "Magics gallery generator")
+
 for i in list:
     definition = action[i]
     createAction("2.24.5", definition["json"], i, definition["files"])
-    put(definition["json"]+".json", definition["jira"],  definition["doc"])
+    #put(definition["json"]+".json", definition["jira"],  definition["doc"])

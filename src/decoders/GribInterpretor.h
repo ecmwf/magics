@@ -34,7 +34,7 @@
 #include "MagTranslator.h"
 #include "Factory.h"
 #include "UserPoint.h"
-
+#include "grib_api.h"
 
 namespace magics {
 
@@ -65,7 +65,7 @@ public:
 	virtual void raw(const GribDecoder&, const Transformation&, const string&, map<double, map<double, CustomisedPoint*> >&) const;
 	virtual void raw(GribDecoder&, const Transformation&, vector<pair<double, vector<pair<double, CustomisedPoint*> > > >&, double&, double&) const;
 
-	virtual void interpretAsMatrix(const GribDecoder&, Matrix** matrix) const { *matrix = 0; }
+	virtual void interpretAsMatrix(const GribDecoder&, Matrix** matrix, grib_handle*) const { *matrix = 0; }
 
 
 
@@ -73,9 +73,9 @@ public:
     virtual void keepOriginal(bool) {}
     virtual PaperPoint reference(const GribDecoder&, const Transformation&);
     virtual void interpretAsRaster(const GribDecoder&, RasterData&, const Transformation&) const {}
-    virtual void scaling(const GribDecoder&, Matrix**) const;
-    virtual void scaling(const GribDecoder& grib, double& scaling, double& offset) const;
-    virtual void scaling(const GribDecoder& grib, double& scaling, double& offset, string& originalUnits, string& derivedUnits) const;
+    virtual void scaling(const GribDecoder&, Matrix**, grib_handle*) const;
+    virtual void scaling(const GribDecoder& grib, double& scaling, double& offset, grib_handle* handle= 0) const;
+    virtual void scaling(const GribDecoder& grib, double& scaling, double& offset, string& originalUnits, string& derivedUnits, grib_handle*handle=0) const;
     void longitudesSanityCheck(double&, double&) const;
 
     void interpolate(const GribDecoder& grib, Matrix& matrix) const;

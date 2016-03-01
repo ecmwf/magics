@@ -237,10 +237,11 @@ double GribDecoder::getDouble(const string& key, bool warnIfKeyAbsent, grib_hand
 }
 
 
-void   GribDecoder::setDouble(const string& key, double val) const
+void   GribDecoder::setDouble(const string& key, double val, grib_handle* handle) const
 {
-
-    int err = grib_set_double(handle_, key.c_str(), val);
+	if ( handle == NULL)
+			handle = handle_;
+    int err = grib_set_double(handle, key.c_str(), val);
     if ( err )
     {
         MagLog::warning() << "Grib API: can not find key [" << key << "]  - "<< grib_get_error_message(err) <<"\n";
@@ -384,6 +385,39 @@ void GribDecoder::visit(Transformation& transformation)
 
 
 }
+class GribReader: public Thread {
+
+public:
+    GribReader(GribDecoder& grib, Matrix** matrix) :  grib_(grib), matrix_(matrix) { handle_ = grib.id();}
+    void run()
+    {
+    		MagLog::dev() << "STRATING THREAD"<< endl;
+            Timer timer("Read thread", "GRIB");
+            grib_.read(matrix_, handle_);
+
+    }
+     ~GribReader() {}
+
+protected:
+     //! Method to print string about this class on to a stream of type ostream (virtual).
+    void print(ostream&) const {}
+    int n_;
+    grib_handle* handle_;
+    GribDecoder& grib_;
+    Matrix** matrix_;
+
+private:
+    //! Copy constructor - No copy allowedf
+    GribReader(const GribReader&);
+    //! Overloaded << operator to copy - No copy allowed
+GribReader& operator=(const GribReader&);
+
+    // -- Friends
+    //! Overloaded << operator to call print().
+    friend ostream& operator<<(ostream& s,const GribReader& p)
+        { p.print(s); return s; }
+};
+
 void GribDecoder::decode2D()
 {
 
@@ -411,7 +445,7 @@ void GribDecoder::decode2D()
     ThreadControler thread1(new GribReader(*this, &w1), false);
 
     openSecondComponent();
-	ThreadControler thread2(new GribReader(*this, &w2)), false);
+	ThreadControler thread2(new GribReader(*this, &w2), false);
 
 	thread1.start();
 	thread2.start();
@@ -695,38 +729,6 @@ void GribDecoder::customisedPoints(const BasicThinningMethod& thinning, const Tr
 }
 
 
-class GribReader: public Thread {
-
-public:
-    GribReader(GribDecoder& grib, Matrix** matrix) :  grib_(grib), matrix_(matrix) { handle_ = grib_.handle();}
-    void run()
-    {
-
-            Timer timer("Read", "GRIB");
-            grib.read(matrix_, handle_);
-
-    }
-     ~GribReader() {}
-
-protected:
-     //! Method to print string about this class on to a stream of type ostream (virtual).
-    void print(ostream&) const {}
-    int n_;
-    grib_handle* handle_;
-    GribDecoder& grib_;
-    Matrix** matrix_;
-
-private:
-    //! Copy constructor - No copy allowedf
-    GribReader(const GribReader&);
-    //! Overloaded << operator to copy - No copy allowed
-GribReader& operator=(const GribReader&);
-
-    // -- Friends
-    //! Overloaded << operator to call print().
-    friend ostream& operator<<(ostream& s,const GribReader& p)
-        { p.print(s); return s; }
-};
 
 
 void GribDecoder::decode2D(const Transformation&)
@@ -749,7 +751,7 @@ void GribDecoder::decode2D(const Transformation&)
         ThreadControler thread1(new GribReader(*this, &w1), false);
 
         openSecondComponent();
-        ThreadControler thread2(new GribReader(*this, &w2)), false);
+        ThreadControler thread2(new GribReader(*this, &w2), false);
 
         thread1.start();
         thread2.start();
