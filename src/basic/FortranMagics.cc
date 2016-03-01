@@ -884,7 +884,7 @@ void  FortranMagics::wrepjson()
 void  FortranMagics::metbufr()
 {
 #ifdef HAVE_BUFR
-
+	actions();
 	action_ = new VisualAction();
 
 	EpsBufr* bufr = new EpsBufr();
