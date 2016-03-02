@@ -280,7 +280,7 @@ public:
     double interpolate(double r, double c) const;
     double nearest(double i, double j) const {double d1, d2; return nearest(i,j,d1,d2);}
     double nearest(double i, double j,double &iOut, double &jOut) const;
-    double nearest_index(double i, double j,double &iOut, double &jOut) const;
+    pair<double, double> nearest_index(double i, double j,double &iOut, double &jOut) const;
 
     void multiply(double factor);   
     void plus(double offset);
@@ -402,7 +402,7 @@ public:
 		return -1;
     } 
 
-	map<double, map<double, double> > index_;
+	map<double, map<double, pair<double, double> > > index_;
     
 protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).
