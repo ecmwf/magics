@@ -207,7 +207,7 @@ public:
 
     string    getstring(const string&, bool warnIfKeyAbsent = true, bool cache= true) const;
 
-	void      read(Matrix **matrix);
+	void      read(Matrix **matrix, Matrix ** matrix2 = NULL);
 	void      read(Matrix **matrix, const Transformation&);
 	bool      id(const string&, const string&) const;
 
@@ -216,6 +216,10 @@ public:
 
 	grib_handle*  uHandle(string&);
 	grib_handle*  vHandle(string&);
+
+	grib_handle*  uHandle() const { return component1_ ; }
+	grib_handle*  vHandle() const { return component2_ ; };
+
 	grib_handle*  cHandle(string&);
 
 	double uComponent(int);

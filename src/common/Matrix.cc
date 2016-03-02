@@ -342,13 +342,19 @@ double geodistance(double lat1, double lon1, double lat2, double lon2) {
 }
 
 #include <limits>
-double Matrix::nearest_index(double row, double col,double &rowOut, double &colOut) const
+pair<double, double> Matrix::nearest_index(double row, double column,double &rowOut, double &colOut) const
 {
-	map<double, map<double, double> >::const_iterator  row_index;
-	map<double, double>::const_iterator column_index;
+	double col, offset;
+
+	col = fmod(column - minX(), 360.) + minX();
+
+	offset = column - col;
+
+	map<double, map<double, pair<double, double> > >::const_iterator  row_index;
+	map<double, pair<double, double> >::const_iterator column_index;
 	rowOut = missing();
 	colOut = missing();
-	vector<pair<double, map<double, double>::const_iterator> > points;
+	vector<pair<double, map<double, pair<double, double> >::const_iterator> > points;
 	row_index = index_.find(row);
 
 	if ( row_index != index_.end() ) {
@@ -363,7 +369,7 @@ double Matrix::nearest_index(double row, double col,double &rowOut, double &colO
 		column_index = row_index->second.lower_bound(col);
 		if ( column_index == row_index->second.end() || column_index == row_index->second.begin()) {
 			rowOut = missing();
-			return missing();
+			return make_pair(missing(), missing());
 		}
 		// here we have 2 points : find the nearest
 		points.push_back(make_pair(row, column_index));
@@ -374,7 +380,7 @@ double Matrix::nearest_index(double row, double col,double &rowOut, double &colO
 		row_index = index_.lower_bound(row);
 		if ( row_index == index_.end() || row_index == index_.begin()) {
 			rowOut = missing();
-			return missing();
+			return make_pair(missing(), missing());
 		}
 		// Here we may have 4 points!
 		// Deal with the first row
@@ -395,13 +401,13 @@ double Matrix::nearest_index(double row, double col,double &rowOut, double &colO
 	}
 	// Now we find the nearest!
 	double min = numeric_limits<double>::infinity();
-	double value = missing();
-	for (vector<pair<double, map<double, double>::const_iterator> >::iterator point = points.begin(); point != points.end(); ++point) {
-		double dist = geodistance(point->first, point->second->first, row, col);
+	pair<double, double> value = make_pair(missing(), missing());
+	for (vector<pair<double, map<double, pair<double, double> >::const_iterator> >::iterator point = points.begin(); point != points.end(); ++point) {
+		double  dist = geodistance(point->first, point->second->first, row, col);
 		if (dist < min ) {
 			min = dist;
 			rowOut = point->first;
-			colOut = point->second->first;
+			colOut = point->second->first + offset;
 			value =  point->second->second;
 		}
 	}

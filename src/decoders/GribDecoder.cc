@@ -271,7 +271,7 @@ void GribDecoder::scale(const string& metadata, double& scaling, double& offset)
 
 }
 
-void GribDecoder::read(Matrix **matrix)
+void GribDecoder::read(Matrix **matrix, Matrix** matrix2)
 {
 
     if ( handle_ <=0 ) {
@@ -286,7 +286,7 @@ void GribDecoder::read(Matrix **matrix)
         if ( !interpretor_ ) {
             interpretor_ = SimpleObjectMaker<GribInterpretor>::create(representation);
         }
-        interpretor_->interpretAsMatrix(*this, matrix);
+        interpretor_->interpretAsMatrix(*this, matrix, matrix2);
         if ( *matrix == 0 ) {
             valid_ = false;
             ostringstream msg;
@@ -413,9 +413,10 @@ void GribDecoder::decode2D()
     }
     readColourComponent();
     openFirstComponent();
-    read(&w1);
     openSecondComponent();
-    read(&w2);
+    read(&w1, &w2);
+
+
     Data::dimension_ = ( colourComponent_ ) ? 3 : 2;
 
 
@@ -612,13 +613,13 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
                 offset += 360.;
             }
 
-            double u = xComponent_->nearest_index(lat, lon, nlat, nlon);
-            double v = yComponent_->nearest_index(nlat, nlon, nlat, nlon);
+            pair<double, double> w = xComponent_->nearest_index(lat, lon, nlat, nlon);
+            //double v = yComponent_->nearest_index(nlat, nlon, nlat, nlon);
 
 
-                if ( u != missing && v != missing) {
+                if ( w.first != missing && w.second != missing) {
                     CustomisedPoint *add = new CustomisedPoint(nlon + offset, nlat, "");
-                    pair<double, double> value = (*wind_mode_)(u, v);
+                    pair<double, double> value = (*wind_mode_)(w.first, w.second);
 
                     add->insert(make_pair("x_component", value.first));
                     add->insert(make_pair("y_component", value.second));
