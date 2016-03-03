@@ -1689,9 +1689,47 @@ void GribDecoder::visit(MetaDataCollector& step)
 
                 }
 
+                else if(key->first == "isOctahedral")
+                {
+                    // Octahedral reduced Gaussian grids:
+                    // - only reduced Gaussian grids can be octahedral
+                    // - the isOctahedral key only works properly with global fields
+                    string representation = getString("typeOfGrid");
+                    if (representation == "reduced_gg")
+                    {
+                        if (getLong("global") == 1)
+                        {
+                            information_["isOctahedral"] = (getLong("isOctahedral") == 1) ? "yes" : "no";
+                        }
+                    }
+                }
+/*
+                // alternative code, for if we want to display in one line the Gaussian
+                // number and the octahedral flag.
+                else if(key->first == "GaussianNumber")
+                {
+                    // e.g. N200 ('classic' reduced Gaussian) or O1280 ('octahedral' reduced Gaussian)
+                    // - but only use prefix of N or O on global fields, because, as explained below,
+                    //   we don't know whether a sub-areas field is classic or octahedral
+                    // Octahedral reduced Gaussian grids:
+                    // - only reduced Gaussian grids can be octahedral
+                    // - the isOctahedral key only works properly with global fields
+                    string representation = getString("typeOfGrid");
+                    if (representation == "reduced_gg")
+                    {
+                        long N = getLong("N");
+                        string prefix("");
+                        if (getLong("global") == 1)
+                        {
+                            prefix = (getLong("isOctahedral") == 1) ? "O" : "N";
+                        }
+                        information_["GaussianNumber"] = prefix + tostring(N);
+                    }
+                }*/
             }
+            
             //If key is found in information_ we copy it
-            else
+            if(information_.find(key->first) != information_.end())
             {
                 key->second=information_[key->first];
             }
