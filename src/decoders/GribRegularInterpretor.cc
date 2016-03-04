@@ -989,25 +989,28 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
     }
 
 // Find the latitudes
-
+    map<double, map<double, int> > index;
     double array[2 * res];
     grib_get_gaussian_latitudes(res, array);
 
     for (int i = 0; i < 2*res; i++) {
-
     	if ( same(array[i], north, 0.001) ) {
     		(*matrix)->rowsAxis().push_back(array[i]);
     		(*matrix)->index_[array[i]] = map<double, pair<double, double> >();
+    		index[array[i]] = map<double, int >();
     		continue;
     	}
     	if ( same(array[i], south, 0.001) ) {
     		(*matrix)->rowsAxis().push_back(array[i]);
     		(*matrix)->index_[array[i]] = map<double, pair<double, double> >();
+    		index[array[i]] = map<double, int >();
     		continue;
     	}
-    	if ( array[i] < north && array[i] > south)
+    	if ( array[i] < north && array[i] > south) {
     		(*matrix)->rowsAxis().push_back(array[i]);
     		(*matrix)->index_[array[i]] = map<double, pair<double, double> >();
+    		index[array[i]] = map<double, int >();
+    	}
 
     }
 
@@ -1040,10 +1043,26 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
     int d = 0;
 
     vector<double> missingLon;
+    { Timer timer("map1", " int");
 
+    	 for (vector<vector<double> >::iterator row = rows.begin(); row != rows.end(); ++row) {
+    	        vector<double> p;
+    	        p.reserve(row->size());
+    	        for (int ii = 0; ii < row->size(); ii++) {
+    	            p.push_back(data[d]);
+    	            index[*ll].insert(make_pair((*row)[ii], d));
+    	            d++;
+    	        }
+    	        ++ll;
+    	 }
+    }
+    d = 0;
+    ll = (*matrix)->rowsAxis().begin();
+    {
+    Timer timer("map2", " pair");
     for (vector<vector<double> >::iterator row = rows.begin(); row != rows.end(); ++row) {
         vector<double> p;
-
+        p.reserve(row->size());
         for (int ii = 0; ii < row->size(); ii++) {
             p.push_back(data[d]);
             if ( matrix2 )
@@ -1051,6 +1070,7 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
             d++;
         }
         ++ll;
+
         if (interpolate == GribDecoder::nearest_valid ) {
         	// Fill left vector
         	vector<double> left;
@@ -1118,6 +1138,9 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
         }
 
 
+
+
+
         double lon = west;
         unsigned int p1 = 0;
         unsigned int p2 = 1;
@@ -1172,6 +1195,7 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
             lon = west + ( x*step);
         }
 
+    }
     }
     delete[] data;
 
@@ -1254,6 +1278,7 @@ void GribReducedLatLonInterpretor::interpretAsMatrix(const GribDecoder& grib,
         step = width / nblon;
     }
 
+    map<double, map<double, int> > index;
     for (int x = 0; x < nblon; x++) {
            (*matrix)->columnsAxis().push_back(west + (x * step));
        }
@@ -1263,6 +1288,7 @@ void GribReducedLatLonInterpretor::interpretAsMatrix(const GribDecoder& grib,
            (*matrix)->rowsAxis().push_back(y);
            if ( matrix2)
            (*matrix)->index_.insert(make_pair(y, map<double, pair<double, double> >()));
+
            y += lat;
        }
 
@@ -1292,6 +1318,9 @@ void GribReducedLatLonInterpretor::interpretAsMatrix(const GribDecoder& grib,
             vector<double> lons;
 
             double datastep = width / pl[i];
+            {
+            	Timer timer("map", "pair");
+
             for (int ii = 0; ii < pl[i]; ii++) {
                 p.push_back(data[d]);
                 double lon = west + (ii*datastep);
@@ -1300,11 +1329,6 @@ void GribReducedLatLonInterpretor::interpretAsMatrix(const GribDecoder& grib,
                 	(*matrix)->index_[lat].insert(make_pair(lon, make_pair(data[d], data2[d])));
                 d++;
             }
-            ASSERT( p.size() ==  pl[i]);
-            if ( global ) {
-                p.push_back(p.front());
-                lons.push_back( lons.back() + datastep );
-                //(*matrix)->index_[lat].insert(make_pair(lons.back(), p.front()));
             }
 
 

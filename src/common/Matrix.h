@@ -162,7 +162,22 @@ public:
     }
 };
 
-
+struct IndexInfo
+{
+	IndexInfo(double first, double last, double nb, int offset):
+		first_(first), last_(last), nbPoints_(nb), offset_(offset) { step_ = (last_ - first_)/(nbPoints_-1); }
+	double first_;
+	double last_;
+	double nbPoints_;
+	int    offset_;
+	double step_;
+	pair<int, bool> index(double pos)
+	{
+		if ( pos < info.first_ ) return make_pair(-1, -1);
+		if ( pos > info.last_ ) return make_pair(-1, -1);
+		return make_pair( floor( (pos - first_ )/step_), ( pos - first_) % step_ == 0);
+	}
+};
 
 class Matrix: public AbstractMatrix, public magvector<double> {
 
@@ -280,8 +295,8 @@ public:
     double interpolate(double r, double c) const;
     double nearest(double i, double j) const {double d1, d2; return nearest(i,j,d1,d2);}
     double nearest(double i, double j,double &iOut, double &jOut) const;
-    pair<double, double> nearest_index(double i, double j,double &iOut, double &jOut) const;
-
+    pair<double, double> nearest_value(double i, double j,double &iOut, double &jOut) const;
+    int nearest_index(double i, double j,double &iOut, double &jOut) const;
     void multiply(double factor);   
     void plus(double offset);
     
@@ -403,6 +418,9 @@ public:
     } 
 
 	map<double, map<double, pair<double, double> > > index_;
+	InfoIndex yIndex_;
+	vector<InfoIndex> xIndex_;
+	vector<double> data_;
     
 protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).
