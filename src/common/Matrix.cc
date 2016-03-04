@@ -416,6 +416,90 @@ pair<double, double> Matrix::nearest_index(double row, double column,double &row
 
 }
 
+
+
+
+int Matrix::nearest_index(double row, double column,double &rowOut, double &colOut) const
+{
+	return -1;
+
+	double col, offset;
+
+	col = fmod(column - xIndex_[0].first_, 360.) + minX();
+
+	offset = column - col;
+
+	pair<int, bool> row_index, column_index;
+
+	rowOut = missing();
+	colOut = missing();
+
+
+	row_index = yIndex_.index(row);
+
+	if ( row_index.first == -1 ) {
+		return -1;
+	}
+
+	if ( row_index.second )
+		rowOut = row;
+		// We have to find the columns
+
+		if ( column_index != row_index->second.end() ) {
+			// Perfect match !
+			colOut = col;
+			return column_index->second;
+		}
+		column_index = row_index->second.lower_bound(col);
+		if ( column_index == row_index->second.end() || column_index == row_index->second.begin()) {
+			rowOut = missing();
+			return make_pair(missing(), missing());
+		}
+		// here we have 2 points : find the nearest
+		points.push_back(make_pair(row, column_index));
+		column_index--;
+		points.push_back(make_pair(row, column_index));
+	}
+	else {
+		row_index = index_.lower_bound(row);
+		if ( row_index == index_.end() || row_index == index_.begin()) {
+			rowOut = missing();
+			return make_pair(missing(), missing());
+		}
+		// Here we may have 4 points!
+		// Deal with the first row
+		column_index = row_index->second.lower_bound(col);
+		if ( column_index != row_index->second.end() || column_index != row_index->second.begin()) {
+			points.push_back(make_pair(row, column_index));
+			column_index--;
+			points.push_back(make_pair(row, column_index));
+		}
+		row_index--;
+		column_index = row_index->second.lower_bound(col);
+		if ( column_index != row_index->second.end() || column_index != row_index->second.begin()) {
+			points.push_back(make_pair(row, column_index));
+			column_index--;
+			points.push_back(make_pair(row, column_index));
+		}
+
+	}
+	// Now we find the nearest!
+	double min = numeric_limits<double>::infinity();
+	pair<double, double> value = make_pair(missing(), missing());
+	for (vector<pair<double, map<double, pair<double, double> >::const_iterator> >::iterator point = points.begin(); point != points.end(); ++point) {
+		double  dist = geodistance(point->first, point->second->first, row, col);
+		if (dist < min ) {
+			min = dist;
+			rowOut = point->first;
+			colOut = point->second->first + offset;
+			value =  point->second->second;
+		}
+	}
+
+	return value;
+
+}
+
 double Matrix::nearest(double row, double col,double &rowOut, double &colOut) const
 {  
 	double xleft = std::min( left(), right());
