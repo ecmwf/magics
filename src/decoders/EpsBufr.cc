@@ -56,8 +56,8 @@ void EpsBufr::decode()
      MvObsSet set(path_.c_str());
      
      MvObsSetIterator   filter(set);
-     MvLocation ll(latitude_-0.1, longitude_-0.1);
-     MvLocation ur(latitude_+0.1, longitude_+0.1);
+     MvLocation ll(latitude_-0.01, longitude_-0.01);
+     MvLocation ur(latitude_+0.01, longitude_+0.01);
      filter.setArea(ll, ur);
      
      MvObs obs = filter();
@@ -77,8 +77,8 @@ void EpsBufr::decode()
      		MvLocation loc = obs.location();
 //      	  int subsets = obs.msgSubsetCount();
 
-       		 float value = obs.value(param_descriptor_ );
-        	obs.value(5195); 
+       		float value = obs.value(param_descriptor_ );
+
         	if ( value == kBufrMissingValue )
 		{
         		obs = filter(NR_returnMsg);         	// Were going to the next message!
@@ -100,7 +100,7 @@ void EpsBufr::decode()
     			value = (value * param_scaling_factor_ ) + param_offset_factor_;
     			
     			base_ = DateTime(obs.obsTime().CharValue());
-    			MagLog::dev() << "date--->" << base_ << endl; 
+
     		
     			if ( accumulated_) {
     				double total = value;
@@ -114,6 +114,7 @@ void EpsBufr::decode()
     			if  ( maxy_ < value ) maxy_ = value;
 
     			curve1[step] = value;
+    			MagLog::dev() << param_descriptor_ << " : " << step << "--->" << value << endl;
     		}
      	}
      if ( param_descriptor_2_) { 
@@ -163,6 +164,7 @@ void EpsBufr::decode()
 		DateTime date  = base_ +  Second(step->first * 3600);    
 		(*point)["step"]    = step->first * 3600;
 		(*point)["shift"] = minstep_ - shift_ *3600;
+		MagLog::dev() << step->first << "--->" << step->second << endl;
 		(*point)["year"]    = date.date().year();
 		(*point)["month"]   = date.date().month();
 		(*point)["day"]     = date.date().day();
