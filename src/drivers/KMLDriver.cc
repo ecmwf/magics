@@ -124,7 +124,9 @@ void KMLDriver::open()
 		<< "     xmlns:atom=\"http://www.w3.org/2005/Atom\">\n"
 		<< "<Document>\n"<< " <name>"<<title_<<"</name>\n"
 		<< " <open>1</open>\n";
-	pFile_  << " <atom:generator>"<<getMagicsVersionString()<<"</atom:generator>\n";
+	pFile_  << " <atom:generator>";
+	if(!output_creator_.empty()) pFile_ <<output_creator_<<" using ";
+	pFile_  <<getMagicsVersionString()<<"</atom:generator>\n";
 	if(!author_.empty()) pFile_ << " <atom:author><atom:name>"<<author_<<"</atom:name></atom:author>\n";
 	if(!link_.empty())   pFile_ << " <atom:link href=\""<<link_<<"\" />\n";
 	pFile_	<< " <description>\n"
