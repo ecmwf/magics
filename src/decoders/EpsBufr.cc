@@ -44,6 +44,8 @@ void EpsBufr::visit(Transformation& transformation)
 {
 	decode();
 	transformation.setDataMinMaxX((minstep_ - shift_) * 3600, (maxstep_ + 6) * 3600, base_);
+	if ( same(miny_, maxy_) )
+	        	maxy_ = miny_ +5.;
 	transformation.setDataMinMaxY(miny_, maxy_);
 }
 		
