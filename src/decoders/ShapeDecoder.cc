@@ -406,7 +406,7 @@ void ShapeDecoder::decode(vector<Polyline>& data, const Transformation& transfor
 							}
 						}
 						else {
-							if ( in ) {
+							if ( poly ) {
 								poly->push_back_hole(PaperPoint(x, y));
 							}
 							if ( polyleft ) {
