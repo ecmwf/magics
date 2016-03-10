@@ -174,15 +174,8 @@ void CoastPlotting::operator()(DrawingVisitor& parent)
 
   coastSet_["administrative_boundaries"] = "10m/ne_10m_admin_1_states_provinces";
 
-  if ( magCompare(NoCoastPlottingAttributes::resolution_, "full") ) {
-        string resol = "10m";
-        coastSet_["resolution"] = "10m full";
-        coastSet_["land"]       = resol + "_full/ne_" + resol + "_land";
-        coastSet_["ocean"]      = resol + "_full/ne_" + resol + "_ocean";
-        coastSet_["rivers"]     = resol + "_full/ne_" + resol + "_rivers_lake_centerlines";
-        coastSet_["boundaries"] = resol + "/ne_" + resol + "_admin_0_boundary_lines_land";
-  }
-  else if ( magCompare(NoCoastPlottingAttributes::resolution_, "high") ) {
+  if ( magCompare(NoCoastPlottingAttributes::resolution_, "high") ||
+       magCompare(NoCoastPlottingAttributes::resolution_, "full") ) {
         string resol = "10m";
         coastSet_["resolution"] = resol;
         coastSet_["land"]       = resol + "/ne_" + resol + "_land";
@@ -369,7 +362,7 @@ void NoCoastPlotting::visit(MetaDataCollector& meta)
 {
 	meta["Coastlines Resolution"] = coastSet_["resolution"];
 	meta["Coastlines DataSet"] = "Natural Earth";
-	meta["Coastlines Date"] = "November 2015";
+	meta["Coastlines Date"] = "February 2015";
 	for (map<string, string>::const_iterator entry = meta_.begin(); entry != meta_.end(); ++entry ) {
 		meta[entry->first] = entry->second;
 	}
