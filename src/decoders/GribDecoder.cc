@@ -231,6 +231,10 @@ void   GribDecoder::setDouble(const string& key, double val) const
 {
 
     int err = grib_set_double(handle_, key.c_str(), val);
+    if ( component1_ )
+    	err = grib_set_double(component1_, key.c_str(), val);
+    if ( component2_ )
+       	err = grib_set_double(component2_, key.c_str(), val);
     if ( err )
     {
         MagLog::warning() << "Grib API: can not find key [" << key << "]  - "<< grib_get_error_message(err) <<"\n";
@@ -606,10 +610,8 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 
 
             int w = xComponent_->nearest_index(lat, lon, nlat, nlon);
-            //double v = yComponent_->nearest_index(nlat, nlon, nlat, nlon);
+                if ( w != -1 ) {
 
-
-                if ( w != 1 ) {
                     CustomisedPoint *add = new CustomisedPoint(nlon, nlat, "");
                     pair<double, double> value = (*wind_mode_)((*xComponent_).data_[w], (*yComponent_).data_[w]);
 

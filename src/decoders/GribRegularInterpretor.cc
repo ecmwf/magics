@@ -625,9 +625,17 @@ void GribRegularInterpretor::interpretAsMatrix(const GribDecoder& grib,
             << west + (nblon - 1) * lon << ")" << endl;
 
     latitudes(grib, (*matrix)->rowsAxis());
+
     if ( matrix2 != NULL) {
-    	for ( vector<double>::iterator lat = (*matrix)->rowsAxis().begin(); lat != (*matrix)->rowsAxis().end(); ++lat)
-    		(*matrix)->index_.insert(make_pair(*lat, map<double, pair<double, double> >()));
+    	(*matrix)->yIndex_ = InfoIndex(north, south, (*matrix)->rowsAxis().size(), 0);
+    	(*matrix)->xIndex_.reserve((*matrix)->rowsAxis().size());
+    	int offset = 0;
+    	for ( vector<double>::iterator lat = (*matrix)->rowsAxis().begin(); lat != (*matrix)->rowsAxis().end(); ++lat) {
+    		(*matrix)->xIndex_.push_back(InfoIndex(west, east, nblon, offset));
+    		offset += nblon;
+    	}
+    	 (*matrix)->data_.resize(nb);
+    	 (*matrix2)->data_.resize(nb);
     }
     double x = west;
     for (int i = 0; i < nblon; i++) {
@@ -658,8 +666,8 @@ void GribRegularInterpretor::interpretAsMatrix(const GribDecoder& grib,
                     d2[j * nblon + i] = d1[i * nblat + j];
                 }
             }
-
             delete d;
+
         } else  // otherwise, just copy the array of values as they are
         {
 
@@ -667,8 +675,12 @@ void GribRegularInterpretor::interpretAsMatrix(const GribDecoder& grib,
             if ( matrix2 != NULL ) {
             	grib_get_double_array(grib.uHandle(), "values", &(*matrix)->front(),
             	                    &aux);
+            	grib_get_double_array(grib.uHandle(), "values", &(*matrix)->data_.front(),
+                    	                    &aux);
             	grib_get_double_array(grib.vHandle(), "values", &(*matrix2)->front(),
                             &aux);
+            	grib_get_double_array(grib.vHandle(), "values", &(*matrix2)->data_.front(),
+                                    &aux);
             }
             else
             	grib_get_double_array(grib.handle(), "values", &(*matrix)->front(),
@@ -678,8 +690,7 @@ void GribRegularInterpretor::interpretAsMatrix(const GribDecoder& grib,
         	double lon = (*matrix)->columnsAxis()[i];
         	for (int j = 0; j < nblat; j++) {
         		double lat = (*matrix)->rowsAxis()[j];
-        		if ( matrix2 != NULL )
-        			(*matrix)->index_[lat].insert(make_pair(lon, make_pair((**matrix)(j, i), (**matrix2)(j, i))));
+
 
         	}
         }
