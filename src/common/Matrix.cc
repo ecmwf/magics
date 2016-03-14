@@ -476,7 +476,8 @@ int Matrix::nearest_index(double row, double column,double &rowOut, double &colO
 		if ( column_index.second ) {
 			// Perfect match !
 			colOut = column;
-			return xIndex_[row_index.first].position(column_index.first);
+			int value = xIndex_[row_index.first].position(column_index.first);
+			return ( data_[value] == missing() ) ? -1 : value;
 		}
 		else {
 			// here we have 2 points : find the nearest
@@ -516,10 +517,11 @@ int Matrix::nearest_index(double row, double column,double &rowOut, double &colO
 			rowOut = point->first;
 			colOut = point->second.first + offset;
 			value =  point->second.second;
+
 		}
 	}
 
-	return value;
+	return ( data_[value] == missing() ) ? -1 : value;
 
 }
 
