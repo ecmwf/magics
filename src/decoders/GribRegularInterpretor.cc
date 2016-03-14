@@ -886,8 +886,7 @@ double GribReducedGaussianInterpretor::XResolution(
 
 void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
         Matrix** matrix, Matrix** matrix2) const {
-    MagLog::dev() << "GribRegularInterpretor::interpretAsMatrix" << "\n";
-    MagLog::dev() << "GribRegularInterpretor::interpretAsMatrix" << "\n";
+
 
     Timer timer("gribapi", " read grib");
     *matrix = new Matrix();
@@ -912,8 +911,7 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
     long res = grib.getLong("numberOfParallelsBetweenAPoleAndTheEquator");
     long nblat = grib.getLong("Nj");
     longitudesSanityCheck(west, east);
-    MagLog::dev() << "NewAPI---> area[" << west << ", " << north << ", " << east
-            << ", " << south << "]" << "\n";
+    MagLog::dev() << "NewAPI---> area[" << west << ", " << north << ", " << east << ", " << south << "]" << "\n";
     MagLog::dev() << "PLPresent---> " << plp << "\n";
     MagLog::dev() << "Res---> " << res << "\n";
 
@@ -996,66 +994,58 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
     for (int i = 0; i < 2*res; i++) {
     	if ( same(array[i], north, 0.001) ) {
     		(*matrix)->rowsAxis().push_back(array[i]);
-    		(*matrix)->index_[array[i]] = map<double, pair<double, double> >();
-    		index[array[i]] = map<double, int >();
+
     		continue;
     	}
     	if ( same(array[i], south, 0.001) ) {
     		(*matrix)->rowsAxis().push_back(array[i]);
-    		(*matrix)->index_[array[i]] = map<double, pair<double, double> >();
-    		index[array[i]] = map<double, int >();
     		continue;
     	}
     	if ( array[i] < north && array[i] > south) {
     		(*matrix)->rowsAxis().push_back(array[i]);
-    		(*matrix)->index_[array[i]] = map<double, pair<double, double> >();
-    		index[array[i]] = map<double, int >();
+
     	}
 
     }
-
+    if ( matrix2 ) {
+    	(*matrix)->yIndex_ = InfoIndex(north, south, (*matrix)->rowsAxis().size(), 0);
+    	(*matrix)->xIndex_.reserve((*matrix)->rowsAxis().size());
+	}
 
     vector<double>::iterator ll = (*matrix)->rowsAxis().begin();
 
     // compute the number of points we'll be adding to the matrix so that we can
     // allocate them in one go, rather than allowing the STL to re-allocate
     // when we reach the capacity
-    (*matrix)->reserve(aux * nblon);
-    if ( matrix2)
-    	(*matrix2)->reserve(aux * nblon);
 
     double *data = new double[nb];
     double *data2 = new double[nb];
 
-    size_t aux2 = size_t(nb);
+
+
+
+    (*matrix)->reserve(aux * nblon);
+       if ( matrix2) {
+       	(*matrix2)->reserve(aux * nblon);
+       	(*matrix2)->data_.reserve(nb);
+       	(*matrix)->data_.reserve(nb);
+       }
 
     double width = east - west;
     double step = (width) / (nblon);
 
-    grib_get_double_array(grib.id(), "values", data, &aux2);
+    grib_get_double_array(grib.id(), "values", data, &aux);
     if ( matrix2 ) {
-    	grib_get_double_array(grib.uHandle(), "values", data, &aux2);
-    	grib_get_double_array(grib.vHandle(), "values", data2, &aux2);
+    	grib_get_double_array(grib.uHandle(), "values", data, &aux);
+    	grib_get_double_array(grib.vHandle(), "values", data2, &aux);
     }
     else
-    	grib_get_double_array(grib.id(), "values", data, &aux2);
+    	grib_get_double_array(grib.id(), "values", data, &aux);
 
     int d = 0;
 
     vector<double> missingLon;
-    { Timer timer("map1", " int");
 
-    	 for (vector<vector<double> >::iterator row = rows.begin(); row != rows.end(); ++row) {
-    	        vector<double> p;
-    	        p.reserve(row->size());
-    	        for (int ii = 0; ii < row->size(); ii++) {
-    	            p.push_back(data[d]);
-    	            index[*ll].insert(make_pair((*row)[ii], d));
-    	            d++;
-    	        }
-    	        ++ll;
-    	 }
-    }
     d = 0;
     ll = (*matrix)->rowsAxis().begin();
     {
@@ -1063,10 +1053,15 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
     for (vector<vector<double> >::iterator row = rows.begin(); row != rows.end(); ++row) {
         vector<double> p;
         p.reserve(row->size());
+        if ( matrix2 ) {
+        	(*matrix)->xIndex_.push_back(InfoIndex(west, east, row->size(), d));
+        }
         for (int ii = 0; ii < row->size(); ii++) {
             p.push_back(data[d]);
-            if ( matrix2 )
-            	(*matrix)->index_[*ll].insert(make_pair((*row)[ii], make_pair(data[d], data2[d])));
+            if ( matrix2 ) {
+                   	(*matrix)->data_.push_back(data[d]);
+                   	(*matrix2)->data_.push_back(data2[d]);
+                   }
             d++;
         }
         ++ll;
@@ -1258,7 +1253,7 @@ void GribReducedLatLonInterpretor::interpretAsMatrix(const GribDecoder& grib,
     double *data = new double[nb];
     double *data2 = new double[nb];
 
-    size_t aux2 = size_t(nb);
+    size_t aux = size_t(nb);
 
     int nblon = 0;
     for ( int i = 0; i < res; i++)
@@ -1287,25 +1282,30 @@ void GribReducedLatLonInterpretor::interpretAsMatrix(const GribDecoder& grib,
        for (long i = 0; i < nblat; i++) {
            (*matrix)->rowsAxis().push_back(y);
            if ( matrix2)
-           (*matrix)->index_.insert(make_pair(y, map<double, pair<double, double> >()));
+        	   (*matrix)->index_.insert(make_pair(y, map<double, pair<double, double> >()));
 
            y += lat;
        }
 
-
+    if ( matrix2) {
+          	(*matrix2)->reserve(aux * nblon);
+          	(*matrix2)->data_.reserve(nb);
+          	(*matrix)->data_.reserve(nb);
+          }
 
     if ( matrix2 ) {
-    	 grib_get_double_array(grib.uHandle(), "values", data, &aux2);
-    	 grib_get_double_array(grib.uHandle(), "values", data2, &aux2);
+    	 grib_get_double_array(grib.uHandle(), "values", data, &aux);
+    	 grib_get_double_array(grib.uHandle(), "values", data2, &aux);
     }
     else
-    	 grib_get_double_array(grib.id(), "values", data, &aux2);
+    	 grib_get_double_array(grib.id(), "values", data, &aux);
     int d = 0;
 
 
     for (size_t i = 0; i < res; i++) {
     	double lat = (*matrix)->rowsAxis()[i];
-
+    	if ( matrix2 )
+    	    (*matrix)->xIndex_.push_back(InfoIndex(west, east, pl[i], d));
 
         if (pl[i] == 0) {
             // add missing data
@@ -1325,8 +1325,11 @@ void GribReducedLatLonInterpretor::interpretAsMatrix(const GribDecoder& grib,
                 p.push_back(data[d]);
                 double lon = west + (ii*datastep);
                 lons.push_back( lon );
-                if ( matrix2 )
-                	(*matrix)->index_[lat].insert(make_pair(lon, make_pair(data[d], data2[d])));
+                if ( matrix2 ) {
+                      (*matrix)->data_.push_back(data[d]);
+                      (*matrix2)->data_.push_back(data2[d]);
+                }
+
                 d++;
             }
             }
