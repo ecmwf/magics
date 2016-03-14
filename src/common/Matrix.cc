@@ -418,16 +418,40 @@ pair<double, double> Matrix::nearest_value(double row, double column,double &row
 }
 
 
+void xx(double v)
+{
+	double offset;
+	offset = fmod(v, 360.);
+	int a = v/360;
+	cout << "-------" << endl;
+	cout << v << "--->" << offset  << "--->" << a <<  endl;
+
+	if ( offset < 0 )
+		a--;
+
+	double nv = v - (a*360);
+
+	cout << nv << "--->" << (a*360) << " " <<  nv + (a*360) << endl;
+
+
+
+}
 
 
 int Matrix::nearest_index(double row, double column,double &rowOut, double &colOut) const
 {
-
 	double col, offset;
 
-	col = fmod(column - xIndex_[0].first_, 360.) + minX();
+	int factor = (column-minX())/360.;
 
-	offset = column - col;
+	if ( column < 0)
+		factor--;
+
+	offset = (factor*360);
+
+	col = column - offset;
+
+
 
 	pair<int, bool> row_index, column_index;
 	vector<pair<double, pair<double, int> > > points;
