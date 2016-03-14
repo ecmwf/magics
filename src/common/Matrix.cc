@@ -342,7 +342,7 @@ double geodistance(double lat1, double lon1, double lat2, double lon2) {
 }
 
 #include <limits>
-pair<double, double> Matrix::nearest_index(double row, double column,double &rowOut, double &colOut) const
+pair<double, double> Matrix::nearest_value(double row, double column,double &rowOut, double &colOut) const
 {
 	double col, offset;
 
@@ -354,6 +354,7 @@ pair<double, double> Matrix::nearest_index(double row, double column,double &row
 	map<double, pair<double, double> >::const_iterator column_index;
 	rowOut = missing();
 	colOut = missing();
+
 	vector<pair<double, map<double, pair<double, double> >::const_iterator> > points;
 	row_index = index_.find(row);
 
@@ -421,7 +422,6 @@ pair<double, double> Matrix::nearest_index(double row, double column,double &row
 
 int Matrix::nearest_index(double row, double column,double &rowOut, double &colOut) const
 {
-	return -1;
 
 	double col, offset;
 
@@ -430,6 +430,7 @@ int Matrix::nearest_index(double row, double column,double &rowOut, double &colO
 	offset = column - col;
 
 	pair<int, bool> row_index, column_index;
+	vector<pair<double, pair<double, int> > > points;
 
 	rowOut = missing();
 	colOut = missing();
@@ -441,58 +442,56 @@ int Matrix::nearest_index(double row, double column,double &rowOut, double &colO
 		return -1;
 	}
 
-	if ( row_index.second )
+	if ( row_index.second ) {
 		rowOut = row;
 		// We have to find the columns
-
-		if ( column_index != row_index->second.end() ) {
+		column_index = xIndex_[row_index.first].index(col);
+		if ( column_index.first == -1  ) {
+			return -1;
+		}
+		if ( column_index.second ) {
 			// Perfect match !
-			colOut = col;
-			return column_index->second;
+			colOut = column;
+			return xIndex_[row_index.first].position(column_index.first);
 		}
-		column_index = row_index->second.lower_bound(col);
-		if ( column_index == row_index->second.end() || column_index == row_index->second.begin()) {
-			rowOut = missing();
-			return make_pair(missing(), missing());
+		else {
+			// here we have 2 points : find the nearest
+			points.push_back(make_pair(row, make_pair(xIndex_[row_index.first].value(column_index.first), xIndex_[row_index.first].position(column_index.first))));
+			points.push_back(make_pair(row,  make_pair(xIndex_[row_index.first].value(column_index.first+1), xIndex_[row_index.first].position(column_index.first+1))));
 		}
-		// here we have 2 points : find the nearest
-		points.push_back(make_pair(row, column_index));
-		column_index--;
-		points.push_back(make_pair(row, column_index));
 	}
 	else {
-		row_index = index_.lower_bound(row);
-		if ( row_index == index_.end() || row_index == index_.begin()) {
-			rowOut = missing();
-			return make_pair(missing(), missing());
-		}
-		// Here we may have 4 points!
-		// Deal with the first row
-		column_index = row_index->second.lower_bound(col);
-		if ( column_index != row_index->second.end() || column_index != row_index->second.begin()) {
-			points.push_back(make_pair(row, column_index));
-			column_index--;
-			points.push_back(make_pair(row, column_index));
-		}
-		row_index--;
-		column_index = row_index->second.lower_bound(col);
-		if ( column_index != row_index->second.end() || column_index != row_index->second.begin()) {
-			points.push_back(make_pair(row, column_index));
-			column_index--;
-			points.push_back(make_pair(row, column_index));
-		}
 
+		column_index = xIndex_[row_index.first].index(col);
+
+		// Here we  may have 4 points!
+		if ( column_index.second )
+			points.push_back(make_pair(yIndex_.value(row_index.first), make_pair(xIndex_[row_index.first].value(column_index.first), xIndex_[row_index.first].position(column_index.first))));
+		else {
+			points.push_back(make_pair(yIndex_.value(row_index.first), make_pair(xIndex_[row_index.first].value(column_index.first), xIndex_[row_index.first].position(column_index.first))));
+			points.push_back(make_pair(yIndex_.value(row_index.first), make_pair(xIndex_[row_index.first].value(column_index.first+1), xIndex_[row_index.first+1].position(column_index.first))));
+		}
+		column_index = xIndex_[row_index.first+1].index(col);
+		if ( column_index.second )
+			points.push_back(make_pair(yIndex_.value(row_index.first+1), make_pair(xIndex_[row_index.first].value(column_index.first), xIndex_[row_index.first].position(column_index.first))));
+		else {
+			points.push_back(make_pair(yIndex_.value(row_index.first+1), make_pair(xIndex_[row_index.first].value(column_index.first), xIndex_[row_index.first].position(column_index.first))));
+			points.push_back(make_pair(yIndex_.value(row_index.first+1), make_pair(xIndex_[row_index.first].value(column_index.first+1), xIndex_[row_index.first].position(column_index.first+1))));
+		}
 	}
+
+
+
 	// Now we find the nearest!
 	double min = numeric_limits<double>::infinity();
-	pair<double, double> value = make_pair(missing(), missing());
-	for (vector<pair<double, map<double, pair<double, double> >::const_iterator> >::iterator point = points.begin(); point != points.end(); ++point) {
-		double  dist = geodistance(point->first, point->second->first, row, col);
+	int value = -1;
+	for (vector<pair<double, pair<double, int> > >::const_iterator point = points.begin(); point != points.end(); ++point) {
+		double  dist = geodistance(point->first, point->second.first, row, col);
 		if (dist < min ) {
 			min = dist;
 			rowOut = point->first;
-			colOut = point->second->first + offset;
-			value =  point->second->second;
+			colOut = point->second.first + offset;
+			value =  point->second.second;
 		}
 	}
 

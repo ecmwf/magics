@@ -56,6 +56,7 @@ GribDecoder::GribDecoder() :  matrix_(0),  xComponent_(0), yComponent_(0),
     count_++;
     title_ = "grib_" + tostring(count_);
     version();
+    Data::dimension_ = -1;
 }
 
 void GribDecoder::version()
@@ -613,13 +614,13 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
                 offset += 360.;
             }
 
-            pair<double, double> w = xComponent_->nearest_index(lat, lon, nlat, nlon);
+            int w = xComponent_->nearest_index(lat, lon, nlat, nlon);
             //double v = yComponent_->nearest_index(nlat, nlon, nlat, nlon);
 
 
-                if ( w.first != missing && w.second != missing) {
-                    CustomisedPoint *add = new CustomisedPoint(nlon + offset, nlat, "");
-                    pair<double, double> value = (*wind_mode_)(w.first, w.second);
+                if ( w != 1 ) {
+                    CustomisedPoint *add = new CustomisedPoint(nlon, nlat, "");
+                    pair<double, double> value = (*wind_mode_)((*xComponent_).data_[w], (*yComponent_).data_[w]);
 
                     add->insert(make_pair("x_component", value.first));
                     add->insert(make_pair("y_component", value.second));

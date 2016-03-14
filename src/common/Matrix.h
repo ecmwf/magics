@@ -162,21 +162,36 @@ public:
     }
 };
 
-struct IndexInfo
+struct InfoIndex
 {
-	IndexInfo(double first, double last, double nb, int offset):
-		first_(first), last_(last), nbPoints_(nb), offset_(offset) { step_ = (last_ - first_)/(nbPoints_-1); }
+	InfoIndex() {}
+	InfoIndex(double first, double last, double nb, int offset):
+		first_(first), last_(last), nbPoints_(nb), offset_(offset) {
+			step_ = (last_ - first_)/(nbPoints_-1);
+			min_ = std::min(first_, last_);
+			max_ = std::max(first_, last_);
+		}
 	double first_;
 	double last_;
+	double min_;
+	double max_;
 	double nbPoints_;
 	int    offset_;
 	double step_;
-	pair<int, bool> index(double pos)
+
+	pair<int, bool> index(double pos) const
 	{
-		if ( pos < info.first_ ) return make_pair(-1, -1);
-		if ( pos > info.last_ ) return make_pair(-1, -1);
-		return make_pair( floor( (pos - first_ )/step_), ( pos - first_) % step_ == 0);
+		if ( pos < min_ ) return std::make_pair(-1, false);
+		if ( pos > max_ ) return std::make_pair(-1, false);
+		return std::make_pair( floor( (pos - first_ )/step_), fmod( pos - first_, step_) == 0);
 	}
+	double value(int i) const {
+		return first_ + (step_)*i;
+	}
+	int position(int i) const {
+		return offset_ + i;
+	}
+
 };
 
 class Matrix: public AbstractMatrix, public magvector<double> {
