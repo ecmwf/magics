@@ -605,15 +605,6 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 
 
 
-            while ( lon < minlon ) {
-                lon += 360;
-                offset -= 360.;
-            }
-            while ( lon > maxlon ) {
-                lon -= 360.;
-                offset += 360.;
-            }
-
             int w = xComponent_->nearest_index(lat, lon, nlat, nlon);
             //double v = yComponent_->nearest_index(nlat, nlon, nlat, nlon);
 
