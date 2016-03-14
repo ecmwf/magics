@@ -56,7 +56,7 @@ GribDecoder::GribDecoder() :  matrix_(0),  xComponent_(0), yComponent_(0),
     count_++;
     title_ = "grib_" + tostring(count_);
     version();
-    Data::dimension_ = -1;
+
 }
 
 void GribDecoder::version()
