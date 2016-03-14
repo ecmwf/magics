@@ -105,9 +105,13 @@ public:
 	MatrixHandler& direction();
 	// Data Interface : info for the layer managment!
 	 string layerId()  { decode(); return layerId_; }
-	 string name() { if ( Data::dimension_ != -1 )  decode(); return name_; }
-	 const DateTime& from() { decode(); return from_; }
-	 const DateTime& to()  { decode(); return to_; }
+	 string name() {
+
+	 	 return name_;
+	 }
+	 const DateTime& from() {
+	 return from_; }
+	 const DateTime& to()  {  return to_; }
 
 	string title() {
 		return title_;
