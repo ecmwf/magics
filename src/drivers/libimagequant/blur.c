@@ -1,3 +1,8 @@
+/*
+** © 2011-2015 by Kornel Lesiński.
+** All rights reserved.
+** See COPYRIGHT file for full license.
+*/
 
 #include "libimagequant.h"
 #include "pam.h"
@@ -8,6 +13,8 @@
  */
 static void transposing_1d_blur(unsigned char *restrict src, unsigned char *restrict dst, unsigned int width, unsigned int height, const unsigned int size)
 {
+    assert(size > 0);
+
     for(unsigned int j=0; j < height; j++) {
         unsigned char *restrict row = src + j*width;
 

@@ -506,14 +506,14 @@ public:
 class EpsControl : public LegendEntry
 {
 public:
-	EpsControl(double resolution, const string& type, double height) : 
+	EpsControl(const string& model, double resolution, const string& type, double height) :
 			LegendEntry(" "), legend_size_(height)
 	{
 		ostringstream title;
 		// carefull here this text is depending of the resolution! 
 		MagLog::dev() << "EpsControl=>resolution" << resolution << endl; 
         int km = maground(40000/(2*(resolution+1)+2));  
-		title << "ENS Control(" + tostring(km) + " km)";
+		title << model << "(" << tostring(km) + " km)";
 		title_ = title.str();
 	}
 	EpsControl(const string& title, double height) : LegendEntry(" "), legend_size_(height)
@@ -548,13 +548,13 @@ protected:
 class EpsForecast : public LegendEntry
 {
 public:
-	EpsForecast(double resolution, const string& type, double height) : 
+	EpsForecast(const string& model, double resolution, const string& type, double height) :
 		LegendEntry(" "), legend_size_(height)
 	{
 		MagLog::dev() << "EpsForecsat=>resolution" << resolution << endl; 
 		ostringstream title;
-        int km = maground(40000/(2*(2*resolution+1)+2));        
-		title << "High Resolution (" + tostring(km) + " km)";
+        int km = maground(40000/(4*(resolution+1)));
+		title <<  model << " (" + tostring(km) + " km)";
 		title_ = title.str();
 	}
 	
@@ -711,17 +711,11 @@ void EpsGraph::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 	forecast->setColour(*deterministic_colour_);
 	forecast->setThickness(deterministic_thickness_);
 	forecast->setLineStyle(deterministic_style_);
-    
-   
-	
-	
 
 	resolution_ = (*points.front())["resolution"];
 	
-	
-	
 		
-		DateTime base = points.front()->base();
+	DateTime base = points.front()->base();
 		
 	
     vector<BasicGraphicsObject*> list, list2;
@@ -981,13 +975,15 @@ void EpsGraph::visit(LegendVisitor& legend)
     if ( control_  )   {
     	MagLog::dev() << "LEGEND-> " << legend_control_text_ << endl;
     	if (legend_control_text_.empty() )
-    		legend.add(new EpsControl(resolution_, legend_resolution_, legend_size_));
+
+    		legend.add(new EpsControl(control_legend_, resolution_, legend_resolution_, legend_size_));
     	else 
+
     		legend.add(new EpsControl(legend_control_text_, legend_size_));
     }
     if ( forecast_  ) {
     	if (legend_forecast_text_.empty() )
-    	    legend.add(new EpsForecast(resolution_, legend_resolution_, legend_size_));
+    	    legend.add(new EpsForecast(deterministic_legend_, resolution_, legend_resolution_, legend_size_));
     	else 
     	    legend.add(new EpsForecast(legend_forecast_text_, legend_size_));
     }
@@ -1341,7 +1337,7 @@ void EpsWind::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 
 void EpsWave::visit(LegendVisitor& legend)
 {
-	MagFont font("sansserif", "normal", 0.25);
+	MagFont font(legend.font_, legend.font_style_, tonumber(legend.font_dimension_));
 	font.colour(Colour("Rgb(0.2, 0.2, 0.2)"));
 	vector<Colour> colours;
 	colours.push_back(Colour("greenish_blue"));
@@ -1361,7 +1357,7 @@ void EpsWave::visit(LegendVisitor& legend)
 void EpsWind::visit(LegendVisitor& legend)
 {
 	if ( !legend_ ) return;
-	MagFont font("sansserif", "normal", 0.25);
+	MagFont font(legend.font_, legend.font_style_, tonumber(legend.font_dimension_));
 	font.colour(Colour("Rgb(0.2, 0.2, 0.2)"));
 	
        WindRoseEntry* wind = new WindRoseEntry(*colour_);
@@ -1545,19 +1541,19 @@ void triangle5(const pair<string, float>& direction, CustomisedPoint& point, Bas
 		double x0 = length;
 		
 	
-		double x = x0 * cos(direction.second);
-		double y = x0 * sin(direction.second);
-		double x1 = x0 * cos(direction.second - shift);
-		double y1 = x0 * sin(direction.second - shift);
-		double x2 = x0 * cos(direction.second + shift);
-		double y2 = x0 * sin(direction.second + shift);
+		double x1 = x0 * cos(direction.second);
+		double y1 = x0 * sin(direction.second);
+		double x = x0 * cos(direction.second - shift);
+		double y = x0 * sin(direction.second - shift);
+		double x2 = x0 * cos(direction.second - (2*shift));
+		double y2 = x0 * sin(direction.second - (2*shift));
 	   
-	    double px = previous * cos(direction.second);
-		double py = previous * sin(direction.second);
-		double px1 = previous * cos(direction.second - shift);
-		double py1 = previous * sin(direction.second - shift);
-		double px2 = previous * cos(direction.second + shift);
-		double py2 = previous * sin(direction.second + shift);
+	    double px1 = previous * cos(direction.second);
+		double py1 = previous * sin(direction.second);
+		double px = previous * cos(direction.second - shift);
+		double py = previous * sin(direction.second - shift);
+		double px2 = previous * cos(direction.second - (2*shift));
+		double py2 = previous * sin(direction.second - (2*shift));
 		
 		previous = x0;
         colour++;
@@ -1593,44 +1589,29 @@ void EpsWave::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 
 	if (points.empty()) return;
 	
-
 	vector<double> xpos;
-	
 
-	
-	
 	DateTime base = points.front()->base();
 
-	 for (CustomisedPointsList::const_iterator point = points.begin(); point != points.end(); ++point) {  	
+	for (CustomisedPointsList::const_iterator point = points.begin(); point != points.end(); ++point) {
 		xpos.push_back((**point)["last"]);		  
     }
-    
-	
 	
 	map<string, float> directions;
-	//if ( magCompare(convention_, "oceanographic" ) ) {
-		directions["east"] = 0 + 3.14;
-		directions["nord"] = 3.14 * 0.5 +3.14;
-		directions["nord_east"] = 3.14*0.25  +3.14;
-		directions["nord_west"] = 3.14*0.75 +3.14;
-		directions["south"] = 3.14*1.5 +3.14;
-		directions["south_east"] = 3.14*1.75 +3.14;
-		directions["south_west"] = 3.14*1.25 +3.14;
-		directions["west"] = 3.14 +3.14;
-//	}
-//	else {
-//		directions["east"] = 0;
-//		directions["nord"] = 3.14 * 0.5;
-//		directions["nord_east"] = 3.14*0.25;
-//		directions["nord_west"] = 3.14*0.75;
-//		directions["svisitorh"] = 3.14*1.5;
-//		directions["svisitorh_east"] = 3.14*1.75;
-//		directions["svisitorh_west"] = 3.14*1.25;
-//		directions["west"] = 3.14;
-//	}
 	
+	directions["east"] = 0 + 3.14;
+	directions["nord"] = 3.14 * 0.5 +3.14;
+	directions["nord_east"] = 3.14*0.25  +3.14;
+	directions["nord_west"] = 3.14*0.75 +3.14;
+	directions["south"] = 3.14*1.5 +3.14;
+	directions["south_east"] = 3.14*1.75 +3.14;
+	directions["south_west"] = 3.14*1.25 +3.14;
+	directions["west"] = 3.14 +3.14;
+
+
 	for (CustomisedPointsList::const_iterator point = points.begin(); point != points.end(); ++point) {		
 		double total = 0;
+
 		for ( map<string, float>::const_iterator direction = directions.begin(); direction != directions.end(); ++direction) {
 			
 			if ( (*point)->find(direction->first) == (*point)->end() ) {
@@ -1669,15 +1650,15 @@ void EpsWave::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 		double x = (**point)["step"] + (**point)["shift"];
 	
 		
-			Polyline* grid = new Polyline();
-			grid->setColour(Colour("grey"));
-			grid->setThickness(2);
-			grid->setLineStyle(M_DOT);		
-			scale = 200;
-			double l100 = 12*3600;
-			for (float angle = 0; angle <= 2; angle+=0.1) 	
-				grid->push_back(PaperPoint(x +(l100 * cos(3.14*angle)) , l100 * sin(3.14*angle)));					
-				visitor.push_back(grid);
+		Polyline* grid = new Polyline();
+		grid->setColour(Colour("grey"));
+		grid->setThickness(2);
+		grid->setLineStyle(M_DOT);
+		scale = 200;
+		double l100 = 12*3600;
+		for (float angle = 0; angle <= 2; angle+=0.1)
+			grid->push_back(PaperPoint(x +(l100 * cos(3.14*angle)) , l100 * sin(3.14*angle)));
+			visitor.push_back(grid);
 			
 	
 		
@@ -1691,6 +1672,34 @@ void EpsWave::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 			{
 				triangle5(*direction, **point, visitor, x, ms);
 			}
+
+		// Draw the Control
+		if ( (*point)->find("control") != (*point)->end() ) {
+			Polyline* control = new Polyline();
+			control->setColour(Colour("red"));
+			control->setThickness(2);
+			control->setLineStyle(M_DASH);
+
+			double angle = (**point)["control"] - 180.;
+
+			control->push_back(PaperPoint(x , 0));
+			control->push_back(PaperPoint(x +(l100 * sin(angle*(3.14/180.))), l100 * cos(angle*(3.14/180.))));
+			visitor.push_back(control);
+		}
+
+		// Draw the Forecast
+		if ( (*point)->find("forecast") != (*point)->end() ) {
+			Polyline* hres = new Polyline();
+			hres->setColour(Colour("blue"));
+			hres->setThickness(2);
+			hres->setLineStyle(M_SOLID);
+
+
+			double angle = (**point)["forecast"]-180;
+			hres->push_back(PaperPoint(x , 0));
+			hres->push_back(PaperPoint(x +(l100 * sin(angle*(3.14/180.))), l100 * cos(angle*(3.14/180.))));
+			visitor.push_back(hres);
+		}
 	}
 	
 

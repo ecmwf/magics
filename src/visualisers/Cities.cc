@@ -115,7 +115,7 @@ void Cities::operator()(const map<string, string>&, BasicGraphicsObjectContainer
 
 	Symbol::TextPosition position = (pos != positions.end() ) ? pos->second : Symbol::M_ABOVE;
 
-	string cities = getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_ + "10m/10m_populated_places_simple";
+	string cities = getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_ + "10m/ne_10m_populated_places_simple";
 	std::set<string> need;
 	CustomisedPointsList points;
 	const Transformation& transformation = task.transformation();
@@ -189,5 +189,3 @@ void NoCities::print(ostream& out)  const
 	out << "NoCities[";
 	out << "]";
 }
-
-

@@ -9,6 +9,7 @@ add_magics_test(NAME gallery_coastlines2 SOURCES coastlines2.py IMAGE coastlines
 add_magics_test(NAME gallery_coastlines3 SOURCES coastlines3.py IMAGE coastlines3.png  THRESHOLD 5 PYTHON)
 add_magics_test(NAME gallery_coastlines4 SOURCES coastlines4.py IMAGE coastlines4.png  THRESHOLD 5 PYTHON)
 add_magics_test(NAME gallery_coastlines5 SOURCES coastlines5.py IMAGE coastlines5.png  THRESHOLD 5 PYTHON)
+add_magics_test(NAME gallery_polder SOURCES polder.py IMAGE polder.png  THRESHOLD 1 PYTHON)
 
 add_magics_test(NAME gallery_contour1 SOURCES contour1.py IMAGE contour1.png DATA z500.grib THRESHOLD 5 PYTHON)
 add_magics_test(NAME gallery_contour10 SOURCES contour10.py IMAGE contour10.png DATA 2m_temperature.grib THRESHOLD 5 PYTHON)

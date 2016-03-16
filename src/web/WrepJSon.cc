@@ -864,6 +864,8 @@ void WrepJSon::cdf()
 	// setminmax ...
 	minx_ = std::numeric_limits<double>::max();
 		maxx_ = -std::numeric_limits<double>::max();
+		minClim_ = std::numeric_limits<double>::max();
+		maxClim_ = -std::numeric_limits<double>::max();
 		for (map<string,  InputWrep>::iterator info = eps_.begin(); info !=  eps_.end(); ++info) {
 							
 							// find the index in the steps..
@@ -885,6 +887,8 @@ void WrepJSon::cdf()
 				double value =  correctEpsz(val->second[index]);
 									if ( minx_ > value ) minx_ = value;
 									if ( maxx_ < value ) maxx_ = value;
+									if ( minClim_ > value ) minClim_ = value;
+									if ( maxClim_ < value ) maxClim_ = value;
 			}
 			
 
@@ -1297,36 +1301,42 @@ void WrepJSon::visit(TextVisitor& text)
 	if (height_ != -9999 ) 
         text.update("json", "height", height.str());
 	text.update("json", "location", location.str());
-	text.update("json", "grid_point", (mask_ < 0.5 ) ? " (EPS sea point) " : " (EPS land point) ");
+	text.update("json", "grid_point", (mask_ < 0.5 ) ? " (ENS sea point) " : " (ENS land point) ");
 
 	}
 
 	ostringstream full_correction;
 	ostringstream short_correction;
 
+
+
+
+
 	int dett = (points_along_meridian_ * 2) -1;
 	int epst = points_along_meridian_ -1;
+
 	if ( (correction_ && height_ != -9999 && param_info_!= "none") ) {
-		full_correction << " reduced to " << height_ <<  " m (station height) from " << maground(detz_) << " m (T" << dett << ") and " << maground(epsz_) <<  " m (T" << epst <<")";
-		short_correction << " reduced to " << height_ <<  " m (station height) from " << maground(epsz_) <<  " m (T" << epst <<")";
+			full_correction << " reduced to " << height_ <<  " m (station height) from " << maground(detz_) << " m (HRES) and " << maground(epsz_) <<  " m (ENS)";
+			short_correction <<  " reduced to " << height_ <<  " m (station height) from " << maground(epsz_) <<  " m (ENS)";
 	}
+
+
 
 	text.update("json", "full_temperature_correction_info", full_correction.str());
 	text.update("json", "short_temperature_correction_info", short_correction.str());
 	text.update("json", "parameter_info", (param_info_ == "none") ? "": param_info_ );
 
-	if (param_info_ != "none")
+	if (param_info_ != "none") {
 		text.update("json", "station_name", station_name_);
+		if ( !expver_.empty() && expver_ != "0001")
+			text.update("json", "expver",  " [" + expver_ + "] ");
 
-	
-    if ( !expver_.empty() && expver_ != "0001") {
-        text.update("json", "expver",  " [" + expver_ + "] ");
-    }
+	}
 
     text.update("json", "product_info", product_info_);
 	text.update("json", "plumes_interval", tostring(plumes_));
 	text.update("json", "efi_date", valid_time_);
-	text.update("json", "min_max_values", "Max = " +  tostring(maground(maxx_)) + ", Min = " +  tostring(maground(minx_)));
+	text.update("json", "min_max_values", "Max = " +  tostring(maground(maxClim_)) + ", Min = " +  tostring(maground(minClim_)));
 }
 
 void WrepJSon::points(const Transformation& transformation, vector<UserPoint>& points)

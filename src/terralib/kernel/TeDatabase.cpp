@@ -36,6 +36,7 @@ of this library and its documentation.
 #include <sys/stat.h>
 #include <stdio.h>
 #include <sstream>
+#include <cstring>
 
 typedef map<int,TeNode> TeNodeMap;
 
@@ -2075,7 +2076,7 @@ bool TeDatabase::createCollectionTable(const string& tableName)
 
 	string collectionId;
 	unsigned int pos = tableName.rfind("_");
-	if ( (pos != std::string::npos ) && (pos+1<tableName.size()) )
+	if ( (pos+1<tableName.size()) )
        collectionId = tableName.substr(pos+1); 
 
 	string idxName = "te_idx_c" + collectionId  + "_clegid";
@@ -7202,7 +7203,7 @@ TeDatabase::updateArc(const string& table, TeArc &arc)
 	sql = "UPDATE"+ table +" SET ";
     sql += "from_node=" + Te2String(arc.fromNode().geomId()) + ", ";
 	sql += "to_node=" + Te2String(arc.toNode().geomId());
-    sql += " WHERE geom_id = " + arc.geomId();
+    sql += " WHERE geom_id = " + Te2String(arc.geomId());
 	return (this->execute(sql));
 }
 
@@ -7420,7 +7421,7 @@ TeDatabase::updateCell(const string& table, TeCell &c)
 	sql += "upper_y=" + Te2String(b.upperRight().y(),15) + ", ";
 	sql += "col_number=" + Te2String(c.column()) + ", ";
 	sql += "row_number=" + Te2String(c.line());
-	sql += " WHERE geom_id = " + c.geomId();
+	sql += " WHERE geom_id = " + Te2String(c.geomId());
 	return (this->execute(sql));
 }
 
@@ -9473,7 +9474,7 @@ TeDatabasePortal::getView(TeView& view, const unsigned int& initIndex)
 	view.user(getData(initIndex+3));
 	view.isVisible(getBool(initIndex+4));
 	view.setCurrentBox(TeBox(getDouble(initIndex+5), getDouble(initIndex+6), getDouble(initIndex+7), getDouble(initIndex+8)));
-	if(getData(initIndex+9) == "")
+	if(strncmp(getData(initIndex+9),"",1))
 		view.setCurrentTheme(-1);
 	else
 		view.setCurrentTheme(getInt(initIndex+9));

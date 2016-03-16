@@ -44,6 +44,8 @@ void EpsBufr::visit(Transformation& transformation)
 {
 	decode();
 	transformation.setDataMinMaxX((minstep_ - shift_) * 3600, (maxstep_ + 6) * 3600, base_);
+	if ( same(miny_, maxy_) )
+	        	maxy_ = miny_ +5.;
 	transformation.setDataMinMaxY(miny_, maxy_);
 }
 		
@@ -56,8 +58,8 @@ void EpsBufr::decode()
      MvObsSet set(path_.c_str());
      
      MvObsSetIterator   filter(set);
-     MvLocation ll(latitude_-0.1, longitude_-0.1);
-     MvLocation ur(latitude_+0.1, longitude_+0.1);
+     MvLocation ll(latitude_-0.01, longitude_-0.01);
+     MvLocation ur(latitude_+0.01, longitude_+0.01);
      filter.setArea(ll, ur);
      
      MvObs obs = filter();
@@ -77,9 +79,9 @@ void EpsBufr::decode()
      		MvLocation loc = obs.location();
 //      	  int subsets = obs.msgSubsetCount();
 
-       		 float value = obs.value(param_descriptor_ );
-        	obs.value(5195); 
-        	if ( value == kFortranBufrMissingValue )
+       		float value = obs.value(param_descriptor_ );
+
+        	if ( value == kBufrMissingValue )
 		{
         		obs = filter(NR_returnMsg);         	// Were going to the next message!
         		continue;
@@ -93,14 +95,14 @@ void EpsBufr::decode()
                 
     			float step =  obs.valueByOccurrence(i, 4024);  
     			float value =  obs.valueByOccurrence(i, param_descriptor_);
-    			if ( value == kFortranBufrMissingValue ) {
+    			if ( value == kBufrMissingValue ) {
     				obs = filter(); // We going to the next subset!
     				break;
     			}
     			value = (value * param_scaling_factor_ ) + param_offset_factor_;
     			
     			base_ = DateTime(obs.obsTime().CharValue());
-    			MagLog::dev() << "date--->" << base_ << endl; 
+
     		
     			if ( accumulated_) {
     				double total = value;
@@ -114,6 +116,7 @@ void EpsBufr::decode()
     			if  ( maxy_ < value ) maxy_ = value;
 
     			curve1[step] = value;
+    			MagLog::dev() << param_descriptor_ << " : " << step << "--->" << value << endl;
     		}
      	}
      if ( param_descriptor_2_) { 
@@ -132,7 +135,7 @@ void EpsBufr::decode()
 
             float value = obs2.value( param_descriptor_2_ );
             
-            	if ( value == kFortranBufrMissingValue )
+            	if ( value == kBufrMissingValue )
     		{
             		obs2 = filter(NR_returnMsg);         	// Were going to the next message!
             		continue;
@@ -146,7 +149,7 @@ void EpsBufr::decode()
         			float step =  obs2.valueByOccurrence(i, 4024); 
         			obs2.valueByOccurrence(i, 5195);  			
         			float value =  obs2.valueByOccurrence(i, param_descriptor_2_);
-        			if ( value == kFortranBufrMissingValue ) {
+        			if ( value == kBufrMissingValue ) {
         				obs2 = filter(); // We going to the next subset!
         				break;
         			}
@@ -163,6 +166,7 @@ void EpsBufr::decode()
 		DateTime date  = base_ +  Second(step->first * 3600);    
 		(*point)["step"]    = step->first * 3600;
 		(*point)["shift"] = minstep_ - shift_ *3600;
+		MagLog::dev() << step->first << "--->" << step->second << endl;
 		(*point)["year"]    = date.date().year();
 		(*point)["month"]   = date.date().month();
 		(*point)["day"]     = date.date().day();
@@ -195,29 +199,16 @@ PointsHandler& EpsBufr::points()
 void EpsBufr::visit(TextVisitor& title)
 {
 	decode();
-	if (  EpsBufrAttributes::information_ )
-	{
-		ostringstream out;
-		tm convert = base_;	
-		locale loc("");      
-		out.imbue(loc);   
-		const std::time_put<char>& tfac = use_facet<time_put<char> >(loc); 
-		string format = "Forecast VT %A %e %B %Y %H UTC";
-		tfac.put(out, out, ' ', &convert, format.c_str(), format.c_str()+format.length()); 
-	    		
-		ostringstream line;
-		UserPoint position(longitude_, latitude_);
-		line << station_name_ << "(" << position.asLatitude() << ", " << position.asLongitude() << ")" << endl;
-		title.add(new TextEntry(title_));
-		title.add(new TextEntry(line.str()));
-		title.add(new TextEntry(out.str()));
-	}
-	if ( short_title_ ) {
-		title.add(new TextEntry(""));
-		if ( param_title_.empty() ) 
-			param_title_ = "" + param_descriptor_; 
-		title.add(new TextEntry(param_title_));
-	}
+	title.update("json", "parameter_info", param_title_);
+	ostringstream station;
+	UserPoint position(longitude_, latitude_);
+	station << station_name_ << "(" << position.asLatitude() << ", " << position.asLongitude() << ")" << endl;
+	title.update("json", "station_info", station.str());
+	title.update("json", "date", base_.tostring("ECMWF Forecast from %A %e %B %Y %H UTC"));
+
+
+	return;
+
 }
 
 void EpsBufr::visit(MetaDataVisitor&)

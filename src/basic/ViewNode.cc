@@ -92,7 +92,8 @@ void ViewNode::visit(MetaDataVisitor& metadata)
 	double imgheight = height * 100 / (100-drawing_top_-drawing_bottom_);
 
 
-
+    metadata.add("output_width", tostring(rootWidthResolution()));
+    metadata.add("output_height", tostring(rootHeightResolution()));
 	viewTransformation_->visit(metadata, left, top, imgwidth, imgheight, width, height);
 
 	BasicSceneObject::visit(metadata);

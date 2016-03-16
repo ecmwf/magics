@@ -2,6 +2,8 @@
 
 version="2.26.2"
 git_home="/tmp/cgs/git/magics-2.26"
+version="2.27.0"
+git_home="/tmp/cgs/git/develop/magics"
 magics=""
 debug="off"
 bufr="on"
@@ -43,6 +45,7 @@ case "${OS_VERSION}" in
     opensuse131) # New Local worksation
         #module load boost/1.55.0
         use='metview'
+        use='daily'
         use='debug'
         use='daily'
         if [[ $use = 'daily' ]]; then
@@ -58,7 +61,7 @@ case "${OS_VERSION}" in
         if [[ $use = 'debug' ]]; then
             metview='off'
             debug='on'
-            bufr='off'
+            bufr='on'
             build_home="/tmp/cgs/build/$version/debug"
             install_home="/tmp/cgs/Magics/$version/debug"
             run="10"

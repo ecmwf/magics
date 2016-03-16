@@ -70,7 +70,7 @@ void Boundaries::operator()(const map<string, string>& setting, BasicGraphicsObj
 
 	boundaries.setPath(file);
 	vector<string> treaty;
-	treaty.push_back("Treaty");
+	treaty.push_back("International boundary");
 	treaty.push_back("Country_Boundary");
 
 	boundaries.decode(task.transformation(), "featurecla", treaty);
@@ -83,7 +83,7 @@ void Boundaries::operator()(const map<string, string>& setting, BasicGraphicsObj
 		file = share_folder + administrative_boundaries;
 
 		admistrative.setPath(file);
-		admistrative.decode(task.transformation(),"iso", administrative_list_);
+		admistrative.decode(task.transformation(),"adm0_a3", administrative_list_);
 		const Transformation& transformation = task.transformation();
 
 		for ( ShapeDecoder::const_iterator boundary = admistrative.begin(); boundary != admistrative.end(); ++boundary)
@@ -92,7 +92,6 @@ void Boundaries::operator()(const map<string, string>& setting, BasicGraphicsObj
 			poly.setColour( administrative_colour_->automatic() ? *colour_ : *administrative_colour_);
 			poly.setThickness(administrative_thickness_);
 			poly.setLineStyle(administrative_style_);
-
 
 			(**boundary).setToFirst();
 			while ((**boundary).more())
@@ -166,6 +165,3 @@ void NoBoundaries::print(ostream& out)  const
 	out << "NoBoundaries[";
 	out << "]";
 }
-
-
-

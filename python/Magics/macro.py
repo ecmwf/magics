@@ -415,6 +415,8 @@ mepsgraph = make_action("mepsgraph", Magics.epsgraph)
 mepsplumes = make_action("mepsplumes", Magics.epsplumes)
 mtephi = make_action("mtephi", Magics.tephi)
 
+mmetgraph = make_action("mmetgraph", Magics.mmetgraph)
+mmetbufr = make_action("mmetbufr", Magics.mmetbufr)
 
 def examine(*args):
 	for n in args:

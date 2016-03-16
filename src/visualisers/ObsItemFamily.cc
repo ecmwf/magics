@@ -131,15 +131,6 @@ void ObsCloudAndWind::operator()( CustomisedPoint& point, ComplexSymbol& symbol)
 	 MagLog::debug() << " >>> "<<it->first<<" -> " << it->second << endl;
 	}
 	symbol.setHeight(owner_->size_);
-	CustomisedPoint::const_iterator speed = point.find("wind_speed");
-	if ( speed == point.end() ) return; 
-	CustomisedPoint::const_iterator direction = point.find("wind_direction");
-	if ( direction == point.end() ) return; 
-
-	FlagItem* flag = new FlagItem();
-	flag->setColour(colour);
-	flag->length(owner_->size_*2.5); // Size to be adjusted later!
-
 
 	int total_cloud = maground((point["total_cloud"]/100.)*8);
 	MagLog::debug() << "total_cloud-->" << point["total_cloud"] << "--->" << total_cloud << endl;
@@ -156,7 +147,37 @@ void ObsCloudAndWind::operator()( CustomisedPoint& point, ComplexSymbol& symbol)
 
 	}
 
-MagLog::debug() << "OBS ITEM - ObsWind - Lon/Lat: "<<point.longitude()<<" / "<<point.latitude()
+	CustomisedPoint::const_iterator ispeed = point.find("wind_speed");
+	double speed = ( ispeed == point.end() ) ? 0 : ispeed->second;
+	CustomisedPoint::const_iterator idirection = point.find("wind_direction");
+	double direction = ( idirection == point.end() ) ? 0 : idirection->second;
+
+	if ( speed == 0 && direction == 0) {
+		// No wind information ...Just plot the nebulosity
+		SymbolItem*  object = new SymbolItem();
+		object->x(0);
+		object->y(0);
+
+
+		object->colour(colour);
+
+
+		object->symbol(origin);
+
+		object->height(owner_->ring_size_*.35);
+
+		symbol.add(object);
+		return;
+	}
+
+	FlagItem* flag = new FlagItem();
+	flag->setColour(colour);
+	flag->length(owner_->size_*2.5); // Size to be adjusted later!
+
+
+
+
+	MagLog::debug() << "OBS ITEM - ObsWind - Lon/Lat: "<<point.longitude()<<" / "<<point.latitude()
      << "\n\twind_speed:     " << point["wind_speed"] 
      << "\n\twind_direction: " << point["wind_direction"]
      << "\n\tcloud amount:   " << point["total_cloud"]<< "--->" << total_cloud << "--->" << origin << std::endl;
@@ -168,11 +189,11 @@ MagLog::debug() << "OBS ITEM - ObsWind - Lon/Lat: "<<point.longitude()<<" / "<<p
 	
 	const Transformation& transformation = symbol.parent().transformation();
 	PaperPoint pp(point.longitude(), point.latitude());
-	std::pair<double, double> wind = std::make_pair(speed->second, direction->second);
+	std::pair<double, double> wind = std::make_pair(speed, direction);
 	transformation.reprojectSpeedDirection(pp, wind);
 	
-	flag->speed(speed->second);
-	flag->direction(direction->second);
+	flag->speed(speed);
+	flag->direction(direction);
 
 	if (point.latitude() <0 ) 
 		flag->setHemisphere(SOUTH);

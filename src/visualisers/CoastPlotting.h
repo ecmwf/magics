@@ -54,19 +54,14 @@
 
   Only the following extensions are required for shape files: [ dbf, shp, shx, prj ]. Extensions .sbn and sbx are undocumented formats used only by ESRI software.
 
-  To extract subsets of shape files into other shape files use the ogr2ogr command line utility (from gdal) as follows:
- 
-      ogr2ogr <output_folder> <input_shape_file>.shp -where "<condition>"
+  The shape files are pre-processed in QGis (version 2.12 in Dec 2015) to make calculation at run time unnecessary. 
+  Following actions are performed:
 
-  For example, to ignore minor feature data in the 10m shape files we did the following:
+  - The original Lake and Land files are corrected for errors (Vector -> Geometry Tools -> Check Geometry Validity ...)
+  - The original Land geometries are simplified (Vector -> Geometry Tools -> Multipart to Singlepart ...)
+  - The lakes are subtracted from the Land to create the new Land files to be used in Magics (Vector -> Geoprocessing Tools -> Clip ...)
 
-      ogr2ogr output_folder 10m_lakes.shp -where "ScaleRank < 7"
-
-  Where 'ScaleRank' is one of the fields in the shape file. Information on which fields are present are given in the .dbf file (which can be opened with Open Office Spreadsheet).
-
-  Conditions can be combined, for example
-
-      ogr2ogr output_folder 10m_lakes.shp -where "ScaleRank = 1 AND Name2 != 'Great Lakes'"
+  The same is done with the Ocean and Lake files but in the third step "Union" is used.
 
 */
 
@@ -85,6 +80,7 @@
 #include "MagTranslator.h"
 #include "Polyline.h"
 #include "Layer.h"
+
 namespace magics {
 
 class PreviewVisitor;
@@ -113,6 +109,7 @@ public :
 	virtual void layer(BasicGraphicsObjectContainer*) {}
 	virtual void visit(LegendVisitor&);
 	virtual void visit(MetaDataCollector&);
+
 protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).
 	 virtual void print(ostream& out) const { out << "NoCoastPlotting\n"; }
@@ -182,15 +179,11 @@ protected:
 	void setLine(Polyline&);
 	void setSeaShading(Polyline&);
 	void setLandShading(Polyline&);
-	Polyline* ocean(Layout&);
 
 	string coast_resolution_;
 
 	vector<Polyline> coast_;
-	vector<Polyline> lake_;
 	vector<Polyline> ocean_;
-
-
 };
 
 
@@ -208,7 +201,6 @@ public:
 		ParameterManager::get(param, val);
 		return (*this)(val);
 	}
-
 };
 
 } // namespace magics

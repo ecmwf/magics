@@ -1,3 +1,4 @@
+
 add_magics_test(NAME thinning SOURCES thinning.F IMAGE thinning.ps DATA 500uv.grb THRESHOLD 5)
 add_magics_test(NAME wind SOURCES wind.F IMAGE wind.ps DATA 500uv.grb THRESHOLD 5)
 add_magics_test(NAME wind_arrows SOURCES wind_arrows.F IMAGE wind_arrows.ps DATA uv500.grb  THRESHOLD 5)
@@ -17,5 +18,7 @@ add_magics_test(NAME wind_wind_global SOURCES wind_global.py IMAGE wind_global.p
 add_magics_test(NAME wind_wind_gaussian SOURCES wind_gaussian.py IMAGE wind_gaussian.png DATA wind_reduced_gg.grib THRESHOLD 2 PYTHON)
 
 add_magics_test(NAME wind_xsect_wind SOURCES xsect_wind.py IMAGE xsect_wind.png RESOURCES xsect_wind.nc THRESHOLD 2 PYTHON)
+add_magics_test(NAME wind_streamlines SOURCES streamlines.py IMAGE streamlines.png DATA uv.grib THRESHOLD 2 PYTHON)
+add_magics_test(NAME wind_global_streamlines SOURCES global_streamlines.py IMAGE global_streamlines.png DATA uv.grib THRESHOLD 2 PYTHON)
 
 #add_magics_test(NAME wind_netcdf_contwind SOURCES netcdf_contwind.py IMAGE netcdf_contwind.png DATA fc_surf.nc THRESHOLD 5 PYTHON)

@@ -69,9 +69,10 @@
 #ifdef HAVE_SPOT
 #include "ClassicMtgDecoder.h"
 #include "EpsgramDecoder.h"
-#include "MetgramGraph.h"
+
 #endif
 
+#include "MetgramGraph.h"
 #include "EpsGraph.h"
 
 using namespace magics;
@@ -679,11 +680,11 @@ void XmlMagics::metgram(const XmlNode& node)
 
 void XmlMagics::metgraph(const XmlNode& node)
 {
-#ifdef HAVE_SPOT
+
 	MetgramGraph* metgraph = new MetgramGraph();
 	metgraph->set(node);
 	top()->visdef(metgraph);
-#endif
+
 }
 
 

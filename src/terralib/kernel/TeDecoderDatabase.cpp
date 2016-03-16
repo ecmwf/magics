@@ -127,8 +127,8 @@ TeDecoderDatabase::clear()
 		delete []memAux_;
 	memAux_ = 0;
 	params_.status_ = TeRasterParams::TeNotReady;
-	if (params_.mode_ == 'c' || params_.mode_ == 'w' && 
-	   (!params_.objectId_.empty() && params_.layerId_ > 0))
+	if ( ( (params_.mode_ == 'c') || (params_.mode_ == 'w') ) && 
+	   ( !params_.objectId_.empty() && (params_.layerId_ > 0) ))
 	{
 		TeDatabasePortal* portal = db_->getPortal();
 		string sql = "SELECT geom_table FROM te_representation WHERE geom_type = 512";

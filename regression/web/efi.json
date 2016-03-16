@@ -1,8 +1,8 @@
 {
     "drivers": [
         {
-            "format": "mgb", 
-            "fullname": "efi.mgb",
+            "format": "png", 
+            "fullname": "efi.png",
             "output_cairo_transparent_background": "off", 
             "output_name_first_page_number": "off", 
             "output_width": "600"

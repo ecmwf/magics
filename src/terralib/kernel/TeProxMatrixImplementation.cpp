@@ -209,7 +209,7 @@ TeProxMatrixGraphBreymann::saveTextFile (const string& name, map<string, string>
 	FILE*	fp = fopen(complete_name.c_str(),"w");
 	if (fp)
 	{
-		fprintf (fp, "%d\n", ids->size()); //number of objects
+		fprintf (fp, "%lu\n", ids->size()); //number of objects
 	
 		map<string, string>::iterator it;
 		for (unsigned int i = 0; i < graph_.size(); i++)
@@ -264,7 +264,7 @@ TeProxMatrixGraphBreymann::saveGALFile (const string& name, map<string, string>*
 	FILE*	fp = fopen(complete_name.c_str(),"w");
 	if (fp)
 	{
-		fprintf (fp, "%d\n", ids->size() ); // first line: number of elements in matrix
+		fprintf (fp, "%lu\n", ids->size() ); // first line: number of elements in matrix
 		map<string, string>::iterator it;
 		for (unsigned int i = 0; i < graph_.size(); i++)
 		{
@@ -277,7 +277,7 @@ TeProxMatrixGraphBreymann::saveGALFile (const string& name, map<string, string>*
 					objId1 = it->second;
 			}
 			
-			fprintf (fp, "%s %d\n", objId1.c_str(), graph_[i].second.size());
+			fprintf (fp, "%s %lu\n", objId1.c_str(), graph_[i].second.size());
 			br_stl::Graph<string, TeProxMatrixAttributes>::Successor::iterator 
 				start	= graph_[i].second.begin(),
 				end		= graph_[i].second.end();
@@ -313,7 +313,7 @@ TeProxMatrixGraphBreymann::saveGWTFile (const string& name, map<string, string>*
 	FILE*	fp = fopen(complete_name.c_str(),"w");
 	if (fp)
 	{
-		fprintf (fp, "%d\n", ids->size() ); // first line: number of elements in matrix
+		fprintf (fp, "%lu\n", ids->size() ); // first line: number of elements in matrix
 		map<string, string>::iterator it;
 		for (unsigned int i = 0; i < graph_.size(); i++)
 		{
@@ -356,7 +356,7 @@ TeProxMatrixGraphBreymann::saveTextFile (const string& name, vector<string>* ids
 	FILE*	fp = fopen(complete_name.c_str(),"w");
 	if (fp)
 	{
-		fprintf (fp, "%d\n", ids->size()); //number of objects
+		fprintf (fp, "%lu\n", ids->size()); //number of objects
 	
 		vector<string>::iterator it = ids->begin();
 		int Id=1;
@@ -407,7 +407,7 @@ TeProxMatrixGraphBreymann::saveGALFile (const string& name, vector<string>* ids)
 	FILE*	fp = fopen(complete_name.c_str(),"w");
 	if (fp)
 	{
-		fprintf (fp, "%d\n", ids->size() ); // first line: number of elements in matrix
+		fprintf (fp, "%lu\n", ids->size() ); // first line: number of elements in matrix
 		
 		vector<string>::iterator it = ids->begin();
 		int Id=1;
@@ -459,7 +459,7 @@ TeProxMatrixGraphBreymann::saveGWTFile (const string& name, vector<string>* ids)
 	FILE*	fp = fopen(complete_name.c_str(),"w");
 	if (fp)
 	{
-		fprintf (fp, "%d\n", ids->size() ); // first line: number of elements in matrix
+		fprintf (fp, "%lu\n", ids->size() ); // first line: number of elements in matrix
 		vector<string>::iterator it = ids->begin();
 		int Id=1;
 		while(it!=ids->end())

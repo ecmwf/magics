@@ -53,6 +53,7 @@ XYList.h
 shapefil.h
 shpopen.c
 dbfopen.c
+safileio.c
 )
 
 foreach( file ${_decoders_srcs} )
@@ -128,7 +129,7 @@ endif()
 
 set( decoders_srcs ${decoders_srcs} PARENT_SCOPE )
 
-if ( HAVE_METVIEW )
+if ( metview )
 	list (APPEND metview_include 
 			decoders/DateTime.h 
 			decoders/GribDecoder.h 

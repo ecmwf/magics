@@ -83,6 +83,10 @@ public:
 	//Wrep-Eps family!
 	void epsinput();
 	void wrepjson();
+
+	void metbufr();
+	void metgraph();
+
 	void epscloud();
 	void epsplumes();
 	void epsgraph();

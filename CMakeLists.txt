@@ -20,7 +20,7 @@
 # Missing dependencies:
 #   * ghostscript ( is it really needed? -- to confirm )
 
-cmake_minimum_required( VERSION 2.8.4 FATAL_ERROR )
+cmake_minimum_required( VERSION 2.8.11 FATAL_ERROR )
 
 project( magics CXX )
 
@@ -126,7 +126,7 @@ set( MAGICS_SITE          "ecmwf" )
 set( MAGICS_INSTALL_PATH  ${CMAKE_INSTALL_PREFIX} )
 
 # Regression definitions
-set( MAGICS_REFERENCE_VERSIONS            "2.26.0" )
+set( MAGICS_REFERENCE_VERSIONS            "2.26.2" )
 set( MAGICS_HTML_ROOT        "${CMAKE_BINARY_DIR}/regression/html")
 file(MAKE_DIRECTORY ${MAGICS_HTML_ROOT} )
 
@@ -201,7 +201,7 @@ find_package( EXPAT  REQUIRED )
 ###############################################################################
 # contents
 
-set( MAGICS_TPLS grib_api spot EXPAT NetCDF PangoCairo PNG Proj4 libemos )
+set( MAGICS_TPLS grib_api spot EXPAT NetCDF PNG Proj4 libemos )
 
 set( MAGICS_INCLUDE_DIRS 
      ${CMAKE_CURRENT_SOURCE_DIR}/src 
@@ -221,8 +221,12 @@ set( MAGICS_INCLUDE_DIRS
      ${CMAKE_CURRENT_SOURCE_DIR}/src/terralib/kernel
      ${CMAKE_CURRENT_SOURCE_DIR}/src/terralib/utils
      ${CMAKE_CURRENT_SOURCE_DIR}/src/libMagWrapper
-     ${Boost_INCLUDE_DIRS}
-     ${PANGOCAIRO_INCLUDE_DIRS} )
+     ${Boost_INCLUDE_DIRS} )
+
+if( HAVE_CAIRO )
+  list( APPEND MAGICS_TPLS PangoCairo )
+  list( APPEND MAGICS_INCLUDE_DIRS ${PANGOCAIRO_INCLUDE_DIRS} )
+endif()
 
 if( HAVE_ODB )
   list( APPEND MAGICS_TPLS odb_api )

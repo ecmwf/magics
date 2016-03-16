@@ -33,10 +33,6 @@
 #include "shapefil.h"
 #include "Polyline.h"
 
-#include <boost/geometry/geometry.hpp>
-#include <boost/geometry/algorithms/make.hpp>
-
-// #define BOOST_VERSION 104700
 
 ShapeDecoder::ShapeDecoder() :holes_(false)
 {
@@ -53,7 +49,6 @@ ShapeDecoder::~ShapeDecoder()
 		delete *line;
 		*line = 0;
 	}
-
 }
 
 
@@ -73,7 +68,7 @@ void ShapeDecoder::decode(const Transformation& transformation)
 	decode(transformation, no, all);
 }
 
-/*! \brief Method to read llocation and names of state capitals
+/*! \brief Method to read location and names of state capitals
   
   \todo When we can handle Unicode we should change "nameascii" back to "name"
   
@@ -129,7 +124,6 @@ void ShapeDecoder::customisedPoints(const std::set<string>&, CustomisedPointsLis
 			if ( !add )
 				continue;
 
-
 			psShape = SHPReadObject( hSHP, i );
 			string name = ( index != attributes.end() ) ? DBFReadStringAttribute(hDBF, i, index->second) : "?";
 
@@ -161,8 +155,6 @@ void ShapeDecoder::decode(const Transformation& transformation, const string& fi
 {
 	if ( !this->empty() ) return;
 	try {
-		SHPHandle  hSHP;
-		DBFHandle  hDBF;
 		char    szTitle[12];
 		double  minx, miny, maxx, maxy;
 		transformation.smallestBoundingBox(minx, miny, maxx, maxy);
@@ -175,8 +167,8 @@ void ShapeDecoder::decode(const Transformation& transformation, const string& fi
 
 		string shp = path_ + ".shp";
 		string dbf = path_ + ".dbf";
-		hSHP = SHPOpen( shp.c_str(), "rb" ); 
-		hDBF = DBFOpen( dbf.c_str(), "rb" );
+		const SHPHandle hSHP = SHPOpen( shp.c_str(), "rb" ); 
+		const DBFHandle hDBF = DBFOpen( dbf.c_str(), "rb" );
 
 		if ( !hSHP || !hDBF ) {
 			MagLog::error() << "Can not open Shapefile " << shp << endl;
@@ -252,7 +244,6 @@ void ShapeDecoder::decode(const Transformation& transformation, const string& fi
 					rightlist = back();
 				}
 
-//				bool hole = false;
 				for( j = 0, iPart = 1; j < psShape->nVertices; j++ )
 				{
 					if( iPart < psShape->nParts && psShape->panPartStart[iPart] == j )
@@ -274,7 +265,6 @@ void ShapeDecoder::decode(const Transformation& transformation, const string& fi
 					}
 					if (in) {
 							inlist->push_back(new UserPoint(psShape->padfX[j], psShape->padfY[j], i));
-
 					}
 					if (left) {
 						leftlist->push_back(new UserPoint(psShape->padfX[j]-360., psShape->padfY[j], i));
@@ -284,7 +274,6 @@ void ShapeDecoder::decode(const Transformation& transformation, const string& fi
 					}
 				}
 			}
-
 		}
 		SHPDestroyObject(psShape);
 
@@ -299,20 +288,18 @@ void ShapeDecoder::decode(const Transformation& transformation, const string& fi
 }
 
 
-
-
-
+/*! \brief Decoder to read land and lakes
+ \sa CoastPlotting::decode(const Layout& parent )
+*/
 void ShapeDecoder::decode(vector<Polyline>& data, const Transformation& transformation)
 {
 	Timer timer("Read Shape file ", "read shape file" + path_);
-
 
 		Polyline& geobox = transformation.getUserBoundingBox();
 		Polyline& box = transformation.getPCBoundingBox();
 		try {
 			SHPHandle  hSHP;
 			int	nShapeType, nEntities, i, iPart;
-			bool hole=false;
 			double 	adfMinBound[4], adfMaxBound[4];
 			string shp = path_ + ".shp";
 			string dbf = path_ + ".dbf";
@@ -324,10 +311,11 @@ void ShapeDecoder::decode(vector<Polyline>& data, const Transformation& transfor
 			data.clear();
 			SHPGetInfo( hSHP, &nEntities, &nShapeType, adfMinBound, adfMaxBound );
 
-			double south =  transformation.getMinY();
-			double north =  transformation.getMaxY();
-			double west =  transformation.getMinX();
-			double east =  transformation.getMaxX();
+			const double south = transformation.getMinY();
+			const double north = transformation.getMaxY();
+			const double west  = transformation.getMinX();
+			const double east  = transformation.getMaxX();
+			//cout << "    ShapeDecoder - BBox  s: "<<south<<" n: " <<north<<" / w: "<<west<<" e: "<< east<< endl;
 
 			double shift = 0;
 
@@ -338,32 +326,23 @@ void ShapeDecoder::decode(vector<Polyline>& data, const Transformation& transfor
 			if ( ( east - west ) > 360. )
 				shift = 0;
 
-
-
-			SHPObject	*psShape = 0;
+			SHPObject *psShape = 0;
 			int nb  = 0;
 			for( i = 0; i < nEntities; i++ )
 			{
-				int		j;
-
-
+				int	j;
 				SHPDestroyObject(psShape);
-
-
 				psShape = SHPReadObject( hSHP, i );
 
 				bool in = true;
 				bool left = false;
 				bool right = false;
 
-
-
-
 				if ( psShape->dfYMax  <= south ) continue;
 				if ( psShape->dfYMin  >= north ) continue;
-				if ( psShape->dfXMax + shift  <= west) in = false;
-				if ( psShape->dfXMin  + shift >=  east) in = false;
-				if ( psShape->dfXMax + shift -360 > transformation.getMinX() &&  !same(psShape->dfXMax-360, transformation.getMinX())) {
+				if ( psShape->dfXMax + shift <= west) in = false;
+				if ( psShape->dfXMin + shift >= east) in = false;
+				if ( psShape->dfXMax + shift - 360 > transformation.getMinX() &&  !same(psShape->dfXMax-360, transformation.getMinX())) {
 					        left = true;
 				}
 				if ( psShape->dfXMin + shift +360 < transformation.getMaxX() && !same(psShape->dfXMin+360, transformation.getMaxX() ) ) {
@@ -389,84 +368,48 @@ void ShapeDecoder::decode(vector<Polyline>& data, const Transformation& transfor
                 }
                 
 				left = false;
-				right=false;
+				right= false;
 
-				for( j = 0, iPart = 1, hole = false; j < psShape->nVertices ; j++ )
+				for( j = 0, iPart = 1; j < psShape->nVertices ; j++ )
 				{
-					bool patch = false;
 					if( iPart < psShape->nParts && psShape->panPartStart[iPart] == j )
 					{
 						iPart++;
-						hole=true;
-						// We create a new hole!
 
-						if (poly)
-							poly->newHole();
-						if (polyleft)
-							polyleft->newHole();
-						if (polyright)
-							polyright->newHole();
-
+						if (poly)	   poly->newHole();
+						if (polyleft)  polyleft->newHole();
+						if (polyright) polyright->newHole();
 					}
 
+					double x = psShape->padfX[j];
+					x += shift;
+					const double y = psShape->padfY[j];
+
+					if ( iPart==1 ) {
+							if ( poly )      poly->push_back(PaperPoint(x, y));
+							if ( polyleft )  polyleft->push_back( PaperPoint(x-360, y));
+							if ( polyright ) polyright->push_back(PaperPoint(x+360, y));
+					}
 					else {
-						double x = psShape->padfX[j];
-							x += shift;
-						double y = psShape->padfY[j];
-
-						if ( iPart==1 ) {
-							if ( poly ) {
-								poly->push_back(PaperPoint(x, y));
-							}
-
-							if ( polyleft ) {
-
-								polyleft->push_back(PaperPoint(x-360, y));
-							}
-							if ( polyright ) {
-								polyright->push_back(PaperPoint(x+360,  y));
-							}
-
-						}
-						else {
-							if ( in ) {
-								poly->push_back_hole(PaperPoint(x, y));
-							}
-
-							if ( polyleft ) {
-
-								polyleft->push_back_hole(PaperPoint(x-360, y));
-
-							}
-							if ( polyright ) {
-								polyright->push_back_hole(PaperPoint(x+360, y));
-							}
-						 }
+							if ( poly )      poly->push_back_hole(PaperPoint(x, y));
+							if ( polyleft )  polyleft->push_back_hole( PaperPoint(x-360, y));
+							if ( polyright ) polyright->push_back_hole(PaperPoint(x+360, y));
 					}
-
-
-
 				}
-				
 
-	             /// first we clip
-					for (vector<Polyline*>::iterator poly = polys.begin(); poly != polys.end(); ++poly ) {
-						(*poly)->sanityCheck();
-						vector<Polyline> clipped;
-						geobox.intersect(**poly, clipped);
-
+	            /// first we clip
+                for (vector<Polyline*>::iterator poly = polys.begin(); poly != polys.end(); ++poly ) {
+                    //(*poly)->sanityCheck();
+                    vector<Polyline> clipped;
+                    geobox.intersect(**poly, clipped);
 	                // then we reproject!
-						for (vector<Polyline>::iterator clip = clipped.begin(); clip != clipped.end(); ++clip ) {
-							clip->reproject(transformation);
-							clip->sanityCheck();
-							box.intersect(*clip, data);
-						}
-
-	                }
-
-
-
-
+                    for (vector<Polyline>::iterator clip = clipped.begin(); clip != clipped.end(); ++clip ) {
+                    	clip->reproject(transformation);
+                    	//clip->sanityCheck();
+                    	box.intersect(*clip, data);
+                    	//data.push_back(*clip);
+                    }
+                }
 			}
 			SHPDestroyObject(psShape);
 			SHPClose( hSHP );
@@ -476,5 +419,3 @@ void ShapeDecoder::decode(vector<Polyline>& data, const Transformation& transfor
 			MagLog::error() << "Can not open Shapefile " << path_ << endl;
 		}
 }
-
-

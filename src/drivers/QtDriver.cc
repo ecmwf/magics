@@ -2137,7 +2137,7 @@ void QtDriver::executeStep(int step,MgQLayerItem *layerItem) const
 	scene->currentSceneItem()->sceneLayerItem()->sceneLayer().execute(&layerItem->layer(),step,*this);
 
 	//layerItem->layer().execute(step,*this);
-"",
+
 	currentItem_=prevItem;
 	layoutItemStack_.pop();
 

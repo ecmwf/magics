@@ -42,7 +42,7 @@ Something like:
 
     Started: Mon Oct 15 20:49:32 2007
 
-   \todo Fix 'convert' dependency
+   \todo Fix 'convert' dependency in "renderImage"
    \todo Check how much drivers are dependent on writing temp files in local directory (thread safety)
 */
 #include <cairo.h>
@@ -271,7 +271,7 @@ void CairoDriver::setupNewSurface() const
 	  const SystemInfo info;
 	  const string s1 = "%%Title: " + title_;
 	  cairo_ps_surface_dsc_comment (surface_, s1.c_str());
-	  const string s2 = "%%Creator2: " + getMagicsVersionString();
+	  const string s2 = "%%Creator2: "+ output_creator_+ " "+ getMagicsVersionString();
 	  cairo_ps_surface_dsc_comment (surface_, s2.c_str());
 	  const string s3 = "%%For: " + info.getUserID() + "@" + info.getHostName() + " " + info.getUserName();
 	  cairo_ps_surface_dsc_comment (surface_, s3.c_str());
@@ -539,8 +539,8 @@ MAGICS_NO_EXPORT void CairoDriver::write_tiff() const
 
     // DPI
     TIFFSetField(tif, TIFFTAG_RESOLUTIONUNIT, RESUNIT_INCH);
-    TIFFSetField(tif, TIFFTAG_XRESOLUTION, (float) resolution_);
-    TIFFSetField(tif, TIFFTAG_YRESOLUTION, (float) resolution_);
+    TIFFSetField(tif, TIFFTAG_XRESOLUTION, (float) 90.;// resolution_);
+    TIFFSetField(tif, TIFFTAG_YRESOLUTION, (float) 90.;// resolution_);
 
     unsigned char *buf;
     if (TIFFScanlineSize(tif))
@@ -1579,10 +1579,10 @@ void CairoDriver::print(ostream& out)  const
 MAGICS_NO_EXPORT void CairoDriver::renderSymbols(const Symbol& symbol) const
 {
 	debugOutput("Start CairoDriver Symbols");
-/*
+
 	if(symbol.getSymbol()=="logo_ecmwf")
 	{
-		const string logofile = getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_ + "ecmwf_logo.png";
+		const string logofile = getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_ + "ecmwf_logo_2014.png";
 		cairo_surface_t *image = cairo_image_surface_create_from_png(logofile.c_str());
 
 		if(image)
@@ -1592,8 +1592,8 @@ MAGICS_NO_EXPORT void CairoDriver::renderSymbols(const Symbol& symbol) const
 			int h = cairo_image_surface_get_height(image);
 
 			cairo_translate (cr_, projectX(symbol[0].x()), projectY(symbol[0].y()));
-			const MFloat scaling = convertCM(symbol.getHeight()*.5) / coordRatioY_;
-//			cairo_scale (cr_, 0.3, 0.3);
+			const MFloat scaling = convertCM(symbol.getHeight()*.1) / coordRatioY_;
+			cairo_scale (cr_, 0.1, 0.1);
 			cairo_set_source_surface(cr_, image, w*scaling, h*scaling);
 			cairo_paint(cr_);
 
@@ -1602,9 +1602,8 @@ MAGICS_NO_EXPORT void CairoDriver::renderSymbols(const Symbol& symbol) const
 		}
 		else MagLog::warning() << "CairoDriver-> Could NOT read the logo file "<< logofile << " !" << endl;
 	}
-//	else if(symbol.getSymbol().compare(0,7,"magics_")==0 )
 	else
-*/	{
+	{
 		BaseDriver::renderSymbols(symbol);
 	}
 }
