@@ -1,5 +1,7 @@
 #!/usr/bin/ksh
 
+version="2.26.2"
+git_home="/tmp/cgs/git/magics-2.26"
 version="2.27.0"
 git_home="/tmp/cgs/git/develop/magics"
 magics=""
@@ -45,6 +47,7 @@ case "${OS_VERSION}" in
         use='metview'
         use='daily'
         use='debug'
+        use='daily'
         if [[ $use = 'daily' ]]; then
             tar='on'
             regression="on"

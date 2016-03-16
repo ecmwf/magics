@@ -3,13 +3,14 @@
 
 set +x
 
-versions="2.24.7 2.25.2" 
+versions="2.26.0" 
+src="preciptype.py"
 src="handling_missing1.py handling_missing2.py handling_missing3.py handling_missing4.py "
 echo $src
 
 ext="py"
 img_ext="png"
-where='gallery'
+where='web'
 interpretor='python'
 
 dir=`pwd`
