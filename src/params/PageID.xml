@@ -1,60 +1,58 @@
 <magics>
 <class directory="common" inherits="NoPageID" prefix="page_id/page_id_line" xmltag="pageid" name="PageID">
-
   	<parameter member="height" to="float" default="0.25" from="float" name="page_id_line_height">
-         		<documentation> Height of identification line		</documentation>
-         		<release>2.0		</release>
+         		<documentation> Height of identification line</documentation>
+         		<release>2.0</release>
   	</parameter>
- 	<parameter member="colour" to="Colour" default="blue" from="string" name="page_id_line_colour">
-         		<documentation> Colour of identification line. Default based on page_y_length		</documentation>
-         		<release>2.0		</release>
+ 	<parameter member="colour" to="Colour" default="ecmwf_blue" from="string" name="page_id_line_colour">
+         		<documentation>Colour of identification line. Default based on page_y_length</documentation>
+         		<release>2.0</release>
   	</parameter>
-
   	<parameter member="magics" to="bool" default="on" from="string" name="page_id_line_magics">
-         		<documentation>Display magics version in identification line (ON/OFF)		</documentation>
-         		<release>2.9		</release>
+         		<documentation>Display magics version in identification line (ON/OFF)</documentation>
+         		<release>2.9</release>
   	</parameter>
 
   	<parameter member="user_text" to="string" default="" from="string" name="page_id_line_user_text">
-         		<documentation> User-supplied text for inclusion in identification line 		</documentation>
-         		<release>2.0		</release>
+         		<documentation>User-supplied text for inclusion in identification line</documentation>
+         		<release>2.0</release>
   	</parameter>
 
   	<parameter member="system" to="bool" default="on" from="string" name="page_id_line_system_plot">
-         		<documentation> Plot system part of the identification line (ON/OFF) 		</documentation>
-         		<release>2.0		</release>
+         		<documentation> Plot system part of the identification line (ON/OFF)</documentation>
+         		<release>2.0</release>
   	</parameter>
 
   	<parameter member="date" to="bool" default="on" from="string" name="page_id_line_date_plot">
-         		<documentation> Plot date part of the identification line (ON/OFF) 		</documentation>
-         		<release>2.0		</release>
+         		<documentation>Plot date part of the identification line (ON/OFF)</documentation>
+         		<release>2.0</release>
   	</parameter>
 
   	<parameter member="errors" to="bool" default="on" from="string" name="page_id_line_errors_plot">
-         		<documentation> Plot error part of the identification line (ON/OFF) 		</documentation>
-         		<release>2.0		</release>
-         		<release_info> Parameter defined but not implemented: no plan		</release_info>
+         		<documentation> Plot error part of the identification line (ON/OFF)</documentation>
+         		<release>2.0</release>
+         		<release_info> Parameter defined but not implemented: no plan</release_info>
   	</parameter>
 
   	<parameter member="text" to="bool" default="on" from="string" name="page_id_line_user_text_plot">
-         		<documentation> Plot user text part of the identification line (ON/OFF) 		</documentation>
-         		<release>2.0		</release>
+         		<documentation> Plot user text part of the identification line (ON/OFF)</documentation>
+         		<release>2.0</release>
   	</parameter>
 
 	<parameter from="string" name="page_id_line_logo_plot" default="on" member="logo" to="NoLogoPlotting" include="LogoPlotting.h">
-         		<documentation>Plot logo part of the identification line (ON/OFF)		</documentation>
-         		<option xml="logo" fortran="on" include="LogoPlotting.h" name="LogoPlotting"> 		</option>
-         		<option xml="nologo" fortran="off" include="LogoPlotting.h" name="NoLogoPlotting"> 		</option>
+         		<documentation>Plot logo part of the identification line (ON/OFF)</documentation>
+         		<option xml="logo" fortran="on" include="LogoPlotting.h" name="LogoPlotting"></option>
+         		<option xml="nologo" fortran="off" include="LogoPlotting.h" name="NoLogoPlotting"></option>
 	</parameter>
   
 	<parameter member="font" to="string" default="sansserif" from="string" name="page_id_line_font">
-         		<documentation> Font to be used 		</documentation>
-         		<release>1.3		</release>
+         		<documentation>Font to be used</documentation>
+         		<release>1.3</release>
 	</parameter>
 
 	<parameter member="font_style" to="string" default="normal" from="string" name="page_id_line_font_style">
-         		<documentation> Style of the Font to be used 		</documentation>
-         		<release>1.3		</release>
+         		<documentation> Style of the Font to be used</documentation>
+         		<release>1.3</release>
 	</parameter>
  
 </class></magics>

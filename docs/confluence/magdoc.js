@@ -276,6 +276,7 @@ var number = function(def)
     var id = def.name;
     var parent = def.parent;
     $option = AJS.$('<td>').attr({'id': id});
+    /* WE disable the slider --> Does not work properly with the latest version of confluence
 	if ( def.min != undefined && def.max != undefined ){
 		var $input = AJS.$('<div>').slider({
 		               min: def.min,
@@ -289,6 +290,7 @@ var number = function(def)
 		$option.append($input);
 	}
 	else {
+    */
     	var $input = AJS.$('<input>').attr({'id': id,
                	'type': "text", 
 			   	'value': def.default}).
@@ -301,7 +303,7 @@ var number = function(def)
       		            AJS.$("#" + parent +"  > :[name='current']").text($input.val());
      	});
 		$option.append($input);
-	}
+	//}
 
     return $option;
 }

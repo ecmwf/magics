@@ -968,12 +968,66 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
     long global = grib.getLong("global");
 
     // We have to determine if the field is global!
-        if (global) {
-            east = west + 360.;
-        }
+    if (global) {
+        east = west + 360.;
+    }
     vector<vector<double> > rows;
 
+
     for ( int i = 0; i < nblat; i++) {
+        long numPts = 0;
+        long indexFirst, indexLast;
+        int globalPointsInThisRow = pl[i];
+        double dx = 360./pl[i];
+
+
+        // find which points are in this row; a sub-area of a reduced Gaussian grid
+        // contains a subset of the points from the global grid, with the points
+        // in exactly the same positions as the corresponding ones in the
+        // global grid. The GRIB_API function grib_get_reduced_row() does not
+        // produce the correct result when given a global field, so we need
+        // to make that a separate case.
+
+        double add = 0;
+
+        if (global) {
+            numPts     = globalPointsInThisRow;
+            indexFirst = 0;
+            indexLast  = numPts-1;
+
+        }
+        else {
+            grib_get_reduced_row(globalPointsInThisRow, west, east,
+                                 &numPts, &indexFirst,&indexLast);
+            add = 2*dx;
+        }
+
+        rows.push_back(vector<double>());
+
+        int n = indexFirst;
+
+
+        // the index of the first point is not necessarily smaller than the index
+        // of the second point, depending on the sub-area.
+        // we need to check whether the last index is the last point; however,
+        // grib_get_reduced_row() seems to sometimes return a numPoints which is 1
+        // greater than the number of global points in the row so we need a double
+        // check.
+        bool lastSubAreaIndexIsNotLastGlobalIndex = (indexLast != globalPointsInThisRow-1) &&
+                                                    (indexLast != globalPointsInThisRow);
+
+        while (n != indexLast+1){
+            double thisLon = n*dx;
+            if ( thisLon > east +add) thisLon -= 360.;
+
+            rows.back().push_back(thisLon);
+            n++;
+            if (n == globalPointsInThisRow && lastSubAreaIndexIsNotLastGlobalIndex )  // wrap around?
+                n = 0;
+        }
+
+/*
+        // this is the previous version of the code (before using grib_get_reduced_row())
         // compute find first grid point ..
         double dx = 360./pl[i];
         rows.push_back(vector<double>());
@@ -987,6 +1041,7 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
 
             }
         }
+*/		// This line is suspicious! but I keep it ... Jsut in case!
         std::sort(rows.back().begin(), rows.back().end());
 
 

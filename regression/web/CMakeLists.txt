@@ -14,3 +14,7 @@ add_magics_test(NAME web_preciptype SOURCES preciptype.py  IMAGE preciptype.png 
 
 add_magics_test(NAME web_globalefi SOURCES globalefi.magml  IMAGE globalefi.png DATA efi_2t0.grib  efi_fx0.grib  efi_tp0.grib  em0.grib THRESHOLD 2 MAGML)
 
+add_magics_test(NAME web_wave_dir SOURCES wave-dir.json  IMAGE wave-dir.png RESOURCES wave-dir.data THRESHOLD 1 JSON)
+add_magics_test(NAME web_wave_dir_land SOURCES wave-dir-land.json  IMAGE wave-dir-land.png RESOURCES wave-dir-land.data THRESHOLD 1 JSON)
+
+

@@ -2,7 +2,7 @@
 from Magics.macro import *
 
 
-ref = 'coastlines1'
+ref = 'polder'
 #Setting of the output file name
 output = output(output_formats = ['png'],output_name_first_page_number = "off",output_name = ref)
 

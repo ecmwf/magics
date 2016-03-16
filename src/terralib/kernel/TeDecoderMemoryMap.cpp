@@ -360,7 +360,7 @@ TeDecoderMemoryMap::init()
 		m_hFile = open(params_.fileName_.c_str(),O_RDWR|O_CREAT,S_IRWXU);
 		mode =  (PROT_READ | PROT_WRITE);
       		lseek(m_hFile, m_dwSize - 1, SEEK_SET);
-      		write(m_hFile, '\0', 1);	
+      		//write(m_hFile, '\0', 1);	
 	}
 	else if (params_.mode_ == 'r') 
 	{	

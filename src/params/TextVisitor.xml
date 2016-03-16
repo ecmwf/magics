@@ -94,12 +94,12 @@
   	</parameter>
   
 
-  	<parameter from="string" name="text_colour" default="blue" member="font_colour" to="Colour" metview_default="navy">
+  	<parameter from="string" name="text_colour" default="navy" member="font_colour" to="Colour" metview_default="navy">
 			<documentation>Colour of text in text block (Full choice of colours)		</documentation>
 			<release>1.0		</release>
   	</parameter>
 
-  	<parameter xml="font" from="string" name="text_font" default="sansserif" member="font" to="string">
+  	<parameter xml="font" from="string" name="text_font" default="helvetica" member="font" to="string">
 			<documentation>Font name - please make sure this font is installed!		</documentation>
 			<release>1.0		</release>
 			<release_info>Much improved in version 1.3.		</release_info>

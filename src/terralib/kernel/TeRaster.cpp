@@ -689,14 +689,14 @@ TeRaster::fillRaster(TeRaster* dstRaster, TeRasterTransform* transf, bool bestRe
 	if (!dstRaster ||
 		 dstRaster->params().status_ != TeRasterParams::TeReadyToWrite)
 	{
-		params_.errorMessage_ == "Destination raster non-existing or not ready to write";
+		params_.errorMessage_ = "Destination raster non-existing or not ready to write";
 		return false;
 	}
 
 	if (params_.status_ != TeRasterParams::TeReadyToRead &&
 		params_.status_ != TeRasterParams::TeReadyToWrite)
 	{
-		params_.errorMessage_ == "Raster not ready to be extracted";
+		params_.errorMessage_ = "Raster not ready to be extracted";
 		return false;
 	}
 

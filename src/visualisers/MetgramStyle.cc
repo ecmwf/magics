@@ -78,12 +78,14 @@ DateTime readDate(CustomisedPoint& point)
 	MagDate date1((long)point["year"], (long)point["month"], (long)point["day"]);
 	magics::MagTime time((long)point["hours"], (long)point["minutes"], (long)point["seconds"]);
 
-	//time -= Second(point["shift"] * 3600);
+	time -= Second(point["shift"] * 3600);
 	return DateTime(date1, time); 
 }
 
 void MetgramBar::operator()(CustomisedPointsList& points, BasicGraphicsObjectContainer& visitor) 
 {
+	if ( points.empty() )
+		return;
 	vector<double> xpos;
 	vector<double> limits;
 	vector<double> ypos;
@@ -173,6 +175,8 @@ void MetgramBar::operator()(CustomisedPointsList& points, BasicGraphicsObjectCon
 
 void MetgramCurve::operator()(CustomisedPointsList& points, BasicGraphicsObjectContainer& visitor) 
 {	
+	if ( points.empty() )
+		return;
 	Polyline* curve1  = new Polyline();
 	curve1->setColour(*colour_);
 	curve1->setThickness(thickness_);
@@ -271,6 +275,8 @@ void MetgramCurve::operator()(CustomisedPointsList& points, BasicGraphicsObjectC
 
 void MetgramFlags::operator()(CustomisedPointsList& points, BasicGraphicsObjectContainer& visitor)
 {
+	if ( points.empty() )
+			return;
 	MagDate date((long)(*points.front())["year"], (long)(*points.front())["month"], (long)(*points.front())["day"]);
 	MagTime time((long)(*points.front())["hours"], (long)(*points.front())["minutes"], (long)(*points.front())["seconds"]);
 	DateTime  base = DateTime(date, time);	

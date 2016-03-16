@@ -2261,6 +2261,7 @@ TeGetTeProjectionFromWKT(const string& wkt)
 	char* wktchar = new char[wkt.size()];
 	strcpy(wktchar,wkt.c_str());
 	bool res = tokenizeWKT((char **) &wktchar, tokens);
+	delete [] wktchar;
 	if (!res)
 		return 0;
 

@@ -403,7 +403,7 @@ TeFindCentroidConcavePolygon ( const TePolygon& poly )
 		// if not able to find a centroid, log an error, but don't stop
 		if ( NSLICES > NMAXSLICES ) 
 		{
-			string userText = "Polygon number " + poly.geomId ();
+			string userText = "Polygon number " + Te2String(poly.geomId());
 
 			TeErrorLog::instance().insert ( CENTROID_NOT_FOUND, userText );
 

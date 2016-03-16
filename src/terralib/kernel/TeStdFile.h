@@ -24,7 +24,7 @@ of this library and its documentation.
     \brief This file contains a class for handling "stdio" files
 */
 #ifndef  __TERRALIB_INTERNAL_STDFILE_H
-#define  __TERRALIB_INTERNAL_STSFILE_H
+#define  __TERRALIB_INTERNAL_STDFILE_H
 
 #include "TeDefines.h"
 #include <stdio.h>

@@ -9,7 +9,7 @@
          		<documentation> Height table to be used with MARKER shading technique 		</documentation>
          		
   	</parameter>
-  	<parameter member="type" to="string" default="index" from="string" name="contour_shade_marker_table_type" values="index/name">
+  	<parameter member="type" to="string" default="index" from="string" name="contour_shade_marker_table_type" values="index/marker">
          		<documentation> index: using contour_shade_marker_table and  definiing  the markers by index, name: using contour_shade_marker_name_table and defining the symbols by their names </documentation>
          	
   	</parameter>

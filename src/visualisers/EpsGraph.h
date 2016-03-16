@@ -64,7 +64,7 @@ public:
     
    virtual void operator()(Data&, BasicGraphicsObjectContainer&);
 	virtual void visit(LegendVisitor&);
-    
+	bool needLegend() { return legend_; }
     
     // Implements the set method ... 
     void set(const map<string, string>& map ) { EpsGraphAttributes::set(map); }

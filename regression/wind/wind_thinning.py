@@ -55,7 +55,7 @@ wind = mwind(
                 wind_flag_length    = 0.7,
                 wind_flag_colour             = "ORANGISH_RED",
                 wind_flag_origin_marker_size = 0.1,
-               wind_thinning_factor         = 8.)
+               wind_thinning_factor         = 10.)
 #Import the z500 data 
 speed =  mgrib( grib_input_file_name = './speed.grib')
 

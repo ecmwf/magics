@@ -5,8 +5,8 @@ set +x
 
 versions="2.26.0" 
 src="preciptype.py"
+src="handling_missing1.py handling_missing2.py handling_missing3.py handling_missing4.py "
 echo $src
-git="/home/graphics/cgs/git/magics"
 
 ext="py"
 img_ext="png"
