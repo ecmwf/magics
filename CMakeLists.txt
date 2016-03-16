@@ -20,7 +20,7 @@
 # Missing dependencies:
 #   * ghostscript ( is it really needed? -- to confirm )
 
-cmake_minimum_required( VERSION 2.8.4 FATAL_ERROR )
+cmake_minimum_required( VERSION 2.8.11 FATAL_ERROR )
 
 project( magics CXX )
 
