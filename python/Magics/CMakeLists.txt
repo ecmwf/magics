@@ -2,7 +2,7 @@ if( HAVE_PYTHON )
 
   ### python destination
 
-  set( PYTHON_SITE "lib/python${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}/site-packages" )
+  set( PYTHON_SITE "${INSTALL_LIB_DIR}/python${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}/site-packages" )
   set( PYTHON_DEST "${PYTHON_SITE}/Magics" )
 
   file( RELATIVE_PATH relative_rpath "${CMAKE_INSTALL_PREFIX}/${PYTHON_DEST}" "${${PNAME}_FULL_INSTALL_LIB_DIR}" )
