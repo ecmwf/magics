@@ -40,7 +40,7 @@ ecbuild_requires_macro_version( 1.9 )
 ###############################################################################
 # some variables of this project
 
-ecbuild_use_package(PROJECT grib_api VERSION 1.12.3 REQUIRED)
+ecbuild_use_package(PROJECT grib_api VERSION 1.14.6 REQUIRED)
 # grib_api is required for now
 set( HAVE_GRIB 1 )
 
