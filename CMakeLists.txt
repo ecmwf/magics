@@ -137,8 +137,8 @@ set( MAG_PYTHON_PATH ${CMAKE_BINARY_DIR}/python )
 
 # ecbuild_use_package( PROJECT eckit VERSION 0.3 REQUIRED )
 
-#cmake_add_cxx_flags("-gdwarf-2")
-cmake_add_c_flags("-std=c99")
+#ecbuild_add_cxx_flags("-gdwarf-2")
+ecbuild_add_c_flags("-std=c99")
 
 ### Metview and Qt
 
