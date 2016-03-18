@@ -17,7 +17,7 @@
  ******************************** LICENSE ********************************/
 
 /*! \file GribDecoder.cc
-    \brief Implementation of the Template class GribDecoder.
+    \brief Implementation of the class GribDecoder.
 
     Magics Team - ECMWF 2004
 
@@ -73,9 +73,7 @@ GribDecoder::~GribDecoder()
     if ( xComponent_ ) delete xComponent_;
     if ( yComponent_ ) delete yComponent_;
     if ( handle_ ) {
-
         grib_handle_delete (handle_);
-
     }
 
     if (nearest_)
@@ -102,8 +100,8 @@ void GribDecoder::set(const GribLoop& loop, int index)
     missing_fill_count_ = loop.missing_fill_count_;
     wind_mode_       = auto_ptr<WindMode>(loop.wind_mode_->clone());
     internalIndex_ = index;
-
 }
+
 long computeStep( const GribDecoder& grib,const string&  key)
 {
     static map<string, double> stepUnits;
@@ -130,6 +128,7 @@ long computeStep( const GribDecoder& grib,const string&  key)
         factor = stepunit->second;
     return step * factor;
 }
+
 long GribDecoder::getLong(const string& key, bool warnIfKeyAbsent) const
 {
     long val;
@@ -152,7 +151,6 @@ long GribDecoder::getLong(const string& key, bool warnIfKeyAbsent) const
 
 string GribDecoder::getstring(const string& key, bool warnIfKeyAbsent, bool cache) const
 {
-
     if ( cache ) {
         map<string, string>::const_iterator sk = sKeys_.find(key);
         if ( sk != sKeys_.end() ) {
@@ -179,7 +177,6 @@ string GribDecoder::getstring(const string& key, bool warnIfKeyAbsent, bool cach
 
 string GribDecoder::getString(const string& key, bool warnIfKeyAbsent) const
 {
-
     if ( Data::dimension_ == 1 )
         return getstring(key, warnIfKeyAbsent, false);
 
@@ -229,7 +226,6 @@ double GribDecoder::getDouble(const string& key, bool warnIfKeyAbsent) const
 
 void   GribDecoder::setDouble(const string& key, double val) const
 {
-
     int err = grib_set_double(handle_, key.c_str(), val);
     if ( component1_ )
     	err = grib_set_double(component1_, key.c_str(), val);
@@ -251,12 +247,10 @@ void GribDecoder::scale(const string& metadata, double& scaling, double& offset)
 	}
 	ParamJSon data = ParamJSon(metadata);
 
-
 	long table = 128; // hard-coded in case of GRIB 2
 	long centre = 98;  // hard-coded in case of GRIB 2
 
 	ParamJSon::iterator pid = data.find("paramId");
-
 
 	long id = ( pid != data.end() )  ? tonumber(pid->second) : 0;
 
@@ -268,12 +262,8 @@ void GribDecoder::scale(const string& metadata, double& scaling, double& offset)
 
 	}
 	catch (...) {
-		MagLog::warning()
-		<< " Can not find information for the parameter [" << id
-														 << "." << table << "]\n";
+		MagLog::warning() << " Can not find information for the parameter [" << id << "." << table << "]\n";
 	}
-
-
 }
 
 void GribDecoder::read(Matrix **matrix, Matrix** matrix2)
@@ -299,13 +289,12 @@ void GribDecoder::read(Matrix **matrix, Matrix** matrix2)
             MagLog::error() <<  msg.str() << std::endl;
             throw MagicsException(msg.str());
         }
-
         interpretor_->scaling(*this, matrix);
     }
     catch (NoFactoryException&)
     {
         ostringstream msg;
-        msg << "Grib Decoder: Representation [" << representation << "] not yet supported";
+        msg << "Grib Decoder - read: Representation [" << representation << "] not supported";
         MagLog::error() << msg.str() << endl;
         valid_ = false;
         throw MagicsException(msg.str());
@@ -332,9 +321,9 @@ void GribDecoder::read(Matrix **matrix, const Transformation&  transformation)
     }
     catch (NoFactoryException&)
     {
-        MagLog::error() << "Grib Decoder: Representation [" << representation << "] not yet supported.\n"<< std::endl;;
+        MagLog::error() << "Grib Decoder - read: Representation [" << representation << "] not supported.\n"<< std::endl;;
         valid_ = false;
-        throw MagicsException("Grib Decoder: Representation [] not yet supported.");
+        throw MagicsException("Grib Decoder: Representation [] not supported.");
     }
 }
 
@@ -373,30 +362,24 @@ void GribDecoder::release()
         *point = 0;
     }
     points_.clear();
-
 }
+
 void GribDecoder::visit(Transformation& transformation)
 {
-
     if(transformation.coordinateType() == Transformation::GeoType )
         return;
     decode();
     // Here are in a dump ode .. the coordinates are pixels.
     if ( transformation.getAutomaticX() ) {
         transformation.setMinMaxX(1, matrix_->columns());
-
     }
     if ( transformation.getAutomaticY() ) {
         transformation.setMinMaxY(1, matrix_->rows());
-
     }
-
-
-
 }
+
 void GribDecoder::decode2D()
 {
-
     if (xComponent_) return;
     Matrix     *w1 = 0;
     Matrix     *w2 = 0;
@@ -412,9 +395,8 @@ void GribDecoder::decode2D()
     }
     catch (NoFactoryException&)
     {
-        MagLog::warning() << "Grib Decoder: Representation [" << representation << "] not yet supported.\n"<< std::endl;;
+        MagLog::warning() << "Grib Decoder: Vector cobination of representations [" << representation << "] not supported.\n"<< std::endl;;
         valid_ = false;
-
     }
     readColourComponent();
     openFirstComponent();
@@ -424,8 +406,6 @@ void GribDecoder::decode2D()
 
     Data::dimension_ = ( colourComponent_ ) ? 3 : 2;
 
-
-
     wind_mode_->x(&xComponent_, &yComponent_, w1, w2);
     interpretor_->keepOriginal(false);
 }
@@ -433,7 +413,6 @@ void GribDecoder::decode2D()
 
 void GribDecoder::customisedPoints(const AutomaticThinningMethod& thinning, const Transformation& transformation, const std::set<string>& request, CustomisedPointsList& points)
 {
-
     openFirstComponent();
     long repres;
     grib_get_long(handle_,"dataRepresentationType",&repres);
@@ -444,7 +423,6 @@ void GribDecoder::customisedPoints(const AutomaticThinningMethod& thinning, cons
         }
 
         // Compute the thinning factor...
-
 
         double x1 = 0;
         double y1 = 60;
@@ -460,22 +438,15 @@ void GribDecoder::customisedPoints(const AutomaticThinningMethod& thinning, cons
         double ystep = ( transformation.getMaxPCY() - transformation.getMinPCY())/ (thinning.y()-1);
 
         int nb = (xstep/res);
-
-
-
         xstep = nb * res;
         ystep = int(ystep/res) * res;
 
-
         customisedPoints(transformation, points, xstep, ystep, 0);
-
-
-
     }
     catch (NoFactoryException&)
     {
-        MagLog::error() << "Grib Decoder: Representation [" << representation << "] not yet supported.\n"<< std::endl;;
-        throw MagicsException("Grib Decoder: Representation [] not yet supported.");
+        MagLog::error() << "Grib Decoder - customisedPoints: Representation [" << representation << "] not supported.\n"<< std::endl;;
+        throw MagicsException("Grib Decoder: Representation [] not supported.");
     }
 }
 
@@ -505,7 +476,6 @@ bool compare(const pair<double, double>& pt1, const pair<double, double>& pt2)
 {
     if ( pt1.second != pt2.second)
         return false;
-
     return pt1.second < pt2.second;
 }
 
@@ -515,14 +485,8 @@ bool compare(const pair<double, double>& pt1, const pair<double, double>& pt2)
 
 void GribDecoder::newPoint(const Transformation& transformation, double lat, double lon, double uc, double vc, double cc, vector<CustomisedPoint*>& points, double grid)
 {
-
-
-
     std::stack<UserPoint>   duplicates;
     UserPoint geo(lon, lat);
-
-
-
 
     transformation.wraparound(geo, duplicates);
     while (duplicates.empty() == false) {
@@ -560,10 +524,8 @@ void GribDecoder::newPoint(const Transformation& transformation, double lat, dou
         points.push_back(point);
         if ( cc != -9999 ) {
             point->insert(make_pair("colour_component", cc));
-
         }
         duplicates.pop();
-
     }
 }
 
@@ -571,7 +533,6 @@ void GribDecoder::newPoint(const Transformation& transformation, double lat, dou
 
 struct Compare
 {
-
     template< typename T1, typename T2 >
     bool operator()( T1 const& t1, T2 const& t2 ) const
     {
@@ -596,8 +557,6 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 
         vector<pair<double, double> >::iterator pos = positions.begin();
         out.reserve(positions.size());
-
-
 
         int i = 0;
         for ( pos = positions.begin(); pos != positions.end(); ++pos) {
@@ -629,7 +588,6 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
             }
     }
 
-
     else { // no thinning !
         // get all the points of the index!
 
@@ -648,16 +606,14 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
                         out.push_back(add);
                     }
                 }
-
             }
         }
     }
-
 }
+
 
 void GribDecoder::customisedPoints(const BasicThinningMethod& thinning, const Transformation& transformation, const std::set<string>& needs, CustomisedPointsList& points)
 {
-
     openFirstComponent();
     long repres;
     grib_get_long(handle_,"dataRepresentationType",&repres);
@@ -668,7 +624,6 @@ void GribDecoder::customisedPoints(const BasicThinningMethod& thinning, const Tr
         }
 
         // Compute the thinning factor...
-
         double gap = 0;
         // find the middle point :
         UserPoint ll = transformation.reference();
@@ -676,25 +631,22 @@ void GribDecoder::customisedPoints(const BasicThinningMethod& thinning, const Tr
         ll.y_ = ll.y_ + interpretor_->XResolution(*this);
         PaperPoint xy2 = transformation(ll);
 
-
-
         gap = xy1.distance(xy2);
         if ( thinning.factor() == 1 ) {
             gap = 0;
-
         }
         thinning_debug_ = ( needs.find("debug") != needs.end() );
         customisedPoints(transformation, points,
                 gap * thinning.factor(),
                 gap * thinning.factor(), gap);
-
     }
     catch (NoFactoryException&)
     {
-        MagLog::error() << "Grib Decoder: Representation [" << representation << "] not yet supported.\n"<< std::endl;;
-        throw MagicsException("Grib Decoder: Representation [] not yet supported.");
+        MagLog::error() << "Grib Decoder- customisedPoints: Representation [" << representation << "] not supported.\n"<< std::endl;;
+        throw MagicsException("Grib Decoder: Representation [] not supported.");
     }
 }
+
 
 void GribDecoder::decode2D(const Transformation&)
 {
@@ -703,8 +655,6 @@ void GribDecoder::decode2D(const Transformation&)
     Matrix     *w1 = 0;
     Matrix     *w2 = 0;
 
-
-
     const string representation = getString("typeOfGrid");
 
     try {
@@ -712,16 +662,14 @@ void GribDecoder::decode2D(const Transformation&)
             interpretor_ = SimpleObjectMaker<GribInterpretor>::create(representation);
         }
         readColourComponent();
-
         openFirstComponent();
         read(&w1);
         openSecondComponent();
         read(&w2);
-
     }
     catch (NoFactoryException&)
     {
-        MagLog::warning() << "Grib Decoder: Representation [" << representation << "] not yet supported.\n"<< std::endl;;
+        MagLog::warning() << "Grib Decoder: Vector representation [" << representation << "] not supported.\n"<< std::endl;;
     }
     wind_mode_->x(&xComponent_, &yComponent_, w1, w2);
 }
@@ -729,13 +677,10 @@ void GribDecoder::decode2D(const Transformation&)
 
 void GribDecoder::openFirstComponent()
 {
-
-
     grib_field_position_ =  position_1_;
-
     component1_ = open(component1_);
-
 }
+
 grib_handle* GribEntryDecoder::open(grib_handle* handle, bool) {
     if ( !handle_ ) {
         return handle_;
@@ -745,17 +690,16 @@ grib_handle* GribEntryDecoder::open(grib_handle* handle, bool) {
 
 void GribDecoder::openSecondComponent()
 {
-
     grib_field_position_ =  position_2_;
     component2_ = open(component2_);
-
 }
+
 void GribDecoder::openThirdComponent()
 {
     grib_field_position_ =  colour_position_;
     colour_ = open(colour_, false);
-
 }
+
 void GribDecoder::readColourComponent()
 {
     grib_field_position_ =  colour_position_;
@@ -763,14 +707,10 @@ void GribDecoder::readColourComponent()
         colour_ = open(colour_, false);
         read(&colourComponent_);
     }
-
     catch (...) {
         colourComponent_ = 0;
         valid_ = true;
     }
-
-
-
 }
 
 grib_handle*  GribDecoder::open(grib_handle* grib, bool sendmsg)
@@ -837,6 +777,8 @@ bool GribDecoder::id(const string& id, const string& where) const
     }
     return magCompare(id_, id);
 }
+
+
 bool GribDecoder::verify(const string& val) const
 {
     // we except a string with the following format "key1=val,key2=val2,...,keyn=valn"
@@ -887,17 +829,15 @@ void GribDecoder::decodePoints()
         }
         catch (NoFactoryException&)
         {
-            MagLog::warning() << "Grib Decoder: Representation [" << representation << "] not yet supported.\n"<< std::endl;;
+            MagLog::warning() << "Grib Decoder: Representation [" << representation << "] not supported.\n"<< std::endl;;
             scaling =1 ; offset =0;
         }
 
         grib_iterator* iter = grib_iterator_new(handle_, flags, &error);
 
-
-
         if (!iter)
         {
-            MagLog::error() << "Grib Iterator not yet supported on this kind of grib\n";
+            MagLog::error() << "Grib Iterator not yet supported on this kind of GRIB\n";
             MagLog::broadcast();
             throw MagicsException("Grib Iterator not yet supported.");
         }
@@ -922,7 +862,7 @@ void GribDecoder::decodePoints()
     grib_iterator* iter2 = grib_iterator_new(handle_, flags, &error);
     if (!iter1 || !iter2)
     {
-        MagLog::error() << "Grib Iterator not yet supported on this kind of grib\n";
+        MagLog::error() << "Grib Iterator not yet supported on this kind of GRIB\n";
         throw MagicsException("Grib Iterator not yet supported.");
     }
 
@@ -938,8 +878,6 @@ void GribDecoder::decodePoints()
             }
     }
 }
-
-
 
 
 
@@ -983,13 +921,11 @@ void GribLoop::setToFirst()
 {
     currentDim_ = dimension_.begin();
     currentPos_ = dim_.begin();
-
 }
 
 
 bool  GribLoop::hasMore()
 {
-
     if (file_ == 0 ) {
         file_ = fopen(path_.c_str(),"r");
         if (!file_) {
@@ -998,14 +934,10 @@ bool  GribLoop::hasMore()
         }
     }
 
-
-
     // Now we have to find the right Entry!!!
-
 
     if ( currentDim_ == dimension_.end() )
         return false;
-
 
     if ( *currentDim_ == 1 ) {
         if (  dim_.empty() ) {
@@ -1176,9 +1108,7 @@ public:
             const long step =  computeStep(grib_, "stepRange");
             full = full + (step * -1);
         }
-
         return full.tostring(format);
-
     }
 
     string startDate(const XmlNode& node)
@@ -1239,10 +1169,7 @@ public:
         full = full + step;
 
         return full.tostring(format);
-
     }
-
-
 
     void visit(const XmlNode& node)
     {
@@ -1387,11 +1314,7 @@ void GribDecoder::nearestGridpoints(double *inlats, double *inlons, double *outl
         retainGribNearestHandle = true;  // more efficient
     }
 
-
-
     nearHandle = nearest_point_handle(retainGribNearestHandle);
-
-
 
     for (int i=0; i < nb; i++)
     {
@@ -1420,13 +1343,12 @@ void GribDecoder::nearestGridpoints(double *inlats, double *inlons, double *outl
 
     if (!retainGribNearestHandle && nearHandle) // was this a temporary handle?
         grib_nearest_delete(nearHandle);
-
 }
+
 
 void GribDecoder::visit(ValuesCollector& points)
 {
     field_ = open(field_);
-
 
     points.setCollected(true);
 
@@ -1455,7 +1377,7 @@ void GribDecoder::visit(ValuesCollector& points)
     }
     catch (NoFactoryException&)
     {
-        MagLog::warning() << "Grib Decoder: Representation [" << representation << "] not yet supported.\n"<< std::endl;;
+        MagLog::warning() << "Grib Decoder: Representation [" << representation << "] not supported.\n"<< std::endl;;
         scaling =1 ; offset =0;
     }
 
@@ -1525,6 +1447,7 @@ void GribDecoder::visit(MagnifierCollector& magnifier)
         points.advance();
     }
 }
+
 const DateDescription& GribDecoder::timeStamp()
 {
     vector<string> need;
@@ -1537,13 +1460,10 @@ const DateDescription& GribDecoder::timeStamp()
     for ( vector<string>::const_iterator t = need.begin(); t != need.end(); ++t )
         tag1.decode(*t);
 
-
     timeStamp_ = DateDescription(helper.get("grib", "valid-date"), index_, internalIndex_);
     dataLevel_ = LevelDescription::level(helper.get("grib", "typeOfLevel"), tonumber(helper.get("grib", "level")), index_, internalIndex_);
 
-
     return timeStamp_;
-
 }
 
 const LevelDescription& GribDecoder::level()
@@ -1561,7 +1481,6 @@ void GribDecoder::visit(MetaDataVisitor& meta)
     need.push_back("<grib_info key='level'/>");
     need.push_back("<grib_info key='base-date' format='%Y-%m-%d %H:%M:00'/>");
     need.push_back("<grib_info key='valid-date' format='%Y-%m-%d %H:%M:00'/>");
-
 
     TagHandler helper;
     GribTag tag1(*this, helper);
@@ -1669,15 +1588,53 @@ void GribDecoder::visit(MetaDataCollector& step)
                     }
                     catch (NoFactoryException&)
                     {
-                        MagLog::warning() << "Grib Decoder: Representation [" << representation << "] not yet supported.\n"<< std::endl;;
+                        MagLog::warning() << "Grib Decoder: Representation [" << representation << "] not supported.\n"<< std::endl;;
                         information_[key->first]="N/A";
                     }
 
                 }
 
+                else if(key->first == "isOctahedral")
+                {
+                    // Octahedral reduced Gaussian grids:
+                    // - only reduced Gaussian grids can be octahedral
+                    // - the isOctahedral key only works properly with global fields
+                    string representation = getString("typeOfGrid");
+                    if (representation == "reduced_gg")
+                    {
+                        if (getLong("global") == 1)
+                        {
+                            information_["isOctahedral"] = (getLong("isOctahedral") == 1) ? "yes" : "no";
+                        }
+                    }
+                }
+/*
+                // alternative code, for if we want to display in one line the Gaussian
+                // number and the octahedral flag.
+                else if(key->first == "GaussianNumber")
+                {
+                    // e.g. N200 ('classic' reduced Gaussian) or O1280 ('octahedral' reduced Gaussian)
+                    // - but only use prefix of N or O on global fields, because, as explained below,
+                    //   we don't know whether a sub-areas field is classic or octahedral
+                    // Octahedral reduced Gaussian grids:
+                    // - only reduced Gaussian grids can be octahedral
+                    // - the isOctahedral key only works properly with global fields
+                    string representation = getString("typeOfGrid");
+                    if (representation == "reduced_gg")
+                    {
+                        long N = getLong("N");
+                        string prefix("");
+                        if (getLong("global") == 1)
+                        {
+                            prefix = (getLong("isOctahedral") == 1) ? "O" : "N";
+                        }
+                        information_["GaussianNumber"] = prefix + tostring(N);
+                    }
+                }*/
             }
+            
             //If key is found in information_ we copy it
-            else
+            if(information_.find(key->first) != information_.end())
             {
                 key->second=information_[key->first];
             }
@@ -1859,8 +1816,8 @@ void GribDecoder::decodeRaster(const Transformation& transformation)
 
     catch (NoFactoryException&)
     {
-        MagLog::error() << "Grib Decoder: Representation [" << representation << "] not yet supported.\n";
-        throw MagicsException("Grib Decoder: Representation [] not yet supported.");
+        MagLog::error() << "Grib Decoder: Raster representation [" << representation << "] not supported.\n";
+        throw MagicsException("Grib Decoder: Raster representation [] not supported.");
     }
 }
 
@@ -2331,7 +2288,6 @@ public:
             title.back() += sat->second;
         else
             title.back() += "satellite identifier " + tostring(ident);
-
     }
 };
 
@@ -2402,7 +2358,6 @@ public:
     ~GribExpverHandler() {}
     void operator()(TitleField& field, vector<string>& title, const GribDecoder& grib)
     {
-
         if ( !grib.getExpver() ) return;
         ostringstream out;
         string expver = grib.getString("mars.experimentVersionNumber");
@@ -2435,7 +2390,6 @@ public:
         //        title.add(out.str());
 
         title.back() +=  "epsnumber?";
-
     }
 };
 
@@ -2470,6 +2424,7 @@ public:
          */
     }
 };
+
 double GribDecoder::uComponent(int index)
 {
     return xValues_[index];
@@ -2479,6 +2434,7 @@ double GribDecoder::vComponent(int index)
 {
     return yValues_[index];
 }
+
 void GribDecoder::uComponent()
 {
     if ( xValues_ )
@@ -2491,6 +2447,7 @@ void GribDecoder::uComponent()
     xValues_ = new double[nb];
     grib_get_double_array(handle, "values", xValues_, &nb);
 }
+
 void GribDecoder::vComponent()
 {
     if ( yValues_ )

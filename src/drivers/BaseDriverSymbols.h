@@ -253,7 +253,7 @@ MAGICS_NO_EXPORT void BaseDriver::renderSymbolItem(const SymbolItem& symbol, con
 	const MFloat pX = 1. / coordRatioX_;
 	const MFloat pY = 1. / coordRatioY_;
 	
-	MFloat scaling = convertCM(owner.getHeight()*1.5);  // convertCM scales them up!
+	MFloat scaling = convertCM(symbol.height()*1.5);  // convertCM scales them up!
 
 	const MFloat posX = owner[0].x() + (           symbol.x()  * scaling * pX);
 	const MFloat posY = owner[0].y() + (setSymbolY(symbol.y()) * scaling * pY);

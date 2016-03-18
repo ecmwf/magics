@@ -38,7 +38,7 @@ ObsPlotting::ObsPlotting()
 {
 	ObsTable::print();
 	if ( ring_size_ == -1 )
-		ring_size_ = size_ * 1.5;
+		ring_size_ = size_;
 }
 
 ObsPlotting::~ObsPlotting() 
