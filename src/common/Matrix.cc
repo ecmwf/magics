@@ -444,66 +444,67 @@ int Matrix::nearest_index(double row, double column,double &rowOut, double &colO
 
 	int factor = (column-minX())/360.;
 
-	if ( column < 0)
+	if ( column-minX() < 0)
 		factor--;
 
 	offset = (factor*360);
 
 	col = column - offset;
-
-
-
-	pair<int, bool> row_index, column_index;
+	map<double, int >::const_iterator  row_index;
+	pair<int, bool> column_index;
 	vector<pair<double, pair<double, int> > > points;
 
 	rowOut = missing();
 	colOut = missing();
 
 
-	row_index = yIndex_.index(row);
+	row_index = yIndex_.find(row);
 
-	if ( row_index.first == -1 ) {
-		return -1;
-	}
 
-	if ( row_index.second ) {
+	if ( row_index != yIndex_.end() ) {
 		rowOut = row;
-		// We have to find the columns
-		column_index = xIndex_[row_index.first].index(col);
+		column_index = xIndex_[row_index->second].index(col);
 		if ( column_index.first == -1  ) {
 			return -1;
 		}
 		if ( column_index.second ) {
-			// Perfect match !
+					// Perfect match !
 			colOut = column;
-			int value = xIndex_[row_index.first].position(column_index.first);
+			int value = xIndex_[row_index->first].position(column_index.first);
 			return ( data_[value] == missing() ) ? -1 : value;
 		}
 		else {
-			// here we have 2 points : find the nearest
-			points.push_back(make_pair(row, make_pair(xIndex_[row_index.first].value(column_index.first), xIndex_[row_index.first].position(column_index.first))));
-			points.push_back(make_pair(row,  make_pair(xIndex_[row_index.first].value(column_index.first+1), xIndex_[row_index.first].position(column_index.first+1))));
+					// here we have 2 points : find the nearest
+			points.push_back(make_pair(row, make_pair(xIndex_[row_index->first].value(column_index.first), xIndex_[row_index->first].position(column_index.first))));
+			points.push_back(make_pair(row,  make_pair(xIndex_[row_index->first].value(column_index.first+1), xIndex_[row_index->first].position(column_index.first+1))));
 		}
 	}
+
+	row_index = yIndex_.lower_bound(row);
+	if ( row_index == yIndex_.end() || row_index == yIndex_.begin()) {
+		rowOut = missing();
+		return -1;
+	}
+			// Here we may have 4 points!
+			// Deal with the first row
+	column_index = xIndex_[row_index->second].index(col);
+	if ( column_index.second )
+		points.push_back(make_pair(row_index->first, make_pair(xIndex_[row_index->first].value(column_index.first), xIndex_[row_index->first].position(column_index.first))));
 	else {
-
-		column_index = xIndex_[row_index.first].index(col);
-
-		// Here we  may have 4 points!
-		if ( column_index.second )
-			points.push_back(make_pair(yIndex_.value(row_index.first), make_pair(xIndex_[row_index.first].value(column_index.first), xIndex_[row_index.first].position(column_index.first))));
-		else {
-			points.push_back(make_pair(yIndex_.value(row_index.first), make_pair(xIndex_[row_index.first].value(column_index.first), xIndex_[row_index.first].position(column_index.first))));
-			points.push_back(make_pair(yIndex_.value(row_index.first), make_pair(xIndex_[row_index.first].value(column_index.first+1), xIndex_[row_index.first+1].position(column_index.first))));
-		}
-		column_index = xIndex_[row_index.first+1].index(col);
-		if ( column_index.second )
-			points.push_back(make_pair(yIndex_.value(row_index.first+1), make_pair(xIndex_[row_index.first].value(column_index.first), xIndex_[row_index.first].position(column_index.first))));
-		else {
-			points.push_back(make_pair(yIndex_.value(row_index.first+1), make_pair(xIndex_[row_index.first].value(column_index.first), xIndex_[row_index.first].position(column_index.first))));
-			points.push_back(make_pair(yIndex_.value(row_index.first+1), make_pair(xIndex_[row_index.first].value(column_index.first+1), xIndex_[row_index.first].position(column_index.first+1))));
-		}
+		points.push_back(make_pair(row_index->first, make_pair(xIndex_[row_index->second].value(column_index.first), xIndex_[row_index->first].position(column_index.first))));
+		points.push_back(make_pair(row_index->first, make_pair(xIndex_[row_index->second].value(column_index.first+1), xIndex_[row_index->first+1].position(column_index.first))));
 	}
+
+	row_index--;
+	column_index = xIndex_[row_index->second].index(col);
+		if ( column_index.second )
+			points.push_back(make_pair(row_index->first, make_pair(xIndex_[row_index->first].value(column_index.first), xIndex_[row_index->first].position(column_index.first))));
+		else {
+			points.push_back(make_pair(row_index->first, make_pair(xIndex_[row_index->second].value(column_index.first), xIndex_[row_index->first].position(column_index.first))));
+			points.push_back(make_pair(row_index->first, make_pair(xIndex_[row_index->second].value(column_index.first+1), xIndex_[row_index->first+1].position(column_index.first))));
+		}
+
+
 
 
 
