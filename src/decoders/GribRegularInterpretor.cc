@@ -1072,7 +1072,7 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
     	vector<double> p;
         p.reserve(row->size());
         if ( matrix2 ) {
-        	cout << *ll << "-->" << (*matrix)->yIndex_[*ll] << endl;
+
         	(*matrix)->xIndex_.push_back(InfoIndex(row->front(), row->back(), row->size(), d));
 
         }

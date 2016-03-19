@@ -487,7 +487,7 @@ int Matrix::nearest_index(double row, double column,double &rowOut, double &colO
 	}
 			// Here we may have 4 points!
 			// Deal with the first row
-	cout << row_index->first << "--->" << row_index->second << endl;
+
 	InfoIndex xindex = xIndex_[row_index->second];
 	column_index = xindex.index(col);
 	if ( column_index.second )
