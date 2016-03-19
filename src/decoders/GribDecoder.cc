@@ -438,8 +438,9 @@ void GribDecoder::customisedPoints(const AutomaticThinningMethod& thinning, cons
         double ystep = ( transformation.getMaxPCY() - transformation.getMinPCY())/ (thinning.y()-1);
 
         int nb = (xstep/res);
-        xstep = nb * res;
-        ystep = int(ystep/res) * res;
+        xstep = (nb > 1 ) ? nb * res : 0;
+        nb = (ystep/res);
+        ystep = (nb > 1 ) ? nb * res : 0;
 
         customisedPoints(transformation, points, xstep, ystep, 0);
     }
@@ -549,7 +550,7 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 
     double missing = getDouble("missingValue");
 
-    if ( thinx ) {
+    if ( thiny ) {
         vector<pair<double, double> > positions;
 
         PaperPoint xy = interpretor_->reference(*this, transformation);
@@ -577,8 +578,8 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
                     add->insert(make_pair("x_component", value.first));
                     add->insert(make_pair("y_component", value.second));
                     out.push_back(add);
-                    /* for debug!
-                    add = new CustomisedPoint(lon+offset, lat, "");
+                    /* for debug!*/
+                    add = new CustomisedPoint(lon, lat, "");
 
                     add->insert(make_pair("x_component", 0.01));
                     add->insert(make_pair("y_component", 0.01));
@@ -590,15 +591,21 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 
     else { // no thinning !
         // get all the points of the index!
-
-        for ( vector<vector<Index> >:: iterator cell = interpretor_->helper_.begin(); cell != interpretor_->helper_.end(); ++cell) {
-            for ( vector<Index>::iterator index = cell->begin(); index != cell->end(); ++index) {
-                double u = uComponent(index->index_);
-                double v = vComponent(index->index_);
+    	//map<double, int> yIndex_; // lat--> index
+    	//vector<InfoIndex> xIndex_;
+        for ( map<double, int>::iterator y = xComponent_->yIndex_.begin(); y != xComponent_->yIndex_.end(); ++y) {
+        	InfoIndex x = xComponent_->xIndex_[y->second];
+        	double lat = y->first;
+        	int index = x.offset_;
+            for ( int i = 0; i < x.nbPoints_; i++) {
+            	double lon = x.first_  + (i*x.step_);
+                double u = xComponent_->data_[index];
+                double v = yComponent_->data_[index];
+                index++;
                 if ( u != missing && v != missing) {
                     pair<double, double> value = (*wind_mode_)(u, v);
                     vector<UserPoint> pos;
-                    transformation.populate(index->lon_, index->lat_, 0, pos);
+                    transformation.populate(lon, lat, 0, pos);
                     for ( vector<UserPoint>::iterator p = pos.begin(); p != pos.end(); ++p) {
                         CustomisedPoint *add = new CustomisedPoint(p->x(), p->y(), "");
                         add->insert(make_pair("x_component", value.first));

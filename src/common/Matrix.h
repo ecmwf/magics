@@ -433,7 +433,7 @@ public:
     } 
 
 	map<double, map<double, pair<double, double> > > index_;
-	InfoIndex yIndex_;
+	map<double, int> yIndex_; // lat--> index
 	vector<InfoIndex> xIndex_;
 	vector<double> data_;
     

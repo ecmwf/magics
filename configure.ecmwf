@@ -1,6 +1,6 @@
 #!/usr/bin/ksh
 
-version="2.27.0"
+version="2.29.0"
 git_home="/tmp/cgs/git/develop/magics"
 magics=""
 debug="off"
@@ -27,9 +27,9 @@ module unload proj4
 module load proj4/4.8.0
 module load hdf5
 module unload grib_api
-module load grib_api/1.14.4
+module load grib_api/1.14.7
 module unload odb_api
-module load odb_api/0.10.5.3
+module load odb_api/0.10.5.4
 module unload emos
 module load emos/421
 module unload netcdf
@@ -43,8 +43,8 @@ case "${OS_VERSION}" in
     opensuse131) # New Local worksation
         #module load boost/1.55.0
         use='metview'
-        use='debug'
         use='daily'
+        use='debug'
         if [[ $use = 'daily' ]]; then
             tar='on'
             regression="on"
