@@ -470,13 +470,13 @@ int Matrix::nearest_index(double row, double column,double &rowOut, double &colO
 		if ( column_index.second ) {
 					// Perfect match !
 			colOut = column;
-			int value = xIndex_[row_index->first].position(column_index.first);
+			int value = xIndex_[row_index->second].position(column_index.first);
 			return ( data_[value] == missing() ) ? -1 : value;
 		}
 		else {
 					// here we have 2 points : find the nearest
-			points.push_back(make_pair(row, make_pair(xIndex_[row_index->first].value(column_index.first), xIndex_[row_index->first].position(column_index.first))));
-			points.push_back(make_pair(row,  make_pair(xIndex_[row_index->first].value(column_index.first+1), xIndex_[row_index->first].position(column_index.first+1))));
+			points.push_back(make_pair(row, make_pair(xIndex_[row_index->second].value(column_index.first), xIndex_[row_index->second].position(column_index.first))));
+			points.push_back(make_pair(row,  make_pair(xIndex_[row_index->second].value(column_index.first+1), xIndex_[row_index->second].position(column_index.first+1))));
 		}
 	}
 
