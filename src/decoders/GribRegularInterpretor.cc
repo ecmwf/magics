@@ -998,8 +998,6 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
                 n = 0;
         }
 
-        std::sort(rows.back().begin(), rows.back().end());
-
 
         if ( rows.back().size() > nblon) nblon = rows.back().size();
         ii +=  rows.back().size();
@@ -1028,11 +1026,10 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
 
     }
     if ( matrix2 ) {
-
     	(*matrix)->xIndex_.reserve((*matrix)->rowsAxis().size());
 	}
 
-    vector<double>::iterator ll = (*matrix)->rowsAxis().begin();
+
 
     // compute the number of points we'll be adding to the matrix so that we can
     // allocate them in one go, rather than allowing the STL to re-allocate
@@ -1067,7 +1064,7 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
     vector<double> missingLon;
 
     d = 0;
-    ll = (*matrix)->rowsAxis().begin();
+    vector<double>::iterator ll = (*matrix)->rowsAxis().begin();
     {
     Timer timer("map2", " pair");
     for (vector<vector<double> >::iterator row = rows.begin(); row != rows.end(); ++row) {
@@ -1075,8 +1072,11 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
     	vector<double> p;
         p.reserve(row->size());
         if ( matrix2 ) {
-        	(*matrix)->xIndex_.push_back(InfoIndex(west, east, row->size(), d));
+        	cout << *ll << "-->" << (*matrix)->yIndex_[*ll] << endl;
+        	(*matrix)->xIndex_.push_back(InfoIndex(row->front(), row->back(), row->size(), d));
+
         }
+        ++ll;
         for (int ii = 0; ii < row->size(); ii++) {
             p.push_back(data[d]);
             if ( matrix2 ) {
@@ -1085,7 +1085,7 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
                    }
             d++;
         }
-        ++ll;
+
 
         if (interpolate == GribDecoder::nearest_valid ) {
         	// Fill left vector

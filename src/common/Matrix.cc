@@ -487,21 +487,25 @@ int Matrix::nearest_index(double row, double column,double &rowOut, double &colO
 	}
 			// Here we may have 4 points!
 			// Deal with the first row
-	column_index = xIndex_[row_index->second].index(col);
+	cout << row_index->first << "--->" << row_index->second << endl;
+	InfoIndex xindex = xIndex_[row_index->second];
+	column_index = xindex.index(col);
 	if ( column_index.second )
-		points.push_back(make_pair(row_index->first, make_pair(xIndex_[row_index->first].value(column_index.first), xIndex_[row_index->first].position(column_index.first))));
+		points.push_back(make_pair(row_index->first, make_pair(xindex.value(column_index.first), xindex.position(column_index.first))));
 	else {
-		points.push_back(make_pair(row_index->first, make_pair(xIndex_[row_index->second].value(column_index.first), xIndex_[row_index->first].position(column_index.first))));
-		points.push_back(make_pair(row_index->first, make_pair(xIndex_[row_index->second].value(column_index.first+1), xIndex_[row_index->first+1].position(column_index.first))));
+		points.push_back(make_pair(row_index->first, make_pair(xindex.value(column_index.first), xindex.position(column_index.first))));
+		points.push_back(make_pair(row_index->first, make_pair(xindex.value(column_index.first+1), xindex.position(column_index.first))));
 	}
 
 	row_index--;
-	column_index = xIndex_[row_index->second].index(col);
+	xindex = xIndex_[row_index->second];
+	column_index = xindex.index(col);
+
 		if ( column_index.second )
-			points.push_back(make_pair(row_index->first, make_pair(xIndex_[row_index->first].value(column_index.first), xIndex_[row_index->first].position(column_index.first))));
+			points.push_back(make_pair(row_index->first, make_pair(xindex.value(column_index.first), xindex.position(column_index.first))));
 		else {
-			points.push_back(make_pair(row_index->first, make_pair(xIndex_[row_index->second].value(column_index.first), xIndex_[row_index->first].position(column_index.first))));
-			points.push_back(make_pair(row_index->first, make_pair(xIndex_[row_index->second].value(column_index.first+1), xIndex_[row_index->first+1].position(column_index.first))));
+			points.push_back(make_pair(row_index->first, make_pair(xindex.value(column_index.first), xindex.position(column_index.first))));
+			points.push_back(make_pair(row_index->first, make_pair(xindex.value(column_index.first+1), xindex.position(column_index.first))));
 		}
 
 
