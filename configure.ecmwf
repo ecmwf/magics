@@ -45,6 +45,7 @@ case "${OS_VERSION}" in
         use='metview'
         use='daily'
         use='debug'
+        use='daily'
         if [[ $use = 'daily' ]]; then
             tar='on'
             regression="on"

@@ -164,7 +164,7 @@ void ObsCloudAndWind::operator()( CustomisedPoint& point, ComplexSymbol& symbol)
 
 		object->symbol(origin);
 
-		object->height(owner_->ring_size_);
+		object->height(owner_->ring_size_*.35);
 
 		symbol.add(object);
 		return;
