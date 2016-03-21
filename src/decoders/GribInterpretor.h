@@ -52,6 +52,10 @@ struct Index
         double lon_;
         bool   used_;
         Index(int index, double lat, double lon) : index_(index), lat_(lat), lon_(lon), used_(false) {}
+        void print()
+        {
+        	cout << "[" << lat_ << ", " << lon_ << "]" << endl;
+        }
     };
 
 class GribInterpretor  {
@@ -96,6 +100,10 @@ protected:
     int indexLon_;
     int indexLat_;
     double indexStep_;
+    double minlat_;
+    double maxlat_;
+    double minlon_;
+    double maxlon_;
 
 
 private:

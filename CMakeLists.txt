@@ -20,7 +20,7 @@
 # Missing dependencies:
 #   * ghostscript ( is it really needed? -- to confirm )
 
-cmake_minimum_required( VERSION 2.8.4 FATAL_ERROR )
+cmake_minimum_required( VERSION 2.8.11 FATAL_ERROR )
 
 project( magics CXX )
 
@@ -40,7 +40,7 @@ ecbuild_requires_macro_version( 1.9 )
 ###############################################################################
 # some variables of this project
 
-ecbuild_use_package(PROJECT grib_api VERSION 1.12.3 REQUIRED)
+ecbuild_use_package(PROJECT grib_api VERSION 1.14.6 REQUIRED)
 # grib_api is required for now
 set( HAVE_GRIB 1 )
 
@@ -125,7 +125,6 @@ set( MAGICS_EXCEPTION     "ON" )
 set( MAGICS_SITE          "ecmwf" )
 set( MAGICS_INSTALL_PATH  ${CMAKE_INSTALL_PREFIX} )
 
-# Regression definitions
 set( MAGICS_REFERENCE_VERSIONS            "2.28.0" )
 set( MAGICS_HTML_ROOT        "${CMAKE_BINARY_DIR}/regression/html")
 file(MAKE_DIRECTORY ${MAGICS_HTML_ROOT} )
@@ -137,8 +136,8 @@ set( MAG_PYTHON_PATH ${CMAKE_BINARY_DIR}/python )
 
 # ecbuild_use_package( PROJECT eckit VERSION 0.3 REQUIRED )
 
-#cmake_add_cxx_flags("-gdwarf-2")
-cmake_add_c_flags("-std=c99")
+#ecbuild_add_cxx_flags("-gdwarf-2")
+ecbuild_add_c_flags("-std=c99")
 
 ### Metview and Qt
 

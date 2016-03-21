@@ -46,9 +46,24 @@ bool Streamlines::operator()(Data& data, BasicGraphicsObjectContainer& parent)
 
     GeoRectangularProjection geo;
 
+    MatrixHandler& dir = data.direction();
+
+    //Make sure that the data are prepared correcly for the Streamlines..
+
+    if (dir.right() -  dir.left() < 350) {
+		geo.setMinX(dir.left()+1);
+		geo.setMaxX(dir.right()-1);
+		geo.setMinY(dir.bottom()+1);
+		geo.setMaxY(dir.top()-1);
+	}
+
     MatrixHandler& handler = *geo.prepareData(data.direction());
 
-
+    // We filter !
+    cout << "left->" << handler.left() << endl;
+    cout << "right->" << handler.right() << endl;
+    cout << "top->" << handler.top() << endl;
+    cout << "bottom->" << handler.bottom() << endl;
 
     float* direction = new float[handler.rows()*handler.columns()];
     int i = 0;

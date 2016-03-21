@@ -193,7 +193,7 @@ Polyline*  Polyline::clone() const
 	return to;
 }
 
-void Polyline::intersect(const Polyline& poly, vector<Polyline>& out) const
+void Polyline::intersect(const Polyline& poly, vector<Polyline> & out) const
 {
 
 	vector<BoostPoly> clip;
@@ -204,6 +204,22 @@ void Polyline::intersect(const Polyline& poly, vector<Polyline>& out) const
 			out.push_back(Polyline());
 			out.back().copy(*this);
 			out.back().polygon_ = *c;
+/*
+            if(!c->inners().empty())
+            {
+            	const int noHoles = c->inners().size();
+            	for (int h=0; h<noHoles; ++h)
+            	{
+            	    out.back().newHole();
+            	    const int noPointsHoles = c->inners()[h].size();
+            	    for (int hh=noPointsHoles-1; hh > 0;--hh)
+            	    {
+            	    	using boost::geometry::get;
+            	        out.back().push_back_hole(PaperPoint(get<0>(c->inners()[h][hh]),get<1>(c->inners()[h][hh]) ));	
+            	    }
+            	}
+            }
+*/
 		}
 	}
 	catch(...) {
@@ -284,7 +300,7 @@ bool Polyline::sanityCheck()
     // output flag true if input polygon modified.
 	boost::geometry::correct(polygon_);
     bool io_rbModified = false;
-    if (polygon_.outer().size() == 0)
+    if (polygon_.outer().empty())
         return io_rbModified;
 
     // we construct a "largest" polygon by iterating through the input.
