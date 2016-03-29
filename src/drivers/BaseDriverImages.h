@@ -200,7 +200,7 @@ MAGICS_NO_EXPORT void BaseDriver::renderImage(const ImportObject& obj) const
 	MFloat width=0;
 	MFloat height=0;
 
-	if(obj.getWidth()==-1 && ( magCompare(f,"gif") || magCompare(f,"png") || magCompare(f,"jpeg")|| magCompare(f,"jpg") ) )
+	if(obj.getWidth()==-1 && ( magCompare(f,"gif") || magCompare(f,"jpeg")|| magCompare(f,"jpg") ) )
 	{
 #ifndef MAGICS_RASTER
 		MagLog::error() << "BaseDriverImages: Dimension is -1 and default size can not be determined (GD library required)!" << endl;
@@ -225,6 +225,22 @@ MAGICS_NO_EXPORT void BaseDriver::renderImage(const ImportObject& obj) const
 		gdImageDestroy(image);
 #endif
 	}
+	else if(obj.getWidth()==-1 && magCompare(f,"png") )
+	{
+#ifndef HAVE_CAIRO
+		MagLog::error() << "BaseDriverImages: Dimension is -1 and default size can not be determined for PNG (Cairo library required)!" << endl;
+		return;
+#else
+		cairo_surface_t *cimage = cairo_image_surface_create_from_png(obj.getPath().c_str());
+		if(cimage)
+		{
+			width  = cairo_image_surface_get_width(cimage);
+			height = cairo_image_surface_get_height(cimage);
+			cairo_surface_destroy (cimage);
+		}
+		else MagLog::warning() << "BaseDriverImage-> Could NOT read the image file "<< obj.getPath() << " with Cairo!" << endl;
+#endif
+	}	
 	else
 	{
 		width  = obj.getWidth();
@@ -259,6 +275,7 @@ MAGICS_NO_EXPORT bool BaseDriver::convertToPixmap(const string &fname, const Gra
 		     const MFloat wx0, const MFloat wy0,const MFloat wx1,const MFloat wy1) const
 {
 	debugOutput("Start Image conversion");
+	//cout << " >>> IMAGE >>> "<<fname<<"   xy: "<<wx0<<","<<wy0<< endl;
 
 	int Landscape = 0;
 	MFloat bx1=100.;
@@ -266,14 +283,11 @@ MAGICS_NO_EXPORT bool BaseDriver::convertToPixmap(const string &fname, const Gra
 	unsigned char *image = 0;
 	int col=0,row=0;
 	int status = 0;
-	string s2(" ");
+	string s2("");
 	string pixmapFormat("rgb");
 
 	if(format==PS || format==EPS) //File is PostScript
 	{
-//		FILE* fd3;
-//		char buf[1024];
-		string cmd;
 		int x1 = 0;
 		int y1 = 0;
 
@@ -281,34 +295,31 @@ MAGICS_NO_EXPORT bool BaseDriver::convertToPixmap(const string &fname, const Gra
 		{
 			MagLog::error() << "BaseDriverImages: Open of source PostScript file failed!" << endl;
 			return false;
-       		}
+       	}
 
 		s2 = getTmpName()+".ppm";
-		if(s2==" ")
+		if(s2=="")
 		{
 			MagLog::error() << "BaseDriverImages: Open of temp file failed!" << endl;
 			return false;
 		}
 
-	//	if(format==PS)  // does not work with EPS
-		{
-		  const MFloat Xres = MFloat(reso);
-		  bx1 = MFloat(x1)/72.*Xres + 0.5;
-		  x1  = (int) bx1;
-		  by1 = MFloat(y1)/72.*Xres + 0.5;
-		  y1  = (int) by1;
+		const MFloat Xres = MFloat(reso);
+		bx1 = MFloat(x1)/72.*Xres + 0.5;
+		x1  = (int) bx1;
+		by1 = MFloat(y1)/72.*Xres + 0.5;
+		y1  = (int) by1;
 
-		  char boxx[5];
-		  char boxy[5];
-		  char boxz[5];
-		  sprintf(boxx,"%d",x1);
-		  sprintf(boxy,"%d",y1);
-		  sprintf(boxz,"%d",reso);
+		char boxx[5];
+		char boxy[5];
+		char boxz[5];
+		sprintf(boxx,"%d",x1);
+		sprintf(boxy,"%d",y1);
+		sprintf(boxz,"%d",reso);
 
-		  cmd = "( gs -q -dNOPAUSE -dSAFER -sDEVICE=ppmraw -sOutputFile=" + s2 +
+		string cmd = "( gs -q -dNOPAUSE -dSAFER -sDEVICE=ppmraw -sOutputFile=" + s2 +
 			" -dGraphicsAlphaBits=4 -dTextAlphaBits=4 -dCOLORSCREEN -dBATCH -g" +
 			boxx + "x" + boxy + " -r" + boxz + " " + fname + " < /dev/null )";
-		}
 
 		status = system(cmd.c_str());
 
@@ -333,8 +344,64 @@ MAGICS_NO_EXPORT bool BaseDriver::convertToPixmap(const string &fname, const Gra
 		I.close();
 		remove(s2.c_str());
 	}
+	else if(format==PNG)
+	{
+#ifdef HAVE_CAIRO
+		cairo_surface_t *cimage = cairo_image_surface_create_from_png(fname.c_str());
+
+		if(cimage)
+		{
+			col = cairo_image_surface_get_width(cimage);
+			row = cairo_image_surface_get_height(cimage);
+			cairo_format_t cformat = cairo_image_surface_get_format(cimage);
+			unsigned char *data = cairo_image_surface_get_data(cimage);
+			bx1 = (MFloat) col;
+			by1 = (MFloat) row;
+			Landscape = 0;
+
+			if(cformat == CAIRO_FORMAT_RGB24)
+			{
+				image = new unsigned char [row*col*3];
+				unsigned char *p = image;
+				for (int i = 0; i<row; i++)
+				  for (int j = 0; j<col*4;)
+				  {
+					*(p++) = (unsigned char) data[(i*col*4)+j+2]; //r
+					*(p++) = (unsigned char) data[(i*col*4)+j+1]; //g
+					*(p++) = (unsigned char) data[(i*col*4)+j+0]; //b
+					j+=4;
+				  }
+			}
+			else if(cformat == CAIRO_FORMAT_ARGB32)
+			{
+				pixmapFormat="rgba";
+				image = new unsigned char [row*col*4];
+				unsigned char *p = image;
+				for (int i = 0; i<row; i++)
+				  for (int j = 0; j<col*4;)
+				  {
+					*(p++) = (unsigned char) data[(i*col*4)+j+2]; //r
+					*(p++) = (unsigned char) data[(i*col*4)+j+1]; //g
+					*(p++) = (unsigned char) data[(i*col*4)+j+0]; //b
+					*(p++) = (unsigned char) 255-2*data[(i*col*4)+j+3]; //a
+					j+=4;
+				  }
+			}
+			else
+			{
+				MagLog::error() << "BaseDriverImage-> PNG format type ("<< cformat << ") not supported!" << endl;
+				cairo_surface_destroy (cimage);
+				return false;
+			}
+			cairo_surface_destroy (cimage);
+		}
+		else MagLog::warning() << "BaseDriverImage-> Could NOT read the image "<< fname << " with Cairo!" << endl;
+#else
+		MagLog::warning() << "BaseDriverImage-> Could NOT read the image "<< fname << ": No Cairo support!" << endl;
+#endif
+    }
 #ifdef MAGICS_RASTER
-	else if(format==GIF || format==PNG || format==JPG)
+	else if(format==GIF || format==JPG)
 	{
 		// convert png to ppm(raw) like image
 		FILE* fd3 = fopen(fname.c_str(),"rb");
@@ -407,7 +474,6 @@ MAGICS_NO_EXPORT bool BaseDriver::convertToPixmap(const string &fname, const Gra
 				*(p++) = (unsigned char) b;
 			}
 		}
-
 		gdImageDestroy(imp);
 	}
 #endif
@@ -431,50 +497,5 @@ MAGICS_NO_EXPORT bool BaseDriver::convertToPixmap(const string &fname, const Gra
 
 	if(!status) MagLog::warning() <<"BaseDriver::convertToPixmap() -> no Pixmap could be drawn! Zero size of at least one dimension."<< std::endl;
 	delete [] image;
-
 	return status;
 }
-
-/*
-bool BaseDriver::renderPixmap(MFloat ,MFloat,MFloat,MFloat ,int w,int h,unsigned char* IOUT,int, bool hasAlpha) const
-{
-#ifndef MAGICS_RASTER
-	MagLog::warning() << "Image import is not implemented for the used driver!!!" << endl;
-	return false;
-#else
-	gdImagePtr im = gdImageCreateTrueColor(w,h);
-	unsigned char *p = IOUT;
-	gdImageColorAllocateAlpha(im, 255, 255, 255, 127);
-	int a = 0;
-
-	for(int i=h-1;i>=0;i--)
-	{
-		for(int j=0;j<w; j++)
-		{
-			const int r = (int) *(p++);
-			const int g = (int) *(p++);
-			const int b = (int) *(p++);
-			if(hasAlpha) a = (int) *(p++);
-			const int col = gdImageColorResolveAlpha(im,r,g,b,a);
-			gdImageSetPixel(im, w, h, col);
-		}
-	}
-	gdImageDestroy(im);
-	gdImageAlphaBlending(im, 1);
-	gdImageSaveAlpha(im, 1); // save transparency
-
-	stringstream out;
-	out << output_resource_list_.size();
-	string filename = "magics_resource_"+out.str()+".png";
-
-	output_resource_list_.push_back(filename);
-
-
-	FILE *outFile = fopen(filename.c_str(),"wb");
-	gdImagePng(im,outFile);
-	fclose(outFile);
-
-	return true;
-#endif
-}
-*/
