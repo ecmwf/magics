@@ -129,9 +129,9 @@ public:
 	virtual void release() { dispatch(&BasicSceneObject::release); }
 
 	virtual void visit(MetaDataVisitor& meta)  		{ dispatch(meta); } 
-	virtual void visit(PreviewVisitor& preview)  		{ dispatch(preview); }
+	virtual void visit(PreviewVisitor& preview)  	{ dispatch(preview); }
 	virtual void visit(HistoVisitor& histo)  		{ dispatch(histo); }
-	virtual void visit(MagnifierVisitor& magnifier)  	{ dispatch(magnifier); }
+	virtual void visit(MagnifierVisitor& magnifier) { dispatch(magnifier); }
 	
 	virtual void visit(DateDescription& timestamp)  	{ dispatch(timestamp); }
 	virtual void visit(LevelDescription& level)  	{ dispatch(level); }
