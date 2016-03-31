@@ -38,9 +38,8 @@ using namespace magics;
 */
 MAGICS_NO_EXPORT void BaseDriver::renderImage(const ImportObject& obj) const
 {
-	std::string f = obj.getFormat();
-#ifndef HAVE_CAIRO
-	if(!magCompare(f,"png") )
+#if CAIRO_VERSION > CAIRO_VERSION_ENCODE(1, 2, 0)
+	if(!magCompare(obj.getFormat(),"png") )
 #endif
 	{
 		MagLog::error() << "BaseDriver::renderImage - Only PNG format is support as image import!\n"
@@ -96,31 +95,25 @@ MAGICS_NO_EXPORT bool BaseDriver::convertToPixmap(const string &fname, const Gra
 cout << " >>> IMAGE >>> "<<fname<<"   xy: "<<wx0<<","<<wy0<<"   wh: "<<wx1<<","<<wy1<< endl;
 
 	int Landscape = 0;
-	MFloat bx1=100.;
-	MFloat by1=100.;
 	unsigned char *image = 0;
-	int col=0,row=0;
 	int status = 0;
-	string s2("");
 	string pixmapFormat("rgb");
 
 if(format==PNG)
 	{
-#ifdef HAVE_CAIRO
+#if CAIRO_VERSION > CAIRO_VERSION_ENCODE(1, 2, 0)
 		cairo_surface_t *cimage = cairo_image_surface_create_from_png(fname.c_str());
 
-		if(cimage)
-		{
-			col = cairo_image_surface_get_width(cimage);
-			row = cairo_image_surface_get_height(cimage);
-			cairo_format_t cformat = cairo_image_surface_get_format(cimage);
-			unsigned char *data = cairo_image_surface_get_data(cimage);
-			bx1 = (MFloat) col;
-			by1 = (MFloat) row;
-			Landscape = 0;
+		if(!cimage) return 1;
 
-			if(cformat == CAIRO_FORMAT_RGB24)
-			{
+		const int col = cairo_image_surface_get_width(cimage);
+		const int row = cairo_image_surface_get_height(cimage);
+		cairo_format_t cformat = cairo_image_surface_get_format(cimage);
+		unsigned char *data = cairo_image_surface_get_data(cimage);
+		Landscape = 0;
+
+		if(cformat == CAIRO_FORMAT_RGB24)
+		{
 				image = new unsigned char [row*col*3];
 				unsigned char *p = image;
 				for (int i = 0; i<row; i++)
@@ -131,9 +124,9 @@ if(format==PNG)
 					*(p++) = (unsigned char) data[(i*col*4)+j+0]; //b
 					j+=4;
 				  }
-			}
-			else if(cformat == CAIRO_FORMAT_ARGB32)
-			{
+		}
+		else if(cformat == CAIRO_FORMAT_ARGB32)
+		{
 				pixmapFormat="rgba";
 				image = new unsigned char [row*col*4];
 				unsigned char *p = image;
@@ -146,18 +139,26 @@ if(format==PNG)
 					*(p++) = (unsigned char) 255-2*data[(i*col*4)+j+3]; //a
 					j+=4;
 				  }
-			}
-			else
-			{
+		}
+		else
+		{
 				MagLog::error() << "BaseDriverImage-> PNG format type ("<< cformat << ") not supported!" << endl;
 				cairo_surface_destroy (cimage);
 				return false;
-			}
-			cairo_surface_destroy (cimage);
 		}
-		else MagLog::warning() << "BaseDriverImage-> Could NOT read the image "<< fname << " with Cairo!" << endl;
+		cairo_surface_destroy (cimage);
+
+	    // const MFloat aspect = bx1/by1;
+	    //if ( Landscape == 1 )		y1 = y0 + abs(x1-x0)*aspect;
+	    //else if ( Landscape == 0 )	x1 = x0 + abs(y1-y0)*aspect;
+
+	    bool alpha = (pixmapFormat == "rgba");
+	    status = renderPixmap(wx0,wy0,wx1,wy1,col,row,image,Landscape,alpha);
+
+	    if(!status) MagLog::warning() <<"BaseDriver::convertToPixmap() -> no Pixmap could be drawn! Zero size of at least one dimension."<< std::endl;
+	    delete [] image;
 #else
-		MagLog::warning() << "BaseDriverImage-> Could NOT read the image "<< fname << ": No Cairo support!" << endl;
+		MagLog::error() << "BaseDriverImage-> Could NOT read the image "<< fname << ": No Cairo support enabled!" << endl;
 #endif
     }
 	else 
@@ -166,20 +167,5 @@ if(format==PNG)
 		                << "                               Please convert your image into PNG." << endl;
 		return 1;
 	}
-
-	MFloat x0 = wx0; //Left
-	MFloat x1 = wx1; //Right
-	MFloat y0 = wy0;
-	MFloat y1 = wy1;
-
-	// const MFloat aspect = bx1/by1;
-	//if ( Landscape == 1 )		y1 = y0 + abs(x1-x0)*aspect;
-	//else if ( Landscape == 0 )	x1 = x0 + abs(y1-y0)*aspect;
-
-	bool alpha = (pixmapFormat == "rgba");
-	status = renderPixmap(x0,y0,x1,y1,col,row,image,Landscape,alpha);
-
-	if(!status) MagLog::warning() <<"BaseDriver::convertToPixmap() -> no Pixmap could be drawn! Zero size of at least one dimension."<< std::endl;
-	delete [] image;
 	return status;
 }
