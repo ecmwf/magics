@@ -1204,7 +1204,8 @@ MAGICS_NO_EXPORT bool PostScriptDriver::renderPixmap(MFloat x0,MFloat y0,MFloat 
 	  for(int i=width-1;i>=0;i--)
 	  {
 		// Get image left-right and bottom-up
-		const int n = ( landscape ) ? (height*i+j)*3 : (j*width + width-1-i )*3;
+		int n = ( landscape ) ? (height*i+j)*3 : (j*width + width-1-i )*3;
+		if(alpha) n = ( landscape ) ? (height*i+j)*4 : (j*width + width-1-i )*4;
 		unsigned char *p2 = p+n;
 		unsigned char r = *(p2++);
 		unsigned char g = *(p2++);
