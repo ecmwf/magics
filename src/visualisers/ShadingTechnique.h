@@ -47,6 +47,7 @@ class Polyline;
 class CellArray;
 class Transformation;
 class ContourMethod;
+class IsoPlot;
 
 class ShadingTechnique  {
 
@@ -64,7 +65,7 @@ public:
     virtual bool hasLegend() { return false; }
     virtual BasicGraphicsObject* next() { return 0; }
     virtual void operator()(Data&, BasicGraphicsObjectContainer&) {}
-	virtual void operator()(MatrixHandler&, BasicGraphicsObjectContainer&) {}
+	virtual void operator()(IsoPlot* iso, MatrixHandler& data, BasicGraphicsObjectContainer& parent);
     virtual void operator()(Polyline*) const {};
     virtual bool prepare(const LevelSelection&, const ColourTechnique&)  { return false; }   
     virtual void visit(LegendVisitor&, const ColourTechnique&) {}   

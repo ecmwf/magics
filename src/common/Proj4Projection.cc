@@ -327,7 +327,7 @@ PaperPoint Proj4Projection::operator()(const UserPoint& point)  const
 		MagLog::debug() << pj_strerrno(error) << " for " << point << endl;
 		return PaperPoint(-1000000, -10000000);
 	}
-	return PaperPoint(x, y, point.value_, point.missing());	               
+	return PaperPoint(x, y, point.value_, point.missing(), point.border(), 0, point.name());
 }
 
 PaperPoint Proj4Projection::operator()(const PaperPoint& point)  const

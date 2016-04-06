@@ -2,14 +2,14 @@
 
 set +x
 
-src='wave-dir-land.json'
+src='cyclone-trajectory-template.json'
 img_ext="png"
-img="wave-dir-land.png"
+img="cyclone-trajectory.png"
 where='web'
 interpretor='magjson'
 ext="json"
 
-version="2.26.0"
+version="2.28.0"
 dir=`pwd`
 name=`basename $dir`
 

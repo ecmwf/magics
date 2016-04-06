@@ -1,0 +1,52 @@
+{
+    "_name": "cyclone", 
+    "drivers": [
+        {
+            "format": "png", 
+            "fullname": "cyclone.png", 
+            "output_cairo_transparent_background": "off", 
+            "output_name_first_page_number": "off", 
+            "output_width": "1200"
+        }
+    ], 
+    "height": "600", 
+    "method": "wrep", 
+    "page": {
+        "map": {
+            "border": "off", 
+            "fitted_mode": "expand", 
+            "margin_bottom": "0", 
+            "margin_left": "0", 
+            "margin_right": "0", 
+            "margin_top": "0", 
+            "coastlines": { } ,
+            "plot": {
+                "geojson" : { "geojson_input_type" : "file", 
+                    "geojson_input_filename" : "cyclone.json"
+                    },
+                "symbol": {
+                    "symbol_type" :  "both",
+                    "symbol_colour" :  "red",
+                    "symbol_height" :  "0.5",
+                    "symbol_text_font_size" : "0.40",
+                    "symbol_text_font_colour" : "black",
+                    "symbol_marker_index" : "15"
+                 }
+                }, 
+             "lower_left_latitude": "-30.",
+             "lower_left_longitude": "60",
+             "projection": "cylindrical",
+             "vertical_longitude": "100",
+             "upper_right_latitude": "-10",
+             "upper_right_longitude": "100"
+        }, 
+        "meta": {
+            "javascript_path": "cyclone.js",
+            "profile_path": "cyclone-info.js"
+        }, 
+        "page_id": "off"
+    }, 
+    "render": "render", 
+    "version": "3.0", 
+    "width": "1200"
+}

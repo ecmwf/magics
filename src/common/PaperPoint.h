@@ -39,11 +39,11 @@ namespace magics {
 class PaperPoint  {
 
 public:
-	PaperPoint(double x, double y, double value = 0, bool missing = false, bool border=false, int range = 0) :
-		x_(x), y_(y), value_(value), range_(range), high_(false), low_(false),
+	PaperPoint(double x, double y, double value = 0, bool missing = false, bool border=false, int range = 0, const string& name = "") :
+		x_(x), y_(y), value_(value), range_(range), name_(name), high_(false), low_(false),
 		missing_(missing), border_(border) {}
 	//~PaperPoint() {}
-	PaperPoint() : x_(0), y_(0), value_(0), high_(false), low_(false), 
+	PaperPoint() : x_(0), y_(0), value_(0), name_(""), high_(false), low_(false),
 		missing_(false), border_(false) {}
 	
 	void y(double y) { y_ = y; }
@@ -59,6 +59,7 @@ public:
 	inline double y() const     { return y_; }
 	inline double x() const     { return x_; }
 	inline double value() const { return value_; }
+	inline string name() const  { return name_; }
 	inline int range() const { return range_; }
 	
 	void flagMissing()          { missing_ = true; }
@@ -76,6 +77,8 @@ public:
 	double y_;
 	double value_;
 	int       range_;
+	string name_;
+
 	bool in(double left, double right, double bottom, double top) const
 	{
 		if (y_ > top)

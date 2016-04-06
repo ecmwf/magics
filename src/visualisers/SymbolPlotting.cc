@@ -70,7 +70,10 @@ void SymbolPlotting::operator()(const PaperPoint& point, BasicGraphicsObjectCont
 
 		if  ( magCompare(type_, "number") || magCompare(type_, "both")) {
 			ostringstream nice;
+
 			nice << MagicsFormat(format_, point.value());
+			if ( point.name() != "" )
+				nice << "[" << point.name() << "]";
 			value = nice.str();
 		}
        

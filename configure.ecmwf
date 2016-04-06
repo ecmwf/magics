@@ -53,7 +53,7 @@ case "${OS_VERSION}" in
             debug='off'
             bufr='on'
             build_home="/tmp/cgs/build/$version/daily"
-            install_home="/tmp/cgs/Magics/$version/daily"
+            install_home="/home/graphics/cgs/$version/daily"
             run="1"
         fi
         if [[ $use = 'debug' ]]; then
@@ -178,7 +178,7 @@ echo "start"
 echo ${build_home}
 mkdir -p ${build_home}
 cd ${build_home}
-rm -fR ${build_home}/*
+#rm -fR ${build_home}/*
 
 
 cmd="${git_home}/../ecbuild/bin/ecbuild ${git_home} $args"
