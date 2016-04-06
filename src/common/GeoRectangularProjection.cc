@@ -78,14 +78,14 @@ void GeoRectangularProjection::print(ostream& o) const
 PaperPoint GeoRectangularProjection::operator()(const UserPoint& point)  const
 {
 	if ( !projection_ ) {
-		return  PaperPoint(point.x(), point.y(), point.value(), point.missing(), point.border());
+		return  PaperPoint(point.x(), point.y(), point.value(), point.missing(), point.border(), 0, point.name());
 
 	}
 
 	TeCoord2D geo = TeCoord2D(point.x()*TeCDR, point.y()*TeCDR);
 	TeCoord2D xy = projection_->LL2PC(geo);
 
-	return PaperPoint(xy.x(), xy.y(), point.value(), point.missing());
+	return PaperPoint(xy.x(), xy.y(), point.value(), point.missing(), point.border(), 0, point.name());
 }
 
 PaperPoint GeoRectangularProjection::operator()(const PaperPoint& point)  const

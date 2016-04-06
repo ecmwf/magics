@@ -46,7 +46,7 @@
 
 namespace magics {
 
-
+class GeoObject;
 
 class GeoJSon:
 			public Data,
@@ -59,11 +59,7 @@ public:
 	
 	typedef void (GeoJSon::*Method)(const json_spirit::Value&);
 
-
 	map<string,  Method> methods_;
-	
-
-
 	
     void points(const Transformation&, vector<UserPoint>&);
     void customisedPoints(const Transformation&, const std::set<string>&, CustomisedPointsList&, bool );
@@ -74,12 +70,17 @@ protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).
 	 virtual void print(ostream&) const; 
 	 void decode();
+	 void dig(const json_spirit::Value&);
 	 void coordinates(const json_spirit::Value&);
 	 void properties(const json_spirit::Value&);
 	 void type(const json_spirit::Value&);
-	 vector<CustomisedPoint*> points_;
+	 void geometry(const json_spirit::Value&);
+	 void features(const json_spirit::Value&);
+	 string find(json_spirit::Object&, const string&);
 
-    
+	 vector<CustomisedPoint*> points_;
+	 GeoObject* current_;
+	 GeoObject* parent_;
 
 private:
     //! Copy constructor - No copy allowed

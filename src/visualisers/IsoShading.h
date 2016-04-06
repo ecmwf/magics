@@ -43,7 +43,7 @@
 namespace magics {
 
 class ContourMethod;
-
+class IsoPlot;
 class NoIsoShading  {
 
 public:
@@ -54,10 +54,10 @@ public:
 	virtual void toxml(ostream&, int = 0) const {}
 	virtual bool accept(const string&) { return true;}
     
-	virtual void operator()(MatrixHandler&, BasicGraphicsObjectContainer&)
+	virtual void operator()(IsoPlot*, MatrixHandler&, BasicGraphicsObjectContainer&)
 			{  }
-		virtual void operator()(Data&, BasicGraphicsObjectContainer&)
-				{  }
+	virtual void operator()(Data&, BasicGraphicsObjectContainer&)
+			{  }
  
     
     virtual NoIsoShading* clone() {
@@ -118,8 +118,8 @@ public:
 	        	    		const Transformation& transformation, int width, int height,
 	        	    		float resolution, const string& technique) {
 		 return technique_->array(matrix, range, transformation, width, height, resolution, technique); }
-	virtual void operator()(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
-		{ (*this->technique_)(data, parent); }
+	virtual void operator()(IsoPlot* iso, MatrixHandler& data, BasicGraphicsObjectContainer& parent)
+		{ (*this->technique_)(iso, data, parent); }
 	virtual void operator()(Data& data, BasicGraphicsObjectContainer& parent)
 			{ (*this->technique_)(data, parent); }
 	virtual int     shadingIndex(double);
