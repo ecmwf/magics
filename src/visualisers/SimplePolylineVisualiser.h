@@ -53,7 +53,7 @@ public:
 	SimplePolylineVisualiser();
 	virtual ~SimplePolylineVisualiser();
     
-   
+    
     
 	void operator()(Data&, BasicGraphicsObjectContainer&);
 	void visit(Data&, LegendVisitor&);
@@ -75,13 +75,17 @@ public:
     // Implements the set method ... 
     void set(const map<string, string>& map ) { SimplePolylineAttributes::set(map); }
     void set(const XmlNode& node) { SimplePolylineAttributes::set(node); }
+
+    void basic(Data&, BasicGraphicsObjectContainer&);
+    void smooth(Data&, BasicGraphicsObjectContainer&);
     
     
 protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).
 	 virtual void print(ostream&) const; 
- 
     
+    typedef void (SimplePolylineVisualiser::*Method)(Data&, BasicGraphicsObjectContainer&);
+    map<string, Method> map_;
 
 private:
     //! Copy constructor - No copy allowed
