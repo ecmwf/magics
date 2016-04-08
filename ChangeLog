@@ -1,6 +1,17 @@
 Changes in Magics++ (for developers - users should read 'NEWS')
 ===============================================================
 
+
+These are the changes as recorded under Perforce. In 2013 the Magics code was 
+moved under Git. 
+The detailed history of changes can either be seen in Git or more user friendly 
+change list at
+
+  https://software.ecmwf.int/wiki/display/MAGP/Latest+News  
+
+
+============================================
+
 Change 83492 on 2013/03/02 by cgs@cgs
 
 	Add CSV decoder in the python interface
