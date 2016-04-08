@@ -2,7 +2,7 @@
 <class inherits="SimplePolylineInput" xmltag="polyline" name="SimplePolyline" directory="visualisers" prefix="polyline/polyline_line" action="pline" interface="ColourTechniqueInterface/LevelSelectionInterface">
  	<parameter member="legend" to="bool" default="off" from="string" name="legend">
          		<release>Magics++2.80		</release>
-         		<documentation> Turn the legend on 		</documentation>
+         		<documentation> Turn the legend on 		</documentation>f
   	</parameter>
   	<parameter member="colour" to="Colour" default="blue" from="string" name="polyline_line_colour">
          		<release>Magics++2.1		</release>
@@ -16,6 +16,20 @@
          		<release>Magics++2.1		</release>
          		<documentation> Thickness of the polylines 		</documentation>
   	</parameter>
+
+    <parameter member="method" to="string" default="classic" from="string" name="polyline_effect_method" values="classic/trajectory">
+            
+            <documentation> Method applied to draw the line   </documentation>
+    </parameter>
+
+    <parameter member="pivot" to="int" default="-1" from="int" name="polyline_trajectory_pivot_index" >
+            <documentation> Method applied to draw the line   </documentation>
+    </parameter>
+    
+    <parameter member="factor" to="int" default="-1" from="int" name="polyline_trajectory_factor" >
+            
+            <documentation> Method applied to draw the line   </documentation>
+    </parameter>
   
   	<parameter member="count" to="int" default="10" from="int" name="polyline_level_count">
          		<documentation> Count or number of levels to be plotted. Magics will try to find "nice levels", 
