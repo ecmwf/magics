@@ -110,7 +110,7 @@ Symbol* SymbolProperties::symbol(const string& type) const
 			else
 				symbol = new Symbol();
 	}
-	if ( magCompare(type, "both") ) {
+	if ( magCompare(type, "both") || magCompare(type, "marker_text") ) {
 		TextSymbol* text = new TextSymbol();
 
 		text->position(position_);
