@@ -1396,54 +1396,33 @@ else
 */
 MAGICS_NO_EXPORT void SVGDriver::renderImage(const ImportObject& obj) const
 {
-	closeGroup();
-	std::string file = obj.getPath();
-
-	string format = obj.getFormat();
-	if(magCompare(format,"ps") || magCompare(format,"pdf"))
+/*	if(magCompare(logoLocation_,"LOCAL"))
 	{
-		std::string cmd = "convert "+file+"[1] ___magics_svg_temp.png";
-		MagLog::info() <<"SVGDriver::renderImage calling convert ... with: " <<cmd << endl;
-		int status = system(cmd.c_str());
-		if(status)
-		{
-			MagLog::error() << "\nSVGDriver: Command exit not zero - NO PNG produced!\n"
-			             << " COMMAND: "<<cmd<<"\n"<< endl;
-			return;
-		}
-		file="___magics_svg_temp.png";
-	}
+	  closeGroup();
+	  std::string file = obj.getPath();
 
-	const MFloat w = (obj.getWidth()<0)  ? 30./coordRatioX_ : obj.getWidth();
-	const MFloat h = (obj.getHeight()<0) ? 30./coordRatioY_ : obj.getHeight();
+	  string format = obj.getFormat();
 
-	if(!magCompare(format,"svg"))
-	{
-		const MFloat x = projectX(obj.getOrigin().x());
-		const MFloat y = projectY(obj.getOrigin().y());
-		const MFloat oh = projectY(obj.getOrigin().y()+h) - y;
-		const MFloat ow = projectX(obj.getOrigin().x()+w) - x;
+	  const MFloat w = (obj.getWidth()<0)  ? 30./coordRatioX_ : obj.getWidth();
+	  const MFloat h = (obj.getHeight()<0) ? 30./coordRatioY_ : obj.getHeight();
 
-		const ImageProperties::OriginReference ori = obj.getOriginReference();
-		if(ori == ImageProperties::centre)
+	  const MFloat x = projectX(obj.getOrigin().x());
+	  const MFloat y = projectY(obj.getOrigin().y());
+	  const MFloat oh = projectY(obj.getOrigin().y()+h) - y;
+	  const MFloat ow = projectX(obj.getOrigin().x()+w) - x;
+
+	  const ImageProperties::OriginReference ori = obj.getOriginReference();
+	  if(ori == ImageProperties::centre)
 			pFile_ << "<image x=\""<<x-(ow*.5)<<"\" y=\""<<setY(y)-(oh*.5);
-		else
+	  else
 			pFile_ << "<image x=\""<<x<<"\" y=\""<<setY(y)-oh;
-		pFile_  <<"\" width=\""  << ow
+	  pFile_  <<"\" width=\""  << ow
 		        <<"\" height=\"" << oh
 		        <<"\" xlink:href=\""<<file<<"\" />\n";
 	}
-	else
+	else */
 	{
-		ifstream svgfile(file.c_str());
-		if(!svgfile){
-			MagLog::error() << "SVGDriver::renderImage() --> Cannot open SVG file! " << file <<"!\n";
-			return;
-		}
-		char ch;
-		while (svgfile.get(ch)){pFile_.put(ch);}
-		svgfile.close();
-		svg_output_resource_list_.push_back(file);
+		BaseDriver::renderImage(obj);
 	}
 }
 
