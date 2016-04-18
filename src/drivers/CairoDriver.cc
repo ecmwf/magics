@@ -539,8 +539,8 @@ MAGICS_NO_EXPORT void CairoDriver::write_tiff() const
 
     // DPI
     TIFFSetField(tif, TIFFTAG_RESOLUTIONUNIT, RESUNIT_INCH);
-    TIFFSetField(tif, TIFFTAG_XRESOLUTION, (float) 90.;// resolution_);
-    TIFFSetField(tif, TIFFTAG_YRESOLUTION, (float) 90.;// resolution_);
+    TIFFSetField(tif, TIFFTAG_XRESOLUTION, (float) 90.);
+    TIFFSetField(tif, TIFFTAG_YRESOLUTION, (float) 90.);
 
     unsigned char *buf;
     if (TIFFScanlineSize(tif))
@@ -1421,21 +1421,6 @@ MAGICS_NO_EXPORT bool CairoDriver::renderPixmap(MFloat x0,MFloat y0,MFloat x1,MF
 MAGICS_NO_EXPORT void CairoDriver::renderImage(const ImportObject& obj) const
 {
 	std::string file = obj.getPath();
-
-	if(!magCompare(obj.getFormat(),"png"))
-	{
-		std::string cmd = "convert "+file+"[1] ___magics_cairo_temp.png";
-		MagLog::info() <<"CairoDriver::renderImage calling convert ... with: " <<cmd << endl;
-		int status = system(cmd.c_str());
-		if(status)
-		{
-			MagLog::error() << "\nCairoDriver: Command exit not zero - NO PNG produced!\n"
-			             << " COMMAND: "<<cmd<<"\n"<< endl;
-			return;
-		}
-		file="___magics_cairo_temp.png";
-	}
-
 	cairo_surface_t *image = cairo_image_surface_create_from_png(file.c_str());
 
 	if(image)

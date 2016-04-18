@@ -147,7 +147,7 @@ void SymbolAdvancedTableMode::adjust(double min, double max)
     LevelSelection::const_iterator level = levels_->begin();
     vector<int>::const_iterator marker = markers_.begin();
     vector<string>::const_iterator marker_name = markers_names_.begin();
-    bool index = magCompare(parent_->marker_mode_, "index");
+    const bool index = magCompare(parent_->marker_mode_, "index");
     SymbolProperties last;
     vector<string>::const_iterator text = text_list_.begin();
     while ( true) {
@@ -157,10 +157,9 @@ void SymbolAdvancedTableMode::adjust(double min, double max)
 
     	SymbolProperties properties;
     	if ( index )
-    		properties = SymbolProperties(colourMethod_->right(*level), height_method_->height(*level), *marker, *text);
+    		properties = SymbolProperties(colourMethod_->right(*level), height_method_->height(*level), *marker     , *text);
     	else
-
-    		properties = SymbolProperties(colourMethod_->right(*level), height_method_->height(*level),  *marker_name, *text);
+    		properties = SymbolProperties(colourMethod_->right(*level), height_method_->height(*level), *marker_name, *text);
 
     	properties.position_ = position;
     	properties.font_ = font;
