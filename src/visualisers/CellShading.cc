@@ -119,15 +119,15 @@ void CellShading::operator()(IsoPlot* iso, MatrixHandler& data, BasicGraphicsObj
 	double distance_data = projection.distance(point, nextdata);
 
 
+	if ( magCompare(resolution_method_, "adaptive" ) ) {
 
-	cout <<  distance_plot << "<" << distance_data << "????" << endl;
-
-	if (   distance_plot < distance_data ) {
-		iso->isoline(data, parent);
-		cout << "Grid Shading" << endl;
-		MagLog::info() << "Magics will use grid shading" << endl;
+		if (   distance_plot < distance_data ) {
+			iso->isoline(data, parent);
+			cout << "Grid Shading" << endl;
+			MagLog::info() << "Magics will use grid shading" << endl;
+		}
+		return ;
 	}
-
 	
 	Image* image = new Image();
 	image->set(rows, columns);

@@ -3,11 +3,17 @@
 	
   	<parameter member="resolution" to="float" default="10" from="float" name="contour_shade_cell_resolution">
          		<documentation> Number of cells per cm for CELL shading 		</documentation> 
-         		<release>0.8		</release>
+         		
   	</parameter>
   
   	<parameter from="string" name="contour_shade_cell_method" default="nearest" member="method" to="string" values="nearest/interpolate">
          		<documentation> NMethod of determining the colour of a cell (INTERPOLATE/ NEAREST) 		</documentation>
-         		<release>0.8		</release>
+         		
   	</parameter>
-</class></magics>
+  	<parameter from="string" name="contour_shade_cell_resolution_method" default="classic" member="resolution_method" to="string" values="classic/adaptive">
+         		<documentation> if adaptive, magics will switch to grid_shading when the data resolution is greater that the requested resolution </documentation>
+         		
+  	</parameter>
+</class>
+
+</magics>

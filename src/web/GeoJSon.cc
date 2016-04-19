@@ -32,6 +32,7 @@
 
 #include "GeoJSon.h"
 #include "Factory.h"
+#include "BinningObject.h"
 
 
 using namespace magics;
@@ -86,6 +87,7 @@ public:
 
 				(*object)->create(out);
 			}
+
 		}
 		vector<GeoObject*> objects_;
 		virtual GeoObject* push_back(GeoObject* o) {
@@ -96,6 +98,23 @@ public:
 
 
 int GeoObject::index_ = 0;
+class GeoFeature : public GeoObject
+{
+public:
+	GeoFeature() {
+		ostringstream n;
+		n << "GeoFeature_" << index_;
+		name_ = n.str();
+
+	}
+	virtual ~GeoFeature() {}
+
+
+	void create(PointsList& out) {
+		GeoObject::create(out);
+		out.push_back(new UserPoint(0,0,0,true));
+	}
+};
 
 class GeoPoint : public GeoObject
 {
@@ -120,6 +139,7 @@ public:
 
 		UserPoint* point = new UserPoint(lon_, lat_, tonumber(getProperty("value", "0")), false, false, getProperty("name"));
 		out.push_back(point);
+
 	}
 };
 
@@ -163,11 +183,11 @@ public:
 
 }
 static SimpleObjectMaker<GeoPoint, GeoObject> Point("Point");
-static SimpleObjectMaker<GeoObject> FeatureCollection("FeatureCollection");
+static SimpleObjectMaker<GeoFeature, GeoObject> FeatureCollection("FeatureCollection");
 static SimpleObjectMaker<GeoObject> Feature("Feature");
 static SimpleObjectMaker<MultiLineString, GeoObject> MultiLineString("MultiLineString");
 
-GeoJSon::GeoJSon(): current_(0), parent_(0)
+GeoJSon::GeoJSon(): current_(0), parent_(0), matrix_(0)
 {
 	methods_["coordinates"] = &GeoJSon::coordinates;
 	methods_["type"] = &GeoJSon::type;
@@ -180,6 +200,26 @@ GeoJSon::GeoJSon(): current_(0), parent_(0)
 GeoJSon::~GeoJSon()
 {
 	
+}
+
+MatrixHandler& GeoJSon::matrix()
+{
+	if  ( !matrix_ ) {
+		decode();
+		BinningObject binning;
+		binning.x_ = "interval";
+		binning.x_interval_ = binning_resolution_;
+		binning.x_reference_ = -180.;
+		binning.y_ = "interval";
+		binning.y_interval_ = binning_resolution_;
+		binning.y_reference_ = -90.;
+
+		matrix_ = binning(*this);
+
+	}
+
+	matrixHandlers_.push_back(new MatrixHandler(*matrix_));
+	return *(matrixHandlers_.back());
 }
 
 void GeoJSon::print(ostream& out) const
@@ -253,7 +293,8 @@ void GeoJSon::type(const json_spirit::Value& value)
 
 void GeoJSon::decode()
 {
-
+	if ( points_.size() )
+		return;
 	points_.clear();
 
 	try {

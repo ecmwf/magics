@@ -1,53 +1,49 @@
 {
-    "_name": "cyclone-trajectory", 
+    "_name": "cyclone-trajectory",
     "drivers": [
         {
-            "format": "png", 
-            "fullname": "cyclone-trajectory.png", 
-            "output_cairo_transparent_background": "off", 
-            "output_name_first_page_number": "off", 
+            "format": "png",
+            "fullname": "cyclone-trajectory.png",
+            "output_cairo_transparent_background": "off",
+            "output_name_first_page_number": "off",
             "output_width": "1200"
         }
-    ], 
-    "height": "600", 
-    "method": "wrep", 
+    ],
+    "height": "600",
+    "method": "wrep",
     "page": {
         "map": {
-            "border": "off", 
-            "fitted_mode": "expand", 
-            "margin_bottom": "0", 
-            "margin_left": "0", 
-            "margin_right": "0", 
-            "margin_top": "0", 
+            "border": "off",
+            "fitted_mode": "expand",
+            "margin_bottom": "0",
+            "margin_left": "0",
+            "margin_right": "0",
+            "margin_top": "0",
             "coastlines": { } ,
             "plot": {
-                "geojson" : { "geojson_input_type" : "file", 
+                "geojson" : { "geojson_input_type" : "file",
                     "geojson_input_filename" : "cyclone-trajectory.json"
                     },
-                "symbol": {
-                    "symbol_type" :  "both",
-                    "symbol_colour" :  "red",
-                    "symbol_height" :  "0.3",
-                    "symbol_text_font_size" : "0.40",
-                    "symbol_text_font_colour" : "black",
-                    "symbol_connect_line" : "on",
-                    "symbol_marker_index" : "15"
+                "polyline": {
+                    "polyline_line_thickness" : "4",
+                    "polyline_effect_method" : "trajectory",
+                    "polyline_trajectory_factor" : "4"
                  }
-                }, 
+                },
              "lower_left_latitude": "-30.",
              "lower_left_longitude": "60",
              "projection": "cylindrical",
              "vertical_longitude": "100",
              "upper_right_latitude": "-10",
              "upper_right_longitude": "100"
-        }, 
+        },
         "meta": {
             "javascript_path": "cyclone-trajectory.js",
             "profile_path": "cyclone-trajectory-info.js"
-        }, 
+        },
         "page_id": "off"
-    }, 
-    "render": "render", 
-    "version": "3.0", 
+    },
+    "render": "render",
+    "version": "3.0",
     "width": "1200"
 }

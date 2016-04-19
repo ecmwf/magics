@@ -90,8 +90,11 @@ void Wind::operator()(Data& data, BasicGraphicsObjectContainer& parent)
 		//request.insert("debug");
 	(*method)(data, transformation, request, points);
 	if (points.empty() )
+
 		return;
-		(*this->type_).prepare(parent, method->units());
+
+	cout << points.size() << "--------------" <<  endl;
+	(*this->type_).prepare(parent, method->units());
 				
 		(*this->type_).adjust(points, transformation);
 
