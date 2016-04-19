@@ -64,7 +64,7 @@ public:
     void points(const Transformation&, vector<UserPoint>&);
     void customisedPoints(const Transformation&, const std::set<string>&, CustomisedPointsList&, bool );
     PointsHandler& points(const Transformation&, bool);
-
+    MatrixHandler& matrix();
 
 protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).
@@ -81,6 +81,7 @@ protected:
 	 vector<CustomisedPoint*> points_;
 	 GeoObject* current_;
 	 GeoObject* parent_;
+	 Matrix *matrix_;
 
 private:
     //! Copy constructor - No copy allowed

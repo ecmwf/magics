@@ -525,7 +525,7 @@ int Matrix::nearest_index(double row, double column,double &rowOut, double &colO
 
 		}
 	}
-
+	if ( value == -1 ) return value;
 	return ( data_[value] == missing() ) ? -1 : value;
 
 }

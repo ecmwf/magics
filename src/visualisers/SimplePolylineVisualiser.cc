@@ -124,42 +124,74 @@ void SimplePolylineVisualiser::smooth(Data& data, BasicGraphicsObjectContainer& 
 {
    const Transformation& transformation = parent.transformation();
    
-   vector<PaperPoint> work;
+   vector<vector<PaperPoint> > work;
+   vector<int> pivots;
    PointsHandler& points = data.points(parent.transformation(), true);
    points.setToFirst();
-   
+   if ( pivot_ == -1 )
+      pivot_ =  work.size()/2;
+    if ( factor_ == -1 )
+      factor_ =  work.size()/2;
 
+
+
+   int ind = 0;
+
+   work.push_back(vector<PaperPoint>());
    while ( points.more() )
    {
-    
-	   work.push_back(transformation(points.current()));
-     points.advance();
+
+
+       if ( points.current().value() == -1) {
+    	   pivot_ = ind;
+    	   cout << "found pivot " << ind << endl;
+
+       }
+
+       ind++;
+
+       if ( points.current().missing() ) {
+    	   if ( !work.back().empty() ) {
+    		   work.push_back(vector<PaperPoint>());
+
+    	   }
+    	   ind = 0;
+
+       }
+       else {
+    	   work.back().push_back(transformation(points.current()));
+       }
+
+	   points.advance();
    }
 
-   if ( work.empty() )
-      return;
 
-  if ( pivot_ == -1 )
-    pivot_ =  work.size()/2;
-  if ( factor_ == -1 )
-    factor_ =  work.size()/2;
+cout << work.size()  << " " << pivots.size() << endl;
+//assert( work.size() == pivots.size() +1);
   
   double alpha;
-  for ( int i = 0; i < work.size() -1; i++) {
-      Polyline segment;
-      segment.setLineStyle(style_);
-      segment.setThickness(thickness_);
-      Colour colour = *colour_;
 
-      
-      alpha = exp(-(abs(float(i -pivot_))/factor_));
+  for ( int p = 0; p < work.size(); p++) {
 
-       cout << "alpha = " << alpha << ", i = " << i << endl;
-      colour.setAlpha(alpha);
-      segment.setColour(colour);
-      segment.push_back(work[i]);
-      segment.push_back(work[i+1]);
-      parent.transformation()(segment, parent);
+
+	  if ( work[p].empty() )
+		  continue;
+      for ( int i = 0; i < work[p].size()-1; i++) {
+    	  //cout <<
+    	  Polyline segment;
+    	  segment.setLineStyle(style_);
+    	  segment.setThickness(thickness_);
+    	  Colour colour = *colour_;
+
+    	  alpha = exp(-(abs(float(i - pivot_))/factor_));
+
+    	  //cout << "alpha = " << alpha << ", i = " << i << endl;
+    	  colour.setAlpha(alpha);
+    	  segment.setColour(colour);
+    	  segment.push_back(work[p][i]);
+    	  segment.push_back(work[p][i+1]);
+    	  parent.transformation()(segment, parent);
+      }
     }
 
   

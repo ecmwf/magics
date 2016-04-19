@@ -1,0 +1,17 @@
+<magics>
+<class action="pmetgram" directory="visualisers" prefix="metgram" xmltag="metgraph" name="MetgramBar">
+    	<documentation>
+        The metgram curve will plot the metgram a s a curve! 
+    	</documentation>
+        	
+        	<parameter member="keyword" to="string" default="curve1" from="string" name="metgram_bar_keyword">           
+            		<documentation> keyword used for define the bars	</documentation>
+        	</parameter>
+        	
+        	<parameter member="colour" to="Colour" default="blue" from="string" name="metgram_bar_colour">           
+            		<documentation> Colour of the curve  		</documentation>
+        	</parameter>
+        	
+         	
+</class>
+</magics>

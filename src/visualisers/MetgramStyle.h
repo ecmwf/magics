@@ -38,6 +38,8 @@
 #include "BasicGraphicsObject.h"
 #include "MetgramFlagsAttributes.h"
 #include "MetgramCurveAttributes.h"
+#include "MetgramBarAttributes.h"
+
 namespace magics {
 
 
@@ -87,23 +89,24 @@ private:
 
 };
 
-class MetgramBar: public MetgramStyle {
+class MetgramBar: public MetgramStyle, public MetgramBarAttributes {
 
 public:
 	MetgramBar() {}
 	virtual ~MetgramBar() {}
     
-    virtual void set(const XmlNode&) {
-        MagLog::dev() << "(const XmlNode&)---> to be checked!...\n";
+    virtual void set(const XmlNode& node) {
+
+        MetgramBarAttributes::set(node);
     }
-    virtual void set(const map<string, string>&) {
-        MagLog::dev() << "(const map<string, string&)---> to be checked!...\n";
+    virtual void set(const map<string, string>& map) {
+    	MetgramBarAttributes::set(map);
     }
     virtual bool accept(const string& node) {
         return magCompare(node, "bar");
     }
     virtual MetgramStyle* clone() const {
-        MagLog::dev() << "(const map<string, string&)---> to be checked!...\n";
+
         return new MetgramBar();
     }
     

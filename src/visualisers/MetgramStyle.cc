@@ -129,8 +129,8 @@ void MetgramBar::operator()(CustomisedPointsList& points, BasicGraphicsObjectCon
 		Polyline* box  = new Polyline();	
         box->setFilled(true);
 		box->setShading(new FillShadingProperties());
-		box->setFillColour(Colour("blue"));
-		box->setColour(Colour("blue"));
+		box->setFillColour(*colour_);
+		box->setColour(*colour_);
 
 		
 	
@@ -149,13 +149,13 @@ void MetgramBar::operator()(CustomisedPointsList& points, BasicGraphicsObjectCon
 		if (left < xmin) left = xmin; 
 		if (right > xmax) right = xmax; 
 		
-		if ( (*point)->find("curve1") != (*point)->end() )   {
+		if ( (*point)->find(keyword_) != (*point)->end() )   {
 			box->push_back(PaperPoint(left, 0));
-			box->push_back(PaperPoint(left, (**point)["curve1"]));
-			box->push_back(PaperPoint(right, (**point)["curve1"]));
+			box->push_back(PaperPoint(left, (**point)[keyword_]));
+			box->push_back(PaperPoint(right, (**point)[keyword_]));
 			box->push_back(PaperPoint(right, 0));
 			box->push_back(PaperPoint(left, 0));
-			ypos.push_back((**point)["curve1"]);
+			ypos.push_back((**point)[keyword_]);
 			limits.push_back(x);
 		}
 		visitor.push_back(box);
@@ -209,21 +209,21 @@ void MetgramCurve::operator()(CustomisedPointsList& points, BasicGraphicsObjectC
 		xpos.push_back(x);		
 	    x -= (**point)["shift"];
 		
-		if ( (*point)->find("curve1") != (*point)->end() )   {
-			curve1->push_back(PaperPoint(x, (**point)["curve1"]));
-			ypos.push_back((**point)["curve1"]);
-			if ( (**point)["curve1"] < y1 ) {
+		if ( (*point)->find(keyword1_) != (*point)->end() )   {
+			curve1->push_back(PaperPoint(x, (**point)[keyword1_]));
+			ypos.push_back((**point)[keyword1_]);
+			if ( (**point)[keyword1_] < y1 ) {
 				x1 = x;
-				y1 = (**point)["curve1"];
+				y1 = (**point)[keyword1_];
 			}
 		}
 		
-		if ( (*point)->find("curve2") != (*point)->end() )   {
-			curve2->push_back(PaperPoint(x, (**point)["curve2"]));
-			ypos.push_back((**point)["curve2"]);
-			if ( (**point)["curve2"] > y2 ) {
+		if ( (*point)->find(keyword2_) != (*point)->end() )   {
+			curve2->push_back(PaperPoint(x, (**point)[keyword2_]));
+			ypos.push_back((**point)[keyword2_]);
+			if ( (**point)[keyword2_] > y2 ) {
 				x2 = x;
-				y2 = (**point)["curve2"];
+				y2 = (**point)[keyword2_];
 			}
 		}
 	}
@@ -287,7 +287,7 @@ void MetgramFlags::operator()(CustomisedPointsList& points, BasicGraphicsObjectC
    
 	flags->setOriginMarker("magics_15");
 	flags->setOriginHeight(0.05);
-	flags->setConvention(KNOTS);
+	//flags->setConvention(KNOTS);
 	int i = 0;
 	for (CustomisedPointsList::const_iterator point = points.begin(); point != points.end(); ++point) {
 		i++;
@@ -302,9 +302,9 @@ void MetgramFlags::operator()(CustomisedPointsList& points, BasicGraphicsObjectC
 		  x -= (**point)["shift"];
 		
         
-		if ( (*point)->find("curve1") != (*point)->end() && (*point)->find("curve2") != (*point)->end() )   {
+		if ( (*point)->find(component1_) != (*point)->end() && (*point)->find(component2_) != (*point)->end() )   {
 			PaperPoint pos(x, 0);
-			flags->push_back(ArrowPoint((**point)["curve1"], (**point)["curve2"], pos));
+			flags->push_back(ArrowPoint((**point)[component1_], (**point)[component2_], pos));
 		}
 	}
 	if ( !flags->empty() ) visitor.push_back(flags);	
@@ -320,7 +320,7 @@ void MetgramCurve::visit(LegendVisitor& legend)
 	Polyline* curve2  = new Polyline();
 	curve2->setColour(Colour("blue"));
 	curve2->setThickness(2);
-	legend.add(new LineEntry("curve1", curve1));
-	legend.add(new LineEntry("curve2", curve2));
+	legend.add(new LineEntry(keyword1_, curve1));
+	legend.add(new LineEntry(keyword2_, curve2));
 }
 

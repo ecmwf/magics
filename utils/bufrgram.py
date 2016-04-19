@@ -94,11 +94,11 @@ def bufrgram(data):
                           metgram_plot_style = 'bar')
     cc_text = mtext(
                 text_colour =  "navy",
-                text_font_size = 0.2,
+                text_font_size = 0.5,
                 text_justification =  "left",
-                text_lines =  ["<font size='0.5'> <json_info key='station_info'/></font>",
+                text_lines =  ["<json_info key='station_info'/>",
                     "<font size='0.5'> <json_info key='date'/></font>",
-                    "<font size='0.5'> . </font>",
+                    "<font size='0.5' colour='white'> . </font>",
                     "<font size='0.4'> <json_info key='parameter_info'/></font> "]
             )
 

@@ -77,7 +77,14 @@ void SymbolPlotting::operator()(const PaperPoint& point, BasicGraphicsObjectCont
 			value = nice.str();
 		}
        
+
+		if  ( magCompare(type_, "marker_text")) {
+			value = point.name();
+			if ( point.name() == "" )
+				value=" ";
+		}
        
+
          map<SymbolProperties, Symbol* >::const_iterator symb = symbols_.find(properties);
          if ( symb  != symbols_.end() )
          {
@@ -131,6 +138,7 @@ void SymbolPlotting::operator()(Data& data, BasicGraphicsObjectContainer& out)
     check.push_back("number");
     check.push_back("marker");
     check.push_back("both");
+    check.push_back("marker_text");
 
     bool valid = false;
 
@@ -183,7 +191,6 @@ void SymbolPlotting::operator()(Data& data, BasicGraphicsObjectContainer& out)
 	    for (vector<Symbol* >::iterator symbol = work.begin(); symbol != work.end(); ++symbol) {
 
 	     	if ( !(*symbol)->empty() ) {
-
 	     		(*symbol)->boundingbox(out.transformation().getPCBoundingBox());
 	     		out.push_back(*symbol);
 	     	}

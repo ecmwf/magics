@@ -36,7 +36,7 @@ Transformation::Transformation() :
 	dataMaxX_(-std::numeric_limits<double>::max()),
 	dataMinY_(std::numeric_limits<double>::max()),
 	dataMaxY_(-std::numeric_limits<double>::min()),
-	topAxis_(true), xTile_(0), yTile_(0)
+	topAxis_(true), xTile_(0), yTile_(0), zoomLevel_(0)
 {
 	userEnveloppe_ = new Polyline();
 	PCEnveloppe_ = new Polyline();
