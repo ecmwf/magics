@@ -319,11 +319,13 @@ public:
 	void openFirstComponent() {
 		ASSERT(handle1_);
 		handle_ = handle1_;
+		component1_ = handle1_;
 	}
 
 	void openSecondComponent() {
 		ASSERT(handle2_);
 		handle_ = handle2_;
+		component2_ = handle2_;
 	}
 	void openThirdComponent() {
 			ASSERT(handle3_);
