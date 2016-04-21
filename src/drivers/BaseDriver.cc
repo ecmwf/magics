@@ -947,11 +947,14 @@ void BaseDriver::redisplay(const BinaryObject& binary) const
 
 			for(int pts=0;pts<n;pts++)
 			{
-			  double x,y;
-			  in.read((char *)(&x), sizeof(double));
-			  in.read((char *)(&y), sizeof(double));
-			  PaperPoint p;
-			  in.read((char *)(&p), sizeof(PaperPoint));
+			  double x,y,ax,ay;
+			  in.read((char *)(&x),  sizeof(double));
+			  in.read((char *)(&y),  sizeof(double));
+			  in.read((char *)(&ax), sizeof(double));
+			  in.read((char *)(&ay), sizeof(double));
+			  //PaperPoint p;
+			  //in.read((char *)(&p), sizeof(PaperPoint));
+			  PaperPoint p(ax,ay);
 			  ArrowPoint ap(x, y, p);
 			  arrow.push_back(ap);
 			} 
@@ -995,14 +998,17 @@ void BaseDriver::redisplay(const BinaryObject& binary) const
 			tex[len]='\0';
 			string str(tex);
 			flag.setOriginMarker(str);
-
+	
 			for(int pts=0;pts<n;pts++)
 			{
-			  double x,y;
-			  in.read((char *)(&x), sizeof(double));
-			  in.read((char *)(&y), sizeof(double));
-			  PaperPoint p;
-			  in.read((char *)(&p), sizeof(PaperPoint));
+			  double x,y,ax,ay;
+			  in.read((char *)(&x),  sizeof(double));
+			  in.read((char *)(&y),  sizeof(double));
+			  in.read((char *)(&ax), sizeof(double));
+			  in.read((char *)(&ay), sizeof(double));
+			  //PaperPoint p;
+			  //in.read((char *)(&p), sizeof(PaperPoint));
+			  PaperPoint p(ax,ay);
 			  ArrowPoint ap(x, y, p);
 			  flag.push_back(ap);
 			} 

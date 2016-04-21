@@ -301,12 +301,16 @@ void BinaryDriver::renderWindArrow(const Arrow &arrow) const
         for(int pts=0;pts<no;pts++)
         {
           const double x = arr->x_;
-	  out_.write((char *)(&x), sizeof(double));
+          out_.write((char *)(&x), sizeof(double));
           const double y = arr->y_;
-	  out_.write((char *)(&y), sizeof(double));
+          out_.write((char *)(&y), sizeof(double));
           const PaperPoint p = arr->point_;
-	  out_.write((char *)(&p), sizeof(PaperPoint));
-	  ++arr;
+          const double ax = p.x();
+          out_.write((char *)(&ax), sizeof(double));
+          const double ay = p.y();
+          out_.write((char *)(&ay), sizeof(double));
+//          out_.write((char *)(&p), sizeof(PaperPoint));
+          ++arr;
         }
 }
 
@@ -361,12 +365,16 @@ void BinaryDriver::renderWindFlag(const Flag &flag) const
         for(int pts=0;pts<no;pts++)
         {
           const double x = fla->x_;
-	  out_.write((char *)(&x), sizeof(double));
+          out_.write((char *)(&x), sizeof(double));
           const double y = fla->y_;
-	  out_.write((char *)(&y), sizeof(double));
+          out_.write((char *)(&y), sizeof(double));
           const PaperPoint p = fla->point_;
-	  out_.write((char *)(&p), sizeof(PaperPoint));
-	  ++fla;
+          const double ax = p.x();
+          out_.write((char *)(&ax), sizeof(double));
+          const double ay = p.y();
+          out_.write((char *)(&ay), sizeof(double));
+//          out_.write((char *)(&p), sizeof(PaperPoint));
+          ++fla;
         }
 }
 
