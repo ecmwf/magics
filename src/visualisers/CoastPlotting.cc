@@ -80,9 +80,9 @@ void CoastPlotting::operator()(PreviewVisitor& parent)
 	transformation.coastSetting(preview.coastSet_, 10, 5);
 	preview.decode(parent);
 
-	for (vector<Polyline>::iterator poly = preview.coast_.begin(); poly != preview.coast_.end(); ++poly)
+	for (vector<Polyline*>::iterator poly = preview.coast_.begin(); poly != preview.coast_.end(); ++poly)
 	{
-		Polyline* npoly= poly->clone();
+		Polyline* npoly= (*poly)->clone();
 		npoly->setThickness(thickness_);
 		npoly->setColour(*colour_);
 		npoly->setLineStyle(style_);
@@ -242,11 +242,14 @@ void CoastPlotting::landsea(Layout& out)
 */
 void CoastPlotting::landonly(Layout& out)
 {
-	for (vector<Polyline>::iterator poly = coast_.begin(); poly != coast_.end(); ++poly)
+	vector<Polyline*> clip;
+	clipAndClose(out.transformation(), coast_, clip);
+
+	for (vector<Polyline*>::iterator coast = clip.begin(); coast != clip.end(); ++coast)
 	{
-		Polyline* coast = poly->clone();
-		setLandShading(*coast);
-		out.push_back(coast);
+
+		setLandShading(**coast);
+		out.push_back(*coast);
 	}
 }
 
@@ -258,21 +261,23 @@ void CoastPlotting::landonly(Layout& out)
 */
 void CoastPlotting::seaonly(Layout& out)
 {
-	for (vector<Polyline>::iterator poly = ocean_.begin(); poly != ocean_.end(); ++poly)
+	vector<Polyline*> clip;
+	clipAndClose(out.transformation(), ocean_, clip);
+	for (vector<Polyline*>::iterator coast = clip.begin(); coast != clip.end(); ++coast)
 	{
-		Polyline* coast = poly->clone();
-		setSeaShading(*coast);
-		out.push_back(coast);
+		setSeaShading(**coast);
+		out.push_back(*coast);
 	}
 }
 
 void CoastPlotting::nolandsea(Layout& out)
 {
-	for (vector<Polyline>::iterator coast = coast_.begin(); coast != coast_.end(); ++coast)
+	vector<Polyline*> clips;
+	clip(out.transformation(), coast_, clips);
+	for (vector<Polyline*>::iterator coast = clips.begin(); coast != clips.end(); ++coast)
 	{
-		Polyline* poly = coast->clone();
-		setLine(*poly);
-		out.push_back(poly);
+		setLine(**coast);
+		out.push_back(*coast);
 	}
 }
 
@@ -331,33 +336,63 @@ void CoastPlotting::decode(const Layout& parent )
 
 	const Transformation& transformation = parent.transformation();
 
-	vector<Polyline> coastlines;
+	vector<Polyline*> coastlines;
 	coast_.clear();
 	ShapeDecoder coastline_decoder;
 	const string file = PATH(coastSet_["land"]);
 	coastline_decoder.setPath(file);
 	coastline_decoder.decode(coastlines, transformation);
 
-	for (vector<Polyline>::iterator coast = coastlines.begin(); coast != coastlines.end(); ++coast )
+	for (vector<Polyline*>::iterator coast = coastlines.begin(); coast != coastlines.end(); ++coast )
 	{
 		coast_.push_back(*coast);
 	}
 
   if( sea_ )
   {
-	vector<Polyline> oceans;
+	vector<Polyline*> oceans;
 	ocean_.clear();
 	const string file_ocean = PATH(coastSet_["ocean"]);
 	coastline_decoder.setPath(file_ocean);
 	coastline_decoder.decode(oceans, transformation);
 
-	for (vector<Polyline>::iterator coast = oceans.begin(); coast != oceans.end(); ++coast )
+	for (vector<Polyline*>::iterator coast = oceans.begin(); coast != oceans.end(); ++coast )
 	{
 		ocean_.push_back(*coast);
 	}
   }
 }
 
+void CoastPlotting::clip(const Transformation& transformation, const vector<Polyline*>& in, vector<Polyline*>& out) const
+{
+	for (vector<Polyline*>::const_iterator poly = in.begin(); poly != in.end(); ++poly ) {
+		(*poly)->reproject(transformation);
+		transformation(**poly, out);
+	}
+}
+
+
+void CoastPlotting::clipAndClose(const Transformation& transformation, const vector<Polyline*>& in, vector<Polyline*>& out) const
+{
+	Polyline& geobox = transformation.getUserBoundingBox();
+	Polyline& box = transformation.getPCBoundingBox();
+	for (vector<Polyline*>::const_iterator poly = in.begin(); poly != in.end(); ++poly ) {
+
+
+		vector<Polyline> clipped;
+		geobox.intersect(**poly, clipped);
+		// then we reproject!
+		for (vector<Polyline>::iterator clip = clipped.begin(); clip != clipped.end(); ++clip ) {
+			vector<Polyline> clip2;
+			clip->reproject(transformation);
+			box.intersect(*clip, clip2);
+			for (vector<Polyline>::iterator c = clip2.begin(); c != clip2.end(); ++c ) {
+				out.push_back(c->clone());
+			}
+
+		}
+	}
+}
 void NoCoastPlotting::visit(MetaDataCollector& meta)
 {
 	meta["Coastlines Resolution"] = coastSet_["resolution"];
