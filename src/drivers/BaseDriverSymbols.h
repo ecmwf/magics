@@ -123,6 +123,7 @@ MAGICS_NO_EXPORT void BaseDriver::renderTextSymbols(const TextSymbol& symbol) co
 	//Loop for all positions
 	for(int i=0;i< nPos ;i++)
 	{
+	  if(!symbol.text().at(i).empty()) {
 		Text text;
 		text.setJustification(MCENTRE);
 		text.setVerticalAlign(MHALF);
@@ -162,6 +163,7 @@ MAGICS_NO_EXPORT void BaseDriver::renderTextSymbols(const TextSymbol& symbol) co
 		text.setAngle(0.);
 		text.addText(symbol.text().at(i), symbol.font()); //75 dpi
 		renderText(text);
+	  }
 	}
 	renderSymbols(symbol);
 }
