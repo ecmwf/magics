@@ -1193,6 +1193,7 @@ MAGICS_NO_EXPORT void CairoDriver::renderText(const Text& text) const
 
 	for(;niceText<niceTextEnd;niceText++)
 	{
+		if ((*niceText).text().empty()) continue;
 		MagFont magfont = (*niceText).font();
 		const std::set<string>& styles = magfont.styles();
 
