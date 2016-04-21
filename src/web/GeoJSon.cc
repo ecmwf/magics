@@ -44,7 +44,7 @@ class GeoObject
 {
 public:
 		static int index_;
-		GeoObject():parent_(0) {
+		GeoObject():parent_(0), shift_(false) {
 
 
 			ostringstream n;
@@ -84,16 +84,40 @@ public:
 		virtual void create(PointsList& out) {
 
 			for (vector<GeoObject*>::iterator object = objects_.begin(); object != objects_.end(); ++object) {
-
 				(*object)->create(out);
+			}
+
+
+		}
+		virtual bool shift() {
+			for (vector<GeoObject*>::iterator object = objects_.begin(); object != objects_.end(); ++object) {
+							if ( (*object)->shift() ) {
+								shift_ = true;
+								break;
+							}
+						}
+			return shift_;
+		}
+		virtual void shift(PointsList& out) {
+
+			if ( !shift() )
+				return;
+
+
+			for (vector<GeoObject*>::iterator object = objects_.begin(); object != objects_.end(); ++object) {
+				(*object)->shift(out);
 			}
 
 		}
 		vector<GeoObject*> objects_;
 		virtual GeoObject* push_back(GeoObject* o) {
 
-			objects_.push_back(o); o->parent_ = this; return o;
+			objects_.push_back(o);
+
+			o->parent_ = this;
+			return o;
 		}
+		bool shift_;
 };
 
 
@@ -114,6 +138,11 @@ public:
 		GeoObject::create(out);
 		out.push_back(new UserPoint(0,0,0,true));
 	}
+	void shift(PointsList& out) {
+			GeoObject::shift(out);
+			out.push_back(new UserPoint(0,0,0,true));
+		}
+
 };
 
 class GeoPoint : public GeoObject
@@ -131,15 +160,25 @@ public:
 		Array point = value.get_value< Array>();
 		lon_ = point[0].get_value<double>();
 		lat_ = point[1].get_value<double>();
+		if ( lon_ < 0 ) {
+			lon_ += 360;
+			shift_ = true;
+		}
 
 	}
 	double lat_;
 	double lon_;
-	void create(PointsList& out) {
 
+	void create(PointsList& out) {
 		UserPoint* point = new UserPoint(lon_, lat_, tonumber(getProperty("value", "0")), false, false, getProperty("name"));
+
 		out.push_back(point);
 
+	}
+	void shift(PointsList& out) {
+		UserPoint* point = new UserPoint(lon_-360., lat_, tonumber(getProperty("value", "0")), false, false, getProperty("name"));
+
+		out.push_back(point);
 	}
 };
 
@@ -178,6 +217,17 @@ public:
 			out.push_back(new UserPoint(0,0,0,true));
 		}
 	}
+	void shift(PointsList& out) {
+			double value = tonumber(getProperty("value", "0"));
+			string name =  getProperty("name");
+			for (vector<vector<pair<double, double> > >::iterator line = lines_.begin(); line != lines_.end(); ++line) {
+				for ( vector<pair<double, double> >::iterator point = line->begin(); point != line->end(); ++point ) {
+					UserPoint* upoint = new UserPoint(point->first, point->second, value, false, false, name);
+					out.push_back(upoint);
+				}
+				out.push_back(new UserPoint(0,0,0,true));
+			}
+		}
 
 };
 
@@ -313,9 +363,10 @@ void GeoJSon::decode()
 		MagLog::error() << "Could not processed the file: " << path_ << ": " << e.what() << endl;
 		abort();
 	}
-	if ( parent_ )
+	if ( parent_ ) {
 		parent_->create(*this);
-
+		parent_->shift(*this);
+	}
 }
 
 

@@ -128,14 +128,12 @@ void SimplePolylineVisualiser::smooth(Data& data, BasicGraphicsObjectContainer& 
    vector<int> pivots;
    PointsHandler& points = data.points(parent.transformation(), true);
    points.setToFirst();
-   if ( pivot_ == -1 )
-      pivot_ =  work.size()/2;
-    if ( factor_ == -1 )
-      factor_ =  work.size()/2;
+
 
 
 
    int ind = 0;
+   int last = 0;
 
    work.push_back(vector<PaperPoint>());
    while ( points.more() )
@@ -144,14 +142,13 @@ void SimplePolylineVisualiser::smooth(Data& data, BasicGraphicsObjectContainer& 
 
        if ( points.current().value() == -1) {
     	   pivot_ = ind;
-    	   cout << "found pivot " << ind << endl;
-
        }
 
        ind++;
 
        if ( points.current().missing() ) {
     	   if ( !work.back().empty() ) {
+    		   last = ( last < work.back().size() ) ? work.back().size() : last;
     		   work.push_back(vector<PaperPoint>());
 
     	   }
@@ -165,8 +162,9 @@ void SimplePolylineVisualiser::smooth(Data& data, BasicGraphicsObjectContainer& 
 	   points.advance();
    }
 
+   if ( pivot_ == -1 )
+	   pivot_ = last + 1;
 
-cout << work.size()  << " " << pivots.size() << endl;
 //assert( work.size() == pivots.size() +1);
   
   double alpha;

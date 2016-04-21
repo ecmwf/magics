@@ -22,20 +22,25 @@
             "coastlines": { } ,
             "plot": {
                 "geojson" : { "geojson_input_type" : "file",
-                    "geojson_input_filename" : "cyclone-trajectory.json"
+                    "geojson_input_filename" : "trajectory-resets.json"
                     },
                 "polyline": {
                     "polyline_line_thickness" : "4",
                     "polyline_effect_method" : "trajectory",
-                    "polyline_trajectory_factor" : "4"
+                    "polyline_trajectory_factor" : "4",
+                    "polyline_highlight_thickness" : "5",
+                    "polyline_highlight_colour" : "black",
+                    "polyline_highlight_line_style" : "solid",
+                    "polyline_highlight_keyword" : "member",
+                    "polyline_highlight_value" : "52"
                  }
                 },
-             "lower_left_latitude": "-30.",
-             "lower_left_longitude": "60",
-             "projection": "cylindrical",
-             "vertical_longitude": "100",
-             "upper_right_latitude": "-10",
-             "upper_right_longitude": "100"
+             "ilower_left_latitude": "-30.",
+             "ilower_left_longitude": "60",
+             "iprojection": "cylindrical",
+             "ivertical_longitude": "100",
+             "iupper_right_latitude": "-10",
+             "iupper_right_longitude": "100"
         },
         "meta": {
             "javascript_path": "cyclone-trajectory.js",

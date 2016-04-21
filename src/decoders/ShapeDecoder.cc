@@ -291,7 +291,7 @@ void ShapeDecoder::decode(const Transformation& transformation, const string& fi
 /*! \brief Decoder to read land and lakes
  \sa CoastPlotting::decode(const Layout& parent )
 */
-void ShapeDecoder::decode(vector<Polyline>& data, const Transformation& transformation)
+void ShapeDecoder::decode(vector<Polyline*>& data, const Transformation& transformation)
 {
 	Timer timer("Read Shape file ", "read shape file" + path_);
 
@@ -350,21 +350,21 @@ void ShapeDecoder::decode(vector<Polyline>& data, const Transformation& transfor
 				}
 
 				if ( !in && !right && !left ) continue;
-				VectorOfPointers<vector<Polyline *> > polys;
+
 				Polyline* poly = 0;
                 Polyline* polyleft = 0;
                 Polyline* polyright = 0; 
                 if ( in) {
                     poly  = new Polyline();
-                    polys.push_back(poly);
+                    data.push_back(poly);
                 }
 				if ( left ) {
                     polyleft  = new Polyline();
-                    polys.push_back(polyleft);
+                    data.push_back(polyleft);
                 }
                 if ( right ) {
                     polyright  = new Polyline();
-                    polys.push_back(polyright);
+                    data.push_back(polyright);
                 }
                 
 				left = false;
@@ -386,6 +386,7 @@ void ShapeDecoder::decode(vector<Polyline>& data, const Transformation& transfor
 					const double y = psShape->padfY[j];
 
 					if ( iPart==1 ) {
+
 							if ( poly )      poly->push_back(PaperPoint(x, y));
 							if ( polyleft )  polyleft->push_back( PaperPoint(x-360, y));
 							if ( polyright ) polyright->push_back(PaperPoint(x+360, y));
@@ -398,18 +399,21 @@ void ShapeDecoder::decode(vector<Polyline>& data, const Transformation& transfor
 				}
 
 	            /// first we clip
+				/*
                 for (vector<Polyline*>::iterator poly = polys.begin(); poly != polys.end(); ++poly ) {
-                    //(*poly)->sanityCheck();
+                	transformation(**poly, data);
+
                     vector<Polyline> clipped;
                     geobox.intersect(**poly, clipped);
 	                // then we reproject!
                     for (vector<Polyline>::iterator clip = clipped.begin(); clip != clipped.end(); ++clip ) {
                     	clip->reproject(transformation);
-                    	//clip->sanityCheck();
                     	box.intersect(*clip, data);
-                    	//data.push_back(*clip);
-                    }
-                }
+                    	data.push_back(*clip);
+                    }}
+				*/
+
+
 			}
 			SHPDestroyObject(psShape);
 			SHPClose( hSHP );
@@ -419,3 +423,5 @@ void ShapeDecoder::decode(vector<Polyline>& data, const Transformation& transfor
 			MagLog::error() << "Can not open Shapefile " << path_ << endl;
 		}
 }
+
+

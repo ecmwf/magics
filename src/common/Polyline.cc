@@ -146,6 +146,7 @@ void Polyline::hole(Holes::const_iterator hole, vector<double>& x, vector<double
 
 void Polyline::hole(Holes::const_iterator hole, Polyline& poly) const
 {
+
 	for (deque<PaperPoint>::const_iterator h = hole->begin(); h != hole->end(); ++h) {
 		poly.push_back(*h);
 	}

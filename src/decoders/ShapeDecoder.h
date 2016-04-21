@@ -58,7 +58,9 @@ public:
 
 	virtual void decode(const Transformation&);
 
-	virtual void decode(vector<Polyline>&, const Transformation&);
+	virtual void decode(vector<Polyline*>&, const Transformation&);
+	void clip(const Transformation&,const vector<Polyline>&, vector<Polyline*>&) const;
+	void clipAndClose(const Transformation&, const vector<Polyline>&, vector<Polyline*>&) const;
 	virtual void decode(const Transformation&, const string&, const vector<string>&);
 	void set(const map<string, string>& map ) { ShapeDecoderAttributes::set(map); }
 	void set(const XmlNode& node ) { ShapeDecoderAttributes::set(node); }
