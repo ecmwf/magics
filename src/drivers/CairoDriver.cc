@@ -1324,9 +1324,12 @@ MAGICS_NO_EXPORT void CairoDriver::circle(const MFloat x, const MFloat y, const 
 
 //	cairo_identity_matrix (cr_);
 	cairo_set_line_width (cr_, currentLineWidth_);
-	cairo_set_source_rgba(cr_,currentColour_.red(),currentColour_.green(),currentColour_.blue(),currentColour_.alpha());
-
 	int fill = s;
+	if(fill==10) {
+		cairo_set_line_width (cr_, currentLineWidth_*5);
+		fill=0;
+	}
+	cairo_set_source_rgba(cr_,currentColour_.red(),currentColour_.green(),currentColour_.blue(),currentColour_.alpha());
 
 	//if(s > 8) fill = 8;
 	if( (s > 0) && (fill != 9) )
