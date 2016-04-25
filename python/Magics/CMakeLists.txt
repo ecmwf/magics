@@ -7,7 +7,7 @@ if( HAVE_PYTHON )
 
   file( RELATIVE_PATH relative_rpath "${CMAKE_INSTALL_PREFIX}/${PYTHON_DEST}" "${${PNAME}_FULL_INSTALL_LIB_DIR}" )
 
-  debug_var( relative_rpath )
+  #debug_var( relative_rpath )
 
   # See comment below, where the following lines are overriden
   ecbuild_append_to_rpath( ${relative_rpath} )

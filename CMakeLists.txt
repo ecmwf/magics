@@ -53,7 +53,7 @@ ecbuild_add_option( FEATURE ODB
                     DEFAULT ON
                     DESCRIPTION "ODB support"
                     REQUIRED_PACKAGES 
-						"PROJECT odb_api VERSION 0.10.2"
+            "PROJECT odb_api VERSION 0.10.2"
 						"PROJECT eckit   VERSION 0.9.0" )
 
 ecbuild_add_option( FEATURE CAIRO
@@ -191,11 +191,11 @@ find_package( Threads )
 # set(Boost_USE_STATIC_LIBS        ON)
 # set(Boost_NO_SYSTEM_PATHS        ON)
 # set(Boost_USE_MULTITHREADED      ON)
-ecbuild_add_extra_search_paths( boost )
+#ecbuild_add_extra_search_paths( boost )
 
 find_package( Boost 1.49.0 REQUIRED)
 find_package( Proj4 REQUIRED )
-find_package( EXPAT  REQUIRED )
+find_package( EXPAT REQUIRED )
 
 ###############################################################################
 # contents
