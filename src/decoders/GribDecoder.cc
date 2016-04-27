@@ -567,24 +567,29 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
             double lat = pos->second;
             double nlat, nlon;
 
-
-
             int w = xComponent_->nearest_index(lat, lon, nlat, nlon);
-                if ( w != -1 ) {
+
+            // cout << i << " = [" << lat << ", " << lon << "]--->[" << nlat << ", " << nlon << "] = " << w << endl;
+            i++;
+            if ( w != -1 ) {
 
                     CustomisedPoint *add = new CustomisedPoint(nlon, nlat, "");
                     pair<double, double> value = (*wind_mode_)((*xComponent_).data_[w], (*yComponent_).data_[w]);
 
                     add->insert(make_pair("x_component", value.first));
                     add->insert(make_pair("y_component", value.second));
+                    // cout << " Point " << *add << endl;
                     out.push_back(add);
-                    /* for debug!
-                    add = new CustomisedPoint(lon, lat, "");
 
-                    add->insert(make_pair("x_component", 0.01));
-                    add->insert(make_pair("y_component", 0.01));
-                    out.push_back(add);
-                    //*/
+                    string debug = getEnvVariable("WIND_DEBUG");
+                    if ( debug != "" ) {
+                    	add = new CustomisedPoint(lon, lat, "");
+
+                    	add->insert(make_pair("x_component", 0.01));
+                    	add->insert(make_pair("y_component", 0.01));
+                    	out.push_back(add);
+                    }
+
                 }
             }
     }
