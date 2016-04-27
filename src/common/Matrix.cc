@@ -494,7 +494,7 @@ int Matrix::nearest_index(double row, double column,double &rowOut, double &colO
 		points.push_back(make_pair(row_index->first, make_pair(xindex.value(column_index.first), xindex.position(column_index.first))));
 	else {
 		points.push_back(make_pair(row_index->first, make_pair(xindex.value(column_index.first), xindex.position(column_index.first))));
-		points.push_back(make_pair(row_index->first, make_pair(xindex.value(column_index.first+1), xindex.position(column_index.first))));
+		points.push_back(make_pair(row_index->first, make_pair(xindex.value(column_index.first+1), xindex.position(column_index.first+1))));
 	}
 
 	row_index--;
@@ -505,7 +505,7 @@ int Matrix::nearest_index(double row, double column,double &rowOut, double &colO
 			points.push_back(make_pair(row_index->first, make_pair(xindex.value(column_index.first), xindex.position(column_index.first))));
 		else {
 			points.push_back(make_pair(row_index->first, make_pair(xindex.value(column_index.first), xindex.position(column_index.first))));
-			points.push_back(make_pair(row_index->first, make_pair(xindex.value(column_index.first+1), xindex.position(column_index.first))));
+			points.push_back(make_pair(row_index->first, make_pair(xindex.value(column_index.first+1), xindex.position(column_index.first+1))));
 		}
 
 
