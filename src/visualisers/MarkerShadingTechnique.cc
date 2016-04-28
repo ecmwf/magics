@@ -64,7 +64,7 @@ void MarkerShadingTechnique::operator()(const PaperPoint& point)
     symbol->push_back(point);
 }
 
-void MarkerShadingTechnique::operator()(MatrixHandler& data, BasicGraphicsObjectContainer& out)
+void MarkerShadingTechnique::operator()(IsoPlot*, MatrixHandler& data, BasicGraphicsObjectContainer& out)
 {
     OriginalMatrixHandler original(data);
     int rows = original.rows();
