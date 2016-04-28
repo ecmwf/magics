@@ -78,14 +78,25 @@ public:
 
     void basic(Data&, BasicGraphicsObjectContainer&);
     void smooth(Data&, BasicGraphicsObjectContainer&);
-    
+    void visit(LegendVisitor&);
     
 protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).
 	 virtual void print(ostream&) const; 
+	 Colour 	colour(const CustomisedPoint&);
+	 LineStyle 	style(const CustomisedPoint&);
+	 double 	thickness(const CustomisedPoint&);
+	 double 	alpha(const CustomisedPoint&);
+	 double 	priority(const CustomisedPoint&);
+
+	 void setup();
     
     typedef void (SimplePolylineVisualiser::*Method)(Data&, BasicGraphicsObjectContainer&);
-    map<string, Method> map_;
+    map<string, Method> 		map_;
+    IntervalMap<Colour>			colour_map_;
+    IntervalMap<LineStyle>		style_map_;
+    IntervalMap<double>			thickness_map_;
+    IntervalMap<int>			alpha_map_;
 
 private:
     //! Copy constructor - No copy allowed

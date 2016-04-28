@@ -82,13 +82,18 @@ public:
 		map<string, string> properties_;
 		GeoObject* parent_;
 		virtual void create(PointsList& out) {
-
 			for (vector<GeoObject*>::iterator object = objects_.begin(); object != objects_.end(); ++object) {
 				(*object)->create(out);
 			}
-
-
 		}
+
+		virtual void create(const std::set<string>& needs, CustomisedPointsList& out) {
+			for (vector<GeoObject*>::iterator object = objects_.begin(); object != objects_.end(); ++object) {
+				(*object)->create(needs, out);
+			}
+		}
+
+
 		virtual bool shift() {
 			for (vector<GeoObject*>::iterator object = objects_.begin(); object != objects_.end(); ++object) {
 							if ( (*object)->shift() ) {
@@ -109,6 +114,13 @@ public:
 			}
 
 		}
+		virtual void shift(const std::set<string>& needs, CustomisedPointsList& out) {
+					if ( !shift() )
+						return;
+					for (vector<GeoObject*>::iterator object = objects_.begin(); object != objects_.end(); ++object) {
+						(*object)->shift(needs, out);
+					}
+		}
 		vector<GeoObject*> objects_;
 		virtual GeoObject* push_back(GeoObject* o) {
 
@@ -116,6 +128,15 @@ public:
 
 			o->parent_ = this;
 			return o;
+		}
+		void newline(CustomisedPointsList& out) {
+			if ( out.empty() )
+				return;
+			CustomisedPoint* last = out.back();
+			CustomisedPoint* point = new CustomisedPoint();
+			point->copyProperties(*last);
+			point->missing(true);
+			out.push_back(point);
 		}
 		bool shift_;
 };
@@ -141,7 +162,16 @@ public:
 	void shift(PointsList& out) {
 			GeoObject::shift(out);
 			out.push_back(new UserPoint(0,0,0,true));
-		}
+	}
+	void create(const std::set<string>& needs, CustomisedPointsList& out) {
+		GeoObject::create(needs, out);
+		newline(out);
+
+	}
+	void shift(const std::set<string>& needs, CustomisedPointsList& out) {
+			GeoObject::shift(needs, out);
+			newline(out);
+	}
 
 };
 
@@ -178,6 +208,26 @@ public:
 	void shift(PointsList& out) {
 		UserPoint* point = new UserPoint(lon_-360., lat_, tonumber(getProperty("value", "0")), false, false, getProperty("name"));
 
+		out.push_back(point);
+	}
+
+	void set(const std::set<string>& needs, CustomisedPoint& point) {
+		for (  std::set<string>::iterator need = needs.begin(); need != needs.end(); ++need ) {
+			string value = getProperty(*need);
+			if ( value.empty() )
+				continue;
+			point.insert(make_pair(*need, tonumber(value)));
+		}
+	}
+
+	void create(const std::set<string>& needs, CustomisedPointsList& out) {
+		CustomisedPoint* point = new CustomisedPoint(lon_, lat_,  getProperty("name"));
+		set(needs, *point);
+		out.push_back(point);
+	}
+	void shift(const std::set<string>& needs, CustomisedPointsList& out) {
+		CustomisedPoint* point = new CustomisedPoint(lon_-360., lat_,  getProperty("name"));
+		set(needs, *point);
 		out.push_back(point);
 	}
 };
@@ -385,9 +435,15 @@ PointsHandler& GeoJSon::points(const Transformation& transformation, bool)
 
 }
 
-void GeoJSon::customisedPoints(const Transformation&, const std::set<string>&, CustomisedPointsList& out, bool )
+void GeoJSon::customisedPoints(const Transformation&, const std::set<string>& needs, CustomisedPointsList& out, bool )
 {
-	//if ( current_ )
-	//	current_->create(out);
+	decode();
+
+	if ( parent_ ) {
+			parent_->create(needs, out);
+			parent_->shift(needs, out);
+	}
+
+
 
 }
