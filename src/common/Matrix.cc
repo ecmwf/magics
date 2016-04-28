@@ -52,6 +52,19 @@ void Matrix::plus(double offset)
     std::transform(begin(), end(), begin(), Plus(offset, missing_));
 }
 
+pair<int, bool> InfoIndex::index(double pos) const
+{
+	if ( pos < min_ ) return std::make_pair(-1, false);
+	
+	if ( pos > max_ ) {
+		if ( pos > min_ + 360 )
+			return std::make_pair(-1, false);
+		else 
+			return std::make_pair(nbPoints_-1, false);
+	}
+	return std::make_pair( floor( (pos - first_ )/step_), fmod( pos - first_, step_) == 0);
+}
+
 void ProjectedMatrix::build()
 {
 	/*

@@ -560,6 +560,9 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
         out.reserve(positions.size());
 
         int i = 0;
+       
+        std::set<int> cache;
+        cache.insert(-1);
         for ( pos = positions.begin(); pos != positions.end(); ++pos) {
             double offset = 0.;
             // First make sure tthat the lon is between the minlon and maxlon.
@@ -569,10 +572,11 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 
             int w = xComponent_->nearest_index(lat, lon, nlat, nlon);
 
-            // cout << i << " = [" << lat << ", " << lon << "]--->[" << nlat << ", " << nlon << "] = " << w << endl;
+            //cout << i << " = [" << lat << ", " << lon << "]--->[" << nlat << ", " << nlon << "] = " << w << endl;
             i++;
-            if ( w != -1 ) {
-
+            bool cached = ( cache.find(w) != cache.end() );
+            if ( !cached ) {
+                    cache.insert(w);
                     CustomisedPoint *add = new CustomisedPoint(nlon, nlat, "");
                     pair<double, double> value = (*wind_mode_)((*xComponent_).data_[w], (*yComponent_).data_[w]);
 
@@ -591,7 +595,9 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
                     }
 
                 }
+                
             }
+            
     }
 
     else { // no thinning !
