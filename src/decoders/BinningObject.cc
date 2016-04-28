@@ -195,47 +195,39 @@ Matrix*   BinningObject::operator()(PointsList& points)
 	matrix->setMapsAxis();
 	//		double val = 0;
 	vector<double> total;
-	for (unsigned int i = 0; i < matrix->size(); ++i) {
 
-
-					(*matrix)[i] = 0.;
-
-
-			}
-
-
+	for ( int j = 0; j < matrix->columns(); j++)
+		for ( int i = 0; i <  matrix->rows(); i++) {
+			matrix->push_back(0);
+			total.push_back(0);
+		}
 
 	double columns = matrix->columns();
-	int all = 0;
+	
 	points.setToFirst();
 	while ( points.more() ) {
 		const UserPoint& point = points.current();
-		if ( point.missing() ){
-			points.advance();
-			continue;
-		}
 		int x = xbinns.find(point.x_, -1);
 		int y = ybinns.find(point.y_, -1);
 
 		if ( x!= -1 && y !=-1) {
 			(*matrix)[ y * columns + x] = (*matrix)[ y * columns + x]+1;
-			cout << (*matrix)[ y * columns + x] << endl;
-			//total[ y * columns + x] = total[y * columns + x]+5;
-
+			total[ y * columns + x] = total[y * columns + x]+point.value();
 		}
-		all++;
 		points.advance();
 	}
 
-	//if ( min != max ) {
+	if ( min != max ) {
 		for (unsigned int i = 0; i < matrix->size(); ++i) {
 
+			if ( (*matrix)[i] )
+				(*matrix)[i] = total[i]/(*matrix)[i];
+			else {
+				(*matrix)[i] = matrix->missing();
 
-				//(*matrix)[i] = total[i];
-
-
+			}
 		}
-	//}
+	}
     /*
 	for ( int c = 0; c < columns; ++c) {
 						MagLog::dev() << "[" << matrix->row(r,c) << ",  " << matrix->column(r,c) << "] = " << (*matrix)(r, c) << endl;
