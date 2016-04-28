@@ -39,7 +39,7 @@ namespace magics {
 class CustomisedPoint : public map<string, double> {
 
 public:
-	CustomisedPoint(): missing_(false) {}
+	CustomisedPoint(): latitude_(0), longitude_(0), identifier_(""), missing_(false) {}
 	CustomisedPoint(double lon, double lat, string ident) :
 		latitude_(lat), longitude_(lon), identifier_(ident), missing_(false){}
 	virtual ~CustomisedPoint() {}
@@ -72,6 +72,11 @@ public:
 
 	double distance(double lat, double lon) const {
 		return sqrt( (lat-latitude_)*(lat-latitude_) +(lon-longitude_)*(lon-longitude_) );
+	}
+	void copyProperties(const CustomisedPoint& other) {
+		for ( const_iterator value = other.begin(); value != other.end(); ++ value) {
+			 insert(make_pair(value->first, value->second));
+		}
 	}
 
 protected:

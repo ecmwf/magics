@@ -81,7 +81,7 @@ void SymbolPlotting::operator()(const PaperPoint& point, BasicGraphicsObjectCont
 		if  ( magCompare(type_, "marker_text")) {
 			value = point.name();
 			if ( point.name() == "" )
-				value=" ";
+				value = "_FORCE_EMPTY_TEXT_";
 		}
        
 
