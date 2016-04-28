@@ -179,12 +179,7 @@ struct InfoIndex
 	int    offset_;
 	double step_;
 
-	pair<int, bool> index(double pos) const
-	{
-		if ( pos < min_ ) return std::make_pair(-1, false);
-		if ( pos > max_ ) return std::make_pair(-1, false);
-		return std::make_pair( floor( (pos - first_ )/step_), fmod( pos - first_, step_) == 0);
-	}
+	pair<int, bool> index(double pos) const;
 	double value(int i) const {
 		return first_ + (step_)*i;
 	}
