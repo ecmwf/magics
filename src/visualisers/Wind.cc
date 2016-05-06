@@ -60,6 +60,10 @@ void Wind::operator()(Data& data, BasicGraphicsObjectContainer& parent)
 
 	if ( (*type_)(data, parent) )
 		return;
+	if ( type_->legend_only_ )
+		return;
+	
+	
 	ThinningMethod* method=0;
 
 	const Transformation& transformation = parent.transformation();
