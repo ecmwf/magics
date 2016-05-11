@@ -36,7 +36,7 @@ Transformation::Transformation() :
 	dataMaxX_(-std::numeric_limits<double>::max()),
 	dataMinY_(std::numeric_limits<double>::max()),
 	dataMaxY_(-std::numeric_limits<double>::min()),
-	topAxis_(true), xTile_(0), yTile_(0)
+	topAxis_(true), xTile_(0), yTile_(0), zoomLevel_(0)
 {
 	userEnveloppe_ = new Polyline();
 	PCEnveloppe_ = new Polyline();
@@ -447,11 +447,61 @@ void Transformation::operator()(const Polyline& from, BasicGraphicsObjectContain
 	catch (...) {
 		MagLog::warning() << "error clipping->line ignored" << endl;
 	}
+}
+
+void Transformation::operator()(const Polyline& from, vector<Polyline*>& out) const
+{
+	if (from.empty())
+		return;
+	PaperPoint ll(getMinPCX(), getMinPCY());
+	PaperPoint ur(getMaxPCX(), getMaxPCY());
+	boost::geometry::model::box<PaperPoint> box(ll, ur);
+	boost::geometry::correct(box);
 
 
 
 
+	vector<deque<PaperPoint> > holes;
+	vector<Polyline*> forholes;
 
+
+	try {
+		vector<vector<PaperPoint> > lines;
+		//line.reserve( from.size());
+		lines.push_back(vector<PaperPoint>());
+		for (unsigned i = 0; i < from.size(); i++) {
+			lines.back().push_back(from.get(i));
+
+		}
+		for ( Polyline::Holes::const_iterator hole = from.beginHoles(); hole != from.endHoles(); ++hole) {
+			Polyline poly;
+			from.hole(hole, poly);
+			lines.push_back(vector<PaperPoint>());
+			for (unsigned i = 0; i < poly.size(); i++) {
+				lines.back().push_back(poly.get(i));
+			}
+		}
+
+		for (vector<vector<PaperPoint> >::iterator line = lines.begin(); line != lines.end(); ++line) {
+			vector<vector<PaperPoint> > result;
+			boost::geometry::correct(*line);
+			boost::geometry::intersection(box, *line, result);
+
+			// Now we feed the graphic container!
+			for (vector<vector<PaperPoint> >::iterator l = result.begin(); l != result.end(); l++)
+			{
+				Polyline* poly = new Polyline();
+				for (vector<PaperPoint>::iterator point = l->begin(); point != l->end(); ++point)
+					poly->push_back(*point);
+				if ( !poly->empty() )
+					out.push_back(poly);
+			}
+		}
+	}
+
+	catch (...) {
+		MagLog::warning() << "error clipping->line ignored" << endl;
+	}
 }
 
 

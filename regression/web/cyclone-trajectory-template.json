@@ -1,0 +1,70 @@
+{
+    "_name": "cyclone-trajectory",
+    "drivers": [
+        {
+            "format": "png",
+            "fullname": "cyclone-trajectory.png",
+            "output_cairo_transparent_background": "off",
+            "output_name_first_page_number": "off",
+            "output_width": "1200"
+        }
+    ],
+    "height": "600",
+    "method": "wrep",
+    "page": {
+        "map": {
+            "border": "off",
+            "fitted_mode": "expand",
+            "margin_bottom": "0",
+            "margin_left": "0",
+            "margin_right": "0",
+            "margin_top": "0",
+            "coastlines": { } ,
+            "plot": {
+                "geojson" : { "geojson_input_type" : "file",
+                    "geojson_input_filename" : "fantala-tracks.json"
+                    },
+                "polyline": {
+                    "polyline_line_thickness" : "4",
+                    "polyline_effect_method" : "trajectory",
+                    "polyline_trajectory_factor" : "4",
+                    "polyline_colour_variable_name" : "wind",
+                    "polyline_transparency_variable_name" : "step",
+                    "polyline_transparency_pivot_variable_name" : "valid_step",
+                    "polyline_transparency_level_list" : "0/6/12/18/24/30/36/42/48/54/60/66/72/78/84/90/96/102/108/114/120/126/132/138/144/150/156/162/168/174/180/186/192/198/204/210/216/222/228/234/240/246",
+
+                    "polyline_colour_level_list": "0.0/17.5/32.9/42.7/49.4/58.1/70.5/500",
+                    "palepolyline_colour_list": "#FFF114/#FDD110/#FBB10D/#F99009/#F86E06/#F64D03/#F52B00",
+                    "iipolyline_colour_list": "#FFF214/#FDD010/#FBAF0D/#FA8E0A/#F86D06/#F64C03/#F52B00",
+                    "polyline_colour_list": "#FF0000/#E20000/#C60000/#AA0000/#8D0000/#710000/#550000",
+                    "polyline_colour_control_key": "wind",
+                    "polyline_thickness_list": "3/5/6",
+                    "polyline_thickness_level_list": "0/51/52/60",
+                    "polyline_thickness_variable_name": "member",
+                    "polyline_line_style_variable_name": "member",
+                    "polyline_priority_variable_name": "member",
+                    "polyline_line_style_list": "solid/solid/solid",
+                    "polyline_style_level_list": "0/51/52/60",
+                    "polyline_pivot_marker": "all",
+                    "polyline_pivot_marker_name": "cyclone",
+                    "polyline_pivot_marker_colour": "#550000",
+                    "polyline_pivot_marker_height": "0.5"
+                 }
+                },
+             "lower_left_latitude": "-20.",
+             "lower_left_longitude": "40",
+             "projection": "cylindrical",
+             "ivertical_longitude": "60",
+             "upper_right_latitude": "-0",
+             "upper_right_longitude": "60"
+        },
+        "meta": {
+            "javascript_path": "cyclone-trajectory.js",
+            "profile_path": "cyclone-trajectory-info.js"
+        },
+        "page_id": "off"
+    },
+    "render": "render",
+    "version": "3.0",
+    "width": "1200"
+}

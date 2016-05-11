@@ -207,7 +207,7 @@ public:
 		{ return xy; }
 	virtual void operator()(const UserPoint& geo, Polyline& out) const;
 	virtual void operator()(const UserPoint& xy, vector<PaperPoint>& out) const;
-
+	void operator()(const Polyline& from, vector<Polyline*>& out) const;
 	virtual void revert(const vector< std::pair<double, double> > &, vector< std::pair<double, double> > &) const;
 	
 	virtual void revert(const PaperPoint& xy, UserPoint& point) const 

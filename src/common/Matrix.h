@@ -162,7 +162,32 @@ public:
     }
 };
 
+struct InfoIndex
+{
+	InfoIndex() {}
+	InfoIndex(double first, double last, double nb, int offset):
+		first_(first), last_(last), nbPoints_(nb), offset_(offset) {
+			step_ = (last_ - first_)/(nbPoints_-1);
+			min_ = std::min(first_, last_);
+			max_ = std::max(first_, last_);
+		}
+	double first_;
+	double last_;
+	double min_;
+	double max_;
+	double nbPoints_;
+	int    offset_;
+	double step_;
 
+	pair<int, bool> index(double pos) const;
+	double value(int i) const {
+		return first_ + (step_)*i;
+	}
+	int position(int i) const {
+		return offset_ + i;
+	}
+
+};
 
 class Matrix: public AbstractMatrix, public magvector<double> {
 
@@ -280,7 +305,8 @@ public:
     double interpolate(double r, double c) const;
     double nearest(double i, double j) const {double d1, d2; return nearest(i,j,d1,d2);}
     double nearest(double i, double j,double &iOut, double &jOut) const;
-    
+    pair<double, double> nearest_value(double i, double j,double &iOut, double &jOut) const;
+    int nearest_index(double i, double j,double &iOut, double &jOut) const;
     void multiply(double factor);   
     void plus(double offset);
     
@@ -401,6 +427,10 @@ public:
 		return -1;
     } 
 
+	map<double, map<double, pair<double, double> > > index_;
+	map<double, int> yIndex_; // lat--> index
+	vector<InfoIndex> xIndex_;
+	vector<double> data_;
     
 protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).
@@ -424,7 +454,7 @@ protected:
      double missing_;
      bool akima_;
 
-    int row_ind(double row) const {
+     int row_ind(double row) const {
         map<double, int>::const_iterator i = rowsMap_.lower_bound(row);
     	if ( same(i->first, row) )
     			return i->second;
@@ -447,7 +477,8 @@ protected:
                 return i->second;
         }
     	return -1;
-    }    
+    }
+
 private:
    mutable double min_;
    mutable double max_;

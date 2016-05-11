@@ -53,15 +53,20 @@ public:
 		CellShading* object = new CellShading();
 	    return object;
 	}
+
 	void copy(const CellShading& from)
 	{
 		CellShadingAttributes::copy(from);
 		//IsoShadingAttributes::copy(from);
 	}
-	
+	bool shadingMode() { return shading_ == "grid"; }
 	virtual void visit(LegendVisitor&, const ColourTechnique&);
+
+	int index(double value);
+	void operator()(Polyline*) const;
+
 	bool hasLegend() { return true; } // Isolien legend is not needed!
-	virtual void operator()(MatrixHandler&, BasicGraphicsObjectContainer&);
+	virtual void operator()(IsoPlot*, MatrixHandler&, BasicGraphicsObjectContainer&);
     virtual bool prepare(const LevelSelection&, const ColourTechnique&);
     virtual void colour(double, Colour&);
     CellArray* array(MatrixHandler& matrix, IntervalMap<int>& range,
@@ -71,7 +76,8 @@ protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).
 	 virtual void print(ostream&) const; 
 	 IntervalMap<int> map_;
-	 vector<Colour>      colours_;
+	 vector<Colour>   colours_;
+	 string 		  shading_;
 
 private:
     //! Copy constructor - No copy allowed
@@ -102,7 +108,7 @@ public:
 	}
 
 
-	void operator()(MatrixHandler&, BasicGraphicsObjectContainer&);
+	void operator()(IsoPlot*, MatrixHandler&, BasicGraphicsObjectContainer&);
 
 };
 

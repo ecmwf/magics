@@ -60,6 +60,10 @@ void Wind::operator()(Data& data, BasicGraphicsObjectContainer& parent)
 
 	if ( (*type_)(data, parent) )
 		return;
+	if ( type_->legend_only_ )
+		return;
+	
+	
 	ThinningMethod* method=0;
 
 	const Transformation& transformation = parent.transformation();
@@ -90,8 +94,11 @@ void Wind::operator()(Data& data, BasicGraphicsObjectContainer& parent)
 		//request.insert("debug");
 	(*method)(data, transformation, request, points);
 	if (points.empty() )
+
 		return;
-		(*this->type_).prepare(parent, method->units());
+
+	cout << points.size() << "--------------" <<  endl;
+	(*this->type_).prepare(parent, method->units());
 				
 		(*this->type_).adjust(points, transformation);
 

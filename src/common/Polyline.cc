@@ -75,7 +75,7 @@ void Polyline::print(ostream& out) const
 {
 	out << "Polyline[";
 	out << ", nb_points = " << this->size();
-	  if ( this->size() < 25 ) {
+	  if ( this->size() < 1000 ) {
             out << " Outer [";
             string sep = "";
 	    const unsigned int nb = size();
@@ -146,6 +146,7 @@ void Polyline::hole(Holes::const_iterator hole, vector<double>& x, vector<double
 
 void Polyline::hole(Holes::const_iterator hole, Polyline& poly) const
 {
+
 	for (deque<PaperPoint>::const_iterator h = hole->begin(); h != hole->end(); ++h) {
 		poly.push_back(*h);
 	}

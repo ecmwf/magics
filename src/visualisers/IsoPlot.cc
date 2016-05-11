@@ -1331,7 +1331,7 @@ void IsoPlot::isoline(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
     double min = data.min();
     double max = data.max();
     (*levelSelection_).clear();
-    (*levelSelection_).calculate(min , max , shading_->shadingMode());
+    (*levelSelection_).calculate(min , max , true);
     (*label_).prepare(*levelSelection_, (*colour_).name());
     return (*shading_)(*levelSelection_);
 }
@@ -1360,7 +1360,7 @@ void IsoPlot::isoline(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
     vector<Colour>::iterator colour = colours.begin();
 #endif
 
-    (*shading_)(data, parent);
+    (*shading_)(this, data, parent);
     (*highlight_).prepare(*levelSelection_);
 
     if ( rainbow_ ) {
@@ -1417,21 +1417,13 @@ void IsoPlot::isoline(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
  void NoIsoPlot::operator()(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
 {
     // Create the isolines...
-    if ( !prepare(data) ) {
-        if ( legend_only_ ) return;
-        (*shading_)(data, parent);
-        // do not send the isolines...
-        return;
-    }
+    prepare(data);
+
     if ( legend_only_ ) return;
     // The shading needs the isolines..
-    // WE will calculate them but will not send them to the printer
-    {
-        Timer timer("contouring", "Time spent in contouring");
-        isoline(data, parent);
-    }
 
-    (*shading_)(data, parent);
+
+    (*shading_)(this, data, parent);
 
     // Now we feed the task...
         for (vector<vector<Polyline* >* >::const_iterator lines = lines_.begin(); lines != lines_.end(); ++lines)

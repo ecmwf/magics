@@ -78,27 +78,23 @@ SymbolIndividualMode::~SymbolIndividualMode()
 
 void SymbolIndividualMode::update()
 {
-
 	if ( magCompare(marker_mode_, "index" ) ) {
 		ostringstream symbol;
 		symbol << "magics_" << marker_;
 		symbol_ = symbol.str();
 	}
-
     current_ = text_.begin();
-
-    
 }
 
 void SymbolIndividualMode::properties() const
 {
 	static map<string, TextSymbol::TextPosition> texthandlers;
 	if ( texthandlers.empty() ) {
-		texthandlers["none"] = TextSymbol::M_NONE;
-		texthandlers["left"] = TextSymbol::M_LEFT;
-		texthandlers["top"] = TextSymbol::M_ABOVE;
+		texthandlers["none"]   = TextSymbol::M_NONE;
+		texthandlers["left"]   = TextSymbol::M_LEFT;
+		texthandlers["top"]    = TextSymbol::M_ABOVE;
 		texthandlers["bottom"] = TextSymbol::M_BELOW;
-		texthandlers["right"] = TextSymbol::M_RIGHT;
+		texthandlers["right"]  = TextSymbol::M_RIGHT;
 		texthandlers["centre"] = TextSymbol::M_CENTRE;
 	}
 	TextSymbol::TextPosition position;
@@ -107,7 +103,6 @@ void SymbolIndividualMode::properties() const
 		properties_.colour_ = *colour_;
 	    properties_.height_ = height_;
 	}
-
 	else {
 		string type = lowerCase(text_position_);
 		map<string, TextSymbol::TextPosition>::iterator pos = texthandlers.find(type);
@@ -122,24 +117,22 @@ void SymbolIndividualMode::properties() const
 		}
 	}
 	if ( magCompare(marker_mode_, "image" ) ) {
-		properties_.image_ = true;
-		properties_.image_path_ = image_path_;
-		properties_.image_width_ = image_width_;
+		properties_.image_        = true;
+		properties_.image_path_   = image_path_;
+		properties_.image_width_  = image_width_;
 		properties_.image_height_ = image_height_;
 		properties_.image_format_ = image_format_;
-
 	}
 
-    properties_.outline_ = parent_->outline_;
-    properties_.outlineColour_ = *parent_->outline_colour_;
-    properties_.outlineStyle_ = parent_->outline_style_;
-    properties_.outlineThickness_ = parent_->outline_thickness_;
-
-    properties_.connectLine_ = parent_->connect_;
-    properties_.connectLineColour_ = (parent_->automatic_connect_colour_) ? *colour_ : *parent_->connect_colour_;
-    properties_.connectLineStyle_ = parent_->connect_style_;
+    properties_.outline_              = parent_->outline_;
+    properties_.outlineColour_        = *parent_->outline_colour_;
+    properties_.outlineStyle_         = parent_->outline_style_;
+    properties_.outlineThickness_     = parent_->outline_thickness_;
+    properties_.connectLine_          = parent_->connect_;
+    properties_.connectLineColour_    = (parent_->automatic_connect_colour_) ? *colour_ : *parent_->connect_colour_;
+    properties_.connectLineStyle_     = parent_->connect_style_;
     properties_.connectLineThickness_ = parent_->connect_thickness_;
-    properties_.blanking_ = parent_->text_blanking_;
+    properties_.blanking_             = parent_->text_blanking_;
 
     if ( current_ != text_.end() ) {
     	properties_.label(*current_);
@@ -153,10 +146,8 @@ void SymbolIndividualMode::properties() const
     font.size(text_font_size_);
     font.style(text_font_style_);
     properties_.font_ = font;
-
     properties_.position_ = position;
     properties_.setSymbol(symbol_, 0);
-
     properties_.text_ = text_;
 }
 
@@ -172,14 +163,9 @@ void SymbolIndividualMode::print(ostream& out)  const
 
 
 
-
-
-
 SymbolTableMode::SymbolTableMode() 
-{
-   
+{   
 }
-
 
 SymbolTableMode::~SymbolTableMode() 
 {
@@ -196,12 +182,9 @@ void SymbolTableMode::print(ostream& out)  const
 }
 
 
-
 SymbolProperties SymbolTableMode::operator()(double value) const 
 {
 	return map_.find(value, SymbolProperties());
-    
-    
 }
 
 void SymbolTableMode::prepare()
@@ -229,9 +212,7 @@ void SymbolTableMode::prepare()
     doublearray::iterator height = height_.begin();
     stringarray::iterator symbol = symbol_.begin();
     
-    int index = 0;
-    
-  
+    int index = 0;  
     
     for (doublearray::const_iterator min = min_.begin(); min != min_.end(); ++min) {
 
@@ -252,10 +233,8 @@ bool  SymbolTableMode::accept(double value)
 {
 	try {
 		map_.find(value);
-
 		return true;
 	}
-
 	catch (...) {
 		return false;
 	}
@@ -264,7 +243,6 @@ bool  SymbolTableMode::accept(double value)
 
 void SymbolTableMode::visit(LegendVisitor& legend)
 {
-    
     IntervalMap<SymbolProperties>::const_iterator interval;
     
     for ( interval = map_.begin(); interval != map_.end(); ++interval) {
@@ -284,27 +262,21 @@ void SymbolTableMode::visit(Data& data, HistoVisitor& visitor)
 		buildBins(map_, beans);
 	Histogram helper;
 	helper.visit(beans, data, data.points(*visitor.dataLayoutTransformation(), false), visitor);
-
 }
 
 void SymbolTableMode::buildBins(const IntervalMap<SymbolProperties>& in, IntervalMap<Colour>& out)
 {
 	for ( IntervalMap<SymbolProperties>::const_iterator interval = in.begin(); interval != in.end(); ++interval)
 		out.insert(make_pair(Interval(interval->first.min_, interval->first.max_), interval->second.colour_));
-
 }
 
 void SymbolIndividualMode::visit(LegendVisitor& legend)
 {
-   
 	  Symbol* symbol = properties_.symbol("marker");
 	  // overwrite with the legend_height if set..
-
 	  if ( legend_height_ != -1)
 		  symbol->setHeight(legend_height_);
-      
 	  legend.add(new SimpleSymbolEntry(legend_text_, symbol));
- 	
 }
 
 void SymbolIndividualMode::visit(Data& data, LegendVisitor& legend)
@@ -316,17 +288,15 @@ void SymbolIndividualMode::visit(Data& data, LegendVisitor& legend)
     SimpleSymbolEntry *entry = new SimpleSymbolEntry(legend_text_, symbol);
     entry->userText(legend_text_);
     legend.add(entry);
-
 }
+
 void SymbolTableMode::visit(Data& data, LegendVisitor& legend)
 {
 		legend.newLegend();
 
-
     	switch (legend.legendType())  {
     		case LegendMethod::CONTINUOUS:
     		{
-
     	    for ( IntervalMap<SymbolProperties>::const_iterator interval = map_.begin(); interval != map_.end(); ++interval) {
     			Polyline* box = new Polyline();
 
@@ -391,14 +361,9 @@ void SymbolTableMode::visit(Data& data, LegendVisitor& legend)
     					   entry->first();
     					   first = false;
     				   }
-
-
     				   legend.add(entry);
-
     			}
-
     		}
-
     }
     legend.last();
-    }
+}

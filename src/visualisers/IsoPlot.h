@@ -346,12 +346,12 @@ public:
 		}
 	virtual void visit(Data&, PointsHandler&, HistoVisitor&);
 	virtual bool method(ContourMethod* method) { return (*this->shading_).method(method);  }
-
+	void isoline(MatrixHandler&, BasicGraphicsObjectContainer&);
 protected:
 	//! Method to print string about this class on to a stream of type ostream (virtual).
 	virtual void print(ostream&) const; 
 
-	void isoline(MatrixHandler&, BasicGraphicsObjectContainer&);
+
 
 	bool prepare(MatrixHandler&);
 

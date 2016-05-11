@@ -10,6 +10,9 @@
     <parameter member="input" to="string" default="{}" from="string" name="geojson_input">
   			<documentation> String containing the GeoJson data 		</documentation>
  	</parameter>   
+ 	<parameter member="binning_resolution" to="float" default="1." from="float" name="geojson_binning_grid_resolution">
+  			<documentation> String containing the GeoJson data 		</documentation>
+ 	</parameter>   
 </class>
 
 </magics>

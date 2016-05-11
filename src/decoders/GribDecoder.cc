@@ -56,6 +56,7 @@ GribDecoder::GribDecoder() :  matrix_(0),  xComponent_(0), yComponent_(0),
     count_++;
     title_ = "grib_" + tostring(count_);
     version();
+
 }
 
 void GribDecoder::version()
@@ -226,6 +227,10 @@ double GribDecoder::getDouble(const string& key, bool warnIfKeyAbsent) const
 void   GribDecoder::setDouble(const string& key, double val) const
 {
     int err = grib_set_double(handle_, key.c_str(), val);
+    if ( component1_ )
+    	err = grib_set_double(component1_, key.c_str(), val);
+    if ( component2_ )
+       	err = grib_set_double(component2_, key.c_str(), val);
     if ( err )
     {
         MagLog::warning() << "Grib API: can not find key [" << key << "]  - "<< grib_get_error_message(err) <<"\n";
@@ -261,7 +266,7 @@ void GribDecoder::scale(const string& metadata, double& scaling, double& offset)
 	}
 }
 
-void GribDecoder::read(Matrix **matrix)
+void GribDecoder::read(Matrix **matrix, Matrix** matrix2)
 {
 
     if ( handle_ <=0 ) {
@@ -276,7 +281,7 @@ void GribDecoder::read(Matrix **matrix)
         if ( !interpretor_ ) {
             interpretor_ = SimpleObjectMaker<GribInterpretor>::create(representation);
         }
-        interpretor_->interpretAsMatrix(*this, matrix);
+        interpretor_->interpretAsMatrix(*this, matrix, matrix2);
         if ( *matrix == 0 ) {
             valid_ = false;
             ostringstream msg;
@@ -395,9 +400,10 @@ void GribDecoder::decode2D()
     }
     readColourComponent();
     openFirstComponent();
-    read(&w1);
     openSecondComponent();
-    read(&w2);
+    read(&w1, &w2);
+
+
     Data::dimension_ = ( colourComponent_ ) ? 3 : 2;
 
     wind_mode_->x(&xComponent_, &yComponent_, w1, w2);
@@ -432,8 +438,9 @@ void GribDecoder::customisedPoints(const AutomaticThinningMethod& thinning, cons
         double ystep = ( transformation.getMaxPCY() - transformation.getMinPCY())/ (thinning.y()-1);
 
         int nb = (xstep/res);
-        xstep = nb * res;
-        ystep = int(ystep/res) * res;
+        xstep = (nb > 1 ) ? nb * res : 0;
+        nb = (ystep/res);
+        ystep = (nb > 1 ) ? nb * res : 0;
 
         customisedPoints(transformation, points, xstep, ystep, 0);
     }
@@ -536,17 +543,14 @@ struct Compare
 
 void GribDecoder::customisedPoints(const Transformation& transformation, CustomisedPointsList& out, double thinx, double thiny, double gap)
 {
-    // Initialise index and data
-    interpretor_->new_index(*this);
+    decode2D();
 
-    uComponent();
-    vComponent();
-    double minlon = interpretor_->west_;
-    double maxlon = interpretor_->east_;
+    double minlon = 0.;
+    double maxlon = 360.;
 
     double missing = getDouble("missingValue");
 
-    if ( thinx ) {
+    if ( thiny ) {
         vector<pair<double, double> > positions;
 
         PaperPoint xy = interpretor_->reference(*this, transformation);
@@ -556,59 +560,63 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
         out.reserve(positions.size());
 
         int i = 0;
+       
+        std::set<int> cache;
+        cache.insert(-1);
         for ( pos = positions.begin(); pos != positions.end(); ++pos) {
             double offset = 0.;
             // First make sure tthat the lon is between the minlon and maxlon.
             double lon = pos->first;
             double lat = pos->second;
+            double nlat, nlon;
 
+            int w = xComponent_->nearest_index(lat, lon, nlat, nlon);
+
+            //cout << i << " = [" << lat << ", " << lon << "]--->[" << nlat << ", " << nlon << "] = " << w << endl;
             i++;
-            while ( lon < minlon ) {
-                lon += 360;
-                offset -= 360.;
-            }
-            while ( lon > maxlon ) {
-                lon -= 360.;
-                offset += 360.;
-            }
-
-            Index index = interpretor_->nearest(lat, lon);
-            //cout << "[" << lat << ", " << lon << "]-->[" << index.index_ << ", " << index.lat_ << ", " << index.lon_ << "]" << endl;
-            if ( index.index_ != -1 && !index.used_ ) {
-                index.used_ = true;
-                double u = uComponent(index.index_);
-                double v = vComponent(index.index_);
-
-                if ( u != missing && v != missing) {
-                    CustomisedPoint *add = new CustomisedPoint(index.lon_+offset, index.lat_, "");
-                    pair<double, double> value = (*wind_mode_)(u, v);
+            bool cached = ( cache.find(w) != cache.end() );
+            if ( !cached ) {
+                    cache.insert(w);
+                    CustomisedPoint *add = new CustomisedPoint(nlon, nlat, "");
+                    pair<double, double> value = (*wind_mode_)((*xComponent_).data_[w], (*yComponent_).data_[w]);
 
                     add->insert(make_pair("x_component", value.first));
                     add->insert(make_pair("y_component", value.second));
+                    // cout << " Point " << *add << endl;
                     out.push_back(add);
-                    /* for debug!
-                    add = new CustomisedPoint(lon+offset, lat, "");
 
-                    add->insert(make_pair("x_component", 0.01));
-                    add->insert(make_pair("y_component", 0.01));
-                    out.push_back(add);
-                    //*/
+                    string debug = getEnvVariable("WIND_DEBUG");
+                    if ( debug != "" ) {
+                    	add = new CustomisedPoint(lon, lat, "");
+
+                    	add->insert(make_pair("x_component", 0.01));
+                    	add->insert(make_pair("y_component", 0.01));
+                    	out.push_back(add);
+                    }
+
                 }
+                
             }
-        }
+            
     }
 
     else { // no thinning !
         // get all the points of the index!
-
-        for ( vector<vector<Index> >:: iterator cell = interpretor_->helper_.begin(); cell != interpretor_->helper_.end(); ++cell) {
-            for ( vector<Index>::iterator index = cell->begin(); index != cell->end(); ++index) {
-                double u = uComponent(index->index_);
-                double v = vComponent(index->index_);
+    	//map<double, int> yIndex_; // lat--> index
+    	//vector<InfoIndex> xIndex_;
+        for ( map<double, int>::iterator y = xComponent_->yIndex_.begin(); y != xComponent_->yIndex_.end(); ++y) {
+        	InfoIndex x = xComponent_->xIndex_[y->second];
+        	double lat = y->first;
+        	int index = x.offset_;
+            for ( int i = 0; i < x.nbPoints_; i++) {
+            	double lon = x.first_  + (i*x.step_);
+                double u = xComponent_->data_[index];
+                double v = yComponent_->data_[index];
+                index++;
                 if ( u != missing && v != missing) {
                     pair<double, double> value = (*wind_mode_)(u, v);
                     vector<UserPoint> pos;
-                    transformation.populate(index->lon_, index->lat_, 0, pos);
+                    transformation.populate(lon, lat, 0, pos);
                     for ( vector<UserPoint>::iterator p = pos.begin(); p != pos.end(); ++p) {
                         CustomisedPoint *add = new CustomisedPoint(p->x(), p->y(), "");
                         add->insert(make_pair("x_component", value.first));
@@ -1484,6 +1492,8 @@ const LevelDescription& GribDecoder::level()
 
 void GribDecoder::visit(MetaDataVisitor& meta)
 {
+    if ( !handle_ )
+        return;
     vector<string> need;
 
     need.push_back("<grib_info key='shortName'/>");

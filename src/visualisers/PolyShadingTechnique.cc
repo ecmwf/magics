@@ -32,6 +32,10 @@
 #include "IsoPlot.h"
 
 using namespace magics;
+void ShadingTechnique::operator()(IsoPlot* iso, MatrixHandler& data, BasicGraphicsObjectContainer& parent)
+{
+	iso->isoline(data, parent);
+}
 
 CellArray* PolyShadingTechnique::array(MatrixHandler& matrix, IntervalMap<int>& range,
   	    		const Transformation& transformation, int width, int height,
@@ -59,6 +63,7 @@ CellArray* GridShading::array(MatrixHandler& matrix, IntervalMap<int>& range,
 		const Transformation& transformation, int width, int height,
 		float resolution, const string& technique)
 {
+
 	return new GridArray(matrix, range, transformation, width, height, resolution, position_);
 
 }

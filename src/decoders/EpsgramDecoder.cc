@@ -1529,35 +1529,7 @@ MatrixHandler& EpsgramDecoder::matrix()
 	    column++;
 	}
 
-	/*matrix_.set(steps_.size(), heights_.size());
 
-
-	for ( vector<double>::const_iterator height =heights_.begin(); height != heights_.end(); ++height) {
-				matrix_.rowsAxis().push_back(*height);
-	}	
-	MagLog::dev()<< " step-->" <<endl;
-	for ( vector<double>::const_iterator step = steps_.begin(); step != steps_.end(); ++step) {
-				matrix_.columnsAxis().push_back(*step);
-				MagLog::dev()<< *step << " ";
-			}
-			MagLog::dev()<< endl << "<--- step" <<endl;
-			matrix_.setMapsAxis();
-			int i = 0;
-			for ( int height = 0; height < heights_.size(); height++) {
-
-			    MagLog::dev()<< endl <<  heights_[height] << " " << steps_.size() << endl;
-				for ( int step = 0; step < steps_.size(); step++) {
-					matrix_.push_back(values_[(step*heights_.size()) + height]);
-					MagLog::dev()<< matrix_.back() << " ";
-				}
-			}
-				MagLog::debug() << matrix_ << endl;
-	for (vector<CustomisedPoint*>::const_iterator point = points_.begin(); point != points_.end(); ++point)
-	{
-			 MagLog::dev() << **point << endl;
-
-	}
-	*/
 	matrixHandlers_.push_back(new  MatrixHandler(matrix_));
 	return *(matrixHandlers_.back());
 }

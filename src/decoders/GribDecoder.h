@@ -105,9 +105,13 @@ public:
 	MatrixHandler& direction();
 	// Data Interface : info for the layer managment!
 	 string layerId()  { decode(); return layerId_; }
-	 string name() { decode(); return name_; }
-	 const DateTime& from() { decode(); return from_; }
-	 const DateTime& to()  { decode(); return to_; }
+	 string name() {
+
+	 	 return name_;
+	 }
+	 const DateTime& from() {
+	 return from_; }
+	 const DateTime& to()  {  return to_; }
 
 	string title() {
 		return title_;
@@ -207,7 +211,7 @@ public:
 
     string    getstring(const string&, bool warnIfKeyAbsent = true, bool cache= true) const;
 
-	void      read(Matrix **matrix);
+	void      read(Matrix **matrix, Matrix ** matrix2 = NULL);
 	void      read(Matrix **matrix, const Transformation&);
 	bool      id(const string&, const string&) const;
 
@@ -216,6 +220,10 @@ public:
 
 	grib_handle*  uHandle(string&);
 	grib_handle*  vHandle(string&);
+
+	grib_handle*  uHandle() const { return component1_ ; }
+	grib_handle*  vHandle() const { return component2_ ; };
+
 	grib_handle*  cHandle(string&);
 
 	double uComponent(int);
@@ -311,11 +319,13 @@ public:
 	void openFirstComponent() {
 		ASSERT(handle1_);
 		handle_ = handle1_;
+		component1_ = handle1_;
 	}
 
 	void openSecondComponent() {
 		ASSERT(handle2_);
 		handle_ = handle2_;
+		component2_ = handle2_;
 	}
 	void openThirdComponent() {
 			ASSERT(handle3_);

@@ -37,11 +37,11 @@ namespace magics {
 class UserPoint  {
 
 public:
-	UserPoint(double x, double y, double value = 0, bool missing = false, bool border = false) :
-		x_(x), y_(y), value_(value), high_(false), low_(false), missing_(missing), border_(border)  {}
+	UserPoint(double x, double y, double value = 0, bool missing = false, bool border = false, const string& name = "") :
+		x_(x), y_(y), value_(value), name_(name), high_(false), low_(false), missing_(missing), border_(border)  {}
 	// ~UserPoint() {}
 	UserPoint() :
-		x_(0), y_(0), value_(0), high_(false), low_(false), missing_(false), border_(false) {}
+		x_(0), y_(0), value_(0), name_(""), high_(false), low_(false), missing_(false), border_(false) {}
 	
 	void y(double y) { y_ = y; }
 	void x(double x) { x_ = x; }
@@ -51,6 +51,7 @@ public:
 	inline double y() const     { return y_; }
 	inline double x() const     { return x_; }
 	inline double value() const { return value_; }
+	inline const string& name() const  { return name_; }
 	
 	void flagMissing()          { missing_ = true; }
 	bool missing() const        { return missing_; }
@@ -71,7 +72,7 @@ public:
 	double x_;
 	double y_;
 	double value_;
-
+	string name_;
 	void high(bool high) { high_ = high; }
 	void low(bool low)   { low_ = low; }
 	bool high() const { return high_; }
@@ -118,6 +119,7 @@ protected:
 	bool missing_;
 	bool border_;
 	
+
 	void print(ostream& out) const
 	{ 
 		out << "UserPoint[";
