@@ -110,7 +110,7 @@ Symbol* SymbolProperties::symbol(const string& type) const
 			else
 				symbol = new Symbol();
 	}
-	if ( magCompare(type, "both") ) {
+	if ( magCompare(type, "both") || magCompare(type, "marker_text") ) {
 		TextSymbol* text = new TextSymbol();
 
 		text->position(position_);
@@ -274,7 +274,6 @@ void TextSymbol::redisplay(const BaseDriver& driver) const
 		boundingbox_.clip(line, lines);
 
 		for ( vector<Polyline>::const_iterator l = lines.begin(); l != lines.end(); ++l) {
-
 			driver.redisplay(*l);
 		}
 		//first  we remove the point that are outside!
@@ -286,8 +285,6 @@ void TextSymbol::redisplay(const BaseDriver& driver) const
 		symbol.erase(last, symbol.end());
 
 		driver.redisplay(symbol);
-
-
 }
 
 void ImageSymbol::redisplay(const BaseDriver& driver) const
@@ -297,7 +294,6 @@ void ImageSymbol::redisplay(const BaseDriver& driver) const
 		object->setOrigin(*point);
 		object->setPath(path_);
 		object->setFormat(format_);
-
 		object->setWidth(width_);
 		object->setHeight(height_);
 		driver.redisplay(*object);

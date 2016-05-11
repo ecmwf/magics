@@ -246,7 +246,7 @@ LandgramDecoder.xml
 MetgramCurve.xml
 MetgramFlags.xml
 MetgramGraph.xml
-
+MetgramBar.xml
 
 ObsTable.xml
 ObsJSon.xml

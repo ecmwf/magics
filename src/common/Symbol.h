@@ -146,7 +146,12 @@ public:
 
 	void push_back(const PaperPoint& point, const string& text) {
 		Symbol::push_back(point);
-		if ( !text.empty() ) texts_.push_back(text);
+		if ( text == "_FORCE_EMPTY_TEXT_" ) {
+			texts_.push_back("");
+			return;
+		}
+		if ( !text.empty() )
+			texts_.push_back(text);
 	}
 
 	void text(const vector<string>& text) { texts_ = text; }

@@ -3,7 +3,7 @@
     "drivers": [
         {
             "format": "png", 
-            "fullname": "coastlines-ecchart.png", 
+            "fullname": "wind-ecchart.png", 
             "output_cairo_transparent_background": "off", 
             "output_name_first_page_number": "off", 
             "output_width": "1200"
@@ -21,13 +21,24 @@
             "margin_top": "0", 
             "coastlines": { } ,
             "plot": {
+            "grib" : {"grib_input_file_name": "wind.grib"},
+            "wind": {
+                   "wind_field_type": "Flags",
+            "wind_flag_colour": "black",
+            "wind_flag_length": "0.3",
+            "wind_thinning_factor": "50.",
+            "wind_flag_origin_marker": "dot",
+            "wind_flag_origin_marker_size": "0.1",
+            "wind_legend_text": "Black wind flags (in knots)"
+        }
+
             }, 
-             "lower_left_latitude": "20.5",
-                    "lower_left_longitude": "61.5",
-                            "projection": "polar_stereographic",
-                                    "vertical_longitude": "100",
-                                            "upper_right_latitude": "50.5",
-                                                    "upper_right_longitude": "-167.5"
+             "ilower_left_latitude": "20.5",
+                    "ilower_left_longitude": "61.5",
+                            "iprojection": "polar_stereographic",
+                                    "ivertical_longitude": "100",
+                                            "iupper_right_latitude": "50.5",
+                                                    "iupper_right_longitude": "-167.5"
         }, 
         "meta": {
             "javascript_path": "wind-ecchart.js",

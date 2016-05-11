@@ -40,7 +40,7 @@ ecbuild_requires_macro_version( 1.9 )
 ###############################################################################
 # some variables of this project
 
-ecbuild_use_package(PROJECT grib_api VERSION 1.12.3 REQUIRED)
+ecbuild_use_package(PROJECT grib_api VERSION 1.14.6 REQUIRED)
 # grib_api is required for now
 set( HAVE_GRIB 1 )
 
@@ -53,7 +53,7 @@ ecbuild_add_option( FEATURE ODB
                     DEFAULT ON
                     DESCRIPTION "ODB support"
                     REQUIRED_PACKAGES 
-						"PROJECT odb_api VERSION 0.10.2"
+            "PROJECT odb_api VERSION 0.10.2"
 						"PROJECT eckit   VERSION 0.9.0" )
 
 ecbuild_add_option( FEATURE CAIRO
@@ -125,8 +125,7 @@ set( MAGICS_EXCEPTION     "ON" )
 set( MAGICS_SITE          "ecmwf" )
 set( MAGICS_INSTALL_PATH  ${CMAKE_INSTALL_PREFIX} )
 
-# Regression definitions
-set( MAGICS_REFERENCE_VERSIONS            "2.26.2" )
+set( MAGICS_REFERENCE_VERSIONS            "2.28.0" )
 set( MAGICS_HTML_ROOT        "${CMAKE_BINARY_DIR}/regression/html")
 file(MAKE_DIRECTORY ${MAGICS_HTML_ROOT} )
 
@@ -137,8 +136,8 @@ set( MAG_PYTHON_PATH ${CMAKE_BINARY_DIR}/python )
 
 # ecbuild_use_package( PROJECT eckit VERSION 0.3 REQUIRED )
 
-#cmake_add_cxx_flags("-gdwarf-2")
-cmake_add_c_flags("-std=c99")
+#ecbuild_add_cxx_flags("-gdwarf-2")
+ecbuild_add_c_flags("-std=c99")
 
 ### Metview and Qt
 
@@ -192,11 +191,11 @@ find_package( Threads )
 # set(Boost_USE_STATIC_LIBS        ON)
 # set(Boost_NO_SYSTEM_PATHS        ON)
 # set(Boost_USE_MULTITHREADED      ON)
-ecbuild_add_extra_search_paths( boost )
+#ecbuild_add_extra_search_paths( boost )
 
 find_package( Boost 1.49.0 REQUIRED)
 find_package( Proj4 REQUIRED )
-find_package( EXPAT  REQUIRED )
+find_package( EXPAT REQUIRED )
 
 ###############################################################################
 # contents

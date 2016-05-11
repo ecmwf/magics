@@ -63,7 +63,7 @@ public:
 	virtual void visit(Data&, PointsHandler&, HistoVisitor&) {};
 	virtual void adjust( CustomisedPointsList&,const Transformation&);
 	bool needLegend() { return legend_; }
-	void legendOnly(bool legend) { legendOnly_ = legend; }
+	void legendOnly(bool legend) { legendOnly_ = legend; legend_only_ = legend; }
 	Colour& colour(Colour& Colour, double, double, double);
 	
 	Colour& off(Colour& colour, double, double, double) { return colour; }

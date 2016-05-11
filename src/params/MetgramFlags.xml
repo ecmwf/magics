@@ -9,6 +9,15 @@
         	<parameter member="frequency" to="int" default="1" from="int" name="metgram_flag_frequency">           
             		<documentation> Frequency to plot the flags  		</documentation>
         	</parameter>
+        	<parameter member="method" to="string" default="SD" from="string" name="metgram_flag_method">           
+            		<documentation> SD : speed/direction is given UV : U/V components  		</documentation>
+        	</parameter>
+        	<parameter member="component1" to="string" default="curve1" from="string" name="metgram_flag_component1">           
+            		<documentation> Keyword used for the First component  		</documentation>
+        	</parameter>
+        	<parameter member="component2" to="string" default="curve2" from="string" name="metgram_flag_component2">           
+            		<documentation> Keyword used for the second component  		</documentation>
+        	</parameter>
         	<parameter member="length" to="float" default="0.5" from="float" name="metgram_flag_length">           
             		<documentation> length of the flag  		</documentation>
         	</parameter>

@@ -539,8 +539,8 @@ MAGICS_NO_EXPORT void CairoDriver::write_tiff() const
 
     // DPI
     TIFFSetField(tif, TIFFTAG_RESOLUTIONUNIT, RESUNIT_INCH);
-    TIFFSetField(tif, TIFFTAG_XRESOLUTION, (float) 90.;// resolution_);
-    TIFFSetField(tif, TIFFTAG_YRESOLUTION, (float) 90.;// resolution_);
+    TIFFSetField(tif, TIFFTAG_XRESOLUTION, (float) 90.);
+    TIFFSetField(tif, TIFFTAG_YRESOLUTION, (float) 90.);
 
     unsigned char *buf;
     if (TIFFScanlineSize(tif))
@@ -1193,6 +1193,7 @@ MAGICS_NO_EXPORT void CairoDriver::renderText(const Text& text) const
 
 	for(;niceText<niceTextEnd;niceText++)
 	{
+		if ((*niceText).text().empty()) continue;
 		MagFont magfont = (*niceText).font();
 		const std::set<string>& styles = magfont.styles();
 
@@ -1323,9 +1324,12 @@ MAGICS_NO_EXPORT void CairoDriver::circle(const MFloat x, const MFloat y, const 
 
 //	cairo_identity_matrix (cr_);
 	cairo_set_line_width (cr_, currentLineWidth_);
-	cairo_set_source_rgba(cr_,currentColour_.red(),currentColour_.green(),currentColour_.blue(),currentColour_.alpha());
-
 	int fill = s;
+	if(fill==10) {
+		cairo_set_line_width (cr_, currentLineWidth_*5);
+		fill=0;
+	}
+	cairo_set_source_rgba(cr_,currentColour_.red(),currentColour_.green(),currentColour_.blue(),currentColour_.alpha());
 
 	//if(s > 8) fill = 8;
 	if( (s > 0) && (fill != 9) )

@@ -60,10 +60,11 @@ public:
     
     bool accept(const string& node) { return MarkerShadingTechniqueAttributes::accept(node); }
 
+    void operator()(IsoPlot*, MatrixHandler&, BasicGraphicsObjectContainer&);
     
     Symbol* operator()(double);
     virtual void operator()(const PaperPoint&);
-    virtual void operator()(MatrixHandler&, BasicGraphicsObjectContainer&);
+    //virtual void operator()(MatrixHandler&, BasicGraphicsObjectContainer&);
     virtual bool prepare(const LevelSelection&, const ColourTechnique&);    
     virtual void visit(LegendVisitor&, const ColourTechnique&);
     bool hasLegend() { return true; } // Isolien legend is not needed!

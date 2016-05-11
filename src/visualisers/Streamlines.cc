@@ -69,7 +69,13 @@ bool Streamlines::operator()(Data& data, BasicGraphicsObjectContainer& parent)
     int i = 0;
     for (int row = 0; row < handler.rows(); row++ )
         for (int column = 0; column < handler.columns(); column++ ) {
-            direction[i] = (handler)(row, column);
+// ************ MF RV ***************
+// CalcStreamlines.cc (line 281) -> only check NAN as missingValue
+//    and shiftPeriod(missingValue) (lines 31,44) -> catastrophic!
+//            direction[i] = (handler)(row, column);
+            double d = (handler)(row, column);
+            direction[i] = (d == handler.missing()) ? NAN : d;
+// ************ MF RV ***************
             i++;
         }
 
@@ -116,6 +122,10 @@ bool Streamlines::operator()(Data& data, BasicGraphicsObjectContainer& parent)
         transformation(poly, parent);
 
     }
+// ************ MF RV ***************
+// Leak ;-)
+    delete [] direction;
+// ************ MF RV ***************
     return true;
 }
 

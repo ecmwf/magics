@@ -165,12 +165,14 @@ public:
 	virtual void operator()(PreviewVisitor&);
 
 
+
 protected:
 	//! Method to print string about this class on to a stream of type ostream (virtual).
 	virtual void print(ostream&) const;
 
 	void decode(const Layout&);
-	
+	void clip(const Transformation&,const vector<Polyline*>&, vector<Polyline*>&) const;
+	void clipAndClose(const Transformation&, const vector<Polyline*>&, vector<Polyline*>&) const;
 	void landsea(Layout&);
 	void landonly(Layout&);
 	void seaonly(Layout&);
@@ -182,8 +184,8 @@ protected:
 
 	string coast_resolution_;
 
-	vector<Polyline> coast_;
-	vector<Polyline> ocean_;
+	vector<Polyline*> coast_;
+	vector<Polyline*> ocean_;
 };
 
 

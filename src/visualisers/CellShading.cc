@@ -37,7 +37,7 @@
 using namespace magics;
 
 
-CellShading::CellShading()
+CellShading::CellShading() : shading_("grid")
 {
 }
 
@@ -46,8 +46,28 @@ CellShading::~CellShading()
 {
 }
 
+int CellShading::index(double value)
+{
+	return map_.find(value, -1);
+}
 
-void CellShading::operator()( MatrixHandler& data, BasicGraphicsObjectContainer& parent)
+void CellShading::operator()(Polyline* poly) const
+{
+	int index = poly->index();
+	if (index < 0  )
+		return;
+
+	poly->setStroke(false);
+	poly->setFilled(true);
+	if ( index >= colours_.size() )
+		poly->setFillColour(colours_.back());
+	else
+		poly->setFillColour(colours_[index]);
+	FillShadingProperties* shading = new FillShadingProperties();
+	poly->setShading(shading);
+}
+
+void CellShading::operator()(IsoPlot* iso, MatrixHandler& data, BasicGraphicsObjectContainer& parent)
 {
 	// Here we have to work using the parentput projection.
 	
@@ -58,9 +78,19 @@ void CellShading::operator()( MatrixHandler& data, BasicGraphicsObjectContainer&
 	double minr = projection.getMinPCY();
 	double maxr = projection.getMaxPCY();
 	
-	double width =  parent.absoluteWidth();
-	double height =  parent.absoluteHeight();
-	
+	double width =  parent.absoluteWidth(); // in cm
+	double height =  parent.absoluteHeight(); // in cm
+	shading_ = "grid";
+
+
+
+	PaperPoint middle((maxc-minc)/2, (maxr-minr)/2);
+
+
+
+
+
+	shading_ = "cell";
 	MagLog::debug() << "minx="   << minc << endl;
 	MagLog::debug() << "maxx="   << maxc << endl;
 	MagLog::debug() << "miny="   << minr << endl;
@@ -78,8 +108,26 @@ void CellShading::operator()( MatrixHandler& data, BasicGraphicsObjectContainer&
 	MagLog::debug() << "rows=" << rows << endl;
 	MagLog::debug() << "columns=" << columns << endl;
 	
-	UserPoint point;
+	UserPoint point, point1;
 	double value;
+	PaperPoint middle2(middle.x()+stepc, middle.y() + stepr);
+	projection.revert(middle, point);
+	projection.revert(middle2, point1);
+
+	UserPoint nextdata(point.x() + data.XResolution(), point.y() + data.YResolution());
+	double distance_plot = projection.distance(point, point1);
+	double distance_data = projection.distance(point, nextdata);
+
+
+	if ( magCompare(resolution_method_, "adaptive" ) ) {
+
+		if (   distance_plot < distance_data ) {
+			iso->isoline(data, parent);
+			cout << "Grid Shading" << endl;
+			MagLog::info() << "Magics will use grid shading" << endl;
+		}
+		return ;
+	}
 	
 	Image* image = new Image();
 	image->set(rows, columns);
@@ -105,6 +153,7 @@ void CellShading::operator()( MatrixHandler& data, BasicGraphicsObjectContainer&
     for (int i = 0; i <= *max_element(image->begin(), image->end()); i++)
     {
     	table.push_back(*colour);
+
     	if ( ++colour == colours_.end() ) colour = colours_.begin();
 	}
 	
@@ -128,7 +177,7 @@ DumpShading::~DumpShading()
 {
 }
 
-void DumpShading::operator()( MatrixHandler& data, BasicGraphicsObjectContainer& parent)
+void DumpShading::operator()( IsoPlot*,MatrixHandler& data, BasicGraphicsObjectContainer& parent)
 {
 	// Here we have to work using the parentput projection.
 
@@ -247,6 +296,7 @@ CellArray* CellShading::array(MatrixHandler& matrix, IntervalMap<int>& range,
 		const Transformation& transformation, int width, int height,
 		float resolution, const string& technique)
 {
-	return new CellArray(matrix, range, transformation, width, height, resolution, technique);
+
+		return new GridArray(matrix, range, transformation, width, height, resolution, "middle");
 
 }

@@ -7,13 +7,13 @@ import sys
 
 
 
-def bufrgram(data):
+def metgram(data):
 
 
     out = output(
-        output_formats="ps",
+        output_formats=["ps"],
         output_name_first_page_number='off',
-        output_name="bufrgram" ,
+        output_name="metgram" ,
         super_page_y_length=29.7,
         super_page_x_length=21.,
         )
@@ -78,27 +78,26 @@ def bufrgram(data):
         axis_tick_label_height =  font_size
         )
 
-    cc_data =    mmetbufr(
-                        epsbufr_parameter_title = "Cloud Amount (%)",
-                        epsbufr_parameter_descriptor =  20010,
-                        epsbufr_information =  "on",
-                        epsbufr_input_filename = data["epsbufr_input_filename"],
-                        epsbufr_station_latitude = data["epsbufr_station_latitude"],
-                        epsbufr_station_longitude = data["epsbufr_station_longitude"],
-                        epsbufr_station_name =  data["epsbufr_station_name"],
+    cc_data =  mwrepjson(
+                wrepjson_family =  "eps",
+                wrepjson_input_filename =  data["cloud_cover"],
+                wrepjson_parameter =  "tcc",
+                wrepjson_product_information= "Classic metgram" ,
+                wrepjson_parameter_information= "Cloud Amount (%)",
+                wrepjson_parameter_scaling_factor= 100.,
+                )
 
-
-                    )
-    cc_graph = mmetgraph( eps_box_border_thickness = 2,
-                          eps_box_width = 1.5,
-                          metgram_plot_style = 'bar')
+    cc_graph = mmetgraph( metgram_plot_style = 'bar',
+                    metgram_bar_colour = 'green',
+                    metgram_bar_keyword = "forecast")
     cc_text = mtext(
                 text_colour =  "navy",
-                text_font_size = 0.5,
+                text_font_size = 0.2,
                 text_justification =  "left",
-                text_lines =  ["<json_info key='station_info'/>",
+                text_lines =  ["<font size='0.5'>Classic Metgram </font>",
+                    "<font size='0.5'> <json_info key='station_name'/></font> <font size='0.5'> <json_info key='location'/></font>",
                     "<font size='0.5'> <json_info key='date'/></font>",
-                    "<font size='0.5' colour='white'> . </font>",
+                    "<font size='0.5'> . </font>",
                     "<font size='0.4'> <json_info key='parameter_info'/></font> "]
             )
 
@@ -112,15 +111,14 @@ def bufrgram(data):
             )
 
     last  = last -y;
-    rh_data =    mmetbufr(
-                        epsbufr_parameter_title = "850 hPa Relative Humidity  (%)",
-                        epsbufr_parameter_descriptor =  13003,
-                        epsbufr_information =  "on",
-                        epsbufr_input_filename = data["epsbufr_input_filename"],
-                        epsbufr_station_latitude = data["epsbufr_station_latitude"],
-                        epsbufr_station_longitude = data["epsbufr_station_longitude"],
+    rh_data =mwrepjson(
+                        wrepjson_family =  "eps",
+                        wrepjson_input_filename = data["humidity"],
+                        wrepjson_parameter=  "r",
+                        wrepjson_parameter_information = "850 hPa Relative Humidity  (%)",
+
                     )
-    rh_graph = mmetgraph( )
+    rh_graph = mmetgraph( metgram_curve_keyword = "forecast")
     rh_text = mtext(
                 text_colour =  "navy",
                 text_font_size = 0.2,
@@ -139,17 +137,16 @@ def bufrgram(data):
             )
 
     last  = last -y;
-    precip_data =    mmetbufr(
-
-                        epsbufr_accumulated_parameter = "on",
-                        epsbufr_parameter_title = "Precipitation",
-                        epsbufr_parameter_descriptor =  13011,
-                        epsbufr_input_filename = data["epsbufr_input_filename"],
-                        epsbufr_station_latitude = data["epsbufr_station_latitude"],
-                        epsbufr_station_longitude = data["epsbufr_station_longitude"],
+    precip_data =    mwrepjson(
+                        wrepjson_family =  "eps",
+                        wrepjson_input_filename = data["precipitation"],
+                        wrepjson_parameter=  "cp",
+                        wrepjson_parameter_information = "Precipitation",
                     )
+
     precip_graph = mmetgraph(
-                          metgram_plot_style = 'bar'
+                          metgram_plot_style = 'bar',
+                          metgram_bar_keyword = "forecast"
                         )
     precip_text = mtext(
                 text_colour =  "navy",
@@ -168,16 +165,15 @@ def bufrgram(data):
             )
 
     last  = last - (y/2) -0.5;
-    msl_data =    mmetbufr(
-                        epsbufr_parameter_scaling_factor = 0.01,
-                        epsbufr_parameter_title = "MSL Pressure (hPa)",
-                        epsbufr_parameter_descriptor =  10051,
-                        epsbufr_information =  "on",
-                        epsbufr_input_filename = data["epsbufr_input_filename"],
-                        epsbufr_station_latitude = data["epsbufr_station_latitude"],
-                        epsbufr_station_longitude = data["epsbufr_station_longitude"],
+    msl_data =    mwrepjson(
+                        wrepjson_family =  "eps",
+                        wrepjson_input_filename = data["pressure"],
+                        wrepjson_parameter=  "msl",
+                        wrepjson_parameter_information = "MSL Pressure (hPa)",
+                        wrepjson_parameter_scaling_factor = 0.01,
                     )
     msl_graph = mmetgraph(
+                    metgram_curve_keyword = "forecast"
                         )
     msl_text = mtext(
                 text_colour =  "navy",
@@ -215,16 +211,17 @@ def bufrgram(data):
 
 
     last  = last -y;
-    wind_data =    mmetbufr(
-                        epsbufr_parameter_title = "10m Wind (m/s)",
-                        epsbufr_parameter_descriptor = 11003,
-                        epsbufr_parameter_2_descriptor =  11004,
-                        epsbufr_input_filename = data["epsbufr_input_filename"],
-                        epsbufr_station_latitude = data["epsbufr_station_latitude"],
-                        epsbufr_station_longitude = data["epsbufr_station_longitude"],
+    wind_data =   mwrepjson(
+                        wrepjson_family =  "eps",
+                        wrepjson_input_filename = data["wind"],
+                        wrepjson_parameter=  "10uv",
+                        wrepjson_parameter_information = "10m Wind (m/s)",
                     )
+
     wind_graph = mmetgraph(
-                          metgram_plot_style = 'flags'
+                          metgram_plot_style = 'flags',
+                          metgram_flag_component1 = "10u",
+                          metgram_flag_component2 = "10v",
                         )
     wind_text = mtext(
                 text_colour =  "navy",
@@ -244,27 +241,24 @@ def bufrgram(data):
 
     last  = last - y;
 
-    min_data =    mmetbufr(
-                        epsbufr_parameter_title = "Temperature (C)",
-                        epsbufr_parameter_descriptor =  12001,
-                        epsbufr_information =  "on",
-                        epsbufr_parameter_offset_factor =  -273.15,
-                        epsbufr_input_filename = data["epsbufr_input_filename"],
-                        epsbufr_station_latitude = data["epsbufr_station_latitude"],
-                        epsbufr_station_longitude = data["epsbufr_station_longitude"],
+    t850_data =    mwrepjson(
+                        wrepjson_family =  "eps",
+                        wrepjson_input_filename = data["temperature"],
+                        wrepjson_parameter=  "t",
+                        wrepjson_parameter_information = "Temperature (C)",
+                        wrepjson_parameter_offset_factor =  -273.15,
                     )
-    min_graph = mmetgraph( metgram_curve_colour = "blue"
+    min_graph = mmetgraph( metgram_curve_colour = "blue",
+                            metgram_curve_keyword = "forecast"
                         )
-    max_data =    mmetbufr(
-                        epsbufr_parameter_title = "",
-                        epsbufr_parameter_descriptor =  12004,
-                        epsbufr_information =  "on",
-                        epsbufr_parameter_offset_factor =  -273.15,
-                        epsbufr_input_filename = data["epsbufr_input_filename"],
-                        epsbufr_station_latitude = data["epsbufr_station_latitude"],
-                        epsbufr_station_longitude = data["epsbufr_station_longitude"],
+    t2m_data =    mwrepjson(
+                        wrepjson_family =  "eps",
+                        wrepjson_input_filename = data["2m_temperature"],
+                        wrepjson_parameter=  "2t",
+                        wrepjson_parameter_offset_factor =  -273.15,
                     )
-    max_graph = mmetgraph( metgram_curve_colour = "red"
+    max_graph = mmetgraph( metgram_curve_colour = "red",
+                        metgram_curve_keyword = "forecast"
                         )
     tempe_text = mtext(
                 text_colour =  "navy",
@@ -281,43 +275,57 @@ def bufrgram(data):
         horizontal,
         vertical,
         cc_data, cc_graph, cc_text,
+       #Relative humidity
         frame2,
         projection,
         horizontal,
         vertical,
         rh_data, rh_graph, rh_text,
+
         frame3,
         projection,
         horizontal,
         vertical,
         precip_data, precip_graph, precip_text,
+
         frame4,
         projection,
         horizontal,
         vertical,
         msl_data, msl_graph, msl_text,
+
+        # wind Flags
         frame5,
         wind_projection,
         horizontal,
         wind_vertical,
         wind_data, wind_graph, wind_text,
+
+        #Temperatures
         frame6,
         projection,
         horizontal,
         vertical,
-        min_data, min_graph, max_data, max_graph, tempe_text,
+        t850_data, min_graph, t2m_data, max_graph, tempe_text,
         )
 
 
 
+
+
 def main():
+    lat = "37.00"
+    lon = "35.32"
     data = {
-        "epsbufr_input_filename" : "GRA01130000012300001",
-        "epsbufr_station_latitude" : 38.72,
-        "epsbufr_station_longitude" :  30.51,
-        "epsbufr_station_name" :  "My Station",
+        "cloud_cover" : "input/%s_%s_tcc.json" % (lat, lon),
+        "precipitation" : "input/%s_%s_cp.json" % (lat, lon),
+        "pressure" : "input/%s_%s_msl.json" % (lat, lon),
+        "wind" : "input/%s_%s_10uv.json" % (lat, lon),
+        "temperature" : "input/%s_%s_t.json" % (lat, lon),
+        "2m_temperature" : "input/%s_%s_2t.json" % (lat, lon),
+        "humidity" : "input/%s_%s_r.json" % (lat, lon),
         }
-    bufrgram(data)
+    metgram(data)
 
 
 if __name__ == "__main__":

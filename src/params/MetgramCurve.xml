@@ -9,9 +9,17 @@
         	<parameter member="style2" to="LineStyle" default="solid" from="string" name="metgram_curve2_line_style">           
             		<documentation> LineStyle of the second curve  		</documentation>
         	</parameter>
+        	<parameter member="keyword1" to="string" default="curve1" from="string" name="metgram_curve_keyword">           
+            		<documentation> keyword used for fefine the first curve		</documentation>
+        	</parameter>
+        	<parameter member="keyword2" to="string" default="curve2" from="string" name="metgram_curve_keyword2">           
+            		<documentation> keyword used for fefine the second curve		</documentation>
+        	</parameter>
+  
         	<parameter member="colour" to="Colour" default="red" from="string" name="metgram_curve_colour">           
             		<documentation> Colour of the curve  		</documentation>
         	</parameter>
+        	
          	<parameter member="colour2" to="Colour" default="blue" from="string" name="metgram_curve2_colour">           
             		<documentation> Colour of the second curve  		</documentation>
         	</parameter>

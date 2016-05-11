@@ -383,6 +383,14 @@ void WrepJSon::eps()
 		double speed = (intensity ==  (values_.values_.end() ) ) ? 0 : intensity->second[i]; 
 		double dir = (direction ==  (values_.values_.end() ) ) ? 0 : direction->second[i]; 
 		CustomisedPoint* point = new CustomisedPoint();		
+
+		DateTime current = base_ + Second(values_.steps_[i] * 3600);
+		(*point)["year"] = current.date().year();
+		(*point)["month"] = current.date().month();
+		(*point)["day"] = current.date().day();
+		(*point)["hours"] = current.time().hours();
+		(*point)["minutes"] = current.time().minutes();
+		(*point)["seconds"] = current.time().seconds();
 		point->longitude(values_.steps_[i] * 3600);		 
 		point->latitude(values_.steps_[i] * 3600);		 
 		(*point)["step"]    = values_.steps_[i] * 3600;
@@ -1319,7 +1327,6 @@ void WrepJSon::visit(TextVisitor& text)
 			full_correction << " reduced to " << height_ <<  " m (station height) from " << maground(detz_) << " m (HRES) and " << maground(epsz_) <<  " m (ENS)";
 			short_correction <<  " reduced to " << height_ <<  " m (station height) from " << maground(epsz_) <<  " m (ENS)";
 	}
-
 
 
 	text.update("json", "full_temperature_correction_info", full_correction.str());
