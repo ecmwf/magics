@@ -242,8 +242,8 @@ void SimplePolylineVisualiser::smooth(Data& data, BasicGraphicsObjectContainer& 
     	  if ( where->first == lastone ) {
     		  if ( pivot_marker_ == "lastone")
     			  add = true;
-    		  col =  *pivot_marker_colour_;
-          
+          if  ( pivot_marker_ != "none")
+    		    col =  *pivot_marker_colour_;         
     	  }
         col.setAlpha(a);
     	  segment.setColour(col);
@@ -282,7 +282,7 @@ void SimplePolylineVisualiser::smooth(Data& data, BasicGraphicsObjectContainer& 
 
     }
 
-
+    
     parent.push_back(marker);
 
 
