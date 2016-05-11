@@ -1,0 +1,143 @@
+{
+            "features": [
+                {
+                    "geometry": {
+                        "coordinates": [
+                            17.7,
+                            60.4
+                        ],
+                        "type": "Point"
+                    },
+                    "properties": {
+                        "level": "1.00"
+                    },
+                    "type": "Feature"
+                },
+                {
+                    "geometry": {
+                        "coordinates": [
+                            17.2,
+                            60.8
+                        ],
+                        "type": "Point"
+                    },
+                    "properties": {
+                        "level": "1.00"
+                    },
+                    "type": "Feature"
+                },
+                {
+                    "geometry": {
+                        "coordinates": [
+                            17.5,
+                            62.8
+                        ],
+                        "type": "Point"
+                    },
+                    "properties": {
+                        "level": "1.00"
+
+                    },
+                    "type": "Feature"
+                },
+                {
+                    "geometry": {
+                        "coordinates": [
+                            17.2,
+                            62.8
+                        ],
+                        "type": "Point"
+                    },
+                    "properties": {
+                        "level": "2.00"
+
+                    },
+                    "type": "Feature"
+                },
+                {
+                    "geometry": {
+                        "coordinates": [
+                            16.8,
+                            62.8
+                        ],
+                        "type": "Point"
+                    },
+                    "properties": {
+                        "level": "4.00"
+                    },
+                    "type": "Feature"
+                },
+                {
+                    "geometry": {
+                        "coordinates": [
+                            15.8,
+                            62.7
+                        ],
+                        "type": "Point"
+                    },
+                    "properties": {
+                        "level": "4.00"
+                    },
+                    "type": "Feature"
+                },
+                {
+                    "geometry": {
+                        "coordinates": [
+                            15.3,
+                            63.1
+                        ],
+                        "type": "Point"
+                    },
+                    "properties": {
+                        "level": "4.00"
+                    },
+                    "type": "Feature"
+                },
+                {
+                    "geometry": {
+                        "coordinates": [
+                            15.1,
+                            63.4
+                        ],
+                        "type": "Point"
+                    },
+                    "properties": {
+                        "level": "3.00"
+                    },
+                    "type": "Feature"
+                },
+                {
+                    "geometry": {
+                        "coordinates": [
+                            14.4,
+                            63.7
+                        ],
+                        "type": "Point"
+                    },
+                    "properties": {
+                        "level": "2.00"
+
+                    },
+                    "type": "Feature"
+                },
+                {
+                    "geometry": {
+                        "coordinates": [
+                            14.1,
+                            64.8
+                        ],
+                        "type": "Point"
+                    },
+                    "properties": {
+                        "level": "3.00"
+                    },
+                    "type": "Feature"
+                }
+            ],
+             "properties": {
+                "date": "20160422",
+                "time": "00"
+
+            },
+            "type": "FeatureCollection"
+        }
