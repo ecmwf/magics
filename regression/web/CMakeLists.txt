@@ -12,6 +12,8 @@ add_magics_test(NAME web_cmf_timeseries SOURCES cmf_timeseries.json  IMAGE cmf_t
 add_magics_test(NAME web_cmf_graph SOURCES cmf_graph.py  IMAGE cmf_graph.png DATA cmf.nc THRESHOLD 2 PYTHON)
 add_magics_test(NAME web_preciptype SOURCES preciptype.py  IMAGE preciptype.png DATA fc_type.grib THRESHOLD 2 PYTHON)
 
+add_magics_test(NAME efas_geojson SOURCES efas.py  IMAGE efas.png RESSOURCES efas.json THRESHOLD 2 PYTHON)
+
 add_magics_test(NAME web_globalefi SOURCES globalefi.magml  IMAGE globalefi.png DATA efi_2t0.grib  efi_fx0.grib  efi_tp0.grib  em0.grib THRESHOLD 2 MAGML)
 
 add_magics_test(NAME web_cyclone SOURCES cyclone-template.json  IMAGE cyclone.png RESOURCES cyclone.json  THRESHOLD 2 JSON)
