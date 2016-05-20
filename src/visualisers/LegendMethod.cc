@@ -79,12 +79,12 @@ void ContinuousLegendMethod::row(LegendEntry& entry, double x, double y, Text& l
 		entry.notext();
 	PaperPoint middle(x, y);
 	entry.rowBox(middle, task);
-
-	if ( entry.needContinuousText() ) {
-		legend.setJustification(MLEFT);
-		middle.y_ -= 0.5;
-		legend.push_back(middle); // We attach the text on the top middle of the symbol!
-	}
+	if ( labelCount_ % label_frequency_ == 0 )
+		if ( entry.needContinuousText(legend) ) {
+		
+			middle.y_ -= 0.5;
+			legend.push_back(middle); // We attach the text on the top middle of the symbol!
+		}
 
 	labelCount_++;
 } 		
@@ -94,10 +94,12 @@ void ContinuousLegendMethod::column(LegendEntry& entry, double x, double y, Text
 	if ( labelCount_ % label_frequency_ != 0 )
 		entry.notext();
 	entry.columnBox(PaperPoint(x, y), task);
-	if ( entry.needContinuousText() ) {
-		legend.setJustification(MLEFT);		
-		legend.push_back(PaperPoint(x+0.25, y)); // WE attach the text on the right of the sumbol!
-	}
+	if ( labelCount_ % label_frequency_ == 0 )
+	
+		if ( entry.needContinuousText(legend) ) {
+			
+			legend.push_back(PaperPoint(x+0.25, y)); // WE attach the text on the right of the sumbol!
+		}
 	labelCount_++;
 } 	
 void HistogramLegendMethod::row(LegendEntry& entry, double x, double y, Text&, BasicGraphicsObjectContainer& out)
