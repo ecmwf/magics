@@ -1344,8 +1344,15 @@ void IsoPlot::isoline(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
  void IsoPlot::operator()(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
 {
     prepare(data);
-    if ( legend_only_ ) return;
-
+    if ( legend_only_ ) {
+        if ( rainbow_ ) {
+            rainbowMethod_->set(*this);
+            rainbowMethod_->prepare(*levelSelection_, true);
+            setThicknessAndStyle();
+        }
+        return;
+    }
+    
     {
         Timer timer("contouring", "Time spent in contouring");
         isoline(data, parent);
@@ -1471,8 +1478,8 @@ void IsoPlot::visit(Data& data, LegendVisitor& legend) {
 
                     line->setColour((*rainbowMethod_)(*level));
                     line->setLineStyle(line_style(*level));
-                    line->setThickness(thickness(*level));
-                    legend.add(new LineEntry(*level, line));
+                    line->setThickness(thickness(*level)*5);
+                    legend.add(new RainbowEntry(*level, line));
                 }
                 break;
             }
