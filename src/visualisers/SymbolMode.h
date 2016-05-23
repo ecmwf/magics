@@ -134,10 +134,10 @@ public:
    
     
     virtual void visit(LegendVisitor&);
-	void prepare() { update(); }
+	void prepare() { update(); properties();}
     void update();
     void properties() const;
-    SymbolProperties operator()(double) const {  properties(); return properties_; }
+    SymbolProperties operator()(double) const {   return properties_; }
     void visit(Data&, LegendVisitor&);
 
 protected:
