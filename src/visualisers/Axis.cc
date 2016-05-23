@@ -370,7 +370,7 @@ void VerticalAxis::label(VerticalAxisVisitor& axis)
 		if ( count % label_frequency_  ) continue;
 
 
-		double height = ((*y)->height() == DBL_MIN || (*y)->height() == 0 ) ? label_height_ : (*y)->height();
+		double height = ((*y)->height() == DBL_MIN || (*y)->height() == 0 ) ? label_height_  : (*y)->height();
 		double pos;
 		map<int, double>::iterator p = positions.find((*y)->level());
 
@@ -383,7 +383,7 @@ void VerticalAxis::label(VerticalAxisVisitor& axis)
 			double newpos = axis.offsetTickLabel(height, p->second);
 			positions[(*y)->level()] = newpos;
 
-			title_position_ = newpos;
+			title_position_ = axis.offsetTickLabel(height * label.size()/2, p->second);;
 		}
         PaperPoint point(pos, transformation.y((*y)->position()));
 
