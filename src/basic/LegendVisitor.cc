@@ -220,6 +220,7 @@ void LegendVisitor::build()
 	if ( use_max_ ) {
 		back()->userText(use_max_text_);
 	}
+	back()->units(units_text_);
 
 	for(vector<LegendEntry*>::const_iterator entry = begin(); entry != end(); ++entry)
 	{
@@ -243,7 +244,7 @@ void LegendVisitor::build()
 				user = utext;
 			else
 				user = ( label != lines_.end() ) ? *label: "";
-			string automatic = (*entry)->label();
+			string automatic = (*entry)->label() + (*entry)->units();
 
 			if ( composition == compositions_.end() )
 			{

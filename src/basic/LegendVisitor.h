@@ -80,6 +80,8 @@ public:
 	 
 	void userText(const string& text) { userText_ = text; }
 	const string& userText() { return userText_; }
+	const string& units() { return units_; }
+	void units(const string& units) { units_ = units; }
 
 	void font(const MagFont& font) { font_ = font; }
 	void angle(double angle) { angle_ = angle; }
@@ -116,6 +118,7 @@ protected:
     HistogramLegendMethod* histogram_;
 
     string userText_;
+    string units_;
 	double from_;
 	double to_;
 	string format_;
