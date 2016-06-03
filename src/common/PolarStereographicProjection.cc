@@ -868,7 +868,7 @@ void PolarStereographicProjection::coastSetting(map<string, string>& setting, do
 	setting["boundaries"] = resol + "/ne_" + resol + "_admin_0_boundary_lines_land";
 	
 	//! \note Administraive borders hardcoded to 10m resolution (low res version do not contain all info)
-	setting["administrative_boundaries"] = "10m/10m_admin_1_states_provinces";
+	setting["administrative_boundaries"] = "10m/ne_10m_admin_1_states_provinces";
 
 	MagLog::dev() << "GeoRectangularProjection::coastSetting[" << abswidth << ", " << absheight << "]->" <<  ratio << " resol: "<<resol<< endl;
 }
