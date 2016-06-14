@@ -40,7 +40,19 @@ ecbuild_requires_macro_version( 1.9 )
 ###############################################################################
 # some variables of this project
 
-ecbuild_use_package(PROJECT grib_api VERSION 1.14.6 REQUIRED)
+ecbuild_add_option( FEATURE ECCODES DESCRIPTION "" DEFAULT OFF )
+
+if( HAVE_ECCODES )
+  ecbuild_use_package( PROJECT eccodes VERSION 0.14 REQUIRED )
+  set( GRIB_API_INCLUDE_DIRS ${ECCODES_INCLUDE_DIRS} )
+  set( GRIB_API_LIBRARIES    ${ECCODES_LIBRARIES} )
+  set( GRIB_API_DEFINITIONS  ${ECCODES_DEFINITIONS} )
+  set( grib_api_BASE_DIR     ${eccodes_BASE_DIR} )
+else()
+  ecbuild_use_package(PROJECT grib_api VERSION 1.14.6 REQUIRED)
+endif()
+
+
 # grib_api is required for now
 set( HAVE_GRIB 1 )
 
