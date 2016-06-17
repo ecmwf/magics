@@ -210,6 +210,7 @@ MAGICS_NO_EXPORT void BaseDriver::renderTextItem(const TextItem& textItem, const
 MAGICS_NO_EXPORT void BaseDriver::renderFlagItem(const FlagItem& flagItem, const ComplexSymbol& owner) const
 {
 	Flag flag;
+	flag.setThickness(flagItem.thickness());
 	flag.setLength(flagItem.length());
 	flag.setOriginMarker(flagItem.getOriginMarker());
 	flag.setOriginHeight(flagItem.getOriginHeight());           // NOT flagItem.getOriginHeight() !!!
