@@ -104,6 +104,8 @@ public:
 	
 	double length() const             { return length_; }
 	void length(double length)        { length_ = length; }
+	double thickness() const             { return thickness_; }
+	void thickness(double thickness)        { thickness_ = thickness; }
 
 	void speed(double speed)          { speed_ = speed; }
 	double speed() const              { return  speed_; }
