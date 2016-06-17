@@ -266,13 +266,12 @@ string BaseDriver::getFileName(const string &extension, const unsigned int no) c
 
 	if( (no2 > 1) || firstnumber_ || legacy )
 	{
-		char *ostr;
-		if(numberWidth==4)      {ostr=new char[5]; sprintf(ostr,"%04u",no2);}
-		else if(numberWidth==3) {ostr=new char[4]; sprintf(ostr,"%03u",no2);}
-		else if(numberWidth==2) {ostr=new char[3]; sprintf(ostr,"%02u",no2);}
-		else                    {ostr=new char[2]; sprintf(ostr,"%u",no2);}
+		char ostr[8];
+		if(numberWidth==4)      {sprintf(ostr,"%04u",no2);}
+		else if(numberWidth==3) {sprintf(ostr,"%03u",no2);}
+		else if(numberWidth==2) {sprintf(ostr,"%02u",no2);}
+		else                    {sprintf(ostr,"%u",no2);}
 		filename += separator_+ostr+ext;
-		delete [] ostr;
 	}
 	else // if first page no number
 	{
