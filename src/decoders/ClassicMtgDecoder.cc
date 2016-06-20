@@ -336,7 +336,7 @@ void MetgramParameter::interpretResult(spot_query_result* result, vector<Customi
 				values[info->second] = 0;
 				rain = true;
 			}
-	    	if ( !isnan(values[info->second]) && values[info->second] < missing ) {
+	    	if ( !std::isnan(values[info->second]) && values[info->second] < missing ) {
 	    		(*point)[key] = (*this)(values[info->second]);	  
 	    		ypos.push_back( (*this)(values[info->second]));	 
 	    		if (rain) (*point)["as_rain"] = 1;
@@ -347,12 +347,9 @@ void MetgramParameter::interpretResult(spot_query_result* result, vector<Customi
 	    		MagLog::warning() << " SPOTBASE returns nan for " << info->first << " : data ignored for step " << (*point)["shift"]<< endl;
 	    		ok = false;
 	    	}
-	    	
-	    	
 		}
     	
 		nb=1024;
-	
 	}
 	
 	
@@ -650,8 +647,6 @@ void ClassicMtgDecoder::moreTitle(TextVisitor& title)
 	
 	lines.push_back(landsea + " (" + resolution_ + ")" );
 	
-	
-	
 	lines.push_back("");
 	
 	for ( vector<string>::const_iterator line = lines.begin(); line != lines.end(); ++line)
@@ -663,8 +658,6 @@ void ClassicMtgDecoder::visit(Transformation& transformation)
 	decode();
 	
 	ASSERT(parameter_);
-	parameter_->setTransformation(transformation);
-
-	
+	parameter_->setTransformation(transformation);	
 }
 

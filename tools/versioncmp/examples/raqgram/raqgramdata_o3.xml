@@ -1,3 +1,13 @@
+<!--
+(C) Copyright 1996-2016 ECMWF.
+
+This software is licensed under the terms of the Apache Licence Version 2.0
+which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+In applying this licence, ECMWF does not waive the privileges and immunities 
+granted to it by virtue of its status as an intergovernmental organisation nor
+does it submit to any jurisdiction.
+-->
+
 <forecast date='20100420' latitude='52.37' longitude=' 4.89' station='Amsterdam' time='00' title='MACC RAQ EPSGRAM'>
   <param name='o3' title='Ozone [ &#181;g/m3 ]   N=7                           threshold (max daily 8h mean) = 120 &#181;g/m3' >
     <step value="0" min="6.646820" ten="27.184268" twentyfive="42.043400" median="48.812200" seventyfive="57.266400" ninety="62.416200" max="69.171000"  control="120.000000" />

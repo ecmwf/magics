@@ -1,5 +1,15 @@
 <magics>
 <class inherits="YCoordinate" metview_prefix="subpage_" xmltag="y_regular" name="YLogarithmicCoordinate" directory="common" prefix="subpage/subpage_y" action="pnew" include="Coordinate.h">
+<!--
+(C) Copyright 1996-2016 ECMWF.
+
+This software is licensed under the terms of the Apache Licence Version 2.0
+which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+In applying this licence, ECMWF does not waive the privileges and immunities 
+granted to it by virtue of its status as an intergovernmental organisation nor
+does it submit to any jurisdiction.
+-->
+
   This object contains the common attributes to the cartesian Projections
 	<parameter xml="automatic" from="string" name="subpage_y_automatic" default="off" member="automatic" to="AxisAutomaticSetting" values="on/off/min_only/max_only">
          		<release>Magics 2.1		</release>
