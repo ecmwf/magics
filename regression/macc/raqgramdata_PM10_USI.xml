@@ -1,3 +1,13 @@
+<!--
+(C) Copyright 1996-2016 ECMWF.
+
+This software is licensed under the terms of the Apache Licence Version 2.0
+which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+In applying this licence, ECMWF does not waive the privileges and immunities 
+granted to it by virtue of its status as an intergovernmental organisation nor
+does it submit to any jurisdiction.
+-->
+
 <forecast date='20150223' latitude='45.81' longitude='15.98' station='Zagreb' time='00' title='MACC RAQ EPSGRAM'>
   <param name='PM10_USI' title='PM10 Aerosol [ &#181;g/m3 ]   N=7                              threshold ("24h mean")=50 µg/m3 ' >
     <step value="0" min="0.396123" ten="1.327795" twentyfive="2.124586" median="3.759199" seventyfive="9.378804" ninety="12.866492" max="13.611052"  control="50" />

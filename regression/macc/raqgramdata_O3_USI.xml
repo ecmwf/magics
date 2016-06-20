@@ -1,3 +1,13 @@
+<!--
+(C) Copyright 1996-2016 ECMWF.
+
+This software is licensed under the terms of the Apache Licence Version 2.0
+which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+In applying this licence, ECMWF does not waive the privileges and immunities 
+granted to it by virtue of its status as an intergovernmental organisation nor
+does it submit to any jurisdiction.
+-->
+
 <forecast date='20150223' latitude='45.81' longitude='15.98' station='Zagreb' time='00' title='MACC RAQ EPSGRAM'>
   <param name='O3_USI' title='Ozone [ &#181;g/m3 ]   N=7                              threshold ("max daily 8h mean")=120 µg/m3 ' >
     <step value="0" min="22.086184" ten="23.213434" twentyfive="27.876091" median="49.624835" seventyfive="58.181431" ninety="63.267355" max="70.346271"  control="120" />
