@@ -28,7 +28,6 @@
 #include <limits>
 
 #include "CustomisedPoint.h"
-#include "TeProjection.h"
 #include "GribRegularInterpretor.h"
 #include "GribDecoder.h"
 #include "Matrix.h"
