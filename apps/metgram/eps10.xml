@@ -1,5 +1,15 @@
 
 <eps template='/tmp/cgs/perforce/mv4/apps/metgram/10_days_epsgram.xml' database='/scratch/graphics/cgs/efi/10_days/0001/2009042200' format='a4'> 
+<!--
+(C) Copyright 1996-2016 ECMWF.
+
+This software is licensed under the terms of the Apache Licence Version 2.0
+which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+In applying this licence, ECMWF does not waive the privileges and immunities 
+granted to it by virtue of its status as an intergovernmental organisation nor
+does it submit to any jurisdiction.
+-->
+
    
     
    <station name='Reading' latitude='51.4' longitude='-1' height='48' psfile='Reading.ps'
