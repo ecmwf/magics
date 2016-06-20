@@ -1856,7 +1856,6 @@ void GribRotatedInterpretor::interpret2D(double& lat, double& lon, double& uc,
     // we the angle and the spped we compute u/v...
     uc = speed * cos(rangle);
     vc = speed * sin(rangle);
-
 }
 
 void GribRotatedInterpretor::raw(const GribDecoder& grib,
@@ -1886,14 +1885,10 @@ void GribRotatedInterpretor::raw(const GribDecoder& grib,
              value = (value*factor)+offset;
              transformation.populate(lon, lat, value, points);
              */
-
         }
-
     }
-
     /* At the end the iterator is deleted to free memory. */
     grib_iterator_delete(iter);
-
 }
 
 void GribLambertInterpretor::interpretAsMatrix(const GribDecoder& grib,
@@ -2005,8 +2000,6 @@ void GribLambertInterpretor::interpretAsMatrix(const GribDecoder& grib,
             row++;
         }
 
-
-
         double lat11, lat12, lat21, lat22;
         double lon11, lon12, lon21, lon22;
         double val11, val12, val21, val22;
@@ -2080,14 +2073,14 @@ void GribLambertInterpretor::interpretAsMatrix(const GribDecoder& grib,
                             double val2 = ((lon22 - lon) / (lon22 - lon21))
                                     * val21
                                     + ((lon - lon21) / (lon22 - lon21)) * val22;
-                            if (isnan(val1)) {
-                                if (isnan(val2)) {
+                            if (std::isnan(val1)) {
+                                if (std::isnan(val2)) {
                                     val = missing;
                                 } else
                                     val = ((lat - lat11) / (lat22 - lat11))
                                             * val2;
                             } else {
-                                if (isnan(val2)) {
+                                if (std::isnan(val2)) {
                                     val = ((lat22 - lat) / (lat22 - lat11))
                                             * val1;
                                 } else {
@@ -2098,37 +2091,31 @@ void GribLambertInterpretor::interpretAsMatrix(const GribDecoder& grib,
                                 }
                             }
 
-                            if (isnan(val) || isinf(val) || isinf(-val)) {
+                            if (std::isnan(val) || std::isinf(val) || std::isinf(-val)) {
                                 val = missing;
                             }
                         }
-                        if (isnan(val))
+                        if (std::isnan(val))
                             val = missing;
                         if ((**matrix)[index.second + (index.first * im)]
                                 == missing) {
                             (**matrix)[index.second + (index.first * im)] = val;
-
                         }
-
                     }
-
                 }
-
             }
-
             (*matrix)->setMapsAxis();
             (*matrix)->missing(missing);
         }
 
         MagLog::dev() << **matrix << "\n";
-
     }
 
     catch (MagicsException& e) {
         MagLog::error() << e << "\n";
     }
-
 }
+
 void GribLambertInterpretor::print(ostream& out) const {
     out << "GribLambertInterpretor[";
     out << "]";
@@ -2145,6 +2132,7 @@ void GribPolarStereoInterpretor::print(ostream& out) const {
     out << "GribLambertInterpretor[";
     out << "]";
 }
+
 void GribPolarStereoInterpretor::interpretAsMatrix(const GribDecoder& grib,
         Matrix** matrix, Matrix** matrix2) const {
     long im = 3600;
@@ -2152,25 +2140,19 @@ void GribPolarStereoInterpretor::interpretAsMatrix(const GribDecoder& grib,
 
     *matrix = new Matrix(im, jm);
     double steplon= 0.1;
-
     double steplat= 0.1;
-
 
     double missing =  grib.getDouble("missingValue");
     for (int i = 0; i < im; i++) {
         double x = 0 + (i*steplon);
         (*matrix)->columnsAxis().push_back(x);
-
     }
 
     for (int i = 0; i < jm; i++) {
         double y = -90 + (i*steplat);
         (*matrix)->rowsAxis().push_back(y);
-
-
     }
     vector<double> distance(im*jm, 999999);
-
 
     for (int i = 0; i < im; i++) {
         for (int j = 0; j < jm; j++)
@@ -2181,12 +2163,7 @@ void GribPolarStereoInterpretor::interpretAsMatrix(const GribDecoder& grib,
 
     interpolate(grib, **matrix);
 
-
     MagLog::dev() << **matrix << "\n";
-
-
-
-
 }
 
 void GribInterpretor::interpolate(const GribDecoder& grib, Matrix& matrix) const
@@ -2223,12 +2200,4 @@ void GribInterpretor::interpolate(const GribDecoder& grib, Matrix& matrix) const
     }
     /* At the end the iterator is deleted to free memory. */
     grib_iterator_delete(iter);
-
-
-
-
-
-
-
 }
-
