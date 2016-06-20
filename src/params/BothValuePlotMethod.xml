@@ -1,5 +1,15 @@
 <magics>
 <class inherits="ValuePlotMethod" xmltag="both" name="BothValuePlotMethod" directory="visualisers" prefix="contour/contour_grid_value/contour_grid_value" action="pcont">
+<!--
+(C) Copyright 1996-2016 ECMWF.
+
+This software is licensed under the terms of the Apache Licence Version 2.0
+which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+In applying this licence, ECMWF does not waive the privileges and immunities 
+granted to it by virtue of its status as an intergovernmental organisation nor
+does it submit to any jurisdiction.
+-->
+
   	<documentation>This object is reponsible for plotting both values and markers on grid points.	</documentation>
 
 	<parameter member="markerHeight" to="float" default="0.25" from="float" name="contour_grid_value_marker_height">

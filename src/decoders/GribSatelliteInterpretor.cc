@@ -30,11 +30,6 @@
 #include "GribSatelliteInterpretor.h"
 #include "GribDecoder.h"
 #include "RasterData.h"
-#include "TeProjection.h"
-#include "TeDataTypes.h"
-#include "TeRasterParams.h"
-#include "TeDecoderMemory.h"
-#include "TeRasterRemap.h"
 #include "GeoRectangularProjection.h"
 
 using namespace magics;

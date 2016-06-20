@@ -35,7 +35,7 @@ Currently Magics++ supports following projections:
  - add this file in <i>src/xml/Makefile.am</i>
 
  - add <i>NewProjection.cc/.h</i> in <i>src/drivers/common/</i>,
-   inheriting from Transformation, NewProjectionParameters and a relevant Terralib class
+   inheriting from Transformation, NewProjectionParameters
 
  - add the new files in <i>src/common/Makefile.am</i>
  
