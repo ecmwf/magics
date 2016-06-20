@@ -28,8 +28,6 @@
 */
 #include "Polyline.h"
 #include "Transformation.h"
-#include "TeCoord2D.h"
-#include "TeGeometryAlgorithms.h"
 
 
 using namespace magics;
