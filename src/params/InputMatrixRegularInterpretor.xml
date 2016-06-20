@@ -2,6 +2,16 @@
 <class directory="decoders" name="InputMatrixRegularInterpretor">
 
   	<parameter xml="origin_latitude" from="float" name="input_field_initial_latitude" default="90" member="latitude" to="float">
+<!--
+(C) Copyright 1996-2016 ECMWF.
+
+This software is licensed under the terms of the Apache Licence Version 2.0
+which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+In applying this licence, ECMWF does not waive the privileges and immunities 
+granted to it by virtue of its status as an intergovernmental organisation nor
+does it submit to any jurisdiction.
+-->
+
          		<documentation> used in a geographical projection context: Latitude of the point (1,1) in the input array 		</documentation>
   	</parameter>
 

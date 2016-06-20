@@ -1,5 +1,15 @@
 <magics>
 <class name="XmlRootNode" include='RootSceneNode.h' prefix="root_node" xmltag="magics">
+<!--
+(C) Copyright 1996-2016 ECMWF.
+
+This software is licensed under the terms of the Apache Licence Version 2.0
+which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+In applying this licence, ECMWF does not waive the privileges and immunities 
+granted to it by virtue of its status as an intergovernmental organisation nor
+does it submit to any jurisdiction.
+-->
+
  	<parameter member="format" to="string" default="a4" from="string" name="root_node_format">
            		<release>Magics++2.4 		</release>
           		<documentation>Format of super page (A4/A3/A2)		</documentation>

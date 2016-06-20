@@ -2,6 +2,16 @@
 <class directory="common" name="XmlSubPage" embedded_objects="FrameBase/PageIdBase/LegendBase/TitleBase">
 
   	<parameter xml="bottom" from="string" name="bottom" default="0%" member="bottom" to="string">
+<!--
+(C) Copyright 1996-2016 ECMWF.
+
+This software is licensed under the terms of the Apache Licence Version 2.0
+which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+In applying this licence, ECMWF does not waive the privileges and immunities 
+granted to it by virtue of its status as an intergovernmental organisation nor
+does it submit to any jurisdiction.
+-->
+
 			<documentation> Y-Coordinate of bottom of page.		</documentation>
 			<migration> Only used in the MagML Interface 		</migration>
 			<release>Magics++0.8		</release>

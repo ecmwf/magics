@@ -1,3 +1,13 @@
+<!--
+(C) Copyright 1996-2016 ECMWF.
+
+This software is licensed under the terms of the Apache Licence Version 2.0
+which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+In applying this licence, ECMWF does not waive the privileges and immunities 
+granted to it by virtue of its status as an intergovernmental organisation nor
+does it submit to any jurisdiction.
+-->
+
 <forecast date='20100420' latitude='52.37' longitude=' 4.89' station='Amsterdam' time='00' title='MACC RAQ EPSGRAM'>
   <param name='no2' title='Nitrogen Dioxide [ &#181;g/m3 ]   N=7                                           threshold (1h max) = 200 &#181;g/m3' >
     <step value="0" min="11.181200" ten="16.816220" twentyfive="21.019350" median="24.339200" seventyfive="43.202150" ninety="59.600800" max="67.383100"  control="200.000000" />

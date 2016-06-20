@@ -90,9 +90,8 @@ bool NetcdfGeoMatrixInterpretor::interpretAsMatrix(Matrix** data)
 			netcdf.get(field_, data, first, last);
 			int i = 0;
 			for (vector<double>::iterator d = data.begin(); d != data.end(); ++d ) {
-				if ( !isnan(*d) ) {
+				if ( !std::isnan(*d) ) {
 					matrix_->push_back(*d);
-
 				}
 				else 
 					matrix_->push_back(missing_value);
@@ -100,15 +99,10 @@ bool NetcdfGeoMatrixInterpretor::interpretAsMatrix(Matrix** data)
 			}
 		}
 
-
 		matrix_->multiply(scaling_);
 		matrix_->plus(offset_);
-        
 
-        
-	        matrix_->setMapsAxis();
-        
-
+	    matrix_->setMapsAxis();
 	}
 	catch (MagicsException& e)
 	{
@@ -268,8 +262,5 @@ void NetcdfGeoMatrixInterpretor::customisedPoints(const Transformation& transfor
 		catch (MagicsException& e)
 		{
 			MagLog::error() << e << "\n";
-
 		}
-
-
 }

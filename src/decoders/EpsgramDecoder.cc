@@ -1107,7 +1107,7 @@ void EpsParameter::interpretResult(spot_query_result* result, vector<CustomisedP
 			if ( type_ == "eps15" ) 
 				specific15(*point);
 
-		if ( !isnan(values[info->second]) ) {
+		if ( !std::isnan(values[info->second]) ) {
 		  (*point)[x(prefix_, info->first)] = (*this)(values[info->second], info->first);
 		  //MagLog::debug() <<  x(info->first) << "----->" << (*this)(values[info->second], info->first) << endl;
 

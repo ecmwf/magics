@@ -2,6 +2,16 @@
 <class action="popen/pnew" directory="common" name="AutomaticPlotManager">
   	<documentation> Object used to handle the call to the Pseudo action routine PNEW 	</documentation>
   	<parameter xml="plot_start" from="string" name="plot_start" default="bottom" member="plot_start" to="string">
+<!--
+(C) Copyright 1996-2016 ECMWF.
+
+This software is licensed under the terms of the Apache Licence Version 2.0
+which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+In applying this licence, ECMWF does not waive the privileges and immunities 
+granted to it by virtue of its status as an intergovernmental organisation nor
+does it submit to any jurisdiction.
+-->
+
          		<documentation> Position of first page plotted (BOTTOM/TOP) 		</documentation>
          		<migration> New Magics: Parameter plot_start sent to new Magics[Page].  		</migration>
          		<release>Magics++0.2		</release>
