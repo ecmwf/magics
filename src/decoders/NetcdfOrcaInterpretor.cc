@@ -40,19 +40,14 @@ NetcdfOrcaInterpretor::NetcdfOrcaInterpretor()
 
 NetcdfOrcaInterpretor::~NetcdfOrcaInterpretor() 
 {}
+
 #include <boost/geometry/geometry.hpp>
 #include <boost/geometry/geometries/point_xy.hpp>
 #include <boost/geometry/geometries/polygon.hpp>
 
 bool NetcdfOrcaInterpretor::interpretAsMatrix(Matrix** data)
 {
-	
 	if ( *data ) return false;
-
-
-
-
-
 
 	Netcdf netcdf(path_, dimension_method_);
 	NetVariable var = netcdf.getVariable(longitude_);
@@ -207,15 +202,15 @@ bool NetcdfOrcaInterpretor::interpretAsMatrix(Matrix** data)
 							double val1 =  	((lon12 - lon )/(lon12-lon11))*val11 + ((lon - lon11)/(lon12-lon11))*val12;
 
 							double val2 =  	((lon22 - lon )/(lon22-lon21))*val21 + ((lon - lon21)/(lon22-lon21))*val22;
-							if ( isnan(val1) ) {
-								if ( isnan(val2) ) {
+							if ( std::isnan(val1) ) {
+								if ( std::isnan(val2) ) {
 									val = missing;
 								}
 								else
 									val = ((lat - lat11)/(lat22-lat11))*val2;
 							}
 							else {
-								if ( isnan(val2) ) {
+								if ( std::isnan(val2) ) {
 									val =  	((lat22 - lat )/(lat22-lat11))*val1;
 								}
 								else {
@@ -223,33 +218,26 @@ bool NetcdfOrcaInterpretor::interpretAsMatrix(Matrix** data)
 								}
 							}
 
-							if (isnan(val) || isinf(val) || isinf(-val) ) {
+							if (std::isnan(val) || std::isinf(val) || std::isinf(-val) ) {
 								val = missing;
 							}
 						}
-						if (isnan(val) ) val = missing;
+						if (std::isnan(val) ) val = missing;
 						if ( (*matrix)[index.second +( index.first*im)] == missing )
 							(*matrix)[index.second +( index.first*im)] = val;
 
 					}
 					matrix->multiply(scaling_);
 					matrix->plus(offset_);
-
 				}
-
-
 			}
-
 		}
-
-
 
 		matrix->multiply(scaling_);
 		matrix->plus(offset_);
 		matrix->setMapsAxis();
 
 		MagLog::dev() << *matrix << "\n";
-
 	}
 
 	catch (MagicsException& e)
@@ -282,18 +270,13 @@ bool NetcdfOrcaInterpretor::interpretAsPoints(PointsList& points)
 		netcdf.get(latitude_,  latm, first, last);
 		netcdf.get(field_, data, first, last);
 		
-
-	 
-
-        
-
         vector<double>::iterator lat = latm.begin();
         vector<double>::iterator lon = lonm.begin();
         vector<double>::iterator val = data.begin();
         
 		while (lat != latm.end() ) {
             double value = *val;
-           if (isnan(value) ) 
+           if (std::isnan(value) ) 
                 value = missing;
 
             if ( value  != missing) { 
@@ -311,12 +294,10 @@ bool NetcdfOrcaInterpretor::interpretAsPoints(PointsList& points)
 	{
 		MagLog::error() << e << "\n";
 	}
-
 }
 
 void NetcdfOrcaInterpretor::customisedPoints(const Transformation& transformation, const std::set<string>&, CustomisedPointsList& out, int thinning)
 {
-
 		try
 		{
 			MagLog::dev() << " Netcdf File Path --->" << path_ << "\n";
