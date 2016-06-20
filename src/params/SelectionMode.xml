@@ -1,5 +1,15 @@
 <magics>
 <class action="Interactive" directory="drivers" prefix="selection_mode" xmltag="interactive_mode" name="SelectionMode"> 
+<!--
+(C) Copyright 1996-2016 ECMWF.
+
+This software is licensed under the terms of the Apache Licence Version 2.0
+which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+In applying this licence, ECMWF does not waive the privileges and immunities 
+granted to it by virtue of its status as an intergovernmental organisation nor
+does it submit to any jurisdiction.
+-->
+
   	<parameter member="background_colour" to="Colour" default="blue" from="string" name="selection_mode_background_colour">
          		<release>Magics++3.2		</release>
          		<documentation> Background colour of selectables objets.		</documentation>

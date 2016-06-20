@@ -1,5 +1,15 @@
 <magics>
 <class inherits="SimplePolylineInput" xmltag="polyline" name="SimplePolyline" directory="visualisers" prefix="polyline/polyline_line" action="pline" interface="ColourTechniqueInterface/LevelSelectionInterface">
+<!--
+(C) Copyright 1996-2016 ECMWF.
+
+This software is licensed under the terms of the Apache Licence Version 2.0
+which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+In applying this licence, ECMWF does not waive the privileges and immunities 
+granted to it by virtue of its status as an intergovernmental organisation nor
+does it submit to any jurisdiction.
+-->
+
  	<parameter member="legend" to="bool" default="off" from="string" name="legend">
          		<release>Magics++2.80		</release>
          		<documentation> Turn the legend on 		</documentation>f

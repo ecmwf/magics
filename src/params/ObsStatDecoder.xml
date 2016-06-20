@@ -4,6 +4,16 @@
 		The Obstat decoder is responsible for decoding Obstat Ascii file.
 		</documentation>
         	<parameter xml="path" from="string" name="obsstat_filename" default="" member="path" to="string">
+<!--
+(C) Copyright 1996-2016 ECMWF.
+
+This software is licensed under the terms of the Apache Licence Version 2.0
+which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+In applying this licence, ECMWF does not waive the privileges and immunities 
+granted to it by virtue of its status as an intergovernmental organisation nor
+does it submit to any jurisdiction.
+-->
+
            
             		<documentation> Epsgram Database Path 		</documentation>
             		<migration> New Magics: Parameter eps_database sent to new Magics[EpsgramDecoder].  		</migration>
