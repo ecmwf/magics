@@ -1438,9 +1438,14 @@ MAGICS_NO_EXPORT void PostScriptDriver::openFile() const
 	PSOut_.clear();
 	PSOut_.open(fileName_.c_str(),std::ios::out);
 	if(!PSOut_){
-		MagLog::error() << "PostScriptDriver::close() --> Cannot write PostScript file! " << fileName_ << "\n";
-		MagLog::error() << "";  // to ensure that the error message is broadcast
-		terminate();
+		const std::string newFileName = replacePathWithHome(fileName_);
+		MagLog::warning() << "\n"
+		                << " PostScriptDriver --> Cannot write PostScript file to what was specified!\n"
+		                << "     Instead of: "<< fileName_ << "\n"
+		                << "     we write:   "<< newFileName << "\n";
+		MagLog::warning() << "";
+		PSOut_.open(newFileName.c_str(),std::ios::out);
+		if(!PSOut_) throw std::ios::failure( "Error opening output file!");
 	}
 
 	PSOut_.setf(ios_base::fixed);
