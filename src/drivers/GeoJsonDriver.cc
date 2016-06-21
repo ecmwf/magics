@@ -70,14 +70,9 @@ void GeoJsonDriver::open()
 	pFile_.open(fileName_.c_str());
 	if(!pFile_)
 	{
-		const std::string newFileName = replacePathWithHome(fileName_);
-		MagLog::warning() << "\n"
-		                << " GeoJsonDriver --> Cannot write GeoJson file to what was specified!\n"
-		                << "     Instead of: "<< fileName_ << "\n"
-		                << "     we write:   "<< newFileName << "\n";
-		MagLog::warning() << "";
-		pFile_.open(newFileName.c_str(),std::ios::out);
-		if(!pFile_) throw std::ios::failure( "Error opening output file!");
+		MagLog::error() << " GeoJsonDriver --> Cannot write output file to what was specified: "<<fileName_<< endl;
+		MagLog::error() << "";
+		throw std::ios::failure("Error opening output file!");
 	}
 /*	pFile_	<< "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n"
 		<< "<GeoJson xmlns=\"http://www.opengis.net/GeoJson/2.2\" \n"
