@@ -1,20 +1,12 @@
-/******************************** LICENSE ********************************
-
- Copyright 2007 European Centre for Medium-Range Weather Forecasts (ECMWF)
-
- Licensed under the Apache License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at 
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
-
- ******************************** LICENSE ********************************/
+/*
+ * (C) Copyright 1996-2016 ECMWF.
+ * 
+ * This software is licensed under the terms of the Apache Licence Version 2.0
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * granted to it by virtue of its status as an intergovernmental organisation nor
+ * does it submit to any jurisdiction.
+ */
 
 /*
 
@@ -44,7 +36,7 @@
 
  For more information you should read the <a href="">installation guide</a>.
 
- \section interfaces Magics++ interfaces
+ \section interfaces Magics interfaces
 
  Magics++ offers different interfaces to access its graphics 
  functionality: C++ (for higher-level applicatiosn such as Metview), C, Fortran 77
@@ -79,20 +71,13 @@
   
  \section copyright License
  
-  Copyright 2007-2014 European Centre for Medium-Range Weather Forecasts (ECMWF)
-
-  Licensed under the Apache License, Version 2.0 (the "License"); 
-  you may not use this file except in compliance with the License. 
-  You may obtain a copy of the License at 
-
-	<a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a>
-
-  Unless required by applicable law or agreed to in writing, software 
-  distributed under the License is distributed on an "AS IS" BASIS, 
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
-  See the License for the specific language governing permissions and 
-  limitations under the License.
-
+ (C) Copyright 1996-2016 ECMWF.
+ 
+ This software is licensed under the terms of the Apache Licence Version 2.0
+ which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ In applying this licence, ECMWF does not waive the privileges and immunities 
+ granted to it by virtue of its status as an intergovernmental organisation nor
+ does it submit to any jurisdiction.
 */
 
 
