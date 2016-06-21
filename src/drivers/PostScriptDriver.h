@@ -105,7 +105,7 @@ private:
 	MAGICS_NO_EXPORT void writePSFileEnd() const;
 	//MAGICS_NO_EXPORT void copyMacro(fstream *m, const string &file) const;
 	MAGICS_NO_EXPORT void setDeviceColourModel(const string &m) const;
-	MAGICS_NO_EXPORT fstream* getStream() const {return &PSOut_;}
+	MAGICS_NO_EXPORT fstream* getStream() const {return &pFile_;}
 	MAGICS_NO_EXPORT int getDeviceColourModel() const {return deviceColourModel_;}
 
 	//! Should the output be splited?
@@ -113,7 +113,7 @@ private:
 	MAGICS_NO_EXPORT void openFile() const;
 	MAGICS_NO_EXPORT void closeFile() const;
 
-	mutable fstream   PSOut_;
+	mutable fstream   pFile_;
 	mutable bool      ps_;
 	mutable bool      pdf_;
 	mutable bool      eps_;
