@@ -29,9 +29,7 @@ C     Set up the coastline attributes
 
 C     Plot the different sets of data
 
-      CALL CONT_TEST ('Finland-GRIB_Z700',
-     +                'Hirlam / Finland / Z700', 0)
-
+      
 
       CALL CONT_TEST ('hirlam-sweden-t.grb',
      +                'Hirlam / Sweden / T1000', 1)
