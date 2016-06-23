@@ -97,8 +97,9 @@ Matrix* InputMatrixRegularInterpretor::geoInterpret(Matrix* in, const InputMatri
 	double lon = longitude_;
 	
 	for (int i = 0; i < nblon; i++) {		
-		in->columnsAxis().push_back(lon);
 		lon = longitude_ +( i * longitude_step_);
+		in->columnsAxis().push_back(lon);
+		
 	}
 
 	int nblat =  in->rows();

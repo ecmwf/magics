@@ -115,9 +115,9 @@ MAGICS_NO_EXPORT void SVGDriver::startPage() const
 
 	if(!pFile_)
 	{
-		MagLog::error() << "SVGDriver::startPage() --> Cannot open SVG output file: " << filename << "\n";
-		MagLog::error() << "";  // to ensure that the error message is broadcast
-		terminate();
+		MagLog::error() << " SVGDriver --> Cannot write output file to what was specified: "<<fileName_<< endl;
+		MagLog::error() << "";
+		throw std::ios::failure("Error opening output file!");
 	}
 
 	svg_output_resource_list_.push_back(filename);

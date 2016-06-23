@@ -1374,7 +1374,7 @@ MAGICS_NO_EXPORT bool PostScriptDriver::renderCellArray(const Image& image) cons
 */
 MAGICS_NO_EXPORT void PostScriptDriver::debugOutput(const string &s) const
 {
-	if(debug_) PSOut_ << "%% "<<s<<"\n";
+	if(debug_) pFile_ << "%% "<<s<<"\n";
 }
 
 /*!
@@ -1434,19 +1434,19 @@ MAGICS_NO_EXPORT void PostScriptDriver::openFile() const
 		if(pos != string::npos) fileName_.replace(pos,4,".ps");
 	}
 
-	if(PSOut_.is_open()) PSOut_.close();
-	PSOut_.clear();
-	PSOut_.open(fileName_.c_str(),std::ios::out);
-	if(!PSOut_){
-		MagLog::error() << "PostScriptDriver::close() --> Cannot write PostScript file! " << fileName_ << "\n";
-		MagLog::error() << "";  // to ensure that the error message is broadcast
-		terminate();
+	if(pFile_.is_open()) pFile_.close();
+	pFile_.clear();
+	pFile_.open(fileName_.c_str(),std::ios::out);
+	if(!pFile_){
+		MagLog::error() << " PostScriptDriver --> Cannot write output file to what was specified: "<<fileName_<< endl;
+		MagLog::error() << "";
+		throw std::ios::failure("Error opening output file!");
 	}
 
-	PSOut_.setf(ios_base::fixed);
-	PSOut_.unsetf(ios::showpoint);
-	PSOut_.precision(2);
-//	PSOut_<< setprecision(2);
+	pFile_.setf(ios_base::fixed);
+	pFile_.unsetf(ios::showpoint);
+	pFile_.precision(2);
+//	pFile_<< setprecision(2);
 	writePSFileHeader();
 }
 
@@ -1461,7 +1461,7 @@ MAGICS_NO_EXPORT void PostScriptDriver::closeFile() const
 	writePSFileEnd();
 
 	// close + remove files
-	PSOut_.close();
+	pFile_.close();
 
 	const string fps = fileName_;
 

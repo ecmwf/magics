@@ -156,7 +156,7 @@ C          FETCH FILE TO BE PLOTTED
        open(unit=83, file='fort.83')
        open(unit=82, file='fort.82')
 c5    CALL GSFILE (6, IUNIT, JDATE, JDATE, 'MAP', 'G')         ! ANALYSIS ONLY
- 5    CALL GSFILE (6, IUNIT, JDATE, JDATE, 'OPE', 'G')         ! ANALYSIS ONLY
+c5    CALL GSFILE (6, IUNIT, JDATE, JDATE, 'OPE', 'G')         ! ANALYSIS ONLY
 c5    CALL GSFILE (6, IUNIT, JDATE, JDAT1, 'MAP', 'G')
 c5    CALL GSFILE (6, IUNIT, JDATE, JDAT1, 'OPE', 'G')
 
