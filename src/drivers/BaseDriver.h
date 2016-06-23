@@ -445,8 +445,6 @@ protected:
 	mutable std::map<string, magFont, RuntimeStringCompare> FontMap_;
 	typedef std::map<string, magFont, RuntimeStringCompare>::const_iterator fontMapIter;
 
-	void terminate() const {exit(1);}
-
 	void readFonts() const;
 	void relieveFonts() const {FontMap_.clear();}
 

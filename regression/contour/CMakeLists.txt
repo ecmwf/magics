@@ -20,7 +20,7 @@ add_magics_test(NAME contour_methods_ex SOURCES cont_methods_ex.F IMAGE cont_met
 add_magics_test(NAME contour_res_ex SOURCES cont_res_ex.F IMAGE cont_res_ex.ps   THRESHOLD 2)
 add_magics_test(NAME contour_akima_example SOURCES cont_akima_example.F IMAGE cont_akima_example.ps  DATA rh850.grib THRESHOLD 2)
 add_magics_test(NAME contour_solidshade_test2 SOURCES cont_solidshade_test2.F IMAGE cont_solidshade_test2.ps   THRESHOLD 2)
-add_magics_test(NAME contour_missing SOURCES cont_missing.F IMAGE cont_missing.ps  THRESHOLD 2)
+add_magics_test(NAME contour_missing SOURCES cont_missing.F IMAGE cont_missing.ps   DATA sst.grib THRESHOLD 2)
 add_magics_test(NAME contour_missing_2 SOURCES cont_missing_2.F IMAGE cont_missing_2.ps  DATA CWAO_Z.grib THRESHOLD 2)
 add_magics_test(NAME contour_solidshade_test3 SOURCES cont_solidshade_test3.F IMAGE cont_solidshade_test3.ps  DATA lsp25.grib THRESHOLD 2)
 add_magics_test(NAME contour_split SOURCES cont_split.F IMAGE cont_split.ps  DATA Tdiff.grib THRESHOLD 2)

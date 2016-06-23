@@ -230,7 +230,6 @@ set( MAGICS_INCLUDE_DIRS
      ${CMAKE_CURRENT_SOURCE_DIR}/src/decoders
      ${CMAKE_CURRENT_SOURCE_DIR}/src/terralib
      ${CMAKE_CURRENT_SOURCE_DIR}/src/terralib/kernel
-     ${CMAKE_CURRENT_SOURCE_DIR}/src/terralib/utils
      ${CMAKE_CURRENT_SOURCE_DIR}/src/libMagWrapper
      ${Boost_INCLUDE_DIRS} )
 

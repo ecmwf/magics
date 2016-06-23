@@ -254,6 +254,13 @@ inline MAGICS_NO_EXPORT bool magCompare(const string &s1, const string &s2)
 #endif
 }
 
+inline MAGICS_NO_EXPORT std::string replacePathWithHome(const string & path)
+{
+    const std::string home_path = getEnvVariable("HOME");
+    std::string filename = path.substr(path.find_last_of("/\\"));
+    return home_path + filename;
+}
+
 /*!
   \brief returns the biggest integer inside a double
 */
