@@ -1440,7 +1440,7 @@ MAGICS_NO_EXPORT void PostScriptDriver::openFile() const
 	if(!pFile_){
 		MagLog::error() << " PostScriptDriver --> Cannot write output file to what was specified: "<<fileName_<< endl;
 		MagLog::error() << "";
-		throw std::ios::failure("Error opening output file!");
+		throw NoSuchFileException("Error opening PS output file!");
 	}
 
 	pFile_.setf(ios_base::fixed);
