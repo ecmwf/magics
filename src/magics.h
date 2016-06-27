@@ -1,21 +1,12 @@
-/******************************** LICENSE ********************************
-
- Copyright 2007 European Centre for Medium-Range Weather Forecasts (ECMWF)
-
- Licensed under the Apache License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at 
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
-
- ******************************** LICENSE ********************************/
-
+/*
+ * (C) Copyright 1996-2016 ECMWF.
+ * 
+ * This software is licensed under the terms of the Apache Licence Version 2.0
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * granted to it by virtue of its status as an intergovernmental organisation nor
+ * does it submit to any jurisdiction.
+ */
 
 /*! \file magics.h
 
@@ -261,6 +252,13 @@ inline MAGICS_NO_EXPORT bool magCompare(const string &s1, const string &s2)
 #ifndef MAGICS_WINDOWS_CYGWIN
 	return !( strcasecmp(s1.c_str(),s2.c_str()) );
 #endif
+}
+
+inline MAGICS_NO_EXPORT std::string replacePathWithHome(const string & path)
+{
+    const std::string home_path = getEnvVariable("HOME");
+    std::string filename = path.substr(path.find_last_of("/\\"));
+    return home_path + filename;
 }
 
 /*!

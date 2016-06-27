@@ -1,11 +1,9 @@
-Authors of Magics++
-===================
+Authors of Magics
+=================
 
-The main development of Magics++ is done through the 
+The main development of Magics is done through the 
 
-            Meteorological Visualisation Section
-
-at the
+                    Development Section
 
        European Centre for Medium-Range Weather Forecasts
                (ECMWF - http://www.ecmwf.int )
@@ -19,17 +17,23 @@ Stephan Siemen
 Fernando Ii
 Iain Russell
 Sandor Kertesz
-Peter Bispham
 
 Past developers
 ===============
 
 Vesa Karhila
+Peter Bispham
 
 
 Thanks for contributions from:
 ==============================
 
-INPE/CPTEC for Terralib
-Carlos Valiente (contributions to configure scripts - magics.m4)
-Anne Fouilloux (first version of the swig Python interface)
+INPE/CPTEC for Terralib & Akima code 
+
+Carlos Valiente (ECMWF, contributions to configure scripts - magics.m4)
+
+Anne Fouilloux (ECMWF, first version of the swig Python interface)
+
+Mark Rajnai (Hungarian Meteorological Service, for Streamlines)
+
+Alastair McKinstry (Debian/Ubuntu)

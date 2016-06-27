@@ -146,7 +146,7 @@ void ObsCloudAndWind::operator()( CustomisedPoint& point, ComplexSymbol& symbol)
 			origin = marker != origins_.end() ? marker->second : "magics_13";
 
 	}
-
+	
 	CustomisedPoint::const_iterator ispeed = point.find("wind_speed");
 	double speed = ( ispeed == point.end() ) ? 0 : ispeed->second;
 	CustomisedPoint::const_iterator idirection = point.find("wind_direction");
@@ -164,7 +164,7 @@ void ObsCloudAndWind::operator()( CustomisedPoint& point, ComplexSymbol& symbol)
 
 		object->symbol(origin);
 
-		object->height(owner_->ring_size_*.35);
+		object->height(owner_->ring_size_*0.5);
 
 		symbol.add(object);
 		return;
@@ -173,7 +173,7 @@ void ObsCloudAndWind::operator()( CustomisedPoint& point, ComplexSymbol& symbol)
 	FlagItem* flag = new FlagItem();
 	flag->setColour(colour);
 	flag->length(owner_->size_*2.5); // Size to be adjusted later!
-
+	flag->thickness(1.5);
 
 
 
@@ -182,7 +182,7 @@ void ObsCloudAndWind::operator()( CustomisedPoint& point, ComplexSymbol& symbol)
      << "\n\twind_direction: " << point["wind_direction"]
      << "\n\tcloud amount:   " << point["total_cloud"]<< "--->" << total_cloud << "--->" << origin << std::endl;
 
-	flag->setOriginHeight(owner_->ring_size_);
+	flag->setOriginHeight(owner_->ring_size_ * 1.75);
 	flag->setOriginMarker(origin);
 	flag->x(0);
 	flag->y(0);
@@ -304,6 +304,7 @@ void ObsPressureTendency::operator()(CustomisedPoint& point, ComplexSymbol& symb
 	value = point.find("pressure_tendency_characteristic");
 	if ( value == point.end() ) return; 
 	SymbolItem*  tendancy = new SymbolItem();
+	
 	tendancy->x(column_+1);
 	tendancy->y(row_);	
 	
@@ -314,7 +315,7 @@ void ObsPressureTendency::operator()(CustomisedPoint& point, ComplexSymbol& symb
 
 	MagLog::debug() << "\tPressure tendency--->" << oss.str() << "\n";
 
-	tendancy->height(owner_->size_*0.2); // A bit too big !
+	tendancy->height(owner_->size_* 0.8); // A bit too big !
 	symbol.add(tendancy);
 }
 
@@ -712,7 +713,7 @@ void ObsPastWeather::operator()(CustomisedPoint& point,  ComplexSymbol& symbol) 
 
 		MagLog::debug() << "\tPast Weather 1-> " << ww->second << "\n";
 
-		object->height(owner_->size_);
+		object->height(owner_->size_*.75);
 		symbol.add(object);
 	}
 		//second past weather
@@ -730,7 +731,7 @@ void ObsPastWeather::operator()(CustomisedPoint& point,  ComplexSymbol& symbol) 
 
 			MagLog::debug() << "\tPast Weather 2-> " <<  ww->second << "\n";
 
-			object2->height(owner_->size_);
+			object2->height(owner_->size_*.75);
 			symbol.add(object2);
 		}
 
@@ -846,7 +847,7 @@ void ObsCloud::operator()(CustomisedPoint& point, ComplexSymbol& symbol) const
 		MagFont font;
 		font.name("sansserif");
 		font.colour(*owner_->low_colour_);
-		font.size(owner_->size_* 0.8);
+		font.size(owner_->size_* 0.9);
 
 		MagLog::debug() << "\tLow Cloud--->" << nh.str() << "\n";
 		object->text(nh.str());

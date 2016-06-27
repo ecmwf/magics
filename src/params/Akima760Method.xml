@@ -9,6 +9,16 @@
   grid, which then determines the smoothness of the isolines.
   	</documentation>
   	<parameter xml="x_resolution" from="float" name="contour_akima_x_resolution" default="1.5" member="resolutionX" to="float">
+<!--
+(C) Copyright 1996-2016 ECMWF.
+
+This software is licensed under the terms of the Apache Licence Version 2.0
+which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+In applying this licence, ECMWF does not waive the privileges and immunities 
+granted to it by virtue of its status as an intergovernmental organisation nor
+does it submit to any jurisdiction.
+-->
+
          		<documentation>X resolution of Akima interpolation		</documentation>
          		<migration> New Magics: Parameter resolutionX sent to new Magics[AKIMA760].  		</migration>
          		<release>Magics++0.1		</release>

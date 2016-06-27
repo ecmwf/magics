@@ -1,5 +1,15 @@
 <magics>
 <class inherits="NoBoundaries" xmltag="boundaries" name="Boundaries" directory="visualisers" prefix="map/map_boundaries/map_boundaries" action="pcoast" include="Boundaries.h" doc_inherits="no">
+<!--
+(C) Copyright 1996-2016 ECMWF.
+
+This software is licensed under the terms of the Apache Licence Version 2.0
+which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+In applying this licence, ECMWF does not waive the privileges and immunities 
+granted to it by virtue of its status as an intergovernmental organisation nor
+does it submit to any jurisdiction.
+-->
+
  	<documentation>This object sets the properties of the political boundaries.	</documentation>
    
 

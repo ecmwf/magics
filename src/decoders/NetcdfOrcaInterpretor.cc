@@ -1,20 +1,12 @@
-/******************************** LICENSE ********************************
-
- Copyright 2007 European Centre for Medium-Range Weather Forecasts (ECMWF)
-
- Licensed under the Apache License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at 
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
-
- ******************************** LICENSE ********************************/
+/*
+ * (C) Copyright 1996-2016 ECMWF.
+ * 
+ * This software is licensed under the terms of the Apache Licence Version 2.0
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * granted to it by virtue of its status as an intergovernmental organisation nor
+ * does it submit to any jurisdiction.
+ */
 
 /*! \file NetcdfOrcaInterpretor.h
     \brief Implementation of the Template class NetcdfOrcaInterpretor.
@@ -40,19 +32,14 @@ NetcdfOrcaInterpretor::NetcdfOrcaInterpretor()
 
 NetcdfOrcaInterpretor::~NetcdfOrcaInterpretor() 
 {}
+
 #include <boost/geometry/geometry.hpp>
 #include <boost/geometry/geometries/point_xy.hpp>
 #include <boost/geometry/geometries/polygon.hpp>
 
 bool NetcdfOrcaInterpretor::interpretAsMatrix(Matrix** data)
 {
-	
 	if ( *data ) return false;
-
-
-
-
-
 
 	Netcdf netcdf(path_, dimension_method_);
 	NetVariable var = netcdf.getVariable(longitude_);
@@ -207,15 +194,15 @@ bool NetcdfOrcaInterpretor::interpretAsMatrix(Matrix** data)
 							double val1 =  	((lon12 - lon )/(lon12-lon11))*val11 + ((lon - lon11)/(lon12-lon11))*val12;
 
 							double val2 =  	((lon22 - lon )/(lon22-lon21))*val21 + ((lon - lon21)/(lon22-lon21))*val22;
-							if ( isnan(val1) ) {
-								if ( isnan(val2) ) {
+							if ( std::isnan(val1) ) {
+								if ( std::isnan(val2) ) {
 									val = missing;
 								}
 								else
 									val = ((lat - lat11)/(lat22-lat11))*val2;
 							}
 							else {
-								if ( isnan(val2) ) {
+								if ( std::isnan(val2) ) {
 									val =  	((lat22 - lat )/(lat22-lat11))*val1;
 								}
 								else {
@@ -223,33 +210,26 @@ bool NetcdfOrcaInterpretor::interpretAsMatrix(Matrix** data)
 								}
 							}
 
-							if (isnan(val) || isinf(val) || isinf(-val) ) {
+							if (std::isnan(val) || std::isinf(val) || std::isinf(-val) ) {
 								val = missing;
 							}
 						}
-						if (isnan(val) ) val = missing;
+						if (std::isnan(val) ) val = missing;
 						if ( (*matrix)[index.second +( index.first*im)] == missing )
 							(*matrix)[index.second +( index.first*im)] = val;
 
 					}
 					matrix->multiply(scaling_);
 					matrix->plus(offset_);
-
 				}
-
-
 			}
-
 		}
-
-
 
 		matrix->multiply(scaling_);
 		matrix->plus(offset_);
 		matrix->setMapsAxis();
 
 		MagLog::dev() << *matrix << "\n";
-
 	}
 
 	catch (MagicsException& e)
@@ -282,18 +262,13 @@ bool NetcdfOrcaInterpretor::interpretAsPoints(PointsList& points)
 		netcdf.get(latitude_,  latm, first, last);
 		netcdf.get(field_, data, first, last);
 		
-
-	 
-
-        
-
         vector<double>::iterator lat = latm.begin();
         vector<double>::iterator lon = lonm.begin();
         vector<double>::iterator val = data.begin();
         
 		while (lat != latm.end() ) {
             double value = *val;
-           if (isnan(value) ) 
+           if (std::isnan(value) ) 
                 value = missing;
 
             if ( value  != missing) { 
@@ -311,12 +286,10 @@ bool NetcdfOrcaInterpretor::interpretAsPoints(PointsList& points)
 	{
 		MagLog::error() << e << "\n";
 	}
-
 }
 
 void NetcdfOrcaInterpretor::customisedPoints(const Transformation& transformation, const std::set<string>&, CustomisedPointsList& out, int thinning)
 {
-
 		try
 		{
 			MagLog::dev() << " Netcdf File Path --->" << path_ << "\n";

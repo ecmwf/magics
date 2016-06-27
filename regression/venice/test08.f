@@ -1,3 +1,12 @@
+C (C) Copyright 1996-2016 ECMWF.
+C 
+C This software is licensed under the terms of the Apache Licence Version 2.0
+C which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+C In applying this licence, ECMWF does not waive the privileges and immunities 
+C granted to it by virtue of its status as an intergovernmental organisation nor
+C does it submit to any jurisdiction.
+C
+
       PROGRAM CUSTPLT
 
 C          THIS PROGRAM TAKES THE MEDITERRANEAN WAM MODEL GRID AS
@@ -147,7 +156,7 @@ C          FETCH FILE TO BE PLOTTED
        open(unit=83, file='fort.83')
        open(unit=82, file='fort.82')
 c5    CALL GSFILE (6, IUNIT, JDATE, JDATE, 'MAP', 'G')         ! ANALYSIS ONLY
- 5    CALL GSFILE (6, IUNIT, JDATE, JDATE, 'OPE', 'G')         ! ANALYSIS ONLY
+c5    CALL GSFILE (6, IUNIT, JDATE, JDATE, 'OPE', 'G')         ! ANALYSIS ONLY
 c5    CALL GSFILE (6, IUNIT, JDATE, JDAT1, 'MAP', 'G')
 c5    CALL GSFILE (6, IUNIT, JDATE, JDAT1, 'OPE', 'G')
 

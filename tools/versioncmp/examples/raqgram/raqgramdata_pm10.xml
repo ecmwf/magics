@@ -1,3 +1,13 @@
+<!--
+(C) Copyright 1996-2016 ECMWF.
+
+This software is licensed under the terms of the Apache Licence Version 2.0
+which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+In applying this licence, ECMWF does not waive the privileges and immunities 
+granted to it by virtue of its status as an intergovernmental organisation nor
+does it submit to any jurisdiction.
+-->
+
 <forecast date='20100420' latitude='52.37' longitude=' 4.89' station='Amsterdam' time='00' title='MACC RAQ EPSGRAM'>
   <param name='pm10' title='PM10 Aerosol [ &#181;g/m3 ]   N=6                                             threshold (24h mean) = 50 &#181;g/m3' >
     <step value="0" min="11.428300" ten="12.087250" twentyfive="13.307900" median="15.325750" seventyfive="21.517275" ninety="25.689350" max="27.908500"  control="50.000000" />

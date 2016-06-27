@@ -1,3 +1,13 @@
+<!--
+(C) Copyright 1996-2016 ECMWF.
+
+This software is licensed under the terms of the Apache Licence Version 2.0
+which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+In applying this licence, ECMWF does not waive the privileges and immunities 
+granted to it by virtue of its status as an intergovernmental organisation nor
+does it submit to any jurisdiction.
+-->
+
 <forecast date='20100420' latitude='52.37' longitude=' 4.89' station='Amsterdam' time='00' title='MACC RAQ EPSGRAM'>
   <param name='so2' title='Sulphur Dioxide [ &#181;g/m3 ]   N=7                                            threshold (1h max) = 350 &#181;g/m3' >
     <step value="0" min="0.718095" ten="0.873904" twentyfive="1.558138" median="2.940270" seventyfive="3.595305" ninety="5.698440" max="8.169780"  control="350.000000" />
