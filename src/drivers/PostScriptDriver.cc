@@ -1,22 +1,12 @@
-/******************************** LICENSE ********************************
-
-
- Copyright 2007 European Centre for Medium-Range Weather Forecasts (ECMWF)
-
- Licensed under the Apache License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
-
- 	http://www.apache.org/licenses/LICENSE-2.0
-
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
-
-
- ******************************** LICENSE ********************************/
+/*
+ * (C) Copyright 1996-2016 ECMWF.
+ * 
+ * This software is licensed under the terms of the Apache Licence Version 2.0
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * granted to it by virtue of its status as an intergovernmental organisation nor
+ * does it submit to any jurisdiction.
+ */
 
 /*! \file PostScriptDriver.cc
     \brief Implementation of PostScriptDriver.
@@ -1384,7 +1374,7 @@ MAGICS_NO_EXPORT bool PostScriptDriver::renderCellArray(const Image& image) cons
 */
 MAGICS_NO_EXPORT void PostScriptDriver::debugOutput(const string &s) const
 {
-	if(debug_) PSOut_ << "%% "<<s<<"\n";
+	if(debug_) pFile_ << "%% "<<s<<"\n";
 }
 
 /*!
@@ -1444,19 +1434,19 @@ MAGICS_NO_EXPORT void PostScriptDriver::openFile() const
 		if(pos != string::npos) fileName_.replace(pos,4,".ps");
 	}
 
-	if(PSOut_.is_open()) PSOut_.close();
-	PSOut_.clear();
-	PSOut_.open(fileName_.c_str(),std::ios::out);
-	if(!PSOut_){
-		MagLog::error() << "PostScriptDriver::close() --> Cannot write PostScript file! " << fileName_ << "\n";
-		MagLog::error() << "";  // to ensure that the error message is broadcast
-		terminate();
+	if(pFile_.is_open()) pFile_.close();
+	pFile_.clear();
+	pFile_.open(fileName_.c_str(),std::ios::out);
+	if(!pFile_){
+		MagLog::error() << " PostScriptDriver --> Cannot write output file to what was specified: "<<fileName_<< endl;
+		MagLog::error() << "";
+		throw NoSuchFileException("Error opening PS output file!");
 	}
 
-	PSOut_.setf(ios_base::fixed);
-	PSOut_.unsetf(ios::showpoint);
-	PSOut_.precision(2);
-//	PSOut_<< setprecision(2);
+	pFile_.setf(ios_base::fixed);
+	pFile_.unsetf(ios::showpoint);
+	pFile_.precision(2);
+//	pFile_<< setprecision(2);
 	writePSFileHeader();
 }
 
@@ -1471,7 +1461,7 @@ MAGICS_NO_EXPORT void PostScriptDriver::closeFile() const
 	writePSFileEnd();
 
 	// close + remove files
-	PSOut_.close();
+	pFile_.close();
 
 	const string fps = fileName_;
 

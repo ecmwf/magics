@@ -1,20 +1,12 @@
-/******************************** LICENSE ********************************
-
- Copyright 2007 European Centre for Medium-Range Weather Forecasts (ECMWF)
-
- Licensed under the Apache License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at 
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
-
- ******************************** LICENSE ********************************/
+/*
+ * (C) Copyright 1996-2016 ECMWF.
+ * 
+ * This software is licensed under the terms of the Apache Licence Version 2.0
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * granted to it by virtue of its status as an intergovernmental organisation nor
+ * does it submit to any jurisdiction.
+ */
 
 /*! \file ClassicMtgDecoder.cc
     \brief Implementation of the Template class ClassicMtgDecoder.
@@ -336,7 +328,7 @@ void MetgramParameter::interpretResult(spot_query_result* result, vector<Customi
 				values[info->second] = 0;
 				rain = true;
 			}
-	    	if ( !isnan(values[info->second]) && values[info->second] < missing ) {
+	    	if ( !std::isnan(values[info->second]) && values[info->second] < missing ) {
 	    		(*point)[key] = (*this)(values[info->second]);	  
 	    		ypos.push_back( (*this)(values[info->second]));	 
 	    		if (rain) (*point)["as_rain"] = 1;
@@ -347,12 +339,9 @@ void MetgramParameter::interpretResult(spot_query_result* result, vector<Customi
 	    		MagLog::warning() << " SPOTBASE returns nan for " << info->first << " : data ignored for step " << (*point)["shift"]<< endl;
 	    		ok = false;
 	    	}
-	    	
-	    	
 		}
     	
 		nb=1024;
-	
 	}
 	
 	
@@ -650,8 +639,6 @@ void ClassicMtgDecoder::moreTitle(TextVisitor& title)
 	
 	lines.push_back(landsea + " (" + resolution_ + ")" );
 	
-	
-	
 	lines.push_back("");
 	
 	for ( vector<string>::const_iterator line = lines.begin(); line != lines.end(); ++line)
@@ -663,8 +650,6 @@ void ClassicMtgDecoder::visit(Transformation& transformation)
 	decode();
 	
 	ASSERT(parameter_);
-	parameter_->setTransformation(transformation);
-
-	
+	parameter_->setTransformation(transformation);	
 }
 

@@ -188,8 +188,7 @@ if( metview )
                         ${CMAKE_CURRENT_SOURCE_DIR}/drivers
                         ${CMAKE_CURRENT_SOURCE_DIR}/decoders
                         ${CMAKE_CURRENT_SOURCE_DIR}/terralib
-                        ${CMAKE_CURRENT_SOURCE_DIR}/terralib/kernel
-                        ${CMAKE_CURRENT_SOURCE_DIR}/terralib/utils 
+                        ${CMAKE_CURRENT_SOURCE_DIR}/terralib/kernel 
                         ${CMAKE_CURRENT_SOURCE_DIR}/libMagWrapper )
   
 
@@ -236,8 +235,6 @@ if( metview )
 				   terralib/kernel/TeSingleton.h 
 				   terralib/kernel/TeDatum.h 
 				   terralib/kernel/TeUtils.h
-				   terralib/kernel/TeProgress.h
-				   terralib/kernel/TeProgressBase.h
 				   
 				   
 				   DESTINATION ${INSTALL_INCLUDE_DIR})

@@ -1,20 +1,12 @@
-/******************************** LICENSE ********************************
-
- Copyright 2007 European Centre for Medium-Range Weather Forecasts (ECMWF)
-
- Licensed under the Apache License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at 
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
-
- ******************************** LICENSE ********************************/
+/*
+ * (C) Copyright 1996-2016 ECMWF.
+ * 
+ * This software is licensed under the terms of the Apache Licence Version 2.0
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * granted to it by virtue of its status as an intergovernmental organisation nor
+ * does it submit to any jurisdiction.
+ */
 
 /*! 
     \brief Implementation of the Template class LegendNode.
@@ -78,10 +70,8 @@ void LegendVisitor::print(ostream& out)  const
 }
 
 
-
 void LegendVisitor::visit(BasicGraphicsObjectContainer&)
 {
-
 }
 
 
@@ -94,6 +84,7 @@ void LegendVisitor::visit(BasicSceneObject& parent)
 void LegendVisitor:: visit(AnimationStep& )
 {
 }
+
 PaperPoint LegendEntry::centreSymbolBox(const PaperPoint& middle)
 {
 	// The box is going from x-1 to x+1
@@ -114,6 +105,7 @@ PaperPoint LegendEntry::leftTextBox(const PaperPoint& middle)
 	MagLog::dev() << "LegendEntry::leftTextBox" << point << endl;
 	return point;
 }
+
 PaperPoint ArrowEntry::leftTextBox(const PaperPoint& middle)
 {
 	PaperPoint point(middle);
@@ -121,6 +113,7 @@ PaperPoint ArrowEntry::leftTextBox(const PaperPoint& middle)
 	    point.y_ += 0.2;
 		return point;
 }
+
 PaperPoint FlagEntry::leftTextBox(const PaperPoint& middle)
 {
 	// The box is going from x-1 to x+1
@@ -131,6 +124,7 @@ PaperPoint FlagEntry::leftTextBox(const PaperPoint& middle)
 	point.y_ += 0.5;
 	return point;
 }
+
 double LegendEntry::computeWidth(double width)
 {
 	return ((100-width_)/50)*width;
@@ -145,6 +139,7 @@ void LineEntry::rowBox(const PaperPoint& point, BasicGraphicsObjectContainer& ou
 	line_->push_back(PaperPoint(x+0.5, y));
 	out.push_back(line_);
 }
+
 void LineEntry::columnBox(const PaperPoint& point, BasicGraphicsObjectContainer& out)
 {
 	double x = point.x();
@@ -154,10 +149,12 @@ void LineEntry::columnBox(const PaperPoint& point, BasicGraphicsObjectContainer&
 	line_->push_back(PaperPoint(x+1, y));
 	out.push_back(line_);
 }
+
 void DoubleLineEntry::rowBox(const PaperPoint& point, BasicGraphicsObjectContainer& out)
 {
 	set(point, out);
 }
+
 void DoubleLineEntry::columnBox(const PaperPoint& point, BasicGraphicsObjectContainer& out)
 {
 	set(point, out);
@@ -165,10 +162,6 @@ void DoubleLineEntry::columnBox(const PaperPoint& point, BasicGraphicsObjectCont
 
 void LegendVisitor::build()
 {
-
-
-
-
 	legend_ = new LegendLayout();
 	
 	legend_->x(view_x_);
@@ -295,16 +288,10 @@ void  LegendVisitor::horizontal()
 		}
 
 	// here we have a title, we need to adjust the coordinates used in the legend dependind on its position
-
-
-
-
-
 }
+
 void  LegendVisitor::vertical()
 {
-	double xmin, xmax, ymin, ymax;
-	double xtitle, ytitle;
 	int row = 1;
 	int column = 1;
 	int rows = entriesNumber_/columns_;
@@ -330,8 +317,8 @@ void  LegendVisitor::vertical()
 			title_position_ = M_LEFT;
 		(this->*titleBuilders_[title_position_])();
 	}
-
 }
+
 void  LegendVisitor::topTitle()
 {
 	double minx =  legend_->minX();
@@ -348,6 +335,7 @@ void  LegendVisitor::topTitle()
 
 	legend_->maxY(newmaxy);
 }
+
 void  LegendVisitor::bottomTitle()
 {
 	double minx =  legend_->minX();
@@ -364,6 +352,7 @@ void  LegendVisitor::bottomTitle()
 
 	legend_->minY(newminy);
 }
+
 void  LegendVisitor::rightTitle()
 {
 	double minx =  legend_->minX();
@@ -382,6 +371,7 @@ void  LegendVisitor::rightTitle()
 
 	legend_->maxX(newmaxx);
 }
+
 void  LegendVisitor::leftTitle()
 {
 	double minx =  legend_->minX();
@@ -392,7 +382,7 @@ void  LegendVisitor::leftTitle()
 	bool column =  ( legend_->absoluteWidth() <  legend_->absoluteHeight() );
 
 	titleJustification_ = ( column ) ?  MCENTRE : MRIGHT;
-	float factor =  ( column ) ?  0.25 : 0.15;
+	//float factor =  ( column ) ?  0.25 : 0.15;
 	titleAngle_ =  ( column ) ?  magics::PI * 1.5 : 0;
 
 	double width = (100 /(100-title_ratio_))*(maxx - minx);
@@ -400,7 +390,6 @@ void  LegendVisitor::leftTitle()
 
 	titlePosition_ = PaperPoint(minx + (newminx-minx)*0.1, (maxy-miny)/2);
 	legend_->minX(newminx);
-
 }
 
 
@@ -449,12 +438,10 @@ void LegendVisitor::grid()
     else {
     	(this->*builder->second)();
     }
-
 }
 
 void SymbolEntry::set(const PaperPoint& point, BasicGraphicsObjectContainer& legend)
 {
-
 	double width = computeWidth(0.8)/2;
 	double height = 0.4;
 	PaperPoint p = centreSymbolBox(point);
@@ -583,8 +570,6 @@ void FlagEntry::set(const PaperPoint& point, BasicGraphicsObjectContainer& legen
 	legend.push_back(flag_);
 	flag_->setLength(legend.absoluteHeight());
 	flag_->back().set(40, 85);
-
-
 }
 
 void  FlagEntry::rowBox(const PaperPoint& point, BasicGraphicsObjectContainer& legend)
@@ -596,6 +581,7 @@ void  FlagEntry::rowBox(const PaperPoint& point, BasicGraphicsObjectContainer& l
 	text->setJustification(MLEFT);
 	legend.push_back(text);
 }
+
 void  FlagEntry::columnBox(const PaperPoint& point, BasicGraphicsObjectContainer& legend)
 {
 	set(point, legend);
@@ -610,6 +596,7 @@ void  FlagEntry::columnBox(const PaperPoint& point, BasicGraphicsObjectContainer
 	text->setJustification(MLEFT);
 	legend.push_back(text);
 }
+
 Colour BoxEntry::colour()
 {
 	return box_->getFillColour();
@@ -642,7 +629,6 @@ void LegendEntry::rowBox(const PaperPoint& point, BasicGraphicsObjectContainer& 
 	frame->push_back(PaperPoint(x+2, y-height));
 	frame->push_back(PaperPoint(x-width, y-height));
 
-
 	legend.push_back(frame);
 }
 
@@ -659,7 +645,6 @@ void LegendEntry::columnBox(const PaperPoint& point, BasicGraphicsObjectContaine
 	}
 	Polyline*  frame = new Polyline();
 
-	
 	double x = point.x();
 	double y = point.y();
 	double width = 0.4;
@@ -677,8 +662,7 @@ void LegendEntry::columnBox(const PaperPoint& point, BasicGraphicsObjectContaine
 	frame->push_back(PaperPoint(x, y+height));
 	frame->push_back(PaperPoint(x, y-height));
 	frame->push_back(PaperPoint(x-width, y-height));
-	
-	
+
 	legend.push_back(frame);
 
 	ostringstream top, bottom;
@@ -769,7 +753,6 @@ void BoxEntry::rowBox(const PaperPoint& point, BasicGraphicsObjectContainer& leg
 			to->addText(userText_, font_);
 	}
 
-
 	box_->push_back(PaperPoint(x-width, y-height));
 	box_->push_back(PaperPoint(x-width, y+height+height));
 	box_->push_back(PaperPoint(x+width, y+height+height));
@@ -783,7 +766,6 @@ void BoxEntry::rowBox(const PaperPoint& point, BasicGraphicsObjectContainer& leg
 		colour = Colour("black");
 	}
 	box_->setColour(colour);
-
 
 	legend.push_back(box_);
 }
@@ -955,12 +937,11 @@ void BoxEntry::rowHisto(const PaperPoint& point, BasicGraphicsObjectContainer& l
     	double pos = ((2*width)/(to_-from_)) * (meanValue_ - from_) + (x - width);
     	symbol->push_back(PaperPoint(pos,  y + 1.));
     	legend.push_last(symbol);
-
     }
 }
+
 void BoxEntry::columnBox(const PaperPoint& point, BasicGraphicsObjectContainer& legend)
 {
-
 	MagLog::debug() << "BoxEntry--->set at " << point << endl;
 	double width = computeWidth(0.8)/2;
 	double height = 0.5;
@@ -1015,6 +996,7 @@ void BoxEntry::columnBox(const PaperPoint& point, BasicGraphicsObjectContainer& 
 	box_->setColour(colour);
 	legend.push_back(box_);
 }
+
 void BoxEntry::columnHisto(const PaperPoint& point, BasicGraphicsObjectContainer& legend, const Colour& colour)
 {
 
@@ -1086,7 +1068,6 @@ Colour DoubleLineEntry::colour()
 
 void LineEntry::set(const PaperPoint& point, BasicGraphicsObjectContainer& legend)
 {
-
 	double width = computeWidth(0.8)/2;
 	PaperPoint p = centreSymbolBox(point);
 	double x = p.x();
@@ -1122,7 +1103,6 @@ void check(const string& line, vector<string>& lines)
 
 void LegendVisitor::getReady()
 {
-	
 	if ( lines_.empty() == false )
 		return;
 	
@@ -1170,8 +1150,6 @@ void XmlLegendVisitor::getReady()
 
 	double text_width = width.percent();
 	double text_height = height.percent();
-	
-	
 
 	if ( ( text_height + text_y ) > 100 ) 
 		text_height = 100 - text_y ;
@@ -1219,7 +1197,6 @@ void FortranPositionalLegendVisitor::getReady()
 	Dimension text(font_dimension_, box_height_, 10);
 	font_size_ = text.absolute();
 	layout_->Layout::frame(blanking_, border_, *border_colour_, border_line_style_, border_thickness_);
-
 }
 
 
@@ -1246,8 +1223,6 @@ void FortranAutomaticLegendVisitor::getReady()
 void LegendEntry::set(const LegendVisitor& attributes)
 {
 	format_ = attributes.format();
-
-	
 }
 
 void SimpleSymbolEntry::set(const PaperPoint& point, BasicGraphicsObjectContainer& legend)
@@ -1257,8 +1232,6 @@ void SimpleSymbolEntry::set(const PaperPoint& point, BasicGraphicsObjectContaine
 	symbol_->push_back(centreSymbolBox(point));
 	legend.push_back(symbol_);
 }
-
-
 
 
 
@@ -1279,9 +1252,9 @@ const string& LegendEntry::label() const
 	label_ = nice.str();
 	return label_;
 }
+
 void SimpleSymbolEntry::rowBox(const PaperPoint& point, BasicGraphicsObjectContainer& legend)
 {
-
 	Polyline* box = new Polyline();
 	FillShadingProperties* shading = new FillShadingProperties();
 	box->setFillColour(colour());
@@ -1336,9 +1309,9 @@ void SimpleSymbolEntry::rowBox(const PaperPoint& point, BasicGraphicsObjectConta
 		}
 		box->setColour(colour);
 
-
 		legend.push_back(box);
 }
+
 void SimpleSymbolEntry::columnBox(const PaperPoint& point, BasicGraphicsObjectContainer& legend)
 {
 	Polyline* box = new Polyline();

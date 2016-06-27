@@ -74,7 +74,7 @@ list( APPEND _common_srcs
 
 # projection
     GeoRectangularProjection.cc  PolarStereographicProjection.cc TaylorProjection.cc
-    GeoRectangularProjection.h   PolarStereographicProjection.h SatelliteProjection.h TaylorProjection.h
+    GeoRectangularProjection.h   PolarStereographicProjection.h TaylorProjection.h
     Proj4Projection.cc  Proj4Projection.h
 
 # unused

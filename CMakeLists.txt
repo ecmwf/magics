@@ -40,7 +40,19 @@ ecbuild_requires_macro_version( 1.9 )
 ###############################################################################
 # some variables of this project
 
-ecbuild_use_package(PROJECT grib_api VERSION 1.14.6 REQUIRED)
+ecbuild_add_option( FEATURE ECCODES DESCRIPTION "" DEFAULT OFF )
+
+if( HAVE_ECCODES )
+  ecbuild_use_package( PROJECT eccodes VERSION 0.14 REQUIRED )
+  set( GRIB_API_INCLUDE_DIRS ${ECCODES_INCLUDE_DIRS} )
+  set( GRIB_API_LIBRARIES    ${ECCODES_LIBRARIES} )
+  set( GRIB_API_DEFINITIONS  ${ECCODES_DEFINITIONS} )
+  set( grib_api_BASE_DIR     ${eccodes_BASE_DIR} )
+else()
+  ecbuild_use_package(PROJECT grib_api VERSION 1.14.6 REQUIRED)
+endif()
+
+
 # grib_api is required for now
 set( HAVE_GRIB 1 )
 
@@ -125,7 +137,7 @@ set( MAGICS_EXCEPTION     "ON" )
 set( MAGICS_SITE          "ecmwf" )
 set( MAGICS_INSTALL_PATH  ${CMAKE_INSTALL_PREFIX} )
 
-set( MAGICS_REFERENCE_VERSIONS            "2.28.0" )
+set( MAGICS_REFERENCE_VERSIONS            "2.29.0" )
 set( MAGICS_HTML_ROOT        "${CMAKE_BINARY_DIR}/regression/html")
 file(MAKE_DIRECTORY ${MAGICS_HTML_ROOT} )
 
@@ -218,7 +230,6 @@ set( MAGICS_INCLUDE_DIRS
      ${CMAKE_CURRENT_SOURCE_DIR}/src/decoders
      ${CMAKE_CURRENT_SOURCE_DIR}/src/terralib
      ${CMAKE_CURRENT_SOURCE_DIR}/src/terralib/kernel
-     ${CMAKE_CURRENT_SOURCE_DIR}/src/terralib/utils
      ${CMAKE_CURRENT_SOURCE_DIR}/src/libMagWrapper
      ${Boost_INCLUDE_DIRS} )
 

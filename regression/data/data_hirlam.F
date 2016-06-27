@@ -1,3 +1,12 @@
+C (C) Copyright 1996-2016 ECMWF.
+C 
+C This software is licensed under the terms of the Apache Licence Version 2.0
+C which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+C In applying this licence, ECMWF does not waive the privileges and immunities 
+C granted to it by virtue of its status as an intergovernmental organisation nor
+C does it submit to any jurisdiction.
+C
+
       PROGRAM HIRLAM
 
 C     This program demonstrates magics contouring facilities. 
@@ -20,9 +29,7 @@ C     Set up the coastline attributes
 
 C     Plot the different sets of data
 
-      CALL CONT_TEST ('Finland-GRIB_Z700',
-     +                'Hirlam / Finland / Z700', 0)
-
+      
 
       CALL CONT_TEST ('hirlam-sweden-t.grb',
      +                'Hirlam / Sweden / T1000', 1)

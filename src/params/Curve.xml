@@ -3,6 +3,16 @@
   	<documentation> Here comes the documentation of the Curve object 	</documentation>
 
   	<parameter xml="line" from="string" name="graph_line" default="on" member="line" to="bool">
+<!--
+(C) Copyright 1996-2016 ECMWF.
+
+This software is licensed under the terms of the Apache Licence Version 2.0
+which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+In applying this licence, ECMWF does not waive the privileges and immunities 
+granted to it by virtue of its status as an intergovernmental organisation nor
+does it submit to any jurisdiction.
+-->
+
          		<documentation> Plot the curve line  		</documentation>
          		<set name="graph_line_style" value="on">		</set>
          		<set name="graph_line_colour" value="on">		</set>

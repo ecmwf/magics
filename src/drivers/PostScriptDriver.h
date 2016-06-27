@@ -1,22 +1,12 @@
-/******************************** LICENSE ********************************
-
-
- Copyright 2007 European Centre for Medium-Range Weather Forecasts (ECMWF)
-
- Licensed under the Apache License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
-
- 	http://www.apache.org/licenses/LICENSE-2.0
-
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
-
-
- ******************************** LICENSE ********************************/
+/*
+ * (C) Copyright 1996-2016 ECMWF.
+ * 
+ * This software is licensed under the terms of the Apache Licence Version 2.0
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * granted to it by virtue of its status as an intergovernmental organisation nor
+ * does it submit to any jurisdiction.
+ */
 
 /*!
     \file PostScriptDriver.h
@@ -115,7 +105,7 @@ private:
 	MAGICS_NO_EXPORT void writePSFileEnd() const;
 	//MAGICS_NO_EXPORT void copyMacro(fstream *m, const string &file) const;
 	MAGICS_NO_EXPORT void setDeviceColourModel(const string &m) const;
-	MAGICS_NO_EXPORT fstream* getStream() const {return &PSOut_;}
+	MAGICS_NO_EXPORT fstream* getStream() const {return &pFile_;}
 	MAGICS_NO_EXPORT int getDeviceColourModel() const {return deviceColourModel_;}
 
 	//! Should the output be splited?
@@ -123,7 +113,7 @@ private:
 	MAGICS_NO_EXPORT void openFile() const;
 	MAGICS_NO_EXPORT void closeFile() const;
 
-	mutable fstream   PSOut_;
+	mutable fstream   pFile_;
 	mutable bool      ps_;
 	mutable bool      pdf_;
 	mutable bool      eps_;
