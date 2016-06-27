@@ -107,7 +107,7 @@ void KMLDriver::open()
 	{
 		MagLog::error() << " KMLScriptDriver --> Cannot write output file to what was specified: "<<fileName_<< endl;
 		MagLog::error() << "";
-		throw std::ios::failure("Error opening output file!");
+		throw NoSuchFileException("Error opening KML output file!");
 	}
 	pFile_	<< "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n"
 		<< "<kml xmlns=\"http://www.opengis.net/kml/2.2\" \n"
