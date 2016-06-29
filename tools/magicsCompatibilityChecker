@@ -15,8 +15,7 @@
 # limitations under the License.
 #
 #
-# This script is provided by the ECMWF Meteorological Visualisation Section as help to identify 
-# potential problems porting programs from using MAGICS 5/6 to Magics++.
+# This script is provided as help to identify potential problems porting programs from using MAGICS 5/6 to Magics++.
 #
 # We do NOT garantee that all issues can be found with this script!!!
 #
