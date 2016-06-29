@@ -289,14 +289,11 @@ EOF
  
     print  <<EOF;
 /*! \\file $object\Wrapper.h
-    \\brief Implemtation of $object Wrapper class.
+    \\brief Implementation of $object Wrapper class.
     Automatically generated on $string
     Do Not Edit!
-    
-    Magics Team - ECMWF 2004
-   
+
     Created: $string
-    
 */    
 
 #include "MagRequest.h" 
