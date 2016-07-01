@@ -452,7 +452,7 @@ void ObsPresentWeather::operator()(CustomisedPoint& point,  ComplexSymbol& symbo
 	else {
 		map<int, string>::iterator w = presentweather.find(value->second);
 		if ( w == presentweather.end() ) {
-			MagLog::warning() << "Present Weather " << value->second << " is not recognised yet, pease conatct the magics team " << endl;
+			MagLog::warning() << "OBS > Present Weather " << value->second << " not recognised yet, please contact Magics team" << endl;
 		}
 		else
 			ww = w->second;
