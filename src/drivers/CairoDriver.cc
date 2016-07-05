@@ -1482,7 +1482,7 @@ MAGICS_NO_EXPORT bool CairoDriver::renderCellArray(const Image& image) const
 	ColourTable &lt  = image.getColourTable();
 	const int width  = image.getNumberOfColumns();
 	const int height = image.getNumberOfRows();
-	const double tr  = image.getTransparency();
+//	const double tr  = image.getTransparency();
 	const MFloat x0  = projectX(image.getOrigin().x());
 	const MFloat y0  = projectY(image.getOrigin().y());
 
@@ -1492,9 +1492,9 @@ MAGICS_NO_EXPORT bool CairoDriver::renderCellArray(const Image& image) const
 
 	const long dim=width*height;
 	unsigned char *chImage = new unsigned char[dim*4];
-	int jj = 0;
+	long jj = 0;
 //	const Colour none("none");
-	for(int j=0;j<dim; j++)
+	for(long j=0;j<dim; j++)
 	{
 		const short c = image[j];
 
@@ -1519,7 +1519,7 @@ MAGICS_NO_EXPORT bool CairoDriver::renderCellArray(const Image& image) const
 		}
 	}
 
-	cairo_surface_t* surImage = cairo_image_surface_create_for_data(
+	cairo_surface_t* surfaceImage = cairo_image_surface_create_for_data(
 		chImage,
 		CAIRO_FORMAT_ARGB32,
 		width,
@@ -1532,10 +1532,10 @@ MAGICS_NO_EXPORT bool CairoDriver::renderCellArray(const Image& image) const
 	const double scY = (image.getHeight()*coordRatioY_) /height;
 	cairo_scale (cr_, scX, -scY);
 
-	cairo_set_source_surface(cr_, surImage, 0, 0);
+	cairo_set_source_surface(cr_, surfaceImage, 0, 0);
 	cairo_paint(cr_);
 
-	cairo_surface_destroy (surImage);
+	cairo_surface_destroy (surfaceImage);
 
 	cairo_restore(cr_);
 	cairo_set_antialias(cr_, t);
@@ -1582,8 +1582,8 @@ MAGICS_NO_EXPORT void CairoDriver::renderSymbols(const Symbol& symbol) const
 		if(image)
 		{
 			cairo_save(cr_);
-			int w = cairo_image_surface_get_width(image);
-			int h = cairo_image_surface_get_height(image);
+			const int w = cairo_image_surface_get_width(image);
+			const int h = cairo_image_surface_get_height(image);
 
 			cairo_translate (cr_, projectX(symbol[0].x()), projectY(symbol[0].y()));
 			const MFloat scaling = convertCM(symbol.getHeight()*.1) / coordRatioY_;
