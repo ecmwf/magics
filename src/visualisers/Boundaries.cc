@@ -64,6 +64,7 @@ void Boundaries::operator()(const map<string, string>& setting, BasicGraphicsObj
 	vector<string> treaty;
 	treaty.push_back("International boundary");
 	treaty.push_back("Country_Boundary");
+	treaty.push_back("Indefinite (please verify)");
 
 	boundaries.decode(task.transformation(), "featurecla", treaty);
 	const Transformation& transformation = task.transformation();
@@ -118,6 +119,7 @@ void Boundaries::operator()(const map<string, string>& setting, BasicGraphicsObj
 	
 		vector<string> dis;
 		dis.push_back("Disputed");
+		dis.push_back("Line of control (please verify)");
 		file = share_folder + political_boundaries;
 	
 		disputed.setPath(file);
