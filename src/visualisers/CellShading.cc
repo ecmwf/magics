@@ -89,7 +89,7 @@ void CellShading::operator()(IsoPlot* iso, MatrixHandler& data, BasicGraphicsObj
 
 
 
-
+	adaptive_ = false;
 	shading_ = "cell";
 	MagLog::debug() << "minx="   << minc << endl;
 	MagLog::debug() << "maxx="   << maxc << endl;
@@ -125,8 +125,10 @@ void CellShading::operator()(IsoPlot* iso, MatrixHandler& data, BasicGraphicsObj
 			iso->isoline(data, parent);
 			cout << "Grid Shading" << endl;
 			MagLog::info() << "Magics will use grid shading" << endl;
+			adaptive_ = true;
+			return;
 		}
-		return ;
+		
 	}
 	
 	Image* image = new Image();
@@ -297,6 +299,9 @@ CellArray* CellShading::array(MatrixHandler& matrix, IntervalMap<int>& range,
 		float resolution, const string& technique)
 {
 
-		return new GridArray(matrix, range, transformation, width, height, resolution, "middle");
-
+		 
+		if  ( adaptive_ )
+			return new GridArray(matrix, range, transformation, width, height, resolution, "middle");
+		else 
+			return 0;
 }
