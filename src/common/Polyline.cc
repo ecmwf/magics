@@ -158,11 +158,24 @@ void Polyline::newHole(const Polyline& poly)
 	}
 }
 
+
+struct ReprojectHelper
+{
+	ReprojectHelper(const Transformation& transformation) : transformation_(transformation) {}
+	const Transformation& transformation_;
+	bool operator()(PaperPoint& point) {
+		return !transformation_.fast_reproject(point.x_, point.y_);
+	}
+};
+
 void Polyline::reproject(const Transformation& transformation)
 {
-	for (MagLine::iterator point = polygon_.outer().begin(); point != polygon_.outer().end(); ++point) {
-		transformation.fast_reproject(point->x_, point->y_);
-	}
+
+	MagLine::iterator from = std::remove_if (polygon_.outer().begin(), polygon_.outer().end(), ReprojectHelper(transformation));
+	polygon_.outer().erase(from, polygon_.outer().end());
+
+	
+
 // Now the holes!
 	for (Holes::iterator hole = polygon_.inners().begin(); hole != polygon_.inners().end(); ++hole)  {
 		for (MagLine::iterator h = hole->begin(); h != hole->end(); ++h) {
