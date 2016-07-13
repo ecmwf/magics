@@ -57,7 +57,7 @@ public:
 	virtual double y(double y) const { return (*y_)(y); }
 	virtual double rx(double x) const { return (*x_).revert(x); }
 	virtual double ry(double y) const { return (*y_).revert(y); }
-	virtual void fast_reproject(double& x, double& y) const { x = (*x_)(x); y = (*y_)(y);  }
+	virtual bool fast_reproject(double& x, double& y) const { x = (*x_)(x); y = (*y_)(y); return true; }
 	void reprojectComponents(double& x, double& y, pair<double, double>&) const;
 
 	virtual PaperPoint operator()(const UserPoint& xy) const 

@@ -77,7 +77,7 @@ public:
 	void setNewPCBox(double, double, double, double);
 
 	 double patchDistance(double) const;
-	 void fast_reproject(double& x, double& y) const;
+	 bool fast_reproject(double& x, double& y) const;
 	/*!
 	\\brief Initialise the projection
 	*/

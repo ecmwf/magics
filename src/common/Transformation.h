@@ -198,8 +198,8 @@ public:
 		{ return PaperPoint(xy.x(), xy.y()); }
 
 
-	virtual void fast_reproject(double& x, double& y) const
-			{ }
+	virtual bool fast_reproject(double& x, double& y) const
+			{ return true; }
 
 	virtual double patchDistance(double) const { NOTIMP; }
 

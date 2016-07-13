@@ -6,4 +6,5 @@ add_magics_test(NAME venice_test03 SOURCES test03.f RESOURCES fort.11 fort.12 fo
 add_magics_test(NAME venice_test05 SOURCES test05.f RESOURCES fort.51 IMAGE test05.ps THRESHOLD 2)
 add_magics_test(NAME venice_test06 SOURCES test06.f RESOURCES fort.61 IMAGE test06.ps THRESHOLD 1)
 add_magics_test(NAME venice_test08 SOURCES test08.f RESOURCES fort.82 fort.83 Logo_Ismar.png Logo_ICPSM.png IMAGE test08.ps THRESHOLD 1)
+add_magics_test(NAME venice_multilines SOURCES multilines.f IMAGE BOX_ON_MAP.ps THRESHOLD 1)
 
