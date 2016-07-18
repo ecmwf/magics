@@ -84,7 +84,7 @@ public:
 	/*!
 	\\brief 
 	*/
-	virtual void fast_reproject(double& x, double& y) const;
+	virtual bool fast_reproject(double& x, double& y) const;
 
 	virtual PaperPoint operator()(const PaperPoint&) const;
 	/*!
@@ -293,6 +293,11 @@ class Proj4Goode : public Proj4Projection
 {
 public:
 	Proj4Goode() : Proj4Projection("goode") {}
+};
+class Proj4Mercator : public Proj4Projection
+{
+public:
+	Proj4Mercator() : Proj4Projection("mercator") {}
 };
 class Proj4Collignon : public Proj4Projection
 {

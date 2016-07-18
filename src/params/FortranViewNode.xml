@@ -48,7 +48,7 @@ does it submit to any jurisdiction.
  				<option fortran="lambert" include="Proj4Projection.h" name="Proj4Lambert">		</option>
  				<option fortran="EPSG3857" include="Proj4Projection.h" name="Proj4EPSG3857">		</option>
  				<option fortran="goode" include="Proj4Projection.h" name="Proj4Goode">		</option>
- 				<option fortran="collignon" include="Proj4Projection.h" name="Proj4Collignon">		</option>
+ 				<option fortran="collignon" include="Proj4Projection.h" name="Proj4Projection">		</option>
  				<option fortran="mollweide" include="Proj4Projection.h" name="Proj4Mollweide">		</option>
  				<option fortran="robinson" include="Proj4Projection.h" name="Proj4Robinson">		</option>
  				<option fortran="bonne" include="Proj4Projection.h" name="Proj4Bonne">		</option>
@@ -57,7 +57,7 @@ does it submit to any jurisdiction.
  				<option fortran="EPSG4326" include="Proj4Projection.h" name="Proj4EPSG4326">		</option>
  				<option fortran="lambert_north_atlantic" include="Proj4Projection.h" name="Proj4LambertNorthAtlantic">		</option>
 
-        		<option xml="mercator" fortran="mercator" include="GeoRectangularProjection.h" name="MercatorProjection">		</option>
+        		<option xml="mercator" fortran="mercator" include="Proj4Projection.h" name="Proj4Mercator">		</option>
 				<option xml="cartesian" fortran="cartesian" include="CartesianTransformation.h" name="CartesianTransformation">		</option>
         		<option xml="taylor" fortran="taylor" include="TaylorProjection.h" name="TaylorProjection">		</option>
         		<option xml="tephigram" fortran="tephigram" include="Tephigram.h" name="Tephigram">		</option> 

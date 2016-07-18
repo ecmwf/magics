@@ -308,6 +308,11 @@ PaperPoint Proj4Projection::operator()(const UserPoint& point)  const
 	}
 	double x = point.x();
 	double y = point.y();
+	
+	
+	
+
+	
 
 	x *= DEG_TO_RAD;
 	y *= DEG_TO_RAD;
@@ -317,6 +322,7 @@ PaperPoint Proj4Projection::operator()(const UserPoint& point)  const
 		MagLog::debug() << pj_strerrno(error) << " for " << point << endl;
 		return PaperPoint(-1000000, -10000000);
 	}
+	
 	return PaperPoint(x, y, point.value_, point.missing(), point.border(), 0, point.name());
 }
 
@@ -360,6 +366,7 @@ void Proj4Projection::revert(const PaperPoint& xy, UserPoint& point)  const
 
 	x *= RAD_TO_DEG;
 	y *= RAD_TO_DEG;
+
 	point = UserPoint(x, y);
 }
 
@@ -622,6 +629,8 @@ void Proj4Projection::gridLatitudes(const GridPlotting& grid)  const
 
 void Proj4Projection::labels(const LabelPlotting& label, DrawingVisitor& visitor)  const
 {
+	if ( projection_->method_ == "simple" ) 
+		return;
 	vector<double> pro4_longitudes;
 	pro4_longitudes.push_back(0);
 	pro4_longitudes.push_back(90);
@@ -655,11 +664,15 @@ void Proj4Projection::labels(const LabelPlotting& label, DrawingVisitor& visitor
 
 void Proj4Projection::labels(const LabelPlotting& label, LeftAxisVisitor& visitor)  const
 {
-	if ( false ) {
+	if ( projection_->method_ == "simple" ) {
 		const vector<double>& latitudes = label.latitudes();
 
 		for (unsigned int lat = 0; lat < latitudes.size(); lat++ )
 		{
+			if ( latitudes[lat] < gridMinLat_) 
+				continue;
+			if ( latitudes[lat] > gridMaxLat_) 
+				continue;
 			double lon = max_longitude_ - ((max_longitude_-min_longitude_)*.1);
 			UserPoint point(lon,latitudes[lat]);
 			PaperPoint xy = (*this)(point);
@@ -682,10 +695,14 @@ void Proj4Projection::labels(const LabelPlotting& label, LeftAxisVisitor& visito
 
 void Proj4Projection::labels(const LabelPlotting& label, RightAxisVisitor& visitor)  const
 {
-	if ( false ) {
+	if ( projection_->method_ == "simple"  ) {
 		const vector<double>& latitudes = label.latitudes();
 		for (unsigned int lat = 0; lat < latitudes.size(); lat++ )
 		{
+			if ( latitudes[lat] < gridMinLat_) 
+				continue;
+			if ( latitudes[lat] > gridMaxLat_) 
+				continue;
 			double lon = min_longitude_ + ((max_longitude_-min_longitude_)*.1);
 			UserPoint point(lon,latitudes[lat]);
 			PaperPoint xy = (*this)(point);
@@ -708,17 +725,23 @@ void Proj4Projection::labels(const LabelPlotting& label, RightAxisVisitor& visit
 
 void Proj4Projection::labels(const LabelPlotting& label, BottomAxisVisitor& visitor)  const
 {
-	if ( false ) {
+	if ( projection_->method_ == "simple"  ) {
 		const vector<double>& longitudes = label.longitudes();
 		const double lat = min_latitude_ + (max_latitude_-min_latitude_)*.8;
 		for (unsigned int lon = 0; lon < longitudes.size(); lon++ )
 		{
+			
+			if ( longitudes[lon] < gridMinLon_) 
+				continue;
+			if ( longitudes[lon] > gridMaxLon_) 
+				continue;
 			UserPoint point(longitudes[lon],lat);
 			PaperPoint xy = (*this)(point);
 			if ( !in(xy) ) continue;
 			Text *text = new Text();
 			label.add(text);
 			text->setText(writeLongitude(point));
+			
 			text->push_back(xy);
 			text->setJustification(MCENTRE);
 			text->setVerticalAlign(MTOP);
@@ -825,6 +848,10 @@ void Proj4Projection::labels(const LabelPlotting& label, TopAxisVisitor& visitor
 		const double lat = min_latitude_ + (max_latitude_-min_latitude_)*.2;
 		for (unsigned int lon = 0; lon < longitudes.size(); lon++ )
 		{
+			if ( longitudes[lon] < gridMinLon_) 
+				continue;
+			if ( longitudes[lon] > gridMaxLon_) 
+				continue;
 			UserPoint point(longitudes[lon],lat);
 			PaperPoint xy = (*this)(point);
 			if ( !in(xy) ) continue;
@@ -958,11 +985,20 @@ MatrixHandler* Proj4Projection::prepareData(const AbstractMatrix& matrix) const 
 	return new GeoBoxMatrixHandler(matrix, *this);
 }
 
-void Proj4Projection::fast_reproject(double& x, double& y) const
+bool Proj4Projection::fast_reproject(double& x, double& y) const
 {
+
+
 	x *= DEG_TO_RAD;
 	y *= DEG_TO_RAD;
-	pj_transform(from_, to_, 1, 1, &x, &y, NULL );
+	int error =  pj_transform(from_, to_, 1, 1, &x, &y, NULL );
+
+	if ( error  ) {
+
+			  MagLog::warning()  << pj_strerrno(error) << " for " << x << " " << y << endl;		
+			  return false;	  
+	}
+	return true;
 }
 
 double Proj4Projection::patchDistance(double res) const {

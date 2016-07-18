@@ -71,10 +71,12 @@ PaperPoint GeoRectangularProjection::operator()(const UserPoint& point)  const
 		return  PaperPoint(point.x(), point.y(), point.value(), point.missing(), point.border(), 0, point.name());
 
 	}
-
+	if ( point.y() < -85.)
+		cout << point.y() << endl;
 	TeCoord2D geo = TeCoord2D(point.x()*TeCDR, point.y()*TeCDR);
 	TeCoord2D xy = projection_->LL2PC(geo);
-
+	if ( point.y() < -85.)
+		cout << xy.y() << endl;
 	return PaperPoint(xy.x(), xy.y(), point.value(), point.missing(), point.border(), 0, point.name());
 }
 
@@ -508,13 +510,14 @@ void MercatorProjection::init()
 				askedymax_ =  std::max(ypcmin_, ypcmax_);
 }
 
-void MercatorProjection::fast_reproject(double& x, double& y) const
+bool MercatorProjection::fast_reproject(double& x, double& y) const
 {
 	TeCoord2D geo = TeCoord2D(x*TeCDR, y*TeCDR);
 	TeCoord2D xy = projection_->LL2PC(geo);
 
 	x = xy.x();
 	y = xy.y();
+	return true;
 }
 
 
