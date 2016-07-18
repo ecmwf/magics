@@ -935,12 +935,13 @@ double PolarStereographicProjection::patchDistance(double res) const
 	return 100000*res;
 }
 
-void  PolarStereographicProjection::fast_reproject(double& x, double& y) const
+bool  PolarStereographicProjection::fast_reproject(double& x, double& y) const
 {
 	TeCoord2D geo = TeCoord2D(x*TeCDR, y*TeCDR);
 	TeCoord2D xy = projection_->LL2PC(geo);
 	x = xy.x();
 	y = xy.y();
+	return true;
 }
 
 void PolarStereographicProjection::getNewDefinition(const UserPoint& ll, const UserPoint& ur, string& out) const

@@ -1482,14 +1482,36 @@ MAGICS_NO_EXPORT bool CairoDriver::renderCellArray(const Image& image) const
 	ColourTable &lt  = image.getColourTable();
 	const int width  = image.getNumberOfColumns();
 	const int height = image.getNumberOfRows();
-	const double tr  = image.getTransparency();
+//	const MFloat tr  = image.getTransparency();
 	const MFloat x0  = projectX(image.getOrigin().x());
 	const MFloat y0  = projectY(image.getOrigin().y());
+	const MFloat scX = (image.getWidth() *coordRatioX_) /width;
+	const MFloat scY = (image.getHeight()*coordRatioY_) /height;
 
 	cairo_save(cr_);
 	cairo_antialias_t t = cairo_get_antialias(cr_);
 	cairo_set_antialias(cr_, CAIRO_ANTIALIAS_NONE);
 
+	cairo_translate (cr_, x0, y0);
+
+	for(unsigned int h=0;h<height; h++)
+	{
+	  for(unsigned int w=0;w<width; w++)
+	  {
+		  const short c  = image[w + (width*h)];
+		  const float cr = lt[c].red();
+		  const float cg = lt[c].green();
+		  const float cb = lt[c].blue();
+		  if(cr*cg*cb >=0){
+		    cairo_set_source_rgba(cr_,cr,cg,cb,lt[c].alpha());
+		    cairo_set_line_width (cr_,0.01);
+		    cairo_rectangle (cr_, w*scX, h*-scY, scX, -scY);
+		    cairo_fill_preserve(cr_);
+		    cairo_stroke(cr_);
+		  }
+	  }
+	}
+/*
 	const long dim=width*height;
 	unsigned char *chImage = new unsigned char[dim*4];
 	int jj = 0;
@@ -1536,7 +1558,7 @@ MAGICS_NO_EXPORT bool CairoDriver::renderCellArray(const Image& image) const
 	cairo_paint(cr_);
 
 	cairo_surface_destroy (surImage);
-
+*/
 	cairo_restore(cr_);
 	cairo_set_antialias(cr_, t);
 	return true;
