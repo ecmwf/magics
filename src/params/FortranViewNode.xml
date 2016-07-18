@@ -57,7 +57,7 @@ does it submit to any jurisdiction.
  				<option fortran="EPSG4326" include="Proj4Projection.h" name="Proj4EPSG4326">		</option>
  				<option fortran="lambert_north_atlantic" include="Proj4Projection.h" name="Proj4LambertNorthAtlantic">		</option>
 
-        		<option xml="mercator" fortran="mercator" include="GeoRectangularProjection.h" name="MercatorProjection">		</option>
+        		<option xml="mercator" fortran="mercator" include="Proj4Projection.h" name="Proj4Mercator">		</option>
 				<option xml="cartesian" fortran="cartesian" include="CartesianTransformation.h" name="CartesianTransformation">		</option>
         		<option xml="taylor" fortran="taylor" include="TaylorProjection.h" name="TaylorProjection">		</option>
         		<option xml="tephigram" fortran="tephigram" include="Tephigram.h" name="Tephigram">		</option> 

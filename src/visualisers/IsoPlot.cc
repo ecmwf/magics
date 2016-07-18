@@ -263,21 +263,7 @@ public:
             return;
         Cell* cell;
         vector<PaperPoint> points;
-        /*
-        if ( column1_ == column2_ && row1_ == row2_ ) {
-            cell = (*parent_)(row1_, column1_);
-            points.push_back(PaperPoint(cell->column(0), cell->row(0)));
-            points.push_back(PaperPoint(cell->column(1), cell->row(0)));
-            points.push_back(PaperPoint(cell->column(1), cell->row(2)));
-            points.push_back(PaperPoint(cell->column(0), cell->row(2)));
-
-
-
-
-            push_back(index, points);
-            return;
-         }
-         */
+      
 
         // bottom
         for (int column = column1_; column <= column2_; column++) {
@@ -1248,6 +1234,8 @@ void IsoPlot::isoline(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
            range.insert(make_pair(Interval(levels_.back(), levels_.back()+epsilon), r-1));
        CellArray* array = shading_->array(data, range, transformation, parent.widthResolution(), parent.heightResolution(),
             resolution_, technique_);
+       if (!array)
+            return;
        CellBox view(array);
 
        threads_ = (needIsolines())  ? 4: 0;
