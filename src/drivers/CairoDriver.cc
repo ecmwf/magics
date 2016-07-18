@@ -1506,8 +1506,8 @@ MAGICS_NO_EXPORT bool CairoDriver::renderCellArray(const Image& image) const
 		    cairo_set_source_rgba(cr_,cr,cg,cb,lt[c].alpha());
 		    cairo_set_line_width (cr_,0.01);
 		    cairo_rectangle (cr_, w*scX, h*-scY, scX, -scY);
-		    cairo_stroke_preserve(cr_);
-		    cairo_fill(cr_);
+		    cairo_fill_preserve(cr_);
+		    cairo_stroke(cr_);
 		  }
 	  }
 	}

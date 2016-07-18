@@ -89,7 +89,7 @@ void Wind::operator()(Data& data, BasicGraphicsObjectContainer& parent)
 
 		return;
 
-	cout << points.size() << "--------------" <<  endl;
+	
 	(*this->type_).prepare(parent, method->units());
 				
 		(*this->type_).adjust(points, transformation);
