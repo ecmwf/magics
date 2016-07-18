@@ -1261,6 +1261,41 @@ MAGICS_NO_EXPORT bool PostScriptDriver::renderPixmap(MFloat x0,MFloat y0,MFloat 
 */
 MAGICS_NO_EXPORT bool PostScriptDriver::renderCellArray(const Image& image) const
 {
+	ColourTable &lt  = image.getColourTable();
+	const int width  = image.getNumberOfColumns();
+	const int height = image.getNumberOfRows();
+//	const double tr  = image.getTransparency();
+	const MFloat x0  = image.getOrigin().x();
+	const MFloat y0  = image.getOrigin().y();
+	const double scX =  (image.getWidth() ) /width;
+	const double scY = -(image.getHeight()) /height;
+
+	fstream *ps = getStream();
+	*ps << "gs" << std::endl;
+
+	for(unsigned int h=0;h<height; h++)
+	{
+	  for(unsigned int w=0;w<width; w++)
+	  {
+		  const short c  = image[w + (width*h)];
+		  const float cr = lt[c].red();
+		  const float cg = lt[c].green();
+		  const float cb = lt[c].blue();
+		  if(cr*cg*cb >=0){
+		    setNewColour(Colour(cr,cg,cb));
+		    writeColour();
+		    const MFloat xx0 = x0+(w*scX);
+		    const MFloat yy0 = y0+(h*scY);
+
+		    MFloat x[4] = {xx0, xx0+scX, xx0+scX, xx0};
+		    MFloat y[4] = {yy0, yy0    , yy0+scY, yy0+scY};
+		    renderSimplePolygon(4, &x[0], &y[0]);
+		  }
+	  }
+	}
+	*ps << "gr" << std::endl;
+
+/*
    ColourTable &lt  = image.getColourTable();
    const int width  = image.getNumberOfColumns();
    const int height = image.getNumberOfRows();
@@ -1359,6 +1394,7 @@ MAGICS_NO_EXPORT bool PostScriptDriver::renderCellArray(const Image& image) cons
    {
 	MagLog::warning() << "PostScriptDriver: failed to plot CellArray with wrong dimensions! Width: "<<width<<" Height: "<<height << std::endl;
    }
+*/
    return true;
 }
 
