@@ -128,7 +128,7 @@ public:
 // -- Contructors
 	Colour();	
 	Colour(const string&);
-	Colour(float, float, float, float = 1.);
+	Colour(float red, float green, float blue, float alpha = 1.);
 	Colour(Rgb&);
 	Colour(Hsl&);
 

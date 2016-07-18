@@ -839,8 +839,7 @@ void FortranMagics::pline()
 	}
 
 	action_->visdef(new SimplePolylineVisualiser());
-
-
+	action_ = 0;
 
 }
 #include "GeoJSon.h"

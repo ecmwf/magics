@@ -70,6 +70,7 @@ protected:
 	 IntervalMap<int> map_;
 	 vector<Colour>   colours_;
 	 string 		  shading_;
+	 bool 			  adaptive_;
 
 private:
     //! Copy constructor - No copy allowed

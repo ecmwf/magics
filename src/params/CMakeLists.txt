@@ -136,6 +136,7 @@ PostScriptDriver.xml
 PreviewVisitor.xml
 
 Proj4Bonne.xml
+Proj4Mercator.xml
 Proj4Collignon.xml
 Proj4EPSG32661.xml
 Proj4EPSG4326.xml

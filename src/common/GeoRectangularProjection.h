@@ -200,7 +200,7 @@ class MercatorProjection : public GeoRectangularProjection
 public:
 	MercatorProjection();
 	~MercatorProjection();
-	void fast_reproject(double& x, double& y) const;
+	bool fast_reproject(double& x, double& y) const;
 	double patchDistance(double) const;
 
 protected :

@@ -450,6 +450,7 @@ void Transformation::operator()(const Polyline& from, vector<Polyline*>& out) co
 {
 	if (from.empty())
 		return;
+
 	PaperPoint ll(getMinPCX(), getMinPCY());
 	PaperPoint ur(getMaxPCX(), getMaxPCY());
 	boost::geometry::model::box<PaperPoint> box(ll, ur);
@@ -466,10 +467,14 @@ void Transformation::operator()(const Polyline& from, vector<Polyline*>& out) co
 		vector<vector<PaperPoint> > lines;
 		//line.reserve( from.size());
 		lines.push_back(vector<PaperPoint>());
+		
 		for (unsigned i = 0; i < from.size(); i++) {
 			lines.back().push_back(from.get(i));
+			
 
 		}
+
+		
 		for ( Polyline::Holes::const_iterator hole = from.beginHoles(); hole != from.endHoles(); ++hole) {
 			Polyline poly;
 			from.hole(hole, poly);
@@ -478,6 +483,7 @@ void Transformation::operator()(const Polyline& from, vector<Polyline*>& out) co
 				lines.back().push_back(poly.get(i));
 			}
 		}
+		
 
 		for (vector<vector<PaperPoint> >::iterator line = lines.begin(); line != lines.end(); ++line) {
 			vector<vector<PaperPoint> > result;

@@ -74,14 +74,9 @@ void CellShading::operator()(IsoPlot* iso, MatrixHandler& data, BasicGraphicsObj
 	double height =  parent.absoluteHeight(); // in cm
 	shading_ = "grid";
 
-
-
 	PaperPoint middle((maxc-minc)/2, (maxr-minr)/2);
 
-
-
-
-
+	adaptive_ = false;
 	shading_ = "cell";
 	MagLog::debug() << "minx="   << minc << endl;
 	MagLog::debug() << "maxx="   << maxc << endl;
@@ -110,15 +105,15 @@ void CellShading::operator()(IsoPlot* iso, MatrixHandler& data, BasicGraphicsObj
 	double distance_plot = projection.distance(point, point1);
 	double distance_data = projection.distance(point, nextdata);
 
-
 	if ( magCompare(resolution_method_, "adaptive" ) ) {
 
 		if (   distance_plot < distance_data ) {
 			iso->isoline(data, parent);
-			cout << "Grid Shading" << endl;
+			//cout << "Grid Shading" << endl;
 			MagLog::info() << "Magics will use grid shading" << endl;
+			adaptive_ = true;
+			return;
 		}
-		return ;
 	}
 	
 	Image* image = new Image();
@@ -139,16 +134,13 @@ void CellShading::operator()(IsoPlot* iso, MatrixHandler& data, BasicGraphicsObj
 		lat -= stepr;
 	}
 	
-	
     ColourTable table;
     vector<Colour>::const_iterator colour = colours_.begin();
     for (int i = 0; i <= *max_element(image->begin(), image->end()); i++)
     {
     	table.push_back(*colour);
-
     	if ( ++colour == colours_.end() ) colour = colours_.begin();
 	}
-	
 
 	PaperPoint pp(minc, maxr);
 	image->setOrigin(pp);
@@ -157,13 +149,12 @@ void CellShading::operator()(IsoPlot* iso, MatrixHandler& data, BasicGraphicsObj
 	image->setHeight(maxr-minr);
 	image->setColourTable(table);
 
-	
 	parent.push_back(image);
 }
+
 DumpShading::DumpShading()
 {
 }
-
 
 DumpShading::~DumpShading()
 {
@@ -183,8 +174,6 @@ void DumpShading::operator()( IsoPlot*,MatrixHandler& data, BasicGraphicsObjectC
 	Image* image = new Image();
 	image->set(data.rows(), data.columns());
 
-
-
 	for ( int row = 0; row < data.rows(); row++) {
 
 		for ( int column = 0; column < data.columns(); column++) {
@@ -195,7 +184,6 @@ void DumpShading::operator()( IsoPlot*,MatrixHandler& data, BasicGraphicsObjectC
 
 	}
 
-
     ColourTable table;
     vector<Colour>::const_iterator colour = colours_.begin();
     for (int i = 0; i <= *max_element(image->begin(), image->end()); i++)
@@ -203,7 +191,6 @@ void DumpShading::operator()( IsoPlot*,MatrixHandler& data, BasicGraphicsObjectC
     	table.push_back(*colour);
     	if ( ++colour == colours_.end() ) colour = colours_.begin();
 	}
-
 
 	PaperPoint pp(minc, maxr);
 	image->setOrigin(pp);
@@ -219,7 +206,6 @@ void DumpShading::operator()( IsoPlot*,MatrixHandler& data, BasicGraphicsObjectC
 bool CellShading::prepare(const LevelSelection& levels, const ColourTechnique& technique)
 {
 	// First Interval ...
-	
 	map_.clear();
 	colours_.clear();
 	map_[Interval(INT_MIN, levels.front())] = 0;
@@ -237,7 +223,6 @@ bool CellShading::prepare(const LevelSelection& levels, const ColourTechnique& t
 
 void  CellShading::visit(LegendVisitor& node, const ColourTechnique&)
 {
-	
 	for ( IntervalMap<int>::const_iterator interval = map_.begin(); interval != map_.end(); ++interval) {
 	   
 	   Polyline* box = new Polyline();
@@ -247,24 +232,15 @@ void  CellShading::visit(LegendVisitor& node, const ColourTechnique&)
 	   // We ignore the first and the last entries: no interest in the legend!  
 	   if (interval->second == 0) continue;
 	   if (interval->second == int(map_.size()-1)) continue;
-	   
-	   
+
 	   box->setFilled(true);
 	   box->setFillColour(colours_[interval->second]);
 	   		
-	   FillShadingProperties* shading = new FillShadingProperties();
-	    	    
-	  
-	          
+	   FillShadingProperties* shading = new FillShadingProperties();	          
 	   box->setShading(shading);
-
-
-	   
 	   node.add(new BoxEntry(min, max, box));	        
 	}
-
 	node.last();
-
 }
 
 
@@ -278,17 +254,18 @@ void CellShading::print(ostream& out)  const
 }
 
 
-
-
 void  CellShading::colour(double val, Colour& colour)
 {
 	colour = this->colours_[this->map_.find(val, 0)];
 }
+
+
 CellArray* CellShading::array(MatrixHandler& matrix, IntervalMap<int>& range,
 		const Transformation& transformation, int width, int height,
 		float resolution, const string& technique)
 {
-
-		return new GridArray(matrix, range, transformation, width, height, resolution, "middle");
-
+		if  ( adaptive_ )
+			return new GridArray(matrix, range, transformation, width, height, resolution, "middle");
+		else 
+			return 0;
 }
