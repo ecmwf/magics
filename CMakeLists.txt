@@ -140,7 +140,7 @@ set( MAGICS_REFERENCE_VERSIONS            "2.29.1" )
 set( MAGICS_HTML_ROOT        "${CMAKE_BINARY_DIR}/regression/html")
 file(MAKE_DIRECTORY ${MAGICS_HTML_ROOT} )
 
-set( MAG_PYTHON_PATH ${CMAKE_BINARY_DIR}/python )
+set( MAG_PYTHON_PATH ${CMAKE_CURRENT_BINARY_DIR}/python )
 
 ###############################################################################
 # projects
