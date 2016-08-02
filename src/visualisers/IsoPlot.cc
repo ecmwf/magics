@@ -1,9 +1,9 @@
 /*
  * (C) Copyright 1996-2016 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
  */
@@ -171,59 +171,59 @@ public:
 
         }
         else {
-        	// intersect !
-        	// Create line from 1first
+            // intersect !
+            // Create line from 1first
 
-        	typedef boost::geometry::model::polygon<PaperPoint > polygon;
-
-
-        	polygon previous, pts;
-
-        	for ( vector<PaperPoint>::iterator pt = points.begin();  pt != points.end(); ++pt ) {
-        		pts.outer().push_back(*pt);
-        	}
-        	pts.outer().push_back(points.front());
-        	vector<vector<Point> > result;
-        	helper->second->computePolygonLines(result);
-        	ASSERT( result.size() == 1);
-        	for ( vector<Point>::iterator pt = result.front().begin();  pt != result.front().end(); ++pt ) {
-        		previous.outer().push_back(PaperPoint(pt->x_, pt->y_));
-        	}
-
-        	helper_[index] = new SegmentJoiner();
+            typedef boost::geometry::model::polygon<PaperPoint > polygon;
 
 
-        	std::vector<polygon > output;
+            polygon previous, pts;
+
+            for ( vector<PaperPoint>::iterator pt = points.begin();  pt != points.end(); ++pt ) {
+                pts.outer().push_back(*pt);
+            }
+            pts.outer().push_back(points.front());
+            vector<vector<Point> > result;
+            helper->second->computePolygonLines(result);
+            ASSERT( result.size() == 1);
+            for ( vector<Point>::iterator pt = result.front().begin();  pt != result.front().end(); ++pt ) {
+                previous.outer().push_back(PaperPoint(pt->x_, pt->y_));
+            }
+
+            helper_[index] = new SegmentJoiner();
 
 
-        	try {
-        		boost::geometry::intersection(previous, pts, output);
+            std::vector<polygon > output;
 
 
-        		if (output.size() == 1){
-        			vector<PaperPoint> xx;
-        			for ( vector<PaperPoint>::iterator pt = output.front().outer().begin();  pt != output.front().outer().end(); ++pt ) {
-        				xx.push_back(*pt);
-        			}
+            try {
+                boost::geometry::intersection(previous, pts, output);
 
-        			push_back(index, xx);
 
-        		}
-        		else
-        		{
+                if (output.size() == 1){
+                    vector<PaperPoint> xx;
+                    for ( vector<PaperPoint>::iterator pt = output.front().outer().begin();  pt != output.front().outer().end(); ++pt ) {
+                        xx.push_back(*pt);
+                    }
 
-        			boost::geometry::union_(pts, previous, output);
-        			if (output.size() == 1){
-        				push_back(index, output.front().outer());
-        			}
-        			else
-        				push_back(index, previous.outer());
+                    push_back(index, xx);
 
-        		}
-        	}
-        	catch (...) {
-        		// ignore
-        	}
+                }
+                else
+                {
+
+                    boost::geometry::union_(pts, previous, output);
+                    if (output.size() == 1){
+                        push_back(index, output.front().outer());
+                    }
+                    else
+                        push_back(index, previous.outer());
+
+                }
+            }
+            catch (...) {
+                // ignore
+            }
 
         }
 
@@ -248,6 +248,7 @@ public:
     }
 
     void split();
+    void split(int);
 
     void addShape(int index)
     {
@@ -381,7 +382,7 @@ public:
             joiner.computePolygonLines(result);
             Polyline* poly = 0;
             if ( result.empty() )
-            		continue;
+                    continue;
             bool reverse = joiner.isHole(result.front());
 
             for (vector<vector<Point> >::iterator j = result.begin() ; j != result.end(); ++j) {
@@ -465,6 +466,30 @@ void CellBox::shade(const IsoPlot& owner) {
 }
 
 
+void CellBox::split(int)
+{
+
+    // split in 8
+
+
+    if ( row1_ == row2_ && column1_ ==  column2_ )
+            return;
+
+    const int row    = (row2_   + row1_) /2;
+    const int column = (column2_+ column1_)/4;
+
+
+    // Push 8 cells:
+    push_back(new CellBox(parent_, row1_, row, column1_, column));
+    push_back(new CellBox(parent_, row1_, row, column+1, 2*column));
+    push_back(new CellBox(parent_, row1_, row, (2*column)+1, 3*column));
+    push_back(new CellBox(parent_, row1_, row, (3*column)+1, column2_));
+    push_back(new CellBox(parent_, row+1, row2_, column1_, column));
+    push_back(new CellBox(parent_, row+1, row2_, column+1, 2*column));
+    push_back(new CellBox(parent_, row+1, row2_, (2*column)+1, 3*column));
+    push_back(new CellBox(parent_, row+1, row2_, (3*column)+1, column2_));
+
+}
 
 void CellBox::split()
 {
@@ -1183,7 +1208,7 @@ void IsoPlot::isoline(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
 {
 
     const Transformation& transformation = parent.transformation();
-    
+
 
 
 
@@ -1248,6 +1273,7 @@ void IsoPlot::isoline(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
        vector<IsoProducer* >  producers_;
 
        {
+        Timer timer("Threading", "Threading");
         VectorOfPointers<vector<ThreadControler *>  > consumers;
         VectorOfPointers<vector<ThreadControler *>  > producers;
         segments_.clear();
@@ -1263,7 +1289,7 @@ void IsoPlot::isoline(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
             consumers.back()->start();
         }
 
-        view.split();
+        view.split(8);
 
         // let's start 4 producers...
         int c = 0;
@@ -1344,7 +1370,7 @@ void IsoPlot::isoline(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
         }
         return;
     }
-    
+
     {
         Timer timer("contouring", "Time spent in contouring");
         isoline(data, parent);
@@ -1374,7 +1400,7 @@ void IsoPlot::isoline(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
       for (vector<Polyline* >::const_iterator poly = (*lines)->begin(); poly != (*lines)->end(); ++poly)
       {
         if ( (*poly)->empty() ) continue;
-       
+
 
 
         if ( !rainbow_ ) {
@@ -1784,8 +1810,8 @@ GridCell::GridCell(const CellArray& data, int row, int column, const Transformat
         count++;
 
         for (int i = 0; i < 4; i++) {
-           
-            
+
+
             transformation.fast_reproject(columns_[i], rows_[i]);
 
             if ( columns_[i] < minx ) {
