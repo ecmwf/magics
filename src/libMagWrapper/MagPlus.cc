@@ -1666,6 +1666,7 @@ bool MagPlus::text(magics::MagRequest& in)
 
 	TextVisitorWrapper helper(node);
 	helper.set(in);
+	setIconInfo(in, *helper.object());
 	top()->text(node);
 
 
@@ -1690,6 +1691,7 @@ bool MagPlus::legend(magics::MagRequest& in)
 		legend = new FortranAutomaticLegendVisitor();
 	LegendVisitorWrapper helper(legend);
 	helper.set(in);
+	setIconInfo(in, *helper.object());
 	top()->legend(legend);
 	return false; // do not exit
 }
