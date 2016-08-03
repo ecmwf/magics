@@ -231,6 +231,7 @@ MagPlus::MagPlus() : root_(0), superpage_(-1), geographical_(true), mode_(intera
         sceneCreators_["MWIND"] = &MagPlus::wind;
         sceneCreators_["MGRAPH"] = &MagPlus::graph;
  		sceneCreators_["SUPERPAGE"] = &MagPlus::superpage;
+ 		sceneCreators_["LAYER"] = &MagPlus::layer;
         sceneCreators_["PTEXT"] = &MagPlus::ptext;
         sceneCreators_["MTEXT"] = &MagPlus::text;
         sceneCreators_["MLEGEND"] = &MagPlus::legend;
@@ -289,6 +290,20 @@ bool MagPlus::newpage(magics::MagRequest& in)
 
 	root_->newpage();
 
+	return false;
+}
+
+bool MagPlus::layer(magics::MagRequest& in)
+{
+	cout << "MagPlus::layer" << endl;
+	in.print();
+	int visibility = in("VISIBILITY");
+	visibility_ = (visibility == 0) ? true : false;
+	zindex_ = in("STACKING_ORDER");
+	transparency_ = in("TRANSPARENCY");
+	transparency_ = 1000;
+	zindex_ = 2;
+	visibility_ = true;
 	return false;
 }
 
@@ -927,6 +942,7 @@ void MagPlus::setIconInfo(magics::MagRequest& mv, MetviewIcon& object)
 		 iconclass =  get(mv, "_VERB", "");
 	string iconid =  get(mv, "_ID", "");
 	object.icon(iconname, iconclass, iconid);
+	object.layerInfo(visibility_, zindex_, transparency_);
 }
 
 bool MagPlus::gribloop(magics::MagRequest& in)
@@ -952,6 +968,7 @@ bool MagPlus::gribloop(magics::MagRequest& in)
 	GribLoopWrapper grib;
 	grib.set(in);
 	setIconInfo(in, *grib.object());
+	action->layerInfo(visibility_, zindex_, transparency_);
 
 	action->loop(grib.object());
 #else
