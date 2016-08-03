@@ -255,7 +255,8 @@ public:
         VectorOfPointers<vector<CellBox* > >::push_back(box);
     }
 
-    void split();
+    void split(); 
+    void prepare(int);
 
     void addShape(int index)
     {
@@ -458,6 +459,30 @@ void CellBox::shade(const IsoPlot& owner) {
         shade(owner, this);
 }
 
+void CellBox::prepare(int)
+{
+
+    // split in 8
+
+
+    if ( row1_ == row2_ && column1_ ==  column2_ )
+            return;
+
+    const int row    = (row2_   + row1_) /2;
+    const int column = (column2_+ column1_)/4;
+
+
+    // Push 8 cells:
+    push_back(new CellBox(parent_, row1_, row, column1_, column));
+    push_back(new CellBox(parent_, row1_, row, column+1, 2*column));
+    push_back(new CellBox(parent_, row1_, row, (2*column)+1, 3*column));
+    push_back(new CellBox(parent_, row1_, row, (3*column)+1, column2_)); 
+    push_back(new CellBox(parent_, row+1, row2_, column1_, column));
+    push_back(new CellBox(parent_, row+1, row2_, column+1, 2*column));
+    push_back(new CellBox(parent_, row+1, row2_, (2*column)+1, 3*column));
+    push_back(new CellBox(parent_, row+1, row2_, (3*column)+1, column2_));
+
+}
 
 
 void CellBox::split()
@@ -1244,6 +1269,7 @@ void IsoPlot::isoline(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
        vector<IsoProducer* >  producers_;
 
        {
+        Timer timer("Threading ", "Threading");
         VectorOfPointers<vector<ThreadControler *>  > consumers;
         VectorOfPointers<vector<ThreadControler *>  > producers;
         segments_.clear();
@@ -1259,9 +1285,11 @@ void IsoPlot::isoline(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
             consumers.back()->start();
         }
 
-        view.split();
-
-        // let's start 4 producers...
+        view.prepare(threads_);
+        //view.split();
+       
+        cout << "Nb Thread --> " << view.size() << endl;
+        
         int c = 0;
         VectorOfPointers<vector<IsoProducerData*> > datas;
         for ( int i = 0; i < view.size(); i++)

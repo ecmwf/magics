@@ -110,6 +110,14 @@ public:
 	vector<MetviewIcon >::const_iterator iconsEnd() { return icons_.end(); }
 	void  icon(const string& iconname, const string& iconclass,const string& iconid) 
 			{  icons_.push_back(MetviewIcon(iconname, iconclass,iconid)); }
+	void  icon(const MetviewIcon& icon) 
+			{  MetviewIcon add; 
+				add.icon(icon); 
+				icons_.push_back(add); 
+				visibility_ = icon.visibility(); 
+				transparency_ = icon.transparency();
+				zindex_ = icon.zindex();   
+			}
 	
 	//void setInfo(const string& name, const string& value) { information_[name]=value; }
 	//virtual const map<string, string>& getInfos(bool =false) const { return information_; }

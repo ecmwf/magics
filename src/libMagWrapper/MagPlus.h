@@ -100,6 +100,7 @@ protected:
 	bool dataloop(magics::MagRequest&);
 	bool bufr(magics::MagRequest&);
 	bool visdef(magics::MagRequest&);
+	bool layer(magics::MagRequest&);
 	
 #ifdef HAVE_ODB
 	bool geoodb(magics::MagRequest&);
@@ -150,6 +151,10 @@ protected:
 	MetviewMode mvMode_;
 	FortranViewNodeWrapper* page_;
 	vector<Visdef*>* currentMulti_;
+	
+	bool visibility_;
+	int zindex_;
+	int transparency_;
 
 #ifdef MAGICS_QT
 	//! Keep the instance of the QtDrver!
