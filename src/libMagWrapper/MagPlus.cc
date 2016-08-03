@@ -301,9 +301,7 @@ bool MagPlus::layer(magics::MagRequest& in)
 	visibility_ = (visibility == 0) ? true : false;
 	zindex_ = in("STACKING_ORDER");
 	transparency_ = in("TRANSPARENCY");
-	transparency_ = 1000;
-	zindex_ = 2;
-	visibility_ = true;
+	
 	return false;
 }
 
