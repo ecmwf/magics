@@ -36,6 +36,31 @@ bool MagicsFormat::valid(ostream& out) const
 		out << bufr; 
 		return true;
 	}
+
+	 /* Added to allow rounded values to appear on a contour with a 'PS' prefix for positive figures and to remove '-' from negative figures */
+
+    if ( magCompare(format_, "(aeronautical)") || magCompare(format_, "aeronautical" ) )
+    {
+        char bufr[256];
+        double trVal=trunc(value_);
+        if(value_ == trVal  &&  static_cast<double>(static_cast<int>(trVal)) == trVal)
+        {
+            if(static_cast<int>(trVal)<0)
+                sprintf(bufr, "%d", -static_cast<int>(trVal));
+            else
+                sprintf(bufr, "PS%d", static_cast<int>(trVal));
+        }
+        else
+        {
+            if(value_<0)
+                sprintf(bufr, "%.0f", -value_);
+            else
+                sprintf(bufr, "PS%.0f", value_);
+        }
+
+        out << bufr;
+        return true;
+    }
     
 	string print =  "%g";
 	string flags;
