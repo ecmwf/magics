@@ -280,7 +280,17 @@ public:
 	void collectText(vector<TextVisitor*>&, LegendVisitor*); // update the text informations!
 };
 
-
+class LegendLayer : public StepLayer
+{
+public:
+	LegendLayer() {}
+	~LegendLayer() {}
+	void getReady() const;
+	void execute(const BaseDriver&) const;
+	void execute(int, const BaseDriver&) const;
+	void getInfo(int, const BaseDriver&) const;
+	
+};
 /*
  * A SceneLayer is attach to a SceneNode...
  * It contains the list of layers needed to perform a plot.
@@ -302,8 +312,9 @@ public:
 
 	Layer*  findLayer(Layer*,int) const; 
 	
-	void legend(LegendVisitor* legend) { legend_ = legend; }
-	void text(TextVisitor* text) { textVisitors_.push_back(text); }
+	void legend(LegendVisitor* legend);
+	void text(TextVisitor* text);
+
 	
 	void getReady(int) const;
 
@@ -343,6 +354,7 @@ protected:
 	mutable std::set<LayoutVisitor*> visitors_;
 	mutable  vector<TextVisitor*> textVisitors_;
 	mutable TextLayer textHandler_;
+	mutable LegendLayer legendHandler_;
 
 	mutable LegendVisitor* legend_;
 	MagicsMode mode_;
