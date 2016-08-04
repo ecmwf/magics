@@ -298,7 +298,7 @@ bool MagPlus::layer(magics::MagRequest& in)
 	cout << "MagPlus::layer" << endl;
 	in.print();
 	int visibility = in("VISIBILITY");
-	visibility_ = (visibility == 0) ? true : false;
+	visibility_ = visibility;
 	zindex_ = in("STACKING_ORDER");
 	transparency_ = in("TRANSPARENCY");
 	
