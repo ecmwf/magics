@@ -29,8 +29,11 @@ does it submit to any jurisdiction.
           		<option fortran="xypoint" include="NetcdfGeopointsInterpretor.h" name="NetcdfXYpointsInterpretor">		</option>  
          		<option xml="complex_matrix" fortran="complex_matrix" include="NetcdfOrcaInterpretor.h" name="NetcdfOrcaInterpretor">		</option>
 
-        		<release>Magics++0.1		</release>
-        		<release_info>Only matrix is implemented		</release_info>
+
+        		
         		<documentation>Type of data arrangement in the file (possible values: matrix) 		</documentation>
     	</parameter>
+      <parameter member="metadata" to="string" default="{}" from="string" name="netcdf_metadata">
+        <documentation>Json string containing metadata information: useful to choose a style     </documentation>
+      </parameter>
 </class></magics>

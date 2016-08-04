@@ -70,6 +70,8 @@ public:
     void visit(Transformation& transformation) {
     	 (*interpretor_).visit(transformation);    
     }
+
+    void getInfo(map<string, string>&);
     
     MatrixHandler& matrix() {
         MagLog::dev() << "NetcdfDecoder::matrix! " << "\n";
