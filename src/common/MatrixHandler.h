@@ -234,6 +234,7 @@ public :
     }
     
     double min() const {
+        min_ = matrix_.min();
       	 if ( min_ != INT_MAX) 
       		 return min_;
       	
@@ -242,6 +243,7 @@ public :
      }
      
        double max() const {
+        max_ = matrix_.max();
       	 if ( max_ != -INT_MAX) 
       		 return max_; 
       	 
