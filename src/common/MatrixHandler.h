@@ -219,7 +219,8 @@ public :
     virtual int nextColumn(int j, int f) const  { return matrix_.nextColumn(j, f); } 
     
     void setMinMax() const {
-    	int nb_rows = rows();
+        
+        int nb_rows = rows();
     	int nb_columns = columns();
     	double missing =  matrix_.missing();    
     	        	
@@ -234,20 +235,25 @@ public :
     }
     
     double min() const {
-      	 if ( min_ != INT_MAX) 
+        min_ = matrix_.min();
+                 
+      	if ( min_ != INT_MAX) 
       		 return min_;
       	
       	setMinMax();
-      	 return min_;
+      	return min_;
+        
      }
      
-       double max() const {
-      	 if ( max_ != -INT_MAX) 
+    double max() const {
+        max_ = matrix_.max();
+    	 
+        if ( max_ != -INT_MAX) 
       		 return max_; 
       	 
       	setMinMax();
-      	 return max_;
-       }
+      	return max_;
+    }
     
     virtual double  minX() const { return matrix_.minX(); }
     virtual double  maxX() const { return matrix_.maxX(); }

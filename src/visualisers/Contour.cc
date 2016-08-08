@@ -25,6 +25,7 @@
 #include "Text.h"
 #include "ContourLibrary.h"
 #include "HistoVisitor.h"
+#include "Timer.h"
 
 using namespace magics;
 
@@ -120,8 +121,25 @@ void Contour::operator()(Data& data, BasicGraphicsObjectContainer& parent)
 	if (this->floor_ != -INT_MAX || this->ceiling_ != INT_MAX)
 		matrix_ = new MatrixTreshold(*matrix_, this->floor_, this->ceiling_);
 
-	(*this->contour_).adjust(matrix_->min(), matrix_->max());
-	(*this->contour_)(*matrix_, parent);
+	{
+		Timer timer("setMinMax", "setMainMax");
+		double min, max;
+		{
+			Timer timer("Max", "Max");
+			min = matrix_->min();
+			
+		}
+		{
+			Timer timer("MIN", "MIN");
+			max = matrix_->max();
+		}	
+		(*this->contour_).adjust(min, max);
+			
+	}
+	{
+		Timer timer("CONTOUR", "CONTOUR");
+		(*this->contour_)(*matrix_, parent);
+	}
 	(*this->contour_)(data, parent);
 	if ( magCompare( this->grid_->getType(), "akima" ) )
 		(*this->grid_)(*matrix_, parent);
