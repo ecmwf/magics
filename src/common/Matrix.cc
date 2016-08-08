@@ -597,10 +597,13 @@ double Matrix::operator()(int row, int column) const
 GeoBoxMatrixHandler::GeoBoxMatrixHandler(const AbstractMatrix& matrix, const Transformation& transformation):
 	  TransformMatrixHandler(matrix), transformation_(transformation), original_(0)
 {
+
 	map<double, int> lats;
 	map<double, int> lons;
+	
 	double lon, lat;
 	double minlon, minlat, maxlon, maxlat;
+	
 
 	transformation.boundingBox(minlon, minlat, maxlon, maxlat);
 
@@ -634,12 +637,10 @@ GeoBoxMatrixHandler::GeoBoxMatrixHandler(const AbstractMatrix& matrix, const Tra
 	for (int i = 0; i < columns; i++)
 	{
 		lon = matrix_.regular_column(i);
-
-		if ( minlon <= lon && lon <= maxlon)
+		if ( minlon <= lon && lon <= maxlon) 
 			lons[lon] = i;
 
 		double ml = lon - 360;
-
 		while ( ml >= minlon && ml <= maxlon ) {  lons[ml] = i; ml -= 360; }
 		ml = lon + 360;
 		while (  ml >= minlon && ml <= maxlon ) {  lons[ml] = i; ml += 360; }
@@ -661,7 +662,9 @@ GeoBoxMatrixHandler::GeoBoxMatrixHandler(const AbstractMatrix& matrix, const Tra
 	for (int i = 0; i < rows; i++) {
 
 		lat = matrix_.regular_row(i);
-		if ( minlat <= lat && lat <= maxlat) lats[lat] = i;
+		if ( minlat <= lat && lat <= maxlat) 
+			lats[lat] = i;
+		
 
 	}
 	i = 0;
@@ -672,7 +675,7 @@ GeoBoxMatrixHandler::GeoBoxMatrixHandler(const AbstractMatrix& matrix, const Tra
 		i++;
 	}
 
-
+	
 }
 MatrixHandler* RotatedMatrix::getReady(const Transformation&) const
 {
