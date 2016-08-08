@@ -88,7 +88,7 @@ does it submit to any jurisdiction.
    		<set name="graph_missing_data_style" value="join">		</set>
    		<set name="graph_missing_data_colour" value="join">		</set>
    		<set name="graph_missing_data_thickness" value="join">		</set>
-    		<set name="graph_missing_data_style" value="drop">		</set>
+    	<set name="graph_missing_data_style" value="drop">		</set>
    		<set name="graph_missing_data_colour" value="drop">		</set>
    		<set name="graph_missing_data_thickness" value="drop">		</set>
  	</parameter>
@@ -107,5 +107,58 @@ does it submit to any jurisdiction.
          		<documentation> If stepped, use an histogram style 		</documentation>
          		
   	</parameter>
+
+    <parameter from="string" name="graph_style_setting" default="simple" member="style_setting" to="string" values="simple/advanced">
+            <documentation> Should we use the advanced setting advanced    </documentation>
+    </parameter>
+    
+    <parameter from="string" name="graph_line_style_variable_name" default="" member="style_key" to="string">
+            <documentation> Data Variable used for setting the line style of the segments     </documentation>
+    </parameter>
+    
+    <parameter from="stringarray" name="graph_line_style_value_list" default="stringarray()" member="style_keys" to="stringarray">
+            <documentation> list of line styles to use    </documentation>
+    </parameter>
+    
+    <parameter from="stringarray" name="graph_line_style_list" default="stringarray()" member="style_list" to="stringarray">
+            <documentation> list of line styles to use    </documentation>
+    </parameter>
+   
+    <parameter from="string" name="graph_line_style_list_policy" default="lastone" member="style_policy" to="ListPolicy">
+            <documentation> What to do if the list of line styles is smaller that the list of levels: lastone/cycle   </documentation>
+    </parameter>
+
+    <parameter from="string" name="graph_colour_variable_name" default="" member="colour_key" to="string">
+            <documentation> Data Variable used for setting the line style of the segments     </documentation>
+    </parameter>
+    
+    <parameter from="stringarray" name="graph_colour_value_list" default="stringarray()" member="colour_keys" to="stringarray">
+            <documentation> list of line styles to use    </documentation>
+    </parameter>
+
+    <parameter from="stringarray" name="graph_colour_list" default="stringarray()" member="colour_list" to="stringarray">
+            <documentation> list of line styles to use    </documentation>
+    </parameter>
+   
+    <parameter from="string" name="graph_colour_list_policy" default="lastone" member="colour_policy" to="ListPolicy">
+            <documentation> What to do if the list of line styles is smaller that the list of levels: lastone/cycle   </documentation>
+    </parameter>
+
+    <parameter from="string" name="graph_thickness_variable_name" default="" member="thickness_key" to="string">
+            <documentation> Data Variable used for setting the line style of the segments     </documentation>
+    </parameter>
+
+    <parameter from="stringarray" name="graph_thickness_value_list" default="stringarray()" member="thickness_keys" to="stringarray">
+            <documentation> list of line styles to use    </documentation>
+    </parameter>
+    
+    <parameter from="intarray" name="graph_thickness_list" default="intarray()" member="thickness_list" to="intarray">
+            <documentation> list of line styles to use    </documentation>
+    </parameter>
+   
+    <parameter from="string" name="graph_thickness_list_policy" default="lastone" member="thickness_policy" to="ListPolicy">
+            <documentation> What to do if the list of line styles is smaller that the list of levels: lastone/cycle   </documentation>
+    </parameter>
+
   	
 </class></magics>

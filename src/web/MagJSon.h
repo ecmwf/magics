@@ -64,7 +64,9 @@ class ParamJSon : public map<string, string>
 public:
 	ParamJSon(const string&);
 	~ParamJSon() {}
-
+    string get(const string&, const string&);
+    bool hasKey(const string&);
+    
 protected:
     void magics(const json_spirit::Value&);
 

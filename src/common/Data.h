@@ -78,6 +78,10 @@ public:
     
     virtual void getReady(const Transformation&) {}
     virtual void visit(Transformation&)          {}
+
+    // Method to access some metada from the data 
+    // This can be used to define some style Like in advanced curve setting!
+    virtual void getInfo(map<string, string>&)  {}
     
     //! Methods to access the data as a file used by pplot action routine
     virtual string path() { throw DataInMemory(); }
