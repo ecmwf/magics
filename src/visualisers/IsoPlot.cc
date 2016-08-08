@@ -1289,7 +1289,7 @@ void IsoPlot::isoline(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
             consumers.back()->start();
         }
 
-        view.split(8);
+        view.split();
 
         // let's start 4 producers...
         int c = 0;
