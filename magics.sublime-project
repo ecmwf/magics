@@ -7,7 +7,7 @@
     ], 
     "build_systems": [
         {
-            "working_dir": "${project_path}/../../build/magics", 
+            "working_dir": "${project_path}/../../build/magics-feature", 
             "cmd": [
                 "make"
             ], 

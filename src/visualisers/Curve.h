@@ -73,6 +73,15 @@ protected:
 	 bool  missing(CustomisedPoint&) const;
 	 std::map<string, MissingMethod> missingMethods_;
 	 std::map<string, CurveMethod> curveMethods_;
+
+     std::map<string, int>       thicknessHandler_;
+     std::map<string, LineStyle> styleHandler_;
+     std::map<string, string>    colourHandler_;
+
+     Colour currentColour_;
+     LineStyle currentStyle_;
+     int currentThickness_;
+
 private:
     //! Copy constructor - No copy allowed
 	Curve(const Curve&);
