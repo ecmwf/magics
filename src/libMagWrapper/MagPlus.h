@@ -152,9 +152,11 @@ protected:
 	FortranViewNodeWrapper* page_;
 	vector<Visdef*>* currentMulti_;
 	
+	// Information related to the current layer
 	bool visibility_;
 	int zindex_;
 	int transparency_;
+	string id_;
 
 #ifdef MAGICS_QT
 	//! Keep the instance of the QtDrver!

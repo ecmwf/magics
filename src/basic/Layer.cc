@@ -1054,10 +1054,6 @@ void MetviewIcon::visit(Layer& layer)
 		layer.icon(iconName_,iconClass_,iconId_);
 	}
 
-	//if ( !iconClass_.empty() && !iconName_.empty() )
-	//	layer.icon(iconName_, iconClass_);
-
-	layer.id(iconId_);
 }
 
 void MetviewIcon::visit(MetaDataCollector& collector)
