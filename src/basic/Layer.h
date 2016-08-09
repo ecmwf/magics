@@ -116,7 +116,8 @@ public:
 				icons_.push_back(add); 
 				visibility_ = icon.visibility(); 
 				transparency_ = icon.transparency();
-				zindex_ = icon.zindex();   
+				zindex_ = icon.zindex();  
+				id_ = icon.id(); 
 			}
 	
 	//void setInfo(const string& name, const string& value) { information_[name]=value; }

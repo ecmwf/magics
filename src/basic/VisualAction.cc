@@ -247,10 +247,8 @@ void VisualAnimation::prepare()
 		return;
 	
 	layer_ = new StepLayer();
-	layer_->icon(*loop_);
-	//layer_->name(loop_->name());
-	//layer_->id(loop_->name()); 
-	//layer_->uniqueId(loop_->iconId());
+	//layer_->icon(*loop_);
+	
 	loop_->visit(*layer_);
 	
 	for ( vector<Visdef* >::iterator visdef = this->visdefs_.begin(); visdef != this->visdefs_.end(); ++visdef)
