@@ -247,7 +247,7 @@ void VisualAnimation::prepare()
 		return;
 	
 	layer_ = new StepLayer();
-	//layer_->icon(*loop_);
+	layer_->id(loop_->id());
 	
 	loop_->visit(*layer_);
 	

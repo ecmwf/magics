@@ -119,9 +119,9 @@ void Coastlines::visit(SceneLayer& layer, vector<LayoutVisitor*>& visitors)
     // First we create the layer!
 	// and push It to the parent layer! 
 		layer_ = new NoDataLayer(this);
-		//layer_->id(iconName_);
-		//layer_->name(iconName_);
+		
 		layer_->icon(*this);
+		
 		layer.add(layer_);
 	}
 	for  (vector<LayoutVisitor*>::iterator visitor = visitors.begin(); visitor != visitors.end(); ++visitor) {
