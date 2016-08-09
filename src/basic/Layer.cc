@@ -1051,7 +1051,7 @@ void MetviewIcon::visit(Layer& layer)
 {
 	if ( !iconClass_.empty() && !iconName_.empty() )
 	{
-		layer.icon(iconName_,iconClass_,iconId_);
+		layer.icon(*this);
 	}
 
 }
