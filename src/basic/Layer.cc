@@ -140,7 +140,7 @@ void Layer:: execute(const BaseDriver& ) const
 
 void Layer::collectText(vector<TextVisitor*>& texts, LegendVisitor* legend)
 {
-	if ( !visibility_) return; 
+	
 	if ( !object_) 
 		return;
 
@@ -314,7 +314,7 @@ void StepLayer::redisplay(const BaseDriver& driver) const
 
 void StepLayer::execute(int i, const BaseDriver& driver, const Layout& layout) const
 {  
-	if ( visibility_ && i < steps_.size() ) {
+	if ( i < steps_.size() ) {
 		steps_[i]->update(layout);
 		steps_[i]->execute(driver);
 	}
@@ -322,8 +322,8 @@ void StepLayer::execute(int i, const BaseDriver& driver, const Layout& layout) c
 
 void StepLayer::getReady(int i) const
 {  
-	if ( visibility_ )
-		steps_[i]->getReady();
+	
+	steps_[i]->getReady();
 }
 
 void StepLayer::newLayer(const BaseDriver& driver)
@@ -395,8 +395,8 @@ void StaticLayer::redisplay(const BaseDriver& driver) const
 void StaticLayer::execute(const BaseDriver& driver) const
 {  
 
-	if ( visibility_ ) 
-		redisplay(driver);
+	
+	redisplay(driver);
 }
 
 void StaticLayer::getReady() const
@@ -407,8 +407,7 @@ void StaticLayer::collect(MetaDataCollector& infos)
 {
 	if(object_)
 		object_->visit(infos);
-	//layer_->transformation().collect(infos);
-}
+	
 
 void StaticLayer::collect(ValuesCollector& values)
 {
