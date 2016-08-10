@@ -355,12 +355,19 @@ void GribInterpretor::scaling(const GribDecoder& grib, double& scaling,
                 offset = paramdef.offset();
                 originalUnits = paramdef.originalUnit();
                 derivedUnits = paramdef.derivedUnit();
-            } catch (...) {
+                if ( paramdef.code() == -1 ) {
+                    originalUnits = grib.getString("units");
+                    derivedUnits = originalUnits;
+                }
+            }
+            catch (exception) { 
+               
                 MagLog::warning()
                         << " Can not find information for the parameter [" << id
                         << "." << table << "]\n";
             }
         }
+        
     } else {
         scaling = grib.scaling_factor_;
         offset = grib.scaling_offset_;
