@@ -42,13 +42,13 @@ public :
         scaling_(1),
         offset_(0) {}
     virtual ~ParamDef() {}
-    int code()                  { return code_; }
+    int code() const            { return code_; }
     string longTitle() const    { return longTitle_; }
     string shortTitle() const   { return shortTitle_; }
     string originalUnit() const { return originalUnit_; }
     string derivedUnit() const  { return derivedUnit_; }
-    double scaling() const       { return scaling_; }
-    double offset() const        { return offset_; }
+    double scaling() const      { return scaling_; }
+    double offset() const       { return offset_; }
     
 protected:
   //! Method to print string about this class on to a stream of type ostream (virtual).
