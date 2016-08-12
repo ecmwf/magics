@@ -407,7 +407,7 @@ void StaticLayer::collect(MetaDataCollector& infos)
 {
 	if(object_)
 		object_->visit(infos);
-	
+}
 
 void StaticLayer::collect(ValuesCollector& values)
 {
@@ -632,7 +632,8 @@ void SceneLayer::text(TextVisitor* text)
 void SceneLayer::legend(LegendVisitor* legend)
 { 
 	legend_ = legend; 
-	legendHandler_.icon(*legend);
+	if ( legend )
+		legendHandler_.icon(*legend);
 }
 
 bool SceneLayer::buildTree(const Layout& parent,  unsigned int frame, const BaseDriver& out) const
