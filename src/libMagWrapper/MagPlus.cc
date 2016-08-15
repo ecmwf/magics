@@ -432,17 +432,23 @@ bool MagPlus::page_update(magics::MagRequest& in)
 bool MagPlus::page(magics::MagRequest& in)
 {
 	MagLog::dev()<< "page and subpage--->" << endl;
+
 	sceneCreators_["MLEGEND"] = &MagPlus::legend;
 
 
 	while ( !empty() ) pop();
 
 	geographical_ = true;
-	in.print();
+	
 	FortranSceneNodeWrapper scenehelper;
 	scenehelper.set(in);
 
+	string metview_id = get(in, "METVIEW_ID", "");
+	in("_ID") = metview_id;
+	in.print();
+
 	setIconInfo(in, *scenehelper.object());
+	
 	root_->insert(scenehelper.object());
 
 	push(scenehelper.object());
