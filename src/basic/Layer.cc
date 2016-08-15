@@ -232,8 +232,8 @@ void SingleLayer::magnify(const BaseDriver& driver, float ,float )
 
 void SingleLayer::execute(const BaseDriver& driver) const
 {
-	if ( !parentLayer_->visibility() )
-		return;
+//	if ( !parentLayer_->visibility() )
+//		return;
 
 	ASSERT(objects_);
 	objects_->redisplay(driver);
@@ -257,8 +257,8 @@ void SingleLayer::update(const Layout& parent)
 
 void SingleLayer::getReady() const
 {
-	if ( !parentLayer_->visibility() )
-		return;
+//	if ( !parentLayer_->visibility() )
+//		return;
 	if ( parentLayer_->parent()->state() == geometry_changed) {
 		ASSERT(objects_);
 		objects_->clear();
