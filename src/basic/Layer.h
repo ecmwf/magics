@@ -118,6 +118,8 @@ public:
 				transparency_ = icon.transparency();
 				zindex_ = icon.zindex();  
 				id_ = icon.id(); 
+				name_ = icon.name();
+
 			}
 	
 	//void setInfo(const string& name, const string& value) { information_[name]=value; }

@@ -268,11 +268,12 @@ public:
 		iconId_ = id;
 	}
 
-	void layerInfo(bool visibility, int zindex, int transparency, const string& id) {
+	void layerInfo(bool visibility, int zindex, int transparency, const string& id, const string& name) {
 		visibilityLayer_ = visibility;
 		zindexLayer_ = zindex;
 		transparencyLayer_ = transparency;
 		idLayer_ = id;
+		nameLayer_ = name;
 	}
 	
 	virtual void visit(Layer& layer);
@@ -291,6 +292,7 @@ public:
   		zindexLayer_ = other.zindexLayer_;
   		transparencyLayer_ = other.transparencyLayer_;
 		idLayer_ = other.idLayer_;
+		nameLayer_ = other.nameLayer_;
 
 	}	
 	string iconName() const   { return iconName_;     }
@@ -300,6 +302,7 @@ public:
  	int visibility() const    { return visibilityLayer_;   } 
 	int transparency() const  { return transparencyLayer_; }
 	const string& id() const  { return idLayer_; }
+	const string& name() const  { return nameLayer_; }
 
 protected:
 	string iconName_;
@@ -309,6 +312,7 @@ protected:
     int zindexLayer_;
     int transparencyLayer_;
     string idLayer_;
+    string nameLayer_;
 	
 	map<string, string> information_;
 

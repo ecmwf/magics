@@ -157,6 +157,7 @@ protected:
 	int zindex_;
 	int transparency_;
 	string id_;
+	string layer_;
 
 #ifdef MAGICS_QT
 	//! Keep the instance of the QtDrver!
