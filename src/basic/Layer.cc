@@ -669,7 +669,7 @@ void SceneLayer::redisplay(const BaseDriver& driver) const
 	unsigned int nb = frames.size();
 	switch ( mode_) {
 	case paper: {
-		textHandler_.name("Titles");
+		
 		textHandler_.parent(const_cast<SceneLayer*>(this));
 		legendHandler_.name("Legend");
 		legendHandler_.parent(const_cast<SceneLayer*>(this));
@@ -699,7 +699,7 @@ void SceneLayer::redisplay(const BaseDriver& driver) const
 	}
 	break;
 	case basic:
-		textHandler_.name("Text");
+		
 		textHandler_.parent(const_cast<SceneLayer*>(this));
 		legendHandler_.name("Legend");
 		legendHandler_.parent(const_cast<SceneLayer*>(this));
@@ -724,7 +724,7 @@ void SceneLayer::redisplay(const BaseDriver& driver) const
 		break;
 	case interactif:
 		visit(driver);
-		textHandler_.name("Titles");
+		
 		textHandler_.parent(const_cast<SceneLayer*>(this));
 		const_cast<SceneLayer*>(this)->add(&textHandler_);
 		const_cast<SceneLayer*>(this)->add(&legendHandler_);

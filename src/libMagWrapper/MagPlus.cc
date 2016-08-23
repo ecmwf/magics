@@ -301,9 +301,10 @@ bool MagPlus::layer(magics::MagRequest& in)
 	visibility_ = visibility;
 	zindex_ = in("STACKING_ORDER");
 	transparency_ = in("TRANSPARENCY");
-	string id = in("_ID");
-	id_ = id;
+	id_ = (string) in("_ID");
+	layer_ = (string) in("_NAME");
 	
+
 	return false;
 }
 
@@ -948,7 +949,9 @@ void MagPlus::setIconInfo(magics::MagRequest& mv, MetviewIcon& object)
 		 iconclass =  get(mv, "_VERB", "");
 	string iconid =  get(mv, "_ID", "");
 	object.icon(iconname, iconclass, iconid);
-	object.layerInfo(visibility_, zindex_, transparency_, id_);
+	if ( layer_.empty() ) 
+		layer_ = "TEST";
+	object.layerInfo(visibility_, zindex_, transparency_, id_, layer_);
 }
 
 bool MagPlus::gribloop(magics::MagRequest& in)
@@ -974,7 +977,7 @@ bool MagPlus::gribloop(magics::MagRequest& in)
 	GribLoopWrapper grib;
 	grib.set(in);
 	setIconInfo(in, *grib.object());
-	action->layerInfo(visibility_, zindex_, transparency_, id_);
+	
 
 	action->loop(grib.object());
 #else
