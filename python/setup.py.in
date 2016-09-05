@@ -12,14 +12,14 @@ except AttributeError:
 
 
 lib_list=["MagPlus"]
-libpath_list=["../../src/.libs"]
+libpath_list=["@CMAKE_BINARY_DIR@/lib","@ECCODES_PATH@/lib"]
 runpath_list=["@prefix@/lib","@ODB_PATH@/lib"]
 
-#if "@odb@" != "no":
-#    lib_list.append('Odb')
+if "@odb@" != "no":
+    lib_list.append('Odb')
 #    lib_list.append('Ec')
-#    if "@ODB_PATH@":
-#       libpath_list.append("@ODB_PATH@/lib")
+    if "@ODB_PATH@":
+       libpath_list.append("@ODB_PATH@/lib")
 
 if "@bufr@" != "no":
     if "@EMOS_LIB_NAME@":
