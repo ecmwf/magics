@@ -12,7 +12,7 @@ if( HAVE_PYTHON )
         configure_file( ${CMAKE_CURRENT_SOURCE_DIR}/../src/common/magics_api.h magics_api.h COPYONLY )
         configure_file( numpy.i numpy.i COPYONLY )
         configure_file( Magics_interface.cc Magics_interface.cc COPYONLY )
-        configure_file( Magics.i.in Magics.i )
+        configure_file( Magics.i.in Magics/Magics.i )
 
         ####### Do not invoke swig. Use our own generated C wrapper file ######
         set( _magics_swig "_Magics${CMAKE_SHARED_LIBRARY_SUFFIX}" )
