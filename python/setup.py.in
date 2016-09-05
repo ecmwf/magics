@@ -3,15 +3,23 @@
 from distutils.core import setup, Extension
 import os,sys
 
+import numpy
+# Obtain the numpy include directory.  This logic works across numpy versions.
+try:
+    numpy_include = numpy.get_include()
+except AttributeError:
+    numpy_include = numpy.get_numpy_include()
+
+
 lib_list=["MagPlus"]
 libpath_list=["../../src/.libs"]
 runpath_list=["@prefix@/lib","@ODB_PATH@/lib"]
 
-if "@odb@" != "no":
-    lib_list.append('Odb')
-    lib_list.append('Ec')
-    if "@ODB_PATH@":
-       libpath_list.append("@ODB_PATH@/lib")
+#if "@odb@" != "no":
+#    lib_list.append('Odb')
+#    lib_list.append('Ec')
+#    if "@ODB_PATH@":
+#       libpath_list.append("@ODB_PATH@/lib")
 
 if "@bufr@" != "no":
     if "@EMOS_LIB_NAME@":
@@ -27,11 +35,12 @@ if "@bufr@" != "no":
 attdict = dict(
    sources = ['Magics.i'],
    swig_opts = ['-c++','-module', 'Magics'],
-   include_dirs = ['.', '../../src/common'],
+   include_dirs = ['.', '@CMAKE_CURRENT_SOURCE_DIR@/../src/common',numpy_include],
    library_dirs = libpath_list + ["%s/lib" % sys.prefix],
    libraries = lib_list + ["m"],
    runtime_library_dirs = runpath_list,
    extra_objects = [],
+   extra_link_args=['-Wl,-rpath,@CMAKE_INSTALL_PREFIX@/lib']
 )
 
 add_attribute = lambda **args: [list.append(attdict[key],value) for key,value in args.items()]
@@ -46,7 +55,7 @@ add_attribute(
 )
 
 lib_dict = {
-    'grib_api': '@GRIBAPI_ROOT@',
+    'eccodes': '@ECCODES_ROOT@',
 }
 
 for with_lib in lib_dict:
@@ -59,25 +68,18 @@ for with_lib in lib_dict:
         )
     add_attribute(libraries = with_lib)
 
-    import numpy
-    # Obtain the numpy include directory.  This logic works across numpy versions.
-    try:
-        numpy_include = numpy.get_include()
-    except AttributeError:
-        numpy_include = numpy.get_numpy_include()
-
-    add_attribute(
-        include_dirs = numpy_include,
-    )
-
 api_module = Extension('_Magics',**attdict)
 
-setup (name = '@PACKAGE_NAME@',
+setup (name = 'magics',
        version = '@MAGICS_PACKAGE_VERSION@',
        author      = 'ECMWF',
-       description = """Magics++ Python interface""",
+       author_email='Software.Support@ecmwf.int',
+       description = """Magics Python interface""",
+       license='Apache License, Version 2.0',
+       url='https://software.ecmwf.int/Magics',
        ext_modules = [api_module],
        py_modules = ['Magics.macro','Magics.metgram'],
        package_dir={'Magics': ''},
        packages=['Magics'],
       )
+
