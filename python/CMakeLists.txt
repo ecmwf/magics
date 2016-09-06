@@ -19,7 +19,7 @@ if( HAVE_PYTHON )
         # Build the extension module for use in build tree with RPATH pointing to the build tree
         add_custom_command( OUTPUT ${_magics_swig}
                             COMMAND ${PYTHON_EXECUTABLE} setup.py build_ext --inplace -R ${CMAKE_BINARY_DIR}/lib
-                            DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/Magics_interface.cc Magics.i.in ${CMAKE_CURRENT_SOURCE_DIR}/numpy.i setup.py.in )
+                            DEPENDS Magics_interface.cc Magics.i.in numpy.i setup.py.in MagPlus )
         add_custom_target(build_swig_wrapper ALL DEPENDS ${_magics_swig})
 
         # Copy python modules to build area
