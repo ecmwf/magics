@@ -18,9 +18,8 @@ attdict = dict(
    include_dirs          = ['.', '@CMAKE_CURRENT_SOURCE_DIR@/../src/common',numpy_include],
    library_dirs          = ["@CMAKE_BINARY_DIR@/lib","@ECCODES_PATH@/lib"] + ["%s/lib" % sys.prefix],
    libraries             = ["MagPlus","m"],
-   runtime_library_dirs  = ["@prefix@/lib"],
+   runtime_library_dirs  = ["@CMAKE_INSTALL_PREFIX@/lib"],
    extra_objects         = [],
-   extra_link_args       = ['-Wl,-rpath,@CMAKE_INSTALL_PREFIX@/lib']
 )
 
 setup (name         = 'Magics',
