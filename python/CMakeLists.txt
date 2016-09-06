@@ -18,15 +18,16 @@ if( HAVE_PYTHON )
         set( _magics_swig "_Magics${CMAKE_SHARED_LIBRARY_SUFFIX}" )
         # Build the extension module for use in build tree with RPATH pointing to the build tree
         add_custom_command( OUTPUT ${_magics_swig}
-                            COMMAND ${PYTHON_EXECUTABLE} setup.py build_ext --inplace -R ${CMAKE_BINARY_DIR}/lib
+                            COMMAND ${PYTHON_EXECUTABLE} setup.py build_ext --inplace --rpath ${CMAKE_BINARY_DIR}/lib
                             DEPENDS Magics_interface.cc Magics.i.in numpy.i setup.py.in MagPlus )
         add_custom_target(build_swig_wrapper ALL DEPENDS ${_magics_swig})
 
         # Copy python modules to build area
         file( COPY Magics DESTINATION . )
 
+        # Build the extension module for use in install tree with RPATH pointing to install tree
         # Call distutils for installation
-        install(CODE "execute_process(COMMAND ${PYTHON_EXECUTABLE} setup.py install --prefix $ENV{DESTDIR}${CMAKE_INSTALL_PREFIX} WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})")
+        install(CODE "execute_process(COMMAND ${PYTHON_EXECUTABLE} setup.py build_ext --rpath $ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/${INSTALL_LIB_DIR} COMMAND ${PYTHON_EXECUTABLE} setup.py install --prefix $ENV{DESTDIR}${CMAKE_INSTALL_PREFIX} WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})")
 
     endif()
 

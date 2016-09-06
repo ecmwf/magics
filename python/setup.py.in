@@ -18,7 +18,6 @@ attdict = dict(
    include_dirs          = ['.', '@CMAKE_CURRENT_SOURCE_DIR@/../src/common',numpy_include],
    library_dirs          = ["@CMAKE_BINARY_DIR@/lib"],
    libraries             = ["MagPlus","m"],
-   runtime_library_dirs  = ["@CMAKE_INSTALL_PREFIX@/lib"],
    extra_objects         = [],
 )
 
