@@ -112,7 +112,8 @@ void OdaGeoDecoder::decode(const Transformation& transformation)
 
 	try
 	{
-		odb_start();
+        const char* exeName = "magics";
+        odb_start(1, const_cast<char**>(&exeName));
 		odb::Reader oda(path_);	
 		odb::Reader::iterator it = oda.begin();
 	
@@ -210,7 +211,8 @@ void OdaGeoDecoder::decode()
 
 	try
 	{	
-	      odb_start();
+          const char* exeName = "magics";
+          odb_start(1, const_cast<char**>(&exeName));
 	      odb::Reader oda(path_);
 
 	      odb::Reader::iterator it = oda.begin();
@@ -338,7 +340,8 @@ void OdaGeoDecoder::customisedPoints(const std::set<string>&, CustomisedPointsLi
      	
      	try
 	{	
-	    odb_start();
+        const char* exeName = "magics";
+        odb_start(1, const_cast<char**>(&exeName));
 	    odb::Reader oda(path_);
 
 	    odb::Reader::iterator it = oda.begin();
@@ -442,7 +445,8 @@ void OdaGeoDecoder::customisedPoints(const Transformation& transformation, const
 	
  	try
 	{
-		odb_start();
+        const char* exeName = "magics";
+        odb_start(1, const_cast<char**>(&exeName));
 		odb::Reader oda(path_);
 
 		odb::Reader::iterator it = oda.begin();
@@ -713,8 +717,8 @@ void OdaXYDecoder::customisedPoints(const Transformation& transformation, const 
 {  
 	try
 	{
-  
-		odb_start();
+        const char* exeName = "magics";
+        odb_start(1, const_cast<char**>(&exeName));
 		odb::Reader oda(path_);
 
 		odb::Reader::iterator it = oda.begin();
@@ -796,7 +800,8 @@ void OdaXYDecoder::customisedPoints(const std::set<string>&, CustomisedPointsLis
 {     	
 	try
 	{
-		  odb_start();
+          const char* exeName = "magics";
+          odb_start(1, const_cast<char**>(&exeName));
 		  odb::Reader oda(path_);
 
 		  odb::Reader::iterator it = oda.begin();
@@ -902,8 +907,8 @@ void OdaXYDecoder::decode(const Transformation& transformation)
 
 	try
 	{
-	  
-	      odb_start();
+          const char* exeName = "magics";
+          odb_start(1, const_cast<char**>(&exeName));
 	      odb::Reader oda(path_);
 
 	      odb::Reader::iterator it = oda.begin();
@@ -971,7 +976,8 @@ void OdaXYDecoder::decode()
 
 	try
 	{
-	      odb_start();
+          const char* exeName = "magics";
+          odb_start(1, const_cast<char**>(&exeName));
 	      odb::Reader oda(path_);
 
 	      odb::Reader::iterator it = oda.begin();
