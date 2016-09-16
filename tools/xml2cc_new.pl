@@ -738,7 +738,11 @@ EOF
 			my @fortrans = split("/", $fortran);
         	if ($template eq "") {
         		for my $o (@fortrans) {
-        			print "static SimpleObjectMaker<$class, $base> $o\_$class(\"$o\");\n" if $o ne "";
+                    $n = $o;
+                    $n =~ s/://;
+                   
+                   
+        			print "static SimpleObjectMaker<$class, $base> $n\_$class(\"$o\");\n" if $o ne "";
         			print "static SimpleObjectMaker<$class, $base> $xml\_$class(\"$xml\");\n" if $xml ne "" && $xml ne $fortran;
 				}
         	}
@@ -746,6 +750,7 @@ EOF
         		my @templates = split("/", $template);	
         		for my $t (@templates) {
         			for my $o (@fortrans) {
+                       
         				print "static SimpleObjectMaker<$class<$t>, $base<$t> > $o\_$class\_$t(\"$o\");\n" if $o ne "";
         	        	print "static SimpleObjectMaker<$class<$t>, $base<$t> > $xml\_$class\_$t(\"$xml\");\n" if $xml ne "" && $xml ne $fortran;
 					}
