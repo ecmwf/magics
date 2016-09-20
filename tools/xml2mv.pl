@@ -544,8 +544,11 @@ EOF
               }
               else {
                 print "\n#include \"$class\Wrapper.h\"\n";  
-                for my $o (@fortrans) { 	
-        	        print "static SimpleObjectMaker<$class\Wrapper, $base\Wrapper> $object\_$o\_$class\_w(\"$o\");\n" if $o ne "";
+                for my $o (@fortrans) { 
+                    $n = $o;
+                    $n =~ s/://;
+                    print "static SimpleObjectMaker<$class, $base> $n\_$class(\"$n\");\n" if $o ne "";	
+        	        print "static SimpleObjectMaker<$class\Wrapper, $base\Wrapper> $object\_$n\_$class\_w(\"$o\");\n" if $o ne "";
                 }
                 if ($xml ne "") {
                     if ($xml ne $fortran) {

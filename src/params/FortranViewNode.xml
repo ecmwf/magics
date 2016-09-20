@@ -37,7 +37,7 @@ does it submit to any jurisdiction.
 
             		<option xml="cylindrical" fortran="cylindrical" include="GeoRectangularProjection.h" name="GeoRectangularProjection">		</option>
     
-            		<option xml="polar_stereographic" fortran="polar_stereographic" include="PolarStereographicProjection.h" name="PolarStereographicProjection">		</option>
+             		<option xml="polar_stereographic" fortran="polar_stereographic" include="PolarStereographicProjection.h" name="PolarStereographicProjection">		</option>
         		<option fortran="polar_north" include="Proj4Projection.h" name="Proj4PolarNorth">		</option>
  				<option fortran="geos" include="Proj4Projection.h" name="Proj4Geos">		</option>
  				<option fortran="meteosat" include="Proj4Projection.h" name="Proj4Meteosat0">		</option>
