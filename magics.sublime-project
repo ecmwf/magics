@@ -7,7 +7,7 @@
     ], 
     "build_systems": [
         {
-            "working_dir": "${project_path}/../../build/debug/magics-feature", 
+            "working_dir": "${project_path}/../../build/magics-bug/debug", 
             "cmd": [
                 "make"
             ], 
