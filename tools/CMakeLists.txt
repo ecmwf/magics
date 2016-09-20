@@ -10,7 +10,6 @@ ecbuild_add_resources( TARGET tools_scripts
                             newtemplate.pl
                             xml2cc.pl
                             xml2cc_list.pl
-                            xml2cc_new.pl
                             xml2doc.pl
                             xml2dtd.pl
                             xml2icon.pl
