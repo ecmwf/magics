@@ -25,6 +25,11 @@ does it submit to any jurisdiction.
         	</parameter>
           	<parameter member="box_shift" to="int" default="0" from="int" name="eps_box_shift">           
         	</parameter>
+            <parameter xml="box_quantiles_colour" from="stringarray" name="eps_box_quantiles_colour" default="stringarray()" 
+                member="quantiles_colour" to="stringarray">
+            <documentation> if set, the list of colours will be used as follow colour1 between 10-25, colour2 between 25-75, colour3 between 75-90 </documentation>         
+            </parameter>
+
         	<parameter xml="right_box_colour" from="string" name="eps_right_box_colour" default="red" member="right_colour" to="Colour">           
         	</parameter>
         	<parameter xml="left_box_colour" from="string" name="eps_left_box_colour" default="blue" member="left_colour" to="Colour">           
