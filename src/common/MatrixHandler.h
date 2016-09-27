@@ -218,7 +218,7 @@ public :
     virtual int firstColumn() const { return matrix_.firstColumn(); }
     virtual int nextColumn(int j, int f) const  { return matrix_.nextColumn(j, f); } 
     
-    void setMinMax() const {
+    virtual void setMinMax() const {
         
         int nb_rows = rows();
     	int nb_columns = columns();
@@ -235,8 +235,7 @@ public :
     }
     
     double min() const {
-        min_ = matrix_.min();
-                 
+       
       	if ( min_ != INT_MAX) 
       		 return min_;
       	
@@ -246,11 +245,11 @@ public :
      }
      
     double max() const {
-        max_ = matrix_.max();
+       
     	 
         if ( max_ != -INT_MAX) 
       		 return max_; 
-      	 
+      	
       	setMinMax();
       	return max_;
     }
@@ -643,10 +642,12 @@ public:
         }
         return -1;
     }
+
     
+   
     inline double column(int, int column) const {   	
        	return regular_longitudes_[column];
-   }
+    }
     inline double row(int row, int) const {
     	return regular_latitudes_[row];
     }
