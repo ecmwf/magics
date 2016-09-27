@@ -278,7 +278,10 @@ void CurveArea::operator()(Data& data, BasicGraphicsObjectContainer& task)
 	vector<double> ypos;
     const Transformation& transformation = task.transformation();
 
-
+    currentColour_ = *colour_;
+	currentThickness_ = thickness_;
+	currentStyle_ = style_;
+    
     std::set<string> needs;
     CustomisedPointsList points;
     if ( shade_->needCustomised() ) {

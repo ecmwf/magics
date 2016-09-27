@@ -1629,7 +1629,9 @@ void IsoPlot::visit(Data& data, PointsHandler& points, HistoVisitor& visitor)
     helper.visit(beans, data, points, visitor);
 }
 
-CellArray::CellArray(MatrixHandler& data, IntervalMap<int>& range, const Transformation& transformation, int width, int height, float resol, const string& technique) :
+CellArray::CellArray(MatrixHandler& data, 
+        IntervalMap<int>& range, 
+        const Transformation& transformation, int width, int height, float resol, const string& technique) :
         rangeFinder_(range),data_(data)
 {
     Timer timer("CellArray", "CellArray");
@@ -1677,6 +1679,9 @@ CellArray::CellArray(MatrixHandler& data, IntervalMap<int>& range, const Transfo
         double max =  data.max();
         double missing =  data.missing();
 
+        double newmax =  data.min();
+        double newmin =  data.max();
+
         MagLog::dev() << "min = " << data.min() << "  max = " << data.max() << endl;
         for (vector< std::pair<double, double> >::iterator xy = xypoints.begin(); xy != xypoints.end(); ++xy) {
 
@@ -1693,13 +1698,14 @@ CellArray::CellArray(MatrixHandler& data, IntervalMap<int>& range, const Transfo
                     if (value != missing) {
                         if (value < min)
                             value = min;
+                        if (value < newmin)
+                            newmin = value;
                         if (value > max)
-                            value=max;
-                    }
-                    //else value = 0;
+                            value=max; 
+                        if (value > newmax)
+                            newmax = value;
 
-
-
+                    }                    
                     points_.push_back(value);
                     ++geo;
         }
