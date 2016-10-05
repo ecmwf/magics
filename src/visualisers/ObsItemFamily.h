@@ -30,12 +30,14 @@ public:
 		column_ = atoi(find(def, "column").c_str());
 		colour_ = find(def, "colour", "black");
 		key_ = find(def, "key", "");
+		format_ = find(def, "format", "");
 	}
 protected:		
 	int row_;
 	int column_;
 	string colour_;
 	string key_;
+	string format_;
 };
 
 class ObsStationRing : public ObsItemBox
@@ -405,6 +407,34 @@ public:
 
 protected:
 	void print(ostream& out) const { out << "ObsEra";  }
+
+
+};
+class ObsString : public ObsItemBox
+{
+public:
+	ObsString()   {}
+	~ObsString()  {}
+
+	void visit(std::set<string>& tokens);
+	void operator()(CustomisedPoint&,  ComplexSymbol&) const;
+
+protected:
+	void print(ostream& out) const { out << "ObsNumber";  }
+	std::set<string> keys_;
+
+};
+class ObsNumber : public ObsItemBox
+{
+public:
+	ObsNumber()   {}
+	~ObsNumber()  {}
+
+	void visit(std::set<string>& tokens);
+	void operator()(CustomisedPoint&,  ComplexSymbol&) const;
+
+protected:
+	void print(ostream& out) const { out << "ObsNumber";  }
 
 
 };

@@ -133,4 +133,5 @@ static SimpleObjectMaker<ObsDemoItem2, ObsItem> ObsDemo2("obs_demo_item_2");
 static SimpleObjectMaker<ObsWave, ObsItem> Wave("obs_wave_period_height");
 static SimpleObjectMaker<ObsEra, ObsItem> Era("obs_era");
 static SimpleObjectMaker<ObsSeaTemperature, ObsItem> SeaTempe("obs_sea_temperature");
-
+static SimpleObjectMaker<ObsNumber, ObsItem> Number("obs_number");
+static SimpleObjectMaker<ObsString, ObsItem> String("obs_string");
