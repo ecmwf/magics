@@ -78,8 +78,13 @@ protected:
         if (!high_) {
             // Create Text List containing the position of the High
             high_ = new TextSymbol();
+            MagFont font;
+            font.name("sansserif");
+            font.colour(*hi_colour_);
+            font.size(contour_hilo_height_);
+            high_->font(font);
             high_->setMarker(index_);
-            high_->setColour(*colour_);
+            high_->setColour(*colour_); // Colour of the symbol
             high_->setHeight(height_);
             hilo.push_back(high_);
         }
@@ -88,7 +93,12 @@ protected:
             // Create Text List containing the position of the High
             low_ = new TextSymbol();
             low_->setMarker(index_);
-            low_->setColour(*colour_);
+            MagFont font;
+            font.name("sansserif");
+            font.colour(*lo_colour_);
+            font.size(contour_hilo_height_);
+            low_->font(font);
+            low_->setColour(*colour_); // Colour of the symbol
             low_->setHeight(height_);
             hilo.push_back(low_);
         }
@@ -98,7 +108,7 @@ protected:
             high_->push_back(point,   hi_text_);
         }
         else if ( point.low()) {
-             low_->push_back(point,   hi_text_);
+             low_->push_back(point,   lo_text_);
         } 
         else {
             MagLog::warning() << "high/low information not set in point-> the point is ignored" << "\n";
