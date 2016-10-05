@@ -78,6 +78,7 @@ protected:
         if (!high_) {
             // Create Text List containing the position of the High
             high_ = new TextSymbol();
+            high_->position(Symbol::M_ABOVE);
             MagFont font;
             font.name("sansserif");
             font.colour(*hi_colour_);
@@ -86,12 +87,14 @@ protected:
             high_->setMarker(index_);
             high_->setColour(*colour_); // Colour of the symbol
             high_->setHeight(height_);
+            high_->blanking(blanking_);
             hilo.push_back(high_);
         }
         
         if (!low_) {
             // Create Text List containing the position of the High
             low_ = new TextSymbol();
+            low_->position(Symbol::M_ABOVE);
             low_->setMarker(index_);
             MagFont font;
             font.name("sansserif");
@@ -100,6 +103,7 @@ protected:
             low_->font(font);
             low_->setColour(*colour_); // Colour of the symbol
             low_->setHeight(height_);
+            low_->blanking(blanking_);
             hilo.push_back(low_);
         }
        
@@ -113,7 +117,41 @@ protected:
         else {
             MagLog::warning() << "high/low information not set in point-> the point is ignored" << "\n";
          }
-        
+        ostringstream nice;
+        nice << MagicsFormat(format_, point.value()); 
+        if ( point.high()) {
+             TextSymbol* text = new TextSymbol();
+             
+             MagFont font;
+             font.name("sansserif");
+             font.colour(*hi_colour_);
+             font.size(contour_hilo_height_);
+             text->font(font);
+            
+             text->setMarker(index_);
+             text->setColour(*colour_); // Colour of the symbol
+             text->setHeight(height_);
+             text->blanking(blanking_);
+             text->push_back(point, nice.str());
+             hilo.push_back(text);
+        }
+        else if ( point.low()) {
+             TextSymbol* text = new TextSymbol();
+             
+             MagFont font;
+             font.name("sansserif");
+             font.colour(*lo_colour_);
+             font.size(contour_hilo_height_);
+             text->font(font);
+             
+             text->setMarker(index_);
+             text->setColour(*colour_); // Colour of the symbol
+             text->setHeight(height_);
+             text->blanking(blanking_);
+             text->push_back(point, nice.str());
+             hilo.push_back(text);
+            
+        } 
        
      }
      TextSymbol* high_;
