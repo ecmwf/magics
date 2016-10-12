@@ -500,36 +500,53 @@ bool MagPlus::page(magics::MagRequest& in)
 	return false; // do not exit
 }
 
+
+
 bool MagPlus::cartesian(magics::MagRequest& in) {
 
 	string projection = get(in, "MAP_PROJECTION", "cartesian");
-	 in("SUBPAGE_MAP_PROJECTION") = projection;
+ 	in("SUBPAGE_MAP_PROJECTION") = projection;
 
 
-			if ( !page_ ) page_ = new FortranViewNodeWrapper();
-			page_->set(in);
-			FortranViewNode* view = page_->object();
+	if ( !page_ ) page_ = new FortranViewNodeWrapper();
+	page_->set(in);
+	id_ =  (string)in("METVIEW_ID");
+	in("_ID") = id_;
 
-			string id =  in("METVIEW_ID");
-			if (  !id.empty()  )
-			{
-				string id =  in("METVIEW_ID");
-				view->setInteractiveInfo(id.c_str(),
-				in("ZOOM_NUMBER_OF_LEVELS"), in("ZOOM_CURRENT_LEVEL"));
-			}
-			top()->insert(view);
-			push(view);
+	string zindex = in("STACKING_ORDER");
+	zindex_ = zindex.empty() ? -1 : tonumber(zindex);
+	
+	string visibility = in("VISIBILITY");
+	visibility_ = visibility.empty() ? true : tonumber(visibility);
+	
+	string transparency = in("TRANSPARENCY");
+	transparency_ = transparency.empty() ? 0 : tonumber(transparency);
+	
 
-			in.print();
+	layer_ =  (string)in("_NAME");
+	FortranViewNode* view = page_->object();
+	setIconInfo(in, *view);
+	
+	if (  !id_.empty()  )
+	{
+		
+		view->setInteractiveInfo(id_.c_str(),
+		in("ZOOM_NUMBER_OF_LEVELS"), in("ZOOM_CURRENT_LEVEL"));
+	}
+	top()->insert(view);
+	push(view);
 
-			 map<string,  ObjectCreator >::iterator creator = sceneCreators_.find(projection);
-			   	    if ( creator != sceneCreators_.end() ) {
+	in.print();
+			
 
-			   	    	  (this->*creator->second)(in) ;
-			   	    }
+	map<string,  ObjectCreator >::iterator creator = sceneCreators_.find(projection);
+    if ( creator != sceneCreators_.end() ) {
 
-            geographical_ = false;
-			return false; // do not exit
+    	  (this->*creator->second)(in) ;
+    }
+
+    geographical_ = false;
+	return false; // do not exit
 }
 
 bool MagPlus::cartesianGrid(magics::MagRequest& in) {
