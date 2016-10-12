@@ -89,7 +89,7 @@ protected:
 	 string animation_; 
 	 
 	 DrawingVisitor* 		drawing_;
-	 FrameVisitor* 		frameHelper_;
+	 FrameVisitor* 		    frameHelper_;
 	 TopAxisVisitor*    	topAxis_;
 	 BottomAxisVisitor*     bottomAxis_;
 	 LeftAxisVisitor*    	leftAxis_;
@@ -99,7 +99,8 @@ protected:
 
 	 AnimationRules*        rules_;
 
-	 LegendVisitor* 		legend_;
+	 bool 				    needLegend_;
+	 LegendVisitor*         legend_;
 	 vector<TextVisitor*>   texts_;
 	 vector<LayoutVisitor*> components_;
 	
