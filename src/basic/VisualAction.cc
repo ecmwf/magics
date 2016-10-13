@@ -322,6 +322,8 @@ void VisualAction::visit(SceneLayer& layer, vector<LayoutVisitor*>& visitors)
 {
 	layer_ = new StaticLayer(this);
 
+	
+	layer_->icon(*data_);
 	if ( data_ ) 
 		data_->visit(*layer_);
  	layer.add(layer_);
