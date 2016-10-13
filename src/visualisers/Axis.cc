@@ -99,8 +99,10 @@ void Axis::visit(SceneLayer& layer, vector<LayoutVisitor*>& visitors)
 	// First we create the layer!
 	// and push It to the parent layer!
 	StaticLayer* axis = new NoDataLayer(this);
-	axis->id(iconName_);
-	axis->name(iconName_);
+
+	
+	axis->icon(*this);
+	
 	layer.add(axis);
 
 	for  (vector<LayoutVisitor*>::iterator visitor = visitors.begin(); visitor != visitors.end(); ++visitor) {
