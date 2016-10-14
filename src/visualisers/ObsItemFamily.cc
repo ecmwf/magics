@@ -26,6 +26,8 @@
 #include "Text.h"
 #include "PaperPoint.h"
 
+#include "Tokenizer.h"
+
 using namespace magics;
 
 
@@ -979,6 +981,85 @@ void  ObsEra::operator()(CustomisedPoint& point,  ComplexSymbol& symbol) const
 	if (pt == point.end())
 		return;
 	string text = tostring(point[key_]);
+	TextItem*  object = new TextItem();
+	object->x(column_);
+	object->y(row_);
+	MagFont font;
+	font.name("sansserif");
+	font.colour(colour_);
+	font.size(owner_->size_);
+
+	object->text(text);
+	object->font(font);
+	symbol.add(object);
+
+}
+
+
+void  ObsNumber::visit(std::set<string>& tokens)
+{
+	tokens.insert(key_);
+}
+
+void  ObsNumber::operator()(CustomisedPoint& point,  ComplexSymbol& symbol) const
+{
+	CustomisedPoint::iterator pt = point.find(key_);
+	if (pt == point.end())
+		return;
+	string text = tostring(point[key_]);
+	TextItem*  object = new TextItem();
+	object->x(column_);
+	object->y(row_);
+	MagFont font;
+	font.name("sansserif");
+	font.colour(colour_);
+	font.size(owner_->size_);
+
+	object->text(text);
+	object->font(font);
+	symbol.add(object);
+
+}
+
+std::set<string> keys_;
+
+void  ObsString::visit(std::set<string>& tokens)
+{
+	// Extract the keys needed from the format ${key}
+	Tokenizer tstart("${");
+	Tokenizer tend("}");
+   
+   	vector<string> keys;
+   	
+    tstart(format_, keys);
+    	
+    for (vector<string>::const_iterator token = keys.begin(); token != keys.end(); ++token) {
+    	
+    	vector<string> key;
+    	tend(*token, key);
+    	if ( !key.empty()) {
+    		tokens.insert(key.front());
+    		keys_.insert(key.front());
+    		
+    	}
+
+    } 
+		
+	
+}
+
+void  ObsString::operator()(CustomisedPoint& point,  ComplexSymbol& symbol) const
+{
+	string text = format_;
+	for (std::set<string>::iterator key = keys_.begin(); key != keys_.end(); ++key) {
+		CustomisedPoint::iterator pt = point.find(*key);
+		string val = (pt == point.end()) ? (*key) : tostring(point[*key]);
+		
+		string rkey = "${" + *key + "}";
+		text = text.replace(text.find(rkey), rkey.length(), val);
+	}
+
+
 	TextItem*  object = new TextItem();
 	object->x(column_);
 	object->y(row_);

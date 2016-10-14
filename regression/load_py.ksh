@@ -3,12 +3,13 @@
 
 set +x
 
-versions="2.29.1" 
+versions="2.29.3 2.29.4" 
 
 ext="py"
 img_ext="png"
-where='web'
+where='era'
 interpretor='python'
+src='generic.py'
 
 dir=`pwd`
 name=`basename $dir`
