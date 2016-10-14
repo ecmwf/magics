@@ -1,4 +1,4 @@
-if( HAVE_PYTHON AND PYTHONLIBS_FOUND )
+if( HAVE_PYTHON )
 
   # preparing for generating setup.py -- this may not be needed as cmake can do the swig + shared libs without libtool
 
