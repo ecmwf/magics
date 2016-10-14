@@ -93,10 +93,6 @@ ecbuild_add_option( FEATURE PYTHON
                     DESCRIPTION "enable python interface"
                     REQUIRED_PACKAGES "Python NO_LIBS" SWIG NumPy )
 
-if( HAVE_PYTHON )
-   include(UseSWIG)
-endif()
-
 ecbuild_add_option( FEATURE FORTRAN
                     DEFAULT ON
                     DESCRIPTION "enable Fortran interface" )
