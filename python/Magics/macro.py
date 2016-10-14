@@ -434,7 +434,7 @@ def examine(*args):
 			break
 
 
-def plot(*args):
+def _plot(*args):
 	Magics.init()
 	for n in args:
 		if isinstance(n, list):
@@ -448,6 +448,8 @@ def plot(*args):
 	for f in context.tmp:
 		if os.path.exists(f):
 			os.remove(f)
+
+
 
 
 def tofortran(file, *args):
@@ -498,3 +500,36 @@ class  odb_filter(object):
 		if (os.system(cmd)) :
 			print "Error in viewing ODB data... Aborting"
 			os.abort();
+
+
+import threading
+import tempfile
+import os
+try:
+	from IPython.display import Image
+
+	LOCK = threading.Lock()
+
+	def plot(*args):
+	    
+	    with LOCK:       
+	        f, tmp = tempfile.mkstemp(".png")
+	        os.close(f)
+	        
+	        base, ext = os.path.splitext(tmp)
+
+	        
+	        
+	        img = output(output_formats=["png"],
+	                          output_name_first_page_number='off',
+	                          output_name=base)
+	        all = []
+	        all.append(img)
+	        for i in args :
+	          all.append(i)
+	        _plot(all)
+	        
+	        Image(tmp)
+	        os.unlink(tmp)
+except ImportError:
+	plot = _plot
