@@ -218,6 +218,7 @@ class ObjectHandler(ContentHandler):
             val = attrs.get("value")
             if ( self.param.has_key(val) == False ):
                 self.param[val] = []
+            print val
             self.param[val].append(attrs.get("name"))
 
 
