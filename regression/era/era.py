@@ -38,8 +38,10 @@ coast = mcoast(map_grid='on', map_grid_colour='grey',
 
 
 obs = mobs(
-	obsjson_input_filename = "obs.json",
+	obsjson_input_filename = "small.json",
 	obs_template_file_name = "obs.template",
+	obs_identification = "on",
+	obs_size = 0.5,
 	obs_distance_apart = 0.
 	)
 

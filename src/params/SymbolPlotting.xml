@@ -126,8 +126,7 @@ does it submit to any jurisdiction.
         		<documentation> Method to select a marker : by name, by index, by image : in that case, Magics will use an external image as marker.
         		</documentation>
         		<set name="symbol_marker_index" value="index">		</set>
-        		<set name="symbol_advanced_table_marker_name_list" value="name">		</set>
-        		<noset name="symbol_marker_name" value="name">		</noset>
+        		<!--set name="symbol_advanced_table_marker_name_list" value="name">		</set-->
         		<set name="symbol_image_path" value="image">		</set>
         		<set name="symbol_image_format" value="image">		</set> 
         		<set name="symbol_image_width" value="image">		</set>
