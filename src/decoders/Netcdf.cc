@@ -42,6 +42,7 @@ Convertor<From,To>::Convertor(NetVariable& var) : variable_(var)
 	To offset(0);
 	scale_factor_ = variable_.getAttribute("scale_factor", scale);
 	add_offset_ = variable_.getAttribute("add_offset", offset);
+	missing_ = variable_.getMissing();
 }
 
 
@@ -96,9 +97,9 @@ Netcdf::~Netcdf()
 double Netcdf::getMissing(const string& var, const string& attr)
 {
 
-	double missing = getAttribute(attr, getDefaultMissing(var));
-	missing = getVariableAttribute(var, attr, missing);
-	return missing;
+	missing_ = getAttribute(attr, getDefaultMissing(var));
+	missing_ = getVariableAttribute(var, attr, missing_);
+	return missing_;
 }
 
 void Netcdf::print(ostream& out)  const

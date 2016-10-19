@@ -81,7 +81,7 @@ data1 = mepsinput(epsxml_input_filename = "raqgramdata_%s.xml" % (param1,),
                 epsxml_long_title='on')
 box1 =   mepsgraph(eps_box_border_colour = 'black',
                eps_box_border_thickness = 2,
-               eps_box_colour= 'peach',
+               eps_box_quantiles_colour= ['peach', 'green'],
                eps_font_colour='black',
                eps_box_width=1.)
 
@@ -99,7 +99,7 @@ data2 = mepsinput(epsxml_input_filename = "raqgramdata_%s.xml" % (param2,),
 
 box2 =   mepsgraph(eps_box_border_colour = 'black',
                eps_box_border_thickness = 2,
-               eps_box_colour= 'rgb(0.60784313725490191, 0.80000000000000004, 0.5607843137254902)',
+               eps_box_quantiles_colour= ['sky', 'navy', 'charcoal'],
                eps_font_colour='black',
                eps_box_width=1.)
 

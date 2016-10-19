@@ -1,21 +1,12 @@
-
-/******************************** LICENSE ********************************
-
- Copyright 2007 European Centre for Medium-Range Weather Forecasts (ECMWF)
-
- Licensed under the Apache License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at 
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHvisitor WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
-
- ******************************** LICENSE ********************************/
+/*
+ * (C) Copyright 1996-2016 ECMWF.
+ * 
+ * This software is licensed under the terms of the Apache Licence Version 2.0
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * granted to it by virtue of its status as an intergovernmental organisation nor
+ * does it submit to any jurisdiction.
+ */
 
 /*! \file EpsGraph.cc
     \brief Implementation of the Template class EpsGraph.
@@ -796,17 +787,34 @@ void EpsGraph::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
         	eps75 = eps[3];
         	epsmax = eps[4];
 	}
+	// Prepare the colors :
+	int size = quantiles_colour_.size();
+	Colour colour10_25 = ( size >= 1 ) ? Colour(quantiles_colour_[0]) : colour;
+	Colour colour25_75 = ( size >= 2 ) ? Colour(quantiles_colour_[1]) : colour;
+	Colour colour75_90 = ( size >= 3 ) ? Colour(quantiles_colour_[2]) : colour10_25;
 
-		Polyline* box  = new Polyline();
-		box->setColour(*border_colour_);
-		box->setThickness(border_thickness_);
+		Polyline* box10_25  = new Polyline();
+		box10_25->setColour(*border_colour_);
+		box10_25->setThickness(border_thickness_);
+		box10_25->setFilled(true);
+		box10_25->setFillColour(colour10_25);
+		box10_25->setShading(new FillShadingProperties());
+        
+        Polyline* box25_75  = new Polyline();
+		box25_75->setColour(*border_colour_);
+		box25_75->setThickness(border_thickness_);
+		box25_75->setFilled(true);
+		box25_75->setFillColour(colour25_75);
+		box25_75->setShading(new FillShadingProperties());
+		
+		Polyline* box75_90  = new Polyline();
+		box75_90->setColour(*border_colour_);
+		box75_90->setThickness(border_thickness_);
+		box75_90->setFilled(true);
+		box75_90->setFillColour(colour75_90);
+		box75_90->setShading(new FillShadingProperties());
 
-		box->setColour(*border_colour_);
-		box->setFilled(true);
-		box->setThickness(border_thickness_);
-		box->setFillColour(colour);
-		box->setShading(new FillShadingProperties());
-      
+
         Polyline* median  = new Polyline();
         median->setColour(*median_colour_);
         
@@ -818,35 +826,35 @@ void EpsGraph::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
         bar2->setColour(*border_colour_);
         bar2->setThickness(border_thickness_);
 
-        box->push_back(PaperPoint(x-width, eps50));
-		box->push_back(PaperPoint(x-width, eps75));
+        box25_75->push_back(PaperPoint(x-width, eps50));
+		box25_75->push_back(PaperPoint(x-width, eps75));
         
         if ( ninty != (*point)->end() ) {
         	fullEps_ = true;
         	if ( eps75 != eps90 ) {
-            box->push_back(PaperPoint(x-(width/2), eps75));
-            box->push_back(PaperPoint(x-(width/2), eps90) );
-            box->push_back(PaperPoint(x+(width/2), eps90));
-            box->push_back(PaperPoint(x+(width/2), eps75));
+            box75_90->push_back(PaperPoint(x-(width/2), eps75));
+            box75_90->push_back(PaperPoint(x-(width/2), eps90) );
+            box75_90->push_back(PaperPoint(x+(width/2), eps90));
+            box75_90->push_back(PaperPoint(x+(width/2), eps75));
         	}
             
         }
         if ( eps75 != eps25 ) {
-		box->push_back(PaperPoint(x+width, eps75));
-		box->push_back(PaperPoint(x+width, eps25));
+		box25_75->push_back(PaperPoint(x+width, eps75));
+		box25_75->push_back(PaperPoint(x+width, eps25));
         }
         if ( ten != (*point)->end() ) {
         	if ( eps25 != eps10 ) {
 
-            box->push_back(PaperPoint(x+(width/2), eps25));
-            box->push_back(PaperPoint(x+(width/2),eps10));
-            box->push_back(PaperPoint(x-(width/2), eps10));
-            box->push_back(PaperPoint(x-(width/2), eps25));
+            box10_25->push_back(PaperPoint(x+(width/2), eps25));
+            box10_25->push_back(PaperPoint(x+(width/2),eps10));
+            box10_25->push_back(PaperPoint(x-(width/2), eps10));
+            box10_25->push_back(PaperPoint(x-(width/2), eps25));
         	}
         }
         if ( eps25 != eps50 ) {
-        box->push_back(PaperPoint(x-width, eps25));
-        box->push_back(PaperPoint(x-width, eps50));
+        box25_75->push_back(PaperPoint(x-width, eps25));
+        box25_75->push_back(PaperPoint(x-width, eps50));
         }
     	bar1->push_back(PaperPoint(x+width, eps25));
     	bar1->push_back(PaperPoint(x-width, eps25));
@@ -879,7 +887,9 @@ void EpsGraph::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
            (*bottom).push_back(PaperPoint(x, eps25));
 		
 		if (whisker_) {
-            transformation(*box, visitor);
+            transformation(*box10_25, visitor); 
+            transformation(*box25_75, visitor); 
+            transformation(*box75_90, visitor);
             transformation(*top, visitor);
             transformation(*bottom, visitor);
             transformation(*median, visitor);

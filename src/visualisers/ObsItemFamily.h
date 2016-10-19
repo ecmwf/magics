@@ -1,20 +1,12 @@
-/******************************** LICENSE ********************************
-
- Copyright 2007 European Centre for Medium-Range Weather Forecasts (ECMWF)
-
- Licensed under the Apache License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at 
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
-
- ******************************** LICENSE ********************************/
+/*
+ * (C) Copyright 1996-2016 ECMWF.
+ * 
+ * This software is licensed under the terms of the Apache Licence Version 2.0
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * granted to it by virtue of its status as an intergovernmental organisation nor
+ * does it submit to any jurisdiction.
+ */
 
 #ifndef ObsItemFamily_H
 #define ObsItemFamily_H
@@ -38,12 +30,14 @@ public:
 		column_ = atoi(find(def, "column").c_str());
 		colour_ = find(def, "colour", "black");
 		key_ = find(def, "key", "");
+		format_ = find(def, "format", "");
 	}
 protected:		
 	int row_;
 	int column_;
 	string colour_;
 	string key_;
+	string format_;
 };
 
 class ObsStationRing : public ObsItemBox
@@ -413,6 +407,34 @@ public:
 
 protected:
 	void print(ostream& out) const { out << "ObsEra";  }
+
+
+};
+class ObsString : public ObsItemBox
+{
+public:
+	ObsString()   {}
+	~ObsString()  {}
+
+	void visit(std::set<string>& tokens);
+	void operator()(CustomisedPoint&,  ComplexSymbol&) const;
+
+protected:
+	void print(ostream& out) const { out << "ObsNumber";  }
+	std::set<string> keys_;
+
+};
+class ObsNumber : public ObsItemBox
+{
+public:
+	ObsNumber()   {}
+	~ObsNumber()  {}
+
+	void visit(std::set<string>& tokens);
+	void operator()(CustomisedPoint&,  ComplexSymbol&) const;
+
+protected:
+	void print(ostream& out) const { out << "ObsNumber";  }
 
 
 };

@@ -140,7 +140,6 @@ does it submit to any jurisdiction.
   	
   	<parameter from="string" name="polyline_line_style_variable_name" default="" member="style_key" to="string">
          		<documentation> Data Variable used for setting the line style of the segments 		</documentation>
-
   	</parameter>
   	<parameter from="stringarray" name="polyline_line_style_list" default="stringarray()" member="style_list" to="stringarray">
          		<documentation> list of line styles to use 		</documentation>

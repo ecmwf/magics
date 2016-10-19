@@ -15,11 +15,8 @@
 # limitations under the License.
 #
 #
-# This script is provided by the ECMWF Meteorological Visualisation Section as help to 
-# clip / reduce size of mapgen data files.
+# This script is provided as help to clip / reduce size of mapgen data files.
 #
-
-
 import sys
 
 if len(sys.argv) < 6:

@@ -1,20 +1,12 @@
-/******************************** LICENSE ********************************
-
- Copyright 2007 European Centre for Medium-Range Weather Forecasts (ECMWF)
-
- Licensed under the Apache License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at 
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
-
- ******************************** LICENSE ********************************/
+/*
+ * (C) Copyright 1996-2016 ECMWF.
+ * 
+ * This software is licensed under the terms of the Apache Licence Version 2.0
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * granted to it by virtue of its status as an intergovernmental organisation nor
+ * does it submit to any jurisdiction.
+ */
 
 #include "MagicsFormat.h"
 #include <ios>
@@ -44,6 +36,31 @@ bool MagicsFormat::valid(ostream& out) const
 		out << bufr; 
 		return true;
 	}
+
+	 /* Added to allow rounded values to appear on a contour with a 'PS' prefix for positive figures and to remove '-' from negative figures */
+
+    if ( magCompare(format_, "(aeronautical)") || magCompare(format_, "aeronautical" ) )
+    {
+        char bufr[256];
+        double trVal=trunc(value_);
+        if(value_ == trVal  &&  static_cast<double>(static_cast<int>(trVal)) == trVal)
+        {
+            if(static_cast<int>(trVal)<0)
+                sprintf(bufr, "%d", -static_cast<int>(trVal));
+            else
+                sprintf(bufr, "PS%d", static_cast<int>(trVal));
+        }
+        else
+        {
+            if(value_<0)
+                sprintf(bufr, "%.0f", -value_);
+            else
+                sprintf(bufr, "PS%.0f", value_);
+        }
+
+        out << bufr;
+        return true;
+    }
     
 	string print =  "%g";
 	string flags;
