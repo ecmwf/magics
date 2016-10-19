@@ -1,20 +1,12 @@
-/******************************** LICENSE ********************************
-
- Copyright 2007 European Centre for Medium-Range Weather Forecasts (ECMWF)
-
- Licensed under the Apache License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at 
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
-
- ******************************** LICENSE ********************************/
+/*
+ * (C) Copyright 1996-2016 ECMWF.
+ * 
+ * This software is licensed under the terms of the Apache Licence Version 2.0
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * granted to it by virtue of its status as an intergovernmental organisation nor
+ * does it submit to any jurisdiction.
+ */
 
 /*! \file LegendMethod.cc
     \brief Implementation of the Template class LegendMethod.
@@ -79,12 +71,12 @@ void ContinuousLegendMethod::row(LegendEntry& entry, double x, double y, Text& l
 		entry.notext();
 	PaperPoint middle(x, y);
 	entry.rowBox(middle, task);
-
-	if ( entry.needContinuousText() ) {
-		legend.setJustification(MLEFT);
-		middle.y_ -= 0.5;
-		legend.push_back(middle); // We attach the text on the top middle of the symbol!
-	}
+	if ( labelCount_ % label_frequency_ == 0 )
+		if ( entry.needContinuousText(legend) ) {
+		
+			middle.y_ -= 0.5;
+			legend.push_back(middle); // We attach the text on the top middle of the symbol!
+		}
 
 	labelCount_++;
 } 		
@@ -94,10 +86,12 @@ void ContinuousLegendMethod::column(LegendEntry& entry, double x, double y, Text
 	if ( labelCount_ % label_frequency_ != 0 )
 		entry.notext();
 	entry.columnBox(PaperPoint(x, y), task);
-	if ( entry.needContinuousText() ) {
-		legend.setJustification(MLEFT);		
-		legend.push_back(PaperPoint(x+0.25, y)); // WE attach the text on the right of the sumbol!
-	}
+	if ( labelCount_ % label_frequency_ == 0 )
+	
+		if ( entry.needContinuousText(legend) ) {
+			
+			legend.push_back(PaperPoint(x+0.25, y)); // WE attach the text on the right of the sumbol!
+		}
 	labelCount_++;
 } 	
 void HistogramLegendMethod::row(LegendEntry& entry, double x, double y, Text&, BasicGraphicsObjectContainer& out)

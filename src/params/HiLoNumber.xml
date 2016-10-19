@@ -3,7 +3,7 @@
   	<documentation>
 This object is reponsible for plotting the HI/Lo as text.
   	</documentation>
-  	<parameter xml="format" from="string" name="contour_hilo_format" default="(automatic)" member="format" to="string">
+  	
 <!--
 (C) Copyright 1996-2016 ECMWF.
 
@@ -14,9 +14,6 @@ granted to it by virtue of its status as an intergovernmental organisation nor
 does it submit to any jurisdiction.
 -->
 
-         		<documentation> Format of HILO numbers (MAGICS Format/(AUTOMATIC)) 		</documentation>
-         		<release>Magics++0.1		</release>
-         		<release_info>Parameter defined but not implemented : expected in 0.7		</release_info>
-  	</parameter> 
+         		
  
 </class></magics>

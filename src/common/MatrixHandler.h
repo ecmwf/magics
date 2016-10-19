@@ -1,20 +1,12 @@
-/******************************** LICENSE ********************************
-
- Copyright 2007 European Centre for Medium-Range Weather Forecasts (ECMWF)
-
- Licensed under the Apache License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at 
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
-
- ******************************** LICENSE ********************************/
+/*
+ * (C) Copyright 1996-2016 ECMWF.
+ * 
+ * This software is licensed under the terms of the Apache Licence Version 2.0
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * granted to it by virtue of its status as an intergovernmental organisation nor
+ * does it submit to any jurisdiction.
+ */
 
 /*! \file MatrixHandler.h
     \brief Definition of the Template class MatrixHandler.
@@ -226,8 +218,9 @@ public :
     virtual int firstColumn() const { return matrix_.firstColumn(); }
     virtual int nextColumn(int j, int f) const  { return matrix_.nextColumn(j, f); } 
     
-    void setMinMax() const {
-    	int nb_rows = rows();
+    virtual void setMinMax() const {
+        
+        int nb_rows = rows();
     	int nb_columns = columns();
     	double missing =  matrix_.missing();    
     	        	
@@ -242,20 +235,24 @@ public :
     }
     
     double min() const {
-      	 if ( min_ != INT_MAX) 
+       
+      	if ( min_ != INT_MAX) 
       		 return min_;
       	
       	setMinMax();
-      	 return min_;
+      	return min_;
+        
      }
      
-       double max() const {
-      	 if ( max_ != -INT_MAX) 
+    double max() const {
+       
+    	 
+        if ( max_ != -INT_MAX) 
       		 return max_; 
-      	 
+      	
       	setMinMax();
-      	 return max_;
-       }
+      	return max_;
+    }
     
     virtual double  minX() const { return matrix_.minX(); }
     virtual double  maxX() const { return matrix_.maxX(); }
@@ -645,10 +642,12 @@ public:
         }
         return -1;
     }
+
     
+   
     inline double column(int, int column) const {   	
        	return regular_longitudes_[column];
-   }
+    }
     inline double row(int row, int) const {
     	return regular_latitudes_[row];
     }

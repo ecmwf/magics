@@ -62,7 +62,7 @@ public:
 	virtual void rowHisto(const PaperPoint& point, BasicGraphicsObjectContainer& out, const Colour&) {rowBox(point, out);}
 	virtual void columnHisto(const PaperPoint& point, BasicGraphicsObjectContainer& out, const Colour&) {columnBox(point, out);}
 
-	virtual bool needContinuousText() { return false; }
+	virtual bool needContinuousText(Text&) { return false; }
 	virtual bool needText() { return true; }
 	virtual const string& label() const;
 	virtual void interpret(string&) const {}
@@ -72,6 +72,8 @@ public:
 	 
 	void userText(const string& text) { userText_ = text; }
 	const string& userText() { return userText_; }
+	const string& units() { return units_; }
+	void units(const string& units) { units_ = units; }
 
 	void font(const MagFont& font) { font_ = font; }
 	void angle(double angle) { angle_ = angle; }
@@ -108,6 +110,7 @@ protected:
     HistogramLegendMethod* histogram_;
 
     string userText_;
+    string units_;
 	double from_;
 	double to_;
 	string format_;
@@ -202,11 +205,21 @@ public:
     void set(const PaperPoint&, BasicGraphicsObjectContainer&);
     virtual void rowBox(const PaperPoint&, BasicGraphicsObjectContainer&);
 	virtual void columnBox(const PaperPoint&, BasicGraphicsObjectContainer&);
-	bool needContinuousText() { return true;  }
+	bool needContinuousText(Text& text) { text.setJustification(MLEFT); return true;  }
 	~LineEntry();
 protected:
 	Polyline* line_;
 	Colour colour();
+};
+class RainbowEntry : public LineEntry
+{
+public:
+	RainbowEntry(double label, Polyline* line = 0 ) :  
+		LineEntry(label, line) { }
+	bool needContinuousText(Text&) { return true;  }
+	void rowBox(const PaperPoint&, BasicGraphicsObjectContainer&);
+
+	~RainbowEntry();
 };
 
 
@@ -224,7 +237,7 @@ public:
     void set(const PaperPoint&, BasicGraphicsObjectContainer&);
     virtual void rowBox(const PaperPoint&, BasicGraphicsObjectContainer&);
 	virtual void columnBox(const PaperPoint&, BasicGraphicsObjectContainer&);
-	bool needContinuousText() { return true;  }
+	bool needContinuousText(Text& text) { text.setJustification(MLEFT); return true;  }
 	~DoubleLineEntry();
 protected:
 	Polyline* line1_;
@@ -248,7 +261,7 @@ public:
 	void set(const PaperPoint&, BasicGraphicsObjectContainer&);
 	virtual void rowBox(const PaperPoint&, BasicGraphicsObjectContainer&);
 	virtual void columnBox(const PaperPoint&, BasicGraphicsObjectContainer&);
-	bool needContinuousText() { return false;  }
+	bool needContinuousText(Text&) { return false;  }
 	PaperPoint leftTextBox(const PaperPoint&);
 protected:
 	Arrow*  arrow_;
@@ -270,7 +283,7 @@ public:
 	void set(const PaperPoint&, BasicGraphicsObjectContainer&);
 	 virtual void rowBox(const PaperPoint&, BasicGraphicsObjectContainer&);
 	virtual void columnBox(const PaperPoint&, BasicGraphicsObjectContainer&);
-	bool needContinuousText() { return false;  }
+	bool needContinuousText(Text&) { return false;  }
 	PaperPoint leftTextBox(const PaperPoint&);
 protected:
 	Flag*  flag_;
