@@ -109,13 +109,14 @@ struct Convertor
 {
 	Convertor(NetVariable& );
 	To operator()(From from)
-	{      
-		return from * scale_factor_ + add_offset_;
+	{     
+        return  ( from != missing_) ? from * scale_factor_ + add_offset_ : missing_;
 	}  
 
 	NetVariable& variable_;
 	To    scale_factor_;
 	To    add_offset_;
+    From  missing_;
 };
 
 
@@ -164,6 +165,7 @@ struct NetVariable
 	NcVar* id_;
 	map<string, NetDimension> dimensions_;
 	map<string, NetAttribute> attributes_;
+    double missing_;
     
 	NetVariable(const string& name, NcVar* id, const NcFile& file, const string& method);
 
@@ -220,6 +222,8 @@ struct NetVariable
         s << "]" << "\n";
         
     }
+
+    double getMissing() { return missing_; }
     
     template <class T> 
     T  getAttribute(const string& name, T def) 
@@ -295,6 +299,7 @@ public:
     
         map<string, NetVariable>::iterator var = variables_.find(name);
         if ( var == variables_.end() ) throw NoSuchNetcdfVariable(name);
+        (*var).second.missing_ = missing_;
         (*var).second.get(vals, first, last);
     }
 
@@ -357,6 +362,7 @@ protected:
 	map<string, NetDimension> dimensions_;
 	map<string, NetVariable> dataset_;
 	map<string, NetAttribute> attributes_;
+    double missing_;
      
 private:
 	NcFile    file_;

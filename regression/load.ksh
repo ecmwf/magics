@@ -2,14 +2,14 @@
 
 set +x
 
-src='cyclone-trajectory-template.json'
+src='cmf_advanced_timeseries.json'
 img_ext="png"
-img="cyclone-trajectory.png"
+img="cmf_advanced_timeseries.png"
 where='web'
 interpretor='magjson'
 ext="json"
 
-version="2.28.0"
+version="2.29.3"
 dir=`pwd`
 name=`basename $dir`
 

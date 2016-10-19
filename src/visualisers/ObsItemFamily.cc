@@ -1,20 +1,12 @@
-/******************************** LICENSE ********************************
-
- Copyright 2007 European Centre for Medium-Range Weather Forecasts (ECMWF)
-
- Licensed under the Apache License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at 
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
-
- ******************************** LICENSE ********************************/
+/*
+ * (C) Copyright 1996-2016 ECMWF.
+ * 
+ * This software is licensed under the terms of the Apache Licence Version 2.0
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * granted to it by virtue of its status as an intergovernmental organisation nor
+ * does it submit to any jurisdiction.
+ */
 
 /*! \file ObsItemFamily.cc
     \brief Implementation of the Template class ObsItemfamily.
@@ -33,6 +25,8 @@
 #include "Flag.h"
 #include "Text.h"
 #include "PaperPoint.h"
+
+#include "Tokenizer.h"
 
 using namespace magics;
 
@@ -460,7 +454,7 @@ void ObsPresentWeather::operator()(CustomisedPoint& point,  ComplexSymbol& symbo
 	else {
 		map<int, string>::iterator w = presentweather.find(value->second);
 		if ( w == presentweather.end() ) {
-			MagLog::warning() << "Present Weather " << value->second << " is not recognised yet, pease conatct the magics team " << endl;
+			MagLog::warning() << "OBS > Present Weather " << value->second << " not recognised yet, please contact Magics team" << endl;
 		}
 		else
 			ww = w->second;
@@ -987,6 +981,85 @@ void  ObsEra::operator()(CustomisedPoint& point,  ComplexSymbol& symbol) const
 	if (pt == point.end())
 		return;
 	string text = tostring(point[key_]);
+	TextItem*  object = new TextItem();
+	object->x(column_);
+	object->y(row_);
+	MagFont font;
+	font.name("sansserif");
+	font.colour(colour_);
+	font.size(owner_->size_);
+
+	object->text(text);
+	object->font(font);
+	symbol.add(object);
+
+}
+
+
+void  ObsNumber::visit(std::set<string>& tokens)
+{
+	tokens.insert(key_);
+}
+
+void  ObsNumber::operator()(CustomisedPoint& point,  ComplexSymbol& symbol) const
+{
+	CustomisedPoint::iterator pt = point.find(key_);
+	if (pt == point.end())
+		return;
+	string text = tostring(point[key_]);
+	TextItem*  object = new TextItem();
+	object->x(column_);
+	object->y(row_);
+	MagFont font;
+	font.name("sansserif");
+	font.colour(colour_);
+	font.size(owner_->size_);
+
+	object->text(text);
+	object->font(font);
+	symbol.add(object);
+
+}
+
+std::set<string> keys_;
+
+void  ObsString::visit(std::set<string>& tokens)
+{
+	// Extract the keys needed from the format ${key}
+	Tokenizer tstart("${");
+	Tokenizer tend("}");
+   
+   	vector<string> keys;
+   	
+    tstart(format_, keys);
+    	
+    for (vector<string>::const_iterator token = keys.begin(); token != keys.end(); ++token) {
+    	
+    	vector<string> key;
+    	tend(*token, key);
+    	if ( !key.empty()) {
+    		tokens.insert(key.front());
+    		keys_.insert(key.front());
+    		
+    	}
+
+    } 
+		
+	
+}
+
+void  ObsString::operator()(CustomisedPoint& point,  ComplexSymbol& symbol) const
+{
+	string text = format_;
+	for (std::set<string>::iterator key = keys_.begin(); key != keys_.end(); ++key) {
+		CustomisedPoint::iterator pt = point.find(*key);
+		string val = (pt == point.end()) ? (*key) : tostring(point[*key]);
+		
+		string rkey = "${" + *key + "}";
+		text = text.replace(text.find(rkey), rkey.length(), val);
+	}
+
+
 	TextItem*  object = new TextItem();
 	object->x(column_);
 	object->y(row_);

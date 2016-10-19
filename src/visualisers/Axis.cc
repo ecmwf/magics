@@ -1,20 +1,12 @@
-/******************************** LICENSE ********************************
-
- Copyright 2007 European Centre for Medium-Range Weather Forecasts (ECMWF)
-
- Licensed under the Apache License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at 
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
-
- ******************************** LICENSE ********************************/
+/*
+ * (C) Copyright 1996-2016 ECMWF.
+ * 
+ * This software is licensed under the terms of the Apache Licence Version 2.0
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * granted to it by virtue of its status as an intergovernmental organisation nor
+ * does it submit to any jurisdiction.
+ */
 
 /*! \file Axis.cc
     \brief Implementation of the Template class Axis.
@@ -370,7 +362,7 @@ void VerticalAxis::label(VerticalAxisVisitor& axis)
 		if ( count % label_frequency_  ) continue;
 
 
-		double height = ((*y)->height() == DBL_MIN || (*y)->height() == 0 ) ? label_height_ : (*y)->height();
+		double height = ((*y)->height() == DBL_MIN || (*y)->height() == 0 ) ? label_height_  : (*y)->height();
 		double pos;
 		map<int, double>::iterator p = positions.find((*y)->level());
 
@@ -383,7 +375,7 @@ void VerticalAxis::label(VerticalAxisVisitor& axis)
 			double newpos = axis.offsetTickLabel(height, p->second);
 			positions[(*y)->level()] = newpos;
 
-			title_position_ = newpos;
+			title_position_ = axis.offsetTickLabel(height * label.size()/2, p->second);;
 		}
         PaperPoint point(pos, transformation.y((*y)->position()));
 

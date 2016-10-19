@@ -713,7 +713,6 @@ void OdaXYDecoder::customisedPoints(const Transformation& transformation, const 
 {  
 	try
 	{
-  
 		odb_start();
 		odb::Reader oda(path_);
 
@@ -902,7 +901,6 @@ void OdaXYDecoder::decode(const Transformation& transformation)
 
 	try
 	{
-	  
 	      odb_start();
 	      odb::Reader oda(path_);
 

@@ -91,11 +91,7 @@ ecbuild_add_option( FEATURE SPOT
 ecbuild_add_option( FEATURE PYTHON
                     DEFAULT ON
                     DESCRIPTION "enable python interface"
-                    REQUIRED_PACKAGES Python SWIG NumPy )
-
-if( HAVE_PYTHON )
-   include(UseSWIG)
-endif()
+                    REQUIRED_PACKAGES "Python NO_LIBS" SWIG NumPy )
 
 ecbuild_add_option( FEATURE FORTRAN
                     DEFAULT ON
@@ -136,11 +132,11 @@ set( MAGICS_EXCEPTION     "ON" )
 set( MAGICS_SITE          "ecmwf" )
 set( MAGICS_INSTALL_PATH  ${CMAKE_INSTALL_PREFIX} )
 
-set( MAGICS_REFERENCE_VERSIONS            "2.29.1" )
+set( MAGICS_REFERENCE_VERSIONS            "2.29.3" )
 set( MAGICS_HTML_ROOT        "${CMAKE_BINARY_DIR}/regression/html")
 file(MAKE_DIRECTORY ${MAGICS_HTML_ROOT} )
 
-set( MAG_PYTHON_PATH ${CMAKE_BINARY_DIR}/python )
+set( MAG_PYTHON_PATH ${CMAKE_CURRENT_BINARY_DIR}/python )
 
 ###############################################################################
 # projects
