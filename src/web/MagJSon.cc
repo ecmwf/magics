@@ -195,3 +195,15 @@ void MagJSon::magics(const json_spirit::Value& value)
 	Timer timer("total", "execution");
 	magics.execute(tree_);
 }
+
+bool ParamJSon::hasKey(const string& key)
+{
+	
+	return ( find(key) != end() );
+}
+
+string ParamJSon::get(const string& key, const string& val)
+{
+	const_iterator value = find(key);
+	return ( value != end() ) ? value->second : val;
+}

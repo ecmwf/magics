@@ -127,7 +127,7 @@ bool NetcdfGeoMatrixInterpretor::interpretAsPoints(PointsList& list)
 		vector<double> values;
 		map<string, string> first, last;
 		setDimensions(dimension_, first, last);
-		double missing_value = missing(netcdf);
+		double missing_value =  netcdf.getMissing(field_, missing_attribute_);
 		
 		netcdf.get(field_, values, first, last);
 		netcdf.get(longitude_, longitudes, first, last);

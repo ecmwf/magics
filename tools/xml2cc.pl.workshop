@@ -386,14 +386,11 @@ EOF
  
     print  <<EOF;
 /*! \\file $object\Attributes.h
-    \\brief Implemtation of $object Attributes class.
+    \\brief Implementation of $object Attributes class.
     Automatically generated on $string
     Do Not Edit!
-    
-    Magics Team - ECMWF 2004
-   
+
     Created: $string
-    
 */    
 
     

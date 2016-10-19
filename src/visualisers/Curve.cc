@@ -1,20 +1,12 @@
-/******************************** LICENSE ********************************
-
- Copyright 2007 European Centre for Medium-Range Weather Forecasts (ECMWF)
-
- Licensed under the Apache License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at 
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
-
- ******************************** LICENSE ********************************/
+/*
+ * (C) Copyright 1996-2016 ECMWF.
+ * 
+ * This software is licensed under the terms of the Apache Licence Version 2.0
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * granted to it by virtue of its status as an intergovernmental organisation nor
+ * does it submit to any jurisdiction.
+ */
 
 /*! \file Curve.cc
     \brief Implementation of the Template class Curve.
@@ -36,6 +28,24 @@
 
 using namespace magics;
 
+
+template <class T, class O>
+void setHandler(const vector<string>& keys, vector<T>& values, ListPolicy policy, const T& def, map<string, O>& handler) 
+{
+	if (values.empty())
+		values.push_back(def);
+
+	typename vector<T>::const_iterator value = values.begin();
+	MagTranslator<T, O> translator;
+	for (vector<string>::const_iterator key = keys.begin(); key != keys.end(); ++key) {
+		
+		handler.insert(make_pair(*key, translator(*value)));
+		value++;
+		if ( value == values.end() )
+			value = ( policy ==  M_CYCLE ) ? values.begin() : --value;
+	}
+}
+
 Curve::Curve() 
 {
 	missingMethods_["ignore"] = &Curve::ignore;
@@ -44,7 +54,9 @@ Curve::Curve()
 
 	curveMethods_["straight"] = &Curve::straight;
 	curveMethods_["stepped"] = &Curve::stepped;
+	
 
+	
 }
 
 
@@ -64,9 +76,12 @@ Polyline* Curve::newCurve(BasicGraphicsObjectContainer& task) const
 {
 
 	Polyline* curve  = new Polyline();
-	(*curve).setColour(*colour_);
-	(*curve).setLineStyle(style_);
-	(*curve).setThickness(thickness_);
+	
+
+	(*curve).setColour(currentColour_);
+	(*curve).setLineStyle(currentStyle_);
+	(*curve).setThickness(currentThickness_);
+
 
 	return curve;
 	
@@ -97,6 +112,17 @@ void  Curve::stepped(const UserPoint& point, vector<UserPoint>& out)
 
 }
 
+template <class T>
+const T& get(const map<string, T>& handler, const string& key, const T& def) 
+{
+	
+	typename std::map<string, T>::const_iterator value = handler.find(key);
+	if ( value == handler.end() ) 
+		return def;
+	return value->second;
+
+}
+
 void Curve::operator()(Data& data, BasicGraphicsObjectContainer& task)
 {
 
@@ -106,12 +132,41 @@ void Curve::operator()(Data& data, BasicGraphicsObjectContainer& task)
 
 
     std::set<string> needs;
+    std::map<string, string> info;
+
+    currentColour_ = *colour_;
+	currentThickness_ = thickness_;
+	currentStyle_ = style_;
+    
+    if ( magCompare(style_setting_, "advanced")  ) {
+    	string style = "solid";
+ 		setHandler(colour_keys_, colour_list_, colour_policy_, colour_->name(), colourHandler_);
+		setHandler(thickness_keys_, thickness_list_, thickness_policy_, thickness_, thicknessHandler_);
+		setHandler(style_keys_, style_list_, style_policy_, style, styleHandler_);
+
+    	info.insert(make_pair(style_key_, ""));
+    	info.insert(make_pair(colour_key_, ""));
+    	info.insert(make_pair(thickness_key_, ""));
+		data.getInfo(info);
+		
+		string colour = get(colourHandler_, info[colour_key_], currentColour_.name());
+		currentColour_ = Colour(colour);
+		currentThickness_ = get(thicknessHandler_, info[thickness_key_], currentThickness_);
+		currentStyle_ = get(styleHandler_, info[style_key_], currentStyle_);
+	}
+
+
+	
+
+	
+	
+
+
     CustomisedPointsList raw, points;
 
     data.customisedPoints(transformation, needs, points, true);
 
 	if ( legend_text_ == "?" ) legend_text_ = data.legend(); 
-	
 	
 	Polyline* curve_ = newCurve(task);
 	bool last_out = false;	
@@ -223,7 +278,10 @@ void CurveArea::operator()(Data& data, BasicGraphicsObjectContainer& task)
 	vector<double> ypos;
     const Transformation& transformation = task.transformation();
 
-
+    currentColour_ = *colour_;
+	currentThickness_ = thickness_;
+	currentStyle_ = style_;
+    
     std::set<string> needs;
     CustomisedPointsList points;
     if ( shade_->needCustomised() ) {
@@ -329,9 +387,9 @@ void Curve::visit(LegendVisitor& legend)
 void  Curve::set(const PaperPoint& point, BasicGraphicsObjectContainer& legend, LegendEntry& entry)
 {
 	Polyline* curve  = new Polyline();
-	curve->setColour(*colour_);
-	curve->setLineStyle(style_);
-	curve->setThickness(thickness_);
+	curve->setColour(currentColour_);
+	curve->setLineStyle(currentStyle_);
+	curve->setThickness(currentThickness_);
 	
 	double width = entry.computeWidth(0.8)/2;
 
@@ -383,7 +441,6 @@ void Curve::legend_symbol(PaperPoint& point, BasicGraphicsObjectContainer& task)
 	if ( !symbol_ ) return;
 
 	Symbol* symbol = new Symbol();
-
     symbol->setMarker(symbol_marker_);
     symbol->setHeight(symbol_height_);
     symbol->setColour(*symbol_colour_);

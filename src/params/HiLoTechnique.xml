@@ -31,4 +31,10 @@ does it submit to any jurisdiction.
          		<documentation> Colour of local minima text or number 		</documentation>
          		<release>0.1		</release>
 	</parameter>
+    <parameter xml="format" from="string" name="contour_hilo_format" default="(automatic)" member="format" to="string">
+        <documentation> Format of HILO numbers (MAGICS Format/(AUTOMATIC))      </documentation>
+                <release>Magics++0.1        </release>
+                <release_info>Parameter defined but not implemented : expected in 0.7       </release_info>
+    
+    </parameter>
 </class></magics>

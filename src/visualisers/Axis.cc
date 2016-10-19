@@ -1,20 +1,12 @@
-/******************************** LICENSE ********************************
-
- Copyright 2007 European Centre for Medium-Range Weather Forecasts (ECMWF)
-
- Licensed under the Apache License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at 
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
-
- ******************************** LICENSE ********************************/
+/*
+ * (C) Copyright 1996-2016 ECMWF.
+ * 
+ * This software is licensed under the terms of the Apache Licence Version 2.0
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * granted to it by virtue of its status as an intergovernmental organisation nor
+ * does it submit to any jurisdiction.
+ */
 
 /*! \file Axis.cc
     \brief Implementation of the Template class Axis.
@@ -372,7 +364,7 @@ void VerticalAxis::label(VerticalAxisVisitor& axis)
 		if ( count % label_frequency_  ) continue;
 
 
-		double height = ((*y)->height() == DBL_MIN || (*y)->height() == 0 ) ? label_height_ : (*y)->height();
+		double height = ((*y)->height() == DBL_MIN || (*y)->height() == 0 ) ? label_height_  : (*y)->height();
 		double pos;
 		map<int, double>::iterator p = positions.find((*y)->level());
 
@@ -385,7 +377,7 @@ void VerticalAxis::label(VerticalAxisVisitor& axis)
 			double newpos = axis.offsetTickLabel(height, p->second);
 			positions[(*y)->level()] = newpos;
 
-			title_position_ = newpos;
+			title_position_ = axis.offsetTickLabel(height * label.size()/2, p->second);;
 		}
         PaperPoint point(pos, transformation.y((*y)->position()));
 
@@ -546,8 +538,20 @@ void HorizontalAxis::grid(DrawingVisitor& out) const
 	const Transformation& transformation = out.transformation();
 	for (AxisItems::const_iterator x = items_.begin(); x != items_.end(); ++x)
     {
-    	if ( !(*x)->isGrid() ) continue;
     	pos = (*x)->position();
+    	
+    	if ( minor_grid_ && (*x)->isMinorTick() ) {
+    		Polyline* grid = new Polyline();
+			grid->push_back(PaperPoint(transformation.x(pos), bottom));
+			grid->push_back(PaperPoint(transformation.x(pos), top));
+			grid->setColour(*minor_grid_colour_);
+			grid->setLineStyle(minor_grid_style_);
+			grid->setThickness(minor_grid_thickness_);
+			out.push_back(grid);
+			continue;
+    	}
+    	if ( !(*x)->isGrid() ) continue;
+    	
     	if ( !transformation.inX(pos) ) continue;
 		Polyline* grid = new Polyline();
 		grid->push_back(PaperPoint(transformation.x(pos), bottom));
@@ -578,8 +582,19 @@ void VerticalAxis::grid(DrawingVisitor& out) const
 	const Transformation& transformation = out.transformation();
 	for (AxisItems::const_iterator y = items_.begin(); y != items_.end(); ++y)
     {
-    	if (!(*y)->isGrid() ) continue;
     	pos = (*y)->position();
+    	if ( minor_grid_ && (*y)->isMinorTick() ) {
+    		Polyline* grid = new Polyline();
+			grid->push_back(PaperPoint(left, transformation.y(pos)));
+			grid->push_back(PaperPoint(right, transformation.y(pos)));
+			grid->setColour(*minor_grid_colour_);
+			grid->setLineStyle(minor_grid_style_);
+			grid->setThickness(minor_grid_thickness_);
+			out.push_back(grid);
+			continue;
+    	}
+    	if (!(*y)->isGrid() ) continue;
+    	
     	if ( !transformation.inY(pos) ) continue;
     	Polyline* grid = new Polyline();
 		grid->push_back(PaperPoint(left, transformation.y(pos)));
@@ -596,7 +611,7 @@ void VerticalAxis::grid(DrawingVisitor& out) const
 				grid->setThickness(grid_thickness_);
 		}
 		out.push_back(grid);
-		 }
+	}
 }
 
 void VerticalAxis::minortick(VerticalAxisVisitor& axis)

@@ -25,6 +25,7 @@
 #include "Factory.h"
 #include "Transformation.h"
 #include "MagnifierVisitor.h"
+#include "MagJSon.h"
 
 using namespace magics;
 
@@ -75,6 +76,14 @@ void NetcdfDecoder::visit(MagnifierVisitor& magnify)
 	 
 }
 
+void NetcdfDecoder::getInfo(map<string, string>& infos)
+{
+	ParamJSon data(metadata_);
+
+	for (map<string, string>::iterator info = infos.begin(); info != infos.end(); ++info)
+		info->second = data.get(info->first, info->second);
+
+}
 void NetcdfDecoder::visit(MetaDataCollector& mdc)
 {
 	bool interpretorCalled=false;
