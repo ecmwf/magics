@@ -2,125 +2,52 @@
 (C) Copyright 1996-2016 ECMWF.
 
 This software is licensed under the terms of the Apache Licence Version 2.0
-which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
-In applying this licence, ECMWF does not waive the privileges and immunities 
+which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+In applying this licence, ECMWF does not waive the privileges and immunities
 granted to it by virtue of its status as an intergovernmental organisation nor
 does it submit to any jurisdiction.
 -->
 
-<center code='98'>
+<centre code='98'>
     <table code='170'>
-    <param code='129' mars=''
-           short_title='geop'
-           long_title='geopotential height'
-           scaling='0.0101971621297793' offset='-0.0'
-           original_unit='m**2 s**-2' derived_unit='dam'
-           vector1='0' vector2='0'
-           contour_interval='8.0' specification='p1'/>
-    <param code='130' mars=''
-           short_title='temp'
-           long_title='temperature'
-           scaling='1.0' offset='-273.16'
-           original_unit='K' derived_unit='deg c'
-           vector1='0' vector2='0'
-           contour_interval='5.0' specification='p2'/>
-    <param code='131' mars=''
-           short_title='u-vel'
-           long_title='u-velocity'
-           scaling='1.0' offset='-0.0'
-           original_unit='m s**-1' derived_unit='m/s'
-           vector1='0' vector2='0'
-           contour_interval='0.0' specification='p3'/>
-    <param code='132' mars=''
-           short_title='v-vel'
-           long_title='v-velocity'
-           scaling='1.0' offset='-0.0'
-           original_unit='m s**-1' derived_unit='m/s'
-           vector1='0' vector2='0'
-           contour_interval='0.0' specification='p4'/>
-    <param code='138' mars=''
-           short_title='vort'
-           long_title='vorticity'
-           scaling='100000.0' offset='-0.0'
-           original_unit='s**-1' derived_unit='10**5/sec'
-           vector1='0' vector2='0'
-           contour_interval='0.0' specification='p10'/>
-    <param code='140' mars=''
-           short_title='soil wet lyr 1'
-           long_title='soil wetness layer 1'
-           scaling='1000.0' offset='-0.0'
-           original_unit='m' derived_unit='mm'
-           vector1='0' vector2='0'
-           contour_interval='0.0' specification='p12'/>
-    <param code='141' mars=''
-           short_title='snow depth'
-           long_title='snow depth'
-           scaling='100.0' offset='-0.0'
-           original_unit='m of water equivalent' derived_unit='cm'
-           vector1='0' vector2='0'
-           contour_interval='0.0' specification='p13'/>
-    <param code='149' mars=''
-           short_title='tot soil moist'
-           long_title='total soil moisture'
-           scaling='100.0' offset='-0.0'
-           original_unit='m' derived_unit='cm'
-           vector1='0' vector2='0'
-           contour_interval='0.0' specification='p43'/>
-    <param code='151' mars=''
-           short_title='msl'
-           long_title='mean sea level pressure'
-           scaling='0.01' offset='-0.0'
-           original_unit='Pa' derived_unit='hpa'
-           vector1='0' vector2='0'
-           contour_interval='5.0' specification='p23'/>
-    <param code='155' mars=''
-           short_title='diverg'
-           long_title='divergence'
-           scaling='100000.0' offset='-0.0'
-           original_unit='s**-1' derived_unit='10**5/sec'
-           vector1='0' vector2='0'
-           contour_interval='0.0' specification='p27'/>
-    <param code='171' mars=''
-           short_title='soil wet lyr2'
-           long_title='soil wetness layer2'
-           scaling='1000.0' offset='-0.0'
-           original_unit='m' derived_unit='mm'
-           vector1='0' vector2='0'
-           contour_interval='1.0' specification='p43'/>
-    <param code='179' mars=''
-           short_title='top ther rad'
-           long_title='top thermal radiation'
-           scaling='1.0' offset='-0.0'
-           original_unit='W m-2' derived_unit='j/sq m'
-           vector1='0' vector2='0'
-           contour_interval='0.0' specification='p43'/>
-    <param code='184' mars=''
-           short_title='soil wet lyr3'
-           long_title='soil wetness layer3'
-           scaling='1000.0' offset='-0.0'
-           original_unit='m' derived_unit='mm'
-           vector1='0' vector2='0'
-           contour_interval='0.0' specification='p43'/>
-    <param code='201' mars=''
-           short_title='max 2m tem'
-           long_title='maximum temp at 2m'
-           scaling='1.0' offset='-273.16'
-           original_unit='K' derived_unit='deg c'
-           vector1='0' vector2='0'
-           contour_interval='0.0' specification='p43'/>
-    <param code='202' mars=''
-           short_title='min 2m  tem'
-           long_title='minimum temp at 2 m'
-           scaling='1.0' offset='-273.16'
-           original_unit='K' derived_unit='deg c'
-           vector1='0' vector2='0'
-           contour_interval='0.0' specification='p43'/>
-    <param code='228' mars=''
-           short_title='tot prec'
-           long_title='total precipitation'
-           scaling='1000.0' offset='-0.0'
-           original_unit='m' derived_unit='mm'
-           vector1='0' vector2='0'
-           contour_interval='0.0' specification='p43'/>
-     </table>
-</center>
+        <param code='129' 
+               original_unit='m**2 s**-2' derived_unit='dam' 
+               scaling='0.0101971621297793' offset='-0.0'/> 
+        <param code='130' 
+               original_unit='K' derived_unit='deg c' 
+               scaling='1.0' offset='-273.16'/> 
+        <param code='138' 
+               original_unit='s**-1' derived_unit='10**5/sec' 
+               scaling='100000.0' offset='-0.0'/> 
+        <param code='140' 
+               original_unit='m' derived_unit='mm' 
+               scaling='1000.0' offset='-0.0'/> 
+        <param code='141' 
+               original_unit='m of water equivalent' derived_unit='cm' 
+               scaling='100.0' offset='-0.0'/> 
+        <param code='149' 
+               original_unit='m' derived_unit='cm' 
+               scaling='100.0' offset='-0.0'/> 
+        <param code='151' 
+               original_unit='Pa' derived_unit='hpa' 
+               scaling='0.01' offset='-0.0'/> 
+        <param code='155' 
+               original_unit='s**-1' derived_unit='10**5/sec' 
+               scaling='100000.0' offset='-0.0'/> 
+        <param code='171' 
+               original_unit='m' derived_unit='mm' 
+               scaling='1000.0' offset='-0.0'/> 
+        <param code='184' 
+               original_unit='m' derived_unit='mm' 
+               scaling='1000.0' offset='-0.0'/> 
+        <param code='201' 
+               original_unit='K' derived_unit='deg c' 
+               scaling='1.0' offset='-273.16'/> 
+        <param code='202' 
+               original_unit='K' derived_unit='deg c' 
+               scaling='1.0' offset='-273.16'/> 
+        <param code='228' 
+               original_unit='m' derived_unit='mm' 
+               scaling='1000.0' offset='-0.0'/> 
+    </table>
+<centre/>
