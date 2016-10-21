@@ -2,41 +2,13 @@
 (C) Copyright 1996-2016 ECMWF.
 
 This software is licensed under the terms of the Apache Licence Version 2.0
-which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
-In applying this licence, ECMWF does not waive the privileges and immunities 
+which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+In applying this licence, ECMWF does not waive the privileges and immunities
 granted to it by virtue of its status as an intergovernmental organisation nor
 does it submit to any jurisdiction.
 -->
 
-<center code='98'>
+<centre code='98'>
     <table code='132'>
-    <param code='49' mars=''
-           short_title='10GP'
-           long_title='Maximum 10 metre wind gust index'
-           scaling='1.0' offset='-0.0'
-           original_unit='(-1 to 1)' derived_unit=''
-           vector1='0' vector2='0'
-           contour_interval='0.0' specification='p0'/>
-    <param code='165' mars=''
-           short_title='10SP'
-           long_title='10 metre speed index'
-           scaling='1.0' offset='-0.0'
-           original_unit='(-1 to 1)' derived_unit=''
-           vector1='0' vector2='0'
-           contour_interval='0.0' specification='p0'/>
-    <param code='167' mars=''
-           short_title='2TP'
-           long_title='2 metre temperature index'
-           scaling='1.0' offset='-0.0'
-           original_unit='(-1 to 1)' derived_unit=''
-           vector1='0' vector2='0'
-           contour_interval='0.0' specification='p0'/>
-    <param code='228' mars=''
-           short_title='TTP'
-           long_title='Total precipitation index'
-           scaling='1.0' offset='-0.0'
-           original_unit='(-1 to 1)' derived_unit=''
-           vector1='0' vector2='0'
-           contour_interval='0.0' specification='p0'/>
-     </table>
-</center>
+    </table>
+<centre/>
