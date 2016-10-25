@@ -37,6 +37,12 @@ does it submit to any jurisdiction.
         <param code='60' 
                original_unit='K m**2 kg**-1 s**-1' derived_unit='pv units' 
                scaling='1000000.0' offset='-0.0'/> 
+        <param code='121' 
+               original_unit='K' derived_unit='deg c' 
+               scaling='1.0' offset='-273.16'/> 
+        <param code='122' 
+               original_unit='K' derived_unit='deg c' 
+               scaling='1.0' offset='-273.16'/> 
         <param code='129' 
                original_unit='m**2 s**-2' derived_unit='dam' 
                scaling='0.0101971621297793' offset='-0.0'/> 
@@ -160,5 +166,13 @@ does it submit to any jurisdiction.
         <param code='260510' 
                original_unit='K' derived_unit='deg c' 
                scaling='1.0' offset='-273.16'/> 
+        <param code='228026' 
+               original_unit='K' derived_unit='deg c' 
+               scaling='1.0' offset='-273.16'/> 
+        <param code='228027' 
+               original_unit='K' derived_unit='deg c' 
+               scaling='1.0' offset='-273.16'/> 
+    </table>
+<centre/>
     </table>
 <centre/>
