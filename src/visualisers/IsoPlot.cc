@@ -451,30 +451,6 @@ void CellBox::shade(const IsoPlot& owner) {
         shade(owner, this);
 }
 
-void CellBox::prepare(int)
-{
-
-    // split in 8
-
-
-    if ( row1_ == row2_ && column1_ ==  column2_ )
-            return;
-
-    const int row    = (row2_   + row1_) /2;
-    const int column = (column2_+ column1_)/4;
-
-
-    // Push 8 cells:
-    push_back(new CellBox(parent_, row1_, row, column1_, column));
-    push_back(new CellBox(parent_, row1_, row, column+1, 2*column));
-    push_back(new CellBox(parent_, row1_, row, (2*column)+1, 3*column));
-    push_back(new CellBox(parent_, row1_, row, (3*column)+1, column2_)); 
-    push_back(new CellBox(parent_, row+1, row2_, column1_, column));
-    push_back(new CellBox(parent_, row+1, row2_, column+1, 2*column));
-    push_back(new CellBox(parent_, row+1, row2_, (2*column)+1, 3*column));
-    push_back(new CellBox(parent_, row+1, row2_, (3*column)+1, column2_));
-
-}
 
 void CellBox::split(int)
 {
@@ -1301,8 +1277,7 @@ void IsoPlot::isoline(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
             consumers.back()->start();
         }
 
-        view.prepare(threads_);
-        //view.split();
+        view.split();
        
         cout << "Nb Thread --> " << view.size() << endl;
         
