@@ -418,7 +418,7 @@ bool MagPlus::page_update(magics::MagRequest& in)
 
 	// get the Metview ID;
 	// reset the page!!!
-	int id = in("METVIEW_ID");
+	int id = in("_ID");
 	FortranViewNodeWrapper* page = pages_[id];
 	page->set(in);
 	FortranViewNodeAttributes* node= page->object();
@@ -444,9 +444,6 @@ bool MagPlus::page(magics::MagRequest& in)
 	FortranSceneNodeWrapper scenehelper;
 	scenehelper.set(in);
 
-	string metview_id = get(in, "METVIEW_ID", "");
-	in("_ID") = metview_id;
-	in.print();
 
 	setIconInfo(in, *scenehelper.object());
 	
@@ -468,8 +465,8 @@ bool MagPlus::page(magics::MagRequest& in)
 		viewhelper->set(in);
 		FortranViewNode* view = viewhelper->object();
 
-		string id =  in("METVIEW_ID");
-		int i =  in("METVIEW_ID");
+		string id =  in("_ID");
+		int i =  in("_ID");
 		pages_[i] = viewhelper;
 		if ( !id.empty() )
 		{
@@ -492,7 +489,7 @@ bool MagPlus::page(magics::MagRequest& in)
 		page_ = new FortranViewNodeWrapper();
 		in("SUBPAGE_MAP_PROJECTION") = "cartesian";
 		page_->set(in);
-		int id = in("METVIEW_ID");
+		int id = in("_ID");
 		pages_[id] = page_;
 	}
 
@@ -510,7 +507,7 @@ bool MagPlus::cartesian(magics::MagRequest& in) {
 
 	if ( !page_ ) page_ = new FortranViewNodeWrapper();
 	page_->set(in);
-	id_ =  (string)in("METVIEW_ID");
+	id_ =  (string)in("_ID");
 	in("_ID") = id_;
 
 	string zindex = in("STACKING_ORDER");
