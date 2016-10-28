@@ -29,14 +29,25 @@ projection = mmap(subpage_map_projection = 'cartesian',
 #Vertical axis
 vertical = maxis(axis_orientation = "vertical",
 				 axis_grid =  "on",
-				 axis_grid_colour = "grey",
+				 axis_grid_colour = "charcoal",
 				 axis_grid_thickness = 1,
-				 axis_grid_line_style = "dot")
+				 axis_grid_line_style = "dot",
+				 axis_minor_tick =  "on",
+				 axis_minor_grid =  "on",
+				 axis_minor_grid_colour = "grey",
+				 axis_minor_grid_line_style = "dot",
+                 )
 
 #Horizontal axis
 horizontal = maxis(axis_orientation = "horizontal",
 				 axis_grid =  "on",
-				 axis_grid_colour = "grey",
+
+				 axis_minor_tick =  "on",
+				 axis_minor_grid_colour = "grey",
+				 axis_minor_grid =  "on",
+				 axis_minor_grid_line_style = "dot",
+
+				 axis_grid_colour = "charcoal",
 				 axis_grid_thickness = 1,
 				 axis_grid_line_style = "dot")
 
