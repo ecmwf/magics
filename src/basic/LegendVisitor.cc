@@ -312,6 +312,12 @@ void  LegendVisitor::horizontal()
 	// here we have a title, we need to adjust the coordinates used in the legend dependind on its position
 	if ( magCompare(entry_orientation_, "right_left") ) {
 		std::reverse(begin(), end());
+		for(vector<LegendEntry*>::const_iterator entry = begin(); entry != end(); ++entry)
+			std::swap((*entry)->from_, (*entry)->to_);
+		back()->last_ = true;
+		front()->last_ = false;
+		back()->first_ = false;
+		front()->first_ = true;
 		std::reverse(lines_.begin(), lines_.end());
 	}
 
@@ -351,6 +357,12 @@ void  LegendVisitor::vertical()
 
 	if ( magCompare(entry_orientation_, "top_bottom") ) {
 		std::reverse(begin(), end());
+		for(vector<LegendEntry*>::const_iterator entry = begin(); entry != end(); ++entry)
+			std::swap((*entry)->from_, (*entry)->to_);
+		back()->last_ = true;
+		front()->last_ = false;
+		back()->first_ = false;
+		front()->first_ = true;
 		std::reverse(lines_.begin(), lines_.end());
 	}
 
