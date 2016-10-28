@@ -83,6 +83,8 @@ Symbol* SymbolProperties::symbol(const string& type) const
 
 	const unsigned text_size = text_.size();
 	
+	int height = 0; 
+
 	if ( magCompare(type, "marker")  )	{
 		if ( image_  ) {
 			ImageSymbol* img =  new ImageSymbol(image_path_, image_format_);
@@ -130,6 +132,12 @@ Symbol* SymbolProperties::symbol(const string& type) const
 			text->font(font_);
 			text->text(text_);
 			text->blanking(blanking_);
+			
+			symbol->setColour(Colour("none"));
+			symbol->setSymbol(marker_);
+			symbol->setHeight(0.0);
+
+			return symbol;
 		}
 	}
 	if ( magCompare(type, "number") )
@@ -152,7 +160,7 @@ Symbol* SymbolProperties::symbol(const string& type) const
 	
 	symbol->setColour(colour_);
 	symbol->setSymbol(marker_);
-	symbol->setHeight(height_);
+	symbol->setHeight(height);
 	symbol->outline(outline_, outlineColour_, outlineThickness_, outlineStyle_);
 	symbol->connectline(connectLine_, connectLineColour_, connectLineThickness_, connectLineStyle_);
 
