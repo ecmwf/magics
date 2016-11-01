@@ -18,6 +18,7 @@ def graph(x,y, title="", graph = None) :
 	   } 
     }
 
+    
     x[0] = x[0]*1.
     y[0] = y[0]*1.
    

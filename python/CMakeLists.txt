@@ -10,6 +10,7 @@ if( HAVE_PYTHON )
   # configure_file ensures the copy is triggered if the file changes
   configure_file( Magics/__init__.py Magics/__init__.py COPYONLY )
   configure_file( Magics/macro.py Magics/macro.py COPYONLY )
+  configure_file( Magics/toolbox.py Magics/toolbox.py COPYONLY )
   configure_file( Magics/metgram.py Magics/metgram.py COPYONLY )
 
   set( _magics_swig "_Magics${CMAKE_SHARED_LIBRARY_SUFFIX}" )
