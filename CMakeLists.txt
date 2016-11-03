@@ -48,8 +48,10 @@ if( HAVE_ECCODES )
   set( GRIB_API_LIBRARIES    ${ECCODES_LIBRARIES} )
   set( GRIB_API_DEFINITIONS  ${ECCODES_DEFINITIONS} )
   set( grib_api_BASE_DIR     ${eccodes_BASE_DIR} )
+  set( grib_handling_pkg eccodes )
 else()
   ecbuild_use_package(PROJECT grib_api VERSION 1.14.6 REQUIRED)
+  set( grib_handling_pkg grib_api )
 endif()
 
 
