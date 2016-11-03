@@ -1,3 +1,9 @@
+
+
+set( grib_environment
+    GRIB_DEFINITION_PATH=${grib_api_BASE_DIR}/share/${grib_handling_pkg}/definitions
+    GRIB_SAMPLES_PATH=${grib_api_BASE_DIR}/share/${grib_handling_pkg}/samples )
+    
 # Basic test 
 ecbuild_add_test( TARGET basic_c
                   SOURCES   coast.c
@@ -60,7 +66,8 @@ ecbuild_add_test( TARGET grib_python
                   RESOURCES grib.py data.grib
                   ENVIRONMENT PYTHONPATH=${MAG_PYTHON_PATH}
                               LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib
-                              MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/.. )
+                              MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/..
+                              ${grib_environment} )
 
 ecbuild_add_test( TARGET grib_fortran
                   SOURCES   grib.f90
@@ -68,7 +75,9 @@ ecbuild_add_test( TARGET grib_fortran
                   RESOURCES data.grib
                   CONDITION HAVE_GRIB AND HAVE_FORTRAN
                   ENVIRONMENT MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/..
-                  LINKER_LANGUAGE Fortran )
+                  ${grib_environment}
+                  LINKER_LANGUAGE Fortran 
+                  )
 
 ecbuild_add_test( TARGET cairo_python
                   TYPE PYTHON
