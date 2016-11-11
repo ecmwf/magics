@@ -54,6 +54,8 @@ void mag_epsinput();
 void mag_epscloud();
 void mag_epsplumes();
 void mag_epsgraph();
+void mag_epslight();
+
 void mag_epsbar();
 void mag_epsshading();
 void mag_epswind();

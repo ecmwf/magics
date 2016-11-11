@@ -86,6 +86,42 @@ private:
 
 };
 
+
+class EpsLight: public Visdef {
+
+
+
+public:
+	EpsLight() {}
+	virtual ~EpsLight() {}
+     // Implements the set method ... 
+    void set(const map<string, string>& map ) {  }
+    void set(const XmlNode&) { }
+   
+    
+   void operator()(Data&, BasicGraphicsObjectContainer&);
+   void visit(LegendVisitor&);
+     
+    
+protected:
+     //! Method to print string about this class on to a stream of type ostream (virtual).
+	 virtual void print(ostream&) const; 
+	
+
+private:
+    //! Copy constructor - No copy allowed
+	EpsLight(const EpsLight&);
+    //! Overloaded << operator to copy - No copy allowed
+	EpsLight& operator=(const EpsLight&);
+
+// -- Friends
+    //! Overloaded << operator to call print().
+	friend ostream& operator<<(ostream& s,const EpsLight& p)
+		{ p.print(s); return s; }
+
+};
+
+
 class EpsWind: public Visdef, public EpsWindAttributes {
 
 

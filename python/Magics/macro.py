@@ -415,6 +415,7 @@ mgeojson = make_action("mgeojson", Magics.geojson, "GeoJSon")
 mwrepjson = make_action("mwrepjson", Magics.wrepjson, "WrepJSon")
 mepsinput = make_action("mepsinput", Magics.epsinput, "EpsInput")
 mepscloud = make_action("mepscloud", Magics.epscloud)
+mepslight = make_action("mepslight", Magics.epslight)
 mepsbar = make_action("mepsbar", Magics.epsbar)
 mepswind = make_action("mepswind", Magics.epswind)
 mepswave = make_action("mepswave", Magics.epswave)
@@ -433,15 +434,18 @@ def examine(*args):
         except:
             break
 
+def _execute(o):
+	if isinstance(o, list):
+		for x in o:
+			_execute(x)
+	else:
+		print o
+		o.execute()
 
 def _plot(*args):
     Magics.init()
     for n in args:
-        if isinstance(n, list):
-            for nn in n:
-                nn.execute()
-        else:
-                n.execute()
+        _execute(n)
     
     #Collect the drivers!
     Magics.finalize()
