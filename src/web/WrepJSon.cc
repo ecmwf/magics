@@ -622,7 +622,7 @@ void WrepJSon::station(const json_spirit::Value& value )
 	MagLog::dev() << "found -> station_lat= " << station_latitude_ << endl;
 	MagLog::dev() << "found -> station_lon= " << station_longitude_ << endl;
 
-}P
+}
 
 void WrepJSon::location(const json_spirit::Value& value )
 {
