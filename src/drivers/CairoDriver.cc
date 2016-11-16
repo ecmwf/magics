@@ -159,9 +159,6 @@ void CairoDriver::setupNewSurface() const
 	{
 #if CAIRO_HAS_PDF_SURFACE
 	    filename_ = getFileName("pdf");
-//            dimensionXglobal_ = static_cast<int>(getXDeviceLength()*72/2.54);
- //           dimensionYglobal_ = static_cast<int>(getYDeviceLength()*72/2.54);
-
 	    surface_ = cairo_pdf_surface_create(filename_.c_str(), dimensionXglobal_, dimensionYglobal_);
 #else
 	    MagLog::error() << "CairoDriver: PDF output NOT supported! Enable PDF support in your Cairo installation." << std::endl;
@@ -170,19 +167,10 @@ void CairoDriver::setupNewSurface() const
 	else if(magCompare(backend_,"ps"))
 	{
 #if CAIRO_HAS_PS_SURFACE
-	    filename_ = getFileName("ps"); 
-
-	    const int dimensionXglobal = static_cast<int>(getXDeviceLength()*72/2.54);
-	    const int dimensionYglobal = static_cast<int>(getYDeviceLength()*72/2.54);
-
-//	    if(dimensionXglobal>dimensionYglobal)   // landscape
-//	    {
-//               surface_ = cairo_ps_surface_create(filename_.c_str(), dimensionYglobal,dimensionXglobal);
-//            }
-//            else
-//            {
-                surface_ = cairo_ps_surface_create(filename_.c_str(), dimensionXglobal,dimensionYglobal);
-//            }
+        filename_ = getFileName("ps"); 
+        const int dimensionXglobal = static_cast<int>(getXDeviceLength()*72/2.54);
+        const int dimensionYglobal = static_cast<int>(getYDeviceLength()*72/2.54);
+        surface_ = cairo_ps_surface_create(filename_.c_str(), dimensionXglobal,dimensionYglobal);
 #else
 	    MagLog::error() << "CairoDriver: PS output NOT supported! Enable PS support in your Cairo installation." << std::endl;
 #endif
@@ -211,35 +199,6 @@ void CairoDriver::setupNewSurface() const
 	    MagLog::error() << "CairoDriver: SVG output NOT supported! Enable SVG support in your Cairo installation." << std::endl;
 #endif
 	}
-/*
-	else if(magCompare(backend_,"x"))
-	{
-#if CAIRO_HAS_XLIB_SURFACE
-		Window rootwin;
-		Window win;
-
-		if(!(dpy=XOpenDisplay(NULL)))
-		{
-			MagLog::error() << "CairoDriver: Could not open display for Xlib!"<< std::endl;
-			terminate();
-		}
-
-		int scr=DefaultScreen(dpy);
-		rootwin=RootWindow(dpy, scr);
-
-		win=XCreateSimpleWindow(dpy, rootwin, 1, 1, dimensionXglobal_, dimensionYglobal_, 0,
-				BlackPixel(dpy, scr), BlackPixel(dpy, scr));
-
-		XStoreName(dpy, win, "Magics++");
-		XSelectInput(dpy, win, ExposureMask|ButtonPressMask);
-		XMapWindow(dpy, win);
-
-		surface_ = cairo_xlib_surface_create(dpy, win, DefaultVisual(dpy, 0), dimensionXglobal_, dimensionYglobal_);
-#else
-		MagLog::error() << "CairoDriver: Xlib output NOT supported! Enable Xlib support in your Cairo installation." << std::endl;
-#endif
-	}
-*/
 	else
 	{
 		MagLog::error() << "CairoDriver: The backend "<< backend_ <<" is NOT supported!" << std::endl;
@@ -266,31 +225,17 @@ void CairoDriver::setupNewSurface() const
 	  const string s3 = "%%For: " + info.getUserID() + "@" + info.getHostName() + " " + info.getUserName();
 	  cairo_ps_surface_dsc_comment (surface_, s3.c_str());
 
-/*	    if(dimensionXglobal_>dimensionYglobal_)   // landscape
-	    {
-                dimensionYglobal_ = static_cast<int>(getXDeviceLength()*72/2.54);
-                dimensionXglobal_ = static_cast<int>(getYDeviceLength()*72/2.54);
-                cairo_translate (cr_, 0, dimensionYglobal_);
-                cairo_matrix_t matrix;
-                cairo_matrix_init (&matrix, 0, -1, 1, 0, 0,  0);
-		cairo_transform (cr_, &matrix);
-		cairo_ps_surface_dsc_comment (surface_, "%%PageOrientation: Landscape");
-	    }
-            else
-            {
-*/
-                dimensionXglobal_ = static_cast<int>(getXDeviceLength()*72/2.54);
-                dimensionYglobal_ = static_cast<int>(getYDeviceLength()*72/2.54);
-          	cairo_ps_surface_dsc_comment (surface_, "%%PageOrientation: Landscape");
-//            }
+      dimensionXglobal_ = static_cast<int>(getXDeviceLength()*72/2.54);
+      dimensionYglobal_ = static_cast<int>(getYDeviceLength()*72/2.54);
+      cairo_ps_surface_dsc_comment (surface_, "%%PageOrientation: Landscape");
 
 	  if(magCompare(MAGICS_SITE,"ecmwf"))
-	    cairo_ps_surface_dsc_comment (surface_, "%%Copyright: Copyright (C) ECMWF");
+	    cairo_ps_surface_dsc_comment (surface_, "%%Copyright: ECMWF");
 #endif
 	}
 
 //#if CAIRO_VERSION >= CAIRO_VERSION_ENCODE(1, 2, 0)
-//	cairo_surface_set_fallback_resolution (surface_, resolution_, resolution_);
+//	cairo_surface_set_fallback_resolution (surface_, 300, 300);
 //#endif
 	if(magCompare(transparent_,"off") || !(magCompare(backend_,"png") || magCompare(backend_,"geotiff")) )
 	{
@@ -325,30 +270,13 @@ void CairoDriver::setupNewSurface() const
 void CairoDriver::close()
 {
 	currentPage_ = 0;
-
 	if(magCompare(backend_,"pdf") && !filename_.empty()) printOutputName("CAIRO pdf "+filename_);
 	if(magCompare(backend_,"ps") && !filename_.empty()) printOutputName("CAIRO ps "+filename_);
 
-	if ( context_ == 0 ) {
+	if (!context_) {
 		cairo_surface_destroy (surface_);
 		cairo_destroy (cr_);
 	}
-/*
-#if CAIRO_HAS_XLIB_SURFACE
-	if(magCompare(backend_,"x"))
-	{
-		XEvent event;
-		while(1)
-		{
-			XNextEvent(dpy, &event);
-			if(event.type==Expose && event.xexpose.count<1)
-			{}
-			else if(event.type==ButtonPress) break;
-		}
-		XCloseDisplay(dpy);
-	}
-#endif
-*/
 }
 
 
@@ -1600,23 +1528,22 @@ MAGICS_NO_EXPORT void CairoDriver::renderSymbols(const Symbol& symbol) const
 	{
 		const string logofile = getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_ + "ecmwf_logo_2014.png";
 		cairo_surface_t *image = cairo_image_surface_create_from_png(logofile.c_str());
+        cairo_status_t ret = cairo_surface_status(image);
 
-		if(image)
+		if(!ret)
 		{
 			cairo_save(cr_);
-			const int w = cairo_image_surface_get_width(image);
-			const int h = cairo_image_surface_get_height(image);
-
 			cairo_translate (cr_, projectX(symbol[0].x()), projectY(symbol[0].y()));
 			const MFloat scaling = convertCM(symbol.getHeight()*.1) / coordRatioY_;
 			cairo_scale (cr_, 0.1, 0.1);
+			const int w = cairo_image_surface_get_width(image);
+			const int h = cairo_image_surface_get_height(image);
 			cairo_set_source_surface(cr_, image, w*scaling, h*scaling);
 			cairo_paint(cr_);
-
 			cairo_surface_destroy (image);
 			cairo_restore(cr_);
 		}
-		else MagLog::warning() << "CairoDriver-> Could NOT read the logo file "<< logofile << " !" << endl;
+		else MagLog::warning() << "CairoDriver - Could NOT read logo "<< logofile << endl;
 	}
 	else
 	{
