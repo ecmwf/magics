@@ -166,6 +166,9 @@ does it submit to any jurisdiction.
         <param code='260510' 
                original_unit='K' derived_unit='deg c' 
                scaling='1.0' offset='-273.16'/> 
+        <param code='228004' 
+               original_unit='K' derived_unit='deg c' 
+               scaling='1.0' offset='-273.16'/> 
         <param code='228026' 
                original_unit='K' derived_unit='deg c' 
                scaling='1.0' offset='-273.16'/> 
