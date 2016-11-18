@@ -247,12 +247,14 @@ string binding(const string& version, const string& key) {
 	static map<string, map<string, string> > bindings;
 	if ( bindings.empty() ) {
 		bindings["v0"] = map<string, string>();
-		bindings["v0"].insert(make_pair("ninety", "ninty"));
-		bindings["v0"].insert(make_pair("twenty_five", "twentyfive"));
-		bindings["v0"].insert(make_pair("seventy_five", "seventyfive"));
-		bindings["v0"].insert(make_pair("hres", "forecast"));
-		bindings["v0"].insert(make_pair("latitude", "lat"));
+		bindings["v0"].insert(make_pair("ninty", "ninety"));
+		bindings["v0"].insert(make_pair("twentyfive", "twenty_five"));
+		bindings["v0"].insert(make_pair("seventyfive", "seventy_five"));
+		bindings["v0"].insert(make_pair("forecast", "hres"));
+		bindings["v0"].insert(make_pair("lat", "latitude"));
+		bindings["v0"].insert(make_pair("lon", "longitude"));
 		bindings["v0"].insert(make_pair("longitude", "lon"));
+		bindings["v0"].insert(make_pair("latitude", "lat"));
 	
 	} 
 	map<string, map<string, string> >::iterator bind = bindings.find(version);
