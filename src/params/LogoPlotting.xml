@@ -1,5 +1,10 @@
 <magics>
-<class inherits="NoLogoPlotting" include="LogoPlotting.h" directory="common" xmltag="logo" name="LogoPlotting"/></magics>
+<class inherits="NoLogoPlotting" include="LogoPlotting.h" directory="common" xmltag="logo" name="LogoPlotting">
+ 	<parameter from="string" name="page_id_line_logo_name" default="ecmwf" member="name" values="ecmwf/c3s/cams" to="string">
+            <documentation>Choose of the the 3 predefined logos: ecmwf, c3s or cams</documentation>
+    </parameter>       
+</class>
+</magics>
 <!--
 (C) Copyright 1996-2016 ECMWF.
 
