@@ -63,7 +63,7 @@ private:
 
 };
 
-class LogoPlotting  : public NoLogoPlotting {
+class LogoPlotting  : public NoLogoPlotting, public LogoPlottingAttributes {
 
 public:
 	LogoPlotting();

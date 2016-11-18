@@ -51,6 +51,19 @@ void LogoPlotting::print(ostream& out)  const
 
 void LogoPlotting::operator()(BasicGraphicsObjectContainer& tree) const
 {
+	static map<string, string> logos;
+	if ( logos.empty() ) {
+		logos["ecmwf"] = "logo_ecmwf";
+		logos["c3s"] = "logo_c3s";
+		logos["cams"] = "logo_cams";
+	}
+
+	string logo = "logo_ecmwf";
+	map<string, string>::iterator l = logos.find(name_);
+	if ( l == logos.end() ) {
+		MagLog::warning() << "Unknow logo " << name_ << ": use default " << name_ << endl;
+	}
+
 	Symbol* symbol = new Symbol();
 
 	double x =  (0.3 * 6.75 * 100) / tree.absoluteWidth();
@@ -58,7 +71,7 @@ void LogoPlotting::operator()(BasicGraphicsObjectContainer& tree) const
     double y = (0.3/tree.absoluteHeight())*100; 	 // 0.2
 
 	(*symbol).setColour(Colour("BLUE"));
-	(*symbol).setSymbol("logo_ecmwf");
+	(*symbol).setSymbol(logo);
 	(*symbol).setHeight(0.6);   // length = height * 6.75
 	(*symbol).push_back(PaperPoint(x,y));
 
