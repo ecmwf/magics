@@ -964,7 +964,7 @@ void MagPlus::setIconInfo(magics::MagRequest& mv, MetviewIcon& object)
 	string iconid =  get(mv, "_ID", "");
 	object.icon(iconname, iconclass, iconid);
 	if ( layer_.empty() ) 
-		layer_ = "TEST";
+		layer_ = "UNKNOW";
 	object.layerInfo(visibility_, zindex_, transparency_, id_, layer_);
 }
 
