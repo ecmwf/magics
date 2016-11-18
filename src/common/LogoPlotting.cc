@@ -63,6 +63,8 @@ void LogoPlotting::operator()(BasicGraphicsObjectContainer& tree) const
 	if ( l == logos.end() ) {
 		MagLog::warning() << "Unknow logo " << name_ << ": use default " << name_ << endl;
 	}
+	else 
+		logo = l->second;
 
 	Symbol* symbol = new Symbol();
 
