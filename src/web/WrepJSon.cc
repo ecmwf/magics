@@ -57,6 +57,7 @@ WrepJSon::WrepJSon()  : missing_(-9999),
 	methods_["values"] = &WrepJSon::values;
 
 	decoders_["eps"] = &WrepJSon::eps;
+	decoders_["clim"] = &WrepJSon::eps;
 	decoders_["profile"] = &WrepJSon::profile;
 	decoders_["efi"] = &WrepJSon::efi;
 	decoders_["cdf"] = &WrepJSon::cdf;
@@ -255,6 +256,13 @@ string binding(const string& version, const string& key) {
 		bindings["v0"].insert(make_pair("lon", "longitude"));
 		bindings["v0"].insert(make_pair("longitude", "lon"));
 		bindings["v0"].insert(make_pair("latitude", "lat"));
+		bindings["v0"].insert(make_pair("1", "one"));
+		bindings["v0"].insert(make_pair("10", "ten"));
+		bindings["v0"].insert(make_pair("99", "ninety_nine"));
+		bindings["v0"].insert(make_pair("90", "ninety"));
+		bindings["v0"].insert(make_pair("25", "twenty_five"));
+		bindings["v0"].insert(make_pair("75", "seventy_five"));
+		bindings["v0"].insert(make_pair("50", "fifty"));
 	
 	} 
 	map<string, map<string, string> >::iterator bind = bindings.find(version);
@@ -357,11 +365,19 @@ void WrepJSon::decode()
 }
 void WrepJSon::eps()
 {
+	map<string, string> more;
+	more["eps"] = "ens";
+	more["clim"] = "climate";
+
 	if ( !points_.empty()) return;
 	
 	shift_ = 12;
 	methods_[param_] = &WrepJSon::parameter;
 	methods_[keyword_] = &WrepJSon::dig;
+	methods_[more[keyword_]] = &WrepJSon::dig;
+	
+	
+	     
 	     
     scaling_factor_ = param_scaling_factor_;
     offset_factor_ = param_offset_factor_;    

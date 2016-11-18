@@ -2181,13 +2181,13 @@ void EpsShade::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 		
         
 		
-		CustomisedPoint::const_iterator y1 = (*point)->find("1");       
-		CustomisedPoint::const_iterator y10 = (*point)->find("10");
-        CustomisedPoint::const_iterator y90 = (*point)->find("90");
-        CustomisedPoint::const_iterator y99 = (*point)->find("99");  
-		CustomisedPoint::const_iterator y50 = (*point)->find("50");
-		CustomisedPoint::const_iterator y25 = (*point)->find("25");
-		CustomisedPoint::const_iterator y75 = (*point)->find("75");
+		CustomisedPoint::const_iterator y1 = (*point)->find("one");       
+		CustomisedPoint::const_iterator y10 = (*point)->find("ten");
+        CustomisedPoint::const_iterator y90 = (*point)->find("ninety");
+        CustomisedPoint::const_iterator y99 = (*point)->find("ninety_nine");  
+		CustomisedPoint::const_iterator y50 = (*point)->find("fifty");
+		CustomisedPoint::const_iterator y25 = (*point)->find("twenty_five");
+		CustomisedPoint::const_iterator y75 = (*point)->find("seventy_five");
 
         if ( (**point)["tmin"] ) {		
             tenmin.push_back(PaperPoint(x, y10->second));
