@@ -439,7 +439,7 @@ def _execute(o):
 		for x in o:
 			_execute(x)
 	else:
-		print o
+		
 		o.execute()
 
 def _plot(*args):
@@ -508,7 +508,7 @@ class  odb_filter(object):
 
 import threading
 import tempfile
-import os
+
 try:
     from IPython.display import Image
 
