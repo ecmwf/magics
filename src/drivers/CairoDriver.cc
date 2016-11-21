@@ -1530,8 +1530,9 @@ MAGICS_NO_EXPORT void CairoDriver::renderSymbols(const Symbol& symbol) const
 	else
 	{
 	    string logofile = getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_;	
-		if(symbolName == "logo_ecmwf")  logofile += "ecmwf_logo_2014.png";
-		else   logofile += "C3S_combined.png";
+		if     (symbolName == "logo_cams") logofile += "CAMS_combined.png";
+		else if(symbolName == "logo_c3s")  logofile += "C3S_combined.png";
+		else   logofile += "ecmwf_logo_2014.png";
 
 		cairo_surface_t *image = cairo_image_surface_create_from_png(logofile.c_str());
         cairo_status_t ret = cairo_surface_status(image);
@@ -1540,11 +1541,13 @@ MAGICS_NO_EXPORT void CairoDriver::renderSymbols(const Symbol& symbol) const
 		{
 			cairo_save(cr_);
 			cairo_translate (cr_, projectX(symbol[0].x()), projectY(symbol[0].y()));
-			const MFloat scaling = convertCM(symbol.getHeight()*.1) / coordRatioY_;
-			cairo_scale (cr_, 0.04, 0.04);
+			const MFloat sizeX =  convertCM(symbol.getHeight()/2) * coordRatioX_;
+			const MFloat sizeY = -convertCM(symbol.getHeight()/2) * coordRatioY_;
 			const int w = cairo_image_surface_get_width(image);
 			const int h = cairo_image_surface_get_height(image);
-			cairo_set_source_surface(cr_, image, w*scaling, h*scaling);
+//cout << ">>>>>>>>> "<<symbol.getHeight()<<" --- "<<sizeX<<"/"<< w <<endl;
+			cairo_scale (cr_, sizeX*.5/w, sizeY*.2/h);
+			cairo_set_source_surface(cr_, image, -sizeX/2, -sizeY/2);
 			cairo_paint(cr_);
 			cairo_surface_destroy (image);
 			cairo_restore(cr_);
