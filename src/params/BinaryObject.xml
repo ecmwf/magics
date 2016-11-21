@@ -36,5 +36,9 @@ does it submit to any jurisdiction.
 	<parameter from="float" name="mgb_height" visible="no" default="100" member="mgb_height" to="float">
   		<documentation for_docs="no">Height in percentage		</documentation>
 	</parameter>
+	<parameter from="float" name="mgb_blur_radius" visible="no" default="-1" member="mgb_blur_radius" to="float">
+  		<documentation for_docs="no"> Blur radius, Only for png output, default: -1 no blurt effect </documentation>
+	</parameter> 
+	
 
 </class></magics>

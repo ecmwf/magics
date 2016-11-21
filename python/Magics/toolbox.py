@@ -2,13 +2,55 @@
 import macro
 
 def substitute(default, user):
-	out = default
-	if user != None:
-		for key in user:
-			out[key] = user[key]
-	return out    
+    out = default
+    if user != None:
+        for key in user:
+            out[key] = user[key]
+    
+    print out
+
+    return out
 
 
+
+
+def xyplot(data, contour=None, output=None):
+
+
+    default = {
+       "contour" : { } 
+    }
+
+    #Setting the cartesian view
+    projection = macro.mmap(subpage_map_projection = 'cartesian',
+                subpage_x_automatic = 'on',
+                subpage_y_automatic = 'on',
+                     )
+    #Vertical axis
+    vertical = macro.maxis(axis_orientation = "vertical",
+                     axis_grid =  "on",
+                     axis_grid_colour = "grey",
+                     axis_grid_thickness = 1,
+                     axis_grid_line_style = "dot")
+
+    #Horizontal axis
+    horizontal = macro.maxis(axis_orientation = "horizontal",
+                     axis_grid =  "on",
+                     axis_grid_colour = "grey",
+                     axis_grid_thickness = 1,
+                     axis_grid_line_style = "dot")
+
+
+    #Define the graph 
+    contour = macro.mcont( substitute(default["contour"], contour)
+                )
+    #Define the title
+    title = macro.mtext(
+                  text_font_size = 0.8,
+                  text_justification = "left"
+                )
+
+    return macro.plot(output, projection, vertical, horizontal, data, contour, title)
 
 def graph(x,y, title="", graph = None) :
 
@@ -130,6 +172,7 @@ def epsgram(parameter, input, **args):
     
     data = macro.mwrepjson(
                             wrepjson_family =  "eps",
+                            wrepjson_keyword =  "eps",
                             wrepjson_input_filename = input,
                             wrepjson_parameter = parameter,
                             wrepjson_parameter_information =  args.get("title", parameter),
@@ -144,15 +187,18 @@ def epsgram(parameter, input, **args):
     
     print "DATA", input
     
-    if args["clim"] : 
+    if "clim" in args  : 
     	print "FILE--->", data
     	clim = macro.mwrepjson(
-                            wrepjson_family =  "clim",
+                            wrepjson_family =  "eps",
+                            wrepjson_keyword =  "clim",
                             wrepjson_input_filename = input,
-                            wrepjson_parameter = parameter,
-                            wrepjson_parameter_information =   args.get("title", parameter),           
+                            wrepjson_parameter = parameter,         
                             wrepjson_parameter_scaling_factor = 1.,
-                            wrepjson_ignore_keys = "100"
+                            wrepjson_ignore_keys = ["100"],
+                            wrepjson_parameter_information = "none",
+                            wrepjson_position_information = "off"
+
                         )
         shade = macro.mepsshading(substitute(defaults["eps"]["epsclim"], args.get("epsclim", None)) )
         actions.append(clim)
@@ -166,7 +212,7 @@ def epsgram(parameter, input, **args):
                     text_colour =  "navy",
                     text_font_size = font_size*2,
                     text_justification =  "left",
-                    text_lines =  ["EPS Meteogram <json_info key='expver'/>",
+                    text_lines =  ["ENS Meteogram",
                     "<json_info key='station_name'/><json_info key='location'/><json_info key='grid_point'/><json_info key='height'/>",
                     "<json_info key='product_info'/><json_info key='date'/>",
                     "<font size='0.5' colour='white'>.</font>",
@@ -176,7 +222,7 @@ def epsgram(parameter, input, **args):
 
     actions.append(text)
     
-    if args["output"] != "" :
+    if "output" in args != "" :
     	#Setting of the output file name
 		png = macro.output(output_formats = ['png'], 
 			output_name_first_page_number = "off",
