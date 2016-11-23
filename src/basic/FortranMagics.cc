@@ -945,6 +945,17 @@ void FortranMagics::epsgraph()
 	action_->visdef(epsgraph);
 }
 
+void FortranMagics::epslight()
+{
+	actions();
+	if ( !action_ ) {
+			MagLog::error() << "epslight-> No data defined " << endl;
+			exit(1);
+		}
+	EpsLight* epslight = new EpsLight();
+	action_->visdef(epslight);
+}
+
 void FortranMagics::epswave()
 {
 	actions();

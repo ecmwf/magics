@@ -27,23 +27,28 @@ static map<char, string> specials;
 WrepJSon::WrepJSon()  : missing_(-9999),
 		height_(-9999),
 		mask_(9999),
-		latitude_(0), station_longitude_(9999), longitude_(0)
+		latitude_(0), station_longitude_(9999), longitude_(0), api_("v0")
 {
 	methods_["date"] = &WrepJSon::date;
 	methods_["time"] = &WrepJSon::time;
     methods_["expver"] = &WrepJSon::expver;
 	methods_["eps_height"] = &WrepJSon::epsz;
+	methods_["ens_height"] = &WrepJSon::epsz;
 	methods_["height"] = &WrepJSon::height;
 	methods_["deterministic_height"] = &WrepJSon::detz;
+	methods_["hres_height"] = &WrepJSon::detz;
 	methods_["tracker"] = &WrepJSon::ignore;
 	methods_["missing"] = &WrepJSon::missing;
 	methods_["location"] = &WrepJSon::location;
+	methods_["ens_location"] = &WrepJSon::location;
 	methods_["station_name"] = &WrepJSon::station_name;
 	methods_["requested_location"] = &WrepJSon::station;
+	methods_["user_location"] = &WrepJSon::station;
 	methods_["land_sea_mask"] = &WrepJSon::mask;
 	methods_["metadata"] = &WrepJSon::metadata;
 	methods_["points_along_meridian"] = &WrepJSon::points_along_meridian;
 	methods_["valid_time"] = &WrepJSon::valid_time;
+	methods_["api_version"] = &WrepJSon::api;
 	
 	methods_["x_values"] = &WrepJSon::x_values;
 	methods_["x_date_values"] = &WrepJSon::x_date_values;
@@ -52,17 +57,21 @@ WrepJSon::WrepJSon()  : missing_(-9999),
 	methods_["values"] = &WrepJSon::values;
 
 	decoders_["eps"] = &WrepJSon::eps;
+	decoders_["clim"] = &WrepJSon::eps;
 	decoders_["profile"] = &WrepJSon::profile;
 	decoders_["efi"] = &WrepJSon::efi;
 	decoders_["cdf"] = &WrepJSon::cdf;
 	decoders_["basic"] = &WrepJSon::basic;
 	decoders_["data"] = &WrepJSon::data;
 	
+	
+	
 	transformationHandlers_["eps"] = &WrepJSon::eps;
 	transformationHandlers_["cdf"] = &WrepJSon::cdf;
 	transformationHandlers_["efi"] = &WrepJSon::efi;
 	transformationHandlers_["profile"] = &WrepJSon::profile;
 
+    heightCorrections_["hres"] = &WrepJSon::correctDetz;
     heightCorrections_["forecast"] = &WrepJSon::correctDetz;
     
     metaMethods_["temperature_correction"] = &WrepJSon::temperature_correction;
@@ -71,6 +80,7 @@ WrepJSon::WrepJSon()  : missing_(-9999),
     metaMethods_["deterministic_resolution"] = &WrepJSon::deterministic_resolution;
     metaMethods_["station_name"] = &WrepJSon::station_name;
     metaMethods_["height"] = &WrepJSon::height;
+
 
 	minx_ = std::numeric_limits<double>::max();
 	maxx_ = -std::numeric_limits<double>::max();
@@ -230,28 +240,65 @@ void WrepJSon::profile(Transformation& transformation)
 {
 
 	transformation.setDataMinMaxX(minx_, maxx_);
-
-
 	transformation.setDataMinMaxY(miny_, maxy_);
+}
+
+
+string binding(const string& version, const string& key) {
+	static map<string, map<string, string> > bindings;
+	if ( bindings.empty() ) {
+		bindings["v0"] = map<string, string>();
+		bindings["v0"].insert(make_pair("ninty", "ninety"));
+		bindings["v0"].insert(make_pair("twentyfive", "twenty_five"));
+		bindings["v0"].insert(make_pair("seventyfive", "seventy_five"));
+		bindings["v0"].insert(make_pair("forecast", "hres"));
+		bindings["v0"].insert(make_pair("lat", "latitude"));
+		bindings["v0"].insert(make_pair("lon", "longitude"));
+		bindings["v0"].insert(make_pair("longitude", "lon"));
+		bindings["v0"].insert(make_pair("latitude", "lat"));
+		bindings["v0"].insert(make_pair("1", "one"));
+		bindings["v0"].insert(make_pair("10", "ten"));
+		bindings["v0"].insert(make_pair("99", "ninety_nine"));
+		bindings["v0"].insert(make_pair("90", "ninety"));
+		bindings["v0"].insert(make_pair("25", "twenty_five"));
+		bindings["v0"].insert(make_pair("75", "seventy_five"));
+		bindings["v0"].insert(make_pair("50", "fifty"));
+	
+	} 
+	map<string, map<string, string> >::iterator bind = bindings.find(version);
+	if ( bind == bindings.end() )
+		return key;
+
+	map<string, string>::iterator value = bind->second.find(key);
+	if ( value == bind->second.end() )
+		return key;
+
+	return value->second;
+
 
 }
+
 void WrepJSon::eps(Transformation& transformation)
 {
-	if ( keyword_ != "clim" ) {
+
+	cout << "API--->" << api_ << endl;
+ 	if ( keyword_ != "clim" ) {
 		transformation.setDataMinMaxX(minx_  * 3600, maxx_ * 3600, base_);
 
 	}
 	vector<double> maxs;
 	vector<double> allvalues;
+
+
 		
 		
 	for (vector<CustomisedPoint*>::iterator point = points_.begin(); point != points_.end(); ++point) {
 	    	maxs.push_back((**point)["max"]);
-	    	allvalues.push_back((**point)["seventyfive"]);
-	    	allvalues.push_back((**point)["ninty"]);
+	    	allvalues.push_back((**point)["seventy_five"]);
+	    	allvalues.push_back((**point)["ninety"]);
 	    	if ( (*point)->find("forecast") != (*point)->end() ) {
-	    		allvalues.push_back((**point)["forecast"]);
-	    		maxs.push_back((**point)["forecast"]);
+	    		allvalues.push_back((**point)["hres"]);
+	    		maxs.push_back((**point)["hres"]);
 	    	}
 	    	if ( (*point)->find("control") != (*point)->end() ) {
 	    		allvalues.push_back((**point)["control"]);  
@@ -318,11 +365,19 @@ void WrepJSon::decode()
 }
 void WrepJSon::eps()
 {
+	map<string, string> more;
+	more["eps"] = "ens";
+	more["clim"] = "climate";
+
 	if ( !points_.empty()) return;
 	
 	shift_ = 12;
 	methods_[param_] = &WrepJSon::parameter;
 	methods_[keyword_] = &WrepJSon::dig;
+	methods_[more[keyword_]] = &WrepJSon::dig;
+	
+	
+	     
 	     
     scaling_factor_ = param_scaling_factor_;
     offset_factor_ = param_offset_factor_;    
@@ -396,10 +451,11 @@ void WrepJSon::eps()
 		map<string, vector<double>  >& values = values_.values_;
 		
 		for ( map<string, vector<double>  >::iterator val = values.begin(); val != values.end(); ++val ) {
-            if ( val->first=="forecast" )  
-                 (*point)[val->first] = correctDetz((val->second)[i]);
+            string key = binding(api_, val->first);
+            if ( key == "hres" )  
+                 (*point)[key] = correctDetz((val->second)[i]);
             else 
-			    (*point)[val->first] = correctEpsz((val->second)[i]);
+			    (*point)[key] = correctEpsz((val->second)[i]);
         }
 	
 		points_.push_back(point);
@@ -548,14 +604,16 @@ void WrepJSon::basic()
 	        		  map<string,  Method >::iterator method = methods_.find(entry->name_);
 	        		    	    if ( method != methods_.end() ) {
 	        		    	    	   ( (this->*method->second)(entry->value_) );
-	        		    	    }  		
+	        		    	    }  
+	        		    	    else 
+	        		    	    	cout << 	entry->name_	<< endl;
 	        			    		
 	        	  }
 	         }
 	         catch (std::exception e)
 	         {
 	        	 MagLog::error() << "Could not processed the file: " << file_ << ": " << e.what() << endl;
-	        	 abort();
+	        	 //abort();
 	         }	
 }
 void WrepJSon::print(ostream& out) const
@@ -574,8 +632,8 @@ void WrepJSon::station(const json_spirit::Value& value )
 {
 	ASSERT( value.type() == obj_type );
 	Object location = value.get_value<Object>();
-	const json_spirit::Value lat = find_value(location, "lat");
-	const json_spirit::Value lon = find_value(location, "lon");
+	const json_spirit::Value lat = find_value(location, binding(api_, "latitude"));
+	const json_spirit::Value lon = find_value(location, binding(api_, "longitude"));
 	station_latitude_=lat.get_value<double>();
 	station_longitude_=lon.get_value<double>();
 
@@ -589,8 +647,8 @@ void WrepJSon::location(const json_spirit::Value& value )
 	
 	ASSERT( value.type() == obj_type );
 	Object location = value.get_value<Object>();
-	const json_spirit::Value lat = find_value(location, "lat");
-	const json_spirit::Value lon = find_value(location, "lon");
+	const json_spirit::Value lat = find_value(location,  binding(api_, "latitude"));
+	const json_spirit::Value lon = find_value(location, binding(api_, "longitude"));
 	latitude_=lat.get_value<double>();
 	longitude_=lon.get_value<double>();
 	MagLog::dev() << "found -> lat= " << latitude_ << endl;
@@ -664,6 +722,15 @@ void WrepJSon::expver(const json_spirit::Value& value)
     expver_ =  value.get_value<string>();
     
 }
+void WrepJSon::api(const json_spirit::Value& value)
+{
+    
+    ASSERT( value.type() == str_type);
+    MagLog::dev() << "found -> api= " <<  value.get_value<string>() << endl;
+    api_ =  value.get_value<string>();
+    
+}
+
 void WrepJSon::time(const json_spirit::Value& value)
 {
 
@@ -1100,7 +1167,7 @@ void WrepJSon::points_along_meridian(const json_spirit::Value& value)
 {
 	ASSERT( value.type() == int_type);
 	points_along_meridian_ = value.get_value< int>();
-	MagLog::dev() << "found -> points_along_meridian_mask= " <<  mask_ << endl;
+	MagLog::dev() << "found -> points_along_meridian " <<  points_along_meridian_ << endl;
 }
 
 void WrepJSon::x_values(const json_spirit::Value& value)

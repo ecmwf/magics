@@ -86,6 +86,7 @@ public:
 	void epswind();
 	void epsbar();
 	void epsshading();
+	void epslight();
 	
 	void pgraph();
 	void pboxplot();

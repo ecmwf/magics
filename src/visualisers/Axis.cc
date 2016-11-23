@@ -536,8 +536,24 @@ void HorizontalAxis::grid(DrawingVisitor& out) const
 	const Transformation& transformation = out.transformation();
 	for (AxisItems::const_iterator x = items_.begin(); x != items_.end(); ++x)
     {
-    	if ( !(*x)->isGrid() ) continue;
     	pos = (*x)->position();
+    	
+    	if (   minor_tick_ && minor_grid_ && (*x)->isMinorTick() ) {
+    		
+    		if ( !transformation.inX(pos) ) continue;
+			
+			Polyline* grid = new Polyline();
+			grid->push_back(PaperPoint(transformation.x(pos), bottom));
+			grid->push_back(PaperPoint(transformation.x(pos), top));
+			grid->setColour(*minor_grid_colour_);
+			grid->setLineStyle(minor_grid_style_);
+			grid->setThickness(minor_grid_thickness_);
+			out.push_back(grid);
+			
+			continue;
+    	}
+    	if ( !(*x)->isGrid() ) continue;
+    	
     	if ( !transformation.inX(pos) ) continue;
 		Polyline* grid = new Polyline();
 		grid->push_back(PaperPoint(transformation.x(pos), bottom));
@@ -568,8 +584,21 @@ void VerticalAxis::grid(DrawingVisitor& out) const
 	const Transformation& transformation = out.transformation();
 	for (AxisItems::const_iterator y = items_.begin(); y != items_.end(); ++y)
     {
-    	if (!(*y)->isGrid() ) continue;
     	pos = (*y)->position();
+    	if ( minor_tick_ && minor_grid_ && (*y)->isMinorTick() ) {
+    		if ( !transformation.inY(pos) ) continue;
+
+    		Polyline* grid = new Polyline();
+			grid->push_back(PaperPoint(left, transformation.y(pos)));
+			grid->push_back(PaperPoint(right, transformation.y(pos)));
+			grid->setColour(*minor_grid_colour_);
+			grid->setLineStyle(minor_grid_style_);
+			grid->setThickness(minor_grid_thickness_);
+			out.push_back(grid);
+			continue;
+    	}
+    	if (!(*y)->isGrid() ) continue;
+    	
     	if ( !transformation.inY(pos) ) continue;
     	Polyline* grid = new Polyline();
 		grid->push_back(PaperPoint(left, transformation.y(pos)));
@@ -586,7 +615,7 @@ void VerticalAxis::grid(DrawingVisitor& out) const
 				grid->setThickness(grid_thickness_);
 		}
 		out.push_back(grid);
-		 }
+	}
 }
 
 void VerticalAxis::minortick(VerticalAxisVisitor& axis)

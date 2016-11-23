@@ -33,7 +33,7 @@ using std::istream;
 namespace magics {
 
 
-class Hsl;
+struct Hsl;
 class XmlNode;
 
 /*! \struct Rgb

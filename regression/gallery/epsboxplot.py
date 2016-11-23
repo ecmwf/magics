@@ -72,8 +72,7 @@ cc = mwrepjson(
     wrepjson_family='eps',
     wrepjson_keyword='eps',
     wrepjson_input_filename='cloud_box.json',
-    wrepjson_parameter_information='Cloud Cover Using BoxPlot'
-        ,
+    wrepjson_parameter_information='Cloud Cover Using BoxPlot',
     wrepjson_parameter='164.128',
     wrepjson_parameter_scaling_factor=8.,
     )

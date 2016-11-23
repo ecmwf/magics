@@ -58,9 +58,11 @@ does it submit to any jurisdiction.
          		<set name="axis_grid_reference_level" value="on">		</set>
          		<set name="axis_grid_reference_colour" value="on">		</set>
          		<set name="axis_grid_reference_line_style" value="on">		</set>  
-         		<set name="axis_grid_reference_thickness" value="on">		</set>
+         		<set name="axis_grid_reference_thickness" value="on">		</set>#
+            <set name="axis_minor_grid" value="on">   </set>
+           
   	</parameter>
- 	<parameter member="grid_colour" to="Colour" default="yellow" from="string" name="axis_grid_colour">
+ 	<parameter member="grid_colour" to="Colour" default="black" from="string" name="axis_grid_colour">
          		<documentation>Colour of grid lines		</documentation>
          		<migration>2.13.5 - Default changed fronm YELLOW to BLACK		</migration>
   	</parameter>
@@ -71,6 +73,23 @@ does it submit to any jurisdiction.
   	<parameter member="grid_thickness" to="int" default="1" from="int" name="axis_grid_thickness">
          		<documentation> Thickness of grid lines 		</documentation>
   	</parameter>
+    <parameter member="minor_grid" to="bool" default="off" from="string" name="axis_minor_grid">
+            <set name="axis_minor_grid_colour" value="on">    </set>
+            <set name="axis_minor_grid_line_style" value="on">    </set>
+            <set name="axis_minor_grid_thickness" value="on">   </set>
+      </parameter>
+      <parameter member="minor_grid_colour" to="Colour" default="black" from="string" name="axis_minor_grid_colour">
+            <documentation>Colour of grid lines   </documentation>
+            <migration>2.13.5 - Default changed fronm YELLOW to BLACK   </migration>
+    </parameter>
+  <parameter member="minor_grid_style" to="LineStyle" default="solid" from="string" name="axis_minor_grid_line_style">
+            <documentation> Line style of grid      </documentation>
+    </parameter>
+  
+    <parameter member="minor_grid_thickness" to="int" default="1" from="int" name="axis_minor_grid_thickness">
+            <documentation> Thickness of grid lines     </documentation>
+    </parameter>
+
   	<parameter member="grid_reference_level" to="float" default="INT_MAX" from="float" name="axis_grid_reference_level">
          		<documentation> value to be used as reference for the grid		</documentation> 
   	</parameter>

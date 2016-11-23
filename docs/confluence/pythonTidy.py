@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python 
 # (C) Copyright 1996-2016 ECMWF.
 # 
 # This software is licensed under the terms of the Apache Licence Version 2.0
@@ -322,7 +322,7 @@ SUBSCRIPT_SEP = ', '
 DICT_COLON = ': '
 SLICE_COLON = ':'
 COMMENT_PREFIX = '# '  # 2007 May 25
-SHEBANG = ''#'#!/usr/bin/python'
+SHEBANG = ''#'#!/usr/bin/env python '
 CODING = 'utf-8'
 CODING_SPEC = ''#'# -*- coding: %s -*-' % CODING
 BOILERPLATE = NULL  # 2007 Mar 06

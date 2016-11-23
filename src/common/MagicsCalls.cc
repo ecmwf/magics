@@ -1217,6 +1217,9 @@ void pepsplumes_()
 void pepsgraph_() {
 	magics_->epsgraph();
 }
+void pepslight_() {
+	magics_->epslight();
+}
 
 void pepswave_() {
 	magics_->epswave();
@@ -1290,6 +1293,8 @@ void mag_epswind()       { pepswind_(); }
 void mag_epsbar()        { pepsbar_(); }
 void mag_epsshading()    { pepsshading_(); }
 void mag_epsplumes()    { pepsplumes_(); }
+void mag_epslight()    { pepslight_(); }
+
 
 void mag_new(const char* page)
 {

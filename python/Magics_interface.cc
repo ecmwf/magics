@@ -122,10 +122,13 @@ void epsgraph() {
 void epscloud() {
   mag_epscloud();
 }
+void epslight() {
+  mag_epslight();
+}
 void epsplumes() {
   mag_epsplumes();
 }
-
+ 
 void epswind() {
   mag_epswind();
 }

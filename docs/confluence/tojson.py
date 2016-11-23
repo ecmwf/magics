@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python 
 # (C) Copyright 1996-2016 ECMWF.
 # 
 # This software is licensed under the terms of the Apache Licence Version 2.0
@@ -218,6 +218,7 @@ class ObjectHandler(ContentHandler):
             val = attrs.get("value")
             if ( self.param.has_key(val) == False ):
                 self.param[val] = []
+            print val
             self.param[val].append(attrs.get("name"))
 
 
