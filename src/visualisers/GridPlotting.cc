@@ -68,7 +68,10 @@ void NoGridPlotting::latitudes(vector<double>& lats, int freq) const
 	 for(double lat = latReference_; lat > min; lat -= latIncrement_)
 	 {
 		 if ( i % freq == 0) {
-			 lats.push_back(lat);
+		 	 if ( lat < -90 )
+		 	 	lats.push_back(180. + lat);
+			 else 
+			 	lats.push_back(lat);
 
 		 }
 		 i++;
@@ -119,7 +122,10 @@ const vector<double>& NoGridPlotting::latitudes(const Transformation& transforma
 	{
 	       for(double lat = latReference_; lat > min; lat -=latIncrement_)
      	       {
-		       latitudes_.push_back(lat);
+     	       	if ( lat < -90 )
+     	       		latitudes_.push_back(180. - lat);
+     	       	else 
+		       		latitudes_.push_back(lat);
      	       }
 	       for(double lat = latReference_ + latIncrement_; lat < max; lat += latIncrement_)
      	       {
