@@ -305,16 +305,18 @@ list = [
 
 
 
-all = [ "Contour", "SymbolPlotting", "GraphPlotting", "Wind",
+all = [ "Contour", "GraphPlotting", "Wind",
     "PostScriptDriver", "CairoDriver", "KMLDriver", "SVGDriver",
     "FortranRootSceneNode",  "FortranSceneNode", "FortranViewNode",
     "Coastlines", "Axis", "LegendVisitor", "TextVisitor", "ImportObjectHandler",
     "GribDecoder", "NetcdfDecoder", "InputData", "TableDecoder", "WrepJSon"
     ]
 
+check = ["SymbolPlotting"]
 list = [ "FortranRootSceneNode",  "FortranSceneNode", "FortranViewNode" ]
 list = [  "LegendVisitor", "TextVisitor", "ImportObjectHandler" ]
-list = [ "Wind"]
+list = all
+list = check
 """
 minicolor = [
     ["jquery.miniColors.js",  "Reference guide", "MiniColor"],
@@ -322,8 +324,8 @@ minicolor = [
 ]
 """
 from tojson import  createAction
-put("magdoc.js",     "Reference guide", "Magics gallery generator")
+#put("magdoc.js",     "Reference guide", "Magics gallery generator")
 for i in list:
     definition = action[i]
-    createAction("2.24.5", definition["json"], i, definition["files"])
+    createAction("2.29.6", definition["json"], i, definition["files"])
     put(definition["json"]+".json", definition["jira"],  definition["doc"])

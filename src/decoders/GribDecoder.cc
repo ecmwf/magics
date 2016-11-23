@@ -2052,9 +2052,12 @@ public:
 
         ostringstream out;
 
-        long date = grib.getLong("date");
+        long date = grib.getLong("dataDate");
         long hour = grib.getLong("hour");
         long mn =  grib.getLong("minute");
+        string x = grib.getString("dataDate");
+        cout << x << endl;
+
         MagDate part1 = MagDate(date);
         MagTime part2 = MagTime(hour, mn, 0);
         DateTime full(part1, part2);
@@ -2081,7 +2084,7 @@ public:
 
 
         ostringstream out;
-        long date = grib.getLong("date");
+        long date = grib.getLong("dataDate");
         long hour = grib.getLong("hour");
         long mn   = grib.getLong("minute");
 

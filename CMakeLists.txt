@@ -40,7 +40,7 @@ ecbuild_requires_macro_version( 1.9 )
 ###############################################################################
 # some variables of this project
 
-ecbuild_add_option( FEATURE ECCODES DESCRIPTION "" DEFAULT OFF )
+ecbuild_add_option( FEATURE ECCODES DESCRIPTION "" DEFAULT ON )
 
 if( HAVE_ECCODES )
   ecbuild_use_package( PROJECT eccodes VERSION 0.14 REQUIRED )
@@ -134,7 +134,7 @@ set( MAGICS_EXCEPTION     "ON" )
 set( MAGICS_SITE          "ecmwf" )
 set( MAGICS_INSTALL_PATH  ${CMAKE_INSTALL_PREFIX} )
 
-set( MAGICS_REFERENCE_VERSIONS            "2.29.3" )
+set( MAGICS_REFERENCE_VERSIONS            "2.29.6" )
 set( MAGICS_HTML_ROOT        "${CMAKE_BINARY_DIR}/regression/html")
 file(MAKE_DIRECTORY ${MAGICS_HTML_ROOT} )
 
