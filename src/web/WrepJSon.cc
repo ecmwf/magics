@@ -196,7 +196,6 @@ void WrepJSon::visit(Transformation& transformation)
 
 
 
-
 	if ( y_max_threshold_ < INT_MAX) 
 		maxy_ = (maxy_ < y_max_threshold_ )? y_max_threshold_ : maxy_; 
  
@@ -296,7 +295,7 @@ void WrepJSon::eps(Transformation& transformation)
 	    	maxs.push_back((**point)["max"]);
 	    	allvalues.push_back((**point)["seventy_five"]);
 	    	allvalues.push_back((**point)["ninety"]);
-	    	if ( (*point)->find("forecast") != (*point)->end() ) {
+	    	if ( (*point)->find("hres") != (*point)->end() ) {
 	    		allvalues.push_back((**point)["hres"]);
 	    		maxs.push_back((**point)["hres"]);
 	    	}
@@ -520,7 +519,7 @@ void WrepJSon::profile()
 
 
 		for ( map<string, vector<double>  >::iterator val = values.begin(); val != values.end(); ++val ) {
-			if ( val->first=="forecast" ) {
+			if ( val->first=="hres" ) {
 				double value =  (val->second)[i] == missing_ ? missing_ : correctDetz((val->second)[i]);
 
 				(*point)[val->first] = value;
