@@ -182,22 +182,22 @@ does it submit to any jurisdiction.
                original_unit='kg m**-2' derived_unit='ng m**-2' 
                scaling='100000000000.0' offset='-0.0'/>
         <param code='20199' 
-               original_unit='kg m**-2 s**-1' derived_unit='ng kg**-2 s**-1' 
+               original_unit='kg m**-2 s**-1' derived_unit='ng m**-2 s**-1' 
                scaling='1000000000000.0' offset='-0.0'/>
         <param code='20200' 
-               original_unit='kg m**-2 s**-1' derived_unit='ng kg**-2 s**-1' 
+               original_unit='kg m**-2 s**-1' derived_unit='ng m**-2 s**-1' 
                scaling='1000000000000.0' offset='-0.0'/>
         <param code='20201' 
-               original_unit='kg m**-2 s**-1' derived_unit='ng kg**-2 s**-1' 
+               original_unit='kg m**-2 s**-1' derived_unit='ng m**-2 s**-1' 
                scaling='1000000000000.0' offset='-0.0'/>
         <param code='20202' 
-               original_unit='kg m**-2 s**-1' derived_unit='ng kg**-2 s**-1' 
+               original_unit='kg m**-2 s**-1' derived_unit='ng m**-2 s**-1' 
                scaling='1000000000000.0' offset='-0.0'/>
         <param code='20203' 
-               original_unit='kg m**-2 s**-1' derived_unit='ng kg**-2 s**-1' 
+               original_unit='kg m**-2 s**-1' derived_unit='ng m**-2 s**-1' 
                scaling='1000000000000.0' offset='-0.0'/>
         <param code='20204' 
-               original_unit='kg m**-2 s**-1' derived_unit='ng kg**-2 s**-1' 
+               original_unit='kg m**-2 s**-1' derived_unit='ng m**-2 s**-1' 
                scaling='1000000000000.0' offset='-0.0'/>
         <param code='260510' 
                original_unit='K' derived_unit='deg c' 
