@@ -393,21 +393,7 @@ MAGICS_NO_EXPORT void CairoDriver::endPage() const
 
 void CairoDriver::newLayer(Layer&) const
 {
-//	cairo_set_source_rgba (cr_, 1.0, 0.0, 0.0, 1.0); /* white transparent */
-//	cairo_paint (cr_);
 	cairo_save(cr_);
-//	cairo_surface_destroy (surfaceBackground_);
-//	surfaceBackground_ = cairo_get_target(cr_);
-//    cairo_surface_destroy (surface_);
-
-//	surface_ = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, dimensionXglobal_, dimensionYglobal_);
-//	surface_ = cairo_surface_create_similar (surfaceBackground_,
-//                              cairo_content_t content,
-//                              int width,
-//                              int height);
-//	cr_ = cairo_create(surface_);
-//	cairo_set_source_rgba (cr_, 1.0, 1.0, 1.0, 0.0); /* white transparent */
-//	cairo_paint (cr_);
 }
 
 #include "CairoDriver-blur.h"
@@ -418,11 +404,6 @@ void CairoDriver::closeLayer(Layer&) const
     {
         blur_image_surface(surface_,50);
     }
-//    cr_ = cairo_create(surfaceBackground_);
-//    cairo_set_source_surface (cr_,surface_,dimensionXglobal_, dimensionYglobal_);
-    //cairo_paint_with_alpha (cr_, 0.5);
-//    cairo_paint(cr_);
-	//cairo_surface_destroy (image);
 	cairo_restore(cr_);
 }
 
