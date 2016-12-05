@@ -166,6 +166,9 @@ does it submit to any jurisdiction.
         <param code='20000' 
                original_unit='kg m**-3' derived_unit='ng m**-3' 
                scaling='1000000000000.0' offset='-0.0'/>
+        <param code='20001' 
+               original_unit='kg m**-2' derived_unit='ng m**-2' 
+               scaling='1000000000000.0' offset='-0.0'/>
         <param code='20002' 
                original_unit='kg kg**-1' derived_unit='ppt' 
                scaling='1000000000000.0' offset='-0.0'/>
