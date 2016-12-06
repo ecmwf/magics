@@ -733,7 +733,7 @@ void EpsGraph::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 
 
 		CustomisedPoint::const_iterator ten   = (*point)->find("ten");
-                CustomisedPoint::const_iterator ninty = (*point)->find("ninty");
+                CustomisedPoint::const_iterator ninty = (*point)->find("ninety");
 
 
 
@@ -742,8 +742,8 @@ void EpsGraph::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 
         if ( (*point)->find("control") != (*point)->end() &&  (**point)["control"]!= 9999.  )
         	control->push_back(PaperPoint(x, (**point)["control"]));		
-		if ( (*point)->find("forecast") != (*point)->end() &&  (**point)["forecast"] != 9999.)
-            forecast->push_back(PaperPoint(x, (**point)["forecast"]));
+		if ( (*point)->find("hres") != (*point)->end() &&  (**point)["hres"] != 9999.)
+            forecast->push_back(PaperPoint(x, (**point)["hres"]));
         if ( (*point)->find("median") == (*point)->end() )  {        	
             eps_ = false;  
             continue;
@@ -756,10 +756,10 @@ void EpsGraph::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 	vector<double> eps;
 	eps.push_back( (**point)["min"]);
 	eps.push_back( (**point)["ten"]);
-	eps.push_back( (**point)["twentyfive"]);
+	eps.push_back( (**point)["twenty_five"]);
 	eps.push_back( (**point)["median"]);
-	eps.push_back( (**point)["seventyfive"]);
-	eps.push_back( (**point)["ninty"]);
+	eps.push_back( (**point)["seventy_five"]);
+	eps.push_back( (**point)["ninety"]);
 	eps.push_back( (**point)["max"]);
 
 	std::sort(eps.begin(), eps.end());
@@ -906,8 +906,8 @@ void EpsGraph::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 				ypos.push_back(min);
 				if ( (*point)->find("control") != (*point)->end() )
 					ypos.push_back((**point)["control"]);
-			    if ( (*point)->find("forecast") != (*point)->end() )
-				    ypos.push_back((**point)["forecast"]);
+			    if ( (*point)->find("hres") != (*point)->end() )
+				    ypos.push_back((**point)["hres"]);
 		    
 		    }
 		
@@ -952,6 +952,149 @@ void EpsGraph::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 
      	
 		
+
+}
+
+void EpsLight::print(ostream& visitor)  const
+{
+	visitor << "EpsLight[";
+	visitor << "]";
+}
+
+
+
+void EpsLight::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
+{
+
+/*
+	#6AE9FF,#B0EBF5,#B4DAE0,#A3BBBF,#889B9E,#6AE9FF,#B0EBF5,#B4DAE0
+	Hsl hsl = colour.hsl();
+    
+    float light = hsl.light_;
+   
+    hsl.light_ += (0.99 - light)*((point["total"]- point[direction.first])/point["total"]);
+*/
+   	
+   	vector<Colour> colours;
+
+   	colours.push_back(Colour("#6AE9FF"));
+   
+   	colours.push_back(Colour("#B0EBF5"));
+
+	colours.push_back(Colour("#B4DAE0"));
+	
+	colours.push_back(Colour("#A3BBBF"));
+	
+	colours.push_back(Colour("#889B9E"));
+	
+	
+   	CustomisedPointsList points; 
+	std::set<string> request;
+
+	const Transformation& transformation = visitor.transformation();
+	
+	data.customisedPoints(transformation, request, points, true); // we want all the points!
+
+	
+	if (points.empty()) return;
+	
+    
+    
+    if ( points.size() < 2 ) return;
+    
+    
+	for (CustomisedPointsList::const_iterator point = points.begin(); point != points.end(); ++point) {
+	
+		
+		double x = (**point)["step"];
+		double width = (3600*3);
+		
+		double max = ((*point)->find("max") != (*point)->end()) ? (*point)->find("max")->second : (*point)->find("maximum")->second;
+		double min = ((*point)->find("min") != (*point)->end()) ? (*point)->find("min")->second : (*point)->find("minimum")->second;
+
+
+		CustomisedPoint::const_iterator ten   = (*point)->find("ten");
+        CustomisedPoint::const_iterator ninty = (*point)->find("ninety");
+
+	      
+		vector<double> eps;
+		eps.push_back( (**point)["min"]);
+		eps.push_back( (**point)["ten"]);
+		eps.push_back( (**point)["twenty_five"]);
+		eps.push_back( (**point)["median"]);
+		eps.push_back( (**point)["seventy_five"]);
+		eps.push_back( (**point)["ninety"]);
+		eps.push_back( (**point)["max"]);
+
+		std::sort(eps.begin(), eps.end());
+
+		for (vector<double>::iterator e = eps.begin(); e != eps.end(); ++e) {
+			if ( same(*e, 0) )
+				*e = 0;
+	        cout << *e << " ";
+	    }
+	    cout << endl;
+
+        double epsmin, eps10, eps25,  eps50, eps75, eps90, epsmax;
+        if ( ninty != (*point)->end() ) {
+        	epsmin = eps[0];
+        	eps10 = eps[1];
+       		eps25 = eps[2];
+        	eps50 = eps[3];
+        	eps75 = eps[4];
+        	eps90 = eps[5];
+        	epsmax = eps[6];
+		}
+		else {
+	        	epsmin = eps[0];
+	       		eps25 = eps[1];
+	        	eps50 = eps[2];
+	        	eps75 = eps[3];
+	        	epsmax = eps[4];
+		}
+
+		if ( epsmax == 0 )
+			continue;
+
+		map<double, float> lights;
+
+		lights[epsmin] = 0;
+		lights[eps10] = 0.20;
+		lights[eps25] = 0.50;
+		
+
+		float y = 1.;
+		float height = 1./(colours.size()*4);
+
+		for ( vector<Colour>::iterator colour = colours.begin(); colour != colours.end(); ++colour) {
+			cout << x << "  " << x + width << endl;
+			for (int i = 0; i < 4; i++ ) {
+				Polyline* box  = new Polyline();
+				box->setColour(*colour);
+				box->setFilled(true);
+				box->setFillColour(*colour);
+/*
+				Hsl hsl = colour->hsl();
+	    		float light = hsl.light_;
+	    		hsl.light_ += (0.99 - light)*((point["total"]- point[direction.first])/point["total"]);
+*/				
+				box->setShading(new FillShadingProperties());
+				box->push_back(PaperPoint(x+width, y));
+				box->push_back(PaperPoint(x-width, y));
+
+				box->push_back(PaperPoint(x-width, y-height));
+				box->push_back(PaperPoint(x+width, y-height));
+				box->push_back(PaperPoint(x+width, y));
+				y -= height;
+				transformation(*box, visitor); 
+			}
+		} 
+	}
+
+}
+
+void EpsLight::visit(LegendVisitor& legend)
+{
 
 }
 
@@ -1698,14 +1841,14 @@ void EpsWave::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 		}
 
 		// Draw the Forecast
-		if ( (*point)->find("forecast") != (*point)->end() ) {
+		if ( (*point)->find("hres") != (*point)->end() ) {
 			Polyline* hres = new Polyline();
 			hres->setColour(Colour("blue"));
 			hres->setThickness(2);
 			hres->setLineStyle(M_SOLID);
 
 
-			double angle = (**point)["forecast"]-180;
+			double angle = (**point)["hres"]-180;
 			hres->push_back(PaperPoint(x , 0));
 			hres->push_back(PaperPoint(x +(l100 * sin(angle*(3.14/180.))), l100 * cos(angle*(3.14/180.))));
 			visitor.push_back(hres);
@@ -2038,13 +2181,13 @@ void EpsShade::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 		
         
 		
-		CustomisedPoint::const_iterator y1 = (*point)->find("1");       
-		CustomisedPoint::const_iterator y10 = (*point)->find("10");
-        CustomisedPoint::const_iterator y90 = (*point)->find("90");
-        CustomisedPoint::const_iterator y99 = (*point)->find("99");  
-		CustomisedPoint::const_iterator y50 = (*point)->find("50");
-		CustomisedPoint::const_iterator y25 = (*point)->find("25");
-		CustomisedPoint::const_iterator y75 = (*point)->find("75");
+		CustomisedPoint::const_iterator y1 = (*point)->find("one");       
+		CustomisedPoint::const_iterator y10 = (*point)->find("ten");
+        CustomisedPoint::const_iterator y90 = (*point)->find("ninety");
+        CustomisedPoint::const_iterator y99 = (*point)->find("ninety_nine");  
+		CustomisedPoint::const_iterator y50 = (*point)->find("fifty");
+		CustomisedPoint::const_iterator y25 = (*point)->find("twenty_five");
+		CustomisedPoint::const_iterator y75 = (*point)->find("seventy_five");
 
         if ( (**point)["tmin"] ) {		
             tenmin.push_back(PaperPoint(x, y10->second));
@@ -2562,7 +2705,7 @@ void EpsPlume::timeserie(Data& data, BasicGraphicsObjectContainer& visitor)
 			}
 
 			if ( forecast_ ) {
-			if ( value->first == "forecast" &&  value->second != missing )
+			if ( value->first == "hres" &&  value->second != missing )
 				forecast->push_back(PaperPoint(x, value->second));
 			}
 			if ( control_ ) {
@@ -2672,7 +2815,7 @@ void EpsPlume::verticalprofile(Data& data, BasicGraphicsObjectContainer& visitor
 				(iline->second)->push_back(transformation(UserPoint(value->second, y)));
 			}
 
-			if ( value->first == "forecast" )
+			if ( value->first == "hres" )
 				forecast->push_back(transformation(UserPoint(value->second, y)));
 			if ( value->first == "control" )
 				control->push_back(transformation(UserPoint(value->second, y)));

@@ -398,6 +398,7 @@ protected:
 
 	bool    disabled_;
 	bool    alphaEnabled_;
+	mutable int       applyGaussianBlur_;
 	mutable vSymbols  sym_;
 
 	virtual MAGICS_NO_EXPORT void setNewLineWidth(const MFloat w) const {currentLineWidth_ = w;}

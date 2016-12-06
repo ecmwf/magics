@@ -1480,18 +1480,9 @@ bool MagPlus::obs(magics::MagRequest& in)
 {
 #ifdef HAVE_BUFR
 	ObsPlottingWrapper visdef;
-	// here we have to set up manullay the parameters because the obs object is more complex!
-	// This is not the right solution just a workaround before we find a clean solution...
-
-	for (int i = 0; i <    in.countParameters(); i++) {
-		string param = in.getParameter(i);
-	    string val =  in(param.c_str());
-
-	   ParameterManager::set(param, val);
-}
-
-
+	
 	visdef.set(in);
+	
 	MagLog::dev()<< "add obs" << *visdef.object() << endl;
 	top()->visdef(visdef.object());
 	pop();

@@ -191,12 +191,12 @@ void EpsXmlInput::visit(const XmlNode& node)
 		point->insert(make_pair("min", value("min")));	
 		point->insert(make_pair("max", value("max")));	
 		point->insert(make_pair("ten", value("ten")));	
-		point->insert(make_pair("twentyfive", value("twentyfive")));	
+		point->insert(make_pair("twenty_five", value("twentyfive")));	
 		point->insert(make_pair("median", value("median")));	
-		point->insert(make_pair("seventyfive", value("seventyfive")));	
-		point->insert(make_pair("ninty", value("ninety")));
+		point->insert(make_pair("seventy_five", value("seventyfive")));	
+		point->insert(make_pair("ninety", value("ninety")));
 		if ( !node.getAttribute("forecast").empty() )
-			point->insert(make_pair("forecast", value("forecast")));	
+			point->insert(make_pair("hres", value("forecast")));	
 		if ( !node.getAttribute("control").empty() )
 			point->insert(make_pair("control", value("control")));	
 

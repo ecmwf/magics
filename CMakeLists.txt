@@ -40,7 +40,7 @@ ecbuild_requires_macro_version( 1.9 )
 ###############################################################################
 # some variables of this project
 
-ecbuild_add_option( FEATURE ECCODES DESCRIPTION "" DEFAULT OFF )
+ecbuild_add_option( FEATURE ECCODES DESCRIPTION "" DEFAULT ON )
 
 if( HAVE_ECCODES )
   ecbuild_use_package( PROJECT eccodes VERSION 0.14 REQUIRED )
@@ -48,8 +48,10 @@ if( HAVE_ECCODES )
   set( GRIB_API_LIBRARIES    ${ECCODES_LIBRARIES} )
   set( GRIB_API_DEFINITIONS  ${ECCODES_DEFINITIONS} )
   set( grib_api_BASE_DIR     ${eccodes_BASE_DIR} )
+  set( grib_handling_pkg eccodes )
 else()
   ecbuild_use_package(PROJECT grib_api VERSION 1.14.6 REQUIRED)
+  set( grib_handling_pkg grib_api )
 endif()
 
 
@@ -132,7 +134,7 @@ set( MAGICS_EXCEPTION     "ON" )
 set( MAGICS_SITE          "ecmwf" )
 set( MAGICS_INSTALL_PATH  ${CMAKE_INSTALL_PREFIX} )
 
-set( MAGICS_REFERENCE_VERSIONS            "2.29.4" )
+set( MAGICS_REFERENCE_VERSIONS            "2.29.6" )
 set( MAGICS_HTML_ROOT        "${CMAKE_BINARY_DIR}/regression/html")
 file(MAKE_DIRECTORY ${MAGICS_HTML_ROOT} )
 

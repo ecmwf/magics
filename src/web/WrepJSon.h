@@ -114,6 +114,7 @@ public:
     void expver(const json_spirit::Value&);
 	void height(const json_spirit::Value&);
 	void time(const json_spirit::Value&);
+	void api(const json_spirit::Value&);
 
 	virtual void parameter(const json_spirit::Value&);
 	virtual void eps(const json_spirit::Value&);
@@ -127,6 +128,7 @@ public:
 	void metadata(const json_spirit::Value&);
 	void temperature_correction(const json_spirit::Value&);
 	void points_along_meridian(const json_spirit::Value&);
+	
 
 	json_spirit::Value temperature_correction();
 	json_spirit::Value temperature_adjustment();
@@ -188,7 +190,8 @@ protected:
 	 string time_;
 	 string file_;
 	 string valid_time_;
-     string expver_;
+     string expver_; 
+     string api_;
 
 	 json_spirit::Value metadata_;
 	 InputWrep   values_;
