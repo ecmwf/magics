@@ -10,6 +10,7 @@ if( HAVE_PYTHON )
   # configure_file ensures the copy is triggered if the file changes
   configure_file( Magics/__init__.py Magics/__init__.py COPYONLY )
   configure_file( Magics/macro.py Magics/macro.py COPYONLY )
+  configure_file( Magics/toolbox.py Magics/toolbox.py COPYONLY )
   configure_file( Magics/metgram.py Magics/metgram.py COPYONLY )
 
   set( _magics_swig "_Magics${CMAKE_SHARED_LIBRARY_SUFFIX}" )
@@ -22,6 +23,6 @@ if( HAVE_PYTHON )
   # Build the extension module for use in install tree with RPATH pointing to install tree
   install(CODE "execute_process(COMMAND ${PYTHON_EXECUTABLE} setup.py build_ext --rpath ${CMAKE_INSTALL_PREFIX}/${INSTALL_LIB_DIR} WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})")
   # Call distutils for installation
-  install(CODE "execute_process(COMMAND ${PYTHON_EXECUTABLE} setup.py install --prefix $ENV{DESTDIR}${CMAKE_INSTALL_PREFIX} WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})")
+  install(CODE "execute_process(COMMAND ${PYTHON_EXECUTABLE} setup.py install --root \$ENV{DESTDIR}/ --prefix ${CMAKE_INSTALL_PREFIX} WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})")
 
 endif()

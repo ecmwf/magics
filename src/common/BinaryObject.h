@@ -51,7 +51,8 @@ public:
 			{ return path_; }
 
 
-	double getTransparency() const { return transparency_; }
+	double getTransparency() const { return transparency_;}
+	double getGaussianBlur() const { return mgb_blur_radius_;}
 	double getMgb_x() const { return mgb_x_; }
 	double getMgb_y() const { return mgb_y_; }
 	double getMgb_width() const { return mgb_width_; }

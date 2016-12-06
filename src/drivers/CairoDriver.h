@@ -87,9 +87,11 @@ public:
 
 private:
 	MAGICS_NO_EXPORT void startPage() const;
-        MAGICS_NO_EXPORT void endPage() const;
+    MAGICS_NO_EXPORT void endPage() const;
 	MAGICS_NO_EXPORT void project(const Layout& lay) const;
 	MAGICS_NO_EXPORT void unproject() const;
+	void newLayer(Layer&) const;
+	void closeLayer(Layer&) const;
 	MAGICS_NO_EXPORT void setupNewSurface() const;
 
 	MAGICS_NO_EXPORT void setNewLineWidth(const MFloat) const;
@@ -119,6 +121,7 @@ private:
 	mutable cairo_t*	cr_;
 	mutable cairo_t*	tmp_cr_;
 	mutable cairo_surface_t* surface_;
+	//mutable cairo_surface_t* surfaceBackground_;
 	mutable cairo_surface_t* tmp_surface_;
 
 	MAGICS_NO_EXPORT MFloat projectX(const MFloat x) const {return offsetX_+(x*coordRatioX_);}

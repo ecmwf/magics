@@ -54,7 +54,7 @@ BaseDriver::BaseDriver():currentPage_(-1),fileName_(""),currentLayer_(""),
 	coordRatioX_(1),coordRatioY_(1),
 //	lastAreaHeightPercentage_(0.),lastAreaWidthPercentage_(0.),
 	newPage_(true),//newLayout_(true), // external_(false),
-	disabled_(false),alphaEnabled_(false),
+	disabled_(false),alphaEnabled_(false), applyGaussianBlur_(-1.),
 	indexHatch_(0),currentShading_(M_SH_NONE),cmScale_(1.),
 	xDeviceLength_(MagTranslator<double, double>().magics("SUPER_PAGE_X_LENGTH")),
 	yDeviceLength_(MagTranslator<double, double>().magics("SUPER_PAGE_Y_LENGTH")),obs_distance_(-1.)
@@ -797,6 +797,8 @@ void BaseDriver::redisplay(const BinaryObject& binary) const
   if(in.is_open()) 
   {
     const float alpha = binary.getTransparency();
+    applyGaussianBlur_ = binary.getGaussianBlur();
+
     char mag [6];
     in.read((char *)(&mag), 6);
     if(strncmp( "MAGICS", mag,6) !=0 )

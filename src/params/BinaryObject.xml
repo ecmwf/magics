@@ -37,4 +37,7 @@ does it submit to any jurisdiction.
   		<documentation for_docs="no">Height in percentage		</documentation>
 	</parameter>
 
+	<parameter from="int" name="mgb_blur_radius" visible="no" default="-1" member="mgb_blur_radius" to="int">
+  		<documentation for_docs="no">Blur radius, Only for png output, default: -1 no blurt effect </documentation>
+	</parameter> 
 </class></magics>
