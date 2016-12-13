@@ -39,7 +39,7 @@ class MatrixHandler : public AbstractMatrix, public AbstractPoints
 public : 
     MatrixHandler(const AbstractMatrix& matrix) : AbstractMatrix(),
         AbstractPoints(),
-        matrix_(matrix), min_(INT_MAX), max_(-INT_MAX)  {}
+        matrix_(matrix), min_(INT_MAX), max_(-INT_MAX) {}
     MatrixHandler(const MatrixHandler& matrix) :
         AbstractMatrix(),
         AbstractPoints(),
@@ -145,6 +145,7 @@ public :
 	
     virtual double interpolate(double  i, double  j) const 
     {
+
     	if ( columns() == 0  || rows() == 0)
     		return matrix_.missing();
 
@@ -167,10 +168,10 @@ public :
     		boundRow(i, v1, i1, v2, i2);
     		
     		if (i1 == -1) return missing(); 
-    		
+    		internal_ = true;
     	    double a = (*this).interpolate(v1, j);
             double b = (*this).interpolate(v2, j);
-          
+            internal_ = false;
             if ( same(a, missing()) || same(b, missing()) ) return missing();
             
             double da = (v2-i)/(v2-v1);
@@ -338,6 +339,7 @@ protected:
     mutable VectorOfPointers<vector<UserPoint*> >::const_iterator current_;
     mutable double min_;
     mutable double max_;
+    mutable bool internal_;
   
 };
 
@@ -486,6 +488,55 @@ protected :
    bool columnrevert_;
 };
 
+class DelegateMatrixHandler : public MatrixHandler
+{
+public :
+    DelegateMatrixHandler(const AbstractMatrix& matrix) : MatrixHandler(matrix) {}
+
+    
+    
+    double interpolate(double  row, double  column) const { matrix_.interpolate(row, column); }
+    double nearest(double  row, double  column) const { matrix_.nearest(row, column); }
+
+    double column(int i, int j) { matrix_.column(i, j); }
+    double row(int i, int j) { matrix_.row(i, j); }
+
+protected :
+
+
+
+};
+
+
+#include <proj_api.h>
+
+class Proj4MatrixHandler : public MatrixHandler
+{
+public :
+    Proj4MatrixHandler(const AbstractMatrix& matrix, const string&);
+
+    
+    
+    double interpolate(double  row, double  column) const;
+    double nearest(double  row, double  column) const;
+
+    double column(int, int);
+    double row(int, int);
+    
+
+   
+
+protected :
+
+   double minx_;
+   double maxx_;
+   double miny_;
+   double maxy_;
+   
+   projPJ proj4_;
+   projPJ latlon_;
+
+};
 
 
 
@@ -607,6 +658,7 @@ protected :
     const Transformation& transformation_;
     mutable BoxMatrixHandler*   original_;
 };
+
 
 
 class GeoBoxMatrixHandler: public TransformMatrixHandler
