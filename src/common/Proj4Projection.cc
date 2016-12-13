@@ -416,7 +416,7 @@ void Proj4Projection::conic()
 	}
 	*/
 	// top
-	add( projection_->minlon_, projection_->maxlat_);
+	add( projection_->minlon_ - vertical_longitude_, projection_->maxlat_);
 	for ( int lon = projection_->minlon_; lon <= projection_->maxlon_; lon++) {
 		add(lon, projection_->minlat_);
 	}

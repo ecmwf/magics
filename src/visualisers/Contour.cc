@@ -116,7 +116,7 @@ void Contour::operator()(Data& data, BasicGraphicsObjectContainer& parent)
 	}
 
 	matrix_ = (*this->method_).handler(*box, parent);
-
+	//matrix_ = box;
 
 	if (this->floor_ != -INT_MAX || this->ceiling_ != INT_MAX)
 		matrix_ = new MatrixTreshold(*matrix_, this->floor_, this->ceiling_);

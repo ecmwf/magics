@@ -35,33 +35,6 @@
 namespace magics {
 
 
-class SampleContourMethod: public ContourMethod, public SampleContourMethodAttributes {
-
-public:
-	SampleContourMethod() {}
-	virtual ~SampleContourMethod() {}
-	ContourMethod* clone() { return new SampleContourMethod(); }
-	virtual bool accept(const string& node) { return magCompare(node, "sample"); }
-    void set(const XmlNode& node) { SampleContourMethodAttributes::set(node); }
-    void set(const map<string, string>& map) { SampleContourMethodAttributes::set(map); }
-    virtual MatrixHandler* handler(const AbstractMatrix& matrix, const BasicGraphicsObjectContainer&)
-    {
-    	MagLog::dev() << "ThinningMatrixHandler--> " << x_ << ", " << y_ << endl;
-        return new ThinningMatrixHandler(matrix, x_, y_);
-    }
-
-protected:
-     //! Method to print string about this class on to a stream of type ostream (virtual).
-	 virtual void print(ostream& out) const { out <<  "SampleContourMethod" << "\n"; }
-
-private:
-    //! Copy constructor - No copy allowed
-	SampleContourMethod(const SampleContourMethod&);
-    //! Overloaded << operator to copy - No copy allowed
-	SampleContourMethod& operator=(const SampleContourMethod&);
-
-};
-
 
 
 
@@ -92,13 +65,8 @@ public:
         MatrixHandler data(matrix);
         MatrixHandler* pMatrixHandler;
         if ( matrix.akimaEnable() == false ) {
-        		
-                    ContourMethod * pContourMethod =new  ContourMethod();
-
-                    pMatrixHandler = pContourMethod->handler(matrix, owner);
-
-                    MagLog::debug() << "Linear contouring, "    << "\n";
-                    return pMatrixHandler;
+        	
+                    return new DelegateMatrixHandler(matrix);
         }
 
         double fGeoAreaWidth;
@@ -221,24 +189,8 @@ public:
 
 
 
-        // check for the 'sampling' case where we can subsample our data by 2 or more points
-/* do not use sampling anymore!
-        if ((nSampleX > 1) && (nSampleY > 1))
-        {
-            //SampleContourMethod *am = static_cast < SampleContourMethod *> (MagTranslator<string, ContourMethod >()("sampling"));
-            SampleContourMethod *am =new  SampleContourMethod();
+       
 
-            auto_ptr<SampleContourMethod > pSampleContourMethod(am);
-
-            pSampleContourMethod->setX (nSampleX);
-            pSampleContourMethod->setY (nSampleY);
-
-            pMatrixHandler = pSampleContourMethod->handler(matrix, owner);
-
-            MagLog::debug() << "Sampling every " << nSampleX << "x" << nSampleY << "\n"
-                         << "Resolution: "    << fDataResolutionX * nSampleX << "x" << fDataResolutionY * nSampleY    << "\n";
-        }
-*/
         // Check for the linear case (contour resolution == data resolution).
         // Also need to use linear contouring if we have missing values, because Akima will
         // incorrectly interpolate them. Missing data is also handled correctly if we have high-res
