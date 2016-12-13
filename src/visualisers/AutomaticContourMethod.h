@@ -28,7 +28,6 @@
 #include "Akima760Method.h"
 #include "MatrixHandler.h"
 #include "BasicSceneObject.h"
-#include "SampleContourMethodAttributes.h"
 
 
 
