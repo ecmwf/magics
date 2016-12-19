@@ -86,7 +86,7 @@ void WindPlotting::setAdvanced(double& min, double& max)
 		++level;
 	}
 	// we add a last small one for the maax
-	map_[ Interval(levels_->back(), levels_->back() + epsilon) ] = last;
+	map_[ Interval(levels_->back(), levels_->back() + EPSILON) ] = last;
 
 }
 
