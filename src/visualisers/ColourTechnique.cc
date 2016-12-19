@@ -96,9 +96,9 @@ void ColourTechnique::prepare(const LevelSelection& levels, bool rainbow)
 
     }
     if ( !rainbow )
-    	bands_.insert(make_pair(Interval(levels.back(), levels.back() + epsilon), left));
+    	bands_.insert(make_pair(Interval(levels.back(), levels.back() + EPSILON), left));
 
-    MagLog::dev() << levels.back() << "<<" << left << "<<" << levels.back() + epsilon << endl;
+    MagLog::dev() << levels.back() << "<<" << left << "<<" << levels.back() + EPSILON << endl;
 } 
 
 Colour ColourTechnique::operator()(double value) const 

@@ -199,6 +199,27 @@ struct IntIndex: public Index
 	}
 };
 
+struct ShortIndex: public Index
+{
+	ShortIndex() : Index(ncShort) {}
+    
+	virtual int operator()(const string& val,  NcValues* values, long nb )
+	{
+		short value = atoi(val.c_str());
+        if ( nb == 1 && values->as_short(0) == value) 
+        	return 0;
+
+		for (int i = 0; i < nb - 1; i++)
+		{
+			if (values->as_short(i) == value) return i;
+			if (values->as_short(i+1) == value) return i+1;
+			if ( values->as_short(i) < value && value < values->as_short(i+1) ) return i;   
+			if ( values->as_short(i+1) < value && value < values->as_short(i) ) return i+1;     
+		}
+		throw MagicsException("No such value : " + val);
+	}
+};
+
 struct StringIndex: public Index
 {
 	StringIndex() : Index(ncChar) {}
@@ -225,6 +246,7 @@ static FloatIndex float_index;
 static IntIndex int_index;
 static DoubleIndex double_index;
 static StringIndex string_index;
+static ShortIndex short_index;
 
 int  NetDimension::index(const string& val)
 {
@@ -243,7 +265,7 @@ int  NetDimension::value(const string& val)
 	// we assume the user is using a simple ..
 	int index = atoi(val.c_str());
 	MagLog::warning() << " Could not find variable return index instead " << index << endl;
-	//if (index < )
+	
 	return index;
 }
 
