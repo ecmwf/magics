@@ -1,4 +1,4 @@
-import magics as ma
+import Magics as ma
 
 ma.init()
 ma.setr("subpage_lower_left_latitude",   40.)

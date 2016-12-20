@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 
-import magics as Magics
+import Magics as Magics
 import numpy
 import math
 
 def f(x,y):
 #	return ((math.sin((x-180.)/(2.*math.pi)))-(math.cos((y-90.)/(2.*math.pi))))
 #	return ( (x-180.) + (y-90.)*3 )
-	return (y-90.) 
+	return (y-90.)
 
 
 Magics.init ()

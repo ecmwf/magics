@@ -1,9 +1,9 @@
-import magics as ma
+import Magics as ma
 import numpy as np
 
 ma.init()
 
-ma.setr("subpage_y_position", 2.) 
+ma.setr("subpage_y_position", 2.)
 ma.setc("subpage_map_projection",'cartesian')
 ma.setc("subpage_x_axis_type",'date')
 ma.setc("subpage_y_axis_type",'regular')
