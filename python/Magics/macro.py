@@ -6,6 +6,8 @@
 # granted to it by virtue of its status as an intergovernmental organisation nor
 # does it submit to any jurisdiction.
 
+from __future__ import print_function
+
 import os
 import Magics
 import numpy
@@ -64,12 +66,12 @@ class Action(object):
 
     def __repr__(self):
         x = ""
-        for key in self.args.keys():
+        for key in list(self.args.keys()):
             x = x + " %s = '%s'\n" % (key, self.args[key])
         return x
 
     def inspect(self):
-        print self
+        print(self)
 
     def quote(self, v):
         return "\"" + v + "\""
@@ -78,7 +80,7 @@ class Action(object):
         sep=""
         val="%s("%self.html
 
-        for key in self.args.keys():
+        for key in list(self.args.keys()):
             if isinstance(self.args[key], str):
                 if key == 'odb_data':
                     Magics.setc('odb_filename', self.args[key])
@@ -128,12 +130,12 @@ class Action(object):
                 dim  = len(self.args[key].shape)
                 if isinstance(self.args[key][0], int):
                     if (dim == 2) :
-                        print "pset2i"
+                        print("pset2i")
                     else :
-                        print "pset1i"
+                        print("pset1i")
                 elif ( type == 'float64' or type == 'float32') :
                     if (dim == 2) :
-                        print "pset2r"
+                        print("pset2r")
                     else :
                         vval = ""
                         vsep = ""
@@ -146,16 +148,16 @@ class Action(object):
                         vval += ""
                         val+= '%s%s = [%s]'%(sep, key, vval)
                 else :
-                    print "type???->", key
+                    print("type???->", key)
             sep=",\n\t"
 
-        print >>file, val + ")\n"
+        print(file, val + ")\n")
 
     def tomv4(self, file):
         sep="\t"
         val="%s,\n"%self.verb.upper()
 
-        for key in self.args.keys():
+        for key in list(self.args.keys()):
             if isinstance(self.args[key], str):
                 if key == 'odb_data':
                     Magics.setc('odb_filename', self.args[key])
@@ -175,20 +177,20 @@ class Action(object):
                    vval += "]"
                    val+= '%s%s = %s'%(sep, key.upper(), vval)
                 elif isinstance(self.args[key][0], int):
-                   print "pset1i"
+                   print("pset1i")
                 elif isinstance(self.args[key][0], float):
-                   print "pset1r"
+                   print("pset1r")
             elif isinstance(self.args[key], numpy.ndarray) :
                 type = self.args[key].dtype
                 dim  = len(self.args[key].shape)
                 if isinstance(self.args[key][0], int):
                     if (dim == 2) :
-                        print "pset2i"
+                        print("pset2i")
                     else :
-                        print "pset1i"
+                        print("pset1i")
                 elif ( type == 'float64' or type == 'float32') :
                     if (dim == 2) :
-                        print "pset2r"
+                        print("pset2r")
                     else :
                         vval = "["
                         vsep = ""
@@ -199,10 +201,10 @@ class Action(object):
                         val+= '%s%s = %s'%(sep, key.upper(), vval)
 
                 else :
-                    print "type???->", key
+                    print("type???->", key)
             sep=",\n\t"
 
-        print >> file, val + "\n"
+        print(file, val + "\n")
 
 
 
@@ -210,18 +212,18 @@ class Action(object):
 
     def tofortran(self, f):
         if self.action == Magics.new_page :
-            print >> f, '\tcall pnew("page")'
+            print(f, '\tcall pnew("page")')
             return
-        for key in self.args.keys():
+        for key in list(self.args.keys()):
             if isinstance(self.args[key], str):
                 if key == 'odb_data':
                     Magics.setc('odb_filename', self.args[key])
                 else:
-                    print >> f, '\tcall psetc("%s", "%s")'%(key, self.args[key])
+                    print (f, '\tcall psetc("%s", "%s")'%(key, self.args[key]))
             elif isinstance(self.args[key], int):
-                print >>f, '\tcall pseti("%s", %d)'%(key, self.args[key])
+                print (f, '\tcall pseti("%s", %d)'%(key, self.args[key]))
             elif isinstance(self.args[key], float):
-                print >> f, '\tcall psetr("%s", %0.2f)'%(key, self.args[key])
+                print (f, '\tcall psetr("%s", %0.2f)'%(key, self.args[key]))
             elif isinstance(self.args[key], list) :
                 if isinstance (self.args[key][0], str):
                    nb = 0
@@ -238,9 +240,9 @@ class Action(object):
                             sep = ",&\n\t\t"
                             newline = newline + 70
                    val += "/)"
-                   print >>f, '\tcall pset1c("%s", %s, %d)'%(key, val, len(self.args[key]))
+                   print (f, '\tcall pset1c("%s", %s, %d)'%(key, val, len(self.args[key])))
                 elif isinstance(self.args[key][0], int):
-                   print "pset1i"
+                   print("pset1i")
                 elif isinstance(self.args[key][0], float):
                     val = "(/"
                     sep = ""
@@ -248,18 +250,18 @@ class Action(object):
                         val += sep + ("%0.2f" % v)
                         sep = ", "
                     val += "/)"
-                    print >>f, '\tcall pset1r("%s", %s, %d)'%(key, val, len(self.args[key]))
+                    print (f, '\tcall pset1r("%s", %s, %d)'%(key, val, len(self.args[key])))
             elif isinstance(self.args[key], numpy.ndarray) :
                 type = self.args[key].dtype
                 dim  = len(self.args[key].shape)
                 if isinstance(self.args[key][0], int):
                     if (dim == 2) :
-                        print "pset2i"
+                        print("pset2i")
                     else :
-                        print "pset1i"
+                        print("pset1i")
                 elif ( type == 'float64' or type == 'float32') :
                     if (dim == 2) :
-                        print "pset2r"
+                        print("pset2r")
                     else :
                         val = "(/"
                         sep = ""
@@ -267,20 +269,20 @@ class Action(object):
                             val += sep + ("%0.2f" % v)
                             sep = ", "
                         val += "/)"
-                        print >>f, '\tcall pset1r("%s", %s, %d)'%(key, val, len(self.args[key]))
+                        print (f, '\tcall pset1r("%s", %s, %d)'%(key, val, len(self.args[key])))
                 elif isinstance(self.args[key][0], int):
-                        print "pset1r"
+                        print("pset1r")
                 else :
-                    print "type???->", key
+                    print("type???->", key)
 
         if self.action != None and actions[self.verb] != "" and actions[self.verb] != "pinput":
-            print >>f, "\tcall %s\n"%actions[self.verb]
-            for key in self.args.keys():
-                print >>f, "\tcall preset('%s')"%key
-            print >>f, ""
+            print (f, "\tcall %s\n"%actions[self.verb])
+            for key in list(self.args.keys()):
+                print (f, "\tcall preset('%s')"%key)
+            print (f, "")
 
         else:
-            print >>f, ""
+            print (f, "")
 
 
     def clean_object(self, obj):
@@ -296,11 +298,11 @@ class Action(object):
             for i,v in enumerate(obj):
                 obj[i] = self.clean_object(v)
         elif type(obj) == dict:
-            for i,v in obj.iteritems():
+            for i,v in list(obj.items()):
                 obj[i] = self.clean_object(v)
         else:
-            print "Invalid object in data, converting to string: "
-            print  type(obj)
+            print("Invalid object in data, converting to string: ")
+            print(type(obj))
             obj = str(obj)
         return obj
 
@@ -309,7 +311,7 @@ class Action(object):
 
         if ( self.action != Magics.odb) :
             self.args = self.clean_object(self.args)
-        for key in self.args.keys():
+        for key in list(self.args.keys()):
             if isinstance(self.args[key], str):
                 if key == 'odb_data':
                     Magics.setc('odb_filename', self.args[key])
@@ -340,8 +342,7 @@ class Action(object):
                     else :
                         Magics.set1r(key, self.args[key].copy())
                 else :
-                    print "type???->", key
-
+                    print("type???->", key)
             else:
                 self.args[key].execute(key)
 
@@ -351,7 +352,7 @@ class Action(object):
                     Magics.setc("legend", "on")
                 self.action()
                 if self.action != Magics.obs and self.action != Magics.minput:
-                    for key in self.args.keys():
+                    for key in list(self.args.keys()):
                         Magics.reset(key)
             else:
                 self.action("page")
@@ -458,20 +459,20 @@ def _plot(*args):
 
 def tofortran(file, *args):
     f = open(file+".f90",'w')
-    print >>f, "\tprogram magics\n"
-    print >>f, "\tcall popen\n"
+    print(f, "\tprogram magics\n")
+    print(f, "\tcall popen\n")
     for n in args:
         n.tofortran(f)
-    print >>f, "\tcall pclose\n"
-    print >>f, "\tend"
+    print(f, "\tcall pclose\n")
+    print(f, "\tend")
 
 
 def tohtml(file, *args):
     f = open(file+".html",'w')
-    print >>f, "<html>"
+    print (f, "<html>")
     for n in args:
         n.tohtml(f)
-    print >>f, "</html>"
+    print (f, "</html>")
 
 def tomv4(file, *args):
     f = open(file+".mv4",'w')
@@ -490,19 +491,19 @@ class  odb_filter(object):
         odb = "%s.odb" % file
         context.tmp.append(odb)
         cmd = "odbsql -q \"" + self.args["query"] + "\" -i " + self.args["path"] + " -f newodb -o " + odb
-        print cmd
+        print(cmd)
         if (os.system(cmd)) :
-            print "Error in filtering ODB data... Aborting"
+            print("Error in filtering ODB data... Aborting")
             os.abort();
         Magics.setc('odb_filename', odb)
     def inspect(self):
         cmd = "odbsql -q \"" + self.args["query"] + "\" -i " + self.args["path"] + " -o data.ascii"
         if (os.system(cmd)) :
-            print "Error in filtering ODB data... Aborting"
+            print("Error in filtering ODB data... Aborting")
             os.abort();
         cmd =  os.environ['ODB_REPORTER'] + " %s" % "data.ascii"
         if (os.system(cmd)) :
-            print "Error in viewing ODB data... Aborting"
+            print("Error in viewing ODB data... Aborting")
             os.abort();
 
 
@@ -521,8 +522,6 @@ try:
             os.close(f)
 
             base, ext = os.path.splitext(tmp)
-
-
 
             img = output(output_formats=["png"],
                               output_name_first_page_number='off',
