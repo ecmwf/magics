@@ -18,7 +18,7 @@ from functools import partial
 lib = ctypes.util.find_library("MagPlus")
 
 if lib is None:
-    lib = "../../lib/libMagPlus.@CMAKE_SHARED_LIBRARY_SUFFIX@"
+    lib = "@CMAKE_BINARY_DIR@/lib/libMagPlus@CMAKE_SHARED_LIBRARY_SUFFIX@"
     if lib is None:
       lib = "@CMAKE_INSTALL_PREFIX@/@INSTALL_LIB_DIR@/libMagPlus@CMAKE_SHARED_LIBRARY_SUFFIX@"
 
