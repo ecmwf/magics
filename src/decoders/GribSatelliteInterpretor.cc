@@ -282,7 +282,12 @@ void GribSatelliteInterpretor::interpretAsMatrix(const GribDecoder& grib, Matrix
 
     double altitude = grib.getDouble("NrInRadiusOfEarth");
     if ( !altitude ) altitude =  6610839.;
+
+    // GRIB edition 1 needs to be divided by 10^6, GRIB 2 is already in the right units
+    long edition = grib.getLong("edition");
+    if (edition == 1)
         altitude *= 0.000001;
+
     long   nx   = grib.getLong("numberOfPointsAlongXAxis");
     long   ny   = grib.getLong("numberOfPointsAlongYAxis");
     long   dx   = grib.getLong("dx");
