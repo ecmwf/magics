@@ -23,7 +23,7 @@
 #define Netcdf_H
 
 #include "magics.h"
-#include "netcdfcpp.h"
+#include "netcdf.h"
 
 #include "MagException.h"
 #include "MagLog.h"
@@ -56,24 +56,27 @@ public:
 struct NetDimension 
 {
     string name_;
-    long   size_; 
-    long   first_;
-    long   dim_;
-    long   index_;
+    size_t   size_; 
+    size_t   first_;
+    size_t   dim_;
+    size_t  index_;
     string method_;
 
-    NcDim* id_;
-    NcVar* variable_;
+    int  id_;
+    int variable_;
+    int netcdf_;
 
     NetDimension() {}
-    NetDimension(NcDim* id): name_(id->name()), size_(id->size()),
-            first_(0), dim_(size_), index_(0),
-            id_(id), variable_(0) {}
-    NetDimension(NcDim* id, NcVar* variable, long index) : 
-        name_(id->name()), size_(id->size()), 
-        first_(0), dim_(size_), index_(index), 
-        id_(id), variable_(variable)
-        {}
+    NetDimension(int netcdf, const string& name, int index = 0, int variable = -1): name_(name), 
+            first_(0), dim_(size_), index_(index), variable_(variable), 
+            netcdf_(netcdf) {
+                   nc_inq_dimid(netcdf, name_.c_str(), &id_);
+                   nc_inq_dimlen(netcdf, id_, &size_);
+                   dim_ = size_;
+
+            }
+
+    
         
     void first(const string&);
     void last(const string&);
@@ -93,16 +96,39 @@ struct NetDimension
 struct NetAttribute 
 {
 	string name_;
-	NcAtt* id_;
-	NetAttribute(const string name, NcAtt* id) : name_(name), id_(id) {} 
+	int id_;
+    int netcdf_;
+	NetAttribute(const string name, int netcdf, int id) : name_(name), netcdf_(netcdf), id_(id) {} 
 	NetAttribute() {}
-	void get(double& val)      { val =  id_->as_double(0); }
-	void get(float& val)       { val =  id_->as_float(0); }
-	void get(const char*& val) { val =  id_->as_string(0); }
+	void get(double& val)      { 
+        double tmp; 
+        nc_get_att_double(netcdf_, id_, name_.c_str(), &tmp); 
+        val = tmp;  
+    }
+	void get(float& val)  { 
+        float tmp; 
+        nc_get_att_float(netcdf_, id_, name_.c_str(), 
+            &tmp); 
+    }
+	void get(string& val) { 
+          size_t length = 0;
+          nc_inq_attlen(netcdf_, id_, name_.c_str(), &length);
+          char** tmp = (char**)malloc(length * sizeof(char*)) ; 
+          nc_get_att_string(netcdf_, id_, name_.c_str(), tmp); 
+          val = *tmp;
+      }
+      void get(const char*& val) { 
+          size_t length = 0;
+          nc_inq_attlen(netcdf_, id_, name_.c_str(), &length);
+          char** tmp = (char**)malloc(length * sizeof(char*)) ; 
+          nc_get_att_string(netcdf_, id_, name_.c_str(), tmp); 
+          val = *tmp;
+      }
 
 };
 
 class NetVariable;
+class Netcdf;
 
 template <class From, class To>
 struct Convertor
@@ -124,37 +150,39 @@ template <class T>
 class Accessor
 {
 public:
-    Accessor(NcType type) {
-        if ( !accessors_) accessors_ = new map<NcType, Accessor<T>*>;
+    Accessor(nc_type type) {
+        if ( !accessors_) 
+            accessors_ = new map<nc_type, Accessor<T>*>;
         accessors_->insert(std::make_pair(type, this));
     }
     virtual ~Accessor() {    }
        
-    virtual void operator() (vector<T>&,  vector<long>& , vector<long>&, NetVariable&) const {}
+    virtual void operator() (vector<T>&,  vector<size_t>& , vector<size_t>&, NetVariable&) const {}
     
-    static map<NcType, Accessor<T>*>* accessors_;
+    static map<nc_type, Accessor<T>*>* accessors_;
     static void release() {
  		if ( accessors_ ) 
- 			for ( typename map<NcType, Accessor<T>*>::iterator a = accessors_->begin(); a != accessors_->end(); ++a) {
+ 			for ( typename map<nc_type, Accessor<T>*>::iterator a = accessors_->begin(); a != accessors_->end(); ++a) {
  				Accessor<T>* accessor = a->second;
  				 a->second = 0;
  				 delete accessor;
     		}
 	}
     
-
-    static void access(vector<T>& data, vector<long> start, vector<long> edges, NetVariable& var); 
-    static void access(vector<T>& data, NetDimension& dim){}
+    static void access(vector<T>& data, vector<size_t>& start, vector<size_t>& edges, NetVariable& var);  
+    
+   
 };
 
 template <class F, class T>
 class TypedAccessor : public Accessor<T>
 {
 public:
-	TypedAccessor(NcType type) : Accessor<T>(type) {}
+	TypedAccessor(nc_type type) : Accessor<T>(type) {}
 
-	void operator() (vector<T>& to, vector<long>& start, vector<long>& edges, NetVariable& var) const;
-	void get (vector<F>& from, vector<long>& start, vector<long>& edges, NetVariable& var) const;
+	void operator() (vector<T>& to, vector<size_t>& start, vector<size_t>& edges, NetVariable& var) const;
+    void get (vector<F>& from, vector<size_t>& start, vector<size_t>& edges, NetVariable& var) const;
+   
 };
 
 
@@ -162,14 +190,15 @@ public:
 struct NetVariable 
 {
 	string name_;
-	NcVar* id_;
+	int id_;
+    int netcdf_;
 	map<string, NetDimension> dimensions_;
 	map<string, NetAttribute> attributes_;
     double missing_;
     
-	NetVariable(const string& name, NcVar* id, const NcFile& file, const string& method);
+	NetVariable(const string& name, int id, int netcdf, const string& method);
 
-	void getStartingPoint(vector<long>& dims)
+	void getStartingPoint(vector<size_t>& dims)
 	{
 		dims.resize(dimensions_.size());
 		for (map<string, NetDimension>::iterator dim = dimensions_.begin(); dim != dimensions_.end(); ++dim)
@@ -178,7 +207,7 @@ struct NetVariable
 		}
 	}
     
-	void getDimensions(vector<long>& dims)
+	void getDimensions(vector<size_t>& dims)
 	{
 		dims.resize(dimensions_.size());
 		for (map<string, NetDimension>::iterator dim = dimensions_.begin(); dim != dimensions_.end(); ++dim)
@@ -202,13 +231,61 @@ struct NetVariable
         (*d).second.last(last);
     }
     
-    long getSize(const vector<long>& dims)
+    size_t getSize(const vector<size_t>& dims)
     {
-       long size = 1;
-       for (unsigned int i = 0; i < dims.size(); i++)
+       size_t size = 1;
+       for (unsigned int i = 0; i < dims.size(); i++) {
            size = (dims[i] ) * size;
+           cout << size << endl;
+       }
+
        return size;    
     }
+
+    void get(vector<double>& data, vector<size_t>& start, vector<size_t>& edges )
+    {
+        nc_get_vara_double(netcdf_, id_, &start.front(), &edges.front(), &data.front());   
+    }
+
+    void get(vector<float>& data, vector<size_t>& start, vector<size_t>& edges )
+    {
+
+        nc_get_vara_float(netcdf_, id_, &start.front(), &edges.front(), &data.front()); 
+    }
+
+    void get(vector<int>& data, vector<size_t>& start, vector<size_t>& edges )
+    {
+
+        nc_get_vara_int(netcdf_, id_, &start.front(), &edges.front(), &data.front()); 
+    }
+    void get(vector<short>& data, vector<size_t>& start, vector<size_t>& edges )
+    {
+
+        nc_get_vara_short(netcdf_, id_, &start.front(), &edges.front(), &data.front()); 
+    }
+    void get(vector<double>& data )
+    {
+        nc_get_var_double(netcdf_, id_, &data.front());   
+    }
+
+    void get(vector<float>& data)
+    {
+
+        nc_get_var_float(netcdf_, id_,  &data.front()); 
+    }
+
+    void get(vector<int>& data )
+    {
+
+        nc_get_var_int(netcdf_, id_, &data.front()); 
+    }
+    void get(vector<short>& data )
+    {
+
+        nc_get_var_short(netcdf_, id_,  &data.front()); 
+    }
+
+
     void print(ostream& s) const
     {
         s << name_ << "[";
@@ -223,6 +300,14 @@ struct NetVariable
         
     }
 
+    nc_type type() {
+        nc_type type;
+        nc_inq_vartype(netcdf_, id_,  &type);
+        return type;
+    }
+   
+    int find(const string& value);
+    
     double getMissing() { return missing_; }
     
     template <class T> 
@@ -248,15 +333,15 @@ struct NetVariable
         for (map<string, string>::const_iterator f = last.begin(); f != last.end(); ++f) {
             setLastPoint((*f).first, (*f).second);
         }
-        get(vals);
+        getValues(vals);
     }
     
     template <class T>
-    void get(vector<T>& vals)
+    void getValues(vector<T>& vals)
     {
-        vector<long> start;
+        vector<size_t> start;
         getStartingPoint(start);
-        vector<long> end;
+        vector<size_t> end;
         getDimensions(end);
         
         vals.resize(getSize(end));
@@ -365,53 +450,27 @@ protected:
     double missing_;
      
 private:
-	NcFile    file_;
+	int    file_;
 
 	friend ostream& operator<<(ostream& s,const Netcdf& p)
 		{ p.print(s); return s; }
 };
 
 
-template <class From, class To> 
-class DataAccessor
-{
-public:
-    DataAccessor(Netcdf& netcdf) : netcdf_(netcdf) {}
-    void operator()(const string& name, vector<To>& to)
-    {
-        vector<From> from;
-        netcdf_.get(name, from, start_, end_);
-        int i = 0;
-        for (typename vector<From>::const_iterator val = from.begin(); val != from.end(); ++val) {
-            To add = To(*val);
-         
-            to.push_back(To(*val));
-        }
-    }
-    
-   void setDimension(const string& name, long from, long dim) {
-        start_.insert(std::make_pair(name, from));
-        end_.insert(std::make_pair(name, dim));
-   }
-   
-   void setDimension(const string& name, long val) {
-        start_.insert(std::make_pair(name, val));
-        end_.insert(std::make_pair(name, 1));
-   }
-    
-   map<string, long> start_;
-   map<string, long> end_;
-   Netcdf& netcdf_;
-};
-
 template <class T> 
-void Accessor<T>::access(vector<T>& data, vector<long> start, vector<long> edges, NetVariable& var) 
+void Accessor<T>::access(vector<T>& data, vector<size_t>& start, vector<size_t>& edges, NetVariable& var) 
 {
-	typename map<NcType, Accessor<T>*>::const_iterator accessor = accessors_->find(var.id_->type());
+   
+	typename map<nc_type, Accessor<T>*>::const_iterator accessor = accessors_->find(var.type());
 	if ( accessor == accessors_->end() ) throw new MagicsException("No accessor available");
 
 	(*(*accessor).second)(data, start, edges, var);
 }
+
+
+
+
+
 
 } // Namespace Magics
 
