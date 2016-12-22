@@ -111,18 +111,16 @@ struct NetAttribute
             &tmp); 
     }
 	void get(string& val) { 
-          size_t length = 0;
-          nc_inq_attlen(netcdf_, id_, name_.c_str(), &length);
-          char** tmp = (char**)malloc(length * sizeof(char*)) ; 
-          nc_get_att_string(netcdf_, id_, name_.c_str(), tmp); 
-          val = *tmp;
+          size_t len;
+          nc_inq_attlen (netcdf_, id_, name_.c_str(),&len);
+          
+          nc_get_att_text(netcdf_, id_, name_.c_str(), (char *)&(val[0]));
       }
       void get(const char*& val) { 
-          size_t length = 0;
-          nc_inq_attlen(netcdf_, id_, name_.c_str(), &length);
-          char** tmp = (char**)malloc(length * sizeof(char*)) ; 
-          nc_get_att_string(netcdf_, id_, name_.c_str(), tmp); 
-          val = *tmp;
+          size_t len;
+          nc_inq_attlen (netcdf_, id_, name_.c_str(),&len);
+          val = new char[len];
+          nc_get_att_text(netcdf_, id_, name_.c_str(), (char *)val);
       }
 
 };
@@ -307,7 +305,7 @@ struct NetVariable
     }
    
     int find(const string& value);
-    
+
     double getMissing() { return missing_; }
     
     template <class T> 
