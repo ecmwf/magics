@@ -214,6 +214,13 @@ struct NetVariable
 		}
 	}
     
+    size_t getSize()
+    {
+        vector<size_t> dims;
+        getDimensions(dims);
+        return getSize(dims);
+
+    }
  
     void setFirstPoint(const string& name, const string& first)
     {
