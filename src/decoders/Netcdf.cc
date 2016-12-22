@@ -263,6 +263,7 @@ int NetVariable::find(const string& val)
 	nc_type t = type();
 	if ( t == NC_DOUBLE ) {
 		vector<double> values;
+		values.resize(getSize());
 		get(values);
 		double dval = tonumber(val);
 		return ::find(dval, values);
@@ -270,6 +271,7 @@ int NetVariable::find(const string& val)
 	}
 	if ( t == NC_INT ) {
 		vector<int> values;
+		values.resize(getSize());
 		get(values);
 		int dval = tonumber(val);
 		return ::find(dval, values);
@@ -277,6 +279,7 @@ int NetVariable::find(const string& val)
 	}
 	if ( t == NC_FLOAT ) {
 		vector<float> values;
+		values.resize(getSize());
 		getValues(values);
 		float dval = tonumber(val);
 		return ::find(dval, values);
@@ -284,6 +287,7 @@ int NetVariable::find(const string& val)
 	}
 	if ( t == NC_SHORT ) {
 		vector<short> values;
+		values.resize(getSize());
 		get(values);
 		short dval = tonumber(val);
 		return ::find(dval, values);
