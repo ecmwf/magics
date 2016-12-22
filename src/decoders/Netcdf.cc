@@ -25,14 +25,14 @@
 using namespace magics;
 
 
-static bool isVariable(NcVar* var)
+static bool isVariable(int netcdf, int var)
 {
-    if (var->num_dims() != 1) return true;
-    
-    string name0(var->name());
-    string name1(var->get_dim(0)->name());
-    if ( name0 == name1) return false;
-    return true; 
+	int dims;
+    nc_inq_varndims(netcdf, var,  &dims);
+       
+    if (dims != 1) return true;
+
+   return false;
 }
 
 template <class From, class To>
@@ -48,46 +48,74 @@ Convertor<From,To>::Convertor(NetVariable& var) : variable_(var)
 
 
 template <class F, class T>   
-void TypedAccessor<F,T>::operator() (vector<T>& to, vector<long>& start, vector<long>& edges, NetVariable& var) const
+void TypedAccessor<F,T>::operator() (vector<T>& to, vector<size_t>& start, vector<size_t>& edges, NetVariable& var) const
 {
-	F* from = new F[to.size()];
-	var.id_->set_cur(&start[0]);
-	var.id_->get(from, &edges[0]);
+	vector<F> from(to.size());
+	var.get(from, start, edges);
 	// Convert the data....       
-	std::transform(from, from + to.size(), to.begin(), Convertor<F, T>(var));
-	delete[] from;
+	std::transform(from.begin(), from.begin() + to.size(), to.begin(), Convertor<F, T>(var));
+	
 }
 
 template <class F, class T> 
-void TypedAccessor<F,T>::get (vector<F>& from, vector<long>& start, vector<long>& edges, NetVariable& var)const
+void TypedAccessor<F,T>::get (vector<F>& from, vector<size_t>& start, vector<size_t>& edges, NetVariable& var)const
 {
-	var.id_->set_cur(&start[0]);
-	var.id_->get(from, &edges[0]);
+	var.get(&from.front(), start, edges);
 } 
 
-Netcdf::Netcdf(const string& path, const string& method) : file_(path.c_str())
+Netcdf::Netcdf(const string& path, const string& method)
 {
-	if (file_.is_valid() == false) {
+	int error = nc_open(path.c_str(), NC_NOWRITE, &file_);
+		
+	if (error) {
 		throw NoSuchNetcdfFile(path);
 	}
-	for ( int v = 0; v < file_.num_vars(); v++)
-	{ 
-		NcVar* var = file_.get_var(v); 
-		variables_.insert(std::make_pair(var->name(), NetVariable(var->name(), var, file_, method)));
 
-		if (isVariable(var)) dataset_.insert(std::make_pair(var->name(), NetVariable(var->name(), var, file_, method)));
+	int num_var;
+	int var_ids[100];
+	nc_inq_varids(file_, &num_var, var_ids);
+
+	for ( int v = 0; v < num_var; v++)
+	{ 
+		// get the name 
+		string tmp;
+		int id = var_ids[v];
+		nc_inq_varname 	(file_,  id, &tmp[0]);
+
+		string name(tmp.c_str());
+		
+		variables_.insert(std::make_pair(name, NetVariable(name, v, file_, method)));
+		cout << id << "--->" << name << "----> " << variables_.size() << endl;
+
+		if (isVariable(file_, var_ids[v])) dataset_.insert(std::make_pair(name, NetVariable(name, var_ids[v], file_, method)));
 	}
+
+
 	MagLog::debug() << "Initialisation of  Netcdf [" << path << "] OK! " << "\n";  
-	for ( int v = 0; v < file_.num_atts(); v++)
-		{
-			NcAtt* attr = file_.get_att(v);
-			attributes_.insert(std::make_pair(attr->name(), NetAttribute(attr->name(), attr)));
-		}
-	for ( int d = 0; d < file_.num_dims(); d++)
-		{
-			NcDim* var = file_.get_dim(d);
-			dimensions_.insert(std::make_pair(var->name(), NetDimension(var)));
-		}
+
+	int num_atts;
+	nc_inq_varnatts(file_, NC_GLOBAL, &num_atts);
+	for ( int v = 0; v < num_atts; v++)
+	{
+
+			string tmp;
+			nc_inq_attname(file_, NC_GLOBAL, v, &tmp[0]);
+			string name(tmp.c_str());
+			attributes_.insert(std::make_pair(name, NetAttribute(name, file_, NC_GLOBAL)));
+	}
+
+	int num_dims;
+	nc_inq_ndims(file_, &num_dims);
+	for ( int d = 0; d < num_dims; d++)
+	{
+			string tmp;
+			nc_inq_dimname(file_, d, &tmp[0]);
+			string name(tmp.c_str());
+			dimensions_.insert(std::make_pair(name, NetDimension(file_, name)));
+	}
+
+	cout << *this << endl;
+
 }
 
 
@@ -118,154 +146,27 @@ void Netcdf::print(ostream& out)  const
 }
 
 
-struct Index
-{
-	static map<NcType, Index*>* tools_;
-	Index(NcType type)
-	{
-		if ( tools_ == 0) tools_ = new  map<NcType, Index*>();
-		tools_->insert(std::make_pair(type, this));
-	}
-	virtual int operator()(const string& val,  NcValues* values, long nb )
-	{
-		ASSERT(false);
-	}
-	static int get(const NcType& type, const string& val,  NcValues* values, long nb)
-	{
-		map<NcType, Index*>::const_iterator tool = tools_->find(type);
-		if ( tool == tools_->end() ) {
-			ASSERT(false);
-			throw new MagicsException("No Index available");
-		}
-        
-		return (*(*tool).second)(val, values, nb);
-	}
-};
 
-struct FloatIndex: public Index
-{
-	FloatIndex() : Index(ncFloat) {}
-    
-	virtual int operator()(const string& val,  NcValues* values, long nb )
-	{
-		float value = atof(val.c_str());
-                if ( nb == 1 && values->as_float(0) == value) return 0;
-		for (int i = 0; i < nb - 1; i++) {
-			if (values->as_float(i) == value) return i;
-			if (values->as_float(i+1) == value) return i+1;
-			if (values->as_float(i) < value && value  < values->as_float(i+1) ) return i;  
-			if (values->as_float(i+1) < value && value  < values->as_float(i) ) return i+1;     
-		}
-		throw MagicsException("No such value : " + val);
-	}
-};
-
-struct DoubleIndex: public Index
-{
-	DoubleIndex() : Index(ncDouble) {}
-    
-	virtual int operator()(const string& val,  NcValues* values, long nb )
-	{
-		double value = tonumber(val);
-        if ( nb == 1 && values->as_double(0) == value) return 0;
-		for (int i = 0; i < nb - 1; i++) {
-			if (values->as_double(i) == value) return i;
-			if (values->as_double(i+1) == value) return i+1;
-			if (values->as_double(i) < value && value  < values->as_double(i+1) ) return i;  
-			if (values->as_double(i+1) < value && value  < values->as_double(i) ) return i+1;     
-		}
-		throw MagicsException("No such value : " + val);
-	}
-};
-
-
-struct IntIndex: public Index
-{
-	IntIndex() : Index(ncInt) {}
-    
-	virtual int operator()(const string& val,  NcValues* values, long nb )
-	{
-		int value = atoi(val.c_str());
-        	 if ( nb == 1 && values->as_int(0) == value) return 0;
-
-		for (int i = 0; i < nb - 1; i++)
-		{
-			if (values->as_int(i) == value) return i;
-			if (values->as_int(i+1) == value) return i+1;
-			if ( values->as_int(i) < value && value < values->as_int(i+1) ) return i;   
-			if ( values->as_int(i+1) < value && value < values->as_int(i) ) return i+1;     
-		}
-		throw MagicsException("No such value : " + val);
-	}
-};
-
-struct ShortIndex: public Index
-{
-	ShortIndex() : Index(ncShort) {}
-    
-	virtual int operator()(const string& val,  NcValues* values, long nb )
-	{
-		short value = atoi(val.c_str());
-        if ( nb == 1 && values->as_short(0) == value) 
-        	return 0;
-
-		for (int i = 0; i < nb - 1; i++)
-		{
-			if (values->as_short(i) == value) return i;
-			if (values->as_short(i+1) == value) return i+1;
-			if ( values->as_short(i) < value && value < values->as_short(i+1) ) return i;   
-			if ( values->as_short(i+1) < value && value < values->as_short(i) ) return i+1;     
-		}
-		throw MagicsException("No such value : " + val);
-	}
-};
-
-struct StringIndex: public Index
-{
-	StringIndex() : Index(ncChar) {}
-    
-	virtual int operator()(const string& val,  NcValues* values, long nb )
-	{
-
-		for (int i = 0; i < nb; i++)
-		{
-			string read(values->as_string(i));
-
-			if ( read == val) {
-
-				return i/64;
-			}
-		}
-		throw MagicsException("No such value : " + val);
-	}
-};
-
-map<NcType, Index*>*  Index::tools_ = 0;
-
-static FloatIndex float_index;
-static IntIndex int_index;
-static DoubleIndex double_index;
-static StringIndex string_index;
-static ShortIndex short_index;
 
 int  NetDimension::index(const string& val)
 {
 	int index = atoi(val.c_str());
-	// if (index < )
 	return index;
 }
 
 int  NetDimension::value(const string& val)
 {
-	if ( variable_ ) {
-		int index = Index::get(variable_->type(), val, variable_->values(), variable_->num_vals());
+	if ( variable_ != -1 ) {
 
-		return index;
+		//int index = Index::get(variable_->type(), val, variable_->values(), variable_->num_vals());
+		NetVariable var(name_, variable_, netcdf_, "index");
+		
+		return var.find(val);
 	}
-	// we assume the user is using a simple ..
+
+	// we assume the user is using index! ..
 	int index = atoi(val.c_str());
 	MagLog::warning() << " Could not find variable return index instead " << index << endl;
-	
 	return index;
 }
 
@@ -292,32 +193,114 @@ void NetDimension::last(const string& val)
 }
 
 
-NetVariable::NetVariable(const string& name, NcVar* id, const NcFile& file, const string& method): name_(name), id_(id)
+NetVariable::NetVariable(const string& name, int id, int file, const string& method): name_(name), id_(id), netcdf_(file)
+{
+	int num_dims;
+	nc_inq_varndims(netcdf_, id_, &num_dims);
+	int dims[num_dims];
+	nc_inq_vardimid(netcdf_, id_, dims);
+
+	for (int d = 0; d < num_dims; d++)
 	{
-		for (int d = 0; d < id_->num_dims(); d++)
-		{
-			NcDim* dim = id_->get_dim(d);
-			NcVar* var = 0;
-			string dim_name = dim->name();
-		    for (int v = 0; v < file.num_vars(); v++) {
-		    	 string var_name = file.get_var(v)->name();
-		         if (var_name == dim_name) var = file.get_var(dim->name());
-		         
-		    }
-			dimensions_[dim->name()]= NetDimension(dim, var, d); 
-			dimensions_[dim->name()].method_ = method;
-		}
-		for (int a = 0; a < id_->num_atts(); a++)
-		{
-			NcAtt* att = id_->get_att(a);
-			attributes_[att->name()] = NetAttribute(att->name(), att); 
-		}
+		string tmp;
+		nc_inq_dimname(netcdf_, dims[d], &tmp[0]);
+		string name(tmp.c_str());
+		int var = -1;
+		// Try to find if a variable is defined with this name.
+		int num_var;
+		int var_ids[100];
+		nc_inq_varids(netcdf_, &num_var, var_ids);
+
+		for ( int v = 0; v < num_var; v++)
+		{ 
+			// get the name 
+			string tmp;
+			int id = var_ids[v];
+			nc_inq_varname 	(netcdf_,  id, &tmp[0]);
+			string current(tmp.c_str());
+			if ( current == name ) {
+				var = id;
+				cout << "Found it !" << name << endl;
+				break;
+			}
+		
+		}   
+		dimensions_.insert(std::make_pair(name, NetDimension(netcdf_, name, d, var)));
+		dimensions_[name].method_ = method;
 	}
+
+
+	
+	int num_atts;
+	nc_inq_varnatts(netcdf_, id_, &num_atts);
+	for ( int v = 0; v < num_atts; v++)
+	{
+
+			string tmp;
+			nc_inq_attname(netcdf_, id_, v, &tmp[0]);
+			string name(tmp.c_str());
+			attributes_.insert(std::make_pair(name, NetAttribute(name, netcdf_, id_)));
+	}
+		
+	
+}
+
+template <class T>
+int find(const T& value, vector<T>&  values)
+{
+    if ( values.size() == 1  && values[0] == value) 
+    	return 0;
+	for (int i = 0; i < values.size() - 1; i++) {
+		if (values[i] == value) return i;
+		if (values[i+1] == value) return i+1;
+		if (values[i] < value && value  < values[i+1] ) return i;  
+		if (values[i+1] < value && value  < values[i] ) return i+1;     
+	}
+}
+
+int NetVariable::find(const string& val)
+{
+	nc_type t = type();
+	if ( t == NC_DOUBLE ) {
+		vector<double> values;
+		values.resize(getSize());
+		get(values);
+		double dval = tonumber(val);
+		return ::find(dval, values);
+
+	}
+	if ( t == NC_INT ) {
+		vector<int> values;
+		values.resize(getSize());
+		get(values);
+		int dval = tonumber(val);
+		return ::find(dval, values);
+
+	}
+	if ( t == NC_FLOAT ) {
+		vector<float> values;
+		values.resize(getSize());
+		getValues(values);
+		float dval = tonumber(val);
+		return ::find(dval, values);
+
+	}
+	if ( t == NC_SHORT ) {
+		vector<short> values;
+		values.resize(getSize());
+		get(values);
+		short dval = tonumber(val);
+		return ::find(dval, values);
+
+	}
+
+}
+
 
 double NetVariable::getDefaultMissing()
 {
 
-	if (id_->type() == ncDouble)
+	if ( type() == NC_DOUBLE)
 		return NC_FILL_DOUBLE;
 	return NC_FILL_FLOAT;
 }
@@ -325,19 +308,19 @@ double NetVariable::getDefaultMissing()
 
 
 namespace magics {
-	template<> map<NcType, Accessor<double>*>*  Accessor<double>::accessors_ = 0;
-	template<> map<NcType, Accessor<float>*>*  Accessor<float>::accessors_ = 0;
+	template<> map<nc_type, Accessor<double>*>*  Accessor<double>::accessors_ = 0;
+	template<> map<nc_type, Accessor<float>*>*  Accessor<float>::accessors_ = 0;
 } // end namespace
 
 
-static TypedAccessor<short, float>  short_float_accessor(ncShort);
-static TypedAccessor<int, float>  int_float_accessor(ncInt);
-static TypedAccessor<float, float>  float_float_accessor(ncFloat);
-static TypedAccessor<double, float> double_float_accessor(ncFloat);
+static TypedAccessor<short, float>  short_float_accessor(NC_SHORT);
+static TypedAccessor<int, float>  int_float_accessor(NC_INT);
+static TypedAccessor<float, float>  float_float_accessor(NC_FLOAT);
+static TypedAccessor<double, float> double_float_accessor(NC_FLOAT);
 
-static TypedAccessor<ncbyte, double>  byte_double_accessor(ncByte);
-static TypedAccessor<short, double>  short_double_accessor(ncShort);
-static TypedAccessor<int, double>  int_double_accessor(ncInt);
-static TypedAccessor<float, double>  float_double_accessor(ncFloat);
-static TypedAccessor<double, double> double_double_accessor(ncDouble);
+//static TypedAccessor<nc_byte, double>  byte_double_accessor(NC_BYTE);
+static TypedAccessor<short, double>  short_double_accessor(NC_SHORT);
+static TypedAccessor<int, double>  int_double_accessor(NC_INT);
+static TypedAccessor<float, double>  float_double_accessor(NC_FLOAT);
+static TypedAccessor<double, double> double_double_accessor(NC_DOUBLE);
 
