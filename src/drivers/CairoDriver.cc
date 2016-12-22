@@ -1220,7 +1220,7 @@ MAGICS_NO_EXPORT void CairoDriver::renderText(const Text& text) const
 
 	  cairo_move_to (cr_, xxx, yyy);
 	  const double angle = text.getAngle();
-	  if(fabs(angle) > epsilon)
+	  if(fabs(angle) > EPSILON)
           {
 	      cairo_rotate (cr_, angle );
 	  }
