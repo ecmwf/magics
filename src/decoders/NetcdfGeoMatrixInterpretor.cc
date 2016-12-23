@@ -43,7 +43,7 @@ bool NetcdfGeoMatrixInterpretor::interpretAsMatrix(Matrix** data)
 	Netcdf netcdf(path_, dimension_method_);
 
 
-	string proj4 = netcdf.getAttribute("projection", "");
+	string proj4 = netcdf.getAttribute("projection", string(""));
 
 	if ( proj4.empty() ) {
 		matrix_ = new Matrix();

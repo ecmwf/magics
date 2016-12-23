@@ -113,14 +113,22 @@ struct NetAttribute
 	void get(string& val) { 
           size_t len;
           nc_inq_attlen (netcdf_, id_, name_.c_str(),&len);
+          cout << "LEN" << len << endl;
+          char tmp[len];
+          nc_get_att_text(netcdf_, id_, name_.c_str(), tmp);
           
-          nc_get_att_text(netcdf_, id_, name_.c_str(), (char *)&(val[0]));
+          val = string(tmp, len);
+          cout << "get string" << val << endl;
       }
-      void get(const char*& val) { 
+    void get(char*& val) { 
           size_t len;
           nc_inq_attlen (netcdf_, id_, name_.c_str(),&len);
-          val = new char[len];
-          nc_get_att_text(netcdf_, id_, name_.c_str(), (char *)val);
+          char* tmp  = new char[len];
+          //val = new char[len];
+          nc_get_att_text(netcdf_, id_, name_.c_str(), (char*)val);
+         
+          cout << "val get" << *val << endl;
+          
       }
 
 };
@@ -133,8 +141,9 @@ struct Convertor
 {
 	Convertor(NetVariable& );
 	To operator()(From from)
-	{     
-        return  ( from != missing_) ? from * scale_factor_ + add_offset_ : missing_;
+	{   
+        return from * scale_factor_ + add_offset_;
+        //return  ( from != missing_) ? from * scale_factor_ + add_offset_ : missing_;
 	}  
 
 	NetVariable& variable_;
@@ -325,6 +334,20 @@ struct NetVariable
         return val;
    
     } 
+    string  getAttribute(const string& name, const char* def) 
+    {
+        return getAttribute(name, string(def));
+        
+    } 
+    string getAttribute(const string& name, const string& def) 
+    {
+        
+        map<string, NetAttribute>::iterator attr = attributes_.find(name);
+        if ( attr == attributes_.end() ) return def;
+        string val;
+        (*attr).second.get(val);
+        return val;        
+    } 
     
     double getDefaultMissing();
     double getMissing(const string&);
@@ -418,19 +441,41 @@ public:
     T getVariableAttribute(const string& name, const string& attr, T def)
     {
         map<string, NetVariable>::iterator var = variables_.find(name);
-        if ( var == variables_.end() ) throw NoSuchNetcdfVariable(name);
+        if ( var == variables_.end() ) 
+            throw NoSuchNetcdfVariable(name);
         return (*var).second.getAttribute(attr, def);
-    }      
+    }  
+
+   
+    string getVariableAttribute(const string& name, const string& attr, const string& def)
+    {
+        map<string, NetVariable>::iterator var = variables_.find(name);
+        if ( var == variables_.end() ) 
+            throw NoSuchNetcdfVariable(name);
+        return (*var).second.getAttribute(attr, def);
+    }     
     template <class T>
     T getAttribute(const string& name, T def)
     {
     	  T val;
     	  map<string, NetAttribute>::iterator attr = attributes_.find(name);
     	  if ( attr == attributes_.end() ) return def;
-    	        (*attr).second.get(val);
-    	        return val;
-
+    	  (*attr).second.get(val);
+    	  return val;
      }
+   
+    string getAttribute(const string& name, const string& def)
+    {
+        
+        map<string, NetAttribute>::iterator attr = attributes_.find(name);
+        if ( attr == attributes_.end() ) return def;
+        string val;
+        (*attr).second.get(val);
+        cout << "VAL--->" << val << endl;
+        return strdup(val.c_str());
+     }
+
+   
      NetVariable getVariable(const string& name)
      {
 		map<string, NetVariable>::iterator var = variables_.find(name);

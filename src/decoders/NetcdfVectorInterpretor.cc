@@ -123,7 +123,7 @@ void NetcdfGeoVectorInterpretor::customisedPoints(const Transformation& transfor
 			
 			//If the lat-lon units is specified as "radians" convert lat-lon 
 			//to degrees. By default the units are sipposed to be "degrees"
-			const char *units = 0;
+			string units;
 			if ( magCompare(netcdf.getVariableAttribute(latitude_,"units",units), "radians") )
 			{			
 				while ( lat!= latitudes.end()) {
@@ -203,7 +203,7 @@ void NetcdfGeoPolarMatrixInterpretor::customisedPoints(const Transformation&, co
 			
 			//If the lat-lon units is specified as "radians" convert lat-lon 
 			//to degrees. By default the units are sipposed to be "degrees"
-			const char *units = 0;
+			string units;
 			if ( magCompare(netcdf.getVariableAttribute(latitude_,"units",units), "radians") )
 			{			
 				while ( lat!= latitudes.end()) {
