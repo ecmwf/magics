@@ -142,8 +142,7 @@ struct Convertor
 	Convertor(NetVariable& );
 	To operator()(From from)
 	{   
-        return from * scale_factor_ + add_offset_;
-        //return  ( from != missing_) ? from * scale_factor_ + add_offset_ : missing_;
+        return  ( from != missing_) ? from * scale_factor_ + add_offset_ : missing_;
 	}  
 
 	NetVariable& variable_;

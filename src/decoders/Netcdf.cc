@@ -200,6 +200,7 @@ NetVariable::NetVariable(const string& name, int id, int file, const string& met
 	int dims[num_dims];
 	nc_inq_vardimid(netcdf_, id_, dims);
 
+
 	for (int d = 0; d < num_dims; d++)
 	{
 		string tmp;
@@ -242,7 +243,7 @@ NetVariable::NetVariable(const string& name, int id, int file, const string& met
 			attributes_.insert(std::make_pair(name, NetAttribute(name, netcdf_, id_)));
 	}
 		
-	
+	missing_ = getDefaultMissing();
 }
 
 template <class T>
