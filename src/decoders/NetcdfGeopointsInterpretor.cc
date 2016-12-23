@@ -73,8 +73,8 @@ bool NetcdfGeopointsInterpretor::interpretAsPoints(PointsList& list, const Trans
 		
 		//If the lat-lon units is specified as "radians" convert lat-lon 
 		//to degrees. By default the units are sipposed to be "degrees"
-		const char *units = 0;
-		if ( magCompare(netcdf.getVariableAttribute(latitude_,"units",units), "radians") )
+		string units;
+		if ( magCompare(netcdf.getVariableAttribute(latitude_,"units", units), string("radians")) )
 		{			
 			while ( lat!= latitudes.end()) {
 			  *lat=DEG(*lat);
@@ -130,7 +130,7 @@ bool NetcdfGeopointsInterpretor::interpretAsPoints(PointsList& list)
 		
 		//If the lat-lon units is specified as "radians" convert lat-lon 
 		//to degrees. By default the units are sipposed to be "degrees"
-		const char *units = 0;
+		string units;
 		if ( magCompare(netcdf.getVariableAttribute(latitude_,"units",units), "radians") )
 		{
 			while ( lat!= latitudes.end()) {
@@ -457,8 +457,7 @@ void NetcdfXYpointsInterpretor::visit(MetaDataCollector& mdc)
 	map<string, NetAttribute>::iterator attrIt=attrs.find("_VIEW");
 	if( attrIt !=  attrs.end())
 	{  
-	  	const char* val;	  
-	  	attrIt->second.get(val);
+	  	const char* val =0; // = attrIt->second.get();
 	  	string str;
 	  	if(val) str=string(val);
 	  

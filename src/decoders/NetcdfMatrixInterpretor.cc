@@ -58,7 +58,7 @@ bool NetcdfMatrixInterpretor::interpretAsMatrix(Matrix** matrix)
 	double missing =  netcdf.getMissing(field_, missing_attribute_);
 	matrix_->missing(missing);
 
-	string title = netcdf.getAttribute("title", "NO TITLE");
+	string title = netcdf.getAttribute("title", string("NO TITLE"));
 
 
     x();
