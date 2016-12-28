@@ -1,8 +1,8 @@
 # (C) Copyright 1996-2016 ECMWF.
-# 
+#
 # This software is licensed under the terms of the Apache Licence Version 2.0
-# which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
-# In applying this licence, ECMWF does not waive the privileges and immunities 
+# which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+# In applying this licence, ECMWF does not waive the privileges and immunities
 # granted to it by virtue of its status as an intergovernmental organisation nor
 # does it submit to any jurisdiction.
 
@@ -66,8 +66,8 @@ definition.append({
 definition.append({
 	"class": "vertical_axis",
 	"id" : "vaxis",
-	"axis_line":"on", 
-    "axis_grid":"on", 
+	"axis_line":"on",
+    "axis_grid":"on",
     "axis_line_colour":"kelly_green" ,
     "axis_tick_label_colour":"kelly_green",
     "axis_label_font":"sansserif",
@@ -101,14 +101,14 @@ def page():
 		"horizontal_axis": { "use_id" : "haxis" },
 		"vertical_axis": { "use_id" : "vaxis" }
 
-		
+
 	}
 
 	}
 	return page
 
 class humidity(object):
-	
+
 	def execute(self):
 		humi =  {
             "epsbufr":
@@ -132,7 +132,7 @@ class humidity(object):
 		return map
 
 class msl(object):
-	
+
 	def execute(self):
 		msl =  {
             "epsbufr":
@@ -154,7 +154,7 @@ class msl(object):
 
 
 class cloud(object):
-	
+
 	def execute(self):
 		cloud =  {
             "epsbufr":
@@ -178,7 +178,7 @@ class cloud(object):
 		return map
 
 class precip(object):
-	
+
 	def execute(self):
 		precip =  {
             "epsbufr":
@@ -198,7 +198,7 @@ class precip(object):
 		return map
 
 class wind(object):
-	
+
 	def execute(self):
 		wind =  {
             "epsbufr":
@@ -228,7 +228,7 @@ class wind(object):
 		return map
 
 class tempe(object):
-	
+
 	def execute(self):
 		t850 =  {
             "epsbufr":
@@ -238,7 +238,7 @@ class tempe(object):
 				"epsbufr_parameter_offset_factor": "-273.15",
                 "use_id":"station"
             },
-            "metgraph": { 
+            "metgraph": {
 				"metgram_plot_style":"curve",
 				"metgram_curve_colour":"blue"
 				}
@@ -253,7 +253,7 @@ class tempe(object):
 				"epsbufr_parameter_offset_factor": "-273.15",
                 "use_id":"station"
             },
-            "metgraph": { 
+            "metgraph": {
 				"metgram_plot_style":"curve",
 				"metgram_curve_colour":"red"
 				}
@@ -266,11 +266,8 @@ class tempe(object):
 		return map
 
 
-
-
-
 class station(object):
-	def __init__(self, args):	
+	def __init__(self, args):
 		self.definition = args
 		self.definition["id"]= "station"
 		self.definition["class"]= "epsbufr"
@@ -278,9 +275,8 @@ class station(object):
 		magics["definition"].append(self.definition)
 		return page()
 
-	
 class ps(object):
-	def __init__(self, args):	
+	def __init__(self, args):
 		self.definition = args
 		self.definition["format"]= "ps"
 	def execute(self):
@@ -288,8 +284,6 @@ class ps(object):
 			magics["drivers"]=[]
 		magics["drivers"].append(self.definition)
 		return page()
-
-	
 
 
 
@@ -306,8 +300,8 @@ def metgram(*args):
 		if (i == nb) :
 			haxis="haxis_last"
 		map["map"]["horizontal_axis"]["use_id"] = haxis
-		
-			
+
+
 	s = simplejson.dumps(magics, indent=4 * ' ')
 	f = tempfile.NamedTemporaryFile()
 	f.write(s)
@@ -317,9 +311,9 @@ def metgram(*args):
 
 	error = os.system(cmd)
 	if (error != 0):
-		print "Error found"
+		print("Error found - unix error: ", os.WEXITSTATUS(error) )
 	f.close
-	
+
 
 cloud = cloud()
 humidity = humidity()
@@ -327,4 +321,3 @@ precip = precip()
 tempe = tempe()
 msl = msl()
 wind = wind()
-
