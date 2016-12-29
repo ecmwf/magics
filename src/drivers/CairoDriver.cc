@@ -151,58 +151,12 @@ void CairoDriver::open()
 
 void CairoDriver::setupNewSurface() const
 {
-	if(magCompare(backend_,"png") || magCompare(backend_,"geotiff"))
-	{
-	    surface_ = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, dimensionXglobal_, dimensionYglobal_);
-	}
-	else if(magCompare(backend_,"pdf"))
-	{
-#if CAIRO_HAS_PDF_SURFACE
-	    filename_ = getFileName("pdf");
-	    surface_ = cairo_pdf_surface_create(filename_.c_str(), dimensionXglobal_, dimensionYglobal_);
-#else
-	    MagLog::error() << "CairoDriver: PDF output NOT supported! Enable PDF support in your Cairo installation." << std::endl;
-#endif
-	}
-	else if(magCompare(backend_,"ps"))
-	{
-#if CAIRO_HAS_PS_SURFACE
-        filename_ = getFileName("ps"); 
-        const int dimensionXglobal = static_cast<int>(getXDeviceLength()*72/2.54);
-        const int dimensionYglobal = static_cast<int>(getYDeviceLength()*72/2.54);
-        surface_ = cairo_ps_surface_create(filename_.c_str(), dimensionXglobal,dimensionYglobal);
-#else
-	    MagLog::error() << "CairoDriver: PS output NOT supported! Enable PS support in your Cairo installation." << std::endl;
-#endif
-	}
-	else if(magCompare(backend_,"eps"))
-	{
-#if CAIRO_VERSION >= CAIRO_VERSION_ENCODE(1, 5, 2)
-	    filename_ = getFileName("eps");
-	    surface_ = cairo_ps_surface_create(filename_.c_str(), dimensionXglobal_, dimensionYglobal_);
-	    cairo_ps_surface_set_eps (surface_,true);
-#else
-	    MagLog::error() << "CairoDriver: EPS output NOT supported! You need at least version Cairo 1.5.2.\n"
-	                 << "PostScript is generated instead." << std::endl;
-	    filename_ = getFileName("ps");
-	    surface_ = cairo_ps_surface_create(filename_.c_str(), dimensionXglobal_, dimensionYglobal_);
-#endif
-	}
-	else if(magCompare(backend_,"svg"))
-	{
-#if CAIRO_HAS_SVG_SURFACE
-	    filename_ = getFileName("svg",currentPage_+1);
-
-	    surface_ = cairo_svg_surface_create (filename_.c_str(), dimensionXglobal_, dimensionYglobal_);
-//	    cairo_svg_surface_restrict_to_version (surface_, CAIRO_SVG_VERSION_1_2);
-#else
-	    MagLog::error() << "CairoDriver: SVG output NOT supported! Enable SVG support in your Cairo installation." << std::endl;
-#endif
-	}
-	else
-	{
-		MagLog::error() << "CairoDriver: The backend "<< backend_ <<" is NOT supported!" << std::endl;
-	}
+    cairo_rectangle_t dimensions;
+    dimensions.x = 0.;
+    dimensions.y = 0.;
+    dimensions.width  = dimensionXglobal_;
+    dimensions.height = dimensionYglobal_;
+    surface_ = cairo_recording_surface_create(CAIRO_CONTENT_COLOR_ALPHA, &dimensions);
 
 	cairo_status_t status = cairo_surface_status(surface_);
 	if (status)
@@ -216,22 +170,6 @@ void CairoDriver::setupNewSurface() const
 	// set PS META information
 	if(magCompare(backend_,"ps") )
 	{
-#if CAIRO_VERSION >= CAIRO_VERSION_ENCODE(1, 8, 0)
-	  const SystemInfo info;
-	  const string s1 = "%%Title: " + title_;
-	  cairo_ps_surface_dsc_comment (surface_, s1.c_str());
-	  const string s2 = "%%Creator2: "+ output_creator_+ " "+ getMagicsVersionString();
-	  cairo_ps_surface_dsc_comment (surface_, s2.c_str());
-	  const string s3 = "%%For: " + info.getUserID() + "@" + info.getHostName() + " " + info.getUserName();
-	  cairo_ps_surface_dsc_comment (surface_, s3.c_str());
-
-      dimensionXglobal_ = static_cast<int>(getXDeviceLength()*72/2.54);
-      dimensionYglobal_ = static_cast<int>(getYDeviceLength()*72/2.54);
-      cairo_ps_surface_dsc_comment (surface_, "%%PageOrientation: Landscape");
-
-	  if(magCompare(MAGICS_SITE,"ecmwf"))
-	    cairo_ps_surface_dsc_comment (surface_, "%%Copyright: ECMWF");
-#endif
 	}
 
 	if(magCompare(transparent_,"off") || !(magCompare(backend_,"png") || magCompare(backend_,"geotiff")) )
@@ -285,15 +223,12 @@ void CairoDriver::close()
 */
 MAGICS_NO_EXPORT void CairoDriver::startPage() const
 {
+    cairo_surface_t *surface;
+    
 	if(currentPage_ > 0)
 	{
-		if (magCompare(backend_,"png") || magCompare(backend_,"geotiff"))
-		{
-			cairo_destroy (cr_);
-			cairo_surface_destroy (surface_);
-
-			surface_ = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, dimensionXglobal_, dimensionYglobal_);
-			cr_ = cairo_create(surface_);
+        if(magCompare(backend_,"png") || magCompare(backend_,"geotiff"))
+        {
 			if(magCompare(transparent_,"off"))
 			{
 				cairo_set_source_rgb (cr_, 1.0, 1.0, 1.0); /* white */
@@ -303,34 +238,83 @@ MAGICS_NO_EXPORT void CairoDriver::startPage() const
 				cairo_set_source_rgba (cr_, 1.0, 1.0, 1.0, 0.0); /* white transparent */
 			}
 			cairo_paint (cr_);
-		}
-#if CAIRO_HAS_SVG_SURFACE
-		else if (magCompare(backend_,"svg") )
-		{
-			cairo_destroy (cr_);
-			cairo_surface_destroy (surface_);
 
-			filename_ = getFileName("svg",currentPage_+1);
-			surface_ = cairo_svg_surface_create(filename_.c_str(), dimensionXglobal_, dimensionYglobal_);
-			cr_ = cairo_create (surface_);
+	    surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, dimensionXglobal_, dimensionYglobal_);
+	}
+	else if(magCompare(backend_,"pdf"))
+	{
+#if CAIRO_HAS_PDF_SURFACE
+	    filename_ = getFileName("pdf");
+	    surface = cairo_pdf_surface_create(filename_.c_str(), dimensionXglobal_, dimensionYglobal_);
+#else
+	    MagLog::error() << "CairoDriver: PDF output NOT supported! Enable PDF support in your Cairo installation." << std::endl;
+#endif
+	}
+	else if(magCompare(backend_,"ps"))
+	{
+#if CAIRO_HAS_PS_SURFACE
+        filename_ = getFileName("ps"); 
+        const int dimensionXglobal = static_cast<int>(getXDeviceLength()*72/2.54);
+        const int dimensionYglobal = static_cast<int>(getYDeviceLength()*72/2.54);
+        surface = cairo_ps_surface_create(filename_.c_str(), dimensionXglobal,dimensionYglobal);
+#if CAIRO_VERSION >= CAIRO_VERSION_ENCODE(1, 8, 0)
+	  const SystemInfo info;
+	  const string s1 = "%%Title: " + title_;
+	  cairo_ps_surface_dsc_comment (surface, s1.c_str());
+	  const string s2 = "%%Creator2: "+ output_creator_+ " "+ getMagicsVersionString();
+	  cairo_ps_surface_dsc_comment (surface, s2.c_str());
+	  const string s3 = "%%For: " + info.getUserID() + "@" + info.getHostName() + " " + info.getUserName();
+	  cairo_ps_surface_dsc_comment (surface, s3.c_str());
+
+      dimensionXglobal_ = static_cast<int>(getXDeviceLength()*72/2.54);
+      dimensionYglobal_ = static_cast<int>(getYDeviceLength()*72/2.54);
+      cairo_ps_surface_dsc_comment (surface, "%%PageOrientation: Landscape");
+
+	  if(magCompare(MAGICS_SITE,"ecmwf"))
+	    cairo_ps_surface_dsc_comment (surface_, "%%Copyright: ECMWF");
+#endif
+#else
+	    MagLog::error() << "CairoDriver: PS output NOT supported! Enable PS support in your Cairo installation." << std::endl;
+#endif
+	}
+	else if(magCompare(backend_,"eps"))
+	{
+#if CAIRO_VERSION >= CAIRO_VERSION_ENCODE(1, 5, 2)
+	    filename_ = getFileName("eps");
+	    surface = cairo_ps_surface_create(filename_.c_str(), dimensionXglobal_, dimensionYglobal_);
+	    cairo_ps_surface_set_eps (surface_,true);
+#else
+	    MagLog::error() << "CairoDriver: EPS output NOT supported! You need at least version Cairo 1.5.2.\n"
+	                 << "PostScript is generated instead." << std::endl;
+	    filename_ = getFileName("ps");
+	    surface = cairo_ps_surface_create(filename_.c_str(), dimensionXglobal_, dimensionYglobal_);
+#endif
+	}
+	else if(magCompare(backend_,"svg"))
+	{
+#if CAIRO_HAS_SVG_SURFACE
+	    filename_ = getFileName("svg",currentPage_+1);
+
+	    surface = cairo_svg_surface_create (filename_.c_str(), dimensionXglobal_, dimensionYglobal_);
 #if CAIRO_VERSION >= CAIRO_VERSION_ENCODE(1, 4, 0)
 			cairo_svg_surface_restrict_to_version (surface_, CAIRO_SVG_VERSION_1_1);
 #endif
-		}
+#else
+	    MagLog::error() << "CairoDriver: SVG output NOT supported! Enable SVG support in your Cairo installation." << std::endl;
 #endif
-		else if(magCompare(backend_,"eps"))
-		{
-#if CAIRO_VERSION >= CAIRO_VERSION_ENCODE(1, 5, 2)
-			cairo_destroy (cr_);
-			cairo_surface_destroy (surface_);
-
-			filename_ = getFileName("eps",currentPage_+1);
-			surface_ = cairo_ps_surface_create(filename_.c_str(), dimensionXglobal_, dimensionYglobal_);
-			cairo_ps_surface_set_eps (surface_,true);
-			cr_ = cairo_create (surface_);
-#endif
-		}
 	}
+	else
+	{
+		MagLog::error() << "CairoDriver: The backend "<< backend_ <<" is NOT supported!" << std::endl;
+	}
+
+
+	cairo_t* context = cairo_create(surface);
+    cairo_set_source_surface (context, surface_, 0.0, 0.0);
+    cairo_paint(context);
+    cairo_destroy(context);
+    cairo_surface_destroy(surface);
+	}  /// endif  pages > 0
 
 	if( currentPage_ == 0 || (!magCompare(backend_,"pdf") && !magCompare(backend_,"ps")) )
 	{
