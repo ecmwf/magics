@@ -6,6 +6,7 @@
 # granted to it by virtue of its status as an intergovernmental organisation nor
 # does it submit to any jurisdiction.
 
+import sys
 import os
 import numpy
 from . import Magics
@@ -284,7 +285,7 @@ class Action(object):
 
 
     def clean_object(self, obj):
-
+      if sys.version_info[0] < 3:
         if type(obj) in (int, float, str, bool, numpy.float64):
             return obj
         elif type(obj) == unicode:
@@ -302,7 +303,7 @@ class Action(object):
             print("Invalid object in data, converting to string: ")
             print(type(obj))
             obj = str(obj)
-        return obj
+      return obj
 
 
     def execute(self):
