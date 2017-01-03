@@ -22,7 +22,7 @@
 #include "NetcdfGeopointsInterpretor.h"
 #include "TextVisitor.h"
 #include "Factory.h"
-#include "Netcdf.h"
+#include "NetcdfData.h"
 #include <limits>
 #include "Layer.h"
 #include "SciMethods.h"

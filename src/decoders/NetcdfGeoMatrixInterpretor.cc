@@ -21,7 +21,7 @@
 
 #include "NetcdfGeoMatrixInterpretor.h"
 #include "Factory.h"
-#include "Netcdf.h"
+#include "NetcdfData.h"
 #include <limits>
 #include "Layer.h"
 

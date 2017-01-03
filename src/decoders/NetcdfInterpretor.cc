@@ -22,7 +22,7 @@
 
 
 #include "NetcdfInterpretor.h"
-#include "Netcdf.h"
+#include "NetcdfData.h"
 #include "XmlReader.h"
 #include <limits>
 

@@ -68,7 +68,7 @@ struct NetDimension
 
     NetDimension() {}
     NetDimension(int netcdf, const string& name, int index = 0, int variable = -1): name_(name), 
-            first_(0), dim_(size_), index_(index), variable_(variable), 
+            first_(0),  index_(index), variable_(variable), 
             netcdf_(netcdf) {
                    nc_inq_dimid(netcdf, name_.c_str(), &id_);
                    nc_inq_dimlen(netcdf, id_, &size_);

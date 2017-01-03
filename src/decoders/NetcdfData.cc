@@ -17,7 +17,7 @@
    Apr 06: update for GCC 4.0 (Stephan) 
 */
 #include <algorithm>
-#include <Netcdf.h>
+#include <NetcdfData.h>
 #include <MagException.h>
 #include <MagLog.h>
  
@@ -257,6 +257,7 @@ int find(const T& value, vector<T>&  values)
 		if (values[i] < value && value  < values[i+1] ) return i;  
 		if (values[i+1] < value && value  < values[i] ) return i+1;     
 	}
+	return -1;
 }
 
 int NetVariable::find(const string& val)
@@ -294,6 +295,7 @@ int NetVariable::find(const string& val)
 		return ::find(dval, values);
 
 	}
+	return -1;
 
 }
 
