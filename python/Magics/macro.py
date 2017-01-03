@@ -6,11 +6,9 @@
 # granted to it by virtue of its status as an intergovernmental organisation nor
 # does it submit to any jurisdiction.
 
-from __future__ import print_function
-
 import os
-import Magics
 import numpy
+from . import Magics
 
 class Context(object):
     def __init__(self):
