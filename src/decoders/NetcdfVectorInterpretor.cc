@@ -23,7 +23,7 @@
 
 #include "NetcdfVectorInterpretor.h"
 #include "Factory.h"
-#include "Netcdf.h"
+#include "NetcdfData.h"
 #include "Coordinate.h"
 #include "Coordinate.h"
 

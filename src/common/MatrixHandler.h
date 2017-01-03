@@ -495,11 +495,11 @@ public :
 
     
     
-    double interpolate(double  row, double  column) const { matrix_.interpolate(row, column); }
-    double nearest(double  row, double  column) const { matrix_.nearest(row, column); }
+    double interpolate(double  row, double  column) const { return matrix_.interpolate(row, column); }
+    double nearest(double  row, double  column) const { return matrix_.nearest(row, column); }
 
-    double column(int i, int j) { matrix_.column(i, j); }
-    double row(int i, int j) { matrix_.row(i, j); }
+    double column(int i, int j) { return matrix_.column(i, j); }
+    double row(int i, int j) { return matrix_.row(i, j); }
 
 protected :
 

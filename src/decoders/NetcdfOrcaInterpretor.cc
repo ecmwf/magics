@@ -21,7 +21,7 @@
 
 #include "NetcdfOrcaInterpretor.h"
 #include "Factory.h"
-#include "Netcdf.h"
+#include "NetcdfData.h"
 #include <limits>
 
 using namespace magics;
