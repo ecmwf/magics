@@ -13,11 +13,11 @@ def substitute(default, user):
     if user != None:
         for key in user:
             out[key] = user[key]
-    print(out)
+   
     return out
 
 
-def geoplot(data, contour=None, output=None, background=None, foreground=None, area=None):
+def geoplot(data, contour=None, output=None, background=None, foreground=None, area=None, title=[]):
 
     default = {
        "area" : {},
@@ -44,10 +44,13 @@ def geoplot(data, contour=None, output=None, background=None, foreground=None, a
 
     #Define the title
     title = macro.mtext(
+                  text_lines = title, 
                   text_font_size = 0.8,
                   text_justification = "left"
                 )
-    print(area)
+    if output == None :
+      return macro.plot(projection, background, data, contour, foreground, title)
+    
     return macro.plot(output, projection, background, data, contour, foreground, title)
 
 def xyplot(data, contour=None, output=None):
@@ -84,10 +87,12 @@ def xyplot(data, contour=None, output=None):
                   text_font_size = 0.8,
                   text_justification = "left"
                 )
+    if output == None:
+      return macro.plot(output, projection, vertical, horizontal, data, contour, title)
 
     return macro.plot(output, projection, vertical, horizontal, data, contour, title)
 
-def graph(x,y, title="", graph = None) :
+def graph(x,y, title="", graph = None, colour = "ecmwf_blue") :
 
     default = {
 	   "graph" : { "graph_line_colour"  : "ecmwf_blue",
@@ -177,7 +182,7 @@ defaults = { "eps" :
 	            "eps_box_border_thickness" : 2,
 	            "eps_box_width" : 1.5,
 	            "eps_box_colour" : colour,
-	            "eps_box_forecast_colour" : "black",
+	            "eps_deterministic_line_colour" : "black",
 	            "eps_font_colour" :"navy",
 	            "eps_legend_font_size" :  font_size,
 	            "eps_grey_legend" : "off",
@@ -192,7 +197,6 @@ defaults = { "eps" :
 
 def epsgram(parameter, input, **args):
 
-    print(parameter, input, "ARGS--->", args)
 
     actions = []
 
@@ -218,10 +222,10 @@ def epsgram(parameter, input, **args):
     actions.append(vertical)
     actions.append(horizontal)
 
-    print("DATA", input)
+    
 
     if "clim" in args:
-    	print("FILE--->", data)
+    	
     	clim = macro.mwrepjson(
                             wrepjson_family =  "eps",
                             wrepjson_keyword =  "clim",
