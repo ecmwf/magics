@@ -400,8 +400,9 @@ def set1i(name,data):
 #    array_p = array.ctypes.data_as(c_double_p)
 #    _set1r(name, array_p, size)
     size = len(data)
+    name = string_to_char(name)
     array_p = (ctypes.c_int * size)(*data)
-    dll.mag_set1i(name, array_p, size)
+    dll.mag_set1i(ctypes.c_char_p(name), array_p, size)
     return None
 
 ####################################################################
@@ -423,8 +424,9 @@ setr = convert_strings(setr)
 
 def set1r(name,data):
     size = len(data)
+    name = string_to_char(name)
     array_p = (ctypes.c_double * size)(*data)
-    dll.mag_set1r(name, array_p, size)
+    dll.mag_set1r(ctypes.c_char_p(name), array_p, size)
     return None
 
 ####################################################################
@@ -443,13 +445,13 @@ setc.argtypes = (c_char_p, c_char_p)
 setc = convert_strings(setc)
 
 ####################################################################
-
 def set1c(name,data):
-    size = len(data)
-    array_p = (ctypes.c_char_p * size)(*data)
-    dll.mag_set1c(name, array_p, size)
-    return None
-
+    new_data=[]
+    for s in data:
+       new_data.append(string_to_char(s))
+    name = string_to_char(name)
+    data_p = (c_char_p * (len(new_data)))(*new_data)
+    dll.mag_set1c(ctypes.c_char_p(name), data_p, len(new_data))
 
 ####################################################################
 
