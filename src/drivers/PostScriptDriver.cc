@@ -1428,10 +1428,45 @@ void PostScriptDriver::print(ostream& out)  const
 */
 MAGICS_NO_EXPORT void PostScriptDriver::renderSymbols(const Symbol& symbol) const
 {
-	setNewColour(symbol.getColour());
-	writeColour();
-	currentShading_=M_SH_SOLID;
-	BaseDriver::renderSymbols(symbol);
+    setNewColour(symbol.getColour());
+    writeColour();
+    currentShading_=M_SH_SOLID;
+	const string symbolName = symbol.getSymbol();
+	const string logo = "logo_ecmwf";
+	if (symbolName.find(logo) == std::string::npos)
+	{
+	  BaseDriver::renderSymbols(symbol);
+	}
+	else
+	{
+      pFile_<< " "<<projectX(symbol[0].x())<<" "<< projectY(symbol[0].y())-convertCM(symbol.getHeight()*.3)<< " t 0.4 0.4 s"<<endl;
+      pFile_<< "gs\n" 
+            << "183.473 76.074 m 183.473 63.121 l 146.492 63.121 l 146.492 48.105 l 180.438 48.105 l 180.438 36.094 l 146.492 36.094 l 146.492 18.977 l 184.262 18.977\n"
+            << "l 184.262 6.023 l 131.086 6.023 l 131.086 76.074 l P 183.473 76.074 m fill\n"
+            << "234.574 57.387 m 233.656 58.859 232.492 60.172 231.141 61.262 c 228.277 63.559 224.711 64.805 221.039 64.793 c 217.973 64.891 214.934 64.199 212.211\n"
+            << "62.793 c 209.84 61.496 207.82 59.645 206.324 57.398 c 204.781 55.047 203.668 52.441 203.043 49.699 c 202.359 46.773 202.023 43.773 202.039 40.77 c 202.023\n"
+            << "37.875 202.359 34.992 203.043 32.18 c 203.68 29.504 204.793 26.961 206.324 24.672 c 207.832 22.441 209.855 20.605 212.219 19.316 c 214.945 17.91 217.984\n"
+            << "17.219 221.051 17.316 c 225.762 17.316 229.434 18.754 232.062 21.629 c 234.844 24.812 236.543 28.797 236.918 33.012 c 251.832 33.012 l 251.523\n"
+            << "28.91 250.508 24.895 248.828 21.141 c 247.281 17.738 245.082 14.68 242.352 12.129 c 239.625 9.621 236.422 7.688 232.934 6.445 c 229.121 5.086 225.105\n"
+            << "4.41 221.059 4.441 c 216.094 4.363 211.164 5.312 206.586 7.234 c 202.457 8.988 198.758 11.613 195.742 14.934 c 192.75 18.289 190.449 22.203 188.977\n"
+            << "26.453 c 187.379 31.043 186.582 35.871 186.625 40.73 c 186.578 45.684 187.375 50.605 188.977 55.293 c 190.449 59.605 192.746 63.586 195.742 67.016 c\n"
+            << "198.734 70.395 202.43 73.074 206.566 74.875 c 214.637 78.219 223.621 78.641 231.973 76.074 c 235.309 75.016 238.43 73.371 241.191 71.223 c 243.934\n"
+            << "69.062 246.215 66.375 247.906 63.324 c 249.742 59.988 250.883 56.316 251.262 52.531 c 236.344 52.531 l 236.098 54.254 235.492 55.906 234.574 57.387 c P 234.574 57.387 m fill\n"
+            << "279.66 76.074 m 296.047 27.906 l 296.246 27.906 l 311.742 76.074 l 333.426 76.074 l 333.426 6.004 l 319 6.004 l 319 55.664 l 318.801 55.664 l 301.633\n"
+            << " 6.023 l 289.762 6.023 l 272.594 55.176 l 272.395 55.176 l 272.395 6.023 l 257.977 6.023 l 257.977 76.074 l P 279.66 76.074 m fill\n"
+            << "394.41 6.023 m 382.586 53.703 l 382.398 53.703 l 370.715 6.023 l 355.121 6.023 l 336.578 76.098 l 351.984 76.098 l 363.066 28.418 l 363.27 28.418\n"
+            << " l 375.391 76.074 l 389.816 76.074 l 401.816 27.824 l 402.02 27.824 l 413.488 76.074 l 428.594 76.074 l 409.758 6.004 l 394.41 6.004 l P 394.41 6.023 m fill\n"
+            << "481 76.074 m 481 63.121 l 447.156 63.121 l 447.156 46.938 l 476.496 46.938 l 476.496 34.922 l 447.164 34.922 l 447.164 6.023 l 431.758 6.023 l 431.758\n"
+            << " 76.074 l 481.012 76.074 l P 481 76.074 m fill\n"
+            << "0.402 36.836 m 34.848 36.836 l 34.848 46.164 l 0.402 46.164 l -0.137 43.078 -0.137 39.922 0.402 36.836 c P 0.402 36.836 m fill\n"
+            << "115.121 33.59 m 111.5 14.293 94.715 0.258 75.078 0.117 c 69.25 0.215 63.5 1.465 58.16 3.801 c 52.703 1.328 46.773 0.086 40.781 0.156 c 21.168 0.16\n"
+            << " 4.344 14.148 0.762 33.43 c 25.875 33.43 l 28.719 27.184 34.949 23.176 41.812 23.18 c 49.266 23.312 55.867 28.02 58.422 35.023 c 60.812 28.211 67.102\n"
+            << " 23.539 74.312 23.211 c 81.527 22.883 88.215 26.965 91.215 33.531 c P 115.121 33.59 m fill\n"
+            << "115.121 49.41 m 111.496 68.73 94.676 82.77 75.02 82.883 c 69.207 82.801 63.473 81.543 58.16 79.188 c 52.715 81.699 46.777 82.961 40.781 82.883\n"
+            << "c 21.148 82.891 4.305 68.879 0.742 49.57 c 25.855 49.57 l 28.688 55.84 34.934 59.867 41.812 59.859 c 49.273 59.723 55.875 55 58.422 47.988 c 60.82 54.793\n"
+            << " 67.113 59.465 74.324 59.789 c 81.535 60.117 88.223 56.031 91.227 49.469 c P 115.121 49.41 m fill\n"
+            << "gr" <<endl;
+	}
 }
 
 
@@ -1599,7 +1634,7 @@ MAGICS_NO_EXPORT void PostScriptDriver::writePSFileHeader() const
 
 	//copyMacro(ps,"PostScriptMacro1.ps");
 	*ps << "/m {moveto} def /st {stroke} def /rl {rlineto} def /ro {rotate} def /cp {closepath} def /d { {rmoveto rlineto} repeat stroke} bind def /gr {grestore} def /gs {gsave} def /n { newpath } def\n" 
-	    << "/sa {save} def /lw {setlinewidth } def /ar {arc fill} def /arn {arcn fill} def\n"
+	    << "/sa {save} def /lw {setlinewidth } def /ar {arc fill} def /arn {arcn fill} def /l { lineto } bind def /c { curveto } bind def\n"
 	    << "/sd {setdash} def /C { setrgbcolor } def /Y { setcmykcolor } def  /B { moveto rlineto stroke } bind def /BB { moveto lineto stroke } bind def /t { translate } def /s {scale} def /K { /UY exch def /UX exch def /LY exch def \n"
 	    << "/LX exch def gsave newpath LX LY moveto UX LY lineto UX UY lineto LX UY lineto closepath newpath } def /lp { moveto rlineto } bind def /p { moveto {rlineto} repeat stroke} bind def /po { moveto {rlineto} repeat } bind def\n"
 	    << "/q {moveto rlineto stroke} bind def /f {moveto {rlineto} repeat fill} bind def /e {moveto {rlineto} repeat eofill} bind def /F {moveto {rlineto} repeat} bind def /E {eofill} bind def /P { closepath } bind def\n"
