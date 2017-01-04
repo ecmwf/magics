@@ -1317,6 +1317,7 @@ void mag_setc(const char* name, const char* value)
 	string n(name);
 	string v(value);
 	psetc_(n.c_str(), value, n.size(), v.size());
+	//cout << "setc("<<name<<","<<value<<")"<<endl;
 }
 
 void mag_setr(const char* name, const double value)
@@ -1331,18 +1332,20 @@ void mag_setr(const char* name, const double value)
 	{
 		MagLog::error() << e << "\n";
 	}
+	//cout << "setr("<<name<<","<<value<<")"<<endl;
 }
 
 void mag_seti(const char* name, const int value)
 {
 	string n(name);
 	pseti_(name, &value, n.size());
+	//cout << "seti("<<name<<","<<value<<")"<<endl;
 }
 
 void mag_setp(const char* name, void* value)
 {
-	string n(name);
 #ifdef HAVE_CAIRO
+    string n(name);
     if ( magCompare(n, "output_cairo_drawing_context") ) {
        ParameterManager::set("output_cairo_drawing_context", (CairoPtr)value); 
     }
@@ -1465,6 +1468,7 @@ void mag_set1c(const char* name, const char** data, const int dim)
 	{
 		MagLog::error() << e << "\n";
 	}
+	//cout << "set1c("<<name<<","<<data[0]<<","<<dim<<")"<<endl;
 }
 
 void mag_enqr(const char* fname, double *value)
