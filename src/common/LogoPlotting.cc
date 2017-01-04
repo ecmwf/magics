@@ -68,11 +68,11 @@ void LogoPlotting::operator()(BasicGraphicsObjectContainer& tree) const
 
 	Symbol* symbol = new Symbol();
 
-	double x =  (0.3 * 6.75 * 100) / tree.absoluteWidth();
-	x = 90;
-    double y = (0.3/tree.absoluteHeight())*100; 	 // 0.2
+	//double x =  (0.3 * 6.75 * 100) / tree.absoluteWidth();
+	const double x = 90.;
+	const double y = (0.3/tree.absoluteHeight())*100; 	 // 0.2
 
-	(*symbol).setColour(Colour("BLUE"));
+	(*symbol).setColour(Colour("ecmwf_blue"));
 	(*symbol).setSymbol(logo);
 	(*symbol).setHeight(0.6);   // length = height * 6.75
 	(*symbol).push_back(PaperPoint(x,y));
