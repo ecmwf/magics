@@ -1,13 +1,10 @@
 *~
 *.o
 *.ps
-*.grib
-*.grb
 *.out
 *.keep
 Debug
 CMakeLists.txt.user*
-*.nc
 *.err
 *.usa
 *.pyc
