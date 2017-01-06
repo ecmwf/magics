@@ -226,7 +226,7 @@ def epsgram(parameter, input, **args):
 
     if "clim" in args:
       
-      clim = macro.mwrepjson(
+        clim = macro.mwrepjson(
                             wrepjson_family =  "eps",
                             wrepjson_keyword =  "clim",
                             wrepjson_input_filename = input,
@@ -258,12 +258,12 @@ def epsgram(parameter, input, **args):
 
     if "output" in args != "" :
       #Setting of the output file name
-    png = macro.output(output_formats = ['png'],
+      png = macro.output(output_formats = ['png'],
       output_name_first_page_number = "off",
       output_name = args["output"])
 
-    return macro._plot(
-      png,
+      return macro._plot(
+            png,
             actions
       )
 

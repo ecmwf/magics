@@ -290,7 +290,7 @@ class Action(object):
             return obj
         elif type(obj) == unicode:
             return str(obj)
-        elif type(obj) in (list, tuple, set, numpy.ndarray):
+        elif type(obj) in (list, tuple, set, numpy.ndarray) and len(obj):
             if type(obj[0]) != unicode:
                 return obj
             obj = list(obj)
@@ -320,7 +320,7 @@ class Action(object):
                 Magics.seti(key, self.args[key])
             elif isinstance(self.args[key], float):
                 Magics.setr(key, self.args[key])
-            elif isinstance(self.args[key], list) :
+            elif isinstance(self.args[key], list) and len(self.args[key]):
                 if isinstance(self.args[key][0], str):
                    Magics.set1c(key, self.args[key])
                 elif isinstance(self.args[key][0], int):
@@ -338,8 +338,7 @@ class Action(object):
                     else :
                         Magics.set1i(key, data, size[0])
                 elif ( type == 'float64' or type == 'float32') :
-                    if (dim == 2) :
-                        
+                    if (dim == 2) :                      
                         Magics.set2r(key, data, size[1], size[0])
                     else :
                         Magics.set1r(key, data)

@@ -122,6 +122,7 @@ Matrix* InputMatrixRegularInterpretor::geoInterpret(Matrix* in, const InputMatri
 
 Matrix* InputMatrixRegularInterpretor::xyInterpret(Matrix* in, const InputMatrix& info)
 {
+	in->akimaEnabled();
 	in->missing(std::numeric_limits<double>::max());
 	if ( !in->rowsAxis().empty() )
 		// WE have already initialised the matrix ..
