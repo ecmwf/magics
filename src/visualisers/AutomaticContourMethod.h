@@ -65,6 +65,12 @@ public:
         MatrixHandler* pMatrixHandler;
         if ( matrix.akimaEnable() == false ) {
         	
+            ContourMethod * pContourMethod =new  ContourMethod();
+
+                    pMatrixHandler = pContourMethod->handler(matrix, owner);
+
+                    MagLog::debug() << "Linear contouring, "    << "\n";
+                    //return pMatrixHandler;
                     return new DelegateMatrixHandler(matrix);
         }
 
