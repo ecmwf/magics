@@ -329,19 +329,20 @@ class Action(object):
                    Magics.set1r(key, numpy.array(self.args[key]))
             elif isinstance(self.args[key], numpy.ndarray) :
                 type = self.args[key].dtype
-                data = self.args[key].copy()
+                data = self.args[key].copy() 
                 size = data.shape
                 dim  = len(size)
                 if isinstance(self.args[key][0], int):
                     if (dim == 2) :
-                        Magics.set2i(key, data, size[1], size[0])
+                        Magics.set2i(key, data, size[0], size[1])
                     else :
                         Magics.set1i(key, data, size[0])
                 elif ( type == 'float64' or type == 'float32') :
                     if (dim == 2) :
+                        
                         Magics.set2r(key, data, size[1], size[0])
                     else :
-                        Magics.set1r(key, data, size[0])
+                        Magics.set1r(key, data)
                 else :
                     print("type???->", key)
             else:
