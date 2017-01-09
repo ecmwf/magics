@@ -86,8 +86,10 @@ MagLog::debug() << "OBS ITEM - ObsWind - Lon/Lat: "<<point.longitude()<<" / "<<p
 	std::pair<double, double> wind = std::make_pair(speed->second, direction->second);
 	transformation.reprojectSpeedDirection(pp, wind);
 	
-	flag->speed(speed->second);
-	flag->direction(direction->second);
+	flag->speed(wind.first);
+	flag->direction(wind.second);
+
+	
 
 	if (point.latitude() <0 ) 
 		flag->setHemisphere(SOUTH);
@@ -186,12 +188,35 @@ void ObsCloudAndWind::operator()( CustomisedPoint& point, ComplexSymbol& symbol)
 	std::pair<double, double> wind = std::make_pair(speed, direction);
 	transformation.reprojectSpeedDirection(pp, wind);
 	
-	flag->speed(speed);
-	flag->direction(direction);
+	flag->speed(wind.first);
+	flag->direction(wind.second);
 
+	
 	if (point.latitude() <0 ) 
 		flag->setHemisphere(SOUTH);
 	symbol.add(flag);
+/*
+	flag = new FlagItem();
+	flag->setColour(Colour("red"));
+	flag->length(owner_->size_*2.5); // Size to be adjusted later!
+	flag->thickness(1.5);
+
+	flag->setOriginHeight(owner_->ring_size_ * 1.75);
+	flag->setOriginMarker(origin);
+	flag->x(0);
+	flag->y(0);
+	
+	
+	
+	flag->speed(speed);
+	flag->direction(direction);
+
+	
+	if (point.latitude() <0 ) 
+		flag->setHemisphere(SOUTH);
+	symbol.add(flag);
+*/
+
 }
 
 void ObsPressure::visit(std::set<string>& tokens)
