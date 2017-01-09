@@ -9,6 +9,9 @@ In applying this licence, ECMWF does not waive the privileges and immunities
 granted to it by virtue of its status as an intergovernmental organisation nor
 does it submit to any jurisdiction.
 -->
+    <parameter xml="orientation" from="string" name="graph_bar_orientation" default="vertical" member="orientation" to="string" value='horizontal/vertical'>
+            <documentation>   Orientation of the bars : Vertical or horizontal   </documentation>
+    </parameter>
 
   	<parameter xml="width" from="float" name="graph_bar_width" default="INT_MAX" member="width" to="float">
          		<documentation> The width of a bar in a bar chart 		</documentation>
