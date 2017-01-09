@@ -11,7 +11,7 @@ add_magics_test(NAME graph_lines SOURCES graph_lines.F IMAGE graph_lines.ps  THR
 
 
 add_magics_test(NAME graph_horizontal SOURCES bar_horizontal.py IMAGE bar_horizontal.png  THRESHOLD 2 PYTHON)
-add_magics_test(NAME graph_horizontal SOURCES bar_horizontal2.py IMAGE bar_horizontal2.png  THRESHOLD 2 PYTHON)
+add_magics_test(NAME graph_horizontal2 SOURCES bar_horizontal2.py IMAGE bar_horizontal2.png  THRESHOLD 2 PYTHON)
 
 
 #add_magics_test(NAME graph_venice_01 SOURCES graph_venice_01.f IMAGE graph_venice_01.ps 
