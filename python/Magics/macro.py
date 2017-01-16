@@ -489,14 +489,14 @@ class  odb_filter(object):
         file = "data%d" % numpy.random.randint(1,1000)
         odb = "%s.odb" % file 
         context.tmp.append(odb)
-        cmd = "odbsql -q \"" + self.args["query"] + "\" -i " + self.args["path"] + " -f newodb -o " + odb
+        cmd = "odb sql -q \"" + self.args["query"] + "\" -i " + self.args["path"] + " -f newodb -o " + odb
         print cmd 
         if (os.system(cmd)) :
             print "Error in filtering ODB data... Aborting"
             os.abort();
         Magics.setc('odb_filename', odb)
     def inspect(self):
-        cmd = "odbsql -q \"" + self.args["query"] + "\" -i " + self.args["path"] + " -o data.ascii"
+        cmd = "odb sql -q \"" + self.args["query"] + "\" -i " + self.args["path"] + " -o data.ascii"
         if (os.system(cmd)) :
             print "Error in filtering ODB data... Aborting"
             os.abort();

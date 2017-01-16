@@ -13,11 +13,13 @@ def substitute(default, user):
 
 
 
-def geoplot(data, contour=None, output=None, background=None, foreground=None, area=None):
+def geoplot(data, contour=None, output=None, background=None, foreground=None, area=None, legend = None):
 
 
     default = {
        "area" : {},
+       "legend" : {},
+       "contour" : {},
        "background" : { "map_coastline_sea_shade"         : 'on',
                         "map_coastline_sea_shade_colour"  : 'rgb(81,81,81)',
                         "map_coastline_land_shade"        : 'on',
@@ -45,8 +47,9 @@ def geoplot(data, contour=None, output=None, background=None, foreground=None, a
                   text_font_size = 0.8,
                   text_justification = "left"
                 )
+    legend = macro.mlegend(substitute(default["legend"], legend))
 
-    return macro.plot(output, projection, background, data, contour, foreground, title)
+    return macro.plot(output, projection, background, data, contour, foreground, title, legend)
 
 def xyplot(data, contour=None, output=None):
 
