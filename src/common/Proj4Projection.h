@@ -205,6 +205,7 @@ public:
 	void getNewDefinition(const UserPoint&, const UserPoint&, string&) const;
 	void setDefinition(const string&);
 	void reprojectComponents(double&, double&, pair<double, double>&) const;
+	void reprojectSpeedDirection(const PaperPoint& point, pair<double, double>&) const;
 	virtual void geoProjection(int& geo) const { geo = 1; } // Useful for Streamlines !
 protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).

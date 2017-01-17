@@ -8,6 +8,12 @@ add_magics_test(NAME graph_tephi SOURCES tephi.py RESOURCES thermoBufr.nc IMAGE 
 add_magics_test(NAME graph_tephi_mv SOURCES tephi_mv.py RESOURCES obs.nc IMAGE tephi_mv.png  THRESHOLD 2 PYTHON)
 add_magics_test(NAME graph_tephi_missing SOURCES tephi_missing.py IMAGE tephi_missing.ps  THRESHOLD 2 PYTHON)
 add_magics_test(NAME graph_lines SOURCES graph_lines.F IMAGE graph_lines.ps  THRESHOLD 2)
+
+
+add_magics_test(NAME graph_horizontal SOURCES bar_horizontal.py IMAGE bar_horizontal.png  THRESHOLD 2 PYTHON)
+add_magics_test(NAME graph_horizontal2 SOURCES bar_horizontal2.py IMAGE bar_horizontal2.png  THRESHOLD 2 PYTHON)
+
+
 #add_magics_test(NAME graph_venice_01 SOURCES graph_venice_01.f IMAGE graph_venice_01.ps 
 #            DATA TOWER.ope_2010 WAS_RES.2010 THRESHOLD 2)
 #add_magics_test(NAME graph_venice_02 SOURCES graph_venice_02.F IMAGE graph_venice_02.ps  
