@@ -1559,14 +1559,14 @@ MAGICS_NO_EXPORT void CairoDriver::renderSymbols(const Symbol& symbol) const
 		if(!ret)
 		{
 			cairo_save(cr_);
-			cairo_translate (cr_, projectX(symbol[0].x()), projectY(symbol[0].y()));
-			const MFloat sizeX =  convertCM(symbol.getHeight()/2) * coordRatioX_;
-			const MFloat sizeY = -convertCM(symbol.getHeight()/2) * coordRatioY_;
+			cairo_translate (cr_, projectX(symbol[0].x()), projectY(symbol[0].y())-convertCM(symbol.getHeight()*.3));
+			const MFloat sizeY = -convertCM(symbol.getHeight() *.1) * coordRatioY_;
 			const int w = cairo_image_surface_get_width(image);
 			const int h = cairo_image_surface_get_height(image);
-//cout << ">>>>>>>>> "<<symbol.getHeight()<<" --- "<<sizeX<<"/"<< w <<endl;
-			cairo_scale (cr_, sizeX*.55/w, sizeY*.23/h);
-			cairo_set_source_surface(cr_, image, -sizeX, -sizeY*1.3);
+            const double ratio = w/h;
+            const MFloat sizeX = sizeY * ratio;
+			cairo_scale (cr_, sizeX/w, sizeY/h);
+			cairo_set_source_surface(cr_, image, 0, 0);
 			cairo_paint(cr_);
 			cairo_surface_destroy (image);
 			cairo_restore(cr_);

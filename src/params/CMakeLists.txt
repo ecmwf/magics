@@ -159,7 +159,6 @@ Proj4Geose.xml
 
 SDWindMode.xml
 SVGDriver.xml
-SampleContourMethod.xml
 ImportObjectHandler.xml
 
 SelectionMode.xml

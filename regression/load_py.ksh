@@ -3,13 +3,13 @@
 
 set +x
 
-versions="2.29.3 2.29.4" 
+versions="2.30.0" 
 
 ext="py"
 img_ext="png"
-where='era'
+where='efas'
 interpretor='python'
-src='generic.py'
+src='efas_plot.py'
 
 dir=`pwd`
 name=`basename $dir`

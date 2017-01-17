@@ -416,7 +416,7 @@ void Proj4Projection::conic()
 	}
 	*/
 	// top
-	add( projection_->minlon_, projection_->maxlat_);
+	add( projection_->minlon_ - vertical_longitude_, projection_->maxlat_);
 	for ( int lon = projection_->minlon_; lon <= projection_->maxlon_; lon++) {
 		add(lon, projection_->minlat_);
 	}
@@ -886,6 +886,24 @@ void Proj4Projection::reprojectComponents(double& x, double& y, pair<double, dou
 	// we the angle and the spped we compute u/v...
 	components.first  = speed * cos(rotation);
 	components.second = speed * sin(rotation);
+}
+
+void Proj4Projection::reprojectSpeedDirection(const PaperPoint& point, pair<double, double>& wind) const
+{
+	double x = point.x_;
+	double y =  point.y_;
+	double ppx = point.x_ + 0.5;
+	double ppy = point.y_;
+
+	fast_reproject(x, y);
+	fast_reproject(ppx, ppy);
+	
+	double rotation = atan2((ppy - y), (ppx - x));
+
+	
+
+	wind.second = wind.second + (rotation*RAD_TO_DEG);
+
 }
 
 void Proj4Projection::revert(const vector< std::pair<double, double> > & in, vector< std::pair<double, double> > & out) const

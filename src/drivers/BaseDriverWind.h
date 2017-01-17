@@ -197,8 +197,8 @@ MAGICS_NO_EXPORT void BaseDriver::renderWindFlag(const Flag &flag) const
 		const int old_currentColourIndex = currentLineStyle_;
 		currentLineStyle_ = setLineParameters(style,thickness);
 		renderPolyline2(line);
+//		currentLineStyle_ = old_currentColourIndex;
 
-		currentLineStyle_ = old_currentColourIndex;
 		MFloat barbFraction = 0.;
 		int i = 0;
 		const MFloat lengthY = setY(length * ratio);
@@ -217,6 +217,7 @@ MAGICS_NO_EXPORT void BaseDriver::renderWindFlag(const Flag &flag) const
 
 			if(!fl)
 			{
+                currentLineStyle_ = setLineParameters(style,thickness);
 				line.clear();
 				line.push_back(PaperPoint( -(length-step),0.) );
 				line.push_back(PaperPoint( -(length-step+dx),barbHeight*barbFraction) );
@@ -239,6 +240,7 @@ MAGICS_NO_EXPORT void BaseDriver::renderWindFlag(const Flag &flag) const
 			}
 			i++;
 		}// end while
+		currentLineStyle_ = old_currentColourIndex;
 		++fla;
 	}// end for
 

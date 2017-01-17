@@ -543,6 +543,17 @@ protected:
 
 
 };
+class Proj4Matrix: public Matrix
+{
+
+public:
+        Proj4Matrix(const string& proj4) : Matrix(), proj4_(proj4) {}
+        MatrixHandler* getReady(const Transformation&) const;
+
+protected:
+        string proj4_;
+        
+};
 
 } // namespace magics
 

@@ -40,12 +40,23 @@ bool NetcdfGeoMatrixInterpretor::interpretAsMatrix(Matrix** data)
 {
 	if ( *data ) return false;
 	
-	matrix_ = new Matrix();
-	matrix_->akimaEnabled();
+	Netcdf netcdf(path_, dimension_method_);
+
+
+	string proj4 = netcdf.getAttribute("projection", "");
+
+	if ( proj4.empty() ) {
+		matrix_ = new Matrix();
+		matrix_->akimaEnabled();
+		
+	}
+	else {
+		matrix_ = new Proj4Matrix(proj4);
+	}
 	*data = matrix_;
 
    
-	Netcdf netcdf(path_, dimension_method_);
+	
 
 
 
