@@ -1533,7 +1533,7 @@ void EpsCloud::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 
 	map<string, float> directions;
 	
-				directions["1"] = 3.14 * 3/8;
+				directions["one"] = 3.14 * 3/8;
 				directions["2"] = 3.14 * 1/8;
 				directions["3"] =  -3.14*1/8;
 				directions["4"] = -3.14* 3/8;
