@@ -51,7 +51,7 @@ public :
     virtual int rowIndex(double r) const     { return matrix_.rowIndex(r); } 
     virtual int columnIndex(double c) const  { return matrix_.columnIndex(c); }  
     virtual bool  akimaEnable() const  { return matrix_.akimaEnable(); }
-    
+    virtual bool  delegate() const  { return matrix_.delegate(); }
     
     virtual void boundRow(double r, 
     	double& row1, int& index1, double& row2, int& index2) const 
@@ -522,7 +522,8 @@ public :
 
     double column(int, int);
     double row(int, int);
-    
+
+    bool delegate() const { return true; }
 
    
 
