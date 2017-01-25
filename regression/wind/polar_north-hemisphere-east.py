@@ -44,8 +44,8 @@ robinson = {
 
 # Example reference
 
-for i in ["south-west"]:
-    for area in [ north]:
+for i in ["east"]:
+    for area in [polar_north]:
         ref = '%s-hemisphere-%s' % (area["subpage_map_hemisphere"], i)
 
 
