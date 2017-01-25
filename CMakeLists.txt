@@ -35,22 +35,32 @@ set( CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH} 
 
 include( ecbuild_system NO_POLICY_SCOPE )
 
-ecbuild_requires_macro_version( 1.9 )
+ecbuild_requires_macro_version( 2.6 )
 
 ###############################################################################
 # some variables of this project
 
 ecbuild_add_option( FEATURE ECCODES DESCRIPTION "" DEFAULT ON )
 
-if( HAVE_ECCODES )
-  ecbuild_use_package( PROJECT eccodes VERSION 0.14 REQUIRED )
+set(ECCODES_FAIL_MSG "Note: grib_api can be used instead (select with -DENABLE_ECCODES=OFF), "
+                      "but we strongly advise you to upgrade to ecCodes. "
+                      "See https://software.ecmwf.int/wiki/display/ECC/ecCodes+Home\n"
+                      )
+
+
+ecbuild_add_option( FEATURE ECCODES DESCRIPTION "Use eccodes instead of grib_api"
+                    REQUIRED_PACKAGES "PROJECT eccodes VERSION 0.14 REQUIRED FAILURE_MSG ECCODES_FAIL_MSG"
+                    DEFAULT ON )
+ 
+if( HAVE_ECCODES)
   set( GRIB_API_INCLUDE_DIRS ${ECCODES_INCLUDE_DIRS} )
   set( GRIB_API_LIBRARIES    ${ECCODES_LIBRARIES} )
   set( GRIB_API_DEFINITIONS  ${ECCODES_DEFINITIONS} )
   set( grib_api_BASE_DIR     ${eccodes_BASE_DIR} )
   set( grib_handling_pkg eccodes )
 else()
-  ecbuild_use_package(PROJECT grib_api VERSION 1.14.6 REQUIRED)
+  ecbuild_use_package( PROJECT grib_api VERSION 1.14.3 REQUIRED
+                       FAILURE_MSG "ecCodes can be used instead (enable with -DENABLE_ECCODES=ON)" )
   set( grib_handling_pkg grib_api )
 endif()
 
