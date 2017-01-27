@@ -163,6 +163,42 @@ does it submit to any jurisdiction.
         <param code='251' 
                original_unit='K' derived_unit='deg C' 
                scaling='1.0' offset='-273.16'/> 
+        <param code='20000' 
+               original_unit='kg m**-3' derived_unit='ng m**-3' 
+               scaling='1000000000000.0' offset='-0.0'/>
+        <param code='20001' 
+               original_unit='kg m**-2' derived_unit='ng m**-2' 
+               scaling='1000000000000.0' offset='-0.0'/>
+        <param code='20002' 
+               original_unit='kg kg**-1' derived_unit='ppt' 
+               scaling='1000000000000.0' offset='-0.0'/>
+        <param code='20052' 
+               original_unit='mol mol**-1' derived_unit='ppt' 
+               scaling='1000000000000.0' offset='-0.0'/>
+        <param code='20197' 
+               original_unit='kg m**-2' derived_unit='ng m**-2' 
+               scaling='100000000000.0' offset='-0.0'/>
+        <param code='20198' 
+               original_unit='kg m**-2' derived_unit='ng m**-2' 
+               scaling='100000000000.0' offset='-0.0'/>
+        <param code='20199' 
+               original_unit='kg m**-2 s**-1' derived_unit='ng m**-2 s**-1' 
+               scaling='1000000000000.0' offset='-0.0'/>
+        <param code='20200' 
+               original_unit='kg m**-2 s**-1' derived_unit='ng m**-2 s**-1' 
+               scaling='1000000000000.0' offset='-0.0'/>
+        <param code='20201' 
+               original_unit='kg m**-2 s**-1' derived_unit='ng m**-2 s**-1' 
+               scaling='1000000000000.0' offset='-0.0'/>
+        <param code='20202' 
+               original_unit='kg m**-2 s**-1' derived_unit='ng m**-2 s**-1' 
+               scaling='1000000000000.0' offset='-0.0'/>
+        <param code='20203' 
+               original_unit='kg m**-2 s**-1' derived_unit='ng m**-2 s**-1' 
+               scaling='1000000000000.0' offset='-0.0'/>
+        <param code='20204' 
+               original_unit='kg m**-2 s**-1' derived_unit='ng m**-2 s**-1' 
+               scaling='1000000000000.0' offset='-0.0'/>
         <param code='260510' 
                original_unit='K' derived_unit='deg c' 
                scaling='1.0' offset='-273.16'/> 

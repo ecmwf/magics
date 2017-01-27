@@ -9,7 +9,7 @@ where='web'
 interpretor='magjson'
 ext="json"
 
-version="2.29.3"
+version="2.30"
 dir=`pwd`
 name=`basename $dir`
 

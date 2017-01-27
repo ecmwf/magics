@@ -49,7 +49,7 @@ private:
     //! Copy constructor - No copy allowed
     GribSatelliteInterpretor(const GribSatelliteInterpretor&);
     //! Overloaded << operator to copy - No copy allowed
-    void AdjustBadlyEncodedGribs(int satId, int chanId, long &nx, long &ny, long &dx, long &dy, double &xp, double &yp, double &slon, long &functionCode) const;
+    void AdjustBadlyEncodedGribs(int satId, int chanId, long &nx, long &ny, long &dx, long &dy, long &xp, long &yp, double &slon, long &functionCode) const;
 
 
 // -- Friends

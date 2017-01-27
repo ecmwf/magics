@@ -1093,7 +1093,7 @@ MAGICS_NO_EXPORT void SVGDriver::circle(const MFloat x, const MFloat y, const MF
 		else
 		{
 		 const short  i   = (s<4) ? 1 : 0;
-		 const double rad = s*0.7853981634;
+		 //const double rad = s*0.7853981634;
 
 		 if(s==2)      pFile_ << "<path d=\"M"<<cx<<" "<<cy-r<<" v"<<r<<" h"<<r<<" a"<<r<<","<<r<<" 0 0 0 "<< -r<<","<<-r<<"\" ";
 		 else if(s==4) pFile_ << "<path d=\"M"<<cx<<" "<<cy-r<<" v"<<2*r<<" a"<<r<<","<<r<<" 0 0 0 "<< 0<<","<<-2*r<<"\" ";

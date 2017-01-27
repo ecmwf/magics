@@ -56,6 +56,7 @@ public :
     virtual double  width() const = 0;
     virtual double   height() const = 0;
     virtual bool akimaEnable() const { return false; }
+    virtual bool delegate() const { return false; }
 
     virtual MatrixHandler* getReady(const Transformation&) const { NOTIMP; return 0;}
 
@@ -542,6 +543,17 @@ protected:
 
 
 
+};
+class Proj4Matrix: public Matrix
+{
+
+public:
+        Proj4Matrix(const string& proj4) : Matrix(), proj4_(proj4) {}
+        MatrixHandler* getReady(const Transformation&) const;
+
+protected:
+        string proj4_;
+        
 };
 
 } // namespace magics

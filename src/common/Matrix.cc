@@ -57,127 +57,7 @@ pair<int, bool> InfoIndex::index(double pos) const
 
 void ProjectedMatrix::build()
 {
-	/*
-	vector< std::pair<int, int>  > coords(4);
-	for (int r = 0; r < rows_; r++)
-		for (int c = 0; c < columns_; c++)
-			push_back(missing_);
 	
-	coords[0] = std::make_pair(0,0);
-	coords[1] = std::make_pair(0,1);
-	coords[2] = std::make_pair(1,1);
-	coords[3] = std::make_pair(1,0);
-	
-	Timer  t("GridHelper::build", "GridHelper");
-	for ( int row = 0 ; row < origRows_-1; row++)
-		for ( int column = 0 ; column < origColumns_-1; column++)
-		{
-			double xmin = origColumns_;
-			double xmax = 0;
-			double ymin = rows_;
-			double ymax = 0;
-			
-			vector<double> x, y, v;
-			vector<double> xs, ys, vs;
-			vector<Point> points;
-			bool stop = true;
-			
-			for (vector< std::pair<int, int>  >::iterator p = coords.begin(); p != coords.end(); ++p) {
-				int r = row+ p->first;
-				int c = column+ p->second;
-				double rr = rowsArray_[index(r, c)];
-				double cc = columnsArray_[index(r, c)];
-				MagLog::debug() << rr << " ? " << miny_ -  stepy_ << " " <<  maxy_ + stepy_ << endl;
-				MagLog::debug() << cc << " ? " << minx_ -  stepx_ << " " <<  maxx_ + stepx_ << endl;
-				if ( rr >= miny_ -  stepy_ && rr <= maxy_ + stepy_)
-					stop = false;
-
-				if ( cc >= minx_ -  stepx_ && cc <= maxx_ + stepx_ )
-					stop = false;
-				
-			}
-			if ( stop )
-				// Go to next cell...
-
-				continue;
-			for (vector< std::pair<int, int>  >::iterator p = coords.begin(); p != coords.end(); ++p) {
-				
-				int r = row+ p->first;
-				int c = column+ p->second;
-				double  rr = rowsArray_[index(r, c)];
-				double cc = columnsArray_[index(r, c)];
-				
-				
-
-				 x.push_back( (cc - minx_ ) / stepx_ );
-				 y.push_back( (rr - miny_ ) / stepy_);
-
-				 points.push_back(Point(x.back(), y.back()));
-				 v.push_back( values_[index(r, c)]);  						
-			}
-			points.push_back(points.front());
-			xmin = *std::min_element(x.begin(), x.end());
-			xmax = *std::max_element(x.begin(), x.end());
-			ymin = *std::min_element(y.begin(), y.end());
-			ymax = *std::max_element(y.begin(), y.end());
-
-			MagLog::debug() << "x------->" << xmin << " " << xmax << endl;
-			MagLog::debug() << "y------->" << ymin << " " << ymax << endl;
-			int ii = (xmin < 0) ? 0 : xmin;
-
-			while (ii <= xmax && ii < columns_ )
-			{
-				int jj = (ymin < 0) ? 0 : ymin;
-				while ( jj <= ymax && jj < rows_ ) {
-			
-					MagLog::debug() << "ii=" << 	ii << "  jj=" << jj <<  endl;
-					// is the point inside or oiutside .. if inside use it! 
-
-				    int i = 0;
-				    bool done = false;
-					for (vector<Point>::iterator pt = points.begin(); pt != points.end(); ++pt) {
-				    	MagLog::debug() << *pt << endl;
-						if ( *pt == Point(ii, jj) ) {
-							(*this)[(jj*columns_) + ii] = v[i];
-							done = true;
-				    		break;
-				    	}
-						i++;
-				    }
-					if (  !done && SegmentJoiner::pointInPoly(Point(ii, jj),  points) )
-					 {
-						//feed the matrix...
-						vector<double> w;
-						double total = 0.;
-						for (unsigned int i = 0; i < x.size(); i++) {
-							double val = sqrt( ((ii - x[i])*(ii-x[i]))  + ( (jj-y[i])*(jj-y[i]) ) );
-
-														w.push_back(1/ (val) ? (val*val) : 1);
-														if (v[i] != missing_)
-														    total += w[i];
-						}
-						
-						double val = 0.;
-						for (unsigned int i = 0; i < w.size(); i++) {
-							if (v[i] != missing_) 
-								val += (v[i]*w[i]/total);
-							}
-
-				     (*this)[(jj*columns_) + ii] = val;
-				     MagLog::debug() << "[" << ii << ", " << jj << "]=" << val << endl;
-				     MagLog::debug() << "[" << ii <<  "]=" << columnsAxis_[ii] << endl;
-				     MagLog::debug() << "[" << jj <<  "]=" << rowsAxis_[jj] << endl;
-					}else {
-						MagLog::debug() <<  "out[" << ii <<  "]=" << columnsAxis_[ii] << endl;
-				     MagLog::debug() << "out[" << jj <<  "]=" << rowsAxis_[jj] << endl;
-					}
-
-					jj++;
-				}
-				ii++;
-			}
-		}
-		*/
 }
 
 void ProjectedMatrix::getReady()
@@ -226,6 +106,7 @@ ProjectedMatrix::ProjectedMatrix(int rows, int columns): Matrix(rows, columns)
 	       rowsArray_.reserve(rows*columns);  
 	       columnsArray_.reserve(rows*columns);
 }
+
 RotatedMatrix::RotatedMatrix(int rows, int columns): Matrix(rows, columns)
 {
 	rowsArray_.reserve(rows*columns);
@@ -314,7 +195,7 @@ double Matrix::interpolate(double i, double j) const
 
 
 /// @brief The usual PI/180 constant
-static const double DEG_TO_RAD = 0.017453292519943295769236907684886;
+//static const double DEG_TO_RAD = 0.017453292519943295769236907684886;
 /// @brief Earth's quatratic mean radius for WGS-84
 static const double EARTH_RADIUS_IN_METERS = 6372797.560856;
 
@@ -421,24 +302,7 @@ pair<double, double> Matrix::nearest_value(double row, double column,double &row
 }
 
 
-void xx(double v)
-{
-	double offset;
-	offset = fmod(v, 360.);
-	int a = v/360;
-	cout << "-------" << endl;
-	cout << v << "--->" << offset  << "--->" << a <<  endl;
 
-	if ( offset < 0 )
-		a--;
-
-	double nv = v - (a*360);
-
-	cout << nv << "--->" << (a*360) << " " <<  nv + (a*360) << endl;
-
-
-
-}
 
 
 int Matrix::nearest_index(double row, double column,double &rowOut, double &colOut) const
@@ -681,6 +545,78 @@ MatrixHandler* RotatedMatrix::getReady(const Transformation&) const
 {
 	return new MatrixHandler(*this);
 }
+
 MatrixHandler* Matrix::getReady(const Transformation& transformation)  const{
 	return transformation.prepareData(*this);
 }
+
+MatrixHandler* Proj4Matrix::getReady(const Transformation&) const
+{
+	return new Proj4MatrixHandler(*this, proj4_);
+}
+
+
+Proj4MatrixHandler::Proj4MatrixHandler(const AbstractMatrix& matrix, const string& proj4) : MatrixHandler(matrix) 
+{
+	proj4_ = pj_init_plus(proj4.c_str());
+	latlon_ = pj_init_plus("+proj=longlat +ellps=WGS84 +datum=WGS84");
+	internal_ = false;
+}
+
+   
+       
+double Proj4MatrixHandler::interpolate(double  row, double  column) const 
+{
+	if (internal_)
+		return MatrixHandler::interpolate(row, column);
+	double x = column * DEG_TO_RAD;
+	double y = row * DEG_TO_RAD;
+
+    int error = pj_transform(latlon_, proj4_, 1, 1, &x, &y, NULL);
+    if ( error )
+    	return missing();
+
+    return MatrixHandler::interpolate(y, x);
+}
+
+double Proj4MatrixHandler::nearest(double  row, double  column) const
+{
+	if (internal_)
+		return MatrixHandler::nearest(row, column);
+	double x = column * DEG_TO_RAD;
+	double y = row * DEG_TO_RAD;
+
+    int error = pj_transform(latlon_, proj4_, 1, 1, &x, &y, NULL);
+    if ( error )
+    	return missing();
+
+    return MatrixHandler::nearest(y, x);
+}
+
+double Proj4MatrixHandler::column(int i , int j)
+{
+	double column = MatrixHandler::column(i, j);
+	double row = MatrixHandler::row(i, j);
+
+	int error = pj_transform(proj4_, latlon_, 1, 1, &column, &row, NULL);
+    if ( error )
+    	return missing();
+    return column * RAD_TO_DEG;
+	
+
+}
+
+double Proj4MatrixHandler::row(int i, int j)
+{
+	double column = MatrixHandler::column(i, j);
+	double row = MatrixHandler::row(i, j);
+
+	int error = pj_transform(proj4_, latlon_, 1, 1, &column, &row, NULL);
+    if ( error )
+    	return missing();
+    return row * RAD_TO_DEG;
+}
+    
+
+
+   
