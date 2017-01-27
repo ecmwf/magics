@@ -189,5 +189,8 @@ does it submit to any jurisdiction.
  	<parameter member="wind_colour" to="Colour" default="automatic" from="string" name="obs_wind_colour">
     		<documentation> Colour used to display wind </documentation>
  	</parameter>
+    <parameter member="wind_projected" to="bool" default="on" from="string" name="obs_wind_projected">
+            <documentation> if on (default), the wind will be reprojected according to the projection used in the map. </documentation>
+    </parameter>
 </class>
 </magics>
