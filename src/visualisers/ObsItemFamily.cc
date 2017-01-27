@@ -84,7 +84,7 @@ MagLog::debug() << "OBS ITEM - ObsWind - Lon/Lat: "<<point.longitude()<<" / "<<p
 	const Transformation& transformation = symbol.parent().transformation();
 	PaperPoint pp(point.longitude(), point.latitude());
 	std::pair<double, double> wind = std::make_pair(speed->second, direction->second);
-	if ( owner_.wind_projected_ ) 
+	if ( owner_->wind_projected_ ) 
 		transformation.reprojectSpeedDirection(pp, wind);
 	
 	flag->speed(wind.first);
@@ -187,7 +187,7 @@ void ObsCloudAndWind::operator()( CustomisedPoint& point, ComplexSymbol& symbol)
 	const Transformation& transformation = symbol.parent().transformation();
 	PaperPoint pp(point.longitude(), point.latitude());
 	std::pair<double, double> wind = std::make_pair(speed, direction);
-	if ( owner_.wind_projected_ ) 
+	if ( owner_->wind_projected_ ) 
 		transformation.reprojectSpeedDirection(pp, wind);
 	
 	flag->speed(wind.first);
