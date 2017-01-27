@@ -48,12 +48,21 @@ public:
 	}
     
     void operator()(Data&, BasicGraphicsObjectContainer&);
+    void horizontal(CustomisedPointsList&, BasicGraphicsObjectContainer&);
+    void vertical(CustomisedPointsList&, BasicGraphicsObjectContainer&);
+
     void visit(LegendVisitor&);
     void visit(TopAxisVisitor&);
     void visit(Transformation&, Data&);
     
     void fullbar(double, double, double, BasicGraphicsObjectContainer&);
     void linebar(double, double, double, BasicGraphicsObjectContainer&);
+
+    void fullbar_x(double, double, double, BasicGraphicsObjectContainer&);
+    void linebar_x(double, double, double, BasicGraphicsObjectContainer&);
+    void fullbar_y(double, double, double, BasicGraphicsObjectContainer&);
+    void linebar_y(double, double, double, BasicGraphicsObjectContainer&);
+
 
 protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).

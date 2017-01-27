@@ -35,22 +35,32 @@ set( CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH} 
 
 include( ecbuild_system NO_POLICY_SCOPE )
 
-ecbuild_requires_macro_version( 1.9 )
+ecbuild_requires_macro_version( 2.6 )
 
 ###############################################################################
 # some variables of this project
 
 ecbuild_add_option( FEATURE ECCODES DESCRIPTION "" DEFAULT ON )
 
-if( HAVE_ECCODES )
-  ecbuild_use_package( PROJECT eccodes VERSION 0.14 REQUIRED )
+set(ECCODES_FAIL_MSG "Note: grib_api can be used instead (select with -DENABLE_ECCODES=OFF), "
+                      "but we strongly advise you to upgrade to ecCodes. "
+                      "See https://software.ecmwf.int/wiki/display/ECC/ecCodes+Home\n"
+                      )
+
+
+ecbuild_add_option( FEATURE ECCODES DESCRIPTION "Use eccodes instead of grib_api"
+                    REQUIRED_PACKAGES "PROJECT eccodes VERSION 0.14 REQUIRED FAILURE_MSG ECCODES_FAIL_MSG"
+                    DEFAULT ON )
+ 
+if( HAVE_ECCODES)
   set( GRIB_API_INCLUDE_DIRS ${ECCODES_INCLUDE_DIRS} )
   set( GRIB_API_LIBRARIES    ${ECCODES_LIBRARIES} )
   set( GRIB_API_DEFINITIONS  ${ECCODES_DEFINITIONS} )
   set( grib_api_BASE_DIR     ${eccodes_BASE_DIR} )
   set( grib_handling_pkg eccodes )
 else()
-  ecbuild_use_package(PROJECT grib_api VERSION 1.14.6 REQUIRED)
+  ecbuild_use_package( PROJECT grib_api VERSION 1.14.3 REQUIRED
+                       FAILURE_MSG "ecCodes can be used instead (enable with -DENABLE_ECCODES=ON)" )
   set( grib_handling_pkg grib_api )
 endif()
 
@@ -134,7 +144,7 @@ set( MAGICS_EXCEPTION     "ON" )
 set( MAGICS_SITE          "ecmwf" )
 set( MAGICS_INSTALL_PATH  ${CMAKE_INSTALL_PREFIX} )
 
-set( MAGICS_REFERENCE_VERSIONS            "2.29.6" )
+set( MAGICS_REFERENCE_VERSIONS            "2.30.0" )
 set( MAGICS_HTML_ROOT        "${CMAKE_BINARY_DIR}/regression/html")
 file(MAKE_DIRECTORY ${MAGICS_HTML_ROOT} )
 
@@ -149,9 +159,10 @@ set( MAG_PYTHON_PATH ${CMAKE_CURRENT_BINARY_DIR}/python )
 ecbuild_add_c_flags("-std=c99")
 
 ### Metview and Qt
+ecbuild_info("TESTING for Metview and Qt ...")
 
 if(HAVE_METVIEW AND HAVE_METVIEW_NO_QT)
-    message(FATAL_ERROR "Do not set both HAVE_METVIEW and HAVE_METVIEW_NO_QT - only set one. You may have to remove your CMakeCache.txt to clear these settings.")
+    ecbuild_critical("Do not set both HAVE_METVIEW and HAVE_METVIEW_NO_QT - only set one. You may have to remove your CMakeCache.txt to clear these settings.")
 endif()
 
 set( qt no )
@@ -164,20 +175,20 @@ endif()
 
 if( HAVE_METVIEW )
     set ( metview yes)
-    message(STATUS "TESTING for Metview ...")
+    ecbuild_info("TESTING for Metview ...")
     unset(MAGICS_ONLY)
 
     if( HAVE_QT5 )
       find_package(Qt5Widgets REQUIRED)
       if( Qt5Widgets_FOUND )
-          message(STATUS "Qt5 was found ... ${Qt5Widgets_VERSION_STRING}")
+          ecbuild_info("Qt5 was found ... ${Qt5Widgets_VERSION_STRING}")
           include_directories(${Qt5Widgets_INCLUDE_DIRS})
           set( MAGICS_QT 1)
           set( MAGICS_QT5 1)
           set( qt yes)
           add_definitions( -DMAGICS_QT5 )
       else()
-          message(FATAL_ERROR "Qt5 was NOT found ...")
+          ecbuild_critical("Qt5 was NOT found ...")
       endif()
     else()
     find_package(Qt4 4.4.3 REQUIRED QtCore QtGui QtXml )

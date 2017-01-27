@@ -510,70 +510,70 @@ MAGICS_NO_EXPORT void BinaryDriver::renderSimplePolygon(const int n, MFloat* x, 
 */
 MAGICS_NO_EXPORT void BinaryDriver::renderText(const Text& text) const
 {
-        if(text.empty()) return;
-        const vector<NiceText>& niceT = text.getNiceText();
-        if(niceT.empty()) return;
-        vector<NiceText>::const_iterator niceText = text.textBegin();
+    if(text.empty()) return;
+    const vector<NiceText>& niceT = text.getNiceText();
+    if(niceT.empty()) return;
+    vector<NiceText>::const_iterator niceText = text.textBegin();
 
-        char c = 'T';
-        out_.write(&c, 1);
-	
-	const int s = text.size();
-	out_.write((char *)(&s),sizeof(int));
+    char c = 'T';
+    out_.write(&c, 1);
 
-	MagFont magfont = (*niceText).font();
-	const Colour& colour = magfont.colour();
-	const MFloat r=colour.red();
-	const MFloat g=colour.green();
-	const MFloat b=colour.blue();
-	out_.write((char *)(&r), sizeof(MFloat));
-	out_.write((char *)(&g), sizeof(MFloat));
-	out_.write((char *)(&b), sizeof(MFloat));
+    const int s = text.size();
+    out_.write((char *)(&s),sizeof(int));
 
-	const MFloat an = text.getAngle();
-	out_.write((char *)(&an),sizeof(MFloat));
+    MagFont magfont = (*niceText).font();
+    const Colour& colour = magfont.colour();
+    const MFloat r=colour.red();
+    const MFloat g=colour.green();
+    const MFloat b=colour.blue();
+    out_.write((char *)(&r), sizeof(MFloat));
+    out_.write((char *)(&g), sizeof(MFloat));
+    out_.write((char *)(&b), sizeof(MFloat));
 
-        bool bl = text.getBlanking();
-        out_.write((char *)(&bl),sizeof(bool));
+    const MFloat an = text.getAngle();
+    out_.write((char *)(&an),sizeof(MFloat));
 
-        const enum Justification horizontal = text.getJustification();
-        const enum VerticalAlign vertical   = text.getVerticalAlign();
-        out_.write((char *)(&horizontal),sizeof(enum Justification));
-        out_.write((char *)(&vertical),  sizeof(enum VerticalAlign));
+    bool bl = text.getBlanking();
+    out_.write((char *)(&bl),sizeof(bool));
 
-	const int noNT = niceT.size();
-	out_.write((char *)(&noNT),sizeof(int));
+    const enum Justification horizontal = text.getJustification();
+    const enum VerticalAlign vertical   = text.getVerticalAlign();
+    out_.write((char *)(&horizontal),sizeof(enum Justification));
+    out_.write((char *)(&vertical),  sizeof(enum VerticalAlign));
 
-	for(int ntc=0;ntc<noNT;ntc++)
-	{
-	  MagFont magfont = niceT[ntc].font();
-	  Colour colour = magfont.colour();
-	  const MFloat r=colour.red();
-	  const MFloat g=colour.green();
-	  const MFloat b=colour.blue();
-	  out_.write((char *)(&r), sizeof(MFloat));
-	  out_.write((char *)(&g), sizeof(MFloat));
-	  out_.write((char *)(&b), sizeof(MFloat));
+    const int noNT = niceT.size();
+    out_.write((char *)(&noNT),sizeof(int));
 
-	    const MFloat sf = magfont.size();
-	    out_.write((char *)(&sf),sizeof(MFloat));
+    for(int ntc=0;ntc<noNT;ntc++)
+    {
+      MagFont magfont = niceT[ntc].font();
+      Colour colour = magfont.colour();
+      const MFloat r=colour.red();
+      const MFloat g=colour.green();
+      const MFloat b=colour.blue();
+      out_.write((char *)(&r), sizeof(MFloat));
+      out_.write((char *)(&g), sizeof(MFloat));
+      out_.write((char *)(&b), sizeof(MFloat));
 
-            const string t=niceT[ntc].text();
-            const int len = t.length();
-            out_.write((char *)(&len),sizeof(int));
+      const MFloat sf = magfont.size();
+      out_.write((char *)(&sf),sizeof(MFloat));
 
-            char pp[len];
-            strcpy(pp, t.c_str());
-            out_.write(pp,sizeof(char)*len);
-        }
+      const string t=niceT[ntc].text();
+      const int len = t.length();
+      out_.write((char *)(&len),sizeof(int));
 
-        for(int g=0;g<s;g++)
-        {
-	    const MFloat x = text[g].x();
-	    const MFloat y = text[g].y();
-	    out_.write((char *)(&x),sizeof(MFloat));
-	    out_.write((char *)(&y),sizeof(MFloat));
-        }
+      char pp[len];
+      strcpy(pp, t.c_str());
+      out_.write(pp,sizeof(char)*len);
+    }
+
+    for(int g=0;g<s;g++)
+    {
+        const MFloat x = text[g].x();
+        const MFloat y = text[g].y();
+        out_.write((char *)(&x),sizeof(MFloat));
+        out_.write((char *)(&y),sizeof(MFloat));
+    }
 }
 
 /*!

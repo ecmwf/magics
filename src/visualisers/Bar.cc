@@ -61,20 +61,36 @@ void  Bar::visit(Transformation& transformation, Data&)
 		transformation.needTopAxis(true);
 }
 
+
+
+
 void Bar::operator()(Data& data, BasicGraphicsObjectContainer& out)
 {
 	vector<double> xpos;
-	
 	vector<double> ypos;
     
-    const Transformation& transformation= out.transformation();
-    double y = transformation.getMinY() + (transformation.getMaxY()-transformation.getMinY())*0.2;
-
+    
 	CustomisedPointsList points; 
 	std::set<string> request;
 	request.insert("bar");
-
 	data.customisedPoints(out.transformation(), request, points, true);
+
+	if ( magCompare(orientation_, "horizontal") )
+		horizontal(points, out); 
+	else 
+		vertical(points, out);
+
+
+}
+
+
+void Bar::vertical(CustomisedPointsList& points, BasicGraphicsObjectContainer& out) 
+{
+	const Transformation& transformation= out.transformation();
+    double y = transformation.getMinY() + (transformation.getMaxY()-transformation.getMinY())*0.2;
+
+
+	
 	if (points.empty()) return;
 	double previous =  (**points.begin())["x"];
 	double next =  (**points.begin())["x"];
@@ -106,12 +122,9 @@ void Bar::operator()(Data& data, BasicGraphicsObjectContainer& out)
 		else {
 			MagLog::warning() << "Coud not find the method " << bar_style_ << " to plot the bar\n"
 					<< "      Revert to default : bar " << endl;
-			fullbar(x, top, bottom, out);
+			fullbar_x(x, top, bottom, out);
 		}
 		
-
-		
-
 		PaperPoint xy(transformation.x(x), y);
 		if ( annotation != annotation_.end() && transformation.in(xy) ) {
 			Text* annot = new Text();
@@ -128,12 +141,121 @@ void Bar::operator()(Data& data, BasicGraphicsObjectContainer& out)
 		
 
 	}
+}
+
+void Bar::horizontal(CustomisedPointsList& points, BasicGraphicsObjectContainer& out) 
+{
+	const Transformation& transformation= out.transformation();
+    double x = transformation.getMinX() + (transformation.getMaxX()-transformation.getMinX())*0.2;
 
 
+	
+	if (points.empty()) return;
+	double previous =  (**points.begin())["y"];
+	double next =  (**points.begin())["y"];
+	double y, top, bottom, left, right;
+	
+	if (width_ == INT_MAX) {
+		if ( points.size() > 1 ) 
+			width_ = abs((*points[0])["y"] - (*points[1])["y"])*0.8;
+		else 
+			width_ = abs((*points[0])["y"] - (*points[1])["y"]);
+			 
+	}
+	
+	vector<string>::iterator annotation = annotation_.begin();
+	
+	for (CustomisedPointsList::const_iterator point = points.begin(); point != points.end(); ++point)
+	{
+		
+		y = (**point)["y"];
+		next = ((point+1) != points.end() ) ? (**(point+1))["y"] : x;
+		left = (min_value_ == INT_MAX) ? (**point)["x_lower"]: min_value_;
+	    right = (**point)["x_upper"];
+		
+		map<string,  Renderer>::iterator renderer = renderers_.find(lowerCase(bar_style_) );
+
+		if ( renderer != renderers_.end() ) {
+			(this->*renderer->second)(y, right, left, out);
+		}
+		else {
+			MagLog::warning() << "Coud not find the method " << bar_style_ << " to plot the bar\n"
+					<< "      Revert to default : bar " << endl;
+			fullbar_y(y, right, left, out);
+		}
+		
+		PaperPoint xy(transformation.x(x), y);
+		if ( annotation != annotation_.end() && transformation.in(xy) ) {
+			Text* annot = new Text();
+			MagFont font;
+			font.colour(*annotation_colour_);
+			font.size(annotation_size_);
+			annot->setFont(font);
+			annot->setText(*annotation);
+			annot->setVerticalAlign(MBOTTOM);
+			annot->push_back(xy);
+			texts_.push_back(annot);
+			annotation++;
+		}
+		
+
+	}
+}
+
+void Bar::fullbar(double x, double a, double b, BasicGraphicsObjectContainer& out) 
+{
+	if ( magCompare(orientation_, "horizontal") )
+		fullbar_y(x, a, b, out); 
+	else 
+		fullbar_x(x, a, b, out); 
+}
+
+void Bar::linebar(double x, double a, double b, BasicGraphicsObjectContainer& out) 
+{
+	if ( magCompare(orientation_, "horizontal") )
+		linebar_y(x, a, b, out); 
+	else 
+		linebar_x(x, a, b, out); 
+}
+
+void Bar::fullbar_y(double y, double left, double right, BasicGraphicsObjectContainer& out)
+{
+	const Transformation& transformation= out.transformation();
+	double bottom = y - width_/2;
+	double top = y + width_/2;
+	if ( justification_ == MLEFT ) {
+		top = y-width_;
+		bottom = y;
+	}
+	if ( justification_ == MRIGHT ) {
+			top = y;
+			bottom = y+width_;
+	}
+
+
+	Polyline* box  = new Polyline();
+	box->setColour(*line_colour_);
+
+	box->setThickness(thickness_);
+	box->setLineStyle(style_);
+
+	box->push_back(transformation(UserPoint(left, bottom)));
+	box->push_back(transformation(UserPoint(left, top)));
+	box->push_back(transformation(UserPoint(right, top)));
+	box->push_back(transformation(UserPoint(right, bottom)));
+	box->push_back(transformation(UserPoint(left, bottom)));
+
+	(*shade_)(*box);
+	if (clipping_) {
+		transformation(*box, out);
+	}
+	else
+		out.push_back(box);
 
 }
 
-void Bar::fullbar(double x, double top, double bottom, BasicGraphicsObjectContainer& out)
+
+void Bar::fullbar_x(double x, double top, double bottom, BasicGraphicsObjectContainer& out)
 {
 	const Transformation& transformation= out.transformation();
 	double left = x - width_/2;
@@ -169,7 +291,7 @@ void Bar::fullbar(double x, double top, double bottom, BasicGraphicsObjectContai
 
 }
 
-void Bar::linebar(double x, double top, double bottom, BasicGraphicsObjectContainer& out)
+void Bar::linebar_x(double x, double top, double bottom, BasicGraphicsObjectContainer& out)
 {
 	const Transformation& transformation= out.transformation();
 	double left = x - width_/2;
@@ -181,6 +303,39 @@ void Bar::linebar(double x, double top, double bottom, BasicGraphicsObjectContai
 	line->setLineStyle(style_);
 	line->push_back(transformation(UserPoint(x, bottom)));
 	line->push_back(transformation(UserPoint(x, top)));
+
+
+	Polyline* topline = new Polyline();
+	topline->setColour(*line_colour_);
+	topline->setThickness(thickness_);
+	topline->setLineStyle(style_);
+	topline->push_back(transformation(UserPoint(left, top)));
+	topline->push_back(transformation(UserPoint(right, top)));
+
+	Polyline* bottomline = new Polyline();
+	bottomline->setColour(*line_colour_);
+	bottomline->setThickness(thickness_);
+	bottomline->setLineStyle(style_);
+	bottomline->push_back(transformation(UserPoint(left, bottom)));
+	bottomline->push_back(transformation(UserPoint(right, bottom)));
+
+	transformation(*line, out);
+	transformation(*topline, out);
+	transformation(*bottomline, out);
+}
+
+void Bar::linebar_y(double y, double left, double right, BasicGraphicsObjectContainer& out)
+{
+	const Transformation& transformation= out.transformation();
+	double bottom = y - width_/2;
+	double top = y + width_/2;
+
+	Polyline* line  = new Polyline();
+	line->setColour(*line_colour_);
+	line->setThickness(thickness_);
+	line->setLineStyle(style_);
+	line->push_back(transformation(UserPoint(left, y)));
+	line->push_back(transformation(UserPoint(right, y)));
 
 
 	Polyline* topline = new Polyline();

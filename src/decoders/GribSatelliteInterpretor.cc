@@ -235,7 +235,7 @@ GribSatelliteInterpretor::~GribSatelliteInterpretor()
     Correct the information provided in the headers of certain satellite imagery that
     we have available. This is a very specific function.
 */
-void GribSatelliteInterpretor::AdjustBadlyEncodedGribs(int satId, int chanId, long &nx, long &ny, long &dx, long &dy, double &xp, double &yp, double &slon, long &functionCode) const
+void GribSatelliteInterpretor::AdjustBadlyEncodedGribs(int satId, int chanId, long &nx, long &ny, long &dx, long &dy, long &xp, long &yp, double &slon, long &functionCode) const
 {
     if (satId == 172 && slon == 140.0) // MTSAT-2, pre-2015 data
     {
@@ -281,18 +281,24 @@ void GribSatelliteInterpretor::interpretAsMatrix(const GribDecoder& grib, Matrix
     MagLog::dev() << "GribRegularInterpretor::interpretAsMatrix" << "\n";
 
     double altitude = grib.getDouble("NrInRadiusOfEarth");
-    if ( !altitude ) altitude =  6610839.;
+    if ( !altitude )
+        altitude =  6610839.;
+
+    // GRIB edition 1 needs to be divided by 10^6, GRIB 2 is already in the right units
+    long edition = grib.getLong("edition");
+    if (edition == 1)
         altitude *= 0.000001;
+
     long   nx   = grib.getLong("numberOfPointsAlongXAxis");
     long   ny   = grib.getLong("numberOfPointsAlongYAxis");
     long   dx   = grib.getLong("dx");
     long   dy   = grib.getLong("dy");
-    double offx = grib.getDouble("xCoordinateOfOriginOfSectorImage");
-    double offy = grib.getDouble("yCoordinateOfOriginOfSectorImage");
+    //double offx = grib.getDouble("xCoordinateOfOriginOfSectorImage");
+    //double offy = grib.getDouble("yCoordinateOfOriginOfSectorImage");
     double prj  = 2*asin(1/altitude)/dx;
     double pri  = 2*asin(1/altitude)/dy;
-    double pjs  = grib.getDouble("XpInGridLengths");
-    double pis  = grib.getDouble("YpInGridLengths");
+    long   xp   = grib.getLong("XpInGridLengths");
+    long   yp   = grib.getLong("YpInGridLengths");
 
 
     double lao  = grib.getDouble("latitudeOfSubSatellitePointInDegrees") *TeCDR;
@@ -302,7 +308,7 @@ void GribSatelliteInterpretor::interpretAsMatrix(const GribDecoder& grib, Matrix
     long   functionCode = grib.getLong("functionCode");
 
     // correct bad GRIB headers that we know exist
-    AdjustBadlyEncodedGribs(sat, chan, nx, ny, dx, dy, pjs, pis, slon, functionCode);
+    AdjustBadlyEncodedGribs(sat, chan, nx, ny, dx, dy, xp, yp, slon, functionCode);
 
     double lono = slon*TeCDR;
     double prs  = altitude * TeEARTHRADIUS;
@@ -391,21 +397,15 @@ void GribSatelliteInterpretor::interpretAsMatrix(const GribDecoder& grib, Matrix
 
 
 
-    // coff, loff, cfac and lfac are 'normalised' on the NONHRV resolution of MSG images
-    double coff, loff, cfac, lfac;
-    double scale = (double)ny / (double)3711;
-
-
-    coff = COFF_NONHRV * scale;
-    loff = LOFF_NONHRV * scale;
+    double coff = xp;
+    double loff = yp;
 
     double rx = 2 * asin(1.0/altitude) / dx;
-    cfac = (-65536.0 / (rx));
-    lfac = cfac;
+    double cfac = (-65536.0 / (rx));
+    double lfac = cfac;
 
 
     int k = 0;
-
     for (int j=0;j < nblat;j++) {
         for (int i=0;i < nblon;i++) {
             double val;
@@ -420,7 +420,7 @@ void GribSatelliteInterpretor::interpretAsMatrix(const GribDecoder& grib, Matrix
                             -lono,  // sub-satellite longitude in radians; unclear why we have to negate it
                             &srcCol, &srcRow);
 
-            if (srcCol == -999 || srcRow == -999)
+            if (srcCol < 0 || srcCol >= nx ||  srcRow < 0 || srcRow >= ny)
                 val = 65535;
             else
                 val = raster[srcRow*nx + srcCol];
@@ -428,7 +428,6 @@ void GribSatelliteInterpretor::interpretAsMatrix(const GribDecoder& grib, Matrix
             (**matrix)[k++] = val;
         }
     }
-
 
     (*matrix)->missing(missingValue);
 
