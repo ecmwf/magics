@@ -29,6 +29,8 @@ BoxPlotVisualiser.cc
 BoxPlotVisualiser.h
 CalculateColourTechnique.cc
 CalculateColourTechnique.h
+GradientsColourTechnique.cc
+GradientsColourTechnique.h
 CalcStreamlines.cc  
 CalcStreamlines.h
 CalmIndicator.h
