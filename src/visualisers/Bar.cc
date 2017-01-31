@@ -368,7 +368,7 @@ void Bar::visit(LegendVisitor& legend)
 		curve->setFilled(true);
 		shade_->legend(*curve);
 		LegendEntry * entry = new BoxEntry(legend_text_, curve);
-		entry->userText(legend_text_);
+		entry->userText(legend_text_, "user");
 		legend.add(entry);
 	}
 	else if ( magCompare(bar_style_, "linebar") ) {
@@ -379,7 +379,7 @@ void Bar::visit(LegendVisitor& legend)
 		curve->setFilled(true);
 		shade_->legend(*curve);
 		LegendEntry * entry = new LineEntry(legend_text_, curve);
-		entry->userText(legend_text_);
+		entry->userText(legend_text_, "user");
 		legend.add(entry);
 	}
 }

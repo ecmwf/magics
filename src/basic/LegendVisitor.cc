@@ -216,10 +216,10 @@ void LegendVisitor::build()
 
 	if ( !empty() ) {
 		if ( use_min_ ) {
-			front()->userText(use_min_text_);
+			front()->userText(use_min_text_, "user");
 		}
 		if ( use_max_ ) {
-			back()->userText(use_max_text_);
+			back()->userText(use_max_text_, "user");
 		}
 	
 		back()->units(units_text_);
@@ -262,7 +262,7 @@ void LegendVisitor::build()
 						if (label == lines_.end()) --label;
 					}
 		}
-
+		(**entry).userText(text, composition_);
 		legend->setFont(font);
 		legend->setText(text);
 		legend->setAngle((orientation_/180.)*3.14);
@@ -781,13 +781,14 @@ void BoxEntry::rowBox(const PaperPoint& point, BasicGraphicsObjectContainer& leg
 		from->setVerticalAlign(MBOTTOM);
 		from->setAngle(angle_);
 		legend.push_back(from);
-		if ( userText_.empty()  || last_) {
+		if ( automatic_ ) {
 			ostringstream bottom;
 			bottom << MagicsFormat(format_, from_);
 			from->addText(bottom.str(), font_);
 		}
-		else
-			from->addText(userText_, font_);
+		else 
+			if ( !last_ ) 
+				from->addText(userText_, font_);
 	}
 	if ( last_ ) {		
 		Text* to = new Text();
@@ -795,7 +796,7 @@ void BoxEntry::rowBox(const PaperPoint& point, BasicGraphicsObjectContainer& leg
 		to->setVerticalAlign(MBOTTOM);
 		to->push_back(PaperPoint(x+width, y - height- 0.25));
 		legend.push_back(to);
-		if ( userText_.empty()  ) {
+		if ( automatic_  ) {
 			ostringstream top, bottom;
 			top << MagicsFormat(format_, to_);
 			to->addText(top.str(), font_);
@@ -805,13 +806,27 @@ void BoxEntry::rowBox(const PaperPoint& point, BasicGraphicsObjectContainer& leg
 	}
 
 
+	Polyline* top = new Polyline();
+	top->push_back(PaperPoint(x-width, y+(height*2)));
+	top->push_back(PaperPoint(x+width, y+(height*2)));
+	top->setColour(borderColour_);
+	top->setThickness(2);
+	
+	Polyline* bottom = new Polyline();
+	bottom->push_back(PaperPoint(x-width, y-height));
+	bottom->push_back(PaperPoint(x+width, y-height));
+	bottom->setColour(borderColour_);
+	bottom->setThickness(2);
+	
 	box_->push_back(PaperPoint(x-width, y-height));
 	box_->push_back(PaperPoint(x-width, y+height+height));
 	box_->push_back(PaperPoint(x+width, y+height+height));
 	box_->push_back(PaperPoint(x+width, y-height));
 	box_->push_back(PaperPoint(x-width, y-height));
+	
 	// Small check 
 	Colour colour = ( borderColour_.automatic() ) ? box_->getFillColour() : borderColour_;
+
 
 	if ( box_->getFillColour() == Colour("none") ) {
 		box_->setFilled(false);
@@ -821,6 +836,27 @@ void BoxEntry::rowBox(const PaperPoint& point, BasicGraphicsObjectContainer& leg
 
 
 	legend.push_back(box_);
+	legend.push_back(top);
+	legend.push_back(bottom);
+
+	if ( last_ ) {
+		Polyline* right = new Polyline();
+		right->push_back(PaperPoint(x+width, y-height));
+		right->push_back(PaperPoint(x+width, y+(height*2)));
+		right->setColour(borderColour_);
+		right->setThickness(2);
+		legend.push_back(right);
+	}
+
+	if ( first_ ) {
+		Polyline* left = new Polyline();
+		left->push_back(PaperPoint(x-width, y-height));
+		left->push_back(PaperPoint(x-width, y+(height*2)));
+		left->setColour(borderColour_);
+		left->setThickness(2);
+		legend.push_back(left);
+	}
+	
 }
 
 void BoxEntry::rowHisto(const PaperPoint& point, BasicGraphicsObjectContainer& legend, const Colour& colour)

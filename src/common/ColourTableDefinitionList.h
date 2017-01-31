@@ -30,6 +30,8 @@
 
 namespace magics {
 
+class LevelSelection;
+
 class ColourTableDefinitionList: public ColourTableDefinition {
 
 public:

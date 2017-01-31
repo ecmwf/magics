@@ -203,7 +203,7 @@ void DumpShading::operator()( IsoPlot*,MatrixHandler& data, BasicGraphicsObjectC
 	parent.push_back(image);
 }
 
-bool CellShading::prepare(const LevelSelection& levels, const ColourTechnique& technique)
+bool CellShading::prepare(LevelSelection& levels, const ColourTechnique& technique)
 {
 	// First Interval ...
 	map_.clear();
