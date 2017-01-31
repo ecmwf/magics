@@ -85,7 +85,7 @@ int PolyShadingMethod::leftIndex(double value)
 	return  ( index == -1 ) ? - 1 : index -1;
 
 }
-void PolyShadingMethod::prepare(const LevelSelection& levels, const ColourTechnique& colours)
+void PolyShadingMethod::prepare(LevelSelection& levels, const ColourTechnique& colours)
 {
 
 	if (levels.empty() )return;
@@ -116,7 +116,7 @@ void PolyShadingMethod::prepare(const LevelSelection& levels, const ColourTechni
 
 
 
-void DotPolyShadingMethod::prepare(const LevelSelection& levels, const ColourTechnique& colours)
+void DotPolyShadingMethod::prepare(LevelSelection& levels, const ColourTechnique& colours)
 {
 	if (levels.empty() )return;
 
@@ -167,7 +167,7 @@ void  DotPolyShadingMethod::operator()(Polyline& poly) const {
 
 
 
-void HatchPolyShadingMethod::prepare(const LevelSelection& levels, const ColourTechnique& colours) {
+void HatchPolyShadingMethod::prepare(LevelSelection& levels, const ColourTechnique& colours) {
    	int index = 1;
    	if (index_ >= 7 || index_ <0) {
    		MagLog::warning() << "index should be < 7--> reset to 1 "<< endl;

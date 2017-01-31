@@ -13,7 +13,7 @@ def substitute(default, user):
 
 
 
-def geoplot(data, contour=None, output=None, background=None, foreground=None, area=None, legend = None):
+def geoplot(data, contour=None, output=None, background=None, foreground=None, area=None, legend = None, title = []):
 
 
     default = {
@@ -43,7 +43,8 @@ def geoplot(data, contour=None, output=None, background=None, foreground=None, a
 
     contour = macro.mcont( substitute(default["contour"], contour) )
     #Define the title
-    title = macro.mtext(
+    text = macro.mtext(
+                  text_lines = title, 
                   text_font_size = 0.8,
                   text_justification = "left"
                 )

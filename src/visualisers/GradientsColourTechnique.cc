@@ -34,9 +34,53 @@ GradientsColourTechnique::~GradientsColourTechnique()
 {
 }
 
-void GradientsColourTechnique::set(ColourTable& table, int nb) const
+void GradientsColourTechnique::set(LevelSelection& out, LevelSelection& in, ColourTable& table, int nb) const
 {
+	ColourTableDefinitionCompute helper;
+	vector<string>::const_iterator col = colours_.begin();
+	vector<double>::const_iterator val = values_.begin();
+	vector<int>::const_iterator step = steps_.begin();
+	vector<string>::const_iterator technique = techniques_.begin();
 	
+	string left = *col;
+	++col;
+	double from = *val;
+	++val;
+	out.clear();
+	in.clear();
+	
+	while ( col != colours_.end() ) {
+		string right = *col;
+		double to = *val;
+
+		ColourTableDefinitionCompute helper(left, right, *technique);
+		helper.set(table, (*step)+1);
+		double increment = ((to-from)/(*step) );
+		for (int i = 0; i < *step; i++) {
+			in.push_back(from + (i*increment));
+			out.push_back(from + (i*increment));
+		}
+		left = right;
+		from = to;
+		++col;
+		++step;
+		++val;
+		++technique;
+		if ( step == steps_.end() )
+			--step;
+		if ( technique == techniques_.end() )
+			--technique;
+
+	}
+	// add the last entry ! 
+	in.push_back(from);
+	out.push_back(from);
+
+	cout << table << endl;
+	// now we compute the new levels list :
+
+
+
 }
 
 /*!

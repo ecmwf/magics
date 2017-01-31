@@ -58,7 +58,7 @@ void SimplePolylineVisualiser::basic(Data& data, BasicGraphicsObjectContainer& p
    
    if (shade_) {
       colourMethod_->set(*this);
-      colourMethod_->prepare(*levelSelection_);
+      colourMethod_->prepare(*levelSelection_, *levelSelection_);
    }
    const Transformation& transformation = parent.transformation();
    
