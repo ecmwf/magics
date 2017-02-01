@@ -28,7 +28,6 @@ project( magics CXX )
 # note that this needs to be done before ecbuild_declare_project()
 # to ensure that the ecbuild header files are also put there
 # note also that we need to CACHE this so that ecbuild_declare_project() does not overwrite it
-set(MAGICS_INSTALL_INCLUDE_DIR include/magics CACHE PATH "Magics installation directory for header files")
 set(INSTALL_INCLUDE_DIR include/magics CACHE PATH "Magics installation directory for header files")
 
 set( CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/../ecbuild/cmake")
@@ -47,11 +46,10 @@ set(ECCODES_FAIL_MSG "Note: grib_api can be used instead (select with -DENABLE_E
                       "See https://software.ecmwf.int/wiki/display/ECC/ecCodes+Home\n"
                       )
 
-
 ecbuild_add_option( FEATURE ECCODES DESCRIPTION "Use eccodes instead of grib_api"
                     REQUIRED_PACKAGES "PROJECT eccodes VERSION 0.14 REQUIRED FAILURE_MSG ECCODES_FAIL_MSG"
                     DEFAULT ON )
- 
+
 if( HAVE_ECCODES)
   set( GRIB_API_INCLUDE_DIRS ${ECCODES_INCLUDE_DIRS} )
   set( GRIB_API_LIBRARIES    ${ECCODES_LIBRARIES} )
@@ -206,7 +204,7 @@ ecbuild_declare_project()
 # find extra packages
 
 set( CMAKE_THREAD_PREFER_PTHREAD 1 )
-find_package( Threads ) 
+find_package( Threads )
 
 # set(Boost_USE_STATIC_LIBS        ON)
 # set(Boost_NO_SYSTEM_PATHS        ON)
@@ -222,13 +220,13 @@ find_package( EXPAT REQUIRED )
 
 set( MAGICS_TPLS grib_api spot EXPAT NetCDF PNG Proj4 libemos )
 
-set( MAGICS_INCLUDE_DIRS 
-     ${CMAKE_CURRENT_SOURCE_DIR}/src 
-     ${CMAKE_BINARY_SOURCE_DIR}/src 
-     ${CMAKE_CURRENT_SOURCE_DIR}/src/common 
-     ${CMAKE_CURRENT_BINARY_DIR}/src/params 
-     ${CMAKE_CURRENT_BINARY_DIR}/src 
-     ${CMAKE_CURRENT_SOURCE_DIR}/src/common  
+set( MAGICS_INCLUDE_DIRS
+     ${CMAKE_CURRENT_SOURCE_DIR}/src
+     ${CMAKE_BINARY_SOURCE_DIR}/src
+     ${CMAKE_CURRENT_SOURCE_DIR}/src/common
+     ${CMAKE_CURRENT_BINARY_DIR}/src/params
+     ${CMAKE_CURRENT_BINARY_DIR}/src
+     ${CMAKE_CURRENT_SOURCE_DIR}/src/common
      ${CMAKE_CURRENT_SOURCE_DIR}/src/basic
      ${CMAKE_CURRENT_SOURCE_DIR}/src/web
      ${CMAKE_CURRENT_SOURCE_DIR}/src/visualisers
@@ -310,7 +308,7 @@ add_subdirectory( src )
 # shared files
 add_subdirectory( share )
 
-# python interface 
+# python interface
 add_subdirectory( python )
 
 # apps directory
@@ -325,18 +323,18 @@ endif()
 # Directories not need in the distribution tar ball!
 ecbuild_add_resources( TARGET old_src DONT_PACK_DIRS src/MvObs src/libTable src/xml src/terralib/functions)
 ecbuild_add_resources( TARGET bamboo DONT_PACK_DIRS bamboo)
-ecbuild_add_resources( TARGET old_ressources 
-		DONT_PACK_DIRS tools/versioncmp 
-		tools/regression 
+ecbuild_add_resources( TARGET old_ressources
+		DONT_PACK_DIRS tools/versioncmp
+		tools/regression
 		regression
 		docs
 		toolsjs
 		test/old
-		tools/xml 
+		tools/xml
 		tools/use_scripts
 		tools/versioncmp_folders)
 
-ecbuild_add_resources( TARGET internal 
+ecbuild_add_resources( TARGET internal
 		DONT_PACK configure.lxab
 		configure.local
 		configure.ecgb
