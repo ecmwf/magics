@@ -9,7 +9,7 @@
 # importing Magics module
 from Magics.macro import *
 
-ref = 'gradients'
+ref = 'gradients2'
 
 # Setting of the output file name
 
@@ -45,17 +45,21 @@ list = mcont(contour_highlight='off',
             contour_shade                  = 'on',
             contour_level_count            = 5,
             contour_shade_colour_method    = 'gradients',
-            contour_gradients_colour_list = [  "blue", "white", "red"],
-            contour_gradients_value_list = [-50.,  0, 50.],
-            contour_gradients_step_list = [50,],
-            contour_gradients_technique_list = ["linear"],
+            contour_gradients_colour_list = [  "RGB(0.031,0.188,0.420", "RGB(0.031,0.318,0.612", "RGB(0.976,0.984,0.992)",
+                                "RGB(1.000,0.969,0.925)","RGB(0.702,0.000,0.000)", "RGB(0.498,0.000,0.000)", ],
+
+            #contour_gradients_colour_list = ["red", "blue", "green",
+            #            "yellow", "red", "green", ],
+            contour_gradients_value_list = [-50., -25, -5, +5, 25, 50.],
+            contour_gradients_step_list = [5,],
+            contour_gradients_technique_list = ["hsl_shortest"],
             contour_shade_method           = 'area_fill',
             legend                         = 'on',)
 
 legend = mlegend(legend = "on",
          legend_text_colour="black",
          legend_box_mode= "automatic",
-         #legend_automatic_position= "right",
+         legend_automatic_position= "right",
          legend_display_type = "continuous",
          legend_title = "on",
          legend_entry_border = 'off',
@@ -75,7 +79,7 @@ title = mtext(
 # To the plot
 plot(
     output,
-    #projection,
+    projection,
     data, list, coast,
     title, legend,
     )
