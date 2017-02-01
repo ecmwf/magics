@@ -1044,13 +1044,14 @@ void BoxEntry::columnBox(const PaperPoint& point, BasicGraphicsObjectContainer& 
 		Text* from = new Text();
 		from->setJustification(MLEFT);
 		from->setVerticalAlign(MHALF);
-		if ( userText_.empty()  || last_) {
+		if ( automatic_ ) {
 			ostringstream bottom;
 			bottom << MagicsFormat(format_, from_);
 			from->addText(bottom.str(), font_);
 		}
-		else
-			from->addText(userText_, font_);
+		else 
+			if ( !last_ ) 
+				from->addText(userText_, font_);
 		PaperPoint pfrom(pt);
 		pfrom.y_ = y - height;
 		from->push_back(pfrom);
@@ -1062,7 +1063,7 @@ void BoxEntry::columnBox(const PaperPoint& point, BasicGraphicsObjectContainer& 
 		to->setVerticalAlign(MHALF);
 		to->setJustification(MLEFT);
 		to->setAngle(angle_);
-		if ( userText_.empty()  ) {
+		if ( automatic_  ) {
 			ostringstream top, bottom;
 			top << MagicsFormat(format_, to_);
 			to->addText(top.str(), font_);
@@ -1085,7 +1086,40 @@ void BoxEntry::columnBox(const PaperPoint& point, BasicGraphicsObjectContainer& 
 	}
 	box_->setColour(colour);
 	legend.push_back(box_);
+
+	Polyline* left = new Polyline();
+	left->push_back(PaperPoint(x-width, y-(height)));
+	left->push_back(PaperPoint(x-width, y+(height)));
+	left->setColour(borderColour_);
+	left->setThickness(2);
+	
+	Polyline* right = new Polyline();
+	right->push_back(PaperPoint(x+width, y-height));
+	right->push_back(PaperPoint(x+width, y+(height)));
+	right->setColour(borderColour_);
+	right->setThickness(2);
+	
+	legend.push_back(left);
+	legend.push_back(right);
+	
+	if ( last_ ) {
+		Polyline* top = new Polyline();
+		top->push_back(PaperPoint(x-width, y+(height)));
+		top->push_back(PaperPoint(x+width, y+(height)));
+		top->setColour(borderColour_);
+		top->setThickness(2);
+		legend.push_back(top);
+	}
+	if ( first_ ) {
+		Polyline* bottom = new Polyline();
+		bottom->push_back(PaperPoint(x-width, y-height));
+		bottom->push_back(PaperPoint(x+width, y-height));
+		bottom->setColour(borderColour_);
+		bottom->setThickness(2);
+		legend.push_back(bottom);
+	}
 }
+
 void BoxEntry::columnHisto(const PaperPoint& point, BasicGraphicsObjectContainer& legend, const Colour& colour)
 {
 

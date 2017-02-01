@@ -52,6 +52,8 @@ public:
 
     void hsl(ColourTable&, int);
     void linear(ColourTable&, int);
+    void hsl_shortest(ColourTable&, int);
+    void hsl_longest(ColourTable&, int);
 
 protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).

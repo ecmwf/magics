@@ -30,6 +30,7 @@ add_magics_test(NAME gallery_contour7 SOURCES contour7.py IMAGE contour7.png DAT
 add_magics_test(NAME gallery_contour8 SOURCES contour8.py IMAGE contour8.png DATA Total_precipitation.grib THRESHOLD 5 PYTHON)
 add_magics_test(NAME gallery_contour9 SOURCES contour9.py IMAGE contour9.png DATA 2m_temperature.grib THRESHOLD 5 PYTHON)
 add_magics_test(NAME gallery_gradients SOURCES gradients.py IMAGE gradients.png DATA t850.grb THRESHOLD 5 PYTHON)
+add_magics_test(NAME gallery_gradients2 SOURCES gradients2.py IMAGE gradients2.png DATA t850.grb THRESHOLD 5 PYTHON)
 
 add_magics_test(NAME gallery_epsboxplot SOURCES epsboxplot.py IMAGE epsboxplot.png RESOURCES cloud_box.json THRESHOLD 5 PYTHON)
 
