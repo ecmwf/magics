@@ -106,7 +106,7 @@ void SymbolAdvancedTableMode::adjust(double min, double max)
 	}
 	colourMethod_->set(*this);
 	height_method_->set(*this);
-	colourMethod_->prepare(*levels_);
+	colourMethod_->prepare(*levels_, *levels_);
 	height_method_->prepare(*levels_);
 	
 	if ( markers_.empty() ) {

@@ -888,6 +888,32 @@ void Proj4Projection::reprojectComponents(double& x, double& y, pair<double, dou
 	components.second = speed * sin(rotation);
 }
 
+void myprint(double x, double y, bool next = false) 
+{
+	cout << "[" << x << ", " << y << "]";
+	if ( next )
+		cout << "--->";
+	else 
+		cout << endl;
+}
+
+void Proj4Projection::reprojectSpeedDirection(const PaperPoint& point, pair<double, double>& wind) const
+{
+	double x = point.x_;
+	double y =  point.y_;
+
+	double u = x + (  sin( wind.second*DEG_TO_RAD) );
+	double v = y + (  cos( wind.second*DEG_TO_RAD) );
+
+	fast_reproject(x, y);
+	fast_reproject(u, v);
+	
+	double rotation = atan2((u - x), (v - y));
+	
+	wind.second =   (rotation*RAD_TO_DEG);
+	
+}
+
 void Proj4Projection::revert(const vector< std::pair<double, double> > & in, vector< std::pair<double, double> > & out) const
 {
 	const_cast<Proj4Projection*>(this)->init();

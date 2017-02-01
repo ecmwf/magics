@@ -13,6 +13,7 @@ BinningObject.xml
 BothValuePlotMethod.xml
 Boundaries.xml
 CalculateColourTechnique.xml
+GradientsColourTechnique.xml
 CalculateHeightTechnique.xml
 CalmIndicator.xml
 CartesianTransformation.xml

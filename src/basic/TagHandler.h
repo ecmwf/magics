@@ -79,6 +79,7 @@ public:
 	void netcdf(const XmlNode&);
 	void spot(const XmlNode&);
 	void pass(const XmlNode&);
+	void empty(const XmlNode&);
 	
 	void font(const MagFont& font) { font_ = font; }
 	void magics(const XmlNode&);
