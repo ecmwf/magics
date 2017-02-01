@@ -1,0 +1,34 @@
+<magics>
+<class inherits="ColourTechnique" name="GradientsColourTechnique" directory="visualisers" action="pcont">
+<!--
+(C) Copyright 1996-2016 ECMWF.
+
+This software is licensed under the terms of the Apache Licence Version 2.0
+which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+In applying this licence, ECMWF does not waive the privileges and immunities 
+granted to it by virtue of its status as an intergovernmental organisation nor
+does it submit to any jurisdiction.
+-->
+
+	
+  	<parameter member="colours" to="stringarray" default="stringarray()" from="stringarray" name="contour_gradients_colour_list">
+         		<documentation>  Colour used at the stops : the gradeint will be calculated between 2 consecutive ones.		</documentation>
+         
+  	</parameter>
+
+    <parameter member="values" to="floatarray" default="floatarray()" from="floatarray" name="contour_gradients_value_list">
+            <documentation>  List of stops.   </documentation>
+        
+    </parameter>
+
+    <parameter member="techniques" to="stringarray" default="stringarray()" from="stringarray" name="contour_gradients_technique_list">
+            <documentation>  Technique to apply to compute the gradients linear-clockwise/linear-anticlockwise   </documentation>
+           
+    </parameter>
+  	
+  	 <parameter member="steps" to="intarray" default="intarray()" from="intarray" name="contour_gradients_step_list">
+            <documentation>  Nimber of steps to compute for each interval </documentation>
+        
+    </parameter>
+
+</class></magics>

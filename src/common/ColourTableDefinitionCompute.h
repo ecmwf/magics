@@ -33,6 +33,7 @@ class ColourTableDefinitionCompute: public ColourTableDefinition {
 
 public:
 	ColourTableDefinitionCompute();
+	ColourTableDefinitionCompute(const string& min, const string& max, const string& direction);
 	virtual ~ColourTableDefinitionCompute();
 	void set(const ColourTableDefinitionComputeInterface&);
 	void set(const XmlNode&);
@@ -44,7 +45,13 @@ public:
 		return object;
 	}
 	void set(ColourTable&, int);
+
+	typedef void (ColourTableDefinitionCompute::*ComputeFunction)(ColourTable&, int);
 	
+    map<string,  ComputeFunction > methods_;
+
+    void hsl(ColourTable&, int);
+    void linear(ColourTable&, int);
 
 protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).

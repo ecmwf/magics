@@ -1338,8 +1338,9 @@ void IsoPlot::isoline(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
     double max = data.max();
     (*levelSelection_).clear();
     (*levelSelection_).calculate(min , max , true);
-    (*label_).prepare(*levelSelection_, (*colour_).name());
-    return (*shading_)(*levelSelection_);
+    bool need_isolines = (*shading_)(*levelSelection_);
+    (*label_).prepare(*levelSelection_,  (*colour_).name());
+    return need_isolines;
 }
 
 
@@ -1353,7 +1354,7 @@ void IsoPlot::isoline(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
     if ( legend_only_ ) {
         if ( rainbow_ ) {
             rainbowMethod_->set(*this);
-            rainbowMethod_->prepare(*levelSelection_, true);
+            rainbowMethod_->prepare(*levelSelection_, *levelSelection_, true);
             setThicknessAndStyle();
         }
         return;
@@ -1378,7 +1379,7 @@ void IsoPlot::isoline(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
 
     if ( rainbow_ ) {
         rainbowMethod_->set(*this);
-        rainbowMethod_->prepare(*levelSelection_, true);
+        rainbowMethod_->prepare(*levelSelection_, *levelSelection_, true);
         setThicknessAndStyle();
 
     }

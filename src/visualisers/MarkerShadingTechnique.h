@@ -57,7 +57,7 @@ public:
     Symbol* operator()(double);
     virtual void operator()(const PaperPoint&);
     //virtual void operator()(MatrixHandler&, BasicGraphicsObjectContainer&);
-    virtual bool prepare(const LevelSelection&, const ColourTechnique&);    
+    virtual bool prepare(LevelSelection&, const ColourTechnique&);    
     virtual void visit(LegendVisitor&, const ColourTechnique&);
     bool hasLegend() { return true; } // Isolien legend is not needed!
     CellArray* array(MatrixHandler& matrix, IntervalMap<int>& range,

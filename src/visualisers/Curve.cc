@@ -380,7 +380,7 @@ void Curve::visit(LegendVisitor& legend)
 {
 	if ( !legend_) return;
 	CurveEntry* entry = new CurveEntry(legend_text_, *this);
-	entry->userText(legend_text_);
+	entry->userText(legend_text_, "user");
 	legend.add(entry);
 }
 

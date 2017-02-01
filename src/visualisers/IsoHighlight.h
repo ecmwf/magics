@@ -46,7 +46,7 @@ public:
 	virtual void toxml(ostream&, int = 0) const {}
 	virtual bool accept(const string&) { return true;}
 		
-    virtual void prepare(const LevelSelection&) {} 
+    virtual void prepare(LevelSelection&) {} 
     virtual void visit(Polyline*& ) {
     
     } 
@@ -90,7 +90,7 @@ public:
 				line->setThickness(this->thickness_);
 				
 		 }
-    virtual void prepare(const LevelSelection& levels) 
+    virtual void prepare(LevelSelection& levels) 
     { 
     	vector<double> todo;
     	clear();
