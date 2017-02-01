@@ -37,7 +37,11 @@ ColourTableDefinitionCompute::ColourTableDefinitionCompute()
 ColourTableDefinitionCompute::ColourTableDefinitionCompute(const string& min, const string& max, const string& direction) : 
   minColour_(min), maxColour_(max), direction_(direction)
 {
-
+   methods_["anti_clockwise"] = &ColourTableDefinitionCompute::hsl;
+   methods_["clockwise"] = &ColourTableDefinitionCompute::hsl; 
+   methods_["hsl_shortest"] = &ColourTableDefinitionCompute::hsl_shortest; 
+   methods_["hsl_longest"] = &ColourTableDefinitionCompute::hsl_longest;
+   methods_["linear"] = &ColourTableDefinitionCompute::linear;
 }
 
 
@@ -110,6 +114,56 @@ void ColourTableDefinitionCompute::hsl(ColourTable& table, int nb)
      hmin.light_ += step_light;
      hmin.alpha_ += step_alpha;
   }
+}
+#include <math.h>
+void ColourTableDefinitionCompute::hsl_shortest(ColourTable& table, int nb)
+{
+  
+  Hsl hmin = minColour_.hsl();
+  Hsl hmax = maxColour_.hsl();
+  
+ 
+  double angle = fmod((hmax.hue_ - hmin.hue_ + 360.),360.);
+
+  cout << hmax.hue_ << " " << hmin.hue_ << " angle: " << angle << "-->";
+
+  if ( angle > 180) {
+    direction_ = "clockwise";
+    cout << "clockwise";
+  }
+  else {
+    direction_ = "anti_clockwise";
+    cout << "anti_clockwise";
+  }
+
+  cout << " direction="<< direction_ << endl;
+  hsl(table, nb);
+
+
+}
+#include <math.h>
+void ColourTableDefinitionCompute::hsl_longest(ColourTable& table, int nb)
+{
+  
+  Hsl hmin = minColour_.hsl();
+  Hsl hmax = maxColour_.hsl();
+  
+ 
+  double angle = fmod((hmax.hue_ - hmin.hue_ + 360.),360.);
+
+  cout << hmax.hue_ << " " << hmin.hue_ << " angle: " << angle << "-->";
+
+  if ( angle > 180) {
+    direction_ = "anti_clockwise";
+    
+  }
+  else {
+    direction_ = "clockwise";
+  }
+
+  cout << " direction="<< direction_ << endl;
+  hsl(table, nb);
+
 }
 
 void ColourTableDefinitionCompute::linear(ColourTable& table, int nb)
