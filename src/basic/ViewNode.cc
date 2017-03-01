@@ -232,10 +232,12 @@ void ViewNode::prepareLayout(SceneLayer& tree)
 			helper.add(legend_);
 		}
 	}
-	((BasicSceneObject*)legend_)->parent((BasicSceneObject*)this);
-	legend_->getReady();
-
-	components_.push_back(legend_);
+    if (legend_)
+    {
+	    ((BasicSceneObject*)legend_)->parent((BasicSceneObject*)this);
+	    legend_->getReady();
+	    components_.push_back(legend_);
+    }
 	
 
 	for (vector<TextVisitor*>::iterator text = texts_.begin(); text != texts_.end(); ++text)
