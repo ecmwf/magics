@@ -47,7 +47,7 @@ public:
     	return object;
     }
    
-    virtual void set(ColourTable&, int) const;
+    virtual void set(LevelSelection&, LevelSelection&, ColourTable&, int) const;
 	void set(const ColourTechniqueInterface&);
 	stringarray getValues() const { return values_; }
 

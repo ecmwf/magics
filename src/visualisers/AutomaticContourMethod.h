@@ -64,8 +64,17 @@ public:
         MatrixHandler data(matrix);
         MatrixHandler* pMatrixHandler;
         if ( matrix.akimaEnable() == false ) {
-        	
-                    return new DelegateMatrixHandler(matrix);
+                    if  ( matrix.delegate() ) {
+                        return new DelegateMatrixHandler(matrix);
+                    }
+        	        ContourMethod * pContourMethod =new  ContourMethod();
+
+                    pMatrixHandler = pContourMethod->handler(matrix, owner);
+
+                    MagLog::debug() << "Linear contouring, "    << "\n";
+                    return pMatrixHandler;
+
+                   
         }
 
         double fGeoAreaWidth;

@@ -56,6 +56,7 @@ public :
     virtual double  width() const = 0;
     virtual double   height() const = 0;
     virtual bool akimaEnable() const { return false; }
+    virtual bool delegate() const { return false; }
 
     virtual MatrixHandler* getReady(const Transformation&) const { NOTIMP; return 0;}
 

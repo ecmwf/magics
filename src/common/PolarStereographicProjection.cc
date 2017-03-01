@@ -822,20 +822,19 @@ void PolarStereographicProjection::reprojectComponents(double& x, double& y, pai
 
 void PolarStereographicProjection::reprojectSpeedDirection(const PaperPoint& point, pair<double, double>& wind) const
 {
+
 	double x = point.x_;
 	double y =  point.y_;
-	double ppx = point.x_ + 0.5;
-	double ppy = point.y_;
+
+	double u = x + (  sin( wind.second*DEG_TO_RAD) );
+	double v = y + (  cos( wind.second*DEG_TO_RAD) );
 
 	fast_reproject(x, y);
-	fast_reproject(ppx, ppy);
+	fast_reproject(u, v);
 	
-	double rotation = atan2((ppy - y), (ppx - x));
-
+	double rotation = atan2((u - x), (v - y));
 	
-
-	wind.second = wind.second + (rotation*RAD_TO_DEG);
-
+	wind.second =   (rotation*RAD_TO_DEG);
 }
 
 void PolarStereographicProjection::coastSetting(map<string, string>& setting, double abswidth, double absheight) const

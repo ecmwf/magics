@@ -9,7 +9,7 @@ In applying this licence, ECMWF does not waive the privileges and immunities
 granted to it by virtue of its status as an intergovernmental organisation nor
 does it submit to any jurisdiction.
 -->
-    <parameter xml="orientation" from="string" name="graph_bar_orientation" default="vertical" member="orientation" to="string" value='horizontal/vertical'>
+    <parameter xml="orientation" from="string" name="graph_bar_orientation" default="vertical" member="orientation" to="string" values='horizontal/vertical'>
             <documentation>   Orientation of the bars : Vertical or horizontal   </documentation>
     </parameter>
 

@@ -255,6 +255,7 @@ string binding(const string& version, const string& key) {
 		bindings["v0"].insert(make_pair("lon", "longitude"));
 		bindings["v0"].insert(make_pair("longitude", "lon"));
 		bindings["v0"].insert(make_pair("latitude", "lat"));
+
 		bindings["v0"].insert(make_pair("1", "one"));
 		bindings["v0"].insert(make_pair("10", "ten"));
 		bindings["v0"].insert(make_pair("99", "ninety_nine"));
@@ -262,6 +263,9 @@ string binding(const string& version, const string& key) {
 		bindings["v0"].insert(make_pair("25", "twenty_five"));
 		bindings["v0"].insert(make_pair("75", "seventy_five"));
 		bindings["v0"].insert(make_pair("50", "fifty"));
+		bindings["v0"].insert(make_pair("nord", "north"));
+		bindings["v0"].insert(make_pair("nord_east", "north_east"));
+		bindings["v0"].insert(make_pair("nord_west", "north_west"));
 	
 	} 
 	map<string, map<string, string> >::iterator bind = bindings.find(version);
@@ -280,7 +284,7 @@ string binding(const string& version, const string& key) {
 void WrepJSon::eps(Transformation& transformation)
 {
 
-	cout << "API--->" << api_ << endl;
+	
  	if ( keyword_ != "clim" ) {
 		transformation.setDataMinMaxX(minx_  * 3600, maxx_ * 3600, base_);
 
@@ -604,9 +608,7 @@ void WrepJSon::basic()
 	        		    	    if ( method != methods_.end() ) {
 	        		    	    	   ( (this->*method->second)(entry->value_) );
 	        		    	    }  
-	        		    	    else 
-	        		    	    	cout << 	entry->name_	<< endl;
-	        			    		
+	        		    	    
 	        	  }
 	         }
 	         catch (std::exception e)

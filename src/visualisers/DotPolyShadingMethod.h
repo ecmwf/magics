@@ -49,7 +49,7 @@ public:
 		return object;
 	}
     
-    virtual void prepare(const LevelSelection& levels, const ColourTechnique& colours);
+    virtual void prepare(LevelSelection& levels, const ColourTechnique& colours);
 
     virtual void operator()(Polyline& poly) const;
     	
