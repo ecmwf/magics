@@ -45,7 +45,7 @@ does it submit to any jurisdiction.
            	<parameter member="missing_attribute" to="string" default="_FillValue" from="string" name="netcdf_missing_attribute">
             		<documentation>Attribute indicating the value used to indicate a missing value in the data		</documentation>
            	</parameter>  
-            	<parameter member="reference" to="string" default="0" from="string" name="netcdf_reference_date">
+            	<parameter member="reference" to="string" default="0" from="string" name="netcdf_reference_date" visible="false">
             		<documentation>attribute indicating  the reference date		</documentation>
            	</parameter> 
            	<parameter member="suppress_below" to="float" default="-1.0e+21" from="float" name="netcdf_field_suppress_below">

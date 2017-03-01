@@ -29,12 +29,11 @@ CalculateColourTechnique::CalculateColourTechnique()
 {
 }
 
-
 CalculateColourTechnique::~CalculateColourTechnique() 
 {
 }
 
-void CalculateColourTechnique::set(ColourTable& table, int nb) const
+void CalculateColourTechnique::set(LevelSelection&, LevelSelection&, ColourTable& table, int nb) const
 {
 	ColourTableDefinitionCompute helper;
 	helper.set(*this);

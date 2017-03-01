@@ -1401,9 +1401,9 @@ void EpsWind::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 	map<string, float> directions;
 	if ( magCompare(convention_, "oceanographic" ) ) {
 		directions["east"] = 0 + 3.14;
-		directions["nord"] = 3.14 * 0.5 +3.14;
-		directions["nord_east"] = 3.14*0.25  +3.14;
-		directions["nord_west"] = 3.14*0.75 +3.14;
+		directions["north"] = 3.14 * 0.5 +3.14;
+		directions["north_east"] = 3.14*0.25  +3.14;
+		directions["north_west"] = 3.14*0.75 +3.14;
 		directions["south"] = 3.14*1.5 +3.14;
 		directions["south_east"] = 3.14*1.75 +3.14;
 		directions["south_west"] = 3.14*1.25 +3.14;
@@ -1411,9 +1411,9 @@ void EpsWind::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 	}
 	else {
 		directions["east"] = 0;
-		directions["nord"] = 3.14 * 0.5;
-		directions["nord_east"] = 3.14*0.25;
-		directions["nord_west"] = 3.14*0.75;
+		directions["north"] = 3.14 * 0.5;
+		directions["north_east"] = 3.14*0.25;
+		directions["north_west"] = 3.14*0.75;
 		directions["south"] = 3.14*1.5;
 		directions["south_east"] = 3.14*1.75;
 		directions["south_west"] = 3.14*1.25;
@@ -1533,7 +1533,7 @@ void EpsCloud::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 
 	map<string, float> directions;
 	
-				directions["1"] = 3.14 * 3/8;
+				directions["one"] = 3.14 * 3/8;
 				directions["2"] = 3.14 * 1/8;
 				directions["3"] =  -3.14*1/8;
 				directions["4"] = -3.14* 3/8;
@@ -1753,9 +1753,9 @@ void EpsWave::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 	map<string, float> directions;
 	
 	directions["east"] = 0 + 3.14;
-	directions["nord"] = 3.14 * 0.5 +3.14;
-	directions["nord_east"] = 3.14*0.25  +3.14;
-	directions["nord_west"] = 3.14*0.75 +3.14;
+	directions["north"] = 3.14 * 0.5 +3.14;
+	directions["north_east"] = 3.14*0.25  +3.14;
+	directions["north_west"] = 3.14*0.75 +3.14;
 	directions["south"] = 3.14*1.5 +3.14;
 	directions["south_east"] = 3.14*1.75 +3.14;
 	directions["south_west"] = 3.14*1.25 +3.14;

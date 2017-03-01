@@ -281,7 +281,7 @@ createAction("xy_odb",  "OdaXYDecoder", ["OdaDecoder.xml"])
 '''
 
 def put(file, where, comment):
-    cmd = "java -jar /home/graphics/cgs/atlassian-cli-2.5.0/lib/confluence-cli-2.5.0.jar --server http://ussoftware.ecmwf.int:8081/wiki --user cgs --password loulou --action addAttachment --space MAGP --file '%s' --comment '%s' --title '%s' " % (file, comment, where)
+    cmd = "java -jar /home/graphics/cgs/atlassian-cli-2.5.0/lib/confluence-cli-2.5.0.jar --server http://ussoftware.ecmwf.int:8081/wiki --user cgs --password sjnclEC4 --action addAttachment --space MAGP --file '%s' --comment '%s' --title '%s' " % (file, comment, where)
     print cmd
     os.system(cmd)
 """
@@ -312,9 +312,7 @@ all = [ "Contour", "GraphPlotting", "Wind",
     "GribDecoder", "NetcdfDecoder", "InputData", "TableDecoder", "WrepJSon"
     ]
 
-check = ["SymbolPlotting"]
-list = [ "FortranRootSceneNode",  "FortranSceneNode", "FortranViewNode" ]
-list = [  "LegendVisitor", "TextVisitor", "ImportObjectHandler" ]
+check = ["GraphPlotting"]
 list = all
 list = check
 """
@@ -327,5 +325,5 @@ from tojson import  createAction
 #put("magdoc.js",     "Reference guide", "Magics gallery generator")
 for i in list:
     definition = action[i]
-    createAction("2.29.6", definition["json"], i, definition["files"])
+    createAction("2.31.0", definition["json"], i, definition["files"])
     put(definition["json"]+".json", definition["jira"],  definition["doc"])

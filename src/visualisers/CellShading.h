@@ -59,7 +59,7 @@ public:
 
 	bool hasLegend() { return true; } // Isolien legend is not needed!
 	virtual void operator()(IsoPlot*, MatrixHandler&, BasicGraphicsObjectContainer&);
-    virtual bool prepare(const LevelSelection&, const ColourTechnique&);
+    virtual bool prepare(LevelSelection&, const ColourTechnique&);
     virtual void colour(double, Colour&);
     CellArray* array(MatrixHandler& matrix, IntervalMap<int>& range,
     		const Transformation& transformation, int width, int height,

@@ -199,7 +199,10 @@ public:
 	void conic();
 	void geos();
 	void simple();
+	void projectionSimple();
+	
 	void add(double, double);
+
 	double patchDistance(double) const;
 	const string& name() const { return definition_; }
 	void getNewDefinition(const UserPoint&, const UserPoint&, string&) const;

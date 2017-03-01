@@ -63,7 +63,7 @@ public:
     int rightIndex(double value) { return method_->rightIndex(value); }
     int leftIndex(double value) { return method_->leftIndex(value); }
 
-    virtual bool prepare(const LevelSelection& levels, const ColourTechnique& colours) {
+    virtual bool prepare(LevelSelection& levels, const ColourTechnique& colours) {
         method_->prepare(levels, colours);
         // True if the shading technique needs the isolines to be calculated... 
         return true; 
@@ -130,10 +130,10 @@ struct LegendEntryBuilder
 {
     LegendEntryBuilder(LegendVisitor& legend, const PolyShadingMethod* method,
     	const ColourTechnique& colours) :
-    	legend_(legend), method_(method), colours_(colours)  {};
+    	legend_(legend), method_(method), colours_(colours), first_(true) {};
     LegendEntryBuilder(LegendVisitor& legend,
     	    	const ColourTechnique& colours) :
-    	    	legend_(legend), method_(0), colours_(colours)  {};
+    	    	legend_(legend), method_(0), colours_(colours), first_(true)  {};
     ~LegendEntryBuilder() {};
     bool operator()(const pair<double, ColourInfo>& first, const pair<double, ColourInfo>& second) {
         Polyline* box = new Polyline();
@@ -149,14 +149,29 @@ struct LegendEntryBuilder
         box->setFillColour(colours_.right(min));
         box->setFilled(true);
         box->setStroke(true);
-        box->setColour(Colour("black"));
-        legend_.add(new BoxEntry(min, max, box));
+        box->setColour(colours_.right(min));
+        
+        LegendEntry* entry = new BoxEntry(min, max, box);
+        if ( first_ ) {
+            first_ = false;
+            entry->first();
+        }
+        for ( vector<double>::iterator val = legend_.values_list_.begin(); val != legend_.values_list_.end(); ++val){
+           
+            if ( min <= *val && *val < max) {
+                string text = tostring(*val);
+                entry->userText(text, "user");
+                break;
+            }
+        }
+        legend_.add(entry);
         return false;
 
     }
     LegendVisitor& legend_;
     const PolyShadingMethod* method_;
     const ColourTechnique& colours_;
+    bool first_; 
 };
 } // namespace magics
 

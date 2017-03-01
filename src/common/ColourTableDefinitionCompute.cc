@@ -28,6 +28,20 @@ using namespace magics;
 
 ColourTableDefinitionCompute::ColourTableDefinitionCompute() 
 {
+  methods_["anti_clockwise"] = &ColourTableDefinitionCompute::hsl;
+  methods_["clockwise"] = &ColourTableDefinitionCompute::hsl;
+  methods_["linear"] = &ColourTableDefinitionCompute::linear;
+
+}
+
+ColourTableDefinitionCompute::ColourTableDefinitionCompute(const string& min, const string& max, const string& direction) : 
+  minColour_(min), maxColour_(max), direction_(direction)
+{
+   methods_["anti_clockwise"] = &ColourTableDefinitionCompute::hsl;
+   methods_["clockwise"] = &ColourTableDefinitionCompute::hsl; 
+   methods_["hsl_shortest"] = &ColourTableDefinitionCompute::hsl_shortest; 
+   methods_["hsl_longest"] = &ColourTableDefinitionCompute::hsl_longest;
+   methods_["linear"] = &ColourTableDefinitionCompute::linear;
 }
 
 
@@ -69,17 +83,124 @@ void ColourTableDefinitionCompute::set(const XmlNode& node)
 	
 }
 
+
+void ColourTableDefinitionCompute::hsl(ColourTable& table, int nb)
+{
+  double step_hue;
+  double step_light;
+  double step_alpha;
+  Hsl hmin = minColour_.hsl();
+  Hsl hmax = maxColour_.hsl();
+  step_light = (hmax.light_ - hmin.light_)/(nb-2);
+  step_alpha = (hmax.alpha_ - hmin.alpha_)/(nb-2);
+  if ( magCompare(direction_, "anti_clockwise") ) {
+     if ( hmax.hue_ < hmin.hue_ )  hmax.hue_ += 360;
+     step_hue = (hmax.hue_ - hmin.hue_)/(nb-2);
+  } 
+  else {
+      if ( hmin.hue_ < hmax.hue_ )  hmin.hue_ += 360;
+      step_hue =  (hmax.hue_ - hmin.hue_)/(nb-2);
+  }
+
+    
+  float step_sat =  (hmax.saturation_ - hmin.saturation_)/(nb-2);
+  // WE have nb levels : we need nb-1 colours! 
+ 
+  for ( int i = 0;  i < nb-1; i++) {
+    MagLog::dev() << "ColourTableDefinitionCompute::set->add-->" << Colour(hmin) << endl;
+     table.push_back(Colour(hmin));
+     hmin.saturation_ += step_sat;
+     hmin.hue_ += step_hue;
+     hmin.light_ += step_light;
+     hmin.alpha_ += step_alpha;
+  }
+}
+#include <math.h>
+void ColourTableDefinitionCompute::hsl_shortest(ColourTable& table, int nb)
+{
+  
+  Hsl hmin = minColour_.hsl();
+  Hsl hmax = maxColour_.hsl();
+  
+ 
+  double angle = fmod((hmax.hue_ - hmin.hue_ + 360.),360.);
+
+  cout << hmax.hue_ << " " << hmin.hue_ << " angle: " << angle << "-->";
+
+  if ( angle > 180) {
+    direction_ = "clockwise";
+    cout << "clockwise";
+  }
+  else {
+    direction_ = "anti_clockwise";
+    cout << "anti_clockwise";
+  }
+
+  cout << " direction="<< direction_ << endl;
+  hsl(table, nb);
+
+
+}
+#include <math.h>
+void ColourTableDefinitionCompute::hsl_longest(ColourTable& table, int nb)
+{
+  
+  Hsl hmin = minColour_.hsl();
+  Hsl hmax = maxColour_.hsl();
+  
+ 
+  double angle = fmod((hmax.hue_ - hmin.hue_ + 360.),360.);
+
+  cout << hmax.hue_ << " " << hmin.hue_ << " angle: " << angle << "-->";
+
+  if ( angle > 180) {
+    direction_ = "anti_clockwise";
+    
+  }
+  else {
+    direction_ = "clockwise";
+  }
+
+  cout << " direction="<< direction_ << endl;
+  hsl(table, nb);
+
+}
+
+void ColourTableDefinitionCompute::linear(ColourTable& table, int nb)
+{
+  double step_red;
+  double step_green;
+  double step_blue;
+  double step_alpha;
+
+  step_red = (maxColour_.red() - minColour_.red())/(nb-2);
+  step_green = (maxColour_.green() - minColour_.green())/(nb-2);
+  step_blue = (maxColour_.blue() - minColour_.blue())/(nb-2);
+  step_alpha = (maxColour_.alpha() - minColour_.alpha() )/(nb-2);
+  double red = minColour_.red();
+  double green = minColour_.green();
+  double blue = minColour_.blue();
+  double alpha = minColour_.alpha();
+
+  for ( int i = 0;  i < nb-1; i++) {
+     table.push_back(Colour(red, green, blue, alpha));
+     
+     red += step_red;
+     green += step_green;
+     blue += step_blue;
+     alpha += step_alpha;
+  }
+
+}
+
 void ColourTableDefinitionCompute::set(ColourTable& table, int nb)
 {
 	prepare();
-	double step_hue;
-	double step_light;
-	double step_alpha;
+	
 	MagLog::dev() << "ColourTableDefinitionCompute::set->min-->" << minColour_ << endl;
 	MagLog::dev() << "ColourTableDefinitionCompute::set->max-->" << maxColour_ << endl;
 	MagLog::dev() << "nb interval-->" << nb << endl;
-    Hsl hmin = minColour_.hsl();
-    Hsl hmax = maxColour_.hsl();
+  
     if (nb == 1) {
        	table.push_back(minColour_);
        	return;
@@ -93,32 +214,13 @@ void ColourTableDefinitionCompute::set(ColourTable& table, int nb)
        	table.push_back(maxColour_);
        	return;
        }
-    
-
-
-    	step_light = (hmax.light_ - hmin.light_)/(nb-2);
-    	step_alpha = (hmax.alpha_ - hmin.alpha_)/(nb-2);
-        if ( magCompare(direction_, "anti_clockwise") ) {
-           if ( hmax.hue_ < hmin.hue_ )  hmax.hue_ += 360;
-           step_hue = (hmax.hue_ - hmin.hue_)/(nb-2);
-        } 
-        else {
-            if ( hmin.hue_ < hmax.hue_ )  hmin.hue_ += 360;
-            step_hue =  (hmax.hue_ - hmin.hue_)/(nb-2);
-        }
-
-    
-    float step_sat =  (hmax.saturation_ - hmin.saturation_)/(nb-2);
-    // WE have nb levels : we need nb-1 colours! 
+  std::map<string, ComputeFunction>::iterator method = methods_.find(lowerCase(direction_));
+  if ( method == methods_.end() ) 
+      linear(table, nb);
+  else
+      (this->*method->second)(table, nb);
+  
    
-    for ( int i = 0;  i < nb-1; i++) {
-    	MagLog::dev() << "ColourTableDefinitionCompute::set->add-->" << Colour(hmin) << endl;
-       table.push_back(Colour(hmin));
-       hmin.saturation_ += step_sat;
-       hmin.hue_ += step_hue;
-       hmin.light_ += step_light;
-       hmin.alpha_ += step_alpha;
-    }
 }
 
 

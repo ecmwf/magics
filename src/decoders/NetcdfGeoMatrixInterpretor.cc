@@ -82,10 +82,9 @@ bool NetcdfGeoMatrixInterpretor::interpretAsMatrix(Matrix** data)
 			netcdf.get(field_, data, first, last);
 			int columns =  matrix_->columnsAxis().size();
 			int rows =  matrix_->rowsAxis().size();
- 
-		    for (int lon = 0; lon < columns; lon++)
-			     for (int lat = 0; lat < rows; lat++) {
-			    	matrix_->push_back(data[lon + lat*rows]);
+ 			for (int lat = 0; lat < rows; lat++) {
+		    	for (int lon = 0; lon < columns; lon++)
+			    	matrix_->push_back(data[lat + lon*rows]);
 			     }
 		}
 		else 	{

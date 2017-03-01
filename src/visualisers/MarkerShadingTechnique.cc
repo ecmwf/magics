@@ -103,7 +103,7 @@ CellArray* MarkerShadingTechnique::array(MatrixHandler& matrix, IntervalMap<int>
 
 }
 
-bool MarkerShadingTechnique::prepare(const LevelSelection& levels, const ColourTechnique& technique)
+bool MarkerShadingTechnique::prepare(LevelSelection& levels, const ColourTechnique& technique)
 {
     if ( colour_.empty() ) {       
         technique.colours(colour_);
