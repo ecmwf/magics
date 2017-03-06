@@ -77,7 +77,7 @@ bool NetcdfGeoMatrixInterpretor::interpretAsMatrix(Matrix** data)
 		matrix_->missing(missing_value);
 
 		if  ( magCompare(primary_index_, "latitude") ) {
-			// WE reserve the matrix_ since we are used to lat/lon matrix_!
+			
 			vector<double> data;
 			netcdf.get(field_, data, first, last);
 			int columns =  matrix_->columnsAxis().size();
@@ -90,14 +90,14 @@ bool NetcdfGeoMatrixInterpretor::interpretAsMatrix(Matrix** data)
 		else 	{
 			vector<double> data;	
 			netcdf.get(field_, data, first, last);
-			int i = 0;
+			
 			for (vector<double>::iterator d = data.begin(); d != data.end(); ++d ) {
 				if ( !std::isnan(*d) ) {
 					matrix_->push_back(*d);
+					
 				}
 				else 
 					matrix_->push_back(missing_value);
-			   i++;
 			}
 		}
 
