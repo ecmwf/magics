@@ -28,6 +28,7 @@
 #include "Data.h"
 #include "Decoder.h"
 #include "UserPoint.h"
+#include <proj_api.h>
 
 namespace magics {
 	
@@ -87,6 +88,9 @@ protected:
 	 std::map<string, Decode> formats_;
 	 std::map<string, SimpleDecode> simple_formats_;
 	 vector<CustomisedPoint*> customisedPoints_;
+     projPJ proj4_;
+     projPJ latlon_;
+     bool useProj4_;
 private:
     //! Copy constructor - No copy allowed
 	GeoPointsDecoder(const GeoPointsDecoder&);

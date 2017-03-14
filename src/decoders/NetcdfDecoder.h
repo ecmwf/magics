@@ -64,10 +64,16 @@ public:
 
     void getReady(const Transformation& transformation)
     {
+        
     	(*interpretor_).getReady(transformation);
     }
 
     void visit(Transformation& transformation) {
+        if ( !transformation.getAutomaticX() && !transformation.getAutomaticY()) 
+            return;
+            
+        if ( !data_ )
+            valid_ = (*interpretor_).interpretAsMatrix(&data_);
     	 (*interpretor_).visit(transformation);    
     }
 
