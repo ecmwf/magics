@@ -43,6 +43,9 @@ public:
         NetcdfInterpretorAttributes::set(params); 
         NetcdfGeoMatrixInterpretorAttributes::set(params);
     }
+
+    void visit(Transformation& transformation);
+
     void set(const XmlNode& node) { 
         MagLog::debug() << "NetcdfGeoMatrixInterpretor::set(params)" << "\n";
         NetcdfInterpretorAttributes::set(node); 
