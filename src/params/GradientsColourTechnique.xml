@@ -20,7 +20,7 @@ does it submit to any jurisdiction.
             <documentation>  List of waypoints.   </documentation>
         
     </parameter>
-    <parameter member="stop_method" to="string" default="middle" from="string" name="contour_gradients_waypoint_method" values='middle/left/right'>
+    <parameter member="stop_method" to="string" default="middle" from="string" name="contour_gradients_waypoint_method" values='both/ignore/left/right'>
             <documentation> waypoints at the left, right, middle of the interval.   </documentation>
         
     </parameter>
@@ -35,7 +35,7 @@ does it submit to any jurisdiction.
     </parameter>
   	
   	 <parameter member="steps" to="intarray" default="intarray()" from="intarray" name="contour_gradients_step_list">
-            <documentation>  Nimber of steps to compute for each interval </documentation>
+            <documentation>  Number of steps to compute for each interval </documentation>
         
     </parameter>
 
