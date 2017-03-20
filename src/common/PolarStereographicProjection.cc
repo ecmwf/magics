@@ -161,7 +161,7 @@ void PolarStereographicProjection::init(double width, double height)
 {
 	if ( !projection_ ) 
 		projection_ = new TePolarStereographic(TeDatum(), vertical_longitude_*TeCDR, 0., 0., "Meters", (hemisphere_ == NORTH) ? TeNORTH_HEM : TeSOUTH_HEM);
-	cout << "AREA " << area_ << endl;
+	
 	if ( magCompare(area_, "full") ) {
 		ymin_ = ( hemisphere_ == NORTH ) ? -20. : 20.;
 		ymax_ = ( hemisphere_ == NORTH ) ? -20. : 20.;
