@@ -87,10 +87,17 @@ void ColourTableDefinitionCompute::hsl(ColourTable& table, int nb)
   float step_hue;
   float step_light;
   float step_alpha;
+  float step_sat;
   Hsl hmin = minColour_.hsl();
   Hsl hmax = maxColour_.hsl();
+
+  
+  step_sat =  (hmax.saturation_ - hmin.saturation_)/(nb-2);
   step_light = (hmax.light_ - hmin.light_)/(nb-2);
   step_alpha = (hmax.alpha_ - hmin.alpha_)/(nb-2);
+
+  
+
   if ( magCompare(direction_, "anti_clockwise") ) {
      if ( hmax.hue_ < hmin.hue_ )  hmax.hue_ += 360;
      step_hue = (hmax.hue_ - hmin.hue_)/(nb-2);
@@ -100,8 +107,21 @@ void ColourTableDefinitionCompute::hsl(ColourTable& table, int nb)
       step_hue =  (hmax.hue_ - hmin.hue_)/(nb-2);
   }
 
+if ( hmin.hue_ == 0 || hmin.hue_ == 360 ) {
+    step_sat = 0;
+    step_hue = 0;
+    hmin.saturation_ = hmax.saturation_;
+    hmin.hue_ = hmax.hue_;
+    cout << "WHITE FOUND" << endl;
+}
+ if ( hmax.hue_ == 0 || hmax.hue_ == 360) {
+    step_sat = 0;
+    step_hue = 0;
+
+  }
+
     
-  float step_sat =  (hmax.saturation_ - hmin.saturation_)/(nb-2);
+  
   // WE have nb levels : we need nb-1 colours! 
  
   for ( int i = 0;  i < nb-1; i++) {
