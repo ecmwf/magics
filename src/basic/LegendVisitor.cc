@@ -789,6 +789,11 @@ void BoxEntry::rowBox(const PaperPoint& point, BasicGraphicsObjectContainer& leg
 		else 
 			if ( !last_ ) 
 				from->addText(userText_, font_);
+			else {
+				ostringstream bottom;
+				bottom << MagicsFormat(format_, from_);
+				from->addText(bottom.str(), font_);
+			}
 	}
 	if ( last_ ) {		
 		Text* to = new Text();
@@ -801,7 +806,7 @@ void BoxEntry::rowBox(const PaperPoint& point, BasicGraphicsObjectContainer& leg
 			top << MagicsFormat(format_, to_);
 			to->addText(top.str(), font_);
 		}
-		else
+		else 
 			to->addText(userText_, font_);
 	}
 
