@@ -535,7 +535,8 @@ struct Compare
 
 void GribDecoder::customisedPoints(const Transformation& transformation, CustomisedPointsList& out, double thinx, double thiny, double gap)
 {
-    readColourComponent();
+    
+    
     decode2D();
     
 
