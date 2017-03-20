@@ -536,6 +536,7 @@ struct Compare
 void GribDecoder::customisedPoints(const Transformation& transformation, CustomisedPointsList& out, double thinx, double thiny, double gap)
 {
     decode2D();
+    readColourComponent();
 
     double minlon = 0.;
     double maxlon = 360.;
@@ -574,6 +575,8 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 
                     add->insert(make_pair("x_component", value.first));
                     add->insert(make_pair("y_component", value.second));
+                    if (colourComponent_)
+                         add->insert(make_pair("colour_component", (*yComponent_).data_[w]));
                     // cout << " Point " << *add << endl;
                     out.push_back(add);
 
