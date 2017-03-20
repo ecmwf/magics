@@ -535,13 +535,15 @@ struct Compare
 
 void GribDecoder::customisedPoints(const Transformation& transformation, CustomisedPointsList& out, double thinx, double thiny, double gap)
 {
-    decode2D();
     readColourComponent();
+    decode2D();
+    
 
     double minlon = 0.;
     double maxlon = 360.;
 
     double missing = getDouble("missingValue");
+
 
     if ( thiny ) {
         vector<pair<double, double> > positions;
