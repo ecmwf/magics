@@ -107,17 +107,20 @@ void ColourTableDefinitionCompute::hsl(ColourTable& table, int nb)
       step_hue =  (hmax.hue_ - hmin.hue_)/(nb-2);
   }
 
-if ( hmin.hue_ == 0 || hmin.hue_ == 360 ) {
+
+if ( minColour_.white() ) {
     step_sat = 0;
     step_hue = 0;
     hmin.saturation_ = hmax.saturation_;
     hmin.hue_ = hmax.hue_;
-    cout << "WHITE FOUND" << endl;
+    
 }
- if ( hmax.hue_ == 0 || hmax.hue_ == 360) {
+ //cout << maxColour_ << "WHITE???" << endl;
+ if ( maxColour_.white() ) {
     step_sat = 0;
     step_hue = 0;
-
+    
+   //cout << maxColour_ << "WHITE" << endl;
   }
 
     
@@ -147,18 +150,16 @@ void ColourTableDefinitionCompute::hsl_shortest(ColourTable& table, int nb)
  
   float angle = fmod((hmax.hue_ - hmin.hue_ + 360.),360.);
 
-  cout << hmax.hue_ << " " << hmin.hue_ << " angle: " << angle << "-->";
 
-  if ( angle > 180) {
+  if ( angle > 180) 
     direction_ = "clockwise";
-    cout << "clockwise";
-  }
-  else {
+    
+  
+  else 
     direction_ = "anti_clockwise";
-    cout << "anti_clockwise";
-  }
+    
 
-  cout << " direction="<< direction_ << endl;
+  
   hsl(table, nb);
 
 
@@ -173,7 +174,6 @@ void ColourTableDefinitionCompute::hsl_longest(ColourTable& table, int nb)
  
   float angle = fmod((hmax.hue_ - hmin.hue_ + 360.),360.);
 
-  cout << hmax.hue_ << " " << hmin.hue_ << " angle: " << angle << "-->";
 
   if ( angle > 180) {
     direction_ = "anti_clockwise";
@@ -183,7 +183,6 @@ void ColourTableDefinitionCompute::hsl_longest(ColourTable& table, int nb)
     direction_ = "clockwise";
   }
 
-  cout << " direction="<< direction_ << endl;
   hsl(table, nb);
 
 }
@@ -299,7 +298,7 @@ void ColourTableDefinitionCompute::set(ColourTable& table, int nb)
        }
   std::map<string, ComputeFunction>::iterator method = methods_.find(lowerCase(method_));
   if ( method == methods_.end() ) 
-      linear(table, nb);
+      hsl(table, nb);
   else
       (this->*method->second)(table, nb);
   
@@ -323,7 +322,6 @@ void ColourTableDefinitionCompute::hcl(const Colour& colour, float& h, float& c,
   h *= 360;
   if ( colour.red() == 1 && colour.green() == 1 && colour.blue() == 1 )
       h = -1;
-  cout << "[" << colour.red() << ", " << colour.green() << ", "  << colour.blue() << "]-->[" << h << ", " << c << ", "  << l << "]  " << endl;
 }
 
 Colour ColourTableDefinitionCompute::rgb(float h, float c, float l, float alpha)
