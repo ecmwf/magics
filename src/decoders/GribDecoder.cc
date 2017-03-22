@@ -579,7 +579,7 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
                     add->insert(make_pair("x_component", value.first));
                     add->insert(make_pair("y_component", value.second));
                     if (colourComponent_)
-                         add->insert(make_pair("colour_component", (*yComponent_).data_[w]));
+                         add->insert(make_pair("colour_component", (*colourComponent_)[w]));
                     // cout << " Point " << *add << endl;
                     out.push_back(add);
 
@@ -619,6 +619,8 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
                         CustomisedPoint *add = new CustomisedPoint(p->x(), p->y(), "");
                         add->insert(make_pair("x_component", value.first));
                         add->insert(make_pair("y_component", value.second));
+                        if (colourComponent_)
+                          add->insert(make_pair("colour_component", (*colourComponent_)[index]));
                         out.push_back(add);
                     }
                 }
