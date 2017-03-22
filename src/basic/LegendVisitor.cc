@@ -888,7 +888,8 @@ void BoxEntry::rowHisto(const PaperPoint& point, BasicGraphicsObjectContainer& l
 			from->setVerticalAlign(MTOP);
 			from->setAngle(angle_);
 			legend.push_back(from);
-			if ( userText_.empty()  || last_) {
+
+			if ( automatic_ ) {
 				ostringstream bottom;
 				bottom << MagicsFormat(format_, from_);
 				from->addText(bottom.str(), font_);
@@ -908,7 +909,7 @@ void BoxEntry::rowHisto(const PaperPoint& point, BasicGraphicsObjectContainer& l
 			to->setVerticalAlign(MTOP);
 			to->push_back(PaperPoint(x+width, y + 1.3));
 			legend.push_back(to);
-			if ( userText_.empty()  ) {
+			if ( automatic_  ) {
 				ostringstream top, bottom;
 				top << MagicsFormat(format_, to_);
 				to->addText(top.str(), font_);
@@ -937,7 +938,7 @@ void BoxEntry::rowHisto(const PaperPoint& point, BasicGraphicsObjectContainer& l
 		to->setJustification(MRIGHT);
 		to->push_back(PaperPoint(x-width, y - 0.2 ));
 		legend.push_back(to);
-		if ( userText_.empty() && histogram_->max() ) {
+		if ( userText_.empty() && histogram_->max() && automatic_ ) {
 			ostringstream top, bottom;
 			top << MagicsFormat(format_, totalPopulation_);
 			to->addText(top.str(), font_);

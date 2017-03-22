@@ -162,12 +162,13 @@ void PolarStereographicProjection::init(double width, double height)
 	if ( !projection_ ) 
 		projection_ = new TePolarStereographic(TeDatum(), vertical_longitude_*TeCDR, 0., 0., "Meters", (hemisphere_ == NORTH) ? TeNORTH_HEM : TeSOUTH_HEM);
 	
+	
+
 	if ( magCompare(area_, "full") ) {
 		ymin_ = ( hemisphere_ == NORTH ) ? -20. : 20.;
 		ymax_ = ( hemisphere_ == NORTH ) ? -20. : 20.;
 		xmin_ = ( hemisphere_ == NORTH ) ? -45. + vertical_longitude_ : 45. + vertical_longitude_;
 		xmax_ = ( hemisphere_ == NORTH ) ? 135. + vertical_longitude_ : -135. + vertical_longitude_;
-
 		cout << "xmin --> " << xmin_ << " xmax --> " << xmax_ << endl; 
 	}
 	else
@@ -682,10 +683,12 @@ void PolarStereographicProjection::corners()
 	// For backwards compatibility!
 	if  ( min_longitude_ == -180 && max_longitude_ == 180 &&
 		   min_latitude_ == -90 && max_latitude_ == 90 ) {
+
+		
 		min_latitude_ = ( hemisphere_ == NORTH ) ? -20. : 20.;
 		max_latitude_ = ( hemisphere_ == NORTH ) ? -20. : 20.;
-		min_longitude_ = ( hemisphere_ == NORTH ) ? -45. : 45.;
-		max_longitude_ = ( hemisphere_ == NORTH ) ? 135. : -135.;
+		min_longitude_ = ( hemisphere_ == NORTH ) ? -45. + vertical_longitude_: 45.+ vertical_longitude_;
+		max_longitude_ = ( hemisphere_ == NORTH ) ? 135. + vertical_longitude_: -135.+ vertical_longitude_;
 	}
 
 	xmin_ = min_longitude_;
