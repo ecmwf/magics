@@ -46,9 +46,9 @@ list = mcont(contour_highlight='off',
             contour_level_count            = 5,
             contour_shade_colour_method    = 'gradients',
             contour_gradients_colour_list = [  "blue", "white", "red"],
-            contour_gradients_value_list = [-50.,  0, 50.],
-            contour_gradients_step_list = [50,],
-            contour_gradients_technique_list = ["linear"],
+            contour_gradients_waypoint_list = [-50.,  0, 50.],
+            contour_gradients_step_list = [20,20],
+            contour_gradients_technique = "hsl",
             contour_shade_method           = 'area_fill',
             legend                         = 'on',)
 

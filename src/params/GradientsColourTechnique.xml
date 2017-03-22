@@ -20,7 +20,7 @@ does it submit to any jurisdiction.
             <documentation>  List of waypoints.   </documentation>
         
     </parameter>
-    <parameter member="stop_method" to="string" default="middle" from="string" name="contour_gradients_waypoint_method" values='both/ignore/left/right'>
+    <parameter member="stop_method" to="string" default="both" from="string" name="contour_gradients_waypoint_method" values='both/ignore/left/right'>
             <documentation> waypoints at the left, right, middle of the interval.   </documentation>
         
     </parameter>
