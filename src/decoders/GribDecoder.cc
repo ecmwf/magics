@@ -2298,6 +2298,7 @@ public:
         static map<long, string> names;
         if ( names.empty() ){
             names[54] = "METEOSAT-7";
+            names[55] = "METEOSAT-8";
             names[57] = "METEOSAT-10";
             names[172] = "MTSAT-2";
             names[257] = "GOES-13";
@@ -2328,6 +2329,15 @@ public:
             l54[2] = "IR 11-5";
             l54[3] = "VIS 00-7";
             channels[54] = l54;
+            map<long, string>  l55;
+            l55[1] = "VIS 0-6";
+            l55[4] = "IR 3-9";
+            l55[5] = "WV 6-2";
+            l55[6] = "WV 7-3";
+            l55[8] = "IR 9-7";
+            l55[9] = "IR 10-8";
+            l55[10] = "IR 12-0";
+            channels[55] = l55;
             map<long, string>  l57;
             l57[1] = "VIS 0-6";
             l57[4] = "IR 3-9";
