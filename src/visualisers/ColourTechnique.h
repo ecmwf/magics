@@ -79,8 +79,8 @@ public:
     double leftRange(double) const;
     double rightRange(double) const;
     
-    virtual void set(ColourTable&, int) const {}
-    void prepare(const LevelSelection&, bool rainbow = false);
+    virtual void set(LevelSelection&, LevelSelection&, ColourTable&, int) const {}
+    void prepare(LevelSelection&, LevelSelection&, bool rainbow = false);
     
     void colours(vector<string>&) const; 
     

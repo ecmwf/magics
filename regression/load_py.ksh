@@ -3,20 +3,21 @@
 
 set +x
 
-versions="2.30.0" 
+versions="2.31.0" 
 
 ext="py"
 img_ext="png"
-where='data'
+where='galery'
 interpretor='python'
-src='mars-array'
+src='gradients gradients2'
 
 dir=`pwd`
 name=`basename $dir`
 
 
 
-
+for s in $src
+do
 for v in $versions
 do
   module unload Magics
@@ -25,4 +26,5 @@ do
 #  ../upload.py $v ./$sf $s.$img_ext magics/reference/$v/$where -i $interpretor
   ../upload.py $v ./$src.py $src.png magics/reference/$v/$where -i $interpretor
 
+done
 done

@@ -47,16 +47,16 @@ void ColourTechnique::print(ostream& out)  const
 	out << "]";
 }
 
-void ColourTechnique::prepare(const LevelSelection& levels, bool rainbow)
+void ColourTechnique::prepare(LevelSelection& out, LevelSelection& levels, bool rainbow)
 {
 	if (levels.empty() ) return; 
 	clear();
 	bands_.clear();
 	ColourTable table;
 	if ( rainbow )
-		set(table, levels.size()+1);
+		set(out, levels, table, levels.size()+1);
 	else
-		set(table, levels.size());
+		set(out, levels, table, levels.size());
 	
 	if ( table.empty()) table.push_back(Colour("none"));
     ColourTable::ColourIterator colour = table.begin(); 
@@ -83,7 +83,7 @@ void ColourTechnique::prepare(const LevelSelection& levels, bool rainbow)
          if ( min != std::numeric_limits<double>::max() ) {
             bands_.insert(make_pair(Interval(min, *val), left));
             
-            MagLog::dev() << min << "<<" << left << "<<" << *val << endl;
+            
          }
          min = *val;
          left = right;            

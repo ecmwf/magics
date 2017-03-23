@@ -1,0 +1,41 @@
+{
+    "_name": "base",
+    "drivers": [
+        {
+            "format": "png",
+            "fullname": "wms-epsg",
+            "output_cairo_transparent_background": "off",
+            "output_name_first_page_number": "off",
+            "output_width": "464"
+        }
+    ],
+    "height": "464",
+    "method": "wrep",
+    "page": {
+        "map": {
+            "border": "off",
+            "coastlines": {
+                "contour_legend_text": "Coastline in black",
+                "map_coastline_colour": "black",
+                "map_grid": "off",
+                "map_label": "off"
+            },
+            "coordinates_system": "projection",
+            "fitted_mode": "crop",
+            "lower_left_latitude": "7044436.525781251",
+            "lower_left_longitude": "3130860.678125",
+            "margin_bottom": "0",
+            "margin_left": "0",
+            "margin_right": "0",
+            "margin_top": "0",
+            "plot": {},
+            "projection": "EPSG:3857",
+            "upper_right_latitude": "11584184.5090625",
+            "upper_right_longitude": "7670608.66140625"
+        },
+        "page_id": "off"
+    },
+    "render": "render",
+    "version": "3.0",
+    "width": "464"
+}

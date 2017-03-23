@@ -70,7 +70,12 @@ public:
 	string from()  { return tostring(from_); }
 	string to() { return tostring(to_); }
 	 
-	void userText(const string& text) { userText_ = text; }
+	void userText(const string& text, const string& automatic) 
+		{ if ( userText_.size() )
+			return;
+		   userText_ = text; 
+		   automatic_ = magCompare(automatic, "automatic_text_only"); 
+		}
 	const string& userText() { return userText_; }
 	const string& units() { return units_; }
 	void units(const string& units) { units_ = units; }
@@ -98,11 +103,12 @@ public:
 	void  mean(double mean)  { meanValue_ = mean; meanSet_ = true; }
 	void  histogramInformation(HistogramLegendMethod* histo) {histogram_ = histo;}
 	void  borderColour(const Colour& colour)  {  borderColour_ = colour; }
-
+	
 protected:
 	bool last_;
 	bool first_;
 	bool text_;
+	bool automatic_; // True if the tlegend text is generated automaticaly from the value.
 	mutable string label_;
     bool fromto_;
     Colour borderColour_;
@@ -111,8 +117,10 @@ protected:
 
     string userText_;
     string units_;
+	
 	double from_;
 	double to_;
+
 	string format_;
 	MagFont font_;
 	double angle_;
@@ -388,7 +396,7 @@ protected:
     string both(const string& automatic, const string& user) 
         { return automatic + " " + user; } 
     string user_only(const string&, const string& user)
-         { return  user; } 
+         { if ( user.empty() ) return " "; return user; } 
     string automatic_only(const string& automatic, const string&) 
         { return automatic; }
     

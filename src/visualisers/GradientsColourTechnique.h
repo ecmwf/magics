@@ -8,8 +8,8 @@
  * does it submit to any jurisdiction.
  */
 
-/*! \file CalculateColourTechnique.h
-    \brief Definition of the Template class CalculateColourTechnique.
+/*! \file GradientsColourTechnique.h
+    \brief Definition of the Template class GradientsColourTechnique.
     
     Magics Team - ECMWF 2004
     
@@ -19,41 +19,38 @@
     
 */
 
-#ifndef CalculateColourTechnique_H
-#define CalculateColourTechnique_H
+#ifndef GradientsColourTechnique_H
+#define GradientsColourTechnique_H
 
 #include "magics.h"
 
 #include "ColourTechnique.h"
-#include "CalculateColourTechniqueAttributes.h"
+#include "GradientsColourTechniqueAttributes.h"
 
 namespace magics {
 
-class CalculateColourTechnique: public ColourTechnique, public CalculateColourTechniqueAttributes {
+class GradientsColourTechnique: public ColourTechnique, public GradientsColourTechniqueAttributes {
 
 public:
-	CalculateColourTechnique();
-	virtual ~CalculateColourTechnique();
+	GradientsColourTechnique();
+	virtual ~GradientsColourTechnique();
     void set(const map<string, string>& map) { 
-        CalculateColourTechniqueAttributes::set(map);
+        GradientsColourTechniqueAttributes::set(map);
         }
     void set(const XmlNode& node) { 
-        CalculateColourTechniqueAttributes::set(node); 
+        GradientsColourTechniqueAttributes::set(node); 
     }
-     bool accept(const string& node) { return CalculateColourTechniqueAttributes::accept(node); }
+     bool accept(const string& node) { return GradientsColourTechniqueAttributes::accept(node); }
     
     void set(const ColourTechniqueInterface&);
     
     
     virtual ColourTechnique* clone() const {
-    	CalculateColourTechnique* object = new CalculateColourTechnique();
+    	GradientsColourTechnique* object = new GradientsColourTechnique();
     	object->copy(*this);
     	return object;
     }
-    const Colour& getMax() const { return *max_; }
-    const Colour& getMin() const { return *min_; }
-    const string& getDirection() const { return direction_; }
-
+    
 protected:
      void set(LevelSelection&, LevelSelection&, ColourTable&, int) const;
      //! Method to print string about this class on to a stream of type ostream (virtual).
@@ -61,13 +58,13 @@ protected:
 
 private:
     //! Copy constructor - No copy allowed
-	CalculateColourTechnique(const CalculateColourTechnique&);
+	GradientsColourTechnique(const GradientsColourTechnique&);
     //! Overloaded << operator to copy - No copy allowed
-	CalculateColourTechnique& operator=(const CalculateColourTechnique&);
+	GradientsColourTechnique& operator=(const GradientsColourTechnique&);
 
 // -- Friends
     //! Overloaded << operator to call print().
-	friend ostream& operator<<(ostream& s,const CalculateColourTechnique& p)
+	friend ostream& operator<<(ostream& s,const GradientsColourTechnique& p)
 		{ p.print(s); return s; }
 
 };

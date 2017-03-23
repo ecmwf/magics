@@ -48,7 +48,7 @@ public:
 		return object;
 	}
 
-    virtual void prepare(const LevelSelection& levels, const ColourTechnique&);
+    virtual void prepare(LevelSelection& levels, const ColourTechnique&);
     virtual void operator()(Polyline& poly) const;
 
 protected:  

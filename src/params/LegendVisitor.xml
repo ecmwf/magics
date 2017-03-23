@@ -143,6 +143,10 @@ does it submit to any jurisdiction.
        			<set name="legend_user_lines" value="user_text_only">		</set>
        			<set name="legend_user_lines" value="both">		</set>
 	</parameter>
+	
+	<parameter from="floatarray" name="legend_values_list" visible="on" default="floatarray()" member="values_list" to="floatarray">
+             		<documentation> List of values to show in the legend		</documentation>
+	</parameter>
 
 	<parameter from="string" name="legend_user_text" visible="off" default="" member="text" to="string">
              		<documentation> User text to be associated with a legend sub-entry from a multiple entry 		</documentation>
