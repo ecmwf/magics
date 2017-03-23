@@ -521,11 +521,6 @@ bool MercatorProjection::fast_reproject(double& x, double& y) const
 }
 
 
-double round( double x)
-{
-        double prec = 100.;
-        return floor(x*prec+0.5)/prec;
-}
 
 void GeoRectangularProjection::setNewPCBox(double minx, double miny, double maxx, double maxy)
 {

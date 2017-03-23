@@ -593,7 +593,7 @@ double Proj4MatrixHandler::nearest(double  row, double  column) const
     return MatrixHandler::nearest(y, x);
 }
 
-double Proj4MatrixHandler::column(int i , int j)
+double Proj4MatrixHandler::column(int i , int j) const
 {
 	double column = MatrixHandler::column(i, j);
 	double row = MatrixHandler::row(i, j);
@@ -606,7 +606,7 @@ double Proj4MatrixHandler::column(int i , int j)
 
 }
 
-double Proj4MatrixHandler::row(int i, int j)
+double Proj4MatrixHandler::row(int i, int j) const
 {
 	double column = MatrixHandler::column(i, j);
 	double row = MatrixHandler::row(i, j);

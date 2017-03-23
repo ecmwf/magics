@@ -2428,6 +2428,7 @@ QColor QtDriver::getQtColour(const Colour &col) const
 	qreal r=col.red();
 	qreal g=col.green();
 	qreal b=col.blue();
+    qreal alpha=col.alpha();
 	
 	if(r < 0.) r=0.;
 	else if(r > 1.) r=1.;
@@ -2437,8 +2438,11 @@ QColor QtDriver::getQtColour(const Colour &col) const
 	
 	if(b < 0.) b=0.;
 	else if(b > 1.) b=1.;
-	
-	return QColor::fromRgbF(r,g,b);
+    
+    if(alpha < 0.) alpha=0.;
+	else if(alpha > 1.) alpha=1.;
+
+	return QColor::fromRgbF(r,g,b,alpha);
 }	
 		
 static SimpleObjectMaker<QtDriver, BaseDriver> Qt_driver("Qt");

@@ -36,10 +36,11 @@ does it submit to any jurisdiction.
           		<release>0.2		</release>
   	</parameter>
   
-  	<parameter member="colourMethod" to="ColourTechnique" default="calculate" from="string" name="contour_shade_colour_method">
-        		<documentation> Method of generating the colours of the bands in contour shading (LIST/CALCULATE) 		</documentation>
+  	<parameter member="colourMethod" to="ColourTechnique" default="calculate" from="string" name="contour_shade_colour_method" >
+        		<documentation> Method of generating the colours of the bands in contour shading (list/calculate/advanced) 		</documentation>
         		<option xml="calculate" fortran="calculate" include="CalculateColourTechnique.h" name="CalculateColourTechnique">		</option>
         		<option xml="list" fortran="list" include="ListColourTechnique.h" name="ListColourTechnique">		</option>
+            <option xml="gradients" fortran="gradients" include="GradientsColourTechnique.h" name="GradientsColourTechnique">   </option>
   	</parameter>
 
   	<metview_parameter from="string" name="contour_shade_label_blanking" default="on" metview="hidden" member="" to="bool">

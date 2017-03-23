@@ -67,7 +67,7 @@ public:
 	virtual int rightIndex (double ) { return -1; }
 	virtual double  leftRange(double) { return 0; }
 	virtual double rightRange(double) { return 0; }
-	virtual bool operator()(const LevelSelection&) { return false; }
+	virtual bool operator()(LevelSelection&) { return false; }
 	virtual void visit(LegendVisitor&) {} 
 	virtual void operator()(Polyline*) const {}
 	virtual void colour(double, Colour&) {};
@@ -119,15 +119,21 @@ public:
 	virtual int  rightIndex(double);
 
 	virtual bool needClipping() { return (*this->technique_).needClipping(); }
-	virtual bool operator()(const LevelSelection& list)
+	virtual bool operator()(LevelSelection& list)
 	{ 
 		LevelSelection filter;
 		for (LevelSelection::const_iterator level = list.begin(); level != list.end(); ++level) 
 			if ( this->min_ <= *level && *level <= this->max_ ) 
 			          filter.push_back(*level); 
-		(*this->colourMethod_).prepare(filter); 
+
+			      
+		(*this->colourMethod_).prepare(list, filter); 
+
+
 		if ( !filter.empty() && ( filter.back() == filter.front() ) )
 			filter.push_back(filter.front());
+		
+
 		return (*this->technique_).prepare(filter, *this->colourMethod_);
 	}
 	// returns true, if the contouring lines have to be created... False, is the shading is finished...

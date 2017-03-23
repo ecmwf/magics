@@ -51,7 +51,7 @@ public:
 	virtual int index(double);
 	virtual int rightIndex(double);
 	virtual int leftIndex(double);
-	virtual void prepare(const LevelSelection&, const ColourTechnique&);
+	virtual void prepare(LevelSelection&, const ColourTechnique&);
 
     virtual void operator()(Polyline& poly) const;
 
