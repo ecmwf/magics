@@ -213,7 +213,7 @@ public :
     virtual double  width() const { return matrix_.width(); } 
     virtual double  height() const { return matrix_.height(); } 
     
-    virtual const AbstractMatrix& original() const { return matrix_.original(); }
+    virtual const AbstractMatrix& original() const { return delegate() ?  matrix_ : matrix_.original(); }
     virtual int firstRow() const 	{ return matrix_.firstRow(); }
     virtual int nextRow(int i, int f) const   { return matrix_.nextRow(i, f); }
     virtual int firstColumn() const { return matrix_.firstColumn(); }
@@ -524,8 +524,8 @@ public :
     double interpolate(double  row, double  column) const;
     double nearest(double  row, double  column) const;
 
-    double column(int, int);
-    double row(int, int);
+    double column(int, int) const;
+    double row(int, int) const;
 
     bool delegate() const { return true; }
 

@@ -33,7 +33,8 @@ class ColourTableDefinitionCompute: public ColourTableDefinition {
 
 public:
 	ColourTableDefinitionCompute();
-	ColourTableDefinitionCompute(const string& min, const string& max, const string& direction);
+	
+	ColourTableDefinitionCompute(const string& min, const string& max, const string& method, const string& direction);
 	virtual ~ColourTableDefinitionCompute();
 	void set(const ColourTableDefinitionComputeInterface&);
 	void set(const XmlNode&);
@@ -51,16 +52,27 @@ public:
     map<string,  ComputeFunction > methods_;
 
     void hsl(ColourTable&, int);
+    void hcl(ColourTable&, int);
     void linear(ColourTable&, int);
     void hsl_shortest(ColourTable&, int);
     void hsl_longest(ColourTable&, int);
 
+ 	
 protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).
 	 virtual void print(ostream&) const; 
 	 Colour     minColour_;
 	 Colour     maxColour_;
 	 string  direction_;
+	 string method_;
+	 void hcl(const Colour& colour, float& h, float& c, float& l);
+	 Colour rgb(float h, float c, float l, float alpha);
+	 void xyzToRgb(float, float,float,float&,float&, float&);
+	 void xyzToHcl(float, float,float,float&,float&, float&);
+	 void hclToXyz(float, float,float,float&,float&, float&);
+	 void rgbToXyz(float, float,float,float&,float&, float&);
+	 
+
 private:
     //! Copy constructor - No copy allowed
 	ColourTableDefinitionCompute(const ColourTableDefinitionCompute&);

@@ -83,7 +83,7 @@ void ColourTechnique::prepare(LevelSelection& out, LevelSelection& levels, bool 
          if ( min != std::numeric_limits<double>::max() ) {
             bands_.insert(make_pair(Interval(min, *val), left));
             
-            MagLog::dev() << min << "<<" << left << "<<" << *val << endl;
+            
          }
          min = *val;
          left = right;            

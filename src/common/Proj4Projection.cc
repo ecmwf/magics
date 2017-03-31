@@ -236,9 +236,13 @@ void Proj4Projection::init()
 		ASSERT(false);
 	}
 
+
 	methods_["geos"] = &Proj4Projection::geos;
 	methods_["conic"] = &Proj4Projection::conic;
 	methods_["simple"] = &Proj4Projection::simple;
+	
+	
+
 	map<string,  InitMethod >::iterator method = methods_.find(projection_->method_);
 	if ( method != methods_.end() )
 		(this->*method->second)();
@@ -249,6 +253,10 @@ void Proj4Projection::init()
 	helpers_["full"] = &Proj4Projection::full;
 	helpers_["corners"] = &Proj4Projection::corners;
 	helpers_["centre"] = &Proj4Projection::centre;
+	helpers_["projection"] = &Proj4Projection::projectionSimple;
+
+	if ( coordinates_system_ == "projection" ) 
+		setting_ = "projection";
 
 	map<string,  SettingHelper >::iterator helper = helpers_.find(lowerCase(setting_));
 
@@ -451,6 +459,40 @@ void Proj4Projection::simple()
 	add(projection_->maxlon_, projection_->minlat_);
 	add(projection_->minlon_, projection_->minlat_);
 }
+
+void Proj4Projection::projectionSimple()
+{
+
+		min_pcx_ = min_longitude_;
+		min_pcy_ = min_latitude_;
+		max_pcx_ = max_longitude_;
+		max_pcy_ = max_latitude_;
+		pj_transform(to_, from_, 1, 1, &min_longitude_, &min_latitude_, NULL );
+		pj_transform(to_, from_, 1, 1, &max_longitude_, &max_latitude_, NULL );
+	
+		min_longitude_ *= RAD_TO_DEG;
+		min_latitude_ *= RAD_TO_DEG;
+		max_longitude_ *= RAD_TO_DEG;
+		max_latitude_ *= RAD_TO_DEG;
+	
+		Polyline box;
+		box.box(PaperPoint(min_pcx_, min_pcy_), PaperPoint(max_pcx_, max_pcy_));
+
+		vector<Polyline> newbox;
+		PCEnveloppe_->intersect(box, newbox);
+		if ( newbox.empty() ) {
+			MagLog::warning() << "Proj4 : the sub-area is not valid : use global view instead" << endl;
+		}
+		else {
+			PCEnveloppe_ = newbox.front().clone();
+		}
+		// reset 
+		setting_ = "corners";
+		coordinates_system_ = "latlon";
+	
+}
+
+
 
 void Proj4Projection::geos()
 {
