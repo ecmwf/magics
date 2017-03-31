@@ -89,6 +89,11 @@ void GeoPointsDecoder::yxdtlv2(const string& line, const Transformation& transfo
 	std::istringstream in(line);
 	double lat, lon, date, time, level, value;
 	in >> lat >> lon >> level >> date >> time >>  value;
+	if ( useProj4_) {
+   		int error = pj_transform(proj4_, latlon_, 1, 1, &lon, &lat, NULL);    	
+       	lon *= RAD_TO_DEG;
+       	lat *= RAD_TO_DEG;
+  	}	
 	UserPoint geo(lon, lat, value, value == missing_);
 	add(transformation, geo);
 }
@@ -98,6 +103,13 @@ void GeoPointsDecoder::xyv2(const string& line, const Transformation& transforma
 	std::istringstream in(line);
 	double lat, lon, value;
 	in >> lon >> lat >> value;
+	
+	if ( useProj4_) {
+   		int error = pj_transform(proj4_, latlon_, 1, 1, &lon, &lat, NULL);    	
+       	lon *= RAD_TO_DEG;
+       	lat *= RAD_TO_DEG;
+  	}	
+  
 	UserPoint geo(lon, lat, value, value == missing_);
 	add(transformation, geo);
 	
@@ -107,6 +119,11 @@ void GeoPointsDecoder::lluv(const string& line, const Transformation& transforma
 	std::istringstream in(line);
 	double lat, lon, height, date, time, u, v;
 	in >> lat >> lon >> height >> date >> time >> u >> v;
+	if ( useProj4_) {
+   		int error = pj_transform(proj4_, latlon_, 1, 1, &lon, &lat, NULL);    	
+       	lon *= RAD_TO_DEG;
+       	lat *= RAD_TO_DEG;
+  	}	
 	CustomisedPoint geo(lon, lat, "lluv");
 	geo["x_component"] = u;
 	geo["y_component"] = v;
@@ -121,6 +138,11 @@ void GeoPointsDecoder::polar(const string& line, const Transformation& transform
 	double lat, lon, height, date, time, speed, direction;
 	in >> lat >> lon >> height >> date >> time >> speed >> direction;
 
+	if ( useProj4_) {
+   		int error = pj_transform(proj4_, latlon_, 1, 1, &lon, &lat, NULL);    	
+       	lon *= RAD_TO_DEG;
+       	lat *= RAD_TO_DEG;
+  	}	
 	CustomisedPoint geo(lon, lat, "polar");
 
 	if ( speed == missing_ || direction == missing_ )
@@ -142,7 +164,11 @@ void GeoPointsDecoder::yxdtlv1(const string& line)
 	std::istringstream in(line);
 	double lat, lon, date, time, level, value;
 	in >> lat >> lon >> level >> date >> time >>  value;
-
+	if ( useProj4_) {
+   		int error = pj_transform(proj4_, latlon_, 1, 1, &lon, &lat, NULL);    	
+       	lon *= RAD_TO_DEG;
+       	lat *= RAD_TO_DEG;
+  	}	
 	push_back(new UserPoint(lon, lat, value, value == missing_));
 }
 
@@ -151,8 +177,14 @@ void GeoPointsDecoder::xyv1(const string& line)
 	std::istringstream in(line);
 	double lat, lon, value;
 	in >> lon >> lat >> value;
-	push_back(new UserPoint(lon, lat, value, value == missing_));
 	
+	if ( useProj4_) {
+   		int error = pj_transform(proj4_, latlon_, 1, 1, &lon, &lat, NULL);    	
+       	lon *= RAD_TO_DEG;
+       	lat *= RAD_TO_DEG;
+  	}	
+	
+	push_back(new UserPoint(lat, lon, value, value == missing_));
 }
 void GeoPointsDecoder::decode(const Transformation& transformation)
 {
@@ -162,7 +194,7 @@ void GeoPointsDecoder::decode(const Transformation& transformation)
 		formats_["XY_VECTOR"] = &GeoPointsDecoder::lluv;
 		formats_["POLAR_VECTOR"] = &GeoPointsDecoder::polar;
 	}
-	
+	useProj4_ = false;
 	GeoPointsDecoder::Decode method = &GeoPointsDecoder::yxdtlv2;
 	
 	if ( !empty() ) return;
@@ -171,13 +203,21 @@ void GeoPointsDecoder::decode(const Transformation& transformation)
 		
 		ifstream in(path_.c_str());
 		while( in.getline( line, sizeof(line) ) ) {
-		      if( strncmp( line, "#DATA", 5 ) == 0 ) 
+		      if ( strncmp( line, "#DATA", 5 ) == 0 ) 
 		    	  break;
-		      if( strncmp( line, "#FORMAT ", 8 ) == 0 ) {
+		      if ( strncmp( line, "#PROJECTION ", 12 ) == 0 ) {
+		      	useProj4_ = true;
+		      	string proj4(line+12);
+		      	
+		      	proj4_ = pj_init_plus(line+11);
+		      	latlon_ = pj_init_plus("+proj=longlat +ellps=WGS84 +datum=WGS84");
+		      }
+		      if ( strncmp( line, "#FORMAT ", 8 ) == 0 ) {
 		    	  const char* fp = line+7;
 		    	  while( fp && *fp == ' ' )
 		    		  	++fp;
 		    	  string format(fp);
+		    	
 		    	  map<string, GeoPointsDecoder::Decode>::iterator m = formats_.find(format);
 		    	  method = ( m != formats_.end() ) ? m->second : &GeoPointsDecoder::yxdtlv2;
 		      }
@@ -231,6 +271,7 @@ void GeoPointsDecoder::decode()
 		while( in.getline( line, sizeof(line) ) ) {
 		      if( strncmp( line, "#DATA", 5 ) == 0 ) 
 		    	  break;
+
 		      if( strncmp( line, "#FORMAT ", 8 ) == 0 ) {
 		    	  const char* fp = line+7;
 		    	  while( fp && *fp == ' ' )
