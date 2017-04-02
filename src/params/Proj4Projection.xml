@@ -50,4 +50,7 @@ does it submit to any jurisdiction.
   	<parameter from="string" name="subpage_map_proj4_definition" visible="no" default="" member="proj4_definition" to="string">
          		<documentation> Proj4 defintion string : to be used very carefully --&gt; possible side effect  		</documentation>
   	</parameter>
+    <parameter from="string" name="subpage_coordinates_system" visible="no" default="latlon" member="coordinates_system" to="string">
+            <documentation> Proj4 defintion string : to be used very carefully --&gt; possible side effect      </documentation>
+    </parameter>
   </class></magics>

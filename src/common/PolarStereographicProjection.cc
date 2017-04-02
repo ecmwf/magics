@@ -162,11 +162,14 @@ void PolarStereographicProjection::init(double width, double height)
 	if ( !projection_ ) 
 		projection_ = new TePolarStereographic(TeDatum(), vertical_longitude_*TeCDR, 0., 0., "Meters", (hemisphere_ == NORTH) ? TeNORTH_HEM : TeSOUTH_HEM);
 	
+	
+
 	if ( magCompare(area_, "full") ) {
 		ymin_ = ( hemisphere_ == NORTH ) ? -20. : 20.;
 		ymax_ = ( hemisphere_ == NORTH ) ? -20. : 20.;
-		xmin_ = ( hemisphere_ == NORTH ) ? -45. : 45.;
-		xmax_ = ( hemisphere_ == NORTH ) ? 135. : -135.;
+		xmin_ = ( hemisphere_ == NORTH ) ? -45. + vertical_longitude_ : 45. + vertical_longitude_;
+		xmax_ = ( hemisphere_ == NORTH ) ? 135. + vertical_longitude_ : -135. + vertical_longitude_;
+		cout << "xmin --> " << xmin_ << " xmax --> " << xmax_ << endl; 
 	}
 	else
 		magCompare(area_, "corners" ) ?  corners() : centre(width, height);
@@ -582,7 +585,7 @@ void PolarStereographicProjection::labels(const LabelPlotting& label, DrawingVis
 	const vector<double>& latitudes = label.latitudes();
 	//const vector<double>& longitudes = label.longitudes();
 	vector<double> longitudes;
-	longitudes.push_back(0);
+	longitudes.push_back(vertical_longitude_);
 	unsigned int flat = (unsigned int) std::max(1, (int) maground(latitudes.size()/4));
 	unsigned int flon = (unsigned int) std::max(1, (int) maground(longitudes.size()/4));
 
@@ -680,10 +683,12 @@ void PolarStereographicProjection::corners()
 	// For backwards compatibility!
 	if  ( min_longitude_ == -180 && max_longitude_ == 180 &&
 		   min_latitude_ == -90 && max_latitude_ == 90 ) {
+
+		
 		min_latitude_ = ( hemisphere_ == NORTH ) ? -20. : 20.;
 		max_latitude_ = ( hemisphere_ == NORTH ) ? -20. : 20.;
-		min_longitude_ = ( hemisphere_ == NORTH ) ? -45. : 45.;
-		max_longitude_ = ( hemisphere_ == NORTH ) ? 135. : -135.;
+		min_longitude_ = ( hemisphere_ == NORTH ) ? -45. + vertical_longitude_: 45.+ vertical_longitude_;
+		max_longitude_ = ( hemisphere_ == NORTH ) ? 135. + vertical_longitude_: -135.+ vertical_longitude_;
 	}
 
 	xmin_ = min_longitude_;
@@ -822,20 +827,19 @@ void PolarStereographicProjection::reprojectComponents(double& x, double& y, pai
 
 void PolarStereographicProjection::reprojectSpeedDirection(const PaperPoint& point, pair<double, double>& wind) const
 {
+
 	double x = point.x_;
 	double y =  point.y_;
-	double ppx = point.x_ + 0.5;
-	double ppy = point.y_;
+
+	double u = x + (  sin( wind.second*DEG_TO_RAD) );
+	double v = y + (  cos( wind.second*DEG_TO_RAD) );
 
 	fast_reproject(x, y);
-	fast_reproject(ppx, ppy);
+	fast_reproject(u, v);
 	
-	double rotation = atan2((ppy - y), (ppx - x));
-
+	double rotation = atan2((u - x), (v - y));
 	
-
-	wind.second = wind.second + (rotation*RAD_TO_DEG);
-
+	wind.second =   (rotation*RAD_TO_DEG);
 }
 
 void PolarStereographicProjection::coastSetting(map<string, string>& setting, double abswidth, double absheight) const

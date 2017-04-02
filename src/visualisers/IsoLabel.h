@@ -45,8 +45,8 @@ public:
 		return object;
 	}
 	virtual void operator()(Polyline&, double) const; 
-	virtual void prepare(const LevelSelection&) {}
-	virtual void prepare(const LevelSelection&, const string&) { }
+	virtual void prepare(LevelSelection&) {}
+	virtual void prepare(LevelSelection&, const string&) { }
 	virtual bool label() { return false; }
 
 protected:
@@ -76,7 +76,7 @@ public:
    	virtual bool accept(const string& verb) { return  IsoLabelAttributes::accept(verb); }
    virtual void operator()(Polyline&, double) const;
    virtual bool label() { return true; }
-   virtual void prepare(const LevelSelection& levels, const string& colour)
+   virtual void prepare(LevelSelection& levels, const string& colour)
    {
 //        int label = 0;
 

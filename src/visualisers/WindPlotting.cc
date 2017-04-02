@@ -75,7 +75,7 @@ void WindPlotting::setAdvanced(double& min, double& max)
 	colourMethod_->set(*this);
 	levels_->calculate(min, max, false);
 	LevelSelection::const_iterator level = levels_->begin();
-	colourMethod_->prepare(*levels_);
+	colourMethod_->prepare(*levels_, *levels_);
 	Colour last;
 	map_.clear();
 	while ( true) {

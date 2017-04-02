@@ -121,10 +121,10 @@ const vector<double>& NoGridPlotting::latitudes(const Transformation& transforma
 	if(latitudes_.empty())
 	{
 	       for(double lat = latReference_; lat > min; lat -=latIncrement_)
-     	       {
+     	       {/*
      	       	if ( lat < -90 )
      	       		latitudes_.push_back(180. - lat);
-     	       	else 
+     	       	else */
 		       		latitudes_.push_back(lat);
      	       }
 	       for(double lat = latReference_ + latIncrement_; lat < max; lat += latIncrement_)

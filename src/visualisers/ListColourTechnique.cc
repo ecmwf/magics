@@ -31,7 +31,7 @@ ListColourTechnique::ListColourTechnique()
     
 }
 
-void ListColourTechnique::set(ColourTable& table, int nb) const
+void ListColourTechnique::set(LevelSelection&, LevelSelection&, ColourTable& table, int nb) const
 {
     ColourTableDefinitionList helper;
     //policy = table.getPolicy();
