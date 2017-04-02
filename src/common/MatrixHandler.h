@@ -51,7 +51,7 @@ public :
     virtual int rowIndex(double r) const     { return matrix_.rowIndex(r); } 
     virtual int columnIndex(double c) const  { return matrix_.columnIndex(c); }  
     virtual bool  akimaEnable() const  { return matrix_.akimaEnable(); }
-    
+    virtual bool  delegate() const  { return matrix_.delegate(); }
     
     virtual void boundRow(double r, 
     	double& row1, int& index1, double& row2, int& index2) const 
@@ -213,7 +213,7 @@ public :
     virtual double  width() const { return matrix_.width(); } 
     virtual double  height() const { return matrix_.height(); } 
     
-    virtual const AbstractMatrix& original() const { return matrix_.original(); }
+    virtual const AbstractMatrix& original() const { return delegate() ?  matrix_ : matrix_.original(); }
     virtual int firstRow() const 	{ return matrix_.firstRow(); }
     virtual int nextRow(int i, int f) const   { return matrix_.nextRow(i, f); }
     virtual int firstColumn() const { return matrix_.firstColumn(); }
@@ -498,8 +498,8 @@ public :
     double interpolate(double  row, double  column) const { matrix_.interpolate(row, column); }
     double nearest(double  row, double  column) const { matrix_.nearest(row, column); }
 
-    double column(int i, int j) { matrix_.column(i, j); }
-    double row(int i, int j) { matrix_.row(i, j); }
+    double column(int i, int j) const { matrix_.column(i, j); }
+    double row(int i, int j) const { matrix_.row(i, j); }
 
 protected :
 
@@ -520,9 +520,10 @@ public :
     double interpolate(double  row, double  column) const;
     double nearest(double  row, double  column) const;
 
-    double column(int, int);
-    double row(int, int);
-    
+    double column(int, int) const;
+    double row(int, int) const;
+
+    bool delegate() const { return true; }
 
    
 

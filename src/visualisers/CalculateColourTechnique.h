@@ -55,7 +55,7 @@ public:
     const string& getDirection() const { return direction_; }
 
 protected:
-     void set(ColourTable&, int) const;
+     void set(LevelSelection&, LevelSelection&, ColourTable&, int) const;
      //! Method to print string about this class on to a stream of type ostream (virtual).
 	 virtual void print(ostream&) const; 
 

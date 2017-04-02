@@ -115,6 +115,7 @@ TagConverter::TagConverter(TagHandler& owner) : owner_(owner), text_(0) {
 		map_["text"] =  &TagConverter::pass;
 		map_["box"] =  &TagConverter::pass;
 		map_["br"] =  &TagConverter::pass;
+		//map_["empty"] =  &TagConverter::empty;
 	}
 	
 TagConverter::~TagConverter() {}
@@ -136,6 +137,13 @@ void TagConverter::encoding(const string& encoding) { encoding_ = encoding; }
 void TagConverter::text(const XmlNode& node) { 
 	push();
 	node.visit(*this);
+
+}
+void TagConverter::empty(const XmlNode&) {
+	// Add emopty text 
+	label_ = " ";
+	top().text(" ");
+	push();
 
 }
 

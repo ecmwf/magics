@@ -59,7 +59,7 @@ public:
     virtual void operator()(Data&, BasicGraphicsObjectContainer&) {}
 	virtual void operator()(IsoPlot* iso, MatrixHandler& data, BasicGraphicsObjectContainer& parent);
     virtual void operator()(Polyline*) const {};
-    virtual bool prepare(const LevelSelection&, const ColourTechnique&)  { return false; }   
+    virtual bool prepare(LevelSelection&, const ColourTechnique&)  { return false; }   
     virtual void visit(LegendVisitor&, const ColourTechnique&) {}   
     virtual int index(double) {  return -1; }
     virtual int leftIndex(double) {  return -1; }

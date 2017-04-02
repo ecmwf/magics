@@ -13,6 +13,7 @@ BinningObject.xml
 BothValuePlotMethod.xml
 Boundaries.xml
 CalculateColourTechnique.xml
+GradientsColourTechnique.xml
 CalculateHeightTechnique.xml
 CalmIndicator.xml
 CartesianTransformation.xml
@@ -141,6 +142,7 @@ Proj4Collignon.xml
 Proj4EPSG32661.xml
 Proj4EPSG4326.xml
 Proj4EPSG3857.xml
+Proj4EPSG900913.xml
 Proj4Geos.xml
 Proj4Goode.xml
 Proj4Lambert.xml

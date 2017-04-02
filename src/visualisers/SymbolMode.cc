@@ -278,7 +278,7 @@ void SymbolIndividualMode::visit(Data& data, LegendVisitor& legend)
     if ( legend_height_ != -1)
     		  symbol->setHeight(legend_height_);
     SimpleSymbolEntry *entry = new SimpleSymbolEntry(legend_text_, symbol);
-    entry->userText(legend_text_);
+    entry->userText(legend_text_, "user");
     legend.add(entry);
 }
 

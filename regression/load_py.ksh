@@ -3,30 +3,28 @@
 
 set +x
 
-versions="2.30.0" 
+versions="2.31.0" 
 
 ext="py"
 img_ext="png"
-where='efas'
+where='galery'
 interpretor='python'
-src='efas_plot.py'
+src='gradients gradients2'
 
 dir=`pwd`
 name=`basename $dir`
 
 
 
-for sf in $src 
+for s in $src
 do
-    s=`basename $sf .$ext`
-
 for v in $versions
 do
   module unload Magics
   module load Magics/$v
   echo "magics/reference/$v/$where"
 #  ../upload.py $v ./$sf $s.$img_ext magics/reference/$v/$where -i $interpretor
-  ../upload.py $v ./$sf $s.$img_ext magics/reference/$v/$where -i $interpretor
+  ../upload.py $v ./$src.py $src.png magics/reference/$v/$where -i $interpretor
 
 done
 done

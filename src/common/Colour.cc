@@ -203,7 +203,7 @@ Colour::~Colour() {}
 void Colour::print(ostream& out)  const
 {
 	
-	out <<name_ << "["<<rgb_.red_<<", "<<rgb_.green_<< ", "<< rgb_.blue_ << ", " << rgb_.alpha_<<"] ";
+	out  << "["<<rgb_.red_<<", "<<rgb_.green_<< ", "<< rgb_.blue_ << ", " << rgb_.alpha_<<"] ";
 }
 
 Hsl Colour::hsl() const 
