@@ -1,0 +1,58 @@
+{
+    "232.140": {
+        "contour_level_selection_type": "level_list", 
+        "contour_shade_colour_method": "list", 
+        "contour_legend_text": "Contour shade (Range: 0.0 / 18.5)", 
+        "contour_label_colour": "black", 
+        "contour_shade": "on", 
+        "contour_level_list": "0.0/3.5/5.0/6.5/8.0/9.5/11.0/12.5/14.0/15.5/17.0/18.5", 
+        "contour_line_colour": "white", 
+        "contour_reference_level": 0, 
+        "contour_label_quality": "high", 
+        "contour_hilo": "off", 
+        "contour_label_format": "(F4.1)", 
+        "contour_highlight": "off", 
+        "contour_label": "off", 
+        "contour_min_level": 0, 
+        "contour_shade_method": "area_fill", 
+        "_name": "wave_mwp", 
+        "contour_shade_min_level": 0, 
+        "contour_shade_colour_list": "blue/greenish_blue/sky/yellowish_green/yellow/orange_yellow/yellowish_orange/orange/red/brown/charcoal"
+    }, 
+    "151.128": {
+        "sfc": {
+            "contour_level_selection_type": "level_list", 
+            "contour_shade_colour_method": "list", 
+            "contour_legend_text": "Contour shade (Range: 2 / 50)", 
+            "contour_shade_method": "area_fill", 
+            "contour_shade": "on", 
+            "contour_level_list": "2/4/8/12/18/25/50", 
+            "contour_shade_max_level": 50, 
+            "contour_reference_level": 0, 
+            "contour_hilo": "off", 
+            "contour": "off", 
+            "contour_label": "off", 
+            "contour_shade_min_level": 2, 
+            "contour_shade_colour_list": "rgb(0.85,0.73,0.86)/rgb(0.76,0.53,0.77)/rgb(0.73,0.34,0.74)/rgb(0.85,0.13,0.88)/rgb(0.96,0,1.0)/rgb(0.98,0.51,1.0)"
+        }, 
+        "_name": "msl_spread_public"
+    }, 
+    "167.128": {
+        "contour_level_selection_type": "interval", 
+        "contour_shade_colour_method": "list", 
+        "contour_legend_text": "Contour shade (Range: -48 / 56)", 
+        "contour_line_contour": "dot", 
+        "contour_shade": "on", 
+        "contour_shade_max_level": 56, 
+        "contour_hilo": "off", 
+        "contour": "off", 
+        "contour_line_thickness": 3, 
+        "contour_label": "off", 
+        "grib_missing_value_indicator": 9999, 
+        "contour_shade_method": "area_fill", 
+        "_name": "t_uerra", 
+        "contour_shade_min_level": -48, 
+        "contour_interval": "4", 
+        "contour_shade_colour_list": "rgb(0,0,0.5)/rgb(0,0,0.5)/rgb(0,0,0.5)/rgb(0,0,0.5)/rgb(0,0,0.5)/rgb(0,0,0.85)/rgb(0.25,0,1)/blue_purple/greenish_blue/blue_green/bluish_green/yellow_green/greenish_yellow/yellow/orangish_yellow/orange_yellow/yellowish_orange/orange/reddish_orange/red_orange/orangish_red/red/magenta/magenta/magenta/magenta/magenta"
+    }
+}
