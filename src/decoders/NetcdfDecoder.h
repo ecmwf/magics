@@ -69,11 +69,13 @@ public:
     }
 
     void visit(Transformation& transformation) {
-        if ( !transformation.getAutomaticX() && !transformation.getAutomaticY()) 
+        /*if ( !transformation.getAutomaticX() && !transformation.getAutomaticY()) 
             return;
             
         if ( !data_ )
-            valid_ = (*interpretor_).interpretAsMatrix(&data_);
+            valid_ = (*interpretor_).interpretAsMatrix(&data_); 
+        if ( valid_ )
+        */
     	 (*interpretor_).visit(transformation);    
     }
 

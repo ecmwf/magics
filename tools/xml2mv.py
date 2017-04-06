@@ -15,8 +15,8 @@ import sys
 
 
 if(len(sys.argv) != 6) :
-    print "\n\tYou need to give 4 input parameters:"
-    print "\n\t  %s source.xml targetDef CLASS_NAME rulesDef\n" % sys.argv[0]
+    print ("\n\tYou need to give 4 input parameters:")
+    print ("\n\t  %s source.xml targetDef CLASS_NAME rulesDef\n") % sys.argv[0]
     sys.exit()
 
 
@@ -382,7 +382,7 @@ class ObjectHandler(ContentHandler):
 
 			# we now know that the clause should go into position 'position' in the new tuple
 			if self.debug:
-				print "put into position " + str(position)
+				print ("put into position " + str(position ))
 			if position == 0:
 				firstpart = ()
 				secondpart = (newtuple3,)
@@ -445,7 +445,7 @@ class ObjectHandler(ContentHandler):
 			params = self.classes[c].get("params", ())
 			for p in params:
 				x = reqs
-				if x <> ():
+				if x != ():
 					self.addOptionalParam(p, x)
 					#self.addOptionalParam(p, (x,))
 
@@ -463,11 +463,11 @@ class ObjectHandler(ContentHandler):
 		#print spaces + "enter rec, class = " + classname
 		for parent in i:
 			#print parent
-			if parent <> None:
+			if parent != None:
 				reqs = self.addRecursiveInheritedClassRequirements(parent, reclevel+1)
 				#print spaces + "reqs: "
 				#print reqs
-				if reqs <> None:
+				if reqs != None:
 					for req in reqs:
 						#print "ADDING REQ FROM RECURSIVE"
 						self.addRequirementToClass(req[0], req[1], classname)
@@ -489,11 +489,11 @@ class ObjectHandler(ContentHandler):
 		#print spaces + "enter rec, class = " + classname
 		for parent in i:
 			#print parent
-			if parent <> None:
+			if parent != None:
 				params = self.addRecursiveInheritedClassParams(parent, reclevel+1)
 				#print spaces + "reqs: "
 				#print reqs
-				if params <> None:
+				if params != None:
 					for params in params:
 						#print "ADDING REQ FROM RECURSIVE"
 						self.addParamsFromOneClassToAnother(parent, classname)
@@ -540,7 +540,7 @@ class ObjectHandler(ContentHandler):
 					try:
 						file = open(fname, "r")
 						if (self.debug):
-							print "Opened (start class)" + fname
+							print ("Opened (start class)" + fname)
 						self.filehistory.append(fname)
 						object = ObjectHandler()
 						object.myoptions = []
@@ -576,14 +576,14 @@ class ObjectHandler(ContentHandler):
 				return
 			if (attrs.get("inherit_parent_reqs") != 'no'):
 				docclass = attrs.get("doc_class", None)
-				if docclass <> None:
+				if docclass != None:
 					paramclass = docclass
 				else:
 					paramclass = self.classname
 				self.addParameterToClass(self.param, paramclass)
 			type = attrs.get("to")
 			metview_type = attrs.get("metview_interface")
-			if metview_type <> None:
+			if metview_type != None:
 				type = metview_type
 			if (self.types.has_key(type)):
 				f = self.types[type]
@@ -622,7 +622,7 @@ class ObjectHandler(ContentHandler):
 								file = open(fname, "r")
 								self.filehistory.append(fname)
 								if (self.debug):
-									print "Opened (start option) " + fname
+									print ("Opened (start option) " + fname)
 								object = ObjectHandler()
 								object.myoptions = []
 								object.myrules = {}
@@ -675,8 +675,8 @@ class ObjectHandler(ContentHandler):
 			self.last = self.last + "\t} = %s\n" % self.defparam
 			self.newparam(self.param, self.last, self.defparam)
 			if (self.debug) :
-				print "  endparam: " + self.param
-				print "  endparam SL: \n" + self.last
+				print ("  endparam: " + self.param)
+				print ("  endparam SL: \n" + self.last)
 			self.last = ""
 			for option in self.myoptions:
 				for p in option:
@@ -704,7 +704,7 @@ class ObjectHandler(ContentHandler):
 								continue
 
 				if  len(unsets) != 0 :
-						#print  "%s %s <> %s %s " % ('%if', self.param.upper(), current.upper(), '%then')
+						#print  "%s %s != %s %s " % ('%if', self.param.upper(), current.upper(), '%then')
 						#for unset in unsets:
 						#	print "\t%s %s " % ('%unset', unset.upper())
 						pass
@@ -769,7 +769,7 @@ class ObjectHandler(ContentHandler):
 				self.addRelatedOptionalRequirements2()
 				#print "********************************************"
 				#for o in self.optionalparams:
-				#	print o
+				#	PRint o
 				#	print self.optionalparams[o]
 				#print self.optionalparams
 
@@ -790,7 +790,7 @@ class ObjectHandler(ContentHandler):
 									rules.write(" %or")
 							first = False
 							prevparam = condition[0]
-							rules.write(" " + condition[0].upper() + " <> " + condition[1].upper())
+							rules.write(" " + condition[0].upper() + " != " + condition[1].upper())
 						rules.write(" %then")
 						rules.write("\n\t%unset " + optparam.upper())
 						rules.write("\n")
@@ -853,4 +853,3 @@ saxparser.setContentHandler(object)
 
 datasource = open(sys.argv[1] +"/" + sys.argv[2], "r")
 saxparser.parse(datasource)
-print "DONE"
