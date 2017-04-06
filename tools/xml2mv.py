@@ -769,7 +769,7 @@ class ObjectHandler(ContentHandler):
 				self.addRelatedOptionalRequirements2()
 				#print "********************************************"
 				#for o in self.optionalparams:
-				#	print o
+				#	PRint o
 				#	print self.optionalparams[o]
 				#print self.optionalparams
 
@@ -853,4 +853,3 @@ saxparser.setContentHandler(object)
 
 datasource = open(sys.argv[1] +"/" + sys.argv[2], "r")
 saxparser.parse(datasource)
-print("DONE")

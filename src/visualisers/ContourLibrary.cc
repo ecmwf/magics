@@ -179,9 +179,6 @@ EcChartLibrary::EcChartLibrary():
 	for (int i = 0; i <keys_.size(); i++){	
         index_.insert(make_pair(keys_[i],EcChartSetData(keys_[i])));
     }
-
-	
-
 }
 
 EcChartLibrary::~EcChartLibrary()
@@ -199,8 +196,6 @@ void EcChartLibrary::setCriteria(MetaDataCollector& request, const string& crite
 
 void EcChartLibrary::askId(MetaDataCollector& request)
 {
-
-
 	//main keywords
 	setCriteria(request, "paramId");
 	setCriteria(request, "typeOfLevel");
@@ -294,3 +289,45 @@ void EcChartLibrary::print(ostream&) const
 
 }
 
+WebLibrary::WebLibrary()
+{
+}
+
+WebLibrary::~WebLibrary()
+{
+}
+
+// set the meta data to be collected
+void WebLibrary::askId(MetaDataCollector& request)
+{
+//main keywords
+	setCriteria(request, "param");
+	setCriteria(request, "levtype");
+	setCriteria(request, "level");
+	
+	
+}
+
+void WebLibrary::setCriteria(MetaDataCollector& request, const string& criteria)
+{
+	request[criteria] = "";
+	MetaDataAttribute attribute;
+	attribute.setSource(MetaDataAttribute::GribApiSource);
+	request.setAttribute(criteria, attribute);
+
+}
+
+// set the map to set the contour!
+void WebLibrary::getAttributes(MetaDataCollector& data, map<string, string>& contour)
+{
+		
+		StyleLibrary styles(data["theme"], "contours");
+		const map<string, string>& style = styles.get(data["param"]);
+		contour = style;
+	
+}
+
+void WebLibrary::print(ostream&) const
+{
+
+}
