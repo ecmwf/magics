@@ -32,17 +32,11 @@ does it submit to any jurisdiction.
          -1 is the  default:  85% of the parent page 		</documentation>
 	</parameter>
 
-	<parameter member="predefined" to="bool" default="off" from="string" name="subpage_map_library_area">
-		<documentation> if On, pickup a predefined geographical area </documentation>
-	</parameter>
-	<parameter member="predefined_name" to="string" default="off" from="string" name="subpage_map_area_name">
-		<documentation> Name of the predefined area </documentation>
-	</parameter>
 	<parameter member="transformation" to="Transformation" default="cylindrical" from="string" name="subpage_map_projection">
          		<documentation>Projection to set in the drawing area 		</documentation>
 
-            		<option xml="cylindrical" fortran="cylindrical" include="GeoRectangularProjection.h" name="GeoRectangularProjection">		
-            		</option>
+            		<option xml="cylindrical" fortran="cylindrical" include="GeoRectangularProjection.h" name="GeoRectangularProjection">		</option>
+    
              		<option xml="polar_stereographic" fortran="polar_stereographic" include="PolarStereographicProjection.h" name="PolarStereographicProjection">		</option>
         		<option fortran="polar_north" include="Proj4Projection.h" name="Proj4PolarNorth">		</option>
  				<option fortran="geos" include="Proj4Projection.h" name="Proj4Geos">		</option>

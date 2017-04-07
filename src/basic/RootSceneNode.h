@@ -164,8 +164,6 @@ public:
 	void getReady();
 	BasicSceneNode* clone();
 	virtual void setPage(RootScenePage* node);
-	string theme() const { return theme_; }
-	
 
 protected:
 	void print(ostream&) const;
