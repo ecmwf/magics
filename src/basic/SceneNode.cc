@@ -136,20 +136,12 @@ void FortranSceneNode::visit(BasicGraphicsObjectContainer& tree)
 	layout_->frameIt();  
 	
 }
-string FortranSceneNode::theme() const
-{
-	if (theme_ == "super_page_theme" ) 
-		return parent_->theme();
-	else 
-		return theme_;
-}
-	
+
 
 void FortranSceneNode::getReady()
 {	
 	ASSERT(parent_);
 	
-	cout << "THEME " << theme() << endl;
 	// Make sure that the dimensions are not bigger that the paper size!
 
 	if ( width_ > parent_->absoluteWidth() )

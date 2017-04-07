@@ -160,32 +160,6 @@ protected:
 	map<string,EcChartSetData> index_;
 
 };
-class WebLibrary : public ContourLibrary {
-
-
-public:
-	WebLibrary();
-	virtual ~WebLibrary();
-
-	// set the meta data to be collected
-	void askId(MetaDataCollector&);
-
-	bool checkId(MetaDataCollector&,MetaDataCollector&) { return true; }
-	void setCriteria(MetaDataCollector&, const string&);
-
-	// set the map to set the contour!
-	void getAttributes(MetaDataCollector&, map<string, string>&);
-
-
-
-protected:
-     //! Method to print string about this class on to a stream of type ostream (virtual).
-	virtual void print(ostream&) const;
-
-	
-
-};
-
 
 class NoContourLibrary : public ContourLibrary {
 
