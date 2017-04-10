@@ -54,9 +54,7 @@ bool Polyline::reproject(BasicGraphicsObjectContainer& out) const
 Polyline* Polyline::getNew() const
 {
 	Polyline* poly = new Polyline();
-
 	poly->copy(*this);
-
 	return poly;
 }
 
@@ -166,7 +164,7 @@ void Polyline::reproject(const Transformation& transformation)
 	MagLine::iterator from = std::remove_if (polygon_.outer().begin(), polygon_.outer().end(), ReprojectHelper(transformation));
 	polygon_.outer().erase(from, polygon_.outer().end());
 
-	
+	cout << polygon_ << endl;
 
 // Now the holes!
 	for (Holes::iterator hole = polygon_.inners().begin(); hole != polygon_.inners().end(); ++hole)  {
