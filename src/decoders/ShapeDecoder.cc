@@ -307,7 +307,6 @@ void ShapeDecoder::decode(vector<Polyline*>& data, const Transformation& transfo
 			const double north = transformation.getMaxY();
 			const double west  = transformation.getMinX();
 			const double east  = transformation.getMaxX();
-			//cout << "    ShapeDecoder - BBox  s: "<<south<<" n: " <<north<<" / w: "<<west<<" e: "<< east<< endl;
 
 			double shift = 0;
 
@@ -389,23 +388,6 @@ void ShapeDecoder::decode(vector<Polyline*>& data, const Transformation& transfo
 							if ( polyright ) polyright->push_back_hole(PaperPoint(x+360, y));
 					}
 				}
-
-	            /// first we clip
-				/*
-                for (vector<Polyline*>::iterator poly = polys.begin(); poly != polys.end(); ++poly ) {
-                	transformation(**poly, data);
-
-                    vector<Polyline> clipped;
-                    geobox.intersect(**poly, clipped);
-	                // then we reproject!
-                    for (vector<Polyline>::iterator clip = clipped.begin(); clip != clipped.end(); ++clip ) {
-                    	clip->reproject(transformation);
-                    	box.intersect(*clip, data);
-                    	data.push_back(*clip);
-                    }}
-				*/
-
-
 			}
 			SHPDestroyObject(psShape);
 			SHPClose( hSHP );
