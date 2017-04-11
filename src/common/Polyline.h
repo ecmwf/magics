@@ -259,6 +259,12 @@ public:
 		if ( point.x_ !=  last.x_ ||  point.y_ !=  last.y_)
 			polygon_.outer().push_back(point);
 	}
+	void rotate(int index) {
+		std::rotate(polygon_.outer().begin(),polygon_.outer().begin()+index,polygon_.outer().end());
+		
+
+
+	}
 	void push_back(double x, double y)
 	{
 		polygon_.outer().push_back(PaperPoint(x, y));

@@ -65,7 +65,7 @@ void Polyline::print(ostream& out) const
 {
 	out << "Polyline[";
 	out << ", nb_points = " << this->size();
-	  if ( this->size() < 1000 ) {
+	  if ( this->size() < 20 ) {
             out << " Outer [";
             string sep = "";
 	    const unsigned int nb = size();
@@ -162,9 +162,10 @@ struct ReprojectHelper
 
 void Polyline::reproject(const Transformation& transformation)
 {
-
+	
 	MagLine::iterator from = std::remove_if (polygon_.outer().begin(), polygon_.outer().end(), ReprojectHelper(transformation));
 	polygon_.outer().erase(from, polygon_.outer().end());
+
 
 	
 
@@ -208,22 +209,6 @@ void Polyline::intersect(const Polyline& poly, vector<Polyline> & out) const
 			out.push_back(Polyline());
 			out.back().copy(*this);
 			out.back().polygon_ = *c;
-/*
-            if(!c->inners().empty())
-            {
-            	const int noHoles = c->inners().size();
-            	for (int h=0; h<noHoles; ++h)
-            	{
-            	    out.back().newHole();
-            	    const int noPointsHoles = c->inners()[h].size();
-            	    for (int hh=noPointsHoles-1; hh > 0;--hh)
-            	    {
-            	    	using boost::geometry::get;
-            	        out.back().push_back_hole(PaperPoint(get<0>(c->inners()[h][hh]),get<1>(c->inners()[h][hh]) ));	
-            	    }
-            	}
-            }
-*/
 		}
 	}
 	catch(...) {
