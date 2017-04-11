@@ -188,6 +188,18 @@ public:
    			{ ASSERT ( parent_ ); return  parent_->rootWidthResolution(); } 
    	virtual int heightResolution() const   
    	   		{ ASSERT ( parent_ ); return  parent_->rootHeightResolution(); }
+
+   	virtual string theme() const // REturn the parent theme!
+	{
+
+  			if (parent_) { 
+  				cout << "THEME OK ";
+  			return parent_->theme();
+ 			}
+ 			cout << "THEME K0";
+ 			return "magics";
+		
+	}
    
 	const string& name() const { return name_; }
 	void name(const string& name)  { name_ = name; }
