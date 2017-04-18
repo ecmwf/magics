@@ -169,7 +169,7 @@ void PolarStereographicProjection::init(double width, double height)
 		ymax_ = ( hemisphere_ == NORTH ) ? -20. : 20.;
 		xmin_ = ( hemisphere_ == NORTH ) ? -45. + vertical_longitude_ : 45. + vertical_longitude_;
 		xmax_ = ( hemisphere_ == NORTH ) ? 135. + vertical_longitude_ : -135. + vertical_longitude_;
-		cout << "xmin --> " << xmin_ << " xmax --> " << xmax_ << endl; 
+		
 	}
 	else
 		magCompare(area_, "corners" ) ?  corners() : centre(width, height);

@@ -47,7 +47,7 @@ void Coastlines::print(ostream& out)  const
 
 void Coastlines::visit(DrawingVisitor& parent)
 {
-	cout << "COASTLINES--> " << theme() << endl;
+	
 
 	// if needed Find the Style, according to the theme ..
 	if ( style_.size() ) {
