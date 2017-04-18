@@ -49,11 +49,7 @@ bool Streamlines::operator()(Data& data, BasicGraphicsObjectContainer& parent)
 
     MatrixHandler& handler = *geo.prepareData(data.direction());
 
-    // We filter !
-    cout << "left->" << handler.left() << endl;
-    cout << "right->" << handler.right() << endl;
-    cout << "top->" << handler.top() << endl;
-    cout << "bottom->" << handler.bottom() << endl;
+    
 
     float* direction = new float[handler.rows()*handler.columns()];
     int i = 0;

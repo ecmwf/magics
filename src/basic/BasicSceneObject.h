@@ -191,7 +191,7 @@ public:
 
    	virtual string theme() const // REturn the parent theme!
 	{
-		ASSERT(parent_); return parent_->theme();
+  			return (parent_) ? parent_->theme() : "magics";
 	}
    
 	const string& name() const { return name_; }

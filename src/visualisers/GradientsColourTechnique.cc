@@ -43,7 +43,7 @@ void GradientsColourTechnique::set(LevelSelection& out, LevelSelection& in, Colo
 	
 	vector<double>::const_iterator val = stops_.begin();
 	vector<int>::const_iterator step = steps_.begin();
-	
+	string stop_method = lowerCase(stop_method_);
 	
 	if ( colours_.empty() ) {
 		MagLog::warning() << " No colours given to the gradients method" << endl;
@@ -68,13 +68,14 @@ void GradientsColourTechnique::set(LevelSelection& out, LevelSelection& in, Colo
   		ColourTableDefinitionCompute helper(left, right, technique_, technique_direction_);
   		
   		int nb;
-  		if ( stop_method_ == "right") 
+  		
+  		if ( stop_method == "right") 
   			nb = (col == 1 ) ? istep + 1 : istep + 2;
-  		else if ( stop_method_ == "left" )
+  		else if ( stop_method == "left" )
   			nb = (col == last ) ? istep + 1 : istep + 2;
-  		else if ( stop_method_ == "ignore" ) 
+  		else if ( stop_method == "ignore" ) 
   			nb = (col == 1 || col == last ) ? istep + 2 : istep + 3;
-  		else if ( stop_method_ == "both" ) 
+  		else
   			nb = istep+1;
   		
   		helper.set(table, nb);
@@ -94,7 +95,7 @@ void GradientsColourTechnique::set(LevelSelection& out, LevelSelection& in, Colo
   		  double from = stops_[stop-1];
   		  double to = stops_[stop];
   		  int istep = ( steps_.empty() ) ? 10 : *step;
-		  if (  stop_method_ == "ignore") {
+		  if (  stop_method == "ignore") {
 			
 		  	in.push_back(from);
 		  	out.push_back(from);
@@ -103,17 +104,17 @@ void GradientsColourTechnique::set(LevelSelection& out, LevelSelection& in, Colo
 		  		out.push_back(from);
 		  	}
 		  }
-		  if (  stop_method_ == "right") {
+		  else if (  stop_method == "right") {
 			
 		  	in.push_back(from);
 		  	out.push_back(from);
 		  }
-		  if (  stop_method_ == "left") {
+		  else if (  stop_method == "left") {
 			
 		  	in.push_back(from);
 		  	out.push_back(from);
 		  } 
-		  if (  stop_method_ == "both") {
+		  else {
 			
 		  	in.push_back(from);
 		  	out.push_back(from);
@@ -126,25 +127,24 @@ void GradientsColourTechnique::set(LevelSelection& out, LevelSelection& in, Colo
 		  			
 		  		
 		  }
-		  if (  stop_method_ == "ignore") {
+		  if (  stop_method == "ignore") {
 			in.push_back(to);
 		  	out.push_back(to);
 		  	
 		  }	
-		  if (  stop_method_ == "right") {
+		  else if (  stop_method == "right") {
 			in.push_back(to);
 		  	out.push_back(to);
 		  	
 		  }	
-		  if (  stop_method_ == "left") {
+		  else if (  stop_method == "left") {
 			
 		  	in.push_back(to);
 		  	out.push_back(to);
 		  }
-		  if (  stop_method_ == "both" && stop == stops_.size()-1) {
+		  else  if (stop == stops_.size()-1) {
 			in.push_back(to);
 		  	out.push_back(to);
-		  	
 		  }
 		  
 		if ( !steps_.empty() && step != steps_.end() ) 
