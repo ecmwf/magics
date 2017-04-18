@@ -191,14 +191,7 @@ public:
 
    	virtual string theme() const // REturn the parent theme!
 	{
-
-  			if (parent_) { 
-  				cout << "THEME OK ";
-  			return parent_->theme();
- 			}
- 			cout << "THEME K0";
- 			return "magics";
-		
+  			return (parent_) ? parent_->theme() : "magics";
 	}
    
 	const string& name() const { return name_; }
