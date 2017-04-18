@@ -583,15 +583,20 @@ void PolarStereographicProjection::labels(const LabelPlotting& label, DrawingVis
 {
 	Text *text;
 	const vector<double>& latitudes = label.latitudes();
-	//const vector<double>& longitudes = label.longitudes();
+	const vector<double>& grid = label.longitudes();
 	vector<double> longitudes;
 	longitudes.push_back(vertical_longitude_);
-	unsigned int flat = (unsigned int) std::max(1, (int) maground(latitudes.size()/4));
+	for ( float i = 0; i < 360; i += 60.) {
+		if ( find(grid.begin(), grid.end(), i) != grid.end() || 
+			 find(grid.begin(), grid.end(), i-360) != grid.end() )
+			longitudes.push_back(vertical_longitude_+i);
+	}
+	
 	unsigned int flon = (unsigned int) std::max(1, (int) maground(longitudes.size()/4));
 
-	for (unsigned int lat = 0; lat < latitudes.size(); lat += flat)
+	for (unsigned int lat = 0; lat < latitudes.size(); lat++)
 	{  
-	    for (unsigned int lon = 0 ; lon < longitudes.size(); lon += flon)
+	    for (unsigned int lon = 0 ; lon < longitudes.size(); lon ++)
 	    { 	   
 	   	   UserPoint point(longitudes[lon],latitudes[lat]);
 	   	   PaperPoint xy = (*this)(point);
