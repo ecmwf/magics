@@ -99,7 +99,6 @@ void VisualAction::visit(DrawingVisitor& drawing)
 	{
 		Timer timer("plotting", "time spent in plotting");
 		(**visdef).theme(theme());
-		cout << "VISUAL" << theme() << endl;
 		(**visdef)(*data_, drawing.layout()); // Now the visualObject ahs the responsability to reproject!
 	}
 }
