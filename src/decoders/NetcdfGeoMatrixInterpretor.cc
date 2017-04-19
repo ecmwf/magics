@@ -73,35 +73,7 @@ bool NetcdfGeoMatrixInterpretor::interpretAsMatrix(Matrix** data)
 		
 		netcdf.get(longitude_, matrix_->columnsAxis(), first, last);
 		netcdf.get(latitude_, matrix_->rowsAxis(), first, last);
-		/*
-		netcdf.get(longitude_, inlon, first, last);
-		netcdf.get(latitude_, inlat, first, last);
-		
-		projPJ google_ = pj_init_plus("+proj=merc +lon_0=0 +k=1 +x_0=0 +y_0=0 +a=6378137 +b=6378137 +towgs84=0,0,0,0,0,0,0 +nadgrids=@null +units=m +no_defs");
-		proj4_ = pj_init_plus(proj4.c_str());
-		latlon_ = pj_init_plus("+proj=longlat +ellps=WGS84 +datum=WGS84");
-
-
-		//-20037508.34,-20037508.34,20037508.34,20037508.342361521.9885199675,4639307.212604788,3746560.9408545615,5923449.287616995
-//-20037508.34,-20037508.34,20037508.34,20037508.34
-		double minx = -20037508.34;
-		double maxx = 20037508.34;
-		double miny = -20037508.34;
-		double maxy = 20037508.34;
-		double minx = 0;
-		double maxx = 20037508.34;
-		double miny = -20037508.34;
-		double maxy = 0;
-
-		double stepx = (maxx-minx)/(inlon.size() - 1);
-		double stepy = (maxy-miny)/(inlat.size() - 1);
-
-		for (int i = 0; i < inlon.size(); i++)
-			matrix_->columnsAxis().push_back(minx + (i*stepx));
-		for (int i = 0; i < inlat.size(); i++)
-			matrix_->rowsAxis().push_back(miny + (i*stepy));
-		*/
-
+	
 
 		
 
@@ -122,38 +94,18 @@ bool NetcdfGeoMatrixInterpretor::interpretAsMatrix(Matrix** data)
 		else {
 			vector<double> data;	
 			netcdf.get(field_, data, first, last);
-/*
-			vector<double>::iterator lon = inlon.begin();
-			vector<double>::iterator lat = inlat.begin();
-*/
+
 			matrix_->reserve(data.size());
 			fill(matrix_->begin(), matrix_->end(), missing_value);
 			for (vector<double>::iterator d = data.begin(); d != data.end(); ++d ) 
 			{
 
-	/*				double x = *lon;
-				double y = *lat;
-				
-				//cout << "avant " << x << "  " << y << endl;
-				pj_transform(proj4_, google_, 1, 1, &x, &y, NULL);
-				//cout << "apres " << x << "  " << y << endl;
-				
-				int i = (x-minx)/stepx;
-				int j = (y-miny)/stepy;
-				//cout << "index " << i << "  " << j << endl;
-				int index = (j* inlon.size()) + i;
-				++lon; 
-				if ( lon == inlon.end() ) {
-					++lat;
-					lon = inlon.begin();
-				}
-				if (index < 0 || index > data.size()) continue;
-	*/			
+
 				if ( !std::isnan(*d) ) {
 					matrix_->push_back(*d);
 				}
 				else 
-					//(*matrix_)[index] =  missing_value;
+					
 					matrix_->push_back(missing_value);
 				
 			}

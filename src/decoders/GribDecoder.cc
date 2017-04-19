@@ -568,19 +568,22 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 
             int w = xComponent_->nearest_index(lat, lon, nlat, nlon);
 
-            //cout << i << " = [" << lat << ", " << lon << "]--->[" << nlat << ", " << nlon << "] = " << w << endl;
+           
             i++;
             bool cached = ( cache.find(w) != cache.end() );
             if ( !cached ) {
                     cache.insert(w);
                     CustomisedPoint *add = new CustomisedPoint(nlon, nlat, "");
-                    pair<double, double> value = (*wind_mode_)((*xComponent_).data_[w], (*yComponent_).data_[w]);
+                    double u = xComponent_->data_[w];
+                    double v = yComponent_->data_[w];
+                    interpretor_->interpret2D(nlat, nlon, u, v);
+                    pair<double, double> value = (*wind_mode_)(u, v);
 
                     add->insert(make_pair("x_component", value.first));
                     add->insert(make_pair("y_component", value.second));
                     if (colourComponent_)
                          add->insert(make_pair("colour_component", (*colourComponent_)[w]));
-                    // cout << " Point " << *add << endl;
+                  
                     out.push_back(add);
 
                     string debug = getEnvVariable("WIND_DEBUG");
@@ -612,6 +615,7 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
                 double v = yComponent_->data_[index];
                 index++;
                 if ( u != missing && v != missing) {
+                    interpretor_->interpret2D(lat, lon, u, v);
                     pair<double, double> value = (*wind_mode_)(u, v);
                     vector<UserPoint> pos;
                     transformation.populate(lon, lat, 0, pos);
