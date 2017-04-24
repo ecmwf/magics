@@ -1,23 +1,5 @@
 ### PREP
 
-cd /hugetmp/boost-trunk/boost
-svn update
-
-
-### UPDATE
-
-ma
-cd src/boost/
-p4 edit ...
-rm -rf geometry/ range/
-cp -R /hugetmp/boost\-trunk/boost/geometry .
-cp -R /hugetmp/boost\-trunk/boost/range .
-p4 revert -a ...
-
-rm -rf src/boost/*/*/.svn src/boost/*/*/*/.svn src/boost/*/*/*/*/.svn
-rm -rf src/boost/*/*/*/*/*/.svn src/boost/*/*/*/*/*/*/.svn
-
-p4 add */* */*/* */*/*/* */*/*/*/* */*/*/*/*/* */*/*/*/*/*/*
+Updated April 2017 with version 1.64.0 of Boost
 
 >>> BE AWARE OF  src/boost/geometry/views/reversible_view.hpp
-

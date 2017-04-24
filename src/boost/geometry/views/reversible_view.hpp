@@ -57,13 +57,13 @@ struct reversible_view<Range, iterate_forward>
 template <typename Range>
 struct reversible_view<Range, iterate_reverse>
 {
-//#if BOOST_VERSION > 104500
+#if BOOST_VERSION > 104500
     typedef boost::reversed_range<Range> type;
-/*#else
+#else
     // For older versions of Boost
     typedef boost::range_detail::reverse_range<Range> type;
 #endif
-*/};
+};
 
 #endif // DOXYGEN_NO_SPECIALIZATIONS
 
