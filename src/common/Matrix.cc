@@ -305,12 +305,7 @@ int Matrix::nearest_index(double row, double column,double &rowOut, double &colO
 	double col, offset;
 
 
-	cout << left() << endl;
-	cout << right() << endl;
-	cout << top() << endl;
-	cout << bottom() << endl;
-	cout << row << ", " << column << endl;
-
+	
 	int factor = (column-minX())/360.;
 
 	if ( column-minX() < 0)
@@ -324,11 +319,11 @@ int Matrix::nearest_index(double row, double column,double &rowOut, double &colO
 
 	if ( col < left() || col > right() ) {
 
-		cout << "col out" << col << endl;
+		
 		return -1;
 	} 
 	if ( row < bottom() || row > top() ) {
-		cout << "row out" << row << endl;
+		
 		return -1;
 	} 
 	map<double, int >::const_iterator  row_index;
