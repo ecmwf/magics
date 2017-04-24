@@ -1,5 +1,0 @@
-### PREP
-
-Updated April 2017 with version 1.64.0 of Boost
-
->>> BE AWARE OF  src/boost/geometry/views/reversible_view.hpp
