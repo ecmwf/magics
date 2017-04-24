@@ -62,18 +62,22 @@ void MarkerShadingTechnique::operator()(IsoPlot*, MatrixHandler& data, BasicGrap
     int rows = original.rows();
     int columns = original.columns();
     const Transformation& transformation = out.transformation();
-    
+
     for (int j = 0; j < rows ; j++) {
         for (int i = 0; i < columns; i++) {
+        
             Symbol* symbol = (*this)(original(j,i));
+           
+           
             PaperPoint pos=transformation(UserPoint(original.column(j, i), original.row(j, i), original(j,i)));
-            if ( transformation.in(pos) && symbol )
+            if ( transformation.in(pos) && symbol ) {
             	symbol->push_back(pos);
+            }
         } 
+         
     }     
     
-    // Now we feed the task
-    
+  
     for ( vector<BasicGraphicsObject*>::iterator object = begin(); object != end(); ++object)
     	out.push_back(*object);
     
@@ -105,6 +109,10 @@ CellArray* MarkerShadingTechnique::array(MatrixHandler& matrix, IntervalMap<int>
 
 bool MarkerShadingTechnique::prepare(LevelSelection& levels, const ColourTechnique& technique)
 {
+    // First let's make sure that the propertis are empty .. 
+    map_.clear(); 
+    legend_.clear();
+    clear(); 
     if ( colour_.empty() ) {       
         technique.colours(colour_);
          if ( colour_.empty() ) 
