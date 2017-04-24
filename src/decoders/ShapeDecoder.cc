@@ -345,6 +345,7 @@ void ShapeDecoder::decode(vector<Polyline*>& data, const Transformation& transfo
 				Polyline* poly = 0;
                 Polyline* polyleft = 0;
                 Polyline* polyright = 0; 
+               
                 if ( in) {
                     poly  = new Polyline();
                     data.push_back(poly);
@@ -360,7 +361,8 @@ void ShapeDecoder::decode(vector<Polyline*>& data, const Transformation& transfo
                 
 				left = false;
 				right= false;
-
+				int index = 0;
+				bool rotate = 0;
 				for( j = 0, iPart = 1; j < psShape->nVertices ; j++ )
 				{
 					if( iPart < psShape->nParts && psShape->panPartStart[iPart] == j )
@@ -378,7 +380,14 @@ void ShapeDecoder::decode(vector<Polyline*>& data, const Transformation& transfo
 
 					if ( iPart==1 ) {
 
-							if ( poly )      poly->push_back(PaperPoint(x, y));
+							if ( poly )    {
+								if (  same(x, -180.) || same(x, 180.) )  {
+									if ( y > 0 ) {
+										index = j;		
+									}
+								}
+								poly->push_back(PaperPoint(x, y));
+							}
 							if ( polyleft )  polyleft->push_back( PaperPoint(x-360, y));
 							if ( polyright ) polyright->push_back(PaperPoint(x+360, y));
 					}
@@ -387,6 +396,12 @@ void ShapeDecoder::decode(vector<Polyline*>& data, const Transformation& transfo
 							if ( polyleft )  polyleft->push_back_hole( PaperPoint(x-360, y));
 							if ( polyright ) polyright->push_back_hole(PaperPoint(x+360, y));
 					}
+				}
+				if ( index ) {
+					cout << "rotate" << endl;		
+					poly->rotate(index);
+					// Clean the south pole ...
+
 				}
 			}
 			SHPDestroyObject(psShape);
