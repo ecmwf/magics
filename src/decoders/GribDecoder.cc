@@ -603,8 +603,7 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 
     else { // no thinning !
         // get all the points of the index!
-    	//map<double, int> yIndex_; // lat--> index
-    	//vector<InfoIndex> xIndex_;
+    	
         for ( map<double, int>::iterator y = xComponent_->yIndex_.begin(); y != xComponent_->yIndex_.end(); ++y) {
         	InfoIndex x = xComponent_->xIndex_[y->second];
         	double lat = y->first;
