@@ -23,13 +23,14 @@ projection = mmap(subpage_map_projection = 'cartesian',
 			subpage_y_axis_type = 'regular',
 			subpage_x_min = -20.,
 			subpage_x_max = 20.,
-			subpage_y_min = 25.,
-			subpage_y_max = 75.)
+			subpage_y_min = -200000000.,
+			subpage_y_max =  600000000.)
 
 #Vertical axis
 vertical = maxis(axis_orientation = "vertical",
 				 axis_grid =  "on",
 				 axis_grid_colour = "charcoal",
+                 axis_tick_label_format = "(g2.0)",
 				 axis_grid_thickness = 1,
 				 axis_grid_line_style = "dot",
 				 axis_minor_tick =  "on",
@@ -41,7 +42,6 @@ vertical = maxis(axis_orientation = "vertical",
 #Horizontal axis
 horizontal = maxis(axis_orientation = "horizontal",
 				 axis_grid =  "on",
-
 				 axis_minor_tick =  "on",
 				 axis_minor_grid_colour = "grey",
 				 axis_minor_grid =  "on",
