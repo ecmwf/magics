@@ -142,6 +142,36 @@ void Polyline::hole(Holes::const_iterator hole, Polyline& poly) const
 	}
 }
 
+struct SouthCleaner
+{
+	SouthCleaner() {}
+
+	bool operator()(PaperPoint& point) {
+		return point.y_ < -89;
+	}
+};
+struct LonFinder : std::unary_function<PaperPoint,bool>
+{
+	LonFinder() {}
+
+	bool operator()(PaperPoint& point)  const {
+		return ( same(point.x_, -180.)  );
+	}
+};
+
+void Polyline::southClean()
+{
+	
+	MagLine::iterator from = std::remove_if (polygon_.outer().begin(), polygon_.outer().end(), SouthCleaner());
+	polygon_.outer().erase(from, polygon_.outer().end());	
+	// rotate ..
+	MagLine::iterator it = std::find_if (polygon_.outer().begin(), polygon_.outer().end(), LonFinder() );
+  	if ( it != polygon_.outer().end()) {
+    	std::rotate(polygon_.outer().begin(), it, polygon_.outer().end());
+  	}
+
+} 
+
 void Polyline::newHole(const Polyline& poly)
 {
 	polygon_.inners().push_back(BoostPoly::ring_type());
