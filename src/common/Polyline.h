@@ -261,14 +261,14 @@ public:
 	}
 	void rotate(int index) {
 		std::rotate(polygon_.outer().begin(),polygon_.outer().begin()+index,polygon_.outer().end());
-		
-
-
 	}
+
 	void push_back(double x, double y)
 	{
 		polygon_.outer().push_back(PaperPoint(x, y));
 	} 
+	void southClean();
+
 	void box(const PaperPoint&, const PaperPoint&);
 	bool empty() const {
 		return polygon_.outer().empty();

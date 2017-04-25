@@ -398,7 +398,7 @@ void ShapeDecoder::decode(vector<Polyline*>& data, const Transformation& transfo
 					}
 				}
 				if ( index ) {
-					cout << "rotate" << endl;		
+						
 					poly->rotate(index);
 					// Clean the south pole ...
 
