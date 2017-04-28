@@ -27,9 +27,14 @@ does it submit to any jurisdiction.
          		<documentation> Product information for  key=product_info 		</documentation>
         	</parameter>
     	<parameter member="family" to="string" default="eps" from="string" name="wrepjson_family">
-         		<documentation> Forecast information to plot!  		</documentation>
+         		<documentation> How to interpret the json file  		</documentation>
    
         	</parameter>
+            <parameter member="key" to="string" default="" from="string" name="wrepjson_key">
+                <documentation> Forecast information to plot!       </documentation>
+   
+            </parameter>
+ 
  
  	<parameter member="plumes" to="float" default="1" from="float" name="wrepjson_plumes_interval">
   			<documentation> plumes interval 		</documentation>
