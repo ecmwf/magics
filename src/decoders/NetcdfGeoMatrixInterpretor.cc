@@ -43,6 +43,7 @@ bool NetcdfGeoMatrixInterpretor::interpretAsMatrix(Matrix** data)
 	Netcdf netcdf(path_, dimension_method_);
 
 	string proj4 = netcdf.getAttribute("projection", "");
+	proj4 = "+proj=longlat +ellps=WGS84 +datum=WGS84";
 
 	if ( proj4.empty() ) {
 		matrix_ = new Matrix();
@@ -50,6 +51,7 @@ bool NetcdfGeoMatrixInterpretor::interpretAsMatrix(Matrix** data)
 		
 	}
 	else {
+		cout << "CREATE PROJ4 Matrix" << endl;
 		matrix_ = new Proj4Matrix(proj4);
 	}
 	*data = matrix_;
