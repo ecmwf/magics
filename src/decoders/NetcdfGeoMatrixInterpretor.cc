@@ -43,12 +43,10 @@ bool NetcdfGeoMatrixInterpretor::interpretAsMatrix(Matrix** data)
 	Netcdf netcdf(path_, dimension_method_);
 
 	string proj4 = netcdf.getAttribute("projection", "");
-	proj4 = "+proj=longlat +ellps=WGS84 +datum=WGS84";
 
 	if ( proj4.empty() ) {
 		matrix_ = new Matrix();
-		matrix_->akimaEnabled();
-		
+		matrix_->akimaEnabled();		
 	}
 	else {
 		cout << "CREATE PROJ4 Matrix" << endl;
@@ -56,13 +54,7 @@ bool NetcdfGeoMatrixInterpretor::interpretAsMatrix(Matrix** data)
 	}
 	*data = matrix_;
 
-   
-	
-
-
-
 	double missing_value = netcdf.getMissing(field_, missing_attribute_);
-
 
 	// get the data ...
 	try
