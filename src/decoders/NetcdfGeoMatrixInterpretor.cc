@@ -42,42 +42,40 @@ bool NetcdfGeoMatrixInterpretor::interpretAsMatrix(Matrix** data)
 	
 	Netcdf netcdf(path_, dimension_method_);
 
-
 	string proj4 = netcdf.getAttribute("projection", "");
 
 	if ( proj4.empty() ) {
 		matrix_ = new Matrix();
-		matrix_->akimaEnabled();
-		
+		matrix_->akimaEnabled();		
 	}
 	else {
+		cout << "CREATE PROJ4 Matrix" << endl;
 		matrix_ = new Proj4Matrix(proj4);
 	}
 	*data = matrix_;
 
-   
-	
-
-
-
 	double missing_value = netcdf.getMissing(field_, missing_attribute_);
-
 
 	// get the data ...
 	try
 	{
 		map<string, string> first, last;
 		setDimensions(dimension_, first, last);
+		vector<double> inlon, outlon;
+		vector<double> inlat, outlat;
 
+		
 		netcdf.get(longitude_, matrix_->columnsAxis(), first, last);
 		netcdf.get(latitude_, matrix_->rowsAxis(), first, last);
+	
+
 		
+
 
 
 		matrix_->missing(missing_value);
 
-		if  ( magCompare(primary_index_, "latitude") ) {
-			// WE reserve the matrix_ since we are used to lat/lon matrix_!
+		if  ( magCompare(primary_index_, "latitude") ) {			
 			vector<double> data;
 			netcdf.get(field_, data, first, last);
 			int columns =  matrix_->columnsAxis().size();
@@ -87,23 +85,28 @@ bool NetcdfGeoMatrixInterpretor::interpretAsMatrix(Matrix** data)
 			    	matrix_->push_back(data[lat + lon*rows]);
 			     }
 		}
-		else 	{
+		else {
 			vector<double> data;	
 			netcdf.get(field_, data, first, last);
-			int i = 0;
-			for (vector<double>::iterator d = data.begin(); d != data.end(); ++d ) {
+
+			matrix_->reserve(data.size());
+			fill(matrix_->begin(), matrix_->end(), missing_value);
+			for (vector<double>::iterator d = data.begin(); d != data.end(); ++d ) 
+			{
+
+
 				if ( !std::isnan(*d) ) {
 					matrix_->push_back(*d);
 				}
 				else 
+					
 					matrix_->push_back(missing_value);
-			   i++;
+				
 			}
 		}
 
 		matrix_->multiply(scaling_);
 		matrix_->plus(offset_);
-
 	    matrix_->setMapsAxis();
 	}
 	catch (MagicsException& e)
@@ -125,10 +128,44 @@ void NetcdfGeoMatrixInterpretor::print(ostream& out)  const
 	out << "]";
 }
 
+
+UserPoint* NetcdfGeoMatrixInterpretor::newPoint(const string& proj4, double lon, double lat, double val) 
+{
+	double x = lon;
+	double y = lat;
+
+	if ( !proj4.empty() ) {
+		int error = pj_transform(proj4_, latlon_, 1, 1, &x, &y, NULL);    	
+    	return new UserPoint(x * RAD_TO_DEG, y *RAD_TO_DEG, val);
+    }
+    else {
+    	return new UserPoint(x, y, val);
+    }
+    	
+}
+
+void NetcdfGeoMatrixInterpretor::visit(Transformation& transformation) {
+	
+    // Here are in a dump ode .. the coordinates are pixels.
+    if ( transformation.getAutomaticX() ) {
+        transformation.setMinMaxX(matrix_->columnsAxis().front(),matrix_->columnsAxis().back() );
+    }
+    if ( transformation.getAutomaticY() ) {
+        transformation.setMinMaxY(matrix_->rowsAxis().front(),matrix_->rowsAxis().back());
+    }
+
+}
+
+
 bool NetcdfGeoMatrixInterpretor::interpretAsPoints(PointsList& list)
 {
 	Netcdf netcdf(path_, dimension_method_);
-	
+	string proj4 = netcdf.getAttribute("projection", "");
+
+	if ( !proj4.empty() ) {
+		proj4_ = pj_init_plus(proj4.c_str());
+		latlon_ = pj_init_plus("+proj=longlat +ellps=WGS84 +datum=WGS84");
+	}
 	// get the data ...
 	try
 	{
@@ -151,7 +188,7 @@ bool NetcdfGeoMatrixInterpretor::interpretAsPoints(PointsList& list)
 				if ( values[val] < suppress_below_ ) continue;
 				if ( values[val] > suppress_above_ ) continue;
 				if ( same(values[val], missing_value ) ) continue;
-				list.push_back(new UserPoint(longitudes[lon], latitudes[lat], (values[val]*scaling_) + offset_));
+				list.push_back(newPoint(proj4, longitudes[lon], latitudes[lat], (values[val]*scaling_) + offset_));
 			}
 		}
  		MagLog::dev()<< "everything ok" << endl;

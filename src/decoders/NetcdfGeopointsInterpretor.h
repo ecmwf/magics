@@ -61,7 +61,7 @@ public:
     }
     bool interpretAsPoints(PointsList&);
     bool interpretAsPoints(PointsList&, const Transformation&);
-    bool interpretAsMatrix(Matrix**) { throw MagicsException("Not Yet"); }
+    bool interpretAsMatrix(Matrix**) { return false; }
     virtual void visit(MetaDataCollector&);
     virtual void visit(ValuesCollector&,PointsList&);
 
@@ -113,7 +113,7 @@ public:
     bool interpretAsPoints(PointsList&, const std::set<string>&);
     bool interpretAsPoints(PointsList&);
     bool interpretAsPoints(PointsList&, const Transformation&);
-    bool interpretAsMatrix(Matrix**) { throw MagicsException("Not Yet"); }
+    bool interpretAsMatrix(Matrix**) { return false; }
     virtual void visit(Transformation&);
     virtual void customisedPoints(const Transformation&, const std::set<string>&, CustomisedPointsList&, int s);
     virtual void visit(MetaDataCollector&);

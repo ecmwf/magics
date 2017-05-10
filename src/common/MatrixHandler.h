@@ -213,7 +213,7 @@ public :
     virtual double  width() const { return matrix_.width(); } 
     virtual double  height() const { return matrix_.height(); } 
     
-    virtual const AbstractMatrix& original() const { return matrix_.original(); }
+    virtual const AbstractMatrix& original() const { return delegate() ?  matrix_ : matrix_.original(); }
     virtual int firstRow() const 	{ return matrix_.firstRow(); }
     virtual int nextRow(int i, int f) const   { return matrix_.nextRow(i, f); }
     virtual int firstColumn() const { return matrix_.firstColumn(); }
@@ -498,8 +498,8 @@ public :
     double interpolate(double  row, double  column) const { matrix_.interpolate(row, column); }
     double nearest(double  row, double  column) const { matrix_.nearest(row, column); }
 
-    double column(int i, int j) { matrix_.column(i, j); }
-    double row(int i, int j) { matrix_.row(i, j); }
+    double column(int i, int j) const { matrix_.column(i, j); }
+    double row(int i, int j) const { matrix_.row(i, j); }
 
 protected :
 
@@ -520,8 +520,8 @@ public :
     double interpolate(double  row, double  column) const;
     double nearest(double  row, double  column) const;
 
-    double column(int, int);
-    double row(int, int);
+    double column(int, int) const;
+    double row(int, int) const;
 
     bool delegate() const { return true; }
 
@@ -539,7 +539,35 @@ protected :
 
 };
 
+class RotatedMatrixHandler : public MatrixHandler
+{
+public :
+    RotatedMatrixHandler(const AbstractMatrix& matrix, double lat, double lon);
 
+    
+    
+    double interpolate(double  row, double  column) const;
+    double nearest(double  row, double  column) const;
+
+
+    double column(int, int) const;
+    double row(int, int) const;
+
+    bool delegate() const { return true; }
+    pair<double, double> unrotate(double, double) const;
+    pair<double, double> rotate(double, double) const;
+   
+
+protected :
+    
+   double minx_;
+   double maxx_;
+   double miny_;
+   double maxy_;
+   double southPoleLat_;
+   double southPoleLon_;
+
+};
 
 class BoxMatrixHandler : public TransformMatrixHandler
 {

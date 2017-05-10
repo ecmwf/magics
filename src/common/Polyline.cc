@@ -54,9 +54,7 @@ bool Polyline::reproject(BasicGraphicsObjectContainer& out) const
 Polyline* Polyline::getNew() const
 {
 	Polyline* poly = new Polyline();
-
 	poly->copy(*this);
-
 	return poly;
 }
 
@@ -65,7 +63,7 @@ void Polyline::print(ostream& out) const
 {
 	out << "Polyline[";
 	out << ", nb_points = " << this->size();
-	  if ( this->size() < 1000 ) {
+	  if ( this->size() < 20 ) {
             out << " Outer [";
             string sep = "";
 	    const unsigned int nb = size();
@@ -142,6 +140,36 @@ void Polyline::hole(Holes::const_iterator hole, Polyline& poly) const
 	}
 }
 
+struct SouthCleaner
+{
+	SouthCleaner() {}
+
+	bool operator()(PaperPoint& point) {
+		return point.y_ < -89;
+	}
+};
+struct LonFinder : std::unary_function<PaperPoint,bool>
+{
+	LonFinder() {}
+
+	bool operator()(PaperPoint& point)  const {
+		return ( same(point.x_, -180.)  );
+	}
+};
+
+void Polyline::southClean()
+{
+	
+	MagLine::iterator from = std::remove_if (polygon_.outer().begin(), polygon_.outer().end(), SouthCleaner());
+	polygon_.outer().erase(from, polygon_.outer().end());	
+	// rotate ..
+	MagLine::iterator it = std::find_if (polygon_.outer().begin(), polygon_.outer().end(), LonFinder() );
+  	if ( it != polygon_.outer().end()) {
+    	std::rotate(polygon_.outer().begin(), it, polygon_.outer().end());
+  	}
+
+} 
+
 void Polyline::newHole(const Polyline& poly)
 {
 	polygon_.inners().push_back(BoostPoly::ring_type());
@@ -162,11 +190,10 @@ struct ReprojectHelper
 
 void Polyline::reproject(const Transformation& transformation)
 {
-
+	
 	MagLine::iterator from = std::remove_if (polygon_.outer().begin(), polygon_.outer().end(), ReprojectHelper(transformation));
 	polygon_.outer().erase(from, polygon_.outer().end());
 
-	
 
 // Now the holes!
 	for (Holes::iterator hole = polygon_.inners().begin(); hole != polygon_.inners().end(); ++hole)  {
@@ -208,22 +235,6 @@ void Polyline::intersect(const Polyline& poly, vector<Polyline> & out) const
 			out.push_back(Polyline());
 			out.back().copy(*this);
 			out.back().polygon_ = *c;
-/*
-            if(!c->inners().empty())
-            {
-            	const int noHoles = c->inners().size();
-            	for (int h=0; h<noHoles; ++h)
-            	{
-            	    out.back().newHole();
-            	    const int noPointsHoles = c->inners()[h].size();
-            	    for (int hh=noPointsHoles-1; hh > 0;--hh)
-            	    {
-            	    	using boost::geometry::get;
-            	        out.back().push_back_hole(PaperPoint(get<0>(c->inners()[h][hh]),get<1>(c->inners()[h][hh]) ));	
-            	    }
-            	}
-            }
-*/
 		}
 	}
 	catch(...) {

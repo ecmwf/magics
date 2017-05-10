@@ -86,7 +86,7 @@ parids={
         '14158405':'Contour examples',
         '14975221':'Coastlines examples',
         '14975310':'Legend examples',
-        '15466537':'Wind examples'
+        '14156772':'Wind examples'
 }
 
 system('rm -fr ./attachments/*')

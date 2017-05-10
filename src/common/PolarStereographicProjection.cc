@@ -162,11 +162,14 @@ void PolarStereographicProjection::init(double width, double height)
 	if ( !projection_ ) 
 		projection_ = new TePolarStereographic(TeDatum(), vertical_longitude_*TeCDR, 0., 0., "Meters", (hemisphere_ == NORTH) ? TeNORTH_HEM : TeSOUTH_HEM);
 	
+	
+
 	if ( magCompare(area_, "full") ) {
 		ymin_ = ( hemisphere_ == NORTH ) ? -20. : 20.;
 		ymax_ = ( hemisphere_ == NORTH ) ? -20. : 20.;
-		xmin_ = ( hemisphere_ == NORTH ) ? -45. : 45.;
-		xmax_ = ( hemisphere_ == NORTH ) ? 135. : -135.;
+		xmin_ = ( hemisphere_ == NORTH ) ? -45. + vertical_longitude_ : 45. + vertical_longitude_;
+		xmax_ = ( hemisphere_ == NORTH ) ? 135. + vertical_longitude_ : -135. + vertical_longitude_;
+		
 	}
 	else
 		magCompare(area_, "corners" ) ?  corners() : centre(width, height);
@@ -580,15 +583,20 @@ void PolarStereographicProjection::labels(const LabelPlotting& label, DrawingVis
 {
 	Text *text;
 	const vector<double>& latitudes = label.latitudes();
-	//const vector<double>& longitudes = label.longitudes();
+	const vector<double>& grid = label.longitudes();
 	vector<double> longitudes;
-	longitudes.push_back(0);
-	unsigned int flat = (unsigned int) std::max(1, (int) maground(latitudes.size()/4));
+	longitudes.push_back(vertical_longitude_);
+	for ( float i = 0; i < 360; i += 60.) {
+		if ( find(grid.begin(), grid.end(), i) != grid.end() || 
+			 find(grid.begin(), grid.end(), i-360) != grid.end() )
+			longitudes.push_back(vertical_longitude_+i);
+	}
+	
 	unsigned int flon = (unsigned int) std::max(1, (int) maground(longitudes.size()/4));
 
-	for (unsigned int lat = 0; lat < latitudes.size(); lat += flat)
+	for (unsigned int lat = 0; lat < latitudes.size(); lat++)
 	{  
-	    for (unsigned int lon = 0 ; lon < longitudes.size(); lon += flon)
+	    for (unsigned int lon = 0 ; lon < longitudes.size(); lon ++)
 	    { 	   
 	   	   UserPoint point(longitudes[lon],latitudes[lat]);
 	   	   PaperPoint xy = (*this)(point);
@@ -680,10 +688,12 @@ void PolarStereographicProjection::corners()
 	// For backwards compatibility!
 	if  ( min_longitude_ == -180 && max_longitude_ == 180 &&
 		   min_latitude_ == -90 && max_latitude_ == 90 ) {
+
+		
 		min_latitude_ = ( hemisphere_ == NORTH ) ? -20. : 20.;
 		max_latitude_ = ( hemisphere_ == NORTH ) ? -20. : 20.;
-		min_longitude_ = ( hemisphere_ == NORTH ) ? -45. : 45.;
-		max_longitude_ = ( hemisphere_ == NORTH ) ? 135. : -135.;
+		min_longitude_ = ( hemisphere_ == NORTH ) ? -45. + vertical_longitude_: 45.+ vertical_longitude_;
+		max_longitude_ = ( hemisphere_ == NORTH ) ? 135. + vertical_longitude_: -135.+ vertical_longitude_;
 	}
 
 	xmin_ = min_longitude_;

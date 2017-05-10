@@ -32,11 +32,17 @@ does it submit to any jurisdiction.
          -1 is the  default:  85% of the parent page 		</documentation>
 	</parameter>
 
+	<parameter member="predefined" to="bool" default="off" from="string" name="subpage_map_library_area">
+		<documentation> if On, pickup a predefined geographical area </documentation>
+	</parameter>
+	<parameter member="predefined_name" to="string" default="off" from="string" name="subpage_map_area_name">
+		<documentation> Name of the predefined area </documentation>
+	</parameter>
 	<parameter member="transformation" to="Transformation" default="cylindrical" from="string" name="subpage_map_projection">
          		<documentation>Projection to set in the drawing area 		</documentation>
 
-            		<option xml="cylindrical" fortran="cylindrical" include="GeoRectangularProjection.h" name="GeoRectangularProjection">		</option>
-    
+            		<option xml="cylindrical" fortran="cylindrical" include="GeoRectangularProjection.h" name="GeoRectangularProjection">		
+            		</option>
              		<option xml="polar_stereographic" fortran="polar_stereographic" include="PolarStereographicProjection.h" name="PolarStereographicProjection">		</option>
         		<option fortran="polar_north" include="Proj4Projection.h" name="Proj4PolarNorth">		</option>
  				<option fortran="geos" include="Proj4Projection.h" name="Proj4Geos">		</option>
@@ -47,6 +53,7 @@ does it submit to any jurisdiction.
  				<option fortran="goes_east" include="Proj4Projection.h" name="Proj4Geose">		</option>
  				<option fortran="lambert" include="Proj4Projection.h" name="Proj4Lambert">		</option>
  				<option fortran="EPSG:3857" include="Proj4Projection.h" name="Proj4EPSG3857">		</option>
+ 				<option fortran="EPSG:900913" include="Proj4Projection.h" name="Proj4EPSG900913">		</option>
  				<option fortran="EPSG:4326" include="Proj4Projection.h" name="Proj4EPSG4326">		</option>
  				<option fortran="goode" include="Proj4Projection.h" name="Proj4Goode">		</option>
  				<option fortran="collignon" include="Proj4Projection.h" name="Proj4Collignon">		</option>

@@ -74,6 +74,7 @@ public :
 
 void Contour::operator()(Data& data, BasicGraphicsObjectContainer& parent)
 {
+
     try {
     	ContourLibrary* library = MagTranslator<string, ContourLibrary>()(setting_);
 
@@ -85,11 +86,11 @@ void Contour::operator()(Data& data, BasicGraphicsObjectContainer& parent)
 		library->askId(needId);
 		data.visit(needId);
 
+
 		if(library->checkId(needId,needAttributes))
 		{			
     			data.visit(needAttributes);
-
-
+    			needAttributes["theme"] = theme_;
     			library->getAttributes(needAttributes,attributes);
 
     			this->set(attributes);
@@ -101,7 +102,10 @@ void Contour::operator()(Data& data, BasicGraphicsObjectContainer& parent)
 
 
     data.getReady(parent.transformation());
-
+    if ( !data.valid() ) {
+		MagLog::error() << "Invalid data for contouring" << endl;
+		return;
+    }
 	MatrixHandler* box =  data.matrix().getReady(parent.transformation());
 	if (!box  ){
 		MagLog::error() << "Invalid data for contouring" << endl;
@@ -166,21 +170,17 @@ void  Contour::visit(Data& data, HistoVisitor& visitor)
 {
 	if ( !matrix_ )
 		return;
-
-
-	contour_->visit(data, data.points(*visitor.dataLayoutTransformation(), false), visitor);
-	
+	contour_->visit(data, data.points(*visitor.dataLayoutTransformation(), false), visitor);	
 }
 
 static SimpleObjectMaker<ContourLibrary, ContourLibrary> obstat("on");
 static SimpleObjectMaker<EcChartLibrary, ContourLibrary> ecchart("ecchart");
 static SimpleObjectMaker<NoContourLibrary, ContourLibrary> off("off");
-
+static SimpleObjectMaker<WebLibrary, ContourLibrary> web("web");
 
 void Contour::visit(Data& data, LegendVisitor& legend)
 {
 	if ( !this->legend_ ) return;
 	contour_->visit(data, legend);
-
 }
 

@@ -71,7 +71,11 @@ public:
 	string to() { return tostring(to_); }
 	 
 	void userText(const string& text, const string& automatic) 
-		{ userText_ = text; automatic_ = magCompare(automatic, "automatic_text_only"); }
+		{ if ( userText_.size() )
+			return;
+		   userText_ = text; 
+		   automatic_ = magCompare(automatic, "automatic_text_only"); 
+		}
 	const string& userText() { return userText_; }
 	const string& units() { return units_; }
 	void units(const string& units) { units_ = units; }

@@ -30,6 +30,7 @@ namespace magics {
 
 class XmlNode;
 class MatrixHandler;
+class RotatedMatrixHandler;
 class Transformation;
 
 class AbstractMatrix 
@@ -299,7 +300,7 @@ public:
     double nearest(double i, double j) const {double d1, d2; return nearest(i,j,d1,d2);}
     double nearest(double i, double j,double &iOut, double &jOut) const;
     pair<double, double> nearest_value(double i, double j,double &iOut, double &jOut) const;
-    int nearest_index(double i, double j,double &iOut, double &jOut) const;
+    virtual int nearest_index(double i, double j,double &iOut, double &jOut) const;
     void multiply(double factor);   
     void plus(double offset);
     
@@ -342,16 +343,17 @@ public:
     vector<double>& columnsAxis() const  { return columnsAxis_; }
     
     
-    double  minX() const { return columnsAxis_.front(); }
-    double  minY() const { return rowsAxis_.front(); } 
-    double  maxX() const { return columnsAxis_.back(); }
-    double  maxY() const { return rowsAxis_.back(); }
+    double  minX() const { return std::min(columnsAxis_.front(), columnsAxis_.back()); }
+    double  minY() const { return std::min(rowsAxis_.front(), rowsAxis_.back() ); } 
+    double  maxX() const { return std::max(columnsAxis_.front(), columnsAxis_.back()); }
+    double  maxY() const { return std::max(rowsAxis_.front(), rowsAxis_.back() ); }
+    double  left() const { return std::min(columnsAxis_.front(), columnsAxis_.back()); }
+    double  bottom() const { return std::min(rowsAxis_.front(), rowsAxis_.back() ); } 
+    double  right() const { return std::max(columnsAxis_.front(), columnsAxis_.back()); }
+    double  top() const { return std::max(rowsAxis_.front(), rowsAxis_.back() ); }
     
-    double  left() const { return columnsAxis_.front(); }
-      double bottom() const { return rowsAxis_.front(); } 
-      double  right() const { return columnsAxis_.back(); }
-      double  top() const { return rowsAxis_.back(); }
-      
+    
+  
       double x(double x, double) const  { return x; }
       double y(double, double y) const { return y; }
     
@@ -519,31 +521,7 @@ protected:
 		  
 			
 };
-class RotatedMatrix: public Matrix
-{
 
-public:
-		RotatedMatrix(int, int);
-
-		vector<double>&  values() const { return values_; }
-		vector<double>&  rowsArray() const { return rowsArray_; }
-		vector<double>&  columnsArray() const { return columnsArray_; }
-
-		double operator()(int r, int c) const { return values_[r* columns_ + c]; }
-		double row(int r, int c) const { return rowsArray_[r* columns_ + c]; }
-		double column(int r, int c) const { return columnsArray_[r* columns_ + c]; }
-		double  XResolution() const  { return column(0,1) - column(0,0); }
-		double  YResolution() const  { return row(1,0) - row(0,0); }
-		MatrixHandler* getReady(const Transformation&) const;
-protected:
-
-		mutable vector<double> rowsArray_;
-		mutable vector<double> columnsArray_;
-		mutable vector<double> values_;
-
-
-
-};
 class Proj4Matrix: public Matrix
 {
 
@@ -554,6 +532,22 @@ public:
 protected:
         string proj4_;
         
+};
+
+class RotatedMatrix: public Matrix
+{
+
+public:
+        RotatedMatrix() : Matrix(), helper_(0) {}
+        RotatedMatrix(int rows, int columns, double lat, double lon);
+        MatrixHandler* getReady(const Transformation&) const;
+        void setSouthPole(double lat, double lon) { southPoleLat_ = lat; southPoleLon_ = lon; }
+        int nearest_index(double i, double j,double &iOut, double &jOut) const;
+        
+protected:
+        RotatedMatrixHandler* helper_;
+        double southPoleLat_; 
+        double southPoleLon_;
 };
 
 } // namespace magics
