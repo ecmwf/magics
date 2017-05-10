@@ -535,12 +535,16 @@ struct Compare
 
 void GribDecoder::customisedPoints(const Transformation& transformation, CustomisedPointsList& out, double thinx, double thiny, double gap)
 {
+    
+    
     decode2D();
+    
 
     double minlon = 0.;
     double maxlon = 360.;
 
     double missing = getDouble("missingValue");
+
 
     if ( thiny ) {
         vector<pair<double, double> > positions;
@@ -564,17 +568,22 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 
             int w = xComponent_->nearest_index(lat, lon, nlat, nlon);
 
-            //cout << i << " = [" << lat << ", " << lon << "]--->[" << nlat << ", " << nlon << "] = " << w << endl;
+           
             i++;
             bool cached = ( cache.find(w) != cache.end() );
             if ( !cached ) {
                     cache.insert(w);
                     CustomisedPoint *add = new CustomisedPoint(nlon, nlat, "");
-                    pair<double, double> value = (*wind_mode_)((*xComponent_).data_[w], (*yComponent_).data_[w]);
+                    double u = xComponent_->data_[w];
+                    double v = yComponent_->data_[w];
+                    interpretor_->interpret2D(nlat, nlon, u, v);
+                    pair<double, double> value = (*wind_mode_)(u, v);
 
                     add->insert(make_pair("x_component", value.first));
                     add->insert(make_pair("y_component", value.second));
-                    // cout << " Point " << *add << endl;
+                    if (colourComponent_)
+                         add->insert(make_pair("colour_component", (*colourComponent_)[w]));
+                  
                     out.push_back(add);
 
                     string debug = getEnvVariable("WIND_DEBUG");
@@ -594,8 +603,7 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 
     else { // no thinning !
         // get all the points of the index!
-    	//map<double, int> yIndex_; // lat--> index
-    	//vector<InfoIndex> xIndex_;
+    	
         for ( map<double, int>::iterator y = xComponent_->yIndex_.begin(); y != xComponent_->yIndex_.end(); ++y) {
         	InfoIndex x = xComponent_->xIndex_[y->second];
         	double lat = y->first;
@@ -606,6 +614,7 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
                 double v = yComponent_->data_[index];
                 index++;
                 if ( u != missing && v != missing) {
+                    interpretor_->interpret2D(lat, lon, u, v);
                     pair<double, double> value = (*wind_mode_)(u, v);
                     vector<UserPoint> pos;
                     transformation.populate(lon, lat, 0, pos);
@@ -613,6 +622,8 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
                         CustomisedPoint *add = new CustomisedPoint(p->x(), p->y(), "");
                         add->insert(make_pair("x_component", value.first));
                         add->insert(make_pair("y_component", value.second));
+                        if (colourComponent_)
+                          add->insert(make_pair("colour_component", (*colourComponent_)[index]));
                         out.push_back(add);
                     }
                 }
@@ -2290,6 +2301,7 @@ public:
         static map<long, string> names;
         if ( names.empty() ){
             names[54] = "METEOSAT-7";
+            names[55] = "METEOSAT-8";
             names[57] = "METEOSAT-10";
             names[172] = "MTSAT-2";
             names[257] = "GOES-13";
@@ -2320,6 +2332,15 @@ public:
             l54[2] = "IR 11-5";
             l54[3] = "VIS 00-7";
             channels[54] = l54;
+            map<long, string>  l55;
+            l55[1] = "VIS 0-6";
+            l55[4] = "IR 3-9";
+            l55[5] = "WV 6-2";
+            l55[6] = "WV 7-3";
+            l55[8] = "IR 9-7";
+            l55[9] = "IR 10-8";
+            l55[10] = "IR 12-0";
+            channels[55] = l55;
             map<long, string>  l57;
             l57[1] = "VIS 0-6";
             l57[4] = "IR 3-9";

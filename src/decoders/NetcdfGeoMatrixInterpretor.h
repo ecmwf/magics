@@ -28,7 +28,7 @@
 #include "NetcdfInterpretor.h"
 #include "Matrix.h"
 #include "XmlNode.h"
-
+#include <proj_api.h>
 
 namespace magics {
 
@@ -43,6 +43,9 @@ public:
         NetcdfInterpretorAttributes::set(params); 
         NetcdfGeoMatrixInterpretorAttributes::set(params);
     }
+
+    void visit(Transformation& transformation);
+
     void set(const XmlNode& node) { 
         MagLog::debug() << "NetcdfGeoMatrixInterpretor::set(params)" << "\n";
         NetcdfInterpretorAttributes::set(node); 
@@ -62,16 +65,18 @@ public:
     }
     bool interpretAsMatrix(Matrix**);
     bool interpretAsPoints(PointsList&);
-
+    UserPoint* newPoint(const string&, double, double, double);
     virtual void statsData(map<string,vector<double> >&);
     virtual void visit(MetaDataCollector&);
     virtual void visit(ValuesCollector&,PointsList&); 
     void customisedPoints(const Transformation&, const std::set<string>&, CustomisedPointsList&, int);
 protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).
-	 virtual void print(ostream&) const; 
-	 Matrix* matrix_;
-    
+	virtual void print(ostream&) const; 
+	Matrix* matrix_;
+    projPJ proj4_;
+    projPJ latlon_;    
+
 private:
     //! Copy constructor - No copy allowed
 	NetcdfGeoMatrixInterpretor(const NetcdfGeoMatrixInterpretor&);

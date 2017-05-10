@@ -21,6 +21,8 @@
 
 #include "Coastlines.h"
 #include "Layer.h"
+#include "Transformation.h"
+#include "MagConfig.h"
 
 using namespace magics;
  
@@ -42,19 +44,21 @@ void Coastlines::print(ostream& out)  const
 }
 
 
-#include "Transformation.h"
 
 void Coastlines::visit(DrawingVisitor& parent)
 {
+	
 
+	// if needed Find the Style, according to the theme ..
+	if ( style_.size() ) {
+		StyleLibrary styles(theme(), "coastlines");
+		const map<string, string>& style = styles.get(style_);
+		set(style);
+		
+	}
 	(*coastlines_)(parent);
-	
-	
 	(*grid_)(parent);
-	 
-
 	(*label_).prepare(*grid_);
-	
 	(*label_)(parent);
 
 }
@@ -98,6 +102,7 @@ void Coastlines::visit(PreviewVisitor& preview)
 
 void Coastlines::visit(SceneLayer& layer, vector<LayoutVisitor*>& visitors)
 {
+	
 #ifdef MAG_NEXT
 	// First we create the layer!
 	// and push It to the parent layer! 

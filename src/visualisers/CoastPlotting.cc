@@ -268,6 +268,7 @@ void CoastPlotting::nolandsea(Layout& out)
 	clip(out.transformation(), coast_, clips);
 	for (vector<Polyline*>::iterator coast = clips.begin(); coast != clips.end(); ++coast)
 	{
+
 		setLine(**coast);
 		out.push_back(*coast);
 	}
@@ -358,6 +359,7 @@ void CoastPlotting::decode(const Layout& parent )
 void CoastPlotting::clip(const Transformation& transformation, const vector<Polyline*>& in, vector<Polyline*>& out) const
 {
 	for (vector<Polyline*>::const_iterator poly = in.begin(); poly != in.end(); ++poly ) {
+		(*poly)->southClean();
 		(*poly)->reproject(transformation);
 		transformation(**poly, out);
 	}

@@ -139,7 +139,10 @@ public:
 	void set(const XmlNode&);
 	Colour* clone() const { return new Colour(*this); }
 	bool automatic() const { return automatic_; }
-	bool none() const;
+    bool none() const; 
+	bool white() const 
+       { return ( red() == 1 && blue() == 1 && green() == 1 ) || 
+        ( red() == 256 && blue() == 256 && green() == 256 ); }
 // -- Methods
 	float red()   const { return rgb_.red_; }
 	float blue()  const { return rgb_.blue_; }

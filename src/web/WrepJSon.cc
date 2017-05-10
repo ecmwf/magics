@@ -264,8 +264,25 @@ string binding(const string& version, const string& key) {
 		bindings["v0"].insert(make_pair("75", "seventy_five"));
 		bindings["v0"].insert(make_pair("50", "fifty"));
 		bindings["v0"].insert(make_pair("nord", "north"));
+		bindings["v0"].insert(make_pair("nord_one", "north_one"));
+		bindings["v0"].insert(make_pair("nord_two", "north_two"));
+		bindings["v0"].insert(make_pair("nord_three", "north_three"));
+		bindings["v0"].insert(make_pair("nord_four", "north_four"));
+		bindings["v0"].insert(make_pair("nord_five", "north_five"));
+		bindings["v0"].insert(make_pair("nord_six", "north_six"));
 		bindings["v0"].insert(make_pair("nord_east", "north_east"));
+		bindings["v0"].insert(make_pair("nord_east_one", "north_east_one"));
+		bindings["v0"].insert(make_pair("nord_east_two", "north_east_two"));
+		bindings["v0"].insert(make_pair("nord_east_three", "north_east_three"));
+		bindings["v0"].insert(make_pair("nord_east_four", "north_east_four"));
+		bindings["v0"].insert(make_pair("nord_east_five", "north_east_five"));
 		bindings["v0"].insert(make_pair("nord_west", "north_west"));
+		bindings["v0"].insert(make_pair("nord_west_one", "north_west_one"));
+		bindings["v0"].insert(make_pair("nord_west_two", "north_west_two"));
+		bindings["v0"].insert(make_pair("nord_west_three", "north_west_three"));
+		bindings["v0"].insert(make_pair("nord_west_four", "north_west_four"));
+		bindings["v0"].insert(make_pair("nord_west_five", "north_west_five"));
+		bindings["v0"].insert(make_pair("nord_west_six", "north_west_six"));
 	
 	} 
 	map<string, map<string, string> >::iterator bind = bindings.find(version);
@@ -413,7 +430,8 @@ void WrepJSon::eps()
     MagLog::dev() << "minx= " <<  minx_ << "->maxx= " << maxx_ << endl;
     map<string, vector<double> >::iterator intensity = values_.values_.find("intensity");
     map<string, vector<double> >::iterator direction = values_.values_.find("direction");
-    map<string, vector<double> >::iterator val = values_.values_.find("1");
+    string key = ( key_.empty() ) ? "1" : key_;
+    map<string, vector<double> >::iterator val = values_.values_.find(key);
 	for (unsigned int i = 0; i < values_.steps_.size(); i++) {
 		
 		double value = (val ==  (values_.values_.end() ) ) ? 0 : val->second[i]; 

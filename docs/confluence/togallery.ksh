@@ -3,6 +3,7 @@
 python tojira.py
 
 gallery="axis coastlines contour graph legend subpage symbols wind"
+gallery="wind"
 
 PYTHONPATH=..:$PYTHONPATH
 
