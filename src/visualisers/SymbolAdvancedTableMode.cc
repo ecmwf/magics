@@ -191,8 +191,8 @@ void SymbolAdvancedTableMode::adjust(double min, double max)
     }
     // Here we add a last interval to close to the right the lst Interval.
 
-    MagLog::debug() << "[" << *level << ", " << (*level)+epsilon << "]=" <<colourMethod_->right(*level) << *marker << "(marker)" << *text << "(text)"<< endl;
-    map_[Interval(*level, (*level)+epsilon) ] = last;
+    MagLog::debug() << "[" << *level << ", " << (*level)+EPSILON << "]=" <<colourMethod_->right(*level) << *marker << "(marker)" << *text << "(text)"<< endl;
+    map_[Interval(*level, (*level)+EPSILON) ] = last;
 
 }
 
