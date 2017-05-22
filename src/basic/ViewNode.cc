@@ -33,8 +33,6 @@
 #include "HistoVisitor.h"
 
 #include "AnimationRules.h"
-#include <MagConfig.h>
-
 
 using namespace magics;
 
@@ -549,22 +547,11 @@ protected:
 	double parent_;
 };
 
-
 void FortranViewNode::getReady()
 {
 	ASSERT (parent_);
-
-	if ( predefined_ ) {
-			StyleLibrary library("projections");
-			const map<string, string>& area = library.get(predefined_name_);
-			cout << "Setting predefined area --> " <<  predefined_name_ << endl;
-			viewTransformation_ = MagTranslator<string, Transformation>()(area.find("subpage_map_projection")->second);
-			viewTransformation_->set(area);
-			viewTransformation_->init();
-	}
-	else {
-		viewTransformation_ = FortranViewNodeAttributes::transformation_.get();
-	}
+	
+	viewTransformation_ = FortranViewNodeAttributes::transformation_.get();
 	viewTransformation_->setDefinition(json_);
 
 //	MagLog::dev()<< *viewTransformation_ << endl;

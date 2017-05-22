@@ -10,7 +10,6 @@
 
 #include "MagConfig.h"
 #include "MagLog.h"
-#include "MagExceptions.h"
 
 using namespace magics;
 using namespace json_spirit;
@@ -19,10 +18,6 @@ using namespace json_spirit;
 MagConfigHandler::MagConfigHandler(const string& config, MagConfig& magics)
 {
 	ifstream is(config.c_str());
-	if ( !is.good() ) {
-		MagLog::error() << "Could not processed find the file: " << config << endl;
-		return;
-	} 
 
 	json_spirit::Value value;
 	try {
@@ -30,11 +25,14 @@ MagConfigHandler::MagConfigHandler(const string& config, MagConfig& magics)
 		 Object object = value.get_value< Object >();
 
 		 for (vector<Pair>::const_iterator entry = object.begin(); entry !=  object.end(); ++entry) {
+
+
 			 magics.callback(entry->name_, entry->value_);
 		   }
 	}
 	catch (std::exception e) {
 		  MagLog::error() << "Could not processed the file: " << config << ": " << e.what() << endl;
+		  abort();
 	}
 }
 
@@ -86,34 +84,3 @@ string MagConfig::convert(const json_spirit::Value& value)
 
 }
 
-void StyleLibrary::callback(const string& name, const json_spirit::Value& value)
-{
-		library_.insert(make_pair(name, map<string, string>()));
-		if ( value.type() == json_spirit::obj_type ) {
-			json_spirit::Object object =value.get_value< json_spirit::Object >();
-			for (vector<json_spirit::Pair>::const_iterator entry = object.begin(); entry !=  object.end(); ++entry) {
-				library_[name].insert(make_pair(entry->name_, convert(entry->value_)));
-    		}
-    	}
-    	
-}
-void StyleLibrary::init()
-{
-	string library = getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_ + theme_ + "/" + family_ +".json";
-	MagLog::debug() << "Opening " << library << endl;
-	MagConfigHandler(library,  *this);
-}
-
-
-
-const map<string, string>& StyleLibrary::get(const string& name) const {
-		map<string, map<string, string> >::const_iterator area = library_.find(name);
-		if ( area != library_.end() ) 
-			return area->second;
-		if (theme_.empty() )
-			MagLog::warning() << "Could not find the style " << name << " for " << family_ << endl;
-		else 
-			MagLog::warning() << "Could not find the style " << name << " for " << family_ << " in " << theme_ << endl;
-
-		return empty_;
-}

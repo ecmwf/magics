@@ -76,8 +76,6 @@ public:
 		node->copy(*this);	
 		return node;
 	}
-	string theme() const;
-	
 protected:
 	void print(ostream&) const;
 	SceneLayer* sceneLayer_;
