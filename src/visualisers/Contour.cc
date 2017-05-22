@@ -74,6 +74,7 @@ public :
 
 void Contour::operator()(Data& data, BasicGraphicsObjectContainer& parent)
 {
+
     try {
     	ContourLibrary* library = MagTranslator<string, ContourLibrary>()(setting_);
 
@@ -101,7 +102,10 @@ void Contour::operator()(Data& data, BasicGraphicsObjectContainer& parent)
 
 
     data.getReady(parent.transformation());
-
+    if ( !data.valid() ) {
+		MagLog::error() << "Invalid data for contouring" << endl;
+		return;
+    }
 	MatrixHandler* box =  data.matrix().getReady(parent.transformation());
 	if (!box  ){
 		MagLog::error() << "Invalid data for contouring" << endl;

@@ -307,7 +307,6 @@ void ShapeDecoder::decode(vector<Polyline*>& data, const Transformation& transfo
 			const double north = transformation.getMaxY();
 			const double west  = transformation.getMinX();
 			const double east  = transformation.getMaxX();
-			//cout << "    ShapeDecoder - BBox  s: "<<south<<" n: " <<north<<" / w: "<<west<<" e: "<< east<< endl;
 
 			double shift = 0;
 
@@ -400,8 +399,9 @@ void ShapeDecoder::decode(vector<Polyline*>& data, const Transformation& transfo
 				}
 				if ( index ) {
 					poly->rotate(index);
+					// Clean the south pole ...
+
 				}
-	          
 			}
 			SHPDestroyObject(psShape);
 			SHPClose( hSHP );
