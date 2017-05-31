@@ -57,6 +57,7 @@ public:
     virtual void beanInfo(IntervalMap<Colour>&) { NOTIMP; }
     virtual bool needLegend() { return false; }
     virtual void  getReady(const LegendVisitor& legend) { legendOnly_ = legend.only_; }
+    void theme(const string& theme) { theme_ = theme; }
 protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).
 	 virtual void print(ostream& out) const { 
@@ -64,6 +65,7 @@ protected:
 	 }
 	 
 	 bool legendOnly_;
+	 string theme_;
 
 private:
     //! Copy constructor - No copy allowed
