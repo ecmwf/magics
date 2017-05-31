@@ -98,6 +98,7 @@ void VisualAction::visit(DrawingVisitor& drawing)
 	for (  vector<Visdef* >::iterator visdef = visdefs_.begin(); visdef != visdefs_.end(); ++visdef)
 	{
 		Timer timer("plotting", "time spent in plotting");
+		(**visdef).theme(theme());
 		(**visdef)(*data_, drawing.layout()); // Now the visualObject ahs the responsability to reproject!
 	}
 }

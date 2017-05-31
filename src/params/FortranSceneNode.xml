@@ -62,7 +62,7 @@ does it submit to any jurisdiction.
   
  
   
-  	<parameter from="float" name="page_x_gap" default="0.0cm" member="page_x_gap" to="float" implemented="no">
+P  	<parameter from="float" name="page_x_gap" default="0.0cm" member="page_x_gap" to="float" implemented="no">
          		<documentation> Gap between pages in X direction 		</documentation>
          		<release>Magics++0.2		</release>
          		<release_info>Not fully implemented		</release_info>
@@ -87,5 +87,8 @@ does it submit to any jurisdiction.
          		<documentation> Direction of plotting (HORIZONTAL/VERTICAL) 		</documentation>
          		<release>Magics++0.2		</release>
   	</parameter>
+    <parameter member="theme" to="string" default="super_page_theme" from="string" name="page_theme">
+            <documentation>   Theme to apply to the content of the page : the default is the super_page_theme  </documentation>
+    </parameter>
   
 </class></magics>
