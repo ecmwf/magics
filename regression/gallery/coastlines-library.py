@@ -27,17 +27,17 @@ projection = mmap(
 
 #Coastlines setting
 coast = mcoast(
-        map_coastline_style = "background",
+        map_coastline_general_style = "background",
         )
 #Import the z500 data
 data =  mgrib(grib_input_file_name  = "2t.grib",
               )
 
 foreground = mcoast(
-        map_coastline_style = "foreground",
+        map_coastline_general_style = "foreground",
         )
 grid = mcoast(
-        map_coastline_style = "grid",
+        map_coastline_general_style = "grid",
         )
 
 #Define the simple contouring for z500
