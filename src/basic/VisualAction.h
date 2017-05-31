@@ -42,7 +42,7 @@ public:
 	
 	void data(Data* data)     { data_ = data; }
 	void set2D()     { data_->dimension(2); }
-	void visdef(Visdef* visdef) { visdefs_.push_back(visdef); }
+	void visdef(Visdef* visdef) { visdef->theme(theme()); visdefs_.push_back(visdef); }
 	void binning(BinningObject* binning)     { if (data_) data_->binning(binning); }
 	const string name();
 	const string id();

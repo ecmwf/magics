@@ -61,6 +61,27 @@ private:
 };
 
 
+class StyleLibrary : public MagConfig
+{
+public:
+	StyleLibrary(const string& theme, const string& family): theme_(theme), family_(family) { init(); }
+	StyleLibrary(const string& family): family_(family) { init(); }
+	~StyleLibrary() {}
+
+	void callback(const string& name, const json_spirit::Value& value);
+	void init();
+	
+	map<string, map<string, string> > library_;
+	map<string, string> empty_;
+
+	string theme_;
+	string family_;
+
+	const map<string, string>& get(const string& name) const;
+	
+};
+
+
 
 
 
