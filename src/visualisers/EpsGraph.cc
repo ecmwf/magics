@@ -676,6 +676,47 @@ void EpsGraph::print(ostream& visitor)  const
 }
 
 
+Polyline* EpsGraph::newControl() {
+
+	Polyline* control  = new Polyline();
+	control->setColour(*control_colour_);
+	control->setLineStyle(control_style_);
+	control->setThickness(control_thickness_);
+	return control;
+}
+
+Polyline* EpsGraph::newForecast() {
+
+	
+	Polyline* forecast  = new Polyline();
+	forecast->setColour(*deterministic_colour_);
+	forecast->setThickness(deterministic_thickness_);
+	forecast->setLineStyle(deterministic_style_);
+	return forecast;
+}
+
+void EpsGraph::pushControl(Polyline* control, BasicGraphicsObjectContainer& visitor)
+{
+	const Transformation& transformation = visitor.transformation();
+	if ( !control->empty() && whisker_) {		
+		transformation(*control, visitor);
+		control_ = true;
+	}
+	else 
+		control_ = false;
+	
+}
+
+void EpsGraph::pushForecast(Polyline* forecast, BasicGraphicsObjectContainer& visitor)
+{
+	const Transformation& transformation = visitor.transformation();
+	if ( !forecast->empty() && deterministic_) {					
+		transformation(*forecast, visitor);
+		forecast_ = true;
+	}
+	else
+		forecast_ = false;
+}
 
 void EpsGraph::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 {
@@ -689,29 +730,18 @@ void EpsGraph::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 
 	
 	if (points.empty()) return;
-	
-
 
 	
-	Polyline* control  = new Polyline();
-	control->setColour(*control_colour_);
-	control->setLineStyle(control_style_);
-	control->setThickness(control_thickness_);
 	
-	Polyline* forecast  = new Polyline();
-	forecast->setColour(*deterministic_colour_);
-	forecast->setThickness(deterministic_thickness_);
-	forecast->setLineStyle(deterministic_style_);
+	
+	Polyline* control = newControl();
+	Polyline* forecast = newForecast();
+
 
 	resolution_ = (*points.front())["resolution"];
-	
-		
 	DateTime base = points.front()->base();
-		
 	
     vector<BasicGraphicsObject*> list, list2;
-    
-    
     
     if ( points.size() < 2 ) return;
     fullEps_ = false;
@@ -720,35 +750,38 @@ void EpsGraph::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
     
 	for (CustomisedPointsList::const_iterator point = points.begin(); point != points.end(); ++point) {
 		resolution_ = (**point)["resolution"];
-		
+		double missing = (**point)["missing"];
+		cout << missing << endl;
 		double x = (**point)["step"] + box_shift_ *3600;
 		double width = (box_width_ == -1) ? (**point)["width"] : box_width_ * 3600;
 		
 		if ( (**point)["right"] ) colour = *right_colour_;
 		if ( (**point)["left"] )  colour = *left_colour_;
 		
-
 		double max = ((*point)->find("max") != (*point)->end()) ? (*point)->find("max")->second : (*point)->find("maximum")->second;
 		double min = ((*point)->find("min") != (*point)->end()) ? (*point)->find("min")->second : (*point)->find("minimum")->second;
 
-
 		CustomisedPoint::const_iterator ten   = (*point)->find("ten");
-                CustomisedPoint::const_iterator ninty = (*point)->find("ninety");
+        CustomisedPoint::const_iterator ninty = (*point)->find("ninety");
 
-
-
-		
-        
-
-        if ( (*point)->find("control") != (*point)->end() &&  (**point)["control"]!= 9999.  )
+        if ( (*point)->find("control") != (*point)->end() &&  (**point)["control"]!= missing  )
         	control->push_back(PaperPoint(x, (**point)["control"]));		
-		if ( (*point)->find("hres") != (*point)->end() &&  (**point)["hres"] != 9999.)
+        else {
+        	pushControl(control, visitor);
+        	control = newControl();
+        }
+		if ( (*point)->find("hres") != (*point)->end() &&  (**point)["hres"] != missing)
             forecast->push_back(PaperPoint(x, (**point)["hres"]));
+        else {
+        	pushForecast(forecast, visitor);
+        	forecast = newForecast();
+        }
         if ( (*point)->find("median") == (*point)->end() )  {        	
             eps_ = false;  
             continue;
         }
-        if (  (**point)["median"] == 9999. ) {        	
+
+        if (  (**point)["median"] == missing ) {        	
                    eps_ = false;  
                    continue;
                }
@@ -765,13 +798,12 @@ void EpsGraph::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 	std::sort(eps.begin(), eps.end());
 
 	for (vector<double>::iterator e = eps.begin(); e != eps.end(); ++e) {
-		if ( same(*e, 0) ) *e = 0;
-        //cout << *e << " ";
+		if ( same(*e, 0) ) *e = 0;    
     }
-    //cout << endl;
+   
 
-        double epsmin, eps10, eps25,  eps50, eps75, eps90, epsmax;
-        if ( ninty != (*point)->end() ) {
+    double epsmin, eps10, eps25,  eps50, eps75, eps90, epsmax;
+    if ( ninty != (*point)->end() ) {
         	epsmin = eps[0];
         	eps10 = eps[1];
        		eps25 = eps[2];
@@ -902,12 +934,12 @@ void EpsGraph::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 		 for (CustomisedPointsList::const_iterator point = points.begin(); point != points.end(); ++point) {
 		   		double max = ((*point)->find("max") != (*point)->end()) ? (*point)->find("max")->second : (*point)->find("maximum")->second;
 				double min = ((*point)->find("min") != (*point)->end()) ? (*point)->find("min")->second : (*point)->find("minimum")->second;
-		        ypos.push_back(max);
-				ypos.push_back(min);
+		        if (max != missing ) ypos.push_back(max);
+				if (min != missing ) ypos.push_back(min);
 				if ( (*point)->find("control") != (*point)->end() )
-					ypos.push_back((**point)["control"]);
+					if ((**point)["control"] != missing) ypos.push_back((**point)["control"]);
 			    if ( (*point)->find("hres") != (*point)->end() )
-				    ypos.push_back((**point)["hres"]);
+				    if ((**point)["hres"] != missing ) ypos.push_back((**point)["hres"]);
 		    
 		    }
 		
@@ -932,27 +964,10 @@ void EpsGraph::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 
 		 
        }
-		
 	
+	pushControl(control, visitor);
+	pushForecast(forecast, visitor);
 	
-	if ( !control->empty() && whisker_) {		
-		transformation(*control, visitor);
-		control_ = true;
-	}
-	else 
-		control_ = false;
-	if ( !forecast->empty() && deterministic_) {					
-		transformation(*forecast, visitor);
-		forecast_ = true;
-	}
-	else
-		forecast_ = false;
-	
-	
-
-     	
-		
-
 }
 
 void EpsLight::print(ostream& visitor)  const
