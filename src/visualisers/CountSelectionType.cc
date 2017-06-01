@@ -117,8 +117,12 @@ void CountSelectionType::calculate(double min, double max, bool)
         push_back(mini);
         first += inc;
         double epsilon = inc/10000.0;
-        if ( same(epsilon, 0) )
-        	return;
+        while ( same(epsilon, 0) ) {
+            
+            epsilon *= 10;
+            EPSILON /= 10;
+        }
+
        
         for (double val = first; val < maxi; val += inc) {         
             // special case - if the value is close to zero then set it to precisely zero to avoid later formatting issues

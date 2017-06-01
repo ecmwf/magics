@@ -15,6 +15,10 @@ projection = { "name": "projection2",
                "project" : "Europe",
                 "text" : "Europe",
                 "map" : mmap(
+                  subpage_lower_left_latitude = 21.51,
+                  subpage_lower_left_longitude =  -37.27,
+                  subpage_upper_right_latitude =  51.28, 
+                  subpage_upper_right_longitude =  65., 
                   subpage_map_projection =  "polar_stereographic" )
                 }
 
@@ -33,7 +37,7 @@ coast = mcoast(
 			map_coastline_colour = "grey",
 			map_coastline_land_shade =  "on", 
 			map_coastline_land_shade_colour =  "cream", 
-			map_grid =  "off", 
+			map_grid =  "on", 
 			map_grid_colour = "grey", 
 			map_coastline_sea_shade  ="on", 
 			map_coastline_sea_shade_colour=  "white", 
@@ -49,3 +53,8 @@ text = mtext( text_font_size = '0.7',
 plot(output, map, coast, text)
 
 
+
+# For documentation purposes
+tofortran(projection["name"], output, map, coast, text)
+tomv4(projection["name"], map)
+tohtml(projection["name"],  map)

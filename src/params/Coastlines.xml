@@ -14,7 +14,7 @@ does it submit to any jurisdiction.
 		The parameters relating to action routine PCOAST (C++ class Coastlines) enable
         users to control the plotting of coastlines and grid lines. 
     	</documentation>
-        <parameter from="string" name="map_coastline_style" default="" member="style" to="string"> 
+        <parameter from="string" name="map_coastline_general_style" default="" member="style" to="string"> 
                 <documentation> 
           Use a predefined style depending on the general theme 
                 </documentation>

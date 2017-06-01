@@ -190,7 +190,9 @@ inline MAGICS_NO_EXPORT string getOutputString()
 	return outputs;
 }
 */
-const double epsilon = 1.25e-10;
+
+
+static  double EPSILON = 1.25e-10;
 
 template<class T>
 inline MAGICS_NO_EXPORT T abs(const T a) { return (a < 0) ? -a : a; }
@@ -201,7 +203,7 @@ const double PI = atan(1.)*4.;
 
 inline MAGICS_NO_EXPORT double RAD(const double r) { return r*PI/180.;}
 inline MAGICS_NO_EXPORT double DEG(const double d) { return d*180./PI;}
-inline MAGICS_NO_EXPORT bool zero(const double v) { return abs(v) < epsilon; }
+inline MAGICS_NO_EXPORT bool zero(const double v) { return abs(v) < EPSILON; }
 inline MAGICS_NO_EXPORT bool same(const double a, const double b) { return zero(a-b); }
 inline MAGICS_NO_EXPORT bool zero(const double v, double epsilon) { return abs(v) < epsilon; }
 inline MAGICS_NO_EXPORT bool same(const double a, const double b, double epsilon) { return zero(a-b, epsilon); }
