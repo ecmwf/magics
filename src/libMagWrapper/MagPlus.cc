@@ -1341,7 +1341,7 @@ bool MagPlus::geopoints(magics::MagRequest& in)
 	push(action);
 
 	GeoPointsDecoderWrapper geopoints;
-	geopoints.set(in);
+	geopoints.set(in);	
 	setIconInfo(in, *geopoints.object());
 	top()->data(geopoints.object());
 

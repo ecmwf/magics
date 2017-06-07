@@ -107,12 +107,6 @@ ProjectedMatrix::ProjectedMatrix(int rows, int columns): Matrix(rows, columns)
 	       columnsArray_.reserve(rows*columns);
 }
 
-RotatedMatrix::RotatedMatrix(int rows, int columns): Matrix(rows, columns)
-{
-	rowsArray_.reserve(rows*columns);
-	columnsArray_.reserve(rows*columns);
-	values_.reserve(rows*columns);
-}
 
 
 
@@ -239,6 +233,7 @@ pair<double, double> Matrix::nearest_value(double row, double column,double &row
 	rowOut = missing();
 	colOut = missing();
 
+
 	vector<pair<double, map<double, pair<double, double> >::const_iterator> > points;
 	row_index = index_.find(row);
 
@@ -309,6 +304,8 @@ int Matrix::nearest_index(double row, double column,double &rowOut, double &colO
 {
 	double col, offset;
 
+
+	
 	int factor = (column-minX())/360.;
 
 	if ( column-minX() < 0)
@@ -317,12 +314,23 @@ int Matrix::nearest_index(double row, double column,double &rowOut, double &colO
 	offset = (factor*360);
 
 	col = column - offset;
+	rowOut = missing();
+	colOut = missing();
+
+	if ( col < left() || col > right() ) {
+
+		
+		return -1;
+	} 
+	if ( row < bottom() || row > top() ) {
+		
+		return -1;
+	} 
 	map<double, int >::const_iterator  row_index;
 	pair<int, bool> column_index;
 	vector<pair<double, pair<double, int> > > points;
 
-	rowOut = missing();
-	colOut = missing();
+	
 
 
 	row_index = yIndex_.find(row);
@@ -550,10 +558,7 @@ GeoBoxMatrixHandler::GeoBoxMatrixHandler(const AbstractMatrix& matrix, const Tra
 
 	
 }
-MatrixHandler* RotatedMatrix::getReady(const Transformation&) const
-{
-	return new MatrixHandler(*this);
-}
+
 
 MatrixHandler* Matrix::getReady(const Transformation& transformation)  const{
 	return transformation.prepareData(*this);
@@ -564,6 +569,12 @@ MatrixHandler* Proj4Matrix::getReady(const Transformation&) const
 	return new Proj4MatrixHandler(*this, proj4_);
 }
 
+MatrixHandler* RotatedMatrix::getReady(const Transformation&) const
+{
+	return new RotatedMatrixHandler(*this, southPoleLat_, southPoleLon_);
+}
+
+
 
 Proj4MatrixHandler::Proj4MatrixHandler(const AbstractMatrix& matrix, const string& proj4) : MatrixHandler(matrix) 
 {
@@ -572,7 +583,13 @@ Proj4MatrixHandler::Proj4MatrixHandler(const AbstractMatrix& matrix, const strin
 	internal_ = false;
 }
 
-   
+RotatedMatrixHandler::RotatedMatrixHandler(const AbstractMatrix& matrix,  double lat, double lon) : 
+	MatrixHandler(matrix), southPoleLat_(lat), southPoleLon_(lon) 
+{
+	internal_ = false;
+}
+
+
        
 double Proj4MatrixHandler::interpolate(double  row, double  column) const 
 {
@@ -602,6 +619,60 @@ double Proj4MatrixHandler::nearest(double  row, double  column) const
     return MatrixHandler::nearest(y, x);
 }
 
+double RotatedMatrixHandler::interpolate(double  row, double  column) const 
+{
+	if (internal_)
+		return MatrixHandler::interpolate(row, column);
+	
+	pair<double, double> point = rotate(row, column);
+    return MatrixHandler::interpolate(point.first, point.second);
+}
+
+double RotatedMatrixHandler::nearest(double  row, double  column) const
+{
+	if (internal_)
+		return MatrixHandler::nearest(row, column);
+	pair<double, double> point = rotate(row, column);
+    return MatrixHandler::nearest(point.first, point.second);
+}
+
+RotatedMatrix::RotatedMatrix(int rows, int columns, double lat, double lon) : 
+Matrix(rows, columns), southPoleLat_(lat), southPoleLon_(lon) 
+{
+    helper_ = new RotatedMatrixHandler(*this, southPoleLat_, southPoleLon_);
+}
+int RotatedMatrix::nearest_index(double lat, double lon,double &nlat, double &nlon) const
+{
+	
+	pair<double, double> point = helper_->rotate(lat, lon);
+	int index = Matrix::nearest_index(point.first, point.second, nlat, nlon);
+	if ( index != -1 ) {
+		point = helper_->unrotate(nlat, nlon);
+		nlat = point.first;
+		nlon = point.second;
+	}
+	return index;
+}
+
+double RotatedMatrixHandler::column(int i , int j) const
+{
+	double column = MatrixHandler::column(i, j);
+	double row = MatrixHandler::row(i, j);
+
+	pair<double, double> point = unrotate(row, column);
+    return point.second;
+}
+
+double RotatedMatrixHandler::row(int i, int j) const
+{
+	double column = MatrixHandler::column(i, j);
+	double row = MatrixHandler::row(i, j);
+
+	pair<double, double> point = unrotate(row, column);
+    return point.first;
+   
+}
+
 double Proj4MatrixHandler::column(int i , int j) const
 {
 	double column = MatrixHandler::column(i, j);
@@ -626,6 +697,58 @@ double Proj4MatrixHandler::row(int i, int j) const
     return row * RAD_TO_DEG;
 }
     
+pair<double, double> RotatedMatrixHandler::rotate(double lat_y,  double lon_x) const 
+{
+    const double cToRadians = M_PI / 180.0;
+    double ZRADI = 1. / cToRadians;
+    double ZSYCEN = sin(cToRadians * (southPoleLat_ + 90.));
+    double ZCYCEN = cos(cToRadians * (southPoleLat_ + 90.));
 
+    double ZXMXC = cToRadians * (lon_x - southPoleLon_);
+    double ZSXMXC = sin(ZXMXC);
+    double ZCXMXC = cos(ZXMXC);
+    double ZSYREG = sin(cToRadians * lat_y);
+    double ZCYREG = cos(cToRadians * lat_y);
+    double ZSYROT = ZCYCEN * ZSYREG - ZSYCEN * ZCYREG * ZCXMXC;
+    ZSYROT = MAX(MIN(ZSYROT, +1.0), -1.0);
+
+    double PYROT = asin(ZSYROT) * ZRADI;
+
+    double ZCYROT = cos(PYROT * cToRadians);
+    double ZCXROT = (ZCYCEN * ZCYREG * ZCXMXC + ZSYCEN * ZSYREG) / ZCYROT;
+    ZCXROT = MAX(MIN(ZCXROT, +1.0), -1.0);
+    double ZSXROT = ZCYREG * ZSXMXC / ZCYROT;
+
+    double PXROT = acos(ZCXROT) * ZRADI;
+
+    if (ZSXROT < 0.0)
+        PXROT = -PXROT;
+
+    return std::make_pair(PYROT, PXROT);
+}
+
+pair<double, double> RotatedMatrixHandler::unrotate(double lat_y, double lon_x) const 
+{
+    const double cToRadians = M_PI / 180.0;
+    double ZRADI = 1. / cToRadians;
+    double ZSYCEN = sin(cToRadians * (southPoleLat_ + 90.));
+    double ZCYCEN = cos(cToRadians * (southPoleLat_ + 90.));
+    double ZSXROT = sin(cToRadians * lon_x);
+    double ZCXROT = cos(cToRadians * lon_x);
+    double ZSYROT = sin(cToRadians * lat_y);
+    double ZCYROT = cos(cToRadians * lat_y);
+    double ZSYREG = ZCYCEN * ZSYROT + ZSYCEN * ZCYROT * ZCXROT;
+    ZSYREG = MAX(MIN(ZSYREG, +1.0), -1.0);
+    double PYREG = asin(ZSYREG) * ZRADI;
+    double ZCYREG = cos(PYREG * cToRadians);
+    double ZCXMXC = (ZCYCEN * ZCYROT * ZCXROT - ZSYCEN * ZSYROT) / ZCYREG;
+    ZCXMXC = MAX(MIN(ZCXMXC, +1.0), -1.0);
+    double ZSXMXC = ZCYROT * ZSXROT / ZCYREG;
+    double ZXMXC = acos(ZCXMXC) * ZRADI;
+    if (ZSXMXC < 0.0)
+        ZXMXC = -ZXMXC;
+    double PXREG = ZXMXC + southPoleLon_;
+    return std::make_pair(PYREG, PXREG);
+}
 
    

@@ -166,7 +166,9 @@ bool MagicsFormat::valid(ostream& out) const
 				case 52 : // // Format Ew.d[E.e] Waiting for a number d
 					if (isdigit(*c) ) {
 						out.precision(atoi(&(*c)));
-						state = 53;
+						precision =  "." + tostring( atoi(&(*c)));
+						
+						state = 100;
 						break;
 					}
 					valid = false;
@@ -177,7 +179,16 @@ bool MagicsFormat::valid(ostream& out) const
 						state = 54;
 						break;
 					}
-					if ( *c == '(') {
+					if ( *c == ')') {
+						// set the width.
+						char bufr[256];
+						string print = "%" + width + precision + specifier;
+						
+						sprintf(bufr, print.c_str(), int(value_));
+						out << bufr; 
+						break;
+					}
+					if ( *c == ')') {
 						state = 101;
 						break;
 					}
@@ -246,7 +257,6 @@ bool MagicsFormat::valid(ostream& out) const
 				    	// set the width.
 				  		char bufr[1024];
 				  			string print = "%" + width + precision + specifier;
-				  			
 				  			sprintf(bufr, print.c_str(), value_);
 				  			
 				  			out << bufr; 
