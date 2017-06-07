@@ -437,9 +437,10 @@ def examine(*args):
             break
 
 def _execute(o):
-	if isinstance(o, list):
+	if isinstance(o, list) or isinstance(o, tuple):
 		for x in o:
 			_execute(x)
+
 	else:
 
 		o.execute()

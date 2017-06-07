@@ -46,6 +46,19 @@ void SymbolPlotting::print(ostream& out)  const
 	out << "]";
 }
 
+double SymbolPlotting::height(const Transformation&, double height)
+{
+    if ( scaling_method_ == false ) 
+        return height;
+    
+    // get Area !
+
+    //return transformation.ratio() * scaling_level_0_ * scaling_factor_;
+    return scaling_level_0_ * scaling_factor_;
+
+
+
+}
 
 
 void SymbolPlotting::operator()(const PaperPoint& point, BasicGraphicsObjectContainer& out) const

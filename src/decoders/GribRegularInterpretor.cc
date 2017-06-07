@@ -1594,6 +1594,7 @@ void GribLambertAzimutalInterpretor::interpretAsMatrix(const GribDecoder& grib,
     long im = grib.getLong("numberOfPointsAlongXAxis");
     long jm = grib.getLong("numberOfPointsAlongYAxis");
 
+/*
     RotatedMatrix *rotated = new RotatedMatrix(jm, im);
     *matrix = rotated;
 
@@ -1636,7 +1637,7 @@ void GribLambertAzimutalInterpretor::interpretAsMatrix(const GribDecoder& grib,
     } catch (MagicsException& e) {
         MagLog::error() << e << "\n";
     }
-
+*/
 }
 
 void GribLambertAzimutalInterpretor::print(ostream& out) const {
@@ -1650,193 +1651,124 @@ void GribRotatedInterpretor::interpretAsMatrix(const GribDecoder& grib,
     southPoleLon_ = grib.getDouble("longitudeOfSouthernPoleInDegrees");
     angle_ = grib.getDouble("angleOfRotationInDegrees") * 180.0 / M_PI;
     uvRelativeToGrid_ = grib.getLong("uvRelativeToGrid");
-    if (original_) {
-        long nblon = grib.getLong("numberOfPointsAlongAParallel");
-        long nblat = grib.getLong("numberOfPointsAlongAMeridian");
 
-        *matrix = new RotatedMatrix(nblat, nblon);
-        size_t nb;
-        grib_get_size(grib.id(), "values", &nb);
 
-        MagLog::dev() << "numberOfFieldValues[" << nb << "]" << "\n";
-        double missing = -std::numeric_limits<double>::max();
-        grib.setDouble("missingValue", missing);
-
-        (*matrix)->missing(missing);
-
-        double north = grib.getDouble("latitudeOfFirstGridPointInDegrees");
-        double west = grib.getDouble("longitudeOfFirstGridPointInDegrees");
-        double south = grib.getDouble("latitudeOfLastGridPointInDegrees");
-        ;
-        double east = grib.getDouble("longitudeOfLastGridPointInDegrees");
-        ;
-        longitudesSanityCheck(west, east);
-
-        double lon = (east - west) / (nblon - 1);
-        double lat = (south - north) / (nblat - 1);
-
-        vector<double>& rows =
-                static_cast<RotatedMatrix*>(*matrix)->rowsArray();
-        vector<double>& columns =
-                static_cast<RotatedMatrix*>(*matrix)->columnsArray();
-        vector<double>& values = static_cast<RotatedMatrix*>(*matrix)->values();
-        MagLog::dev() << "calcul -->" << lon << " (from->" << west << " to-->"
-                << west + (nblon - 1) * lon << ")" << endl;
-
-        double y = north;
-        for (int i = 0; i < nblat; i++) {
-            double x = west;
-            for (int j = 0; j < nblon; j++) {
-                if (i == 0)
-                    (*matrix)->columnsAxis().push_back(x);
-                std::pair<double, double> point = unrotate(y, x);
-                columns.push_back(point.second);
-                rows.push_back(point.first);
-                x = west + (j + 1) * lon;
-
-            }
-
-            y = north + (i + 1) * lat;
-
-        }
-
-        try {
-            (*matrix)->resize(nb);
-            size_t aux = size_t(nb);
-            grib_get_double_array(grib.id(), "values", &values.front(), &aux);
-        } catch (...) {
-            throw MagicsException("Not enough memory");
-        }
-
-        return;
-    }
-
+     Timer timer("gribapi", " read grib");
+    MagLog::dev() << "GribRegularInterpretor::interpretAsMatrix" << "\n";
     long nblon = grib.getLong("numberOfPointsAlongAParallel");
     long nblat = grib.getLong("numberOfPointsAlongAMeridian");
-    *matrix = new Matrix(nblat, nblon);
 
-    Matrix* helper = new Matrix(nblat, nblon); // settup as the equivalent regular matrix!
+    if (*matrix == 0)
+        *matrix = new RotatedMatrix(nblat, nblon, southPoleLat_, southPoleLon_);
+    if ( matrix2 )
+        *matrix2 = new RotatedMatrix(nblat, nblon, southPoleLat_, southPoleLon_);
 
     size_t nb;
     grib_get_size(grib.id(), "values", &nb);
 
     MagLog::dev() << "numberOfFieldValues[" << nb << "]" << "\n";
-    double missing = -std::numeric_limits<double>::max();
+    double missing = INT_MAX;
     grib.setDouble("missingValue", missing);
-    helper->missing(missing);
     (*matrix)->missing(missing);
+    
 
     double north = grib.getDouble("latitudeOfFirstGridPointInDegrees");
     double west = grib.getDouble("longitudeOfFirstGridPointInDegrees");
     double south = grib.getDouble("latitudeOfLastGridPointInDegrees");
-    ;
     double east = grib.getDouble("longitudeOfLastGridPointInDegrees");
-    ;
+
     longitudesSanityCheck(west, east);
 
     MagLog::dev() << "NewAPI---> area[" << west << ", " << north << ", " << east
             << ", " << south << "]" << "\n";
+    double loni = longitudeIncrement(grib);
 
     double lon = (east - west) / (nblon - 1);
-    double lat = (south - north) / (nblat - 1);
 
+    MagLog::dev() << "increment -->" << loni << " (from->" << west << " to-->"
+            << west + (nblon - 1) * loni << ")" << endl;
     MagLog::dev() << "calcul -->" << lon << " (from->" << west << " to-->"
             << west + (nblon - 1) * lon << ")" << endl;
 
-    double y = north;
-    for (int i = 0; i < nblat; i++) {
+    latitudes(grib, (*matrix)->rowsAxis());
 
-        helper->rowsAxis().push_back(y);
-        y = north + (i + 1) * lat;
+    if ( matrix2 != NULL) {
 
+        (*matrix)->xIndex_.reserve((*matrix)->rowsAxis().size());
+        int offset = 0;
+        int l = 0;
+        for ( vector<double>::iterator lat = (*matrix)->rowsAxis().begin(); lat != (*matrix)->rowsAxis().end(); ++lat) {
+            (*matrix)->yIndex_.insert(make_pair(*lat, l));
+            l++;
+            (*matrix)->xIndex_.push_back(InfoIndex(west, east, nblon, offset));
+            offset += nblon;
+        }
+         (*matrix)->data_.resize(nb);
+         (*matrix2)->data_.resize(nb);
     }
-
     double x = west;
     for (int i = 0; i < nblon; i++) {
-
-        helper->columnsAxis().push_back(x);
-        x = west + (i + 1) * lon;
-
-    }
-
-    helper->setMapsAxis();
-
-    try {
-        helper->resize(nb);
-        size_t aux = size_t(nb);
-        grib_get_double_array(grib.id(), "values", &helper->front(), &aux);
-    } catch (...) {
-        throw MagicsException("Not enough memory");
-    }
-
-    lon = west;
-    lat = north;
-    double steplon = (east - west) / (nblon - 1);
-    double steplat = (south - north) / (nblat - 1);
-
-    // Fisrt try to find the bounding box
-    vector<double> rows;
-    rows.reserve(nb);
-    vector<double> columns;
-    columns.reserve(nb);
-    vector<double> values;
-    values.reserve(nb);
-
-    for (int j = 0; j < nblat; j++) {
-        lon = west;
-
-        for (int i = 0; i < nblon; i++) {
-            std::pair<double, double> point = unrotate(lat, lon);
-
-            rows.push_back(point.first);
-            columns.push_back(point.second);
-
-            lon += steplon;
-        }
-        lat += steplat;
-    }
-
-    double minx = *std::min_element(columns.begin(), columns.end());
-    double maxx = *std::max_element(columns.begin(), columns.end());
-    double miny = *std::min_element(rows.begin(), rows.end());
-    double maxy = *std::max_element(rows.begin(), rows.end());
-
-    double stepx = (maxx - minx) / (nblon - 1);
-    double stepy = (maxy - miny) / (nblat - 1);
-    x = minx;
-    y = miny;
-    // Create the Axis for Regular Matrix..
-    for (int i = 0; i < nblon; i++) {
         (*matrix)->columnsAxis().push_back(x);
-        x += stepx;
+        x = west + (i + 1) * lon;
     }
-    for (int j = 0; j < nblat; j++) {
-        (*matrix)->rowsAxis().push_back(y);
-        y += stepy;
-    }
-
-    miny = std::min(north, south);
-    maxy = std::max(north, south);
-    minx = std::min(west, east);
-    maxx = std::max(west, east);
 
     (*matrix)->setMapsAxis();
-    for (int j = 0; j < nblat; j++) {
+
+    long jPointsAreConsecutive = grib.getLong("jPointsAreConsecutive");
+
+    try {
+        (*matrix)->resize(nb);
+        size_t aux = size_t(nb);
+
+        // if jPointsAreConsecutive=1 then the values represent columns of data instead
+        // of rows, so we have to 'reshape' the array so that it is reorganised into rows.
+
+        if (jPointsAreConsecutive) {
+            vector<double> *d = new vector<double>(nb);  // temporary array
+            double *d1 = &d->front();                 // temporary array pointer
+            double *d2 = &(*matrix)->front();            // final array
+
+            grib_get_double_array(grib.id(), "values", d1, &aux);
+
+            for (int i = 0; i < nblon; i++) {
+                for (int j = 0; j < nblat; j++) {
+                    d2[j * nblon + i] = d1[i * nblat + j];
+                }
+            }
+            delete d;
+
+        } else  // otherwise, just copy the array of values as they are
+        {
+
+
+            if ( matrix2 != NULL ) {
+                grib_get_double_array(grib.uHandle(), "values", &(*matrix)->front(),
+                                    &aux);
+                grib_get_double_array(grib.uHandle(), "values", &(*matrix)->data_.front(),
+                                            &aux);
+                grib_get_double_array(grib.vHandle(), "values", &(*matrix2)->front(),
+                            &aux);
+                grib_get_double_array(grib.vHandle(), "values", &(*matrix2)->data_.front(),
+                                    &aux);
+            }
+            else
+                grib_get_double_array(grib.handle(), "values", &(*matrix)->front(),
+                                                    &aux);
+        }
         for (int i = 0; i < nblon; i++) {
+            double lon = (*matrix)->columnsAxis()[i];
+            for (int j = 0; j < nblat; j++) {
+                double lat = (*matrix)->rowsAxis()[j];
 
-            pair<double, double> point = rotate((*matrix)->row(j, i),
-                    (*matrix)->column(j, i));
-            if (point.first > miny && point.first < maxy && point.second > minx
-                    && point.second < maxx) {
-                (*matrix)->push_back(
-                        helper->interpolate(point.first, point.second));
-
-            } else {
-                (*matrix)->push_back(missing);
 
             }
         }
+        (*matrix)->missing(missing);
+
+    } catch (...) {
+        throw MagicsException("GribRegularInterpretor - Not enough memory");
     }
+   
 }
 
 void GribRotatedInterpretor::interpret2D(double& lat, double& lon, double& uc,

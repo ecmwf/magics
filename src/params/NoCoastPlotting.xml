@@ -88,4 +88,30 @@ does it submit to any jurisdiction.
   		<documentation>Line thickness of rivers		</documentation>
   		<release>2.12		</release>
 	</parameter>
+
+	<parameter from="string" name="map_efas" default="off" member="efas" to="string" values="on/off" inherit_parent_reqs="no">
+ 		<documentation>Display rivers (on/off)		</documentation>
+  		<set name="map_efas_style" value="on">		</set>
+  		<set name="map_efas_colour" value="on">		</set>
+  		<set name="map_efas_thickness" value="on">		</set>  
+  		<set name="map_efas_domain" value="on">		</set>         
+ 		
+	</parameter>
+	<parameter from="string" name="map_efas_domain" default="current" member="efas_domain" to="string" values="current/extended" inherit_parent_reqs="no">
+ 		<documentation>Display EFAS Domain (on/off)		</documentation> 		
+	</parameter>
+	<parameter from="string" name="map_efas_style" default="solid" member="efas_style" to="LineStyle" inherit_parent_reqs="no">
+  		<documentation>Line style for EFAS	</documentation>
+  		<release>2.11		</release>
+	</parameter>       
+
+	<parameter from="string" name="map_efas_colour" default="blue" member="efas_colour" to="Colour" inherit_parent_reqs="no">
+ 		<documentation>Colour of the EFAS		</documentation>
+ 		<release>2.12		</release>
+	</parameter>
+
+	<parameter xml="thickness" from="int" name="map_efas_thickness" default="1" member="efas_thickness" to="int" inherit_parent_reqs="no">
+  		<documentation>Line thickness of EFAS		</documentation>
+  		
+	</parameter>
 </class></magics>

@@ -18,6 +18,17 @@ does it submit to any jurisdiction.
         		<documentation> Turn legend on or off (ON/OFF) : New Parameter! 		</documentation>
         		<set name="legend_user_text" value="on">		</set>
     	</parameter>
+        <parameter member="scaling_method" to="bool" default="off" from="string" name="symbol_scaling_method">
+                <documentation> Turn legend on or off (ON/OFF) : New Parameter!         </documentation>
+                <set name="legend_user_text" value="on">        </set>
+        </parameter>
+        <parameter member="scaling_level_0" to="float" default="0.1" from="float" name="symbol_scaling_level_0_height">
+                <documentation> Turn legend on or off (ON/OFF) : New Parameter!         </documentation>
+                
+        </parameter>   
+        <parameter member="scaling_factor" to="float" default="4." from="float" name="symbol_scaling_factor">
+                <documentation> Turn legend on or off (ON/OFF) : New Parameter!         </documentation>              
+        </parameter>
 
     	<parameter from="string" name="symbol_type" default="number" member="type" to="string" values="number/text/marker/wind">
         		<documentation> Defines the type of symbol plotting required 		</documentation>

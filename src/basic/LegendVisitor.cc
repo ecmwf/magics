@@ -412,6 +412,9 @@ void  LegendVisitor::rightTitle()
 
 	titleAngle_ = column ? magics::PI * 0.5 : 0;
 	float factor = column ? 0.25 : 0.15;
+	// Special adjustement for the web ( PDF creation) 
+	//titlePosition_ = Paperoint(maxx+ (newmaxx-maxx)*factor, (maxy - miny)/2);
+	//titleJustification_ = ( column ) ?  MCENTRE : MRIGHT;
 	titlePosition_ = PaperPoint(maxx+ (newmaxx-maxx)*factor, (maxy + 3*miny)/4);
 	titleJustification_ = MLEFT;
 

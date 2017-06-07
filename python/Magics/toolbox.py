@@ -398,6 +398,7 @@ def epsgraph(parameter, input, **args):
                             wrepjson_keyword =  "eps",
                             wrepjson_input_filename = input,
                             wrepjson_parameter = parameter,
+                            wrepjson_missing_value = args.get("missing", 9999.),
                             wrepjson_parameter_information =  args.get("title", parameter),
                             wrepjson_parameter_scaling_factor = args.get("scaling", 1.),
                             wrepjson_parameter_offset_factor = args.get("offset", 0.),
@@ -420,6 +421,7 @@ def epsgraph(parameter, input, **args):
                             wrepjson_parameter_scaling_factor = args.get("scaling", 1.),
                             wrepjson_parameter_offset_factor = args.get("offset", 0.),
                             wrepjson_ignore_keys = ["100"],
+                            wrepjson_missing_value = args.get("missing", 9999.),
                             wrepjson_parameter_information = "none",
                             wrepjson_position_information = "off"
                         )
@@ -479,6 +481,12 @@ params = {
         "offset": 0.0, 
         "method": epsgraph, 
         "title": "Medium cloud cover"
+    },   
+     "light-index": {
+        "scaling": 1.0, 
+        "offset": 0.0, 
+        "method": epsgraph, 
+        "title": "Light index"
     }, 
     "10fg6": {
         "scaling": 1.0, 
@@ -598,12 +606,16 @@ params_15days = {   "mx2t24":"2 metre max. temperature (Daily)",
 
 
 def epsgram(parameter, input, **args):
+  eps = params.get(parameter, { "scaling": 1.0, 
+        "offset": 0.0, 
+        "method": epsgraph, 
+        "title": parameter} )
 
-    args["scaling"] = params[parameter]["scaling"]
-    args["offset"] = params[parameter]["offset"]  
-    args["title"] = params[parameter]["title"]
+  args["scaling"] = eps["scaling"]
+  args["offset"] = eps["offset"]  
+  args["title"] = eps["title"]
    
-    params[parameter]["method"](parameter, input, **args)
+  eps["method"](parameter, input, **args)
 
 
 

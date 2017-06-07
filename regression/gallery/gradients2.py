@@ -50,9 +50,12 @@ list = mcont(contour_highlight='off',
 
             #contour_gradients_colour_list = ["red", "blue", "green",
             #            "yellow", "red", "green", ],
-            contour_gradients_value_list = [-50., -25, -5, +5, 25, 50.],
-            contour_gradients_step_list = [5,],
-            contour_gradients_technique_list = ["hsl_shortest"],
+
+
+            contour_gradients_technique = "hsl",
+            contour_gradients_waypoint_list = [-50., -25, -5, +5, 25, 50.],
+            contour_gradients_step_list = [5,5,5,5,5,5],
+
             contour_shade_method           = 'area_fill',
             legend                         = 'on',)
 
