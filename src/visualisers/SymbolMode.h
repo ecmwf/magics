@@ -73,8 +73,8 @@ public:
     virtual void visit(Data&, LegendVisitor& legend) { visit(legend); }
     virtual void visit(Data&, HistoVisitor&);
 
-	//virtual void adjust(double min, double max) {}
-	virtual void adjust(double , double ) {}
+	
+	virtual void adjust(double, double, bool, const Transformation&, double) {} 
 	void set(const string& type) { type_ = type; }
 
 protected:
@@ -124,7 +124,7 @@ public:
 		return object;
 	}
    
-    
+    void adjust(double, double, bool, const Transformation&, double);
     virtual void visit(LegendVisitor&);
 	void prepare() { update(); properties();}
     void update();
@@ -194,6 +194,8 @@ public:
 		return SymbolTableModeAttributes::accept(node);
     
 	}
+
+	void adjust(double, double, bool, const Transformation&, double);
     
     void visit(LegendVisitor&); 
     void visit(Data&, LegendVisitor&);
