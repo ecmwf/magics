@@ -23,7 +23,7 @@
 
 #include "NetcdfMatrixInterpretor.h"
 #include "Factory.h"
-#include "Netcdf.h"
+#include "NetcdfData.h"
 #include "Coordinate.h"
 #include "Layer.h"
 #include "TextVisitor.h"
@@ -58,7 +58,7 @@ bool NetcdfMatrixInterpretor::interpretAsMatrix(Matrix** matrix)
 	double missing =  netcdf.getMissing(field_, missing_attribute_);
 	matrix_->missing(missing);
 
-	string title = netcdf.getAttribute("title", "NO TITLE");
+	string title = netcdf.getAttribute("title", string("NO TITLE"));
 
 
     x();
@@ -71,16 +71,26 @@ bool NetcdfMatrixInterpretor::interpretAsMatrix(Matrix** matrix)
 		setDimensions(dimension_, first, last);
 		vector<double> rows = dateRows_.empty() ? rows_ : dateRows_;
 		vector<double> columns = dateColumns_.empty() ? columns_ : dateColumns_;
-
+		int index = 0;
 		for ( vector<double>::iterator r = rows.begin(); r != rows.end(); r++) {
 			vector<string> dims;
 			ostringstream x,y;
-			x.precision(20);
-			y.precision(20);
-			y << y_ << "/" << *r;
-			x << x_ << "/" << columns.front() << "/" << columns.back();
+			if ( magCompare(dimension_method_, "index" ) ) {
+				y << y_ << "/" << index << "/" << index;
+				x << x_ << "/" << 0 << "/" << columns.size()-1;
+			}
+			else {
+				x.precision(20);
+				y.precision(20);
+
+				y << y_ << "/" << *r << "/" << *r;
+				x << x_ << "/" << columns.front() << "/" << columns.back();
+			}
+			std::copy(dimension_.begin(), dimension_.end(), std::back_inserter(dims));
 			dims.push_back(y.str());
 			dims.push_back(x.str());
+			index++;
+
 			setDimensions(dims, first, last);
 			vector<double> data;
 			netcdf.get(field_, data, first, last);

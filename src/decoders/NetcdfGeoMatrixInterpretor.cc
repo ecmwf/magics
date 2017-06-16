@@ -21,7 +21,7 @@
 
 #include "NetcdfGeoMatrixInterpretor.h"
 #include "Factory.h"
-#include "Netcdf.h"
+#include "NetcdfData.h"
 #include <limits>
 #include "Layer.h"
 
@@ -42,7 +42,8 @@ bool NetcdfGeoMatrixInterpretor::interpretAsMatrix(Matrix** data)
 	
 	Netcdf netcdf(path_, dimension_method_);
 
-	string proj4 = netcdf.getAttribute("projection", "");
+
+	string proj4 = netcdf.getAttribute("projection", string(""));
 
 	if ( proj4.empty() ) {
 		matrix_ = new Matrix();
@@ -160,7 +161,7 @@ void NetcdfGeoMatrixInterpretor::visit(Transformation& transformation) {
 bool NetcdfGeoMatrixInterpretor::interpretAsPoints(PointsList& list)
 {
 	Netcdf netcdf(path_, dimension_method_);
-	string proj4 = netcdf.getAttribute("projection", "");
+	string proj4 = netcdf.getAttribute("projection", string(""));
 
 	if ( !proj4.empty() ) {
 		proj4_ = pj_init_plus(proj4.c_str());

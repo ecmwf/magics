@@ -1,24 +1,25 @@
+# (C) Copyright 1996-2016 ECMWF.
+#
+# This software is licensed under the terms of the Apache Licence Version 2.0
+# which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+# In applying this licence, ECMWF does not waive the privileges and immunities
+# granted to it by virtue of its status as an intergovernmental organisation nor
+# does it submit to any jurisdiction.
 
-import macro
+from . import macro
 
 def substitute(default, user):
     out = default
     if user != None:
         for key in user:
             out[key] = user[key]
-    
-  
-
     return out
 
 
-
-def geoplot(data, contour=None, output=None, background=None, foreground=None, area=None, legend = None, title = []):
-
+def geoplot(data, contour=None, output=None, background=None, foreground=None, area=None, title=[]):
 
     default = {
        "area" : {},
-       "legend" : {},
        "contour" : {},
        "background" : { "map_coastline_sea_shade"         : 'on',
                         "map_coastline_sea_shade_colour"  : 'rgb(81,81,81)',
@@ -35,23 +36,26 @@ def geoplot(data, contour=None, output=None, background=None, foreground=None, a
 
     }
 
-    background= macro.mcoast( substitute(default["background"], background) )
-    foreground= macro.mcoast( substitute(default["foreground"], foreground) ) 
+    background = macro.mcoast( substitute(default["background"], background) )
+    foreground = macro.mcoast( substitute(default["foreground"], foreground) )
+    projection = macro.mmap(   substitute(default["area"], area) )
+    contour    = macro.mcont(  substitute(default["contour"], contour) )
 
-    projection = macro.mmap( substitute(default["area"], area)
-                     )
-
-    contour = macro.mcont( substitute(default["contour"], contour) )
-   
-    legend = macro.mlegend(substitute(default["legend"], legend))
-
-    return macro.plot(output, projection, background, data, contour, foreground, title, legend)
+    #Define the title
+    title = macro.mtext(
+                  text_lines = title, 
+                  text_font_size = 0.8,
+                  text_justification = "left"
+                )
+    if output == None :
+      return macro.plot(projection, background, data, contour, foreground, title)
+    
+    return macro.plot(output, projection, background, data, contour, foreground, title)
 
 def xyplot(data, contour=None, output=None):
 
-
     default = {
-       "contour" : { } 
+       "contour" : {}
     }
 
     #Setting the cartesian view
@@ -74,29 +78,29 @@ def xyplot(data, contour=None, output=None):
                      axis_grid_line_style = "dot")
 
 
-    #Define the graph 
-    contour = macro.mcont( substitute(default["contour"], contour)
-                )
+    #Define the graph
+    contour = macro.mcont( substitute(default["contour"], contour))
+
     #Define the title
     title = macro.mtext(
                   text_font_size = 0.8,
                   text_justification = "left"
                 )
+    if output == None:
+      return macro.plot(output, projection, vertical, horizontal, data, contour, title)
 
     return macro.plot(output, projection, vertical, horizontal, data, contour, title)
 
-def graph(x,y, title="", graph = None) :
+def graph(x,y, title="", graph = None, colour = "ecmwf_blue") :
 
     default = {
-	   "graph" : { "graph_line_colour"  : "ecmwf_blue",
+     "graph" : { "graph_line_colour"  : "ecmwf_blue",
                     "graph_line_thickness" : 2,
-	   } 
+     }
     }
 
-    
     x[0] = x[0]*1.
     y[0] = y[0]*1.
-   
 
     #Setting the cartesian view
     projection = macro.mmap(subpage_map_projection = 'cartesian',
@@ -121,7 +125,7 @@ def graph(x,y, title="", graph = None) :
     input = macro.minput(input_x_values =  x,
                 input_y_values =  y)
 
-    #Define the graph 
+    #Define the graph
     graph = macro.mgraph( substitute(default["graph"], graph)
                 )
     #Define the title
@@ -381,14 +385,14 @@ def epsgraph(parameter, input, **args):
   
     
     actions = []
-   
+
     projection = macro.mmap( substitute(defaults["eps"]["projection"], args.get("projection", None)) )
 
     # define horizontal axis
-    horizontal = macro.maxis(substitute(defaults["eps"]["horizontal_axis"], args.get("horizontal_axis", None)))  
+    horizontal = macro.maxis(substitute(defaults["eps"]["horizontal_axis"], args.get("horizontal_axis", None)))
     vertical = macro.maxis(substitute(defaults["eps"]["vertical_axis"], args.get("vertical_axis", None)))
-   
-    
+
+
     data = macro.mwrepjson(
                             wrepjson_family =  "eps",
                             wrepjson_keyword =  "eps",
@@ -401,13 +405,12 @@ def epsgraph(parameter, input, **args):
                         )
 
     graph = macro.mepsgraph(substitute(defaults["eps"]["epsgraph"], args.get("epsgraph", None)) )
-   
-    
     actions.append(projection)
     actions.append(vertical)
     actions.append(horizontal)
+
     
-   
+
     if "climate" in args  : 
     	
     	clim = macro.mwrepjson(
@@ -421,15 +424,13 @@ def epsgraph(parameter, input, **args):
                             wrepjson_missing_value = args.get("missing", 9999.),
                             wrepjson_parameter_information = "none",
                             wrepjson_position_information = "off"
-
                         )
         shade = macro.mepsshading(substitute(defaults["eps"]["epsclim"], args.get("epsclim", None)) )
         actions.append(clim)
         actions.append(shade)
-    
-    actions.append(data)
-    actions.append(graph)           
 
+    actions.append(data)
+    actions.append(graph)
 
     text = macro.mtext(
                     text_colour =  "navy",
@@ -440,11 +441,10 @@ def epsgraph(parameter, input, **args):
                     "<json_info key='product_info'/><json_info key='date'/>",
                     "<font size='0.5' colour='white'>.</font>",
                     "<json_info key='parameter_info'/>",]
-
                 )
 
     actions.append(text)
-    
+
     if "output" in args != "" :
     	#Setting of the output file name
 		png = macro.output(output_formats = ['png'], 
@@ -455,14 +455,11 @@ def epsgraph(parameter, input, **args):
       subpage_y_position = 1.,
       )
 
-		return macro._plot(
-			png,
+      return macro._plot(
+            png,
             actions
-    	)	
+      )
 
-    return macro.plot(
-            actions
-    )
 
 
 def epsclimgram(**kw):
