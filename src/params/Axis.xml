@@ -141,7 +141,7 @@ does it submit to any jurisdiction.
   	<parameter member="tick" to="bool" default="on" from="string" name="axis_tick">
          		<documentation> Plot ticks 		</documentation>
           		<set name="axis_tick_interval" value="on">		</set>  
-          		<set name="axis_tick_position" value="on">		</set>
+          		<set name="axis_tick_position_list" value="on">		</set>
   		  		<set name="axis_tick_colour" value="on">		</set>
   		  		<set name="axis_tick_size" value="on">		</set>
   		  		<set name="axis_tick_thickness" value="on">		</set>  

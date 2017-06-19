@@ -270,7 +270,12 @@ void SymbolIndividualMode::visit(LegendVisitor& legend)
 		  symbol->setHeight(legend_height_);
 	  legend.add(new SimpleSymbolEntry(legend_text_, symbol));
 }
+void SymbolIndividualMode::adjust(double, double, bool, const Transformation&, double) {
 
+}
+void SymbolTableMode::adjust(double, double, bool, const Transformation&, double) {
+
+}
 void SymbolIndividualMode::visit(Data& data, LegendVisitor& legend)
 {
 

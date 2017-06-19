@@ -1004,7 +1004,7 @@ MAGICS_NO_EXPORT void PostScriptDriver::renderText(const Text& text) const
 	{
 		const MagFont magfont = (*niceText).font();
 		MFloat height = convertCM(magfont.size());
-		if(height < epsilon) {
+		if(height < EPSILON) {
 			++niceText;
 			continue;
 		}

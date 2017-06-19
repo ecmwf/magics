@@ -7,7 +7,7 @@
     ], 
     "build_systems": [
         {
-            "working_dir": "${project_path}/../../build/magics-metview", 
+            "working_dir": "${project_path}/../../build/magics/debug", 
             "cmd": [
                 "make"
             ], 
