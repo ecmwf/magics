@@ -39,10 +39,6 @@ if(LIBEMOS_FOUND)
   message( STATUS " LIBEMOS libs      : [${LIBEMOS_LIBRARIES}]" )
 endif()
 
-if(FORTRANLIBS_FOUND)
-  message( STATUS " Fortran  libs    : [${FORTRAN_LIBRARIES}]" )
-endif()
-
 if(NETCDF_FOUND)
   message( STATUS " NetCDF include   : [${NETCDF_INCLUDE_DIRS}]" )
   message( STATUS "         libs     : [${NETCDF_LIBRARIES}]" )
