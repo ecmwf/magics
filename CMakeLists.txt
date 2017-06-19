@@ -91,7 +91,7 @@ ecbuild_add_option( FEATURE GEOTIFF
 ecbuild_add_option( FEATURE NETCDF
                     DEFAULT ON
                     DESCRIPTION "enable netcdf support"
-                    REQUIRED_PACKAGES "NetCDF 4 COMPONENTS C CXX" )
+                    REQUIRED_PACKAGES "NetCDF 4 COMPONENTS C" )
 
 ecbuild_add_option( FEATURE SPOT
                     DEFAULT OFF
@@ -101,7 +101,7 @@ ecbuild_add_option( FEATURE SPOT
 ecbuild_add_option( FEATURE PYTHON
                     DEFAULT ON
                     DESCRIPTION "enable python interface"
-                    REQUIRED_PACKAGES "Python NO_LIBS" SWIG NumPy )
+                    REQUIRED_PACKAGES "Python NO_LIBS" NumPy )
 
 ecbuild_add_option( FEATURE FORTRAN
                     DEFAULT ON
@@ -142,7 +142,7 @@ set( MAGICS_EXCEPTION     "ON" )
 set( MAGICS_SITE          "ecmwf" )
 set( MAGICS_INSTALL_PATH  ${CMAKE_INSTALL_PREFIX} )
 
-set( MAGICS_REFERENCE_VERSIONS            "2.32.0" )
+set( MAGICS_REFERENCE_VERSIONS            "2.33.0" )
 set( MAGICS_HTML_ROOT        "${CMAKE_BINARY_DIR}/regression/html")
 file(MAKE_DIRECTORY ${MAGICS_HTML_ROOT} )
 

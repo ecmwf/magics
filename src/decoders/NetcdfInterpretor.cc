@@ -22,7 +22,7 @@
 
 
 #include "NetcdfInterpretor.h"
-#include "Netcdf.h"
+#include "NetcdfData.h"
 #include "XmlReader.h"
 #include <limits>
 
@@ -93,12 +93,12 @@ bool NetcdfInterpretor::reference_date(Netcdf& netcdf, const string& var, const 
 	}
 
 	double missing_value = netcdf.getMissing(var, missing_attribute_);
-	string date = netcdf.getVariableAttribute(var, "reference_date", "");
+	string date = netcdf.getVariableAttribute(var, "reference_date", string(""));
 	if ( date.empty() ) return false;
 	originals.reserve(coords.size());
 	for (vector<double>::iterator c = coords.begin(); c != coords.end(); ++c)
 		 originals.push_back(*c);
-	string units = netcdf.getVariableAttribute(var, "units", "");
+	string units = netcdf.getVariableAttribute(var, "units", string(""));
 	basedate = date;
 	double diff = ( refdate.empty() ) ? 0 : DateTime(date) - DateTime(refdate) ;
 	map<string, double>::const_iterator factor = factors.find(units);
@@ -119,11 +119,13 @@ bool NetcdfInterpretor::cf_date(Netcdf& netcdf, const string& var, const string&
 
 	}
 	double missing_value = netcdf.getMissing(var, missing_attribute_);
-	string date = netcdf.getVariableAttribute(var, "long_name", "");
+	cout << " direct " << netcdf.getVariableAttribute(var, "long_name", string("")) << endl;
+	string date = netcdf.getVariableAttribute(var, "long_name", string(""));
+	cout << "var: " << var << "   date-->" << date << endl;
 	if ( date.empty() ) return false;
 	if ( date != "time" && date != "date and time") return false;
 
-	string units = netcdf.getVariableAttribute(var, "units", "");
+	string units = netcdf.getVariableAttribute(var, "units", string(""));
 	if ( units.empty() ) return false;
 	originals.reserve(coords.size());
 	for (vector<double>::iterator c = coords.begin(); c != coords.end(); ++c)
@@ -159,8 +161,8 @@ string NetcdfInterpretor::getAttribute(const string& var, const string& attr, co
 {
 	Netcdf netcdf(path_, dimension_method_);
 	if ( var.empty() )
-		return netcdf.getAttribute(attr, def.c_str());
-	return netcdf.getVariableAttribute(var, attr, def.c_str());
+		return netcdf.getAttribute(attr, def);
+	return netcdf.getVariableAttribute(var, attr, def);
 }
 
 void NetcdfInterpretor::visit(TextVisitor& title)
@@ -174,7 +176,7 @@ void NetcdfInterpretor::visit(TextVisitor& title)
 		tag.decode(*t);
 	}
 	Netcdf netcdf(path_, dimension_method_);
-	title.addAutomaticTitle(netcdf.getAttribute("title", "NO TITLE"));
+	title.addAutomaticTitle(netcdf.getAttribute("title", string("NO TITLE")));
 }
 
 void NetcdfInterpretor::getAttributes(Netcdf& nc,const string& varName,string& keys,string& values)
@@ -185,9 +187,9 @@ void NetcdfInterpretor::getAttributes(Netcdf& nc,const string& varName,string& k
 		bool first=true;
 		for(map<string, NetAttribute>::iterator it=var.attributes_.begin(); it != var.attributes_.end(); it++)
 		{
-			const char* val;
+			const char* val = 0; //it->second.get();
 			string str;
-			it->second.get(val);
+			
 			if(val) str=string(val);
 		
 			if(!first)

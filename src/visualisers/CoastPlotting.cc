@@ -42,6 +42,8 @@ CoastPlotting::CoastPlotting()
 NoCoastPlotting::NoCoastPlotting() 
 {
 	riversMethods_["on"] = &CoastPlotting::rivers;
+	riversMethods_["efason"] = &CoastPlotting::efas;
+	riversMethods_["efasoff"] = &CoastPlotting::ignore;
 	riversMethods_["off"] = &CoastPlotting::ignore;
 }
 
@@ -106,9 +108,45 @@ void NoCoastPlotting::operator()(DrawingVisitor& parent)
 	transformation.coastSetting(coastSet_, parent.layout().absoluteWidth(), parent.layout().absoluteHeight());
 	(*boundaries_)(coastSet_, parent.layout());
 	layers(riversMethods_, rivers_, parent);
+	layers(riversMethods_, "efas"+ efas_, parent);
 	(*cities_)(coastSet_, parent.layout());
 }
 
+void NoCoastPlotting::efas(DrawingVisitor& visitor)
+{
+	map<string, string> data;
+	data["extended"] = PATH("efas/ExtendedDomain/lines")
+	data["current"] = PATH("efas/CurrentDomain/lines")
+	
+	map<string, string>::iterator file = data.find(lowerCase(efas_domain_));
+
+	if ( file == data.end() ) {
+		MagLog::warning() << " Can not find the EFAS domain " << efas_domain_ << ": revert to default [current]" << endl;
+		file = data.find("current");
+	}
+
+	ShapeDecoder efas;
+	efas.setPath(file->second);
+	efas.needHoles(true);
+	const Transformation& transformation = visitor.transformation();
+	efas.decode(transformation);
+
+	for ( ShapeDecoder::const_iterator river = efas.begin(); river != efas.end(); ++river)
+	{
+		Polyline poly;
+		poly.setColour(*efas_colour_);
+		poly.setThickness(efas_thickness_);
+
+		poly.setLineStyle(efas_style_);
+		(**river).setToFirst();
+		while ((**river).more())
+		{
+		  poly.push_back(transformation((**river).current()));
+		  (**river).advance();
+		}
+		transformation(poly, visitor.layout());
+	}
+}
 
 void NoCoastPlotting::rivers(DrawingVisitor& visitor)
 {
@@ -214,6 +252,7 @@ void CoastPlotting::operator()(DrawingVisitor& parent)
   (*boundaries_)(coastSet_, parent.layout());
   (*cities_)(coastSet_, parent.layout());
   layers(riversMethods_, rivers_, parent);
+  layers(riversMethods_, "efas" + efas_, parent);
 }
 
 

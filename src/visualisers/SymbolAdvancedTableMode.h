@@ -68,25 +68,17 @@ public:
     		return SymbolAdvancedTableModeAttributes::accept(node);    
     	}
     	
-    	virtual SymbolMode* clone() const {
-    		SymbolAdvancedTableMode* object = new SymbolAdvancedTableMode();
-    		object->copy(*this);
-    		return object;
-    	}
-    	virtual void adjust(double , double );
-    
+	virtual SymbolMode* clone() const {
+		SymbolAdvancedTableMode* object = new SymbolAdvancedTableMode();
+		object->copy(*this);
+		return object;
+	}
+    void adjust(double, double, bool, const Transformation&, double);
     	 void copy(const SymbolAdvancedTableMode& other) {
     		 SymbolAdvancedTableModeAttributes::copy(other);
     		 SymbolModeAttributes::copy(other);
     	 }
         
- 
-
-
-       
-
-        
-       
         int getCount() const { return count_; }
         int getTolerance() const { return tolerance_; }
         double getReference() const { return reference_; }

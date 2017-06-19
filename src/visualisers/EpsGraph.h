@@ -71,6 +71,10 @@ protected:
 	 bool   control_;
 	 bool   fullEps_;
  	 bool   eps_;
+ 	 Polyline* newForecast();
+ 	 Polyline* newControl();
+ 	 void pushControl(Polyline*, BasicGraphicsObjectContainer&);
+ 	 void pushForecast(Polyline*, BasicGraphicsObjectContainer&);
     
 
 private:

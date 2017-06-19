@@ -60,6 +60,7 @@ public:
         init();
 	}
     
+    double ratio() const;
     virtual Transformation* clone() const {
 		GeoRectangularProjection* transformation = new GeoRectangularProjection();
         transformation->copy(*this);

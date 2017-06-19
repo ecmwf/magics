@@ -73,7 +73,7 @@ legend = mlegend(
 
 # To the plot
 
-print "plot"
+print("plot")
 plot( output,  europe, data, cont, coast, title)
 
 

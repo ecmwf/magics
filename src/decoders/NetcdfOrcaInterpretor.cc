@@ -21,7 +21,7 @@
 
 #include "NetcdfOrcaInterpretor.h"
 #include "Factory.h"
-#include "Netcdf.h"
+#include "NetcdfData.h"
 #include <limits>
 
 using namespace magics;
@@ -43,7 +43,7 @@ bool NetcdfOrcaInterpretor::interpretAsMatrix(Matrix** data)
 
 	Netcdf netcdf(path_, dimension_method_);
 	NetVariable var = netcdf.getVariable(longitude_);
-	vector<long> dims;
+	vector<size_t> dims;
 	var.getDimensions(dims);
 
 
