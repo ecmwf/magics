@@ -1278,8 +1278,9 @@ void IsoPlot::isoline(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
         }
 
         view.split();
-
-        // let's start 4 producers...
+       
+        cout << "Nb Thread --> " << view.size() << endl;
+        
         int c = 0;
         VectorOfPointers<vector<IsoProducerData*> > datas;
         for ( int i = 0; i < view.size(); i++)
