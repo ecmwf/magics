@@ -140,7 +140,7 @@ void Layer:: execute(const BaseDriver& ) const
 
 void Layer::collectText(vector<TextVisitor*>& texts, LegendVisitor* legend)
 {
-	if ( !visibility_) return; 
+	
 	if ( !object_) 
 		return;
 
@@ -232,8 +232,8 @@ void SingleLayer::magnify(const BaseDriver& driver, float ,float )
 
 void SingleLayer::execute(const BaseDriver& driver) const
 {
-	if ( !parentLayer_->visibility() )
-		return;
+//	if ( !parentLayer_->visibility() )
+//		return;
 
 	ASSERT(objects_);
 	objects_->redisplay(driver);
@@ -257,8 +257,8 @@ void SingleLayer::update(const Layout& parent)
 
 void SingleLayer::getReady() const
 {
-	if ( !parentLayer_->visibility() )
-		return;
+//	if ( !parentLayer_->visibility() )
+//		return;
 	if ( parentLayer_->parent()->state() == geometry_changed) {
 		ASSERT(objects_);
 		objects_->clear();
@@ -314,7 +314,7 @@ void StepLayer::redisplay(const BaseDriver& driver) const
 
 void StepLayer::execute(int i, const BaseDriver& driver, const Layout& layout) const
 {  
-	if ( visibility_ && i < steps_.size() ) {
+	if ( i < steps_.size() ) {
 		steps_[i]->update(layout);
 		steps_[i]->execute(driver);
 	}
@@ -322,8 +322,8 @@ void StepLayer::execute(int i, const BaseDriver& driver, const Layout& layout) c
 
 void StepLayer::getReady(int i) const
 {  
-	if ( visibility_ )
-		steps_[i]->getReady();
+	
+	steps_[i]->getReady();
 }
 
 void StepLayer::newLayer(const BaseDriver& driver)
@@ -395,8 +395,8 @@ void StaticLayer::redisplay(const BaseDriver& driver) const
 void StaticLayer::execute(const BaseDriver& driver) const
 {  
 
-	if ( visibility_ ) 
-		redisplay(driver);
+	
+	redisplay(driver);
 }
 
 void StaticLayer::getReady() const
@@ -407,7 +407,6 @@ void StaticLayer::collect(MetaDataCollector& infos)
 {
 	if(object_)
 		object_->visit(infos);
-	//layer_->transformation().collect(infos);
 }
 
 void StaticLayer::collect(ValuesCollector& values)
@@ -544,6 +543,34 @@ void TextLayer::execute(const BaseDriver& driver) const
 	layout->redisplay(driver); 
 }
 
+void LegendLayer::getReady() const {}
+void LegendLayer::execute(const BaseDriver&) const {}
+void LegendLayer::execute(int, const BaseDriver&) const {}
+
+void LegendLayer::getInfo(int, const BaseDriver& driver) const 
+{
+	// We assume hat "TextLayer::getInfo" has been called before!
+	Layout parent;
+	parent.parent(parent_);
+	parent.name("Clone for legend");
+
+	parent.width(parent_->layoutPtr()->width());
+	parent.height(parent_->layoutPtr()->height());
+	parent.x(parent_->layoutPtr()->x());
+	parent.y(parent_->layoutPtr()->y());
+
+	LegendVisitor* legend = this->parent()->legend();
+
+	if ( legend ) {
+		Layout* layout = new Layout();
+		layout->parent(parent_);
+		legend->finish(*layout);
+		parent.push_back(layout);
+	}
+	parent.redisplay(driver);
+	
+}
+	
 
 
 void TextLayer::getInfo(int i, const BaseDriver&  driver) const
@@ -564,16 +591,7 @@ void TextLayer::getInfo(int i, const BaseDriver&  driver) const
 	layout->parent(parent_);
 	parent_->finishText(*layout);
 	parent->push_back(layout);
-
-	LegendVisitor* legend = this->parent()->legend();
-
-	if ( legend ) {
-		Layout* layout = new Layout();
-		layout->parent(parent_);
-
-		legend->finish(*layout);
-		parent->push_back(layout);
-	}
+	
 	parent->redisplay(driver);
 	delete parent;
 }
@@ -603,6 +621,19 @@ SceneLayer::~SceneLayer()
 	for (vector<Layer*>::iterator layer = layers_.begin(); layer != layers_.end(); ++layer) {
 		(*layer)->clear();
 	}
+}
+
+void SceneLayer::text(TextVisitor* text) 
+{ 
+	textVisitors_.push_back(text); 
+	textHandler_.icon(*text); 
+}
+
+void SceneLayer::legend(LegendVisitor* legend)
+{ 
+	legend_ = legend; 
+	if ( legend )
+		legendHandler_.icon(*legend);
 }
 
 bool SceneLayer::buildTree(const Layout& parent,  unsigned int frame, const BaseDriver& out) const
@@ -638,14 +669,17 @@ void SceneLayer::redisplay(const BaseDriver& driver) const
 	unsigned int nb = frames.size();
 	switch ( mode_) {
 	case paper: {
-		textHandler_.name("Titles");
+		
 		textHandler_.parent(const_cast<SceneLayer*>(this));
+		legendHandler_.name("Legend");
+		legendHandler_.parent(const_cast<SceneLayer*>(this));
 		if ( nb == 0) {
 			for ( int i = 0; i < numberOfSteps(); i++ )
 			{
 				getReady(i);
 				execute(i, driver);
 				textHandler_.getInfo(i, driver);
+				legendHandler_.getInfo(i, driver);
 			}
 		}
 		else {
@@ -659,20 +693,23 @@ void SceneLayer::redisplay(const BaseDriver& driver) const
 				getReady(i);
 				execute(i, driver);
 				textHandler_.getInfo(i, driver);
+				legendHandler_.getInfo(i, driver);
 			}
 		}
 	}
 	break;
 	case basic:
-		textHandler_.name("Titles");
+		
 		textHandler_.parent(const_cast<SceneLayer*>(this));
-
+		legendHandler_.name("Legend");
+		legendHandler_.parent(const_cast<SceneLayer*>(this));
 		if ( nb == 0) {
 			for ( int i = 0; i < numberOfSteps(); i++ )
 			{
 				getReady(i);
 				execute(i, driver);
 				textHandler_.getInfo(i, driver);
+				legendHandler_.getInfo(i, driver);
 			}
 		}
 		else  {
@@ -681,14 +718,16 @@ void SceneLayer::redisplay(const BaseDriver& driver) const
 				getReady(f);
 				execute(f, driver);
 				textHandler_.getInfo(f, driver);
+				legendHandler_.getInfo(f, driver);
 			}
 		}
 		break;
 	case interactif:
 		visit(driver);
-		textHandler_.name("Titles");
+		
 		textHandler_.parent(const_cast<SceneLayer*>(this));
 		const_cast<SceneLayer*>(this)->add(&textHandler_);
+		const_cast<SceneLayer*>(this)->add(&legendHandler_);
 		// here we add the Layer dedicated to the text ! ...
 		driver.redisplay(*this);
 		break;
@@ -1012,13 +1051,9 @@ void MetviewIcon::visit(Layer& layer)
 {
 	if ( !iconClass_.empty() && !iconName_.empty() )
 	{
-		layer.icon(iconName_,iconClass_,iconId_);
+		layer.icon(*this);
 	}
 
-	//if ( !iconClass_.empty() && !iconName_.empty() )
-	//	layer.icon(iconName_, iconClass_);
-
-	layer.id(iconId_);
 }
 
 void MetviewIcon::visit(MetaDataCollector& collector)
