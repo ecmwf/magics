@@ -33,7 +33,7 @@ DateAxisMethod::DateAxisMethod()
 	dateCreators_["months"] = &DateAxisMethod::months;
 	dateCreators_["days"] = &DateAxisMethod::days;
 	dateCreators_["hours"] = &DateAxisMethod::hours;
-
+	dateCreators_["monthly"] = &DateAxisMethod::monthly;
 
 }
 
@@ -218,6 +218,46 @@ void DateAxisMethod::automatic(AxisItems& list)
 	hours_ = true;
 
 	hours(list);
+
+}
+
+void DateAxisMethod::monthly(AxisItems& list)
+{
+	
+	DateTime label;
+	DateTime tick;
+
+	DateTime min = (from_ < to_) ? from_ : to_;
+	DateTime max = (from_ < to_) ? to_ : from_;
+	
+	int frequency = 0;
+	long position  =  0;
+
+	for ( MagDate date = min.date(); date <= max.date(); ++date)
+	{
+		label = DateTime(date, MagTime(position, 0, 0));
+		AxisDateItem* dateitem = new AxisDateItem(label - from_, label);
+
+		if ( dateitem->runday() ) {
+			list.push_back(dateitem);
+			tick = DateTime(date, MagTime(0, 0, 0));
+
+			list.push_back(new AxisTickItem(tick - from_, ""));
+			if ( frequency == 1 ) {
+				for (int i = 6; i < 24; i+=6 ) {
+				tick = DateTime(date, MagTime(i, 0, 0));
+				list.push_back(new AxisMinorTickItem(tick - from_));
+				}
+			}
+		}
+		else {
+			delete dateitem;
+			tick = DateTime(date, MagTime(0, 0, 0));
+			list.push_back(new AxisMinorTickItem(tick - from_));
+		}
+
+	}
+
 
 }
 
