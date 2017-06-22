@@ -277,11 +277,16 @@ void Proj4Projection::init()
 
 void Proj4Projection::full()
 {
+	min_longitude_ = ( min_longitude_ > projection_->minlon_ ) ? min_longitude_ : projection_->minlon_;
+	//max_longitude_ = ( max_longitude_ < projection_->maxlon_ ) ? max_longitude_ : projection_->maxlon_;
+	min_latitude_ = ( min_latitude_ > projection_->minlat_ ) ? min_latitude_ : projection_->minlat_;
+	max_latitude_ = ( max_latitude_ < projection_->maxlat_ ) ? max_latitude_ : projection_->maxlat_;
+	corners();
 }
 
 void Proj4Projection::corners()
 {
-	// we have to update the PVBounding box!
+	// we have to update the PCBounding box!
 		min_pcx_ = min_longitude_;
 		min_pcy_ = min_latitude_;
 		max_pcx_ = max_longitude_;
