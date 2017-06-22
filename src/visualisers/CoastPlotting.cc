@@ -44,6 +44,8 @@ NoCoastPlotting::NoCoastPlotting()
 	riversMethods_["on"] = &CoastPlotting::rivers;
 	riversMethods_["efason"] = &CoastPlotting::efas;
 	riversMethods_["efasoff"] = &CoastPlotting::ignore;
+	riversMethods_["useron"] = &CoastPlotting::user;
+	riversMethods_["useroff"] = &CoastPlotting::ignore;
 	riversMethods_["off"] = &CoastPlotting::ignore;
 }
 
@@ -147,6 +149,34 @@ void NoCoastPlotting::efas(DrawingVisitor& visitor)
 		transformation(poly, visitor.layout());
 	}
 }
+
+void NoCoastPlotting::user(DrawingVisitor& visitor)
+{
+	
+
+	ShapeDecoder user;
+	user.setPath(user_layer_path_);
+	user.needHoles(true);
+	const Transformation& transformation = visitor.transformation();
+	user.decode(transformation);
+
+	for ( ShapeDecoder::const_iterator river = user.begin(); river != user.end(); ++river)
+	{
+		Polyline poly;
+		poly.setColour(*user_layer_colour_);
+		poly.setThickness(user_layer_thickness_);
+
+		poly.setLineStyle(user_layer_style_);
+		(**river).setToFirst();
+		while ((**river).more())
+		{
+		  poly.push_back(transformation((**river).current()));
+		  (**river).advance();
+		}
+		transformation(poly, visitor.layout());
+	}
+}
+
 
 void NoCoastPlotting::rivers(DrawingVisitor& visitor)
 {
@@ -253,6 +283,7 @@ void CoastPlotting::operator()(DrawingVisitor& parent)
   (*cities_)(coastSet_, parent.layout());
   layers(riversMethods_, rivers_, parent);
   layers(riversMethods_, "efas" + efas_, parent);
+  layers(riversMethods_, "user" + user_layer_, parent);
 }
 
 
