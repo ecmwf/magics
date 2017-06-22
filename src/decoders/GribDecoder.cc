@@ -994,7 +994,7 @@ bool  GribLoop::hasMore()
             // case 2 Dimension = 2 and loop on all the field!
             int error;
             grib_handle* handle1 = grib_handle_new_from_file(0, file_, &error) ;
-            if (!handle)  return false;
+            if (!handle1)  return false;
             grib_handle* handle2 = grib_handle_new_from_file(0, file_, &error) ;
             if (!handle2)  return false;
             currentgrib_ = new GribEntryDecoder(handle1, handle2);
