@@ -119,7 +119,7 @@ does it submit to any jurisdiction.
   		<set name="map_user_layer_style" value="on">		</set>
   		<set name="map_user_layer_colour" value="on">		</set>
   		<set name="map_user_layer_thickness" value="on">		</set>  
-  		<set name="map_user_layer_path" value="on">		</set>         
+  		<set name="map_user_layer_name" value="on">		</set>         
  		
 	</parameter>
 	<parameter from="string" name="map_user_layer_name" default="" member="user_layer_path_name" to="string"  inherit_parent_reqs="no">
