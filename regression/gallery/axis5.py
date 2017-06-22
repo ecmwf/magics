@@ -11,7 +11,7 @@
 from Magics.macro import *
 
 
-ref = 'axis4'
+ref = 'axis5'
 #Setting of the output file name
 output = output(output_formats = ['png'], 
 		output_name_first_page_number = "off",
