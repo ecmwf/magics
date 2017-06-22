@@ -122,7 +122,7 @@ does it submit to any jurisdiction.
   		<set name="map_user_layer_name" value="on">		</set>         
  		
 	</parameter>
-	<parameter from="string" name="map_user_layer_name" default="" member="user_layer_path_name" to="string"  inherit_parent_reqs="no">
+	<parameter from="string" name="map_user_layer_name" default="" member="user_layer_name" to="string"  inherit_parent_reqs="no">
  		<documentation>Path + name of the shape file to use		</documentation> 		
 	</parameter>
 	<parameter from="string" name="map_user_layer_style" default="solid" member="user_layer_style" to="LineStyle" inherit_parent_reqs="no">

@@ -155,7 +155,7 @@ void NoCoastPlotting::user(DrawingVisitor& visitor)
 	
 
 	ShapeDecoder user;
-	user.setPath(user_layer_path_);
+	user.setPath(user_layer_name_);
 	user.needHoles(true);
 	const Transformation& transformation = visitor.transformation();
 	user.decode(transformation);
