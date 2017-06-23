@@ -174,7 +174,18 @@ void GridPlotting::operator()(DrawingVisitor& out)
 void GridPlotting::operator()(magics::PreviewVisitor&)
 {
 }
+void GridPlotting::addFrame(Polyline& poly) const
+{
+	if ( !grid_frame_ ) 
+		return add(poly);
+	
+    poly.setColour(*grid_frame_colour_);
+    poly.setThickness(grid_frame_thickness_);
+    poly.setLineStyle(grid_frame_style_);
 
+    poly.reproject(*layer_);
+    
+}
 void GridPlotting::add(Polyline& poly) const
 {
     poly.setColour(*colour_);

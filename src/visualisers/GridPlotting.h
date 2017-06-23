@@ -132,6 +132,7 @@ public:
   
     
     void add(Polyline&) const;
+    void addFrame(Polyline&) const;
     void layer(BasicGraphicsObjectContainer* layer) { layer_ = layer; }
    
    

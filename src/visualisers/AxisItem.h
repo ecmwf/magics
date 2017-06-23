@@ -50,6 +50,7 @@ public:
 	virtual void format(const string&, int) const     {}
 	
 	virtual bool sunday() const { return false; }
+	virtual bool runday() const { return false; }
 
 	virtual bool date() const { return false; }
 	
@@ -133,6 +134,7 @@ public:
 	string label(const Axis&) const  { return label_; }
 
 	bool sunday() const;
+	bool runday() const;
 	
 	bool date() const { return true; }
 	void id(const string& id) {id_ = id; }
