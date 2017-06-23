@@ -33,5 +33,31 @@ does it submit to any jurisdiction.
            		<release>Magics++0.1		</release>
            		<migration> Default changed fronm YELLOW to BLACK 		</migration>
        	</parameter>
+        <parameter member="grid_frame" to="bool" default="off" from="string" name="map_grid_frame">
+                <documentation>
+             Add a frame around the projection
+              </documentation>
+              <release>Magics++0.1    </release>
+        </parameter>
+      
+          <parameter member="grid_frame_style" to="LineStyle" default="solid" from="string" name="map_grid_frame_line_style">
+                <documentation>
+            Line style of map grid lines
+              </documentation>
+              <release>Magics++0.1    </release>
+        </parameter>
+          <parameter member="grid_frame_thickness" to="int" default="1" from="int" name="map_grid_frame_thickness">
+                <documentation>
+            Thickness of map grid lines
+              </documentation>
+              <release>Magics++0.1    </release>
+        </parameter>
+          <parameter member="grid_frame_colour" to="Colour" default="black" from="string" name="map_grid_frame_colour">
+                <documentation>
+            Colour of map grid lines
+              </documentation>
+              <release>Magics++0.1    </release>
+              <migration> Default changed fronm YELLOW to BLACK     </migration>
+        </parameter>
       
 </class></magics>
