@@ -305,6 +305,11 @@ void Proj4Projection::init()
 	askedxmax_ =  std::max(min_pcx_, max_pcx_);
 	askedymin_ =  std::min(min_pcy_, max_pcy_);
 	askedymax_ =  std::max(min_pcy_, max_pcy_);
+
+	double minx, miny, maxx, maxy;
+	boundingBox(minx, miny, maxx, maxy);
+	cout << minx << " " << miny << " " << maxx << " " << maxy << endl;
+
 }
 
 void Proj4Projection::full()
@@ -636,10 +641,42 @@ void Proj4Projection::boundingBox(double& xmin, double& ymin, double& xmax, doub
 			projection_ = Epsg::find(definition_);
 			to_    = pj_init_plus(proj4_definition_.c_str());
 		}
-	ymin = gridMinLat_;
-	xmin = gridMinLon_-5;
-	ymax = gridMaxLat_;
-	xmax = gridMaxLon_+5;
+	vector< std::pair<double, double> > geo;
+		vector< std::pair<double, double> > xy;
+
+		double xpcmax =  max_pcx_;
+		double xpcmin =  min_pcx_;
+		double ypcmax =  max_pcy_;
+		double ypcmin =  min_pcy_;
+
+		const double xs = (xpcmax- xpcmin)/99.;
+		const double ys = (ypcmax- ypcmin)/99.;
+		// Walk along the boundary...
+		double x,y;
+		for (int i = 0; i < 100; i++) {
+			x = xpcmin +(i*xs);
+			for (int i = 0; i < 100; i++) {
+				y = ypcmin +(i*ys);
+				xy.push_back(make_pair(x, y));
+			}
+		}
+		revert(xy, geo);
+		xmin=DBL_MAX;
+		xmax=DBL_MIN;
+		ymin=DBL_MAX;
+		ymax=DBL_MIN;
+
+		for (vector< std::pair<double, double> >::iterator point = geo.begin(); point != geo.end(); ++point) {
+			if ( xmin > point->first) xmin = point->first;
+			if ( xmax < point->first) xmax = point->first;
+			if ( ymin > point->second) ymin = point->second;
+			if ( ymax < point->second) ymax = point->second;
+			//userEnveloppe_->push_back(PaperPoint(point->first, point->second));
+		}
+	gridMinLat_ = ymin;
+	gridMinLon_ = xmin;
+	gridMaxLat_ = ymax;
+	gridMaxLon_ = xmax;
 	//cout << "Bounding box ->" << xmin << " " << xmax << endl;
 }
 
@@ -1057,7 +1094,7 @@ void Proj4Projection::reprojectSpeedDirection(const PaperPoint& point, pair<doub
 void Proj4Projection::revert(const vector< std::pair<double, double> > & in, vector< std::pair<double, double> > & out) const
 {
 	
-	const_cast<Proj4Projection*>(this)->init();
+	//const_cast<Proj4Projection*>(this)->init();
 	out.reserve(in.size());
 	for ( vector< std::pair<double, double> >::const_iterator pt = in.begin();  pt != in.end(); ++pt) {
 		  double x = pt->first;

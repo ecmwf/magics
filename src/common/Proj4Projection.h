@@ -228,10 +228,10 @@ protected:
 	 double max_pcy_;
 	 mutable Epsg*   projection_;
 	 string definition_;
-	 double gridMinLon_;
-	 double gridMinLat_;
-	 double gridMaxLon_;
-	 double gridMaxLat_;
+	 mutable double gridMinLon_;
+	 mutable double gridMinLat_;
+	 mutable double gridMaxLon_;
+	 mutable double gridMaxLat_;
 
 
 private:
@@ -266,7 +266,7 @@ public:
 class Proj4EPSG900913 : public Proj4Projection
 {
 public:
-	Proj4EPSG900913() : Proj4Projection("EPSG:3857") {}
+    Proj4EPSG900913() : Proj4Projection("EPSG:3857") {}
 };
 class Proj4Geos : public Proj4Projection
 {
