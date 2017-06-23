@@ -435,14 +435,14 @@ MAGICS_NO_EXPORT int GeoJsonDriver::setLineParameters(const LineStyle , const MF
 */
 MAGICS_NO_EXPORT void GeoJsonDriver::renderPolyline(const int n, MFloat *x, MFloat *y) const
 {
-	pFile_ << "{\n \"coordinates\": [\n  [\n";
+	pFile_ << "{\n \"type\": \"Feature\", \"properties\": {\n    \"value\": \"2000\"\n  }, \"geometry\": { \n\t\"coordinates\": [\n  [\n";
 	for(int is=0;is<n;is++)
 	{
 		pFile_ <<"   ["<< x[is]<<","<<y[is]<<"]";
 		if(is<n-1) pFile_ <<",\n";
 		else       pFile_ <<"\n";
 	}
-	pFile_ << "  ] ],\n  \"properties\": {\n    \"type\": \"cold fronts\"\n  },\n  \"type\": \"MultiLineString\"\n}"<<endl;
+	pFile_ << "  ] ],\n  \"properties\": {\n    \"type\": \"isoline\"\n  },\n  \"type\": \"MultiLineString\"\n} },"<<endl;
 }
 
 
@@ -482,8 +482,11 @@ void GeoJsonDriver::renderSimplePolygon(const Polyline& line) const
 		x[i] = pp.x();
 		y[i] = pp.y();
 	}
+	
+	pFile_ << "{\n \"type\": \"Feature\", \"properties\": {\n   ";
+	pFile_ << " \"colour\": \"" << line.getFillColour().name() << "\"";
 
-	pFile_ << "{\n \"coordinates\": [\n  [\n";
+	pFile_ << "\n }, \"geometry\" : {\n \"coordinates\": [\n  [\n";
 	for(int is=0;is<n;is++)
 	{
 		pFile_ <<"   ["<< x[is]<<","<<y[is]<<"]";
@@ -491,7 +494,7 @@ void GeoJsonDriver::renderSimplePolygon(const Polyline& line) const
 		else       pFile_ <<"\n";
 
 	}
-	pFile_ << "  ],\n  \"properties\": {\n    \"type\": \"cold fronts\"\n  },\n  \"type\": \"MultiLineString\"\n}"<<endl;
+	pFile_ << "  ] ],\n   \"type\": \"Polygon\"\n} },"<<endl;
 
 	delete [] x;
 	delete [] y;

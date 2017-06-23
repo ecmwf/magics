@@ -66,42 +66,74 @@ void GradientsColourTechnique::set(LevelSelection& out, LevelSelection& in, Colo
   	//ColourTable colours;
   	int last = colours_.size() -1;
   	
+  	vector<int> colours;
+
+
 
   	for ( int col = 1; col < colours_.size(); ++col) {
   		string left = colours_[col-1];
   		string right = colours_[col];	
   		int istep = ( steps_.empty() ) ? 10 : *step;
-  		
+  		cout << "step -->" << *step << endl;
   		// right
   		ColourTableDefinitionCompute helper(left, right, technique_, technique_direction_);
   		
-  		int nb;
-  		
-  		if ( stop_method == "right") 
-  			nb = (col == 1 ) ? istep + 1 : istep + 2;
-  		else if ( stop_method == "left" )
-  			nb = (col == last ) ? istep + 1 : istep + 2;
-  		else if ( stop_method == "ignore" ) 
-  			nb = (col == 1 || col == last ) ? istep + 2 : istep + 3;
-  		else
-  			nb = istep+1;
+  		int from, to, nbcols;
+
+  		if ( stop_method == "right") { 
+  			if ( col == last ) {
+  				nbcols = istep;
+  				from = 0;
+  				to = nbcols;
+  			}
+  			else {
+  				nbcols = istep + 1;
+  				from = 0;
+  				to = nbcols-1;
+  			}
+  		}
+  		else if ( stop_method == "left" ) {
+  			if ( col == 1 ) {
+  				nbcols = istep;
+  				from = 0;
+  				to = nbcols;
+  			}
+  			else {
+  				nbcols = istep + 1;
+  				from = 1;
+  				to = nbcols;
+  			}
+  		}
+  		else if ( stop_method == "ignore" ) { 
+  			if ( col == 1 ) {
+  				nbcols = istep+1;
+  				from = 0;
+  				to = nbcols-1;
+  			}
+  			else if ( col == last ) {
+  				nbcols = istep + 1;
+  				from = 1;
+  				to = nbcols;
+  			}
+  			else {
+  				nbcols = istep + 2;
+  				from = 1;
+  				to = nbcols-1;
+  			}
+  		}
+  		else 
+  			{
+  				nbcols = istep;
+  				from = 0;
+  				to = nbcols;
+  			}
 
   		ColourTable workingtable;
-  		helper.set(workingtable, nb);
 
-  		int all = workingtable.size();
-  		
-  		int use;
-	  	if ( stop_method == "right") 
-	  		use = (col == last ) ? all : all-1;  		
-	  	else if ( stop_method == "left") 
-	  		use = (col == 1 ) ? all : all-1;
-	  	else if ( stop_method == "ignore") 
-	  		use = (col == 1 || col == last ) ? all-1 : all-2;
-	  	else 
-	  		use = all;
+  		helper.set(workingtable, nbcols+1);
 
-	  	for (int c = 0; c < use; ++c ) 
+  	
+	  	for (int c = from; c < to; ++c ) 
 	  		table.push_back(workingtable[c]);
 	  	
 		// Next block
@@ -123,24 +155,30 @@ void GradientsColourTechnique::set(LevelSelection& out, LevelSelection& in, Colo
   		  double from = stops[stop-1];
   		  double to = stops[stop];
   		  int istep = ( steps_.empty() ) ? 10 : *step;
-		 
+		  cout << "step interval-->" << *step << endl;
 			
 		  in.push_back(from);
-		  out.push_back(from);
+		  out.push_back(from); 
 		  
-		  double inc = (to - from )/(istep+1);
+		  double inc = (to - from )/(istep);
+		  cout << from << " --> " << to << " " << *step << " --> " << inc << endl;
 		  for (int i = 1; i < istep; i++) {
 		  			in.push_back(from +(i*inc));
 		  			out.push_back(from +(i*inc));
 		  }
 		    
-		  
-			if ( !steps_.empty()) { 
+		  if ( !steps_.empty()) { 
 			++step;
 			if ( step == steps_.end() )
 				--step;
 		}
+
+			
+		
 	}
+	in.push_back(stops.back());
+	out.push_back(stops.back());
+	
 
 	
 	
