@@ -2,7 +2,7 @@
     "drivers": [
         {
             "format": "${format=png}", 
-            "fullname": "${path=mollweide.png}",
+            "fullname": "${path=mollweide-frame.png}",
 			"output_name_first_page_number": "off",
 			"output_width": "${width=800}"
         }
