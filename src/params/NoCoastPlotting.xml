@@ -114,4 +114,29 @@ does it submit to any jurisdiction.
   		<documentation>Line thickness of EFAS		</documentation>
   		
 	</parameter>
+	<parameter from="string" name="map_user_layer" default="off" member="user_layer" to="string" values="on/off" inherit_parent_reqs="no">
+ 		<documentation>Display user shape file layer		</documentation>
+  		<set name="map_user_layer_style" value="on">		</set>
+  		<set name="map_user_layer_colour" value="on">		</set>
+  		<set name="map_user_layer_thickness" value="on">		</set>  
+  		<set name="map_user_layer_name" value="on">		</set>         
+ 		
+	</parameter>
+	<parameter from="string" name="map_user_layer_name" default="" member="user_layer_name" to="string"  inherit_parent_reqs="no">
+ 		<documentation>Path + name of the shape file to use		</documentation> 		
+	</parameter>
+	<parameter from="string" name="map_user_layer_style" default="solid" member="user_layer_style" to="LineStyle" inherit_parent_reqs="no">
+  		<documentation>Line style for User Layer	</documentation>
+  		<release>2.11		</release>
+	</parameter>       
+
+	<parameter from="string" name="map_user_layer_colour" default="blue" member="user_layer_colour" to="Colour" inherit_parent_reqs="no">
+ 		<documentation>Colour of the User Layer		</documentation>
+ 		<release>2.12		</release>
+	</parameter>
+
+	<parameter xml="thickness" from="int" name="map_user_layer_thickness" default="1" member="user_layer_thickness" to="int" inherit_parent_reqs="no">
+  		<documentation>Line thickness of User Layer		</documentation>
+  		
+	</parameter>
 </class></magics>
