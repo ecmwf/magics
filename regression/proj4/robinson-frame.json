@@ -2,7 +2,7 @@
     "drivers": [
         {
             "format": "${format=png}", 
-            "fullname": "${path=mollweide.png}",
+            "fullname": "${path=robinson-frame.png}",
 			"output_name_first_page_number": "off",
 			"output_width": "${width=800}"
         }
@@ -55,7 +55,7 @@
                 "map_grid_frame_thickness": "4",
                 "map_grid_line_style": "dot",
 				"map_label": "on"}, 
-            "projection": "mollweide", 
+            "projection": "robinson", 
             "map_area_definition": "full"
         }, 
         "meta": {
