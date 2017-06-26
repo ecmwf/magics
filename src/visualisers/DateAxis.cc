@@ -34,6 +34,7 @@ DateAxisMethod::DateAxisMethod()
 	dateCreators_["days"] = &DateAxisMethod::days;
 	dateCreators_["hours"] = &DateAxisMethod::hours;
 	dateCreators_["monthly"] = &DateAxisMethod::monthly;
+	dateCreators_["climate"] = &DateAxisMethod::climate;
 
 }
 
@@ -219,6 +220,43 @@ void DateAxisMethod::automatic(AxisItems& list)
 
 	hours(list);
 
+}
+void DateAxisMethod::climate(AxisItems& list)
+{
+	DateTime label;
+	DateTime tick;
+	hours_ = false;
+	days_  = "off";
+	months_ = false;
+	years_ = true;
+	
+	DateTime min = (from_ < to_) ? from_ : to_;
+	DateTime max = (from_ < to_) ? to_ : from_;
+	long position  =  0;
+
+	int frequency = 5;
+	const long long seconds_a_year=24*3600*365;
+	const long decade=10;
+
+
+
+	for ( int  year = min.date().year() ; year <= max.date().year() ; year++)
+	{
+		if (( year % frequency)==0) {
+			MagDate date(year, 1, 1);
+			label = DateTime(date, MagTime(position, 0, 0));
+			list.push_back(new AxisDateItem(label - base_, label));
+			tick = DateTime(date, MagTime(0, 0, 0));
+			list.push_back(new AxisTickItem(tick - base_, ""));
+		}
+		else {
+			DateTime tick(MagDate(year, 1, 1), MagTime(0, 0, 0));
+			list.push_back(new AxisMinorTickItem(tick - base_));
+
+		}
+
+
+	}
 }
 
 void DateAxisMethod::monthly(AxisItems& list)
