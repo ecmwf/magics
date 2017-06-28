@@ -6,6 +6,7 @@ add_magics_test(NAME web_wave SOURCES wave-template.json RESOURCES wave-data.jso
 add_magics_test(NAME web_10days SOURCES 10days.json RESOURCES 10days.data IMAGE 10days.png THRESHOLD 5 JSON)
 add_magics_test(NAME web_10days_special SOURCES 10days-special.json RESOURCES 10days-special.data IMAGE 10days-special.png THRESHOLD 5 JSON)
 add_magics_test(NAME web_10days_zero SOURCES 10days-zero.json RESOURCES 10days-zero.data IMAGE 10days-zero.png THRESHOLD 5 JSON)
+add_magics_test(NAME web_monthly_2t SOURCES monthly_2t.json RESOURCES monthly_2t.data IMAGE monthly_2t.png THRESHOLD 5 JSON)
 add_magics_test(NAME web_epsgram_sample SOURCES epsgram_sample.py 
         RESOURCES cloud-cover-clim-data.json  cloud-data.json wave-data.json IMAGE epsgram_sample.ps THRESHOLD 5 PYTHON)
 
