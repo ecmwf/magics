@@ -2,14 +2,12 @@
 
 set +x
 
-src='cmf_advanced_timeseries.json'
-img_ext="png"
-img="cmf_advanced_timeseries.png"
-where='web'
-interpretor='python'
-ext="json"
+src='mollweide-frame.json'
+img="mollweide-frame.png"
+where='proj4'
+interpretor='magjsonx'
 
-version="2.30.0"
+version="2.33.0"
 dir=`pwd`
 name=`basename $dir`
 

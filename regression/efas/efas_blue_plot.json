@@ -1,0 +1,245 @@
+{
+    "version": "3.0",
+    "drivers": [
+        {
+            "format": "png",
+            "fullname": "efas_blue_plot.png",
+            "output_cairo_transparent_background": "off",
+            "output_name_first_page_number": "off",
+            "output_width": "900"
+        }
+    ],
+    "height": "600",
+    "method": "wrep",
+    "page": {
+        "border": "off",
+        "height": "100%",
+        "map": {
+            "border": "on",
+            "border-colour": "Rgb(0.5, 0.5, 0.5)",
+            "cartesian": {
+                "x_date": {
+                    "automatic": "on"
+                },
+                "y_regular": {
+                    "y_min": "150",
+                    "y_max": "300"
+                }
+            },
+            "height": "100%",
+            "horizontal_axis": {
+                       "axis_orientation" : "horizontal",
+                        "axis_date_type" : "days",
+                        "axis_days_label" : "both",
+                        "axis_days_label_colour" : "navy",
+                        "axis_days_label_height" : "0.35",
+                        "axis_grid" :  "on",
+                        "axis_grid_colour" : "navy",
+                        "axis_grid_line_style" : "dash",
+                        "axis_line_colour" : "navy",
+                        "axis_minor_tick" :"on",
+                        "axis_minor_tick_colour" : "navy",
+                        "axis_months_label" : "off",
+                        "axis_tick_colour" : "navy",
+                        "axis_type" :  "date",
+                        "axis_years_label" : "off"
+            },
+            "vertical_axis" : {
+                        "axis_orientation" : "vertical",
+                        "axis_grid" : "on",
+                        "axis_grid_colour" : "navy",
+                        "axis_grid_line_style" :  "dash",
+                        "axis_grid_reference_level" :  "0.",
+                        "axis_grid_reference_thickness" : "1",
+                        "axis_line" :  "on",
+                        "axis_line_colour" : "navy",
+                        "axis_tick_colour" :  "navy",
+                        "axis_tick_label_colour" :  "navy",
+                        "axis_tick_label_height" :  "0.4"
+            },
+            "legend": {
+                "blanking": "off",
+                "border": "off",
+                "bottom": "82%",
+                "display": "absolute",
+                "height": "7%",
+                "left": "5%",
+                "legend_entry_text_width": "75",
+                "legend_text_colour": "navy",
+                "width": "95%",
+                "legend_column_count"           : "6",
+                "legend_entry_plot_direction"   : "column",
+                "legend_entry_plot_orientation" : "bottom_top",
+                "legend_text_font_size"       : "0.4",
+                "legend_text_composition"     : "user_text_only",
+                "legend_entry_border"         : "off"
+            },
+            "margin_bottom": "8%",
+            "margin_left": "10%",
+            "margin_top": "20%",
+            "missing": "-999",
+            "plot": [
+                {
+                    "graph": {
+                        "graph_shade_colour": "rgb(247,255,255)",
+                        "graph_line_colour" : "grey",
+                        "graph_line_thickness" : "1",
+                        "graph_shade" : "on",
+                        "graph_type" : "area",
+                        "legend": "on"
+                    },
+                    "wrepjson": {
+                        "wrepjson_position_information": "on",
+                        "wrepjson_family": "data",
+                        "wrepjson_input_filename": "efas_blue_plot_data.json",
+                        "wrepjson_parameter": "FC-8",
+                        "wrepjson_keyword": "FC-8",
+                        "wrepjson_parameter_information": "on"
+                    }
+                },
+                {
+                    "graph": {
+                        "graph_shade_colour": "rgb(159,214,255)",
+                        "graph_line_colour" : "grey",
+                        "graph_line_thickness" : "1",
+                        "graph_shade" : "on",
+                        "graph_type" : "area",
+                        "legend": "on"
+                    },
+                    "wrepjson": {
+                        "wrepjson_position_information": "on",
+                        "wrepjson_family": "data",
+                        "wrepjson_input_filename": "efas_blue_plot_data.json",
+                        "wrepjson_parameter": "FC-4",
+                        "wrepjson_keyword": "FC-4",
+                        "wrepjson_parameter_information": "on"
+                    }
+                },
+  {
+                    "graph": {
+                        "graph_shade_colour": "rgb(114,194,255)",
+                        "graph_line_colour" : "grey",
+                        "graph_line_thickness" : "1",
+                        "graph_shade" : "on",
+                        "graph_type" : "area",
+                        "legend": "on"
+                    },
+                    "wrepjson": {
+                        "wrepjson_position_information": "on",
+                        "wrepjson_family": "data",
+                        "wrepjson_input_filename": "efas_blue_plot_data.json",
+                        "wrepjson_parameter": "FC-3",
+                        "wrepjson_keyword": "FC-3",
+                        "wrepjson_parameter_information": "on"
+                    }
+                },
+
+
+                {
+                    "graph": {
+                        "graph_shade_colour": "rgb(48,163,255)",
+                        "graph_line_colour" : "grey",
+                        "graph_line_thickness" : "1",
+                        "graph_shade" : "on",
+                        "graph_type" : "area",
+                        "legend": "on"
+                    },
+                    "wrepjson": {
+                        "wrepjson_position_information": "on",
+                        "wrepjson_family": "data",
+                        "wrepjson_input_filename": "efas_blue_plot_data.json",
+                        "wrepjson_parameter": "FC-1",
+                        "wrepjson_keyword": "FC-1",
+                        "wrepjson_parameter_information": "on"
+                    }
+                },
+                {
+                    "graph": {
+                        "graph_shade_colour": "rgb(26,153,255)",
+                        "graph_line_colour" : "grey",
+                        "graph_line_thickness" : "1",
+                        "graph_shade" : "on",
+                        "graph_type" : "area",
+                        "legend": "on"
+                    },
+                    "wrepjson": {
+                        "wrepjson_position_information": "on",
+                        "wrepjson_family": "data",
+                        "wrepjson_input_filename": "efas_blue_plot_data.json",
+                        "wrepjson_parameter": "FC-0",
+                        "wrepjson_keyword": "FC-0",
+                        "wrepjson_parameter_information": "on"
+                    }
+                },
+                {
+                    "symbol": {
+                        "symbol_type" : "marker",
+                        "symbol_marker_index" : "15",
+                        "symbol_colour" : "red",
+                        "symbol_height" : "1.00",
+                        "legend": "on"
+                    },
+                    "wrepjson": {
+                        "wrepjson_position_information": "on",
+                        "wrepjson_family": "data",
+                        "wrepjson_input_filename": "efas_blue_plot_data.json",
+                        "wrepjson_parameter": "ic",
+                        "wrepjson_keyword": "ic",
+                        "wrepjson_parameter_information": "on"
+                    }
+                },
+                 {
+                    "symbol": {
+                        "symbol_type" : "marker",
+                        "symbol_marker_index" : "15",
+                        "symbol_colour" : "green",
+                        "symbol_height" : "1.00",
+                        "legend": "on"
+                    },
+                    "wrepjson": {
+                        "wrepjson_position_information": "on",
+                        "wrepjson_family": "data",
+                        "wrepjson_input_filename": "efas_blue_plot_data.json",
+                        "wrepjson_parameter": "wb",
+                        "wrepjson_keyword": "wb",
+                        "wrepjson_parameter_information": "on"
+                    }
+                }
+            ],
+            "projection": {
+                "cartesian": {
+                "x_date": {
+                    "automatic": "on"
+                },
+                "y_regular": {
+                    "y_min": "0",
+                    "y_max": "100"
+                }
+                },
+                "projection": "cartesian"
+            },
+            "template": "precipitation-json.json",
+            "text": {
+                "bottom": "88.5%",
+                "display": "absolute",
+                "height": "8%",
+                "left": "0%",
+                "text_colour": "navy",
+                "text_font_size": "0.45",
+                "text_line_1": "<font size='0.5'>Probability of precipitation type (%) depending on mean precipitation rates (mm/h)</font>",
+                "text_line_2": "<json_info key='station_name'/><json_info key='location'/><json_info key='grid_point'/><json_info key='height'/>",
+                "text_line_3":  "<json_info key='date'/>",
+                "text_line_4":"Rain (mm/h)----------------Sleet(mm/h)------------Wetsnow (mm/h)--------Snow (mm/h)------------Icepellets (mm/h)------------Freezing",
+                "text_line_count": "1",
+                "width": "100%"
+            },
+            "width": "100%"
+        },
+        "meta": {
+            "javascript_path": "meta.js"
+        },
+        "page_id": "off"
+    },
+
+    "width": "900"
+}

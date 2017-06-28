@@ -51,12 +51,19 @@ void LevelListSelectionType::calculate(double , double, bool)
 	clear();
 	
 
-
+	doublearray::const_iterator last = list_.begin();
 	for (doublearray::const_iterator val = list_.begin(); val != list_.end(); ++val) {
 		MagLog::dev() << "LevelListSelectionType::calculate(double min, double max)--->" << *val << "\n";
 		if ( min_ <= *val && *val <= max_)
 			push_back(*val);
+		++last;
 	}
+
+	// Just in case add another level to close the  last interval ! 
+	if ( last !=  list_.end() )
+		push_back(*last);
+	
+
 
 	
 	ostringstream print;
