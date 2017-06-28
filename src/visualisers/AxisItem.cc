@@ -139,7 +139,8 @@ bool AxisDateItem::sunday() const
 bool AxisDateItem::runday() const
 { 
 	format("%w", -1);
-	return  (label_ == "1" || label_ == "4");
+	// Mondays and Fridays
+	return  (label_ == "1" || label_ == "5");
 }
 
 void AxisItem::setFont(MagFont& font)
