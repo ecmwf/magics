@@ -84,7 +84,9 @@ void SymbolAdvancedTableMode::prepare()
 
 } 
 
-void SymbolAdvancedTableMode::adjust(double min, double max)
+        
+        
+void SymbolAdvancedTableMode::adjust(double min, double max, bool  scale, const Transformation& transformation, double scaling)
 {
 	static map<string, TextSymbol::TextPosition> texthandlers;
 	if ( texthandlers.empty() ) {
@@ -146,12 +148,14 @@ void SymbolAdvancedTableMode::adjust(double min, double max)
     	if (level+1 == levels_->end() ) break;
 
     	MagLog::debug() << "[" << *level << ", " << *(level+1) << "]=" << *marker << "(marker)" << *text << "(text)"<< endl;
-
+    	double height = height_method_->height(*level);
+    	if ( scale ) 
+			height = transformation.ratio() * height * scaling;
     	SymbolProperties properties;
-    	if ( index )
-    		properties = SymbolProperties(colourMethod_->right(*level), height_method_->height(*level), *marker     , *text);
+    	if ( index ) 
+    		properties = SymbolProperties(colourMethod_->right(*level), height, *marker, *text);
     	else
-    		properties = SymbolProperties(colourMethod_->right(*level), height_method_->height(*level), *marker_name, *text);
+    		properties = SymbolProperties(colourMethod_->right(*level), height,*marker_name, *text);
 
     	properties.position_ = position;
     	properties.font_ = font;
@@ -191,8 +195,8 @@ void SymbolAdvancedTableMode::adjust(double min, double max)
     }
     // Here we add a last interval to close to the right the lst Interval.
 
-    MagLog::debug() << "[" << *level << ", " << (*level)+epsilon << "]=" <<colourMethod_->right(*level) << *marker << "(marker)" << *text << "(text)"<< endl;
-    map_[Interval(*level, (*level)+epsilon) ] = last;
+    MagLog::debug() << "[" << *level << ", " << (*level)+EPSILON << "]=" <<colourMethod_->right(*level) << *marker << "(marker)" << *text << "(text)"<< endl;
+    map_[Interval(*level, (*level)+EPSILON) ] = last;
 
 }
 

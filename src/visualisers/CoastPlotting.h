@@ -109,6 +109,8 @@ protected:
 		std::map<string, Action> riversMethods_;
 		
 		void rivers(DrawingVisitor&);
+		void efas(DrawingVisitor&);
+		void user(DrawingVisitor&);
 		void ignore(DrawingVisitor&) {}
 		
 		void layers(map<string, Action>&, const string&, DrawingVisitor&);

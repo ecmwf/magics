@@ -430,7 +430,8 @@ void WrepJSon::eps()
     MagLog::dev() << "minx= " <<  minx_ << "->maxx= " << maxx_ << endl;
     map<string, vector<double> >::iterator intensity = values_.values_.find("intensity");
     map<string, vector<double> >::iterator direction = values_.values_.find("direction");
-    map<string, vector<double> >::iterator val = values_.values_.find("1");
+    string key = ( key_.empty() ) ? "1" : key_;
+    map<string, vector<double> >::iterator val = values_.values_.find(key);
 	for (unsigned int i = 0; i < values_.steps_.size(); i++) {
 		
 		double value = (val ==  (values_.values_.end() ) ) ? 0 : val->second[i]; 

@@ -136,7 +136,7 @@ public:
 	virtual void coastSetting(map<string, string>&, double, double) const { NOTIMP; }
 	virtual bool verifyDef(const string&) const { return false; }   
 
-
+	virtual double ratio() const { return 1; }
 
 	virtual double x(double x) const { return x; }
 	virtual double y(double y) const { return y; }

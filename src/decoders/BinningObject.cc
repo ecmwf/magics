@@ -88,7 +88,7 @@ void  BinningObject::countx(vector<double>& vals, double min, double max)
 		vals.push_back(val);
 	}
 
-	vals.push_back(vmax+epsilon);
+	vals.push_back(vmax+EPSILON);
 }
 
 void  BinningObject::county(vector<double>& vals, double min, double max)
@@ -101,7 +101,7 @@ void  BinningObject::county(vector<double>& vals, double min, double max)
 		vals.push_back(val);
 	}
 
-	vals.push_back(vmax+epsilon);
+	vals.push_back(vmax+EPSILON);
 }
 
 void  BinningObject::listx(vector<double>& vals, double min, double max)

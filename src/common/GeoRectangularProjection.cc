@@ -694,3 +694,11 @@ double MercatorProjection::patchDistance(double) const
 {
 	return 1000000;
 }
+
+double GeoRectangularProjection::ratio() const
+{
+	// return domain/fulldomain! 
+
+	return (( max_longitude_ - min_longitude_ ) * ( max_latitude_ - min_latitude_) ) / (360*180);
+
+}

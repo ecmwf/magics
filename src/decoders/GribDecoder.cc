@@ -261,7 +261,7 @@ void GribDecoder::scale(const string& metadata, double& scaling, double& offset)
 void GribDecoder::read(Matrix **matrix, Matrix** matrix2)
 {
 
-    if ( handle_ <=0 ) {
+    if ( !handle_ ) {
         *matrix = 0;
         return;
     }
@@ -296,7 +296,7 @@ void GribDecoder::read(Matrix **matrix, Matrix** matrix2)
 
 void GribDecoder::read(Matrix **matrix, const Transformation&  transformation)
 {
-    if ( handle_ <=0 ) {
+    if ( !handle_  ) {
         *matrix = 0;
         return;
     }
@@ -568,19 +568,22 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 
             int w = xComponent_->nearest_index(lat, lon, nlat, nlon);
 
-            //cout << i << " = [" << lat << ", " << lon << "]--->[" << nlat << ", " << nlon << "] = " << w << endl;
+           
             i++;
             bool cached = ( cache.find(w) != cache.end() );
             if ( !cached ) {
                     cache.insert(w);
                     CustomisedPoint *add = new CustomisedPoint(nlon, nlat, "");
-                    pair<double, double> value = (*wind_mode_)((*xComponent_).data_[w], (*yComponent_).data_[w]);
+                    double u = xComponent_->data_[w];
+                    double v = yComponent_->data_[w];
+                    interpretor_->interpret2D(nlat, nlon, u, v);
+                    pair<double, double> value = (*wind_mode_)(u, v);
 
                     add->insert(make_pair("x_component", value.first));
                     add->insert(make_pair("y_component", value.second));
                     if (colourComponent_)
                          add->insert(make_pair("colour_component", (*colourComponent_)[w]));
-                    // cout << " Point " << *add << endl;
+                  
                     out.push_back(add);
 
                     string debug = getEnvVariable("WIND_DEBUG");
@@ -600,8 +603,7 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 
     else { // no thinning !
         // get all the points of the index!
-    	//map<double, int> yIndex_; // lat--> index
-    	//vector<InfoIndex> xIndex_;
+    	
         for ( map<double, int>::iterator y = xComponent_->yIndex_.begin(); y != xComponent_->yIndex_.end(); ++y) {
         	InfoIndex x = xComponent_->xIndex_[y->second];
         	double lat = y->first;
@@ -612,6 +614,7 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
                 double v = yComponent_->data_[index];
                 index++;
                 if ( u != missing && v != missing) {
+                    interpretor_->interpret2D(lat, lon, u, v);
                     pair<double, double> value = (*wind_mode_)(u, v);
                     vector<UserPoint> pos;
                     transformation.populate(lon, lat, 0, pos);
@@ -751,7 +754,7 @@ grib_handle*  GribDecoder::open(grib_handle* grib, bool sendmsg)
 
     handle_ = (*address_mode_)(0, file, grib_field_position_);
 
-    if (handle_<=0 )
+    if ( !handle_ )
     {
         if (sendmsg) {
             MagLog::error() << "can not access position [" << grib_field_position_<<" in " << file_name_ << "]" << std::endl;
@@ -962,12 +965,10 @@ bool  GribLoop::hasMore()
             // case 1 dimension= 1 and loop on all the fields!
             int error;
             grib_handle* handle = grib_handle_new_from_file(0, file_, &error) ;
-            if (handle <=0)
+            if ( !handle )
                 return false;
             currentgrib_ = new GribEntryDecoder(handle);
-
             currentgrib_->set(*this, counter_++);
-
             gribs_.push_back(currentgrib_);
         }
         else {
@@ -977,7 +978,7 @@ bool  GribLoop::hasMore()
 
             grib_handle* handle =  (*address_mode_)(0, file_, *currentPos_);
             currentPos_++;
-            if (handle <=0)
+            if (!handle)
                 return false;
             currentgrib_ = new GribEntryDecoder(handle);
             currentgrib_->set(*this, counter_++);
@@ -993,9 +994,9 @@ bool  GribLoop::hasMore()
             // case 2 Dimension = 2 and loop on all the field!
             int error;
             grib_handle* handle1 = grib_handle_new_from_file(0, file_, &error) ;
-            if (handle1 <=0)  return false;
+            if (!handle1)  return false;
             grib_handle* handle2 = grib_handle_new_from_file(0, file_, &error) ;
-            if (handle2 <=0)  return false;
+            if (!handle2)  return false;
             currentgrib_ = new GribEntryDecoder(handle1, handle2);
             currentgrib_->set(*this, counter_++);
             gribs_.push_back(currentgrib_);
@@ -1014,9 +1015,9 @@ bool  GribLoop::hasMore()
 
             grib_handle* handle1 =  (*address_mode_)(0, file_, *dim1);
             grib_handle* handle2 =  (*address_mode_)(0, file_, *dim2);
-            if ( handle1 <=0 )
+            if ( !handle1 )
                 return false;
-            if ( handle2 <=0 )
+            if ( !handle2 )
                 return false;
             currentgrib_ = new GribEntryDecoder(handle1, handle2);
             currentgrib_->set(*this, counter_++);
@@ -1033,11 +1034,11 @@ bool  GribLoop::hasMore()
             // case 2 Dimension = 2 and loop on all the field!
             int error;
             grib_handle* handle1 = grib_handle_new_from_file(0, file_, &error) ;
-            if (handle1 <=0)  return false;
+            if ( !handle1 )  return false;
             grib_handle* handle2 = grib_handle_new_from_file(0, file_, &error) ;
-            if (handle2 <=0)  return false;
+            if ( !handle2 )  return false;
             grib_handle* handle3 = grib_handle_new_from_file(0, file_, &error) ;
-            if (handle3 <=0)  return false;
+            if ( !handle3)  return false;
             currentgrib_ = new GribEntryDecoder(handle1, handle2, handle3);
             currentgrib_->set(*this, counter_++);
             gribs_.push_back(currentgrib_);
@@ -1061,11 +1062,11 @@ bool  GribLoop::hasMore()
             grib_handle* handle2 =  (*address_mode_)(0, file_, *dim2);
             grib_handle* handle3 =  (*address_mode_)(0, file_, *dim3);
 
-            if ( handle1 <=0 )
+            if ( !handle1 )
                 return false;
-            if ( handle2 <=0 )
+            if ( !handle2 )
                 return false;
-            if ( handle3 <=0 )
+            if ( !handle3 )
                 return false;
             currentgrib_ = new GribEntryDecoder(handle1, handle2, handle3);
             currentgrib_->set(*this, counter_++);

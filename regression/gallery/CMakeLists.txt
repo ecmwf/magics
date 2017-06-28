@@ -3,6 +3,8 @@ add_magics_test(NAME gallery_axis1 SOURCES axis1.py IMAGE axis1.png THRESHOLD 5 
 add_magics_test(NAME gallery_axis2 SOURCES axis2.py IMAGE axis2.png  THRESHOLD 5 PYTHON)
 add_magics_test(NAME gallery_axis3 SOURCES axis3.py IMAGE axis3.png  THRESHOLD 5 PYTHON)
 add_magics_test(NAME gallery_axis4 SOURCES axis4.py IMAGE axis4.png  THRESHOLD 5 PYTHON)
+add_magics_test(NAME gallery_axis5 SOURCES axis5.py IMAGE axis5.png  THRESHOLD 5 PYTHON)
+add_magics_test(NAME gallery_axis6 SOURCES axis6.py IMAGE axis6.png  THRESHOLD 5 PYTHON)
 
 add_magics_test(NAME gallery_coastlines1 SOURCES coastlines1.py IMAGE coastlines1.png  THRESHOLD 5 PYTHON)
 add_magics_test(NAME gallery_coastlines2 SOURCES coastlines2.py IMAGE coastlines2.png  THRESHOLD 5 PYTHON)

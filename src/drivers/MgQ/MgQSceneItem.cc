@@ -364,10 +364,13 @@ void MgQSceneItem::updateLayers()
  
 void MgQSceneItem::addLayerItem(MgQLayerItem* item) 
 {
-	layerItems_.push_back(item);
-	//item->setStackLevel(layerItems_.count()-1);
-	ASSERT(item->layer().zindex() >= 0);
-	item->setStackLevel(item->layer().zindex());
+   layerItems_.push_back(item);
+
+//------------------------------------------------------------
+// FAMI20160913: JUST TO MAKE IT WORK FOR THE MOMENT.
+// Uncomment command below:
+//   ASSERT(item->layer().zindex() >= 0);
+   item->setStackLevel(item->layer().zindex());
 }
 
 

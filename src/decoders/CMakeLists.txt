@@ -80,8 +80,8 @@ if (HAVE_NETCDF)
      list( APPEND decoders_srcs 
 #Netcdf--->
 decoders/NetcdfOrcaInterpretor.cc
-decoders/Netcdf.cc
-decoders/Netcdf.h
+decoders/NetcdfData.cc
+decoders/NetcdfData.h
 decoders/NetcdfConvention.cc
 decoders/NetcdfConvention.h
 decoders/NetcdfDecoder.cc

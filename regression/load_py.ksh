@@ -3,13 +3,13 @@
 
 set +x
 
-versions="2.31.0" 
+versions="2.33.0" 
 
 ext="py"
 img_ext="png"
-where='galery'
+where='gallery'
 interpretor='python'
-src='gradients gradients2'
+src='axis5'
 
 dir=`pwd`
 name=`basename $dir`
@@ -20,7 +20,6 @@ for s in $src
 do
 for v in $versions
 do
-  module unload Magics
   module load Magics/$v
   echo "magics/reference/$v/$where"
 #  ../upload.py $v ./$sf $s.$img_ext magics/reference/$v/$where -i $interpretor

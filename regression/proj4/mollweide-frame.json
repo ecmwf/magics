@@ -1,0 +1,68 @@
+{
+    "drivers": [
+        {
+            "format": "${format=png}", 
+            "fullname": "${path=mollweide-frame.png}",
+			"output_name_first_page_number": "off",
+			"output_width": "${width=800}"
+        }
+    ], 
+    "page": {
+        "map": {
+            "border": "off", 
+            "map_hemisphere": "north", 
+            "map_vertical_longitude": "0", 
+			"margin_top":"20%",
+            "text": {
+                "blanking": "on", 
+                "border": "off", 
+                "bottom": "77%", 
+                "display": "absolute", 
+                "height": "5%", 
+                "left": "5%", 
+                "text_line_1": "Mollweide Projection with frame ",
+                "text_font_size": "0.6", 
+                "text_colour": "navy", 
+                "text_justification": "left", 
+                "width": "80%"
+            }, 
+            "legend": {
+                "blanking": "off", 
+                "border": "off", 
+                "bottom": "70%", 
+                "display": "absolute", 
+                "height": "5%", 
+                "left": "2%", 
+                "legend_display_type": "continuous", 
+                "legend_text_colour": "navy", 
+                "legend_text_height": "0.4", 
+                "width": "60%"
+            }, 
+            "coastlines": {
+                "map_coastline_colour": "charcoal", 
+                "map_coastline_land_shade": "on", 
+                "map_coastline_land_shade_colour": "grey", 
+                "map_coastline_sea_shade": "on", 
+                "map_coastline_sea_shade_colour": "white", 
+                "map_grid": "off", 
+                "map_label": "off"
+            },
+            "coastlines": {
+                "map_coastline_colour": "charcoal", 
+                "map_grid_colour": "grey", 
+                "map_grid": "on",
+                "map_grid_frame": "on",
+                "map_grid_frame_thickness": "2",
+                "map_grid_frame_colour": "charcoal",
+                "map_grid_line_style": "dot",
+				"map_label": "on"}, 
+            "projection": "mollweide", 
+            "map_area_definition": "full"
+        }, 
+        "meta": {
+            "javascript_path": "${js=js.js}"
+        }, 
+        "page_id": "off"
+    }, 
+    "version": "3.0" 
+}

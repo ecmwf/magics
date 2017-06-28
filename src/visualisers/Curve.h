@@ -99,7 +99,8 @@ class CurveArea: public Curve, public CurveAreaAttributes {
 
 public:
 	CurveArea() {}
-	virtual ~CurveArea() {}
+	virtual ~CurveArea() { }
+    void set(const map<string, string>& map ) { CurveAttributes::set(map); CurveAreaAttributes::set(map);}
 
 	void operator()(Data&, BasicGraphicsObjectContainer&);
 	void legend(Polyline&);
