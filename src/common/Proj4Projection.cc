@@ -277,11 +277,22 @@ void Proj4Projection::init()
 
 void Proj4Projection::full()
 {
+	if ( projection_->method_ == "simple" ) {
+		if ( min_longitude_ != -180 )
+			corners();
+		if ( max_longitude_ != 180. )
+			corners();
+		if ( min_latitude_ != -90 )
+			corners();
+		if ( max_latitude_ != 90 )
+			corners();
+	}
+	
 }
 
 void Proj4Projection::corners()
 {
-	// we have to update the PVBounding box!
+	// we have to update the PCBounding box!
 		min_pcx_ = min_longitude_;
 		min_pcy_ = min_latitude_;
 		max_pcx_ = max_longitude_;
@@ -624,7 +635,7 @@ void Proj4Projection::gridLongitudes(const GridPlotting& grid)  const
 
 	grid.add(boundaries);
 
-	//return;
+	
 	vector<double> longitudes = grid.longitudes();
 
 
@@ -644,7 +655,10 @@ void Proj4Projection::gridLongitudes(const GridPlotting& grid)  const
 				if ( userEnveloppe_->within(p) )
 					poly.push_back((*this)(UserPoint(*lon,lat)));
 			}
-			grid.add(poly);
+			if ( *lon == gridMinLon_ || *lon == gridMaxLon_) 
+				grid.addFrame(poly);
+			else 
+				grid.add(poly);
 		}
 }
 
@@ -665,7 +679,11 @@ void Proj4Projection::gridLatitudes(const GridPlotting& grid)  const
 			if ( userEnveloppe_->within(p) )
 				poly.push_back((*this)(UserPoint(lon,*lat)));
 		}
-		grid.add(poly);
+		if ( *lat == gridMinLat_ || *lat == gridMaxLat_) 
+				grid.addFrame(poly);
+			else 
+				grid.add(poly);
+		
 	}
 }
 
@@ -677,8 +695,8 @@ void Proj4Projection::labels(const LabelPlotting& label, DrawingVisitor& visitor
 	pro4_longitudes.push_back(0);
 	pro4_longitudes.push_back(90);
 	pro4_longitudes.push_back(-90);
-	pro4_longitudes.push_back(180);
-	pro4_longitudes.push_back(-180);
+	//pro4_longitudes.push_back(180);
+	//pro4_longitudes.push_back(-180);
 	const vector<double>& longitudes = label.longitudes();
 	const vector<double>& latitudes = label.latitudes();
 	for (vector<double>::const_iterator lat = latitudes.begin(); lat != latitudes.end(); ++lat)
@@ -885,7 +903,7 @@ void Proj4Projection::horizontalLabels(const LabelPlotting& label, double y, dou
 
 void Proj4Projection::labels(const LabelPlotting& label, TopAxisVisitor& visitor)  const
 {
-	if ( true ) {
+	if ( projection_->method_ == "simple" ) {
 		const vector<double>& longitudes = label.longitudes();
 		const double lat = min_latitude_ + (max_latitude_-min_latitude_)*.2;
 		for (unsigned int lon = 0; lon < longitudes.size(); lon++ )

@@ -53,7 +53,7 @@ public:
     
     void set(const map<string, string>& map ) { SymbolPlottingAttributes::set(map); }
     void set(const XmlNode& node ) { SymbolPlottingAttributes::set(node); }
-
+    double height(const Transformation&,double height); // compute symbol_size!
 protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).
 	 virtual void print(ostream&) const; 
@@ -62,6 +62,8 @@ protected:
      map<SymbolProperties, Symbol* >::iterator current_;
      mutable vector<Text* >                             texts_;
      vector<string>::iterator text_;
+
+
     
 
 private:

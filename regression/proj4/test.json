@@ -2,41 +2,61 @@
     "drivers": [
         {
             "format": "${format=png}", 
-            "fullname": "${path=geos.png}",
+            "fullname": "${path=mollweide.png}",
 			"output_name_first_page_number": "off",
 			"output_width": "${width=800}"
         }
     ], 
     "page": {
         "map": {
-            "border": "on", 
+            "border": "off", 
+            "map_hemisphere": "north", 
+            "map_vertical_longitude": "0", 
 			"margin_top":"20%",
             "text": {
                 "blanking": "on", 
                 "border": "off", 
-                "bottom": "88%", 
+                "bottom": "77%", 
                 "display": "absolute", 
                 "height": "5%", 
-                "left": "3%", 
-                "text_line_1": "Geostationary Satellite View" ,
+                "left": "5%", 
+                "text_line_1": "Mollweide Projection - Pseudocylindrical, Equal Area",
                 "text_font_size": "0.6", 
                 "text_colour": "navy", 
                 "text_justification": "left", 
                 "width": "80%"
             }, 
+            "legend": {
+                "blanking": "off", 
+                "border": "off", 
+                "bottom": "70%", 
+                "display": "absolute", 
+                "height": "5%", 
+                "left": "2%", 
+                "legend_display_type": "continuous", 
+                "legend_text_colour": "navy", 
+                "legend_text_height": "0.4", 
+                "width": "60%"
+            }, 
+            "coastlines": {
+                "map_coastline_colour": "grey", 
+                "map_coastline_land_shade": "on", 
+                "map_coastline_land_shade_colour": "cream", 
+                "map_coastline_sea_shade": "on", 
+                "map_coastline_sea_shade_colour": "white", 
+                "map_grid": "off", 
+                "map_label": "off"
+            },
             "coastlines": {
                 "map_coastline_colour": "grey", 
                 "map_grid_colour": "grey", 
                 "map_grid": "on",
+                "map_grid_frame": "on",
+                "map_grid_frame_thickness": "4",
+                "map_grid_line_style": "dot",
 				"map_label": "on"}, 
-            "projection": "geos",
-            "lower_left_longitude": "-145",
-            "upper_right_longitude": "-5",
-            "lower_left_latitude": "-80",
-            "upper_right_latitude": "80",
-            "map_geos_sweep" : "33",
-            "imap_proj4_definition" : "+proj=geos +h=35786023 +a= 6378137.0 +b= 6356752.3141403561 +sweep=y +lon_0=-75 x_0=-.151844 y_0=.151844 +no_defs",
-            "map_proj4_definition" : "+proj=geos +h=42164000 +ellps=WGS84 +lon_0=-75"
+            "projection": "mollweide", 
+            "map_area_definition": "full"
         }, 
         "meta": {
             "javascript_path": "${js=js.js}"

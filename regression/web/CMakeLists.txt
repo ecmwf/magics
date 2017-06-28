@@ -20,6 +20,8 @@ add_magics_test(NAME efas_geojson SOURCES efas.py  IMAGE efas.png RESOURCES efas
 add_magics_test(NAME web_globalefi SOURCES globalefi.magml  IMAGE globalefi.png DATA efi_2t0.grib  efi_fx0.grib  efi_tp0.grib  em0.grib THRESHOLD 2 MAGML)
 
 add_magics_test(NAME web_cyclone SOURCES cyclone-template.json  IMAGE cyclone.png RESOURCES cyclone.json  THRESHOLD 2 JSON)
+add_magics_test(NAME web_ptype SOURCES ptypegram.py  RESOURCES meteogram-ptype.json IMAGE ptypegram.png THRESHOLD 2 PYTHON)
+
 #add_magics_test(NAME web_cyclone_trajectory SOURCES cyclone-trajectory-template.json  IMAGE cyclone-trajectory.png RESOURCES cyclone-trajectory.json THRESHOLD 2 JSON)
 
 #add_magics_test(NAME web_wave_dir SOURCES wave-dir.json  IMAGE wave-dir.png RESOURCES wave-dir.data THRESHOLD 1 JSON)

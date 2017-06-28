@@ -1,4 +1,4 @@
-/*
+/*Super
  * (C) Copyright 1996-2016 ECMWF.
  * 
  * This software is licensed under the terms of the Apache Licence Version 2.0
@@ -89,7 +89,7 @@ protected:
 	 string animation_; 
 	 
 	 DrawingVisitor* 		drawing_;
-	 FrameVisitor* 		frameHelper_;
+	 FrameVisitor* 		    frameHelper_;
 	 TopAxisVisitor*    	topAxis_;
 	 BottomAxisVisitor*     bottomAxis_;
 	 LeftAxisVisitor*    	leftAxis_;
@@ -99,7 +99,8 @@ protected:
 
 	 AnimationRules*        rules_;
 
-	 LegendVisitor* 		legend_;
+	 bool 				    needLegend_;
+	 LegendVisitor*         legend_;
 	 vector<TextVisitor*>   texts_;
 	 vector<LayoutVisitor*> components_;
 	

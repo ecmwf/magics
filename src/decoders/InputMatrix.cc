@@ -55,7 +55,7 @@ void InputMatrix::print(ostream& out)  const
 MatrixHandler& InputMatrix::matrix()
 {
 	Timer timer("InputMatrix", "Getting data");
-	if (simple_field_) 
+	if ( simple_field_ ) 
 		matrix_ = (*organization_).geoInterpret(&field_, *this);
 	this->matrixHandlers_.push_back(new MatrixHandler(*matrix_));
 	return *(this->matrixHandlers_.back()); 
@@ -84,7 +84,7 @@ void InputMatrix::getReady(const Transformation& transformation)
 	(*organization_).getReady(transformation);
 
 	if(transformation.coordinateType() == Transformation::GeoType ) {
-		if ( !field_.empty())
+		if ( !field_.empty()) 
 			matrix_ = (*organization_).geoInterpret(&field_, *this);
 		if ( !u_component_.empty())
 			u_ = (*organization_).geoInterpret(&u_component_, *this);

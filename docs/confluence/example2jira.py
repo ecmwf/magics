@@ -11,7 +11,7 @@ import json
 import os
 
 def put(file, where, comment):
-	cmd = "java -jar /home/graphics/cgs/atlassian-cli-2.5.0/lib/confluence-cli-2.5.0.jar --server http://ussoftware.ecmwf.int:8081/wiki --user cgs --password loulou --action addAttachment --space MAGP --file '%s' --comment '%s' --title '%s' --replace" % (file, comment, where)
+	cmd = "java -jar /home/graphics/cgs/atlassian-cli-2.5.0/lib/confluence-cli-2.5.0.jar --server http://ussoftware.ecmwf.int:8081/wiki --user cgs --password sjnclEC4 --action addAttachment --space MAGP --file '%s' --comment '%s' --title '%s' --replace" % (file, comment, where)
 	print cmd
 	os.system(cmd)
 

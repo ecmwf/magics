@@ -54,7 +54,7 @@ title = \
 
 # To the plot
 
-print "plot"
+print("plot")
 plot( output,  europe, obs, coast, )
 tofortran(ref, output,  europe, obs, coast, )
 

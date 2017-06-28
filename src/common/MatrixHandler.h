@@ -60,10 +60,10 @@ public :
     	double& column1, int& index1, double& column2, int& index2) const 
     		{ return matrix_.boundColumn(r, column1, index1, column2, index2); }		
     
-    double  left() const { return matrix_.left(); }
-         double bottom() const { return matrix_.bottom(); } 
-         double  right() const { return matrix_.right(); }
-         double  top() const { return matrix_.top(); }
+    virtual double  left() const { return matrix_.left(); }
+    virtual double bottom() const { return matrix_.bottom(); } 
+    virtual double  right() const { return matrix_.right(); }
+    virtual double  top() const { return matrix_.top(); }
          
          double x(double x, double y) const  { return matrix_.x(x, y); }
          double y(double x, double y) const { return matrix_.y(x, y); }
@@ -495,11 +495,15 @@ public :
 
     
     
-    double interpolate(double  row, double  column) const { matrix_.interpolate(row, column); }
-    double nearest(double  row, double  column) const { matrix_.nearest(row, column); }
+    double interpolate(double  row, double  column) const { return matrix_.interpolate(row, column); }
+    double nearest(double  row, double  column) const { return matrix_.nearest(row, column); }
 
-    double column(int i, int j) const { matrix_.column(i, j); }
-    double row(int i, int j) const { matrix_.row(i, j); }
+    double column(int i, int j) { return matrix_.column(i, j); }
+    double row(int i, int j) { return matrix_.row(i, j); }
+    double  left() const { return matrix_.left(); }
+    double bottom() const { return matrix_.bottom(); } 
+    double  right() const { return matrix_.right(); }
+    double  top() const { return matrix_.top(); }
 
 protected :
 
@@ -539,7 +543,35 @@ protected :
 
 };
 
+class RotatedMatrixHandler : public MatrixHandler
+{
+public :
+    RotatedMatrixHandler(const AbstractMatrix& matrix, double lat, double lon);
 
+    
+    
+    double interpolate(double  row, double  column) const;
+    double nearest(double  row, double  column) const;
+
+
+    double column(int, int) const;
+    double row(int, int) const;
+
+    bool delegate() const { return true; }
+    pair<double, double> unrotate(double, double) const;
+    pair<double, double> rotate(double, double) const;
+   
+
+protected :
+    
+   double minx_;
+   double maxx_;
+   double miny_;
+   double maxy_;
+   double southPoleLat_;
+   double southPoleLon_;
+
+};
 
 class BoxMatrixHandler : public TransformMatrixHandler
 {
