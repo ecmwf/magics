@@ -72,6 +72,7 @@ protected:
 	void days(AxisItems&);
 	void hours(AxisItems&);
 	void monthly(AxisItems&);
+	void climate(AxisItems&);
 
 	void years_label(AxisItems&, AxisItems&);
 	void months_label(AxisItems&, AxisItems&);

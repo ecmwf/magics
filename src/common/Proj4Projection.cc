@@ -277,16 +277,16 @@ void Proj4Projection::init()
 
 void Proj4Projection::full()
 {
-	
-	if ( min_longitude_ != -180 )
-		corners();
-	if ( max_longitude_ != 180. )
-		corners();
-	if ( min_latitude_ != -90 )
-		corners();
-	if ( max_latitude_ != 90 )
-		corners();
-	
+	if ( projection_->method_ == "simple" ) {
+		if ( min_longitude_ != -180 )
+			corners();
+		if ( max_longitude_ != 180. )
+			corners();
+		if ( min_latitude_ != -90 )
+			corners();
+		if ( max_latitude_ != 90 )
+			corners();
+	}
 	
 }
 
