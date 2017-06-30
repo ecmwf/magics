@@ -398,10 +398,7 @@ void ShapeDecoder::decode(vector<Polyline*>& data, const Transformation& transfo
 					}
 				}
 				if ( index ) {
-						
 					poly->rotate(index);
-					// Clean the south pole ...
-
 				}
 			}
 			SHPDestroyObject(psShape);
