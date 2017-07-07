@@ -13,7 +13,6 @@ add_magics_test(NAME proj4_meteosat1 SOURCES meteosat1.json IMAGE meteosat1.png 
 add_magics_test(NAME proj4_mollweide SOURCES mollweide.json IMAGE mollweide.png DATA msl.grib uv.grib THRESHOLD 5 JSON)
 add_magics_test(NAME proj4_polar_north SOURCES polar_north.json IMAGE polar_north.png DATA msl.grib uv.grib THRESHOLD 5 JSON)
 add_magics_test(NAME proj4_sub_mercator SOURCES sub_mercator.json IMAGE sub_mercator.png DATA msl.grib uv.grib THRESHOLD 5 JSON)
-add_magics_test(NAME proj4_big_mercator SOURCES big_mercator.json IMAGE big_mercator.png DATA msl.grib uv.grib THRESHOLD 5 JSON)
 add_magics_test(NAME proj4_robinson-frame SOURCES robinson-frame.json IMAGE robinson-frame.png THRESHOLD 2 JSON)
 add_magics_test(NAME proj4_mollweide-frame SOURCES mollweide-frame.json IMAGE mollweide-frame.png THRESHOLD 2 JSON)
 

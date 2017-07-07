@@ -831,7 +831,7 @@ int CalcStreamlines(int density, const float *dir, const GSStruct *gs, OneLineCl
 											}
 									}
 
-                              
+                              	linenum++;
 								OneLineClass** new_str_lines = new OneLineClass*[linenum];
 								for(int ii=0; ii<linenum-1; ii++)
 									new_str_lines[ii] = str_lines[ii]; 
