@@ -751,7 +751,6 @@ void EpsGraph::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 	for (CustomisedPointsList::const_iterator point = points.begin(); point != points.end(); ++point) {
 		resolution_ = (**point)["resolution"];
 		double missing = (**point)["missing"];
-		cout << missing << endl;
 		double x = (**point)["step"] + box_shift_ *3600;
 		double width = (box_width_ == -1) ? (**point)["width"] : box_width_ * 3600;
 		
@@ -1043,12 +1042,12 @@ void EpsLight::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 
 		std::sort(eps.begin(), eps.end());
 
-		for (vector<double>::iterator e = eps.begin(); e != eps.end(); ++e) {
+		for (vector<double>::iterator e = eps.begin(); e != eps.begin(); ++e) {
 			if ( same(*e, 0) )
 				*e = 0;
-	        cout << *e << " ";
+	        MagLog::debug() << *e << " ";
 	    }
-	    cout << endl;
+	    MagLog::debug() << endl;
 
         double epsmin, eps10, eps25,  eps50, eps75, eps90, epsmax;
         if ( ninty != (*point)->end() ) {
@@ -1082,7 +1081,7 @@ void EpsLight::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 		float height = 1./(colours.size()*4);
 
 		for ( vector<Colour>::iterator colour = colours.begin(); colour != colours.end(); ++colour) {
-			cout << x << "  " << x + width << endl;
+			
 			for (int i = 0; i < 4; i++ ) {
 				Polyline* box  = new Polyline();
 				box->setColour(*colour);

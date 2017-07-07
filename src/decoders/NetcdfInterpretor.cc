@@ -102,7 +102,7 @@ bool NetcdfInterpretor::reference_date(Netcdf& netcdf, const string& var, const 
 	basedate = date;
 	double diff = ( refdate.empty() ) ? 0 : DateTime(date) - DateTime(refdate) ;
 	map<string, double>::const_iterator factor = factors.find(units);
-	cout << "last point in days!" << coords.back() << endl;
+	
 	if ( factor != factors.end() )
 		std::transform(coords.begin(), coords.end(),  coords.begin(), Multiply(factor->second, missing_value));
 	std::transform(coords.begin(), coords.end(),  coords.begin(), Plus(diff, missing_value));
