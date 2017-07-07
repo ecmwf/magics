@@ -79,17 +79,17 @@ public:
 	}
 
 	void geosinit(const Proj4Projection& from) {
-		//cout <<  from.vertical_longitude_ << endl;
+		
 		minlon_ = from.vertical_longitude_ - 80;
 		maxlon_ = from.vertical_longitude_ + 80;
 		minlat_ = -80;
 		maxlat_ = 80;
-		//cout <<  minlon_ << "   " << maxlon_ << endl;
+		
 		ostringstream def;
 		def << "+proj=geos +h=42164000 +ellps=WGS84 +lon_0=" << from.vertical_longitude_;
 
 		definition_ = def.str();
-		//cout << definition_ << endl;
+		
 	}
 
 
@@ -560,7 +560,6 @@ void Proj4Projection::boundingBox(double& xmin, double& ymin, double& xmax, doub
 	xmin = gridMinLon_-5;
 	ymax = gridMaxLat_;
 	xmax = gridMaxLon_+5;
-	//cout << "Bounding box ->" << xmin << " " << xmax << endl;
 }
 
 double Proj4Projection::getMinX()  const
@@ -950,11 +949,12 @@ void Proj4Projection::reprojectComponents(double& x, double& y, pair<double, dou
 
 void myprint(double x, double y, bool next = false) 
 {
-	cout << "[" << x << ", " << y << "]";
+	
+	MagLog::dev() << "[" << x << ", " << y << "]";
 	if ( next )
-		cout << "--->";
+		MagLog::dev() << "--->";
 	else 
-		cout << endl;
+		MagLog::dev() << endl;
 }
 
 void Proj4Projection::reprojectSpeedDirection(const PaperPoint& point, pair<double, double>& wind) const

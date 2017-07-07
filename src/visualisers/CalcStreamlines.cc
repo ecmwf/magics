@@ -823,18 +823,15 @@ int CalcStreamlines(int density, const float *dir, const GSStruct *gs, OneLineCl
 								line->Y[0] = y[line_start];
 								for(int k=1, ll=1, l=line_start+1; ll<len; ll++, l++)
 									{
-										/*if( x[l] != x[l-1] || y[l] != y[l-1] )*/
+										
 											{
 												line->X[k] = x[l];
 												line->Y[k] = y[l];
-                                               // std:: << k << " = " << "[" <<  line->X[k] << ", " << line->Y[k] << "]" << std::endl;
 												k++;
 											}
 									}
 
-                              //  std::cout << "-----------------------------------------------------------" << std::endl;
-
-								linenum++;
+                              
 								OneLineClass** new_str_lines = new OneLineClass*[linenum];
 								for(int ii=0; ii<linenum-1; ii++)
 									new_str_lines[ii] = str_lines[ii]; 

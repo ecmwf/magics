@@ -2065,7 +2065,7 @@ public:
         long hour = grib.getLong("hour");
         long mn =  grib.getLong("minute");
         string x = grib.getString("dataDate");
-        cout << x << endl;
+        
 
         MagDate part1 = MagDate(date);
         MagTime part2 = MagTime(hour, mn, 0);

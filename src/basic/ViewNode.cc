@@ -557,7 +557,7 @@ void FortranViewNode::getReady()
 	if ( predefined_ ) {
 			StyleLibrary library("projections");
 			const map<string, string>& area = library.get(predefined_name_);
-			cout << "Setting predefined area --> " <<  predefined_name_ << endl;
+			
 			viewTransformation_ = MagTranslator<string, Transformation>()(area.find("subpage_map_projection")->second);
 			viewTransformation_->set(area);
 			viewTransformation_->init();
