@@ -1,9 +1,9 @@
-#!/usr/bin/env python 
+#!/usr/bin/env python
 # (C) Copyright 1996-2016 ECMWF.
-# 
+#
 # This software is licensed under the terms of the Apache Licence Version 2.0
-# which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
-# In applying this licence, ECMWF does not waive the privileges and immunities 
+# which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+# In applying this licence, ECMWF does not waive the privileges and immunities
 # granted to it by virtue of its status as an intergovernmental organisation nor
 # does it submit to any jurisdiction.
 
@@ -126,7 +126,7 @@ class ObjectHandler(ContentHandler):
 
 	def characters(self, data):
 		pass
-	
+
 
 	# addhidden - if the appropriate flag is set in the attributes, return the text that will
 	#             make the parameter hidden (but available) in Metview
@@ -585,7 +585,7 @@ class ObjectHandler(ContentHandler):
 			metview_type = attrs.get("metview_interface")
 			if metview_type != None:
 				type = metview_type
-			if (self.types.has_key(type)):
+            if type in self.types:
 				f = self.types[type]
 				self.newparam(self.param, f(self, attrs), self.default(attrs))
 			else:
@@ -681,7 +681,7 @@ class ObjectHandler(ContentHandler):
 			for option in self.myoptions:
 				for p in option:
 					#print "    adding newparam from option: " + p[0]
-					self.newparam(p[0], p[1], p[2]) 
+					self.newparam(p[0], p[1], p[2])
 			self.myoptions = []
 			for rules in self.myrules:
 				current = rules
@@ -694,7 +694,7 @@ class ObjectHandler(ContentHandler):
 							except:
 								pass
 							unsets.append(p[0])
-					
+
 				for unset in self.myrules:
 					if (unset == rules):
 						for p in self.myrules[unset]:
@@ -710,8 +710,8 @@ class ObjectHandler(ContentHandler):
 						pass
 
 			self.myrules = {}
-			
-			
+
+
 		if (name == "magics") :
 			if self.toplevel:
 				#print "SL (end class): " + self.last
