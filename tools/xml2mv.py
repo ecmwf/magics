@@ -585,7 +585,7 @@ class ObjectHandler(ContentHandler):
 			metview_type = attrs.get("metview_interface")
 			if metview_type != None:
 				type = metview_type
-            if type in self.types:
+			if type in self.types:
 				f = self.types[type]
 				self.newparam(self.param, f(self, attrs), self.default(attrs))
 			else:
