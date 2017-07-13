@@ -39,8 +39,6 @@ ecbuild_requires_macro_version( 2.6 )
 ###############################################################################
 # some variables of this project
 
-ecbuild_add_option( FEATURE ECCODES DESCRIPTION "" DEFAULT ON )
-
 set(ECCODES_FAIL_MSG "Note: grib_api can be used instead (select with -DENABLE_ECCODES=OFF), "
                       "but we strongly advise you to upgrade to ecCodes. "
                       "See https://software.ecmwf.int/wiki/display/ECC/ecCodes+Home\n"
