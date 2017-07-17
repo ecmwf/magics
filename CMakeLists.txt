@@ -39,8 +39,6 @@ ecbuild_requires_macro_version( 2.6 )
 ###############################################################################
 # some variables of this project
 
-ecbuild_add_option( FEATURE ECCODES DESCRIPTION "" DEFAULT ON )
-
 set(ECCODES_FAIL_MSG "Note: grib_api can be used instead (select with -DENABLE_ECCODES=OFF), "
                       "but we strongly advise you to upgrade to ecCodes. "
                       "See https://software.ecmwf.int/wiki/display/ECC/ecCodes+Home\n"
@@ -188,13 +186,13 @@ if( HAVE_METVIEW )
       else()
           ecbuild_critical("Qt5 was NOT found ...")
       endif()
-    else()
-    find_package(Qt4 4.4.3 REQUIRED QtCore QtGui QtXml )
-    if( QT_FOUND )
-		  include( ${QT_USE_FILE} )
-		  set( MAGICS_QT 1)
-		  set( qt yes)
-    endif()
+    else( HAVE_QT5 )
+      find_package(Qt4 4.6.2 REQUIRED QtCore QtGui QtXml )
+      if( QT_FOUND )
+		    include( ${QT_USE_FILE} )
+		    set( MAGICS_QT 1)
+		    set( qt yes)
+      endif()
     endif()
 endif()
 
