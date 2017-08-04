@@ -326,4 +326,4 @@ from tojson import  createAction
 for i in list:
     definition = action[i]
     createAction("2.31.0", definition["json"], i, definition["files"])
-    put(definition["json"]+".json", definition["jira"],  definition["doc"])
+    #put(definition["json"]+".json", definition["jira"],  definition["doc"])

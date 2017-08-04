@@ -239,7 +239,7 @@ YRegularCoordinate.xml
 		EpsBufr.xml
 		ImageCalculateColourTechnique.xml
 ImageListColourTechnique.xml
-ImagePlotting.xml
+#ImagePlotting.xml
 InputMatrix.xml
 InputMatrixIrregularInterpretor.xml
 InputMatrixRegularInterpretor.xml

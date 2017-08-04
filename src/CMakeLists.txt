@@ -219,7 +219,7 @@ if( metview )
                 ContinuousLegendMethodAttributes.h
                 HistogramLegendMethodAttributes.h
                 XmlBasicNodeAttributes.h
-                ImagePlottingAttributes.h
+                #ImagePlottingAttributes.h
                 LookupTableModeAttributes.h
                 FixedTableModeAttributes.h
 				)
