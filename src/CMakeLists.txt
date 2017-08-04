@@ -8,17 +8,17 @@ install ( FILES ${CMAKE_CURRENT_BINARY_DIR}/magics_config.h  DESTINATION ${INSTA
 
 
 function( add_metview_definition_file )
-   
-    set( single_value_args ACTION BASENAME FILE ) 
+
+    set( single_value_args ACTION BASENAME FILE )
     cmake_parse_arguments( _p "${options}" "${single_value_args}" "${multi_value_args}"  ${_FIRST_ARG} ${ARGN} )
-     
-    add_custom_command( 
+
+    add_custom_command(
             OUTPUT ${_p_BASENAME}Def ${_p_BASENAME}Rules
             COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/../../tools/xml2mv.py ${CMAKE_CURRENT_SOURCE_DIR} ${_p_FILE}  ${_p_BASENAME}Def ${_p_ACTION} ${_p_BASENAME}Rules
             DEPENDS ${_p_FILE}
       )
-     
-     
+
+
     add_custom_target( ${_p_BASENAME} ALL DEPENDS ${_p_BASENAME}Def)
     install ( FILES ${CMAKE_CURRENT_BINARY_DIR}/${_p_BASENAME}Def ${CMAKE_CURRENT_BINARY_DIR}/${_p_BASENAME}Rules DESTINATION ${INSTALL_DATA_DIR}/../magics/metview)
 
@@ -34,9 +34,9 @@ foreach( file ${magics_xmls} )
       get_filename_component( basefile ${file} NAME_WE )
 
       set( ouputfiles ${path}/${basefile}Attributes.h ${path}/${basefile}Attributes.cc )
-      
+
       # generate the code
-      add_custom_command( 
+      add_custom_command(
             OUTPUT  ${ouputfiles}
             COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/../tools/xml2cc.py ${CMAKE_CURRENT_SOURCE_DIR}/../tools/ ${CMAKE_CURRENT_SOURCE_DIR}/${file} ${CMAKE_CURRENT_BINARY_DIR}/params nosubdir
             DEPENDS ${file}
@@ -48,18 +48,18 @@ foreach( file ${magics_xmls} )
       list( APPEND magics_params_srcs ${ouputfiles} )
 
 endforeach()
-     
+
 if ( metview )
 
 	foreach( file ${metview_xmls} )
 	      get_filename_component( path     ${file} PATH   )
           get_filename_component( basefile ${file} NAME_WE )
-		  
+
 		  set( metviewfiles ${path}/${basefile}Wrapper.h ${path}/${basefile}Wrapper.cc )
-		  
-		  
+
+
 		# generate the code
-		  add_custom_command( 
+		  add_custom_command(
 				OUTPUT  ${metviewfiles}
 				COMMAND ${PERL_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/../tools/xml2mv.pl ${CMAKE_CURRENT_SOURCE_DIR}/${file} ${CMAKE_CURRENT_BINARY_DIR}/params nosubdir
 				DEPENDS ${file}
@@ -76,7 +76,7 @@ if ( metview )
           QT5_WRAP_CPP(qt_drivers_HEADERS_MOC ${qt_drivers_HEADERS})
         else()
           QT4_WRAP_CPP(qt_drivers_HEADERS_MOC ${qt_drivers_HEADERS})
-        endif()        
+        endif()
         list( APPEND drivers_srcs  drivers/MgQ/MgQPlotScene.cc  ${qt_drivers_HEADERS_MOC})
      endif()
 endif()
@@ -93,6 +93,7 @@ add_subdirectory( visualisers )
 add_subdirectory( drivers )
 add_subdirectory( decoders )
 add_subdirectory( terralib )
+add_subdirectory( clipper )
 add_subdirectory( eckit_readers )
 
 if( metview )
@@ -109,8 +110,8 @@ ecbuild_add_library( TARGET    MagPlus
                      DEPENDS   magics_params
                      SOURCES
                         magics.h
-                        ${magics_params_srcs} 
-                        ${common_srcs} 
+                        ${magics_params_srcs}
+                        ${common_srcs}
                         ${basic_srcs}
                         ${web_srcs}
                         ${visualisers_srcs}
@@ -118,7 +119,8 @@ ecbuild_add_library( TARGET    MagPlus
                         ${drivers_srcs}
                         ${qt_srcs}
                         ${decoders_srcs}
-                        ${terralib_srcs} 
+                        ${clipper_srcs}
+                        ${terralib_srcs}
                         ${odb_srcs}
                      TEMPLATES
                         ${common_templates}
@@ -143,8 +145,8 @@ ecbuild_add_library( TARGET    MagPlusStatic
                      DEPENDS   magics_params
                      SOURCES
                         magics.h
-                        ${magics_params_srcs} 
-                        ${common_srcs} 
+                        ${magics_params_srcs}
+                        ${common_srcs}
                         ${basic_srcs}
                         ${web_srcs}
                         ${visualisers_srcs}
@@ -152,18 +154,19 @@ ecbuild_add_library( TARGET    MagPlusStatic
                         ${drivers_srcs}
                         ${qt_srcs}
                         ${decoders_srcs}
-                        ${terralib_srcs} 
+                        ${clipper_srcs}
+                        ${terralib_srcs}
                         ${odb_srcs}
                      TEMPLATES
                         ${common_templates}
                      DEFINITIONS
-                        ${MAGICS_EXTRA_DEFINITIONS}  
+                        ${MAGICS_EXTRA_DEFINITIONS}
                      LIBS
-                        ${MAGICS_EXTRA_LIBRARIES} 
+                        ${MAGICS_EXTRA_LIBRARIES}
                      TYPE STATIC
                      OUTPUT_NAME MagPlus )
 
-ecbuild_add_library( TARGET      MagPlusSingleStatic 
+ecbuild_add_library( TARGET      MagPlusSingleStatic
                      SOURCES     MagicsSingle.cc
                      LIBS        MagPlusStatic
                      TYPE        STATIC
@@ -178,43 +181,43 @@ ecbuild_add_library( TARGET      MagPlusDoubleStatic
 endif()
 
 if( metview )
- include_directories(  ${CMAKE_CURRENT_SOURCE_DIR} 
-                        ${CMAKE_CURRENT_BINARY_DIR} 
-                        ${CMAKE_CURRENT_BINARY_DIR}/params 
-                        ${CMAKE_CURRENT_SOURCE_DIR}/common  
+ include_directories(  ${CMAKE_CURRENT_SOURCE_DIR}
+                        ${CMAKE_CURRENT_BINARY_DIR}
+                        ${CMAKE_CURRENT_BINARY_DIR}/params
+                        ${CMAKE_CURRENT_SOURCE_DIR}/common
                         ${CMAKE_CURRENT_SOURCE_DIR}/basic
                         ${CMAKE_CURRENT_SOURCE_DIR}/web
                         ${CMAKE_CURRENT_SOURCE_DIR}/visualisers
                         ${CMAKE_CURRENT_SOURCE_DIR}/drivers
                         ${CMAKE_CURRENT_SOURCE_DIR}/decoders
-                        ${CMAKE_CURRENT_SOURCE_DIR}/terralib
-                        ${CMAKE_CURRENT_SOURCE_DIR}/terralib/kernel 
+                        ${CMAKE_CURRENT_SOURCE_DIR}/clipper
+                        ${CMAKE_CURRENT_SOURCE_DIR}/terralib/kernel
                         ${CMAKE_CURRENT_SOURCE_DIR}/libMagWrapper )
-  
 
-                        
+
+
   ecbuild_add_library( TARGET    MagWrapper
                      DEPENDS   mv_params magics_params
                      SOURCES
                         magics.h
-                        ${metview_srcs} 
-                        ${metview_wrappers_srcs} 
+                        ${metview_srcs}
+                        ${metview_wrappers_srcs}
                      DEFINITIONS
-                        ${MAGICS_EXTRA_DEFINITIONS}                   
+                        ${MAGICS_EXTRA_DEFINITIONS}
                     LIBS
                         ${MAGICS_EXTRA_LIBRARIES}
-                    TYPE STATIC		
+                    TYPE STATIC
                     )
    list( APPEND attributes_include
-				OutputHandlerAttributes.h 
-				FortranRootSceneNodeAttributes.h  
+				OutputHandlerAttributes.h
+				FortranRootSceneNodeAttributes.h
                 BinningObjectAttributes.h
                 GribDecoderAttributes.h
                 DateGribLoopStepAttributes.h
                 GribLoopAttributes.h
                 GeoRectangularProjectionAttributes.h
                 LegendVisitorAttributes.h
-				XmlRootNodeAttributes.h 
+				XmlRootNodeAttributes.h
 				WrepRootNodeAttributes.h
                 ContinuousLegendMethodAttributes.h
                 HistogramLegendMethodAttributes.h
@@ -229,14 +232,14 @@ if( metview )
    endif()
 
    install( FILES terralib/kernel/TeProjection.h
-				   terralib/kernel/TeCoord2D.h 
-				   terralib/kernel/TeDefines.h 
-				   terralib/kernel/TePrecision.h 
-				   terralib/kernel/TeSingleton.h 
-				   terralib/kernel/TeDatum.h 
+				   terralib/kernel/TeCoord2D.h
+				   terralib/kernel/TeDefines.h
+				   terralib/kernel/TePrecision.h
+				   terralib/kernel/TeSingleton.h
+				   terralib/kernel/TeDatum.h
 				   terralib/kernel/TeUtils.h
-				   
-				   
+
+
 				   DESTINATION ${INSTALL_INCLUDE_DIR})
    install( FILES VectorOfPointers.h  DESTINATION ${INSTALL_INCLUDE_DIR})
    foreach( file ${attributes_include} )
