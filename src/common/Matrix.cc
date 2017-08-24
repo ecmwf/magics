@@ -469,7 +469,7 @@ double Matrix::operator()(int row, int column) const
 GeoBoxMatrixHandler::GeoBoxMatrixHandler(const AbstractMatrix& matrix, const Transformation& transformation):
 	  TransformMatrixHandler(matrix), transformation_(transformation), original_(0)
 {
-	cout << "HI" << endl;
+	
 	map<double, int> lats;
 	map<double, int> lons;
 	
@@ -479,12 +479,12 @@ GeoBoxMatrixHandler::GeoBoxMatrixHandler(const AbstractMatrix& matrix, const Tra
 
 	transformation.boundingBox(minlon, minlat, maxlon, maxlat);
 
-	cout << minlon << ", " << maxlon << endl;
+	
 
 	int rows = matrix_.rows();
 	int columns = matrix_.columns();
 	double step = matrix_.XResolution();
-	cout << "step --> " << step << ":" << columns << "!" << endl;
+
 	bool global =  ( matrix_.regular_column(columns-1) - matrix_.regular_column(0) ) > ( 360. - 2 *matrix_.XResolution() );
 	global = true;
 
@@ -514,7 +514,6 @@ GeoBoxMatrixHandler::GeoBoxMatrixHandler(const AbstractMatrix& matrix, const Tra
 	for (int i = 0; i < columns; i++)
 	{
 		lon = matrix_.regular_column(i);
-		cout << lon << endl;
 		if ( minlon <= lon && lon <= maxlon) 
 			lons[lon] = i;
 
@@ -530,7 +529,7 @@ GeoBoxMatrixHandler::GeoBoxMatrixHandler(const AbstractMatrix& matrix, const Tra
 	int i = 0;
 	for (map<double, int>::const_iterator entry = lons.begin(); entry != lons.end(); ++entry)
 	{
-		cout << entry->first<< endl;
+		
 		columns_[i] = entry->second;
 		regular_longitudes_.push_back(entry->first);
 		columnsMap_[entry->first] = i;

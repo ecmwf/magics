@@ -109,7 +109,6 @@ void CellShading::operator()(IsoPlot* iso, MatrixHandler& data, BasicGraphicsObj
 
 		if (   distance_plot < distance_data ) {
 			iso->isoline(data, parent);
-			//cout << "Grid Shading" << endl;
 			MagLog::info() << "Magics will use grid shading" << endl;
 			adaptive_ = true;
 			return;
