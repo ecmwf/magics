@@ -832,7 +832,7 @@ int CalcStreamlines(int density, const float *dir, const GSStruct *gs, OneLineCl
 											}
 									}
 
-                              //  std::cout << "-----------------------------------------------------------" << std::endl;
+                             
 
 								linenum++;
 								OneLineClass** new_str_lines = new OneLineClass*[linenum];

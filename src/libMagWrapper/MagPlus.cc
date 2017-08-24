@@ -295,7 +295,7 @@ bool MagPlus::newpage(magics::MagRequest& in)
 
 bool MagPlus::layer(magics::MagRequest& in)
 {
-	cout << "MagPlus::layer" << endl;
+	
 	in.print();
 	int visibility = in("VISIBILITY");
 	visibility_ = visibility;
@@ -1744,9 +1744,9 @@ bool MagPlus::device(magics::MagRequest& in)
 
 void MagPlus::execute( magics::MagRequest& in)
 {
-	cout << "MagPlus::execute-->" << endl;
+	
 	in.print();
-	cout << "<---MagPlus::execute" << endl;
+	
 	try {
 	// Start from a fersh tree!
 #ifndef MAG_NEXT
