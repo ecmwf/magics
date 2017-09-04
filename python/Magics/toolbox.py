@@ -199,58 +199,58 @@ defaults = {
                       },
   },
   "eps" :  {
-		   "projection" : {
-	        	"subpage_map_projection" : 'cartesian',
-	        	"subpage_x_axis_type" : 'date',
-	        	"subpage_x_automatic" : 'on',
-	        	"subpage_y_axis_type" : 'regular',
-	            "subpage_y_automatic" : 'on',
-		   },
-	       "vertical_axis" :  {
-	            "axis_orientation" : "vertical",
-	            "axis_grid" : "on",
-	            "axis_grid_colour" : "navy",
-	            "axis_grid_line_style" :"dash",
-	            "axis_grid_reference_level" :  0.,
-	            "axis_grid_reference_thickness" : 1,
-	            "axis_line" :  "on",
-	            "axis_line_colour" : "navy",
-	            "axis_tick_colour" : "navy",
-	            "axis_tick_label_colour" : "navy",
-	            "axis_tick_label_height":  font_size
-	            },
-	        "horizontal_axis" :  {
-	            "axis_orientation" : "horizontal",
-	            "axis_date_type" : "days",
-	            "axis_days_label" : "both",
-	            "axis_days_label_colour" :  "navy",
-	            "axis_days_label_height" : font_size,
-	            "axis_grid" :  "on",
-	            "axis_grid_colour" : "navy",
-	            "axis_grid_line_style" : "dash",
-	            "axis_line_colour" : "navy",
-	            "axis_minor_tick" : "off",
-	            "axis_minor_tick_colour" : "navy",
-	            "axis_months_label" : "off",
-	            "axis_tick_colour" : "navy",
-	            "axis_type" :  "date",
-	            "axis_years_label" : "off"
-	            },
-	        "epsgraph" : {
-	            "eps_box_border_thickness" : 2,
-	            "eps_box_width" : 1.5,
-	            "eps_box_colour" : colour,
-	            "eps_font_colour" :"navy",
-	            "eps_legend_font_size" :  font_size,
-	            "eps_grey_legend" : "off",
-	            "legend" :'off'
-	        },
+       "projection" : {
+            "subpage_map_projection" : 'cartesian',
+            "subpage_x_axis_type" : 'date',
+            "subpage_x_automatic" : 'on',
+            "subpage_y_axis_type" : 'regular',
+              "subpage_y_automatic" : 'on',
+       },
+         "vertical_axis" :  {
+              "axis_orientation" : "vertical",
+              "axis_grid" : "on",
+              "axis_grid_colour" : "navy",
+              "axis_grid_line_style" :"dash",
+              "axis_grid_reference_level" :  0.,
+              "axis_grid_reference_thickness" : 1,
+              "axis_line" :  "on",
+              "axis_line_colour" : "navy",
+              "axis_tick_colour" : "navy",
+              "axis_tick_label_colour" : "navy",
+              "axis_tick_label_height":  font_size
+              },
+          "horizontal_axis" :  {
+              "axis_orientation" : "horizontal",
+              "axis_date_type" : "days",
+              "axis_days_label" : "both",
+              "axis_days_label_colour" :  "navy",
+              "axis_days_label_height" : font_size,
+              "axis_grid" :  "on",
+              "axis_grid_colour" : "navy",
+              "axis_grid_line_style" : "dash",
+              "axis_line_colour" : "navy",
+              "axis_minor_tick" : "off",
+              "axis_minor_tick_colour" : "navy",
+              "axis_months_label" : "off",
+              "axis_tick_colour" : "navy",
+              "axis_type" :  "date",
+              "axis_years_label" : "off"
+              },
+          "epsgraph" : {
+              "eps_box_border_thickness" : 2,
+              "eps_box_width" : 1.5,
+              "eps_box_colour" : colour,
+              "eps_font_colour" :"navy",
+              "eps_legend_font_size" :  font_size,
+              "eps_grey_legend" : "off",
+              "legend" :'off'
+          },
 
-	        "epsclim" : {
-	           "eps_shade_colour": colour,
-	           "eps_shade_line_thickness": 4,
-	        }
-    	}
+          "epsclim" : {
+             "eps_shade_colour": colour,
+             "eps_shade_line_thickness": 4,
+          }
+      }
     }
 
 
@@ -413,7 +413,7 @@ def epsgraph(parameter, input, **args):
 
     if "climate" in args  :
 
-    	clim = macro.mwrepjson(
+      clim = macro.mwrepjson(
                             wrepjson_family =  "eps",
                             wrepjson_keyword =  "clim",
                             wrepjson_input_filename = input,
@@ -446,10 +446,10 @@ def epsgraph(parameter, input, **args):
     actions.append(text)
 
     if "output" in args != "" :
-    	#Setting of the output file name
-		png = macro.output(output_formats = ['png'],
-			output_name_first_page_number = "off",
-			output_name = args["output"],
+      #Setting of the output file name
+    png = macro.output(output_formats = ['png'],
+      output_name_first_page_number = "off",
+      output_name = args["output"],
       super_page_y_length = 10.,
       subpage_y_length = 5.,
       subpage_y_position = 1.,
@@ -464,10 +464,10 @@ def epsgraph(parameter, input, **args):
 
 def epsclimgram(**kw):
 
-	args = {"clim" :True }
-	args.update(kw)
+  args = {"clim" :True }
+  args.update(kw)
 
-	return epsgraph(**args)
+  return epsgraph(**args)
 
 params = {
     "2t": {
