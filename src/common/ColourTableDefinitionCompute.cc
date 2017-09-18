@@ -108,6 +108,7 @@ void ColourTableDefinitionCompute::hsl(ColourTable& table, int nb)
   }
 
 
+/* The handling of Special case for white introduced a regression   : getting rid of it for now ..
 if ( minColour_.white() ) {
     step_sat = 0;
     step_hue = 0;
@@ -122,7 +123,7 @@ if ( minColour_.white() ) {
     
    
   }
-
+*/
     
   
   // WE have nb levels : we need nb-1 colours! 
