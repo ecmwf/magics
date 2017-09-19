@@ -1079,13 +1079,36 @@ void pseti_(const char* name, const int* value, int namel)
 void pset1i_(const char* name, const int* data, const int* dim, int length)
 {
 	std::string n(name, length);
-	mag_set1i(n.c_str(), data, *dim);
+	try {	
+		mag_set1i(n.c_str(), data, *dim);
+	}
+	catch (MagicsException& e)
+	{
+		int s = *dim;
+		double fvalue[s];
+		for (int i =0; i < s; i++)
+			fvalue[i] = data[i];
+		mag_set1r(name, fvalue, *dim);
+	}
+	
 }
 
-void pset2i_(const char* name, const int* data, const int* dim, const int* dim2, int length)
+void pset2i_(const char* name, const int* data, const int* dim1, const int* dim2, int length)
 {
 	std::string n(name, length);
-	mag_set2i(n.c_str(), data, *dim, *dim2);	    
+	try {	
+		mag_set2i(n.c_str(), data, *dim1, *dim2);	
+	}
+	
+	catch (MagicsException& e)
+	{
+		int dim = *dim1 * *dim2;
+		double fvalue[dim];
+		for (int i =0; i < dim; i++)
+			fvalue[i] = data[i];
+		mag_set2r(name, fvalue, *dim1, *dim2);
+	}
+	
 }
 
 void pset3i_(const char* name, const int* data, const int* dim, const int* dim2, const int* dim3, int length)

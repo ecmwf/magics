@@ -168,7 +168,7 @@ public:
 		Array point = value.get_value< Array>();
 		lon_ = point[0].get_value<double>();
 		lat_ = point[1].get_value<double>();
-		if ( lon_ < 0 ) {
+		if ( lon_ < -170 ) {
 			lon_ += 360;
 			shift_ = true;
 		}
