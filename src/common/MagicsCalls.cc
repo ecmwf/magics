@@ -907,6 +907,7 @@ extern "C" {
 
 void popen_()
 {
+	
 	if (magics_ == 0) 
 		magics_ = new FortranMagics();
 	magics_->popen();
@@ -1070,7 +1071,8 @@ void pseti_(const char* name, const int* value, int namel)
 	}
 	catch (MagicsException& e)
 	{
-		MagLog::error() << e << "\n";
+		double fvalue = *value;
+		mag_setr(name, fvalue);
 	}
 }
 
