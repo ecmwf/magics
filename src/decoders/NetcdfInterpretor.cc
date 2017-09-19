@@ -187,10 +187,11 @@ void NetcdfInterpretor::getAttributes(Netcdf& nc,const string& varName,string& k
 		bool first=true;
 		for(map<string, NetAttribute>::iterator it=var.attributes_.begin(); it != var.attributes_.end(); it++)
 		{
-			const char* val = 0; //it->second.get();
-			string str;
+			string val;
+			it->second.get(val);
 			
-			if(val) str=string(val);
+			
+			
 		
 			if(!first)
 			{	
