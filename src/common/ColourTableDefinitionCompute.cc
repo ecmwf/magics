@@ -107,7 +107,7 @@ void ColourTableDefinitionCompute::hsl(ColourTable& table, int nb)
       step_hue =  (hmax.hue_ - hmin.hue_)/(nb-2);
   }
 
-
+/*
 if ( minColour_.white() ) {
     step_sat = 0;
     step_hue = 0;
@@ -122,7 +122,7 @@ if ( minColour_.white() ) {
     
    //cout << maxColour_ << "WHITE" << endl;
   }
-
+*/
     
   
   // WE have nb levels : we need nb-1 colours! 
