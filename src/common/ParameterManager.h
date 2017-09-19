@@ -56,13 +56,9 @@ public:
 		BaseParameter* param = (*table_).parameter(name);
 		if (param)
 		{
-			try {
-			    param->set(value);
-			}
-			catch (MagicsException& e)
-			{
-			    MagLog::warning() << "MagException > " << e << "\n";
-			}
+			
+			 param->set(value);
+			
 		}
 		else
 			MagLog::warning() << "The parameter " << name << " was not found.\n";

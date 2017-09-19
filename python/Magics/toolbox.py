@@ -412,7 +412,6 @@ def epsgraph(parameter, input, **args):
 
 
     if "climate" in args  :
-
       clim = macro.mwrepjson(
                             wrepjson_family =  "eps",
                             wrepjson_keyword =  "clim",
@@ -425,40 +424,40 @@ def epsgraph(parameter, input, **args):
                             wrepjson_parameter_information = "none",
                             wrepjson_position_information = "off"
                         )
-        shade = macro.mepsshading(substitute(defaults["eps"]["epsclim"], args.get("epsclim", None)) )
-        actions.append(clim)
-        actions.append(shade)
+      shade = macro.mepsshading(substitute(defaults["eps"]["epsclim"], args.get("epsclim", None)) )
+      actions.append(clim)
+      actions.append(shade)
 
-    actions.append(data)
-    actions.append(graph)
+      actions.append(data)
+      actions.append(graph)
 
-    text = macro.mtext(
-                    text_colour =  "navy",
-                    text_font_size = font_size*2,
-                    text_justification =  "left",
-                    text_lines =  ["ENS Meteogram",
-                    "<json_info key='station_name'/><json_info key='location'/><json_info key='grid_point'/><json_info key='height'/>",
-                    "<json_info key='product_info'/><json_info key='date'/>",
-                    "<font size='0.5' colour='white'>.</font>",
-                    "<json_info key='parameter_info'/>",]
-                )
+      text = macro.mtext(
+                      text_colour =  "navy",
+                      text_font_size = font_size*2,
+                      text_justification =  "left",
+                      text_lines =  ["ENS Meteogram",
+                      "<json_info key='station_name'/><json_info key='location'/><json_info key='grid_point'/><json_info key='height'/>",
+                      "<json_info key='product_info'/><json_info key='date'/>",
+                      "<font size='0.5' colour='white'>.</font>",
+                      "<json_info key='parameter_info'/>",]
+                  )
 
-    actions.append(text)
+      actions.append(text)
 
-    if "output" in args != "" :
-      #Setting of the output file name
-    png = macro.output(output_formats = ['png'],
-      output_name_first_page_number = "off",
-      output_name = args["output"],
-      super_page_y_length = 10.,
-      subpage_y_length = 5.,
-      subpage_y_position = 1.,
-    )
+      if "output" in args != "" :
+        #Setting of the output file name
+        png = macro.output(output_formats = ['png'],
+          output_name_first_page_number = "off",
+          output_name = args["output"],
+          super_page_y_length = 10.,
+          subpage_y_length = 5.,
+          subpage_y_position = 1.,
+        )
 
-    return macro._plot(
-            png,
-            actions
-    )
+      return macro._plot(
+              png,
+              actions
+      )
 
 
 
