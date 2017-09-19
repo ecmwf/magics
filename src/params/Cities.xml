@@ -23,6 +23,10 @@ does it submit to any jurisdiction.
   		<release>Work in progress		</release>
  		<documentation>Font style used for city names.		</documentation>
 	</parameter>
+	<parameter member="blanking" to="bool" default="on" from="string" name="map_cities_text_blanking">
+ 		<documentation>Use Blanking when plotting the cityes names .		</documentation>
+	</parameter>
+
 
 	<parameter member="font_size" to="float" default="2.5" from="float" name="map_cities_font_size">
  		<documentation>Font size of city names.		</documentation>
