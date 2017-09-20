@@ -217,9 +217,13 @@ void LegendVisitor::build()
 	if ( !empty() ) {
 		if ( use_min_ ) {
 			front()->userText(use_min_text_, "user");
+			front()->minText(use_min_text_);
+			
 		}
 		if ( use_max_ ) {
 			back()->userText(use_max_text_, "user");
+			back()->maxText(use_max_text_);
+			
 		}
 	
 		back()->units(units_text_);
@@ -785,9 +789,13 @@ void BoxEntry::rowBox(const PaperPoint& point, BasicGraphicsObjectContainer& leg
 		from->setAngle(angle_);
 		legend.push_back(from);
 		if ( automatic_ ) {
-			ostringstream bottom;
-			bottom << MagicsFormat(format_, from_);
-			from->addText(bottom.str(), font_);
+			if ( minText_.empty() ) {
+				ostringstream bottom;
+				bottom << MagicsFormat(format_, from_);
+				minText_ = bottom.str();
+			}
+			
+			from->addText(minText_, font_);
 		}
 		else 
 			if ( !last_ ) 
@@ -805,9 +813,12 @@ void BoxEntry::rowBox(const PaperPoint& point, BasicGraphicsObjectContainer& leg
 		to->push_back(PaperPoint(x+width, y - height- 0.25));
 		legend.push_back(to);
 		if ( automatic_  ) {
-			ostringstream top, bottom;
-			top << MagicsFormat(format_, to_);
-			to->addText(top.str(), font_);
+			if ( maxText_.empty() ) {
+				ostringstream to;
+				to << MagicsFormat(format_, to_);
+				maxText_ = to.str();
+			}
+			to->addText(maxText_, font_);
 		}
 		else 
 			to->addText(userText_, font_);
@@ -1054,13 +1065,22 @@ void BoxEntry::columnBox(const PaperPoint& point, BasicGraphicsObjectContainer& 
 		from->setJustification(MLEFT);
 		from->setVerticalAlign(MHALF);
 		if ( automatic_ ) {
-			ostringstream bottom;
-			bottom << MagicsFormat(format_, from_);
-			from->addText(bottom.str(), font_);
+			if ( minText_.empty() ) {
+				ostringstream bottom;
+				bottom << MagicsFormat(format_, from_);
+				minText_ = bottom.str();
+			}
+			
+			from->addText(minText_, font_);
 		}
 		else 
 			if ( !last_ ) 
 				from->addText(userText_, font_);
+			else {
+				ostringstream bottom;
+				bottom << MagicsFormat(format_, from_);
+				from->addText(bottom.str(), font_);
+			}
 		PaperPoint pfrom(pt);
 		pfrom.y_ = y - height;
 		from->push_back(pfrom);
@@ -1072,12 +1092,16 @@ void BoxEntry::columnBox(const PaperPoint& point, BasicGraphicsObjectContainer& 
 		to->setVerticalAlign(MHALF);
 		to->setJustification(MLEFT);
 		to->setAngle(angle_);
+		
 		if ( automatic_  ) {
-			ostringstream top, bottom;
-			top << MagicsFormat(format_, to_);
-			to->addText(top.str(), font_);
+			if ( maxText_.empty() ) {
+				ostringstream to;
+				to << MagicsFormat(format_, to_);
+				maxText_ = to.str();
+			}
+			to->addText(maxText_, font_);
 		}
-		else
+		else 
 			to->addText(userText_, font_);
 		PaperPoint pto(pt);
 		pto.y_ =  y + height;
