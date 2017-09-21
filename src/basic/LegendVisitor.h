@@ -74,7 +74,9 @@ public:
 		{ if ( userText_.size() )
 			return;
 		   userText_ = text; 
+
 		   automatic_ = magCompare(automatic, "automatic_text_only"); 
+		  
 		}
 	const string& userText() { return userText_; }
 	const string& units() { return units_; }
@@ -103,6 +105,8 @@ public:
 	void  mean(double mean)  { meanValue_ = mean; meanSet_ = true; }
 	void  histogramInformation(HistogramLegendMethod* histo) {histogram_ = histo;}
 	void  borderColour(const Colour& colour)  {  borderColour_ = colour; }
+	void  minText(const string& text)  {  minText_ = text; label_ = text; }
+	void  maxText(const string& text)  {  maxText_ = text; label_ = text; }
 	
 protected:
 	bool last_;
@@ -117,7 +121,9 @@ protected:
 
     string userText_;
     string units_;
-	
+	string minText_;
+	string maxText_;
+
 	double from_;
 	double to_;
 
@@ -226,6 +232,7 @@ public:
 		LineEntry(label, line) { }
 	bool needContinuousText(Text&) { return true;  }
 	void rowBox(const PaperPoint&, BasicGraphicsObjectContainer&);
+	void columnBox(const PaperPoint&, BasicGraphicsObjectContainer&);
 
 	~RainbowEntry();
 };
