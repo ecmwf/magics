@@ -1399,9 +1399,17 @@ void SimpleSymbolEntry::set(const PaperPoint& point, BasicGraphicsObjectContaine
 
 const string& LegendEntry::label() const
 {
-	if ( !label_.empty() || !fromto_)
+	if ( !label_.empty() || !fromto_ )
 		return label_;
-
+	if ( minText_.size() ) {
+		label_ = minText_;
+		return label_;
+	}
+	if ( maxText_.size() ){
+		label_ = maxText_;
+		return label_;
+	}
+		
 	if ( from_ == to_ )
 	{
 		ostringstream nice;
