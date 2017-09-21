@@ -154,6 +154,15 @@ void RainbowEntry::rowBox(const PaperPoint& point, BasicGraphicsObjectContainer&
 	line_->push_back(PaperPoint(x+0.5, y+0.5));
 	out.push_back(line_);
 }
+void RainbowEntry::columnBox(const PaperPoint& point, BasicGraphicsObjectContainer& out)
+{
+	double x = point.x();
+	double y = point.y();
+
+	line_->push_back(PaperPoint(x-0.9, y));
+	line_->push_back(PaperPoint(x-0.2, y));
+	out.push_back(line_);
+}
 void LineEntry::columnBox(const PaperPoint& point, BasicGraphicsObjectContainer& out)
 {
 	double x = point.x();

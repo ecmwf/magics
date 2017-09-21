@@ -232,6 +232,7 @@ public:
 		LineEntry(label, line) { }
 	bool needContinuousText(Text&) { return true;  }
 	void rowBox(const PaperPoint&, BasicGraphicsObjectContainer&);
+	void columnBox(const PaperPoint&, BasicGraphicsObjectContainer&);
 
 	~RainbowEntry();
 };
