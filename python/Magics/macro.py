@@ -305,6 +305,11 @@ class Action(object):
             obj = str(obj)
       return obj
 
+    def find_type(self, data):
+        for v in data:
+            if not isinstance(v, int):
+                return "float"
+        return "int"
 
     def execute(self):
 
@@ -323,21 +328,24 @@ class Action(object):
             elif isinstance(self.args[key], list) and len(self.args[key]):
                 if isinstance(self.args[key][0], str):
                    Magics.set1c(key, self.args[key])
-                elif isinstance(self.args[key][0], int):
-                   Magics.set1i(key, numpy.array(self.args[key], dtype='i'))
-                elif isinstance(self.args[key][0], float):
-                   Magics.set1r(key, numpy.array(self.args[key]))
+                else:
+                    type = self.find_type(self.args)
+                    if type == "int":
+                        Magics.set1i(key, numpy.array(self.args[key], dtype='i'))
+                    else :
+                        Magics.set1r(key, numpy.array(self.args[key]))
             elif isinstance(self.args[key], numpy.ndarray) :
                 type = self.args[key].dtype
                 data = self.args[key].copy() 
                 size = data.shape
                 dim  = len(size)
-                if isinstance(self.args[key][0], int):
+                type = self.find_type(self.args[key])
+                if type == "int":
                     if (dim == 2) :
                         Magics.set2i(key, data, size[0], size[1])
                     else :
                         Magics.set1i(key, data, size[0])
-                elif ( type == 'float64' or type == 'float32') :
+                elif type == "float": 
                     if (dim == 2) :                      
                         Magics.set2r(key, data, size[1], size[0])
                     else :
