@@ -307,7 +307,6 @@ class Action(object):
 
     def find_type(self, data):
         for v in data:
-            print isinstance(v, int)
             if not isinstance(v, int):
                 return "float"
         return "int"
