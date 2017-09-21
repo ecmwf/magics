@@ -74,6 +74,7 @@ public:
 		{ if ( userText_.size() )
 			return;
 		   userText_ = text; 
+
 		   automatic_ = magCompare(automatic, "automatic_text_only"); 
 		  
 		}
@@ -104,8 +105,8 @@ public:
 	void  mean(double mean)  { meanValue_ = mean; meanSet_ = true; }
 	void  histogramInformation(HistogramLegendMethod* histo) {histogram_ = histo;}
 	void  borderColour(const Colour& colour)  {  borderColour_ = colour; }
-	void  minText(const string& text)  {  minText_ = text; }
-	void  maxText(const string& text)  {  maxText_ = text; }
+	void  minText(const string& text)  {  minText_ = text; label_ = text; }
+	void  maxText(const string& text)  {  maxText_ = text; label_ = text; }
 	
 protected:
 	bool last_;
