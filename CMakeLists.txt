@@ -260,7 +260,10 @@ foreach( _tpl ${MAGICS_TPLS} )
     list( APPEND MAGICS_EXTRA_DEFINITIONS   ${${TPL}_DEFINITIONS}  )
     endif()
     list( APPEND MAGICS_EXTRA_INCLUDE_DIRS  ${${TPL}_INCLUDE_DIRS} )
+    string(REGEX REPLACE "[ ]+$" "" ${TPL}_LIBRARIES "${${TPL}_LIBRARIES}") # strips leading whitespaces
+    string(REGEX REPLACE "^[ ]+" "" ${TPL}_LIBRARIES "${${TPL}_LIBRARIES}") # strips trailing whitespaces
     list( APPEND MAGICS_EXTRA_LIBRARIES     ${${TPL}_LIBRARIES} )
+    ecbuild_info("${TPL}_LIBRARIES [${${TPL}_LIBRARIES}]") # add this to confirm that indeed it was cleaned up
 endforeach()
 
 if( HAVE_BUFR )
