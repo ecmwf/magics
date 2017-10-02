@@ -162,8 +162,10 @@ public:
 			
 			if (min < -180 ) 
 				GeoObject::shift(needs, out, 360);
-			if (min < 180 && max > 180) 
+			if (min <= 180 && max >= 180) {
+
 				GeoObject::shift(needs, out, -360);
+			}
 			if (max > 360 ) 
 				GeoObject::shift(needs, out, -360);
 			newline(out);
