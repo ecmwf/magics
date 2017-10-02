@@ -21,7 +21,7 @@ output = output(output_formats = ['png'],output_name_first_page_number = "off",o
 projection = mmap(
           super_page_theme = "dark",
           subpage_map_library_area = 'on',
-          subpage_map_area_name='north_pole',
+          subpage_map_area_name='south_pole',
           )
 
 
@@ -53,7 +53,7 @@ title = mtext(
 
 #To the plot
 plot(output, projection, coast, data, contour, title)
-plot(output, projection, data, contour, foreground, grid, title)
+plot(output, projection, data, contour, foreground,  title)
 
 
 
