@@ -209,7 +209,7 @@ find_package( Threads )
 # set(Boost_USE_MULTITHREADED      ON)
 #ecbuild_add_extra_search_paths( boost )
 
-find_package( Boost 1.61.0 REQUIRED)
+find_package( Boost 1.53.0 REQUIRED)
 find_package( Proj4 REQUIRED )
 find_package( EXPAT REQUIRED )
 
