@@ -142,30 +142,38 @@ void FortranMagics::popen()
 void FortranMagics::pclose()
 {
 	MagLog::info()<< "pclose()" << endl;
-	if (!empty_) {
-		finish();
-		dispatch();
-	}
-
-	if ( root_ && drivers_ ) {
-
-		BasicGraphicsObject* object = root_->close();
-		if ( object ) {
-
-			/***   Start clean-up  ***/
-			drivers_->dispatch(object);
-			drivers_->closeDrivers();
-
-			delete root_;
-			delete drivers_;
-			delete output_;
-
-			drivers_ = 0;
-			root_ = 0;
-			output_ = 0;
+	try {
+		if (!empty_) {
+			finish();
+			dispatch();
 		}
 
+		if ( root_ && drivers_ ) {
+
+			BasicGraphicsObject* object = root_->close();
+			if ( object ) {
+
+			/***   Start clean-up  ***/
+				drivers_->dispatch(object);
+				drivers_->closeDrivers();
+
+				delete root_;
+				delete drivers_;
+				delete output_;
+
+				drivers_ = 0;
+				root_ = 0;
+				output_ = 0;
+			}
+
+		}
 	}
+	catch ( MagicsException e) {
+		MagLog::error() << "Errors reported:" << e.what() << " - No plot could be produced --> Exiting " << endl;
+		MagLog::info().flush();
+		exit(1);
+	}
+
 
 	// the Magics log messages are not broadcast until the next log event - therefore, the
 	// last log message will not be broadcast. We fix that by flushing the message streams

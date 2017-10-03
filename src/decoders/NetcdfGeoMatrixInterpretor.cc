@@ -55,11 +55,12 @@ bool NetcdfGeoMatrixInterpretor::interpretAsMatrix(Matrix** data)
 	}
 	*data = matrix_;
 
-	double missing_value = netcdf.getMissing(field_, missing_attribute_);
+	
 
 	// get the data ...
 	try
 	{
+		double missing_value = netcdf.getMissing(field_, missing_attribute_);
 		map<string, string> first, last;
 		setDimensions(dimension_, first, last);
 		vector<double> inlon, outlon;
@@ -113,6 +114,8 @@ bool NetcdfGeoMatrixInterpretor::interpretAsMatrix(Matrix** data)
 	catch (MagicsException& e)
 	{
 		MagLog::error() << e << "\n";
+		delete matrix_;
+		matrix_ = NULL;
 		return false;
 	}
 	return true;
