@@ -103,13 +103,12 @@ void Contour::operator()(Data& data, BasicGraphicsObjectContainer& parent)
 
     data.getReady(parent.transformation());
     if ( !data.valid() ) {
-		MagLog::error() << "Invalid data for contouring" << endl;
-		return;
-    }
+		throw MagicsException("Invalid data for contouring");
+	}
 	MatrixHandler* box =  data.matrix().getReady(parent.transformation());
 	if (!box  ){
-		MagLog::error() << "Invalid data for contouring" << endl;
-		return;
+		throw MagicsException("Invalid data for contouring");
+		
 	}
 	if ( !box->rows() ||  !box->columns() ) {
 		(*this->contour_)(data, parent);
@@ -161,7 +160,7 @@ void Contour::operator()(Data& data, BasicGraphicsObjectContainer& parent)
     }
     catch (MagicsException& e) 
     {
-    	// Do nothing! 
+    	throw e ; // forwarding exception
     }
 }
 
