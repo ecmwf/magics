@@ -46,25 +46,25 @@ bool NetcdfMatrixInterpretor::interpretAsMatrix(Matrix** matrix)
 	MagLog::debug() << "NetcdfMatrixInterpretor::interpret()--->" << *this << "\n";
 	if ( *matrix ) return false;
 
-	
-	matrix_ = new Matrix();
-	
-	*matrix = matrix_;
-	if ( !matrix_->empty() ) return false;
-    
-	matrix_->missing(std::numeric_limits<double>::max());
-
-	Netcdf netcdf(path_, dimension_method_);
-	double missing =  netcdf.getMissing(field_, missing_attribute_);
-	matrix_->missing(missing);
-
-	string title = netcdf.getAttribute("title", string("NO TITLE"));
-
-
-    x();
-    y();
-	// get the data ...
 	try {
+		matrix_ = new Matrix();
+		
+		*matrix = matrix_;
+		if ( !matrix_->empty() ) return false;
+	    
+		matrix_->missing(std::numeric_limits<double>::max());
+
+		Netcdf netcdf(path_, dimension_method_);
+		double missing =  netcdf.getMissing(field_, missing_attribute_);
+		matrix_->missing(missing);
+
+		string title = netcdf.getAttribute("title", string("NO TITLE"));
+
+
+	    x();
+	    y();
+	// get the data ...
+	
 
 
 		map<string, string> first, last;
@@ -124,6 +124,8 @@ bool NetcdfMatrixInterpretor::interpretAsMatrix(Matrix** matrix)
 	catch (MagicsException& e)
 	{
 		MagLog::error() << e << "\n";
+		delete matrix_;
+		matrix_ = NULL;
 		 return false;
 	}    
 	return true;
