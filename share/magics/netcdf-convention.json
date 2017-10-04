@@ -1,0 +1,13 @@
+{
+    "latitude" : {
+      
+        "units" : [ "degrees_north", "degrees_south"],
+        "standard_name" : ["latitude"]
+        },
+    "longitude" : {
+      
+        "units" : [ "degrees_west", "degrees_east"],
+        "standard_name" : ["longitude"]
+        }
+}
+

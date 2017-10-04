@@ -24,12 +24,36 @@
 #include "NetcdfInterpretor.h"
 #include "NetcdfData.h"
 #include "XmlReader.h"
+#include "NetcdfGeoMatrixInterpretor.h"
 #include <limits>
 
 using namespace magics;
 
 NetcdfInterpretor::NetcdfInterpretor() 
 {
+}
+
+NetcdfGuessInterpretor::NetcdfGuessInterpretor(): delegate_(0) 
+{
+
+}
+
+NetcdfGuessInterpretor::~NetcdfGuessInterpretor() {}
+
+NetcdfInterpretor* NetcdfGuessInterpretor::guess() const
+{
+	if (delegate_ )
+		return delegate_;
+	// guess!!
+	Netcdf netcdf(path_, dimension_method_);
+	string convention = netcdf.getAttribute("Conventions", string(""));
+	cout << "STARTING " << convention << endl;
+	delegate_ =  NetcdfGeoMatrixInterpretor::guess(*this);
+
+	if (!delegate_) throw MagicsException("Could not guess the type of netcdf");
+	
+	return delegate_;
+
 }
 
 void NetcdfInterpretor::setDimensions(const stringarray& value, map<string, string>& first, map<string, string>& last)

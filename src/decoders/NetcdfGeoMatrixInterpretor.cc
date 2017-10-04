@@ -307,3 +307,22 @@ void NetcdfGeoMatrixInterpretor::customisedPoints(const Transformation& transfor
 			MagLog::error() << e << "\n";
 		}
 }
+
+
+NetcdfInterpretor* NetcdfGeoMatrixInterpretor::guess(const NetcdfInterpretor& from)
+{
+	Netcdf netcdf(from.path_, from.dimension_method_);
+
+	string latitude = netcdf.detect(from.field_, "latitude");
+	string longitude = netcdf.detect(from.field_, "longitude");
+
+	if ( latitude.size() && longitude.size() ) {
+		NetcdfGeoMatrixInterpretor* interpretor = new NetcdfGeoMatrixInterpretor();
+		
+		interpretor->NetcdfInterpretor::copy(from);
+		interpretor->latitude_ = latitude;
+		interpretor->longitude_ = longitude;
+		return interpretor;
+	}
+	return 0;
+}

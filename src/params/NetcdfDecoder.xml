@@ -16,10 +16,11 @@ does it submit to any jurisdiction.
 
     
 
-     	<parameter member="interpretor" to="NetcdfInterpretor" default="matrix" from="string" name="netcdf_type">
+     	<parameter member="interpretor" to="NetcdfInterpretor" default="guess" from="string" name="netcdf_type">
+            <option xml="guess" fortran="guess" include="NetcdfInterpretor.h" name="NetcdfGuessInterpretor">    </option>
         		<option xml="matrix" fortran="matrix" include="NetcdfMatrixInterpretor.h" name="NetcdfMatrixInterpretor">		</option>
                 
-           		<option xml="geomatrix" fortran="geomatrix" include="NetcdfGeoMatrixInterpretor.h" name="NetcdfGeoMatrixInterpretor">		</option>
+           	<option xml="geomatrix" fortran="geomatrix" include="NetcdfGeoMatrixInterpretor.h" name="NetcdfGeoMatrixInterpretor">		</option>
           
           		<option xml="vector" fortran="vector" include="NetcdfVectorInterpretor.h" name="NetcdfVectorInterpretor">		</option>
            		<option xml="geovector" fortran="geovector" include="NetcdfVectorInterpretor.h" name="NetcdfGeoVectorInterpretor">		</option>
