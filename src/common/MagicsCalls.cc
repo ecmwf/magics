@@ -1023,12 +1023,13 @@ void psymb_()
 	magics_->psymb();
 }
 
-void pclose_()
+int  pclose_()
 {
-	magics_->pclose();
+	int code = magics_->pclose();
 
 	delete magics_;
 	magics_ = 0;
+	return code;
 }
 
 void pact_(const char*, const char*, const char*, int, int, int)
@@ -1281,7 +1282,7 @@ void pinfo_(){mag_info();}
 
 ****************************************************************************/
 void mag_open()  {popen_();}
-void mag_close() {pclose_();}
+int mag_close() { return pclose_();}
 void mag_coast() {pcoast_();}
 void mag_grib()  {pgrib_();}
 void mag_mapgen()  {pmapgen_();}
