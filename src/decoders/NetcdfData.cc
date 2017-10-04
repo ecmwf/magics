@@ -20,6 +20,7 @@
 #include <NetcdfData.h>
 #include <MagException.h>
 #include <MagLog.h>
+#include <MagConfig.h>
  
 
 using namespace magics;
@@ -85,8 +86,6 @@ Netcdf::Netcdf(const string& path, const string& method)
 		string name(tmp.c_str());
 		
 		variables_.insert(std::make_pair(name, NetVariable(name, v, file_, method)));
-		cout << id << "--->" << name << "----> " << variables_.size() << endl;
-
 		if (isVariable(file_, var_ids[v])) dataset_.insert(std::make_pair(name, NetVariable(name, var_ids[v], file_, method)));
 	}
 
@@ -114,7 +113,8 @@ Netcdf::Netcdf(const string& path, const string& method)
 			dimensions_.insert(std::make_pair(name, NetDimension(file_, name)));
 	}
 
-	cout << *this << endl;
+	
+
 
 }
 
@@ -221,7 +221,6 @@ NetVariable::NetVariable(const string& name, int id, int file, const string& met
 			string current(tmp.c_str());
 			if ( current == name ) {
 				var = id;
-				cout << "Found it !" << name << endl;
 				break;
 			}
 		
@@ -309,6 +308,38 @@ double NetVariable::getDefaultMissing()
 }
 
 
+string Netcdf::detect(const string& var, const string& type) const
+{
+	NetVariable variable = getVariable(var);
+	vector<string> dimensions = variable.dimensions();
+
+	NetcdfGuess guesser;
+
+	map<string, map<string, vector<string> > >::iterator checks = guesser.guess_.find(type);
+	if ( checks == guesser.guess_.end() )
+		return "";
+
+	for ( map<string, vector<string> >::iterator check = checks->second.begin(); check != checks->second.end(); ++check) {
+		cout << var << " check " << check->first << endl;
+
+		vector<string> values =  check->second;
+		for (vector<string>::iterator dim = dimensions.begin(); dim != dimensions.end(); ++dim) {
+			string value = getVariable(*dim).getAttribute(check->first, string(""));
+			cout << *dim << " " << check->first << " -> " << value << endl;
+			cout << "----" << check->first << "---" << value << endl;
+			for ( vector<string>::iterator v = values.begin(); v != values.end(); ++v)
+				cout << *v << endl;
+			cout << "-----" << endl;
+			vector<string>::iterator val = find(values.begin(), values.end(), value);
+			if ( val != values.end()  ) {
+					cout << "return " << *dim << endl;
+					return  *dim;
+			}
+		}
+	}
+	return "";
+}
+    
 
 namespace magics {
 	template<> map<nc_type, Accessor<double>*>*  Accessor<double>::accessors_ = 0;

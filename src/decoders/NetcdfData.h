@@ -113,12 +113,11 @@ struct NetAttribute
 	void get(string& val) { 
           size_t len;
           nc_inq_attlen (netcdf_, id_, name_.c_str(),&len);
-          cout << "LEN" << len << endl;
+          
           char tmp[len];
           nc_get_att_text(netcdf_, id_, name_.c_str(), tmp);
-          
           val = string(tmp, len);
-          cout << "get string" << val << endl;
+          cout << "get string-->" << val << endl;
       }
     void get(char*& val) { 
           size_t len;
@@ -376,6 +375,16 @@ struct NetVariable
     
         
     }
+
+    vector<string> dimensions() {
+        vector<string> dims;
+        for (map<string, NetDimension>::iterator dim = dimensions_.begin(); dim !=dimensions_.end(); ++dim)
+            dims.push_back(dim->first);
+        return dims;
+
+    }
+
+    
     
     friend ostream& operator<<(ostream& s,const NetVariable& p)
 		{ p.print(s); return s; }
@@ -401,7 +410,8 @@ public:
 
     double getMissing(const string&, const string&);
 
-
+    string detect(const string& var, const string& type) const;
+    
 
     template <class T>
     void get(const string& name, vector<T>& vals, 
@@ -475,9 +485,9 @@ public:
      }
 
    
-     NetVariable getVariable(const string& name)
+     NetVariable getVariable(const string& name) const
      {
-		map<string, NetVariable>::iterator var = variables_.find(name);
+		map<string, NetVariable>::const_iterator var = variables_.find(name);
          	if ( var == variables_.end() ) throw NoSuchNetcdfVariable(name);
 	 	return (*var).second;
      }

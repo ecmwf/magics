@@ -44,6 +44,7 @@ public:
         NetcdfGeoMatrixInterpretorAttributes::set(params);
     }
 
+    static NetcdfInterpretor* guess(const NetcdfInterpretor&);
     void visit(Transformation& transformation);
 
     void set(const XmlNode& node) { 

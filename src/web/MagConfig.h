@@ -81,6 +81,22 @@ public:
 	
 };
 
+class NetcdfGuess : public MagConfig
+{
+public:
+	NetcdfGuess(const string& name): name_(name)   { init(); }
+	NetcdfGuess(): name_("netcdf-convention") { init(); }
+	~NetcdfGuess() {}
+
+	void callback(const string& name, const json_spirit::Value& value);
+	void init();
+
+	string name_;
+
+	map<string, map<string, vector<string> > > guess_;	
+	const map<string, string>& get(const string& name) const;
+	
+};
 
 
 

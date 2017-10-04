@@ -81,6 +81,7 @@ string MagConfig::convert(const json_spirit::Value& value)
 		return tostring(value.get_real());
 	}
 
+
 	return "";
 
 
@@ -117,3 +118,31 @@ const map<string, string>& StyleLibrary::get(const string& name) const {
 
 		return empty_;
 }
+
+
+void NetcdfGuess::init()
+{
+	string library = getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_ +  "/" + name_ +".json";
+	MagLog::debug() << "Opening " << library << endl;
+	MagConfigHandler(library,  *this);
+}
+
+
+
+
+void NetcdfGuess::callback(const string& name, const json_spirit::Value& value)
+{
+	guess_.insert(make_pair(name, map<string, vector<string> >()));
+	if ( value.type() == json_spirit::obj_type ) {
+		json_spirit::Object object = value.get_value< json_spirit::Object >();
+		for (vector<json_spirit::Pair>::const_iterator entry = object.begin(); entry !=  object.end(); ++entry) {
+			guess_[name].insert(make_pair(entry->name_, vector<string>()));
+			json_spirit::Array values = (entry->value_).get_value<json_spirit::Array>();
+  			for (unsigned int i = 0; i < values.size(); i++) {
+  				guess_[name][entry->name_].push_back(convert(values[i]));
+    		}
+		}
+	}
+    	
+}
+
