@@ -146,9 +146,10 @@ init.argtypes = None
 
 ####################################################################
 
-finalize = dll.mag_close
-finalize.restype = None
-finalize.argtypes = None
+
+@checked_return_code
+def finalize():
+    return dll.mag_close()
 
 ####################################################################
 
@@ -490,7 +491,7 @@ reset = convert_strings(reset)
 class MagicsError(Exception):
 
     def __init__(self, err):
-        super(MagicsError, self).__init__("Magics Error - to be made clearer!!! (%s)" % err)
+        super(MagicsError, self).__init__("Magics Error - No Plot Produced!!! (%s)" % err)
 
 ####################################################################
 

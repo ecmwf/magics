@@ -139,7 +139,7 @@ void FortranMagics::popen()
   Here is where the real magics is happen. Everything is dispatched, followed
   by a comprehensive clean-up.
 */
-void FortranMagics::pclose()
+int FortranMagics::pclose()
 {
 	MagLog::info()<< "pclose()" << endl;
 	try {
@@ -169,9 +169,9 @@ void FortranMagics::pclose()
 		}
 	}
 	catch ( MagicsException e) {
-		MagLog::error() << "Errors reported:" << e.what() << " - No plot could be produced --> Exiting " << endl;
-		MagLog::info().flush();
-		exit(1);
+		MagLog::error() << "Errors reported:" << e.what() << " - No plot produced  " << endl;
+		MagLog::error().flush();
+		return -1;
 	}
 
 
@@ -196,6 +196,7 @@ void FortranMagics::pclose()
 		{
 			MagLog::userInfo() << "  - "<<(*it)<<"\n";
 		}
+		
 		MagLog::userInfo() << "\n";
 	*/
 		MagLog::userInfo() << "------------------------------------------------------------------\n";
@@ -205,6 +206,7 @@ void FortranMagics::pclose()
 		MagLog::userInfo() << "                   magics@ecmwf.int\n";
 		MagLog::userInfo() << "------------------------------------------------------------------\n";
 	}
+	return 0;
 }
 
 void FortranMagics::drivers()
