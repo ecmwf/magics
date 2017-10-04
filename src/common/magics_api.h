@@ -24,7 +24,7 @@ extern "C" {
 #endif
 
 void mag_open();
-void mag_close();
+int mag_close();
 void mag_coast();
 void mag_grib();
 void mag_mapgen();

@@ -47,7 +47,7 @@ public:
 	~FortranMagics();
 	typedef void (FortranMagics::*Action)();
 	void popen();
-	void pclose();
+	int pclose();
 	void pnew(const string&);
 	void pcoast();
 	void ptephi();

@@ -64,7 +64,11 @@ public:
 				(*object)->create(out);
 			}
 		}
-
+		virtual void boundingBox(double& min, double& max) {
+			for (vector<GeoObject*>::iterator object = objects_.begin(); object != objects_.end(); ++object) {
+				(*object)->boundingBox(min, max);
+			}
+		}
 		virtual void create(const std::set<string>& needs, CustomisedPointsList& out) {
 			for (vector<GeoObject*>::iterator object = objects_.begin(); object != objects_.end(); ++object) {
 				(*object)->create(needs, out);
@@ -92,11 +96,10 @@ public:
 			}
 
 		}
-		virtual void shift(const std::set<string>& needs, CustomisedPointsList& out) {
-					if ( !shift() )
-						return;
+		virtual void shift(const std::set<string>& needs, CustomisedPointsList& out, double val = 0) {
+					
 					for (vector<GeoObject*>::iterator object = objects_.begin(); object != objects_.end(); ++object) {
-						(*object)->shift(needs, out);
+						(*object)->shift(needs, out, val);
 					}
 		}
 		vector<GeoObject*> objects_;
@@ -132,8 +135,14 @@ public:
 	}
 	virtual ~GeoFeature() {}
 
-
+	void boundingBox(double& min, double& max) {
+		min = 900000;
+		max = -min;
+		GeoObject::boundingBox(min, max);
+		
+	}
 	void create(PointsList& out) {
+		
 		GeoObject::create(out);
 		out.push_back(new UserPoint(0,0,0,true));
 	}
@@ -146,10 +155,23 @@ public:
 		newline(out);
 
 	}
-	void shift(const std::set<string>& needs, CustomisedPointsList& out) {
-			GeoObject::shift(needs, out);
+	void shift(const std::set<string>& needs, CustomisedPointsList& out, double val =0) {
+			double min;
+			double max;
+			boundingBox(min, max);
+			
+			if (min < -180 ) 
+				GeoObject::shift(needs, out, 360);
+			if (min <= 180 && max >= 180) {
+
+				GeoObject::shift(needs, out, -360);
+			}
+			if (max > 360 ) 
+				GeoObject::shift(needs, out, -360);
 			newline(out);
 	}
+
+
 
 };
 
@@ -163,6 +185,10 @@ public:
 
 	}
 	virtual ~GeoPoint() {}
+	void boundingBox(double& min, double& max) {
+		if ( min > lon_ ) min = lon_;
+		if ( max < lon_ ) max = lon_;
+	}
 	virtual void decode(const json_spirit::Value& value) {
 
 		Array point = value.get_value< Array>();
@@ -180,8 +206,8 @@ public:
 		out.push_back(point);
 
 	}
-	void shift(PointsList& out) {
-		UserPoint* point = new UserPoint(lon_-360., lat_, tonumber(getProperty("value", "0")), false, false, getProperty("name"));
+	void shift(PointsList& out, double value) {
+		UserPoint* point = new UserPoint(lon_+value, lat_, tonumber(getProperty("value", "0")), false, false, getProperty("name"));
 
 		out.push_back(point);
 	}
@@ -200,8 +226,8 @@ public:
 		set(needs, *point);
 		out.push_back(point);
 	}
-	void shift(const std::set<string>& needs, CustomisedPointsList& out) {
-		CustomisedPoint* point = new CustomisedPoint(lon_-360., lat_,  getProperty("name"));
+	void shift(const std::set<string>& needs, CustomisedPointsList& out, double val =0) {
+		CustomisedPoint* point = new CustomisedPoint(lon_+val, lat_,  getProperty("name"));
 		set(needs, *point);
 		out.push_back(point);
 	}
