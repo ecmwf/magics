@@ -25,6 +25,7 @@
 #include "NetcdfData.h"
 #include "XmlReader.h"
 #include "NetcdfGeoMatrixInterpretor.h"
+#include "NetcdfMatrixInterpretor.h"
 #include <limits>
 
 using namespace magics;
@@ -50,8 +51,13 @@ NetcdfInterpretor* NetcdfGuessInterpretor::guess() const
 	cout << "STARTING " << convention << endl;
 	delegate_ =  NetcdfGeoMatrixInterpretor::guess(*this);
 
-	if (!delegate_) throw MagicsException("Could not guess the type of netcdf");
+	if (delegate_)
+		return delegate_;  
 	
+	MagLog::warning() << "Could not guess the type of netcdf: Use default -->matrix" << endl;
+	
+	delegate_ = new NetcdfMatrixInterpretor();
+	delegate_->NetcdfInterpretor::copy(*this);
 	return delegate_;
 
 }
