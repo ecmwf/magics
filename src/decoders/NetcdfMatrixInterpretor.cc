@@ -175,7 +175,8 @@ bool NetcdfMatrixInterpretor::x()
     	}
         catch (...) {
         	MagLog::warning() << "No valid X dimension.." << endl;
-        		return false;
+        	throw MagicsException("Could not find any X axis");
+        		
         	}
     }
 
@@ -205,7 +206,8 @@ bool NetcdfMatrixInterpretor::x()
     	}
     }
     catch (...) {
-    	return false;
+    	throw MagicsException("Could not find any X axis");
+    	
     }
 
     return true;
@@ -241,7 +243,8 @@ bool NetcdfMatrixInterpretor::y()
     	}
     	catch (...) {
     		MagLog::warning() << "No valid Y dimension.." << endl;
-    		return false;
+    		throw MagicsException("Could not find any Y axis");
+    		
     	}
     } 
 
@@ -266,7 +269,8 @@ bool NetcdfMatrixInterpretor::y()
     	}
     }
     catch (...) {
-    	return false;
+    	throw MagicsException("Could not find any X axis");
+    	
     }
     return true;
 }
@@ -330,7 +334,9 @@ void NetcdfMatrixInterpretor::visit(Transformation& transformation)
 			}
 
 		}
-		catch ( ... ) {}
+		catch ( ... ) {
+			throw MagicsException("Could not find any X axis");
+		}
 		
 
 }
