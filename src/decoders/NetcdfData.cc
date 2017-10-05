@@ -320,21 +320,23 @@ string Netcdf::detect(const string& var, const string& type) const
 		return "";
 
 	for ( map<string, vector<string> >::iterator check = checks->second.begin(); check != checks->second.end(); ++check) {
-		cout << var << " check " << check->first << endl;
+		
 
 		vector<string> values =  check->second;
 		for (vector<string>::iterator dim = dimensions.begin(); dim != dimensions.end(); ++dim) {
 			string value = getVariable(*dim).getAttribute(check->first, string(""));
-			cout << *dim << " " << check->first << " -> " << value << endl;
-			cout << "----" << check->first << "---" << value << endl;
-			for ( vector<string>::iterator v = values.begin(); v != values.end(); ++v)
-				cout << *v << endl;
-			cout << "-----" << endl;
-			vector<string>::iterator val = find(values.begin(), values.end(), value);
-			if ( val != values.end()  ) {
-					cout << "return " << *dim << endl;
+			
+			
+			for ( vector<string>::iterator v = values.begin(); v != values.end(); ++v) {
+				string val = value.substr(0, v->size());
+
+				cout << *v << "[" << v->size() << ", " << val.size() << "]" << endl;
+				if ( v->compare(val) == 0 ) {
+					
 					return  *dim;
+				}
 			}
+			
 		}
 	}
 	return "";

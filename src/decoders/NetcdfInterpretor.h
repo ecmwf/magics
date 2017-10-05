@@ -110,7 +110,7 @@ public:
     virtual void visit(Transformation&) {} //delegate_->visit(transformation); }
     virtual void getReady(const Transformation&) {}
     virtual bool interpretAsMatrix(Matrix** matrix)
-        { guess()->interpretAsMatrix(matrix); }
+        { return guess()->interpretAsMatrix(matrix); }
     virtual bool interpretAsVectors(Matrix**, Matrix**)
         { MagLog::dev() << "Method  NetcdfInterpretor::interpretAsVectors() --> Not yet implemented.\n"; return false; }
     virtual bool interpretAsRaster(RasterData&)
