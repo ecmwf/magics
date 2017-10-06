@@ -120,6 +120,18 @@ public:
 			out.push_back(point);
 		}
 		bool shift_;
+		virtual void print()
+		{
+			cout << name_ << "-->" << objects_.size() << endl;
+			for (vector<GeoObject*>::iterator o = objects_.begin(); o != objects_.end(); ++o) 
+				(*o)->print();
+		}
+	virtual bool detectFeature() {
+		for (vector<GeoObject*>::iterator o = objects_.begin(); o != objects_.end(); ++o) 
+				if ( (*o)->detectFeature() )
+					return true;
+		return false;
+	}
 };
 
 
@@ -133,6 +145,11 @@ public:
 		name_ = n.str();
 
 	}
+
+	bool detectFeature() {
+		return true;
+	}
+
 	virtual ~GeoFeature() {}
 
 	void boundingBox(double& min, double& max) {
@@ -158,17 +175,28 @@ public:
 	void shift(const std::set<string>& needs, CustomisedPointsList& out, double val =0) {
 			double min;
 			double max;
+			if ( GeoObject::detectFeature() ) // Dig!
+				return GeoObject::shift(needs, out);
+				
 			boundingBox(min, max);
-			
-			if (min < -180 ) 
+			//cout << min << "--->" << max << endl;
+			if (max <= -180 ) 
 				GeoObject::shift(needs, out, 360);
-			if (min <= 180 && max >= 180) {
+			
+			else if (min >= 180 )
+				GeoObject::shift(needs, out, -360);
 
+			else if (min <= 180 && max >= 180) {
 				GeoObject::shift(needs, out, -360);
 			}
-			if (max > 360 ) 
+			else if (min <= -180 && max >= -180) {
+				GeoObject::shift(needs, out, 360);
+			}
+			else if (max > 360 ) 
 				GeoObject::shift(needs, out, -360);
+			
 			newline(out);
+
 	}
 
 
@@ -197,6 +225,8 @@ public:
 		
 
 	}
+	void print ()
+	{}
 	double lat_;
 	double lon_;
 
@@ -440,7 +470,11 @@ void GeoJSon::customisedPoints(const Transformation&, const std::set<string>& ne
 {
 	decode();
 
+
+
+	
 	if ( parent_ ) {
+			
 			parent_->create(needs, out);
 			parent_->shift(needs, out);
 	}
