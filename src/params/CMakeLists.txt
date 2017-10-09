@@ -286,6 +286,7 @@ if( HAVE_NETCDF )
 		NetcdfGeoVectorInterpretor.xml
 		NetcdfGeopointsInterpretor.xml
 		NetcdfInterpretor.xml
+		NetcdfGuessInterpretor.xml
 		NetcdfMatrixInterpretor.xml
 		NetcdfOrcaInterpretor.xml
 		NetcdfVectorInterpretor.xml
