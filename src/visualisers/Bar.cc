@@ -96,7 +96,7 @@ void Bar::vertical(CustomisedPointsList& points, BasicGraphicsObjectContainer& o
 	double next =  (**points.begin())["x"];
 	double x, top, bottom, left, right;
 	
-	if (width_ == INT_MAX) {
+	if (width_ == -1) {
 		if ( points.size() > 1 ) 
 			width_ = abs((*points[0])["x"] - (*points[1])["x"])*0.8;
 		else 
@@ -155,7 +155,7 @@ void Bar::horizontal(CustomisedPointsList& points, BasicGraphicsObjectContainer&
 	double next =  (**points.begin())["y"];
 	double y, top, bottom, left, right;
 	
-	if (width_ == INT_MAX) {
+	if (width_ == -1) {
 		if ( points.size() > 1 ) 
 			width_ = abs((*points[0])["y"] - (*points[1])["y"])*0.8;
 		else 
