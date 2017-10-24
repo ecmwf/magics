@@ -13,7 +13,7 @@ does it submit to any jurisdiction.
             <documentation>   Orientation of the bars : Vertical or horizontal   </documentation>
     </parameter>
 
-  	<parameter xml="width" from="float" name="graph_bar_width" default="INT_MAX" member="width" to="float">
+  	<parameter xml="width" from="float" name="graph_bar_width" default="-1" member="width" to="float">
          		<documentation> The width of a bar in a bar chart 		</documentation>
   	</parameter>
   	<parameter member="justification" to="Justification" default="centre" from="string" name="graph_bar_justification">
