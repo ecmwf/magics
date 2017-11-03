@@ -149,7 +149,7 @@ void GradientsColourTechnique::set(LevelSelection& out, LevelSelection& in, Colo
 		  	in.push_back(to);
 		  	out.push_back(to);
 		  }
-		  else  if (stop == stops_.size()-1) {
+		  else  if (stop == stops.size()-1) {
 			in.push_back(to);
 		  	out.push_back(to);
 		  }

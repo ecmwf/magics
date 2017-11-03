@@ -39,6 +39,7 @@ ColourTableDefinitionCompute::ColourTableDefinitionCompute(const string& min, co
 {
    methods_["hsl"] = &ColourTableDefinitionCompute::hsl; 
    methods_["linear"] = &ColourTableDefinitionCompute::linear;
+   methods_["rgb"] = &ColourTableDefinitionCompute::linear;
    methods_["hcl"] = &ColourTableDefinitionCompute::hcl;
 }
 
