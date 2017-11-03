@@ -51,7 +51,7 @@ class ObjectHandler(ContentHandler):
 
     def newclass(self, attrs):
         self.name = attrs.get("name")
-        self.prefix = [attrs.get("prefix")] # need to split by /
+        self.prefix = attrs.get("prefix", "").split("/")
         self.tag = attrs.get("xmltag")
         self.addimplements(attrs.get("implements", ""))
         self.addinterface(attrs.get("interface", ""))

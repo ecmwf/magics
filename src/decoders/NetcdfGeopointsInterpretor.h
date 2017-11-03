@@ -24,14 +24,13 @@
 
 #include "magics.h"
 
-#include "NetcdfGeopointsInterpretorAttributes.h"
-#include "NetcdfXYpointsInterpretorAttributes.h"
+
 #include "NetcdfInterpretor.h"
 #include "Matrix.h"
 #include "XmlNode.h"
 namespace magics {
 
-class NetcdfGeopointsInterpretor: public NetcdfInterpretor, public NetcdfGeopointsInterpretorAttributes {
+class NetcdfGeopointsInterpretor: public NetcdfInterpretor {
 
 public:
     NetcdfGeopointsInterpretor();
@@ -39,15 +38,15 @@ public:
 
     void set(const map<string, string>& params) {
         MagLog::debug() << "NetcdfGeopointsInterpretor::set(params)" << "\n";
-        NetcdfInterpretorAttributes::set(params);
-        NetcdfGeopointsInterpretorAttributes::set(params);
+        set(params);
+        
     }
     void set(const XmlNode& node) {
         MagLog::debug() << "NetcdfGeopointsInterpretor::set(params)" << "\n";
         XmlNode netcdf = node;
-        NetcdfGeopointsInterpretorAttributes::set(node);
+        set(node);
         netcdf.name("netcdf");
-        NetcdfInterpretorAttributes::set(netcdf);
+        set(netcdf);
 
     }
     virtual NetcdfInterpretor* clone() const {
@@ -56,8 +55,8 @@ public:
         return object;
     }
     void clone(const NetcdfGeopointsInterpretor& other) {
-        NetcdfInterpretorAttributes::copy(other);
-        NetcdfGeopointsInterpretorAttributes::copy(other);
+        copy(other);
+        
     }
     bool interpretAsPoints(PointsList&);
     bool interpretAsPoints(PointsList&, const Transformation&);
@@ -82,7 +81,7 @@ private:
         { p.print(s); return s; }
 
 };
-class NetcdfXYpointsInterpretor: public NetcdfInterpretor, public NetcdfXYpointsInterpretorAttributes {
+class NetcdfXYpointsInterpretor: public NetcdfInterpretor {
 
 public:
     NetcdfXYpointsInterpretor();
@@ -90,15 +89,15 @@ public:
 
     void set(const map<string, string>& params) {
         MagLog::debug() << "NetcdfGeopointsInterpretor::set(params)" << "\n";
-        NetcdfInterpretorAttributes::set(params);
-        NetcdfXYpointsInterpretorAttributes::set(params);
+        set(params);
+       
     }
     void set(const XmlNode& node) {
         MagLog::debug() << "NetcdfGeopointsInterpretor::set(params)" << "\n";
         XmlNode netcdf = node;
-        NetcdfXYpointsInterpretorAttributes::set(node);
+        set(node);
         netcdf.name("netcdf");
-        NetcdfInterpretorAttributes::set(netcdf);
+        set(netcdf);
 
     }
     virtual NetcdfInterpretor* clone() const {
@@ -107,8 +106,7 @@ public:
         return object;
     }
     void clone(const NetcdfXYpointsInterpretor& other) {
-        NetcdfInterpretorAttributes::copy(other);
-        NetcdfXYpointsInterpretorAttributes::copy(other);
+        copy(other);
     }
     bool interpretAsPoints(PointsList&, const std::set<string>&);
     bool interpretAsPoints(PointsList&);

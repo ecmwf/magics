@@ -52,7 +52,7 @@ public:
 		MagicsException("Netcdf MagException: The file " + file + " does not exist or is not a valid netcdf file")
 		{	MagLog::error() << what_ << "\n"; }
 }; 
-
+class Netcdf;
 struct NetDimension 
 {
     string name_;
@@ -62,19 +62,15 @@ struct NetDimension
     size_t  index_;
     string method_;
 
+
     int  id_;
     int variable_;
-    int netcdf_;
+    
+    Netcdf* parent_;
+    int     netcdf_;
 
     NetDimension() {}
-    NetDimension(int netcdf, const string& name, int index = 0, int variable = -1): name_(name), 
-            first_(0),  index_(index), variable_(variable), 
-            netcdf_(netcdf) {
-                   nc_inq_dimid(netcdf, name_.c_str(), &id_);
-                   nc_inq_dimlen(netcdf, id_, &size_);
-                   dim_ = size_;
-
-            }
+    NetDimension(Netcdf* netcdf, const string& name, int index = 0, int variable = -1);
 
     
         
@@ -133,7 +129,7 @@ struct NetAttribute
 };
 
 class NetVariable;
-class Netcdf;
+
 
 template <class From, class To>
 struct Convertor
@@ -191,17 +187,20 @@ public:
 };
 
 
+class Netcdf;
 
 struct NetVariable 
 {
 	string name_;
 	int id_;
+    
+    Netcdf* parent_;
     int netcdf_;
 	map<string, NetDimension> dimensions_;
 	map<string, NetAttribute> attributes_;
     double missing_;
     
-	NetVariable(const string& name, int id, int netcdf, const string& method);
+	NetVariable(const string& name, int id, Netcdf* parent, const string& method);
 
 	void getStartingPoint(vector<size_t>& dims)
 	{
@@ -253,7 +252,8 @@ struct NetVariable
 
        return size;    
     }
-
+    string  interpretTime(const string&);
+     
     void get(vector<double>& data, vector<size_t>& start, vector<size_t>& edges )
     {
         nc_get_vara_double(netcdf_, id_, &start.front(), &edges.front(), &data.front());   
@@ -424,7 +424,7 @@ public:
         (*var).second.missing_ = missing_;
         (*var).second.get(vals, first, last);
     }
-
+    int file() const { return file_; }
 
     template <class T>
     void get(const string& name, vector<T>& vals)

@@ -193,5 +193,32 @@ void ColourTechnique::visit(LegendVisitor& legend)
 	}
 
 }
+PaletteColourTechnique::PaletteColourTechnique() 
+{
+// bnbnZZ
+}
+
+PaletteColourTechnique::~PaletteColourTechnique() 
+{
+
+}
+
+void PaletteColourTechnique::set(LevelSelection& out, LevelSelection& in, ColourTable& table, int nb) const
+{
+
+}
+
+
+void PaletteColourTechnique::print(ostream& out)  const
+{
+    out << "GradientsColourTechnique[";
+    out << "]";
+}
+
+void PaletteColourTechnique::set(const ColourTechniqueInterface& attributes)
+{
+   
+}
+
 
 

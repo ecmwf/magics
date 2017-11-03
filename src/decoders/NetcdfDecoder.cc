@@ -112,6 +112,8 @@ void NetcdfDecoder::visit(MetaDataCollector& mdc)
 		}
 	}
 	
+	(*interpretor_).visit(mdc);
+
 	MetviewIcon::visit(mdc);  	
 }
 

@@ -54,7 +54,6 @@ void NetcdfVectorInterpretor::print(ostream& out)  const
 {
 	out << "NetcdfVectorInterpretor[";
 	NetcdfInterpretor::print(out);
-	NetcdfVectorInterpretorAttributes::print(out);
 	out << "]";
 }
 
@@ -166,8 +165,31 @@ void NetcdfGeoVectorInterpretor::print(ostream& out)  const
 {
 	out << "NetcdfGeoVectorInterpretor[";
 	NetcdfInterpretor::print(out);
-	NetcdfGeoVectorInterpretorAttributes::print(out);
 	out << "]";
+}
+
+NetcdfInterpretor* NetcdfGeoVectorInterpretor::guess(const NetcdfInterpretor& from)
+{
+	if ( from.x_component_.empty() ||  from.y_component_.empty()) 
+		return 0;
+	
+	Netcdf netcdf(from.path_, from.dimension_method_);
+	
+	string latitude_x = netcdf.detect(from.x_component_, "latitude");
+	string longitude_x = netcdf.detect(from.y_component_, "longitude");
+	
+	string latitude_y = netcdf.detect(from.x_component_, "latitude");
+	string longitude_y = netcdf.detect(from.y_component_, "longitude");
+
+	if ( latitude_x.size() && longitude_x.size() && latitude_y ==  latitude_x && longitude_y == longitude_x ) {
+		NetcdfGeoVectorInterpretor* interpretor = new NetcdfGeoVectorInterpretor();
+		
+		interpretor->NetcdfInterpretor::copy(from);
+		interpretor->latitude_ = latitude_x;
+		interpretor->longitude_ = longitude_x;
+		return interpretor;
+	}
+	return 0;
 }
 
 NetcdfGeoPolarMatrixInterpretor::NetcdfGeoPolarMatrixInterpretor() 
@@ -251,6 +273,6 @@ void NetcdfGeoPolarMatrixInterpretor::print(ostream& out)  const
 {
 	out << "NetcdfGeoPolarMatrixInterpretor[";
 	NetcdfInterpretor::print(out);
-	NetcdfGeoPolarMatrixInterpretorAttributes::print(out);
+	
 	out << "]";
 }
