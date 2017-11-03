@@ -140,7 +140,7 @@ void NetcdfMatrixInterpretor::print(ostream& out)  const
 {
 	out << "NetcdfMatrixInterpretor[";
 	NetcdfInterpretor::print(out);
-	NetcdfMatrixInterpretorAttributes::print(out);
+	
 	out << "]";
 }
 
@@ -347,10 +347,10 @@ void NetcdfMatrixInterpretor::customisedPoints(const Transformation& transformat
 
 	Matrix* uc = 0;
 	Matrix* vc = 0;
-	field_ = u_component_;
+	field_ = x_component_;
 	if (!interpretAsMatrix(&uc) )
 		return;
-	field_ = v_component_;
+	field_ = y_component_;
 	if ( !interpretAsMatrix(&vc) )
 		return;
 

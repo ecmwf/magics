@@ -65,16 +65,10 @@ bool NetcdfGeoMatrixInterpretor::interpretAsMatrix(Matrix** data)
 		setDimensions(dimension_, first, last);
 		vector<double> inlon, outlon;
 		vector<double> inlat, outlat;
-
 		
 		netcdf.get(longitude_, matrix_->columnsAxis(), first, last);
 		netcdf.get(latitude_, matrix_->rowsAxis(), first, last);
 	
-
-		
-
-
-
 		matrix_->missing(missing_value);
 
 		if  ( magCompare(primary_index_, "latitude") ) {			
@@ -88,22 +82,18 @@ bool NetcdfGeoMatrixInterpretor::interpretAsMatrix(Matrix** data)
 			     }
 		}
 		else {
+			Timer timer("CREATE matrix", "prepare");
 			vector<double> data;	
 			netcdf.get(field_, data, first, last);
-
 			matrix_->reserve(data.size());
+			int i = 0;
 			fill(matrix_->begin(), matrix_->end(), missing_value);
 			for (vector<double>::iterator d = data.begin(); d != data.end(); ++d ) 
 			{
-
-
 				if ( !std::isnan(*d) ) {
-					matrix_->push_back(*d);
+					(*matrix_)[i] = (*d);
 				}
-				else 
-					
-					matrix_->push_back(missing_value);
-				
+				i++;			
 			}
 		}
 
@@ -128,7 +118,7 @@ void NetcdfGeoMatrixInterpretor::print(ostream& out)  const
 {
 	out << "NetcdfGeoMatrixInterpretor[";
 	NetcdfInterpretor::print(out);
-	NetcdfGeoMatrixInterpretorAttributes::print(out);
+	
 	out << "]";
 }
 
@@ -185,8 +175,8 @@ bool NetcdfGeoMatrixInterpretor::interpretAsPoints(PointsList& list)
 		netcdf.get(latitude_, latitudes, first, last);
 		unsigned int val = 0;
 		
-		for (unsigned int  lat  =0 ; lat < latitudes.size(); lat+=latitude_sample_) {
-			for ( unsigned int lon = 0; lon < longitudes.size(); lon+=longitude_sample_) {
+		for (unsigned int  lat  =0 ; lat < latitudes.size(); lat++) {
+			for ( unsigned int lon = 0; lon < longitudes.size(); lon++) {
 				val = (lat* longitudes.size() + lon);
 				if ( val >= values.size() ) return true;
 				if ( values[val] < suppress_below_ ) continue;
@@ -311,10 +301,16 @@ void NetcdfGeoMatrixInterpretor::customisedPoints(const Transformation& transfor
 
 NetcdfInterpretor* NetcdfGeoMatrixInterpretor::guess(const NetcdfInterpretor& from)
 {
+	if ( from.field_.empty() &&  (from.x_component_.empty() || from.y_component_.empty() ) ) 
+		return 0;
+	
 	Netcdf netcdf(from.path_, from.dimension_method_);
-
-	string latitude = netcdf.detect(from.field_, "latitude");
-	string longitude = netcdf.detect(from.field_, "longitude");
+	
+	string variable = from.field_;
+	if ( variable.empty() ) 
+		variable = from.x_component_;
+	string latitude = netcdf.detect(variable, "latitude");
+	string longitude = netcdf.detect(variable, "longitude");
 
 	if ( latitude.size() && longitude.size() ) {
 		NetcdfGeoMatrixInterpretor* interpretor = new NetcdfGeoMatrixInterpretor();
@@ -322,6 +318,9 @@ NetcdfInterpretor* NetcdfGeoMatrixInterpretor::guess(const NetcdfInterpretor& fr
 		interpretor->NetcdfInterpretor::copy(from);
 		interpretor->latitude_ = latitude;
 		interpretor->longitude_ = longitude;
+		interpretor->time_variable_ = netcdf.detect(variable, "time");
+		interpretor->level_variable_ = netcdf.detect(variable, "level");
+		interpretor->number_variable_ = netcdf.detect(variable, "number");
 		return interpretor;
 	}
 	return 0;

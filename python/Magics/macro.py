@@ -307,7 +307,7 @@ class Action(object):
 
     def find_type(self, data):
         for v in data:
-            if not isinstance(v, int):
+            if isinstance(v, float):
                 return "float"
         return "int"
 
@@ -329,7 +329,7 @@ class Action(object):
                 if isinstance(self.args[key][0], str):
                    Magics.set1c(key, self.args[key])
                 else:
-                    type = self.find_type(self.args)
+                    type = self.find_type(self.args[key])
                     if type == "int":
                         Magics.set1i(key, numpy.array(self.args[key], dtype='i'))
                     else :

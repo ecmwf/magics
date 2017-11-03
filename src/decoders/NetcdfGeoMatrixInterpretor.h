@@ -24,7 +24,6 @@
 
 #include "magics.h"
 
-#include "NetcdfGeoMatrixInterpretorAttributes.h"
 #include "NetcdfInterpretor.h"
 #include "Matrix.h"
 #include "XmlNode.h"
@@ -32,28 +31,23 @@
 
 namespace magics {
 
-class NetcdfGeoMatrixInterpretor: public NetcdfGeoMatrixInterpretorAttributes, public NetcdfInterpretor {
+class NetcdfGeoMatrixInterpretor:  public NetcdfInterpretor {
 
 public:
 	NetcdfGeoMatrixInterpretor();
 	virtual ~NetcdfGeoMatrixInterpretor();
     
-    void set(const map<string, string>& params) { 
-        MagLog::debug() << "NetcdfGeoMatrixInterpretor::set(params)" << "\n";
-        NetcdfInterpretorAttributes::set(params); 
-        NetcdfGeoMatrixInterpretorAttributes::set(params);
-    }
-
+   
     static NetcdfInterpretor* guess(const NetcdfInterpretor&);
     void visit(Transformation& transformation);
 
     void set(const XmlNode& node) { 
         MagLog::debug() << "NetcdfGeoMatrixInterpretor::set(params)" << "\n";
-        NetcdfInterpretorAttributes::set(node); 
+        set(node); 
         XmlNode netcdf = node;
         netcdf.name("netcdf");
-        NetcdfInterpretorAttributes::set(netcdf); 
-        NetcdfGeoMatrixInterpretorAttributes::set(node);
+        set(netcdf); 
+        
     }
 	virtual NetcdfInterpretor* clone() const {
     	NetcdfGeoMatrixInterpretor* object = new NetcdfGeoMatrixInterpretor();
@@ -61,8 +55,8 @@ public:
     	return object;
     }
     void clone(const NetcdfGeoMatrixInterpretor& other) {
-    	NetcdfInterpretorAttributes::copy(other); 
-    	NetcdfGeoMatrixInterpretorAttributes::copy(other); 
+    	copy(other); 
+    	
     }
     bool interpretAsMatrix(Matrix**);
     bool interpretAsPoints(PointsList&);

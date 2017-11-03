@@ -79,24 +79,26 @@ void Contour::operator()(Data& data, BasicGraphicsObjectContainer& parent)
     	ContourLibrary* library = MagTranslator<string, ContourLibrary>()(setting_);
 
     		// Here we try call the Contour libry to set up visual properties...
-    		MetaDataCollector needId,needAttributes;
+    		MetaDataCollector request,needAttributes;
     		map<string, string> attributes;
     		
 
-		library->askId(needId);
-		data.visit(needId);
+		library->askId(request);
+		data.visit(request);
 
 
-		if(library->checkId(needId,needAttributes))
+		if(library->checkId(request,needAttributes))
 		{			
     			data.visit(needAttributes);
     			needAttributes["theme"] = theme_;
     			library->getAttributes(needAttributes,attributes);
 
-    			this->set(attributes);
+    			set(attributes);
     	}
 		else {
-			library->getAttributes(needId,attributes);
+			request["theme"] = theme_;
+			library->getAttributes(request,attributes);
+			set(attributes);
 		}
 		delete library;
 
