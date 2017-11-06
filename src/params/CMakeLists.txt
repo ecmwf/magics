@@ -287,6 +287,17 @@ if( HAVE_NETCDF )
 	list( APPEND _common_xmls 
 		NetcdfDecoder.xml
 		NetcdfInterpretor.xml
+		NetcdfXYpointsInterpretor.xml
+		NetcdfOrcaInterpretor.xml
+		NetcdfGeopointsInterpretor.xml
+		NetcdfGeoPolarMatrixInterpretor.xml
+		NetcdfGeoVectorInterpretor.xml
+		NetcdfGuessInterpretor.xml
+		NetcdfVectorInterpretor.xml
+		NetcdfGeoMatrixInterpretor.xml
+		NetcdfMatrixInterpretor.xml
+
+
 		)
 endif()
 
