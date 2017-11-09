@@ -84,6 +84,7 @@ bool {{ object }}Attributes::accept(const string& node)
 		return true;
 	{% endif -%}
 	{% endfor %}
+	return false;
 }
 
 void {{ object }}Attributes::set(const XmlNode& node)

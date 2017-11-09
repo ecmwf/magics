@@ -124,12 +124,12 @@ public:
     PaletteColourTechnique();
     virtual ~PaletteColourTechnique();
     void set(const map<string, string>& map) { 
-        PaletteColourTechnique::set(map);
+        PaletteColourTechniqueAttributes::set(map);
         }
     void set(const XmlNode& node) { 
-        PaletteColourTechnique::set(node); 
+        PaletteColourTechniqueAttributes::set(node);
     }
-     bool accept(const string& node) { return PaletteColourTechnique::accept(node); }
+     bool accept(const string& node) { return PaletteColourTechniqueAttributes::accept(node); }
     
     void set(const ColourTechniqueInterface&);
     

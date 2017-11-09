@@ -17,7 +17,7 @@ ref = 'grib'
 
 # Setting of the output file name
 
-output = output(output_formats=['ps'],
+output = output(output_formats=['png'],
                 output_name_first_page_number='off',
                 output_name=ref)
 
@@ -41,7 +41,10 @@ coast = mcoast(map_grid='on', map_grid_colour='tan',
 
 # Import the z500 data
 
-data = mgrib(grib_input_file_name='data.grib',
+grib = "numerical-hirlam74-forecast-DewPoint-20170907T000000Z.grb2"
+grib = "numerical-hirlam74-forecast-WindGust-20170907T000000Z.grb2"
+print "/Users/famille/Downloads/%s" % grib
+data = mgrib(grib_input_file_name='/Users/famille/Downloads/%s' % grib,
              grib_id='data')
 
 
@@ -74,6 +77,6 @@ legend = mlegend(
 # To the plot
 
 print("plot")
-plot( output,  europe, data, cont, coast, title)
+plot( output,  data, cont, mcoast(),  title)
 
 
