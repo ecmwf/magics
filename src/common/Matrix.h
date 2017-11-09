@@ -493,7 +493,9 @@ public:
 		ProjectedMatrix(int rows, int columns);
 	
 		
-		void getReady(); // Prepare the matrix ... 
+        MatrixHandler* getReady(const Transformation& transformation) const
+            { return Matrix::getReady(transformation); }
+		void getReady(); // Prepare the matrix ...
 		  
 		vector<double>&  values() const { return values_; }
 		vector<double>&  rowsArray() const { return rowsArray_; }

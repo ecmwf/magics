@@ -465,7 +465,7 @@ void CellBox::split(int)
     const int column = (column2_+ column1_)/4;
 
 
-    // Push 8 cells:
+    // Push 4 cells:
     push_back(new CellBox(parent_, row1_, row, column1_, column));
     push_back(new CellBox(parent_, row1_, row, column+1, 2*column));
     push_back(new CellBox(parent_, row1_, row, (2*column)+1, 3*column));
@@ -491,7 +491,7 @@ void CellBox::split()
        CellBox* cell = new CellBox(parent_, row1_, row2_, column1_, column);
        RangeType def = cell->range();
 
-       if ( def != multipleRange ) {
+       if ( def != multipleRange ) {  
              push_back(cell);
        }
        else {
