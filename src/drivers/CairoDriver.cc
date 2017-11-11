@@ -1121,7 +1121,7 @@ MAGICS_NO_EXPORT void CairoDriver::renderText(const Text& text) const
 	vector<NiceText>::const_iterator niceText = text.textBegin();
 	vector<NiceText>::const_iterator niceTextEnd = text.textEnd();
 
-	MFloat textXoffset = 0.;
+	//MFloat textXoffset = 0.;
 	ostringstream alltext;
 
 	for(;niceText<niceTextEnd;niceText++)
