@@ -11,12 +11,6 @@
 #       -DCMAKE_PREFIX_PATH=/path/to/jasper:/path/to/any/package/out/of/place
 #       -DBUILD_SHARED_LIBS=OFF
 
-# TODO:
-#  * fix python module generation Magics.py to __init__.py
-#  * cpack ecbuild/cmake macros into tar.gz
-#  * unit tests check that certain files are produced and not empty
-#  * pkg-config needed for metview
-
 # Missing dependencies:
 #   * ghostscript ( is it really needed? -- to confirm )
 
@@ -120,16 +114,6 @@ ecbuild_add_option( FEATURE METVIEW_NO_QT
 ecbuild_add_option( FEATURE QT5
                     DEFAULT OFF
                     DESCRIPTION "use Qt5 instead of version 4" )
-
-ecbuild_add_option( FEATURE PNG
-                    DESCRIPTION "support for PNG decoding/encoding"
-                    DEFAULT ON
-                    REQUIRED_PACKAGES PNG
-)
-
-if( HAVE_PNG )
-    add_definitions( ${PNG_DEFINITIONS} )
-endif()
 
 option( BUILD_SHARED_LIBS  "Set to BOTH to build static library in addition to shared"  ON )
 option( ENABLE_REGRESSION        "Internal use only: enable regression test"  OFF  )
