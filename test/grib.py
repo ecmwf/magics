@@ -41,11 +41,9 @@ coast = mcoast(map_grid='on', map_grid_colour='tan',
 
 # Import the z500 data
 
-grib = "numerical-hirlam74-forecast-DewPoint-20170907T000000Z.grb2"
-grib = "numerical-hirlam74-forecast-WindGust-20170907T000000Z.grb2"
-print "/Users/famille/Downloads/%s" % grib
-data = mgrib(grib_input_file_name='/Users/famille/Downloads/%s' % grib,
+data = mgrib(grib_input_file_name='data.grib',
              grib_id='data')
+
 
 
 
