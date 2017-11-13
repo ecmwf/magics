@@ -633,7 +633,7 @@ MAGICS_NO_EXPORT void KMLDriver::renderSimplePolygon(const int n, MFloat* xx, MF
 	pFile_ << "<Placemark>\n";
 	pFile_ << "<visibility>1</visibility>\n<open>0</open>\n";
 
-	const int a = (int)(transparency_ * 2.55);
+	//const int a = (int)(transparency_ * 2.55);
 
 	pFile_	<< "<Style>\n<PolyStyle>\n";
 	writeColour(currentColour_);
@@ -735,8 +735,8 @@ void KMLDriver::renderSimplePolygon(const Polyline& line) const
 	   line.hole(h,x,y);
 	   if ( x.empty() ) 
 	     continue;
-	   vector<double>::const_iterator yt = y.begin();
-	   vector<double>::const_iterator xt = x.begin();
+	   //vector<double>::const_iterator yt = y.begin();
+	   //vector<double>::const_iterator xt = x.begin();
 	   for(int it=0;it<x.size();it++)
 	    {
 	       pFile_ <<"\t"<< x[it] <<","<< y[it] <<","<<height_*1000<<"\n";

@@ -319,7 +319,7 @@ MAGICS_NO_EXPORT void SVGDriver::project(const magics::Layout& layout) const
 	dimensionStack_.push(dimensionX_);
 	dimensionStack_.push(dimensionY_);
 	const MFloat oldHeight = dimensionY_;
-	const MFloat oldWidth  = dimensionX_;
+	// const MFloat oldWidth  = dimensionX_;
 	scalesX_.push(coordRatioX_);
 	scalesY_.push(coordRatioY_);
 
@@ -983,7 +983,7 @@ MAGICS_NO_EXPORT void SVGDriver::renderText(const Text& text) const
   else if( horizontalAlign==MRIGHT ) justification = "end";
 
   VerticalAlign verticalAlign = text.getVerticalAlign();
-  double vertical = 0.;
+  //double vertical = 0.;
 
   unsigned int noTexts = text.size();
   vector<NiceText>::const_iterator niceTextEnd = text.textEnd();
@@ -1092,7 +1092,7 @@ MAGICS_NO_EXPORT void SVGDriver::circle(const MFloat x, const MFloat y, const MF
 		}
 		else
 		{
-		 const short  i   = (s<4) ? 1 : 0;
+		 //const short  i   = (s<4) ? 1 : 0;
 		 //const double rad = s*0.7853981634;
 
 		 if(s==2)      pFile_ << "<path d=\"M"<<cx<<" "<<cy-r<<" v"<<r<<" h"<<r<<" a"<<r<<","<<r<<" 0 0 0 "<< -r<<","<<-r<<"\" ";
