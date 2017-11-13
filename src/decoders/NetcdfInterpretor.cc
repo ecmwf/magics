@@ -298,7 +298,7 @@ void NetcdfTag::visit(const XmlNode& node)
 			string val = netcdf_.getAttribute(var, attr, def);
 			
 			title_.update("netcdf"+var, attr,  val);
-			title_.se("netcdf"+var, "time",  netcdf_.getTime(format, def));
+			title_.update("netcdf"+var, "time",  netcdf_.getTime(format, def));
 			title_.update("netcdf"+var, "level", netcdf_.getLevel(format, def));
 			title_.update("netcdf"+var, "number",  netcdf_.getLevel(format, def));	
 		}
