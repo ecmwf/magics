@@ -79,11 +79,11 @@ Netcdf::Netcdf(const string& path, const string& method)
 	for ( int v = 0; v < num_var; v++)
 	{ 
 		// get the name 
-		string tmp;
+		char tmp[NC_MAX_NAME+1];
 		int id = var_ids[v];
-		nc_inq_varname 	(file_,  id, &tmp[0]);
+		nc_inq_varname 	(file_,  id, tmp);
 
-		string name(tmp.c_str());
+		string name(tmp);
 		
 		variables_.insert(std::make_pair(name, NetVariable(name, v, this, method)));
 		if (isVariable(file_, var_ids[v])) dataset_.insert(std::make_pair(name, NetVariable(name, var_ids[v], this, method)));
@@ -97,9 +97,9 @@ Netcdf::Netcdf(const string& path, const string& method)
 	for ( int v = 0; v < num_atts; v++)
 	{
 
-			string tmp;
-			nc_inq_attname(file_, NC_GLOBAL, v, &tmp[0]);
-			string name(tmp.c_str());
+			char tmp[NC_MAX_NAME+1];
+			nc_inq_attname(file_, NC_GLOBAL, v, tmp);
+			string name(tmp);
 			attributes_.insert(std::make_pair(name, NetAttribute(name, file_, NC_GLOBAL)));
 	}
 
@@ -107,9 +107,9 @@ Netcdf::Netcdf(const string& path, const string& method)
 	nc_inq_ndims(file_, &num_dims);
 	for ( int d = 0; d < num_dims; d++)
 	{
-			string tmp;
-			nc_inq_dimname(file_, d, &tmp[0]);
-			string name(tmp.c_str());
+			char tmp[NC_MAX_NAME+1];
+			nc_inq_dimname(file_, d, tmp);
+			string name(tmp);
 			dimensions_.insert(std::make_pair(name, NetDimension(this, name)));
 	}
 
@@ -286,7 +286,7 @@ string  NetVariable::interpretTime(const string& val)
 	}
 	string units = getAttribute("units", string(""));
 	if ( units.empty() ) return val;
-	cout << "DATE-->" << units << endl;
+	
 
 
 	// Now we parse the string !
@@ -343,7 +343,7 @@ int NetVariable::find(const string& value)
 
 		int dval = tonumber(val);
 		
-		cout << "FOUND" <<  ::find(dval, values) << endl;
+		
 		return ::find(dval, values);
 	}
 	if ( t == NC_FLOAT ) {
@@ -400,7 +400,6 @@ string Netcdf::detect(const string& var, const string& type) const
 			for ( vector<string>::iterator v = values.begin(); v != values.end(); ++v) {
 				string val = value.substr(0, v->size());
 
-				cout << *v << "[" << v->size() << ", " << val.size() << "]" << endl;
 				if ( v->compare(val) == 0 ) {
 					
 					return  *dim;

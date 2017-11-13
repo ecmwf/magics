@@ -51,7 +51,7 @@ NetcdfInterpretor* NetcdfGuessInterpretor::guess() const
 	// guess!!
 	Netcdf netcdf(path_, dimension_method_);
 	string convention = netcdf.getAttribute("Conventions", string(""));
-	cout << "STARTING " << convention << endl;
+	
 
 
 	delegate_ =  NetcdfGeoMatrixInterpretor::guess(*this);
@@ -163,7 +163,7 @@ bool NetcdfInterpretor::reference_date(Netcdf& netcdf, const string& var, const 
 	basedate = date;
 	double diff = ( refdate.empty() ) ? 0 : DateTime(date) - DateTime(refdate) ;
 	map<string, double>::const_iterator factor = factors.find(units);
-	cout << "last point in days!" << coords.back() << endl;
+	
 	if ( factor != factors.end() )
 		std::transform(coords.begin(), coords.end(),  coords.begin(), Multiply(factor->second, missing_value));
 	std::transform(coords.begin(), coords.end(),  coords.begin(), Plus(diff, missing_value));
@@ -180,9 +180,9 @@ bool NetcdfInterpretor::cf_date(Netcdf& netcdf, const string& var, const string&
 
 	}
 	double missing_value = netcdf.getMissing(var, missing_attribute_);
-	cout << " direct " << netcdf.getVariableAttribute(var, "long_name", string("")) << endl;
+	
 	string date = netcdf.getVariableAttribute(var, "long_name", string(""));
-	cout << "var: " << var << "   date-->" << date << endl;
+	
 	if ( date.empty() ) return false;
 	if ( date != "time" && date != "date and time") return false;
 
@@ -292,12 +292,13 @@ void NetcdfTag::visit(const XmlNode& node)
 		{
 			string var = node.getAttribute("variable");
 			string attr = node.getAttribute("attribute");
+			
 			string def = node.getAttribute("default");
 			string format = node.getAttribute("format");
 			string val = netcdf_.getAttribute(var, attr, def);
 			
 			title_.update("netcdf"+var, attr,  val);
-			title_.update("netcdf"+var, "time",  netcdf_.getTime(format, def));
+			title_.se("netcdf"+var, "time",  netcdf_.getTime(format, def));
 			title_.update("netcdf"+var, "level", netcdf_.getLevel(format, def));
 			title_.update("netcdf"+var, "number",  netcdf_.getLevel(format, def));	
 		}
