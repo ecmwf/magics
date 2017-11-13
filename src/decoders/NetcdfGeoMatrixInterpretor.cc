@@ -50,7 +50,7 @@ bool NetcdfGeoMatrixInterpretor::interpretAsMatrix(Matrix** data)
 		matrix_->akimaEnabled();		
 	}
 	else {
-		cout << "CREATE PROJ4 Matrix" << endl;
+		
 		matrix_ = new Proj4Matrix(proj4);
 	}
 	*data = matrix_;

@@ -1,6 +1,5 @@
 <magics>
-<class inherits="NetcdfInterpretor" xmltag="vector" name="NetcdfVectorInterpretor" directory="decoders" prefix="netcdf" action="pnetcdf"
-		>
+<class inherits="NetcdfInterpretor" xmltag="vector" name="NetcdfVectorInterpretor" directory="decoders" prefix="netcdf" action="pnetcdf">
 <!--
 (C) Copyright 1996-2016 ECMWF.
 
