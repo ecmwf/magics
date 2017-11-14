@@ -30,7 +30,6 @@ GradientsColourTechnique::GradientsColourTechnique()
 
 }
 
-
 GradientsColourTechnique::~GradientsColourTechnique() 
 {
 }
@@ -41,18 +40,25 @@ void GradientsColourTechnique::set(LevelSelection& out, LevelSelection& in, Colo
 	ColourTableDefinitionCompute helper;
 
 	
-	vector<double>::const_iterator val = stops_.begin();
+	
+	
+	if ( colours_.size() < 2 ) {
+		MagLog::warning() << " No enough colours given to the gradients method" << endl;
+		return;
+	}
+	vector<double> stops = in;
+	if ( stops.empty() ) {
+		MagLog::warning() << " No intervals given to the gradients method, guessing ..." << endl;
+		double min = in.front();
+		double max = in.back();
+		double increment = (max-min)/(colours_.size() -1);
+		for ( double i = 0; i < colours_.size(); i++)
+			stops.push_back(min + (i*increment));
+	}
+
+	vector<double>::const_iterator val = stops.begin();
 	vector<int>::const_iterator step = steps_.begin();
 	string stop_method = lowerCase(stop_method_);
-	
-	if ( colours_.empty() ) {
-		MagLog::warning() << " No colours given to the gradients method" << endl;
-		return;
-	}
-	if ( stops_.empty() ) {
-		MagLog::warning() << " No intervals given to the gradients method" << endl;
-		return;
-	}
 	
 	out.clear();
 	in.clear();
@@ -81,8 +87,11 @@ void GradientsColourTechnique::set(LevelSelection& out, LevelSelection& in, Colo
   		helper.set(table, nb);
 
 		// Next block
-		if ( !steps_.empty() && step != steps_.end() ) 
+		if ( !steps_.empty()) { 
 			++step;
+			if ( step == steps_.end() )
+				--step;
+		}
 
   	}
 	
@@ -91,9 +100,9 @@ void GradientsColourTechnique::set(LevelSelection& out, LevelSelection& in, Colo
 	int col = 0;
 
 	// Now the interval ...
-  	for (int stop = 1; stop < stops_.size(); ++stop) { 
-  		  double from = stops_[stop-1];
-  		  double to = stops_[stop];
+  	for (int stop = 1; stop < stops.size(); ++stop) { 
+  		  double from = stops[stop-1];
+  		  double to = stops[stop];
   		  int istep = ( steps_.empty() ) ? 10 : *step;
 		  if (  stop_method == "ignore") {
 			
@@ -124,8 +133,6 @@ void GradientsColourTechnique::set(LevelSelection& out, LevelSelection& in, Colo
 		  for (int i = 1; i < nb; i++) {
 		  			in.push_back(from +(i*inc));
 		  			out.push_back(from +(i*inc));
-		  			
-		  		
 		  }
 		  if (  stop_method == "ignore") {
 			in.push_back(to);
@@ -142,20 +149,23 @@ void GradientsColourTechnique::set(LevelSelection& out, LevelSelection& in, Colo
 		  	in.push_back(to);
 		  	out.push_back(to);
 		  }
-		  else  if (stop == stops_.size()-1) {
+		  else  if (stop == stops.size()-1) {
 			in.push_back(to);
 		  	out.push_back(to);
 		  }
 		  
-		if ( !steps_.empty() && step != steps_.end() ) 
+		if ( !steps_.empty()) { 
 			++step;
+			if ( step == steps_.end() )
+				--step;
+		}
 	}
 	
 
 
 
 	
-	// now we compute the new levels list :
+	
 
 
 

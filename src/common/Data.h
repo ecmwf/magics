@@ -64,7 +64,7 @@ public:
 class Data: public MetviewIcon{
 
 public:
-	Data(): name_("no_name"), dimension_(1), valid_(true), binning_(0),   thinningFactor_(1) {}
+	Data():  dimension_(1), valid_(true), thinningFactor_(1), name_("no_name"), binning_(0)    {}
 	virtual ~Data() { if ( binning_ ) delete binning_; }
     //! Method to access the data as a matrix Used by pcont action routine
     virtual MatrixHandler& matrix() { throw MethodNotYetImplemented("Data::matrix"); }

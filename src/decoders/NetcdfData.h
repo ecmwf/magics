@@ -52,7 +52,7 @@ public:
 		MagicsException("Netcdf MagException: The file " + file + " does not exist or is not a valid netcdf file")
 		{	MagLog::error() << what_ << "\n"; }
 }; 
-
+class Netcdf;
 struct NetDimension 
 {
     string name_;
@@ -62,19 +62,15 @@ struct NetDimension
     size_t  index_;
     string method_;
 
+
     int  id_;
     int variable_;
-    int netcdf_;
+    
+    Netcdf* parent_;
+    int     netcdf_;
 
     NetDimension() {}
-    NetDimension(int netcdf, const string& name, int index = 0, int variable = -1): name_(name), 
-            first_(0),  index_(index), variable_(variable), 
-            netcdf_(netcdf) {
-                   nc_inq_dimid(netcdf, name_.c_str(), &id_);
-                   nc_inq_dimlen(netcdf, id_, &size_);
-                   dim_ = size_;
-
-            }
+    NetDimension(Netcdf* netcdf, const string& name, int index = 0, int variable = -1);
 
     
         
@@ -113,12 +109,11 @@ struct NetAttribute
 	void get(string& val) { 
           size_t len;
           nc_inq_attlen (netcdf_, id_, name_.c_str(),&len);
-          cout << "LEN" << len << endl;
+          
           char tmp[len];
           nc_get_att_text(netcdf_, id_, name_.c_str(), tmp);
-          
           val = string(tmp, len);
-          cout << "get string" << val << endl;
+          cout << "get string-->" << val << endl;
       }
     void get(char*& val) { 
           size_t len;
@@ -134,7 +129,7 @@ struct NetAttribute
 };
 
 class NetVariable;
-class Netcdf;
+
 
 template <class From, class To>
 struct Convertor
@@ -192,17 +187,20 @@ public:
 };
 
 
+class Netcdf;
 
 struct NetVariable 
 {
 	string name_;
 	int id_;
+    
+    Netcdf* parent_;
     int netcdf_;
 	map<string, NetDimension> dimensions_;
 	map<string, NetAttribute> attributes_;
     double missing_;
     
-	NetVariable(const string& name, int id, int netcdf, const string& method);
+	NetVariable(const string& name, int id, Netcdf* parent, const string& method);
 
 	void getStartingPoint(vector<size_t>& dims)
 	{
@@ -254,7 +252,8 @@ struct NetVariable
 
        return size;    
     }
-
+    string  interpretTime(const string&);
+     
     void get(vector<double>& data, vector<size_t>& start, vector<size_t>& edges )
     {
         nc_get_vara_double(netcdf_, id_, &start.front(), &edges.front(), &data.front());   
@@ -376,6 +375,16 @@ struct NetVariable
     
         
     }
+
+    vector<string> dimensions() {
+        vector<string> dims;
+        for (map<string, NetDimension>::iterator dim = dimensions_.begin(); dim !=dimensions_.end(); ++dim)
+            dims.push_back(dim->first);
+        return dims;
+
+    }
+
+    
     
     friend ostream& operator<<(ostream& s,const NetVariable& p)
 		{ p.print(s); return s; }
@@ -401,7 +410,8 @@ public:
 
     double getMissing(const string&, const string&);
 
-
+    string detect(const string& var, const string& type) const;
+    
 
     template <class T>
     void get(const string& name, vector<T>& vals, 
@@ -414,7 +424,7 @@ public:
         (*var).second.missing_ = missing_;
         (*var).second.get(vals, first, last);
     }
-
+    int file() const { return file_; }
 
     template <class T>
     void get(const string& name, vector<T>& vals)
@@ -475,9 +485,9 @@ public:
      }
 
    
-     NetVariable getVariable(const string& name)
+     NetVariable getVariable(const string& name) const
      {
-		map<string, NetVariable>::iterator var = variables_.find(name);
+		map<string, NetVariable>::const_iterator var = variables_.find(name);
          	if ( var == variables_.end() ) throw NoSuchNetcdfVariable(name);
 	 	return (*var).second;
      }

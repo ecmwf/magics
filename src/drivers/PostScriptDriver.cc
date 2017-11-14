@@ -1,9 +1,9 @@
 /*
  * (C) Copyright 1996-2016 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
  */
@@ -300,7 +300,7 @@ MAGICS_NO_EXPORT void PostScriptDriver::unproject() const
 	dimensionX_ = dimensionStack_.top();dimensionStack_.pop();
 	coordRatioX_  = scalesX_.top();scalesX_.pop();
 	coordRatioY_  = scalesY_.top();scalesY_.pop();
-	
+
 	fstream *ps = getStream();
 	*ps << "gr\n";
 	setLineParameters(M_SOLID, 1);
@@ -385,7 +385,7 @@ MAGICS_NO_EXPORT void PostScriptDriver::writeColour() const
   \brief sets a new line width
 
   This line width stays the default width until the painting in the
-  current box is finished. 
+  current box is finished.
 
   \sa setLineParameters()
 */
@@ -602,7 +602,7 @@ MAGICS_NO_EXPORT void PostScriptDriver::renderPolyline2(const int n, MFloat* x, 
   \param line polyline to be filled
 */
 void PostScriptDriver::renderSimplePolygon(const Polyline& line) const
-{ 
+{
 	unsigned int n = line.size();
 	setNewColour(line.getFillColour());
 	line.getShading()->draw(*this);
@@ -779,7 +779,7 @@ void PostScriptDriver::renderSimplePolygon(const Polyline& line) const
 		   if(pcounter%10==0) *ps << "\n";
 		   pcounter++;
 		}
-		else */ 
+		else */
 if( !(zero(diffX) && zero(diffY)) )
 		{
 		   *ps <<  diffX << " " << diffY << " ";
@@ -833,7 +833,7 @@ MAGICS_NO_EXPORT void PostScriptDriver::renderSimplePolygon(const int n, MFloat*
 	}
 
 	std::fstream *ps = getStream();
-	
+
 
 	if (currentShading_==M_SH_DOT)
 	{
@@ -987,13 +987,13 @@ MAGICS_NO_EXPORT void PostScriptDriver::renderText(const Text& text) const
 	vector<NiceText>::const_iterator niceText = text.textBegin();
 	vector<NiceText>::const_iterator niceTextEnd = text.textEnd();
 
-	int u=0;
+	int counterSubStrings=0;
 	ostringstream all_text;
 	for(;niceText<niceTextEnd;)
 	{
 		all_text << (*niceText).text();
 		niceText++;
-		u++;
+		counterSubStrings++;
 	}
 
 	niceText = text.textBegin();
@@ -1068,41 +1068,33 @@ MAGICS_NO_EXPORT void PostScriptDriver::renderText(const Text& text) const
 	  unsigned int noTexts = text.size();
 	  for(unsigned int nT=0;nT<noTexts;nT++)  // for all string CO-ORDINATES
 	  {
-		if(niceText == text.textBegin())
-		{
+		 if(niceText == text.textBegin()) // if first text string
+		 {
 			const MFloat x0 = projectX(text[nT].x());
 			const MFloat y0 = projectY(text[nT].y()) + offset;
+			const MFloat angle = 360.-(text.getAngle()*57.29577951);
 
-			if(u>1)
+			*ps <<"gs "<< x0 << " " << y0 << " t ";
+			if(angle != 0.) *ps <<angle<< " ro ";
+
+			if(counterSubStrings>1)
 			{
-				const MFloat an = 360.-(text.getAngle()*57.29577951);
-				if(an==0 || an==360)
-				    *ps <<"gs "<< x0 << " " << y0 << " t ("<< all_text.str() << ") stringwidth pop HA mul VA Height mul moveto "
-				        << "("<<tmp.str()<< ") "<<showCommand<<"\n";
-				else
-				    *ps <<"gs "<< x0 << " " << y0 << " t "<<an<< " ro ("<< all_text.str() << ") stringwidth pop HA mul VA Height mul moveto "
-				        << "("<<tmp.str()<< ") "<<showCommand<<"\n";
+				*ps <<"("<< all_text.str() << ") stringwidth pop HA mul VA Height mul moveto " << "("<<tmp.str()<< ") "<<showCommand<<"\n";
 			}
 			else
 			{
-
-
-				const MFloat an = 360.-(text.getAngle()*57.29577951);
-				if(an==0 || an==360)
-					*ps <<"gs "<< x0 << " " << y0 << " t ("<<tmp.str()<< ") 0 0 "<<textCommand<<"\n";
-				else
-					*ps <<"gs "<< x0 << " " << y0 << " t "<<an<< " ro ("<<tmp.str()<< ") 0 0 "<<textCommand<<"\n";
+				*ps <<"("<<tmp.str()<< ") 0 0 "<<textCommand<<"\n";
 			}
-		}
-		else
-		{
-		*ps << " 0 "<<offset<<" rmoveto\n";
+		 }
+		 else  // all other substrings
+		 {
+			*ps << " 0 "<<offset<<" rmoveto\n";
 			*ps << "("<<tmp.str()<< ") "<<showCommand<<"\n";
-		}
-		count++;
-		if (niceText+1 == text.textEnd()) *ps <<"gr\n";
-	   }
-	   niceText++;
+		 }
+		 count++;
+		 if (niceText+1 == text.textEnd()) *ps <<"gr\n";
+	  }
+	  niceText++;
 	} // endfor all nicetexts
 	ps->precision(ss);
 	currentColour_ = Colour("none");
@@ -1305,7 +1297,7 @@ MAGICS_NO_EXPORT bool PostScriptDriver::renderCellArray(const Image& image) cons
    if(width > 0 && height > 0)
    {
 	const int col_model = getDeviceColourModel();
-	
+
 	const MFloat x0 = projectX(image.getOrigin().x());
 	const MFloat y0 = projectY(image.getOrigin().y()-image.getHeight());
 	const MFloat x1 = projectX(image.getOrigin().x()+image.getWidth());
@@ -1440,7 +1432,7 @@ MAGICS_NO_EXPORT void PostScriptDriver::renderSymbols(const Symbol& symbol) cons
 	else
 	{
       pFile_<< " "<<projectX(symbol[0].x())<<" "<< projectY(symbol[0].y())-convertCM(symbol.getHeight()*.3)<< " t 0.4 0.4 s"<<endl;
-      pFile_<< "gs\n" 
+      pFile_<< "gs\n"
             << "183.473 76.074 m 183.473 63.121 l 146.492 63.121 l 146.492 48.105 l 180.438 48.105 l 180.438 36.094 l 146.492 36.094 l 146.492 18.977 l 184.262 18.977\n"
             << "l 184.262 6.023 l 131.086 6.023 l 131.086 76.074 l P 183.473 76.074 m fill\n"
             << "234.574 57.387 m 233.656 58.859 232.492 60.172 231.141 61.262 c 228.277 63.559 224.711 64.805 221.039 64.793 c 217.973 64.891 214.934 64.199 212.211\n"
@@ -1558,7 +1550,7 @@ MAGICS_NO_EXPORT void PostScriptDriver::closeFile() const
 		}
 	}
 	if(!isPS() && !isEPS() ) remove(fps.c_str());
-	else 
+	else
 	{
 		if(isPS()) printOutputName("PS ps "+fps);
 		else printOutputName("PS eps "+fps);
@@ -1633,7 +1625,7 @@ MAGICS_NO_EXPORT void PostScriptDriver::writePSFileHeader() const
 	else *ps << "/S {gr} def\n"; // define "showpage" empty for EPS files
 
 	//copyMacro(ps,"PostScriptMacro1.ps");
-	*ps << "/m {moveto} def /st {stroke} def /rl {rlineto} def /ro {rotate} def /cp {closepath} def /d { {rmoveto rlineto} repeat stroke} bind def /gr {grestore} def /gs {gsave} def /n { newpath } def\n" 
+	*ps << "/m {moveto} def /st {stroke} def /rl {rlineto} def /ro {rotate} def /cp {closepath} def /d { {rmoveto rlineto} repeat stroke} bind def /gr {grestore} def /gs {gsave} def /n { newpath } def\n"
 	    << "/sa {save} def /lw {setlinewidth } def /ar {arc fill} def /arn {arcn fill} def /l { lineto } bind def /c { curveto } bind def\n"
 	    << "/sd {setdash} def /C { setrgbcolor } def /Y { setcmykcolor } def  /B { moveto rlineto stroke } bind def /BB { moveto lineto stroke } bind def /t { translate } def /s {scale} def /K { /UY exch def /UX exch def /LY exch def \n"
 	    << "/LX exch def gsave newpath LX LY moveto UX LY lineto UX UY lineto LX UY lineto closepath newpath } def /lp { moveto rlineto } bind def /p { moveto {rlineto} repeat stroke} bind def /po { moveto {rlineto} repeat } bind def\n"

@@ -465,7 +465,7 @@ void CellBox::split(int)
     const int column = (column2_+ column1_)/4;
 
 
-    // Push 8 cells:
+    // Push 4 cells:
     push_back(new CellBox(parent_, row1_, row, column1_, column));
     push_back(new CellBox(parent_, row1_, row, column+1, 2*column));
     push_back(new CellBox(parent_, row1_, row, (2*column)+1, 3*column));
@@ -491,7 +491,7 @@ void CellBox::split()
        CellBox* cell = new CellBox(parent_, row1_, row2_, column1_, column);
        RangeType def = cell->range();
 
-       if ( def != multipleRange ) {
+       if ( def != multipleRange ) {  
              push_back(cell);
        }
        else {
@@ -1279,7 +1279,7 @@ void IsoPlot::isoline(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
 
         view.split();
        
-        cout << "Nb Thread --> " << view.size() << endl;
+        
         
         int c = 0;
         VectorOfPointers<vector<IsoProducerData*> > datas;
@@ -1638,26 +1638,23 @@ CellArray::CellArray(MatrixHandler& data,
 {
     Timer timer("CellArray", "CellArray");
     int r = height/resol;
-    int c = (int) width/resol;
+    int c = width/resol;
 
     rows_ = r;
     columns_ = c;
 
-
     points_.set(rows_+1, columns_+1);
     reserve(rows_* columns_);
 
-//  int i = 0;
-
     missing_ = data.missing();
+
     double firstx = transformation.getMinPCX();
     double firsty = transformation.getMinPCY();
 
     double stepx =  ( transformation.getMaxPCX() -  transformation.getMinPCX() )/ (columns_);
     double stepy =  ( transformation.getMaxPCY() -  transformation.getMinPCY() )/ (rows_);
-
     {
-        Timer timer("matrix", "prepare");
+        Timer timer("compute matrix", "prepare");
 
         vector< std::pair<double, double> > xypoints;
         vector< std::pair<double, double> > geopoints;
@@ -1675,43 +1672,51 @@ CellArray::CellArray(MatrixHandler& data,
                     }
                 }
         }
+        points_.setMapsAxis();
+
+
+
+        
+
         transformation.revert(xypoints, geopoints);
+        //data.interpolate(points_, geopoints);
+        
+
         vector< std::pair<double, double> >::iterator geo= geopoints.begin();
         double min =  data.min();
         double max =  data.max();
         double missing =  data.missing();
 
-        double newmax =  data.min();
-        double newmin =  data.max();
+        
+
+
+        int i = 0;
 
         MagLog::dev() << "min = " << data.min() << "  max = " << data.max() << endl;
         for (vector< std::pair<double, double> >::iterator xy = xypoints.begin(); xy != xypoints.end(); ++xy) {
 
                     double value;
                     if  ( geo->second == -1000) {
-
                         value = missing;
                     }
                     else {
                         value = (magCompare(technique, "nearest")) ?
                             data.nearest(geo->second, geo->first):data.interpolate(geo->second, geo->first);
-                        //value =data.nearest(geo->second, geo->first);
+                        //value = data.interpolate(geo->second, geo->first);
                     }
                     if (value != missing) {
                         if (value < min)
                             value = min;
-                        if (value < newmin)
-                            newmin = value;
+                       
                         if (value > max)
                             value=max; 
-                        if (value > newmax)
-                            newmax = value;
-
+                        
                     }                    
-                    points_.push_back(value);
+                    points_[i] = value;
+                    i++;
                     ++geo;
         }
-        points_.setMapsAxis();
+       
 
     }
 

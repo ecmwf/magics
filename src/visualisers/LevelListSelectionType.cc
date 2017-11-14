@@ -77,3 +77,43 @@ void LevelListSelectionType::calculate(double , double, bool)
 	MagLog::dev() << print.str() << endl;
 }
 
+/*!
+ Class information are given to the output-stream.
+*/		
+void GradientsSelectionType::print(ostream& out)  const
+{
+	out << "GradientsSelectionType[";
+	LevelSelection::print(out);
+	GradientsSelectionTypeAttributes::print(out);
+	out << "]";
+}
+
+
+void GradientsSelectionType::calculate(double , double, bool) 
+{
+	clear();
+
+	doublearray::const_iterator last = list_.begin();
+	for (doublearray::const_iterator val = list_.begin(); val != list_.end(); ++val) {
+		MagLog::dev() << "GradientsSelectionType::calculate(double min, double max)--->" << *val << "\n";
+		if ( min_ <= *val && *val <= max_)
+			push_back(*val);
+		++last;
+	}
+
+	// Just in case add another level to close the  last interval ! 
+	if ( last !=  list_.end() )
+		push_back(*last);
+	
+	
+	ostringstream print;
+	print <<  "GradientsSelectionType::calculate-->";
+	string sep = "[";
+	for (vector<double>::const_iterator val = begin(); val != end(); ++val) {
+		print << sep << *val;
+		sep = ", ";
+	}
+	print << "]";
+	MagLog::dev() << print.str() << endl;
+}
+

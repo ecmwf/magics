@@ -16,21 +16,18 @@ does it submit to any jurisdiction.
          
   	</parameter>
 
-    <parameter member="stops" to="floatarray" default="floatarray()" from="floatarray" name="contour_gradients_waypoint_list">
-            <documentation>  List of waypoints.   </documentation>
-        
-    </parameter>
+    
     <parameter member="stop_method" to="string" default="both" from="string" name="contour_gradients_waypoint_method" values='both/ignore/left/right'>
             <documentation> waypoints at the left, right, middle of the interval.   </documentation>
         
     </parameter>
 
-    <parameter member="technique" to="string" default="linear" from="string" name="contour_gradients_technique" values='linear/hcl/hsl'>
-            <documentation>  Technique to apply to compute the gradients linear-clockwise/linear-anticlockwise   </documentation>
+    <parameter member="technique" to="string" default="rgb" from="string" name="contour_gradients_technique" values='rgb/hcl/hsl'>
+            <documentation>  Technique to apply to compute the gradients rgb/hcl/hsl   </documentation>
            
     </parameter>
     <parameter member="technique_direction" to="string" default="clockwise" from="string" name="contour_gradients_technique_direction" values='clockwise/anti_clockwise/shortest/longest'>
-            <documentation>  Technique to apply to compute the gradients linear-clockwise/linear-anticlockwise   </documentation>
+            <documentation>  Technique to apply to compute the gradients clockwise/anticlockwise   </documentation>
            
     </parameter>
   	

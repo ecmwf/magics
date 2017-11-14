@@ -25,6 +25,7 @@
 #include "magics.h"
 
 #include "LevelListSelectionTypeAttributes.h"
+#include "GradientsSelectionTypeAttributes.h"
 #include "LevelSelection.h"
 
 namespace magics {
@@ -79,6 +80,54 @@ private:
 };
 
 
+class GradientsSelectionType: public GradientsSelectionTypeAttributes, public LevelSelection {
+
+public:
+    GradientsSelectionType() {}
+    virtual ~GradientsSelectionType() {}
+
+   
+    void calculate(double min, double max, bool); 
+    void set(const map<string, string>& params) { 
+        GradientsSelectionTypeAttributes::set(params);
+        LevelSelection::set(params);
+    }
+    void set(const XmlNode& node) { 
+        GradientsSelectionTypeAttributes::set(node);
+        LevelSelection::set(node);
+    }
+    void set(const LevelSelectionInterface& from) {
+        list_ = from.getList();
+    }
+    virtual LevelSelection* clone() const {
+        GradientsSelectionType* object = new GradientsSelectionType();
+        object->copy(*this);
+        return object;
+    }
+
+    double reference(int) const { return  empty() ? -9999:    front(); }
+
+    void copy(const GradientsSelectionType& from) {
+         GradientsSelectionTypeAttributes::copy(from);
+         LevelSelection::copy(from);
+    }
+
+protected:
+     //! Method to print string about this class on to a stream of type ostream (virtual).
+     virtual void print(ostream&) const; 
+
+private:
+    //! Copy constructor - No copy allowed
+    GradientsSelectionType(const GradientsSelectionType&);
+    //! Overloaded << operator to copy - No copy allowed
+    GradientsSelectionType& operator=(const GradientsSelectionType&);
+
+// -- Friends
+    //! Overloaded << operator to call print().
+    friend ostream& operator<<(ostream& s,const GradientsSelectionType& p)
+        { p.print(s); return s; }
+
+};
 
 
 } // namespace magics

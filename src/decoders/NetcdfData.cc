@@ -20,6 +20,7 @@
 #include <NetcdfData.h>
 #include <MagException.h>
 #include <MagLog.h>
+#include <MagConfig.h>
  
 
 using namespace magics;
@@ -78,16 +79,14 @@ Netcdf::Netcdf(const string& path, const string& method)
 	for ( int v = 0; v < num_var; v++)
 	{ 
 		// get the name 
-		string tmp;
+		char tmp[NC_MAX_NAME+1];
 		int id = var_ids[v];
-		nc_inq_varname 	(file_,  id, &tmp[0]);
+		nc_inq_varname 	(file_,  id, tmp);
 
-		string name(tmp.c_str());
+		string name(tmp);
 		
-		variables_.insert(std::make_pair(name, NetVariable(name, v, file_, method)));
-		cout << id << "--->" << name << "----> " << variables_.size() << endl;
-
-		if (isVariable(file_, var_ids[v])) dataset_.insert(std::make_pair(name, NetVariable(name, var_ids[v], file_, method)));
+		variables_.insert(std::make_pair(name, NetVariable(name, v, this, method)));
+		if (isVariable(file_, var_ids[v])) dataset_.insert(std::make_pair(name, NetVariable(name, var_ids[v], this, method)));
 	}
 
 
@@ -98,9 +97,9 @@ Netcdf::Netcdf(const string& path, const string& method)
 	for ( int v = 0; v < num_atts; v++)
 	{
 
-			string tmp;
-			nc_inq_attname(file_, NC_GLOBAL, v, &tmp[0]);
-			string name(tmp.c_str());
+			char tmp[NC_MAX_NAME+1];
+			nc_inq_attname(file_, NC_GLOBAL, v, tmp);
+			string name(tmp);
 			attributes_.insert(std::make_pair(name, NetAttribute(name, file_, NC_GLOBAL)));
 	}
 
@@ -108,13 +107,14 @@ Netcdf::Netcdf(const string& path, const string& method)
 	nc_inq_ndims(file_, &num_dims);
 	for ( int d = 0; d < num_dims; d++)
 	{
-			string tmp;
-			nc_inq_dimname(file_, d, &tmp[0]);
-			string name(tmp.c_str());
-			dimensions_.insert(std::make_pair(name, NetDimension(file_, name)));
+			char tmp[NC_MAX_NAME+1];
+			nc_inq_dimname(file_, d, tmp);
+			string name(tmp);
+			dimensions_.insert(std::make_pair(name, NetDimension(this, name)));
 	}
 
-	cout << *this << endl;
+	
+
 
 }
 
@@ -146,6 +146,16 @@ void Netcdf::print(ostream& out)  const
 }
 
 
+NetDimension::NetDimension(Netcdf* netcdf, const string& name, int index, int variable): 
+			parent_(netcdf), name_(name), 
+            first_(0),  index_(index), variable_(variable)
+            {
+            	   netcdf_ = parent_->file();
+                   nc_inq_dimid(netcdf_, name_.c_str(), &id_);
+                   nc_inq_dimlen(netcdf_, id_, &size_);
+                   dim_ = size_;
+
+            }
 
 
 int  NetDimension::index(const string& val)
@@ -159,7 +169,7 @@ int  NetDimension::value(const string& val)
 	if ( variable_ != -1 ) {
 
 		//int index = Index::get(variable_->type(), val, variable_->values(), variable_->num_vals());
-		NetVariable var(name_, variable_, netcdf_, "index");
+		NetVariable var(name_, variable_, parent_, "index");
 		
 		return var.find(val);
 	}
@@ -193,8 +203,9 @@ void NetDimension::last(const string& val)
 }
 
 
-NetVariable::NetVariable(const string& name, int id, int file, const string& method): name_(name), id_(id), netcdf_(file)
+NetVariable::NetVariable(const string& name, int id, Netcdf* parent, const string& method): name_(name), id_(id), parent_(parent)
 {
+	netcdf_ = parent_->file();
 	int num_dims;
 	nc_inq_varndims(netcdf_, id_, &num_dims);
 	int dims[num_dims];
@@ -221,12 +232,11 @@ NetVariable::NetVariable(const string& name, int id, int file, const string& met
 			string current(tmp.c_str());
 			if ( current == name ) {
 				var = id;
-				cout << "Found it !" << name << endl;
 				break;
 			}
 		
 		}   
-		dimensions_.insert(std::make_pair(name, NetDimension(netcdf_, name, d, var)));
+		dimensions_.insert(std::make_pair(name, NetDimension(parent_, name, d, var)));
 		dimensions_[name].method_ = method;
 	}
 
@@ -260,8 +270,63 @@ int find(const T& value, vector<T>&  values)
 	return -1;
 }
 
-int NetVariable::find(const string& val)
+#include "Tokenizer.h"
+#include "DateTime.h"
+string  NetVariable::interpretTime(const string& val) 
 {
+	string time = parent_->detect(name_, "time");
+	if ( time.empty() ) 
+		return val;
+
+	//try to convert the time ! 
+	static map<string, long> factors;
+	if ( factors.empty() ) {
+		factors["hours"] = 3600;
+		factors["days"] = 24*3600;
+	}
+	string units = getAttribute("units", string(""));
+	if ( units.empty() ) return val;
+	
+
+
+	// Now we parse the string !
+	vector<string> tokens;
+	Tokenizer tokenizer(" ");
+	tokenizer(units, tokens);
+	string basedate = tokens[2];
+	string unit = tokens[0];
+	
+
+	try {
+		
+		
+		DateTime user = DateTime(val);
+		DateTime reference = DateTime(basedate);
+		long diff = user - reference;
+		DateTime x = reference + diff;
+		
+		
+		map<string, long>::iterator f = factors.find(unit);
+		long factor = ( f != factors.end() ) ? f->second : 1;
+		diff = diff/factor;
+
+		
+		return tostring(diff);
+	}
+	catch (exception) {
+		
+		return val;
+	}
+	
+}
+
+int NetVariable::find(const string& value)
+{
+	// First , is the variable a time variable:
+	string val = interpretTime(value);
+	
+	
+
 	nc_type t = type();
 	if ( t == NC_DOUBLE ) {
 		vector<double> values;
@@ -269,15 +334,17 @@ int NetVariable::find(const string& val)
 		get(values);
 		double dval = tonumber(val);
 		return ::find(dval, values);
-
 	}
 	if ( t == NC_INT ) {
 		vector<int> values;
 		values.resize(getSize());
 		get(values);
-		int dval = tonumber(val);
-		return ::find(dval, values);
 
+
+		int dval = tonumber(val);
+		
+		
+		return ::find(dval, values);
 	}
 	if ( t == NC_FLOAT ) {
 		vector<float> values;
@@ -285,7 +352,6 @@ int NetVariable::find(const string& val)
 		getValues(values);
 		float dval = tonumber(val);
 		return ::find(dval, values);
-
 	}
 	if ( t == NC_SHORT ) {
 		vector<short> values;
@@ -295,6 +361,8 @@ int NetVariable::find(const string& val)
 		return ::find(dval, values);
 
 	}
+
+
 	return -1;
 
 }
@@ -309,6 +377,42 @@ double NetVariable::getDefaultMissing()
 }
 
 
+
+
+string Netcdf::detect(const string& var, const string& type) const
+{
+	
+	NetVariable variable = getVariable(var);
+	vector<string> dimensions = variable.dimensions();
+
+	NetcdfGuess guesser;
+
+	map<string, map<string, vector<string> > >::iterator checks = guesser.guess_.find(type);
+	if ( checks == guesser.guess_.end() )
+		return "";
+
+	for ( map<string, vector<string> >::iterator check = checks->second.begin(); check != checks->second.end(); ++check) {
+		
+		vector<string> values =  check->second;
+		for (vector<string>::iterator dim = dimensions.begin(); dim != dimensions.end(); ++dim) {
+			string value = getVariable(*dim).getAttribute(check->first, string(""));
+				
+			for ( vector<string>::iterator v = values.begin(); v != values.end(); ++v) {
+				string val = value.substr(0, v->size());
+
+				if ( v->compare(val) == 0 ) {
+					
+					return  *dim;
+				}
+			}
+			
+		}
+	}
+	return "";
+
+	
+}
+    
 
 namespace magics {
 	template<> map<nc_type, Accessor<double>*>*  Accessor<double>::accessors_ = 0;

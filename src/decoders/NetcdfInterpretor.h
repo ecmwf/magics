@@ -79,6 +79,9 @@ public:
 	bool reference_date(Netcdf& netcdf, const string&, const string&, string&, vector<double>&, vector<double>&);
 	//return true, if the the data is Metview-date compliant and the date axis has been set
 
+    string getTime(const string& format, const string& def);
+    string getNumber(const string& format, const string& def);
+    string getLevel(const string& format, const string& def);
 protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).
 	 virtual void print(ostream&) const; 
@@ -90,6 +93,10 @@ protected:
      string refDateX_;
      string refDateY_;
 
+     string time_variable_;
+     string level_variable_;
+     string number_variable_;
+
 private:
     //! Copy constructor - No copy allowed
 	NetcdfInterpretor(const NetcdfInterpretor&);
@@ -100,6 +107,69 @@ private:
     //! Overloaded << operator to call print().
 	friend ostream& operator<<(ostream& s,const NetcdfInterpretor& p)
 		{ p.print(s); return s; }
+};
+
+class NetcdfGuessInterpretor: public NetcdfInterpretor {
+
+public:
+    NetcdfGuessInterpretor();
+    virtual ~NetcdfGuessInterpretor();
+    virtual void visit(Transformation&) {} //delegate_->visit(transformation); }
+    virtual void getReady(const Transformation&) {}
+    virtual bool interpretAsMatrix(Matrix** matrix)
+        { return guess()->interpretAsMatrix(matrix); }
+    virtual bool interpretAsVectors(Matrix** u, Matrix** v)
+        {  return guess()->interpretAsVectors(u, v);}
+    virtual bool interpretAsRaster(RasterData&)
+        {  ASSERT(false); return false; }
+    virtual bool interpretAsPoints(PointsList& out)
+        { ASSERT(false);  return false; }
+    virtual void customisedPoints(const std::set<string>& needs, CustomisedPointsList& out)  
+        { guess()->customisedPoints(needs, out); }
+    virtual void customisedPoints(const Transformation& transformation, const std::set<string>& needs, CustomisedPointsList& out, int thinning)
+        { guess()->customisedPoints(transformation, needs, out, thinning); }
+
+    virtual bool interpretAsPoints(PointsList& points, const Transformation&)
+        { return interpretAsPoints(points);}
+    virtual void set(const map<string, string>& params) { NetcdfInterpretorAttributes::set(params); }
+    virtual void set(const XmlNode& node) { NetcdfInterpretorAttributes::set(node); }
+     virtual bool accept(const string& node) { return NetcdfInterpretorAttributes::accept(node); }
+    virtual NetcdfInterpretor* clone() const {
+        NetcdfInterpretor* object = new NetcdfInterpretor();
+        object->copy(*this);
+        return object;
+    }
+    
+    virtual void statsData(map<string,vector<double> >&) {}
+    virtual void visit(MetaDataCollector& info);
+    virtual void visit(ValuesCollector&,PointsList&) {};
+    virtual void visit(TextVisitor& text) {
+        guess()->visit(text); 
+    }
+    
+    
+    
+protected:
+     //! Method to print string about this class on to a stream of type ostream (virtual).
+     virtual void print(ostream& s) const { 
+        
+    }
+     void setDimensions(const stringarray&, map<string, string>& first, map<string, string>& last);
+     void getAttributes(Netcdf&,const string&,string&,string&);
+     NetcdfInterpretor* guess() const;
+   
+    mutable NetcdfInterpretor* delegate_;
+
+private:
+    //! Copy constructor - No copy allowed
+    NetcdfGuessInterpretor(const NetcdfInterpretor&);
+    //! Overloaded << operator to copy - No copy allowed
+    NetcdfGuessInterpretor& operator=(const NetcdfInterpretor&);
+
+// -- Friends
+    //! Overloaded << operator to call print().
+    friend ostream& operator<<(ostream& s,const NetcdfGuessInterpretor& p)
+        { p.print(s); return s; }
 };
 template<>
 class MagTranslator<string, NetcdfInterpretor> { 

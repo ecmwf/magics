@@ -1092,8 +1092,6 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
     	(*matrix)->xIndex_.reserve((*matrix)->rowsAxis().size());
 	}
 
-
-
     // compute the number of points we'll be adding to the matrix so that we can
     // allocate them in one go, rather than allowing the STL to re-allocate
     // when we reach the capacity
@@ -1130,6 +1128,7 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
     vector<double>::iterator ll = (*matrix)->rowsAxis().begin();
     {
     Timer timer("map2", " pair");
+    bool first = true;
     for (vector<vector<double> >::iterator row = rows.begin(); row != rows.end(); ++row) {
 
     	vector<double> p;
@@ -1230,28 +1229,46 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
         double lon2 = *r;
 
         int x = 0;
+      
+
         while (x < nblon) {
+
             if ( lon < lon1 ) {
                 (*matrix)->push_back(p[0]);
                 x++;
                 lon = west + ( x*step);
                 continue;
             }
-            if ( lon > row->back() ) {
-                (*matrix)->push_back(p.back());
-                x++;
-                lon = west + ( x*step);
-                continue;
+            if ( lon >= row->back() ) { 
+                if ( global ) {
+                    p2 = 0;
+                    lon2 = 360.;
+                    lon1 = row->back();
+                    p1 = p.size()-1;
+                   
+
+                } 
+                else { 
+                    (*matrix)->push_back(p.back());
+                    x++;
+                    lon = west + ( x*step);
+                    continue;
+                }
             }
             if ( lon > lon2) {
+                
                 p1++;
                 p2++;
+                
                 lon1 = lon2;
+                
                 r++;
-                if ( r == row->end() )
+                if ( r == row->end() ) 
                     r--;
-                lon2 = (*r);
+                lon2 = (*r);   
+                
             }
+
             double d1 = (lon2 - lon) / (lon2 - lon1);
             double d2 = 1 - d1;
             double val;
@@ -1262,6 +1279,7 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
                    else
                 	   if ( p[p2] != missing )
                 		   val = (p[p1] * d1) + (p[p2] * d2);
+               
                   (*matrix)->push_back(val);
 
             }
@@ -1273,6 +1291,7 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
             x++;
             lon = west + ( x*step);
         }
+        
 
     }
     }

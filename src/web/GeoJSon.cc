@@ -64,7 +64,11 @@ public:
 				(*object)->create(out);
 			}
 		}
-
+		virtual void boundingBox(double& min, double& max) {
+			for (vector<GeoObject*>::iterator object = objects_.begin(); object != objects_.end(); ++object) {
+				(*object)->boundingBox(min, max);
+			}
+		}
 		virtual void create(const std::set<string>& needs, CustomisedPointsList& out) {
 			for (vector<GeoObject*>::iterator object = objects_.begin(); object != objects_.end(); ++object) {
 				(*object)->create(needs, out);
@@ -92,11 +96,10 @@ public:
 			}
 
 		}
-		virtual void shift(const std::set<string>& needs, CustomisedPointsList& out) {
-					if ( !shift() )
-						return;
+		virtual void shift(const std::set<string>& needs, CustomisedPointsList& out, double val = 0) {
+					
 					for (vector<GeoObject*>::iterator object = objects_.begin(); object != objects_.end(); ++object) {
-						(*object)->shift(needs, out);
+						(*object)->shift(needs, out, val);
 					}
 		}
 		vector<GeoObject*> objects_;
@@ -117,6 +120,18 @@ public:
 			out.push_back(point);
 		}
 		bool shift_;
+		virtual void print()
+		{
+			cout << name_ << "-->" << objects_.size() << endl;
+			for (vector<GeoObject*>::iterator o = objects_.begin(); o != objects_.end(); ++o) 
+				(*o)->print();
+		}
+	virtual bool detectFeature() {
+		for (vector<GeoObject*>::iterator o = objects_.begin(); o != objects_.end(); ++o) 
+				if ( (*o)->detectFeature() )
+					return true;
+		return false;
+	}
 };
 
 
@@ -130,10 +145,21 @@ public:
 		name_ = n.str();
 
 	}
+
+	bool detectFeature() {
+		return true;
+	}
+
 	virtual ~GeoFeature() {}
 
-
+	void boundingBox(double& min, double& max) {
+		min = 900000;
+		max = -min;
+		GeoObject::boundingBox(min, max);
+		
+	}
 	void create(PointsList& out) {
+		
 		GeoObject::create(out);
 		out.push_back(new UserPoint(0,0,0,true));
 	}
@@ -146,10 +172,34 @@ public:
 		newline(out);
 
 	}
-	void shift(const std::set<string>& needs, CustomisedPointsList& out) {
-			GeoObject::shift(needs, out);
+	void shift(const std::set<string>& needs, CustomisedPointsList& out, double val =0) {
+			double min;
+			double max;
+			if ( GeoObject::detectFeature() ) // Dig!
+				return GeoObject::shift(needs, out);
+				
+			boundingBox(min, max);
+			//cout << min << "--->" << max << endl;
+			if (max <= -180 ) 
+				GeoObject::shift(needs, out, 360);
+			
+			else if (min >= 180 )
+				GeoObject::shift(needs, out, -360);
+
+			else if (min <= 180 && max >= 180) {
+				GeoObject::shift(needs, out, -360);
+			}
+			else if (min <= -180 && max >= -180) {
+				GeoObject::shift(needs, out, 360);
+			}
+			else if (max > 360 ) 
+				GeoObject::shift(needs, out, -360);
+			
 			newline(out);
+
 	}
+
+
 
 };
 
@@ -163,17 +213,20 @@ public:
 
 	}
 	virtual ~GeoPoint() {}
+	void boundingBox(double& min, double& max) {
+		if ( min > lon_ ) min = lon_;
+		if ( max < lon_ ) max = lon_;
+	}
 	virtual void decode(const json_spirit::Value& value) {
 
 		Array point = value.get_value< Array>();
 		lon_ = point[0].get_value<double>();
 		lat_ = point[1].get_value<double>();
-		if ( lon_ < 0 ) {
-			lon_ += 360;
-			shift_ = true;
-		}
+		
 
 	}
+	void print ()
+	{}
 	double lat_;
 	double lon_;
 
@@ -183,8 +236,8 @@ public:
 		out.push_back(point);
 
 	}
-	void shift(PointsList& out) {
-		UserPoint* point = new UserPoint(lon_-360., lat_, tonumber(getProperty("value", "0")), false, false, getProperty("name"));
+	void shift(PointsList& out, double value) {
+		UserPoint* point = new UserPoint(lon_+value, lat_, tonumber(getProperty("value", "0")), false, false, getProperty("name"));
 
 		out.push_back(point);
 	}
@@ -203,8 +256,8 @@ public:
 		set(needs, *point);
 		out.push_back(point);
 	}
-	void shift(const std::set<string>& needs, CustomisedPointsList& out) {
-		CustomisedPoint* point = new CustomisedPoint(lon_-360., lat_,  getProperty("name"));
+	void shift(const std::set<string>& needs, CustomisedPointsList& out, double val =0) {
+		CustomisedPoint* point = new CustomisedPoint(lon_+val, lat_,  getProperty("name"));
 		set(needs, *point);
 		out.push_back(point);
 	}
@@ -417,7 +470,11 @@ void GeoJSon::customisedPoints(const Transformation&, const std::set<string>& ne
 {
 	decode();
 
+
+
+	
 	if ( parent_ ) {
+			
 			parent_->create(needs, out);
 			parent_->shift(needs, out);
 	}

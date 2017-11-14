@@ -46,25 +46,25 @@ bool NetcdfMatrixInterpretor::interpretAsMatrix(Matrix** matrix)
 	MagLog::debug() << "NetcdfMatrixInterpretor::interpret()--->" << *this << "\n";
 	if ( *matrix ) return false;
 
-	
-	matrix_ = new Matrix();
-	
-	*matrix = matrix_;
-	if ( !matrix_->empty() ) return false;
-    
-	matrix_->missing(std::numeric_limits<double>::max());
-
-	Netcdf netcdf(path_, dimension_method_);
-	double missing =  netcdf.getMissing(field_, missing_attribute_);
-	matrix_->missing(missing);
-
-	string title = netcdf.getAttribute("title", string("NO TITLE"));
-
-
-    x();
-    y();
-	// get the data ...
 	try {
+		matrix_ = new Matrix();
+		
+		*matrix = matrix_;
+		if ( !matrix_->empty() ) return false;
+	    
+		matrix_->missing(std::numeric_limits<double>::max());
+
+		Netcdf netcdf(path_, dimension_method_);
+		double missing =  netcdf.getMissing(field_, missing_attribute_);
+		matrix_->missing(missing);
+
+		string title = netcdf.getAttribute("title", string("NO TITLE"));
+
+
+	    x();
+	    y();
+	// get the data ...
+	
 
 
 		map<string, string> first, last;
@@ -124,6 +124,8 @@ bool NetcdfMatrixInterpretor::interpretAsMatrix(Matrix** matrix)
 	catch (MagicsException& e)
 	{
 		MagLog::error() << e << "\n";
+		delete matrix_;
+		matrix_ = NULL;
 		 return false;
 	}    
 	return true;
@@ -138,7 +140,7 @@ void NetcdfMatrixInterpretor::print(ostream& out)  const
 {
 	out << "NetcdfMatrixInterpretor[";
 	NetcdfInterpretor::print(out);
-	NetcdfMatrixInterpretorAttributes::print(out);
+	
 	out << "]";
 }
 
@@ -173,7 +175,8 @@ bool NetcdfMatrixInterpretor::x()
     	}
         catch (...) {
         	MagLog::warning() << "No valid X dimension.." << endl;
-        		return false;
+        	throw MagicsException("Could not find any X axis");
+        		
         	}
     }
 
@@ -203,7 +206,8 @@ bool NetcdfMatrixInterpretor::x()
     	}
     }
     catch (...) {
-    	return false;
+    	throw MagicsException("Could not find any X axis");
+    	
     }
 
     return true;
@@ -239,7 +243,8 @@ bool NetcdfMatrixInterpretor::y()
     	}
     	catch (...) {
     		MagLog::warning() << "No valid Y dimension.." << endl;
-    		return false;
+    		throw MagicsException("Could not find any Y axis");
+    		
     	}
     } 
 
@@ -264,7 +269,8 @@ bool NetcdfMatrixInterpretor::y()
     	}
     }
     catch (...) {
-    	return false;
+    	throw MagicsException("Could not find any X axis");
+    	
     }
     return true;
 }
@@ -328,7 +334,9 @@ void NetcdfMatrixInterpretor::visit(Transformation& transformation)
 			}
 
 		}
-		catch ( ... ) {}
+		catch ( ... ) {
+			throw MagicsException("Could not find any X axis");
+		}
 		
 
 }
@@ -339,10 +347,10 @@ void NetcdfMatrixInterpretor::customisedPoints(const Transformation& transformat
 
 	Matrix* uc = 0;
 	Matrix* vc = 0;
-	field_ = u_component_;
+	field_ = x_component_;
 	if (!interpretAsMatrix(&uc) )
 		return;
-	field_ = v_component_;
+	field_ = y_component_;
 	if ( !interpretAsMatrix(&vc) )
 		return;
 

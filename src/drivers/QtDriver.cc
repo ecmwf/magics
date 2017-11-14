@@ -1567,25 +1567,44 @@ MAGICS_NO_EXPORT void QtDriver::renderImage(const ImportObject& obj) const
 	else if(magCompare(f,"svg")) return; //format = SVG;
 	else return;
 	
-	MFloat width=0;
-	MFloat height=0;
+    MFloat width  = obj.getWidth(); //cm
+    MFloat height = obj.getHeight(); //cm
 
-	if(obj.getWidth()==-1 && ( magCompare(f,"gif") || magCompare(f,"png") || magCompare(f,"jpeg")|| magCompare(f,"jpg") ) )
-	{
-		return;
-	}
-	else
-	{
-		width  = obj.getWidth();
-		height = obj.getHeight();
-	}
-
+    if(width == 0. || height == 0.)
+        return;
+    
 	QImage img(obj.getPath().c_str());
 	if(img.isNull())
 	{
 		return;
 	}
 
+	if(width < 0)
+    {    
+        width=img.width(); //pixels
+        //We need the width in cm
+        MFloat cm0=projectX(obj.getOrigin().x());
+        MFloat cm1=projectX(obj.getOrigin().x()+1.);
+        MFloat cm=fabs(cm1-cm0);
+        if(cm > 0.)
+            width/=cm;
+        else
+            return;
+    }    
+        
+    if(height < 0)
+    {
+        height=img.height(); //pixels
+        //We need the height in cm
+        MFloat cm0=projectY(obj.getOrigin().y());
+        MFloat cm1=projectY(obj.getOrigin().y()+1.);
+        MFloat cm=fabs(cm1-cm0);
+        if(cm > 0.)
+            height/=cm;
+        else
+            return;
+    }   
+    
 	MgQPixmapItem *item=new MgQPixmapItem(QPixmap::fromImage(img.mirrored(false,true)));
 	
 	MFloat x0=projectX(obj.getOrigin().x());

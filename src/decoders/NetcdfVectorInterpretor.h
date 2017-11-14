@@ -24,9 +24,7 @@
 
 #include "magics.h"
 
-#include "NetcdfVectorInterpretorAttributes.h"
-#include "NetcdfGeoVectorInterpretorAttributes.h"
-#include "NetcdfGeoPolarMatrixInterpretorAttributes.h"
+
 #include "NetcdfInterpretor.h"
 #include "PaperPoint.h"
 #include "UserPoint.h"
@@ -35,34 +33,28 @@
 namespace magics {
 
 
-class NetcdfVectorInterpretor: public NetcdfVectorInterpretorAttributes, public NetcdfInterpretor {
+class NetcdfVectorInterpretor:  public NetcdfInterpretor {
 
 public:
 	NetcdfVectorInterpretor();
 	virtual ~NetcdfVectorInterpretor();
     
-    void set(const map<string, string>& params)
-    { 
-        MagLog::debug() << "NetcdfVectorInterpretor::set(params)" << "\n";
-        NetcdfInterpretorAttributes::set(params); 
-        NetcdfVectorInterpretorAttributes::set(params);
-    }
     
     void set(const XmlNode& node)
     { 
         MagLog::debug() << "NetcdfVectorInterpretor::set(params)" << "\n";
         XmlNode netcdf(node);
         netcdf.name("netcdf");
-        NetcdfInterpretorAttributes::set(netcdf); 
+        NetcdfInterpretor::set(netcdf); 
         
-        NetcdfVectorInterpretorAttributes::set(node);
+        NetcdfInterpretor::set(node);
     }
     
     bool accept(const string& node)
     { 
         if ( NetcdfInterpretorAttributes::accept(node) ) 
         	return true; 
-        return NetcdfVectorInterpretorAttributes::accept(node);
+        return magCompare(node, "vector");
     }
 
     virtual NetcdfInterpretor* clone() const
@@ -75,8 +67,8 @@ public:
     void clone(const NetcdfVectorInterpretor& )
 //    void clone(const NetcdfVectorInterpretor& other)
     {
-    	NetcdfInterpretorAttributes::copy(*this); 
-    	NetcdfVectorInterpretorAttributes::copy(*this); 
+    	NetcdfInterpretor::copy(*this); 
+    	
     }
     virtual void customisedPoints(const std::set<string>&, CustomisedPointsList&);
     virtual void customisedPoints(const Transformation&, const std::set<string>&, CustomisedPointsList&, int);
@@ -86,35 +78,30 @@ protected:
 	 virtual void print(ostream&) const; 
 };
 
-class NetcdfGeoVectorInterpretor: public NetcdfGeoVectorInterpretorAttributes, public NetcdfInterpretor {
+class NetcdfGeoVectorInterpretor: public NetcdfInterpretor {
 
 public:
 	NetcdfGeoVectorInterpretor();
 	virtual ~NetcdfGeoVectorInterpretor();
     
-    void set(const map<string, string>& params)
-    { 
-        MagLog::debug() << "NetcdfGeoVectorInterpretor::set(params)" << "\n";
-        NetcdfInterpretorAttributes::set(params); 
-        NetcdfGeoVectorInterpretorAttributes::set(params);
-    }
+    
     
     void set(const XmlNode& node)
     { 
         MagLog::debug() << "NetcdfGeoVectorInterpretor::set(params)" << "\n";
         XmlNode netcdf(node);
         netcdf.name("netcdf");
-        NetcdfInterpretorAttributes::set(netcdf); 
-        NetcdfGeoVectorInterpretorAttributes::set(node);
+        NetcdfInterpretor::set(netcdf); 
+        NetcdfInterpretor::set(node);
     }
     
     bool accept(const string& node)
     { 
         if ( NetcdfInterpretorAttributes::accept(node) ) 
         	return true; 
-        return NetcdfGeoVectorInterpretorAttributes::accept(node);
+        return magCompare(node,  "geovector");
     }
-
+    static NetcdfInterpretor* guess(const NetcdfInterpretor& from);
     virtual NetcdfInterpretor* clone() const
     {
     	NetcdfGeoVectorInterpretor* object = new NetcdfGeoVectorInterpretor();
@@ -125,8 +112,8 @@ public:
     void clone(const NetcdfGeoVectorInterpretor& )
 //    void clone(const NetcdfGeoVectorInterpretor& other)
     {
-    	NetcdfInterpretorAttributes::copy(*this); 
-    	NetcdfGeoVectorInterpretorAttributes::copy(*this); 
+    	NetcdfInterpretor::copy(*this); 
+    	
     }
     virtual void customisedPoints(const Transformation&, const std::set<string>&, CustomisedPointsList&, int);
    
@@ -140,33 +127,27 @@ protected:
 
 
 
-class NetcdfGeoPolarMatrixInterpretor: public NetcdfGeoPolarMatrixInterpretorAttributes, public NetcdfInterpretor {
+class NetcdfGeoPolarMatrixInterpretor: public NetcdfInterpretor {
 
 public:
 	NetcdfGeoPolarMatrixInterpretor();
 	virtual ~NetcdfGeoPolarMatrixInterpretor();
     
-    void set(const map<string, string>& params)
-    { 
-        MagLog::debug() << "NetcdfGeoPolarMatrixInterpretor::set(params)" << "\n";
-        NetcdfInterpretorAttributes::set(params); 
-        NetcdfGeoPolarMatrixInterpretorAttributes::set(params);
-    }
     
     void set(const XmlNode& node)
     { 
         MagLog::debug() << "NetcdfGeoPolarMatrixInterpretor::set(params)" << "\n";
         XmlNode netcdf(node);
         netcdf.name("netcdf");
-        NetcdfInterpretorAttributes::set(netcdf); 
-        NetcdfGeoPolarMatrixInterpretorAttributes::set(node);
+        NetcdfInterpretor::set(netcdf); 
+        NetcdfInterpretor::set(node);
     }
     
     bool accept(const string& node)
     { 
-        if ( NetcdfInterpretorAttributes::accept(node) ) 
+        if ( NetcdfInterpretor::accept(node) ) 
         	return true; 
-        return NetcdfGeoPolarMatrixInterpretorAttributes::accept(node);
+        return magCompare(node, "geopolarvector");
     }
 
     virtual NetcdfInterpretor* clone() const
@@ -179,8 +160,8 @@ public:
     void clone(const NetcdfGeoPolarMatrixInterpretor& )
 //    void clone(const NetcdfGeoPolarMatrixInterpretor& other)
     {
-    	NetcdfInterpretorAttributes::copy(*this); 
-    	NetcdfGeoPolarMatrixInterpretorAttributes::copy(*this); 
+    	NetcdfInterpretor::copy(*this); 
+    
     }
     virtual void customisedPoints(const Transformation&, const std::set<string>&, CustomisedPointsList&);
    

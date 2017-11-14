@@ -300,8 +300,7 @@ void GribDecoder::read(Matrix **matrix, const Transformation&  transformation)
         *matrix = 0;
         return;
     }
-    long repres;
-    grib_get_long(handle_,"dataRepresentationType",&repres);
+    
     const string representation = getString("typeOfGrid");
 
     try {

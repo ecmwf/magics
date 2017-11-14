@@ -11,12 +11,6 @@
 #       -DCMAKE_PREFIX_PATH=/path/to/jasper:/path/to/any/package/out/of/place
 #       -DBUILD_SHARED_LIBS=OFF
 
-# TODO:
-#  * fix python module generation Magics.py to __init__.py
-#  * cpack ecbuild/cmake macros into tar.gz
-#  * unit tests check that certain files are produced and not empty
-#  * pkg-config needed for metview
-
 # Missing dependencies:
 #   * ghostscript ( is it really needed? -- to confirm )
 
@@ -38,8 +32,6 @@ ecbuild_requires_macro_version( 2.6 )
 
 ###############################################################################
 # some variables of this project
-
-ecbuild_add_option( FEATURE ECCODES DESCRIPTION "" DEFAULT ON )
 
 set(ECCODES_FAIL_MSG "Note: grib_api can be used instead (select with -DENABLE_ECCODES=OFF), "
                       "but we strongly advise you to upgrade to ecCodes. "
@@ -123,16 +115,6 @@ ecbuild_add_option( FEATURE QT5
                     DEFAULT OFF
                     DESCRIPTION "use Qt5 instead of version 4" )
 
-ecbuild_add_option( FEATURE PNG
-                    DESCRIPTION "support for PNG decoding/encoding"
-                    DEFAULT ON
-                    REQUIRED_PACKAGES PNG
-)
-
-if( HAVE_PNG )
-    add_definitions( ${PNG_DEFINITIONS} )
-endif()
-
 option( BUILD_SHARED_LIBS  "Set to BOTH to build static library in addition to shared"  ON )
 option( ENABLE_REGRESSION        "Internal use only: enable regression test"  OFF  )
 option( ENABLE_REGRESSION_UPLOAD "Internal use only : enable upload of reference image"  OFF  )
@@ -142,7 +124,7 @@ set( MAGICS_EXCEPTION     "ON" )
 set( MAGICS_SITE          "ecmwf" )
 set( MAGICS_INSTALL_PATH  ${CMAKE_INSTALL_PREFIX} )
 
-set( MAGICS_REFERENCE_VERSIONS            "2.33.0" )
+set( MAGICS_REFERENCE_VERSIONS            "2.34.0" )
 set( MAGICS_HTML_ROOT        "${CMAKE_BINARY_DIR}/regression/html")
 file(MAKE_DIRECTORY ${MAGICS_HTML_ROOT} )
 
@@ -188,13 +170,13 @@ if( HAVE_METVIEW )
       else()
           ecbuild_critical("Qt5 was NOT found ...")
       endif()
-    else()
-    find_package(Qt4 4.4.3 REQUIRED QtCore QtGui QtXml )
-    if( QT_FOUND )
-		  include( ${QT_USE_FILE} )
-		  set( MAGICS_QT 1)
-		  set( qt yes)
-    endif()
+    else( HAVE_QT5 )
+      find_package(Qt4 4.6.2 REQUIRED QtCore QtGui QtXml )
+      if( QT_FOUND )
+		    include( ${QT_USE_FILE} )
+		    set( MAGICS_QT 1)
+		    set( qt yes)
+      endif()
     endif()
 endif()
 
@@ -211,7 +193,7 @@ find_package( Threads )
 # set(Boost_USE_MULTITHREADED      ON)
 #ecbuild_add_extra_search_paths( boost )
 
-find_package( Boost 1.49.0 REQUIRED)
+find_package( Boost 1.53.0 REQUIRED)
 find_package( Proj4 REQUIRED )
 find_package( EXPAT REQUIRED )
 
@@ -260,7 +242,10 @@ foreach( _tpl ${MAGICS_TPLS} )
     list( APPEND MAGICS_EXTRA_DEFINITIONS   ${${TPL}_DEFINITIONS}  )
     endif()
     list( APPEND MAGICS_EXTRA_INCLUDE_DIRS  ${${TPL}_INCLUDE_DIRS} )
+    string(REGEX REPLACE "[ ]+$" "" ${TPL}_LIBRARIES "${${TPL}_LIBRARIES}") # strips leading whitespaces
+    string(REGEX REPLACE "^[ ]+" "" ${TPL}_LIBRARIES "${${TPL}_LIBRARIES}") # strips trailing whitespaces
     list( APPEND MAGICS_EXTRA_LIBRARIES     ${${TPL}_LIBRARIES} )
+    ecbuild_info("${TPL}_LIBRARIES [${${TPL}_LIBRARIES}]") # add this to confirm that indeed it was cleaned up
 endforeach()
 
 if( HAVE_BUFR )

@@ -85,7 +85,10 @@ public:
         MagLog::dev() << "NetcdfDecoder::matrix! " << "\n";
         if ( !data_ )
         	valid_ = (*interpretor_).interpretAsMatrix(&data_);
+        if ( !valid_ )
+            throw MagicsException("Unable to use data");
         this->matrixHandlers_.push_back(new MatrixHandler(*data_));
+
         return *(this->matrixHandlers_.back());
     } 
     
