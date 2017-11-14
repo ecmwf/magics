@@ -1002,6 +1002,66 @@ void Proj4Projection::revert(const vector< std::pair<double, double> > & in, vec
 			  out.push_back(make_pair(lon, lat));
 		  }
 	}
+
+	/* to be tested later 
+	const_cast<Proj4Projection*>(this)->init();
+	out.reserve(in.size());
+	vector< std::pair<double, double> > out2;
+	out2.reserve(in.size());
+	{
+		Timer timer("OLD PROJECT", "OLD");
+	
+
+		for ( vector< std::pair<double, double> >::const_iterator pt = in.begin();  pt != in.end(); ++pt) {
+				  double x = pt->first;
+			  double y = pt->second;
+			  PaperPoint p(x, y);
+
+			  if ( PCEnveloppe_->within(p) == false ) {
+					  out.push_back(make_pair(-1000, -1000));
+				  continue;
+			  }
+
+			  int error =  pj_transform(to_, from_, 1, 1, &x, &y, NULL );
+
+			  if ( error  ) {
+				  MagLog::error() << pj_strerrno(error) << " for " << pt->first << " " << pt->second << endl;
+				  out2.push_back(make_pair(-1000, -1000));
+			  }
+			  else {
+				  double lon = x*RAD_TO_DEG;
+				  if ( lon > gridMaxLon_ ) lon -= 360.;
+				  else if ( lon < gridMinLon_ ) lon += 360.;
+				  double lat = y*RAD_TO_DEG;
+				  out2.push_back(make_pair(lon, lat));
+			  }
+	}
+	}
+	{
+		Timer timer("NEW PROJECT", "OLD");
+		vector<double> x, y;
+		x.reserve(in.size());
+		y.reserve(in.size());
+		int i = 0;
+		for ( vector< std::pair<double, double> >::const_iterator pt = in.begin();  pt != in.end(); ++pt) {
+			x[i] =  pt->first;
+			y[i] =  pt->second;
+			i++;
+		}
+
+		int error =  pj_transform(to_, from_, x.size(), y.size(), &x[0], &y[0], NULL );
+		for ( int i = 0; i < x.size(); i++) {
+			double lon = x[i]*RAD_TO_DEG;
+			double lat = y[i]*RAD_TO_DEG;
+			if ( lon > gridMaxLon_ ) lon -= 360.;
+			else if ( lon < gridMinLon_ ) lon += 360.;
+			out[i] = make_pair(lon, lat);
+		}
+
+
+
+	}
+	*/
 }
 
 void Proj4Projection::coastSetting(map<string, string>& setting, double abswidth, double absheight) const

@@ -18,9 +18,9 @@ from functools import partial
 lib = ctypes.util.find_library("MagPlus")
 
 if lib is None:
-    lib = "@CMAKE_BINARY_DIR@/lib/libMagPlus@CMAKE_SHARED_LIBRARY_SUFFIX@"
+    lib = "@CMAKE_INSTALL_PREFIX@/@INSTALL_LIB_DIR@/libMagPlus@CMAKE_SHARED_LIBRARY_SUFFIX@"
     if lib is None:
-      lib = "@CMAKE_INSTALL_PREFIX@/@INSTALL_LIB_DIR@/libMagPlus@CMAKE_SHARED_LIBRARY_SUFFIX@"
+      lib = "@CMAKE_BINARY_DIR@/lib/libMagPlus@CMAKE_SHARED_LIBRARY_SUFFIX@"
 
 dll  = ctypes.CDLL(lib)
 libc = ctypes.CDLL(ctypes.util.find_library("c"))
@@ -146,9 +146,10 @@ init.argtypes = None
 
 ####################################################################
 
-finalize = dll.mag_close
-finalize.restype = None
-finalize.argtypes = None
+
+@checked_return_code
+def finalize():
+    return dll.mag_close()
 
 ####################################################################
 
@@ -490,7 +491,7 @@ reset = convert_strings(reset)
 class MagicsError(Exception):
 
     def __init__(self, err):
-        super(MagicsError, self).__init__("Magics Error - to be made clearer!!! (%s)" % err)
+        super(MagicsError, self).__init__("Magics Error - No Plot Produced!!! (%s)" % err)
 
 ####################################################################
 

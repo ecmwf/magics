@@ -122,8 +122,12 @@ public:
 	
 	void x(double x ) { x_ = x; }
 	void y(double y ) { y_ = y; }
-	void absoluteWidth(double);
-	void absoluteHeight(double);
+	
+    double absoluteWidth(double);
+	double absoluteHeight(double);
+   
+    
+    
 	void width(double width ) { width_ = width; }
 	void height(double height ) { height_ = height; }
 	
@@ -328,7 +332,7 @@ public:
 	virtual ~RootLayout();
 	double absoluteWidth() const { return absoluteWidth_; }
 	double absoluteHeight() const { return absoluteHeight_; }
-	virtual bool childOfRoot() { return false; }
+	bool childOfRoot() const { return false; }
 	void redisplay(const BaseDriver& driver) const;
 
 	 virtual void resize(double width, double height) { absoluteWidth_ = width; absoluteHeight_ = height; }

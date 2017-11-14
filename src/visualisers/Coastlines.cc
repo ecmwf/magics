@@ -52,8 +52,9 @@ void Coastlines::visit(DrawingVisitor& parent)
 	// if needed Find the Style, according to the theme ..
 	if ( style_.size() ) {
 		StyleLibrary styles(theme(), "coastlines");
-		const map<string, string>& style = styles.get(style_);
-		set(style);
+		Style::Definition style;
+		if ( styles.find(style_, style) )
+			set(style);
 		
 	}
 	(*coastlines_)(parent);

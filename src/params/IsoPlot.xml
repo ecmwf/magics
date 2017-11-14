@@ -126,6 +126,7 @@ does it submit to any jurisdiction.
         		<option xml="count" fortran="count" include="CountSelectionType.h" name="CountSelectionType">		</option>
         		<option xml="interval" fortran="interval" include="IntervalSelectionType.h" name="IntervalSelectionType">		</option>
         		<option xml="list" fortran="level_list" include="LevelListSelectionType.h" name="LevelListSelectionType">		</option>
+                <option xml="gradients" fortran="gradients" include="LevelListSelectionType.h" name="GradientsSelectionType">       </option>
     	</parameter>
 
 

@@ -10,49 +10,118 @@ granted to it by virtue of its status as an intergovernmental organisation nor
 does it submit to any jurisdiction.
 -->
 
-		<documentation>
-		This object contains this attributes to set how to load the data from the file.
+        <documentation>
+        This object contains this attributes to set how to load the data from the file.
         It is possible to load only a subarray of the data, by setting the dimensions.
-		</documentation>
-        	<parameter member="path" to="string" default="" from="string" name="netcdf_filename">
-            		<documentation>Path of the file to be read		</documentation>
-        	</parameter>
+        </documentation>
+            <parameter member="path" to="string" default="" from="string" name="netcdf_filename">
+                    <documentation>Path of the file to be read      </documentation>
+            </parameter>
 
-        	<parameter member="dimension" to="stringarray" default="stringarray()" from="stringarray" name="netcdf_dimension_setting">
-            		<metview default="" class="">  		</metview>
-            		<documentation> Extract only of a subset of variables [ex: level:100:500]	</documentation>
-        	</parameter>
-        	<parameter from="string" name="netcdf_dimension_setting_method" default="value" member="dimension_method" to="string" values="index/value">
-            		 <documentation>Method used to specify how to interpret the extraction of a subset, the range can by specified by value or by index 		</documentation>
-        	</parameter>
+            <parameter member="dimension" to="stringarray" default="stringarray()" from="stringarray" name="netcdf_dimension_setting">
+                    <metview default="" class="">       </metview>
+                    <documentation> Extract only of a subset of variables [ex: level:100:500]   </documentation>
+            </parameter>
+            <parameter member="time_dimension" to="string" default="" from="string" name="netcdf_time_dimension_setting">
+                    <documentation> Extract only the specified times : date specified in Human readable format YYY-MM-DD HH:MM:00   </documentation>
+            </parameter>
+            <parameter member="level_dimension" to="string" default="" from="string" name="netcdf_level_dimension_setting">
+                    <documentation> Extract only the specified level   </documentation>
+            </parameter>
+              <parameter member="number_dimension" to="string" default="" from="string" name="netcdf_number_dimension_setting">
+                    <documentation> Extract only the specified number   </documentation>
+            </parameter>
+            <parameter from="string" name="netcdf_dimension_setting_method" default="value" member="dimension_method" to="string" values="index/value">
+                     <documentation>Method used to specify how to interpret the extraction of a subset, the range can by specified by value or by index         </documentation>
+            </parameter>
+            <parameter member="latitude" to="string" default="latitude" from="string" name="netcdf_latitude_variable">
+                  <release>Magics++0.1    </release>
+                  <documentation>Variable name representing the latitude dimension    </documentation>
+          </parameter> 
+          <parameter member="longitude" to="string" default="longitude" from="string" name="netcdf_longitude_variable">
+                <metview default="" class="">       </metview>
+                <release>Magics++0.1    </release>
+                <documentation>Variable name representing the longitude dimension   </documentation>
+          </parameter>
+          <parameter member="speed" to="string" default="" from="string" name="netcdf_speed_component_variable">
+                  <release>Magics++2.6    </release>
+                  <documentation>Variable name representing the speed component of the vector   </documentation>
+          </parameter> 
+          <parameter member="direction" to="string" default="" from="string" name="netcdf_direction_component_variable">
+                <release>Magics++2.6    </release>
+                <documentation>Variable name representing the direction component of the vector   </documentation>
+          </parameter>
         
-         	<parameter member="field" to="string" default="" from="string" name="netcdf_value_variable">
-              		<documentation>Variable to plot</documentation>
-        	</parameter> 	
-        	<parameter member="u_component" to="string" default="" from="string" name="netcdf_x_component_variable">
-              		<documentation>x_component for vector plotting</documentation>
-        	</parameter> 
-       		<parameter member="v_component" to="string" default="" from="string" name="netcdf_y_component_variable">
-              		<documentation>y_component for vector plotting</documentation>
-        	</parameter> 
+            <parameter member="field" to="string" default="" from="string" name="netcdf_value_variable">
+                    <documentation>Variable to plot</documentation>
+            </parameter>    
+            <parameter member="x_component" to="string" default="" from="string" name="netcdf_x_component_variable">
+                    <documentation>x_component for vector plotting</documentation>
+            </parameter> 
+            <parameter member="y_component" to="string" default="" from="string" name="netcdf_y_component_variable">
+                    <documentation>y_component for vector plotting</documentation>
+            </parameter> 
+            <parameter member="colour_component" to="string" default="" from="string" name="netcdf_colour_component_variable">
+                <release>Magics++2.6    </release>
+                <documentation>Variable name representing the colour component of the vector ( in case of coloured wind)    </documentation>
+          </parameter>
        
-          	<parameter member="scaling" to="float" default="1" from="float" name="netcdf_field_scaling_factor">
-            		<documentation>Scaling factor to multiply the field value by		</documentation>
-        	</parameter>
-         	<parameter member="offset" to="float" default="0" from="float" name="netcdf_field_add_offset">
-            		<documentation>Offset added to the field values		</documentation>
-           	</parameter>
-           	<parameter member="missing_attribute" to="string" default="_FillValue" from="string" name="netcdf_missing_attribute">
-            		<documentation>Attribute indicating the value used to indicate a missing value in the data		</documentation>
-           	</parameter>  
-            	<parameter member="reference" to="string" default="0" from="string" name="netcdf_reference_date" visible="false">
-            		<documentation>attribute indicating  the reference date		</documentation>
-           	</parameter> 
-           	<parameter member="suppress_below" to="float" default="-1.0e+21" from="float" name="netcdf_field_suppress_below">
-         		<documentation> Values in the input field(s) below this value are to be suppressed, i.e. not to be taken into consideration for plotting purposes 		</documentation>
-  	</parameter>
+            <parameter member="scaling" to="float" default="1" from="float" name="netcdf_field_scaling_factor">
+                    <documentation>Scaling factor to multiply the field value by        </documentation>
+            </parameter>
+            <parameter member="offset" to="float" default="0" from="float" name="netcdf_field_add_offset">
+                    <documentation>Offset added to the field values     </documentation>
+            </parameter>
+            <parameter member="missing_attribute" to="string" default="_FillValue" from="string" name="netcdf_missing_attribute">
+                    <documentation>Attribute indicating the value used to indicate a missing value in the data      </documentation>
+            </parameter>  
+                <parameter member="reference" to="string" default="0" from="string" name="netcdf_reference_date" visible="false">
+                    <documentation>attribute indicating  the reference date     </documentation>
+            </parameter> 
+            <parameter member="suppress_below" to="float" default="-1.0e+21" from="float" name="netcdf_field_suppress_below">
+                <documentation> Values in the input field(s) below this value are to be suppressed, i.e. not to be taken into consideration for plotting purposes       </documentation>
+    </parameter>
 
-  	<parameter member="suppress_above" to="float" default="1.0e+21" from="float" name="netcdf_field_suppress_above">
-         		<documentation> Values in the input field(s) above this value are to be suppressed, i.e not to be taken into consideration for plotting purposes 		</documentation>
-  	</parameter>
+    <parameter member="suppress_above" to="float" default="1.0e+21" from="float" name="netcdf_field_suppress_above">
+                <documentation> Values in the input field(s) above this value are to be suppressed, i.e not to be taken into consideration for plotting purposes        </documentation>
+    </parameter>
+   	
+    <parameter member="x" to="string" default="x" from="string" name="netcdf_x_variable">
+                    <release>Magics++0.1        </release>
+                    <documentation>Variable name for the x values       </documentation>
+            </parameter> 
+            <parameter member="x2" to="string" default="x2" from="string" name="netcdf_x2_variable">
+                    <release>Magics++0.1        </release>
+                    <documentation>Variable name for the auxiliary x values (used in CurveArea)     </documentation>
+            </parameter> 
+            <parameter member="y" to="string" default="y" from="string" name="netcdf_y_variable">
+            
+                    <release>Magics++0.1        </release>
+                    <documentation>Variable name for the y values       </documentation>
+            </parameter> 
+            <parameter member="y2" to="string" default="y2" from="string" name="netcdf_y2_variable">
+            
+                    <release>Magics++0.1        </release>
+                    <documentation>Variable name for the auxiliary y values (used in CurveArea)     </documentation>
+            </parameter>
+            <parameter member="aux_x" to="string" default="" from="string" name="netcdf_x_auxiliary_variable">
+             		<release>Magics++0.1		</release>
+        		<documentation>variable can used to define geoline definition.		</documentation>
+        	</parameter>  
+         	<parameter member="geo_x_convention" to="string" default="lonlat" from="string" name="netcdf_x_geoline_convention">
+        
+        		<documentation>Geoline Convention used lonlat or latlon		</documentation>
+        	</parameter>  
+          	<parameter member="geo_y_convention" to="string" default="lonlat" from="string" name="netcdf_y_geoline_convention">
+        
+        		<documentation>Geoline Convention used lonlat or latlon		</documentation>
+        	</parameter>  
+        	<parameter member="aux_y" to="string" default="" from="string" name="netcdf_y_auxiliary_variable">
+             		<release>Magics++0.1		</release>
+        		<documentation>variable can used to define geoline definition.		</documentation>
+        	</parameter>
+            	<parameter member="primary_index" to="string" default="longitude" from="string" name="netcdf_matrix_primary_index">
+             		<release>Magics++2.4		</release>
+            		<documentation> Primary index latitude/longitude		</documentation>
+        	</parameter>
 </class></magics>

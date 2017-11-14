@@ -79,37 +79,38 @@ void Contour::operator()(Data& data, BasicGraphicsObjectContainer& parent)
     	ContourLibrary* library = MagTranslator<string, ContourLibrary>()(setting_);
 
     		// Here we try call the Contour libry to set up visual properties...
-    		MetaDataCollector needId,needAttributes;
+    		MetaDataCollector request,needAttributes;
     		map<string, string> attributes;
     		
 
-		library->askId(needId);
-		data.visit(needId);
+		library->askId(request);
+		data.visit(request);
 
 
-		if(library->checkId(needId,needAttributes))
+		if(library->checkId(request,needAttributes))
 		{			
     			data.visit(needAttributes);
     			needAttributes["theme"] = theme_;
     			library->getAttributes(needAttributes,attributes);
 
-    			this->set(attributes);
+    			set(attributes);
     	}
 		else {
-			library->getAttributes(needId,attributes);
+			request["theme"] = theme_;
+			library->getAttributes(request,attributes);
+			set(attributes);
 		}
 		delete library;
 
 
     data.getReady(parent.transformation());
     if ( !data.valid() ) {
-		MagLog::error() << "Invalid data for contouring" << endl;
-		return;
-    }
+		throw MagicsException("Invalid data for contouring");
+	}
 	MatrixHandler* box =  data.matrix().getReady(parent.transformation());
 	if (!box  ){
-		MagLog::error() << "Invalid data for contouring" << endl;
-		return;
+		throw MagicsException("Invalid data for contouring");
+		
 	}
 	if ( !box->rows() ||  !box->columns() ) {
 		(*this->contour_)(data, parent);
@@ -161,7 +162,7 @@ void Contour::operator()(Data& data, BasicGraphicsObjectContainer& parent)
     }
     catch (MagicsException& e) 
     {
-    	// Do nothing! 
+    	throw e ; // forwarding exception
     }
 }
 

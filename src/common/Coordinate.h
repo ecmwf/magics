@@ -228,7 +228,7 @@ public:
     double maxpc() { return max_; }
     
     AxisAutomaticSetting automatic() { return automatic_; }
-    virtual void setAutomatic(AxisAutomaticSetting automatic) { automatic_ = automatic; }
+    void setAutomatic(AxisAutomaticSetting automatic) { automatic_ = automatic; }
     virtual void  automatic(bool automatic) { automatic_ = automatic?m_both:m_off; set(); }
 
     void minmax(double min, double max) {
@@ -391,12 +391,18 @@ public:
     double max() { return max_; }
     double minpc() { return (*this)(min_); }
     double maxpc() { return (*this)(max_); }
-    virtual void set(const XmlNode& node) {
+    void set(const XmlNode& node) {
 	    if ( !magCompare(node.name(), "x_logarithmic") ) return; 
 		XmlNode regular = node;
 		regular.name("x_regular");
 		XLogarithmicCoordinateAttributes::set(regular);
         set();
+    }
+   
+    void set(const map<string, string>& map) {
+        XLogarithmicCoordinateAttributes::set(map);
+        set();
+        
     }
     void set() {
     		switch ( automatic_ ) {
@@ -496,6 +502,7 @@ public:
 		YLogarithmicCoordinateAttributes::set(regular);
         set();
     }
+    
 	virtual void set(const map<string, string>& map) {
 			YLogarithmicCoordinateAttributes::set(map);
 	        set();
@@ -727,7 +734,7 @@ public:
     bool accept(const string& xml) { return YDateCoordinateAttributes::accept(xml); }
     void set(const XmlNode& node) { YDateCoordinateAttributes::set(node); }
        void set(const map<string, string>& map) { YDateCoordinateAttributes::set(map);  }
-    virtual void setAutomatic(AxisAutomaticSetting automatic) { automatic_ = (automatic); }
+    void setAutomatic(AxisAutomaticSetting automatic) { automatic_ = (automatic); }
     void automatic(bool automatic) { automatic_ = (automatic?m_both:m_off); }
 
     virtual YCoordinate* clone() const {
@@ -827,7 +834,8 @@ public:
      bool accept(const string& xml) { return YHyperCoordinateAttributes::accept(xml); }
     void set(const XmlNode& node) { YHyperCoordinateAttributes::set(node); }
     void set(const map<string, string>& map) { YHyperCoordinateAttributes::set(map); }
-    virtual void setAutomatic(bool automatic) {automatic_ = automatic?m_both:m_off; }
+    void setAutomatic(AxisAutomaticSetting automatic) { YCoordinate::setAutomatic(automatic); }
+    void setAutomatic(bool automatic) {automatic_ = automatic?m_both:m_off; }
     void automatic(bool automatic) { automatic_ = automatic?m_both:m_off; }
     
     virtual YCoordinate* clone() const {
@@ -929,7 +937,8 @@ public:
      bool accept(const string& xml) { return XHyperCoordinateAttributes::accept(xml); }
     void set(const XmlNode& node) { XHyperCoordinateAttributes::set(node); }
     void set(const map<string, string>& map) { XHyperCoordinateAttributes::set(map); }
-    virtual void setAutomatic(bool automatic) { automatic_ = (automatic?m_both:m_off); }
+    void setAutomatic(AxisAutomaticSetting automatic) { XCoordinate::setAutomatic(automatic); }
+    void setAutomatic(bool automatic) { automatic_ = (automatic?m_both:m_off); }
     void automatic(bool automatic) {  automatic_ = automatic?m_both:m_off; }
     vector<double> mins() { vector<double> mins; mins.push_back(min_lon_); mins.push_back(min_lat_);  return mins; }
     vector<double> maxs() {  vector<double> maxs; maxs.push_back(max_lon_); maxs.push_back(max_lat_);  return maxs; }

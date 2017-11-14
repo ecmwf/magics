@@ -127,10 +127,7 @@ public:
 
 	void visit(const BaseDriver&) const;
 
-	double absoluteX() const //absolute position from the root
-	{
-		ASSERT(parent_); return parent_->absoluteX();
-	}
+    
 	
 	virtual void getDriverInfo(double& x, double& y, double& width, double& height)
 	{
@@ -153,12 +150,12 @@ public:
 		ASSERT(parent_); return parent_->absoluteHeight();
 	}
 	
-	virtual double absoluteWidth(double width)  const //absolute position from the root
+	virtual double absoluteWidth(double width) //absolute position from the root
 	{
 		ASSERT(parent_); return parent_->absoluteWidth(width);
 	}
 
-	virtual double absoluteHeight(double height) const //absolute position from the root
+	virtual double absoluteHeight(double height) //absolute position from the root
 	{
 		ASSERT(parent_); return parent_->absoluteHeight(height);
 	}

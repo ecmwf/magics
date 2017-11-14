@@ -17,7 +17,7 @@ ref = 'grib'
 
 # Setting of the output file name
 
-output = output(output_formats=['ps'],
+output = output(output_formats=['png'],
                 output_name_first_page_number='off',
                 output_name=ref)
 
@@ -43,6 +43,7 @@ coast = mcoast(map_grid='on', map_grid_colour='tan',
 
 data = mgrib(grib_input_file_name='data.grib',
              grib_id='data')
+
 
 
 
@@ -74,6 +75,6 @@ legend = mlegend(
 # To the plot
 
 print("plot")
-plot( output,  europe, data, cont, coast, title)
+plot( output,  data, cont, mcoast(),  title)
 
 

@@ -43,13 +43,13 @@ def geoplot(data, contour=None, output=None, background=None, foreground=None, a
 
     #Define the title
     title = macro.mtext(
-                  text_lines = title, 
+                  text_lines = title,
                   text_font_size = 0.8,
                   text_justification = "left"
                 )
     if output == None :
       return macro.plot(projection, background, data, contour, foreground, title)
-    
+
     return macro.plot(output, projection, background, data, contour, foreground, title)
 
 def xyplot(data, contour=None, output=None):
@@ -144,12 +144,12 @@ defaults = {
             "subpage_map_projection" : 'cartesian',
             "subpage_x_axis_type" : 'date',
             "subpage_x_automatic" : 'on',
-            "subpage_y_axis_type" : 'regular', 
+            "subpage_y_axis_type" : 'regular',
             "subpage_y_automatic" : 'off',
             "subpage_y_max" : 43200.,
             "subpage_y_min" : -43200.,
        },
-         "vertical_axis" :  { 
+         "vertical_axis" :  {
               "axis_orientation" : "vertical",
               "axis_grid" : "on",
               "axis_grid_colour" : "navy",
@@ -173,12 +173,12 @@ defaults = {
             "subpage_map_projection" : 'cartesian',
             "subpage_x_axis_type" : 'date',
             "subpage_x_automatic" : 'on',
-            "subpage_y_axis_type" : 'regular', 
+            "subpage_y_axis_type" : 'regular',
             "subpage_y_automatic" : 'off',
             "subpage_y_max" : 43200.,
             "subpage_y_min" : -43200.,
        },
-         "vertical_axis" :  { 
+         "vertical_axis" :  {
               "axis_orientation" : "vertical",
               "axis_grid" : "on",
               "axis_grid_colour" : "navy",
@@ -191,7 +191,7 @@ defaults = {
               "axis_tick_label": "off"
 
               },
-      
+
          "epswave": {
                         "eps_rose_wind_border_colour": "Rgb(0.5000, 0.5000, 0.5000)",
                         "eps_rose_wind_colour": "RGB(0.925,0.609,0.953)",
@@ -199,71 +199,71 @@ defaults = {
                       },
   },
   "eps" :  {
-		   "projection" : {
-	        	"subpage_map_projection" : 'cartesian',
-	        	"subpage_x_axis_type" : 'date',
-	        	"subpage_x_automatic" : 'on',
-	        	"subpage_y_axis_type" : 'regular',
-	            "subpage_y_automatic" : 'on',
-		   },
-	       "vertical_axis" :  { 
-	            "axis_orientation" : "vertical",
-	            "axis_grid" : "on",
-	            "axis_grid_colour" : "navy",
-	            "axis_grid_line_style" :"dash",
-	            "axis_grid_reference_level" :  0.,
-	            "axis_grid_reference_thickness" : 1,
-	            "axis_line" :  "on",
-	            "axis_line_colour" : "navy",
-	            "axis_tick_colour" : "navy",
-	            "axis_tick_label_colour" : "navy",
-	            "axis_tick_label_height":  font_size
-	            },
-	        "horizontal_axis" :  { 
-	            "axis_orientation" : "horizontal",
-	            "axis_date_type" : "days",
-	            "axis_days_label" : "both",
-	            "axis_days_label_colour" :  "navy",
-	            "axis_days_label_height" : font_size,
-	            "axis_grid" :  "on",
-	            "axis_grid_colour" : "navy",
-	            "axis_grid_line_style" : "dash",
-	            "axis_line_colour" : "navy",
-	            "axis_minor_tick" : "off",
-	            "axis_minor_tick_colour" : "navy",
-	            "axis_months_label" : "off",
-	            "axis_tick_colour" : "navy",
-	            "axis_type" :  "date",
-	            "axis_years_label" : "off"
-	            },
-	        "epsgraph" : {
-	            "eps_box_border_thickness" : 2,
-	            "eps_box_width" : 1.5,
-	            "eps_box_colour" : colour,
-	            "eps_font_colour" :"navy",
-	            "eps_legend_font_size" :  font_size,
-	            "eps_grey_legend" : "off",
-	            "legend" :'off'
-	        },
-         
-	        "epsclim" : {
-	           "eps_shade_colour": colour,
-	           "eps_shade_line_thickness": 4,
-	        }
-    	}
+       "projection" : {
+            "subpage_map_projection" : 'cartesian',
+            "subpage_x_axis_type" : 'date',
+            "subpage_x_automatic" : 'on',
+            "subpage_y_axis_type" : 'regular',
+              "subpage_y_automatic" : 'on',
+       },
+         "vertical_axis" :  {
+              "axis_orientation" : "vertical",
+              "axis_grid" : "on",
+              "axis_grid_colour" : "navy",
+              "axis_grid_line_style" :"dash",
+              "axis_grid_reference_level" :  0.,
+              "axis_grid_reference_thickness" : 1,
+              "axis_line" :  "on",
+              "axis_line_colour" : "navy",
+              "axis_tick_colour" : "navy",
+              "axis_tick_label_colour" : "navy",
+              "axis_tick_label_height":  font_size
+              },
+          "horizontal_axis" :  {
+              "axis_orientation" : "horizontal",
+              "axis_date_type" : "days",
+              "axis_days_label" : "both",
+              "axis_days_label_colour" :  "navy",
+              "axis_days_label_height" : font_size,
+              "axis_grid" :  "on",
+              "axis_grid_colour" : "navy",
+              "axis_grid_line_style" : "dash",
+              "axis_line_colour" : "navy",
+              "axis_minor_tick" : "off",
+              "axis_minor_tick_colour" : "navy",
+              "axis_months_label" : "off",
+              "axis_tick_colour" : "navy",
+              "axis_type" :  "date",
+              "axis_years_label" : "off"
+              },
+          "epsgraph" : {
+              "eps_box_border_thickness" : 2,
+              "eps_box_width" : 1.5,
+              "eps_box_colour" : colour,
+              "eps_font_colour" :"navy",
+              "eps_legend_font_size" :  font_size,
+              "eps_grey_legend" : "off",
+              "legend" :'off'
+          },
+
+          "epsclim" : {
+             "eps_shade_colour": colour,
+             "eps_shade_line_thickness": 4,
+          }
+      }
     }
 
 
 def epswave(parameter, input, **args):
     actions = []
-   
+
     projection = macro.mmap( substitute(defaults["epswave"]["projection"], args.get("projection", None)) )
 
     # define horizontal axis
-    horizontal = macro.maxis(substitute(defaults["eps"]["horizontal_axis"], args.get("horizontal_axis", None)))  
+    horizontal = macro.maxis(substitute(defaults["eps"]["horizontal_axis"], args.get("horizontal_axis", None)))
     vertical = macro.maxis(substitute(defaults["epswave"]["vertical_axis"], args.get("vertical_axis", None)))
-   
-    
+
+
     data = macro.mwrepjson(
                             wrepjson_family =  "eps",
                             wrepjson_keyword =  "eps",
@@ -274,14 +274,14 @@ def epswave(parameter, input, **args):
                         )
 
     wave = macro.mepswave(substitute(defaults["epswave"]["epswave"], args.get("epswave", None)) )
-   
-    
+
+
     actions.append(projection)
     actions.append(vertical)
     actions.append(horizontal)
 
     actions.append(data)
-    actions.append(wave)           
+    actions.append(wave)
 
 
     text = macro.mtext(
@@ -297,12 +297,12 @@ def epswave(parameter, input, **args):
                 )
 
     actions.append(text)
-    
+
     if "output" in args != "" :
       #Setting of the output file name
-      png = macro.output(output_formats = ['png'], 
+      png = macro.output(output_formats = ['png'],
       output_name_first_page_number = "off",
-      output_name = args["output"], 
+      output_name = args["output"],
       super_page_y_length = 10.,
       subpage_y_length = 5.,
       subpage_y_position = 1.5)
@@ -310,7 +310,7 @@ def epswave(parameter, input, **args):
     return macro._plot(
       png,
             actions
-      ) 
+      )
 
     return macro.plot(
             actions
@@ -318,14 +318,14 @@ def epswave(parameter, input, **args):
 
 def epswind(parameter, input, **args):
     actions = []
-   
+
     projection = macro.mmap( substitute(defaults["epswind"]["projection"], args.get("projection", None)) )
 
     # define horizontal axis
-    horizontal = macro.maxis(substitute(defaults["eps"]["horizontal_axis"], args.get("horizontal_axis", None)))  
+    horizontal = macro.maxis(substitute(defaults["eps"]["horizontal_axis"], args.get("horizontal_axis", None)))
     vertical = macro.maxis(substitute(defaults["epswind"]["vertical_axis"], args.get("vertical_axis", None)))
-   
-    
+
+
     data = macro.mwrepjson(
                             wrepjson_family =  "eps",
                             wrepjson_keyword =  "eps",
@@ -336,14 +336,14 @@ def epswind(parameter, input, **args):
                         )
 
     wave = macro.mepswind(substitute(defaults["epswind"]["epswind"], args.get("epswind", None)) )
-   
-    
+
+
     actions.append(projection)
     actions.append(vertical)
     actions.append(horizontal)
 
     actions.append(data)
-    actions.append(wave)           
+    actions.append(wave)
 
 
     text = macro.mtext(
@@ -359,12 +359,12 @@ def epswind(parameter, input, **args):
                 )
 
     actions.append(text)
-    
+
     if "output" in args != "" :
       #Setting of the output file name
-      png = macro.output(output_formats = ['png'], 
+      png = macro.output(output_formats = ['png'],
       output_name_first_page_number = "off",
-      output_name = args["output"], 
+      output_name = args["output"],
       super_page_y_length = 10.,
       subpage_y_length = 5.,
       subpage_y_position = 1.5)
@@ -374,16 +374,16 @@ def epswind(parameter, input, **args):
     return macro._plot(
       png,
             actions
-      ) 
+      )
 
     return macro.plot(
             actions
     )
 
 def epsgraph(parameter, input, **args):
-    
-  
-    
+
+
+
     actions = []
 
     projection = macro.mmap( substitute(defaults["eps"]["projection"], args.get("projection", None)) )
@@ -409,15 +409,14 @@ def epsgraph(parameter, input, **args):
     actions.append(vertical)
     actions.append(horizontal)
 
-    
 
-    if "climate" in args  : 
-    	
-    	clim = macro.mwrepjson(
+
+    if "climate" in args  :
+      clim = macro.mwrepjson(
                             wrepjson_family =  "eps",
                             wrepjson_keyword =  "clim",
                             wrepjson_input_filename = input,
-                            wrepjson_parameter = parameter,         
+                            wrepjson_parameter = parameter,
                             wrepjson_parameter_scaling_factor = args.get("scaling", 1.),
                             wrepjson_parameter_offset_factor = args.get("offset", 0.),
                             wrepjson_ignore_keys = ["100"],
@@ -425,169 +424,169 @@ def epsgraph(parameter, input, **args):
                             wrepjson_parameter_information = "none",
                             wrepjson_position_information = "off"
                         )
-        shade = macro.mepsshading(substitute(defaults["eps"]["epsclim"], args.get("epsclim", None)) )
-        actions.append(clim)
-        actions.append(shade)
+      shade = macro.mepsshading(substitute(defaults["eps"]["epsclim"], args.get("epsclim", None)) )
+      actions.append(clim)
+      actions.append(shade)
 
-    actions.append(data)
-    actions.append(graph)
+      actions.append(data)
+      actions.append(graph)
 
-    text = macro.mtext(
-                    text_colour =  "navy",
-                    text_font_size = font_size*2,
-                    text_justification =  "left",
-                    text_lines =  ["ENS Meteogram",
-                    "<json_info key='station_name'/><json_info key='location'/><json_info key='grid_point'/><json_info key='height'/>",
-                    "<json_info key='product_info'/><json_info key='date'/>",
-                    "<font size='0.5' colour='white'>.</font>",
-                    "<json_info key='parameter_info'/>",]
-                )
+      text = macro.mtext(
+                      text_colour =  "navy",
+                      text_font_size = font_size*2,
+                      text_justification =  "left",
+                      text_lines =  ["ENS Meteogram",
+                      "<json_info key='station_name'/><json_info key='location'/><json_info key='grid_point'/><json_info key='height'/>",
+                      "<json_info key='product_info'/><json_info key='date'/>",
+                      "<font size='0.5' colour='white'>.</font>",
+                      "<json_info key='parameter_info'/>",]
+                  )
 
-    actions.append(text)
+      actions.append(text)
 
-    if "output" in args != "" :
-    	#Setting of the output file name
-		png = macro.output(output_formats = ['png'], 
-			output_name_first_page_number = "off",
-			output_name = args["output"], 
-      super_page_y_length = 10.,
-      subpage_y_length = 5.,
-      subpage_y_position = 1.,
-      )
+      if "output" in args != "" :
+        #Setting of the output file name
+        png = macro.output(output_formats = ['png'],
+          output_name_first_page_number = "off",
+          output_name = args["output"],
+          super_page_y_length = 10.,
+          subpage_y_length = 5.,
+          subpage_y_position = 1.,
+        )
 
       return macro._plot(
-            png,
-            actions
+              png,
+              actions
       )
 
 
 
 def epsclimgram(**kw):
 
-	args = {"clim" :True }
-	args.update(kw)
+  args = {"clim" :True }
+  args.update(kw)
 
-	return epsgraph(**args)
+  return epsgraph(**args)
 
 params = {
     "2t": {
-        "scaling": 1.0, 
-        "offset": -273.0, 
-        "method": epsgraph, 
+        "scaling": 1.0,
+        "offset": -273.0,
+        "method": epsgraph,
         "title": "2-metre temperature"
-    }, 
+    },
     "mcc": {
-        "scaling": 1.0, 
-        "offset": 0.0, 
-        "method": epsgraph, 
+        "scaling": 1.0,
+        "offset": 0.0,
+        "method": epsgraph,
         "title": "Medium cloud cover"
-    },   
+    },
      "light-index": {
-        "scaling": 1.0, 
-        "offset": 0.0, 
-        "method": epsgraph, 
+        "scaling": 1.0,
+        "offset": 0.0,
+        "method": epsgraph,
         "title": "Light index"
-    }, 
+    },
     "10fg6": {
-        "scaling": 1.0, 
-        "offset": 0.0, 
-        "method": epsgraph, 
+        "scaling": 1.0,
+        "offset": 0.0,
+        "method": epsgraph,
         "title": "10 metre wind gust in the last 6 hours"
-    }, 
+    },
     "tp": {
-        "scaling": 1000., 
-        "offset": 0.0, 
-        "method": epsgraph, 
+        "scaling": 1000.,
+        "offset": 0.0,
+        "method": epsgraph,
         "title": "Total precipitation (last 6 hours) (m)"
-    }, 
+    },
     "tcc": {
-        "scaling": 1.0, 
-        "offset": 0.0, 
-        "method": epsgraph, 
+        "scaling": 1.0,
+        "offset": 0.0,
+        "method": epsgraph,
         "title": "Total cloud cover"
-    }, 
+    },
     "hcc": {
-        "scaling": 1.0, 
-        "offset": 0.0, 
-        "method": epsgraph, 
+        "scaling": 1.0,
+        "offset": 0.0,
+        "method": epsgraph,
         "title": "High cloud cover"
-    }, 
+    },
     "ws": {
-        "scaling": 1.0, 
-        "offset": 0.0, 
-        "method": epsgraph, 
+        "scaling": 1.0,
+        "offset": 0.0,
+        "method": epsgraph,
         "title": "Wind speed (m/s)"
-    }, 
+    },
     "lcc": {
-        "scaling": 1.0, 
-        "offset": 0.0, 
-        "method": epsgraph, 
+        "scaling": 1.0,
+        "offset": 0.0,
+        "method": epsgraph,
         "title": "Low cloud cover"
-    }, 
+    },
     "sf": {
-        "scaling": 1000.0, 
-        "offset": 0.0, 
-        "method": epsgraph, 
+        "scaling": 1000.0,
+        "offset": 0.0,
+        "method": epsgraph,
         "title": "Snowfall (last 6 hours)"
     },
     "swh": {
-        "scaling": 1.0, 
-        "offset": 0.0, 
-        "method": epsgraph, 
+        "scaling": 1.0,
+        "offset": 0.0,
+        "method": epsgraph,
         "title": "Significant wave height"
-    }, 
+    },
     "mwp": {
-        "scaling": 1.0, 
-        "offset": 0.0, 
-        "method": epsgraph, 
+        "scaling": 1.0,
+        "offset": 0.0,
+        "method": epsgraph,
         "title": "Mean wave period"
-    }, 
+    },
     "dwi": {
-        "scaling": 1.0, 
-        "offset": 0.0, 
-        "method": epswind, 
+        "scaling": 1.0,
+        "offset": 0.0,
+        "method": epswind,
         "title": "10 metre wind direction"
-    }, 
+    },
     "mwd": {
-        "scaling": 1.0, 
-        "offset": 0.0, 
-        "method": epswave, 
+        "scaling": 1.0,
+        "offset": 0.0,
+        "method": epswave,
         "title": "Mean wave direction"
     },
     "ws24": {
-        "scaling": 1.0, 
-        "offset": 0.0, 
-        "method": epsgraph, 
+        "scaling": 1.0,
+        "offset": 0.0,
+        "method": epsgraph,
         "title": "Daily mean of 10m wind speed (m/s)"
-    }, 
+    },
     "tcc24": {
-        "scaling": 1.0, 
-        "offset": 0.0, 
-        "method": epsgraph, 
+        "scaling": 1.0,
+        "offset": 0.0,
+        "method": epsgraph,
         "title": "Daily mean of total cloud cover"
-    }, 
+    },
     "mn2t24": {
-        "scaling": 1.0, 
-        "offset": -273.15, 
-        "method": epsgraph, 
+        "scaling": 1.0,
+        "offset": -273.15,
+        "method": epsgraph,
         "title": "2 metre min temperature (Daily)"
-    }, 
+    },
     "tp24": {
-        "scaling": 1000.0, 
-        "offset": 0.0, 
-        "method": epsgraph, 
+        "scaling": 1000.0,
+        "offset": 0.0,
+        "method": epsgraph,
         "title": "Total precipitation (mm/24hr)"
-    }, 
+    },
     "mx2t24": {
-        "scaling": 1., 
-        "offset": -273.15, 
-        "method": epsgraph, 
+        "scaling": 1.,
+        "offset": -273.15,
+        "method": epsgraph,
         "title": "2 metre max. temperature (Daily)"
-    }, 
+    },
     "dwi24": {
-        "scaling": 1.0, 
-        "offset": 0.0, 
-        "method": epswind, 
+        "scaling": 1.0,
+        "offset": 0.0,
+        "method": epswind,
         "title": "Daily distribution of 10m Wind Direction"
     }
 
@@ -606,18 +605,13 @@ params_15days = {   "mx2t24":"2 metre max. temperature (Daily)",
 
 
 def epsgram(parameter, input, **args):
-  eps = params.get(parameter, { "scaling": 1.0, 
-        "offset": 0.0, 
-        "method": epsgraph, 
+  eps = params.get(parameter, { "scaling": 1.0,
+        "offset": 0.0,
+        "method": epsgraph,
         "title": parameter} )
 
   args["scaling"] = eps["scaling"]
-  args["offset"] = eps["offset"]  
+  args["offset"] = eps["offset"]
   args["title"] = eps["title"]
-   
+
   eps["method"](parameter, input, **args)
-
-
-
-
-

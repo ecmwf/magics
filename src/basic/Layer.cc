@@ -642,6 +642,7 @@ bool SceneLayer::buildTree(const Layout& parent,  unsigned int frame, const Base
 	if ( !currentFrame_ ) {
 		textHandler_.name("Titles");
 		textHandler_.parent(const_cast<SceneLayer*>(this));
+		legendHandler_.parent(const_cast<SceneLayer*>(this));
 	}
 	// we need to copy the attributes from the parent!
 
@@ -656,7 +657,9 @@ bool SceneLayer::buildTree(const Layout& parent,  unsigned int frame, const Base
 
 	getReady(frame);
 	execute(frame, out);
+
 	textHandler_.getInfo(frame, out);
+	legendHandler_.getInfo(frame, out);
 	layout_->frameIt();
 	out.redisplay(*layout_);
 	return ( frame+1 < numberOfSteps() );

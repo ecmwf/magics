@@ -276,6 +276,7 @@ public:
 	TextLayer() {}
 	~TextLayer() {}
 	void getReady() const;
+    void getReady(int i) const { Layer::getReady(i); }
 	void execute(const BaseDriver&) const;
 	void execute(int, const BaseDriver&) const;
 	void getInfo(int, const BaseDriver&) const;

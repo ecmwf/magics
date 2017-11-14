@@ -1,0 +1,16 @@
+{
+    "latitude" : {
+        "units" : [ "degrees_north", "degrees_south" ],
+        "standard_name" : ["latitude"]
+        },
+    "longitude" : {
+        "units" : [ "degrees_west", "degrees_east", "degrees"],
+        "standard_name" : ["longitude"]
+        },
+     "time" : {
+        "calendar" : [ "gregorian", "proleptic_gregorian"],
+        "long_name" : ["time", "date and time"]
+        }
+
+}
+

@@ -14,6 +14,7 @@ BothValuePlotMethod.xml
 Boundaries.xml
 CalculateColourTechnique.xml
 GradientsColourTechnique.xml
+PaletteColourTechnique.xml
 CalculateHeightTechnique.xml
 CalmIndicator.xml
 CartesianTransformation.xml
@@ -87,7 +88,11 @@ LegendMethod.xml
 LegendVisitor.xml
 
 LevelListSelectionType.xml
+GradientsSelectionType.xml
+
 LevelSelection.xml
+
+
 ListColourTechnique.xml
 ListHeightTechnique.xml
 LogarithmicAxisMethod.xml
@@ -239,7 +244,7 @@ YRegularCoordinate.xml
 		EpsBufr.xml
 		ImageCalculateColourTechnique.xml
 ImageListColourTechnique.xml
-ImagePlotting.xml
+#ImagePlotting.xml
 InputMatrix.xml
 InputMatrixIrregularInterpretor.xml
 InputMatrixRegularInterpretor.xml
@@ -281,15 +286,19 @@ endif()
 if( HAVE_NETCDF )
 	list( APPEND _common_xmls 
 		NetcdfDecoder.xml
-		NetcdfGeoMatrixInterpretor.xml
+		NetcdfInterpretor.xml
+		NetcdfXYpointsInterpretor.xml
+		NetcdfOrcaInterpretor.xml
+		NetcdfGeopointsInterpretor.xml
 		NetcdfGeoPolarMatrixInterpretor.xml
 		NetcdfGeoVectorInterpretor.xml
-		NetcdfGeopointsInterpretor.xml
-		NetcdfInterpretor.xml
-		NetcdfMatrixInterpretor.xml
-		NetcdfOrcaInterpretor.xml
+		NetcdfGuessInterpretor.xml
 		NetcdfVectorInterpretor.xml
-		NetcdfXYpointsInterpretor.xml )
+		NetcdfGeoMatrixInterpretor.xml
+		NetcdfMatrixInterpretor.xml
+
+
+		)
 endif()
 
 if ( HAVE_ODB )

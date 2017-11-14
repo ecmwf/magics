@@ -39,7 +39,7 @@
 using namespace magics;
 
 
-ViewNode::ViewNode() : viewTransformation_(0), animation_("basic"), vaxis_(2.), haxis_(1.),  rules_(0), legend_(0)
+ViewNode::ViewNode() : viewTransformation_(0), animation_("basic"), vaxis_(2.), haxis_(1.),  rules_(0), legend_(0), needLegend_(false)
 {
 	static int i = 0;
 	ostringstream n;
@@ -68,6 +68,7 @@ void ViewNode::text(TextVisitor* text)
 void ViewNode::legend(LegendVisitor* legend)
 {
 	legend_ = legend;
+	needLegend_ = true;
 }
 
 void ViewNode::visit(MetaDataVisitor& metadata)
@@ -216,7 +217,7 @@ void ViewNode::prepareLayout(SceneLayer& tree)
 		
 	
 	tree.legend(legend_);
-	if ( needLegend_ )
+	if ( needLegend_ && legend_ )
 	{
 		if ( !legend_->positional() ) {
 			if ( legend_->top() ) {
@@ -233,13 +234,13 @@ void ViewNode::prepareLayout(SceneLayer& tree)
 			}
 			helper.add(legend_);
 		}
-	}
-    if (legend_)
-    {
-	    ((BasicSceneObject*)legend_)->parent((BasicSceneObject*)this);
+		((BasicSceneObject*)legend_)->parent((BasicSceneObject*)this);
 	    legend_->getReady();
 	    components_.push_back(legend_);
-    }
+	}
+	else 
+		needLegend_ = false;
+   
 	
 
 	for (vector<TextVisitor*>::iterator text = texts_.begin(); text != texts_.end(); ++text)
@@ -563,8 +564,10 @@ void FortranViewNode::getReady()
 
 	if ( predefined_ ) {
 			StyleLibrary library("projections");
-			const map<string, string>& area = library.get(predefined_name_);
-			cout << "Setting predefined area --> " <<  predefined_name_ << endl;
+			Style::Definition area;
+
+			library.find(predefined_name_, area);
+			
 			viewTransformation_ = MagTranslator<string, Transformation>()(area.find("subpage_map_projection")->second);
 			viewTransformation_->set(area);
 			viewTransformation_->init();

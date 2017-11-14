@@ -108,7 +108,7 @@ Matrix* InputMatrixRegularInterpretor::geoInterpret(Matrix* in, const InputMatri
 
 	int nblat =  in->rows();
 	double lat = latitude_;
-	cout << nblat << endl;
+	
 	for (int i = 0; i < nblat; i++) {	
 		lat = latitude_ + (i*latitude_step_);	
 		in->rowsAxis().push_back(lat);	
