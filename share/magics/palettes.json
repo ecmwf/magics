@@ -1691,7 +1691,7 @@
             "27",
             "eccharts",
             "sh_all_fM48t56i4",
-            "sh_f220t300"
+            "sh_f220t300",
             "rainbow",
             "blue",
             "magenta",
@@ -2576,14 +2576,14 @@
             "rgb(0.75,0.00,1.00)"
         ]
     },
-    "eccharts_blue_red_15" : {
+    "eccharts_blue_red1_15" : {
         "n_colours" : "15",
         "tags" : [
             "15",
             "eccharts",
             "blue",
             "red",
-            "sh_blured_fM1t1lst"
+            "sh_blured_fM1t1lst",
             "2m maximum temperature extreme forecast index",
             "2m minimum temperature extreme forecast index",
             "EFI temperature",
@@ -2757,7 +2757,7 @@
             "28",
             "eccharts",
             "orography",
-            "brown"
+            "brown",
             "sh_brn_fM09t60_oro",
             "Model orography  from HRES forecast"
         ],
@@ -2917,7 +2917,7 @@
             "15",
             "eccharts",
             "sh_diverging_ch4_500hpa",
-            "sh_diverging_co2_500hpa"
+            "sh_diverging_co2_500hpa",
             "Methane at 500 hPa",
             "Carbon dioxide at 500 hPa",
             "ch4",
@@ -3396,7 +3396,7 @@
             "6",
             "eccharts",
             "green",
-            "violet"
+            "violet",
             "sh_grnvio_f1t100lst",
             "Stratiform precipitation",
             "Stratiform precipitation percentile",
@@ -3448,7 +3448,7 @@
             "grey",
             "eccharts",
             "300 hPa potential vorticity",
-            "500 hPa potential vorticity"
+            "500 hPa potential vorticity",
             "315K (potential temperature level) potential vorticity",
             "sh_gry_f0t20lst"
         ],
@@ -3526,7 +3526,7 @@
         "tags" : [
             "11",
             "eccharts",
-            "sh_lai_f0t7",#
+            "sh_lai_f0t7",
             "Leaf area index"
         ],
         "values" : [
@@ -3856,8 +3856,8 @@
             "red",
             "purple",            
             "sh_mf_pdist",
-            "sh_mofc_pdist"
-            "2m tempearature probability distribution"
+            "sh_mofc_pdist",
+            "2m tempearature probability distribution",
             "Extended range: 2t probability dist. at various quantiles"
         ],
         "values" : [
@@ -3909,7 +3909,7 @@
             "black",
             "darkred",
             "sh_nipy_spectral_ch4_300hpa",
-            "sh_spectral_ch4_300hpa"
+            "sh_spectral_ch4_300hpa",
             "Methane at 300 hPa",
             "ch4",
             "methane",
@@ -3941,7 +3941,7 @@
             "darkred",            
             "sh_nipy_spectral_ch4_500hpa",
             "sh_nipy_spectral_ch4_50hpa",
-            "sh_spectral_ch4_50hpa"
+            "sh_spectral_ch4_50hpa",
             "Methane at 500 hPa",
             "Methane at 50 hPa",
             "ch4",
@@ -4182,7 +4182,7 @@
             "black",
             "darkred",            
             "sh_nipy_spectral_co2_850hpa",
-            "sh_spectral_co2_300hpa"
+            "sh_spectral_co2_300hpa",
             "Carbon dioxide at 850 hPa",
             "Carbon dioxide at 300 hPa",
             "co2",
@@ -4348,7 +4348,7 @@
             "eccharts",
             "sh_prate_f01t256",
             "sh_prate_radarlike_grided_f01",
-            "Stratiform precipitation rate"            
+            "Stratiform precipitation rate",          
             "blue",
             "greypurple",
             "rainbow"
@@ -4373,7 +4373,7 @@
             "eccharts",
             "white",
             "cyan",
-            "rainbow"
+            "rainbow",
             "sh_prate_radarlike",
             "sh_prate_radarlike_grided",
             "Convective precipitation rate",
@@ -4845,7 +4845,7 @@
             "rainbow",
             "black",
             "darkred",
-            "Methane at 500 hPa"
+            "Methane at 500 hPa",
             "methane",
             "ch4",
             "cams"            
@@ -5097,7 +5097,7 @@
             "white"
         ]
     },
-    "eccharts_blue_red_15" : {
+    "eccharts_blue_red2_15" : {
         "n_colours" : "15",
         "tags" : [
             "15",
@@ -5396,10 +5396,10 @@
             "eccharts",
             "sim_image_ir_fixed_range",
             "sim_image_ir_fixed_values",
-            "Simulated image: Infrared (IR) channel"
+            "Simulated image: Infrared (IR) channel",
             "IR",
             "IR 10.8",
-            "channel 9"
+            "channel 9",
             "infrared"
         ],
         "values" : [
@@ -5491,7 +5491,7 @@
             "sim_image_wv_500",
             "Simulated image: Water vapour (WV) ~500 hPa",
             "meteosat 9",
-            "channel 6"
+            "channel 6",
             "WV 7.3"
         ],
         "values" : [
@@ -5575,7 +5575,7 @@
             "sim_image_wv_fixed_range",
             "Simulated image: Water vapour (WV) ~300 hPa",
             "meteosat 9",
-            "channel 5"
+            "channel 5",
             "WV 6.2"
         ],
         "values" : [
