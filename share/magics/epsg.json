@@ -37,7 +37,8 @@
                 "max_longitude": 360,
                 "method": "simple",
                 "min_latitude": -80,
-                "min_longitude": -180
+                "min_longitude": -180,
+                "default_max_longitude" : 180.
             }
         },
         {
