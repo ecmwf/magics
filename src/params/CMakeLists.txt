@@ -88,7 +88,6 @@ LegendMethod.xml
 LegendVisitor.xml
 
 LevelListSelectionType.xml
-GradientsSelectionType.xml
 
 LevelSelection.xml
 
