@@ -468,6 +468,7 @@ def _plot(*args):
 
 
 def tofortran(file, *args):
+    return
     f = open(file+".f90",'w')
     print(f, "\tprogram magics\n")
     print(f, "\tcall popen\n")
@@ -478,6 +479,7 @@ def tofortran(file, *args):
 
 
 def tohtml(file, *args):
+    return
     f = open(file+".html",'w')
     print (f, "<html>")
     for n in args:
@@ -485,6 +487,7 @@ def tohtml(file, *args):
     print (f, "</html>")
 
 def tomv4(file, *args):
+    return
     f = open(file+".mv4",'w')
     for n in args:
         n.tomv4(f)
