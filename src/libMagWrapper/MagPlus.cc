@@ -455,10 +455,7 @@ bool MagPlus::page(magics::MagRequest& in)
 
 	page_ = 0;
 
-	string def = get(in, "SUBPAGE_MAP_AREA_DEFINITION", "FULL");
-	if ( def == "FULL") {
-		in("SUBPAGE_MAP_AREA_DEFINITION") = in.countValues("SUBPAGE_LOWER_LEFT_LONGITUDE") ? "CORNERS" : "FULL";
-	}
+	
 
 	if ( (string) in("SUBPAGE_MAP_PROJECTION") != "NEXT" ) {
 		FortranViewNodeWrapper* viewhelper = new FortranViewNodeWrapper();
