@@ -25,7 +25,6 @@
 #include "magics.h"
 
 #include "LevelListSelectionTypeAttributes.h"
-#include "GradientsSelectionTypeAttributes.h"
 #include "LevelSelection.h"
 
 namespace magics {
