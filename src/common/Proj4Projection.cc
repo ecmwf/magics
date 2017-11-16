@@ -126,7 +126,7 @@ public:
 	{
 		return maxlon_;
 	} 
-	double deflon() const 
+	double defmaxlon() const 
 	{
 		return ( defaultmaxlon_ == -99999) ? maxlon_ : defaultmaxlon_;
 	
@@ -310,16 +310,6 @@ void Proj4Projection::init()
 void Proj4Projection::full()
 {
 	if ( projection_->method_ == "simple" ) {
-		if ( min_longitude_ != -180 ) {
-			// set projection default ! 
-			if ( max_longitude_ == 180 )	
-				max_longitude_ = projection_->maxlon();
-			if ( max_latitude_ == 90 )	
-				max_latitude_ = projection_->maxlat();
-			if ( min_latitude_ == -90 )	
-				min_latitude_ = projection_->minlat();
-			corners();
-		}
 		if ( max_longitude_ != 180. ) {
 			if ( min_longitude_ == -180 )
 				min_longitude_ = projection_->minlon();
@@ -330,23 +320,34 @@ void Proj4Projection::full()
 			corners();
 			return;
 		}
+		if ( min_longitude_ != -180 ) {
+			// set projection default ! 
+			if ( max_longitude_ == 180 )	
+				max_longitude_ = projection_->defmaxlon();
+			if ( max_latitude_ == 90 )	
+				max_latitude_ = projection_->maxlat();
+			if ( min_latitude_ == -90 )	
+				min_latitude_ = projection_->minlat();
+			corners();
+		}
+		
 		if ( min_latitude_ != -90 ) {
 			if ( min_longitude_ == -180 )
 				min_longitude_ = projection_->minlon();
 			if ( max_latitude_ == 90 )	
 				max_latitude_ = projection_->maxlat();
 			if ( max_longitude_ == 180 )	
-				max_longitude_ = projection_->maxlon();
+				max_longitude_ = projection_->defmaxlon();
 			corners();
 			return;
 		}
 		if ( max_latitude_ != 90 ) {
 			if ( min_longitude_ == -180 )
 				min_longitude_ = projection_->minlon();
-			if ( min_latitude_ == 90 )	
-				max_latitude_ = projection_->maxlat();
+			if ( min_latitude_ == -90 )	
+				min_latitude_ = projection_->minlat();
 			if ( max_longitude_ == 180 )	
-				max_longitude_ = projection_->maxlon();
+				max_longitude_ = projection_->defmaxlon();
 			corners();
 			return;
 		}
@@ -362,6 +363,7 @@ void Proj4Projection::corners()
 		max_pcx_ = max_longitude_;
 		max_pcy_ = max_latitude_;
 
+		
 		fast_reproject(min_pcx_, min_pcy_);
 		fast_reproject(max_pcx_, max_pcy_);
 
@@ -374,8 +376,22 @@ void Proj4Projection::corners()
 			MagLog::warning() << "Proj4 : the sub-area is not valid : use global view instead" << endl;
 		}
 		else {
+			// WE set the new projection
 			PCEnveloppe_ = newbox.front().clone();
+			userEnveloppe_->clear();
+			PCEnveloppe_->clear();
+			min_pcx_ = DBL_MAX;
+			min_pcy_ = DBL_MAX;
+			max_pcx_ = -DBL_MAX;
+			max_pcy_ = -DBL_MAX;
+			add(min_longitude_, min_latitude_);
+			add(min_longitude_, max_latitude_);
+			add(max_longitude_, max_latitude_);
+			add(max_longitude_, min_latitude_);
+			add(min_longitude_, min_latitude_);
+
 		}
+
 }
 
 void Proj4Projection::centre()
@@ -530,8 +546,8 @@ void Proj4Projection::simple()
 	max_pcy_ = -DBL_MAX;
 	add(projection_->minlon(), projection_->minlat());
 	add(projection_->minlon(), projection_->maxlat());
-	add(projection_->maxlon(), projection_->maxlat());
-	add(projection_->maxlon(), projection_->minlat());
+	add(projection_->defmaxlon(), projection_->maxlat());
+	add(projection_->defmaxlon(), projection_->minlat());
 	add(projection_->minlon(), projection_->minlat());
 }
 
@@ -1040,6 +1056,7 @@ void Proj4Projection::reprojectSpeedDirection(const PaperPoint& point, pair<doub
 
 void Proj4Projection::revert(const vector< std::pair<double, double> > & in, vector< std::pair<double, double> > & out) const
 {
+	/*
 	const_cast<Proj4Projection*>(this)->init();
 	out.reserve(in.size());
 	for ( vector< std::pair<double, double> >::const_iterator pt = in.begin();  pt != in.end(); ++pt) {
@@ -1066,41 +1083,9 @@ void Proj4Projection::revert(const vector< std::pair<double, double> > & in, vec
 			  out.push_back(make_pair(lon, lat));
 		  }
 	}
+	*/
 
-	/* to be tested later 
-	const_cast<Proj4Projection*>(this)->init();
-	out.reserve(in.size());
-	vector< std::pair<double, double> > out2;
-	out2.reserve(in.size());
-	{
-		Timer timer("OLD PROJECT", "OLD");
 	
-
-		for ( vector< std::pair<double, double> >::const_iterator pt = in.begin();  pt != in.end(); ++pt) {
-				  double x = pt->first;
-			  double y = pt->second;
-			  PaperPoint p(x, y);
-
-			  if ( PCEnveloppe_->within(p) == false ) {
-					  out.push_back(make_pair(-1000, -1000));
-				  continue;
-			  }
-
-			  int error =  pj_transform(to_, from_, 1, 1, &x, &y, NULL );
-
-			  if ( error  ) {
-				  MagLog::error() << pj_strerrno(error) << " for " << pt->first << " " << pt->second << endl;
-				  out2.push_back(make_pair(-1000, -1000));
-			  }
-			  else {
-				  double lon = x*RAD_TO_DEG;
-				  if ( lon > gridMaxLon_ ) lon -= 360.;
-				  else if ( lon < gridMinLon_ ) lon += 360.;
-				  double lat = y*RAD_TO_DEG;
-				  out2.push_back(make_pair(lon, lat));
-			  }
-	}
-	}
 	{
 		Timer timer("NEW PROJECT", "OLD");
 		vector<double> x, y;
@@ -1125,7 +1110,7 @@ void Proj4Projection::revert(const vector< std::pair<double, double> > & in, vec
 
 
 	}
-	*/
+	
 }
 
 void Proj4Projection::coastSetting(map<string, string>& setting, double abswidth, double absheight) const
