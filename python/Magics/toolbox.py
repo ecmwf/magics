@@ -382,8 +382,6 @@ def epswind(parameter, input, **args):
 
 def epsgraph(parameter, input, **args):
 
-
-    print "HELLO"
     actions = []
 
     projection = macro.mmap( substitute(defaults["eps"]["projection"], args.get("projection", None)) )
@@ -409,7 +407,7 @@ def epsgraph(parameter, input, **args):
     actions.append(vertical)
     actions.append(horizontal)
 
-    print actions
+    
 
     if "climate" in args  :
       clim = macro.mwrepjson(
@@ -444,7 +442,8 @@ def epsgraph(parameter, input, **args):
 
     actions.append(text)
 
-    print args
+    
+  
     if "output" in args != "" :
       #Setting of the output file name
       png = macro.output(output_formats = ['png'],
