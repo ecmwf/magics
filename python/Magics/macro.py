@@ -539,7 +539,7 @@ try:
             img = output(output_formats=["png"],
                               output_name_first_page_number='off',
                               output_name=base)
-            print (base)
+            
             all = []
             all.append(img)
             for i in args :
