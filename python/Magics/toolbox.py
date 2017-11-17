@@ -458,7 +458,7 @@ def epsgraph(parameter, input, **args):
             png,
             actions
       )
-    return macro._plot(
+    return macro.plot(
             actions
       )
 
