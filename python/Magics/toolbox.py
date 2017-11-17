@@ -376,6 +376,7 @@ def epswind(parameter, input, **args):
               actions
         )
 
+
     return macro.plot(
             actions
     )
@@ -458,6 +459,8 @@ def epsgraph(parameter, input, **args):
             png,
             actions
       )
+    print (actions)
+    print ("Sent to plot")
     return macro.plot(
             actions
       )
