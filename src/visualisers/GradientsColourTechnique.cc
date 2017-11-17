@@ -65,6 +65,8 @@ void GradientsColourTechnique::set(LevelSelection& out, LevelSelection& in, Colo
 	
   	//ColourTable colours;
   	int last = colours_.size() -1;
+  	
+
   	for ( int col = 1; col < colours_.size(); ++col) {
   		string left = colours_[col-1];
   		string right = colours_[col];	
@@ -83,9 +85,25 @@ void GradientsColourTechnique::set(LevelSelection& out, LevelSelection& in, Colo
   			nb = (col == 1 || col == last ) ? istep + 2 : istep + 3;
   		else
   			nb = istep+1;
-  		
-  		helper.set(table, nb);
 
+  		ColourTable workingtable;
+  		helper.set(workingtable, nb);
+
+  		int all = workingtable.size();
+  		
+  		int use;
+	  	if ( stop_method == "right") 
+	  		use = (col == last ) ? all : all-1;  		
+	  	else if ( stop_method == "left") 
+	  		use = (col == 1 ) ? all : all-1;
+	  	else if ( stop_method == "ignore") 
+	  		use = (col == 1 || col == last ) ? all-1 : all-2;
+	  	else 
+	  		use = all;
+
+	  	for (int c = 0; c < use; ++c ) 
+	  		table.push_back(workingtable[c]);
+	  	
 		// Next block
 		if ( !steps_.empty()) { 
 			++step;
@@ -96,6 +114,7 @@ void GradientsColourTechnique::set(LevelSelection& out, LevelSelection& in, Colo
   	}
 	
 	
+	
 	step = steps_.begin();
 	int col = 0;
 
@@ -104,62 +123,26 @@ void GradientsColourTechnique::set(LevelSelection& out, LevelSelection& in, Colo
   		  double from = stops[stop-1];
   		  double to = stops[stop];
   		  int istep = ( steps_.empty() ) ? 10 : *step;
-		  if (  stop_method == "ignore") {
+		 
 			
-		  	in.push_back(from);
-		  	out.push_back(from);
-		  	if ( stop != 1) {
-		  		in.push_back(from);
-		  		out.push_back(from);
-		  	}
-		  }
-		  else if (  stop_method == "right") {
-			
-		  	in.push_back(from);
-		  	out.push_back(from);
-		  }
-		  else if (  stop_method == "left") {
-			
-		  	in.push_back(from);
-		  	out.push_back(from);
-		  } 
-		  else {
-			
-		  	in.push_back(from);
-		  	out.push_back(from);
-		  } 
-		  nb = istep;
-		  double inc = (to - from )/(nb);
-		  for (int i = 1; i < nb; i++) {
+		  in.push_back(from);
+		  out.push_back(from);
+		  
+		  double inc = (to - from )/(istep+1);
+		  for (int i = 1; i < istep; i++) {
 		  			in.push_back(from +(i*inc));
 		  			out.push_back(from +(i*inc));
 		  }
-		  if (  stop_method == "ignore") {
-			in.push_back(to);
-		  	out.push_back(to);
-		  	
-		  }	
-		  else if (  stop_method == "right") {
-			in.push_back(to);
-		  	out.push_back(to);
-		  	
-		  }	
-		  else if (  stop_method == "left") {
-			
-		  	in.push_back(to);
-		  	out.push_back(to);
-		  }
-		  else  if (stop == stops.size()-1) {
-			in.push_back(to);
-		  	out.push_back(to);
-		  }
+		    
 		  
-		if ( !steps_.empty()) { 
+			if ( !steps_.empty()) { 
 			++step;
 			if ( step == steps_.end() )
 				--step;
 		}
 	}
+
+	
 	
 
 

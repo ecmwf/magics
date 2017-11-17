@@ -1056,7 +1056,7 @@ void Proj4Projection::reprojectSpeedDirection(const PaperPoint& point, pair<doub
 
 void Proj4Projection::revert(const vector< std::pair<double, double> > & in, vector< std::pair<double, double> > & out) const
 {
-	/*
+	
 	const_cast<Proj4Projection*>(this)->init();
 	out.reserve(in.size());
 	for ( vector< std::pair<double, double> >::const_iterator pt = in.begin();  pt != in.end(); ++pt) {
@@ -1083,9 +1083,9 @@ void Proj4Projection::revert(const vector< std::pair<double, double> > & in, vec
 			  out.push_back(make_pair(lon, lat));
 		  }
 	}
-	*/
-
 	
+
+	/*
 	{
 		Timer timer("NEW PROJECT", "OLD");
 		vector<double> x, y;
@@ -1110,7 +1110,8 @@ void Proj4Projection::revert(const vector< std::pair<double, double> > & in, vec
 
 
 	}
-	
+
+	*/	
 }
 
 void Proj4Projection::coastSetting(map<string, string>& setting, double abswidth, double absheight) const
