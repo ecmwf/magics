@@ -444,7 +444,8 @@ def epsgraph(parameter, input, **args):
     actions.append(text)
 
     print (actions)
-
+    print args
+    '''
     if "output" in args != "" :
       #Setting of the output file name
       png = macro.output(output_formats = ['png'],
@@ -454,11 +455,12 @@ def epsgraph(parameter, input, **args):
         subpage_y_length = 5.,
         subpage_y_position = 1.,
       )
-    
+      
       return macro._plot(
             png,
             actions
       )
+    '''
     print (actions)
     print ("Sent to plot")
     return macro.plot(
