@@ -547,7 +547,7 @@ try:
             _plot(all)
 
             image = Image(tmp)
-            #os.unlink(tmp)
+            os.unlink(tmp)
             return image
 except ImportError:
     plot = _plot

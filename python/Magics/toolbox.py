@@ -408,7 +408,7 @@ def epsgraph(parameter, input, **args):
     actions.append(vertical)
     actions.append(horizontal)
 
-    print ("Create Axis")
+    
 
     if "climate" in args  :
       clim = macro.mwrepjson(
@@ -461,7 +461,7 @@ def epsgraph(parameter, input, **args):
             actions
       )
     '''
-    print (actions)
+    
     print ("Sent to plot")
     return macro.plot(
             actions
