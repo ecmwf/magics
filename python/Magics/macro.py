@@ -539,6 +539,7 @@ try:
             img = output(output_formats=["png"],
                               output_name_first_page_number='off',
                               output_name=base)
+            print (base)
             all = []
             all.append(img)
             for i in args :
@@ -546,7 +547,7 @@ try:
             _plot(all)
 
             image = Image(tmp)
-            os.unlink(tmp)
+            #os.unlink(tmp)
             return image
 except ImportError:
     plot = _plot
