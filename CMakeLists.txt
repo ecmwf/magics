@@ -72,7 +72,7 @@ ecbuild_add_option( FEATURE ODB
 ecbuild_add_option( FEATURE CAIRO
                     DEFAULT ON
                     DESCRIPTION "cairo support[png/jpeg]"
-                    REQUIRED_PACKAGES PangoCairo )
+                    REQUIRED_PACKAGES PangoCairo Pango PNG)
 
 ecbuild_add_option( FEATURE GEOTIFF
                     DEFAULT OFF
@@ -200,7 +200,7 @@ find_package( EXPAT REQUIRED )
 ###############################################################################
 # contents
 
-set( MAGICS_TPLS grib_api spot EXPAT NetCDF PNG Proj4 libemos )
+set( MAGICS_TPLS grib_api spot EXPAT NetCDF Proj4 libemos )
 
 set( MAGICS_INCLUDE_DIRS
      ${CMAKE_CURRENT_SOURCE_DIR}/src
@@ -222,7 +222,7 @@ set( MAGICS_INCLUDE_DIRS
      ${Boost_INCLUDE_DIRS} )
 
 if( HAVE_CAIRO )
-  list( APPEND MAGICS_TPLS PangoCairo )
+  list( APPEND MAGICS_TPLS PangoCairo PNG PANGO)
   list( APPEND MAGICS_INCLUDE_DIRS ${PANGOCAIRO_INCLUDE_DIRS} )
 endif()
 
