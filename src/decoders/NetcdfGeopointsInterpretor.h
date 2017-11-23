@@ -38,15 +38,15 @@ public:
 
     void set(const map<string, string>& params) {
         MagLog::debug() << "NetcdfGeopointsInterpretor::set(params)" << "\n";
-        set(params);
+        NetcdfInterpretor::set(params);
         
     }
     void set(const XmlNode& node) {
         MagLog::debug() << "NetcdfGeopointsInterpretor::set(params)" << "\n";
         XmlNode netcdf = node;
-        set(node);
+        NetcdfInterpretor::set(node);
         netcdf.name("netcdf");
-        set(netcdf);
+        NetcdfInterpretor::set(netcdf);
 
     }
     virtual NetcdfInterpretor* clone() const {
@@ -89,15 +89,15 @@ public:
 
     void set(const map<string, string>& params) {
         MagLog::debug() << "NetcdfGeopointsInterpretor::set(params)" << "\n";
-        set(params);
+        NetcdfInterpretor::set(params);
        
     }
     void set(const XmlNode& node) {
         MagLog::debug() << "NetcdfGeopointsInterpretor::set(params)" << "\n";
         XmlNode netcdf = node;
-        set(node);
+        NetcdfInterpretor::set(node);
         netcdf.name("netcdf");
-        set(netcdf);
+        NetcdfInterpretor::set(netcdf);
 
     }
     virtual NetcdfInterpretor* clone() const {
