@@ -78,7 +78,7 @@ using namespace magics;
 /*!
   \brief Constructor
 */
-CairoDriver::CairoDriver() : filename_(""), offsetX_(0), offsetY_(0), backend_("PDF")
+CairoDriver::CairoDriver() : offsetX_(0), offsetY_(0), backend_("PDF")
 {
         cr_ = 0;
 }
@@ -155,8 +155,8 @@ void CairoDriver::setupNewSurface() const
 	else if(magCompare(backend_,"pdf"))
 	{
 #if CAIRO_HAS_PDF_SURFACE
-	    filename_ = getFileName("pdf");
-	    surface_ = cairo_pdf_surface_create(filename_.c_str(), dimensionXglobal_, dimensionYglobal_);
+	    fileName_ = getFileName("pdf");
+	    surface_ = cairo_pdf_surface_create(fileName_.c_str(), dimensionXglobal_, dimensionYglobal_);
 #else
 	    MagLog::error() << "CairoDriver: PDF output NOT supported! Enable PDF support in your Cairo installation." << std::endl;
 #endif
@@ -164,10 +164,10 @@ void CairoDriver::setupNewSurface() const
 	else if(magCompare(backend_,"ps"))
 	{
 #if CAIRO_HAS_PS_SURFACE
-        filename_ = getFileName("ps");
+        fileName_ = getFileName("ps");
         const int dimensionXglobal = static_cast<int>(getXDeviceLength()*72/2.54);
         const int dimensionYglobal = static_cast<int>(getYDeviceLength()*72/2.54);
-        surface_ = cairo_ps_surface_create(filename_.c_str(), dimensionXglobal,dimensionYglobal);
+        surface_ = cairo_ps_surface_create(fileName_.c_str(), dimensionXglobal,dimensionYglobal);
 #else
 	    MagLog::error() << "CairoDriver: PS output NOT supported! Enable PS support in your Cairo installation." << std::endl;
 #endif
@@ -175,22 +175,22 @@ void CairoDriver::setupNewSurface() const
 	else if(magCompare(backend_,"eps"))
 	{
 #if CAIRO_VERSION >= CAIRO_VERSION_ENCODE(1, 5, 2)
-	    filename_ = getFileName("eps");
-	    surface_ = cairo_ps_surface_create(filename_.c_str(), dimensionXglobal_, dimensionYglobal_);
+	    fileName_ = getFileName("eps");
+	    surface_ = cairo_ps_surface_create(fileName_.c_str(), dimensionXglobal_, dimensionYglobal_);
 	    cairo_ps_surface_set_eps (surface_,true);
 #else
 	    MagLog::error() << "CairoDriver: EPS output NOT supported! You need at least version Cairo 1.5.2.\n"
 	                 << "PostScript is generated instead." << std::endl;
-	    filename_ = getFileName("ps");
-	    surface_ = cairo_ps_surface_create(filename_.c_str(), dimensionXglobal_, dimensionYglobal_);
+	    fileName_ = getFileName("ps");
+	    surface_ = cairo_ps_surface_create(fileName_.c_str(), dimensionXglobal_, dimensionYglobal_);
 #endif
 	}
 	else if(magCompare(backend_,"svg"))
 	{
 #if CAIRO_HAS_SVG_SURFACE
-	    filename_ = getFileName("svg",currentPage_+1);
+	    fileName_ = getFileName("svg",currentPage_+1);
 
-	    surface_ = cairo_svg_surface_create (filename_.c_str(), dimensionXglobal_, dimensionYglobal_);
+	    surface_ = cairo_svg_surface_create (fileName_.c_str(), dimensionXglobal_, dimensionYglobal_);
 //	    cairo_svg_surface_restrict_to_version (surface_, CAIRO_SVG_VERSION_1_2);
 #else
 	    MagLog::error() << "CairoDriver: SVG output NOT supported! Enable SVG support in your Cairo installation." << std::endl;
@@ -264,8 +264,8 @@ void CairoDriver::setupNewSurface() const
 void CairoDriver::close()
 {
 	currentPage_ = 0;
-	if(magCompare(backend_,"pdf") && !filename_.empty()) printOutputName("CAIRO pdf "+filename_);
-	if(magCompare(backend_,"ps") && !filename_.empty()) printOutputName("CAIRO ps "+filename_);
+	if(magCompare(backend_,"pdf") && !fileName_.empty()) printOutputName("CAIRO pdf "+fileName_);
+	if(magCompare(backend_,"ps") && !fileName_.empty()) printOutputName("CAIRO ps "+fileName_);
 
 	if (!context_) {
 		cairo_surface_destroy (surface_);
@@ -307,8 +307,8 @@ MAGICS_NO_EXPORT void CairoDriver::startPage() const
 			cairo_destroy (cr_);
 			cairo_surface_destroy (surface_);
 
-			filename_ = getFileName("svg",currentPage_+1);
-			surface_ = cairo_svg_surface_create(filename_.c_str(), dimensionXglobal_, dimensionYglobal_);
+			fileName_ = getFileName("svg",currentPage_+1);
+			surface_ = cairo_svg_surface_create(fileName_.c_str(), dimensionXglobal_, dimensionYglobal_);
 			cr_ = cairo_create (surface_);
 #if CAIRO_VERSION >= CAIRO_VERSION_ENCODE(1, 4, 0)
 			cairo_svg_surface_restrict_to_version (surface_, CAIRO_SVG_VERSION_1_1);
@@ -321,8 +321,8 @@ MAGICS_NO_EXPORT void CairoDriver::startPage() const
 			cairo_destroy (cr_);
 			cairo_surface_destroy (surface_);
 
-			filename_ = getFileName("eps",currentPage_+1);
-			surface_ = cairo_ps_surface_create(filename_.c_str(), dimensionXglobal_, dimensionYglobal_);
+			fileName_ = getFileName("eps",currentPage_+1);
+			surface_ = cairo_ps_surface_create(fileName_.c_str(), dimensionXglobal_, dimensionYglobal_);
 			cairo_ps_surface_set_eps (surface_,true);
 			cr_ = cairo_create (surface_);
 #endif
@@ -352,34 +352,34 @@ MAGICS_NO_EXPORT void CairoDriver::endPage() const
 
 	if(magCompare(backend_,"eps"))
 	{
-		if(!filename_.empty()) printOutputName("CAIRO eps "+filename_);
+		if(!fileName_.empty()) printOutputName("CAIRO eps "+fileName_);
 	}
 	else if(magCompare(backend_,"svg"))
 	{
-		if(!filename_.empty()) printOutputName("CAIRO svg "+filename_);
+		if(!fileName_.empty()) printOutputName("CAIRO svg "+fileName_);
 	}
 	else if (magCompare(backend_,"png") )
 	{
 		Timer timer("cairo", "write png");
-		filename_ = getFileName("png" ,currentPage_);
+		fileName_ = getFileName("png" ,currentPage_);
 		if(magCompare(palette_,"on"))
 		{
 		   if(!write_8bit_png())
 		   {
 		     MagLog::warning() << "CairoDriver::renderPNG > palletted PNG failed! Generate 24 bit one ..." << endl;
-		     cairo_surface_write_to_png(surface_, filename_.c_str());
+		     cairo_surface_write_to_png(surface_, fileName_.c_str());
 		   }
 		}
 		else
 		{
-		   cairo_surface_write_to_png(surface_, filename_.c_str());
+		   cairo_surface_write_to_png(surface_, fileName_.c_str());
 		}
-		if(!filename_.empty()) printOutputName("CAIRO png "+filename_);
+		if(!fileName_.empty()) printOutputName("CAIRO png "+fileName_);
 	}
 	else if (magCompare(backend_,"geotiff") )
 	{
 #ifdef HAVE_GEOTIFF
-		filename_ = getFileName("tif" ,currentPage_);
+		fileName_ = getFileName("tif" ,currentPage_);
 		write_tiff();
 #else
 		MagLog::error() << "CairoDriver: GEOTIFF not enabled!"<< std::endl;
@@ -429,16 +429,16 @@ MAGICS_NO_EXPORT void CairoDriver::write_tiff() const
     int          height = cairo_image_surface_get_height(surface_);
     const int    stride = cairo_image_surface_get_stride(surface_);
 
-    TIFF *tif = TIFFOpen(filename_.c_str(), "w");
+    TIFF *tif = TIFFOpen(fileName_.c_str(), "w");
     if (!tif) {
-        MagLog::warning() << "CairoDriver: Unable to open TIFF file "<<filename_<< std::endl;
+        MagLog::warning() << "CairoDriver: Unable to open TIFF file "<<fileName_<< std::endl;
         return;
     }
 
     GTIF *gtif = GTIFNew(tif);
     if (!gtif)
     {
-        MagLog::warning() << "CairoDriver: Unable to open GeoTIFF file "<<filename_<< std::endl;
+        MagLog::warning() << "CairoDriver: Unable to open GeoTIFF file "<<fileName_<< std::endl;
         return;
     }
 
@@ -516,7 +516,7 @@ MAGICS_NO_EXPORT bool CairoDriver::write_8bit_png() const
     struct pngquant_options options_ = { };
     options_.liq = liq_attr_create();
     struct pngquant_options *options = &options_;
-    //    pngquant_file(filename_.c_str(), filename.c_str(), &options);
+    //    pngquant_file(fileName_.c_str(), filename.c_str(), &options);
 
     pngquant_error  retval             = SUCCESS;
     liq_image*      input_image        = NULL;
@@ -569,7 +569,7 @@ MAGICS_NO_EXPORT bool CairoDriver::write_8bit_png() const
     if (SUCCESS == retval) {
         output_image.fast_compression  = false; //  (fast_compression ? Z_BEST_SPEED : Z_BEST_COMPRESSION);
 
-        retval = write_image(&output_image, NULL, filename_.c_str(), options);
+        retval = write_image(&output_image, NULL, fileName_.c_str(), options);
     }
 
     liq_image_destroy(input_image);
@@ -583,7 +583,7 @@ MAGICS_NO_EXPORT bool CairoDriver::write_8bit_png() const
 /*
 MAGICS_NO_EXPORT void CairoDriver::write_8bit_png() const
 {
-    const string filename = filename_ +"_8bit";
+    const string filename = fileName_ +"_8bit";
     FILE * fp = fopen (filename.c_str(), "wb");
     if (! fp) {
         MagLog::error() << "CairoDriver: Unable to open 8 bit PNG file "<<filename<< std::endl;

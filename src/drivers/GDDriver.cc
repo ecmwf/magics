@@ -1,9 +1,9 @@
 /*
  * (C) Copyright 1996-2016 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
  */
@@ -45,7 +45,7 @@ using namespace magics;
 /*!
   \brief Constructor
 */
-GDDriver::GDDriver() : filename_("magics_output.gif"),currentFont_(""),
+GDDriver::GDDriver() :currentFont_(""),
                       currentFontSize_(0),currentPageCount_(0),
                       lastPage_(-1),scaleFactor_(1),
                       animated_(false),jpg_(false),gif_(false),png_(false),
@@ -57,7 +57,7 @@ GDDriver::GDDriver() : filename_("magics_output.gif"),currentFont_(""),
 /*!
   \brief Destructor
 */
-GDDriver::~GDDriver() 
+GDDriver::~GDDriver()
 {
   relieveFonts();
 }
@@ -74,7 +74,7 @@ void GDDriver::open()
 {
 	currentPage_ = -1;
 	//needed for multithread apps!
-#ifndef MAGICS_GIF	
+#ifndef MAGICS_GIF
 	if(gdFontCacheSetup()!=0)  MagLog::error() << "GDDriver::readFonts() --> Cannot initialize font cache!\n";
 #endif
 //	setCMscale(30.);// cm -> pixel
@@ -140,7 +140,7 @@ void GDDriver::close()
 
  In this method the binary output file is opened.
  This includes the formation of the file name.
- 
+
  \sa endPage
 */
 MAGICS_NO_EXPORT void GDDriver::startPage() const
@@ -156,7 +156,7 @@ MAGICS_NO_EXPORT void GDDriver::startPage() const
 	currentPageCount_++;
 	currentPage_++;
 	newPage_ = true;
-	
+
 	int cPage = currentPage_;
 
 	if(!animated_)
@@ -168,7 +168,7 @@ MAGICS_NO_EXPORT void GDDriver::startPage() const
 	// No TrueColor otherwise transparent background does not work
 	currentImage_ = gdImageCreateTrueColor(dimensionXglobal_,dimensionYglobal_);
 	if(png_)
-	{	
+	{
 		gdImageAlphaBlending(currentImage_, 0);
 		gdImageSaveAlpha(currentImage_, 1); // save transparency
 	}
@@ -201,8 +201,8 @@ MAGICS_NO_EXPORT void GDDriver::startPage() const
 
 /*!
   \brief ending a page
- 
-  This method has to take care that for formats with multiple output 
+
+  This method has to take care that for formats with multiple output
   files are closed.
 
  A page in GD means normally a output file.
@@ -211,7 +211,7 @@ MAGICS_NO_EXPORT void GDDriver::startPage() const
 
  In this method the binary output file is opened.
  This includes the formation of the file name.
- 
+
  \sa startPage() close()
 */
 MAGICS_NO_EXPORT void GDDriver::endPage() const
@@ -227,7 +227,7 @@ MAGICS_NO_EXPORT void GDDriver::endPage() const
 #endif
 #endif
 	{
-		string fileName; 
+		string fileName;
 		// write image to file in PNG or JPEG - close and destoy
 		if( gif_ )
 		{
@@ -349,7 +349,7 @@ MAGICS_NO_EXPORT void GDDriver::setNewColour(const Colour &colour) const
 
 	currentColour_ = colour;
 
-	const int r = static_cast<int>(colour.red()*255.); 
+	const int r = static_cast<int>(colour.red()*255.);
 	const int g = static_cast<int>(colour.green()*255.);
 	const int b = static_cast<int>(colour.blue()*255.);
 	const int a = 127-static_cast<int>(colour.alpha()*127.);
@@ -373,7 +373,7 @@ MAGICS_NO_EXPORT int GDDriver::setLineParameters(const LineStyle linestyle, cons
 {
 //	int width = 1;
 //	if      (w > 3.) width=static_cast<int>(w*.25);
-//	else 
+//	else
 	int width=w*.25;
 	if(width<1) width=1;
 
@@ -568,10 +568,10 @@ MAGICS_NO_EXPORT void GDDriver::renderSimplePolygon(const Polyline& line) const
   This method renders given text strings.
 
  GD offers two ways of plotting text: using own line fonts or using TTF fonts.
- 
+
  By default line fonts are used if MAGICS_TTF is not set (see configure & config.h).
- 
- \note Be careful: TTF text ploting seems to fail in multithread context (AIX Jan2006) 
+
+ \note Be careful: TTF text ploting seems to fail in multithread context (AIX Jan2006)
   \sa Text
   \param text object containing the strings and their description
 */
@@ -686,7 +686,7 @@ MAGICS_NO_EXPORT void GDDriver::renderText(const Text& text) const
 			ttf += FontMap_["sansserif_normal"].ttf_filename; // if not found get default
 			MagLog::warning() << "GDDriver: Font "<< lowFont << " is not registered! Default font is used."<< endl;
 		}
-	
+
 		// test if font files exists
 		if(currentFont_!=ttf)
 		{
@@ -711,7 +711,7 @@ MAGICS_NO_EXPORT void GDDriver::renderText(const Text& text) const
 		// get bbx to size text
 		int bbx[8];
 		char *err = gdImageStringFT(NULL,&bbx[0],0,(char *)ttf.c_str(),fontSize,0.,10,10,(char*)(*niceText).text().c_str());
-	
+
 		if (err)
 		{
 			MagLog::error() << "GDDriver: gdImageStringFT (prettyText) -> "<< err <<" in "<<ttf<< endl;
@@ -826,7 +826,7 @@ MAGICS_NO_EXPORT void GDDriver::circle(const MFloat x, const MFloat y, const MFl
 MAGICS_NO_EXPORT bool GDDriver::renderPixmap(MFloat x0,MFloat y0,MFloat x1,MFloat y1,
                                             int w,int h,unsigned char* pixmap,int, bool alpha) const
 {
-	unsigned char *p = pixmap;	
+	unsigned char *p = pixmap;
 	const float dx =  (x1 - x0)/w;
 	const float dy =  (y1 - y0)/h;
 
@@ -865,7 +865,7 @@ MAGICS_NO_EXPORT bool GDDriver::renderPixmap(MFloat x0,MFloat y0,MFloat x1,MFloa
 /*!
   \brief render cell arrays
 
-  This method renders cell arrays, also called images in Magics language. These are 
+  This method renders cell arrays, also called images in Magics language. These are
   mainly used for satellite data.
 
   \sa renderPixmap()
@@ -874,7 +874,7 @@ MAGICS_NO_EXPORT bool GDDriver::renderPixmap(MFloat x0,MFloat y0,MFloat x1,MFloa
 */
 MAGICS_NO_EXPORT bool GDDriver::renderCellArray(const Image& image) const
 {
-	ColourTable &lt = image.getColourTable(); 
+	ColourTable &lt = image.getColourTable();
 	const int width  = image.getNumberOfColumns();
 	const int height = image.getNumberOfRows();
 	const float x0 = projectX(image.getOrigin().x());
@@ -888,9 +888,9 @@ MAGICS_NO_EXPORT bool GDDriver::renderCellArray(const Image& image) const
 	{
 		for(int j=0;j<width; j++)
 		{
-		  const int in = width*i+j;	 
+		  const int in = width*i+j;
 		  const short c = image[in];
- 
+
  		  if(!(lt[c]=="undefined"))
 		  {
 			const int r = static_cast<int>(lt[c].red()*255.);
@@ -951,10 +951,10 @@ MAGICS_NO_EXPORT void GDDriver::renderMagLogo(MFloat x, MFloat y) const
 MAGICS_NO_EXPORT void GDDriver::renderSymbols(const Symbol& symbol) const
 {
 	debugOutput("Start GDDriver Symbols");
-	
+
 	if(symbol.getSymbol()=="logo_ecmwf")
 		renderMagLogo(projectX(symbol[0].x()),projectY(symbol[0].y()));
-	else 
+	else
 		BaseDriver::renderSymbols(symbol);
 }
 
