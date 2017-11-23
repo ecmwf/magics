@@ -1,9 +1,9 @@
 /*
  * (C) Copyright 1996-2016 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
  */
@@ -142,7 +142,7 @@ void BaseDriver::printOutputName(const std::string & str) const
 {
 	if(filelist_)
 	{
-		if(filelist_reset_) remove(filelist_name_.c_str()); 
+		if(filelist_reset_) remove(filelist_name_.c_str());
 		const SystemInfo info;
 		fstream fs;
 		if(numFiles_ == 0)
@@ -222,28 +222,32 @@ string BaseDriver::getFileName(const string &extension, const unsigned int no) c
 	string filename = name_;
 	if(filename.empty())
 	{
-	  filename = fullname_;
-	  if(!filename.empty()) full = true;
+		filename = fullname_;
+		if(!filename.empty()) full = true;
 	}
 	if(filename.empty())
 	{
-	  filename = legacyname_;
-	  if(!filename.empty()) legacy = true;
+		filename = legacyname_;
+		if(!filename.empty()) legacy = true;
 	}
 	if(filename.empty())
 	{
-	  filename = extension;
+		filename = extension;
 	}
-
-	// name stays the same as given
-	if( no==0 && (full || (legacy && extension=="ps")) ) return filename;
-	if( no==0 && (extension=="ps" || extension=="pdf" || extension=="kmz") )  { filename += ext;return filename;}
 
 	// if nothing is set
-	if(filename=="") filename = "magics";
+	if(filename.empty()) filename = "magics";
+
+	// name stays the same as given
+	if( no==0 )
+	{
+		if(full || (legacy && extension=="ps")) return filename;
+		if(extension=="ps" || extension=="pdf" || extension=="kmz") { filename += ext;return filename;}
+	}
 
 	if(full)
 	{
+		ext="";
 		string::size_type pos = filename.find_last_of(".");
 		if(pos != string::npos)
 		{
@@ -269,7 +273,6 @@ string BaseDriver::getFileName(const string &extension, const unsigned int no) c
 	{
 		filename += ext;
 	}
-
 	return filename;
 }
 
@@ -279,7 +282,7 @@ string BaseDriver::getFileName(const string &extension, const unsigned int no) c
   This methods processes the Layout objects. It needs to be checked if a Layout is a new page or not.
   \sa Layout
 */
-MAGICS_NO_EXPORT void BaseDriver::redisplay(const Layout& layout) const 
+MAGICS_NO_EXPORT void BaseDriver::redisplay(const Layout& layout) const
 {
 	project(layout);
 	staLayouts_.push(&layout);
@@ -326,7 +329,7 @@ void BaseDriver::redisplay(const PolylineSet& line) const
 
 /*!
   \brief Decision how to stroke/fill simple polygon
-  
+
   Overwritten in SVGDriver::redisplay(const Polyline& line) const
 */
 void BaseDriver::redisplay(const Polyline& line) const
@@ -365,12 +368,12 @@ void BaseDriver::redisplay(const Symbol& symbol) const
 	renderSymbols(symbol);
 }
 
-void BaseDriver::redisplay(const TextSymbol& symbol) const 
+void BaseDriver::redisplay(const TextSymbol& symbol) const
 {
 	renderTextSymbols(symbol);
 }
 
-void BaseDriver::redisplay(const ComplexSymbol& symbol) const 
+void BaseDriver::redisplay(const ComplexSymbol& symbol) const
 {
 	renderComplexSymbols(symbol);
 }
@@ -430,7 +433,7 @@ double BaseDriver::LSF(MFloat *x,MFloat *y, int i0) const
 	{
 	 angle = atan2( (sxy/sxx) ,1.);
 	}
-	else 
+	else
 	{
 		angle=10.;
 		MagLog::debug() << "BaseDriver: Devision through zero prevented in calculation of Label angle!" << endl;
@@ -470,7 +473,7 @@ void BaseDriver::printLine(const Polyline &line) const
 //	  if(line.getAntiAliasing()) polylineAntialiasing_=true;
 	  renderPolyline(n, x, y);
 //	  polylineAntialiasing_=false;
-    
+
 	  Polyline::Holes::const_iterator h  = line.beginHoles();
 	  Polyline::Holes::const_iterator he = line.endHoles();
 
@@ -532,7 +535,7 @@ void BaseDriver::printLine(const Polyline &line) const
 
 	    const double distance_squared = ((THIS_X - PREV_X) * (THIS_X - PREV_X)) + ((THIS_Y - PREV_Y) * (THIS_Y - PREV_Y));
 
-	    if ( (arrowHead) || (distance_squared > min_square_distance_between_labels) ) 
+	    if ( (arrowHead) || (distance_squared > min_square_distance_between_labels) )
 	    {
 	       if(arrowHead)
 	       {
@@ -563,8 +566,8 @@ void BaseDriver::printLine(const Polyline &line) const
     	TextSymbol textSymbol;
 		textSymbol.position(TextSymbol::M_BELOW);
 		ostringstream nice;
-    	nice << angle;      
-	    textSymbol.push_back(pp, nice.str()); 				
+    	nice << angle;
+	    textSymbol.push_back(pp, nice.str());
 		renderTextSymbols(textSymbol);
        }
 */
@@ -574,7 +577,7 @@ void BaseDriver::printLine(const Polyline &line) const
               MFloat pro_x = x[i+2];
               MFloat pro_y = y[i+2];
               Text text;
-		      PaperPoint pp(pro_x,pro_y);		
+		      PaperPoint pp(pro_x,pro_y);
 		      text.push_back(pp);
 		      Label label= line.getLabel();
 		      MagFont font = label.font();
@@ -583,7 +586,7 @@ void BaseDriver::printLine(const Polyline &line) const
 		      text.setBlanking(label.getBlanking());
 		      text.setJustification(label.getJustification());
 		      text.setVerticalAlign(MHALF);
-		      text.setAngle(-setAngleY(angle));	
+		      text.setAngle(-setAngleY(angle));
 		      text.setFont(font);
 		      renderText(text);
 		   }
@@ -700,10 +703,10 @@ bool BaseDriver::renderPixmap(MFloat, MFloat, MFloat, MFloat, int, int, unsigned
 
 /*!
   Overwritten in KMLDriver
-  
+
   \sa Layer
 */
-MAGICS_NO_EXPORT void BaseDriver::redisplay(const Layer& layer) const 
+MAGICS_NO_EXPORT void BaseDriver::redisplay(const Layer& layer) const
 {
   MagLog::dev() << "BaseDriver::redisplay( layer) > " << layer.name()<< endl;
 }
@@ -734,14 +737,14 @@ void BaseDriver::redisplay(const StepLayer& layer) const
 }
 /*!
  \brief Method to read and execute binary file
- 
+
  This method is implemented for performance in Metview 4 and WREP
- 
+
 */
 void BaseDriver::setDimensionsFromBinary(string mbg_tmpl,MFloat &ratio,int &width) const
 {
   ifstream in(mbg_tmpl.c_str());
-  if(in.is_open()) 
+  if(in.is_open())
   {
 	char mag [6];
 	in.read((char *)(&mag), 6);
@@ -785,16 +788,16 @@ void BaseDriver::setDimensionsFromBinary(string mbg_tmpl,MFloat &ratio,int &widt
 
 /*!
  \brief Method to read and execute binary file
- 
+
  This method is implemented for performance in Metview 4 and WREP
- 
+
 */
-void BaseDriver::redisplay(const BinaryObject& binary) const 
+void BaseDriver::redisplay(const BinaryObject& binary) const
 {
   Timer timer("binary", " read");
   const string mbg_tmpl = binary.getPath();
   ifstream in(mbg_tmpl.c_str());
-  if(in.is_open()) 
+  if(in.is_open())
   {
     const float alpha = binary.getTransparency();
     applyGaussianBlur_ = binary.getGaussianBlur();
@@ -829,13 +832,13 @@ void BaseDriver::redisplay(const BinaryObject& binary) const
 
   int lengthHeader;
   in.read((char *)(&lengthHeader), sizeof(int));
-  
-  
+
+
   MFloat lx;
   MFloat ly;
   in.read((char *)(&lx), sizeof(MFloat));
   in.read((char *)(&ly), sizeof(MFloat));
-  
+
 //  if(lx!=0 || ly != 0) MagLog::warning()<<"Reading Binary: dimension mismatch!!!"<< std::endl;
   Layout la;
    la.x(binary.getMgb_x());
@@ -859,7 +862,7 @@ void BaseDriver::redisplay(const BinaryObject& binary) const
 		MFloat s;
 		int len, noNT;
 		int size;
-		{ 
+		{
 			in.read((char *)(&size), sizeof(int));
 			MFloat r,g,b;
 			in.read((char *)(&r), sizeof(MFloat));
@@ -950,7 +953,7 @@ void BaseDriver::redisplay(const BinaryObject& binary) const
 			  PaperPoint p(ax,ay);
 			  ArrowPoint ap(x, y, p);
 			  arrow.push_back(ap);
-			} 
+			}
 			renderWindArrow(arrow);
 		}
 		break;
@@ -991,7 +994,7 @@ void BaseDriver::redisplay(const BinaryObject& binary) const
 			tex[len]='\0';
 			string str(tex);
 			flag.setOriginMarker(str);
-	
+
 			for(int pts=0;pts<n;pts++)
 			{
 			  double x,y,ax,ay;
@@ -1004,7 +1007,7 @@ void BaseDriver::redisplay(const BinaryObject& binary) const
 			  PaperPoint p(ax,ay);
 			  ArrowPoint ap(x, y, p);
 			  flag.push_back(ap);
-			} 
+			}
 			renderWindFlag(flag);
 		}
 		break;
@@ -1123,7 +1126,7 @@ void BaseDriver::redisplay(const BinaryObject& binary) const
 			 }
 			}
 			line.setFillColour(Colour("green"));
-			FillShadingProperties* shading = new FillShadingProperties();    
+			FillShadingProperties* shading = new FillShadingProperties();
 			line.setShading(shading);
 			MFloat r,g,b,a;
 			in.read((char *)(&r), sizeof(MFloat));
