@@ -74,7 +74,7 @@ void GradientsColourTechnique::set(LevelSelection& out, LevelSelection& in, Colo
   		string left = colours_[col-1];
   		string right = colours_[col];	
   		int istep = ( steps_.empty() ) ? 10 : *step;
-  		cout << "step -->" << *step << endl;
+  		cout << "step -->" << istep << endl;
   		// right
   		ColourTableDefinitionCompute helper(left, right, technique_, technique_direction_);
   		
@@ -155,13 +155,13 @@ void GradientsColourTechnique::set(LevelSelection& out, LevelSelection& in, Colo
   		  double from = stops[stop-1];
   		  double to = stops[stop];
   		  int istep = ( steps_.empty() ) ? 10 : *step;
-		  cout << "step interval-->" << *step << endl;
+		  cout << "step interval-->" << istep << endl;
 			
 		  in.push_back(from);
 		  out.push_back(from); 
 		  
 		  double inc = (to - from )/(istep);
-		  cout << from << " --> " << to << " " << *step << " --> " << inc << endl;
+		  cout << from << " --> " << to << " " << istep << " --> " << inc << endl;
 		  for (int i = 1; i < istep; i++) {
 		  			in.push_back(from +(i*inc));
 		  			out.push_back(from +(i*inc));
