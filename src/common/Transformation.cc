@@ -729,19 +729,29 @@ void Transformation::thin(double step, PaperPoint& origin, vector<pair<double, d
 
 	std::set<double> xl, yl;
 
+	// [RV] : Pour eviter des boucles infernales si origine très lointaine ( on la
+	// ramene à une valeur raisonnable )
+	// Cf modif GribInterpretor::reference()  ( En steropolaire sud (10e23, 10e23) avec gribs globaux !!)
+	double origx = origin.x();
+	if (origx < minx) origx += floor((minx - origx)/step) * step;
+	if (origx > maxx) origx -= floor((origx - maxx)/step) * step;
 
+	double origy = origin.y();
+	if (origy < miny) origy += floor((miny - origy)/step) * step;
+	if (origy > maxy) origy -= floor((origy - maxy)/step) * step;
+	// [RV]
 
-	for ( double x = origin.x(), i = 1; x <= maxx; x = origin.x() + i*step, i++) {
+	for ( double x = origx, i = 1; x <= maxx; x = origx + i*step, i++) {
 		if ( x > minx )
 			xl.insert(x);
 	}
-	for ( double x = origin.x(), i = 1; x >= minx; x = origin.x() - i*step, i++)
+	for ( double x = origx, i = 1; x >= minx; x = origx - i*step, i++)
 		if ( x < maxx )
 			xl.insert(x);
-	for ( double y = origin.y(), i = 1; y <= maxy; y = origin.y() + i*step, i++)
+	for ( double y = origy, i = 1; y <= maxy; y = origy + i*step, i++)
 		if ( y > miny )
 			yl.insert(y);
-	for ( double y = origin.y(), i = 1; y >= miny; y = origin.y() - i*step, i++)
+	for ( double y = origy, i = 1; y >= miny; y = origy - i*step, i++)
 		if ( y < maxy ) {
 			yl.insert(y);
 

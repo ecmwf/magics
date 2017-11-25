@@ -160,7 +160,12 @@ public:
 	void setCoordinates(double xmin, double xmax, double ymin, double ymax) {
 		xmin_ = xmin; xmax_ = xmax; ymin_ = ymin; ymax_ = ymax; 
 	}
-	
+
+	static void reset()
+	{
+		driverInfos_.clear();
+	}
+
 	void pushDriverInfo(double x, double y, double width, double height) const 
 	{
 		driverInfos_.push_back(DriverInfo(x, y, width, height));

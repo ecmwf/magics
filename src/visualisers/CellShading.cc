@@ -29,7 +29,7 @@
 using namespace magics;
 
 
-CellShading::CellShading() : shading_("grid")
+CellShading::CellShading() : shading_("grid"), adaptive_(false)
 {
 }
 
