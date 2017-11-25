@@ -86,6 +86,7 @@ public:
 	void set(const GribLoop&, int);
 	// implements Decoder interface
 	void decode();
+	void decode1D();  // RV MF
 	void decode2D();
 	void decode(const Transformation&);
 	void decode2D(const Transformation&);
@@ -159,7 +160,9 @@ public:
 	MatrixHandler& matrix()
 	{
 
-		decode();
+// RV MF
+		decode1D();
+//		decode();
 		matrixHandlers_.push_back(new MatrixHandler(*matrix_));
 		return *(matrixHandlers_.back());
 	}
