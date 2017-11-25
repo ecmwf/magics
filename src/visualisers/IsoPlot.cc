@@ -1375,7 +1375,7 @@ void IsoPlot::isoline(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
     vector<Colour>::iterator colour = colours.begin();
 #endif
 
-    (*shading_)(this, data, parent);
+    //(*shading_)(this, data, parent);
     (*highlight_).prepare(*levelSelection_);
 
     if ( rainbow_ ) {
@@ -1662,10 +1662,24 @@ CellArray::CellArray(MatrixHandler& data,
         xypoints.reserve(rows_+1 * columns_+1);
         for (int row = 0; row <= rows_; row++) {
                 x = firstx;
-                y = firsty + (row*stepy);    // multiplication here avoids accumulation of errors
+/*              NON
+                y = firsty + (row*stepy);    // multiplication here avoids accumulation of errors */
+//              Il est absolument nécessaire de faire ainsi sinon pb d'arithmetique des flottants.
+//              Si y très très légerement supérieur à getMaxPCY(), alors transformation.revert()
+//              retourne un geopoint invalide (-1000,-1000 ) car hors enveloppe ( transformation::in(pp) -> FALSE )
+//              Il en resulte une valeur "missing" et donc des bords "blancs" à droite et en haut des images
+                if(row < rows_)
+                    y = firsty + (row*stepy);
+                else
+                    y = transformation.getMaxPCY();
                 points_.rowsAxis().push_back(y);
                 for (int column = 0; column <= columns_; column++) {
-                    x = firstx + (column*stepx);  // multiplication here avoids accumulation of errors
+/*                  NON voir ci dessus (x)
+                    x = firstx + (column*stepx);  // multiplication here avoids accumulation of errors */
+                    if (column < columns_)
+                        x = firstx + (column*stepx);
+                    else
+                        x = transformation.getMaxPCX();
                     xypoints.push_back(make_pair(x, y));
                     if ( row == 0) {
                         points_.columnsAxis().push_back(x);

@@ -542,7 +542,7 @@ GeoBoxMatrixHandler::GeoBoxMatrixHandler(const AbstractMatrix& matrix, const Tra
 	for (int i = 0; i < rows; i++) {
 
 		lat = matrix_.regular_row(i);
-		if ( minlat <= lat && lat <= maxlat) 
+		if ( minlat < lat && lat < maxlat) 
 			lats[lat] = i;
 		
 

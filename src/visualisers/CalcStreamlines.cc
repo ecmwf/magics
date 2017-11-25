@@ -154,7 +154,9 @@ int CalcStreamlines(int density, const float *dir, const GSStruct *gs, OneLineCl
 
 
 	// x_min and x_per are used for ShiftPeriod function
-	float x_min = 0.f, x_per = 360.f; // for grids on the Earth
+//	float x_min = 0.f, x_per = 360.f; // for grids on the Earth
+	float x_min = startx, x_per = 360.f; // RV for grids on the Earth
+
 	if( !gs_geo )
 		{
 			// for grids not on the Earth
