@@ -94,11 +94,25 @@ protected:
 	 }
 	 virtual void reset() {} // For Metview, get ready for a second frame.
      virtual void add(const PaperPoint& xy) {
+         static map<string, VerticalAlign> alignhandlers;
+         if ( alignhandlers.empty() ) {
+             alignhandlers["normal"] = MNORMAL;
+             alignhandlers["top"] = MTOP;
+             alignhandlers["cap"] = MCAP;
+             alignhandlers["half"] = MHALF;
+             alignhandlers["base"] = MBASE;
+             alignhandlers["bottom"] = MBOTTOM;
+         }
      	 ostringstream nice;
     	 nice << MagicsFormat(format_, xy.value()); 
          Text* text = new Text(); 
          text->addText(nice.str(), *colour_, height_);
-         text->setJustification(MCENTRE);
+         text->setJustification(justification_);
+         map<string, VerticalAlign>::iterator pos =
+                 alignhandlers.find(lowerCase(vertical_align_));
+         VerticalAlign align =
+                 ( pos != alignhandlers.end()) ? pos->second : MBASE;
+         text->setVerticalAlign(align);
          text->push_back(xy);
          push_back(text);
     }

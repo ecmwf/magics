@@ -184,6 +184,7 @@ int FortranMagics::pclose()
 	// then a consecutive call to popen will not be affected by the current values.
 	ParameterManager::reset();
 
+	Layout::reset();
 
 	if(getEnvVariable("MAGPLUS_QUIET").empty() )
 	{

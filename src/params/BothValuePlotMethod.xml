@@ -32,4 +32,9 @@ does it submit to any jurisdiction.
          		<documentation> Table number of marker index. See Appendix for Plotting Attributes 		</documentation>
          		<release>0.2		</release>
   	</parameter>
+
+	<parameter member="position" to="string" default="top" from="string" name="contour_grid_value_position"
+         			values="right/left/bottom/top">
+         		<documentation> Position of the value </documentation>
+	</parameter>
 </class></magics>

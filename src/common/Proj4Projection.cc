@@ -377,7 +377,11 @@ PaperPoint Proj4Projection::operator()(const UserPoint& point)  const
     int error = pj_transform(from_, to_, 1, 1, &x, &y, NULL);
     if ( error ) {
 		MagLog::debug() << pj_strerrno(error) << " for " << point << endl;
-		return PaperPoint(-1000000, -10000000);
+//		NON Valeurs trop faibles en EPSG:3857 par exemple !  --> Transformation::in(pp) == True !
+//		-> Avec ces valeurs, si grille globale, les barbules des poles sont tracées dans l'atlantique sud
+//		en formant une couronne centrée vers( 9°W, 66°35S)
+//		return PaperPoint(-1000000, -10000000);   .// En plus il manque 1 zero !
+		return PaperPoint(-1e10, -1e10);    // Devrait suffire pour que Transformation::in(pp) == False qqsoient from_ et to_
 	}
 	
 	return PaperPoint(x, y, point.value_, point.missing(), point.border(), 0, point.name());

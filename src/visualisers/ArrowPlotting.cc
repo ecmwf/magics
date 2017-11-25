@@ -39,6 +39,13 @@ void ArrowPlotting::operator()(bool north, const PaperPoint& point, double x, do
 
 
    Colour colour = this->colour(*colour_, x, y, val);
+   //// RV Ajout support fleches a taille fixe ////
+   if ( fixed_velocity_ > 0 && !(zero(fixed_velocity_)) && !(zero(speed)) ) {
+	   double ratio = fixed_velocity_ / speed;
+	   x *= ratio;
+	   y *= ratio;
+   }
+   //// RV ////
    if ( north )
 	   northArrow(colour)->push_back(ArrowPoint(x, y, point));
    else 
