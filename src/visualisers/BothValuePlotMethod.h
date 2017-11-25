@@ -78,6 +78,7 @@ protected:
             marker_->setMarker(markerIndex_);
             marker_->setColour(*markerColour_);
             marker_->setHeight(markerHeight_);
+            marker_->blanking(false);
             MagFont font;
             font.size(this->height_);
             font.colour(*this->colour_);

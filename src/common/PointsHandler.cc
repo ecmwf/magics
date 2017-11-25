@@ -147,6 +147,7 @@ void ThinningPointsHandler::advance()   {
     					return;
     				}
     				x_ = y_->second.begin();
+    				j = xfreq_;
     			}
     		}
     	}

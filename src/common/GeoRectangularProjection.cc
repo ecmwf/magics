@@ -591,13 +591,14 @@ void GeoRectangularProjection::populate(double lon, double lat, double value, ve
 	 		return;
 
 	 out.push_back(UserPoint(lon, lat, value));
-
+	double normlon = lon;
 	lon += 360.;
 	 while ( lon >  min_longitude_ && lon < max_longitude_) {
 		 out.push_back(UserPoint(lon, lat, value));
 	     lon += 360;
 	 }
 	 // To the West
+	 lon = normlon;
 	 lon -=  360.;
 	 while (lon >  min_longitude_ && lon < max_longitude_) {
 	 	out.push_back(UserPoint(lon, lat, value));

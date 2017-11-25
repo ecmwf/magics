@@ -62,6 +62,37 @@ bool MagicsFormat::valid(ostream& out) const
         return true;
     }
     
+	if ( format_.length() >=4 && format_[0] == '#' && format_[2] == ':' ) {
+		// Extension MF: Si debut type "#_:"
+		char type = format_[1];
+		string fmt(format_,3);
+		char bufr[256];
+		if ( type == 'C' ) {
+			// => Formatage C type printf
+			// Attention: aucun garde-fou si format erroné.
+			// Il doit etre défini pour recevoir un unique paramètre de type double.
+			sprintf(bufr, fmt.c_str(), value_);
+			out << bufr;
+			return true;
+		}
+		else if ( type == 'S' ) {
+			// => Formatage special prédefini
+			if ( magCompare(fmt, "WINTEM") ) {
+				// Format spécifique WINTEM AERO
+				// Arrondi entier, '+' si positif et pas de '-' si négatif.
+				if ( value_ > 0 ) {
+					sprintf(bufr, "+%.0f", value_);
+				}
+				else {
+					sprintf(bufr, "%.0f", -value_);
+				}
+				out << bufr;
+				return true;
+			}
+		}
+		return false;
+	}
+
 	string print =  "%g";
 	string flags;
 	string width;

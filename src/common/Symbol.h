@@ -133,7 +133,7 @@ private:
 class TextSymbol : public Symbol
 {
 public:
-	TextSymbol() : position_(M_BELOW) {}
+	TextSymbol() : position_(M_BELOW), blanking_(false) {}
 	~TextSymbol() {}
 
 	void push_back(const PaperPoint& point, const string& text) {
