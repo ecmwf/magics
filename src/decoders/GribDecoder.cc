@@ -653,18 +653,7 @@ void GribDecoder::customisedPoints(const BasicThinningMethod& thinning, const Tr
 
         gap = xy1.distance(xy2);
         if ( thinning.factor() == 1 ) {
-            // gap = 0;
-            // [RV] Pour régler le pb de trop grosses densités aux fortes
-            // latitudes en mercator et stereopolaire
-            ll = transformation.reference();
-            ll.x_ = ll.x_ + interpretor_->XResolution(*this);
-            xy2 = transformation(ll);
-            double gapx = xy1.distance(xy2);
-            if( gapx >= gap / 1.5) // / 2 <== NON ! En stereopol (ref 0°/60 gap/gapx = 1.99...)
-                gap = 0;  // Reste nécessaire ( Sinon manque bcp de pts pour des pb d'arrondi )
-            else if(gapx >= gap / 4.0) // Il faut mettre une limite !! (tres gros gap/gapx possible en mercator)
-                gap = gapx;
-            //
+            gap = 0;
         }
         thinning_debug_ = ( needs.find("debug") != needs.end() );
         customisedPoints(transformation, points,

@@ -450,7 +450,6 @@ void GribInterpretor::raw(GribDecoder& grib,
 
 
     long nblat = grib.getLong("numberOfPointsAlongAMeridian");
-    long nblon = grib.getLong("numberOfPointsAlongAParallel");
 
     points.reserve(nblat);
 
@@ -483,8 +482,6 @@ void GribInterpretor::raw(GribDecoder& grib,
                         make_pair(lat,
                                 vector<pair<double, CustomisedPoint*> >()));
                 points.back().second.reserve(nblat * 2);
-//              points.back().second.reserve(nblat * 2);	// RV: nblat * 2??
-                points.back().second.reserve(nblon + 1);
 
             }
 
@@ -840,11 +837,7 @@ PaperPoint GribInterpretor::reference(const GribDecoder& grib, const Transformat
     UserPoint point(grib.getDouble("longitudeOfFirstGridPointInDegrees"),
             grib.getDouble("latitudeOfFirstGridPointInDegrees"));
 
-//  [RV]: Pour thinning vents. Les barbules tracées ne dependront ainsi
-//  que du facteur de thinning et non du domaine
-//  ( Bien meilleure impression lors de scrollings ... )
-    if (1)
-//  if (transformation.in(point))
+    if (transformation.in(point))
         return transformation(point);
     int err;
     grib_iterator* iter = grib_iterator_new(grib.handle(), 0, &err);
@@ -1563,9 +1556,7 @@ PaperPoint GribRotatedInterpretor::reference(const GribDecoder& grib, const Tran
     double lat = grib.getDouble("latitudeOfFirstGridPointInDegrees");
     pair<double, double> xy = unrotate(lat, lon);
     UserPoint point(xy.second, xy.first);
-//  [RV]: Cf GribInterpretor::reference()
-    if (1)
-//  if (transformation.in(point))
+    if (transformation.in(point))
             return transformation(point);
 
 
@@ -1622,7 +1613,6 @@ void GribLambertAzimutalInterpretor::interpretAsMatrix(const GribDecoder& grib,
     long im = grib.getLong("numberOfPointsAlongXAxis");
     long jm = grib.getLong("numberOfPointsAlongYAxis");
 
-/*
     RotatedMatrix *rotated = new RotatedMatrix(jm, im);
     *matrix = rotated;
 
@@ -1665,7 +1655,6 @@ void GribLambertAzimutalInterpretor::interpretAsMatrix(const GribDecoder& grib,
     } catch (MagicsException& e) {
         MagLog::error() << e << "\n";
     }
-*/
 }
 
 void GribLambertAzimutalInterpretor::print(ostream& out) const {

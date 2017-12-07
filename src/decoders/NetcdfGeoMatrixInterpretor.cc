@@ -36,9 +36,9 @@ NetcdfGeoMatrixInterpretor::~NetcdfGeoMatrixInterpretor()
 
 
 
-bool NetcdfGeoMatrixInterpretor::interpretAsMatrix(Matrix** data)
+bool NetcdfGeoMatrixInterpretor::interpretAsMatrix(Matrix** matrix)
 {
-	if ( *data ) return false;
+	if ( *matrix ) return false;
 	
 	Netcdf netcdf(path_, dimension_method_);
 
@@ -53,7 +53,7 @@ bool NetcdfGeoMatrixInterpretor::interpretAsMatrix(Matrix** data)
 		
 		matrix_ = new Proj4Matrix(proj4);
 	}
-	*data = matrix_;
+	*matrix = matrix_;
 
 	
 
@@ -91,12 +91,13 @@ bool NetcdfGeoMatrixInterpretor::interpretAsMatrix(Matrix** data)
 			for (vector<double>::iterator d = data.begin(); d != data.end(); ++d ) 
 			{
 				if ( !std::isnan(*d) ) {
-					(*matrix_)[i] = (*d);
+					matrix_->push_back(*d);
+					
 				}
 				i++;			
 			}
 		}
-
+		
 		matrix_->multiply(scaling_);
 		matrix_->plus(offset_);
 	    matrix_->setMapsAxis();

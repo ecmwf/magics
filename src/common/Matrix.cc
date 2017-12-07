@@ -38,8 +38,10 @@ void Matrix::multiply(double factor)
     
 void Matrix::plus(double offset) 
 {
+	
     if (offset == 0 ) return;
     std::transform(begin(), end(), begin(), Plus(offset, missing_));
+    
 }
 
 pair<int, bool> InfoIndex::index(double pos) const
@@ -317,20 +319,11 @@ int Matrix::nearest_index(double row, double column,double &rowOut, double &colO
 	rowOut = missing();
 	colOut = missing();
 
-	// [RV] Beurk ...
-	// Pour ameliorer le pb des pts parfois manquants (thinning vents) à 
-	// la "jointure" des grilles globales
+	if ( col < left() || col > right() ) {
 
-	// if ( col < left() || col > right() ) {
-	if ( col < left()) {
+		
 		return -1;
-	}
-	double width = right() - left();
-	bool circular = (width > 355.0 && width < 360.0);
-	if (!circular and col > right()) {
-		return -1;
-	}
-	// RV
+	} 
 	if ( row < bottom() || row > top() ) {
 		
 		return -1;
