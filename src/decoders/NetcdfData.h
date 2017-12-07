@@ -113,7 +113,7 @@ struct NetAttribute
           char tmp[len];
           nc_get_att_text(netcdf_, id_, name_.c_str(), tmp);
           val = string(tmp, len);
-          cout << "get string-->" << val << endl;
+         
       }
     void get(char*& val) { 
           size_t len;
@@ -122,9 +122,7 @@ struct NetAttribute
           //val = new char[len];
           nc_get_att_text(netcdf_, id_, name_.c_str(), (char*)val);
          
-          cout << "val get" << *val << endl;
-          
-      }
+    }
 
 };
 
@@ -247,7 +245,7 @@ struct NetVariable
        size_t size = 1;
        for (unsigned int i = 0; i < dims.size(); i++) {
            size = (dims[i] ) * size;
-           cout << size << endl;
+           
        }
 
        return size;    
@@ -480,7 +478,7 @@ public:
         if ( attr == attributes_.end() ) return def;
         string val;
         (*attr).second.get(val);
-        cout << "VAL--->" << val << endl;
+        
         return strdup(val.c_str());
      }
 

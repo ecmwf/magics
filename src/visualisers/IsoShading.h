@@ -47,7 +47,11 @@ public:
 	virtual bool accept(const string&) { return true;}
     
 	virtual void operator()(IsoPlot*, MatrixHandler&, BasicGraphicsObjectContainer&)
-			{  }
+			{   // Should return 
+				//CellArray* array = technique_->array(matrix, range, transformation, width, height, resolution, technique);
+		 
+		 		//return array;
+			}
 	virtual void operator()(Data&, BasicGraphicsObjectContainer&)
 			{  }
  
@@ -106,12 +110,18 @@ public:
 		object->copy(*this);
 	    return object;
 	}
-	 CellArray* array(MatrixHandler& matrix, IntervalMap<int>& range,
+	
+	CellArray* array(MatrixHandler& matrix, IntervalMap<int>& range,
 	        	    		const Transformation& transformation, int width, int height,
 	        	    		float resolution, const string& technique) {
-		 return technique_->array(matrix, range, transformation, width, height, resolution, technique); }
+		 CellArray* array = technique_->array(matrix, range, transformation, width, height, resolution, technique);
+		 
+		 return array;
+	}
 	virtual void operator()(IsoPlot* iso, MatrixHandler& data, BasicGraphicsObjectContainer& parent)
-		{ (*this->technique_)(iso, data, parent); }
+		{  
+			(*this->technique_)(iso, data, parent); 
+		}
 	virtual void operator()(Data& data, BasicGraphicsObjectContainer& parent)
 			{ (*this->technique_)(data, parent); }
 	virtual int     shadingIndex(double);
@@ -154,6 +164,7 @@ protected:
 	 virtual void print(ostream&) const; 
 	vector<Colour> colours_;
 	vector<Colour>::iterator colour_;
+	
 
 private:
 	//! Copy constructor - No copy allowed

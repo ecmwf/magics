@@ -1018,13 +1018,6 @@ public:
 		    row++;           
 		}
 		int column=0;
-
-		// [RV] Pour les barbules, permet de réduire le phénomene de colonne en trop
-		// sur les grilles globales lorsque (columns % frequency) != 0
-		// Mais du coup il manque souvent une colonne à droite pour les grilles non globales
-		if (columns > frequencyColumn_ / 2)
-			columns -= frequencyColumn_ / 2;
-
 		for (int i = 0; i < columns; i+=frequencyColumn_)
 		{
 			//MagLog::dev()<< "Sample --> " << column << "=" << i << endl;
@@ -1033,7 +1026,7 @@ public:
 
 			column++;           
 		}
-		// [RV] columnIndex_.insert(make_pair(column, columns-1));
+		columnIndex_.insert(make_pair(column, columns-1));
 		//MagLog::dev()<< "Sample --> " << column << "=" << columns-1 << "[" << regular_column(column) << "]"<< endl;
 	}
 

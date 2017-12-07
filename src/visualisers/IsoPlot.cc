@@ -1188,6 +1188,14 @@ void IsoPlot::isoline(Cell& cell, CellBox* parent) const
 }
 
 
+inline bool getEnv(const string& name, bool def)
+{
+    string value = getEnvVariable(name);
+    value = lowerCase(value);
+    if (value == "no" || value == "off" || value == "false") return false;
+    if (value == "yes"|| value == "on"  || value == "true")  return true;
+    return def;
+}
 
 
 void IsoPlot::isoline(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
@@ -1257,6 +1265,13 @@ void IsoPlot::isoline(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
 
        threads_ = (needIsolines())  ? 4: 0;
        //threads_ = 1;
+
+       bool multiple_producers = true;
+       bool parallel_producers = !getEnv("MAGPLUS_OUTPUT_STABILITY", false);
+//       if (!parallel_producers) {
+//           multiple_producers = false;
+//       }
+
        vector<IsoHelper*> consumers_;
        vector<IsoProducer* >  producers_;
 
@@ -1315,9 +1330,13 @@ void IsoPlot::isoline(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
         }
        }
 
-       for (CellBox::iterator cell = view.begin(); cell != view.end(); ++cell) {
-           (*cell)->feed(*this,parent);
-
+       if (multiple_producers) {
+            for (CellBox::iterator cell = view.begin(); cell != view.end(); ++cell) {
+                (*cell)->feed(*this,parent);
+            }
+       }
+       else {
+            view.feed(*this,parent);
        }
 
        delete array;
@@ -1375,7 +1394,7 @@ void IsoPlot::isoline(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
     vector<Colour>::iterator colour = colours.begin();
 #endif
 
-    //(*shading_)(this, data, parent);
+    (*shading_)(this, data, parent);
     (*highlight_).prepare(*levelSelection_);
 
     if ( rainbow_ ) {
@@ -1435,9 +1454,8 @@ void IsoPlot::isoline(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
     prepare(data);
 
     if ( legend_only_ ) return;
+
     // The shading needs the isolines..
-
-
     (*shading_)(this, data, parent);
 
     // Now we feed the task...
