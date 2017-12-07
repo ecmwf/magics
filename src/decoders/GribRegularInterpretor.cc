@@ -1610,6 +1610,7 @@ pair<double, double> GribRotatedInterpretor::rotate(double lat_y,
 
 void GribLambertAzimutalInterpretor::interpretAsMatrix(const GribDecoder& grib,
         Matrix** matrix, Matrix** matrix2) const {
+    /*
     long im = grib.getLong("numberOfPointsAlongXAxis");
     long jm = grib.getLong("numberOfPointsAlongYAxis");
 
@@ -1655,6 +1656,7 @@ void GribLambertAzimutalInterpretor::interpretAsMatrix(const GribDecoder& grib,
     } catch (MagicsException& e) {
         MagLog::error() << e << "\n";
     }
+    */
 }
 
 void GribLambertAzimutalInterpretor::print(ostream& out) const {
