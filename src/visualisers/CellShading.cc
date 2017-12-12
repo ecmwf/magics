@@ -263,8 +263,13 @@ CellArray* CellShading::array(MatrixHandler& matrix, IntervalMap<int>& range,
 		const Transformation& transformation, int width, int height,
 		float resolution, const string& technique)
 {
-		if  ( adaptive_ )
+		if  ( adaptive_ ) {
+			shading_ = "grid";
 			return new GridArray(matrix, range, transformation, width, height, resolution, "middle");
-		else 
-			return 0;
+			
+		}
+		else  {
+			shading_ = "cell";
+			return new CellArray(matrix, range, transformation, width, height, resolution, technique);
+		}
 }
