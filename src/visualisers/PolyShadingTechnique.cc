@@ -26,14 +26,15 @@
 using namespace magics;
 void ShadingTechnique::operator()(IsoPlot* iso, MatrixHandler& data, BasicGraphicsObjectContainer& parent)
 {
-	iso->isoline(data, parent);
+	if ( !done_ ) 
+		iso->isoline(data, parent);
 }
 
 CellArray* PolyShadingTechnique::array(MatrixHandler& matrix, IntervalMap<int>& range,
   	    		const Transformation& transformation, int width, int height,
   	    		float resolution, const string& technique)
 {
-
+	done_ = true;
 	return new CellArray(matrix, range, transformation, width, height, resolution, technique);
 
 }
@@ -55,7 +56,7 @@ CellArray* GridShading::array(MatrixHandler& matrix, IntervalMap<int>& range,
 		const Transformation& transformation, int width, int height,
 		float resolution, const string& technique)
 {
-
+	done_ = true;
 	return new GridArray(matrix, range, transformation, width, height, resolution, position_);
 
 }

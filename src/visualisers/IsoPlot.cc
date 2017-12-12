@@ -1255,12 +1255,14 @@ void IsoPlot::isoline(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
        if (level+1!= levels_.end() )
           range.insert(make_pair(Interval(*level, *(level+1)), r++));
        }
-       if ( shading_->shadingMode() )
-           range.insert(make_pair(Interval(levels_.back(), levels_.back()+EPSILON), r-1));
+       
        CellArray* array = shading_->array(data, range, transformation, parent.widthResolution(), parent.heightResolution(),
             resolution_, technique_);
        if (!array)
             return;
+       if ( shading_->shadingMode() )
+           range.insert(make_pair(Interval(levels_.back(), levels_.back()+EPSILON), r-1));
+       
        CellBox view(array);
 
        threads_ = (needIsolines())  ? 4: 0;
