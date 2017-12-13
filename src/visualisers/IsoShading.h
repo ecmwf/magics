@@ -128,7 +128,7 @@ public:
 	virtual int     shadingIndex(double);
 	virtual int  leftIndex(double);
 	virtual int  rightIndex(double);
-	void reset() { this->technique_.reset(); }
+	void reset() { technique_->reset(); }
 
 	virtual bool needClipping() { return (*this->technique_).needClipping(); }
 	virtual bool operator()(LevelSelection& list)
