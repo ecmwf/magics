@@ -77,6 +77,7 @@ public:
 	virtual void colour(double, Colour&) {};
 	virtual bool needClipping() { return false;}
 	virtual bool method(ContourMethod*) { return false; }
+	virtual void reset() {}
 	
 protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).
@@ -127,6 +128,7 @@ public:
 	virtual int     shadingIndex(double);
 	virtual int  leftIndex(double);
 	virtual int  rightIndex(double);
+	void reset() { this->technique_.reset(); }
 
 	virtual bool needClipping() { return (*this->technique_).needClipping(); }
 	virtual bool operator()(LevelSelection& list)

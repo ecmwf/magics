@@ -452,28 +452,44 @@ void CellBox::shade(const IsoPlot& owner) {
 }
 
 
-void CellBox::split(int)
+void CellBox::split(int many)
 {
+    if (many == 1) {
+        push_back(new CellBox(parent_, row1_ , row2_, column1_, column2_));
+        return;
+    }
+    
+    if (many == 4) {
+        split();
+        return;
+    }
 
-    // split in 8
+    // split in 9
 
 
     if ( row1_ == row2_ && column1_ ==  column2_ )
             return;
 
-    const int row    = (row2_   + row1_) /2;
-    const int column = (column2_+ column1_)/4;
+    const int row    = (row2_   - row1_) /3;
+    const int column = (column2_ - column1_)/3;
 
+    int row1 = row1_ + row;
+    int row2 = row1 + row;
+    int col1 = column1_ + column;
+    int col2 = col1 + column;
 
     // Push 4 cells:
-    push_back(new CellBox(parent_, row1_, row, column1_, column));
-    push_back(new CellBox(parent_, row1_, row, column+1, 2*column));
-    push_back(new CellBox(parent_, row1_, row, (2*column)+1, 3*column));
-    push_back(new CellBox(parent_, row1_, row, (3*column)+1, column2_));
-    push_back(new CellBox(parent_, row+1, row2_, column1_, column));
-    push_back(new CellBox(parent_, row+1, row2_, column+1, 2*column));
-    push_back(new CellBox(parent_, row+1, row2_, (2*column)+1, 3*column));
-    push_back(new CellBox(parent_, row+1, row2_, (3*column)+1, column2_));
+    push_back(new CellBox(parent_, row1_, row1, column1_, col1));
+    push_back(new CellBox(parent_, row1+1, row2, column1_, col1));
+    push_back(new CellBox(parent_, row2+1, row2_, column1_, col1)); 
+
+    push_back(new CellBox(parent_, row1_, row1, col1+1, col2));
+    push_back(new CellBox(parent_, row1+1, row2, col1+1, col2));
+    push_back(new CellBox(parent_, row2+1, row2_, col1+1, col2));
+
+    push_back(new CellBox(parent_, row1_, row1, col1+1, column2_));
+    push_back(new CellBox(parent_, row1+1, row2, col1+1, column2_));
+    push_back(new CellBox(parent_, row2+1, row2_, col1+1, column2_));
 
 }
 
@@ -1265,15 +1281,19 @@ void IsoPlot::isoline(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
        
        CellBox view(array);
 
+
        threads_ = (needIsolines())  ? 4: 0;
-       //threads_ = 1;
+       
+       if ( threads_ ) {
+            if ( user_thread_ == 1 ) 
+                threads_ = 1;
+            else if ( user_thread_ == 9 ) 
+                threads_ = 9;
+            else 
+                threads_ = 4;
+       }
 
-       bool multiple_producers = true;
-       bool parallel_producers = !getEnv("MAGPLUS_OUTPUT_STABILITY", false);
-//       if (!parallel_producers) {
-//           multiple_producers = false;
-//       }
-
+      
        vector<IsoHelper*> consumers_;
        vector<IsoProducer* >  producers_;
 
@@ -1294,9 +1314,10 @@ void IsoPlot::isoline(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
             consumers.back()->start();
         }
 
-        view.split();
+        view.split(threads_);
        
         
+        cout << threads_ << " ??? " << view.size() << endl;
         
         int c = 0;
         VectorOfPointers<vector<IsoProducerData*> > datas;
@@ -1332,14 +1353,12 @@ void IsoPlot::isoline(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
         }
        }
 
-       if (multiple_producers) {
-            for (CellBox::iterator cell = view.begin(); cell != view.end(); ++cell) {
+      
+       
+       for (CellBox::iterator cell = view.begin(); cell != view.end(); ++cell) {
                 (*cell)->feed(*this,parent);
             }
-       }
-       else {
-            view.feed(*this,parent);
-       }
+       
 
        delete array;
        for ( vector<IsoData*>::iterator segment = segments_.begin(); segment != segments_.end(); ++segment)  {
@@ -1361,6 +1380,7 @@ void IsoPlot::isoline(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
     (*levelSelection_).clear();
     (*levelSelection_).calculate(min , max , true);
     bool need_isolines = (*shading_)(*levelSelection_);
+    shading_->reset();
     (*label_).prepare(*levelSelection_,  (*colour_).name());
     return need_isolines;
 }
@@ -1372,6 +1392,7 @@ void IsoPlot::isoline(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
  */
  void IsoPlot::operator()(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
 {
+
     prepare(data);
     if ( legend_only_ ) {
         if ( rainbow_ ) {
@@ -1680,42 +1701,26 @@ CellArray::CellArray(MatrixHandler& data,
         vector< std::pair<double, double> > geopoints;
         double x = firstx, y = firsty;
         xypoints.reserve(rows_+1 * columns_+1);
-        for (int row = 0; row <= rows_; row++) {
+        for (int row = 0; row < rows_+1; row++) {
                 x = firstx;
-/*              NON
-                y = firsty + (row*stepy);    // multiplication here avoids accumulation of errors */
-//              Il est absolument nécessaire de faire ainsi sinon pb d'arithmetique des flottants.
-//              Si y très très légerement supérieur à getMaxPCY(), alors transformation.revert()
-//              retourne un geopoint invalide (-1000,-1000 ) car hors enveloppe ( transformation::in(pp) -> FALSE )
-//              Il en resulte une valeur "missing" et donc des bords "blancs" à droite et en haut des images
-                if(row < rows_)
-                    y = firsty + (row*stepy);
-                else
-                    y = transformation.getMaxPCY();
+                y = firsty + (row*stepy);
                 points_.rowsAxis().push_back(y);
-                for (int column = 0; column <= columns_; column++) {
-/*                  NON voir ci dessus (x)
-                    x = firstx + (column*stepx);  // multiplication here avoids accumulation of errors */
-                    if (column < columns_)
-                        x = firstx + (column*stepx);
-                    else
-                        x = transformation.getMaxPCX();
+                for (int column = 0; column < columns_+1; column++) {
+                    x = firstx + (column*stepx);
                     xypoints.push_back(make_pair(x, y));
                     if ( row == 0) {
                         points_.columnsAxis().push_back(x);
                     }
+                   
                 }
+
+
         }
         points_.setMapsAxis();
-
-
-
-        
 
         transformation.revert(xypoints, geopoints);
         //data.interpolate(points_, geopoints);
         
-
         vector< std::pair<double, double> >::iterator geo= geopoints.begin();
         double min =  data.min();
         double max =  data.max();
@@ -1732,6 +1737,7 @@ CellArray::CellArray(MatrixHandler& data,
                     double value;
                     if  ( geo->second == -1000) {
                         value = missing;
+                        cout << "MISSING AREA" << endl;
                     }
                     else {
                         value = (magCompare(technique, "nearest")) ?
@@ -1745,7 +1751,10 @@ CellArray::CellArray(MatrixHandler& data,
                         if (value > max)
                             value=max; 
                         
-                    }                    
+                    }   
+                    else {
+                        cout << "MISSING VALUE" << endl;
+                    }                 
                     points_[i] = value;
                     i++;
                     ++geo;
