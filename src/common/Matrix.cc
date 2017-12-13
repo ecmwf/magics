@@ -535,13 +535,20 @@ GeoBoxMatrixHandler::GeoBoxMatrixHandler(const AbstractMatrix& matrix, const Tra
 
 
 	for (int i = 0; i < rows; i++) {
-
 		lat = matrix_.regular_row(i);
-		if ( minlat < lat && lat < maxlat) 
+		if ( minlat < lat && lat < maxlat) {
 			lats[lat] = i;
-		
+			//cout << "add lat -> " << lat << endl;
+		}
+		if ( same(minlat, lat) || same(lat,maxlat) ) { 
+			lats[lat] = i;
+			//cout << "PASS nEW TEST " << lat << " - " <<  minlat << " - " << maxlat << endl;
+			//cout << "add lat -> " << lat << endl;
+		}
+
 
 	}
+
 	i = 0;
 	for (map<double, int>::const_iterator entry = lats.begin(); entry != lats.end(); ++entry) {
 		rows_[i] = entry->second;
