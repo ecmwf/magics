@@ -18,7 +18,7 @@ does it submit to any jurisdiction.
         		<release>2.10		</release>
     	</parameter>
         <parameter from="int" name="contour_threads" visible="no" default="4" member="user_thread" to="int" documented="off">
-                    <documentation> NUmber of threads used to optimise the contouring  (possible 1, 4 or 8)       </documentation>
+                    <documentation> NUmber of threads used to optimise the contouring  (possible 1, 4 or 9)       </documentation>
                    
             </parameter>
     	<parameter from="float" name="contour_internal_reduction_factor" visible="no" default="4" member="resolution" to="float" documented="off">

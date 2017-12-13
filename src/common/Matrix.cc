@@ -320,12 +320,9 @@ int Matrix::nearest_index(double row, double column,double &rowOut, double &colO
 	colOut = missing();
 
 	if ( col < left() || col > right() ) {
-
-		
 		return -1;
 	} 
 	if ( row < bottom() || row > top() ) {
-		
 		return -1;
 	} 
 	map<double, int >::const_iterator  row_index;
@@ -471,14 +468,12 @@ double Matrix::operator()(int row, int column) const
 GeoBoxMatrixHandler::GeoBoxMatrixHandler(const AbstractMatrix& matrix, const Transformation& transformation):
 	  TransformMatrixHandler(matrix), transformation_(transformation), original_(0)
 {
-	
 	map<double, int> lats;
 	map<double, int> lons;
 	
 	double lon, lat;
 	double minlon, minlat, maxlon, maxlat;
 	
-
 	transformation.boundingBox(minlon, minlat, maxlon, maxlat);
 
 	
@@ -510,8 +505,6 @@ GeoBoxMatrixHandler::GeoBoxMatrixHandler(const AbstractMatrix& matrix, const Tra
 		ml = lon + 360;
 		while (  ml >= minlon && ml <= maxlon ) {  lons[ml] = -1; ml += 360; }
 	}
-
-
 
 	for (int i = 0; i < columns; i++)
 	{
