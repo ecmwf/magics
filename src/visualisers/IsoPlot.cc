@@ -1317,7 +1317,7 @@ void IsoPlot::isoline(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
         view.split(threads_);
        
         
-        cout << threads_ << " ??? " << view.size() << endl;
+        
         
         int c = 0;
         VectorOfPointers<vector<IsoProducerData*> > datas;
@@ -1737,7 +1737,7 @@ CellArray::CellArray(MatrixHandler& data,
                     double value;
                     if  ( geo->second == -1000) {
                         value = missing;
-                        cout << "MISSING AREA" << endl;
+                        //cout << "MISSING AREA" << endl;
                     }
                     else {
                         value = (magCompare(technique, "nearest")) ?
@@ -1753,7 +1753,7 @@ CellArray::CellArray(MatrixHandler& data,
                         
                     }   
                     else {
-                        cout << "MISSING VALUE" << endl;
+                        //cout << "MISSING VALUE-->" << geo->second << ", " << geo->first << endl;
                     }                 
                     points_[i] = value;
                     i++;
