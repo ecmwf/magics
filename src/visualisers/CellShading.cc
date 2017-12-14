@@ -117,18 +117,26 @@ void CellShading::operator()(IsoPlot* iso, MatrixHandler& data, BasicGraphicsObj
 	
 	Image* image = new Image();
 	image->set(rows, columns);
-	
+	MagLog::debug() << "Creation of a bitmap [rows, columns] --> [" << rows << ", " << columns << "]" << endl;  
+
 	double lat = maxr;
 	double lon = minc;
 	for ( int row = 0; row < rows; row++) {
 		lon = minc;
 		for ( int column = 0; column < columns; column++) {
-			projection.revert(PaperPoint(lon, lat), point);			
+			projection.revert(PaperPoint(lon, lat), point);		
+			lon += stepc;
+			if (point.x_ == -1000 && point.x_ == -1000)  {
+				
+				image->push_back(0);
+				continue;
+			}
+
 			value = (magCompare(method_, "nearest") ) ?
 					data.nearest(point.y(), point.x()) :  data.interpolate(point.y(), point.x());
 		
 			image->push_back(map_.find(value,0));
-			lon += stepc;
+			
 		}
 		lat -= stepr;
 	}
