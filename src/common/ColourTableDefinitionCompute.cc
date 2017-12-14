@@ -321,8 +321,7 @@ void ColourTableDefinitionCompute::hcl(const Colour& colour, float& h, float& c,
   rgbToXyz(colour.red(), colour.green(), colour.blue(), x, y, z);
   xyzToHcl(x, y, z, h, c, l);
   h *= 360;
-  if ( colour.red() == 1 && colour.green() == 1 && colour.blue() == 1 )
-      h = -1;
+  
 }
 
 Colour ColourTableDefinitionCompute::rgb(float h, float c, float l, float alpha)
