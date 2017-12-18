@@ -112,7 +112,7 @@ ecbuild_add_option( FEATURE METVIEW_NO_QT
                     DESCRIPTION "enable Metview interface without Qt" )
 
 ecbuild_add_option( FEATURE QT5
-                    DEFAULT OFF
+                    DEFAULT ON
                     DESCRIPTION "use Qt5 instead of version 4" )
 
 option( BUILD_SHARED_LIBS  "Set to BOTH to build static library in addition to shared"  ON )
