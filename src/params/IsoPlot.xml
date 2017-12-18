@@ -17,7 +17,10 @@ does it submit to any jurisdiction.
         		<documentation> Used in wrep to produce special legend such as spaghetti! 		</documentation>
         		<release>2.10		</release>
     	</parameter>
-  
+        <parameter from="int" name="contour_threads" visible="no" default="4" member="user_thread" to="int" documented="off">
+                    <documentation> NUmber of threads used to optimise the contouring  (possible 1, 4 or 9)       </documentation>
+                   
+            </parameter>
     	<parameter from="float" name="contour_internal_reduction_factor" visible="no" default="4" member="resolution" to="float" documented="off">
         		<documentation> Internal factor for contouring   		</documentation>
         		<release>2.10		</release> 
@@ -126,6 +129,7 @@ does it submit to any jurisdiction.
         		<option xml="count" fortran="count" include="CountSelectionType.h" name="CountSelectionType">		</option>
         		<option xml="interval" fortran="interval" include="IntervalSelectionType.h" name="IntervalSelectionType">		</option>
         		<option xml="list" fortran="level_list" include="LevelListSelectionType.h" name="LevelListSelectionType">		</option>
+               
     	</parameter>
 
 

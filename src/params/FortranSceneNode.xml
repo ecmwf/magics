@@ -62,13 +62,13 @@ does it submit to any jurisdiction.
   
  
   
-P  	<parameter from="float" name="page_x_gap" default="0.0cm" member="page_x_gap" to="float" implemented="no">
+ 	<parameter from="float" name="page_x_gap" default="0.0" member="page_x_gap" to="float" implemented="no">
          		<documentation> Gap between pages in X direction 		</documentation>
          		<release>Magics++0.2		</release>
          		<release_info>Not fully implemented		</release_info>
   	</parameter>
 
-  	<parameter from="float" name="page_y_gap" default="0.0cm" member="page_y_gap" to="float" implemented="no">
+  	<parameter from="float" name="page_y_gap" default="0.0" member="page_y_gap" to="float" implemented="no">
          		<documentation> Gap between pages in Y direction 		</documentation>
          		<release>Magics++0.2		</release>
           		<release_info>Not fully implemented		</release_info>

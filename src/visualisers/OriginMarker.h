@@ -50,6 +50,7 @@ public:
   
 	void marker(const string& marker)      { marker_ = marker; }
 	void height(double height)      { height_ = height; }
+	virtual double height() { return height_; }
 	void set(const OriginMarker& from)
 	{
 		marker_ = from.marker_;
@@ -58,7 +59,7 @@ public:
 	virtual void prepare(ArrowProperties& object)
 	{
 		object.setOriginMarker(marker_);
-		//object.setOriginHeight(height_);
+		object.setOriginHeight(height());
 	}
 
 protected:
@@ -86,9 +87,14 @@ public:
 	NoOriginMarker() {}
 	~NoOriginMarker() {}
 	virtual OriginMarker* clone()  { return new NoOriginMarker(); }
-	virtual void prepare(ArrowProperties&) {}
+	virtual void prepare(ArrowProperties& object) {
+		object.setOriginHeight(0);
+	}
+	
+	
 	void operator()(const PaperPoint&) {}
     virtual bool accept(const string& node) { return magCompare(node, "nomarker"); }
+    double height() { return 0.; }
 
 };
 

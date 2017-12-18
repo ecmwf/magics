@@ -29,7 +29,7 @@
 using namespace magics;
 
 
-CellShading::CellShading() : shading_("grid")
+CellShading::CellShading() : shading_("grid"), adaptive_(false)
 {
 }
 
@@ -109,7 +109,6 @@ void CellShading::operator()(IsoPlot* iso, MatrixHandler& data, BasicGraphicsObj
 
 		if (   distance_plot < distance_data ) {
 			iso->isoline(data, parent);
-			//cout << "Grid Shading" << endl;
 			MagLog::info() << "Magics will use grid shading" << endl;
 			adaptive_ = true;
 			return;
@@ -118,18 +117,26 @@ void CellShading::operator()(IsoPlot* iso, MatrixHandler& data, BasicGraphicsObj
 	
 	Image* image = new Image();
 	image->set(rows, columns);
-	
+	MagLog::debug() << "Creation of a bitmap [rows, columns] --> [" << rows << ", " << columns << "]" << endl;  
+
 	double lat = maxr;
 	double lon = minc;
 	for ( int row = 0; row < rows; row++) {
 		lon = minc;
 		for ( int column = 0; column < columns; column++) {
-			projection.revert(PaperPoint(lon, lat), point);			
+			projection.revert(PaperPoint(lon, lat), point);		
+			lon += stepc;
+			if (point.x_ == -1000 && point.x_ == -1000)  {
+				
+				image->push_back(0);
+				continue;
+			}
+
 			value = (magCompare(method_, "nearest") ) ?
 					data.nearest(point.y(), point.x()) :  data.interpolate(point.y(), point.x());
 		
 			image->push_back(map_.find(value,0));
-			lon += stepc;
+			
 		}
 		lat -= stepr;
 	}
@@ -264,8 +271,13 @@ CellArray* CellShading::array(MatrixHandler& matrix, IntervalMap<int>& range,
 		const Transformation& transformation, int width, int height,
 		float resolution, const string& technique)
 {
-		if  ( adaptive_ )
+		if  ( adaptive_ ) {
+			shading_ = "grid";
 			return new GridArray(matrix, range, transformation, width, height, resolution, "middle");
-		else 
-			return 0;
+			
+		}
+		else  {
+			shading_ = "cell";
+			return new CellArray(matrix, range, transformation, width, height, resolution, technique);
+		}
 }

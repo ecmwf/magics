@@ -72,12 +72,26 @@ protected:
 	 void reset() { marker_ = 0; }
  
     virtual void add(const PaperPoint& xy) {    
+        static map<string, TextSymbol::TextPosition> poshandlers;
+        if ( poshandlers.empty() ) {
+            poshandlers["none"] = TextSymbol::M_NONE;
+            poshandlers["left"] = TextSymbol::M_LEFT;
+            poshandlers["top"] = TextSymbol::M_ABOVE;
+            poshandlers["bottom"] = TextSymbol::M_BELOW;
+            poshandlers["right"] = TextSymbol::M_RIGHT;
+            poshandlers["centre"] = TextSymbol::M_CENTRE;
+        }
         if (!marker_) {
             marker_ = new TextSymbol();
-            marker_->position(Symbol::M_ABOVE);
+            map<string, TextSymbol::TextPosition>::iterator pos =
+                    poshandlers.find(lowerCase(position_));
+            TextSymbol::TextPosition position =
+                    ( pos != poshandlers.end()) ? pos->second : TextSymbol::M_ABOVE;
+            marker_->position(position);
             marker_->setMarker(markerIndex_);
             marker_->setColour(*markerColour_);
             marker_->setHeight(markerHeight_);
+            marker_->blanking(false);
             MagFont font;
             font.size(this->height_);
             font.colour(*this->colour_);

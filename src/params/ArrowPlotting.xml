@@ -90,4 +90,7 @@ does it submit to any jurisdiction.
   	<parameter member="legend_unit" to="string" default="m/s" from="string" name="wind_arrow_legend_text">
         		<documentation> Text to be used as units in the legend text 		</documentation>
   	</parameter>
+  	<parameter member="fixed_velocity" to="float" default="0.0" from="float" name="wind_arrow_fixed_velocity">
+        		<documentation>Fixed velocity arrows (m/s).		</documentation>
+  	</parameter>  
 </class></magics>

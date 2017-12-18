@@ -94,14 +94,14 @@ void Layout::print(ostream& out)  const
 }
 
 
-void Layout::absoluteWidth(double width) 
+double Layout::absoluteWidth(double width)
 {
-	width_ = 100*width / absoluteWidth();
+	return width_ = 100*width / absoluteWidth();
 }
 
-void Layout::absoluteHeight(double height) 
+double Layout::absoluteHeight(double height)
 {
-	height_ = 100*height / absoluteHeight();
+	return height_ = 100*height / absoluteHeight();
 }
 
 RootLayout::RootLayout(double width, double height) :

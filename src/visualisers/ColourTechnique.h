@@ -28,7 +28,7 @@
 #include "ColourTable.h"
 #include "IntervalMap.h"
 
-
+#include "PaletteColourTechniqueAttributes.h"
 namespace magics {
 
 class LevelSelection;
@@ -116,6 +116,49 @@ private:
 		{ p.print(s); return s; }
 
 };
+
+
+class PaletteColourTechnique: public ColourTechnique, public PaletteColourTechniqueAttributes {
+
+public:
+    PaletteColourTechnique();
+    virtual ~PaletteColourTechnique();
+    void set(const map<string, string>& map) { 
+        PaletteColourTechniqueAttributes::set(map);
+        }
+    void set(const XmlNode& node) { 
+        PaletteColourTechniqueAttributes::set(node);
+    }
+     bool accept(const string& node) { return PaletteColourTechniqueAttributes::accept(node); }
+    
+    void set(const ColourTechniqueInterface&);
+    
+    
+    virtual ColourTechnique* clone() const {
+        PaletteColourTechnique* object = new PaletteColourTechnique();
+        object->copy(*this);
+        return object;
+    }
+    
+protected:
+     void set(LevelSelection&, LevelSelection&, ColourTable&, int) const;
+     //! Method to print string about this class on to a stream of type ostream (virtual).
+     virtual void print(ostream&) const; 
+
+private:
+    //! Copy constructor - No copy allowed
+    PaletteColourTechnique(const PaletteColourTechnique&);
+    //! Overloaded << operator to copy - No copy allowed
+    PaletteColourTechnique& operator=(const PaletteColourTechnique&);
+
+// -- Friends
+    //! Overloaded << operator to call print().
+    friend ostream& operator<<(ostream& s,const PaletteColourTechnique& p)
+        { p.print(s); return s; }
+
+};
+
+
 
 template<>
 class MagTranslator<string, ColourTechnique> { 

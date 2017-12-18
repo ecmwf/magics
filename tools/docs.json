@@ -1,0 +1,6421 @@
+{
+    "Binary": {}, 
+    "pcdfgram": {
+        "cdf_clim_line_thickness": {
+            "default": "4", 
+            "from": "int"
+        }, 
+        "cdf_clim_line_style": {
+            "default": "solid", 
+            "from": "string"
+        }, 
+        "efi_box_border_colour": {
+            "default": "black", 
+            "from": "string"
+        }, 
+        "cdf_lines_thickness_array": {
+            "default": "intarray()", 
+            "from": "intarray"
+        }, 
+        "efi_font_style": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "efi_font_size": {
+            "default": "0.25", 
+            "from": "float"
+        }, 
+        "efi_box_border_thickness": {
+            "default": "1", 
+            "from": "int"
+        }, 
+        "cdf_clim_line_colour": {
+            "default": "black", 
+            "from": "string"
+        }, 
+        "efi_box_border_line_style": {
+            "default": "solid", 
+            "from": "string"
+        }, 
+        "efi_font": {
+            "default": "sansserif", 
+            "from": "string"
+        }, 
+        "efi_box_colour_array": {
+            "default": "stringarray()", 
+            "from": "stringarray"
+        }, 
+        "cdf_lines_colour_array": {
+            "default": "stringarray()", 
+            "from": "stringarray"
+        }, 
+        "efi_normal_colour": {
+            "default": "black", 
+            "from": "string"
+        }, 
+        "efi_font_colour": {
+            "default": "black", 
+            "from": "string"
+        }, 
+        "cdf_lines_style_array": {
+            "default": "stringarray()", 
+            "from": "stringarray"
+        }, 
+        "efi_normal_line_style": {
+            "default": "solid", 
+            "from": "string"
+        }, 
+        "efi_normal_thickness": {
+            "default": "4", 
+            "from": "int"
+        }
+    }, 
+    "projection": {
+        "subpage_upper_right_longitude": {
+            "default": "180.0", 
+            "from": "float"
+        }, 
+        "subpage_map_centre_longitude": {
+            "default": "0.0", 
+            "from": "float"
+        }, 
+        "subpage_minimal_area": {
+            "default": "0.1", 
+            "from": "float"
+        }, 
+        "subpage_map_geos_sweep": {
+            "default": "0", 
+            "from": "float"
+        }, 
+        "subpage_lower_left_longitude": {
+            "default": "-180.0", 
+            "from": "float"
+        }, 
+        "subpage_map_area_coordinate_system": {
+            "default": "users", 
+            "from": "string"
+        }, 
+        "subpage_map_centre_latitude": {
+            "default": "90.0", 
+            "from": "float"
+        }, 
+        "subpage_map_hemisphere": {
+            "default": "north", 
+            "from": "string"
+        }, 
+        "subpage_map_proj4_definition": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "subpage_map_area_definition": {
+            "default": "full", 
+            "from": "string"
+        }, 
+        "subpage_lower_left_latitude": {
+            "default": "-90.0", 
+            "from": "float"
+        }, 
+        "subpage_map_vertical_longitude": {
+            "default": "0", 
+            "from": "float"
+        }, 
+        "subpage_upper_right_latitude": {
+            "default": "90.0", 
+            "from": "float"
+        }, 
+        "subpage_coordinates_system": {
+            "default": "latlon", 
+            "from": "string"
+        }, 
+        "subpage_map_area_definition_polar": {
+            "default": "corners", 
+            "from": "string"
+        }, 
+        "subpage_map_scale": {
+            "default": "50.e6", 
+            "from": "float"
+        }
+    }, 
+    "pimport": {
+        "layers": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "import_width": {
+            "default": "-1", 
+            "from": "float"
+        }, 
+        "import_height": {
+            "default": "-1", 
+            "from": "float"
+        }, 
+        "import_y_position": {
+            "default": "0", 
+            "from": "float"
+        }, 
+        "import_format": {
+            "default": "png", 
+            "from": "string"
+        }, 
+        "service": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "url": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "import_file_name": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "import_valid_time": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "import_x_position": {
+            "default": "0", 
+            "from": "float"
+        }
+    }, 
+    "pline": {
+        "polyline_pivot_marker_name": {
+            "default": "cyclone", 
+            "from": "string"
+        }, 
+        "polyline_trajectory_factor": {
+            "default": "-1", 
+            "from": "int"
+        }, 
+        "polyline_line_style_level_list": {
+            "default": "floatarray()", 
+            "from": "floatarray"
+        }, 
+        "polyline_transparency_pivot_variable_name": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "polyline_line_style": {
+            "default": "solid", 
+            "from": "string"
+        }, 
+        "polyline_input_longitudes": {
+            "default": "floatarray()", 
+            "from": "floatarray"
+        }, 
+        "polyline_shade_colour_list": {
+            "default": "stringarray()", 
+            "from": "stringarray"
+        }, 
+        "polyline_shade_max_level_colour": {
+            "default": "blue", 
+            "from": "string"
+        }, 
+        "polyline_input_latitudes": {
+            "default": "floatarray()", 
+            "from": "floatarray"
+        }, 
+        "polyline_thickness_variable_name": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "polyline_colour_level_list": {
+            "default": "floatarray()", 
+            "from": "floatarray"
+        }, 
+        "polyline_priority_variable_name": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "polyline_shade_min_level": {
+            "default": "-1.0e+21", 
+            "from": "float"
+        }, 
+        "polyline_pivot_marker_colour": {
+            "default": "black", 
+            "from": "string"
+        }, 
+        "polyline_shade_level_selection_type": {
+            "default": "count", 
+            "from": "string"
+        }, 
+        "polyline_thickness_list": {
+            "default": "floatarray()", 
+            "from": "floatarray"
+        }, 
+        "polyline_shade_min_level_colour": {
+            "default": "red", 
+            "from": "string"
+        }, 
+        "polyline_transparency_level_list": {
+            "default": "floatarray()", 
+            "from": "floatarray"
+        }, 
+        "polyline_input_values_filename": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "polyline_thickness_level_list": {
+            "default": "floatarray()", 
+            "from": "floatarray"
+        }, 
+        "polyline_level_count": {
+            "default": "10", 
+            "from": "int"
+        }, 
+        "polyline_colour_list_policy": {
+            "default": "lastone", 
+            "from": "string"
+        }, 
+        "polyline_line_style_list": {
+            "default": "stringarray()", 
+            "from": "stringarray"
+        }, 
+        "polyline_line_thickness": {
+            "default": "1", 
+            "from": "int"
+        }, 
+        "polyline_line_style_list_policy": {
+            "default": "lastone", 
+            "from": "string"
+        }, 
+        "polyline_shade_colour_direction": {
+            "default": "anti_clockwise", 
+            "from": "string"
+        }, 
+        "polyline_colour_list": {
+            "default": "stringarray()", 
+            "from": "stringarray"
+        }, 
+        "polyline_line_style_variable_name": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "polyline_input_values": {
+            "default": "floatarray()", 
+            "from": "floatarray"
+        }, 
+        "polyline_input_break_indicator": {
+            "default": "-999", 
+            "from": "float"
+        }, 
+        "polyline_pivot_marker": {
+            "default": "none", 
+            "from": "string"
+        }, 
+        "polyline_shade_colour_method": {
+            "default": "calculate", 
+            "from": "string"
+        }, 
+        "polyline_input_positions_filename": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "polyline_colour_variable_name": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "polyline_trajectory_pivot_index": {
+            "default": "-1", 
+            "from": "int"
+        }, 
+        "polyline_thickness_list_policy": {
+            "default": "lastone", 
+            "from": "string"
+        }, 
+        "polyline_shade": {
+            "default": "none", 
+            "from": "string"
+        }, 
+        "polyline_level_tolerance": {
+            "default": "2", 
+            "from": "int"
+        }, 
+        "polyline_reference_level": {
+            "default": "0.0", 
+            "from": "float"
+        }, 
+        "legend": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "polyline_shade_max_level": {
+            "default": "1.0e+21", 
+            "from": "float"
+        }, 
+        "polyline_transparency_variable_name": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "polyline_interval": {
+            "default": "8.0", 
+            "from": "float"
+        }, 
+        "polyline_legend_only": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "polyline_line_colour": {
+            "default": "blue", 
+            "from": "string"
+        }, 
+        "polyline_effect_method": {
+            "default": "classic", 
+            "from": "string"
+        }, 
+        "polyline_pivot_marker_height": {
+            "default": "0.4", 
+            "from": "float"
+        }, 
+        "polyline_level_list": {
+            "default": "floatarray()", 
+            "from": "floatarray"
+        }
+    }, 
+    "pwind": {
+        "wind_legend_text": {
+            "default": "vector", 
+            "from": "string"
+        }, 
+        "wind_advanced_colour_level_tolerance": {
+            "default": "2", 
+            "from": "int"
+        }, 
+        "wind_arrow_head_shape": {
+            "default": "0", 
+            "from": "int"
+        }, 
+        "wind_flag_thickness": {
+            "default": "1", 
+            "from": "int"
+        }, 
+        "wind_thinning_debug": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "wind_flag_calm_below": {
+            "default": "0.5", 
+            "from": "float"
+        }, 
+        "wind_flag_calm_indicator": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "wind_flag_length": {
+            "default": "1.0", 
+            "from": "float"
+        }, 
+        "wind_streamline_colour": {
+            "default": "blue", 
+            "from": "string"
+        }, 
+        "wind_advanced_colour_table_colour_method": {
+            "default": "calculate", 
+            "from": "string"
+        }, 
+        "wind_advanced_colour_selection_type": {
+            "default": "count", 
+            "from": "string"
+        }, 
+        "wind_arrow_unit_velocity": {
+            "default": "25.0", 
+            "from": "float"
+        }, 
+        "wind_streamline_head_ratio": {
+            "default": "0.2", 
+            "from": "float"
+        }, 
+        "wind_thinning_method": {
+            "default": "data", 
+            "from": "string"
+        }, 
+        "wind_advanced_colour_list_policy": {
+            "default": "lastone", 
+            "from": "string"
+        }, 
+        "wind_advanced_colour_min_value": {
+            "default": "-1.e21", 
+            "from": "float"
+        }, 
+        "wind_advanced_colour_max_value": {
+            "default": "1.e21", 
+            "from": "float"
+        }, 
+        "wind_advanced_colour_reference_level": {
+            "default": "0.0", 
+            "from": "float"
+        }, 
+        "wind_streamline_style": {
+            "default": "solid", 
+            "from": "string"
+        }, 
+        "wind_flag_calm_indicator_size": {
+            "default": "0.3", 
+            "from": "float"
+        }, 
+        "wind_arrow_thickness": {
+            "default": "1", 
+            "from": "int"
+        }, 
+        "wind_streamline_min_density": {
+            "default": "1", 
+            "from": "float"
+        }, 
+        "wind_arrow_calm_indicator": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "wind_flag_origin_marker": {
+            "default": "circle", 
+            "from": "string"
+        }, 
+        "wind_advanced_colour_list": {
+            "default": "stringarray()", 
+            "from": "stringarray"
+        }, 
+        "wind_streamline_thickness": {
+            "default": "2", 
+            "from": "int"
+        }, 
+        "wind_advanced_colour_direction": {
+            "default": "anti_clockwise", 
+            "from": "string"
+        }, 
+        "wind_flag_cross_boundary": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "wind_flag_colour": {
+            "default": "blue", 
+            "from": "string"
+        }, 
+        "wind_flag_origin_marker_size": {
+            "default": "0.3", 
+            "from": "float"
+        }, 
+        "wind_arrow_head_ratio": {
+            "default": "0.3", 
+            "from": "float"
+        }, 
+        "wind_advanced_colour_min_level_colour": {
+            "default": "red", 
+            "from": "string"
+        }, 
+        "wind_flag_max_speed": {
+            "default": "1.0e+21", 
+            "from": "float"
+        }, 
+        "wind_advanced_colour_parameter": {
+            "default": "speed", 
+            "from": "string"
+        }, 
+        "wind_arrow_min_speed": {
+            "default": "-1.0e+21", 
+            "from": "float"
+        }, 
+        "wind_flag_style": {
+            "default": "solid", 
+            "from": "string"
+        }, 
+        "legend": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "wind_arrow_colour": {
+            "default": "blue", 
+            "from": "string"
+        }, 
+        "wind_arrow_calm_below": {
+            "default": "0.5", 
+            "from": "float"
+        }, 
+        "wind_arrow_legend_text": {
+            "default": "m/s", 
+            "from": "string"
+        }, 
+        "wind_flag_min_speed": {
+            "default": "-1.0e+21", 
+            "from": "float"
+        }, 
+        "wind_arrow_calm_indicator_size": {
+            "default": "0.3", 
+            "from": "float"
+        }, 
+        "wind_legend_only": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "wind_thinning_factor": {
+            "default": "2.0", 
+            "from": "float"
+        }, 
+        "wind_arrow_unit_system": {
+            "default": "paper", 
+            "from": "string"
+        }, 
+        "wind_arrow_max_speed": {
+            "default": "1.0e+21", 
+            "from": "float"
+        }, 
+        "wind_arrow_style": {
+            "default": "solid", 
+            "from": "string"
+        }, 
+        "wind_advanced_colour_level_list": {
+            "default": "floatarray()", 
+            "from": "floatarray"
+        }, 
+        "wind_field_type": {
+            "default": "arrows", 
+            "from": "string"
+        }, 
+        "wind_advanced_colour_level_interval": {
+            "default": "8.0", 
+            "from": "float"
+        }, 
+        "wind_streamline_min_speed": {
+            "default": "1", 
+            "from": "float"
+        }, 
+        "wind_advanced_colour_level_count": {
+            "default": "10", 
+            "from": "int"
+        }, 
+        "wind_advanced_colour_max_level_colour": {
+            "default": "blue", 
+            "from": "string"
+        }, 
+        "wind_arrow_origin_position": {
+            "default": "tail", 
+            "from": "string"
+        }, 
+        "wind_streamline_head_shape": {
+            "default": "1", 
+            "from": "int"
+        }, 
+        "wind_advanced_method": {
+            "default": "off", 
+            "from": "string"
+        }
+    }, 
+    "PostScript": {
+        "output_ps_colour_model": {
+            "default": "rgb", 
+            "from": "string"
+        }, 
+        "output_ps_split": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "output_ps_scale": {
+            "default": "1.0", 
+            "from": "float"
+        }
+    }, 
+    "pmetgram": {
+        "epsbufr_short_title": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "metgram_flag_frequency": {
+            "default": "1", 
+            "from": "int"
+        }, 
+        "metgram_time": {
+            "default": "0000", 
+            "from": "string"
+        }, 
+        "epsbufr_parameter_title": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "eps_plume_control": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "eps_plume_legend": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "epsxml_parameter": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "metgram_bar_colour": {
+            "default": "blue", 
+            "from": "string"
+        }, 
+        "eps_plume_median_line_style": {
+            "default": "solid", 
+            "from": "string"
+        }, 
+        "metgram_parameter_title": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "epsbufr_parameter_2_descriptor": {
+            "default": "0", 
+            "from": "int"
+        }, 
+        "eps_plume_forecast_line_style": {
+            "default": "dash", 
+            "from": "string"
+        }, 
+        "metgram_database": {
+            "default": "/vol/epsgram/data/spotbase/epsdb", 
+            "from": "string"
+        }, 
+        "metgram_latitude": {
+            "default": "0", 
+            "from": "float"
+        }, 
+        "eps_shade_colour": {
+            "default": "red", 
+            "from": "string"
+        }, 
+        "eps_plume_control_line_thickness": {
+            "default": "5", 
+            "from": "int"
+        }, 
+        "metgram_curve_line_style": {
+            "default": "solid", 
+            "from": "string"
+        }, 
+        "eps_plume_forecast_line_thickness": {
+            "default": "5", 
+            "from": "int"
+        }, 
+        "eps_direction_line_colour": {
+            "default": "red", 
+            "from": "string"
+        }, 
+        "metgram_bar_keyword": {
+            "default": "curve1", 
+            "from": "string"
+        }, 
+        "efi_legend": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "epsxml_title": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "epsbufr_accumulated_parameter": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "metgram_station_height": {
+            "default": "-1.", 
+            "from": "float"
+        }, 
+        "epsbufr_input_filename": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "epsbufr_station_name": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "metgram_curve2_thickness": {
+            "default": "2", 
+            "from": "int"
+        }, 
+        "eps_plume_forecast": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "epsbufr_parameter_scaling_factor": {
+            "default": "1", 
+            "from": "float"
+        }, 
+        "eps_plume_forecast_line_colour": {
+            "default": "cyan", 
+            "from": "string"
+        }, 
+        "metgram_curve_thickness": {
+            "default": "2", 
+            "from": "int"
+        }, 
+        "metgram_station_name": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "efi_legend_normal_thickness": {
+            "default": "4", 
+            "from": "int"
+        }, 
+        "eps_plume_method": {
+            "default": "time_serie", 
+            "from": "string"
+        }, 
+        "eps_plume_members": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "efi_long_title": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "metgram_date": {
+            "default": "-1", 
+            "from": "string"
+        }, 
+        "eps_plume_control_line_colour": {
+            "default": "cyan", 
+            "from": "string"
+        }, 
+        "epsbufr_y_axis_percentile": {
+            "default": "1", 
+            "from": "float"
+        }, 
+        "eps_plume_control_line_style": {
+            "default": "solid", 
+            "from": "string"
+        }, 
+        "epsbufr_parameter_descriptor": {
+            "default": "0", 
+            "from": "int"
+        }, 
+        "efi_legend_box_type": {
+            "default": "both", 
+            "from": "string"
+        }, 
+        "efi_legend_normal_colour": {
+            "default": "black", 
+            "from": "string"
+        }, 
+        "eps_shade_line_thickness": {
+            "default": "1", 
+            "from": "int"
+        }, 
+        "eps_plume_median": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "efi_legend_colour_list": {
+            "default": "stringarray()", 
+            "from": "stringarray"
+        }, 
+        "metgram_curve_keyword2": {
+            "default": "curve2", 
+            "from": "string"
+        }, 
+        "metgram_longitude": {
+            "default": "0", 
+            "from": "float"
+        }, 
+        "eps_plume_line_thickness": {
+            "default": "1", 
+            "from": "int"
+        }, 
+        "metgram_flag_component2": {
+            "default": "curve2", 
+            "from": "string"
+        }, 
+        "metgram_flag_component1": {
+            "default": "curve1", 
+            "from": "string"
+        }, 
+        "metgram_flag_method": {
+            "default": "SD", 
+            "from": "string"
+        }, 
+        "metgram_curve2_colour": {
+            "default": "blue", 
+            "from": "string"
+        }, 
+        "metgram_long_title": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "metgram_flag_colour": {
+            "default": "red", 
+            "from": "string"
+        }, 
+        "epsbufr_information": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "metgram_parameter_scaling_factor": {
+            "default": "1", 
+            "from": "float"
+        }, 
+        "metgram_curve_colour": {
+            "default": "red", 
+            "from": "string"
+        }, 
+        "epsxml_input_filename": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "eps_direction_line_style": {
+            "default": "solid", 
+            "from": "string"
+        }, 
+        "eps_shade_line_colour": {
+            "default": "red", 
+            "from": "string"
+        }, 
+        "eps_plume_shading": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "efi_title": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "metgram_flag_length": {
+            "default": "0.5", 
+            "from": "float"
+        }, 
+        "eps_plume_median_line_thickness": {
+            "default": "5", 
+            "from": "int"
+        }, 
+        "epsbufr_y_axis_threshold": {
+            "default": "50", 
+            "from": "float"
+        }, 
+        "metgram_parameter": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "eps_plume_shading_colour_list": {
+            "default": "stringarray()", 
+            "from": "stringarray"
+        }, 
+        "eps_plume_line_colour": {
+            "default": "magenta", 
+            "from": "string"
+        }, 
+        "eps_direction_line_thickness": {
+            "default": "1", 
+            "from": "int"
+        }, 
+        "eps_plume_shading_level_list": {
+            "default": "floatarray()", 
+            "from": "floatarray"
+        }, 
+        "efijson_input_filename": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "metgram_curve2_line_style": {
+            "default": "solid", 
+            "from": "string"
+        }, 
+        "epsbufr_title": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "epsbufr_station_latitude": {
+            "default": "0", 
+            "from": "float"
+        }, 
+        "metgram_curve_keyword": {
+            "default": "curve1", 
+            "from": "string"
+        }, 
+        "metgram_parameter_offset": {
+            "default": "0", 
+            "from": "float"
+        }, 
+        "epsbufr_parameter_offset_factor": {
+            "default": "0", 
+            "from": "float"
+        }, 
+        "eps_plume_median_line_colour": {
+            "default": "cyan", 
+            "from": "string"
+        }, 
+        "epsxml_long_title": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "eps_plume_line_style": {
+            "default": "solid", 
+            "from": "string"
+        }, 
+        "metgram_temperature_correction": {
+            "default": "yes", 
+            "from": "string"
+        }, 
+        "epsbufr_station_longitude": {
+            "default": "0", 
+            "from": "float"
+        }, 
+        "eps_shade_line_style": {
+            "default": "solid", 
+            "from": "string"
+        }, 
+        "eps_direction_keyword": {
+            "default": "forecast", 
+            "from": "string"
+        }, 
+        "metgram_plot_style": {
+            "default": "curve", 
+            "from": "string"
+        }
+    }, 
+    "GeoJson": {
+        "geojson_link": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "geojson_description": {
+            "default": "Generated by Magics++", 
+            "from": "string"
+        }, 
+        "geojson_zip": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "geojson_author": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "geojson_coastlines": {
+            "default": "off", 
+            "from": "string"
+        }
+    }, 
+    "pimage": {
+        "image_min_level_colour": {
+            "default": "red", 
+            "from": "string"
+        }, 
+        "image_pixel_selection_frequency": {
+            "default": "10", 
+            "from": "int"
+        }, 
+        "image_colour_table_creation_mode": {
+            "default": "equidistant", 
+            "from": "string"
+        }, 
+        "image_level_count": {
+            "default": "127", 
+            "from": "int"
+        }, 
+        "image_max_level_colour": {
+            "default": "blue", 
+            "from": "string"
+        }, 
+        "image_colour_table_type": {
+            "default": "computed", 
+            "from": "string"
+        }, 
+        "image_colour_direction": {
+            "default": "anti_clockwise", 
+            "from": "string"
+        }
+    }, 
+    "pcoast": {
+        "map_label_top": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "map_coastline_style": {
+            "default": "solid", 
+            "from": "string"
+        }, 
+        "map_label_latitude_frequency": {
+            "default": "1", 
+            "from": "int"
+        }, 
+        "map_coastline": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "map_cities": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "map_rivers_thickness": {
+            "default": "1", 
+            "from": "int"
+        }, 
+        "map_administrative_boundaries_thickness": {
+            "default": "1", 
+            "from": "int"
+        }, 
+        "map_grid_frame": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "map_grid_line_style": {
+            "default": "solid", 
+            "from": "string"
+        }, 
+        "map_efas": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "map_label_bottom": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "map_coastline_sea_shade_colour": {
+            "default": "blue", 
+            "from": "string"
+        }, 
+        "map_disputed_boundaries_colour": {
+            "default": "automatic", 
+            "from": "string"
+        }, 
+        "map_efas_style": {
+            "default": "solid", 
+            "from": "string"
+        }, 
+        "map_disputed_boundaries_style": {
+            "default": "dash", 
+            "from": "string"
+        }, 
+        "map_grid_latitude_reference": {
+            "default": "0", 
+            "from": "float"
+        }, 
+        "map_boundaries_style": {
+            "default": "solid", 
+            "from": "string"
+        }, 
+        "map_cities_marker_colour": {
+            "default": "evergreen", 
+            "from": "string"
+        }, 
+        "map_grid_longitude_reference": {
+            "default": "0", 
+            "from": "float"
+        }, 
+        "map_administrative_boundaries_style": {
+            "default": "dash", 
+            "from": "string"
+        }, 
+        "map_label_colour": {
+            "default": "black", 
+            "from": "string"
+        }, 
+        "map_grid_latitude_increment": {
+            "default": "10", 
+            "from": "float"
+        }, 
+        "map_coastline_thickness": {
+            "default": "1", 
+            "from": "int"
+        }, 
+        "map_user_layer_style": {
+            "default": "solid", 
+            "from": "string"
+        }, 
+        "map_label_blanking": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "map_grid_colour": {
+            "default": "BLACK", 
+            "from": "string"
+        }, 
+        "map_coastline_sea_shade": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "map_grid_frame_line_style": {
+            "default": "solid", 
+            "from": "string"
+        }, 
+        "map_cities_name_position": {
+            "default": "above", 
+            "from": "string"
+        }, 
+        "map_preview": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "map_administrative_boundaries_countries_list": {
+            "default": "stringarray()", 
+            "from": "stringarray"
+        }, 
+        "map_grid_frame_colour": {
+            "default": "black", 
+            "from": "string"
+        }, 
+        "map_user_layer_colour": {
+            "default": "blue", 
+            "from": "string"
+        }, 
+        "map_cities_unit_system": {
+            "default": "percent", 
+            "from": "string"
+        }, 
+        "map_label_left": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "map_disputed_boundaries_thickness": {
+            "default": "1", 
+            "from": "int"
+        }, 
+        "map_label_font_style": {
+            "default": "normal", 
+            "from": "string"
+        }, 
+        "map_boundaries": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "map_coastline_colour": {
+            "default": "black", 
+            "from": "string"
+        }, 
+        "map_rivers_colour": {
+            "default": "blue", 
+            "from": "string"
+        }, 
+        "map_user_layer": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "map_grid": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "map_boundaries_colour": {
+            "default": "grey", 
+            "from": "string"
+        }, 
+        "map_cities_font_size": {
+            "default": "2.5", 
+            "from": "float"
+        }, 
+        "map_user_layer_name": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "map_cities_marker": {
+            "default": "plus", 
+            "from": "string"
+        }, 
+        "map_user_layer_thickness": {
+            "default": "1", 
+            "from": "int"
+        }, 
+        "map_cities_font_style": {
+            "default": "normal", 
+            "from": "string"
+        }, 
+        "map_label": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "map_cities_font_colour": {
+            "default": "navy", 
+            "from": "string"
+        }, 
+        "map_efas_colour": {
+            "default": "blue", 
+            "from": "string"
+        }, 
+        "map_label_longitude_frequency": {
+            "default": "1", 
+            "from": "int"
+        }, 
+        "map_administrative_boundaries": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "map_cities_marker_height": {
+            "default": "0.7", 
+            "from": "float"
+        }, 
+        "map_administrative_boundaries_colour": {
+            "default": "automatic", 
+            "from": "string"
+        }, 
+        "map_grid_thickness": {
+            "default": "1", 
+            "from": "int"
+        }, 
+        "map_cities_font": {
+            "default": "sansserif", 
+            "from": "string"
+        }, 
+        "map_coastline_resolution": {
+            "default": "automatic", 
+            "from": "string"
+        }, 
+        "map_coastline_land_shade_colour": {
+            "default": "green", 
+            "from": "string"
+        }, 
+        "map_label_font": {
+            "default": "sansserif", 
+            "from": "string"
+        }, 
+        "map_efas_domain": {
+            "default": "current", 
+            "from": "string"
+        }, 
+        "map_label_height": {
+            "default": "0.25", 
+            "from": "float"
+        }, 
+        "map_rivers_style": {
+            "default": "solid", 
+            "from": "string"
+        }, 
+        "map_coastline_land_shade": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "map_grid_frame_thickness": {
+            "default": "1", 
+            "from": "int"
+        }, 
+        "map_coastline_general_style": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "map_boundaries_thickness": {
+            "default": "1", 
+            "from": "int"
+        }, 
+        "map_disputed_boundaries": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "map_efas_thickness": {
+            "default": "1", 
+            "from": "int"
+        }, 
+        "map_grid_longitude_increment": {
+            "default": "20", 
+            "from": "float"
+        }, 
+        "map_rivers": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "map_label_right": {
+            "default": "on", 
+            "from": "string"
+        }
+    }, 
+    "popen/pnew": {
+        "plot_direction": {
+            "default": "vertical", 
+            "from": "string"
+        }, 
+        "plot_start": {
+            "default": "bottom", 
+            "from": "string"
+        }
+    }, 
+    "xml": {
+        "efi_record": {
+            "default": "0", 
+            "from": "int"
+        }, 
+        "efi_filename": {
+            "default": "", 
+            "from": "string"
+        }
+    }, 
+    "pgrib": {
+        "grib_field_position": {
+            "default": "1", 
+            "from": "int"
+        }, 
+        "grib_interpolation_method": {
+            "default": "interpolate", 
+            "from": "string"
+        }, 
+        "grib_text_units": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "grib_interpolation_method_missing_fill_count": {
+            "default": "1", 
+            "from": "int"
+        }, 
+        "grib_input_file_name": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "grib_wind_position_2": {
+            "default": "2", 
+            "from": "int"
+        }, 
+        "grib_wind_position_1": {
+            "default": "1", 
+            "from": "int"
+        }, 
+        "grib_loop_step": {
+            "default": "loopondate", 
+            "from": "string"
+        }, 
+        "grib_dimension": {
+            "default": "intarray()", 
+            "from": "intarray"
+        }, 
+        "grib_automatic_scaling": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "grib_missing_value_indicator": {
+            "default": "-1.5e+21", 
+            "from": "float"
+        }, 
+        "grib_id": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "grib_loop_path": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "grib_wind_mode": {
+            "default": "uv", 
+            "from": "string"
+        }, 
+        "grib_position_colour": {
+            "default": "longintarray()", 
+            "from": "longintarray"
+        }, 
+        "grib_scaling_factor": {
+            "default": "1", 
+            "from": "float"
+        }, 
+        "grib_text_experiment": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "grib_automatic_derived_scaling": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "grib_file_address_mode": {
+            "default": "record", 
+            "from": "string"
+        }, 
+        "grib_wind_position_colour": {
+            "default": "3", 
+            "from": "int"
+        }, 
+        "grib_position": {
+            "default": "longintarray()", 
+            "from": "longintarray"
+        }, 
+        "grib_loop_step_span": {
+            "default": "3", 
+            "from": "float"
+        }, 
+        "grib_position_1": {
+            "default": "longintarray()", 
+            "from": "longintarray"
+        }, 
+        "grib_position_2": {
+            "default": "longintarray()", 
+            "from": "longintarray"
+        }, 
+        "grib_scaling_offset": {
+            "default": "0", 
+            "from": "float"
+        }
+    }, 
+    "pobsjson": {
+        "obsjson_input_filename": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "obsjson_info_list": {
+            "default": "stringarray()", 
+            "from": "stringarray"
+        }
+    }, 
+    "pnetcdf": {
+        "netcdf_x_position_variable": {
+            "default": "x", 
+            "from": "string"
+        }, 
+        "netcdf_longitude_variable": {
+            "default": "longitude", 
+            "from": "string"
+        }, 
+        "netcdf_x_variable": {
+            "default": "x", 
+            "from": "string"
+        }, 
+        "netcdf_speed_component_variable": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "netcdf_y_auxiliary_variable": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "netcdf_type": {
+            "default": "matrix", 
+            "from": "string"
+        }, 
+        "netcdf_field_add_offset": {
+            "default": "0", 
+            "from": "float"
+        }, 
+        "netcdf_field_suppress_above": {
+            "default": "1.0e+21", 
+            "from": "float"
+        }, 
+        "netcdf_y_position_variable": {
+            "default": "y", 
+            "from": "string"
+        }, 
+        "netcdf_missing_attribute": {
+            "default": "_FillValue", 
+            "from": "string"
+        }, 
+        "netcdf_latitude_variable": {
+            "default": "latitude", 
+            "from": "string"
+        }, 
+        "netcdf_dimension_setting_method": {
+            "default": "value", 
+            "from": "string"
+        }, 
+        "netcdf_x2_variable": {
+            "default": "x2", 
+            "from": "string"
+        }, 
+        "netcdf_y2_variable": {
+            "default": "y2", 
+            "from": "string"
+        }, 
+        "netcdf_colour_component_variable": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "netcdf_filename": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "netcdf_x_component_variable": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "netcdf_value_variable": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "netcdf_y_component_variable": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "netcdf_x_auxiliary_variable": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "netcdf_y_geoline_convention": {
+            "default": "lonlat", 
+            "from": "string"
+        }, 
+        "netcdf_direction_component_variable": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "netcdf_x_geoline_convention": {
+            "default": "lonlat", 
+            "from": "string"
+        }, 
+        "netcdf_field_scaling_factor": {
+            "default": "1", 
+            "from": "float"
+        }, 
+        "netcdf_field_suppress_below": {
+            "default": "-1.0e+21", 
+            "from": "float"
+        }, 
+        "netcdf_metadata": {
+            "default": "{}", 
+            "from": "string"
+        }, 
+        "netcdf_reference_date": {
+            "default": "0", 
+            "from": "string"
+        }, 
+        "netcdf_longitude_sample": {
+            "default": "1", 
+            "from": "int"
+        }, 
+        "netcdf_latitude_sample": {
+            "default": "1", 
+            "from": "int"
+        }, 
+        "netcdf_matrix_primary_index": {
+            "default": "longitude", 
+            "from": "string"
+        }, 
+        "netcdf_y_variable": {
+            "default": "y", 
+            "from": "string"
+        }, 
+        "netcdf_dimension_setting": {
+            "default": "stringarray()", 
+            "from": "stringarray"
+        }
+    }, 
+    "pmapgen": {
+        "mapgen_record": {
+            "default": "-1", 
+            "from": "int"
+        }, 
+        "mapgen_input_file_name": {
+            "default": "", 
+            "from": "string"
+        }
+    }, 
+    "unknown": {
+        "graph_bar_annotation": {
+            "default": "stringarray()", 
+            "from": "stringarray"
+        }, 
+        "graph_missing_data_mode": {
+            "default": "ignore", 
+            "from": "string"
+        }, 
+        "y_base_date": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "text_font_size": {
+            "default": "0.5", 
+            "from": "float"
+        }, 
+        "obs_wind_colour": {
+            "default": "automatic", 
+            "from": "string"
+        }, 
+        "landgram_top_box2_colour": {
+            "default": "evergreen", 
+            "from": "string"
+        }, 
+        "y_upper_date_values": {
+            "default": "stringarray()", 
+            "from": "stringarray"
+        }, 
+        "histogram_level_tolerance": {
+            "default": "2", 
+            "from": "int"
+        }, 
+        "graph_thickness_variable_name": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "page_id_line_logo_plot": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "axis_months_label_font_style": {
+            "default": "normal", 
+            "from": "string"
+        }, 
+        "table_combine_delimiters": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "box_left": {
+            "default": "5%", 
+            "from": "string"
+        }, 
+        "obs_high_cloud": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "input_field_x_coordinates": {
+            "default": "Matrix()", 
+            "from": "Matrix"
+        }, 
+        "y_lower_values": {
+            "default": "floatarray()", 
+            "from": "floatarray"
+        }, 
+        "graph_bar_line_colour": {
+            "default": "black", 
+            "from": "string"
+        }, 
+        "symbol_advanced_table_height_method": {
+            "default": "list", 
+            "from": "string"
+        }, 
+        "y2_base_date": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "page_id_line_font_style": {
+            "default": "normal", 
+            "from": "string"
+        }, 
+        "axis_days_label_composition": {
+            "default": "three", 
+            "from": "string"
+        }, 
+        "blanking": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "user_logo_width": {
+            "default": "-1", 
+            "from": "float"
+        }, 
+        "symbol_text_font": {
+            "default": "sansserif", 
+            "from": "string"
+        }, 
+        "symbol_advanced_table_max_level_colour": {
+            "default": "blue", 
+            "from": "string"
+        }, 
+        "y_values": {
+            "default": "floatarray()", 
+            "from": "floatarray"
+        }, 
+        "input_field_initial_longitude": {
+            "default": "0", 
+            "from": "float"
+        }, 
+        "user_logo_left": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "axis_tip_title_quality": {
+            "default": "medium", 
+            "from": "string"
+        }, 
+        "ppm_min_latitude": {
+            "default": "-90", 
+            "from": "float"
+        }, 
+        "obs_time_colour": {
+            "default": "automatic", 
+            "from": "string"
+        }, 
+        "obs_past_weather": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "boxplot_whisker_line_colour": {
+            "default": "navy", 
+            "from": "string"
+        }, 
+        "obs_size": {
+            "default": "0.25", 
+            "from": "float"
+        }, 
+        "graph_symbol": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "page_id_line_magics": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "y_upper_values": {
+            "default": "floatarray()", 
+            "from": "floatarray"
+        }, 
+        "symbol_min_table": {
+            "default": "floatarray()", 
+            "from": "floatarray"
+        }, 
+        "obs_sea_temperature_colour": {
+            "default": "black", 
+            "from": "string"
+        }, 
+        "graph_bar_justification": {
+            "default": "centre", 
+            "from": "string"
+        }, 
+        "table_x_missing_value": {
+            "default": "-21.e6", 
+            "from": "float"
+        }, 
+        "symbol_input_y_position": {
+            "default": "floatarray()", 
+            "from": "floatarray"
+        }, 
+        "output_width": {
+            "default": "800", 
+            "from": "int"
+        }, 
+        "javascript_path": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "table_y_component_variable": {
+            "default": "-1", 
+            "from": "string"
+        }, 
+        "image_min_level": {
+            "default": "-1.0e+21", 
+            "from": "int"
+        }, 
+        "y_date_offset": {
+            "default": "second", 
+            "from": "string"
+        }, 
+        "axis_grid_reference_thickness": {
+            "default": "2", 
+            "from": "int"
+        }, 
+        "output_filelist_name": {
+            "default": "magics_outputs.lst", 
+            "from": "string"
+        }, 
+        "boxplot_box_colour": {
+            "default": "sky", 
+            "from": "string"
+        }, 
+        "input_wind_direction": {
+            "default": "Matrix()", 
+            "from": "Matrix"
+        }, 
+        "obs_past_weather_colour": {
+            "default": "red", 
+            "from": "string"
+        }, 
+        "graph_line_style_variable_name": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "symbol_max_table": {
+            "default": "floatarray()", 
+            "from": "floatarray"
+        }, 
+        "boxplot_whisker_line_thickness": {
+            "default": "3", 
+            "from": "int"
+        }, 
+        "obs_ring_size": {
+            "default": "-1", 
+            "from": "float"
+        }, 
+        "table_latitude_variable": {
+            "default": "2", 
+            "from": "string"
+        }, 
+        "symbol_marker_mode": {
+            "default": "index", 
+            "from": "string"
+        }, 
+        "magnifier_hidden_symbol_colour": {
+            "default": "navy", 
+            "from": "string"
+        }, 
+        "graph_thickness_list_policy": {
+            "default": "lastone", 
+            "from": "string"
+        }, 
+        "mgb_height": {
+            "default": "100", 
+            "from": "float"
+        }, 
+        "output_creator": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "axis_tick_label_type": {
+            "default": "number", 
+            "from": "string"
+        }, 
+        "frame": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "root_node_orientation": {
+            "default": "landscape", 
+            "from": "string"
+        }, 
+        "landgram_input_file_name": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "axis_years_label_font_style": {
+            "default": "normal", 
+            "from": "string"
+        }, 
+        "input_field": {
+            "default": "Matrix()", 
+            "from": "Matrix"
+        }, 
+        "obs_visibility_colour": {
+            "default": "automatic", 
+            "from": "string"
+        }, 
+        "output_debug": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "graph_bar_annotation_font_size": {
+            "default": "0.25", 
+            "from": "float"
+        }, 
+        "input_x2_values": {
+            "default": "floatarray()", 
+            "from": "floatarray"
+        }, 
+        "output_png_transparent": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "graph_colour_value_list": {
+            "default": "stringarray()", 
+            "from": "stringarray"
+        }, 
+        "text_font_style": {
+            "default": "normal", 
+            "from": "string"
+        }, 
+        "input_date_y2_values": {
+            "default": "stringarray()", 
+            "from": "stringarray"
+        }, 
+        "page_id_line_system_plot": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "input_y_type": {
+            "default": "number", 
+            "from": "string"
+        }, 
+        "input_type": {
+            "default": "cartesian", 
+            "from": "string"
+        }, 
+        "symbol_text_list": {
+            "default": "stringarray()", 
+            "from": "stringarray"
+        }, 
+        "magnifier_text_font_colour": {
+            "default": "navy", 
+            "from": "string"
+        }, 
+        "input_field_y_coordinates": {
+            "default": "Matrix()", 
+            "from": "Matrix"
+        }, 
+        "y_missing_value": {
+            "default": "-21.e6", 
+            "from": "float"
+        }, 
+        "graph_missing_data_thickness": {
+            "default": "1", 
+            "from": "int"
+        }, 
+        "graph_colour_list_policy": {
+            "default": "lastone", 
+            "from": "string"
+        }, 
+        "symbol_colour_table": {
+            "default": "stringarray()", 
+            "from": "stringarray"
+        }, 
+        "graph_symbol_marker_index": {
+            "default": "3", 
+            "from": "int"
+        }, 
+        "histogram_level_list": {
+            "default": "floatarray()", 
+            "from": "floatarray"
+        }, 
+        "axis_title_orientation": {
+            "default": "parallel", 
+            "from": "string"
+        }, 
+        "image_outlayer_rejection": {
+            "default": "0", 
+            "from": "float"
+        }, 
+        "axis_tick_label_last": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "input_field_initial_x": {
+            "default": "0", 
+            "from": "float"
+        }, 
+        "input_field_initial_y": {
+            "default": "0", 
+            "from": "float"
+        }, 
+        "input_date_x_values": {
+            "default": "stringarray()", 
+            "from": "stringarray"
+        }, 
+        "magnifier_text_font": {
+            "default": "sanserif", 
+            "from": "string"
+        }, 
+        "boxplot_box_border_colour": {
+            "default": "navy", 
+            "from": "string"
+        }, 
+        "graph_colour_list": {
+            "default": "stringarray()", 
+            "from": "stringarray"
+        }, 
+        "landgram_bottom_box1_colour": {
+            "default": "evergreen", 
+            "from": "string"
+        }, 
+        "box_height": {
+            "default": "10%", 
+            "from": "string"
+        }, 
+        "axis_tick_position_list": {
+            "default": "floatarray()", 
+            "from": "floatarray"
+        }, 
+        "symbol_advanced_table_outlayer_min_value": {
+            "default": "-1.e21", 
+            "from": "float"
+        }, 
+        "obs_level_2": {
+            "default": "1000", 
+            "from": "int"
+        }, 
+        "boxplot_whisker_box_colour": {
+            "default": "sky", 
+            "from": "string"
+        }, 
+        "graph_arrow_colour": {
+            "default": "black", 
+            "from": "string"
+        }, 
+        "input_field_longitudes": {
+            "default": "Matrix()", 
+            "from": "Matrix"
+        }, 
+        "legend": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "obs_sea_temperature": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "boxplot_median_values": {
+            "default": "floatarray()", 
+            "from": "floatarray"
+        }, 
+        "table_longitude_variable": {
+            "default": "1", 
+            "from": "string"
+        }, 
+        "symbol_position_mode": {
+            "default": "geographic", 
+            "from": "string"
+        }, 
+        "obs_station_ring_colour": {
+            "default": "automatic", 
+            "from": "string"
+        }, 
+        "symbol_height_table": {
+            "default": "floatarray()", 
+            "from": "floatarray"
+        }, 
+        "graph_symbol_outline_style": {
+            "default": "solid", 
+            "from": "string"
+        }, 
+        "root_node_frame_line_style": {
+            "default": "solid", 
+            "from": "string"
+        }, 
+        "obs_height_colour": {
+            "default": "automatic", 
+            "from": "string"
+        }, 
+        "x2_date_offset": {
+            "default": "second", 
+            "from": "string"
+        }, 
+        "profile_path": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "graph_style_setting": {
+            "default": "simple", 
+            "from": "string"
+        }, 
+        "obs_time": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "x_lower_date_values": {
+            "default": "stringarray()", 
+            "from": "stringarray"
+        }, 
+        "user_logo_height": {
+            "default": "-1", 
+            "from": "float"
+        }, 
+        "obs_distance_apart": {
+            "default": "1.0", 
+            "from": "float"
+        }, 
+        "axis_days_label_font_style": {
+            "default": "normal", 
+            "from": "string"
+        }, 
+        "axis_hours_label_font_style": {
+            "default": "normal", 
+            "from": "string"
+        }, 
+        "input_field_final_y_date": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "sql_observation": {
+            "default": "observation", 
+            "from": "string"
+        }, 
+        "height": {
+            "default": "100%", 
+            "from": "string"
+        }, 
+        "histogram_interval": {
+            "default": "8.0", 
+            "from": "float"
+        }, 
+        "page_id_line_font": {
+            "default": "sansserif", 
+            "from": "string"
+        }, 
+        "obs_dewpoint": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "boxplot_median": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "input_field_suppress_above": {
+            "default": "1.0e+21", 
+            "from": "float"
+        }, 
+        "axis_months_label_font": {
+            "default": "sansserif", 
+            "from": "string"
+        }, 
+        "efi_path": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "input_field_suppress_below": {
+            "default": "-1.0e+21", 
+            "from": "float"
+        }, 
+        "obs_demo2_text_colour": {
+            "default": "cyan", 
+            "from": "string"
+        }, 
+        "obs_upper_air_pressure": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "table_y_missing_value": {
+            "default": "-21.e6", 
+            "from": "float"
+        }, 
+        "input_field_latitudes": {
+            "default": "Matrix()", 
+            "from": "Matrix"
+        }, 
+        "obs_present_weather": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "symbol_name_table": {
+            "default": "stringarray()", 
+            "from": "stringarray"
+        }, 
+        "input_field_final_y": {
+            "default": "100", 
+            "from": "float"
+        }, 
+        "output_file_minimal_width": {
+            "default": "1", 
+            "from": "int"
+        }, 
+        "graph_line_style_value_list": {
+            "default": "stringarray()", 
+            "from": "stringarray"
+        }, 
+        "input_field_final_x_date": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "graph_type": {
+            "default": "curve", 
+            "from": "string"
+        }, 
+        "box_width": {
+            "default": "85%", 
+            "from": "string"
+        }, 
+        "graph_missing_data_style": {
+            "default": "dash", 
+            "from": "string"
+        }, 
+        "symbol_input_wind_direction": {
+            "default": "floatarray()", 
+            "from": "floatarray"
+        }, 
+        "graph_bar_line_style": {
+            "default": "solid", 
+            "from": "string"
+        }, 
+        "obs_waves_colour": {
+            "default": "black", 
+            "from": "string"
+        }, 
+        "sql_database": {
+            "default": "obs.bufr", 
+            "from": "string"
+        }, 
+        "obs_wind": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "axis_months_label": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "axis_days_label_height": {
+            "default": "0.2", 
+            "from": "float"
+        }, 
+        "axis_hours_label_height": {
+            "default": "0.2", 
+            "from": "float"
+        }, 
+        "histogram_bar_colour": {
+            "default": "evergreen", 
+            "from": "string"
+        }, 
+        "axis_tick": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "symbol_colour": {
+            "default": "BLUE", 
+            "from": "string"
+        }, 
+        "graph_flag_length": {
+            "default": "0.75", 
+            "from": "float"
+        }, 
+        "graph_shade_hatch_index": {
+            "default": "0", 
+            "from": "int"
+        }, 
+        "x_date_values": {
+            "default": "stringarray()", 
+            "from": "stringarray"
+        }, 
+        "landgram_input_offset_factor": {
+            "default": "0", 
+            "from": "float"
+        }, 
+        "graph_shade_dot_density": {
+            "default": "20", 
+            "from": "int"
+        }, 
+        "x_lower_values": {
+            "default": "floatarray()", 
+            "from": "floatarray"
+        }, 
+        "axis_tick_label_font_style": {
+            "default": "normal", 
+            "from": "string"
+        }, 
+        "obs_type_list": {
+            "default": "stringarray()", 
+            "from": "stringarray"
+        }, 
+        "graph_line_thickness": {
+            "default": "1", 
+            "from": "int"
+        }, 
+        "landgram_title": {
+            "default": "landgram parameter", 
+            "from": "string"
+        }, 
+        "axis_tick_label_height": {
+            "default": "0.3", 
+            "from": "float"
+        }, 
+        "table_header_row": {
+            "default": "1", 
+            "from": "int"
+        }, 
+        "obs_level_tolerance": {
+            "default": "0", 
+            "from": "int"
+        }, 
+        "input_field_y_list": {
+            "default": "floatarray()", 
+            "from": "floatarray"
+        }, 
+        "symbol_advanced_table_min_value": {
+            "default": "-1.e21", 
+            "from": "float"
+        }, 
+        "output_name": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "metadata_path": {
+            "default": "meta.xml", 
+            "from": "string"
+        }, 
+        "input_field_subpage_mapping": {
+            "default": "upper_left", 
+            "from": "string"
+        }, 
+        "histogram_selection_type": {
+            "default": "count", 
+            "from": "string"
+        }, 
+        "page_id_line_logo_name": {
+            "default": "ecmwf", 
+            "from": "string"
+        }, 
+        "axis_grid_colour": {
+            "default": "black", 
+            "from": "string"
+        }, 
+        "axis_tick_position": {
+            "default": "out", 
+            "from": "string"
+        }, 
+        "input_field_x_list": {
+            "default": "floatarray()", 
+            "from": "floatarray"
+        }, 
+        "symbol_advanced_table_text_list_policy": {
+            "default": "cycle", 
+            "from": "string"
+        }, 
+        "user_logo_filename": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "boxplot_median_colour": {
+            "default": "navy", 
+            "from": "string"
+        }, 
+        "obs_level": {
+            "default": "500", 
+            "from": "int"
+        }, 
+        "axis_years_label_colour": {
+            "default": "automatic", 
+            "from": "string"
+        }, 
+        "obs_colour": {
+            "default": "black", 
+            "from": "string"
+        }, 
+        "output_frame_list": {
+            "default": "intarray()", 
+            "from": "intarray"
+        }, 
+        "orientation": {
+            "default": "landscape", 
+            "from": "string"
+        }, 
+        "output_title": {
+            "default": "Magics plot", 
+            "from": "string"
+        }, 
+        "boxplot_median_line_style": {
+            "default": "solid", 
+            "from": "string"
+        }, 
+        "input_field_initial_y_date": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "boxplot_whisker_box_border_thickness": {
+            "default": "1", 
+            "from": "int"
+        }, 
+        "landgram_bottom_box1_shading": {
+            "default": "solid", 
+            "from": "string"
+        }, 
+        "magnifier_symbol_colour": {
+            "default": "red", 
+            "from": "string"
+        }, 
+        "symbol_advanced_table_text_font_style": {
+            "default": "normal", 
+            "from": "string"
+        }, 
+        "boxplot_maximum_values": {
+            "default": "floatarray()", 
+            "from": "floatarray"
+        }, 
+        "axis_grid_reference_colour": {
+            "default": "automatic", 
+            "from": "string"
+        }, 
+        "axis_position": {
+            "default": "automatic", 
+            "from": "string"
+        }, 
+        "obs_medium_cloud_colour": {
+            "default": "automatic", 
+            "from": "string"
+        }, 
+        "graph_line_colour": {
+            "default": "blue", 
+            "from": "string"
+        }, 
+        "axis_tick_size": {
+            "default": "0.175", 
+            "from": "float"
+        }, 
+        "input_field_initial_x_date": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "axis_tick_label_colour": {
+            "default": "automatic", 
+            "from": "string"
+        }, 
+        "x_missing_value": {
+            "default": "-21.e6", 
+            "from": "float"
+        }, 
+        "axis_tip_title_text": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "ppm_input_file_name": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "axis_minor_tick_thickness": {
+            "default": "1", 
+            "from": "int"
+        }, 
+        "image_max_level": {
+            "default": "1.0e+21", 
+            "from": "int"
+        }, 
+        "page_id_line_date_plot": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "input_x_missing_value": {
+            "default": "-21.e6", 
+            "from": "float"
+        }, 
+        "output_gif_delay": {
+            "default": "100", 
+            "from": "int"
+        }, 
+        "symbol_advanced_table_colour_list_policy": {
+            "default": "lastone", 
+            "from": "string"
+        }, 
+        "input_wind_v_component": {
+            "default": "Matrix()", 
+            "from": "Matrix"
+        }, 
+        "axis_title_text": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "boxplot_box_upper_values": {
+            "default": "floatarray()", 
+            "from": "floatarray"
+        }, 
+        "boxplot_whisker_box_border_line_style": {
+            "default": "solid", 
+            "from": "string"
+        }, 
+        "graph_bar_clipping": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "page_id_line_height": {
+            "default": "0.25", 
+            "from": "float"
+        }, 
+        "mgb_transparency": {
+            "default": "1.0", 
+            "from": "float"
+        }, 
+        "axis_years_label_font": {
+            "default": "sansserif", 
+            "from": "string"
+        }, 
+        "symbol_advanced_table_marker_name_list": {
+            "default": "stringarray()", 
+            "from": "stringarray"
+        }, 
+        "boxplot_whisker_box_width": {
+            "default": "0.25", 
+            "from": "float"
+        }, 
+        "graph_flag_colour": {
+            "default": "black", 
+            "from": "string"
+        }, 
+        "axis_tick_label": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "wrep_node_height": {
+            "default": "400", 
+            "from": "float"
+        }, 
+        "graph_bar_width": {
+            "default": "INT_MAX", 
+            "from": "float"
+        }, 
+        "output_fullname": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "symbol_image_height": {
+            "default": "-1", 
+            "from": "float"
+        }, 
+        "graph_shade": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "symbol_advanced_table_level_tolerance": {
+            "default": "2", 
+            "from": "int"
+        }, 
+        "axis_grid_thickness": {
+            "default": "1", 
+            "from": "int"
+        }, 
+        "axis_grid_reference_line_style": {
+            "default": "solid", 
+            "from": "string"
+        }, 
+        "symbol_advanced_table_text_font_colour": {
+            "default": "automatic", 
+            "from": "string"
+        }, 
+        "sql_query": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "input_field_y_step": {
+            "default": "1", 
+            "from": "float"
+        }, 
+        "graph_symbol_outline_colour": {
+            "default": "black", 
+            "from": "string"
+        }, 
+        "obs_low_cloud": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "input_field_x_step": {
+            "default": "1", 
+            "from": "float"
+        }, 
+        "axis_years_label_height": {
+            "default": "0.2", 
+            "from": "float"
+        }, 
+        "output_name_first_page_number_value": {
+            "default": "1", 
+            "from": "int"
+        }, 
+        "left": {
+            "default": "0%", 
+            "from": "string"
+        }, 
+        "y2_date_offset": {
+            "default": "second", 
+            "from": "string"
+        }, 
+        "axis_minor_grid": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "output_filelist_reset": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "input_y_missing_value": {
+            "default": "-21.e6", 
+            "from": "float"
+        }, 
+        "obs_visibility": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "symbol_marker_table": {
+            "default": "intarray()", 
+            "from": "intarray"
+        }, 
+        "input_values": {
+            "default": "floatarray()", 
+            "from": "floatarray"
+        }, 
+        "table_x_type": {
+            "default": "number", 
+            "from": "string"
+        }, 
+        "x2_base_date": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "sql_longitude": {
+            "default": "longitude", 
+            "from": "string"
+        }, 
+        "obs_station_ring": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "axis_title": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "boxplot_box_width": {
+            "default": "1.0", 
+            "from": "float"
+        }, 
+        "graph_curve_method": {
+            "default": "straight", 
+            "from": "string"
+        }, 
+        "contour_sample_y_interval": {
+            "default": "2", 
+            "from": "int"
+        }, 
+        "axis_days_sunday_label_colour": {
+            "default": "red", 
+            "from": "string"
+        }, 
+        "axis_line": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "histogram_min_value": {
+            "default": "-1.e21", 
+            "from": "float"
+        }, 
+        "axis_minor_grid_thickness": {
+            "default": "1", 
+            "from": "int"
+        }, 
+        "obs_temperature_colour": {
+            "default": "automatic", 
+            "from": "string"
+        }, 
+        "table_value_variable": {
+            "default": "-1", 
+            "from": "string"
+        }, 
+        "axis_tick_colour": {
+            "default": "automatic", 
+            "from": "string"
+        }, 
+        "graph_shade_style": {
+            "default": "area_fill", 
+            "from": "string"
+        }, 
+        "input_x_type": {
+            "default": "number", 
+            "from": "string"
+        }, 
+        "x_upper_date_values": {
+            "default": "stringarray()", 
+            "from": "stringarray"
+        }, 
+        "input_y_values": {
+            "default": "floatarray()", 
+            "from": "floatarray"
+        }, 
+        "symbol_text_position": {
+            "default": "right", 
+            "from": "string"
+        }, 
+        "axis_months_label_composition": {
+            "default": "three", 
+            "from": "string"
+        }, 
+        "symbol_advanced_table_text_list": {
+            "default": "stringarray()", 
+            "from": "stringarray"
+        }, 
+        "format": {
+            "default": "a4", 
+            "from": "string"
+        }, 
+        "axis_minor_tick_count": {
+            "default": "2", 
+            "from": "int"
+        }, 
+        "symbol_input_number_list": {
+            "default": "floatarray()", 
+            "from": "floatarray"
+        }, 
+        "graph_thickness_value_list": {
+            "default": "stringarray()", 
+            "from": "stringarray"
+        }, 
+        "axis_minor_grid_line_style": {
+            "default": "solid", 
+            "from": "string"
+        }, 
+        "boxplot_positions": {
+            "default": "floatarray()", 
+            "from": "floatarray"
+        }, 
+        "x_upper_values": {
+            "default": "floatarray()", 
+            "from": "floatarray"
+        }, 
+        "axis_title_font_style": {
+            "default": "normal", 
+            "from": "string"
+        }, 
+        "input_date_y_values": {
+            "default": "stringarray()", 
+            "from": "stringarray"
+        }, 
+        "input_y_component_values": {
+            "default": "floatarray()", 
+            "from": "floatarray"
+        }, 
+        "symbol_legend_height": {
+            "default": "-1", 
+            "from": "float"
+        }, 
+        "symbol_image_format": {
+            "default": "automatic", 
+            "from": "string"
+        }, 
+        "box_bottom": {
+            "default": "80%", 
+            "from": "string"
+        }, 
+        "axis_tick_thickness": {
+            "default": "2", 
+            "from": "int"
+        }, 
+        "axis_tick_label_frequency": {
+            "default": "1", 
+            "from": "int"
+        }, 
+        "root_node_frame_colour": {
+            "default": "blue", 
+            "from": "string"
+        }, 
+        "graph_line_style_list_policy": {
+            "default": "lastone", 
+            "from": "string"
+        }, 
+        "boxplot_median_thickness": {
+            "default": "3", 
+            "from": "int"
+        }, 
+        "graph_x_suppress_above": {
+            "default": "LLONG_MAX", 
+            "from": "float"
+        }, 
+        "symbol_advanced_table_height_max_value": {
+            "default": "0.2", 
+            "from": "float"
+        }, 
+        "symbol_text_font_style": {
+            "default": "normal", 
+            "from": "string"
+        }, 
+        "input_y2_values": {
+            "default": "floatarray()", 
+            "from": "floatarray"
+        }, 
+        "symbol_advanced_table_text_font_size": {
+            "default": "0.25", 
+            "from": "float"
+        }, 
+        "symbol_input_x_position": {
+            "default": "floatarray()", 
+            "from": "floatarray"
+        }, 
+        "graph_bar_annotation_font_colour": {
+            "default": "red", 
+            "from": "string"
+        }, 
+        "graph_symbol_outline": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "boxplot_whisker": {
+            "default": "line", 
+            "from": "string"
+        }, 
+        "page_id_line_user_text": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "symbol_advanced_table_level_list": {
+            "default": "floatarray()", 
+            "from": "floatarray"
+        }, 
+        "symbol_advanced_table_min_level_colour": {
+            "default": "red", 
+            "from": "string"
+        }, 
+        "table_data_row_offset": {
+            "default": "1", 
+            "from": "int"
+        }, 
+        "axis_days_label_position": {
+            "default": "12", 
+            "from": "int"
+        }, 
+        "boxplot_whisker_box_border": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "page_id_line_user_text_plot": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "boxplot_box": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "obs_thickness": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "axis_line_colour": {
+            "default": "automatic", 
+            "from": "string"
+        }, 
+        "axis_tip_title": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "meta": {
+            "default": "nometadata", 
+            "from": "string"
+        }, 
+        "graph_symbol_height": {
+            "default": "0.2", 
+            "from": "float"
+        }, 
+        "axis_minor_grid_colour": {
+            "default": "black", 
+            "from": "string"
+        }, 
+        "x_date_offset": {
+            "default": "second", 
+            "from": "string"
+        }, 
+        "symbol_advanced_table_colour_list": {
+            "default": "stringarray()", 
+            "from": "stringarray"
+        }, 
+        "efi_template": {
+            "default": "efi_template.js", 
+            "from": "string"
+        }, 
+        "axis_type": {
+            "default": "regular", 
+            "from": "string"
+        }, 
+        "graph_bar_style": {
+            "default": "bar", 
+            "from": "string"
+        }, 
+        "page_id_line_errors_plot": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "symbol_input_wind_speed": {
+            "default": "floatarray()", 
+            "from": "floatarray"
+        }, 
+        "axis_tick_label_orientation": {
+            "default": "horizontal", 
+            "from": "string"
+        }, 
+        "y2_date_values": {
+            "default": "stringarray()", 
+            "from": "stringarray"
+        }, 
+        "magnifier_text_format": {
+            "default": "(automatic)", 
+            "from": "string"
+        }, 
+        "input_field_longitude_step": {
+            "default": "1.5", 
+            "from": "float"
+        }, 
+        "obs_low_cloud_colour": {
+            "default": "automatic", 
+            "from": "string"
+        }, 
+        "x_values": {
+            "default": "floatarray()", 
+            "from": "floatarray"
+        }, 
+        "symbol_advanced_table_height_list_policy": {
+            "default": "lastone", 
+            "from": "string"
+        }, 
+        "axis_line_thickness": {
+            "default": "2", 
+            "from": "int"
+        }, 
+        "symbol_image_path": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "graph_y_suppress_above": {
+            "default": "LLONG_MAX", 
+            "from": "float"
+        }, 
+        "symbol_advanced_table_outlayer_method": {
+            "default": "none", 
+            "from": "string"
+        }, 
+        "axis_minor_tick": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "axis_tick_label_font": {
+            "default": "sansserif", 
+            "from": "string"
+        }, 
+        "ppm_max_longitude": {
+            "default": "180", 
+            "from": "float"
+        }, 
+        "obs_pressure_tendency": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "axis_tick_label_format": {
+            "default": "(automatic)", 
+            "from": "string"
+        }, 
+        "obs_present_weather_colour": {
+            "default": "automatic", 
+            "from": "string"
+        }, 
+        "title_colour": {
+            "default": "blue", 
+            "from": "string"
+        }, 
+        "landgram_bottom_box2_shading": {
+            "default": "dot", 
+            "from": "string"
+        }, 
+        "histogram_max_value": {
+            "default": "1.e21", 
+            "from": "float"
+        }, 
+        "input_longitude_values": {
+            "default": "floatarray()", 
+            "from": "floatarray"
+        }, 
+        "boxplot_minimum_values": {
+            "default": "floatarray()", 
+            "from": "floatarray"
+        }, 
+        "boxplot_box_border": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "boxplot_date_positions": {
+            "default": "stringarray()", 
+            "from": "stringarray"
+        }, 
+        "table_variable_identifier_type": {
+            "default": "index", 
+            "from": "string"
+        }, 
+        "graph_x_suppress_below": {
+            "default": "LLONG_MIN", 
+            "from": "float"
+        }, 
+        "axis_tick_label_list": {
+            "default": "stringarray()", 
+            "from": "stringarray"
+        }, 
+        "symbol_advanced_table_marker_list": {
+            "default": "intarray()", 
+            "from": "intarray"
+        }, 
+        "graph_line_style_list": {
+            "default": "stringarray()", 
+            "from": "stringarray"
+        }, 
+        "symbol_advanced_table_max_value": {
+            "default": "1.e21", 
+            "from": "float"
+        }, 
+        "graph_bar_line_thickness": {
+            "default": "1", 
+            "from": "int"
+        }, 
+        "input_date_x2_values": {
+            "default": "stringarray()", 
+            "from": "stringarray"
+        }, 
+        "input_x_component_values": {
+            "default": "floatarray()", 
+            "from": "floatarray"
+        }, 
+        "sql_latitude": {
+            "default": "latitude", 
+            "from": "string"
+        }, 
+        "symbol_advanced_table_height_list": {
+            "default": "floatarray()", 
+            "from": "floatarray"
+        }, 
+        "obs_upper_air_pressure_colour": {
+            "default": "automatic", 
+            "from": "string"
+        }, 
+        "axis_minor_tick_colour": {
+            "default": "automatic", 
+            "from": "string"
+        }, 
+        "obs_pressure_colour": {
+            "default": "automatic", 
+            "from": "string"
+        }, 
+        "input_mars_metadata": {
+            "default": "{}", 
+            "from": "string"
+        }, 
+        "x_base_date": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "obs_medium_cloud": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "obs_high_cloud_colour": {
+            "default": "red", 
+            "from": "string"
+        }, 
+        "boxplot_box_border_thickness": {
+            "default": "1", 
+            "from": "int"
+        }, 
+        "output_name_first_page_number": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "boxplot_box_lower_values": {
+            "default": "floatarray()", 
+            "from": "floatarray"
+        }, 
+        "table_x_variable": {
+            "default": "1", 
+            "from": "string"
+        }, 
+        "input_field_final_x": {
+            "default": "100", 
+            "from": "float"
+        }, 
+        "symbol_height": {
+            "default": "0.2", 
+            "from": "float"
+        }, 
+        "axis_tick_label_first": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "axis_tick_interval": {
+            "default": "INT_MAX", 
+            "from": "float"
+        }, 
+        "symbol_advanced_table_selection_type": {
+            "default": "count", 
+            "from": "string"
+        }, 
+        "landgram_top_box1_shading": {
+            "default": "solid", 
+            "from": "string"
+        }, 
+        "y_date_values": {
+            "default": "stringarray()", 
+            "from": "stringarray"
+        }, 
+        "output_jpeg_quality": {
+            "default": "-1", 
+            "from": "int"
+        }, 
+        "root_node_format": {
+            "default": "a4", 
+            "from": "string"
+        }, 
+        "magnifier_symbol_height": {
+            "default": "0.2", 
+            "from": "float"
+        }, 
+        "title_justification": {
+            "default": "centre", 
+            "from": "string"
+        }, 
+        "boxplot_whisker_line_style": {
+            "default": "solid", 
+            "from": "string"
+        }, 
+        "magnifier_hidden_symbol_height": {
+            "default": "0.1", 
+            "from": "float"
+        }, 
+        "obs_thickness_colour": {
+            "default": "automatic", 
+            "from": "string"
+        }, 
+        "obs_pressure": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "graph_missing_data_colour": {
+            "default": "red", 
+            "from": "string"
+        }, 
+        "symbol_marker_index": {
+            "default": "1", 
+            "from": "int"
+        }, 
+        "root_node_frame_thickness": {
+            "default": "1", 
+            "from": "int"
+        }, 
+        "obs_height": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "axis_grid": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "axis_hours_label": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "graph_bar_colour": {
+            "default": "blue", 
+            "from": "string"
+        }, 
+        "symbol_marker_name": {
+            "default": "dot", 
+            "from": "string"
+        }, 
+        "legend_user_text": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "graph_bar_orientation": {
+            "default": "vertical", 
+            "from": "string"
+        }, 
+        "root_node_width": {
+            "default": "-1", 
+            "from": "float"
+        }, 
+        "output_filelist": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "page_id_line_colour": {
+            "default": "ecmwf_blue", 
+            "from": "string"
+        }, 
+        "axis_line_style": {
+            "default": "solid", 
+            "from": "string"
+        }, 
+        "width": {
+            "default": "100%", 
+            "from": "string"
+        }, 
+        "wrep_node_width": {
+            "default": "800", 
+            "from": "float"
+        }, 
+        "contour_sample_x_interval": {
+            "default": "2", 
+            "from": "int"
+        }, 
+        "input_x_values": {
+            "default": "floatarray()", 
+            "from": "floatarray"
+        }, 
+        "symbol_image_width": {
+            "default": "-1", 
+            "from": "float"
+        }, 
+        "image_level_list": {
+            "default": "intarray()", 
+            "from": "intarray"
+        }, 
+        "axis_tip_title_colour": {
+            "default": "automatic", 
+            "from": "string"
+        }, 
+        "root_node_frame": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "graph_thickness_list": {
+            "default": "intarray()", 
+            "from": "intarray"
+        }, 
+        "user_logo_position_units": {
+            "default": "cm", 
+            "from": "string"
+        }, 
+        "input_binning": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "symbol_advanced_table_outlayer_max_value": {
+            "default": "1.e21", 
+            "from": "float"
+        }, 
+        "mgb_filename": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "axis_hours_label_colour": {
+            "default": "black", 
+            "from": "string"
+        }, 
+        "axis_days_label_colour": {
+            "default": "black", 
+            "from": "string"
+        }, 
+        "graph_bar_minimum_value": {
+            "default": "INT_MAX", 
+            "from": "float"
+        }, 
+        "sql_x": {
+            "default": "x", 
+            "from": "string"
+        }, 
+        "sql_y": {
+            "default": "y", 
+            "from": "string"
+        }, 
+        "table_y_variable": {
+            "default": "2", 
+            "from": "string"
+        }, 
+        "symbol_advanced_table_colour_direction": {
+            "default": "anti_clockwise", 
+            "from": "string"
+        }, 
+        "input_wind_speed": {
+            "default": "Matrix()", 
+            "from": "Matrix"
+        }, 
+        "axis_tip_title_height": {
+            "default": "0.4", 
+            "from": "float"
+        }, 
+        "input_field_organization": {
+            "default": "regular", 
+            "from": "string"
+        }, 
+        "axis_months_label_colour": {
+            "default": "automatic", 
+            "from": "string"
+        }, 
+        "user_logo_x_position": {
+            "default": "80", 
+            "from": "float"
+        }, 
+        "user_logo_format": {
+            "default": "PNG", 
+            "from": "string"
+        }, 
+        "input_latitude_values": {
+            "default": "floatarray()", 
+            "from": "floatarray"
+        }, 
+        "y_lower_date_values": {
+            "default": "stringarray()", 
+            "from": "stringarray"
+        }, 
+        "obs_demo2_missing_text": {
+            "default": "///", 
+            "from": "string"
+        }, 
+        "world_file_path": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "wrep_node_mapping_anchor": {
+            "default": "centre", 
+            "from": "string"
+        }, 
+        "axis_grid_reference_level": {
+            "default": "INT_MAX", 
+            "from": "float"
+        }, 
+        "output_file_separator": {
+            "default": ".", 
+            "from": "string"
+        }, 
+        "graph_shade_dot_size": {
+            "default": "0.02", 
+            "from": "float"
+        }, 
+        "axis_title_font": {
+            "default": "sansserif", 
+            "from": "string"
+        }, 
+        "landgram_width": {
+            "default": "6", 
+            "from": "float"
+        }, 
+        "symbol_advanced_table_text_font": {
+            "default": "sansserif", 
+            "from": "string"
+        }, 
+        "magnifier_symbol_name": {
+            "default": "magics_3", 
+            "from": "string"
+        }, 
+        "axis_date_type": {
+            "default": "days", 
+            "from": "string"
+        }, 
+        "obs_input_file_name": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "axis_days_label": {
+            "default": "both", 
+            "from": "string"
+        }, 
+        "obs_template_file_name": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "symbol_advanced_table_text_display_type": {
+            "default": "none", 
+            "from": "string"
+        }, 
+        "boxplot_box_border_line_style": {
+            "default": "solid", 
+            "from": "string"
+        }, 
+        "obs_temperature": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "table_y_type": {
+            "default": "number", 
+            "from": "string"
+        }, 
+        "table_x_component_variable": {
+            "default": "-1", 
+            "from": "string"
+        }, 
+        "input_field_latitude_step": {
+            "default": "-1.5", 
+            "from": "float"
+        }, 
+        "histogram_reference_level": {
+            "default": "0.0", 
+            "from": "float"
+        }, 
+        "axis_years_label": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "obs_dewpoint_colour": {
+            "default": "red", 
+            "from": "string"
+        }, 
+        "axis_hours_label_font": {
+            "default": "sansserif", 
+            "from": "string"
+        }, 
+        "sql_level": {
+            "default": "press", 
+            "from": "string"
+        }, 
+        "input_field_initial_latitude": {
+            "default": "90", 
+            "from": "float"
+        }, 
+        "x2_date_values": {
+            "default": "stringarray()", 
+            "from": "stringarray"
+        }, 
+        "symbol_text_font_colour": {
+            "default": "automatic", 
+            "from": "string"
+        }, 
+        "axis_months_label_height": {
+            "default": "0.2", 
+            "from": "float"
+        }, 
+        "table_meta_data_rows": {
+            "default": "intarray()", 
+            "from": "intarray"
+        }, 
+        "symbol_advanced_table_interval": {
+            "default": "8.0", 
+            "from": "float"
+        }, 
+        "title_font": {
+            "default": "sansserif", 
+            "from": "string"
+        }, 
+        "obs_cloud": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "graph_arrow_unit_velocity": {
+            "default": "25.0", 
+            "from": "float"
+        }, 
+        "y2_values": {
+            "default": "floatarray()", 
+            "from": "floatarray"
+        }, 
+        "landgram_bottom_box2_colour": {
+            "default": "evergreen", 
+            "from": "string"
+        }, 
+        "magnifier_text_font_size": {
+            "default": "0.2", 
+            "from": "float"
+        }, 
+        "symbol_advanced_table_colour_method": {
+            "default": "calculate", 
+            "from": "string"
+        }, 
+        "symbol_advanced_table_height_min_value": {
+            "default": "0.1", 
+            "from": "float"
+        }, 
+        "output_legacy_name": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "boxplot_whisker_box_border_colour": {
+            "default": "navy", 
+            "from": "string"
+        }, 
+        "landgram_input_scaling_factor": {
+            "default": "1", 
+            "from": "float"
+        }, 
+        "root_node_application": {
+            "default": "magml", 
+            "from": "string"
+        }, 
+        "graph_line": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "symbol_advanced_table_reference_level": {
+            "default": "0.0", 
+            "from": "float"
+        }, 
+        "symbol_advanced_table_marker_list_policy": {
+            "default": "lastone", 
+            "from": "string"
+        }, 
+        "input_wind_u_component": {
+            "default": "Matrix()", 
+            "from": "Matrix"
+        }, 
+        "obs_pressure_tendency_colour": {
+            "default": "red", 
+            "from": "string"
+        }, 
+        "table_filename": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "axis_orientation": {
+            "default": "horizontal", 
+            "from": "string"
+        }, 
+        "graph_symbol_colour": {
+            "default": "red", 
+            "from": "string"
+        }, 
+        "ppm_min_longitude": {
+            "default": "-180", 
+            "from": "float"
+        }, 
+        "ppm_max_latitude": {
+            "default": "90", 
+            "from": "float"
+        }, 
+        "axis_title_height": {
+            "default": "0.4", 
+            "from": "float"
+        }, 
+        "symbol_advanced_table_level_count": {
+            "default": "10", 
+            "from": "int"
+        }, 
+        "landgram_top_box2_shading": {
+            "default": "dot", 
+            "from": "string"
+        }, 
+        "obs_identification_colour": {
+            "default": "automatic", 
+            "from": "string"
+        }, 
+        "title_text": {
+            "default": "stringarray()", 
+            "from": "stringarray"
+        }, 
+        "graph_y_suppress_below": {
+            "default": "LLONG_MIN", 
+            "from": "float"
+        }, 
+        "obs_identification": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "magnifier_hidden_symbol_name": {
+            "default": "magics_3", 
+            "from": "string"
+        }, 
+        "obs_waves": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "axis_title_colour": {
+            "default": "automatic", 
+            "from": "string"
+        }, 
+        "graph_colour_variable_name": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "landgram_top_box1_colour": {
+            "default": "evergreen", 
+            "from": "string"
+        }, 
+        "title_template_filename": {
+            "default": "title_template.xml", 
+            "from": "string"
+        }, 
+        "symbol_text_font_size": {
+            "default": "0.25", 
+            "from": "float"
+        }, 
+        "obs_wind_projected": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "user_logo_y_position": {
+            "default": "2.5", 
+            "from": "float"
+        }, 
+        "mgb_width": {
+            "default": "100", 
+            "from": "float"
+        }, 
+        "graph_symbol_outline_thickness": {
+            "default": "1", 
+            "from": "int"
+        }, 
+        "axis_tick_label_position": {
+            "default": "on_tick", 
+            "from": "string"
+        }, 
+        "table_binning": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "x2_values": {
+            "default": "floatarray()", 
+            "from": "floatarray"
+        }, 
+        "bottom": {
+            "default": "0%", 
+            "from": "string"
+        }, 
+        "axis_days_label_font": {
+            "default": "sansserif", 
+            "from": "string"
+        }, 
+        "image_index_list": {
+            "default": "intarray()", 
+            "from": "intarray"
+        }, 
+        "root_node_height": {
+            "default": "-1", 
+            "from": "float"
+        }, 
+        "output_mgb_template": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "graph_shade_colour": {
+            "default": "blue", 
+            "from": "string"
+        }, 
+        "axis_grid_line_style": {
+            "default": "solid", 
+            "from": "string"
+        }, 
+        "mgb_x": {
+            "default": "0", 
+            "from": "float"
+        }, 
+        "mgb_y": {
+            "default": "0", 
+            "from": "float"
+        }, 
+        "histogram_level_count": {
+            "default": "10", 
+            "from": "int"
+        }, 
+        "histogram_bar_width": {
+            "default": "1", 
+            "from": "float"
+        }, 
+        "input_simple_field": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "graph_line_style": {
+            "default": "solid", 
+            "from": "string"
+        }, 
+        "mgb_blur_radius": {
+            "default": "-1", 
+            "from": "int"
+        }, 
+        "user_logo_bottom": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "table_delimiter": {
+            "default": ",", 
+            "from": "string"
+        }
+    }, 
+    "pnew": {
+        "subpage_right_position": {
+            "default": "-1", 
+            "from": "float"
+        }, 
+        "subpage_vertical_axis_width": {
+            "default": "1", 
+            "from": "float"
+        }, 
+        "subpage_y_min_latitude": {
+            "default": "-90", 
+            "from": "float"
+        }, 
+        "subpage_map_overlay_control": {
+            "default": "basic", 
+            "from": "string"
+        }, 
+        "subpage_horizontal_axis_height": {
+            "default": "0.5", 
+            "from": "float"
+        }, 
+        "subpage_y_date_max": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "subpage_map_magnifier": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "subpage_map_preview": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "super_page_frame_thickness": {
+            "default": "1", 
+            "from": "int"
+        }, 
+        "subpage_x_max": {
+            "default": "100", 
+            "from": "float"
+        }, 
+        "page_id_line": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "plot_direction": {
+            "default": "vertical", 
+            "from": "string"
+        }, 
+        "page_theme": {
+            "default": "super_page_theme", 
+            "from": "string"
+        }, 
+        "page_frame": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "subpage_frame_line_style": {
+            "default": "solid", 
+            "from": "string"
+        }, 
+        "super_page_frame_line_style": {
+            "default": "solid", 
+            "from": "string"
+        }, 
+        "super_page_theme": {
+            "default": "xxmagics", 
+            "from": "string"
+        }, 
+        "subpage_map_library_area": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "page_frame_colour": {
+            "default": "charcoal", 
+            "from": "string"
+        }, 
+        "layout": {
+            "default": "automatic", 
+            "from": "string"
+        }, 
+        "subpage_y_min": {
+            "default": "0", 
+            "from": "float"
+        }, 
+        "subpage_x_length": {
+            "default": "-1", 
+            "from": "float"
+        }, 
+        "subpage_x_min_latitude": {
+            "default": "-90", 
+            "from": "float"
+        }, 
+        "subpage_x_axis_type": {
+            "default": "regular", 
+            "from": "string"
+        }, 
+        "subpage_y_date_min": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "page_y_length": {
+            "default": "21", 
+            "from": "float"
+        }, 
+        "subpage_background_colour": {
+            "default": "white", 
+            "from": "string"
+        }, 
+        "plot_start": {
+            "default": "bottom", 
+            "from": "string"
+        }, 
+        "subpage_y_min_longitude": {
+            "default": "-180", 
+            "from": "float"
+        }, 
+        "subpage_frame_colour": {
+            "default": "charcoal", 
+            "from": "string"
+        }, 
+        "subpage_x_min": {
+            "default": "0", 
+            "from": "float"
+        }, 
+        "subpage_map_area_name": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "subpage_x_min_longitude": {
+            "default": "-180", 
+            "from": "float"
+        }, 
+        "subpage_x_position_internal": {
+            "default": "-1", 
+            "from": "float"
+        }, 
+        "subpage_y_max_latitude": {
+            "default": "90", 
+            "from": "float"
+        }, 
+        "subpage_frame": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "subpage_align_vertical": {
+            "default": "bottom", 
+            "from": "string"
+        }, 
+        "subpage_y_position": {
+            "default": "-1", 
+            "from": "float"
+        }, 
+        "page_frame_thickness": {
+            "default": "2", 
+            "from": "int"
+        }, 
+        "subpage_x_date_min": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "subpage_map_projection": {
+            "default": "cylindrical", 
+            "from": "string"
+        }, 
+        "page_y_position": {
+            "default": "0", 
+            "from": "float"
+        }, 
+        "subpage_x_automatic_reverse": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "subpage_top_position": {
+            "default": "-1", 
+            "from": "float"
+        }, 
+        "subpage_y_max": {
+            "default": "100", 
+            "from": "float"
+        }, 
+        "subpage_y_position_internal": {
+            "default": "-1", 
+            "from": "float"
+        }, 
+        "super_page_y_length": {
+            "default": "21.0", 
+            "from": "float"
+        }, 
+        "legend": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "super_page_frame_colour": {
+            "default": "blue", 
+            "from": "string"
+        }, 
+        "subpage_x_max_latitude": {
+            "default": "90", 
+            "from": "float"
+        }, 
+        "subpage_clipping": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "page_x_position": {
+            "default": "0", 
+            "from": "float"
+        }, 
+        "page_x_length": {
+            "default": "29.7", 
+            "from": "float"
+        }, 
+        "super_page_frame": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "subpage_map_json_definition": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "subpage_y_automatic": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "super_page_x_length": {
+            "default": "29.7", 
+            "from": "float"
+        }, 
+        "automatic_title": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "subpage_y_max_longitude": {
+            "default": "180", 
+            "from": "float"
+        }, 
+        "subpage_y_length_internal": {
+            "default": "-1", 
+            "from": "float"
+        }, 
+        "subpage_x_date_max": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "subpage_align_horizontal": {
+            "default": "left", 
+            "from": "string"
+        }, 
+        "subpage_y_automatic_reverse": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "subpage_x_position": {
+            "default": "-1", 
+            "from": "float"
+        }, 
+        "subpage_frame_thickness": {
+            "default": "2", 
+            "from": "int"
+        }, 
+        "subpage_x_automatic": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "subpage_y_length": {
+            "default": "-1", 
+            "from": "float"
+        }, 
+        "subpage_y_axis_type": {
+            "default": "regular", 
+            "from": "string"
+        }, 
+        "subpage_x_max_longitude": {
+            "default": "180", 
+            "from": "float"
+        }, 
+        "subpage_x_length_internal": {
+            "default": "-1", 
+            "from": "float"
+        }, 
+        "page_frame_line_style": {
+            "default": "solid", 
+            "from": "string"
+        }
+    }, 
+    "ptext": {
+        "text_automatic": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "text_font_size": {
+            "default": "0.5", 
+            "from": "string"
+        }, 
+        "text_box_x_length": {
+            "default": "-1", 
+            "from": "float"
+        }, 
+        "text_border_line_style": {
+            "default": "solid", 
+            "from": "string"
+        }, 
+        "text_integer_4": {
+            "default": "0", 
+            "from": "int"
+        }, 
+        "text_box_blanking": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "text_character_10": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "text_line_height_ratio_6": {
+            "default": "1", 
+            "from": "float"
+        }, 
+        "text_box_y_position": {
+            "default": "-1", 
+            "from": "float"
+        }, 
+        "text_font_style": {
+            "default": "normal", 
+            "from": "string"
+        }, 
+        "text_mode": {
+            "default": "title", 
+            "from": "string"
+        }, 
+        "text_real_10": {
+            "default": "0", 
+            "from": "float"
+        }, 
+        "text_parameter_escape_character": {
+            "default": "@", 
+            "from": "string"
+        }, 
+        "text_orientation": {
+            "default": "horizontal", 
+            "from": "string"
+        }, 
+        "text_border": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "text_line_8": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "text_line_height_ratios": {
+            "default": "floatarray()", 
+            "from": "floatarray"
+        }, 
+        "text_integer_10": {
+            "default": "0", 
+            "from": "int"
+        }, 
+        "text_character_8": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "text_character_9": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "text_border_thickness": {
+            "default": "1", 
+            "from": "int"
+        }, 
+        "text_line_count": {
+            "default": "1", 
+            "from": "int"
+        }, 
+        "text_real_3": {
+            "default": "0", 
+            "from": "float"
+        }, 
+        "text_line_4": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "text_line_5": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "text_character_2": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "text_box_x_position": {
+            "default": "-1", 
+            "from": "float"
+        }, 
+        "text_character_4": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "text_character_5": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "text_line_2": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "text_line_3": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "text_real_8": {
+            "default": "0", 
+            "from": "float"
+        }, 
+        "text_box_y_length": {
+            "default": "-1", 
+            "from": "float"
+        }, 
+        "text_real_1": {
+            "default": "0", 
+            "from": "float"
+        }, 
+        "text_real_2": {
+            "default": "0", 
+            "from": "float"
+        }, 
+        "text_line_9": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "text_lines": {
+            "default": "stringarray()", 
+            "from": "stringarray"
+        }, 
+        "text_real_6": {
+            "default": "0", 
+            "from": "float"
+        }, 
+        "text_real_7": {
+            "default": "0", 
+            "from": "float"
+        }, 
+        "text_real_4": {
+            "default": "0", 
+            "from": "float"
+        }, 
+        "text_real_5": {
+            "default": "0", 
+            "from": "float"
+        }, 
+        "text_real_9": {
+            "default": "0", 
+            "from": "float"
+        }, 
+        "text_character_1": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "text_integer_7": {
+            "default": "0", 
+            "from": "int"
+        }, 
+        "text_border_colour": {
+            "default": "blue", 
+            "from": "string"
+        }, 
+        "text_line_6": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "text_font": {
+            "default": "helvetica", 
+            "from": "string"
+        }, 
+        "text_first_line": {
+            "default": "1", 
+            "from": "int"
+        }, 
+        "text_line_height_ratio_9": {
+            "default": "1", 
+            "from": "float"
+        }, 
+        "text_line_height_ratio_8": {
+            "default": "1", 
+            "from": "float"
+        }, 
+        "text_character_3": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "text_justification": {
+            "default": "centre", 
+            "from": "string"
+        }, 
+        "text_line_height_ratio_1": {
+            "default": "1", 
+            "from": "float"
+        }, 
+        "text_colour": {
+            "default": "navy", 
+            "from": "string"
+        }, 
+        "text_line_height_ratio_3": {
+            "default": "1", 
+            "from": "float"
+        }, 
+        "text_line_height_ratio_2": {
+            "default": "1", 
+            "from": "float"
+        }, 
+        "text_line_height_ratio_5": {
+            "default": "1", 
+            "from": "float"
+        }, 
+        "text_line_height_ratio_4": {
+            "default": "1", 
+            "from": "float"
+        }, 
+        "text_line_height_ratio_7": {
+            "default": "1", 
+            "from": "float"
+        }, 
+        "text_line_1": {
+            "default": "<magics_title/>", 
+            "from": "string"
+        }, 
+        "text_integer_9": {
+            "default": "0", 
+            "from": "int"
+        }, 
+        "text_integer_8": {
+            "default": "0", 
+            "from": "int"
+        }, 
+        "text_character_6": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "text_html": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "text_integer_6": {
+            "default": "0", 
+            "from": "int"
+        }, 
+        "text_integer_1": {
+            "default": "0", 
+            "from": "int"
+        }, 
+        "text_line_height_ratio_10": {
+            "default": "1", 
+            "from": "float"
+        }, 
+        "text_integer_3": {
+            "default": "0", 
+            "from": "int"
+        }, 
+        "text_character_7": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "text_integer_5": {
+            "default": "0", 
+            "from": "int"
+        }, 
+        "text_line_7": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "text_line_10": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "text_integer_2": {
+            "default": "0", 
+            "from": "int"
+        }
+    }, 
+    "pobsstat": {
+        "obsstat_filename": {
+            "default": "", 
+            "from": "string"
+        }
+    }, 
+    "peps": {
+        "eps_date": {
+            "default": "-1", 
+            "from": "string"
+        }, 
+        "eps_parameter_title": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "eps_long_title_station": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "eps_font_colour": {
+            "default": "blue", 
+            "from": "string"
+        }, 
+        "eps_box_shift": {
+            "default": "0", 
+            "from": "int"
+        }, 
+        "eps_maximum_font_style": {
+            "default": "normal", 
+            "from": "string"
+        }, 
+        "eps_rose_wind_colour": {
+            "default": "grey", 
+            "from": "string"
+        }, 
+        "eps_rose_wind_border_colour": {
+            "default": "grey", 
+            "from": "string"
+        }, 
+        "eps_rose_cloud_colour": {
+            "default": "black", 
+            "from": "string"
+        }, 
+        "eps_maximum_font_colour": {
+            "default": "red", 
+            "from": "string"
+        }, 
+        "eps_y_axis_threshold": {
+            "default": "50", 
+            "from": "float"
+        }, 
+        "eps_rose_wave_colour": {
+            "default": "stringarray()", 
+            "from": "stringarray"
+        }, 
+        "eps_title": {
+            "default": "stringarray()", 
+            "from": "stringarray"
+        }, 
+        "eps_maximum_font": {
+            "default": "sansserif", 
+            "from": "string"
+        }, 
+        "eps_deterministic_legend_text": {
+            "default": "High Resolution", 
+            "from": "string"
+        }, 
+        "eps_control_line_thickness": {
+            "default": "2", 
+            "from": "int"
+        }, 
+        "eps_whisker": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "eps_rose_cloud_border_colour": {
+            "default": "none", 
+            "from": "string"
+        }, 
+        "eps_rose_wind_convention": {
+            "default": "meteorological", 
+            "from": "string"
+        }, 
+        "eps_grey_legend": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "eps_station_name": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "eps_deterministic_line_thickness": {
+            "default": "2", 
+            "from": "int"
+        }, 
+        "eps_deterministic_line_colour": {
+            "default": "blue", 
+            "from": "string"
+        }, 
+        "eps_long_title": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "eps_station_height": {
+            "default": "INT_MAX", 
+            "from": "float"
+        }, 
+        "eps_deterministic_line_style": {
+            "default": "solid", 
+            "from": "string"
+        }, 
+        "eps_right_box_colour": {
+            "default": "red", 
+            "from": "string"
+        }, 
+        "eps_parameter": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "eps_legend_resolution": {
+            "default": "truncature", 
+            "from": "string"
+        }, 
+        "eps_longitude": {
+            "default": "0", 
+            "from": "float"
+        }, 
+        "eps_box_quantiles_colour": {
+            "default": "stringarray()", 
+            "from": "stringarray"
+        }, 
+        "eps_deterministic": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "eps_latitude": {
+            "default": "0", 
+            "from": "float"
+        }, 
+        "eps_font": {
+            "default": "sansserif", 
+            "from": "string"
+        }, 
+        "eps_box_border_thickness": {
+            "default": "3", 
+            "from": "int"
+        }, 
+        "eps_temperature_correction": {
+            "default": "yes", 
+            "from": "string"
+        }, 
+        "eps_database": {
+            "default": "/vol/epsgram/data/spotbase/epsdb", 
+            "from": "string"
+        }, 
+        "eps_long_title_point": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "eps_type": {
+            "default": "eps10", 
+            "from": "string"
+        }, 
+        "eps_box_median_colour": {
+            "default": "black", 
+            "from": "string"
+        }, 
+        "eps_box_width": {
+            "default": "-1", 
+            "from": "float"
+        }, 
+        "eps_legend_control_text": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "eps_box_median_thickness": {
+            "default": "3", 
+            "from": "int"
+        }, 
+        "eps_maximum": {
+            "default": "INT_MAX", 
+            "from": "float"
+        }, 
+        "eps_long_title_height": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "eps_left_box_colour": {
+            "default": "blue", 
+            "from": "string"
+        }, 
+        "eps_control_legend_text": {
+            "default": "ENS Control", 
+            "from": "string"
+        }, 
+        "eps_font_style": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "eps_control_line_colour": {
+            "default": "red", 
+            "from": "string"
+        }, 
+        "legend": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "eps_maximum_font_size": {
+            "default": "0.25", 
+            "from": "float"
+        }, 
+        "eps_legend_forecast_text": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "eps_parameter_scaling_factor": {
+            "default": "1", 
+            "from": "float"
+        }, 
+        "eps_control_line_style": {
+            "default": "dash", 
+            "from": "string"
+        }, 
+        "eps_box_colour": {
+            "default": "cyan", 
+            "from": "string"
+        }, 
+        "eps_title_text": {
+            "default": "EPS Meteogram", 
+            "from": "string"
+        }, 
+        "eps_y_axis_percentile": {
+            "default": "1", 
+            "from": "float"
+        }, 
+        "eps_parameter_offset_factor": {
+            "default": "0", 
+            "from": "float"
+        }, 
+        "eps_time": {
+            "default": "0000", 
+            "from": "string"
+        }, 
+        "eps_font_size": {
+            "default": "0.25", 
+            "from": "float"
+        }, 
+        "eps_legend_font_size": {
+            "default": "0.3", 
+            "from": "float"
+        }, 
+        "eps_box_border_colour": {
+            "default": "black", 
+            "from": "string"
+        }, 
+        "eps_parameter_hour_shift": {
+            "default": "0", 
+            "from": "float"
+        }, 
+        "eps_control": {
+            "default": "on", 
+            "from": "string"
+        }
+    }, 
+    "Interactive": {
+        "selection_mode_background_opacity": {
+            "default": "75", 
+            "from": "int"
+        }, 
+        "selection_mode_background_colour": {
+            "default": "blue", 
+            "from": "string"
+        }, 
+        "selection_mode_object_instancies": {
+            "default": "1", 
+            "from": "int"
+        }, 
+        "selection_mode_line_style": {
+            "default": "solid", 
+            "from": "string"
+        }, 
+        "selection_mode_line_colour": {
+            "default": "blue", 
+            "from": "string"
+        }, 
+        "selection_mode_line_thickness": {
+            "default": "2", 
+            "from": "int"
+        }
+    }, 
+    "KML": {
+        "kml_longitude": {
+            "default": "0.0", 
+            "from": "float"
+        }, 
+        "kml_description": {
+            "default": "Generated by Magics++", 
+            "from": "string"
+        }, 
+        "kml_tilt": {
+            "default": "0", 
+            "from": "int"
+        }, 
+        "kml_latitude": {
+            "default": "40.0", 
+            "from": "float"
+        }, 
+        "kml_height": {
+            "default": "5.0", 
+            "from": "float"
+        }, 
+        "kml_transparency": {
+            "default": "100", 
+            "from": "int"
+        }, 
+        "kml_kmz": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "kml_author": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "kml_coastlines": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "kml_link": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "kml_range": {
+            "default": "6000", 
+            "from": "int"
+        }
+    }, 
+    "Qt": {}, 
+    "SVG": {
+        "output_svg_fix_size": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "output_svg_meta": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "output_svg_desc": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "output_svg_logo_location": {
+            "default": "inline", 
+            "from": "string"
+        }, 
+        "output_svg_use_external_files": {
+            "default": "off", 
+            "from": "string"
+        }
+    }, 
+    "pplot": {
+        "crs": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "import_height": {
+            "default": "-1", 
+            "from": "float"
+        }, 
+        "import_x_position": {
+            "default": "0", 
+            "from": "float"
+        }, 
+        "import_format": {
+            "default": "PNG", 
+            "from": "string"
+        }, 
+        "crs_miny": {
+            "default": "-90.", 
+            "from": "float"
+        }, 
+        "crs_minx": {
+            "default": "-180.", 
+            "from": "float"
+        }, 
+        "crs_maxy": {
+            "default": "-90.", 
+            "from": "float"
+        }, 
+        "crs_maxx": {
+            "default": "180.", 
+            "from": "float"
+        }, 
+        "import_system_coordinates": {
+            "default": "user", 
+            "from": "string"
+        }, 
+        "import_width": {
+            "default": "-1", 
+            "from": "float"
+        }, 
+        "import_y_position": {
+            "default": "0", 
+            "from": "float"
+        }
+    }, 
+    "pgeojson": {
+        "geojson_binning_grid_resolution": {
+            "default": "1.", 
+            "from": "float"
+        }, 
+        "geojson_input_type": {
+            "default": "file", 
+            "from": "string"
+        }, 
+        "geojson_input_filename": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "geojson_input": {
+            "default": "{}", 
+            "from": "string"
+        }
+    }, 
+    "ptaylor": {
+        "taylor_standard_deviation_max": {
+            "default": "1", 
+            "from": "float"
+        }, 
+        "taylor_standard_deviation_min": {
+            "default": "0", 
+            "from": "float"
+        }, 
+        "taylor_reference_line_thickness": {
+            "default": "2", 
+            "from": "int"
+        }, 
+        "taylor_primary_label_height": {
+            "default": "0.35", 
+            "from": "float"
+        }, 
+        "taylor_secondary_label": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "taylor_reference_line_style": {
+            "default": "solid", 
+            "from": "string"
+        }, 
+        "taylor_label": {
+            "default": "Correlation", 
+            "from": "string"
+        }, 
+        "taylor_primary_grid_line_thickness": {
+            "default": "1", 
+            "from": "int"
+        }, 
+        "taylor_primary_grid_increment": {
+            "default": "0.5", 
+            "from": "float"
+        }, 
+        "taylor_secondary_grid_line_style": {
+            "default": "solid", 
+            "from": "string"
+        }, 
+        "taylor_primary_grid_reference": {
+            "default": "0.5", 
+            "from": "float"
+        }, 
+        "taylor_secondary_grid_line_colour": {
+            "default": "navy", 
+            "from": "string"
+        }, 
+        "taylor_secondary_label_colour": {
+            "default": "navy", 
+            "from": "string"
+        }, 
+        "taylor_label_colour": {
+            "default": "navy", 
+            "from": "string"
+        }, 
+        "taylor_secondary_label_height": {
+            "default": "0.35", 
+            "from": "float"
+        }, 
+        "taylor_label_height": {
+            "default": "0.35", 
+            "from": "float"
+        }, 
+        "taylor_primary_label_colour": {
+            "default": "navy", 
+            "from": "string"
+        }, 
+        "taylor_secondary_grid": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "taylor_primary_label": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "taylor_primary_grid_line_colour": {
+            "default": "navy", 
+            "from": "string"
+        }, 
+        "taylor_secondary_grid_reference": {
+            "default": "0.5", 
+            "from": "float"
+        }, 
+        "taylor_primary_grid_line_style": {
+            "default": "solid", 
+            "from": "string"
+        }, 
+        "taylor_reference_line_colour": {
+            "default": "navy", 
+            "from": "string"
+        }, 
+        "taylor_secondary_grid_increment": {
+            "default": "0.5", 
+            "from": "float"
+        }, 
+        "taylor_secondary_grid_line_thickness": {
+            "default": "1", 
+            "from": "int"
+        }
+    }, 
+    "popen": {
+        "output_formats": {
+            "default": "stringarray()", 
+            "from": "stringarray"
+        }, 
+        "output_format": {
+            "default": "ps", 
+            "from": "string"
+        }
+    }, 
+    "ptephi": {
+        "thermo_mixing_ratio_label_colour": {
+            "default": "purple", 
+            "from": "string"
+        }, 
+        "y_max": {
+            "default": "100", 
+            "from": "float"
+        }, 
+        "thermo_saturated_adiabatic_reference": {
+            "default": "0", 
+            "from": "float"
+        }, 
+        "x_max": {
+            "default": "100", 
+            "from": "float"
+        }, 
+        "thermo_dry_adiabatic_grid": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "thermo_mixing_ratio_colour": {
+            "default": "purple", 
+            "from": "string"
+        }, 
+        "thermo_isotherm_label_frequency": {
+            "default": "1", 
+            "from": "int"
+        }, 
+        "thermo_dry_adiabatic_interval": {
+            "default": "10", 
+            "from": "float"
+        }, 
+        "thermo_saturated_adiabatic_grid": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "thermo_isobar_style": {
+            "default": "solid", 
+            "from": "string"
+        }, 
+        "thermo_isotherm_grid": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "thermo_mixing_ratio_grid": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "thermo_saturated_adiabatic_thickness": {
+            "default": "2", 
+            "from": "int"
+        }, 
+        "thermo_isobar_label_colour": {
+            "default": "evergreen", 
+            "from": "string"
+        }, 
+        "thermo_isobar_label_font_style": {
+            "default": "normal", 
+            "from": "string"
+        }, 
+        "thermo_isotherm_reference_colour": {
+            "default": "red", 
+            "from": "string"
+        }, 
+        "thermo_saturated_adiabatic_label_font_size": {
+            "default": "0.3", 
+            "from": "float"
+        }, 
+        "y_min": {
+            "default": "0", 
+            "from": "float"
+        }, 
+        "thermo_annotation_width": {
+            "default": "25", 
+            "from": "float"
+        }, 
+        "thermo_isobar_interval": {
+            "default": "100", 
+            "from": "float"
+        }, 
+        "thermo_isobar_label_frequency": {
+            "default": "1", 
+            "from": "int"
+        }, 
+        "thermo_isotherm_colour": {
+            "default": "charcoal", 
+            "from": "string"
+        }, 
+        "thermo_dry_adiabatic_style": {
+            "default": "solid", 
+            "from": "string"
+        }, 
+        "thermo_mixing_ratio_label_font_size": {
+            "default": "0.3", 
+            "from": "float"
+        }, 
+        "thermo_saturated_adiabatic_label_colour": {
+            "default": "charcoal", 
+            "from": "string"
+        }, 
+        "thermo_isobar_label_font": {
+            "default": "sanserif", 
+            "from": "string"
+        }, 
+        "thermo_isobar_thickness": {
+            "default": "2", 
+            "from": "int"
+        }, 
+        "thermo_dry_adiabatic_label_colour": {
+            "default": "charcoal", 
+            "from": "string"
+        }, 
+        "thermo_saturated_adiabatic_style": {
+            "default": "solid", 
+            "from": "string"
+        }, 
+        "thermo_saturated_adiabatic_label_font_style": {
+            "default": "normal", 
+            "from": "string"
+        }, 
+        "thermo_dry_adiabatic_label_font_style": {
+            "default": "normal", 
+            "from": "string"
+        }, 
+        "thermo_isobar_colour": {
+            "default": "evergreen", 
+            "from": "string"
+        }, 
+        "thermo_saturated_adiabatic_colour": {
+            "default": "charcoal", 
+            "from": "string"
+        }, 
+        "x_min": {
+            "default": "0", 
+            "from": "float"
+        }, 
+        "thermo_saturated_adiabatic_label_frequency": {
+            "default": "1", 
+            "from": "int"
+        }, 
+        "thermo_mixing_ratio_style": {
+            "default": "dash", 
+            "from": "string"
+        }, 
+        "thermo_dry_adiabatic_thickness": {
+            "default": "1", 
+            "from": "int"
+        }, 
+        "thermo_isotherm_reference": {
+            "default": "0", 
+            "from": "float"
+        }, 
+        "thermo_isotherm_interval": {
+            "default": "10", 
+            "from": "float"
+        }, 
+        "thermo_mixing_ratio_label_frequency": {
+            "default": "1", 
+            "from": "int"
+        }, 
+        "thermo_isobar_label_font_size": {
+            "default": "0.3", 
+            "from": "float"
+        }, 
+        "thermo_isotherm_reference_thickness": {
+            "default": "2", 
+            "from": "int"
+        }, 
+        "thermo_saturated_adiabatic_interval": {
+            "default": "5", 
+            "from": "float"
+        }, 
+        "thermo_isotherm_label_font": {
+            "default": "sanserif", 
+            "from": "string"
+        }, 
+        "thermo_dry_adiabatic_label_frequency": {
+            "default": "1", 
+            "from": "int"
+        }, 
+        "thermo_isotherm_thickness": {
+            "default": "1", 
+            "from": "int"
+        }, 
+        "thermo_isobar_grid": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "thermo_isotherm_label_font_size": {
+            "default": "0.3", 
+            "from": "float"
+        }, 
+        "thermo_mixing_ratio_label_font": {
+            "default": "sanserif", 
+            "from": "string"
+        }, 
+        "thermo_isobar_reference": {
+            "default": "1000", 
+            "from": "float"
+        }, 
+        "thermo_isotherm_label_font_style": {
+            "default": "normal", 
+            "from": "string"
+        }, 
+        "thermo_dry_adiabatic_colour": {
+            "default": "charcoal", 
+            "from": "string"
+        }, 
+        "subpage_y_automatic": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "thermo_isotherm_label_colour": {
+            "default": "charcoal", 
+            "from": "string"
+        }, 
+        "thermo_mixing_ratio_frequency": {
+            "default": "1", 
+            "from": "int"
+        }, 
+        "thermo_mixing_ratio_label_font_style": {
+            "default": "normal", 
+            "from": "string"
+        }, 
+        "thermo_dry_adiabatic_label_font": {
+            "default": "sanserif", 
+            "from": "string"
+        }, 
+        "thermo_dry_adiabatic_reference": {
+            "default": "0", 
+            "from": "float"
+        }, 
+        "thermo_isotherm_style": {
+            "default": "solid", 
+            "from": "string"
+        }, 
+        "thermo_mixing_ratio_thickness": {
+            "default": "1", 
+            "from": "int"
+        }, 
+        "subpage_x_automatic": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "thermo_dry_adiabatic_label_font_size": {
+            "default": "0.3", 
+            "from": "float"
+        }, 
+        "thermo_saturated_adiabatic_label_font": {
+            "default": "sanserif", 
+            "from": "string"
+        }, 
+        "thermo_isotherm_reference_style": {
+            "default": "solid", 
+            "from": "string"
+        }
+    }, 
+    "pcont": {
+        "contour_legend_only": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "contour_shade_min_level_density": {
+            "default": "1.0", 
+            "from": "float"
+        }, 
+        "contour_shade_method": {
+            "default": "dot", 
+            "from": "string"
+        }, 
+        "contour_label_font": {
+            "default": "sansserif", 
+            "from": "string"
+        }, 
+        "contour_reference_level": {
+            "default": "0.0", 
+            "from": "float"
+        }, 
+        "contour_grid_value_max": {
+            "default": "1.0e+21", 
+            "from": "float"
+        }, 
+        "contour_label_text": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "contour_interpolation_ceiling": {
+            "default": "INT_MAX", 
+            "from": "float"
+        }, 
+        "contour_line_colour_rainbow": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "contour_shade_hatch_density": {
+            "default": "18.0", 
+            "from": "float"
+        }, 
+        "contour_internal_reduction_factor": {
+            "default": "4", 
+            "from": "float"
+        }, 
+        "contour_shade_marker_table_type": {
+            "default": "index", 
+            "from": "string"
+        }, 
+        "contour_grid_value_marker_index": {
+            "default": "3", 
+            "from": "int"
+        }, 
+        "contour_max_level": {
+            "default": "1.0e+21", 
+            "from": "float"
+        }, 
+        "contour_shade_technique": {
+            "default": "polygon_shading", 
+            "from": "string"
+        }, 
+        "contour_hilo": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "contour_special_legend": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "contour_interval": {
+            "default": "8.0", 
+            "from": "float"
+        }, 
+        "contour_gradients_waypoint_method": {
+            "default": "both", 
+            "from": "string"
+        }, 
+        "contour_akima_x_resolution": {
+            "default": "1.5", 
+            "from": "float"
+        }, 
+        "contour_legend_text": {
+            "default": " ", 
+            "from": "string"
+        }, 
+        "contour_line_colour_rainbow_max_level_colour": {
+            "default": "blue", 
+            "from": "string"
+        }, 
+        "contour_shade": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "contour_grid_value_plot_type": {
+            "default": "value", 
+            "from": "string"
+        }, 
+        "contour_akima_y_resolution": {
+            "default": "1.5", 
+            "from": "float"
+        }, 
+        "contour_automatic_setting": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "contour_gradients_colour_list": {
+            "default": "stringarray()", 
+            "from": "stringarray"
+        }, 
+        "contour_hilo_max_value": {
+            "default": "1.0e+21", 
+            "from": "float"
+        }, 
+        "contour_highlight_thickness": {
+            "default": "3", 
+            "from": "int"
+        }, 
+        "contour_line_style_rainbow_list_policy": {
+            "default": "lastone", 
+            "from": "string"
+        }, 
+        "contour_shade_hatch_thickness": {
+            "default": "1", 
+            "from": "int"
+        }, 
+        "contour_highlight": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "contour_grid_value_min": {
+            "default": "-1.0e+21", 
+            "from": "float"
+        }, 
+        "contour_line_thickness_rainbow_list_policy": {
+            "default": "lastone", 
+            "from": "string"
+        }, 
+        "contour_grid_value_colour": {
+            "default": "blue", 
+            "from": "string"
+        }, 
+        "contour_gradients_technique": {
+            "default": "linear", 
+            "from": "string"
+        }, 
+        "contour_hilo_window_size": {
+            "default": "3", 
+            "from": "int"
+        }, 
+        "legend": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "contour_grid_value_plot": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "contour_line_colour": {
+            "default": "blue", 
+            "from": "string"
+        }, 
+        "contour_hilo_height": {
+            "default": "0.4", 
+            "from": "float"
+        }, 
+        "contour_shade_cell_resolution": {
+            "default": "10", 
+            "from": "float"
+        }, 
+        "contour_shade_marker_table": {
+            "default": "intarray()", 
+            "from": "intarray"
+        }, 
+        "image_colour_table": {
+            "default": "stringarray()", 
+            "from": "stringarray"
+        }, 
+        "contour_hilo_format": {
+            "default": "(automatic)", 
+            "from": "string"
+        }, 
+        "contour_shade_colour_table": {
+            "default": "stringarray()", 
+            "from": "stringarray"
+        }, 
+        "contour_internal_technique": {
+            "default": "interpolate", 
+            "from": "string"
+        }, 
+        "contour_shade_cell_resolution_method": {
+            "default": "classic", 
+            "from": "string"
+        }, 
+        "contour_label_height": {
+            "default": "0.3", 
+            "from": "float"
+        }, 
+        "contour_hi_text": {
+            "default": "H", 
+            "from": "string"
+        }, 
+        "contour_gradients_technique_direction": {
+            "default": "clockwise", 
+            "from": "string"
+        }, 
+        "contour_hilo_blanking": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "contour_hi_max_value": {
+            "default": "1.0e+21", 
+            "from": "float"
+        }, 
+        "contour_grid_value_marker_colour": {
+            "default": "red", 
+            "from": "string"
+        }, 
+        "contour_line_style_rainbow_list": {
+            "default": "stringarray()", 
+            "from": "stringarray"
+        }, 
+        "contour_line_thickness_rainbow_list": {
+            "default": "intarray()", 
+            "from": "intarray"
+        }, 
+        "contour_lo_colour": {
+            "default": "blue", 
+            "from": "string"
+        }, 
+        "contour_hilo_type": {
+            "default": "text", 
+            "from": "string"
+        }, 
+        "contour_shade_max_level_colour": {
+            "default": "blue", 
+            "from": "string"
+        }, 
+        "contour_level_count": {
+            "default": "10", 
+            "from": "int"
+        }, 
+        "contour_hilo_marker": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "contour_label_type": {
+            "default": "number", 
+            "from": "string"
+        }, 
+        "contour_grid_value_quality": {
+            "default": "low", 
+            "from": "string"
+        }, 
+        "contour_grid_shading_position": {
+            "default": "middle", 
+            "from": "string"
+        }, 
+        "contour_shade_colour_method": {
+            "default": "calculate", 
+            "from": "string"
+        }, 
+        "contour_shade_max_level": {
+            "default": "1.0e+21", 
+            "from": "float"
+        }, 
+        "contour_level_tolerance": {
+            "default": "2", 
+            "from": "int"
+        }, 
+        "contour_hilo_marker_index": {
+            "default": "3", 
+            "from": "int"
+        }, 
+        "contour_label_format": {
+            "default": "(automatic)", 
+            "from": "string"
+        }, 
+        "contour_line_thickness": {
+            "default": "1", 
+            "from": "int"
+        }, 
+        "contour_gradients_value_list": {
+            "default": "floatarray()", 
+            "from": "floatarray"
+        }, 
+        "contour_line_colour_rainbow_method": {
+            "default": "calculate", 
+            "from": "string"
+        }, 
+        "contour_label_colour": {
+            "default": "contour_line_colour", 
+            "from": "string"
+        }, 
+        "contour_grid_value_lat_frequency": {
+            "default": "1", 
+            "from": "int"
+        }, 
+        "contour_lo_max_value": {
+            "default": "1.0e+21", 
+            "from": "float"
+        }, 
+        "contour_hilo_marker_height": {
+            "default": "0.1", 
+            "from": "float"
+        }, 
+        "contour": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "contour_shade_colour_list": {
+            "default": "stringarray()", 
+            "from": "stringarray"
+        }, 
+        "contour_level_list": {
+            "default": "floatarray()", 
+            "from": "floatarray"
+        }, 
+        "contour_shade_colour_direction": {
+            "default": "anti_clockwise", 
+            "from": "string"
+        }, 
+        "contour_label_frequency": {
+            "default": "2", 
+            "from": "int"
+        }, 
+        "contour_shade_dot_size": {
+            "default": "0.02", 
+            "from": "float"
+        }, 
+        "contour_hi_min_value": {
+            "default": "-1.0e+21", 
+            "from": "float"
+        }, 
+        "contour_grid_value_marker_qual": {
+            "default": "low", 
+            "from": "string"
+        }, 
+        "contour_hilo_min_value": {
+            "default": "-1.0e+21", 
+            "from": "float"
+        }, 
+        "contour_interpolation_floor": {
+            "default": "-INT_MAX", 
+            "from": "float"
+        }, 
+        "contour_method": {
+            "default": "automatic", 
+            "from": "string"
+        }, 
+        "contour_shade_hatch_index": {
+            "default": "0", 
+            "from": "int"
+        }, 
+        "contour_gradients_technique_list": {
+            "default": "stringarray()", 
+            "from": "stringarray"
+        }, 
+        "contour_grid_value_lon_frequency": {
+            "default": "1", 
+            "from": "int"
+        }, 
+        "contour_highlight_frequency": {
+            "default": "4", 
+            "from": "int"
+        }, 
+        "contour_shade_min_level_colour": {
+            "default": "red", 
+            "from": "string"
+        }, 
+        "contour_shade_min_level": {
+            "default": "-1.0e+21", 
+            "from": "float"
+        }, 
+        "contour_grid_value_height": {
+            "default": "0.25", 
+            "from": "float"
+        }, 
+        "contour_grid_value_type": {
+            "default": "normal", 
+            "from": "string"
+        }, 
+        "contour_line_colour_rainbow_colour_list_policy": {
+            "default": "lastone", 
+            "from": "string"
+        }, 
+        "contour_line_colour_rainbow_colour_list": {
+            "default": "stringarray()", 
+            "from": "stringarray"
+        }, 
+        "contour_shade_height_table": {
+            "default": "floatarray()", 
+            "from": "floatarray"
+        }, 
+        "contour_highlight_style": {
+            "default": "solid", 
+            "from": "string"
+        }, 
+        "contour_line_colour_rainbow_min_level_colour": {
+            "default": "red", 
+            "from": "string"
+        }, 
+        "contour_line_colour_rainbow_direction": {
+            "default": "anti_clockwise", 
+            "from": "string"
+        }, 
+        "contour_grid_value_format": {
+            "default": "(automatic)", 
+            "from": "string"
+        }, 
+        "contour_label": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "contour_min_level": {
+            "default": "-1.0e+21", 
+            "from": "float"
+        }, 
+        "contour_gradients_step_list": {
+            "default": "intarray()", 
+            "from": "intarray"
+        }, 
+        "contour_lo_min_value": {
+            "default": "-1.0e+21", 
+            "from": "float"
+        }, 
+        "contour_highlight_colour": {
+            "default": "blue", 
+            "from": "string"
+        }, 
+        "contour_gradients_waypoint_list": {
+            "default": "floatarray()", 
+            "from": "floatarray"
+        }, 
+        "contour_shade_marker_name_table": {
+            "default": "stringarray()", 
+            "from": "stringarray"
+        }, 
+        "contour_level_selection_type": {
+            "default": "count", 
+            "from": "string"
+        }, 
+        "contour_lo_text": {
+            "default": "L", 
+            "from": "string"
+        }, 
+        "contour_grid_value_marker_height": {
+            "default": "0.25", 
+            "from": "float"
+        }, 
+        "contour_label_font_style": {
+            "default": "normal", 
+            "from": "string"
+        }, 
+        "contour_shade_max_level_density": {
+            "default": "50.0", 
+            "from": "float"
+        }, 
+        "contour_hilo_quality": {
+            "default": "low", 
+            "from": "string"
+        }, 
+        "contour_hi_colour": {
+            "default": "blue", 
+            "from": "string"
+        }, 
+        "contour_shade_cell_method": {
+            "default": "nearest", 
+            "from": "string"
+        }, 
+        "contour_label_blanking": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "contour_line_style": {
+            "default": "solid", 
+            "from": "string"
+        }, 
+        "contour_automatic_library_path": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "contour_hilo_marker_colour": {
+            "default": "red", 
+            "from": "string"
+        }
+    }, 
+    "legend": {
+        "legend_user_maximum": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "legend_user_text_8": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "legend_user_text_9": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "legend_user_text_4": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "legend_user_text_5": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "legend_user_text_6": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "legend_histogram_grid_thickness": {
+            "default": "1", 
+            "from": "int"
+        }, 
+        "legend_user_minimum": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "legend_text_quality": {
+            "default": "medium", 
+            "from": "string"
+        }, 
+        "legend_column_count": {
+            "default": "1", 
+            "from": "int"
+        }, 
+        "legend_text_format": {
+            "default": "(automatic)", 
+            "from": "string"
+        }, 
+        "legend_entry_border": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "legend_text_colour": {
+            "default": "blue", 
+            "from": "string"
+        }, 
+        "legend_histogram_mean_value": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "legend_user_maximum_text": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "legend_entry_plot_direction": {
+            "default": "automatic", 
+            "from": "string"
+        }, 
+        "legend_user_minimum_text": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "legend_values_list": {
+            "default": "floatarray()", 
+            "from": "floatarray"
+        }, 
+        "legend_box_y_length": {
+            "default": "0", 
+            "from": "float"
+        }, 
+        "legend_wrep": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "legend_title_font_size": {
+            "default": "-1", 
+            "from": "float"
+        }, 
+        "legend_text_composition": {
+            "default": "automatic_text_only", 
+            "from": "string"
+        }, 
+        "legend_only": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "legend_title_font_colour": {
+            "default": "automatic", 
+            "from": "string"
+        }, 
+        "legend_histogram_border_colour": {
+            "default": "black", 
+            "from": "string"
+        }, 
+        "legend_border_line_style": {
+            "default": "solid", 
+            "from": "string"
+        }, 
+        "legend_automatic_position": {
+            "default": "top", 
+            "from": "string"
+        }, 
+        "legend_box_mode": {
+            "default": "automatic", 
+            "from": "string"
+        }, 
+        "legend_text_font_size": {
+            "default": "0.3", 
+            "from": "string"
+        }, 
+        "legend_title_orientation": {
+            "default": "automatic", 
+            "from": "string"
+        }, 
+        "legend_user_text_10": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "legend_title_position": {
+            "default": "automatic", 
+            "from": "string"
+        }, 
+        "legend_user_text_7": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "legend_display_type": {
+            "default": "disjoint", 
+            "from": "string"
+        }, 
+        "legend_label_frequency": {
+            "default": "1", 
+            "from": "int"
+        }, 
+        "legend_units_text": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "legend_box_y_position": {
+            "default": "-1", 
+            "from": "float"
+        }, 
+        "legend_border_colour": {
+            "default": "blue", 
+            "from": "string"
+        }, 
+        "legend_user_text_1": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "legend_entry_border_colour": {
+            "default": "black", 
+            "from": "string"
+        }, 
+        "legend_box_x_position": {
+            "default": "-1", 
+            "from": "float"
+        }, 
+        "legend_user_text_2": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "legend_border_thickness": {
+            "default": "1", 
+            "from": "int"
+        }, 
+        "legend_box_blanking": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "legend_histogram_grid_line_style": {
+            "default": "solid", 
+            "from": "string"
+        }, 
+        "legend_histogram_max_value": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "legend_histogram_grid_colour": {
+            "default": "black", 
+            "from": "string"
+        }, 
+        "legend_histogram_mean_value_marker": {
+            "default": "15", 
+            "from": "int"
+        }, 
+        "legend_histogram_border": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "legend_text_orientation": {
+            "default": "0", 
+            "from": "float"
+        }, 
+        "legend_entry_plot_orientation": {
+            "default": "bottom_top", 
+            "from": "string"
+        }, 
+        "legend_symbol_height_factor": {
+            "default": "1", 
+            "from": "float"
+        }, 
+        "legend_title": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "legend_text_font": {
+            "default": "sansserif", 
+            "from": "string"
+        }, 
+        "legend_histogram_mean_value_marker_colour": {
+            "default": "black", 
+            "from": "string"
+        }, 
+        "legend_box_x_length": {
+            "default": "-1", 
+            "from": "float"
+        }, 
+        "legend_border": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "legend_user_lines": {
+            "default": "stringarray()", 
+            "from": "stringarray"
+        }, 
+        "legend_user_text": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "legend_title_position_ratio": {
+            "default": "25", 
+            "from": "float"
+        }, 
+        "legend_entry_text_width": {
+            "default": "60", 
+            "from": "float"
+        }, 
+        "legend_user_text_3": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "legend_text_font_style": {
+            "default": "normal", 
+            "from": "string"
+        }, 
+        "legend_histogram_mean_value_marker_size": {
+            "default": "0.4", 
+            "from": "float"
+        }, 
+        "legend_title_text": {
+            "default": "legend", 
+            "from": "string"
+        }
+    }, 
+    "pwrepjson": {
+        "wrepjson_steps": {
+            "default": "intarray()", 
+            "from": "intarray"
+        }, 
+        "wrepjson_family": {
+            "default": "eps", 
+            "from": "string"
+        }, 
+        "wrepjson_clim_parameter": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "wrepjson_keyword": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "wrepjson_y_axis_percentile": {
+            "default": "1", 
+            "from": "float"
+        }, 
+        "wrepjson_key": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "wrepjson_product_information": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "wrepjson_temperature_correction": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "wrepjson_clim_step": {
+            "default": "36", 
+            "from": "int"
+        }, 
+        "wrepjson_y_max_threshold": {
+            "default": "INT_MAX", 
+            "from": "float"
+        }, 
+        "wrepjson_parameter_offset_factor": {
+            "default": "0", 
+            "from": "float"
+        }, 
+        "wrepjson_plumes_interval": {
+            "default": "1", 
+            "from": "float"
+        }, 
+        "wrepjson_position_information": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "wrepjson_y_percentage": {
+            "default": "0.01", 
+            "from": "float"
+        }, 
+        "wrepjson_title": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "wrepjson_ignore_keys": {
+            "default": "stringarray()", 
+            "from": "stringarray"
+        }, 
+        "wrepjson_input_filename": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "wrepjson_parameter_scaling_factor": {
+            "default": "1", 
+            "from": "float"
+        }, 
+        "wrepjson_parameter": {
+            "default": "1", 
+            "from": "string"
+        }, 
+        "wrepjson_missing_value": {
+            "default": "-9999", 
+            "from": "float"
+        }, 
+        "wrepjson_y_axis_threshold": {
+            "default": "50", 
+            "from": "float"
+        }, 
+        "wrepjson_station_name": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "wrepjson_parameter_information": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "wrepjson_information": {
+            "default": "on", 
+            "from": "string"
+        }
+    }, 
+    "pshape": {
+        "shape_input_file_name": {
+            "default": "", 
+            "from": "string"
+        }
+    }, 
+    "pbinning": {
+        "binning_y_list": {
+            "default": "floatarray()", 
+            "from": "floatarray"
+        }, 
+        "binning_y_min_value": {
+            "default": "-1.0e+21", 
+            "from": "float"
+        }, 
+        "binning_y_count": {
+            "default": "10", 
+            "from": "int"
+        }, 
+        "binning_y_method": {
+            "default": "count", 
+            "from": "string"
+        }, 
+        "binning_x_min_value": {
+            "default": "-1.0e+21", 
+            "from": "float"
+        }, 
+        "binning_x_interval": {
+            "default": "10", 
+            "from": "float"
+        }, 
+        "binning_x_count": {
+            "default": "10", 
+            "from": "int"
+        }, 
+        "binning_x_reference": {
+            "default": "0", 
+            "from": "float"
+        }, 
+        "binning_y_max_value": {
+            "default": "1.0e+21", 
+            "from": "float"
+        }, 
+        "binning_x_method": {
+            "default": "count", 
+            "from": "string"
+        }, 
+        "binning_x_max_value": {
+            "default": "1.0e+21", 
+            "from": "float"
+        }, 
+        "binning_x_list": {
+            "default": "floatarray()", 
+            "from": "floatarray"
+        }, 
+        "binning_y_reference": {
+            "default": "0", 
+            "from": "float"
+        }, 
+        "binning_y_interval": {
+            "default": "10", 
+            "from": "float"
+        }
+    }, 
+    "Cairo": {
+        "output_geotiff_quality": {
+            "default": "1", 
+            "from": "int"
+        }, 
+        "output_cairo_drawing_context": {
+            "default": "0", 
+            "from": "cairo_t*"
+        }, 
+        "output_cairo_transparent_background": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "output_cairo_palette": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "output_cairo_antialias": {
+            "default": "on", 
+            "from": "string"
+        }
+    }, 
+    "pgeo": {
+        "geo_input_file_name": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "geo_missing_value": {
+            "default": "3.0E+38", 
+            "from": "float"
+        }
+    }, 
+    "podb": {
+        "odb_date": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "odb_x": {
+            "default": "press", 
+            "from": "string"
+        }, 
+        "odb_y_component_variable": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "odb_coordinates_unit": {
+            "default": "degrees", 
+            "from": "string"
+        }, 
+        "odb_database": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "odb_binning": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "odb_query": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "odb_level": {
+            "default": "press", 
+            "from": "string"
+        }, 
+        "odb_database_option": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "odb_time": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "odb_latitude": {
+            "default": "latitude", 
+            "from": "string"
+        }, 
+        "odb_value_variable": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "odb_longitude": {
+            "default": "longitude", 
+            "from": "string"
+        }, 
+        "odb_nb_rows": {
+            "default": "-1", 
+            "from": "int"
+        }, 
+        "odb_y": {
+            "default": "press", 
+            "from": "string"
+        }, 
+        "odb_y_variable": {
+            "default": "lon", 
+            "from": "string"
+        }, 
+        "odb_starting_row": {
+            "default": "1", 
+            "from": "int"
+        }, 
+        "odb_parameters": {
+            "default": "floatarray()", 
+            "from": "floatarray"
+        }, 
+        "odb_observation_2": {
+            "default": "obsvalue", 
+            "from": "string"
+        }, 
+        "odb_longitude_variable": {
+            "default": "lon", 
+            "from": "string"
+        }, 
+        "odb_observation": {
+            "default": "obsvalue", 
+            "from": "string"
+        }, 
+        "odb_filename": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "odb_x_component_variable": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "odb_user_title": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "odb_latitude_variable": {
+            "default": "lat", 
+            "from": "string"
+        }, 
+        "odb_x_variable": {
+            "default": "lat", 
+            "from": "string"
+        }
+    }, 
+    "Ming": {}, 
+    "psymb": {
+        "symbol_outline_style": {
+            "default": "solid", 
+            "from": "string"
+        }, 
+        "symbol_connect_automatic_line_colour": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "symbol_table_mode": {
+            "default": "OFF", 
+            "from": "string"
+        }, 
+        "symbol_outline": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "symbol_connect_line": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "symbol_legend_only": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "symbol_connect_line_colour": {
+            "default": "black", 
+            "from": "string"
+        }, 
+        "symbol_format": {
+            "default": "(automatic)", 
+            "from": "string"
+        }, 
+        "symbol_connect_line_style": {
+            "default": "solid", 
+            "from": "string"
+        }, 
+        "symbol_outline_colour": {
+            "default": "black", 
+            "from": "string"
+        }, 
+        "symbol_scaling_factor": {
+            "default": "4.", 
+            "from": "float"
+        }, 
+        "symbol_connect_line_thickness": {
+            "default": "1", 
+            "from": "int"
+        }, 
+        "symbol_scaling_method": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "symbol_outline_thickness": {
+            "default": "1", 
+            "from": "int"
+        }, 
+        "symbol_scaling_level_0_height": {
+            "default": "0.1", 
+            "from": "float"
+        }, 
+        "symbol_type": {
+            "default": "number", 
+            "from": "string"
+        }, 
+        "symbol_text_blanking": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "legend": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "symbol_marker_mode": {
+            "default": "index", 
+            "from": "string"
+        }
+    }, 
+    "pefigram": {
+        "efi_title": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "efi_clim_root_database": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "efi_steps": {
+            "default": "intarray()", 
+            "from": "intarray"
+        }, 
+        "efi_long_title": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "efi_legend_root_database": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "efi_longitude": {
+            "default": "0", 
+            "from": "float"
+        }, 
+        "efi_clim_step": {
+            "default": "36", 
+            "from": "int"
+        }, 
+        "efi_legend_box_type": {
+            "default": "both", 
+            "from": "string"
+        }, 
+        "efi_clim_parameter": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "efi_dates": {
+            "default": "stringarray()", 
+            "from": "stringarray"
+        }, 
+        "efi_root_database": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "efi_legend_normal_colour": {
+            "default": "black", 
+            "from": "string"
+        }, 
+        "efi_clim_date": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "efi_legend": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "efi_parameter": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "efi_legend_normal_thickness": {
+            "default": "4", 
+            "from": "int"
+        }, 
+        "efi_legend_colour_list": {
+            "default": "stringarray()", 
+            "from": "stringarray"
+        }, 
+        "efi_latitude": {
+            "default": "0", 
+            "from": "float"
+        }
+    }, 
+    "MagML": {
+        "scene_node_border_thickness": {
+            "default": "1", 
+            "from": "int"
+        }, 
+        "scene_node_border_bottom": {
+            "default": "1px", 
+            "from": "string"
+        }, 
+        "view_padding_colour": {
+            "default": "none", 
+            "from": "string"
+        }, 
+        "scene_node_border_right": {
+            "default": "1px", 
+            "from": "string"
+        }, 
+        "view_standalone_height": {
+            "default": "64", 
+            "from": "float"
+        }, 
+        "scene_node_width": {
+            "default": "100%", 
+            "from": "string"
+        }, 
+        "view_width": {
+            "default": "100%", 
+            "from": "string"
+        }, 
+        "scene_node_padding_colour": {
+            "default": "none", 
+            "from": "string"
+        }, 
+        "scene_node_bottom": {
+            "default": "0%", 
+            "from": "string"
+        }, 
+        "scene_node_padding_bottom": {
+            "default": "0%", 
+            "from": "string"
+        }, 
+        "view_border_top": {
+            "default": "1px", 
+            "from": "string"
+        }, 
+        "view_border_bottom": {
+            "default": "1px", 
+            "from": "string"
+        }, 
+        "view_blanking": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "view_padding_bottom": {
+            "default": "0%", 
+            "from": "string"
+        }, 
+        "view_margin_right": {
+            "default": "undef", 
+            "from": "string"
+        }, 
+        "view_border_style": {
+            "default": "solid", 
+            "from": "string"
+        }, 
+        "view_display": {
+            "default": "inline", 
+            "from": "string"
+        }, 
+        "view_border_colour": {
+            "default": "tan", 
+            "from": "string"
+        }, 
+        "view_margin_bottom": {
+            "default": "undef", 
+            "from": "string"
+        }, 
+        "scene_node_border_left": {
+            "default": "1px", 
+            "from": "string"
+        }, 
+        "view_standalone": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "view_standalone_format": {
+            "default": "png", 
+            "from": "string"
+        }, 
+        "view_margin_top": {
+            "default": "undef", 
+            "from": "string"
+        }, 
+        "view_bottom": {
+            "default": "0%", 
+            "from": "string"
+        }, 
+        "scene_node_border_colour": {
+            "default": "blue", 
+            "from": "string"
+        }, 
+        "view_fitted_mode": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "scene_node_border": {
+            "default": "off", 
+            "from": "string"
+        }, 
+        "view_padding_top": {
+            "default": "0%", 
+            "from": "string"
+        }, 
+        "view_height": {
+            "default": "100%", 
+            "from": "string"
+        }, 
+        "scene_node_border_top": {
+            "default": "1px", 
+            "from": "string"
+        }, 
+        "scene_node_padding_top": {
+            "default": "0%", 
+            "from": "string"
+        }, 
+        "scene_node_margin_top": {
+            "default": "0%", 
+            "from": "string"
+        }, 
+        "scene_node_background_colour": {
+            "default": "white", 
+            "from": "string"
+        }, 
+        "view_left": {
+            "default": "0%", 
+            "from": "string"
+        }, 
+        "view_background_colour": {
+            "default": "white", 
+            "from": "string"
+        }, 
+        "view_standalone_width": {
+            "default": "128", 
+            "from": "float"
+        }, 
+        "scene_node_id_line": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "view_border": {
+            "default": "on", 
+            "from": "string"
+        }, 
+        "scene_node_margin_left": {
+            "default": "0%", 
+            "from": "string"
+        }, 
+        "subpage_map_projection": {
+            "default": "cylindrical", 
+            "from": "string"
+        }, 
+        "scene_node_padding_right": {
+            "default": "0%", 
+            "from": "string"
+        }, 
+        "scene_node_margin_right": {
+            "default": "0%", 
+            "from": "string"
+        }, 
+        "view_margin_left": {
+            "default": "undef", 
+            "from": "string"
+        }, 
+        "view_border_right": {
+            "default": "1px", 
+            "from": "string"
+        }, 
+        "scene_node_left": {
+            "default": "0%", 
+            "from": "string"
+        }, 
+        "scene_node_border_style": {
+            "default": "solid", 
+            "from": "string"
+        }, 
+        "view_border_left": {
+            "default": "1px", 
+            "from": "string"
+        }, 
+        "view_padding_right": {
+            "default": "0%", 
+            "from": "string"
+        }, 
+        "view_standalone_file_name": {
+            "default": "", 
+            "from": "string"
+        }, 
+        "scene_node_height": {
+            "default": "100%", 
+            "from": "string"
+        }, 
+        "view_padding_left": {
+            "default": "0%", 
+            "from": "string"
+        }, 
+        "scene_node_padding_left": {
+            "default": "0%", 
+            "from": "string"
+        }, 
+        "view_border_thickness": {
+            "default": "1", 
+            "from": "int"
+        }, 
+        "scene_node_margin_bottom": {
+            "default": "0%", 
+            "from": "string"
+        }
+    }
+}

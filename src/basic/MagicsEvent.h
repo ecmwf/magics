@@ -260,13 +260,22 @@ struct MetviewIcon
 {
 public:
 	MetviewIcon(const string& name = "", const string& cname = "", const string& id="unknown") :
-		iconName_(name), iconClass_(cname), iconId_(id) {};
+		iconName_(name), iconClass_(cname), iconId_(id), visibilityLayer_(true), zindexLayer_(-1), transparencyLayer_(0) {};
 		
 	void icon(const string& name, const string& cname, const string& id="unknown") {
 		iconName_ = name;
 		iconClass_ = cname;
 		iconId_ = id;
 	}
+
+	void layerInfo(bool visibility, int zindex, int transparency, const string& id, const string& name) {
+		visibilityLayer_ = visibility;
+		zindexLayer_ = zindex;
+		transparencyLayer_ = transparency;
+		idLayer_ = id;
+		nameLayer_ = name;
+	}
+	
 	virtual void visit(Layer& layer);
 
 	virtual void visit(MetaDataCollector& collector);
@@ -279,18 +288,34 @@ public:
 		iconName_ = other.iconName_;
 		iconClass_ = other.iconClass_;
 		iconId_ = other.iconId_;
+		visibilityLayer_ = other.visibilityLayer_;
+  		zindexLayer_ = other.zindexLayer_;
+  		transparencyLayer_ = other.transparencyLayer_;
+		idLayer_ = other.idLayer_;
+		nameLayer_ = other.nameLayer_;
+
 	}	
-	string iconName() const {return iconName_;}
-        string iconClass() const {return iconClass_;}
-        string iconId() const {return iconId_;}
+	string iconName() const   { return iconName_;     }
+    string iconClass() const  { return iconClass_;    }
+    string iconId() const     { return iconId_;       }
+    int zindex() const        { return zindexLayer_;       }
+ 	int visibility() const    { return visibilityLayer_;   } 
+	int transparency() const  { return transparencyLayer_; }
+	const string& id() const  { return idLayer_; }
+	const string& name() const  { return nameLayer_; }
 
-
-			
 protected:
 	string iconName_;
 	string iconClass_;
 	string iconId_;
+	bool visibilityLayer_;
+    int zindexLayer_;
+    int transparencyLayer_;
+    string idLayer_;
+    string nameLayer_;
+	
 	map<string, string> information_;
+
 };
 
 } // namespace magics

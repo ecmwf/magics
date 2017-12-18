@@ -1,22 +1,22 @@
 /*
  * (C) Copyright 1996-2016 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
  */
 
 /*! \file ShapeDecoder.cc
     \brief Implementation of the Template class ShapeDecoder.
-    
+
     Magics Team - ECMWF 2005
-    
+
     Started: Mon 12-Dec-2005
-    
+
     Changes:
-    
+
 */
 
 
@@ -30,7 +30,7 @@ ShapeDecoder::ShapeDecoder() :holes_(false)
 {
 }
 
-ShapeDecoder::~ShapeDecoder() 
+ShapeDecoder::~ShapeDecoder()
 {
 	MagLog::debug() << "clean ShapeDecoder->" << size() << endl;
 	for ( iterator line = begin(); line != end(); ++line) {
@@ -61,9 +61,9 @@ void ShapeDecoder::decode(const Transformation& transformation)
 }
 
 /*! \brief Method to read location and names of state capitals
-  
+
   \todo When we can handle Unicode we should change "nameascii" back to "name"
-  
+
 */
 void ShapeDecoder::customisedPoints(const std::set<string>&, CustomisedPointsList& out)
 {
@@ -77,22 +77,22 @@ void ShapeDecoder::customisedPoints(const std::set<string>&, CustomisedPointsLis
 		double  adfMinBound[4], adfMaxBound[4];
 		string shp = path_ + ".shp";
 		string dbf = path_ + ".dbf";
-		hSHP = SHPOpen( shp.c_str(), "rb" ); 
+		hSHP = SHPOpen( shp.c_str(), "rb" );
 		hDBF = DBFOpen( dbf.c_str(), "rb" );
 		if ( !hSHP || !hDBF ) {
-	   		    MagLog::error() << "Can not open Shapefile " << path_ << endl;
+	   		    MagLog::error() << "Can not open points Shapefile " << shp << endl;
 	   		    return;
 	   	}
 
 		SHPGetInfo( hSHP, &nEntities, &nShapeType, adfMinBound, adfMaxBound );
 
 		map<string, int> attributes;
-		
+
 		for( i = 0; i < DBFGetFieldCount(hDBF); i++ ) {
 		            DBFGetFieldInfo( hDBF, i, szTitle, &nWidth, &nDecimals );
 		            attributes.insert(make_pair(lowerCase(szTitle), i));
 		}
-		
+
 		map<string, int>::iterator index  = attributes.find("nameascii");
 		map<string, int>::iterator indexc = attributes.find("featurecla");
 
@@ -129,14 +129,14 @@ void ShapeDecoder::customisedPoints(const std::set<string>&, CustomisedPointsLis
 			}
 			SHPDestroyObject( psShape );
 		    }
-		    SHPClose( hSHP ); 
-            DBFClose ( hDBF ); 
+		    SHPClose( hSHP );
+            DBFClose ( hDBF );
 	}
 	catch (...)
 	{
 		MagLog::error() << "Can not open Shapefile " << path_ << endl;
 	}
-	MagLog::dev() << "Shape file--->" << this->size() << endl; 
+	MagLog::dev() << "Shape file--->" << this->size() << endl;
 }
 
 /*
@@ -159,7 +159,7 @@ void ShapeDecoder::decode(const Transformation& transformation, const string& fi
 
 		string shp = path_ + ".shp";
 		string dbf = path_ + ".dbf";
-		const SHPHandle hSHP = SHPOpen( shp.c_str(), "rb" ); 
+		const SHPHandle hSHP = SHPOpen( shp.c_str(), "rb" );
 		const DBFHandle hDBF = DBFOpen( dbf.c_str(), "rb" );
 
 		if ( !hSHP || !hDBF ) {
@@ -169,7 +169,7 @@ void ShapeDecoder::decode(const Transformation& transformation, const string& fi
 
 		SHPGetInfo( hSHP, &nEntities, &nShapeType, adfMinBound, adfMaxBound );
 		map<string, int> attributes;
-		
+
 		for( i = 0; i < DBFGetFieldCount(hDBF); i++ )
 		{
 		            DBFGetFieldInfo( hDBF, i, szTitle, &nWidth, &nDecimals );
@@ -189,7 +189,7 @@ void ShapeDecoder::decode(const Transformation& transformation, const string& fi
 							}
 
 			psShape = SHPReadObject( hSHP, i );
-		
+
 			bool add = true;
 			if ( index != attributes.end() )
 			{
@@ -220,7 +220,6 @@ void ShapeDecoder::decode(const Transformation& transformation, const string& fi
 				if ( psShape->dfXMin+360 > maxx ) right = false;
 
 				if ( !in && !right && !left ) continue;
-
 
 				PointsList *inlist, *leftlist, *rightlist;
 				if (in) {
@@ -270,13 +269,13 @@ void ShapeDecoder::decode(const Transformation& transformation, const string& fi
 		SHPDestroyObject(psShape);
 
 		SHPClose( hSHP );
-        DBFClose ( hDBF ); 
+        DBFClose ( hDBF );
 	}
 	catch (...)
 	{
 		MagLog::error() << "Can not open Shapefile " << path_ << endl;
 	}
-	MagLog::dev() << "Shape file--->" << this->size() << endl; 
+	MagLog::dev() << "Shape file--->" << this->size() << endl;
 }
 
 
@@ -297,7 +296,7 @@ void ShapeDecoder::decode(vector<Polyline*>& data, const Transformation& transfo
 			string dbf = path_ + ".dbf";
 			hSHP = SHPOpen( shp.c_str(), "rb" );
 			if ( !hSHP  ) {
-			    	MagLog::error() << "Can not open Shapefile " << path_ << endl;
+			    	MagLog::error() << "Can not open Shapefile " << shp << endl;
 			    	return;
 			}
 			data.clear();
@@ -344,8 +343,8 @@ void ShapeDecoder::decode(vector<Polyline*>& data, const Transformation& transfo
 
 				Polyline* poly = 0;
                 Polyline* polyleft = 0;
-                Polyline* polyright = 0; 
-               
+                Polyline* polyright = 0;
+
                 if ( in) {
                     poly  = new Polyline();
                     data.push_back(poly);
@@ -358,7 +357,7 @@ void ShapeDecoder::decode(vector<Polyline*>& data, const Transformation& transfo
                     polyright  = new Polyline();
                     data.push_back(polyright);
                 }
-                
+
 				left = false;
 				right= false;
 				int index = 0;
@@ -383,7 +382,7 @@ void ShapeDecoder::decode(vector<Polyline*>& data, const Transformation& transfo
 							if ( poly )    {
 								if (  same(x, -180.) || same(x, 180.) )  {
 									if ( y > 0 ) {
-										index = j;		
+										index = j;
 									}
 								}
 								poly->push_back(PaperPoint(x, y));
@@ -399,8 +398,6 @@ void ShapeDecoder::decode(vector<Polyline*>& data, const Transformation& transfo
 				}
 				if ( index ) {
 					poly->rotate(index);
-					// Clean the south pole ...
-
 				}
 			}
 			SHPDestroyObject(psShape);
@@ -411,5 +408,3 @@ void ShapeDecoder::decode(vector<Polyline*>& data, const Transformation& transfo
 			MagLog::error() << "Can not open Shapefile " << path_ << endl;
 		}
 }
-
-

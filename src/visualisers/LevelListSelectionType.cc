@@ -77,3 +77,4 @@ void LevelListSelectionType::calculate(double , double, bool)
 	MagLog::dev() << print.str() << endl;
 }
 
+

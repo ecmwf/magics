@@ -112,18 +112,30 @@ void NetcdfDecoder::visit(MetaDataCollector& mdc)
 		}
 	}
 	
+	(*interpretor_).visit(mdc);
+
 	MetviewIcon::visit(mdc);  	
 }
 
 void NetcdfDecoder::visit(ValuesCollector& values)
 {
-	(*interpretor_).visit(values,points_);
+	try {
+		(*interpretor_).visit(values,points_);
+	}
+	catch (...) {
+		valid_ = false;
+	}
 }
 
 
 void NetcdfDecoder::visit(TextVisitor& text)
 {
-	(*interpretor_).visit(text);
+	try {
+		(*interpretor_).visit(text);
+	}
+	catch (...) {
+		valid_ = false;
+	}
 
 }
 

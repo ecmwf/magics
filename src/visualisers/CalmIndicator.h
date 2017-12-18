@@ -56,7 +56,7 @@ public:
 	    dot_ = new Symbol();
 		dot_->setColour(colour_);
 	    dot_->setMarker(15);
-	    dot_->setHeight(0.1);
+	    dot_->setHeight(height_/3.0);
 		task.push_back(dot_);	
 	}
 		

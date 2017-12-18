@@ -25,9 +25,10 @@ public:
 	MagConfig();
 	~MagConfig();
 
-	string convert(const json_spirit::Value&);
+	static string convert(const json_spirit::Value& value);
 
 	virtual void callback(const string&, const json_spirit::Value&) = 0;
+	virtual void callback(const json_spirit::Array&) {}
 
 };
 
@@ -60,6 +61,22 @@ private:
 
 };
 
+struct Style 
+{
+	typedef map<string, string> Definition;
+	typedef void  (Style::*SetMethod)(const json_spirit::Value&);
+	map<string,  SetMethod> methods_;
+	
+	void criteria(const json_spirit::Value&);
+	void style(const json_spirit::Value&);
+	void more(const json_spirit::Value&); 
+
+	Definition criteria_;
+	Definition style_;
+	vector<Style> more_;
+	void set(const json_spirit::Object&);
+	bool find(const Definition& data, Definition& visdef);
+};
 
 class StyleLibrary : public MagConfig
 {
@@ -69,18 +86,90 @@ public:
 	~StyleLibrary() {}
 
 	void callback(const string& name, const json_spirit::Value& value);
+	void callback(const json_spirit::Array& values);
 	void init();
 	
-	map<string, map<string, string> > library_;
-	map<string, string> empty_;
+	vector<Style> library_;
 
 	string theme_;
 	string family_;
 
-	const map<string, string>& get(const string& name) const;
+	bool find(const Style::Definition& data, Style::Definition& visdef);
+    
+    bool find(const string& name, Style::Definition& visdef) {
+    	Style::Definition criteria;
+    	criteria["name"] = name;
+    	return find(criteria, visdef);
+    }
+
+	
 	
 };
 
+struct Palette
+{
+	typedef vector<string> Definition;
+	typedef void  (Palette::*SetMethod)(const json_spirit::Value&);
+
+	map<string,  SetMethod> methods_;
+	
+	void values(const json_spirit::Value&);
+	void tags(const json_spirit::Value&);
+	
+
+	Definition colours_;
+	Definition tags_;
+	string name_;
+	void set(const json_spirit::Object&);
+
+	
+};
+
+
+class PaletteLibrary : public MagConfig
+{
+public:
+	PaletteLibrary() { init(); }
+	PaletteLibrary(const string& family)  { init(); }
+	~PaletteLibrary() {}
+
+	void callback(const string& name, const json_spirit::Value& value);
+	
+	void init();
+	
+	map<string, Palette> library_;
+
+    bool find(const string& name, Palette::Definition& colours) {
+    	
+    	map<string, Palette>::iterator palette = library_.find(name);
+
+    	if ( palette != library_.end() ) {
+    		colours = palette->second.colours_;
+    		return true;
+    	}
+    	return false;
+    }
+
+	
+	
+};
+
+class NetcdfGuess : public MagConfig
+{
+public:
+	NetcdfGuess(const string& name): name_(name)   { init(); }
+	NetcdfGuess(): name_("netcdf-convention") { init(); }
+	~NetcdfGuess() {}
+
+	void callback(const string& name, const json_spirit::Value& value);
+	void init();
+
+	string name_;
+
+	map<string, map<string, vector<string> > > guess_;	
+	const map<string, string>& get(const string& name) const;
+	
+};
 
 
 

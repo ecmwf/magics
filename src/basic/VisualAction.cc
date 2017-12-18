@@ -248,9 +248,8 @@ void VisualAnimation::prepare()
 		return;
 	
 	layer_ = new StepLayer();
-	layer_->name(loop_->name());
-	layer_->id(loop_->name()); 
-	layer_->uniqueId(loop_->iconId());
+	layer_->id(loop_->id());
+	
 	loop_->visit(*layer_);
 	
 	for ( vector<Visdef* >::iterator visdef = this->visdefs_.begin(); visdef != this->visdefs_.end(); ++visdef)
@@ -322,8 +321,17 @@ bool VisualAction::needLegend()
 
 void VisualAction::visit(SceneLayer& layer, vector<LayoutVisitor*>& visitors)
 {
+
+	if ( !data_ || ( data_ && !data_->valid() ) || visdefs_.empty() )
+	{
+		MagLog::warning() << " Check data or visual action!" << endl;
+		return;
+	}
+	
 	layer_ = new StaticLayer(this);
 
+	
+	layer_->icon(*data_);
 	if ( data_ ) 
 		data_->visit(*layer_);
  	layer.add(layer_);

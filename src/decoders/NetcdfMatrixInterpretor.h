@@ -24,7 +24,7 @@
 
 #include "magics.h"
 
-#include "NetcdfMatrixInterpretorAttributes.h"
+
 #include "NetcdfInterpretor.h"
 #include "Matrix.h"
 #include "PaperPoint.h"
@@ -32,33 +32,31 @@
 
 namespace magics {
 
-class NetcdfMatrixInterpretor: public NetcdfMatrixInterpretorAttributes, public NetcdfInterpretor {
+class NetcdfMatrixInterpretor:  public NetcdfInterpretor {
 
 public:
 	NetcdfMatrixInterpretor();
 	virtual ~NetcdfMatrixInterpretor();
     
-    void set(const map<string, string>& params)
-    { 
-        MagLog::debug() << "NetcdfMatrixInterpretor::set(params)" << "\n";
-        NetcdfInterpretorAttributes::set(params); 
-        NetcdfMatrixInterpretorAttributes::set(params);
-    }
+   
     
     void set(const XmlNode& node)
     { 
         MagLog::debug() << "NetcdfMatrixInterpretor::set(params)" << "\n";
         XmlNode netcdf = node;
          netcdf.name("netcdf");
-         NetcdfInterpretorAttributes::set(netcdf); 
-        NetcdfMatrixInterpretorAttributes::set(node);
+        NetcdfInterpretor::set(netcdf); 
+        NetcdfInterpretor::set(node);
     }
     
     bool accept(const string& node)
     { 
         if ( NetcdfInterpretorAttributes::accept(node) ) 
         	return true; 
-        return NetcdfMatrixInterpretorAttributes::accept(node);
+        if ( magCompare(node, "matrix")  )
+            return true;
+
+       
     }
 
     virtual NetcdfInterpretor* clone() const
@@ -71,8 +69,8 @@ public:
     void clone(const NetcdfMatrixInterpretor& )
 //    void clone(const NetcdfMatrixInterpretor& other)
     {
-    	NetcdfInterpretorAttributes::copy(*this); 
-    	NetcdfMatrixInterpretorAttributes::copy(*this); 
+    	NetcdfInterpretor::copy(*this); 
+    	
     }
     virtual bool interpretAsMatrix(Matrix**);
     virtual bool interpretAsPoints(PointsList& points, const Transformation&);

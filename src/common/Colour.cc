@@ -65,7 +65,7 @@ Colour::Colour(float red, float green, float blue, float alpha) :
 	rgb_(red, green, blue, alpha), automatic_(false)
 {
 	ostringstream name;
-	name << "RGB(" << red <<  "," << green << "," << blue << "," << alpha << ")" << "\n";
+	name << "rgba(" << int(red*255) <<  "," << int(green*255) << "," << int(blue*255) << "," << alpha << ")" << "\n";
 	name_ = name.str();
 }
 

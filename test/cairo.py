@@ -62,7 +62,7 @@ legend = mlegend(
 
 # To the plot
 
-print "plot"
+print("plot")
 plot( output,  europe, coast, )
 tofortran(ref, output,  europe, coast, )
 

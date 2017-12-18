@@ -52,8 +52,9 @@ void Coastlines::visit(DrawingVisitor& parent)
 	// if needed Find the Style, according to the theme ..
 	if ( style_.size() ) {
 		StyleLibrary styles(theme(), "coastlines");
-		const map<string, string>& style = styles.get(style_);
-		set(style);
+		Style::Definition style;
+		if ( styles.find(style_, style) )
+			set(style);
 		
 	}
 	(*coastlines_)(parent);
@@ -116,8 +117,9 @@ void Coastlines::visit(SceneLayer& layer, vector<LayoutVisitor*>& visitors)
     // First we create the layer!
 	// and push It to the parent layer! 
 		layer_ = new NoDataLayer(this);
-		layer_->id(iconName_);
-		layer_->name(iconName_);
+		
+		layer_->icon(*this);
+		
 		layer.add(layer_);
 	}
 	for  (vector<LayoutVisitor*>::iterator visitor = visitors.begin(); visitor != visitors.end(); ++visitor) {

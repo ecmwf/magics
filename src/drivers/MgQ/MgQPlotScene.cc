@@ -124,6 +124,7 @@ void MgQPlotScene::clearBeforeNewRequest()
 
 void MgQPlotScene::saveStateBeforeNewRequest()
 {
+#if 0
   	foreach(QList<MgQLayerState*> sc,previousSceneState_)
 	{
 		foreach(MgQLayerState* st, sc)
@@ -147,10 +148,12 @@ void MgQPlotScene::saveStateBeforeNewRequest()
 		previousSceneState_ << vec;
 		
 	}
+#endif
 }
 //Temporary solution until layers handled properly in Metview 4
 void MgQPlotScene::restoreLayerState()
-{	
+{
+#if 0
   	/*qDebug() << "restoreLayerState";
   	foreach(QList<MgQLayerState*> sc,previousSceneState_)
 	{
@@ -215,6 +218,7 @@ void MgQPlotScene::restoreLayerState()
 		 
 				
 	}		  				
+#endif
 }	
  
 void MgQPlotScene::addSceneItem(MgQSceneItem *item)

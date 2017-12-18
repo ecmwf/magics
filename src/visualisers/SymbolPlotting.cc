@@ -46,16 +46,15 @@ void SymbolPlotting::print(ostream& out)  const
 	out << "]";
 }
 
-double SymbolPlotting::height(const Transformation&, double height)
+double SymbolPlotting::height(const Transformation& transformation, double height)
 {
     if ( scaling_method_ == false ) 
         return height;
     
     // get Area !
 
-    //return transformation.ratio() * scaling_level_0_ * scaling_factor_;
-    return scaling_level_0_ * scaling_factor_;
-
+    return transformation.ratio() * scaling_level_0_ * scaling_factor_;
+   
 
 
 }
@@ -170,7 +169,7 @@ void SymbolPlotting::operator()(Data& data, BasicGraphicsObjectContainer& out)
 
     	// Some Mode need to know the min and max of the data, in order to adjust the 
     	// computation of the levels
- 		(*mode_).adjust(points.min(), points.max());
+ 		(*mode_).adjust(points.min(), points.max(), scaling_method_, transformation, scaling_factor_);
  		if ( legend_only_ )
  			return;
 

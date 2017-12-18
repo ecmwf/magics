@@ -1,9 +1,9 @@
 /*
  * (C) Copyright 1996-2016 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
  */
@@ -103,13 +103,12 @@ private:
 
 	mutable ofstream	xmlFile_;
 	mutable FILE*		outFile_;
-	mutable string	filename_;
 	mutable string	currentFont_;
 	mutable int		currentFontSize_;
 	mutable int		currentColourIndex_;
 	mutable int		currentLineStyleIndex_;
 	mutable int		currentPageCount_;
-	mutable int		lastPage_;    //!< for layers 
+	mutable int		lastPage_;    //!< for layers
 	mutable MFloat		scaleFactor_; //!< needed because GD uses different sizes as CM
 	mutable Layout*		currentLayout_;
 

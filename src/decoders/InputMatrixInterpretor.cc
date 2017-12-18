@@ -73,6 +73,9 @@ Matrix* InputMatrixRegularInterpretor::geoInterpret(Matrix* in, const InputMatri
 {
 	std::map<string, Mapper>::iterator mapper = mappers_.find(lowerCase(info.mapping_));
 
+
+
+	
 	if ( mapper == mappers_.end() )
 		MagLog::warning() << "unknow input matrix mapping " << info.mapping_ << endl;
 	else 
@@ -100,6 +103,7 @@ Matrix* InputMatrixRegularInterpretor::geoInterpret(Matrix* in, const InputMatri
 		lon = longitude_ +( i * longitude_step_);
 		in->columnsAxis().push_back(lon);
 		
+		
 	}
 
 	int nblat =  in->rows();
@@ -108,7 +112,9 @@ Matrix* InputMatrixRegularInterpretor::geoInterpret(Matrix* in, const InputMatri
 	for (int i = 0; i < nblat; i++) {	
 		lat = latitude_ + (i*latitude_step_);	
 		in->rowsAxis().push_back(lat);	
+		
 	}
+	
 	in->setMapsAxis();
 	in->missing(std::numeric_limits<double>::max());
     return in;
@@ -116,6 +122,7 @@ Matrix* InputMatrixRegularInterpretor::geoInterpret(Matrix* in, const InputMatri
 
 Matrix* InputMatrixRegularInterpretor::xyInterpret(Matrix* in, const InputMatrix& info)
 {
+	in->akimaEnabled();
 	in->missing(std::numeric_limits<double>::max());
 	if ( !in->rowsAxis().empty() )
 		// WE have already initialised the matrix ..

@@ -39,6 +39,7 @@ ColourTableDefinitionCompute::ColourTableDefinitionCompute(const string& min, co
 {
    methods_["hsl"] = &ColourTableDefinitionCompute::hsl; 
    methods_["linear"] = &ColourTableDefinitionCompute::linear;
+   methods_["rgb"] = &ColourTableDefinitionCompute::linear;
    methods_["hcl"] = &ColourTableDefinitionCompute::hcl;
 }
 
@@ -107,8 +108,7 @@ void ColourTableDefinitionCompute::hsl(ColourTable& table, int nb)
       step_hue =  (hmax.hue_ - hmin.hue_)/(nb-2);
   }
 
-
-/* The handling of Special case for white introduced a regression   : getting rid of it for now ..
+/*
 if ( minColour_.white() ) {
     step_sat = 0;
     step_hue = 0;
@@ -321,8 +321,7 @@ void ColourTableDefinitionCompute::hcl(const Colour& colour, float& h, float& c,
   rgbToXyz(colour.red(), colour.green(), colour.blue(), x, y, z);
   xyzToHcl(x, y, z, h, c, l);
   h *= 360;
-  if ( colour.red() == 1 && colour.green() == 1 && colour.blue() == 1 )
-      h = -1;
+  
 }
 
 Colour ColourTableDefinitionCompute::rgb(float h, float c, float l, float alpha)

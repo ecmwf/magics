@@ -114,9 +114,9 @@ int CalcStreamlines(int density, const float *dir, const GSStruct *gs, OneLineCl
 	if( str_lines )
 		{
 			for(int ii=0; ii<linenum; ii++)
-				delete str_lines[ii]; 
+				delete str_lines[ii];
 			delete [] str_lines;
-			str_lines = 0x0; 
+			str_lines = 0x0;
 		}
 	linenum = 0;
 
@@ -154,7 +154,9 @@ int CalcStreamlines(int density, const float *dir, const GSStruct *gs, OneLineCl
 
 
 	// x_min and x_per are used for ShiftPeriod function
-	float x_min = 0.f, x_per = 360.f; // for grids on the Earth
+//	float x_min = 0.f, x_per = 360.f; // for grids on the Earth
+	float x_min = startx, x_per = 360.f; // RV for grids on the Earth
+
 	if( !gs_geo )
 		{
 			// for grids not on the Earth
@@ -180,7 +182,7 @@ int CalcStreamlines(int density, const float *dir, const GSStruct *gs, OneLineCl
 
 	// The ordinal number of the current line we follow
 	int act_line = 0;
-	
+
 	// Coordinates of a streamline
 	float *x = new float[ gridsize ];
 	float *y = new float[ gridsize ];
@@ -191,8 +193,8 @@ int CalcStreamlines(int density, const float *dir, const GSStruct *gs, OneLineCl
 	// Active cell and side in the cell
 	int act_cell;
 	int act_side;
-	float side_shift_x[4] = { 0, 0.5*dx, 0, -0.5*dx};
-	float side_shift_y[4] = { 0.5*dy, 0, -0.5*dy, 0};
+	float side_shift_x[4] = { 0, 0.5f*dx, 0, -0.5f*dx};
+	float side_shift_y[4] = { 0.5f*dy, 0, -0.5f*dy, 0};
 
 	// Coordinate of center of the active cell
 	float cell_x, cell_y;
@@ -381,7 +383,7 @@ int CalcStreamlines(int density, const float *dir, const GSStruct *gs, OneLineCl
 											break;
 										stop_need = 2; // Let's give an other chance!
 									}
-    
+
 								// act_dir is in [0;2*M__PI)
 								if( direction == 1 )
 									act_dir = ShiftPeriod_(dir[act_cell]+M__PI, 0, 2*M__PI);
@@ -400,12 +402,12 @@ int CalcStreamlines(int density, const float *dir, const GSStruct *gs, OneLineCl
 								if( gs_geo )
 									if( cell_y >= 90 || cell_y <= -90 )
 										break;
-    
+
 								float cos_cell_y = 1.f;
 								if( gs_geo )
 									cos_cell_y = cos(cell_y*M_PI_180);
 								int cell_shift = 0;
-    
+
 								// Check which side we are on
 								if( act_side == 1 )
 									{
@@ -420,13 +422,13 @@ int CalcStreamlines(int density, const float *dir, const GSStruct *gs, OneLineCl
 												else
 													break;
 											}
-    
+
 										if( act_dir == 0 )
 											{
 												// Northward
 												x[pos] = x[pos-direction];
 												y[pos] = cell_y + dy_2;
-												
+
 												cell_shift = ys*nx;
 												act_side = 2;
 											}
@@ -451,7 +453,7 @@ int CalcStreamlines(int density, const float *dir, const GSStruct *gs, OneLineCl
 														// Westward
 														x[pos] = ShiftPeriod(cell_x - dx_2, x_min, x_per);
 														y[pos] = new_y;
-    
+
 														cell_shift = - xs;
 														act_side = 1;
 													}
@@ -462,7 +464,7 @@ int CalcStreamlines(int density, const float *dir, const GSStruct *gs, OneLineCl
 																// Northward
 																x[pos] = ShiftPeriod(x[pos-direction] + (cell_y + dy_2 - y[pos-direction]) * tan_dir / cos_cell_y, x_min, x_per);
 																y[pos] = cell_y + dy_2;
-																
+
 																cell_shift = ys*nx;
 																act_side = 2;
 															}
@@ -471,7 +473,7 @@ int CalcStreamlines(int density, const float *dir, const GSStruct *gs, OneLineCl
 																// Southward
 																x[pos] = ShiftPeriod(x[pos-direction] - (y[pos-direction] - cell_y + dy_2) * tan_dir / cos_cell_y, x_min, x_per);
 																y[pos] = cell_y - dy_2;
-																
+
 																cell_shift = - ys*nx;
 																act_side = 0;
 															}
@@ -491,13 +493,13 @@ int CalcStreamlines(int density, const float *dir, const GSStruct *gs, OneLineCl
 												else
 													break;
 											}
-    
+
 										if( act_dir == 0 )
 											{
 												// Northward
 												x[pos] = x[pos-direction];
 												y[pos] = cell_y + dy_2;
-												
+
 												cell_shift = ys*nx;
 												act_side = 2;
 											}
@@ -506,7 +508,7 @@ int CalcStreamlines(int density, const float *dir, const GSStruct *gs, OneLineCl
 												// Southward
 												x[pos] = x[pos-direction];
 												y[pos] = cell_y - dy_2;
-    
+
 												cell_shift = - ys*nx;
 												act_side = 0;
 											}
@@ -522,7 +524,7 @@ int CalcStreamlines(int density, const float *dir, const GSStruct *gs, OneLineCl
 														// Eastward
 														x[pos] = ShiftPeriod(cell_x + dx_2, x_min, x_per);
 														y[pos] = new_y;
-    
+
 														cell_shift = xs;
 														act_side = 3;
 													}
@@ -533,7 +535,7 @@ int CalcStreamlines(int density, const float *dir, const GSStruct *gs, OneLineCl
 																// Northward
 																x[pos] = ShiftPeriod(x[pos-direction] + (cell_y + dy_2 - y[pos-direction]) * tan_dir / cos_cell_y, x_min, x_per);
 																y[pos] = cell_y + dy_2;
-																
+
 																cell_shift = ys*nx;
 																act_side = 2;
 															}
@@ -542,7 +544,7 @@ int CalcStreamlines(int density, const float *dir, const GSStruct *gs, OneLineCl
 																// Southward
 																x[pos] = ShiftPeriod(x[pos-direction] - (y[pos-direction] - cell_y + dy_2) * tan_dir / cos_cell_y, x_min, x_per);
 																y[pos] = cell_y - dy_2;
-																
+
 																cell_shift = - ys*nx;
 																act_side = 0;
 															}
@@ -562,13 +564,13 @@ int CalcStreamlines(int density, const float *dir, const GSStruct *gs, OneLineCl
 												else
 													break;
 											}
-    
+
 										if( act_dir == M__PI_2 )
 											{
 												// Eastward
 												x[pos] = ShiftPeriod(cell_x + dx_2, x_min, x_per);
 												y[pos] = y[pos-direction];
-												
+
 												cell_shift = xs;
 												act_side = 3;
 											}
@@ -577,7 +579,7 @@ int CalcStreamlines(int density, const float *dir, const GSStruct *gs, OneLineCl
 												// Westward
 												x[pos] = ShiftPeriod(cell_x - dx_2, x_min, x_per);
 												y[pos] = y[pos-direction];
-    
+
 												cell_shift = - xs;
 												act_side = 1;
 											}
@@ -593,7 +595,7 @@ int CalcStreamlines(int density, const float *dir, const GSStruct *gs, OneLineCl
 														// Southward
 														x[pos] = ShiftPeriod(new_x, x_min, x_per);
 														y[pos] = cell_y - dy_2;
-    
+
 														cell_shift = - ys*nx;
 														act_side = 0;
 													}
@@ -607,7 +609,7 @@ int CalcStreamlines(int density, const float *dir, const GSStruct *gs, OneLineCl
 																	y[pos] = y[pos-direction] + CalcLonDist(cell_x + dx_2,x[pos-direction]) / tan_dir * cos_cell_y;
 																else
 																	y[pos] = y[pos-direction] + fabs(cell_x + dx_2 - x[pos-direction]) / tan_dir * cos_cell_y;
-																
+
 																cell_shift = xs;
 																act_side = 3;
 															}
@@ -619,7 +621,7 @@ int CalcStreamlines(int density, const float *dir, const GSStruct *gs, OneLineCl
 																	y[pos] = y[pos-direction] - CalcLonDist(x[pos-direction], cell_x - dx_2) / tan_dir * cos_cell_y;
 																else
 																	y[pos] = y[pos-direction] - fabs(x[pos-direction] - cell_x + dx_2) / tan_dir * cos_cell_y;
-																
+
 																cell_shift = - xs;
 																act_side = 1;
 															}
@@ -639,13 +641,13 @@ int CalcStreamlines(int density, const float *dir, const GSStruct *gs, OneLineCl
 												else
 													break;
 											}
-    
+
 										if( act_dir == (float)M__PI_2 )
 											{
 												// Eastward
 												x[pos] = ShiftPeriod(cell_x + dx_2, x_min, x_per);
 												y[pos] = y[pos-direction];
-												
+
 												cell_shift = xs;
 												act_side = 3;
 											}
@@ -654,7 +656,7 @@ int CalcStreamlines(int density, const float *dir, const GSStruct *gs, OneLineCl
 												// Westward
 												x[pos] = ShiftPeriod(cell_x - dx_2, x_min, x_per);
 												y[pos] = y[pos-direction];
-    
+
 												cell_shift = - xs;
 												act_side = 1;
 											}
@@ -670,7 +672,7 @@ int CalcStreamlines(int density, const float *dir, const GSStruct *gs, OneLineCl
 														// Northward
 														x[pos] = ShiftPeriod(new_x, x_min, x_per);
 														y[pos] = cell_y + dy_2;
-    
+
 														cell_shift = ys*nx;
 														act_side = 2;
 													}
@@ -684,7 +686,7 @@ int CalcStreamlines(int density, const float *dir, const GSStruct *gs, OneLineCl
 																	y[pos] = y[pos-direction] + CalcLonDist(cell_x + dx_2, x[pos-direction]) / tan_dir * cos_cell_y;
 																else
 																	y[pos] = y[pos-direction] + fabs(cell_x + dx_2 - x[pos-direction]) / tan_dir * cos_cell_y;
-																
+
 																cell_shift = xs;
 																act_side = 3;
 															}
@@ -696,7 +698,7 @@ int CalcStreamlines(int density, const float *dir, const GSStruct *gs, OneLineCl
 																	y[pos] = y[pos-direction] - CalcLonDist(x[pos-direction], cell_x - dx_2) / tan_dir * cos_cell_y;
 																else
 																	y[pos] = y[pos-direction] - fabs(x[pos-direction] - cell_x + dx_2) / tan_dir * cos_cell_y;
-																
+
 																cell_shift = - xs;
 																act_side = 1;
 															}
@@ -801,7 +803,7 @@ int CalcStreamlines(int density, const float *dir, const GSStruct *gs, OneLineCl
 							}
 
 					} // for(direction = forward, backward)
-				
+
 				// Add a new line section with 'len' length
 				if( len > 3 )
 					{
@@ -834,11 +836,11 @@ int CalcStreamlines(int density, const float *dir, const GSStruct *gs, OneLineCl
                               	linenum++;
 								OneLineClass** new_str_lines = new OneLineClass*[linenum];
 								for(int ii=0; ii<linenum-1; ii++)
-									new_str_lines[ii] = str_lines[ii]; 
+									new_str_lines[ii] = str_lines[ii];
 								new_str_lines[linenum-1] = line;
-													    
+
 								delete [] str_lines;
-								str_lines = new_str_lines; 
+								str_lines = new_str_lines;
 							}
 					}
 
@@ -859,4 +861,3 @@ int CalcStreamlines(int density, const float *dir, const GSStruct *gs, OneLineCl
 
 	return 1;
 }
-

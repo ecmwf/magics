@@ -11,12 +11,6 @@
 #       -DCMAKE_PREFIX_PATH=/path/to/jasper:/path/to/any/package/out/of/place
 #       -DBUILD_SHARED_LIBS=OFF
 
-# TODO:
-#  * fix python module generation Magics.py to __init__.py
-#  * cpack ecbuild/cmake macros into tar.gz
-#  * unit tests check that certain files are produced and not empty
-#  * pkg-config needed for metview
-
 # Missing dependencies:
 #   * ghostscript ( is it really needed? -- to confirm )
 
@@ -38,8 +32,6 @@ ecbuild_requires_macro_version( 2.6 )
 
 ###############################################################################
 # some variables of this project
-
-ecbuild_add_option( FEATURE ECCODES DESCRIPTION "" DEFAULT ON )
 
 set(ECCODES_FAIL_MSG "Note: grib_api can be used instead (select with -DENABLE_ECCODES=OFF), "
                       "but we strongly advise you to upgrade to ecCodes. "
@@ -80,7 +72,7 @@ ecbuild_add_option( FEATURE ODB
 ecbuild_add_option( FEATURE CAIRO
                     DEFAULT ON
                     DESCRIPTION "cairo support[png/jpeg]"
-                    REQUIRED_PACKAGES PangoCairo )
+                    REQUIRED_PACKAGES PangoCairo Pango PNG)
 
 ecbuild_add_option( FEATURE GEOTIFF
                     DEFAULT OFF
@@ -91,7 +83,7 @@ ecbuild_add_option( FEATURE GEOTIFF
 ecbuild_add_option( FEATURE NETCDF
                     DEFAULT ON
                     DESCRIPTION "enable netcdf support"
-                    REQUIRED_PACKAGES "NetCDF 4 COMPONENTS C CXX" )
+                    REQUIRED_PACKAGES "NetCDF 4 COMPONENTS C" )
 
 ecbuild_add_option( FEATURE SPOT
                     DEFAULT OFF
@@ -101,7 +93,7 @@ ecbuild_add_option( FEATURE SPOT
 ecbuild_add_option( FEATURE PYTHON
                     DEFAULT ON
                     DESCRIPTION "enable python interface"
-                    REQUIRED_PACKAGES "Python NO_LIBS" SWIG NumPy )
+                    REQUIRED_PACKAGES "Python NO_LIBS" NumPy )
 
 ecbuild_add_option( FEATURE FORTRAN
                     DEFAULT ON
@@ -120,18 +112,8 @@ ecbuild_add_option( FEATURE METVIEW_NO_QT
                     DESCRIPTION "enable Metview interface without Qt" )
 
 ecbuild_add_option( FEATURE QT5
-                    DEFAULT OFF
-                    DESCRIPTION "use Qt5 instead of version 4" )
-
-ecbuild_add_option( FEATURE PNG
-                    DESCRIPTION "support for PNG decoding/encoding"
                     DEFAULT ON
-                    REQUIRED_PACKAGES PNG
-)
-
-if( HAVE_PNG )
-    add_definitions( ${PNG_DEFINITIONS} )
-endif()
+                    DESCRIPTION "use Qt5 instead of version 4" )
 
 option( BUILD_SHARED_LIBS  "Set to BOTH to build static library in addition to shared"  ON )
 option( ENABLE_REGRESSION        "Internal use only: enable regression test"  OFF  )
@@ -188,13 +170,13 @@ if( HAVE_METVIEW )
       else()
           ecbuild_critical("Qt5 was NOT found ...")
       endif()
-    else()
-    find_package(Qt4 4.4.3 REQUIRED QtCore QtGui QtXml )
-    if( QT_FOUND )
-		  include( ${QT_USE_FILE} )
-		  set( MAGICS_QT 1)
-		  set( qt yes)
-    endif()
+    else( HAVE_QT5 )
+      find_package(Qt4 4.6.2 REQUIRED QtCore QtGui QtXml )
+      if( QT_FOUND )
+		    include( ${QT_USE_FILE} )
+		    set( MAGICS_QT 1)
+		    set( qt yes)
+      endif()
     endif()
 endif()
 
@@ -211,14 +193,14 @@ find_package( Threads )
 # set(Boost_USE_MULTITHREADED      ON)
 #ecbuild_add_extra_search_paths( boost )
 
-find_package( Boost 1.49.0 REQUIRED)
+find_package( Boost 1.53.0 REQUIRED)
 find_package( Proj4 REQUIRED )
 find_package( EXPAT REQUIRED )
 
 ###############################################################################
 # contents
 
-set( MAGICS_TPLS grib_api spot EXPAT NetCDF PNG Proj4 libemos )
+set( MAGICS_TPLS grib_api spot EXPAT NetCDF Proj4 libemos )
 
 set( MAGICS_INCLUDE_DIRS
      ${CMAKE_CURRENT_SOURCE_DIR}/src
@@ -240,7 +222,7 @@ set( MAGICS_INCLUDE_DIRS
      ${Boost_INCLUDE_DIRS} )
 
 if( HAVE_CAIRO )
-  list( APPEND MAGICS_TPLS PangoCairo )
+  list( APPEND MAGICS_TPLS PangoCairo PNG PANGO)
   list( APPEND MAGICS_INCLUDE_DIRS ${PANGOCAIRO_INCLUDE_DIRS} )
 endif()
 

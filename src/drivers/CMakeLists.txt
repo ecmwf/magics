@@ -10,13 +10,6 @@ list( APPEND _drivers_srcs
 # minizip
   minizip/ioapi.c minizip/zip.c
   minizip/ioapi.h minizip/zip.h minizip/crypt.h
-# libimagequant
-  libimagequant/blur.h libimagequant/libimagequant.c libimagequant/mediancut.c
-  libimagequant/mempool.c libimagequant/nearest.c libimagequant/pam.c
-  libimagequant/viter.c libimagequant/blur.c libimagequant/libimagequant.h
-  libimagequant/mediancut.h	libimagequant/mempool.h	libimagequant/nearest.h	libimagequant/pam.h libimagequant/viter.h
-  libimagequant/rwpng.c libimagequant/rwpng.h
-  libimagequant/pngquant.c libimagequant/pngquant.h
 )
 
 if( qt )
@@ -38,14 +31,14 @@ if( qt )
           MgQ/MgQPolylineSetItem.cc MgQ/MgQScene.cc MgQ/MgQSceneItem.cc
           MgQ/MgQSceneCacheItem.cc MgQ/MgQStepMetaData.cc
           MgQ/MgQPattern.cc MgQ/MgQHistoItem.cc
-   )   
+   )
    set (qt_files_HEADERS MgQ/MgQPlotScene.h)
    if( MAGICS_QT5 )
      QT5_WRAP_CPP(qt_files_HEADERS_MOC ${qt_files_HEADERS})
    else()
      QT4_WRAP_CPP(qt_files_HEADERS_MOC ${qt_files_HEADERS})
    endif()
-   list( APPEND qt_srcs   ${qt_files_HEADERS_MOC}) 
+   list( APPEND qt_srcs   ${qt_files_HEADERS_MOC})
 endif()
 
 if( HAVE_CAIRO )
@@ -53,19 +46,19 @@ if( HAVE_CAIRO )
 endif()
 
 if ( metview )
-   list (APPEND metview_include 
+   list (APPEND metview_include
 	drivers/DriverManager.h
-	drivers/BaseDriver.h 
+	drivers/BaseDriver.h
 	${CMAKE_CURRENT_BINARY_DIR}/../params/BaseDriverAttributes.h
 	)
    set( metview_include ${metview_include} PARENT_SCOPE )
 endif()
 
 if ( qt )
-   list (APPEND metview_include 
+   list (APPEND metview_include
 	drivers/MgQ/MgQPlotScene.h
 	drivers/MgQ/MgQScene.h
-	drivers/QtDriver.h 
+	drivers/QtDriver.h
 	drivers/MgQ/MgQLayoutItem.h
 	drivers/MgQ/MgQ.h
 	drivers/MgQ/MgQSceneItem.h

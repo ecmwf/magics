@@ -23,7 +23,7 @@
 
 #include "NetcdfMatrixInterpretor.h"
 #include "Factory.h"
-#include "Netcdf.h"
+#include "NetcdfData.h"
 #include "Coordinate.h"
 #include "Layer.h"
 #include "TextVisitor.h"
@@ -46,41 +46,51 @@ bool NetcdfMatrixInterpretor::interpretAsMatrix(Matrix** matrix)
 	MagLog::debug() << "NetcdfMatrixInterpretor::interpret()--->" << *this << "\n";
 	if ( *matrix ) return false;
 
-	
-	matrix_ = new Matrix();
-	
-	*matrix = matrix_;
-	if ( !matrix_->empty() ) return false;
-    
-	matrix_->missing(std::numeric_limits<double>::max());
-
-	Netcdf netcdf(path_, dimension_method_);
-	double missing =  netcdf.getMissing(field_, missing_attribute_);
-	matrix_->missing(missing);
-
-	string title = netcdf.getAttribute("title", "NO TITLE");
-
-
-    x();
-    y();
-	// get the data ...
 	try {
+		matrix_ = new Matrix();
+		
+		*matrix = matrix_;
+		if ( !matrix_->empty() ) return false;
+	    
+		matrix_->missing(std::numeric_limits<double>::max());
+
+		Netcdf netcdf(path_, dimension_method_);
+		double missing =  netcdf.getMissing(field_, missing_attribute_);
+		matrix_->missing(missing);
+
+		string title = netcdf.getAttribute("title", string("NO TITLE"));
+
+
+	    x();
+	    y();
+	// get the data ...
+	
 
 
 		map<string, string> first, last;
 		setDimensions(dimension_, first, last);
 		vector<double> rows = dateRows_.empty() ? rows_ : dateRows_;
 		vector<double> columns = dateColumns_.empty() ? columns_ : dateColumns_;
-
+		int index = 0;
 		for ( vector<double>::iterator r = rows.begin(); r != rows.end(); r++) {
 			vector<string> dims;
 			ostringstream x,y;
-			x.precision(20);
-			y.precision(20);
-			y << y_ << "/" << *r;
-			x << x_ << "/" << columns.front() << "/" << columns.back();
+			if ( magCompare(dimension_method_, "index" ) ) {
+				y << y_ << "/" << index << "/" << index;
+				x << x_ << "/" << 0 << "/" << columns.size()-1;
+			}
+			else {
+				x.precision(20);
+				y.precision(20);
+
+				y << y_ << "/" << *r << "/" << *r;
+				x << x_ << "/" << columns.front() << "/" << columns.back();
+			}
+			std::copy(dimension_.begin(), dimension_.end(), std::back_inserter(dims));
 			dims.push_back(y.str());
 			dims.push_back(x.str());
+			index++;
+
 			setDimensions(dims, first, last);
 			vector<double> data;
 			netcdf.get(field_, data, first, last);
@@ -114,6 +124,8 @@ bool NetcdfMatrixInterpretor::interpretAsMatrix(Matrix** matrix)
 	catch (MagicsException& e)
 	{
 		MagLog::error() << e << "\n";
+		delete matrix_;
+		matrix_ = NULL;
 		 return false;
 	}    
 	return true;
@@ -128,7 +140,7 @@ void NetcdfMatrixInterpretor::print(ostream& out)  const
 {
 	out << "NetcdfMatrixInterpretor[";
 	NetcdfInterpretor::print(out);
-	NetcdfMatrixInterpretorAttributes::print(out);
+	
 	out << "]";
 }
 
@@ -163,7 +175,8 @@ bool NetcdfMatrixInterpretor::x()
     	}
         catch (...) {
         	MagLog::warning() << "No valid X dimension.." << endl;
-        		return false;
+        	throw MagicsException("Could not find any X axis");
+        		
         	}
     }
 
@@ -193,7 +206,8 @@ bool NetcdfMatrixInterpretor::x()
     	}
     }
     catch (...) {
-    	return false;
+    	throw MagicsException("Could not find any X axis");
+    	
     }
 
     return true;
@@ -229,7 +243,8 @@ bool NetcdfMatrixInterpretor::y()
     	}
     	catch (...) {
     		MagLog::warning() << "No valid Y dimension.." << endl;
-    		return false;
+    		throw MagicsException("Could not find any Y axis");
+    		
     	}
     } 
 
@@ -254,7 +269,8 @@ bool NetcdfMatrixInterpretor::y()
     	}
     }
     catch (...) {
-    	return false;
+    	throw MagicsException("Could not find any X axis");
+    	
     }
     return true;
 }
@@ -318,7 +334,9 @@ void NetcdfMatrixInterpretor::visit(Transformation& transformation)
 			}
 
 		}
-		catch ( ... ) {}
+		catch ( ... ) {
+			throw MagicsException("Could not find any X axis");
+		}
 		
 
 }
@@ -329,10 +347,10 @@ void NetcdfMatrixInterpretor::customisedPoints(const Transformation& transformat
 
 	Matrix* uc = 0;
 	Matrix* vc = 0;
-	field_ = u_component_;
+	field_ = x_component_;
 	if (!interpretAsMatrix(&uc) )
 		return;
-	field_ = v_component_;
+	field_ = y_component_;
 	if ( !interpretAsMatrix(&vc) )
 		return;
 

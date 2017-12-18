@@ -60,10 +60,10 @@ public :
     	double& column1, int& index1, double& column2, int& index2) const 
     		{ return matrix_.boundColumn(r, column1, index1, column2, index2); }		
     
-    double  left() const { return matrix_.left(); }
-         double bottom() const { return matrix_.bottom(); } 
-         double  right() const { return matrix_.right(); }
-         double  top() const { return matrix_.top(); }
+    virtual double  left() const { return matrix_.left(); }
+    virtual double bottom() const { return matrix_.bottom(); } 
+    virtual double  right() const { return matrix_.right(); }
+    virtual double  top() const { return matrix_.top(); }
          
          double x(double x, double y) const  { return matrix_.x(x, y); }
          double y(double x, double y) const { return matrix_.y(x, y); }
@@ -100,13 +100,17 @@ public :
                 vector< std::pair< std::pair<double, double>,  pair<int, int> > > coordinates;
                 if (ri != -1 ) {
                 	boundColumn(column, x1, c1, x2, c2);
-                	coordinates.push_back(make_pair(make_pair(row, x1), std::make_pair(ri, c1)));
-                	coordinates.push_back(make_pair(make_pair(row, x2), std::make_pair(ri, c2)));
+                	if (x1 != -1)
+                		coordinates.push_back(make_pair(make_pair(row, x1), std::make_pair(ri, c1)));
+                	if (x2 != -1)
+                		coordinates.push_back(make_pair(make_pair(row, x2), std::make_pair(ri, c2)));
                 }
                 else if (ci != -1 ) {
                 	boundRow(row, y1, r1, y2, r2);
-                	coordinates.push_back(make_pair(make_pair(y1, column), std::make_pair(r1, ci)));
-                	coordinates.push_back(make_pair(make_pair(y2, column), std::make_pair(r2, ci)));
+                	if (y1 != -1)
+                		coordinates.push_back(make_pair(make_pair(y1, column), std::make_pair(r1, ci)));
+                	if (y2 != -1)
+                		coordinates.push_back(make_pair(make_pair(y2, column), std::make_pair(r2, ci)));
 
                 }
                 else {
@@ -116,10 +120,18 @@ public :
                 // 4 points ...
                 // x1, y1 - x2, y1 -  x1, y2 - x2, y2
                 // find the nearest...
-                	coordinates.push_back(make_pair(make_pair(y1, x1), std::make_pair(r1, c1)));
-                	coordinates.push_back(make_pair(make_pair(y1, x2), std::make_pair(r1, c2)));
-                	coordinates.push_back(make_pair(make_pair(y2, x1), std::make_pair(r2, c1)));
-                	coordinates.push_back(make_pair(make_pair(y2, x2), std::make_pair(r2, c2)));
+                	if (y1 != -1) {
+                		if (x1 != -1)
+                			coordinates.push_back(make_pair(make_pair(y1, x1), std::make_pair(r1, c1)));
+                		if (x2 != -1)
+                			coordinates.push_back(make_pair(make_pair(y1, x2), std::make_pair(r1, c2)));
+                	}
+                	if (y2 != -1) {
+                		if (x1 != -1)
+                			coordinates.push_back(make_pair(make_pair(y2, x1), std::make_pair(r2, c1)));
+                		if (x2 != -1)
+                			coordinates.push_back(make_pair(make_pair(y2, x2), std::make_pair(r2, c2)));
+                	}
                 }
 
                 for (vector< pair< std::pair<double, double>, pair<int, int> > >::iterator coord = coordinates.begin(); coord != coordinates.end(); ++coord) {
@@ -149,14 +161,26 @@ public :
     	if ( columns() == 0  || rows() == 0)
     		return matrix_.missing();
 
-		if ( j < left() && !same(j, left()) )
-            return matrix_.missing();
-        if ( j > right() && !same(j, right()) )
-            return matrix_.missing();
-        if ( i < bottom() && !same(i, bottom()) )
-            return matrix_.missing();
-        if ( i > top() && !same(i, top()) )
-            return matrix_.missing();
+    	if (j < left()) {
+    		if (!same(j, left()))
+    			return matrix_.missing();
+    		j = left(); //not really necessary but now there will be no more obscur rounding problems!
+    	}
+    	if (j > right()) {
+    		if (!same(j, right()))
+    			return matrix_.missing();
+    		j = right(); //id left
+    	}
+    	if (i < bottom()) {
+    		if (!same(i, bottom()))
+    			return matrix_.missing();
+    		i = bottom(); //id left
+    	}
+    	if (i > top()) {
+    		if (!same(i, top()))
+    			return matrix_.missing();
+    		i = top(); //id left
+    	}
 
 
     	
@@ -167,12 +191,18 @@ public :
     		int i1, i2;
     		boundRow(i, v1, i1, v2, i2);
     		
-    		if (i1 == -1) return missing(); 
+    		if (i1 == -1 || i2 == -1) return missing();
     		internal_ = true;
     	    double a = (*this).interpolate(v1, j);
+            internal_ = false;
+
+            if (same(a, missing())) return missing();
+            if (i1 == i2 || v1 == v2) return a;     // already seen with Akima760 (da,db ---> zero divide !)
+
+            internal_ = true;
             double b = (*this).interpolate(v2, j);
             internal_ = false;
-            if ( same(a, missing()) || same(b, missing()) ) return missing();
+            if (same(b, missing())) return missing();
             
             double da = (v2-i)/(v2-v1);
             double db = (i-v1)/(v2-v1);
@@ -184,13 +214,17 @@ public :
         	double v1, v2;
     		int i1, i2;
     		boundColumn(j, v1, i1, v2, i2);
-    		if (i1 == -1) return missing(); 
+    		if (i1 == -1 || i2 == -1) return missing();
     		
         	
     		double a = (*this)(ii, i1);
+    		if (same(a, missing())) return missing();
+
+    		if (i1 == i2 || v1 == v2) return a; // Id rows
+
             double b = (*this)(ii, i2);
             
-            if ( same(a, missing()) || same(b, missing()) ) return missing();
+    		if (same(b, missing())) return missing();
             
             double da = (v2-j)/(v2-v1);
             double db = (j-v1)/(v2-v1);
@@ -495,11 +529,15 @@ public :
 
     
     
-    double interpolate(double  row, double  column) const { matrix_.interpolate(row, column); }
-    double nearest(double  row, double  column) const { matrix_.nearest(row, column); }
+    double interpolate(double  row, double  column) const { return matrix_.interpolate(row, column); }
+    double nearest(double  row, double  column) const { return matrix_.nearest(row, column); }
 
-    double column(int i, int j) const { matrix_.column(i, j); }
-    double row(int i, int j) const { matrix_.row(i, j); }
+    double column(int i, int j) { return matrix_.column(i, j); }
+    double row(int i, int j) { return matrix_.row(i, j); }
+    double  left() const { return matrix_.left(); }
+    double bottom() const { return matrix_.bottom(); } 
+    double  right() const { return matrix_.right(); }
+    double  top() const { return matrix_.top(); }
 
 protected :
 
@@ -658,6 +696,12 @@ public:
                 if ( same(i->first, r) )
                     return i->second;
             }
+         	else
+         	{ // Utilité ? A confirmer
+         		map<double, int>::const_reverse_iterator i = rowsMap_.rbegin();
+         		if ( same(i->first, r) )
+         			return i->second;
+         	}
          	return -1;
          }
 
@@ -668,6 +712,12 @@ public:
                 if ( same(i->first, c) )
                     return i->second;
             }
+         	else
+         	{ // Utilité ? A confirmer
+         		map<double, int>::const_reverse_iterator i = columnsMap_.rbegin();
+         		if ( same(i->first, c) )
+         			return i->second;
+         	}
          	return -1;
          }
     
@@ -711,6 +761,12 @@ public:
             if ( same(i->first, r) )
                 return i->second;
         }
+    	else
+    	{ // Utilité ? A confirmer
+    		map<double, int>::const_reverse_iterator i = rowsMap_.rbegin();
+    		if ( same(i->first, r) )
+    			return i->second;
+    	}
     	return -1;
     }
     
@@ -721,6 +777,12 @@ public:
             if ( same(i->first, c) )
                 return i->second;
         }
+    	else
+    	{ // Utilité ? A confirmer
+    		map<double, int>::const_reverse_iterator i = columnsMap_.rbegin();
+    		if ( same(i->first, c) )
+    			return i->second;
+    	}
         return -1;
     }
 
@@ -792,7 +854,17 @@ public:
 	virtual void boundRow(double r, double& row1, int& index1, double& row2, int& index2) const
 	{
 		index1 = lowerRow(r);
+		if (index1 < 0) {
+			index2 = -1;
+			return;
+		}
+
 		row1 = regular_latitudes_[index1];
+		if (index1 >= regular_latitudes_.size() - 1) {
+			index2 = -1;
+			return;
+		}
+
 		index2 = index1+1;
 		row2 = regular_latitudes_[index2];
 	} 
@@ -800,7 +872,17 @@ public:
 	virtual void boundColumn(double r, double& column1, int& index1, double& column2, int& index2) const
 	{
 		index1 = lowerColumn(r);
+		if (index1 < 0) {
+			index2 = -1;
+			return;
+		}
+
 		column1 = regular_longitudes_[index1];
+		if (index1 >= regular_longitudes_.size() - 1) {
+			index2 = -1;
+			return;
+		}
+
 		index2 = index1+1;
 		column2 = regular_longitudes_[index2];
 	} 
