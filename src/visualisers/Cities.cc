@@ -122,7 +122,8 @@ void Cities::operator()(const map<string, string>&, BasicGraphicsObjectContainer
      text->setColour(*marker_colour_);
      MagFont font(font_name_, font_style_, font_size_);
      font.colour(*font_colour_);
-     text->font(font);
+     text->font(font); 
+     text->blanking(blanking_);
     decoder.customisedPoints(need, points);
     vector<CustomisedPoint*> filter;
     for (CustomisedPointsList::iterator point = points.begin(); point != points.end(); ++point)
@@ -135,25 +136,9 @@ void Cities::operator()(const map<string, string>&, BasicGraphicsObjectContainer
     			(**point)["y"] = xy.y();
     			filter.push_back(*point);
     		}
-    		//if ( transformation.in(geo) && !(*point)->identifier().empty()) {
-    			//text->push_back(transformation(geo), (*point)->identifier());
-    		//}
+    		
     }
 
-    /*
-    for (CustomisedPointsList::iterator p1 = filter.begin(); p1 != filter.end(); ++p1) {
-    	if ( (**p1)["plot"] == -1 ) {
-    		(**p1)["plot"] = 1;
-    		for (CustomisedPointsList::iterator p2  = p1; p2 != filter.end(); ++p2) {
-    		
-    			if ( distance(*p1, *p2) < 1) {
-    				(**p2)["plot"] = 0;
-    			}
-    			
-    		}
-    	}
-    }
-    */
     
     for (vector<CustomisedPoint*>::iterator point = filter.begin(); point != filter.end(); ++point) {
     	vector<CustomisedPoint*>::iterator last = std::remove_if(filter.begin(), filter.end(), Radius(radius, **point));

@@ -82,6 +82,9 @@ MgQLayerItem::MgQLayerItem(Layer &layer,MgQLayoutItem *layout,int stepNum) :
 	{
 		histoItems_ << 0;
 	}
+
+	// Show layer according to its visibility
+   setData(MgQ::ItemIsVisibleKey,layer_.visibility());
 }
 
 MgQLayerItem::~MgQLayerItem()

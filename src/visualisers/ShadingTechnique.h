@@ -45,7 +45,7 @@ class ShadingTechnique  {
 
 
 public:
-	ShadingTechnique() {}
+	ShadingTechnique(): done_(false) {}
 	virtual ~ShadingTechnique() {}
     virtual void set(const map<string, string>&) {}
     virtual void set(const XmlNode&) {}
@@ -69,9 +69,11 @@ public:
        		float resolution, const string& technique) { ASSERT(0); return 0;}
     virtual bool needClipping() { return false; }
     virtual bool method(ContourMethod*) { return false; }
+    void reset()  { done_ = false; }
 protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).
 	 virtual void print(ostream&) const {}
+     bool done_;
 
 private:
     //! Copy constructor - No copy allowed

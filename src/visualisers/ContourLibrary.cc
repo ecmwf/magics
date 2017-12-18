@@ -304,7 +304,10 @@ void WebLibrary::askId(MetaDataCollector& request)
 	setCriteria(request, "param");
 	setCriteria(request, "levtype");
 	setCriteria(request, "level");
-	
+
+	setCriteria(request, "standard_name");
+	setCriteria(request, "units");
+	setCriteria(request, "grid_mapping");
 	
 }
 
@@ -322,8 +325,10 @@ void WebLibrary::getAttributes(MetaDataCollector& data, map<string, string>& con
 {
 		
 		StyleLibrary styles(data["theme"], "contours");
-		const map<string, string>& style = styles.get(data["param"]);
-		contour = style;
+		map<string, string> style;
+
+		if ( styles.find(data, style) )
+			contour = style;
 	
 }
 

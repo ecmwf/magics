@@ -52,4 +52,13 @@ does it submit to any jurisdiction.
          		<release>0.2		</release>
          		<release>Quality is not yet implemented. Expected Magics++0.3		</release>
   	</parameter>
+
+	<parameter member="justification" to="Justification" default="centre" from="string" name="contour_grid_value_justification">
+         		<documentation>  (LEFT/CENTRE/RIGHT) </documentation>
+	</parameter>
+
+	<parameter member="vertical_align" to="string" default="base" from="string" name="contour_grid_value_vertical_align"
+         			values="normal/top/cap/half/base/bottom">
+         		<documentation> (NORMAL/TOP/CAP/HALF/BASE/BOTTOM) </documentation>
+	</parameter>
 </class></magics>

@@ -314,7 +314,6 @@ all = [ "Contour", "GraphPlotting", "Wind",
 
 check = ["GraphPlotting"]
 list = all
-list = check
 """
 minicolor = [
     ["jquery.miniColors.js",  "Reference guide", "MiniColor"],
@@ -325,5 +324,5 @@ from tojson import  createAction
 #put("magdoc.js",     "Reference guide", "Magics gallery generator")
 for i in list:
     definition = action[i]
-    createAction("2.31.0", definition["json"], i, definition["files"])
+    createAction("3.0.0", definition["json"], i, definition["files"])
     put(definition["json"]+".json", definition["jira"],  definition["doc"])

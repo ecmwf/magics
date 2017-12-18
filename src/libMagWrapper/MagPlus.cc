@@ -231,6 +231,7 @@ MagPlus::MagPlus() : root_(0), superpage_(-1), geographical_(true), mode_(intera
         sceneCreators_["MWIND"] = &MagPlus::wind;
         sceneCreators_["MGRAPH"] = &MagPlus::graph;
  		sceneCreators_["SUPERPAGE"] = &MagPlus::superpage;
+ 		sceneCreators_["LAYER"] = &MagPlus::layer;
         sceneCreators_["PTEXT"] = &MagPlus::ptext;
         sceneCreators_["MTEXT"] = &MagPlus::text;
         sceneCreators_["MLEGEND"] = &MagPlus::legend;
@@ -288,6 +289,21 @@ bool MagPlus::newpage(magics::MagRequest& in)
 
 
 	root_->newpage();
+
+	return false;
+}
+
+bool MagPlus::layer(magics::MagRequest& in)
+{
+	
+	in.print();
+	int visibility = in("VISIBILITY");
+	visibility_ = visibility;
+	zindex_ = in("STACKING_ORDER");
+	transparency_ = in("TRANSPARENCY");
+	id_ = (string) in("_ID");
+	layer_ = (string) in("_NAME");
+	
 
 	return false;
 }
@@ -402,7 +418,7 @@ bool MagPlus::page_update(magics::MagRequest& in)
 
 	// get the Metview ID;
 	// reset the page!!!
-	int id = in("METVIEW_ID");
+	int id = in("_ID");
 	FortranViewNodeWrapper* page = pages_[id];
 	page->set(in);
 	FortranViewNodeAttributes* node= page->object();
@@ -417,17 +433,20 @@ bool MagPlus::page_update(magics::MagRequest& in)
 bool MagPlus::page(magics::MagRequest& in)
 {
 	MagLog::dev()<< "page and subpage--->" << endl;
+
 	sceneCreators_["MLEGEND"] = &MagPlus::legend;
 
 
 	while ( !empty() ) pop();
 
 	geographical_ = true;
-	in.print();
+	
 	FortranSceneNodeWrapper scenehelper;
 	scenehelper.set(in);
 
+
 	setIconInfo(in, *scenehelper.object());
+	
 	root_->insert(scenehelper.object());
 
 	push(scenehelper.object());
@@ -436,18 +455,15 @@ bool MagPlus::page(magics::MagRequest& in)
 
 	page_ = 0;
 
-	string def = get(in, "SUBPAGE_MAP_AREA_DEFINITION", "FULL");
-	if ( def == "FULL") {
-		in("SUBPAGE_MAP_AREA_DEFINITION") = in.countValues("SUBPAGE_LOWER_LEFT_LONGITUDE") ? "CORNERS" : "FULL";
-	}
+	
 
 	if ( (string) in("SUBPAGE_MAP_PROJECTION") != "NEXT" ) {
 		FortranViewNodeWrapper* viewhelper = new FortranViewNodeWrapper();
 		viewhelper->set(in);
 		FortranViewNode* view = viewhelper->object();
 
-		string id =  in("METVIEW_ID");
-		int i =  in("METVIEW_ID");
+		string id =  in("_ID");
+		int i =  in("_ID");
 		pages_[i] = viewhelper;
 		if ( !id.empty() )
 		{
@@ -470,7 +486,7 @@ bool MagPlus::page(magics::MagRequest& in)
 		page_ = new FortranViewNodeWrapper();
 		in("SUBPAGE_MAP_PROJECTION") = "cartesian";
 		page_->set(in);
-		int id = in("METVIEW_ID");
+		int id = in("_ID");
 		pages_[id] = page_;
 	}
 
@@ -478,36 +494,53 @@ bool MagPlus::page(magics::MagRequest& in)
 	return false; // do not exit
 }
 
+
+
 bool MagPlus::cartesian(magics::MagRequest& in) {
 
 	string projection = get(in, "MAP_PROJECTION", "cartesian");
-	 in("SUBPAGE_MAP_PROJECTION") = projection;
+ 	in("SUBPAGE_MAP_PROJECTION") = projection;
 
 
-			if ( !page_ ) page_ = new FortranViewNodeWrapper();
-			page_->set(in);
-			FortranViewNode* view = page_->object();
+	if ( !page_ ) page_ = new FortranViewNodeWrapper();
+	page_->set(in);
+	id_ =  (string)in("_ID");
+	in("_ID") = id_;
 
-			string id =  in("METVIEW_ID");
-			if (  !id.empty()  )
-			{
-				string id =  in("METVIEW_ID");
-				view->setInteractiveInfo(id.c_str(),
-				in("ZOOM_NUMBER_OF_LEVELS"), in("ZOOM_CURRENT_LEVEL"));
-			}
-			top()->insert(view);
-			push(view);
+	string zindex = in("STACKING_ORDER");
+	zindex_ = zindex.empty() ? -1 : tonumber(zindex);
+	
+	string visibility = in("VISIBILITY");
+	visibility_ = visibility.empty() ? true : tonumber(visibility);
+	
+	string transparency = in("TRANSPARENCY");
+	transparency_ = transparency.empty() ? 0 : tonumber(transparency);
+	
 
-			in.print();
+	layer_ =  (string)in("_NAME");
+	FortranViewNode* view = page_->object();
+	setIconInfo(in, *view);
+	
+	if (  !id_.empty()  )
+	{
+		
+		view->setInteractiveInfo(id_.c_str(),
+		in("ZOOM_NUMBER_OF_LEVELS"), in("ZOOM_CURRENT_LEVEL"));
+	}
+	top()->insert(view);
+	push(view);
 
-			 map<string,  ObjectCreator >::iterator creator = sceneCreators_.find(projection);
-			   	    if ( creator != sceneCreators_.end() ) {
+	in.print();
+			
 
-			   	    	  (this->*creator->second)(in) ;
-			   	    }
+	map<string,  ObjectCreator >::iterator creator = sceneCreators_.find(projection);
+    if ( creator != sceneCreators_.end() ) {
 
-            geographical_ = false;
-			return false; // do not exit
+    	  (this->*creator->second)(in) ;
+    }
+
+    geographical_ = false;
+	return false; // do not exit
 }
 
 bool MagPlus::cartesianGrid(magics::MagRequest& in) {
@@ -927,6 +960,9 @@ void MagPlus::setIconInfo(magics::MagRequest& mv, MetviewIcon& object)
 		 iconclass =  get(mv, "_VERB", "");
 	string iconid =  get(mv, "_ID", "");
 	object.icon(iconname, iconclass, iconid);
+	if ( layer_.empty() ) 
+		layer_ = "UNKNOW";
+	object.layerInfo(visibility_, zindex_, transparency_, id_, layer_);
 }
 
 bool MagPlus::gribloop(magics::MagRequest& in)
@@ -952,6 +988,7 @@ bool MagPlus::gribloop(magics::MagRequest& in)
 	GribLoopWrapper grib;
 	grib.set(in);
 	setIconInfo(in, *grib.object());
+	
 
 	action->loop(grib.object());
 #else
@@ -1642,6 +1679,7 @@ bool MagPlus::text(magics::MagRequest& in)
 
 	TextVisitorWrapper helper(node);
 	helper.set(in);
+	setIconInfo(in, *helper.object());
 	top()->text(node);
 
 
@@ -1666,6 +1704,7 @@ bool MagPlus::legend(magics::MagRequest& in)
 		legend = new FortranAutomaticLegendVisitor();
 	LegendVisitorWrapper helper(legend);
 	helper.set(in);
+	setIconInfo(in, *helper.object());
 	top()->legend(legend);
 	return false; // do not exit
 }
@@ -1702,9 +1741,9 @@ bool MagPlus::device(magics::MagRequest& in)
 
 void MagPlus::execute( magics::MagRequest& in)
 {
-	cout << "MagPlus::execute-->" << endl;
+	
 	in.print();
-	cout << "<---MagPlus::execute" << endl;
+	
 	try {
 	// Start from a fersh tree!
 #ifndef MAG_NEXT

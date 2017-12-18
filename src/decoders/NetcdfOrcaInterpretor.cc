@@ -21,7 +21,7 @@
 
 #include "NetcdfOrcaInterpretor.h"
 #include "Factory.h"
-#include "Netcdf.h"
+#include "NetcdfData.h"
 #include <limits>
 
 using namespace magics;
@@ -43,7 +43,7 @@ bool NetcdfOrcaInterpretor::interpretAsMatrix(Matrix** data)
 
 	Netcdf netcdf(path_, dimension_method_);
 	NetVariable var = netcdf.getVariable(longitude_);
-	vector<long> dims;
+	vector<size_t> dims;
 	var.getDimensions(dims);
 
 
@@ -303,8 +303,8 @@ void NetcdfOrcaInterpretor::customisedPoints(const Transformation& transformatio
 
 			netcdf.get(longitude_, longitudes, first, last);
 			netcdf.get(latitude_,  latitudes, first, last);
-			netcdf.get(u_component_, x_component, first, last);
-			netcdf.get(v_component_, y_component, first, last);
+			netcdf.get(x_component_, x_component, first, last);
+			netcdf.get(y_component_, y_component, first, last);
 
 			for ( int ind = 0; ind < latitudes.size(); ind += thinning) {
 				CustomisedPoint* point = new CustomisedPoint();
@@ -329,7 +329,7 @@ void NetcdfOrcaInterpretor::print(ostream& out)  const
 {
 	out << "NetcdfOrcaInterpretor[";
 	NetcdfInterpretor::print(out);
-	NetcdfOrcaInterpretorAttributes::print(out);
+	
 	out << "]";
 }
 

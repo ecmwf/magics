@@ -22,14 +22,54 @@
 
 
 #include "NetcdfInterpretor.h"
-#include "Netcdf.h"
+#include "NetcdfData.h"
 #include "XmlReader.h"
+#include "NetcdfGeoMatrixInterpretor.h"
+#include "NetcdfVectorInterpretor.h"
+#include "NetcdfMatrixInterpretor.h"
+#include "Layer.h"
+
 #include <limits>
 
 using namespace magics;
 
 NetcdfInterpretor::NetcdfInterpretor() 
 {
+}
+
+NetcdfGuessInterpretor::NetcdfGuessInterpretor(): delegate_(0) 
+{
+
+}
+
+NetcdfGuessInterpretor::~NetcdfGuessInterpretor() {}
+
+NetcdfInterpretor* NetcdfGuessInterpretor::guess() const
+{
+	if (delegate_ )
+		return delegate_;
+	// guess!!
+	Netcdf netcdf(path_, dimension_method_);
+	string convention = netcdf.getAttribute("Conventions", string(""));
+	
+
+
+	delegate_ =  NetcdfGeoMatrixInterpretor::guess(*this);
+
+	if (delegate_)
+		return delegate_;  
+	
+	delegate_ =  NetcdfGeoVectorInterpretor::guess(*this);
+
+	if (delegate_)
+		return delegate_;  
+
+	MagLog::warning() << "Could not guess the type of netcdf: Use default -->matrix" << endl;
+	
+	delegate_ = new NetcdfMatrixInterpretor();
+	delegate_->NetcdfInterpretor::copy(*this);
+	return delegate_;
+
 }
 
 void NetcdfInterpretor::setDimensions(const stringarray& value, map<string, string>& first, map<string, string>& last)
@@ -61,7 +101,28 @@ void NetcdfInterpretor::setDimensions(const stringarray& value, map<string, stri
           
     }
 
+    // Special case for the time ! 
+
+    if ( time_variable_.size() && time_dimension_.size() ) {
+    	first[time_variable_] = time_dimension_;
+    	last[time_variable_] = time_dimension_;
+    }
+
+    // Special case for the number ! 
+    if ( number_variable_.size() && number_dimension_.size() ) {
+    	first[number_variable_] = number_dimension_;
+    	last[number_variable_] = number_dimension_;
+    	
+    }
+
+    // Special case for the level ! 
+    if ( level_variable_.size() && level_dimension_.size() ) {
+    	first[level_variable_] = level_dimension_;
+    	last[level_variable_] = level_dimension_;
+    }
+
 }
+
 NetcdfInterpretor::~NetcdfInterpretor() 
 {
 }
@@ -93,12 +154,12 @@ bool NetcdfInterpretor::reference_date(Netcdf& netcdf, const string& var, const 
 	}
 
 	double missing_value = netcdf.getMissing(var, missing_attribute_);
-	string date = netcdf.getVariableAttribute(var, "reference_date", "");
+	string date = netcdf.getVariableAttribute(var, "reference_date", string(""));
 	if ( date.empty() ) return false;
 	originals.reserve(coords.size());
 	for (vector<double>::iterator c = coords.begin(); c != coords.end(); ++c)
 		 originals.push_back(*c);
-	string units = netcdf.getVariableAttribute(var, "units", "");
+	string units = netcdf.getVariableAttribute(var, "units", string(""));
 	basedate = date;
 	double diff = ( refdate.empty() ) ? 0 : DateTime(date) - DateTime(refdate) ;
 	map<string, double>::const_iterator factor = factors.find(units);
@@ -119,11 +180,13 @@ bool NetcdfInterpretor::cf_date(Netcdf& netcdf, const string& var, const string&
 
 	}
 	double missing_value = netcdf.getMissing(var, missing_attribute_);
-	string date = netcdf.getVariableAttribute(var, "long_name", "");
+	
+	string date = netcdf.getVariableAttribute(var, "long_name", string(""));
+	
 	if ( date.empty() ) return false;
 	if ( date != "time" && date != "date and time") return false;
 
-	string units = netcdf.getVariableAttribute(var, "units", "");
+	string units = netcdf.getVariableAttribute(var, "units", string(""));
 	if ( units.empty() ) return false;
 	originals.reserve(coords.size());
 	for (vector<double>::iterator c = coords.begin(); c != coords.end(); ++c)
@@ -159,8 +222,8 @@ string NetcdfInterpretor::getAttribute(const string& var, const string& attr, co
 {
 	Netcdf netcdf(path_, dimension_method_);
 	if ( var.empty() )
-		return netcdf.getAttribute(attr, def.c_str());
-	return netcdf.getVariableAttribute(var, attr, def.c_str());
+		return netcdf.getAttribute(attr, def);
+	return netcdf.getVariableAttribute(var, attr, def);
 }
 
 void NetcdfInterpretor::visit(TextVisitor& title)
@@ -174,7 +237,7 @@ void NetcdfInterpretor::visit(TextVisitor& title)
 		tag.decode(*t);
 	}
 	Netcdf netcdf(path_, dimension_method_);
-	title.addAutomaticTitle(netcdf.getAttribute("title", "NO TITLE"));
+	title.addAutomaticTitle(netcdf.getAttribute("title", string("NO TITLE")));
 }
 
 void NetcdfInterpretor::getAttributes(Netcdf& nc,const string& varName,string& keys,string& values)
@@ -185,10 +248,11 @@ void NetcdfInterpretor::getAttributes(Netcdf& nc,const string& varName,string& k
 		bool first=true;
 		for(map<string, NetAttribute>::iterator it=var.attributes_.begin(); it != var.attributes_.end(); it++)
 		{
-			const char* val;
-			string str;
+			string val;
 			it->second.get(val);
-			if(val) str=string(val);
+			
+			
+			
 		
 			if(!first)
 			{	
@@ -204,21 +268,39 @@ void NetcdfInterpretor::getAttributes(Netcdf& nc,const string& varName,string& k
 	catch ( ... ) {}
 }
 
+string NetcdfInterpretor::getTime(const string& format, const string& def) {
+        if ( time_dimension_.empty() )
+            return def;
+        else return time_dimension_;
+    } 
+string NetcdfInterpretor::getNumber(const string& format, const string& def) {
+    if ( number_dimension_.empty() )
+        return def;
+    else 
+        return number_dimension_;
+}
+string NetcdfInterpretor::getLevel(const string& format, const string& def) {
+    if ( level_dimension_.empty() )
+        return def;
+    else 
+        return level_dimension_;
+}
 
 void NetcdfTag::visit(const XmlNode& node)
 	{
 		if ( magCompare(node.name(), "netcdf_info") )
 		{
 			string var = node.getAttribute("variable");
-
 			string attr = node.getAttribute("attribute");
+			
 			string def = node.getAttribute("default");
-
-
+			string format = node.getAttribute("format");
 			string val = netcdf_.getAttribute(var, attr, def);
-
-
+			
 			title_.update("netcdf"+var, attr,  val);
+			title_.update("netcdf"+var, "time",  netcdf_.getTime(format, def));
+			title_.update("netcdf"+var, "level", netcdf_.getLevel(format, def));
+			title_.update("netcdf"+var, "number",  netcdf_.getLevel(format, def));	
 		}
 
 
@@ -245,3 +327,8 @@ void NetcdfTag::visit(const XmlNode& node)
 		}
      }
 
+void NetcdfGuessInterpretor::visit(MetaDataCollector& info) { 
+	for ( MetaDataCollector::iterator key = info.begin(); key != info.end(); ++key )
+		key->second = getAttribute(field_, key->first, "");
+	guess()->visit(info); 
+}

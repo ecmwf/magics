@@ -907,6 +907,7 @@ extern "C" {
 
 void popen_()
 {
+	
 	if (magics_ == 0) 
 		magics_ = new FortranMagics();
 	magics_->popen();
@@ -1022,12 +1023,13 @@ void psymb_()
 	magics_->psymb();
 }
 
-void pclose_()
+int  pclose_()
 {
-	magics_->pclose();
+	int code = magics_->pclose();
 
 	delete magics_;
 	magics_ = 0;
+	return code;
 }
 
 void pact_(const char*, const char*, const char*, int, int, int)
@@ -1070,20 +1072,44 @@ void pseti_(const char* name, const int* value, int namel)
 	}
 	catch (MagicsException& e)
 	{
-		MagLog::error() << e << "\n";
+		double fvalue = *value;
+		mag_setr(name, fvalue);
 	}
 }
 
 void pset1i_(const char* name, const int* data, const int* dim, int length)
 {
 	std::string n(name, length);
-	mag_set1i(n.c_str(), data, *dim);
+	try {	
+		mag_set1i(n.c_str(), data, *dim);
+	}
+	catch (MagicsException& e)
+	{
+		int s = *dim;
+		double fvalue[s];
+		for (int i =0; i < s; i++)
+			fvalue[i] = data[i];
+		mag_set1r(name, fvalue, *dim);
+	}
+	
 }
 
-void pset2i_(const char* name, const int* data, const int* dim, const int* dim2, int length)
+void pset2i_(const char* name, const int* data, const int* dim1, const int* dim2, int length)
 {
 	std::string n(name, length);
-	mag_set2i(n.c_str(), data, *dim, *dim2);	    
+	try {	
+		mag_set2i(n.c_str(), data, *dim1, *dim2);	
+	}
+	
+	catch (MagicsException& e)
+	{
+		int dim = *dim1 * *dim2;
+		double fvalue[dim];
+		for (int i =0; i < dim; i++)
+			fvalue[i] = data[i];
+		mag_set2r(name, fvalue, *dim1, *dim2);
+	}
+	
 }
 
 void pset3i_(const char* name, const int* data, const int* dim, const int* dim2, const int* dim3, int length)
@@ -1256,7 +1282,7 @@ void pinfo_(){mag_info();}
 
 ****************************************************************************/
 void mag_open()  {popen_();}
-void mag_close() {pclose_();}
+int mag_close() { return pclose_();}
 void mag_coast() {pcoast_();}
 void mag_grib()  {pgrib_();}
 void mag_mapgen()  {pmapgen_();}
@@ -1317,6 +1343,7 @@ void mag_setc(const char* name, const char* value)
 	string n(name);
 	string v(value);
 	psetc_(n.c_str(), value, n.size(), v.size());
+	//cout << "setc("<<name<<","<<value<<")"<<endl;
 }
 
 void mag_setr(const char* name, const double value)
@@ -1331,18 +1358,20 @@ void mag_setr(const char* name, const double value)
 	{
 		MagLog::error() << e << "\n";
 	}
+	//cout << "setr("<<name<<","<<value<<")"<<endl;
 }
 
 void mag_seti(const char* name, const int value)
 {
 	string n(name);
 	pseti_(name, &value, n.size());
+	//cout << "seti("<<name<<","<<value<<")"<<endl;
 }
 
 void mag_setp(const char* name, void* value)
 {
-	string n(name);
 #ifdef HAVE_CAIRO
+    string n(name);
     if ( magCompare(n, "output_cairo_drawing_context") ) {
        ParameterManager::set("output_cairo_drawing_context", (CairoPtr)value); 
     }
@@ -1465,6 +1494,7 @@ void mag_set1c(const char* name, const char** data, const int dim)
 	{
 		MagLog::error() << e << "\n";
 	}
+	//cout << "set1c("<<name<<","<<data[0]<<","<<dim<<")"<<endl;
 }
 
 void mag_enqr(const char* fname, double *value)

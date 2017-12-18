@@ -300,8 +300,7 @@ void GribDecoder::read(Matrix **matrix, const Transformation&  transformation)
         *matrix = 0;
         return;
     }
-    long repres;
-    grib_get_long(handle_,"dataRepresentationType",&repres);
+    
     const string representation = getString("typeOfGrid");
 
     try {
@@ -1763,14 +1762,25 @@ void GribDecoder::decode(const Transformation& transformation)
     to_ =  DateTime(helper.get("grib"+id_, "end-date"));
 }
 
+//// RV MF ////
+void GribDecoder::decode1D()
+{
+    if (matrix_) return;
+    field_ = open(field_);
+    read(&matrix_);
+}
+//// RV MF ////
+
 void GribDecoder::decode()
 {
 
     if ( dimension_ == 1) {
-        if (matrix_) return;
-        field_ = open(field_);
-        read(&matrix_);
-        if (!matrix_) return;
+// RV MF
+//      if (matrix_) return;
+//      field_ = open(field_);
+//      read(&matrix_);
+//      if (!matrix_) return;
+        decode1D();
     }
     else {
         decode2D();

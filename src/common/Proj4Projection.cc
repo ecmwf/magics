@@ -278,14 +278,52 @@ void Proj4Projection::init()
 void Proj4Projection::full()
 {
 	if ( projection_->method_ == "simple" ) {
-		if ( min_longitude_ != -180 )
+
+		if ( max_longitude_ != 180. ) {
+			if ( max_latitude_ == 90 )	
+				max_latitude_ = projection_->maxlat_;
+			if ( min_latitude_ == -90 )	
+				min_latitude_ = projection_->minlat_;
 			corners();
-		if ( max_longitude_ != 180. )
+			return;
+		}
+		if ( max_longitude_ == 180. ) {
+			projection_->maxlon_ = 180.;
+			if ( max_latitude_ == 90 )	
+				max_latitude_ = projection_->maxlat_;
+			if ( min_latitude_ == -90 )	
+				min_latitude_ = projection_->minlat_;
 			corners();
-		if ( min_latitude_ != -90 )
+			return;
+		}
+		
+		if ( min_longitude_ != -180 ) {
+
+			// set projection default ! 
+			if ( max_latitude_ == 90 )	
+				max_latitude_ = projection_->maxlat_;
+			if ( min_latitude_ == -90 )	
+				min_latitude_ = projection_->minlat_;
 			corners();
-		if ( max_latitude_ != 90 )
+		}
+		
+		if ( min_latitude_ != -90 ) {
+			
+			if ( max_latitude_ == 90 )	
+				max_latitude_ = projection_->maxlat_;
+			
 			corners();
+			return;
+		}
+		if ( max_latitude_ != 90 ) {
+			if ( min_longitude_ == -180 )
+				min_longitude_ = projection_->minlon_;
+			if ( min_latitude_ == -90 )	
+				min_latitude_ = projection_->minlat_;			
+			corners();
+			return;
+		}
+	
 	}
 	
 }
@@ -339,7 +377,11 @@ PaperPoint Proj4Projection::operator()(const UserPoint& point)  const
     int error = pj_transform(from_, to_, 1, 1, &x, &y, NULL);
     if ( error ) {
 		MagLog::debug() << pj_strerrno(error) << " for " << point << endl;
-		return PaperPoint(-1000000, -10000000);
+//		NON Valeurs trop faibles en EPSG:3857 par exemple !  --> Transformation::in(pp) == True !
+//		-> Avec ces valeurs, si grille globale, les barbules des poles sont tracées dans l'atlantique sud
+//		en formant une couronne centrée vers( 9°W, 66°35S)
+//		return PaperPoint(-1000000, -10000000);   .// En plus il manque 1 zero !
+		return PaperPoint(-1e10, -1e10);    // Devrait suffire pour que Transformation::in(pp) == False qqsoient from_ et to_
 	}
 	
 	return PaperPoint(x, y, point.value_, point.missing(), point.border(), 0, point.name());
@@ -372,6 +414,19 @@ void Proj4Projection::setNewPCBox(double minx, double miny, double maxx, double 
 
 void Proj4Projection::revert(const PaperPoint& xy, UserPoint& point)  const
 {
+	static bool first = true;
+	if ( first ) {
+		
+		const_cast<Proj4Projection*>(this)->init();
+		first = false;
+	}
+	if ( PCEnveloppe_->within(xy) == false ) {
+				  point = UserPoint(-1000, -1000);
+				  
+			 return;
+	}
+
+
 	double x = xy.x();
 	double y = xy.y();
 
@@ -410,6 +465,7 @@ void Proj4Projection::add(double lon, double lat)
 	int error =  pj_transform(from_, to_, 1, 1, &x, &y, NULL );
 	userEnveloppe_->push_back(PaperPoint(lon, lat));
 	PCEnveloppe_->push_back(PaperPoint(x, y));
+	
 	if ( x < min_pcx_ )  min_pcx_ = x;
 	if ( y < min_pcy_ )  min_pcy_ = y;
 	if ( x > max_pcx_ )  max_pcx_ = x;

@@ -24,7 +24,7 @@
 
 #include "magics.h"
 
-#include "NetcdfOrcaInterpretorAttributes.h"
+
 #include "NetcdfInterpretor.h"
 #include "Matrix.h"
 #include "MagException.h"
@@ -32,19 +32,13 @@
 
 namespace magics {
 
-class NetcdfOrcaInterpretor: 
-        public NetcdfOrcaInterpretorAttributes,
-		public NetcdfInterpretor {
+class NetcdfOrcaInterpretor: public NetcdfInterpretor {
 
 public:
 	NetcdfOrcaInterpretor();
 	virtual ~NetcdfOrcaInterpretor();
     
-    void set(const map<string, string>& params) { 
-        MagLog::debug() << "NetcdfOrcaInterpretor::set(params)" << "\n";
-        NetcdfInterpretorAttributes::set(params); 
-        NetcdfOrcaInterpretorAttributes::set(params);
-    }
+    
 
     bool interpretAsPoints(PointsList&);
     bool interpretAsMatrix(Matrix**);

@@ -680,6 +680,9 @@ var pythons = {
         "mpng" : "output(output_formats=['png']",
         "msvg" : "output(output_formats=['svg']",
         "mkml" : "output(output_formats=['kml']",
+        "msubpage" : "mmap(",
+        "mpage" : "mmap(",
+        "msuperpage" : "mmap(",
 		}
 var macros = {
         "mpostscript" : "ps_output",

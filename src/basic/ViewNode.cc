@@ -39,7 +39,7 @@
 using namespace magics;
 
 
-ViewNode::ViewNode() : viewTransformation_(0), animation_("basic"), vaxis_(2.), haxis_(1.),  rules_(0), legend_(0)
+ViewNode::ViewNode() : viewTransformation_(0), animation_("basic"), vaxis_(2.), haxis_(1.),  rules_(0), legend_(0), needLegend_(false)
 {
 	static int i = 0;
 	ostringstream n;
@@ -68,6 +68,7 @@ void ViewNode::text(TextVisitor* text)
 void ViewNode::legend(LegendVisitor* legend)
 {
 	legend_ = legend;
+	needLegend_ = true;
 }
 
 void ViewNode::visit(MetaDataVisitor& metadata)
@@ -179,14 +180,16 @@ void ViewNode::prepareLayout(SceneLayer& tree)
 
 	// Then the axis!
 	leftAxis_ = new LeftAxisVisitor(*drawing_);
-		leftAxis_->width(vaxis);
-		leftAxis_->frameIt();
+	leftAxis_->width(vaxis);
+	leftAxis_->frameIt();
+	
 	components_.push_back(leftAxis_);
 	helper.attachLeft(leftAxis_);
 
 	rightAxis_ = new RightAxisVisitor(*drawing_);
-		rightAxis_->width(vaxis);
-		rightAxis_->frameIt();
+	rightAxis_->width(vaxis);
+	rightAxis_->frameIt();
+	
 	helper.attachRight(rightAxis_);
 	components_.push_back(rightAxis_);
 
@@ -197,23 +200,25 @@ void ViewNode::prepareLayout(SceneLayer& tree)
 	topAxis_ = new TopAxisVisitor(*drawing_);
 	topAxis_->height(topaxis);
 	topAxis_->frameIt();
+	
 	helper.attachTop(topAxis_);
 	components_.push_back(topAxis_);
 	helper.add(topAxis_);
 
 
-
 	bottomAxis_ = new BottomAxisVisitor(*drawing_);
-		bottomAxis_->height(bottomaxis);
-		bottomAxis_->frameIt();
+	bottomAxis_->height(bottomaxis);
+	bottomAxis_->frameIt();
+	
 	components_.push_back(bottomAxis_);
 	helper.attachBottom(bottomAxis_);
 	helper.add(leftAxis_);
 	helper.add(rightAxis_);
 		
-	if ( legend_)
+	
+	tree.legend(legend_);
+	if ( needLegend_ && legend_ )
 	{
-		tree.legend(legend_);
 		if ( !legend_->positional() ) {
 			if ( legend_->top() ) {
 				legend_->height(5);
@@ -230,10 +235,13 @@ void ViewNode::prepareLayout(SceneLayer& tree)
 			helper.add(legend_);
 		}
 		((BasicSceneObject*)legend_)->parent((BasicSceneObject*)this);
-		legend_->getReady();
-
-		components_.push_back(legend_);
+	    legend_->getReady();
+	    components_.push_back(legend_);
 	}
+	else 
+		needLegend_ = false;
+   
+	
 
 	for (vector<TextVisitor*>::iterator text = texts_.begin(); text != texts_.end(); ++text)
 	{
@@ -285,27 +293,27 @@ void ViewNode::visit(SceneLayer& tree)
 
 	tree.rules(rules_);
 	// Here we checkeing for the legend!
-	bool legend = false;
+	needLegend_ = false;
 	for ( vector<BasicSceneObject*>::iterator item = items_.begin(); item != items_.end(); ++item)  {
-			legend = (*item)->needLegend();
-			if ( legend ) break;
+			needLegend_ = (*item)->needLegend();
+			if ( needLegend_ ) break;
 	}
 
-	if ( !legend ) {
-		legend_ = 0;
-	}
+	
 	
 	//Here we have the steps! 	
 	prepareLayout(tree);	
+	
 	if ( items_.empty() )
 	{
 		push_back(new EmptySceneObject() );
 	}
-	if (legend_) {
-	for ( vector<BasicSceneObject*>::iterator item = items_.begin(); item != items_.end(); ++item)  {
-		(*item)->getReady(*legend_);
+	if ( needLegend_ ) {
+		for ( vector<BasicSceneObject*>::iterator item = items_.begin(); item != items_.end(); ++item)  {
+			(*item)->getReady(*legend_);
+		}
 	}
-	}
+
 	for ( vector<BasicSceneObject*>::iterator item = items_.begin(); item != items_.end(); ++item)  {
 		(*item)->visit(tree, components_);
 	}
@@ -556,7 +564,9 @@ void FortranViewNode::getReady()
 
 	if ( predefined_ ) {
 			StyleLibrary library("projections");
-			const map<string, string>& area = library.get(predefined_name_);
+			Style::Definition area;
+
+			library.find(predefined_name_, area);
 			
 			viewTransformation_ = MagTranslator<string, Transformation>()(area.find("subpage_map_projection")->second);
 			viewTransformation_->set(area);

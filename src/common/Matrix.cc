@@ -38,8 +38,10 @@ void Matrix::multiply(double factor)
     
 void Matrix::plus(double offset) 
 {
+	
     if (offset == 0 ) return;
     std::transform(begin(), end(), begin(), Plus(offset, missing_));
+    
 }
 
 pair<int, bool> InfoIndex::index(double pos) const
@@ -318,12 +320,9 @@ int Matrix::nearest_index(double row, double column,double &rowOut, double &colO
 	colOut = missing();
 
 	if ( col < left() || col > right() ) {
-
-		
 		return -1;
 	} 
 	if ( row < bottom() || row > top() ) {
-		
 		return -1;
 	} 
 	map<double, int >::const_iterator  row_index;
@@ -469,20 +468,23 @@ double Matrix::operator()(int row, int column) const
 GeoBoxMatrixHandler::GeoBoxMatrixHandler(const AbstractMatrix& matrix, const Transformation& transformation):
 	  TransformMatrixHandler(matrix), transformation_(transformation), original_(0)
 {
-
 	map<double, int> lats;
 	map<double, int> lons;
 	
 	double lon, lat;
 	double minlon, minlat, maxlon, maxlat;
 	
-
 	transformation.boundingBox(minlon, minlat, maxlon, maxlat);
+
+	
 
 	int rows = matrix_.rows();
 	int columns = matrix_.columns();
 	double step = matrix_.XResolution();
+
 	bool global =  ( matrix_.regular_column(columns-1) - matrix_.regular_column(0) ) > ( 360. - 2 *matrix_.XResolution() );
+	global = true;
+
 	if (!global) {
 
 		lon = matrix_.column(0, 0) - step;
@@ -504,8 +506,6 @@ GeoBoxMatrixHandler::GeoBoxMatrixHandler(const AbstractMatrix& matrix, const Tra
 		while (  ml >= minlon && ml <= maxlon ) {  lons[ml] = -1; ml += 360; }
 	}
 
-
-
 	for (int i = 0; i < columns; i++)
 	{
 		lon = matrix_.regular_column(i);
@@ -514,7 +514,9 @@ GeoBoxMatrixHandler::GeoBoxMatrixHandler(const AbstractMatrix& matrix, const Tra
 
 		double ml = lon - 360;
 		while ( ml >= minlon && ml <= maxlon ) {  lons[ml] = i; ml -= 360; }
+		
 		ml = lon + 360;
+
 		while (  ml >= minlon && ml <= maxlon ) {  lons[ml] = i; ml += 360; }
 	}
 
@@ -522,6 +524,7 @@ GeoBoxMatrixHandler::GeoBoxMatrixHandler(const AbstractMatrix& matrix, const Tra
 	int i = 0;
 	for (map<double, int>::const_iterator entry = lons.begin(); entry != lons.end(); ++entry)
 	{
+		
 		columns_[i] = entry->second;
 		regular_longitudes_.push_back(entry->first);
 		columnsMap_[entry->first] = i;
@@ -532,13 +535,20 @@ GeoBoxMatrixHandler::GeoBoxMatrixHandler(const AbstractMatrix& matrix, const Tra
 
 
 	for (int i = 0; i < rows; i++) {
-
 		lat = matrix_.regular_row(i);
-		if ( minlat <= lat && lat <= maxlat) 
+		if ( minlat < lat && lat < maxlat) {
 			lats[lat] = i;
-		
+			//cout << "add lat -> " << lat << endl;
+		}
+		if ( same(minlat, lat) || same(lat,maxlat) ) { 
+			lats[lat] = i;
+			//cout << "PASS nEW TEST " << lat << " - " <<  minlat << " - " << maxlat << endl;
+			//cout << "add lat -> " << lat << endl;
+		}
+
 
 	}
+
 	i = 0;
 	for (map<double, int>::const_iterator entry = lats.begin(); entry != lats.end(); ++entry) {
 		rows_[i] = entry->second;
@@ -579,6 +589,7 @@ RotatedMatrixHandler::RotatedMatrixHandler(const AbstractMatrix& matrix,  double
 {
 	internal_ = false;
 }
+
 
 
        

@@ -32,7 +32,7 @@
 using namespace magics;
 
 
-IsoShading::IsoShading()
+IsoShading::IsoShading() 
 {
  
   

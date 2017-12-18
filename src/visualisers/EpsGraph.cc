@@ -1045,10 +1045,9 @@ void EpsLight::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 		for (vector<double>::iterator e = eps.begin(); e != eps.begin(); ++e) {
 			if ( same(*e, 0) )
 				*e = 0;
-	        MagLog::debug() << *e << " ";
 	    }
-	    MagLog::debug() << endl;
 
+	        
         double epsmin, eps10, eps25,  eps50, eps75, eps90, epsmax;
         if ( ninty != (*point)->end() ) {
         	epsmin = eps[0];
