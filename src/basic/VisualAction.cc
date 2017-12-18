@@ -321,6 +321,13 @@ bool VisualAction::needLegend()
 
 void VisualAction::visit(SceneLayer& layer, vector<LayoutVisitor*>& visitors)
 {
+
+	if ( !data_ || ( data_ && !data_->valid() ) || visdefs_.empty() )
+	{
+		MagLog::warning() << " Check data or visual action!" << endl;
+		return;
+	}
+	
 	layer_ = new StaticLayer(this);
 
 	

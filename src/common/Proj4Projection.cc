@@ -414,6 +414,19 @@ void Proj4Projection::setNewPCBox(double minx, double miny, double maxx, double 
 
 void Proj4Projection::revert(const PaperPoint& xy, UserPoint& point)  const
 {
+	static bool first = true;
+	if ( first ) {
+		
+		const_cast<Proj4Projection*>(this)->init();
+		first = false;
+	}
+	if ( PCEnveloppe_->within(xy) == false ) {
+				  point = UserPoint(-1000, -1000);
+				  
+			 return;
+	}
+
+
 	double x = xy.x();
 	double y = xy.y();
 
@@ -452,6 +465,7 @@ void Proj4Projection::add(double lon, double lat)
 	int error =  pj_transform(from_, to_, 1, 1, &x, &y, NULL );
 	userEnveloppe_->push_back(PaperPoint(lon, lat));
 	PCEnveloppe_->push_back(PaperPoint(x, y));
+	
 	if ( x < min_pcx_ )  min_pcx_ = x;
 	if ( y < min_pcy_ )  min_pcy_ = y;
 	if ( x > max_pcx_ )  max_pcx_ = x;
