@@ -312,6 +312,7 @@ ecbuild_add_resources( TARGET old_ressources
 		regression
 		docs
 		toolsjs
+		notebook
 		test/old
 		tools/xml
 		tools/use_scripts
