@@ -195,7 +195,7 @@ void ColourTechnique::visit(LegendVisitor& legend)
 }
 PaletteColourTechnique::PaletteColourTechnique() 
 {
-// bnbnZZ
+
 }
 
 PaletteColourTechnique::~PaletteColourTechnique() 
@@ -205,6 +205,40 @@ PaletteColourTechnique::~PaletteColourTechnique()
 
 void PaletteColourTechnique::set(LevelSelection& out, LevelSelection& in, ColourTable& table, int nb) const
 {
+    cout << "PALETTE--->" << palette_ << endl;
+    // find palette ..
+    vector<string> colours_;
+    if ( colours_.empty() ) {
+        MagLog::warning() << "Colour Table Definition: No colour defined\n";
+        colours_.push_back("blue");
+        colours_.push_back("green");
+        colours_.push_back("yellow");
+        colours_.push_back("orange");
+        colours_.push_back("red");
+    }
+     
+    stringarray::const_iterator colour = colours_.begin();
+    // Nb is the number of intervals! 
+    // We need nb-1 colours!
+    for ( int i = 0; i < nb-1; i++) {
+        
+        if ( colour == colours_.end() ) {
+                if (policy_ == M_LASTONE)
+                    table.push_back(Colour(colours_.back()));
+                else {
+                    colour = colours_.begin();
+                    table.push_back(Colour(*colour));
+                    colour++;
+                }
+
+            
+        }
+        else {
+            table.push_back(Colour(*colour));
+            colour++;
+        }
+    }
+
 
 }
 

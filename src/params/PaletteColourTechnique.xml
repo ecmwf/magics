@@ -20,17 +20,7 @@ does it submit to any jurisdiction.
                 <documentation> What to do if the list of colours is smaller that the list of levels: lastone/cycle   </documentation>
     </parameter>
 
-    <parameter from="string" name="contour_palette_levels_setting" default="off" member="levels_setting" to="bool">
-                <documentation> What to do if the list of colours is smaller that the list of levels: lastone/cycle   </documentation>
-    </parameter>
-
-    <parameter from="float" name="contour_palette_min_level" default="INT_MAX" member="min" to="float">
-                <documentation> What to do if the list of colours is smaller that the list of levels: lastone/cycle   </documentation>
-    </parameter>
-
-    <parameter from="float" name="contour_palette_max_level" default="INT_MAX" member="max" to="float">
-                <documentation> What to do if the list of colours is smaller that the list of levels: lastone/cycle   </documentation>
-    </parameter>
+    
 
   
   </class>

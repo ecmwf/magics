@@ -181,9 +181,11 @@ void DumpShading::operator()( IsoPlot*,MatrixHandler& data, BasicGraphicsObjectC
 	Image* image = new Image();
 	image->set(data.rows(), data.columns());
 
-	for ( int row = 0; row < data.rows(); row++) {
-
-		for ( int column = 0; column < data.columns(); column++) {
+	for ( int row =  data.rows() - 1; row >- 0; row--) {
+		for ( int column =  data.columns()/2 ; column < data.columns(); column++) {
+			image->push_back(map_.find(data(row, column),0));
+		}
+		for ( int column = 0; column < data.columns()/2; column++) {
 
 			image->push_back(map_.find(data(row, column),0));
 
