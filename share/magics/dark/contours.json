@@ -1,7 +1,9 @@
 [
     {
         "criteria" : { 
-            "standard_name" : "sea_surface_height_above_sea_level"
+            "standard_name" : "sea_surface_height_above_sea_level",
+            "long_name" : "2 metre temperature",
+            "param": "167.128"
         },
         "visdef" : {
             "contour_shade" : "on",
@@ -11,7 +13,7 @@
         "more" : [
             {
                 "criteria" : { 
-                    "units" : "deg"
+                    "units" : "K"
                 },
                 "visdef" : {
                     "contour" : "on",
@@ -22,7 +24,7 @@
                 "more" : [
                     {
                         "criteria" : { 
-                            "grid_mapping" : "crs"
+                            "level" : "10"
                         },
                         "visdef" : { 
                             "contour" : "on",
@@ -79,31 +81,6 @@
             "contour_highlight_colour": "charcoal", 
             "contour_highlight_thickness": 4, 
             "contour_interval": 5
-        }
-    },
-    {
-        "criteria" : {
-            "paramId" : "167.128"
-        },
-        "visdef" : { 
-            "contour_level_selection_type": "level_list", 
-            "contour_shade_colour_method": "gradients", 
-            "contour_legend_text": "Contour shade (Range: -80 / 56)", 
-            "contour_shade_method": "area_fill", 
-            "contour_shade": "on", 
-            "contour_level_list": "-80/-70/-60/-52/-48/-44/-40/-36/-32/-28/-24/-20/-16/-12/-8/-4/0/4/8/12/16/20/24/28/32/36/40/44/48/52/56", 
-            "contour_gradients_colour_list": "rgb(5,64,106)/white/rgb(134,25,20)", 
-            "contour_label_frequency": 1, 
-            "contour_label_quality": "high", 
-            "contour_hilo": "off", 
-            "contour_label": "on", 
-            "contour_gradients_step_list": "15/15", 
-            "contour_gradients_technique_direction": "anti_clockwise", 
-            "_name": "2t", 
-            "contour_gradients_technique": "hsl", 
-            "contour": "off", 
-            "contour_gradients_waypoint_list": "-60./0/60.", 
-            "contour_gradients_waypoint_method": "ignore"
         }
     }
 ]

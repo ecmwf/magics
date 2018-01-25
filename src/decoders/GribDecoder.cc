@@ -151,19 +151,22 @@ string GribDecoder::getstring(const string& key, bool warnIfKeyAbsent, bool cach
     }
     char val[1024];
     size_t length = 1024;
-
+    cout << "key--> " << key;
     int err = grib_get_string(handle_, key.c_str(), val, &length);
 
     if ( err )
     {
         if (warnIfKeyAbsent)
         {
+            cout << " missing" << endl;
             MagLog::warning() << "Grib API: can not find key [" << key << "]  - "<< grib_get_error_message(err) <<"\n";
+             
         }
         return "";
     }
     if ( cache )
         sKeys_.insert(make_pair(key, val));
+    cout << " = " << string(val) << endl;
     return string(val);
 }
 

@@ -229,7 +229,8 @@ void PaletteLibrary::callback(const string& name, const json_spirit::Value& valu
 bool Style::find(const Definition& data, Definition& visdef)
 {
 	for (Definition::const_iterator value = data.begin(); value != data.end(); ++value) {
-		Definition::iterator criteria = criteria_.find(value->first);
+		cout << "Criteria-->" << value->first << endl;
+ 		Definition::iterator criteria = criteria_.find(value->first);
 		if ( criteria != criteria_.end() && criteria->second == value->second ) {
 			visdef = style_;
 			for ( vector<Style>::iterator other = more_.begin(); other != more_.end(); ++other) 

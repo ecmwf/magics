@@ -334,7 +334,7 @@ LineStyle 	SimplePolylineVisualiser::style(const CustomisedPoint& point)
 }
 double 	SimplePolylineVisualiser::thickness(const CustomisedPoint& point)
 {
-	double thickness = 4;
+	double thickness = 8;
 	CustomisedPoint::const_iterator value = point.find(thickness_key_);
 	if ( value == point.end() )
 		return thickness;
