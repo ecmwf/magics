@@ -1,0 +1,5882 @@
+[
+    {
+        "criteria" : {
+            "name" : "Potential vorticity",
+            "param" : "60.128",
+            "paramId" : "60",
+            "shortName" : "pv",
+            "style" : "ct_magenta_i2_t3"
+        },
+        "more" : [
+            {
+                "_name" : "mofc_z500_weekly_mean",
+                "criteria" : {
+                    "level" : 500
+                },
+                "more" : [],
+                "style" : "ct_blk_i6_t2"
+            },
+            {
+                "_name" : "composition_co700",
+                "criteria" : {
+                    "level" : 700
+                },
+                "more" : [],
+                "style" : "sh_all_co_upper"
+            },
+            {
+                "_name" : "mofc_10_t_anomaly",
+                "criteria" : {
+                    "level" : 10
+                },
+                "more" : [],
+                "style" : "t_upper_anomaly"
+            },
+            {
+                "_name" : "composition_no2_surface",
+                "criteria" : {
+                    "level" : 60
+                },
+                "more" : [],
+                "style" : "sh_all_no2_surface"
+            },
+            {
+                "_name" : "q1000",
+                "criteria" : {
+                    "level" : 1000
+                },
+                "more" : [],
+                "style" : "sh_spechum_option1"
+            },
+            {
+                "_name" : "t925",
+                "criteria" : {
+                    "level" : 925
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "wbpt850",
+                "criteria" : {
+                    "level" : 850
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "300pv",
+                "criteria" : {
+                    "level" : 300
+                },
+                "more" : [],
+                "style" : "ct_magenta_i2_t3"
+            },
+            {
+                "_name" : "315Kpotvort",
+                "criteria" : {
+                    "level" : 315
+                },
+                "more" : [],
+                "style" : "sh_blu_f02t30"
+            }
+        ],
+        "style" : "ct_magenta_i2_t3"
+    },
+    {
+        "criteria" : {
+            "name" : "Potential vorticity",
+            "param" : "60.128",
+            "paramId" : "60",
+            "shortName" : "pv",
+            "style" : "ct_magenta_i2_t3"
+        },
+        "more" : [
+            {
+                "_name" : "mofc_z500_weekly_mean",
+                "criteria" : {
+                    "level" : 500
+                },
+                "more" : [],
+                "style" : "ct_blk_i6_t2"
+            },
+            {
+                "_name" : "composition_co700",
+                "criteria" : {
+                    "level" : 700
+                },
+                "more" : [],
+                "style" : "sh_all_co_upper"
+            },
+            {
+                "_name" : "mofc_10_t_anomaly",
+                "criteria" : {
+                    "level" : 10
+                },
+                "more" : [],
+                "style" : "t_upper_anomaly"
+            },
+            {
+                "_name" : "composition_no2_surface",
+                "criteria" : {
+                    "level" : 60
+                },
+                "more" : [],
+                "style" : "sh_all_no2_surface"
+            },
+            {
+                "_name" : "q1000",
+                "criteria" : {
+                    "level" : 1000
+                },
+                "more" : [],
+                "style" : "sh_spechum_option1"
+            },
+            {
+                "_name" : "t925",
+                "criteria" : {
+                    "level" : 925
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "wbpt850",
+                "criteria" : {
+                    "level" : 850
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "300pv",
+                "criteria" : {
+                    "level" : 300
+                },
+                "more" : [],
+                "style" : "ct_magenta_i2_t3"
+            },
+            {
+                "_name" : "315Kpotvort",
+                "criteria" : {
+                    "level" : 315
+                },
+                "more" : [],
+                "style" : "sh_blu_f02t30"
+            }
+        ],
+        "style" : "ct_magenta_i2_t3"
+    },
+    {
+        "criteria" : {
+            "name" : "Potential vorticity",
+            "param" : "60.128",
+            "paramId" : "60",
+            "shortName" : "pv",
+            "style" : "ct_magenta_i2_t3"
+        },
+        "more" : [
+            {
+                "_name" : "mofc_z500_weekly_mean",
+                "criteria" : {
+                    "level" : 500
+                },
+                "more" : [],
+                "style" : "ct_blk_i6_t2"
+            },
+            {
+                "_name" : "composition_co700",
+                "criteria" : {
+                    "level" : 700
+                },
+                "more" : [],
+                "style" : "sh_all_co_upper"
+            },
+            {
+                "_name" : "mofc_10_t_anomaly",
+                "criteria" : {
+                    "level" : 10
+                },
+                "more" : [],
+                "style" : "t_upper_anomaly"
+            },
+            {
+                "_name" : "composition_no2_surface",
+                "criteria" : {
+                    "level" : 60
+                },
+                "more" : [],
+                "style" : "sh_all_no2_surface"
+            },
+            {
+                "_name" : "q1000",
+                "criteria" : {
+                    "level" : 1000
+                },
+                "more" : [],
+                "style" : "sh_spechum_option1"
+            },
+            {
+                "_name" : "t925",
+                "criteria" : {
+                    "level" : 925
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "wbpt850",
+                "criteria" : {
+                    "level" : 850
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "300pv",
+                "criteria" : {
+                    "level" : 300
+                },
+                "more" : [],
+                "style" : "ct_magenta_i2_t3"
+            },
+            {
+                "_name" : "315Kpotvort",
+                "criteria" : {
+                    "level" : 315
+                },
+                "more" : [],
+                "style" : "sh_blu_f02t30"
+            }
+        ],
+        "style" : "ct_magenta_i2_t3"
+    },
+    {
+        "criteria" : {
+            "name" : "Potential vorticity",
+            "param" : "60.128",
+            "paramId" : "60",
+            "shortName" : "pv",
+            "style" : "ct_magenta_i2_t3"
+        },
+        "more" : [
+            {
+                "_name" : "mofc_z500_weekly_mean",
+                "criteria" : {
+                    "level" : 500
+                },
+                "more" : [],
+                "style" : "ct_blk_i6_t2"
+            },
+            {
+                "_name" : "composition_co700",
+                "criteria" : {
+                    "level" : 700
+                },
+                "more" : [],
+                "style" : "sh_all_co_upper"
+            },
+            {
+                "_name" : "mofc_10_t_anomaly",
+                "criteria" : {
+                    "level" : 10
+                },
+                "more" : [],
+                "style" : "t_upper_anomaly"
+            },
+            {
+                "_name" : "composition_no2_surface",
+                "criteria" : {
+                    "level" : 60
+                },
+                "more" : [],
+                "style" : "sh_all_no2_surface"
+            },
+            {
+                "_name" : "q1000",
+                "criteria" : {
+                    "level" : 1000
+                },
+                "more" : [],
+                "style" : "sh_spechum_option1"
+            },
+            {
+                "_name" : "t925",
+                "criteria" : {
+                    "level" : 925
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "wbpt850",
+                "criteria" : {
+                    "level" : 850
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "300pv",
+                "criteria" : {
+                    "level" : 300
+                },
+                "more" : [],
+                "style" : "ct_magenta_i2_t3"
+            },
+            {
+                "_name" : "315Kpotvort",
+                "criteria" : {
+                    "level" : 315
+                },
+                "more" : [],
+                "style" : "sh_blu_f02t30"
+            }
+        ],
+        "style" : "ct_magenta_i2_t3"
+    },
+    {
+        "criteria" : {
+            "name" : "Potential vorticity",
+            "param" : "60.128",
+            "paramId" : "60",
+            "shortName" : "pv",
+            "style" : "ct_magenta_i2_t3"
+        },
+        "more" : [
+            {
+                "_name" : "mofc_z500_weekly_mean",
+                "criteria" : {
+                    "level" : 500
+                },
+                "more" : [],
+                "style" : "ct_blk_i6_t2"
+            },
+            {
+                "_name" : "composition_co700",
+                "criteria" : {
+                    "level" : 700
+                },
+                "more" : [],
+                "style" : "sh_all_co_upper"
+            },
+            {
+                "_name" : "mofc_10_t_anomaly",
+                "criteria" : {
+                    "level" : 10
+                },
+                "more" : [],
+                "style" : "t_upper_anomaly"
+            },
+            {
+                "_name" : "composition_no2_surface",
+                "criteria" : {
+                    "level" : 60
+                },
+                "more" : [],
+                "style" : "sh_all_no2_surface"
+            },
+            {
+                "_name" : "q1000",
+                "criteria" : {
+                    "level" : 1000
+                },
+                "more" : [],
+                "style" : "sh_spechum_option1"
+            },
+            {
+                "_name" : "t925",
+                "criteria" : {
+                    "level" : 925
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "wbpt850",
+                "criteria" : {
+                    "level" : 850
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "300pv",
+                "criteria" : {
+                    "level" : 300
+                },
+                "more" : [],
+                "style" : "ct_magenta_i2_t3"
+            },
+            {
+                "_name" : "315Kpotvort",
+                "criteria" : {
+                    "level" : 315
+                },
+                "more" : [],
+                "style" : "sh_blu_f02t30"
+            }
+        ],
+        "style" : "ct_magenta_i2_t3"
+    },
+    {
+        "criteria" : {
+            "name" : "Potential vorticity",
+            "param" : "60.128",
+            "paramId" : "60",
+            "shortName" : "pv",
+            "style" : "ct_magenta_i2_t3"
+        },
+        "more" : [
+            {
+                "_name" : "mofc_z500_weekly_mean",
+                "criteria" : {
+                    "level" : 500
+                },
+                "more" : [],
+                "style" : "ct_blk_i6_t2"
+            },
+            {
+                "_name" : "composition_co700",
+                "criteria" : {
+                    "level" : 700
+                },
+                "more" : [],
+                "style" : "sh_all_co_upper"
+            },
+            {
+                "_name" : "mofc_10_t_anomaly",
+                "criteria" : {
+                    "level" : 10
+                },
+                "more" : [],
+                "style" : "t_upper_anomaly"
+            },
+            {
+                "_name" : "composition_no2_surface",
+                "criteria" : {
+                    "level" : 60
+                },
+                "more" : [],
+                "style" : "sh_all_no2_surface"
+            },
+            {
+                "_name" : "q1000",
+                "criteria" : {
+                    "level" : 1000
+                },
+                "more" : [],
+                "style" : "sh_spechum_option1"
+            },
+            {
+                "_name" : "t925",
+                "criteria" : {
+                    "level" : 925
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "wbpt850",
+                "criteria" : {
+                    "level" : 850
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "300pv",
+                "criteria" : {
+                    "level" : 300
+                },
+                "more" : [],
+                "style" : "ct_magenta_i2_t3"
+            },
+            {
+                "_name" : "315Kpotvort",
+                "criteria" : {
+                    "level" : 315
+                },
+                "more" : [],
+                "style" : "sh_blu_f02t30"
+            }
+        ],
+        "style" : "ct_magenta_i2_t3"
+    },
+    {
+        "criteria" : {
+            "name" : "Potential vorticity",
+            "param" : "60.128",
+            "paramId" : "60",
+            "shortName" : "pv",
+            "style" : "ct_magenta_i2_t3"
+        },
+        "more" : [
+            {
+                "_name" : "mofc_z500_weekly_mean",
+                "criteria" : {
+                    "level" : 500
+                },
+                "more" : [],
+                "style" : "ct_blk_i6_t2"
+            },
+            {
+                "_name" : "composition_co700",
+                "criteria" : {
+                    "level" : 700
+                },
+                "more" : [],
+                "style" : "sh_all_co_upper"
+            },
+            {
+                "_name" : "mofc_10_t_anomaly",
+                "criteria" : {
+                    "level" : 10
+                },
+                "more" : [],
+                "style" : "t_upper_anomaly"
+            },
+            {
+                "_name" : "composition_no2_surface",
+                "criteria" : {
+                    "level" : 60
+                },
+                "more" : [],
+                "style" : "sh_all_no2_surface"
+            },
+            {
+                "_name" : "q1000",
+                "criteria" : {
+                    "level" : 1000
+                },
+                "more" : [],
+                "style" : "sh_spechum_option1"
+            },
+            {
+                "_name" : "t925",
+                "criteria" : {
+                    "level" : 925
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "wbpt850",
+                "criteria" : {
+                    "level" : 850
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "300pv",
+                "criteria" : {
+                    "level" : 300
+                },
+                "more" : [],
+                "style" : "ct_magenta_i2_t3"
+            },
+            {
+                "_name" : "315Kpotvort",
+                "criteria" : {
+                    "level" : 315
+                },
+                "more" : [],
+                "style" : "sh_blu_f02t30"
+            }
+        ],
+        "style" : "ct_magenta_i2_t3"
+    },
+    {
+        "criteria" : {
+            "name" : "Potential vorticity",
+            "param" : "60.128",
+            "paramId" : "60",
+            "shortName" : "pv",
+            "style" : "ct_magenta_i2_t3"
+        },
+        "more" : [
+            {
+                "_name" : "mofc_z500_weekly_mean",
+                "criteria" : {
+                    "level" : 500
+                },
+                "more" : [],
+                "style" : "ct_blk_i6_t2"
+            },
+            {
+                "_name" : "composition_co700",
+                "criteria" : {
+                    "level" : 700
+                },
+                "more" : [],
+                "style" : "sh_all_co_upper"
+            },
+            {
+                "_name" : "mofc_10_t_anomaly",
+                "criteria" : {
+                    "level" : 10
+                },
+                "more" : [],
+                "style" : "t_upper_anomaly"
+            },
+            {
+                "_name" : "composition_no2_surface",
+                "criteria" : {
+                    "level" : 60
+                },
+                "more" : [],
+                "style" : "sh_all_no2_surface"
+            },
+            {
+                "_name" : "q1000",
+                "criteria" : {
+                    "level" : 1000
+                },
+                "more" : [],
+                "style" : "sh_spechum_option1"
+            },
+            {
+                "_name" : "t925",
+                "criteria" : {
+                    "level" : 925
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "wbpt850",
+                "criteria" : {
+                    "level" : 850
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "300pv",
+                "criteria" : {
+                    "level" : 300
+                },
+                "more" : [],
+                "style" : "ct_magenta_i2_t3"
+            },
+            {
+                "_name" : "315Kpotvort",
+                "criteria" : {
+                    "level" : 315
+                },
+                "more" : [],
+                "style" : "sh_blu_f02t30"
+            }
+        ],
+        "style" : "ct_magenta_i2_t3"
+    },
+    {
+        "criteria" : {
+            "name" : "Potential vorticity",
+            "param" : "60.128",
+            "paramId" : "60",
+            "shortName" : "pv",
+            "style" : "ct_magenta_i2_t3"
+        },
+        "more" : [
+            {
+                "_name" : "mofc_z500_weekly_mean",
+                "criteria" : {
+                    "level" : 500
+                },
+                "more" : [],
+                "style" : "ct_blk_i6_t2"
+            },
+            {
+                "_name" : "composition_co700",
+                "criteria" : {
+                    "level" : 700
+                },
+                "more" : [],
+                "style" : "sh_all_co_upper"
+            },
+            {
+                "_name" : "mofc_10_t_anomaly",
+                "criteria" : {
+                    "level" : 10
+                },
+                "more" : [],
+                "style" : "t_upper_anomaly"
+            },
+            {
+                "_name" : "composition_no2_surface",
+                "criteria" : {
+                    "level" : 60
+                },
+                "more" : [],
+                "style" : "sh_all_no2_surface"
+            },
+            {
+                "_name" : "q1000",
+                "criteria" : {
+                    "level" : 1000
+                },
+                "more" : [],
+                "style" : "sh_spechum_option1"
+            },
+            {
+                "_name" : "t925",
+                "criteria" : {
+                    "level" : 925
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "wbpt850",
+                "criteria" : {
+                    "level" : 850
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "300pv",
+                "criteria" : {
+                    "level" : 300
+                },
+                "more" : [],
+                "style" : "ct_magenta_i2_t3"
+            },
+            {
+                "_name" : "315Kpotvort",
+                "criteria" : {
+                    "level" : 315
+                },
+                "more" : [],
+                "style" : "sh_blu_f02t30"
+            }
+        ],
+        "style" : "ct_magenta_i2_t3"
+    },
+    {
+        "criteria" : {
+            "name" : "Potential vorticity",
+            "param" : "60.128",
+            "paramId" : "60",
+            "shortName" : "pv",
+            "style" : "ct_magenta_i2_t3"
+        },
+        "more" : [
+            {
+                "_name" : "mofc_z500_weekly_mean",
+                "criteria" : {
+                    "level" : 500
+                },
+                "more" : [],
+                "style" : "ct_blk_i6_t2"
+            },
+            {
+                "_name" : "composition_co700",
+                "criteria" : {
+                    "level" : 700
+                },
+                "more" : [],
+                "style" : "sh_all_co_upper"
+            },
+            {
+                "_name" : "mofc_10_t_anomaly",
+                "criteria" : {
+                    "level" : 10
+                },
+                "more" : [],
+                "style" : "t_upper_anomaly"
+            },
+            {
+                "_name" : "composition_no2_surface",
+                "criteria" : {
+                    "level" : 60
+                },
+                "more" : [],
+                "style" : "sh_all_no2_surface"
+            },
+            {
+                "_name" : "q1000",
+                "criteria" : {
+                    "level" : 1000
+                },
+                "more" : [],
+                "style" : "sh_spechum_option1"
+            },
+            {
+                "_name" : "t925",
+                "criteria" : {
+                    "level" : 925
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "wbpt850",
+                "criteria" : {
+                    "level" : 850
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "300pv",
+                "criteria" : {
+                    "level" : 300
+                },
+                "more" : [],
+                "style" : "ct_magenta_i2_t3"
+            },
+            {
+                "_name" : "315Kpotvort",
+                "criteria" : {
+                    "level" : 315
+                },
+                "more" : [],
+                "style" : "sh_blu_f02t30"
+            }
+        ],
+        "style" : "ct_magenta_i2_t3"
+    },
+    {
+        "criteria" : {
+            "name" : "Potential vorticity",
+            "param" : "60.128",
+            "paramId" : "60",
+            "shortName" : "pv",
+            "style" : "ct_magenta_i2_t3"
+        },
+        "more" : [
+            {
+                "_name" : "mofc_z500_weekly_mean",
+                "criteria" : {
+                    "level" : 500
+                },
+                "more" : [],
+                "style" : "ct_blk_i6_t2"
+            },
+            {
+                "_name" : "composition_co700",
+                "criteria" : {
+                    "level" : 700
+                },
+                "more" : [],
+                "style" : "sh_all_co_upper"
+            },
+            {
+                "_name" : "mofc_10_t_anomaly",
+                "criteria" : {
+                    "level" : 10
+                },
+                "more" : [],
+                "style" : "t_upper_anomaly"
+            },
+            {
+                "_name" : "composition_no2_surface",
+                "criteria" : {
+                    "level" : 60
+                },
+                "more" : [],
+                "style" : "sh_all_no2_surface"
+            },
+            {
+                "_name" : "q1000",
+                "criteria" : {
+                    "level" : 1000
+                },
+                "more" : [],
+                "style" : "sh_spechum_option1"
+            },
+            {
+                "_name" : "t925",
+                "criteria" : {
+                    "level" : 925
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "wbpt850",
+                "criteria" : {
+                    "level" : 850
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "300pv",
+                "criteria" : {
+                    "level" : 300
+                },
+                "more" : [],
+                "style" : "ct_magenta_i2_t3"
+            },
+            {
+                "_name" : "315Kpotvort",
+                "criteria" : {
+                    "level" : 315
+                },
+                "more" : [],
+                "style" : "sh_blu_f02t30"
+            }
+        ],
+        "style" : "ct_magenta_i2_t3"
+    },
+    {
+        "criteria" : {
+            "name" : "Potential vorticity",
+            "param" : "60.128",
+            "paramId" : "60",
+            "shortName" : "pv",
+            "style" : "ct_magenta_i2_t3"
+        },
+        "more" : [
+            {
+                "_name" : "mofc_z500_weekly_mean",
+                "criteria" : {
+                    "level" : 500
+                },
+                "more" : [],
+                "style" : "ct_blk_i6_t2"
+            },
+            {
+                "_name" : "composition_co700",
+                "criteria" : {
+                    "level" : 700
+                },
+                "more" : [],
+                "style" : "sh_all_co_upper"
+            },
+            {
+                "_name" : "mofc_10_t_anomaly",
+                "criteria" : {
+                    "level" : 10
+                },
+                "more" : [],
+                "style" : "t_upper_anomaly"
+            },
+            {
+                "_name" : "composition_no2_surface",
+                "criteria" : {
+                    "level" : 60
+                },
+                "more" : [],
+                "style" : "sh_all_no2_surface"
+            },
+            {
+                "_name" : "q1000",
+                "criteria" : {
+                    "level" : 1000
+                },
+                "more" : [],
+                "style" : "sh_spechum_option1"
+            },
+            {
+                "_name" : "t925",
+                "criteria" : {
+                    "level" : 925
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "wbpt850",
+                "criteria" : {
+                    "level" : 850
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "300pv",
+                "criteria" : {
+                    "level" : 300
+                },
+                "more" : [],
+                "style" : "ct_magenta_i2_t3"
+            },
+            {
+                "_name" : "315Kpotvort",
+                "criteria" : {
+                    "level" : 315
+                },
+                "more" : [],
+                "style" : "sh_blu_f02t30"
+            }
+        ],
+        "style" : "ct_magenta_i2_t3"
+    },
+    {
+        "criteria" : {
+            "name" : "Potential vorticity",
+            "param" : "60.128",
+            "paramId" : "60",
+            "shortName" : "pv",
+            "style" : "ct_magenta_i2_t3"
+        },
+        "more" : [
+            {
+                "_name" : "mofc_z500_weekly_mean",
+                "criteria" : {
+                    "level" : 500
+                },
+                "more" : [],
+                "style" : "ct_blk_i6_t2"
+            },
+            {
+                "_name" : "composition_co700",
+                "criteria" : {
+                    "level" : 700
+                },
+                "more" : [],
+                "style" : "sh_all_co_upper"
+            },
+            {
+                "_name" : "mofc_10_t_anomaly",
+                "criteria" : {
+                    "level" : 10
+                },
+                "more" : [],
+                "style" : "t_upper_anomaly"
+            },
+            {
+                "_name" : "composition_no2_surface",
+                "criteria" : {
+                    "level" : 60
+                },
+                "more" : [],
+                "style" : "sh_all_no2_surface"
+            },
+            {
+                "_name" : "q1000",
+                "criteria" : {
+                    "level" : 1000
+                },
+                "more" : [],
+                "style" : "sh_spechum_option1"
+            },
+            {
+                "_name" : "t925",
+                "criteria" : {
+                    "level" : 925
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "wbpt850",
+                "criteria" : {
+                    "level" : 850
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "300pv",
+                "criteria" : {
+                    "level" : 300
+                },
+                "more" : [],
+                "style" : "ct_magenta_i2_t3"
+            },
+            {
+                "_name" : "315Kpotvort",
+                "criteria" : {
+                    "level" : 315
+                },
+                "more" : [],
+                "style" : "sh_blu_f02t30"
+            }
+        ],
+        "style" : "ct_magenta_i2_t3"
+    },
+    {
+        "criteria" : {
+            "name" : "Potential vorticity",
+            "param" : "60.128",
+            "paramId" : "60",
+            "shortName" : "pv",
+            "style" : "ct_magenta_i2_t3"
+        },
+        "more" : [
+            {
+                "_name" : "mofc_z500_weekly_mean",
+                "criteria" : {
+                    "level" : 500
+                },
+                "more" : [],
+                "style" : "ct_blk_i6_t2"
+            },
+            {
+                "_name" : "composition_co700",
+                "criteria" : {
+                    "level" : 700
+                },
+                "more" : [],
+                "style" : "sh_all_co_upper"
+            },
+            {
+                "_name" : "mofc_10_t_anomaly",
+                "criteria" : {
+                    "level" : 10
+                },
+                "more" : [],
+                "style" : "t_upper_anomaly"
+            },
+            {
+                "_name" : "composition_no2_surface",
+                "criteria" : {
+                    "level" : 60
+                },
+                "more" : [],
+                "style" : "sh_all_no2_surface"
+            },
+            {
+                "_name" : "q1000",
+                "criteria" : {
+                    "level" : 1000
+                },
+                "more" : [],
+                "style" : "sh_spechum_option1"
+            },
+            {
+                "_name" : "t925",
+                "criteria" : {
+                    "level" : 925
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "wbpt850",
+                "criteria" : {
+                    "level" : 850
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "300pv",
+                "criteria" : {
+                    "level" : 300
+                },
+                "more" : [],
+                "style" : "ct_magenta_i2_t3"
+            },
+            {
+                "_name" : "315Kpotvort",
+                "criteria" : {
+                    "level" : 315
+                },
+                "more" : [],
+                "style" : "sh_blu_f02t30"
+            }
+        ],
+        "style" : "ct_magenta_i2_t3"
+    },
+    {
+        "criteria" : {
+            "name" : "Potential vorticity",
+            "param" : "60.128",
+            "paramId" : "60",
+            "shortName" : "pv",
+            "style" : "ct_magenta_i2_t3"
+        },
+        "more" : [
+            {
+                "_name" : "mofc_z500_weekly_mean",
+                "criteria" : {
+                    "level" : 500
+                },
+                "more" : [],
+                "style" : "ct_blk_i6_t2"
+            },
+            {
+                "_name" : "composition_co700",
+                "criteria" : {
+                    "level" : 700
+                },
+                "more" : [],
+                "style" : "sh_all_co_upper"
+            },
+            {
+                "_name" : "mofc_10_t_anomaly",
+                "criteria" : {
+                    "level" : 10
+                },
+                "more" : [],
+                "style" : "t_upper_anomaly"
+            },
+            {
+                "_name" : "composition_no2_surface",
+                "criteria" : {
+                    "level" : 60
+                },
+                "more" : [],
+                "style" : "sh_all_no2_surface"
+            },
+            {
+                "_name" : "q1000",
+                "criteria" : {
+                    "level" : 1000
+                },
+                "more" : [],
+                "style" : "sh_spechum_option1"
+            },
+            {
+                "_name" : "t925",
+                "criteria" : {
+                    "level" : 925
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "wbpt850",
+                "criteria" : {
+                    "level" : 850
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "300pv",
+                "criteria" : {
+                    "level" : 300
+                },
+                "more" : [],
+                "style" : "ct_magenta_i2_t3"
+            },
+            {
+                "_name" : "315Kpotvort",
+                "criteria" : {
+                    "level" : 315
+                },
+                "more" : [],
+                "style" : "sh_blu_f02t30"
+            }
+        ],
+        "style" : "ct_magenta_i2_t3"
+    },
+    {
+        "criteria" : {
+            "name" : "Potential vorticity",
+            "param" : "60.128",
+            "paramId" : "60",
+            "shortName" : "pv",
+            "style" : "ct_magenta_i2_t3"
+        },
+        "more" : [
+            {
+                "_name" : "mofc_z500_weekly_mean",
+                "criteria" : {
+                    "level" : 500
+                },
+                "more" : [],
+                "style" : "ct_blk_i6_t2"
+            },
+            {
+                "_name" : "composition_co700",
+                "criteria" : {
+                    "level" : 700
+                },
+                "more" : [],
+                "style" : "sh_all_co_upper"
+            },
+            {
+                "_name" : "mofc_10_t_anomaly",
+                "criteria" : {
+                    "level" : 10
+                },
+                "more" : [],
+                "style" : "t_upper_anomaly"
+            },
+            {
+                "_name" : "composition_no2_surface",
+                "criteria" : {
+                    "level" : 60
+                },
+                "more" : [],
+                "style" : "sh_all_no2_surface"
+            },
+            {
+                "_name" : "q1000",
+                "criteria" : {
+                    "level" : 1000
+                },
+                "more" : [],
+                "style" : "sh_spechum_option1"
+            },
+            {
+                "_name" : "t925",
+                "criteria" : {
+                    "level" : 925
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "wbpt850",
+                "criteria" : {
+                    "level" : 850
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "300pv",
+                "criteria" : {
+                    "level" : 300
+                },
+                "more" : [],
+                "style" : "ct_magenta_i2_t3"
+            },
+            {
+                "_name" : "315Kpotvort",
+                "criteria" : {
+                    "level" : 315
+                },
+                "more" : [],
+                "style" : "sh_blu_f02t30"
+            }
+        ],
+        "style" : "ct_magenta_i2_t3"
+    },
+    {
+        "criteria" : {
+            "name" : "Potential vorticity",
+            "param" : "60.128",
+            "paramId" : "60",
+            "shortName" : "pv",
+            "style" : "ct_magenta_i2_t3"
+        },
+        "more" : [
+            {
+                "_name" : "mofc_z500_weekly_mean",
+                "criteria" : {
+                    "level" : 500
+                },
+                "more" : [],
+                "style" : "ct_blk_i6_t2"
+            },
+            {
+                "_name" : "composition_co700",
+                "criteria" : {
+                    "level" : 700
+                },
+                "more" : [],
+                "style" : "sh_all_co_upper"
+            },
+            {
+                "_name" : "mofc_10_t_anomaly",
+                "criteria" : {
+                    "level" : 10
+                },
+                "more" : [],
+                "style" : "t_upper_anomaly"
+            },
+            {
+                "_name" : "composition_no2_surface",
+                "criteria" : {
+                    "level" : 60
+                },
+                "more" : [],
+                "style" : "sh_all_no2_surface"
+            },
+            {
+                "_name" : "q1000",
+                "criteria" : {
+                    "level" : 1000
+                },
+                "more" : [],
+                "style" : "sh_spechum_option1"
+            },
+            {
+                "_name" : "t925",
+                "criteria" : {
+                    "level" : 925
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "wbpt850",
+                "criteria" : {
+                    "level" : 850
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "300pv",
+                "criteria" : {
+                    "level" : 300
+                },
+                "more" : [],
+                "style" : "ct_magenta_i2_t3"
+            },
+            {
+                "_name" : "315Kpotvort",
+                "criteria" : {
+                    "level" : 315
+                },
+                "more" : [],
+                "style" : "sh_blu_f02t30"
+            }
+        ],
+        "style" : "ct_magenta_i2_t3"
+    },
+    {
+        "criteria" : {
+            "name" : "Potential vorticity",
+            "param" : "60.128",
+            "paramId" : "60",
+            "shortName" : "pv",
+            "style" : "ct_magenta_i2_t3"
+        },
+        "more" : [
+            {
+                "_name" : "mofc_z500_weekly_mean",
+                "criteria" : {
+                    "level" : 500
+                },
+                "more" : [],
+                "style" : "ct_blk_i6_t2"
+            },
+            {
+                "_name" : "composition_co700",
+                "criteria" : {
+                    "level" : 700
+                },
+                "more" : [],
+                "style" : "sh_all_co_upper"
+            },
+            {
+                "_name" : "mofc_10_t_anomaly",
+                "criteria" : {
+                    "level" : 10
+                },
+                "more" : [],
+                "style" : "t_upper_anomaly"
+            },
+            {
+                "_name" : "composition_no2_surface",
+                "criteria" : {
+                    "level" : 60
+                },
+                "more" : [],
+                "style" : "sh_all_no2_surface"
+            },
+            {
+                "_name" : "q1000",
+                "criteria" : {
+                    "level" : 1000
+                },
+                "more" : [],
+                "style" : "sh_spechum_option1"
+            },
+            {
+                "_name" : "t925",
+                "criteria" : {
+                    "level" : 925
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "wbpt850",
+                "criteria" : {
+                    "level" : 850
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "300pv",
+                "criteria" : {
+                    "level" : 300
+                },
+                "more" : [],
+                "style" : "ct_magenta_i2_t3"
+            },
+            {
+                "_name" : "315Kpotvort",
+                "criteria" : {
+                    "level" : 315
+                },
+                "more" : [],
+                "style" : "sh_blu_f02t30"
+            }
+        ],
+        "style" : "ct_magenta_i2_t3"
+    },
+    {
+        "criteria" : {
+            "name" : "Potential vorticity",
+            "param" : "60.128",
+            "paramId" : "60",
+            "shortName" : "pv",
+            "style" : "ct_magenta_i2_t3"
+        },
+        "more" : [
+            {
+                "_name" : "mofc_z500_weekly_mean",
+                "criteria" : {
+                    "level" : 500
+                },
+                "more" : [],
+                "style" : "ct_blk_i6_t2"
+            },
+            {
+                "_name" : "composition_co700",
+                "criteria" : {
+                    "level" : 700
+                },
+                "more" : [],
+                "style" : "sh_all_co_upper"
+            },
+            {
+                "_name" : "mofc_10_t_anomaly",
+                "criteria" : {
+                    "level" : 10
+                },
+                "more" : [],
+                "style" : "t_upper_anomaly"
+            },
+            {
+                "_name" : "composition_no2_surface",
+                "criteria" : {
+                    "level" : 60
+                },
+                "more" : [],
+                "style" : "sh_all_no2_surface"
+            },
+            {
+                "_name" : "q1000",
+                "criteria" : {
+                    "level" : 1000
+                },
+                "more" : [],
+                "style" : "sh_spechum_option1"
+            },
+            {
+                "_name" : "t925",
+                "criteria" : {
+                    "level" : 925
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "wbpt850",
+                "criteria" : {
+                    "level" : 850
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "300pv",
+                "criteria" : {
+                    "level" : 300
+                },
+                "more" : [],
+                "style" : "ct_magenta_i2_t3"
+            },
+            {
+                "_name" : "315Kpotvort",
+                "criteria" : {
+                    "level" : 315
+                },
+                "more" : [],
+                "style" : "sh_blu_f02t30"
+            }
+        ],
+        "style" : "ct_magenta_i2_t3"
+    },
+    {
+        "criteria" : {
+            "name" : "Potential vorticity",
+            "param" : "60.128",
+            "paramId" : "60",
+            "shortName" : "pv",
+            "style" : "ct_magenta_i2_t3"
+        },
+        "more" : [
+            {
+                "_name" : "mofc_z500_weekly_mean",
+                "criteria" : {
+                    "level" : 500
+                },
+                "more" : [],
+                "style" : "ct_blk_i6_t2"
+            },
+            {
+                "_name" : "composition_co700",
+                "criteria" : {
+                    "level" : 700
+                },
+                "more" : [],
+                "style" : "sh_all_co_upper"
+            },
+            {
+                "_name" : "mofc_10_t_anomaly",
+                "criteria" : {
+                    "level" : 10
+                },
+                "more" : [],
+                "style" : "t_upper_anomaly"
+            },
+            {
+                "_name" : "composition_no2_surface",
+                "criteria" : {
+                    "level" : 60
+                },
+                "more" : [],
+                "style" : "sh_all_no2_surface"
+            },
+            {
+                "_name" : "q1000",
+                "criteria" : {
+                    "level" : 1000
+                },
+                "more" : [],
+                "style" : "sh_spechum_option1"
+            },
+            {
+                "_name" : "t925",
+                "criteria" : {
+                    "level" : 925
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "wbpt850",
+                "criteria" : {
+                    "level" : 850
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "300pv",
+                "criteria" : {
+                    "level" : 300
+                },
+                "more" : [],
+                "style" : "ct_magenta_i2_t3"
+            },
+            {
+                "_name" : "315Kpotvort",
+                "criteria" : {
+                    "level" : 315
+                },
+                "more" : [],
+                "style" : "sh_blu_f02t30"
+            }
+        ],
+        "style" : "ct_magenta_i2_t3"
+    },
+    {
+        "criteria" : {
+            "name" : "Potential vorticity",
+            "param" : "60.128",
+            "paramId" : "60",
+            "shortName" : "pv",
+            "style" : "ct_magenta_i2_t3"
+        },
+        "more" : [
+            {
+                "_name" : "mofc_z500_weekly_mean",
+                "criteria" : {
+                    "level" : 500
+                },
+                "more" : [],
+                "style" : "ct_blk_i6_t2"
+            },
+            {
+                "_name" : "composition_co700",
+                "criteria" : {
+                    "level" : 700
+                },
+                "more" : [],
+                "style" : "sh_all_co_upper"
+            },
+            {
+                "_name" : "mofc_10_t_anomaly",
+                "criteria" : {
+                    "level" : 10
+                },
+                "more" : [],
+                "style" : "t_upper_anomaly"
+            },
+            {
+                "_name" : "composition_no2_surface",
+                "criteria" : {
+                    "level" : 60
+                },
+                "more" : [],
+                "style" : "sh_all_no2_surface"
+            },
+            {
+                "_name" : "q1000",
+                "criteria" : {
+                    "level" : 1000
+                },
+                "more" : [],
+                "style" : "sh_spechum_option1"
+            },
+            {
+                "_name" : "t925",
+                "criteria" : {
+                    "level" : 925
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "wbpt850",
+                "criteria" : {
+                    "level" : 850
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "300pv",
+                "criteria" : {
+                    "level" : 300
+                },
+                "more" : [],
+                "style" : "ct_magenta_i2_t3"
+            },
+            {
+                "_name" : "315Kpotvort",
+                "criteria" : {
+                    "level" : 315
+                },
+                "more" : [],
+                "style" : "sh_blu_f02t30"
+            }
+        ],
+        "style" : "ct_magenta_i2_t3"
+    },
+    {
+        "criteria" : {
+            "name" : "Potential vorticity",
+            "param" : "60.128",
+            "paramId" : "60",
+            "shortName" : "pv",
+            "style" : "ct_magenta_i2_t3"
+        },
+        "more" : [
+            {
+                "_name" : "mofc_z500_weekly_mean",
+                "criteria" : {
+                    "level" : 500
+                },
+                "more" : [],
+                "style" : "ct_blk_i6_t2"
+            },
+            {
+                "_name" : "composition_co700",
+                "criteria" : {
+                    "level" : 700
+                },
+                "more" : [],
+                "style" : "sh_all_co_upper"
+            },
+            {
+                "_name" : "mofc_10_t_anomaly",
+                "criteria" : {
+                    "level" : 10
+                },
+                "more" : [],
+                "style" : "t_upper_anomaly"
+            },
+            {
+                "_name" : "composition_no2_surface",
+                "criteria" : {
+                    "level" : 60
+                },
+                "more" : [],
+                "style" : "sh_all_no2_surface"
+            },
+            {
+                "_name" : "q1000",
+                "criteria" : {
+                    "level" : 1000
+                },
+                "more" : [],
+                "style" : "sh_spechum_option1"
+            },
+            {
+                "_name" : "t925",
+                "criteria" : {
+                    "level" : 925
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "wbpt850",
+                "criteria" : {
+                    "level" : 850
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "300pv",
+                "criteria" : {
+                    "level" : 300
+                },
+                "more" : [],
+                "style" : "ct_magenta_i2_t3"
+            },
+            {
+                "_name" : "315Kpotvort",
+                "criteria" : {
+                    "level" : 315
+                },
+                "more" : [],
+                "style" : "sh_blu_f02t30"
+            }
+        ],
+        "style" : "ct_magenta_i2_t3"
+    },
+    {
+        "criteria" : {
+            "name" : "Potential vorticity",
+            "param" : "60.128",
+            "paramId" : "60",
+            "shortName" : "pv",
+            "style" : "ct_magenta_i2_t3"
+        },
+        "more" : [
+            {
+                "_name" : "mofc_z500_weekly_mean",
+                "criteria" : {
+                    "level" : 500
+                },
+                "more" : [],
+                "style" : "ct_blk_i6_t2"
+            },
+            {
+                "_name" : "composition_co700",
+                "criteria" : {
+                    "level" : 700
+                },
+                "more" : [],
+                "style" : "sh_all_co_upper"
+            },
+            {
+                "_name" : "mofc_10_t_anomaly",
+                "criteria" : {
+                    "level" : 10
+                },
+                "more" : [],
+                "style" : "t_upper_anomaly"
+            },
+            {
+                "_name" : "composition_no2_surface",
+                "criteria" : {
+                    "level" : 60
+                },
+                "more" : [],
+                "style" : "sh_all_no2_surface"
+            },
+            {
+                "_name" : "q1000",
+                "criteria" : {
+                    "level" : 1000
+                },
+                "more" : [],
+                "style" : "sh_spechum_option1"
+            },
+            {
+                "_name" : "t925",
+                "criteria" : {
+                    "level" : 925
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "wbpt850",
+                "criteria" : {
+                    "level" : 850
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "300pv",
+                "criteria" : {
+                    "level" : 300
+                },
+                "more" : [],
+                "style" : "ct_magenta_i2_t3"
+            },
+            {
+                "_name" : "315Kpotvort",
+                "criteria" : {
+                    "level" : 315
+                },
+                "more" : [],
+                "style" : "sh_blu_f02t30"
+            }
+        ],
+        "style" : "ct_magenta_i2_t3"
+    },
+    {
+        "criteria" : {
+            "name" : "Potential vorticity",
+            "param" : "60.128",
+            "paramId" : "60",
+            "shortName" : "pv",
+            "style" : "ct_magenta_i2_t3"
+        },
+        "more" : [
+            {
+                "_name" : "mofc_z500_weekly_mean",
+                "criteria" : {
+                    "level" : 500
+                },
+                "more" : [],
+                "style" : "ct_blk_i6_t2"
+            },
+            {
+                "_name" : "composition_co700",
+                "criteria" : {
+                    "level" : 700
+                },
+                "more" : [],
+                "style" : "sh_all_co_upper"
+            },
+            {
+                "_name" : "mofc_10_t_anomaly",
+                "criteria" : {
+                    "level" : 10
+                },
+                "more" : [],
+                "style" : "t_upper_anomaly"
+            },
+            {
+                "_name" : "composition_no2_surface",
+                "criteria" : {
+                    "level" : 60
+                },
+                "more" : [],
+                "style" : "sh_all_no2_surface"
+            },
+            {
+                "_name" : "q1000",
+                "criteria" : {
+                    "level" : 1000
+                },
+                "more" : [],
+                "style" : "sh_spechum_option1"
+            },
+            {
+                "_name" : "t925",
+                "criteria" : {
+                    "level" : 925
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "wbpt850",
+                "criteria" : {
+                    "level" : 850
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "300pv",
+                "criteria" : {
+                    "level" : 300
+                },
+                "more" : [],
+                "style" : "ct_magenta_i2_t3"
+            },
+            {
+                "_name" : "315Kpotvort",
+                "criteria" : {
+                    "level" : 315
+                },
+                "more" : [],
+                "style" : "sh_blu_f02t30"
+            }
+        ],
+        "style" : "ct_magenta_i2_t3"
+    },
+    {
+        "criteria" : {
+            "name" : "Potential vorticity",
+            "param" : "60.128",
+            "paramId" : "60",
+            "shortName" : "pv",
+            "style" : "ct_magenta_i2_t3"
+        },
+        "more" : [
+            {
+                "_name" : "mofc_z500_weekly_mean",
+                "criteria" : {
+                    "level" : 500
+                },
+                "more" : [],
+                "style" : "ct_blk_i6_t2"
+            },
+            {
+                "_name" : "composition_co700",
+                "criteria" : {
+                    "level" : 700
+                },
+                "more" : [],
+                "style" : "sh_all_co_upper"
+            },
+            {
+                "_name" : "mofc_10_t_anomaly",
+                "criteria" : {
+                    "level" : 10
+                },
+                "more" : [],
+                "style" : "t_upper_anomaly"
+            },
+            {
+                "_name" : "composition_no2_surface",
+                "criteria" : {
+                    "level" : 60
+                },
+                "more" : [],
+                "style" : "sh_all_no2_surface"
+            },
+            {
+                "_name" : "q1000",
+                "criteria" : {
+                    "level" : 1000
+                },
+                "more" : [],
+                "style" : "sh_spechum_option1"
+            },
+            {
+                "_name" : "t925",
+                "criteria" : {
+                    "level" : 925
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "wbpt850",
+                "criteria" : {
+                    "level" : 850
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "300pv",
+                "criteria" : {
+                    "level" : 300
+                },
+                "more" : [],
+                "style" : "ct_magenta_i2_t3"
+            },
+            {
+                "_name" : "315Kpotvort",
+                "criteria" : {
+                    "level" : 315
+                },
+                "more" : [],
+                "style" : "sh_blu_f02t30"
+            }
+        ],
+        "style" : "ct_magenta_i2_t3"
+    },
+    {
+        "criteria" : {
+            "name" : "Potential vorticity",
+            "param" : "60.128",
+            "paramId" : "60",
+            "shortName" : "pv",
+            "style" : "ct_magenta_i2_t3"
+        },
+        "more" : [
+            {
+                "_name" : "mofc_z500_weekly_mean",
+                "criteria" : {
+                    "level" : 500
+                },
+                "more" : [],
+                "style" : "ct_blk_i6_t2"
+            },
+            {
+                "_name" : "composition_co700",
+                "criteria" : {
+                    "level" : 700
+                },
+                "more" : [],
+                "style" : "sh_all_co_upper"
+            },
+            {
+                "_name" : "mofc_10_t_anomaly",
+                "criteria" : {
+                    "level" : 10
+                },
+                "more" : [],
+                "style" : "t_upper_anomaly"
+            },
+            {
+                "_name" : "composition_no2_surface",
+                "criteria" : {
+                    "level" : 60
+                },
+                "more" : [],
+                "style" : "sh_all_no2_surface"
+            },
+            {
+                "_name" : "q1000",
+                "criteria" : {
+                    "level" : 1000
+                },
+                "more" : [],
+                "style" : "sh_spechum_option1"
+            },
+            {
+                "_name" : "t925",
+                "criteria" : {
+                    "level" : 925
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "wbpt850",
+                "criteria" : {
+                    "level" : 850
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "300pv",
+                "criteria" : {
+                    "level" : 300
+                },
+                "more" : [],
+                "style" : "ct_magenta_i2_t3"
+            },
+            {
+                "_name" : "315Kpotvort",
+                "criteria" : {
+                    "level" : 315
+                },
+                "more" : [],
+                "style" : "sh_blu_f02t30"
+            }
+        ],
+        "style" : "ct_magenta_i2_t3"
+    },
+    {
+        "criteria" : {
+            "name" : "Potential vorticity",
+            "param" : "60.128",
+            "paramId" : "60",
+            "shortName" : "pv",
+            "style" : "ct_magenta_i2_t3"
+        },
+        "more" : [
+            {
+                "_name" : "mofc_z500_weekly_mean",
+                "criteria" : {
+                    "level" : 500
+                },
+                "more" : [],
+                "style" : "ct_blk_i6_t2"
+            },
+            {
+                "_name" : "composition_co700",
+                "criteria" : {
+                    "level" : 700
+                },
+                "more" : [],
+                "style" : "sh_all_co_upper"
+            },
+            {
+                "_name" : "mofc_10_t_anomaly",
+                "criteria" : {
+                    "level" : 10
+                },
+                "more" : [],
+                "style" : "t_upper_anomaly"
+            },
+            {
+                "_name" : "composition_no2_surface",
+                "criteria" : {
+                    "level" : 60
+                },
+                "more" : [],
+                "style" : "sh_all_no2_surface"
+            },
+            {
+                "_name" : "q1000",
+                "criteria" : {
+                    "level" : 1000
+                },
+                "more" : [],
+                "style" : "sh_spechum_option1"
+            },
+            {
+                "_name" : "t925",
+                "criteria" : {
+                    "level" : 925
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "wbpt850",
+                "criteria" : {
+                    "level" : 850
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "300pv",
+                "criteria" : {
+                    "level" : 300
+                },
+                "more" : [],
+                "style" : "ct_magenta_i2_t3"
+            },
+            {
+                "_name" : "315Kpotvort",
+                "criteria" : {
+                    "level" : 315
+                },
+                "more" : [],
+                "style" : "sh_blu_f02t30"
+            }
+        ],
+        "style" : "ct_magenta_i2_t3"
+    },
+    {
+        "criteria" : {
+            "name" : "Potential vorticity",
+            "param" : "60.128",
+            "paramId" : "60",
+            "shortName" : "pv",
+            "style" : "ct_magenta_i2_t3"
+        },
+        "more" : [
+            {
+                "_name" : "mofc_z500_weekly_mean",
+                "criteria" : {
+                    "level" : 500
+                },
+                "more" : [],
+                "style" : "ct_blk_i6_t2"
+            },
+            {
+                "_name" : "composition_co700",
+                "criteria" : {
+                    "level" : 700
+                },
+                "more" : [],
+                "style" : "sh_all_co_upper"
+            },
+            {
+                "_name" : "mofc_10_t_anomaly",
+                "criteria" : {
+                    "level" : 10
+                },
+                "more" : [],
+                "style" : "t_upper_anomaly"
+            },
+            {
+                "_name" : "composition_no2_surface",
+                "criteria" : {
+                    "level" : 60
+                },
+                "more" : [],
+                "style" : "sh_all_no2_surface"
+            },
+            {
+                "_name" : "q1000",
+                "criteria" : {
+                    "level" : 1000
+                },
+                "more" : [],
+                "style" : "sh_spechum_option1"
+            },
+            {
+                "_name" : "t925",
+                "criteria" : {
+                    "level" : 925
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "wbpt850",
+                "criteria" : {
+                    "level" : 850
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "300pv",
+                "criteria" : {
+                    "level" : 300
+                },
+                "more" : [],
+                "style" : "ct_magenta_i2_t3"
+            },
+            {
+                "_name" : "315Kpotvort",
+                "criteria" : {
+                    "level" : 315
+                },
+                "more" : [],
+                "style" : "sh_blu_f02t30"
+            }
+        ],
+        "style" : "ct_magenta_i2_t3"
+    },
+    {
+        "criteria" : {
+            "name" : "Potential vorticity",
+            "param" : "60.128",
+            "paramId" : "60",
+            "shortName" : "pv",
+            "style" : "ct_magenta_i2_t3"
+        },
+        "more" : [
+            {
+                "_name" : "mofc_z500_weekly_mean",
+                "criteria" : {
+                    "level" : 500
+                },
+                "more" : [],
+                "style" : "ct_blk_i6_t2"
+            },
+            {
+                "_name" : "composition_co700",
+                "criteria" : {
+                    "level" : 700
+                },
+                "more" : [],
+                "style" : "sh_all_co_upper"
+            },
+            {
+                "_name" : "mofc_10_t_anomaly",
+                "criteria" : {
+                    "level" : 10
+                },
+                "more" : [],
+                "style" : "t_upper_anomaly"
+            },
+            {
+                "_name" : "composition_no2_surface",
+                "criteria" : {
+                    "level" : 60
+                },
+                "more" : [],
+                "style" : "sh_all_no2_surface"
+            },
+            {
+                "_name" : "q1000",
+                "criteria" : {
+                    "level" : 1000
+                },
+                "more" : [],
+                "style" : "sh_spechum_option1"
+            },
+            {
+                "_name" : "t925",
+                "criteria" : {
+                    "level" : 925
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "wbpt850",
+                "criteria" : {
+                    "level" : 850
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "300pv",
+                "criteria" : {
+                    "level" : 300
+                },
+                "more" : [],
+                "style" : "ct_magenta_i2_t3"
+            },
+            {
+                "_name" : "315Kpotvort",
+                "criteria" : {
+                    "level" : 315
+                },
+                "more" : [],
+                "style" : "sh_blu_f02t30"
+            }
+        ],
+        "style" : "ct_magenta_i2_t3"
+    },
+    {
+        "criteria" : {
+            "name" : "Potential vorticity",
+            "param" : "60.128",
+            "paramId" : "60",
+            "shortName" : "pv",
+            "style" : "ct_magenta_i2_t3"
+        },
+        "more" : [
+            {
+                "_name" : "mofc_z500_weekly_mean",
+                "criteria" : {
+                    "level" : 500
+                },
+                "more" : [],
+                "style" : "ct_blk_i6_t2"
+            },
+            {
+                "_name" : "composition_co700",
+                "criteria" : {
+                    "level" : 700
+                },
+                "more" : [],
+                "style" : "sh_all_co_upper"
+            },
+            {
+                "_name" : "mofc_10_t_anomaly",
+                "criteria" : {
+                    "level" : 10
+                },
+                "more" : [],
+                "style" : "t_upper_anomaly"
+            },
+            {
+                "_name" : "composition_no2_surface",
+                "criteria" : {
+                    "level" : 60
+                },
+                "more" : [],
+                "style" : "sh_all_no2_surface"
+            },
+            {
+                "_name" : "q1000",
+                "criteria" : {
+                    "level" : 1000
+                },
+                "more" : [],
+                "style" : "sh_spechum_option1"
+            },
+            {
+                "_name" : "t925",
+                "criteria" : {
+                    "level" : 925
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "wbpt850",
+                "criteria" : {
+                    "level" : 850
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "300pv",
+                "criteria" : {
+                    "level" : 300
+                },
+                "more" : [],
+                "style" : "ct_magenta_i2_t3"
+            },
+            {
+                "_name" : "315Kpotvort",
+                "criteria" : {
+                    "level" : 315
+                },
+                "more" : [],
+                "style" : "sh_blu_f02t30"
+            }
+        ],
+        "style" : "ct_magenta_i2_t3"
+    },
+    {
+        "criteria" : {
+            "name" : "Potential vorticity",
+            "param" : "60.128",
+            "paramId" : "60",
+            "shortName" : "pv",
+            "style" : "ct_magenta_i2_t3"
+        },
+        "more" : [
+            {
+                "_name" : "mofc_z500_weekly_mean",
+                "criteria" : {
+                    "level" : 500
+                },
+                "more" : [],
+                "style" : "ct_blk_i6_t2"
+            },
+            {
+                "_name" : "composition_co700",
+                "criteria" : {
+                    "level" : 700
+                },
+                "more" : [],
+                "style" : "sh_all_co_upper"
+            },
+            {
+                "_name" : "mofc_10_t_anomaly",
+                "criteria" : {
+                    "level" : 10
+                },
+                "more" : [],
+                "style" : "t_upper_anomaly"
+            },
+            {
+                "_name" : "composition_no2_surface",
+                "criteria" : {
+                    "level" : 60
+                },
+                "more" : [],
+                "style" : "sh_all_no2_surface"
+            },
+            {
+                "_name" : "q1000",
+                "criteria" : {
+                    "level" : 1000
+                },
+                "more" : [],
+                "style" : "sh_spechum_option1"
+            },
+            {
+                "_name" : "t925",
+                "criteria" : {
+                    "level" : 925
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "wbpt850",
+                "criteria" : {
+                    "level" : 850
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "300pv",
+                "criteria" : {
+                    "level" : 300
+                },
+                "more" : [],
+                "style" : "ct_magenta_i2_t3"
+            },
+            {
+                "_name" : "315Kpotvort",
+                "criteria" : {
+                    "level" : 315
+                },
+                "more" : [],
+                "style" : "sh_blu_f02t30"
+            }
+        ],
+        "style" : "ct_magenta_i2_t3"
+    },
+    {
+        "criteria" : {
+            "name" : "Potential vorticity",
+            "param" : "60.128",
+            "paramId" : "60",
+            "shortName" : "pv",
+            "style" : "ct_magenta_i2_t3"
+        },
+        "more" : [
+            {
+                "_name" : "mofc_z500_weekly_mean",
+                "criteria" : {
+                    "level" : 500
+                },
+                "more" : [],
+                "style" : "ct_blk_i6_t2"
+            },
+            {
+                "_name" : "composition_co700",
+                "criteria" : {
+                    "level" : 700
+                },
+                "more" : [],
+                "style" : "sh_all_co_upper"
+            },
+            {
+                "_name" : "mofc_10_t_anomaly",
+                "criteria" : {
+                    "level" : 10
+                },
+                "more" : [],
+                "style" : "t_upper_anomaly"
+            },
+            {
+                "_name" : "composition_no2_surface",
+                "criteria" : {
+                    "level" : 60
+                },
+                "more" : [],
+                "style" : "sh_all_no2_surface"
+            },
+            {
+                "_name" : "q1000",
+                "criteria" : {
+                    "level" : 1000
+                },
+                "more" : [],
+                "style" : "sh_spechum_option1"
+            },
+            {
+                "_name" : "t925",
+                "criteria" : {
+                    "level" : 925
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "wbpt850",
+                "criteria" : {
+                    "level" : 850
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "300pv",
+                "criteria" : {
+                    "level" : 300
+                },
+                "more" : [],
+                "style" : "ct_magenta_i2_t3"
+            },
+            {
+                "_name" : "315Kpotvort",
+                "criteria" : {
+                    "level" : 315
+                },
+                "more" : [],
+                "style" : "sh_blu_f02t30"
+            }
+        ],
+        "style" : "ct_magenta_i2_t3"
+    },
+    {
+        "criteria" : {
+            "name" : "Potential vorticity",
+            "param" : "60.128",
+            "paramId" : "60",
+            "shortName" : "pv",
+            "style" : "ct_magenta_i2_t3"
+        },
+        "more" : [
+            {
+                "_name" : "mofc_z500_weekly_mean",
+                "criteria" : {
+                    "level" : 500
+                },
+                "more" : [],
+                "style" : "ct_blk_i6_t2"
+            },
+            {
+                "_name" : "composition_co700",
+                "criteria" : {
+                    "level" : 700
+                },
+                "more" : [],
+                "style" : "sh_all_co_upper"
+            },
+            {
+                "_name" : "mofc_10_t_anomaly",
+                "criteria" : {
+                    "level" : 10
+                },
+                "more" : [],
+                "style" : "t_upper_anomaly"
+            },
+            {
+                "_name" : "composition_no2_surface",
+                "criteria" : {
+                    "level" : 60
+                },
+                "more" : [],
+                "style" : "sh_all_no2_surface"
+            },
+            {
+                "_name" : "q1000",
+                "criteria" : {
+                    "level" : 1000
+                },
+                "more" : [],
+                "style" : "sh_spechum_option1"
+            },
+            {
+                "_name" : "t925",
+                "criteria" : {
+                    "level" : 925
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "wbpt850",
+                "criteria" : {
+                    "level" : 850
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "300pv",
+                "criteria" : {
+                    "level" : 300
+                },
+                "more" : [],
+                "style" : "ct_magenta_i2_t3"
+            },
+            {
+                "_name" : "315Kpotvort",
+                "criteria" : {
+                    "level" : 315
+                },
+                "more" : [],
+                "style" : "sh_blu_f02t30"
+            }
+        ],
+        "style" : "ct_magenta_i2_t3"
+    },
+    {
+        "criteria" : {
+            "name" : "Potential vorticity",
+            "param" : "60.128",
+            "paramId" : "60",
+            "shortName" : "pv",
+            "style" : "ct_magenta_i2_t3"
+        },
+        "more" : [
+            {
+                "_name" : "mofc_z500_weekly_mean",
+                "criteria" : {
+                    "level" : 500
+                },
+                "more" : [],
+                "style" : "ct_blk_i6_t2"
+            },
+            {
+                "_name" : "composition_co700",
+                "criteria" : {
+                    "level" : 700
+                },
+                "more" : [],
+                "style" : "sh_all_co_upper"
+            },
+            {
+                "_name" : "mofc_10_t_anomaly",
+                "criteria" : {
+                    "level" : 10
+                },
+                "more" : [],
+                "style" : "t_upper_anomaly"
+            },
+            {
+                "_name" : "composition_no2_surface",
+                "criteria" : {
+                    "level" : 60
+                },
+                "more" : [],
+                "style" : "sh_all_no2_surface"
+            },
+            {
+                "_name" : "q1000",
+                "criteria" : {
+                    "level" : 1000
+                },
+                "more" : [],
+                "style" : "sh_spechum_option1"
+            },
+            {
+                "_name" : "t925",
+                "criteria" : {
+                    "level" : 925
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "wbpt850",
+                "criteria" : {
+                    "level" : 850
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "300pv",
+                "criteria" : {
+                    "level" : 300
+                },
+                "more" : [],
+                "style" : "ct_magenta_i2_t3"
+            },
+            {
+                "_name" : "315Kpotvort",
+                "criteria" : {
+                    "level" : 315
+                },
+                "more" : [],
+                "style" : "sh_blu_f02t30"
+            }
+        ],
+        "style" : "ct_magenta_i2_t3"
+    },
+    {
+        "criteria" : {
+            "name" : "Potential vorticity",
+            "param" : "60.128",
+            "paramId" : "60",
+            "shortName" : "pv",
+            "style" : "ct_magenta_i2_t3"
+        },
+        "more" : [
+            {
+                "_name" : "mofc_z500_weekly_mean",
+                "criteria" : {
+                    "level" : 500
+                },
+                "more" : [],
+                "style" : "ct_blk_i6_t2"
+            },
+            {
+                "_name" : "composition_co700",
+                "criteria" : {
+                    "level" : 700
+                },
+                "more" : [],
+                "style" : "sh_all_co_upper"
+            },
+            {
+                "_name" : "mofc_10_t_anomaly",
+                "criteria" : {
+                    "level" : 10
+                },
+                "more" : [],
+                "style" : "t_upper_anomaly"
+            },
+            {
+                "_name" : "composition_no2_surface",
+                "criteria" : {
+                    "level" : 60
+                },
+                "more" : [],
+                "style" : "sh_all_no2_surface"
+            },
+            {
+                "_name" : "q1000",
+                "criteria" : {
+                    "level" : 1000
+                },
+                "more" : [],
+                "style" : "sh_spechum_option1"
+            },
+            {
+                "_name" : "t925",
+                "criteria" : {
+                    "level" : 925
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "wbpt850",
+                "criteria" : {
+                    "level" : 850
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "300pv",
+                "criteria" : {
+                    "level" : 300
+                },
+                "more" : [],
+                "style" : "ct_magenta_i2_t3"
+            },
+            {
+                "_name" : "315Kpotvort",
+                "criteria" : {
+                    "level" : 315
+                },
+                "more" : [],
+                "style" : "sh_blu_f02t30"
+            }
+        ],
+        "style" : "ct_magenta_i2_t3"
+    },
+    {
+        "criteria" : {
+            "name" : "Potential vorticity",
+            "param" : "60.128",
+            "paramId" : "60",
+            "shortName" : "pv",
+            "style" : "ct_magenta_i2_t3"
+        },
+        "more" : [
+            {
+                "_name" : "mofc_z500_weekly_mean",
+                "criteria" : {
+                    "level" : 500
+                },
+                "more" : [],
+                "style" : "ct_blk_i6_t2"
+            },
+            {
+                "_name" : "composition_co700",
+                "criteria" : {
+                    "level" : 700
+                },
+                "more" : [],
+                "style" : "sh_all_co_upper"
+            },
+            {
+                "_name" : "mofc_10_t_anomaly",
+                "criteria" : {
+                    "level" : 10
+                },
+                "more" : [],
+                "style" : "t_upper_anomaly"
+            },
+            {
+                "_name" : "composition_no2_surface",
+                "criteria" : {
+                    "level" : 60
+                },
+                "more" : [],
+                "style" : "sh_all_no2_surface"
+            },
+            {
+                "_name" : "q1000",
+                "criteria" : {
+                    "level" : 1000
+                },
+                "more" : [],
+                "style" : "sh_spechum_option1"
+            },
+            {
+                "_name" : "t925",
+                "criteria" : {
+                    "level" : 925
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "wbpt850",
+                "criteria" : {
+                    "level" : 850
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "300pv",
+                "criteria" : {
+                    "level" : 300
+                },
+                "more" : [],
+                "style" : "ct_magenta_i2_t3"
+            },
+            {
+                "_name" : "315Kpotvort",
+                "criteria" : {
+                    "level" : 315
+                },
+                "more" : [],
+                "style" : "sh_blu_f02t30"
+            }
+        ],
+        "style" : "ct_magenta_i2_t3"
+    },
+    {
+        "criteria" : {
+            "name" : "Potential vorticity",
+            "param" : "60.128",
+            "paramId" : "60",
+            "shortName" : "pv",
+            "style" : "ct_magenta_i2_t3"
+        },
+        "more" : [
+            {
+                "_name" : "mofc_z500_weekly_mean",
+                "criteria" : {
+                    "level" : 500
+                },
+                "more" : [],
+                "style" : "ct_blk_i6_t2"
+            },
+            {
+                "_name" : "composition_co700",
+                "criteria" : {
+                    "level" : 700
+                },
+                "more" : [],
+                "style" : "sh_all_co_upper"
+            },
+            {
+                "_name" : "mofc_10_t_anomaly",
+                "criteria" : {
+                    "level" : 10
+                },
+                "more" : [],
+                "style" : "t_upper_anomaly"
+            },
+            {
+                "_name" : "composition_no2_surface",
+                "criteria" : {
+                    "level" : 60
+                },
+                "more" : [],
+                "style" : "sh_all_no2_surface"
+            },
+            {
+                "_name" : "q1000",
+                "criteria" : {
+                    "level" : 1000
+                },
+                "more" : [],
+                "style" : "sh_spechum_option1"
+            },
+            {
+                "_name" : "t925",
+                "criteria" : {
+                    "level" : 925
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "wbpt850",
+                "criteria" : {
+                    "level" : 850
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "300pv",
+                "criteria" : {
+                    "level" : 300
+                },
+                "more" : [],
+                "style" : "ct_magenta_i2_t3"
+            },
+            {
+                "_name" : "315Kpotvort",
+                "criteria" : {
+                    "level" : 315
+                },
+                "more" : [],
+                "style" : "sh_blu_f02t30"
+            }
+        ],
+        "style" : "ct_magenta_i2_t3"
+    },
+    {
+        "criteria" : {
+            "name" : "Potential vorticity",
+            "param" : "60.128",
+            "paramId" : "60",
+            "shortName" : "pv",
+            "style" : "ct_magenta_i2_t3"
+        },
+        "more" : [
+            {
+                "_name" : "mofc_z500_weekly_mean",
+                "criteria" : {
+                    "level" : 500
+                },
+                "more" : [],
+                "style" : "ct_blk_i6_t2"
+            },
+            {
+                "_name" : "composition_co700",
+                "criteria" : {
+                    "level" : 700
+                },
+                "more" : [],
+                "style" : "sh_all_co_upper"
+            },
+            {
+                "_name" : "mofc_10_t_anomaly",
+                "criteria" : {
+                    "level" : 10
+                },
+                "more" : [],
+                "style" : "t_upper_anomaly"
+            },
+            {
+                "_name" : "composition_no2_surface",
+                "criteria" : {
+                    "level" : 60
+                },
+                "more" : [],
+                "style" : "sh_all_no2_surface"
+            },
+            {
+                "_name" : "q1000",
+                "criteria" : {
+                    "level" : 1000
+                },
+                "more" : [],
+                "style" : "sh_spechum_option1"
+            },
+            {
+                "_name" : "t925",
+                "criteria" : {
+                    "level" : 925
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "wbpt850",
+                "criteria" : {
+                    "level" : 850
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "300pv",
+                "criteria" : {
+                    "level" : 300
+                },
+                "more" : [],
+                "style" : "ct_magenta_i2_t3"
+            },
+            {
+                "_name" : "315Kpotvort",
+                "criteria" : {
+                    "level" : 315
+                },
+                "more" : [],
+                "style" : "sh_blu_f02t30"
+            }
+        ],
+        "style" : "ct_magenta_i2_t3"
+    },
+    {
+        "criteria" : {
+            "name" : "Potential vorticity",
+            "param" : "60.128",
+            "paramId" : "60",
+            "shortName" : "pv",
+            "style" : "ct_magenta_i2_t3"
+        },
+        "more" : [
+            {
+                "_name" : "mofc_z500_weekly_mean",
+                "criteria" : {
+                    "level" : 500
+                },
+                "more" : [],
+                "style" : "ct_blk_i6_t2"
+            },
+            {
+                "_name" : "composition_co700",
+                "criteria" : {
+                    "level" : 700
+                },
+                "more" : [],
+                "style" : "sh_all_co_upper"
+            },
+            {
+                "_name" : "mofc_10_t_anomaly",
+                "criteria" : {
+                    "level" : 10
+                },
+                "more" : [],
+                "style" : "t_upper_anomaly"
+            },
+            {
+                "_name" : "composition_no2_surface",
+                "criteria" : {
+                    "level" : 60
+                },
+                "more" : [],
+                "style" : "sh_all_no2_surface"
+            },
+            {
+                "_name" : "q1000",
+                "criteria" : {
+                    "level" : 1000
+                },
+                "more" : [],
+                "style" : "sh_spechum_option1"
+            },
+            {
+                "_name" : "t925",
+                "criteria" : {
+                    "level" : 925
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "wbpt850",
+                "criteria" : {
+                    "level" : 850
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "300pv",
+                "criteria" : {
+                    "level" : 300
+                },
+                "more" : [],
+                "style" : "ct_magenta_i2_t3"
+            },
+            {
+                "_name" : "315Kpotvort",
+                "criteria" : {
+                    "level" : 315
+                },
+                "more" : [],
+                "style" : "sh_blu_f02t30"
+            }
+        ],
+        "style" : "ct_magenta_i2_t3"
+    },
+    {
+        "criteria" : {
+            "name" : "Potential vorticity",
+            "param" : "60.128",
+            "paramId" : "60",
+            "shortName" : "pv",
+            "style" : "ct_magenta_i2_t3"
+        },
+        "more" : [
+            {
+                "_name" : "mofc_z500_weekly_mean",
+                "criteria" : {
+                    "level" : 500
+                },
+                "more" : [],
+                "style" : "ct_blk_i6_t2"
+            },
+            {
+                "_name" : "composition_co700",
+                "criteria" : {
+                    "level" : 700
+                },
+                "more" : [],
+                "style" : "sh_all_co_upper"
+            },
+            {
+                "_name" : "mofc_10_t_anomaly",
+                "criteria" : {
+                    "level" : 10
+                },
+                "more" : [],
+                "style" : "t_upper_anomaly"
+            },
+            {
+                "_name" : "composition_no2_surface",
+                "criteria" : {
+                    "level" : 60
+                },
+                "more" : [],
+                "style" : "sh_all_no2_surface"
+            },
+            {
+                "_name" : "q1000",
+                "criteria" : {
+                    "level" : 1000
+                },
+                "more" : [],
+                "style" : "sh_spechum_option1"
+            },
+            {
+                "_name" : "t925",
+                "criteria" : {
+                    "level" : 925
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "wbpt850",
+                "criteria" : {
+                    "level" : 850
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "300pv",
+                "criteria" : {
+                    "level" : 300
+                },
+                "more" : [],
+                "style" : "ct_magenta_i2_t3"
+            },
+            {
+                "_name" : "315Kpotvort",
+                "criteria" : {
+                    "level" : 315
+                },
+                "more" : [],
+                "style" : "sh_blu_f02t30"
+            }
+        ],
+        "style" : "ct_magenta_i2_t3"
+    },
+    {
+        "criteria" : {
+            "name" : "Potential vorticity",
+            "param" : "60.128",
+            "paramId" : "60",
+            "shortName" : "pv",
+            "style" : "ct_magenta_i2_t3"
+        },
+        "more" : [
+            {
+                "_name" : "mofc_z500_weekly_mean",
+                "criteria" : {
+                    "level" : 500
+                },
+                "more" : [],
+                "style" : "ct_blk_i6_t2"
+            },
+            {
+                "_name" : "composition_co700",
+                "criteria" : {
+                    "level" : 700
+                },
+                "more" : [],
+                "style" : "sh_all_co_upper"
+            },
+            {
+                "_name" : "mofc_10_t_anomaly",
+                "criteria" : {
+                    "level" : 10
+                },
+                "more" : [],
+                "style" : "t_upper_anomaly"
+            },
+            {
+                "_name" : "composition_no2_surface",
+                "criteria" : {
+                    "level" : 60
+                },
+                "more" : [],
+                "style" : "sh_all_no2_surface"
+            },
+            {
+                "_name" : "q1000",
+                "criteria" : {
+                    "level" : 1000
+                },
+                "more" : [],
+                "style" : "sh_spechum_option1"
+            },
+            {
+                "_name" : "t925",
+                "criteria" : {
+                    "level" : 925
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "wbpt850",
+                "criteria" : {
+                    "level" : 850
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "300pv",
+                "criteria" : {
+                    "level" : 300
+                },
+                "more" : [],
+                "style" : "ct_magenta_i2_t3"
+            },
+            {
+                "_name" : "315Kpotvort",
+                "criteria" : {
+                    "level" : 315
+                },
+                "more" : [],
+                "style" : "sh_blu_f02t30"
+            }
+        ],
+        "style" : "ct_magenta_i2_t3"
+    },
+    {
+        "criteria" : {
+            "name" : "Potential vorticity",
+            "param" : "60.128",
+            "paramId" : "60",
+            "shortName" : "pv",
+            "style" : "ct_magenta_i2_t3"
+        },
+        "more" : [
+            {
+                "_name" : "mofc_z500_weekly_mean",
+                "criteria" : {
+                    "level" : 500
+                },
+                "more" : [],
+                "style" : "ct_blk_i6_t2"
+            },
+            {
+                "_name" : "composition_co700",
+                "criteria" : {
+                    "level" : 700
+                },
+                "more" : [],
+                "style" : "sh_all_co_upper"
+            },
+            {
+                "_name" : "mofc_10_t_anomaly",
+                "criteria" : {
+                    "level" : 10
+                },
+                "more" : [],
+                "style" : "t_upper_anomaly"
+            },
+            {
+                "_name" : "composition_no2_surface",
+                "criteria" : {
+                    "level" : 60
+                },
+                "more" : [],
+                "style" : "sh_all_no2_surface"
+            },
+            {
+                "_name" : "q1000",
+                "criteria" : {
+                    "level" : 1000
+                },
+                "more" : [],
+                "style" : "sh_spechum_option1"
+            },
+            {
+                "_name" : "t925",
+                "criteria" : {
+                    "level" : 925
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "wbpt850",
+                "criteria" : {
+                    "level" : 850
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "300pv",
+                "criteria" : {
+                    "level" : 300
+                },
+                "more" : [],
+                "style" : "ct_magenta_i2_t3"
+            },
+            {
+                "_name" : "315Kpotvort",
+                "criteria" : {
+                    "level" : 315
+                },
+                "more" : [],
+                "style" : "sh_blu_f02t30"
+            }
+        ],
+        "style" : "ct_magenta_i2_t3"
+    },
+    {
+        "criteria" : {
+            "name" : "Potential vorticity",
+            "param" : "60.128",
+            "paramId" : "60",
+            "shortName" : "pv",
+            "style" : "ct_magenta_i2_t3"
+        },
+        "more" : [
+            {
+                "_name" : "mofc_z500_weekly_mean",
+                "criteria" : {
+                    "level" : 500
+                },
+                "more" : [],
+                "style" : "ct_blk_i6_t2"
+            },
+            {
+                "_name" : "composition_co700",
+                "criteria" : {
+                    "level" : 700
+                },
+                "more" : [],
+                "style" : "sh_all_co_upper"
+            },
+            {
+                "_name" : "mofc_10_t_anomaly",
+                "criteria" : {
+                    "level" : 10
+                },
+                "more" : [],
+                "style" : "t_upper_anomaly"
+            },
+            {
+                "_name" : "composition_no2_surface",
+                "criteria" : {
+                    "level" : 60
+                },
+                "more" : [],
+                "style" : "sh_all_no2_surface"
+            },
+            {
+                "_name" : "q1000",
+                "criteria" : {
+                    "level" : 1000
+                },
+                "more" : [],
+                "style" : "sh_spechum_option1"
+            },
+            {
+                "_name" : "t925",
+                "criteria" : {
+                    "level" : 925
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "wbpt850",
+                "criteria" : {
+                    "level" : 850
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "300pv",
+                "criteria" : {
+                    "level" : 300
+                },
+                "more" : [],
+                "style" : "ct_magenta_i2_t3"
+            },
+            {
+                "_name" : "315Kpotvort",
+                "criteria" : {
+                    "level" : 315
+                },
+                "more" : [],
+                "style" : "sh_blu_f02t30"
+            }
+        ],
+        "style" : "ct_magenta_i2_t3"
+    },
+    {
+        "criteria" : {
+            "name" : "Potential vorticity",
+            "param" : "60.128",
+            "paramId" : "60",
+            "shortName" : "pv",
+            "style" : "ct_magenta_i2_t3"
+        },
+        "more" : [
+            {
+                "_name" : "mofc_z500_weekly_mean",
+                "criteria" : {
+                    "level" : 500
+                },
+                "more" : [],
+                "style" : "ct_blk_i6_t2"
+            },
+            {
+                "_name" : "composition_co700",
+                "criteria" : {
+                    "level" : 700
+                },
+                "more" : [],
+                "style" : "sh_all_co_upper"
+            },
+            {
+                "_name" : "mofc_10_t_anomaly",
+                "criteria" : {
+                    "level" : 10
+                },
+                "more" : [],
+                "style" : "t_upper_anomaly"
+            },
+            {
+                "_name" : "composition_no2_surface",
+                "criteria" : {
+                    "level" : 60
+                },
+                "more" : [],
+                "style" : "sh_all_no2_surface"
+            },
+            {
+                "_name" : "q1000",
+                "criteria" : {
+                    "level" : 1000
+                },
+                "more" : [],
+                "style" : "sh_spechum_option1"
+            },
+            {
+                "_name" : "t925",
+                "criteria" : {
+                    "level" : 925
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "wbpt850",
+                "criteria" : {
+                    "level" : 850
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "300pv",
+                "criteria" : {
+                    "level" : 300
+                },
+                "more" : [],
+                "style" : "ct_magenta_i2_t3"
+            },
+            {
+                "_name" : "315Kpotvort",
+                "criteria" : {
+                    "level" : 315
+                },
+                "more" : [],
+                "style" : "sh_blu_f02t30"
+            }
+        ],
+        "style" : "ct_magenta_i2_t3"
+    },
+    {
+        "criteria" : {
+            "name" : "Potential vorticity",
+            "param" : "60.128",
+            "paramId" : "60",
+            "shortName" : "pv",
+            "style" : "ct_magenta_i2_t3"
+        },
+        "more" : [
+            {
+                "_name" : "mofc_z500_weekly_mean",
+                "criteria" : {
+                    "level" : 500
+                },
+                "more" : [],
+                "style" : "ct_blk_i6_t2"
+            },
+            {
+                "_name" : "composition_co700",
+                "criteria" : {
+                    "level" : 700
+                },
+                "more" : [],
+                "style" : "sh_all_co_upper"
+            },
+            {
+                "_name" : "mofc_10_t_anomaly",
+                "criteria" : {
+                    "level" : 10
+                },
+                "more" : [],
+                "style" : "t_upper_anomaly"
+            },
+            {
+                "_name" : "composition_no2_surface",
+                "criteria" : {
+                    "level" : 60
+                },
+                "more" : [],
+                "style" : "sh_all_no2_surface"
+            },
+            {
+                "_name" : "q1000",
+                "criteria" : {
+                    "level" : 1000
+                },
+                "more" : [],
+                "style" : "sh_spechum_option1"
+            },
+            {
+                "_name" : "t925",
+                "criteria" : {
+                    "level" : 925
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "wbpt850",
+                "criteria" : {
+                    "level" : 850
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "300pv",
+                "criteria" : {
+                    "level" : 300
+                },
+                "more" : [],
+                "style" : "ct_magenta_i2_t3"
+            },
+            {
+                "_name" : "315Kpotvort",
+                "criteria" : {
+                    "level" : 315
+                },
+                "more" : [],
+                "style" : "sh_blu_f02t30"
+            }
+        ],
+        "style" : "ct_magenta_i2_t3"
+    },
+    {
+        "criteria" : {
+            "name" : "Potential vorticity",
+            "param" : "60.128",
+            "paramId" : "60",
+            "shortName" : "pv",
+            "style" : "ct_magenta_i2_t3"
+        },
+        "more" : [
+            {
+                "_name" : "mofc_z500_weekly_mean",
+                "criteria" : {
+                    "level" : 500
+                },
+                "more" : [],
+                "style" : "ct_blk_i6_t2"
+            },
+            {
+                "_name" : "composition_co700",
+                "criteria" : {
+                    "level" : 700
+                },
+                "more" : [],
+                "style" : "sh_all_co_upper"
+            },
+            {
+                "_name" : "mofc_10_t_anomaly",
+                "criteria" : {
+                    "level" : 10
+                },
+                "more" : [],
+                "style" : "t_upper_anomaly"
+            },
+            {
+                "_name" : "composition_no2_surface",
+                "criteria" : {
+                    "level" : 60
+                },
+                "more" : [],
+                "style" : "sh_all_no2_surface"
+            },
+            {
+                "_name" : "q1000",
+                "criteria" : {
+                    "level" : 1000
+                },
+                "more" : [],
+                "style" : "sh_spechum_option1"
+            },
+            {
+                "_name" : "t925",
+                "criteria" : {
+                    "level" : 925
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "wbpt850",
+                "criteria" : {
+                    "level" : 850
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "300pv",
+                "criteria" : {
+                    "level" : 300
+                },
+                "more" : [],
+                "style" : "ct_magenta_i2_t3"
+            },
+            {
+                "_name" : "315Kpotvort",
+                "criteria" : {
+                    "level" : 315
+                },
+                "more" : [],
+                "style" : "sh_blu_f02t30"
+            }
+        ],
+        "style" : "ct_magenta_i2_t3"
+    },
+    {
+        "criteria" : {
+            "name" : "Potential vorticity",
+            "param" : "60.128",
+            "paramId" : "60",
+            "shortName" : "pv",
+            "style" : "ct_magenta_i2_t3"
+        },
+        "more" : [
+            {
+                "_name" : "mofc_z500_weekly_mean",
+                "criteria" : {
+                    "level" : 500
+                },
+                "more" : [],
+                "style" : "ct_blk_i6_t2"
+            },
+            {
+                "_name" : "composition_co700",
+                "criteria" : {
+                    "level" : 700
+                },
+                "more" : [],
+                "style" : "sh_all_co_upper"
+            },
+            {
+                "_name" : "mofc_10_t_anomaly",
+                "criteria" : {
+                    "level" : 10
+                },
+                "more" : [],
+                "style" : "t_upper_anomaly"
+            },
+            {
+                "_name" : "composition_no2_surface",
+                "criteria" : {
+                    "level" : 60
+                },
+                "more" : [],
+                "style" : "sh_all_no2_surface"
+            },
+            {
+                "_name" : "q1000",
+                "criteria" : {
+                    "level" : 1000
+                },
+                "more" : [],
+                "style" : "sh_spechum_option1"
+            },
+            {
+                "_name" : "t925",
+                "criteria" : {
+                    "level" : 925
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "wbpt850",
+                "criteria" : {
+                    "level" : 850
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "300pv",
+                "criteria" : {
+                    "level" : 300
+                },
+                "more" : [],
+                "style" : "ct_magenta_i2_t3"
+            },
+            {
+                "_name" : "315Kpotvort",
+                "criteria" : {
+                    "level" : 315
+                },
+                "more" : [],
+                "style" : "sh_blu_f02t30"
+            }
+        ],
+        "style" : "ct_magenta_i2_t3"
+    },
+    {
+        "criteria" : {
+            "name" : "Potential vorticity",
+            "param" : "60.128",
+            "paramId" : "60",
+            "shortName" : "pv",
+            "style" : "ct_magenta_i2_t3"
+        },
+        "more" : [
+            {
+                "_name" : "mofc_z500_weekly_mean",
+                "criteria" : {
+                    "level" : 500
+                },
+                "more" : [],
+                "style" : "ct_blk_i6_t2"
+            },
+            {
+                "_name" : "composition_co700",
+                "criteria" : {
+                    "level" : 700
+                },
+                "more" : [],
+                "style" : "sh_all_co_upper"
+            },
+            {
+                "_name" : "mofc_10_t_anomaly",
+                "criteria" : {
+                    "level" : 10
+                },
+                "more" : [],
+                "style" : "t_upper_anomaly"
+            },
+            {
+                "_name" : "composition_no2_surface",
+                "criteria" : {
+                    "level" : 60
+                },
+                "more" : [],
+                "style" : "sh_all_no2_surface"
+            },
+            {
+                "_name" : "q1000",
+                "criteria" : {
+                    "level" : 1000
+                },
+                "more" : [],
+                "style" : "sh_spechum_option1"
+            },
+            {
+                "_name" : "t925",
+                "criteria" : {
+                    "level" : 925
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "wbpt850",
+                "criteria" : {
+                    "level" : 850
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "300pv",
+                "criteria" : {
+                    "level" : 300
+                },
+                "more" : [],
+                "style" : "ct_magenta_i2_t3"
+            },
+            {
+                "_name" : "315Kpotvort",
+                "criteria" : {
+                    "level" : 315
+                },
+                "more" : [],
+                "style" : "sh_blu_f02t30"
+            }
+        ],
+        "style" : "ct_magenta_i2_t3"
+    },
+    {
+        "criteria" : {
+            "name" : "Potential vorticity",
+            "param" : "60.128",
+            "paramId" : "60",
+            "shortName" : "pv",
+            "style" : "ct_magenta_i2_t3"
+        },
+        "more" : [
+            {
+                "_name" : "mofc_z500_weekly_mean",
+                "criteria" : {
+                    "level" : 500
+                },
+                "more" : [],
+                "style" : "ct_blk_i6_t2"
+            },
+            {
+                "_name" : "composition_co700",
+                "criteria" : {
+                    "level" : 700
+                },
+                "more" : [],
+                "style" : "sh_all_co_upper"
+            },
+            {
+                "_name" : "mofc_10_t_anomaly",
+                "criteria" : {
+                    "level" : 10
+                },
+                "more" : [],
+                "style" : "t_upper_anomaly"
+            },
+            {
+                "_name" : "composition_no2_surface",
+                "criteria" : {
+                    "level" : 60
+                },
+                "more" : [],
+                "style" : "sh_all_no2_surface"
+            },
+            {
+                "_name" : "q1000",
+                "criteria" : {
+                    "level" : 1000
+                },
+                "more" : [],
+                "style" : "sh_spechum_option1"
+            },
+            {
+                "_name" : "t925",
+                "criteria" : {
+                    "level" : 925
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "wbpt850",
+                "criteria" : {
+                    "level" : 850
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "300pv",
+                "criteria" : {
+                    "level" : 300
+                },
+                "more" : [],
+                "style" : "ct_magenta_i2_t3"
+            },
+            {
+                "_name" : "315Kpotvort",
+                "criteria" : {
+                    "level" : 315
+                },
+                "more" : [],
+                "style" : "sh_blu_f02t30"
+            }
+        ],
+        "style" : "ct_magenta_i2_t3"
+    },
+    {
+        "criteria" : {
+            "name" : "Potential vorticity",
+            "param" : "60.128",
+            "paramId" : "60",
+            "shortName" : "pv",
+            "style" : "ct_magenta_i2_t3"
+        },
+        "more" : [
+            {
+                "_name" : "mofc_z500_weekly_mean",
+                "criteria" : {
+                    "level" : 500
+                },
+                "more" : [],
+                "style" : "ct_blk_i6_t2"
+            },
+            {
+                "_name" : "composition_co700",
+                "criteria" : {
+                    "level" : 700
+                },
+                "more" : [],
+                "style" : "sh_all_co_upper"
+            },
+            {
+                "_name" : "mofc_10_t_anomaly",
+                "criteria" : {
+                    "level" : 10
+                },
+                "more" : [],
+                "style" : "t_upper_anomaly"
+            },
+            {
+                "_name" : "composition_no2_surface",
+                "criteria" : {
+                    "level" : 60
+                },
+                "more" : [],
+                "style" : "sh_all_no2_surface"
+            },
+            {
+                "_name" : "q1000",
+                "criteria" : {
+                    "level" : 1000
+                },
+                "more" : [],
+                "style" : "sh_spechum_option1"
+            },
+            {
+                "_name" : "t925",
+                "criteria" : {
+                    "level" : 925
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "wbpt850",
+                "criteria" : {
+                    "level" : 850
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "300pv",
+                "criteria" : {
+                    "level" : 300
+                },
+                "more" : [],
+                "style" : "ct_magenta_i2_t3"
+            },
+            {
+                "_name" : "315Kpotvort",
+                "criteria" : {
+                    "level" : 315
+                },
+                "more" : [],
+                "style" : "sh_blu_f02t30"
+            }
+        ],
+        "style" : "ct_magenta_i2_t3"
+    },
+    {
+        "criteria" : {
+            "name" : "Potential vorticity",
+            "param" : "60.128",
+            "paramId" : "60",
+            "shortName" : "pv",
+            "style" : "ct_magenta_i2_t3"
+        },
+        "more" : [
+            {
+                "_name" : "mofc_z500_weekly_mean",
+                "criteria" : {
+                    "level" : 500
+                },
+                "more" : [],
+                "style" : "ct_blk_i6_t2"
+            },
+            {
+                "_name" : "composition_co700",
+                "criteria" : {
+                    "level" : 700
+                },
+                "more" : [],
+                "style" : "sh_all_co_upper"
+            },
+            {
+                "_name" : "mofc_10_t_anomaly",
+                "criteria" : {
+                    "level" : 10
+                },
+                "more" : [],
+                "style" : "t_upper_anomaly"
+            },
+            {
+                "_name" : "composition_no2_surface",
+                "criteria" : {
+                    "level" : 60
+                },
+                "more" : [],
+                "style" : "sh_all_no2_surface"
+            },
+            {
+                "_name" : "q1000",
+                "criteria" : {
+                    "level" : 1000
+                },
+                "more" : [],
+                "style" : "sh_spechum_option1"
+            },
+            {
+                "_name" : "t925",
+                "criteria" : {
+                    "level" : 925
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "wbpt850",
+                "criteria" : {
+                    "level" : 850
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "300pv",
+                "criteria" : {
+                    "level" : 300
+                },
+                "more" : [],
+                "style" : "ct_magenta_i2_t3"
+            },
+            {
+                "_name" : "315Kpotvort",
+                "criteria" : {
+                    "level" : 315
+                },
+                "more" : [],
+                "style" : "sh_blu_f02t30"
+            }
+        ],
+        "style" : "ct_magenta_i2_t3"
+    },
+    {
+        "criteria" : {
+            "name" : "Potential vorticity",
+            "param" : "60.128",
+            "paramId" : "60",
+            "shortName" : "pv",
+            "style" : "ct_magenta_i2_t3"
+        },
+        "more" : [
+            {
+                "_name" : "mofc_z500_weekly_mean",
+                "criteria" : {
+                    "level" : 500
+                },
+                "more" : [],
+                "style" : "ct_blk_i6_t2"
+            },
+            {
+                "_name" : "composition_co700",
+                "criteria" : {
+                    "level" : 700
+                },
+                "more" : [],
+                "style" : "sh_all_co_upper"
+            },
+            {
+                "_name" : "mofc_10_t_anomaly",
+                "criteria" : {
+                    "level" : 10
+                },
+                "more" : [],
+                "style" : "t_upper_anomaly"
+            },
+            {
+                "_name" : "composition_no2_surface",
+                "criteria" : {
+                    "level" : 60
+                },
+                "more" : [],
+                "style" : "sh_all_no2_surface"
+            },
+            {
+                "_name" : "q1000",
+                "criteria" : {
+                    "level" : 1000
+                },
+                "more" : [],
+                "style" : "sh_spechum_option1"
+            },
+            {
+                "_name" : "t925",
+                "criteria" : {
+                    "level" : 925
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "wbpt850",
+                "criteria" : {
+                    "level" : 850
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "300pv",
+                "criteria" : {
+                    "level" : 300
+                },
+                "more" : [],
+                "style" : "ct_magenta_i2_t3"
+            },
+            {
+                "_name" : "315Kpotvort",
+                "criteria" : {
+                    "level" : 315
+                },
+                "more" : [],
+                "style" : "sh_blu_f02t30"
+            }
+        ],
+        "style" : "ct_magenta_i2_t3"
+    },
+    {
+        "criteria" : {
+            "name" : "Potential vorticity",
+            "param" : "60.128",
+            "paramId" : "60",
+            "shortName" : "pv",
+            "style" : "ct_magenta_i2_t3"
+        },
+        "more" : [
+            {
+                "_name" : "mofc_z500_weekly_mean",
+                "criteria" : {
+                    "level" : 500
+                },
+                "more" : [],
+                "style" : "ct_blk_i6_t2"
+            },
+            {
+                "_name" : "composition_co700",
+                "criteria" : {
+                    "level" : 700
+                },
+                "more" : [],
+                "style" : "sh_all_co_upper"
+            },
+            {
+                "_name" : "mofc_10_t_anomaly",
+                "criteria" : {
+                    "level" : 10
+                },
+                "more" : [],
+                "style" : "t_upper_anomaly"
+            },
+            {
+                "_name" : "composition_no2_surface",
+                "criteria" : {
+                    "level" : 60
+                },
+                "more" : [],
+                "style" : "sh_all_no2_surface"
+            },
+            {
+                "_name" : "q1000",
+                "criteria" : {
+                    "level" : 1000
+                },
+                "more" : [],
+                "style" : "sh_spechum_option1"
+            },
+            {
+                "_name" : "t925",
+                "criteria" : {
+                    "level" : 925
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "wbpt850",
+                "criteria" : {
+                    "level" : 850
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "300pv",
+                "criteria" : {
+                    "level" : 300
+                },
+                "more" : [],
+                "style" : "ct_magenta_i2_t3"
+            },
+            {
+                "_name" : "315Kpotvort",
+                "criteria" : {
+                    "level" : 315
+                },
+                "more" : [],
+                "style" : "sh_blu_f02t30"
+            }
+        ],
+        "style" : "ct_magenta_i2_t3"
+    },
+    {
+        "criteria" : {
+            "name" : "Potential vorticity",
+            "param" : "60.128",
+            "paramId" : "60",
+            "shortName" : "pv",
+            "style" : "ct_magenta_i2_t3"
+        },
+        "more" : [
+            {
+                "_name" : "mofc_z500_weekly_mean",
+                "criteria" : {
+                    "level" : 500
+                },
+                "more" : [],
+                "style" : "ct_blk_i6_t2"
+            },
+            {
+                "_name" : "composition_co700",
+                "criteria" : {
+                    "level" : 700
+                },
+                "more" : [],
+                "style" : "sh_all_co_upper"
+            },
+            {
+                "_name" : "mofc_10_t_anomaly",
+                "criteria" : {
+                    "level" : 10
+                },
+                "more" : [],
+                "style" : "t_upper_anomaly"
+            },
+            {
+                "_name" : "composition_no2_surface",
+                "criteria" : {
+                    "level" : 60
+                },
+                "more" : [],
+                "style" : "sh_all_no2_surface"
+            },
+            {
+                "_name" : "q1000",
+                "criteria" : {
+                    "level" : 1000
+                },
+                "more" : [],
+                "style" : "sh_spechum_option1"
+            },
+            {
+                "_name" : "t925",
+                "criteria" : {
+                    "level" : 925
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "wbpt850",
+                "criteria" : {
+                    "level" : 850
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "300pv",
+                "criteria" : {
+                    "level" : 300
+                },
+                "more" : [],
+                "style" : "ct_magenta_i2_t3"
+            },
+            {
+                "_name" : "315Kpotvort",
+                "criteria" : {
+                    "level" : 315
+                },
+                "more" : [],
+                "style" : "sh_blu_f02t30"
+            }
+        ],
+        "style" : "ct_magenta_i2_t3"
+    },
+    {
+        "criteria" : {
+            "name" : "Potential vorticity",
+            "param" : "60.128",
+            "paramId" : "60",
+            "shortName" : "pv",
+            "style" : "ct_magenta_i2_t3"
+        },
+        "more" : [
+            {
+                "_name" : "mofc_z500_weekly_mean",
+                "criteria" : {
+                    "level" : 500
+                },
+                "more" : [],
+                "style" : "ct_blk_i6_t2"
+            },
+            {
+                "_name" : "composition_co700",
+                "criteria" : {
+                    "level" : 700
+                },
+                "more" : [],
+                "style" : "sh_all_co_upper"
+            },
+            {
+                "_name" : "mofc_10_t_anomaly",
+                "criteria" : {
+                    "level" : 10
+                },
+                "more" : [],
+                "style" : "t_upper_anomaly"
+            },
+            {
+                "_name" : "composition_no2_surface",
+                "criteria" : {
+                    "level" : 60
+                },
+                "more" : [],
+                "style" : "sh_all_no2_surface"
+            },
+            {
+                "_name" : "q1000",
+                "criteria" : {
+                    "level" : 1000
+                },
+                "more" : [],
+                "style" : "sh_spechum_option1"
+            },
+            {
+                "_name" : "t925",
+                "criteria" : {
+                    "level" : 925
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "wbpt850",
+                "criteria" : {
+                    "level" : 850
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "300pv",
+                "criteria" : {
+                    "level" : 300
+                },
+                "more" : [],
+                "style" : "ct_magenta_i2_t3"
+            },
+            {
+                "_name" : "315Kpotvort",
+                "criteria" : {
+                    "level" : 315
+                },
+                "more" : [],
+                "style" : "sh_blu_f02t30"
+            }
+        ],
+        "style" : "ct_magenta_i2_t3"
+    },
+    {
+        "criteria" : {
+            "name" : "Potential vorticity",
+            "param" : "60.128",
+            "paramId" : "60",
+            "shortName" : "pv",
+            "style" : "ct_magenta_i2_t3"
+        },
+        "more" : [
+            {
+                "_name" : "mofc_z500_weekly_mean",
+                "criteria" : {
+                    "level" : 500
+                },
+                "more" : [],
+                "style" : "ct_blk_i6_t2"
+            },
+            {
+                "_name" : "composition_co700",
+                "criteria" : {
+                    "level" : 700
+                },
+                "more" : [],
+                "style" : "sh_all_co_upper"
+            },
+            {
+                "_name" : "mofc_10_t_anomaly",
+                "criteria" : {
+                    "level" : 10
+                },
+                "more" : [],
+                "style" : "t_upper_anomaly"
+            },
+            {
+                "_name" : "composition_no2_surface",
+                "criteria" : {
+                    "level" : 60
+                },
+                "more" : [],
+                "style" : "sh_all_no2_surface"
+            },
+            {
+                "_name" : "q1000",
+                "criteria" : {
+                    "level" : 1000
+                },
+                "more" : [],
+                "style" : "sh_spechum_option1"
+            },
+            {
+                "_name" : "t925",
+                "criteria" : {
+                    "level" : 925
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "wbpt850",
+                "criteria" : {
+                    "level" : 850
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "300pv",
+                "criteria" : {
+                    "level" : 300
+                },
+                "more" : [],
+                "style" : "ct_magenta_i2_t3"
+            },
+            {
+                "_name" : "315Kpotvort",
+                "criteria" : {
+                    "level" : 315
+                },
+                "more" : [],
+                "style" : "sh_blu_f02t30"
+            }
+        ],
+        "style" : "ct_magenta_i2_t3"
+    },
+    {
+        "criteria" : {
+            "name" : "Potential vorticity",
+            "param" : "60.128",
+            "paramId" : "60",
+            "shortName" : "pv",
+            "style" : "ct_magenta_i2_t3"
+        },
+        "more" : [
+            {
+                "_name" : "mofc_z500_weekly_mean",
+                "criteria" : {
+                    "level" : 500
+                },
+                "more" : [],
+                "style" : "ct_blk_i6_t2"
+            },
+            {
+                "_name" : "composition_co700",
+                "criteria" : {
+                    "level" : 700
+                },
+                "more" : [],
+                "style" : "sh_all_co_upper"
+            },
+            {
+                "_name" : "mofc_10_t_anomaly",
+                "criteria" : {
+                    "level" : 10
+                },
+                "more" : [],
+                "style" : "t_upper_anomaly"
+            },
+            {
+                "_name" : "composition_no2_surface",
+                "criteria" : {
+                    "level" : 60
+                },
+                "more" : [],
+                "style" : "sh_all_no2_surface"
+            },
+            {
+                "_name" : "q1000",
+                "criteria" : {
+                    "level" : 1000
+                },
+                "more" : [],
+                "style" : "sh_spechum_option1"
+            },
+            {
+                "_name" : "t925",
+                "criteria" : {
+                    "level" : 925
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "wbpt850",
+                "criteria" : {
+                    "level" : 850
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "300pv",
+                "criteria" : {
+                    "level" : 300
+                },
+                "more" : [],
+                "style" : "ct_magenta_i2_t3"
+            },
+            {
+                "_name" : "315Kpotvort",
+                "criteria" : {
+                    "level" : 315
+                },
+                "more" : [],
+                "style" : "sh_blu_f02t30"
+            }
+        ],
+        "style" : "ct_magenta_i2_t3"
+    },
+    {
+        "criteria" : {
+            "name" : "Potential vorticity",
+            "param" : "60.128",
+            "paramId" : "60",
+            "shortName" : "pv",
+            "style" : "ct_magenta_i2_t3"
+        },
+        "more" : [
+            {
+                "_name" : "mofc_z500_weekly_mean",
+                "criteria" : {
+                    "level" : 500
+                },
+                "more" : [],
+                "style" : "ct_blk_i6_t2"
+            },
+            {
+                "_name" : "composition_co700",
+                "criteria" : {
+                    "level" : 700
+                },
+                "more" : [],
+                "style" : "sh_all_co_upper"
+            },
+            {
+                "_name" : "mofc_10_t_anomaly",
+                "criteria" : {
+                    "level" : 10
+                },
+                "more" : [],
+                "style" : "t_upper_anomaly"
+            },
+            {
+                "_name" : "composition_no2_surface",
+                "criteria" : {
+                    "level" : 60
+                },
+                "more" : [],
+                "style" : "sh_all_no2_surface"
+            },
+            {
+                "_name" : "q1000",
+                "criteria" : {
+                    "level" : 1000
+                },
+                "more" : [],
+                "style" : "sh_spechum_option1"
+            },
+            {
+                "_name" : "t925",
+                "criteria" : {
+                    "level" : 925
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "wbpt850",
+                "criteria" : {
+                    "level" : 850
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "300pv",
+                "criteria" : {
+                    "level" : 300
+                },
+                "more" : [],
+                "style" : "ct_magenta_i2_t3"
+            },
+            {
+                "_name" : "315Kpotvort",
+                "criteria" : {
+                    "level" : 315
+                },
+                "more" : [],
+                "style" : "sh_blu_f02t30"
+            }
+        ],
+        "style" : "ct_magenta_i2_t3"
+    },
+    {
+        "criteria" : {
+            "name" : "Potential vorticity",
+            "param" : "60.128",
+            "paramId" : "60",
+            "shortName" : "pv",
+            "style" : "ct_magenta_i2_t3"
+        },
+        "more" : [
+            {
+                "_name" : "mofc_z500_weekly_mean",
+                "criteria" : {
+                    "level" : 500
+                },
+                "more" : [],
+                "style" : "ct_blk_i6_t2"
+            },
+            {
+                "_name" : "composition_co700",
+                "criteria" : {
+                    "level" : 700
+                },
+                "more" : [],
+                "style" : "sh_all_co_upper"
+            },
+            {
+                "_name" : "mofc_10_t_anomaly",
+                "criteria" : {
+                    "level" : 10
+                },
+                "more" : [],
+                "style" : "t_upper_anomaly"
+            },
+            {
+                "_name" : "composition_no2_surface",
+                "criteria" : {
+                    "level" : 60
+                },
+                "more" : [],
+                "style" : "sh_all_no2_surface"
+            },
+            {
+                "_name" : "q1000",
+                "criteria" : {
+                    "level" : 1000
+                },
+                "more" : [],
+                "style" : "sh_spechum_option1"
+            },
+            {
+                "_name" : "t925",
+                "criteria" : {
+                    "level" : 925
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "wbpt850",
+                "criteria" : {
+                    "level" : 850
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "300pv",
+                "criteria" : {
+                    "level" : 300
+                },
+                "more" : [],
+                "style" : "ct_magenta_i2_t3"
+            },
+            {
+                "_name" : "315Kpotvort",
+                "criteria" : {
+                    "level" : 315
+                },
+                "more" : [],
+                "style" : "sh_blu_f02t30"
+            }
+        ],
+        "style" : "ct_magenta_i2_t3"
+    },
+    {
+        "criteria" : {
+            "name" : "Potential vorticity",
+            "param" : "60.128",
+            "paramId" : "60",
+            "shortName" : "pv",
+            "style" : "ct_magenta_i2_t3"
+        },
+        "more" : [
+            {
+                "_name" : "mofc_z500_weekly_mean",
+                "criteria" : {
+                    "level" : 500
+                },
+                "more" : [],
+                "style" : "ct_blk_i6_t2"
+            },
+            {
+                "_name" : "composition_co700",
+                "criteria" : {
+                    "level" : 700
+                },
+                "more" : [],
+                "style" : "sh_all_co_upper"
+            },
+            {
+                "_name" : "mofc_10_t_anomaly",
+                "criteria" : {
+                    "level" : 10
+                },
+                "more" : [],
+                "style" : "t_upper_anomaly"
+            },
+            {
+                "_name" : "composition_no2_surface",
+                "criteria" : {
+                    "level" : 60
+                },
+                "more" : [],
+                "style" : "sh_all_no2_surface"
+            },
+            {
+                "_name" : "q1000",
+                "criteria" : {
+                    "level" : 1000
+                },
+                "more" : [],
+                "style" : "sh_spechum_option1"
+            },
+            {
+                "_name" : "t925",
+                "criteria" : {
+                    "level" : 925
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "wbpt850",
+                "criteria" : {
+                    "level" : 850
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "300pv",
+                "criteria" : {
+                    "level" : 300
+                },
+                "more" : [],
+                "style" : "ct_magenta_i2_t3"
+            },
+            {
+                "_name" : "315Kpotvort",
+                "criteria" : {
+                    "level" : 315
+                },
+                "more" : [],
+                "style" : "sh_blu_f02t30"
+            }
+        ],
+        "style" : "ct_magenta_i2_t3"
+    },
+    {
+        "criteria" : {
+            "name" : "Potential vorticity",
+            "param" : "60.128",
+            "paramId" : "60",
+            "shortName" : "pv",
+            "style" : "ct_magenta_i2_t3"
+        },
+        "more" : [
+            {
+                "_name" : "mofc_z500_weekly_mean",
+                "criteria" : {
+                    "level" : 500
+                },
+                "more" : [],
+                "style" : "ct_blk_i6_t2"
+            },
+            {
+                "_name" : "composition_co700",
+                "criteria" : {
+                    "level" : 700
+                },
+                "more" : [],
+                "style" : "sh_all_co_upper"
+            },
+            {
+                "_name" : "mofc_10_t_anomaly",
+                "criteria" : {
+                    "level" : 10
+                },
+                "more" : [],
+                "style" : "t_upper_anomaly"
+            },
+            {
+                "_name" : "composition_no2_surface",
+                "criteria" : {
+                    "level" : 60
+                },
+                "more" : [],
+                "style" : "sh_all_no2_surface"
+            },
+            {
+                "_name" : "q1000",
+                "criteria" : {
+                    "level" : 1000
+                },
+                "more" : [],
+                "style" : "sh_spechum_option1"
+            },
+            {
+                "_name" : "t925",
+                "criteria" : {
+                    "level" : 925
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "wbpt850",
+                "criteria" : {
+                    "level" : 850
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "300pv",
+                "criteria" : {
+                    "level" : 300
+                },
+                "more" : [],
+                "style" : "ct_magenta_i2_t3"
+            },
+            {
+                "_name" : "315Kpotvort",
+                "criteria" : {
+                    "level" : 315
+                },
+                "more" : [],
+                "style" : "sh_blu_f02t30"
+            }
+        ],
+        "style" : "ct_magenta_i2_t3"
+    },
+    {
+        "criteria" : {
+            "name" : "Potential vorticity",
+            "param" : "60.128",
+            "paramId" : "60",
+            "shortName" : "pv",
+            "style" : "ct_magenta_i2_t3"
+        },
+        "more" : [
+            {
+                "_name" : "mofc_z500_weekly_mean",
+                "criteria" : {
+                    "level" : 500
+                },
+                "more" : [],
+                "style" : "ct_blk_i6_t2"
+            },
+            {
+                "_name" : "composition_co700",
+                "criteria" : {
+                    "level" : 700
+                },
+                "more" : [],
+                "style" : "sh_all_co_upper"
+            },
+            {
+                "_name" : "mofc_10_t_anomaly",
+                "criteria" : {
+                    "level" : 10
+                },
+                "more" : [],
+                "style" : "t_upper_anomaly"
+            },
+            {
+                "_name" : "composition_no2_surface",
+                "criteria" : {
+                    "level" : 60
+                },
+                "more" : [],
+                "style" : "sh_all_no2_surface"
+            },
+            {
+                "_name" : "q1000",
+                "criteria" : {
+                    "level" : 1000
+                },
+                "more" : [],
+                "style" : "sh_spechum_option1"
+            },
+            {
+                "_name" : "t925",
+                "criteria" : {
+                    "level" : 925
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "wbpt850",
+                "criteria" : {
+                    "level" : 850
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "300pv",
+                "criteria" : {
+                    "level" : 300
+                },
+                "more" : [],
+                "style" : "ct_magenta_i2_t3"
+            },
+            {
+                "_name" : "315Kpotvort",
+                "criteria" : {
+                    "level" : 315
+                },
+                "more" : [],
+                "style" : "sh_blu_f02t30"
+            }
+        ],
+        "style" : "ct_magenta_i2_t3"
+    },
+    {
+        "criteria" : {
+            "name" : "Potential vorticity",
+            "param" : "60.128",
+            "paramId" : "60",
+            "shortName" : "pv",
+            "style" : "ct_magenta_i2_t3"
+        },
+        "more" : [
+            {
+                "_name" : "mofc_z500_weekly_mean",
+                "criteria" : {
+                    "level" : 500
+                },
+                "more" : [],
+                "style" : "ct_blk_i6_t2"
+            },
+            {
+                "_name" : "composition_co700",
+                "criteria" : {
+                    "level" : 700
+                },
+                "more" : [],
+                "style" : "sh_all_co_upper"
+            },
+            {
+                "_name" : "mofc_10_t_anomaly",
+                "criteria" : {
+                    "level" : 10
+                },
+                "more" : [],
+                "style" : "t_upper_anomaly"
+            },
+            {
+                "_name" : "composition_no2_surface",
+                "criteria" : {
+                    "level" : 60
+                },
+                "more" : [],
+                "style" : "sh_all_no2_surface"
+            },
+            {
+                "_name" : "q1000",
+                "criteria" : {
+                    "level" : 1000
+                },
+                "more" : [],
+                "style" : "sh_spechum_option1"
+            },
+            {
+                "_name" : "t925",
+                "criteria" : {
+                    "level" : 925
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "wbpt850",
+                "criteria" : {
+                    "level" : 850
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "300pv",
+                "criteria" : {
+                    "level" : 300
+                },
+                "more" : [],
+                "style" : "ct_magenta_i2_t3"
+            },
+            {
+                "_name" : "315Kpotvort",
+                "criteria" : {
+                    "level" : 315
+                },
+                "more" : [],
+                "style" : "sh_blu_f02t30"
+            }
+        ],
+        "style" : "ct_magenta_i2_t3"
+    },
+    {
+        "criteria" : {
+            "name" : "Potential vorticity",
+            "param" : "60.128",
+            "paramId" : "60",
+            "shortName" : "pv",
+            "style" : "ct_magenta_i2_t3"
+        },
+        "more" : [
+            {
+                "_name" : "mofc_z500_weekly_mean",
+                "criteria" : {
+                    "level" : 500
+                },
+                "more" : [],
+                "style" : "ct_blk_i6_t2"
+            },
+            {
+                "_name" : "composition_co700",
+                "criteria" : {
+                    "level" : 700
+                },
+                "more" : [],
+                "style" : "sh_all_co_upper"
+            },
+            {
+                "_name" : "mofc_10_t_anomaly",
+                "criteria" : {
+                    "level" : 10
+                },
+                "more" : [],
+                "style" : "t_upper_anomaly"
+            },
+            {
+                "_name" : "composition_no2_surface",
+                "criteria" : {
+                    "level" : 60
+                },
+                "more" : [],
+                "style" : "sh_all_no2_surface"
+            },
+            {
+                "_name" : "q1000",
+                "criteria" : {
+                    "level" : 1000
+                },
+                "more" : [],
+                "style" : "sh_spechum_option1"
+            },
+            {
+                "_name" : "t925",
+                "criteria" : {
+                    "level" : 925
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "wbpt850",
+                "criteria" : {
+                    "level" : 850
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "300pv",
+                "criteria" : {
+                    "level" : 300
+                },
+                "more" : [],
+                "style" : "ct_magenta_i2_t3"
+            },
+            {
+                "_name" : "315Kpotvort",
+                "criteria" : {
+                    "level" : 315
+                },
+                "more" : [],
+                "style" : "sh_blu_f02t30"
+            }
+        ],
+        "style" : "ct_magenta_i2_t3"
+    },
+    {
+        "criteria" : {
+            "name" : "Potential vorticity",
+            "param" : "60.128",
+            "paramId" : "60",
+            "shortName" : "pv",
+            "style" : "ct_magenta_i2_t3"
+        },
+        "more" : [
+            {
+                "_name" : "mofc_z500_weekly_mean",
+                "criteria" : {
+                    "level" : 500
+                },
+                "more" : [],
+                "style" : "ct_blk_i6_t2"
+            },
+            {
+                "_name" : "composition_co700",
+                "criteria" : {
+                    "level" : 700
+                },
+                "more" : [],
+                "style" : "sh_all_co_upper"
+            },
+            {
+                "_name" : "mofc_10_t_anomaly",
+                "criteria" : {
+                    "level" : 10
+                },
+                "more" : [],
+                "style" : "t_upper_anomaly"
+            },
+            {
+                "_name" : "composition_no2_surface",
+                "criteria" : {
+                    "level" : 60
+                },
+                "more" : [],
+                "style" : "sh_all_no2_surface"
+            },
+            {
+                "_name" : "q1000",
+                "criteria" : {
+                    "level" : 1000
+                },
+                "more" : [],
+                "style" : "sh_spechum_option1"
+            },
+            {
+                "_name" : "t925",
+                "criteria" : {
+                    "level" : 925
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "wbpt850",
+                "criteria" : {
+                    "level" : 850
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "300pv",
+                "criteria" : {
+                    "level" : 300
+                },
+                "more" : [],
+                "style" : "ct_magenta_i2_t3"
+            },
+            {
+                "_name" : "315Kpotvort",
+                "criteria" : {
+                    "level" : 315
+                },
+                "more" : [],
+                "style" : "sh_blu_f02t30"
+            }
+        ],
+        "style" : "ct_magenta_i2_t3"
+    },
+    {
+        "criteria" : {
+            "name" : "Potential vorticity",
+            "param" : "60.128",
+            "paramId" : "60",
+            "shortName" : "pv",
+            "style" : "ct_magenta_i2_t3"
+        },
+        "more" : [
+            {
+                "_name" : "mofc_z500_weekly_mean",
+                "criteria" : {
+                    "level" : 500
+                },
+                "more" : [],
+                "style" : "ct_blk_i6_t2"
+            },
+            {
+                "_name" : "composition_co700",
+                "criteria" : {
+                    "level" : 700
+                },
+                "more" : [],
+                "style" : "sh_all_co_upper"
+            },
+            {
+                "_name" : "mofc_10_t_anomaly",
+                "criteria" : {
+                    "level" : 10
+                },
+                "more" : [],
+                "style" : "t_upper_anomaly"
+            },
+            {
+                "_name" : "composition_no2_surface",
+                "criteria" : {
+                    "level" : 60
+                },
+                "more" : [],
+                "style" : "sh_all_no2_surface"
+            },
+            {
+                "_name" : "q1000",
+                "criteria" : {
+                    "level" : 1000
+                },
+                "more" : [],
+                "style" : "sh_spechum_option1"
+            },
+            {
+                "_name" : "t925",
+                "criteria" : {
+                    "level" : 925
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "wbpt850",
+                "criteria" : {
+                    "level" : 850
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "300pv",
+                "criteria" : {
+                    "level" : 300
+                },
+                "more" : [],
+                "style" : "ct_magenta_i2_t3"
+            },
+            {
+                "_name" : "315Kpotvort",
+                "criteria" : {
+                    "level" : 315
+                },
+                "more" : [],
+                "style" : "sh_blu_f02t30"
+            }
+        ],
+        "style" : "ct_magenta_i2_t3"
+    },
+    {
+        "criteria" : {
+            "name" : "Potential vorticity",
+            "param" : "60.128",
+            "paramId" : "60",
+            "shortName" : "pv",
+            "style" : "ct_magenta_i2_t3"
+        },
+        "more" : [
+            {
+                "_name" : "mofc_z500_weekly_mean",
+                "criteria" : {
+                    "level" : 500
+                },
+                "more" : [],
+                "style" : "ct_blk_i6_t2"
+            },
+            {
+                "_name" : "composition_co700",
+                "criteria" : {
+                    "level" : 700
+                },
+                "more" : [],
+                "style" : "sh_all_co_upper"
+            },
+            {
+                "_name" : "mofc_10_t_anomaly",
+                "criteria" : {
+                    "level" : 10
+                },
+                "more" : [],
+                "style" : "t_upper_anomaly"
+            },
+            {
+                "_name" : "composition_no2_surface",
+                "criteria" : {
+                    "level" : 60
+                },
+                "more" : [],
+                "style" : "sh_all_no2_surface"
+            },
+            {
+                "_name" : "q1000",
+                "criteria" : {
+                    "level" : 1000
+                },
+                "more" : [],
+                "style" : "sh_spechum_option1"
+            },
+            {
+                "_name" : "t925",
+                "criteria" : {
+                    "level" : 925
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "wbpt850",
+                "criteria" : {
+                    "level" : 850
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "300pv",
+                "criteria" : {
+                    "level" : 300
+                },
+                "more" : [],
+                "style" : "ct_magenta_i2_t3"
+            },
+            {
+                "_name" : "315Kpotvort",
+                "criteria" : {
+                    "level" : 315
+                },
+                "more" : [],
+                "style" : "sh_blu_f02t30"
+            }
+        ],
+        "style" : "ct_magenta_i2_t3"
+    },
+    {
+        "criteria" : {
+            "name" : "Potential vorticity",
+            "param" : "60.128",
+            "paramId" : "60",
+            "shortName" : "pv",
+            "style" : "ct_magenta_i2_t3"
+        },
+        "more" : [
+            {
+                "_name" : "mofc_z500_weekly_mean",
+                "criteria" : {
+                    "level" : 500
+                },
+                "more" : [],
+                "style" : "ct_blk_i6_t2"
+            },
+            {
+                "_name" : "composition_co700",
+                "criteria" : {
+                    "level" : 700
+                },
+                "more" : [],
+                "style" : "sh_all_co_upper"
+            },
+            {
+                "_name" : "mofc_10_t_anomaly",
+                "criteria" : {
+                    "level" : 10
+                },
+                "more" : [],
+                "style" : "t_upper_anomaly"
+            },
+            {
+                "_name" : "composition_no2_surface",
+                "criteria" : {
+                    "level" : 60
+                },
+                "more" : [],
+                "style" : "sh_all_no2_surface"
+            },
+            {
+                "_name" : "q1000",
+                "criteria" : {
+                    "level" : 1000
+                },
+                "more" : [],
+                "style" : "sh_spechum_option1"
+            },
+            {
+                "_name" : "t925",
+                "criteria" : {
+                    "level" : 925
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "wbpt850",
+                "criteria" : {
+                    "level" : 850
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "300pv",
+                "criteria" : {
+                    "level" : 300
+                },
+                "more" : [],
+                "style" : "ct_magenta_i2_t3"
+            },
+            {
+                "_name" : "315Kpotvort",
+                "criteria" : {
+                    "level" : 315
+                },
+                "more" : [],
+                "style" : "sh_blu_f02t30"
+            }
+        ],
+        "style" : "ct_magenta_i2_t3"
+    },
+    {
+        "criteria" : {
+            "name" : "Potential vorticity",
+            "param" : "60.128",
+            "paramId" : "60",
+            "shortName" : "pv",
+            "style" : "ct_magenta_i2_t3"
+        },
+        "more" : [
+            {
+                "_name" : "mofc_z500_weekly_mean",
+                "criteria" : {
+                    "level" : 500
+                },
+                "more" : [],
+                "style" : "ct_blk_i6_t2"
+            },
+            {
+                "_name" : "composition_co700",
+                "criteria" : {
+                    "level" : 700
+                },
+                "more" : [],
+                "style" : "sh_all_co_upper"
+            },
+            {
+                "_name" : "mofc_10_t_anomaly",
+                "criteria" : {
+                    "level" : 10
+                },
+                "more" : [],
+                "style" : "t_upper_anomaly"
+            },
+            {
+                "_name" : "composition_no2_surface",
+                "criteria" : {
+                    "level" : 60
+                },
+                "more" : [],
+                "style" : "sh_all_no2_surface"
+            },
+            {
+                "_name" : "q1000",
+                "criteria" : {
+                    "level" : 1000
+                },
+                "more" : [],
+                "style" : "sh_spechum_option1"
+            },
+            {
+                "_name" : "t925",
+                "criteria" : {
+                    "level" : 925
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "wbpt850",
+                "criteria" : {
+                    "level" : 850
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "300pv",
+                "criteria" : {
+                    "level" : 300
+                },
+                "more" : [],
+                "style" : "ct_magenta_i2_t3"
+            },
+            {
+                "_name" : "315Kpotvort",
+                "criteria" : {
+                    "level" : 315
+                },
+                "more" : [],
+                "style" : "sh_blu_f02t30"
+            }
+        ],
+        "style" : "ct_magenta_i2_t3"
+    },
+    {
+        "criteria" : {
+            "name" : "Potential vorticity",
+            "param" : "60.128",
+            "paramId" : "60",
+            "shortName" : "pv",
+            "style" : "ct_magenta_i2_t3"
+        },
+        "more" : [
+            {
+                "_name" : "mofc_z500_weekly_mean",
+                "criteria" : {
+                    "level" : 500
+                },
+                "more" : [],
+                "style" : "ct_blk_i6_t2"
+            },
+            {
+                "_name" : "composition_co700",
+                "criteria" : {
+                    "level" : 700
+                },
+                "more" : [],
+                "style" : "sh_all_co_upper"
+            },
+            {
+                "_name" : "mofc_10_t_anomaly",
+                "criteria" : {
+                    "level" : 10
+                },
+                "more" : [],
+                "style" : "t_upper_anomaly"
+            },
+            {
+                "_name" : "composition_no2_surface",
+                "criteria" : {
+                    "level" : 60
+                },
+                "more" : [],
+                "style" : "sh_all_no2_surface"
+            },
+            {
+                "_name" : "q1000",
+                "criteria" : {
+                    "level" : 1000
+                },
+                "more" : [],
+                "style" : "sh_spechum_option1"
+            },
+            {
+                "_name" : "t925",
+                "criteria" : {
+                    "level" : 925
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "wbpt850",
+                "criteria" : {
+                    "level" : 850
+                },
+                "more" : [],
+                "style" : "sh_all_fM52t48i4"
+            },
+            {
+                "_name" : "300pv",
+                "criteria" : {
+                    "level" : 300
+                },
+                "more" : [],
+                "style" : "ct_magenta_i2_t3"
+            },
+            {
+                "_name" : "315Kpotvort",
+                "criteria" : {
+                    "level" : 315
+                },
+                "more" : [],
+                "style" : "sh_blu_f02t30"
+            }
+        ],
+        "style" : "ct_magenta_i2_t3"
+    }
+]
