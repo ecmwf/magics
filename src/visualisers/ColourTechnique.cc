@@ -25,6 +25,7 @@
 #include "LevelSelection.h"
 #include "LegendVisitor.h"
 #include "Polyline.h"
+#include "MagConfig.h"
 #include <limits>
 
 using namespace magics;
@@ -203,13 +204,23 @@ PaletteColourTechnique::~PaletteColourTechnique()
 
 }
 
+
+
+
 void PaletteColourTechnique::set(LevelSelection& out, LevelSelection& in, ColourTable& table, int nb) const
 {
-    cout << "PALETTE--->" << palette_ << endl;
-    // find palette ..
+    
+    PaletteLibrary library;
+    vector<string> colours;
+
     vector<string> colours_;
+    library.find(palette_, colours_);
+        
+
+    
+    
     if ( colours_.empty() ) {
-        MagLog::warning() << "Colour Table Definition: No colour defined\n";
+        MagLog::warning() << "Could not load palette " << palette_ << ": using a default one " << endl;
         colours_.push_back("blue");
         colours_.push_back("green");
         colours_.push_back("yellow");
