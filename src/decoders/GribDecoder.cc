@@ -2139,14 +2139,26 @@ public:
     {
 
         ostringstream out;
-        long istep = grib.getLong("startStep");
+        long startstep = grib.getLong("startStep"); 
+        long endstep = grib.getLong("endStep");
 
+        cout << "Start " << startstep << endl;
+        cout << "End  " << endstep << endl;
+
+        if ( startstep != endstep ) {
+            ostringstream step;
+            step << "from t+" << startstep << " to t+" << endstep;
+            title.back() += step.str();
+            return;
+        }
+         
 
         ostringstream step;
-        step << istep;
+        step << startstep;
         string format = field.attribute("format", "t+%s");
         out << SimpleStringFormat(step.str(), format);
         title.back() += out.str();
+        
     }
 };
 

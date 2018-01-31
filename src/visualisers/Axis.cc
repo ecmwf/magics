@@ -528,14 +528,36 @@ void VerticalAxis::title(VerticalAxisVisitor& out)
 
 void HorizontalAxis::grid(DrawingVisitor& out) const
 {
-	if ( !grid_ )
-		return;
-
 	double bottom = out.minY();
 	double top = out.maxY();
 	double pos;
-
 	const Transformation& transformation = out.transformation();
+
+	if ( !grid_ ) {
+		if ( grid_reference_level_ != INT_MAX ) {
+			for (AxisItems::const_iterator x = items_.begin(); x != items_.end(); ++x) {
+				pos = (*x)->position();
+				if ( pos == grid_reference_level_  ) {
+					Polyline* grid = new Polyline();
+					grid->push_back(PaperPoint(transformation.x(pos), bottom));
+					grid->push_back(PaperPoint(transformation.x(pos), top));
+					Colour colour = !grid_reference_colour_->automatic() ? *grid_reference_colour_ : *grid_colour_;
+					grid->setColour(colour);
+					grid->setLineStyle(grid_reference_style_);
+					grid->setThickness(grid_reference_thickness_);
+					out.push_back(grid);
+					return;
+				}
+			}
+			return;
+		}
+		else 
+			return;
+	}
+
+	
+
+	
 	for (AxisItems::const_iterator x = items_.begin(); x != items_.end(); ++x)
     {
     	pos = (*x)->position();
@@ -578,12 +600,34 @@ void HorizontalAxis::grid(DrawingVisitor& out) const
 
 void VerticalAxis::grid(DrawingVisitor& out) const
 {
-	if ( !grid_ )
-		return;
 	double left = out.minX();
 	double right =  out.maxX();
 	double pos;
 	const Transformation& transformation = out.transformation();
+
+	if ( !grid_ ) {
+		if ( grid_reference_level_ != INT_MAX ) {
+			for (AxisItems::const_iterator y = items_.begin(); y != items_.end(); ++y) {
+				pos = (*y)->position();
+				if ( pos == grid_reference_level_  ) {
+					Polyline* grid = new Polyline();
+					grid->push_back(PaperPoint(left, transformation.y(pos)));
+					grid->push_back(PaperPoint(right, transformation.y(pos)));
+					Colour colour = !grid_reference_colour_->automatic() ? *grid_reference_colour_ : *grid_colour_;
+					grid->setColour(colour);
+					grid->setLineStyle(grid_reference_style_);
+					grid->setThickness(grid_reference_thickness_);
+					out.push_back(grid);
+					return;
+				}
+			}
+			return;
+		}
+		else 
+			return;
+	}
+	
+	
 	for (AxisItems::const_iterator y = items_.begin(); y != items_.end(); ++y)
     {
     	pos = (*y)->position();

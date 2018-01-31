@@ -24,6 +24,7 @@
 #include "AxisMethod.h"
 #include "Axis.h"
 #include "Transformation.h"
+#include <list>
 
 using namespace magics;
 
@@ -219,6 +220,7 @@ void AxisMethod::prepare(const Axis& axis, AxisItems& items)
 	double step;
 	double log, ws;
 
+	double ref = axis.grid_reference_level_;
 
 	double min = axis.min();
 	double max = axis.max();
@@ -235,10 +237,10 @@ void AxisMethod::prepare(const Axis& axis, AxisItems& items)
 			log = log10(step);
 			ws = pow(10., int(log));
 			inc = ceil(step/ws)*ws;
-			MagLog::dev() << "Automatic method ---> increment = " << inc << " ---> try base=" << inc/ws << endl;
-			
-			 if ( wmax-wmin/inc > 5 && (inc/ws == 1 || inc/ws == 2 || inc/ws == 3 || inc/ws == 5 || inc/ws == 10) ) {
-				MagLog::dev() << "Automatic method ---> increment " << inc << " OK! " << endl;
+			MagLog::debug() << "Automatic method ---> increment = " << inc << " ---> try base=" << inc/ws << endl;
+			MagLog::dev() << "nb " << nb << "  " <<  wmax-wmin/inc << "-->" <<  inc/ws << endl;
+			if ( wmax-wmin/inc > 5 && (inc/ws == 1 || inc/ws == 2 || inc/ws == 3 || inc/ws == 5 || inc/ws == 10) ) {
+				MagLog::debug() << "Automatic method ---> increment " << inc << " OK! " << endl;
 				break;
 			}
 			nb++;
@@ -249,59 +251,56 @@ void AxisMethod::prepare(const Axis& axis, AxisItems& items)
 	else {
 		inc = axis.interval_;
 	}
-	std::set<double> list;
 
-	if ( min < max )
-	{
-		double first = floor(min/inc) *inc;
-		double last  = 0.;    
-	    int i = 0;
-		for (double val = first;  val <= max; val = first + (i*inc) ) {
-			if (val >= min && val <=max) {
-				list.insert(value(val));
-        		last = val;
+	list<double> slist;
 
-			}
-			i++;
-		}
-		if ( last-inc <= max )
-			list.insert(value(last+inc));
+	wmax += inc;
+	wmin -= inc;
 
+	if ( ref == INT_MAX ) {
+		ref = floor(min/inc) * inc;
 	}
-	else
-	{
-		double first = floor(min/inc) * inc;
-		double last  = 0.;  
-		int i = 0;
-		for (double val = first;  val >= max; val = first - (i*inc)) {
-			if (val >= wmin && val <= wmax) {
-				list.insert(value(val));       		
-        			last = val;
-			}
-			i++;
-		}
-		if ( last-inc >= max )
-			list.insert(value(last-inc));
-	}
-	std::set<double> slist;
-	int mod  = (list.size() / 10);
-	mod++;
-
-
 
 	int i = 0;
-	for ( std::set<double>::iterator e = list.begin(); e !=  list.end(); ++e) {
-		if ( !automatic )
-			slist.insert(*e);
-		else if ( i %  mod == 0 )
-			slist.insert(*e);
+	double val = ref + (i *inc);
+	
+	while ( val < wmax ) {
+		
+		if ( val > wmin )
+			slist.push_back(value(val));
+		i++;
+		val = ref + (i *inc);
+	}
+	i = 1;
+	val = ref - (i *inc);
+	while ( val > wmin ) {
+		
+		if ( val < wmax)
+			slist.push_back(value(val));
+		i++;
+		val = ref - (i *inc);
+	}
 
+	slist.sort();
+
+	if ( min > max ) 
+		slist.reverse();
+	
+	std::list<double> shortlist;
+	int mod  = (slist.size() / 10);
+	mod++;
+	i = 0;
+	for ( std::list<double>::iterator e = slist.begin(); e !=  slist.end(); ++e) {
+		if ( !automatic )
+			shortlist.push_back(*e);
+		else if ( i %  mod == 0 )
+			shortlist.push_back(*e);
 		i++;
 	}
 
 
 	// First we add the minor tich before the first one...
-	std::set<double>::iterator front = slist.begin();
+	std::list<double>::iterator front = shortlist.begin();
 	double first = *front - inc;
 	step = inc/(axis.minor_tick_count_+1);
 	for ( double ii = first; ii < *front; ii+=step ) {
@@ -309,7 +308,7 @@ void AxisMethod::prepare(const Axis& axis, AxisItems& items)
 	}
 
 	double last = std::numeric_limits<double>::max();
-	for (std::set<double>::iterator i = front; i != slist.end(); ++i) {
+	for (std::list<double>::iterator i = front; i != shortlist.end(); ++i) {
 		// Add the minor Axis Items!!! 
 		if ( last != std::numeric_limits<double>::max()) {
 			double step = (*i-last)/(axis.minor_tick_count_+1);
@@ -318,6 +317,7 @@ void AxisMethod::prepare(const Axis& axis, AxisItems& items)
 			}
 		}
 		last = *i;
+		
 		addItem(items,*i, axis.label_format_);
 	}
 }
