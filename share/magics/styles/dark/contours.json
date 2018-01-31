@@ -1,0 +1,86 @@
+[
+    {
+        "criteria" : { 
+            "standard_name" : "sea_surface_height_above_sea_level",
+            "long_name" : "2 metre temperature",
+            "param": "167.128"
+        },
+        "visdef" : {
+            "contour_shade" : "on",
+            "contour" : "off",
+            "contour_shade_method" : "area_fill"
+        },
+        "more" : [
+            {
+                "criteria" : { 
+                    "units" : "K"
+                },
+                "visdef" : {
+                    "contour" : "on",
+                    "contour_line_thickness" : "4",
+                    "contour_line_colour" : "red",
+                    "contour_highlight_colour" : "red"
+                },
+                "more" : [
+                    {
+                        "criteria" : { 
+                            "level" : "10"
+                        },
+                        "visdef" : { 
+                            "contour" : "on",
+                            "contour_line_thickness" : "6",
+                            "contour_line_colour" : "yellow",
+                             "contour_highlight_colour" : "orange"
+                        }
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "criteria" : {
+            "paramId" : "232.140"
+        },
+        "visdef" : {
+            "contour_level_selection_type": "level_list", 
+            "contour_shade_colour_method": "list", 
+            "contour_legend_text": "Contour shade (Range: 0.0 / 18.5)", 
+            "contour_label_colour": "black", 
+            "contour_shade": "on", 
+            "contour_level_list": "0.0/3.5/5.0/6.5/8.0/9.5/11.0/12.5/14.0/15.5/17.0/18.5", 
+            "contour_reference_level": 0, 
+            "contour_label_quality": "high", 
+            "contour_hilo": "off", 
+            "contour": "off", 
+            "contour_label_format": "(F4.1)", 
+            "contour_highlight": "off", 
+            "contour_label": "off", 
+            "contour_min_level": 0, 
+            "contour_shade_method": "area_fill", 
+            "_name": "wave _mwp", 
+            "contour_shade_min_level": 0, 
+            "contour_shade_colour_list": "rgb(242,250,239)/rgb(216,237,232)/rgb(179,223,226)/rgb(130,192,215)/rgb(76,157,210)/rgb(33,128,192)/rgb(39,93,163)/rgb(54,71,127)/rgb(51,50,92)/rgb(35,34,65)/rgb(25,18,36)"
+        }
+    },
+    {
+        "criteria" : {
+            "paramId" : "151.128"
+        },
+        "visdef" : {
+            "contour_label_height": 0.4, 
+            "contour_legend_text": "Interval 5, thickness 2", 
+            "contour_label_colour": "charcoal", 
+            "contour_level_selection_type": "interval", 
+            "contour_reference_level": 1010, 
+            "contour_label_frequency": 2, 
+            "_name": "msl", 
+            "contour_line_colour": "charcoal", 
+            "contour_hilo": "off", 
+            "contour_line_thickness": 2, 
+            "contour_label": "on", 
+            "contour_highlight_colour": "charcoal", 
+            "contour_highlight_thickness": 4, 
+            "contour_interval": 5
+        }
+    }
+]

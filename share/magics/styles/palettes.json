@@ -1,0 +1,148 @@
+{
+    "eccharts_black_red_21" : {
+        "tags" : {
+            "n_levels" : "21",
+             "origin" : "eccharts",
+             "eccharts_style" : ["sh_comparison_rb_m10t10"],
+             "colours" : ["black","red"]
+             },
+        "contour_shade_colour_list" : [
+            "#07090D",
+            "#1D2434",
+            "#333F5B",
+            "#425276",
+            "#6277A7",
+            "#7C8EB6",
+            "#97A4C4",
+            "#B1BBD3",
+            "#CBD2E2",
+            "#E5E8F0",
+            "None",
+            "#FFDCD6",
+            "#FFBAAD",
+            "#FF9785",
+            "#FF745C",
+            "#FF5233",
+            "#E02200",
+            "#A31800",
+            "#7A1200",
+            "#520C00",
+            "#290600"
+        ]
+    },
+    "eccharts_black_transparent_11" : {
+        "tags" : {
+            "n_levels" : "11",
+            "origin" : "eccharts",
+            "eccharts_style" : ["transparency_black"], 
+            "other" : ["transparent"],
+            "colours" : ["black"]
+            },
+        "contour_shade_colour_list" : [
+            "rgba(0,0,0,0)",
+            "rgba(0,0,0,0.1)",
+            "rgba(0,0,0,0.2)",
+            "rgba(0,0,0,0.3)",
+            "rgba(0,0,0,0.4)",
+            "rgba(0,0,0,0.5)",
+            "rgba(0,0,0,0.6)",
+            "rgba(0,0,0,0.7)",
+            "rgba(0,0,0,0.8)",
+            "rgba(0,0,0,0.9)",
+            "rgba(0,0,0,1)"
+        ]
+    },
+    "eccharts_blue_11" : {
+        "tags" : {
+            "n_levels" : "11",
+            "colours" : ["blue"],
+            "origin" : "eccharts",
+            "eccharts_style" : ["www_mwp"],
+            "parameter" : ["Mean wave direction and height", "wawe"]
+        },
+        "contour_shade_colour_list" : [
+            "rgb(242,250,239)",
+            "rgb(216,237,232)",
+            "rgb(179,223,226)",
+            "rgb(130,192,215)",
+            "rgb(76,157,210)",
+            "rgb(33,128,192)",
+            "rgb(39,93,163)",
+            "rgb(54,71,127)",
+            "rgb(51,50,92)",
+            "rgb(35,34,65)",
+            "rgb(25,18,36)"
+        ]
+    },
+    "eccharts_blue_2" : {
+        "tags" : {
+            "n_levels" : "2",
+            "colours" : ["blue"],
+            "origin" : "eccharts",
+            "eccharts_style" : ["dot_blu_f03t1lst"]
+        },
+        "contour_shade_colour_list" : [
+            "rgb(0,0.9,1)",
+            "rgb(0,0.5,1)"
+        ]
+    },
+    "eccharts_blue_brown_12" : {
+        "tags" : {
+            "n_levels" : "12",
+            "colours" : ["blue","brown"],
+            "origin" : "eccharts",
+            "eccharts_style" : ["sh_diverging_ch4_850hpa",
+            "sh_diverging_co2_50hpa",
+            "sh_diverging_co2_850hpa"],
+            "parameter" : ["Methane at 850 hPa",
+            "Carbon dioxide at 50 hPa",
+            "Carbon dioxide at 850 hPa",
+            "ch4",
+            "co2",
+            "methane",
+            "carbon dioxide"],
+            "other" : "cams"
+        },
+        "contour_shade_colour_list" : [
+            "rgb(0.0940, 0.3100, 0.6350)",
+            "rgb(0.2574, 0.4345, 0.7008)",
+            "rgb(0.4209, 0.5589, 0.7667)",
+            "rgb(0.5843, 0.6834, 0.8325)",
+            "rgb(0.7548, 0.8133, 0.9012)",
+            "rgb(0.9183, 0.9378, 0.9671)",
+            "rgb(0.9608, 0.9452, 0.9254)",
+            "rgb(0.8823, 0.8355, 0.7762)",
+            "rgb(0.8004, 0.7210, 0.6206)",
+            "rgb(0.7219, 0.6114, 0.4714)",
+            "rgb(0.6435, 0.5017, 0.3222)",
+            "rgb(0.5650, 0.3920, 0.1730)"
+        ]
+    },
+    "eccharts_blue_brown_13" : {
+        "tags" : {
+            "n_levels" : "13",
+            "colours" : ["blue","brown"],
+            "origin" : "eccharts",
+            "eccharts_style" : ["sh_diverging_ch4_300hpa"],
+            "parameter" : ["Methane at 300 hPa",
+            "ch4",
+            "methane"],
+            "other" : "cams"
+        },
+        "contour_shade_colour_list" : [
+            "rgb(0.0940, 0.3100, 0.6350)",
+            "rgb(0.2432, 0.4236, 0.6951)",
+            "rgb(0.3924, 0.5373, 0.7552)",
+            "rgb(0.5488, 0.6564, 0.8182)",
+            "rgb(0.6980, 0.7700, 0.8783)",
+            "rgb(0.8472, 0.8836, 0.9385)",
+            "rgb(0.9983, 0.9976, 0.9968)",
+            "rgb(0.9266, 0.8975, 0.8605)",
+            "rgb(0.8550, 0.7973, 0.7243)",
+            "rgb(0.7799, 0.6924, 0.5816)",
+            "rgb(0.7083, 0.5923, 0.4454)",
+            "rgb(0.6366, 0.4921, 0.3092)",
+            "rgb(0.5650, 0.3920, 0.1730)"
+        ]
+    }
+}
