@@ -122,7 +122,7 @@ void Style::style(const json_spirit::Value& value)
 void Style::more(const json_spirit::Value& value) 
 {
 	Array values = value.get_value<Array>();
-	cout << "Style::more-->" << values.size() << endl;
+	
 	for (unsigned int i = 0; i < values.size(); i++) {
 		more_.push_back(Style());
 
@@ -174,33 +174,33 @@ void StyleLibrary::init()
 
 void PaletteLibrary::init()
 {
-	string library = getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_  + "/" + "palette" +".json";
+	string library = getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_  + "/styles/" + "palettes.json";
 	MagLog::debug() << "Opening " << library << endl;
 	MagConfigHandler(library,  *this);
 }
 void Palette::values(const json_spirit::Value& value) 
 {
 	Array values = value.get_value<Array>();
-	cout << "Palette::values-->" << values.size() << endl;
+	
+
 	for (unsigned int i = 0; i < values.size(); i++) {
 		colours_.push_back(MagConfig::convert(values[i]));	
+		
+
+
 	}
 }
 
 void Palette::tags(const json_spirit::Value& value) 
 {
-	Array values = value.get_value<Array>();
-	cout << "Palette::values-->" << values.size() << endl;
-	for (unsigned int i = 0; i < values.size(); i++) {
-		tags_.push_back(MagConfig::convert(values[i]));	
-	}
+	
 
 }
 
 void Palette::set(const json_spirit::Object& object)
 {
 	if ( methods_.empty() ) {
-		methods_["values"] =  &Palette::values;
+		methods_["contour_shade_colour_list"] =  &Palette::values;
 		methods_["tags"] =  &Palette::tags;
 	}	
 	for (vector<json_spirit::Pair>::const_iterator entry = object.begin(); entry !=  object.end(); ++entry) {
@@ -229,7 +229,6 @@ void PaletteLibrary::callback(const string& name, const json_spirit::Value& valu
 bool Style::find(const Definition& data, Definition& visdef)
 {
 	for (Definition::const_iterator value = data.begin(); value != data.end(); ++value) {
-		cout << "Criteria-->" << value->first << endl;
  		Definition::iterator criteria = criteria_.find(value->first);
 		if ( criteria != criteria_.end() && criteria->second == value->second ) {
 			visdef = style_;
