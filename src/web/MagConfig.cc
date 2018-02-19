@@ -164,10 +164,11 @@ void StyleLibrary::callback(const string& name, const json_spirit::Value& value)
     	}
     	*/
     	
+    	
 }
 void StyleLibrary::init()
 {
-	string library = getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_ + theme_ + "/" + family_ +".json";
+	string library = getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_ + "/styles/" + theme_ + "/" + family_ +".json";
 	MagLog::debug() << "Opening " << library << endl;
 	MagConfigHandler(library,  *this);
 }
@@ -175,7 +176,7 @@ void StyleLibrary::init()
 void PaletteLibrary::init()
 {
 	string library = getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_  + "/styles/" + "palettes.json";
-	MagLog::debug() << "Opening " << library << endl;
+	cout << "Opening " << library << endl;
 	MagConfigHandler(library,  *this);
 }
 void Palette::values(const json_spirit::Value& value) 
@@ -214,7 +215,6 @@ void Palette::set(const json_spirit::Object& object)
 void PaletteLibrary::callback(const string& name, const json_spirit::Value& value)
 {
 		
-	
 	Palette palette;
 	palette.name_ = name;
 	json_spirit::Object object = value.get_value< json_spirit::Object >();
@@ -248,7 +248,6 @@ bool StyleLibrary::find(const Style::Definition& data, Style::Definition& visdef
 		if ( style->find(data, visdef) ) {
 			return true;
 		}
-
 	return false;
 
 }
