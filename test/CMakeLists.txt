@@ -17,7 +17,6 @@ ecbuild_add_test( TARGET basic_python
                   ARGS coast.py
                   RESOURCES coast.py 
                   ENVIRONMENT PYTHONPATH=${MAG_PYTHON_PATH}
-                              LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib
                               MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/.. )
 
 ecbuild_add_test( TARGET basic_fortran_shared
@@ -40,7 +39,6 @@ ecbuild_add_test( TARGET bufr_python
                   ARGS bufr.py
                   RESOURCES bufr.py data.bufr 
                   ENVIRONMENT PYTHONPATH=${MAG_PYTHON_PATH}
-                              LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib
                               MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/.. )
 
 ecbuild_add_test( TARGET bufr_fortran
@@ -65,7 +63,6 @@ ecbuild_add_test( TARGET grib_python
                   ARGS grib.py
                   RESOURCES grib.py data.grib
                   ENVIRONMENT PYTHONPATH=${MAG_PYTHON_PATH}
-                              LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib
                               MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/..
                               ${grib_environment} )
 
@@ -85,7 +82,6 @@ ecbuild_add_test( TARGET cairo_python
                   ARGS cairo.py
                   RESOURCES cairo.py 
                   ENVIRONMENT PYTHONPATH=${MAG_PYTHON_PATH}
-                              LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib
                               MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/.. )
 
 ecbuild_add_test( TARGET cairo_fortran
@@ -101,5 +97,4 @@ ecbuild_add_test( TARGET odb_python
                   ARGS odb.py
                   RESOURCES odb.py test.odb
                   ENVIRONMENT PYTHONPATH=${MAG_PYTHON_PATH}
-                              LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib
                               MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/.. )
