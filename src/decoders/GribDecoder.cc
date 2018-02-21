@@ -2326,6 +2326,7 @@ public:
             names[54] = "METEOSAT-7";
             names[55] = "METEOSAT-8";
             names[57] = "METEOSAT-10";
+            names[70] = "METEOSAT-11";
             names[172] = "MTSAT-2";
             names[257] = "GOES-13";
             names[259] = "GOES-15";
@@ -2373,6 +2374,15 @@ public:
             l57[9] = "IR 10-8";
             l57[10] = "IR 12-0";
             channels[57] = l57;
+            map<long, string>  l70;
+            l70[1] = "VIS 0-6";
+            l70[4] = "IR 3-9";
+            l70[5] = "WV 6-2";
+            l70[6] = "WV 7-3";
+            l70[8] = "IR 9-7";
+            l70[9] = "IR 10-8";
+            l70[10] = "IR 12-0";
+            channels[70] = l70;
             map<long, string>  l172;
             l172[2] = "IR 10-8";
             l172[4] = "WV 6-8";
