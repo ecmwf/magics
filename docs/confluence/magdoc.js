@@ -73,7 +73,12 @@ var create = function(parent, param) {
     
     console.info("name", param.name);
     console.info(param.type);
-    $param.append(factory[param.type](param));
+    if ( param.name == "contour_shade_palette_name" ) {
+        $param.append(palette(param));
+    }
+    else {
+        $param.append(factory[param.type](param));
+    }
     $param.append(AJS.$('<td>').text(param.default));
     $param.append(AJS.$('<td>').attr({
              	id:  param.set, 
@@ -167,7 +172,7 @@ var click = function(event)
 }
 var colour = function(def) 
 {
-     var id = def.parent;
+    var id = def.parent;
 	var colour = def.default;
 	colour = colour.toLowerCase();
     $option = AJS.$('<td>').attr({'id': id}).text("press to change colour");   
@@ -258,6 +263,31 @@ var stringlist = function(def)
                     AJS.$("#" + parent +"  > :[name='current']").text($input.val());
                 });
 	$option.append($input);
+    return $option;
+}
+var palette = function(def) 
+{
+    var id = def.name;
+    var parent = def.parent;
+    $option = AJS.$('<td>').attr({'id': id});
+    var $input = AJS.$('<textarea row="1">').attr({'id': id,
+               'type': "text", 
+			   'value': def.default}).
+               keypress(function(event){        
+                    event.stopPropagation()
+               }).
+               bind("propertychange keyup input paste", function(event){ 
+                    if (AJS.$("#" + parent).attr("class") == "unactive") return;
+                    AJS.$("#" + parent +"  > :[name='current']").text($input.val());
+                });
+
+var $help = AJS.$('<a>').attr({
+    'href': 'http://software.ecmwf.int/wiki/display/MAGP/Predefined+palettes+in+Magics',
+    'target': '_blank'}).text("Find about the available palettes ...")
+    
+    $option.append($help);
+    $option.append($input);
+	
     return $option;
 }
 
