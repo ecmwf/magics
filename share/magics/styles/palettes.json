@@ -463,7 +463,7 @@
                 "WV 7.3"
             ],
             "n_levels": "68",
-            "origin": "blue",
+            "origin": "eccharts",
             "parameter": ["Simulated image: Water vapour (WV) ~500 hPa"]
         }
     },
@@ -1190,7 +1190,7 @@
             "eccharts_style": ["transparency_100_blue"],
             "keywords": ["transparent"],
             "n_levels": "12",
-            "origin": "blue",
+            "origin": "eccharts",
             "parameter": []
         }
     },
@@ -1820,7 +1820,7 @@
             ],
             "keywords": ["orography"],
             "n_levels": "13",
-            "origin": "green",
+            "origin": "eccharts",
             "parameter": ["orography"]
         }
     },
@@ -2838,7 +2838,7 @@
             "eccharts_style": ["snow_1to1000_whi"],
             "keywords": ["snow"],
             "n_levels": "7",
-            "origin": "grey",
+            "origin": "eccharts",
             "parameter": ["Snow depth"]
         }
     },
@@ -3002,7 +3002,7 @@
             "eccharts_style": ["sh_vis_f0t1500"],
             "keywords": ["visibility"],
             "n_levels": "7",
-            "origin": "pink",
+            "origin": "eccharts",
             "parameter": ["Visibility"]
         }
     },
@@ -3524,7 +3524,7 @@
                 "cams"
             ],
             "n_levels": "37",
-            "origin": "rainbow",
+            "origin": "eccharts",
             "parameter": ["Carbon dioxide at 500 hPa"]
         }
     },
@@ -4587,7 +4587,7 @@
                 "dark"
             ],
             "n_levels": "9",
-            "origin": "rainbow",
+            "origin": "eccharts",
             "parameter": []
         }
     },
@@ -5304,7 +5304,7 @@
                 "rainbow"
             ],
             "n_levels": "19",
-            "origin": "rainbow",
+            "origin": "eccharts",
             "parameter": ["Control forecast: Sea surface temperature",
                 "Sea surface temperature (SST)"
             ]
@@ -5782,7 +5782,7 @@
             "eccharts_style": ["sh_red_f0t90000"],
             "keywords": [],
             "n_levels": "7",
-            "origin": "red",
+            "origin": "eccharts",
             "parameter": ["Visibility"]
         }
     },
@@ -5831,7 +5831,7 @@
             ],
             "keywords": ["specific humidity"],
             "n_levels": "13",
-            "origin": "red",
+            "origin": "eccharts",
             "parameter": ["1000 hPa specific humidity",
                 "925 hPa specific humidity"
             ]
@@ -5856,7 +5856,7 @@
                 "cin"
             ],
             "n_levels": "7",
-            "origin": "red",
+            "origin": "eccharts",
             "parameter": ["Convective inhibition (CIN)"]
         }
     },
@@ -6043,7 +6043,7 @@
             "eccharts_style": ["sh_gry_f0t20lst"],
             "keywords": ["potential vorticity"],
             "n_levels": "10",
-            "origin": "white",
+            "origin": "eccharts",
             "parameter": ["300 hPa potential vorticity",
                 "500 hPa potential vorticity",
                 "315K (potential temperature level) potential vorticity"
@@ -6077,7 +6077,7 @@
                 "EFI wave height"
             ],
             "n_levels": "7",
-            "origin": "white",
+            "origin": "eccharts",
             "parameter": ["10m wind gust extreme forecast index",
                 "10m wind speed extreme forecast index",
                 "CAPE extreme forecast index",
@@ -7112,7 +7112,7 @@
             "eccharts_style": [],
             "keywords": ["temperature"],
             "n_levels": "16",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }
     },
@@ -7141,7 +7141,7 @@
             "eccharts_style": [],
             "keywords": [],
             "n_levels": "19",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -7164,7 +7164,7 @@
             "eccharts_style": [],
             "keywords": [],
             "n_levels": "10",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -7189,7 +7189,7 @@
             "eccharts_style": [],
             "keywords": [],
             "n_levels": "11",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -7215,7 +7215,7 @@
             "eccharts_style": [],
             "keywords": [],
             "n_levels": "12",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -7242,7 +7242,7 @@
             "eccharts_style": [],
             "keywords": [],
             "n_levels": "13",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -7269,7 +7269,7 @@
             "eccharts_style": [],
             "keywords": [],
             "n_levels": "14",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -7298,7 +7298,7 @@
             "eccharts_style": [],
             "keywords": [],
             "n_levels": "15",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -7327,7 +7327,7 @@
             "eccharts_style": [],
             "keywords": [],
             "n_levels": "16",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -7360,7 +7360,7 @@
             "eccharts_style": [],
             "keywords": [],
             "n_levels": "20",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -7382,7 +7382,7 @@
             "eccharts_style": [],
             "keywords": [],
             "n_levels": "10",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -7410,7 +7410,7 @@
             "eccharts_style": [],
             "keywords": [],
             "n_levels": "16",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -7442,7 +7442,7 @@
             "eccharts_style": [],
             "keywords": [],
             "n_levels": "20",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -7464,54 +7464,273 @@
             "eccharts_style": [],
             "keywords": [],
             "n_levels": "10",
-            "origin": "milana",
+            "origin": "magics",
+            "parameter": []
+        }        
+    },
+    "m_green_6": {
+        "contour_shade_colour_list": ["#aed6b4",
+                                      "#77dc8a",
+                                      "#5bd9c3",
+                                      "#73d749",
+                                      "#529246",
+                                      "#578870"],
+        "tags": {
+            "colours": ["green"],
+            "eccharts_style": [],
+            "keywords": [],
+            "n_levels": "6",
+            "origin": "magics",
+            "parameter": []
+        }        
+    },
+    "m_green_8": {
+        "contour_shade_colour_list": ["#8bddc9",
+                                      "#7de551",
+                                      "#add794",
+                                      "#67e095",
+                                      "#56b03e",
+                                      "#669081",
+                                      "#4a8f65",
+                                      "#52883e"],
+        "tags": {
+            "colours": ["green"],
+            "eccharts_style": [],
+            "keywords": [],
+            "n_levels": "8",
+            "origin": "magics",
             "parameter": []
         }        
     },
     "m_green_10": {
-        "contour_shade_colour_list": [
-                    "#80584c",
-                    "#d0007b",
-                    "#d91300",
-                    "#9c5794",
-                    "#de0058",
-                    "#ff5c5c",
-                    "#fb5cef",
-                    "#eb8958",
-                    "#ff74ae",
-                    "#ed78e1"],
+        "contour_shade_colour_list": ["#b2e4c0",
+                                      "#5ee2ac",
+                                      "#82e061",
+                                      "#6dde83",
+                                      "#5fdace",
+                                      "#5be144",
+                                      "#7dba87",
+                                      "#4ba537",
+                                      "#4c8b74",
+                                      "#3e8948"],
         "tags": {
             "colours": ["green"],
             "eccharts_style": [],
             "keywords": [],
             "n_levels": "10",
-            "origin": "milana",
+            "origin": "magics",
+            "parameter": []
+        }        
+    },
+    "m_green_12": {
+        "contour_shade_colour_list": ["#b7e6b2",
+                                      "#72e6d3",
+                                      "#9ce47f",
+                                      "#80e347",
+                                      "#5ae29f",
+                                      "#64ae9a",
+                                      "#7fa970",
+                                      "#41b240",
+                                      "#6da23a",
+                                      "#3c9f64",
+                                      "#376e5a",
+                                      "#3c6a2e"],
+        "tags": {
+            "colours": ["green"],
+            "eccharts_style": [],
+            "keywords": [],
+            "n_levels": "12",
+            "origin": "magics",
+            "parameter": []
+        }        
+    },
+    "m_green_13": {
+        "contour_shade_colour_list": ["#b6e1a8",
+                                      "#8eea43",
+                                      "#a2e47f",
+                                      "#76e5cf",
+                                      "#5ee29f",
+                                      "#4eda5e",
+                                      "#6fbb34",
+                                      "#78b39c",
+                                      "#46a579",
+                                      "#789f4d",
+                                      "#489e43",
+                                      "#3e735e",
+                                      "#3a692d"],
+        "tags": {
+            "colours": ["green"],
+            "eccharts_style": [],
+            "keywords": [],
+            "n_levels": "13",
+            "origin": "magics",
+            "parameter": []
+        }        
+    },
+    "m_green_14": {
+        "contour_shade_colour_list": ["#b5e7c9",
+                                      "#55ebcd",
+                                      "#a4e19f",
+                                      "#a9e174",
+                                      "#7ce647",
+                                      "#59df8b",
+                                      "#65cdb8",
+                                      "#5bb63b",
+                                      "#77a994",
+                                      "#73a86c",
+                                      "#399b83",
+                                      "#498b31",
+                                      "#3d6a34",
+                                      "#346955"],
+        "tags": {
+            "colours": ["green"],
+            "eccharts_style": [],
+            "keywords": [],
+            "n_levels": "14",
+            "origin": "magics",
             "parameter": []
         }        
     },
     "m_green_15": {
-        "contour_shade_colour_list": [
-                    "#f6ffd7",
-                    "#dbff7f",
-                    "#8dffa0",
-                    "#59ff80",
-                    "#d6db36",
-                    "#8bd89f",
-                    "#bab964",
-                    "#89ae00",
-                    "#01a030",
-                    "#6a704d",
-                    "#007333",
-                    "#616316",
-                    "#326600",
-                    "#47471e",
-                    "#2d4c0e"],
+        "contour_shade_colour_list": ["#b1eab7",
+                                      "#72e5d8",
+                                      "#8ce57e",
+                                      "#57e79e",
+                                      "#68e853",
+                                      "#52ca99",
+                                      "#89bc9a",
+                                      "#4bbc3e",
+                                      "#52a99f",
+                                      "#65aa69",
+                                      "#4ba13f",
+                                      "#359377",
+                                      "#598259",
+                                      "#327736",
+                                      "#39725e"],
         "tags": {
             "colours": ["green"],
             "eccharts_style": [],
             "keywords": [],
             "n_levels": "15",
-            "origin": "milana",
+            "origin": "magics",
+            "parameter": []
+        }        
+    },
+    "m_green_16": {
+        "contour_shade_colour_list": ["#b6e0a9",
+                                      "#81e4d3",
+                                      "#a9e27e",
+                                      "#7eeb34",
+                                      "#63e6b9",
+                                      "#5de68d",
+                                      "#65e55d",
+                                      "#97db43",
+                                      "#4cb371",
+                                      "#5eac95",
+                                      "#43b03a",
+                                      "#6ca23a",
+                                      "#749d65",
+                                      "#36792e",
+                                      "#38715c",
+                                      "#3a602e"],
+        "tags": {
+            "colours": ["green"],
+            "eccharts_style": [],
+            "keywords": [],
+            "n_levels": "16",
+            "origin": "magics",
+            "parameter": []
+        }        
+    },
+    "m_green_18": {
+        "contour_shade_colour_list": ["#b5ebcc",
+                                      "#aee392",
+                                      "#4ee7d7",
+                                      "#65e7af",
+                                      "#a1df5a",
+                                      "#72e33c",
+                                      "#5ce074",
+                                      "#90c49a",
+                                      "#6bbcac",
+                                      "#4eb973",
+                                      "#7ca363",
+                                      "#59a734",
+                                      "#359a72",
+                                      "#438b81",
+                                      "#53845f",
+                                      "#3e7c2b",
+                                      "#375d2a",
+                                      "#2a5d49"],
+        "tags": {    
+            "colours": ["green"],
+            "eccharts_style": [],
+            "keywords": [],
+            "n_levels": "18",
+            "origin": "magics",
+            "parameter": []
+        }        
+    },
+    "m_green_20": {
+        "contour_shade_colour_list": ["#a7e5ce",
+                                      "#a4e596",
+                                      "#5aeda3",
+                                      "#b7dda5",
+                                      "#81e833",
+                                      "#5ceb62",
+                                      "#a4de58",
+                                      "#57e2c7",
+                                      "#72e276",
+                                      "#50bd34",
+                                      "#41b877",
+                                      "#6caf9d",
+                                      "#6fac59",
+                                      "#78a069",
+                                      "#6ca02d",
+                                      "#37a43a",
+                                      "#398f6d",
+                                      "#387427",
+                                      "#346855",
+                                      "#3f6431"],
+        "tags": {
+            "colours": ["green"],
+            "eccharts_style": [],
+            "keywords": [],
+            "n_levels": "20",
+            "origin": "magics",
+            "parameter": []
+        }        
+    },
+    "m_green_24": {
+        "contour_shade_colour_list": ["#afecd5",
+                                      "#bae7a9",
+                                      "#6ef07b",
+                                      "#a0e947",
+                                      "#b0e47c",
+                                      "#58eea5",
+                                      "#4ee7d7",
+                                      "#6bea42",
+                                      "#69dfb1",
+                                      "#69cd86",
+                                      "#63cb64",
+                                      "#85c1ab",
+                                      "#7abd31",
+                                      "#3dc238",
+                                      "#86b076",
+                                      "#42a48e",
+                                      "#6b9f3a",
+                                      "#3a9f60",
+                                      "#33a137",
+                                      "#5a804a",
+                                      "#4a7f63",
+                                      "#357267",
+                                      "#367224",
+                                      "#30592e"],
+        "tags": {                              
+            "colours": ["green"],
+            "eccharts_style": [],
+            "keywords": [],
+            "n_levels": "24",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -7532,7 +7751,7 @@
             "eccharts_style": [],
             "keywords": [],
             "n_levels": "10",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -7563,7 +7782,7 @@
             "eccharts_style": [],
             "keywords": [],
             "n_levels": "20",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -7595,7 +7814,7 @@
             "keywords": ["rainbow",
                          "cubehelix"],
             "n_levels": "20",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -7614,10 +7833,10 @@
         "tags": {
             "colours": [],
             "eccharts_style": [],
-            "keywords": ["rainbow"
+            "keywords": ["rainbow",
                          "cubehelix"],
             "n_levels": "10",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -7638,10 +7857,10 @@
         "tags": {
             "colours": [],
             "eccharts_style": [],
-            "keywords": ["rainbow"
+            "keywords": ["rainbow",
                          "cubehelix"],
             "n_levels": "12",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -7663,10 +7882,10 @@
         "tags": {
             "colours": [],
             "eccharts_style": [],
-            "keywords": ["rainbow"
+            "keywords": ["rainbow",
                          "cubehelix"],
             "n_levels": "13",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -7689,10 +7908,10 @@
         "tags": {
             "colours": [],
             "eccharts_style": [],
-            "keywords": ["rainbow"
+            "keywords": ["rainbow",
                          "cubehelix"],
             "n_levels": "14",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -7719,7 +7938,7 @@
             "eccharts_style": [],
             "keywords": ["cubehelix"],
             "n_levels": "16",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -7745,7 +7964,7 @@
             "eccharts_style": [],
             "keywords": [],
             "n_levels": "15",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -7770,7 +7989,7 @@
             "eccharts_style": [],
             "keywords": [],
             "n_levels": "14",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -7794,7 +8013,7 @@
             "eccharts_style": [],
             "keywords": [],
             "n_levels": "13",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -7817,7 +8036,7 @@
             "eccharts_style": [],
             "keywords": [],
             "n_levels": "12",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -7839,7 +8058,7 @@
             "eccharts_style": [],
             "keywords": [],
             "n_levels": "11",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -7860,7 +8079,7 @@
             "eccharts_style": [],
             "keywords": [],
             "n_levels": "10",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -7879,7 +8098,7 @@
             "eccharts_style": [],
             "keywords": [],
             "n_levels": "8",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -7896,7 +8115,7 @@
             "eccharts_style": [],
             "keywords": [],
             "n_levels": "6",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -7921,10 +8140,10 @@
         "tags": {
             "colours": [],
             "eccharts_style": [],
-            "keywords": ["rainbow"
+            "keywords": ["rainbow",
                          "cubehelix"],
             "n_levels": "16",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -7948,10 +8167,10 @@
         "tags": {
             "colours": [],
             "eccharts_style": [],
-            "keywords": ["rainbow"
+            "keywords": ["rainbow",
                          "cubehelix"],
             "n_levels": "15",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -7974,10 +8193,10 @@
         "tags": {
             "colours": [],
             "eccharts_style": [],
-            "keywords": ["rainbow"
+            "keywords": ["rainbow",
                          "cubehelix"],
             "n_levels": "14",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -7999,10 +8218,10 @@
         "tags": {
             "colours": [],
             "eccharts_style": [],
-            "keywords": ["rainbow"
+            "keywords": ["rainbow",
                          "cubehelix"],
             "n_levels": "13",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -8023,10 +8242,10 @@
         "tags": {
             "colours": [],
             "eccharts_style": [],
-            "keywords": ["rainbow"
+            "keywords": ["rainbow",
                          "cubehelix"],
             "n_levels": "12",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -8046,10 +8265,10 @@
         "tags": {
             "colours": [],
             "eccharts_style": [],
-            "keywords": ["rainbow"
+            "keywords": ["rainbow",
                          "cubehelix"],
             "n_levels": "11",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -8068,10 +8287,10 @@
         "tags": {
             "colours": [],
             "eccharts_style": [],
-            "keywords": ["rainbow"
+            "keywords": ["rainbow",
                          "cubehelix"],
             "n_levels": "10",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -8088,10 +8307,10 @@
         "tags": {
             "colours": [],
             "eccharts_style": [],
-            "keywords": ["rainbow"
+            "keywords": ["rainbow",
                          "cubehelix"],
             "n_levels": "8",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -8106,10 +8325,10 @@
         "tags": {
             "colours": [],
             "eccharts_style": [],
-            "keywords": ["rainbow"
+            "keywords": ["rainbow",
                          "cubehelix"],
             "n_levels": "6",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -8137,7 +8356,7 @@
             "eccharts_style": [],
             "keywords": ["cubehelix"],
             "n_levels": "16",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -8164,7 +8383,7 @@
             "eccharts_style": [],
             "keywords": ["cubehelix"],
             "n_levels": "15",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -8190,7 +8409,7 @@
             "eccharts_style": [],
             "keywords": [],
             "n_levels": "14",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -8215,7 +8434,7 @@
             "eccharts_style": [],
             "keywords": ["cubehelix"],
             "n_levels": "13",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -8239,7 +8458,7 @@
             "eccharts_style": [],
             "keywords": ["cubehelix"],
             "n_levels": "12",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -8262,7 +8481,7 @@
             "eccharts_style": [],
             "keywords": ["cubehelix"],
             "n_levels": "11",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -8284,7 +8503,7 @@
             "eccharts_style": [],
             "keywords": ["cubehelix"],
             "n_levels": "10",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -8304,7 +8523,7 @@
             "eccharts_style": [],
             "keywords": ["cubehelix"],
             "n_levels": "8",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -8322,7 +8541,7 @@
             "eccharts_style": [],
             "keywords": ["cubehelix"],
             "n_levels": "6",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -8350,7 +8569,7 @@
             "eccharts_style": [],
             "keywords": [],
             "n_levels": "16",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -8377,7 +8596,7 @@
             "eccharts_style": [],
             "keywords": [],
             "n_levels": "15",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -8403,7 +8622,7 @@
             "eccharts_style": [],
             "keywords": [],
             "n_levels": "14",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -8428,7 +8647,7 @@
             "eccharts_style": [],
             "keywords": [],
             "n_levels": "13",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -8452,7 +8671,7 @@
             "eccharts_style": [],
             "keywords": [],
             "n_levels": "12",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -8475,7 +8694,7 @@
             "eccharts_style": [],
             "keywords": [],
             "n_levels": "11",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -8497,7 +8716,7 @@
             "eccharts_style": [],
             "keywords": [],
             "n_levels": "10",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -8517,7 +8736,7 @@
             "eccharts_style": [],
             "keywords": [],
             "n_levels": "8",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -8535,7 +8754,7 @@
             "eccharts_style": [],
             "keywords": [],
             "n_levels": "6",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -8552,7 +8771,7 @@
             "eccharts_style": [],
             "keywords": [],
             "n_levels": "6",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -8571,7 +8790,7 @@
             "eccharts_style": [],
             "keywords": [],
             "n_levels": "8",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -8592,7 +8811,7 @@
             "eccharts_style": [],
             "keywords": [],
             "n_levels": "10",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -8613,7 +8832,7 @@
             "eccharts_style": [],
             "keywords": [],
             "n_levels": "11",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -8635,7 +8854,7 @@
             "eccharts_style": [],
             "keywords": [],
             "n_levels": "12",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -8658,7 +8877,7 @@
             "eccharts_style": [],
             "keywords": [],
             "n_levels": "13",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -8682,7 +8901,7 @@
             "eccharts_style": [],
             "keywords": [],
             "n_levels": "14",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -8708,7 +8927,7 @@
             "eccharts_style": [],
             "keywords": [],
             "n_levels": "16",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -8730,7 +8949,7 @@
             "eccharts_style": [],
             "keywords": [],
             "n_levels": "11",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -8753,7 +8972,7 @@
             "eccharts_style": [],
             "keywords": [],
             "n_levels": "12",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -8777,7 +8996,7 @@
             "eccharts_style": [],
             "keywords": [],
             "n_levels": "13",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -8802,7 +9021,7 @@
             "eccharts_style": [],
             "keywords": [],
             "n_levels": "14",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -8829,7 +9048,7 @@
             "eccharts_style": [],
             "keywords": [],
             "n_levels": "16",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -8858,7 +9077,7 @@
             "eccharts_style": [],
             "keywords": [],
             "n_levels": "18",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -8889,7 +9108,7 @@
             "eccharts_style": [],
             "keywords": [],
             "n_levels": "20",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -8924,7 +9143,7 @@
             "eccharts_style": [],
             "keywords": [],
             "n_levels": "24",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     },
@@ -8967,7 +9186,7 @@
             "eccharts_style": [],
             "keywords": [],
             "n_levels": "32",
-            "origin": "milana",
+            "origin": "magics",
             "parameter": []
         }        
     }
