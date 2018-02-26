@@ -23,6 +23,7 @@
 #define AxisMethod_H
 
 #include <cmath>
+#include <list>
 
 #include "magics.h"
 #include "MagTranslator.h"
@@ -30,6 +31,7 @@
 #include "AxisItem.h"
 #include "Transformation.h"
 #include "AxisMethodAttributes.h"
+
 
 
 namespace magics {
@@ -64,6 +66,7 @@ protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).
 	 virtual void print(ostream&) const; 
 	 virtual double value(double val) const { return val; }
+	 void prepare(list<double>&, double, double, double, double);
 	 double min_;
 	 double max_;
 
