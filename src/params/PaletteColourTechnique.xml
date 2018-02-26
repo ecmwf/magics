@@ -11,7 +11,7 @@ does it submit to any jurisdiction.
 -->
 
 	
-  	<parameter member="palette" to="string" default="xx" from="string" name="contour_shade_palette_name">
+  	<parameter member="palette" to="string" default="" from="string" name="contour_shade_palette_name">
          		<documentation>  Colour used at the stops : the gradeint will be calculated between 2 consecutive ones.		</documentation>
          
   	</parameter>
