@@ -176,7 +176,7 @@ void StyleLibrary::init()
 void PaletteLibrary::init()
 {
 	string library = getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_  + "/styles/" + "palettes.json";
-	cout << "Opening " << library << endl;
+	
 	MagConfigHandler(library,  *this);
 }
 void Palette::values(const json_spirit::Value& value) 
