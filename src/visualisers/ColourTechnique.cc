@@ -25,6 +25,7 @@
 #include "LevelSelection.h"
 #include "LegendVisitor.h"
 #include "Polyline.h"
+#include "MagConfig.h"
 #include <limits>
 
 using namespace magics;
@@ -195,7 +196,7 @@ void ColourTechnique::visit(LegendVisitor& legend)
 }
 PaletteColourTechnique::PaletteColourTechnique() 
 {
-// bnbnZZ
+
 }
 
 PaletteColourTechnique::~PaletteColourTechnique() 
@@ -203,8 +204,52 @@ PaletteColourTechnique::~PaletteColourTechnique()
 
 }
 
+
+
+
 void PaletteColourTechnique::set(LevelSelection& out, LevelSelection& in, ColourTable& table, int nb) const
 {
+    
+    PaletteLibrary library;
+    vector<string> colours;
+
+    vector<string> colours_;
+    library.find(palette_, colours_);
+        
+
+    
+    
+    if ( colours_.empty() ) {
+        MagLog::warning() << "Could not load palette " << palette_ << ": using a default one " << endl;
+        colours_.push_back("blue");
+        colours_.push_back("green");
+        colours_.push_back("yellow");
+        colours_.push_back("orange");
+        colours_.push_back("red");
+    }
+     
+    stringarray::const_iterator colour = colours_.begin();
+    // Nb is the number of intervals! 
+    // We need nb-1 colours!
+    for ( int i = 0; i < nb-1; i++) {
+        
+        if ( colour == colours_.end() ) {
+                if (policy_ == M_LASTONE)
+                    table.push_back(Colour(colours_.back()));
+                else {
+                    colour = colours_.begin();
+                    table.push_back(Colour(*colour));
+                    colour++;
+                }
+
+            
+        }
+        else {
+            table.push_back(Colour(*colour));
+            colour++;
+        }
+    }
+
 
 }
 

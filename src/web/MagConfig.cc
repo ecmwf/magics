@@ -122,7 +122,7 @@ void Style::style(const json_spirit::Value& value)
 void Style::more(const json_spirit::Value& value) 
 {
 	Array values = value.get_value<Array>();
-	cout << "Style::more-->" << values.size() << endl;
+	
 	for (unsigned int i = 0; i < values.size(); i++) {
 		more_.push_back(Style());
 
@@ -164,43 +164,44 @@ void StyleLibrary::callback(const string& name, const json_spirit::Value& value)
     	}
     	*/
     	
+    	
 }
 void StyleLibrary::init()
 {
-	string library = getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_ + theme_ + "/" + family_ +".json";
+	string library = getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_ + "/styles/" + theme_ + "/" + family_ +".json";
 	MagLog::debug() << "Opening " << library << endl;
 	MagConfigHandler(library,  *this);
 }
 
 void PaletteLibrary::init()
 {
-	string library = getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_  + "/" + "palette" +".json";
-	MagLog::debug() << "Opening " << library << endl;
+	string library = getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_  + "/styles/" + "palettes.json";
+	
 	MagConfigHandler(library,  *this);
 }
 void Palette::values(const json_spirit::Value& value) 
 {
 	Array values = value.get_value<Array>();
-	cout << "Palette::values-->" << values.size() << endl;
+	
+
 	for (unsigned int i = 0; i < values.size(); i++) {
 		colours_.push_back(MagConfig::convert(values[i]));	
+		
+
+
 	}
 }
 
 void Palette::tags(const json_spirit::Value& value) 
 {
-	Array values = value.get_value<Array>();
-	cout << "Palette::values-->" << values.size() << endl;
-	for (unsigned int i = 0; i < values.size(); i++) {
-		tags_.push_back(MagConfig::convert(values[i]));	
-	}
+	
 
 }
 
 void Palette::set(const json_spirit::Object& object)
 {
 	if ( methods_.empty() ) {
-		methods_["values"] =  &Palette::values;
+		methods_["contour_shade_colour_list"] =  &Palette::values;
 		methods_["tags"] =  &Palette::tags;
 	}	
 	for (vector<json_spirit::Pair>::const_iterator entry = object.begin(); entry !=  object.end(); ++entry) {
@@ -214,7 +215,6 @@ void Palette::set(const json_spirit::Object& object)
 void PaletteLibrary::callback(const string& name, const json_spirit::Value& value)
 {
 		
-	
 	Palette palette;
 	palette.name_ = name;
 	json_spirit::Object object = value.get_value< json_spirit::Object >();
@@ -229,7 +229,7 @@ void PaletteLibrary::callback(const string& name, const json_spirit::Value& valu
 bool Style::find(const Definition& data, Definition& visdef)
 {
 	for (Definition::const_iterator value = data.begin(); value != data.end(); ++value) {
-		Definition::iterator criteria = criteria_.find(value->first);
+ 		Definition::iterator criteria = criteria_.find(value->first);
 		if ( criteria != criteria_.end() && criteria->second == value->second ) {
 			visdef = style_;
 			for ( vector<Style>::iterator other = more_.begin(); other != more_.end(); ++other) 
@@ -248,7 +248,6 @@ bool StyleLibrary::find(const Style::Definition& data, Style::Definition& visdef
 		if ( style->find(data, visdef) ) {
 			return true;
 		}
-
 	return false;
 
 }

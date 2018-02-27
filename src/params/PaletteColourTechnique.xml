@@ -11,26 +11,16 @@ does it submit to any jurisdiction.
 -->
 
 	
-  	<parameter member="palette" to="string" default="string" from="string" name="contour_palette_name">
+  	<parameter member="palette" to="string" default="" from="string" name="contour_shade_palette_name">
          		<documentation>  Colour used at the stops : the gradeint will be calculated between 2 consecutive ones.		</documentation>
          
   	</parameter>
 
-    <parameter from="string" name="contour_palette_policy" default="lastone" member="palette_policy" to="ListPolicy">
+    <parameter from="string" name="contour_shade_palette_policy" default="lastone" member="palette_policy" to="ListPolicy">
                 <documentation> What to do if the list of colours is smaller that the list of levels: lastone/cycle   </documentation>
     </parameter>
 
-    <parameter from="string" name="contour_palette_levels_setting" default="off" member="levels_setting" to="bool">
-                <documentation> What to do if the list of colours is smaller that the list of levels: lastone/cycle   </documentation>
-    </parameter>
-
-    <parameter from="float" name="contour_palette_min_level" default="INT_MAX" member="min" to="float">
-                <documentation> What to do if the list of colours is smaller that the list of levels: lastone/cycle   </documentation>
-    </parameter>
-
-    <parameter from="float" name="contour_palette_max_level" default="INT_MAX" member="max" to="float">
-                <documentation> What to do if the list of colours is smaller that the list of levels: lastone/cycle   </documentation>
-    </parameter>
+    
 
   
   </class>

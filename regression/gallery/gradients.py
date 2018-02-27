@@ -60,10 +60,8 @@ legend = mlegend(legend = "on",
          legend_title = "on",
          legend_entry_border = 'off',
          legend_title_text= "Temperature at 850 hPa",
-         legend_values_list= [-50., -25, 0, 25, 50],
+         legend_values_list= [-50., -25, -10, 25, 50],
          legend_text_composition = 'user_text_only',
-         legend_user_maximum = "on",
-         legend_user_maximum_text = "50",
          legend_text_font_size = 0.5)
 
 title = mtext(
