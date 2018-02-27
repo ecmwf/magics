@@ -151,6 +151,7 @@ string GribDecoder::getstring(const string& key, bool warnIfKeyAbsent, bool cach
     }
     char val[1024];
     size_t length = 1024;
+    
 
     int err = grib_get_string(handle_, key.c_str(), val, &length);
 
@@ -158,12 +159,15 @@ string GribDecoder::getstring(const string& key, bool warnIfKeyAbsent, bool cach
     {
         if (warnIfKeyAbsent)
         {
+            
             MagLog::warning() << "Grib API: can not find key [" << key << "]  - "<< grib_get_error_message(err) <<"\n";
+             
         }
         return "";
     }
     if ( cache )
         sKeys_.insert(make_pair(key, val));
+    
     return string(val);
 }
 
@@ -2136,14 +2140,25 @@ public:
     {
 
         ostringstream out;
-        long istep = grib.getLong("startStep");
+        long startstep = grib.getLong("startStep"); 
+        long endstep = grib.getLong("endStep");
 
+        
+
+        if ( startstep != endstep ) {
+            ostringstream step;
+            step << "from t+" << startstep << " to t+" << endstep;
+            title.back() += step.str();
+            return;
+        }
+         
 
         ostringstream step;
-        step << istep;
+        step << startstep;
         string format = field.attribute("format", "t+%s");
         out << SimpleStringFormat(step.str(), format);
         title.back() += out.str();
+        
     }
 };
 
@@ -2311,6 +2326,7 @@ public:
             names[54] = "METEOSAT-7";
             names[55] = "METEOSAT-8";
             names[57] = "METEOSAT-10";
+            names[70] = "METEOSAT-11";
             names[172] = "MTSAT-2";
             names[257] = "GOES-13";
             names[259] = "GOES-15";
@@ -2358,6 +2374,15 @@ public:
             l57[9] = "IR 10-8";
             l57[10] = "IR 12-0";
             channels[57] = l57;
+            map<long, string>  l70;
+            l70[1] = "VIS 0-6";
+            l70[4] = "IR 3-9";
+            l70[5] = "WV 6-2";
+            l70[6] = "WV 7-3";
+            l70[8] = "IR 9-7";
+            l70[9] = "IR 10-8";
+            l70[10] = "IR 12-0";
+            channels[70] = l70;
             map<long, string>  l172;
             l172[2] = "IR 10-8";
             l172[4] = "WV 6-8";

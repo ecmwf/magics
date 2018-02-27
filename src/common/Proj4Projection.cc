@@ -540,8 +540,16 @@ void Proj4Projection::projectionSimple()
 		min_longitude_ *= RAD_TO_DEG;
 		min_latitude_ *= RAD_TO_DEG;
 		max_longitude_ *= RAD_TO_DEG;
+		if (max_longitude_ < 0 ) {
+			max_longitude_ +=360.;
+		}
+
+
 		max_latitude_ *= RAD_TO_DEG;
-	
+		
+		cout << min_longitude_ << " " << min_latitude_ << " " << max_longitude_ << " " << max_latitude_ << endl;
+		
+
 		Polyline box;
 		box.box(PaperPoint(min_pcx_, min_pcy_), PaperPoint(max_pcx_, max_pcy_));
 

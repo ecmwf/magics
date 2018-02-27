@@ -124,10 +124,7 @@ public:
             out.push_back(point);
             
         }    
-        cout << "MINX" << *min_element(x_.begin(), x_.end()) << endl;
-        cout << "MaxX" << *max_element(x_.begin(), x_.end()) << endl;
-        cout << "MINY" << *min_element(y_.begin(), y_.end()) << endl;
-        cout << "MaxY" << *max_element(y_.begin(), y_.end()) << endl;
+        
         
     }
     

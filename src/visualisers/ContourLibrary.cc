@@ -301,13 +301,17 @@ WebLibrary::~WebLibrary()
 void WebLibrary::askId(MetaDataCollector& request)
 {
 //main keywords
-	setCriteria(request, "param");
+	setCriteria(request, "paramId");
 	setCriteria(request, "levtype");
 	setCriteria(request, "level");
+	setCriteria(request, "shortName");
+	setCriteria(request, "param");
+	
+	setCriteria(request, "units");
+	
 
 	setCriteria(request, "standard_name");
-	setCriteria(request, "units");
-	setCriteria(request, "grid_mapping");
+	setCriteria(request, "long_name");
 	
 }
 
@@ -324,9 +328,13 @@ void WebLibrary::setCriteria(MetaDataCollector& request, const string& criteria)
 void WebLibrary::getAttributes(MetaDataCollector& data, map<string, string>& contour)
 {
 		
+
 		StyleLibrary styles(data["theme"], "contours");
 		map<string, string> style;
 
+
+
+		
 		if ( styles.find(data, style) )
 			contour = style;
 	

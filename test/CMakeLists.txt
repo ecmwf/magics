@@ -1,5 +1,3 @@
-
-
 set( grib_environment
     GRIB_DEFINITION_PATH=${grib_api_BASE_DIR}/share/${grib_handling_pkg}/definitions
     GRIB_SAMPLES_PATH=${grib_api_BASE_DIR}/share/${grib_handling_pkg}/samples )
@@ -103,3 +101,4 @@ ecbuild_add_test( TARGET odb_python
                   ENVIRONMENT PYTHONPATH=${MAG_PYTHON_PATH}
                               LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib
                               MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/.. )
+

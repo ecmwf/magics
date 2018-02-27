@@ -69,7 +69,8 @@ action["Contour"] = {
     "NoHiLoMarker.xml", "ValuePlotBase.xml", "ValuePlotMethod.xml", "MarkerValuePlotMethod.xml",
     "BothValuePlotMethod.xml", "ShadingTechnique.xml", "PolyShadingTechnique.xml", "GridShading.xml",
     "CellShading.xml", "DumpShading.xml", "MarkerShadingTechnique.xml", "ColourTechnique.xml",
-    "CalculateColourTechnique.xml", "ListColourTechnique.xml", "PolyShadingMethod.xml",
+    "CalculateColourTechnique.xml", "ListColourTechnique.xml", 
+    "PaletteColourTechnique.xml", "PolyShadingMethod.xml",
     "DotPolyShadingMethod.xml", "HatchPolyShadingMethod.xml", ]
     }
 
@@ -312,8 +313,8 @@ all = [ "Contour", "GraphPlotting", "Wind",
     "GribDecoder", "NetcdfDecoder", "InputData", "TableDecoder", "WrepJSon"
     ]
 
-check = ["GraphPlotting"]
-list = all
+check = ["Contour"]
+list = check
 """
 minicolor = [
     ["jquery.miniColors.js",  "Reference guide", "MiniColor"],
@@ -321,8 +322,8 @@ minicolor = [
 ]
 """
 from tojson import  createAction
-#put("magdoc.js",     "Reference guide", "Magics gallery generator")
+put("magdoc.js",     "Reference guide", "Magics gallery generator")
 for i in list:
     definition = action[i]
-    createAction("3.0.0", definition["json"], i, definition["files"])
+    createAction("3.0.1", definition["json"], i, definition["files"])
     put(definition["json"]+".json", definition["jira"],  definition["doc"])

@@ -581,12 +581,12 @@ class ObjectHandler(ContentHandler):
 				else:
 					paramclass = self.classname
 				self.addParameterToClass(self.param, paramclass)
-			type = attrs.get("to")
+			newtype = attrs.get("to")
 			metview_type = attrs.get("metview_interface")
 			if metview_type != None:
-				type = metview_type
-			if (type in self.types):
-				f = self.types[type]
+				newtype = metview_type
+			if (newtype in self.types):
+				f = self.types[newtype]
 				self.newparam(self.param, f(self, attrs), self.default(attrs))
 			else:
 				self.last = self.last + self.options(attrs)
