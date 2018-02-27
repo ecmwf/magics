@@ -71,12 +71,10 @@ PaperPoint GeoRectangularProjection::operator()(const UserPoint& point)  const
 		return  PaperPoint(point.x(), point.y(), point.value(), point.missing(), point.border(), 0, point.name());
 
 	}
-	if ( point.y() < -85.)
-		cout << point.y() << endl;
+	
 	TeCoord2D geo = TeCoord2D(point.x()*TeCDR, point.y()*TeCDR);
 	TeCoord2D xy = projection_->LL2PC(geo);
-	if ( point.y() < -85.)
-		cout << xy.y() << endl;
+	
 	return PaperPoint(xy.x(), xy.y(), point.value(), point.missing(), point.border(), 0, point.name());
 }
 
