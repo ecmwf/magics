@@ -810,9 +810,11 @@ void BoxEntry::rowBox(const PaperPoint& point, BasicGraphicsObjectContainer& leg
 			if ( !last_ ) 
 				from->addText(userText_, font_);
 			else {
-				ostringstream bottom;
-				bottom << MagicsFormat(format_, from_);
-				from->addText(bottom.str(), font_);
+				if ( automatic_  ||  maxText_.size() ) {
+					ostringstream bottom;
+					bottom << MagicsFormat(format_, from_);
+					from->addText(bottom.str(), font_);
+				}
 			}
 	}
 	if ( last_ ) {		

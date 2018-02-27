@@ -43,7 +43,8 @@ list = mcont(contour_highlight='off',
             contour='off',
             contour_label='off',
             contour_shade                  = 'on',
-            contour_level_count            = 5,
+
+            contour_level_selection_type            = "level_list",
             contour_shade_colour_method    = 'gradients',
             contour_gradients_colour_list = [  "RGB(0.031,0.188,0.420", "RGB(0.031,0.318,0.612", "RGB(0.976,0.984,0.992)",
                                 "RGB(1.000,0.969,0.925)","RGB(0.702,0.000,0.000)", "RGB(0.498,0.000,0.000)", ],
@@ -53,8 +54,8 @@ list = mcont(contour_highlight='off',
 
 
             contour_gradients_technique = "hsl",
-            contour_gradients_waypoint_list = [-50., -25, -5, +5, 25, 50.],
-            contour_gradients_step_list = [5,5,5,5,5,5],
+            contour_level_list = [-50., -25, -5, +5, 25, 50.],
+            contour_gradients_step_list = [25,],
 
             contour_shade_method           = 'area_fill',
             legend                         = 'on',)
@@ -67,10 +68,8 @@ legend = mlegend(legend = "on",
          legend_title = "on",
          legend_entry_border = 'off',
          legend_title_text= "Temperature at 850 hPa",
-         legend_values_list= [-50., -25, 0, 25, 50],
+         legend_values_list= [-50., -40, -25, 0, 25, 40, 50],
          legend_text_composition = 'user_text_only',
-         legend_user_maximum = "on",
-         legend_user_maximum_text = "50",
          legend_text_font_size = 0.5)
 
 title = mtext(

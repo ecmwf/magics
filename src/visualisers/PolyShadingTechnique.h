@@ -157,13 +157,21 @@ struct LegendEntryBuilder
             entry->first();
         }
         for ( vector<double>::iterator val = legend_.values_list_.begin(); val != legend_.values_list_.end(); ++val){
-           
+               
             if ( min <= *val && *val < max) {
                 string text = tostring(*val);
                 entry->userText(text, "user");
                 break;
             }
+
         }
+
+        if ( same(legend_.values_list_.back(), max) ) {
+             string text = tostring(max);
+             entry->userText(text, "user");
+             // Try to detect the last entry
+        }
+
         legend_.add(entry);
         return false;
 
