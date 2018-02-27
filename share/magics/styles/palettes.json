@@ -1496,7 +1496,7 @@
                 "narrow_range_2t_anomaly"
             ],
             "key_words" : [],
-            "n_levels" : 16,
+            "n_levels" : "16",
             "origin" : "eccharts",
             "parameter" : [
                 "Extended range: 2m temperature weekly mean anomaly"
