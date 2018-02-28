@@ -30,6 +30,8 @@ include( ecbuild_system NO_POLICY_SCOPE )
 
 ecbuild_requires_macro_version( 2.6 )
 
+set (CMAKE_CXX_STANDARD 14)
+
 ###############################################################################
 # some variables of this project
 
@@ -124,7 +126,7 @@ set( MAGICS_EXCEPTION     "ON" )
 set( MAGICS_SITE          "ecmwf" )
 set( MAGICS_INSTALL_PATH  ${CMAKE_INSTALL_PREFIX} )
 
-set( MAGICS_REFERENCE_VERSIONS            "3.0.0" )
+set( MAGICS_REFERENCE_VERSIONS            "3.0.1" )
 set( MAGICS_HTML_ROOT        "${CMAKE_BINARY_DIR}/regression/html")
 file(MAKE_DIRECTORY ${MAGICS_HTML_ROOT} )
 
@@ -311,11 +313,17 @@ ecbuild_add_resources( TARGET old_ressources
 		tools/regression
 		regression
 		docs
+<<<<<<< Updated upstream
 		toolsjs
+=======
+		toolsjs 
+>>>>>>> Stashed changes
 		test/old
 		tools/xml
 		tools/use_scripts
 		tools/versioncmp_folders)
+ecbuild_add_resources( TARGET notebook
+    DONT_PACK_DIRS notebook )
 
 ecbuild_add_resources( TARGET internal
 		DONT_PACK configure.lxab
