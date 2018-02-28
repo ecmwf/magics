@@ -90,7 +90,7 @@ void GribDecoder::set(const GribLoop& loop, int index)
     index_           = loop.uniqueId_;
     interpolation_method_ = loop.interpolation_method_;
     missing_fill_count_ = loop.missing_fill_count_;
-    wind_mode_       = auto_ptr<WindMode>(loop.wind_mode_->clone());
+    wind_mode_       = shared_ptr<WindMode>(loop.wind_mode_->clone());
     internalIndex_ = index;
 }
 
@@ -1596,7 +1596,7 @@ void GribDecoder::visit(MetaDataCollector& step)
                     string representation = getString("typeOfGrid");
                     try
                     {
-                        auto_ptr<GribInterpretor> interpretor_(SimpleObjectMaker<GribInterpretor>::create(representation));
+                        shared_ptr<GribInterpretor> interpretor_(SimpleObjectMaker<GribInterpretor>::create(representation));
                         interpretor_->scaling(*this, scaling, offset,oriUnits,derivedUnits);
                         if(scaling==1 && offset == 0)
                         {
