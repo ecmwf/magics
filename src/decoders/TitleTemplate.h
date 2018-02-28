@@ -122,7 +122,7 @@ public:
 #ifdef MAGICS_EXCEPTION
 			try
 			{
-				auto_ptr<TitleFieldHandler > object(SimpleObjectMaker<TitleFieldHandler >::create((*entry)->name()));
+				shared_ptr<TitleFieldHandler > object(SimpleObjectMaker<TitleFieldHandler >::create((*entry)->name()));
 				(*object)(*(*entry), lines, data);
 			}
 			catch (NoFactoryException& e)

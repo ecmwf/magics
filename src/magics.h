@@ -106,7 +106,7 @@ using std::pair;
 //using std::list;
 using std::map;
 using std::set;
-using std::auto_ptr;
+using std::shared_ptr;
 
 #include <exception>
 
