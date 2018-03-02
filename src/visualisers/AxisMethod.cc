@@ -293,9 +293,11 @@ void AxisMethod::prepare(const Axis& axis, AxisItems& items)
 
 	prepare(slist, wmin, wmax, inc, ref);
 
-	while ( slist.size() > 10 ) {
-		inc *= 2;
-		prepare(slist, wmin, wmax, inc, ref);
+	if (axis.interval_ == INT_MAX ) {
+		while ( slist.size() > 10 ) {
+			inc *= 2;
+			prepare(slist, wmin, wmax, inc, ref);
+		}
 	}
 
 	
