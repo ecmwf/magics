@@ -1449,7 +1449,7 @@ void EpsWind::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 				for ( vector<string>::const_iterator key = classification.begin(); key != classification.end(); ++key) {
 					CustomisedPoint::const_iterator value = (*point)->find(direction->first + "_" + *key);
 					if ( value != (*point)->end() ) 
-						val += ( value->second == 9999.) ? 0 :  value->second;
+						val += ( value->second > 9998.) ? 0 :  value->second;
 				}			
 				(**point)[direction->first] = val;
 				
@@ -1792,7 +1792,7 @@ void EpsWave::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 				for ( vector<string>::const_iterator key = classification.begin(); key != classification.end(); ++key) {
 					CustomisedPoint::const_iterator value = (*point)->find(direction->first + "_" + *key);
 					if ( value != (*point)->end() ) 
-						val += (value->second == 9999) ? 0 : value->second;
+						val += (value->second > 9998. ) ? 0 : value->second;
 				}			
 				(**point)[direction->first] = val;
 				
