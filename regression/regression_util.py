@@ -64,15 +64,17 @@ def extension(filename,newExtension):
 
 def upload(filename,destination):
     #create destination directory path if it does not exist
-    dir_path= '/home/deploy/test-data/' + '/'.join(destination.split('/')[:-1])
-    command= 'ssh deploy@download-admin "mkdir -p %s"'%dir_path
+    dir_path= '/download/data/test-data/' + '/'.join(destination.split('/')[:-1])
+    command= 'ssh deploy@download.ecmwf.int "mkdir -p %s"'%dir_path
+    print command
     e= call(command,shell=True)
     if not e==0:
         sys.stderr.write("ERROR uploading the file '%s': Server directory path '%s' cannot be created'"%(filename,dir_path))
        
     #upload using build scp destination path
-    destination = "deploy@download-admin:test-data/%s"%destination
+    destination = "deploy@download.ecmwf.int:/download/data/test-data/%s"%destination
     command= ' '.join(["scp","-r",filename, destination])
+    print command
     e= call(command,shell=True)
     if not e==0:
         sys.stderr.write("ERROR uploading the file '%s' into '%s'"%(filename,destination))
