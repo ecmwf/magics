@@ -13,7 +13,10 @@
 #ifndef MvObs_DEFINED_
 #define MvObs_DEFINED_
 
+#ifdef MV_BUFRDC_TEST
 #include "MvBufr.h"
+#endif
+
 #include "MvBufrObs.h"
 #include "MvObsSet.h"
 

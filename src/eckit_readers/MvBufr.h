@@ -13,8 +13,10 @@
 #ifndef MvBufr_DEFINED_
 #define MvBufr_DEFINED_
 
+#include <eccodes.h> //F ec
 #include "fdyntime.h"
 #include <map>
+
 using namespace std;
 
 /*! \file */
@@ -297,7 +299,9 @@ class MvBufr : public MvBufrBase
 
  protected:
 	    MvBufr( char *msg, long len, long aMessageNumber=0 );
-	    ~MvBufr( void );  //?? {} missing??
+       ~MvBufr( void );
+//F
+void setEccodes( codes_handle** ecH );
 
       void  Decode( void );
       void  Decode_012( void );
@@ -358,6 +362,9 @@ class MvBufr : public MvBufrBase
  private:
       void  computeIn_KELEM( void );
 
+codes_handle** _ecH;   //F ec
+
+
  protected:
   EBufrInState  _inState;
 	  long  _currentDescr;
@@ -366,6 +373,7 @@ class MvBufr : public MvBufrBase
 	  fortint  _lastKnownSubsetValue; //-- Q&D trick, BUSEL2 requires
 };
 
+#if 0
 //--------------------------------------------------------------- MvBufrOut
 // A simple class capable of producing BUFR code only from 'MvObs'
 // objects i.e. usable in filtering applications which read a
@@ -419,26 +427,6 @@ class MvBufrOut : public MvBufrBase
         fortint  _KDATA[ MAX_KDLEN ];
    Section1Base* _currentSec1;
 };
-
-#ifndef DOXYGEN_SHOULD_SKIP_THIS
-//--------------------------------------------------------------- MvBufrParam
-
-class MvBufrParam
-{
- public:
-        MvBufrParam( const char *aParamName );
-        MvBufrParam( const long anIntAsDescriptor ) {fDescriptor = anIntAsDescriptor;}
-
-  long  Descriptor( void ) const { return fDescriptor; }
-  void  PrintAllKnownParameters( void ) const;
-
-  operator int ( void ) const { return fDescriptor; }
-
- private:
-     long  fDescriptor;
-};
-// DOXYGEN_SHOULD_SKIP_THIS
 #endif
 
-#endif
-// MvBufr_DEFINED
+#endif  // MvBufr_DEFINED
