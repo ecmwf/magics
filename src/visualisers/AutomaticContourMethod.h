@@ -202,7 +202,7 @@ public:
         // data, because the sub-sampling method (above) uses no interpolation.
         if ((nSampleX > 1) && (nSampleY > 1))   {
             ContourMethod* cm = MagTranslator<string, ContourMethod >()("linear");
-            auto_ptr<ContourMethod > pContourMethod(cm);
+            shared_ptr<ContourMethod > pContourMethod(cm);
 
             pMatrixHandler = pContourMethod->handler(matrix, owner);
 
@@ -212,7 +212,7 @@ public:
                  data.hasMissingValues())
         {
             ContourMethod* cm = MagTranslator<string, ContourMethod >()("linear");
-            auto_ptr<ContourMethod > pContourMethod(cm);
+            shared_ptr<ContourMethod > pContourMethod(cm);
 
             pMatrixHandler = pContourMethod->handler(matrix, owner);
 
@@ -223,7 +223,7 @@ public:
         else
         {
             Akima760Method *am = static_cast < Akima760Method *> (MagTranslator<string, ContourMethod >()("akima760"));
-			auto_ptr<Akima760Method > pAkima760Method(am);
+			shared_ptr<Akima760Method > pAkima760Method(am);
 
             pAkima760Method->resolutionX_ = (fContourResolutionX);
             pAkima760Method->resolutionY_ =  (fContourResolutionY);

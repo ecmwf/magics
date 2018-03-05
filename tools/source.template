@@ -68,7 +68,7 @@ void {{ object }}Attributes::copy(const {{ object }}Attributes& other)
 	{% if param.enum  -%}
 		{{ param.member }}_ = other.{{ param.member }}_;
 	{% else -%}
- 		{{ param.member }}_ = auto_ptr<{{ param.to }}>(other.{{ param.member }}_->clone());
+ 		{{ param.member }}_ = shared_ptr<{{ param.to }}>(other.{{ param.member }}_->clone());
 	{% endif -%}
 	{% endfor %}
 } 

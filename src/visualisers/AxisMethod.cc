@@ -213,6 +213,35 @@ void HyperAxisMethod::prepare(const Axis& axis, AxisItems& items)
 }
 
 
+
+void AxisMethod::prepare(list<double>& out, double from, double to, double by, double ref)
+{
+	out.clear();
+	int i = 0;
+	double val = ref + (i * by);
+	
+	while ( val < to ) {
+		if ( val > from )
+			out.push_back(value(val));
+		i++;
+		val = ref + (i * by);
+	}
+	i = 1;
+	val = ref - (i * by);
+	while ( val > from ) {
+		if ( val < to)
+			out.push_back(value(val));
+		i++;
+		val = ref - (i * by);
+	}
+
+	out.sort();
+
+	if ( from > to ) 
+		out.reverse();
+
+}
+
 void AxisMethod::prepare(const Axis& axis, AxisItems& items)
 {
 	double inc;
@@ -254,6 +283,7 @@ void AxisMethod::prepare(const Axis& axis, AxisItems& items)
 
 	list<double> slist;
 
+
 	wmax += inc;
 	wmin -= inc;
 
@@ -261,35 +291,18 @@ void AxisMethod::prepare(const Axis& axis, AxisItems& items)
 		ref = floor(min/inc) * inc;
 	}
 
-	int i = 0;
-	double val = ref + (i *inc);
-	
-	while ( val < wmax ) {
-		
-		if ( val > wmin )
-			slist.push_back(value(val));
-		i++;
-		val = ref + (i *inc);
-	}
-	i = 1;
-	val = ref - (i *inc);
-	while ( val > wmin ) {
-		
-		if ( val < wmax)
-			slist.push_back(value(val));
-		i++;
-		val = ref - (i *inc);
+	prepare(slist, wmin, wmax, inc, ref);
+
+	while ( slist.size() > 10 ) {
+		inc *= 2;
+		prepare(slist, wmin, wmax, inc, ref);
 	}
 
-	slist.sort();
-
-	if ( min > max ) 
-		slist.reverse();
 	
 	std::list<double> shortlist;
-	int mod  = (slist.size() / 10);
+	int mod  = (slist.size() / 12);
 	mod++;
-	i = 0;
+	int i = 0;
 	for ( std::list<double>::iterator e = slist.begin(); e !=  slist.end(); ++e) {
 		if ( !automatic )
 			shortlist.push_back(*e);
