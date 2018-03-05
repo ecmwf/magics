@@ -90,7 +90,7 @@ void GribDecoder::set(const GribLoop& loop, int index)
     index_           = loop.uniqueId_;
     interpolation_method_ = loop.interpolation_method_;
     missing_fill_count_ = loop.missing_fill_count_;
-    wind_mode_       = auto_ptr<WindMode>(loop.wind_mode_->clone());
+    wind_mode_       = shared_ptr<WindMode>(loop.wind_mode_->clone());
     internalIndex_ = index;
 }
 
@@ -151,14 +151,15 @@ string GribDecoder::getstring(const string& key, bool warnIfKeyAbsent, bool cach
     }
     char val[1024];
     size_t length = 1024;
-    cout << "key--> " << key;
+    
+
     int err = grib_get_string(handle_, key.c_str(), val, &length);
 
     if ( err )
     {
         if (warnIfKeyAbsent)
         {
-            cout << " missing" << endl;
+            
             MagLog::warning() << "Grib API: can not find key [" << key << "]  - "<< grib_get_error_message(err) <<"\n";
              
         }
@@ -166,7 +167,7 @@ string GribDecoder::getstring(const string& key, bool warnIfKeyAbsent, bool cach
     }
     if ( cache )
         sKeys_.insert(make_pair(key, val));
-    cout << " = " << string(val) << endl;
+    
     return string(val);
 }
 
@@ -1595,7 +1596,7 @@ void GribDecoder::visit(MetaDataCollector& step)
                     string representation = getString("typeOfGrid");
                     try
                     {
-                        auto_ptr<GribInterpretor> interpretor_(SimpleObjectMaker<GribInterpretor>::create(representation));
+                        shared_ptr<GribInterpretor> interpretor_(SimpleObjectMaker<GribInterpretor>::create(representation));
                         interpretor_->scaling(*this, scaling, offset,oriUnits,derivedUnits);
                         if(scaling==1 && offset == 0)
                         {
@@ -2078,7 +2079,7 @@ public:
         long hour = grib.getLong("hour");
         long mn =  grib.getLong("minute");
         string x = grib.getString("dataDate");
-        cout << x << endl;
+        
 
         MagDate part1 = MagDate(date);
         MagTime part2 = MagTime(hour, mn, 0);
@@ -2142,8 +2143,7 @@ public:
         long startstep = grib.getLong("startStep"); 
         long endstep = grib.getLong("endStep");
 
-        cout << "Start " << startstep << endl;
-        cout << "End  " << endstep << endl;
+        
 
         if ( startstep != endstep ) {
             ostringstream step;
@@ -2326,6 +2326,7 @@ public:
             names[54] = "METEOSAT-7";
             names[55] = "METEOSAT-8";
             names[57] = "METEOSAT-10";
+            names[70] = "METEOSAT-11";
             names[172] = "MTSAT-2";
             names[257] = "GOES-13";
             names[259] = "GOES-15";
@@ -2373,6 +2374,15 @@ public:
             l57[9] = "IR 10-8";
             l57[10] = "IR 12-0";
             channels[57] = l57;
+            map<long, string>  l70;
+            l70[1] = "VIS 0-6";
+            l70[4] = "IR 3-9";
+            l70[5] = "WV 6-2";
+            l70[6] = "WV 7-3";
+            l70[8] = "IR 9-7";
+            l70[9] = "IR 10-8";
+            l70[10] = "IR 12-0";
+            channels[70] = l70;
             map<long, string>  l172;
             l172[2] = "IR 10-8";
             l172[4] = "WV 6-8";

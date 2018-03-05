@@ -2,7 +2,7 @@
     "drivers": [
         {
             "format": "png", 
-            "fullname": "geomap", 
+            "fullname": "geomap.png", 
             "output_cairo_transparent_background": "off", 
             "output_name_first_page_number": "off", 
             "output_width": "800"
