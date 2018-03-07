@@ -3215,7 +3215,7 @@ void MvObs::clearIterator()
 void MvObs::expand()
 {
 //   *_ecH->expand();
-   if ( !_unpacked )
+   if ( !_unpacked && _ecH && *_ecH)
    {
       codes_set_long(*_ecH,"unpack",1);
       _unpacked = true;

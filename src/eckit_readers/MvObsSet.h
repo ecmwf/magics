@@ -209,7 +209,7 @@ class MvObsSetIterator
 
 public:
 //! Constructor with a MvObset as an argument
-   MvObsSetIterator( MvObsSet& );
+   MvObsSetIterator( MvObsSet&, bool useHeaderOnly=true );
 
 //! Destructor
    ~MvObsSetIterator();
@@ -224,7 +224,6 @@ public:
  *  subsets in multisubset BUFR messages. See enum ENextReturn.
  */
    MvObs operator() ( ENextReturn returnType );
-
 
 //! Returns the sequence number of the current BUFR message
    int currentMessageNumber() const;
