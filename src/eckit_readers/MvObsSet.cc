@@ -518,7 +518,7 @@ bool MvObsSet::writeCompressed(MvObs *obs)
 {
 #ifdef MV_BUFRDC_TEST
    if(_bufrOut)
-      _bufrOut->write_bufrdc( anObs );
+      _bufrOut->write_bufrdc( obs );
 #endif
 
     assert(obs);
@@ -751,7 +751,7 @@ MvObsSet :: maxDate()
 //=================================================================== MvObsSetIterator
 //___________________________________________________________________
 
-MvObsSetIterator::MvObsSetIterator(MvObsSet& s) :
+MvObsSetIterator::MvObsSetIterator(MvObsSet& s, bool useHeaderOnly) :
     _NoFiltersSet(true),
     useObsTime_(false),
     _SelectValueCount(0),
@@ -760,7 +760,7 @@ MvObsSetIterator::MvObsSetIterator(MvObsSet& s) :
     _TimeFilterState(kTFS_notSet),
     _SelectState(SF_notSet),
     ObsSet(&s),
-    useHeaderOnly_(true),
+    useHeaderOnly_(useHeaderOnly),
     observer_(0)
 {
 }
