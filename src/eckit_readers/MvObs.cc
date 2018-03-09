@@ -3255,6 +3255,18 @@ MvObs::currentKey()
    return _currentKey;
 }
 
+const std::string
+MvObs::currentKeyWithoutRank()
+{
+   // No occurrence tag
+   if ( _currentKey[0] != '#' )
+      return _currentKey;
+
+   // Remove occurrence tag
+   std::size_t ipos = _currentKey.find('#',1);
+   return _currentKey.substr(ipos+1);
+}
+
 // It should only be used through the iterator
 double
 MvObs::currentValue()
@@ -4745,6 +4757,16 @@ if ( old != ect )
 
 //----------------------------------------------------------------------------
 //-- APIs for converting Descriptors to keys --//
+
+std::string
+MvObs::keyC( const std::string& descriptor, const int index )
+{
+   // Check only positive integer values; otherwise, use "-.0123456789"
+   if ( strspn( descriptor.c_str(), "0123456789" ) == descriptor.size() )
+      return key(atol(descriptor.c_str()),index);
+   else
+      return descriptor;
+}
 
 std::string
 MvObs::key( const int descriptor, const int index )

@@ -419,6 +419,7 @@ public:
    // Returns current Descriptor/Key/Value
    long currentDescriptor();
    const std::string& currentKey();
+   const std::string  currentKeyWithoutRank();
    double currentValue();
 
    // Returns the value of the next element with the same descriptor
@@ -667,6 +668,9 @@ public:
 
    static std::string keyWithoutOccurrenceTag(const std::string&);
    static int occurenceFromKey(const std::string& key);
+
+   // APIs for converting Descriptors to keys
+   std::string keyC( const std::string&, const int occurrence=-1 );
 
 private:
 
