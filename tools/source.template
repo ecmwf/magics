@@ -130,7 +130,7 @@ void {{ object }}Attributes::toxml(ostream& out)  const
 {
 	out <<  "\"{{ tag }}\"";
 	{% for param  in string_parameters -%} 
-	out << ", \"{{ param.name }} \":";
+	out << ", \"{{ param.name }}\":";
 	niceprint(out,{{ param.member }}_);
 	{% endfor -%}    
 	{% for param  in factory_parameters -%} 
