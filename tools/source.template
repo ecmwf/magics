@@ -128,7 +128,7 @@ void {{ object }}Attributes::print(ostream& out)  const
 
 void {{ object }}Attributes::toxml(ostream& out)  const
 {
-	out <<  "\"{{ tag }}\"";
+	out <<  "\"{{ tag }}\""; 
 	{% for param  in string_parameters -%} 
 	out << ", \"{{ param.name }}\":";
 	niceprint(out,{{ param.member }}_);
