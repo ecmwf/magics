@@ -116,12 +116,12 @@ if ( minColour_.white() ) {
     hmin.hue_ = hmax.hue_;
     
 }
- //cout << maxColour_ << "WHITE???" << endl;
+
  if ( maxColour_.white() ) {
     step_sat = 0;
     step_hue = 0;
     
-   //cout << maxColour_ << "WHITE" << endl;
+   
   }
 */
     

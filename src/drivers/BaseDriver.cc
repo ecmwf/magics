@@ -557,7 +557,7 @@ void BaseDriver::printLine(const Polyline &line) const
 		      renderWindArrow(arrow);
 /*
       {
-        cout << "STREAMLINES >>>>>>>>>>>>>>>>>>>  angle: " << angle<<"   x:"<<pro_x<<"  y:"<<pro_y<< endl;
+        
     	int ewn=5;
     	setNewColour(Colour("red"));
     	setNewLineWidth(4.);

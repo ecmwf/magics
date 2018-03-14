@@ -1,3 +1,4 @@
+
 if( HAVE_PYTHON )
 
   configure_file( setup.py.in setup.py )
