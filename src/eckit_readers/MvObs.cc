@@ -9,6 +9,7 @@
 
 // MvObs.cc,     vk 940818...
 //           rev vk 980501
+//           rev fi 20170801  replace BUFRDC by eccodes
 
 //--------------------------------------------------------------------
 //  A class to hide the complexities of BUFR routines written in
@@ -40,25 +41,31 @@
 //         preprint  12 October 1994
 //--------------------------------------------------------------------
 
-#include "inc_iostream.h"
-#include <sstream>  //-- requires new templated standard io headers!
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <ctype.h>
-#include <unistd.h>
 #include <assert.h>
-//F #include "Metview.h"
+
+#include "MvBufrEdition.h"
+#include "MvBufrElementTable.h"
 #include "MvObs.h"
 #include "MvObsSet.h"
 
-#include <map>
+#include <string>
+#include <iostream>
+#include <iomanip>
+#include <sstream>
+#include <fstream>
+using std::string;
 
 #ifdef METVIEW
 #  include "MvException.h"
 #else
 #  include <exception>
 #endif
+
+#ifdef MV_BUFRDC_TEST
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
+#include <unistd.h>
 
 // Static int used to duplicate stdout and get it back.
 static int new_fd = -1;
@@ -114,30 +121,6 @@ static fortint*   myKBOXR = 0;
 static fortfloat* myVALS  = 0;
 static char*      myCBOXN = 0;
 static char*      myCBOXU = 0;
-
-
-const long cPressureCoordinate = 7004L;  // pressure vertical coord. descriptor value
-
-//--------------------------------------------------------
-//  Descriptor mnemonics for class 'MvBufrParam'
-//--------------------------------------------------------
-
-#ifndef DOXYGEN_SHOULD_SKIP_THIS
-
-typedef struct
-{
-   const char *name;
-   long        descriptor;
-} descriptorStruct;
-
-static descriptorStruct knownParams[] =
-{
-   {"z", 10003}, {"p", 10004},
-   {"ddd", 11001}, {"ff", 11002}, {"u", 11003}, {"v", 11004}, {"w", 11006},
-   {"T", 12001}, {"Td",12003}, {"T(2m)",12004}, {"Td(2m)",12006},
-   {"END",0}
-};
-#endif
 
 //--------------------------------------------------------
 //  Function definitions for the FORTRAN & C BUFR routines
@@ -204,11 +187,16 @@ extern "C" {
  int CIND(int i) { return i-1;}
 }
 
+// Helper functions
 static string intToString(int);
 static string floatToString(float);
 static void keyToStringMap(map<string,string> &,string,fortint *,int);
 static void keyToStringMap(map<string,string> &,string,float);
 
+//F
+   static void TEMPCHECKVALUEDOUBLE(double,double,const string&,long);
+   static void TEMPCHECKVALUELONG(long,long,bool isLevel=false);
+   static void TEMPCHECKVALUESTRING(string&,string&);
 //______________________________________________________________________
 
 Section1Base::Section1Base( const unsigned char* octs )
@@ -475,7 +463,7 @@ MvBufrBase :: createDataArrays( void )
         marslog( LOG_EROR, "MvBufrBase::MvBufrBase: out-of-memory!" );
         throw MvException( "MvBufrBase::MvBufrBase: out-of-memory!" );
 #else
-        cerr << ">>>> MvBufrBase::MvBufrBase: out-of-memory => throw an exception <<<<" << endl;
+        cerr << ">>>> MvBufrBase::MvBufrBase: out-of-memory => throw an exception <<<<" << std::endl;
         throw std::bad_alloc();
 #endif
     }
@@ -533,6 +521,15 @@ MvBufrBase :: unsignedInt( const unsigned char* firstOctet
 //______________________________________________________________________
 
 //______________________________________________________________________
+
+// F temporary method. The objective is to pass the eccodes file handler
+void
+MvBufr::setEccodes( codes_handle** ecH )
+{
+   _ecH = ecH;
+}
+//F
+
 
 MvBufr :: MvBufr( char *msg, long len, long aMessageNumber )
     : MvBufrBase( len )   //( msg, len )
@@ -634,13 +631,13 @@ MvBufr :: Decode( void )
 
             if( fKERR == 25 || fKERR == 14)
             {
-                cout << "MvBufr :: Decode - kVals of " << kVals << " and In_KELEM of " << In_KELEM
-                     << " is not large enough." << endl;
+                std::cout << "MvBufr :: Decode - kVals of " << kVals << " and In_KELEM of " << In_KELEM
+                     << " is not large enough." << std::endl;
 
                 if (++arraySizeIndex < NUM_MAX_KVALS)
                 {
-                    cout << "Trying kVals of " << aMAX_KVALS[arraySizeIndex] <<
-                         " (" << (aMAX_KVALS[arraySizeIndex] * 80) / (1024*1024) << "MB)" << endl;
+                    std::cout << "Trying kVals of " << aMAX_KVALS[arraySizeIndex] <<
+                         " (" << (aMAX_KVALS[arraySizeIndex] * 80) / (1024*1024) << "MB)" << std::endl;
 
                     deleteDataArrays ();
                     createDataArrays ();
@@ -657,9 +654,9 @@ MvBufr :: Decode( void )
 
       if( fKERR )
       {
-	 cerr << "In_KELEM " << In_KELEM << " kvals " << In_KVALS << endl;
+     cerr << "In_KELEM " << In_KELEM << " kvals " << In_KVALS << std::endl;
 	 cerr << " >>> MvBufr::Decode, bufrmsg " << fMessageNumber
-	      << ": fKERR = " << fKERR << endl;
+          << ": fKERR = " << fKERR << std::endl;
 
 
 #ifdef METVIEW
@@ -703,7 +700,7 @@ MvBufr :: Decode_012( void )
       {
 
 	 cerr << " >>> MvBufr::Decode_012, bufrmsg " << fMessageNumber
-	      << ": fKERR = " << fKERR << endl;
+          << ": fKERR = " << fKERR << std::endl;
 
 #ifdef METVIEW
 	 marslog( LOG_EROR, "BUFR decoding (BUFREX) failed, status = %d", fKERR );
@@ -742,7 +739,7 @@ MvBufr :: ExpandDescriptors( int subsetNumber )
                       ||                               //-- OR
         _inState == kBufrIn_DataDecoded  )             //-- descriptors not yet expanded
    {
-//cout << "-----> MvBufr::ExpandDescriptors(" << _lastKnownSubsetValue << ") => BUSEL2..." << endl;
+//cout << "-----> MvBufr::ExpandDescriptors(" << _lastKnownSubsetValue << ") => BUSEL2..." << std::endl;
 //      CALL BUSEL2(KSUBSET,KELEM,KTDLEN,KTDLST,KTDEXL,KTDEXP,CNAMES,CUNITS,KERR)
          BUSEL2( &_lastKnownSubsetValue  //-- Q&D variable...
                , &In_KELEM
@@ -761,7 +758,7 @@ MvBufr :: ExpandDescriptors( int subsetNumber )
    {
       if( _inState == kBufrIn_DataDecoded )
       {
-//cout << "-----> MvBufr::ExpandDescriptors(" << _lastKnownSubsetValue << ") => BUSEL..." << endl;
+//cout << "-----> MvBufr::ExpandDescriptors(" << _lastKnownSubsetValue << ") => BUSEL..." << std::endl;
          BUSEL( &In_KTDLEN      // nr of original data descriptors in Section 3
 	      ,  In_KTDLST      // original descriptors
 	      , &In_KTDEXL      // nr of expanded data descriptors
@@ -773,7 +770,7 @@ MvBufr :: ExpandDescriptors( int subsetNumber )
 
    if( fKERR )
    {
-      cerr << " >>> MvBufr::ExpandDescriptors: fKERR = " << fKERR << endl;
+      cerr << " >>> MvBufr::ExpandDescriptors: fKERR = " << fKERR << std::endl;
 
 #ifdef METVIEW
       marslog( LOG_EROR, "BUFR expansion (BUSEL) failed, status = %d", fKERR );
@@ -950,7 +947,7 @@ MvBufr::feedbackItemUnit( int row, int subset )
 
 //____________________________________________________________________ obsTime
 TDynamicTime
-MvBufr :: obsTime( const int subsetNr )
+MvBufr:: obsTime( const int subsetNr )
 {
    fortint myYear  = intValue( 4001L, subsetNr );
    fortint myMonth = intValue( 4002L, subsetNr );
@@ -987,16 +984,6 @@ MvBufr :: obsTime( const int subsetNr )
 TDynamicTime
 MvBufr :: msgTime( void )
 {
-#if 0
-   short myYear  = fSec1->yearYY ;
-   short myMonth = fSec1->month ;
-   short myDay   = fSec1->day ;
-   short myHour  = fSec1->hour ;
-   short myMin   = fSec1->minute ;
-
-   return TDynamicTime( myYear, myMonth, myDay, myHour, myMin, 0 );
-#endif
-
    return Sec1->date();
 }
 //____________________________________________________________________ stringValue
@@ -1219,7 +1206,7 @@ MvBufr :: SetNextDescriptor( void )
      _currentDescr = 0;                   //-- must be an error => issue error msg
 
     cerr << "MvBufr::SetNextDescriptor: _currentDescrInd=" << _currentDescrInd
-         << ", limiting In_KTDEXL=" << In_KTDEXL << endl;
+         << ", limiting In_KTDEXL=" << In_KTDEXL << std::endl;
 
      return false;
   }
@@ -1253,20 +1240,20 @@ MvBufr::fillBufrBox( int aSubsetNr )
       try
 	{
 	  myKBOXR = new fortint[ kVals ];
-	  cout << " fillBufrBox: array myKBOXR created" << endl;
+      std::cout << " fillBufrBox: array myKBOXR created" << std::endl;
 
 	  myVALS  = new fortfloat[ kVals ];
-	  cout << " fillBufrBox: array myVALS  created" << endl;
+      std::cout << " fillBufrBox: array myVALS  created" << std::endl;
 
 	  myCBOXN = new char[ kVals * 64 ];
-	  cout << " fillBufrBox: array myCBOXN created" << endl;
+      std::cout << " fillBufrBox: array myCBOXN created" << std::endl;
 
 	  myCBOXU = new char[ kVals * 24 ];
-	  cout << " fillBufrBox: array myCBOXU created" << endl;
+      std::cout << " fillBufrBox: array myCBOXU created" << std::endl;
 	}
       catch(...)
 	{
-	  cout << " >>> fillBufrBox: problems in creating fort arrays <<<" << endl;
+      std::cout << " >>> fillBufrBox: problems in creating fort arrays <<<" << std::endl;
 	  delete myKBOXR;  myKBOXR = 0;
 	  delete myVALS;   myVALS  = 0;
 	  delete myCBOXN;  myCBOXN = 0;
@@ -1286,7 +1273,7 @@ MvBufr::fillBufrBox( int aSubsetNr )
 
   if( _inState == kBufrIn_Error )
     {
-      cout << " fillBufrBox: BUFR msg error state, return false" << endl;
+      std::cout << " fillBufrBox: BUFR msg error state, return false" << std::endl;
       return -1313;
     }
 
@@ -1334,14 +1321,14 @@ MvBufr::fillBufrBox( int aSubsetNr )
 bool
 MvBufr::writeBufrBox( int aSubsetNr )
 {
-  cout << " writeBufrBox: entering" << endl;
+  std::cout << " writeBufrBox: entering" << std::endl;
 
   myKERR = fillBufrBox( aSubsetNr );
 
   //-- forces Fortran unit 6 into a file
   if( ! redirect_6(BBOXNAME.c_str()) )
     {
-      cout << ">>> UNABLE TO REDIRECT stdout <<<" << endl;
+      std::cout << ">>> UNABLE TO REDIRECT stdout <<<" << std::endl;
       return false;
     }
 
@@ -1359,8 +1346,8 @@ MvBufr::writeBufrBox( int aSubsetNr )
   //-- closes "unit'ified" unit 6
   if( ! reconnect_6() )
     {
-      cerr << ">>> UNABLE TO RECONNECT TO stdout <<<" << endl;
-      cout << ">>> UNABLE TO RECONNECT TO stdout <<<" << endl;
+      cerr << ">>> UNABLE TO RECONNECT TO stdout <<<" << std::endl;
+      std::cout << ">>> UNABLE TO RECONNECT TO stdout <<<" << std::endl;
     }
 
   return myKERR == 0;
@@ -1389,7 +1376,7 @@ MvBufr :: printSection( ostream& aStream,int which)
   bool return_val = true;
   if( _inState == kBufrIn_Error )
     {
-      aStream << "!!!!!!!!!!! Bad BUFR message " << endl;
+      aStream << "!!!!!!!!!!! Bad BUFR message " << std::endl;
       return false;
     }
 
@@ -1413,7 +1400,7 @@ MvBufr :: printSection( ostream& aStream,int which)
       fortint *fKEY = new fortint[60];
       BUUKEY(fKSEC1,fKSEC2,fKEY,fKSUP,&fKERR);
       if ( fKERR )
-	cout << "\nProblems getting key. Maybe non-existent? " << endl;
+    cout << "\nProblems getting key. Maybe non-existent? " << std::endl;
       else
 	BUPRS2(fKSUP,fKEY);
 
@@ -1436,7 +1423,7 @@ MvBufr::getDataFromSection2(map<string,string> &data)
 
     if( _inState == kBufrIn_Error )
     {
-      cout << "!!!!!!!!!!! Bad BUFR message " << endl;
+      std::cout << "!!!!!!!!!!! Bad BUFR message " << std::endl;
       return false;
     }
 
@@ -1447,7 +1434,7 @@ MvBufr::getDataFromSection2(map<string,string> &data)
       BUUKEY(fKSEC1,fKSEC2,fKEY,fKSUP,&fKERR);
       if ( fKERR )
       {
-		cout << "\nProblems getting key. Maybe non-existent? " << endl;
+        cout << "\nProblems getting key. Maybe non-existent? " << std::endl;
 		retval=false;
       }
       else
@@ -1579,11 +1566,6 @@ void MvBufr::parseSection2(fortint *fKEY,map<string,string> &data)
 	}
 }
 
-
-
-
-
-
 //------------- Printing functions -----------------
 bool
 MvBufr :: printSection_012( ostream& aStream,int which)
@@ -1594,7 +1576,7 @@ MvBufr :: printSection_012( ostream& aStream,int which)
   bool return_val = true;
   if( _inState == kBufrIn_Error )
     {
-      aStream << "!!!!!!!!!!! Bad BUFR message " << endl;
+      aStream << "!!!!!!!!!!! Bad BUFR message " << std::endl;
       return false;
     }
 
@@ -1614,7 +1596,7 @@ MvBufr :: printSection_012( ostream& aStream,int which)
       fortint *fKEY = new fortint[60];
       BUUKEY(fKSEC1,fKSEC2,fKEY,fKSUP,&fKERR);
       if ( fKERR )
-	cout << "\nProblems getting key. Maybe non-existent? " << endl;
+    cout << "\nProblems getting key. Maybe non-existent? " << std::endl;
       else
 	BUPRS2(fKSUP,fKEY);
 
@@ -1626,16 +1608,27 @@ MvBufr :: printSection_012( ostream& aStream,int which)
   delete_print_file(sec_name);
   return return_val;
 }
-
+#endif //MV_BUFRDC_TEST
 
 //______________________________________________________________________
 //====================================================================== MvBufrOut
+// FAMI20171024 : This class is kept for backwards compatibility. At the
+// moment, ecCodes is only using method "add". This method is called from
+// class MvObsSet and contains only one command which calls back class
+// MvObsSet. Maybe, this class can be removed in the future.
 //______________________________________________________________________
 
-MvBufrOut::MvBufrOut( const long len, MvObsSet* aSet )  //( char *msg, long len, MvObsSet* aSet )
-    : MvBufrBase( len ), _currentSec1( 0 )
+//____________________________________________________________________ Constructor
+
+#ifdef MV_BUFRDC_TEST
+MvBufrOut::MvBufrOut( const long len, MvObsSet* aSet ) :
+   MvBufrBase(len), _currentSec1( 0 ), _outSet(aSet)
+#else
+MvBufrOut::MvBufrOut( MvObsSet* aSet ) :
+   _outSet(aSet)
+#endif
 {
-  _outSet = aSet;
+#ifdef MV_BUFRDC_TEST
   _maxNrSubsets = 1;
   Out_KELEM = -1;        // MAX_KELEM / _maxNrSubsets;
 
@@ -1643,19 +1636,39 @@ MvBufrOut::MvBufrOut( const long len, MvObsSet* aSet )  //( char *msg, long len,
 
   _outState = kBufrOut_noBuffers;
   resetBuffers();
+#endif
 }
-//____________________________________________________________
 
-MvBufrOut :: ~MvBufrOut( void )
+//____________________________________________________________________ Destructor
+MvBufrOut::~MvBufrOut()
 {
-  if(   _outState == kBufrOut_dataInBuffers )
-  {
+#ifdef MV_BUFRDC_TEST
+  if( _outState == kBufrOut_dataInBuffers )
     encode();
-  }
-  _outSet->close();
+
+//  _outSet->close();
   delete _currentSec1;
+#else
+//   _outSet->close();  // the owner should be responsible to close this file
+#endif
 }
 
+//____________________________________________________________________ add
+void
+MvBufrOut::add( MvObs& anObs )
+{
+#ifdef MV_BUFRDC_TEST
+   if( _maxNrSubsets == 1 && anObs._bufrIn->subsetCount() == 1 )
+      //-- if no packing into subsets, copy message as is...
+      write_bufrdc( anObs );
+   else
+      addIntoBuffers( anObs );
+#endif
+
+   _outSet->write( anObs );
+}
+
+#ifdef MV_BUFRDC_TEST
 //____________________________________________________________________ createBuffers
 void
 MvBufrOut::createBuffers() // XXX still need more dynamic memory allocation
@@ -1672,22 +1685,22 @@ MvBufrOut::createBuffers() // XXX still need more dynamic memory allocation
 
       try
 	{
-	  cout << "MvBufrOut::createBuffers, checking for memory..." << endl;
+      std::cout << "MvBufrOut::createBuffers, checking for memory..." << std::endl;
 
 	  sprintf( cbuf, "requesting %d new fortints", MAX_KELEM );
-	  cout << cbuf << endl;
+      std::cout << cbuf << std::endl;
 	  Out_KTDLST = new fortint[ MAX_KELEM ];
 
 	  sprintf( cbuf, "requesting %d new fortints", MAX_KELEM );
-	  cout << cbuf << endl;
+      std::cout << cbuf << std::endl;
 	  Out_KTDEXP = new fortint[ MAX_KELEM ];
 
 	  sprintf( cbuf, "requesting %d new fortfloats", MAX_KVALS );
-	  cout << cbuf << endl;
+      std::cout << cbuf << std::endl;
 	  Out_VALUES = new fortfloat[ MAX_KVALS ];
 
 	  sprintf( cbuf, "requesting %d new chars", 80*MAX_KVALS );
-	  cout << cbuf << endl;
+      std::cout << cbuf << std::endl;
 	  Out_CVALS = new char[ MAX_KVALS * 80 ];
 	}
       catch(...)
@@ -1703,8 +1716,8 @@ MvBufrOut::createBuffers() // XXX still need more dynamic memory allocation
 
 	  _outState = kBufrOut_error;
 
-	  cout << ">>>\n>>> MvBufrOut::createBuffers failed in " << cbuf << "\n>>>" << endl;
-	  cout << "MvBufrOut::createBuffers: throw MvException..." << endl;
+      std::cout << ">>>\n>>> MvBufrOut::createBuffers failed in " << cbuf << "\n>>>" << std::endl;
+      std::cout << "MvBufrOut::createBuffers: throw MvException..." << std::endl;
 #ifdef METVIEW
 	  marslog( LOG_EROR, "MvBufrOut::createBuffers failed in %s", cbuf );
 	  throw MvException( "MvBufrOut::createBuffers: out-of-memory!" );
@@ -1714,10 +1727,11 @@ MvBufrOut::createBuffers() // XXX still need more dynamic memory allocation
 	}
     }
 
-  cout << "MvBufrOut::createBuffers memory ok" << endl;
+  std::cout << "MvBufrOut::createBuffers memory ok" << std::endl;
 
   _outState = kBufrOut_emptyBuffers;
 }
+
 //____________________________________________________________________ resetBuffers
 void
 MvBufrOut :: resetBuffers( void )
@@ -1733,23 +1747,13 @@ MvBufrOut :: resetBuffers( void )
       _outState = kBufrOut_emptyBuffers;
     }
 }
+
 //____________________________________________________________________ write
 void
-MvBufrOut :: write( MvObs& anObs )
+MvBufrOut::write_bufrdc( MvObs& anObs )
 {
     //-- if no packing into subsets, copy message as is...
     _outSet->write( anObs._bufrIn->fMessage, (int)anObs._bufrIn->fMessageLength );
-}
-
-//____________________________________________________________________ add
-void
-MvBufrOut :: add( MvObs& anObs )
-{
-  if( _maxNrSubsets == 1 && anObs._bufrIn->subsetCount() == 1 )
-    //-- if no packing into subsets, copy message as is...
-    write( anObs );
-  else
-    addIntoBuffers( anObs );
 }
 
 //____________________________________________________________________ addIntoBuffers
@@ -1803,14 +1807,14 @@ MvBufrOut::addIntoBuffers( MvObs& anObs )
     {
       if( isDelayedDescriptor( Out_KTDEXP[ i ] ) )
       {
-//cerr << "isDelayedDescriptor( " << Out_KTDEXP[ i ] << "), _KDLEN=" << _KDLEN << endl;
+//cerr << "isDelayedDescriptor( " << Out_KTDEXP[ i ] << "), _KDLEN=" << _KDLEN << std::endl;
 	if( _KDLEN < MAX_KDLEN )
 	{
 	  fortint delayedRepeat = (fortint)Out_VALUES[ elemIndex ];
 	  if( delayedRepeat < 0 )
 	  {
 	    cerr << ">>> MvBufrOut::add: data error - negative delayed repetition " << delayedRepeat
-	         << " (from element " << elemIndex << ")" << endl;
+             << " (from element " << elemIndex << ")" << std::endl;
 #ifdef METVIEW
 	    marslog( LOG_EROR, "MvBufrOut::add: data error - negative delayed repetition!" );
 #endif
@@ -1821,7 +1825,7 @@ MvBufrOut::addIntoBuffers( MvObs& anObs )
 	else
 	  {
 	    cerr << ">>> MvBufrOut::add: array _KDATA overflow! _KDLEN=" << _KDLEN
-	         << ", MAX_KDLEN=" << MAX_KDLEN << endl;
+             << ", MAX_KDLEN=" << MAX_KDLEN << std::endl;
 #ifdef METVIEW
 	    marslog( LOG_EROR, "MvBufrOut::add: array _KDATA overflow!" );
 #endif
@@ -1924,7 +1928,7 @@ MvBufrOut :: encode( void )
       _outSet->write( fMessage, (int)(myKBUFL*sizeof(fortint)) );
     else
       {
-	cerr << ">>> MvBufrOut::encode, KERR=" << myKERR << endl;
+    cerr << ">>> MvBufrOut::encode, KERR=" << myKERR << std::endl;
 #ifdef METVIEW
 	marslog( LOG_EROR, "BUFR encoding (BUFREN) failed, status = %d", myKERR );
 #endif
@@ -1941,7 +1945,7 @@ MvBufrOut :: encode( void )
 void
 MvBufrOut :: checkDescriptors( const MvObs& anObs )
 {
-//--  if( anObs._bufrIn->_inState != kBufrIn_DataAndDescriptorsDecoded )
+  //--  if( anObs._bufrIn->_inState != kBufrIn_DataAndDescriptorsDecoded )
   //-- expand always, in case non-compressed multisubset msg where exaoanded descriptors vary
   anObs._bufrIn->ExpandDescriptors( anObs.subsetNumber() );
 
@@ -2011,6 +2015,7 @@ MvBufrOut :: shouldBeWritten( void )
 
   return fKSEC3[ 2 ] >= _maxNrSubsets;  // Nr of Subsets
 }
+
 //______________________________________________________________ setSubsetCount
 void
 MvBufrOut :: setSubsetCount( int maxNrSubsets )
@@ -2029,28 +2034,115 @@ MvBufrOut :: isDelayedDescriptor( const long aDescr ) const
   else
     return false;
 }
+
+#endif //MV_BUFRDC_TEST
+
+//--------------------------------------------------------
+//  Descriptor mnemonics for class 'MvBufrParam'
+//--------------------------------------------------------
+
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
+typedef struct
+{
+   const char *name;
+   long        descriptor;
+} descriptorStruct;
+
+static descriptorStruct knownParams[] =
+{
+   {"z", 10003}, {"p", 10004},
+   {"ddd", 11001}, {"ff", 11002}, {"u", 11003}, {"v", 11004}, {"w", 11006},
+   {"T", 12001}, {"Td",12003}, {"T(2m)",12004}, {"Td(2m)",12006},
+   {"END",0}
+};
+#endif
+
+//e Remove cPressureCoordinate
+const long cPressureCoordinate = 7004L;         // pressure vertical coord. descriptor value
+const string sPressureCoordinate = "pressure";  // pressure vertical coord. descriptor value
+
 //______________________________________________________________________
 //====================================================================== MvObs
 //______________________________________________________________________
-
-MvObs :: MvObs( MvBufr *b, int i )
+#ifdef MV_BUFRDC_TEST
+MvObs::MvObs( MvBufr *b, int subset_current, bool unpacked, codes_handle** ecH ) :
+   _currentKey (""),
+   _currentLevelKey (""),
+   _currentLevelOccurrence (0),
+   _compressed_data (0),
+   _unpacked (unpacked),
+   _messageTotalLen (-1),
+   _editionNumber (-1),
+   _number_of_subsets (-1),
+   _messageType (-1), _subTypeInternational (-1), _subTypeLocal (-1),
+   _originatingCentre (-1),
+   _originatingCentreStr (""),
+   _originatingSubCentre (-1),
+   _masterTable (-1), _masterTableVersion (-1), _localTableVersion (-1),
+   _lyear (-1), _lmonth (-1), _lday (-1), _lhour (-1), _lminute (-1),
+   _edition(0),
+   _ecHSS(0),
+   _ecIter (0),
+   _bufferSS(0)
 {
-   _subsetNr = i;
+   _subsetNr = subset_current;
    _copy( b );
+   _ecH = ecH;
+
+   // Initialize variables
+   if ( _ecH )
+      init();
+
+//e  Remove later when MvBufr is update
+   if ( b )
+      b->setEccodes(ecH);
+}
+#else
+MvObs::MvObs( codes_handle** ecH, int subset_current, bool unpacked ) :
+   _currentKey (""),
+   _currentLevelKey (""),
+   _currentLevelOccurrence (0),
+   _compressed_data (0),
+   _unpacked (unpacked),
+   _messageTotalLen (-1),
+   _editionNumber (-1),
+   _number_of_subsets (-1),
+   _messageType (-1), _subTypeInternational (-1), _subTypeLocal (-1),
+   _originatingCentre (-1),
+   _originatingSubCentre (-1),
+   _originatingCentreStr (""),
+   _masterTable (-1), _masterTableVersion (-1), _localTableVersion (-1),
+   _lyear (-1), _lmonth (-1), _lday (-1), _lhour (-1), _lminute (-1),
+   headerIdent_("__UNDEF__"),
+   _edition(0),
+   _ecHSS(0),
+   _ecIter (0),
+   _bufferSS(0)
+{
+   _subsetNr = subset_current;
+   _ecH = ecH;
+
+   // Initialize variables
+   if ( _ecH )
+      init();
+}
+#endif
+
+MvObs::MvObs( const MvObs& obs )
+{
+   _copy( obs );
 }
 
-MvObs :: MvObs( const MvObs&  b )
+//___________________________________________________________________Destructor
+MvObs::~MvObs()
 {
-   _copy( b );
+   clear();
 }
-//___________________________________________________________________
-MvObs :: ~MvObs()
-{
-   _clean();
-}
+
+#ifdef MV_BUFRDC_TEST
 //___________________________________________________________________ _copy
 void
-MvObs :: _copy( MvBufr *b )
+MvObs::_copy( MvBufr *b )
 {
    _bufrIn = b;
    _bufr_id = 0;
@@ -2059,350 +2151,1453 @@ MvObs :: _copy( MvBufr *b )
      _bufrIn->attach();
      _bufr_id = _bufrIn->currentBufrRef();
    }
-   _currentLevelCoordinate = cPressureCoordinate;
-   _currentLevelIndex = -1;
+   _currentLevelCoordinate1 = cPressureCoordinate;
+   _currentLevelIndex1 = -1;
    _confidence = new MvBufrConfidence( _bufrIn, _subsetNr );
 }
+#endif
+
 //___________________________________________________________________ _copy
 void
-MvObs :: _copy( const MvObs& b )
+MvObs::_copy( const MvObs& b )
 {
-  _subsetNr = b._subsetNr;
-  _copy( b._bufrIn );
+#ifdef MV_BUFRDC_TEST
+_currentLevelIndex1 = b._currentLevelIndex1;
+_currentLevelCoordinate1 = b._currentLevelCoordinate1;
+_lastSpecifierIndex1 = b._lastSpecifierIndex1;
+_copy( b._bufrIn );
+_bufr_id = b._bufr_id;
+#endif
 
+   _subsetNr = b._subsetNr;
+   _compressed_data = b._compressed_data;
+   _unpacked = b._unpacked;
+   _messageTotalLen = b._messageTotalLen;
+   _currentLevelOccurrence = b._currentLevelOccurrence;
+   _currentLevelKey = b._currentLevelKey;
+   _currentKey = b._currentKey;
+   _editionNumber = b._editionNumber;
+   _number_of_subsets = b._number_of_subsets;
+   _messageType = b._messageType;
+   _subTypeInternational = b._subTypeInternational;
+   _subTypeLocal = b._subTypeLocal;
+   _originatingCentre = b._originatingCentre;
+   _originatingCentreStr = b._originatingCentreStr;
+   _originatingSubCentre = b._originatingSubCentre;
+   _masterTable = b._masterTable;
+   _masterTableVersion = b._masterTableVersion;
+   _localTableVersion = b._localTableVersion;
+   _lyear = b._lyear;
+   _lmonth = b._lmonth;
+   _lday = b._lday;
+   _lhour = b._lhour;
+   _lminute = b._lminute;
+   headerIdent_ = b.headerIdent_;
+   _edition = b._edition;
+   _ecH = b._ecH;
+   _ecIter = 0;
+   _ecHSS = 0;
+   _bufferSS = 0;
 }
-//___________________________________________________________________ _clean
+
+//___________________________________________________________________ clear
 void
-MvObs :: _clean()
+MvObs::clear()
 {
+#ifdef MV_BUFRDC_TEST
    if( _bufrIn )
      _bufrIn->detach();
+
    _bufrIn = NULL;
    _bufr_id = 0;
-   delete _confidence;
-   _confidence = 0;
-}
-//___________________________________________________________________ operator=
+   delete _confidence;  //e Is it needed???
+   _confidence = 0;     //e Is it needed???
+#endif
 
+   // Delete iterator
+   if ( _ecH && *_ecH && _ecIter )
+   {
+      codes_bufr_keys_iterator_delete(_ecIter);
+      _ecIter = 0;
+   }
+
+   // Delete handle/iterator/buffer related to a subset
+   if ( _bufferSS )
+      _bufferSS = 0;
+
+   if ( _ecH && *_ecH && _ecHSS )
+   {
+      codes_handle_delete(_ecHSS);
+      _ecHSS = 0;
+   }
+
+   // Bufr handler is just a pointer, it shoul be deleted somewhere else.
+   // Just move the pointer to NULL
+   if ( _ecH )
+      _ecH = 0;
+}
+
+//___________________________________________________________________ operator=
 MvObs&
-MvObs :: operator= ( const MvObs& b )
+MvObs::operator= ( const MvObs& b )
 {
-   _clean();
+   clear();
    _copy( b );
    return *this;
 }
-//___________________________________________________________________ operator void*
 
-MvObs :: operator void* ()
+//___________________________________________________________________ operator void*
+MvObs::operator void* ()
 {
-   return _bufrIn;
+   return _ecH ? *_ecH : NULL;
+
+//e   return _bufrIn;
 }
+
 //___________________________________________________________________ operator!
 bool
-MvObs :: operator! ()
+MvObs::operator! ()
 {
-   return !_bufrIn;
+   return !(_ecH && *_ecH);
+
+//e   return !_bufrIn;
 }
+
 //___________________________________________________________________ msg_ok
 //
 bool
-MvObs :: msg_ok() const
+MvObs::msg_ok() const
+{
+   return (_ecH && *_ecH) ? true : false;
+
+#if 0   //e bufrdc code
+if (MV_BUFRDC_TEST)
 {
   if( _bufr_id != _bufrIn->currentBufrRef() )
   {
     //-- restriction due to static bufr arrays --
-    cerr << ">>> [MvObs::msg_ok] Static bufr arrays rewritten, not valid any more!" << endl;
+    cerr << ">>> [MvObs::msg_ok] Static bufr arrays rewritten, not valid any more!" << std::endl;
     return false;
   }
   return ( _bufrIn && ( _bufrIn->_inState != kBufrIn_Error ) ) ? true : false;
 }
+#endif
+}
+
 //___________________________________________________________________ Advance
 bool
-MvObs :: Advance()
+MvObs::Advance()
 {
-   if( _bufrIn->subsetCount() > 1000 ||
-       _bufrIn->subsetCount() < 1 ) // DEBUG TEST ONLY
-   {
-      cerr << " >>> MvObs::Advance, unbelievable nr of fsubsets ("
-	   << _bufrIn->subsetCount() << ") in msg "
-       << _bufrIn->fMessageNumber << endl;
-   }
    _subsetNr++;
+
+#ifdef MV_BUFRDC_TEST
    _bufrIn->setSubset( _subsetNr );
-   return  _subsetNr <= _bufrIn->subsetCount();
+   //ec return  _subsetNr <= _bufrIn->subsetCount();
+#endif
+
+   return _subsetNr <= _number_of_subsets;
 }
 
-//_________________________________________________________________ messageType
-int
-MvObs :: messageType()
-{
-   if( ! msg_ok() )
-      return -1;
-
-   return _bufrIn->Sec1->msgType();
-}
-//_________________________________________________ messageSubtypeInternational
-int
-MvObs :: messageSubtypeInternational()
-{
-   if( ! msg_ok() )
-      return -1;
-
-   return _bufrIn->Sec1->msgSubtypeWMO();
-}
-//_________________________________________________________ messageSubtypeLocal
-int
-MvObs :: messageSubtypeLocal()
-{
-   if( ! msg_ok() )
-      return -1;
-
-   return _bufrIn->Sec1->msgSubtypeLocal();
-}
-//______________________________________________________________ messageSubtype
-int
-MvObs :: messageSubtype()
-{
-   if( ! msg_ok() )
-      return -1;
-
-   return _bufrIn->Sec1->msgSubtype();
-}
-//___________________________________________________________ originatingCentre
-int
-MvObs::originatingCentre()
-{
-   if( ! msg_ok() )
-      return -1;
-
-   return _bufrIn->Sec1->origCentre();
-}
-int
-MvObs::originatingSubCentre()
-{
-   if( ! msg_ok() )
-      return -1;
-
-   return _bufrIn->Sec1->origSubCentre();
-}
-//___________________________________________________________ editionNumber
-int
-MvObs::editionNumber()
-{
-   if( ! msg_ok() )
-      return -1;
-
-   return _bufrIn->fSec0->editionNr;
-}
-//___________________________________________________________ masterTable
-int
-MvObs::masterTable()
-{
-   if( ! msg_ok() )
-      return -1;
-
-   return _bufrIn->Sec1->masterTable();
-}
-//___________________________________________________________ masterTableVersion
-int
-MvObs::masterTableVersion()
-{
-   if( ! msg_ok() )
-      return -1;
-
-   return _bufrIn->Sec1->masterTableVersion();
-}
-//___________________________________________________________ localTableVersion
-int
-MvObs::localTableVersion()
-{
-   if( ! msg_ok() )
-      return -1;
-
-   return _bufrIn->Sec1->localTableVersion();
-}
-//_________________________________________________  messageTotalLen()
-int
-MvObs :: messageTotalLen()
-{
-   if( ! msg_ok() )
-      return -1;
-
-   return _bufrIn->totalLen();
-}
 //____________________________________________________________________ operator[]
 double
 MvObs::operator[] ( int index )  //-- index starts from 1: 1,2,...,n
 {
+   std::cout << "MvObs::operator[] -> not yet implemented" << std::endl;
+//   exit(0);
+
+//ec check _currentKey value
+#ifdef MV_BUFRDC_TEST
   return (double)(_bufrIn->DataValue( index-1, _subsetNr ));
+#endif
+    return kBufrMissingValue;
 }
+
+//____________________________________________________________________ hasSection2
+bool
+MvObs::hasSection2()
+{
+   long val = intValue("section2Present");
+   return val ? true : false;
+}
+
 //____________________________________________________________________ value
 // returns 'kBufrMissingValue' if not found!
 //-------------------------------------------------
-float
-MvObs :: value( long aDescriptor )
+double
+MvObs::valueC( const std::string& aDescriptor )
 {
-   if( ! msg_ok() )
+   // Check only positive integer values; otherwise, use "-.0123456789"
+   std::string skey;
+   if ( strspn( aDescriptor.c_str(), "0123456789" ) == aDescriptor.size() )
+      skey = key(atol(aDescriptor.c_str()));
+   else
+      skey = aDescriptor;
+
+   return value(skey);
+}
+
+// Parameter occurrence must start from 1 
+double
+MvObs::value( long aDescriptor, int occurrence )
+{
+   // Build key and get value
+   string skey = this->key(aDescriptor,occurrence);
+   double myValue = value(skey);
+
+#ifdef MV_BUFRDC_TEST
+fortfloat myValue1;
+_bufrIn->Value( aDescriptor, _subsetNr, myValue1 );
+TEMPCHECKVALUEDOUBLE(myValue,myValue1,skey,aDescriptor);
+#endif
+
+   return myValue;
+}
+
+double
+MvObs::value( long aDescriptor )
+{
+   // Build key and get value
+   string skey = this->key(aDescriptor);
+   double myValue = value(skey);
+
+#ifdef MV_BUFRDC_TEST
+fortfloat myValue1;
+_bufrIn->Value( aDescriptor, _subsetNr, myValue1 );
+TEMPCHECKVALUEDOUBLE(myValue,myValue1,skey,aDescriptor);
+#endif
+
+   return myValue;
+}
+
+double
+MvObs::value( const string& key, const int occurrence )
+{
+   // Build key and get value
+   string skey = this->key(key,occurrence);
+   return value(skey);
+}
+
+double
+MvObs::value( const string& skey )
+{
+   // Check input key
+   if ( skey.empty() )
       return kBufrMissingValue;
 
-   fortfloat myValue;
-   _bufrIn->Value( aDescriptor, _subsetNr, myValue );
-   return myValue == kFortranBufrMissingValue ? kBufrMissingValue : myValue;
+   // Get number of elements
+   size_t nelems;
+   codes_get_size(*_ecH, skey.c_str(),&nelems);
+
+   // No elements found
+   if ( nelems == 0 )
+      return kBufrMissingValue;
+
+   // There is only one element
+   double dvalue = CODES_MISSING_DOUBLE;
+   if ( nelems == 1 )
+   {
+      codes_get_double(*_ecH,skey.c_str(),&dvalue);
+      return dvalue == CODES_MISSING_DOUBLE ? kBufrMissingValue : dvalue;
+   }
+
+   // It is an array of elements
+   // FII 20170922: update this code when function codes_get_double_element can
+   // handle uncompressed data.
+   if ( _compressed_data )
+   {
+      //codes_get_double_element(*_ecH, skey.c_str(), _subsetNr-1, &dvalue);
+
+      // Always use a hashtag because the array size will be smaller. Two possibilities:
+      // a) number_of_subsets instead of number_of_subsets*number_of_occurrences
+      // b) 1 element which means all the subsets have the same value
+      // By default we retrieve a value from the first occurrence.
+      string sskey = (skey[0] != '#') ? "#1#" + skey : skey;
+      codes_get_size(*_ecH, sskey.c_str(),&nelems);
+      if ( nelems == 1 )  // get the unique element
+      {
+         codes_get_double(*_ecH,sskey.c_str(),&dvalue);
+         return dvalue == CODES_MISSING_DOUBLE ? kBufrMissingValue : dvalue;
+      }
+
+      // retrieve the element related to the current subset number
+      double* v1 = new double[nelems];
+      codes_get_double_array(*_ecH,sskey.c_str(),v1,&nelems);
+      dvalue = v1[_subsetNr-1];
+      delete []v1; v1 = 0;
+   }
+   else   // uncompressed data
+   {
+      string sskey;
+      if (skey[0] == '/')
+         sskey = skey;
+      else
+      {
+         // add key subsetNumber
+         std::ostringstream sstream;
+         sstream << _subsetNr << "/";
+         sskey = "/subsetNumber=" + sstream.str()+skey;
+         size_t nn;
+         codes_get_size(*_ecH, sskey.c_str(),&nn);
+         if ( nn == 0 )
+            sskey = skey;   // retrieve using the original key
+         else if ( nn == 1 )
+         {
+            codes_get_double(*_ecH,sskey.c_str(),&dvalue);
+            return dvalue == CODES_MISSING_DOUBLE ? kBufrMissingValue : dvalue;
+         }
+         else
+            nelems = nn;
+      }
+
+      double* v1 = new double[nelems];
+      codes_get_double_array(*_ecH,sskey.c_str(),v1,&nelems);
+      dvalue = v1[0];    // first occurrence
+      delete []v1; v1 = 0;;
+   }
+
+   return dvalue == CODES_MISSING_DOUBLE ? kBufrMissingValue : dvalue;
 }
-//___________________________________________________________________ nextValue
-// returns 'kBufrMissingValue' if not found!
-//-------------------------------------------------
-float
+
+//___________________________________________________________ valueByOccurrence
+double
+MvObs::valueByOccurrenceC( int anOccurrenceIndex, const std::string& aDescriptor )
+{
+   // Check only positive integer values; otherwise, use "-.0123456789"
+   std::string skey;
+   if ( strspn( aDescriptor.c_str(), "0123456789" ) == aDescriptor.size() )
+      skey = key(atol(aDescriptor.c_str()),anOccurrenceIndex);
+   else
+      skey = key(aDescriptor,anOccurrenceIndex);
+
+   return value(skey);
+}
+
+double
+MvObs::valueByOccurrence( int anOccurrenceIndex, const std::string& aDescriptor )
+{
+   // Build key and get value
+   string skey = key(aDescriptor,anOccurrenceIndex);
+   return value(skey);
+}
+
+double
+MvObs::valueByOccurrence( int anOccurrenceIndex, long aDescriptor )
+{
+   // Build key and get value
+   string skey = this->key(aDescriptor,anOccurrenceIndex);
+   double myValue = value(skey);
+
+#ifdef MV_BUFRDC_TEST
+  fortfloat myValue1 = value( aDescriptor );
+  for( int myInd = 1; myInd < anOccurrenceIndex; myInd++ )
+     //e myValue = nextValue();
+     _bufrIn->Value( _bufrIn->_currentDescr, _subsetNr, myValue1, _bufrIn->_currentDescrInd + 1 );
+  TEMPCHECKVALUEDOUBLE(myValue,myValue1,skey,_bufrIn->_currentDescr);
+  //e return myValue == kFortranBufrMissingValue ? kBufrMissingValue : myValue;
+#endif
+
+   return myValue;
+}
+
+//Returns all values of a given key from a message/subset. The key is either a simple string
+//e.g. "airTemperature" or a containing the rank e.g. "#1#airTemperature"
+void MvObs::allValues(const string& keyName,std::vector<double>& vals)
+{
+    // Check input key
+    if(keyName.empty())
+        return;
+
+    // Get number of elements
+    size_t valLen;
+    codes_get_size(*_ecH, keyName.c_str(),&valLen);
+
+    // No elements found
+    if(valLen == 0)
+        return;
+
+    // There is only one element
+    double val = CODES_MISSING_DOUBLE;
+    if(valLen == 1)
+    {
+        codes_get_double(*_ecH,keyName.c_str(),&val);
+        vals.push_back((val == CODES_MISSING_DOUBLE) ? kBufrMissingValue : val);
+        return;
+    }
+
+    double* valArr=0;
+    size_t valArrNum=0;
+
+    // It is an array of elements
+    if(_compressed_data )
+    {
+        int maxRank=1000000; //we do not know how many ranks we have!
+        int ir=1;
+        int rank=occurenceFromKey(keyName);
+
+        //we read a sing rank only
+        if(rank >= 1)
+        {
+            ir=rank;
+            maxRank=ir+1;
+        }
+
+        //loop for the ranks
+        while(ir < maxRank)
+        {
+           valLen=0;
+           std::string rKeyName="#" + toString(ir) + "#" + keyName;
+           codes_get_size(*_ecH, rKeyName.c_str(), &valLen);
+
+           if(valLen == 0)
+               break;
+
+           //Single value
+           if(valLen == 1)
+           {
+               codes_get_double(*_ecH,rKeyName.c_str(),&val);
+               vals.push_back((val == CODES_MISSING_DOUBLE) ? kBufrMissingValue : val);
+           }
+           //Array
+           else if(_subsetNr <= static_cast<int>(valLen))
+           {
+                if(valArrNum < valLen)
+                {
+                    delete [] valArr;
+                    valArr = new double[valLen];
+                    valArrNum=valLen;
+                }
+                assert(valArr);
+                codes_get_double_array(*_ecH,rKeyName.c_str(),valArr,&valLen);
+                assert(_subsetNr <= static_cast<int>(valLen));
+                val = valArr[_subsetNr-1];
+                vals.push_back((val == CODES_MISSING_DOUBLE) ? kBufrMissingValue : val);
+            }
+            ir++;
+        }
+    }
+
+    else   // uncompressed data
+    {
+        valLen=0;
+        std::string rKeyName="/subsetNumber=" + toString(_subsetNr) +  "/" + keyName;
+
+        codes_get_size(*_ecH, rKeyName.c_str(),&valLen);
+        assert(!valArr);
+        if(valLen == 1)
+        {
+            codes_get_double(*_ecH,rKeyName.c_str(),&val);
+            vals.push_back((val == CODES_MISSING_DOUBLE) ? kBufrMissingValue : val);
+        }
+        //Array
+        else
+        {
+            assert(!valArr);
+            valArr = new double[valLen];
+            valArrNum=valLen;
+            codes_get_double_array(*_ecH,rKeyName.c_str(),valArr,&valLen);
+            for(size_t i=0 ; i < valLen; i++)
+                vals.push_back((valArr[i] == CODES_MISSING_DOUBLE) ? kBufrMissingValue : valArr[i]);
+        }
+    }
+
+    if(valArr)
+    {
+        assert(valArrNum > 0);
+        delete [] valArr;
+    }
+}
+
+//____________________________________________________________________ intValue
+
+long MvObs::currentIntValue()
+{
+    return intValue(_currentKey);
+}
+
+long
+MvObs::intValue( const long aDescriptor, const int occurrence )
+{
+   // Build key and get value
+   string skey = this->key(aDescriptor,occurrence);
+   long myValue = intValue(skey);
+
+#ifdef MV_BUFRDC_TEST
+//e   return msg_ok() ? _bufrIn->intValue( aDescriptor, _subsetNr ) : kFortranBufrMissingIntValue;
+long myValue1 = _bufrIn->intValue( aDescriptor, _subsetNr );
+TEMPCHECKVALUELONG(myValue,myValue1);
+#endif
+
+   return myValue;
+}
+
+long
+MvObs::intValue( const long aDescriptor )
+{
+   // Build key and get value
+   string skey = this->key(aDescriptor);
+   long myValue = intValue(skey);
+
+#ifdef MV_BUFRDC_TEST
+//e   return msg_ok() ? _bufrIn->intValue( aDescriptor, _subsetNr ) : kFortranBufrMissingIntValue;
+long myValue1 = _bufrIn->intValue( aDescriptor, _subsetNr );
+TEMPCHECKVALUELONG(myValue,myValue1);
+#endif
+
+   return myValue;
+}
+
+long
+MvObs::intValue( const string& key, const int occurrence )
+{
+   // Build key and get value
+   string skey = this->key(key,occurrence);
+   return intValue(skey);
+}
+
+long
+MvObs::intValue( const string& skey )
+{
+   // Check input key
+   if ( skey.empty() )
+      return kBufrMissingIntValue;
+
+   // Get number of elements
+   size_t nelems; 
+   codes_get_size(*_ecH, skey.c_str(),&nelems);
+
+   // No elements found
+   if ( nelems == 0 )
+      return kBufrMissingIntValue;
+
+   // There is only one element
+   long value = CODES_MISSING_LONG;
+   if ( nelems == 1 )
+   {
+      codes_get_long(*_ecH,skey.c_str(),&value);
+      return value == CODES_MISSING_LONG ? kBufrMissingIntValue : value;
+   }
+
+   // It is an array of elements
+   // FII 20170922: update this code when function codes_get_double_element can
+   // handle uncompressed data.
+   if ( _compressed_data )
+   {
+      //codes_get_double_element(*_ecH, skey.c_str(), _subsetNr-1, &value);
+
+      // Always use a hashtag because the array size will be smaller. Two possibilities:
+      // a) number_of_subsets instead of number_of_subsets*number_of_occurrences
+      // b) 1 element which means all the subsets have the same value
+      // By default we retrieve a value from the first occurrence.
+      string sskey = (skey[0] != '#') ? "#1#" + skey : skey;
+      codes_get_size(*_ecH, sskey.c_str(),&nelems);
+      if ( nelems == 1 )  // get the unique element
+      {
+         codes_get_long(*_ecH,sskey.c_str(),&value);
+         return value == CODES_MISSING_LONG ? kBufrMissingIntValue : value;
+      }
+
+      // retrieve the element related to the current subset number
+      long* v1 = new long[nelems];
+      codes_get_long_array(*_ecH,sskey.c_str(),v1,&nelems);
+      value = v1[_subsetNr-1];
+      delete []v1; v1 = 0;
+   }
+   else   // uncompressed data
+   {
+      string sskey;
+      if (skey[0] == '/')
+         sskey = skey;
+      else
+      {
+         // add key subsetNumber
+         std::ostringstream sstream;
+         sstream << _subsetNr << "/";
+         sskey = "/subsetNumber=" + sstream.str()+skey;
+         size_t nn;
+         codes_get_size(*_ecH, sskey.c_str(),&nn);
+         if ( nn == 0 )
+            sskey = skey;   // retrieve using the original key
+         else if ( nn == 1 )
+         {
+            codes_get_long(*_ecH,sskey.c_str(),&value);
+            return value == CODES_MISSING_LONG ? kBufrMissingIntValue : value;
+         }
+         else
+            nelems = nn;
+      }
+
+      long* v1 = new long[nelems];
+      codes_get_long_array(*_ecH,sskey.c_str(),v1,&nelems);
+      value = v1[0];    // first occurrence
+      delete []v1; v1 = 0;
+   }
+
+   return value == CODES_MISSING_LONG ? kBufrMissingIntValue : value;
+}
+
+//Returns all values of a given key from a message/subset. The key is either a simple string
+//e.g. "airTemperature" or a containing the rank e.g. "#1#airTemperature"
+void MvObs::allIntValues(const string& keyName,std::vector<long>& vals)
+{
+    // Check input key
+    if(keyName.empty())
+        return;
+
+    // Get number of elements
+    size_t valLen;
+    codes_get_size(*_ecH, keyName.c_str(),&valLen);
+
+    // No elements found
+    if(valLen == 0)
+        return;
+
+    // There is only one element
+    long val = CODES_MISSING_LONG;
+    if(valLen == 1)
+    {
+        codes_get_long(*_ecH,keyName.c_str(),&val);
+        vals.push_back((val == CODES_MISSING_LONG) ? kBufrMissingIntValue : val);
+        return;
+    }
+
+    long* valArr=0;
+    size_t valArrNum=0;
+
+    // It is an array of elements
+    if(_compressed_data )
+    {
+        int maxRank=1000000; //we do not know how many ranks we have!
+        int ir=1;
+        int rank=occurenceFromKey(keyName);
+
+        //we read a sing rank only
+        if(rank >= 1)
+        {
+            ir=rank;
+            maxRank=ir+1;
+        }
+
+        //loop for the ranks
+        while(ir < maxRank)
+        {
+           valLen=0;
+           std::string rKeyName="#" + toString(ir) + "#" + keyName;
+           codes_get_size(*_ecH, rKeyName.c_str(), &valLen);
+
+           if(valLen == 0)
+               break;
+
+           //Single value
+           if(valLen == 1)
+           {
+               codes_get_long(*_ecH,rKeyName.c_str(),&val);
+               vals.push_back((val == CODES_MISSING_LONG) ? kBufrMissingIntValue : val);
+           }
+           //Array
+           else if(_subsetNr <= static_cast<int>(valLen))
+           {
+                if(valArrNum < valLen)
+                {
+                    delete [] valArr;
+                    valArr = new long[valLen];
+                    valArrNum=valLen;
+                }
+                assert(valArr);
+                codes_get_long_array(*_ecH,rKeyName.c_str(),valArr,&valLen);
+                assert(_subsetNr <= static_cast<int>(valLen));
+                val = valArr[_subsetNr-1];
+                vals.push_back((val == CODES_MISSING_LONG) ? kBufrMissingIntValue : val);
+            }
+            ir++;
+        }
+    }
+
+    else   // uncompressed data
+    {
+        valLen=0;
+        std::string rKeyName="/subsetNumber=" + toString(_subsetNr) +  "/" + keyName;
+
+        codes_get_size(*_ecH, rKeyName.c_str(),&valLen);
+        assert(!valArr);
+        if(valLen == 1)
+        {
+            codes_get_long(*_ecH,rKeyName.c_str(),&val);
+            vals.push_back((val == CODES_MISSING_LONG) ? kBufrMissingIntValue : val);
+        }
+        //Array
+        else
+        {
+            assert(!valArr);
+            valArr = new long[valLen];
+            valArrNum=valLen;
+            codes_get_long_array(*_ecH,rKeyName.c_str(),valArr,&valLen);
+            for(size_t i=0 ; i < valLen; i++)
+                vals.push_back((valArr[i] == CODES_MISSING_LONG) ? kBufrMissingIntValue : valArr[i]);
+        }
+    }
+
+    if(valArr)
+    {
+        assert(valArrNum > 0);
+        delete [] valArr;
+    }
+}
+
+//_________________________________________________________________ stringValue
+string
+MvObs::stringValue( const long aDescriptor, const int occurrence )
+{
+   // Build key and get value
+   string skey = this->key(aDescriptor,occurrence);
+   string myValue = stringValue( skey );
+
+#ifdef MV_BUFRDC_TEST
+string myValue1 = _bufrIn->stringValue( aDescriptor, _subsetNr );
+TEMPCHECKVALUESTRING(myValue,myValue1);
+#endif
+
+   return myValue;
+}
+
+string
+MvObs::stringValue( const long aDescriptor )
+{
+   // Build key and get value
+   string skey = this->key(aDescriptor);
+   string myValue = stringValue( skey );
+
+#ifdef MV_BUFRDC_TEST
+string myValue1 = _bufrIn->stringValue( aDescriptor, _subsetNr );
+TEMPCHECKVALUESTRING(myValue,myValue1);
+#endif
+
+   return myValue;
+}
+
+string
+MvObs::stringValue( const string& key, const int occurrence )
+{
+   // Build key and get value
+   string skey = this->key(key,occurrence);
+   return stringValue(skey);
+}
+
+string
+MvObs::stringValue( const string& skey )
+{
+   // Check input key
+   if ( skey.empty() )
+      return string("");
+
+   // Get number of elements
+   size_t nelems; 
+   codes_get_size(*_ecH, skey.c_str(),&nelems);
+
+   // No elements found
+   if ( nelems == 0 )
+      return string("");
+
+   // There is only one element
+   char buf[1024];
+   size_t len = 1024;
+   if ( nelems == 1 )
+   {
+      codes_get_string(*_ecH,skey.c_str(),buf,&len);
+      //buf[len] = 0;  //???
+      return string(buf);
+   }
+
+   // It is an array of elements
+   size_t isize = 128; //????
+   char** cValues = NULL;
+   if ( _compressed_data )
+   {
+      // Always use a hashtag because the array size will be smaller. Two possibilities:
+      // a) number_of_subsets instead of number_of_subsets*number_of_occurrences
+      // b) 1 element which means all the subsets have the same value
+      // By default we retrieve a value from the first occurrence.
+      string sskey = (skey[0] != '#') ? "#1#" + skey : skey;
+      codes_get_size(*_ecH, sskey.c_str(),&nelems);
+      if ( nelems == 1 )  // get the unique element
+      {
+         codes_get_string(*_ecH,sskey.c_str(),buf,&len);
+         //buf[len] = 0;  //???
+         return string(buf);
+      }
+
+      // There are number_of_subsets values
+      cValues = new char*[nelems];
+      for (unsigned int i = 0; i < nelems; ++i)
+         cValues[i] = new char[isize];
+
+      // Get all values and select the required one
+      size_t itotal = isize*nelems;
+      codes_get_string_array(*_ecH, sskey.c_str(), cValues, &itotal);
+      //for(int i=0; i<nelems; ++i)
+         //printf("string[%d]=%s\n", i, cValues[i]);
+
+      strcpy(buf,cValues[_subsetNr-1]);
+   }
+   else   // uncompressed data
+   {
+      string sskey;
+      if (skey[0] == '/')
+         sskey = skey;
+      else
+      {
+         // add key subsetNumber
+         std::ostringstream sstream;
+         sstream << _subsetNr << "/";
+         sskey = "/subsetNumber=" + sstream.str()+skey;
+         size_t nn;
+         codes_get_size(*_ecH, sskey.c_str(),&nn);
+         if ( nn == 0 )
+            sskey = skey;   // retrieve using the original key
+         else if ( nn == 1 )
+         {
+            codes_get_string(*_ecH,sskey.c_str(),buf,&len);
+            //buf[len] = 0;  //???
+            return string(buf);
+         }
+         else
+            nelems = nn;
+      }
+
+      cValues = new char*[nelems];
+      for (unsigned int i = 0; i < nelems; ++i)
+         cValues[i] = new char[isize];
+
+      size_t itotal = isize*nelems;
+      codes_get_string_array(*_ecH, sskey.c_str(), cValues, &itotal);
+      strcpy(buf,cValues[0]);    // first occurrence
+   }
+
+   // Delete auxiliary buffer
+   for(unsigned int i = 0; i < nelems; ++i)
+      delete cValues[i];
+   delete [] cValues; cValues = 0;
+
+   //buf[len] = 0;  //???
+   return string(buf);
+}
+
+// It should only be used through the iterator
+string
+MvObs::stringValue()
+{
+   string myValue = stringValue(_currentKey);
+
+#ifdef MV_BUFRDC_TEST
+//e return _bufrIn->stringValue( _subsetNr );
+string myValue1 = _bufrIn->stringValue( _subsetNr );
+TEMPCHECKVALUESTRING(myValue,myValue1);
+#endif
+
+   return myValue;
+}
+
+
+//Returns all values of a given key from a message/subset. The key is either a simple string
+//e.g. "airTemperature" or a containing the rank e.g. "#1#airTemperature"
+void MvObs::allStringValues(const std::string& keyName,std::vector<std::string>& vals)
+{
+    // Check input key
+    if(keyName.empty())
+        return;
+
+    // Get number of elements
+    size_t valLen;
+    codes_get_size(*_ecH, keyName.c_str(),&valLen);
+
+    // No elements found
+    if(valLen == 0)
+        return;
+
+    // There is only one element
+    std::string val;
+    char buf[1024];
+    std::size_t sLen=1024;
+    if(valLen == 1)
+    {
+        codes_get_string(*_ecH,keyName.c_str(),buf,&sLen);
+        vals.push_back(std::string(buf));
+        return;
+    }
+
+    char** valArr=0;
+    size_t valArrNum=0;
+    size_t sLenArr=128; //the maximum string size we handle
+
+    // It is an array of elements
+    if(_compressed_data )
+    {
+        int maxRank=1000000; //we do not know how many ranks we have!
+        int ir=1;
+        int rank=occurenceFromKey(keyName);
+
+        //we read a sing rank only
+        if(rank >= 1)
+        {
+            ir=rank;
+            maxRank=ir+1;
+        }
+
+        //loop for the ranks
+        while(ir < maxRank)
+        {
+           valLen=0;
+           std::string rKeyName="#" + toString(ir) + "#" + keyName;
+           codes_get_size(*_ecH, rKeyName.c_str(), &valLen);
+
+           if(valLen == 0)
+               break;
+
+           //Single value
+           if(valLen == 1)
+           {
+               codes_get_string(*_ecH,rKeyName.c_str(),buf,&sLen);
+               vals.push_back(std::string(buf));
+           }
+           //Array
+           else if(_subsetNr <= static_cast<int>(valLen))
+           {
+                if(valArrNum < valLen)
+                {
+                    for(std::size_t i = 0; i < valArrNum; ++i)
+                       delete [] valArr[i];
+                    delete [] valArr;
+
+                    valArr = new char*[valLen];
+                    for(std::size_t i = 0; i < valLen; ++i)
+                       valArr[i] = new char[sLenArr];
+
+                    valArrNum=valLen;
+                }
+
+                assert(valArr);
+                std::size_t sTotal = valLen*sLenArr;
+                codes_get_string_array(*_ecH,rKeyName.c_str(),valArr,&sTotal);
+                assert(_subsetNr <= static_cast<int>(valLen));
+                val = std::string(valArr[_subsetNr-1]);
+            }
+            ir++;
+        }
+    }
+
+    else   // uncompressed data
+    {
+        valLen=0;
+        std::string rKeyName="/subsetNumber=" + toString(_subsetNr) +  "/" + keyName;
+
+        codes_get_size(*_ecH, rKeyName.c_str(),&valLen);
+        assert(!valArr);
+        if(valLen == 1)
+        {
+            codes_get_string(*_ecH,rKeyName.c_str(),buf,&sLen);
+            vals.push_back(std::string(buf));
+        }
+        //Array
+        else
+        {
+            assert(!valArr);
+            valArr = new char*[valLen];
+            for(std::size_t i = 0; i < valLen; ++i)
+               valArr[i] = new char[sLenArr];
+
+            valArrNum=valLen;
+            std::size_t sTotal = valLen*sLenArr;
+            codes_get_string_array(*_ecH,rKeyName.c_str(),valArr,&sTotal);
+            for(size_t i=0 ; i < valLen; i++)
+                vals.push_back(std::string(valArr[i]));
+        }
+    }
+
+    if(valArr)
+    {
+        assert(valArrNum > 0);
+        for(std::size_t i = 0; i < valArrNum; ++i)
+            delete [] valArr[i];
+        delete [] valArr;
+    }
+}
+
+
+bool
+MvObs::setFirstDescriptor(bool skipConfidence)
+{
+   // Set Confidence values flag
+   _skipConfidence = skipConfidence;
+
+   // Delete previous iterator
+   if ( _ecIter )
+   {
+      codes_bufr_keys_iterator_delete(_ecIter);
+      _ecIter = 0;
+   }
+
+   // Data needs to be unpacked
+   if ( !_unpacked )
+   {
+      codes_set_long(*_ecH,"unpack",1);
+      _unpacked = true;
+   }
+
+   // Initialise iterator
+   _ecIter = codes_bufr_data_section_keys_iterator_new(*_ecH);
+   if (!_ecIter)
+   {
+      std::cout << "ERROR MvObs::setFirstDescriptor() -> Unable to create BUFR keys iterator" << std::endl;
+      return false;
+   }
+
+   // Set first key/descriptor
+   if ( !setNextDescriptor() )
+      return false;
+
+#ifdef MV_BUFRDC_TEST
+   //e return _bufrIn->SetFirstDescriptor();
+   _bufrIn->SetFirstDescriptor();
+#endif
+
+   return true;
+}
+
+bool
+MvObs::setNextDescriptor()
+{
+   // Advance iterator
+   if ( !codes_bufr_keys_iterator_next(_ecIter) )
+   {
+      codes_bufr_keys_iterator_delete(_ecIter);
+      _ecIter = 0;
+      return false;
+   }
+
+   // Get the key's name
+   bool flag = true;
+   if ( _skipConfidence )
+   {
+      while( flag )
+      {
+         _currentKey = codes_bufr_keys_iterator_get_name(_ecIter);
+         if ( _currentKey.find("->") == std::string::npos )
+            break;
+
+         flag = codes_bufr_keys_iterator_next(_ecIter);
+      }
+   }
+   else
+      _currentKey = codes_bufr_keys_iterator_get_name(_ecIter);
+
+#ifdef MV_BUFRDC_TEST
+   //e return _bufrIn->SetNextDescriptor();
+   _bufrIn->SetNextDescriptor();
+#endif
+
+   if ( !flag )
+   {
+      codes_bufr_keys_iterator_delete(_ecIter);
+      _ecIter = 0;
+   }
+
+   return flag;
+}
+
+void MvObs::clearIterator()
+{
+    if(_ecIter)
+    {
+       codes_bufr_keys_iterator_delete(_ecIter);
+       _ecIter = 0;
+    }
+}
+
+void MvObs::expand()
+{
+//   *_ecH->expand();
+   if ( !_unpacked && _ecH && *_ecH)
+   {
+      codes_set_long(*_ecH,"unpack",1);
+      _unpacked = true;
+   }
+}
+
+long
+MvObs::currentDescriptor()
+{
+   string skey = _currentKey + "->code";
+   long descriptor = intValue(skey);
+
+#ifdef MV_BUFRDC_TEST
+   long vold = _bufrIn->CurrentDescriptor();
+//   TEMPCHECKVALUELONG(descriptor,vold);
+#endif
+
+   return descriptor;
+}
+
+const std::string&
+MvObs::currentKey()
+{
+#ifdef MV_BUFRDC_TEST
+   long vold = _bufrIn->CurrentDescriptor();
+   string skey = key(vold);
+   // remove occurrence tag, if exists
+   std::size_t ipos=0; 
+   if ( _currentKey[0] == '#' )
+      ipos = _currentKey.find('#',1);
+
+   if ( _currentKey.substr(ipos+1) != skey )
+      std::cout << "currentKey() : SHOULD HAVE THE SAME KEY NAME: " << _currentKey.substr(ipos+1).c_str() << " " << skey.c_str() << std::endl;
+   TEMPCHECKVALUESTRING(_currentKey,skey);
+#endif
+
+   return _currentKey;
+}
+
+const std::string
+MvObs::currentKeyWithoutRank()
+{
+   // No occurrence tag
+   if ( _currentKey[0] != '#' )
+      return _currentKey;
+
+   // Remove occurrence tag
+   std::size_t ipos = _currentKey.find('#',1);
+   return _currentKey.substr(ipos+1);
+}
+
+// It should only be used through the iterator
+double
+MvObs::currentValue()
+{
+   double myValue = value(_currentKey);
+
+#ifdef MV_BUFRDC_TEST
+fortfloat myValue1 = _bufrIn->CurrentValue( _subsetNr );
+TEMPCHECKVALUEDOUBLE(myValue,myValue1,_currentKey,_bufrIn->CurrentDescriptor());
+#endif
+
+   return myValue;
+}
+
+double
 MvObs :: nextValue()
 {
-   if( ! msg_ok() )
-      return kBufrMissingValue;
+   std::cout << "MvObs :: nextValue() -> not yet implemented" << std::endl;
+   exit(0);
 
+#ifdef MV_BUFRDC_TEST
    fortfloat myValue;
    _bufrIn->Value( _bufrIn->_currentDescr, _subsetNr, myValue, _bufrIn->_currentDescrInd + 1 );
    return myValue == kFortranBufrMissingValue ? kBufrMissingValue : myValue;
+#endif
 }
-//___________________________________________________________ valueByOccurrence
-// returns 'kBufrMissingValue' if not found!
-//-------------------------------------------------
-float
-MvObs :: valueByOccurrence( int anOccurrenceIndex, long aDescriptor )
+
+MvObs
+MvObs::cloneSubset( long subset_number )
 {
-  fortfloat myValue = value( aDescriptor );
-  for( int myInd = 1; myInd < anOccurrenceIndex; myInd++ )
-    myValue = nextValue();
-  return myValue == kFortranBufrMissingValue ? kBufrMissingValue : myValue;
+   // Check if the input subset number is valid
+   if( subset_number > msgSubsetCount() )
+   {
+      std::cout << "ERROR MvObs::cloneSubset() -> invalid input subset number" << std::endl;
+      return MvObs(NULL);
+   }
+
+   if ( _ecHSS )
+   {
+      codes_handle_delete(_ecHSS);
+      _ecHSS = 0;
+      _bufferSS = 0;
+   }
+
+   // Clone, unpack and extract that particular subset
+   // h2 is a temporary handle; it will be deleted at the end of this function
+   codes_handle* h2 = codes_handle_clone(*_ecH);
+   assert(h2);
+   codes_set_long(h2,"unpack", 1);
+   codes_set_long(h2,"extractSubset", subset_number);
+   codes_set_long(h2,"doExtractSubsets",1);
+
+   // Put result into buffer then form new handle from it
+   size_t size = 0;
+   codes_get_message(h2, &_bufferSS, &size);
+   _ecHSS = codes_handle_new_from_message_copy(0, _bufferSS, size);
+   assert(_ecHSS);
+   codes_set_long(_ecHSS,"unpack",1);
+
+   // Delete the temporary codes handle
+   codes_handle_delete(h2);
+   h2 = 0;
+
+   return MvObs( &_ecHSS, 1 );
 }
-//______________________________________________________________ hasConfidences
-bool
-MvObs :: hasConfidences()
-{
-  return  _confidence->hasConfidences();
-}
-//__________________________________________________________________ confidence
+
+//__________________________________________________________________elementValueType
+// IMPORTANT: this function is not backwards compatible with BUFRDC.
+// BUFRDC returns kEVT_missing if the value is a missing value.
+// ecCodes always returns the Type of the element: CODES_TYPE_LONG,
+// CODES_TYPE_DOUBLE or CODES_TYPE_STRING. It does not check if the
+// value is a missing value or not.
 int
-MvObs :: confidence()
+MvObs::elementValueType( long aDescriptor )
 {
-  return _bufrIn->_currentDescrInd > -1 ?
-         _confidence->confidenceByIndex( _bufrIn->_currentDescrInd ) : -1;
+   // Build key and get type of the value
+   string skey = this->key(aDescriptor);
+   int itype = elementValueType(skey);
+
+#ifdef MV_BUFRDC_TEST
+   int vold = _bufrIn->elementValueType( aDescriptor, _subsetNr );
+   if ( vold == kEVT_missing )
+   {
+      //printf("IMPORTANT: MvObs::elementValueType -> values are different but it seems ok to continue: %d %d \n",itype,vold);
+      return itype;
+   }
+   if( (vold == kEVT_numeric && (itype != CODES_TYPE_LONG && itype != CODES_TYPE_DOUBLE)) ||
+       (vold == kEVT_string && itype != CODES_TYPE_STRING) ||
+       (vold == kEVT_unknown && itype != CODES_TYPE_UNDEFINED) )
+   {
+cout << CODES_TYPE_MISSING << " " << CODES_TYPE_LONG << " " << CODES_TYPE_DOUBLE << " " << CODES_TYPE_STRING << " " << CODES_TYPE_UNDEFINED << std::endl;
+      printf("MvObs::elementValueType() : Different values: %d %d \n",itype,vold);
+      exit(0);
+   }
+#endif
+
+   return itype;
 }
-//____________________________________________________________________ intValue
-// returns 'kFortranBufrMissingIntValue' if not found!
-//----------------------------------------------------
-long
-MvObs :: intValue( long aDescriptor )
+
+int
+MvObs::elementValueType( const string& skey )
 {
-  return msg_ok() ? _bufrIn->intValue( aDescriptor, _subsetNr ) : kFortranBufrMissingIntValue;
+   int itype;
+   codes_get_native_type(*_ecH,skey.c_str(),&itype);
+
+   return itype;
 }
-//____________________________________________________________________ elementValueType
-EElementValueType
-MvObs :: elementValueType()
+
+int
+MvObs::elementValueType()
 {
-  return _bufrIn->elementValueType( _subsetNr );
+//   return elementValueType(_currentKey);
+   int itype = elementValueType(_currentKey);
+
+#ifdef MV_BUFRDC_TEST
+   int vold = _bufrIn->elementValueType( _subsetNr );
+   if ( vold == kEVT_missing )
+   {
+      //printf("IMPORTANT: MvObs::elementValueType() -> values are different but it seems ok to continue: %d %d \n",itype,vold);
+      return itype;
+   }
+   if ( (vold == kEVT_numeric && (itype != CODES_TYPE_LONG && itype != CODES_TYPE_DOUBLE)) ||
+        (vold == kEVT_string && itype != CODES_TYPE_STRING) ||
+        (vold == kEVT_unknown && itype != CODES_TYPE_UNDEFINED) )
+   {
+      printf("MvObs::elementValueType() : Different values: %d %d \n",itype,vold);
+      exit(0);
+   }
+#endif
+
+   return itype;
 }
-//____________________________________________________________________ elementValueType
-EElementValueType
-MvObs :: elementValueType( long aDescriptor )
-{
-  return _bufrIn->elementValueType( aDescriptor, _subsetNr );
-}
-//____________________________________________________________________ stringValue
-string
-MvObs :: stringValue()
-{
-  if( ! msg_ok() )
-    return MESSED_UP;
-  else
-    return _bufrIn->stringValue( _subsetNr );
-}
-//_________________________________________________________________ stringValue
-string
-MvObs :: stringValue( long aDescriptor )
-{
-  if( ! msg_ok() )
-    return MESSED_UP;
-  else
-    return _bufrIn->stringValue( aDescriptor, _subsetNr );
-}
+
 //______________________________________________________ numberOfPressureLevels
 int
-MvObs :: numberOfPressureLevels()
+MvObs::numberOfPressureLevels()
 {
-  return numberOfLevels( cPressureCoordinate );
+   int npl = numberOfLevels( sPressureCoordinate );
+
+#ifdef MV_BUFRDC_TEST
+   int nn=numberOfLevels( cPressureCoordinate );
+   TEMPCHECKVALUELONG((long)npl,(long)nn,true);
+//e   return numberOfLevels( cPressureCoordinate );
+#endif
+
+   return npl;
 }
+
 //______________________________________________________ numberOfLevels
 int
-MvObs :: numberOfLevels( long levelDescriptor )
+MvObs::numberOfLevels( long levelDescriptor )
 {
-  int myCount = 0;
+   // Build key and get value
+   string skey = this->key(levelDescriptor);
+   int nelems = numberOfLevels(skey);
 
+#ifdef MV_BUFRDC_TEST
+  int myCount = 0;
   if( firstLevel( levelDescriptor ) != kBufrMissingValue )
   {
     myCount++;
     while( nextLevel() != kBufrMissingValue )
       myCount++;
   }
+  _currentLevelIndex1 = -1;
+//e  return myCount;
+  TEMPCHECKVALUELONG((long)nelems,(long)myCount,true);
+#endif
 
-  _currentLevelIndex = -1;
-  return myCount;
+   return nelems;
 }
+
+//______________________________________________________ numberOfLevels
+int
+MvObs::numberOfLevels( string skey )
+{
+   // Get number of elements
+   size_t nelems; 
+   codes_get_size(*_ecH, skey.c_str(),&nelems);
+
+//   _currentLevelOccurrence = 0;
+
+   return (int)nelems;
+}
+
 //__________________________________________________________ firstPressureLevel
-float
-MvObs :: firstPressureLevel()
+double
+MvObs::firstPressureLevel()
 {
-  _currentLevelCoordinate = cPressureCoordinate;
-  return pressureLevel( 0 );
+#ifdef MV_BUFRDC_TEST
+   _currentLevelCoordinate1 = cPressureCoordinate;
+   return pressureLevel( 1, 0 );
+#else
+   return pressureLevel( 1 );
+#endif
 }
-//__________________________________________________________ firstLevel
-float
-MvObs :: firstLevel( long levelDescriptor )
-{
-  _currentLevelCoordinate = levelDescriptor;
-  return level( levelDescriptor, 0 );
-}
-//___________________________________________________________ nextPressureLevel
-float
-MvObs :: nextPressureLevel()
-{
-  return pressureLevel( _currentLevelIndex + 1 );
-}
-//___________________________________________________________ nextLevel
-float
-MvObs :: nextLevel()
-{
-  return level( _currentLevelCoordinate, _currentLevelIndex + 1 );
-}
-//______________________________________________________________ pressureLevel
-float
-MvObs :: pressureLevel( int firstIndexValue )
-{
-  float  myLevelValue = level( cPressureCoordinate, firstIndexValue );
 
-  return myLevelValue == kBufrMissingValue ? kBufrMissingValue : myLevelValue / 100.;
-}
-//______________________________________________________________ level
-float
-MvObs :: level( long levelDescriptor, int firstIndexValue )
+//______________________________________________________________ pressureLevel
+// Parameter indexValue must start from 1...N
+#ifdef MV_BUFRDC_TEST
+double
+MvObs::pressureLevel( int indexValue, int firstIndexValue )
 {
-  if( ! msg_ok() )
+   _currentLevelKey = sPressureCoordinate;
+   _currentLevelOccurrence = indexValue;
+   double myLevelValue = level( _currentLevelKey, _currentLevelOccurrence );
+
+#ifdef MV_BUFRDC_TEST
+  double myLevelValue1 = level( _currentLevelKey,_currentLevelOccurrence,cPressureCoordinate,firstIndexValue );
+  TEMPCHECKVALUELONG(myLevelValue,myLevelValue1);
+#endif
+
+   return myLevelValue == kBufrMissingValue ? kBufrMissingValue : myLevelValue / 100.;
+}
+#endif
+
+double
+MvObs::pressureLevel( int indexValue )
+{
+   _currentLevelKey = sPressureCoordinate;
+   _currentLevelOccurrence = indexValue;
+   double myLevelValue = level( _currentLevelKey, _currentLevelOccurrence );
+
+   return myLevelValue == kBufrMissingValue ? kBufrMissingValue : myLevelValue / 100.;
+}
+
+//___________________________________________________________ nextPressureLevel
+double
+MvObs::nextPressureLevel()
+{
+#ifdef MV_BUFRDC_TEST
+//e   return pressureLevel( _currentLevelIndex + 1 );
+  double myLevelValue = pressureLevel( _currentLevelOccurrence+1,_currentLevelIndex1+1 );
+   return myLevelValue;
+#else
+   double myLevelValue = pressureLevel( _currentLevelOccurrence+1 );
+   return myLevelValue;
+#endif
+}
+
+//__________________________________________________________ firstLevel
+double
+MvObs::firstLevel( long levelDescriptor )
+{
+   string skey = key(levelDescriptor);
+   double myLevelValue = firstLevel( skey );
+
+#ifdef MV_BUFRDC_TEST
+  _currentLevelCoordinate1 = levelDescriptor;
+  double myLevelValue1 = level( skey,1,levelDescriptor,0 );
+  TEMPCHECKVALUEDOUBLE(myLevelValue,myLevelValue1,skey,levelDescriptor);
+#endif
+
+   return myLevelValue;
+}
+
+double
+MvObs::firstLevel( const string& skey )
+{
+   _currentLevelOccurrence = 1;
+   _currentLevelKey = skey;
+
+   return level( _currentLevelKey, _currentLevelOccurrence );
+}
+
+//___________________________________________________________ nextLevel
+double
+MvObs::nextLevel()
+{
+   _currentLevelOccurrence++;
+   double myLevelValue = level( _currentLevelKey, _currentLevelOccurrence );
+
+#ifdef MV_BUFRDC_TEST
+  //return level( _currentLevelCoordinate, _currentLevelIndex + 1 );
+  double myLevelValue1 = level( _currentLevelKey,_currentLevelOccurrence,_currentLevelCoordinate1,_currentLevelIndex1 + 1 );
+  TEMPCHECKVALUEDOUBLE(myLevelValue,myLevelValue1,_currentLevelKey,0);
+#endif
+
+   return myLevelValue;
+}
+
+#ifdef MV_BUFRDC_TEST
+//______________________________________________________________ level
+double
+MvObs::level( const string& skey, int indexValue, long levelDescriptor, int firstIndexValue )
+{
+    // Build key and get value
+   double myLevelValue = level(skey,indexValue);
+
+//if(MV_BUFRDC_TEST)
+{
+   if( ! msg_ok() )
      return kBufrMissingValue;
 
-  fortfloat myLevelValue = kFortranBufrMissingValue;
-
-  if( _bufrIn->Value( levelDescriptor, _subsetNr, myLevelValue, firstIndexValue ) )
-    _currentLevelIndex = _bufrIn->_currentDescrInd;
+  fortfloat myLevelValue1 = kFortranBufrMissingValue;
+  if( _bufrIn->Value( levelDescriptor,_subsetNr,myLevelValue1,firstIndexValue ) )
+    _currentLevelIndex1 = _bufrIn->_currentDescrInd;
   else
-    _currentLevelIndex = -1;
+    _currentLevelIndex1 = -1;
 
-  return myLevelValue == kFortranBufrMissingValue ? kBufrMissingValue : myLevelValue;
+  TEMPCHECKVALUEDOUBLE(myLevelValue,myLevelValue1,skey,levelDescriptor);
+  //return myLevelValue == kFortranBufrMissingValue ? kBufrMissingValue : myLevelValue;
 }
 
+   return  myLevelValue;
+}
+#endif
+
+//______________________________________________________________ level
+// It is a private function; so, it is the responsability of the caller
+// to update parameters _currentLevelKey and _currentLevelOccurrence .
+// Parameter indexValue must start from 1...N
+// 
+double
+MvObs::level( const string& key, int indexValue )
+{
+   // Get value
+   double myLevelValue = value(key,indexValue);
+
+   return myLevelValue == CODES_MISSING_DOUBLE ? kBufrMissingValue : myLevelValue;
+}
+
+#ifdef MV_BUFRDC_TEST
 //______________________________________________________________ specifierIndex
 int
-MvObs :: specifierIndex( long   aSpecifierDescriptor
-		       , double aSpecifierValue
-		       , int    firstIndexValue )
+MvObs::specifierIndex( long aSpecifierDescriptor, double aSpecifierValue, int firstIndexValue )
 {
+   std::cout << "IMPORTANT: MvObs::specifierIndex should only be called by BUFRDC not from ecCodes" << std::endl;
+   std::cout << "IMPORTANT: in ecCodes calls MvObs::valueBySpecifier" << std::endl;
+//   exit(0);
+   
    if( ! msg_ok() )
       return -1;
 
@@ -2416,23 +3611,29 @@ MvObs :: specifierIndex( long   aSpecifierDescriptor
 	 if( In_KTDEXP[ index ] == aSpecifierDescriptor
 	     && _bufrIn->DataValue( index, _subsetNr ) == aSpecifierValue )
 	 {
-	    _lastSpecifierIndex = index;
+	    _lastSpecifierIndex1 = index;
 	    return index;
 	 }
    }
    return -1;
 }
+#endif
+
 //____________________________________________________________ valueBySpecifier
 // A generic function to retrieve repeating data
 // specified by some other data
 // (e.g.  temperature at a certain pressure level)
 //--------------------------------------------------------------------
 double
-MvObs :: valueBySpecifier( long   aSpecifierDescriptor
-			 , double aSpecifierValue
-			 , long   aDescriptor
-			 , int    firstIndexValue )
+MvObs::valueBySpecifier( long aSpecifierDescriptor, double aSpecifierValue, long aDescriptor, int firstIndexValue )
 {
+   // Get the correspondent keys
+   string s1key = key(aSpecifierDescriptor);
+   string s2key = key(aDescriptor);
+
+   double value = valueBySpecifier( s1key, aSpecifierValue, s2key );
+
+#ifdef MV_BUFRDC_TEST
    int index = specifierIndex( aSpecifierDescriptor, aSpecifierValue, firstIndexValue );
    if( index > 0 )
    {
@@ -2440,7 +3641,10 @@ MvObs :: valueBySpecifier( long   aSpecifierDescriptor
      if( aSpecifierDescriptor == aDescriptor )
      {
          fortfloat myVal = _bufrIn->DataValue( index, _subsetNr );
-         return myVal == kFortranBufrMissingValue ? kBufrMissingValue : myVal;
+         //return myVal == kFortranBufrMissingValue ? kBufrMissingValue : myVal;
+         myVal = (myVal == kFortranBufrMissingValue) ? kBufrMissingValue : myVal;
+         TEMPCHECKVALUEDOUBLE(value,myVal,s2key,aDescriptor);
+         return myVal;
      }
      //-- search real data before next specifier data --
      for( int ind=index+1; ind < In_KTDEXL; ind++ )
@@ -2448,7 +3652,10 @@ MvObs :: valueBySpecifier( long   aSpecifierDescriptor
        if( In_KTDEXP[ ind ] == aDescriptor )
        {
          fortfloat myVal = _bufrIn->DataValue( ind, _subsetNr );
-         return myVal == kFortranBufrMissingValue ? kBufrMissingValue : myVal;
+         //return myVal == kFortranBufrMissingValue ? kBufrMissingValue : myVal;
+         myVal = (myVal == kFortranBufrMissingValue) ? kBufrMissingValue : myVal;
+         TEMPCHECKVALUEDOUBLE(value,myVal,s2key,aDescriptor);
+         return myVal;
        }
 
        //-- not found if specifier data again --
@@ -2456,65 +3663,299 @@ MvObs :: valueBySpecifier( long   aSpecifierDescriptor
          break;
      }
    }
-   return kBufrMissingValue;   //-- Not Found or Troubled Msg --
+
+   // Key "DewPoint Temperature" can have descriptors 12103 and 12003.
+   // The same for Temperature, 12101 and 12001
+   // This cause a problem because BUFRDC can return a missing value
+   // and ecCodes a valid value.
+   if (aDescriptor == 12003 || aDescriptor == 12103 || 
+       aDescriptor == 12001 || aDescriptor == 12101 )
+
+      return value;
+
+   TEMPCHECKVALUEDOUBLE(value,kBufrMissingValue,s2key,aDescriptor);
+   //return kBufrMissingValue;   //-- Not Found or Troubled Msg --
+#endif
+
+   return value;
 }
+
+double
+MvObs::valueBySpecifier( const string& coordinateKey, double coordinateValue, const string& paramKey )
+{
+#if 0
+   // FAMI20171110 This is a simple solution, but eccodes is not working if the
+   // specifier value is double/float (only works with integer values currently)
+   std::ostringstream sstream;
+   sstream << "=" << coordinateValue << "/";
+   string skey = "/" + coordinateKey + sstream.str() + paramKey;
+   return value(skey);
+#endif
+
+   // FAMI20171110 This is a temporary solution while the above code is not available
+   // Find a coordinate key whose value matches the input value
+   this->setFirstDescriptor(); // initialise key iterator
+   double precision = 0.000001;  // maybe needs to be adjusted
+   std::string skey;
+   bool flag = true;
+   while( flag )
+   {
+      skey = keyWithoutOccurrenceTag(_currentKey);
+      if( skey == coordinateKey )
+      {
+         // Found coordinate descriptor key
+         // Check if its value matches the input value
+         // if ( this->currentValue() == coordinateValue )  // Dangerous to compare to "doubles"
+         double val = this->currentValue();
+         if ( val > coordinateValue-precision && val < coordinateValue+precision )
+            break;  // found it
+      }
+
+      flag = this->setNextDescriptor();  // advance to the next data
+   }
+
+   // Coordinate key with a specific value not found
+   if ( !flag )
+      return kBufrMissingValue;
+
+   // If the coordinate value itself is requested
+   if( coordinateKey == paramKey )
+      return coordinateValue;
+
+   // Search parameter key before next coordinate data
+   flag = this->setNextDescriptor();  // advance to the next data
+   while ( flag )
+   {
+      // Not found if coordinate data again
+      skey = keyWithoutOccurrenceTag(_currentKey);
+      if( skey == coordinateKey )
+         return kBufrMissingValue;
+
+      if( skey == paramKey )  // found parameter
+         return currentValue();
+
+      flag = this->setNextDescriptor();
+   }
+
+   // Not found
+   return kBufrMissingValue;
+}
+
 //________________________________________________________ valueByPressureLevel
-float
-MvObs :: valueByPressureLevel( float aLevelValue        // in 'hPa'
-			     , long  aDescriptor )
+double
+MvObs::valueByPressureLevelC( float aLevelValue, const std::string& aDescriptor )  // in 'hPa'
 {
-   return valueBySpecifier( cPressureCoordinate, aLevelValue*100., aDescriptor );
+   // Check only positive integer values; otherwise, use "-.0123456789"
+   std::string skey;
+   if ( strspn( aDescriptor.c_str(), "0123456789" ) == aDescriptor.size() )
+      skey = key(atol(aDescriptor.c_str()));
+   else
+      skey = aDescriptor;
+
+   return valueByPressureLevel(aLevelValue,skey);
 }
-//________________________________________________________ valueByLevel
-float
-MvObs :: valueByLevel( long  aLevelDescriptor
-                     , float aLevelValue
-		     , long  aDescriptor )
+   
+double
+MvObs::valueByPressureLevel( float aLevelValue, long aDescriptor )  // in 'hPa'
 {
-   return valueBySpecifier( aLevelDescriptor, aLevelValue, aDescriptor );
+   string s2key = key(aDescriptor);
+   double value = valueByPressureLevel(aLevelValue,s2key);
+   
+#ifdef MV_BUFRDC_TEST
+  //return valueBySpecifier( cPressureCoordinate, aLevelValue*100., aDescriptor );
+  double value1 = valueBySpecifier( cPressureCoordinate, aLevelValue*100., aDescriptor );
+  TEMPCHECKVALUEDOUBLE(value,value1,s2key,aDescriptor);
+#endif
+
+   return value;
 }
-//________________________________________________________ valueByLevel
-float
-MvObs :: valueByLevelRange( long  aLevelDescriptor
-                     , float level1
-	             , float level2    
-		     , long  aDescriptor )
+   
+double
+MvObs::valueByPressureLevel( float aLevelValue, const string& s2key )  // in 'hPa'
 {
-    
+   return valueBySpecifier( sPressureCoordinate, aLevelValue*100., s2key );
+}
+
+//________________________________________________________ valueByLevel
+double
+MvObs::valueByLevelC( const string& aLevelDescriptor, float aLevelValue, const std::string& aDescriptor )
+{
+   // Check only positive integer values; otherwise, use "-.0123456789"
+   std::string s1key;
+   if ( strspn( aLevelDescriptor.c_str(), "0123456789" ) == aLevelDescriptor.size() )
+      s1key = key(atol(aLevelDescriptor.c_str()));
+   else
+      s1key = aLevelDescriptor;
+
+   std::string s2key;
+   if ( strspn( aDescriptor.c_str(), "0123456789" ) == aDescriptor.size() )
+      s2key = key(atol(aDescriptor.c_str()));
+   else
+      s2key = aDescriptor;
+
+   return valueByLevel( s1key, aLevelValue, s2key );
+}
+
+double
+MvObs::valueByLevel( long aLevelDescriptor, float aLevelValue, long aDescriptor )
+{
+   std::string s1key = key(aLevelDescriptor);
+   std::string s2key = key(aDescriptor);
+   double value = valueByLevel( s1key, aLevelValue, s2key );
+
+#ifdef MV_BUFRDC_TEST
+   //return valueBySpecifier( aLevelDescriptor, aLevelValue, aDescriptor );
+   double value1 = valueBySpecifier( aLevelDescriptor, aLevelValue, aDescriptor );
+   TEMPCHECKVALUEDOUBLE(value,value1,s2key,aDescriptor);
+#endif
+
+   return value;
+}
+
+double
+MvObs::valueByLevel( const std::string& s1key, float aLevelValue, const std::string& s2key )
+{
+   return valueBySpecifier( s1key, aLevelValue, s2key );
+}
+
+//________________________________________________________ valueByRange
+// Get the first value from aDescriptor whose value from aLevelDescriptor
+// is within level1 and level2 (both in Pa)
+double
+MvObs::valueByLevelRangeC( const std::string& aLevelDescriptor, float level1, float level2, const std::string& aDescriptor )
+{
+   // Check only positive integer values; otherwise, use "-.0123456789"
+   std::string s1key;
+   if ( strspn( aLevelDescriptor.c_str(), "0123456789" ) == aLevelDescriptor.size() )
+      s1key = key(atol(aLevelDescriptor.c_str()));
+   else
+      s1key = aLevelDescriptor;
+
+   std::string s2key;
+   if ( strspn( aDescriptor.c_str(), "0123456789" ) == aDescriptor.size() )
+      s2key = key(atol(aDescriptor.c_str()));
+   else
+      s2key = aDescriptor;
+
+   return valueByLevelRange( s1key, level1, level2, s2key );
+}
+   
+double
+MvObs::valueByLevelRange( long aLevelDescriptor, float level1, float level2, long aDescriptor )
+{
+   std::string s1key = key(aLevelDescriptor);
+   std::string s2key = key(aDescriptor);
+   double value = valueByLevelRange( s1key, level1, level2, s2key );
+
+#ifdef MV_BUFRDC_TEST
+  float minv = level1;
+  float maxv = level2;
+  if ( level1 > level2 )
+  {
+     minv = level2;
+     maxv = level1;
+  }
   float levelVal=firstLevel(aLevelDescriptor);
-  
   while(levelVal != kBufrMissingValue)
   {  
-	if(levelVal >= level1 && levelVal <= level2)
-	{
-		for( int ind = _currentLevelIndex + 1; ind < In_KTDEXL; ind++ )
-  		{
-    			if( In_KTDEXP[ ind ] == aDescriptor )
-   			{
-      				fortfloat myValue = _bufrIn->DataValue( ind, _subsetNr );
-				if(myValue != kFortranBufrMissingValue)
-					return myValue;
-				
-      				//return myValue == kFortranBufrMissingValue ? kBufrMissingValue : myValue;
-    			}
-    			
-    			else if(In_KTDEXP[ ind ] ==aLevelDescriptor)
-				break; 	
-		}
-	}
-	
-	levelVal=nextLevel();
-  }	
-	
-  return kBufrMissingValue;
+    if(levelVal >= minv && levelVal <= maxv)
+    {
+       for( int ind = _currentLevelIndex1 + 1; ind < In_KTDEXL; ind++ )
+       {
+          if( In_KTDEXP[ ind ] == aDescriptor )
+          {
+             fortfloat myValue = _bufrIn->DataValue( ind, _subsetNr );
+             if(myValue != kFortranBufrMissingValue)
+             {
+                //e return myValue;
+                TEMPCHECKVALUEDOUBLE(value,myValue,s2key,aDescriptor);
+                return value;
+             }
+          }
+          else if(In_KTDEXP[ ind ] == aLevelDescriptor)
+            break;
+       }
+    }
+
+    levelVal=nextLevel();
+  }
+
+  //e return kBufrMissingValue;
+  TEMPCHECKVALUEDOUBLE(value,kBufrMissingValue,s2key,aDescriptor);
+  return value;
+#endif
+
+   return value;
 }  
- 
+
+double
+MvObs::valueByLevelRange( const std::string& s1key, float level1, float level2, const std::string& s2key )
+{
+   // Get number of elements
+   size_t nelems, len; 
+   codes_get_size(*_ecH, s1key.c_str(),&nelems);
+
+   // Allocate memory for the values to be read
+   double* dlevels = new double[nelems];
+
+   // Get values
+   double myValue = kBufrMissingValue;
+   len = nelems;
+   int ierr = codes_get_double_array(*_ecH,s1key.c_str(),dlevels,&len);
+   if ( ierr || len != nelems )
+   {
+      delete [] dlevels; dlevels = 0;
+      return kBufrMissingValue;
+   }
+
+   // Check input levels parameters (make sure level1 < level2)
+   float minv = level1;
+   float maxv = level2;
+   if ( level1 > level2 )
+   {
+      minv = level2;
+      maxv = level1;
+   }
+
+   // Search for a level between the intervals
+   for ( unsigned int i = 0; i < nelems; i++ )
+   {
+      if ( dlevels[i] >= minv && dlevels[i] <= maxv )
+      {
+         // Get value from the second key
+         //double myValue = value(s2key,i+1); // can not assume that s1key and 
+                                              // s2key have the same occurrence
+                                              // number
+         myValue = valueBySpecifier( s1key, dlevels[i], s2key );
+         if ( myValue != kBufrMissingValue)
+            break;
+      }
+   }
+
+   // Release memory
+   delete [] dlevels; dlevels = 0;
+
+   return myValue;
+}
+
+
+//e This function is not working
 //________________________________________________________________ valueByLayer
 float
-MvObs :: valueByLayer( float firstLevel
-		     , float secondLevel
-		     , long aDescriptor )
+MvObs::valueByLayerC( float firstLevel, float secondLevel, const std::string& aDescriptor )
 {
+std::cout << "MvObs::valueByLayerC -> not implemented yet" << std::endl;
+
+  return kBufrMissingValue;   //-- Not Found or Troubled Msg --
+}
+
+float
+MvObs::valueByLayer( float firstLevel, float secondLevel, long aDescriptor )
+{
+std::cout << "MvObs :: valueByLayer -> not implemented yet" << std::endl;
+//exit(0);
+
+#ifdef MV_BUFRDC_TEST
   int firstLevelIndex = specifierIndex( cPressureCoordinate, firstLevel*100., 0 );
   int secondLevelIndex = -1;
 
@@ -2522,6 +3963,8 @@ MvObs :: valueByLayer( float firstLevel
   {
     //-- try to find the second level next to the current first one --
 
+cout << In_KTDEXP[ firstLevelIndex - 1 ] << " " << In_KTDEXP[ firstLevelIndex + 1 ] << std::endl;
+cout << _bufrIn->DataValue( firstLevelIndex - 1, _subsetNr ) << " " << _bufrIn->DataValue( firstLevelIndex + 1, _subsetNr ) << std::endl;
     if( In_KTDEXP[ firstLevelIndex - 1 ] == cPressureCoordinate &&
         _bufrIn->DataValue( firstLevelIndex - 1, _subsetNr ) == secondLevel*100. )
     {
@@ -2563,119 +4006,186 @@ MvObs :: valueByLayer( float firstLevel
     if( In_KTDEXP[ ind ] == cPressureCoordinate )
       break;
   }
+#endif
+
   return kBufrMissingValue;   //-- Not Found or Troubled Msg --
 }
 
-
 //______________________________________________________________ printAllValues
 bool
-MvObs :: printAllValues()
+MvObs::printAllValues()
 {
-   ostream* myStream = &cout;
+   std::ostream* myStream = &std::cout;
    return writeAllValues( *myStream );
 }
+
 //_______________________________________________________________ writeAllValues
 bool
-MvObs :: writeAllValues( ostream& aStream )
+MvObs::writeAllValues(std::ostream& aStream )
 {
+#ifdef MV_BUFRDC_TEST
   if( ! msg_ok() )
     return false;
 
   if( _bufrIn->_inState != kBufrIn_DataAndDescriptorsDecoded )
     _bufrIn->ExpandDescriptors( _subsetNr );
 
-  if( _bufrIn->_inState == kBufrIn_DataAndDescriptorsDecoded )
-    {
-      long  myEndingIndex = _confidence->hasConfidences() ?
-	_confidence->lastDataIndex()+1 : In_KTDEXL;
-      writeValues(aStream,0, myEndingIndex);
-      return true;
-   }
-   return false;
+  if( _bufrIn->_inState != kBufrIn_DataAndDescriptorsDecoded )
+     return false;
+#endif
+  
+   //e remove confidence code temporarily
+//   long myEndingIndex = _confidence->hasConfidences() ? _confidence->lastDataIndex()+1 : In_KTDEXL;
+   long myEndingIndex = 100000;
+   writeValues(aStream, 0, myEndingIndex);
+
+   return true;
 }
 
 bool
-MvObs::writeValues(ostream& aStream, int firstIndex, int lastIndex)
+MvObs::writeValues(std::ostream& aStream, int firstIndex, int lastIndex)
 {
-   if( ! msg_ok() )
-      return false;
+   double dval;
 
+   // Main loop
+   int index = firstIndex;
+   bool dataToRead = setFirstDescriptor();
+   while ( dataToRead && index <= lastIndex )
+   {
+      aStream.width( 3 ); aStream.fill( ' ' );      // index
+      aStream << index+1 << ".  ";
+
+      // Print value
+      switch( elementValueType() )   // print parameter value
+      {
+         case CODES_TYPE_LONG:
+         case CODES_TYPE_DOUBLE:
+            aStream.width( 6 ); aStream.fill( ' ' );
+            dval = currentValue();
+#ifdef MV_BUFRDC_TEST
+            {
+  double myValue = _bufrIn->DataValue( index, _subsetNr );
+  TEMPCHECKVALUEDOUBLE(dval,myValue,currentKey(),currentDescriptor());
+            }
+#endif
+            if ( dval == kBufrMissingValue )
+               aStream << "   ~~~";
+            else
+               aStream << dval;
+
+            break;
+         case CODES_TYPE_STRING:
+            aStream.width( 6 ); aStream.fill( ' ' );
+#ifdef MV_BUFRDC_TEST
+            {
+  string sval = stringValue();
+  string smyValue = stringValue( In_KTDEXP[ index ] );
+  std::cout << "MvObs::writeValues(1) STRINGS SHOULD BE THE SAME: " << sval.c_str() << " " << smyValue.c_str(
+     
+) << std::endl;
+  TEMPCHECKVALUESTRING(sval,smyValue);
+            }
+#else
+            aStream << stringValue();
+#endif
+            break;
+      }
+
+      // Print auxiliary information
+      aStream << " " << name();                // parameter name
+      aStream << " [" << unit() << "] (";      // parameter unit
+      aStream.width( 5 ); aStream.fill( '0' );
+      aStream << currentDescriptor() << ")";   // parameter descriptor
+      aStream << std::endl;
+
+      // Evaluate next iteration
+      setNextDescriptor();
+      index++;
+   }
+   return true;
+
+#if 0
+#ifdef MV_BUFRDC_TEST
    if( _bufrIn->_inState != kBufrIn_DataAndDescriptorsDecoded )
       _bufrIn->ExpandDescriptors( _subsetNr );
 
-   if( _bufrIn->_inState == kBufrIn_DataAndDescriptorsDecoded )
+   if( _bufrIn->_inState != kBufrIn_DataAndDescriptorsDecoded )
+      return false;
+
+   fortfloat myValue;
+   if ( firstIndex < 0 )
+      firstIndex = 0;
+   if (lastIndex > In_KTDEXL )
+      lastIndex = In_KTDEXL;
+
+   for( int i = firstIndex; i < lastIndex; i++ )
    {
-      fortfloat myValue;
-      if ( firstIndex < 0 )
-	firstIndex = 0;
-      if (lastIndex > In_KTDEXL )
-	lastIndex = In_KTDEXL;
+      aStream.width( 3 ); aStream.fill( ' ' );      // index
+      aStream << i+1 << ".  ";
 
-      for( int i = firstIndex; i < lastIndex; i++ )
+      myValue = _bufrIn->DataValue( i, _subsetNr ); // get parameter value
+                                                       // = set current parameter!
+      switch( elementValueType() )   // print parameter value
       {
-	 aStream.width( 3 ); aStream.fill( ' ' );      // index
-	 aStream << i+1 << ".  ";
-
-	 myValue = _bufrIn->DataValue( i, _subsetNr ); // get parameter value
-	                                               // = set current parameter!
-	 switch( elementValueType() )                    // print parameter value
-	 {
-	   case kEVT_unknown:
-	      aStream << " ?????";
-	      break;
-
-	   case kEVT_missing:
-	      aStream << "   ~~~";
-	      break;
-
-	   case kEVT_numeric:
-	      aStream.width( 6 ); aStream.fill( ' ' );
-	      aStream << myValue;
-	      break;
-
-	   case kEVT_string:
-	      aStream.width( 6 ); aStream.fill( ' ' );
-	      aStream << stringValue( In_KTDEXP[ i ] );
-	      break;
-	 }
-
-	 aStream << " " << name( In_KTDEXP[ i ] );           // parameter name
-	 aStream << " [" << unit( In_KTDEXP[ i ] ) << "] ("; // parameter unit
-	 aStream.width( 5 ); aStream.fill( '0' );            // parameter descriptor
-	 aStream << In_KTDEXP[ i ] << ")";
-	 aStream << endl;
+         case kEVT_unknown:
+            aStream << " ?????";
+            break;
+         case kEVT_missing:
+            aStream << "   ~~~";
+            break;
+         case kEVT_numeric:
+            aStream.width( 6 ); aStream.fill( ' ' );
+            aStream << myValue;
+            break;
+         case kEVT_string:
+            aStream.width( 6 ); aStream.fill( ' ' );
+            aStream << stringValue( In_KTDEXP[ i ] );
+            break;
       }
-      return true;
+
+      aStream << " " << name( In_KTDEXP[ i ] );           // parameter name
+      aStream << " [" << unit( In_KTDEXP[ i ] ) << "] ("; // parameter unit
+      aStream.width( 5 ); aStream.fill( '0' );            // parameter descriptor
+      aStream << In_KTDEXP[ i ] << ")";
+      aStream << std::endl;
    }
-   return false;
+   return true;
+#endif
+#endif
 }
 
 //_______________________________________________________________ writeAllValues
 bool
-MvObs :: writeAllValues( const char* aPathName )
+MvObs::writeAllValues( const char* aPathName )
 {
-  ofstream myStream( aPathName, ios::out );
-  if( ! myStream )
-  {
-    cerr << " >>> MvObs::writeAllValues(char*): error in creating file " << aPathName << endl;
+   std::ofstream myStream( aPathName, std::ios::out );
+   if( ! myStream )
+   {
+      std::cerr << " >>> MvObs::writeAllValues(char*): error in creating file " << aPathName << std::endl;
 #ifdef METVIEW
-    marslog( LOG_EROR, "MvObs::writeAllValues: error in creating file %s", aPathName );
+      marslog( LOG_EROR, "MvObs::writeAllValues: error in creating file %s", aPathName );
 #endif
-    return false;
-  }
+      return false;
+   }
 
-  return writeAllValues( myStream );
+   return writeAllValues( myStream );
 }
+
+#ifdef MV_BUFRDC_TEST
 //_______________________________________________________________ writeBufrBox
 bool
-MvObs :: writeBufrBox( ostream& aStream )
+MvObs::writeBufrBox( ostream& aStream )
 {
+   std::cout << "MvObs::writeBufrBox() -> not implemented yet" << std::endl;
+   exit(0);
+
+#ifdef MV_BUFRDC_TEST
    bool return_value = true;
 
    bool b_ret = _bufrIn->writeBufrBox( _subsetNr );
    if( ! b_ret )
    {
-      aStream << "\n   >>> Problems encountered!!! <<<\n" << endl;
+      aStream << "\n   >>> Problems encountered!!! <<<\n" << std::endl;
       return_value = false;
    }
    else
@@ -2684,39 +4194,109 @@ MvObs :: writeBufrBox( ostream& aStream )
        delete_print_file(BBOXNAME.c_str());
      }
    return return_value;
+#endif
 }
+#endif
+
 //______________________________________________________________ WmoIdentNumber
 long
-MvObs :: WmoIdentNumber()
+MvObs::WmoIdentNumber()
 {
-  return msg_ok() ? WmoBlockNumber()*1000 + WmoStationNumber() : kBufrMissingIntValue;
+   return WmoBlockNumber()*1000 + WmoStationNumber();
 }
+
 //______________________________________________________________ WmoBlockNumber
 int
-MvObs :: WmoBlockNumber()
+MvObs::WmoBlockNumber()
 {
-   fortfloat myValue;
+   long myValue = intValue("blockNumber");
 
-   if( msg_ok() && _bufrIn->Value( 1001L, _subsetNr, myValue ) )
-      return (long)myValue;
-   else
-      return 0;
+#ifdef MV_BUFRDC_TEST
+   long myValue1;
+//e   if( msg_ok() && _bufrIn->Value( 1001L, _subsetNr, myValue ) )
+//e      return (long)myValue;
+//e   else
+//e      return 0;
+   myValue1 = _bufrIn->intValue( 1001L, _subsetNr );
+   TEMPCHECKVALUELONG(myValue,(long)myValue1);
+#endif
+
+   return myValue == kBufrMissingIntValue ? 0 : (int)myValue;
 }
+
 //____________________________________________________________ WmoStationNumber
 int
-MvObs :: WmoStationNumber()
+MvObs::WmoStationNumber()
 {
-   fortfloat myValue;
+   long myValue = intValue("stationNumber");
 
-   if( msg_ok() && _bufrIn->Value( 1002L, _subsetNr, myValue ) )
-      return (long)myValue;
-   else
-      return 0;
+#ifdef MV_BUFRDC_TEST
+   long myValue1;
+//e   if( msg_ok() && _bufrIn->Value( 1002L, _subsetNr, myValue ) )
+//e      return (long)myValue;
+//e   else
+//e      return 0;
+   myValue1 = _bufrIn->intValue( 1002L, _subsetNr );
+   TEMPCHECKVALUELONG(myValue,(long)myValue1);
+#endif
+
+   return myValue == kBufrMissingIntValue ? 0 : (int)myValue;
 }
+
 //____________________________________________________________ findSomeIdent
 string
 MvObs::findSomeIdent()
 {
+   //-- 5-digit WMO identifier available?
+   long lid = WmoIdentNumber();
+   if( lid > 0 )
+   {
+      std::ostringstream oss;
+      oss << std::setw(5) << std::setfill('0') << lid;
+      return oss.str();
+   }
+
+   //-- No WMO id found, thus look for other candidates,
+   //-- this is a list of known identifier candidates.
+   const string idList[] =
+    {
+      "shipOrMobileLandStationIdentifier",                // 1011
+      "buoyOrPlatformIdentifier",                         // 1005
+      "aircraftFlightNumber",                             // 1006
+      "satelliteIdentifier",                              // 1007
+      "aircraftRegistrationNumberOrOtherIdentification",  // 1008
+      "stationaryBuoyPlatformIdentifierEGCManBuoys",      // 1010
+      "stormIdentifier",                                  // 1025
+      "stormName",                                        // 1026
+      "longStormName"                                     // 1027
+    };
+
+#ifdef MV_BUFRDC_TEST
+const long idList1[] = {1011,1005,1006,1007,1008,1010,1025,1026,1027};
+#endif
+
+   int idVals = sizeof(idList)/sizeof(idList[0]);
+   for( int i = 0; i < idVals; ++i )
+   {
+      string descr = idList[i];
+      long myValue = intValue(descr);
+
+#ifdef MV_BUFRDC_TEST
+   long myValue1 = intValue( idList1[i] );
+   TEMPCHECKVALUELONG((double)myValue,myValue1);
+#endif
+
+      if( myValue != kBufrMissingIntValue )
+      {
+         std::ostringstream oss;
+         oss << std::setw(5) << std::setfill('0') << myValue;
+         return oss.str();
+      }
+   }
+
+   return string( "id???" );
+
+#if 0
   if( ! msg_ok() )
     return string( "???" );
 
@@ -2750,83 +4330,642 @@ MvObs::findSomeIdent()
       fortfloat myValue = value( descr );
 
       if( myValue != kBufrMissingValue )
-	{
-	  return stringValue( descr );
-	}
+         return stringValue( descr );
     }
+   return string( "id???" );
+#endif
 
-  return string( "id???" );
 }
+
 //____________________________________________________________________ location
 MvLocation
-MvObs :: location()
+MvObs::location()
 {
-   MvLocation myLocation( value( 5001L ), value( 6001L ) ); //-- "high accuracy"
+//F NEW CODE
+   // ERROR   ERROR   ERROR    ERROR   20170628
+   // THERE IS A PROBLEM HERE. IN THE ORIGINAL CODE (ABOVE) IF "HIGH
+   // ACCURACY" VALUES ARE NOT PRESENTED, IT TRIES TO GET THE "COARSE
+   // ACCURACY" ONES (5002,6002).
+   // ECCODES ASSIGNS THE SAME KEY NAME FOR BOTH HIGH/LOW ACCURACY 
+   // VALUES. AT THE MOMENT, THE CODE IS DIFFERENT FROM THE ORIGINAL
+   // ONE UNTIL WE SORT OUT THIS ISSUE.
 
+   // Get latitude/longitude values
+   MvLocation myLocation( value("latitude"), value("longitude") ); //-- "high accuracy"
    if( myLocation.latitude() == kBufrMissingValue ||
        myLocation.longitude() == kBufrMissingValue )
    {
-      myLocation.set( value( 5002L ), value( 6002L ) );     //-- "coarse accuracy"
+      //myLocation.set( value( 5002L ), value( 6002L ) );     //-- "coarse accuracy"
    }                                                        //-- hopefully not missing
 
-   //-- this one is for those quirky NCEP PrepBUFR msgs
+#if 0 //F add prepBUFR later
+   // This one is for those quirky NCEP PrepBUFR msgs
    if( myLocation.latitude() != kBufrMissingValue &&
        myLocation.longitude() == kBufrMissingValue )
    {
       //-- lat OK, try NCEP PrepBUFR local descriptor 0'06'240 for lon
       myLocation.set( myLocation.latitude(), value( 6240L ) );
    }
+#endif
+
+#ifdef MV_BUFRDC_TEST
+   MvLocation myLocation1( value( 5001L ), value( 6001L ) ); //-- "high accuracy"
+
+   if( myLocation1.latitude() == kBufrMissingValue ||
+       myLocation1.longitude() == kBufrMissingValue )
+   {
+      myLocation1.set( value( 5002L ), value( 6002L ) );     //-- "coarse accuracy"
+   }                                                        //-- hopefully not missing
+
+   //-- this one is for those quirky NCEP PrepBUFR msgs
+   if( myLocation1.latitude() != kBufrMissingValue &&
+       myLocation1.longitude() == kBufrMissingValue )
+   {
+      //-- lat OK, try NCEP PrepBUFR local descriptor 0'06'240 for lon
+      myLocation1.set( myLocation1.latitude(), value( 6240L ) );
+   }
+//   return myLocation;
+
+  if ( myLocation.distanceInMeters(myLocation1) )
+  {
+     std::cout << "MvObs::location() -> different values" << std::endl;
+     exit(0);
+  }
+#endif
 
    return myLocation;
 }
+
 //____________________________________________________________________ unit
 string
-MvObs :: unit( long aDescriptor )
+MvObs::unit( long aDescriptor )
 {
-  return msg_ok() ? _bufrIn->unit( aDescriptor ) : MESSED_UP;
+   string skey = key(aDescriptor) + "->units";
+   string sunit = stringValue(skey);
+
+#ifdef MV_BUFRDC_TEST
+   //return msg_ok() ? _bufrIn->unit( aDescriptor ) : MESSED_UP;
+   string vold = msg_ok() ? _bufrIn->unit( aDescriptor ) : MESSED_UP;
+   TEMPCHECKVALUESTRING(sunit,vold);
+#endif
+
+   return sunit;
 }
+
 //____________________________________________________________________ unit
 string
-MvObs :: unit()
+MvObs::unit()
 {
-  return msg_ok() ? _bufrIn->unit() : MESSED_UP;
+   string skey = _currentKey + "->units";
+   string sunit = stringValue(skey);
+
+#ifdef MV_BUFRDC_TEST
+//e remove test because values can be different between BUFRDC and ecCodes,
+// e.g., YEAR and a
+   //return msg_ok() ? _bufrIn->unit() : MESSED_UP;
+//   string vold = msg_ok() ? _bufrIn->unit() : MESSED_UP;
+//   TEMPCHECKVALUESTRING(sunit,vold);
+//   std::cout << "values in ecCodes and BUFRDC are differents: " << sunit << " " << vold << std::endl;
+#endif
+
+   return sunit;
 }
+
 //____________________________________________________________________ name
 string
-MvObs :: name( long aDescriptor )
+MvObs::name( long aDescriptor )
 {
-  return msg_ok() ? _bufrIn->name( aDescriptor ) : MESSED_UP;
+   string skey = key(aDescriptor);
+
+#ifdef MV_BUFRDC_TEST
+   //return msg_ok() ? _bufrIn->name( aDescriptor ) : MESSED_UP;
+   string vold = msg_ok() ? _bufrIn->name( aDescriptor ) : MESSED_UP;
+   TEMPCHECKVALUESTRING(skey,vold);
+#endif
+
+   return skey;
 }
+
 //____________________________________________________________________ name
 string
-MvObs :: name()
+MvObs::name()
 {
-  return msg_ok() ? _bufrIn->name() : MESSED_UP;
+#ifdef MV_BUFRDC_TEST
+   //return msg_ok() ? _bufrIn->name() : MESSED_UP;
+   string vold = msg_ok() ? _bufrIn->name() : MESSED_UP;
+   TEMPCHECKVALUESTRING(_currentKey,vold);
+#endif
+
+   return _currentKey;
 }
-//________________________________________________________________ subsetOffset
+
+//----------------------------------------------------------------------------
+//-- APIs for requesting info from the Header, BUFR Section 0,1,2,3 --//
+
+//___________________________________________________________________ init
+void
+MvObs::init ()
+{
+   // Read initial variables
+   masterTableVersion();
+   localTableVersion();
+   msgSubsetCount();
+   _compressed_data = intValue("compressedData");
+
+   return;
+}
+
+//_________________________________________________________  messageTotalLen()
 int
-MvObs :: subsetOffset() const
+MvObs::messageTotalLen()
 {
-  return ( _subsetNr - 1 ) * In_KELEM;
+   if ( _messageTotalLen == -1 )
+      _messageTotalLen = intValue("totalLength");
+
+#ifdef MV_BUFRDC_TEST
+long vold = _bufrIn->totalLen();
+TEMPCHECKVALUELONG(_messageTotalLen,vold);
+#endif
+
+   return (int)_messageTotalLen;
 }
-//________________________________________________________________ writeConfidenceValues
-bool
-MvObs::writeConfidenceValues(ostream& aStream)
+
+//___________________________________________________________ editionNumber
+int
+MvObs::editionNumber()
 {
-  if( ! msg_ok() || ! _confidence->hasConfidences() )
-    return false;
+   if ( _editionNumber == -1 )
+      _editionNumber = intValue("edition");
 
-  if( _bufrIn->_inState != kBufrIn_DataAndDescriptorsDecoded )
-    _bufrIn->ExpandDescriptors( _subsetNr );
+#ifdef MV_BUFRDC_TEST
+long vold = _bufrIn->fSec0->editionNr;
+TEMPCHECKVALUELONG(_editionNumber,vold);
+#endif
 
-  if( _bufrIn->_inState == kBufrIn_DataAndDescriptorsDecoded )
-    {
-      long  myStartingIndex = _confidence->lastDataIndex()+1;
-      long  myEndingIndex =  In_KTDEXL;
-      writeValues(aStream,myStartingIndex, myEndingIndex);
-      return true;
+   return (int)_editionNumber;
+}
+
+//_______________________________________________________________ msgSubsetCount
+int
+MvObs::msgSubsetCount ()
+{
+   if ( _number_of_subsets == -1 )
+      _number_of_subsets = intValue("numberOfSubsets");
+
+#ifdef MV_BUFRDC_TEST
+long vold = _bufrIn->subsetCount();
+TEMPCHECKVALUELONG(_number_of_subsets,vold);
+#endif
+
+   // Variable initialised at init()
+   return (int)_number_of_subsets;
+}
+
+//_________________________________________________________________ messageType
+int
+MvObs::messageType()
+{
+   if ( _messageType == -1 )
+      _messageType = intValue("dataCategory");
+
+#ifdef MV_BUFRDC_TEST
+long vold = _bufrIn->Sec1->msgType();
+TEMPCHECKVALUELONG(_messageType,vold);
+#endif
+
+   return (int)_messageType;
+}
+
+//______________________________________________________________ messageSubtype
+int
+MvObs::messageSubtype()
+{
+   // FI 20170925: ecCodes does not have a flag to indicate a missing value
+   // indicator as BUFRDC (cOctetMissingIndicator).
+   // Update this code when ecCodes can handle a missing value indicator
+   // for a octet.
+   long lval = messageSubtypeInternational();
+   if ( lval == kBufrMissingIntValue || lval == 255 )
+      lval = messageSubtypeLocal();
+
+#ifdef MV_BUFRDC_TEST
+long vold = _bufrIn->Sec1->msgSubtype();
+TEMPCHECKVALUELONG(lval,vold);
+#endif
+
+   return (int)lval;
+}
+
+//_________________________________________________ messageSubtypeInternational
+int
+MvObs::messageSubtypeInternational()
+{
+   if ( _subTypeInternational == -1 )
+      _subTypeInternational = intValue("internationalDataSubCategory");
+
+#ifdef MV_BUFRDC_TEST
+long vold = _bufrIn->Sec1->msgSubtypeWMO();
+if (_subTypeInternational != vold)
+{
+   if(_subTypeInternational != kBufrMissingIntValue || vold != cOctetMissingIndicator)
+   {
+      printf("Different values -> MvObs::messageSubtypeInternational %ld %ld /n",_subTypeInternational,vold);
+      exit(0);
    }
-   return false;
+}
+//TEMPCHECKVALUELONG(_subTypeInternational,vold);
+#endif
+
+   return (int)_subTypeInternational;
+}
+
+//_________________________________________________________ messageSubtypeLocal
+int
+MvObs::messageSubtypeLocal()
+{
+   if ( _subTypeLocal == -1 )
+      _subTypeLocal = intValue("dataSubCategory");
+
+#ifdef MV_BUFRDC_TEST
+long vold = _bufrIn->Sec1->msgSubtypeLocal();
+TEMPCHECKVALUELONG(_subTypeLocal,vold);
+#endif
+
+   return (int)_subTypeLocal;
+}
+
+//___________________________________________________________ originatingCentre
+int
+MvObs::originatingCentre()
+{
+   if ( _originatingCentre == -1 )
+      _originatingCentre = intValue("bufrHeaderCentre");
+
+#ifdef MV_BUFRDC_TEST
+long vold = _bufrIn->Sec1->origCentre();
+TEMPCHECKVALUELONG(_originatingCentre,vold);
+#endif
+
+   return (int)_originatingCentre;
+}
+
+const std::string& MvObs::originatingCentreAsStr()
+{
+   if(_originatingCentreStr.empty())
+      _originatingCentreStr = stringValue("bufrHeaderCentre");
+
+   return _originatingCentreStr;
+}
+
+
+//___________________________________________________________ originatingSubCentre
+int
+MvObs::originatingSubCentre()
+{
+   if ( _originatingSubCentre == -1 )
+      _originatingSubCentre = intValue("bufrHeaderSubCentre");
+
+#ifdef MV_BUFRDC_TEST
+long vold = _bufrIn->Sec1->origSubCentre();
+TEMPCHECKVALUELONG(_originatingSubCentre,vold);
+#endif
+
+   return (int)_originatingSubCentre;
+}
+
+//___________________________________________________________ masterTable
+int
+MvObs::masterTable()
+{
+   if ( _masterTable == -1 )
+      _masterTable = intValue("masterTableNumber");
+
+#ifdef MV_BUFRDC_TEST
+long vold = _bufrIn->Sec1->masterTable();
+TEMPCHECKVALUELONG(_masterTable,vold);
+#endif
+
+   return (int)_masterTable;
+}
+
+//___________________________________________________________ masterTableVersion
+int
+MvObs::masterTableVersion()
+{
+   if ( _masterTableVersion == -1 )
+      _masterTableVersion = intValue("masterTablesVersionNumber");
+
+#ifdef MV_BUFRDC_TEST
+long vold = _bufrIn->Sec1->masterTableVersion();
+TEMPCHECKVALUELONG(_masterTableVersion,vold);
+#endif
+
+   return (int)_masterTableVersion;
+}
+
+//___________________________________________________________ localTableVersion
+int
+MvObs::localTableVersion()
+{
+   if ( _localTableVersion == -1 )
+      _localTableVersion = intValue("localTablesVersionNumber");
+
+#ifdef MV_BUFRDC_TEST
+long vold = _bufrIn->Sec1->localTableVersion();
+TEMPCHECKVALUELONG(_localTableVersion,vold);
+#endif
+
+   return (int)_localTableVersion;
+}
+
+const std::string& MvObs::headerIdent()
+{
+    if(headerIdent_ == "__UNDEF__")
+    {
+        if(hasSection2() && originatingCentre() == 98)
+            headerIdent_=stringValue("ident");
+        else
+            headerIdent_=std::string();
+    }
+    return headerIdent_;
+}
+
+//_________________________________________________________________ msgTime
+TDynamicTime
+MvObs::msgTime()
+{
+   // Get values from the Header
+   if ( _lyear == -1 )
+   {
+      _lyear   = intValue("typicalYear");
+      _lmonth  = intValue("typicalMonth");
+      _lday    = intValue("typicalDay");
+      _lhour   = intValue("typicalHour");
+      _lminute = intValue("typicalMinute");
+
+#ifdef MV_BUFRDC_TEST
+TDynamicTime temp = _bufrIn->msgTime();
+TEMPCHECKVALUELONG(_lyear,temp.GetYear());
+TEMPCHECKVALUELONG(_lmonth,temp.GetMonth());
+TEMPCHECKVALUELONG(_lday,temp.GetDay());
+TEMPCHECKVALUELONG(_lhour,temp.GetHour());
+TEMPCHECKVALUELONG(_lminute,temp.GetMin());
+#endif
+   }
+
+   // Return time
+   return TDynamicTime( (short)_lyear, (short)_lmonth, (short)_lday,
+                        (short)_lhour, (short)_lminute, 0 );
+}
+//----------------------------------------------------------------------------
+
+TDynamicTime
+MvObs::obsTime(int occurrence)
+{
+   // Get values
+   long lyear  = intValue("year",occurrence);
+   long lmonth = intValue("month",occurrence);
+   long lday   = intValue("day",occurrence);
+   long lhour  = intValue("hour",occurrence);
+   long lminute  = intValue("minute",occurrence);
+   long lsecond  = intValue("second",occurrence);
+
+   // Check values
+   lminute = (lminute == kBufrMissingIntValue) ? 0 : lminute;
+   lsecond = (lsecond == kBufrMissingIntValue) ? 0 : lsecond;
+
+   // NCEP PrepBUFR may not contain date/time information
+   if( lyear  == kBufrMissingIntValue ||
+       lmonth == kBufrMissingIntValue ||
+       lday   == kBufrMissingIntValue  )
+      return this->msgTime();       //take date from section 1
+
+#ifdef MV_BUFRDC_TEST
+TDynamicTime old = _bufrIn->obsTime( _subsetNr );
+TDynamicTime ect = TDynamicTime( (short)lyear, (short)lmonth, (short)lday,
+                          (short)lhour, (short)lminute, (short)lsecond );
+if ( old != ect )
+{
+   std::cout << "MvObs::obsTime -> TIMES different: " << std::endl;
+   exit(0);
+}
+#endif
+
+   return TDynamicTime( (short)lyear, (short)lmonth, (short)lday,
+                        (short)lhour, (short)lminute, (short)lsecond );
+}
+
+//----------------------------------------------------------------------------
+//-- APIs for converting Descriptors to keys --//
+
+std::string
+MvObs::keyC( const std::string& descriptor, const int index )
+{
+   // Check only positive integer values; otherwise, use "-.0123456789"
+   if ( strspn( descriptor.c_str(), "0123456789" ) == descriptor.size() )
+      return key(atol(descriptor.c_str()),index);
+   else
+      return descriptor;
+}
+
+std::string
+MvObs::key( const int descriptor, const int index )
+{
+   if(!_edition)
+      _edition = MvBufrEdition::find(_masterTable,_masterTableVersion,_localTableVersion,
+                                     _originatingCentre, _originatingSubCentre);
+
+   MvBufrElementTable* tbl = MvBufrElementTable::find(_edition);
+   assert(tbl);
+
+   std::string skey = tbl->keyName(descriptor);
+
+   // Build the key
+   if ( !skey.empty() && index > 0 )
+      skey = key(skey,index);
+
+   return skey;
+}
+
+bool
+MvObs::descriptorToKey( const long descriptor, string& key)
+{
+   codes_handle* dkH = NULL;
+   size_t size = 1;
+   char* strVal[1] = {0,};
+   bool ret = true;
+
+   dkH = codes_bufr_handle_new_from_samples(NULL, "BUFR4");
+   int err1 = codes_set_long(dkH, "masterTablesVersionNumber", _masterTableVersion);
+   int err2 = codes_set_long(dkH, "localTablesVersionNumber", _localTableVersion);
+   int err3 = codes_set_long(dkH, "unexpandedDescriptors", descriptor);
+   if ( err1 || err2 || err3 )
+   {
+      fprintf(stderr, "MvObs::descriptorToKey: Key not found from Descriptor: %ld\n",descriptor);
+      key = "";
+      ret = false;
+   }
+
+   codes_get_size(dkH, "expandedAbbreviations", &size);
+   if (size == 1)
+   {
+      codes_get_string_array(dkH, "expandedAbbreviations", strVal, &size);
+      key = strVal[0];
+   }
+   else
+   {
+      fprintf(stderr, "MvObs::descriptorToKey: Invalid Descriptor: %ld\n",descriptor);
+      key = "";
+      ret = false;
+   }
+ 
+   codes_handle_delete(dkH);
+
+   return ret;
+}
+
+bool
+MvObs::descriptor_to_key( const long descriptor, std::string& key )
+{
+   // Get BUFR key iterator
+   codes_bufr_keys_iterator* kiter = NULL;
+   kiter = codes_bufr_keys_iterator_new(*_ecH,0);
+   if ( !kiter )
+   {
+      std::cout << "ERROR MvObs::descriptor_to_key(): Unable to create BUFR keys iterator" << std::endl;
+      key = "";
+      return false;
+   }
+
+   bool flag = false;
+   string name, name_code;
+   int err;
+
+   // Loop through the keys
+   while(codes_bufr_keys_iterator_next(kiter))
+   {
+      long codeVal = 0;
+      name = codes_bufr_keys_iterator_get_name(kiter);
+      name_code = name + "->code";
+      err = codes_get_long(*_ecH, name_code.c_str(), &codeVal);
+      if (!err && codeVal == descriptor)
+      {
+         // Remove the prefix #n#
+         std::size_t ipos = -1;
+         if ( name[0] == '#' )
+            ipos = name.find('#',1);
+
+         key = name.substr(ipos+1);
+         flag = true;
+         break;
+      }
+   }
+
+   // Delete key iterator
+   codes_bufr_keys_iterator_delete(kiter);
+
+   return flag;
+}
+
+string
+MvObs::key( const string& ikey, const int occurrence )
+{
+   // Return original key
+   if ( occurrence < 1 )
+      return ikey;
+
+   // Build the key
+   std::ostringstream sstream;
+   sstream << "#" << occurrence << "#";
+   string key = sstream.str() + ikey;
+
+   return key;
+}
+
+std::string
+MvObs::keyWithoutOccurrenceTag( const std::string& key )
+{   
+   // Remove the prefix #n#
+   if(!key.empty() && key[0] == '#' )
+   {
+      std::size_t ipos = key.find('#',1);
+      if (ipos != std::string::npos)
+         return key.substr(ipos+1);
+   }
+
+   return key;
+}
+
+int MvObs::occurenceFromKey(const std::string& key )
+{
+   if(!key.empty() && key[0] == '#' )
+   {
+      std::size_t ipos = key.find('#',1);
+      if (ipos != std::string::npos)
+      {
+         return atoi(key.substr(1,ipos-1).c_str());
+      }
+   }
+
+   return -1;
+}
+
+//----------------------------------------------------------------------------
+
+#ifdef MV_BUFRDC_TEST
+double MvObs::feedbackValue( int col )
+{
+   std::cout << " Method MvObs::feedbackValue() not implemented yet" << std::endl;
+   exit(0);
+
+   return _bufrIn->feedbackValue( col, _subsetNr );
+}
+
+double MvObs::feedbackValue( int row, int col )
+{
+   std::cout << " Method MvObs::feedbackValue(int,int) not implemented yet" << std::endl;
+   exit(0);
+
+   return _bufrIn->feedbackValue( row, col, _subsetNr );
+}
+
+string MvObs::feedbackItemName( int row )
+{
+   std::cout << " Method MvObs::feedbackItemName(int) not implemented yet" << std::endl;
+   exit(0);
+
+   return _bufrIn->feedbackItemName( row, _subsetNr );
+}
+
+string MvObs::feedbackItemUnit( int row )
+{
+   std::cout << " Method MvObs::feedbackItemUnit(int) not implemented yet" << std::endl;
+   exit(0);
+
+   return _bufrIn->feedbackItemUnit( row, _subsetNr );
+}
+#endif
+
+//______________________________________________________________ hasConfidences
+bool
+MvObs::hasConfidences()
+{
+   std::cout << "MvObs :: hasConfidences() -> not yet implemented" << std::endl;
+   exit(0);
+
+  return _confidence->hasConfidences();
+}
+//__________________________________________________________________ confidence
+int
+MvObs::confidence()
+{
+   std::cout << "MvObs :: confidence() -> not yet implemented" << std::endl;
+   exit(0);
+
+#ifdef MV_BUFRDC_TEST
+  return _bufrIn->_currentDescrInd > -1 ?
+         _confidence->confidenceByIndex( _bufrIn->_currentDescrInd ) : -1;
+#endif
 }
 
 #ifdef METVIEW
@@ -2839,6 +4978,10 @@ MvObs::writeConfidenceValues(ostream& aStream)
 unsigned char*
 MvObs::OperaRadarImage(  )
 {
+   std::cout << " Method MvObs::OperaRadarImage() not implemented yet" << std::endl;
+   exit(0);
+
+#if 0 //FAMI20171011
    const float cRadarMissingVal = 255;       //-- BUFR radar pixel with no data
    const float cMyMissingValue = 0;          //-- output radar pixel with no data
 
@@ -2876,7 +5019,8 @@ MvObs::OperaRadarImage(  )
       throw MvException( "MvObs::OperaRadarImage: unable to get Row Number element!" );
    }
                                                      //-- "FortranIndex": 0,1,2,...
-   int rowRepeatCount = (*this)[firstRowStartIndex]; //-- operator[i], i=1,2,3,...
+   // the following line assigns an unused variable, but the line is still essential
+//   int rowRepeatCount = (*this)[firstRowStartIndex]; //-- operator[i], i=1,2,3,...
    long currentDescr = currentDescriptor();
    if( currentDescr != 31002 )
    {
@@ -2888,7 +5032,7 @@ MvObs::OperaRadarImage(  )
    //-
 
    unsigned char* radimg = new unsigned char[n_rows*n_cols];
-   cout << "radimg size: " << n_rows << "*" << n_cols << " = " << n_rows*n_cols << endl;
+   std::cout << "radimg size: " << n_rows << "*" << n_cols << " = " << n_rows*n_cols << std::endl;
 
    int startPos = firstRowStartIndex - 1;    //-- start of radimg pixels
    int pixelPos = 0;
@@ -2917,7 +5061,7 @@ MvObs::OperaRadarImage(  )
             }
 
             cerr << "MvObs::OperaRadarImage: expected 30001 or 30002, found "
-                 << nextCurrDescr << endl;
+                 << nextCurrDescr << std::endl;
             throw MvException( "MvObs::OperaRadarImage: internal or data error => debug needed" );
          }
 
@@ -2947,10 +5091,14 @@ MvObs::OperaRadarImage(  )
          radimg[pixelPos++] = (unsigned char)currVal;      //-- individual data value
       }
    }
-   cout << "Last pixel pos: " << pixelPos << endl;
-   cout << "Max pixel value: " << imax << endl;
+   std::cout << "Last pixel pos: " << pixelPos << std::endl;
+   std::cout << "Max pixel value: " << imax << std::endl;
 
    return radimg;
+#else
+   unsigned char* str = (unsigned char*)' ';
+   return str;
+#endif //FAMI20171011
 }
 //---
 //-- Extracts OPERA radar image metadata that is required
@@ -2963,7 +5111,42 @@ MvObs::OperaRadarMetadata( /* <aki> arguments? */ )
 {
    return false;
 }
-#endif
+#endif //METVIEW
+
+#ifdef MV_BUFRDC_TEST
+//________________________________________________________________ subsetOffset
+int
+MvObs::subsetOffset() const
+{
+   std::cout << "MvObs :: subsetOffset() -> not implemented yet" << std::endl;
+   exit(0);
+
+  return ( _subsetNr - 1 ) * In_KELEM;
+}
+//________________________________________________________________ writeConfidenceValues
+bool
+MvObs::writeConfidenceValues(ostream& aStream)
+{
+   std::cout << "MvObs::writeConfidenceValues() -> not implemented yet" << std::endl;
+   exit(0);
+
+   if( ! msg_ok() || ! _confidence->hasConfidences() )
+    return false;
+
+  if( _bufrIn->_inState != kBufrIn_DataAndDescriptorsDecoded )
+    _bufrIn->ExpandDescriptors( _subsetNr );
+
+  if( _bufrIn->_inState == kBufrIn_DataAndDescriptorsDecoded )
+    {
+      long  myStartingIndex = _confidence->lastDataIndex()+1;
+      long  myEndingIndex =  In_KTDEXL;
+      writeValues(aStream,myStartingIndex, myEndingIndex);
+      return true;
+   }
+
+   return false;
+}
+#endif //MV_BUFRDC_TEST
 
 //=============================================================================
 //                                                                 vk April -95
@@ -2978,8 +5161,17 @@ MvObs::OperaRadarMetadata( /* <aki> arguments? */ )
 //  * Data Present group is used to define index into Confidence group
 //____________________________________________________________ MvBufrConfidence
 
+#ifdef MV_BUFRDC_TEST
 MvBufrConfidence :: MvBufrConfidence( MvBufr* aBufr, int aSubsetNr )
+#else
+MvBufrConfidence :: MvBufrConfidence( int aSubsetNr )
+#endif
+
 {
+   std::cout << " Method MvBufrConfidence::MvBufrConfidence() not implemented yet" << std::endl;
+//e   exit(0);
+
+#ifdef MV_BUFRDC_TEST
   _bufr = aBufr;
   if( _bufr )
     _bufr->attach();
@@ -2987,18 +5179,27 @@ MvBufrConfidence :: MvBufrConfidence( MvBufr* aBufr, int aSubsetNr )
   _state = kBCS_unknown;
   _startOfDataPresent = -2;
   _startOfConfidences = -2;
+#endif
 }
 //___________________________________________________________ ~MvBufrConfidence
 
 MvBufrConfidence :: ~MvBufrConfidence()
 {
-  if( _bufr )
+//e   std::cout << " Method MvBufrConfidence::~MvBufrConfidence() not implemented yet" << std::endl;
+//e   exit(0);
+#ifdef MV_BUFRDC_TEST
+   if( _bufr )
     _bufr->detach();
+#endif
 }
 //______________________________________________________________ hasConfidences
 bool
 MvBufrConfidence :: hasConfidences()
 {
+   std::cout << " Method MvBufrConfidence::hasConfidences() not implemented yet" << std::endl;
+   exit(0);
+
+#ifdef MV_BUFRDC_TEST
   if( ! _bufr )
     return false;
 
@@ -3006,18 +5207,28 @@ MvBufrConfidence :: hasConfidences()
     _state = _bufr->descriptorToFortranIndex( 222000L ) > 0 ? kBCS_exists : kBCS_missing;
 
   return _state == kBCS_exists ? true : false;
+#endif
 }
 //_______________________________________________________________ confidence
 int
 MvBufrConfidence :: confidence( long aDescr )
 {
+   std::cout << " Method MvBufrConfidence::confidence() not implemented yet" << std::endl;
+   exit(0);
+
+#ifdef MV_BUFRDC_TEST
   int myDataIndex = _bufr->descriptorToFortranIndex( aDescr );
   return myDataIndex > -1 ? confidenceByIndex( myDataIndex ) : -1;
+#endif
 }
 //___________________________________________________________ confidenceByIndex
 int
 MvBufrConfidence :: confidenceByIndex( int aDataInd )
 {
+   std::cout << " Method MvBufrConfidence::confidenceByIndex() not implemented yet" << std::endl;
+   exit(0);
+
+#ifdef MV_BUFRDC_TEST
   int myConfidenceInd = -1;
 
   if( hasConfidences() )
@@ -3041,12 +5252,18 @@ MvBufrConfidence :: confidenceByIndex( int aDataInd )
 
   return myConfidenceInd > -1 ?
             (int)(_bufr->PeekDataValue( myConfidenceInd, _subsetNr )) : -1;
+#endif
 }
 //_______________________________________________________________ lastDataIndex
 int
 MvBufrConfidence :: lastDataIndex()
 {
+   std::cout << " Method MvBufrConfidence::lastDataIndex() not implemented yet" << std::endl;
+   exit(0);
+
+#ifdef MV_BUFRDC_TEST
   return hasConfidences() ? _bufr->descriptorToFortranIndex( 222000L ) - 1 : -1;
+#endif
 }
 //__________________________________________________________ startOfDataPresent
 // Q&D hack !!!
@@ -3054,6 +5271,10 @@ MvBufrConfidence :: lastDataIndex()
 int
 MvBufrConfidence :: startOfDataPresent()
 {
+   std::cout << " Method MvBufrConfidence::startOfDataPresent() not implemented yet" << std::endl;
+   exit(0);
+
+#ifdef MV_BUFRDC_TEST
   if( _startOfDataPresent == -2 )
   {
     if( hasConfidences() )
@@ -3061,13 +5282,14 @@ MvBufrConfidence :: startOfDataPresent()
       _startOfDataPresent = _bufr->descriptorToFortranIndex( 31031L );
       if( _startOfDataPresent < 1 )
       {
-	cerr << "[MvBufrConfidence::startOfDataPresent] Q&D hack does not work!!" << endl;
+    cerr << "[MvBufrConfidence::startOfDataPresent] Q&D hack does not work!!" << std::endl;
 	_state = kBCS_missing;
       }
     }
   }
 
   return hasConfidences() ? _startOfDataPresent : -1;
+#endif
 }
 //_______________________________________________________________ startOfConfidences
 // Q&D hack !!!
@@ -3075,6 +5297,10 @@ MvBufrConfidence :: startOfDataPresent()
 int
 MvBufrConfidence :: startOfConfidences()
 {
+   std::cout << " Method MvBufrConfidence::startOfConfidences() not implemented yet" << std::endl;
+   exit(0);
+
+#ifdef MV_BUFRDC_TEST
   if( _startOfConfidences == -2 )
   {
     if( hasConfidences() )
@@ -3082,18 +5308,23 @@ MvBufrConfidence :: startOfConfidences()
       _startOfConfidences = _bufr->descriptorToFortranIndex( 33007L );
       if( _startOfConfidences < 1 )
       {
-	cerr << "[MvBufrConfidence::startOfConfidences] Q&D hack does not work!!" << endl;
+    cerr << "[MvBufrConfidence::startOfConfidences] Q&D hack does not work!!" << std::endl;
 	_state = kBCS_missing;
       }
     }
   }
 
   return hasConfidences() ? _startOfConfidences : -1;
+#endif
 }
 //_______________________________________________________________ delta
 int
 MvBufrConfidence :: delta( int anInd )
 {
+   std::cout << " Method MvBufrConfidence::delta() not implemented yet" << std::endl;
+   exit(0);
+
+#ifdef MV_BUFRDC_TEST
   if( hasConfidences() )
   {
     int myDelta = 0;
@@ -3106,6 +5337,7 @@ MvBufrConfidence :: delta( int anInd )
   }
   else
     return -1;
+#endif
 }
 
 //________________________________________________________________________
@@ -3114,6 +5346,9 @@ MvBufrConfidence :: delta( int anInd )
 
 MvBufrParam :: MvBufrParam( const char *aParamName )
 {
+   std::cout << " Method MvBufrParam::MvBufrParam() not implemented yet" << std::endl;
+   exit(0);
+
    descriptorStruct *par = knownParams;
    while( par->descriptor != 0 )
    {
@@ -3124,7 +5359,7 @@ MvBufrParam :: MvBufrParam( const char *aParamName )
       }
       ++par;
    }
-   cerr << " >>> MvBufrParam::MvBufrParam: param not defined: " << aParamName << endl;
+   std::cerr << " >>> MvBufrParam::MvBufrParam: param not defined: " << aParamName << std::endl;
    fDescriptor = 0;
 }
 //_____________________________________________________________ PrintAllKnownParameters
@@ -3132,22 +5367,26 @@ MvBufrParam :: MvBufrParam( const char *aParamName )
 void
 MvBufrParam :: PrintAllKnownParameters() const
 {
+   std::cout << " Method MvBufrParam::PrintAllKnownParameters() not implemented yet" << std::endl;
+   exit(0);
+
    descriptorStruct *par = knownParams;
-   cout << " The Known Parameters of class MvBufrParam and the corresponding Descriptors:\n";
+   std::cout << " The Known Parameters of class MvBufrParam and the corresponding Descriptors:\n";
    while( par->descriptor != 0 )
    {
-      cout << "\n";
-      cout.width( 16 );
-      cout.fill( ' ' );
-      cout << par->name << " = ";
-      cout.width( 6 );
-      cout.fill( '0' );
-      cout << par->descriptor;
+      std::cout << "\n";
+      std::cout.width( 16 );
+      std::cout.fill( ' ' );
+      std::cout << par->name << " = ";
+      std::cout.width( 6 );
+      std::cout.fill( '0' );
+      std::cout << par->descriptor;
       ++par;
    }
-   cout << endl;
+   std::cout << std::endl;
 }
 
+#ifdef MV_BUFRDC_TEST
 //-------------------- Helper functions to redirect stdout ----------------
 // This function will duplicate the file descriptor for stdout, and keep
 // it for later. Then stdout is connected to the file given as arg.
@@ -3156,7 +5395,9 @@ MvBufrParam :: PrintAllKnownParameters() const
 
 bool redirect_6(const char *fname)
 {
-  cout << " redirect_6: redirect stdout into file " << fname << endl;
+   std::cout << " Method redirect_6() BUFRDC implementation" << std::endl;
+
+  std::cout << " redirect_6: redirect stdout into file " << fname << std::endl;
   char *tmp_dir;
   // Set the output dir. if it's not set.
   if ( redirect_dir == string("") )
@@ -3179,7 +5420,7 @@ bool redirect_6(const char *fname)
 
   new_fd = dup(STDOUT_FILENO);
 
-  cout << "new_fd: " << new_fd << endl;
+  std::cout << "new_fd: " << new_fd << std::endl;
 
   close(STDOUT_FILENO);
 
@@ -3189,7 +5430,7 @@ bool redirect_6(const char *fname)
   // Will fail if stdin is explicitly closed and no fopens are done
   if ( ! (fopen(tmp_name.c_str(),"w")) )
     {
-	    cerr << "Problems opening file " << (const char*)tmp_name.c_str() << " for writing" << endl;
+        cerr << "Problems opening file " << (const char*)tmp_name.c_str() << " for writing" << std::endl;
       return false;
     }
 
@@ -3202,6 +5443,8 @@ bool redirect_6(const char *fname)
 //
 bool reconnect_6()
 {
+   std::cout << " Method reconnect_6() BUFRDC implementation" << std::endl;
+
   // Make sure we get everything before closing.
   fflush(NULL);
   close(STDOUT_FILENO);
@@ -3210,11 +5453,11 @@ bool reconnect_6()
   close(new_fd);
   if( ret < 0 )
     {
-      cerr << " reconnect_6: reconnecting into stdout FAILED!" << endl;
-      cout << " reconnect_6: reconnecting into stdout FAILED!" << endl;
+      cerr << " reconnect_6: reconnecting into stdout FAILED!" << std::endl;
+      std::cout << " reconnect_6: reconnecting into stdout FAILED!" << std::endl;
       return false;
     }
-  cout << " reconnect_6: reconnected into stdout!" << endl;
+  std::cout << " reconnect_6: reconnected into stdout!" << std::endl;
   return ret > 0 ;
 }
 
@@ -3223,6 +5466,8 @@ bool reconnect_6()
 //
 bool file_to_stream(const char *fname,ostream &aStream,int skip)
 {
+   std::cout << " Method file_to_stream() BUFRDC implementation" << std::endl;
+
   const int MAX_LINE_LEN = 512;
   char      supposedToBeANewLine;
   string    myTmpFileName;
@@ -3233,7 +5478,7 @@ bool file_to_stream(const char *fname,ostream &aStream,int skip)
 
   if ( ! myTmpFile )
     {
-	    aStream << "Can not read file " << (const char*)myTmpFileName.c_str() << endl;
+        aStream << "Can not read file " << (const char*)myTmpFileName.c_str() << std::endl;
       return false;
     }
 
@@ -3245,7 +5490,7 @@ bool file_to_stream(const char *fname,ostream &aStream,int skip)
   while( myTmpFile && !myTmpFile.eof() )
     {
       if ( i++ >= skip )
-	aStream << myLine << endl;
+    aStream << myLine << std::endl;
 
       myTmpFile.get( myLine, MAX_LINE_LEN, '\n' );
       myTmpFile.get( supposedToBeANewLine );
@@ -3258,12 +5503,16 @@ bool file_to_stream(const char *fname,ostream &aStream,int skip)
 
 void delete_print_file(const char *name)
 {
+   std::cout << " Method delete_print_file() BUFRDC implementation" << std::endl;
+
   string fname = redirect_dir + "/" + name;
   unlink(fname.c_str());
 }
 
 void eraseWhiteSpaceFromStringEnd(string &str)
 {
+   std::cout << " Method eraseWhiteSpaceFromStringEnd() BUFRDC implementation" << std::endl;
+
    static string whitespaces (" \t\f\v\n\r");
    size_t found=str.find_last_not_of(whitespaces);
    if (found!=string::npos)
@@ -3274,13 +5523,17 @@ void eraseWhiteSpaceFromStringEnd(string &str)
 
 string intToString(int i)
 {
-	stringstream out;
+   std::cout << " Method intToString() BUFRDC implementation" << std::endl;
+
+ 	stringstream out;
 	out << i;
 	return out.str();
 }
 
 string floatToString(float f)
 {
+   std::cout << " Method floatToString() BUFRDC implementation" << std::endl;
+
 	stringstream out;
 	out << f;
 	return out.str();
@@ -3288,10 +5541,119 @@ string floatToString(float f)
 
 void keyToStringMap(map<string,string> &data,string keyName,fortint *keyArray,int fortIndex)
 {
+   std::cout << " Method keyToStringMap(1) BUFRDC implementation" << std::endl;
+
 	data[keyName]=intToString(keyArray[fortIndex-1]);
 }
 
 void keyToStringMap(map<string,string> &data,string keyName,float keyValue)
 {
+   std::cout << " Method keyToStringMap(2) BUFRDC implementation" << std::endl;
+
 	data[keyName]=floatToString(keyValue);
 }
+#endif //MV_BUFRDC_TEST
+
+
+#ifdef MV_BUFRDC_TEST
+//ec ---------------------------------------------------------
+// temporary functions
+
+void TEMPCHECKVALUEDOUBLE(double myValue,double myValue1,const string& name,long descriptor)
+{
+double dd = 1.e+20;
+double delta = 0.001;
+//if ( myValue > kBufrMissingValue-dd && myValue1 > kFortranBufrMissingValue-dd )
+if ( myValue > dd && myValue1 > dd )
+   return;
+
+if ( myValue > dd || myValue1 == kBufrMissingValue )
+{
+   printf("Different values but I think bufrdc is wrong -> continue: %s %ld %f %f \n",name.c_str(),descriptor,myValue,myValue1);
+   return;
+}
+
+if ( fabs(myValue-myValue1) > delta )
+{
+   if ( descriptor == 5001 || descriptor == 5002 ||
+        descriptor == 6001 || descriptor == 6002 )
+   {
+      printf("Different values but I think bufrdc is wrong -> continue: %s %ld %f %f \n",name.c_str(),descriptor,myValue,myValue1);
+      return;
+   }
+   printf("Different values: %s %ld %f %f \n",name.c_str(),descriptor,myValue,myValue1);
+   exit(0);
+}
+}
+
+void TEMPCHECKVALUELONG(long myValue,long myValue1,bool isLevel)
+{
+if ( myValue == CODES_MISSING_LONG && myValue1 == kFortranBufrMissingIntValue )
+   return;
+
+// if it is Level values related, BUFRDC uses hardcoded value 07004 for 
+// parameter "pressure". However, ecCodes also uses other descriptor values,
+// e.g. 10004, which also translate to parameter "pressure". Therefore, 
+// in some cases (synop, for example) function numberOfPressureLevels returns
+// 0 in BUFRDC and 1 in ecCodes (descriptor 10004 is translated to key "pressure").
+if (isLevel)
+{
+   if( myValue != myValue1 && myValue != (myValue1+1) )
+   {
+      printf("Different values (Pressure level): %ld %ld \n",myValue,myValue1);
+      exit(0);
+   }
+   else return;
+}
+if ( myValue < myValue1 || myValue > myValue1 )
+{
+   printf("Different values: %ld %ld \n",myValue,myValue1);
+   exit(0);
+}
+}
+
+void TEMPCHECKVALUESTRING(string& myValue,string& myValue1)
+{
+#if 0
+// remove blanks and transform to lowercase
+string c1;
+for(int i=0; i<myValue.size(); i++)
+{
+   char cc = myValue[i];
+   if (cc != ' ')
+      c1 += tolower(cc);
+}
+
+// remove blanks and transform to lowercase
+string c2;
+for(int i=0; i<myValue1.size(); i++)
+{
+   char cc = myValue1[i];
+   if (cc != ' ')
+      c2 += tolower(cc);
+}
+
+// remove occurrence tag, if exists
+std::size_t found = c1.find("#1#");
+if (found!=std::string::npos)
+   c1 = c1.substr(found+3);
+
+if ( c1 != c2 )
+{
+   if ( (c1 == "centre" && c2 == "identificationoforiginating/generatingcentre") ||
+        c2.find("latitude") != std::string::npos ||
+        c2.find("longitude") != std::string::npos ||
+        (c1 == "blocknumber" && c2 == "wmoblocknumber") ||
+        (c1 == "stationnumber" && c2 == "wmostationnumber") ||
+        c1.find("codetable") != std::string::npos ||
+        c1.find("stationtype") != std::string::npos
+      )
+      return;
+
+   std::cout << "STRINGS DIFFERENTS: " << c1.c_str() << " " << c2.c_str() << std::endl;
+   exit(0);
+}
+#endif
+}
+
+#endif //MV_BUFRDC_TEST

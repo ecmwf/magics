@@ -559,15 +559,22 @@ void ObsDecoder::decode()
 		return;
 	}
 	// Test 
-        MvObsSetIterator obsIterator(obsSet);
+   MvObsSetIterator obsIterator(obsSet);
 	MvObs obs = obsIterator();
 
-	ostringstream title;
-	title << "Observation: " << obs.obsTime() << " [ type = " << obs.messageType() << " , subtype = " << obs.messageSubtype() << "]";
-	title_ = title.str();
-        
+   bool first = true;
 	while (obs)
 	{
+      obs.expand();  // message needs to be expanded from here
+
+      if ( first )
+      {
+         ostringstream title;
+         title << "Observation: " << obs.obsTime() << " [ type = " << obs.messageType() << " , subtype = " << obs.messageSubtype() << "]";
+         title_ = title.str();
+         first = false;
+      }
+
 		MvLocation location = obs.location();
 #ifdef OBS_DEBUG_
 		MagLog::debug() << obsIterator.msgNumber() << " " << location << " " << obs.obsTime() << " " << obs.WmoIdentNumber()
@@ -612,12 +619,13 @@ void ObsDecoder::getInfo(const std::set<string>& tokens, multimap<string, string
 		string value;
 		try {
 			BufrAccessor* accessor = SimpleObjectMaker<BufrAccessor>::create(*token);
-			MvObsSetIterator   obsIterator(obsSet);
+			MvObsSetIterator obsIterator(obsSet);
 			MvObs obs;
 			accessor->print();
 			obs = obsIterator();        
 			while (obs)
 			{
+            // Probably bufr message does not need to be expanded
 				(*accessor)(*this, obs, value);
 				if ( value != "") noduplicate.insert(value);
 				obs = obsIterator();
@@ -653,12 +661,6 @@ void ObsDecoder::customisedPoints(const Transformation& transformation, const st
 	MvObsSetIterator obsIterator(obsSet);
 	MvObs obs = obsIterator();
 
-	ostringstream title;
-	title << "Observation: " << obs.obsTime() << " [ type = " << obs.messageType() << " , subtype = " << obs.messageSubtype() << "]";
-	title_ = title.str();
-
-	MagLog::debug() << " ObsTitle: "<< title_ << "\n";
-
 	VectorOfPointers<vector<BufrAccessor*> > accessors;
 	for (std::set<string>::const_iterator token = tokens.begin(); token != tokens.end(); ++token)
 	{
@@ -691,14 +693,28 @@ void ObsDecoder::customisedPoints(const Transformation& transformation, const st
 	BufrAccessor* type_accessor = SimpleObjectMaker<BufrAccessor>::create("type");
 	string type;
 	BufrAccessor* level_accessor = new BufrAccessor("pressure");
+
+   bool first = true;
 	double level;
-    
 	while (obs)
 	{
 		(*type_accessor)(*this, obs, type);
 		
 		if ( findInTypes(type) )
 		{
+         // At this point, the bufr message needs to be expanded
+         obs.expand();
+
+         // Create title
+         if ( first )
+         {
+            ostringstream title;
+            title << "Observation: " << obs.obsTime() << " [ type = " << obs.messageType() << " , subtype = " << obs.messageSubtype() << "]";
+            title_ = title.str();
+            MagLog::debug() << " ObsTitle: "<< title_ << "\n";
+            first = false;
+         }
+
 			(*level_accessor)(*this, obs, level);
 			if (multilevels_[obs.messageType()] == false || checkLevel(level) )
 			{				

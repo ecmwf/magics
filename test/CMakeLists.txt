@@ -36,7 +36,7 @@ ecbuild_add_test( TARGET bufr_python
                   TYPE PYTHON
                   CONDITION HAVE_BUFR AND HAVE_PYTHON
                   ARGS bufr.py
-                  RESOURCES bufr.py data.bufr 
+                  RESOURCES bufr.py synop.bufr 
                   ENVIRONMENT PYTHONPATH=${MAG_PYTHON_PATH}
                               LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib
                               MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/.. )
@@ -45,13 +45,13 @@ ecbuild_add_test( TARGET bufr_fortran
                   SOURCES   bufr.f90
                   LIBS      MagPlusSingle MagPlus
                   CONDITION HAVE_BUFR AND HAVE_FORTRAN
-                  RESOURCES data.bufr
+                  RESOURCES synop.bufr
                   LINKER_LANGUAGE Fortran 
                   ENVIRONMENT MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/..)
 
 ecbuild_add_test( TARGET bufr_fortran_static
                   SOURCES   bufr.f90
-                  RESOURCES data.bufr
+                  RESOURCES synop.bufr
                   LIBS      MagPlusSingleStatic MagPlusStatic
                   CONDITION HAVE_BUFR AND HAVE_FORTRAN AND BUILD_SHARED_LIBS STREQUAL "BOTH"
                   ENVIRONMENT MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/..
