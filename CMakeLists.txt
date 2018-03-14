@@ -315,9 +315,7 @@ ecbuild_add_resources( TARGET old_ressources
 		docs
 <<<<<<< Updated upstream
 		toolsjs
-=======
-		toolsjs 
->>>>>>> Stashed changes
+		notebook
 		test/old
 		tools/xml
 		tools/use_scripts

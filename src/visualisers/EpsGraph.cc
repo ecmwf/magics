@@ -751,7 +751,6 @@ void EpsGraph::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 	for (CustomisedPointsList::const_iterator point = points.begin(); point != points.end(); ++point) {
 		resolution_ = (**point)["resolution"];
 		double missing = (**point)["missing"];
-		
 		double x = (**point)["step"] + box_shift_ *3600;
 		double width = (box_width_ == -1) ? (**point)["width"] : box_width_ * 3600;
 		
@@ -1043,12 +1042,12 @@ void EpsLight::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 
 		std::sort(eps.begin(), eps.end());
 
-		for (vector<double>::iterator e = eps.begin(); e != eps.end(); ++e) {
+		for (vector<double>::iterator e = eps.begin(); e != eps.begin(); ++e) {
 			if ( same(*e, 0) )
 				*e = 0;
-	        
 	    }
-	   
+
+	        
         double epsmin, eps10, eps25,  eps50, eps75, eps90, epsmax;
         if ( ninty != (*point)->end() ) {
         	epsmin = eps[0];
@@ -1452,9 +1451,8 @@ void EpsWind::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 					if ( value != (*point)->end() ) {
 
 						val += ( value->second > 9998.) ? 0 :  value->second;
-						cout << value->second << " ---> " << val << endl;
 					}
-				}			
+		        }			
 				(**point)[direction->first] = val;
 				
 				
@@ -1795,10 +1793,15 @@ void EpsWave::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 				double val = 0;
 				for ( vector<string>::const_iterator key = classification.begin(); key != classification.end(); ++key) {
 					CustomisedPoint::const_iterator value = (*point)->find(direction->first + "_" + *key);
+<<<<<<< HEAD
 					if ( value != (*point)->end() ) {
 						val += (value->second > 9998.)  ? 0 : value->second;
 						cout << value->second << " ---> " << val << endl;
 					}
+=======
+					if ( value != (*point)->end() ) 
+						val += (value->second > 9998. ) ? 0 : value->second;
+>>>>>>> cbdaced49157aa4d878f67cf3ead9bccaa76d240
 				}			
 				(**point)[direction->first] = val;
 				
