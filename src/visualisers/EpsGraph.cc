@@ -1793,15 +1793,9 @@ void EpsWave::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 				double val = 0;
 				for ( vector<string>::const_iterator key = classification.begin(); key != classification.end(); ++key) {
 					CustomisedPoint::const_iterator value = (*point)->find(direction->first + "_" + *key);
-<<<<<<< HEAD
-					if ( value != (*point)->end() ) {
-						val += (value->second > 9998.)  ? 0 : value->second;
-						cout << value->second << " ---> " << val << endl;
-					}
-=======
+
 					if ( value != (*point)->end() ) 
 						val += (value->second > 9998. ) ? 0 : value->second;
->>>>>>> cbdaced49157aa4d878f67cf3ead9bccaa76d240
 				}			
 				(**point)[direction->first] = val;
 				
