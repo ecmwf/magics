@@ -313,7 +313,6 @@ ecbuild_add_resources( TARGET old_ressources
 		tools/regression
 		regression
 		docs
-<<<<<<< Updated upstream
 		toolsjs
 		notebook
 		test/old
