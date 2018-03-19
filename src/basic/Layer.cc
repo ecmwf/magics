@@ -631,9 +631,12 @@ void SceneLayer::text(TextVisitor* text)
 
 void SceneLayer::legend(LegendVisitor* legend)
 { 
-	legend_ = legend; 
-	if ( legend )
+	
+	if ( legend ) {
+		legend_ = legend; 
 		legendHandler_.icon(*legend);
+	}
+	legend = legend_;
 }
 
 bool SceneLayer::buildTree(const Layout& parent,  unsigned int frame, const BaseDriver& out) const
