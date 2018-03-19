@@ -31,6 +31,7 @@ include( ecbuild_system NO_POLICY_SCOPE )
 ecbuild_requires_macro_version( 2.6 )
 
 set (CMAKE_CXX_STANDARD 14)
+set (CMAKE_C_STANDARD 99)
 
 ###############################################################################
 # some variables of this project
@@ -74,7 +75,7 @@ ecbuild_add_option( FEATURE ODB
 ecbuild_add_option( FEATURE CAIRO
                     DEFAULT ON
                     DESCRIPTION "cairo support[png/jpeg]"
-                    REQUIRED_PACKAGES PangoCairo Pango PNG)
+                    REQUIRED_PACKAGES PangoCairo)
 
 ecbuild_add_option( FEATURE GEOTIFF
                     DEFAULT OFF
@@ -135,11 +136,6 @@ set( MAG_PYTHON_PATH ${CMAKE_CURRENT_BINARY_DIR}/python )
 ###############################################################################
 # projects
 
-# ecbuild_use_package( PROJECT eckit VERSION 0.3 REQUIRED )
-
-#ecbuild_add_cxx_flags("-gdwarf-2")
-ecbuild_add_c_flags("-std=c99")
-
 ### Metview and Qt
 ecbuild_info("TESTING for Metview and Qt ...")
 
@@ -190,11 +186,6 @@ ecbuild_declare_project()
 set( CMAKE_THREAD_PREFER_PTHREAD 1 )
 find_package( Threads )
 
-# set(Boost_USE_STATIC_LIBS        ON)
-# set(Boost_NO_SYSTEM_PATHS        ON)
-# set(Boost_USE_MULTITHREADED      ON)
-#ecbuild_add_extra_search_paths( boost )
-
 find_package( Boost 1.53.0 REQUIRED)
 find_package( Proj4 REQUIRED )
 find_package( EXPAT REQUIRED )
@@ -205,11 +196,9 @@ find_package( EXPAT REQUIRED )
 set( MAGICS_TPLS grib_api spot EXPAT NetCDF Proj4 libemos )
 
 set( MAGICS_INCLUDE_DIRS
-     ${CMAKE_CURRENT_SOURCE_DIR}/src
-     ${CMAKE_BINARY_SOURCE_DIR}/src
-     ${CMAKE_CURRENT_SOURCE_DIR}/src/common
-     ${CMAKE_CURRENT_BINARY_DIR}/src/params
      ${CMAKE_CURRENT_BINARY_DIR}/src
+     ${CMAKE_CURRENT_BINARY_DIR}/src/params
+     ${CMAKE_CURRENT_SOURCE_DIR}/src
      ${CMAKE_CURRENT_SOURCE_DIR}/src/common
      ${CMAKE_CURRENT_SOURCE_DIR}/src/basic
      ${CMAKE_CURRENT_SOURCE_DIR}/src/web
@@ -218,14 +207,13 @@ set( MAGICS_INCLUDE_DIRS
      ${CMAKE_CURRENT_SOURCE_DIR}/src/drivers/MgQ
      ${CMAKE_CURRENT_SOURCE_DIR}/src/eckit_readers
      ${CMAKE_CURRENT_SOURCE_DIR}/src/decoders
-     ${CMAKE_CURRENT_SOURCE_DIR}/src/terralib
      ${CMAKE_CURRENT_SOURCE_DIR}/src/terralib/kernel
      ${CMAKE_CURRENT_SOURCE_DIR}/src/libMagWrapper
      ${Boost_INCLUDE_DIRS} )
 
 if( HAVE_CAIRO )
-  list( APPEND MAGICS_TPLS PangoCairo PNG PANGO)
-  list( APPEND MAGICS_INCLUDE_DIRS ${PANGOCAIRO_INCLUDE_DIRS} )
+  list( APPEND MAGICS_EXTRA_LIBRARIES PangoCairo)
+  list( APPEND MAGICS_INCLUDE_DIRS ${PANGOCAIRO_INCLUDE_DIRS})
 endif()
 
 if( HAVE_ODB )
@@ -236,25 +224,22 @@ if( HAVE_ODB )
 		${ECKIT_INCLUDE_DIRS} )
 endif()
 
-set( MAGICS_LIBRARIES    MagPlus )
+set( MAGICS_LIBRARIES MagPlus )
 
 foreach( _tpl ${MAGICS_TPLS} )
     string( TOUPPER ${_tpl} TPL )
     if( NOT ${TPL} STREQUAL "LIBEMOS" ) # don't add libemos definitions
-    list( APPEND MAGICS_EXTRA_DEFINITIONS   ${${TPL}_DEFINITIONS}  )
+    list( APPEND MAGICS_EXTRA_DEFINITIONS ${${TPL}_DEFINITIONS}  )
     endif()
-    list( APPEND MAGICS_EXTRA_INCLUDE_DIRS  ${${TPL}_INCLUDE_DIRS} )
+    list( APPEND MAGICS_EXTRA_INCLUDE_DIRS ${${TPL}_INCLUDE_DIRS} )
     string(REGEX REPLACE "[ ]+$" "" ${TPL}_LIBRARIES "${${TPL}_LIBRARIES}") # strips leading whitespaces
     string(REGEX REPLACE "^[ ]+" "" ${TPL}_LIBRARIES "${${TPL}_LIBRARIES}") # strips trailing whitespaces
-    list( APPEND MAGICS_EXTRA_LIBRARIES     ${${TPL}_LIBRARIES} )
+    list( APPEND MAGICS_EXTRA_LIBRARIES ${${TPL}_LIBRARIES} )
     ecbuild_info("${TPL}_LIBRARIES [${${TPL}_LIBRARIES}]") # add this to confirm that indeed it was cleaned up
 endforeach()
 
 if( HAVE_BUFR )
-	list( APPEND MAGICS_EXTRA_DEFINITIONS   fortfloat=double fortint=int )
-endif()
-if( WITH_QT_DEBUG )
-	list( APPEND MAGICS_EXTRA_DEFINITIONS QT_NO_DEBUG_OUTPUT )
+	list( APPEND MAGICS_EXTRA_DEFINITIONS  fortfloat=double fortint=int )
 endif()
 
 if( MAGICS_QT )
@@ -262,9 +247,13 @@ if( MAGICS_QT )
     list( APPEND MAGICS_EXTRA_INCLUDE_DIRS  ${Qt5Widgets_INCLUDE_DIR} )
     list( APPEND MAGICS_EXTRA_LIBRARIES     ${Qt5Widgets_LIBRARIES} )
   else()
-	list( APPEND MAGICS_EXTRA_INCLUDE_DIRS  ${QT_INCLUDE_DIR} )
-	list( APPEND MAGICS_EXTRA_LIBRARIES     ${QT_LIBRARIES} )
-endif()
+	  list( APPEND MAGICS_EXTRA_INCLUDE_DIRS  ${QT_INCLUDE_DIR} )
+	  list( APPEND MAGICS_EXTRA_LIBRARIES     ${QT_LIBRARIES} )
+  endif()
+
+  if( WITH_QT_DEBUG )
+    list( APPEND MAGICS_EXTRA_DEFINITIONS QT_NO_DEBUG_OUTPUT )
+  endif()
 endif()
 
 if( HAVE_GEOTIFF )
@@ -284,22 +273,12 @@ get_directory_property( MAGICS_DEFINITIONS COMPILE_DEFINITIONS )
 
 include_directories( ${MAGICS_INCLUDE_DIRS} ${MAGICS_EXTRA_INCLUDE_DIRS} )
 
-# scripts
+
 add_subdirectory( tools )
-
-# source files
 add_subdirectory( src )
-
-# shared files
 add_subdirectory( share )
-
-# python interface
 add_subdirectory( python )
-
-# apps directory
 add_subdirectory( apps )
-
-# Test directory
 add_subdirectory( test )
 if( ENABLE_REGRESSION )
     add_subdirectory( regression )
@@ -319,6 +298,7 @@ ecbuild_add_resources( TARGET old_ressources
 		tools/xml
 		tools/use_scripts
 		tools/versioncmp_folders)
+
 ecbuild_add_resources( TARGET notebook
     DONT_PACK_DIRS notebook )
 
@@ -333,7 +313,8 @@ ecbuild_add_resources( TARGET internal
 # finalize
 
 set( MAGICS_DESCRIPTION "Multi-platform meteorological graphics library" )
-set( MAGICS_URL "https://software.ecmwf.int/wiki/display/MAGP/Magics" )
+set( MAGICS_URL "https://software.ecmwf.int/magics" )
+
 ecbuild_pkgconfig()
 
 ecbuild_install_project( NAME Magics )
