@@ -6,13 +6,9 @@
 #       -DCMAKE_MODULE_PATH=/path/to/ecbuild/cmake
 #
 #       -DCMAKE_C_COMPILER=gcc
-#       -DCMAKE_C_COMPILER=g++
 #
 #       -DCMAKE_PREFIX_PATH=/path/to/jasper:/path/to/any/package/out/of/place
-#       -DBUILD_SHARED_LIBS=OFF
-
-# Missing dependencies:
-#   * ghostscript ( is it really needed? -- to confirm )
+#
 
 cmake_minimum_required( VERSION 2.8.11 FATAL_ERROR )
 
@@ -24,9 +20,9 @@ project( magics CXX )
 # note also that we need to CACHE this so that ecbuild_declare_project() does not overwrite it
 set(INSTALL_INCLUDE_DIR include/magics CACHE PATH "Magics installation directory for header files")
 
-set( CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/../ecbuild/cmake")
+set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/../ecbuild/cmake")
 
-include( ecbuild_system NO_POLICY_SCOPE )
+include(ecbuild_system NO_POLICY_SCOPE)
 
 ecbuild_requires_macro_version( 2.6 )
 
@@ -42,7 +38,7 @@ set(ECCODES_FAIL_MSG "Note: grib_api can be used instead (select with -DENABLE_E
                       )
 
 ecbuild_add_option( FEATURE ECCODES DESCRIPTION "Use eccodes instead of grib_api"
-                    REQUIRED_PACKAGES "PROJECT eccodes VERSION 0.14 REQUIRED FAILURE_MSG ECCODES_FAIL_MSG"
+                    REQUIRED_PACKAGES "PROJECT eccodes VERSION 2.0 REQUIRED FAILURE_MSG ECCODES_FAIL_MSG"
                     DEFAULT ON )
 
 if( HAVE_ECCODES)
@@ -58,7 +54,6 @@ else()
 endif()
 
 
-# grib_api is required for now
 set( HAVE_GRIB 1 )
 
 ecbuild_add_option( FEATURE BUFR
@@ -72,10 +67,21 @@ ecbuild_add_option( FEATURE ODB
                     REQUIRED_PACKAGES "PROJECT odb_api VERSION 0.10.2")
 					#	"PROJECT eckit   VERSION 0.9.0" )
 
-ecbuild_add_option( FEATURE CAIRO
-                    DEFAULT ON
-                    DESCRIPTION "cairo support[png/jpeg]"
-                    REQUIRED_PACKAGES PangoCairo)
+#ecbuild_add_option( FEATURE CAIRO
+#                    DEFAULT ON
+#                    DESCRIPTION "cairo support[png/jpeg]"
+#                    REQUIRED_PACKAGES PangoCairo)
+
+option( ENABLE_CAIRO "cairo support[png/jpeg]" ON )
+if( ENABLE_CAIRO )
+  find_package(PangoCairo REQUIRED)
+  if( NOT PangoCairo_FOUND)
+    message(FATAL_ERROR "Cairo support (PNG & PDF output) requested, but requirements were not found - can be disabled with -DENABLE_CAIRO=OFF")
+  endif()
+  set(HAVE_CAIRO ON)
+else()
+  ecbuild_disable_feature( Cairo )
+endif()
 
 ecbuild_add_option( FEATURE GEOTIFF
                     DEFAULT OFF
