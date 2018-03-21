@@ -75,7 +75,7 @@ ecbuild_add_option( FEATURE ODB
 option( ENABLE_CAIRO "cairo support[png/jpeg]" ON )
 if( ENABLE_CAIRO )
   find_package(PangoCairo REQUIRED)
-  if( NOT PangoCairo_FOUND)
+  if( NOT PANGOCAIRO_FOUND)
     message(FATAL_ERROR "Cairo support (PNG & PDF output) requested, but requirements were not found - can be disabled with -DENABLE_CAIRO=OFF")
   endif()
   set(HAVE_CAIRO ON)
