@@ -171,7 +171,7 @@ bool TitleTemplate::verify(const GribDecoder& data) const
 //#ifdef MAGICS_EXCEPTION
 		try{
 			MagLog::debug() << "Try  to create the MatchCriteria for " << criter->first << "\n";
-			shared_ptr<MatchCriteria >  object(SimpleObjectMaker<MatchCriteria >::create(criter->first));
+			unique_ptr<MatchCriteria >  object(SimpleObjectMaker<MatchCriteria >::create(criter->first));
 			MagLog::debug() << "Found the MatchCriteria for " << criter->first << "\n";
 			if (!(*object).verify(data, criter->first, criter->second)) return false;
 		}

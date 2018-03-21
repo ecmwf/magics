@@ -65,7 +65,7 @@ public:
 	{% if param.enum  -%}
 	{{ param.to }} {{ param.member }}_;
 	{% else -%}
- 	shared_ptr<{{ param.to }}> {{ param.member }}_;
+ 	unique_ptr<{{ param.to }}> {{ param.member }}_;
 	{% endif -%}
 	{% endfor %} 
 

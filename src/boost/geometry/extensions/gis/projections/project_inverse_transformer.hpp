@@ -10,7 +10,7 @@
 #define BOOST_GEOMETRY_STRATEGY_PROJECT_INVERSE_TRANSFORMER_HPP
 
 
-#include <boost/shared_ptr.hpp>
+#include <boost/unique_ptr.hpp>
 
 #include <boost/geometry/core/coordinate_dimension.hpp>
 #include <boost/geometry/algorithms/convert.hpp>
@@ -31,7 +31,7 @@ namespace boost { namespace geometry { namespace projection
 template <typename Cartesian, typename LatLong>
 struct project_inverse_transformer
 {
-    typedef boost::shared_ptr<projection<LatLong, Cartesian> > projection_ptr;
+    typedef boost::unique_ptr<projection<LatLong, Cartesian> > projection_ptr;
 
     projection_ptr m_prj;
 

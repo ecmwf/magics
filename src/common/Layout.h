@@ -78,6 +78,8 @@ protected:
 	int thickness_;
 	LineStyle style_;
 	Colour colour_;
+	Colour background_;
+	
 	bool blanking_;
 	bool visible_;
 	friend class Layout;
@@ -192,14 +194,18 @@ public:
 		frame_.colour_ = other.frame_.colour_;
 		frame_.style_ = other.frame_.style_;
 		frame_.thickness_ = other.frame_.thickness_;
+		frame_.background_ = other.frame_.background_;
 	}
 	
-	void frame(bool blank, bool visible, const Colour& colour, LineStyle style, int thickness) {
+	void frame(bool blank, bool visible, const Colour& colour, 
+				LineStyle style, int thickness, const Colour& background) {
 		frame_.blanking_ = blank;
 		frame_.visible_ = visible;
 		frame_.colour_ = colour;
 		frame_.style_ = style;
 		frame_.thickness_ = thickness;
+		frame_.background_ = background;
+
 	}
 	
 	void zoomable(bool zoom = true) { zoomable_ = zoom; }

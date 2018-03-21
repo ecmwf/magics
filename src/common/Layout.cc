@@ -160,7 +160,9 @@ void LayoutFrame::blank(Layout& owner)
 	frame->setThickness(thickness_);
 	frame->setColour(visible_ ? colour_ : Colour("none"));
 	frame->setFilled(true);      
-	frame->setFillColour(Colour("white"));      
+	frame->setFillColour(background_);     
+
+	cout <<  "BLANK -->" << background_ << endl; 
 		
 	FillShadingProperties* shading = new FillShadingProperties();          
 
@@ -185,6 +187,15 @@ void LayoutFrame::frame(Layout& owner)
 	frame->setThickness(thickness_);
 	frame->setColour(colour_); 
 
+	//frame->setFilled(true);      
+	//frame->setFillColour(background_);     
+
+	cout <<  "FRAME -->" << background_ << endl; 
+		
+	FillShadingProperties* shading = new FillShadingProperties();          
+
+	//frame->setShading(shading);
+		
 	double px = (owner.maxX() - owner.minX())*0.00;
 	double py = (owner.maxY() - owner.minY())*0.00;
 	

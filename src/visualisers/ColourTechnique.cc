@@ -234,9 +234,12 @@ void PaletteColourTechnique::set(LevelSelection& out, LevelSelection& in, Colour
     for ( int i = 0; i < nb-1; i++) {
         
         if ( colour == colours_.end() ) {
-                if (policy_ == M_LASTONE)
+                if (policy_ == M_LASTONE) {
+                    cout << "REPEAT" << endl;
                     table.push_back(Colour(colours_.back()));
+                }
                 else {
+                    cout << "loop" << endl;
                     colour = colours_.begin();
                     table.push_back(Colour(*colour));
                     colour++;

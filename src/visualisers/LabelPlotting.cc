@@ -41,7 +41,7 @@ void LabelPlotting::prepare(NoGridPlotting& grid)
 	
 	if ( *colour_ == "UNDEFINED" ) {
 
-		colour_ = auto_ptr<Colour>(new Colour(grid.colour()));
+		colour_ = unique_ptr<Colour>(new Colour(grid.colour()));
 	}
 	
 	if ( longitudes_.empty() )

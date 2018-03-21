@@ -591,7 +591,7 @@ bool MagPlus::cartesianGrid(magics::MagRequest& in) {
 		haxis->icon("Horizontal Axis", "MAXIS");
 		haxis->label_type_ = xtype;
 
-		haxis->method_ = auto_ptr<AxisMethod>(MagTranslator<string, AxisMethod>()(in("X_AXIS_TYPE")));
+		haxis->method_ = unique_ptr<AxisMethod>(MagTranslator<string, AxisMethod>()(in("X_AXIS_TYPE")));
 		top()->push_back(haxis);
 	}
 
@@ -627,7 +627,7 @@ bool MagPlus::cartesianGrid(magics::MagRequest& in) {
 		VerticalAxis* vaxis = new VerticalAxis();
 		vaxis->icon("Vertical Axis", "MAXIS");
 		vaxis->label_type_ = ytype;
-		vaxis->method_ = auto_ptr<AxisMethod>(MagTranslator<string, AxisMethod>()(in("Y_AXIS_TYPE")));
+		vaxis->method_ = unique_ptr<AxisMethod>(MagTranslator<string, AxisMethod>()(in("Y_AXIS_TYPE")));
 		top()->push_back(vaxis);
 
 	}
@@ -1439,7 +1439,7 @@ bool MagPlus::symbol(magics::MagRequest& in)
 
     FortranAutomaticLegendVisitor* node = new FortranAutomaticLegendVisitor();
     		LegendMethod* method = new ContinuousLegendMethod();
-    		node->method_ = auto_ptr<LegendMethod>(method);
+    		node->method_ = unique_ptr<LegendMethod>(method);
     		node->getReady();
     		//top()->legend(node);
 	if ( geographical_ ) {

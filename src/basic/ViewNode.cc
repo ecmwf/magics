@@ -170,6 +170,7 @@ void ViewNode::prepareLayout(SceneLayer& tree)
 	frameHelper_->heightResolution(heightResolution()*width/100);
 
 	frameHelper_->frame(*layout_);
+	frameHelper_->blankIt();
 	frameHelper_->frameIt();
 	frameHelper_->clippIt(false);
 
@@ -448,7 +449,7 @@ void XmlViewNode::getReady()
 	layout_->height(height.percent());
 	
 	layout_->display(display_);	
-	layout_->frame(true, border_, *border_colour_, border_style_, border_thickness_);
+	layout_->frame(true, border_, *border_colour_, border_style_, border_thickness_, *background_);
 
 	BasicSceneObject::getReady();
 }
@@ -629,7 +630,7 @@ void FortranViewNode::getReady()
 	ParameterManager::set("subpage_x_position_internal", absx);
 	ParameterManager::set("subpage_y_position_internal", absy);
 
-	layout_->frame(true, frame_, *frame_colour_, frame_line_style_, frame_thickness_);
+	layout_->frame(true, frame_, *frame_colour_, frame_line_style_, frame_thickness_, *background_);
 	layout_->clippIt(clipping_);
 
 	BasicSceneObject::getReady();
