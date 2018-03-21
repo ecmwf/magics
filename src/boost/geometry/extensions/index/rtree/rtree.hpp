@@ -17,7 +17,7 @@
 #include <vector>
 
 #include <boost/concept_check.hpp>
-#include <boost/shared_ptr.hpp>
+#include <boost/unique_ptr.hpp>
 
 #include <boost/geometry/algorithms/area.hpp>
 
@@ -32,8 +32,8 @@ class rtree
 {
 public:
 
-    typedef boost::shared_ptr<rtree_node<Box, Value> > node_pointer;
-    typedef boost::shared_ptr<rtree_leaf<Box, Value> > leaf_pointer;
+    typedef boost::unique_ptr<rtree_node<Box, Value> > node_pointer;
+    typedef boost::unique_ptr<rtree_leaf<Box, Value> > leaf_pointer;
 
     /**
      * \brief Creates a rtree with 'maximum' elements per node and 'minimum'.

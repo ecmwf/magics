@@ -407,7 +407,7 @@ void XmlTextVisitor::getReady()
 	font_size_ = text.absolute();
 
 	layout_->display(ABSOLUTE);
-	layout_->frame(TextVisitorAttributes::blanking_, TextVisitorAttributes::border_, *TextVisitorAttributes::border_colour_, M_SOLID, 1);
+	layout_->frame(TextVisitorAttributes::blanking_, TextVisitorAttributes::border_, *TextVisitorAttributes::border_colour_, M_SOLID, 1, Colour("white"));
 
 }
 
@@ -588,7 +588,7 @@ void FortranAutomaticTextVisitor::getReady()
 
 	Dimension text(font_dimension_, 1, 10);
 	font_size_ = text.absolute();
-	layout_->frame(blanking_, border_, *border_colour_, border_line_style_, border_thickness_);
+	layout_->frame(blanking_, border_, *border_colour_, border_line_style_, border_thickness_, Colour("white"));
 }
 
 
@@ -607,7 +607,7 @@ void FortranPositionalTextVisitor::getReady()
 	layout_->height(adjustDimension(TextVisitorAttributes::height_, 20., BasicPositionalObject::absoluteHeight()));
 	Dimension text(font_dimension_, absoluteHeight(), 10);
 	font_size_ = text.absolute();
-	layout_->frame(TextVisitorAttributes::blanking_, TextVisitorAttributes::border_, *border_colour_, border_line_style_, border_thickness_);
+	layout_->frame(TextVisitorAttributes::blanking_, TextVisitorAttributes::border_, *border_colour_, border_line_style_, border_thickness_, Colour("white"));
 }
 
 

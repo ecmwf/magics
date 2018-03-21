@@ -51,8 +51,8 @@ void CalculateColourTechnique::print(ostream& out)  const
 
 void CalculateColourTechnique::set(const ColourTechniqueInterface& attributes)
 {
-    max_ = auto_ptr<Colour>(attributes.getMaxColour().clone());
-    min_ = auto_ptr<Colour>(attributes.getMinColour().clone());
+    max_ = unique_ptr<Colour>(attributes.getMaxColour().clone());
+    min_ = unique_ptr<Colour>(attributes.getMinColour().clone());
 	direction_ = attributes.getDirection();
 }
 

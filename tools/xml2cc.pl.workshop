@@ -315,7 +315,7 @@ EOF
     {
         print <<EOF;   
 	void set$method($to* $value) 
-		{ auto_ptr<$to> tmp($value); $member\_ = tmp; } 
+		{ unique_ptr<$to> tmp($value); $member\_ = tmp; } 
 	const $to&  get$method() const 
 		{ return *$member\_; }
      
@@ -352,7 +352,7 @@ EOF
         }
         else 
         {
-            print "\tauto_ptr<$to> $member\_;\n";  
+            print "\tunique_ptr<$to> $member\_;\n";  
         }
     }
 

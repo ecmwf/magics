@@ -12,7 +12,7 @@
 #include <map>
 #include <string>
 
-#include <boost/shared_ptr.hpp>
+#include <boost/unique_ptr.hpp>
 
 #include <boost/geometry/extensions/gis/projections/impl/factory_entry.hpp>
 #include <boost/geometry/extensions/gis/projections/parameters.hpp>
@@ -120,7 +120,7 @@ private:
     typedef std::map
         <
             std::string,
-            boost::shared_ptr
+            boost::unique_ptr
                 <
                     detail::factory_entry
                         <
