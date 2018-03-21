@@ -81,7 +81,7 @@ struct section
         , non_duplicate_index(-1)
     {
         assign_inverse(bounding_box);
-        for (register std::size_t i = 0; i < DimensionCount; i++)
+        for (std::size_t i = 0; i < DimensionCount; i++)
         {
             directions[i] = 0;
         }
@@ -191,7 +191,7 @@ struct check_duplicate_loop
     {
         if (! geometry::math::equals
                 (
-                    geometry::get<0, Dimension>(seg), 
+                    geometry::get<0, Dimension>(seg),
                     geometry::get<1, Dimension>(seg)
                 )
             )
@@ -462,7 +462,7 @@ struct sectionalize_box
         // (or polygon would be a helper-type).
         // Therefore we mimic a linestring/std::vector of 5 points
 
-        // TODO: might be replaced by assign_box_corners_oriented 
+        // TODO: might be replaced by assign_box_corners_oriented
         // or just "convert"
         point_type ll, lr, ul, ur;
         geometry::detail::assign_box_corners(box, ll, lr, ul, ur);
