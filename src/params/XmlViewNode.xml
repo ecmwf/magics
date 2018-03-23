@@ -27,7 +27,7 @@ does it submit to any jurisdiction.
 		 		<option xml="cartesian" fortran="none" include="CartesianTransformation.h" name="CartesianTransformation">		</option>
          		<option xml="taylor" fortran="taylor" include="TaylorProjection.h" name="TaylorProjection">		</option>
          		<option xml="tephigram" fortran="tephigram" include="Tephigram.h" name="Tephigram">		</option>
-         
+                <option xml="skew_t" fortran="skew_t" include="Skewt.h" name="Skewt">		</option>
          
 		</parameter>
 </class></magics>

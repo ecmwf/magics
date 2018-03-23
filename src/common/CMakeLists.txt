@@ -49,7 +49,7 @@ list( APPEND _common_srcs
 	Dimension.cc
 	XCoordinate.h YCoordinate.h marsmachine.h linux.h aix.h
 	Thread.h MutexCond.h Mutex.h AutoLock.h ThreadControler.h Task.h MagExceptions.h ThreadSingleton.h 
-	DataStats.h SciMethods.h Tephigram.cc  Tephigram.h
+    DataStats.h SciMethods.h Tephigram.cc  Tephigram.h Skewt.cc  Skewt.h
 
 # sources
 	Data.cc Matrix.cc MagicsCalls.cc Static.cc DriverStatic.cc MagLog.cc Colour.cc Transformation.cc MagException.cc
