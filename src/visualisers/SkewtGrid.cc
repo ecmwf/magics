@@ -121,7 +121,7 @@ void SkewtGrid::visit(DrawingVisitor& out)
             if ( label == labels.end() )
                 continue;
             //UserPoint point(*t, pressureFromTheta(theta, *t+273.15)/100.);
-            UserPoint point(*t, pmax);
+            UserPoint point(*t, tephi.getMaxY());
             PaperPoint xy = tephi(point);
             //if ( tephi.in(xy) ) {
              if ( 1 ) {
@@ -134,6 +134,18 @@ void SkewtGrid::visit(DrawingVisitor& out)
                 out.push_back(text);
             }
 
+             UserPoint point1(*t, tephi.getMinY());
+             PaperPoint xy1 = tephi(point1);
+             //if ( tephi.in(xy) ) {
+              if ( 1 ) {
+                  Text* text = new Text();
+
+                 text->addText(tostring(*t), font);
+                 //text->setAngle(-3.14/4);
+                 text->setBlanking(true);
+                 text->push_back(xy1);
+                 out.push_back(text);
+             }
         }
     }
 
@@ -234,11 +246,13 @@ void SkewtGrid::visit(DrawingVisitor& out)
             poly.setThickness(isobar_thickness_);
 
             PaperPoint xy = tephi(UserPoint(tmin, *p));
-            xy=PaperPoint(tephi.getMinPCX(),*p);
+            double yy=xy.y();
+            xy=PaperPoint(0,yy);
             poly.push_back(xy);
 
-            xy=PaperPoint(tephi.getMaxPCX(),*p);
+            //xy=PaperPoint(0,*p);
             //xy = tephi(UserPoint(tmax, *p));
+            xy=PaperPoint(100,yy);
             poly.push_back(xy);
 
             tephi(poly, out.layout());

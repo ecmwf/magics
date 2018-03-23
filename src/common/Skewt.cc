@@ -113,7 +113,10 @@ const double KAPPA=0.285611;
 PaperPoint Skewt::operator()(const UserPoint& xy)  const
 {
     double t= xy.x();
-    double p= (maxPCY_-minPCY_)*(y_min_- xy.y())/(y_min_ - y_max_);
+
+
+
+    double p= (maxPCY_-minPCY_)*(log(y_min_)- log(xy.y()))/(log(y_min_) - log(y_max_));
 
     //double f=(maxPCX_-minPCX_)/abs(maxPCY_-minPCY_);
 
