@@ -163,6 +163,8 @@ SegmentJoiner.h
 SegmentJoiner.cc
 SimplePolylineVisualiser.cc
 SimplePolylineVisualiser.h
+SkewtGrid.cc
+SkewtGrid.h
 Streamlines.h
 Streamlines.cc
 SymbolAdvancedTableMode.cc

@@ -60,6 +60,8 @@
 #include <GraphPlottingWrapper.h>
 #include <WindWrapper.h>
 
+#include <SkewtGrid.h>
+
 #include <UserPoint.h>
 #include "MagicsEvent.h"
 #include "MagJSon.h"
@@ -210,6 +212,7 @@ MagPlus::MagPlus() : root_(0), superpage_(-1), geographical_(true), mode_(intera
         sceneCreators_["TABLE_GEO_BINNING"] = &MagPlus::table;
         sceneCreators_["cartesian"] = &MagPlus::cartesianGrid;
         sceneCreators_["tephigram"] = &MagPlus::tephiGrid;
+        sceneCreators_["skewt"] = &MagPlus::skewtGrid;
         sceneCreators_["taylor"] = &MagPlus::taylorGrid;
 #ifdef HAVE_ODB
 	sceneCreators_["ODB_GEO_POINTS"] = &MagPlus::geoodb;
@@ -657,6 +660,31 @@ bool MagPlus::tephiGrid(magics::MagRequest& in)
 	}
 	return true; //< @note return value was missing, what should it return?
 }
+
+bool MagPlus::skewtGrid(magics::MagRequest& in)
+{
+    magics::MagRequest& tephi = in.getSubRequest("THERMO_GRID");
+    if ( tephi ) {
+
+        // use the user defined one
+        tephi.print();
+        TephiGridWrapper helper;
+        setIconInfo(tephi,*helper.object());
+        helper.set(tephi);
+
+        top()->push_back(helper.object());
+        setIconInfo(in,*helper.object());
+
+    }
+    else {
+        SkewtGrid* grid = new SkewtGrid();
+        grid->icon("SkewT Grid", "MTHERMO_GRID");
+        top()->push_back(grid);
+
+    }
+    return true; //< @note return value was missing, what should it return?
+}
+
 bool MagPlus::taylorGrid(magics::MagRequest& in)
 {
 	magics::MagRequest& taylor = in.getSubRequest("TAYLOR_GRID");

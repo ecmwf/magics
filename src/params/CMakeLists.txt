@@ -171,7 +171,7 @@ SelectionMode.xml
 ShadingTechnique.xml
 ShapeDecoder.xml
 SimpleOutLayerTechnique.xml
-
+Skewt.xml
 SymbolAdvancedTableMode.xml
 SymbolIndividualMode.xml
 SymbolInput.xml

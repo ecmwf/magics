@@ -13,5 +13,16 @@ CMakeLists.txt.user*
 .cproject
 .project
 
+#Qt creator
+magics.config
+magics_*.config
+*.creator
+*.creator.*
+magics.includes
+magics_*.includes
+magics.files
+magics_*.files
+
+
 
 *.sublime-workspace

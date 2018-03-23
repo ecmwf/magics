@@ -66,7 +66,8 @@ does it submit to any jurisdiction.
         		<option xml="mercator" fortran="mercator" include="Proj4Projection.h" name="Proj4Mercator">		</option>
 				<option xml="cartesian" fortran="cartesian" include="CartesianTransformation.h" name="CartesianTransformation">		</option>
         		<option xml="taylor" fortran="taylor" include="TaylorProjection.h" name="TaylorProjection">		</option>
-        		<option xml="tephigram" fortran="tephigram" include="Tephigram.h" name="Tephigram">		</option> 
+                <option xml="tephigram" fortran="tephigram" include="Tephigram.h" name="Tephigram">		</option>
+                <option xml="skewt" fortran="skewt" include="Skewt.h" name="Skewt">		</option>
               
 	</parameter>
 	<parameter from="float" name="subpage_y_position_internal" visible="off" default="-1" member="bottom_internal" to="float">
