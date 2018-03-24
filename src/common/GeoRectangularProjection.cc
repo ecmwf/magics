@@ -1,9 +1,9 @@
 /*
  * (C) Copyright 1996-2016 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
  */
@@ -52,7 +52,7 @@ GeoRectangularProjection::GeoRectangularProjection() : projection_(0)
 
   \todo do we need here a "delete projection_;" as in MercatorProjection::~MercatorProjection() ?
 */
-GeoRectangularProjection::~GeoRectangularProjection() 
+GeoRectangularProjection::~GeoRectangularProjection()
 {
 }
 
@@ -60,8 +60,8 @@ void GeoRectangularProjection::print(ostream& o) const
 {
 	o << "GeoRectangularProjection[";
 	GeoRectangularProjectionAttributes::print(o);
-	o << "]"; 
-} 
+	o << "]";
+}
 
 
 
@@ -71,10 +71,10 @@ PaperPoint GeoRectangularProjection::operator()(const UserPoint& point)  const
 		return  PaperPoint(point.x(), point.y(), point.value(), point.missing(), point.border(), 0, point.name());
 
 	}
-	
+
 	TeCoord2D geo = TeCoord2D(point.x()*TeCDR, point.y()*TeCDR);
 	TeCoord2D xy = projection_->LL2PC(geo);
-	
+
 	return PaperPoint(xy.x(), xy.y(), point.value(), point.missing(), point.border(), 0, point.name());
 }
 
@@ -92,8 +92,8 @@ void GeoRectangularProjection::revert(const PaperPoint& xy, UserPoint& point)  c
 		return;
 	}
 	TeCoord2D texy = TeCoord2D(xy.x(), xy.y());
-	TeCoord2D geo = projection_->PC2LL(texy);  
-	point = UserPoint(geo.x()*TeCRD, geo.y()*TeCRD);	
+	TeCoord2D geo = projection_->PC2LL(texy);
+	point = UserPoint(geo.x()*TeCRD, geo.y()*TeCRD);
 }
 
 
@@ -125,7 +125,7 @@ bool GeoRectangularProjection::needShiftedCoastlines()  const
 	return true;
 }
 
-void GeoRectangularProjection::boundingBox(double& xmin, double& ymin, 
+void GeoRectangularProjection::boundingBox(double& xmin, double& ymin,
 			double& xmax, double& ymax)  const
 {
 	xmin = std::min(min_longitude_, max_longitude_);
@@ -150,11 +150,11 @@ void GeoRectangularProjection::smallestBoundingBox(double& xmin, double& ymin,
 
 bool GeoRectangularProjection::verifyDef(const string& def) const
 {
-	return ( def == "EPSG:4326" || def == "CRS:84"); 
+	return ( def == "EPSG:4326" || def == "CRS:84");
 }
 
 
-void GeoRectangularProjection::aspectRatio(double& w, double& h) 
+void GeoRectangularProjection::aspectRatio(double& w, double& h)
 {
 	init();
 	Transformation::aspectRatio(w, h);
@@ -181,22 +181,22 @@ double GeoRectangularProjection::getMaxY()  const
 	return max_latitude_;
 }
 
-void GeoRectangularProjection::setMinX(double xx)  
+void GeoRectangularProjection::setMinX(double xx)
 {
 	min_longitude_ = xx;
 }
 
-void GeoRectangularProjection::setMinY(double yy)  
+void GeoRectangularProjection::setMinY(double yy)
 {
 	min_latitude_ = yy;
 }
 
-void GeoRectangularProjection::setMaxX(double xx)  
+void GeoRectangularProjection::setMaxX(double xx)
 {
 	max_longitude_ = xx;
 }
 
-void GeoRectangularProjection::setMaxY(double yy)  
+void GeoRectangularProjection::setMaxY(double yy)
 {
 	max_latitude_ = yy;
 }
@@ -232,10 +232,10 @@ void GeoRectangularProjection::gridLongitudes(const GridPlotting& grid)  const
 	{
 		Polyline poly;
 		poly.setAntiAliasing(false);
-	
+
 		for (double lat = min; lat <= max+step; lat += step)
 		{
-			( lat >  max ) ?  
+			( lat >  max ) ?
 				poly.push_back((*this)(UserPoint(*lon, max))) :
 				poly.push_back((*this)(UserPoint(*lon,lat)));
 		}
@@ -246,7 +246,7 @@ void GeoRectangularProjection::gridLongitudes(const GridPlotting& grid)  const
 void GeoRectangularProjection::gridLatitudes(const GridPlotting& grid)  const
 {
 	const vector<double>& latitudes = grid.latitudes();
-	
+
 	const double step = (max_longitude_ - min_longitude_)/20;
 	const vector<double>::const_iterator lat_end = latitudes.end();
 	for(vector<double>::const_iterator lat = latitudes.begin(); lat != lat_end; ++lat)
@@ -267,7 +267,7 @@ void GeoRectangularProjection::gridLatitudes(const GridPlotting& grid)  const
 
 /*!
  \brief generates text to mark longitudes at the top
- 
+
  \sa Text
 */
 void GeoRectangularProjection::labels(const LabelPlotting& label, TopAxisVisitor&)  const
@@ -277,7 +277,7 @@ void GeoRectangularProjection::labels(const LabelPlotting& label, TopAxisVisitor
 	const vector<double>& longitudes = label.longitudes();
 	const vector<double>::const_iterator lon_end = longitudes.end();
 	for(vector<double>::const_iterator lon = longitudes.begin(); lon != lon_end; ++lon)
-	{	
+	{
 		if ( *lon > min_longitude_ &&  *lon < max_longitude_ )
 		{
 			UserPoint point(*lon, cy);
@@ -288,7 +288,7 @@ void GeoRectangularProjection::labels(const LabelPlotting& label, TopAxisVisitor
 			text->setVerticalAlign(MBOTTOM);
 			text->push_back((*this)(point));
 		}
-	}       	
+	}
 }
 
 /*!
@@ -303,7 +303,7 @@ void GeoRectangularProjection::labels(const LabelPlotting& label, BottomAxisVisi
 	const vector<double>& longitudes = label.longitudes();
 	const vector<double>::const_iterator lon_end = longitudes.end();
 	for(vector<double>::const_iterator lon = longitudes.begin(); lon != lon_end; ++lon)
-	{	
+	{
 		if ( *lon > min_longitude_ &&  *lon < max_longitude_ )
 		{
 			UserPoint point(*lon, cy);
@@ -319,7 +319,7 @@ void GeoRectangularProjection::labels(const LabelPlotting& label, BottomAxisVisi
 
 /*!
  \brief generates text to mark latitudes at the left
-  
+
  \sa Text
 */
 void GeoRectangularProjection::labels(const LabelPlotting& label, LeftAxisVisitor&)  const
@@ -329,7 +329,7 @@ void GeoRectangularProjection::labels(const LabelPlotting& label, LeftAxisVisito
 	const vector<double>::const_iterator lat_end = latitudes.end();
 	const double lon = max_longitude_ - ((max_longitude_-min_longitude_)*.1);
 	for(vector<double>::const_iterator lat = latitudes.begin(); lat != lat_end; ++lat)
-	{	
+	{
 		if ( *lat > min_latitude_ &&  *lat < max_latitude_ )
 		{
 			UserPoint point(lon, *lat);
@@ -349,7 +349,7 @@ void GeoRectangularProjection::labels(const LabelPlotting&, DrawingVisitor&)  co
 
 /*!
  \brief generates text to mark latitudes at the right
- 
+
  \sa Text
 */
 void GeoRectangularProjection::labels(const LabelPlotting& label, RightAxisVisitor&)  const
@@ -358,7 +358,7 @@ void GeoRectangularProjection::labels(const LabelPlotting& label, RightAxisVisit
 	const vector<double>& latitudes = label.latitudes();
 	const vector<double>::const_iterator lat_end = latitudes.end();
 	for(vector<double>::const_iterator lat = latitudes.begin(); lat != lat_end; ++lat)
-	{	
+	{
 		if ( *lat > min_latitude_ &&  *lat < max_latitude_ )
 		{
 			const double lon = min_longitude_ + ((max_longitude_-min_longitude_)*.1);
@@ -367,7 +367,7 @@ void GeoRectangularProjection::labels(const LabelPlotting& label, RightAxisVisit
 			label.add(text);
 			text->setText(writeLatitude(point));
 	        text->setJustification(MLEFT);
-			text->setVerticalAlign(MHALF); 
+			text->setVerticalAlign(MHALF);
 			text->push_back((*this)(point));
 
 		}
@@ -381,7 +381,7 @@ double GeoRectangularProjection::patchDistance(double res) const
 
 void GeoRectangularProjection::init()
 {
-	// make sure min < max! 
+	// make sure min < max!
 	// reset any previous setting
 	userEnveloppe_->clear();
 	PCEnveloppe_->clear();
@@ -425,7 +425,7 @@ void GeoRectangularProjection::init()
 	xpcmin_ = min_longitude_;
 	ypcmin_ = min_latitude_;
 	xpcmax_ = max_longitude_;
-	ypcmax_ = max_latitude_;	
+	ypcmax_ = max_latitude_;
 
 	userEnveloppe_->push_back(PaperPoint(min_longitude_, min_latitude_));
 	userEnveloppe_->push_back(PaperPoint(min_longitude_, max_latitude_));
@@ -459,13 +459,13 @@ void MercatorProjection::print(ostream& o) const
 	o << " mercator[";
 	GeoRectangularProjection::print(o);
 	o << "]";
-} 
+}
 
 void MercatorProjection::init()
 {
-	if (!projection_) 
+	if (!projection_)
 		projection_ = new TeMercator(TeDatum(), 0);
-	// make sure min < max! 
+	// make sure min < max!
 	if (min_longitude_ > max_longitude_)
 	{
 		MagLog::warning() << "lower_left_lon > upper_right_lon --> swap" << endl;
@@ -482,18 +482,18 @@ void MercatorProjection::init()
 	max_latitude_ = std::min(max_latitude_, 89.);
 	min_longitude_ = std::max(min_longitude_, -180.);
 	max_longitude_ = std::min(max_longitude_, 720.);
-	
-	if ( max_longitude_ - min_longitude_  < t) 
+
+	if ( max_longitude_ - min_longitude_  < t)
 			max_longitude_ = min_longitude_ + t;
-	if ( max_latitude_ -  min_latitude_ < t) 
+	if ( max_latitude_ -  min_latitude_ < t)
 			max_latitude_ = min_latitude_ + t;
-	
+
 	UserPoint   ll(min_longitude_, min_latitude_);
 	UserPoint   ur(max_longitude_, max_latitude_);
 
-	PaperPoint xy;	
+	PaperPoint xy;
 
-	xy = (*this)(ll);	
+	xy = (*this)(ll);
 	xpcmin_ = xy.x();
 	ypcmin_ = xy.y();
 
@@ -525,10 +525,10 @@ void GeoRectangularProjection::setNewPCBox(double minx, double miny, double maxx
 	   PaperPoint p1(minx, miny);
 	   PaperPoint p2(maxx, maxy);
 	   UserPoint   ll, ur;
- 
+
 	   revert(p1, ll);
 	   revert(p2, ur);
- 
+
 	   min_longitude_ =ll.x();
 	   max_longitude_ = ur.x();
 	   min_latitude_ = ll.y();
@@ -560,13 +560,11 @@ void GeoRectangularProjection::coastSetting(map<string, string>& setting, double
 
 	setting["resolution"] = resol;
 	setting["land"]       = resol + "/ne_" + resol + "_land";
-    setting["ocean"]      = resol + "/ne_" + resol + "_ocean";
+	setting["ocean"]      = resol + "/ne_" + resol + "_ocean";
 	setting["coast"]      = resol + "/ne_" + resol + "_coastline";
 	setting["rivers"]     = resol + "/ne_" + resol + "_rivers_lake_centerlines";
 	setting["boundaries"] = resol + "/ne_" + resol + "_admin_0_boundary_lines_land";
-	
-	//! \note Administraive borders hardcoded to 10m resolution (low res version do not contain all info)
-	setting["administrative_boundaries"] = "10m/ne_10m_admin_1_states_provinces";
+	setting["administrative_boundaries"] = resol + "/ne_" + resol + "_admin_1_states_provinces";
 
 	MagLog::dev() << "GeoRectangularProjection::coastSetting[" << abswidth << ", " << absheight << "]->" <<  ratio << " resol: "<<resol<< endl;
 }
@@ -696,7 +694,7 @@ double MercatorProjection::patchDistance(double) const
 
 double GeoRectangularProjection::ratio() const
 {
-	// return domain/fulldomain! 
+	// return domain/fulldomain!
 
 	return (( max_longitude_ - min_longitude_ ) * ( max_latitude_ - min_latitude_) ) / (360*180);
 
