@@ -1,22 +1,22 @@
 /*
  * (C) Copyright 1996-2016 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
  */
 
 /*! \file CoastPlotting.cc
     \brief Implementation of the Template class CoastPlotting.
-    
+
     Magics Team - ECMWF 2004
-    
+
     Started: Mon 2-Feb-2004
-    
+
     Changes:
-    
+
 */
 
 #include "CoastPlotting.h"
@@ -34,12 +34,12 @@ using namespace magics;
 #define PATH(a) getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_ + a;
 
 
-CoastPlotting::CoastPlotting() 
+CoastPlotting::CoastPlotting()
 {
 	MagLog::debug() << "DELETE COAST PLOTTING! " << endl;
 }
 
-NoCoastPlotting::NoCoastPlotting() 
+NoCoastPlotting::NoCoastPlotting()
 {
 	riversMethods_["on"] = &CoastPlotting::rivers;
 	riversMethods_["efason"] = &CoastPlotting::efas;
@@ -60,7 +60,7 @@ void CoastPlotting::visit(LegendVisitor& legend)
 	Polyline* coast  = new Polyline();
 	coast->setThickness(thickness_);
 	coast->setColour(*colour_);
-	coast->setLineStyle(style_);	
+	coast->setLineStyle(style_);
 
 	LineEntry* entry = new LineEntry("Coastlines", coast);
 	legend.add(entry);
@@ -71,6 +71,7 @@ void CoastPlotting::visit(LegendVisitor& legend)
 
 void CoastPlotting::operator()(PreviewVisitor& parent)
 {
+cout << "CoastPlotting::operator()"<< endl;
 	const Transformation& transformation = parent.transformation();
 	CoastPlotting& preview = parent.coastlines();
 	transformation.coastSetting(preview.coastSet_, 10, 5);
@@ -94,7 +95,7 @@ void CoastPlotting::operator()(PreviewVisitor& parent)
 	frame->setAntiAliasing(false);
 	frame->setThickness(thickness_);
 	frame->setColour(Colour("tan"));
-	frame->setLineStyle(style_);	
+	frame->setLineStyle(style_);
 	frame->push_back(PaperPoint(transformation.getMinX(), transformation.getMinY()));
 	frame->push_back(PaperPoint(transformation.getMaxX(), transformation.getMinY()));
 	frame->push_back(PaperPoint(transformation.getMaxX(), transformation.getMaxY()));
@@ -106,6 +107,7 @@ void CoastPlotting::operator()(PreviewVisitor& parent)
 
 void NoCoastPlotting::operator()(DrawingVisitor& parent)
 {
+cout << "NoCoastPlotting::operator()"<< endl;
 	const Transformation& transformation = parent.transformation();
 	transformation.coastSetting(coastSet_, parent.layout().absoluteWidth(), parent.layout().absoluteHeight());
 	(*boundaries_)(coastSet_, parent.layout());
@@ -119,7 +121,7 @@ void NoCoastPlotting::efas(DrawingVisitor& visitor)
 	map<string, string> data;
 	data["extended"] = PATH("efas/ExtendedDomain/lines")
 	data["current"] = PATH("efas/CurrentDomain/lines")
-	
+
 	map<string, string>::iterator file = data.find(lowerCase(efas_domain_));
 
 	if ( file == data.end() ) {
@@ -152,7 +154,7 @@ void NoCoastPlotting::efas(DrawingVisitor& visitor)
 
 void NoCoastPlotting::user(DrawingVisitor& visitor)
 {
-	
+
 
 	ShapeDecoder user;
 	user.setPath(user_layer_name_);
@@ -217,8 +219,8 @@ void NoCoastPlotting::layers(map<string, Action>& methods, const string& val, Dr
 
 
 /*! \brief Method to set resource files for GIS information
- 
-  \note We have to use '10m' resolution for administrative Provinces since only this 
+
+  \note We have to use '10m' resolution for administrative Provinces since only this
    resolution contains data from OUTSIDE the USA and Canada
 */
 void CoastPlotting::operator()(DrawingVisitor& parent)
@@ -232,8 +234,6 @@ void CoastPlotting::operator()(DrawingVisitor& parent)
   coast_.clear();
   ocean_.clear();
 
-  coastSet_["administrative_boundaries"] = "10m/ne_10m_admin_1_states_provinces";
-
   if ( magCompare(NoCoastPlottingAttributes::resolution_, "high") ||
        magCompare(NoCoastPlottingAttributes::resolution_, "full") ) {
         string resol = "10m";
@@ -241,7 +241,8 @@ void CoastPlotting::operator()(DrawingVisitor& parent)
         coastSet_["land"]       = resol + "/ne_" + resol + "_land";
         coastSet_["ocean"]      = resol + "/ne_" + resol + "_ocean";
         coastSet_["rivers"]     = resol + "/ne_" + resol + "_rivers_lake_centerlines";
-        coastSet_["boundaries"] = resol + "/ne_" + resol + "_admin_0_boundary_lines_land";
+				coastSet_["boundaries"] = resol + "/ne_" + resol + "_admin_0_boundary_lines_land";
+				coastSet_["administrative_boundaries"] = resol + "/ne_" + resol + "_admin_1_states_provinces";
   }
   else if ( magCompare(NoCoastPlottingAttributes::resolution_, "medium") ) {
         string resol = "50m";
@@ -250,6 +251,7 @@ void CoastPlotting::operator()(DrawingVisitor& parent)
         coastSet_["ocean"]      = resol + "/ne_" + resol + "_ocean";
         coastSet_["rivers"]     = resol + "/ne_" + resol + "_rivers_lake_centerlines";
         coastSet_["boundaries"] = resol + "/ne_" + resol + "_admin_0_boundary_lines_land";
+				coastSet_["administrative_boundaries"] = resol + "/ne_" + resol + "_admin_1_states_provinces";
   }
   else if ( magCompare(NoCoastPlottingAttributes::resolution_, "low") ) {
         string resol = "110m";
@@ -258,6 +260,7 @@ void CoastPlotting::operator()(DrawingVisitor& parent)
         coastSet_["ocean"]      = resol + "/ne_" + resol + "_ocean";
         coastSet_["rivers"]     = resol + "/ne_" + resol + "_rivers_lake_centerlines";
         coastSet_["boundaries"] = resol + "/ne_" + resol + "_admin_0_boundary_lines_land";
+				coastSet_["administrative_boundaries"] = resol + "/ne_" + resol + "_admin_1_states_provinces";
   }
   else {       // automatic
         transformation.coastSetting(coastSet_, parent.layout().absoluteWidth(), parent.layout().absoluteHeight());
@@ -377,7 +380,7 @@ void CoastPlotting::setLandShading(Polyline& line)
 }
 
 
-CoastPlotting::~CoastPlotting() 
+CoastPlotting::~CoastPlotting()
 {}
 
 
