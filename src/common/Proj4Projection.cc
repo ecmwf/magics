@@ -532,13 +532,7 @@ void Proj4Projection::projectionSimple()
 		}
 
 		max_latitude_ *= RAD_TO_DEG;
-<<<<<<< HEAD
-		
-		
-=======
 
-		cout << min_longitude_ << " " << min_latitude_ << " " << max_longitude_ << " " << max_latitude_ << endl;
->>>>>>> 67abc086b718a462989bbda9b5f9acc0445931b1
 
 		Polyline box;
 		box.box(PaperPoint(min_pcx_, min_pcy_), PaperPoint(max_pcx_, max_pcy_));
@@ -734,13 +728,12 @@ void Proj4Projection::gridLongitudes(const GridPlotting& grid)  const
 					poly.push_back((*this)(UserPoint(*lon,lat)));
 			}
 
-			if ( *lon == gridMinLon_ || *lon == gridMaxLon_)
-				grid.addFrame(poly);
-			else
+			
 				grid.add(poly);
 
 		}
-		
+		grid.addFrame(*PCEnveloppe_);
+	
 }
 
 void Proj4Projection::gridLatitudes(const GridPlotting& grid)  const
@@ -761,21 +754,11 @@ void Proj4Projection::gridLatitudes(const GridPlotting& grid)  const
 			if ( userEnveloppe_->within(p) )
 				poly.push_back((*this)(UserPoint(lon,*lat)));
 		}
-<<<<<<< HEAD
 		
 		
 		grid.add(poly);
 		
-=======
-		if ( *lat == gridMinLat_ || *lat == gridMaxLat_)
-				grid.addFrame(poly);
-			else
-				grid.add(poly);
-
->>>>>>> 67abc086b718a462989bbda9b5f9acc0445931b1
 	}
-
-
 
 	grid.addFrame(*PCEnveloppe_);
 	
@@ -1177,13 +1160,12 @@ bool Proj4Projection::fast_reproject(double& x, double& y) const
 
 	if ( error  ) {
 
-<<<<<<< HEAD
+
+
 			  //MagLog::warning()  << pj_strerrno(error) << " for " << x << " " << y << endl;		
 			  return false;	  
-=======
-			  MagLog::warning()  << pj_strerrno(error) << " for " << x << " " << y << endl;
-			  return false;
->>>>>>> 67abc086b718a462989bbda9b5f9acc0445931b1
+
+
 	}
 	return true;
 }
