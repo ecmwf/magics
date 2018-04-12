@@ -733,16 +733,12 @@ void Proj4Projection::gridLongitudes(const GridPlotting& grid)  const
 				if ( userEnveloppe_->within(p) )
 					poly.push_back((*this)(UserPoint(*lon,lat)));
 			}
-<<<<<<< HEAD
-			
-			
-			grid.add(poly);
-=======
+
 			if ( *lon == gridMinLon_ || *lon == gridMaxLon_)
 				grid.addFrame(poly);
 			else
 				grid.add(poly);
->>>>>>> 67abc086b718a462989bbda9b5f9acc0445931b1
+
 		}
 		
 }
