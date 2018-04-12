@@ -132,7 +132,7 @@ The PostScript driver produces one or more (if split is activated) text files
 in PostScript format.
 
 */
-PostScriptDriver::PostScriptDriver() : ps_(true),pdf_(false),eps_(false),old_(true),
+PostScriptDriver::PostScriptDriver() : ps_(true),pdf_(false),eps_(false),
 				maxPathSize_(200),deviceColourModel_(1)
 {
   readFonts();
@@ -205,12 +205,9 @@ MAGICS_NO_EXPORT void PostScriptDriver::startPage() const
 
 	// Here the whole page gets scaled to the resolution!
 	*ps << "gs " << 72./resolution << " dup s ";
-if(old_)
-{
-	if( ( isEPS() && (dimensionX_ < dimensionY_) ) ||
-	    (!isEPS() && (dimensionX_ > dimensionY_) ) )
-		*ps << static_cast<int>(dimensionY_) << " 0 t 90 ro ";
-}
+
+	if(!isEPS() && (dimensionX_ > dimensionY_) ) *ps << static_cast<int>(dimensionY_) << " 0 t 90 ro ";
+
 	*ps << "1 lw [] 0 sd ";
 
 	setDeviceColourModel(colour_model_);
@@ -1592,13 +1589,11 @@ MAGICS_NO_EXPORT void PostScriptDriver::writePSFileHeader() const
 
 	if(isEPS())
 	{
-		*ps << "%%Pages: 1\n%%Orientation: "<<orientation<<"\n"
+		*ps << "%%LanguageLevel: 2\n%%Pages: 1\n"
 		    << "%%BoundingBox: 0 0 " << static_cast<int>(dimensionX) << " " << static_cast<int>(dimensionY)+1 << "\n";
 	}
 	else
 	{
-		if(old_)
-		{
 			if(isPDF() && !isPS())
 			{
 				*ps << "%%Orientation: "<<orientation<<"\n%%LanguageLevel: 2\n%%Pages: 1\n";
@@ -1612,20 +1607,21 @@ MAGICS_NO_EXPORT void PostScriptDriver::writePSFileHeader() const
 				*ps << "%%Orientation: "<<orientation<<"\n%%LanguageLevel: 2\n%%Pages: (atend)\n"
 				    << "%%BoundingBox: 0 0 " << static_cast<int>(small)+1 << " " << static_cast<int>(big)+1<< "\n";
 			}
-		}
-		else
-		{
-			*ps << "%%Pages: (atend)\n"
-			    << "%%BoundingBox: 0 0 " << static_cast<int>(dimensionX)+1 << " " << static_cast<int>(dimensionY)+1<< "\n";
-		}
 	}
 
 	*ps << "%%EndComments\n%%BeginProlog\n";
-	if(!isEPS()) *ps << "/S { gr showpage } def\n";
-	else *ps << "/S {gr} def\n"; // define "showpage" empty for EPS files
+	if(isEPS())
+	{
+		*ps << "save\n"
+		    << "countdictstack\n"
+		    << "mark\n"
+		    << "newpath\n"
+		    << "/showpage {} def\n"
+		    << "/setpagedevice {pop} def\n";
+	}
 
 	//copyMacro(ps,"PostScriptMacro1.ps");
-	*ps << "/m {moveto} def /st {stroke} def /rl {rlineto} def /ro {rotate} def /cp {closepath} def /d { {rmoveto rlineto} repeat stroke} bind def /gr {grestore} def /gs {gsave} def /n { newpath } def\n"
+	*ps << "/S { gr showpage } def /m {moveto} def /st {stroke} def /rl {rlineto} def /ro {rotate} def /cp {closepath} def /d { {rmoveto rlineto} repeat stroke} bind def /gr {grestore} def /gs {gsave} def /n { newpath } def\n"
 	    << "/sa {save} def /lw {setlinewidth } def /ar {arc fill} def /arn {arcn fill} def /l { lineto } bind def /c { curveto } bind def\n"
 	    << "/sd {setdash} def /C { setrgbcolor } def /Y { setcmykcolor } def  /B { moveto rlineto stroke } bind def /BB { moveto lineto stroke } bind def /t { translate } def /s {scale} def /K { /UY exch def /UX exch def /LY exch def \n"
 	    << "/LX exch def gsave newpath LX LY moveto UX LY lineto UX UY lineto LX UY lineto closepath newpath } def /lp { moveto rlineto } bind def /p { moveto {rlineto} repeat stroke} bind def /po { moveto {rlineto} repeat } bind def\n"
@@ -1760,15 +1756,24 @@ MAGICS_NO_EXPORT void PostScriptDriver::copyMacro(fstream *ps, const string &fil
 
 MAGICS_NO_EXPORT void PostScriptDriver::writePSFileEnd() const
 {
+	fstream *ps = getStream();
 	if(!isEPS())
 	{
-		fstream *ps = getStream();
 		const int realpagenumber = (isSplit()) ? 1 : currentPage_;
 
-		*ps << "%%Trailer\n";
-		*ps << "%%Pages: " << realpagenumber << "\n";
-		*ps << "%%EOF\n";
+		*ps << "%%Trailer\n"
+		    << "%%Pages: " << realpagenumber << "\n"
+		    << "%%EOF\n";
 		ps->close();
+	}
+	else
+	{
+		*ps << "%%Trailer\n"
+		    << "cleartomark\n"
+		    << "countdictstack\n"
+		    << "exch sub { end } repeat\n"
+		    << "restore\n"
+		    << "%%EOF\n";
 	}
 }
 
