@@ -87,8 +87,10 @@ public:
 		
 		ostringstream def;
 		def << "+proj=geos +h=42164000 +ellps=WGS84 +lon_0=" << from.vertical_longitude_;
-
+		
+		//def << "++proj=tpers    +ellps=WGS84 +h=5000000  +lat_0=20 +lon_0=-60 +x_0=0 +y_0=0 +azi=20 +tilt=0  +units=m";
 		definition_ = def.str();
+		cout << definition_ << endl;
 		
 	}
 
@@ -230,6 +232,7 @@ void Proj4Projection::init()
 	from_ = pj_init_plus("+proj=longlat +ellps=WGS84 +datum=WGS84");
 	projection_ = Epsg::find(*this);
 	to_    = pj_init_plus(projection_->definition());
+	
 	if ( !to_) {
 		MagLog::error() << pj_strerrno(pj_errno) << endl;
 		MagLog::error() << " proj4 error " << projection_->definition() << endl;
@@ -362,6 +365,7 @@ PaperPoint Proj4Projection::operator()(const UserPoint& point)  const
 		from_ = pj_init_plus("+proj=longlat +ellps=WGS84 +datum=WGS84");
 		projection_ = Epsg::find(*this);
 		to_    = pj_init_plus(projection_->definition());
+		
 	}
 	double x = point.x();
 	double y = point.y();
@@ -547,7 +551,6 @@ void Proj4Projection::projectionSimple()
 
 		max_latitude_ *= RAD_TO_DEG;
 		
-		cout << min_longitude_ << " " << min_latitude_ << " " << max_longitude_ << " " << max_latitude_ << endl;
 		
 
 		Polyline box;
@@ -586,28 +589,50 @@ void Proj4Projection::geos()
 
 		for ( int lat = projection_->minlat_; lat <= projection_->maxlat_; lat++) {
 			helper.insert(make_pair(lat, vector<double>()));
+			
 			for ( int lon =  projection_->minlon_; lon <= projection_->maxlon_; lon++) {
 				double x = lon*DEG_TO_RAD;
 				double y = DEG_TO_RAD*lat;
 				int error =  pj_transform(from_, to_, 1, 1, &x, &y, NULL );
+				
 				if ( !error) {
 					helper[lat].push_back(lon);
 				}
 			}
 		}
+
+		
+		
+
 		// now we create the envelope...
-		for ( map<double, vector<double> >::iterator lat = helper.begin(); lat != helper.end(); ++lat) {
+		for ( map<double, vector<double> >::iterator lat = helper.begin() ; lat != helper.end(); ++lat) {
 			if ( lat->second.empty() )
 				continue;
+			
+			
 			add(lat->second.front(), lat->first);
+			//userEnveloppe_->push_back(PaperPoint(lat->second.front(), lat->first));
 
 		}
 		// now reverse!
+		
 		for ( map<double, vector<double> >::reverse_iterator lat = helper.rbegin(); lat != helper.rend(); ++lat) {
 			if ( lat->second.empty() )
 				continue;
+			
 			add(lat->second.back(), lat->first);
-			userEnveloppe_->push_back(PaperPoint(lat->second.back(), lat->first));
+			//userEnveloppe_->push_back(PaperPoint(lat->second.back(), lat->first));
+		}
+
+		map<double, vector<double> >::iterator last = helper.begin();
+		for ( last = helper.begin() ; last != helper.end(); ++last) {
+			if ( !last->second.empty() )
+				break;
+		}
+
+		for ( vector<double>::reverse_iterator lon = last->second.rbegin(); lon != last->second.rend(); ++lon) {
+			add(*lon, last->first);
+			//userEnveloppe_->push_back(PaperPoint(*lon, last->first));
 		}
 }
 
@@ -617,13 +642,17 @@ void Proj4Projection::boundingBox(double& xmin, double& ymin, double& xmax, doub
 {
 	if ( ! from_ ) {
 			from_ = pj_init_plus("+proj=longlat +ellps=WGS84 +datum=WGS84");
+			
 			projection_ = Epsg::find(definition_);
-			to_    = pj_init_plus(proj4_definition_.c_str());
+			to_    = pj_init_plus(projection_->definition());
 		}
+
 	ymin = gridMinLat_;
 	xmin = gridMinLon_-5;
 	ymax = gridMaxLat_;
 	xmax = gridMaxLon_+5;
+
+	
 }
 
 double Proj4Projection::getMinX()  const
@@ -718,11 +747,11 @@ void Proj4Projection::gridLongitudes(const GridPlotting& grid)  const
 				if ( userEnveloppe_->within(p) )
 					poly.push_back((*this)(UserPoint(*lon,lat)));
 			}
-			if ( *lon == gridMinLon_ || *lon == gridMaxLon_) 
-				grid.addFrame(poly);
-			else 
-				grid.add(poly);
+			
+			
+			grid.add(poly);
 		}
+		
 }
 
 void Proj4Projection::gridLatitudes(const GridPlotting& grid)  const
@@ -731,6 +760,7 @@ void Proj4Projection::gridLatitudes(const GridPlotting& grid)  const
 
 	const double step = 0.5;
 	const vector<double>::const_iterator lat_end = latitudes.end();
+
 	for(vector<double>::const_iterator lat = latitudes.begin(); lat != lat_end; ++lat)
 	{
 
@@ -742,12 +772,17 @@ void Proj4Projection::gridLatitudes(const GridPlotting& grid)  const
 			if ( userEnveloppe_->within(p) )
 				poly.push_back((*this)(UserPoint(lon,*lat)));
 		}
-		if ( *lat == gridMinLat_ || *lat == gridMaxLat_) 
-				grid.addFrame(poly);
-			else 
-				grid.add(poly);
+		
+		
+		grid.add(poly);
 		
 	}
+
+
+
+	grid.addFrame(*PCEnveloppe_);
+	
+
 }
 
 void Proj4Projection::labels(const LabelPlotting& label, DrawingVisitor& visitor)  const
@@ -1145,7 +1180,7 @@ bool Proj4Projection::fast_reproject(double& x, double& y) const
 
 	if ( error  ) {
 
-			  MagLog::warning()  << pj_strerrno(error) << " for " << x << " " << y << endl;		
+			  //MagLog::warning()  << pj_strerrno(error) << " for " << x << " " << y << endl;		
 			  return false;	  
 	}
 	return true;

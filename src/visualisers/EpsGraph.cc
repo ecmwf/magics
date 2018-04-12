@@ -26,6 +26,7 @@
 #include "DateTime.h"
 #include "Text.h"
 #include "LegendVisitor.h"
+#include "Symbol.h"
 
 //#include "InteractiveSet.h"
 #include <cfloat>
@@ -2963,5 +2964,154 @@ void EfiGraph::visit(LegendVisitor&)
 }
 
 	
+void CapeBox::print(ostream& visitor)  const
+{
+	visitor << "CapeBox[";
+	visitor << "]";
+}
+
+
+void CapeBox::box(CustomisedPoint& point, BasicGraphicsObjectContainer& visitor)
+{
+	auto median =point.find("median");
+	auto control = point.find("control");
+	auto hres = point.find("hres");
+	const Transformation& transformation = visitor.transformation();
+
+	CustomisedPoint::const_iterator x = point.find("step");
+
+	Text* label = new Text();
+	string info;
+	info = ( point["size"] < 2 ) ? tostring(point["size"]) + " member" : tostring(point["size"]) + " members";
+	
+	label->addText(info, *text_font_colour_,  text_font_size_);
+	
+	label->push_back(PaperPoint(x->second, transformation.getMaxY()*1.05));
+	visitor.push_back(label);
+	
+	if ( median != point.end() ) {
+		// draw the box ! 
+		
+		Polyline* box  = new Polyline();				
+		box->setFilled(true);	
+		box->setFillColour(*box_colour_);
+		box->setShading(new FillShadingProperties());
+		box->setColour(*box_border_colour_);
+		box->setThickness(box_border_thickness_);
+	
+	
+		CustomisedPoint::const_iterator upper = point.find("seventy_five");
+		CustomisedPoint::const_iterator lower = point.find("twenty_five");
+		
+		
+		box->push_back(transformation(UserPoint(x->second-box_width_, upper->second)));
+		box->push_back(transformation(UserPoint(x->second+box_width_, upper->second)));
+		box->push_back(transformation(UserPoint(x->second+box_width_, lower->second)));
+		box->push_back(transformation(UserPoint(x->second-box_width_, lower->second)));
+		box->push_back(transformation(UserPoint(x->second-box_width_, upper->second)));
+
+		visitor.push_back(box);
+
+		box  = new Polyline();				
+		box->setColour(*box_border_colour_);
+		box->setThickness(box_border_thickness_);
+		auto min = point.find("min");
+		box->push_back(transformation(UserPoint(x->second-box_width_, min->second)));
+		box->push_back(transformation(UserPoint(x->second+box_width_, min->second)));
+		visitor.push_back(box);
+
+		box  = new Polyline();
+		box->setColour(*box_border_colour_);
+		box->setThickness(box_border_thickness_);
+		auto max = point.find("max");
+		box->push_back(transformation(UserPoint(x->second-box_width_, max->second)));
+		box->push_back(transformation(UserPoint(x->second+box_width_, max->second)));
+		visitor.push_back(box);
+
+		box  = new Polyline();
+		box->setColour(*box_border_colour_);
+		box->setThickness(box_border_thickness_);
+		auto median = point.find("median");
+		box->push_back(transformation(UserPoint(x->second-box_width_, median->second)));
+		box->push_back(transformation(UserPoint(x->second+box_width_, median->second)));
+		visitor.push_back(box);
+
+		box  = new Polyline();		box->setColour(*box_border_colour_);
+		box->setThickness(box_border_thickness_);
+		box->push_back(transformation(UserPoint(x->second, max->second)));
+		box->push_back(transformation(UserPoint(x->second, upper->second)));
+		visitor.push_back(box);
+
+		box  = new Polyline();
+		box->setColour(*box_border_colour_);
+		box->setThickness(box_border_thickness_);
+		box->push_back(transformation(UserPoint(x->second, min->second)));
+		box->push_back(transformation(UserPoint(x->second, lower->second)));
+		visitor.push_back(box);
+		
+	}
+    else {
+		// Else add the points ..
+		Symbol* symbol =  new Symbol();
+	  	symbol->setColour(*marker_colour_);
+	    symbol->setMarker(marker_index_);
+	    symbol->setHeight(marker_height_);
+		
+		for (int i =0; i < point["size"]; i++) {
+			auto value = point.find("value_" + tostring(i));
+	        symbol->push_back(transformation(UserPoint(x->second, value->second)));
+		}
+
+		visitor.push_back(symbol);
+	}
+	if ( control != point.end() ) {
+		Symbol* symbol =  new Symbol();
+	  	symbol->setColour(*control_colour_);
+	    symbol->setMarker(marker_index_);
+	    symbol->setHeight(marker_height_);
+		
+		
+	    symbol->push_back(transformation(UserPoint(x->second, control->second)));
+		
+
+		visitor.push_back(symbol);
+	}
+	if ( hres != point.end() ) {
+		Symbol* symbol =  new Symbol();
+	  	symbol->setColour(*hres_colour_);
+	    symbol->setMarker(marker_index_);
+	    symbol->setHeight(marker_height_);
+		
+		
+	    symbol->push_back(transformation(UserPoint(x->second, hres->second)));
+		
+
+		visitor.push_back(symbol);
+	}
 
 	
+}
+
+
+
+void CapeBox::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
+{
+
+	
+	CustomisedPointsList points;
+	std::set<string> request;
+	const Transformation& transformation = visitor.transformation();
+	data.customisedPoints(transformation, request, points, true); // we want all the points!
+
+	cout << "control_colour" << *control_colour_ << endl;
+
+	for (CustomisedPointsList::const_iterator point = points.begin(); point != points.end(); ++point) {
+		box(**point, visitor);
+	}
+
+}
+
+void CapeBox::visit(LegendVisitor& legend)
+{
+
+}

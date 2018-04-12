@@ -20,7 +20,7 @@
 */
 
 #include "GridPlotting.h"
-#include "../basic/BasicSceneObject.h"
+#include "BasicSceneObject.h"
 #include "Transformation.h"
 
 
@@ -153,8 +153,8 @@ void GridPlotting::operator()(DrawingVisitor& out)
 	
 
 
-		this->latitudes(transformation);
-		this->longitudes(transformation);
+	latitudes(transformation);
+	longitudes(transformation);
 
 	// Wrep :here we add a small line in the lowerleft corner..
 	// to force the driver to compute the output size even if 
@@ -176,9 +176,11 @@ void GridPlotting::operator()(magics::PreviewVisitor&)
 }
 void GridPlotting::addFrame(Polyline& poly) const
 {
+	
 	if ( !grid_frame_ ) 
 		return add(poly);
 	
+
     poly.setColour(*grid_frame_colour_);
     poly.setThickness(grid_frame_thickness_);
     poly.setLineStyle(grid_frame_style_);

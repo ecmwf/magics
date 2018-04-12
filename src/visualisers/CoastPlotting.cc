@@ -430,7 +430,7 @@ void CoastPlotting::clip(const Transformation& transformation, const vector<Poly
 {
 	for (vector<Polyline*>::const_iterator poly = in.begin(); poly != in.end(); ++poly ) {
 		(*poly)->southClean();
-		(*poly)->reproject(transformation);
+		//(*poly)->reproject(transformation);
 		transformation(**poly, out);
 	}
 }

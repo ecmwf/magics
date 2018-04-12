@@ -100,4 +100,10 @@ does it submit to any jurisdiction.
             		<documentation> List of keys to ignore when reading onput data  </documentation>
 
         	</parameter>
+        <parameter member="profile_quantile" to="string" default="" from="string" name="wrepjson_profile_quantile" visible='off'>
+                    <documentation> List of keys to ignore when reading onput data  </documentation>
+
+            </parameter>
+       
+
 </class></magics>

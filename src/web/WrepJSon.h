@@ -29,10 +29,14 @@
 namespace magics {
 
 
+
 struct InputWrep
 {
-	bool empty() { return steps_.empty(); }
+	 bool empty() { return steps_.empty(); }
 	 map<string, vector<double> > values_;
+	 map<string, double> info_;
+	 map<string, vector<vector<double>>> ensembleValues_;
+	
 	 vector<double> steps_;
 	 vector<double> levels_;
 	 int index(double val) {
@@ -55,10 +59,22 @@ struct InputWrep
 			 sep = ", ";
 		 }
 		 cout << "]" << endl;
-		 for (map< string, vector<double> >::iterator value = values_.begin(); value != values_.end(); ++ value) {
+		 for (map< string, double>::iterator value = info_.begin(); value != info_.end(); ++ value) {
+			 cout << value->first <<  " = " << value->second << endl;
+	
+		}
+		for (map< string, vector<double> >::iterator value = values_.begin(); value != values_.end(); ++ value) {
 			 string sep = value->first + "[";
 			 for (vector<double>::iterator val =  value->second.begin(); val !=  value->second.end(); ++ val) {
 			 	std::cout << sep << *val;
+			 	sep = ", ";
+			 }
+			 cout << "]" << endl;
+		}
+		 for (map< string, vector<vector<double>>>::iterator value = ensembleValues_.begin(); value != ensembleValues_.end(); ++ value) {
+			 string sep = value->first + "[";
+			 for (vector<vector<double>>::iterator val =  value->second.begin(); val !=  value->second.end(); ++ val) {
+			 	std::cout << sep << val->size();
 			 	sep = ", ";
 			 }
 			 cout << "]" << endl;
@@ -93,18 +109,40 @@ public:
 	void basic();
 	void data();
 	void profile();
-	
+	void tephigram();
+	void hodograph();
+	void cape();
+
+
 	void profile(Transformation&);
 	void eps(Transformation&);
 	void efi(Transformation&);
 	void cdf(Transformation&);
 	
+	// Simple  input
 	void x_values(const json_spirit::Value&);
 	void y_values(const json_spirit::Value&);
 	void values(const json_spirit::Value&);
 	void x_date_values(const json_spirit::Value&);
 	void y_date_values(const json_spirit::Value&);
+	
+	//tephigram
+	void param(const json_spirit::Value&);
+	void levels(const json_spirit::Value&);
+	void data(const json_spirit::Value&, vector<double>&);
 
+	//Hodograph
+	void hodo_u(const json_spirit::Value&);
+	void hodo_v(const json_spirit::Value&);
+
+	//Cape
+	void cape1(const json_spirit::Value&);
+	void cape2(const json_spirit::Value&);
+	void cape3(const json_spirit::Value&);
+	void cape_dig(const json_spirit::Value&);
+	
+	
+	// common 
 	void location(const json_spirit::Value&);
 	void station_name(const json_spirit::Value&);
 	void valid_time(const json_spirit::Value&);
@@ -136,6 +174,7 @@ public:
 	json_spirit::Value deterministic_resolution();
 	json_spirit::Value height();
 	json_spirit::Value station_name();
+
 	MatrixHandler& matrix();
 	void customisedPoints(const std::set<string>&, CustomisedPointsList&);
 	void customisedPoints(const Transformation&, const std::set<string>&, CustomisedPointsList&);
@@ -192,13 +231,19 @@ protected:
 	 string valid_time_;
      string expver_; 
      string api_;
+     string capekey_;
 
 	 json_spirit::Value metadata_;
 	 InputWrep   values_;
 	 InputWrep* current_;
+
 	 InputWrep clim_;
+	 
 	 map<string, InputWrep> eps_;
 	 map<string, InputWrep> efi_;
+	 map<string, InputWrep> capes_;
+
+
 	 int points_along_meridian_;
 	 Matrix matrix_;
 
