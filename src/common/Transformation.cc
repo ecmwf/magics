@@ -465,13 +465,18 @@ void Transformation::operator()(const Polyline& from, vector<Polyline*>& out) co
 
 	try {
 		vector<vector<PaperPoint> > lines;
-		//line.reserve( from.size());
 		lines.push_back(vector<PaperPoint>());
 		
 		for (unsigned i = 0; i < from.size(); i++) {
-			lines.back().push_back(from.get(i));
-			
-
+			PaperPoint pt = from.get(i);
+			if ( fast_reproject(pt.x_, pt.y_) ) {
+				lines.back().push_back(pt);
+			}
+			else {
+				if ( lines.back().size() ) { 
+					lines.push_back(vector<PaperPoint>());
+				}
+			}
 		}
 
 		

@@ -154,7 +154,8 @@ void SimplePolylineVisualiser::setup()
 				thickness = ( thickness_policy_ == M_CYCLE ) ? thickness_list_.begin() : --thickness;
 		}
 	max = transparency_level_list_.empty() ? 0 : transparency_level_list_.size() -1;
-	for ( int i = 0; i < transparency_level_list_.size() -1; i++) {
+  cout << "max --> " << max << endl;
+	for ( int i = 0; i < max; i++) {
 		alpha_map_[Interval(transparency_level_list_[i], transparency_level_list_[i+1]) ] = i ;
 	}
 

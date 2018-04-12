@@ -33,6 +33,8 @@
 #include "EpsWindAttributes.h"
 #include "EpsCloudAttributes.h"
 #include "EpsDirectionAttributes.h"
+#include "CapeBoxAttributes.h"
+
 
 #include "magics.h" 
 #include "Polyline.h"
@@ -121,6 +123,40 @@ private:
 // -- Friends
     //! Overloaded << operator to call print().
 	friend ostream& operator<<(ostream& s,const EpsLight& p)
+		{ p.print(s); return s; }
+
+};
+
+
+class CapeBox:public CapeBoxAttributes, public Visdef {
+
+public:
+	CapeBox() {}
+	virtual ~CapeBox() {}
+     // Implements the set method ... 
+    void set(const map<string, string>& map ) { CapeBoxAttributes::set(map); }
+    void set(const XmlNode& node) { CapeBoxAttributes::set(node); }
+   
+    
+   void operator()(Data&, BasicGraphicsObjectContainer&);
+   void visit(LegendVisitor&);
+     
+    
+protected:
+     //! Method to print string about this class on to a stream of type ostream (virtual).
+	 virtual void print(ostream&) const; 
+	 void box(CustomisedPoint&, BasicGraphicsObjectContainer& visitor);
+	
+
+private:
+    //! Copy constructor - No copy allowed
+	CapeBox(const EpsLight&);
+    //! Overloaded << operator to copy - No copy allowed
+	CapeBox& operator=(const EpsLight&);
+
+// -- Friends
+    //! Overloaded << operator to call print().
+	friend ostream& operator<<(ostream& s,const CapeBox& p)
 		{ p.print(s); return s; }
 
 };
