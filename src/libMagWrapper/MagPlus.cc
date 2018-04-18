@@ -61,6 +61,9 @@
 #include <WindWrapper.h>
 
 #include <SkewtGrid.h>
+#include <SkewtGridWrapper.h>
+#include <EmagramGrid.h>
+#include <EmagramGridWrapper.h>
 
 #include <UserPoint.h>
 #include "MagicsEvent.h"
@@ -213,6 +216,7 @@ MagPlus::MagPlus() : root_(0), superpage_(-1), geographical_(true), mode_(intera
         sceneCreators_["cartesian"] = &MagPlus::cartesianGrid;
         sceneCreators_["tephigram"] = &MagPlus::tephiGrid;
         sceneCreators_["skewt"] = &MagPlus::skewtGrid;
+        sceneCreators_["emagram"] = &MagPlus::emagramGrid;
         sceneCreators_["taylor"] = &MagPlus::taylorGrid;
 #ifdef HAVE_ODB
 	sceneCreators_["ODB_GEO_POINTS"] = &MagPlus::geoodb;
@@ -501,9 +505,8 @@ bool MagPlus::page(magics::MagRequest& in)
 
 bool MagPlus::cartesian(magics::MagRequest& in) {
 
-	string projection = get(in, "MAP_PROJECTION", "cartesian");
- 	in("SUBPAGE_MAP_PROJECTION") = projection;
-
+    string projection = get(in, "MAP_PROJECTION", "cartesian");
+    in("SUBPAGE_MAP_PROJECTION") = projection;
 
 	if ( !page_ ) page_ = new FortranViewNodeWrapper();
 	page_->set(in);
@@ -536,7 +539,7 @@ bool MagPlus::cartesian(magics::MagRequest& in) {
 	in.print();
 			
 
-	map<string,  ObjectCreator >::iterator creator = sceneCreators_.find(projection);
+    map<string,  ObjectCreator >::iterator creator = sceneCreators_.find(projection);
     if ( creator != sceneCreators_.end() ) {
 
     	  (this->*creator->second)(in) ;
@@ -668,7 +671,7 @@ bool MagPlus::skewtGrid(magics::MagRequest& in)
 
         // use the user defined one
         tephi.print();
-        TephiGridWrapper helper;
+        SkewtGridWrapper helper;
         setIconInfo(tephi,*helper.object());
         helper.set(tephi);
 
@@ -684,6 +687,31 @@ bool MagPlus::skewtGrid(magics::MagRequest& in)
     }
     return true; //< @note return value was missing, what should it return?
 }
+
+bool MagPlus::emagramGrid(magics::MagRequest& in)
+{
+    magics::MagRequest& tephi = in.getSubRequest("THERMO_GRID");
+    if ( tephi ) {
+
+        // use the user defined one
+        tephi.print();
+        EmagramGridWrapper helper;
+        setIconInfo(tephi,*helper.object());
+        helper.set(tephi);
+
+        top()->push_back(helper.object());
+        setIconInfo(in,*helper.object());
+
+    }
+    else {
+        EmagramGrid* grid = new EmagramGrid();
+        grid->icon("Emagram Grid", "MTHERMO_GRID");
+        top()->push_back(grid);
+
+    }
+    return true; //< @note return value was missing, what should it return?
+}
+
 
 bool MagPlus::taylorGrid(magics::MagRequest& in)
 {
@@ -735,12 +763,13 @@ bool MagPlus::tephigrid(magics::MagRequest& in)
 {
 	MagLog::dev()<< "add Tephi Grid" << endl;
 
-
 	replace_string(in, "_NAME", "", "Thermogrid");
 	replace_string(in, "_CLASS", "", "MTHERMOGRID");
-	TephiGridWrapper helper;
+    TephiGridWrapper helper;
 
-	helper.set(in);
+    //EmagramGridWrapper helper;
+
+    helper.set(in);
 
 	top()->push_back(helper.object());
 	setIconInfo(in,*helper.object());

@@ -68,6 +68,7 @@ does it submit to any jurisdiction.
         		<option xml="taylor" fortran="taylor" include="TaylorProjection.h" name="TaylorProjection">		</option>
                 <option xml="tephigram" fortran="tephigram" include="Tephigram.h" name="Tephigram">		</option>
                 <option xml="skewt" fortran="skewt" include="Skewt.h" name="Skewt">		</option>
+                <option xml="emagram" fortran="emagram" include="Emagram.h" name="Emagram">		</option>
               
 	</parameter>
 	<parameter from="float" name="subpage_y_position_internal" visible="off" default="-1" member="bottom_internal" to="float">

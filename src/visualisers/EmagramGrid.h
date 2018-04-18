@@ -8,8 +8,8 @@
  * does it submit to any jurisdiction.
  */
 
-#ifndef SQEWTGRID_H
-#define SQEWTGRID_H
+#ifndef EMAGRAMGRID_H
+#define EMAGRAMGRID_H
 
 #include "magics.h"
 
@@ -18,11 +18,11 @@
 
 namespace magics {
 
-class SkewtGrid:  public TephiGrid {
+class EmagramGrid: public TephiGrid {
 
 public:
-    SkewtGrid();
-    virtual ~SkewtGrid();
+    EmagramGrid();
+    virtual ~EmagramGrid();
 
     // New Interface!
    void visit(DrawingVisitor&);
@@ -51,17 +51,17 @@ protected:
 
 private:
     //! Copy constructor - No copy allowed
-    SkewtGrid(const SkewtGrid&);
+    EmagramGrid(const EmagramGrid&);
     //! Overloaded << operator to copy - No copy allowed
-    SkewtGrid& operator=(const SkewtGrid&);
+    EmagramGrid& operator=(const EmagramGrid&);
 
 // -- Friends
     //! Overloaded << operator to call print().
-    friend ostream& operator<<(ostream& s,const SkewtGrid& p)
+    friend ostream& operator<<(ostream& s,const EmagramGrid& p)
         { p.print(s); return s; }
 
 };
 
 } // namespace magics
 
-#endif // SQEWTGRID_H
+#endif // EMAGRAMGRID_H
