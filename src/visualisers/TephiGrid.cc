@@ -241,7 +241,7 @@ void TephiGrid::visit(DrawingVisitor& out)
 
 	}
 	if ( mixing_ratio_) {
-		vector<float> ratios;
+        vector<float> ratios; //in g/kg
 		ratios.push_back(0.1);
 		ratios.push_back(0.2);
 		ratios.push_back(0.5);
@@ -259,6 +259,7 @@ void TephiGrid::visit(DrawingVisitor& out)
 		// Humidity Mixing ratio Lines
 		int grid = 0;
 		int label = 0;
+        int pTop=200;
 		for (vector<float>::iterator r = ratios.begin(); r != ratios.end(); ++r) {
 			if ( grid % mixing_ratio_frequency_ )
 				continue;
@@ -267,7 +268,7 @@ void TephiGrid::visit(DrawingVisitor& out)
 			poly.setColour(*mixing_ratio_colour_);
 			poly.setLineStyle(mixing_ratio_style_);
 			poly.setThickness(mixing_ratio_thickness_);
-			for ( double p = pmin; p < pmax; p += 10) {
+            for ( double p = pTop; p < pmax; p += 10) {
 				double t = temperatureFromMixingRatio(*r, p*100);
 				PaperPoint xy = tephi(UserPoint(t-273.15, p));
 				poly.push_back(xy);

@@ -44,7 +44,7 @@ static void step(set<double>& values, set<double>& labels, double from, double t
     }
     if ( ref < from ) return;
     l = 0;
-    for ( double v = ref; v > from; v -= step) {
+    for ( double v = ref; v >= from; v -= step) {
             values.insert(v);
 
             if ( l % freq == 0 ) {

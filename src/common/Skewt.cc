@@ -38,8 +38,8 @@ void Skewt::print(ostream& out) const
 #define sinus  -0.7071
 #define cosinus  0.7071
 
-//the right edge of the real skew-t area. To the right of
-//lays the info area to plot the wind profile.
+//the right edge of the real skew-t area. To the right is
+//the info area to plot the wind profile.
 static double maxpcx;
 
 void Skewt::init()
@@ -67,7 +67,7 @@ void Skewt::init()
     minPCY_=0;
     maxPCY_=100;
 
-    // now we add 25% to the right for the info panel!
+    // now we add 25% to the right for the info area
     maxpcx = maxPCX_;
 
     MagLog::dev() << "useful area width in skew-t: " << maxpcx << endl;
@@ -75,11 +75,18 @@ void Skewt::init()
     MagLog::dev() << "witdth set for skew-t in grid " << maxpcx << endl;
 }
 
-const double KAPPA=0.285611;
-
 //Converts (t,p) coordinates to paper coordinates
 PaperPoint Skewt::operator()(const UserPoint& xy)  const
 {
+    //We are in the wind box to the right
+    if(xy.x() >= 1000 )
+    {
+        double x=(maxPCX_ - maxpcx)*(xy.x()-1000.) + maxpcx;
+        double y=(maxPCY_-minPCY_)*(log(y_min_)- log(xy.y()))/(log(y_min_)-log(y_max_));
+        return PaperPoint(x, y, xy.value());
+    }
+
+    //Main skewt area
     double t=xy.x(); //t is linear
     double p=(maxPCY_-minPCY_)*(log(y_min_)- log(xy.y()))/(log(y_min_)-log(y_max_));
 
@@ -105,31 +112,28 @@ PaperPoint Skewt::operator()(const PaperPoint& pt)  const
     return PaperPoint(pt);
 }
 
+//Converts paper coordinates to (t,p) coordinates
 void Skewt::revert(const PaperPoint& pt, UserPoint& point)  const
 {
-    // UserPoint X = temperature in deg Y = Pressure in hPa
-        // First we calculate theta and we rotate!
-    double tempe = pt.x() *cosinus + pt.y()*sinus;
-    double theta = - (pt.x() * sinus) + pt.y()*cosinus;
+    double p=exp(log(y_min_) - pt.y()*(log(y_min_)-log(y_max_))/(maxPCY_-minPCY_));
+    double tc=x_min_+(x_max_-x_min_)/2.;
+    double t=tc+(pt.x()-(p-minPCY_))*(0.5*(x_max_-x_min_))/(maxpcx-minPCX_);
 
-    double p = magics::pressureFromTheta(theta+273.15, tempe+273.15)/100;
-
-    point.x_ = tempe;
+    point.x_ = t;
     point.y_ = p;
 }
+
 
 void Skewt::revert(const vector< std::pair<double, double> > & in, vector< std::pair<double, double> > & out) const
 {
     out.reserve(in.size());
-    for (vector< std::pair<double, double> >::const_iterator p = in.begin(); p != in.end(); ++p) {
-        double tempe = p->first *cosinus + p->second*sinus;
-        double theta = - (p->first * sinus) + p->second*cosinus;
-
-        double pt = magics::pressureFromTheta(theta+273.15, tempe+273.15)/100;
-        MagLog::dev() << " tempe = " << tempe << "  Pressure = " << pt << endl;
-        out.push_back(make_pair(tempe, pt));
+    double tc=x_min_+(x_max_-x_min_)/2.;
+    for (vector< std::pair<double, double> >::const_iterator it = in.begin(); it != in.end(); ++it)
+    {
+        double p=exp(log(y_min_) - it->second*(log(y_min_)-log(y_max_))/(maxPCY_-minPCY_));
+        double t=tc+(it->first-(p-minPCY_))*(0.5*(x_max_-x_min_))/(maxpcx-minPCX_);
+        out.push_back(make_pair(t, p));
     }
-
 }
 
 bool Skewt::needShiftedCoastlines()  const
@@ -153,7 +157,6 @@ void Skewt::setMinMaxY(double min, double max)
         MagLog::warning() << " Top Pressure reset to 50." << endl;
         min = 50.;
     }
-
 
     setMinY(max);
     setMaxY(min);
@@ -419,175 +422,4 @@ bool Skewt::in(const PaperPoint& point) const
          }
 
          return boost::geometry::covered_by(point, enveloppe.polygon_);
-}
-
-
-
-//=====================================================
-//
-// SkewtInfo
-//
-//=====================================================
-
-SkewtInfo::SkewtInfo()
-{
-
-}
-
-SkewtInfo::~SkewtInfo()
-{
-}
-
-
-void SkewtInfo::init()
-{
-    Skewt::init();
-
-    reference_ = maxPCX_;
-    minPCX_ = -1.5;
-    maxPCX_ = 1.5;
-    MagLog::dev() << "minPCY-->" << minPCY_ <<  " " << y_min_ << endl;
-    MagLog::dev() << "maxPCY-->" << maxPCY_ << " " << y_max_ << endl;
-    UserPoint min(0, y_min_);
-    UserPoint max(0, y_max_);
-    (*this)(min);
-    (*this)(max);
-}
-
-void SkewtInfo::print(ostream& out) const
-{
-    out << "SkewtInfo[";
-    out << "]";
-}
-
-PaperPoint SkewtInfo::operator()(const UserPoint& xy)  const
-{
-    //x=x
-    //y=p
-    //pressure is log
-    double y=(maxPCY_-minPCY_)*(log(y_min_)- log(xy.y()))/(log(y_min_)-log(y_max_));
-    return PaperPoint(xy.x(), y);
-}
-
-PaperPoint SkewtInfo::operator()(const PaperPoint& pt)  const
-{
-#if 0
-    // UserPoint X = temperature in deg Y = Pressure in hPa
-    // First we calculate theta and we rotate!
-    double tempe = pt.x() *cosinus + pt.y()*sinus;
-    double theta = - (pt.x() * sinus) + pt.y()*cosinus;
-
-    double p = magics::pressureFromTheta(theta+273.15, tempe+273.15)/100;
-
-    return PaperPoint(tempe, p);
-#endif
-    return PaperPoint(pt);
-}
-
-void SkewtInfo::revert(const PaperPoint& pt, UserPoint& point)  const
-{
-    // UserPoint X = temperature in deg Y = Pressure in hPa
-        // First we calculate theta and we rotate!
-        double tempe = pt.x() *cosinus + pt.y()*sinus;
-        double theta = - (pt.x() * sinus) + pt.y()*cosinus;
-
-        double p = magics::pressureFromTheta(theta+273.15, tempe+273.15)/100;
-
-        point.x_ = tempe;
-        point.y_ = p;
-
-}
-
-bool SkewtInfo::needShiftedCoastlines()  const
-{
-    return false;
-}
-
-void SkewtInfo::aspectRatio(double& width, double& height)
-{
-init();
-    //Transformation::aspectRatio(width, height);
-}
-
-void SkewtInfo::boundingBox(double& xmin, double& ymin, double& xmax, double& ymax)  const
-{
-}
-
-double SkewtInfo::getMinPCX()  const
-{
-    return -1.5;
-}
-
-double SkewtInfo::getMinPCY()  const
-{
-    return minPCY_;
-}
-
-double SkewtInfo::getMaxPCX()  const
-{
-    return 1.5;
-}
-
-double SkewtInfo::getMaxPCY()  const
-{
-    return maxPCY_;
-}
-
-Polyline& SkewtInfo::getPCBoundingBox() const
-{
-    if ( PCEnveloppe_->empty() ) {
-        PCEnveloppe_->push_back(-1.5, getMinPCY());
-        PCEnveloppe_->push_back(-1.5, getMaxPCY());
-        PCEnveloppe_->push_back(1.5, getMaxPCY());
-        PCEnveloppe_->push_back(1.5, getMinPCY());
-        PCEnveloppe_->push_back(-1.5, getMinPCY());
-    }
-
-    return *PCEnveloppe_;
-}
-
-Polyline& SkewtInfo::getUserBoundingBox() const
-{
-    if ( userEnveloppe_->empty() ) {
-        userEnveloppe_->push_back(PaperPoint(x_min_, y_min_));
-        userEnveloppe_->push_back(PaperPoint(x_min_, y_max_));
-        userEnveloppe_->push_back(PaperPoint(x_max_, y_max_));
-        userEnveloppe_->push_back(PaperPoint(x_max_, y_min_));
-        userEnveloppe_->push_back(PaperPoint(x_min_, y_min_));
-    }
-
-    return *userEnveloppe_;
-}
-
-void SkewtInfo::setDefinition(const string& json)
-{
-    if (json.empty())
-            return;
-
-    MagJSon helper;
-    helper.interpret(json);
-
-    XmlNode node = **helper.tree_.firstElement();
-    node.name("SkewtInfo");
-    set(node);
-}
-
-void SkewtInfo::getNewDefinition(const UserPoint& ll, const UserPoint& ur, string& out) const
-{
-    map<string, string> def;
-    def["subpage_map_projection"] = "SkewtInfo";
-
-    def["x_min"]= tostring(ll.x_);
-            def["x_max"]= tostring(ur.x_);
-        def["y_min"]= tostring(ll.y_);
-        def["y_max"]= tostring(ur.y_);
-
-
-    ::toxml2(out, def);
-
-    out = "{" + out + "}";
-
-    MagJSon helper;
-
-    helper.interpret(out);
 }

@@ -44,7 +44,7 @@ static void step(set<double>& values, set<double>& labels, double from, double t
     }
     if ( ref < from ) return;
     l = 0;
-    for ( double v = ref; v > from; v -= step) {
+    for ( double v = ref; v >= from; v -= step) {
             values.insert(v);
 
             if ( l % freq == 0 ) {
@@ -177,21 +177,23 @@ void SkewtGrid::visit(DrawingVisitor& out)
 
             tephi(poly, out.layout());
 
-            std::set<double>::iterator label = labels.find(*th);
-            if( label == labels.end())
-                continue;
+            //std::set<double>::iterator label = labels.find(*th);
+            //if( label == labels.end())
+            //    continue;
 
             //Labels along the isotherm from the bottom left corner
-            double tLabel=(tmax-tmin)/2;
+            double tLabel=(tmax+tmin)/2;
             UserPoint point(tLabel, magics::pressureFromTheta(*th+273.15, tLabel+273.15)/100.);
-            if(tephi.in(point))
+            PaperPoint xy(tephi(point));
+            if(tephi.in(xy))
             {
                 Text* text = new Text();
-                text->setAngle(3.14/4);
+                text->setAngle(3.14*0.2);
+                text->setVerticalAlign(MHALF);
                 //text->addText("th=" + tostring(*th), font);
                 text->addText(tostring(*th), font);
                 text->setBlanking(true);
-                text->push_back(tephi(point));
+                text->push_back(xy);
                 out.push_back(text);
             }
         }
