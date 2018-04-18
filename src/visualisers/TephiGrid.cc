@@ -391,7 +391,7 @@ void TephiGrid::visit(BottomAxisVisitor& out)
 
 
 		Text *text= new Text();
-		text->setText(tostring(label->first*10.));
+        text->setText(tostring(label->first));
 		text->setFont(font);
 		text->setBlanking(true);
 

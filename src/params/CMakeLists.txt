@@ -37,6 +37,8 @@ DotGraphShadeStyle.xml
 DotOriginMarker.xml
 DotPolyShadingMethod.xml
 DumpShading.xml
+Emagram.xml
+EmagramGrid.xml
 FlagPlotting.xml
 FortranRootSceneNode.xml
 FortranSceneNode.xml
@@ -172,6 +174,7 @@ ShadingTechnique.xml
 ShapeDecoder.xml
 SimpleOutLayerTechnique.xml
 Skewt.xml
+SkewtGrid.xml
 SymbolAdvancedTableMode.xml
 SymbolIndividualMode.xml
 SymbolInput.xml

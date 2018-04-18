@@ -8,7 +8,7 @@
  * does it submit to any jurisdiction.
  */
 
-#include <Skewt.h>
+#include <Emagram.h>
 #include <Polyline.h>
 #include "SciMethods.h"
 #include "MagJSon.h"
@@ -17,21 +17,21 @@ using namespace magics;
 
 //=====================================================
 //
-// Skewt
+// Emagram
 //
 //=====================================================
 
-Skewt::Skewt()
+Emagram::Emagram()
 {
 }
 
-Skewt::~Skewt()
+Emagram::~Emagram()
 {
 }
 
-void Skewt::print(ostream& out) const
+void Emagram::print(ostream& out) const
 {
-    out << "Skewt[";
+    out << "Emagram[";
     out << "]";
 }
 
@@ -42,7 +42,7 @@ void Skewt::print(ostream& out) const
 //lays the info area to plot the wind profile.
 static double maxpcx;
 
-void Skewt::init()
+void Emagram::init()
 {
     //When default input visualiser values are specified: we assing a meaningful default
     if( x_min_ == 0 && x_max_ == 100 ) //temperature (K)
@@ -78,19 +78,14 @@ void Skewt::init()
 const double KAPPA=0.285611;
 
 //Converts (t,p) coordinates to paper coordinates
-PaperPoint Skewt::operator()(const UserPoint& xy)  const
+PaperPoint Emagram::operator()(const UserPoint& xy)  const
 {
-    double t=xy.x(); //t is linear
-    double p=(maxPCY_-minPCY_)*(log(y_min_)- log(xy.y()))/(log(y_min_)-log(y_max_));
-
-    double tc=x_min_+(x_max_-x_min_)/2.;
-    double x=(t-tc)*(maxpcx-minPCX_)/(0.5*(x_max_-x_min_))+(p-minPCY_);
-    double y=p;
-
+    double x=(maxpcx-minPCX_)*(xy.x()-x_min_)/(x_max_-x_min_);
+    double y=(maxPCY_-minPCY_)*(log(y_min_)- log(xy.y()))/(log(y_min_)-log(y_max_));
     return PaperPoint(x, y, xy.value());
 }
 
-PaperPoint Skewt::operator()(const PaperPoint& pt)  const
+PaperPoint Emagram::operator()(const PaperPoint& pt)  const
 {
 #if 0
     // UserPoint X = temperature in deg Y = Pressure in hPa
@@ -105,20 +100,17 @@ PaperPoint Skewt::operator()(const PaperPoint& pt)  const
     return PaperPoint(pt);
 }
 
-void Skewt::revert(const PaperPoint& pt, UserPoint& point)  const
+//Converts paper coordinates to (t,p) coordinates
+void Emagram::revert(const PaperPoint& pt, UserPoint& point)  const
 {
-    // UserPoint X = temperature in deg Y = Pressure in hPa
-        // First we calculate theta and we rotate!
-    double tempe = pt.x() *cosinus + pt.y()*sinus;
-    double theta = - (pt.x() * sinus) + pt.y()*cosinus;
+    double t=x_min_ + (x_max_-x_min_)*(pt.x()-minPCX_)/(maxpcx-minPCX_);
+    double p=exp(log(y_min_) - pt.y()*(log(y_min_)-log(y_max_))/(maxPCY_-minPCY_));
 
-    double p = magics::pressureFromTheta(theta+273.15, tempe+273.15)/100;
-
-    point.x_ = tempe;
+    point.x_ = t;
     point.y_ = p;
 }
 
-void Skewt::revert(const vector< std::pair<double, double> > & in, vector< std::pair<double, double> > & out) const
+void Emagram::revert(const vector< std::pair<double, double> > & in, vector< std::pair<double, double> > & out) const
 {
     out.reserve(in.size());
     for (vector< std::pair<double, double> >::const_iterator p = in.begin(); p != in.end(); ++p) {
@@ -132,12 +124,12 @@ void Skewt::revert(const vector< std::pair<double, double> > & in, vector< std::
 
 }
 
-bool Skewt::needShiftedCoastlines()  const
+bool Emagram::needShiftedCoastlines()  const
 {
     return false;
 }
 
-void Skewt::setMinMaxX(double min, double max)
+void Emagram::setMinMaxX(double min, double max)
 {
     if ( min > 1000 || max > 1000) return;
     setMinX(min);
@@ -145,9 +137,9 @@ void Skewt::setMinMaxX(double min, double max)
     init();
 }
 
-void Skewt::setMinMaxY(double min, double max)
+void Emagram::setMinMaxY(double min, double max)
 {
-    // Careful, Skewt are in pressure levels...
+    // Careful, Emagram are in pressure levels...
     if ( min < 50.)
     {
         MagLog::warning() << " Top Pressure reset to 50." << endl;
@@ -160,12 +152,12 @@ void Skewt::setMinMaxY(double min, double max)
     init();
 }
 
-void Skewt::aspectRatio(double& width, double& height)
+void Emagram::aspectRatio(double& width, double& height)
 {
     Transformation::aspectRatio(width, height);
 }
 
-void Skewt::boundingBox(double& xmin, double& ymin, double& xmax, double& ymax)  const
+void Emagram::boundingBox(double& xmin, double& ymin, double& xmax, double& ymax)  const
 {
     vector< std::pair<double, double> > geo;
     vector< std::pair<double, double> > xy;
@@ -204,78 +196,78 @@ void Skewt::boundingBox(double& xmin, double& ymin, double& xmax, double& ymax) 
 
 }
 
-double Skewt::getMinX()  const
+double Emagram::getMinX()  const
 {
     return -1.5;
 }
 
-double Skewt::getMinY()  const
+double Emagram::getMinY()  const
 {
     return y_min_;
 }
 
-double Skewt::getMaxX()  const
+double Emagram::getMaxX()  const
 {
     return 1.5;;
 }
 
-double Skewt::getMaxY()  const
+double Emagram::getMaxY()  const
 {
     return y_max_;
 }
 
-void Skewt::setMinX(double x)
+void Emagram::setMinX(double x)
 {
     if ( x < x_min_ )
         x_min_ = x;
 }
 
-void Skewt::setMinY(double y)
+void Emagram::setMinY(double y)
 {
     if ( y > y_min_ )
         y_min_ = y;
 }
 
-void Skewt::setMaxX(double x)
+void Emagram::setMaxX(double x)
 {
     if ( x > x_max_ )
         x_max_ = x;
 }
 
-void Skewt::setMaxY(double y)
+void Emagram::setMaxY(double y)
 {
     if ( y < y_max_ )
         y_max_ = y;
 }
 
-double Skewt::getMinPCX()  const
+double Emagram::getMinPCX()  const
 {
 
     return minPCX_;
 }
 
-double Skewt::getMinPCY()  const
+double Emagram::getMinPCY()  const
 {
 
     return minPCY_;
 }
 
-double Skewt::getMaxPCX()  const
+double Emagram::getMaxPCX()  const
 {
 
     return maxPCX_;
 }
 
-double Skewt::getMaxPCY()  const
+double Emagram::getMaxPCY()  const
 {
     return maxPCY_;
 }
 
-double Skewt::getMaxTestPCX () const{
+double Emagram::getMaxTestPCX () const{
     return maxpcx;
 }
 
-Polyline& Skewt::getPCBoundingBox() const
+Polyline& Emagram::getPCBoundingBox() const
 {
     if ( PCEnveloppe_->empty() ) {
         PCEnveloppe_->push_back(PaperPoint(getMinPCX(), getMinPCY()));
@@ -289,7 +281,7 @@ Polyline& Skewt::getPCBoundingBox() const
 
 }
 
-Polyline& Skewt::getUserBoundingBox() const
+Polyline& Emagram::getUserBoundingBox() const
 {
     if ( userEnveloppe_->empty() ) {
         userEnveloppe_->push_back(PaperPoint(x_min_, y_min_));
@@ -302,7 +294,7 @@ Polyline& Skewt::getUserBoundingBox() const
     return *userEnveloppe_;
 }
 
-void Skewt::setDefinition(const string& json)
+void Emagram::setDefinition(const string& json)
 {
     if(json.empty())
         return;
@@ -312,7 +304,7 @@ void Skewt::setDefinition(const string& json)
 
         XmlNode node = **helper.tree_.firstElement();
 
-        node.name("Skewt");
+        node.name("Emagram");
         set(node);
 }
 
@@ -328,10 +320,10 @@ static void toxml2(string& out, const map<string, string>& def)
     out = os.str();
 }
 
-void Skewt::getNewDefinition(const UserPoint& ll, const UserPoint& ur, string& out) const
+void Emagram::getNewDefinition(const UserPoint& ll, const UserPoint& ur, string& out) const
 {
     map<string, string> def;
-    def["subpage_map_projection"] = "Skewt";
+    def["subpage_map_projection"] = "Emagram";
 
     def["x_min"]= tostring(ll.x_);
     def["x_max"]= tostring(ur.x_);
@@ -348,7 +340,7 @@ void Skewt::getNewDefinition(const UserPoint& ll, const UserPoint& ur, string& o
     helper.interpret(out);
 }
 
-void Skewt::operator()(const Polyline& from,  BasicGraphicsObjectContainer& out) const
+void Emagram::operator()(const Polyline& from,  BasicGraphicsObjectContainer& out) const
 {
     if (from.empty())
             return;
@@ -407,7 +399,7 @@ void Skewt::operator()(const Polyline& from,  BasicGraphicsObjectContainer& out)
 
 }
 
-bool Skewt::in(const PaperPoint& point) const
+bool Emagram::in(const PaperPoint& point) const
 {
     static Polyline enveloppe;
          if ( enveloppe.empty()) {
@@ -425,23 +417,23 @@ bool Skewt::in(const PaperPoint& point) const
 
 //=====================================================
 //
-// SkewtInfo
+// EmagramInfo
 //
 //=====================================================
 
-SkewtInfo::SkewtInfo()
+EmagramInfo::EmagramInfo()
 {
 
 }
 
-SkewtInfo::~SkewtInfo()
+EmagramInfo::~EmagramInfo()
 {
 }
 
 
-void SkewtInfo::init()
+void EmagramInfo::init()
 {
-    Skewt::init();
+    Emagram::init();
 
     reference_ = maxPCX_;
     minPCX_ = -1.5;
@@ -454,13 +446,13 @@ void SkewtInfo::init()
     (*this)(max);
 }
 
-void SkewtInfo::print(ostream& out) const
+void EmagramInfo::print(ostream& out) const
 {
-    out << "SkewtInfo[";
+    out << "EmagramInfo[";
     out << "]";
 }
 
-PaperPoint SkewtInfo::operator()(const UserPoint& xy)  const
+PaperPoint EmagramInfo::operator()(const UserPoint& xy)  const
 {
     //x=x
     //y=p
@@ -469,7 +461,7 @@ PaperPoint SkewtInfo::operator()(const UserPoint& xy)  const
     return PaperPoint(xy.x(), y);
 }
 
-PaperPoint SkewtInfo::operator()(const PaperPoint& pt)  const
+PaperPoint EmagramInfo::operator()(const PaperPoint& pt)  const
 {
 #if 0
     // UserPoint X = temperature in deg Y = Pressure in hPa
@@ -484,7 +476,7 @@ PaperPoint SkewtInfo::operator()(const PaperPoint& pt)  const
     return PaperPoint(pt);
 }
 
-void SkewtInfo::revert(const PaperPoint& pt, UserPoint& point)  const
+void EmagramInfo::revert(const PaperPoint& pt, UserPoint& point)  const
 {
     // UserPoint X = temperature in deg Y = Pressure in hPa
         // First we calculate theta and we rotate!
@@ -498,42 +490,42 @@ void SkewtInfo::revert(const PaperPoint& pt, UserPoint& point)  const
 
 }
 
-bool SkewtInfo::needShiftedCoastlines()  const
+bool EmagramInfo::needShiftedCoastlines()  const
 {
     return false;
 }
 
-void SkewtInfo::aspectRatio(double& width, double& height)
+void EmagramInfo::aspectRatio(double& width, double& height)
 {
 init();
     //Transformation::aspectRatio(width, height);
 }
 
-void SkewtInfo::boundingBox(double& xmin, double& ymin, double& xmax, double& ymax)  const
+void EmagramInfo::boundingBox(double& xmin, double& ymin, double& xmax, double& ymax)  const
 {
 }
 
-double SkewtInfo::getMinPCX()  const
+double EmagramInfo::getMinPCX()  const
 {
     return -1.5;
 }
 
-double SkewtInfo::getMinPCY()  const
+double EmagramInfo::getMinPCY()  const
 {
     return minPCY_;
 }
 
-double SkewtInfo::getMaxPCX()  const
+double EmagramInfo::getMaxPCX()  const
 {
     return 1.5;
 }
 
-double SkewtInfo::getMaxPCY()  const
+double EmagramInfo::getMaxPCY()  const
 {
     return maxPCY_;
 }
 
-Polyline& SkewtInfo::getPCBoundingBox() const
+Polyline& EmagramInfo::getPCBoundingBox() const
 {
     if ( PCEnveloppe_->empty() ) {
         PCEnveloppe_->push_back(-1.5, getMinPCY());
@@ -546,7 +538,7 @@ Polyline& SkewtInfo::getPCBoundingBox() const
     return *PCEnveloppe_;
 }
 
-Polyline& SkewtInfo::getUserBoundingBox() const
+Polyline& EmagramInfo::getUserBoundingBox() const
 {
     if ( userEnveloppe_->empty() ) {
         userEnveloppe_->push_back(PaperPoint(x_min_, y_min_));
@@ -559,7 +551,7 @@ Polyline& SkewtInfo::getUserBoundingBox() const
     return *userEnveloppe_;
 }
 
-void SkewtInfo::setDefinition(const string& json)
+void EmagramInfo::setDefinition(const string& json)
 {
     if (json.empty())
             return;
@@ -568,14 +560,14 @@ void SkewtInfo::setDefinition(const string& json)
     helper.interpret(json);
 
     XmlNode node = **helper.tree_.firstElement();
-    node.name("SkewtInfo");
+    node.name("EmagramInfo");
     set(node);
 }
 
-void SkewtInfo::getNewDefinition(const UserPoint& ll, const UserPoint& ur, string& out) const
+void EmagramInfo::getNewDefinition(const UserPoint& ll, const UserPoint& ur, string& out) const
 {
     map<string, string> def;
-    def["subpage_map_projection"] = "SkewtInfo";
+    def["subpage_map_projection"] = "EmagramInfo";
 
     def["x_min"]= tostring(ll.x_);
             def["x_max"]= tostring(ur.x_);

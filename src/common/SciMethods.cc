@@ -256,7 +256,7 @@ double temperatureFromMixingRatio(double r, double p)
   	double c = log10(r*pmb/(622.+r));
 	
     double tmr=::pow(10.,0.0498646455*c + 2.4082965)-280.23475+
-              38.9114*pow(2.,::pow(10.,0.0915*c)-1.2035);
+              38.9114*::pow(::pow(10.,0.0915*c)-1.2035,2.);
 
 	return tmr+273.16;
 }

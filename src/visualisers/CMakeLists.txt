@@ -60,6 +60,8 @@ DateAxis.h
 DefinitionTable.h
 DefinitionTable.hcc
 DotPolyShadingMethod.h
+EmagramGrid.cc
+EmagramGrid.h
 EpsForecastPlot.h
 EpsGraph.cc
 EpsGraph.h

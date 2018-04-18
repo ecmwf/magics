@@ -8,7 +8,7 @@
  * does it submit to any jurisdiction.
  */
 
-#include "SkewtGrid.h"
+#include "EmagramGrid.h"
 #include "Layout.h"
 #include "Polyline.h"
 #include "Text.h"
@@ -19,12 +19,12 @@
 #include "SciMethods.h"
 using namespace magics;
 
-SkewtGrid::SkewtGrid()
+EmagramGrid::EmagramGrid()
 {
 }
 
 
-SkewtGrid::~SkewtGrid()
+EmagramGrid::~EmagramGrid()
 {
 }
 
@@ -55,15 +55,17 @@ static void step(set<double>& values, set<double>& labels, double from, double t
     }
 }
 
-void SkewtGrid::visit(DrawingVisitor& out)
+void EmagramGrid::visit(DrawingVisitor& out)
 {
     const Transformation& tephi = out.transformation();
     //vector<double> tempe;
     double maxpcx = (tephi.getMaxPCX() + (tephi.getMinPCX()*.25))/1.25;
     //double minpcx = tephi.getMinPCX();
-    //PaperPoint lr(maxpcx, tephi.getMinPCY());
-    //UserPoint xy;
-    //tephi.revert(lr, xy);
+
+    PaperPoint lr(maxpcx, tephi.getMinPCY());
+    UserPoint lrTP;
+    tephi.revert(lr, lrTP);
+    double realTMax=lrTP.x();
 
     double tmin;
     double tmax;
@@ -82,10 +84,12 @@ void SkewtGrid::visit(DrawingVisitor& out)
 
     double thmin = magics::theta(tmin+273.15, pmax*100.)-237.15;
     thmin = -100;
-    double thmax = magics::theta(tmax+273.15, pmin*100.) -237.15;
-    thmax = +450;
+    //double thmax = magics::theta(tmax+273.15, pmin*100.) -237.15;
+    //thmax = +450;
 
-    // Isotherms are 45 degree lines
+    double thmax=220;
+
+    // Isotherms are vertical lines
     if(isotherm_)
     {
         std::set<double> isotherms;
@@ -126,7 +130,7 @@ void SkewtGrid::visit(DrawingVisitor& out)
                 else
                     tBottomLabels_[*t] = xy;
             }
-
+#if 0
             //labels at the top
             xy = tephi(UserPoint(*t, tephi.getMaxY()));
             if(tephi.in(xy) && xy.x() <= maxpcx)
@@ -140,6 +144,7 @@ void SkewtGrid::visit(DrawingVisitor& out)
                 else
                     tTopLabels_[*t] = xy;
              }
+#endif
         }
     }
 
@@ -182,16 +187,19 @@ void SkewtGrid::visit(DrawingVisitor& out)
                 continue;
 
             //Labels along the isotherm from the bottom left corner
-            double tLabel=(tmax-tmin)/2;
-            UserPoint point(tLabel, magics::pressureFromTheta(*th+273.15, tLabel+273.15)/100.);
-            if(tephi.in(point))
+
+            double tLabel=realTMax;
+            UserPoint point(tLabel,magics::pressureFromTheta(*th+273.15, tLabel+273.15)/100.);
+            PaperPoint xy(tephi(point));
+
+            if(tephi.in(xy))
             {
                 Text* text = new Text();
-                text->setAngle(3.14/4);
-                //text->addText("th=" + tostring(*th), font);
+                text->setJustification(MLEFT);
+                text->setVerticalAlign(MHALF);
                 text->addText(tostring(*th), font);
                 text->setBlanking(true);
-                text->push_back(tephi(point));
+                text->push_back(PaperPoint(maxpcx, xy.y()));
                 out.push_back(text);
             }
         }
@@ -263,14 +271,15 @@ void SkewtGrid::visit(DrawingVisitor& out)
         vector<float> ratios; //in g/kg
         ratios.push_back(0.1);
         ratios.push_back(0.2);
-        ratios.push_back(0.5);
+        ratios.push_back(0.4);
         ratios.push_back(0.7);
         ratios.push_back(1.);
         ratios.push_back(1.5);
         ratios.push_back(2.);
         ratios.push_back(3.);
-        ratios.push_back(5.);
-        ratios.push_back(7.);
+        ratios.push_back(4.);
+        ratios.push_back(6.);
+        ratios.push_back(8.);
         ratios.push_back(10.);
         ratios.push_back(15.);
         ratios.push_back(20.);
@@ -345,7 +354,7 @@ void SkewtGrid::visit(DrawingVisitor& out)
             double s = thetaEq(*thetaw+273.15, *thetaw+273.15, 1000*100);
 
             double pl = -1;
-            double pTop=200;
+            double pTop=pmin;
             for(double p = pTop; p < pmax; p += 1) {
                 double t = magics::temperatureFromThetaEq(s, p*100)-273.15;
                 poly.push_back(tephi(UserPoint(t, p)));
@@ -380,13 +389,13 @@ void SkewtGrid::visit(DrawingVisitor& out)
 /*!
  Class information are given to the output-stream.
 */
-void SkewtGrid::print(ostream& out)  const
+void EmagramGrid::print(ostream& out)  const
 {
-    out << "SkewtGrid[";
+    out << "EmagramGrid[";
     TephiGridAttributes::print(out);
     out << "]";
 }
-void SkewtGrid::visit(LeftAxisVisitor& out)
+void EmagramGrid::visit(LeftAxisVisitor& out)
 {
     MagFont font(isobar_label_font_, isobar_label_style_, isobar_label_size_);
 
@@ -404,7 +413,7 @@ void SkewtGrid::visit(LeftAxisVisitor& out)
             out.push_back(text);
         }
 }
-void SkewtGrid::visit(RightAxisVisitor& out)
+void EmagramGrid::visit(RightAxisVisitor& out)
 {
     MagFont font(isobar_label_font_, isobar_label_style_, isobar_label_size_);
 
@@ -423,7 +432,7 @@ void SkewtGrid::visit(RightAxisVisitor& out)
     }
 
 }
-void SkewtGrid::visit(BottomAxisVisitor& out)
+void EmagramGrid::visit(BottomAxisVisitor& out)
 {
     MagFont font(isotherm_label_font_, isotherm_label_style_, isotherm_label_size_);
     font.colour(*isotherm_label_colour_);
@@ -439,7 +448,7 @@ void SkewtGrid::visit(BottomAxisVisitor& out)
     }
 }
 
-void SkewtGrid::visit(TopAxisVisitor& out)
+void EmagramGrid::visit(TopAxisVisitor& out)
 {
     MagFont font(isotherm_label_font_, isotherm_label_style_, isotherm_label_size_);
     font.colour(*isotherm_label_colour_);
@@ -456,7 +465,7 @@ void SkewtGrid::visit(TopAxisVisitor& out)
 
 }
 
-void SkewtGrid::visit(SceneLayer& layer, vector<LayoutVisitor*>& visitors)
+void EmagramGrid::visit(SceneLayer& layer, vector<LayoutVisitor*>& visitors)
 {
     // First we create the layer!
     // and push It to the parent layer!
