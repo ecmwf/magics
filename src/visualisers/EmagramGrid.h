@@ -25,14 +25,12 @@ public:
     virtual ~EmagramGrid();
 
     // New Interface!
-   void visit(DrawingVisitor&);
-   void visit(LeftAxisVisitor&);
-   void visit(RightAxisVisitor&);
-   void visit(BottomAxisVisitor&);
-   void visit(TopAxisVisitor&);
-
-   void visit(SceneLayer& layer, vector<LayoutVisitor*>& visitors);
-
+    void visit(DrawingVisitor&);
+    void visit(LeftAxisVisitor&);
+    void visit(RightAxisVisitor&);
+    void visit(BottomAxisVisitor&);
+    void visit(TopAxisVisitor&);
+    void visit(SceneLayer& layer, vector<LayoutVisitor*>& visitors);
 
     void set(const map<string, string>& map ) { TephiGridAttributes::set(map); }
     void set(const XmlNode& node ) { TephiGridAttributes::set(node); }
@@ -40,14 +38,8 @@ public:
 protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).
      virtual void print(ostream&) const;
-     map<double, PaperPoint> pressureRightLabels_;
-     map<double, PaperPoint> pressureLeftLabels_;
      map<double, PaperPoint> tTopLabels_;
      map<double, PaperPoint> tBottomLabels_;
-     map<double, PaperPoint> mixingLabels_;
-     map<double, PaperPoint> isothermLabels_;
-     map<double, PaperPoint> isothetaLabels_;
-     map<double, PaperPoint> satLabels_;
 
 private:
     //! Copy constructor - No copy allowed

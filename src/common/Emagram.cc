@@ -38,8 +38,8 @@ void Emagram::print(ostream& out) const
 #define sinus  -0.7071
 #define cosinus  0.7071
 
-//the right edge of the real skew-t area. To the right of
-//lays the info area to plot the wind profile.
+//the right edge of the real skew-t area. To the right
+//is the info area to plot the wind profile.
 static double maxpcx;
 
 void Emagram::init()
@@ -67,12 +67,12 @@ void Emagram::init()
     minPCY_=0;
     maxPCY_=100;
 
-    // now we add 25% to the right for the info panel!
+    // now we add 25% to the right for the info area
     maxpcx = maxPCX_;
 
-    MagLog::dev() << "useful area width in skew-t: " << maxpcx << endl;
+    MagLog::dev() << "useful area width in emagram: " << maxpcx << endl;
     maxPCX_ += (maxPCX_ - minPCX_)*(annotation_width_/100.);
-    MagLog::dev() << "witdth set for skew-t in grid " << maxpcx << endl;
+    MagLog::dev() << "witdth set for emagram in grid " << maxpcx << endl;
 }
 
 const double KAPPA=0.285611;
@@ -80,6 +80,15 @@ const double KAPPA=0.285611;
 //Converts (t,p) coordinates to paper coordinates
 PaperPoint Emagram::operator()(const UserPoint& xy)  const
 {
+    //We are in the wind box to the right
+    if(xy.x() >= 1000 )
+    {
+        double x =  (maxPCX_ - maxpcx)*(xy.x()-1000.) + maxpcx;
+        double y=(maxPCY_-minPCY_)*(log(y_min_)- log(xy.y()))/(log(y_min_)-log(y_max_));
+        return PaperPoint(x, y, xy.value());
+    }
+
+    //Main emagram area
     double x=(maxpcx-minPCX_)*(xy.x()-x_min_)/(x_max_-x_min_);
     double y=(maxPCY_-minPCY_)*(log(y_min_)- log(xy.y()))/(log(y_min_)-log(y_max_));
     return PaperPoint(x, y, xy.value());
@@ -113,15 +122,12 @@ void Emagram::revert(const PaperPoint& pt, UserPoint& point)  const
 void Emagram::revert(const vector< std::pair<double, double> > & in, vector< std::pair<double, double> > & out) const
 {
     out.reserve(in.size());
-    for (vector< std::pair<double, double> >::const_iterator p = in.begin(); p != in.end(); ++p) {
-        double tempe = p->first *cosinus + p->second*sinus;
-        double theta = - (p->first * sinus) + p->second*cosinus;
-
-        double pt = magics::pressureFromTheta(theta+273.15, tempe+273.15)/100;
-        MagLog::dev() << " tempe = " << tempe << "  Pressure = " << pt << endl;
-        out.push_back(make_pair(tempe, pt));
+    for (vector< std::pair<double, double> >::const_iterator it = in.begin(); it != in.end(); ++it)
+    {
+        double t=x_min_ + (x_max_-x_min_)*(it->first-minPCX_)/(maxpcx-minPCX_);
+        double p=exp(log(y_min_) - it->second*(log(y_min_)-log(y_max_))/(maxPCY_-minPCY_));
+        out.push_back(make_pair(t, p));
     }
-
 }
 
 bool Emagram::needShiftedCoastlines()  const
@@ -411,175 +417,4 @@ bool Emagram::in(const PaperPoint& point) const
          }
 
          return boost::geometry::covered_by(point, enveloppe.polygon_);
-}
-
-
-
-//=====================================================
-//
-// EmagramInfo
-//
-//=====================================================
-
-EmagramInfo::EmagramInfo()
-{
-
-}
-
-EmagramInfo::~EmagramInfo()
-{
-}
-
-
-void EmagramInfo::init()
-{
-    Emagram::init();
-
-    reference_ = maxPCX_;
-    minPCX_ = -1.5;
-    maxPCX_ = 1.5;
-    MagLog::dev() << "minPCY-->" << minPCY_ <<  " " << y_min_ << endl;
-    MagLog::dev() << "maxPCY-->" << maxPCY_ << " " << y_max_ << endl;
-    UserPoint min(0, y_min_);
-    UserPoint max(0, y_max_);
-    (*this)(min);
-    (*this)(max);
-}
-
-void EmagramInfo::print(ostream& out) const
-{
-    out << "EmagramInfo[";
-    out << "]";
-}
-
-PaperPoint EmagramInfo::operator()(const UserPoint& xy)  const
-{
-    //x=x
-    //y=p
-    //pressure is log
-    double y=(maxPCY_-minPCY_)*(log(y_min_)- log(xy.y()))/(log(y_min_)-log(y_max_));
-    return PaperPoint(xy.x(), y);
-}
-
-PaperPoint EmagramInfo::operator()(const PaperPoint& pt)  const
-{
-#if 0
-    // UserPoint X = temperature in deg Y = Pressure in hPa
-    // First we calculate theta and we rotate!
-    double tempe = pt.x() *cosinus + pt.y()*sinus;
-    double theta = - (pt.x() * sinus) + pt.y()*cosinus;
-
-    double p = magics::pressureFromTheta(theta+273.15, tempe+273.15)/100;
-
-    return PaperPoint(tempe, p);
-#endif
-    return PaperPoint(pt);
-}
-
-void EmagramInfo::revert(const PaperPoint& pt, UserPoint& point)  const
-{
-    // UserPoint X = temperature in deg Y = Pressure in hPa
-        // First we calculate theta and we rotate!
-        double tempe = pt.x() *cosinus + pt.y()*sinus;
-        double theta = - (pt.x() * sinus) + pt.y()*cosinus;
-
-        double p = magics::pressureFromTheta(theta+273.15, tempe+273.15)/100;
-
-        point.x_ = tempe;
-        point.y_ = p;
-
-}
-
-bool EmagramInfo::needShiftedCoastlines()  const
-{
-    return false;
-}
-
-void EmagramInfo::aspectRatio(double& width, double& height)
-{
-init();
-    //Transformation::aspectRatio(width, height);
-}
-
-void EmagramInfo::boundingBox(double& xmin, double& ymin, double& xmax, double& ymax)  const
-{
-}
-
-double EmagramInfo::getMinPCX()  const
-{
-    return -1.5;
-}
-
-double EmagramInfo::getMinPCY()  const
-{
-    return minPCY_;
-}
-
-double EmagramInfo::getMaxPCX()  const
-{
-    return 1.5;
-}
-
-double EmagramInfo::getMaxPCY()  const
-{
-    return maxPCY_;
-}
-
-Polyline& EmagramInfo::getPCBoundingBox() const
-{
-    if ( PCEnveloppe_->empty() ) {
-        PCEnveloppe_->push_back(-1.5, getMinPCY());
-        PCEnveloppe_->push_back(-1.5, getMaxPCY());
-        PCEnveloppe_->push_back(1.5, getMaxPCY());
-        PCEnveloppe_->push_back(1.5, getMinPCY());
-        PCEnveloppe_->push_back(-1.5, getMinPCY());
-    }
-
-    return *PCEnveloppe_;
-}
-
-Polyline& EmagramInfo::getUserBoundingBox() const
-{
-    if ( userEnveloppe_->empty() ) {
-        userEnveloppe_->push_back(PaperPoint(x_min_, y_min_));
-        userEnveloppe_->push_back(PaperPoint(x_min_, y_max_));
-        userEnveloppe_->push_back(PaperPoint(x_max_, y_max_));
-        userEnveloppe_->push_back(PaperPoint(x_max_, y_min_));
-        userEnveloppe_->push_back(PaperPoint(x_min_, y_min_));
-    }
-
-    return *userEnveloppe_;
-}
-
-void EmagramInfo::setDefinition(const string& json)
-{
-    if (json.empty())
-            return;
-
-    MagJSon helper;
-    helper.interpret(json);
-
-    XmlNode node = **helper.tree_.firstElement();
-    node.name("EmagramInfo");
-    set(node);
-}
-
-void EmagramInfo::getNewDefinition(const UserPoint& ll, const UserPoint& ur, string& out) const
-{
-    map<string, string> def;
-    def["subpage_map_projection"] = "EmagramInfo";
-
-    def["x_min"]= tostring(ll.x_);
-            def["x_max"]= tostring(ur.x_);
-        def["y_min"]= tostring(ll.y_);
-        def["y_max"]= tostring(ur.y_);
-
-
-    ::toxml2(out, def);
-
-    out = "{" + out + "}";
-
-    MagJSon helper;
-
-    helper.interpret(out);
 }
