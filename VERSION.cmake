@@ -6,8 +6,8 @@
 # granted to it by virtue of its status as an intergovernmental organisation nor
 # does it submit to any jurisdiction.
 
-set ( metabuilder_version 3.0.3 )
-set ( _version 3.0.3 )
+set ( metabuilder_version 3.0.4 )
+set ( _version 3.0.4 )
 
 if ( MAGICS_BUILD )
   set( ${PROJECT_NAME}_VERSION_STR  "${metabuilder_version}-${MAGICS_BUILD}" )
