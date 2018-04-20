@@ -36,7 +36,7 @@ does it submit to any jurisdiction.
          		<set name="text_line_10" value="10">		</set>
  	</parameter>
 
-  	<parameter member="line1" to="string" default="&lt;Magics_title/&gt;" from="string" name="text_line_1">
+  	<parameter member="line1" to="string" default="&lt;magics_title/&gt;" from="string" name="text_line_1">
          		<release>0.1		</release>
          		<release_info>deprecated parameter : see text_lines 		</release_info>
          		<documentation> Character string for holding lines of text (n=1,10) 		</documentation>
