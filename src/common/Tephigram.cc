@@ -50,16 +50,15 @@ void Tephigram::print(ostream& out) const
 static double maxpcx;
 void Tephigram::init()
 {
-
 	if ( x_min_ == 0 && x_max_ == 100 ) {
 			x_min_ = -90;
 			x_max_ = 50;
-		}
+    }
 
-		if ( y_min_ == 0 && y_max_ == 100 ) {
-				y_min_ = 1060.;
-				y_max_ = 200;
-			}
+    if ( y_min_ == 0 && y_max_ == 100 ) {
+            y_min_ = 1060.;
+            y_max_ = 200;
+    }
 
 		vector<double> x, y;
 
@@ -67,10 +66,41 @@ void Tephigram::init()
 		double tmin = (x_min_ + x_max_)/2.;
 		double pmin = std::max(y_min_, y_max_);
 		double pmax = std::min(y_min_, y_max_);
-
 		double thmin= magics::theta(tmin+273.15, pmin*100.)-273.15;
 		double thmax = magics::theta(tmin+273.15, pmax*100.)-273.15;
 		double tmax = temperatureFromTheta(thmax+273.15,  pmax*100. ) -273.15;
+
+
+    if(x_min_ < -300  || tmin <  -300)
+    {
+        throw MagicsException("Tephigram: invalid minimum temperature");
+    }
+
+    if(x_max_ > 400  || tmax > 400)
+    {
+        throw MagicsException("Tephigram: invalid maximum temperature");
+    }
+
+    if(y_min_ > 1500  || pmin > 1500)
+    {
+        throw MagicsException("Tephigram: invalid bottom pressure");
+    }
+
+    if(y_max_ <=0.0001  || pmax <= 0.0001)
+    {
+        throw MagicsException("Tephigram: invalid top pressure");
+    }
+
+    if(x_min_ > x_max_)
+    {
+        throw MagicsException("Tephigram: minimum temperature cannot be greater than maximum temperature");
+    }
+
+    if(y_min_ < y_max_)
+    {
+        throw MagicsException("Tephigram: top pressure cannot be greater than bottom pressure");
+    }
+
 	minPCX_ = ((tmin * cosinus) - (thmin * sinus) );
 	minPCY_ = (tmin * sinus) + (thmin * cosinus);
 	maxPCX_ = ((tmax * cosinus) - (thmax * sinus));
