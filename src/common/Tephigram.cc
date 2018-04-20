@@ -674,15 +674,8 @@ void Tephigram::operator()(const Polyline& from,  BasicGraphicsObjectContainer& 
 }
 
 bool Tephigram::in(const PaperPoint& point) const
- {
-	static Polyline enveloppe;
-         if ( enveloppe.empty()) {
-        	 enveloppe.push_back(PaperPoint(getMinPCX(), getMinPCY()));
-        	 enveloppe.push_back(PaperPoint(getMinPCX(), getMaxPCY()));
-        	 enveloppe.push_back(PaperPoint(getMaxPCX(), getMaxPCY()));
-        	 enveloppe.push_back(PaperPoint(getMaxPCX(), getMinPCY()));
-        	 enveloppe.push_back(PaperPoint(getMinPCX(), getMinPCY()));
-         }
+{
+    Polyline& enveloppe=getPCBoundingBox();
+    return boost::geometry::covered_by(point,enveloppe.polygon_);
+}
 
-         return boost::geometry::covered_by(point, enveloppe.polygon_);
- }

@@ -199,7 +199,7 @@ void EmagramGrid::visit(DrawingVisitor& out)
                 text->setVerticalAlign(MHALF);
                 text->addText(tostring(*th), font);
                 text->setBlanking(true);
-                text->push_back(PaperPoint(maxpcx, xy.y()));
+                text->push_back(PaperPoint(maxpcx+1, xy.y()));
                 out.push_back(text);
             }
         }
