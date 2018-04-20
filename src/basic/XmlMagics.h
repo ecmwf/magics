@@ -111,6 +111,7 @@ public:
 	void epsshading(const XmlNode&);
 	void epsplume(const XmlNode&);
 	void epsdirection(const XmlNode&);
+	void capebox(const XmlNode&);
 
 	void polyinput(const XmlNode&);
 	void polyline(const XmlNode&);

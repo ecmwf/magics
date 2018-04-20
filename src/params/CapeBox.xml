@@ -1,0 +1,46 @@
+<magics>
+<class action="peps" directory="visualisers" prefix="cape" xmltag="capebox" name="CapeBox">
+<!--
+(C) Copyright 1996-2016 ECMWF.
+
+This software is licensed under the terms of the Apache Licence Version 2.0
+which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+In applying this licence, ECMWF does not waive the privileges and immunities 
+granted to it by virtue of its status as an intergovernmental organisation nor
+does it submit to any jurisdiction.
+-->
+
+		<documentation>
+		The Epsgraph is repsonsible for plotting the espgram using box and whisker visualisation
+		</documentation>
+        	<parameter from="string" name="cape_control_colour" default="red" member="control_colour" to="Colour">           
+        	</parameter>
+            <parameter from="string" name="cape_hres_colour" default="blue" member="hres_colour" to="Colour">           
+            </parameter>
+             <parameter from="string" name="cape_box_colour" default="black" member="box_colour" to="Colour">           
+            </parameter>
+              <parameter from="string" name="cape_box_border_colour" default="black" member="box_border_colour" to="Colour">           
+            </parameter>
+             <parameter from="float" name="cape_box_border_thickness" default="2" member="box_border_thickness" to="float">           
+            </parameter>
+            <parameter from="int" name="cape_marker_index" default="15" member="marker_index" to="int">           
+            </parameter>
+              <parameter from="float" name="cape_marker_height" default="0.5" member="marker_height" to="float">           
+            </parameter>
+             <parameter from="string" name="cape_marker_colour" default="black" member="marker_colour" to="Colour">           
+            </parameter>
+
+            <parameter from="string" name="cape_box_line_style" default="solid" member="box_style" to="LineStyle">           
+            </parameter>
+           
+         <parameter from="float" name="cape_box_thickness" default="1" member="box_thickness" to="float">      
+
+            </parameter>
+
+          <parameter from="float" name="cape_box_width" default="1" member="box_width" to="float">           
+            </parameter>
+             <parameter from="float" name="cape_text_font_size" default="0.5" member="text_font_size" to="float">           
+            </parameter>
+        <parameter from="string" name="cape_text_font_colour" default="black" member="text_font_colour" to="Colour">           
+            </parameter>
+</class></magics>
