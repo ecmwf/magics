@@ -234,6 +234,7 @@ YRegularCoordinate.xml
 		EpsShade.xml
 		EpsWave.xml
 		EpsWind.xml
+		CapeBox.xml
 		EpsXmlInput.xml
 		EpsgramDecoder.xml
 		EquidistantTableMode.xml

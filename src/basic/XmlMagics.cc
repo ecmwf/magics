@@ -87,6 +87,7 @@ XmlMagics::XmlMagics() : root_(0),
 	actions_["cartesian"] = &XmlMagics::cartesian;
 	actions_["taylor"] = &XmlMagics::cartesian;
 
+
 	actions_["cylindrical"] = &XmlMagics::geographical;
 	actions_["polar_stereographic"] = &XmlMagics::geographical;
 
@@ -96,6 +97,7 @@ XmlMagics::XmlMagics() : root_(0),
 	actions_["taylorgrid"] = &XmlMagics::taylor;
 	actions_["tephigrid"] = &XmlMagics::tephigrid;
 	actions_["thermo"] = &XmlMagics::cartesian;
+	actions_["tephigram"] = &XmlMagics::cartesian;
 	actions_["grib"] = &XmlMagics::grib;
 	actions_["netcdf"] = &XmlMagics::netcdf;
 	actions_["table"] = &XmlMagics::table;
@@ -133,6 +135,7 @@ XmlMagics::XmlMagics() : root_(0),
 	actions_["epsgraph"] = &XmlMagics::epsgraph;
 	actions_["epsgram"] = &XmlMagics::epsgram;
 	actions_["epswind"] = &XmlMagics::epswind;
+	actions_["capebox"] = &XmlMagics::capebox;
 	actions_["epscloud"] = &XmlMagics::epscloud;
 	actions_["epsbar"] = &XmlMagics::epsbar;
 	actions_["epswave"] = &XmlMagics::epswave;
@@ -754,6 +757,12 @@ void XmlMagics::epsbar(const XmlNode& node)
 	EpsBar* epsbar = new EpsBar();
 	epsbar->set(node);
 	top()->visdef(epsbar);
+}
+void XmlMagics::capebox(const XmlNode& node)
+{
+	CapeBox* cape = new CapeBox();
+	cape->set(node);
+	top()->visdef(cape);
 }
 void XmlMagics::epsshading(const XmlNode& node)
 {
