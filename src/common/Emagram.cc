@@ -57,8 +57,36 @@ void Emagram::init()
         y_max_ = 100;
     }
 
-    assert(y_min_ > 0 && y_max_ > 0);
-    assert(y_min_ > y_max_);
+    if(x_min_ < -300)
+    {
+        throw MagicsException("Tephigram: invalid minimum temperature");
+    }
+
+    if(x_max_ > 400)
+    {
+        throw MagicsException("Tephigram: invalid maximum temperature");
+    }
+
+    if(y_min_ > 1500)
+    {
+        throw MagicsException("Tephigram: invalid bottom pressure");
+    }
+
+    if(y_max_ <=0.0001)
+    {
+        throw MagicsException("Tephigram: invalid top pressure");
+    }
+
+    if(x_min_ > x_max_)
+    {
+        throw MagicsException("Tephigram: minimum temperature cannot be greater than maximum temperature");
+    }
+
+    if(y_min_ < y_max_)
+    {
+        throw MagicsException("Tephigram: top pressure cannot be greater than bottom pressure");
+    }
+
 
     //To have a proper ascpect ratio we always work with a 100x100 rectangle
     minPCX_=0;
