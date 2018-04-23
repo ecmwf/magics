@@ -840,7 +840,7 @@ void FortranMagics::pline()
 	actions();
 
 
-	if ( !action_ ) {
+	if ( !action_ || polyinput_todo_ ) {
 		action_ = new VisualAction();
 
 		polyinput_todo_ = false;

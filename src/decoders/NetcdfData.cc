@@ -214,9 +214,10 @@ NetVariable::NetVariable(const string& name, int id, Netcdf* parent, const strin
 
 	for (int d = 0; d < num_dims; d++)
 	{
-		string tmp;
-		nc_inq_dimname(netcdf_, dims[d], &tmp[0]);
-		string name(tmp.c_str());
+		char tmp[1024];
+		nc_inq_dimname(netcdf_, dims[d], tmp);
+		string name(tmp);
+		
 		int var = -1;
 		// Try to find if a variable is defined with this name.
 		int num_var;
@@ -226,10 +227,10 @@ NetVariable::NetVariable(const string& name, int id, Netcdf* parent, const strin
 		for ( int v = 0; v < num_var; v++)
 		{ 
 			// get the name 
-			string tmp;
+			char tmp[1024];
 			int id = var_ids[v];
-			nc_inq_varname 	(netcdf_,  id, &tmp[0]);
-			string current(tmp.c_str());
+			nc_inq_varname 	(netcdf_,  id, tmp);
+			string current(tmp);
 			if ( current == name ) {
 				var = id;
 				break;
