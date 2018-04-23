@@ -857,7 +857,8 @@ static IgnoreConverter graph_curve_interpolation("graph_curve_interpolation");
 static GraphType graph_type;
 static Legend legend("legend");
 
-
+static SimpleTranslator netcdf_x_position_variable("netcdf_x_position_variable", "netcdf_x_variable");
+static SimpleTranslator netcdf_y_position_variable("netcdf_y_position_variable", "netcdf_y_variable");
 static SimpleTranslator legend_text_height("legend_text_height", "legend_text_font_size");
 static SimpleTranslator graph_shade_colour("graph_shade_colour", "graph_bar_colour", true);
 static SimpleTranslator graph_bar_colour("graph_bar_colour", "graph_shade_colour", true);
@@ -880,8 +881,8 @@ static SimpleTranslator netcdf_x_component_variable("netcdf_x_component_variable
 static SimpleTranslator netcdf_y_component_variable("netcdf_y_component_variable_name", "netcdf_y_component_variable");
 static SimpleTranslator netcdf_x_variable("netcdf_x_variable_name", "netcdf_x_variable");
 static SimpleTranslator netcdf_y_variable("netcdf_y_variable_name", "netcdf_y_variable");
-static SimpleTranslator netcdf_x_position_variable("netcdf_x_position_variable_name", "netcdf_x_variable");
-static SimpleTranslator netcdf_y_position_variable("netcdf_y_position_variable_name", "netcdf_y_variable");
+static SimpleTranslator netcdf_x_position_variable_name("netcdf_x_position_variable_name", "netcdf_x_variable");
+static SimpleTranslator netcdf_y_position_variable_name("netcdf_y_position_variable_name", "netcdf_y_variable");
 static SimpleTranslator netcdf_x2_variable_name("netcdf_x2_variable_name", "netcdf_x_auxiliary_variable");
 static SimpleTranslator graph_x_missing_value("graph_x_missing_value", "x_missing_value");
 static SimpleTranslator graph_y_missing_value("graph_y_missing_value", "y_missing_value");
