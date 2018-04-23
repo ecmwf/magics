@@ -1387,6 +1387,12 @@ Data* MagPlus::createnetcdf(magics::MagRequest& in)
 	string type = get(in, "NETCDF_POSITION_TYPE", in.getVerb());
 
 	in("NETCDF_TYPE") = nctypes[type].c_str();
+	if ( in.countValues("NETCDF_X_POSITION_VARIABLE") ) {
+		in("NETCDF_X_VARIABLE") = in("NETCDF_X_POSITION_VARIABLE");
+	}
+	if ( in.countValues("NETCDF_Y_POSTION_VARIABLE") ) {
+		in("NETCDF_Y_VARIABLE") = in("NETCDF_Y_POSTION_VARIABLE");
+	}
 
 	NetcdfDecoderWrapper netcdf;
 	netcdf.set(in);
