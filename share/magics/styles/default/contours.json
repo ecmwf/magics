@@ -17,7 +17,7 @@
                     {
                         "_name" : "mofc_z500_weekly_mean",
                         "criteria" : {
-                            "levelist" : 500
+                            "levelist" : "500"
                         },
                         "more" : [],
                         "style" : "ct_blk_i6_t2",
@@ -56,7 +56,7 @@
                     {
                         "_name" : "z925",
                         "criteria" : {
-                            "levelist" : 925
+                            "levelist" : "925"
                         },
                         "more" : [],
                         "style" : "ct_blk_i5_t2",
@@ -74,7 +74,7 @@
                     {
                         "_name" : "z850",
                         "criteria" : {
-                            "levelist" : 850
+                            "levelist" : "850"
                         },
                         "more" : [],
                         "style" : "ct_blk_i5_t2",
@@ -92,7 +92,7 @@
                     {
                         "_name" : "z800",
                         "criteria" : {
-                            "levelist" : 800
+                            "levelist" : "800"
                         },
                         "more" : [],
                         "style" : "ct_blk_i5_t2",
@@ -110,7 +110,7 @@
                     {
                         "_name" : "z700",
                         "criteria" : {
-                            "levelist" : 700
+                            "levelist" : "700"
                         },
                         "more" : [],
                         "style" : "ct_blk_i5_t2",
@@ -128,7 +128,7 @@
                     {
                         "_name" : "z600",
                         "criteria" : {
-                            "levelist" : 600
+                            "levelist" : "600"
                         },
                         "more" : [],
                         "style" : "ct_blk_i5_t2",
@@ -146,7 +146,7 @@
                     {
                         "_name" : "z500_field",
                         "criteria" : {
-                            "levelist" : 500
+                            "levelist" : "500"
                         },
                         "more" : [],
                         "style" : "ct_blk_i5_t2",
@@ -164,7 +164,7 @@
                     {
                         "_name" : "z300",
                         "criteria" : {
-                            "levelist" : 300
+                            "levelist" : "300"
                         },
                         "more" : [],
                         "style" : "ct_blk_i5_t2",
@@ -182,7 +182,7 @@
                     {
                         "_name" : "z250",
                         "criteria" : {
-                            "levelist" : 250
+                            "levelist" : "250"
                         },
                         "more" : [],
                         "style" : "ct_blk_i5_t2",
@@ -225,7 +225,7 @@
                             {
                                 "_name" : "z500_mean",
                                 "criteria" : {
-                                    "levelist" : 500
+                                    "levelist" : "500"
                                 },
                                 "more" : [],
                                 "style" : "ct_red_i5_t2",
@@ -243,7 +243,7 @@
                             {
                                 "_name" : "z300_mean",
                                 "criteria" : {
-                                    "levelist" : 300
+                                    "levelist" : "300"
                                 },
                                 "more" : [],
                                 "style" : "ct_blk_i5_t2",
@@ -299,7 +299,7 @@
                             {
                                 "_name" : "z500_spread",
                                 "criteria" : {
-                                    "levelist" : 500
+                                    "levelist" : "500"
                                 },
                                 "more" : [],
                                 "style" : "sh_blu_f02t50",
@@ -311,7 +311,7 @@
                             {
                                 "_name" : "z300_spread",
                                 "criteria" : {
-                                    "levelist" : 300
+                                    "levelist" : "300"
                                 },
                                 "more" : [],
                                 "style" : "sh_blu_f03t75",
@@ -371,7 +371,7 @@
                     {
                         "_name" : "mofc_z500_anomaly",
                         "criteria" : {
-                            "levelist" : 500
+                            "levelist" : "500"
                         },
                         "more" : [],
                         "style" : "sh_range_fm40t40",
@@ -1609,7 +1609,7 @@
                             {
                                 "_name" : "composition_co700",
                                 "criteria" : {
-                                    "levelist" : 700
+                                    "levelist" : "700"
                                 },
                                 "more" : [],
                                 "style" : "sh_all_co_upper",
@@ -2101,7 +2101,7 @@
                     {
                         "_name" : "mofc_10_t_anomaly",
                         "criteria" : {
-                            "levelist" : 10
+                            "levelist" : "10"
                         },
                         "more" : [],
                         "style" : "t_upper_anomaly",
@@ -2147,7 +2147,7 @@
                             {
                                 "_name" : "composition_no2_surface",
                                 "criteria" : {
-                                    "levelist" : 60
+                                    "levelist" : "60"
                                 },
                                 "more" : [],
                                 "style" : "sh_all_no2_surface",
@@ -2196,7 +2196,7 @@
                             {
                                 "_name" : "composition_o3_surface",
                                 "criteria" : {
-                                    "levelist" : 60
+                                    "levelist" : "60"
                                 },
                                 "more" : [],
                                 "style" : "sh_all_o3_sfc",
@@ -3003,7 +3003,7 @@
                     {
                         "_name" : "q1000",
                         "criteria" : {
-                            "levelist" : 1000
+                            "levelist" : "1000"
                         },
                         "more" : [],
                         "style" : "sh_spechum_option1",
@@ -3017,7 +3017,7 @@
                     {
                         "_name" : "q925",
                         "criteria" : {
-                            "levelist" : 925
+                            "levelist" : "925"
                         },
                         "more" : [],
                         "style" : "sh_spechum_option1",
@@ -3064,7 +3064,7 @@
                     {
                         "_name" : "rh1000",
                         "criteria" : {
-                            "levelist" : 1000
+                            "levelist" : "1000"
                         },
                         "more" : [],
                         "style" : "sh_grnblu_f65t100i15",
@@ -3077,7 +3077,7 @@
                     {
                         "_name" : "rh925",
                         "criteria" : {
-                            "levelist" : 925
+                            "levelist" : "925"
                         },
                         "more" : [],
                         "style" : "sh_grnblu_f65t100i15",
@@ -3090,7 +3090,7 @@
                     {
                         "_name" : "rh_850h_field",
                         "criteria" : {
-                            "levelist" : 850
+                            "levelist" : "850"
                         },
                         "more" : [],
                         "style" : "sh_grnblu_f65t100i15",
@@ -3103,7 +3103,7 @@
                     {
                         "_name" : "rh800",
                         "criteria" : {
-                            "levelist" : 800
+                            "levelist" : "800"
                         },
                         "more" : [],
                         "style" : "sh_grnblu_f65t100i15",
@@ -3116,7 +3116,7 @@
                     {
                         "_name" : "rh_7h_field",
                         "criteria" : {
-                            "levelist" : 700
+                            "levelist" : "700"
                         },
                         "more" : [],
                         "style" : "sh_grnblu_f65t100i15",
@@ -3129,7 +3129,7 @@
                     {
                         "_name" : "rh600",
                         "criteria" : {
-                            "levelist" : 600
+                            "levelist" : "600"
                         },
                         "more" : [],
                         "style" : "sh_grnblu_f65t100i15",
@@ -3142,7 +3142,7 @@
                     {
                         "_name" : "rh500",
                         "criteria" : {
-                            "levelist" : 500
+                            "levelist" : "500"
                         },
                         "more" : [],
                         "style" : "sh_grnblu_f65t100i15",
@@ -3155,7 +3155,7 @@
                     {
                         "_name" : "250rh",
                         "criteria" : {
-                            "levelist" : 250
+                            "levelist" : "250"
                         },
                         "more" : [],
                         "style" : "sh_grnblu_f65t100i15",
@@ -3198,7 +3198,7 @@
                     {
                         "_name" : "1000divergence",
                         "criteria" : {
-                            "levelist" : 1000
+                            "levelist" : "1000"
                         },
                         "more" : [],
                         "style" : "sh_blured_fM50t50lst_cell",
@@ -3215,7 +3215,7 @@
                     {
                         "_name" : "925divergence",
                         "criteria" : {
-                            "levelist" : 925
+                            "levelist" : "925"
                         },
                         "more" : [],
                         "style" : "sh_blured_fM50t50lst_cell",
@@ -3232,7 +3232,7 @@
                     {
                         "_name" : "700divergence",
                         "criteria" : {
-                            "levelist" : 700
+                            "levelist" : "700"
                         },
                         "more" : [],
                         "style" : "sh_blured_fM50t50lst_cell",
@@ -3249,7 +3249,7 @@
                     {
                         "_name" : "500divergence",
                         "criteria" : {
-                            "levelist" : 500
+                            "levelist" : "500"
                         },
                         "more" : [],
                         "style" : "sh_blured_fM50t50lst_cell",
@@ -3266,7 +3266,7 @@
                     {
                         "_name" : "300divergence",
                         "criteria" : {
-                            "levelist" : 300
+                            "levelist" : "300"
                         },
                         "more" : [],
                         "style" : "sh_blured_fM50t50lst_cell",
@@ -3322,7 +3322,7 @@
                     {
                         "_name" : "t925",
                         "criteria" : {
-                            "levelist" : 925
+                            "levelist" : "925"
                         },
                         "more" : [],
                         "style" : "sh_all_fM52t48i4",
@@ -3341,7 +3341,7 @@
                     {
                         "_name" : "t850_field",
                         "criteria" : {
-                            "levelist" : 850
+                            "levelist" : "850"
                         },
                         "more" : [],
                         "style" : "sh_all_fM52t48i4",
@@ -3360,7 +3360,7 @@
                     {
                         "_name" : "t800",
                         "criteria" : {
-                            "levelist" : 800
+                            "levelist" : "800"
                         },
                         "more" : [],
                         "style" : "sh_all_fM52t48i4",
@@ -3379,7 +3379,7 @@
                     {
                         "_name" : "t700",
                         "criteria" : {
-                            "levelist" : 700
+                            "levelist" : "700"
                         },
                         "more" : [],
                         "style" : "sh_all_fM52t48i4",
@@ -3398,7 +3398,7 @@
                     {
                         "_name" : "t600",
                         "criteria" : {
-                            "levelist" : 600
+                            "levelist" : "600"
                         },
                         "more" : [],
                         "style" : "sh_all_fM52t48i4",
@@ -3417,7 +3417,7 @@
                     {
                         "_name" : "t500",
                         "criteria" : {
-                            "levelist" : 500
+                            "levelist" : "500"
                         },
                         "more" : [],
                         "style" : "sh_all_fM52t48i4",
@@ -3435,7 +3435,7 @@
                     {
                         "_name" : "t250",
                         "criteria" : {
-                            "levelist" : 250
+                            "levelist" : "250"
                         },
                         "more" : [],
                         "style" : "sh_all_fM64t52i4",
@@ -3477,7 +3477,7 @@
                             {
                                 "_name" : "t850_mean",
                                 "criteria" : {
-                                    "levelist" : 850
+                                    "levelist" : "850"
                                 },
                                 "more" : [],
                                 "style" : "ct_blk_i5_t2",
@@ -3493,7 +3493,7 @@
                             {
                                 "_name" : "t500_mean",
                                 "criteria" : {
-                                    "levelist" : 500
+                                    "levelist" : "500"
                                 },
                                 "more" : [],
                                 "style" : "ct_blk_i5_t2",
@@ -3543,7 +3543,7 @@
                             {
                                 "_name" : "t850_spread",
                                 "criteria" : {
-                                    "levelist" : 850
+                                    "levelist" : "850"
                                 },
                                 "more" : [],
                                 "style" : "sh_blu_f008t25",
@@ -3555,7 +3555,7 @@
                             {
                                 "_name" : "t500_spread",
                                 "criteria" : {
-                                    "levelist" : 500
+                                    "levelist" : "500"
                                 },
                                 "more" : [],
                                 "style" : "sh_blu_f008t25",
@@ -3650,7 +3650,7 @@
                             {
                                 "_name" : "925ws",
                                 "criteria" : {
-                                    "levelist" : 925
+                                    "levelist" : "925"
                                 },
                                 "more" : [],
                                 "style" : "sh_red_f5t70lst",
@@ -3664,7 +3664,7 @@
                             {
                                 "_name" : "850ws",
                                 "criteria" : {
-                                    "levelist" : 850
+                                    "levelist" : "850"
                                 },
                                 "more" : [],
                                 "style" : "sh_red_f5t70lst",
@@ -3678,7 +3678,7 @@
                             {
                                 "_name" : "800ws",
                                 "criteria" : {
-                                    "levelist" : 800
+                                    "levelist" : "800"
                                 },
                                 "more" : [],
                                 "style" : "sh_red_f5t70lst",
@@ -3692,7 +3692,7 @@
                             {
                                 "_name" : "700ws",
                                 "criteria" : {
-                                    "levelist" : 700
+                                    "levelist" : "700"
                                 },
                                 "more" : [],
                                 "style" : "sh_red_f5t70lst",
@@ -3706,7 +3706,7 @@
                             {
                                 "_name" : "600ws",
                                 "criteria" : {
-                                    "levelist" : 600
+                                    "levelist" : "600"
                                 },
                                 "more" : [],
                                 "style" : "sh_red_f5t70lst",
@@ -3720,7 +3720,7 @@
                             {
                                 "_name" : "500ws",
                                 "criteria" : {
-                                    "levelist" : 500
+                                    "levelist" : "500"
                                 },
                                 "more" : [],
                                 "style" : "sh_grn_f10t100lst",
@@ -3735,7 +3735,7 @@
                             {
                                 "_name" : "300_windspeed",
                                 "criteria" : {
-                                    "levelist" : 300
+                                    "levelist" : "300"
                                 },
                                 "more" : [],
                                 "style" : "sh_grn_f30t100i10",
@@ -3749,7 +3749,7 @@
                             {
                                 "_name" : "250ws",
                                 "criteria" : {
-                                    "levelist" : 250
+                                    "levelist" : "250"
                                 },
                                 "more" : [],
                                 "style" : "sh_grn_f10t100lst",
@@ -3763,7 +3763,7 @@
                             {
                                 "_name" : "200_windspeed_field",
                                 "criteria" : {
-                                    "levelist" : 200
+                                    "levelist" : "200"
                                 },
                                 "more" : [],
                                 "style" : "sh_grn_f30t100i10",
@@ -3814,7 +3814,7 @@
                             {
                                 "_name" : "850ws_mean",
                                 "criteria" : {
-                                    "levelist" : 850
+                                    "levelist" : "850"
                                 },
                                 "more" : [],
                                 "style" : "ct_blk_i5_t2",
@@ -3855,7 +3855,7 @@
                             {
                                 "_name" : "850ws_spread",
                                 "criteria" : {
-                                    "levelist" : 850
+                                    "levelist" : "850"
                                 },
                                 "more" : [],
                                 "style" : "sh_blu_f02t30",
@@ -3938,7 +3938,7 @@
                     {
                         "_name" : "wbpt850",
                         "criteria" : {
-                            "levelist" : 850
+                            "levelist" : "850"
                         },
                         "more" : [],
                         "style" : "sh_all_fM52t48i4",
@@ -3999,7 +3999,7 @@
                     {
                         "_name" : "850vorticity",
                         "criteria" : {
-                            "levelist" : 850
+                            "levelist" : "850"
                         },
                         "more" : [],
                         "style" : "sh_blured_fM50t50lst_cell",
@@ -4016,7 +4016,7 @@
                     {
                         "_name" : "700vorticity",
                         "criteria" : {
-                            "levelist" : 700
+                            "levelist" : "700"
                         },
                         "more" : [],
                         "style" : "sh_blured_fM50t50lst_cell",
@@ -4034,7 +4034,7 @@
                     {
                         "_name" : "500vorticity",
                         "criteria" : {
-                            "levelist" : 500
+                            "levelist" : "500"
                         },
                         "more" : [],
                         "style" : "sh_blured_fM50t50lst_cell",
@@ -4052,7 +4052,7 @@
                     {
                         "_name" : "300vorticity",
                         "criteria" : {
-                            "levelist" : 300
+                            "levelist" : "300"
                         },
                         "more" : [],
                         "style" : "sh_blured_fM50t50lst_cell",
@@ -4069,7 +4069,7 @@
                     {
                         "_name" : "250vorticity",
                         "criteria" : {
-                            "levelist" : 250
+                            "levelist" : "250"
                         },
                         "more" : [],
                         "style" : "sh_blured_fM50t50lst_cell",
@@ -4126,7 +4126,7 @@
                     {
                         "_name" : "700w",
                         "criteria" : {
-                            "levelist" : 700
+                            "levelist" : "700"
                         },
                         "more" : [],
                         "style" : "sh_blured_fM5t5lst",
@@ -4181,7 +4181,7 @@
                             {
                                 "_name" : "500pv",
                                 "criteria" : {
-                                    "levelist" : 500
+                                    "levelist" : "500"
                                 },
                                 "more" : [],
                                 "style" : "ct_magenta_i2_t3",
@@ -4195,7 +4195,7 @@
                             {
                                 "_name" : "300pv",
                                 "criteria" : {
-                                    "levelist" : 300
+                                    "levelist" : "300"
                                 },
                                 "more" : [],
                                 "style" : "ct_magenta_i2_t3",
@@ -4224,7 +4224,7 @@
                             {
                                 "_name" : "315Kpotvort",
                                 "criteria" : {
-                                    "levelist" : 315
+                                    "levelist" : "315"
                                 },
                                 "more" : [],
                                 "style" : "sh_blu_f02t30",
