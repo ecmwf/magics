@@ -77,12 +77,12 @@ void Emagram::init()
         throw MagicsException("Tephigram: invalid top pressure");
     }
 
-    if(x_min_ > x_max_)
+    if(x_min_ >= x_max_)
     {
         throw MagicsException("Tephigram: minimum temperature cannot be greater than maximum temperature");
     }
 
-    if(y_min_ < y_max_)
+    if(y_min_ <= y_max_)
     {
         throw MagicsException("Tephigram: top pressure cannot be greater than bottom pressure");
     }
