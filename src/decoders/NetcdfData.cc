@@ -73,7 +73,7 @@ Netcdf::Netcdf(const string& path, const string& method)
 	}
 
 	int num_var;
-	int var_ids[100];
+	int var_ids[NC_MAX_VAR_DIMS];
 	nc_inq_varids(file_, &num_var, var_ids);
 
 	for ( int v = 0; v < num_var; v++)
@@ -84,6 +84,8 @@ Netcdf::Netcdf(const string& path, const string& method)
 		nc_inq_varname 	(file_,  id, tmp);
 
 		string name(tmp);
+
+		
 		
 		variables_.insert(std::make_pair(name, NetVariable(name, v, this, method)));
 		if (isVariable(file_, var_ids[v])) dataset_.insert(std::make_pair(name, NetVariable(name, var_ids[v], this, method)));
@@ -214,20 +216,20 @@ NetVariable::NetVariable(const string& name, int id, Netcdf* parent, const strin
 
 	for (int d = 0; d < num_dims; d++)
 	{
-		char tmp[1024];
+		char tmp[NC_MAX_NAME+1];
 		nc_inq_dimname(netcdf_, dims[d], tmp);
 		string name(tmp);
 		
 		int var = -1;
 		// Try to find if a variable is defined with this name.
 		int num_var;
-		int var_ids[100];
+		int var_ids[NC_MAX_VAR_DIMS];
 		nc_inq_varids(netcdf_, &num_var, var_ids);
 
 		for ( int v = 0; v < num_var; v++)
 		{ 
 			// get the name 
-			char tmp[1024];
+			char tmp[NC_MAX_NAME];
 			int id = var_ids[v];
 			nc_inq_varname 	(netcdf_,  id, tmp);
 			string current(tmp);
@@ -248,9 +250,9 @@ NetVariable::NetVariable(const string& name, int id, Netcdf* parent, const strin
 	for ( int v = 0; v < num_atts; v++)
 	{
 
-			string tmp;
-			nc_inq_attname(netcdf_, id_, v, &tmp[0]);
-			string name(tmp.c_str());
+			char tmp[NC_MAX_NAME];
+			nc_inq_attname(netcdf_, id_, v, tmp);
+			string name(tmp);
 			attributes_.insert(std::make_pair(name, NetAttribute(name, netcdf_, id_)));
 	}
 		

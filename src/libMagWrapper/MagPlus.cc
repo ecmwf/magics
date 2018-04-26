@@ -109,6 +109,16 @@ void replace_string(magics::MagRequest& request, const string& name, const strin
 
 }
 
+void copy_string(magics::MagRequest& request, const string& from, const string& to)
+{
+	if (request.countValues(from)) {
+		string val =  request(from);
+		request(to) = val;
+		
+	}
+
+}
+
 template <class T>
 void replace(magics::MagRequest& request, const string& name, T from, const string& newname, T to)
 {
@@ -1340,7 +1350,7 @@ void checknctypes() {
 
 bool MagPlus::netcdf(magics::MagRequest& in)
 {
-	MagLog::dev()<< "add netcdf" << endl;
+	
 	in.print();
 	checknctypes();
 	string path = get(in, "NETCDF_FILENAME", "OFF");
@@ -1352,6 +1362,12 @@ bool MagPlus::netcdf(magics::MagRequest& in)
 	in("NETCDF_FILENAME") = path.c_str();
 	    static map<string, string> types;
 
+
+	copy_string(in, "NETCDF_X_POSITION_VARIABLE", "NETCDF_X_VARIABLE");
+	copy_string(in, "NETCDF_Y_POSITION_VARIABLE", "NETCDF_Y_VARIABLE");
+
+	in.print();
+	
     string type = get(in, "NETCDF_POSITION_TYPE", in.getVerb());
    	in("NETCDF_TYPE") = nctypes[type].c_str();
 
@@ -1385,14 +1401,9 @@ Data* MagPlus::createnetcdf(magics::MagRequest& in)
 	in("NETCDF_FILENAME") = path.c_str();
 
 	string type = get(in, "NETCDF_POSITION_TYPE", in.getVerb());
+	copy_string(in, "NETCDF_X_POSITION_VARIABLE", "NETCDF_X_VARIABLE");
+	copy_string(in, "NETCDF_Y_POSITION_VARIABLE", "NETCDF_Y_VARIABLE");
 
-	in("NETCDF_TYPE") = nctypes[type].c_str();
-	if ( in.countValues("NETCDF_X_POSITION_VARIABLE") ) {
-		in("NETCDF_X_VARIABLE") = in("NETCDF_X_POSITION_VARIABLE");
-	}
-	if ( in.countValues("NETCDF_Y_POSTION_VARIABLE") ) {
-		in("NETCDF_Y_VARIABLE") = in("NETCDF_Y_POSTION_VARIABLE");
-	}
 
 	NetcdfDecoderWrapper netcdf;
 	netcdf.set(in);
