@@ -592,7 +592,7 @@ void ObsDecoder::decode()
 	}
 	// Test 
    MvObsSetIterator obsIterator(obsSet);
-	MvObs obs = obsIterator();
+   MvObs obs = obsIterator();
 
    bool first = true;
 	while (obs)
@@ -614,6 +614,7 @@ void ObsDecoder::decode()
 		  
 #endif
 		push_back(new UserPoint(location.x(), location.y(), obs.value("airTemperature")));
+		obs.clearIterator(); // must do this before the msg handle is deleted by the next assignment
 		obs = obsIterator();
 	}
 }
@@ -659,6 +660,7 @@ void ObsDecoder::getInfo(const std::set<string>& tokens, multimap<string, string
             // Probably bufr message does not need to be expanded
 				(*accessor)(*this, obs, value);
 				if ( value != "") noduplicate.insert(value);
+				obs.clearIterator(); // must do this before the msg handle is deleted by the next assignment
 				obs = obsIterator();
 			}
 		}
@@ -775,6 +777,7 @@ void ObsDecoder::customisedPoints(const Transformation& transformation, const st
 			   }
 			}
 		}
+		obs.clearIterator(); // must do this before the msg handle is deleted by the next assignment
 		obs = obsIterator();
 	}
 	// clear accessorts
