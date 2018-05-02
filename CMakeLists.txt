@@ -102,7 +102,7 @@ ecbuild_add_option( FEATURE SPOT
 ecbuild_add_option( FEATURE PYTHON
                     DEFAULT ON
                     DESCRIPTION "enable python interface"
-                    REQUIRED_PACKAGES "Python NO_LIBS" NumPy )
+                    REQUIRED_PACKAGES "Python NO_LIBS" NumPy Jinja2 )
 
 ecbuild_add_option( FEATURE FORTRAN
                     DEFAULT ON
