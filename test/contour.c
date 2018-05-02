@@ -35,7 +35,8 @@ int main()
     mag_cont();
 
     /* three pages */
-    for(int i=1;i<4;i++)
+    int i;
+    for(i=1;i<4;i++)
     {
       /* specify area (SOUTH, WEST, NORTH, EAST ) */
       mag_setr("SUBPAGE_LOWER_LEFT_LATITUDE",  i *  10.0);
