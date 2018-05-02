@@ -15,7 +15,10 @@ int main()
 {
     mag_open();
     const int num_formats = 3;
-    const char *formats[num_formats] = {"ps", "png", "pdf"};
+    const char *formats[num_formats];
+    formats[0] = "ps";
+    formats[1] = "png";
+    formats[2] = "pdf";
     mag_set1c("output_formats",formats,num_formats);
     mag_setc("output_name","contour"); // which is different each time
 
