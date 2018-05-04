@@ -527,7 +527,7 @@ CustomisedPoint* point_cape(const string& name,  InputWrep& input, double& maxy)
 	(*point)["size"] = input.values_["ens_sfc"].size();
 
 
-	cout << *point << endl;
+	
 	return point;
 }
 
@@ -558,9 +558,9 @@ void WrepJSon::cape()
 	
 
 
-	cout << maxy_;
+	
 	maxy_ = mag10ceil(maxy_);
-	cout << maxy_;
+	
 
 }
 
@@ -586,6 +586,7 @@ void WrepJSon::hodograph()
  
  	unsigned int nb = values_.ensembleValues_["u"].size();
  	
+ 	double max = 0;
 		
 	for (unsigned int ens = 0; ens < nb; ens++) {
 		for (unsigned int pl = 0; pl < values_.levels_.size(); pl++) {
@@ -596,7 +597,9 @@ void WrepJSon::hodograph()
 			(*point)["value"]   =  values_.levels_[pl];
 			(*point)["y"]       =  values_.ensembleValues_["v"][ens][pl];
 			(*point)["missing"] = missing_;
-	      
+	      	if ( abs((*point)["x"]) > max ) max = abs((*point)["x"]);
+			if ( abs((*point)["y"]) > max ) max = abs((*point)["y"]);
+			
 			point->base(base_);
 			points_.push_back(point);
 		}
@@ -612,13 +615,26 @@ void WrepJSon::hodograph()
 	}
 
 	// now we add the grid :
+	int last = (( max/5 ) + 1 ) *5;
 
-	for (int i = 0; i < 25; i+=5) {
+	minx_ = -last;
+	miny_ = -last;
+
+	maxx_ = last;
+	maxy_ = last;
+
+	
+	for (int i = 0; i < last; i+=5) {
    		for (float a = 0; a < 6.28; a +=0.1) {
    			CustomisedPoint* point = new CustomisedPoint();
 			point->longitude(cos(a)*i);
 			point->latitude(sin(a)*i);
 			(*point)["value"]   =  -1;
+			if ( (abs(a - (6.28/4))) < 0.05 ) {
+				(*point)["grid"]   =  i;
+				
+			}
+
 			point->base(base_);
 			points_.push_back(point);
 		}
@@ -710,7 +726,7 @@ void WrepJSon::tephigram()
 	}
 	else  {
 		string key = (profile_quantile_ == "lower") ? "min" : "twenty_five"; 
-		cout << profile_quantile_  << "-->" << key << endl;
+		
 		map<string, vector<double> >::iterator min = values_.values_.find( profile_quantile_ == "lower" ? "min" : "twenty_five");
 		map<string, vector<double> >::iterator max = values_.values_.find( profile_quantile_ == "lower" ? "max" : "seventy_five");
 
@@ -774,7 +790,7 @@ void WrepJSon::tephigram()
 			points_.push_back(point);
 		}
 			double value = min->second[0];
-			cout <<  "last -->" << values_.levels_[0] << "-->" << value << endl;
+			
 			CustomisedPoint* point = new CustomisedPoint();
 			point->longitude(value);
 			point->latitude(value);
@@ -941,7 +957,7 @@ void WrepJSon::basic()
 	        		        
 	        	  for (vector<Pair>::const_iterator entry = object.begin(); entry !=  object.end(); ++entry) {
 	        	  	  capekey_ = entry->name_;
-	        	  	  cout << "capekey-->" << capekey_ << endl;
+	        	  	  
 	        		  map<string,  Method >::iterator method = methods_.find(entry->name_);
 	        		    	    if ( method != methods_.end() ) {
 	        		    	    	   ( (this->*method->second)(entry->value_) );
@@ -1158,9 +1174,9 @@ void WrepJSon::data(const json_spirit::Value& value, vector<double>& vals)
             val = 0;
         }
 		if ( val != missing_ ) {
-			cout << val; 
+			
 			val = (val * scaling_factor_) + offset_factor_;
-			cout << "-->" << val << endl;
+			
 		}
 		vals.push_back(val);
 	}
@@ -1210,7 +1226,7 @@ void WrepJSon::parameter(const json_spirit::Value& value)
 	Object param = value.get_value< Object >();
 	        		        
 	for (vector<Pair>::const_iterator info = param.begin(); info !=  param.end(); ++info) {
-				cout << "WrepJSon::parameter-->" << info->name_ << endl;
+				
 				ASSERT (info->value_.type() == array_type);
 	        	Array values = info->value_.get_value<Array>();
 	        	if ( info->name_ == "steps" ) {
@@ -1228,7 +1244,7 @@ void WrepJSon::parameter(const json_spirit::Value& value)
 	        		// ignore!
 	        	}
 	        	else if ( info->name_ ==  "pres" ) {
-	        		cout << "Founf press!" << endl;
+	        		
 	        		for (unsigned int i = 0; i < values.size(); i++) {
 	        				current_->levels_.push_back( values[i].get_value<double>());
 
@@ -1275,7 +1291,7 @@ void WrepJSon::dig(const json_spirit::Value& value)
 
   	for (vector<Pair>::const_iterator entry = object.begin(); entry !=  object.end(); ++entry) {
   		  map<string,  Method >::iterator method = methods_.find(entry->name_);
-  		  cout << entry->name_ << endl;
+  		  
   		    	    if ( method != methods_.end() ) {
   		    	    	   ( (this->*method->second)(entry->value_) );
   		    	    }  		
@@ -1827,8 +1843,10 @@ void WrepJSon::visit(TextVisitor& text)
 	if ( position_info_) {
 	if (height_ != -9999 ) 
         text.update("json", "height", height.str());
-	text.update("json", "location", location.str());
-	text.update("json", "grid_point", (mask_ < 0.5 ) ? " (ENS sea point) " : " (ENS land point) ");
+    if (param_info_ != "none") {
+		text.update("json", "location", location.str());
+		text.update("json", "grid_point", (mask_ < 0.5 ) ? " (ENS sea point) " : " (ENS land point) ");
+	}
 
 	}
 

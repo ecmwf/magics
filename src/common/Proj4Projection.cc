@@ -43,6 +43,7 @@ public:
 		methods_["max_latitude"] = &Epsg::maxlat;
 		methods_["method"] = &Epsg::method;
 		initMethods_["geos"] = &Epsg::geosinit;
+		initMethods_["tpers"] = &Epsg::tpersinit;
 	}
 	string name_;
 	string definition_;
@@ -79,6 +80,20 @@ public:
 	}
 
 	void geosinit(const Proj4Projection& from) {
+
+		minlon_ = from.vertical_longitude_ - 80;
+		maxlon_ = from.vertical_longitude_ + 80;
+		minlat_ = -80;
+		maxlat_ = 80;
+
+		ostringstream def;
+		def << "+proj=geos +h=42164000 +ellps=WGS84 +lon_0=" << from.vertical_longitude_;
+		
+		//def << "++proj=tpers    +ellps=WGS84 +h=5000000  +lat_0=20 +lon_0=-60 +x_0=0 +y_0=0 +azi=20 +tilt=0  +units=m";
+		definition_ = def.str();
+	}
+
+	void tpersinit(const Proj4Projection& from) {
 
 		minlon_ = from.vertical_longitude_ - 80;
 		maxlon_ = from.vertical_longitude_ + 80;
