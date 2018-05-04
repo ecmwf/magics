@@ -162,7 +162,6 @@ void LayoutFrame::blank(Layout& owner)
 	frame->setFilled(true);      
 	frame->setFillColour(background_);     
 
-	cout <<  "BLANK -->" << background_ << endl; 
 		
 	FillShadingProperties* shading = new FillShadingProperties();          
 
@@ -190,8 +189,7 @@ void LayoutFrame::frame(Layout& owner)
 	//frame->setFilled(true);      
 	//frame->setFillColour(background_);     
 
-	cout <<  "FRAME -->" << background_ << endl; 
-		
+	
 	FillShadingProperties* shading = new FillShadingProperties();          
 
 	//frame->setShading(shading);

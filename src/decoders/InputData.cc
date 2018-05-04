@@ -291,6 +291,8 @@ void InputData::visit(Transformation& transformation)
 	// get the data ...
 	try {
 		prepare();
+		if ( !input_automatic_  ) 
+			return;
 		if ( transformation.getAutomaticX() ) {
 			double min = INT_MAX;
 			double max = -INT_MAX;

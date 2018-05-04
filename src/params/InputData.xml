@@ -95,4 +95,7 @@ does it submit to any jurisdiction.
          		<option xml="nobinning" fortran="off" include="BinningObject.h" name="NoBinningObject">		</option>
          		<option xml="binning" fortran="on" include="BinningObject.h" name="BinningObject">		</option>
   	</parameter>
+    <parameter from="string" name="input_automatic" default="on" member="input_automatic" visible='off' to="bool">
+            <documentation> When off, iignore the values wjen automatic projection     </documentation>
+    </parameter>
  </class></magics>

@@ -2979,10 +2979,15 @@ void CapeBox::box(CustomisedPoint& point, BasicGraphicsObjectContainer& visitor)
 	const Transformation& transformation = visitor.transformation();
 
 	CustomisedPoint::const_iterator x = point.find("step");
-
+	
+	Text* title = new Text();	
+	title->addText("population", *text_font_colour_,  text_font_size_);
+	title->push_back(PaperPoint(0, transformation.getMaxY()*1.05));
+	visitor.push_back(title);
+	
 	Text* label = new Text();
 	string info;
-	info = ( point["size"] < 2 ) ? tostring(point["size"]) + " member" : tostring(point["size"]) + " members";
+	info = tostring(point["size"]);
 	
 	label->addText(info, *text_font_colour_,  text_font_size_);
 	
@@ -3103,7 +3108,7 @@ void CapeBox::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 	const Transformation& transformation = visitor.transformation();
 	data.customisedPoints(transformation, request, points, true); // we want all the points!
 
-	cout << "control_colour" << *control_colour_ << endl;
+	
 
 	for (CustomisedPointsList::const_iterator point = points.begin(); point != points.end(); ++point) {
 		box(**point, visitor);
