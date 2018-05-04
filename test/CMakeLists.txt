@@ -9,6 +9,12 @@ ecbuild_add_test( TARGET basic_c
                   ENVIRONMENT MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/..
                   LINKER_LANGUAGE C )
 
+ecbuild_add_test( TARGET contour_c
+                  SOURCES   contour.c
+                  LIBS      MagPlusSingle MagPlus
+                  ENVIRONMENT MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/..
+                  LINKER_LANGUAGE C )
+
 ecbuild_add_test( TARGET basic_python
                   TYPE PYTHON
                   CONDITION HAVE_PYTHON
