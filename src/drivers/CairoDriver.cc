@@ -156,7 +156,7 @@ void CairoDriver::setupNewSurface() const
 	{
 #if CAIRO_HAS_PDF_SURFACE
 	    fileName_ = getFileName("pdf");
-	    surface_ = cairo_pdf_surface_create(fileName_.c_str(), dimensionXglobal_, dimensionYglobal_);
+	    surface_  = cairo_pdf_surface_create(fileName_.c_str(), dimensionXglobal_, dimensionYglobal_);
 #else
 	    MagLog::error() << "CairoDriver: PDF output NOT supported! Enable PDF support in your Cairo installation." << std::endl;
 #endif
@@ -204,7 +204,7 @@ void CairoDriver::setupNewSurface() const
 	cairo_status_t status = cairo_surface_status(surface_);
 	if (status)
 	{
-		MagLog::error()	<< "CairoDriver: the surface ("<<backend_<<") could not be generated!\n"
+		MagLog::error()	<< "CairoDriver: the output file ("<<backend_<<") could NOT be generated!\n"
 				<< " -> "<<cairo_status_to_string(status)<< std::endl;
 	}
 
@@ -362,18 +362,21 @@ MAGICS_NO_EXPORT void CairoDriver::endPage() const
 	{
 		Timer timer("cairo", "write png");
 		fileName_ = getFileName("png" ,currentPage_);
+		cairo_status_t status = CAIRO_STATUS_SUCCESS;
 		if(magCompare(palette_,"on"))
 		{
 		   if(!write_8bit_png())
 		   {
 		     MagLog::warning() << "CairoDriver::renderPNG > palletted PNG failed! Generate 24 bit one ..." << endl;
-		     cairo_surface_write_to_png(surface_, fileName_.c_str());
+		     status = cairo_surface_write_to_png(surface_, fileName_.c_str());
 		   }
 		}
 		else
 		{
-		   cairo_surface_write_to_png(surface_, fileName_.c_str());
+		   status = cairo_surface_write_to_png(surface_, fileName_.c_str());
 		}
+		if(status != CAIRO_STATUS_SUCCESS)
+				MagLog::error() << "PNG could NOT be written - " << cairo_status_to_string(status) <<endl;
 		if(!fileName_.empty()) printOutputName("CAIRO png "+fileName_);
 	}
 	else if (magCompare(backend_,"geotiff") )
