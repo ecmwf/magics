@@ -22,6 +22,7 @@ ecbuild_add_test( TARGET basic_python
                   RESOURCES coast.py
                   ENVIRONMENT PYTHONPATH=${MAG_PYTHON_PATH}
                               LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib
+                              DYLD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib
                               MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/.. )
 
 ecbuild_add_test( TARGET basic_fortran_shared
@@ -45,6 +46,7 @@ ecbuild_add_test( TARGET bufr_python
                   RESOURCES bufr.py synop.bufr
                   ENVIRONMENT PYTHONPATH=${MAG_PYTHON_PATH}
                               LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib
+                              DYLD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib
                               MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/.. )
 
 ecbuild_add_test( TARGET bufr_fortran
@@ -70,6 +72,7 @@ ecbuild_add_test( TARGET grib_python
                   RESOURCES grib.py data.grib
                   ENVIRONMENT PYTHONPATH=${MAG_PYTHON_PATH}
                               LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib
+                              DYLD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib
                               MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/..
                               ${grib_environment} )
 
@@ -90,6 +93,7 @@ ecbuild_add_test( TARGET cairo_python
                   RESOURCES cairo.py
                   ENVIRONMENT PYTHONPATH=${MAG_PYTHON_PATH}
                               LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib
+                              DYLD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib
                               MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/.. )
 
 ecbuild_add_test( TARGET cairo_fortran
@@ -106,4 +110,5 @@ ecbuild_add_test( TARGET odb_python
                   RESOURCES odb.py test.odb
                   ENVIRONMENT PYTHONPATH=${MAG_PYTHON_PATH}
                               LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib
+                              DYLD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib
                               MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/.. )
