@@ -4,8 +4,8 @@
             "name" : "Geopotential",
             "param" : "129.128",
             "paramId" : "129",
-            "standard_name" : "geopotential",
-            "shortName" : "z"
+            "shortName" : "z",
+            "standard_name" : "geopotential"
         },
         "more" : [
             {
@@ -338,6 +338,12 @@
                 ]
             }
         ],
+        "scaling" : {
+            "derived_unit" : "dam",
+            "offset" : "-0.0",
+            "original_unit" : "m**2 s**-2",
+            "scaling" : "0.0101971621297793"
+        },
         "style" : "ct_blk_i5_t2",
         "styles" : [
             "ct_blk_i6_t2",
@@ -396,8 +402,8 @@
             "name" : "Mean sea level pressure",
             "param" : "151.128",
             "paramId" : "151",
-            "standard_name" : "air_pressure_at_sea_level",
-            "shortName" : "msl"
+            "shortName" : "msl",
+            "standard_name" : "air_pressure_at_sea_level"
         },
         "more" : [
             {
@@ -482,6 +488,12 @@
                 ]
             }
         ],
+        "scaling" : {
+            "derived_unit" : "hpa",
+            "offset" : "-0.0",
+            "original_unit" : "Pa",
+            "scaling" : "0.01"
+        },
         "style" : "ct_blk_i5_t2",
         "styles" : [
             "ct_brn_i4_t2",
@@ -658,6 +670,12 @@
                 ]
             }
         ],
+        "scaling" : {
+            "derived_unit" : "mm",
+            "offset" : "-0.0",
+            "original_unit" : "m",
+            "scaling" : "1000.0"
+        },
         "style" : "sh_blured_f05t300lst",
         "styles" : [
             "sh_blured_f1t100lst_dark",
@@ -815,8 +833,8 @@
             "name" : "Convective precipitation",
             "param" : "143.128",
             "paramId" : "143",
-            "standard_name" : "lwe_thickness_of_convective_precipitation_amount",
-            "shortName" : "cp"
+            "shortName" : "cp",
+            "standard_name" : "lwe_thickness_of_convective_precipitation_amount"
         },
         "more" : [
             {
@@ -838,6 +856,12 @@
                 ]
             }
         ],
+        "scaling" : {
+            "derived_unit" : "mm",
+            "offset" : "-0.0",
+            "original_unit" : "m",
+            "scaling" : "1000.0"
+        },
         "style" : "sh_blured_f05t300lst",
         "styles" : [
             "sh_blured_f1t100lst_dark",
@@ -921,8 +945,8 @@
             "name" : "Large-scale precipitation",
             "param" : "142.128",
             "paramId" : "142",
-            "standard_name" : "lwe_thickness_of_large_scale_precipitation_amount",
-            "shortName" : "lsp"
+            "shortName" : "lsp",
+            "standard_name" : "lwe_thickness_of_large_scale_precipitation_amount"
         },
         "more" : [
             {
@@ -944,6 +968,12 @@
                 ]
             }
         ],
+        "scaling" : {
+            "derived_unit" : "mm",
+            "offset" : "-0.0",
+            "original_unit" : "m",
+            "scaling" : "1000.0"
+        },
         "style" : "sh_blured_f05t300lst",
         "styles" : [
             "sh_blured_f1t100lst_dark",
@@ -961,8 +991,8 @@
             "name" : "Snowfall",
             "param" : "144.128",
             "paramId" : "144",
-            "standard_name" : "lwe_thickness_of_snowfall_amount",
-            "shortName" : "sf"
+            "shortName" : "sf",
+            "standard_name" : "lwe_thickness_of_snowfall_amount"
         },
         "more" : [
             {
@@ -984,6 +1014,12 @@
                 ]
             }
         ],
+        "scaling" : {
+            "derived_unit" : "mm",
+            "offset" : "-0.0",
+            "original_unit" : "m of water equivalent",
+            "scaling" : "1000.0"
+        },
         "style" : "sh_blured_f05t300lst",
         "styles" : [
             "sh_blured_f1t100lst_dark",
@@ -1172,6 +1208,12 @@
                 ]
             }
         ],
+        "scaling" : {
+            "derived_unit" : "deg c",
+            "offset" : "-273.16",
+            "original_unit" : "K",
+            "scaling" : "1.0"
+        },
         "style" : "sh_all_fM48t56i4",
         "styles" : [
             "sh_gry_fM72t56lst",
@@ -1449,6 +1491,12 @@
                 ]
             }
         ],
+        "scaling" : {
+            "derived_unit" : "deg c",
+            "offset" : "-273.16",
+            "original_unit" : "K",
+            "scaling" : "1.0"
+        },
         "style" : "sh_all_fM48t56i4",
         "styles" : [
             "sh_gry_fM72t56lst",
@@ -1570,6 +1618,12 @@
                 ]
             }
         ],
+        "scaling" : {
+            "derived_unit" : "deg c",
+            "offset" : "-273.16",
+            "original_unit" : "K",
+            "scaling" : "1.0"
+        },
         "style" : "sh_all_fM48t56i4",
         "styles" : [
             "sh_gry_fM72t56lst",
@@ -2255,6 +2309,12 @@
                 ]
             }
         ],
+        "scaling" : {
+            "derived_unit" : "deg c",
+            "offset" : "-273.16",
+            "original_unit" : "K",
+            "scaling" : "1.0"
+        },
         "style" : "sh_all_fM48t56i4",
         "styles" : [
             "sh_gry_fM72t56lst",
@@ -2625,6 +2685,12 @@
                 ]
             }
         ],
+        "scaling" : {
+            "derived_unit" : "deg c",
+            "offset" : "-273.16",
+            "original_unit" : "K",
+            "scaling" : "1.0"
+        },
         "style" : "sim_image_ir_fixed_range",
         "styles" : [
             "sim_image_ir_fixed_range"
@@ -2990,8 +3056,8 @@
             "name" : "Specific humidity",
             "param" : "133.128",
             "paramId" : "133",
-            "standard_name" : "specific_humidity",
-            "shortName" : "q"
+            "shortName" : "q",
+            "standard_name" : "specific_humidity"
         },
         "more" : [
             {
@@ -3038,6 +3104,12 @@
                 ]
             }
         ],
+        "scaling" : {
+            "derived_unit" : "g/kg",
+            "offset" : "-0.0",
+            "original_unit" : "kg kg**-1",
+            "scaling" : "1000.0"
+        },
         "style" : "sh_spechum_option1",
         "styles" : [
             "ct_blk_i2_t2",
@@ -3051,8 +3123,8 @@
             "name" : "Relative humidity",
             "param" : "157.128",
             "paramId" : "157",
-            "standard_name" : "relative_humidity",
-            "shortName" : "r"
+            "shortName" : "r",
+            "standard_name" : "relative_humidity"
         },
         "more" : [
             {
@@ -3186,7 +3258,8 @@
             "name" : "Divergence",
             "param" : "155.128",
             "paramId" : "155",
-            "shortName" : "d"
+            "shortName" : "d",
+            "standard_name" : "divergence_of_wind"
         },
         "more" : [
             {
@@ -3293,6 +3366,12 @@
                 ]
             }
         ],
+        "scaling" : {
+            "derived_unit" : "10**5/sec",
+            "offset" : "-0.0",
+            "original_unit" : "s**-1",
+            "scaling" : "100000.0"
+        },
         "style" : "sh_blured_fM50t50lst_cell",
         "styles" : [
             "sh_blured_fM50t50lst_less",
@@ -3309,8 +3388,8 @@
             "name" : "Temperature",
             "param" : "130.128",
             "paramId" : "130",
-            "standard_name" : "air_temperature",
-            "shortName" : "t"
+            "shortName" : "t",
+            "standard_name" : "air_temperature"
         },
         "more" : [
             {
@@ -3579,6 +3658,12 @@
                 ]
             }
         ],
+        "scaling" : {
+            "derived_unit" : "deg c",
+            "offset" : "-273.16",
+            "original_unit" : "K",
+            "scaling" : "1.0"
+        },
         "style" : "sh_blu_f008t25",
         "styles" : [
             "sh_gry_fM72t56lst",
@@ -3987,7 +4072,8 @@
             "name" : "Vorticity (relative)",
             "param" : "138.128",
             "paramId" : "138",
-            "shortName" : "vo"
+            "shortName" : "vo",
+            "standard_name" : "atmosphere_relative_vorticity"
         },
         "more" : [
             {
@@ -4097,6 +4183,12 @@
                 ]
             }
         ],
+        "scaling" : {
+            "derived_unit" : "10**5/sec",
+            "offset" : "-0.0",
+            "original_unit" : "s**-1",
+            "scaling" : "100000.0"
+        },
         "style" : "sh_blured_fM50t50lst_cell",
         "styles" : [
             "sh_blured_fM50t50lst_less",
@@ -4113,8 +4205,8 @@
             "name" : "Vertical velocity",
             "param" : "135.128",
             "paramId" : "135",
-            "standard_name" : "lagrangian_tendency_of_air_pressure",
-            "shortName" : "w"
+            "shortName" : "w",
+            "standard_name" : "lagrangian_tendency_of_air_pressure"
         },
         "more" : [
             {
@@ -4252,6 +4344,12 @@
                 ]
             }
         ],
+        "scaling" : {
+            "derived_unit" : "pv units",
+            "offset" : "-0.0",
+            "original_unit" : "K m**2 kg**-1 s**-1",
+            "scaling" : "1000000.0"
+        },
         "style" : "ct_magenta_i2_t3",
         "styles" : [
             "sh_blu_f02t30",
