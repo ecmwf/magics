@@ -1,364 +1,43 @@
 [
     {
-        "criteria" : {
-            "name" : "Geopotential",
-            "param" : "129.128",
-            "paramId" : "129",
-            "shortName" : "z",
-            "standard_name" : "geopotential"
-        },
-        "more" : [
-            {
-                "_name" : "mofc_z500_weekly_mean",
-                "criteria" : {
-                    "type" : "taem"
-                },
-                "more" : [
-                    {
-                        "_name" : "mofc_z500_weekly_mean",
-                        "criteria" : {
-                            "levelist" : "500"
-                        },
-                        "more" : [],
-                        "style" : "ct_blk_i6_t2",
-                        "styles" : [
-                            "ct_blk_i6_t2",
-                            "ct_blk_i5_t2",
-                            "ct_blue_i5_t2",
-                            "ct_red_i5_t2",
-                            "ct_green_i5_t2",
-                            "ct_blk_i5_t1",
-                            "ct_brn_i4_t2",
-                            "ct_blk_i2_t4",
-                            "ct_green_i2_t4"
-                        ]
-                    }
-                ],
-                "style" : "ct_blk_i6_t2",
-                "styles" : [
-                    "ct_blk_i6_t2",
-                    "ct_blue_i5_t2",
-                    "ct_blk_i2_t4",
-                    "ct_brn_i4_t2",
-                    "ct_green_i2_t4",
-                    "ct_blk_i5_t1",
-                    "ct_blk_i5_t2",
-                    "ct_green_i5_t2",
-                    "ct_red_i5_t2"
-                ]
-            },
-            {
-                "_name" : "z925",
-                "criteria" : {
-                    "type" : "fc"
-                },
-                "more" : [
-                    {
-                        "_name" : "z925",
-                        "criteria" : {
-                            "levelist" : "925"
-                        },
-                        "more" : [],
-                        "style" : "ct_blk_i5_t2",
-                        "styles" : [
-                            "ct_blk_i5_t2",
-                            "ct_blue_i5_t2",
-                            "ct_red_i5_t2",
-                            "ct_green_i5_t2",
-                            "ct_blk_i5_t1",
-                            "ct_brn_i4_t2",
-                            "ct_blk_i2_t4",
-                            "ct_green_i2_t4"
-                        ]
-                    },
-                    {
-                        "_name" : "z850",
-                        "criteria" : {
-                            "levelist" : "850"
-                        },
-                        "more" : [],
-                        "style" : "ct_blk_i5_t2",
-                        "styles" : [
-                            "ct_blk_i5_t2",
-                            "ct_blue_i5_t2",
-                            "ct_red_i5_t2",
-                            "ct_green_i5_t2",
-                            "ct_blk_i5_t1",
-                            "ct_brn_i4_t2",
-                            "ct_blk_i2_t4",
-                            "ct_green_i2_t4"
-                        ]
-                    },
-                    {
-                        "_name" : "z800",
-                        "criteria" : {
-                            "levelist" : "800"
-                        },
-                        "more" : [],
-                        "style" : "ct_blk_i5_t2",
-                        "styles" : [
-                            "ct_blk_i5_t2",
-                            "ct_blue_i5_t2",
-                            "ct_red_i5_t2",
-                            "ct_green_i5_t2",
-                            "ct_blk_i5_t1",
-                            "ct_brn_i4_t2",
-                            "ct_blk_i2_t4",
-                            "ct_green_i2_t4"
-                        ]
-                    },
-                    {
-                        "_name" : "z700",
-                        "criteria" : {
-                            "levelist" : "700"
-                        },
-                        "more" : [],
-                        "style" : "ct_blk_i5_t2",
-                        "styles" : [
-                            "ct_blk_i5_t2",
-                            "ct_blue_i5_t2",
-                            "ct_red_i5_t2",
-                            "ct_green_i5_t2",
-                            "ct_blk_i5_t1",
-                            "ct_brn_i4_t2",
-                            "ct_blk_i2_t4",
-                            "ct_green_i2_t4"
-                        ]
-                    },
-                    {
-                        "_name" : "z600",
-                        "criteria" : {
-                            "levelist" : "600"
-                        },
-                        "more" : [],
-                        "style" : "ct_blk_i5_t2",
-                        "styles" : [
-                            "ct_blk_i5_t2",
-                            "ct_blue_i5_t2",
-                            "ct_red_i5_t2",
-                            "ct_green_i5_t2",
-                            "ct_blk_i5_t1",
-                            "ct_brn_i4_t2",
-                            "ct_blk_i2_t4",
-                            "ct_green_i2_t4"
-                        ]
-                    },
-                    {
-                        "_name" : "z500_field",
-                        "criteria" : {
-                            "levelist" : "500"
-                        },
-                        "more" : [],
-                        "style" : "ct_blk_i5_t2",
-                        "styles" : [
-                            "ct_blk_i5_t2",
-                            "ct_blue_i5_t2",
-                            "ct_red_i5_t2",
-                            "ct_green_i5_t2",
-                            "ct_blk_i5_t1",
-                            "ct_brn_i4_t2",
-                            "ct_blk_i2_t4",
-                            "ct_green_i2_t4"
-                        ]
-                    },
-                    {
-                        "_name" : "z300",
-                        "criteria" : {
-                            "levelist" : "300"
-                        },
-                        "more" : [],
-                        "style" : "ct_blk_i5_t2",
-                        "styles" : [
-                            "ct_blk_i5_t2",
-                            "ct_blue_i5_t2",
-                            "ct_red_i5_t2",
-                            "ct_green_i5_t2",
-                            "ct_blk_i5_t1",
-                            "ct_brn_i4_t2",
-                            "ct_blk_i2_t4",
-                            "ct_green_i2_t4"
-                        ]
-                    },
-                    {
-                        "_name" : "z250",
-                        "criteria" : {
-                            "levelist" : "250"
-                        },
-                        "more" : [],
-                        "style" : "ct_blk_i5_t2",
-                        "styles" : [
-                            "ct_blk_i5_t2",
-                            "ct_blue_i5_t2",
-                            "ct_red_i5_t2",
-                            "ct_green_i5_t2",
-                            "ct_blk_i5_t1",
-                            "ct_brn_i4_t2",
-                            "ct_blk_i2_t4",
-                            "ct_green_i2_t4"
-                        ]
-                    }
-                ],
-                "style" : "ct_blk_i5_t2",
-                "styles" : [
-                    "ct_blue_i5_t2",
-                    "ct_blk_i2_t4",
-                    "ct_brn_i4_t2",
-                    "ct_green_i2_t4",
-                    "ct_blk_i5_t1",
-                    "ct_blk_i5_t2",
-                    "ct_green_i5_t2",
-                    "ct_red_i5_t2"
-                ]
-            },
-            {
-                "_name" : "z500_mean",
-                "criteria" : {
-                    "type" : "em"
-                },
-                "more" : [
-                    {
-                        "_name" : "z500_mean",
-                        "criteria" : {
-                            "levtype" : "pl"
-                        },
-                        "more" : [
-                            {
-                                "_name" : "z500_mean",
-                                "criteria" : {
-                                    "levelist" : "500"
-                                },
-                                "more" : [],
-                                "style" : "ct_red_i5_t2",
-                                "styles" : [
-                                    "ct_red_i5_t2",
-                                    "ct_blk_i5_t2",
-                                    "ct_blue_i5_t2",
-                                    "ct_green_i5_t2",
-                                    "ct_blk_i5_t1",
-                                    "ct_brn_i4_t2",
-                                    "ct_blk_i2_t4",
-                                    "ct_green_i2_t4"
-                                ]
-                            },
-                            {
-                                "_name" : "z300_mean",
-                                "criteria" : {
-                                    "levelist" : "300"
-                                },
-                                "more" : [],
-                                "style" : "ct_blk_i5_t2",
-                                "styles" : [
-                                    "ct_blk_i5_t2",
-                                    "ct_red_i5_t2",
-                                    "ct_blue_i5_t2",
-                                    "ct_green_i5_t2",
-                                    "ct_blk_i5_t1",
-                                    "ct_brn_i4_t2",
-                                    "ct_blk_i2_t4",
-                                    "ct_green_i2_t4"
-                                ]
-                            }
-                        ],
-                        "style" : "ct_red_i5_t2",
-                        "styles" : [
-                            "ct_blue_i5_t2",
-                            "ct_blk_i2_t4",
-                            "ct_brn_i4_t2",
-                            "ct_green_i2_t4",
-                            "ct_blk_i5_t1",
-                            "ct_blk_i5_t2",
-                            "ct_green_i5_t2",
-                            "ct_red_i5_t2"
-                        ]
-                    }
-                ],
-                "style" : "ct_red_i5_t2",
-                "styles" : [
-                    "ct_blue_i5_t2",
-                    "ct_blk_i2_t4",
-                    "ct_brn_i4_t2",
-                    "ct_green_i2_t4",
-                    "ct_blk_i5_t1",
-                    "ct_blk_i5_t2",
-                    "ct_green_i5_t2",
-                    "ct_red_i5_t2"
-                ]
-            },
-            {
-                "_name" : "z500_spread",
-                "criteria" : {
-                    "type" : "es"
-                },
-                "more" : [
-                    {
-                        "_name" : "z500_spread",
-                        "criteria" : {
-                            "levtype" : "pl"
-                        },
-                        "more" : [
-                            {
-                                "_name" : "z500_spread",
-                                "criteria" : {
-                                    "levelist" : "500"
-                                },
-                                "more" : [],
-                                "style" : "sh_blu_f02t50",
-                                "styles" : [
-                                    "sh_blu_f02t50",
-                                    "sh_range_f02t50"
-                                ]
-                            },
-                            {
-                                "_name" : "z300_spread",
-                                "criteria" : {
-                                    "levelist" : "300"
-                                },
-                                "more" : [],
-                                "style" : "sh_blu_f03t75",
-                                "styles" : [
-                                    "sh_blu_f03t75",
-                                    "sh_blu_f02t50",
-                                    "sh_range_f02t50"
-                                ]
-                            }
-                        ],
-                        "style" : "sh_blu_f02t50",
-                        "styles" : [
-                            "sh_blu_f03t75",
-                            "sh_range_f02t50",
-                            "sh_blu_f02t50"
-                        ]
-                    }
-                ],
-                "style" : "sh_blu_f02t50",
-                "styles" : [
-                    "sh_blu_f03t75",
-                    "sh_range_f02t50",
-                    "sh_blu_f02t50"
-                ]
-            }
-        ],
-        "scaling" : {
-            "derived_unit" : "dam",
-            "offset" : "-0.0",
-            "original_unit" : "m**2 s**-2",
-            "scaling" : "0.0101971621297793"
-        },
-        "style" : "ct_blk_i5_t2",
+        "style" : "sh_blup_f0t100lst",
         "styles" : [
-            "ct_blk_i6_t2",
-            "ct_blue_i5_t2",
-            "sh_blu_f02t50",
-            "sh_blu_f03t75",
-            "ct_brn_i4_t2",
-            "ct_green_i2_t4",
-            "ct_blk_i2_t4",
-            "ct_blk_i5_t1",
-            "ct_blk_i5_t2",
-            "ct_green_i5_t2",
-            "sh_range_f02t50",
-            "ct_red_i5_t2"
-        ]
+            "sh_mf_pdist",
+            "sh_mf_pdist_2",
+            "sh_mf_2t_tercile",
+            "sh_mf_pdist_quintile",
+            "sh_mf_pdist_decile",
+            "sh_grn_f0t100lst",
+            "sh_grn_f0t100lst_light",
+            "sh_rgb_f5t100",
+            "sh_rgb_transparent_f5t100",
+            "sh_rgb_transparent25_f5t100",
+            "sh_blup_f0t100lst",
+            "sh_blup_f0t100lst_light",
+            "sh_red_f0t100lst",
+            "sh_red_f0t100lst_light",
+            "genesis_prob",
+            "genesis_prob_light",
+            "ct_prob_black_f5t100t2",
+            "ct_prob_blue_f5t100t2",
+            "sh_mf_tp_tercile",
+            "sh_brn_f0t1",
+            "sh_grnblue_f1t100",
+            "sh_prob_rb_temperature",
+            "sh_blkgrey_f0t100lst",
+            "sh_prob_rb_rain",
+            "dot_blup_f0t100lst",
+            "snow_cover_25to100",
+            "snow_cover_standard",
+            "genesis_prob_dark",
+            "prob_red2blue",
+            "prob_blue2yellow",
+            "prob_green2yellow",
+            "sh_grnblu_f65t100i15",
+            "sh_grnblu_f65t100i15_light",
+            "ct_grnblu_f65t100i15"
+        ],
+        "units" : "%"
     },
     {
         "criteria" : {
