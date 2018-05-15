@@ -216,14 +216,14 @@ void NoCoastPlotting::layers(map<string, Action>& methods, const string& val, Dr
 }
 
 
-void CoastPlotting::release(vector<Polyline*>& polys) 
+void CoastPlotting::release(vector<Polyline*>& polys)
 {
- 	for ( vector<Polyline*>::iterator poly = polys.begin(); poly != polys.end(); ++poly ) 
-    {       
-        delete *poly;    
-    }    
-    polys.clear(); 
-   
+ 	for ( vector<Polyline*>::iterator poly = polys.begin(); poly != polys.end(); ++poly )
+    {
+        delete *poly;
+    }
+    polys.clear();
+
 }
 
 /*! \brief Method to set resource files for GIS information
@@ -242,6 +242,8 @@ void CoastPlotting::operator()(DrawingVisitor& parent)
   coast_.clear();
   ocean_.clear();
 
+  coastSet_["administrative_boundaries"] = "10m/ne_10m_admin_1_states_provinces";
+
   if ( magCompare(NoCoastPlottingAttributes::resolution_, "high") ||
        magCompare(NoCoastPlottingAttributes::resolution_, "full") ) {
         string resol = "10m";
@@ -249,8 +251,7 @@ void CoastPlotting::operator()(DrawingVisitor& parent)
         coastSet_["land"]       = resol + "/ne_" + resol + "_land";
         coastSet_["ocean"]      = resol + "/ne_" + resol + "_ocean";
         coastSet_["rivers"]     = resol + "/ne_" + resol + "_rivers_lake_centerlines";
-		coastSet_["boundaries"] = resol + "/ne_" + resol + "_admin_0_boundary_lines_land";
-		coastSet_["administrative_boundaries"] = resol + "/ne_" + resol + "_admin_1_states_provinces";
+        coastSet_["boundaries"] = resol + "/ne_" + resol + "_admin_0_boundary_lines_land";
   }
   else if ( magCompare(NoCoastPlottingAttributes::resolution_, "medium") ) {
         string resol = "50m";
@@ -259,7 +260,6 @@ void CoastPlotting::operator()(DrawingVisitor& parent)
         coastSet_["ocean"]      = resol + "/ne_" + resol + "_ocean";
         coastSet_["rivers"]     = resol + "/ne_" + resol + "_rivers_lake_centerlines";
         coastSet_["boundaries"] = resol + "/ne_" + resol + "_admin_0_boundary_lines_land";
-		coastSet_["administrative_boundaries"] = resol + "/ne_" + resol + "_admin_1_states_provinces_lines_shp";
   }
   else if ( magCompare(NoCoastPlottingAttributes::resolution_, "low") ) {
         string resol = "110m";
@@ -268,7 +268,6 @@ void CoastPlotting::operator()(DrawingVisitor& parent)
         coastSet_["ocean"]      = resol + "/ne_" + resol + "_ocean";
         coastSet_["rivers"]     = resol + "/ne_" + resol + "_rivers_lake_centerlines";
         coastSet_["boundaries"] = resol + "/ne_" + resol + "_admin_0_boundary_lines_land";
-		coastSet_["administrative_boundaries"] = resol + "/ne_" + resol + "_admin_1_states_provinces";
   }
   else {       // automatic
         transformation.coastSetting(coastSet_, parent.layout().absoluteWidth(), parent.layout().absoluteHeight());
