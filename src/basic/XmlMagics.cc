@@ -1,9 +1,9 @@
 /*
  * (C) Copyright 1996-2016 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
  */
@@ -17,7 +17,6 @@
 */
 
 
-#include "magics_ecmwf_log.h"
 #include "XmlMagics.h"
 #include "XmlReader.h"
 #include "MagException.h"
@@ -74,8 +73,6 @@ XmlMagics::XmlMagics() : root_(0),
 	geographical_(true),
 	driversToSet_(true)
 {
-	writeMagLog("magml");
-
 	actions_["magics"] = &XmlMagics::magics;
 	actions_["page"] = &XmlMagics::page;
 
