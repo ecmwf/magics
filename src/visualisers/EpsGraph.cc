@@ -3074,18 +3074,6 @@ void CapeBox::box(CustomisedPoint& point, BasicGraphicsObjectContainer& visitor)
 
 		visitor.push_back(symbol);
 	}
-	if ( control != point.end() ) {
-		Symbol* symbol =  new Symbol();
-	  	symbol->setColour(*control_colour_);
-	    symbol->setMarker(marker_index_);
-	    symbol->setHeight(marker_height_*0.75);
-		
-		
-	    symbol->push_back(transformation(UserPoint(x->second, control->second)));
-		
-
-		visitor.push_back(symbol);
-	}
 	if ( hres != point.end() ) {
 		Symbol* symbol =  new Symbol();
 	  	symbol->setColour(*hres_colour_);
@@ -3098,6 +3086,19 @@ void CapeBox::box(CustomisedPoint& point, BasicGraphicsObjectContainer& visitor)
 
 		visitor.push_back(symbol);
 	}
+	if ( control != point.end() ) {
+		Symbol* symbol =  new Symbol();
+	  	symbol->setColour(*control_colour_);
+	    symbol->setMarker(marker_index_);
+	    symbol->setHeight(marker_height_*0.75);
+		
+		
+	    symbol->push_back(transformation(UserPoint(x->second, control->second)));
+		
+
+		visitor.push_back(symbol);
+	}
+	
 
 	
 }
