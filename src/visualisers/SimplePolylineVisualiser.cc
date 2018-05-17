@@ -154,7 +154,7 @@ void SimplePolylineVisualiser::setup()
 				thickness = ( thickness_policy_ == M_CYCLE ) ? thickness_list_.begin() : --thickness;
 		}
 	max = transparency_level_list_.empty() ? 0 : transparency_level_list_.size() -1;
-  cout << "max --> " << max << endl;
+ 
 	for ( int i = 0; i < max; i++) {
 		alpha_map_[Interval(transparency_level_list_[i], transparency_level_list_[i+1]) ] = i ;
 	}
@@ -330,7 +330,7 @@ LineStyle 	SimplePolylineVisualiser::style(const CustomisedPoint& point)
 	CustomisedPoint::const_iterator value = point.find(style_key_);
 	if ( value == point.end() )
 		return solid;
-
+  
 	return style_map_.find(value->second, solid);
 }
 double 	SimplePolylineVisualiser::thickness(const CustomisedPoint& point)
@@ -339,7 +339,7 @@ double 	SimplePolylineVisualiser::thickness(const CustomisedPoint& point)
 	CustomisedPoint::const_iterator value = point.find(thickness_key_);
 	if ( value == point.end() )
 		return thickness;
-
+  
 	return thickness_map_.find(value->second, thickness);
 
 }

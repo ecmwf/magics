@@ -57,6 +57,7 @@ protected:
 	 map<double, PaperPoint> isothermLabels_;
 	 map<double, PaperPoint> isothetaLabels_;
 	 map<double, PaperPoint> satLabels_;
+	 map<double, PaperPoint> infoLabels_;
 
 private:
     //! Copy constructor - No copy allowed

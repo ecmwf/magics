@@ -2981,8 +2981,8 @@ void CapeBox::box(CustomisedPoint& point, BasicGraphicsObjectContainer& visitor)
 	CustomisedPoint::const_iterator x = point.find("step");
 	
 	Text* title = new Text();	
-	title->addText("population", *text_font_colour_,  text_font_size_);
-	title->push_back(PaperPoint(0, transformation.getMaxY()*1.05));
+	title->addText("#", *text_font_colour_,  text_font_size_*1.5);
+	title->push_back(PaperPoint(0, transformation.getMaxY()*1.01));
 	visitor.push_back(title);
 	
 	Text* label = new Text();
@@ -2990,8 +2990,13 @@ void CapeBox::box(CustomisedPoint& point, BasicGraphicsObjectContainer& visitor)
 	info = tostring(point["size"]);
 	
 	label->addText(info, *text_font_colour_,  text_font_size_);
-	
-	label->push_back(PaperPoint(x->second, transformation.getMaxY()*1.05));
+	if  ( hres != point.end() ) {
+		label->addText("+1", *hres_colour_,  text_font_size_);
+	}
+	if  ( control != point.end() ) {
+		label->addText("+1", *control_colour_,  text_font_size_);
+	}
+	label->push_back(PaperPoint(x->second, transformation.getMaxY()*1.01));
 	visitor.push_back(label);
 	
 	if ( median != point.end() ) {
@@ -3060,7 +3065,7 @@ void CapeBox::box(CustomisedPoint& point, BasicGraphicsObjectContainer& visitor)
 		Symbol* symbol =  new Symbol();
 	  	symbol->setColour(*marker_colour_);
 	    symbol->setMarker(marker_index_);
-	    symbol->setHeight(marker_height_);
+	    symbol->setHeight(marker_height_*.5);
 		
 		for (int i =0; i < point["size"]; i++) {
 			auto value = point.find("value_" + tostring(i));
@@ -3073,7 +3078,7 @@ void CapeBox::box(CustomisedPoint& point, BasicGraphicsObjectContainer& visitor)
 		Symbol* symbol =  new Symbol();
 	  	symbol->setColour(*control_colour_);
 	    symbol->setMarker(marker_index_);
-	    symbol->setHeight(marker_height_);
+	    symbol->setHeight(marker_height_*0.75);
 		
 		
 	    symbol->push_back(transformation(UserPoint(x->second, control->second)));
@@ -3111,12 +3116,47 @@ void CapeBox::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 	
 
 	for (CustomisedPointsList::const_iterator point = points.begin(); point != points.end(); ++point) {
+		
+		if ( magCompare((*point)->identifier(), string("cape0")) ) {
+			cape0_ =  (**point)["size"];
+		}
 		box(**point, visitor);
+
 	}
 
 }
 
 void CapeBox::visit(LegendVisitor& legend)
 {
+	
 
+	Symbol* symbol =  new Symbol();
+	symbol->setColour(*hres_colour_);
+    symbol->setMarker(marker_index_);
+    symbol->setHeight(0.3);
+    //if ( legend_height_ != -1)
+    //		  symbol->setHeight(legend_height_);
+    SimpleSymbolEntry *entry = new SimpleSymbolEntry("HRES", symbol);
+    
+    legend.add(entry);
+
+	symbol =  new Symbol();
+	symbol->setColour(*control_colour_);
+	symbol->setMarker(marker_index_);
+	symbol->setHeight(0.3);
+    //f ( legend_height_ != -1)
+    //		  symbol->setHeight(legend_height_);
+    entry = new SimpleSymbolEntry("Control", symbol);
+    
+    legend.add(entry);
+    symbol =  new Symbol();
+	symbol->setColour((*control_colour_));
+	symbol->setMarker(marker_index_);
+	symbol->setHeight(0.01);
+    //f ( legend_height_ != -1)
+    //		  symbol->setHeight(legend_height_);
+    entry = new SimpleSymbolEntry("N(c=0) " + tostring(cape0_), symbol);
+    
+    legend.add(entry);
+    
 }
