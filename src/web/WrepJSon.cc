@@ -701,10 +701,9 @@ void WrepJSon::hodograph()
 	if ( !hodograph_grid_ )
 		return;
 	// now we add the grid :
-	last = (( max/5 ) + 1 ) *5;
-	if ( last < 20 ) 
+	if ( max < 20 ) 
 		last = 20;
-	else if ( last < 50 ) 
+	else if ( max < 50 ) 
 		last = 50;
 	else 
 		last = 100;
