@@ -1,9 +1,9 @@
 /*
  * (C) Copyright 1996-2016 ECMWF.
- *
+ * 
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
- * In applying this licence, ECMWF does not waive the privileges and immunities
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+ * In applying this licence, ECMWF does not waive the privileges and immunities 
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
  */
@@ -65,8 +65,8 @@ void PolarStereographicProjection::print(ostream& out) const
 {
 	out << "PolarStereographicProjection[";
 	PolarStereographicProjectionAttributes::print(out);
-	out << "]";
-}
+	out << "]"; 
+} 
 
 double PolarStereographicProjection::unitToCm(double width, double height) const
 {
@@ -77,14 +77,14 @@ double PolarStereographicProjection::unitToCm(double width, double height) const
 	UserPoint ll2(0,  hemis*51);
 	PaperPoint xy1 = (*this)(ll1);
 	PaperPoint xy2 = (*this)(ll2);
-
+	
 	const double unit = abs(xy1.y() - xy2.y());
 	const double wid  = getMaxPCY() - getMinPCY();
 	if (!zero(wid))	return unit*(height/wid);
 	return unit;
 }
 
-double PolarStereographicProjection::height() const {
+double PolarStereographicProjection::height() const { 
 	// Reproject 2 point and find the unit
 		int hemis = (hemisphere_ ==  NORTH) ? 1 : -1;
 		bool pole;
@@ -93,9 +93,9 @@ double PolarStereographicProjection::height() const {
 		PaperPoint xy = (*this)(ll);
 
 		pole =  ( xy.x() > xpcmin_ && xy.x() < xpcmax_  && xy.y() > ypcmin_ && xy.y() < ypcmax_ );
-
-		if ( !pole )  {
-			height = (ymax_-ymin_);
+		
+		if ( !pole )  { 
+			height = (ymax_-ymin_); 
 		}
 		else {
 			if (hemisphere_ ==  NORTH) {
@@ -146,7 +146,7 @@ void PolarStereographicProjection::revert(const PaperPoint& xy, UserPoint& point
 	ASSERT(projection_);
 	TeCoord2D texy = TeCoord2D(xy.x(), xy.y());
 	TeCoord2D geo = projection_->PC2LL(texy);
-
+  
 	point = UserPoint(geo.x()*TeCRD, geo.y()*TeCRD);
 }
 
@@ -159,22 +159,22 @@ bool PolarStereographicProjection::needShiftedCoastlines()  const
 
 void PolarStereographicProjection::init(double width, double height)
 {
-	if ( !projection_ )
+	if ( !projection_ ) 
 		projection_ = new TePolarStereographic(TeDatum(), vertical_longitude_*TeCDR, 0., 0., "Meters", (hemisphere_ == NORTH) ? TeNORTH_HEM : TeSOUTH_HEM);
-
-
+	
+	
 
 	if ( magCompare(area_, "full") ) {
 		ymin_ = ( hemisphere_ == NORTH ) ? -20. : 20.;
 		ymax_ = ( hemisphere_ == NORTH ) ? -20. : 20.;
 		xmin_ = ( hemisphere_ == NORTH ) ? -45. + vertical_longitude_ : 45. + vertical_longitude_;
 		xmax_ = ( hemisphere_ == NORTH ) ? 135. + vertical_longitude_ : -135. + vertical_longitude_;
-
+		
 	}
 	else
 		magCompare(area_, "corners" ) ?  corners() : centre(width, height);
 	double llx, urx , lly , ury;
-
+		
 	if ( magCompare(system_, "projection") == false )
 	{
 		TeCoord2D ll = TeCoord2D(xmin_*TeCDR, ymin_*TeCDR);
@@ -182,14 +182,14 @@ void PolarStereographicProjection::init(double width, double height)
 
 		TeCoord2D llxy = projection_->LL2PC(ll);
 		TeCoord2D urxy = projection_->LL2PC(ur);
-
+    
 		TeCoord2D ell = TeCoord2D(-20*TeCDR, 40*TeCDR);
 		TeCoord2D exy = projection_->LL2PC(ell);
-
+    
 		ell = projection_->PC2LL(exy);
-
+    
 		// Create a grid 100/100 to calculate the corners ...
-
+     
 		llx = ::min(urxy.x(), llxy.x());
 		urx = std::max(urxy.x(), llxy.x());
 
@@ -233,13 +233,13 @@ void PolarStereographicProjection::init(double width, double height)
 		{
 			// Wrap around!
 			xmax_=180;
-			xmin_=-180;
+			xmin_=-180; 
 		}
-
+	
 		xpcmin_ = llx;
 		ypcmin_ = lly;
 		xpcmax_ = urx;
-		ypcmax_ = ury;
+		ypcmax_ = ury; 
 	}
 	else {
 		llx = ::min(xmin_, xmax_);
@@ -247,12 +247,12 @@ void PolarStereographicProjection::init(double width, double height)
 		lly = ::min(ymin_, ymax_);
 		ury = std::max(ymin_, ymax_);
 		TeCoord2D llxy(llx, lly);
-		TeCoord2D ll = projection_->PC2LL(llxy);
+		TeCoord2D ll = projection_->PC2LL(llxy); 
 		TeCoord2D urxy(urx, ury);
-		TeCoord2D  ur = projection_->PC2LL(urxy);
-
+		TeCoord2D  ur = projection_->PC2LL(urxy); 
+		         
 		xmin_ =  ::min(ll.x()*TeCRD, ur.x()*TeCRD);
-		xmax_ = std::max(ll.x()*TeCRD, ur.x()*TeCRD);
+		xmax_ = std::max(ll.x()*TeCRD, ur.x()*TeCRD); 
 		ymin_ =  ::min(ll.y()*TeCRD, ur.y()*TeCRD);
 		ymax_ =  std::max(ll.y()*TeCRD, ur.y()*TeCRD);
 		double stepx= (urx - llx)/100.;
@@ -277,13 +277,13 @@ void PolarStereographicProjection::init(double width, double height)
 		{
 			// Wrap around!
 			xmax_=180;
-			xmin_=-180;
+			xmin_=-180; 
 		}
 
 		xpcmin_ = llx;
 		ypcmin_ = lly;
 		xpcmax_ = urx;
-		ypcmax_ = ury;
+		ypcmax_ = ury; 
 
 		PCEnveloppe_->clear();
 
@@ -310,8 +310,8 @@ void PolarStereographicProjection::init(double width, double height)
 
 }
 
-void PolarStereographicProjection::fill(double& width, double& height)
-{
+void PolarStereographicProjection::fill(double& width, double& height)  
+{  
 	init(width, height);
 	Transformation::fill(width, height);
 	init(width, height);
@@ -324,8 +324,8 @@ void PolarStereographicProjection::tile(double& width, double& height)
 	init(width, height);
 }
 
-void PolarStereographicProjection::aspectRatio(double& width, double& height)
-{
+void PolarStereographicProjection::aspectRatio(double& width, double& height)  
+{  
 	init(width, height);
 	Transformation::aspectRatio(width, height);
 }
@@ -375,7 +375,7 @@ void PolarStereographicProjection::boundingBox(double& xmin, double& ymin, doubl
 	xmax += 5;
 	ymin -= 5;
 	ymax += 5;
-
+	
 	MagLog::dev() << " Projection bounding box-->[" << xmin << ", " << xmax << ", " << ymin << ", " << ymax << "]" << endl;
 }
 
@@ -431,12 +431,12 @@ void PolarStereographicProjection::gridLongitudes(const GridPlotting& grid)  con
 
 		double min = ::min(latitudes.front(), latitudes.back());
 		double max = std::max(latitudes.front(), latitudes.back());
-
+		
 
 		for (double lat = min; lat <= max; lat += 1) {
 			poly.push_back((*this)(UserPoint(*lon,lat)));
-		}
-		grid.add(poly);
+		}  
+		grid.add(poly);     
 	}
 }
 
@@ -447,13 +447,13 @@ void PolarStereographicProjection::gridLatitudes(const GridPlotting& grid)  cons
 	{
 		if (*lat < ymin_ ) continue;
 		if (*lat > ymax_ ) continue;
-	    Polyline poly;
+	    Polyline poly;        
 
             for (int lon = -180; lon <= 180; lon += 1) {
                 poly.push_back((*this)(UserPoint(lon,*lat)));
-
-            }
-	    grid.add(poly);
+                
+            }	
+	    grid.add(poly);        
 	}
 }
 
@@ -495,8 +495,8 @@ void PolarStereographicProjection::horizontalLabels(const LabelPlotting& label, 
 
         double a = CA(p1xy, p2xy);
         double b = CB(a, p1xy);
-
-        TeCoord2D xy = TeCoord2D(CX(a, b, y), y);
+            
+        TeCoord2D xy = TeCoord2D(CX(a, b, y), y);   
 
         PaperPoint point(CX(a, b, y), y);
 
@@ -527,9 +527,9 @@ void PolarStereographicProjection::horizontalLabels(const LabelPlotting& label, 
 
 /*!
  Method to draw vertical labels.
-
+ 
  \sa LeftAxisVisitor RightAxisVisitor
-
+ 
 */
 void PolarStereographicProjection::verticalLabels(const LabelPlotting& label, double x, double xx, bool left)  const
 {
@@ -544,12 +544,12 @@ void PolarStereographicProjection::verticalLabels(const LabelPlotting& label, do
 
         TeCoord2D p1xy = projection_->LL2PC(p1);
         TeCoord2D p2xy = projection_->LL2PC(p2);
-
+    
         double a = CA(p1xy, p2xy);
         double b = CB(a, p1xy);
         if ( !a ) continue; // parallele line!
-
-        TeCoord2D xy = TeCoord2D(x, CY(a, b, x) );
+        
+        TeCoord2D xy = TeCoord2D(x, CY(a, b, x) );       
 
         PaperPoint point(x, CY(a, b, x));
         if ( !in(point) ) continue;
@@ -572,7 +572,7 @@ void PolarStereographicProjection::verticalLabels(const LabelPlotting& label, do
         Text* text = new Text();
         label.add(text);
         text->setJustification(left ? MRIGHT: MLEFT);
-        text->setVerticalAlign(MHALF);
+        text->setVerticalAlign(MHALF);    
         text->setText(writeLongitude(geo));
         text->push_back(point);
      }
@@ -587,22 +587,22 @@ void PolarStereographicProjection::labels(const LabelPlotting& label, DrawingVis
 	vector<double> longitudes;
 	longitudes.push_back(vertical_longitude_);
 	for ( float i = 0; i < 360; i += 60.) {
-		if ( find(grid.begin(), grid.end(), i) != grid.end() ||
+		if ( find(grid.begin(), grid.end(), i) != grid.end() || 
 			 find(grid.begin(), grid.end(), i-360) != grid.end() )
 			longitudes.push_back(vertical_longitude_+i);
 	}
-
+	
 	unsigned int flon = (unsigned int) std::max(1, (int) maground(longitudes.size()/4));
 
 	for (unsigned int lat = 0; lat < latitudes.size(); lat++)
-	{
+	{  
 	    for (unsigned int lon = 0 ; lon < longitudes.size(); lon ++)
-	    {
+	    { 	   
 	   	   UserPoint point(longitudes[lon],latitudes[lat]);
 	   	   PaperPoint xy = (*this)(point);
-
-	   	   if ( !in(xy) ) continue;
-
+	   	   
+	   	   if ( !in(xy) ) continue;	   
+	   
 	   	   text = new Text();
 	   	   label.add(text); // This will set the font!
 	   	   text->setText(writeLatitude(point));
@@ -624,7 +624,7 @@ void PolarStereographicProjection::labels(const LabelPlotting& label, BottomAxis
 {
 	// Find intersection of the latitude line  with the bottom!
 	// Y = bottom
-
+     
 	const double yy = ypcmax_ - ( ( ypcmax_ - ypcmin_  )*0.1);
 	horizontalLabels(label, ypcmin_, yy, false);
 }
@@ -633,7 +633,7 @@ void PolarStereographicProjection::labels(const LabelPlotting& label, LeftAxisVi
 {
 	// Find intersection of the latitude line  with the left!
 	// X = left
-
+    
 	const double xx = xpcmax_ - ( ( xpcmax_ - xpcmin_  )*0.1);
 	verticalLabels(label, xpcmin_, xx, true);
 }
@@ -642,7 +642,7 @@ void PolarStereographicProjection::labels(const LabelPlotting& label, RightAxisV
 {
 	// Find intersection of the latitude line  with the right!
 	// X = right
-
+	
 	const double xx = xpcmin_ + ( ( xpcmax_ - xpcmin_  )*0.1);
 	verticalLabels(label, xpcmax_, xx, false);
 }
@@ -650,10 +650,10 @@ void PolarStereographicProjection::labels(const LabelPlotting& label, RightAxisV
 /*!
  This method generates meta output for web interaction through JavaScript...
 */
-void  PolarStereographicProjection::visit(MetaDataVisitor& visitor,
-	double left, double top,
+void  PolarStereographicProjection::visit(MetaDataVisitor& visitor, 
+	double left, double top, 
 	double width, double height,
-	double img_width, double img_height)
+	double img_width, double img_height) 
 {
 	ostringstream java;
 
@@ -662,24 +662,24 @@ void  PolarStereographicProjection::visit(MetaDataVisitor& visitor,
 
 	java << "{";
 	projection_->LL2PC(java);
-
-	java << "\"top\" : " << top <<  ",";
-	java << "\"left\" : " << left <<  ",";
-	java << "\"width\" : " << width <<  ",";
-	java << "\"img_width\" : " << img_width <<  ",";
-	java << "\"height\" : " << height <<  ",";
-	java << "\"img_height\" : " << img_height <<  ",";
-
-	java << "\"pcxmin\" : " << getMinPCX() <<  ",";
-	java << "\"pcymin\" : " << getMinPCY() <<  ",";
-	java << "\"pcwidth\" : " << w <<  ",";
+		
+	java << "\"top\" : " << top <<  ",";		
+	java << "\"left\" : " << left <<  ",";		
+	java << "\"width\" : " << width <<  ",";	
+	java << "\"img_width\" : " << img_width <<  ",";	
+	java << "\"height\" : " << height <<  ",";	
+	java << "\"img_height\" : " << img_height <<  ",";	
+	
+	java << "\"pcxmin\" : " << getMinPCX() <<  ",";		
+	java << "\"pcymin\" : " << getMinPCY() <<  ",";		
+	java << "\"pcwidth\" : " << w <<  ",";	
 	java << "\"pcheight\" : " << h <<  ",";
 	java << "\"inwidth\" : \"" << askedWidth_ <<  "\",";
 	java << "\"inheight\" : \"" << askedHeight_ <<  "\",";
 	java << "\"xorig\" : \"" << xTile_ <<  "\",";
 	java << "\"yorig\" : \"" << yTile_ <<  "\",";
 	java << "\"zoom_level\" : \"" << zoomLevel_ <<  "\"";
-	java << "}";
+	java << "}";	
 	visitor.add("projection", java.str());
 }
 
@@ -689,7 +689,7 @@ void PolarStereographicProjection::corners()
 	if  ( min_longitude_ == -180 && max_longitude_ == 180 &&
 		   min_latitude_ == -90 && max_latitude_ == 90 ) {
 
-
+		
 		min_latitude_ = ( hemisphere_ == NORTH ) ? -20. : 20.;
 		max_latitude_ = ( hemisphere_ == NORTH ) ? -20. : 20.;
 		min_longitude_ = ( hemisphere_ == NORTH ) ? -45. + vertical_longitude_: 45.+ vertical_longitude_;
@@ -707,18 +707,18 @@ void PolarStereographicProjection::corners()
 void PolarStereographicProjection::centre(double width, double height)
 {
     PaperPoint centre = (*this)(UserPoint(centre_longitude_, centre_latitude_));
-
+      
     double x = (width* map_scale_)/200;
     double y = (height * map_scale_)/200;
-
-
+    
+           
     PaperPoint llxy(centre.x() - x, centre.y() - y);
     PaperPoint urxy(centre.x() + x, centre.y() + y);
-
+    
     UserPoint ll;
     revert(PaperPoint(centre.x() - x, centre.y() - y), ll);
     UserPoint ur;
-    revert(PaperPoint(centre.x() + x, centre.y() + y), ur);
+    revert(PaperPoint(centre.x() + x, centre.y() + y), ur);    
 
     xmin_ = ll.x();
     ymin_ = ll.y();
@@ -730,12 +730,12 @@ void PolarStereographicProjection::centre(double width, double height)
 
 
 /*!polar
- Read in the documentation:
- For Polar Stereographic projections, the thinning factor is the distance,
+ Read in the documentation:	
+ For Polar Stereographic projections, the thinning factor is the distance, 
  in both X and Y directions, corresponding to the projected INPUT_FIELD_LONGITUDE_STEP ,
- along 60 degrees latitude, multiplied by the value of WIND_THINNING_FACTOR .
- After plotting at a grid point, all subsequent grid points,
- whose distance from the current grid point is less than the thinning factor, will be ignored.
+ along 60 degrees latitude, multiplied by the value of WIND_THINNING_FACTOR . 
+ After plotting at a grid point, all subsequent grid points, 
+ whose distance from the current grid point is less than the thinning factor, will be ignored. 
  The default value is 2.0, e.g. the statement
 */
 void PolarStereographicProjection::thin(MatrixHandler& matrix, double x, double y, vector<UserPoint>& out) const
@@ -746,7 +746,7 @@ void PolarStereographicProjection::thin(MatrixHandler& matrix, double x, double 
 
 	int columns = matrix.columns();
 	int rows = matrix.rows();
-
+ 
 	for ( int row = 0; row < rows; row+=yfactor)
 	{
 		const double lat = matrix.row(row, 0);
@@ -766,7 +766,7 @@ void PolarStereographicProjection::thin(MatrixHandler& matrix, double x, double 
 			const double lon = matrix.column(row, column);
 
 			UserPoint point(lon, lat, matrix(row, column));
-			out.push_back(point);
+			out.push_back(point); 
 		}
 	}
 }
@@ -784,7 +784,7 @@ void PolarStereographicProjection::setNewPCBox(double minx, double miny, double 
 	min_longitude_ = ll.x();
 	max_longitude_ = ur.x();
 	min_latitude_ = ll.y();
-	max_latitude_ = ur.y();
+	max_latitude_ = ur.y(); 
 
 	corners();
 
@@ -805,7 +805,7 @@ void PolarStereographicProjection::setNewPCBox(double minx, double miny, double 
 void PolarStereographicProjection::operator()(const UserPoint& geo, vector<PaperPoint>& out) const
 {
 	PaperPoint pp = (*this)(geo);
-		if ( in(pp) )
+		if ( in(pp) ) 
 			out.push_back(pp);
 }
 
@@ -841,9 +841,9 @@ void PolarStereographicProjection::reprojectSpeedDirection(const PaperPoint& poi
 
 	fast_reproject(x, y);
 	fast_reproject(u, v);
-
+	
 	double rotation = atan2((u - x), (v - y));
-
+	
 	wind.second =   (rotation*RAD_TO_DEG);
 }
 
@@ -871,7 +871,9 @@ void PolarStereographicProjection::coastSetting(map<string, string>& setting, do
 	setting["coast"]      = resol + "/ne_" + resol + "_coastline";
 	setting["rivers"]     = resol + "/ne_" + resol + "_rivers_lake_centerlines";
 	setting["boundaries"] = resol + "/ne_" + resol + "_admin_0_boundary_lines_land";
-	setting["administrative_boundaries"] = resol + "/ne_" + resol + "_admin_1_states_provinces";
+	
+	//! \note Administraive borders hardcoded to 10m resolution (low res version do not contain all info)
+	setting["administrative_boundaries"] = "10m/ne_10m_admin_1_states_provinces";
 
 	MagLog::dev() << "GeoRectangularProjection::coastSetting[" << abswidth << ", " << absheight << "]->" <<  ratio << " resol: "<<resol<< endl;
 }
@@ -897,9 +899,9 @@ Polyline& PolarStereographicProjection::getPCBoundingBox() const
 Polyline& PolarStereographicProjection::getUserBoundingBox() const
 {
 	const double minlat = -90.;
-	const double maxlat =  90.;
+	const double maxlat =  90.; 
 	const double minlon = -180.;
-	const double maxlon =  180.;
+	const double maxlon =  180.; 
 
 	if ( userEnveloppe_->empty() ) {
 		// left
