@@ -104,6 +104,11 @@ does it submit to any jurisdiction.
                     <documentation> List of keys to ignore when reading onput data  </documentation>
 
             </parameter>
+            <parameter member="hodograph_grid" to="bool" default="off" from="string" name="wrepjson_hodograph_grid" visible='off'><documentation> add the Grid for the hodograph! </documentation>
+
+            </parameter>
+       
        
 
-</class></magics>
+</class>
+</magics>

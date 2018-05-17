@@ -266,7 +266,8 @@ void Curve::operator()(Data& data, BasicGraphicsObjectContainer& task)
 	
 	// apply the symbol
 
-	if ( line_ ) transformation(*curve_, task);
+	if ( line_ ) //task.push_back(curve_);
+		transformation(*curve_, task);
 	 symbol(sv, task);
 
 }
@@ -359,7 +360,9 @@ void CurveArea::operator()(Data& data, BasicGraphicsObjectContainer& task)
 	// apply the symbol
 
 	(*shade_)(*curve_);
-	if ( line_ ) transformation(*curve_, task);
+	if ( line_ ) {
+		task.push_back(curve_);
+	} //transformation(*curve_, task);
 	 symbol(sv, task);
 	
 }

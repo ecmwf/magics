@@ -144,13 +144,11 @@ PaperPoint Tephigram::operator()(const UserPoint& xy)  const
 	double p = (same(xy.y(), 0) ) ? 1. : xy.y();
 	if (  xy.x() >= 1000 ) {// x = x
 	// y = p
-
-
 		double coefficient = pow(100000./(p*100),KAPPA);
 		double y = (maxpcx+(273.15*(cosinus-sinus)))*((sinus + (coefficient*cosinus)))/(cosinus -(coefficient*sinus)) - 2713.15*(sinus+cosinus);
 		MagLog::dev() << p << "-->" << y << "??? " << minPCY_ << "<<" <<  maxPCY_<< endl;
-		double x =  (maxPCX_ - maxpcx)*(xy.x()-1000.) + maxpcx;
-		MagLog::dev() << x << endl;
+		double x =  ((maxPCX_-maxpcx)/50)*(xy.x()-1000)  + maxpcx;
+		
 		return PaperPoint(x, y, xy.value());
 	}
 	// UserPoint X = temperature in deg Y = Pressure in hPa
@@ -618,8 +616,27 @@ void Tephigram::operator()(const Polyline& from,  BasicGraphicsObjectContainer& 
 {
 	if (from.empty())
 			return;
-		PaperPoint ll(getMinPCX(), getMinPCY());
-		PaperPoint ur(maxpcx, getMaxPCY());
+		
+		PaperPoint ll, ur;
+		bool grid = false;
+		for (unsigned i = 0; i < from.size(); i++) {
+				if ( from.get(i).x() < maxpcx ) {
+					grid = true;
+					break;
+				}
+		}
+		if ( grid  ) {
+			ll = PaperPoint (getMinPCX(), getMinPCY());
+			ur = PaperPoint(maxpcx, getMaxPCY());
+		}
+		else {
+			ll = PaperPoint(maxpcx, getMinPCY());
+			ur = PaperPoint(maxPCX_, getMaxPCY());
+		}
+
+		
+
+
 		boost::geometry::model::box<PaperPoint> box(ll, ur);
 		boost::geometry::correct(box);
 		if ( from.closed() ) {
@@ -627,6 +644,8 @@ void Tephigram::operator()(const Polyline& from,  BasicGraphicsObjectContainer& 
 
 			for (unsigned i = 0; i < from.size(); i++) {
 				line.push_back(from.get(i));
+				
+
 
 			}
 
@@ -652,6 +671,8 @@ void Tephigram::operator()(const Polyline& from,  BasicGraphicsObjectContainer& 
 
 			for (unsigned i = 0; i < from.size(); i++) {
 				line.push_back(from.get(i));
+				
+				
 			}
 			boost::geometry::correct(line);
 			vector<vector<PaperPoint> > result;

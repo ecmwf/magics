@@ -98,7 +98,7 @@ void TephiGrid::visit(DrawingVisitor& out)
 	double tfactor = 10;
 	tmax = int(tmax/tfactor)*tfactor + tfactor;
 	tmin = int(tmin/tfactor)*tfactor - tfactor;
-
+	
 	double pfactor = 100;
 	pmax = int(pmax/pfactor)*pfactor + pfactor;
 	pmin = int(pmin/pfactor)*pfactor;
@@ -123,9 +123,11 @@ void TephiGrid::visit(DrawingVisitor& out)
 
 		double theta = magics::theta(xy.x()+273.15, (xy.y())*100.);
 
+
 		step(isotherms, labels, tmin, tmax, isotherm_reference_, isotherm_interval_, isotherm_label_frequency_);
 
 		for (std::set<double>::iterator t = isotherms.begin();  t != isotherms.end(); ++t ) {
+			
 			Polyline poly;
 			Colour colour = (*t != isotherm_reference_) ? *isotherm_colour_ : *isotherm_reference_colour_;
 			poly.setColour(colour);
@@ -241,7 +243,7 @@ void TephiGrid::visit(DrawingVisitor& out)
 
 	}
 	if ( mixing_ratio_) {
-        vector<float> ratios; //in g/kg
+		vector<float> ratios;
 		ratios.push_back(0.1);
 		ratios.push_back(0.2);
 		ratios.push_back(0.5);
@@ -259,7 +261,6 @@ void TephiGrid::visit(DrawingVisitor& out)
 		// Humidity Mixing ratio Lines
 		int grid = 0;
 		int label = 0;
-        int pTop=200;
 		for (vector<float>::iterator r = ratios.begin(); r != ratios.end(); ++r) {
 			if ( grid % mixing_ratio_frequency_ )
 				continue;
@@ -268,11 +269,12 @@ void TephiGrid::visit(DrawingVisitor& out)
 			poly.setColour(*mixing_ratio_colour_);
 			poly.setLineStyle(mixing_ratio_style_);
 			poly.setThickness(mixing_ratio_thickness_);
-            for ( double p = pTop; p < pmax; p += 10) {
+			for ( double p = pmin; p < pmax; p += 10) {
 				double t = temperatureFromMixingRatio(*r, p*100);
 				PaperPoint xy = tephi(UserPoint(t-273.15, p));
+				
 				poly.push_back(xy);
-				tephi(poly, out.layout());
+				
 				if ( label % mixing_ratio_label_frequency_ )
 						continue;
 				label++;
@@ -284,8 +286,10 @@ void TephiGrid::visit(DrawingVisitor& out)
 							mixingLabels_.insert(make_pair(*r, xy));
 						}
 					}
+
 				}
 			}
+			tephi(poly, out.layout());
 
 
 
@@ -305,7 +309,7 @@ void TephiGrid::visit(DrawingVisitor& out)
 
 
 		for (std::set<double>::iterator  thetaw = sat.begin(); thetaw != sat.end(); ++thetaw ) {
-			if ( *thetaw > 65.) continue;
+			if ( *thetaw > 50.) continue;
 			Polyline poly;
 			poly.setColour(*saturated_adiabatic_colour_);
 			poly.setLineStyle(saturated_adiabatic_style_);
@@ -334,6 +338,54 @@ void TephiGrid::visit(DrawingVisitor& out)
 			}
 
 		}
+	}
+	if ( true ) {
+		MagFont font(isotherm_label_font_, isotherm_label_style_, isotherm_label_size_);
+		font.colour(*isotherm_label_colour_);
+
+		for ( int i = 25; i < 60; i += 25) {
+			Polyline poly;
+			Colour colour =  *isotherm_colour_ ;
+			poly.setColour(colour);
+			poly.setThickness(isotherm_thickness_);
+			poly.setLineStyle(M_DASH);
+	
+			for ( double p = pmin; p <= pmax; p += 10) {
+				poly.push_back(tephi(UserPoint(1000.+i, p)));
+			 	
+			}
+			tephi(poly, out.layout());
+			
+			
+
+
+			UserPoint pt(1000+i, tephi.getMaxPCY());
+
+			PaperPoint xy = tephi(pt);
+			xy.y(tephi.getMaxPCY()*.5);
+			infoLabels_.insert(make_pair(i, xy));
+	
+	 	
+	 	}
+	 	std::set<double> isobars;
+		std::set<double> labels;
+
+		step(isobars, labels, pmin, pmax, isobar_reference_, isobar_interval_, isobar_label_frequency_);
+
+	 	for (std::set<double>::iterator p = isobars.begin();  p != isobars.end(); ++p ) {
+			Polyline poly;
+			poly.setColour(*isobar_colour_);
+			poly.setLineStyle(M_DASH);
+			poly.setThickness(isobar_thickness_);
+			poly.push_back(tephi(UserPoint(1000, *p)));
+			poly.push_back(tephi(UserPoint(1100, *p)));	
+			
+		
+			tephi(poly, out.layout());
+			
+		}
+
+
 	}
 
 }
@@ -387,20 +439,30 @@ void TephiGrid::visit(BottomAxisVisitor& out)
 {
 	MagFont font(mixing_ratio_label_font_, mixing_ratio_label_style_, mixing_ratio_label_size_);
 	font.colour(*mixing_ratio_label_colour_);
-
+	
 	for (map<double, PaperPoint>::iterator label = mixingLabels_.begin(); label != mixingLabels_.end(); ++label) {
-
-
 		Text *text= new Text();
-        text->setText(tostring(label->first));
+		text->setText(tostring(label->first*10.));
 		text->setFont(font);
 		text->setBlanking(true);
 
 		text->push_back(label->second);
 		out.push_back(text);
 	}
+	font = MagFont(isotherm_label_font_, isotherm_label_style_, isotherm_label_size_);
+	font.colour(*isotherm_label_colour_);
+			
+	for (map<double, PaperPoint>::iterator label = infoLabels_.begin(); label != infoLabels_.end(); ++label) {
+		Text *text= new Text();
+		text->setText(tostring(label->first));
+		text->setFont(font);
+		text->setBlanking(true);
 
+		text->push_back(label->second);
+		out.push_back(text);
+	}
 }
+
 void TephiGrid::visit(TopAxisVisitor& out)
 {
 

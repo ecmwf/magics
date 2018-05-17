@@ -55,7 +55,8 @@ WrepJSon::WrepJSon()  : missing_(-9999),
 	methods_["y_values"] = &WrepJSon::y_values;
 	methods_["y_date_values"] = &WrepJSon::y_date_values;
 	methods_["values"] = &WrepJSon::values;
-
+	
+	methods_["cape0"] = &WrepJSon::cape0;
 	methods_["cape1"] = &WrepJSon::cape1;
 	methods_["cape2"] = &WrepJSon::cape2;
 	methods_["cape3"] = &WrepJSon::cape3;
@@ -504,7 +505,7 @@ CustomisedPoint* point_cape(const string& name,  InputWrep& input, double& maxy)
 	CustomisedPoint* point = new CustomisedPoint();
 	point->identifier(name);
 
-	input.print();
+	
 	
 	double max = input.info_["max"];
 	
@@ -558,11 +559,33 @@ void WrepJSon::cape()
 	
 
 
+	vector<double> levels= {200, 500, 1000, 2000, 5000};
+
+	for ( auto max = levels.begin(); max != levels.end(); ++max)
+		if ( maxy_ < *max ) {
+			maxy_ = *max+10;
+			break;
+		}
+
 	
-	maxy_ = mag10ceil(maxy_);
 	
 
 }
+
+double value(double pres)
+{
+	vector<double> levels = {700., 500., 300., 200., 100.};
+	double i = 1;
+	for ( auto level = levels.begin(); level != levels.end(); ++level) {
+		if ( pres > *level ) {
+			
+			return i;
+		}
+		i++;
+	}
+
+}
+
 
 void WrepJSon::hodograph()
 {
@@ -587,35 +610,103 @@ void WrepJSon::hodograph()
  	unsigned int nb = values_.ensembleValues_["u"].size();
  	
  	double max = 0;
+
+
 		
+	double last = 1;
+	
+	map<double, vector<CustomisedPoint*>> sort;
+
 	for (unsigned int ens = 0; ens < nb; ens++) {
-		for (unsigned int pl = 0; pl < values_.levels_.size(); pl++) {
-			CustomisedPoint* point = new CustomisedPoint();
-			(*point)["x"]    	=  values_.ensembleValues_["u"][ens][pl];
-			point->longitude(values_.ensembleValues_["u"][ens][pl]);
-			point->latitude(values_.ensembleValues_["v"][ens][pl]);
-			(*point)["value"]   =  values_.levels_[pl];
-			(*point)["y"]       =  values_.ensembleValues_["v"][ens][pl];
-			(*point)["missing"] = missing_;
-	      	if ( abs((*point)["x"]) > max ) max = abs((*point)["x"]);
-			if ( abs((*point)["y"]) > max ) max = abs((*point)["y"]);
+
+			last = value(values_.levels_[0]);
+			sort.insert(make_pair(last, vector<CustomisedPoint*>()));
+			CustomisedPoint* lastpoint = 0;
+			for (unsigned int pl = 0; pl < values_.levels_.size(); pl++) {
+
+				double range =  value(values_.levels_[pl]);
+				if ( range != last ) {
+					
+					CustomisedPoint* point = new CustomisedPoint();
+
+					(*point)["x"]    	=  values_.ensembleValues_["u"][ens][pl];
+					point->longitude(values_.ensembleValues_["u"][ens][pl]);
+					point->latitude(values_.ensembleValues_["v"][ens][pl]);
+				
+					(*point)["value"]   =  last;
+					(*point)["y"]       =  values_.ensembleValues_["v"][ens][pl];
+					(*point)["missing"] = missing_;
+					(*point)["pressure"]   =  values_.levels_[pl];
+					sort[last].push_back(point);
+
+					
+					CustomisedPoint* missing = new CustomisedPoint();
+					(*missing)["x"]    	= 0;
+					(*missing)["value"]   =   missing_;
+					(*missing)["y"]       =  0;
+					(*missing)["missing"] = missing_;
+					missing->missing(true);
+					sort[last].push_back(missing);
+
+					
+					
+					sort.insert(make_pair(range, vector<CustomisedPoint*>()));
+					
+					
+//
+				}
+				CustomisedPoint* point = new CustomisedPoint();
+
+					(*point)["x"]    	=  values_.ensembleValues_["u"][ens][pl];
+					point->longitude(values_.ensembleValues_["u"][ens][pl]);
+					point->latitude(values_.ensembleValues_["v"][ens][pl]);
+					(*point)["pressure"]   =  values_.levels_[pl];
+					(*point)["value"]   =  range;
+					(*point)["y"]       =  values_.ensembleValues_["v"][ens][pl];
+					(*point)["missing"] = missing_;
+					point->base(base_);
+					sort[range].push_back(point);
+					
+		      	
+
+		      	if ( abs((*point)["x"]) > max ) max = abs((*point)["x"]);
+				if ( abs((*point)["y"]) > max ) max = abs((*point)["y"]);
+				
 			
-			point->base(base_);
-			points_.push_back(point);
-		}
-		CustomisedPoint* missing = new CustomisedPoint();
-		(*missing)["x"]    	= 0;
-		(*missing)["value"]   =   missing_;
-		(*missing)["y"]       =  0;
-		(*missing)["missing"] = missing_;
-		missing->missing(true);
-	      
-			
-		points_.push_back(missing);
+				last = range;
+				
+			}
+			CustomisedPoint* missing = new CustomisedPoint();
+					(*missing)["x"]    	= 0;
+					(*missing)["value"]   =   missing_;
+					(*missing)["y"]       =  0;
+					(*missing)["missing"] = missing_;
+					missing->missing(true);
+					sort[last].push_back(missing);
+		
+
+
+		
 	}
 
+
+	for ( auto s = sort.begin(); s != sort.end(); ++s) { 
+			
+		for ( auto p = s->second.begin(); p != s->second.end(); ++p )	{
+			points_.push_back(*p);    
+			
+		}
+	}
+
+	if ( !hodograph_grid_ )
+		return;
 	// now we add the grid :
-	int last = (( max/5 ) + 1 ) *5;
+	last = (( max/5 ) + 1 ) *5;
+	if ( last < 20 ) 
+		last = 20;
+	else if ( last < 50 ) 
+		last = 20;
+	else last = 100;
 
 	minx_ = -last;
 	miny_ = -last;
@@ -624,12 +715,15 @@ void WrepJSon::hodograph()
 	maxy_ = last;
 
 	
-	for (int i = 0; i < last; i+=5) {
-   		for (float a = 0; a < 6.28; a +=0.1) {
+	for (int i = 0; i <= last; i+=5) {
+   		for (float a = 0; a < 6.28; a +=0.01) {
    			CustomisedPoint* point = new CustomisedPoint();
 			point->longitude(cos(a)*i);
 			point->latitude(sin(a)*i);
-			(*point)["value"]   =  -1;
+			if ( i == 20 || i == 50 || i == 100 ) 
+				(*point)["value"]   =  -10;
+			else
+				(*point)["value"]   =  -5;
 			if ( (abs(a - (6.28/4))) < 0.05 ) {
 				(*point)["grid"]   =  i;
 				
@@ -899,15 +993,12 @@ void WrepJSon::profile()
 
 	minx_ = *std::min_element(minmax.begin(), minmax.end());
     maxx_ = *std::max_element(minmax.begin(), minmax.end());
-
-
-
 }
+
 void WrepJSon::customisedPoints(const Transformation& transformation, const std::set<string>& needs, CustomisedPointsList& out)
 {
 
 	decode();
-
 	for (vector<CustomisedPoint*>::const_iterator point = points_.begin(); point != points_.end(); ++point) {
 		// Here we need to check we have date!
 		if ( xdate_ ) {
@@ -1121,7 +1212,7 @@ void  WrepJSon::cape_dig(const json_spirit::Value& value) {
 			current_->info_[entry->name_] = entry->value_.get_value< double >();
 		}
     }
-    current_->print();
+   
 }      
 
 void WrepJSon::cape1(const json_spirit::Value& value)
@@ -1133,6 +1224,19 @@ void WrepJSon::cape1(const json_spirit::Value& value)
 	}
 	capes_["cape1"].info_["step"] = 1;
 	current_ = &(capes_["cape1"]);
+
+	cape_dig(value);
+}
+
+void WrepJSon::cape0(const json_spirit::Value& value)
+{
+	
+	auto cape = capes_.find("cape0");
+	if ( cape == capes_.end() ) {
+		capes_.insert(make_pair("cape0", InputWrep()));
+	}
+	capes_["cape0"].info_["step"] = -1;
+	current_ = &(capes_["cape0"]);
 
 	cape_dig(value);
 }

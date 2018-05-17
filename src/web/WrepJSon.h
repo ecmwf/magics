@@ -136,6 +136,7 @@ public:
 	void hodo_v(const json_spirit::Value&);
 
 	//Cape
+	void cape0(const json_spirit::Value&);
 	void cape1(const json_spirit::Value&);
 	void cape2(const json_spirit::Value&);
 	void cape3(const json_spirit::Value&);

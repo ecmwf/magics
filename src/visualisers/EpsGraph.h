@@ -146,6 +146,7 @@ protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).
 	 virtual void print(ostream&) const; 
 	 void box(CustomisedPoint&, BasicGraphicsObjectContainer& visitor);
+	 int cape0_;
 	
 
 private:
