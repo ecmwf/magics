@@ -705,8 +705,9 @@ void WrepJSon::hodograph()
 	if ( last < 20 ) 
 		last = 20;
 	else if ( last < 50 ) 
-		last = 20;
-	else last = 100;
+		last = 50;
+	else 
+		last = 50;
 
 	minx_ = -last;
 	miny_ = -last;
