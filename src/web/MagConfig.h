@@ -12,7 +12,7 @@
 #define MagConfig_H
 
 #include "magics.h"
-
+#include "MagLog.h"
 
 
 #include "json_spirit.h"
@@ -61,6 +61,70 @@ private:
 
 };
 
+struct MagDef
+{
+	typedef map<string, string> Definition;
+	
+
+	
+	void values(const json_spirit::Value&);
+
+	
+
+	Definition def_;
+	
+	string name_;
+	void set(const json_spirit::Object&);
+	friend ostream& operator<<(ostream& s,const MagDef& p)
+		{ 
+			 
+				s << "[" << endl;
+				for ( auto def = p.def_.begin(); def != p.def_.end(); ++def)
+				  s << "   " << def->first << " = " << def->second << "," << endl;
+				s << "]" << endl;
+				return s;
+		}
+
+	
+};
+
+
+
+class MagDefLibrary : public MagConfig
+{
+public:
+	MagDefLibrary() { }
+	MagDefLibrary(const string& name)  { init("/styles/" + name + ".json"); }
+	MagDefLibrary(const string& theme, const string& name) : name_(name) { init("/stylesNe/" + theme + "/" + name + ".json"); }
+	~MagDefLibrary() {}
+
+	void callback(const string& name, const json_spirit::Value& value);
+	
+	void init(const string&);
+	
+	map<string, MagDef > library_;
+
+    bool find(const string& name, MagDef::Definition& definition) {
+    	cout << "Looking for  " << name << endl;
+    	map<string, MagDef>::iterator def = library_.find(name);
+
+    	if ( def != library_.end() ) {
+    		definition = def->second.def_;
+    		cout << "FOUND " << name << endl;
+    		cout << def->second << endl;
+    		return true;
+    	}
+    	MagLog::warning() << " Can not find the preset " << name << " for " << name_ << endl;
+    	return false;
+    }
+    string name_;
+
+	 
+	
+};
+
+
+
 struct Style 
 {
 	typedef map<string, string> Definition;
@@ -70,12 +134,18 @@ struct Style
 	void criteria(const json_spirit::Value&);
 	void style(const json_spirit::Value&);
 	void more(const json_spirit::Value&); 
+	void scaling(const json_spirit::Value&); 
+	void styles(const json_spirit::Value&); 
+	void name(const json_spirit::Value&); 
 
 	Definition criteria_;
-	Definition style_;
+	Definition scaling_;
+	string style_;
 	vector<Style> more_;
+	string name_;
 	void set(const json_spirit::Object&);
-	bool find(const Definition& data, Definition& visdef);
+	bool findScaling(const Definition& data, Definition& scaling);
+	bool findStyle(const Definition& data, string& visdef);
 };
 
 class StyleLibrary : public MagConfig
@@ -93,18 +163,28 @@ public:
 
 	string theme_;
 	string family_;
+	MagDefLibrary allStyles_;
 
-	bool find(const Style::Definition& data, Style::Definition& visdef);
+	bool findStyle(const Style::Definition& data, Style::Definition& visdef);
+	bool findScaling(const Style::Definition& data, Style::Definition& visdef);
     
-    bool find(const string& name, Style::Definition& visdef) {
+    bool findStyle(const string& name, Style::Definition& visdef) {
     	Style::Definition criteria;
     	criteria["name"] = name;
-    	return find(criteria, visdef);
+    	return findStyle(criteria, visdef);
+    }
+
+    bool findScaling(const string& name, Style::Definition& scaling) {
+    	Style::Definition criteria;
+    	criteria["name"] = name;
+    	return findScaling(criteria, scaling);
     }
 
 	
 	
 };
+
+
 
 struct Palette
 {
@@ -124,6 +204,7 @@ struct Palette
 
 	
 };
+
 
 
 class PaletteLibrary : public MagConfig
@@ -170,7 +251,6 @@ public:
 	const map<string, string>& get(const string& name) const;
 	
 };
-
 
 
 

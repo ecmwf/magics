@@ -26,7 +26,7 @@ projection = mmap(
 
 
 #Coastlines setting
-coast = mcoast(
+background = mcoast(
         map_coastline_general_style = "background",
         )
 #Import the z500 data
@@ -52,8 +52,9 @@ title = mtext(
       text_colour = "charcoal")
 
 #To the plot
-plot(output, projection, coast, data, contour, title)
-plot(output, projection, data, contour, foreground,  title)
+plot(output, projection, data, contour, background) #data, contour, foreground)
+#PLOt(output, data, contour)
+#plot(output, projection, data, contour, foreground,  title)
 
 
 
