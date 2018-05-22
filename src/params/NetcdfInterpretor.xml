@@ -65,6 +65,11 @@ does it submit to any jurisdiction.
                 <release>Magics++2.6    </release>
                 <documentation>Variable name representing the colour component of the vector ( in case of coloured wind)    </documentation>
           </parameter>
+
+           <parameter member="automatic_scaling" to="bool" default="on" from="string" name="netcdf_field_automatic_scaling">
+                    <documentation>Apply an automatic scaling,  if needed       </documentation>
+            </parameter>
+            
        
             <parameter member="scaling" to="float" default="1" from="float" name="netcdf_field_scaling_factor">
                     <documentation>Scaling factor to multiply the field value by        </documentation>

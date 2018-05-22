@@ -1,133 +1,88 @@
-[
-    {
-        "criteria": { 
-            "name": "foreground"
-        },
-        "visdef": {
-            "contour_legend_text": "Dark Coastlines", 
-            "map_coastline_resolution": "low", 
-            "map_coastline_thickness": 2, 
-            "map_grid": "off", 
-            "map_label": "off", 
-            "map_coastline_colour": "rgb(85, 85, 85)"
-        }
-    },
-    {
-        "criteria": { 
-            "name": "map_background"
-        },
-        "visdef": {
-            "map_coastline_sea_shade": "on", 
-            "map_coastline_resolution": "low", 
-            "map_coastline_land_shade_colour": "rgb(65, 65, 65)", 
-            "map_grid": "off", 
-            "map_coastline_land_shade": "on", 
-            "map_coastline_sea_shade_colour": "rgb(65, 65, 65)", 
-            "map_label": "off", 
-            "map_coastline_colour": "white"
-        }
+{
+    "foreground": {
+        "contour_legend_text": "Dark Coastlines", 
+        "map_coastline_resolution": "low", 
+        "map_coastline_thickness": 2, 
+        "map_grid": "off", 
+        "map_label": "off", 
+        "map_coastline_colour": "rgb(85, 85, 85)"
     }, 
-    {
-        "criteria": { 
-            "name": "grey_foreground"
-        },
-        "visdef": {
-            "contour_legend_text": "grey Coastlines", 
-            "map_coastline_resolution": "low", 
-            "map_coastline_thickness": 2, 
-            "map_grid": "off", 
-            "map_label": "off", 
-            "map_coastline_colour": "rgb(65,64,66)"
-        }
+    "map_background": {
+        "map_coastline_sea_shade": "on", 
+        "map_coastline_resolution": "low", 
+        "map_coastline_land_shade_colour": "rgb(65, 65, 65)", 
+        "map_grid": "off", 
+        "map_coastline_land_shade": "on", 
+        "map_coastline_sea_shade_colour": "rgb(65, 65, 65)", 
+        "map_label": "off", 
+        "map_coastline_colour": "white"
     }, 
-    {
-        "criteria": { 
-            "name": "grey_boundaries"
-        },
-        "visdef": {
-            "contour_legend_text": "Boundaries For WWW", 
-            "map_boundaries": "on", 
-            "map_grid": "off", 
-            "map_boundaries_colour": "rgb(65,64,66)", 
-            "map_administrative_boundaries_style": "dot", 
-            "map_disputed_boundaries": "$disputed", 
-            "map_coastline": "off", 
-            "map_label": "off", 
-            "map_administrative_boundaries_countries_list": "$country_list", 
-            "map_administrative_boundaries_colour": "rgb(65,64,66)", 
-            "map_administrative_boundaries": "on"
-        }
-    },
-    {
-        "criteria": { 
-            "name": "land_background"
-        },
-        "visdef": {
-            "map_coastline_resolution": "low", 
-            "map_coastline_land_shade_colour": "rgb(65, 65, 65)", 
-            "map_grid": "off", 
-            "map_coastline_land_shade": "on", 
-            "map_coastline_sea_shade": "off", 
-            "map_label": "off", 
-            "map_coastline_colour": "white"
-        } 
-    },
-    {
-        "criteria": { 
-            "name": "boundaries"
-        },
-        "visdef": {   
-            "contour_legend_text": "Boundaries For WWW", 
-            "map_boundaries": "on", 
-            "map_grid": "off", 
-            "map_boundaries_colour": "rgba(85, 85, 85, 0.7)", 
-            "map_administrative_boundaries_style": "dot", 
-            "map_disputed_boundaries": "$disputed", 
-            "map_coastline": "off", 
-            "map_label": "off", 
-            "map_administrative_boundaries_countries_list": "$country_list", 
-            "map_administrative_boundaries_colour": "white", 
-            "map_coastline_colour": "white", 
-            "map_administrative_boundaries": "on"
-        }
+    "grey_boundaries": {
+        "contour_legend_text": "Boundaries For WWW", 
+        "map_boundaries": "on", 
+        "map_grid": "off", 
+        "map_boundaries_colour": "rgb(65,64,66)", 
+        "map_administrative_boundaries_style": "dot", 
+        "map_disputed_boundaries": "$disputed", 
+        "map_coastline": "off", 
+        "map_label": "off", 
+        "map_administrative_boundaries_countries_list": "$country_list", 
+        "map_administrative_boundaries_colour": "rgb(65,64,66)", 
+        "map_administrative_boundaries": "on"
     }, 
-    {
-        "criteria": { 
-            "name": "grid"
-        },
-        "visdef": {   
-            "contour_legend_text": "grid for WWW", 
-            "map_grid_thickness": 2, 
-            "map_grid": "on", 
-            "map_grid_line_style": "dot", 
-            "map_grid_colour": "rgba(85, 85, 85, 0.7)", 
-            "map_coastline": "off"
-        }
-    },
-    {
-        "criteria": { 
-            "name": "background"
-        },
-        "visdef": {
-            "map_coastline_resolution": "low", 
-            "map_coastline_land_shade_colour": "rgb(190, 189, 191)", 
-            "map_grid": "off", 
-            "map_coastline_land_shade": "on", 
-            "map_coastline_sea_shade": "off", 
-            "map_label": "off", 
-            "map_coastline_colour": "rgb(65, 64, 66)"
-        }
+    "boundaries": {
+        "contour_legend_text": "Boundaries For WWW", 
+        "map_boundaries": "on", 
+        "map_grid": "off", 
+        "map_boundaries_colour": "rgba(85, 85, 85, 0.7)", 
+        "map_administrative_boundaries_style": "dot", 
+        "map_disputed_boundaries": "$disputed", 
+        "map_coastline": "off", 
+        "map_label": "off", 
+        "map_administrative_boundaries_countries_list": "$country_list", 
+        "map_administrative_boundaries_colour": "white", 
+        "map_coastline_colour": "white", 
+        "map_administrative_boundaries": "on"
     }, 
-    {
-        "criteria": { 
-            "name": "grey_grid"
-        },
-        "visdef": {
-            "contour_legend_text": "grid for WWW", 
-            "map_grid_line_style": "dot", 
-            "map_grid_colour": "rgb(65,64,66), 0.7)", 
-            "map_coastline": "off", 
-            "map_grid": "on"
-        }
+    "land_background": {
+        "map_coastline_resolution": "low", 
+        "map_coastline_land_shade_colour": "rgb(65, 65, 65)", 
+        "map_grid": "off", 
+        "map_coastline_land_shade": "on", 
+        "map_coastline_sea_shade": "off", 
+        "map_label": "off", 
+        "map_coastline_colour": "white"
+    }, 
+    "grey_foreground": {
+        "contour_legend_text": "grey Coastlines", 
+        "map_coastline_resolution": "low", 
+        "map_coastline_thickness": 2, 
+        "map_grid": "off", 
+        "map_label": "off", 
+        "map_coastline_colour": "rgb(65,64,66)"
+    }, 
+    "grid": {
+        "contour_legend_text": "grid for WWW", 
+        "map_grid_thickness": 2, 
+        "map_grid": "on", 
+        "map_grid_line_style": "dot", 
+        "map_grid_colour": "rgba(85, 85, 85, 0.7)", 
+        "map_coastline": "off"
+    }, 
+    "background": {
+        "map_coastline_resolution": "low", 
+        "map_coastline_land_shade_colour": "rgb(190, 189, 191)", 
+        "map_grid": "off", 
+        "map_coastline_land_shade": "on", 
+        "map_coastline_sea_shade": "off", 
+        "map_label": "off", 
+        "map_coastline_colour": "rgb(65, 64, 66)"
+    }, 
+    "grey_grid": {
+        "contour_legend_text": "grid for WWW", 
+        "map_grid_line_style": "dot", 
+        "map_grid_colour": "rgb(65,64,66), 0.7)", 
+        "map_coastline": "off", 
+        "map_grid": "on"
     }
-]
+}

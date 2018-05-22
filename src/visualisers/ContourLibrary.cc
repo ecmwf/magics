@@ -89,7 +89,7 @@ bool ContourLibrary::checkId(MetaDataCollector& metaId,MetaDataCollector& metaKe
 
 	
 // se the map to set the contour!
-void ContourLibrary::getAttributes(MetaDataCollector& meta, map<string, string>& attributes)
+void ContourLibrary::getStyle(MetaDataCollector& meta, map<string, string>& attributes)
 {
 	MagLog::dev() << "ContourLibrary::set-->" << endl;
 
@@ -211,7 +211,7 @@ void EcChartLibrary::askId(MetaDataCollector& request)
 }
 
 // se the map to set the contour!
-void EcChartLibrary::getAttributes(MetaDataCollector& data, map<string, string>& contour)
+void EcChartLibrary::getStyle(MetaDataCollector& data, map<string, string>& contour)
 {
 	
 	//find the best contour definition
@@ -325,18 +325,30 @@ void WebLibrary::setCriteria(MetaDataCollector& request, const string& criteria)
 }
 
 // set the map to set the contour!
-void WebLibrary::getAttributes(MetaDataCollector& data, map<string, string>& contour)
+void WebLibrary::getStyle(MetaDataCollector& data, map<string, string>& contour)
 {
-		
 
-		StyleLibrary styles(data["theme"], "contours");
+		StyleLibrary styles("default", "contours");
 		map<string, string> style;
-
-
-
 		
-		if ( styles.find(data, style) )
+		if ( styles.findStyle(data, style) )
 			contour = style;
+	
+}
+
+// set the map to set the contour!
+void WebLibrary::getScaling(MetaDataCollector& data, double& scaling, double& offset)
+{
+
+		StyleLibrary styles("default", "contours");
+		map<string, string> values;
+		scaling = 1;
+		offset = 0;
+		
+		if ( styles.findStyle(data, values) ) {
+			scaling = tonumber(values["scaling"]);
+			offset = tonumber(values["offset"]);
+		}
 	
 }
 

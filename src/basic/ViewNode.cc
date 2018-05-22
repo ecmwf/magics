@@ -564,8 +564,9 @@ void FortranViewNode::getReady()
 	ASSERT (parent_);
 
 	if ( predefined_ ) {
-			StyleLibrary library("projections");
-			Style::Definition area;
+			MagDefLibrary library("projections");
+
+			MagDef::Definition area;
 
 			library.find(predefined_name_, area);
 			
