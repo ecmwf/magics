@@ -701,10 +701,9 @@ void WrepJSon::hodograph()
 	if ( !hodograph_grid_ )
 		return;
 	// now we add the grid :
-	last = (( max/5 ) + 1 ) *5;
-	if ( last < 20 ) 
+	if ( max < 20 ) 
 		last = 20;
-	else if ( last < 50 ) 
+	else if ( max < 50 ) 
 		last = 50;
 	else 
 		last = 100;
@@ -819,6 +818,32 @@ void WrepJSon::tephigram()
 				points_.push_back(point);
 		}
 	}
+	else if  ( profile_quantile_ == "median" || profile_quantile_ == "control" ) {
+		map<string, vector<double> >::iterator val = values_.values_.find( profile_quantile_);
+
+		for (unsigned int i = 0; i < values_.levels_.size(); i++) {
+
+			double value = val->second[i];
+			
+			CustomisedPoint* point = new CustomisedPoint();
+			point->longitude(value);
+			point->latitude(value);
+			(*point)["step"]    =value;
+			(*point)["x"]    = value;
+			(*point)["value"]    = value;
+			(*point)["y"]    = values_.levels_[i];
+			(*point)["shift"] = 0;
+			(*point)["width"]    = 1 ;
+			(*point)["missing"]    = missing_;
+	      
+			point->base(base_);
+			points_.push_back(point);
+			if (value != missing_)
+						minmax.push_back(value);
+		}
+		
+	}
+	
 	else  {
 		string key = (profile_quantile_ == "lower") ? "min" : "twenty_five"; 
 		

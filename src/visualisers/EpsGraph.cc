@@ -3090,7 +3090,7 @@ void CapeBox::box(CustomisedPoint& point, BasicGraphicsObjectContainer& visitor)
 		Symbol* symbol =  new Symbol();
 	  	symbol->setColour(*control_colour_);
 	    symbol->setMarker(marker_index_);
-	    symbol->setHeight(marker_height_*0.75);
+	    symbol->setHeight(marker_height_*0.6);
 		
 		
 	    symbol->push_back(transformation(UserPoint(x->second, control->second)));
@@ -3120,6 +3120,7 @@ void CapeBox::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 		
 		if ( magCompare((*point)->identifier(), string("cape0")) ) {
 			cape0_ =  (**point)["size"];
+			continue;
 		}
 		box(**point, visitor);
 
