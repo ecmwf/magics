@@ -3632,6 +3632,20 @@
         "contour_shade_min_level_colour" : "grey",
         "contour_shade_min_level_density" : 200
     },
+    "sh_blu_f008t25" : {
+        "contour" : "off",
+        "contour_hilo" : "off",
+        "contour_label" : "off",
+        "contour_legend_text" : "Contour shade (Range: 0.8 / 25), used for T spread",
+        "contour_level_list" : "0.8/1.5/2.5/4.5/8/14/25",
+        "contour_level_selection_type" : "level_list",
+        "contour_shade" : "on",
+        "contour_shade_colour_list" : "rgb(0.85,0.73,0.86)/rgb(0.76,0.53,0.77)/rgb(0.73,0.34,0.74)/rgb(0.85,0.13,0.88)/rgb(0.96,0,1.0)/rgb(0.98,0.51,1.0)",
+        "contour_shade_colour_method" : "list",
+        "contour_shade_max_level" : 25,
+        "contour_shade_method" : "area_fill",
+        "contour_shade_min_level" : 0.8
+    },
     "sh_blu_f0t20_douglas" : {
         "contour_highlight" : "off",
         "contour_hilo" : "off",
