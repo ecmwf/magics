@@ -2979,24 +2979,22 @@ void CapeBox::box(CustomisedPoint& point, BasicGraphicsObjectContainer& visitor)
 	const Transformation& transformation = visitor.transformation();
 
 	CustomisedPoint::const_iterator x = point.find("step");
-	
-	Text* title = new Text();	
-	title->addText("#", *text_font_colour_,  text_font_size_*1.5);
-	title->push_back(PaperPoint(0, transformation.getMaxY()*1.01));
-	visitor.push_back(title);
+
 	
 	Text* label = new Text();
 	string info;
 	info = tostring(point["size"]);
-	
-	label->addText(info, *text_font_colour_,  text_font_size_);
-	if  ( hres != point.end() ) {
+	MagFont bold("sansserif", "bold", text_font_size_) ;
+	bold.colour(*text_font_colour_);
+	label->addText(info, bold );
+	/*if  ( hres != point.end() ) {
 		label->addText("+1", *hres_colour_,  text_font_size_);
 	}
 	if  ( control != point.end() ) {
 		label->addText("+1", *control_colour_,  text_font_size_);
 	}
-	label->push_back(PaperPoint(x->second, transformation.getMaxY()*1.01));
+	*/
+	label->push_back(PaperPoint(x->second, transformation.getMaxY()*0.95));
 	visitor.push_back(label);
 	
 	if ( median != point.end() ) {
@@ -3131,7 +3129,6 @@ void CapeBox::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 void CapeBox::visit(LegendVisitor& legend)
 {
 	
-
 	Symbol* symbol =  new Symbol();
 	symbol->setColour(*hres_colour_);
     symbol->setMarker(marker_index_);
@@ -3151,14 +3148,15 @@ void CapeBox::visit(LegendVisitor& legend)
     entry = new SimpleSymbolEntry("Control", symbol);
     
     legend.add(entry);
+    
+    //f ( legend_height_ != -1)
+    //		  symbol->setHeight(legend_height_);
     symbol =  new Symbol();
 	symbol->setColour((*control_colour_));
 	symbol->setMarker(marker_index_);
 	symbol->setHeight(0.01);
-    //f ( legend_height_ != -1)
-    //		  symbol->setHeight(legend_height_);
-    entry = new SimpleSymbolEntry("N(c=0) " + tostring(cape0_), symbol);
-    
+	 entry = new SimpleSymbolEntry("(CAPE=0: " + tostring(cape0_) + ")", symbol);
     legend.add(entry);
-    
+	
+
 }

@@ -182,13 +182,14 @@ WrepJSon::WrepJSon()  : missing_(-9999),
         specials['\375'] = "&yacute;"; 
         specials['\376'] = "&thorn;"; 
       }
-
+      tephikey_ = "x";
 }
 
 WrepJSon::~WrepJSon()
 {
 	
 }
+
 void WrepJSon::visit(Transformation& transformation)
 {
 
@@ -607,8 +608,8 @@ void WrepJSon::hodograph()
     	 abort();
     }
  
- 	unsigned int nb = values_.ensembleValues_["u"].size();
- 	
+ 	unsigned int ens1 = (hodograph_member_ < 0 ) ? 0 :  hodograph_member_; values_.ensembleValues_["u"].size();
+ 	unsigned int ens2 = (hodograph_member_ < 0 ) ? values_.ensembleValues_["u"].size() :  hodograph_member_ + 1;
  	double max = 0;
 
 
@@ -617,7 +618,7 @@ void WrepJSon::hodograph()
 	
 	map<double, vector<CustomisedPoint*>> sort;
 
-	for (unsigned int ens = 0; ens < nb; ens++) {
+	for (unsigned int ens = ens1; ens < ens2; ens++) {
 
 			last = value(values_.levels_[0]);
 			sort.insert(make_pair(last, vector<CustomisedPoint*>()));
@@ -637,37 +638,45 @@ void WrepJSon::hodograph()
 					(*point)["y"]       =  values_.ensembleValues_["v"][ens][pl];
 					(*point)["missing"] = missing_;
 					(*point)["pressure"]   =  values_.levels_[pl];
-					sort[last].push_back(point);
+					
+					
 
-					
-					CustomisedPoint* missing = new CustomisedPoint();
-					(*missing)["x"]    	= 0;
-					(*missing)["value"]   =   missing_;
-					(*missing)["y"]       =  0;
-					(*missing)["missing"] = missing_;
-					missing->missing(true);
-					sort[last].push_back(missing);
-
-					
-					
-					sort.insert(make_pair(range, vector<CustomisedPoint*>()));
-					
+					if ( !hodograph_tephi_) {
+						sort[last].push_back(point);
+						CustomisedPoint* missing = new CustomisedPoint();
+						(*missing)["x"]    	= 0;
+						(*missing)["value"]   =   missing_;
+						(*missing)["y"]       =  0;
+						(*missing)["missing"] = missing_;
+						missing->missing(true);
+						sort[last].push_back(missing);
+						sort.insert(make_pair(range, vector<CustomisedPoint*>()));
+					}
 					
 //
 				}
 				CustomisedPoint* point = new CustomisedPoint();
 
-					(*point)["x"]    	=  values_.ensembleValues_["u"][ens][pl];
-					point->longitude(values_.ensembleValues_["u"][ens][pl]);
-					point->latitude(values_.ensembleValues_["v"][ens][pl]);
-					(*point)["pressure"]   =  values_.levels_[pl];
-					(*point)["value"]   =  range;
-					(*point)["y"]       =  values_.ensembleValues_["v"][ens][pl];
-					(*point)["missing"] = missing_;
-					point->base(base_);
+				(*point)["x"]    	=  values_.ensembleValues_["u"][ens][pl];
+				point->longitude(values_.ensembleValues_["u"][ens][pl]);
+				point->latitude(values_.ensembleValues_["v"][ens][pl]);
+				(*point)["pressure"]   =  values_.levels_[pl];
+				(*point)["value"]   =  range;
+				(*point)["y"]       =  values_.ensembleValues_["v"][ens][pl];
+				(*point)["missing"] = missing_;
+				point->base(base_);
+				if ( !hodograph_tephi_)
 					sort[range].push_back(point);
 					
 		      	
+		      	if ( hodograph_tephi_ ) {
+						(*point)["x_component"]       =  values_.ensembleValues_["u"][ens][pl];
+						(*point)["y_component"]       =  values_.ensembleValues_["v"][ens][pl];
+						point->longitude(1025.);
+						point->latitude(values_.levels_[pl]);
+						points_.push_back(point);
+					}
+
 
 		      	if ( abs((*point)["x"]) > max ) max = abs((*point)["x"]);
 				if ( abs((*point)["y"]) > max ) max = abs((*point)["y"]);
@@ -682,13 +691,60 @@ void WrepJSon::hodograph()
 					(*missing)["y"]       =  0;
 					(*missing)["missing"] = missing_;
 					missing->missing(true);
-					sort[last].push_back(missing);
+					if ( !hodograph_tephi_)
+						sort[last].push_back(missing);
 		
 
 
 		
 	}
 
+
+	
+
+	
+	int sup = ( ( int(max)/5 ) + 1 ) * 5;
+	
+	
+
+	minx_ = -sup;
+	miny_ = -sup;
+
+	maxx_ = sup;
+	maxy_ = sup;
+
+
+	if ( hodograph_grid_ ) {
+		
+	// now we add the grid :
+	
+	
+		for (int i = 0; i <= sup + 20; i += 5) {
+	   		for (float a = 0; a < 6.28; a +=0.01) {
+	   			CustomisedPoint* point = new CustomisedPoint();
+				point->longitude(cos(a)*i);
+				point->latitude(sin(a)*i);
+				if ( i == 20 || i == 50 || i == 100 ) 
+					(*point)["value"]   =  -10;
+				else
+					(*point)["value"]   =  -5;
+				if ( (abs(a - (6.28/4))) < 0.05 ) {
+					(*point)["grid"]   =  i;
+					
+				}
+
+				point->base(base_);
+				points_.push_back(point);
+			}
+			CustomisedPoint* missing = new CustomisedPoint();
+			(*missing)["x"]    	= 0;
+			(*missing)["value"]   =   missing_;
+			(*missing)["y"]       =  0;
+			(*missing)["missing"] = missing_;
+			missing->missing(true);
+			points_.push_back(missing);
+		}   
+	}  
 
 	for ( auto s = sort.begin(); s != sort.end(); ++s) { 
 			
@@ -697,49 +753,7 @@ void WrepJSon::hodograph()
 			
 		}
 	}
-
-	if ( !hodograph_grid_ )
-		return;
-	// now we add the grid :
-	if ( max < 20 ) 
-		last = 20;
-	else if ( max < 50 ) 
-		last = 50;
-	else 
-		last = 100;
-
-	minx_ = -last;
-	miny_ = -last;
-
-	maxx_ = last;
-	maxy_ = last;
-
-	
-	for (int i = 0; i <= last; i+=5) {
-   		for (float a = 0; a < 6.28; a +=0.01) {
-   			CustomisedPoint* point = new CustomisedPoint();
-			point->longitude(cos(a)*i);
-			point->latitude(sin(a)*i);
-			if ( i == 20 || i == 50 || i == 100 ) 
-				(*point)["value"]   =  -10;
-			else
-				(*point)["value"]   =  -5;
-			if ( (abs(a - (6.28/4))) < 0.05 ) {
-				(*point)["grid"]   =  i;
-				
-			}
-
-			point->base(base_);
-			points_.push_back(point);
-		}
-		CustomisedPoint* missing = new CustomisedPoint();
-		(*missing)["x"]    	= 0;
-		(*missing)["value"]   =   missing_;
-		(*missing)["y"]       =  0;
-		(*missing)["missing"] = missing_;
-		missing->missing(true);
-		points_.push_back(missing);
-	}      
+ 
 }
 
 
@@ -753,6 +767,12 @@ void WrepJSon::tephigram()
 	methods_[param_] = profile_quantile_.empty() ? &WrepJSon::param : &WrepJSon::parameter;
 	methods_["pres"] = &WrepJSon::levels;
 	methods_[keyword_] = &WrepJSon::dig;
+
+	if ( param_ == "wind" ) {
+		methods_["u"] =  &WrepJSon::param;
+		methods_["v"] =  &WrepJSon::param;
+		tephikey_ = "wind";
+	}
 	
 
     scaling_factor_ = param_scaling_factor_;
@@ -770,8 +790,8 @@ void WrepJSon::tephigram()
     maxy_ = values_.levels_.back();
 
     MagLog::dev() << "minx= " <<  minx_ << "->maxx= " << maxx_ << endl;
-    map<string, vector<double> >::iterator intensity = values_.values_.find("intensity");
-    map<string, vector<double> >::iterator direction = values_.values_.find("direction");
+    map<string, vector<double> >::iterator intensity = values_.values_.find("u");
+    map<string, vector<double> >::iterator direction = values_.values_.find("v");
     map<string, vector<double> >::iterator val = values_.values_.find("x");
     vector<double> minmax;
 
@@ -782,15 +802,15 @@ void WrepJSon::tephigram()
 			double speed = (intensity ==  (values_.values_.end() ) ) ? 0 : intensity->second[i];
 			double dir = (direction ==  (values_.values_.end() ) ) ? 0 : direction->second[i];
 			CustomisedPoint* point = new CustomisedPoint();
-			point->longitude(value);
-			point->latitude(value);
+			point->longitude( (param_ == "wind" ) ? 1025 : value);
+			point->latitude(values_.levels_[i]);
 			(*point)["step"]    =value;
-			(*point)["x"]    = value;
+			(*point)["x"]    = ( param_ == "wind" ) ? 1025 : value;
 			(*point)["y"]    = values_.levels_[i];
 			(*point)["shift"] = 0;
 			(*point)["width"]    = 1 ;
-			(*point)["intensity"]    = speed;
-			(*point)["direction"]    = dir;
+			(*point)["x_component"]    = speed;
+			(*point)["y_component"]    = dir;
 			(*point)["missing"]    = missing_;
 	        (*point)["latitude"]    = latitude_;
 	        (*point)["longitude"]    = longitude_;
@@ -1074,7 +1094,7 @@ void WrepJSon::basic()
 	        		        
 	        	  for (vector<Pair>::const_iterator entry = object.begin(); entry !=  object.end(); ++entry) {
 	        	  	  capekey_ = entry->name_;
-	        	  	  
+	        	  	  tephikey_ = (tephikey_ == "x") ? "x" : entry->name_;
 	        		  map<string,  Method >::iterator method = methods_.find(entry->name_);
 	        		    	    if ( method != methods_.end() ) {
 	        		    	    	   ( (this->*method->second)(entry->value_) );
@@ -1314,8 +1334,8 @@ void WrepJSon::data(const json_spirit::Value& value, vector<double>& vals)
 
 void WrepJSon::param(const json_spirit::Value& value) 
 {
-	current_->values_.insert(make_pair("x", vector<double>()));
-	data(value, current_->values_["x"]);
+	current_->values_.insert(make_pair(tephikey_, vector<double>()));
+	data(value, current_->values_[tephikey_]);
 }
 
 void WrepJSon::hodo_u(const json_spirit::Value& value) 
@@ -1421,7 +1441,8 @@ void WrepJSon::dig(const json_spirit::Value& value)
 
   	for (vector<Pair>::const_iterator entry = object.begin(); entry !=  object.end(); ++entry) {
   		  map<string,  Method >::iterator method = methods_.find(entry->name_);
-  		  
+  		  			if ( tephikey_ != "x" )
+  		  				tephikey_ = entry->name_;
   		    	    if ( method != methods_.end() ) {
   		    	    	   ( (this->*method->second)(entry->value_) );
   		    	    }  		
