@@ -9,7 +9,7 @@ does it submit to any jurisdiction.
 -->
 
 <magics>
-<class action="ptephi" directory="visualisers" name="TephiGrid">
+<class action="ptephi" directory="visualisers" name="TephiGrid" xmltag="tephigrid" >
 		<documentation> description of the grid 	</documentation>
 	 <parameter member="annotation_width" to="float" default="25" from="float" name="thermo_annotation_width">
     		<documentation> Percentage of the width used to display the annotation on the right side . </documentation>
@@ -69,7 +69,6 @@ does it submit to any jurisdiction.
             		<documentation>
               Reference   of the isotherms
            		</documentation>
-           		<release>Magics++2.20		</release> 
         	</parameter> 
           	<parameter member="isotherm_reference_style" to="LineStyle" default="solid" from="string" name="thermo_isotherm_reference_style">
             		<documentation>

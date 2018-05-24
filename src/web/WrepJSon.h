@@ -233,6 +233,7 @@ protected:
      string expver_; 
      string api_;
      string capekey_;
+     string tephikey_;
 
 	 json_spirit::Value metadata_;
 	 InputWrep   values_;
