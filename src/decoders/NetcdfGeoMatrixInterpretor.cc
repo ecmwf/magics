@@ -24,7 +24,7 @@
 #include "NetcdfData.h"
 #include <limits>
 #include "Layer.h"
-
+#include "ContourLibrary.h"
 using namespace magics;
 
 NetcdfGeoMatrixInterpretor::NetcdfGeoMatrixInterpretor() 
@@ -56,7 +56,24 @@ bool NetcdfGeoMatrixInterpretor::interpretAsMatrix(Matrix** matrix)
 	*matrix = matrix_;
 
 	
+	if ( automatic_scaling_ ) {
+		WebLibrary settings;
+		MetaDataCollector needs;
+		settings.askId(needs);
+		for ( auto need = needs.begin(); need != needs.end(); ++need) {
+			need->second = getAttribute(field_, need->first, "");
+			cout << need->first << "--->" << need->second << endl;
+		}
+		
+		settings.getScaling(needs, scaling_, offset_);
+		cout << "Apply scaling " << scaling_ << " and " << offset_ << endl; 
+	}
 
+
+
+
+
+	
 	// get the data ...
 	try
 	{
@@ -97,7 +114,7 @@ bool NetcdfGeoMatrixInterpretor::interpretAsMatrix(Matrix** matrix)
 				i++;			
 			}
 		}
-		
+		cout << "Apply scaling " << scaling_ << " and " << offset_ << endl; 
 		matrix_->multiply(scaling_);
 		matrix_->plus(offset_);
 	    matrix_->setMapsAxis();

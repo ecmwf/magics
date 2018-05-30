@@ -95,7 +95,7 @@ class MagDefLibrary : public MagConfig
 public:
 	MagDefLibrary() { }
 	MagDefLibrary(const string& name)  { init("/styles/" + name + ".json"); }
-	MagDefLibrary(const string& theme, const string& name) : name_(name) { init("/stylesNe/" + theme + "/" + name + ".json"); }
+	MagDefLibrary(const string& theme, const string& name) : name_(name) { init("/styles/" + theme + "/" + name + ".json"); }
 	~MagDefLibrary() {}
 
 	void callback(const string& name, const json_spirit::Value& value);
