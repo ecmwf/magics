@@ -345,7 +345,7 @@ void WebLibrary::getScaling(MetaDataCollector& data, double& scaling, double& of
 		scaling = 1;
 		offset = 0;
 		
-		if ( styles.findStyle(data, values) ) {
+		if ( styles.findScaling(data, values) ) {
 			scaling = tonumber(values["scaling"]);
 			offset = tonumber(values["offset"]);
 		}
