@@ -251,11 +251,6 @@ void CairoDriver::setupNewSurface() const
 	   dimensionY_ =  static_cast<int>(ratio*dimensionXglobal_);
 	}
 	currentPage_ = 0;
-
-	if(magCompare(antialias_,"off"))
-		cairo_set_antialias(cr_, CAIRO_ANTIALIAS_NONE);
-	else
-		cairo_set_antialias(cr_, CAIRO_ANTIALIAS_SUBPIXEL);
 }
 
 /*!
@@ -333,7 +328,11 @@ MAGICS_NO_EXPORT void CairoDriver::startPage() const
 	{
 		cairo_translate(cr_,0,static_cast<MFloat>(dimensionYglobal_));
 	}
-//	cairo_scale(cr_,1,-1);
+
+	if(magCompare(antialias_,"off"))
+		cairo_set_antialias(cr_, CAIRO_ANTIALIAS_NONE);
+	else
+		cairo_set_antialias(cr_, CAIRO_ANTIALIAS_SUBPIXEL);
 
 	currentPage_++;
 	newPage_ = true;
