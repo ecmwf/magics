@@ -68,9 +68,7 @@ HighHiLo.xml
 Histogram.xml
 HistogramLegendMethod.xml
 HyperAxisMethod.xml
-
 ImportAction.xml
-
 ImportPlot.xml
 InputData.xml
 LogoPlotting.xml
@@ -83,21 +81,14 @@ IsoShading.xml
 KMLDriver.xml
 GeoJsonDriver.xml
 LabelPlotting.xml
-
 ObsPlotting.xml
-
 LegendMethod.xml
 LegendVisitor.xml
-
 LevelListSelectionType.xml
-
 LevelSelection.xml
-
-
 ListColourTechnique.xml
 ListHeightTechnique.xml
 LogarithmicAxisMethod.xml
-
 LookupTableMode.xml
 LowHiLo.xml
 MagnifierVisitor.xml
@@ -106,7 +97,6 @@ MarkerShadingTechnique.xml
 MarkerValuePlotMethod.xml
 MercatorProjection.xml
 MetaData.xml
-
 MvRootSceneNode.xml
 NoBinningObject.xml
 NoBoundaries.xml
@@ -130,7 +120,6 @@ NoOutLayerTechnique.xml
 NoPageID.xml
 NoPreviewVisitor.xml
 NoValuePlot.xml
-
 OriginMarker.xml
 OutputHandler.xml
 PageID.xml
@@ -141,7 +130,6 @@ PolyShadingTechnique.xml
 PositionListAxisMethod.xml
 PostScriptDriver.xml
 PreviewVisitor.xml
-
 Proj4Bonne.xml
 Proj4Mercator.xml
 Proj4Collignon.xml
@@ -164,11 +152,9 @@ Proj4Meteosat145.xml
 Proj4Meteosat57.xml
 Proj4Geosw.xml
 Proj4Geose.xml
-
 SDWindMode.xml
 SVGDriver.xml
 ImportObjectHandler.xml
-
 SelectionMode.xml
 ShadingTechnique.xml
 ShapeDecoder.xml
@@ -213,12 +199,9 @@ YDateCoordinate.xml
 YHyperCoordinate.xml
 YLogarithmicCoordinate.xml
 YRegularCoordinate.xml
-
-
 )
 
-
-	list( APPEND _magics_xmls BoxPlotBox.xml
+list( APPEND _magics_xmls BoxPlotBox.xml
 		BoxPlotBoxBorder.xml
 		BoxPlotDecoder.xml
 		BoxPlotMedian.xml
@@ -239,55 +222,49 @@ YRegularCoordinate.xml
 		EpsgramDecoder.xml
 		EquidistantTableMode.xml
 		FixedTableMode.xml
-		
 		EfiDataDecoder.xml
 		EfiGraph.xml
 		EfiJSon.xml
 		EfigramDecoder.xml
 		EpsBufr.xml
 		ImageCalculateColourTechnique.xml
-ImageListColourTechnique.xml
-#ImagePlotting.xml
-InputMatrix.xml
-InputMatrixIrregularInterpretor.xml
-InputMatrixRegularInterpretor.xml
-LandgramBox.xml
-LandgramDecoder.xml
-MetgramCurve.xml
-MetgramFlags.xml
-MetgramGraph.xml
-MetgramBar.xml
+		ImageListColourTechnique.xml
+		#ImagePlotting.xml
+		InputMatrix.xml
+		InputMatrixIrregularInterpretor.xml
+		InputMatrixRegularInterpretor.xml
+		LandgramBox.xml
+		LandgramDecoder.xml
+		MetgramCurve.xml
+		MetgramFlags.xml
+		MetgramGraph.xml
+		MetgramBar.xml
+		ObsTable.xml
+		ObsJSon.xml
+		ObsStatDecoder.xml
+		SimplePolyline.xml
+		SimplePolylineInput.xml
+		WrepJSon.xml
+		WrepRootNode.xml
+		XmlBasicNode.xml
+		XmlRootNode.xml
+		XmlSceneNode.xml
+		XmlViewNode.xml
+)
 
-ObsTable.xml
-ObsJSon.xml
-
-ObsStatDecoder.xml
-
-SimplePolyline.xml
-SimplePolylineInput.xml
-WrepJSon.xml
-
-WrepRootNode.xml
-XmlBasicNode.xml
-XmlRootNode.xml
-XmlSceneNode.xml
-XmlViewNode.xml
-		)
-	
 
 if( HAVE_GRIB )
 	list( APPEND _common_xmls GribAddressByteMode.xml
 		GribAddressMode.xml
 		GribAddressRecordMode.xml
 		GribLoop.xml
-		GribLoopStep.xml 
+		GribLoopStep.xml
 		GribDecoder.xml
-		
-		)		
+		)
 endif()
 
 if( HAVE_NETCDF )
-	list( APPEND _common_xmls 
+	list( APPEND _common_xmls
 		NetcdfDecoder.xml
 		NetcdfInterpretor.xml
 		NetcdfXYpointsInterpretor.xml
@@ -299,13 +276,11 @@ if( HAVE_NETCDF )
 		NetcdfVectorInterpretor.xml
 		NetcdfGeoMatrixInterpretor.xml
 		NetcdfMatrixInterpretor.xml
-
-
 		)
 endif()
 
 if ( HAVE_ODB )
-	list ( APPEND _common_xmls 
+	list ( APPEND _common_xmls
 		OdaGeoDecoder.xml
 		OdaXYDecoder.xml )
 endif()
@@ -333,19 +308,21 @@ endforeach()
 
 
 set( magics_xmls ${magics_xmls} PARENT_SCOPE )
-set( metview_xmls ${metview_xmls} PARENT_SCOPE )
 
-add_metview_definition_file(FILE ImportObjectHandler.xml  BASENAME MIMPORT   ACTION MIMPORT)
+if( HAVE_METVIEW )
 
-add_metview_definition_file(FILE Contour.xml  BASENAME MCONT   ACTION MCONT)
-add_metview_definition_file(FILE SymbolPlotting.xml  BASENAME MSYMB ACTION   MSYMB)
-add_metview_definition_file(FILE Coastlines.xml      BASENAME MCOAST  ACTION MCOAST)
-add_metview_definition_file(FILE LegendVisitor.xml          BASENAME MLEGEND ACTION MLEGEND)
-add_metview_definition_file(FILE Wind.xml            BASENAME MWIND   ACTION MWIND)
-add_metview_definition_file(FILE GraphPlotting.xml   BASENAME MGRAPH  ACTION MGRAPH)
-add_metview_definition_file(FILE TextVisitor.xml     BASENAME MTEXT   ACTION MTEXT)
-add_metview_definition_file(FILE Axis.xml            BASENAME MAXIS   ACTION MAXIS)
-add_metview_definition_file(FILE BinningObject.xml   BASENAME BinningObject  ACTION MBINNING)
-add_metview_definition_file(FILE TephiGrid.xml   BASENAME MTHERMOGRID  ACTION MTHERMOGRID)
-add_metview_definition_file(FILE ObsPlotting.xml   BASENAME ObsPlotting  ACTION MOBS)
+  set( metview_xmls ${metview_xmls} PARENT_SCOPE )
 
+  add_metview_definition_file(FILE ImportObjectHandler.xml  BASENAME MIMPORT   ACTION MIMPORT)
+  add_metview_definition_file(FILE Contour.xml         BASENAME MCONT   ACTION MCONT)
+  add_metview_definition_file(FILE SymbolPlotting.xml  BASENAME MSYMB ACTION   MSYMB)
+  add_metview_definition_file(FILE Coastlines.xml      BASENAME MCOAST  ACTION MCOAST)
+  add_metview_definition_file(FILE LegendVisitor.xml   BASENAME MLEGEND ACTION MLEGEND)
+  add_metview_definition_file(FILE Wind.xml            BASENAME MWIND   ACTION MWIND)
+  add_metview_definition_file(FILE GraphPlotting.xml   BASENAME MGRAPH  ACTION MGRAPH)
+  add_metview_definition_file(FILE TextVisitor.xml     BASENAME MTEXT   ACTION MTEXT)
+  add_metview_definition_file(FILE Axis.xml            BASENAME MAXIS   ACTION MAXIS)
+  add_metview_definition_file(FILE BinningObject.xml   BASENAME BinningObject  ACTION MBINNING)
+  add_metview_definition_file(FILE TephiGrid.xml       BASENAME MTHERMOGRID  ACTION MTHERMOGRID)
+  add_metview_definition_file(FILE ObsPlotting.xml     BASENAME ObsPlotting  ACTION MOBS)
+endif( MAGICS_METVIEW )
