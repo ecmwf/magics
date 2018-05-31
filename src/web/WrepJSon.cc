@@ -584,7 +584,7 @@ double value(double pres)
 		}
 		i++;
 	}
-
+	return 5;
 }
 
 
@@ -661,7 +661,7 @@ void WrepJSon::hodograph()
 				point->longitude(values_.ensembleValues_["u"][ens][pl]);
 				point->latitude(values_.ensembleValues_["v"][ens][pl]);
 				(*point)["pressure"]   =  values_.levels_[pl];
-				(*point)["value"]   =  range;
+				(*point)["value"]   =  value(values_.levels_[pl]);
 				(*point)["y"]       =  values_.ensembleValues_["v"][ens][pl];
 				(*point)["missing"] = missing_;
 				point->base(base_);
@@ -749,8 +749,7 @@ void WrepJSon::hodograph()
 	for ( auto s = sort.begin(); s != sort.end(); ++s) { 
 			
 		for ( auto p = s->second.begin(); p != s->second.end(); ++p )	{
-			points_.push_back(*p);    
-			
+			points_.push_back(*p);  
 		}
 	}
  
