@@ -483,7 +483,7 @@ GeoBoxMatrixHandler::GeoBoxMatrixHandler(const AbstractMatrix& matrix, const Tra
 	double step = matrix_.XResolution();
 
 	bool global =  ( matrix_.regular_column(columns-1) - matrix_.regular_column(0) ) > ( 360. - 2 *matrix_.XResolution() );
-	global = true;
+	
 
 	if (!global) {
 
@@ -513,11 +513,15 @@ GeoBoxMatrixHandler::GeoBoxMatrixHandler(const AbstractMatrix& matrix, const Tra
 			lons[lon] = i;
 
 		double ml = lon - 360;
-		while ( ml >= minlon && ml <= maxlon ) {  lons[ml] = i; ml -= 360; }
+		while ( ml >= minlon && ml <= maxlon ) {  
+			lons[ml] = i; ml -= 360; 
+		}
 		
 		ml = lon + 360;
 
-		while (  ml >= minlon && ml <= maxlon ) {  lons[ml] = i; ml += 360; }
+		while (  ml >= minlon && ml <= maxlon ) {  
+			lons[ml] = i; ml += 360; 
+		}
 	}
 
 

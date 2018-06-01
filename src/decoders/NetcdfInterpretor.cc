@@ -237,7 +237,13 @@ void NetcdfInterpretor::visit(TextVisitor& title)
 		tag.decode(*t);
 	}
 	Netcdf netcdf(path_, dimension_method_);
-	title.addAutomaticTitle(netcdf.getAttribute("title", string("NO TITLE")));
+
+	string name = netcdf.getVariableAttribute(field_, "standard_name", string(""));
+	name = netcdf.getVariableAttribute(field_, "long_name", name);
+	cout << " name-->" << name << endl;
+
+	//title.addAutomaticTitle(netcdf.getAttribute("title", name));
+	title.addAutomaticTitle(name);
 }
 
 void NetcdfInterpretor::getAttributes(Netcdf& nc,const string& varName,string& keys,string& values)
