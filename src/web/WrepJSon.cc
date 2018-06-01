@@ -2009,11 +2009,12 @@ void WrepJSon::visit(TextVisitor& text)
 
 	height << height_ <<  " m";
 	if ( position_info_) {
-	if (height_ != -9999 ) 
-        text.update("json", "height", height.str());
+	
     if (param_info_ != "none") {
 		text.update("json", "location", location.str());
 		text.update("json", "grid_point", (mask_ < 0.5 ) ? " (ENS sea point) " : " (ENS land point) ");
+		if (height_ != -9999 ) 
+        text.update("json", "height", height.str());
 	}
 
 	}
