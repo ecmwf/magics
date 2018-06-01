@@ -153,6 +153,7 @@ public:
     void expver(const json_spirit::Value&);
 	void height(const json_spirit::Value&);
 	void time(const json_spirit::Value&);
+	void step(const json_spirit::Value&);
 	void api(const json_spirit::Value&);
 
 	virtual void parameter(const json_spirit::Value&);
@@ -228,6 +229,7 @@ protected:
 	 double station_longitude_;
 	 string date_;
 	 string time_;
+	 int step_;
 	 string file_;
 	 string valid_time_;
      string expver_; 

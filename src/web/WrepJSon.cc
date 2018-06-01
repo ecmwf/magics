@@ -31,6 +31,7 @@ WrepJSon::WrepJSon()  : missing_(-9999),
 {
 	methods_["date"] = &WrepJSon::date;
 	methods_["time"] = &WrepJSon::time;
+
     methods_["expver"] = &WrepJSon::expver;
 	methods_["eps_height"] = &WrepJSon::epsz;
 	methods_["ens_height"] = &WrepJSon::epsz;
@@ -766,6 +767,7 @@ void WrepJSon::tephigram()
 	methods_[param_] = profile_quantile_.empty() ? &WrepJSon::param : &WrepJSon::parameter;
 	methods_["pres"] = &WrepJSon::levels;
 	methods_[keyword_] = &WrepJSon::dig;
+	methods_["step"] = &WrepJSon::step;
 
 	if ( param_ == "wind" ) {
 		methods_["u"] =  &WrepJSon::param;
@@ -1205,6 +1207,15 @@ void WrepJSon::date(const json_spirit::Value& value)
 	date_ =  value.get_value<string>();
 	
 }
+
+void WrepJSon::step(const json_spirit::Value& value)
+{
+
+	ASSERT( value.type() == str_type);
+	MagLog::dev() << "found -> step= " <<  value.get_value<string>() << endl;
+	step_ =  tonumber(value.get_value<string>());
+	
+}
 void WrepJSon::expver(const json_spirit::Value& value)
 {
     
@@ -1235,12 +1246,14 @@ void WrepJSon::valid_time(const json_spirit::Value& value)
 	ASSERT( value.type() == str_type);
 
 	// intrepret datetime ...
+
 	string info = value.get_value<string>();
 	DateTime to(info.substr(0,8), info.substr(8,4));
 	DateTime from = to + (-24*3600L);
 	ostringstream vt;
 	vt << "from " << from.tostring("%A %e %B %Y %H UTC") << " to " << to.tostring("%A %e %B %Y %H UTC") << endl;
 	valid_time_ =  vt.str();
+	
 }
 
 
@@ -1982,8 +1995,13 @@ void WrepJSon::visit(TextVisitor& text)
 		return;
 	DateTime base(date_, time_);
 
-	if (param_info_ != "none")
+	if (param_info_ != "none") {
 		text.update("json", "date", base.tostring("%A %e %B %Y %H UTC"));
+		if ( step_ ) {
+			DateTime to = base + (step_*3600L);
+			text.update("json", "valid_date", " Valid for " + to.tostring("%A %e %B %Y %H UTC"));
+		}
+	}
 	ostringstream location;
 	UserPoint point(longitude_, latitude_);
 	location << " " << point.asLatitude() << " " << point.asLongitude();
