@@ -1211,9 +1211,9 @@ void WrepJSon::date(const json_spirit::Value& value)
 void WrepJSon::step(const json_spirit::Value& value)
 {
 
-	ASSERT( value.type() == str_type);
-	MagLog::dev() << "found -> step= " <<  value.get_value<string>() << endl;
-	step_ =  tonumber(value.get_value<string>());
+	ASSERT( value.type() == int_type);
+	MagLog::dev() << "found -> step= " <<  value.get_value<int>() << endl;
+	step_ =  value.get_value<int>();
 	
 }
 void WrepJSon::expver(const json_spirit::Value& value)
