@@ -579,7 +579,7 @@ double value(double pres)
 	vector<double> levels = {700., 500., 300., 200., 100.};
 	double i = 1;
 	for ( auto level = levels.begin(); level != levels.end(); ++level) {
-		if ( pres > *level ) {
+		if ( pres >= *level ) {
 			
 			return i;
 		}
@@ -751,6 +751,7 @@ void WrepJSon::hodograph()
 			
 		for ( auto p = s->second.begin(); p != s->second.end(); ++p )	{
 			points_.push_back(*p);  
+			//cout << **p << endl;
 		}
 	}
  
