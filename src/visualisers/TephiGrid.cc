@@ -258,6 +258,10 @@ void TephiGrid::visit(DrawingVisitor& out)
 		ratios.push_back(15.);
 		ratios.push_back(20.);
 		ratios.push_back(30.);
+		ratios.push_back(50.);
+		ratios.push_back(100.);
+		
+
 		// Humidity Mixing ratio Lines
 		int grid = 0;
 		int label = 0;
@@ -269,7 +273,7 @@ void TephiGrid::visit(DrawingVisitor& out)
 			poly.setColour(*mixing_ratio_colour_);
 			poly.setLineStyle(mixing_ratio_style_);
 			poly.setThickness(mixing_ratio_thickness_);
-			for ( double p = pmin; p < pmax; p += 10) {
+			for ( double p = pmin-10; p < pmax+15; p += 10) {
 				double t = temperatureFromMixingRatio(*r, p*100);
 				PaperPoint xy = tephi(UserPoint(t-273.15, p));
 				
@@ -279,7 +283,7 @@ void TephiGrid::visit(DrawingVisitor& out)
 						continue;
 				label++;
 				if (xy.y() < tephi.getMinPCY() ) {
-					xy.y(tephi.getMaxPCY()*.5);
+					xy.y(tephi.getMaxPCY()*0.5);
 					if ( tephi.in(xy) ) {
 						map<double, PaperPoint>::iterator label = mixingLabels_.find(*r);
 						if ( label == mixingLabels_.end() ) {
@@ -442,10 +446,9 @@ void TephiGrid::visit(BottomAxisVisitor& out)
 	
 	for (map<double, PaperPoint>::iterator label = mixingLabels_.begin(); label != mixingLabels_.end(); ++label) {
 		Text *text= new Text();
-		text->setText(tostring(label->first*10.));
+		text->setText(tostring(label->first));
 		text->setFont(font);
 		text->setBlanking(true);
-
 		text->push_back(label->second);
 		out.push_back(text);
 	}
