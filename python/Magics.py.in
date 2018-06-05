@@ -1,4 +1,4 @@
-# (C) Copyright 2012-2016 ECMWF.
+# (C) Copyright 2012-2018 ECMWF.
 #
 # This software is licensed under the terms of the Apache Licence Version 2.0
 # which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
@@ -9,21 +9,42 @@
 
 import ctypes
 import ctypes.util
+
 import sys
+import os
 
 import numpy as np
 from numpy.ctypeslib import ndpointer
 from functools import partial
 
-lib = ctypes.util.find_library("MagPlus")
+#
+#  This Python interface needs to find the Magics library
+#
+#  We first search LD_LIBRARY_PATH. If you have strange behaviours,
+#  check your $LD_LIBRARY_PATH.
+#  This is only required on Linux! Therefore we do not have to check
+#  on MacOS the DYLD_LIBRARY_PATH or for *.dylib.
+#
+lib = None
+for directory in os.environ.get("LD_LIBRARY_PATH","").split(":"):
+    fullname = os.path.join(directory,"libMagPlus.so")
+    if os.path.exists(fullname):
+        lib = fullname
+        break
 
+#
+# If LD_LIBRARY_PATH does not contain path to Magics,
+# we search the standard system locations
+#
 if lib is None:
-    lib = "@CMAKE_INSTALL_PREFIX@/@INSTALL_LIB_DIR@/libMagPlus@CMAKE_SHARED_LIBRARY_SUFFIX@"
-    if lib is None:
-      lib = "@CMAKE_BINARY_DIR@/lib/libMagPlus@CMAKE_SHARED_LIBRARY_SUFFIX@"
+    lib = ctypes.util.find_library("MagPlus")
+
+# as last resort throw exception
+if lib is None:
+    raise Exception("Magics library could not be found")
 
 dll  = ctypes.CDLL(lib)
-libc = ctypes.CDLL(ctypes.util.find_library("c"))
+#libc = ctypes.CDLL(ctypes.util.find_library("c"))
 
 
 class FILE(ctypes.Structure):
