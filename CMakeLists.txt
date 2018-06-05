@@ -66,8 +66,9 @@ if( ENABLE_CAIRO )
     message(FATAL_ERROR "Cairo support (PNG & PDF output) requested, but requirements were not found - can be disabled with -DENABLE_CAIRO=OFF")
   endif()
   set(HAVE_CAIRO ON)
+  ecbuild_enable_feature( CAIRO )
 else()
-  ecbuild_disable_feature( Cairo )
+  ecbuild_disable_feature( CAIRO )
 endif()
 
 ecbuild_add_option( FEATURE GEOTIFF
