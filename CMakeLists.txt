@@ -213,9 +213,6 @@ foreach( _tpl ${MAGICS_TPLS} )
     ecbuild_info("${TPL}_LIBRARIES [${${TPL}_LIBRARIES}]") # add this to confirm that indeed it was cleaned up
 endforeach()
 
-if( HAVE_BUFR )
-	list( APPEND MAGICS_EXTRA_DEFINITIONS  fortfloat=double fortint=int )
-endif()
 
 if( MAGICS_QT )
   list( APPEND MAGICS_EXTRA_INCLUDE_DIRS  ${Qt5Widgets_INCLUDE_DIR} )
