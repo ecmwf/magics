@@ -42,11 +42,9 @@ set( GRIB_API_DEFINITIONS  ${ECCODES_DEFINITIONS} )
 set( grib_api_BASE_DIR     ${eccodes_BASE_DIR} )
 set( grib_handling_pkg eccodes )
 set( HAVE_GRIB 1 )
+set( HAVE_BUFR 1 )
+list( APPEND MAGICS_EXTRA_DEFINITIONS  fortfloat=double fortint=int )
 
-ecbuild_add_option( FEATURE BUFR
-                    DEFAULT ON
-                    DESCRIPTION "BUFR support"
-                    REQUIRED_PACKAGES "PROJECT libemos VERSION 4.0.5" )
 
 ecbuild_add_option( FEATURE ODB
                     DEFAULT ON
@@ -174,7 +172,7 @@ find_package( EXPAT REQUIRED )
 ###############################################################################
 # contents
 
-set( MAGICS_TPLS grib_api spot EXPAT NetCDF Proj4 libemos )
+set( MAGICS_TPLS grib_api spot EXPAT NetCDF Proj4 )
 
 set( MAGICS_INCLUDE_DIRS
      ${CMAKE_CURRENT_BINARY_DIR}/src
@@ -209,9 +207,7 @@ set( MAGICS_LIBRARIES MagPlus )
 
 foreach( _tpl ${MAGICS_TPLS} )
     string( TOUPPER ${_tpl} TPL )
-    if( NOT ${TPL} STREQUAL "LIBEMOS" ) # don't add libemos definitions
     list( APPEND MAGICS_EXTRA_DEFINITIONS ${${TPL}_DEFINITIONS}  )
-    endif()
     list( APPEND MAGICS_EXTRA_INCLUDE_DIRS ${${TPL}_INCLUDE_DIRS} )
     string(REGEX REPLACE "[ ]+$" "" ${TPL}_LIBRARIES "${${TPL}_LIBRARIES}") # strips leading whitespaces
     string(REGEX REPLACE "^[ ]+" "" ${TPL}_LIBRARIES "${${TPL}_LIBRARIES}") # strips trailing whitespaces
@@ -219,9 +215,6 @@ foreach( _tpl ${MAGICS_TPLS} )
     ecbuild_info("${TPL}_LIBRARIES [${${TPL}_LIBRARIES}]") # add this to confirm that indeed it was cleaned up
 endforeach()
 
-if( HAVE_BUFR )
-	list( APPEND MAGICS_EXTRA_DEFINITIONS  fortfloat=double fortint=int )
-endif()
 
 if( MAGICS_QT )
   list( APPEND MAGICS_EXTRA_INCLUDE_DIRS  ${Qt5Widgets_INCLUDE_DIR} )
