@@ -43,6 +43,8 @@ set( grib_api_BASE_DIR     ${eccodes_BASE_DIR} )
 set( grib_handling_pkg eccodes )
 set( HAVE_GRIB 1 )
 set( HAVE_BUFR 1 )
+list( APPEND MAGICS_EXTRA_DEFINITIONS  fortfloat=double fortint=int )
+
 
 ecbuild_add_option( FEATURE ODB
                     DEFAULT ON
