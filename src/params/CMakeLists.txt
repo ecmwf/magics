@@ -309,7 +309,7 @@ endforeach()
 
 set( magics_xmls ${magics_xmls} PARENT_SCOPE )
 
-if( HAVE_METVIEW )
+if( metview )
 
   set( metview_xmls ${metview_xmls} PARENT_SCOPE )
 
