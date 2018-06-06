@@ -66,7 +66,7 @@ using namespace std;
 #define linux
 #endif
 
-//typedef int   fortint;
+//typedef int   int;
 //typedef float fortfloat;
 
 #ifndef __USE_LARGEFILE64
