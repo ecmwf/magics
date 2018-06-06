@@ -34,9 +34,11 @@ using namespace magics;
 {{ object }}Wrapper::{{ object }}Wrapper(): {{ object | lower }}_(new {{ object }}())
 {% endif %}
 {
+	{{ object | lower }}_ = static_cast<{{ object }}*>(this->object());
 } 
 {{ object }}Wrapper::{{ object }}Wrapper({{ object }}* {{ object | lower }}): {{ object | lower }}_({{ object | lower}})
 {
+	{{ object | lower }}_ = static_cast<{{ object }}*>(this->object());
 } 
 
 {{ object }}Wrapper::~{{ object }}Wrapper()

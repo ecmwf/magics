@@ -64,13 +64,9 @@ public:
     virtual ~{{ object }}Wrapper();
     virtual void set(const MagRequest&);
     
-    {%if inherits | length > 0 %}
     {{ object }}* me()   { return {{ object | lower}}_; }
-    {% else %}
-    void object({{ object }}* {{ object  | lower }}) 
-    	{ delete {{ object | lower }}_; {{ object | lower }}_ = {{ object | lower }}; }
-    {{ object }}* object()   { return {{ object | lower}}_; }
-    {% endif %}
+    virtual {{ object }}* object()   { return {{ object | lower}}_; }
+  
 
 protected:
     {{ object }}* {{ object | lower}}_;
