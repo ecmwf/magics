@@ -1,5 +1,5 @@
 <magics>
-<class directory="visualisers" inherits="Curve" include="Curve.h" name="CurveArea">
+<class directory="visualisers" inherits="Curve" include="Curve.h" name="CurveArea" top='Graph'>
  		<parameter member="shade" to="GraphShade" default="on" from="string" name="graph_shade">
          		<option xml="shading" fortran="on" include="GraphShade.h" name="GraphShade">		</option>
 <!--
@@ -11,7 +11,6 @@ In applying this licence, ECMWF does not waive the privileges and immunities
 granted to it by virtue of its status as an intergovernmental organisation nor
 does it submit to any jurisdiction.
 -->
-
          		<option xml="noshading" fortran="off" include="GraphShade.h" name="NoGraphShade">		</option>
          		<documentation>Turn the shading on 		</documentation>
    	</parameter>

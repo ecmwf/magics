@@ -32,7 +32,8 @@ class ObjectHandler(ContentHandler):
     }
     include = {}
     include_options = {}
-    inherits = []
+    inherits = ""
+    top = ""
     implements = []
     wrapper_include = []
 
@@ -57,8 +58,11 @@ class ObjectHandler(ContentHandler):
         self.tag = attrs.get("xmltag")
         
         if "inherits" in attrs.keys():
-            self.inherits.append(attrs.get("inherits"))
+            self.inherits=attrs.get("inherits")
         self.abstract = "abstract" in attrs.keys()
+        if "top" in attrs.keys():
+            self.top=attrs.get("top")
+
            
         
         self.object_include = "%s.h" % self.name 
@@ -74,9 +78,18 @@ class ObjectHandler(ContentHandler):
     def parameter(self, attrs):
         if attrs.get("implemented") == "no" :
             return
+        print "metview", attrs.get("metview")
+        if attrs.get("metview") == "no":
+            return
+        
         type = attrs.get("to")
+       
         fromt = attrs.get("from")
         to = self.types.get(type, type)
+
+        default = attrs.get("default")
+        if attrs.get("metview_default"):
+            default = attrs.get("metview_default")
 
         if type in self.basic :
             self.parameters["basic"].append (
@@ -85,7 +98,7 @@ class ObjectHandler(ContentHandler):
                     "from" : self.types.get(fromt, fromt),
                     "to" : to,
                     "member" : attrs.get("member"),
-                    "default" : attrs.get("default"),
+                    "default" : default,
                     "method" : self.basic[type]
                 }
                 )
@@ -185,8 +198,9 @@ with open("%s/%sWrapper.cc" % (destination, object.name), "wt") as out:
                               include_options = object.include_options,
                               date = object.generated,
                               tag = object.tag,
+                              top = object.top,
                               abstract = object.abstract,
-                              inherits = object.inherits,
+                              inherit = object.inherits,
                               prefix = object.prefix
                              )
              )
@@ -200,7 +214,7 @@ with open("%s/%sWrapper.h" % (destination, object.name), "wt") as out:
                               include_options = object.include_options,
                               implements = object.implements,
                               date = object.generated,
-                              inherits = object.inherits,
+                              inherit = object.inherits,
                               tag = object.tag,
                               object_include = object.object_include,
                               wrapper = object.wrapper_include,

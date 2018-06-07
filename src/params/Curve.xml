@@ -1,5 +1,5 @@
 <magics>
-<class directory="visualisers" inherits="Graph" name="Curve">
+<class directory="visualisers" inherits='Graph' name="Curve">
   	<documentation> Here comes the documentation of the Curve object 	</documentation>
 
   	<parameter xml="line" from="string" name="graph_line" default="on" member="line" to="bool">
