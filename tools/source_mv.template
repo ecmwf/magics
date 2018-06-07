@@ -34,11 +34,21 @@ using namespace magics;
 {{ object }}Wrapper::{{ object }}Wrapper(): {{ object | lower }}_(new {{ object }}())
 {% endif %}
 {
-	{{ object | lower }}_ = static_cast<{{ object }}*>(this->object());
+
+	{%if top != "" %}
+	{{ top }}Wrapper::object({{ object | lower }}_);
+	{%elif inherit != "" %}
+	{{ inherit }}Wrapper::object({{ object | lower }}_);
+	{% endif %}
+	
 } 
 {{ object }}Wrapper::{{ object }}Wrapper({{ object }}* {{ object | lower }}): {{ object | lower }}_({{ object | lower}})
 {
-	{{ object | lower }}_ = static_cast<{{ object }}*>(this->object());
+	{%if top  != "" %}
+	{{ top }}Wrapper::object({{ object | lower }}_);
+	{%elif inherit != "" %}
+	{{ inherit }}Wrapper::object({{ object | lower }}_);
+	{% endif %}
 } 
 
 {{ object }}Wrapper::~{{ object }}Wrapper()
@@ -48,12 +58,12 @@ using namespace magics;
 
 void {{ object }}Wrapper::set(const MagRequest& request)
 {
-
-	{%if inherits | length > 0 %}
-	{% for inherit  in inherits -%} 
+	
+	{%if inherit != "" %}
+	
 	{{ inherit }}Wrapper::set(request);
-	{% endfor %} 
 	{% endif %}
+
 	{% for param  in string_parameters -%} 
 	
 	{% if param.to == "intarray" -%}

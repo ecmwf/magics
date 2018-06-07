@@ -174,7 +174,6 @@ TaylorProjection.xml
 TextVisitor.xml
 Tephigram.xml
 TephiGrid.xml
-TephiInfo.xml
 TitleTemplate.xml
 Transformation.xml
 UVWindMode.xml

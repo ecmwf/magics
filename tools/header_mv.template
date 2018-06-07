@@ -33,9 +33,11 @@
 #include "{{ object_include }}"
 
 
-{% for inherit  in inherits -%} 
+{% if inherit  != "" %} 
 #include "{{ inherit }}Wrapper.h"
-{% endfor %} 
+{% endif %}
+
+
 
 
 
@@ -47,12 +49,10 @@ namespace magics {
 
 class MagRequest;
 
-{%if inherits | length > 0 %}
-class {{ object }}Wrapper :
-	{% for inherit  in inherits -%} 
-	public {{ inherit }}Wrapper
-	{% endfor %} 
-{% else %}	
+
+{% if inherit  != "" -%} 
+class {{ object }}Wrapper: public {{ inherit }}Wrapper
+{% else %} 	
 class {{ object }}Wrapper 
 {% endif %}
 {
@@ -65,7 +65,17 @@ public:
     virtual void set(const MagRequest&);
     
     {{ object }}* me()   { return {{ object | lower}}_; }
-    virtual {{ object }}* object()   { return {{ object | lower}}_; }
+    {% if inherit  != "" %} 
+	virtual {{ inherit }}* object()   { return {{ object | lower}}_; }
+{% else %} 	
+	virtual {{ object }}* object()   { return {{ object | lower}}_; }
+	void object({{ object }}* o) { 
+		if (  {{ object | lower }}_ ); 
+			delete {{ object | lower }}_;  
+		{{ object | lower}}_ = o; 
+	}
+{% endif %}
+    
   
 
 protected:
