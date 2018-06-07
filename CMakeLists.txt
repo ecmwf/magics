@@ -10,7 +10,7 @@
 #       -DCMAKE_PREFIX_PATH=/path/to/jasper:/path/to/any/package/out/of/place
 #
 
-cmake_minimum_required( VERSION 2.8.11 FATAL_ERROR )
+cmake_minimum_required( VERSION 3.1.0 FATAL_ERROR )
 
 project( magics CXX )
 
@@ -24,7 +24,7 @@ set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH} "
 
 include(ecbuild_system NO_POLICY_SCOPE)
 
-ecbuild_requires_macro_version( 2.6 )
+ecbuild_requires_macro_version( 2.9 )
 
 set (CMAKE_CXX_STANDARD 14)
 set (CMAKE_C_STANDARD 99)
