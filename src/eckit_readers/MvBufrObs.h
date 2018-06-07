@@ -126,7 +126,7 @@ class MvBufrConfidence
 
 #ifndef MV_BUFRDC_TEST
 const float   kBufrMissingValue = 1.7e38;
-const fortint kBufrMissingIntValue = 2147483647;
+const int kBufrMissingIntValue = 2147483647;
 #endif
 
 //--------------------------------------------------------------- MvObs
@@ -820,7 +820,7 @@ protected:
    int  shouldBeWritten( void );
    void  setSubsetCount( int MaxNrSubsets );
    bool  isDelayedDescriptor( const long aDescriptor ) const;
-  // long  msgLength( void ) { return _msgIntLen*sizeof( fortint ); }
+  // long  msgLength( void ) { return _msgIntLen*sizeof( int ); }
 #endif
 
 protected:
@@ -829,8 +829,8 @@ protected:
        int  _nextValue;
        int  _nextCharParamPos;
        EBufrOutState  _outState;
-        fortint  _KDLEN;
-        fortint  _KDATA[ MAX_KDLEN ];
+        int  _KDLEN;
+        int  _KDATA[ MAX_KDLEN ];
        Section1Base* _currentSec1;
 #endif
 
