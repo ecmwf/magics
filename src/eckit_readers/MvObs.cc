@@ -89,21 +89,21 @@ static char* In_CUNITS = 0;  //static char In_CUNITS[ MAX_KELEM ][ 24 ]; //- is 
 static char* In_CVALS  = 0;  //static char In_CVALS [ MAX_KVALS ][ 80 ]; //+ rest of the arrays always updated
 static char* Out_CVALS = 0;  //static char Out_CVALS [ MAX_KVALS ][ 80 ];
 
-static fortfloat* In_VALUES = 0;  //static fortfloat  In_VALUES[ MAX_KVALS ];
-static fortfloat* Out_VALUES = 0; //static fortfloat Out_VALUES[ MAX_KVALS ];
+static double* In_VALUES = 0;  //static double  In_VALUES[ MAX_KVALS ];
+static double* Out_VALUES = 0; //static double Out_VALUES[ MAX_KVALS ];
 
-static fortint  In_KELEM;
-static fortint  In_KVALS;
-static fortint  Out_KELEM = -1;
+static int  In_KELEM;
+static int  In_KVALS;
+static int  Out_KELEM = -1;
 	                                // for BUSEL
-static fortint  In_KTDEXL;
-static fortint* In_KTDEXP = 0;  //static fortint  In_KTDEXP[ MAX_KELEM ];
-static fortint  In_KTDLEN;
-static fortint* In_KTDLST = 0;  //static fortint  In_KTDLST[ MAX_KELEM ];
-static fortint  Out_KTDEXL;
-static fortint* Out_KTDEXP = 0; //static fortint Out_KTDEXP[ MAX_KELEM ];
-static fortint  Out_KTDLEN;
-static fortint* Out_KTDLST = 0; //static fortint Out_KTDLST[ MAX_KELEM ];
+static int  In_KTDEXL;
+static int* In_KTDEXP = 0;  //static int  In_KTDEXP[ MAX_KELEM ];
+static int  In_KTDLEN;
+static int* In_KTDLST = 0;  //static int  In_KTDLST[ MAX_KELEM ];
+static int  Out_KTDEXL;
+static int* Out_KTDEXP = 0; //static int Out_KTDEXP[ MAX_KELEM ];
+static int  Out_KTDLEN;
+static int* Out_KTDLST = 0; //static int Out_KTDLST[ MAX_KELEM ];
 
 static int arraySizeIndex = 0; // incremented each time we try to allocate a new size of arrays
 static int kVals;
@@ -116,9 +116,9 @@ long MvBufrOut::_bufrOut_ref = 0; //not yet implemented...
 //-- but crashes inside Metview...) => create arrays dynamically, once!
 //-- These are for BUFR-BOX routines (accessing Feedback info)
 
-static fortint    myKSUB, myKBOX, myKAPP, myKLEN, myKERR;
-static fortint*   myKBOXR = 0;
-static fortfloat* myVALS  = 0;
+static int    myKSUB, myKBOX, myKAPP, myKLEN, myKERR;
+static int*   myKBOXR = 0;
+static double* myVALS  = 0;
 static char*      myCBOXN = 0;
 static char*      myCBOXU = 0;
 
@@ -129,53 +129,53 @@ static char*      myCBOXU = 0;
 extern "C" {
 
  void
- BUS012( fortint *KBUFL, fortint *KBUFF, fortint *KSUP
-       , fortint *KSEC0, fortint *KSEC1, fortint *KSEC2, fortint *KERR );
+ BUS012( int *KBUFL, int *KBUFF, int *KSUP
+       , int *KSEC0, int *KSEC1, int *KSEC2, int *KERR );
 
  void
- BUPRS0( fortint *KSEC0 );
+ BUPRS0( int *KSEC0 );
  void
- BUPRS1( fortint *KSEC1 );
+ BUPRS1( int *KSEC1 );
  void
- BUPRS2( fortint *KSUP, fortint *KEY);
+ BUPRS2( int *KSUP, int *KEY);
 
  void
- BUFREX( fortint *KBUFL, fortint *KBUFF, fortint *KSUP
-       , fortint *KSEC0, fortint *KSEC1, fortint *KSEC2, fortint *KSEC3, fortint *KSEC4
-       , fortint *KELEM, char *CNAMES,     char *CUNITS
-       , fortint *KVALS, fortfloat *VALUES,  char *CVALS, fortint *KERR );
+ BUFREX( int *KBUFL, int *KBUFF, int *KSUP
+       , int *KSEC0, int *KSEC1, int *KSEC2, int *KSEC3, int *KSEC4
+       , int *KELEM, char *CNAMES,     char *CUNITS
+       , int *KVALS, double *VALUES,  char *CVALS, int *KERR );
 
  void
- BUFREN( fortint *KSEC0, fortint *KSEC1, fortint *KSEC2, fortint *KSEC3, fortint *KSEC4
-       , fortint *KTDLEN,fortint *KTDLST,fortint *KDLEN, fortint *KDATA
-       , fortint *KELEM, fortint *KVALS, fortfloat *VALUES, char *CVALS
-       , fortint *KBUFL, fortint *KBUFF, fortint *KERR );
+ BUFREN( int *KSEC0, int *KSEC1, int *KSEC2, int *KSEC3, int *KSEC4
+       , int *KTDLEN,int *KTDLST,int *KDLEN, int *KDATA
+       , int *KELEM, int *KVALS, double *VALUES, char *CVALS
+       , int *KBUFL, int *KBUFF, int *KERR );
 
  void
- BUSEL( fortint *KTDLEN, fortint *KTDLST, fortint *KTDEXL, fortint *KTDEXP, fortint *KERR );
+ BUSEL( int *KTDLEN, int *KTDLST, int *KTDEXL, int *KTDEXP, int *KERR );
 
  void
- BUSEL2( fortint *KSUBSET,fortint *KELEM,fortint *KTDLEN,fortint *KTDLST
-       , fortint *KTDEXL, fortint *KTDEXP, char *CUNITSCNAMES, char *CUNITSCUNITS
-       , fortint *KERR);
+ BUSEL2( int *KSUBSET,int *KELEM,int *KTDLEN,int *KTDLST
+       , int *KTDEXL, int *KTDEXP, char *CUNITSCNAMES, char *CUNITSCUNITS
+       , int *KERR);
 
  void
- BUUKEY(fortint *KSEC1, fortint *KSEC2, fortint *KEY, fortint *KSUP,fortint *KERR);
+ BUUKEY(int *KSEC1, int *KSEC2, int *KEY, int *KSUP,int *KERR);
  void
- BUPRS3( fortint *KSEC3, fortint *KTDLEN, fortint *KTDLST
-       , fortint *KTDEXL, fortint *KTDEXP, fortint *KELEM, char *CNAMES );
+ BUPRS3( int *KSEC3, int *KTDLEN, int *KTDLST
+       , int *KTDEXL, int *KTDEXP, int *KELEM, char *CNAMES );
 
  void
- BUBOX( fortint *KSUB,   fortint *KSUP,      fortint *KELEM
-      , fortint *KWTR,   char *CNAMES, char *CUNITS
-      , fortint *KVALS,  fortfloat *VALUES,  fortint *KBOX
-      , fortint *KAPP,   fortint *KLEN,      fortint *KBOXR
-      , fortfloat *VALS, char* CBOXN,        char* CBOXU
-      , fortint *KERR );
+ BUBOX( int *KSUB,   int *KSUP,      int *KELEM
+      , int *KWTR,   char *CNAMES, char *CUNITS
+      , int *KVALS,  double *VALUES,  int *KBOX
+      , int *KAPP,   int *KLEN,      int *KBOXR
+      , double *VALS, char* CBOXN,        char* CBOXU
+      , int *KERR );
 
   void
-  BUPRTBOX( fortint *KBOX,   fortint *KAPP,   fortint *KLEN
-          , fortint *KBOXR,  fortfloat *VALS, char* CBOXN
+  BUPRTBOX( int *KBOX,   int *KAPP,   int *KLEN
+          , int *KBOXR,  double *VALS, char* CBOXN
           , char* CBOXU );
 
  // Helper functions
@@ -190,7 +190,7 @@ extern "C" {
 // Helper functions
 static string intToString(int);
 static string floatToString(float);
-static void keyToStringMap(map<string,string> &,string,fortint *,int);
+static void keyToStringMap(map<string,string> &,string,int *,int);
 static void keyToStringMap(map<string,string> &,string,float);
 
 //F
@@ -420,12 +420,12 @@ MvBufrBase :: detach( void )
 void
 MvBufrBase :: createFortranArrays( void )
 {
-  fKSUP  = new fortint[  9 ];
-  fKSEC0 = new fortint[  3 ];
-  fKSEC1 = new fortint[ 40 ];
-  fKSEC2 = new fortint[ 4096 ]; //[ 128 ]; //[ 64 ];
-  fKSEC3 = new fortint[  4 ];
-  fKSEC4 = new fortint[  2 ];
+  fKSUP  = new int[  9 ];
+  fKSEC0 = new int[  3 ];
+  fKSEC1 = new int[ 40 ];
+  fKSEC2 = new int[ 4096 ]; //[ 128 ]; //[ 64 ];
+  fKSEC3 = new int[  4 ];
+  fKSEC4 = new int[  2 ];
 }
 //_________________________________________________________ createDataArrays
 void
@@ -437,7 +437,7 @@ MvBufrBase :: createDataArrays( void )
     try
     {
         if( In_VALUES == 0 )
-            In_VALUES = new fortfloat[ kVals ];
+            In_VALUES = new double[ kVals ];
 
         if( In_CVALS == 0 )
             In_CVALS = new char[ kVals * 80 ];
@@ -449,10 +449,10 @@ MvBufrBase :: createDataArrays( void )
             In_CUNITS = new char [ MAX_KELEM * 24 ];
 
         if( In_KTDEXP == 0 )
-            In_KTDEXP = new fortint[ MAX_KELEM ];
+            In_KTDEXP = new int[ MAX_KELEM ];
 
         if( In_KTDLST == 0 )
-            In_KTDLST = new fortint[ MAX_KELEM ];
+            In_KTDLST = new int[ MAX_KELEM ];
     }
 
     catch(...)
@@ -598,7 +598,7 @@ MvBufr :: Decode( void )
    if( _inState < kBufrIn_DataDecoded )
    {
       createFortranArrays();
-      fortint myKBUFL = fMessageLength / sizeof(fortint) + 1;  // +1 = Q&D
+      int myKBUFL = fMessageLength / sizeof(int) + 1;  // +1 = Q&D
         bool keepGoing = true;
 
         // we will try to decode the BUFR a number of times, starting with
@@ -610,7 +610,7 @@ MvBufr :: Decode( void )
             keepGoing = false;
 
       BUFREX(&myKBUFL
-	    , (fortint *)fMessage  // buffer for the BUFR message
+	    , (int *)fMessage  // buffer for the BUFR message
 	    , fKSUP          // array for suplementary info
 	    , fKSEC0         // FORTRANized section 0
 	    , fKSEC1         // FORTRANized section 1
@@ -684,10 +684,10 @@ MvBufr :: Decode_012( void )
    if( _inState < kBufrIn_Sections012Expanded)
    {
       createFortranArrays();
-      fortint myKBUFL = fMessageLength / sizeof(fortint) + 1;  // +1 = Q&D
+      int myKBUFL = fMessageLength / sizeof(int) + 1;  // +1 = Q&D
 
       BUS012(&myKBUFL
-	    , (fortint *)fMessage  // buffer for the BUFR message
+	    , (int *)fMessage  // buffer for the BUFR message
 	    , fKSUP          // array for suplementary info
 	    , fKSEC0         // FORTRANized section 0
 	    , fKSEC1         // FORTRANized section 1
@@ -821,7 +821,7 @@ MvBufr :: computeIn_KELEM( void )
 // and updates _currentDescrInd.
 //
 
-fortfloat
+double
 MvBufr :: DataValue( const int aDescrArrayInd, const long aSubsetNumber )
 {
    _lastKnownSubsetValue = aSubsetNumber;
@@ -847,7 +847,7 @@ MvBufr :: DataValue( const int aDescrArrayInd, const long aSubsetNumber )
 // without updating _currentDescrInd.
 //
 
-fortfloat
+double
 MvBufr :: PeekDataValue( const int aDescrArrayInd, const long aSubsetNumber )
 {
    if( ( aSubsetNumber > subsetCount() ) || ( aDescrArrayInd < 0 ) )
@@ -859,7 +859,7 @@ MvBufr :: PeekDataValue( const int aDescrArrayInd, const long aSubsetNumber )
 bool
 MvBufr :: Value( const long aDescriptor
 	       , const long aSubsetNumber
-	       , fortfloat &aDataValue
+	       , double &aDataValue
 	       , int   firstInd )
 {
   aDataValue = DataValue( descriptorToFortranIndex( aDescriptor, firstInd )
@@ -872,7 +872,7 @@ MvBufr :: Value( const long aDescriptor
 long
 MvBufr :: intValue( const long aDescriptor, const int subsetNr )
 {
-   fortfloat myValue;
+   double myValue;
    Value( aDescriptor, subsetNr, myValue );
 
    if( myValue != kFortranBufrMissingValue )
@@ -949,13 +949,13 @@ MvBufr::feedbackItemUnit( int row, int subset )
 TDynamicTime
 MvBufr:: obsTime( const int subsetNr )
 {
-   fortint myYear  = intValue( 4001L, subsetNr );
-   fortint myMonth = intValue( 4002L, subsetNr );
-   fortint myDay   = intValue( 4003L, subsetNr );
-   fortint myHour  = intValue( 4004L, subsetNr );
+   int myYear  = intValue( 4001L, subsetNr );
+   int myMonth = intValue( 4002L, subsetNr );
+   int myDay   = intValue( 4003L, subsetNr );
+   int myHour  = intValue( 4004L, subsetNr );
 
    short myMin, mySec;
-   fortfloat myValue;
+   double myValue;
 
    if( Value( 4005L, subsetNr, myValue ) )
       myMin = (short)myValue;
@@ -1009,7 +1009,7 @@ MvBufr :: stringValueByIndex( const int anIndex, const int aSubsetNr )
      }
 
    //-- get coded float value --
-   fortfloat myValue = DataValue( anIndex, aSubsetNr );
+   double myValue = DataValue( anIndex, aSubsetNr );
 
    //-- here we should be passing subset nr, not index!!! (020307/vk)
    //-- thus always pass 1:
@@ -1145,7 +1145,7 @@ MvBufr :: elementValueType( const long aDescriptor, const int aSubsetNr )
 EElementValueType
 MvBufr :: elementValueTypeByIndex( const int anIndex, const int aSubsetNr )
 {
-  fortfloat myValue = DataValue( anIndex, aSubsetNr );
+  double myValue = DataValue( anIndex, aSubsetNr );
 
   if( myValue == kFortranBufrMissingValue )
   {
@@ -1225,9 +1225,9 @@ MvBufr::fillBufrBox( int aSubsetNr )
   //-- Linux/g++ does not like hardcoded big? arrays (works ok in debugger,
   //-- but crashes inside Metview...) => create arrays dynamically, once!
 
-  static fortint    myKSUB, myKBOX, myKAPP, myKLEN, myKERR;
-  static fortint*   myKBOXR = 0;
-  static fortfloat* myVALS  = 0;
+  static int    myKSUB, myKBOX, myKAPP, myKLEN, myKERR;
+  static int*   myKBOXR = 0;
+  static double* myVALS  = 0;
   static char*      myCBOXN = 0;
   static char*      myCBOXU = 0;
 #endif
@@ -1239,10 +1239,10 @@ MvBufr::fillBufrBox( int aSubsetNr )
     {
       try
 	{
-	  myKBOXR = new fortint[ kVals ];
+	  myKBOXR = new int[ kVals ];
       std::cout << " fillBufrBox: array myKBOXR created" << std::endl;
 
-	  myVALS  = new fortfloat[ kVals ];
+	  myVALS  = new double[ kVals ];
       std::cout << " fillBufrBox: array myVALS  created" << std::endl;
 
 	  myCBOXN = new char[ kVals * 64 ];
@@ -1287,7 +1287,7 @@ MvBufr::fillBufrBox( int aSubsetNr )
       ExpandDescriptors( aSubsetNr );
     }
 
-  myKSUB = (fortint)aSubsetNr;
+  myKSUB = (int)aSubsetNr;
   myKBOX = 0;
   myKAPP = 0;
   myKLEN = 0;
@@ -1397,7 +1397,7 @@ MvBufr :: printSection( ostream& aStream,int which)
     BUPRS1(fKSEC1);
   else if ( which == 2 )
     {
-      fortint *fKEY = new fortint[60];
+      int *fKEY = new int[60];
       BUUKEY(fKSEC1,fKSEC2,fKEY,fKSUP,&fKERR);
       if ( fKERR )
     cout << "\nProblems getting key. Maybe non-existent? " << std::endl;
@@ -1430,7 +1430,7 @@ MvBufr::getDataFromSection2(map<string,string> &data)
     if ( _inState < kBufrIn_Sections012Expanded )
          Decode_012();
 
-      fortint *fKEY = new fortint[60];
+      int *fKEY = new int[60];
       BUUKEY(fKSEC1,fKSEC2,fKEY,fKSUP,&fKERR);
       if ( fKERR )
       {
@@ -1448,7 +1448,7 @@ MvBufr::getDataFromSection2(map<string,string> &data)
       return retval;
 }
 
-void MvBufr::parseSection2(fortint *fKEY,map<string,string> &data)
+void MvBufr::parseSection2(int *fKEY,map<string,string> &data)
 {
 	//fKSUP - global variable
 
@@ -1593,7 +1593,7 @@ MvBufr :: printSection_012( ostream& aStream,int which)
     BUPRS1(fKSEC1);
   else if ( which == 2 )
     {
-      fortint *fKEY = new fortint[60];
+      int *fKEY = new int[60];
       BUUKEY(fKSEC1,fKSEC2,fKEY,fKSUP,&fKERR);
       if ( fKERR )
     cout << "\nProblems getting key. Maybe non-existent? " << std::endl;
@@ -1687,17 +1687,17 @@ MvBufrOut::createBuffers() // XXX still need more dynamic memory allocation
 	{
       std::cout << "MvBufrOut::createBuffers, checking for memory..." << std::endl;
 
-	  sprintf( cbuf, "requesting %d new fortints", MAX_KELEM );
+	  sprintf( cbuf, "requesting %d new ints", MAX_KELEM );
       std::cout << cbuf << std::endl;
-	  Out_KTDLST = new fortint[ MAX_KELEM ];
+	  Out_KTDLST = new int[ MAX_KELEM ];
 
-	  sprintf( cbuf, "requesting %d new fortints", MAX_KELEM );
+	  sprintf( cbuf, "requesting %d new ints", MAX_KELEM );
       std::cout << cbuf << std::endl;
-	  Out_KTDEXP = new fortint[ MAX_KELEM ];
+	  Out_KTDEXP = new int[ MAX_KELEM ];
 
-	  sprintf( cbuf, "requesting %d new fortfloats", MAX_KVALS );
+	  sprintf( cbuf, "requesting %d new doubles", MAX_KVALS );
       std::cout << cbuf << std::endl;
-	  Out_VALUES = new fortfloat[ MAX_KVALS ];
+	  Out_VALUES = new double[ MAX_KVALS ];
 
 	  sprintf( cbuf, "requesting %d new chars", 80*MAX_KVALS );
       std::cout << cbuf << std::endl;
@@ -1810,7 +1810,7 @@ MvBufrOut::addIntoBuffers( MvObs& anObs )
 //cerr << "isDelayedDescriptor( " << Out_KTDEXP[ i ] << "), _KDLEN=" << _KDLEN << std::endl;
 	if( _KDLEN < MAX_KDLEN )
 	{
-	  fortint delayedRepeat = (fortint)Out_VALUES[ elemIndex ];
+	  int delayedRepeat = (int)Out_VALUES[ elemIndex ];
 	  if( delayedRepeat < 0 )
 	  {
 	    cerr << ">>> MvBufrOut::add: data error - negative delayed repetition " << delayedRepeat
@@ -1908,8 +1908,8 @@ MvBufrOut :: encode( void )
 {
   if( _outState == kBufrOut_dataInBuffers )
   {
-    fortint myKERR = 0;
-    fortint myKBUFL = 0;
+    int myKERR = 0;
+    int myKBUFL = 0;
 
     BUFREN( fKSEC0, fKSEC1, fKSEC2, fKSEC3, fKSEC4
 	  , &Out_KTDLEN   // &fKTDEXL
@@ -1921,11 +1921,11 @@ MvBufrOut :: encode( void )
 	  , Out_VALUES
 	  , Out_CVALS
 	  , &myKBUFL
-	  , (fortint *)fMessage
+	  , (int *)fMessage
 	  , &myKERR );
 
     if( myKERR == 0 )
-      _outSet->write( fMessage, (int)(myKBUFL*sizeof(fortint)) );
+      _outSet->write( fMessage, (int)(myKBUFL*sizeof(int)) );
     else
       {
     cerr << ">>> MvBufrOut::encode, KERR=" << myKERR << std::endl;
@@ -2345,7 +2345,7 @@ MvObs::value( long aDescriptor, int occurrence )
    double myValue = value(skey);
 
 #ifdef MV_BUFRDC_TEST
-fortfloat myValue1;
+double myValue1;
 _bufrIn->Value( aDescriptor, _subsetNr, myValue1 );
 TEMPCHECKVALUEDOUBLE(myValue,myValue1,skey,aDescriptor);
 #endif
@@ -2361,7 +2361,7 @@ MvObs::value( long aDescriptor )
    double myValue = value(skey);
 
 #ifdef MV_BUFRDC_TEST
-fortfloat myValue1;
+double myValue1;
 _bufrIn->Value( aDescriptor, _subsetNr, myValue1 );
 TEMPCHECKVALUEDOUBLE(myValue,myValue1,skey,aDescriptor);
 #endif
@@ -2488,7 +2488,7 @@ MvObs::valueByOccurrence( int anOccurrenceIndex, long aDescriptor )
    double myValue = value(skey);
 
 #ifdef MV_BUFRDC_TEST
-  fortfloat myValue1 = value( aDescriptor );
+  double myValue1 = value( aDescriptor );
   for( int myInd = 1; myInd < anOccurrenceIndex; myInd++ )
      //e myValue = nextValue();
      _bufrIn->Value( _bufrIn->_currentDescr, _subsetNr, myValue1, _bufrIn->_currentDescrInd + 1 );
@@ -3274,7 +3274,7 @@ MvObs::currentValue()
    double myValue = value(_currentKey);
 
 #ifdef MV_BUFRDC_TEST
-fortfloat myValue1 = _bufrIn->CurrentValue( _subsetNr );
+double myValue1 = _bufrIn->CurrentValue( _subsetNr );
 TEMPCHECKVALUEDOUBLE(myValue,myValue1,_currentKey,_bufrIn->CurrentDescriptor());
 #endif
 
@@ -3288,7 +3288,7 @@ MvObs :: nextValue()
    exit(0);
 
 #ifdef MV_BUFRDC_TEST
-   fortfloat myValue;
+   double myValue;
    _bufrIn->Value( _bufrIn->_currentDescr, _subsetNr, myValue, _bufrIn->_currentDescrInd + 1 );
    return myValue == kFortranBufrMissingValue ? kBufrMissingValue : myValue;
 #endif
@@ -3561,7 +3561,7 @@ MvObs::level( const string& skey, int indexValue, long levelDescriptor, int firs
    if( ! msg_ok() )
      return kBufrMissingValue;
 
-  fortfloat myLevelValue1 = kFortranBufrMissingValue;
+  double myLevelValue1 = kFortranBufrMissingValue;
   if( _bufrIn->Value( levelDescriptor,_subsetNr,myLevelValue1,firstIndexValue ) )
     _currentLevelIndex1 = _bufrIn->_currentDescrInd;
   else
@@ -3640,7 +3640,7 @@ MvObs::valueBySpecifier( long aSpecifierDescriptor, double aSpecifierValue, long
      //-- if the coordinate value itself is requested
      if( aSpecifierDescriptor == aDescriptor )
      {
-         fortfloat myVal = _bufrIn->DataValue( index, _subsetNr );
+         double myVal = _bufrIn->DataValue( index, _subsetNr );
          //return myVal == kFortranBufrMissingValue ? kBufrMissingValue : myVal;
          myVal = (myVal == kFortranBufrMissingValue) ? kBufrMissingValue : myVal;
          TEMPCHECKVALUEDOUBLE(value,myVal,s2key,aDescriptor);
@@ -3651,7 +3651,7 @@ MvObs::valueBySpecifier( long aSpecifierDescriptor, double aSpecifierValue, long
      {
        if( In_KTDEXP[ ind ] == aDescriptor )
        {
-         fortfloat myVal = _bufrIn->DataValue( ind, _subsetNr );
+         double myVal = _bufrIn->DataValue( ind, _subsetNr );
          //return myVal == kFortranBufrMissingValue ? kBufrMissingValue : myVal;
          myVal = (myVal == kFortranBufrMissingValue) ? kBufrMissingValue : myVal;
          TEMPCHECKVALUEDOUBLE(value,myVal,s2key,aDescriptor);
@@ -3864,7 +3864,7 @@ MvObs::valueByLevelRange( long aLevelDescriptor, float level1, float level2, lon
        {
           if( In_KTDEXP[ ind ] == aDescriptor )
           {
-             fortfloat myValue = _bufrIn->DataValue( ind, _subsetNr );
+             double myValue = _bufrIn->DataValue( ind, _subsetNr );
              if(myValue != kFortranBufrMissingValue)
              {
                 //e return myValue;
@@ -3996,7 +3996,7 @@ cout << _bufrIn->DataValue( firstLevelIndex - 1, _subsetNr ) << " " << _bufrIn->
   {
     if( In_KTDEXP[ ind ] == aDescriptor )
     {
-      fortfloat myValue = _bufrIn->DataValue( ind, _subsetNr );
+      double myValue = _bufrIn->DataValue( ind, _subsetNr );
       return myValue == kFortranBufrMissingValue ? kBufrMissingValue : myValue;
     }
 
@@ -4112,7 +4112,7 @@ MvObs::writeValues(std::ostream& aStream, int firstIndex, int lastIndex)
    if( _bufrIn->_inState != kBufrIn_DataAndDescriptorsDecoded )
       return false;
 
-   fortfloat myValue;
+   double myValue;
    if ( firstIndex < 0 )
       firstIndex = 0;
    if (lastIndex > In_KTDEXL )
@@ -4327,7 +4327,7 @@ const long idList1[] = {1011,1005,1006,1007,1008,1010,1025,1026,1027};
   for( int i=0; i<idVals; ++i )
     {
       long descr = idList[i];
-      fortfloat myValue = value( descr );
+      double myValue = value( descr );
 
       if( myValue != kBufrMissingValue )
          return stringValue( descr );
@@ -5539,7 +5539,7 @@ string floatToString(float f)
 	return out.str();
 }
 
-void keyToStringMap(map<string,string> &data,string keyName,fortint *keyArray,int fortIndex)
+void keyToStringMap(map<string,string> &data,string keyName,int *keyArray,int fortIndex)
 {
    std::cout << " Method keyToStringMap(1) BUFRDC implementation" << std::endl;
 
