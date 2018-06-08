@@ -109,6 +109,14 @@ void replace_string(magics::MagRequest& request, const string& name, const strin
 
 }
 
+void replace_default(magics::MagRequest& request, const string& name, const string& to)
+{
+	if (request.countValues(name) == 0 ) {
+		request(name) = to;
+		return;
+	}
+}
+
 void copy_string(magics::MagRequest& request, const string& from, const string& to)
 {
 	if (request.countValues(from)) {
@@ -1745,6 +1753,9 @@ bool MagPlus::text(magics::MagRequest& in)
 
 	in("TEXT_HTML") = "on";
 
+	replace_default(in, "TEXT_FONT_SIZE", "0.3");
+	replace_default(in, "TEXT_COLOUR", "navy");
+
 	TextVisitor* node;
 	if (magCompare(mode, "positional") )
 		node = new FortranPositionalTextVisitor();
@@ -1768,7 +1779,9 @@ bool MagPlus::legend(magics::MagRequest& in)
 	in.print();
 	MagLog::dev()<< "<--add legend" << endl;
 	string mode = get(in, "LEGEND_BOX_MODE", "automatic");
-
+ 	replace_default(in, "LEGEND_TEXT_COLOUR", "navy");
+	replace_default(in, "LEGEND_DISPLAY_TYPE", "continuous");
+	replace_default(in, "LEGEND_TEXT_FONT_SIZE", "0.2");
 	LegendVisitor* legend;
 	if ( magCompare(mode, "positional") ) {
 		legend = new FortranPositionalLegendVisitor();
