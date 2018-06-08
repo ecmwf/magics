@@ -57,21 +57,21 @@ class ObjectHandler(ContentHandler):
         self.name = attrs.get("name")
         self.prefix = attrs.get("prefix", "").split("/")
         self.tag = attrs.get("xmltag")
-        
+
         if "inherits" in attrs.keys():
             self.inherits=attrs.get("inherits")
         self.abstract = "abstract" in attrs.keys()
         if "top" in attrs.keys():
             self.top=attrs.get("top")
 
-           
-        
-        self.object_include = "%s.h" % self.name 
+
+
+        self.object_include = "%s.h" % self.name
 
         if "include" in attrs.keys():
-            self.object_include = attrs.get("include") 
-        
-        
+            self.object_include = attrs.get("include")
+
+
         self.addimplements(attrs.get("implements", ""))
         self.addinterface(attrs.get("interface", ""))
         self.current = {}
@@ -79,12 +79,11 @@ class ObjectHandler(ContentHandler):
     def parameter(self, attrs):
         if attrs.get("implemented") == "no" :
             return
-        
         if attrs.get("metview") == "no":
             return
-        
+
         type = attrs.get("to")
-       
+
         fromt = attrs.get("from")
         to = self.types.get(type, type)
 
@@ -119,7 +118,7 @@ class ObjectHandler(ContentHandler):
                     "delimiter" : "\""
                 }
                 )
-            if ( type in ["LineStyle", "ArrowPosition", "Justification", 
+            if ( type in ["LineStyle", "ArrowPosition", "Justification",
                           "AxisAutomaticSetting", "ListPolicy", "Position",
                           "Hemisphere", "DisplayType", "Matrix", "cairo_t*"]):
                 self.parameters["factory"][-1]["enum"] = True
@@ -152,7 +151,7 @@ class ObjectHandler(ContentHandler):
                 "name" : name.replace(":", "_"),
                 "parent" : param["to"],
                 "object" : attrs.get("name") } )
-            
+
             self.include_options[attrs["include"]] = attrs["include"]
 
         if attrs.get("fortran") != attrs.get("xml"):
