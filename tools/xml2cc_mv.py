@@ -78,7 +78,6 @@ class ObjectHandler(ContentHandler):
     def parameter(self, attrs):
         if attrs.get("implemented") == "no" :
             return
-        print("metview", attrs.get("metview"))
         if attrs.get("metview") == "no":
             return
 
