@@ -34,6 +34,7 @@ class ObjectHandler(ContentHandler):
     include_options = {}
     inherits = ""
     top = ""
+    metview_default =""
     implements = []
     wrapper_include = []
 
@@ -78,7 +79,7 @@ class ObjectHandler(ContentHandler):
     def parameter(self, attrs):
         if attrs.get("implemented") == "no" :
             return
-        print "metview", attrs.get("metview")
+        
         if attrs.get("metview") == "no":
             return
         
@@ -89,7 +90,7 @@ class ObjectHandler(ContentHandler):
 
         default = attrs.get("default")
         if attrs.get("metview_default"):
-            default = attrs.get("metview_default")
+            self.metview_default = attrs.get("metview_default")
 
         if type in self.basic :
             self.parameters["basic"].append (
@@ -187,6 +188,7 @@ destination = sys.argv[3]
 
 saxparser.parse(datasource)
 
+print "METVIEW", object.metview_default
 
 with open("%s/source_mv.template" % toolssource,  "r") as source:
     template = jinja2.Template(source.read())
@@ -199,6 +201,7 @@ with open("%s/%sWrapper.cc" % (destination, object.name), "wt") as out:
                               date = object.generated,
                               tag = object.tag,
                               top = object.top,
+                              metview_default = object.metview_default,
                               abstract = object.abstract,
                               inherit = object.inherits,
                               prefix = object.prefix
