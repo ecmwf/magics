@@ -46,7 +46,7 @@ set( HAVE_BUFR 1 )
 
 
 ecbuild_add_option( FEATURE ODB
-                    DEFAULT ON
+                    DEFAULT OFF
                     DESCRIPTION "ODB support"
                     REQUIRED_PACKAGES "PROJECT odb_api VERSION 0.10.2")
 					#	"PROJECT eckit   VERSION 0.9.0" )
