@@ -57,6 +57,10 @@ class ObjectHandler(ContentHandler):
         self.name = attrs.get("name")
         self.prefix = attrs.get("prefix", "").split("/")
         self.tag = attrs.get("xmltag")
+        self.prefix = ""
+        if "metview_prefix" in attrs.keys():
+            self.prefix = attrs.get("metview_prefix").encode('ascii','ignore')
+            
 
         if "inherits" in attrs.keys():
             self.inherits=attrs.get("inherits")
@@ -91,10 +95,15 @@ class ObjectHandler(ContentHandler):
         if attrs.get("metview_default"):
             self.metview_default = attrs.get("metview_default")
 
+        name = attrs.get("name").encode('ascii','ignore')
+        
+        name = name.replace(self.prefix, "")
+       
         if type in self.basic :
+            
             self.parameters["basic"].append (
                 {
-                    "name" : attrs.get("name"),
+                    "name" : name,
                     "from" : self.types.get(fromt, fromt),
                     "to" : to,
                     "member" : attrs.get("member"),
@@ -108,7 +117,7 @@ class ObjectHandler(ContentHandler):
 
             self.parameters["factory"].append (
                 {
-                    "name" : attrs.get("name"),
+                    "name" : name,
                     "from" : attrs.get("from"),
                     "to" : attrs.get("to"),
                     "member" : attrs.get("member"),
@@ -187,7 +196,6 @@ destination = sys.argv[3]
 
 saxparser.parse(datasource)
 
-print "METVIEW", object.metview_default
 
 with open("%s/source_mv.template" % toolssource,  "r") as source:
     template = jinja2.Template(source.read())
