@@ -348,14 +348,17 @@ void CoastPlotting::seaonly(Layout& out)
 
 void CoastPlotting::nolandsea(Layout& out)
 {
-	vector<Polyline*> clips;
-	clip(out.transformation(), coast_, clips);
-	for (vector<Polyline*>::iterator coast = clips.begin(); coast != clips.end(); ++coast)
+	
+	vector<Polyline*> clip;
+	clipAndClose(out.transformation(), coast_, clip);
+
+	for (vector<Polyline*>::iterator coast = clip.begin(); coast != clip.end(); ++coast)
 	{
 
 		setLine(**coast);
 		out.push_back(*coast);
 	}
+	
 }
 
 
@@ -442,6 +445,7 @@ void CoastPlotting::decode(const Layout& parent )
 
 void CoastPlotting::clip(const Transformation& transformation, const vector<Polyline*>& in, vector<Polyline*>& out) const
 {
+
 	for (vector<Polyline*>::const_iterator poly = in.begin(); poly != in.end(); ++poly ) {
 		(*poly)->southClean();
 		//(*poly)->reproject(transformation);
@@ -456,7 +460,7 @@ void CoastPlotting::clipAndClose(const Transformation& transformation, const vec
 	Polyline& box = transformation.getPCBoundingBox();
 	for (vector<Polyline*>::const_iterator poly = in.begin(); poly != in.end(); ++poly ) {
 
-
+		(*poly)->southClean();
 		vector<Polyline> clipped;
 		geobox.intersect(**poly, clipped);
 		// then we reproject!
