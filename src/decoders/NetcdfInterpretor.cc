@@ -240,10 +240,9 @@ void NetcdfInterpretor::visit(TextVisitor& title)
 
 	string name = netcdf.getVariableAttribute(field_, "standard_name", string(""));
 	name = netcdf.getVariableAttribute(field_, "long_name", name);
-	cout << " name-->" << name << endl;
-
-	//title.addAutomaticTitle(netcdf.getAttribute("title", name));
-	title.addAutomaticTitle(name);
+	
+	title.addAutomaticTitle(netcdf.getAttribute("title", name));
+	
 }
 
 void NetcdfInterpretor::getAttributes(Netcdf& nc,const string& varName,string& keys,string& values)
