@@ -106,7 +106,7 @@ public:
 		def << " +tilt=" << from.projection_tilt_ << "  +units=m";
 		definition_ = def.str();
 
-		cout << definition_ << endl;
+		
 	}
 
 
