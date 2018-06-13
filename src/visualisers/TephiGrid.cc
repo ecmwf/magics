@@ -276,6 +276,11 @@ void TephiGrid::visit(DrawingVisitor& out)
 			for ( double p = pmin-10; p < pmax+15; p += 10) {
 				double t = temperatureFromMixingRatio(*r, p*100);
 				PaperPoint xy = tephi(UserPoint(t-273.15, p));
+
+				if ( std::isnan(xy.x_) || std::isnan(xy.y_) ) {
+					// The point is outside the area 
+					continue; // WE perhaps need to continue 
+				} 
 				
 				poly.push_back(xy);
 				
