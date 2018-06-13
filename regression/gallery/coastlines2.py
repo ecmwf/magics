@@ -27,14 +27,14 @@ coast = mcoast( map_grid =  'off',
 		map_coastline_land_shade  =  'on',
 		map_coastline_land_shade_colour  =  'cream',
 		map_coastline_colour =  'tan',
-        map_coastline_resolution = 'low',
+        map_coastline_resolution = 'high',
 		map_boundaries = 'on',
 		map_boundaries_colour = 'red',
 		map_administrative_boundaries = 'on',
 		map_administrative_boundaries_countries_list = ['FRA','DEU','GBR'],
 		map_administrative_boundaries_colour = 'orange',
 		map_cities = 'on',
-		map_rivers = 'off')
+		map_rivers = 'on')
 
 
 title = mtext(

@@ -31,10 +31,10 @@ subpage_map_projection_view_longitude= -0.
 	  )
 
 #Coastlines setting
-coast = mcoast( map_grid =  "off",
+coast = mcoast( map_grid =  "on",
 			map_grid_colour  =  "tan",
 			map_coastline_land_shade  =  'on',
-			map_coastline  =  'off',
+			map_coastline  =  'on',
 			map_coastline_land_shade_colour  =  'cream',
 			map_coastline_colour =  "tan",
 			map_coastline_style = "solid")
