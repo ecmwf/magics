@@ -43,6 +43,26 @@ does it submit to any jurisdiction.
   	<parameter member="vertical_longitude" to="float" default="0" from="float" name="subpage_map_vertical_longitude">  
          		<documentation> Developement in progress 		</documentation>
   	</parameter>
+
+    <!-- Tilted projection -->
+    <parameter member="projection_height" to="float" default="42164000" from="float" name="subpage_map_projection_height">  
+            <documentation>  height (in meters) above the surface   </documentation>
+    </parameter>
+    <parameter member="projection_tilt" to="float" default="0" from="float" name="subpage_map_projection_tilt">  
+            <documentation>  angle (in degrees) away from nadir   </documentation>
+    </parameter>
+    <parameter member="projection_azimuth" to="float" default="20" from="float" name="subpage_map_projection_azimuth">  
+            <documentation>   bearing (in degrees) from due north   </documentation>
+    </parameter>
+    <parameter member="projection_view_latitude" to="float" default="20" from="float" name="subpage_map_projection_view_latitude">  
+            <documentation>   latitude (in degrees) of the view position   </documentation>
+    </parameter>
+    <parameter member="projection_view_longitude" to="float" default="-60" from="float" name="subpage_map_projection_view_longitude">  
+            <documentation>   longitude (in degrees) of the view position   </documentation>
+    </parameter>
+
+    
+
   
   	<parameter member="sweep" to="float" default="0" from="float" name="subpage_map_geos_sweep">  
          		<documentation> the sweep angle axis of the viewing instrument		</documentation>

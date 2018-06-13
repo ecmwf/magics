@@ -95,16 +95,18 @@ public:
 
 	void tpersinit(const Proj4Projection& from) {
 
-		minlon_ = from.vertical_longitude_ - 80;
-		maxlon_ = from.vertical_longitude_ + 80;
-		minlat_ = -80;
-		maxlat_ = 80;
-
-		ostringstream def;
-		def << "+proj=geos +h=42164000 +ellps=WGS84 +lon_0=" << from.vertical_longitude_;
 		
-		//def << "++proj=tpers    +ellps=WGS84 +h=5000000  +lat_0=20 +lon_0=-60 +x_0=0 +y_0=0 +azi=20 +tilt=0  +units=m";
+		cout << from << endl;
+		ostringstream def;
+		
+		def << "+proj=tpers +ellps=WGS84 +h=" << from.projection_height_;
+		def << "  +lat_0=" << from.projection_view_latitude_;
+		def << " +lon_0=" << from.projection_view_longitude_ ;
+		def << " +x_0=0 +y_0=0 +azi=" << from.projection_azimuth_;
+		def << " +tilt=" << from.projection_tilt_ << "  +units=m";
 		definition_ = def.str();
+
+		cout << definition_ << endl;
 	}
 
 
@@ -253,6 +255,7 @@ void Proj4Projection::init()
 
 
 	methods_["geos"] = &Proj4Projection::geos;
+	methods_["tpers"] = &Proj4Projection::geos;
 	methods_["conic"] = &Proj4Projection::conic;
 	methods_["simple"] = &Proj4Projection::simple;
 

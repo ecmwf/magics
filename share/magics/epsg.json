@@ -102,6 +102,16 @@
             }
         },
         {
+            "tpers": {
+                "definition": "+proj=tpers +h=42164000  +ellps=WGS84 ",
+                "max_latitude": 89,
+                "max_longitude": 180,
+                "method": "tpers",
+                "min_latitude": -89,
+                "min_longitude": -180
+            }
+        },
+        {
             "meteosat_0": {
                 "definition": "+proj=geos +h=42164000 +ellps=WGS84 +lon_0=0",
                 "max_latitude": 80,

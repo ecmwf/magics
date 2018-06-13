@@ -146,6 +146,7 @@ Proj4Projection.xml
 Proj4Robinson.xml
 Proj4Google.xml
 Proj4Efas.xml
+Proj4TPers.xml
 Proj4LambertNorthAtlantic.xml
 Proj4Meteosat0.xml
 Proj4Meteosat145.xml
