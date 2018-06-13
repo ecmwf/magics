@@ -33,7 +33,15 @@ for directory in os.environ.get("LD_LIBRARY_PATH","").split(":"):
         break
 
 #
-# If LD_LIBRARY_PATH does not contain path to Magics,
+#  if not overwritten test if instlled version exist and use it
+#
+if lib is None:
+    installname = "@CMAKE_INSTALL_PREFIX@/@INSTALL_LIB_DIR@/libMagPlus@CMAKE_SHARED_LIBRARY_SUFFIX@"
+    if os.path.exists(installname):
+        lib = installname
+
+#
+# If LD_LIBRARY_PATH does not contain path to Magics and it is not where you installed,
 # we search the standard system locations
 #
 if lib is None:
