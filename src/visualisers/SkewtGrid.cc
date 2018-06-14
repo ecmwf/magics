@@ -301,12 +301,13 @@ void SkewtGrid::visit(DrawingVisitor& out)
                 double t = magics::temperatureFromMixingRatio(*r, p*100);
                 PaperPoint xy = tephi(UserPoint(t-273.15, p));
                 poly.push_back(xy);
-                tephi(poly, out.layout());
                 if(labelCnt % mixing_ratio_label_frequency_ )
                         continue;
 
                 labelCnt++;
              }
+
+             tephi(poly, out.layout());
 
              //labels along the 950 hPa line
              double pLabel=950;
