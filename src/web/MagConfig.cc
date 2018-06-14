@@ -247,7 +247,7 @@ bool Style::findStyle(const Definition& data, string& visdef)
 	for (Definition::const_iterator value = data.begin(); value != data.end(); ++value) {
  		Definition::iterator criteria = criteria_.find(value->first);
 		if ( criteria != criteria_.end() && criteria->second == value->second ) {
-			cout << "FOUND STYLE " << style_ << endl;
+			MagLog::dev() << "FOUND STYLE " << style_ << endl;
 			visdef =  style_;
 			for ( vector<Style>::iterator other = more_.begin(); other != more_.end(); ++other) 
 				if ( other->findStyle(data, visdef) )
@@ -324,7 +324,7 @@ void NetcdfGuess::callback(const string& name, const json_spirit::Value& value)
 void MagDefLibrary::init(const string& name)
 {
 	string library = getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_   + "/" + name;
-	cout << "opening -->" << library << endl;
+	MagLog::dev() << "opening -->" << library << endl;
 	MagConfigHandler(library,  *this);
 }
 void MagDef::values(const json_spirit::Value& value) 

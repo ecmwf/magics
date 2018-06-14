@@ -53,10 +53,10 @@ void Coastlines::visit(DrawingVisitor& parent)
 	if ( style_.size() ) {
 		MagDefLibrary styles(theme(), "coastlines");
 		MagDef::Definition style;
-		cout << " try to find " << style_ << endl;
+		
 		if ( styles.find(style_, style) ) {
 			set(style);
-			cout << " found "  << endl;
+			
 		}
 		
 	}
