@@ -57,9 +57,9 @@ class ObjectHandler(ContentHandler):
         self.name = attrs.get("name")
         self.prefix = attrs.get("prefix", "").split("/")
         self.tag = attrs.get("xmltag")
-        self.prefix = ""
+        self.metview_prefix = b""
         if "metview_prefix" in attrs.keys():
-            self.prefix = attrs.get("metview_prefix").encode('ascii','ignore')
+            self.metview_prefix = attrs.get("metview_prefix").encode('ascii','ignore')
             
 
         if "inherits" in attrs.keys():
@@ -95,9 +95,10 @@ class ObjectHandler(ContentHandler):
         if attrs.get("metview_default"):
             self.metview_default = attrs.get("metview_default")
 
+
         name = attrs.get("name").encode('ascii','ignore')
         
-        name = name.replace(self.prefix, "")
+        name = name.replace(self.metview_prefix, b'')
        
         if type in self.basic :
             
