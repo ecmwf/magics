@@ -96,7 +96,7 @@ public:
 	void tpersinit(const Proj4Projection& from) {
 
 		
-		cout << from << endl;
+		
 		ostringstream def;
 		
 		def << "+proj=tpers +ellps=WGS84 +h=" << from.projection_height_;

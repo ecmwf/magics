@@ -232,11 +232,11 @@ void PaletteColourTechnique::set(LevelSelection& out, LevelSelection& in, Colour
         
         if ( colour == colours_.end() ) {
                 if (palette_policy_ == M_LASTONE) {
-                    cout << "REPEAT" << endl;
+                    
                     table.push_back(Colour(colours_.back()));
                 }
                 else {
-                    cout << "loop" << endl;
+                    
                     colour = colours_.begin();
                     table.push_back(Colour(*colour));
                     colour++;

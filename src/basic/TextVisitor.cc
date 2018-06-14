@@ -691,6 +691,6 @@ void TextVisitor::extract(const string& line, vector<KeyInfo>& keys)
 void TextVisitor::addAutomaticTitle(const string& text)
 {
 	update("grib", "magics", text);
-	cout << "XXXX" << text << endl;
+	
 	add("<magics_title/>", new TextEntry(text));
 }

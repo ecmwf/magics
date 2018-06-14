@@ -106,7 +106,7 @@ void Contour::operator()(Data& data, BasicGraphicsObjectContainer& parent)
 		}
 		delete library;
 
-		cout << "Setting OK " << endl;
+		
 
     data.getReady(parent.transformation());
     if ( !data.valid() ) {

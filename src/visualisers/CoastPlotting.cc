@@ -71,7 +71,7 @@ void CoastPlotting::visit(LegendVisitor& legend)
 
 void CoastPlotting::operator()(PreviewVisitor& parent)
 {
-cout << "CoastPlotting::operator()"<< endl;
+
 	const Transformation& transformation = parent.transformation();
 	CoastPlotting& preview = parent.coastlines();
 	transformation.coastSetting(preview.coastSet_, 10, 5);
@@ -107,7 +107,7 @@ cout << "CoastPlotting::operator()"<< endl;
 
 void NoCoastPlotting::operator()(DrawingVisitor& parent)
 {
-cout << "NoCoastPlotting::operator()"<< endl;
+
 	const Transformation& transformation = parent.transformation();
 	transformation.coastSetting(coastSet_, parent.layout().absoluteWidth(), parent.layout().absoluteHeight());
 	(*boundaries_)(coastSet_, parent.layout());
