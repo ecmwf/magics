@@ -1,6 +1,6 @@
 set( grib_environment
-    GRIB_DEFINITION_PATH=${grib_api_BASE_DIR}/share/${grib_handling_pkg}/definitions
-    GRIB_SAMPLES_PATH=${grib_api_BASE_DIR}/share/${grib_handling_pkg}/samples )
+  GRIB_DEFINITION_PATH=${eccodes_BASE_DIR}/share/${grib_handling_pkg}/definitions
+  GRIB_SAMPLES_PATH=${eccodes_BASE_DIR}/share/${grib_handling_pkg}/samples )
 
 # Basic test
 ecbuild_add_test( TARGET basic_c

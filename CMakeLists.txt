@@ -35,11 +35,6 @@ set (CMAKE_C_STANDARD 99)
 ecbuild_use_package( PROJECT eccodes VERSION 2.5.0 REQUIRED
                      FAILURE_MSG "ecCodes is required in order to build Magics. Note that GRIB_API is no longer supported in Magics" )
 
-
-set( GRIB_API_INCLUDE_DIRS ${ECCODES_INCLUDE_DIRS} )
-set( GRIB_API_LIBRARIES    ${ECCODES_LIBRARIES} )
-set( GRIB_API_DEFINITIONS  ${ECCODES_DEFINITIONS} )
-set( grib_api_BASE_DIR     ${eccodes_BASE_DIR} )
 set( grib_handling_pkg eccodes )
 set( HAVE_GRIB 1 )
 set( HAVE_BUFR 1 )
@@ -171,7 +166,7 @@ find_package( EXPAT REQUIRED )
 ###############################################################################
 # contents
 
-set( MAGICS_TPLS grib_api spot EXPAT NetCDF Proj4 )
+set( MAGICS_TPLS eccodes spot EXPAT NetCDF Proj4 )
 
 set( MAGICS_INCLUDE_DIRS
      ${CMAKE_CURRENT_BINARY_DIR}/src
