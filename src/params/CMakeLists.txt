@@ -310,9 +310,7 @@ endforeach()
 set( magics_xmls ${magics_xmls} PARENT_SCOPE )
 
 if( metview )
-
   set( metview_xmls ${metview_xmls} PARENT_SCOPE )
-
   add_metview_definition_file(FILE ImportObjectHandler.xml  BASENAME MIMPORT   ACTION MIMPORT)
   add_metview_definition_file(FILE Contour.xml         BASENAME MCONT   ACTION MCONT)
   add_metview_definition_file(FILE SymbolPlotting.xml  BASENAME MSYMB ACTION   MSYMB)
@@ -325,4 +323,4 @@ if( metview )
   add_metview_definition_file(FILE BinningObject.xml   BASENAME BinningObject  ACTION MBINNING)
   add_metview_definition_file(FILE TephiGrid.xml       BASENAME MTHERMOGRID  ACTION MTHERMOGRID)
   add_metview_definition_file(FILE ObsPlotting.xml     BASENAME ObsPlotting  ACTION MOBS)
-endif( MAGICS_METVIEW )
+endif( metview )
