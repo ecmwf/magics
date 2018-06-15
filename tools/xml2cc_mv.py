@@ -57,10 +57,9 @@ class ObjectHandler(ContentHandler):
         self.name = attrs.get("name")
         self.prefix = attrs.get("prefix", "").split("/")
         self.tag = attrs.get("xmltag")
-        self.metview_prefix = b""
+        self.metview_prefix = ""
         if "metview_prefix" in attrs.keys():
-            self.metview_prefix = attrs.get("metview_prefix").encode('ascii','ignore')
-            
+            self.metview_prefix = attrs.get("metview_prefix")
 
         if "inherits" in attrs.keys():
             self.inherits=attrs.get("inherits")
@@ -68,13 +67,10 @@ class ObjectHandler(ContentHandler):
         if "top" in attrs.keys():
             self.top=attrs.get("top")
 
-
-
         self.object_include = "%s.h" % self.name
 
         if "include" in attrs.keys():
             self.object_include = attrs.get("include")
-
 
         self.addimplements(attrs.get("implements", ""))
         self.addinterface(attrs.get("interface", ""))
@@ -95,13 +91,10 @@ class ObjectHandler(ContentHandler):
         if attrs.get("metview_default"):
             self.metview_default = attrs.get("metview_default")
 
+        name = attrs.get("name")
+        name = name.replace(self.metview_prefix, '')
 
-        name = attrs.get("name").encode('ascii','ignore')
-        
-        name = name.replace(self.metview_prefix, b'')
-       
         if type in self.basic :
-            
             self.parameters["basic"].append (
                 {
                     "name" : name,
@@ -115,7 +108,6 @@ class ObjectHandler(ContentHandler):
             if type in ["string", "bool"]:
                 self.parameters["basic"][-1]["delimiter"] = "\""
         else :
-
             self.parameters["factory"].append (
                 {
                     "name" : name,
@@ -149,8 +141,6 @@ class ObjectHandler(ContentHandler):
             if type in ["Colour"]:
                 self.parameters["factory"][-1]["niceprint"] = True
 
-
-
     def option(self, attrs):
 
         param = self.parameters["factory"][-1]
@@ -174,8 +164,6 @@ class ObjectHandler(ContentHandler):
                     "object" : attrs.get("name") } )
                 self.include_options[attrs["include"]] = attrs["include"]
 
-
-
     options = { "class" : newclass,
                 "parameter" : parameter,
                 "option" : option }
@@ -191,12 +179,10 @@ saxparser = make_parser()
 saxparser.setContentHandler(object)
 
 toolssource = sys.argv[1]
-
 datasource = open(sys.argv[2], "r")
 destination = sys.argv[3]
 
 saxparser.parse(datasource)
-
 
 with open("%s/source_mv.template" % toolssource,  "r") as source:
     template = jinja2.Template(source.read())
@@ -215,6 +201,7 @@ with open("%s/%sWrapper.cc" % (destination, object.name), "wt") as out:
                               prefix = object.prefix
                              )
              )
+
 with open("%s/header_mv.template" % (toolssource), "r") as source:
     template = jinja2.Template(source.read())
 with open("%s/%sWrapper.h" % (destination, object.name), "wt") as out:
@@ -231,4 +218,4 @@ with open("%s/%sWrapper.h" % (destination, object.name), "wt") as out:
                               wrapper = object.wrapper_include,
                               prefix = object.prefix
                              )
-             )
+    )
