@@ -418,10 +418,9 @@ void Transformation::operator()(const Polyline& from, BasicGraphicsObjectContain
 	}
 	try {
 			vector<PaperPoint> line;
-				//line.reserve( from.size());
+			line.reserve( from.size());
 			for (unsigned i = 0; i < from.size(); i++) {
 					line.push_back(from.get(i));
-
 			}
 			vector<vector<PaperPoint> > result;
 			boost::geometry::correct(line);
@@ -451,6 +450,8 @@ void Transformation::operator()(const Polyline& from, vector<Polyline*>& out) co
 	if (from.empty())
 		return;
 
+	
+
 	PaperPoint ll(getMinPCX(), getMinPCY());
 	PaperPoint ur(getMaxPCX(), getMaxPCY());
 	boost::geometry::model::box<PaperPoint> box(ll, ur);
@@ -478,25 +479,31 @@ void Transformation::operator()(const Polyline& from, vector<Polyline*>& out) co
 				}
 			}
 		}
-
 		
-		for ( Polyline::Holes::const_iterator hole = from.beginHoles(); hole != from.endHoles(); ++hole) {
-			Polyline poly;
-			from.hole(hole, poly);
+		for ( auto hole = from.beginHoles(); hole != from.endHoles(); ++hole) {
+
 			lines.push_back(vector<PaperPoint>());
+			Polyline poly;
+			Polyline* xy = new Polyline();
+			from.hole(hole, poly);
+			
 			for (unsigned i = 0; i < poly.size(); i++) {
-				PaperPoint pt = from.get(i);
-			if ( fast_reproject(pt.x_, pt.y_) ) {
-				lines.back().push_back(pt);
-			}
-			else {
+				PaperPoint pt = poly.get(i);
+				if ( fast_reproject(pt.x_, pt.y_) )
+					lines.back().push_back(pt);
+				else {
 				if ( lines.back().size() ) { 
 					lines.push_back(vector<PaperPoint>());
 				}
+				}
+			
 			}
-				
-			}
+			
+			
+			
 		}
+
+		
 		
 
 		for (vector<vector<PaperPoint> >::iterator line = lines.begin(); line != lines.end(); ++line) {
@@ -514,6 +521,9 @@ void Transformation::operator()(const Polyline& from, vector<Polyline*>& out) co
 					out.push_back(poly);
 			}
 		}
+		
+		
+		
 	}
 
 	catch (...) {
@@ -579,10 +589,10 @@ bool Transformation::in(double x, double y) const
 {
 
 	fast_reproject(x, y);
-	if ( x < askedxmin_ ) return false;
-	if ( x > askedxmax_ ) return false;
-	if ( y < askedymin_ ) return false;
-	if ( y > askedymax_ ) return false;
+	if ( x <= askedxmin_ ) return false;
+	if ( x >= askedxmax_ ) return false;
+	if ( y <= askedymin_ ) return false;
+	if ( y >= askedymax_ ) return false;
 	return true;
 
 }

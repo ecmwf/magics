@@ -446,28 +446,8 @@ void CoastPlotting::decode(const Layout& parent )
 void CoastPlotting::clip(const Transformation& transformation, const vector<Polyline*>& in, vector<Polyline*>& out) const
 {
 
-	Polyline& geobox = transformation.getUserBoundingBox();
-	Polyline& box = transformation.getPCBoundingBox();
-	
-	for (vector<Polyline*>::const_iterator poly = in.begin(); poly != in.end(); ++poly ) {
-
-		(*poly)->southClean();
-		vector<Polyline> clipped;
-		geobox.intersect(**poly, clipped);
-		// then we reproject!
-		for (vector<Polyline>::iterator clip = clipped.begin(); clip != clipped.end(); ++clip ) {
-			vector<Polyline> clip2;
-			clip->reproject(transformation);
-			box.intersect(*clip, clip2);
-			for (vector<Polyline>::iterator c = clip2.begin(); c != clip2.end(); ++c ) {
-				out.push_back(c->clone());
-			}
-
-		}
-	}
 	for (vector<Polyline*>::const_iterator poly = in.begin(); poly != in.end(); ++poly ) {
 		(*poly)->southClean();
-		//(*poly)->reproject(transformation);
 		transformation(**poly, out);
 	}
 }
