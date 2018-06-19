@@ -35,18 +35,16 @@ using namespace magics;
 {% endif %}
 {
 
-	{%if top != "" %}
-	{{ top }}Wrapper::object({{ object | lower }}_);
-	{%elif inherit != "" %}
+	
+	{%if inherit != "" %}
 	{{ inherit }}Wrapper::object({{ object | lower }}_);
 	{% endif %}
 	
 } 
 {{ object }}Wrapper::{{ object }}Wrapper({{ object }}* {{ object | lower }}): {{ object | lower }}_({{ object | lower}})
 {
-	{%if top  != "" %}
-	{{ top }}Wrapper::object({{ object | lower }}_);
-	{%elif inherit != "" %}
+	
+	{%if inherit != "" %}
 	{{ inherit }}Wrapper::object({{ object | lower }}_);
 	{% endif %}
 } 
