@@ -65,13 +65,12 @@ public:
     virtual void set(const MagRequest&);
     
     {{ object }}* me()   { return {{ object | lower}}_; }
-   	{% if inherit  == "" -%} 
-   	{{ object }}* object() { return {{ object | lower}}_; }
-	{% endif %}
+   	
+   	virtual {{ object }}* object() { return {{ object | lower}}_; }
+	
 
 	virtual void object({{ object }}* o) { 
-		if (  {{ object | lower }}_ )
-			//delete {{ object | lower }}_;  
+		// Remember to delete the previous object
 		{{ object | lower}}_ = o;
 		{% if inherit  != "" -%} 
 		  {{ inherit }}Wrapper::object(o);
