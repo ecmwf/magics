@@ -18,4 +18,4 @@ add_magics_test(NAME data_subreducedgaussian SOURCES subreducedgaussian.py IMAGE
 add_magics_test(NAME data_1000-global-reduced-gg SOURCES t1000-global-reduced-gg.py IMAGE t1000-global-reduced-gg.png DATA t1000-global-reduced-gg.grb THRESHOLD 1 PYTHON)
 
 
-add_magics_test(NAME data_mars_array SOURCES mars-array.py IMAGE mars-array.png DATA z500.grb THRESHOLD 1 PYTHON)
+#add_magics_test(NAME data_mars_array SOURCES mars-array.py IMAGE mars-array.png DATA z500.grb THRESHOLD 1 PYTHON)

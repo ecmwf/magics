@@ -1,22 +1,22 @@
 /*
  * (C) Copyright 1996-2016 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
  */
 
 /*! \file CoastPlotting.cc
     \brief Implementation of the Template class CoastPlotting.
-    
+
     Magics Team - ECMWF 2004
-    
+
     Started: Mon 2-Feb-2004
-    
+
     Changes:
-    
+
 */
 
 #include "CoastPlotting.h"
@@ -34,12 +34,12 @@ using namespace magics;
 #define PATH(a) getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_ + a;
 
 
-CoastPlotting::CoastPlotting() 
+CoastPlotting::CoastPlotting()
 {
 	MagLog::debug() << "DELETE COAST PLOTTING! " << endl;
 }
 
-NoCoastPlotting::NoCoastPlotting() 
+NoCoastPlotting::NoCoastPlotting()
 {
 	riversMethods_["on"] = &CoastPlotting::rivers;
 	riversMethods_["efason"] = &CoastPlotting::efas;
@@ -60,7 +60,7 @@ void CoastPlotting::visit(LegendVisitor& legend)
 	Polyline* coast  = new Polyline();
 	coast->setThickness(thickness_);
 	coast->setColour(*colour_);
-	coast->setLineStyle(style_);	
+	coast->setLineStyle(style_);
 
 	LineEntry* entry = new LineEntry("Coastlines", coast);
 	legend.add(entry);
@@ -71,6 +71,7 @@ void CoastPlotting::visit(LegendVisitor& legend)
 
 void CoastPlotting::operator()(PreviewVisitor& parent)
 {
+
 	const Transformation& transformation = parent.transformation();
 	CoastPlotting& preview = parent.coastlines();
 	transformation.coastSetting(preview.coastSet_, 10, 5);
@@ -94,7 +95,7 @@ void CoastPlotting::operator()(PreviewVisitor& parent)
 	frame->setAntiAliasing(false);
 	frame->setThickness(thickness_);
 	frame->setColour(Colour("tan"));
-	frame->setLineStyle(style_);	
+	frame->setLineStyle(style_);
 	frame->push_back(PaperPoint(transformation.getMinX(), transformation.getMinY()));
 	frame->push_back(PaperPoint(transformation.getMaxX(), transformation.getMinY()));
 	frame->push_back(PaperPoint(transformation.getMaxX(), transformation.getMaxY()));
@@ -106,6 +107,7 @@ void CoastPlotting::operator()(PreviewVisitor& parent)
 
 void NoCoastPlotting::operator()(DrawingVisitor& parent)
 {
+
 	const Transformation& transformation = parent.transformation();
 	transformation.coastSetting(coastSet_, parent.layout().absoluteWidth(), parent.layout().absoluteHeight());
 	(*boundaries_)(coastSet_, parent.layout());
@@ -119,7 +121,7 @@ void NoCoastPlotting::efas(DrawingVisitor& visitor)
 	map<string, string> data;
 	data["extended"] = PATH("efas/ExtendedDomain/lines")
 	data["current"] = PATH("efas/CurrentDomain/lines")
-	
+
 	map<string, string>::iterator file = data.find(lowerCase(efas_domain_));
 
 	if ( file == data.end() ) {
@@ -152,7 +154,7 @@ void NoCoastPlotting::efas(DrawingVisitor& visitor)
 
 void NoCoastPlotting::user(DrawingVisitor& visitor)
 {
-	
+
 
 	ShapeDecoder user;
 	user.setPath(user_layer_name_);
@@ -214,11 +216,19 @@ void NoCoastPlotting::layers(map<string, Action>& methods, const string& val, Dr
 }
 
 
+void CoastPlotting::release(vector<Polyline*>& polys)
+{
+ 	for ( vector<Polyline*>::iterator poly = polys.begin(); poly != polys.end(); ++poly )
+    {
+        delete *poly;
+    }
+    polys.clear();
 
+}
 
 /*! \brief Method to set resource files for GIS information
- 
-  \note We have to use '10m' resolution for administrative Provinces since only this 
+
+  \note We have to use '10m' resolution for administrative Provinces since only this
    resolution contains data from OUTSIDE the USA and Canada
 */
 void CoastPlotting::operator()(DrawingVisitor& parent)
@@ -284,6 +294,10 @@ void CoastPlotting::operator()(DrawingVisitor& parent)
   layers(riversMethods_, rivers_, parent);
   layers(riversMethods_, "efas" + efas_, parent);
   layers(riversMethods_, "user" + user_layer_, parent);
+  // We do need the coastlines
+
+  release(coast_);
+  release(ocean_);
 }
 
 
@@ -334,14 +348,17 @@ void CoastPlotting::seaonly(Layout& out)
 
 void CoastPlotting::nolandsea(Layout& out)
 {
+	
 	vector<Polyline*> clips;
 	clip(out.transformation(), coast_, clips);
+
 	for (vector<Polyline*>::iterator coast = clips.begin(); coast != clips.end(); ++coast)
 	{
 
 		setLine(**coast);
 		out.push_back(*coast);
 	}
+	
 }
 
 
@@ -377,7 +394,7 @@ void CoastPlotting::setLandShading(Polyline& line)
 }
 
 
-CoastPlotting::~CoastPlotting() 
+CoastPlotting::~CoastPlotting()
 {}
 
 
@@ -428,9 +445,9 @@ void CoastPlotting::decode(const Layout& parent )
 
 void CoastPlotting::clip(const Transformation& transformation, const vector<Polyline*>& in, vector<Polyline*>& out) const
 {
+
 	for (vector<Polyline*>::const_iterator poly = in.begin(); poly != in.end(); ++poly ) {
 		(*poly)->southClean();
-		(*poly)->reproject(transformation);
 		transformation(**poly, out);
 	}
 }
@@ -442,7 +459,7 @@ void CoastPlotting::clipAndClose(const Transformation& transformation, const vec
 	Polyline& box = transformation.getPCBoundingBox();
 	for (vector<Polyline*>::const_iterator poly = in.begin(); poly != in.end(); ++poly ) {
 
-
+		
 		vector<Polyline> clipped;
 		geobox.intersect(**poly, clipped);
 		// then we reproject!

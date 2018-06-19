@@ -16,6 +16,7 @@ add_magics_test(NAME proj4_sub_mercator SOURCES sub_mercator.json IMAGE sub_merc
 add_magics_test(NAME proj4_robinson-frame SOURCES robinson-frame.json IMAGE robinson-frame.png THRESHOLD 2 JSON)
 add_magics_test(NAME proj4_mollweide-frame SOURCES mollweide-frame.json IMAGE mollweide-frame.png THRESHOLD 2 JSON)
 
-add_magics_test(NAME proj4_wms-epsg SOURCES wms-epsg.json IMAGE wms-epsg.png THRESHOLD 2 JSON)
+#add_magics_test(NAME proj4_wms-epsg SOURCES wms-epsg.json IMAGE wms-epsg.png THRESHOLD 2 JSON)
 add_magics_test(NAME proj4_geos_rotate SOURCES geos.py IMAGE geos_rotate.ps  THRESHOLD 5 PYTHON)
 add_magics_test(NAME proj4_windgeos SOURCES windgeos.py IMAGE windgeos.ps  DATA zuv.grib THRESHOLD 5 PYTHON)
+add_magics_test(NAME proj4_tpers SOURCES tpers.py IMAGE tpers.png  THRESHOLD 2 PYTHON)

@@ -1,5 +1,5 @@
 <magics>
-<class inherits="GeoRectangularProjection" xmltag="rectangular" name="MercatorProjection" directory="common" prefix="subpage" action="projection" include="GeoRectangularProjection.h"/></magics>
+<class inherits="GeoRectangularProjection" top="Transformation" xmltag="rectangular" name="MercatorProjection" directory="common" prefix="subpage" action="projection" include="GeoRectangularProjection.h"/></magics>
 <!--
 (C) Copyright 1996-2016 ECMWF.
 

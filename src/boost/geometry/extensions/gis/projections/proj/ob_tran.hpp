@@ -35,7 +35,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 
-#include <boost/shared_ptr.hpp>
+#include <boost/unique_ptr.hpp>
 #include <boost/math/special_functions/hypot.hpp>
 
 #include <boost/geometry/extensions/gis/projections/impl/base_static.hpp>
@@ -55,7 +55,7 @@ namespace boost { namespace geometry { namespace projection
             template <typename Geographic, typename Cartesian>
             struct par_ob_tran
             {
-                boost::shared_ptr<projection<Geographic, Cartesian> > link;
+                boost::unique_ptr<projection<Geographic, Cartesian> > link;
                 double    lamp;
                 double    cphip, sphip;
             };

@@ -444,7 +444,7 @@ EOF
             {
 				
                 print "\t\t\tstring $member\_s = request(\"$name\");\n";
-                print "\t\t\t$wrapper\_->$member\_ = auto_ptr<$magto>(MagTranslator<string, $magto>()($member\_s));\n";
+                print "\t\t\t$wrapper\_->$member\_ = unique_ptr<$magto>(MagTranslator<string, $magto>()($member\_s));\n";
             }
             else
             {
@@ -471,7 +471,7 @@ EOF
                  $arg = "(request.countValues(\"$name\") ? (string) request(\"$name\") : \"$mv_default\")";
                 
                 print "\t\tstring $member\_s = $arg;\n";
-                print "\t\t$wrapper\_->$member\_ = auto_ptr<$magto>(MagTranslator<string, $magto>()($member\_s));\n\n";
+                print "\t\t$wrapper\_->$member\_ = unique_ptr<$magto>(MagTranslator<string, $magto>()($member\_s));\n\n";
 			}
             else
             {
@@ -508,7 +508,7 @@ EOF
                 print "\t\t\t$member\_w = SimpleFactory<$wrapper_t>::create(\"$mv_default\");\n";
 			    print "\t\t}\n";
                 print "\t\t$member\_w->set(request);\n";
-                print "\t\t$wrapper\_->$member\_ =  auto_ptr<$magto>($member\_w->object());\n";
+                print "\t\t$wrapper\_->$member\_ =  unique_ptr<$magto>($member\_w->object());\n";
                 print "\t\tdelete $member\_w;\n\n";
          }
     }

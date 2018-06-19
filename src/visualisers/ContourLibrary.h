@@ -45,7 +45,12 @@ public:
 
 
 	// se the map to set the contour!
-	virtual void getAttributes(MetaDataCollector&, map<string, string>&);
+	virtual void getStyle(MetaDataCollector&, map<string, string>&);
+	virtual void getScaling(MetaDataCollector&, double& scaling, double& offset)
+	{
+		scaling = 1;
+		offset  = 0;
+	}
 
 protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).
@@ -146,7 +151,7 @@ public:
 	void setCriteria(MetaDataCollector&, const string&);
 
 	// set the map to set the contour!
-	void getAttributes(MetaDataCollector&, map<string, string>&);
+	void getStyle(MetaDataCollector&, map<string, string>&);
 
 
 
@@ -174,8 +179,8 @@ public:
 	void setCriteria(MetaDataCollector&, const string&);
 
 	// set the map to set the contour!
-	void getAttributes(MetaDataCollector&, map<string, string>&);
-
+	void getStyle(MetaDataCollector&, map<string, string>&);
+	void getScaling(MetaDataCollector&, double&, double&);
 
 
 protected:
@@ -199,7 +204,7 @@ public:
 	bool checkId(MetaDataCollector&,MetaDataCollector&) { return false; }
 
 	// se the map to set the contour!
-	void getAttributes(MetaDataCollector&, map<string, string>&) {}
+	void getStyle(MetaDataCollector&, map<string, string>&) {}
 
 protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).

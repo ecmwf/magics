@@ -14,7 +14,7 @@ C     This program is intended to test the PENQ functions.
 
       CHARACTER*90  TITLE1
       CHARACTER*90  TITLE2
-      CHARACTER*32  COL
+      CHARACTER*32  
       REAL          LOWLEFTLAT      
       INTEGER       LABFREQ
 

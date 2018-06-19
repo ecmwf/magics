@@ -24,10 +24,10 @@
 #include <Colour.h>
 
 void buildkeys(const vector<string>& roots, const string&, vector<string>& keys);
-void setAttribute(const vector<string>& roots, const string& name, auto_ptr<Colour>&, const map<string, string>&);
+void setAttribute(const vector<string>& roots, const string& name, unique_ptr<Colour>&, const map<string, string>&);
 
 template <class T>
-void setMember(const string& value, auto_ptr<T>& object, const XmlNode& from)
+void setMember(const string& value, unique_ptr<T>& object, const XmlNode& from)
 {
 	try{
 		T* new_object = MagTranslator<string, T>()(value);
@@ -37,7 +37,7 @@ void setMember(const string& value, auto_ptr<T>& object, const XmlNode& from)
             MagLog::dev()<< "OK" << endl;
             return;
         }
-        object = auto_ptr<T>(new_object);
+        object = unique_ptr<T>(new_object);
         
         
 	}
@@ -48,7 +48,7 @@ void setMember(const string& value, auto_ptr<T>& object, const XmlNode& from)
 }
 
 template <class T>
-bool acceptNode(const string& node, auto_ptr<T>& object)
+bool acceptNode(const string& node, unique_ptr<T>& object)
 {
 	try {
 		T* new_object = MagTranslator<string, T>()(node);
@@ -63,7 +63,7 @@ bool acceptNode(const string& node, auto_ptr<T>& object)
 }
 
 template <class T>
-void setMember(const vector<string>& roots, const string& name, auto_ptr<T>& object, const map<string, string>& params)
+void setMember(const vector<string>& roots, const string& name, unique_ptr<T>& object, const map<string, string>& params)
 {	
 	vector<string> keys;
 	buildkeys(roots, name, keys);
@@ -79,7 +79,7 @@ void setMember(const vector<string>& roots, const string& name, auto_ptr<T>& obj
                 object->set(params);
                 return;
             }
-			object = auto_ptr<T>(new_object);
+			object = unique_ptr<T>(new_object);
 			MagLog::debug() << "Parameter [" << name << "] set to " << val->second << endl;
 		}
 		catch (...) {

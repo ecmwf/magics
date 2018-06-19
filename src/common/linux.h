@@ -62,8 +62,8 @@ using namespace std;
 #define linux
 #endif
 
-//typedef int   fortint;
-//typedef float fortfloat;
+//typedef int   int;
+//typedef float double;
 
 #ifndef __USE_LARGEFILE64
 #define off64_t     off_t

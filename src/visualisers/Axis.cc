@@ -377,7 +377,7 @@ void VerticalAxis::label(VerticalAxisVisitor& axis)
 			double newpos = axis.offsetTickLabel(height, p->second);
 			positions[(*y)->level()] = newpos;
 
-			title_position_ = axis.offsetTickLabel(height * label.size()/2, p->second);;
+			title_position_ = axis.offsetTickLabel(height * label.size(), p->second);;
 		}
         PaperPoint point(pos, transformation.y((*y)->position()));
 
@@ -593,7 +593,6 @@ void HorizontalAxis::grid(DrawingVisitor& out) const
 			grid->setLineStyle(grid_style_);
 			grid->setThickness(grid_thickness_);
 		}
-
 		out.push_back(grid);
     }
 }

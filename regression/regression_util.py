@@ -73,6 +73,7 @@ def upload(filename,destination):
     #upload using build scp destination path
     destination = "deploy@download-int.ecmwf.int:/download/data/test-data/%s"%destination
     command= ' '.join(["scp","-r",filename, destination])
+    print command
     e= call(command,shell=True)
     if not e==0:
         sys.stderr.write("ERROR uploading the file '%s' into '%s'"%(filename,destination))

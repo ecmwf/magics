@@ -497,6 +497,7 @@ public:
 	magics::ListPolicy operator()(const string& s)
 	{
  		string val = lowerCase(s);
+ 		
 		// enum	ListPolicy { M_LASTONE , M_CYCLE }; };
 		if (val  == "lastone") return M_LASTONE;
 		if (val  == "cycle") return M_CYCLE;

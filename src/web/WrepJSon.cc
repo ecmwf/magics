@@ -31,6 +31,7 @@ WrepJSon::WrepJSon()  : missing_(-9999),
 {
 	methods_["date"] = &WrepJSon::date;
 	methods_["time"] = &WrepJSon::time;
+
     methods_["expver"] = &WrepJSon::expver;
 	methods_["eps_height"] = &WrepJSon::epsz;
 	methods_["ens_height"] = &WrepJSon::epsz;
@@ -55,14 +56,29 @@ WrepJSon::WrepJSon()  : missing_(-9999),
 	methods_["y_values"] = &WrepJSon::y_values;
 	methods_["y_date_values"] = &WrepJSon::y_date_values;
 	methods_["values"] = &WrepJSon::values;
+	
+	methods_["cape0"] = &WrepJSon::cape0;
+	methods_["cape1"] = &WrepJSon::cape1;
+	methods_["cape2"] = &WrepJSon::cape2;
+	methods_["cape3"] = &WrepJSon::cape3;
+	methods_["dimension"] =  &WrepJSon::ignore;
+
+
 
 	decoders_["eps"] = &WrepJSon::eps;
 	decoders_["clim"] = &WrepJSon::eps;
+
 	decoders_["profile"] = &WrepJSon::profile;
+	decoders_["tephigram"] = &WrepJSon::tephigram;
+	decoders_["hodograph"] = &WrepJSon::hodograph;
+	decoders_["cape"] = &WrepJSon::cape;
+
 	decoders_["efi"] = &WrepJSon::efi;
 	decoders_["cdf"] = &WrepJSon::cdf;
 	decoders_["basic"] = &WrepJSon::basic;
 	decoders_["data"] = &WrepJSon::data;
+
+
 	
 	
 	
@@ -167,13 +183,14 @@ WrepJSon::WrepJSon()  : missing_(-9999),
         specials['\375'] = "&yacute;"; 
         specials['\376'] = "&thorn;"; 
       }
-
+      tephikey_ = "x";
 }
 
 WrepJSon::~WrepJSon()
 {
 	
 }
+
 void WrepJSon::visit(Transformation& transformation)
 {
 
@@ -483,6 +500,465 @@ void WrepJSon::eps()
 	}
 	
 }
+
+
+CustomisedPoint* point_cape(const string& name,  InputWrep& input, double& maxy)
+{
+	CustomisedPoint* point = new CustomisedPoint();
+	point->identifier(name);
+
+	
+	
+	double max = input.info_["max"];
+	
+	if ( maxy < max ) maxy = max;
+
+	for (auto info = input.info_.begin(); info != input.info_.end(); ++info )
+		(*point)[info->first] = info->second;
+	
+	
+
+	if ( input.values_["hres_sfc"].size() )
+		(*point)["hres"] = input.values_["hres_sfc"][0];
+	for ( int i = 0; i < input.values_["ens_sfc"].size(); i++) {
+		double val = input.values_["ens_sfc"][i];
+		(*point)["value_"+tostring(i)] = val;
+		
+		if ( maxy < val ) maxy = val;
+	}
+
+	(*point)["size"] = input.values_["ens_sfc"].size();
+
+
+	
+	return point;
+}
+
+inline double mag10ceil(double x)
+{
+ 	int i = std::log10(x)-1;
+    int p = std::pow(10, i);
+    return (int(x)/p)*p + (p) ; 
+	
+}
+void WrepJSon::cape()
+{
+	if ( !points_.empty()) return;
+	
+	methods_[keyword_] = &WrepJSon::dig;
+	methods_["hres_sfc"] = &WrepJSon::dig;
+
+	file_ = path_;
+	scaling_factor_ = param_scaling_factor_;
+    offset_factor_ = param_offset_factor_;   
+	basic();
+
+	miny_ = maxy_ = 0;
+
+	
+	for (auto cape = capes_.begin(); cape != capes_.end(); ++cape ) 
+		points_.push_back(point_cape(cape->first, cape->second, maxy_));
+	
+
+
+	vector<double> levels= {200, 500, 1000, 2000, 5000};
+
+	for ( auto max = levels.begin(); max != levels.end(); ++max)
+		if ( maxy_ < *max ) {
+			maxy_ = *max+10;
+			break;
+		}
+
+	
+	
+
+}
+
+double value(double pres)
+{
+	vector<double> levels = {700., 500., 300., 200., 100.};
+	double i = 1;
+	for ( auto level = levels.begin(); level != levels.end(); ++level) {
+		if ( pres >= *level ) {
+			
+			return i;
+		}
+		i++;
+	}
+	return 5;
+}
+
+
+void WrepJSon::hodograph()
+{
+	if ( !points_.empty()) return;
+	methods_["pres"] = &WrepJSon::levels;
+	methods_["u"] = &WrepJSon::hodo_u;
+	methods_["v"] = &WrepJSon::hodo_v;
+	methods_[keyword_] = &WrepJSon::dig;
+
+	scaling_factor_ = param_scaling_factor_;
+    offset_factor_ = param_offset_factor_;
+    file_ = path_;
+    current_ = &values_;
+
+	basic();
+
+	if ( values_.levels_.empty() ) {
+    	 MagLog::error() << "Could not find data for parameter: " << param_ << endl;
+    	 abort();
+    }
+ 
+ 	unsigned int ens1 = (hodograph_member_ < 0 ) ? 0 :  hodograph_member_; values_.ensembleValues_["u"].size();
+ 	unsigned int ens2 = (hodograph_member_ < 0 ) ? values_.ensembleValues_["u"].size() :  hodograph_member_ + 1;
+ 	double max = 0;
+
+
+		
+	double last = 1;
+	
+	map<double, vector<CustomisedPoint*>> sort;
+
+	for (unsigned int ens = ens1; ens < ens2; ens++) {
+
+			last = value(values_.levels_[0]);
+			sort.insert(make_pair(last, vector<CustomisedPoint*>()));
+			CustomisedPoint* lastpoint = 0;
+			for (unsigned int pl = 0; pl < values_.levels_.size(); pl++) {
+
+				double range =  value(values_.levels_[pl]);
+				if ( range != last ) {
+					
+					CustomisedPoint* point = new CustomisedPoint();
+
+					(*point)["x"]    	=  values_.ensembleValues_["u"][ens][pl];
+					point->longitude(values_.ensembleValues_["u"][ens][pl]);
+					point->latitude(values_.ensembleValues_["v"][ens][pl]);
+				
+					(*point)["value"]   =  last;
+					(*point)["y"]       =  values_.ensembleValues_["v"][ens][pl];
+					(*point)["missing"] = missing_;
+					(*point)["pressure"]   =  values_.levels_[pl];
+					
+					
+
+					if ( !hodograph_tephi_) {
+						sort[last].push_back(point);
+						CustomisedPoint* missing = new CustomisedPoint();
+						(*missing)["x"]    	= 0;
+						(*missing)["value"]   =   missing_;
+						(*missing)["y"]       =  0;
+						(*missing)["missing"] = missing_;
+						missing->missing(true);
+						sort[last].push_back(missing);
+						sort.insert(make_pair(range, vector<CustomisedPoint*>()));
+					}
+					
+//
+				}
+				CustomisedPoint* point = new CustomisedPoint();
+
+				(*point)["x"]    	=  values_.ensembleValues_["u"][ens][pl];
+				point->longitude(values_.ensembleValues_["u"][ens][pl]);
+				point->latitude(values_.ensembleValues_["v"][ens][pl]);
+				(*point)["pressure"]   =  values_.levels_[pl];
+				(*point)["value"]   =  value(values_.levels_[pl]);
+				(*point)["y"]       =  values_.ensembleValues_["v"][ens][pl];
+				(*point)["missing"] = missing_;
+				point->base(base_);
+				if ( !hodograph_tephi_)
+					sort[range].push_back(point);
+					
+		      	
+		      	if ( hodograph_tephi_ ) {
+						(*point)["x_component"]       =  values_.ensembleValues_["u"][ens][pl];
+						(*point)["y_component"]       =  values_.ensembleValues_["v"][ens][pl];
+						point->longitude(1025.);
+						point->latitude(values_.levels_[pl]);
+						points_.push_back(point);
+					}
+
+
+		      	if ( abs((*point)["x"]) > max ) max = abs((*point)["x"]);
+				if ( abs((*point)["y"]) > max ) max = abs((*point)["y"]);
+				
+			
+				last = range;
+				
+			}
+			CustomisedPoint* missing = new CustomisedPoint();
+					(*missing)["x"]    	= 0;
+					(*missing)["value"]   =   missing_;
+					(*missing)["y"]       =  0;
+					(*missing)["missing"] = missing_;
+					missing->missing(true);
+					if ( !hodograph_tephi_)
+						sort[last].push_back(missing);
+		
+
+
+		
+	}
+
+
+	
+
+	
+	int sup = ( ( int(max)/5 ) + 1 ) * 5;
+	
+	
+
+	minx_ = -sup;
+	miny_ = -sup;
+
+	maxx_ = sup;
+	maxy_ = sup;
+
+
+	if ( hodograph_grid_ ) {
+		
+	// now we add the grid :
+	
+	
+		for (int i = 0; i <= sup + 20; i += 5) {
+	   		for (float a = 0; a < 6.28; a +=0.01) {
+	   			CustomisedPoint* point = new CustomisedPoint();
+				point->longitude(cos(a)*i);
+				point->latitude(sin(a)*i);
+				if ( i == 20 || i == 50 || i == 100 ) 
+					(*point)["value"]   =  -10;
+				else
+					(*point)["value"]   =  -5;
+				if ( (abs(a - (6.28/4))) < 0.05 ) {
+					(*point)["grid"]   =  i;
+					
+				}
+
+				point->base(base_);
+				points_.push_back(point);
+			}
+			CustomisedPoint* missing = new CustomisedPoint();
+			(*missing)["x"]    	= 0;
+			(*missing)["value"]   =   missing_;
+			(*missing)["y"]       =  0;
+			(*missing)["missing"] = missing_;
+			missing->missing(true);
+			points_.push_back(missing);
+		}   
+	}  
+
+	for ( auto s = sort.begin(); s != sort.end(); ++s) { 
+			
+		for ( auto p = s->second.begin(); p != s->second.end(); ++p )	{
+			points_.push_back(*p);  
+			//cout << **p << endl;
+		}
+	}
+ 
+}
+
+
+
+
+void WrepJSon::tephigram()
+{
+	if ( !points_.empty()) return;
+
+
+	methods_[param_] = profile_quantile_.empty() ? &WrepJSon::param : &WrepJSon::parameter;
+	methods_["pres"] = &WrepJSon::levels;
+	methods_[keyword_] = &WrepJSon::dig;
+	methods_["step"] = &WrepJSon::step;
+
+	if ( param_ == "wind" ) {
+		methods_["u"] =  &WrepJSon::param;
+		methods_["v"] =  &WrepJSon::param;
+		tephikey_ = "wind";
+	}
+	
+
+    scaling_factor_ = param_scaling_factor_;
+    offset_factor_ = param_offset_factor_;
+    file_ = path_;
+    current_ = &values_;
+
+    basic();
+
+    if ( values_.levels_.empty() ) {
+    	 MagLog::error() << "Could not find data for parameter: " << param_ << endl;
+    	 abort();
+    }
+    miny_ = values_.levels_.front();
+    maxy_ = values_.levels_.back();
+
+    MagLog::dev() << "minx= " <<  minx_ << "->maxx= " << maxx_ << endl;
+    map<string, vector<double> >::iterator intensity = values_.values_.find("u");
+    map<string, vector<double> >::iterator direction = values_.values_.find("v");
+    map<string, vector<double> >::iterator val = values_.values_.find("x");
+    vector<double> minmax;
+
+    if  ( profile_quantile_.empty() ) {
+		for (unsigned int i = 0; i < values_.levels_.size(); i++) {
+
+			double value = (val ==  (values_.values_.end() ) ) ? 0 : val->second[i];
+			double speed = (intensity ==  (values_.values_.end() ) ) ? 0 : intensity->second[i];
+			double dir = (direction ==  (values_.values_.end() ) ) ? 0 : direction->second[i];
+			CustomisedPoint* point = new CustomisedPoint();
+			point->longitude( (param_ == "wind" ) ? 1025 : value);
+			point->latitude(values_.levels_[i]);
+			(*point)["step"]    =value;
+			(*point)["x"]    = ( param_ == "wind" ) ? 1025 : value;
+			(*point)["y"]    = values_.levels_[i];
+			(*point)["shift"] = 0;
+			(*point)["width"]    = 1 ;
+			(*point)["x_component"]    = speed;
+			(*point)["y_component"]    = dir;
+			(*point)["missing"]    = missing_;
+	        (*point)["latitude"]    = latitude_;
+	        (*point)["longitude"]    = longitude_;
+
+			point->base(base_);
+			map<string, vector<double>  >& values = values_.values_;
+
+
+			for ( map<string, vector<double>  >::iterator val = values.begin(); val != values.end(); ++val ) {
+				if ( val->first=="hres" ) {
+					double value =  (val->second)[i] == missing_ ? missing_ : correctDetz((val->second)[i]);
+					(*point)[val->first] = value;
+					if (value != missing_)
+						minmax.push_back(value);
+				}
+				else {
+					double value = (val->second)[i] == missing_ ? missing_ : correctEpsz((val->second)[i]);
+					(*point)[val->first] = value;
+					if (value != missing_)
+						minmax.push_back(value);
+				}
+			}
+			// Test for thermo
+			if ( (*point)["y"] > 100. )
+				points_.push_back(point);
+		}
+	}
+	else if  ( profile_quantile_ == "median" || profile_quantile_ == "control" ) {
+		map<string, vector<double> >::iterator val = values_.values_.find( profile_quantile_);
+
+		for (unsigned int i = 0; i < values_.levels_.size(); i++) {
+
+			double value = val->second[i];
+			
+			CustomisedPoint* point = new CustomisedPoint();
+			point->longitude(value);
+			point->latitude(value);
+			(*point)["step"]    =value;
+			(*point)["x"]    = value;
+			(*point)["value"]    = value;
+			(*point)["y"]    = values_.levels_[i];
+			(*point)["shift"] = 0;
+			(*point)["width"]    = 1 ;
+			(*point)["missing"]    = missing_;
+	      
+			point->base(base_);
+			points_.push_back(point);
+			if (value != missing_)
+						minmax.push_back(value);
+		}
+		
+	}
+	
+	else  {
+		string key = (profile_quantile_ == "lower") ? "min" : "twenty_five"; 
+		
+		map<string, vector<double> >::iterator min = values_.values_.find( profile_quantile_ == "lower" ? "min" : "twenty_five");
+		map<string, vector<double> >::iterator max = values_.values_.find( profile_quantile_ == "lower" ? "max" : "seventy_five");
+
+		for (unsigned int i = 0; i < values_.levels_.size(); i++) {
+
+			double value = min->second[i];
+			
+			CustomisedPoint* point = new CustomisedPoint();
+			point->longitude(value);
+			point->latitude(value);
+			(*point)["step"]    =value;
+			(*point)["x"]    = value;
+			(*point)["value"]    = value;
+			(*point)["y"]    = values_.levels_[i];
+			(*point)["shift"] = 0;
+			(*point)["width"]    = 1 ;
+			(*point)["missing"]    = missing_;
+	      
+			point->base(base_);
+			points_.push_back(point);
+		}
+		
+	
+		for (int i = values_.levels_.size()-1; i >= 0; i--) {
+			
+			double value = max->second[i];	
+			
+			CustomisedPoint* point = new CustomisedPoint();
+			point->longitude(value);
+			point->latitude(value);
+			(*point)["step"]    =value;
+			(*point)["x"]    = value;
+			(*point)["value"]    = value;
+			(*point)["y"]    = values_.levels_[i];
+			(*point)["shift"] = 0;
+			(*point)["width"]    = 1 ;
+			(*point)["missing"]    = missing_;
+	        (*point)["latitude"]    = latitude_;
+	        (*point)["longitude"]    = longitude_;
+
+			point->base(base_);
+			map<string, vector<double>  >& values = values_.values_;
+
+
+			for ( map<string, vector<double>  >::iterator val = values.begin(); val != values.end(); ++val ) {
+				if ( val->first=="hres" ) {
+					double value =  (val->second)[i] == missing_ ? missing_ : correctDetz((val->second)[i]);
+					(*point)[val->first] = value;
+					if (value != missing_)
+						minmax.push_back(value);
+				}
+				else {
+					double value = (val->second)[i] == missing_ ? missing_ : correctEpsz((val->second)[i]);
+					(*point)[val->first] = value;
+					if (value != missing_)
+						minmax.push_back(value);
+				}
+			}
+			// Test for thermo
+			
+			points_.push_back(point);
+		}
+			double value = min->second[0];
+			
+			CustomisedPoint* point = new CustomisedPoint();
+			point->longitude(value);
+			point->latitude(value);
+			(*point)["step"]    =value;
+			(*point)["x"]    = value;
+			(*point)["value"]    = value;
+			(*point)["y"]    = values_.levels_[0];
+			(*point)["shift"] = 0;
+			(*point)["width"]    = 1 ;
+			(*point)["missing"]    = missing_;
+	      
+			point->base(base_);
+			points_.push_back(point);
+
+	}
+
+	
+
+	minx_ = *std::min_element(minmax.begin(), minmax.end());
+    maxx_ = *std::max_element(minmax.begin(), minmax.end());
+
+
+
+}
+
+
 void WrepJSon::profile()
 {
 	if ( !points_.empty()) return;
@@ -565,15 +1041,12 @@ void WrepJSon::profile()
 
 	minx_ = *std::min_element(minmax.begin(), minmax.end());
     maxx_ = *std::max_element(minmax.begin(), minmax.end());
-
-
-
 }
+
 void WrepJSon::customisedPoints(const Transformation& transformation, const std::set<string>& needs, CustomisedPointsList& out)
 {
 
 	decode();
-
 	for (vector<CustomisedPoint*>::const_iterator point = points_.begin(); point != points_.end(); ++point) {
 		// Here we need to check we have date!
 		if ( xdate_ ) {
@@ -622,6 +1095,8 @@ void WrepJSon::basic()
 	        	  Object object = value.get_value< Object >();
 	        		        
 	        	  for (vector<Pair>::const_iterator entry = object.begin(); entry !=  object.end(); ++entry) {
+	        	  	  capekey_ = entry->name_;
+	        	  	  tephikey_ = (tephikey_ == "x") ? "x" : entry->name_;
 	        		  map<string,  Method >::iterator method = methods_.find(entry->name_);
 	        		    	    if ( method != methods_.end() ) {
 	        		    	    	   ( (this->*method->second)(entry->value_) );
@@ -733,6 +1208,15 @@ void WrepJSon::date(const json_spirit::Value& value)
 	date_ =  value.get_value<string>();
 	
 }
+
+void WrepJSon::step(const json_spirit::Value& value)
+{
+
+	ASSERT( value.type() == int_type);
+	MagLog::dev() << "found -> step= " <<  value.get_value<int>() << endl;
+	step_ =  value.get_value<int>();
+	
+}
 void WrepJSon::expver(const json_spirit::Value& value)
 {
     
@@ -763,30 +1247,169 @@ void WrepJSon::valid_time(const json_spirit::Value& value)
 	ASSERT( value.type() == str_type);
 
 	// intrepret datetime ...
+
 	string info = value.get_value<string>();
 	DateTime to(info.substr(0,8), info.substr(8,4));
 	DateTime from = to + (-24*3600L);
 	ostringstream vt;
 	vt << "from " << from.tostring("%A %e %B %Y %H UTC") << " to " << to.tostring("%A %e %B %Y %H UTC") << endl;
 	valid_time_ =  vt.str();
+	
 }
+
+
+void  WrepJSon::cape_dig(const json_spirit::Value& value) {
+	ASSERT( value.type() == obj_type );
+	Object object = value.get_value< Object >();
+ 
+	for (vector<Pair>::const_iterator entry = object.begin(); entry !=  object.end(); ++entry) {
+		if ( entry->name_ == "values" ) { 
+			data( entry->value_.get_value< Array >(), current_->values_[capekey_]);
+			continue;
+		}
+		if ( entry->name_ != "title" )  {
+			current_->info_[entry->name_] = entry->value_.get_value< double >();
+		}
+    }
+   
+}      
+
+void WrepJSon::cape1(const json_spirit::Value& value)
+{
+	
+	auto cape = capes_.find("cape1");
+	if ( cape == capes_.end() ) {
+		capes_.insert(make_pair("cape1", InputWrep()));
+	}
+	capes_["cape1"].info_["step"] = 1;
+	current_ = &(capes_["cape1"]);
+
+	cape_dig(value);
+}
+
+void WrepJSon::cape0(const json_spirit::Value& value)
+{
+	
+	auto cape = capes_.find("cape0");
+	if ( cape == capes_.end() ) {
+		capes_.insert(make_pair("cape0", InputWrep()));
+	}
+	capes_["cape0"].info_["step"] = -1;
+	current_ = &(capes_["cape0"]);
+
+	cape_dig(value);
+}
+
+void WrepJSon::cape2(const json_spirit::Value& value)
+{	
+	auto cape = capes_.find("cape2");
+	if ( cape == capes_.end() ) {
+		capes_.insert(make_pair("cape2", InputWrep()));
+	}
+	capes_["cape2"].info_["step"] = 3;
+	current_ = &(capes_["cape2"]);
+
+	cape_dig(value);
+}
+
+void WrepJSon::cape3(const json_spirit::Value& value)
+{
+	auto cape = capes_.find("cape3");
+	if ( cape == capes_.end() ) {
+		capes_.insert(make_pair("cape3", InputWrep()));
+	}
+	capes_["cape3"].info_["step"] = 5;
+	current_ = &(capes_["cape3"]);
+	cape_dig(value);
+}
+
+
+
+void WrepJSon::data(const json_spirit::Value& value, vector<double>& vals)
+{
+	ASSERT( value.type() == array_type );
+	Array values = value.get_value<Array>();
+	
+				
+	for (unsigned int i = 0; i < values.size(); i++) {
+		double val = values[i].get_value<double>();
+		if ( same(val, 0 ))  {
+            val = 0;
+        }
+		if ( val != missing_ ) {
+			
+			val = (val * scaling_factor_) + offset_factor_;
+			
+		}
+		vals.push_back(val);
+	}
+}
+
+void WrepJSon::param(const json_spirit::Value& value) 
+{
+	current_->values_.insert(make_pair(tephikey_, vector<double>()));
+	data(value, current_->values_[tephikey_]);
+}
+
+void WrepJSon::hodo_u(const json_spirit::Value& value) 
+{
+	ASSERT( value.type() == array_type );
+	Array values = value.get_value<Array>();
+	current_->ensembleValues_.insert(make_pair("u", vector<vector<double>>()));
+	for (unsigned int i = 0; i < values.size(); i++) {
+		current_->ensembleValues_["u"].push_back(vector<double>());
+		data(values[i], current_->ensembleValues_["u"].back());	
+	}
+}
+
+void WrepJSon::hodo_v(const json_spirit::Value& value) 
+{
+	ASSERT( value.type() == array_type );
+	Array values = value.get_value<Array>();
+	current_->ensembleValues_.insert(make_pair("v", vector<vector<double>>()));
+	for (unsigned int i = 0; i < values.size(); i++) {
+		current_->ensembleValues_["v"].push_back(vector<double>());
+		data(values[i], current_->ensembleValues_["v"].back());	
+	}
+	
+}
+
+void WrepJSon::levels(const json_spirit::Value& value){
+	ASSERT( value.type() == array_type );
+	Array values = value.get_value<Array>();
+				
+	for (unsigned int i = 0; i < values.size(); i++) {
+		current_->levels_.push_back( values[i].get_value<double>() );
+	}
+}
+
 void WrepJSon::parameter(const json_spirit::Value& value)
 {
 	ASSERT( value.type() == obj_type );
 	Object param = value.get_value< Object >();
 	        		        
 	for (vector<Pair>::const_iterator info = param.begin(); info !=  param.end(); ++info) {
+				
 				ASSERT (info->value_.type() == array_type);
 	        	Array values = info->value_.get_value<Array>();
 	        	if ( info->name_ == "steps" ) {
 	        		for (unsigned int i = 0; i < values.size(); i++) {
 	        				current_->steps_.push_back( tonumber(values[i].get_value<string>()));
-	        			  
 	        	     }
 	        	}
-	        	else if ( info->name_ == "levels" ) {
+	        	else if ( info->name_ == "levels") {
 	        		for (unsigned int i = 0; i < values.size(); i++) {
 	        				current_->levels_.push_back( tonumber(values[i].get_value<string>()));
+
+	        	     }
+	        	}
+	        	else if ( info->name_ == "dimension") {
+	        		// ignore!
+	        	}
+	        	else if ( info->name_ ==  "pres" ) {
+	        		
+	        		for (unsigned int i = 0; i < values.size(); i++) {
+	        				current_->levels_.push_back( values[i].get_value<double>());
 
 	        	     }
 	        	}
@@ -824,15 +1447,20 @@ void WrepJSon::parameter(const json_spirit::Value& value)
 }
 void WrepJSon::dig(const json_spirit::Value& value)
 {
+	
 	ASSERT( value.type() == obj_type );
 	Object object = value.get_value< Object >();
-	  for (vector<Pair>::const_iterator entry = object.begin(); entry !=  object.end(); ++entry) {
-      		  map<string,  Method >::iterator method = methods_.find(entry->name_);
-      		    	    if ( method != methods_.end() ) {
-      		    	    	   ( (this->*method->second)(entry->value_) );
-      		    	    }  		
-      			    		
-      	  }       		        
+  	
+
+  	for (vector<Pair>::const_iterator entry = object.begin(); entry !=  object.end(); ++entry) {
+  		  map<string,  Method >::iterator method = methods_.find(entry->name_);
+  		  			if ( tephikey_ != "x" )
+  		  				tephikey_ = entry->name_;
+  		    	    if ( method != methods_.end() ) {
+  		    	    	   ( (this->*method->second)(entry->value_) );
+  		    	    }  		
+  			    		
+  	  }       		        
 	
 }
 
@@ -1216,8 +1844,14 @@ void WrepJSon::x_values(const json_spirit::Value& value)
 
 
 }
+
+
+	
+
+
 void WrepJSon::values(const json_spirit::Value& value)
 {
+
 	ASSERT (value.type() == array_type);
 	Array values = value.get_value<Array>();
 	bool newpoint = points_.empty();
@@ -1362,8 +1996,13 @@ void WrepJSon::visit(TextVisitor& text)
 		return;
 	DateTime base(date_, time_);
 
-	if (param_info_ != "none")
+	if (param_info_ != "none") {
 		text.update("json", "date", base.tostring("%A %e %B %Y %H UTC"));
+		if ( step_ ) {
+			DateTime to = base + (step_*3600L);
+			text.update("json", "valid_date", " Valid for " + to.tostring("%A %e %B %Y %H UTC"));
+		}
+	}
 	ostringstream location;
 	UserPoint point(longitude_, latitude_);
 	location << " " << point.asLatitude() << " " << point.asLongitude();
@@ -1371,10 +2010,13 @@ void WrepJSon::visit(TextVisitor& text)
 
 	height << height_ <<  " m";
 	if ( position_info_) {
-	if (height_ != -9999 ) 
+	
+    if (param_info_ != "none") {
+		text.update("json", "location", location.str());
+		text.update("json", "grid_point", (mask_ < 0.5 ) ? " (ENS sea point) " : " (ENS land point) ");
+		if (height_ != -9999 ) 
         text.update("json", "height", height.str());
-	text.update("json", "location", location.str());
-	text.update("json", "grid_point", (mask_ < 0.5 ) ? " (ENS sea point) " : " (ENS land point) ");
+	}
 
 	}
 

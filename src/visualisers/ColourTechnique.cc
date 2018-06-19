@@ -216,9 +216,6 @@ void PaletteColourTechnique::set(LevelSelection& out, LevelSelection& in, Colour
     vector<string> colours_;
     library.find(palette_, colours_);
         
-
-    
-    
     if ( colours_.empty() ) {
         MagLog::warning() << "Could not load palette " << palette_ << ": using a default one " << endl;
         colours_.push_back("blue");
@@ -234,9 +231,12 @@ void PaletteColourTechnique::set(LevelSelection& out, LevelSelection& in, Colour
     for ( int i = 0; i < nb-1; i++) {
         
         if ( colour == colours_.end() ) {
-                if (policy_ == M_LASTONE)
+                if (palette_policy_ == M_LASTONE) {
+                    
                     table.push_back(Colour(colours_.back()));
+                }
                 else {
+                    
                     colour = colours_.begin();
                     table.push_back(Colour(*colour));
                     colour++;

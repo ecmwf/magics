@@ -1,5 +1,5 @@
 <magics>
-<class action="ptephi" inherits="Transformation" directory="common" xmltag="thermo" name="Tephigram">
+<class action="ptephi" inherits="Transformation" directory="common" xmltag="tephigram" name="Tephigram">
 <!--
 (C) Copyright 1996-2016 ECMWF.
 
@@ -34,4 +34,5 @@ does it submit to any jurisdiction.
     		<documentation> Percentage of the width used to display the annotation on the right side . </documentation>
 	</parameter>  
 
-</class></magics>
+</class>
+</magics>

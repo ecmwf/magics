@@ -112,6 +112,7 @@ protected:
 		void efas(DrawingVisitor&);
 		void user(DrawingVisitor&);
 		void ignore(DrawingVisitor&) {}
+
 		
 		void layers(map<string, Action>&, const string&, DrawingVisitor&);
 		map<string, string> coastSet_;
@@ -171,11 +172,10 @@ protected:
 	void landonly(Layout&);
 	void seaonly(Layout&);
 	void nolandsea(Layout&);
-
 	void setLine(Polyline&);
 	void setSeaShading(Polyline&);
 	void setLandShading(Polyline&);
-
+	void release(vector<Polyline*>&);
 	string coast_resolution_;
 
 	vector<Polyline*> coast_;
