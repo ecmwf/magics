@@ -1,9 +1,9 @@
 /*
  * (C) Copyright 1996-2016 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
  */
@@ -34,9 +34,9 @@ static FortranMagics* magics_ = 0;
 /*! \defgroup compatibility Compatibility to MAGICS 6 for deprecated parameters
 
   The CompatibilityHelper allows the handling of deprecated parameters and set the
-  equivalent new parameter are gives info/warning messages. The class is located in 
+  equivalent new parameter are gives info/warning messages. The class is located in
   file src/common/MagicsCalls.cc .
-  
+
   To add a new parameter produce a new class which inherits from CompatibilityHelper.
   The produce a static object of that class: static 'class_name' 'para_name';
 
@@ -44,25 +44,25 @@ static FortranMagics* magics_ = 0;
 
 /*! \brief Ensures backwards compability with Magics 6.x
 
-  This base class checks if parameter are set which are not supported anymore 
+  This base class checks if parameter are set which are not supported anymore
   in Magics++ but need to be supported for backwards compability.
-  
+
 */
-class CompatibilityHelper 
+class CompatibilityHelper
 {
 public :
 	CompatibilityHelper(const string& name) {
 		compatibility_[name] = this;
 	}
 	CompatibilityHelper() {}
-	
+
 	void set(const string& name) {
 		compatibility_[name] = this;
-	} 
+	}
 
 	virtual ~CompatibilityHelper() {}
 	template <class P>
-	static bool check(const string& param, P value) 
+	static bool check(const string& param, P value)
 	{
 		map<string, CompatibilityHelper*>::const_iterator tool = compatibility_.find(lowerCase(param));
 		if ( tool == compatibility_.end() ) return false;
@@ -73,7 +73,7 @@ public :
 		if ( tool != compatibility_.end() )
 			(*(tool->second)).reset();
 	}
-	static bool check(const string& param, const string& value) 
+	static bool check(const string& param, const string& value)
 	{
 		map<string, CompatibilityHelper*>::const_iterator tool = compatibility_.find(lowerCase(param));
 		if ( tool == compatibility_.end() ) return false;
@@ -321,10 +321,8 @@ public :
 	{
 
 		if ( magCompare(res, "high") || magCompare(res, "medium") ) {
-			MagLog::warning() << "Magics is using a new dataset for coastlines naturalearth.\n"
-		            << "             You can experience longer processing time and bigger output files \n"
-					<< "             if you use medium or high on a large area.\n"
-					<< "             if so, you may want to come back to low or automatic resolution.\n";
+			MagLog::info() << "Magics is using the \'"<<res<<"\' dataset for coastlines from Natural Earth.\n"
+			  << "        You can speed up your processing time by setting them to \'low\'.\n";
 		}
 
 
@@ -346,12 +344,12 @@ public :
 		MagLog::info() << "Compatibility issue: ps_file_name is deprecated.\n"
 		            << "               Please use output_name instead."<< std::endl;
 		ParameterManager::set("output_legacy_name", file);
-		ParameterManager::set("output_file_minimal_width", 0);  
+		ParameterManager::set("output_file_minimal_width", 0);
 		return true;
 	}
 };
 
-/*! \brief Gives warning for using ps_device 
+/*! \brief Gives warning for using ps_device
 */
 class PsDevice: public CompatibilityHelper {
 public :
@@ -404,7 +402,7 @@ public :
 	}
 };
 
-/*! 
+/*!
 */
 class GraphType: public CompatibilityHelper {
 public :
@@ -436,7 +434,7 @@ public :
 	bool operator()(int )
 	{
 		MagLog::info() << "Deprecated parameter: output_resolution is not used anymore.\n"
-		            << "        Vector formats already used highes resolution and PNG uses 300 DPI."<< std::endl; 
+		            << "        Vector formats already used highes resolution and PNG uses 300 DPI."<< std::endl;
 		return true;
 	}
 };
@@ -445,21 +443,21 @@ public :
 class GraphValuesConverter : public CompatibilityHelper
 {
 public:
-	GraphValuesConverter(const string& from, const string & to) : 
+	GraphValuesConverter(const string& from, const string & to) :
 		CompatibilityHelper(from), from_(from), to_(to) {}
-	
+
 	bool operator()(const doublearray& values)
 	{
 		MagLog::info() << "Compatibility issue: Parameter " << from_ << " is deprecated.\n"
 		            << "               Please use " << to_ << " instead."<< std::endl;
-		ParameterManager::set(to_, values);  
+		ParameterManager::set(to_, values);
 		return true;
 	}
 	bool operator()(const stringarray& values)
 	{
 		MagLog::info() << "Compatibility issue: Parameter " << from_ << " is deprecated.\n"
 		            << "               Please use " << to_ << " instead."<< std::endl;
-		ParameterManager::set(to_, values);  
+		ParameterManager::set(to_, values);
 		return true;
 	}
 	bool operator()(const string& value)
@@ -489,17 +487,17 @@ class ValuesConverter : public CompatibilityHelper
 public:
 	ValuesConverter(const string& from, const string & to, bool done=true) :
 		CompatibilityHelper(from), from_(from), to_(to), done_(done) {}
-	
+
 	bool operator()(const doublearray& values)
 	{
-		
-		ParameterManager::set(to_, values);  
+
+		ParameterManager::set(to_, values);
 		return done_;;
 	}
 	bool operator()(const stringarray& values)
 	{
-		
-		ParameterManager::set(to_, values);  
+
+		ParameterManager::set(to_, values);
 		return done_;
 	}
 	bool operator()(const string& values)
@@ -569,7 +567,7 @@ public :
 		MagLog::info() << "Compatibility issue: Parameter device_file_name is deprecated.\n"
 		            << "               Please use output_name instead."<< std::endl;
 		ParameterManager::set("output_legacy_name", file);
-		ParameterManager::set("output_file_minimal_width", 0);  
+		ParameterManager::set("output_file_minimal_width", 0);
 		return true;
 	}
 };
@@ -663,9 +661,9 @@ public :
 		               << "               Please use " << to_ << " instead. " << to_ << " has been set to "<<height<< std::endl;
 		ParameterManager::set(to_, height);
 		return true;
-	}	
-	
-protected: 
+	}
+
+protected:
 	string from_;
 	string to_;
 };
@@ -684,15 +682,15 @@ public :
 		}
 		ParameterManager::set(to_, tostring(height));
 		return true;
-	}	
+	}
 	bool operator()(const string& height)
 		{
-			
+
 			ParameterManager::set(to_, height);
 			return true;
-		}	
-	
-protected: 
+		}
+
+protected:
 	string from_;
 	string to_;
 };
@@ -709,7 +707,7 @@ public :
 		MagLog::info() << "Compatibility issue: Parameter gd_file_name is deprecated.\n"
 		            << "              Please use output_name instead."<< std::endl;
 		ParameterManager::set("output_legacy_name", file);
-		ParameterManager::set("output_file_minimal_width", 0); 
+		ParameterManager::set("output_file_minimal_width", 0);
 		return true;
 	}
 };
@@ -732,7 +730,7 @@ public :
 	}
 };
 
-/*! \brief 'device' is not a valid parameter anymore 
+/*! \brief 'device' is not a valid parameter anymore
 
    set device to gd and gf_format
 */
@@ -769,7 +767,7 @@ public :
 			ParameterManager::set("legend", "off");
 			return false;
 		}
-		MagLog::info() << "Compatibility issue: The legend is turned on!\n";	
+		MagLog::info() << "Compatibility issue: The legend is turned on!\n";
 		ParameterManager::set("legend", "on");
 		// Act as a Action routine!...
 		magics_->plegend();
@@ -908,8 +906,8 @@ extern "C" {
 
 void popen_()
 {
-	
-	if (magics_ == 0) 
+
+	if (magics_ == 0)
 		magics_ = new FortranMagics();
 	magics_->popen();
 }
@@ -981,10 +979,10 @@ void pobs_()
 void praw_()
 {
 #ifdef MAGICS_NETPBM
-	MagLog::warning() << "praw->not implemented\n";  
+	MagLog::warning() << "praw->not implemented\n";
 #else
 	MagLog::warning() << "Netpbm NOT supported!" << endl;
-#endif    
+#endif
 }
 
 void pimage_()
@@ -1035,7 +1033,7 @@ int  pclose_()
 
 void pact_(const char*, const char*, const char*, int, int, int)
 {
-	MagLog::dev() << "PACT will NOT be implemented!\n";    
+	MagLog::dev() << "PACT will NOT be implemented!\n";
 }
 
 void presets_() {
@@ -1052,9 +1050,9 @@ void preset_(const char* name, int length)
 
 void psetc_(const char* name, const char* value, int namel, int valuel)
 {
-	try {        
+	try {
 		string val = string(value, valuel);
-		string::size_type index = val.find_last_not_of(" ");    
+		string::size_type index = val.find_last_not_of(" ");
 		val = (index == string::npos) ? "" :  val.substr(0, index+1);
 		if ( CompatibilityHelper::check(string(name, namel), val) ) return;
 		ParameterManager::set(string(name, namel), val);
@@ -1081,7 +1079,7 @@ void pseti_(const char* name, const int* value, int namel)
 void pset1i_(const char* name, const int* data, const int* dim, int length)
 {
 	std::string n(name, length);
-	try {	
+	try {
 		mag_set1i(n.c_str(), data, *dim);
 	}
 	catch (MagicsException& e)
@@ -1092,16 +1090,16 @@ void pset1i_(const char* name, const int* data, const int* dim, int length)
 			fvalue[i] = data[i];
 		mag_set1r(name, fvalue, *dim);
 	}
-	
+
 }
 
 void pset2i_(const char* name, const int* data, const int* dim1, const int* dim2, int length)
 {
 	std::string n(name, length);
-	try {	
-		mag_set2i(n.c_str(), data, *dim1, *dim2);	
+	try {
+		mag_set2i(n.c_str(), data, *dim1, *dim2);
 	}
-	
+
 	catch (MagicsException& e)
 	{
 		int dim = *dim1 * *dim2;
@@ -1110,13 +1108,13 @@ void pset2i_(const char* name, const int* data, const int* dim1, const int* dim2
 			fvalue[i] = data[i];
 		mag_set2r(name, fvalue, *dim1, *dim2);
 	}
-	
+
 }
 
 void pset3i_(const char* name, const int* data, const int* dim, const int* dim2, const int* dim3, int length)
 {
 	std::string n(name, length);
-	mag_set3i(n.c_str(), data, *dim, *dim2, *dim3);	     
+	mag_set3i(n.c_str(), data, *dim, *dim2, *dim3);
 }
 
 void pset1c_(const char* name, const char* value, const int *dim, int namel, int l)
@@ -1125,18 +1123,18 @@ void pset1c_(const char* name, const char* value, const int *dim, int namel, int
     string work(value, (*dim)*l);
     int first =0;
     for ( int i = 0; i < *dim; i++) {
-    	
+
         // remove the  space at the end of the string
         string val = work.substr(first, l);
-        
+
         string::size_type index = val.find_last_not_of(" ");
         if (index == string::npos)
         	 values.push_back("");
-        else 
-        	values.push_back(val.substr(0, index+1));        
+        else
+        	values.push_back(val.substr(0, index+1));
         first += l;
     }
-    
+
     try {
     	string n(name, namel);
     	if ( CompatibilityHelper::check(n, values) ) return;
@@ -1158,21 +1156,21 @@ void penqi_(const char* name, int* value, int length)
 
 void penqc_(const char* name, char* value, int length, int vlength)
 {
-	
+
 	std::string n(name, length);
-	
+
 	mag_enqc( n.c_str(), value);
-	
-	
-	
+
+
+
 	for (int i = strlen(value); i < vlength; i++)
 		value[i]=' ';
-	
+
 }
 
 void ppie_()
 {
-	MagLog::warning() << "ppie-> is deprecated and will NOT be implemented.\n";   
+	MagLog::warning() << "ppie-> is deprecated and will NOT be implemented.\n";
 }
 
 
@@ -1203,7 +1201,7 @@ void ptable_()
 
 void peps_()
 {
-	MagLog::warning() << "peps-->not yet implemented\n";   
+	MagLog::warning() << "peps-->not yet implemented\n";
 }
 
 
@@ -1336,7 +1334,7 @@ void mag_reset(const char* name)
 	catch (MagicsException& e)
 	{
 		MagLog::error() << e << "\n";
-	}	
+	}
 }
 
 void mag_setc(const char* name, const char* value)
@@ -1374,7 +1372,7 @@ void mag_setp(const char* name, void* value)
 #ifdef HAVE_CAIRO
     string n(name);
     if ( magCompare(n, "output_cairo_drawing_context") ) {
-       ParameterManager::set("output_cairo_drawing_context", (CairoPtr)value); 
+       ParameterManager::set("output_cairo_drawing_context", (CairoPtr)value);
     }
 #endif
 }
@@ -1391,7 +1389,7 @@ void mag_set1r(const char* name, const double *data, const int dim1)
 {
 	std::string n(name);
 	floatarray values;
-	for ( int i = 0; i < dim1; i++) values.push_back(data[i]);        
+	for ( int i = 0; i < dim1; i++) values.push_back(data[i]);
 
 	try {
 		if ( CompatibilityHelper::check(n, values) ) return;
@@ -1433,7 +1431,7 @@ void mag_set1i(const char* name, const int *data, const int dim1)
 {
 	std::string param(name);
 	intarray values;
-	for ( int i = 0; i < dim1; i++) values.push_back(data[i]);        
+	for ( int i = 0; i < dim1; i++) values.push_back(data[i]);
 
 	try {
 		if ( CompatibilityHelper::check(param, values) ) return;
@@ -1472,7 +1470,7 @@ void mag_set1c(const char* name, const char** data, const int dim)
 {
 	string param(name);
 
-//	MagLog::dev() << "entry in the new mag_set1c\n";    
+//	MagLog::dev() << "entry in the new mag_set1c\n";
 //	MagLog::dev() << "\tmag_set1c("  << dim << " entries);\n";
 	stringarray values;
 
@@ -1484,9 +1482,9 @@ void mag_set1c(const char* name, const char** data, const int dim)
 		string::size_type index1 = work.find_first_not_of(" ");
 		string::size_type index2 = work.find_last_not_of(" ");
 		string val =  (index1 == string::npos || index2 == string::npos) ? "" : work.substr(index1, index2+1);
-		values.push_back(val);        
+		values.push_back(val);
 	}
-    
+
 	try {
 		if ( CompatibilityHelper::check(param, values) ) return;
 		ParameterManager::set(param, values);
@@ -1506,10 +1504,10 @@ void mag_enqr(const char* fname, double *value)
 	special.push_back("subpage_y_position");
 	special.push_back("subpage_x_length");
 	special.push_back("subpage_y_length");
-	// parameters needs magics to get reday! 
+	// parameters needs magics to get reday!
 
 	string projection;
-	 
+
 	ParameterManager::get("subpage_map_projection", projection);
 
 	for (vector<string>::iterator param = special.begin(); param != special.end(); ++param) {
@@ -1518,7 +1516,7 @@ void mag_enqr(const char* fname, double *value)
 			ParameterManager::get(name,val);
 			if ( !magCompare(projection, "cartesian")  )  {
 				magics_->prepare();
-		 		name  = name + "_internal";	
+		 		name  = name + "_internal";
 			}
 		}
 	}
@@ -1584,7 +1582,7 @@ class AxisConverter : public CompatibilityHelper
 public:
 	AxisConverter(const string& from, const string& horiz, const string& vert) :
 		CompatibilityHelper(from), from_(from), vertical_(vert), horizontal_(horiz) {}
-	
+
 	bool operator()(double val)
 	{
 		ParameterManager::set(from_, val);

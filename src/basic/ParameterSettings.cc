@@ -51,7 +51,7 @@ void setAttribute(const vector<string>& roots, const string& name, string& param
 	}
 }
 
-void setAttribute(const vector<string>& roots, const string& name, auto_ptr<Colour>& param, const map<string, string>& params)
+void setAttribute(const vector<string>& roots, const string& name, unique_ptr<Colour>& param, const map<string, string>& params)
 {
 	vector<string> keys;	
 	buildkeys(roots, name, keys);
@@ -62,7 +62,7 @@ void setAttribute(const vector<string>& roots, const string& name, auto_ptr<Colo
 		val = params.find(*key);
 		if ( val == params.end() ) continue;
 		MagLog::debug() << "Parameter [" << name << "] set to " << val->second << endl;
-		param = auto_ptr<Colour>(new Colour(val->second));
+		param = unique_ptr<Colour>(new Colour(val->second));
 	}
 }
 

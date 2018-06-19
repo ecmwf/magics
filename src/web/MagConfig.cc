@@ -114,11 +114,24 @@ void Style::criteria(const json_spirit::Value& value)
 }
 void Style::style(const json_spirit::Value& value) 
 {
+	style_ = value.get_str();
+}
+void Style::name(const json_spirit::Value& value) 
+{
+	name_ = value.get_str();
+}
+void Style::styles(const json_spirit::Value&) 
+{
+	
+}
+void Style::scaling(const json_spirit::Value& value) 
+{
 	json_spirit::Object object =value.get_value< json_spirit::Object >();
 	for (vector<json_spirit::Pair>::const_iterator entry = object.begin(); entry !=  object.end(); ++entry) {
-		style_.insert(make_pair(entry->name_, MagConfig::convert(entry->value_)));
+		scaling_.insert(make_pair(entry->name_, MagConfig::convert(entry->value_)));
 	}
 }
+
 void Style::more(const json_spirit::Value& value) 
 {
 	Array values = value.get_value<Array>();
@@ -138,6 +151,9 @@ void Style::set(const json_spirit::Object& object)
 		methods_["criteria"] =  &Style::criteria;
 		methods_["criterias"] =  &Style::criteria;
 		methods_["style"] =  &Style::style;
+		methods_["scaling"] =  &Style::scaling;
+		methods_["styles"] =  &Style::styles;
+		methods_["_name"] =  &Style::name;
 		methods_["visdef"] =  &Style::style;
 		methods_["more"] =  &Style::more;
 	}
@@ -171,14 +187,17 @@ void StyleLibrary::init()
 	string library = getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_ + "/styles/" + theme_ + "/" + family_ +".json";
 	MagLog::debug() << "Opening " << library << endl;
 	MagConfigHandler(library,  *this);
+	allStyles_.init("styles/styles.json");
 }
 
 void PaletteLibrary::init()
 {
-	string library = getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_  + "/styles/" + "palettes.json";
+	string library = getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_  + "/styles/palettes.json";
 	
 	MagConfigHandler(library,  *this);
 }
+
+
 void Palette::values(const json_spirit::Value& value) 
 {
 	Array values = value.get_value<Array>();
@@ -186,9 +205,6 @@ void Palette::values(const json_spirit::Value& value)
 
 	for (unsigned int i = 0; i < values.size(); i++) {
 		colours_.push_back(MagConfig::convert(values[i]));	
-		
-
-
 	}
 }
 
@@ -226,14 +242,15 @@ void PaletteLibrary::callback(const string& name, const json_spirit::Value& valu
 
 
 
-bool Style::find(const Definition& data, Definition& visdef)
+bool Style::findStyle(const Definition& data, string& visdef)
 {
 	for (Definition::const_iterator value = data.begin(); value != data.end(); ++value) {
  		Definition::iterator criteria = criteria_.find(value->first);
 		if ( criteria != criteria_.end() && criteria->second == value->second ) {
-			visdef = style_;
+			MagLog::dev() << "FOUND STYLE " << style_ << endl;
+			visdef =  style_;
 			for ( vector<Style>::iterator other = more_.begin(); other != more_.end(); ++other) 
-				if ( other->find(data, visdef) )
+				if ( other->findStyle(data, visdef) )
 					return true;
 			return true;
 		}
@@ -242,10 +259,37 @@ bool Style::find(const Definition& data, Definition& visdef)
 
 }
 
-bool StyleLibrary::find(const Style::Definition& data, Style::Definition& visdef)
+bool Style::findScaling(const Definition& data, Definition& scaling)
+{
+	for (Definition::const_iterator value = data.begin(); value != data.end(); ++value) {
+ 		Definition::iterator criteria = criteria_.find(value->first);
+		if ( criteria != criteria_.end() && criteria->second == value->second ) {
+			scaling = scaling_;
+			for ( vector<Style>::iterator other = more_.begin(); other != more_.end(); ++other) 
+				if ( other->findScaling(data, scaling) )
+					return true;
+			return true;
+		}
+	}
+	return false;
+
+}
+
+bool StyleLibrary::findStyle(const Style::Definition& data, Style::Definition& visdef)
+{
+	string name;
+	for (vector<Style>::iterator style = library_.begin(); style != library_.end(); ++style)
+		if ( style->findStyle(data, name) ) {
+			allStyles_.find(name, visdef);
+			return true;
+		}
+	return false;
+
+}
+bool StyleLibrary::findScaling(const Style::Definition& data, Style::Definition& scaling)
 {
 	for (vector<Style>::iterator style = library_.begin(); style != library_.end(); ++style)
-		if ( style->find(data, visdef) ) {
+		if ( style->findScaling(data, scaling) ) {
 			return true;
 		}
 	return false;
@@ -277,4 +321,34 @@ void NetcdfGuess::callback(const string& name, const json_spirit::Value& value)
 	}
     	
 }
+void MagDefLibrary::init(const string& name)
+{
+	string library = getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_   + "/" + name;
+	MagLog::dev() << "opening -->" << library << endl;
+	MagConfigHandler(library,  *this);
+}
+void MagDef::values(const json_spirit::Value& value) 
+{
+	json_spirit::Object object =value.get_value< json_spirit::Object >();
 
+}
+
+void MagDef::set(const json_spirit::Object& object)
+{
+	for (vector<json_spirit::Pair>::const_iterator entry = object.begin(); entry !=  object.end(); ++entry) {
+		
+		def_.insert(make_pair(entry->name_, MagConfig::convert(entry->value_)));
+	}
+}
+
+void MagDefLibrary::callback(const string& name, const json_spirit::Value& value)
+{
+		
+	MagDef def;
+	def.name_ = name;
+	json_spirit::Object object = value.get_value< json_spirit::Object >();
+	def.set(object);
+	
+    library_.insert(make_pair(name, def));
+    	
+}

@@ -76,7 +76,7 @@ void FortranRootSceneNode::setPage(RootScenePage* node)
 	// current_ is a copy of the basic SceneNode with exactly the same dimensions as the Root!  
 	current_->parent(this); 
 
-	current_->layout().frame(false, frame_, *colour_, style_, thickness_);
+	current_->layout().frame(false, frame_, *colour_, style_, thickness_, Colour("white"));
 	current_->layout().resolve(false);
 	items_.push_back(current_);
 }
@@ -391,7 +391,7 @@ BasicSceneNode* RootSceneNode::clone()
 BasicSceneNode* FortranRootSceneNode::clone() 
 { 
 	current_->newNode(0);
-	current_->layout().frame(false, frame_, *colour_, style_, thickness_);
+	current_->layout().frame(false, frame_, *colour_, style_, thickness_, Colour("white"));
 	current_->layout().frameIt();
 	current_->layout().resolve(false);
 	return current_;

@@ -67,6 +67,9 @@ void EpsBufr::decode()
      while (obs)
      {
              //MagLog::dev()<< "obs---------------------------------------------------------------------------" << endl;		
+        // Bufr message needs to be expanded
+        obs.expand();
+
      		MvLocation loc = obs.location();
 //      	  int subsets = obs.msgSubsetCount();
 
@@ -121,6 +124,9 @@ void EpsBufr::decode()
      while (obs2)
          {
                  //MagLog::dev()<< "obs---------------------------------------------------------------------------" << endl;		
+            // Bufr message needs to be expanded
+            obs2.expand();
+
          	MvLocation loc = obs2.location();
     //        int subsets = obs.msgSubsetCount();
 

@@ -9,4 +9,4 @@ does it submit to any jurisdiction.
 -->
 
 <magics>
-<class inherits="Proj4Projection" directory="common" prefix="subpage" include="Proj4Projection.h" name="Proj4Collignon"/></magics>
+<class inherits="Proj4Projection" top="Transformation" directory="common" prefix="subpage" include="Proj4Projection.h" name="Proj4Collignon"/></magics>

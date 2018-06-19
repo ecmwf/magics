@@ -60,6 +60,11 @@
 #include <GraphPlottingWrapper.h>
 #include <WindWrapper.h>
 
+#include <SkewtGrid.h>
+#include <SkewtGridWrapper.h>
+#include <EmagramGrid.h>
+#include <EmagramGridWrapper.h>
+
 #include <UserPoint.h>
 #include "MagicsEvent.h"
 #include "MagJSon.h"
@@ -102,6 +107,14 @@ void replace_string(magics::MagRequest& request, const string& name, const strin
 	if (val == from)
 		request(name) = to;
 
+}
+
+void replace_default(magics::MagRequest& request, const string& name, const string& to)
+{
+	if (request.countValues(name) == 0 ) {
+		request(name) = to;
+		return;
+	}
 }
 
 void copy_string(magics::MagRequest& request, const string& from, const string& to)
@@ -220,6 +233,8 @@ MagPlus::MagPlus() : root_(0), superpage_(-1), geographical_(true), mode_(intera
         sceneCreators_["TABLE_GEO_BINNING"] = &MagPlus::table;
         sceneCreators_["cartesian"] = &MagPlus::cartesianGrid;
         sceneCreators_["tephigram"] = &MagPlus::tephiGrid;
+        sceneCreators_["skewt"] = &MagPlus::skewtGrid;
+        sceneCreators_["emagram"] = &MagPlus::emagramGrid;
         sceneCreators_["taylor"] = &MagPlus::taylorGrid;
 #ifdef HAVE_ODB
 	sceneCreators_["ODB_GEO_POINTS"] = &MagPlus::geoodb;
@@ -508,9 +523,8 @@ bool MagPlus::page(magics::MagRequest& in)
 
 bool MagPlus::cartesian(magics::MagRequest& in) {
 
-	string projection = get(in, "MAP_PROJECTION", "cartesian");
- 	in("SUBPAGE_MAP_PROJECTION") = projection;
-
+    string projection = get(in, "MAP_PROJECTION", "cartesian");
+    in("SUBPAGE_MAP_PROJECTION") = projection;
 
 	if ( !page_ ) page_ = new FortranViewNodeWrapper();
 	page_->set(in);
@@ -543,7 +557,7 @@ bool MagPlus::cartesian(magics::MagRequest& in) {
 	in.print();
 			
 
-	map<string,  ObjectCreator >::iterator creator = sceneCreators_.find(projection);
+    map<string,  ObjectCreator >::iterator creator = sceneCreators_.find(projection);
     if ( creator != sceneCreators_.end() ) {
 
     	  (this->*creator->second)(in) ;
@@ -601,7 +615,7 @@ bool MagPlus::cartesianGrid(magics::MagRequest& in) {
 		haxis->icon("Horizontal Axis", "MAXIS");
 		haxis->label_type_ = xtype;
 
-		haxis->method_ = auto_ptr<AxisMethod>(MagTranslator<string, AxisMethod>()(in("X_AXIS_TYPE")));
+		haxis->method_ = unique_ptr<AxisMethod>(MagTranslator<string, AxisMethod>()(in("X_AXIS_TYPE")));
 		top()->push_back(haxis);
 	}
 
@@ -637,7 +651,7 @@ bool MagPlus::cartesianGrid(magics::MagRequest& in) {
 		VerticalAxis* vaxis = new VerticalAxis();
 		vaxis->icon("Vertical Axis", "MAXIS");
 		vaxis->label_type_ = ytype;
-		vaxis->method_ = auto_ptr<AxisMethod>(MagTranslator<string, AxisMethod>()(in("Y_AXIS_TYPE")));
+		vaxis->method_ = unique_ptr<AxisMethod>(MagTranslator<string, AxisMethod>()(in("Y_AXIS_TYPE")));
 		top()->push_back(vaxis);
 
 	}
@@ -667,6 +681,56 @@ bool MagPlus::tephiGrid(magics::MagRequest& in)
 	}
 	return true; //< @note return value was missing, what should it return?
 }
+
+bool MagPlus::skewtGrid(magics::MagRequest& in)
+{
+    magics::MagRequest& tephi = in.getSubRequest("THERMO_GRID");
+    if ( tephi ) {
+
+        // use the user defined one
+        tephi.print();
+        SkewtGridWrapper helper;
+        setIconInfo(tephi,*helper.object());
+        helper.set(tephi);
+
+        top()->push_back(helper.object());
+        setIconInfo(in,*helper.object());
+
+    }
+    else {
+        SkewtGrid* grid = new SkewtGrid();
+        grid->icon("SkewT Grid", "MTHERMO_GRID");
+        top()->push_back(grid);
+
+    }
+    return true; //< @note return value was missing, what should it return?
+}
+
+bool MagPlus::emagramGrid(magics::MagRequest& in)
+{
+    magics::MagRequest& tephi = in.getSubRequest("THERMO_GRID");
+    if ( tephi ) {
+
+        // use the user defined one
+        tephi.print();
+        EmagramGridWrapper helper;
+        setIconInfo(tephi,*helper.object());
+        helper.set(tephi);
+
+        top()->push_back(helper.object());
+        setIconInfo(in,*helper.object());
+
+    }
+    else {
+        EmagramGrid* grid = new EmagramGrid();
+        grid->icon("Emagram Grid", "MTHERMO_GRID");
+        top()->push_back(grid);
+
+    }
+    return true; //< @note return value was missing, what should it return?
+}
+
+
 bool MagPlus::taylorGrid(magics::MagRequest& in)
 {
 	magics::MagRequest& taylor = in.getSubRequest("TAYLOR_GRID");
@@ -717,12 +781,13 @@ bool MagPlus::tephigrid(magics::MagRequest& in)
 {
 	MagLog::dev()<< "add Tephi Grid" << endl;
 
-
 	replace_string(in, "_NAME", "", "Thermogrid");
 	replace_string(in, "_CLASS", "", "MTHERMOGRID");
-	TephiGridWrapper helper;
+    TephiGridWrapper helper;
 
-	helper.set(in);
+    //EmagramGridWrapper helper;
+
+    helper.set(in);
 
 	top()->push_back(helper.object());
 	setIconInfo(in,*helper.object());
@@ -1456,7 +1521,7 @@ bool MagPlus::symbol(magics::MagRequest& in)
 
     FortranAutomaticLegendVisitor* node = new FortranAutomaticLegendVisitor();
     		LegendMethod* method = new ContinuousLegendMethod();
-    		node->method_ = auto_ptr<LegendMethod>(method);
+    		node->method_ = unique_ptr<LegendMethod>(method);
     		node->getReady();
     		//top()->legend(node);
 	if ( geographical_ ) {
@@ -1688,6 +1753,9 @@ bool MagPlus::text(magics::MagRequest& in)
 
 	in("TEXT_HTML") = "on";
 
+	replace_default(in, "TEXT_FONT_SIZE", "0.3");
+	replace_default(in, "TEXT_COLOUR", "navy");
+
 	TextVisitor* node;
 	if (magCompare(mode, "positional") )
 		node = new FortranPositionalTextVisitor();
@@ -1711,7 +1779,9 @@ bool MagPlus::legend(magics::MagRequest& in)
 	in.print();
 	MagLog::dev()<< "<--add legend" << endl;
 	string mode = get(in, "LEGEND_BOX_MODE", "automatic");
-
+ 	replace_default(in, "LEGEND_TEXT_COLOUR", "navy");
+	replace_default(in, "LEGEND_DISPLAY_TYPE", "continuous");
+	replace_default(in, "LEGEND_TEXT_FONT_SIZE", "0.2");
 	LegendVisitor* legend;
 	if ( magCompare(mode, "positional") ) {
 		legend = new FortranPositionalLegendVisitor();

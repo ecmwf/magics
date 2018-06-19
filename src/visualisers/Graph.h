@@ -29,7 +29,6 @@
 #include "Factory.h"
 #include "MagTranslator.h"
 #include "DateTime.h"
-#include "GraphAttributes.h"
 
 namespace magics {
 
@@ -46,14 +45,15 @@ struct DateToFloat {
 		 
 };
 
-class Graph :public GraphAttributes {
+class Graph  {
 
 public:
 	Graph() {}
 	virtual ~Graph() {}
     
-    virtual void set(const XmlNode& node ) { GraphAttributes::set(node); }
-	virtual void set(const map<string, string>& map) { GraphAttributes::set(map); }
+    virtual void set(const XmlNode& node ) {  }
+	virtual void set(const map<string, string>& map) {  }
+	virtual bool accept(const std::string&) { return true; }
    
     virtual Graph* clone() const { return new Graph(); }
     virtual void toxml(ostream&)  const {}

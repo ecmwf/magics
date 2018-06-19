@@ -28,6 +28,10 @@ if ( HAVE_BUFR )
 		fdyntime.h  
 		fobject.h   
 		fstatime.h
+		MvBufrEdition.cc
+		MvBufrEdition.h
+		MvBufrElementTable.cc
+		MvBufrElementTable.h
 	)
 endif()
 

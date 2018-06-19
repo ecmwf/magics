@@ -169,7 +169,7 @@ void FortranSceneNode::getReady()
 	layout_->height(height);
 	
     
-	layout_->frame(false, FortranSceneNodeAttributes::frame_,*frame_colour_, frame_line_style_, frame_thickness_);
+	layout_->frame(false, FortranSceneNodeAttributes::frame_,*frame_colour_, frame_line_style_, frame_thickness_, Colour("white"));
   
 	BasicSceneObject::getReady();
 }
@@ -237,7 +237,7 @@ void XmlSceneNode::getReady()
 	
 
 	
-	layout_->frame(false, border_, *border_colour_, border_style_, border_thickness_);
+	layout_->frame(false, border_, *border_colour_, border_style_, border_thickness_, Colour("white"));
 	
 	
 

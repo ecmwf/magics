@@ -60,6 +60,8 @@ DateAxis.h
 DefinitionTable.h
 DefinitionTable.hcc
 DotPolyShadingMethod.h
+EmagramGrid.cc
+EmagramGrid.h
 EpsForecastPlot.h
 EpsGraph.cc
 EpsGraph.h
@@ -163,6 +165,8 @@ SegmentJoiner.h
 SegmentJoiner.cc
 SimplePolylineVisualiser.cc
 SimplePolylineVisualiser.h
+SkewtGrid.cc
+SkewtGrid.h
 Streamlines.h
 Streamlines.cc
 SymbolAdvancedTableMode.cc

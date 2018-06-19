@@ -1347,7 +1347,7 @@ void XmlLegendVisitor::getReady()
 	layout_->frame(XmlBasicNodeAttributes::blanking_, XmlBasicNodeAttributes::border_, 
 			*XmlBasicNodeAttributes::border_colour_, 
 			XmlBasicNodeAttributes::border_style_, 
-			XmlBasicNodeAttributes::border_thickness_);	
+			XmlBasicNodeAttributes::border_thickness_, Colour("white"));	
 	layout_->display( XmlBasicNodeAttributes::display_);
     if (!lines_.empty() && composition_ == "automatic_text_only" )
 	composition_ = "user_text_only";
@@ -1369,7 +1369,7 @@ void FortranPositionalLegendVisitor::getReady()
 	// adjust the font size!...	
 	Dimension text(font_dimension_, box_height_, 10);
 	font_size_ = text.absolute();
-	layout_->Layout::frame(blanking_, border_, *border_colour_, border_line_style_, border_thickness_);
+	layout_->Layout::frame(blanking_, border_, *border_colour_, border_line_style_, border_thickness_, Colour("white"));
 
 }
 
@@ -1391,7 +1391,7 @@ void FortranAutomaticLegendVisitor::getReady()
 	LegendVisitor::getReady();
 	Dimension text(font_dimension_, 1, 10);
 	font_size_ = text.absolute();
-	layout_->Layout::frame(blanking_, border_, *border_colour_, border_line_style_, border_thickness_);
+	layout_->Layout::frame(blanking_, border_, *border_colour_, border_line_style_, border_thickness_, Colour("white"));
 }
 
 void LegendEntry::set(const LegendVisitor& attributes)

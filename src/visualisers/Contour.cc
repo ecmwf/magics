@@ -91,20 +91,22 @@ void Contour::operator()(Data& data, BasicGraphicsObjectContainer& parent)
 		{			
     			data.visit(needAttributes);
     			needAttributes["theme"] = theme_;
-    			library->getAttributes(needAttributes,attributes);
+    			library->getStyle(needAttributes,attributes);
     			if ( !legend_ ) 
     				attributes["legend"] ="off";
     			set(attributes);
     	}
 		else {
+			
 			request["theme"] = theme_;
-			library->getAttributes(request,attributes);
+			library->getStyle(request,attributes);
 			if ( !legend_ ) 
 				attributes["legend"] ="off";
 			set(attributes);
 		}
 		delete library;
 
+		
 
     data.getReady(parent.transformation());
     if ( !data.valid() ) {

@@ -1,5 +1,5 @@
 <magics>
-<class inherits="HiLo" xmltag="low" name="LowHiLo" directory="visualisers" action="pcont" include="HiLo.h"/></magics>
+<class inherits="HiLo" top="HiLoBase" xmltag="low" name="LowHiLo" directory="visualisers" action="pcont" include="HiLo.h"/></magics>
 <!--
 (C) Copyright 1996-2016 ECMWF.
 

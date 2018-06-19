@@ -273,21 +273,49 @@ const BufrIdentifiers& BufrIdentTable::get(int centre)
 class BufrAccessor 
 {
 public:
-	BufrAccessor() {};
-	BufrAccessor(const string& descriptor) : descriptor_(descriptor) {}
+	BufrAccessor() {
+		init();
+	}
+
+	void init() {
+		if ( translator_.empty() ) {
+			translator_["total_cloud"] = "cloudCoverTotal";
+			translator_["horizontal_visibility"] = "horizontalVisibility";
+			translator_["msl_pressure"] = "pressureReducedToMeanSeaLevel";
+			translator_["pressure"] = "nonCoordinatePressure";
+			translator_["present_weather"] = "presentWeather";
+			translator_["past_weather_1"] = "pastWeather1";
+			translator_["past_weather_2"] = "pastWeather2";
+			translator_["pressure_tendency_amount"] = "3HourPressureChange";
+			translator_["pressure_tendency_characteristic"] = "characteristicOfPressureTendency";
+		}
+
+	}
+	
+	BufrAccessor(const string& descriptor) : descriptor_(descriptor) {
+		init();
+		auto token = translator_.find(descriptor_);
+		if  ( token == translator_.end() ) 
+			MagLog::warning() << "Could not find eccodes key for " << descriptor_ << endl;
+		eccodes_ =  ( token == translator_.end() ) ? descriptor_ : token->second;
+	}
 	virtual ~BufrAccessor() {};
 	virtual void operator()(const ObsDecoder&, MvObs&, string&) const {}
 	virtual void operator()(const ObsDecoder&, MvObs& obs, double& val) const
 	{
-		const BufrIdentifiers& table =  BufrIdentTable::get(obs.originatingCentre());
-		val = obs.value(table.ident(descriptor_));
+		
+		val = obs.value(eccodes_);
+		
 
 	}
 	virtual void print() {}
 	const string& keyword() { return descriptor_; }
 protected:
 	string descriptor_;
+	string eccodes_;
+	static map<string, string> translator_;
 };
+map<string, string> BufrAccessor::translator_;
 
 class BufrMultiValueAccessor : public BufrAccessor 
 {
@@ -296,7 +324,7 @@ public:
 	virtual ~BufrMultiValueAccessor() {};
 	virtual void operator()(const ObsDecoder&, MvObs& obs, double& val) const {
 		const BufrIdentifiers& table =  BufrIdentTable::get(obs.originatingCentre());
-		val = obs.valueByOccurrence(index_, table.ident(descriptor_));
+		val = obs.valueByOccurrence(index_, descriptor_);
 		MagLog::dev()<< "BufrMultiValueAccessor-Descriptor--->" << descriptor_ << " INDEX--->" << index_ << " Value--->" << val << endl;
 	}
 	virtual void print() {}
@@ -307,62 +335,62 @@ protected:
 class BufrLowCloudAccessor : public BufrMultiValueAccessor 
 {
 public:
-	BufrLowCloudAccessor() : BufrMultiValueAccessor("low_cloud", 1) {}
+	BufrLowCloudAccessor() : BufrMultiValueAccessor("cloudType", 1) {}
 	virtual ~BufrLowCloudAccessor() {}
 };
 
 class BufrMediumCloudAccessor : public BufrMultiValueAccessor 
 {
 public:
-	BufrMediumCloudAccessor() : BufrMultiValueAccessor("medium_cloud", 2) {}
+	BufrMediumCloudAccessor() : BufrMultiValueAccessor("cloudType", 2) {}
 	virtual ~BufrMediumCloudAccessor() {}
 };
 
 class BufrHighCloudAccessor : public BufrMultiValueAccessor 
 {
 public:
-	BufrHighCloudAccessor() : BufrMultiValueAccessor("high_cloud", 3) {}
+	BufrHighCloudAccessor() : BufrMultiValueAccessor("cloudType", 3) {}
 	virtual ~BufrHighCloudAccessor() {}
 };
 
 class BufrLowCloudNebulosityAccessor : public BufrMultiValueAccessor 
 {
 public:
-	BufrLowCloudNebulosityAccessor() : BufrMultiValueAccessor("low_cloud_nebulosity", 1) {}
+	BufrLowCloudNebulosityAccessor() : BufrMultiValueAccessor("cloudAmount", 1) {}
 	virtual ~BufrLowCloudNebulosityAccessor() {}
 };
 
 class BufrMediumCloudNebulosityAccessor : public BufrMultiValueAccessor 
 {
 public:
-	BufrMediumCloudNebulosityAccessor() : BufrMultiValueAccessor("medium_cloud_nebulosity", 2) {}
+	BufrMediumCloudNebulosityAccessor() : BufrMultiValueAccessor("cloudAmount", 2) {}
 	virtual ~BufrMediumCloudNebulosityAccessor() {}
 };
 
 class BufrHighCloudNebulosityAccessor : public BufrMultiValueAccessor 
 {
 public:
-	BufrHighCloudNebulosityAccessor() : BufrMultiValueAccessor("high_cloud_nebulosity", 3) {}
+	BufrHighCloudNebulosityAccessor() : BufrMultiValueAccessor("cloudAmount", 3) {}
 	virtual ~BufrHighCloudNebulosityAccessor() {}
 };
 class BufrLowCloudHeightAccessor : public BufrMultiValueAccessor 
 {
 public:
-	BufrLowCloudHeightAccessor() : BufrMultiValueAccessor("low_cloud_height", 1) {}
+	BufrLowCloudHeightAccessor() : BufrMultiValueAccessor("heightOfBaseOfCloud", 1) {}
 	virtual ~BufrLowCloudHeightAccessor() {}
 };
 
 class BufrMediumCloudHeightAccessor : public BufrMultiValueAccessor 
 {
 public:
-	BufrMediumCloudHeightAccessor() : BufrMultiValueAccessor("medium_cloud_height", 2) {}
+	BufrMediumCloudHeightAccessor() : BufrMultiValueAccessor("heightOfBaseOfCloud", 2) {}
 	virtual ~BufrMediumCloudHeightAccessor() {}
 };
 
 class BufrHighCloudHeightAccessor : public BufrMultiValueAccessor 
 {
 public:
-	BufrHighCloudHeightAccessor() : BufrMultiValueAccessor("high_cloud_height", 3) {}
+	BufrHighCloudHeightAccessor() : BufrMultiValueAccessor("heightOfBaseOfCloud", 3) {}
 	virtual ~BufrHighCloudHeightAccessor() {}
 };
 
@@ -454,15 +482,19 @@ public:
 		}
 		if ( type == 0 || type == 1) {
 			// surface data 
-			val = obs.value(table.ident(surface_));			
+			val = obs.value(surface_);
+			
+			
 		}
 		else {
 			//MagLog::dev()<< " look for --->" << table.ident(altitude_) << " at " << decoder.getLevel();
 			// upper-air data 
 			if  ( type == 5 || type == 4 ) 
-				val = obs.value(table.ident(altitude_));			
-			else // Multi-level data
-				val = obs.valueByPressureLevel(decoder.level_, table.ident(altitude_));	
+				val = obs.value(altitude_);			
+			else { // Multi-level data {
+				val = obs.valueByPressureLevel(decoder.level_, altitude_);	
+				
+			}
 			//MagLog::dev()<< " : get --->" << val << endl;
 		}
 	}
@@ -481,27 +513,27 @@ public:
 class BufrTemperatureAccessor : public BufrMultiLevelAccessor 
 {
 public:
-	BufrTemperatureAccessor() : BufrMultiLevelAccessor("temperature", "temperature_2meters",  "temperature") {}
+	BufrTemperatureAccessor() : BufrMultiLevelAccessor("airTemperature", "airTemperatureAt2M",  "airTemperature") {}
 	virtual ~BufrTemperatureAccessor() {}
 };
 class BufrDewPointAccessor : public BufrMultiLevelAccessor 
 {
 public:
-	BufrDewPointAccessor() : BufrMultiLevelAccessor("dewpoint", "dewpoint_2meters",  "dewpoint") {}
+	BufrDewPointAccessor() : BufrMultiLevelAccessor("dewpointTemperature", "dewpointTemperatureAt2M",  "dewpointTemperature") {}
 	virtual ~BufrDewPointAccessor() {}
 };
 
 class BufrWindSpeedAccessor : public BufrMultiLevelAccessor 
 {
 public:
-	BufrWindSpeedAccessor() : BufrMultiLevelAccessor("wind_speed", "wind_speed_10meters",  "wind_speed") {}
+	BufrWindSpeedAccessor() : BufrMultiLevelAccessor("windSpeed", "windSpeedAt10M",  "windSpeed") {}
 	virtual ~BufrWindSpeedAccessor() {}
 };
 
 class BufrWindDirectionAccessor : public BufrMultiLevelAccessor 
 {
 public:
-	BufrWindDirectionAccessor() : BufrMultiLevelAccessor("wind_direction", "wind_direction_10meters",  "wind_direction") {}
+	BufrWindDirectionAccessor() : BufrMultiLevelAccessor("windDirection", "windDirectionAt10M",  "windDirection") {}
 	virtual ~BufrWindDirectionAccessor() {}
 };
 
@@ -559,23 +591,30 @@ void ObsDecoder::decode()
 		return;
 	}
 	// Test 
-        MvObsSetIterator obsIterator(obsSet);
-	MvObs obs = obsIterator();
+   MvObsSetIterator obsIterator(obsSet);
+   MvObs obs = obsIterator();
 
-	ostringstream title;
-	title << "Observation: " << obs.obsTime() << " [ type = " << obs.messageType() << " , subtype = " << obs.messageSubtype() << "]";
-	title_ = title.str();
-        
+   bool first = true;
 	while (obs)
 	{
+      obs.expand();  // message needs to be expanded from here
+
+      if ( first )
+      {
+         ostringstream title;
+         title << "Observation: " << obs.obsTime() << " [ type = " << obs.messageType() << " , subtype = " << obs.messageSubtype() << "]";
+         title_ = title.str();
+         first = false;
+      }
+
 		MvLocation location = obs.location();
 #ifdef OBS_DEBUG_
 		MagLog::debug() << obsIterator.msgNumber() << " " << location << " " << obs.obsTime() << " " << obs.WmoIdentNumber()
-		     << "\n\ttype=" << obs.messageType() << ", subtype=" << obs.messageSubtype()
-		     << "\n\tlat=" << obs.value(5001) << ", lon=" << obs.value(6001)
-		     << "\n\ttempe=" << obs.value(12004)  << endl;
+		     << "\n\ttype=" << obs.messageType() << ", subtype=" << obs.messageSubtype() << endl;
+		  
 #endif
-		push_back(new UserPoint(location.x(), location.y(), obs.value(12004)));
+		push_back(new UserPoint(location.x(), location.y(), obs.value("airTemperature")));
+		obs.clearIterator(); // must do this before the msg handle is deleted by the next assignment
 		obs = obsIterator();
 	}
 }
@@ -612,14 +651,16 @@ void ObsDecoder::getInfo(const std::set<string>& tokens, multimap<string, string
 		string value;
 		try {
 			BufrAccessor* accessor = SimpleObjectMaker<BufrAccessor>::create(*token);
-			MvObsSetIterator   obsIterator(obsSet);
+			MvObsSetIterator obsIterator(obsSet);
 			MvObs obs;
 			accessor->print();
 			obs = obsIterator();        
 			while (obs)
 			{
+            // Probably bufr message does not need to be expanded
 				(*accessor)(*this, obs, value);
 				if ( value != "") noduplicate.insert(value);
+				obs.clearIterator(); // must do this before the msg handle is deleted by the next assignment
 				obs = obsIterator();
 			}
 		}
@@ -653,36 +694,30 @@ void ObsDecoder::customisedPoints(const Transformation& transformation, const st
 	MvObsSetIterator obsIterator(obsSet);
 	MvObs obs = obsIterator();
 
-	ostringstream title;
-	title << "Observation: " << obs.obsTime() << " [ type = " << obs.messageType() << " , subtype = " << obs.messageSubtype() << "]";
-	title_ = title.str();
-
-	MagLog::debug() << " ObsTitle: "<< title_ << "\n";
-
-	VectorOfPointers<vector<BufrAccessor*> > accessors;
+	map<string, BufrAccessor*> accessors;
 	for (std::set<string>::const_iterator token = tokens.begin(); token != tokens.end(); ++token)
 	{
 #ifdef MAGICS_EXCEPTION
 		try {
     			BufrAccessor* accessor = SimpleObjectMaker<BufrAccessor>::create(*token);
-    			accessors.push_back(accessor);
+    			accessors.insert(make_pair(*token, accessor));
 		}
 		catch (NoFactoryException&) {
-    			MagLog::dev() << " No Specialised accessor for " << *token << ": take the default\n";
+    			
     			BufrAccessor* accessor = new BufrAccessor(*token);
-    			accessors.push_back(accessor);
+    			accessors.insert(make_pair(*token, accessor));
 		}
 #else 
 		BufrAccessor* accessor = SimpleObjectMaker<BufrAccessor>::create(*token);
 		if (accessor)
 		{
-			accessors.push_back(accessor);
+			accessors.insert(make_pair(*token, accessor));
 		}
 		else
 		{
-			MagLog::dev() << " No Specialised accessor for " << *token << ": take the default\n";
-    			BufrAccessor* accessor = new BufrAccessor(*token);
-    			accessors.push_back(accessor);
+			
+			BufrAccessor* accessor = new BufrAccessor(*token);
+			accessors.insert(make_pair(*token, accessor));
 		}
 #endif
 	}
@@ -691,16 +726,31 @@ void ObsDecoder::customisedPoints(const Transformation& transformation, const st
 	BufrAccessor* type_accessor = SimpleObjectMaker<BufrAccessor>::create("type");
 	string type;
 	BufrAccessor* level_accessor = new BufrAccessor("pressure");
+
+   bool first = true;
 	double level;
-    
 	while (obs)
 	{
 		(*type_accessor)(*this, obs, type);
 		
 		if ( findInTypes(type) )
 		{
+         // At this point, the bufr message needs to be expanded
+         obs.expand();
+
+         // Create title
+         if ( first )
+         {
+            ostringstream title;
+            title << "[ type = " << obs.messageType() << " , subtype = " << obs.messageSubtype() << "]";
+            title_ = title.str();
+            MagLog::debug() << " ObsTitle: "<< title_ << "\n";
+            first = false;
+         }
+
 			(*level_accessor)(*this, obs, level);
-			if (multilevels_[obs.messageType()] == false || checkLevel(level) )
+			
+			//if (multilevels_[obs.messageType()] == false || checkLevel(level) )
 			{				
 			   MvLocation loc = obs.location();
 			   double value;		
@@ -710,11 +760,11 @@ void ObsDecoder::customisedPoints(const Transformation& transformation, const st
 				   CustomisedPoint* point = new CustomisedPoint(loc.x(), loc.y(),  obs.findSomeIdent());		
 				   point->type(type);
 				
-				   for (VectorOfPointers<vector<BufrAccessor*> >::const_iterator accessor = accessors.begin(); accessor != accessors.end(); ++accessor)
+				   for (auto accessor = accessors.begin(); accessor != accessors.end(); ++accessor)
 				   {
-					   (**accessor)(*this, obs, value);	    
+					   (*accessor->second)(*this, obs, value);	    
 					   if (value != kBufrMissingValue)  
-                            (*point)[(*accessor)->keyword()] = value;
+                            (*point)[accessor->first] = value;
 				   }
 				   if ( !(*point).empty())
 				   {
@@ -727,8 +777,13 @@ void ObsDecoder::customisedPoints(const Transformation& transformation, const st
 			   }
 			}
 		}
+		obs.clearIterator(); // must do this before the msg handle is deleted by the next assignment
 		obs = obsIterator();
 	}
+	// clear accessorts
+	for (auto accessor = accessors.begin(); accessor != accessors.end(); ++accessor)
+		delete accessor->second;
+
 } 
 
 PointsHandler& ObsDecoder::points()
@@ -748,7 +803,7 @@ void ObsDecoder::print(ostream& out)  const
 	out << "]";
 }
 
-void ObsDecoder::visit(TitleNode& /*title*/)
+void ObsDecoder::visit(TitleNode& title)
 {
 	//title.add(new TitleEntry(title_));
 }

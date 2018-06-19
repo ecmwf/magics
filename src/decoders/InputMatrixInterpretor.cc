@@ -73,7 +73,7 @@ Matrix* InputMatrixRegularInterpretor::geoInterpret(Matrix* in, const InputMatri
 {
 	std::map<string, Mapper>::iterator mapper = mappers_.find(lowerCase(info.mapping_));
 
-
+	in->akimaEnabled();
 
 	
 	if ( mapper == mappers_.end() )

@@ -9,7 +9,7 @@ does it submit to any jurisdiction.
 -->
 
 <magics>
-<class inherits="PolyShadingTechnique" name="GridShading" directory="visualisers" action="pcont" include="PolyShadingTechnique.h" doc_inherits="no">
+<class inherits="PolyShadingTechnique" top="ShadingTechnique" name="GridShading" directory="visualisers" action="pcont" include="PolyShadingTechnique.h" doc_inherits="no">
 
   	<parameter from="string" name="contour_grid_shading_position" default="middle" member="position" to="string" values="middle/bottom_left">
          		<documentation> Middle : the point is in the midlle of the cell, bottom_left : the point is in the bottom left corner 		</documentation>

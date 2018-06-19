@@ -13,8 +13,10 @@
 #ifndef MvBufr_DEFINED_
 #define MvBufr_DEFINED_
 
+#include <eccodes.h> //F ec
 #include "fdyntime.h"
 #include <map>
+
 using namespace std;
 
 /*! \file */
@@ -29,14 +31,14 @@ const int BUFR_ORIGINATING_CENTER = 98;   // 98 == ECMWF
 // missing value code to be used in C/C++ routines      //
 //------------------------------------------------------//
 const float     kBufrMissingValue = 1.7e38;
-const fortint   kBufrMissingIntValue = 2147483647;
+const int   kBufrMissingIntValue = 2147483647;
 
 
 //------------------------------------------------------//
 // missing value code returned by FORTRAN routines      //
 //------------------------------------------------------//
-const fortfloat kFortranBufrMissingValue = 1.7e38;
-const fortint   kFortranBufrMissingIntValue = 2147483647;
+const double kFortranBufrMissingValue = 1.7e38;
+const int   kFortranBufrMissingIntValue = 2147483647;
 
 //--------------------------------------------------------
 // maximum sizes of arrays used in FORTRAN routines
@@ -256,13 +258,13 @@ class MvBufrBase
    TSection3 *fSec3;
    TSection4 *fSec4;
 
-     fortint  fKERR;
-     fortint *fKSUP;   // [ 9 ];
-     fortint *fKSEC0;  // [ 3 ];
-     fortint *fKSEC1;  // [ 40 ];
-     fortint *fKSEC2;  // [ 64 ];
-     fortint *fKSEC3;  // [ 4 ];
-     fortint *fKSEC4;  // [ 2 ];
+     int  fKERR;
+     int *fKSUP;   // [ 9 ];
+     int *fKSEC0;  // [ 3 ];
+     int *fKSEC1;  // [ 40 ];
+     int *fKSEC2;  // [ 64 ];
+     int *fKSEC3;  // [ 4 ];
+     int *fKSEC4;  // [ 2 ];
 
  protected:
 	    MvBufrBase( const long len );  //( char *msg, long len );
@@ -297,7 +299,9 @@ class MvBufr : public MvBufrBase
 
  protected:
 	    MvBufr( char *msg, long len, long aMessageNumber=0 );
-	    ~MvBufr( void );  //?? {} missing??
+       ~MvBufr( void );
+//F
+void setEccodes( codes_handle** ecH );
 
       void  Decode( void );
       void  Decode_012( void );
@@ -311,11 +315,11 @@ class MvBufr : public MvBufrBase
 
  bool  Value( const long aDescriptor
 		 , const long aSubsetNumber
-		 , fortfloat &aDataValue
+		 , double &aDataValue
 		 , int   firstIndex = 0 );
-     fortfloat  DataValue( const int aDescriptorArrayIndex
+     double  DataValue( const int aDescriptorArrayIndex
 		     , const long aSubsetNumber);
-     fortfloat  PeekDataValue( const int aDescriptorArrayIndex
+     double  PeekDataValue( const int aDescriptorArrayIndex
 		         , const long aSubsetNumber);
       long  intValue( const long aDescriptor, const int subsetNr );
 
@@ -342,7 +346,7 @@ class MvBufr : public MvBufrBase
    bool  SetFirstDescriptor( void );
    bool  SetNextDescriptor( void );
       long  CurrentDescriptor( void ){ return _currentDescr; }
- fortfloat  CurrentValue( const int aSubsetNr ){ return DataValue( _currentDescrInd, aSubsetNr); }
+ double  CurrentValue( const int aSubsetNr ){ return DataValue( _currentDescrInd, aSubsetNr); }
 
       bool  printSection(ostream &aStream,int which);
       bool printSection_012( ostream& aStream,int which);
@@ -351,21 +355,25 @@ class MvBufr : public MvBufrBase
       bool  getBufrBoxSize( int& rows, int& cols, int aSubsetNr );
 
       bool  getDataFromSection2(map<string,string> &data);
-      void  parseSection2(fortint *fKEY,map<string,string> &data);
+      void  parseSection2(int *fKEY,map<string,string> &data);
 
       void  setSubset( int subsetNumber ){ _lastKnownSubsetValue = subsetNumber; }
 
  private:
       void  computeIn_KELEM( void );
 
+codes_handle** _ecH;   //F ec
+
+
  protected:
   EBufrInState  _inState;
 	  long  _currentDescr;
 	  int   _currentDescrInd;
 	  int   _bufrBoxFilledSubset;
-	  fortint  _lastKnownSubsetValue; //-- Q&D trick, BUSEL2 requires
+	  int  _lastKnownSubsetValue; //-- Q&D trick, BUSEL2 requires
 };
 
+#if 0
 //--------------------------------------------------------------- MvBufrOut
 // A simple class capable of producing BUFR code only from 'MvObs'
 // objects i.e. usable in filtering applications which read a
@@ -407,7 +415,7 @@ class MvBufrOut : public MvBufrBase
        int  shouldBeWritten( void );
       void  setSubsetCount( int MaxNrSubsets );
    bool  isDelayedDescriptor( const long aDescriptor ) const;
-     // long  msgLength( void ) { return _msgIntLen*sizeof( fortint ); }
+     // long  msgLength( void ) { return _msgIntLen*sizeof( int ); }
 
  protected:
        MvObsSet* _outSet;
@@ -415,30 +423,10 @@ class MvBufrOut : public MvBufrBase
 	    int  _nextValue;
 	    int  _nextCharParamPos;
   EBufrOutState  _outState;
-        fortint  _KDLEN;
-        fortint  _KDATA[ MAX_KDLEN ];
+        int  _KDLEN;
+        int  _KDATA[ MAX_KDLEN ];
    Section1Base* _currentSec1;
 };
-
-#ifndef DOXYGEN_SHOULD_SKIP_THIS
-//--------------------------------------------------------------- MvBufrParam
-
-class MvBufrParam
-{
- public:
-        MvBufrParam( const char *aParamName );
-        MvBufrParam( const long anIntAsDescriptor ) {fDescriptor = anIntAsDescriptor;}
-
-  long  Descriptor( void ) const { return fDescriptor; }
-  void  PrintAllKnownParameters( void ) const;
-
-  operator int ( void ) const { return fDescriptor; }
-
- private:
-     long  fDescriptor;
-};
-// DOXYGEN_SHOULD_SKIP_THIS
 #endif
 
-#endif
-// MvBufr_DEFINED
+#endif  // MvBufr_DEFINED

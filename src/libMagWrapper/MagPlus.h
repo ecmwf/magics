@@ -88,7 +88,9 @@ protected:
 	bool coastlines(magics::MagRequest&);
 
 	bool cartesianGrid(magics::MagRequest&);
-	bool tephiGrid(magics::MagRequest&);
+    bool tephiGrid(magics::MagRequest&);
+    bool skewtGrid(magics::MagRequest&);
+    bool emagramGrid(magics::MagRequest&);
 	bool taylorGrid(magics::MagRequest&);
 	bool tephigrid(magics::MagRequest&);
 	bool oldcoastlines(magics::MagRequest&);

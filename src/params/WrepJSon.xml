@@ -100,4 +100,20 @@ does it submit to any jurisdiction.
             		<documentation> List of keys to ignore when reading onput data  </documentation>
 
         	</parameter>
-</class></magics>
+        <parameter member="profile_quantile" to="string" default="" from="string" name="wrepjson_profile_quantile" visible='off'>
+                    <documentation> List of keys to ignore when reading onput data  </documentation>
+
+            </parameter>
+            <parameter member="hodograph_grid" to="bool" default="off" from="string" name="wrepjson_hodograph_grid" visible='off'>
+                <documentation> add the Grid for the hodograph! </documentation>
+            </parameter>
+             <parameter member="hodograph_tephi" to="bool" default="off" from="string" name="wrepjson_hodograph_tephi" visible='off'><documentation> add the Grid for the hodograph! </documentation>
+            </parameter>
+              <parameter member="hodograph_member" to="int" default="-1" from="int" name="wrepjson_hodograph_member" visible='off'><documentation> slecet only one member </documentation>
+
+            </parameter>
+       
+       
+
+</class>
+</magics>

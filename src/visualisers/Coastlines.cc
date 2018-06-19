@@ -51,10 +51,13 @@ void Coastlines::visit(DrawingVisitor& parent)
 
 	// if needed Find the Style, according to the theme ..
 	if ( style_.size() ) {
-		StyleLibrary styles(theme(), "coastlines");
-		Style::Definition style;
-		if ( styles.find(style_, style) )
+		MagDefLibrary styles(theme(), "coastlines");
+		MagDef::Definition style;
+		
+		if ( styles.find(style_, style) ) {
 			set(style);
+			
+		}
 		
 	}
 	(*coastlines_)(parent);

@@ -293,7 +293,7 @@ EOF
         }
         else 
         {
-            print "\tauto_ptr<$to> $member\_;\n";  
+            print "\tunique_ptr<$to> $member\_;\n";  
         }
     }
 
@@ -533,7 +533,7 @@ EOF
         }
         else 
         {
-           print "\t$member\_ = auto_ptr<$to>(other.$member\_->clone());\n";          
+           print "\t$member\_ = unique_ptr<$to>(other.$member\_->clone());\n";          
         }
        
         print "";

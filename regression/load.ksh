@@ -2,20 +2,20 @@
 
 set +x
 
-src='mollweide-frame.json'
-img="mollweide-frame.png"
+src='big_mercator.json'
+img="big_mercator.png"
 where='proj4'
 interpretor='magjsonx'
 
-version="2.33.0"
+version="3.0.0"
 dir=`pwd`
 name=`basename $dir`
-
+touch $img
 
 for sf in $src 
 do
     s=`basename $sf .$ext`
 
     module load Magics/$version
-    ../upload.py $version ./$sf $img magics/reference/$version/$where -i $interpretor
+     /tmp/cgs/git/magics-develop/regression/upload.py $version ./$sf $img magics/reference/$version/$where -i $interpretor
 done

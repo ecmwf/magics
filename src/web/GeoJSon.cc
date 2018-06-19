@@ -122,7 +122,7 @@ public:
 		bool shift_;
 		virtual void print()
 		{
-			cout << name_ << "-->" << objects_.size() << endl;
+			//cout << name_ << "-->" << objects_.size() << endl;
 			for (vector<GeoObject*>::iterator o = objects_.begin(); o != objects_.end(); ++o) 
 				(*o)->print();
 		}

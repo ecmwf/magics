@@ -273,6 +273,11 @@ class Proj4Geos : public Proj4Projection
 public:
 	Proj4Geos() : Proj4Projection("geos") {}
 };
+class Proj4TPers : public Proj4Projection
+{
+public:
+	Proj4TPers() : Proj4Projection("tpers") {}
+};
 class Proj4Meteosat0 : public Proj4Projection
 {
 public:
