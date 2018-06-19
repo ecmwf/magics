@@ -217,7 +217,7 @@ void ViewNode::prepareLayout(SceneLayer& tree)
 	helper.add(rightAxis_);
 		
 	
-	tree.legend(legend_);
+	legend_ = tree.legend(legend_);
 	if ( needLegend_ && legend_ )
 	{
 		if ( !legend_->positional() ) {

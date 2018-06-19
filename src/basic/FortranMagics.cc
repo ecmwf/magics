@@ -325,8 +325,10 @@ void FortranMagics::poverlay()
 
 void FortranMagics::pimport()
 {
+	actions();
 	ImportObjectHandler* object = new ImportObjectHandler();
-	later_.push_back(object);
+	//later_.push_back(object);
+	top()->push_back(object);
 }
 
 
