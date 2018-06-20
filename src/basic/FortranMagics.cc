@@ -209,7 +209,10 @@ int FortranMagics::pclose()
 
 void FortranMagics::drivers()
 {
-	if (!drivers_)  drivers_ = new DriverManager();
+	if (!drivers_)  
+		drivers_ = new DriverManager();
+	else 
+		drivers_->clearDrivers();
 	if (!output_)   output_ = new OutputHandler();
 	output_->set(*drivers_);
 }
