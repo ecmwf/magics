@@ -484,7 +484,7 @@ void Transformation::operator()(const Polyline& from, vector<Polyline*>& out) co
 
 			lines.push_back(vector<PaperPoint>());
 			Polyline poly;
-			Polyline* xy = new Polyline();
+			
 			from.hole(hole, poly);
 			
 			for (unsigned i = 0; i < poly.size(); i++) {

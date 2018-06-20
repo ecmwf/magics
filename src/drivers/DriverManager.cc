@@ -27,6 +27,7 @@ DriverManager::DriverManager()
 
 DriverManager::~DriverManager() 
 {
+    clearDrivers();
 }
 
 void DriverManager::print(ostream& out)  const
@@ -85,13 +86,14 @@ void DriverManager::closeDrivers() const
 		if ( !(*(*driver)).disable() ) (*(*driver)).close();
 }
 
-/*
-void DriverManager::clearDrivers() const 
+
+void DriverManager::clearDrivers()
 {
 	for (const_iterator driver = begin(); driver != end(); ++driver) 
-		if ( !(*(*driver)).disable() ) (*(*driver)).clear(); 
+		delete *driver;
+	clear();
 }
-*/
+
 
 void DriverManager::setDriversWidth(double width) const
 {
