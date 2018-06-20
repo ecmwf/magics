@@ -273,6 +273,10 @@ MagPlus::MagPlus() : root_(0), superpage_(-1), geographical_(true), mode_(intera
 	driverCreators_["QTOUTPUT"] = &MagPlus::qtdriver;
 #endif
  	driverCreators_["PSOUTPUT"] = &MagPlus::psdriver;
+ 	driverCreators_["PSCAIRO_OUTPUT"] = &MagPlus::pscairodriver;
+ 	driverCreators_["EPSCAIRO_OUTPUT"] = &MagPlus::epscairodriver;
+ 	
+
         driverCreators_["PNGOUTPUT"] = &MagPlus::pngdriver;
         driverCreators_["KMLOUTPUT"] = &MagPlus::kmldriver;
         driverCreators_["GEOJSONOUTPUT"] = &MagPlus::geojsondriver;
@@ -360,6 +364,30 @@ bool MagPlus::pngdriver(magics::MagRequest&  in)
 	CairoDriverWrapper helper;
 	helper.set(in);
 	helper.me()->setPNG();
+	drivers_.push_back(helper.object());
+	mode_ = paper;
+#endif
+	return false;
+}
+
+bool MagPlus::pscairodriver(magics::MagRequest&  in)
+{
+#ifdef HAVE_CAIRO
+	CairoDriverWrapper helper;
+	helper.set(in);
+	helper.me()->setPS();
+	drivers_.push_back(helper.object());
+	mode_ = paper;
+#endif
+	return false;
+}
+
+bool MagPlus::epscairodriver(magics::MagRequest&  in)
+{
+#ifdef HAVE_CAIRO
+	CairoDriverWrapper helper;
+	helper.set(in);
+	helper.me()->setEPS();
 	drivers_.push_back(helper.object());
 	mode_ = paper;
 #endif

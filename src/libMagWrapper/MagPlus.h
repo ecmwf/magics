@@ -142,6 +142,8 @@ protected:
 	bool geojsondriver(magics::MagRequest&);  
 	bool psdriver(magics::MagRequest&);
 	bool epsdriver(magics::MagRequest&);
+	bool epscairodriver(magics::MagRequest&);
+	bool pscairodriver(magics::MagRequest&);
     
 	RootSceneNode* root_;
 	DriverManager  drivers_;
