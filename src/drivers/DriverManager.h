@@ -39,7 +39,7 @@ public:
 
 	void openDrivers() const;
 	void closeDrivers() const;
-	void clearDrivers() const;
+	void clearDrivers();
 
 	void setDriversWidth(double) const;
 	void setDriversHeight(double) const;
