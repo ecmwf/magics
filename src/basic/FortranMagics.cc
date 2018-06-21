@@ -330,8 +330,10 @@ void FortranMagics::pimport()
 {
 	actions();
 	ImportObjectHandler* object = new ImportObjectHandler();
-	//later_.push_back(object);
-	top()->push_back(object);
+	if ( object->overlay_ ) 
+		later_.push_back(object);
+	else 
+		top()->push_back(object);
 }
 
 
