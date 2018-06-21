@@ -70,7 +70,7 @@ void PS_PsOutputFactory::set(DriverManager& magics, const XmlNode& node)
 
 void  PS_PsOutputFactory::reset()
 {
-	// The driver has already been 
+	// The driver has already been deleted
 	driver_ = 0;
 }
 
