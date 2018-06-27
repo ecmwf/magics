@@ -1610,11 +1610,12 @@ pair<double, double> GribRotatedInterpretor::rotate(double lat_y,
 
 void GribLambertAzimutalInterpretor::interpretAsMatrix(const GribDecoder& grib,
         Matrix** matrix, Matrix** matrix2) const {
-    /*
+    // Only working for dump shading for efas !
+
     long im = grib.getLong("numberOfPointsAlongXAxis");
     long jm = grib.getLong("numberOfPointsAlongYAxis");
 
-    RotatedMatrix *rotated = new RotatedMatrix(jm, im);
+    Matrix *rotated = new Matrix(jm, im);
     *matrix = rotated;
 
     size_t nb;
@@ -1637,26 +1638,34 @@ void GribLambertAzimutalInterpretor::interpretAsMatrix(const GribDecoder& grib,
 
         MagLog::debug() << "Version" << grib_get_api_version() << endl;
 
-        vector<double>& data = rotated->values();
-        vector<double>& latm = rotated->rowsArray();
-        vector<double>& lonm = rotated->columnsArray();
-
         size_t aux = size_t(nb);
+       
 
-        grib_get_double_array(grib.id(), "latitudes", &(latm.front()), &aux);
-        grib_get_double_array(grib.id(), "values", &(data.front()), &aux);
-        grib_get_double_array(grib.id(), "longitudes", &(lonm.front()), &aux);
-        for (int i = 0; i < nb; i++) {
+        //grib_get_double_array(grib.id(), "latitudes", &(latPDumpS.front()), &aux);
+        
+        grib_get_double_array(grib.id(), "values", &(rotated->front()), &aux);
+        
+       
 
-            if (lonm[i] > 180.)
-                lonm[i] -= 360.;
+        //grib_get_double_array(grib.id(), "longitudes", &(lonm.front()), &aux);
+        
 
-        }
+        vector<double> rows, columns;
+        for (int i = 0; i < im; i++)
+            columns.push_back(i);
+        for (int i = 0; i < jm; i++)
+            rows.push_back(i);
 
-    } catch (MagicsException& e) {
+        rotated->setRowsAxis(rows);
+        rotated->setColumnsAxis(columns);
+        rotated->setMapsAxis();
+
+    } 
+    catch (MagicsException& e) {
         MagLog::error() << e << "\n";
     }
-    */
+    
+    
 }
 
 void GribLambertAzimutalInterpretor::print(ostream& out) const {
@@ -1784,7 +1793,8 @@ void GribRotatedInterpretor::interpretAsMatrix(const GribDecoder& grib,
         }
         (*matrix)->missing(missing);
 
-    } catch (...) {
+    } 
+    catch (...) {
         throw MagicsException("GribRegularInterpretor - Not enough memory");
     }
    
