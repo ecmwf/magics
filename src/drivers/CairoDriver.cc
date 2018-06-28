@@ -260,7 +260,7 @@ void CairoDriver::close()
 {
 	currentPage_ = 0;
 	if(magCompare(backend_,"pdf") && !fileName_.empty()) printOutputName("CAIRO pdf "+fileName_);
-	if(magCompare(backend_,"ps") && !fileName_.empty()) printOutputName("CAIRO ps "+fileName_);
+	if(magCompare(backend_,"ps")  && !fileName_.empty()) printOutputName("CAIRO ps "+fileName_);
 
 	if (!context_) {
 		cairo_surface_destroy (surface_);
@@ -303,6 +303,7 @@ MAGICS_NO_EXPORT void CairoDriver::startPage() const
 			cairo_surface_destroy (surface_);
 
 			fileName_ = getFileName("svg",currentPage_+1);
+      MagLog::dev() << "Cairo - SVG - create file " << fileName_ << endl;
 			surface_ = cairo_svg_surface_create(fileName_.c_str(), dimensionXglobal_, dimensionYglobal_);
 			cr_ = cairo_create (surface_);
 #if CAIRO_VERSION >= CAIRO_VERSION_ENCODE(1, 4, 0)
@@ -362,6 +363,7 @@ MAGICS_NO_EXPORT void CairoDriver::endPage() const
 		Timer timer("cairo", "write png");
 		fileName_ = getFileName("png" ,currentPage_);
 		cairo_status_t status = CAIRO_STATUS_SUCCESS;
+    MagLog::dev() << "Cairo - PNG - try to create file " << fileName_ << endl;
 		if(magCompare(palette_,"on"))
 		{
 		   if(!write_8bit_png())
@@ -1439,71 +1441,40 @@ MAGICS_NO_EXPORT bool CairoDriver::renderCellArray(const Image& image) const
 
 	cairo_translate (cr_, x0, y0);
 
+  cairo_surface_t *result = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, width, height);
+  if (cairo_surface_status(result) != CAIRO_STATUS_SUCCESS)
+  {
+    MagLog::warning()  << "CAIRO:renderImage> can not create surface ("<<width<<"x"<<height<<")"<< endl;
+    return result;
+  }
+  cairo_surface_flush(result);
+  unsigned char *current_row = cairo_image_surface_get_data(result);
+  int stride = cairo_image_surface_get_stride(result);
+
 	for(unsigned int h=0;h<height; h++)
 	{
+    uint32_t *row = (uint32_t *)current_row;
 	  for(unsigned int w=0;w<width; w++)
 	  {
-		  const short c  = image[w + (width*h)];
-		  const float cr = lt[c].red();
-		  const float cg = lt[c].green();
-		  const float cb = lt[c].blue();
-		  if(cr*cg*cb >=0){
-		    cairo_set_source_rgba(cr_,cr,cg,cb,lt[c].alpha());
-		    cairo_set_line_width (cr_,0.01);
-		    cairo_rectangle (cr_, w*scX, h*-scY, scX, -scY);
-		    cairo_fill_preserve(cr_);
-		    cairo_stroke(cr_);
-		  }
+      const short c  = image[w + (width*h)];
+      double al = lt[c].alpha();
+      if( (lt[c].red()*lt[c].green()*lt[c].blue()<0.) )
+        al=0.;  // missing data will be fully transparent
+		  const uint32_t cr = (uint32_t)(al* lt[c].red()   * 255.);
+		  const uint32_t cg = (uint32_t)(al* lt[c].green() * 255.);
+		  const uint32_t cb = (uint32_t)(al* lt[c].blue()  * 255.);
+      const uint32_t alint = (uint32_t)(al*255.);
+      row[w] =  (alint << 24) | (cr << 16) | (cg << 8) | cb;
 	  }
+    current_row += stride;
 	}
-/*
-	const long dim=width*height;
-	unsigned char *chImage = new unsigned char[dim*4];
-	long jj = 0;
-//	const Colour none("none");
-	for(long j=0;j<dim; j++)
-	{
-		const short c = image[j];
+  cairo_surface_mark_dirty(result);
 
-		const float cr = lt[c].red();
-		const float cg = lt[c].green();
-		const float cb = lt[c].blue();
-
-		if(cr*cg*cb <0)
-		{
-			chImage[jj]=0; jj++;
-			chImage[jj]=0; jj++;
-			chImage[jj]=0; jj++;
-			chImage[jj]=0; jj++;
-		}
-		else
-		{
-			const double al = lt[c].alpha();
-			chImage[jj]=char(int(255.*cb *al )); jj++;
-			chImage[jj]=char(int(255.*cg *al )); jj++;
-			chImage[jj]=char(int(255.*cr *al )); jj++;
-			chImage[jj]=char(int(255.*al)); jj++;
-		}
-	}
-
-	cairo_surface_t* surfaceImage = cairo_image_surface_create_for_data(
-		chImage,
-		CAIRO_FORMAT_ARGB32,
-		width,
-		height,
-		width * 4
-	);
-
-	cairo_translate (cr_, x0, y0);
-	const double scX = (image.getWidth() *coordRatioX_) /width;
-	const double scY = (image.getHeight()*coordRatioY_) /height;
 	cairo_scale (cr_, scX, -scY);
-
-	cairo_set_source_surface(cr_, surfaceImage, 0, 0);
+	cairo_set_source_surface(cr_, result, 0, 0);
 	cairo_paint(cr_);
 
-	cairo_surface_destroy (surfaceImage);
-*/
+	cairo_surface_destroy (result);
 	cairo_restore(cr_);
 	cairo_set_antialias(cr_, t);
 	return true;
