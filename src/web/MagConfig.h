@@ -167,6 +167,7 @@ public:
 	MagDefLibrary allStyles_;
 
 	bool findStyle(const Style::Definition& data, Style::Definition& visdef, StyleEntry&);
+	void findStyle(const string&, Style::Definition& visdef);
 	bool findScaling(const Style::Definition& data, Style::Definition& visdef);
     
     bool findStyle(const string& name, Style::Definition& visdef, StyleEntry& info) {

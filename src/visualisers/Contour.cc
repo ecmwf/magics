@@ -83,30 +83,35 @@ void Contour::operator()(Data& data, BasicGraphicsObjectContainer& parent)
     		// Here we try call the Contour libry to set up visual properties...
     		MetaDataCollector request,needAttributes;
     		map<string, string> attributes;
-    		
-
-		library->askId(request);
-		data.visit(request);
-
-
-		if(library->checkId(request,needAttributes))
-		{			
-    			data.visit(needAttributes);
-    			needAttributes["theme"] = theme_;
-    			library->getStyle(needAttributes,attributes, *styleInfo_);
-    			if ( !legend_ ) 
-    				attributes["legend"] ="off";
-    			set(attributes);
+    	
+    	if ( predefined_.size() ) {
+    		library->getStyle(predefined_, attributes);
+    		set(attributes);
     	}
-		else {
-			
-			request["theme"] = theme_;
-			styleInfo_ = new StyleEntry();
-			library->getStyle(request, attributes, *styleInfo_);
-			if ( !legend_ ) 
-				attributes["legend"] ="off";
-			set(attributes);
-		}
+    	else { 
+			library->askId(request);
+			data.visit(request);
+
+
+			if(library->checkId(request,needAttributes))
+			{			
+	    			data.visit(needAttributes);
+	    			needAttributes["theme"] = theme_;
+	    			library->getStyle(needAttributes,attributes, *styleInfo_);
+	    			if ( !legend_ ) 
+	    				attributes["legend"] ="off";
+	    			set(attributes);
+	    	}
+			else {
+				
+				request["theme"] = theme_;
+				styleInfo_ = new StyleEntry();
+				library->getStyle(request, attributes, *styleInfo_);
+				if ( !legend_ ) 
+					attributes["legend"] ="off";
+				set(attributes);
+			}
+		}	
 		delete library;
 
 		

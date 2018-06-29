@@ -47,6 +47,7 @@ public:
 
 	// se the map to set the contour!
 	virtual void getStyle(MetaDataCollector&, map<string, string>&, StyleEntry&);
+	virtual void getStyle(const string&, map<string, string>&) {}
 	virtual void getScaling(MetaDataCollector&, double& scaling, double& offset)
 	{
 		scaling = 1;
@@ -181,6 +182,8 @@ public:
 
 	// set the map to set the contour!
 	void getStyle(MetaDataCollector&, map<string, string>&, StyleEntry&);
+	void getStyle(const string&, map<string, string>&);
+
 	void getScaling(MetaDataCollector&, double&, double&);
 
 

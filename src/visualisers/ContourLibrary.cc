@@ -330,12 +330,16 @@ void WebLibrary::getStyle(MetaDataCollector& data, map<string, string>& contour,
 
 		StyleLibrary styles("default", "contours");
 		map<string, string> style;
-		
+
 		if ( styles.findStyle(data, style, info) )
 			contour = style;
 	
 }
 
+void  WebLibrary::getStyle(const string& name, map<string, string>& info) {
+	StyleLibrary styles("default", "contours");
+	styles.findStyle(name, info);
+}
 // set the map to set the contour!
 void WebLibrary::getScaling(MetaDataCollector& data, double& scaling, double& offset)
 {
