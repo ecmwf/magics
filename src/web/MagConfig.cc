@@ -279,6 +279,11 @@ bool Style::findScaling(const Definition& data, Definition& scaling)
 
 }
 
+void  StyleLibrary::findStyle(const string& name, Style::Definition& visdef)
+{
+	allStyles_.find(name, visdef);
+}
+
 bool StyleLibrary::findStyle(const Style::Definition& data, Style::Definition& visdef, StyleEntry& info)
 {
 	
