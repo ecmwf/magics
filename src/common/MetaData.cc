@@ -123,7 +123,7 @@ void MetaDataVisitor::collectMetaData()
 
 	catch ( ...) {}
 
-	if ( !wms_file_.empty() ) {
+	if ( !wms_file_.empty() && styles_.size() ) {
 	try  {
 			ofstream out(wms_file_);
 

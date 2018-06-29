@@ -217,7 +217,7 @@ def odb():
 
 @checked_return_code
 def obs():
-    return py_obs()
+    return dll.py_obs()
 
 
 ####################################################################
@@ -231,7 +231,7 @@ def raw():
 
 @checked_return_code
 def netcdf():
-    return py_netcdf()
+    return dll.py_netcdf()
 
 ####################################################################
 
@@ -278,7 +278,7 @@ def symb():
 
 @checked_return_code
 def boxplot():
-    return py_boxplot()
+    return dll.py_boxplot()
 
 
 ####################################################################
@@ -317,7 +317,7 @@ def geo():
 
 @checked_return_code
 def mimport():
-    return py_import()
+    return dll.py_import()
 
 
 ####################################################################
