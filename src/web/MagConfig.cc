@@ -11,6 +11,7 @@
 #include "MagConfig.h"
 #include "MagLog.h"
 #include "MagExceptions.h"
+#include "MetaData.h"
 
 using namespace magics;
 using namespace json_spirit;
@@ -120,9 +121,13 @@ void Style::name(const json_spirit::Value& value)
 {
 	name_ = value.get_str();
 }
-void Style::styles(const json_spirit::Value&) 
+void Style::styles(const json_spirit::Value& value) 
 {
+	Array values = value.get_value<Array>();
 	
+	for (unsigned int i = 0; i < values.size(); i++) {
+		styles_.push_back(values[i].get_str());
+	}
 }
 void Style::scaling(const json_spirit::Value& value) 
 {
@@ -242,15 +247,14 @@ void PaletteLibrary::callback(const string& name, const json_spirit::Value& valu
 
 
 
-bool Style::findStyle(const Definition& data, string& visdef)
+bool Style::findStyle(const Definition& data, StyleEntry& info)
 {
 	for (Definition::const_iterator value = data.begin(); value != data.end(); ++value) {
  		Definition::iterator criteria = criteria_.find(value->first);
 		if ( criteria != criteria_.end() && criteria->second == value->second ) {
-			MagLog::dev() << "FOUND STYLE " << style_ << endl;
-			visdef =  style_;
+			info.set(style_, styles_);
 			for ( vector<Style>::iterator other = more_.begin(); other != more_.end(); ++other) 
-				if ( other->findStyle(data, visdef) )
+				if ( other->findStyle(data, info) )
 					return true;
 			return true;
 		}
@@ -275,12 +279,12 @@ bool Style::findScaling(const Definition& data, Definition& scaling)
 
 }
 
-bool StyleLibrary::findStyle(const Style::Definition& data, Style::Definition& visdef)
+bool StyleLibrary::findStyle(const Style::Definition& data, Style::Definition& visdef, StyleEntry& info)
 {
-	string name;
+	
 	for (vector<Style>::iterator style = library_.begin(); style != library_.end(); ++style)
-		if ( style->findStyle(data, name) ) {
-			allStyles_.find(name, visdef);
+		if ( style->findStyle(data, info) ) {
+			allStyles_.find(info.default_, visdef);
 			return true;
 		}
 	return false;

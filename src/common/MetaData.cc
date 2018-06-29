@@ -123,6 +123,26 @@ void MetaDataVisitor::collectMetaData()
 
 	catch ( ...) {}
 
+	if ( !wms_file_.empty() ) {
+	try  {
+			ofstream out(wms_file_);
+
+			out        << "{" << endl;;
+		
+			string s = "";
+
+			
+			for (auto style = styles_.begin(); style != styles_.end(); ++style) {
+				
+				out << **style;
+				
+			}
+			out        << "}" << endl;;
+
+			out.close();
+		}
+		catch (...) {}
+	}
 	if ( ! javascript_.empty() ) {
 		try  {
 			ofstream out(javascript_.c_str());
@@ -202,4 +222,18 @@ void MetaDataVisitor::collect()
 		(*meta)->collectMetaData();
 }
 		
+void StyleEntry::print(ostream& s) const
+{
 
+	s << "  style: { " << endl;
+	s << "    default:" << default_ << ", " << endl;
+	s << "    styles: [ " << endl;
+	string sep = "    ";
+	for (auto style = styles_.begin(); style != styles_.end(); ++style) {
+		s << sep << *style;
+		sep = ";\n      ";
+	}
+	s << " 	  ]" << endl;
+	s << "  }" << endl;
+
+}

@@ -88,7 +88,7 @@ struct MagDef
 	
 };
 
-
+class StyleEntry;
 
 class MagDefLibrary : public MagConfig
 {
@@ -142,10 +142,11 @@ struct Style
 	Definition scaling_;
 	string style_;
 	vector<Style> more_;
+	vector<string> styles_;
 	string name_;
 	void set(const json_spirit::Object&);
 	bool findScaling(const Definition& data, Definition& scaling);
-	bool findStyle(const Definition& data, string& visdef);
+	bool findStyle(const Definition& data, StyleEntry&);
 };
 
 class StyleLibrary : public MagConfig
@@ -165,13 +166,13 @@ public:
 	string family_;
 	MagDefLibrary allStyles_;
 
-	bool findStyle(const Style::Definition& data, Style::Definition& visdef);
+	bool findStyle(const Style::Definition& data, Style::Definition& visdef, StyleEntry&);
 	bool findScaling(const Style::Definition& data, Style::Definition& visdef);
     
-    bool findStyle(const string& name, Style::Definition& visdef) {
+    bool findStyle(const string& name, Style::Definition& visdef, StyleEntry& info) {
     	Style::Definition criteria;
     	criteria["name"] = name;
-    	return findStyle(criteria, visdef);
+    	return findStyle(criteria, visdef, info);
     }
 
     bool findScaling(const string& name, Style::Definition& scaling) {

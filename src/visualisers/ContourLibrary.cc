@@ -89,7 +89,7 @@ bool ContourLibrary::checkId(MetaDataCollector& metaId,MetaDataCollector& metaKe
 
 	
 // se the map to set the contour!
-void ContourLibrary::getStyle(MetaDataCollector& meta, map<string, string>& attributes)
+void ContourLibrary::getStyle(MetaDataCollector& meta, map<string, string>& attributes, StyleEntry&)
 {
 	MagLog::dev() << "ContourLibrary::set-->" << endl;
 
@@ -211,7 +211,7 @@ void EcChartLibrary::askId(MetaDataCollector& request)
 }
 
 // se the map to set the contour!
-void EcChartLibrary::getStyle(MetaDataCollector& data, map<string, string>& contour)
+void EcChartLibrary::getStyle(MetaDataCollector& data, map<string, string>& contour, StyleEntry&)
 {
 	
 	//find the best contour definition
@@ -325,13 +325,13 @@ void WebLibrary::setCriteria(MetaDataCollector& request, const string& criteria)
 }
 
 // set the map to set the contour!
-void WebLibrary::getStyle(MetaDataCollector& data, map<string, string>& contour)
+void WebLibrary::getStyle(MetaDataCollector& data, map<string, string>& contour, StyleEntry& info)
 {
 
 		StyleLibrary styles("default", "contours");
 		map<string, string> style;
 		
-		if ( styles.findStyle(data, style) )
+		if ( styles.findStyle(data, style, info) )
 			contour = style;
 	
 }

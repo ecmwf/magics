@@ -37,12 +37,34 @@ public:
 	
 protected:
 	string data_;
-	 virtual void print(ostream& s) const { s << data_; } 
+	virtual void print(ostream& s) const { s << data_; } 
 
 // -- Friends
     //! Overloaded << operator to call print().
 	friend ostream& operator<<(ostream& s,const MetaDataEntry& p)
 		{ p.print(s); return s; }
+};
+
+class StyleEntry 
+{
+public: 
+    StyleEntry() {};
+    void set(const string& def, vector<string>& styles) {
+        default_ = def;
+        styles_ = styles;
+    }
+    
+    virtual ~StyleEntry() {}
+    
+    string default_;
+    vector<string> styles_;
+    
+    virtual void print(ostream& s) const;
+
+// -- Friends
+    //! Overloaded << operator to call print().
+    friend ostream& operator<<(ostream& s,const StyleEntry& p)
+        { p.print(s); return s; }
 };
 
 typedef  VectorOfPointers<vector<MetaDataEntry*> > MetaDataEntryList;
@@ -69,7 +91,9 @@ public:
     void collectMetaData();
     
     void add(MetaDataEntry* entry) { MetaDataEntryList::push_back(entry); }
+    void add(StyleEntry* entry) { styles_.push_back(entry); }
     void add(const string& key, const string& value) {web_.insert(make_pair(key, value)); }
+    
     void metadata(map<string,string>&);
 
     virtual void close(); 
@@ -82,6 +106,8 @@ protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).
 	 virtual void print(ostream&) const; 
 	 map<string, string> web_;
+     VectorOfPointers<vector<StyleEntry*> > styles_;
+     
 	 static vector<MetaDataVisitor*> meta_;
 	 static string start_;
 private:

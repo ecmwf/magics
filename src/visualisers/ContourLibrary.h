@@ -31,6 +31,7 @@ namespace magics {
 
 class MetaDataCollector;
 class VisDefInfoBase;
+class StyleEntry;
 
 class ContourLibrary {
 
@@ -45,7 +46,7 @@ public:
 
 
 	// se the map to set the contour!
-	virtual void getStyle(MetaDataCollector&, map<string, string>&);
+	virtual void getStyle(MetaDataCollector&, map<string, string>&, StyleEntry&);
 	virtual void getScaling(MetaDataCollector&, double& scaling, double& offset)
 	{
 		scaling = 1;
@@ -151,7 +152,7 @@ public:
 	void setCriteria(MetaDataCollector&, const string&);
 
 	// set the map to set the contour!
-	void getStyle(MetaDataCollector&, map<string, string>&);
+	void getStyle(MetaDataCollector&, map<string, string>&, StyleEntry&);
 
 
 
@@ -179,7 +180,7 @@ public:
 	void setCriteria(MetaDataCollector&, const string&);
 
 	// set the map to set the contour!
-	void getStyle(MetaDataCollector&, map<string, string>&);
+	void getStyle(MetaDataCollector&, map<string, string>&, StyleEntry&);
 	void getScaling(MetaDataCollector&, double&, double&);
 
 
@@ -204,7 +205,7 @@ public:
 	bool checkId(MetaDataCollector&,MetaDataCollector&) { return false; }
 
 	// se the map to set the contour!
-	void getStyle(MetaDataCollector&, map<string, string>&) {}
+	void getStyle(MetaDataCollector&, map<string, string>&, StyleEntry&) {}
 
 protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).
