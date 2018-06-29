@@ -44,7 +44,6 @@ class ObjectHandler(ContentHandler):
         self.result = []
         self.keywords = ""
         self.done = {}
-        print "RESET"
 
     def boolset(p, attrs):
         p["set"] = "psetc"
@@ -158,7 +157,6 @@ class ObjectHandler(ContentHandler):
         p = {}
         self.parameters[attrs.get("name")] = p
         p["name"] = attrs.get("name")
-        print "newparam", p["name"]
         p["type"] = attrs.get("to")
         specials=["frequency", "thickness"]
         for key in specials:
@@ -218,7 +216,6 @@ class ObjectHandler(ContentHandler):
             val = attrs.get("value")
             if ( self.param.has_key(val) == False ):
                 self.param[val] = []
-            print val
             self.param[val].append(attrs.get("name"))
 
 
@@ -240,14 +237,11 @@ class ObjectHandler(ContentHandler):
 
     def printDef(self,name):
         for p in self.magics:
-            print p
-        #print json.dumps(self.magics, indent=2)
-        #print ""
+            print json.dumps(self.magics, indent=2)
 
     def parse(self, file):
         saxparser = make_parser()
         saxparser.setContentHandler(self)
-        print self.path + file
 
         datasource = open(self.path + file, "r")
         saxparser.parse(datasource)
@@ -281,7 +275,6 @@ class ObjectHandler(ContentHandler):
 
     def  prepareParam(self, param):
         self.keywords +=  ", " + param["name"]
-        print "keywords", self.keywords
         newparam = {}
         for p in param:
             newparam[p] = param[p]
@@ -345,7 +338,6 @@ class ObjectHandler(ContentHandler):
 
         for param in object["parameters"]:
 
-            print json.dumps(param, indent=2)
 
             if isinstance(param["name"], (list, tuple)):
 
@@ -375,7 +367,6 @@ def createAction(version, abbr, name, files):
     object = ObjectHandler()
     object.reset()
     for f in files:
-        print "FILE", f
         x = object.parse(f)
 
 

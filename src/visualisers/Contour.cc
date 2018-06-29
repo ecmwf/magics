@@ -26,11 +26,12 @@
 #include "ContourLibrary.h"
 #include "HistoVisitor.h"
 #include "Timer.h"
+#include "MetaData.h"
 
 using namespace magics;
 
 
-Contour::Contour() : matrix_(0)
+Contour::Contour() : matrix_(0), styleInfo_(0)
 {
 }
 
@@ -38,6 +39,7 @@ Contour::Contour() : matrix_(0)
 Contour::~Contour()
 {
 	if (matrix_) delete(matrix_);
+	if ( styleInfo_) delete (styleInfo_);
 }
 
 /*!
@@ -91,7 +93,7 @@ void Contour::operator()(Data& data, BasicGraphicsObjectContainer& parent)
 		{			
     			data.visit(needAttributes);
     			needAttributes["theme"] = theme_;
-    			library->getStyle(needAttributes,attributes);
+    			library->getStyle(needAttributes,attributes, *styleInfo_);
     			if ( !legend_ ) 
     				attributes["legend"] ="off";
     			set(attributes);
@@ -99,7 +101,8 @@ void Contour::operator()(Data& data, BasicGraphicsObjectContainer& parent)
 		else {
 			
 			request["theme"] = theme_;
-			library->getStyle(request,attributes);
+			styleInfo_ = new StyleEntry();
+			library->getStyle(request, attributes, *styleInfo_);
 			if ( !legend_ ) 
 				attributes["legend"] ="off";
 			set(attributes);
@@ -190,3 +193,10 @@ void Contour::visit(Data& data, LegendVisitor& legend)
 	contour_->visit(data, legend);
 }
 
+void Contour::visit(MetaDataVisitor& visitor) {
+
+
+if ( styleInfo_ )
+	visitor.add(styleInfo_);
+	styleInfo_ = 0;
+}

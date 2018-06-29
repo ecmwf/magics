@@ -105,8 +105,10 @@ var show = function(val, def)
         // Show also the children... 
       
         console.info("SHOW" + param)
-        newdef = find(param)
-        show(newdef.default, newdef)
+       if ( newdef == undefined ) 
+			console.info(param)
+		else 
+        	show(newdef.default, newdef)
    });
   
 }

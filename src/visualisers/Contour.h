@@ -30,6 +30,7 @@
 namespace magics {
 
 
+class StyleEntry;
 
 class Contour: public ContourAttributes, public Visdef {
 
@@ -53,6 +54,7 @@ public:
    virtual void visit(Data&, LegendVisitor&);
     
    void visit(Data&, HistoVisitor&);
+   void visit(MetaDataVisitor&);
    void  getReady(const LegendVisitor& legend) { contour_->legend_only_ = legend.only_; }
     
 
@@ -60,6 +62,7 @@ protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).
 	 virtual void print(ostream&) const; 
 	 MatrixHandler* matrix_;
+	 StyleEntry* styleInfo_;
 
 private:
     //! Copy constructor - No copy allowed
