@@ -7,7 +7,7 @@
             {
                 "_name" : "tp_proba_interval",
                 "criteria" : {
-                    "name" : "Total precipitation",
+                    "long_name" : "Total precipitation",
                     "param" : "228.128",
                     "paramId" : "228",
                     "shortName" : "tp"
@@ -33,7 +33,7 @@
             {
                 "_name" : "fzra_proba",
                 "criteria" : {
-                    "name" : "Accumulated freezing rain",
+                    "long_name" : "Accumulated freezing rain",
                     "param" : "216.228",
                     "paramId" : "228216",
                     "shortName" : "fzra"
@@ -59,7 +59,7 @@
             {
                 "_name" : "cp_proba_interval",
                 "criteria" : {
-                    "name" : "Convective precipitation",
+                    "long_name" : "Convective precipitation",
                     "param" : "143.128",
                     "paramId" : "143",
                     "shortName" : "cp"
@@ -85,7 +85,7 @@
             {
                 "_name" : "lsp_proba_interval",
                 "criteria" : {
-                    "name" : "Large-scale precipitation",
+                    "long_name" : "Large-scale precipitation",
                     "param" : "142.128",
                     "paramId" : "142",
                     "shortName" : "lsp"
@@ -111,7 +111,7 @@
             {
                 "_name" : "sf_proba_interval",
                 "criteria" : {
-                    "name" : "Snowfall",
+                    "long_name" : "Snowfall",
                     "param" : "144.128",
                     "paramId" : "144",
                     "shortName" : "sf"
@@ -137,7 +137,7 @@
             {
                 "_name" : "tp_rate_prob",
                 "criteria" : {
-                    "name" : "Precipitation rate",
+                    "long_name" : "Precipitation rate",
                     "param" : "59.3",
                     "paramId" : "3059",
                     "shortName" : "prate"
@@ -164,7 +164,7 @@
             {
                 "_name" : "lsp_rate_prob",
                 "criteria" : {
-                    "name" : "Large scale rainfall rate",
+                    "long_name" : "Large scale rainfall rate",
                     "param" : "142.174",
                     "paramId" : "174142",
                     "shortName" : "lsrrate"
@@ -192,7 +192,7 @@
             {
                 "_name" : "cp_rate_prob",
                 "criteria" : {
-                    "name" : "Convective rainfall rate",
+                    "long_name" : "Convective rainfall rate",
                     "param" : "143.174",
                     "paramId" : "174143",
                     "shortName" : "crfrate"
@@ -219,7 +219,7 @@
             {
                 "_name" : "sf_rate_prob",
                 "criteria" : {
-                    "name" : "Snow fall rate water equivalent",
+                    "long_name" : "Snow fall rate water equivalent",
                     "param" : "64.3",
                     "paramId" : "3064",
                     "shortName" : "srweq"
@@ -246,7 +246,7 @@
             {
                 "_name" : "visibility_prob",
                 "criteria" : {
-                    "name" : "Visibility",
+                    "long_name" : "Visibility",
                     "param" : "20.3",
                     "paramId" : "3020",
                     "shortName" : "vis"
@@ -269,7 +269,7 @@
             {
                 "_name" : "2tprob",
                 "criteria" : {
-                    "name" : "2 metre temperature",
+                    "long_name" : "2 metre temperature",
                     "param" : "167.128",
                     "paramId" : "167",
                     "shortName" : "2t"
@@ -295,7 +295,7 @@
             {
                 "_name" : "mn2tprob",
                 "criteria" : {
-                    "name" : "Minimum temperature at 2 metres since previous post-processing",
+                    "long_name" : "Minimum temperature at 2 metres since previous post-processing",
                     "param" : "202.128",
                     "paramId" : "202",
                     "shortName" : "mn2t"
@@ -321,7 +321,7 @@
             {
                 "_name" : "mx2tprob",
                 "criteria" : {
-                    "name" : "Maximum temperature at 2 metres since previous post-processing",
+                    "long_name" : "Maximum temperature at 2 metres since previous post-processing",
                     "param" : "201.128",
                     "paramId" : "201",
                     "shortName" : "mx2t"
@@ -347,7 +347,7 @@
             {
                 "_name" : "cape_prob",
                 "criteria" : {
-                    "name" : "Convective available potential energy",
+                    "long_name" : "Convective available potential energy",
                     "param" : "59.128",
                     "paramId" : "59",
                     "shortName" : "cape"
@@ -371,7 +371,7 @@
             {
                 "_name" : "2t_dewpoint_prob",
                 "criteria" : {
-                    "name" : "2 metre dewpoint temperature",
+                    "long_name" : "2 metre dewpoint temperature",
                     "param" : "168.128",
                     "paramId" : "168",
                     "shortName" : "2d"
@@ -397,7 +397,7 @@
             {
                 "_name" : "wind_prob_data",
                 "criteria" : {
-                    "name" : "10 metre wind speed",
+                    "long_name" : "10 metre wind speed",
                     "param" : "207.128",
                     "paramId" : "207",
                     "shortName" : "10si"
@@ -423,7 +423,7 @@
             {
                 "_name" : "gusts_prob_data",
                 "criteria" : {
-                    "name" : "10 metre wind gust since previous post-processing",
+                    "long_name" : "10 metre wind gust since previous post-processing",
                     "param" : "49.128",
                     "paramId" : "49",
                     "shortName" : "10fg"
@@ -449,7 +449,7 @@
             {
                 "_name" : "swh_prob_data",
                 "criteria" : {
-                    "name" : "Significant height of combined wind waves and swell",
+                    "long_name" : "Significant height of combined wind waves and swell",
                     "param" : "229.140",
                     "paramId" : "140229",
                     "shortName" : "swh"
@@ -475,7 +475,7 @@
             {
                 "_name" : "mwp_prob_data",
                 "criteria" : {
-                    "name" : "Mean wave period",
+                    "long_name" : "Mean wave period",
                     "param" : "232.140",
                     "paramId" : "140232",
                     "shortName" : "mwp"
@@ -524,7 +524,7 @@
     },
     {
         "criteria" : {
-            "name" : "Geopotential",
+            "long_name" : "Geopotential",
             "param" : "129.128",
             "paramId" : "129",
             "shortName" : "z",
@@ -885,7 +885,7 @@
     },
     {
         "criteria" : {
-            "name" : "Geopotential anomaly",
+            "long_name" : "Geopotential anomaly",
             "param" : "129.171",
             "paramId" : "171129",
             "shortName" : "za"
@@ -922,7 +922,7 @@
     },
     {
         "criteria" : {
-            "name" : "Mean sea level pressure",
+            "long_name" : "Mean sea level pressure",
             "param" : "151.128",
             "paramId" : "151",
             "shortName" : "msl",
@@ -1038,7 +1038,7 @@
     },
     {
         "criteria" : {
-            "name" : "K index",
+            "long_name" : "K index",
             "param" : "121.260",
             "paramId" : "260121",
             "shortName" : "kx"
@@ -1067,7 +1067,7 @@
     },
     {
         "criteria" : {
-            "name" : "Total totals index",
+            "long_name" : "Total totals index",
             "param" : "123.260",
             "paramId" : "260123",
             "shortName" : "totalx"
@@ -1094,7 +1094,7 @@
     },
     {
         "criteria" : {
-            "name" : "Convective available potential energy",
+            "long_name" : "Convective available potential energy",
             "param" : "59.128",
             "paramId" : "59",
             "shortName" : "cape"
@@ -1125,7 +1125,7 @@
     },
     {
         "criteria" : {
-            "name" : "Total precipitation index",
+            "long_name" : "Total precipitation index",
             "param" : "228.132",
             "paramId" : "132228",
             "shortName" : "tpi"
@@ -1168,7 +1168,7 @@
     },
     {
         "criteria" : {
-            "name" : "Total precipitation",
+            "long_name" : "Total precipitation",
             "param" : "228.128",
             "paramId" : "228",
             "shortName" : "tp"
@@ -1213,7 +1213,7 @@
     },
     {
         "criteria" : {
-            "name" : "2 metre temperature index",
+            "long_name" : "2 metre temperature index",
             "param" : "167.132",
             "paramId" : "132167",
             "shortName" : "2ti"
@@ -1256,7 +1256,7 @@
     },
     {
         "criteria" : {
-            "name" : "2 metre temperature probability",
+            "long_name" : "2 metre temperature probability",
             "param" : "167.131",
             "paramId" : "131167",
             "shortName" : "2tp"
@@ -1289,7 +1289,7 @@
     },
     {
         "criteria" : {
-            "name" : "Snowfall index",
+            "long_name" : "Snowfall index",
             "param" : "144.132",
             "paramId" : "132144",
             "shortName" : "sfi"
@@ -1320,7 +1320,7 @@
     },
     {
         "criteria" : {
-            "name" : "Total precipitation probability",
+            "long_name" : "Total precipitation probability",
             "param" : "228.131",
             "paramId" : "131228",
             "shortName" : "tpp"
@@ -1353,7 +1353,7 @@
     },
     {
         "criteria" : {
-            "name" : "Convective precipitation",
+            "long_name" : "Convective precipitation",
             "param" : "143.128",
             "paramId" : "143",
             "shortName" : "cp",
@@ -1399,7 +1399,7 @@
     },
     {
         "criteria" : {
-            "name" : "Soil temperature level 1 probability",
+            "long_name" : "Soil temperature level 1 probability",
             "param" : "139.131",
             "paramId" : "131139",
             "shortName" : "stl1p"
@@ -1432,7 +1432,7 @@
     },
     {
         "criteria" : {
-            "name" : "Mean sea level pressure probability",
+            "long_name" : "Mean sea level pressure probability",
             "param" : "151.131",
             "paramId" : "131151",
             "shortName" : "mslpp"
@@ -1465,7 +1465,7 @@
     },
     {
         "criteria" : {
-            "name" : "Large-scale precipitation",
+            "long_name" : "Large-scale precipitation",
             "param" : "142.128",
             "paramId" : "142",
             "shortName" : "lsp",
@@ -1511,7 +1511,7 @@
     },
     {
         "criteria" : {
-            "name" : "Snowfall",
+            "long_name" : "Snowfall",
             "param" : "144.128",
             "paramId" : "144",
             "shortName" : "sf",
@@ -1557,7 +1557,7 @@
     },
     {
         "criteria" : {
-            "name" : "Precipitation rate",
+            "long_name" : "Precipitation rate",
             "param" : "59.3",
             "paramId" : "3059",
             "shortName" : "prate"
@@ -1586,7 +1586,7 @@
     },
     {
         "criteria" : {
-            "name" : "Convective rainfall rate",
+            "long_name" : "Convective rainfall rate",
             "param" : "143.174",
             "paramId" : "174143",
             "shortName" : "crfrate"
@@ -1615,7 +1615,7 @@
     },
     {
         "criteria" : {
-            "name" : "Large scale rainfall rate",
+            "long_name" : "Large scale rainfall rate",
             "param" : "142.174",
             "paramId" : "174142",
             "shortName" : "lsrrate"
@@ -1644,7 +1644,7 @@
     },
     {
         "criteria" : {
-            "name" : "Snow fall rate water equivalent",
+            "long_name" : "Snow fall rate water equivalent",
             "param" : "64.3",
             "paramId" : "3064",
             "shortName" : "srweq"
@@ -1673,7 +1673,7 @@
     },
     {
         "criteria" : {
-            "name" : "Accumulated freezing rain",
+            "long_name" : "Accumulated freezing rain",
             "param" : "216.228",
             "paramId" : "228216",
             "shortName" : "fzra"
@@ -1702,7 +1702,7 @@
     },
     {
         "criteria" : {
-            "name" : "2 metre temperature",
+            "long_name" : "2 metre temperature",
             "param" : "167.128",
             "paramId" : "167",
             "shortName" : "2t"
@@ -1755,7 +1755,7 @@
     },
     {
         "criteria" : {
-            "name" : "Total Aerosol Optical Depth at 550nm",
+            "long_name" : "Total Aerosol Optical Depth at 550nm",
             "param" : "207.210",
             "paramId" : "210207",
             "shortName" : "aod550"
@@ -1786,7 +1786,7 @@
     },
     {
         "criteria" : {
-            "name" : "Minimum temperature at 2 metres index",
+            "long_name" : "Minimum temperature at 2 metres index",
             "param" : "202.132",
             "paramId" : "132202",
             "shortName" : "mn2ti"
@@ -1829,7 +1829,7 @@
     },
     {
         "criteria" : {
-            "name" : " UV biologically effective dose clear-sky",
+            "long_name" : " UV biologically effective dose clear-sky",
             "param" : "3.214",
             "paramId" : "214003",
             "shortName" : "uvbedcs"
@@ -1854,7 +1854,7 @@
     },
     {
         "criteria" : {
-            "name" : " UV biologically effective dose",
+            "long_name" : " UV biologically effective dose",
             "param" : "2.214",
             "paramId" : "214002",
             "shortName" : "uvbed"
@@ -1879,7 +1879,7 @@
     },
     {
         "criteria" : {
-            "name" : "Sea-ice cover",
+            "long_name" : "Sea-ice cover",
             "param" : "31.128",
             "paramId" : "31",
             "shortName" : "ci"
@@ -1954,7 +1954,7 @@
     },
     {
         "criteria" : {
-            "name" : "Dust Aerosol Optical Depth at 550nm",
+            "long_name" : "Dust Aerosol Optical Depth at 550nm",
             "param" : "209.210",
             "paramId" : "210209",
             "shortName" : "duaod550"
@@ -1985,7 +1985,7 @@
     },
     {
         "criteria" : {
-            "name" : "Minimum temperature at 2 metres since previous post-processing",
+            "long_name" : "Minimum temperature at 2 metres since previous post-processing",
             "param" : "202.128",
             "paramId" : "202",
             "shortName" : "mn2t"
@@ -2038,7 +2038,7 @@
     },
     {
         "criteria" : {
-            "name" : "Sulphate Aerosol Optical Depth at 550nm",
+            "long_name" : "Sulphate Aerosol Optical Depth at 550nm",
             "param" : "212.210",
             "paramId" : "210212",
             "shortName" : "suaod550"
@@ -2069,7 +2069,7 @@
     },
     {
         "criteria" : {
-            "name" : "Maximum temperature at 2 metres index",
+            "long_name" : "Maximum temperature at 2 metres index",
             "param" : "201.132",
             "paramId" : "132201",
             "shortName" : "mx2ti"
@@ -2112,7 +2112,7 @@
     },
     {
         "criteria" : {
-            "name" : "Maximum temperature at 2 metres since previous post-processing",
+            "long_name" : "Maximum temperature at 2 metres since previous post-processing",
             "param" : "201.128",
             "paramId" : "201",
             "shortName" : "mx2t"
@@ -2165,7 +2165,7 @@
     },
     {
         "criteria" : {
-            "name" : "Carbon monoxide",
+            "long_name" : "Carbon monoxide",
             "param" : "123.210",
             "paramId" : "210123",
             "shortName" : "co"
@@ -2236,7 +2236,7 @@
     },
     {
         "criteria" : {
-            "name" : "Total column Sulphur dioxide",
+            "long_name" : "Total column Sulphur dioxide",
             "param" : "126.210",
             "paramId" : "210126",
             "shortName" : "tcso2"
@@ -2273,7 +2273,7 @@
     },
     {
         "criteria" : {
-            "name" : "Total column Carbon monoxide",
+            "long_name" : "Total column Carbon monoxide",
             "param" : "127.210",
             "paramId" : "210127",
             "shortName" : "tcco"
@@ -2310,7 +2310,7 @@
     },
     {
         "criteria" : {
-            "name" : "GEMS Total column ozone",
+            "long_name" : "GEMS Total column ozone",
             "param" : "206.210",
             "paramId" : "210206",
             "shortName" : "gtco3"
@@ -2347,7 +2347,7 @@
     },
     {
         "criteria" : {
-            "name" : "Wildfire radiative power",
+            "long_name" : "Wildfire radiative power",
             "param" : "99.210",
             "paramId" : "210099",
             "shortName" : "frpfire"
@@ -2387,7 +2387,7 @@
     },
     {
         "criteria" : {
-            "name" : "Particulate matter d < 2.5 um",
+            "long_name" : "Particulate matter d < 2.5 um",
             "param" : "73.210",
             "paramId" : "210073",
             "shortName" : "pm2p5"
@@ -2430,7 +2430,7 @@
     },
     {
         "criteria" : {
-            "name" : "Particulate matter d < 10 um",
+            "long_name" : "Particulate matter d < 10 um",
             "param" : "74.210",
             "paramId" : "210074",
             "shortName" : "pm10"
@@ -2470,7 +2470,7 @@
     },
     {
         "criteria" : {
-            "name" : "Total column Carbon Dioxide",
+            "long_name" : "Total column Carbon Dioxide",
             "param" : "64.210",
             "paramId" : "210064",
             "shortName" : "tcco2"
@@ -2513,7 +2513,7 @@
     },
     {
         "criteria" : {
-            "name" : "Total column Methane",
+            "long_name" : "Total column Methane",
             "param" : "65.210",
             "paramId" : "210065",
             "shortName" : "tcch4"
@@ -2553,7 +2553,7 @@
     },
     {
         "criteria" : {
-            "name" : "2 metre temperature anomaly",
+            "long_name" : "2 metre temperature anomaly",
             "param" : "167.171",
             "paramId" : "171167",
             "shortName" : "2ta"
@@ -2582,7 +2582,7 @@
     },
     {
         "criteria" : {
-            "name" : "Total precipitation anomalous rate of accumulation",
+            "long_name" : "Total precipitation anomalous rate of accumulation",
             "param" : "228.173",
             "paramId" : "173228",
             "shortName" : "tpara"
@@ -2609,7 +2609,7 @@
     },
     {
         "criteria" : {
-            "name" : "Soil temperature anomaly level 1",
+            "long_name" : "Soil temperature anomaly level 1",
             "param" : "139.171",
             "paramId" : "171139",
             "shortName" : "stal1"
@@ -2636,7 +2636,7 @@
     },
     {
         "criteria" : {
-            "name" : "Mean sea level pressure anomaly",
+            "long_name" : "Mean sea level pressure anomaly",
             "param" : "151.171",
             "paramId" : "171151",
             "shortName" : "msla"
@@ -2663,7 +2663,7 @@
     },
     {
         "criteria" : {
-            "name" : "Temperature anomaly",
+            "long_name" : "Temperature anomaly",
             "param" : "130.171",
             "paramId" : "171130",
             "shortName" : "ta"
@@ -2703,7 +2703,7 @@
     },
     {
         "criteria" : {
-            "name" : "Nitrogen dioxide",
+            "long_name" : "Nitrogen dioxide",
             "param" : "121.210",
             "paramId" : "210121",
             "shortName" : "no2"
@@ -2752,7 +2752,7 @@
     },
     {
         "criteria" : {
-            "name" : "GEMS Ozone",
+            "long_name" : "GEMS Ozone",
             "param" : "203.210",
             "paramId" : "210203",
             "shortName" : "go3"
@@ -2805,7 +2805,7 @@
     },
     {
         "criteria" : {
-            "name" : "2 metre dewpoint temperature",
+            "long_name" : "2 metre dewpoint temperature",
             "param" : "168.128",
             "paramId" : "168",
             "shortName" : "2d"
@@ -2854,7 +2854,7 @@
     },
     {
         "criteria" : {
-            "name" : "10 metre wind speed",
+            "long_name" : "10 metre wind speed",
             "param" : "207.128",
             "paramId" : "207",
             "shortName" : "10si"
@@ -2906,7 +2906,7 @@
     },
     {
         "criteria" : {
-            "name" : "10 metre speed index",
+            "long_name" : "10 metre speed index",
             "param" : "165.132",
             "paramId" : "132165",
             "shortName" : "10wsi"
@@ -2949,7 +2949,7 @@
     },
     {
         "criteria" : {
-            "name" : "10 metre wind gust since previous post-processing",
+            "long_name" : "10 metre wind gust since previous post-processing",
             "param" : "49.128",
             "paramId" : "49",
             "shortName" : "10fg"
@@ -2982,7 +2982,7 @@
     },
     {
         "criteria" : {
-            "name" : "10 metre wind gust index",
+            "long_name" : "10 metre wind gust index",
             "param" : "49.132",
             "paramId" : "132049",
             "shortName" : "10fgi"
@@ -3025,7 +3025,7 @@
     },
     {
         "criteria" : {
-            "name" : "Maximum of significant wave height index",
+            "long_name" : "Maximum of significant wave height index",
             "param" : "216.132",
             "paramId" : "132216",
             "shortName" : "maxswhi"
@@ -3068,7 +3068,7 @@
     },
     {
         "criteria" : {
-            "name" : "Convective available potential energy index",
+            "long_name" : "Convective available potential energy index",
             "param" : "59.132",
             "paramId" : "132059",
             "shortName" : "capei"
@@ -3111,7 +3111,7 @@
     },
     {
         "criteria" : {
-            "name" : "Convective available potential energy shear index",
+            "long_name" : "Convective available potential energy shear index",
             "param" : "44.132",
             "paramId" : "132044",
             "shortName" : "capesi"
@@ -3154,7 +3154,7 @@
     },
     {
         "criteria" : {
-            "name" : "Cloudy brightness temperature",
+            "long_name" : "Cloudy brightness temperature",
             "param" : "510.260",
             "paramId" : "260510",
             "shortName" : "clbt"
@@ -3221,7 +3221,7 @@
     },
     {
         "criteria" : {
-            "name" : "Low cloud cover",
+            "long_name" : "Low cloud cover",
             "param" : "186.128",
             "paramId" : "186",
             "shortName" : "lcc"
@@ -3252,7 +3252,7 @@
     },
     {
         "criteria" : {
-            "name" : "Medium cloud cover",
+            "long_name" : "Medium cloud cover",
             "param" : "187.128",
             "paramId" : "187",
             "shortName" : "mcc"
@@ -3283,7 +3283,7 @@
     },
     {
         "criteria" : {
-            "name" : "High cloud cover",
+            "long_name" : "High cloud cover",
             "param" : "188.128",
             "paramId" : "188",
             "shortName" : "hcc"
@@ -3314,7 +3314,7 @@
     },
     {
         "criteria" : {
-            "name" : "Cloud base height",
+            "long_name" : "Cloud base height",
             "param" : "23.228",
             "paramId" : "228023",
             "shortName" : "cbh"
@@ -3354,7 +3354,7 @@
     },
     {
         "criteria" : {
-            "name" : "Ceiling",
+            "long_name" : "Ceiling",
             "param" : "109.260",
             "paramId" : "260109",
             "shortName" : "ceil"
@@ -3394,7 +3394,7 @@
     },
     {
         "criteria" : {
-            "name" : "Height of convective cloud top",
+            "long_name" : "Height of convective cloud top",
             "param" : "46.228",
             "paramId" : "228046",
             "shortName" : "hcct"
@@ -3434,7 +3434,7 @@
     },
     {
         "criteria" : {
-            "name" : "Visibility",
+            "long_name" : "Visibility",
             "param" : "20.3",
             "paramId" : "3020",
             "shortName" : "vis"
@@ -3471,7 +3471,7 @@
     },
     {
         "criteria" : {
-            "name" : "Probability of a tropical depression",
+            "long_name" : "Probability of a tropical depression",
             "param" : "91.131",
             "paramId" : "131091",
             "shortName" : "ptd"
@@ -3506,7 +3506,7 @@
     },
     {
         "criteria" : {
-            "name" : "Probability of a tropical storm",
+            "long_name" : "Probability of a tropical storm",
             "param" : "89.131",
             "paramId" : "131089",
             "shortName" : "pts"
@@ -3541,7 +3541,7 @@
     },
     {
         "criteria" : {
-            "name" : "Probability of a hurricane",
+            "long_name" : "Probability of a hurricane",
             "param" : "90.131",
             "paramId" : "131090",
             "shortName" : "ph"
@@ -3576,7 +3576,7 @@
     },
     {
         "criteria" : {
-            "name" : "Specific humidity",
+            "long_name" : "Specific humidity",
             "param" : "133.128",
             "paramId" : "133",
             "shortName" : "q",
@@ -3643,7 +3643,7 @@
     },
     {
         "criteria" : {
-            "name" : "Relative humidity",
+            "long_name" : "Relative humidity",
             "param" : "157.128",
             "paramId" : "157",
             "shortName" : "r",
@@ -3778,7 +3778,7 @@
     },
     {
         "criteria" : {
-            "name" : "Divergence",
+            "long_name" : "Divergence",
             "param" : "155.128",
             "paramId" : "155",
             "shortName" : "d",
@@ -3908,7 +3908,7 @@
     },
     {
         "criteria" : {
-            "name" : "Temperature",
+            "long_name" : "Temperature",
             "param" : "130.128",
             "paramId" : "130",
             "shortName" : "t",
@@ -4208,7 +4208,7 @@
     },
     {
         "criteria" : {
-            "name" : "Sunshine duration anomalous rate of accumulation",
+            "long_name" : "Sunshine duration anomalous rate of accumulation",
             "param" : "189.173",
             "paramId" : "173189",
             "shortName" : "sundara"
@@ -4237,7 +4237,7 @@
     },
     {
         "criteria" : {
-            "name" : "Wind speed",
+            "long_name" : "Wind speed",
             "param" : "10.128",
             "paramId" : "10",
             "shortName" : "ws"
@@ -4506,7 +4506,7 @@
     },
     {
         "criteria" : {
-            "name" : "Precipitation type",
+            "long_name" : "Precipitation type",
             "param" : "15.260",
             "paramId" : "260015",
             "shortName" : "ptype"
@@ -4531,7 +4531,7 @@
     },
     {
         "criteria" : {
-            "name" : "Potential temperature",
+            "long_name" : "Potential temperature",
             "param" : "3.128",
             "paramId" : "3",
             "shortName" : "pt"
@@ -4592,7 +4592,7 @@
     },
     {
         "criteria" : {
-            "name" : "Vorticity (relative)",
+            "long_name" : "Vorticity (relative)",
             "param" : "138.128",
             "paramId" : "138",
             "shortName" : "vo",
@@ -4725,7 +4725,7 @@
     },
     {
         "criteria" : {
-            "name" : "Vertical velocity",
+            "long_name" : "Vertical velocity",
             "param" : "135.128",
             "paramId" : "135",
             "shortName" : "w",
@@ -4775,7 +4775,7 @@
     },
     {
         "criteria" : {
-            "name" : "Potential vorticity",
+            "long_name" : "Potential vorticity",
             "param" : "60.128",
             "paramId" : "60",
             "shortName" : "pv"
@@ -4883,7 +4883,7 @@
     },
     {
         "criteria" : {
-            "name" : "Significant height of combined wind waves and swell",
+            "long_name" : "Significant height of combined wind waves and swell",
             "param" : "229.140",
             "paramId" : "140229",
             "shortName" : "swh"
@@ -4918,7 +4918,7 @@
     },
     {
         "criteria" : {
-            "name" : "Significant wave height of all waves with period larger than 10s",
+            "long_name" : "Significant wave height of all waves with period larger than 10s",
             "param" : "120.140",
             "paramId" : "140120",
             "shortName" : "sh10"
@@ -4953,7 +4953,7 @@
     },
     {
         "criteria" : {
-            "name" : "Significant wave height of all waves with periods within the inclusive range from 10 to 12 seconds",
+            "long_name" : "Significant wave height of all waves with periods within the inclusive range from 10 to 12 seconds",
             "param" : "114.140",
             "paramId" : "140114",
             "shortName" : "h1012"
@@ -4982,7 +4982,7 @@
     },
     {
         "criteria" : {
-            "name" : "Significant wave height of all waves with periods within the inclusive range from 12 to 14 seconds",
+            "long_name" : "Significant wave height of all waves with periods within the inclusive range from 12 to 14 seconds",
             "param" : "115.140",
             "paramId" : "140115",
             "shortName" : "h1214"
@@ -5011,7 +5011,7 @@
     },
     {
         "criteria" : {
-            "name" : "Significant wave height of all waves with periods within the inclusive range from 14 to 17 seconds",
+            "long_name" : "Significant wave height of all waves with periods within the inclusive range from 14 to 17 seconds",
             "param" : "116.140",
             "paramId" : "140116",
             "shortName" : "h1417"
@@ -5040,7 +5040,7 @@
     },
     {
         "criteria" : {
-            "name" : "Significant wave height of all waves with periods within the inclusive range from 17 to 21 seconds",
+            "long_name" : "Significant wave height of all waves with periods within the inclusive range from 17 to 21 seconds",
             "param" : "117.140",
             "paramId" : "140117",
             "shortName" : "h1721"
@@ -5069,7 +5069,7 @@
     },
     {
         "criteria" : {
-            "name" : "Significant wave height of all waves with periods within the inclusive range from 21 to 25 seconds",
+            "long_name" : "Significant wave height of all waves with periods within the inclusive range from 21 to 25 seconds",
             "param" : "118.140",
             "paramId" : "140118",
             "shortName" : "h2125"
@@ -5102,7 +5102,7 @@
     },
     {
         "criteria" : {
-            "name" : "Significant wave height of all waves with periods within the inclusive range from 25 to 30 seconds",
+            "long_name" : "Significant wave height of all waves with periods within the inclusive range from 25 to 30 seconds",
             "param" : "119.140",
             "paramId" : "140119",
             "shortName" : "h2530"
@@ -5135,7 +5135,7 @@
     },
     {
         "criteria" : {
-            "name" : "Significant height of wind waves",
+            "long_name" : "Significant height of wind waves",
             "param" : "234.140",
             "paramId" : "140234",
             "shortName" : "shww"
@@ -5172,7 +5172,7 @@
     },
     {
         "criteria" : {
-            "name" : "Significant height of total swell",
+            "long_name" : "Significant height of total swell",
             "param" : "237.140",
             "paramId" : "140237",
             "shortName" : "shts"
@@ -5207,7 +5207,7 @@
     },
     {
         "criteria" : {
-            "name" : "Mean wave period",
+            "long_name" : "Mean wave period",
             "param" : "232.140",
             "paramId" : "140232",
             "shortName" : "mwp"
@@ -5236,7 +5236,7 @@
     },
     {
         "criteria" : {
-            "name" : "Mean period of wind waves",
+            "long_name" : "Mean period of wind waves",
             "param" : "236.140",
             "paramId" : "140236",
             "shortName" : "mpww"
@@ -5265,7 +5265,7 @@
     },
     {
         "criteria" : {
-            "name" : "Mean period of total swell",
+            "long_name" : "Mean period of total swell",
             "param" : "239.140",
             "paramId" : "140239",
             "shortName" : "mpts"
@@ -5294,7 +5294,7 @@
     },
     {
         "criteria" : {
-            "name" : "Wave energy flux magnitude",
+            "long_name" : "Wave energy flux magnitude",
             "param" : "112.140",
             "paramId" : "140112",
             "shortName" : "wefxm"
