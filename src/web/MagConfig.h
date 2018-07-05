@@ -105,13 +105,13 @@ public:
 	map<string, MagDef > library_;
 
     bool find(const string& name, MagDef::Definition& definition) {
-    	cout << "Looking for  " << name << endl;
+    	//cout << "Looking for  " << name << endl;
     	map<string, MagDef>::iterator def = library_.find(name);
 
     	if ( def != library_.end() ) {
     		definition = def->second.def_;
-    		cout << "FOUND " << name << endl;
-    		cout << def->second << endl;
+    		//cout << "FOUND " << name << endl;
+    		//cout << def->second << endl;
     		return true;
     	}
     	MagLog::warning() << " Can not find the preset " << name << " for " << name_ << endl;

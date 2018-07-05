@@ -127,9 +127,9 @@ void MetaDataVisitor::collectMetaData()
 	try  {
 			ofstream out(wms_file_);
 
-			out        << "{" << endl;;
+			
 		
-			string s = "";
+			
 
 			
 			for (auto style = styles_.begin(); style != styles_.end(); ++style) {
@@ -137,8 +137,7 @@ void MetaDataVisitor::collectMetaData()
 				out << **style;
 				
 			}
-			out        << "}" << endl;;
-
+			
 			out.close();
 		}
 		catch (...) {}
@@ -225,13 +224,14 @@ void MetaDataVisitor::collect()
 void StyleEntry::print(ostream& s) const
 {
 
-	s << "  style: { " << endl;
-	s << "    default:" << default_ << ", " << endl;
-	s << "    styles: [ " << endl;
+	s << "{\"styles\": [ " << endl;
 	string sep = "    ";
 	for (auto style = styles_.begin(); style != styles_.end(); ++style) {
-		s << sep << *style;
-		sep = ";\n      ";
+		s << sep << "{\"name\":\"" << *style << "\"";
+		sep = ",\n      ";
+		s << sep << "\"description\":\"" << "description to come" << "\"";
+		s << sep << "\"title\":\"" << "title to come" << "\"}";
+		
 	}
 	s << " 	  ]" << endl;
 	s << "  }" << endl;
