@@ -9,6 +9,8 @@
 import sys
 import os
 import numpy
+import json
+
 from . import Magics
 
 class Context(object):
@@ -551,3 +553,58 @@ try:
             return image
 except ImportError:
     plot = _plot
+
+
+
+def wmsstyles(data):
+
+    f, tmp = tempfile.mkstemp(".json")
+    os.close(f)
+    os.environ["MAGPLUS_QUIET"] =  "on"
+    os.environ["MAGPLUS_WARNING"] =  "off"
+
+    f,img = tempfile.mkstemp(".png")
+    os.close(f)
+
+    base, ext = os.path.splitext(img)
+
+    out = output(output_formats=["png"],
+                      output_name_first_page_number='off',
+                      output_name=base)
+
+    meta = mmap(
+            metadata_wms_file = tmp
+            )
+    #Define the simple contouring for z500
+    _plot(out, meta, data, mcont(contour_automatic_setting = "web")  )
+    with open(tmp) as data_file:
+       
+        info = json.load(data_file)
+    os.unlink(tmp)
+    os.unlink(img)
+
+    return info
+
+def wmscrs():
+    os.environ["MAGPLUS_QUIET"] =  "on"
+    os.environ["MAGPLUS_WARNING"] =  "off"
+    return { "crss" : [
+                {
+                    "name" : "EPSG:4326",
+                    "min_x" : -180.,
+                    "min_y" : -90,
+                    "max_x" : 180,
+                    "max_y" : 90
+                },
+                ],
+
+              "geographic_bounding_box" : {
+                    "w_lon" : -180,
+                    "e_lon" : 180,
+                    "s_lat" : -90,
+                    "n_lat" : 90
+              }
+            
+            }
+                
+    

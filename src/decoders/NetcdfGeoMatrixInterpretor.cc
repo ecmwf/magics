@@ -62,11 +62,11 @@ bool NetcdfGeoMatrixInterpretor::interpretAsMatrix(Matrix** matrix)
 		settings.askId(needs);
 		for ( auto need = needs.begin(); need != needs.end(); ++need) {
 			need->second = getAttribute(field_, need->first, "");
-			cout << need->first << "--->" << need->second << endl;
+			//cout << need->first << "--->" << need->second << endl;
 		}
 		
 		settings.getScaling(needs, scaling_, offset_);
-		cout << "Apply scaling " << scaling_ << " and " << offset_ << endl; 
+		//cout << "Apply scaling " << scaling_ << " and " << offset_ << endl; 
 	}
 
 
@@ -114,7 +114,7 @@ bool NetcdfGeoMatrixInterpretor::interpretAsMatrix(Matrix** matrix)
 				i++;			
 			}
 		}
-		cout << "Apply scaling " << scaling_ << " and " << offset_ << endl; 
+		//cout << "Apply scaling " << scaling_ << " and " << offset_ << endl; 
 		matrix_->multiply(scaling_);
 		matrix_->plus(offset_);
 	    matrix_->setMapsAxis();

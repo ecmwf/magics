@@ -106,9 +106,12 @@ void Contour::operator()(Data& data, BasicGraphicsObjectContainer& parent)
 				
 				request["theme"] = theme_;
 				styleInfo_ = new StyleEntry();
+
 				library->getStyle(request, attributes, *styleInfo_);
 				if ( !legend_ ) 
 					attributes["legend"] ="off";
+
+				
 				set(attributes);
 			}
 		}	
