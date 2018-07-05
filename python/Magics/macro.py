@@ -576,7 +576,7 @@ def wmsstyles(data):
             metadata_wms_file = tmp
             )
     #Define the simple contouring for z500
-    _plot(out, meta, data, mcont(contour_automatic_setting = "web")  )
+    _plot(out, meta, data, mcont(contour_automatic_setting = "web", contour_legend_only = "on")  )
     with open(tmp) as data_file:
        
         info = json.load(data_file)
