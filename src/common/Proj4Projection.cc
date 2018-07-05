@@ -1108,8 +1108,16 @@ void Proj4Projection::coastSetting(map<string, string>& setting, double abswidth
 	//const double yratio = ( ypcmax_ - ypcmin_ ) / absheight;
 
 	// choose the smallest (smaller ratio means more detail required)
-	const double ratio = 10;
+	const double area = ( max_pcx_-min_pcx_ ) * ( max_pcy_- min_pcy_);
 
+    double ratio = area/(abswidth*absheight);
+	
+    //projFACTORS data = proj_factors(to_, xy);
+
+
+	cout << "RATIO" << area << endl;
+
+	
 	std::string resol = "110m";
 	if ( ratio < 100000 )  // highest resolution
 	{
@@ -1119,7 +1127,7 @@ void Proj4Projection::coastSetting(map<string, string>& setting, double abswidth
 	{
 		resol = "50m";
 	}
-	resol = "110m";
+	resol = "10m";
 	setting["resolution"]      = resol;
 	setting["land"]       = resol + "/ne_" + resol + "_land";
 	setting["ocean"]      = resol + "/ne_" + resol + "_ocean";
