@@ -1,529 +1,6 @@
 [
     {
         "criteria" : {
-            "units" : "%"
-        },
-        "more" : [
-            {
-                "_name" : "tp_proba_interval",
-                "criteria" : {
-                    "long_name" : "Total precipitation",
-                    "param" : "228.128",
-                    "paramId" : "228",
-                    "shortName" : "tp"
-                },
-                "more" : [],
-                "style" : "sh_grn_f0t100lst",
-                "styles" : [
-                    "sh_grn_f0t100lst",
-                    "sh_grn_f0t100lst_light",
-                    "sh_rgb_f5t100",
-                    "sh_rgb_transparent_f5t100",
-                    "sh_rgb_transparent25_f5t100",
-                    "sh_blup_f0t100lst",
-                    "sh_blup_f0t100lst_light",
-                    "sh_red_f0t100lst",
-                    "sh_red_f0t100lst_light",
-                    "genesis_prob",
-                    "genesis_prob_light",
-                    "ct_prob_black_f5t100t2",
-                    "ct_prob_blue_f5t100t2"
-                ]
-            },
-            {
-                "_name" : "fzra_proba",
-                "criteria" : {
-                    "long_name" : "Accumulated freezing rain",
-                    "param" : "216.228",
-                    "paramId" : "228216",
-                    "shortName" : "fzra"
-                },
-                "more" : [],
-                "style" : "sh_grn_f0t100lst",
-                "styles" : [
-                    "sh_grn_f0t100lst",
-                    "sh_grn_f0t100lst_light",
-                    "sh_rgb_f5t100",
-                    "sh_rgb_transparent_f5t100",
-                    "sh_rgb_transparent25_f5t100",
-                    "sh_blup_f0t100lst",
-                    "sh_blup_f0t100lst_light",
-                    "sh_red_f0t100lst",
-                    "sh_red_f0t100lst_light",
-                    "genesis_prob",
-                    "genesis_prob_light",
-                    "ct_prob_black_f5t100t2",
-                    "ct_prob_blue_f5t100t2"
-                ]
-            },
-            {
-                "_name" : "cp_proba_interval",
-                "criteria" : {
-                    "long_name" : "Convective precipitation",
-                    "param" : "143.128",
-                    "paramId" : "143",
-                    "shortName" : "cp"
-                },
-                "more" : [],
-                "style" : "sh_grn_f0t100lst",
-                "styles" : [
-                    "sh_grn_f0t100lst",
-                    "sh_grn_f0t100lst_light",
-                    "sh_rgb_f5t100",
-                    "sh_rgb_transparent_f5t100",
-                    "sh_rgb_transparent25_f5t100",
-                    "sh_blup_f0t100lst",
-                    "sh_blup_f0t100lst_light",
-                    "sh_red_f0t100lst",
-                    "sh_red_f0t100lst_light",
-                    "genesis_prob",
-                    "genesis_prob_light",
-                    "ct_prob_black_f5t100t2",
-                    "ct_prob_blue_f5t100t2"
-                ]
-            },
-            {
-                "_name" : "lsp_proba_interval",
-                "criteria" : {
-                    "long_name" : "Large-scale precipitation",
-                    "param" : "142.128",
-                    "paramId" : "142",
-                    "shortName" : "lsp"
-                },
-                "more" : [],
-                "style" : "sh_grn_f0t100lst",
-                "styles" : [
-                    "sh_grn_f0t100lst",
-                    "sh_grn_f0t100lst_light",
-                    "sh_rgb_f5t100",
-                    "sh_rgb_transparent_f5t100",
-                    "sh_rgb_transparent25_f5t100",
-                    "sh_blup_f0t100lst",
-                    "sh_blup_f0t100lst_light",
-                    "sh_red_f0t100lst",
-                    "sh_red_f0t100lst_light",
-                    "genesis_prob",
-                    "genesis_prob_light",
-                    "ct_prob_black_f5t100t2",
-                    "ct_prob_blue_f5t100t2"
-                ]
-            },
-            {
-                "_name" : "sf_proba_interval",
-                "criteria" : {
-                    "long_name" : "Snowfall",
-                    "param" : "144.128",
-                    "paramId" : "144",
-                    "shortName" : "sf"
-                },
-                "more" : [],
-                "style" : "sh_grn_f0t100lst",
-                "styles" : [
-                    "sh_grn_f0t100lst",
-                    "sh_grn_f0t100lst_light",
-                    "sh_rgb_f5t100",
-                    "sh_rgb_transparent_f5t100",
-                    "sh_rgb_transparent25_f5t100",
-                    "sh_blup_f0t100lst",
-                    "sh_blup_f0t100lst_light",
-                    "sh_red_f0t100lst",
-                    "sh_red_f0t100lst_light",
-                    "genesis_prob",
-                    "genesis_prob_light",
-                    "ct_prob_black_f5t100t2",
-                    "ct_prob_blue_f5t100t2"
-                ]
-            },
-            {
-                "_name" : "tp_rate_prob",
-                "criteria" : {
-                    "long_name" : "Precipitation rate",
-                    "param" : "59.3",
-                    "paramId" : "3059",
-                    "shortName" : "prate"
-                },
-                "more" : [],
-                "style" : "sh_grnblue_f1t100",
-                "styles" : [
-                    "sh_grnblue_f1t100",
-                    "sh_grn_f0t100lst",
-                    "sh_rgb_f5t100",
-                    "sh_rgb_transparent_f5t100",
-                    "sh_rgb_transparent25_f5t100",
-                    "sh_grn_f0t100lst_light",
-                    "sh_blup_f0t100lst",
-                    "sh_blup_f0t100lst_light",
-                    "sh_red_f0t100lst",
-                    "sh_red_f0t100lst_light",
-                    "genesis_prob",
-                    "genesis_prob_light",
-                    "ct_prob_black_f5t100t2",
-                    "ct_prob_blue_f5t100t2"
-                ]
-            },
-            {
-                "_name" : "lsp_rate_prob",
-                "criteria" : {
-                    "long_name" : "Large scale rainfall rate",
-                    "param" : "142.174",
-                    "paramId" : "174142",
-                    "shortName" : "lsrrate"
-                },
-                "more" : [],
-                "style" : "sh_grnblue_f1t100",
-                "styles" : [
-                    "sh_grnblue_f1t100",
-                    "sh_grn_f0t100lst",
-                    "sh_rgb_f5t100",
-                    "sh_rgb_transparent_f5t100",
-                    "sh_rgb_transparent25_f5t100",
-                    "sh_rgb_f5t100",
-                    "sh_grn_f0t100lst_light",
-                    "sh_blup_f0t100lst",
-                    "sh_blup_f0t100lst_light",
-                    "sh_red_f0t100lst",
-                    "sh_red_f0t100lst_light",
-                    "genesis_prob",
-                    "genesis_prob_light",
-                    "ct_prob_black_f5t100t2",
-                    "ct_prob_blue_f5t100t2"
-                ]
-            },
-            {
-                "_name" : "cp_rate_prob",
-                "criteria" : {
-                    "long_name" : "Convective rainfall rate",
-                    "param" : "143.174",
-                    "paramId" : "174143",
-                    "shortName" : "crfrate"
-                },
-                "more" : [],
-                "style" : "sh_grnblue_f1t100",
-                "styles" : [
-                    "sh_grnblue_f1t100",
-                    "sh_grn_f0t100lst",
-                    "sh_rgb_f5t100",
-                    "sh_rgb_transparent_f5t100",
-                    "sh_rgb_transparent25_f5t100",
-                    "sh_grn_f0t100lst_light",
-                    "sh_blup_f0t100lst",
-                    "sh_blup_f0t100lst_light",
-                    "sh_red_f0t100lst",
-                    "sh_red_f0t100lst_light",
-                    "genesis_prob",
-                    "genesis_prob_light",
-                    "ct_prob_black_f5t100t2",
-                    "ct_prob_blue_f5t100t2"
-                ]
-            },
-            {
-                "_name" : "sf_rate_prob",
-                "criteria" : {
-                    "long_name" : "Snow fall rate water equivalent",
-                    "param" : "64.3",
-                    "paramId" : "3064",
-                    "shortName" : "srweq"
-                },
-                "more" : [],
-                "style" : "sh_grnblue_f1t100",
-                "styles" : [
-                    "sh_grnblue_f1t100",
-                    "sh_grn_f0t100lst",
-                    "sh_rgb_f5t100",
-                    "sh_rgb_transparent_f5t100",
-                    "sh_rgb_transparent25_f5t100",
-                    "sh_grn_f0t100lst_light",
-                    "sh_blup_f0t100lst",
-                    "sh_blup_f0t100lst_light",
-                    "sh_red_f0t100lst",
-                    "sh_red_f0t100lst_light",
-                    "genesis_prob",
-                    "genesis_prob_light",
-                    "ct_prob_black_f5t100t2",
-                    "ct_prob_blue_f5t100t2"
-                ]
-            },
-            {
-                "_name" : "visibility_prob",
-                "criteria" : {
-                    "long_name" : "Visibility",
-                    "param" : "20.3",
-                    "paramId" : "3020",
-                    "shortName" : "vis"
-                },
-                "more" : [],
-                "style" : "sh_blkgrey_f0t100lst",
-                "styles" : [
-                    "sh_blkgrey_f0t100lst",
-                    "sh_blup_f0t100lst",
-                    "sh_blup_f0t100lst_light",
-                    "sh_rgb_f5t100",
-                    "sh_rgb_transparent_f5t100",
-                    "sh_rgb_transparent25_f5t100",
-                    "sh_grn_f0t100lst",
-                    "sh_grn_f0t100lst_light",
-                    "sh_red_f0t100lst",
-                    "sh_red_f0t100lst_light"
-                ]
-            },
-            {
-                "_name" : "2tprob",
-                "criteria" : {
-                    "long_name" : "2 metre temperature",
-                    "param" : "167.128",
-                    "paramId" : "167",
-                    "shortName" : "2t"
-                },
-                "more" : [],
-                "style" : "sh_blup_f0t100lst",
-                "styles" : [
-                    "sh_blup_f0t100lst",
-                    "sh_blup_f0t100lst_light",
-                    "sh_rgb_f5t100",
-                    "sh_rgb_transparent_f5t100",
-                    "sh_rgb_transparent25_f5t100",
-                    "sh_grn_f0t100lst",
-                    "sh_grn_f0t100lst_light",
-                    "sh_red_f0t100lst",
-                    "sh_red_f0t100lst_light",
-                    "genesis_prob",
-                    "genesis_prob_light",
-                    "ct_prob_black_f5t100t2",
-                    "ct_prob_blue_f5t100t2"
-                ]
-            },
-            {
-                "_name" : "mn2tprob",
-                "criteria" : {
-                    "long_name" : "Minimum temperature at 2 metres since previous post-processing",
-                    "param" : "202.128",
-                    "paramId" : "202",
-                    "shortName" : "mn2t"
-                },
-                "more" : [],
-                "style" : "sh_blup_f0t100lst",
-                "styles" : [
-                    "sh_blup_f0t100lst",
-                    "sh_blup_f0t100lst_light",
-                    "sh_rgb_f5t100",
-                    "sh_rgb_transparent_f5t100",
-                    "sh_rgb_transparent25_f5t100",
-                    "sh_grn_f0t100lst",
-                    "sh_grn_f0t100lst_light",
-                    "sh_red_f0t100lst",
-                    "sh_red_f0t100lst_light",
-                    "genesis_prob",
-                    "genesis_prob_light",
-                    "ct_prob_black_f5t100t2",
-                    "ct_prob_blue_f5t100t2"
-                ]
-            },
-            {
-                "_name" : "mx2tprob",
-                "criteria" : {
-                    "long_name" : "Maximum temperature at 2 metres since previous post-processing",
-                    "param" : "201.128",
-                    "paramId" : "201",
-                    "shortName" : "mx2t"
-                },
-                "more" : [],
-                "style" : "sh_blup_f0t100lst",
-                "styles" : [
-                    "sh_blup_f0t100lst",
-                    "sh_blup_f0t100lst_light",
-                    "sh_rgb_f5t100",
-                    "sh_rgb_transparent_f5t100",
-                    "sh_rgb_transparent25_f5t100",
-                    "sh_grn_f0t100lst",
-                    "sh_grn_f0t100lst_light",
-                    "sh_red_f0t100lst",
-                    "sh_red_f0t100lst_light",
-                    "genesis_prob",
-                    "genesis_prob_light",
-                    "ct_prob_black_f5t100t2",
-                    "ct_prob_blue_f5t100t2"
-                ]
-            },
-            {
-                "_name" : "cape_prob",
-                "criteria" : {
-                    "long_name" : "Convective available potential energy",
-                    "param" : "59.128",
-                    "paramId" : "59",
-                    "shortName" : "cape"
-                },
-                "more" : [],
-                "style" : "sh_blup_f0t100lst",
-                "styles" : [
-                    "sh_blup_f0t100lst",
-                    "sh_blup_f0t100lst_light",
-                    "sh_rgb_f5t100",
-                    "sh_rgb_transparent_f5t100",
-                    "sh_rgb_transparent25_f5t100",
-                    "sh_grn_f0t100lst",
-                    "sh_grn_f0t100lst_light",
-                    "sh_red_f0t100lst",
-                    "sh_red_f0t100lst_light",
-                    "ct_prob_black_f5t100t2",
-                    "ct_prob_blue_f5t100t2"
-                ]
-            },
-            {
-                "_name" : "2t_dewpoint_prob",
-                "criteria" : {
-                    "long_name" : "2 metre dewpoint temperature",
-                    "param" : "168.128",
-                    "paramId" : "168",
-                    "shortName" : "2d"
-                },
-                "more" : [],
-                "style" : "sh_blup_f0t100lst",
-                "styles" : [
-                    "sh_blup_f0t100lst",
-                    "sh_blup_f0t100lst_light",
-                    "sh_rgb_f5t100",
-                    "sh_rgb_transparent_f5t100",
-                    "sh_rgb_transparent25_f5t100",
-                    "sh_grn_f0t100lst",
-                    "sh_grn_f0t100lst_light",
-                    "sh_red_f0t100lst",
-                    "sh_red_f0t100lst_light",
-                    "genesis_prob",
-                    "genesis_prob_light",
-                    "ct_prob_black_f5t100t2",
-                    "ct_prob_blue_f5t100t2"
-                ]
-            },
-            {
-                "_name" : "wind_prob_data",
-                "criteria" : {
-                    "long_name" : "10 metre wind speed",
-                    "param" : "207.128",
-                    "paramId" : "207",
-                    "shortName" : "10si"
-                },
-                "more" : [],
-                "style" : "sh_blup_f0t100lst",
-                "styles" : [
-                    "sh_blup_f0t100lst",
-                    "sh_blup_f0t100lst_light",
-                    "sh_rgb_f5t100",
-                    "sh_rgb_transparent_f5t100",
-                    "sh_rgb_transparent25_f5t100",
-                    "sh_grn_f0t100lst",
-                    "sh_grn_f0t100lst_light",
-                    "sh_red_f0t100lst",
-                    "sh_red_f0t100lst_light",
-                    "genesis_prob",
-                    "genesis_prob_light",
-                    "ct_prob_black_f5t100t2",
-                    "ct_prob_blue_f5t100t2"
-                ]
-            },
-            {
-                "_name" : "gusts_prob_data",
-                "criteria" : {
-                    "long_name" : "10 metre wind gust since previous post-processing",
-                    "param" : "49.128",
-                    "paramId" : "49",
-                    "shortName" : "10fg"
-                },
-                "more" : [],
-                "style" : "sh_blup_f0t100lst",
-                "styles" : [
-                    "sh_blup_f0t100lst",
-                    "sh_blup_f0t100lst_light",
-                    "sh_rgb_f5t100",
-                    "sh_rgb_transparent_f5t100",
-                    "sh_rgb_transparent25_f5t100",
-                    "sh_grn_f0t100lst",
-                    "sh_grn_f0t100lst_light",
-                    "sh_red_f0t100lst",
-                    "sh_red_f0t100lst_light",
-                    "genesis_prob",
-                    "genesis_prob_light",
-                    "ct_prob_black_f5t100t2",
-                    "ct_prob_blue_f5t100t2"
-                ]
-            },
-            {
-                "_name" : "swh_prob_data",
-                "criteria" : {
-                    "long_name" : "Significant height of combined wind waves and swell",
-                    "param" : "229.140",
-                    "paramId" : "140229",
-                    "shortName" : "swh"
-                },
-                "more" : [],
-                "style" : "sh_blup_f0t100lst",
-                "styles" : [
-                    "sh_blup_f0t100lst",
-                    "sh_blup_f0t100lst_light",
-                    "sh_rgb_f5t100",
-                    "sh_rgb_transparent_f5t100",
-                    "sh_rgb_transparent25_f5t100",
-                    "sh_grn_f0t100lst",
-                    "sh_grn_f0t100lst_light",
-                    "sh_red_f0t100lst",
-                    "sh_red_f0t100lst_light",
-                    "genesis_prob",
-                    "genesis_prob_light",
-                    "ct_prob_black_f5t100t2",
-                    "ct_prob_blue_f5t100t2"
-                ]
-            },
-            {
-                "_name" : "mwp_prob_data",
-                "criteria" : {
-                    "long_name" : "Mean wave period",
-                    "param" : "232.140",
-                    "paramId" : "140232",
-                    "shortName" : "mwp"
-                },
-                "more" : [],
-                "style" : "sh_blup_f0t100lst",
-                "styles" : [
-                    "sh_blup_f0t100lst",
-                    "sh_blup_f0t100lst_light",
-                    "sh_rgb_f5t100",
-                    "sh_rgb_transparent_f5t100",
-                    "sh_rgb_transparent25_f5t100",
-                    "sh_grn_f0t100lst",
-                    "sh_grn_f0t100lst_light",
-                    "sh_red_f0t100lst",
-                    "sh_red_f0t100lst_light",
-                    "genesis_prob",
-                    "genesis_prob_light",
-                    "ct_prob_black_f5t100t2",
-                    "ct_prob_blue_f5t100t2"
-                ]
-            }
-        ],
-        "style" : "sh_blup_f0t100lst",
-        "styles" : [
-            "sh_grn_f0t100lst",
-            "sh_grn_f0t100lst_light",
-            "sh_rgb_f5t100",
-            "sh_rgb_transparent_f5t100",
-            "sh_rgb_transparent25_f5t100",
-            "sh_blup_f0t100lst",
-            "sh_blup_f0t100lst_light",
-            "sh_red_f0t100lst",
-            "sh_red_f0t100lst_light",
-            "genesis_prob",
-            "genesis_prob_light",
-            "ct_prob_black_f5t100t2",
-            "ct_prob_blue_f5t100t2",
-            "sh_brn_f0t1",
-            "sh_grnblue_f1t100",
-            "sh_blkgrey_f0t100lst",
-            "dot_blup_f0t100lst",
-            "snow_cover_25to100",
-            "snow_cover_standard"
-        ]
-    },
-    {
-        "criteria" : {
             "long_name" : "Geopotential",
             "param" : "129.128",
             "paramId" : "129",
@@ -5321,6 +4798,529 @@
             "ct_t3_f0t640_blue",
             "sh_red_f0t640_energy",
             "ct_t3_f0t640_black"
+        ]
+    },
+    {
+        "criteria" : {
+            "units" : "%"
+        },
+        "more" : [
+            {
+                "_name" : "tp_proba_interval",
+                "criteria" : {
+                    "long_name" : "Total precipitation",
+                    "param" : "228.128",
+                    "paramId" : "228",
+                    "shortName" : "tp"
+                },
+                "more" : [],
+                "style" : "sh_grn_f0t100lst",
+                "styles" : [
+                    "sh_grn_f0t100lst",
+                    "sh_grn_f0t100lst_light",
+                    "sh_rgb_f5t100",
+                    "sh_rgb_transparent_f5t100",
+                    "sh_rgb_transparent25_f5t100",
+                    "sh_blup_f0t100lst",
+                    "sh_blup_f0t100lst_light",
+                    "sh_red_f0t100lst",
+                    "sh_red_f0t100lst_light",
+                    "genesis_prob",
+                    "genesis_prob_light",
+                    "ct_prob_black_f5t100t2",
+                    "ct_prob_blue_f5t100t2"
+                ]
+            },
+            {
+                "_name" : "fzra_proba",
+                "criteria" : {
+                    "long_name" : "Accumulated freezing rain",
+                    "param" : "216.228",
+                    "paramId" : "228216",
+                    "shortName" : "fzra"
+                },
+                "more" : [],
+                "style" : "sh_grn_f0t100lst",
+                "styles" : [
+                    "sh_grn_f0t100lst",
+                    "sh_grn_f0t100lst_light",
+                    "sh_rgb_f5t100",
+                    "sh_rgb_transparent_f5t100",
+                    "sh_rgb_transparent25_f5t100",
+                    "sh_blup_f0t100lst",
+                    "sh_blup_f0t100lst_light",
+                    "sh_red_f0t100lst",
+                    "sh_red_f0t100lst_light",
+                    "genesis_prob",
+                    "genesis_prob_light",
+                    "ct_prob_black_f5t100t2",
+                    "ct_prob_blue_f5t100t2"
+                ]
+            },
+            {
+                "_name" : "cp_proba_interval",
+                "criteria" : {
+                    "long_name" : "Convective precipitation",
+                    "param" : "143.128",
+                    "paramId" : "143",
+                    "shortName" : "cp"
+                },
+                "more" : [],
+                "style" : "sh_grn_f0t100lst",
+                "styles" : [
+                    "sh_grn_f0t100lst",
+                    "sh_grn_f0t100lst_light",
+                    "sh_rgb_f5t100",
+                    "sh_rgb_transparent_f5t100",
+                    "sh_rgb_transparent25_f5t100",
+                    "sh_blup_f0t100lst",
+                    "sh_blup_f0t100lst_light",
+                    "sh_red_f0t100lst",
+                    "sh_red_f0t100lst_light",
+                    "genesis_prob",
+                    "genesis_prob_light",
+                    "ct_prob_black_f5t100t2",
+                    "ct_prob_blue_f5t100t2"
+                ]
+            },
+            {
+                "_name" : "lsp_proba_interval",
+                "criteria" : {
+                    "long_name" : "Large-scale precipitation",
+                    "param" : "142.128",
+                    "paramId" : "142",
+                    "shortName" : "lsp"
+                },
+                "more" : [],
+                "style" : "sh_grn_f0t100lst",
+                "styles" : [
+                    "sh_grn_f0t100lst",
+                    "sh_grn_f0t100lst_light",
+                    "sh_rgb_f5t100",
+                    "sh_rgb_transparent_f5t100",
+                    "sh_rgb_transparent25_f5t100",
+                    "sh_blup_f0t100lst",
+                    "sh_blup_f0t100lst_light",
+                    "sh_red_f0t100lst",
+                    "sh_red_f0t100lst_light",
+                    "genesis_prob",
+                    "genesis_prob_light",
+                    "ct_prob_black_f5t100t2",
+                    "ct_prob_blue_f5t100t2"
+                ]
+            },
+            {
+                "_name" : "sf_proba_interval",
+                "criteria" : {
+                    "long_name" : "Snowfall",
+                    "param" : "144.128",
+                    "paramId" : "144",
+                    "shortName" : "sf"
+                },
+                "more" : [],
+                "style" : "sh_grn_f0t100lst",
+                "styles" : [
+                    "sh_grn_f0t100lst",
+                    "sh_grn_f0t100lst_light",
+                    "sh_rgb_f5t100",
+                    "sh_rgb_transparent_f5t100",
+                    "sh_rgb_transparent25_f5t100",
+                    "sh_blup_f0t100lst",
+                    "sh_blup_f0t100lst_light",
+                    "sh_red_f0t100lst",
+                    "sh_red_f0t100lst_light",
+                    "genesis_prob",
+                    "genesis_prob_light",
+                    "ct_prob_black_f5t100t2",
+                    "ct_prob_blue_f5t100t2"
+                ]
+            },
+            {
+                "_name" : "tp_rate_prob",
+                "criteria" : {
+                    "long_name" : "Precipitation rate",
+                    "param" : "59.3",
+                    "paramId" : "3059",
+                    "shortName" : "prate"
+                },
+                "more" : [],
+                "style" : "sh_grnblue_f1t100",
+                "styles" : [
+                    "sh_grnblue_f1t100",
+                    "sh_grn_f0t100lst",
+                    "sh_rgb_f5t100",
+                    "sh_rgb_transparent_f5t100",
+                    "sh_rgb_transparent25_f5t100",
+                    "sh_grn_f0t100lst_light",
+                    "sh_blup_f0t100lst",
+                    "sh_blup_f0t100lst_light",
+                    "sh_red_f0t100lst",
+                    "sh_red_f0t100lst_light",
+                    "genesis_prob",
+                    "genesis_prob_light",
+                    "ct_prob_black_f5t100t2",
+                    "ct_prob_blue_f5t100t2"
+                ]
+            },
+            {
+                "_name" : "lsp_rate_prob",
+                "criteria" : {
+                    "long_name" : "Large scale rainfall rate",
+                    "param" : "142.174",
+                    "paramId" : "174142",
+                    "shortName" : "lsrrate"
+                },
+                "more" : [],
+                "style" : "sh_grnblue_f1t100",
+                "styles" : [
+                    "sh_grnblue_f1t100",
+                    "sh_grn_f0t100lst",
+                    "sh_rgb_f5t100",
+                    "sh_rgb_transparent_f5t100",
+                    "sh_rgb_transparent25_f5t100",
+                    "sh_rgb_f5t100",
+                    "sh_grn_f0t100lst_light",
+                    "sh_blup_f0t100lst",
+                    "sh_blup_f0t100lst_light",
+                    "sh_red_f0t100lst",
+                    "sh_red_f0t100lst_light",
+                    "genesis_prob",
+                    "genesis_prob_light",
+                    "ct_prob_black_f5t100t2",
+                    "ct_prob_blue_f5t100t2"
+                ]
+            },
+            {
+                "_name" : "cp_rate_prob",
+                "criteria" : {
+                    "long_name" : "Convective rainfall rate",
+                    "param" : "143.174",
+                    "paramId" : "174143",
+                    "shortName" : "crfrate"
+                },
+                "more" : [],
+                "style" : "sh_grnblue_f1t100",
+                "styles" : [
+                    "sh_grnblue_f1t100",
+                    "sh_grn_f0t100lst",
+                    "sh_rgb_f5t100",
+                    "sh_rgb_transparent_f5t100",
+                    "sh_rgb_transparent25_f5t100",
+                    "sh_grn_f0t100lst_light",
+                    "sh_blup_f0t100lst",
+                    "sh_blup_f0t100lst_light",
+                    "sh_red_f0t100lst",
+                    "sh_red_f0t100lst_light",
+                    "genesis_prob",
+                    "genesis_prob_light",
+                    "ct_prob_black_f5t100t2",
+                    "ct_prob_blue_f5t100t2"
+                ]
+            },
+            {
+                "_name" : "sf_rate_prob",
+                "criteria" : {
+                    "long_name" : "Snow fall rate water equivalent",
+                    "param" : "64.3",
+                    "paramId" : "3064",
+                    "shortName" : "srweq"
+                },
+                "more" : [],
+                "style" : "sh_grnblue_f1t100",
+                "styles" : [
+                    "sh_grnblue_f1t100",
+                    "sh_grn_f0t100lst",
+                    "sh_rgb_f5t100",
+                    "sh_rgb_transparent_f5t100",
+                    "sh_rgb_transparent25_f5t100",
+                    "sh_grn_f0t100lst_light",
+                    "sh_blup_f0t100lst",
+                    "sh_blup_f0t100lst_light",
+                    "sh_red_f0t100lst",
+                    "sh_red_f0t100lst_light",
+                    "genesis_prob",
+                    "genesis_prob_light",
+                    "ct_prob_black_f5t100t2",
+                    "ct_prob_blue_f5t100t2"
+                ]
+            },
+            {
+                "_name" : "visibility_prob",
+                "criteria" : {
+                    "long_name" : "Visibility",
+                    "param" : "20.3",
+                    "paramId" : "3020",
+                    "shortName" : "vis"
+                },
+                "more" : [],
+                "style" : "sh_blkgrey_f0t100lst",
+                "styles" : [
+                    "sh_blkgrey_f0t100lst",
+                    "sh_blup_f0t100lst",
+                    "sh_blup_f0t100lst_light",
+                    "sh_rgb_f5t100",
+                    "sh_rgb_transparent_f5t100",
+                    "sh_rgb_transparent25_f5t100",
+                    "sh_grn_f0t100lst",
+                    "sh_grn_f0t100lst_light",
+                    "sh_red_f0t100lst",
+                    "sh_red_f0t100lst_light"
+                ]
+            },
+            {
+                "_name" : "2tprob",
+                "criteria" : {
+                    "long_name" : "2 metre temperature",
+                    "param" : "167.128",
+                    "paramId" : "167",
+                    "shortName" : "2t"
+                },
+                "more" : [],
+                "style" : "sh_blup_f0t100lst",
+                "styles" : [
+                    "sh_blup_f0t100lst",
+                    "sh_blup_f0t100lst_light",
+                    "sh_rgb_f5t100",
+                    "sh_rgb_transparent_f5t100",
+                    "sh_rgb_transparent25_f5t100",
+                    "sh_grn_f0t100lst",
+                    "sh_grn_f0t100lst_light",
+                    "sh_red_f0t100lst",
+                    "sh_red_f0t100lst_light",
+                    "genesis_prob",
+                    "genesis_prob_light",
+                    "ct_prob_black_f5t100t2",
+                    "ct_prob_blue_f5t100t2"
+                ]
+            },
+            {
+                "_name" : "mn2tprob",
+                "criteria" : {
+                    "long_name" : "Minimum temperature at 2 metres since previous post-processing",
+                    "param" : "202.128",
+                    "paramId" : "202",
+                    "shortName" : "mn2t"
+                },
+                "more" : [],
+                "style" : "sh_blup_f0t100lst",
+                "styles" : [
+                    "sh_blup_f0t100lst",
+                    "sh_blup_f0t100lst_light",
+                    "sh_rgb_f5t100",
+                    "sh_rgb_transparent_f5t100",
+                    "sh_rgb_transparent25_f5t100",
+                    "sh_grn_f0t100lst",
+                    "sh_grn_f0t100lst_light",
+                    "sh_red_f0t100lst",
+                    "sh_red_f0t100lst_light",
+                    "genesis_prob",
+                    "genesis_prob_light",
+                    "ct_prob_black_f5t100t2",
+                    "ct_prob_blue_f5t100t2"
+                ]
+            },
+            {
+                "_name" : "mx2tprob",
+                "criteria" : {
+                    "long_name" : "Maximum temperature at 2 metres since previous post-processing",
+                    "param" : "201.128",
+                    "paramId" : "201",
+                    "shortName" : "mx2t"
+                },
+                "more" : [],
+                "style" : "sh_blup_f0t100lst",
+                "styles" : [
+                    "sh_blup_f0t100lst",
+                    "sh_blup_f0t100lst_light",
+                    "sh_rgb_f5t100",
+                    "sh_rgb_transparent_f5t100",
+                    "sh_rgb_transparent25_f5t100",
+                    "sh_grn_f0t100lst",
+                    "sh_grn_f0t100lst_light",
+                    "sh_red_f0t100lst",
+                    "sh_red_f0t100lst_light",
+                    "genesis_prob",
+                    "genesis_prob_light",
+                    "ct_prob_black_f5t100t2",
+                    "ct_prob_blue_f5t100t2"
+                ]
+            },
+            {
+                "_name" : "cape_prob",
+                "criteria" : {
+                    "long_name" : "Convective available potential energy",
+                    "param" : "59.128",
+                    "paramId" : "59",
+                    "shortName" : "cape"
+                },
+                "more" : [],
+                "style" : "sh_blup_f0t100lst",
+                "styles" : [
+                    "sh_blup_f0t100lst",
+                    "sh_blup_f0t100lst_light",
+                    "sh_rgb_f5t100",
+                    "sh_rgb_transparent_f5t100",
+                    "sh_rgb_transparent25_f5t100",
+                    "sh_grn_f0t100lst",
+                    "sh_grn_f0t100lst_light",
+                    "sh_red_f0t100lst",
+                    "sh_red_f0t100lst_light",
+                    "ct_prob_black_f5t100t2",
+                    "ct_prob_blue_f5t100t2"
+                ]
+            },
+            {
+                "_name" : "2t_dewpoint_prob",
+                "criteria" : {
+                    "long_name" : "2 metre dewpoint temperature",
+                    "param" : "168.128",
+                    "paramId" : "168",
+                    "shortName" : "2d"
+                },
+                "more" : [],
+                "style" : "sh_blup_f0t100lst",
+                "styles" : [
+                    "sh_blup_f0t100lst",
+                    "sh_blup_f0t100lst_light",
+                    "sh_rgb_f5t100",
+                    "sh_rgb_transparent_f5t100",
+                    "sh_rgb_transparent25_f5t100",
+                    "sh_grn_f0t100lst",
+                    "sh_grn_f0t100lst_light",
+                    "sh_red_f0t100lst",
+                    "sh_red_f0t100lst_light",
+                    "genesis_prob",
+                    "genesis_prob_light",
+                    "ct_prob_black_f5t100t2",
+                    "ct_prob_blue_f5t100t2"
+                ]
+            },
+            {
+                "_name" : "wind_prob_data",
+                "criteria" : {
+                    "long_name" : "10 metre wind speed",
+                    "param" : "207.128",
+                    "paramId" : "207",
+                    "shortName" : "10si"
+                },
+                "more" : [],
+                "style" : "sh_blup_f0t100lst",
+                "styles" : [
+                    "sh_blup_f0t100lst",
+                    "sh_blup_f0t100lst_light",
+                    "sh_rgb_f5t100",
+                    "sh_rgb_transparent_f5t100",
+                    "sh_rgb_transparent25_f5t100",
+                    "sh_grn_f0t100lst",
+                    "sh_grn_f0t100lst_light",
+                    "sh_red_f0t100lst",
+                    "sh_red_f0t100lst_light",
+                    "genesis_prob",
+                    "genesis_prob_light",
+                    "ct_prob_black_f5t100t2",
+                    "ct_prob_blue_f5t100t2"
+                ]
+            },
+            {
+                "_name" : "gusts_prob_data",
+                "criteria" : {
+                    "long_name" : "10 metre wind gust since previous post-processing",
+                    "param" : "49.128",
+                    "paramId" : "49",
+                    "shortName" : "10fg"
+                },
+                "more" : [],
+                "style" : "sh_blup_f0t100lst",
+                "styles" : [
+                    "sh_blup_f0t100lst",
+                    "sh_blup_f0t100lst_light",
+                    "sh_rgb_f5t100",
+                    "sh_rgb_transparent_f5t100",
+                    "sh_rgb_transparent25_f5t100",
+                    "sh_grn_f0t100lst",
+                    "sh_grn_f0t100lst_light",
+                    "sh_red_f0t100lst",
+                    "sh_red_f0t100lst_light",
+                    "genesis_prob",
+                    "genesis_prob_light",
+                    "ct_prob_black_f5t100t2",
+                    "ct_prob_blue_f5t100t2"
+                ]
+            },
+            {
+                "_name" : "swh_prob_data",
+                "criteria" : {
+                    "long_name" : "Significant height of combined wind waves and swell",
+                    "param" : "229.140",
+                    "paramId" : "140229",
+                    "shortName" : "swh"
+                },
+                "more" : [],
+                "style" : "sh_blup_f0t100lst",
+                "styles" : [
+                    "sh_blup_f0t100lst",
+                    "sh_blup_f0t100lst_light",
+                    "sh_rgb_f5t100",
+                    "sh_rgb_transparent_f5t100",
+                    "sh_rgb_transparent25_f5t100",
+                    "sh_grn_f0t100lst",
+                    "sh_grn_f0t100lst_light",
+                    "sh_red_f0t100lst",
+                    "sh_red_f0t100lst_light",
+                    "genesis_prob",
+                    "genesis_prob_light",
+                    "ct_prob_black_f5t100t2",
+                    "ct_prob_blue_f5t100t2"
+                ]
+            },
+            {
+                "_name" : "mwp_prob_data",
+                "criteria" : {
+                    "long_name" : "Mean wave period",
+                    "param" : "232.140",
+                    "paramId" : "140232",
+                    "shortName" : "mwp"
+                },
+                "more" : [],
+                "style" : "sh_blup_f0t100lst",
+                "styles" : [
+                    "sh_blup_f0t100lst",
+                    "sh_blup_f0t100lst_light",
+                    "sh_rgb_f5t100",
+                    "sh_rgb_transparent_f5t100",
+                    "sh_rgb_transparent25_f5t100",
+                    "sh_grn_f0t100lst",
+                    "sh_grn_f0t100lst_light",
+                    "sh_red_f0t100lst",
+                    "sh_red_f0t100lst_light",
+                    "genesis_prob",
+                    "genesis_prob_light",
+                    "ct_prob_black_f5t100t2",
+                    "ct_prob_blue_f5t100t2"
+                ]
+            }
+        ],
+        "style" : "sh_blup_f0t100lst",
+        "styles" : [
+            "sh_grn_f0t100lst",
+            "sh_grn_f0t100lst_light",
+            "sh_rgb_f5t100",
+            "sh_rgb_transparent_f5t100",
+            "sh_rgb_transparent25_f5t100",
+            "sh_blup_f0t100lst",
+            "sh_blup_f0t100lst_light",
+            "sh_red_f0t100lst",
+            "sh_red_f0t100lst_light",
+            "genesis_prob",
+            "genesis_prob_light",
+            "ct_prob_black_f5t100t2",
+            "ct_prob_blue_f5t100t2",
+            "sh_brn_f0t1",
+            "sh_grnblue_f1t100",
+            "sh_blkgrey_f0t100lst",
+            "dot_blup_f0t100lst",
+            "snow_cover_25to100",
+            "snow_cover_standard"
         ]
     }
 ]
