@@ -61,6 +61,10 @@ does it submit to any jurisdiction.
             <unset name="contour_automatic_library_path" value="off">       </unset>
             <set name="contour_automatic_library_path" value="on">      </set>
     </parameter>
+    <parameter from="string" name="contour_metadata_only" default="off" member="metadata_only" to="bool"> 
+            <documentation>Only get the metadata         </documentation>
+            
+    </parameter>
 
 	<parameter from="string" name="contour_automatic_library_path" visible="off" default="" member="library_path" to="string"> 
          		<documentation> Users can give their own file to setup the automatic library of contours 		</documentation>

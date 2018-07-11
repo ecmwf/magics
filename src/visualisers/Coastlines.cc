@@ -47,18 +47,17 @@ void Coastlines::print(ostream& out)  const
 
 void Coastlines::visit(DrawingVisitor& parent)
 {
-	
-
 	// if needed Find the Style, according to the theme ..
 	if ( style_.size() ) {
+		cout << "THEME USED" << theme() << endl;
+		cout << "TRY TO FIND " << style_ << endl;
 		MagDefLibrary styles(theme(), "coastlines");
 		MagDef::Definition style;
 		
 		if ( styles.find(style_, style) ) {
 			set(style);
 			
-		}
-		
+		}	
 	}
 	(*coastlines_)(parent);
 	(*grid_)(parent);

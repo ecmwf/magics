@@ -14,7 +14,7 @@
     }, 
     {
         "criteria": { 
-            "name": "boundaries"
+            "name": "borders"
         },
         "visdef": {
             "contour_legend_text": "Boundaries For WWW", 
@@ -22,13 +22,10 @@
             "map_grid": "off", 
             "map_boundaries_colour": "tan",
             "map_administrative_boundaries_style": "dot", 
-            "map_disputed_boundaries": "$disputed", 
             "map_coastline": "off", 
-            "map_label": "off", 
-            "map_administrative_boundaries_countries_list": "$country_list", 
-            "map_administrative_boundaries_colour": "tan", 
+            "map_label": "off",
             "map_coastline_colour": "tan", 
-            "map_administrative_boundaries": "on"
+            "map_administrative_boundaries": "off"
         }
     }, 
     {

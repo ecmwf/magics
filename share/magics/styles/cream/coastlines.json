@@ -12,10 +12,10 @@
         "map_administrative_boundaries_colour": "tan", 
         "map_coastline_colour": "tan", 
         "map_administrative_boundaries": "on"
-    }, 
+}, 
     "foreground": {
         "contour_legend_text": "Dark Coastlines", 
-        "map_coastline_resolution": "high", 
+        "_map_coastline_resolution": "high", 
         "map_coastline_thickness": 2, 
         "map_grid": "off", 
         "map_label": "off", 
@@ -30,7 +30,7 @@
         "map_coastline": "off"
     }, 
     "background": {
-        "map_coastline_resolution": "high", 
+        "_map_coastline_resolution": "high", 
         "map_coastline_land_shade_colour": "cream", 
         "map_grid": "off", 
         "map_coastline_land_shade": "on", 

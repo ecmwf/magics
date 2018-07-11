@@ -576,7 +576,7 @@ def wmsstyles(data):
             metadata_wms_file = tmp
             )
     #Define the simple contouring for z500
-    _plot(out, meta, data, mcont(contour_automatic_setting = "web", contour_legend_only = "on")  )
+    _plot(out, meta, data, mcont(contour_automatic_setting = "web", contour_metadata_only = "on")  )
     with open(tmp) as data_file:
        
         info = json.load(data_file)
@@ -592,9 +592,9 @@ def wmscrs():
                 {
                     "name" : "EPSG:4326",
                     "w_lon" : -180.,
-                    "s_lat" : -90,
-                    "e_lon" : 180,
-                    "n_lat" : 90
+                    "s_lat" : -90.,
+                    "e_lon" : 180.,
+                    "n_lat" : 90.
                 },
                  {
                     "name" : "EPSG:3857",
@@ -621,10 +621,10 @@ def wmscrs():
 
 
               "geographic_bounding_box" : {
-                    "w_lon" : -180,
-                    "e_lon" : 180,
-                    "s_lat" : -90,
-                    "n_lat" : 90
+                    "w_lon" : -180.,
+                    "e_lon" : 180.,
+                    "s_lat" : -90.,
+                    "n_lat" : 90.
               }
             
             }
