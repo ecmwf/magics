@@ -1,66 +1,66 @@
   <h2> Origin </h2>
- 
+
   {% for r in results %}
     <button onclick='showFamily("{{ r }}" )'>{{ r }} </button>
     {% endfor %}
 
 
     <h2> Colours </h2>
-    
+
   {% for c in colours %}
     <button onclick='showColour("{{ c }}" )'>{{ c }} </button>
     {% endfor %}
-    
-  
+
+
     <h2> Levels </h2>
   <select id="levels" onchange="showLevel(this.options[this.selectedIndex].value)">
-  
+
      <option value="all">All</option>
   {% for c in levels %}
     <option value="level_{{ c }}">{{ c }} </option>
     {% endfor %}
-    
-</select> 
+
+</select>
 
    <h2> Parameters </h2>
-   
+
   <select id="parameters" onchange="showParam(this.options[this.selectedIndex].value)">
   <option value="all">All</option>
   {% for l, s in parameters.items() %}
     <option value="{{ s }}">{{ l }} </option>
     {% endfor %}
-    
-</select> 
+
+</select>
 <br/>
 <h2> Magics settings </h2>
 <textarea id="magics" rows="4" cols="100">
 
 </textarea>
 
-   
+
   {% for r, values in results.items() %}
-   
-   
+
+
   <table class='{{ r }}'>
     <tr> <td span='2'><b>{{ r }}</b></td></tr>
-    {% for v in values %} 
+    {% for v in values %}
     <tr class='{{ v.colours }} {{ v.level }} {{ v.parameters }}'>
-   
-    <td  onclick='magics("{{ v.title }}")' style="cursor:pointer"> 
+
+    <td  onclick='magics("{{ v.title }}")' style="cursor:pointer">
       <b>  {{ v.title }} </b> - <i> {{ v.nb_level }} colours </i> <br/>
-      <img src='/wiki/download/attachments/97362110/{{ v.path }}'/>
+      <img src='/download/attachments/97362110/{{ v.path }}'/>
     </td>
     <!--td> {% if v.labels|length %}  <b> Parameters: </b>  {{ v.labels }} {% endif %} </td-->
     </tr>
     {% endfor %}
-    
+
     </table>
      {% endfor %}
 
 
 <script>
 
-function show(elems, visibility) 
+function show(elems, visibility)
 {
     for(var i = 0; i != elems.length; ++i)
     {
@@ -82,23 +82,23 @@ function showRow(name) {
     show(document.querySelectorAll('TABLE'), "block");
     show(document.querySelectorAll('TR'), "block");
     show(document.querySelectorAll('TR:not(.' + name +')'), "none");
-    show(document.querySelectorAll('tr .' + name + ', tr .controls'), "block");    
+    show(document.querySelectorAll('tr .' + name + ', tr .controls'), "block");
 }
 function showColour(name) {
-    
+
     document.getElementById('parameters').value="all";
     document.getElementById('levels').value="all";
     showRow(name);
- 
+
 }
 function magics(name) {
-  
-    
-    document.getElementById('magics').value = `contour = mcont( 
+
+
+    document.getElementById('magics').value = `contour = mcont(
     contour_shade = 'on',
     contour_shade_method = 'area_fill'
     contour_shade_colour_method = 'palette',
-    contour_shade_palette_name = '` + name + "')" 
+    contour_shade_palette_name = '` + name + "')"
     ;
 }
 function showLevel(name) {
@@ -106,10 +106,10 @@ function showLevel(name) {
     if ( name == "all" ) {
         show(document.querySelectorAll('TABLE'), "block");
         show(document.querySelectorAll('TR'), "block");
-       
+
         return;
     }
-   
+
     showRow(name);
 }
 function showParam(name) {
@@ -117,7 +117,7 @@ function showParam(name) {
     if ( name == "all" ) {
         show(document.querySelectorAll('TABLE'), "block");
         show(document.querySelectorAll('TR'), "block");
-    
+
         return;
     }
     showRow(name);
