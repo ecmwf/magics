@@ -110,10 +110,11 @@ void Contour::operator()(Data& data, BasicGraphicsObjectContainer& parent)
 				library->getStyle(request, attributes, *styleInfo_);
 				if ( !legend_ ) 
 					attributes["legend"] ="off";
-
-				
+				if (metadata_only_) 
+					attributes["contour_legend_only"] = "on";
 				set(attributes);
 			}
+
 		}	
 		delete library;
 
