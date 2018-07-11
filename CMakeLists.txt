@@ -79,10 +79,13 @@ ecbuild_add_option( FEATURE SPOT
                     DESCRIPTION "enable spot support"
                     REQUIRED_PACKAGES "PROJECT spot" )
 
+find_package(PythonInterp REQUIRED)
+find_package(Jinja2 REQUIRED)
+
 ecbuild_add_option( FEATURE PYTHON
                     DEFAULT ON
                     DESCRIPTION "enable python interface"
-                    REQUIRED_PACKAGES "Python NO_LIBS" NumPy Jinja2 )
+                    REQUIRED_PACKAGES "Python NO_LIBS" NumPy )
 
 ecbuild_add_option( FEATURE FORTRAN
                     DEFAULT ON
