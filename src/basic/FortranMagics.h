@@ -54,8 +54,10 @@ public:
 	void prepare();
 	
 	void pgrib();
+	const char* metagrib();
 	void pmapgen();
 	void pnetcdf();
+	const char* metanetcdf();
 	void pgeo();
 	void pinput();
 	void ptable();
@@ -78,6 +80,7 @@ public:
 
 	void metbufr();
 	void metgraph();
+
 
 	void epscloud();
 	void epsplumes();
