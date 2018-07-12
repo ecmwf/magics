@@ -589,6 +589,7 @@ def wmsstyles(data):
 
     Magics.init()
     x = data.style()
+    Magics.finalize()
     return json.loads(x)
 
 
