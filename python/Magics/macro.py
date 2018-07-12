@@ -16,10 +16,21 @@ from . import Magics
 class Context(object):
     def __init__(self):
         self.tmp = []
-        pass
+        self.silent = False
+    
+    def set(self) :
+        if self.silent :
+            Magics.setc("magics_silent", "on")
+            os.environ["MAGPLUS_WARNING"] =  "off"
 
 global context
+
 context  = Context()
+
+def silent():
+   context.silent = True
+
+
 
 actions={
     "mobs": "pobs",
@@ -484,6 +495,7 @@ def _execute(o):
 		o.execute()
 
 def _plot(*args):
+    context.set()
     Magics.init()
     for n in args:
         _execute(n)
@@ -585,8 +597,10 @@ except ImportError:
 
 
 
-def wmsstyles(data):
 
+
+def wmsstyles(data):
+    context.set()
     Magics.init()
     x = data.style()
     Magics.finalize()

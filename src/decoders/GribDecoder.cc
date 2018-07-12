@@ -1237,7 +1237,7 @@ public:
             string readAsLong = node.getAttribute("readAsLong");
             if(readAsLong != "yes")
             {
-                val =  grib_.getString(def);
+                val =  grib_.getString(def, false);
                 string format = node.getAttribute("format");
                 if ( !format.empty() ) {
                     char tmp[256];
