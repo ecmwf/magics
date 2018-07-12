@@ -108,8 +108,7 @@ void FortranMagics::print(ostream& out)  const
 void FortranMagics::popen()
 {
    MagLog::info() << "popen()" << endl;
-
-   if(getEnvVariable("MAGPLUS_QUIET").empty() )
+   if(getEnvVariable("MAGPLUS_QUIET").empty() && !silent_ )
    {
 	MagLog::userInfo() << "------------------------------------------------------------------\n";
 	MagLog::userInfo() << "\n";
@@ -183,7 +182,7 @@ int FortranMagics::pclose()
 
 	Layout::reset();
 
-	if(getEnvVariable("MAGPLUS_QUIET").empty() )
+	if(getEnvVariable("MAGPLUS_QUIET").empty() && !silent_)
 	{
 	/*
 		MagLog::userInfo() << "------------------------------------------------------------------\n";

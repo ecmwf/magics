@@ -63,4 +63,8 @@ does it submit to any jurisdiction.
          		<documentation>Turn on/off legend		</documentation>
          		<release>Improved in Magics2.1		</release>
   	</parameter>
+      <parameter member="silent" to="bool" default="off" from="string" name="magics_silent">
+            <documentation>Turn on/off legend   </documentation>
+            <release>Improved in Magics2.1    </release>
+    </parameter>
 </class></magics>

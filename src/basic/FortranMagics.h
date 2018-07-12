@@ -28,6 +28,8 @@
 #include "OutputHandler.h"
 #include "DriverManager.h"
 #include "DisplayManager.h"
+#include "MagicsAttributes.h"
+
 namespace magics {
 
 class FortranRootSceneNode;
@@ -40,7 +42,7 @@ class Axis;
 class FortranTextVisitor;
 class LegendVisitor;
 
-class FortranMagics : public std::stack<BasicSceneObject*> {
+class FortranMagics : public MagicsAttributes, public std::stack<BasicSceneObject*> {
 
 public:
 	FortranMagics();
