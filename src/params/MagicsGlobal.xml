@@ -1,5 +1,5 @@
 <magics>
-<class name="Magics" directory="common" action="pnew">
+<class name="MagicsGlobal" directory="common" action="pnew">
 <!--
 (C) Copyright 1996-2016 ECMWF.
 

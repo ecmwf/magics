@@ -28,7 +28,7 @@
 #include "OutputHandler.h"
 #include "DriverManager.h"
 #include "DisplayManager.h"
-#include "MagicsAttributes.h"
+#include "MagicsGlobalAttributes.h"
 
 namespace magics {
 
@@ -42,7 +42,7 @@ class Axis;
 class FortranTextVisitor;
 class LegendVisitor;
 
-class FortranMagics : public MagicsAttributes, public std::stack<BasicSceneObject*> {
+class FortranMagics : public MagicsGlobalAttributes, public std::stack<BasicSceneObject*> {
 
 public:
 	FortranMagics();
