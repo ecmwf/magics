@@ -42,7 +42,16 @@ class Axis;
 class FortranTextVisitor;
 class LegendVisitor;
 
-class FortranMagics : public MagicsGlobalAttributes, public std::stack<BasicSceneObject*> {
+
+class MagicsGlobal : public MagicsGlobalAttributes 
+{
+public: 
+	MagicsGlobal() {};
+	~MagicsGlobal() {};
+
+};
+
+class FortranMagics : public MagicsGlobal, public std::stack<BasicSceneObject*> {
 
 public:
 	FortranMagics();
