@@ -5,7 +5,6 @@
         },
         "visdef": {
             "contour_legend_text": "Dark Coastlines", 
-            "map_coastline_resolution": "high", 
             "map_coastline_thickness": 2, 
             "map_grid": "off", 
             "map_label": "off", 
@@ -46,7 +45,6 @@
             "name": "background"
         },
         "visdef": {
-            "map_coastline_resolution": "high", 
             "map_coastline_land_shade_colour": "cream", 
             "map_grid": "off", 
             "map_coastline_land_shade": "on", 
