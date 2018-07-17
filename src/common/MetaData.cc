@@ -236,7 +236,14 @@ void StyleEntry::print(ostream& s) const
 		s << sep << "{\"name\":\"" << *style << "\"";
 		sep = ",\n      ";
 		s << sep << "\"description\":\"" << description << "\"";
-		s << sep << "\"title\":\"" << title << "\"}";
+		s << sep << "\"title\":\"" << title << "\"";
+		s << sep << "\"legend\": { \"width\": 350"; 
+		sep = ",\n          ";
+		s << sep << "\"height\": 50 }";
+		sep = "\n    ";
+		s << sep << "}";
+		sep = ",\n    ";
+
 		
 	}
 	s << " 	  ]" << endl;
