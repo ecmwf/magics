@@ -220,17 +220,23 @@ void MetaDataVisitor::collect()
 	for ( vector<MetaDataVisitor*>::iterator meta = meta_.begin(); meta != meta_.end(); ++meta ) 
 		(*meta)->collectMetaData();
 }
-		
+
+#include "MagConfig.h"
 void StyleEntry::print(ostream& s) const
 {
+	
+	StyleLibrary styles("default", "contours");
+
 
 	s << "{\"styles\": [ " << endl;
 	string sep = "    ";
 	for (auto style = styles_.begin(); style != styles_.end(); ++style) {
+		string description = styles.getAttribute(*style, "contour_description", "description to come");
+		string title = styles.getAttribute(*style, "contour_title", "title to come");
 		s << sep << "{\"name\":\"" << *style << "\"";
 		sep = ",\n      ";
-		s << sep << "\"description\":\"" << "description to come" << "\"";
-		s << sep << "\"title\":\"" << "title to come" << "\"}";
+		s << sep << "\"description\":\"" << description << "\"";
+		s << sep << "\"title\":\"" << title << "\"}";
 		
 	}
 	s << " 	  ]" << endl;
