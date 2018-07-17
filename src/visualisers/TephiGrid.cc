@@ -352,7 +352,7 @@ void TephiGrid::visit(DrawingVisitor& out)
 		MagFont font(isotherm_label_font_, isotherm_label_style_, isotherm_label_size_);
 		font.colour(*isotherm_label_colour_);
 
-		for ( int i = 25; i < 60; i += 25) {
+		for ( int i = 10; i < 25; i += 10) {
 			Polyline poly;
 			Colour colour =  *isotherm_colour_ ;
 			poly.setColour(colour);

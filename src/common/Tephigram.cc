@@ -147,7 +147,7 @@ PaperPoint Tephigram::operator()(const UserPoint& xy)  const
 		double coefficient = pow(100000./(p*100),KAPPA);
 		double y = (maxpcx+(273.15*(cosinus-sinus)))*((sinus + (coefficient*cosinus)))/(cosinus -(coefficient*sinus)) - 2713.15*(sinus+cosinus);
 		MagLog::dev() << p << "-->" << y << "??? " << minPCY_ << "<<" <<  maxPCY_<< endl;
-		double x =  ((maxPCX_-maxpcx)/50)*(xy.x()-1000)  + maxpcx;
+		double x =  ((maxPCX_-maxpcx)/20)*(xy.x()-1000)  + maxpcx;
 		
 		return PaperPoint(x, y, xy.value());
 	}
