@@ -927,9 +927,20 @@ void ptephi_()
 	magics_->ptephi();
 
 }
+
 void pgrib_()
 {
 	magics_->pgrib();
+}
+
+const char* metagrib_()
+{
+	return magics_->metagrib();
+}
+
+const char* metanetcdf_()
+{
+	return magics_->metanetcdf();
 }
 
 void pmapgen_()
@@ -1282,6 +1293,7 @@ void pinfo_(){mag_info();}
 ****************************************************************************/
 
 #define PYTHON(python, magics) const char* python() { try { magics(); } catch (exception e) { return e.what(); } return NULL;}
+#define PYTHONS(python, magics) const char* python() { try { return magics(); } catch (exception e) { return e.what(); } return NULL;}
 void mag_open()  {popen_();}
 PYTHON(py_open, popen_)
 int mag_close() { return pclose_();}
@@ -1290,6 +1302,7 @@ void mag_coast() {pcoast_();}
 PYTHON(py_coast, pcoast_)
 void mag_grib()  {pgrib_();}
 PYTHON(py_grib, pgrib_)
+PYTHONS(py_metagrib, metagrib_)
 void mag_mapgen()  {pmapgen_();}
 PYTHON(py_mapgen, pmapgen_)
 void mag_line()  {pline_();}
@@ -1305,6 +1318,7 @@ void mag_overlay(){poverlay_();}
 PYTHON(py_overlay, poverlay_)
 void mag_netcdf(){pnetcdf_();}
 PYTHON(py_netcdf, pnetcdf_)
+PYTHONS(py_metanetcdf, metanetcdf_)
 void mag_cont()  {pcont_();}
 PYTHON(py_cont, pcont_)
 void mag_input()  {pinput_();}
@@ -1499,6 +1513,8 @@ void mag_set1r(const char* name, const double *data, const int dim1)
 		MagLog::error() << e << "\n";
 	}
 }
+
+
 
 const char* py_set2r(const char* name, const double *data, const int dim1, const int dim2)
 {

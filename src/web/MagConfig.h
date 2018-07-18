@@ -170,6 +170,8 @@ public:
 	void findStyle(const string&, Style::Definition& visdef);
 	bool findScaling(const Style::Definition& data, Style::Definition& visdef);
     
+    string getAttribute(const string&, const string&, const string&);
+
     bool findStyle(const string& name, Style::Definition& visdef, StyleEntry& info) {
     	Style::Definition criteria;
     	criteria["name"] = name;

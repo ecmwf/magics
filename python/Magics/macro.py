@@ -16,10 +16,21 @@ from . import Magics
 class Context(object):
     def __init__(self):
         self.tmp = []
-        pass
+        self.silent = False
+    
+    def set(self) :
+        if self.silent :
+            Magics.setc("magics_silent", "on")
+            os.environ["MAGPLUS_WARNING"] =  "off"
 
 global context
+
 context  = Context()
+
+def silent():
+   context.silent = True
+
+
 
 actions={
     "mobs": "pobs",
@@ -313,11 +324,12 @@ class Action(object):
                 return "float"
         return "int"
 
-    def execute(self):
 
-        if ( self.action != Magics.odb) :
-            self.args = self.clean_object(self.args)
+
+    def set(self):
+
         for key in list(self.args.keys()):
+            
             if isinstance(self.args[key], str):
                 if key == 'odb_data':
                     Magics.setc('odb_filename', self.args[key])
@@ -357,6 +369,15 @@ class Action(object):
             else:
                 self.args[key].execute(key)
 
+
+
+    def execute(self):
+
+        if ( self.action != Magics.odb) :
+            self.args = self.clean_object(self.args)
+        
+        self.set()
+
         if self.action != None :
             if self.action != Magics.new_page :
                 if self.action == Magics.legend :
@@ -368,7 +389,25 @@ class Action(object):
             else:
                 self.action("page")
 
-def make_action(verb, action, html=""):
+    def style(self):
+
+        if self.action not in [Magics.grib, Magics.netcdf] :
+            return {}    
+
+
+        self.args = self.clean_object(self.args)
+        
+        self.set()
+        if self.action == Magics.grib:
+            return Magics.metagrib()
+        if self.action == Magics.netcdf:
+            return Magics.metanetcdf()
+
+
+        
+        
+
+def make_action(verb, action, html="" ):
     def f(_m = None,**kw):
         args = {}
         if _m is not None:
@@ -456,6 +495,7 @@ def _execute(o):
 		o.execute()
 
 def _plot(*args):
+    context.set()
     Magics.init()
     for n in args:
         _execute(n)
@@ -465,6 +505,7 @@ def _plot(*args):
     for f in context.tmp:
         if os.path.exists(f):
             os.remove(f)
+
 
 
 
@@ -556,34 +597,17 @@ except ImportError:
 
 
 
+
+
 def wmsstyles(data):
+    context.set()
+    Magics.init()
+    styles = data.style()
+    Magics.finalize()
+    return json.loads(styles.decode())
 
-    f, tmp = tempfile.mkstemp(".json")
-    os.close(f)
-    os.environ["MAGPLUS_QUIET"] =  "on"
-    os.environ["MAGPLUS_WARNING"] =  "off"
 
-    f,img = tempfile.mkstemp(".png")
-    os.close(f)
-
-    base, ext = os.path.splitext(img)
-
-    out = output(output_formats=["png"],
-                      output_name_first_page_number='off',
-                      output_name=base)
-
-    meta = mmap(
-            metadata_wms_file = tmp
-            )
-    #Define the simple contouring for z500
-    _plot(out, meta, data, mcont(contour_automatic_setting = "web", contour_legend_only = "on")  )
-    with open(tmp) as data_file:
-       
-        info = json.load(data_file)
-    os.unlink(tmp)
-    os.unlink(img)
-
-    return info
+   
 
 def wmscrs():
     os.environ["MAGPLUS_QUIET"] =  "on"
@@ -592,9 +616,9 @@ def wmscrs():
                 {
                     "name" : "EPSG:4326",
                     "w_lon" : -180.,
-                    "s_lat" : -90,
-                    "e_lon" : 180,
-                    "n_lat" : 90
+                    "s_lat" : -90.,
+                    "e_lon" : 180.,
+                    "n_lat" : 90.
                 },
                  {
                     "name" : "EPSG:3857",
@@ -621,10 +645,10 @@ def wmscrs():
 
 
               "geographic_bounding_box" : {
-                    "w_lon" : -180,
-                    "e_lon" : 180,
-                    "s_lat" : -90,
-                    "n_lat" : 90
+                    "w_lon" : -180.,
+                    "e_lon" : 180.,
+                    "s_lat" : -90.,
+                    "n_lat" : 90.
               }
             
             }

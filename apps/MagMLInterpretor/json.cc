@@ -66,7 +66,8 @@ int normal_main(int argc, char **argv)
 	MetaDataVisitor::start();
 	if(argc<2)
 	{
-		std::cout << " Usage: " << argv[0] << " file.json [-varname=varvalue]"<< endl;
+		std::cout << getMagicsVersionString() << endl;
+		std::cout << "Usage: " << argv[0] << " file.json [-varname=varvalue]"<< endl;
 		exit (1);
 	}
 
