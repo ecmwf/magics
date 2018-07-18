@@ -50,7 +50,7 @@ does it submit to any jurisdiction.
          		<release_info>2.8		</release_info>
 	</parameter>
 
-	<parameter from="string" name="contour_automatic_setting" default="off" member="setting" to="string" values="on/off/ecchart"> 
+	<parameter from="string" name="contour_automatic_setting" default="off" member="setting" to="string" values="on/off/ecchart/web"> 
     		<documentation> Turn the automatic setting of contouring attributes  		</documentation>
     		<unset name="contour_automatic_library_path" value="off">		</unset>
     		<set name="contour_predefined_setting" value="web">		</set>
