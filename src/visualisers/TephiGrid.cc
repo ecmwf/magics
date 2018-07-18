@@ -259,7 +259,7 @@ void TephiGrid::visit(DrawingVisitor& out)
 		ratios.push_back(20.);
 		ratios.push_back(30.);
 		ratios.push_back(50.);
-		ratios.push_back(100.);
+		//ratios.push_back(100.);
 		
 
 		// Humidity Mixing ratio Lines
@@ -318,7 +318,7 @@ void TephiGrid::visit(DrawingVisitor& out)
 
 
 		for (std::set<double>::iterator  thetaw = sat.begin(); thetaw != sat.end(); ++thetaw ) {
-			if ( *thetaw > 50.) continue;
+			if ( *thetaw > 40.) continue;
 			Polyline poly;
 			poly.setColour(*saturated_adiabatic_colour_);
 			poly.setLineStyle(saturated_adiabatic_style_);
@@ -352,7 +352,7 @@ void TephiGrid::visit(DrawingVisitor& out)
 		MagFont font(isotherm_label_font_, isotherm_label_style_, isotherm_label_size_);
 		font.colour(*isotherm_label_colour_);
 
-		for ( int i = 25; i < 60; i += 25) {
+		for ( int i = 10; i < 25; i += 10) {
 			Polyline poly;
 			Colour colour =  *isotherm_colour_ ;
 			poly.setColour(colour);

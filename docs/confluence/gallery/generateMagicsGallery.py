@@ -1,8 +1,8 @@
 # (C) Copyright 1996-2016 ECMWF.
-# 
+#
 # This software is licensed under the terms of the Apache Licence Version 2.0
-# which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
-# In applying this licence, ECMWF does not waive the privileges and immunities 
+# which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+# In applying this licence, ECMWF does not waive the privileges and immunities
 # granted to it by virtue of its status as an intergovernmental organisation nor
 # does it submit to any jurisdiction.
 
@@ -30,19 +30,19 @@ def buildSinglePage(parid,parti,title):
     f= file('./example_template.html')
     htemplate= f.read()
     f.close()
-    
-    
+
+
     data= []
-    
+
     ######################################
     # no count the 1 single definition json files
     if len(j['examples'])==1: return data
     ######################################
-    
-    
+
+
     #for each example
     for e in j['examples']:
-        
+
         name= e['name']
 
         #build the json definition
@@ -51,7 +51,7 @@ def buildSinglePage(parid,parti,title):
         f= file('./attachments/%s/%s.json'%(parid,name),'w')
         f.write(se)
         f.close()
-        
+
         #build the page
         html0= htemplate.replace('%PARENT_ID%',parid)
         html=  html0.replace('%SINGLE_EXAMPLE%',name)
@@ -69,13 +69,13 @@ def buildSinglePage(parid,parti,title):
             res = system('/home/graphics/cgjd/confluence-cli-2.5.0/confluence.sh --action addPage --space "MAGP" --title "%s %s" --file "./attachments/%s/%s.html"  --parent "Gallery"  --noConvert --replace' % (parti, name, parid, name))
             res = system('/home/graphics/cgjd/confluence-cli-2.5.0/confluence.sh --action addAttachment --space "MAGP" --title "%s" --file "./attachments/%s/%s.json"' % (parti, parid, name))
             print e, res
-        
+
         #save the relevant info
         pagetit0= "%s %s"%(parti,name)
         pagetit= pagetit0.replace(' ','+')
         data+= [(pagetit,parid,name)]
     return data
-        
+
 
 #1: define list of pages with attachments
 parids={
@@ -121,7 +121,7 @@ for row in data:
     filen= row[3]
     title= row[0]
     parid= row[2]
-    print 'Downloading', title, 
+    print 'Downloading', title,
     res= system('/home/graphics/cgjd/confluence-cli-2.5.0/confluence.sh --action getAttachment --space "MAGP" --id "%s" --file "%s" > out'%(parid,filen))
     if res==0: res=system('mv %s ./attachments/%s'%(filen,parid))
     if res==0: print 'OK'
@@ -134,7 +134,7 @@ for row in data:
     title= row[0]
     parid= row[2]
     parti= parids[parid]
-    examples+= buildSinglePage(parid,parti,title)  
+    examples+= buildSinglePage(parid,parti,title)
 
 #5: build the gallery page
 f= file('./gallery_template.html')
@@ -146,7 +146,7 @@ print 'Num of examples',num
 for i in range(0,num):
     pagetit,parid,name= examples[i]
     if i%3==0: lines+='<tr>\n'
-    lines+='\n\t<td><a href="/wiki/display/MAGP/%s">\n\t<img width="100%%" src="/wiki/download/attachments/%s/%s.png" alt="%s"/></a></td>'%(pagetit,parid,name,name) 
+    lines+='\n\t<td><a href="/display/MAGP/%s">\n\t<img width="100%%" src="/download/attachments/%s/%s.png" alt="%s"/></a></td>'%(pagetit,parid,name,name) 
     if i%3==2: lines+='</tr>\n'
 html= htemplate.replace('%TABLE_ROWS%',lines)
 f= file('./gallery.html','w')
@@ -159,4 +159,3 @@ if res==0:
     print 'Gallery updated OK'
 else:
     print 'Error occurred while updating Gallery'
-

@@ -1,4 +1,5 @@
 list( APPEND _common_xmls
+MagicsGlobal.xml
 Akima474Method.xml
 Akima760Method.xml
 ArrowPlotting.xml

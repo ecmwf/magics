@@ -108,8 +108,7 @@ void FortranMagics::print(ostream& out)  const
 void FortranMagics::popen()
 {
    MagLog::info() << "popen()" << endl;
-
-   if(getEnvVariable("MAGPLUS_QUIET").empty() )
+   if(getEnvVariable("MAGPLUS_QUIET").empty() && !silent_ )
    {
 	MagLog::userInfo() << "------------------------------------------------------------------\n";
 	MagLog::userInfo() << "\n";
@@ -183,7 +182,7 @@ int FortranMagics::pclose()
 
 	Layout::reset();
 
-	if(getEnvVariable("MAGPLUS_QUIET").empty() )
+	if(getEnvVariable("MAGPLUS_QUIET").empty() && !silent_)
 	{
 	/*
 		MagLog::userInfo() << "------------------------------------------------------------------\n";
@@ -524,6 +523,50 @@ void FortranMagics::pmapgen()
 
 }
 
+#include "MetaData.h"
+#include "ContourLibrary.h"
+const char* FortranMagics::metagrib()
+{
+	GribDecoder grib;
+	ContourLibrary* library = MagTranslator<string, ContourLibrary>()("web");
+
+    		// Here we try call the Contour libry to set up visual properties...
+   	MetaDataCollector request,needAttributes;
+    map<string, string> attributes;
+    	
+    
+	library->askId(request);
+	grib.visit(request);
+
+	StyleEntry style;
+	library->getStyle(request, attributes, style);
+	ostringstream out;
+	out << style;
+	static string temp = out.str();
+    return temp.c_str();
+	
+}
+const char* FortranMagics::metanetcdf()
+{
+	NetcdfDecoder netcdf;
+	ContourLibrary* library = MagTranslator<string, ContourLibrary>()("web");
+
+    // Here we try call the Contour libry to set up visual properties...
+   	MetaDataCollector request,needAttributes;
+    map<string, string> attributes;
+    	
+    
+	library->askId(request);
+	netcdf.visit(request);
+
+	StyleEntry style;
+	library->getStyle(request, attributes, style);
+	ostringstream out;
+	out << style;
+	static string temp = out.str();
+    return temp.c_str();
+}
+
 #ifdef HAVE_GRIB
 void FortranMagics::pgrib()
 {
@@ -558,6 +601,8 @@ void FortranMagics::pgrib()
 	action_->data(new GribDecoder());
 	top()->push_back(action_);
 }
+
+
 
 void FortranMagics::pimage()
 {

@@ -293,8 +293,17 @@ bool StyleLibrary::findStyle(const Style::Definition& data, Style::Definition& v
 			return true;
 		}
 	return false;
-
 }
+
+string StyleLibrary::getAttribute(const string& style, const string& param, const string& defval) 
+{
+	Style::Definition visdef;
+	allStyles_.find(style, visdef);
+	auto value = visdef.find(param);
+
+	return ( value != visdef.end() ) ? value->second : defval; 
+}
+
 bool StyleLibrary::findScaling(const Style::Definition& data, Style::Definition& scaling)
 {
 	for (vector<Style>::iterator style = library_.begin(); style != library_.end(); ++style)
