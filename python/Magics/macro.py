@@ -602,9 +602,9 @@ except ImportError:
 def wmsstyles(data):
     context.set()
     Magics.init()
-    x = data.style()
+    styles = data.style()
     Magics.finalize()
-    return json.loads(x)
+    return json.loads(styles.decode())
 
 
    
