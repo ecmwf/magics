@@ -86,6 +86,16 @@ ecbuild_add_test( TARGET grib_fortran
                   LINKER_LANGUAGE Fortran
                   )
 
+ecbuild_add_test( TARGET netcdf_contour_python
+                  TYPE PYTHON
+                  CONDITION HAVE_NETCDF AND HAVE_PYTHON
+                  ARGS netcdf_contour_python.py
+                  RESOURCES netcdf_contour_python.py era5_2mt.nc
+                  ENVIRONMENT PYTHONPATH=${MAG_PYTHON_PATH}
+                              LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib
+                              DYLD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib
+                              MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/.. )
+
 ecbuild_add_test( TARGET cairo_python
                   TYPE PYTHON
                   CONDITION HAVE_CAIRO AND HAVE_PYTHON
