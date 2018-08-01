@@ -15,7 +15,7 @@
     },
     "clouds_all" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade - All shades of gray, for clouds",
+        "contour_description" : "Method : contour shade All shades of gray, for clouds",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -55,7 +55,7 @@
         "contour_title" : "Contour for preciptation type (1 to 8)"
     },
     "ct_black_i2_solid" : {
-        "contour_description" : "Method : contour - Interval : 2 - Colour  : Black - contour Used for temperature - ",
+        "contour_description" : "Method : contour Interval : 2 Colour : Black contour Used for temperature",
         "contour_highlight_colour" : "black",
         "contour_highlight_frequency" : 5,
         "contour_highlight_thickness" : 2,
@@ -73,7 +73,7 @@
         "contour_title" : "Contour (Interval 2)"
     },
     "ct_black_i4_solid" : {
-        "contour_description" : "Method : contour - Interval : 4 - Colour  : Black - contour Used for temperature - ",
+        "contour_description" : "Method : contour Interval : 4 Colour : Black contour Used for temperature",
         "contour_highlight_colour" : "black",
         "contour_highlight_frequency" : 5,
         "contour_highlight_thickness" : 2,
@@ -92,7 +92,7 @@
         "contour_title" : "Contour (Interval 4, thicker)"
     },
     "ct_blk_2mt_proba" : {
-        "contour_description" : "Method: contour - Level list: 5/35/65/95 - Thickness : 2 - Colour: Blue - Used for 2mt",
+        "contour_description" : "Method : contour Level list : 5/35/65/95 Thickness : 2 Colour : Blue Used for 2mt",
         "contour_hilo" : "off",
         "contour_label" : "on",
         "contour_label_frequency" : 2,
@@ -105,7 +105,7 @@
         "contour_title" : "Contour for probabilities (5/35/65/95) "
     },
     "ct_blk_f005t25" : {
-        "contour_description" : "Method  :   contour lines  - Level list from 0.05 to 1000",
+        "contour_description" : "Method : contour lines Level list from 0.05 to 1000",
         "contour_highlight" : "off",
         "contour_label" : "off",
         "contour_legend_text" : "Contour (Range: 0.05/1000)",
@@ -117,7 +117,7 @@
         "legend" : "on"
     },
     "ct_blk_f0t10000" : {
-        "contour_description" : "Method  :   contour lines  - Level list from -1000 to 10000",
+        "contour_description" : "Method : contour lines Level list from -1000 to 10000",
         "contour_highlight" : "off",
         "contour_label" : "off",
         "contour_legend_text" : "Contour (Range: -1000 / 10000)",
@@ -131,7 +131,7 @@
         "legend" : "on"
     },
     "ct_blk_f0t100lst_t2" : {
-        "contour_description" : "Method: contour - Level list   : (5/35/65/95) % - Thickness : 2 - Colour: Black - Used for probability - ",
+        "contour_description" : "Method : contour Level list : (5/35/65/95) % Thickness : 2 Colour : Black Used for probability",
         "contour_highlight" : "on",
         "contour_highlight_colour" : "black",
         "contour_highlight_frequency" : 4,
@@ -148,7 +148,7 @@
         "contour_title" : "Contours (0-100%, black)"
     },
     "ct_blk_f0t6000i200" : {
-        "contour_description" : "Method : contour - Interval : 200 - Colour  : Black used for zero degree level",
+        "contour_description" : "Method : contour Interval : 200 Colour : Black used for zero degree level",
         "contour_highlight_colour" : "kelly_green",
         "contour_highlight_frequency" : 3,
         "contour_highlight_thickness" : 3,
@@ -167,7 +167,7 @@
         "contour_title" : "Contour (Interval 200, black)"
     },
     "ct_blk_f10_i10_t2" : {
-        "contour_description" : "Method: contour - Interval: 10 - Thickness : 2 - Colour: Black - Used for kindex - ",
+        "contour_description" : "Method : contour Interval : 10 Thickness : 2 Colour : Black Used for kindex",
         "contour_highlight_colour" : "black",
         "contour_highlight_thickness" : 2,
         "contour_hilo" : "off",
@@ -180,7 +180,7 @@
         "contour_title" : "Contour (interval 10, minimum level 10, black)"
     },
     "ct_blk_i1_t1" : {
-        "contour_description" : "Method: contour - Interval: 1 - Thickness : 1 - Colour: Black - Used for msl - ",
+        "contour_description" : "Method : contour Interval : 1 Thickness : 1 Colour : Black Used for msl",
         "contour_highlight_colour" : "black",
         "contour_highlight_frequency" : 5,
         "contour_highlight_style" : "solid",
@@ -198,7 +198,7 @@
         "contour_title" : "Contour (interval 1, black)"
     },
     "ct_blk_i1_t2" : {
-        "contour_description" : "Method: contour - Interval: 1 - Thickness : 2 - Colour: Black - Used for thickness - ",
+        "contour_description" : "Method : contour Interval : 1 Thickness : 2 Colour : Black Used for thickness",
         "contour_highlight" : "on",
         "contour_highlight_colour" : "black",
         "contour_highlight_frequency" : 6,
@@ -216,7 +216,7 @@
         "contour_title" : "Contour (interval 1, black)"
     },
     "ct_blk_i2_t2" : {
-        "contour_description" : "Method: contour - Interval: 2 - Thickness : 2 - Colour: Black - Used for msl",
+        "contour_description" : "Method : contour Interval : 2 Thickness : 2 Colour : Black Used for msl",
         "contour_highlight_colour" : "black",
         "contour_highlight_thickness" : 4,
         "contour_hilo" : "off",
@@ -231,7 +231,7 @@
         "contour_title" : "Contour (interval 2, thickness 2, black)"
     },
     "ct_blk_i2_t2_h6" : {
-        "contour_description" : "Method: contour - Interval: 6 - Thickness : 2 - Colour: Black - Used for msl",
+        "contour_description" : "Method : contour Interval : 6 Thickness : 2 Colour : Black Used for msl",
         "contour_highlight" : "on",
         "contour_highlight_colour" : "black",
         "contour_highlight_frequency" : 3,
@@ -249,7 +249,7 @@
         "contour_title" : "Contour (interval 2, thickness 2, black)"
     },
     "ct_blk_i2_t2_son" : {
-        "contour_description" : "Method: contour - Interval: 2 - Thickness : 2 - Colour: Black - Used for msl",
+        "contour_description" : "Method : contour Interval : 2 Thickness : 2 Colour : Black Used for msl",
         "contour_highlight_colour" : "black",
         "contour_highlight_thickness" : 4,
         "contour_hilo" : "off",
@@ -265,7 +265,7 @@
         "xxxgrib_scaling_of_retrieved_fields" : "off"
     },
     "ct_blk_i2_t4" : {
-        "contour_description" : "Method: contour - Interval: 2 - Thickness : 4 - Colour: Black - Used for msl",
+        "contour_description" : "Method : contour Interval : 2 Thickness : 4 Colour : Black Used for msl",
         "contour_highlight_colour" : "black",
         "contour_highlight_thickness" : 4,
         "contour_hilo" : "off",
@@ -280,7 +280,7 @@
         "contour_title" : "Contour (interval 2, thickness 4, black)"
     },
     "ct_blk_i4_t2" : {
-        "contour_description" : "Method: contour - Interval: 4 - Thickness : 2 - Colour: Black - Used for msl",
+        "contour_description" : "Method : contour Interval : 4 Thickness : 2 Colour : Black Used for msl",
         "contour_highlight_colour" : "black",
         "contour_highlight_thickness" : 4,
         "contour_hilo" : "off",
@@ -341,7 +341,7 @@
         "contour_title" : "Contour (count 4, thickness 2, black)"
     },
     "ct_blk_i5_t1" : {
-        "contour_description" : "Method: contour - Interval: 5 - Thickness : 1 - Colour: Black - Used for msl - ",
+        "contour_description" : "Method : contour Interval : 5 Thickness : 1 Colour : Black Used for msl",
         "contour_highlight_colour" : "black",
         "contour_highlight_thickness" : 2,
         "contour_hilo" : "off",
@@ -354,7 +354,7 @@
         "contour_title" : "Contour with no labels (interval 5, black)"
     },
     "ct_blk_i5_t1_hilo" : {
-        "contour_description" : "Method: contour - Interval: 5 - Thickness : 1 - Colour: Black - Used for msl - ",
+        "contour_description" : "Method : contour Interval : 5 Thickness : 1 Colour : Black Used for msl",
         "contour_hi_colour" : "black",
         "contour_highlight_colour" : "black",
         "contour_highlight_thickness" : 2,
@@ -370,7 +370,7 @@
         "contour_title" : "Contour with H/L, no labels (interval 5, black)"
     },
     "ct_blk_i5_t1_hilo_label" : {
-        "contour_description" : "Method: contour - Interval: 5 - Thickness : 1 - Colour: Black - Used for msl - ",
+        "contour_description" : "Method : contour Interval : 5 Thickness : 1 Colour : Black Used for msl",
         "contour_hi_colour" : "black",
         "contour_highlight_colour" : "black",
         "contour_highlight_thickness" : 2,
@@ -388,7 +388,7 @@
         "contour_title" : "Contour with H/L and labels (interval 5, black)"
     },
     "ct_blk_i5_t2" : {
-        "contour_description" : "Method: contour - Interval: 5 - Thickness : 2 - Colour: Black - Used for msl",
+        "contour_description" : "Method : contour Interval : 5 Thickness : 2 Colour : Black Used for msl",
         "contour_highlight_colour" : "black",
         "contour_highlight_thickness" : 4,
         "contour_hilo" : "off",
@@ -404,7 +404,7 @@
         "contour_title" : "Contour (interval 5, thickness 2, black)"
     },
     "ct_blk_i5_t2_web" : {
-        "contour_description" : "Method: contour - Interval: 5 - Thickness : 2 - Colour: Black - Used for msl",
+        "contour_description" : "Method : contour Interval : 5 Thickness : 2 Colour : Black Used for msl",
         "contour_highlight_colour" : "black",
         "contour_highlight_thickness" : 4,
         "contour_hilo" : "on",
@@ -423,7 +423,7 @@
         "contour_title" : "Contour (interval 5, thickness 2, black)"
     },
     "ct_blk_i6_t2" : {
-        "contour_description" : "Method: contour - Interval: 6 - Thickness : 2 - Colour: Black - Used for msl",
+        "contour_description" : "Method : contour Interval : 6 Thickness : 2 Colour : Black Used for msl",
         "contour_highlight" : "on",
         "contour_highlight_colour" : "black",
         "contour_highlight_frequency" : 3,
@@ -441,7 +441,7 @@
         "contour_title" : "Contour (interval 6, thickness 2, black)"
     },
     "ct_blk_proba" : {
-        "contour_description" : "Method: contour - Interval: 5 - Thickness : 2 - Colour: Black - Used for msl",
+        "contour_description" : "Method : contour Interval : 5 Thickness : 2 Colour : Black Used for msl",
         "contour_highlight_colour" : "black",
         "contour_highlight_thickness" : 4,
         "contour_hilo" : "off",
@@ -456,7 +456,7 @@
         "contour_title" : "Contour for probabilities (5/35/65/95) "
     },
     "ct_blue_i1_t2" : {
-        "contour_description" : "Method: contour - Interval: 1 - Thickness : 2 - Colour: Blue - Used for thickness - ",
+        "contour_description" : "Method : contour Interval : 1 Thickness : 2 Colour : Blue Used for thickness",
         "contour_highlight" : "on",
         "contour_highlight_colour" : "black",
         "contour_highlight_frequency" : 6,
@@ -474,7 +474,7 @@
         "contour_title" : "Contour (interval 1, blue)"
     },
     "ct_blue_i2_t2_h6" : {
-        "contour_description" : "Method: contour - Interval: 5 - Thickness : 2 - Colour: Blue",
+        "contour_description" : "Method : contour Interval : 5 Thickness : 2 Colour : Blue",
         "contour_highlight" : "on",
         "contour_highlight_colour" : "blue",
         "contour_highlight_frequency" : 3,
@@ -492,7 +492,7 @@
         "contour_title" : "Contour (interval 2, thickness 2, blue)"
     },
     "ct_blue_i5_t2" : {
-        "contour_description" : "Method: contour - Interval: 5 - Thickness : 2 - Colour: Blue",
+        "contour_description" : "Method : contour Interval : 5 Thickness : 2 Colour : Blue",
         "contour_highlight_colour" : "blue",
         "contour_highlight_thickness" : 4,
         "contour_hilo" : "off",
@@ -507,7 +507,7 @@
         "contour_title" : "Contour (interval 5, thickness 2, blue)"
     },
     "ct_blue_i6_t2" : {
-        "contour_description" : "Method: contour - Interval: 5 - Thickness : 2 - Colour: Blue",
+        "contour_description" : "Method : contour Interval : 5 Thickness : 2 Colour : Blue",
         "contour_highlight" : "on",
         "contour_highlight_colour" : "blue",
         "contour_highlight_frequency" : 3,
@@ -525,7 +525,7 @@
         "contour_title" : "Contour (interval 6, thickness 2, blue)"
     },
     "ct_blumag_lst" : {
-        "contour_description" : "Method: contour - Level list: 1/5/15/40/100/250 - Thickness : 2 - Colour: Blue-magenta - Used for precipitation",
+        "contour_description" : "Method : contour Level list : 1/5/15/40/100/250 Thickness : 2 Colour : Blue-magenta Used for precipitation",
         "contour_highlight_colour" : "magenta",
         "contour_highlight_frequency" : 3,
         "contour_highlight_thickness" : 5,
@@ -545,7 +545,7 @@
         "contour_title" : "Contour (Range: 1 / 250, thickness 2, blue)"
     },
     "ct_blup_f0t100lst_t2" : {
-        "contour_description" : "Method: contour - Level list   : (5/35/65/95) % - Thickness : 2 - Colour: Blue-purple - Used for probability - ",
+        "contour_description" : "Method : contour Level list : (5/35/65/95) % Thickness : 2 Colour : Blue-purple Used for probability",
         "contour_highlight" : "on",
         "contour_highlight_color" : "blue_purple",
         "contour_highlight_frequency" : 4,
@@ -564,7 +564,7 @@
     "ct_blured_fM48t56i4" : {
         "contour_above_line_colour" : "red",
         "contour_below_line_colour" : "green",
-        "contour_description" : "Method : contour - Line plotting : Split - Level range : -48 to 56 - Interval : 4 - Thickness   : 3 - Colour  : Blue, red - Used for temperature - ",
+        "contour_description" : "Method : contour Line plotting : Split Level range : -48 to 56 Interval : 4 Thickness : 3 Colour : Blue, red Used for temperature",
         "contour_hilo" : "off",
         "contour_interval" : 4,
         "contour_label" : "off",
@@ -577,7 +577,7 @@
         "contour_title" : "Contour (Range: -48 / 56)"
     },
     "ct_blured_fM5t50" : {
-        "contour_description" : "Method: contour - Level list: -5/5/10/20/50 - Thickness : 2 - Colour: Blue-red - Used for vorticity and divergence",
+        "contour_description" : "Method : contour Level list : -5/5/10/20/50 Thickness : 2 Colour : Blue-red Used for vorticity and divergence",
         "contour_highlight_colour" : "blue",
         "contour_highlight_frequency" : 6,
         "contour_highlight_thickness" : 1,
@@ -596,7 +596,7 @@
         "contour_title" : "Contour (Range: -5 / 50, thickness 2, blue-red)"
     },
     "ct_blured_lst" : {
-        "contour_description" : "Method: contour - Level list: -10/-5/-1/-0.5/-0.2/0.2 - Thickness : 3 - Colour: Blue-red - Used for vertical velocity",
+        "contour_description" : "Method : contour Level list : -10/-5/-1/-0.5/-0.2/0.2 Thickness : 3 Colour : Blue-red Used for vertical velocity",
         "contour_highlight_colour" : "red",
         "contour_highlight_frequency" : 10,
         "contour_highlight_thickness" : 1,
@@ -615,7 +615,7 @@
         "contour_title" : "Contour (Range: -10 / 0.2, thickness 3, blue-red)"
     },
     "ct_brn_i4_t2" : {
-        "contour_description" : "Method: contour - Interval: 5 - Thickness : 2 - Colour: Black - Used for msl,geopotential",
+        "contour_description" : "Method : contour Interval : 5 Thickness : 2 Colour : Black Used for msl,geopotential",
         "contour_highlight_colour" : "brown",
         "contour_highlight_thickness" : 2,
         "contour_hilo" : "off",
@@ -631,7 +631,7 @@
     },
     "ct_green_f10t8000" : {
         "contour" : "on",
-        "contour_description" : "Method  :   contour lines  -  for CAPE (from 50 to 8000)",
+        "contour_description" : "Method : contour lines for CAPE (from 50 to 8000)",
         "contour_highlight" : "on",
         "contour_highlight_colour" : "green",
         "contour_highlight_frequency" : 2,
@@ -648,7 +648,7 @@
         "contour_title" : "Contour green lines (Range: 10/8000)"
     },
     "ct_green_i2_t4" : {
-        "contour_description" : "Method: contour - Interval: 5 - Thickness : 2 - Colour: Green",
+        "contour_description" : "Method : contour Interval : 5 Thickness : 2 Colour : Green",
         "contour_highlight_colour" : "green",
         "contour_highlight_thickness" : 4,
         "contour_hilo" : "off",
@@ -662,7 +662,7 @@
         "contour_title" : "Contour (interval 2, thickness 4, green)"
     },
     "ct_green_i5_t2" : {
-        "contour_description" : "Method: contour - Interval: 5 - Thickness : 2 - Colour: Green",
+        "contour_description" : "Method : contour Interval : 5 Thickness : 2 Colour : Green",
         "contour_highlight_colour" : "green",
         "contour_highlight_thickness" : 4,
         "contour_hilo" : "off",
@@ -677,7 +677,7 @@
         "contour_title" : "Contour (interval 5, thickness 2, green)"
     },
     "ct_green_i6_t2" : {
-        "contour_description" : "Method: contour - Interval: 5 - Thickness : 2 - Colour: Green",
+        "contour_description" : "Method : contour Interval : 5 Thickness : 2 Colour : Green",
         "contour_highlight" : "on",
         "contour_highlight_colour" : "green",
         "contour_highlight_frequency" : 3,
@@ -695,7 +695,7 @@
         "contour_title" : "Contour (interval 6, thickness 2, green)"
     },
     "ct_grn_f03t1lst" : {
-        "contour_description" : "Method  :   contour - Level list : (0.3125/0.6875) - Colour  : Green - Used for clouds",
+        "contour_description" : "Method : contour Level list : (0.3125/0.6875) Colour : Green Used for clouds",
         "contour_highlight_colour" : "kelly_green",
         "contour_highlight_frequency" : 2,
         "contour_highlight_thickness" : 3,
@@ -711,7 +711,7 @@
         "contour_title" : "Contour (0.3125-1, sct & bkn clouds)"
     },
     "ct_grn_f30_i10" : {
-        "contour_description" : "Method : contour - Interval : 10 - Colour  : Green - Used for wind - ",
+        "contour_description" : "Method : contour Interval : 10 Colour : Green Used for wind",
         "contour_highlight_colour" : "kelly_green",
         "contour_highlight_frequency" : 3,
         "contour_highlight_thickness" : 3,
@@ -730,7 +730,7 @@
         "contour_title" : "Contour (Interval 10, green)"
     },
     "ct_grnblu_f65t100i15" : {
-        "contour_description" : "Method  :   contour - Level range : 65 to 100 - Interval : 15 - Colour  : green, blue - Used for relative humidity",
+        "contour_description" : "Method : contour Level range : 65 to 100 Interval : 15 Colour : green, blue Used for relative humidity",
         "contour_highlight_frequency" : 5,
         "contour_hilo" : "off",
         "contour_label" : "on",
@@ -748,7 +748,7 @@
         "contour_title" : "Contour (Range: 65 / 100)"
     },
     "ct_magenta_i2_t3" : {
-        "contour_description" : "Method: contour - Interval: 5 - Thickness : 2 - Colour: Green",
+        "contour_description" : "Method : contour Interval : 5 Thickness : 2 Colour : Green",
         "contour_highlight_colour" : "magenta",
         "contour_highlight_thickness" : 4,
         "contour_hilo" : "off",
@@ -1019,7 +1019,7 @@
         "contour" : "on",
         "contour_above_line_colour" : "reddish_orange",
         "contour_below_line_style" : "solid",
-        "contour_description" : "Method : contour - Interval : 2 - Colour  : Split  - contour Used for temperature - ",
+        "contour_description" : "Method : contour Interval : 2 Colour : Split contour Used for temperature",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_interval" : 2,
@@ -1045,7 +1045,7 @@
         "contour_title" : "Contour (Multi-colour, Interval 2)"
     },
     "ct_mustard_min150" : {
-        "contour_description" : "Method: contour - Colour: Mustard - Used for orography",
+        "contour_description" : "Method : contour Colour: Mustard Used for orography",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "on",
@@ -1061,7 +1061,7 @@
     },
     "ct_navy_f0t13500" : {
         "contour" : "on",
-        "contour_description" : "Method: Contour level range (0 to 13500)",
+        "contour_description" : "Method : Contour level range (0 to 13500)",
         "contour_highlight" : "off",
         "contour_label" : "on",
         "contour_label_quality" : "high",
@@ -1073,7 +1073,7 @@
         "contour_title" : "Contour (Range: 0 / 13500 every 1500 mt)"
     },
     "ct_orange_i5_t1" : {
-        "contour_description" : "Method: contour - Interval: 5 - Thickness : 1 - Colour: Black - Used for msl - ",
+        "contour_description" : "Method : contour Interval : 5 Thickness : 1 Colour : Black Used for msl",
         "contour_highlight_colour" : "orange",
         "contour_highlight_thickness" : 2,
         "contour_hilo" : "off",
@@ -1160,7 +1160,7 @@
     "ct_rainbow_f05t70" : {
         "XXXcontour_line_colour_rainbow_max_level_colour" : "red",
         "XXXcontour_line_colour_rainbow_min_level_colour" : "#28E0ED",
-        "contour_description" : "Method  :   Rainbow contour from 5 to 70",
+        "contour_description" : "Method : Rainbow contour from 5 to 70",
         "contour_highlight" : "off",
         "contour_label" : "on",
         "contour_label_colour" : "navy",
@@ -1178,7 +1178,7 @@
         "contour_title" : "Contour coloured lines (Range:5 to 70)"
     },
     "ct_rainbow_f0t10000" : {
-        "contour_description" : "Method  :   contour shade - Level list from -1000 to 10000",
+        "contour_description" : "Method : contour shade Level list from -1000 to 10000",
         "contour_highlight" : "off",
         "contour_label" : "off",
         "contour_legend_text" : "Contour coloured lines (Range: -1000 / 10000)",
@@ -1195,7 +1195,7 @@
         "legend" : "on"
     },
     "ct_rainbow_f10t4500_blk" : {
-        "contour_description" : "Method  :   Rainbow contour from 10 to 4500",
+        "contour_description" : "Method : Rainbow contour from 10 to 4500",
         "contour_highlight" : "off",
         "contour_label" : "on",
         "contour_label_colour" : "black",
@@ -1213,7 +1213,7 @@
         "contour_title" : "Contour black (Range:10 to 4500)"
     },
     "ct_rainbow_f10t4500_mauve" : {
-        "contour_description" : "Method  :   Rainbow contour from 10 to 4500",
+        "contour_description" : "Method : Rainbow contour from 10 to 4500",
         "contour_highlight" : "off",
         "contour_label" : "on",
         "contour_label_colour" : "RGB(0.5,0.33,0.79)",
@@ -1231,7 +1231,7 @@
         "contour_title" : "Contour mauve (Range:10 to 4500)"
     },
     "ct_rainbow_f200t1000_blk" : {
-        "contour_description" : "Method  :   Rainbow contour 200 and 1000",
+        "contour_description" : "Method : Rainbow contour 200 and 1000",
         "contour_highlight" : "off",
         "contour_label" : "on",
         "contour_label_colour" : "black",
@@ -1249,7 +1249,7 @@
         "contour_title" : "Contour black (200/1000)"
     },
     "ct_rainbow_f200t1000_mauve" : {
-        "contour_description" : "Method  :   Rainbow contour 200 and 1000",
+        "contour_description" : "Method : Rainbow contour 200 and 1000",
         "contour_highlight" : "off",
         "contour_label" : "on",
         "contour_label_colour" : "RGB(0.5,0.33,0.79)",
@@ -1268,7 +1268,7 @@
     },
     "ct_red_f50t8000" : {
         "contour" : "on",
-        "contour_description" : "Method  :   contour lines  -  for CAPE (from 50 to 8000)",
+        "contour_description" : "Method : contour lines for CAPE (from 50 to 8000)",
         "contour_highlight" : "on",
         "contour_highlight_colour" : "red",
         "contour_highlight_frequency" : 2,
@@ -1285,7 +1285,7 @@
         "contour_title" : "Contour red lines (Range: 50/8000)"
     },
     "ct_red_i2_dash" : {
-        "contour_description" : "Method : contour - Interval : 2 - Colour  : Red - contour contour: Dash (solid for highlight) - Used for temperature - ",
+        "contour_description" : "Method : contour Interval : 2 Colour : Red contour contour: Dash (solid for highlight) Used for temperature",
         "contour_highlight_colour" : "red",
         "contour_highlight_frequency" : 5,
         "contour_highlight_thickness" : 2,
@@ -1304,7 +1304,7 @@
         "contour_title" : "Contour (Interval 2, red, dash)"
     },
     "ct_red_i4_t3" : {
-        "contour_description" : "Method: contour interval 4, thickness 3, red",
+        "contour_description" : "Method : contour interval 4, thickness 3, red",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_interval" : "4",
@@ -1319,7 +1319,7 @@
         "contour_title" : "Contour (interval 4, thickness 3)"
     },
     "ct_red_i5" : {
-        "contour_description" : "Method : contour - Interval : 5 - Colour  : Orange and red - Used for wind - ",
+        "contour_description" : "Method : contour Interval : 5 Colour : Orange and red Used for wind",
         "contour_highlight_colour" : "orange",
         "contour_highlight_frequency" : 10,
         "contour_highlight_thickness" : 1,
@@ -1336,7 +1336,7 @@
         "contour_title" : "Contour (Interval 5, orange-red)"
     },
     "ct_red_i5_t2" : {
-        "contour_description" : "Method: contour - Interval: 5 - Thickness : 2 - Colour: Red",
+        "contour_description" : "Method : contour Interval : 5 Thickness : 2 Colour : Red",
         "contour_highlight_colour" : "red",
         "contour_highlight_thickness" : 4,
         "contour_hilo" : "off",
@@ -1352,7 +1352,7 @@
         "contour_title" : "Contour (interval 5, thickness 2, red)"
     },
     "ct_red_i5_t4" : {
-        "contour_description" : "Method: contour - Interval: 5 - Thickness : 4 - Colour: Red",
+        "contour_description" : "Method : contour Interval : 5 Thickness : 4 Colour : Red",
         "contour_highlight_colour" : "red",
         "contour_highlight_thickness" : 4,
         "contour_hilo" : "off",
@@ -1368,7 +1368,7 @@
         "contour_title" : "Contour (interval 5, thickness 4, red)"
     },
     "ct_red_i6_t2" : {
-        "contour_description" : "Method: contour - Interval: 5 - Thickness : 2 - Colour: Red",
+        "contour_description" : "Method : contour Interval : 5 Thickness : 2 Colour : Red",
         "contour_highlight" : "on",
         "contour_highlight_colour" : "red",
         "contour_highlight_frequency" : 3,
@@ -1423,7 +1423,7 @@
     },
     "ct_sst_blk_fM2t36i2_i4" : {
         "contour" : "on",
-        "contour_description" : "Method : Contour - Level range : -2 to 36 - Interval : 4 - Thickness   : 2 - Colour  : Black - Used for sst - ",
+        "contour_description" : "Method : Contour Level range : -2 to 36 Interval : 4 Thickness : 2 Colour : Black Used for sst",
         "contour_highlight" : "on",
         "contour_highlight_colour" : "black",
         "contour_highlight_frequency" : 5,
@@ -1445,7 +1445,7 @@
     },
     "ct_sst_blue_fM2t36i2_i4" : {
         "contour" : "on",
-        "contour_description" : "Method : Contour - Level range : -2 to 36 - Interval : 4 - Thickness   : 2 - Colour  : Blue - Used for sst - ",
+        "contour_description" : "Method : Contour Level range : -2 to 36 Interval : 4 Thickness : 2 Colour : Blue Used for sst",
         "contour_highlight" : "on",
         "contour_highlight_frequency" : 5,
         "contour_highlight_thickness" : 6,
@@ -1466,7 +1466,7 @@
     },
     "ct_sst_multicolour" : {
         "contour" : "on",
-        "contour_description" : "Method : Contour - Level range : -2 to 36 - Interval : 4 - Thickness   : 2 - Colour  : Black - Used for sst - ",
+        "contour_description" : "Method : Contour Level range : -2 to 36 Interval : 4 Thickness : 2 Colour : Black Used for sst",
         "contour_hilo" : "off",
         "contour_label" : "on",
         "contour_label_frequency" : 2,
@@ -1626,7 +1626,7 @@
         "contour_title" : "Blue contour (Range: 0/1000)"
     },
     "ct_vio_i1_t1" : {
-        "contour_description" : "Method: contour - Interval: 1 - Thickness : 1 - Colour: Violet - Used for waves",
+        "contour_description" : "Method : contour Interval : 1 Thickness : 1 Colour : Violet Used for waves",
         "contour_highlight_colour" : "rgb(0.48,0.4,0.7)",
         "contour_highlight_frequency" : 100,
         "contour_highlight_thickness" : 5,
@@ -1645,7 +1645,7 @@
     },
     "ct_vis_blk_f0t10000" : {
         "contour" : "on",
-        "contour_description" : "Method : Contour - Level range :0 to 10000 - Thickness   : 2 - Colour  : Black - Used for visibility - ",
+        "contour_description" : "Method : Contour Level range :0 to 10000 Thickness : 2 Colour : Black Used for visibility",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "on",
@@ -1660,7 +1660,7 @@
         "contour_title" : "Contours (Range: 0/10000) black"
     },
     "ct_ylw_f30_i10" : {
-        "contour_description" : "Method : contour - Interval : 10 - Colour  : Yellow - Used for wind - ",
+        "contour_description" : "Method : contour Interval : 10 Colour : Yellow Used for wind",
         "contour_highlight_colour" : "yellow",
         "contour_highlight_frequency" : 3,
         "contour_highlight_thickness" : 3,
@@ -1729,7 +1729,7 @@
     },
     "dot_blu_f03t1lst" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour dot shade - Level list   : (0.3125/0.6875/1.0) % - Colour  : Blue - Used for clouds",
+        "contour_description" : "Method : contour dot shade Level list : (0.3125/0.6875/1.0) % Colour : Blue Used for clouds",
         "contour_hilo" : "off",
         "contour_label" : "off",
         "contour_legend_text" : "Contour dot shade (0.3125-1, sct & bkn clouds)",
@@ -1745,7 +1745,7 @@
     },
     "dot_blured_f05t300lst" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour dot shade, with contours - Level list   : (0.5/2/4/10/25/50/100/300)  - Colour  : from blue to red - Used for precipitation",
+        "contour_description" : "Method : contour dot shade, with contours Level list : (0.5/2/4/10/25/50/100/300) Colour : from blue to red Used for precipitation",
         "contour_hilo" : "off",
         "contour_label" : "off",
         "contour_legend_text" : "Contour dot shade (Range: 0.5 / 300, with isolines)",
@@ -1760,7 +1760,7 @@
         "contour_title" : "Contour dot shade (Range: 0.5 / 300, with isolines)"
     },
     "dot_blured_fM1t1lst" : {
-        "contour_description" : "Method  :   contour dot shade - Level list   : (-1./-0.90/-0.80/-0.70/-0.60/-0.5/0.5/0.6/0.7/0.8/0.9/1.) - Colour  : Two ranges: violet-blue & yellow-red - Used for EFI",
+        "contour_description" : "Method : contour dot shade Level list : (-1./-0.90/-0.80/-0.70/-0.60/-0.5/0.5/0.6/0.7/0.8/0.9/1.) Colour : Two ranges: violet-blue & yellow-red Used for EFI",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -1779,7 +1779,7 @@
     },
     "dot_grn_f03t1lst" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour dot shade - Level list   : (0.3125/0.6875/1.0) % - Colour  : Green - Used for clouds",
+        "contour_description" : "Method : contour dot shade Level list : (0.3125/0.6875/1.0) % Colour : Green Used for clouds",
         "contour_hilo" : "off",
         "contour_label" : "off",
         "contour_legend_text" : "Contour dot shade (0.3125-1, sct & bkn clouds)",
@@ -1794,7 +1794,7 @@
         "contour_title" : "Contour dot shade (0.3125-1, sct & bkn clouds)"
     },
     "dot_red_f05t1i01" : {
-        "contour_description" : "Method  :   contour dot shade - Level range : 0.5 to 1.0 - Interval : 0.1 - Colour  : Yellow-orange-red - Used for EFI",
+        "contour_description" : "Method : contour dot shade Level range : 0.5 to 1.0 Interval : 0.1 Colour : Yellow-orange-red Used for EFI",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -1816,7 +1816,7 @@
     },
     "dot_red_f10t80lst" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade - Level list   : (10/15/20/25/30/40/50/60/70/80)  - Colour  : Yellow-red - Used for wind",
+        "contour_description" : "Method : contour shade Level list : (10/15/20/25/30/40/50/60/70/80) Colour : Yellow-red Used for wind",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -1892,7 +1892,7 @@
         "contour_title" : "ERICHA 24-h accumulations"
     },
     "genesis_prob" : {
-        "contour_description" : "Method  :   contour shade - Level list   : (5/100 in every 10) % - Colour  : Used for probability",
+        "contour_description" : "Method : contour shade Level list : (5/100 in every 10) % Colour : Used for probability",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -1908,7 +1908,7 @@
     },
     "genesis_prob_dark" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade - Level list   : (5/100 in every 10) % - Colour  : Used for probability",
+        "contour_description" : "Method : contour shade Level list : (5/100 in every 10) % Colour : Used for probability",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -1924,7 +1924,7 @@
     },
     "genesis_prob_light" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade - Level list   : (5/100 in every 10) % - Colour  : Used for probability",
+        "contour_description" : "Method : contour shade Level list : (5/100 in every 10) % Colour : Used for probability",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -1940,7 +1940,7 @@
     },
     "hat_grn_f0t100lst" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour hatch shade - Level list   : (5/35/65/95) % - Colour  : Yellow-green - Used for probability",
+        "contour_description" : "Method : contour hatch shade Level list : (5/35/65/95) % Colour : Yellow-green Used for probability",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -1962,7 +1962,7 @@
     },
     "hat_red_f10t80lst" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour hatch shade - Level list   : (10/15/20/25/30/40/50/60/70/80)  - Colour  :  Orange-red - Used for wind",
+        "contour_description" : "Method : contour hatch shade Level list : (10/15/20/25/30/40/50/60/70/80) Colour : Orange-red Used for wind",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -1983,7 +1983,7 @@
     },
     "mark_blk_f0t1lst" : {
         "contour" : "off",
-        "contour_description" : "Method  :   Grid points - Values between 0 and 1 - Colour  : black - Used for land-sea mask",
+        "contour_description" : "Method : Grid points Values between 0 and 1 Colour : black Used for land-sea mask",
         "contour_grid_value_marker_colour" : "black",
         "contour_grid_value_marker_height" : 0.2,
         "contour_grid_value_marker_index" : 15,
@@ -1998,7 +1998,7 @@
     },
     "mark_blk_wave_mask" : {
         "contour" : "off",
-        "contour_description" : "Method  :  A masking marker contouring to show wave grid points",
+        "contour_description" : "Method : A masking marker contouring to show wave grid points",
         "contour_grid_value_marker_colour" : "black",
         "contour_grid_value_marker_height" : 0.1,
         "contour_grid_value_marker_index" : 5,
@@ -2013,7 +2013,7 @@
     },
     "mark_brn_f05t1lst" : {
         "contour" : "off",
-        "contour_description" : "Method  :   Grid points - Values between 0.5 and 1 - Colour  : brown - Used for land-sea mask",
+        "contour_description" : "Method : Grid points Values between 0.5 and 1 Colour : brown Used for land-sea mask",
         "contour_grid_value_marker_colour" : "brown",
         "contour_grid_value_marker_height" : 0.1,
         "contour_grid_value_marker_index" : 5,
@@ -2028,7 +2028,7 @@
     },
     "more_transparent_cloud" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade - All shades of gray, for clouds",
+        "contour_description" : "Method : contour shade All shades of gray, for clouds",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -2044,7 +2044,7 @@
     },
     "mrk_efi_cape_f06t1" : {
         "contour" : "off",
-        "contour_description" : "Method  :   Marker  - Level range : 0.6 to 1.0 - Colour  : brown",
+        "contour_description" : "Method : Marker Level range : 0.6 to 1.0 Colour : brown",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -2062,7 +2062,7 @@
     },
     "mrk_efi_capes_f06t1" : {
         "contour" : "off",
-        "contour_description" : "Method  :   Marker  - Level range : 0.6 to 1.0 - Colour  : violet",
+        "contour_description" : "Method : Marker Level range : 0.6 to 1.0 Colour : violet",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -2080,7 +2080,7 @@
     },
     "mrk_efi_sf_f06t1" : {
         "contour" : "off",
-        "contour_description" : "Method  :   Marker  - Level range : 0.6 to 1.0 - Colour  : cyan",
+        "contour_description" : "Method : Marker Level range : 0.6 to 1.0 Colour : cyan",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -2098,7 +2098,7 @@
     },
     "mrk_efi_tp_f06t1" : {
         "contour" : "off",
-        "contour_description" : "Method  :   Marker  - Level range : 0.6 to 1.0 - Colour  : Bluish purple",
+        "contour_description" : "Method : Marker Level range : 0.6 to 1.0 Colour : Bluish purple",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -2119,7 +2119,7 @@
         "Xcontour_level_selection_type" : "level_list",
         "Xcontour_shade_colour_method" : "list",
         "contour" : "off",
-        "contour_description" : "Method  :   Marker  - Level range : 0.5 to 1.0 - Interval : 0.1 - Colour  : Bluish purple",
+        "contour_description" : "Method : Marker Level range : 0.5 to 1.0 Interval : 0.1 Colour : Bluish purple",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -2168,7 +2168,7 @@
     },
     "orog_28levels_label" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - min:-400 - max:7000 - 28 levels - ",
+        "contour_description" : "Method: contour shade min:-400 max:7000 28 levels",
         "contour_hilo" : "off",
         "contour_label" : "on",
         "contour_label_blanking" : "off",
@@ -2190,7 +2190,7 @@
         "contour_title" : "Orography shading with 28 levels"
     },
     "prob_blue2yellow" : {
-        "contour_description" : "Method  :   contour shade - Level list   : (5/100 in every 10) % - Colour  : Blue to yellow",
+        "contour_description" : "Method : contour shade Level list : (5/100 in every 10) % Colour : Blue to yellow",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -2205,7 +2205,7 @@
         "contour_title" : "Contour shade (0-100%, every 10% Blue to yellow)"
     },
     "prob_green2yellow" : {
-        "contour_description" : "Method  :   contour shade - Level list   : (5/100 in every 10) % - Colour  : Blue to yellow",
+        "contour_description" : "Method : contour shade Level list : (5/100 in every 10) % Colour : Blue to yellow",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -2220,7 +2220,7 @@
         "contour_title" : "Contour shade (0-100%, every 10% Blue to yellow)"
     },
     "prob_red2blue" : {
-        "contour_description" : "Method  :   contour shade - Level list   : (5/100 in every 10) % - Colour  : Red to yellow",
+        "contour_description" : "Method : contour shade Level list : (5/100 in every 10) % Colour : Red to yellow",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -2282,7 +2282,7 @@
     },
     "sh_BrBG_o3_sfc" : {
         "contour" : "off",
-        "contour_description" : "Method :   contour shade - Level range : 0 to 300 - Colour  : BrBG",
+        "contour_description" : "Method : contour shade Level range : 0 to 300 Colour : BrBG",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -2300,7 +2300,7 @@
     },
     "sh_BuYlRd_aod" : {
         "contour" : "off",
-        "contour_description" : "Method :   contour shade - Level range : 0.1 to 10 - Colour  : Blue-Yellow-Red",
+        "contour_description" : "Method : contour shade Level range : 0.1 to 10 Colour : Blue-Yellow-Red",
         "contour_hi_min_value" : 0.1,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -2318,7 +2318,7 @@
     },
     "sh_BuYlRd_aod_lowthreshold" : {
         "contour" : "off",
-        "contour_description" : "Method :   contour shade - Level range : 0.01 to 10 - Colour  : Blue-Yellow-Red",
+        "contour_description" : "Method : contour shade Level range : 0.01 to 10 Colour : Blue-Yellow-Red",
         "contour_hi_min_value" : 0.1,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -2336,7 +2336,7 @@
     },
     "sh_Oranges_aod" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade - Level range : 0.1 to 10 - Interval : 0.1 - Colour  : orange shades",
+        "contour_description" : "Method : contour shade Level range : 0.1 to 10 Interval : 0.1 Colour : orange shades",
         "contour_hi_min_value" : 0.1,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -2354,7 +2354,7 @@
     },
     "sh_RdGy_r_ch4_300hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 1560.0 to 1940.0 - Colour: RdGy_r colours",
+        "contour_description" : "Method: contour shade Level range : 1560.0 to 1940.0 Colour: RdGy_r colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -2373,7 +2373,7 @@
     },
     "sh_RdGy_r_ch4_500hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 1620.0 to 1950.0 - Colour: RdGy_r colours",
+        "contour_description" : "Method: contour shade Level range : 1620.0 to 1950.0 Colour: RdGy_r colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -2392,7 +2392,7 @@
     },
     "sh_RdGy_r_ch4_50hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 0.0 to 2100.0 - Colour: RdGy_r colours",
+        "contour_description" : "Method: contour shade Level range : 0.0 to 2100.0 Colour: RdGy_r colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -2411,7 +2411,7 @@
     },
     "sh_RdGy_r_ch4_850hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 1420.0 to 2020.0 - Colour: RdGy_r colours",
+        "contour_description" : "Method: contour shade Level range : 1420.0 to 2020.0 Colour: RdGy_r colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -2430,7 +2430,7 @@
     },
     "sh_RdGy_r_ch4_surface" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 0.0 to 2060.0 - Colour: RdGy_r colours",
+        "contour_description" : "Method: contour shade Level range : 0.0 to 2060.0 Colour: RdGy_r colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -2449,7 +2449,7 @@
     },
     "sh_RdGy_r_ch4_totalcolumn" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 0.0 to 1920.0 - Colour: RdGy_r colours",
+        "contour_description" : "Method: contour shade Level range : 0.0 to 1920.0 Colour: RdGy_r colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -2468,7 +2468,7 @@
     },
     "sh_RdGy_r_co2_300hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 312.0 to 406.0 - Colour: RdGy_r colours",
+        "contour_description" : "Method: contour shade Level range : 312.0 to 406.0 Colour: RdGy_r colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -2487,7 +2487,7 @@
     },
     "sh_RdGy_r_co2_500hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 294.5 to 407.5 - Colour: RdGy_r colours",
+        "contour_description" : "Method: contour shade Level range : 294.5 to 407.5 Colour: RdGy_r colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -2506,7 +2506,7 @@
     },
     "sh_RdGy_r_co2_50hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 386.5 to 403.0 - Colour: RdGy_r colours",
+        "contour_description" : "Method: contour shade Level range : 386.5 to 403.0 Colour: RdGy_r colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -2525,7 +2525,7 @@
     },
     "sh_RdGy_r_co2_850hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 122.5 to 411.0 - Colour: RdGy_r colours",
+        "contour_description" : "Method: contour shade Level range : 122.5 to 411.0 Colour: RdGy_r colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -2544,7 +2544,7 @@
     },
     "sh_RdGy_r_co2_surface" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 180.0 to 440.0 - Colour: RdGy_r colours",
+        "contour_description" : "Method: contour shade Level range : 180.0 to 440.0 Colour: RdGy_r colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -2563,7 +2563,7 @@
     },
     "sh_RdGy_r_co2_totalcolumn" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 302.0 to 406.0 - Colour: RdGy_r colours",
+        "contour_description" : "Method: contour shade Level range : 302.0 to 406.0 Colour: RdGy_r colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -2582,7 +2582,7 @@
     },
     "sh_Spectral_r_co2_300hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 300 to 420 - Colour: Spectral_r colours",
+        "contour_description" : "Method: contour shade Level range : 300 to 420 Colour: Spectral_r colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -2601,7 +2601,7 @@
     },
     "sh_Spectral_r_co2_500hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 300 to 420 - Colour: Spectral_r colours",
+        "contour_description" : "Method: contour shade Level range : 300 to 420 Colour: Spectral_r colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -2620,7 +2620,7 @@
     },
     "sh_Spectral_r_co2_50hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 300 to 410 - Colour: Spectral_r colours",
+        "contour_description" : "Method: contour shade Level range : 300 to 410 Colour: Spectral_r colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -2639,7 +2639,7 @@
     },
     "sh_Spectral_r_co2_850hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 300.0 to 445.0 - Colour: Spectral_r colours",
+        "contour_description" : "Method: contour shade Level range : 300.0 to 445.0 Colour: Spectral_r colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -2658,7 +2658,7 @@
     },
     "sh_Spectral_r_co2_surface" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 300 to 490 - Colour: Spectral_r colours",
+        "contour_description" : "Method: contour shade Level range : 300 to 490 Colour: Spectral_r colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -2677,7 +2677,7 @@
     },
     "sh_Spectral_r_co2_totalcolumn" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 300 to 420 - Colour: Spectral_r colours",
+        "contour_description" : "Method: contour shade Level range : 300 to 420 Colour: Spectral_r colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -2696,7 +2696,7 @@
     },
     "sh_YlGnBu_co_upper" : {
         "contour" : "off",
-        "contour_description" : "Method :   contour shade - Level range : 60 to 10000 - Colour  : YlGnBu colours",
+        "contour_description" : "Method : contour shade Level range : 60 to 10000 Colour : YlGnBu colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -2714,7 +2714,7 @@
     },
     "sh_YlGnBu_o3_sfc" : {
         "contour" : "off",
-        "contour_description" : "Method :   contour shade - Level range : 0 to 1000 - Colour  : YlGnBU",
+        "contour_description" : "Method : contour shade Level range : 0 to 1000 Colour : YlGnBU",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -2733,7 +2733,7 @@
     "sh_albedo" : {
         "XXX_contour_shade_technique" : "grid_shading",
         "contour" : "off",
-        "contour_description" : "Method  :   Albedo",
+        "contour_description" : "Method : Albedo",
         "contour_label" : "off",
         "contour_level_list" : "0/8/12/18/24/30/40/50/65/80/100",
         "contour_level_selection_type" : "level_list",
@@ -2747,7 +2747,7 @@
     },
     "sh_all_aod" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade - Level range : 0.1 to 10 - Interval : 0.1 - Colour  : All colours",
+        "contour_description" : "Method : contour shade Level range : 0.1 to 10 Interval : 0.1 Colour : All colours",
         "contour_hi_min_value" : 0.1,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -2765,7 +2765,7 @@
     },
     "sh_all_ch4_300hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 1560.0 to 1940.0 - Colour: all colours",
+        "contour_description" : "Method: contour shade Level range : 1560.0 to 1940.0 Colour: all colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -2783,7 +2783,7 @@
     },
     "sh_all_ch4_500hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 1620.0 to 1900.0 - Colour: all colours",
+        "contour_description" : "Method: contour shade Level range : 1620.0 to 1900.0 Colour: all colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -2801,7 +2801,7 @@
     },
     "sh_all_ch4_50hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 0.0 to 2100.0 - Colour: all colours",
+        "contour_description" : "Method: contour shade Level range : 0.0 to 2100.0 Colour: all colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -2819,7 +2819,7 @@
     },
     "sh_all_ch4_850hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 1420.0 to 1940.0 - Colour: all colours",
+        "contour_description" : "Method: contour shade Level range : 1420.0 to 1940.0 Colour: all colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -2837,7 +2837,7 @@
     },
     "sh_all_co2_300hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 312.0 to 414.0 - Colour: all colours",
+        "contour_description" : "Method: contour shade Level range : 312.0 to 414.0 Colour: all colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -2855,7 +2855,7 @@
     },
     "sh_all_co2_500hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 294.0 to 416.0 - Colour: all colours",
+        "contour_description" : "Method: contour shade Level range : 294.0 to 416.0 Colour: all colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -2873,7 +2873,7 @@
     },
     "sh_all_co2_50hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 386.0 to 401.0 - Colour: all colours",
+        "contour_description" : "Method: contour shade Level range : 386.0 to 401.0 Colour: all colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -2891,7 +2891,7 @@
     },
     "sh_all_co2_850hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 120.0 to 430.0 - Colour: all colours",
+        "contour_description" : "Method: contour shade Level range : 120.0 to 430.0 Colour: all colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -2909,7 +2909,7 @@
     },
     "sh_all_co_300hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 80 to 500 - Colour: all colours",
+        "contour_description" : "Method: contour shade Level range : 80 to 500 Colour: all colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -2927,7 +2927,7 @@
     },
     "sh_all_co_500hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 80 to 500 - Colour: all colours",
+        "contour_description" : "Method: contour shade Level range : 80 to 500 Colour: all colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -2945,7 +2945,7 @@
     },
     "sh_all_co_50hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 10 to 100 - Colour: all colours",
+        "contour_description" : "Method: contour shade Level range : 10 to 100 Colour: all colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -2963,7 +2963,7 @@
     },
     "sh_all_co_850hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 80 to 500 - Colour: all colours",
+        "contour_description" : "Method: contour shade Level range : 80 to 500 Colour: all colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -2981,7 +2981,7 @@
     },
     "sh_all_co_upper" : {
         "contour" : "off",
-        "contour_description" : "Method :   contour shade - Level range : 0 to 10000 - Colour  : all colours",
+        "contour_description" : "Method : contour shade Level range : 0 to 10000 Colour : all colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -2999,7 +2999,7 @@
     },
     "sh_all_f03t70_beauf" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade - Level list   : (0/0.3/1.6/3.4/5.5/8.0/10.8/13.9/17.2/20.8/24.5/28.5/32.7/50)  - Colour  : All colours - Used for wind",
+        "contour_description" : "Method : contour shade Level list : (0/0.3/1.6/3.4/5.5/8.0/10.8/13.9/17.2/20.8/24.5/28.5/32.7/50) Colour : All colours Used for wind",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -3015,7 +3015,7 @@
     },
     "sh_all_f05t100" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade, with contours - Level list   : (0.5/2/4/10/25/50/100/250)  - Colour  : from blue to red - Used for precipitation",
+        "contour_description" : "Method : contour shade, with contours Level list : (0.5/2/4/10/25/50/100/250) Colour : from blue to red Used for precipitation",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -3030,7 +3030,7 @@
     },
     "sh_all_f05t300lst" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade, with contours - Level list   : (0.5/1/2/3/4/5/6/8/10/15/20/25/30/40/50/75/100/200/300)  - Colour  : All colours - Used for precipitation",
+        "contour_description" : "Method : contour shade, with contours Level list : (0.5/1/2/3/4/5/6/8/10/15/20/25/30/40/50/75/100/200/300) Colour : All colours Used for precipitation",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -3045,7 +3045,7 @@
         "contour_title" : "Contour shade (Range: 0.5 / 300, no isolines)"
     },
     "sh_all_f0t18i1_5" : {
-        "contour_description" : "Method  :   contour shade - Level range : 0.0 to 18.5 - Interval : 1.5 (except for the first interval) - Colour  : All colours - Used for mean wave period",
+        "contour_description" : "Method : contour shade Level range : 0.0 to 18.5 Interval : 1.5 (except for the first interval) Colour : All colours Used for mean wave period",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -3066,7 +3066,7 @@
         "contour_title" : "Contour shade (Range: 0.0 / 18.5)"
     },
     "sh_all_f0t20lst" : {
-        "contour_description" : "Method: contour shade - Level list   : (0/0.5/1/2/3/4/6/8/10/12/14/20)  - Colour: All colours - Used for significant wave height",
+        "contour_description" : "Method : contour shade Level list : (0/0.5/1/2/3/4/6/8/10/12/14/20) Colour : All colours Used for significant wave height",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -3088,7 +3088,7 @@
     },
     "sh_all_f0t640_energy" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade",
+        "contour_description" : "Method : contour shade",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label_format" : "(I3)",
@@ -3105,7 +3105,7 @@
     },
     "sh_all_f1t48_cell" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade - Level list : (-200/-100/-75/-50/-30/-20/-15/-13/-11/-9/-7/-5/-3/-1/1/3/5/7/9/11/13/15/20/30/50/75/100/200) - Colour  : Two ranges: blue & yellow-red - Used for vorticity, divergence",
+        "contour_description" : "Method : contour shade Level list : (-200/-100/-75/-50/-30/-20/-15/-13/-11/-9/-7/-5/-3/-1/1/3/5/7/9/11/13/15/20/30/50/75/100/200) Colour : Two ranges: blue & yellow-red Used for vorticity, divergence",
         "contour_interval" : 3,
         "contour_legend_text" : "Contour shade (WEB) Range: -200 / 200",
         "contour_level_selection_type" : "interval",
@@ -3125,7 +3125,7 @@
     },
     "sh_all_f2t50i2" : {
         "contour" : "off",
-        "contour_description" : "Method : Area fill - Level range : -32 to 42 - Interval : 2 - Thickness   : 3 - Colour  : All colours - Used for wind",
+        "contour_description" : "Method : Area fill Level range : -32 to 42 Interval : 2 Thickness : 3 Colour : All colours Used for wind",
         "contour_hilo" : "off",
         "contour_interval" : 2,
         "contour_label" : "off",
@@ -3141,7 +3141,7 @@
     },
     "sh_all_f30t100i10" : {
         "contour_data_transformation" : "isotachs",
-        "contour_description" : "Method  :   contour shade - Level range : 30 to 100 - Interval : 10 - Colour  : All colours - Used for wind",
+        "contour_description" : "Method : contour shade Level range : 30 to 100 Interval : 10 Colour : All colours Used for wind",
         "contour_hi_min_value" : 15,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -3158,7 +3158,7 @@
         "contour_title" : "Contour shade (Range: 30 / 100, all colours)"
     },
     "sh_all_f5t70lst" : {
-        "contour_description" : "Method  :   contour shade - Level list   : (5/10/15/20/25/30/40/50/60/70)  - Colour  : All colours - Used for wind",
+        "contour_description" : "Method : contour shade Level list : (5/10/15/20/25/30/40/50/60/70) Colour : All colours Used for wind",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -3176,7 +3176,7 @@
     },
     "sh_all_fM24t44i4" : {
         "contour" : "off",
-        "contour_description" : "Method : Area fill - Level range : -24 to 44 - Interval : 4 - Thickness   : 3 - Colour  : All colours -  - ",
+        "contour_description" : "Method : Area fill Level range : -24 to 44 Interval : 4 Thickness : 3 Colour : All colours",
         "contour_highlight_contour" : "dash",
         "contour_highlight_frequency" : 20,
         "contour_highlight_thickness" : 5,
@@ -3197,7 +3197,7 @@
     },
     "sh_all_fM32t42i2" : {
         "contour" : "off",
-        "contour_description" : "Method : Area fill - Level range : -32 to 42 - Interval : 2 - Thickness   : 3 - Colour  : All colours - Used for temperature (850hPa)",
+        "contour_description" : "Method : Area fill Level range : -32 to 42 Interval : 2 Thickness : 3 Colour : All colours Used for temperature (850hPa)",
         "contour_highlight_contour" : "dash",
         "contour_highlight_frequency" : 100,
         "contour_highlight_thickness" : 5,
@@ -3219,7 +3219,7 @@
     },
     "sh_all_fM48t48i4" : {
         "contour" : "off",
-        "contour_description" : "Method : Area fill - Level range : -48 to 48 - Interval : 4 - Thickness   : 3 - Colour  : All colours - Used for temperature (850hPa)",
+        "contour_description" : "Method : Area fill Level range : -48 to 48 Interval : 4 Thickness : 3 Colour : All colours Used for temperature (850hPa)",
         "contour_highlight_contour" : "dash",
         "contour_highlight_frequency" : 100,
         "contour_highlight_thickness" : 5,
@@ -3241,7 +3241,7 @@
     },
     "sh_all_fM48t56i4" : {
         "contour" : "off",
-        "contour_description" : "Method : Area fill - Level range : -48 to 56 - Interval : 4 - Thickness   : 3 - Colour  : All colours - Used for temperature - ",
+        "contour_description" : "Method : Area fill Level range : -48 to 56 Interval : 4 Thickness : 3 Colour : All colours Used for temperature",
         "contour_hilo" : "off",
         "contour_interval" : "4",
         "contour_label" : "off",
@@ -3259,7 +3259,7 @@
         "grib_missing_value_indicator" : 9999
     },
     "sh_all_fM48t56i4_ct_wh" : {
-        "contour_description" : "Method : Area fill & grey contours - Level range : -48 to 56 - Interval : 2 - Thickness   : 1 - Colour  : All colours - Used for temperature - ",
+        "contour_description" : "Method : Area fill & grey contours Level range : -48 to 56 Interval : 2 Thickness : 1 Colour : All colours Used for temperature",
         "contour_highlight_colour" : "rgb(0.4,0.1,1)",
         "contour_highlight_frequency" : 100,
         "contour_highlight_style" : "dash",
@@ -3283,7 +3283,7 @@
     },
     "sh_all_fM50t58i2" : {
         "contour" : "off",
-        "contour_description" : "Method : Area fill - Level range : -80 to 56 - Interval : 4 - Thickness   : 3 - Colour  : All colours - Used for temperature",
+        "contour_description" : "Method : Area fill Level range : -80 to 56 Interval : 4 Thickness : 3 Colour : All colours Used for temperature",
         "contour_hilo" : "off",
         "contour_label" : "on",
         "contour_label_frequency" : 2,
@@ -3299,7 +3299,7 @@
     },
     "sh_all_fM52t48i4" : {
         "contour" : "off",
-        "contour_description" : "Method : Area fill - Level range : -52 48 - Interval : 4 - Thickness   : 3 - Colour  : All colours - Used for temperature (850hPa)",
+        "contour_description" : "Method : Area fill Level range : -52 48 Interval : 4 Thickness : 3 Colour : All colours Used for temperature (850hPa)",
         "contour_highlight_contour" : "dash",
         "contour_highlight_frequency" : 100,
         "contour_highlight_thickness" : 5,
@@ -3321,7 +3321,7 @@
     },
     "sh_all_fM52t48i4_light" : {
         "contour" : "off",
-        "contour_description" : "Method : Area fill - Level range : -52 to 48 - Interval : 4 - Thickness   : 3 - Colour  : All colours - Used for temperature (850hPa)",
+        "contour_description" : "Method : Area fill Level range : -52 to 48 Interval : 4 Thickness : 3 Colour : All colours Used for temperature (850hPa)",
         "contour_highlight_contour" : "dash",
         "contour_highlight_frequency" : 100,
         "contour_highlight_thickness" : 5,
@@ -3343,7 +3343,7 @@
     },
     "sh_all_fM64t36i4" : {
         "contour" : "off",
-        "contour_description" : "Method : Area fill - Level range : -64 to 36 - Interval : 4 - Thickness   : 3 - Colour  : All colours - Used for temperature (700hPa)",
+        "contour_description" : "Method : Area fill Level range : -64 to 36 Interval : 4 Thickness : 3 Colour : All colours Used for temperature (700hPa)",
         "contour_highlight_contour" : "dash",
         "contour_highlight_frequency" : 100,
         "contour_highlight_thickness" : 5,
@@ -3365,7 +3365,7 @@
     },
     "sh_all_fM64t52i4" : {
         "contour" : "off",
-        "contour_description" : "Method : Area fill - Level range : -64 to 52 - Interval : 4 - Thickness   : 3 - Colour  : All colours - Used for temperature - ",
+        "contour_description" : "Method : Area fill Level range : -64 to 52 Interval : 4 Thickness : 3 Colour : All colours Used for temperature",
         "contour_hilo" : "off",
         "contour_interval" : 4,
         "contour_label" : "off",
@@ -3382,7 +3382,7 @@
     },
     "sh_all_fM80t20i4" : {
         "contour" : "off",
-        "contour_description" : "Method : Area fill - Level range : -80 to 20 - Interval : 4 - Thickness   : 3 - Colour  : All colours - Used for temperature (500hPa)",
+        "contour_description" : "Method : Area fill Level range : -80 to 20 Interval : 4 Thickness : 3 Colour : All colours Used for temperature (500hPa)",
         "contour_highlight_contour" : "dash",
         "contour_highlight_frequency" : 100,
         "contour_highlight_thickness" : 5,
@@ -3404,7 +3404,7 @@
     },
     "sh_all_fM80t56i4" : {
         "contour" : "off",
-        "contour_description" : "Method : Area fill - Level range : -80 to 56 - Interval : 4 - Thickness   : 3 - Colour  : All colours - Used for temperature",
+        "contour_description" : "Method : Area fill Level range : -80 to 56 Interval : 4 Thickness : 3 Colour : All colours Used for temperature",
         "contour_hilo" : "off",
         "contour_label" : "on",
         "contour_label_frequency" : 1,
@@ -3420,7 +3420,7 @@
     },
     "sh_all_fM80t56i4_v2" : {
         "contour" : "off",
-        "contour_description" : "Method : Area fill - Level range : -80 to 56 - Interval : 4 - Thickness   : 3 - Colour  : All colours - Used for temperature",
+        "contour_description" : "Method : Area fill Level range : -80 to 56 Interval : 4 Thickness : 3 Colour : All colours Used for temperature",
         "contour_hilo" : "off",
         "contour_label" : "on",
         "contour_label_frequency" : 2,
@@ -3452,7 +3452,7 @@
     },
     "sh_all_fire" : {
         "contour" : "off",
-        "contour_description" : "Method:   contour shade - Level range : 0.0001 to 20 - Interval : varied - Colour  : Oranges",
+        "contour_description" : "Method: contour shade Level range : 0.0001 to 20 Interval : varied Colour : Oranges",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -3470,7 +3470,7 @@
     },
     "sh_all_go3_300hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 50 to 1000 - Colour: all colours",
+        "contour_description" : "Method: contour shade Level range : 50 to 1000 Colour: all colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -3488,7 +3488,7 @@
     },
     "sh_all_go3_500hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 50 to 200 - Colour: all colours",
+        "contour_description" : "Method: contour shade Level range : 50 to 200 Colour: all colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -3506,7 +3506,7 @@
     },
     "sh_all_go3_50hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 1000 to 8000 - Colour: all colours",
+        "contour_description" : "Method: contour shade Level range : 1000 to 8000 Colour: all colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -3524,7 +3524,7 @@
     },
     "sh_all_go3_850hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 30 to 200 - Colour: all colours",
+        "contour_description" : "Method: contour shade Level range : 30 to 200 Colour: all colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -3542,7 +3542,7 @@
     },
     "sh_all_hcho_300hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 0.1 to 50 - Colour: all colours",
+        "contour_description" : "Method: contour shade Level range : 0.1 to 50 Colour: all colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -3560,7 +3560,7 @@
     },
     "sh_all_hcho_500hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 0.1 to 50 - Colour: all colours",
+        "contour_description" : "Method: contour shade Level range : 0.1 to 50 Colour: all colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -3578,7 +3578,7 @@
     },
     "sh_all_hcho_50hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 0.001 to 10 - Colour: all colours",
+        "contour_description" : "Method: contour shade Level range : 0.001 to 10 Colour: all colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -3596,7 +3596,7 @@
     },
     "sh_all_hcho_850hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 0.1 to 50 - Colour: all colours",
+        "contour_description" : "Method: contour shade Level range : 0.1 to 50 Colour: all colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -3614,7 +3614,7 @@
     },
     "sh_all_hcho_surface" : {
         "contour" : "off",
-        "contour_description" : "Method :   contour shade - Level range : 0.01 to 500 - Colour  : all colours",
+        "contour_description" : "Method : contour shade Level range : 0.01 to 500 Colour : all colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -3671,7 +3671,7 @@
     },
     "sh_all_no2_300hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 0.01 to 50 - Colour: all colours",
+        "contour_description" : "Method: contour shade Level range : 0.01 to 50 Colour: all colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -3689,7 +3689,7 @@
     },
     "sh_all_no2_500hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 0.01 to 50 - Colour: all colours",
+        "contour_description" : "Method: contour shade Level range : 0.01 to 50 Colour: all colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -3707,7 +3707,7 @@
     },
     "sh_all_no2_50hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 0.01 to 50 - Colour: all colours",
+        "contour_description" : "Method: contour shade Level range : 0.01 to 50 Colour: all colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -3725,7 +3725,7 @@
     },
     "sh_all_no2_850hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 0.01 to 50 - Colour: all colours",
+        "contour_description" : "Method: contour shade Level range : 0.01 to 50 Colour: all colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -3743,7 +3743,7 @@
     },
     "sh_all_no2_surface" : {
         "contour" : "off",
-        "contour_description" : "Method :   contour shade - Level range : 0.01 to 300 - Colour  : all colours",
+        "contour_description" : "Method : contour shade Level range : 0.01 to 300 Colour : all colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -3761,7 +3761,7 @@
     },
     "sh_all_o3_300hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 50 to 1000 - Colour: all colours",
+        "contour_description" : "Method: contour shade Level range : 50 to 1000 Colour: all colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -3779,7 +3779,7 @@
     },
     "sh_all_o3_500hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 50 to 200 - Colour: all colours",
+        "contour_description" : "Method: contour shade Level range : 50 to 200 Colour: all colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -3797,7 +3797,7 @@
     },
     "sh_all_o3_50hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 1000 to 8000 - Colour: all colours",
+        "contour_description" : "Method: contour shade Level range : 1000 to 8000 Colour: all colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -3815,7 +3815,7 @@
     },
     "sh_all_o3_850hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 30 to 200 - Colour: all colours",
+        "contour_description" : "Method: contour shade Level range : 30 to 200 Colour: all colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -3833,7 +3833,7 @@
     },
     "sh_all_o3_sfc" : {
         "contour" : "off",
-        "contour_description" : "Method :   contour shade - Level range : 0 to 1000 - Colour  : all colours",
+        "contour_description" : "Method : contour shade Level range : 0 to 1000 Colour : all colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -3849,9 +3849,81 @@
         "contour_shade_min_level" : 0,
         "contour_title" : "Contour shade (Range: 0 / 1000, all colours)"
     },
+    "sh_all_pm10_defra_daqi" : {
+        "contour" : "off",
+        "contour_description" : "Method : contour shade Level range : 17 to 101 Colour : DEFRA DAQI",
+        "contour_hi_min_value" : 0,
+        "contour_highlight" : "off",
+        "contour_hilo" : "off",
+        "contour_label" : "off",
+        "contour_legend_text" : "Contour shade (Range: 17 / 101, DEFRA PM10 DAQI)",
+        "contour_level_list" : "17/34/51/59/67/76/84/92/101/9999",
+        "contour_level_selection_type" : "level_list",
+        "contour_reference_level" : 0,
+        "contour_shade" : "on",
+        "contour_shade_colour_list" : "rgb(49,255,0)/rgb(49,207,0)/rgb(255,255,0)/rgb(255,207,0)/rgb(255,154,0)/rgb(255,100,100)/rgb(255,0,0)/rgb(153,0,0)/rgb(206,48,255)",
+        "contour_shade_colour_method" : "list",
+        "contour_shade_method" : "area_fill",
+        "contour_shade_min_level" : 17,
+        "contour_title" : "Contour shade DEFRA PM10 DAQI (Range: 17 / 101, BuYlRd)"
+    },
+    "sh_all_pm2p5_defra_daqi" : {
+        "contour" : "off",
+        "contour_description" : "Method : contour shade Level range : 0 to 71 Colour : DEFRA DAQI",
+        "contour_hi_min_value" : 0,
+        "contour_highlight" : "off",
+        "contour_hilo" : "off",
+        "contour_label" : "off",
+        "contour_legend_text" : "Contour shade (Range: 12 / 71, DEFRA PM2.5 DAQI)",
+        "contour_level_list" : "12/24/36/42/48/54/59/65/71/9999",
+        "contour_level_selection_type" : "level_list",
+        "contour_reference_level" : 0,
+        "contour_shade" : "on",
+        "contour_shade_colour_list" : "rgb(49,255,0)/rgb(49,207,0)/rgb(255,255,0)/rgb(255,207,0)/rgb(255,154,0)/rgb(255,100,100)/rgb(255,0,0)/rgb(153,0,0)/rgb(206,48,255)",
+        "contour_shade_colour_method" : "list",
+        "contour_shade_method" : "area_fill",
+        "contour_shade_min_level" : 12,
+        "contour_title" : "Contour shade DEFRA PM2.5 DAQI (Range: 0.01 / 10, BuYlRd)"
+    },
+    "sh_all_pmx_ncl_precip_11lev" : {
+        "contour" : "off",
+        "contour_description" : "Method : contour shade Level range : 10 to 500 Colour : MeteoSwiss precip_11lev",
+        "contour_hi_min_value" : 0,
+        "contour_highlight" : "off",
+        "contour_hilo" : "off",
+        "contour_label" : "off",
+        "contour_legend_text" : "Contour shade (Range: 10 / 500, MeteoSwiss precip_11lev)",
+        "contour_level_list" : "10/20/30/40/50/60/80/100/150/200/300/500/9999",
+        "contour_level_selection_type" : "level_list",
+        "contour_reference_level" : 0,
+        "contour_shade" : "on",
+        "contour_shade_colour_list" : "rgb(1.0000,1.0000,1.0000)/rgb(0.9294,0.9804,0.7608)/rgb(0.8039,1.0000,0.8039)/rgb(0.6000,0.9412,0.6980)/rgb(0.3255,0.7412,0.6235)/rgb(0.1961,0.6510,0.5882)/rgb(0.1961,0.5882,0.7059)/rgb(0.0196,0.4392,0.6902)/rgb(0.0196,0.3137,0.5490)/rgb(0.0392,0.1216,0.5882)/rgb(0.1725,0.0078,0.2745)/rgb(0.4157,0.1725,0.3529)",
+        "contour_shade_colour_method" : "list",
+        "contour_shade_method" : "area_fill",
+        "contour_shade_min_level" : 17,
+        "contour_title" : "Contour shade MeteoSwiss precip_11lev (Range: 10 / 500, precip_11lev)"
+    },
+    "sh_all_pmx_regional" : {
+        "contour" : "off",
+        "contour_description" : "Method : contour shade Level range : 2 to 200 Colour : CAMS regional PMx products",
+        "contour_hi_min_value" : 0,
+        "contour_highlight" : "off",
+        "contour_hilo" : "off",
+        "contour_label" : "off",
+        "contour_legend_text" : "Contour shade (Range: 2 / 200, Regional PMx colour map)",
+        "contour_level_list" : "2/5/10/20/30/40/50/75/100/150/200/9999",
+        "contour_level_selection_type" : "level_list",
+        "contour_reference_level" : 0,
+        "contour_shade" : "on",
+        "contour_shade_colour_list" : "#1464d2/#2882f0/#50a5f5/#00dc00/#50f050/#a0e632/#e6dc32/#e6af2d/#f08228/#fa3c3c/#f00082",
+        "contour_shade_colour_method" : "list",
+        "contour_shade_method" : "area_fill",
+        "contour_shade_min_level" : 2,
+        "contour_title" : "Contour shade as used in CAMS regional WMS products (Range: 2 / 200)"
+    },
     "sh_all_so2_300hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 0.01 to 50 - Colour: all colours",
+        "contour_description" : "Method: contour shade Level range : 0.01 to 50 Colour: all colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -3869,7 +3941,7 @@
     },
     "sh_all_so2_500hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 0.01 to 50 - Colour: all colours",
+        "contour_description" : "Method: contour shade Level range : 0.01 to 50 Colour: all colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -3887,7 +3959,7 @@
     },
     "sh_all_so2_50hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 0.001 to 5 - Colour: all colours",
+        "contour_description" : "Method: contour shade Level range : 0.001 to 5 Colour: all colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -3905,7 +3977,7 @@
     },
     "sh_all_so2_850hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 0.01 to 50 - Colour: all colours",
+        "contour_description" : "Method: contour shade Level range : 0.01 to 50 Colour: all colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -3923,7 +3995,7 @@
     },
     "sh_all_so2_surface" : {
         "contour" : "off",
-        "contour_description" : "Method :   contour shade - Level range : 0.01 to 500 - Colour  : all colours",
+        "contour_description" : "Method : contour shade Level range : 0.01 to 500 Colour : all colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -3941,7 +4013,7 @@
     },
     "sh_all_tcco" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade - Level range : 0.0 to 50 - Interval : varied - Colour  : All colours",
+        "contour_description" : "Method : contour shade Level range : 0.0 to 50 Interval : varied Colour : All colours",
         "contour_hi_min_value" : 0.1,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -3959,7 +4031,7 @@
     },
     "sh_all_tchcho" : {
         "contour" : "off",
-        "contour_description" : "Method:   contour shade - Level range : 1 to 100 - Interval : varied - Colour  : All colours",
+        "contour_description" : "Method: contour shade Level range : 1 to 100 Interval : varied Colour : All colours",
         "contour_hi_min_value" : 0.1,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -3977,7 +4049,7 @@
     },
     "sh_all_tcno2" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade - Level range : 1.0 to 100 - Interval : varied - Colour  : All colours",
+        "contour_description" : "Method : contour shade Level range : 1.0 to 100 Interval : varied Colour : All colours",
         "contour_hi_min_value" : 0.1,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -3995,7 +4067,7 @@
     },
     "sh_all_tco3" : {
         "contour" : "off",
-        "contour_description" : "Method:   contour shade - Level range : 100 to 600 - Interval : varied - Colour  : All colours",
+        "contour_description" : "Method: contour shade Level range : 100 to 600 Interval : varied Colour : All colours",
         "contour_hi_min_value" : 0.1,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -4013,7 +4085,7 @@
     },
     "sh_all_tcso2" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade - Level range : 0.0 to 100 - Interval : varied - Colour  : All colours",
+        "contour_description" : "Method : contour shade Level range : 0.0 to 100 Interval : varied Colour : All colours",
         "contour_hi_min_value" : 0.1,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -4031,7 +4103,7 @@
     },
     "sh_all_uvindex" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade - Level range : 1 to 25 - Colour  : All colours",
+        "contour_description" : "Method : contour shade Level range : 1 to 25 Colour : All colours",
         "contour_hi_min_value" : 0.1,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -4121,7 +4193,7 @@
     },
     "sh_black_f0t900" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade - Level list from 0 to 900",
+        "contour_description" : "Method : contour shade Level list from 0 to 900",
         "contour_hilo" : "off",
         "contour_label" : "off",
         "contour_legend_text" : "Contour shade (Range: 0 / 900)",
@@ -4135,7 +4207,7 @@
     },
     "sh_blk_f0t10000" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade, Colour: Grey to white",
+        "contour_description" : "Method : contour shade, Colour : Grey to white",
         "contour_highlight" : "off",
         "contour_label" : "off",
         "contour_legend_text" : "Contour shade (Range: 0/10000)",
@@ -4151,7 +4223,7 @@
     },
     "sh_blkgrey_f0t100lst" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade - Level list   : (5/35/65/95) % - Colour  : Black-grey\nUsed for probability",
+        "contour_description" : "Method : contour shade Level list : (5/35/65/95) % Colour : Black-grey Used for probability",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -4172,7 +4244,7 @@
     },
     "sh_blu_f008t25" : {
         "contour" : "off",
-        "contour_description" : "Method : Area fill - Level range : 0.8 to 25 - Interval : list - Thickness   : 2 - Colour : Used for EPS spread - ",
+        "contour_description" : "Method : Area fill Level range : 0.8 to 25 Interval : list Thickness : 2 Colour : Used for EPS spread",
         "contour_hilo" : "off",
         "contour_label" : "off",
         "contour_legend_text" : "Contour shade (Range: 0.8 / 25), used for T spread",
@@ -4186,8 +4258,59 @@
         "contour_shade_min_level" : 0.8,
         "contour_title" : "Contour shade (Range: 0.8 / 25), used for T spread"
     },
+    "sh_blu_f02t30" : {
+        "contour" : "off",
+        "contour_description" : "Method : Area fill Level range : 2 to 30 Level list : (2/4/6/8/12/18) Thickness : 2 Colour : Blue Used for EPS spread",
+        "contour_hilo" : "off",
+        "contour_label" : "off",
+        "contour_legend_text" : "Contour shade (Range: 2 / 30)",
+        "contour_level_list" : "2/4/6/8/12/18/30",
+        "contour_level_selection_type" : "level_list",
+        "contour_reference_level" : 0,
+        "contour_shade" : "on",
+        "contour_shade_colour_list" : "rgb(0.85,0.73,0.86)/rgb(0.76,0.53,0.77)/rgb(0.73,0.34,0.74)/rgb(0.85,0.13,0.88)/rgb(0.96,0,1.0)/rgb(0.98,0.51,1.0)",
+        "contour_shade_colour_method" : "list",
+        "contour_shade_max_level" : 30,
+        "contour_shade_method" : "area_fill",
+        "contour_shade_min_level" : 2,
+        "contour_title" : "Contour shade (Range: 2 / 30)"
+    },
+    "sh_blu_f02t50" : {
+        "contour" : "off",
+        "contour_description" : "Method : Area fill Level range : 2 to 50 Interval : list Thickness : 2 Colour : Used for EPS spread",
+        "contour_hilo" : "off",
+        "contour_label" : "off",
+        "contour_legend_text" : "Contour shade (Range: 2 / 50)",
+        "contour_level_list" : "2/4/8/12/18/25/50",
+        "contour_level_selection_type" : "level_list",
+        "contour_reference_level" : 0,
+        "contour_shade" : "on",
+        "contour_shade_colour_list" : "rgb(0.85,0.73,0.86)/rgb(0.76,0.53,0.77)/rgb(0.73,0.34,0.74)/rgb(0.85,0.13,0.88)/rgb(0.96,0,1.0)/rgb(0.98,0.51,1.0)",
+        "contour_shade_colour_method" : "list",
+        "contour_shade_max_level" : 50,
+        "contour_shade_method" : "area_fill",
+        "contour_shade_min_level" : 2,
+        "contour_title" : "Contour shade (Range: 2 / 50)"
+    },
+    "sh_blu_f03t75" : {
+        "contour" : "off",
+        "contour_description" : "Method : Area fill Level range : 2 to 75 Interval : list Thickness : 2 Colour : Used for EPS spread",
+        "contour_hilo" : "off",
+        "contour_label" : "off",
+        "contour_legend_text" : "Contour shade (Range: 2 / 75)",
+        "contour_level_list" : "2/6/12/18/30/40/75",
+        "contour_level_selection_type" : "level_list",
+        "contour_reference_level" : 0,
+        "contour_shade" : "on",
+        "contour_shade_colour_list" : "rgb(0.85,0.73,0.86)/rgb(0.76,0.53,0.77)/rgb(0.73,0.34,0.74)/rgb(0.85,0.13,0.88)/rgb(0.96,0,1.0)/rgb(0.98,0.51,1.0)",
+        "contour_shade_colour_method" : "list",
+        "contour_shade_max_level" : 50,
+        "contour_shade_method" : "area_fill",
+        "contour_shade_min_level" : 2,
+        "contour_title" : "Contour shade (Range: 2 / 75)"
+    },
     "sh_blu_f0t20_douglas" : {
-        "contour_description" : "Method: contour shade - Level list   : (0/0.1/0.5/1.25/2.5/4/6/9/14/20)  - Colour: Blue - Used for significant wave height of wind waves",
+        "contour_description" : "Method : contour shade Level list : (0/0.1/0.5/1.25/2.5/4/6/9/14/20) Colour : Blue Used for significant wave height of wind waves",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -4208,7 +4331,7 @@
         "contour_title" : "Contour shade (Range: 0.0 / 20.0, Douglas sea scale)"
     },
     "sh_blu_f0t20lst" : {
-        "contour_description" : "Method: contour shade - Level list   : (0/0.5/1/2/3/4/6/8/10/12/14/20)  - Colour: Blue - Used for significant wave height",
+        "contour_description" : "Method : contour shade Level list : (0/0.5/1/2/3/4/6/8/10/12/14/20) Colour : Blue Used for significant wave height",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -4230,7 +4353,7 @@
     },
     "sh_blu_f0t20lst_light" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level list   : (0/0.5/1/2/3/4/6/8/10/12/14/20)  - Colour: Light blue - Used for significant wave height",
+        "contour_description" : "Method : contour shade Level list : (0/0.5/1/2/3/4/6/8/10/12/14/20) Colour : Light blue Used for significant wave height",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -4251,7 +4374,7 @@
         "contour_title" : "Contour shade (Range: 0.0 / 20.0)"
     },
     "sh_blu_f0t20lst_warn" : {
-        "contour_description" : "Method: contour shade, contours - Level list   : (0/0.5/1/2/3/4/6/8/10/12/14/20)  - Colour: Blue - Highlight contour colour: Red - Used for significant wave height",
+        "contour_description" : "Method : contour shade, contours Level list : (0/0.5/1/2/3/4/6/8/10/12/14/20) Colour : Blue Highlight contour colour: Red Used for significant wave height",
         "contour_highlight_colour" : "red",
         "contour_highlight_frequency" : 5,
         "contour_hilo" : "off",
@@ -4274,7 +4397,7 @@
     },
     "sh_blu_fM50tM1lst" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade - Level list : (-200/-100/-75/-50/-30/-20/-15/-13/-11/-9/-7/-5/-3/-1) - Colour  : Blue - Used for negative values of vorticity and divergence",
+        "contour_description" : "Method : contour shade Level list : (-200/-100/-75/-50/-30/-20/-15/-13/-11/-9/-7/-5/-3/-1) Colour : Blue Used for negative values of vorticity and divergence",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_internal_reduction_factor" : 7,
@@ -4292,7 +4415,7 @@
     },
     "sh_blu_fM5tM005lst" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade - Level list : (-50/-10/-5/-2/-1/-0.5/-0.3/-0.2/-0.1/-0.05) - Colour: blue  - Used for vertical velocity",
+        "contour_description" : "Method : contour shade Level list : (-50/-10/-5/-2/-1/-0.5/-0.3/-0.2/-0.1/-0.05) Colour: blue Used for vertical velocity",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -4307,7 +4430,7 @@
     },
     "sh_blugry_f0t1lst" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade - Level list   : (0.001/0.1875/0.3125/0.4375/0.5625/0.6875/0.8125/0.999/1.0) % - Colour  : Bluish gray - Used for high clouds",
+        "contour_description" : "Method : contour shade Level list : (0.001/0.1875/0.3125/0.4375/0.5625/0.6875/0.8125/0.999/1.0) % Colour : Bluish gray Used for high clouds",
         "contour_hilo" : "off",
         "contour_label" : "off",
         "contour_legend_text" : "Contour shade (0-1, intervals in octas)",
@@ -4321,7 +4444,7 @@
         "contour_title" : "Contour shade (0-1, intervals in octas)"
     },
     "sh_blup_f0t100lst" : {
-        "contour_description" : "Method  :   contour shade - Level list   : (5/35/65/95) % - Colour  : Blue-purple - Used for probability",
+        "contour_description" : "Method : contour shade Level list : (5/35/65/95) % Colour : Blue-purple Used for probability",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -4342,7 +4465,7 @@
     },
     "sh_blup_f0t100lst_light" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade - Level list   : (5/35/65/95) % - Colour  : Light blue-purple - Used for probability",
+        "contour_description" : "Method : contour shade Level list : (5/35/65/95) % Colour : Light blue-purple Used for probability",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -4363,7 +4486,7 @@
     },
     "sh_blured_f01t500lst" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade, with contours - Level list ; (0.1 to 500)  - Colour  : from blue to red - Used for precipitation",
+        "contour_description" : "Method : contour shade, with contours Level list ; (0.1 to 500) Colour : from blue to red Used for precipitation",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_internal_reduction_factor" : 4,
@@ -4379,7 +4502,7 @@
         "contour_title" : "Contour shade (Range: 0.1 / 500)"
     },
     "sh_blured_f05t300lst" : {
-        "contour_description" : "Method  :   contour shade, with contours - Level list   : (0.5/2/4/10/25/50/100/250)  - Colour  : from blue to red - Used for precipitation",
+        "contour_description" : "Method : contour shade, with contours Level list : (0.5/2/4/10/25/50/100/250) Colour : from blue to red Used for precipitation",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_internal_reduction_factor" : 4,
@@ -4396,7 +4519,7 @@
     },
     "sh_blured_f0t300" : {
         "XXXcontour_internal_reduction_factor" : 4,
-        "contour_description" : "Method  :   contour shade, with contours - Level list   : (0.5/2/4/10/25/50/100/250)  - Colour  : from blue to red - Used for precipitation",
+        "contour_description" : "Method : contour shade, with contours Level list : (0.5/2/4/10/25/50/100/250) Colour : from blue to red Used for precipitation",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -4412,7 +4535,7 @@
     },
     "sh_blured_f1t100lst" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade, no contours - Level list   : (1/2.5/6/15/40/100/250)  - Colour  : from blue to red - Used for precipitation",
+        "contour_description" : "Method : contour shade, no contours Level list : (1/2.5/6/15/40/100/250) Colour : from blue to red Used for precipitation",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -4432,7 +4555,7 @@
     },
     "sh_blured_f1t100lst_dark" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade, no contours - Level list   : (1/2.5/6/15/40/100/250)  - Colour  : from dark blue to dark red - Used for precipitation",
+        "contour_description" : "Method : contour shade, no contours Level list : (1/2.5/6/15/40/100/250) Colour : from dark blue to dark red Used for precipitation",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -4452,7 +4575,7 @@
     },
     "sh_blured_fM16t50_thickness" : {
         "contour" : "off",
-        "contour_description" : "Method  :  Contour shade for thickness 500-1000 hPa",
+        "contour_description" : "Method : Contour shade for thickness 500-1000 hPa",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -4466,7 +4589,7 @@
         "contour_title" : "Contour shade"
     },
     "sh_blured_fM1t1lst" : {
-        "contour_description" : "Method  :   contour shade - Level list   : (-0.90/-0.80/-0.70/-0.60/-0.5/0.5/0.6/0.7/0.8/0.9) - Colour  : Two ranges: violet-blue & yellow-red - Used for EFI",
+        "contour_description" : "Method : contour shade Level list : (-0.90/-0.80/-0.70/-0.60/-0.5/0.5/0.6/0.7/0.8/0.9) Colour : Two ranges: violet-blue & yellow-red Used for EFI",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "on",
@@ -4485,7 +4608,7 @@
     },
     "sh_blured_fM50t50lst" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade - Level list : (-200/-100/-75/-50/-30/-20/-15/-13/-11/-9/-7/-5/-3/-1/1/3/5/7/9/11/13/15/20/30/50/75/100/200) - Colour  : Two ranges: blue & yellow-red - Used for vorticity, divergence",
+        "contour_description" : "Method : contour shade Level list : (-200/-100/-75/-50/-30/-20/-15/-13/-11/-9/-7/-5/-3/-1/1/3/5/7/9/11/13/15/20/30/50/75/100/200) Colour : Two ranges: blue & yellow-red Used for vorticity, divergence",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_internal_reduction_factor" : 7,
@@ -4501,7 +4624,7 @@
     },
     "sh_blured_fM50t50lst_cell" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade - Level list : (-200/-100/-75/-50/-30/-20/-15/-13/-11/-9/-7/-5/-3/-1/1/3/5/7/9/11/13/15/20/30/50/75/100/200) - Colour  : Two ranges: blue & yellow-red - Used for vorticity, divergence",
+        "contour_description" : "Method : contour shade Level list : (-200/-100/-75/-50/-30/-20/-15/-13/-11/-9/-7/-5/-3/-1/1/3/5/7/9/11/13/15/20/30/50/75/100/200) Colour : Two ranges: blue & yellow-red Used for vorticity, divergence",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -4517,7 +4640,7 @@
     },
     "sh_blured_fM50t50lst_less" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade - Level list :(-200/-100/-75/-50/-30/-20/-15/-13/-11/-9/-7/-5/-3/-1/1/3/5/7/9/11/13/15/20/30/50/75/100/200) - Colour  : Two ranges: blue & yellow-red - Used for vorticity, divergence",
+        "contour_description" : "Method : contour shade Level list :(-200/-100/-75/-50/-30/-20/-15/-13/-11/-9/-7/-5/-3/-1/1/3/5/7/9/11/13/15/20/30/50/75/100/200) Colour : Two ranges: blue & yellow-red Used for vorticity, divergence",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_internal_reduction_factor" : 7,
@@ -4533,7 +4656,7 @@
     },
     "sh_blured_fM50t50lst_less_adaptive" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade - Level list :(-200/-100/-75/-50/-30/-20/-15/-13/-11/-9/-7/-5/-3/-1/1/3/5/7/9/11/13/15/20/30/50/75/100/200) - Colour  : Two ranges: blue & yellow-red - Used for vorticity, divergence",
+        "contour_description" : "Method : contour shade Level list :(-200/-100/-75/-50/-30/-20/-15/-13/-11/-9/-7/-5/-3/-1/1/3/5/7/9/11/13/15/20/30/50/75/100/200) Colour : Two ranges: blue & yellow-red Used for vorticity, divergence",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -4550,7 +4673,7 @@
     },
     "sh_blured_fM50t50lst_narrow_range" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade - Level list : (-200/-100/-75/-50/-30/-20/-15/-13/-11/-9/-7/-5/-3/-1/1/3/5/7/9/11/13/15/20/30/50/75/100/200) - Colour  : Two ranges: blue & yellow-red - Used for vorticity, divergence",
+        "contour_description" : "Method : contour shade Level list : (-200/-100/-75/-50/-30/-20/-15/-13/-11/-9/-7/-5/-3/-1/1/3/5/7/9/11/13/15/20/30/50/75/100/200) Colour : Two ranges: blue & yellow-red Used for vorticity, divergence",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -4566,7 +4689,7 @@
     },
     "sh_blured_fM5t5lst" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade - Level list : (-50/-10/-5/-2/-1/-0.5/-0.3/-0.2/-0.1/-0.05/0.05/0.1/0.2/0.3/0.5/1/2/5/10/50) - Colour: Two ranges: blue & yellow-red - Used for vertical velocity",
+        "contour_description" : "Method : contour shade Level list : (-50/-10/-5/-2/-1/-0.5/-0.3/-0.2/-0.1/-0.05/0.05/0.1/0.2/0.3/0.5/1/2/5/10/50) Colour: Two ranges: blue & yellow-red Used for vertical velocity",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -4581,7 +4704,7 @@
     },
     "sh_brn_f0t1" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade, Colour: brown to white",
+        "contour_description" : "Method : contour shade, Colour : brown to white",
         "contour_highlight" : "off",
         "contour_label" : "off",
         "contour_legend_text" : "Contour shade (Range: 0/100)",
@@ -4601,7 +4724,7 @@
     },
     "sh_brn_fM09t60_oro" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - min:-400 - max:8000 - 28 levels - ",
+        "contour_description" : "Method: contour shade min:-400 max:8000 28 levels",
         "contour_hilo" : "off",
         "contour_label" : "off",
         "contour_legend_text" : "Orography shading with 28 levels (brown)",
@@ -4619,7 +4742,7 @@
     },
     "sh_brn_fM4t70_l16_oro" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - min:-400 - max:7000 - 16 levels - ",
+        "contour_description" : "Method: contour shade min:-400 max:7000 16 levels",
         "contour_hilo" : "off",
         "contour_label" : "off",
         "contour_legend_text" : "Orography shading with 16 levels",
@@ -4637,7 +4760,7 @@
     },
     "sh_cbh_blk_f0t22000" : {
         "contour" : "off",
-        "contour_description" : "Method  :   Contour shade range: (0/22000)",
+        "contour_description" : "Method : Contour shade range: (0/22000)",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -4655,7 +4778,7 @@
     },
     "sh_cbh_f0t22000" : {
         "contour" : "off",
-        "contour_description" : "Method  :   Contour shade range: (0/22000)",
+        "contour_description" : "Method : Contour shade range: (0/22000)",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -4672,7 +4795,7 @@
     },
     "sh_comparison_rb_m10t10" : {
         "contour" : "off",
-        "contour_description" : "Method : Area fill - Level range : -48 to 56 - Interval : 4 - Thickness   : 3 - Colour  : All colours - Used for temperature - ",
+        "contour_description" : "Method : Area fill Level range : -48 to 56 Interval : 4 Thickness : 3 Colour : All colours Used for temperature",
         "contour_hilo" : "off",
         "contour_label" : "off",
         "contour_legend_text" : "Contour shade (Range: -20 / 20)",
@@ -4688,7 +4811,7 @@
     },
     "sh_comparison_rb_m30t30" : {
         "contour" : "off",
-        "contour_description" : "Method : Area fill - Level range : -48 to 56 - Interval : 4 - Thickness   : 3 - Colour  : All colours - Used for temperature - ",
+        "contour_description" : "Method : Area fill Level range : -48 to 56 Interval : 4 Thickness : 3 Colour : All colours Used for temperature",
         "contour_hilo" : "off",
         "contour_label" : "off",
         "contour_legend_text" : "Contour shade (Range: -30 / 30)",
@@ -4704,7 +4827,7 @@
     },
     "sh_diverging_ch4_300hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 1560.0 to 1940.0 - Colour: diverging colours",
+        "contour_description" : "Method: contour shade Level range : 1560.0 to 1940.0 Colour: diverging colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -4722,7 +4845,7 @@
     },
     "sh_diverging_ch4_500hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 1620.0 to 1900.0 - Colour: diverging colours",
+        "contour_description" : "Method: contour shade Level range : 1620.0 to 1900.0 Colour: diverging colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -4740,7 +4863,7 @@
     },
     "sh_diverging_ch4_50hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 0.0 to 2100.0 - Colour: diverging colours",
+        "contour_description" : "Method: contour shade Level range : 0.0 to 2100.0 Colour: diverging colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -4758,7 +4881,7 @@
     },
     "sh_diverging_ch4_850hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 1420.0 to 1940.0 - Colour: diverging colours",
+        "contour_description" : "Method: contour shade Level range : 1420.0 to 1940.0 Colour: diverging colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -4776,7 +4899,7 @@
     },
     "sh_diverging_co2_300hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 312.0 to 414.0 - Colour: diverging colours",
+        "contour_description" : "Method: contour shade Level range : 312.0 to 414.0 Colour: diverging colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -4794,7 +4917,7 @@
     },
     "sh_diverging_co2_500hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 294.0 to 416.0 - Colour: diverging colours",
+        "contour_description" : "Method: contour shade Level range : 294.0 to 416.0 Colour: diverging colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -4812,7 +4935,7 @@
     },
     "sh_diverging_co2_50hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 386.0 to 401.0 - Colour: diverging colours",
+        "contour_description" : "Method: contour shade Level range : 386.0 to 401.0 Colour: diverging colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -4830,7 +4953,7 @@
     },
     "sh_diverging_co2_850hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 120.0 to 430.0 - Colour: diverging colours",
+        "contour_description" : "Method: contour shade Level range : 120.0 to 430.0 Colour: diverging colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -4869,7 +4992,7 @@
     },
     "sh_efi2t_fM1t1lst" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade (Coarser)  - Level list   : (-1.5/1.5) -  Conventional EFI 2T range",
+        "contour_description" : "Method : contour shade (Coarser) Level list : (-1.5/1.5) Conventional EFI 2T range",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -4884,7 +5007,7 @@
     },
     "sh_efi2t_fM1t1lst_nc" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade (Coarser)  - Level list   : (-1.5/1.5) - , EFI with no contours",
+        "contour_description" : "Method : contour shade (Coarser) Level list : (-1.5/1.5) , EFI with no contours",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -4899,7 +5022,7 @@
     },
     "sh_efi_f05t1_nc" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade Level list   : (0.5/1.5) - , EFI with no contours",
+        "contour_description" : "Method : contour shade Level list : (0.5/1.5) , EFI with no contours",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -4914,7 +5037,7 @@
     },
     "sh_f220t300" : {
         "contour" : "off",
-        "contour_description" : "Method : Area fill - Level range : -48 to 56 - Interval : 4 - Thickness   : 3 - Colour  : All colours - Used for temperature - ",
+        "contour_description" : "Method : Area fill Level range : -48 to 56 Interval : 4 Thickness : 3 Colour : All colours Used for temperature",
         "contour_hilo" : "off",
         "contour_interval" : "4",
         "contour_label" : "off",
@@ -4932,7 +5055,7 @@
     },
     "sh_f50t6000_oro" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - min:-400 - max:8000 - 16 levels - ",
+        "contour_description" : "Method: contour shade min:-400 max:8000 16 levels",
         "contour_hilo" : "off",
         "contour_label" : "off",
         "contour_legend_text" : "Orography shading with 16 levels",
@@ -4950,7 +5073,7 @@
     },
     "sh_fM09t60_l25_oro" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - min:-400 - max:8000 - 28 levels - ",
+        "contour_description" : "Method: contour shade min:-400 max:8000 28 levels",
         "contour_hilo" : "off",
         "contour_label" : "off",
         "contour_legend_text" : "Orography shading with 28 levels",
@@ -4969,7 +5092,7 @@
     "sh_fM09t60_l25_oro_grid" : {
         "Xcontour_method" : "linear",
         "contour" : "off",
-        "contour_description" : "Method: contour shade - min:-90 - max:6000 - 28 levels (grid shading) - ",
+        "contour_description" : "Method: contour shade min:-90 max:6000 28 levels (grid shading)",
         "contour_hilo" : "off",
         "contour_label" : "off",
         "contour_legend_text" : "Orography shading with 28 levels (grid shading)",
@@ -4983,7 +5106,7 @@
     },
     "sh_green_f15t60" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade - Level list from 15 to 60",
+        "contour_description" : "Method : contour shade Level list from 15 to 60",
         "contour_hilo" : "off",
         "contour_label" : "off",
         "contour_legend_text" : "Contour shade (Range: 15 / 60)",
@@ -4997,7 +5120,7 @@
     },
     "sh_green_f44t70" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade - Level list from 44 to 70",
+        "contour_description" : "Method : contour shade Level list from 44 to 70",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -5027,7 +5150,7 @@
     },
     "sh_grey_min100" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade - Level list from 100 to 1100",
+        "contour_description" : "Method : contour shade Level list from 100 to 1100",
         "contour_label" : "off",
         "contour_legend_text" : "Transparent contour shade (Range: 100 / 1100)",
         "contour_level_list" : "100/1100",
@@ -5041,7 +5164,7 @@
     },
     "sh_grey_min200" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade - Level list from 200 to 1100",
+        "contour_description" : "Method : contour shade Level list from 200 to 1100",
         "contour_label" : "off",
         "contour_legend_text" : "Transparent contour shade (Range:200 / 1100)",
         "contour_level_list" : "200/1100",
@@ -5055,7 +5178,7 @@
     },
     "sh_grey_min50" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade - Level list from 100 to 1100",
+        "contour_description" : "Method : contour shade Level list from 100 to 1100",
         "contour_label" : "off",
         "contour_legend_text" : "Transparent contour shade (Range: 50 / 1100)",
         "contour_level_list" : "50/1100",
@@ -5068,7 +5191,7 @@
         "contour_title" : "Transparent contour shade (Range: 50/1100)"
     },
     "sh_grn_f0t100lst" : {
-        "contour_description" : "Method  :   contour shade - Level list   : (5/35/65/95) % - Colour  : Yellow-green - Used for probability",
+        "contour_description" : "Method : contour shade Level list : (5/35/65/95) % Colour : Yellow-green Used for probability",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -5086,7 +5209,7 @@
     },
     "sh_grn_f0t100lst_light" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade - Level list   : (5/35/65/95) % - Colour  : Light yellow-green - Used for probability",
+        "contour_description" : "Method : contour shade Level list : (5/35/65/95) % Colour : Light yellow-green Used for probability",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -5103,7 +5226,7 @@
         "contour_title" : "Contour shade (0-100%, light green)"
     },
     "sh_grn_f0t18i1_5" : {
-        "contour_description" : "Method  :   contour shade - Level range : 0.0 to 18.5 - Interval : 1.5 (except for the first interval) - Colour  : Green - Used for mean wave period",
+        "contour_description" : "Method : contour shade Level range : 0.0 to 18.5 Interval : 1.5 (except for the first interval) Colour : Green Used for mean wave period",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -5125,7 +5248,7 @@
     },
     "sh_grn_f10t100lst" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level list   : (10/15/20/25/30/40/50/60/80/100)  - Colour  : Yellow-green - Used for wind",
+        "contour_description" : "Method: contour shade Level list : (10/15/20/25/30/40/50/60/80/100) Colour : Yellow-green Used for wind",
         "contour_hilo" : "off",
         "contour_label" : "off",
         "contour_legend_text" : "Contour shade (Range: 10 / 100, green)",
@@ -5142,7 +5265,7 @@
     },
     "sh_grn_f30t100i10" : {
         "contour_data_transformation" : "isotachs",
-        "contour_description" : "Method  :   contour shade - Level range : 30 to 100 - Interval : 10 - Colour  : Yellow-green - Used for wind",
+        "contour_description" : "Method : contour shade Level range : 30 to 100 Interval : 10 Colour : Yellow-green Used for wind",
         "contour_hi_min_value" : 15,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -5159,7 +5282,7 @@
         "contour_title" : "Contour shade (Range: 30 / 100, green)"
     },
     "sh_grnblu_f65t100i15" : {
-        "contour_description" : "Method  :   contour shade - Level range : 65 to 100 - Interval : 15 - Colour  : from green to blue - Used for relative humidity",
+        "contour_description" : "Method : contour shade Level range : 65 to 100 Interval : 15 Colour : from green to blue Used for relative humidity",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -5177,7 +5300,7 @@
     },
     "sh_grnblu_f65t100i15_light" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade - Level range : 65 to 100 - Interval : 15 - Colour  : from light green to light blue - Used for relative humidity",
+        "contour_description" : "Method : contour shade Level range : 65 to 100 Interval : 15 Colour : from light green to light blue Used for relative humidity",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -5195,7 +5318,7 @@
         "contour_title" : "Contour shade (Range: 65 / 100)"
     },
     "sh_grnblue_f1t100" : {
-        "contour_description" : "Method  :   contour shade - Level list   : (1 to 100)",
+        "contour_description" : "Method : contour shade Level list : (1 to 100)",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -5210,7 +5333,7 @@
     },
     "sh_grngry_f0t1lst" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade - Level list   : (0.001/0.1875/0.3125/0.4375/0.5625/0.6875/0.8125/0.999/1.0) % - Colour  : Greenish gray - Used for medium clouds",
+        "contour_description" : "Method : contour shade Level list : (0.001/0.1875/0.3125/0.4375/0.5625/0.6875/0.8125/0.999/1.0) % Colour : Greenish gray Used for medium clouds",
         "contour_hilo" : "off",
         "contour_label" : "off",
         "contour_legend_text" : "Contour shade (0-1, intervals in octas)",
@@ -5225,7 +5348,7 @@
     },
     "sh_grnvio_f1t100lst" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade, no contours - Level list   : (1/2.5/6/15/40/100/250)  - Colour  : from green to violet - Used for precipitation",
+        "contour_description" : "Method : contour shade, no contours Level list : (1/2.5/6/15/40/100/250) Colour : from green to violet Used for precipitation",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -5245,7 +5368,7 @@
     },
     "sh_gry_f0t1lst" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade - Level list   : (0.001/0.1875/0.3125/0.4375/0.5625/0.6875/0.8125/0.999/1.0) % - Colour  : Gray - Used for low clouds",
+        "contour_description" : "Method : contour shade Level list : (0.001/0.1875/0.3125/0.4375/0.5625/0.6875/0.8125/0.999/1.0) % Colour : Gray Used for low clouds",
         "contour_hilo" : "off",
         "contour_label" : "off",
         "contour_legend_text" : "Contour shade (0-1, intervals in octas)",
@@ -5260,7 +5383,7 @@
     },
     "sh_gry_f0t20lst" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade - Level list   : (0/0.4/0.7/1/1.5/2/3/4/5/10/20) % - Colour  : Gray - Used for potential vorticity",
+        "contour_description" : "Method : contour shade Level list : (0/0.4/0.7/1/1.5/2/3/4/5/10/20) % Colour : Gray Used for potential vorticity",
         "contour_hilo" : "off",
         "contour_label" : "off",
         "contour_legend_text" : "Contour shade (Range: 0.0 / 1.0 & 1.5 / 20)",
@@ -5272,9 +5395,27 @@
         "contour_shade_method" : "area_fill",
         "contour_title" : "Contour shade (Range: 0.0 / 1.0 & 1.5 / 20)"
     },
+    "sh_gry_fM72t56lst" : {
+        "contour" : "off",
+        "contour_description" : "Method : Area fill Level range : -76 to 56 Interval : 4 Thickness : 3 Colour : Grey Used for temperature",
+        "contour_hilo" : "off",
+        "contour_interval" : 4,
+        "contour_label" : "off",
+        "contour_legend_text" : "Contour shade (Range: -76 / 56)",
+        "contour_level_selection_type" : "interval",
+        "contour_line_contour" : "dot",
+        "contour_line_thickness" : 3,
+        "contour_shade" : "on",
+        "contour_shade_colour_list" : "rgb(0.06,0.06,0.06)/rgb(0.08,0.08,0.08)/rgb(0.1,0.1,0.1)/rgb(0.12,0.12,0.12)/rgb(0.14,0.14,0.14)/rgb(0.16,0.16,0.16)/rgb(0.18,0.18,0.18)/rgb(0.2,0.2,0.2)/rgb(0.23,0.23,0.23)/rgb(0.26,0.26,0.26)/rgb(0.29,0.29,0.29)/rgb(0.32,0.32,0.32)/rgb(0.35,0.35,0.35)/rgb(0.38,0.38,0.38)/rgb(0.41,0.41,0.41/rgb(0.44,0.44,0.44)/rgb(0.48,0.48,0.48)/rgb(0.52,0.52,0.52)/rgb(0.56,0.56,0.56)/rgb(0.6,0.6,0.6)/rgb(0.64,0.64,0.64)/rgb(0.68,0.68,0.68)/rgb(0.72,0.72,0.72)/rgb(0.75,0.75,0.75)/rgb(0.78,0.78,0.78)/rgb(0.81,0.81,0.81)/rgb(0.84,0.84,0.84)/rgb(0.87,0.87,0.87)/rgb(0.9,0.9,0.9)/rgb(0.93,0.93,0.93)/rgb(0.96,0.96,0.96)/rgb(0.98,0.98,0.98)/rgb(1,1,1)",
+        "contour_shade_colour_method" : "list",
+        "contour_shade_max_level" : 56,
+        "contour_shade_method" : "area_fill",
+        "contour_shade_min_level" : -76,
+        "contour_title" : "Contour shade (Range: -76 / 56)"
+    },
     "sh_hcct_blk_f0t22000" : {
         "contour" : "off",
-        "contour_description" : "Method  :   Contour shade range: (0/22000)",
+        "contour_description" : "Method : Contour shade range: (0/22000)",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -5292,7 +5433,7 @@
     },
     "sh_hcct_f0t22000" : {
         "contour" : "off",
-        "contour_description" : "Method  :   Contour shade range: (0/22000)",
+        "contour_description" : "Method : Contour shade range: (0/22000)",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -5325,7 +5466,7 @@
     },
     "sh_lai_f0t7" : {
         "contour" : "off",
-        "contour_description" : "Method : Area fill - Level range : -0.5 to 7 - Interval : 2 - ",
+        "contour_description" : "Method : Area fill Level range : -0.5 to 7 Interval : 2",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_interval" : "4",
@@ -5344,7 +5485,7 @@
     },
     "sh_lgtgry_f0t1lst" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade - Level list   : (0.001/0.1875/0.3125/0.4375/0.5625/0.6875/0.8125/0.999/1.0) % - Colour  : Gray - Used for medium clouds",
+        "contour_description" : "Method : contour shade Level list : (0.001/0.1875/0.3125/0.4375/0.5625/0.6875/0.8125/0.999/1.0) % Colour : Gray Used for medium clouds",
         "contour_hilo" : "off",
         "contour_label" : "off",
         "contour_legend_text" : "Contour shade (0-1, intervals in octas)",
@@ -5410,7 +5551,7 @@
         "contour_title" : "Shade (Less levels)"
     },
     "sh_mag_f0t10000" : {
-        "contour_description" : "Method  :   contour shade - Level list from 0 to 900",
+        "contour_description" : "Method : contour shade Level list from 0 to 900",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -5527,7 +5668,7 @@
     },
     "sh_mf_2t_prob" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade - Level list   : (5/100 in every 10) % - Colour  : Used for probability",
+        "contour_description" : "Method : contour shade Level list : (5/100 in every 10) % Colour : Used for probability",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -5543,7 +5684,7 @@
     },
     "sh_mf_2t_tercile" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade - Level list   : (5/100 in every 10) % - Colour  : Used for probability",
+        "contour_description" : "Method : contour shade Level list : (5/100 in every 10) % Colour : Used for probability",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -5559,7 +5700,7 @@
     },
     "sh_mf_pdist" : {
         "contour" : "off",
-        "contour_description" : "Method : Contour - Level range : -2 to 36 - Interval : 4 - Thickness   : 2 - Colour  : Black - Used for sst - ",
+        "contour_description" : "Method : Contour Level range : -2 to 36 Interval : 4 Thickness : 2 Colour : Black Used for sst",
         "contour_label" : "off",
         "contour_level_list" : "-10/5/10/15/20/25/33/40/50/60/70/80/90/150",
         "contour_level_selection_type" : "level_list",
@@ -5571,7 +5712,7 @@
     },
     "sh_mf_pdist_2" : {
         "contour" : "off",
-        "contour_description" : "Method : Contour - Level range : -2 to 36 - Interval : 4 - Thickness   : 2 - Colour  : Black - Used for sst - ",
+        "contour_description" : "Method : Contour Level range : -2 to 36 Interval : 4 Thickness : 2 Colour : Black Used for sst",
         "contour_highlight" : "off",
         "contour_label" : "off",
         "contour_level_list" : "-10/5/15/25/40/55/70/85/150",
@@ -5584,7 +5725,7 @@
     },
     "sh_mf_pdist_decile" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade - Level list   : (5/100 in every 10) % - Colour  : Used for probability",
+        "contour_description" : "Method : contour shade Level list : (5/100 in every 10) % Colour : Used for probability",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -5600,7 +5741,7 @@
     },
     "sh_mf_pdist_quintile" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade - Level list   : (5/100 in every 10) % - Colour  : Used for probability",
+        "contour_description" : "Method : contour shade Level list : (5/100 in every 10) % Colour : Used for probability",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -5616,7 +5757,7 @@
     },
     "sh_mf_tp_prob" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade - Level list   : (5/100 in every 10) % - Colour  : Used for probability",
+        "contour_description" : "Method : contour shade Level list : (5/100 in every 10) % Colour : Used for probability",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -5632,7 +5773,7 @@
     },
     "sh_mf_tp_tercile" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade - Level list   : (5/100 in every 10) % - Colour  : Used for probability",
+        "contour_description" : "Method : contour shade Level list : (5/100 in every 10) % Colour : Used for probability",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -5648,7 +5789,7 @@
     },
     "sh_multicolour_thickness" : {
         "contour" : "on",
-        "contour_description" : "Method  :   Contours multi coloured ",
+        "contour_description" : "Method : Contours multi coloured",
         "contour_hilo" : "off",
         "contour_label" : "on",
         "contour_legend_text" : "Contours multi-coloured (Range: 444 / 618)",
@@ -5664,7 +5805,7 @@
     },
     "sh_navy_f0t13500" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade, Colour: Navy to green",
+        "contour_description" : "Method : contour shade, Colour : Navy to green",
         "contour_highlight" : "off",
         "contour_label" : "off",
         "contour_legend_text" : "Contour shade (Range: 0/10000)",
@@ -5680,7 +5821,7 @@
     },
     "sh_nipy_spectral_ch4_300hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 1560.0 to 1940.0 - Colour: nipy_spectral colours",
+        "contour_description" : "Method: contour shade Level range : 1560.0 to 1940.0 Colour: nipy_spectral colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -5699,7 +5840,7 @@
     },
     "sh_nipy_spectral_ch4_500hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 1620.0 to 1950.0 - Colour: nipy_spectral colours",
+        "contour_description" : "Method: contour shade Level range : 1620.0 to 1950.0 Colour: nipy_spectral colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -5718,7 +5859,7 @@
     },
     "sh_nipy_spectral_ch4_50hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 0.0 to 2100.0 - Colour: nipy_spectral colours",
+        "contour_description" : "Method: contour shade Level range : 0.0 to 2100.0 Colour: nipy_spectral colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -5737,7 +5878,7 @@
     },
     "sh_nipy_spectral_ch4_850hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 1420.0 to 2020.0 - Colour: nipy_spectral colours",
+        "contour_description" : "Method: contour shade Level range : 1420.0 to 2020.0 Colour: nipy_spectral colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -5756,7 +5897,7 @@
     },
     "sh_nipy_spectral_ch4_surface" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 0.0 to 2060.0 - Colour: nipy_spectral colours",
+        "contour_description" : "Method: contour shade Level range : 0.0 to 2060.0 Colour: nipy_spectral colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -5775,7 +5916,7 @@
     },
     "sh_nipy_spectral_ch4_totalcolumn" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 0.0 to 1920.0 - Colour: nipy_spectral colours",
+        "contour_description" : "Method: contour shade Level range : 0.0 to 1920.0 Colour: nipy_spectral colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -5794,7 +5935,7 @@
     },
     "sh_nipy_spectral_co2_300hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 312.0 to 406.0 - Colour: nipy_spectral colours",
+        "contour_description" : "Method: contour shade Level range : 312.0 to 406.0 Colour: nipy_spectral colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -5813,7 +5954,7 @@
     },
     "sh_nipy_spectral_co2_500hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 294.5 to 407.5 - Colour: nipy_spectral colours",
+        "contour_description" : "Method: contour shade Level range : 294.5 to 407.5 Colour: nipy_spectral colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -5832,7 +5973,7 @@
     },
     "sh_nipy_spectral_co2_50hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 386.5 to 403.0 - Colour: nipy_spectral colours",
+        "contour_description" : "Method: contour shade Level range : 386.5 to 403.0 Colour: nipy_spectral colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -5851,7 +5992,7 @@
     },
     "sh_nipy_spectral_co2_850hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 122.5 to 411.0 - Colour: nipy_spectral colours",
+        "contour_description" : "Method: contour shade Level range : 122.5 to 411.0 Colour: nipy_spectral colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -5870,7 +6011,7 @@
     },
     "sh_nipy_spectral_co2_surface" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 180.0 to 440.0 - Colour: nipy_spectral colours",
+        "contour_description" : "Method: contour shade Level range : 180.0 to 440.0 Colour: nipy_spectral colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -5889,7 +6030,7 @@
     },
     "sh_nipy_spectral_co2_totalcolumn" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 300 to 415 - Colour: nipy_spectral colours",
+        "contour_description" : "Method: contour shade Level range : 300 to 415 Colour: nipy_spectral colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -5909,7 +6050,7 @@
     "sh_orog_metres" : {
         "XXXcontour_shade_technique" : "grid_shading",
         "contour" : "off",
-        "contour_description" : "Method: contour shade - min:-500 - max:8000\r - ",
+        "contour_description" : "Method: contour shade min:-500 max:8000",
         "contour_hilo" : "off",
         "contour_label" : "off",
         "contour_legend_title" : "Orography (in m)",
@@ -5928,7 +6069,7 @@
     },
     "sh_orog_web" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - min:-500 - max:8000\r - ",
+        "contour_description" : "Method: contour shade min:-500 max:8000",
         "contour_hilo" : "off",
         "contour_label" : "off",
         "contour_legend_title" : "Orography (in hm)",
@@ -5945,7 +6086,7 @@
         "contour_title" : "Orography (in hm)"
     },
     "sh_prate_radarlike" : {
-        "contour_description" : "Method  :   contour shading from 0.08",
+        "contour_description" : "Method : contour shading from 0.08",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -5960,7 +6101,7 @@
     },
     "sh_prate_radarlike_grided" : {
         "contour" : "off",
-        "contour_description" : "Method  :   Grid shading from 0.07 as in radar images",
+        "contour_description" : "Method : Grid shading from 0.07 as in radar images",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -5977,7 +6118,7 @@
     },
     "sh_prate_radarlike_grided_f01" : {
         "contour" : "off",
-        "contour_description" : "Method  :   Grid shading from 0.1 to 256",
+        "contour_description" : "Method : Grid shading from 0.1 to 256",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -6020,6 +6161,77 @@
         "contour_shade_method" : "area_fill",
         "contour_title" : "Contour shade (-320/320)"
     },
+    "sh_range_f008to25" : {
+        "contour_description" : "Method : Area fill Level range : 0.8 to 25 Interval : list Thickness : 2 Colour : Used for EPS spread",
+        "contour_hilo" : "off",
+        "contour_label" : "off",
+        "contour_legend_text" : "Contour shade (Range: 0.8 / 25 in K, more levels) ",
+        "contour_level_list" : "0.8/1.2/1.6/2.0/2.5/5.0/7.5/10.0/12.5/15.0/20.0/25.0",
+        "contour_level_selection_type" : "level_list",
+        "contour_line_colour" : "red",
+        "contour_method" : "conicon",
+        "contour_reference_level" : 2,
+        "contour_shade" : "on",
+        "contour_shade_colour_list" : "BLUE_GREEN/BLUISH_GREEN/YELLOW_GREEN/YELLOW/ORANGE_YELLOW/YELLOWISH_ORANGE/ORANGE/TANGERINE/OCHRE/MUSTARD/TAN",
+        "contour_shade_colour_method" : "list",
+        "contour_shade_max_level" : 25,
+        "contour_shade_method" : "area_fill",
+        "contour_shade_min_level" : 0.8,
+        "contour_title" : "Contour shade (Range: 0.8 / 25 in K, more levels) "
+    },
+    "sh_range_f02t30" : {
+        "contour_description" : "Method : Area fill Level range : 2 to 30 Level list : (2/3/4/5/6/8/10/12/14/18/25) Thickness : 2 Colour : All colours Used for EPS spread",
+        "contour_hilo" : "off",
+        "contour_label" : "off",
+        "contour_legend_text" : "Contour shade (Range: 2 / 30, more levels)",
+        "contour_level_list" : "2/3/4/5/6/8/10/12/14/18/25/30",
+        "contour_level_selection_type" : "level_list",
+        "contour_line_colour" : "red",
+        "contour_method" : "conicon",
+        "contour_reference_level" : 2,
+        "contour_shade" : "on",
+        "contour_shade_colour_list" : "BLUE_GREEN/BLUISH_GREEN/YELLOW_GREEN/YELLOW/ORANGE_YELLOW/YELLOWISH_ORANGE/ORANGE/TANGERINE/OCHRE/MUSTARD/TAN",
+        "contour_shade_colour_method" : "list",
+        "contour_shade_max_level" : 30,
+        "contour_shade_method" : "area_fill",
+        "contour_shade_min_level" : 2,
+        "contour_title" : "Contour shade (Range: 2 / 30, more levels)"
+    },
+    "sh_range_f02t50" : {
+        "contour_description" : "Method : Area fill Level range : 2 to 50 Interval : list Thickness : 2 Colour : Used for EPS spread",
+        "contour_hilo" : "off",
+        "contour_label" : "off",
+        "contour_legend_text" : "Contour shade (Range: 2 / 50, more levels)",
+        "contour_level_list" : "2/3/4/5/6/8/10/12/14/16/20/50",
+        "contour_level_selection_type" : "level_list",
+        "contour_line_colour" : "red",
+        "contour_method" : "conicon",
+        "contour_reference_level" : 2,
+        "contour_shade" : "on",
+        "contour_shade_colour_list" : "BLUE_GREEN/BLUISH_GREEN/YELLOW_GREEN/YELLOW/ORANGE_YELLOW/YELLOWISH_ORANGE/ORANGE/TANGERINE/OCHRE/MUSTARD/TAN",
+        "contour_shade_colour_method" : "list",
+        "contour_shade_max_level" : 50,
+        "contour_shade_method" : "area_fill",
+        "contour_shade_min_level" : 2,
+        "contour_title" : "Contour shade (Range: 2 / 50, more levels)"
+    },
+    "sh_range_fm40t40" : {
+        "contour" : "off",
+        "contour_description" : "Method : Area fill Level range : 2 to 30 Level list : (2/3/4/5/6/8/10/12/14/18/25) Thickness : 2 Colour : All colours Used for EPS spread",
+        "contour_hilo" : "off",
+        "contour_label" : "off",
+        "contour_legend_text" : "Contour shade (Range: -40/40)",
+        "contour_level_list" : "-40/-38/-36/-34/-32/-30/-28/-26/-24/-22/-20/-18/-16/-14/-12/-10/-8/-6/-4/-2/2/4/6/8/10/12/14/16/18/20/22/24/26/28/30/32/34/36/38/40",
+        "contour_level_selection_type" : "level_list",
+        "contour_reference_level" : 2,
+        "contour_shade" : "on",
+        "contour_shade_colour_list" : "RGB(0,12,255)/RGB(0,24,255)/RGB(0,36,255)/RGB(0,48,255)/RGB(0,60,255)/RGB(0,72,255)/RGB(0,84,255)/RGB(0,96,255)/RGB(0,108,255)/RGB(0,120,255)/RGB(0,132,255)/RGB(0,144,255)/RGB(0,156,255)/RGB(0,168,255)/RGB(0,180,255)/RGB(0,192,255)/RGB(0,204,255)/RGB(0,216,255)/RGB(0,228,255)/none/RGB(255,165,0)/RGB(255,157,0)/RGB(255,149,0)/RGB(255,141,0)/RGB(255,133,0)/RGB(255,125,0)/RGB(255,117,0)/RGB(255,109,0)/RGB(255,101,0)/RGB(255,93,0)/RGB(255,85,0)/RGB(255,77,0)/RGB(255,69,0)/RGB(255,61,0)/RGB(255,53,0)/RGB(255,45,0)/RGB(255,37,0)/RGB(255,29,0)/RGB(255,21,0)/RGB(255,13,0)",
+        "contour_shade_colour_method" : "list",
+        "contour_shade_max_level" : 40,
+        "contour_shade_method" : "area_fill",
+        "contour_shade_min_level" : -40,
+        "contour_title" : "Contour shade (Range: -40/40)"
+    },
     "sh_rb_fm100t100" : {
         "contour" : "off",
         "contour_description" : "Black contours used for sunshine duration",
@@ -6038,7 +6250,7 @@
     },
     "sh_red_f001t10" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade, with contours - Level list   : (0.5/2/4/10/25/50/100/250)  - Colour  : from blue to red - Used for precipitation",
+        "contour_description" : "Method : contour shade, with contours Level list : (0.5/2/4/10/25/50/100/250) Colour : from blue to red Used for precipitation",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -6053,7 +6265,7 @@
     },
     "sh_red_f005t5lst" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade - Level list : (0.05/0.1/0.2/0.3/0.5/1/2/5/10/50) - Colour: yellow-red - Used for vertical velocity",
+        "contour_description" : "Method : contour shade Level list : (0.05/0.1/0.2/0.3/0.5/1/2/5/10/50) Colour: yellow-red Used for vertical velocity",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -6067,7 +6279,7 @@
         "contour_title" : "Contour shade (Range: 0.05 / 50 )"
     },
     "sh_red_f05t1i01" : {
-        "contour_description" : "Method  :   contour shade - Level range : 0.5 to 1.0 - Interval : 0.1 - Colour  : Yellow-orange-red - Used for EFI",
+        "contour_description" : "Method : contour shade Level range : 0.5 to 1.0 Interval : 0.1 Colour : Yellow-orange-red Used for EFI",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "on",
@@ -6086,7 +6298,7 @@
         "contour_title" : "Contour shade (Range: 0.5 / 1.0)"
     },
     "sh_red_f0t100lst" : {
-        "contour_description" : "Method  :   contour shade - Level list   : (5/35/65/95) % - Colour  : Red - Used for probability",
+        "contour_description" : "Method : contour shade Level list : (5/35/65/95) % Colour : Red Used for probability",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -6107,7 +6319,7 @@
     },
     "sh_red_f0t100lst_light" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade - Level list   : (5/35/65/95) % - Colour  : Light red - Used for probability",
+        "contour_description" : "Method : contour shade Level list : (5/35/65/95) % Colour : Light red Used for probability",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -6128,7 +6340,7 @@
     },
     "sh_red_f0t1lst" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade - Level list   : (-0.5/0.5/1.5) % - Colour  : Rust - Used for land-sea mask",
+        "contour_description" : "Method : contour shade Level list : (-0.5/0.5/1.5) % Colour : Rust Used for land-sea mask",
         "contour_hilo" : "off",
         "contour_label" : "off",
         "contour_legend_text" : "Contour shade (0/1)",
@@ -6142,7 +6354,7 @@
     },
     "sh_red_f0t640_energy" : {
         "contour" : "off",
-        "contour_description" : "Method  :   Contour shade range: (0/1000)",
+        "contour_description" : "Method : Contour shade range: (0/1000)",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -6158,7 +6370,7 @@
     },
     "sh_red_f0t900" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade - Level list from 0 to 900",
+        "contour_description" : "Method : contour shade Level list from 0 to 900",
         "contour_hilo" : "off",
         "contour_label" : "off",
         "contour_legend_text" : "Contour shade (Range: 0 / 900)",
@@ -6186,7 +6398,7 @@
         "contour_title" : "Shade (Range: 0 / 90000 )"
     },
     "sh_red_f10t70lst" : {
-        "contour_description" : "Method  :   contour shade - Level list   : (10/15/20/25/30/40/50/60/70)  - Colour  : Yellow-red - Used for wind",
+        "contour_description" : "Method : contour shade Level list : (10/15/20/25/30/40/50/60/70) Colour : Yellow-red Used for wind",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -6205,7 +6417,7 @@
     },
     "sh_red_f15t60" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade - Level list from 15 to 60",
+        "contour_description" : "Method : contour shade Level list from 15 to 60",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -6220,7 +6432,7 @@
     },
     "sh_red_f1t50lst" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade - Level list : (1/3/5/7/9/11/13/15/20/30/50/75/100/200) - Colour  : Yellow-red - Used for positive values of vorticity, divergence",
+        "contour_description" : "Method : contour shade Level list : (1/3/5/7/9/11/13/15/20/30/50/75/100/200) Colour : Yellow-red Used for positive values of vorticity, divergence",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_internal_reduction_factor" : 7,
@@ -6238,7 +6450,7 @@
     },
     "sh_red_f44t70" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade - Level list from 44 to 70",
+        "contour_description" : "Method : contour shade Level list from 44 to 70",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -6254,7 +6466,7 @@
         "contour_title" : "Contour shade (Range: 44/70)"
     },
     "sh_red_f5t70lst" : {
-        "contour_description" : "Method  :   contour shade - Level list   : (5/10/15/20/25/30/40/50/60/70)  - Colour  : Yellow-red - Used for wind",
+        "contour_description" : "Method : contour shade Level list : (5/10/15/20/25/30/40/50/60/70) Colour : Yellow-red Used for wind",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -6273,7 +6485,7 @@
     },
     "sh_redgry_f0t1lst" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade - Level list   : (0.001/0.1875/0.3125/0.4375/0.5625/0.6875/0.8125/0.999/1.0) % - Colour  : Reddish gray - Used for low clouds",
+        "contour_description" : "Method : contour shade Level list : (0.001/0.1875/0.3125/0.4375/0.5625/0.6875/0.8125/0.999/1.0) % Colour : Reddish gray Used for low clouds",
         "contour_hilo" : "off",
         "contour_label" : "off",
         "contour_legend_text" : "Contour shade (0-1, intervals in octas)",
@@ -6287,7 +6499,7 @@
         "contour_title" : "Contour shade (0-1, intervals in octas)"
     },
     "sh_rgb_f5t100" : {
-        "contour_description" : "Method  :   contour shade - Level list   : (5 to 100)",
+        "contour_description" : "Method : contour shade Level list : (5 to 100)",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -6302,7 +6514,7 @@
         "contour_title" : "Contour shade (5-100%, more levels)"
     },
     "sh_rgb_transparent25_f5t100" : {
-        "contour_description" : "Method  :   contour shade - Level list   : (5 to 100)",
+        "contour_description" : "Method : contour shade Level list : (5 to 100)",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -6317,7 +6529,7 @@
         "contour_title" : "Contour shade (5-100%, More transparent, more levels)"
     },
     "sh_rgb_transparent_f5t100" : {
-        "contour_description" : "Method  :   contour shade - Level list   : (5 to 100)",
+        "contour_description" : "Method : contour shade Level list : (5 to 100)",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -6333,7 +6545,7 @@
     },
     "sh_significance_1" : {
         "contour" : "off",
-        "contour_description" : "Method  :  significance level",
+        "contour_description" : "Method : significance level",
         "contour_label" : "off",
         "contour_legend_text" : "Significance level",
         "contour_level_list" : "0/90/100",
@@ -6346,7 +6558,7 @@
     },
     "sh_significance_10" : {
         "contour" : "off",
-        "contour_description" : "Method  :  significance level",
+        "contour_description" : "Method : significance level",
         "contour_label" : "off",
         "contour_legend_text" : "Significance level",
         "contour_level_list" : "0/90/100",
@@ -6359,7 +6571,7 @@
     },
     "sh_significance_20" : {
         "contour" : "off",
-        "contour_description" : "Method  :  significance level",
+        "contour_description" : "Method : significance level",
         "contour_label" : "off",
         "contour_legend_text" : "Significance level",
         "contour_level_list" : "0/80/100",
@@ -6372,7 +6584,7 @@
     },
     "sh_spechum_option1" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade - Level list from 0 to 28",
+        "contour_description" : "Method : contour shade Level list from 0 to 28",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -6388,7 +6600,7 @@
     },
     "sh_spechum_option2" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade - Level list from 0 to 28",
+        "contour_description" : "Method : contour shade Level list from 0 to 28",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -6404,7 +6616,7 @@
     },
     "sh_spechum_option3" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade - Level list from 0 to 28",
+        "contour_description" : "Method : contour shade Level list from 0 to 28",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -6420,7 +6632,7 @@
     },
     "sh_sst_fM2t36i2" : {
         "contour" : "off",
-        "contour_description" : "Method : Area fill - Level range : -2 to 36 - Interval : 2 - Thickness   : 3 - Colour  : All colours - Used for temperature - ",
+        "contour_description" : "Method : Area fill Level range : -2 to 36 Interval : 2 Thickness : 3 Colour : All colours Used for temperature",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_interval" : "4",
@@ -6457,7 +6669,7 @@
     },
     "sh_tcw_f5t100" : {
         "contour" : "off",
-        "contour_description" : "Method  : Contour shade from 5 to 100",
+        "contour_description" : "Method : Contour shade from 5 to 100",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -6475,7 +6687,7 @@
     },
     "sh_tp_f1t30" : {
         "contour" : "off",
-        "contour_description" : "Method  : Contour shade from 0.5 to 30",
+        "contour_description" : "Method : Contour shade from 0.5 to 30",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -6491,7 +6703,7 @@
     },
     "sh_viobrn_fM50t50lst_less" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade - Level list : (-200/-100/-50/-20/-15/-11/-7/-5/-3/-1/1/3/5/7/11/15/20/50/100/200) - Colour  : Two ranges: violet & brown - Used for vorticity, divergence",
+        "contour_description" : "Method : contour shade Level list : (-200/-100/-50/-20/-15/-11/-7/-5/-3/-1/1/3/5/7/11/15/20/50/100/200) Colour : Two ranges: violet & brown Used for vorticity, divergence",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_internal_reduction_factor" : 7,
@@ -6507,7 +6719,7 @@
     },
     "sh_viobrn_fM5t5lst" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade - Level list : (-50/-10/-5/-2/-1/-0.5/-0.3/-0.2/-0.1/-0.05/0.05/0.1/0.2/0.3/0.5/1/2/5/10/50) - Colour: Two ranges: violet & brown - Used for vertical velocity",
+        "contour_description" : "Method : contour shade Level list : (-50/-10/-5/-2/-1/-0.5/-0.3/-0.2/-0.1/-0.05/0.05/0.1/0.2/0.3/0.5/1/2/5/10/50) Colour: Two ranges: violet & brown Used for vertical velocity",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -6522,7 +6734,7 @@
     },
     "sh_viridis_co_300hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 80 to 500 - Colour: viridis colours",
+        "contour_description" : "Method: contour shade Level range : 80 to 500 Colour: viridis colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -6540,7 +6752,7 @@
     },
     "sh_viridis_co_500hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 80 to 500 - Colour: viridis colours",
+        "contour_description" : "Method: contour shade Level range : 80 to 500 Colour: viridis colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -6558,7 +6770,7 @@
     },
     "sh_viridis_co_50hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 10 to 100 - Colour: viridis colours",
+        "contour_description" : "Method: contour shade Level range : 10 to 100 Colour: viridis colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -6576,7 +6788,7 @@
     },
     "sh_viridis_co_850hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 80 to 500 - Colour: viridis colours",
+        "contour_description" : "Method: contour shade Level range : 80 to 500 Colour: viridis colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -6594,7 +6806,7 @@
     },
     "sh_viridis_go3_300hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 50 to 1000 - Colour: viridis colours",
+        "contour_description" : "Method: contour shade Level range : 50 to 1000 Colour: viridis colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -6612,7 +6824,7 @@
     },
     "sh_viridis_go3_500hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 50 to 200 - Colour: viridis colours",
+        "contour_description" : "Method: contour shade Level range : 50 to 200 Colour: viridis colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -6630,7 +6842,7 @@
     },
     "sh_viridis_go3_50hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 1000 to 8000 - Colour: viridis colours",
+        "contour_description" : "Method: contour shade Level range : 1000 to 8000 Colour: viridis colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -6648,7 +6860,7 @@
     },
     "sh_viridis_go3_850hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 30 to 200 - Colour: viridis colours",
+        "contour_description" : "Method: contour shade Level range : 30 to 200 Colour: viridis colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -6666,7 +6878,7 @@
     },
     "sh_viridis_hcho_300hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 0.1 to 50 - Colour: viridis colours",
+        "contour_description" : "Method: contour shade Level range : 0.1 to 50 Colour: viridis colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -6684,7 +6896,7 @@
     },
     "sh_viridis_hcho_500hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 0.1 to 50 - Colour: viridis colours",
+        "contour_description" : "Method: contour shade Level range : 0.1 to 50 Colour: viridis colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -6702,7 +6914,7 @@
     },
     "sh_viridis_hcho_50hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 0.001 to 10 - Colour: viridis colours",
+        "contour_description" : "Method: contour shade Level range : 0.001 to 10 Colour: viridis colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -6720,7 +6932,7 @@
     },
     "sh_viridis_hcho_850hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 0.1 to 50 - Colour: viridis colours",
+        "contour_description" : "Method: contour shade Level range : 0.1 to 50 Colour: viridis colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -6738,7 +6950,7 @@
     },
     "sh_viridis_no2_300hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 0.01 to 50 - Colour: viridis colours",
+        "contour_description" : "Method: contour shade Level range : 0.01 to 50 Colour: viridis colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -6756,7 +6968,7 @@
     },
     "sh_viridis_no2_500hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 0.01 to 50 - Colour: viridis colours",
+        "contour_description" : "Method: contour shade Level range : 0.01 to 50 Colour: viridis colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -6774,7 +6986,7 @@
     },
     "sh_viridis_no2_50hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 0.01 to 50 - Colour: viridis colours",
+        "contour_description" : "Method: contour shade Level range : 0.01 to 50 Colour: viridis colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -6792,7 +7004,7 @@
     },
     "sh_viridis_no2_850hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 0.01 to 50 - Colour: viridis colours",
+        "contour_description" : "Method: contour shade Level range : 0.01 to 50 Colour: viridis colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -6810,7 +7022,7 @@
     },
     "sh_viridis_o3_300hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 50 to 1000 - Colour: viridis colours",
+        "contour_description" : "Method: contour shade Level range : 50 to 1000 Colour: viridis colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -6828,7 +7040,7 @@
     },
     "sh_viridis_o3_500hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 50 to 200 - Colour: viridis colours",
+        "contour_description" : "Method: contour shade Level range : 50 to 200 Colour: viridis colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -6846,7 +7058,7 @@
     },
     "sh_viridis_o3_50hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 1000 to 8000 - Colour: viridis colours",
+        "contour_description" : "Method: contour shade Level range : 1000 to 8000 Colour: viridis colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -6864,7 +7076,7 @@
     },
     "sh_viridis_o3_850hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 30 to 200 - Colour: viridis colours",
+        "contour_description" : "Method: contour shade Level range : 30 to 200 Colour: viridis colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -6882,7 +7094,7 @@
     },
     "sh_viridis_so2_300hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 0.01 to 50 - Colour: viridis colours",
+        "contour_description" : "Method: contour shade Level range : 0.01 to 50 Colour: viridis colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -6900,7 +7112,7 @@
     },
     "sh_viridis_so2_500hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 0.01 to 50 - Colour: viridis colours",
+        "contour_description" : "Method: contour shade Level range : 0.01 to 50 Colour: viridis colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -6918,7 +7130,7 @@
     },
     "sh_viridis_so2_50hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 0.001 to 5 - Colour: viridis colours",
+        "contour_description" : "Method: contour shade Level range : 0.001 to 5 Colour: viridis colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -6936,7 +7148,7 @@
     },
     "sh_viridis_so2_850hpa" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level range : 0.01 to 50 - Colour: viridis colours",
+        "contour_description" : "Method: contour shade Level range : 0.01 to 50 Colour: viridis colours",
         "contour_hi_min_value" : 0,
         "contour_highlight" : "off",
         "contour_hilo" : "off",
@@ -6989,7 +7201,7 @@
         "contour_title" : "Shade (Range: 0 / 1500 ) for low visibility"
     },
     "sh_wave_f002t1_blue" : {
-        "contour_description" : "Method: Significant wave heights of various periods",
+        "contour_description" : "Method : Significant wave heights of various periods",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -7008,7 +7220,7 @@
     },
     "sh_wave_f002t1_purple" : {
         "contour" : "off",
-        "contour_description" : "Method: Significant wave heights of various periods",
+        "contour_description" : "Method : Significant wave heights of various periods",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -7026,7 +7238,7 @@
         "contour_title" : "Contour shade (Range: 0.02 / 1)"
     },
     "sh_wave_f002t1_red" : {
-        "contour_description" : "Method: Significant wave heights of various periods",
+        "contour_description" : "Method : Significant wave heights of various periods",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -7045,7 +7257,7 @@
     },
     "sh_wave_f005t5_purple" : {
         "contour" : "off",
-        "contour_description" : "Method: Significant wave heights of various periods",
+        "contour_description" : "Method : Significant wave heights of various periods",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -7063,7 +7275,7 @@
         "contour_title" : "Contour shade (Range: 0.05 / 5)"
     },
     "sh_wave_f005t5_red" : {
-        "contour_description" : "Method: Significant wave heights of various periods",
+        "contour_description" : "Method : Significant wave heights of various periods",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -7081,7 +7293,7 @@
         "contour_title" : "Contour shade (Range: 0.05 / 5)"
     },
     "sh_wave_f005t5_rose" : {
-        "contour_description" : "Method: Significant wave heights of various periods",
+        "contour_description" : "Method : Significant wave heights of various periods",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -7100,7 +7312,7 @@
     },
     "sh_wave_f0t10_purple" : {
         "contour" : "off",
-        "contour_description" : "Method: Significant wave heights of various periods",
+        "contour_description" : "Method : Significant wave heights of various periods",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -7118,7 +7330,7 @@
         "contour_title" : "Contour shade (Range: 0.0 / 10)"
     },
     "sh_wave_f0t10_red" : {
-        "contour_description" : "Method: Significant wave heights of various periods",
+        "contour_description" : "Method : Significant wave heights of various periods",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -7137,7 +7349,7 @@
     },
     "sh_whi_f0t1lst" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade - Level list   : (0.001/0.1875/0.3125/0.4375/0.5625/0.6875/0.8125/0.999/1.0) % - Colour  : Gray - Used for high clouds",
+        "contour_description" : "Method : contour shade Level list : (0.001/0.1875/0.3125/0.4375/0.5625/0.6875/0.8125/0.999/1.0) % Colour : Gray Used for high clouds",
         "contour_hilo" : "off",
         "contour_label" : "off",
         "contour_legend_text" : "Contour shade (0-1, intervals in octas)",
@@ -7153,7 +7365,7 @@
     "sic_10to100" : {
         "CONTOUR_INTERPOLATION_CEILING" : 1,
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level list   : (0.20/1.)  - Colour: Grey",
+        "contour_description" : "Method : contour shade Level list : (0.20/1.) Colour : Grey",
         "contour_label" : "off",
         "contour_legend_text" : "Contour shade (One level from 0.1 to 1)",
         "contour_level_list" : "0.1/0.5/0.9/0.99/1.0",
@@ -7167,7 +7379,7 @@
     },
     "sic_25to100" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level list   : (0.25/0.50/0.75/0.99/1.)  - Colour: Grey to white",
+        "contour_description" : "Method : contour shade Level list : (0.25/0.50/0.75/0.99/1.) Colour : Grey to white",
         "contour_interpolation_ceiling" : 1.0,
         "contour_label" : "off",
         "contour_legend_text" : "Contour shade (Range: 0.25 to 1.0)",
@@ -7185,7 +7397,7 @@
     },
     "sic_grey" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level list   : (0.20/1.)  - Colour: Grey",
+        "contour_description" : "Method : contour shade Level list : (0.20/1.) Colour : Grey",
         "contour_interpolation_ceiling" : 1.0,
         "contour_label" : "off",
         "contour_legend_text" : "Contour shade (One level from 0.2 to 1)",
@@ -7242,7 +7454,7 @@
     },
     "snow_1to10000" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade, Level list:(1 to 10000 same as in operational web)",
+        "contour_description" : "Method : contour shade, Level list:(1 to 10000 same as in operational web)",
         "contour_hilo" : "off",
         "contour_label" : "off",
         "contour_level_list" : "1/2/5/10/15/20/30/40/50/70/100/200/500/10000",
@@ -7259,7 +7471,7 @@
     },
     "snow_1to1000_blu" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level list   : (1/5/10/20/50/100/1000)  - Colour: Bluish grey to cyan",
+        "contour_description" : "Method : contour shade Level list : (1/5/10/20/50/100/1000) Colour : Bluish grey to cyan",
         "contour_label" : "off",
         "contour_legend_text" : "Contour shade (Range: 1 to 1000)",
         "contour_level_list" : "1/5/10/20/50/100/1000/5000",
@@ -7274,7 +7486,7 @@
     },
     "snow_1to1000_whi" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level list   : (1/5/10/20/50/100/1000)  - Colour: Grey to white",
+        "contour_description" : "Method : contour shade Level list : (1/5/10/20/50/100/1000) Colour : Grey to white",
         "contour_label" : "off",
         "contour_legend_text" : "Contour shade (Range: 1 to 1000)",
         "contour_level_list" : "1/5/10/20/50/100/1000/5000",
@@ -7289,7 +7501,7 @@
     },
     "snow_cover_25to100" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level list   : (10/25/50/75/99/101)  - Colour: Grey to white",
+        "contour_description" : "Method : contour shade Level list : (10/25/50/75/99/101) Colour : Grey to white",
         "contour_interpolation_ceiling" : 100,
         "contour_label" : "off",
         "contour_legend_text" : "Contour shade (Range: 25 to 100 as percentage)",
@@ -7307,7 +7519,7 @@
     },
     "snow_cover_standard" : {
         "contour" : "on",
-        "contour_description" : "Method: contour shade - Level list   : (10/25/50/75/99/101)  - Colour: Grey to white",
+        "contour_description" : "Method : contour shade Level list : (10/25/50/75/99/101) Colour : Grey to white",
         "contour_highlight" : "off",
         "contour_interpolation_ceiling" : 100,
         "contour_label" : "off",
@@ -7340,7 +7552,7 @@
         "contour_title" : "Shading (0 to 30)"
     },
     "symb_all_fire" : {
-        "contour_description" : "Method:   contour shade - Level range : 0.0001 to 20 - Interval : varied - Colour  : Oranges",
+        "contour_description" : "Method: contour shade Level range : 0.0001 to 20 Interval : varied Colour : Oranges",
         "contour_title" : "Symbol shade (Range: 0.0001 / 20, orange colours)",
         "symbol_advanced_table_colour_list" : "rgb(0.2063,0.0000,0.0000)/rgb(0.3710,0.0000,0.0000)/rgb(0.5358,0.0000,0.0000)/rgb(0.7005,0.0000,0.0000)/rgb(0.8652,0.0000,0.0000)/rgb(1.0000,0.0299,0.0000)/rgb(1.0000,0.1946,0.0000)/rgb(1.0000,0.3593,0.0000)/rgb(1.0000,0.5240,0.0000)/rgb(1.0000,0.6887,0.0000)/rgb(1.0000,0.8534,0.0000)/rgb(1.0000,1.0000,0.0272)/rgb(1.0000,1.0000,0.2743)/rgb(1.0000,1.0000,0.5213)/rgb(1.0000,1.0000,0.7684)/rgb(1.0000,1.0000,1.0000)",
         "symbol_advanced_table_colour_method" : "list",
@@ -7428,7 +7640,7 @@
     },
     "tran_gry_f03t1lst" : {
         "contour" : "off",
-        "contour_description" : "Method  :   transparent contour shade - Two degrees of grey transparency, for clouds",
+        "contour_description" : "Method : transparent contour shade Two degrees of grey transparency, for clouds",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_interpolation_ceiling" : 1,
@@ -7445,7 +7657,7 @@
     },
     "tran_lgtgry_f03t1lst" : {
         "contour" : "off",
-        "contour_description" : "Method  :   transparent contour shade - Two shades of lightgrey transparency, for clouds",
+        "contour_description" : "Method : transparent contour shade Two shades of lightgrey transparency, for clouds",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -7460,7 +7672,7 @@
     },
     "tran_whi_f03t1lst" : {
         "contour" : "off",
-        "contour_description" : "Method  :  transparent contour shade - Two degrees of white transparency, for clouds",
+        "contour_description" : "Method : transparent contour shade Two degrees of white transparency, for clouds",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -7475,7 +7687,7 @@
     },
     "tran_whi_hcc" : {
         "contour" : "off",
-        "contour_description" : "Method  :  transparent contour shade - Two degrees of white transparency, for clouds",
+        "contour_description" : "Method : transparent contour shade Two degrees of white transparency, for clouds",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -7490,7 +7702,7 @@
     },
     "transparency_100_blue" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade - All shades of blue, for probabilities",
+        "contour_description" : "Method : contour shade All shades of blue, for probabilities",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -7505,7 +7717,7 @@
     },
     "transparency_100_red" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade - All shades of red, for probabilities",
+        "contour_description" : "Method : contour shade All shades of red, for probabilities",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -7520,7 +7732,7 @@
     },
     "transparency_black" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade - All shades of gray, for clouds",
+        "contour_description" : "Method : contour shade All shades of gray, for clouds",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -7536,7 +7748,7 @@
     },
     "transparency_darkgrey" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade - All shades of gray, for clouds",
+        "contour_description" : "Method : contour shade All shades of gray, for clouds",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -7552,7 +7764,7 @@
     },
     "transparency_grey" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade - All shades of gray, for clouds",
+        "contour_description" : "Method : contour shade All shades of gray, for clouds",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_interpolation_ceiling" : 1,
@@ -7570,7 +7782,7 @@
     },
     "transparency_lightgrey" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade - All shades of gray, for clouds",
+        "contour_description" : "Method : contour shade All shades of gray, for clouds",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -7586,7 +7798,7 @@
     },
     "transparency_white" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade - All shades of gray, for clouds",
+        "contour_description" : "Method : contour shade All shades of gray, for clouds",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -7602,7 +7814,7 @@
     },
     "transparent_ice" : {
         "contour" : "off",
-        "contour_description" : "Method  :  Tranparent ice cover 0.2/1 one level",
+        "contour_description" : "Method : Tranparent ice cover 0.2/1 one level",
         "contour_interpolation_ceiling" : 1.0,
         "contour_label" : "off",
         "contour_legend_text" : "Transparent contour shade (One level from 0.2 to 1)",
@@ -7620,7 +7832,7 @@
     },
     "transparent_zero_blue" : {
         "contour" : "off",
-        "contour_description" : "Method  :  Temperature below 0 C",
+        "contour_description" : "Method : Temperature below 0 C",
         "contour_label" : "off",
         "contour_legend_text" : "Transparent blue for -70 to 0 (One level)",
         "contour_level_list" : "-70/0.0",
@@ -7634,7 +7846,7 @@
     },
     "val_blu_f1t100lst" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour grid values - Value supressed below :  1 - Colour  : blue - Used for precipitation",
+        "contour_description" : "Method : contour grid values Value supressed below : 1 Colour : blue Used for precipitation",
         "contour_grid_value_format" : "I3",
         "contour_grid_value_height" : 0.3,
         "contour_grid_value_min" : 1.0,
@@ -7647,7 +7859,7 @@
     },
     "val_brn_f1lst" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour grid values - Value supressed below :  1 - Colour  : brown - Used for orography",
+        "contour_description" : "Method : contour grid values Value supressed below : 1 Colour : brown Used for orography",
         "contour_grid_value_colour" : "brown",
         "contour_grid_value_format" : "I4",
         "contour_grid_value_height" : 0.3,
@@ -7660,7 +7872,7 @@
         "input_field_suppress_below" : 1
     },
     "wave_blk" : {
-        "contour_description" : "Method:   Wind wave arrows - Colour:    Black - Used for wind waves",
+        "contour_description" : "Method: Wind wave arrows Colour: Black Used for wind waves",
         "contour_title" : "Wind wave arrows (black)",
         "wind_arrow_calm_below" : "0.0",
         "wind_arrow_colour" : "black",
@@ -7668,14 +7880,14 @@
         "wind_legend_text" : "Black wind wave arrows"
     },
     "wave_blu" : {
-        "contour_description" : "Method:   Wind wave arrows - Colour:    Blue - Used for wind waves",
+        "contour_description" : "Method: Wind wave arrows Colour: Blue Used for wind waves",
         "contour_title" : "Wind wave arrows (blue)",
         "wind_arrow_calm_below" : "0.0",
         "wind_arrow_legend" : "off",
         "wind_legend_text" : "Blue wind wave arrows"
     },
     "wave_energy_black" : {
-        "contour_description" : "Method:   Wave energy arrows - Colour:    Blackr\nUsed for wave energy",
+        "contour_description" : "Method: Wave energy arrows Colour: Blackr Used for wave energy",
         "contour_title" : "Wave energy flux mean direction (black)",
         "wind_arrow_calm_below" : "0.0",
         "wind_arrow_colour" : "black",
@@ -7684,7 +7896,7 @@
         "wind_legend_text" : "Black wave energy flux mean direction"
     },
     "wave_energy_blue" : {
-        "contour_description" : "Method:   Wave energy flux arrows - Colour:    Blue - Used for wave energy flux",
+        "contour_description" : "Method: Wave energy flux arrows Colour: Blue Used for wave energy flux",
         "contour_title" : "Wave energy flux mean direction (blue)",
         "wind_arrow_calm_below" : "0.0",
         "wind_arrow_legend" : "off",
@@ -7692,13 +7904,13 @@
         "wind_legend_text" : "Blue wave energy flux mean direction"
     },
     "wind_bigger" : {
-        "contour_description" : "Method:  Wind arrows - Thickness :  1 - Colour :  Blue - Used for wind",
+        "contour_description" : "Method : Wind arrows Thickness : 1 Colour : Blue Used for wind",
         "contour_title" : "Wind arrows (Bigger arrows)",
         "wind_arrow_thickness" : 1.5,
         "wind_legend_text" : "Wind arrows (Bigger arrows)"
     },
     "wind_blk_flag" : {
-        "contour_description" : "Method:  Wind flags - Thickness :  1 - Colour :  Black - Used for wind",
+        "contour_description" : "Method : Wind flags Thickness : 1 Colour : Black Used for wind",
         "contour_title" : "Wind flags (black)",
         "wind_field_type" : "Flags",
         "wind_flag_colour" : "black",
@@ -7708,7 +7920,7 @@
         "wind_legend_text" : "Black wind flags (in knots)"
     },
     "wind_blk_t1_5" : {
-        "contour_description" : "Method:   Wind arrows - Thickness  :  1.5 - Colour  :  Black - Used for wind",
+        "contour_description" : "Method : Wind arrows Thickness : 1.5 Colour : Black Used for wind",
         "contour_title" : "Wind arrows (black)",
         "wind_arrow_colour" : "black",
         "wind_arrow_legend" : "on",
@@ -7718,7 +7930,7 @@
         "wind_legend_text" : "Black wind arrows"
     },
     "wind_blu_flag" : {
-        "contour_description" : "Method:  Wind flags - Thickness :  1 - Colour :  Blue - Used for wind",
+        "contour_description" : "Method : Wind flags Thickness : 1 Colour : Blue Used for wind",
         "contour_title" : "Wind flags (blue)",
         "wind_field_type" : "Flags",
         "wind_flag_length" : "0.3",
@@ -7727,13 +7939,13 @@
         "wind_legend_text" : "Blue wind flags (in knots)"
     },
     "wind_blu_t1" : {
-        "contour_description" : "Method:  Wind arrows - Thickness :  1 - Colour :  Blue - Used for wind",
+        "contour_description" : "Method : Wind arrows Thickness : 1 Colour : Blue Used for wind",
         "contour_title" : "Wind arrows (blue)",
         "wind_arrow_unit_velocity" : 40,
         "wind_legend_text" : "Blue wind arrows"
     },
     "wind_brn_t1" : {
-        "contour_description" : "Method:   Wind arrows - Thickness  :  1 - Colour  :  Mustard - Used for wind",
+        "contour_description" : "Method : Wind arrows Thickness : 1 Colour : Mustard Used for wind",
         "contour_title" : "Wind arrows (mustard)",
         "wind_arrow_colour" : "mustard",
         "wind_arrow_cross_boundary" : "off",
@@ -7743,7 +7955,7 @@
         "wind_legend_text" : "Mustard wind arrows"
     },
     "wind_brn_t1_jet" : {
-        "contour_description" : "Method:   Wind arrows - Thickness  :  1 - Colour  :  Mustard - Used for wind",
+        "contour_description" : "Method : Wind arrows Thickness : 1 Colour : Mustard Used for wind",
         "contour_title" : "Wind arrows (mustard)",
         "wind_arrow_colour" : "mustard",
         "wind_arrow_cross_boundary" : "off",
@@ -7753,7 +7965,7 @@
         "wind_legend_text" : "Mustard wind arrows"
     },
     "wind_mus_flag" : {
-        "contour_description" : "Method:  Wind flags - Thickness :  1 - Colour :  Mustard - Used for wind",
+        "contour_description" : "Method : Wind flags Thickness : 1 Colour : Mustard Used for wind",
         "contour_title" : "Wind flags (mustard)",
         "wind_field_type" : "Flags",
         "wind_flag_colour" : "mustard",
@@ -7763,7 +7975,7 @@
         "wind_legend_text" : "Mustard wind flags (in knots)"
     },
     "wind_smaller" : {
-        "contour_description" : "Method:   Wind arrows - Thickness  :  1.5 - Colour  :  Black - Used for wind",
+        "contour_description" : "Method : Wind arrows Thickness : 1.5 Colour : Black Used for wind",
         "contour_title" : "Wind arrows (smaller)",
         "wind_arrow_legend" : "on",
         "wind_arrow_thickness" : 1.0,
@@ -7772,7 +7984,7 @@
     },
     "www_2t" : {
         "contour" : "off",
-        "contour_description" : "Method : Area fill - Level range : -80 to 56 - Interval : 4 - Thickness   : 3 - Colour  : All colours - Used for temperature",
+        "contour_description" : "Method : Area fill Level range : -80 to 56 Interval : 4 Thickness : 3 Colour : All colours Used for temperature",
         "contour_gradients_colour_list" : "rgb(5,64,106)/white/rgb(134,25,20)",
         "contour_gradients_step_list" : "15/15",
         "contour_gradients_technique" : "hsl",
@@ -7807,7 +8019,7 @@
     },
     "www_850ws" : {
         "contour" : "off",
-        "contour_description" : "Method: contour shade - Level list   : (10/15/20/25/30/40/50/60/80/100)  - Colour  : Yellow-green - Used for wind",
+        "contour_description" : "Method: contour shade Level list : (10/15/20/25/30/40/50/60/80/100) Colour : Yellow-green Used for wind",
         "contour_hilo" : "off",
         "contour_label" : "off",
         "contour_legend_text" : "Contour shade (Range: 10 / 100, green)",
@@ -7823,7 +8035,7 @@
         "legend" : "on"
     },
     "www_genesis_probability" : {
-        "contour_description" : "Method  :   contour shade - Level list   : (5/100 in every 10) % - Colour  : Used for probability",
+        "contour_description" : "Method : contour shade Level list : (5/100 in every 10) % Colour : Used for probability",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -7838,7 +8050,7 @@
         "contour_title" : "Contour shade (0-100%, every 10%)"
     },
     "www_msl" : {
-        "contour_description" : "Method: contour - Interval: 5 - Thickness : 2 - Colour: Black - Used for msl",
+        "contour_description" : "Method : contour Interval : 5 Thickness : 2 Colour : Black Used for msl",
         "contour_highlight_colour" : "charcoal",
         "contour_highlight_thickness" : 4,
         "contour_hilo" : "off",
@@ -7855,7 +8067,7 @@
         "contour_title" : "Contour (interval 5, thickness 2, black)"
     },
     "www_msl_mean" : {
-        "contour_description" : "Method: contour - Interval: 5 - Thickness : 2 - Colour: Black - Used for msl",
+        "contour_description" : "Method : contour Interval : 5 Thickness : 2 Colour : Black Used for msl",
         "contour_highlight_colour" : "rgb(105,0,128)",
         "contour_highlight_thickness" : 4,
         "contour_hilo" : "off",
@@ -7885,7 +8097,7 @@
         "contour_title" : "Contour shade for mean sea level pressure anomaly"
     },
     "www_mslp_mean" : {
-        "contour_description" : "Method: contour - Interval: 5 - Thickness : 2 - Colour: Black - Used for msl",
+        "contour_description" : "Method : contour Interval : 5 Thickness : 2 Colour : Black Used for msl",
         "contour_highlight_colour" : "black",
         "contour_highlight_thickness" : 4,
         "contour_hilo" : "off",
@@ -7901,7 +8113,7 @@
         "contour_title" : "Contour (interval 5, thickness 2, black)"
     },
     "www_mwd" : {
-        "contour_description" : "Method:   Wind wave arrows - Colour:    Black - Used for wind waves",
+        "contour_description" : "Method: Wind wave arrows Colour: Black Used for wind waves",
         "contour_title" : "Wave for WWW",
         "wind_arrow_calm_below" : "0.0",
         "wind_arrow_colour" : "rgb(54,69,79)",
@@ -7910,7 +8122,7 @@
     },
     "www_mwp" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade - Level range : 0.0 to 18.5 - Interval : 1.5 (except for the first interval) - Colour  : All colours - Used for mean wave period",
+        "contour_description" : "Method : contour shade Level range : 0.0 to 18.5 Interval : 1.5 (except for the first interval) Colour : All colours Used for mean wave period",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -7945,7 +8157,7 @@
     },
     "www_tp_interval" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade, with contours - Level list   : (0.5/2/4/10/25/50/100/250)  - Colour  : from blue to red - Used for precipitation",
+        "contour_description" : "Method : contour shade, with contours Level list : (0.5/2/4/10/25/50/100/250) Colour : from blue to red Used for precipitation",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -7961,7 +8173,7 @@
     },
     "www_transparent_rainprob" : {
         "contour" : "off",
-        "contour_description" : "Method  :   contour shade - Level list   : (5 to 100)",
+        "contour_description" : "Method : contour shade Level list : (5 to 100)",
         "contour_highlight" : "off",
         "contour_hilo" : "off",
         "contour_label" : "off",
@@ -7976,7 +8188,7 @@
         "contour_title" : "Contour off (transparent)"
     },
     "www_wind_arrow" : {
-        "contour_description" : "Method:   Wind arrows - Thickness  :  1.5 - Colour  :  Black - Used for wind",
+        "contour_description" : "Method : Wind arrows Thickness : 1.5 Colour : Black Used for wind",
         "contour_title" : "Wind arrows (black)",
         "wind_arrow_colour" : "rgb(65,64,66)",
         "wind_arrow_legend" : "on",
