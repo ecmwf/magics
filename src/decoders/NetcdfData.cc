@@ -123,6 +123,7 @@ Netcdf::Netcdf(const string& path, const string& method)
 
 Netcdf::~Netcdf() 
 {	
+	nc_close(file_);
 }
 double Netcdf::getMissing(const string& var, const string& attr)
 {
