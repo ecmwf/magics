@@ -540,9 +540,19 @@ const char* FortranMagics::metagrib()
 
 	StyleEntry style;
 	library->getStyle(request, attributes, style);
+
+	string print = getEnvVariable("MAGPLUS_DATA");
+	if ( print.size() ) {
+		cout << "Metadata for " << grib.file_name_ << endl;
+		for ( auto r = request.begin(); r != request.end(); ++r) {
+			cout << r->first << "=" << r->second << endl;
+		}
+		cout << "-----------------------------" << endl;
+	}
 	ostringstream out;
 	out << style;
-	static string temp = out.str();
+	static string temp;
+	temp = out.str();
     return temp.c_str();
 	
 }
@@ -563,7 +573,8 @@ const char* FortranMagics::metanetcdf()
 	library->getStyle(request, attributes, style);
 	ostringstream out;
 	out << style;
-	static string temp = out.str();
+	static string temp;
+	temp = out.str();
     return temp.c_str();
 }
 
