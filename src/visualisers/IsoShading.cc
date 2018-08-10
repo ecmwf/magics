@@ -108,7 +108,7 @@ int IsoShading::shadingIndex(double value)
 
 int IsoShading::leftIndex(double value)
 {
-	technique_->leftIndex(value);
+	return technique_->leftIndex(value);
 }
 
 int IsoShading::rightIndex(double value)
