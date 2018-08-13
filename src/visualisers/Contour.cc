@@ -78,11 +78,12 @@ void Contour::operator()(Data& data, BasicGraphicsObjectContainer& parent)
 {
 
     try {
-    	ContourLibrary* library = MagTranslator<string, ContourLibrary>()(setting_);
+		ParameterManager::set("contour_automatic_library_path", library_path_);
+		ContourLibrary* library = MagTranslator<string, ContourLibrary>()(setting_);
+		
+		MetaDataCollector request,needAttributes;
+		map<string, string> attributes;
 
-    		// Here we try call the Contour libry to set up visual properties...
-    		MetaDataCollector request,needAttributes;
-    		map<string, string> attributes;
     	
     	if ( predefined_.size() ) {
     		library->getStyle(predefined_, attributes);
@@ -91,7 +92,6 @@ void Contour::operator()(Data& data, BasicGraphicsObjectContainer& parent)
     	else { 
 			library->askId(request);
 			data.visit(request);
-
 
 			if(library->checkId(request,needAttributes))
 			{			

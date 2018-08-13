@@ -28,6 +28,7 @@ Coastlines.xml
 ColourTechnique.xml
 ContinuousLegendMethod.xml
 Contour.xml
+ContourLibrary.xml
 ContourMethod.xml
 CountSelectionType.xml
 Curve.xml

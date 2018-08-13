@@ -55,6 +55,7 @@ does it submit to any jurisdiction.
     		<unset name="contour_automatic_library_path" value="off">		</unset>
     		<set name="contour_predefined_setting" value="web">		</set>
 	</parameter>
+    
 
     <parameter from="string" name="contour_predefined_setting" default="" member="predefined" to="string"> 
             <documentation>Use of a predeined setting         </documentation>
@@ -67,7 +68,7 @@ does it submit to any jurisdiction.
     </parameter>
 
 	<parameter from="string" name="contour_automatic_library_path" visible="off" default="" member="library_path" to="string"> 
-         		<documentation> Users can give their own file to setup the automatic library of contours 		</documentation>
+         		<documentation> Users can give their own directory to setup the automatic library of contours 		</documentation>
 	</parameter>
 
 
