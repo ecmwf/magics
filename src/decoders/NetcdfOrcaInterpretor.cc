@@ -1,22 +1,22 @@
 /*
  * (C) Copyright 1996-2016 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
  */
 
 /*! \file NetcdfOrcaInterpretor.h
     \brief Implementation of the Template class NetcdfOrcaInterpretor.
-    
+
     Magics Team - ECMWF 2004
-    
+
     Started: Tue 17-Feb-2004
-    
+
     Changes:
-    
+
 */
 
 #include "NetcdfOrcaInterpretor.h"
@@ -26,11 +26,11 @@
 
 using namespace magics;
 
-NetcdfOrcaInterpretor::NetcdfOrcaInterpretor() 
+NetcdfOrcaInterpretor::NetcdfOrcaInterpretor()
 {}
 
 
-NetcdfOrcaInterpretor::~NetcdfOrcaInterpretor() 
+NetcdfOrcaInterpretor::~NetcdfOrcaInterpretor()
 {}
 
 #include <boost/geometry/geometry.hpp>
@@ -243,7 +243,7 @@ bool NetcdfOrcaInterpretor::interpretAsMatrix(Matrix** data)
 
 bool NetcdfOrcaInterpretor::interpretAsPoints(PointsList& points)
 {
-	
+
 	// later!
 
 	// get the data ...
@@ -261,31 +261,31 @@ bool NetcdfOrcaInterpretor::interpretAsPoints(PointsList& points)
 		netcdf.get(longitude_, lonm, first, last);
 		netcdf.get(latitude_,  latm, first, last);
 		netcdf.get(field_, data, first, last);
-		
+
         vector<double>::iterator lat = latm.begin();
         vector<double>::iterator lon = lonm.begin();
         vector<double>::iterator val = data.begin();
-        
+
 		while (lat != latm.end() ) {
             double value = *val;
-           if (std::isnan(value) ) 
+           if (std::isnan(value) )
                 value = missing;
 
-            if ( value  != missing) { 
+            if ( value  != missing) {
                 value = (value * scaling_) + offset_;
 		  	    points.push_back(new UserPoint(*lon, *lat, value));
             }
 			++lat;
 			++lon;
 			++val;
-
 		  }
 	}
-   
+
 	catch (MagicsException& e)
 	{
 		MagLog::error() << e << "\n";
 	}
+	return true;
 }
 
 void NetcdfOrcaInterpretor::customisedPoints(const Transformation& transformation, const std::set<string>&, CustomisedPointsList& out, int thinning)
@@ -324,14 +324,13 @@ void NetcdfOrcaInterpretor::customisedPoints(const Transformation& transformatio
 
 /*!
  Class information are given to the output-stream.
-*/		
+*/
 void NetcdfOrcaInterpretor::print(ostream& out)  const
 {
 	out << "NetcdfOrcaInterpretor[";
 	NetcdfInterpretor::print(out);
-	
+
 	out << "]";
 }
 
 static SimpleObjectMaker<NetcdfOrcaInterpretor, NetcdfInterpretor> netcdf_geovalues_interpretor("orca");
-
