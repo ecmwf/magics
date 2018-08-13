@@ -12,7 +12,10 @@
      "time" : {
         "calendar" : [ "gregorian", "proleptic_gregorian"],
         "long_name" : ["time", "date and time"]
-        }
+        },
+     "level" : {
+        "axis" : ["Z"]
+     }
 
 }
 

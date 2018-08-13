@@ -101,6 +101,7 @@ public:
 	void callback(const string& name, const json_spirit::Value& value);
 	
 	void init(const string&);
+	void init(const string&, const string&);
 	
 	map<string, MagDef > library_;
 
@@ -127,43 +128,52 @@ public:
 
 struct Style 
 {
+	typedef map<string, vector<string> > Match;
 	typedef map<string, string> Definition;
-	typedef void  (Style::*SetMethod)(const json_spirit::Value&);
+	typedef void (Style::*SetMethod)(const json_spirit::Value&);
 	map<string,  SetMethod> methods_;
 	
 	void criteria(const json_spirit::Value&);
 	void style(const json_spirit::Value&);
-	void more(const json_spirit::Value&); 
 	void scaling(const json_spirit::Value&); 
 	void styles(const json_spirit::Value&); 
 	void name(const json_spirit::Value&); 
+	void match(const json_spirit::Value&); 
 
-	Definition criteria_;
+	vector<Match> criteria_;
 	Definition scaling_;
 	string style_;
-	vector<Style> more_;
 	vector<string> styles_;
-	string name_;
+	vector<string> names_;
 	void set(const json_spirit::Object&);
-	bool findScaling(const Definition& data, Definition& scaling);
-	bool findStyle(const Definition& data, StyleEntry&);
+	void set(json_spirit::Object&, Style::Match&);
+	int score(const Definition& data);
+
+	void keywords(std::set<string>&);
+	
 };
 
 class StyleLibrary : public MagConfig
 {
 public:
-	StyleLibrary(const string& theme, const string& family): theme_(theme), family_(family) { init(); }
-	StyleLibrary(const string& family): family_(family) { init(); }
+	//StyleLibrary(const string& theme, const string& family): theme_(theme), family_(family) { init(); }
+	//StyleLibrary(const string& family): family_(family) { init(); }
+	StyleLibrary() {  }
 	~StyleLibrary() {}
 
 	void callback(const string& name, const json_spirit::Value& value);
 	void callback(const json_spirit::Array& values);
+	void init(const string& path) { 
+		path_ = path;
+		init();
+	}
 	void init();
 	
 	vector<Style> library_;
 
 	string theme_;
 	string family_;
+	string path_;
 	MagDefLibrary allStyles_;
 
 	bool findStyle(const Style::Definition& data, Style::Definition& visdef, StyleEntry&);
@@ -178,12 +188,8 @@ public:
     	return findStyle(criteria, visdef, info);
     }
 
-    bool findScaling(const string& name, Style::Definition& scaling) {
-    	Style::Definition criteria;
-    	criteria["name"] = name;
-    	return findScaling(criteria, scaling);
-    }
-
+    void getCriteria(std::set<string>&);
+    
 	
 	
 };
@@ -257,7 +263,68 @@ public:
 };
 
 
+struct UnitConvert
+{
+	
+	typedef void  (UnitConvert::*SetMethod)(const json_spirit::Value&);
 
+	map<string,  SetMethod> methods_;
+	
+	void from(const json_spirit::Value&);
+	void to(const json_spirit::Value&);
+	void scaling(const json_spirit::Value&);
+	void offset(const json_spirit::Value&);
+
+	void set(const json_spirit::Object&);
+
+	double scaling();
+	double offset();
+
+	string from_;
+	string to_;
+	double scaling_;
+	double offset_;
+};
+
+
+
+class UnitsLibrary : public MagConfig
+{
+public:
+	UnitsLibrary() { init(); }
+	UnitsLibrary(const string& family)  { init(); }
+	~UnitsLibrary() {}
+
+	void callback(const string& name, const json_spirit::Value& value);
+	
+	void init();
+	
+	map<string, vector<UnitConvert> > library_;
+
+    void find(const string& need, const string& from, double& scaling, double& offset) {
+    	
+    	scaling = 1;
+    	offset = 0;
+    	if ( need == from ) 
+    		return;
+
+    	map<string, vector<UnitConvert> >::iterator converters = library_.find(need);
+    	if  ( converters == library_.end() )
+    		return; 
+
+    	for ( auto converter = converters->second.begin(); converter != converters->second.end(); ++converter) 
+    		if ( converter->from_ == from ) {
+    			scaling = converter->scaling_;
+    			offset = converter->offset_;
+    			return;
+    		}
+    	
+  
+    }
+
+	
+	
+};
 
 
 

@@ -1661,6 +1661,7 @@ void GribDecoder::visit(MetaDataCollector& step)
             if(information_.find(key->first) != information_.end())
             {
                 key->second=information_[key->first];
+                cout << "GRIB " << key->first << " = " << key->second << endl;
             }
         }
 

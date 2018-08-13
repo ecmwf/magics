@@ -225,7 +225,8 @@ void MetaDataVisitor::collect()
 void StyleEntry::print(ostream& s) const
 {
 	
-	StyleLibrary styles("default", "contours");
+	StyleLibrary styles;
+	
 
 
 	s << "{\"styles\": [ " << endl;

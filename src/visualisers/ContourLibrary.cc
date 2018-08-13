@@ -24,6 +24,7 @@
 #include "ContourLibrary.h"
 #include "Layer.h"
 #include "VisDefInfo.h"
+#include "MetaData.h"
 
 using namespace magics;
 
@@ -289,29 +290,32 @@ void EcChartLibrary::print(ostream&) const
 
 }
 
-WebLibrary::WebLibrary()
+WebLibrary::WebLibrary() 
 {
+	
+	styles_.init(library_path_);
 }
 
 WebLibrary::~WebLibrary()
 {
 }
 
+
 // set the meta data to be collected
 void WebLibrary::askId(MetaDataCollector& request)
 {
 //main keywords
-	setCriteria(request, "paramId");
-	setCriteria(request, "levtype");
-	setCriteria(request, "level");
-	setCriteria(request, "shortName");
-	setCriteria(request, "param");
-	
-	setCriteria(request, "units");
+	std::set<string> criteria;
+
+	criteria.insert("units");
+	criteria.insert("parameterUnits"); // for grib
+	styles_.getCriteria(criteria);
+	for ( auto c = criteria.begin(); c != criteria.end(); ++c) {
+		setCriteria(request, *c);
+		cout << " asking for " << *c << endl;
+	}
 	
 
-	setCriteria(request, "standard_name");
-	setCriteria(request, "long_name");
 	
 }
 
@@ -328,31 +332,52 @@ void WebLibrary::setCriteria(MetaDataCollector& request, const string& criteria)
 void WebLibrary::getStyle(MetaDataCollector& data, map<string, string>& contour, StyleEntry& info)
 {
 
-		StyleLibrary styles("default", "contours");
+		
 		map<string, string> style;
 
-		if ( styles.findStyle(data, style, info) )
+		if ( styles_.findStyle(data, style, info) )
 			contour = style;
 	
 }
 
 void  WebLibrary::getStyle(const string& name, map<string, string>& info) {
-	StyleLibrary styles("default", "contours");
-	styles.findStyle(name, info);
+	
+	styles_.findStyle(name, info);
 }
 // set the map to set the contour!
 void WebLibrary::getScaling(MetaDataCollector& data, double& scaling, double& offset)
 {
 
-		StyleLibrary styles("default", "contours");
+		
 		map<string, string> values;
+		StyleEntry info;
 		scaling = 1;
 		offset = 0;
+
+		cout << "SCALING" << endl;
 		
-		if ( styles.findScaling(data, values) ) {
-			scaling = tonumber(values["scaling"]);
-			offset = tonumber(values["offset"]);
+
+		auto unit = data.find("units");
+		if ( unit == data.end() ) 
+		 	unit = data.find("parameterUnits");
+		if ( unit == data.end() )
+			return;
+		cout << " Found Unit " << unit->second << endl;
+		bool found = styles_.findStyle(data, values, info);
+		if ( !found ) {
+			cout << "Can not find style" << endl;	
+			return;
 		}
+		cout << " TRYRING to scale " << unit->second << endl;
+		for ( auto x = values.begin(); x != values.end(); ++x)
+			cout << x->first << "--->" << x->second << endl;
+		auto need = values.find("required_units");
+		if ( need == values.end() )
+			return; 
+		
+		UnitsLibrary converter;
+		converter.find(need->second, unit->second, scaling, offset); 
+		cout << "Need " << need->second << " get " << unit->second << "--->APPLY " << scaling << " and " << offset << endl;
 	
 }
 

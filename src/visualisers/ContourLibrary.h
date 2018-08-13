@@ -26,6 +26,7 @@
 
 #include "MagTranslator.h"
 #include "MagConfig.h"
+#include "ContourLibraryAttributes.h"
 
 namespace magics {
 
@@ -33,7 +34,7 @@ class MetaDataCollector;
 class VisDefInfoBase;
 class StyleEntry;
 
-class ContourLibrary {
+class ContourLibrary : public ContourLibraryAttributes {
 
 public:
 	ContourLibrary();
@@ -43,7 +44,7 @@ public:
 	virtual void askId(MetaDataCollector&);
 
 	virtual bool checkId(MetaDataCollector&,MetaDataCollector&);
-
+	
 
 	// se the map to set the contour!
 	virtual void getStyle(MetaDataCollector&, map<string, string>&, StyleEntry&);
@@ -185,12 +186,16 @@ public:
 	void getStyle(const string&, map<string, string>&);
 
 	void getScaling(MetaDataCollector&, double&, double&);
+	
+
+	StyleLibrary styles_;
 
 
 protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).
 	virtual void print(ostream&) const;
 
+	string libraryPath_;
 	
 
 };
