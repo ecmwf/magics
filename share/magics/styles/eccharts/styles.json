@@ -1,0 +1,3121 @@
+[
+    {
+        "eccharts_layer" : "mofc_z500_weekly_mean",
+        "match" : {
+            "set" : [
+                {
+                    "levelist" : [
+                        "500"
+                    ],
+                    "paramId" : "129",
+                    "shortName" : "z"
+                },
+                {
+                    "level" : [
+                        "500"
+                    ],
+                    "long_name" : "Geopotential",
+                    "standard_name" : "geopotential"
+                }
+            ],
+            "style" : "ct_blk_i6_t2",
+            "styles" : [
+                "ct_blk_i6_t2",
+                "ct_blk_i5_t2",
+                "ct_blue_i5_t2",
+                "ct_red_i5_t2",
+                "ct_green_i5_t2",
+                "ct_blk_i5_t1",
+                "ct_brn_i4_t2",
+                "ct_blk_i2_t4",
+                "ct_green_i2_t4"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "mofc_z500_anomaly",
+        "match" : {
+            "set" : [
+                {
+                    "levelist" : [
+                        "500"
+                    ],
+                    "paramId" : "171129",
+                    "shortName" : "za"
+                },
+                {
+                    "level" : [
+                        "500"
+                    ],
+                    "long_name" : "Geopotential anomaly"
+                }
+            ],
+            "style" : "sh_range_fm40t40",
+            "styles" : [
+                "sh_range_fm40t40"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "msl",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "151",
+                    "shortName" : "msl"
+                },
+                {
+                    "long_name" : "Mean sea level pressure",
+                    "standard_name" : "air_pressure_at_sea_level"
+                }
+            ],
+            "style" : "ct_blk_i5_t2",
+            "styles" : [
+                "ct_blk_i5_t2",
+                "ct_blk_i5_t1",
+                "ct_blk_i5_t1_hilo",
+                "ct_blk_i5_t1_hilo_label",
+                "ct_blk_i1_t1",
+                "ct_blk_i1_t2",
+                "ct_blue_i5_t2",
+                "ct_green_i5_t2",
+                "ct_red_i5_t2",
+                "ct_red_i5_t4",
+                "ct_brn_i4_t2",
+                "ct_blk_i2_t4",
+                "ct_green_i2_t4"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "msl_mean",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "151",
+                    "shortName" : "msl",
+                    "type" : "em"
+                },
+                {
+                    "long_name" : "Mean sea level pressure",
+                    "standard_name" : "air_pressure_at_sea_level"
+                }
+            ],
+            "style" : "ct_blk_i5_t2",
+            "styles" : [
+                "ct_blk_i5_t2",
+                "ct_blk_i5_t1",
+                "ct_blue_i5_t2",
+                "ct_red_i5_t2",
+                "ct_red_i5_t4",
+                "ct_brn_i4_t2"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "msl_spread",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "151",
+                    "shortName" : "msl",
+                    "type" : "es"
+                },
+                {
+                    "long_name" : "Mean sea level pressure",
+                    "standard_name" : "air_pressure_at_sea_level"
+                }
+            ],
+            "style" : "sh_blu_f02t50",
+            "styles" : [
+                "sh_blu_f02t50",
+                "sh_range_f02t50"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "kindex",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "260121",
+                    "shortName" : "kx"
+                },
+                {
+                    "long_name" : "K index"
+                }
+            ],
+            "style" : "sh_red_f15t60",
+            "styles" : [
+                "sh_red_f15t60",
+                "sh_green_f15t60",
+                "ct_blk_f10_i10_t2"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "totalx",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "260123",
+                    "shortName" : "totalx"
+                },
+                {
+                    "long_name" : "Total totals index"
+                }
+            ],
+            "style" : "sh_red_f44t70",
+            "styles" : [
+                "sh_red_f44t70",
+                "sh_green_f44t70"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "cape",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "59",
+                    "shortName" : "cape"
+                },
+                {
+                    "long_name" : "Convective available potential energy"
+                }
+            ],
+            "style" : "range_100_4500",
+            "styles" : [
+                "range_100_4500",
+                "range_50_9000",
+                "ct_red_f50t8000",
+                "ct_green_f10t8000",
+                "cape_extra1"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "sot_tp_n90",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : [
+                        "132228",
+                        "132167",
+                        "132202",
+                        "132201",
+                        "132165",
+                        "132049",
+                        "132059",
+                        "132044",
+                        "132216"
+                    ],
+                    "shortName" : [
+                        "tpi",
+                        "2ti",
+                        "mn2ti",
+                        "mx2ti",
+                        "10wsi",
+                        "10fgi",
+                        "capei",
+                        "capesi",
+                        "maxswhi"
+                    ],
+                    "type" : "sot"
+                },
+                {
+                    "long_name" : [
+                        "Total precipitation index",
+                        "2 metre temperature index",
+                        "Minimum temperature at 2 metres index",
+                        "Maximum temperature at 2 metres index",
+                        "10 metre speed index",
+                        "10 metre wind gust index",
+                        "Convective available potential energy index",
+                        "Convective available potential energy shear index",
+                        "Maximum of significant wave height index"
+                    ]
+                }
+            ],
+            "style" : "ct_sot_black_f0t8t1",
+            "styles" : [
+                "ct_sot_black_f0t8t1",
+                "ct_sot_blue_f0t8t1"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "cin",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "228001",
+                    "shortName" : "cin"
+                },
+                {
+                    "long_name" : "Convective inhibition"
+                }
+            ],
+            "style" : "sh_red_f0t900",
+            "styles" : [
+                "sh_red_f0t900",
+                "sh_black_f0t900",
+                "sh_grey_min50",
+                "sh_grey_min100",
+                "sh_grey_min200"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "tp_interval",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "228",
+                    "shortName" : "tp"
+                },
+                {
+                    "long_name" : "Total precipitation"
+                }
+            ],
+            "style" : "sh_blured_f05t300lst",
+            "styles" : [
+                "sh_blured_f05t300lst",
+                "sh_blured_f1t100lst",
+                "sh_blured_f1t100lst_dark",
+                "sh_grnvio_f1t100lst",
+                "sh_all_f05t300lst",
+                "sh_blured_f01t500lst",
+                "sh_blured_f0t300",
+                "ct_blumag_lst"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "mofc_2t_pdist",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "131167",
+                    "shortName" : "2tp"
+                },
+                {
+                    "long_name" : "2 metre temperature probability"
+                }
+            ],
+            "style" : "sh_mf_pdist",
+            "styles" : [
+                "sh_mf_pdist",
+                "sh_mf_pdist_2",
+                "sh_mf_2t_tercile",
+                "sh_mf_pdist_quintile",
+                "sh_mf_pdist_decile"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "efi_tp_field",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "132228",
+                    "shortName" : "tpi",
+                    "type" : "efi"
+                },
+                {
+                    "long_name" : "Total precipitation index"
+                }
+            ],
+            "style" : "sh_red_f05t1i01",
+            "styles" : [
+                "sh_red_f05t1i01",
+                "mrk_efi_tp_f06t1",
+                "sh_efi_f05t1_nc"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "efi_sf_field",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "132144",
+                    "shortName" : "sfi",
+                    "type" : "efi"
+                },
+                {
+                    "long_name" : "Snowfall index"
+                }
+            ],
+            "style" : "sh_red_f05t1i01",
+            "styles" : [
+                "sh_red_f05t1i01",
+                "mrk_efi_tp_f06t1",
+                "mrk_efi_sf_f06t1",
+                "sh_efi_f05t1_nc"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "mofc_tp_pdist",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "131228",
+                    "shortName" : "tpp"
+                },
+                {
+                    "long_name" : "Total precipitation probability"
+                }
+            ],
+            "style" : "sh_mf_pdist",
+            "styles" : [
+                "sh_mf_pdist",
+                "sh_mf_pdist_2",
+                "sh_mf_tp_tercile",
+                "sh_mf_pdist_quintile",
+                "sh_mf_pdist_decile"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "cp_interval",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "143",
+                    "shortName" : "cp"
+                },
+                {
+                    "long_name" : "Convective precipitation",
+                    "standard_name" : "lwe_thickness_of_convective_precipitation_amount"
+                }
+            ],
+            "style" : "sh_blured_f05t300lst",
+            "styles" : [
+                "sh_blured_f05t300lst",
+                "sh_blured_f1t100lst",
+                "sh_blured_f1t100lst_dark",
+                "sh_grnvio_f1t100lst",
+                "sh_all_f05t300lst",
+                "sh_blured_f01t500lst",
+                "sh_blured_f0t300",
+                "ct_blumag_lst"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "mofc_t_pdist",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "131139",
+                    "shortName" : "stl1p"
+                },
+                {
+                    "long_name" : "Soil temperature level 1 probability"
+                }
+            ],
+            "style" : "sh_mf_pdist",
+            "styles" : [
+                "sh_mf_pdist",
+                "sh_mf_pdist_2",
+                "sh_mf_2t_tercile",
+                "sh_mf_pdist_quintile",
+                "sh_mf_pdist_decile"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "mofc_mslp_pdist",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "131151",
+                    "shortName" : "mslpp"
+                },
+                {
+                    "long_name" : "Mean sea level pressure probability"
+                }
+            ],
+            "style" : "sh_mf_pdist",
+            "styles" : [
+                "sh_mf_pdist",
+                "sh_mf_pdist_2",
+                "sh_mf_2t_tercile",
+                "sh_mf_pdist_quintile",
+                "sh_mf_pdist_decile"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "lsp_interval",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "142",
+                    "shortName" : "lsp"
+                },
+                {
+                    "long_name" : "Large-scale precipitation",
+                    "standard_name" : "lwe_thickness_of_stratiform_precipitation_amount"
+                }
+            ],
+            "style" : "sh_blured_f05t300lst",
+            "styles" : [
+                "sh_blured_f05t300lst",
+                "sh_blured_f1t100lst",
+                "sh_blured_f1t100lst_dark",
+                "sh_grnvio_f1t100lst",
+                "sh_all_f05t300lst",
+                "sh_blured_f01t500lst",
+                "sh_blured_f0t300",
+                "ct_blumag_lst"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "sf_interval",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "144",
+                    "shortName" : "sf"
+                },
+                {
+                    "long_name" : "Snowfall",
+                    "standard_name" : "lwe_thickness_of_snowfall_amount"
+                }
+            ],
+            "style" : "sh_blured_f05t300lst",
+            "styles" : [
+                "sh_blured_f05t300lst",
+                "sh_blured_f1t100lst",
+                "sh_blured_f1t100lst_dark",
+                "sh_grnvio_f1t100lst",
+                "sh_all_f05t300lst",
+                "sh_blured_f01t500lst",
+                "sh_blured_f0t300",
+                "ct_blumag_lst"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "tp_rate",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "3059",
+                    "shortName" : "prate"
+                },
+                {
+                    "long_name" : "Precipitation rate"
+                }
+            ],
+            "style" : "sh_prate_radarlike_grided",
+            "styles" : [
+                "sh_prate_radarlike_grided",
+                "sh_prate_radarlike_grided_f01",
+                "sh_prate_radarlike"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "cp_rate",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "174143",
+                    "shortName" : "crfrate"
+                },
+                {
+                    "long_name" : "Convective rainfall rate"
+                }
+            ],
+            "style" : "sh_prate_radarlike_grided",
+            "styles" : [
+                "sh_prate_radarlike_grided",
+                "sh_prate_radarlike_grided_f01",
+                "sh_prate_radarlike"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "lsp_rate",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "174142",
+                    "shortName" : "lsrrate"
+                },
+                {
+                    "long_name" : "Large scale rainfall rate"
+                }
+            ],
+            "style" : "sh_prate_radarlike_grided",
+            "styles" : [
+                "sh_prate_radarlike_grided",
+                "sh_prate_radarlike_grided_f01",
+                "sh_prate_radarlike"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "sf_rate",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "3064",
+                    "shortName" : "srweq"
+                },
+                {
+                    "long_name" : "Snow fall rate water equivalent"
+                }
+            ],
+            "style" : "sh_prate_radarlike_grided",
+            "styles" : [
+                "sh_prate_radarlike_grided",
+                "sh_prate_radarlike_grided_f01",
+                "sh_prate_radarlike"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "fzra",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "228216",
+                    "shortName" : "fzra"
+                },
+                {
+                    "long_name" : "Accumulated freezing rain"
+                }
+            ],
+            "style" : "sh_all_f05t100",
+            "styles" : [
+                "sh_all_f05t100",
+                "sh_red_f001t10",
+                "ct_blk_f005t25"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "2t",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "167",
+                    "shortName" : "2t"
+                },
+                {
+                    "long_name" : "2 metre temperature"
+                }
+            ],
+            "style" : "sh_all_fM48t56i4",
+            "styles" : [
+                "sh_all_fM48t56i4",
+                "sh_all_fM64t52i4",
+                "ct_red_i2_dash",
+                "sh_all_fM32t42i2",
+                "sh_all_fM48t56i4_ct_wh",
+                "sh_all_fM52t48i4",
+                "sh_all_fM52t48i4_light",
+                "sh_gry_fM72t56lst",
+                "ct_red_i4_t3",
+                "sh_all_fM80t56i4_v2",
+                "sh_all_fM50t58i2",
+                "transparent_zero_blue"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "composition_aod550",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "210207",
+                    "shortName" : "aod550"
+                },
+                {
+                    "long_name" : "Total Aerosol Optical Depth at 550nm"
+                }
+            ],
+            "style" : "sh_all_aod",
+            "styles" : [
+                "sh_all_aod",
+                "sh_BuYlRd_aod",
+                "sh_BuYlRd_aod_lowthreshold",
+                "sh_Oranges_aod"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "sst",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "34",
+                    "shortName" : "sst"
+                },
+                {
+                    "long_name" : "Sea surface temperature"
+                }
+            ],
+            "style" : "sh_sst_fM2t36i2",
+            "styles" : [
+                "sh_sst_fM2t36i2",
+                "sh_sst_fM5t45",
+                "ct_sst_blk_fM2t36i2_i4",
+                "ct_sst_blue_fM2t36i2_i4",
+                "ct_sst_multicolour"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "composition_uvindex_clearsky",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "214003",
+                    "shortName" : "uvbedcs"
+                },
+                {
+                    "long_name" : " UV biologically effective dose clear-sky"
+                }
+            ],
+            "style" : "sh_all_uvindex",
+            "styles" : [
+                "sh_all_uvindex"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "composition_uvindex",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "214002",
+                    "shortName" : "uvbed"
+                },
+                {
+                    "long_name" : " UV biologically effective dose"
+                }
+            ],
+            "style" : "sh_all_uvindex",
+            "styles" : [
+                "sh_all_uvindex"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "sst_cf",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "34",
+                    "shortName" : "sst",
+                    "type" : "pf"
+                },
+                {
+                    "long_name" : "Sea surface temperature"
+                }
+            ],
+            "style" : "sh_sst_fM2t36i2",
+            "styles" : [
+                "sh_sst_fM2t36i2",
+                "sh_sst_fM5t45",
+                "ct_sst_blk_fM2t36i2_i4",
+                "ct_sst_blue_fM2t36i2_i4",
+                "ct_sst_multicolour"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "sea_ice_cover_cf",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "31",
+                    "shortName" : "ci",
+                    "type" : "pf"
+                },
+                {
+                    "long_name" : "Sea-ice cover"
+                }
+            ],
+            "style" : "sic_grey",
+            "styles" : [
+                "sic_grey",
+                "sic_25to100",
+                "transparent_ice",
+                "sic_10to100"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "efi_2t_data",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "132167",
+                    "shortName" : "2ti",
+                    "type" : "efi"
+                },
+                {
+                    "long_name" : "2 metre temperature index"
+                }
+            ],
+            "style" : "sh_blured_fM1t1lst",
+            "styles" : [
+                "sh_blured_fM1t1lst",
+                "sh_efi2t_fM1t1lst",
+                "sh_efi2t_fM1t1lst_nc"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "composition_duaod550",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "210209",
+                    "shortName" : "duaod550"
+                },
+                {
+                    "long_name" : "Dust Aerosol Optical Depth at 550nm"
+                }
+            ],
+            "style" : "sh_all_aod",
+            "styles" : [
+                "sh_all_aod",
+                "sh_BuYlRd_aod",
+                "sh_BuYlRd_aod_lowthreshold",
+                "sh_Oranges_aod"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "mn2t",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "202",
+                    "shortName" : "mn2t"
+                },
+                {
+                    "long_name" : "Minimum temperature at 2 metres since previous post-processing"
+                }
+            ],
+            "style" : "sh_all_fM48t56i4",
+            "styles" : [
+                "sh_all_fM48t56i4",
+                "sh_all_fM64t52i4",
+                "ct_red_i2_dash",
+                "sh_all_fM32t42i2",
+                "sh_all_fM48t56i4_ct_wh",
+                "sh_all_fM52t48i4",
+                "sh_all_fM52t48i4_light",
+                "sh_gry_fM72t56lst",
+                "ct_red_i4_t3",
+                "sh_all_fM80t56i4_v2",
+                "sh_all_fM50t58i2",
+                "transparent_zero_blue"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "composition_suaod550",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "210212",
+                    "shortName" : "suaod550"
+                },
+                {
+                    "long_name" : "Sulphate Aerosol Optical Depth at 550nm"
+                }
+            ],
+            "style" : "sh_all_aod",
+            "styles" : [
+                "sh_all_aod",
+                "sh_BuYlRd_aod",
+                "sh_BuYlRd_aod_lowthreshold",
+                "sh_Oranges_aod"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "efi_2tmin_data",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "132202",
+                    "shortName" : "mn2ti",
+                    "type" : "efi"
+                },
+                {
+                    "long_name" : "Minimum temperature at 2 metres index"
+                }
+            ],
+            "style" : "sh_blured_fM1t1lst",
+            "styles" : [
+                "sh_blured_fM1t1lst",
+                "sh_efi2t_fM1t1lst",
+                "sh_efi_f05t1_nc"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "efi_2tmax_data",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "132201",
+                    "shortName" : "mx2ti",
+                    "type" : "efi"
+                },
+                {
+                    "long_name" : "Maximum temperature at 2 metres index"
+                }
+            ],
+            "style" : "sh_blured_fM1t1lst",
+            "styles" : [
+                "sh_blured_fM1t1lst",
+                "sh_efi2t_fM1t1lst",
+                "sh_efi_f05t1_nc"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "mx2t",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "201",
+                    "shortName" : "mx2t"
+                },
+                {
+                    "long_name" : "Maximum temperature at 2 metres since previous post-processing"
+                }
+            ],
+            "style" : "sh_all_fM48t56i4",
+            "styles" : [
+                "sh_all_fM48t56i4",
+                "sh_all_fM64t52i4",
+                "ct_red_i2_dash",
+                "sh_all_fM32t42i2",
+                "sh_all_fM48t56i4_ct_wh",
+                "sh_all_fM52t48i4",
+                "sh_all_fM52t48i4_light",
+                "sh_gry_fM72t56lst",
+                "ct_red_i4_t3",
+                "sh_all_fM80t56i4_v2",
+                "sh_all_fM50t58i2",
+                "transparent_zero_blue"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "composition_co700",
+        "match" : {
+            "set" : [
+                {
+                    "levelist" : [
+                        "700"
+                    ],
+                    "paramId" : "210123",
+                    "shortName" : "co"
+                },
+                {
+                    "level" : [
+                        "700"
+                    ],
+                    "long_name" : "Carbon monoxide"
+                }
+            ],
+            "style" : "sh_all_co_upper",
+            "styles" : [
+                "sh_all_co_upper",
+                "sh_YlGnBu_co_upper"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "composition_so2_totalcolumn",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "210126",
+                    "shortName" : "tcso2"
+                },
+                {
+                    "long_name" : "Total column Sulphur dioxide"
+                }
+            ],
+            "style" : "sh_all_tcso2",
+            "styles" : [
+                "sh_all_tcso2"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "composition_co_totalcolumn",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "210127",
+                    "shortName" : "tcco"
+                },
+                {
+                    "long_name" : "Total column Carbon monoxide"
+                }
+            ],
+            "style" : "sh_all_tcco",
+            "styles" : [
+                "sh_all_tcco"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "composition_o3_totalcolumn",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "210206",
+                    "shortName" : "gtco3"
+                },
+                {
+                    "long_name" : "GEMS Total column ozone"
+                }
+            ],
+            "style" : "sh_all_tco3",
+            "styles" : [
+                "sh_all_tco3"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "composition_fire",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "210099",
+                    "shortName" : "frpfire"
+                },
+                {
+                    "long_name" : "Wildfire radiative power"
+                }
+            ],
+            "style" : "sh_all_fire",
+            "styles" : [
+                "sh_all_fire",
+                "symb_all_fire"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "composition_pm2p5",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "210073",
+                    "shortName" : "pm2p5"
+                },
+                {
+                    "long_name" : "Particulate matter d < 2.5 um"
+                }
+            ],
+            "style" : "sh_all_pmx_ncl_precip_11lev",
+            "styles" : [
+                "sh_all_pm2p5_defra_daqi",
+                "sh_all_pmx_ncl_precip_11lev",
+                "sh_all_pmx_regional"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "composition_pm10",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "210074",
+                    "shortName" : "pm10"
+                },
+                {
+                    "long_name" : "Particulate matter d < 10 um"
+                }
+            ],
+            "style" : "sh_all_pmx_ncl_precip_11lev",
+            "styles" : [
+                "sh_all_pm10_defra_daqi",
+                "sh_all_pmx_ncl_precip_11lev"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "composition_co_500hpa",
+        "match" : {
+            "set" : [
+                {
+                    "levelist" : [
+                        "500"
+                    ],
+                    "paramId" : "210123",
+                    "shortName" : "co"
+                },
+                {
+                    "level" : [
+                        "500"
+                    ],
+                    "long_name" : "Carbon monoxide"
+                }
+            ],
+            "style" : "sh_all_co_500hpa",
+            "styles" : [
+                "sh_all_co_500hpa",
+                "sh_viridis_co_500hpa"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "composition_co2_totalcolumn",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "210064",
+                    "shortName" : "tcco2"
+                },
+                {
+                    "long_name" : "CO2 column-mean molar fraction"
+                }
+            ],
+            "style" : "sh_Spectral_r_co2_totalcolumn",
+            "styles" : [
+                "sh_nipy_spectral_co2_totalcolumn",
+                "sh_Spectral_r_co2_totalcolumn",
+                "sh_RdGy_r_co2_totalcolumn"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "composition_ch4_totalcolumn",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "210065",
+                    "shortName" : "tcch4"
+                },
+                {
+                    "long_name" : "CH4 column-mean molar fraction"
+                }
+            ],
+            "style" : "sh_nipy_spectral_ch4_totalcolumn",
+            "styles" : [
+                "sh_nipy_spectral_ch4_totalcolumn",
+                "sh_RdGy_r_ch4_totalcolumn"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "mofc_10_t_anomaly",
+        "match" : {
+            "set" : [
+                {
+                    "levelist" : [
+                        "10"
+                    ],
+                    "paramId" : "171130",
+                    "shortName" : "ta"
+                },
+                {
+                    "level" : [
+                        "10"
+                    ],
+                    "long_name" : "Temperature anomaly"
+                }
+            ],
+            "style" : "t_upper_anomaly",
+            "styles" : [
+                "t_upper_anomaly",
+                "sh_anomaly_rb_m20t20"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "composition_no2_surface",
+        "match" : {
+            "set" : [
+                {
+                    "levelist" : [
+                        "60"
+                    ],
+                    "levtype" : "ml",
+                    "paramId" : "210121",
+                    "shortName" : "no2"
+                },
+                {
+                    "level" : [
+                        "60"
+                    ],
+                    "long_name" : "Nitrogen dioxide"
+                }
+            ],
+            "style" : "sh_all_no2_surface",
+            "styles" : [
+                "sh_all_no2_surface"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "composition_o3_surface",
+        "match" : {
+            "set" : [
+                {
+                    "levelist" : [
+                        "60"
+                    ],
+                    "levtype" : "ml",
+                    "paramId" : "210203",
+                    "shortName" : "go3"
+                },
+                {
+                    "level" : [
+                        "60"
+                    ],
+                    "long_name" : "GEMS Ozone"
+                }
+            ],
+            "style" : "sh_all_o3_sfc",
+            "styles" : [
+                "sh_all_o3_sfc",
+                "sh_YlGnBu_o3_sfc"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "2t_dewpoint",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "168",
+                    "shortName" : "2d"
+                },
+                {
+                    "long_name" : "2 metre dewpoint temperature"
+                }
+            ],
+            "style" : "sh_all_fM48t56i4",
+            "styles" : [
+                "sh_all_fM48t56i4",
+                "sh_all_fM64t52i4",
+                "ct_red_i2_dash",
+                "sh_all_fM32t42i2",
+                "sh_all_fM48t56i4_ct_wh",
+                "sh_all_fM52t48i4",
+                "sh_all_fM52t48i4_light",
+                "sh_gry_fM72t56lst",
+                "ct_red_i4_t3",
+                "transparent_zero_blue"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "mc_2tmean",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "228004",
+                    "shortName" : "mean2t",
+                    "type" : "cd"
+                },
+                {
+                    "long_name" : "Mean temperature at 2 metres"
+                }
+            ],
+            "style" : "sh_mc_t_fM80t60",
+            "styles" : [
+                "sh_mc_t_fM80t60",
+                "ct_mc_t_fM80t60_black",
+                "ct_mc_t_fM80t60_blue"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "mc_2tmax",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "201",
+                    "shortName" : "mx2t",
+                    "type" : "cd"
+                },
+                {
+                    "long_name" : "Maximum temperature at 2 metres since previous post-processing"
+                }
+            ],
+            "style" : "sh_mc_t_fM80t60",
+            "styles" : [
+                "sh_mc_t_fM80t60",
+                "ct_mc_t_fM80t60_black",
+                "ct_mc_t_fM80t60_blue"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "mc_2tmin",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "202",
+                    "shortName" : "mn2t",
+                    "type" : "cd"
+                },
+                {
+                    "long_name" : "Minimum temperature at 2 metres since previous post-processing"
+                }
+            ],
+            "style" : "sh_mc_t_fM80t60",
+            "styles" : [
+                "sh_mc_t_fM80t60",
+                "ct_mc_t_fM80t60_black",
+                "ct_mc_t_fM80t60_blue"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "mc_10fg",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "49",
+                    "shortName" : "10fg",
+                    "type" : "cd"
+                },
+                {
+                    "long_name" : "10 metre wind gust since previous post-processing"
+                }
+            ],
+            "style" : "sh_mc_wind_f0t80",
+            "styles" : [
+                "sh_mc_wind_f0t80",
+                "ct_mc_wind_f0t80_black",
+                "ct_mc_wind_f0t80_blue"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "mc_10ws",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "228005",
+                    "shortName" : "mean10ws",
+                    "type" : "cd"
+                },
+                {
+                    "long_name" : "Mean of 10 metre wind speed"
+                }
+            ],
+            "style" : "sh_mc_wind_f0t80",
+            "styles" : [
+                "sh_mc_wind_f0t80",
+                "ct_mc_wind_f0t80_black",
+                "ct_mc_wind_f0t80_blue"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "mc_tp",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "228",
+                    "shortName" : "tp",
+                    "type" : "cd"
+                },
+                {
+                    "long_name" : "Total precipitation"
+                }
+            ],
+            "style" : "sh_mc_tp_f01t1000",
+            "styles" : [
+                "sh_mc_tp_f01t1000",
+                "ct_mc_tp_f01t1000_black",
+                "ct_mc_tp_f01t1000_blue"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "mc_sf",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "144",
+                    "shortName" : "sf",
+                    "type" : "cd"
+                },
+                {
+                    "long_name" : "Snowfall",
+                    "standard_name" : "lwe_thickness_of_snowfall_amount"
+                }
+            ],
+            "style" : "sh_mc_sf_f01t100",
+            "styles" : [
+                "sh_mc_sf_f01t100",
+                "ct_mc_sf_f01t100_black",
+                "ct_mc_sf_f01t100_blue"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "mc_cape",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "59",
+                    "shortName" : "cape",
+                    "type" : "cd"
+                },
+                {
+                    "long_name" : "Convective available potential energy"
+                }
+            ],
+            "style" : "sh_mc_cape_f10t13000",
+            "styles" : [
+                "sh_mc_cape_f10t13000",
+                "ct_mc_cape_f10t13000_black",
+                "ct_mc_cape_f10t13000_blue"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "mc_capeshear",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "228044",
+                    "shortName" : "capes",
+                    "type" : "cd"
+                },
+                {
+                    "long_name" : "Convective available potential energy shear"
+                }
+            ],
+            "style" : "sh_mc_capes_f10t4000",
+            "styles" : [
+                "sh_mc_capes_f10t4000",
+                "ct_mc_capes_f10t4000_black",
+                "ct_mc_capes_f10t4000_blue"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "wind_speed",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "207",
+                    "shortName" : "10si"
+                },
+                {
+                    "long_name" : "10 metre wind speed"
+                }
+            ],
+            "style" : "sh_red_f5t70lst",
+            "styles" : [
+                "sh_red_f5t70lst",
+                "sh_all_f03t70_beauf",
+                "sh_all_f2t50i2",
+                "sh_all_f5t70lst",
+                "ct_red_i5",
+                "sh_grn_f10t100lst"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "mc_swh",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "140200",
+                    "shortName" : "maxswh",
+                    "type" : "cd"
+                },
+                {
+                    "long_name" : "Maximum of significant wave height"
+                }
+            ],
+            "style" : "sh_mc_swh_f0t20",
+            "styles" : [
+                "sh_mc_swh_f0t20",
+                "ct_mc_swh_f0t20_black",
+                "ct_mc_swh_f0t20_blue"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "efi_ws_field",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "132165",
+                    "shortName" : "10wsi",
+                    "type" : "efi"
+                },
+                {
+                    "long_name" : "10 metre speed index"
+                }
+            ],
+            "style" : "sh_red_f05t1i01",
+            "styles" : [
+                "sh_red_f05t1i01",
+                "mrk_efi_wg_f06t1",
+                "sh_efi_f05t1_nc"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "10m_fg_interval",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "49",
+                    "shortName" : "10fg"
+                },
+                {
+                    "long_name" : "10 metre wind gust since previous post-processing"
+                }
+            ],
+            "style" : "sh_red_f10t70lst",
+            "styles" : [
+                "sh_red_f10t70lst",
+                "sh_all_f2t50i2",
+                "sh_grn_f10t100lst",
+                "sh_all_f03t70_beauf",
+                "ct_red_i5"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "efi_wg_field",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "132049",
+                    "shortName" : "10fgi",
+                    "type" : "efi"
+                },
+                {
+                    "long_name" : "10 metre wind gust index"
+                }
+            ],
+            "style" : "sh_red_f05t1i01",
+            "styles" : [
+                "sh_red_f05t1i01",
+                "mrk_efi_wg_f06t1",
+                "sh_efi_f05t1_nc"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "efi_swh_field",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "132216",
+                    "shortName" : "maxswhi",
+                    "type" : "efi"
+                },
+                {
+                    "long_name" : "Maximum of significant wave height index"
+                }
+            ],
+            "style" : "sh_red_f05t1i01",
+            "styles" : [
+                "sh_red_f05t1i01",
+                "mrk_efi_tp_f06t1",
+                "sh_efi2t_fM1t1lst_nc"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "efi_cape_field",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "132059",
+                    "shortName" : "capei",
+                    "type" : "efi"
+                },
+                {
+                    "long_name" : "Convective available potential energy index"
+                }
+            ],
+            "style" : "sh_red_f05t1i01",
+            "styles" : [
+                "sh_red_f05t1i01",
+                "mrk_efi_cape_f06t1",
+                "sh_efi_f05t1_nc"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "efi_capeshear_field",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "132044",
+                    "shortName" : "capesi",
+                    "type" : "efi"
+                },
+                {
+                    "long_name" : "Convective available potential energy shear index"
+                }
+            ],
+            "style" : "sh_red_f05t1i01",
+            "styles" : [
+                "sh_red_f05t1i01",
+                "mrk_efi_capes_f06t1",
+                "sh_efi_f05t1_nc"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "sim_image_ir",
+        "match" : {
+            "set" : [
+                {
+                    "channel" : 9,
+                    "paramId" : "260510",
+                    "shortName" : "clbt"
+                },
+                {
+                    "long_name" : "Cloudy brightness temperature"
+                }
+            ],
+            "style" : "sim_image_ir_fixed_range",
+            "styles" : [
+                "sim_image_ir_fixed_range"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "sim_image_wv",
+        "match" : {
+            "set" : [
+                {
+                    "channel" : 5,
+                    "paramId" : "260510",
+                    "shortName" : "clbt"
+                },
+                {
+                    "long_name" : "Cloudy brightness temperature"
+                }
+            ],
+            "style" : "sim_image_wv_fixed_range",
+            "styles" : [
+                "sim_image_wv_fixed_range"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "sim_image_wv_ch6",
+        "match" : {
+            "set" : [
+                {
+                    "channel" : 6,
+                    "paramId" : "260510",
+                    "shortName" : "clbt"
+                },
+                {
+                    "long_name" : "Cloudy brightness temperature"
+                }
+            ],
+            "style" : "sim_image_wv_500",
+            "styles" : [
+                "sim_image_wv_500"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "lcc",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "186",
+                    "shortName" : "lcc"
+                },
+                {
+                    "long_name" : "Low cloud cover"
+                }
+            ],
+            "style" : "transparency_grey",
+            "styles" : [
+                "transparency_grey",
+                "sh_gry_f0t1lst",
+                "sh_redgry_f0t1lst",
+                "tran_gry_f03t1lst"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "mcc",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "187",
+                    "shortName" : "mcc"
+                },
+                {
+                    "long_name" : "Medium cloud cover"
+                }
+            ],
+            "style" : "transparency_lightgrey",
+            "styles" : [
+                "transparency_lightgrey",
+                "sh_lgtgry_f0t1lst",
+                "sh_grngry_f0t1lst",
+                "tran_lgtgry_f03t1lst"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "hcc",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "188",
+                    "shortName" : "hcc"
+                },
+                {
+                    "long_name" : "High cloud cover"
+                }
+            ],
+            "style" : "transparency_white",
+            "styles" : [
+                "transparency_white",
+                "sh_whi_f0t1lst",
+                "sh_blugry_f0t1lst",
+                "tran_whi_f03t1lst"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "cbh",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "228023",
+                    "shortName" : "cbh"
+                },
+                {
+                    "long_name" : "Cloud base height"
+                }
+            ],
+            "style" : "sh_cbh_blk_f0t22000",
+            "styles" : [
+                "sh_cbh_blk_f0t22000",
+                "sh_cbh_f0t22000"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "ceiling",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "260109",
+                    "shortName" : "ceil"
+                },
+                {
+                    "long_name" : "Ceiling"
+                }
+            ],
+            "style" : "sh_cbh_blk_f0t22000",
+            "styles" : [
+                "sh_cbh_blk_f0t22000",
+                "sh_cbh_f0t22000"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "hcct",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "228046",
+                    "shortName" : "hcct"
+                },
+                {
+                    "long_name" : "Height of convective cloud top"
+                }
+            ],
+            "style" : "sh_hcct_blk_f0t22000",
+            "styles" : [
+                "sh_hcct_blk_f0t22000",
+                "sh_hcct_f0t22000"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "sea_ice_cover",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "31",
+                    "shortName" : "ci"
+                },
+                {
+                    "long_name" : "Sea-ice cover"
+                }
+            ],
+            "style" : "sic_grey",
+            "styles" : [
+                "sic_grey",
+                "sic_25to100",
+                "transparent_ice",
+                "sic_10to100"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "visibility",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "3020",
+                    "shortName" : "vis"
+                },
+                {
+                    "long_name" : "Visibility"
+                }
+            ],
+            "style" : "sh_navy_f0t13500",
+            "styles" : [
+                "sh_navy_f0t13500",
+                "sh_vis_f0t1500",
+                "sh_vis_f0t100000",
+                "sh_red_f0t90000",
+                "sh_grey_f0t90000",
+                "ct_navy_f0t13500",
+                "ct_vis_blk_f0t10000"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "genesis_td",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "131091",
+                    "shortName" : "ptd",
+                    "type" : "ep"
+                },
+                {
+                    "long_name" : "Probability of a tropical depression"
+                }
+            ],
+            "style" : "genesis_prob",
+            "styles" : [
+                "genesis_prob",
+                "genesis_prob_light",
+                "genesis_prob_dark",
+                "prob_red2blue",
+                "prob_blue2yellow",
+                "prob_green2yellow"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "genesis_ts",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "131089",
+                    "shortName" : "pts",
+                    "type" : "ep"
+                },
+                {
+                    "long_name" : "Probability of a tropical storm"
+                }
+            ],
+            "style" : "genesis_prob",
+            "styles" : [
+                "genesis_prob",
+                "genesis_prob_light",
+                "genesis_prob_dark",
+                "prob_red2blue",
+                "prob_blue2yellow",
+                "prob_green2yellow"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "genesis_hr",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "131090",
+                    "shortName" : "ph",
+                    "type" : "ep"
+                },
+                {
+                    "long_name" : "Probability of a hurricane"
+                }
+            ],
+            "style" : "genesis_prob",
+            "styles" : [
+                "genesis_prob",
+                "genesis_prob_light",
+                "genesis_prob_dark",
+                "prob_red2blue",
+                "prob_blue2yellow",
+                "prob_green2yellow"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : [
+            "q1000",
+            "q925"
+        ],
+        "match" : {
+            "set" : [
+                {
+                    "levelist" : [
+                        "1000",
+                        "925"
+                    ],
+                    "paramId" : "133",
+                    "shortName" : "q"
+                },
+                {
+                    "level" : [
+                        "1000",
+                        "925"
+                    ],
+                    "long_name" : "Specific humidity",
+                    "standard_name" : "specific_humidity"
+                }
+            ],
+            "style" : "sh_spechum_option1",
+            "styles" : [
+                "sh_spechum_option1",
+                "sh_spechum_option2",
+                "sh_spechum_option3",
+                "ct_blk_i2_t2",
+                "spechum_extra1"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : [
+            "rh1000",
+            "rh925",
+            "rh_850h_field",
+            "rh800",
+            "rh_7h_field",
+            "rh600",
+            "rh500",
+            "250rh"
+        ],
+        "match" : {
+            "set" : [
+                {
+                    "levelist" : [
+                        "1000",
+                        "925",
+                        "850",
+                        "800",
+                        "700",
+                        "600",
+                        "500",
+                        "250"
+                    ],
+                    "paramId" : "157",
+                    "shortName" : "r"
+                },
+                {
+                    "level" : [
+                        "1000",
+                        "925",
+                        "850",
+                        "800",
+                        "700",
+                        "600",
+                        "500",
+                        "250"
+                    ],
+                    "long_name" : "Relative humidity",
+                    "standard_name" : "relative_humidity"
+                }
+            ],
+            "style" : "sh_grnblu_f65t100i15",
+            "styles" : [
+                "sh_grnblu_f65t100i15",
+                "sh_grnblu_f65t100i15_light",
+                "ct_grnblu_f65t100i15"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : [
+            "1000divergence",
+            "925divergence",
+            "700divergence",
+            "500divergence",
+            "300divergence"
+        ],
+        "match" : {
+            "set" : [
+                {
+                    "levelist" : [
+                        "1000",
+                        "925",
+                        "700",
+                        "500",
+                        "300"
+                    ],
+                    "paramId" : "155",
+                    "shortName" : "d"
+                },
+                {
+                    "level" : [
+                        "1000",
+                        "925",
+                        "700",
+                        "500",
+                        "300"
+                    ],
+                    "long_name" : "Divergence",
+                    "standard_name" : "divergence_of_wind"
+                }
+            ],
+            "style" : "sh_blured_fM50t50lst_cell",
+            "styles" : [
+                "sh_blured_fM50t50lst_cell",
+                "sh_blured_fM50t50lst",
+                "sh_blured_fM50t50lst_less",
+                "sh_blu_fM50tM1lst",
+                "sh_red_f1t50lst",
+                "sh_viobrn_fM50t50lst_less",
+                "ct_blured_fM5t50"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : [
+            "z925",
+            "z850",
+            "z800",
+            "z700",
+            "z600",
+            "z500_field",
+            "z300",
+            "z250"
+        ],
+        "match" : {
+            "set" : [
+                {
+                    "levelist" : [
+                        "925",
+                        "850",
+                        "800",
+                        "700",
+                        "600",
+                        "500",
+                        "300",
+                        "250"
+                    ],
+                    "paramId" : "129",
+                    "shortName" : "z"
+                },
+                {
+                    "level" : [
+                        "925",
+                        "850",
+                        "800",
+                        "700",
+                        "600",
+                        "500",
+                        "300",
+                        "250"
+                    ],
+                    "long_name" : "Geopotential",
+                    "standard_name" : "geopotential"
+                }
+            ],
+            "style" : "ct_blk_i5_t2",
+            "styles" : [
+                "ct_blk_i5_t2",
+                "ct_blue_i5_t2",
+                "ct_red_i5_t2",
+                "ct_green_i5_t2",
+                "ct_blk_i5_t1",
+                "ct_brn_i4_t2",
+                "ct_blk_i2_t4",
+                "ct_green_i2_t4"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : [
+            "t925",
+            "t850_field",
+            "t800",
+            "t700",
+            "t600"
+        ],
+        "match" : {
+            "set" : [
+                {
+                    "levelist" : [
+                        "925",
+                        "850",
+                        "800",
+                        "700",
+                        "600"
+                    ],
+                    "paramId" : "130",
+                    "shortName" : "t"
+                },
+                {
+                    "level" : [
+                        "925",
+                        "850",
+                        "800",
+                        "700",
+                        "600"
+                    ],
+                    "long_name" : "Temperature",
+                    "standard_name" : "air_temperature"
+                }
+            ],
+            "style" : "sh_all_fM52t48i4",
+            "styles" : [
+                "sh_all_fM52t48i4",
+                "sh_all_fM64t52i4",
+                "ct_red_i2_dash",
+                "sh_all_fM52t48i4_light",
+                "sh_gry_fM72t56lst",
+                "ct_red_i4_t3",
+                "sh_all_fM80t56i4_v2",
+                "sh_all_fM50t58i2",
+                "transparent_zero_blue"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "mofc_sduration_anomaly",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "173189",
+                    "shortName" : "sundara"
+                },
+                {
+                    "long_name" : "Sunshine duration anomalous rate of accumulation"
+                }
+            ],
+            "style" : "sh_rb_fm100t100",
+            "styles" : [
+                "sh_rb_fm100t100",
+                "ct_blk_i4_t2_sduration",
+                "ct_blk_i4_t2_dashed_sduration"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : [
+            "925ws",
+            "850ws"
+        ],
+        "match" : {
+            "set" : [
+                {
+                    "levelist" : [
+                        "925",
+                        "850"
+                    ],
+                    "paramId" : "10",
+                    "shortName" : "ws"
+                },
+                {
+                    "level" : [
+                        "925",
+                        "850"
+                    ],
+                    "long_name" : "Wind speed"
+                }
+            ],
+            "style" : "sh_red_f5t70lst",
+            "styles" : [
+                "sh_red_f5t70lst",
+                "sh_all_f5t70lst",
+                "ct_red_i5",
+                "sh_grn_f10t100lst"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "ptype_prob",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "260015",
+                    "shortName" : "ptype",
+                    "type" : "pf"
+                },
+                {
+                    "long_name" : "Precipitation type"
+                }
+            ],
+            "style" : "symbols_ptype_prob",
+            "styles" : [
+                "symbols_ptype_prob"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "wbpt850",
+        "match" : {
+            "set" : [
+                {
+                    "levelist" : [
+                        "850"
+                    ],
+                    "paramId" : "3",
+                    "shortName" : "pt"
+                },
+                {
+                    "level" : [
+                        "850"
+                    ],
+                    "long_name" : "Potential temperature"
+                }
+            ],
+            "style" : "sh_all_fM52t48i4",
+            "styles" : [
+                "sh_all_fM52t48i4",
+                "sh_all_fM64t52i4",
+                "ct_red_i2_dash",
+                "ct_black_i2_solid",
+                "ct_black_i4_solid",
+                "sh_all_fM52t48i4_light",
+                "ct_multicolour_fM20t40i2",
+                "sh_gry_fM72t56lst",
+                "transparent_zero_blue"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "850ws_mean",
+        "match" : {
+            "set" : [
+                {
+                    "levelist" : [
+                        "850"
+                    ],
+                    "paramId" : "10",
+                    "shortName" : "ws",
+                    "type" : "em"
+                },
+                {
+                    "level" : [
+                        "850"
+                    ],
+                    "long_name" : "Wind speed"
+                }
+            ],
+            "style" : "ct_blk_i5_t2",
+            "styles" : [
+                "ct_blk_i5_t2",
+                "ct_blk_i5_t1",
+                "ct_blue_i5_t2"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "850ws_spread",
+        "match" : {
+            "set" : [
+                {
+                    "levelist" : [
+                        "850"
+                    ],
+                    "paramId" : "10",
+                    "shortName" : "ws",
+                    "type" : "es"
+                },
+                {
+                    "level" : [
+                        "850"
+                    ],
+                    "long_name" : "Wind speed"
+                }
+            ],
+            "style" : "sh_blu_f02t30",
+            "styles" : [
+                "sh_blu_f02t30",
+                "sh_range_f02t30"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : [
+            "850vorticity",
+            "300vorticity",
+            "250vorticity"
+        ],
+        "match" : {
+            "set" : [
+                {
+                    "levelist" : [
+                        "850",
+                        "300",
+                        "250"
+                    ],
+                    "paramId" : "138",
+                    "shortName" : "vo"
+                },
+                {
+                    "level" : [
+                        "850",
+                        "300",
+                        "250"
+                    ],
+                    "long_name" : "Vorticity (relative)",
+                    "standard_name" : "atmosphere_relative_vorticity"
+                }
+            ],
+            "style" : "sh_blured_fM50t50lst_cell",
+            "styles" : [
+                "sh_blured_fM50t50lst_cell",
+                "sh_blured_fM50t50lst",
+                "sh_blured_fM50t50lst_less",
+                "sh_blu_fM50tM1lst",
+                "sh_red_f1t50lst",
+                "sh_viobrn_fM50t50lst_less",
+                "ct_blured_fM5t50"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : [
+            "800ws",
+            "700ws",
+            "600ws"
+        ],
+        "match" : {
+            "set" : [
+                {
+                    "levelist" : [
+                        "800",
+                        "700",
+                        "600"
+                    ],
+                    "paramId" : "10",
+                    "shortName" : "ws"
+                },
+                {
+                    "level" : [
+                        "800",
+                        "700",
+                        "600"
+                    ],
+                    "long_name" : "Wind speed"
+                }
+            ],
+            "style" : "sh_red_f5t70lst",
+            "styles" : [
+                "sh_red_f5t70lst",
+                "sh_all_f5t70lst",
+                "sh_grn_f10t100lst",
+                "ct_red_i5"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : [
+            "t850_mean",
+            "t500_mean"
+        ],
+        "match" : {
+            "set" : [
+                {
+                    "levelist" : [
+                        "850",
+                        "500"
+                    ],
+                    "paramId" : "130",
+                    "shortName" : "t",
+                    "type" : "em"
+                },
+                {
+                    "level" : [
+                        "850",
+                        "500"
+                    ],
+                    "long_name" : "Temperature",
+                    "standard_name" : "air_temperature"
+                }
+            ],
+            "style" : "ct_blk_i5_t2",
+            "styles" : [
+                "ct_blk_i5_t2",
+                "ct_blk_i5_t1",
+                "ct_blue_i5_t2",
+                "ct_brn_i4_t2",
+                "ct_red_i4_t3",
+                "transparent_zero_blue"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : [
+            "t850_spread",
+            "t500_spread"
+        ],
+        "match" : {
+            "set" : [
+                {
+                    "levelist" : [
+                        "850",
+                        "500"
+                    ],
+                    "paramId" : "130",
+                    "shortName" : "t",
+                    "type" : "es"
+                },
+                {
+                    "level" : [
+                        "850",
+                        "500"
+                    ],
+                    "long_name" : "Temperature",
+                    "standard_name" : "air_temperature"
+                }
+            ],
+            "style" : "sh_blu_f008t25",
+            "styles" : [
+                "sh_blu_f008t25",
+                "sh_range_f008to25"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : [
+            "700vorticity",
+            "500vorticity"
+        ],
+        "match" : {
+            "set" : [
+                {
+                    "levelist" : [
+                        "700",
+                        "500"
+                    ],
+                    "paramId" : "138",
+                    "shortName" : "vo"
+                },
+                {
+                    "level" : [
+                        "700",
+                        "500"
+                    ],
+                    "long_name" : "Vorticity (relative)",
+                    "standard_name" : "atmosphere_relative_vorticity"
+                }
+            ],
+            "style" : "sh_blured_fM50t50lst_cell",
+            "styles" : [
+                "sh_blured_fM50t50lst_cell",
+                "sh_blured_fM50t50lst",
+                "sh_blured_fM50t50lst_less",
+                "sh_blu_fM50tM1lst",
+                "sh_red_f1t50lst",
+                "sh_viobrn_fM50t50lst_less",
+                "ct_blured_fM5t50",
+                "sh_blured_fM50t50lst_narrow_range"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "700w",
+        "match" : {
+            "set" : [
+                {
+                    "levelist" : [
+                        "700"
+                    ],
+                    "paramId" : "135",
+                    "shortName" : "w"
+                },
+                {
+                    "level" : [
+                        "700"
+                    ],
+                    "long_name" : "Vertical velocity",
+                    "standard_name" : "lagrangian_tendency_of_air_pressure"
+                }
+            ],
+            "style" : "sh_blured_fM5t5lst",
+            "styles" : [
+                "sh_blured_fM5t5lst",
+                "sh_blu_fM5tM005lst",
+                "sh_red_f005t5lst",
+                "sh_viobrn_fM5t5lst",
+                "ct_blured_lst"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "t500",
+        "match" : {
+            "set" : [
+                {
+                    "levelist" : [
+                        "500"
+                    ],
+                    "paramId" : "130",
+                    "shortName" : "t"
+                },
+                {
+                    "level" : [
+                        "500"
+                    ],
+                    "long_name" : "Temperature",
+                    "standard_name" : "air_temperature"
+                }
+            ],
+            "style" : "sh_all_fM52t48i4",
+            "styles" : [
+                "sh_all_fM52t48i4",
+                "sh_all_fM64t52i4",
+                "ct_red_i2_dash",
+                "sh_all_fM52t48i4_light",
+                "sh_gry_fM72t56lst",
+                "sh_all_fM80t56i4_v2",
+                "sh_all_fM50t58i2",
+                "ct_red_i4_t3"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "500ws",
+        "match" : {
+            "set" : [
+                {
+                    "levelist" : [
+                        "500"
+                    ],
+                    "paramId" : "10",
+                    "shortName" : "ws"
+                },
+                {
+                    "level" : [
+                        "500"
+                    ],
+                    "long_name" : "Wind speed"
+                }
+            ],
+            "style" : "sh_grn_f10t100lst",
+            "styles" : [
+                "sh_grn_f10t100lst",
+                "sh_all_f30t100i10",
+                "sh_grn_f30t100i10",
+                "ct_grn_f30_i10",
+                "ct_ylw_f30_i10"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : [
+            "500pv",
+            "300pv"
+        ],
+        "match" : {
+            "set" : [
+                {
+                    "levelist" : [
+                        "500",
+                        "300"
+                    ],
+                    "paramId" : "60",
+                    "shortName" : "pv"
+                },
+                {
+                    "level" : [
+                        "500",
+                        "300"
+                    ],
+                    "long_name" : "Potential vorticity"
+                }
+            ],
+            "style" : "ct_magenta_i2_t3",
+            "styles" : [
+                "ct_magenta_i2_t3",
+                "sh_blu_f02t30",
+                "sh_gry_f0t20lst",
+                "ct_vio_i1_t1"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "z500_mean",
+        "match" : {
+            "set" : [
+                {
+                    "levelist" : [
+                        "500"
+                    ],
+                    "paramId" : "129",
+                    "shortName" : "z",
+                    "type" : "em"
+                },
+                {
+                    "level" : [
+                        "500"
+                    ],
+                    "long_name" : "Geopotential",
+                    "standard_name" : "geopotential"
+                }
+            ],
+            "style" : "ct_red_i5_t2",
+            "styles" : [
+                "ct_red_i5_t2",
+                "ct_blk_i5_t2",
+                "ct_blue_i5_t2",
+                "ct_green_i5_t2",
+                "ct_blk_i5_t1",
+                "ct_brn_i4_t2",
+                "ct_blk_i2_t4",
+                "ct_green_i2_t4"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "300_windspeed",
+        "match" : {
+            "set" : [
+                {
+                    "levelist" : [
+                        "300"
+                    ],
+                    "paramId" : "10",
+                    "shortName" : "ws"
+                },
+                {
+                    "level" : [
+                        "300"
+                    ],
+                    "long_name" : "Wind speed"
+                }
+            ],
+            "style" : "sh_grn_f30t100i10",
+            "styles" : [
+                "sh_grn_f30t100i10",
+                "sh_all_f30t100i10",
+                "ct_grn_f30_i10",
+                "ct_ylw_f30_i10"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "z500_spread",
+        "match" : {
+            "set" : [
+                {
+                    "levelist" : [
+                        "500"
+                    ],
+                    "paramId" : "129",
+                    "shortName" : "z",
+                    "type" : "es"
+                },
+                {
+                    "level" : [
+                        "500"
+                    ],
+                    "long_name" : "Geopotential",
+                    "standard_name" : "geopotential"
+                }
+            ],
+            "style" : "sh_blu_f02t50",
+            "styles" : [
+                "sh_blu_f02t50",
+                "sh_range_f02t50"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "t250",
+        "match" : {
+            "set" : [
+                {
+                    "levelist" : [
+                        "250"
+                    ],
+                    "paramId" : "130",
+                    "shortName" : "t"
+                },
+                {
+                    "level" : [
+                        "250"
+                    ],
+                    "long_name" : "Temperature",
+                    "standard_name" : "air_temperature"
+                }
+            ],
+            "style" : "sh_all_fM64t52i4",
+            "styles" : [
+                "sh_all_fM64t52i4",
+                "ct_red_i2_dash",
+                "sh_gry_fM72t56lst",
+                "sh_all_fM80t56i4_v2",
+                "sh_all_fM50t58i2",
+                "ct_red_i4_t3"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "250ws",
+        "match" : {
+            "set" : [
+                {
+                    "levelist" : [
+                        "250"
+                    ],
+                    "paramId" : "10",
+                    "shortName" : "ws"
+                },
+                {
+                    "level" : [
+                        "250"
+                    ],
+                    "long_name" : "Wind speed"
+                }
+            ],
+            "style" : "sh_grn_f10t100lst",
+            "styles" : [
+                "sh_grn_f10t100lst",
+                "sh_all_f30t100i10",
+                "sh_grn_f30t100i10",
+                "ct_grn_f30_i10"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "z300_mean",
+        "match" : {
+            "set" : [
+                {
+                    "levelist" : [
+                        "300"
+                    ],
+                    "paramId" : "129",
+                    "shortName" : "z",
+                    "type" : "em"
+                },
+                {
+                    "level" : [
+                        "300"
+                    ],
+                    "long_name" : "Geopotential",
+                    "standard_name" : "geopotential"
+                }
+            ],
+            "style" : "ct_blk_i5_t2",
+            "styles" : [
+                "ct_blk_i5_t2",
+                "ct_red_i5_t2",
+                "ct_blue_i5_t2",
+                "ct_green_i5_t2",
+                "ct_blk_i5_t1",
+                "ct_brn_i4_t2",
+                "ct_blk_i2_t4",
+                "ct_green_i2_t4"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "200_windspeed_field",
+        "match" : {
+            "set" : [
+                {
+                    "levelist" : [
+                        "200"
+                    ],
+                    "paramId" : "10",
+                    "shortName" : "ws"
+                },
+                {
+                    "level" : [
+                        "200"
+                    ],
+                    "long_name" : "Wind speed"
+                }
+            ],
+            "style" : "sh_grn_f30t100i10",
+            "styles" : [
+                "sh_grn_f30t100i10",
+                "sh_all_f30t100i10",
+                "ct_grn_f30_i10"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "z300_spread",
+        "match" : {
+            "set" : [
+                {
+                    "levelist" : [
+                        "300"
+                    ],
+                    "paramId" : "129",
+                    "shortName" : "z",
+                    "type" : "es"
+                },
+                {
+                    "level" : [
+                        "300"
+                    ],
+                    "long_name" : "Geopotential",
+                    "standard_name" : "geopotential"
+                }
+            ],
+            "style" : "sh_blu_f03t75",
+            "styles" : [
+                "sh_blu_f03t75",
+                "sh_blu_f02t50",
+                "sh_range_f02t50"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "wave_swh",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "140229",
+                    "shortName" : "swh"
+                },
+                {
+                    "long_name" : "Significant height of combined wind waves and swell"
+                }
+            ],
+            "style" : "sh_all_f0t20lst",
+            "styles" : [
+                "sh_all_f0t20lst",
+                "sh_blu_f0t20lst",
+                "sh_blu_f0t20lst_light",
+                "sh_blu_f0t20lst_warn",
+                "sh_douglas_sea_scale",
+                "ct_vio_i1_t1"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "wave_sh10",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "140120",
+                    "shortName" : "sh10"
+                },
+                {
+                    "long_name" : "Significant wave height of all waves with period larger than 10s"
+                }
+            ],
+            "style" : "sh_all_f0t20lst",
+            "styles" : [
+                "sh_all_f0t20lst",
+                "sh_blu_f0t20lst",
+                "sh_blu_f0t20lst_light",
+                "sh_blu_f0t20lst_warn",
+                "sh_douglas_sea_scale",
+                "ct_vio_i1_t1"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "wave_sh1012",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "140114",
+                    "shortName" : "h1012"
+                },
+                {
+                    "long_name" : "Significant wave height of all waves with periods within the inclusive range from 10 to 12 seconds"
+                }
+            ],
+            "style" : "sh_wave_f0t10_red",
+            "styles" : [
+                "sh_wave_f0t10_red",
+                "sh_wave_f0t10_purple",
+                "ct_vio_i1_t1"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "wave_sh1214",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "140115",
+                    "shortName" : "h1214"
+                },
+                {
+                    "long_name" : "Significant wave height of all waves with periods within the inclusive range from 12 to 14 seconds"
+                }
+            ],
+            "style" : "sh_wave_f0t10_red",
+            "styles" : [
+                "sh_wave_f0t10_red",
+                "sh_wave_f0t10_purple",
+                "ct_vio_i1_t1"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "wave_sh1417",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "140116",
+                    "shortName" : "h1417"
+                },
+                {
+                    "long_name" : "Significant wave height of all waves with periods within the inclusive range from 14 to 17 seconds"
+                }
+            ],
+            "style" : "sh_wave_f0t10_red",
+            "styles" : [
+                "sh_wave_f0t10_red",
+                "sh_wave_f0t10_purple",
+                "ct_vio_i1_t1"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "wave_sh1721",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "140117",
+                    "shortName" : "h1721"
+                },
+                {
+                    "long_name" : "Significant wave height of all waves with periods within the inclusive range from 17 to 21 seconds"
+                }
+            ],
+            "style" : "sh_wave_f0t10_red",
+            "styles" : [
+                "sh_wave_f0t10_red",
+                "sh_wave_f0t10_purple",
+                "ct_vio_i1_t1"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "wave_sh2125",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "140118",
+                    "shortName" : "h2125"
+                },
+                {
+                    "long_name" : "Significant wave height of all waves with periods within the inclusive range from 21 to 25 seconds"
+                }
+            ],
+            "style" : "sh_wave_f005t5_rose",
+            "styles" : [
+                "sh_wave_f005t5_rose",
+                "sh_wave_f005t5_red",
+                "sh_wave_f005t5_purple",
+                "ct_t2_f005t5_black",
+                "ct_t2_f005t5_blue"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "wave_sh2530",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "140119",
+                    "shortName" : "h2530"
+                },
+                {
+                    "long_name" : "Significant wave height of all waves with periods within the inclusive range from 25 to 30 seconds"
+                }
+            ],
+            "style" : "sh_wave_f002t1_blue",
+            "styles" : [
+                "sh_wave_f002t1_blue",
+                "sh_wave_f002t1_red",
+                "sh_wave_f002t1_purple",
+                "ct_t2_f002t1_black",
+                "ct_t2_f002t1_blue"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "wave_shww",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "140234",
+                    "shortName" : "shww"
+                },
+                {
+                    "long_name" : "Significant height of wind waves"
+                }
+            ],
+            "style" : "sh_all_f0t20lst",
+            "styles" : [
+                "sh_all_f0t20lst",
+                "sh_blu_f0t20_douglas",
+                "sh_blu_f0t20lst",
+                "sh_blu_f0t20lst_light",
+                "sh_blu_f0t20lst_warn",
+                "sh_douglas_sea_scale",
+                "ct_vio_i1_t1"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "wave_shts",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "140237",
+                    "shortName" : "shts"
+                },
+                {
+                    "long_name" : "Significant height of total swell"
+                }
+            ],
+            "style" : "sh_all_f0t20lst",
+            "styles" : [
+                "sh_all_f0t20lst",
+                "sh_blu_f0t20lst",
+                "sh_blu_f0t20lst_light",
+                "sh_blu_f0t20lst_warn",
+                "sh_douglas_sea_scale",
+                "ct_vio_i1_t1"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "wave_mwp",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "140232",
+                    "shortName" : "mwp"
+                },
+                {
+                    "long_name" : "Mean wave period"
+                }
+            ],
+            "style" : "sh_all_f0t18i1_5",
+            "styles" : [
+                "sh_all_f0t18i1_5",
+                "sh_grn_f0t18i1_5",
+                "ct_vio_i1_t1"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "wave_mpww",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "140236",
+                    "shortName" : "mpww"
+                },
+                {
+                    "long_name" : "Mean period of wind waves"
+                }
+            ],
+            "style" : "sh_all_f0t18i1_5",
+            "styles" : [
+                "sh_all_f0t18i1_5",
+                "sh_grn_f0t18i1_5",
+                "ct_vio_i1_t1"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "wave_mpts",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "140239",
+                    "shortName" : "mpts"
+                },
+                {
+                    "long_name" : "Mean period of total swell"
+                }
+            ],
+            "style" : "sh_all_f0t18i1_5",
+            "styles" : [
+                "sh_all_f0t18i1_5",
+                "sh_grn_f0t18i1_5",
+                "ct_vio_i1_t1"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "wave_wefm",
+        "match" : {
+            "set" : [
+                {
+                    "paramId" : "140112",
+                    "shortName" : "wefxm"
+                },
+                {
+                    "long_name" : "Wave energy flux magnitude"
+                }
+            ],
+            "style" : "sh_red_f0t640_energy",
+            "styles" : [
+                "sh_red_f0t640_energy",
+                "sh_all_f0t640_energy",
+                "ct_t3_f0t640_black",
+                "ct_t3_f0t640_blue"
+            ]
+        }
+    },
+    {
+        "eccharts_layer" : "315Kpotvort",
+        "match" : {
+            "set" : [
+                {
+                    "levelist" : [
+                        "315"
+                    ],
+                    "levtype" : "pt",
+                    "paramId" : "60",
+                    "shortName" : "pv"
+                },
+                {
+                    "level" : [
+                        "315"
+                    ],
+                    "long_name" : "Potential vorticity"
+                }
+            ],
+            "style" : "sh_blu_f02t30",
+            "styles" : [
+                "sh_blu_f02t30",
+                "sh_gry_f0t20lst",
+                "ct_vio_i1_t1"
+            ]
+        }
+    }
+]

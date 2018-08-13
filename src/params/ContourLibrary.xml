@@ -1,0 +1,24 @@
+    
+<magics>
+<class  name="ContourLibrary" action="pcont" directory="visualisers">
+<!--
+(C) Copyright 1996-2016 ECMWF.
+
+This software is licensed under the terms of the Apache Licence Version 2.0
+which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+In applying this licence, ECMWF does not waive the privileges and immunities 
+granted to it by virtue of its status as an intergovernmental organisation nor
+does it submit to any jurisdiction.
+-->
+    <parameter from="string" name="contour_predefined_setting" default="" member="predefined" to="string"> 
+            <documentation>Use of a predeined setting         </documentation>
+            <unset name="contour_automatic_library_path" value="off">       </unset>
+            <set name="contour_automatic_library_path" value="on">      </set>
+    </parameter>
+
+
+	<parameter from="string" name="contour_automatic_library_path" visible="off" default="" member="library_path" to="string"> 
+         		<documentation> Users can give their own directory to setup the automatic library of contours 		</documentation>
+	</parameter>
+</class>
+</magics>
