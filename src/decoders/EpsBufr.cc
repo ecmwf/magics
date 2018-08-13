@@ -1,24 +1,24 @@
 /*
  * (C) Copyright 1996-2016 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
  */
 
 /*! \file SpotDecoder.h
     \brief Implementation of the Template class SpotDecoder.
-    
+
     Magics Team - ECMWF 2005
-    
+
     Started: Mon 19-Sep-2005
-    
+
     Changes:
-    
+
 */
- 
+
 
 #include <locale>
 #include "EpsBufr.h"
@@ -30,7 +30,7 @@
 
 using namespace magics;
 
-    
+
 void EpsBufr::visit(Transformation& transformation)
 {
 	decode();
@@ -39,25 +39,25 @@ void EpsBufr::visit(Transformation& transformation)
 	        	maxy_ = miny_ +5.;
 	transformation.setDataMinMaxY(miny_, maxy_);
 }
-		
+
 void EpsBufr::decode()
 {
 	if ( !points_.empty()) return;
-	
-     MagLog::dev() << "EpsBufr::decode()-->" << *this << endl;		
+
+     MagLog::dev() << "EpsBufr::decode()-->" << *this << endl;
      // Test
      MvObsSet set(path_.c_str());
-     
+
      MvObsSetIterator   filter(set);
      MvLocation ll(latitude_-0.01, longitude_-0.01);
      MvLocation ur(latitude_+0.01, longitude_+0.01);
      filter.setArea(ll, ur);
-     
+
      MvObs obs = filter();
-    
-     map<int, float > curve1; 
-     map<int, float > curve2; 
-     
+
+     map<int, float > curve1;
+     map<int, float > curve2;
+
      minstep_ = std::numeric_limits<double>::max();
      maxstep_ = -std::numeric_limits<double>::max();
      miny_ = std::numeric_limits<double>::max();
@@ -66,7 +66,7 @@ void EpsBufr::decode()
      double previous = 0;
      while (obs)
      {
-             //MagLog::dev()<< "obs---------------------------------------------------------------------------" << endl;		
+             //MagLog::dev()<< "obs---------------------------------------------------------------------------" << endl;
         // Bufr message needs to be expanded
         obs.expand();
 
@@ -80,24 +80,24 @@ void EpsBufr::decode()
         		obs = filter(NR_returnMsg);         	// Were going to the next message!
         		continue;
         	}
-        	
+
     		int i = 0;
-    		 
+
     		while ( ++i  )
 		{
     			// 0424 is the bufr descriptor for Time Period Or Displacement [HOUR]
-                
-    			float step =  obs.valueByOccurrence(i, 4024);  
+
+    			float step =  obs.valueByOccurrence(i, 4024);
     			float value =  obs.valueByOccurrence(i, param_descriptor_);
     			if ( value == kBufrMissingValue ) {
     				obs = filter(); // We going to the next subset!
     				break;
     			}
     			value = (value * param_scaling_factor_ ) + param_offset_factor_;
-    			
+
     			base_ = DateTime(obs.obsTime().CharValue());
 
-    		
+
     			if ( accumulated_) {
     				double total = value;
     				value = value - previous;
@@ -113,9 +113,9 @@ void EpsBufr::decode()
     			MagLog::dev() << param_descriptor_ << " : " << step << "--->" << value << endl;
     		}
      	}
-     if ( param_descriptor_2_) { 
+     if ( param_descriptor_2_) {
     	 MvObsSet set(path_.c_str());
-     
+
      MvObsSetIterator   filter(set);
      MvLocation ll(latitude_-0.1, longitude_-0.1);
      MvLocation ur(latitude_+0.1, longitude_+0.1);
@@ -123,7 +123,7 @@ void EpsBufr::decode()
     MvObs obs2 = filter();
      while (obs2)
          {
-                 //MagLog::dev()<< "obs---------------------------------------------------------------------------" << endl;		
+                 //MagLog::dev()<< "obs---------------------------------------------------------------------------" << endl;
             // Bufr message needs to be expanded
             obs2.expand();
 
@@ -131,20 +131,20 @@ void EpsBufr::decode()
     //        int subsets = obs.msgSubsetCount();
 
             float value = obs2.value( param_descriptor_2_ );
-            
+
             	if ( value == kBufrMissingValue )
     		{
             		obs2 = filter(NR_returnMsg);         	// Were going to the next message!
             		continue;
             	}
-            	
+
         		int i = 0;
-        		 
+
         		while ( ++i  )
     		{
         			// 0424 is the bufr descriptor for Time Period Or Displacement [HOUR]
-        			float step =  obs2.valueByOccurrence(i, 4024); 
-        			obs2.valueByOccurrence(i, 5195);  			
+        			float step =  obs2.valueByOccurrence(i, 4024);
+        			obs2.valueByOccurrence(i, 5195);
         			float value =  obs2.valueByOccurrence(i, param_descriptor_2_);
         			if ( value == kBufrMissingValue ) {
         				obs2 = filter(); // We going to the next subset!
@@ -155,12 +155,12 @@ void EpsBufr::decode()
         		}
          	}
      }
-    
+
 	for (map<int, float>::const_iterator step = curve1.begin(); step != curve1.end(); ++step) {
-		CustomisedPoint* point = new CustomisedPoint();		
-		point->longitude(step->first * 3600);		 
-		point->latitude(step->first * 3600);		 
-		DateTime date  = base_ +  Second(step->first * 3600);    
+		CustomisedPoint* point = new CustomisedPoint();
+		point->longitude(step->first * 3600);
+		point->latitude(step->first * 3600);
+		DateTime date  = base_ +  Second(step->first * 3600);
 		(*point)["step"]    = step->first * 3600;
 		(*point)["shift"] = minstep_ - shift_ *3600;
 		MagLog::dev() << step->first << "--->" << step->second << endl;
@@ -171,10 +171,10 @@ void EpsBufr::decode()
 		(*point)["minutes"] = date.time().minutes();
 		(*point)["seconds"] = date.time().seconds();
 		(*point)["width"]    = 1 * 3600;
-		(*point)["control"] = step->second;	
-		(*point)["curve1"] = step->second;	
-		if ( param_descriptor_2_ ) 
-			(*point)["curve2"] = curve2[step->first];	
+		(*point)["control"] = step->second;
+		(*point)["curve1"] = step->second;
+		if ( param_descriptor_2_ )
+			(*point)["curve2"] = curve2[step->first];
 		points_.push_back(point);
 	}
 }
@@ -186,11 +186,12 @@ void EpsBufr::customisedPoints(const std::set<string>&, CustomisedPointsList& ou
 	decode();
 
 	for (vector<CustomisedPoint*>::const_iterator point = points_.begin(); point != points_.end(); ++point)
-			out.push_back(*point);	
+			out.push_back(*point);
 }
 
 PointsHandler& EpsBufr::points()
 {
+	throw  NotYetImplemented("EpsBufr", "points");
 }
 
 void EpsBufr::visit(TextVisitor& title)
@@ -211,7 +212,7 @@ void EpsBufr::visit(TextVisitor& title)
 void EpsBufr::visit(MetaDataVisitor&)
 {
 }
-	
+
 void EpsBufr::print(ostream& out) const
 {
 	out << "EpsBufr[";

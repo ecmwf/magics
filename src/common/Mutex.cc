@@ -1,9 +1,9 @@
 /*
  * (C) Copyright 1996-2016 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
  */
@@ -26,7 +26,7 @@
 #if 0
 static int _tc(int a, const char* m)
 {
-	
+
 	return a;
 }
 
@@ -57,24 +57,23 @@ Mutex::Mutex(char tag) :
 	THRCALL(::pthread_mutexattr_destroy(&attr));
 }
 
-Mutex::~Mutex() 
+Mutex::~Mutex()
 {
 	THRCALL(pthread_mutex_destroy(&mutex_));
 }
 
-void Mutex::lock(void) 
+void Mutex::lock(void)
 {
-
-	if(!this || !exists_)
+	if(!exists_)
 	{
 		cerr << "Mutex used before being contructed" << endl;
 		return;
 	}
 
-	THRCALL(pthread_mutex_lock(&mutex_)); 
+	THRCALL(pthread_mutex_lock(&mutex_));
 }
 
-void Mutex::unlock(void) 
+void Mutex::unlock(void)
 {
 	if(!exists_)
 	{

@@ -1,9 +1,9 @@
 /*
  * (C) Copyright 1996-2016 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
  */
@@ -34,19 +34,19 @@
 
 #include "MgQPlotScene.h"
 
-MgQSceneItem::MgQSceneItem(const Layout& layout) : MgQLayoutItem(layout)							
+MgQSceneItem::MgQSceneItem(const Layout& layout) : MgQLayoutItem(layout)
 {
 	prevCurrentStep_=0;
 	driverObject_=0;
 
 	sceneLayerItem_=0;
 	previewLayoutItem_=0;
-	
+
 	antialias_=false;
-	
+
 	stepNum_=0;
 }
- 
+
 MgQSceneItem::~MgQSceneItem()
 {
 	if(driverObject_)
@@ -55,7 +55,7 @@ MgQSceneItem::~MgQSceneItem()
 	foreach(MgQLayerState *st,previousLayerState_)
 	{
 		delete st;
-	}	
+	}
 }
 
 void MgQSceneItem::clearBeforeNewRequest()
@@ -82,38 +82,38 @@ void MgQSceneItem::saveStateBeforeNewRequest()
 	foreach(MgQLayerState *st,previousLayerState_)
 	{
 		delete st;
-	}	
+	}
 	previousLayerState_.clear();
 
 	foreach(MgQLayerItem *item,layerItems_)
 	{
 		MgQLayerState *st=new MgQLayerState;
 		item->saveLayerState(st);
-		previousLayerState_.push_back(st);		
+		previousLayerState_.push_back(st);
 	}
 }
 
 MgQLayoutItem* MgQSceneItem::findProjectorItem(QPointF scenePos)
 {
 	foreach(MgQLayoutItem* item, projectorItems_)
-	{			
+	{
 	  	//qDebug() << "projector" << item->name() << scenePos << item->mapFromScene(scenePos);
 	  	if(item->contains(item->mapFromScene(scenePos)))
-		{			  
+		{
 			return item;
 		}
 	}
-	return 0;	
+	return 0;
 }
 
 MgQLayoutItem* MgQSceneItem::firstProjectorItem()
-{		
+{
 	if(projectorItems_.count() > 0)
 	{
-		 return projectorItems_.at(0);	
+		 return projectorItems_.at(0);
 
 	}
-	
+
 	return 0;
 }
 
@@ -126,13 +126,13 @@ MgQLayoutItem* MgQSceneItem::findPreviewLayout()
 	{
 		if(item->data(MgQ::ItemType).toInt() == MgQ::PreviewLayoutItem)
 		{
-			
+
 			MgQLayoutItem *layout=static_cast<MgQLayoutItem*>(item);
 			return layout;
 		}
 	}
 
-	return 0;*/		
+	return 0;*/
 }
 
 MgQLayoutItem* MgQSceneItem::findMagnifierLayout()
@@ -140,13 +140,13 @@ MgQLayoutItem* MgQSceneItem::findMagnifierLayout()
 /*	foreach(QGraphicsItem *item, items())
 	{
 		if(checkItemType(item,MgQ::MagnifierLayoutItem))
-		{			
+		{
 			MgQLayoutItem *layout=static_cast<MgQLayoutItem*>(item);
 			return layout;
 		}
 	}
 */
-	return 0;		
+	return 0;
 }
 
 
@@ -157,12 +157,12 @@ MgQLayoutItem* MgQSceneItem::findMagnifierLayout()
 void MgQSceneItem::updateAnimation()
 {
   	MgQPlotScene *sc=static_cast<MgQPlotScene*>(scene());
- 
+
 	sc->sceneItemChanged();
-	
+
 	//Regenarete the cache
 	//updateCache();
-	
+
 	//Repaint everything
 	//update();
 }
@@ -197,11 +197,11 @@ void MgQSceneItem::setCurrentStep(int step,bool update)
 		}
 		else
 		{
-			setStepVisible(i,true);	
+			setStepVisible(i,true);
 			//updateCache(); //Why we need to call it here????
 		}
 	}
-	
+
 	if(update)
         	updateAnimation();
 }
@@ -222,7 +222,7 @@ void MgQSceneItem::setStepVisible(int step,bool visible)
 				//item->setStepVisible(step,visible);
 			}
 		}
-		
+
 	}
 
 	foreach(MgQLayerItem *item,layerItems_)
@@ -242,7 +242,7 @@ bool MgQSceneItem::stepCached(int step)
 		{
 			return false;
 		}
-		
+
 	}
 
 	return true;
@@ -253,17 +253,17 @@ void MgQSceneItem::stepMetaData(MgQStepMetaData* metaData)
 	if(!sceneLayerItem_)
 		return;
 
-	const magics::SceneLayer& snl=sceneLayerItem_->sceneLayer(); 
-	
+	const magics::SceneLayer& snl=sceneLayerItem_->sceneLayer();
+
 	MetaDataCollector stepData;
 	MetaDataAttribute attr;
 	attr.setSource(MetaDataAttribute::AnySource); //to enable any metadata query method
 
 	for(int step=0; step < stepNum_; step++)
-	{	
+	{
 		metaData->addStep("");
 
-		for(vector<Layer*>::iterator it = snl.beginLayer(step); it != snl.endLayer(step); ++it) 
+		for(vector<Layer*>::iterator it = snl.beginLayer(step); it != snl.endLayer(step); ++it)
 		{
 			//Layer& l=*it;
 
@@ -274,7 +274,7 @@ void MgQSceneItem::stepMetaData(MgQStepMetaData* metaData)
 			}
 
 			(*it)->collect(stepData);
-			
+
 			for(map<string,string>::iterator itK=stepData.begin(); itK!= stepData.end(); itK++)
 			{
 				QString keyStr=QString::fromStdString(itK->first);
@@ -309,10 +309,10 @@ void MgQSceneItem::stepMetaData(MgQStepMetaData* metaData)
 				foreach(QString str,metaData->keys())
 				{
 					stepData[str.toStdString()]="";
-				}				
-				
+				}
+
 				(*it)->metadata(stepData);
-				
+
 				if(firstLayer || metaData->stepNum() <= step)
 				{
 					metaData->addStep("");
@@ -337,9 +337,9 @@ void MgQSceneItem::stepMetaData(MgQStepMetaData* metaData)
 
 				step++;
 			}
-			
+
 			firstLayer=false;
-		
+
 		}
 	}	*/
 }
@@ -352,17 +352,17 @@ void MgQSceneItem::stepMetaData(MgQStepMetaData* metaData)
 void MgQSceneItem::updateLayers()
 {
 	MgQPlotScene *sc=static_cast<MgQPlotScene*>(scene());
- 	
+
 	sc->sceneItemChanged();
 
 	//Regenarete the cache
 //	updateCache();
-	
+
 	//Repaint everything
 //	update();
 }
- 
-void MgQSceneItem::addLayerItem(MgQLayerItem* item) 
+
+void MgQSceneItem::addLayerItem(MgQLayerItem* item)
 {
    layerItems_.push_back(item);
 
@@ -383,7 +383,7 @@ MgQLayerItem* MgQSceneItem::layerItem(const Layer& layer)
 			return item;
 		}
 	}
-	
+
 	return 0;
 }
 
@@ -393,11 +393,11 @@ void MgQSceneItem::restoreLayerState()
 		return;
 
 	return;
-	
+
 	QList<MgQLayerItem*> newItems;
-	QMap<int,MgQLayerItem*> stStackLevelToItem;	
+	QMap<int,MgQLayerItem*> stStackLevelToItem;
 	QSet<MgQLayerState*> stToItem;
-	
+
 	foreach(MgQLayerItem *item,layerItems_)
 	{
 		bool found=false;
@@ -418,7 +418,7 @@ void MgQSceneItem::restoreLayerState()
 		{
 			newItems.push_back(item);
 		}
-	}	
+	}
 
 	//Set stack level for the "old" items
 	int currenStackLevel=0;
@@ -428,8 +428,8 @@ void MgQSceneItem::restoreLayerState()
 		stStackLevelToItem[level]->setStackLevel(currenStackLevel);
 		currenStackLevel++;
 	}
-	
-	//Set stack level for the "new" items 
+
+	//Set stack level for the "new" items
 	foreach(MgQLayerItem *item,newItems)
 	{
 		item->setStackLevel(currenStackLevel);
@@ -441,7 +441,7 @@ void MgQSceneItem::collectLayerData(QList<QPointF> &pos,QMap<int,QList<ValuesCol
 				    double searchRadiusX, double searchRadiusY)
 {
 	for(int step=0; step < stepNum_; step++)
-	{	
+	{
 		collectLayerData(pos,val[step],step,searchRadiusX,searchRadiusY);
 	}
 }
@@ -458,46 +458,46 @@ void MgQSceneItem::collectLayerData(QList<QPointF> &pos,QList<ValuesCollector> &
 	if(!sceneLayerItem_)
 		return;
 
-	const magics::SceneLayer& snl=sceneLayerItem_->sceneLayer(); 	
-	QString str; 
+	const magics::SceneLayer& snl=sceneLayerItem_->sceneLayer();
+	QString str;
 
 	QList<Layer*> layerLst;
-		
-	foreach(MgQLayerItem* item,layerItems_)	 
-	{	  
+
+	foreach(MgQLayerItem* item,layerItems_)
+	{
 		if(item->stepNum() == 0)
 		{
 			layerLst << item->layer().get();
 		}
-	}	
-	
-	for(vector<Layer*>::iterator it = snl.beginLayer(step); it != snl.endLayer(step); ++it) 
-	{		
+	}
+
+	for(vector<Layer*>::iterator it = snl.beginLayer(step); it != snl.endLayer(step); ++it)
+	{
 		if(layerLst.indexOf(*it) == -1)
-		{  
+		{
 			layerLst << *it;
-		}	
-	}  
-	  
-	foreach(Layer *layer,layerLst)  
-	{  
+		}
+	}
+
+	foreach(Layer *layer,layerLst)
+	{
 	  	if(!layer)
 		  	continue;
-		
+
 		if(layer->visibility() == true)
 		{
 			ValuesCollector layerData(layer->name());
 			layerData.setSearchRadius(searchRadiusX,searchRadiusY);
-			
+
 			foreach(QPointF pp,pos)
-			{		
+			{
 				layerData.push_back(ValuesCollectorPoint(pp.x(),pp.y()));
-			}		
-	
+			}
+
 			layer->collect(layerData);
-	
+
 			val << layerData;
-		}	
+		}
 	}
 
 }
@@ -508,8 +508,8 @@ void MgQSceneItem::collectLayerDataForCurrentStep(MgQLayerItem *item,ValuesColle
 }
 
 void MgQSceneItem::collectLayerData(MgQLayerItem *item,ValuesCollector& data,int step)
-{	
-	if(!item || !sceneLayerItem_ || 
+{
+	if(!item || !sceneLayerItem_ ||
 	   !layerItems_.contains(item))
 		return;
 
@@ -518,13 +518,13 @@ void MgQSceneItem::collectLayerData(MgQLayerItem *item,ValuesCollector& data,int
 		item->layer().collect(data);
 	}
 	else
-	{	
+	{
 		const magics::SceneLayer& snl=sceneLayerItem_->sceneLayer();
 		Layer *stepLayer=snl.findLayer(&item->layer(),step);
 		if(stepLayer)
 		{
 		  	 stepLayer->collect(data);
-		}	
+		}
 	}
 }
 
@@ -535,8 +535,8 @@ void MgQSceneItem::layerMetaDataForCurrentStep(MgQLayerItem *item,MetaDataCollec
 }
 
 void MgQSceneItem::layerMetaData(MgQLayerItem *item,MetaDataCollector& data,int step)
-{	
-	if(!item || !sceneLayerItem_ || 
+{
+	if(!item || !sceneLayerItem_ ||
 	   !layerItems_.contains(item))
 		return;
 
@@ -545,13 +545,13 @@ void MgQSceneItem::layerMetaData(MgQLayerItem *item,MetaDataCollector& data,int 
 		item->layer().collect(data);
 	}
 	else
-	{	
+	{
 		const magics::SceneLayer& snl=sceneLayerItem_->sceneLayer();
 		Layer *stepLayer=snl.findLayer(&item->layer(),step);
 		if(stepLayer)
 		{
 		  	 stepLayer->collect(data);
-		}	
+		}
 	}
 }
 
@@ -561,8 +561,8 @@ void MgQSceneItem::layerDataIndexForCurrentStep(MgQLayerItem *item,DataIndexColl
 }
 
 void MgQSceneItem::layerDataIndex(MgQLayerItem *item,DataIndexCollector& data,int step)
-{	
-	if(!item || !sceneLayerItem_ || 
+{
+	if(!item || !sceneLayerItem_ ||
 	   !layerItems_.contains(item))
 		return;
 
@@ -571,13 +571,13 @@ void MgQSceneItem::layerDataIndex(MgQLayerItem *item,DataIndexCollector& data,in
 		item->layer().collect(data);
 	}
 	else
-	{	
+	{
 		const magics::SceneLayer& snl=sceneLayerItem_->sceneLayer();
 		Layer *stepLayer=snl.findLayer(&item->layer(),step);
 		if(stepLayer)
 		{
 		  	 stepLayer->collect(data);
-		}	
+		}
 	}
 }
 
@@ -589,23 +589,23 @@ QPixmap MgQSceneItem::layerInfoImageForCurrentStep(MgQLayerItem *item,QHash<QStr
 
 QPixmap MgQSceneItem::layerInfoImage(MgQLayerItem *item,int step,QHash<QString,QString> imageId)
 {
-	if(!item || !sceneLayerItem_ || 
+	if(!item || !sceneLayerItem_ ||
 	   !layerItems_.contains(item))
 		return QPixmap();
-		
+
 	MgQHistoItem *histoItem=item->histoItem(step);
-	if(!histoItem)	
+	if(!histoItem)
 		return QPixmap();
-		
+
 	if(!histoItem->cached() || histoItem->pixmapId() != imageId)
 	{
 		if(histoItem->cached())
-		{  
+		{
 			histoItem=item->resetHistoItem(step);
 		}
-		
+
 		histoItem->setPixmapId(imageId);
-		
+
 		Layer *stepLayer;
 
 		if(item->stepNum() == 0)
@@ -613,18 +613,18 @@ QPixmap MgQSceneItem::layerInfoImage(MgQLayerItem *item,int step,QHash<QString,Q
 			stepLayer=&item->layer();
 		}
 		else
-		{			
-			const magics::SceneLayer& snl=sceneLayerItem_->sceneLayer(); 	
+		{
+			const magics::SceneLayer& snl=sceneLayerItem_->sceneLayer();
 			stepLayer=snl.findLayer(&item->layer(),step);
 		}
 
 		if(!stepLayer)
 			return QPixmap();
-			
+
 		QString visdefName=imageId.value("visdefName");
 		QString visdefClass=imageId.value("visdefClass");
 		driverObject_->driver().executeHisto(stepLayer,histoItem,visdefName,visdefClass);
-	}	
+	}
 
 	return item->histoPixmap(step,QSize(300,200));
 }
@@ -635,37 +635,37 @@ void MgQSceneItem::layerIconsForCurrentStep(MgQLayerItem *item,MgQIconList& icon
 }
 
 void MgQSceneItem::layerIcons(MgQLayerItem *item,MgQIconList& icons,int step)
-{	
-	if(!item || !sceneLayerItem_ || 
+{
+	if(!item || !sceneLayerItem_ ||
 	   !layerItems_.contains(item))
 		return;
 
-		
+
 	for(vector<MetviewIcon>::const_iterator it=item->layer().iconsBegin(); it != item->layer().iconsEnd(); it++)
 	{
 		icons << MgQIcon(QString::fromStdString((*it).iconName()),
 				 QString::fromStdString((*it).iconClass()),
 				 QString::fromStdString((*it).iconId()));
 	}
-		
+
 	/*if(item->stepNum() == 0)
 	{
 		for(vector<pair<string, string>  >::const_iterator it=item->layer().iconsBegin(); it != item->layer().iconsEnd(); it++)
 		{
 			icons << QPair<QString,QString>(QString::fromStdString(it->first),QString::fromStdString(it->second));
-		}	
+		}
 	}
 	else
-	{	
+	{
 		const magics::SceneLayer& snl=sceneLayerItem_->sceneLayer();
 		Layer *stepLayer=snl.findLayer(&item->layer(),step);
 		if(stepLayer)
 		{
 		  	for(vector<pair<string, string>  >::const_iterator it=stepLayer->iconsBegin(); it != stepLayer->iconsEnd(); it++)
 			{
-				icons << QPair<QString,QString>(QString::fromStdString(it->first),QString::fromStdString(it->second));	
+				icons << QPair<QString,QString>(QString::fromStdString(it->first),QString::fromStdString(it->second));
 			}
-		}	
+		}
 	}*/
 }
 
@@ -675,15 +675,15 @@ void MgQSceneItem::renderLayerPreview()
 	{
 		item->renderPreview();
 	}
-	
+
 	/*preview_=QImage();
-	
+
 	foreach(MgQLayerItem *item,layerItems_)
 	{
 		QImage img=item->preview();
 		preview_
 	}*/
-	
+
 }
 
 //----------------------------------------
@@ -693,8 +693,8 @@ void MgQSceneItem::renderLayerPreview()
 MgQMagnifierLayoutItem* MgQSceneItem::updateMagnifier(float zoomFactor)
 {
 	//magnifierZoom_=zoom;
-#if 0	
-	MgQLayerItem *magLayerItem=0;	
+#if 0
+	MgQLayerItem *magLayerItem=0;
 
 	foreach(MgQLayerItem *item,layerItems_)
 	{
@@ -707,12 +707,12 @@ MgQMagnifierLayoutItem* MgQSceneItem::updateMagnifier(float zoomFactor)
 		}
 	}
 
-	if(!magLayerItem) 
+	if(!magLayerItem)
 		return 0;
 
-	const magics::SceneLayer& snl=sceneLayerItem_->sceneLayer(); 	
+	const magics::SceneLayer& snl=sceneLayerItem_->sceneLayer();
 	QString str;
-	
+
 	Layer *magLayer=snl.findLayer(&magLayerItem->layer(),currentStep_);
 
 	MgQMagnifierLayoutItem *magLayoutItem=magLayerItem->magnifierLayoutItem();
@@ -720,18 +720,18 @@ MgQMagnifierLayoutItem* MgQSceneItem::updateMagnifier(float zoomFactor)
 	if(!magLayoutItem)
 	{
 		return 0;
-	}		
+	}
 
-	magLayoutItem->clearPlotContents(); 
+	magLayoutItem->clearPlotContents();
 
 	/*if(zoomFactor  != item->zoomFactor())
 	{
 		item->clearPlotContents();
 	}
 	else
-	{ 
+	{
 		return;
-	}*/	
+	}*/
 
 	magLayoutItem->setZoomFactor(zoomFactor);
 
@@ -746,7 +746,7 @@ MgQMagnifierLayoutItem* MgQSceneItem::updateMagnifier(float zoomFactor)
 
 	float textWidth = 70.+20;
 	float textHeight = 40.;
-		
+
 	magLayoutItem->setResolutionX(textWidth/zoomFactor);
 	magLayoutItem->setResolutionY(textHeight/zoomFactor);
 
@@ -759,16 +759,17 @@ MgQMagnifierLayoutItem* MgQSceneItem::updateMagnifier(float zoomFactor)
 		return;
 
 	item->setStep(animation_->currentStepObject());
-		
-	//MagLog::dev() << "GridValArea>  dx: " << fabsf(ldx) << " dy: " << fabsf(ldy) << endl;  
+
+	//MagLog::dev() << "GridValArea>  dx: " << fabsf(ldx) << " dy: " << fabsf(ldy) << endl;
 	for(int i=0; i <  pp.count() ; i++)
 	{
 		MagLog::dev() << " " << pp[i].x() << " " << pp[i].y() << endl;
-	}	
+	}
 
 	animation_->driver().redisplayMagnifier(item);*/
-	
-#endif	
+
+#endif
+  return 0;
 }
 
 void MgQSceneItem::clearMagnifier()
@@ -797,14 +798,14 @@ void MgQSceneItem::clearMagnifier()
 */
 
 void MgQSceneItem::updateCache()
-{	
-#if 0  
-  
+{
+#if 0
+
   	if ( !rootItem_ )
 		return;
-	
-	
-	
+
+
+
 	QPainter *painter=cachePainter_;
 	QStyleOptionGraphicsItem options;
 
@@ -835,7 +836,7 @@ void MgQSceneItem::updateCache()
 			painter->save();
           		painter->setTransform(item->sceneTransform(), true);
           		item->paint(painter, &options, 0);
-          		painter->restore();			
+          		painter->restore();
 		}
 	}*/
 
@@ -844,7 +845,7 @@ void MgQSceneItem::updateCache()
 	//cacheDevice_->save("/var/tmp/cgr/test.png");
 
 	//rootItem_->setFlag(QGraphicsItem::ItemHasNoContents,true);
-	rootItem_->setVisible(false); 
+	rootItem_->setVisible(false);
 
 
 	//setBackgroundBrush(QPixmap::fromImage(*cacheDevice_));
@@ -852,8 +853,8 @@ void MgQSceneItem::updateCache()
 
 }
 
-void MgQSceneItem::drawBackground ( QPainter * painter, const QRectF & rect ) 
-{	
+void MgQSceneItem::drawBackground ( QPainter * painter, const QRectF & rect )
+{
 	/*qDebug() << "bg" << rect << sceneRect();
 
 	QRectF targetRect(0, 0, sceneRect().width(), sceneRect().height());
@@ -872,7 +873,7 @@ void MgQSceneItem::renderForMagnifier(QPainter *painter, const QRectF &targetRec
 void MgQSceneItem::renderForPrinter(QPainter *painter)
 {
 	/*QStyleOptionGraphicsItem option;
-	
+
 	QRectF sourceRect = sceneRect();
         QRectF targetRect(0, 0, painter->device()->width(), painter->device()->height());
 
@@ -881,24 +882,24 @@ void MgQSceneItem::renderForPrinter(QPainter *painter)
 }
 
 void MgQSceneItem::renderForVideo(QPainter *painter,QProgressDialog *progress,QString path,QStringList &files)
-{	
+{
 	/*QPixmap *pix=static_cast<QPixmap*>(painter->device());
 	QStyleOptionGraphicsItem option;
-	
+
 	QRectF sourceRect = sceneRect();
         QRectF targetRect(0, 0, painter->device()->width(), painter->device()->height());
-		
+
 	int oriCurrentStep=currentStep_;
 
 	for(int i=0; i < stepNum_ && i < files.count() ; i++)
-	{		
+	{
 		progress->setValue(i);
 
 		pix->fill();
-		
+
 		bool oriCached=stepCached(i);
 
-		setStepVisible(i,true);	
+		setStepVisible(i,true);
 		for(int j=0; j < stepNum_; j++)
 		{
 			if(j != i)
@@ -906,9 +907,9 @@ void MgQSceneItem::renderForVideo(QPainter *painter,QProgressDialog *progress,QS
 		}
 
 		renderContents(painter,&option,targetRect,sourceRect);
-		
+
 		pix->save(path + files[i]);
-		
+
 		if(oriCached == false)
 		{
 			foreach(MgQLayerItem *item,layerItems_)
@@ -917,7 +918,7 @@ void MgQSceneItem::renderForVideo(QPainter *painter,QProgressDialog *progress,QS
 			}
 		}
 	}
-	
+
 	currentStep_=-1;
 	setCurrentStep(oriCurrentStep);*/
 }
@@ -932,5 +933,3 @@ void MgQSceneItem::setEnableAntialias(bool status)
 		updateAnimation();
 	}*/
 }
-
-
