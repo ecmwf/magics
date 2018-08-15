@@ -637,8 +637,8 @@ void Tephigram::operator()(const Polyline& from,  BasicGraphicsObjectContainer& 
 		
 
 
-		boost::geometry::model::box<PaperPoint> box(ll, ur);
-		boost::geometry::correct(box);
+		//boost::geometry::model::box<PaperPoint> box(ll, ur);
+		//boost::geometry::correct(box);
 		if ( from.closed() ) {
 			deque<PaperPoint> line;
 
@@ -649,9 +649,9 @@ void Tephigram::operator()(const Polyline& from,  BasicGraphicsObjectContainer& 
 
 			}
 
-			boost::geometry::correct(line);
+			//boost::geometry::correct(line);
 			vector<deque<PaperPoint> > result;
-			boost::geometry::intersection(box, line, result);
+			//boost::geometry::intersection(box, line, result);
 
 			// Now we feed the graphic container!
 
@@ -674,9 +674,9 @@ void Tephigram::operator()(const Polyline& from,  BasicGraphicsObjectContainer& 
 				
 				
 			}
-			boost::geometry::correct(line);
+			//boost::geometry::correct(line);
 			vector<vector<PaperPoint> > result;
-			boost::geometry::intersection(box, line, result);
+			//boost::geometry::intersection(box, line, result);
 
 			// Now we feed the graphic container!
 
@@ -697,6 +697,6 @@ void Tephigram::operator()(const Polyline& from,  BasicGraphicsObjectContainer& 
 bool Tephigram::in(const PaperPoint& point) const
 {
     Polyline& enveloppe=getPCBoundingBox();
-    return boost::geometry::covered_by(point,enveloppe.polygon_);
+    //return boost::geometry::covered_by(point,enveloppe.polygon_);
 }
 

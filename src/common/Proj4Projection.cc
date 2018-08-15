@@ -352,14 +352,17 @@ void Proj4Projection::corners()
 		Polyline box;
 		box.box(PaperPoint(min_pcx_, min_pcy_), PaperPoint(max_pcx_, max_pcy_));
 
-		vector<Polyline> newbox;
+		vector<Polyline*> newbox;
 		PCEnveloppe_->intersect(box, newbox);
 		if ( newbox.empty() ) {
 			MagLog::warning() << "Proj4 : the sub-area is not valid : use global view instead" << endl;
 		}
 		else {
-			PCEnveloppe_ = newbox.front().clone();
+			PCEnveloppe_ = newbox.front();
 		}
+		// Clear newbox 
+
+
 }
 
 void Proj4Projection::centre()
@@ -555,13 +558,13 @@ void Proj4Projection::projectionSimple()
 		Polyline box;
 		box.box(PaperPoint(min_pcx_, min_pcy_), PaperPoint(max_pcx_, max_pcy_));
 
-		vector<Polyline> newbox;
+		vector<Polyline*> newbox;
 		PCEnveloppe_->intersect(box, newbox);
 		if ( newbox.empty() ) {
 			MagLog::warning() << "Proj4 : the sub-area is not valid : use global view instead" << endl;
 		}
 		else {
-			PCEnveloppe_ = newbox.front().clone();
+			PCEnveloppe_ = newbox.front();
 		}
 		// reset
 		setting_ = "corners";
@@ -718,7 +721,7 @@ void Proj4Projection::gridLongitudes(const GridPlotting& grid)  const
 {
 	Polyline boundaries;
 
-	for (Polyline::MagLine::const_iterator point = PCEnveloppe_->begin(); point != PCEnveloppe_->end(); ++point )
+	for (auto point = PCEnveloppe_->begin(); point != PCEnveloppe_->end(); ++point )
 	{
 		boundaries.push_back(*point);
 	}

@@ -1,22 +1,22 @@
 /*
  * (C) Copyright 1996-2016 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
  */
 
 /*! \file NetcdfMatrixInterpretor.h
     \brief Definition of the Template class NetcdfMatrixInterpretor.
-    
+
     Magics Team - ECMWF 2004
-    
+
     Started: Tue 17-Feb-2004
-    
+
     Changes:
-    
+
 */
 
 #ifndef NetcdfMatrixInterpretor_H
@@ -37,26 +37,25 @@ class NetcdfMatrixInterpretor:  public NetcdfInterpretor {
 public:
 	NetcdfMatrixInterpretor();
 	virtual ~NetcdfMatrixInterpretor();
-    
-   
-    
+
+
+
     void set(const XmlNode& node)
-    { 
+    {
         MagLog::debug() << "NetcdfMatrixInterpretor::set(params)" << "\n";
         XmlNode netcdf = node;
          netcdf.name("netcdf");
-        NetcdfInterpretor::set(netcdf); 
+        NetcdfInterpretor::set(netcdf);
         NetcdfInterpretor::set(node);
     }
-    
-    bool accept(const string& node)
-    { 
-        if ( NetcdfInterpretorAttributes::accept(node) ) 
-        	return true; 
-        if ( magCompare(node, "matrix")  )
-            return true;
 
-       
+    bool accept(const string& node)
+    {
+        if ( NetcdfInterpretorAttributes::accept(node) )
+        	return true;
+        if ( magCompare(node, "matrix")  )
+          return true;
+        return false;
     }
 
     virtual NetcdfInterpretor* clone() const
@@ -69,8 +68,8 @@ public:
     void clone(const NetcdfMatrixInterpretor& )
 //    void clone(const NetcdfMatrixInterpretor& other)
     {
-    	NetcdfInterpretor::copy(*this); 
-    	
+    	NetcdfInterpretor::copy(*this);
+
     }
     virtual bool interpretAsMatrix(Matrix**);
     virtual bool interpretAsPoints(PointsList& points, const Transformation&);
@@ -86,7 +85,7 @@ public:
 
 protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).
-	 virtual void print(ostream&) const; 
+	 virtual void print(ostream&) const;
 	 Matrix* matrix_;
 	 vector<double> columns_;
 	 vector<double> rows_;

@@ -384,8 +384,8 @@ void Skewt::operator()(const Polyline& from,  BasicGraphicsObjectContainer& out)
             return;
         PaperPoint ll(getMinPCX(), getMinPCY());
         PaperPoint ur(maxpcx, getMaxPCY());
-        boost::geometry::model::box<PaperPoint> box(ll, ur);
-        boost::geometry::correct(box);
+        //boost::geometry::model::box<PaperPoint> box(ll, ur);
+        //boost::geometry::correct(box);
         if ( from.closed() ) {
             deque<PaperPoint> line;
 
@@ -394,9 +394,9 @@ void Skewt::operator()(const Polyline& from,  BasicGraphicsObjectContainer& out)
 
             }
 
-            boost::geometry::correct(line);
+            //boost::geometry::correct(line);
             vector<deque<PaperPoint> > result;
-            boost::geometry::intersection(box, line, result);
+            //boost::geometry::intersection(box, line, result);
 
             // Now we feed the graphic container!
 
@@ -417,9 +417,9 @@ void Skewt::operator()(const Polyline& from,  BasicGraphicsObjectContainer& out)
             for (unsigned i = 0; i < from.size(); i++) {
                 line.push_back(from.get(i));
             }
-            boost::geometry::correct(line);
+            //boost::geometry::correct(line);
             vector<vector<PaperPoint> > result;
-            boost::geometry::intersection(box, line, result);
+            //boost::geometry::intersection(box, line, result);
 
             // Now we feed the graphic container!
 
@@ -440,5 +440,5 @@ void Skewt::operator()(const Polyline& from,  BasicGraphicsObjectContainer& out)
 bool Skewt::in(const PaperPoint& point) const
 {
     Polyline& enveloppe=getPCBoundingBox();
-    return boost::geometry::covered_by(point,enveloppe.polygon_);
+    return false;//boost::geometry::covered_by(point,enveloppe.polygon_); 
 }

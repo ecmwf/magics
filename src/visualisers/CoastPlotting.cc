@@ -460,15 +460,15 @@ void CoastPlotting::clipAndClose(const Transformation& transformation, const vec
 	for (vector<Polyline*>::const_iterator poly = in.begin(); poly != in.end(); ++poly ) {
 
 		
-		vector<Polyline> clipped;
+		vector<Polyline*> clipped;
 		geobox.intersect(**poly, clipped);
 		// then we reproject!
-		for (vector<Polyline>::iterator clip = clipped.begin(); clip != clipped.end(); ++clip ) {
-			vector<Polyline> clip2;
-			clip->reproject(transformation);
-			box.intersect(*clip, clip2);
-			for (vector<Polyline>::iterator c = clip2.begin(); c != clip2.end(); ++c ) {
-				out.push_back(c->clone());
+		for (vector<Polyline*>::const_iterator clip = clipped.begin(); clip != clipped.end(); ++clip ) {
+			vector<Polyline*> clip2;
+			(*clip)->reproject(transformation);
+			box.intersect(**clip, clip2);
+			for (vector<Polyline*>::iterator c = clip2.begin(); c != clip2.end(); ++c ) {
+				out.push_back(*c);
 			}
 
 		}
