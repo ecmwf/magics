@@ -1464,6 +1464,9 @@ MAGICS_NO_EXPORT bool CairoDriver::renderCellArray(const Image& image) const
     return result;
   }
   cairo_surface_flush(result);
+  cairo_t* cr_tmp  = cairo_create(surface_);
+  cairo_set_antialias(cr_tmp, CAIRO_ANTIALIAS_NONE);
+
   unsigned char *current_row = cairo_image_surface_get_data(result);
   int stride = cairo_image_surface_get_stride(result);
 
@@ -1491,6 +1494,7 @@ MAGICS_NO_EXPORT bool CairoDriver::renderCellArray(const Image& image) const
 	cairo_paint(cr_);
 
 	cairo_surface_destroy (result);
+  cairo_destroy(cr_tmp);
 	cairo_restore(cr_);
 	cairo_set_antialias(cr_, t);
 	return true;

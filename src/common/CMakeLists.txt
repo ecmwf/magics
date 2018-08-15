@@ -43,6 +43,7 @@ list( APPEND _common_srcs
 	MagicsSingleton.h
 	PlotManager.h
 	Image.h 
+	MagClipper.h
 	XmlReader.h XmlTree.h XmlNode.h
 	MagicsFormat.h
 	CartesianTransformation.h
@@ -54,7 +55,7 @@ list( APPEND _common_srcs
 # sources
 	Data.cc Matrix.cc MagicsCalls.cc Static.cc DriverStatic.cc MagLog.cc Colour.cc Transformation.cc MagException.cc
 	BaseParameter.cc ParameterManager.cc  
-	Tokenizer.cc Timer.cc Seconds.cc Label.cc
+	Tokenizer.cc Timer.cc Seconds.cc Label.cc MagClipper.cc
 	ArrowProperties.cc
 	XmlReader.cc XmlTree.cc XmlNode.cc Dimension.cc
 	MetaData.cc

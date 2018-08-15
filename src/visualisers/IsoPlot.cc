@@ -173,7 +173,8 @@ public:
         else {
             // intersect !
             // Create line from 1first
-
+            assert(false);
+/*
             typedef boost::geometry::model::polygon<PaperPoint > polygon;
 
 
@@ -225,10 +226,11 @@ public:
                 // ignore
             }
 
-        }
+        
+        */
 
 
-
+    }
     }
 
     void push_back(int index, const SegmentJoiner& segment) {

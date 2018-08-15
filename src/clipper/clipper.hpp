@@ -116,7 +116,7 @@ std::ostream& operator <<(std::ostream &s, const Paths &p);
 struct DoublePoint
 {
   double X;
-  double Y;
+  double Y; 
   DoublePoint(double x = 0, double y = 0) : X(x), Y(y) {}
   DoublePoint(IntPoint ip) : X((double)ip.X), Y((double)ip.Y) {}
 };

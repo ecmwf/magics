@@ -19,8 +19,10 @@
 #include "PointsHandler.h"
 #include "Timer.h"
 #include "MetaData.h"
-#define BOOST_GEOMETRY_OVERLAY_NO_THROW
 #include "Polyline.h"
+
+
+#include "MagClipper.h"
 
 
 
@@ -334,7 +336,7 @@ void Transformation::visit(MetaDataVisitor& visitor,
 }
 
 
-#include <boost/geometry/geometries/box.hpp>
+
 
 
 
@@ -342,8 +344,18 @@ void Transformation::operator()(const Polyline& from, BasicGraphicsObjectContain
 {	
 	if (from.empty())
 		return;
-	PaperPoint ll(getMinPCX(), getMinPCY());
-	PaperPoint ur(getMaxPCX(), getMaxPCY());
+	
+	MagClipper helper;
+
+	vector<Polyline*> result;
+
+	helper.clip(from, *PCEnveloppe_, result);
+	for ( auto r = result.begin(); r != result.end(); ++r)
+		out.push_back(*r);
+
+
+//Perform clipping 
+/*
 	boost::geometry::model::box<PaperPoint> box(ll, ur);
 	boost::geometry::correct(box);
 
@@ -443,6 +455,7 @@ void Transformation::operator()(const Polyline& from, BasicGraphicsObjectContain
 	catch (...) {
 		MagLog::warning() << "error clipping->line ignored" << endl;
 	}
+	*/
 }
 
 void Transformation::operator()(const Polyline& from, vector<Polyline*>& out) const
@@ -450,8 +463,12 @@ void Transformation::operator()(const Polyline& from, vector<Polyline*>& out) co
 	if (from.empty())
 		return;
 
+	MagClipper helper;
+
 	
 
+	helper.clip(from, *PCEnveloppe_, out);
+/*
 	PaperPoint ll(getMinPCX(), getMinPCY());
 	PaperPoint ur(getMaxPCX(), getMaxPCY());
 	boost::geometry::model::box<PaperPoint> box(ll, ur);
@@ -529,6 +546,7 @@ void Transformation::operator()(const Polyline& from, vector<Polyline*>& out) co
 	catch (...) {
 		MagLog::warning() << "error clipping->line ignored" << endl;
 	}
+	*/
 }
 
 
@@ -581,7 +599,7 @@ bool Transformation::in(const PaperPoint& point) const
 		PCEnveloppe_->push_back(PaperPoint(getMinPCX(), getMinPCY()));
 	}
 
-	return boost::geometry::covered_by(point, PCEnveloppe_->polygon_);
+	return PCEnveloppe_->within(point);
 }
 
 
