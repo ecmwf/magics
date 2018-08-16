@@ -1445,6 +1445,7 @@ MAGICS_NO_EXPORT bool CairoDriver::renderCellArray(const Image& image) const
   ColourTable &lt  = image.getColourTable();
   const int width  = image.getNumberOfColumns();
   const int height = image.getNumberOfRows();
+  //cout << "CD:renderCellArray> "<<width<<"x"<<height << endl;
   const MFloat x0  = projectX(image.getOrigin().x());
   const MFloat y0  = projectY(image.getOrigin().y());
   const MFloat scX = (image.getWidth() *coordRatioX_) /width;
@@ -1457,8 +1458,7 @@ MAGICS_NO_EXPORT bool CairoDriver::renderCellArray(const Image& image) const
 //  cairo_set_antialias(cr_, CAIRO_ANTIALIAS_NONE);
   cairo_translate (cr_, x0, y0);
 
-  bool useImage =true;
-  if(useImage)
+  if( (width > 800) || (height > 600) ) // high resoltion enough to use image
   {
     cairo_surface_t *result = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, width, height);
     if (cairo_surface_status(result) != CAIRO_STATUS_SUCCESS)
