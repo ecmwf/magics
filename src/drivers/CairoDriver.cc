@@ -1479,10 +1479,10 @@ MAGICS_NO_EXPORT bool CairoDriver::renderCellArray(const Image& image) const
       double al = lt[c].alpha();
       if( (lt[c].red()*lt[c].green()*lt[c].blue()<0.) )
         al=0.;  // missing data will be fully transparent
-      const uint32_t cr = (uint32_t)( lt[c].red()   * 255.);
-      const uint32_t cg = (uint32_t)( lt[c].green() * 255.);
-      const uint32_t cb = (uint32_t)( lt[c].blue()  * 255.);
-      const uint32_t alint = 255.;//(uint32_t)(al*255.);
+      const uint32_t cr = (uint32_t)(al * lt[c].red()   * 255.);
+      const uint32_t cg = (uint32_t)(al * lt[c].green() * 255.);
+      const uint32_t cb = (uint32_t)(al * lt[c].blue()  * 255.);
+      const uint32_t alint = (uint32_t)(al*255.);
       row[w] =  (alint << 24) | (cr << 16) | (cg << 8) | cb;
 //        row[w] =  (cr << 16) | (cg << 8) | cb;
     }
