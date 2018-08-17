@@ -27,6 +27,7 @@
 #include "NetcdfGeoMatrixInterpretor.h"
 #include "NetcdfVectorInterpretor.h"
 #include "NetcdfMatrixInterpretor.h"
+#include "NetcdfOrcaInterpretor.h"
 #include "Layer.h"
 
 #include <limits>
@@ -60,6 +61,11 @@ NetcdfInterpretor* NetcdfGuessInterpretor::guess() const
 		return delegate_;  
 	
 	delegate_ =  NetcdfGeoVectorInterpretor::guess(*this);
+
+	if (delegate_)
+		return delegate_;  
+
+	delegate_ =  NetcdfOrcaInterpretor::guess(*this);
 
 	if (delegate_)
 		return delegate_;  
