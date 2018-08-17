@@ -375,8 +375,20 @@ void WebLibrary::getScaling(MetaDataCollector& data, double& scaling, double& of
 		if ( need == values.end() )
 			return; 
 		
+		
 		UnitsLibrary converter;
-		converter.find(need->second, unit->second, scaling, offset); 
+
+		string whitespaces (" \t\f\v\n\r");
+		string clean = unit->second;
+  		std::size_t pos = clean.find_last_not_of(whitespaces);
+ 		if (pos!=std::string::npos) {
+    		//cout << "clean" << pos << endl;
+    		clean = clean.substr(0, pos);
+ 		}
+       // str is all whitespace
+		
+		//cout << "CLEAN " << clean << ": " << clean.size() << endl;
+		converter.find(need->second, clean, scaling, offset); 
 		cout << "Need " << need->second << " get " << unit->second << "--->APPLY " << scaling << " and " << offset << endl;
 	
 }

@@ -268,6 +268,12 @@ public:
 		return polygon_.empty();
 	}
 	bool closed() const { return polygon_.front() == polygon_.back(); }
+	void close()  { 
+		if ( empty() ) 
+			return;
+		if ( !closed() ) 
+			polygon_.push_back(polygon_.front()); 
+	}
 
 	auto end() const { return polygon_.end(); }
 	auto begin() const { return polygon_.begin(); }

@@ -27,6 +27,7 @@
 #include "NetcdfGeoMatrixInterpretor.h"
 #include "NetcdfVectorInterpretor.h"
 #include "NetcdfMatrixInterpretor.h"
+#include "NetcdfOrcaInterpretor.h"
 #include "Layer.h"
 
 #include <limits>
@@ -63,6 +64,10 @@ NetcdfInterpretor* NetcdfGuessInterpretor::guess() const
 
 	if (delegate_)
 		return delegate_;
+	delegate_ =  NetcdfOrcaInterpretor::guess(*this);
+
+	if (delegate_)
+		return delegate_;  
 
 	MagLog::warning() << "Could not guess the type of netcdf: Use default -->matrix" << endl;
 

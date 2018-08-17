@@ -775,6 +775,31 @@ public :
 	}
 };
 
+class ContourAutomaticSetting: public CompatibilityHelper {
+public :
+	ContourAutomaticSetting() : CompatibilityHelper("contour_automatic_setting") {}
+	~ContourAutomaticSetting() {}
+	bool operator()(const string& setting)
+	{
+		cout << " setting -->" << setting << endl;
+		if ( magCompare(setting, "eccharts") ) {
+			MagLog::info() << "Compatibility issue: ecchart automatic contour is deprecated, consider using ecmwf\n";
+			return false; 
+		}
+		if ( magCompare(setting, "web") ) {
+			MagLog::warning() << "Compatibility issue: web automatic contour is now deprecated, use ecmwf instead\n";
+			ParameterManager::set("contour_automatic_setting", "ecmwf");
+			return true;
+		}
+		if ( magCompare(setting, "on") ) {
+			MagLog::warning() << "Compatibility issue: on for  automatic contour is now deprecated, use ecmwf instead\n";
+			ParameterManager::set("contour_automatic_setting", "ecmwf");
+			return true;
+		}
+	}
+};
+
+
 class WindArrowIndexHead: public CompatibilityHelper {
 public :
 	WindArrowIndexHead() : CompatibilityHelper("wind_arrow_head_index") {}
@@ -808,6 +833,7 @@ public :
 	}
 };
 
+static ContourAutomaticSetting contourautomaticsetting;
 static OutputResolution outputresolution;
 static WindArrowLegend windarrowlegend;
 static PsFileName ps_file_name;
@@ -855,6 +881,7 @@ static IgnoreConverter graph_curve_interpolation("graph_curve_interpolation");
 static GraphType graph_type;
 static Legend legend("legend");
 
+static SimpleTranslator contour_predefined_setting("contour_predefined_setting", "contour_style_name");
 static SimpleTranslator netcdf_x_position_variable("netcdf_x_position_variable", "netcdf_x_variable");
 static SimpleTranslator netcdf_y_position_variable("netcdf_y_position_variable", "netcdf_y_variable");
 static SimpleTranslator legend_text_height("legend_text_height", "legend_text_font_size");

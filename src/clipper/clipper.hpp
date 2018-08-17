@@ -69,6 +69,8 @@ enum PolyType { ptSubject, ptClip };
 //see http://glprogramming.com/red/chapter11.html
 enum PolyFillType { pftEvenOdd, pftNonZero, pftPositive, pftNegative };
 
+#undef use_int32
+
 #ifdef use_int32
   typedef int cInt;
   static cInt const loRange = 0x7FFF;

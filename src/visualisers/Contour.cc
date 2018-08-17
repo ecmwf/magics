@@ -86,6 +86,7 @@ void Contour::operator()(Data& data, BasicGraphicsObjectContainer& parent)
 
     	
     	if ( predefined_.size() ) {
+    		cout << " Setting " << predefined_ << endl;
     		library->getStyle(predefined_, attributes);
     		set(attributes);
     	}
@@ -191,10 +192,12 @@ void  Contour::visit(Data& data, HistoVisitor& visitor)
 	contour_->visit(data, data.points(*visitor.dataLayoutTransformation(), false), visitor);	
 }
 
-static SimpleObjectMaker<ContourLibrary, ContourLibrary> obstat("on");
+
 static SimpleObjectMaker<EcChartLibrary, ContourLibrary> ecchart("ecchart");
 static SimpleObjectMaker<NoContourLibrary, ContourLibrary> off("off");
-static SimpleObjectMaker<WebLibrary, ContourLibrary> web("web");
+static SimpleObjectMaker<WebLibrary, ContourLibrary> style_name("style_name");
+static SimpleObjectMaker<WebLibrary, ContourLibrary> ecmwf("ecmwf");
+
 
 void Contour::visit(Data& data, LegendVisitor& legend)
 {
