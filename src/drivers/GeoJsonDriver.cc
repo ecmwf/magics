@@ -1,9 +1,9 @@
 /*
  * (C) Copyright 1996-2016 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
  */
@@ -117,7 +117,7 @@ void GeoJsonDriver::close()
     pFile_.close();
     GeoJson_output_resource_list_.push_back(fileName_);
 
-    /***********************  K M Z ********************************/    
+    /***********************  K M Z ********************************/
     if(zip_ && !GeoJson_output_resource_list_.empty())
     {
       fileName_ = getFileName("zip");
@@ -314,7 +314,7 @@ MAGICS_NO_EXPORT void GeoJsonDriver::redisplay(const SceneLayer& layer) const
 
 /*!
    \brief gets ignored in GeoJson
-   
+
    \sa BaseDriver::redisplay(const NoDataLayer&)
  */
 MAGICS_NO_EXPORT void GeoJsonDriver::redisplay(const NoDataLayer& layer) const
@@ -482,7 +482,7 @@ void GeoJsonDriver::renderSimplePolygon(const Polyline& line) const
 		x[i] = pp.x();
 		y[i] = pp.y();
 	}
-	
+
 	pFile_ << "{\n \"type\": \"Feature\", \"properties\": {\n   ";
 	pFile_ << " \"colour\": \"" << line.getFillColour().name() << "\"";
 
@@ -512,7 +512,7 @@ void GeoJsonDriver::renderSimplePolygon(const Polyline& line) const
 	   vector<double> x;
 	   vector<double> y;
 	   line.hole(h,x,y);
-	   if ( x.empty() ) 
+	   if ( x.empty() )
 	     continue;
 	   vector<double>::const_iterator yt = y.begin();
 	   vector<double>::const_iterator xt = x.begin();
@@ -567,11 +567,11 @@ MAGICS_NO_EXPORT bool GeoJsonDriver::renderPixmap(MFloat x0,MFloat y0,MFloat x1,
   debugOutput("Start renderPixmap");
   if(render_)
   {
-	if (GeoJson_placemark_) closePlacemark();
-	MagLog::warning() << "Image import is not implemented for the used driver!!!" << endl; return false;
-	debugOutput("End renderPixmap");
-	return true;
+	   if (GeoJson_placemark_) closePlacemark();
+	    MagLog::warning() << "Image import is not implemented for the used driver!!!" << endl; return false;
+	    debugOutput("End renderPixmap");
   }
+  return true;
 }
 
 /*!
