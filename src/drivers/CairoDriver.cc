@@ -1460,15 +1460,15 @@ MAGICS_NO_EXPORT bool CairoDriver::renderCellArray(const Image& image) const
 
   if( (width > 800) || (height > 600) ) // high resoltion enough to use image
   {
-    MagLog::warning()  << "CAIRO:renderImage> can not create surface ("<<width<<"x"<<height<<")"<< endl;
-    return result;
-  }
-  cairo_surface_flush(result);
-  cairo_t* cr_tmp  = cairo_create(surface_);
-  cairo_set_antialias(cr_tmp, CAIRO_ANTIALIAS_NONE);
-
-  unsigned char *current_row = cairo_image_surface_get_data(result);
-  int stride = cairo_image_surface_get_stride(result);
+    cairo_surface_t *result = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, width, height);
+    if (cairo_surface_status(result) != CAIRO_STATUS_SUCCESS)
+    {
+      MagLog::warning()  << "CAIRO:renderImage> can not create surface ("<<width<<"x"<<height<<")"<< endl;
+      return result;
+    }
+    cairo_surface_flush(result);
+//  cairo_t* cr_tmp  = cairo_create(surface_);
+//  cairo_set_antialias(cr_tmp, CAIRO_ANTIALIAS_NONE);
 
     unsigned char *current_row = cairo_image_surface_get_data(result);
     int stride = cairo_image_surface_get_stride(result);
@@ -1498,13 +1498,6 @@ MAGICS_NO_EXPORT bool CairoDriver::renderCellArray(const Image& image) const
     cairo_set_source_surface(cr_, result, 0, 0);
     cairo_paint(cr_);
 
-<<<<<<< HEAD
-	cairo_surface_destroy (result);
-  cairo_destroy(cr_tmp);
-	cairo_restore(cr_);
-	cairo_set_antialias(cr_, t);
-	return true;
-=======
     cairo_surface_destroy (result);
 //    cairo_destroy(cr_tmp);
   }else
@@ -1534,7 +1527,6 @@ MAGICS_NO_EXPORT bool CairoDriver::renderCellArray(const Image& image) const
   cairo_restore(cr_);
 //  cairo_set_antialias(cr_, t);
   return true;
->>>>>>> 00a318ad7cbe36897bde4f44b8eb91f7082a06a8
 }
 
 
