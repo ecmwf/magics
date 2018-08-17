@@ -6,7 +6,18 @@
             "offset" : -273.15,
             "scaling" : 1
         }
+    ],
+    "gr kg-1": [
+        {
+            "from" : "1",
+            "to" : "gr kg-1",
+            "offset" : 0.,
+            "scaling" : 1000.
+        }
     ]
 }
+
+
+
 
 

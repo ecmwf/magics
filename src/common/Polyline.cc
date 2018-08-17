@@ -19,246 +19,201 @@
     
 */
 #include "Polyline.h"
-#include "Transformation.h"
 #include "MagClipper.h"
-
+#include "Transformation.h"
 
 using namespace magics;
 
-
-
 Polyline::Polyline()
 {
-
 }
 
-
-Polyline::~Polyline() 
+Polyline::~Polyline()
 {
 }
 
 void Polyline::reserve(double x)
 {
-	//polygon_.reserve(x);
+    //polygon_.reserve(x);
 }
 
 bool Polyline::reproject(BasicGraphicsObjectContainer& out) const
 {
-	const Transformation& transformation = out.transformation();
-	transformation(*this, out);	
-	return false;	
+    const Transformation& transformation = out.transformation();
+    transformation(*this, out);
+    return false;
 }
-
-
-
 
 Polyline* Polyline::getNew() const
 {
-	Polyline* poly = new Polyline();
-	poly->copy(*this);
-	return poly;
+    Polyline* poly = new Polyline();
+    poly->copy(*this);
+    return poly;
 }
 
-
-void Polyline::print(ostream& out) const 
+void Polyline::print(ostream& out) const
 {
-	out << "Polyline[";
-	out << ", nb_points = " << this->size();
-	  if ( this->size() < 20 ) {
-            out << " Outer [";
-            string sep = "";
-	    const unsigned int nb = size();
-            for (unsigned int i = 0; i < nb; i++) {
-                out << sep << get(i);
-                sep = ", ";
-            }
-            out << "]";
+    out << "Polyline[";
+    out << ", nb_points = " << this->size();
+    if (this->size() < 20) {
+        out << " Outer [";
+        string sep = "";
+        const unsigned int nb = size();
+        for (unsigned int i = 0; i < nb; i++) {
+            out << sep << get(i);
+            sep = ", ";
         }
-        else {
-            unsigned int nb = size();
-            out << " Outer[" << get(0) << ", " << get(1) << ", " << get(2);
-            out << "...." << get(nb-3) << ", " << get(nb-2)  << ", " << get(nb-1);
-            out << "(" << nb << " elements)]";
-        }
-	out << "]";
+        out << "]";
+    } else {
+        unsigned int nb = size();
+        out << " Outer[" << get(0) << ", " << get(1) << ", " << get(2);
+        out << "...." << get(nb - 3) << ", " << get(nb - 2) << ", " << get(nb - 1);
+        out << "(" << nb << " elements)]";
+    }
+    out << "]";
 }
 
 
-/*
-Polyline* Polyline::simplify(double factor)
+
+void Polyline::redisplay(const BaseDriver& driver) const
 {
-	BoostPoly simplified;
-	boost::geometry::simplify(polygon_, simplified, factor);
-	polygon_ = simplified;
-	return this;
-}
-*/
-
-
-
-
-void Polyline::redisplay(const BaseDriver& driver) const 
-{
-    if ( polygon_.size() > 1 ) driver.redisplay(*this);
+    if (polygon_.size() > 1)
+        driver.redisplay(*this);
 }
 
 void Polyline::newHole()
 {
-	holes_.push_back(deque<PaperPoint>());
+    holes_.push_back(deque<PaperPoint>());
 }
 
 void Polyline::push_back_hole(const PaperPoint& point)
 {
-	holes_.back().push_back(point);
+    holes_.back().push_back(point);
 }
-
 
 Polyline::Holes::const_iterator Polyline::beginHoles() const
 {
-	return holes_.begin();
+    return holes_.begin();
 }
 
 Polyline::Holes::const_iterator Polyline::endHoles() const
 {
-	return holes_.end();
+    return holes_.end();
 }
 
 void Polyline::hole(Holes::const_iterator hole, vector<double>& x, vector<double>& y) const
 {
-	x.reserve(hole->size());
-	y.reserve(hole->size());
+    x.reserve(hole->size());
+    y.reserve(hole->size());
 
-	for (deque<PaperPoint>::const_iterator h = hole->begin(); h != hole->end(); ++h) {
-		x.push_back(h->x_);
-		y.push_back(h->y_);
-	}
+    for (deque<PaperPoint>::const_iterator h = hole->begin(); h != hole->end(); ++h) {
+        x.push_back(h->x_);
+        y.push_back(h->y_);
+    }
 }
 
 void Polyline::hole(Holes::const_iterator hole, Polyline& poly) const
 {
 
-	for (deque<PaperPoint>::const_iterator h = hole->begin(); h != hole->end(); ++h) {
-		poly.push_back(*h);
-	}
+    for (deque<PaperPoint>::const_iterator h = hole->begin(); h != hole->end(); ++h) {
+        poly.push_back(*h);
+    }
 }
 
-struct SouthCleaner
-{
-	SouthCleaner() {}
+struct SouthCleaner {
+    SouthCleaner() {}
 
-	bool operator()(PaperPoint& point) {
-		return point.y_ < -89;
-	}
+    bool operator()(PaperPoint& point)
+    {
+        return point.y_ < -89;
+    }
 };
-struct LonFinder : std::unary_function<PaperPoint,bool>
-{
-	LonFinder() {}
+struct LonFinder : std::unary_function<PaperPoint, bool> {
+    LonFinder() {}
 
-	bool operator()(PaperPoint& point)  const {
-		return ( same(point.x_, -180.)  );
-	}
+    bool operator()(PaperPoint& point) const
+    {
+        return (same(point.x_, -180.));
+    }
 };
 
 void Polyline::southClean()
 {
-	
-	auto from = std::remove_if (polygon_.begin(), polygon_.end(), SouthCleaner());
-	polygon_.erase(from, polygon_.end());	
-	// rotate ..
-	auto it = std::find_if (polygon_.begin(), polygon_.end(), LonFinder() );
-  	if ( it != polygon_.end()) {
-    	std::rotate(polygon_.begin(), it, polygon_.end());
-  	}
 
-} 
+    auto from = std::remove_if(polygon_.begin(), polygon_.end(), SouthCleaner());
+    polygon_.erase(from, polygon_.end());
+    // rotate ..
+    auto it = std::find_if(polygon_.begin(), polygon_.end(), LonFinder());
+    if (it != polygon_.end()) {
+        std::rotate(polygon_.begin(), it, polygon_.end());
+    }
+}
 
 void Polyline::newHole(const Polyline& poly)
 {
-	holes_.push_back(deque<PaperPoint>());
-	for (auto point = poly.begin(); point != poly.end(); ++point) {
-		holes_.back().push_back(*point);
-	}
+    holes_.push_back(deque<PaperPoint>());
+    for (auto point = poly.begin(); point != poly.end(); ++point) {
+        holes_.back().push_back(*point);
+    }
 }
 
-
-struct ReprojectHelper
-{
-	ReprojectHelper(const Transformation& transformation) : transformation_(transformation) {}
-	const Transformation& transformation_;
-	bool operator()(PaperPoint& point) {
-		return !transformation_.fast_reproject(point.x_, point.y_);
-	}
+struct ReprojectHelper {
+    ReprojectHelper(const Transformation& transformation)
+        : transformation_(transformation)
+    {
+    }
+    const Transformation& transformation_;
+    bool operator()(PaperPoint& point)
+    {
+        return !transformation_.fast_reproject(point.x_, point.y_);
+    }
 };
 
 void Polyline::reproject(const Transformation& transformation)
 {
-	
-	auto from = std::remove_if (polygon_.begin(), polygon_.end(), ReprojectHelper(transformation));
-	polygon_.erase(from, polygon_.end());
 
+    auto from = std::remove_if(polygon_.begin(), polygon_.end(), ReprojectHelper(transformation));
+    polygon_.erase(from, polygon_.end());
 
-// Now the holes!
-	for (Holes::iterator hole = holes_.begin(); hole != holes_.end(); ++hole)  {
-		for (auto h = hole->begin(); h != hole->end(); ++h) {
-			transformation.fast_reproject(h->x_, h->y_);
-		}
-	}
+    // Now the holes!
+    for (Holes::iterator hole = holes_.begin(); hole != holes_.end(); ++hole) {
+        for (auto h = hole->begin(); h != hole->end(); ++h) {
+            transformation.fast_reproject(h->x_, h->y_);
+        }
+    }
 }
 
-Polyline*  Polyline::clone() const
+Polyline* Polyline::clone() const
 {
 
-	Polyline* to = getNew();
+    Polyline* to = getNew();
 
-	for (auto point = begin(); point != end(); ++point) {
-		to->push_back(*point);
-	}
+    for (auto point = begin(); point != end(); ++point) {
+        to->push_back(*point);
+    }
 
-// Now the holes!
-	for (Holes::const_iterator hole = holes_.begin(); hole != holes_.end(); ++hole)  {
-		to->newHole();
-		for (auto h = hole->begin(); h != hole->end(); ++h) {
-			to->push_back_hole(*h);
-		}
+    // Now the holes!
+    for (Holes::const_iterator hole = holes_.begin(); hole != holes_.end(); ++hole) {
+        to->newHole();
+        for (auto h = hole->begin(); h != hole->end(); ++h) {
+            to->push_back_hole(*h);
+        }
+    }
 
-	}
-
-	return to;
+    return to;
 }
 
-void Polyline::intersect(const Polyline& poly, vector<Polyline*> & out) const
+void Polyline::intersect(const Polyline& poly, vector<Polyline*>& out) const
 {
-// Use of a MagClipper 
-	MagClipper helper;
-	
-	helper.clip(poly, *this, out);
-	
-	/*
-	vector<BoostPoly> clip;
-try {
-		boost::geometry::intersection(this->polygon_, poly.polygon_, clip);
-
-		for (vector<BoostPoly>::iterator c = clip.begin(); c != clip.end(); ++c) {
-			out.push_back(Polyline());
-			out.back().copy(*this);
-			out.back().polygon_ = *c;
-		}
-	}
-	catch(...) {
-		MagLog::debug() << " pb intersect! " << endl;
-		MagLog::debug() << *this << endl;
-		MagLog::debug() << " with-> " << endl;
-		MagLog::debug() << poly << endl;
-		out.push_back(poly);
-	}
-	*/
+    // Use of a MagClipper
+    MagClipper::clip(poly, *this, out);
 }
 
 void Polyline::clip(const Polyline& poly, vector<Polyline>& out) const
 {
-	// Use of a MagClipper 
-	assert(false);
-	/*
+    // Use of a MagClipper
+    assert(false);
+    /*
 //  convert the outer in a stringline! and then clip...
 	boost::geometry::model::linestring<PaperPoint> line;
 
@@ -288,44 +243,44 @@ void Polyline::clip(const Polyline& poly, vector<Polyline>& out) const
 // Is the poyline included in the "other" polyline"
 bool Polyline::in(const Polyline& other)
 {
-	assert(false);
-	return false;
-	//return !boost::geometry::disjoint(this->polygon_, other.polygon_);
+    assert(false);
+    return false;
+    //return !boost::geometry::disjoint(this->polygon_, other.polygon_);
 }
 
 // Is the pointincluded in the polyline"
 bool Polyline::in(const PaperPoint& point)
 {
-	assert(false);
-	return false;
+    assert(false);
+    return false;
 
-	//return boost::geometry::covered_by(point, this->polygon_);
+    //return boost::geometry::covered_by(point, this->polygon_);
 }
 
 void Polyline::push_front(Polyline& other)
 {
-	other.polygon_.pop_back();
-	polygon_.insert(polygon_.begin(),
-			other.polygon_.begin(), other.polygon_.end());
+    other.polygon_.pop_back();
+    polygon_.insert(polygon_.begin(),
+        other.polygon_.begin(), other.polygon_.end());
 }
 
 void Polyline::push_back(Polyline& other)
 {
-	other.polygon_.pop_front();
-		polygon_.insert(polygon_.end(),
-				other.polygon_.begin(), other.polygon_.end());
+    other.polygon_.pop_front();
+    polygon_.insert(polygon_.end(),
+        other.polygon_.begin(), other.polygon_.end());
 }
 
 /*! \brief Routine to check (and correct) integrity of the inner holes of polygons read from shape files.
 */
 void Polyline::correct()
 {
-	assert(false);
-	//boost::geometry::correct(polygon_);
+    //assert(false);
+    //boost::geometry::correct(polygon_);
 }
 bool Polyline::sanityCheck()
 {
-	assert(false);
+    assert(false);
     /*
     // input polygon _should_ have an outer ring larger than all its inner
     // (hole) rings. This routine enforces this rule and ensures all the
@@ -382,33 +337,31 @@ bool Polyline::sanityCheck()
     */
 }
 
-
 double PaperPoint::distance(const PaperPoint& other) const
 {
-	assert (false);
-	return 0;
-	//return boost::geometry::distance(*this, other);
+    
+    return sqrt( ((x_-other.x_) * (x_ - other.x_)) + ((y_-other.y_) * (y_ - other.y_)) );
+   
 }
 
 void Polyline::box(const PaperPoint& ll, const PaperPoint& ur)
 {
-	push_back(ll);
-	push_back(ll.x(), ur.y());
-	push_back(ur);
-	push_back(ur.x(), ll.y());
-	push_back(ll);
-	//boost::geometry::correct(polygon_);
+    push_back(ll);
+    push_back(ll.x(), ur.y());
+    push_back(ur);
+    push_back(ur.x(), ll.y());
+    push_back(ll);
+   
 }
 bool Polyline::concatenate(Polyline&)
 {
-	return false;
+    assert(false);
 }
 void Polyline::intersection(Polyline&)
 {
-
+    assert(false);
 }
-bool Polyline::within(const PaperPoint& point) const 
+bool Polyline::within(const PaperPoint& point) const
 {
-	assert(false);
-	return true;
+    return MagClipper::in(*this, point);
 }
