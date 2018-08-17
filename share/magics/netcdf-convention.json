@@ -15,7 +15,11 @@
         },
      "level" : {
         "axis" : ["Z"]
+     },
+    "latlon" : {
+        "coordinates" : ["lat lon"]
      }
+
 
 }
 

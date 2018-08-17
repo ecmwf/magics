@@ -357,27 +357,40 @@ int Style::score(const Definition& data)
 		int score = 0;
 		for (auto key = match->begin(); key != match->end(); ++key) {
 			auto dkey= data.find(key->first);
-			cout << "checking " << key->first << endl; 
+			
 			if ( dkey == data.end() ) 
 				continue;
 			if ( dkey->second == "" ) 
 				continue;
 			int tmpscore = 0;
 			for ( auto value = key->second.begin(); value != key->second.end(); ++value ) {
-				
-				string s1(*value);
-				string s2(dkey->second);
-				s2 = s2.substr(0, s1.size());
-				
-				
-				
-				if ( s1 == s2 ) {
+			
+				string whitespaces (" \t\f\v\n\r");
+				string clean = dkey->second;
+  				std::size_t pos = clean.find_last_not_of(whitespaces);
+ 				if (pos!=std::string::npos) {
+    				clean = clean.substr(0, pos+1);
+ 				}
+ 				//cout << " trying " << *value << " ?? " << clean <<  "(" << clean.size() << ")" << endl;
+				if ( *value == clean ) {
 					tmpscore++;
-					cout << key->first << " value [" << *value << "] == [" <<  dkey->second << "]" << endl; 
+					cout << key->first << " value [" << *value << "] == [" << clean  << "]" << endl; 
 					cout << "score is now " << tmpscore  << endl; 
 					criteria.insert(make_pair(key->first, *value));
 					break;
 				}
+				
+				// just try to remove the last character of the string .. 
+				clean = clean.substr(0, clean.size()-1);
+				//cout << " cleaning more " << *value << " ?? " << clean <<   "(" << clean.size() << ")" << endl;
+				if ( *value == clean ) {
+					tmpscore++;
+					cout << key->first << " value [" << *value << "] == [" << clean  << "]" << endl; 
+					cout << "Found a match after cleaning ... score is now " << tmpscore  << endl; 
+					criteria.insert(make_pair(key->first, *value));
+					break;
+				}
+
 				
 			}
 			if ( !tmpscore) {

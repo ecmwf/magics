@@ -39,7 +39,7 @@ public:
 	virtual ~NetcdfOrcaInterpretor();
     
     
-
+    static NetcdfInterpretor* guess(const NetcdfInterpretor&);
     bool interpretAsPoints(PointsList&);
     bool interpretAsMatrix(Matrix**);
     void customisedPoints(const Transformation& transformation, const std::set<string>&, CustomisedPointsList& out, int thinning);

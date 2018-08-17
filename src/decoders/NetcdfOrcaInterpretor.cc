@@ -333,5 +333,38 @@ void NetcdfOrcaInterpretor::print(ostream& out)  const
 	out << "]";
 }
 
+
+NetcdfInterpretor* NetcdfOrcaInterpretor::guess(const NetcdfInterpretor& from)
+{
+	if ( from.field_.empty() &&  (from.x_component_.empty() || from.y_component_.empty() ) ) 
+		return 0;
+	
+	Netcdf netcdf(from.path_, from.dimension_method_);
+	
+	string variable = from.field_;
+
+// get the attribute coordinates 
+
+
+	
+	string coordinates = netcdf.getVariable(variable).getAttribute("coordinates", string(""));
+	string latlon("lat lon");
+	coordinates = coordinates.substr(0, latlon.size());
+	if ( coordinates == "lat lon" ) {
+		cout << "NetCOMPLEX NETCDF DETECTED" << endl;
+		NetcdfOrcaInterpretor* interpretor = new NetcdfOrcaInterpretor();
+		
+		interpretor->NetcdfInterpretor::copy(from);
+		interpretor->latitude_ = "lat";
+		interpretor->longitude_ = "lon";
+		interpretor->time_variable_ = netcdf.detect(variable, "time");
+		interpretor->level_variable_ = netcdf.detect(variable, "level");
+		interpretor->number_variable_ = netcdf.detect(variable, "number");
+		return interpretor;
+	}
+	return 0;
+}
+
+
 static SimpleObjectMaker<NetcdfOrcaInterpretor, NetcdfInterpretor> netcdf_geovalues_interpretor("orca");
 
