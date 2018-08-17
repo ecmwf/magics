@@ -1,22 +1,22 @@
 /*
  * (C) Copyright 1996-2016 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
  */
 
 /*! \file NetcdfInterpretor.cc
     \brief Implementation of the Template class NetcdfInterpretor.
-    
+
     Magics Team - ECMWF 2004
-    
+
     Started: Tue 17-Feb-2004
-    
+
     Changes:
-    
+
 */
 
 
@@ -34,11 +34,11 @@
 
 using namespace magics;
 
-NetcdfInterpretor::NetcdfInterpretor() 
+NetcdfInterpretor::NetcdfInterpretor()
 {
 }
 
-NetcdfGuessInterpretor::NetcdfGuessInterpretor(): delegate_(0) 
+NetcdfGuessInterpretor::NetcdfGuessInterpretor(): delegate_(0)
 {
 
 }
@@ -52,18 +52,18 @@ NetcdfInterpretor* NetcdfGuessInterpretor::guess() const
 	// guess!!
 	Netcdf netcdf(path_, dimension_method_);
 	string convention = netcdf.getAttribute("Conventions", string(""));
-	
+
 
 
 	delegate_ =  NetcdfGeoMatrixInterpretor::guess(*this);
 
 	if (delegate_)
-		return delegate_;  
-	
+		return delegate_;
+
 	delegate_ =  NetcdfGeoVectorInterpretor::guess(*this);
 
 	if (delegate_)
-		return delegate_;  
+		return delegate_;
 
 	delegate_ =  NetcdfOrcaInterpretor::guess(*this);
 
@@ -71,7 +71,7 @@ NetcdfInterpretor* NetcdfGuessInterpretor::guess() const
 		return delegate_;  
 
 	MagLog::warning() << "Could not guess the type of netcdf: Use default -->matrix" << endl;
-	
+
 	delegate_ = new NetcdfMatrixInterpretor();
 	delegate_->NetcdfInterpretor::copy(*this);
 	return delegate_;
@@ -82,14 +82,14 @@ void NetcdfInterpretor::setDimensions(const stringarray& value, map<string, stri
 {
     first.clear();
     last.clear();
- 
+
     Tokenizer tokenizer("/ :");
     vector<string> tokens;
     for (stringarray::const_iterator val = value.begin(); val != value.end(); ++val) {
         tokens.clear();
         tokenizer(*val, tokens);
-        
-        switch (tokens.size()) 
+
+        switch (tokens.size())
         {
             case 2 : // param/from/from
                 first[tokens[0]] = tokens[1];
@@ -99,29 +99,29 @@ void NetcdfInterpretor::setDimensions(const stringarray& value, map<string, stri
                 first[tokens[0]] =  tokens[1];
                 last[tokens[0]] = tokens[2];
                 break;
-            case 1  : // param = all    
+            case 1  : // param = all
     			break;
-            default : 
+            default :
                 throw MagicsException( "Syntax not Valid!:" + *val);
         }
-          
+
     }
 
-    // Special case for the time ! 
+    // Special case for the time !
 
     if ( time_variable_.size() && time_dimension_.size() ) {
     	first[time_variable_] = time_dimension_;
     	last[time_variable_] = time_dimension_;
     }
 
-    // Special case for the number ! 
+    // Special case for the number !
     if ( number_variable_.size() && number_dimension_.size() ) {
     	first[number_variable_] = number_dimension_;
     	last[number_variable_] = number_dimension_;
-    	
+
     }
 
-    // Special case for the level ! 
+    // Special case for the level !
     if ( level_variable_.size() && level_dimension_.size() ) {
     	first[level_variable_] = level_dimension_;
     	last[level_variable_] = level_dimension_;
@@ -129,13 +129,13 @@ void NetcdfInterpretor::setDimensions(const stringarray& value, map<string, stri
 
 }
 
-NetcdfInterpretor::~NetcdfInterpretor() 
+NetcdfInterpretor::~NetcdfInterpretor()
 {
 }
 
 /*!
  Class information are given to the output-stream.
-*/		
+*/
 void NetcdfInterpretor::print(ostream& out)  const
 {
 	out << "NetcdfInterpretor[";
@@ -169,10 +169,11 @@ bool NetcdfInterpretor::reference_date(Netcdf& netcdf, const string& var, const 
 	basedate = date;
 	double diff = ( refdate.empty() ) ? 0 : DateTime(date) - DateTime(refdate) ;
 	map<string, double>::const_iterator factor = factors.find(units);
-	
+
 	if ( factor != factors.end() )
 		std::transform(coords.begin(), coords.end(),  coords.begin(), Multiply(factor->second, missing_value));
 	std::transform(coords.begin(), coords.end(),  coords.begin(), Plus(diff, missing_value));
+	return true;
 }
 
 bool NetcdfInterpretor::cf_date(Netcdf& netcdf, const string& var, const string& refdate, string& basedate, vector<double>& coords, vector<double>& originals)
@@ -183,12 +184,11 @@ bool NetcdfInterpretor::cf_date(Netcdf& netcdf, const string& var, const string&
 	if ( factors.empty() ) {
 		factors["hours"] = 3600;
 		factors["days"] = 24*3600;
-
 	}
 	double missing_value = netcdf.getMissing(var, missing_attribute_);
-	
+
 	string date = netcdf.getVariableAttribute(var, "long_name", string(""));
-	
+
 	if ( date.empty() ) return false;
 	if ( date != "time" && date != "date and time") return false;
 
@@ -218,12 +218,12 @@ bool NetcdfInterpretor::cf_date(Netcdf& netcdf, const string& var, const string&
 		diff = DateTime(basedate) - DateTime(refdate) ;
 	}
 
-
 	if ( factor != factors.end() )
 		std::transform(coords.begin(), coords.end(),  coords.begin(), Multiply(factor->second, missing_value));
 	std::transform(coords.begin(), coords.end(),  coords.begin(), Plus(diff, missing_value));
-
+  return true;
 }
+
 string NetcdfInterpretor::getAttribute(const string& var, const string& attr, const string& def)
 {
 	Netcdf netcdf(path_, dimension_method_);
@@ -246,34 +246,34 @@ void NetcdfInterpretor::visit(TextVisitor& title)
 
 	string name = netcdf.getVariableAttribute(field_, "standard_name", string(""));
 	name = netcdf.getVariableAttribute(field_, "long_name", name);
-	
+
 	title.addAutomaticTitle(netcdf.getAttribute("title", name));
-	
+
 }
 
 void NetcdfInterpretor::getAttributes(Netcdf& nc,const string& varName,string& keys,string& values)
 {
 	try
-	{	
+	{
 		NetVariable var=nc.getVariable(varName);
 		bool first=true;
 		for(map<string, NetAttribute>::iterator it=var.attributes_.begin(); it != var.attributes_.end(); it++)
 		{
 			string val;
 			it->second.get(val);
-			
-			
-			
-		
+
+
+
+
 			if(!first)
-			{	
+			{
 			  	keys+="/";
 				values+="/";
 			}
 			first=false;
-		
+
 				keys+=it->first;
-				values+=val;		
+				values+=val;
 			}
 	}
 	catch ( ... ) {}
@@ -283,17 +283,17 @@ string NetcdfInterpretor::getTime(const string& format, const string& def) {
         if ( time_dimension_.empty() )
             return def;
         else return time_dimension_;
-    } 
+    }
 string NetcdfInterpretor::getNumber(const string& format, const string& def) {
     if ( number_dimension_.empty() )
         return def;
-    else 
+    else
         return number_dimension_;
 }
 string NetcdfInterpretor::getLevel(const string& format, const string& def) {
     if ( level_dimension_.empty() )
         return def;
-    else 
+    else
         return level_dimension_;
 }
 
@@ -303,15 +303,15 @@ void NetcdfTag::visit(const XmlNode& node)
 		{
 			string var = node.getAttribute("variable");
 			string attr = node.getAttribute("attribute");
-			
+
 			string def = node.getAttribute("default");
 			string format = node.getAttribute("format");
 			string val = netcdf_.getAttribute(var, attr, def);
-			
+
 			title_.update("netcdf"+var, attr,  val);
 			title_.update("netcdf"+var, "time",  netcdf_.getTime(format, def));
 			title_.update("netcdf"+var, "level", netcdf_.getLevel(format, def));
-			title_.update("netcdf"+var, "number",  netcdf_.getLevel(format, def));	
+			title_.update("netcdf"+var, "number",  netcdf_.getLevel(format, def));
 		}
 
 

@@ -1430,7 +1430,7 @@ MAGICS_NO_EXPORT void CairoDriver::renderImage(const ImportObject& obj) const
 
 
 /*!
-  \brief render cell arrays
+  \brief render cell arrays for cell shading
 
   This method renders cell arrays, also called images in Magics language. These are
   mainly used for satellite data.
@@ -1441,59 +1441,92 @@ MAGICS_NO_EXPORT void CairoDriver::renderImage(const ImportObject& obj) const
 */
 MAGICS_NO_EXPORT bool CairoDriver::renderCellArray(const Image& image) const
 {
-	MagLog::debug() << "CD:renderCellArray> "<<image.getWidth()<<"x"<<image.getHeight() << endl;
-	ColourTable &lt  = image.getColourTable();
-	const int width  = image.getNumberOfColumns();
-	const int height = image.getNumberOfRows();
-//	const MFloat tr  = image.getTransparency();
-	const MFloat x0  = projectX(image.getOrigin().x());
-	const MFloat y0  = projectY(image.getOrigin().y());
-	const MFloat scX = (image.getWidth() *coordRatioX_) /width;
-	const MFloat scY = (image.getHeight()*coordRatioY_) /height;
+  MagLog::debug() << "CD:renderCellArray> "<<image.getWidth()<<"x"<<image.getHeight() << endl;
+  ColourTable &lt  = image.getColourTable();
+  const int width  = image.getNumberOfColumns();
+  const int height = image.getNumberOfRows();
+  //cout << "CD:renderCellArray> "<<width<<"x"<<height << endl;
+  const MFloat x0  = projectX(image.getOrigin().x());
+  const MFloat y0  = projectY(image.getOrigin().y());
+  const MFloat scX = (image.getWidth() *coordRatioX_) /width;
+  const MFloat scY = (image.getHeight()*coordRatioY_) /height;
+  const double wid = projectX(image.getOrigin().x()+image.getWidth())  - projectX(image.getOrigin().x());
+  const double hei = projectY(image.getOrigin().y()+image.getHeight()) - projectY(image.getOrigin().y());
 
-	cairo_save(cr_);
-	cairo_antialias_t t = cairo_get_antialias(cr_);
-	cairo_set_antialias(cr_, CAIRO_ANTIALIAS_NONE);
+  cairo_save(cr_);
+//  cairo_antialias_t t = cairo_get_antialias(cr_);
+//  cairo_set_antialias(cr_, CAIRO_ANTIALIAS_NONE);
+  cairo_translate (cr_, x0, y0);
 
-	cairo_translate (cr_, x0, y0);
-
-  cairo_surface_t *result = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, width, height);
-  if (cairo_surface_status(result) != CAIRO_STATUS_SUCCESS)
+  if( (width > 800) || (height > 600) ) // high resoltion enough to use image
   {
-    MagLog::warning()  << "CAIRO:renderImage> can not create surface ("<<width<<"x"<<height<<")"<< endl;
-    return result;
-  }
-  cairo_surface_flush(result);
-  unsigned char *current_row = cairo_image_surface_get_data(result);
-  int stride = cairo_image_surface_get_stride(result);
+    cairo_surface_t *result = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, width, height);
+    if (cairo_surface_status(result) != CAIRO_STATUS_SUCCESS)
+    {
+      MagLog::warning()  << "CAIRO:renderImage> can not create surface ("<<width<<"x"<<height<<")"<< endl;
+      return result;
+    }
+    cairo_surface_flush(result);
+//  cairo_t* cr_tmp  = cairo_create(surface_);
+//  cairo_set_antialias(cr_tmp, CAIRO_ANTIALIAS_NONE);
 
-	for(unsigned int h=0;h<height; h++)
-	{
-    uint32_t *row = (uint32_t *)current_row;
-	  for(unsigned int w=0;w<width; w++)
-	  {
+    unsigned char *current_row = cairo_image_surface_get_data(result);
+    int stride = cairo_image_surface_get_stride(result);
+
+    for(unsigned int h=0;h<height; h++)
+    {
+     uint32_t *row = (uint32_t *)current_row;
+     for(unsigned int w=0;w<width; w++)
+     {
       const short c  = image[w + (width*h)];
       double al = lt[c].alpha();
       if( (lt[c].red()*lt[c].green()*lt[c].blue()<0.) )
         al=0.;  // missing data will be fully transparent
-		  const uint32_t cr = (uint32_t)(al* lt[c].red()   * 255.);
-		  const uint32_t cg = (uint32_t)(al* lt[c].green() * 255.);
-		  const uint32_t cb = (uint32_t)(al* lt[c].blue()  * 255.);
+      const uint32_t cr = (uint32_t)(al * lt[c].red()   * 255.);
+      const uint32_t cg = (uint32_t)(al * lt[c].green() * 255.);
+      const uint32_t cb = (uint32_t)(al * lt[c].blue()  * 255.);
       const uint32_t alint = (uint32_t)(al*255.);
       row[w] =  (alint << 24) | (cr << 16) | (cg << 8) | cb;
-	  }
-    current_row += stride;
-	}
-  cairo_surface_mark_dirty(result);
+//        row[w] =  (cr << 16) | (cg << 8) | cb;
+     }
+     current_row += stride;
+    }
+    cairo_surface_mark_dirty(result);
 
-	cairo_scale (cr_, scX, -scY);
-	cairo_set_source_surface(cr_, result, 0, 0);
-	cairo_paint(cr_);
+    cairo_scale (cr_, scX, -scY);
+  //  cairo_set_operator(cr_, CAIRO_OPERATOR_OVER);
+    cairo_set_source_surface(cr_, result, 0, 0);
+    cairo_paint(cr_);
 
-	cairo_surface_destroy (result);
-	cairo_restore(cr_);
-	cairo_set_antialias(cr_, t);
-	return true;
+    cairo_surface_destroy (result);
+//    cairo_destroy(cr_tmp);
+  }else
+  {
+    cairo_antialias_t t = cairo_get_antialias(cr_);
+    cairo_set_antialias(cr_, CAIRO_ANTIALIAS_NONE);
+    for(unsigned int h=0;h<height; h++)
+    {
+     for(unsigned int w=0;w<width; w++)
+     {
+      const short c  = image[w + (width*h)];
+      const float cr = lt[c].red();
+      const float cg = lt[c].green();
+      const float cb = lt[c].blue();
+      if(cr*cg*cb >=0){
+       cairo_set_source_rgba(cr_,cr,cg,cb,lt[c].alpha());
+       cairo_set_line_width (cr_,0.01);
+       cairo_rectangle (cr_, w*scX, h*-scY, scX, -scY);
+       cairo_fill_preserve(cr_);
+       cairo_stroke(cr_);
+      }
+     }
+    }
+    cairo_set_antialias(cr_, t);
+  }
+
+  cairo_restore(cr_);
+//  cairo_set_antialias(cr_, t);
+  return true;
 }
 
 
@@ -1542,7 +1575,7 @@ MAGICS_NO_EXPORT void CairoDriver::renderSymbols(const Symbol& symbol) const
 		else   logofile += "ecmwf_logo_2014.png";
 
 		cairo_surface_t *image = cairo_image_surface_create_from_png(logofile.c_str());
-        cairo_status_t ret = cairo_surface_status(image);
+		cairo_status_t ret = cairo_surface_status(image);
 
 		if(!ret)
 		{

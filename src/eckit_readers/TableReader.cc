@@ -30,7 +30,7 @@ void TableReader::setFieldContainer(int index, string &name, vector<double>& con
     if (index == -1)  // is the user wanting to find a field with the given name?
     {
         int foundIndex = indexOfField(name);  // try to find it
-        
+
         if (foundIndex == -1)  // not found?
         {
             setError ("Cannot find field with name " + name + " -  will not be stored.");
@@ -113,10 +113,10 @@ void TableReader::splitLine (char *line, vector<char *>& tokens)
             tokens.push_back(token);  // store a pointer to it
             token = current + 1;      // start the next token
         }
-        
+
         current++;  // advance to the next character
     }
-    
+
     tokens.push_back(token);  // store a pointer to the last token
 }
 
@@ -152,10 +152,10 @@ void TableReader::splitLineConsecutiveDelimiters (char *line, vector<char *>& to
                 tokens.push_back(token);  // store a pointer to it
             token = current + 1;      // start the next token
         }
-        
+
         current++;  // advance to the next character
     }
-    
+
     if (token[0] != '\0')           // safeguard against stray delimiters at the end of the line
         tokens.push_back(token);  // store a pointer to the last token
 }
@@ -216,7 +216,7 @@ int TableReader::indexOfField   (string &name)
 
 
     // find which field has the name we're looking for
-    
+
     for (vector<string *>::size_type i = 0 ; i < names_.size(); i++)
     {
         if (namesAll_[i] == name)
@@ -225,7 +225,7 @@ int TableReader::indexOfField   (string &name)
 
 
     // if we got this far, then we did not find it
-    
+
     return -1;
 }
 
@@ -251,11 +251,11 @@ TableReader::eTableReaderFieldType TableReader::guessFieldType(char *str)
 
             if (!isdigit(ch) && (ch != 'e') && (ch != 'E') && (ch != '.') && (ch != '+') && (ch != '-'))
                 return TableReader::TABFIELD_STRING;
-            
+
             pch++;
         }
     }
-    
+
     return TableReader::TABFIELD_NUMBER;
 }
 
@@ -366,7 +366,7 @@ bool TableReader::readUserMetaData (char *line, size_t sizeOfLine, string &error
 
     setDelimiter(oldDelimiter);                     // restore
     setConsecutiveDelimitersAsOne(oldConsecutive);  // restore
-    
+
     return true;
 }
 
@@ -401,7 +401,7 @@ bool TableReader::getMetaData(string &errorMessage)
 
 
     // check for previous errors which we should report
-    
+
     if (errorCode_)
     {
         errorMessage = errorMsg_;
@@ -484,7 +484,7 @@ bool TableReader::getMetaData(string &errorMessage)
 
 
     int numLinesToCheck = 1 + (headerRow()>0 ? 1 : 0); // how many lines to read?
-    
+
     if (numLinesToCheck > numLines)
         numLinesToCheck = numLines;
 
@@ -492,7 +492,7 @@ bool TableReader::getMetaData(string &errorMessage)
     for (int i = 0; i < numLinesToCheck; i++)
     {
         // read the line into a buffer and split it into tokens
-        
+
         vector<char *> tokens;
 
         if (nextLineTokens(line, sizeof(line), tokens) > 0)
@@ -536,7 +536,7 @@ bool TableReader::getMetaData(string &errorMessage)
 
 
     gotMetaData_ = true;
-    
+
     return true;
 }
 
@@ -550,7 +550,7 @@ bool TableReader::read(string &errorMessage)
 
 
     // check for previous errors which we should report
-    
+
     if (errorCode_)
     {
         errorMessage = errorMsg_;
@@ -631,11 +631,10 @@ bool TableReader::read(string &errorMessage)
             {
                 if (tokens.size() == 0) // blank line?
                 {
-                    char *empty = "";
-
                     // if we are only reading one column, then it could be a missing value
                     if (decoderSets_.size() == 1)
                     {
+                        char *empty = "";
                         tokens.push_back(empty);
                     }
 

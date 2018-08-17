@@ -1,9 +1,9 @@
 /*
  * (C) Copyright 1996-2016 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
  */
@@ -190,16 +190,16 @@ Index GribInterpretor::nearest(double ulat, double ulon)
 
 
     Index index(-1, 0, 0);
-    if ( ulat < minlat_ ) 
+    if ( ulat < minlat_ )
         return index;
-    if ( ulat > maxlat_ ) 
+    if ( ulat > maxlat_ )
         return index;
-    if ( ulon < minlon_ ) 
+    if ( ulon < minlon_ )
         return index;
-    if ( ulon > maxlon_ ) 
+    if ( ulon > maxlon_ )
         return index;
 
-    
+
     if ( ulat == -1000. || ulon == -1000.)
           return index;
     if ( ulat >= 90 || ulat <= -90)
@@ -228,7 +228,7 @@ Index GribInterpretor::nearest(double ulat, double ulon)
 
 
 
-    
+
 
     double nearest = std::numeric_limits<double>::max();
     for ( int clat = lat1; clat <= lat2; clat++ ) {
@@ -360,14 +360,14 @@ void GribInterpretor::scaling(const GribDecoder& grib, double& scaling,
                     derivedUnits = originalUnits;
                 }
             }
-            catch (exception) { 
-               
+            catch (exception) {
+
                 MagLog::warning()
                         << " Can not find information for the parameter [" << id
                         << "." << table << "]\n";
             }
         }
-        
+
     } else {
         scaling = grib.scaling_factor_;
         offset = grib.scaling_offset_;
@@ -394,6 +394,7 @@ void  GribInterpretor::index(const GribDecoder& grib)
 
 int GribInterpretor::nearest(double lon, double lat, double& nlon, double& nlat)
 {
+  return -1;
 /*
     map<double, map<double, int> >::iterator y1, y2, y;
     map<double, int>::iterator x1, x2, x;
@@ -1229,7 +1230,7 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
         double lon2 = *r;
 
         int x = 0;
-      
+
 
         while (x < nblon) {
 
@@ -1239,16 +1240,16 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
                 lon = west + ( x*step);
                 continue;
             }
-            if ( lon >= row->back() ) { 
+            if ( lon >= row->back() ) {
                 if ( global ) {
                     p2 = 0;
                     lon2 = 360.;
                     lon1 = row->back();
                     p1 = p.size()-1;
-                   
 
-                } 
-                else { 
+
+                }
+                else {
                     (*matrix)->push_back(p.back());
                     x++;
                     lon = west + ( x*step);
@@ -1256,17 +1257,17 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
                 }
             }
             if ( lon > lon2) {
-                
+
                 p1++;
                 p2++;
-                
+
                 lon1 = lon2;
-                
+
                 r++;
-                if ( r == row->end() ) 
+                if ( r == row->end() )
                     r--;
-                lon2 = (*r);   
-                
+                lon2 = (*r);
+
             }
 
             double d1 = (lon2 - lon) / (lon2 - lon1);
@@ -1279,7 +1280,7 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
                    else
                 	   if ( p[p2] != missing )
                 		   val = (p[p1] * d1) + (p[p2] * d2);
-               
+
                   (*matrix)->push_back(val);
 
             }
@@ -1291,7 +1292,7 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
             x++;
             lon = west + ( x*step);
         }
-        
+
 
     }
     }
@@ -1639,16 +1640,16 @@ void GribLambertAzimutalInterpretor::interpretAsMatrix(const GribDecoder& grib,
         MagLog::debug() << "Version" << grib_get_api_version() << endl;
 
         size_t aux = size_t(nb);
-       
+
 
         //grib_get_double_array(grib.id(), "latitudes", &(latPDumpS.front()), &aux);
-        
+
         grib_get_double_array(grib.id(), "values", &(rotated->front()), &aux);
-        
-       
+
+
 
         //grib_get_double_array(grib.id(), "longitudes", &(lonm.front()), &aux);
-        
+
 
         vector<double> rows, columns;
         for (int i = 0; i < im; i++)
@@ -1660,12 +1661,12 @@ void GribLambertAzimutalInterpretor::interpretAsMatrix(const GribDecoder& grib,
         rotated->setColumnsAxis(columns);
         rotated->setMapsAxis();
 
-    } 
+    }
     catch (MagicsException& e) {
         MagLog::error() << e << "\n";
     }
-    
-    
+
+
 }
 
 void GribLambertAzimutalInterpretor::print(ostream& out) const {
@@ -1698,7 +1699,7 @@ void GribRotatedInterpretor::interpretAsMatrix(const GribDecoder& grib,
     double missing = INT_MAX;
     grib.setDouble("missingValue", missing);
     (*matrix)->missing(missing);
-    
+
 
     double north = grib.getDouble("latitudeOfFirstGridPointInDegrees");
     double west = grib.getDouble("longitudeOfFirstGridPointInDegrees");
@@ -1793,11 +1794,11 @@ void GribRotatedInterpretor::interpretAsMatrix(const GribDecoder& grib,
         }
         (*matrix)->missing(missing);
 
-    } 
+    }
     catch (...) {
         throw MagicsException("GribRegularInterpretor - Not enough memory");
     }
-   
+
 }
 
 void GribRotatedInterpretor::interpret2D(double& lat, double& lon, double& uc,
