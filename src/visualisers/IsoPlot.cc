@@ -200,7 +200,7 @@ public:
 
             clipper.clip(previous, pts, output);
 
-
+/*
             if (output.size() == 1) {
                 vector<PaperPoint> tmp;
                 for ( auto pt = output.front()->begin();  pt != output.front()->end(); ++pt ) {
@@ -214,6 +214,7 @@ public:
 
             else
             {
+                */
                     MagClipper::add(pts, previous, output);
                     
                    
@@ -231,7 +232,7 @@ public:
                         }
                         push_back(index, tmp);
                     }        
-            }
+            //}
 
 
         }
