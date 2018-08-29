@@ -141,7 +141,7 @@ private:
 	MAGICS_NO_EXPORT void redisplay(const SceneLayer&) const;
 	MAGICS_NO_EXPORT void redisplay(const StaticLayer&) const;
 	MAGICS_NO_EXPORT void redisplay(const StepLayer&) const;
-	MAGICS_NO_EXPORT void redisplay(const PolylineSet&) const;
+	
 	MAGICS_NO_EXPORT void redisplay(const Arrow&) const;
 	MAGICS_NO_EXPORT void redisplay(const Flag&) const;
 

@@ -64,7 +64,6 @@ NetcdfInterpretor* NetcdfGuessInterpretor::guess() const
 
 	if (delegate_)
 		return delegate_;
-
 	delegate_ =  NetcdfOrcaInterpretor::guess(*this);
 
 	if (delegate_)

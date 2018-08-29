@@ -177,6 +177,7 @@ set( MAGICS_INCLUDE_DIRS
      ${CMAKE_CURRENT_SOURCE_DIR}/src
      ${CMAKE_CURRENT_SOURCE_DIR}/src/common
      ${CMAKE_CURRENT_SOURCE_DIR}/src/basic
+     ${CMAKE_CURRENT_SOURCE_DIR}/src/clipper
      ${CMAKE_CURRENT_SOURCE_DIR}/src/web
      ${CMAKE_CURRENT_SOURCE_DIR}/src/visualisers
      ${CMAKE_CURRENT_SOURCE_DIR}/src/drivers

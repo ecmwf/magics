@@ -322,10 +322,7 @@ MAGICS_NO_EXPORT void BaseDriver::redisplay(const ClearObject& ) const
    vecPoints_.clear();
 }
 
-void BaseDriver::redisplay(const PolylineSet& line) const
-{
-      line.visit(*this);
-}
+
 
 /*!
   \brief Decision how to stroke/fill simple polygon
