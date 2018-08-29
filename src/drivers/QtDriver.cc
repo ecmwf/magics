@@ -2370,25 +2370,7 @@ MAGICS_NO_EXPORT void QtDriver::redisplay(const StepLayer&) const
 	MagLog::dev() << "QtDriver::redisplay(const StepLayer& layer)" << endl;
 }
 
-MAGICS_NO_EXPORT void QtDriver::redisplay(const PolylineSet& line) const
-{	
-	//BaseDriver::redisplay(line);
-	//return;
 
-	MagLog::progress("polyline");
-	
-	MgQLayoutItem *layout=layoutItemStack_.top();
-	QRectF brect=layout->boundingRect();
-
-	MgQPolylineSetItem *item=new MgQPolylineSetItem(brect);
-	item->setParentItem(currentItem_);	
-
-	currentPolylineSetItem_=item;
-
-	line.visit(*this);
-
-	currentPolylineSetItem_=0;
-}
 
 void QtDriver::redisplay(const Arrow& arrow) const
 {
