@@ -71,13 +71,14 @@ void MagClipper::clip(const Polyline& subject, const Polyline& clip, vector<Poly
 
     if (subject.empty())
         return;
-
+/*
     if ( subject.closed() ) {
     	cout << " clip" << endl;
     	return clipClosed(subject, clip, out);
     }
     cout << " igmore" << endl;
-   // return subject.closed() ? clipClosed(subject, clip, out) : clipOpened(subject, clip, out);
+  */
+   return subject.closed() ? clipClosed(subject, clip, out) : clipOpened(subject, clip, out);
 }
 
 void MagClipper::clip(const Polyline& subject, const PaperPoint& lowerleft, const PaperPoint& upperright, vector<Polyline*>& result)

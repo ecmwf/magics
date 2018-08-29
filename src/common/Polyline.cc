@@ -146,7 +146,18 @@ void Polyline::southClean()
     auto it = std::find_if(polygon_.begin(), polygon_.end(), LonFinder());
     if (it != polygon_.end()) {
         std::rotate(polygon_.begin(), it, polygon_.end());
+        PaperPoint front = polygon_.front();
+        PaperPoint back = polygon_.back();
+
+        polygon_.push_front(PaperPoint(front.x_, -100.));
+        polygon_.push_front(PaperPoint(back.x_, -100.));
+        polygon_.push_back(PaperPoint(back.x_, -100.));
+
+        return;
     }
+    // Not South pole .. we try to force closing
+    close();
+
 }
 
 void Polyline::newHole(const Polyline& poly)
@@ -169,9 +180,12 @@ struct ReprojectHelper {
     }
 };
 
+
+
 void Polyline::reproject(const Transformation& transformation)
 {
-
+	
+    
     auto from = std::remove_if(polygon_.begin(), polygon_.end(), ReprojectHelper(transformation));
     polygon_.erase(from, polygon_.end());
 
@@ -213,31 +227,34 @@ void Polyline::clip(const Polyline& poly, vector<Polyline>& out) const
 {
     // Use of a MagClipper
     assert(false);
-    /*
-//  convert the outer in a stringline! and then clip...
-	boost::geometry::model::linestring<PaperPoint> line;
+}
 
-	for (deque<PaperPoint>::const_iterator p = poly.polygon_.begin();
-			p != poly.polygon_.end(); ++p) {
-		if ( p->x_ == begin()->x_ )
-			line.push_back(PaperPoint(p->x_+1, p->y_));
-		else
-			line.push_back(*p);
-
-	}
-
-	vector<boost::geometry::model::linestring<PaperPoint> > clip;
-	boost::geometry::intersection(line, polygon_,  clip);
-	vector<boost::geometry::model::linestring<PaperPoint> >::iterator c;
-	for (c = clip.begin(); c != clip.end(); ++c) {
-		out.push_back(Polyline());
-		out.back().copy(poly);
-		for (boost::geometry::model::linestring<PaperPoint>::iterator p = c->begin(); p != c->end(); ++p) {
-			out.back().polygon_.push_back(*p);
+void feed(const deque<PaperPoint>& points, const Polyline& box, vector<Polyline*>& out)
+{
+	Polyline* poly = new Polyline();
+	for ( auto p = points.begin(); p != points.end(); ++p) {
+		if ( !box.in(*p) ) {
+			if ( poly->size() ) {
+				out.push_back(poly);
+				poly = new Polyline();
+			}
 		}
-
+		else 
+			poly->push_back(*p);
 	}
-	*/
+	if ( poly->size() ) {
+		out.push_back(poly);
+	}
+	else 
+		delete poly;
+}
+
+void Polyline::clip(const Polyline& poly, vector<Polyline*>& out) const
+{
+    feed(polygon_, poly, out);
+    for (Holes::const_iterator hole = holes_.begin(); hole != holes_.end(); ++hole) {
+    	feed(*hole, poly, out);
+    }
 }
 
 // Is the poyline included in the "other" polyline"
@@ -245,16 +262,13 @@ bool Polyline::in(const Polyline& other)
 {
     assert(false);
     return false;
-    //return !boost::geometry::disjoint(this->polygon_, other.polygon_);
+    
 }
 
 // Is the pointincluded in the polyline"
-bool Polyline::in(const PaperPoint& point)
+bool Polyline::in(const PaperPoint& point) const
 {
-    assert(false);
-    return false;
-
-    //return boost::geometry::covered_by(point, this->polygon_);
+    return MagClipper::in(*this, point);
 }
 
 void Polyline::push_front(Polyline& other)
