@@ -257,6 +257,12 @@ void CoastPlotting::operator()(DrawingVisitor& parent)
 
     decode(parent.layout());
 
+    // clean and reproject ! 
+    for (vector<Polyline*>::iterator coast = coast_.begin(); coast != coast_.end(); ++coast) {
+        (*coast)->southClean();
+        (*coast)->reproject(transformation);
+    }
+
     // Now we have the coastlines and lakes..
     // let's call the relevant method!
     if (land_) {
@@ -297,10 +303,11 @@ void CoastPlotting::landsea(Layout& out)
 */
 void CoastPlotting::landonly(Layout& out)
 {
-    vector<Polyline*> clip;
-    clipAndClose(out.transformation(), coast_, clip);
+    vector<Polyline*> clips;
+    
+    clipAndClose(out.transformation(), coast_, clips);
 
-    for (vector<Polyline*>::iterator coast = clip.begin(); coast != clip.end(); ++coast) {
+    for (vector<Polyline*>::iterator coast = clips.begin(); coast != clips.end(); ++coast) {
         setLandShading(**coast);
         out.push_back(*coast);
     }
@@ -325,6 +332,8 @@ void CoastPlotting::nolandsea(Layout& out)
 {
 
     vector<Polyline*> clips;
+
+
     clip(out.transformation(), coast_, clips);
 
     for (vector<Polyline*>::iterator coast = clips.begin(); coast != clips.end(); ++coast) {
@@ -410,36 +419,25 @@ void CoastPlotting::decode(const Layout& parent)
 
 void CoastPlotting::clip(const Transformation& transformation, const vector<Polyline*>& in, vector<Polyline*>& out) const
 {
-
+    Polyline& box = transformation.getPCBoundingBox();
     for (vector<Polyline*>::const_iterator poly = in.begin(); poly != in.end(); ++poly) {
-        (*poly)->southClean();
-        (*poly)->reproject(transformation);
-        transformation(**poly, out);
+      
+        (*poly)->clip(box, out);
     }
 }
 
 void CoastPlotting::clipAndClose(const Transformation& transformation, const vector<Polyline*>& in, vector<Polyline*>& out) const
 {
 
-    Polyline& geobox = transformation.getUserBoundingBox();
-   
     vector<Polyline*> helper;
-    for (vector<Polyline*>::const_iterator poly = in.begin(); poly != in.end(); ++poly) {
-        (*poly)->southClean();
-        geobox.intersect(**poly, helper);
-
-    }
-
- 
-
     Polyline& box = transformation.getPCBoundingBox();
-    for (vector<Polyline*>::const_iterator poly = helper.begin(); poly != helper.end(); ++poly) {
-    	
-        (*poly)->reproject(transformation);
-        out.push_back(*poly);
-      
+    for (vector<Polyline*>::const_iterator poly = in.begin(); poly != in.end(); ++poly) {
+        box.intersect(**poly, out);
     }
+        
+    
 }
+
 void NoCoastPlotting::visit(MetaDataCollector& meta)
 {
     meta["Coastlines Resolution"] = coastSet_["resolution"];

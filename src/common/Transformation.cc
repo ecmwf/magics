@@ -338,6 +338,7 @@ void Transformation::visit(MetaDataVisitor& visitor,
 void Transformation::operator()(const Polyline& from,
     BasicGraphicsObjectContainer& out) const
 {
+    
     if (from.empty())
         return;
 
@@ -355,95 +356,13 @@ void Transformation::operator()(const Polyline& from,
 void Transformation::operator()(const Polyline& from,
     vector<Polyline*>& out) const
 {
+    assert(false);
     if (from.empty())
         return;
 
     MagClipper helper;
 
     helper.clip(from, *PCEnveloppe_, out);
-    /*
-        PaperPoint ll(getMinPCX(), getMinPCY());
-        PaperPoint ur(getMaxPCX(), getMaxPCY());
-        boost::geometry::model::box<PaperPoint> box(ll, ur);
-        boost::geometry::correct(box);
-
-
-
-
-        vector<deque<PaperPoint> > holes;
-        vector<Polyline*> forholes;
-
-
-        try {
-                vector<vector<PaperPoint> > lines;
-                lines.push_back(vector<PaperPoint>());
-
-                for (unsigned i = 0; i < from.size(); i++) {
-                        PaperPoint pt = from.get(i);
-                        if ( fast_reproject(pt.x_, pt.y_) ) {
-                                lines.back().push_back(pt);
-                        }
-                        else {
-                                if ( lines.back().size() ) {
-                                        lines.push_back(vector<PaperPoint>());
-                                }
-                        }
-                }
-
-                for ( auto hole = from.beginHoles(); hole != from.endHoles();
-   ++hole) {
-
-                        lines.push_back(vector<PaperPoint>());
-                        Polyline poly;
-
-                        from.hole(hole, poly);
-
-                        for (unsigned i = 0; i < poly.size(); i++) {
-                                PaperPoint pt = poly.get(i);
-                                if ( fast_reproject(pt.x_, pt.y_) )
-                                        lines.back().push_back(pt);
-                                else {
-                                if ( lines.back().size() ) {
-                                        lines.push_back(vector<PaperPoint>());
-                                }
-                                }
-
-                        }
-
-
-
-                }
-
-
-
-
-                for (vector<vector<PaperPoint> >::iterator line =
-   lines.begin(); line != lines.end(); ++line) {
-                        vector<vector<PaperPoint> > result;
-                        boost::geometry::correct(*line);
-                        boost::geometry::intersection(box, *line, result);
-
-                        // Now we feed the graphic container!
-                        for (vector<vector<PaperPoint> >::iterator l =
-   result.begin(); l != result.end(); l++)
-                        {
-                                Polyline* poly = new Polyline();
-                                for (vector<PaperPoint>::iterator point =
-   l->begin(); point != l->end(); ++point)
-                                        poly->push_back(*point);
-                                if ( !poly->empty() )
-                                        out.push_back(poly);
-                        }
-                }
-
-
-
-        }
-
-        catch (...) {
-                MagLog::warning() << "error clipping->line ignored" << endl;
-        }
-        */
 }
 
 void Transformation::boundingBox(double& minx,
