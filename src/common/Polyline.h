@@ -25,17 +25,7 @@
 #include "VectorOfPointers.h"
 #include "Label.h"
 #include "Arrow.h"
-#include <boost/geometry/geometry.hpp>
-#include <boost/geometry/geometries/polygon.hpp>
-#include <boost/geometry/geometries/linestring.hpp>
-#include <boost/geometry/geometries/register/point.hpp>
-#include <boost/geometry/geometries/register/ring.hpp>
-#include <boost/geometry/geometries/register/linestring.hpp>
-#include <boost/geometry/core/tags.hpp>
 
-BOOST_GEOMETRY_REGISTER_POINT_2D(magics::PaperPoint, double, boost::geometry::cs::cartesian, x_, y_)
-BOOST_GEOMETRY_REGISTER_RING(deque<magics::PaperPoint>);
-BOOST_GEOMETRY_REGISTER_LINESTRING(vector<magics::PaperPoint>);
 
 namespace magics {
 
@@ -216,15 +206,17 @@ protected:
 using namespace magics;
 
 
-class Polyline:
 
-	public PolylineProperties
+class Polyline: public PolylineProperties
 {
 public:
-	typedef boost::geometry::model::polygon<PaperPoint, true, true, deque, deque > BoostPoly;
-	typedef boost::geometry::model::linestring<PaperPoint, deque > BoostLine;
-	typedef BoostPoly::inner_container_type Holes;
-	typedef deque<PaperPoint> MagLine;
+	
+	
+
+	
+	typedef vector<deque<PaperPoint>> Holes;
+
+
 	Polyline();
 	~Polyline();
 	
@@ -249,40 +241,49 @@ public:
 	bool concatenate(Polyline&);
 	void intersection(Polyline&);
 	Polyline*  clone() const;
+	const deque<PaperPoint>& polygon() const { return polygon_; }
+	deque<PaperPoint>& polygon() { return polygon_; }
 	void push_back(const PaperPoint& point)
 	{	
 		if ( empty() ) {
-			polygon_.outer().push_back(point);
+			polygon_.push_back(point);
 			return;
 		}
 		PaperPoint last = back();
 		if ( point.x_ !=  last.x_ ||  point.y_ !=  last.y_)
-			polygon_.outer().push_back(point);
+			polygon_.push_back(point);
 	}
 	void rotate(int index) {
-		std::rotate(polygon_.outer().begin(),polygon_.outer().begin()+index,polygon_.outer().end());
+		std::rotate(polygon_.begin(),polygon_.begin()+index,polygon_.end());
 	}
 
 	void push_back(double x, double y)
 	{
-		polygon_.outer().push_back(PaperPoint(x, y));
+		polygon_.push_back(PaperPoint(x, y));
 	} 
 	void southClean();
 
 	void box(const PaperPoint&, const PaperPoint&);
 	bool empty() const {
-		return polygon_.outer().empty();
+		return polygon_.empty();
 	}
-	bool closed() const { return polygon_.outer().front() == polygon_.outer().back(); }
-	MagLine::const_iterator end() const { return polygon_.outer().end(); }
-	MagLine::const_iterator begin() const { return polygon_.outer().begin(); }
-	unsigned int size() const { return polygon_.outer().size(); }
-	const PaperPoint& get(int i) const { return polygon_.outer()[i]; }
-	const PaperPoint& front() const { return polygon_.outer().front(); }
-	const PaperPoint& back() const { return polygon_.outer().back(); }
+	bool closed() const { return polygon_.front() == polygon_.back(); }
+	void close()  { 
+		if ( empty() ) 
+			return;
+		if ( !closed() ) 
+			polygon_.push_back(polygon_.front()); 
+	}
+
+	auto end() const { return polygon_.end(); }
+	auto begin() const { return polygon_.begin(); }
+	unsigned int size() const { return polygon_.size(); }
+	const PaperPoint& get(int i) const { return polygon_[i]; }
+	const PaperPoint& front() const { return polygon_.front(); }
+	const PaperPoint& back() const { return polygon_.back(); }
 	void push_front(const PaperPoint& point)
 	{	
-		polygon_.outer().push_front(point);
+		polygon_.push_front(point);
 	} 
 	
 	void push_front(Polyline&);
@@ -293,7 +294,7 @@ public:
 	bool in(const Polyline& other);
 
 	// Is the pointincluded in the polyline"
-	bool in(const PaperPoint&);
+	bool in(const PaperPoint&) const;
 
 	bool sanityCheck();
 	void correct();
@@ -311,8 +312,8 @@ public:
 
 	bool allMissing() const
 	{		
-	    deque<PaperPoint>::const_iterator p = polygon_.outer().begin();
-	    while (p != polygon_.outer().end() )
+	    deque<PaperPoint>::const_iterator p = polygon_.begin();
+	    while (p != polygon_.end() )
 	    {
 	    	if ( !p->missing() ) 
 	    		return false;
@@ -323,8 +324,8 @@ public:
 	    	
 	bool someMissing() const
 	{
-		deque<PaperPoint>::const_iterator p = polygon_.outer().begin();
-	    while (p != polygon_.outer().end() )
+		deque<PaperPoint>::const_iterator p = polygon_.begin();
+	    while (p != polygon_.end() )
 	    {
 	    	if ( p->missing() ) 
 	    		return true;
@@ -333,15 +334,15 @@ public:
 	    return false;
 	}		 
 
-
-	bool within(const PaperPoint& point) const {
-		return boost::geometry::covered_by(point, polygon_);
-	}
+	bool within(const PaperPoint& point) const ;  
 
 	void clip(const Polyline& poly, vector<Polyline>&) const;
-	void intersect(const Polyline& poly, vector<Polyline>&) const;
 
-	Polyline* simplify(double);
+	void clip(const Polyline& poly, vector<Polyline*>&) const;
+	void intersect(const Polyline& poly, vector<Polyline*>&) const;
+
+
+	//Polyline* simplify(double);
 	Polyline* getNew() const;
 
 
@@ -356,8 +357,8 @@ public:
 	Holes::const_iterator endHoles() const;
 
 	void hole(Holes::const_iterator, vector<double>&, vector<double>&) const;
-	unsigned int numberOfHoles() const {return polygon_.inners().size();}
-	void  clearHoles()  { polygon_.inners().clear();}
+	unsigned int numberOfHoles() const {return holes_.size();}
+	void  clearHoles()  { holes_.clear();}
 	void  clear()  { polygon_.clear();}
 	Holes& holes();
 
@@ -367,10 +368,8 @@ protected:
 
 
 public:
-
-
-
-	BoostPoly polygon_;
+	deque<PaperPoint> polygon_;
+	Holes holes_;
 
 
 private: 
@@ -380,28 +379,6 @@ private:
 	friend ostream& operator<<(ostream& s,const Polyline& p)
 		{ p.print(s); return s; }
 };
-
-
-class PolylineSet : public BasicGraphicsObjectContainer
-	{
-	public:
-	    PolylineSet() {}
-	    ~PolylineSet() { }
-
-	    void redisplay(const BaseDriver& driver) const
-	        { driver.redisplay(*this); }
-	protected:
-	    void print(ostream& out) const { out << "PolylineSet[ " << objects_.size() << " elts]\n" << endl; }
-
-	private:
-	    PolylineSet(const Polyline&);
-	    PolylineSet& operator=(const PolylineSet&);
-
-	// -- Friends
-	    friend ostream& operator<<(ostream& s,const PolylineSet& p)
-	        { p.print(s); return s; }
-	};
-
 
 
 } // namespace magics

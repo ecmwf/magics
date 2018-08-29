@@ -30,6 +30,7 @@
 #include "ThreadControler.h"
 #include "LegendVisitor.h"
 #include "Histogram.h"
+#include "MagClipper.h"
 
 
 
@@ -173,62 +174,67 @@ public:
         else {
             // intersect !
             // Create line from 1first
+            
+            Polyline previous, pts;
+            MagClipper clipper;
 
-            typedef boost::geometry::model::polygon<PaperPoint > polygon;
-
-
-            polygon previous, pts;
+            
 
             for ( vector<PaperPoint>::iterator pt = points.begin();  pt != points.end(); ++pt ) {
-                pts.outer().push_back(*pt);
+                pts.push_back(*pt);
             }
-            pts.outer().push_back(points.front());
+
+            pts.close();    
             vector<vector<Point> > result;
             helper->second->computePolygonLines(result);
             ASSERT( result.size() == 1);
-            for ( vector<Point>::iterator pt = result.front().begin();  pt != result.front().end(); ++pt ) {
-                previous.outer().push_back(PaperPoint(pt->x_, pt->y_));
+            for ( auto pt = result.front().begin();  pt != result.front().end(); ++pt ) {
+                previous.push_back(PaperPoint(pt->x_, pt->y_));
             }
 
             helper_[index] = new SegmentJoiner();
+            
+            
+            
+            std::vector<Polyline*> output;
+
+            clipper.clip(previous, pts, output);
 
 
-            std::vector<polygon > output;
-
-
-            try {
-                boost::geometry::intersection(previous, pts, output);
-
-
-                if (output.size() == 1){
-                    vector<PaperPoint> xx;
-                    for ( vector<PaperPoint>::iterator pt = output.front().outer().begin();  pt != output.front().outer().end(); ++pt ) {
-                        xx.push_back(*pt);
+            if (output.size() == 1) {
+                vector<PaperPoint> tmp;
+                for ( auto pt = output.front()->begin();  pt != output.front()->end(); ++pt ) {
+                        tmp.push_back(*pt);
                     }
 
-                    push_back(index, xx);
+                    push_back(index, tmp);
 
-                }
-                else
-                {
+                
+            }
 
-                    boost::geometry::union_(pts, previous, output);
+            else
+            {
+                    MagClipper::add(pts, previous, output);
+                    
+                   
                     if (output.size() == 1){
-                        push_back(index, output.front().outer());
+                        vector<PaperPoint> tmp;
+                        for ( auto pt = output.front()->begin();  pt != output.front()->end(); ++pt ) {
+                            tmp.push_back(*pt);
+                        }
+                        push_back(index, tmp);
                     }
-                    else
-                        push_back(index, previous.outer());
+                    else {
+                        vector<PaperPoint> tmp;
+                        for ( auto pt = previous.begin();  pt != previous.end(); ++pt ) {
+                            tmp.push_back(*pt);
+                        }
+                        push_back(index, tmp);
+                    }        
+            }
 
-                }
-            }
-            catch (...) {
-                // ignore
-            }
 
         }
-
-
-
     }
 
     void push_back(int index, const SegmentJoiner& segment) {

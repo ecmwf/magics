@@ -77,7 +77,7 @@ class EndPage;
 class RootLayout;
 class BinaryObject;
 class Polyline;
-class PolylineSet;
+
 class Text;
 class Symbol;
 class TextSymbol;
@@ -258,7 +258,7 @@ public:
 	virtual MAGICS_NO_EXPORT void redisplay(const StepLayer&) const;
 	
 	virtual MAGICS_NO_EXPORT void redisplay(const Polyline&) const;
-	virtual MAGICS_NO_EXPORT void redisplay(const PolylineSet&) const;
+	
 
 #ifdef MAGICS_QT
 	virtual MAGICS_NO_EXPORT void redisplay(const PreviewLayout&) const {};

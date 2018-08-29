@@ -8,10 +8,11 @@
  * does it submit to any jurisdiction.
  */
 
+#include "MagJSon.h"
+#include "SciMethods.h"
 #include <Emagram.h>
 #include <Polyline.h>
-#include "SciMethods.h"
-#include "MagJSon.h"
+#include <MagClipper.h>
 
 using namespace magics;
 
@@ -35,8 +36,8 @@ void Emagram::print(ostream& out) const
     out << "]";
 }
 
-#define sinus  -0.7071
-#define cosinus  0.7071
+#define sinus -0.7071
+#define cosinus 0.7071
 
 //the right edge of the real skew-t area. To the right
 //is the info area to plot the wind profile.
@@ -45,84 +46,76 @@ static double maxpcx;
 void Emagram::init()
 {
     //When default input visualiser values are specified: we assing a meaningful default
-    if( x_min_ == 0 && x_max_ == 100 ) //temperature (K)
+    if (x_min_ == 0 && x_max_ == 100) //temperature (K)
     {
         x_min_ = -90;
         x_max_ = 50;
     }
 
-    if ( y_min_ == 0 && y_max_ == 100 ) //pressure (hPa)
+    if (y_min_ == 0 && y_max_ == 100) //pressure (hPa)
     {
         y_min_ = 1060.;
         y_max_ = 100;
     }
 
-    if(x_min_ < -300)
-    {
+    if (x_min_ < -300) {
         throw MagicsException("Tephigram: invalid minimum temperature");
     }
 
-    if(x_max_ > 400)
-    {
+    if (x_max_ > 400) {
         throw MagicsException("Tephigram: invalid maximum temperature");
     }
 
-    if(y_min_ > 1500)
-    {
+    if (y_min_ > 1500) {
         throw MagicsException("Tephigram: invalid bottom pressure");
     }
 
-    if(y_max_ <=0.0001)
-    {
+    if (y_max_ <= 0.0001) {
         throw MagicsException("Tephigram: invalid top pressure");
     }
 
-    if(x_min_ >= x_max_)
-    {
+    if (x_min_ >= x_max_) {
         throw MagicsException("Tephigram: minimum temperature cannot be greater than maximum temperature");
     }
 
-    if(y_min_ <= y_max_)
-    {
+    if (y_min_ <= y_max_) {
         throw MagicsException("Tephigram: top pressure cannot be greater than bottom pressure");
     }
 
-
     //To have a proper ascpect ratio we always work with a 100x100 rectangle
-    minPCX_=0;
-    maxPCX_=100;
+    minPCX_ = 0;
+    maxPCX_ = 100;
 
-    minPCY_=0;
-    maxPCY_=100;
+    minPCY_ = 0;
+    maxPCY_ = 100;
 
     // now we add 25% to the right for the info area
     maxpcx = maxPCX_;
 
     MagLog::dev() << "useful area width in emagram: " << maxpcx << endl;
-    maxPCX_ += (maxPCX_ - minPCX_)*(annotation_width_/100.);
+    maxPCX_ += (maxPCX_ - minPCX_) * (annotation_width_ / 100.);
     MagLog::dev() << "witdth set for emagram in grid " << maxpcx << endl;
 }
 
-const double KAPPA=0.285611;
+const double KAPPA = 0.285611;
 
 //Converts (t,p) coordinates to paper coordinates
-PaperPoint Emagram::operator()(const UserPoint& xy)  const
+PaperPoint Emagram::operator()(const UserPoint& xy) const
 {
     //We are in the wind box to the right
-    if(xy.x() >= 1000 )
-    {
-        double x =  (maxPCX_ - maxpcx)*(xy.x()-1000.) + maxpcx;
-        double y=(maxPCY_-minPCY_)*(log(y_min_)- log(xy.y()))/(log(y_min_)-log(y_max_));
+    if (xy.x() >= 1000) {
+        double x = (maxPCX_ - maxpcx) * (xy.x() - 1000.) + maxpcx;
+        double y = (maxPCY_ - minPCY_) * (log(y_min_) - log(xy.y())) / (log(y_min_) - log(y_max_));
         return PaperPoint(x, y, xy.value());
     }
 
     //Main emagram area
-    double x=(maxpcx-minPCX_)*(xy.x()-x_min_)/(x_max_-x_min_);
-    double y=(maxPCY_-minPCY_)*(log(y_min_)- log(xy.y()))/(log(y_min_)-log(y_max_));
+    double x = (maxpcx - minPCX_) * (xy.x() - x_min_) / (x_max_ - x_min_);
+    double y = (maxPCY_ - minPCY_) * (log(y_min_) - log(xy.y())) / (log(y_min_) - log(y_max_));
     return PaperPoint(x, y, xy.value());
 }
 
-PaperPoint Emagram::operator()(const PaperPoint& pt)  const
+PaperPoint Emagram::operator()(const PaperPoint& pt) const
 {
 #if 0
     // UserPoint X = temperature in deg Y = Pressure in hPa
@@ -138,34 +131,34 @@ PaperPoint Emagram::operator()(const PaperPoint& pt)  const
 }
 
 //Converts paper coordinates to (t,p) coordinates
-void Emagram::revert(const PaperPoint& pt, UserPoint& point)  const
+void Emagram::revert(const PaperPoint& pt, UserPoint& point) const
 {
-    double t=x_min_ + (x_max_-x_min_)*(pt.x()-minPCX_)/(maxpcx-minPCX_);
-    double p=exp(log(y_min_) - pt.y()*(log(y_min_)-log(y_max_))/(maxPCY_-minPCY_));
+    double t = x_min_ + (x_max_ - x_min_) * (pt.x() - minPCX_) / (maxpcx - minPCX_);
+    double p = exp(log(y_min_) - pt.y() * (log(y_min_) - log(y_max_)) / (maxPCY_ - minPCY_));
 
     point.x_ = t;
     point.y_ = p;
 }
 
-void Emagram::revert(const vector< std::pair<double, double> > & in, vector< std::pair<double, double> > & out) const
+void Emagram::revert(const vector<std::pair<double, double> >& in, vector<std::pair<double, double> >& out) const
 {
     out.reserve(in.size());
-    for (vector< std::pair<double, double> >::const_iterator it = in.begin(); it != in.end(); ++it)
-    {
-        double t=x_min_ + (x_max_-x_min_)*(it->first-minPCX_)/(maxpcx-minPCX_);
-        double p=exp(log(y_min_) - it->second*(log(y_min_)-log(y_max_))/(maxPCY_-minPCY_));
+    for (vector<std::pair<double, double> >::const_iterator it = in.begin(); it != in.end(); ++it) {
+        double t = x_min_ + (x_max_ - x_min_) * (it->first - minPCX_) / (maxpcx - minPCX_);
+        double p = exp(log(y_min_) - it->second * (log(y_min_) - log(y_max_)) / (maxPCY_ - minPCY_));
         out.push_back(make_pair(t, p));
     }
 }
 
-bool Emagram::needShiftedCoastlines()  const
+bool Emagram::needShiftedCoastlines() const
 {
     return false;
 }
 
 void Emagram::setMinMaxX(double min, double max)
 {
-    if ( min > 1000 || max > 1000) return;
+    if (min > 1000 || max > 1000)
+        return;
     setMinX(min);
     setMaxX(max);
     init();
@@ -174,12 +167,10 @@ void Emagram::setMinMaxX(double min, double max)
 void Emagram::setMinMaxY(double min, double max)
 {
     // Careful, Emagram are in pressure levels...
-    if ( min < 50.)
-    {
+    if (min < 50.) {
         MagLog::warning() << " Top Pressure reset to 50." << endl;
         min = 50.;
     }
-
 
     setMinY(max);
     setMaxY(min);
@@ -191,15 +182,15 @@ void Emagram::aspectRatio(double& width, double& height)
     Transformation::aspectRatio(width, height);
 }
 
-void Emagram::boundingBox(double& xmin, double& ymin, double& xmax, double& ymax)  const
+void Emagram::boundingBox(double& xmin, double& ymin, double& xmax, double& ymax) const
 {
-    vector< std::pair<double, double> > geo;
-    vector< std::pair<double, double> > xy;
+    vector<std::pair<double, double> > geo;
+    vector<std::pair<double, double> > xy;
 
-    double xpcmax =  maxpcx;
-    double xpcmin =  minPCX_;
-    double ypcmax =  maxPCY_;
-    double ypcmin =  minPCY_;
+    double xpcmax = maxpcx;
+    double xpcmin = minPCX_;
+    double ypcmax = maxPCY_;
+    double ypcmin = minPCY_;
     xmin = x_min_;
     xmax = x_max_;
     ymin = y_max_;
@@ -227,83 +218,84 @@ void Emagram::boundingBox(double& xmin, double& ymin, double& xmax, double& ymax
         }
     }
 #endif
-
 }
 
-double Emagram::getMinX()  const
+double Emagram::getMinX() const
 {
     return -1.5;
 }
 
-double Emagram::getMinY()  const
+double Emagram::getMinY() const
 {
     return y_min_;
 }
 
-double Emagram::getMaxX()  const
+double Emagram::getMaxX() const
 {
-    return 1.5;;
+    return 1.5;
+    ;
 }
 
-double Emagram::getMaxY()  const
+double Emagram::getMaxY() const
 {
     return y_max_;
 }
 
 void Emagram::setMinX(double x)
 {
-    if ( x < x_min_ )
+    if (x < x_min_)
         x_min_ = x;
 }
 
 void Emagram::setMinY(double y)
 {
-    if ( y > y_min_ )
+    if (y > y_min_)
         y_min_ = y;
 }
 
 void Emagram::setMaxX(double x)
 {
-    if ( x > x_max_ )
+    if (x > x_max_)
         x_max_ = x;
 }
 
 void Emagram::setMaxY(double y)
 {
-    if ( y < y_max_ )
+    if (y < y_max_)
         y_max_ = y;
 }
 
-double Emagram::getMinPCX()  const
+double Emagram::getMinPCX() const
 {
 
     return minPCX_;
 }
 
-double Emagram::getMinPCY()  const
+double Emagram::getMinPCY() const
 {
 
     return minPCY_;
 }
 
-double Emagram::getMaxPCX()  const
+double Emagram::getMaxPCX() const
 {
 
     return maxPCX_;
 }
 
-double Emagram::getMaxPCY()  const
+double Emagram::getMaxPCY() const
 {
     return maxPCY_;
 }
 
-double Emagram::getMaxTestPCX () const{
+double Emagram::getMaxTestPCX() const
+{
     return maxpcx;
 }
 
 Polyline& Emagram::getPCBoundingBox() const
 {
-    if ( PCEnveloppe_->empty() ) {
+    if (PCEnveloppe_->empty()) {
         PCEnveloppe_->push_back(PaperPoint(getMinPCX(), getMinPCY()));
         PCEnveloppe_->push_back(PaperPoint(getMinPCX(), getMaxPCY()));
         PCEnveloppe_->push_back(PaperPoint(getMaxPCX(), getMaxPCY()));
@@ -312,12 +304,11 @@ Polyline& Emagram::getPCBoundingBox() const
     }
 
     return *PCEnveloppe_;
-
 }
 
 Polyline& Emagram::getUserBoundingBox() const
 {
-    if ( userEnveloppe_->empty() ) {
+    if (userEnveloppe_->empty()) {
         userEnveloppe_->push_back(PaperPoint(x_min_, y_min_));
         userEnveloppe_->push_back(PaperPoint(x_min_, y_max_));
         userEnveloppe_->push_back(PaperPoint(x_max_, y_max_));
@@ -330,23 +321,23 @@ Polyline& Emagram::getUserBoundingBox() const
 
 void Emagram::setDefinition(const string& json)
 {
-    if(json.empty())
+    if (json.empty())
         return;
 
-        MagJSon helper;
-        helper.interpret(json);
+    MagJSon helper;
+    helper.interpret(json);
 
-        XmlNode node = **helper.tree_.firstElement();
+    XmlNode node = **helper.tree_.firstElement();
 
-        node.name("Emagram");
-        set(node);
+    node.name("Emagram");
+    set(node);
 }
 
 static void toxml2(string& out, const map<string, string>& def)
 {
     ostringstream os;
     string sep = "";
-    for (map<string, string>::const_iterator entry = def.begin(); entry != def.end(); ++entry ) {
+    for (map<string, string>::const_iterator entry = def.begin(); entry != def.end(); ++entry) {
         os << sep << "\"" << entry->first << "\" : \"" << entry->second << "\"";
         sep = ",\n";
     }
@@ -359,11 +350,10 @@ void Emagram::getNewDefinition(const UserPoint& ll, const UserPoint& ur, string&
     map<string, string> def;
     def["subpage_map_projection"] = "Emagram";
 
-    def["x_min"]= tostring(ll.x_);
-    def["x_max"]= tostring(ur.x_);
-    def["y_min"]= tostring(ll.y_);
-    def["y_max"]= tostring(ur.y_);
-
+    def["x_min"] = tostring(ll.x_);
+    def["x_max"] = tostring(ur.x_);
+    def["y_min"] = tostring(ll.y_);
+    def["y_max"] = tostring(ur.y_);
 
     ::toxml2(out, def);
 
@@ -374,67 +364,24 @@ void Emagram::getNewDefinition(const UserPoint& ll, const UserPoint& ur, string&
     helper.interpret(out);
 }
 
-void Emagram::operator()(const Polyline& from,  BasicGraphicsObjectContainer& out) const
+void Emagram::operator()(const Polyline& from, BasicGraphicsObjectContainer& out) const
 {
     if (from.empty())
-            return;
-        PaperPoint ll(getMinPCX(), getMinPCY());
-        PaperPoint ur(maxpcx, getMaxPCY());
-        boost::geometry::model::box<PaperPoint> box(ll, ur);
-        boost::geometry::correct(box);
-        if ( from.closed() ) {
-            deque<PaperPoint> line;
+        return;
+    PaperPoint ll(getMinPCX(), getMinPCY());
+    PaperPoint ur(maxpcx, getMaxPCY());
+    vector<Polyline*> lines;
 
-            for (unsigned i = 0; i < from.size(); i++) {
-                line.push_back(from.get(i));
+    MagClipper::clip(from, ll, ur, lines);
 
-            }
+    for (auto line = lines.begin(); line != lines.end(); ++line)
+        out.push_back(*line);
 
-            boost::geometry::correct(line);
-            vector<deque<PaperPoint> > result;
-            boost::geometry::intersection(box, line, result);
-
-            // Now we feed the graphic container!
-
-            for (vector<deque<PaperPoint> >::iterator l = result.begin(); l != result.end(); l++)
-            {
-                Polyline* poly = from.getNew();
-
-                for (deque<PaperPoint>::iterator point = l->begin(); point != l->end(); ++point)
-                    poly->push_back(*point);
-
-                if ( !poly->empty() )
-                    out.push_back(poly);
-            }
-        }
-        else {
-            vector<PaperPoint> line;
-
-            for (unsigned i = 0; i < from.size(); i++) {
-                line.push_back(from.get(i));
-            }
-            boost::geometry::correct(line);
-            vector<vector<PaperPoint> > result;
-            boost::geometry::intersection(box, line, result);
-
-            // Now we feed the graphic container!
-
-            for (vector<vector<PaperPoint> >::iterator l = result.begin(); l != result.end(); l++)
-            {
-                Polyline* poly = from.getNew();
-
-                for (vector<PaperPoint>::iterator point = l->begin(); point != l->end(); ++point)
-                    poly->push_back(*point);
-
-                if ( !poly->empty() )
-                    out.push_back(poly);
-            }
-        }
-
+   
 }
 
 bool Emagram::in(const PaperPoint& point) const
 {
-    Polyline& enveloppe=getPCBoundingBox();
-    return boost::geometry::covered_by(point,enveloppe.polygon_);
+
+    return MagClipper::in(getPCBoundingBox(), point);
 }

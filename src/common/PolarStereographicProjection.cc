@@ -293,7 +293,7 @@ void PolarStereographicProjection::init(double width, double height)
 		PCEnveloppe_->push_back(PaperPoint(xpcmax_, ypcmin_));
 		PCEnveloppe_->push_back(PaperPoint(xpcmin_, ypcmin_));
 
-		boost::geometry::correct(PCEnveloppe_->polygon_);
+		//boost::geometry::correct(PCEnveloppe_->polygon_);
 
 
 		MagLog::dev() << " Projection definition-->[" << ymin_ << ", " << xmin_ << ", " << xmax_ << ", " << ymax_ << "]" << endl;
