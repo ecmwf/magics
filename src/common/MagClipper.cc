@@ -168,7 +168,7 @@ void MagClipper::add(const Polyline& subject, const Polyline& clip, vector<Polyl
 
     //cout << "Add line" << ClipperLib::Orientation(path_subject) << endl;
     clipper.AddPath(path_subject, ClipperLib::ptSubject, true);
-    convert(clip.polygon(), path_clip, true);
+    convert(clip.polygon(), path_clip);
 
     clipper.AddPath(path_clip, ClipperLib::ptClip, true);
     clipper.Execute(ClipperLib::ctUnion, solution, ClipperLib::pftNonZero, ClipperLib::pftNonZero);
@@ -176,6 +176,7 @@ void MagClipper::add(const Polyline& subject, const Polyline& clip, vector<Polyl
     for (auto path = solution.begin(); path != solution.end(); ++path) {
         Polyline* poly = new Polyline();
         convert(*path, poly->polygon());
+       
         out.push_back(poly);
     }
 }
