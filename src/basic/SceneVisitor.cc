@@ -44,6 +44,7 @@ bool SceneVisitor::reproject(BasicGraphicsObjectContainer&) const
 
 void  LayoutVisitor::redisplay(const BaseDriver& driver) const
 {
+	driver.redisplay(*layout_);
 	driver.redisplay(*current_);
 }
 
@@ -88,11 +89,13 @@ FrameVisitor::FrameVisitor()
 {
 	layout_ = new Layout();
 	layout_->name("frame");
+	background_ = "white";
 }
 
 FrameVisitor::~FrameVisitor()
 {
 }
+
 VerticalAxisVisitor::VerticalAxisVisitor(const DrawingVisitor&)
 {
 }

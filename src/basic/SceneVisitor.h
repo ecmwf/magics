@@ -111,12 +111,12 @@ public:
 	void zoomLevels(int zl)   {  ASSERT(layout_); return layout_->zoomLevels(zl); }
 	void zoomCurrentLevel(int level)   {  ASSERT(layout_); return layout_->zoomCurrentLevel(level); }
 	void frameIt()   {  ASSERT(layout_); return layout_->frameIt(); }
-	void blankIt()   {  ASSERT(layout_); return layout_->blankIt(); }
+	void blankIt(const string& colour="white")   {  ASSERT(layout_); return layout_->blankIt(colour); }
 	void frame(Layout& layout) { ASSERT(layout_); layout_->frame(layout); }
 	void clippIt(bool clip)   {  ASSERT(layout_); layout_->clippIt(clip); }
 protected:
 	void print(ostream&) const; 
-	Layout* layout_; 	 
+	mutable Layout* layout_; 	 
 	mutable Layout* current_;
 };
 
@@ -139,8 +139,15 @@ class FrameVisitor: public LayoutVisitor
 public:
 	FrameVisitor();
 	~FrameVisitor();
-	void visit(BasicSceneObject& object) { object.visit(*this); }
 
+	void backgroundColour(const string& colour) { background_ = colour; }
+
+	void visit(BasicSceneObject& object) { object.visit(*this); }
+	void frameIt()   {  if ( current_ ) current_->frameIt(); }
+	void blankIt()   {  if ( current_ ) current_->blankIt(background_); }
+
+protected:
+	string background_;
 
 };
 

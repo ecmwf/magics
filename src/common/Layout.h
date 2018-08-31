@@ -72,7 +72,7 @@ class LayoutFrame
 public:
 	LayoutFrame();
 	~LayoutFrame();
-	void blank(Layout&);
+	void blank(Layout&, const string&);
 	void frame(Layout&);
 protected:
 	int thickness_;
@@ -237,7 +237,7 @@ public:
     void frameIt() { frame_.frame(*this); }
     void clippIt(bool clipping) { clipping_ = clipping; }
     bool clipp() const { return clipping_; }
-    void blankIt() { frame_.blank(*this); }
+    void blankIt(const string& colour="white" ) { frame_.blank(*this, colour); }
     void resolve(bool resolve) { resolve_  = resolve; }
     bool resolve() const { return resolve_; }
     virtual void resize(double, double) {}

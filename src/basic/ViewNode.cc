@@ -39,7 +39,8 @@
 using namespace magics;
 
 
-ViewNode::ViewNode() : viewTransformation_(0), animation_("basic"), vaxis_(2.), haxis_(1.),  rules_(0), legend_(0), needLegend_(false)
+ViewNode::ViewNode() : viewTransformation_(0), animation_("basic"), vaxis_(2.), haxis_(1.),  rules_(0), legend_(0), 
+			needLegend_(false), drawing_background_colour_("white")
 {
 	static int i = 0;
 	ostringstream n;
@@ -48,6 +49,7 @@ ViewNode::ViewNode() : viewTransformation_(0), animation_("basic"), vaxis_(2.), 
 	i++;
 	layout_ = new Layout();
 	layout_->name(name_);
+
 } 
 
 
@@ -170,13 +172,13 @@ void ViewNode::prepareLayout(SceneLayer& tree)
 	frameHelper_->heightResolution(heightResolution()*width/100);
 
 	frameHelper_->frame(*layout_);
-	frameHelper_->blankIt();
-	frameHelper_->frameIt();
+	frameHelper_->backgroundColour(drawing_background_colour_);
+	
 	frameHelper_->clippIt(false);
 
-
+	components_.push_back(frameHelper_); // first to drwa the cakground if needed!
 	components_.push_back(drawing_);
-	components_.push_back(frameHelper_);
+	
 	helper.add(drawing_);
 
 	// Then the axis!
@@ -287,13 +289,16 @@ void ViewNode::visit(SceneLayer& tree)
 	// First the info about the animation overlay! 
 	// Basic instantiation of the Animation rules...
 	
+	
+	
+
 	if (!rules_) {
 		rules_ = MagTranslator<string, AnimationRules>()(lowerCase(animation_));
 		BasicSceneObject::visit(*rules_);
 	}
 
 	tree.rules(rules_);
-	// Here we checkeing for the legend!
+	// Here we checking for the legend!
 	needLegend_ = false;
 	for ( vector<BasicSceneObject*>::iterator item = items_.begin(); item != items_.end(); ++item)  {
 			needLegend_ = (*item)->needLegend();
@@ -303,7 +308,10 @@ void ViewNode::visit(SceneLayer& tree)
 	
 	
 	//Here we have the steps! 	
-	prepareLayout(tree);	
+	prepareLayout(tree);
+	
+
+		
 	
 	if ( items_.empty() )
 	{
@@ -315,13 +323,14 @@ void ViewNode::visit(SceneLayer& tree)
 		}
 	}
 
+	
 	for ( vector<BasicSceneObject*>::iterator item = items_.begin(); item != items_.end(); ++item)  {
+
 		(*item)->visit(tree, components_);
 	}
-	if ( frameHelper_->layoutPtr() )
-	{
-		frameHelper_->layout().frameIt();
-	}
+	
+	frameHelper_->frameIt();
+	
 
 	if( mode() == interactif )
 	{
@@ -563,6 +572,8 @@ void FortranViewNode::getReady()
 {
 	ASSERT (parent_);
 
+	drawing_background_colour_ = background_->name();
+
 	if ( predefined_ ) {
 			MagDefLibrary library("projections");
 
@@ -619,6 +630,7 @@ void FortranViewNode::getReady()
 	drawing_bottom_= y;
 	drawing_right_ = 100 - x - width;
 	drawing_left_ = x;
+
 
 
 	vaxis_ = vertical_axis_with_;
