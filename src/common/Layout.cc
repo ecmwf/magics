@@ -148,32 +148,34 @@ Layout* Layout::execute(AnimationStep& /*step*/,  const Layout* /*visitor*/)
 	return 0;
 }
 
-void LayoutFrame::blank(Layout& owner)
+void LayoutFrame::blank(Layout& owner, const string& colour)
 {
 
 	
-	if ( ! blanking_ ) return;
+	if ( blanking_  ) {
 		// Create and push_back the frame!
 		
-	Polyline* frame = new Polyline();
-	frame->setLineStyle(style_);
-	frame->setThickness(thickness_);
-	frame->setColour(visible_ ? colour_ : Colour("none"));
-	frame->setFilled(true);      
-	frame->setFillColour(background_);     
+		Polyline* frame = new Polyline();
+		frame->setLineStyle(style_);
+		frame->setThickness(thickness_);
+		frame->setColour(visible_ ? colour_ : Colour("none"));
+		frame->setFilled(true);      
+		frame->setFillColour(colour);     
 
 		
-	FillShadingProperties* shading = new FillShadingProperties();          
-
-	frame->setShading(shading);
 		
-	frame->push_back(PaperPoint(owner.minX(), owner.minY()));
-	frame->push_back(PaperPoint(owner.minX(), owner.maxY()));
-	frame->push_back(PaperPoint(owner.maxX(), owner.maxY()));
-	frame->push_back(PaperPoint(owner.maxX(), owner.minY()));
-	frame->push_back(PaperPoint(owner.minX(), owner.minY()));
-	
-	owner.push_back(frame);
+		FillShadingProperties* shading = new FillShadingProperties();          
+
+		frame->setShading(shading);
+			
+		frame->push_back(PaperPoint(owner.minX(), owner.minY()));
+		frame->push_back(PaperPoint(owner.minX(), owner.maxY()));
+		frame->push_back(PaperPoint(owner.maxX(), owner.maxY()));
+		frame->push_back(PaperPoint(owner.maxX(), owner.minY()));
+		frame->push_back(PaperPoint(owner.minX(), owner.minY()));
+		
+		owner.push_back(frame);
+	}
 }
 
 void LayoutFrame::frame(Layout& owner)
@@ -186,13 +188,9 @@ void LayoutFrame::frame(Layout& owner)
 	frame->setThickness(thickness_);
 	frame->setColour(colour_); 
 
-	//frame->setFilled(true);      
-	//frame->setFillColour(background_);     
+
 
 	
-	FillShadingProperties* shading = new FillShadingProperties();          
-
-	//frame->setShading(shading);
 		
 	double px = (owner.maxX() - owner.minX())*0.00;
 	double py = (owner.maxY() - owner.minY())*0.00;

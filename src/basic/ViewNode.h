@@ -104,6 +104,7 @@ protected:
 	 vector<TextVisitor*>   texts_;
 	 vector<LayoutVisitor*> components_;
 	
+	 string drawing_background_colour_;
 	
 	 // Infomation about the zoom! 
 	 string id_;
