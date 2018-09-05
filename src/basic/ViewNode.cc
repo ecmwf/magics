@@ -176,7 +176,7 @@ void ViewNode::prepareLayout(SceneLayer& tree)
 	
 	frameHelper_->clippIt(false);
 
-	components_.push_back(frameHelper_); // first to drwa the cakground if needed!
+	components_.push_back(frameHelper_); // first to draw the background if needed!
 	components_.push_back(drawing_);
 	
 	helper.add(drawing_);
@@ -329,7 +329,7 @@ void ViewNode::visit(SceneLayer& tree)
 		(*item)->visit(tree, components_);
 	}
 	
-	frameHelper_->frameIt();
+	//frameHelper_->frameIt();
 	
 
 	if( mode() == interactif )
