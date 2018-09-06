@@ -105,6 +105,10 @@ protected:
 	 vector<LayoutVisitor*> components_;
 	
 	 string drawing_background_colour_;
+	 bool frameIt_;
+	 Colour frameColour_;
+	 LineStyle frameStyle_;
+	 int frameThickness_;
 	
 	 // Infomation about the zoom! 
 	 string id_;

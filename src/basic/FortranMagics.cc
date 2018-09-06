@@ -345,7 +345,6 @@ void FortranMagics::pnew(const string& type)
 		if ( empty_ ) return;
 		finish();
 		pop();
-		actions_.push(&FortranMagics::legend);
 		actions_.push(&FortranMagics::subpage);
 	}
 	if ( magCompare(type, "page") )

@@ -176,7 +176,7 @@ void ViewNode::prepareLayout(SceneLayer& tree)
 	
 	frameHelper_->clippIt(false);
 
-	components_.push_back(frameHelper_); // first to draw the background if needed!
+	//components_.push_back(frameHelper_); // first to draw the background if needed!
 	components_.push_back(drawing_);
 	
 	helper.add(drawing_);
@@ -304,13 +304,13 @@ void ViewNode::visit(SceneLayer& tree)
 			needLegend_ = (*item)->needLegend();
 			if ( needLegend_ ) break;
 	}
-
-	
+	bool blank = (drawing_background_colour_ == "none");
+	push_front(new FrameBackgroundObject(blank, Colour(drawing_background_colour_)));
 	
 	//Here we have the steps! 	
 	prepareLayout(tree);
 	
-
+	push_back(new FrameForegroundObject(frameIt_, frameColour_, frameStyle_, frameThickness_));
 		
 	
 	if ( items_.empty() )
@@ -456,8 +456,12 @@ void XmlViewNode::getReady()
 	layout_->y(bottom.percent());
 	layout_->width(width.percent());
 	layout_->height(height.percent());
-	
-	layout_->display(display_);	
+	frameIt_ = border_;
+	frameColour_ = *border_colour_;
+	frameStyle_ = border_style_;
+	frameThickness_ = border_thickness_;
+	drawing_background_colour_ = background_->name();
+	layout_->display(display_);	 
 	layout_->frame(true, border_, *border_colour_, border_style_, border_thickness_, *background_);
 
 	BasicSceneObject::getReady();
@@ -642,7 +646,11 @@ void FortranViewNode::getReady()
 	ParameterManager::set("subpage_y_length_internal", absheight);
 	ParameterManager::set("subpage_x_position_internal", absx);
 	ParameterManager::set("subpage_y_position_internal", absy);
-
+	frameIt_ = frame_;
+	frameColour_ = *frame_colour_;
+	frameStyle_ = frame_line_style_;
+	frameThickness_ = frame_thickness_;
+	
 	layout_->frame(true, frame_, *frame_colour_, frame_line_style_, frame_thickness_, *background_);
 	layout_->clippIt(clipping_);
 
