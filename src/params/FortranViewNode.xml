@@ -104,7 +104,7 @@ does it submit to any jurisdiction.
 	</parameter>
 
 
-	<parameter member="background" to="Colour" default="white" from="string" name="subpage_background_colour">
+	<parameter member="background" to="Colour" default="none" from="string" name="subpage_background_colour">
          		<documentation> Colour of the subpage background 		</documentation>
 	</parameter>
 

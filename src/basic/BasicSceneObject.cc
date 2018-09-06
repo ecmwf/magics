@@ -21,11 +21,11 @@
 
 
 #include "BasicSceneObject.h"
-#include "BasicSceneVisitor.h"
+#include "SceneVisitor.h"
 #include "Layout.h"
 #include "LayoutManager.h"
 #include "Layer.h"
-
+#include "Polyline.h"
 
 using namespace magics;
 
@@ -207,4 +207,81 @@ EmptySceneObject::~EmptySceneObject()
 
 void EmptySceneObject::print(ostream&) const
 {
+}
+
+
+void FrameBackgroundObject::visit(DrawingVisitor& owner)
+{
+	if ( blankIt_  ) {
+		// Create and push_back the frame!
+		
+		Polyline* frame = new Polyline();
+		
+		frame->setColour(colour_);
+		frame->setFilled(true);      
+		frame->setFillColour(colour_);     
+
+		
+		
+		FillShadingProperties* shading = new FillShadingProperties();          
+
+		frame->setShading(shading);
+			
+		frame->push_back(PaperPoint(owner.minX(), owner.minY()));
+		frame->push_back(PaperPoint(owner.minX(), owner.maxY()));
+		frame->push_back(PaperPoint(owner.maxX(), owner.maxY()));
+		frame->push_back(PaperPoint(owner.maxX(), owner.minY()));
+		frame->push_back(PaperPoint(owner.minX(), owner.minY()));
+		
+		owner.push_back(frame);
+	}
+}
+
+void FrameBackgroundObject::visit(SceneLayer& layer, vector<LayoutVisitor*>& visitors)
+{
+	NoDataLayer* frame = new NoDataLayer(this);
+	layer.add(frame);
+	for  (vector<LayoutVisitor*>::iterator visitor = visitors.begin(); visitor != visitors.end(); ++visitor) {
+		frame->set(*visitor);
+		(*visitor)->visit(*this);
+
+	}
+}
+
+void FrameForegroundObject::visit(SceneLayer& layer, vector<LayoutVisitor*>& visitors)
+{
+	NoDataLayer* frame = new NoDataLayer(this);
+	layer.add(frame);
+	for  (vector<LayoutVisitor*>::iterator visitor = visitors.begin(); visitor != visitors.end(); ++visitor) {
+		frame->set(*visitor);
+		(*visitor)->visit(*this);
+
+	}
+}
+
+void FrameForegroundObject::visit(DrawingVisitor& owner)
+{
+	if ( ! frameIt_ ) return;
+	// Create and push_back the frame!
+	
+	Polyline* frame = new Polyline();
+	frame->setLineStyle(style_);
+	frame->setThickness(thickness_);
+	frame->setColour(colour_); 
+
+
+
+	
+		
+	double px = (owner.maxX() - owner.minX())*0.00;
+	double py = (owner.maxY() - owner.minY())*0.00;
+	
+	
+	frame->push_back(PaperPoint(owner.minX() +px , owner.minY() + py));
+	frame->push_back(PaperPoint(owner.minX() +px , owner.maxY() - py));
+	frame->push_back(PaperPoint(owner.maxX() - px, owner.maxY() - py));
+	frame->push_back(PaperPoint(owner.maxX() - px , owner.minY() +py));
+	frame->push_back(PaperPoint(owner.minX() + px, owner.minY() +py));
+	
+	owner.push_back(frame);
 }
