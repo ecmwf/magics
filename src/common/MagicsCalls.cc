@@ -781,10 +781,10 @@ public :
 	~ContourAutomaticSetting() {}
 	bool operator()(const string& setting)
 	{
-		cout << " setting -->" << setting << endl;
+		//cout << " setting -->" << setting << endl;
 		if ( magCompare(setting, "eccharts") ) {
 			MagLog::info() << "Compatibility issue: ecchart automatic contour is deprecated, consider using ecmwf\n";
-			return false; 
+			return false;
 		}
 		if ( magCompare(setting, "web") ) {
 			MagLog::warning() << "Compatibility issue: web automatic contour is now deprecated, use ecmwf instead\n";
@@ -796,6 +796,7 @@ public :
 			ParameterManager::set("contour_automatic_setting", "ecmwf");
 			return true;
 		}
+		return false;
 	}
 };
 
@@ -1438,7 +1439,7 @@ const char* py_reset(const char* name)
 
 void mag_reset(const char* name)
 {
-	
+
 	ParameterManager::reset(name);
 }
 
@@ -1475,7 +1476,7 @@ void mag_setr(const char* name, const double value)
 {
 	std::string n(name);
 
-	
+
 	if ( CompatibilityHelper::check(n, value) ) return;
 	ParameterManager::set(n, value);
 

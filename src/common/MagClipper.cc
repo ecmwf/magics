@@ -1,10 +1,10 @@
 
 /*
  * (C) Copyright 1996-2016 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
  */
@@ -16,7 +16,7 @@ using namespace magics;
 
 double scale_ = 100000;
 
-int convert(const deque<PaperPoint>& in, ClipperLib::Path& out, bool print = false)
+void convert(const deque<PaperPoint>& in, ClipperLib::Path& out, bool print = false)
 {
     out.reserve(in.size());
     if (print)
@@ -31,9 +31,8 @@ int convert(const deque<PaperPoint>& in, ClipperLib::Path& out, bool print = fal
         cout << " -------------------" << orientation << "----" << out.size() << "---------------------" << endl;
 }
 
-int convert(const ClipperLib::Path& in, deque<PaperPoint>& out)
+void convert(const ClipperLib::Path& in, deque<PaperPoint>& out)
 {
-
     for (auto pt = in.begin(); pt != in.end(); ++pt) {
         out.push_back(PaperPoint(pt->X / scale_, pt->Y / scale_));
     }
@@ -156,6 +155,7 @@ void MagClipper::clipClosed(const Polyline& subject, const Polyline& clip, vecto
         out.push_back(helper[*outer]);
     }
 }
+
 void MagClipper::add(const Polyline& subject, const Polyline& clip, vector<Polyline*>& out)
 {
     // Create Path from outer and holes!
@@ -176,7 +176,7 @@ void MagClipper::add(const Polyline& subject, const Polyline& clip, vector<Polyl
     for (auto path = solution.begin(); path != solution.end(); ++path) {
         Polyline* poly = new Polyline();
         convert(*path, poly->polygon());
-       
+
         out.push_back(poly);
     }
 }
@@ -192,6 +192,7 @@ bool MagClipper::in(const Polyline& poly, const PaperPoint& point)
 MagClipper::MagClipper()
 {
 }
+
 MagClipper::~MagClipper()
 {
 }
