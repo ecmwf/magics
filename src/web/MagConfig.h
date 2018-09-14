@@ -135,13 +135,14 @@ struct Style
 	
 	void criteria(const json_spirit::Value&);
 	void style(const json_spirit::Value&);
-	void scaling(const json_spirit::Value&); 
+	void units(const json_spirit::Value&); 
 	void styles(const json_spirit::Value&); 
 	void name(const json_spirit::Value&); 
 	void match(const json_spirit::Value&); 
+	void ignore(const json_spirit::Value&) {} 
 
 	vector<Match> criteria_;
-	Definition scaling_;
+	string preferedUnits_;
 	string style_;
 	vector<string> styles_;
 	vector<string> names_;
@@ -156,8 +157,7 @@ struct Style
 class StyleLibrary : public MagConfig
 {
 public:
-	//StyleLibrary(const string& theme, const string& family): theme_(theme), family_(family) { init(); }
-	//StyleLibrary(const string& family): family_(family) { init(); }
+	
 	StyleLibrary() {  }
 	~StyleLibrary() {}
 

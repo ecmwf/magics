@@ -382,8 +382,9 @@ void WebLibrary::getScaling(MetaDataCollector& data, double& scaling, double& of
 		string clean = unit->second;
   		std::size_t pos = clean.find_last_not_of(whitespaces);
  		if (pos!=std::string::npos) {
+ 			
     		//cout << "clean" << pos << endl;
-    		clean = clean.substr(0, pos);
+    		clean = clean.substr(0, pos+1);
  		}
        // str is all whitespace
 		

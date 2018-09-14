@@ -1494,6 +1494,7 @@ const LevelDescription& GribDecoder::level()
     return dataLevel_;
 }
 
+
 void GribDecoder::visit(MetaDataVisitor& meta)
 {
     if ( !handle_ )
