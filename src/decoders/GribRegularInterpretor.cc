@@ -26,6 +26,7 @@
 #include "LocalTable.h"
 #include "RasterData.h"
 #include "Timer.h"
+#include "ContourLibrary.h"
 
 using namespace magics;
 
@@ -51,7 +52,7 @@ void GribInterpretor::longitudesSanityCheck(double& west, double& east) const {
         east -= 360.;
     }
 }
-void GribInterpretor::scaling(const GribDecoder& grib, double& scaling,
+void GribInterpretor::scaling(GribDecoder& grib, double& scaling,
         double& offset) const {
     string originalUnits, derivedUnits;
    this->scaling(grib, scaling, offset, originalUnits, derivedUnits);
@@ -307,68 +308,22 @@ Index GribInterpretor::nearest(double ulat, double ulon)
 
 
 
-void GribInterpretor::scaling(const GribDecoder& grib, double& scaling,
+void GribInterpretor::scaling(GribDecoder& grib, double& scaling,
         double& offset, string& originalUnits, string& derivedUnits) const {
     scaling = 1;
     offset = 0;
 
     // First check that they are not derived fields!
 
-    if (grib.scaling_ || grib.derived_scaling_) {
-        long derived = grib.getLong("generatingProcessIdentifier");
+    if (grib.scaling_ ) {
+        WebLibrary settings;
+        MetaDataCollector needs;
+        settings.askId(needs);
+        grib.visit(needs);
+        settings.getScaling(needs, scaling, offset);
 
-        if ((derived != 254 && grib.scaling_)
-                || (derived == 254 && grib.derived_scaling_)) {
-            // The key 'paramId' embodies a number of features such as centre, parameter,
-            // level, etc. This means that we should not need to worry about table
-            // numbers, etc as we did with GRIBEX. However, it's not entirely clear
-            // what we can do with non-ECMWF data, as we don't seem to have tables
-            // giving scaling factors & offsets for such data. The code, as originally
-            // written here takes a table-based approach, but this will probably
-            // become redundant. What we really need is something more based on paramIds.
-            // In the meantime, we will take the paramIds as if they are from ECMWF data.
-            // In practice, this means pretending that all data is from
-            // centre=98,table=128.
-
-            long table = 128; // hard-coded in case of GRIB 2
-            long centre = 98;  // hard-coded in case of GRIB 2
-
-            //long edition = grib.getLong("edition");
-            //
-            //if (edition == 1)
-            //{
-            //  table  = grib.getLong("table2Version");
-            //  centre = grib.getLong("centre");
-            //}
-            //else
-            //{
-            //  // GRIB 2 does not use the table-based approach, so we just hope that this will
-            //  // work with most data if we use the standard ECMWF tables...
-            //}
-
-            long id = grib.getLong("paramId");
-
-            try {
-                const ParamDef& paramdef = LocalTable::localInfo(id, table,
-                        centre);
-                scaling = paramdef.scaling();
-                offset = paramdef.offset();
-                originalUnits = paramdef.originalUnit();
-                derivedUnits = paramdef.derivedUnit();
-                if ( paramdef.code() == -1 ) {
-                    originalUnits = grib.getString("units");
-                    derivedUnits = originalUnits;
-                }
-            }
-            catch (exception) {
-
-                MagLog::warning()
-                        << " Can not find information for the parameter [" << id
-                        << "." << table << "]\n";
-            }
-        }
-
-    } else {
+    } 
+    else {
         scaling = grib.scaling_factor_;
         offset = grib.scaling_offset_;
     }
@@ -377,7 +332,7 @@ void GribInterpretor::scaling(const GribDecoder& grib, double& scaling,
         scaling = 1;
 }
 
-void GribInterpretor::scaling(const GribDecoder& grib, Matrix** matrix) const {
+void GribInterpretor::scaling(GribDecoder& grib, Matrix** matrix) const {
     double factor, offset;
 
     scaling(grib, factor, offset);
@@ -394,6 +349,7 @@ void  GribInterpretor::index(const GribDecoder& grib)
 
 int GribInterpretor::nearest(double lon, double lat, double& nlon, double& nlat)
 {
+  assert(false);
   return -1;
 /*
     map<double, map<double, int> >::iterator y1, y2, y;
@@ -516,7 +472,7 @@ void GribInterpretor::raw(GribDecoder& grib,
 
 }
 
-void GribInterpretor::raw(const GribDecoder& grib,
+void GribInterpretor::raw(GribDecoder& grib,
         const Transformation& transformation, const string& key,
         map<double, map<double, CustomisedPoint*> >& points) const {
     Timer timer("grib", "raw");
@@ -1818,7 +1774,7 @@ void GribRotatedInterpretor::interpret2D(double& lat, double& lon, double& uc,
     vc = speed * sin(rangle);
 }
 
-void GribRotatedInterpretor::raw(const GribDecoder& grib,
+void GribRotatedInterpretor::raw(GribDecoder& grib,
         const Transformation& transformation, const string& key,
         map<double, map<double, CustomisedPoint*> >& points) const {
     double factor, offset;

@@ -151,13 +151,11 @@ void Style::styles(const json_spirit::Value& value)
 		styles_.push_back(values[i].get_str());
 	}
 }
-void Style::scaling(const json_spirit::Value& value) 
+void Style::units(const json_spirit::Value& value) 
 {
-	json_spirit::Object object =value.get_value< json_spirit::Object >();
-	for (vector<json_spirit::Pair>::const_iterator entry = object.begin(); entry !=  object.end(); ++entry) {
-		scaling_.insert(make_pair(entry->name_, MagConfig::convert(entry->value_)));
-	}
+	preferedUnits_ = value.get_str();
 }
+
 void Style::match(const json_spirit::Value& value) 
 {
 
@@ -180,10 +178,11 @@ void Style::set(const json_spirit::Object& object)
 		methods_["set"] =  &Style::criteria;
 		methods_["criterias"] =  &Style::criteria;
 		methods_["style"] =  &Style::style;
-		methods_["scaling"] =  &Style::scaling;
+		methods_["prefered_units"] =  &Style::units;
 		methods_["styles"] =  &Style::styles;
 		methods_["eccharts_layer"] =  &Style::name;
 		methods_["visdef"] =  &Style::style;
+		methods_["scaling"] =  &Style::ignore;
 		
 	}
 
@@ -426,7 +425,7 @@ void Style::keywords(std::set<string>& keys)
 
 void  StyleLibrary::findStyle(const string& name, Style::Definition& visdef)
 {
-	cout << "Lokking for " << name << endl;
+	cout << "Looking for " << name << endl;
 	allStyles_.find(name, visdef);
 }
 
@@ -451,9 +450,12 @@ bool StyleLibrary::findStyle(const Style::Definition& data, Style::Definition& v
 		}
 	}
 	if ( score ) {
-			cout << " FOUND  score " << score << " --> Applying style " << beststyle.style_ << endl;
+			
 			info.set(beststyle.style_, beststyle.styles_);
 			allStyles_.find(info.default_, visdef);
+			if ( visdef.find("required_units") == visdef.end() )
+				if (beststyle.preferedUnits_.size())
+					visdef.insert(make_pair("required_units", beststyle.preferedUnits_));
 			return true;
 		}
 	return false;
