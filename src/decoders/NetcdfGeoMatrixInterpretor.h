@@ -65,6 +65,8 @@ public:
     virtual void visit(MetaDataCollector&);
     virtual void visit(ValuesCollector&,PointsList&); 
     void customisedPoints(const Transformation&, const std::set<string>&, CustomisedPointsList&, int);
+    string proj4Detected(Netcdf& netcdf);
+
 protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).
 	virtual void print(ostream&) const; 
