@@ -23,7 +23,7 @@
 #define XmlNode_H
 
 #include "magics.h"
-#include "VectorOfPointers.h"
+#include "AutoVector.h"
 
 
 namespace magics {
@@ -58,9 +58,21 @@ public:
 	
 	
 	bool noElement() const { return elements_.empty(); }
+
+	friend class ElementIterable
+	{
+			XmlNode *node;
+			ElementIterable (XmlNode *nd): node(nd) {}
+			friend XmlNode::elements();
+		public:
+			auto begin() {return node->elements_.begin();}
+			auto end() {return node->elements_.end();}
+			ElementIterable(ElementIterable &&) = default;	//allow move construction, suppress move assignment and copy operations
+	};
+	ElementIterable elements() {return ElementIterable(this);}
 	
-	ElementIterator firstElement()  const      { return elements_.begin(); }
-	ElementIterator lastElement() const        { return elements_.end(); }
+//	ElementIterator firstElement()  const      { return elements_.begin(); }
+//	ElementIterator lastElement() const        { return elements_.end(); }
 	AttributesIterator firstAttributes() const { return attributes_.begin(); }
 	AttributesIterator lastAttributes() const  { return attributes_.end(); }
 	DataIterator   firstData() const           { return data_.begin(); }
@@ -81,7 +93,7 @@ protected:
 	 virtual void print(ostream&) const; 
 	 string                  name_;
 	 vector<string>          data_;
-	 VectorOfPointers<vector<XmlNode*> > elements_;
+	 AutoVector<XmlNode> elements_;
 	 map<string, string>  attributes_;
 	 void copy(const XmlNode&); 
 private:
