@@ -26,6 +26,13 @@ class AutoVector: public std::vector<std::unique_ptr<E>>
 		void emplace_back(E *ep) {std::vector<std::unique_ptr<E>>::emplace_back(ep);}
 		typename std::vector<std::unique_ptr<E>>::iterator emplace(typename std::vector<std::unique_ptr<E>>::const_iterator pos, E *ep) {return std::vector<std::unique_ptr<E>>::emplace(pos, ep);}
 		typename std::vector<std::unique_ptr<E>>::iterator insert(typename std::vector<std::unique_ptr<E>>::const_iterator pos, E *ep) {return std::vector<std::unique_ptr<E>>::emplace(pos, ep);}
+
+		void simple_clear()	//do not clear the pointers (not thread-safe)
+		{
+			for (auto &ptr : *this)
+				ptr.release();
+			std::vector<std::unique_ptr<E>>::clear();
+		}
 };
 
 #endif /* AutoVector_h_ */

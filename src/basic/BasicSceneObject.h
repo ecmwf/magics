@@ -24,7 +24,7 @@
 
 #include "magics.h"
 #include "MagLog.h"
-#include "VectorOfPointers.h"
+#include "AutoVector.h"
 #include "BasicGraphicsObject.h"
 #include "Layout.h"
 #include "DisplayManager.h"
@@ -215,22 +215,22 @@ protected:
 
 	template <class T>
 	void dispatch(T& visitor) {
-		for ( vector<BasicSceneObject*>::iterator item = items_.begin(); item != items_.end(); ++item) 
-			(*item)->visit(visitor); 		
+		for (auto &item : items_)
+			item->visit(visitor);
 	}
 	template <class T1, class T2>
 		void dispatch(T1& visitor, T2& args) {
-			for ( vector<BasicSceneObject*>::iterator item = items_.begin(); item != items_.end(); ++item) 
-				(*item)->visit(visitor, args); 		
+			for (auto &item : items_)
+				item->visit(visitor, args);
 		}
 	void dispatch(Function function)
 	{
-		for ( vector<BasicSceneObject*>::iterator item = items_.begin(); item != items_.end(); ++item) 
-			((*item)->*function)(); 		
+		for (auto &item : items_)
+			((*item).*function)();
 	}
 
 
-	VectorOfPointers<vector<BasicSceneObject*> >          items_;
+	AutoVector<BasicSceneObject>          items_;
 	vector<SceneVisitor*>     visitors_;	 
  
 	 BasicSceneObject* parent_; //Do not delete! Only a reference
