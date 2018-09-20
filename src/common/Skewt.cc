@@ -309,7 +309,7 @@ void Skewt::setDefinition(const string& json)
     MagJSon helper;
     helper.interpret(json);
 
-    XmlNode node = **helper.tree_.firstElement();
+    XmlNode node = **helper.tree_.begin();
 
     node.name("Skewt");
     set(node);

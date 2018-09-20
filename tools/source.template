@@ -101,10 +101,11 @@ void {{ object }}Attributes::set(const XmlNode& node)
 		{% endif -%}
 		{% endfor %}
 	}
-	for (XmlNode::ElementIterator elt = node.firstElement(); elt != node.lastElement(); ++elt) {
+	for (auto &elt : node.elements())
+	{
 		{% for param  in factory_parameters -%} 
 		{% if not param.niceprint  -%}
-		setMember((*elt)->name(), {{ param.member }}_, *(*elt)); 
+		setMember(elt->name(), {{ param.member }}_, *elt); 
 		{% endif -%}
 		{% endfor %}
 	}
