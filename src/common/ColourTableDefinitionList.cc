@@ -52,10 +52,11 @@ void ColourTableDefinitionList::set(const ColourTableDefinitionListInterface& at
 
 void ColourTableDefinitionList::set(const XmlNode& node)
 {	
-	for (XmlNode::ElementIterator elt = node.firstElement(); elt != node.lastElement(); ++elt) {
+	for (auto &elt : node.elements())
+	{
 		try {
-			Colour* colour = MagTranslator<string, Colour>()((*elt)->name());
-			colour->set(*(*elt));
+			Colour* colour = MagTranslator<string, Colour>()(elt->name());
+			colour->set(*elt);
 			colours_.push_back(colour->name());
 			MagLog::dev() << "add colour---" << colour->name() << "\n";
 		}

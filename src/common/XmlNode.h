@@ -42,7 +42,7 @@ public:
 class XmlNode {
 
 public:
-    typedef vector<XmlNode*>::const_iterator ElementIterator;
+    typedef AutoVector<XmlNode>::const_iterator ElementIterator;
     typedef map<string, string>::const_iterator AttributesIterator;
     typedef vector<string>::const_iterator DataIterator;
     
@@ -59,20 +59,19 @@ public:
 	
 	bool noElement() const { return elements_.empty(); }
 
-	friend class ElementIterable
+	template<typename Container>
+	class Iterable
 	{
-			XmlNode *node;
-			ElementIterable (XmlNode *nd): node(nd) {}
-			friend XmlNode::elements();
+			const Container &container;
 		public:
-			auto begin() {return node->elements_.begin();}
-			auto end() {return node->elements_.end();}
-			ElementIterable(ElementIterable &&) = default;	//allow move construction, suppress move assignment and copy operations
+			auto begin() const {return container.cbegin();}
+			auto end() const {return container.cend();}
+
+			Iterable(const Container &cont): container(cont) {}
+			Iterable(Iterable &&) = default;	//allow move construction, suppress move assignment and copy operations
 	};
-	ElementIterable elements() {return ElementIterable(this);}
+	Iterable<AutoVector<XmlNode>> elements() const {return Iterable<AutoVector<XmlNode>>(elements_);}
 	
-//	ElementIterator firstElement()  const      { return elements_.begin(); }
-//	ElementIterator lastElement() const        { return elements_.end(); }
 	AttributesIterator firstAttributes() const { return attributes_.begin(); }
 	AttributesIterator lastAttributes() const  { return attributes_.end(); }
 	DataIterator   firstData() const           { return data_.begin(); }

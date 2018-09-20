@@ -96,7 +96,7 @@ void  BasicSceneObject::resolve()
 	for (auto &item : items_)
 		items.push_back(item.get());
 	for (auto &item : items)
-		(*item)->resolve();
+		item->resolve();
 }
 
 bool  BasicSceneObject::needLegend()
