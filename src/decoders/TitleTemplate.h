@@ -27,7 +27,7 @@
 #include <TitleField.h>
 #include <Data.h>
 #include <Factory.h>
-#include <VectorOfPointers.h>
+#include <AutoVector.h>
 
 #include <stack>
 
@@ -73,7 +73,7 @@ public :
 };
 
 
-class TitleTemplate : public VectorOfPointers<vector<TitleTemplate*> >, 
+class TitleTemplate : public AutoVector<TitleTemplate>,
 	public TitleTemplateAttributes, 
 	public std::stack<TitleTemplate*>
 {
@@ -117,31 +117,31 @@ public:
 			}
 		}
 
-		for (vector<TitleField*>::const_iterator entry = template_.begin(); entry != template_.end(); ++entry)
+		for (auto &entry : template_)
 		{
 #ifdef MAGICS_EXCEPTION
 			try
 			{
-				unique_ptr<TitleFieldHandler > object(SimpleObjectMaker<TitleFieldHandler >::create((*entry)->name()));
-				(*object)(*(*entry), lines, data);
+				unique_ptr<TitleFieldHandler > object(SimpleObjectMaker<TitleFieldHandler >::create(entry->name()));
+				(*object)(*entry, lines, data);
 			}
 			catch (NoFactoryException& e)
 			{
 				// The data do not know how to verify the criter ....
-				MagLog::debug() << "Can Not Create the TitleFieldHandler for " << (*entry)->name() << "\n";
-				(*(*entry))(lines);
+				MagLog::debug() << "Can Not Create the TitleFieldHandler for " << entry->name() << "\n";
+				(*entry)(lines);
 			}
 #else
-			TitleFieldHandler* object = SimpleObjectMaker<TitleFieldHandler >::create((*entry)->name());
+			TitleFieldHandler* object = SimpleObjectMaker<TitleFieldHandler >::create(entry->name());
 			if (object)
 			{
-				(*object)(*(*entry), lines, data);
+				(*object)(*entry, lines, data);
 			}
 			else
 			{
 				// The data do not know how to verify the criter ....
-				MagLog::debug() << "Can Not Create the TitleFieldHandler for " << (*entry)->name() << "\n";
-				(*(*entry))(lines);
+				MagLog::debug() << "Can Not Create the TitleFieldHandler for " << entry->name() << "\n";
+				(*entry)(lines);
 			}
 #endif
 		}
@@ -162,7 +162,7 @@ protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).
 	virtual void print(ostream&) const; 
 	map<string, string> criteria_;
-	VectorOfPointers<vector<TitleField*> > template_;
+	AutoVector<TitleField> template_;
 	static TitleTemplate* singleton_;
 	void decode();
 
