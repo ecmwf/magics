@@ -157,8 +157,8 @@ void TitleTemplate::print(ostream& out)  const
 	{
 		out << criter->first << " = " << criter->second << "," << "\n";
 	}
-	for (vector<TitleField*>::const_iterator field = template_.begin(); field != template_.end(); ++field) 
-		out << *(*field);   
+	for (auto &field : template_)
+		out << *field;
 	for (const_iterator child = begin(); child != end(); ++child)
 		out << *(*child);   
 	out << "]";
