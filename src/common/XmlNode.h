@@ -25,7 +25,6 @@
 #include "magics.h"
 #include "AutoVector.h"
 
-
 namespace magics {
 	
 class XmlNode;
@@ -59,18 +58,7 @@ public:
 	
 	bool noElement() const { return elements_.empty(); }
 
-	template<typename Container>
-	class Iterable
-	{
-			const Container &container;
-		public:
-			auto begin() const {return container.cbegin();}
-			auto end() const {return container.cend();}
-
-			Iterable(const Container &cont): container(cont) {}
-			Iterable(Iterable &&) = default;	//allow move construction, suppress move assignment and copy operations
-	};
-	Iterable<AutoVector<XmlNode>> elements() const {return Iterable<AutoVector<XmlNode>>(elements_);}
+	AutoVectorIterable<XmlNode> elements() const {return AutoVectorIterable<XmlNode>(elements_);}
 	
 	AttributesIterator firstAttributes() const { return attributes_.begin(); }
 	AttributesIterator lastAttributes() const  { return attributes_.end(); }

@@ -8,6 +8,8 @@
 #ifndef AutoVector_h_
 #define AutoVector_h_
 
+#include	"Iterable.h"
+
 #include	<vector>
 #include	<memory>
 
@@ -33,6 +35,14 @@ class AutoVector: public std::vector<std::unique_ptr<E>>
 				ptr.release();
 			std::vector<std::unique_ptr<E>>::clear();
 		}
+};
+
+template<typename E>
+class AutoVectorIterable: public Iterable<AutoVector<E>>
+{
+	public:
+		AutoVectorIterable(const AutoVector<E> &cont): Iterable<AutoVector<E>>(cont) {}
+		AutoVectorIterable(AutoVectorIterable &&) = default;
 };
 
 #endif /* AutoVector_h_ */
