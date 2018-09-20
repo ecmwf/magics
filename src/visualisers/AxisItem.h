@@ -23,7 +23,7 @@
 #define AxisItem_H
 
 #include "magics.h"
-#include "VectorOfPointers.h"
+#include "AutoVector.h"
 #include "DateTime.h"
 
 
@@ -161,7 +161,7 @@ public:
 };
 
 
-typedef VectorOfPointers<vector<AxisItem*> > AxisItems;
+typedef AutoVector<AxisItem> AxisItems;
 
 
 } // namespace magics

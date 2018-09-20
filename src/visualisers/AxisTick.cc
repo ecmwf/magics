@@ -55,16 +55,15 @@ void AxisTick::vertical(const AxisItems& ticks, const Colour& colour, VerticalAx
 	
 
 	
-	
-	for (AxisItems::const_iterator y = ticks.begin(); y != ticks.end(); ++y)
+	for (const auto &y : ticks)
     {    	    
 	      
-	        if ( !(*y)->filter(*this) ) continue;	        
-	        if ( !transformation.inY((*y)->position()) ) continue;
+	        if ( !y->filter(*this) ) continue;
+	        if ( !transformation.inY(y->position()) ) continue;
 	        
 	        Polyline* tick = new Polyline();
-	        PaperPoint p1 = PaperPoint(x1,  transformation.y((*y)->position()));
-	        PaperPoint p2 = PaperPoint(x2, transformation.y((*y)->position()));
+	        PaperPoint p1 = PaperPoint(x1,  transformation.y(y->position()));
+	        PaperPoint p2 = PaperPoint(x2, transformation.y(y->position()));
 	        tick->push_back(p1);
 	        tick->push_back(p2);
 	        Colour calcol =  (colour_->automatic()) ? colour : *colour_;
@@ -86,14 +85,14 @@ void AxisTick::horizontal(const AxisItems& ticks, const Colour& colour, Horizont
 		
 		const Transformation& transformation = axis.transformation();
 		
-	for (AxisItems::const_iterator x = ticks.begin(); x != ticks.end(); ++x)
+	for (const auto &x : ticks)
     {    	    
 	      
-	        if ( !(*x)->filter(*this) ) continue;
+	        if ( !x->filter(*this) ) continue;
 	      
-	        if ( !transformation.inX((*x)->position()) ) continue;
+	        if ( !transformation.inX(x->position()) ) continue;
 	        Polyline* tick = new Polyline();
-			double px = transformation.x((*x)->position());
+			double px = transformation.x(x->position());
 	        tick->push_back(PaperPoint(px, y1));
 	        tick->push_back(PaperPoint(px, y2));
 	        Colour calcol =  (colour_->automatic()) ? colour : *colour_;
