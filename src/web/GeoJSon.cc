@@ -113,7 +113,7 @@ public:
 		void newline(CustomisedPointsList& out) {
 			if ( out.empty() )
 				return;
-			CustomisedPoint* last = out.back();
+			CustomisedPoint* last = out.back().get();
 			CustomisedPoint* point = new CustomisedPoint();
 			point->copyProperties(*last);
 			point->missing(true);
