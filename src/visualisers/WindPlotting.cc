@@ -97,9 +97,10 @@ void WindPlotting::adjust( CustomisedPointsList& points, const Transformation& t
 	vector<double> values;
 	if (points.empty()) return;
 	
-	for (CustomisedPointsList::const_iterator point = points.begin(); point != points.end(); ++point) {
-		if ( transformation.in((*point)->longitude(), (*point)->latitude()) ) 
-			values.push_back(value((**point)["x_component"], (**point)["y_component"],  (**point)["colour_component"]));		
+	for (const auto &point : points)
+	{
+		if ( transformation.in(point->longitude(), point->latitude()) )
+			values.push_back(value((*point)["x_component"], (*point)["y_component"],  (*point)["colour_component"]));
 	}
 
 	if (values.empty() ) return;

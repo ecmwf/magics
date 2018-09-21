@@ -190,32 +190,33 @@ void MetgramCurve::operator()(CustomisedPointsList& points, BasicGraphicsObjectC
 	double y1 = DBL_MAX;
 	double y2 = DBL_MIN;
 
-	for (CustomisedPointsList::const_iterator point = points.begin(); point != points.end(); ++point) {
+	for (const auto &point : points)
+	{
 		
-		MagDate date((long)(**point)["year"], (long)(**point)["month"], (long)(**point)["day"]);
-		MagTime time((long)(**point)["hours"], (long)(**point)["minutes"], (long)(**point)["seconds"]);
+		MagDate date((long)(*point)["year"], (long)(*point)["month"], (long)(*point)["day"]);
+		MagTime time((long)(*point)["hours"], (long)(*point)["minutes"], (long)(*point)["seconds"]);
 
 		DateTime orig = DateTime(date, time);		
 		
 		double x = orig - base;		
 		xpos.push_back(x);		
-	    x -= (**point)["shift"];
+	    x -= (*point)["shift"];
 		
-		if ( (*point)->find(keyword1_) != (*point)->end() )   {
-			curve1->push_back(PaperPoint(x, (**point)[keyword1_]));
-			ypos.push_back((**point)[keyword1_]);
-			if ( (**point)[keyword1_] < y1 ) {
+		if ( point->find(keyword1_) != point->end() )   {
+			curve1->push_back(PaperPoint(x, (*point)[keyword1_]));
+			ypos.push_back((*point)[keyword1_]);
+			if ( (*point)[keyword1_] < y1 ) {
 				x1 = x;
-				y1 = (**point)[keyword1_];
+				y1 = (*point)[keyword1_];
 			}
 		}
 		
-		if ( (*point)->find(keyword2_) != (*point)->end() )   {
-			curve2->push_back(PaperPoint(x, (**point)[keyword2_]));
-			ypos.push_back((**point)[keyword2_]);
-			if ( (**point)[keyword2_] > y2 ) {
+		if ( point->find(keyword2_) != point->end() )   {
+			curve2->push_back(PaperPoint(x, (*point)[keyword2_]));
+			ypos.push_back((*point)[keyword2_]);
+			if ( (*point)[keyword2_] > y2 ) {
 				x2 = x;
-				y2 = (**point)[keyword2_];
+				y2 = (*point)[keyword2_];
 			}
 		}
 	}
@@ -281,22 +282,23 @@ void MetgramFlags::operator()(CustomisedPointsList& points, BasicGraphicsObjectC
 	flags->setOriginHeight(0.05);
 	//flags->setConvention(KNOTS);
 	int i = 0;
-	for (CustomisedPointsList::const_iterator point = points.begin(); point != points.end(); ++point) {
+	for (const auto &point : points)
+	{
 		i++;
         if ( i % frequency_ ) 
             continue;
-		MagDate date((long)(**point)["year"], (long)(**point)["month"], (long)(**point)["day"]);
-		MagTime time((long)(**point)["hours"], (long)(**point)["minutes"], (long)(**point)["seconds"]);
+		MagDate date((long)(*point)["year"], (long)(*point)["month"], (long)(*point)["day"]);
+		MagTime time((long)(*point)["hours"], (long)(*point)["minutes"], (long)(*point)["seconds"]);
 		
 		
 		DateTime orig = DateTime(date, time);				
 		double x = orig - base;		
-		  x -= (**point)["shift"];
+		  x -= (*point)["shift"];
 		
         
-		if ( (*point)->find(component1_) != (*point)->end() && (*point)->find(component2_) != (*point)->end() )   {
+		if ( point->find(component1_) != point->end() && point->find(component2_) != point->end() )   {
 			PaperPoint pos(x, 0);
-			flags->push_back(ArrowPoint((**point)[component1_], (**point)[component2_], pos));
+			flags->push_back(ArrowPoint((*point)[component1_], (*point)[component2_], pos));
 		}
 	}
 	if ( !flags->empty() ) visitor.push_back(flags);	

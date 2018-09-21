@@ -23,7 +23,7 @@
 #define CustomisedPoint_H
 
 #include "magics.h"
-#include "VectorOfPointers.h"
+#include "AutoVector.h"
 #include "DateTime.h"
 
 namespace magics {
@@ -106,7 +106,7 @@ private:
 };
 
 
-typedef  VectorOfPointers< vector<CustomisedPoint*> > CustomisedPointsList;  
+typedef  AutoVector<CustomisedPoint> CustomisedPointsList;
 
 } // namespace magics
 #endif

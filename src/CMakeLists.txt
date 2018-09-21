@@ -241,9 +241,9 @@ if( metview )
 
 
 				   DESTINATION ${INSTALL_INCLUDE_DIR})
-   #install( FILES VectorOfPointers.h  DESTINATION ${INSTALL_INCLUDE_DIR})
    install( FILES AutoVector.h  DESTINATION ${INSTALL_INCLUDE_DIR})
    install( FILES Iterable.h  DESTINATION ${INSTALL_INCLUDE_DIR})
+   install( FILES ReverseIterable.h  DESTINATION ${INSTALL_INCLUDE_DIR})
    foreach( file ${attributes_include} )
      install( FILES ${CMAKE_CURRENT_BINARY_DIR}/params/${file}  DESTINATION ${INSTALL_INCLUDE_DIR})
    endforeach()

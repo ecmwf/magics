@@ -102,9 +102,9 @@ void OdaGeoDecoder::decode(const Transformation& transformation)
 		CustomisedPointsList points;
 		std::set<string> noset;
 		customisedPoints(transformation,noset,points);
-		for(CustomisedPointsList::const_iterator point = points.begin(); point != points.end(); ++point) 
+		for (const auto &point : points)
 		{
-			push_back(new UserPoint((**point)["lon"], (**point)["lat"], (**point)["colour_component"]));
+			push_back(new UserPoint((*point)["lon"], (*point)["lat"], (*point)["colour_component"]));
 		}
 	}	
 	else
