@@ -26,7 +26,7 @@
 #include "MagTranslator.h"
 #include "Factory.h"
 #include "OutputFactory.h"
-#include "VectorOfPointers.h"
+#include "AutoVector.h"
 
 #include "OutputHandlerAttributes.h"
 
@@ -71,7 +71,7 @@ public:
 protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).
 	 virtual void print(ostream& out) const { out << "OutputHandler[]\n"; } 
-	 VectorOfPointers<vector<OutputFactory* > > factories_;
+	 AutoVector<OutputFactory> factories_;
 	 static double lineSpacing_;
 
 
