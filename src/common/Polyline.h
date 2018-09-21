@@ -22,7 +22,7 @@
 
 #include "BasicGraphicsObject.h"
 #include "BaseDriver.h"
-#include "VectorOfPointers.h"
+#include "AutoVector.h"
 #include "Label.h"
 #include "Arrow.h"
 
