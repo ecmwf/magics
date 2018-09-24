@@ -95,7 +95,7 @@ CairoDriver::~CairoDriver()
 */
 void CairoDriver::open()
 {
-	MagLog::dev() << "Cairo version used is: "<<cairo_version_string()<< " backend: "<<backend_ << std::endl;
+	MagLog::warning() << "Cairo version used is: "<<cairo_version_string()<< " backend: "<<backend_ << std::endl;
 
 	MFloat ratio = getYDeviceLength() / getXDeviceLength();
 	int width = maground(width_);
@@ -133,7 +133,7 @@ void CairoDriver::open()
 	cairo_status_t res = cairo_surface_status(surface_);
 	if (res != CAIRO_STATUS_SUCCESS)
 	{
-		MagLog::warning() << "Cairo> " << cairo_status_to_string(res) << endl;
+		MagLog::warning() << "Cairo > " << cairo_status_to_string(res) << endl;
 		return;
 	}
 
@@ -220,7 +220,7 @@ void CairoDriver::setupNewSurface() const
 	cairo_status_t status = cairo_surface_status(surface_);
 	if (status)
 	{
-		MagLog::error()	<< "CairoDriver: the output file ("<<backend_<<") could NOT be generated!\n"
+		MagLog::error()	<< "CairoDriver: the output file ("<<backend_<<") could NOT be generated!"
 				<< " -> "<<cairo_status_to_string(status)<< std::endl;
 	}
 
@@ -378,22 +378,24 @@ MAGICS_NO_EXPORT void CairoDriver::endPage() const
 	{
 		Timer timer("cairo", "write png");
 		fileName_ = getFileName("png" ,currentPage_);
-		cairo_status_t status = CAIRO_STATUS_SUCCESS;
-    MagLog::dev() << "Cairo - PNG - try to create file " << fileName_ << endl;
+
+    cairo_status_t status = CAIRO_STATUS_SUCCESS;
 		if(magCompare(palette_,"on"))
 		{
 		   if(!write_8bit_png())
 		   {
-		     MagLog::warning() << "CairoDriver::renderPNG > palletted PNG failed! Generate 24 bit one ..." << endl;
-		     status = cairo_surface_write_to_png(surface_, fileName_.c_str());
+         MagLog::warning() << "CairoDriver::renderPNG > palletted PNG failed! Generate 24 bit one ..." << endl;
+         status = cairo_surface_write_to_png(surface_, fileName_.c_str());
 		   }
 		}
 		else
 		{
 		   status = cairo_surface_write_to_png(surface_, fileName_.c_str());
 		}
-		if(status != CAIRO_STATUS_SUCCESS)
-				MagLog::error() << "PNG could NOT be written - " << cairo_status_to_string(status) <<endl;
+		if(status != CAIRO_STATUS_SUCCESS){
+      MagLog::error() << "PNG could NOT be written - " << cairo_status_to_string(status) <<endl;
+      MagLog::error() << "^^^^^^^^^^^^^^^^^^^^^^^^" <<endl;
+    }
 		if(!fileName_.empty()) printOutputName("CAIRO png "+fileName_);
 	}
 	else if (magCompare(backend_,"geotiff") )
