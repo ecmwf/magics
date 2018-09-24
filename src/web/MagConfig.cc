@@ -210,7 +210,7 @@ void StyleLibrary::init()
 {
 	
 	string library = getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_ + "/styles/" + theme_ + "/" + family_ +".json";
-	library = getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_ + "/styles/eccharts";
+	library = getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_ + "/styles/ecmwf";
 	if ( path_.size() )
 		library = path_;
     DIR* dir = opendir(library.c_str());

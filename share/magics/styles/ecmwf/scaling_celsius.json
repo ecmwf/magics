@@ -9,6 +9,9 @@
             }, 
             {
                 "paramId": "208"
+            },
+            {
+                "paramId": ["228027", "228026"]
             }
         ], 
         "prefered_units": "C"
