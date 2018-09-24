@@ -1,0 +1,26 @@
+{
+    "match" : {
+        "eccharts_layer" : "850ws_spread",
+        "set" : [
+            {
+                "levelist" : [
+                    "850"
+                ],
+                "paramId" : "10",
+                "shortName" : "ws",
+                "type" : "es"
+            },
+            {
+                "level" : [
+                    "850"
+                ],
+                "long_name" : "Wind speed"
+            }
+        ],
+        "style" : "sh_blu_f02t30",
+        "styles" : [
+            "sh_blu_f02t30",
+            "sh_range_f02t30"
+        ]
+    }
+}

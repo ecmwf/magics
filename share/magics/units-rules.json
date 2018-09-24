@@ -49,6 +49,12 @@
             "to" : "mm",
             "offset" : -0.0,
             "scaling" : 1000.0
+        },
+        {    
+            "from" : "m of water",
+            "to" : "mm",
+            "offset" : -0.0,
+            "scaling" : 1000.0
         }
     ],
     "cm" : [
@@ -79,11 +85,11 @@
             "scaling" : 10.0
         }
     ],
-    "hpa" : [
+    "hPa" : [
         {
             "from" : "Pa",
             "offset" : -0.0,
-            "to" : "hpa",
+            "to" : "hPa",
             "scaling" : 0.01
         }
     ],

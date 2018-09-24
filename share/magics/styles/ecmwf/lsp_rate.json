@@ -1,0 +1,20 @@
+{
+    "match" : {
+        "eccharts_layer" : "lsp_rate",
+        "set" : [
+            {
+                "paramId" : "174142",
+                "shortName" : "lsrrate"
+            },
+            {
+                "long_name" : "Large scale rainfall rate"
+            }
+        ],
+        "style" : "sh_prate_radarlike_grided",
+        "styles" : [
+            "sh_prate_radarlike_grided",
+            "sh_prate_radarlike_grided_f01",
+            "sh_prate_radarlike"
+        ]
+    }
+}

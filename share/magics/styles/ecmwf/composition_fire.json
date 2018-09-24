@@ -1,0 +1,19 @@
+{
+    "match" : {
+        "eccharts_layer" : "composition_fire",
+        "set" : [
+            {
+                "paramId" : "210099",
+                "shortName" : "frpfire"
+            },
+            {
+                "long_name" : "Wildfire radiative power"
+            }
+        ],
+        "style" : "sh_all_fire",
+        "styles" : [
+            "sh_all_fire",
+            "symb_all_fire"
+        ]
+    }
+}

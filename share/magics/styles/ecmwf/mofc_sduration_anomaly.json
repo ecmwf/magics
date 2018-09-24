@@ -1,0 +1,20 @@
+{
+    "match" : {
+        "eccharts_layer" : "mofc_sduration_anomaly",
+        "set" : [
+            {
+                "paramId" : "173189",
+                "shortName" : "sundara"
+            },
+            {
+                "long_name" : "Sunshine duration anomalous rate of accumulation"
+            }
+        ],
+        "style" : "sh_rb_fm100t100",
+        "styles" : [
+            "sh_rb_fm100t100",
+            "ct_blk_i4_t2_sduration",
+            "ct_blk_i4_t2_dashed_sduration"
+        ]
+    }
+}

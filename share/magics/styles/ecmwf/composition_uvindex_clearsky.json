@@ -1,0 +1,18 @@
+{
+    "match" : {
+        "eccharts_layer" : "composition_uvindex_clearsky",
+        "set" : [
+            {
+                "paramId" : "214003",
+                "shortName" : "uvbedcs"
+            },
+            {
+                "long_name" : " UV biologically effective dose clear-sky"
+            }
+        ],
+        "style" : "sh_all_uvindex",
+        "styles" : [
+            "sh_all_uvindex"
+        ]
+    }
+}

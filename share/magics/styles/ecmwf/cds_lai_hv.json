@@ -1,0 +1,21 @@
+{
+    "match" : {
+        "eccharts_layer" : "cds_lai_hv",
+        "set" : [
+            {
+                "paramId" : ["67"],
+                "shortName" : ["lai_hv"]
+            },
+            {
+                "long_name" : ["Leaf area index, high vegetation"]
+            },
+            {
+                "standard_name" : ["leaf_area_index"]
+            }
+        ],
+        "style" : "sh_grn_f0t7lst",
+        "styles" : [
+            "sh_grn_f0t7lst"
+        ]
+    }
+}

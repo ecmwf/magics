@@ -1,0 +1,19 @@
+{
+    "match" : {
+        "eccharts_layer" : "cds_runoff",
+        "prefered_units" : "mm",
+        "set" : [
+            {
+                "paramId" : ["205","9","8","174009","174008"],
+                "shortName" : ["ro","ssro","sro"]
+            },
+            {
+                "long_name" : ["Runoff","Surface runoff","Sub-surface runoff"]
+            }
+        ],
+        "style" : "sh_blugrn_f05t20",
+        "styles" : [
+            "sh_blugrn_f05t20"
+        ]
+    }
+}
