@@ -1,0 +1,20 @@
+{
+    "match" : {
+        "eccharts_layer" : "cds_rsn",
+        "set" : [
+            {
+                "paramId" : "33",
+                "shortName" : "rsn"
+            },
+            {
+                "long_name" : [
+                    "Snow density"
+                ]
+            }
+        ],
+        "style" : "sh_blu_f100t480lst",
+        "styles" : [
+            "sh_blu_f100t480lst"
+        ]
+    }
+}

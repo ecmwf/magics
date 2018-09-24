@@ -1,0 +1,29 @@
+{
+    "match" : {
+        "eccharts_layer" : "z300_spread",
+        "prefered_units" : "dam",
+        "set" : [
+            {
+                "levelist" : [
+                    "300"
+                ],
+                "paramId" : "129",
+                "shortName" : "z",
+                "type" : "es"
+            },
+            {
+                "level" : [
+                    "300"
+                ],
+                "long_name" : "Geopotential",
+                "standard_name" : "geopotential"
+            }
+        ],
+        "style" : "sh_blu_f03t75",
+        "styles" : [
+            "sh_blu_f03t75",
+            "sh_blu_f02t50",
+            "sh_range_f02t50"
+        ]
+    }
+}

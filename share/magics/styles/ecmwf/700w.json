@@ -1,0 +1,29 @@
+{
+    "match" : {
+        "eccharts_layer" : "700w",
+        "set" : [
+            {
+                "levelist" : [
+                    "700"
+                ],
+                "paramId" : "135",
+                "shortName" : "w"
+            },
+            {
+                "level" : [
+                    "700"
+                ],
+                "long_name" : "Vertical velocity",
+                "standard_name" : "lagrangian_tendency_of_air_pressure"
+            }
+        ],
+        "style" : "sh_blured_fM5t5lst",
+        "styles" : [
+            "sh_blured_fM5t5lst",
+            "sh_blu_fM5tM005lst",
+            "sh_red_f005t5lst",
+            "sh_viobrn_fM5t5lst",
+            "ct_blured_lst"
+        ]
+    }
+}

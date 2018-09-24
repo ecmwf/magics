@@ -1,0 +1,18 @@
+{
+    "match" : {
+        "eccharts_layer" : "cds_isor",
+        "set" : [
+            {
+                "paramId" : "161",
+                "shortName" : "isor"
+            },
+            {
+                "long_name" : "Anisotropy of sub-gridscale orography"
+            }
+        ],
+        "style" : "sh_red_f0t1_10",
+        "styles" : [
+            "sh_red_f0t1_10"
+        ]
+    }
+}

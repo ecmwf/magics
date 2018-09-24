@@ -1,0 +1,18 @@
+{
+    "match" : {
+        "eccharts_layer" : "cds_tvl",
+        "set" : [
+            {
+                "paramId" : ["29"],
+                "shortName" : ["tvl"]
+            },
+            {
+                "long_name" : ["Type of low vegetation"]
+            }
+        ],
+        "style" : "mrk_grn_f0t20lst",
+        "styles" : [
+            "mrk_grn_f0t20lst"
+        ]
+    }
+}

@@ -1,0 +1,24 @@
+{
+    "match" : {
+        "eccharts_layer" : "cp_rate",
+        "set" : [
+            {
+                "paramId" : "174143",
+                "shortName" : "crfrate"
+            },
+            {
+                "long_name" : "Convective rainfall rate"
+            },
+            {
+                "paramId" : "228218",
+                "shortName" : "crr"
+            }
+        ],
+        "style" : "sh_prate_radarlike_grided",
+        "styles" : [
+            "sh_prate_radarlike_grided",
+            "sh_prate_radarlike_grided_f01",
+            "sh_prate_radarlike"
+        ]
+    }
+}

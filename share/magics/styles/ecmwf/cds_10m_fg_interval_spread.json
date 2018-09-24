@@ -1,0 +1,16 @@
+{
+    "match" : {
+        "eccharts_layer" : "cds_10m_fg_interval_spread",
+        "set" : [
+            {
+                "paramId" : ["49","228029","140245","207"],
+                "shortName" : ["10fg","i10fg","wind","10si"],
+                "type" : "es"
+            }
+        ],
+        "style" : "sh_magenta_f05t10",
+        "styles" : [
+            "sh_magenta_f05t10"
+        ]
+    }
+}

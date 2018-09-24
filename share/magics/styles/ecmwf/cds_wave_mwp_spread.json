@@ -1,0 +1,16 @@
+{
+    "match" : {
+        "eccharts_layer" : "cds_wave_mwp_spread",
+        "set" : [
+            {
+                "paramId" : "140232",
+                "shortName" : "mwp",
+                "type" : "es"
+            }
+        ],
+        "style" : "sh_blue_f0t5",
+        "styles" : [
+            "sh_blue_f0t5"
+        ]
+    }
+}

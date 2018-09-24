@@ -1,0 +1,26 @@
+{
+    "match" : {
+        "eccharts_layer" : "composition_o3_surface",
+        "set" : [
+            {
+                "levelist" : [
+                    "60"
+                ],
+                "levtype" : "ml",
+                "paramId" : "210203",
+                "shortName" : "go3"
+            },
+            {
+                "level" : [
+                    "60"
+                ],
+                "long_name" : "GEMS Ozone"
+            }
+        ],
+        "style" : "sh_all_o3_sfc",
+        "styles" : [
+            "sh_all_o3_sfc",
+            "sh_YlGnBu_o3_sfc"
+        ]
+    }
+}

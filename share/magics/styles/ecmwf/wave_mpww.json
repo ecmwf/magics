@@ -1,0 +1,20 @@
+{
+    "match" : {
+        "eccharts_layer" : "wave_mpww",
+        "set" : [
+            {
+                "paramId" : "140236",
+                "shortName" : "mpww"
+            },
+            {
+                "long_name" : "Mean period of wind waves"
+            }
+        ],
+        "style" : "sh_all_f0t18i1_5",
+        "styles" : [
+            "sh_all_f0t18i1_5",
+            "sh_grn_f0t18i1_5",
+            "ct_vio_i1_t1"
+        ]
+    }
+}

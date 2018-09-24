@@ -1,0 +1,24 @@
+{
+    "match" : {
+        "eccharts_layer" : "sst_cf",
+        "prefered_units" : "C",
+        "set" : [
+            {
+                "paramId" : "34",
+                "shortName" : "sst",
+                "type" : "pf"
+            },
+            {
+                "long_name" : "Sea surface temperature"
+            }
+        ],
+        "style" : "sh_sst_fM2t36i2",
+        "styles" : [
+            "sh_sst_fM2t36i2",
+            "sh_sst_fM5t45",
+            "ct_sst_blk_fM2t36i2_i4",
+            "ct_sst_blue_fM2t36i2_i4",
+            "ct_sst_multicolour"
+        ]
+    }
+}

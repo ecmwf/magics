@@ -1,0 +1,19 @@
+{
+    "match": {
+        "set": [
+            {
+                "paramId": "141"
+            }, 
+            {
+                "paramId": "160"
+            }, 
+            {
+                "paramId": "173"
+            }, 
+            {
+                "paramId": "149"
+            }
+        ], 
+        "prefered_units": "cm"
+    }
+}

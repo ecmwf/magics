@@ -1,0 +1,22 @@
+{
+    "match" : {
+        "eccharts_layer" : "mc_2tmin",
+        "prefered_units" : "C",
+        "set" : [
+            {
+                "paramId" : "202",
+                "shortName" : "mn2t",
+                "type" : "cd"
+            },
+            {
+                "long_name" : "Minimum temperature at 2 metres since previous post-processing"
+            }
+        ],
+        "style" : "sh_mc_t_fM80t60",
+        "styles" : [
+            "sh_mc_t_fM80t60",
+            "ct_mc_t_fM80t60_black",
+            "ct_mc_t_fM80t60_blue"
+        ]
+    }
+}

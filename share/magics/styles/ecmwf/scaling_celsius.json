@@ -1,0 +1,16 @@
+{
+    "match": {
+        "set": [
+            {
+                "paramId": "121"
+            }, 
+            {
+                "paramId": "122"
+            }, 
+            {
+                "paramId": "208"
+            }
+        ], 
+        "prefered_units": "C"
+    }
+}

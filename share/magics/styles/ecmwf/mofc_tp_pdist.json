@@ -1,0 +1,22 @@
+{
+    "match" : {
+        "eccharts_layer" : "mofc_tp_pdist",
+        "set" : [
+            {
+                "paramId" : "131228",
+                "shortName" : "tpp"
+            },
+            {
+                "long_name" : "Total precipitation probability"
+            }
+        ],
+        "style" : "sh_mf_pdist",
+        "styles" : [
+            "sh_mf_pdist",
+            "sh_mf_pdist_2",
+            "sh_mf_tp_tercile",
+            "sh_mf_pdist_quintile",
+            "sh_mf_pdist_decile"
+        ]
+    }
+}

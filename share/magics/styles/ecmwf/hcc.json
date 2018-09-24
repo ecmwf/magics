@@ -1,0 +1,24 @@
+{
+    "match" : {
+        "eccharts_layer" : "hcc",
+        "set" : [
+            {
+                "paramId" : "188",
+                "shortName" : "hcc"
+            },
+            {
+                "long_name" : "High cloud cover"
+            },
+            {
+                "long_name" : "high_type_cloud_area_fraction"
+            }
+        ],
+        "style" : "transparency_white",
+        "styles" : [
+            "transparency_white",
+            "sh_whi_f0t1lst",
+            "sh_blugry_f0t1lst",
+            "tran_whi_f03t1lst"
+        ]
+    }
+}
