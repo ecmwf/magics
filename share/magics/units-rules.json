@@ -71,6 +71,12 @@
             "offset" : -0.0,
             "to" : "dam",
             "scaling" : 0.0101971621297793
+        },
+        {
+            "from" : "m",
+            "offset" : -0.0,
+            "to" : "dam",
+            "scaling" : 10.0
         }
     ],
     "hpa" : [
