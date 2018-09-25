@@ -290,14 +290,18 @@ void EcChartLibrary::print(ostream&) const
 
 }
 
+StyleLibrary*  WebLibrary::styles_ = 0;
 WebLibrary::WebLibrary() 
 {
-	
-	styles_.init(library_path_);
+	if ( !styles_ ) {
+
+		styles_ = new StyleLibrary(library_path_);
+	}
 }
 
 WebLibrary::~WebLibrary()
 {
+
 }
 
 
@@ -309,7 +313,7 @@ void WebLibrary::askId(MetaDataCollector& request)
 
 	criteria.insert("units");
 	criteria.insert("parameterUnits"); // for grib
-	styles_.getCriteria(criteria);
+	styles_->getCriteria(criteria);
 	for ( auto c = criteria.begin(); c != criteria.end(); ++c) {
 		setCriteria(request, *c);
 		//cout << " asking for " << *c << endl;
@@ -335,14 +339,14 @@ void WebLibrary::getStyle(MetaDataCollector& data, map<string, string>& contour,
 		
 		map<string, string> style;
 
-		if ( styles_.findStyle(data, style, info) )
+		if ( styles_->findStyle(data, style, info) )
 			contour = style;
 	
 }
 
 void  WebLibrary::getStyle(const string& name, map<string, string>& info) {
 	
-	styles_.findStyle(name, info);
+	styles_->findStyle(name, info);
 }
 // set the map to set the contour!
 void WebLibrary::getScaling(MetaDataCollector& data, double& scaling, double& offset)
@@ -363,8 +367,8 @@ void WebLibrary::getScaling(MetaDataCollector& data, double& scaling, double& of
 		if ( unit == data.end() )
 			return;
 		//cout << " Found Unit " << unit->second << endl;
-		bool found = styles_.findStyle(data, values, info);
-		if ( !found ) {
+		bool found = styles_->findStyle(data, values, info);
+		if ( !found) {
 			cout << "Can not find style" << endl;	
 			return;
 		}

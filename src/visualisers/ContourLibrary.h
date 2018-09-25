@@ -188,7 +188,7 @@ public:
 	void getScaling(MetaDataCollector&, double&, double&);
 	
 
-	StyleLibrary styles_;
+	static StyleLibrary* styles_;
 
 
 protected:
