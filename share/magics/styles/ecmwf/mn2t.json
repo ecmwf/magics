@@ -4,13 +4,16 @@
         "prefered_units" : "C",
         "set" : [
             {
-                "paramId" : "202",
-                "shortName" : "mn2t"
+                "paramId" : ["202","228027","52","122"],
+                "shortName" : ["mn2t","mn2t3","mn2t24","mn2t6"]
             },
             {
                 "long_name" : [
                     "Minimum temperature at 2 metres since previous post-processing",
-                    "Daily Minimum Near-Surface Air Temperature"
+                    "Daily Minimum Near-Surface Air Temperature",
+                    "Minimum temperature at 2 metres in the last 3 hours",
+                    "Minimum temperature at 2 metres in the last 6 hours",
+                    "Minimum temperature at 2 metres in the last 24 hours"
                 ]
             },
             {

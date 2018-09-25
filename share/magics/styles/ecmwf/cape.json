@@ -3,11 +3,11 @@
         "eccharts_layer" : "cape",
         "set" : [
             {
-                "paramId" : "59",
-                "shortName" : "cape"
+                "paramId" : ["59","228035"],
+                "shortName" : ["cape","mxcape6"]
             },
             {
-                "long_name" : "Convective available potential energy"
+                "long_name" : ["Convective available potential energy","Maximum CAPE in the last 6 hours"]
             }
         ],
         "style" : "range_100_4500",
