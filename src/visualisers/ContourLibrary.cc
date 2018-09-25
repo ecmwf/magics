@@ -312,7 +312,7 @@ void WebLibrary::askId(MetaDataCollector& request)
 	styles_.getCriteria(criteria);
 	for ( auto c = criteria.begin(); c != criteria.end(); ++c) {
 		setCriteria(request, *c);
-		cout << " asking for " << *c << endl;
+		//cout << " asking for " << *c << endl;
 	}
 	
 
@@ -354,7 +354,7 @@ void WebLibrary::getScaling(MetaDataCollector& data, double& scaling, double& of
 		scaling = 1;
 		offset = 0;
 
-		cout << "SCALING" << endl;
+		//cout << "SCALING" << endl;
 		
 
 		auto unit = data.find("units");
@@ -362,15 +362,15 @@ void WebLibrary::getScaling(MetaDataCollector& data, double& scaling, double& of
 		 	unit = data.find("parameterUnits");
 		if ( unit == data.end() )
 			return;
-		cout << " Found Unit " << unit->second << endl;
+		//cout << " Found Unit " << unit->second << endl;
 		bool found = styles_.findStyle(data, values, info);
 		if ( !found ) {
 			cout << "Can not find style" << endl;	
 			return;
 		}
-		cout << " TRYRING to scale " << unit->second << endl;
-		for ( auto x = values.begin(); x != values.end(); ++x)
-			cout << x->first << "--->" << x->second << endl;
+		//cout << " TRYRING to scale " << unit->second << endl;
+		//for ( auto x = values.begin(); x != values.end(); ++x)
+			//cout << x->first << "--->" << x->second << endl;
 		auto need = values.find("required_units");
 		if ( need == values.end() )
 			return; 
@@ -390,7 +390,7 @@ void WebLibrary::getScaling(MetaDataCollector& data, double& scaling, double& of
 		
 		//cout << "CLEAN " << clean << ": " << clean.size() << endl;
 		converter.find(need->second, clean, scaling, offset); 
-		cout << "Need " << need->second << " get " << unit->second << "--->APPLY " << scaling << " and " << offset << endl;
+		//cout << "Need " << need->second << " get " << unit->second << "--->APPLY " << scaling << " and " << offset << endl;
 	
 }
 

@@ -319,7 +319,7 @@ void GribInterpretor::scaling(GribDecoder& grib, double& scaling,
         WebLibrary settings;
         MetaDataCollector needs;
         settings.askId(needs);
-        grib.visit(needs);
+        grib.ask(needs);
         settings.getScaling(needs, scaling, offset);
 
     } 

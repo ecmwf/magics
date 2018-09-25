@@ -21,6 +21,7 @@ using namespace json_spirit;
 
 MagConfigHandler::MagConfigHandler(const string& config, MagConfig& magics)
 {
+	//cout << "OPENING " << config << endl;
 	ifstream is(config.c_str());
 	if ( !is.good() ) {
 		MagLog::error() << "Could not processed find the file: " << config << endl;
@@ -229,8 +230,10 @@ void StyleLibrary::init()
    }
 
 
-	cout << "Opening " << library << "-->" << library_.size() << endl;
-	cout << "Opening predefined styles" << library << "/styles.json" << endl;
+	
+
+	//cout << "Opening " << library << "-->" << library_.size() << endl;
+	//cout << "Opening predefined styles" << library << "/styles.json" << endl;
 	
 
 	allStyles_.init(library, "styles.json");
@@ -355,12 +358,18 @@ int Style::score(const Definition& data)
 	for (auto match = criteria_.begin(); match != criteria_.end(); ++match) {
 		int score = 0;
 		for (auto key = match->begin(); key != match->end(); ++key) {
+			//cout << " FINDDING " << key->first << endl;
 			auto dkey= data.find(key->first);
 			
-			if ( dkey == data.end() ) 
+			if ( dkey == data.end() ) {
+				//cout << " NOT FOUND " << key->first << endl;
 				continue;
-			if ( dkey->second == "" ) 
+			}
+			if ( dkey->second == "" ) {
+				//cout << " NOT FOUND " << key->first << endl;
 				continue;
+			}
+			//cout << " FOUND " << dkey->second << endl;
 			int tmpscore = 0;
 			for ( auto value = key->second.begin(); value != key->second.end(); ++value ) {
 			
@@ -373,22 +382,23 @@ int Style::score(const Definition& data)
  				//cout << " trying " << *value << " ?? " << clean <<  "(" << clean.size() << ")" << endl;
 				if ( *value == clean ) {
 					tmpscore++;
-					cout << key->first << " value [" << *value << "] == [" << clean  << "]" << endl; 
-					cout << "score is now " << tmpscore  << endl; 
+					
+					//cout << key->first << " value [" << *value << "] == [" << clean  << "]" << endl; 
+					//cout << "score is now " << tmpscore  << endl; 
 					criteria.insert(make_pair(key->first, *value));
 					break;
 				}
 				
 				// just try to remove the last character of the string .. 
-				clean = clean.substr(0, clean.size()-1);
+				//clean = clean.substr(0, clean.size()-1);
 				//cout << " cleaning more " << *value << " ?? " << clean <<   "(" << clean.size() << ")" << endl;
-				if ( *value == clean ) {
-					tmpscore++;
-					cout << key->first << " value [" << *value << "] == [" << clean  << "]" << endl; 
-					cout << "Found a match after cleaning ... score is now " << tmpscore  << endl; 
-					criteria.insert(make_pair(key->first, *value));
-					break;
-				}
+				//if ( *value == clean ) {
+				//	tmpscore++;
+					//cout << key->first << " value [" << *value << "] == [" << clean  << "]" << endl; 
+					//cout << "Found a match after cleaning ... score is now " << tmpscore  << endl; 
+				//	criteria.insert(make_pair(key->first, *value));
+				//	break;
+				//}
 
 				
 			}
@@ -397,12 +407,13 @@ int Style::score(const Definition& data)
 					score = 0;
 					break;
 				}
-			cout << "score is now " << tmpscore  << endl; 
+			//cout << "score is now " << tmpscore  << endl; 
 			score++;
 		}
 		if ( bestscore < score ) 
 			bestscore = score;
 	}
+	/*
 	if ( bestscore ) {
 		cout << "----   Found style with score : " << bestscore << " Style --> " << style_ << endl;
 		for ( auto match = criteria.begin(); match != criteria.end(); ++match) { 
@@ -411,6 +422,7 @@ int Style::score(const Definition& data)
 		cout << "----------------------------------------------------" << endl;
 
 	}
+	*/
 	return bestscore;
 }
 
@@ -425,7 +437,7 @@ void Style::keywords(std::set<string>& keys)
 
 void  StyleLibrary::findStyle(const string& name, Style::Definition& visdef)
 {
-	cout << "Looking for " << name << endl;
+	//cout << "Looking for " << name << endl;
 	allStyles_.find(name, visdef);
 }
 
