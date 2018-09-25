@@ -314,7 +314,7 @@ public:
 
 
     	for ( auto converter = converters->second.begin(); converter != converters->second.end(); ++converter) {
-    		cout << "UNIT CONVERTER" << converter->from_ << ": " << converter->from_.size() << " == " <<  from << ": " << from.size() << endl;
+    		//cout << "UNIT CONVERTER" << converter->from_ << ": " << converter->from_.size() << " == " <<  from << ": " << from.size() << endl;
     		if ( converter->from_ == from ) {
     			scaling = converter->scaling_;
     			offset = converter->offset_;
