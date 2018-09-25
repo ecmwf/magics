@@ -4,13 +4,16 @@
         "prefered_units" : "C",
         "set" : [
             {
-                "paramId" : "201",
-                "shortName" : "mx2t"
+                "paramId" : ["201","121","51","228026"],
+                "shortName" : ["mx2t","mx2t6","mx2t24","mx2t3"]
             },
             {
                 "long_name" : [
                     "Maximum temperature at 2 metres since previous post-processing",
-                    "Daily Maximum Near-Surface Air Temperature"
+                    "Daily Maximum Near-Surface Air Temperature",
+                    "Maximum temperature at 2 metres in the last 6 hours",
+                    "Maximum temperature at 2 metres in the last 24 hours",
+                    "Maximum temperature at 2 metres in the last 3 hours"
                 ]
             },
             {
