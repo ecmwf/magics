@@ -1494,6 +1494,13 @@ const LevelDescription& GribDecoder::level()
     return dataLevel_;
 }
 
+void GribDecoder::ask(MetaDataCollector& meta)
+{
+    for ( auto m = meta.begin(); m != meta.end(); ++m) {
+        m->second = getString(m->first, false);
+        //cout << m->first << " = " << m->second << endl;
+    }
+}
 
 void GribDecoder::visit(MetaDataVisitor& meta)
 {
@@ -1662,7 +1669,7 @@ void GribDecoder::visit(MetaDataCollector& step)
             if(information_.find(key->first) != information_.end())
             {
                 key->second=information_[key->first];
-                cout << "GRIB " << key->first << " = " << key->second << endl;
+                //cout << "GRIB " << key->first << " = " << key->second << endl;
             }
         }
 
