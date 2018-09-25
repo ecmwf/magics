@@ -133,6 +133,7 @@ public:
 		void visit(ValuesCollector&);
 		void visit(Transformation&);
 		void visit(MetaDataVisitor&);
+		void ask(MetaDataCollector&);
 
 		 const DateDescription& timeStamp();
 		 const LevelDescription& level() ;

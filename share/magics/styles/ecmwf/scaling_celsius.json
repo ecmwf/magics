@@ -1,3 +1,4 @@
+[
 {
     "match": {
         "set": [
@@ -16,4 +17,17 @@
         ], 
         "prefered_units": "C"
     }
+},
+{
+    "match": {
+        "set": [
+            {
+                "paramId": "129"
+            }
+        ], 
+        "prefered_units": "dam"
+    }
 }
+]
+
+
