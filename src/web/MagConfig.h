@@ -159,14 +159,12 @@ class StyleLibrary : public MagConfig
 public:
 	
 	StyleLibrary() {  }
+	StyleLibrary(const string& path): path_(path) { init(); }
 	~StyleLibrary() {}
 
 	void callback(const string& name, const json_spirit::Value& value);
 	void callback(const json_spirit::Array& values);
-	void init(const string& path) { 
-		path_ = path;
-		init();
-	}
+	
 	void init();
 	
 	vector<Style> library_;
