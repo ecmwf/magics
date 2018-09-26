@@ -190,7 +190,7 @@ void LeftAxisVisitor::minortick(double& x1, double& x2, bool)
 double  LeftAxisVisitor::offsetTickLabel(double height, double from)
 {
 
-	double h =  ((current_->xmax_ - current_->xmin_)/current_->absoluteWidth()) * (2*height);
+	double h =  ((current_->xmax_ - current_->xmin_)/current_->absoluteWidth()) * (height*0.6);
 
 	return from - h;
 } 
@@ -235,7 +235,8 @@ void RightAxisVisitor::minortick(double& x1, double& x2, bool)
 
 double  RightAxisVisitor::offsetTickLabel(double height, double from)
 {
-	double h =  ((current_->xmax_ - current_->xmin_)/current_->absoluteWidth()) * (2*height);
+	cout << "height" << height << endl;
+	double h =  ((current_->xmax_ - current_->xmin_)*current_->absoluteWidth()) / (height);
 	return from + h;
 
 }
