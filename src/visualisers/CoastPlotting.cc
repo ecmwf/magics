@@ -262,6 +262,11 @@ void CoastPlotting::operator()(DrawingVisitor& parent)
         (*coast)->southClean();
         (*coast)->reproject(transformation);
     }
+    for (vector<Polyline*>::iterator ocean = ocean_.begin(); ocean != ocean_.end(); ++ocean) {
+        
+        (*ocean)->reproject(transformation);
+    }
+
 
     // Now we have the coastlines and lakes..
     // let's call the relevant method!
