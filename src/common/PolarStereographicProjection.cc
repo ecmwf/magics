@@ -893,6 +893,7 @@ Polyline& PolarStereographicProjection::getPCBoundingBox() const
 	if ( PCEnveloppe_->empty() ) {
 		getUserBoundingBox();
 	}
+	cout << *PCEnveloppe_ << endl;
 	return *PCEnveloppe_;
 }
 
