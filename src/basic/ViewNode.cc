@@ -304,7 +304,7 @@ void ViewNode::visit(SceneLayer& tree)
 			needLegend_ = (*item)->needLegend();
 			if ( needLegend_ ) break;
 	}
-	bool blank = (drawing_background_colour_ == "none");
+	bool blank = (drawing_background_colour_ != "none");
 	push_front(new FrameBackgroundObject(blank, Colour(drawing_background_colour_)));
 	
 	//Here we have the steps! 	
