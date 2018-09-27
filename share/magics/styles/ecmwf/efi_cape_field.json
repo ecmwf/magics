@@ -1,0 +1,21 @@
+{
+    "match" : {
+        "eccharts_layer" : "efi_cape_field",
+        "set" : [
+            {
+                "paramId" : "132059",
+                "shortName" : "capei",
+                "type" : "efi"
+            },
+            {
+                "long_name" : "Convective available potential energy index"
+            }
+        ],
+        "style" : "sh_red_f05t1i01",
+        "styles" : [
+            "sh_red_f05t1i01",
+            "mrk_efi_cape_f06t1",
+            "sh_efi_f05t1_nc"
+        ]
+    }
+}

@@ -1,0 +1,70 @@
+{
+    "match" : {
+        "eccharts_layer" : [
+            "q1000",
+            "q925"
+        ],
+        "prefered_units" : "g/kg",
+        "set" : [
+            {
+                "levelist" : [
+                    "1000",
+                    "925",
+                    "850",
+                    "800",
+                    "700",
+                    "600",
+                    "500",
+                    "250",
+                    "975",
+                    "950",
+                    "900",
+                    "875",
+                    "825",
+                    "775",
+                    "750",
+                    "725",
+                    "650",
+                    "550",
+                    "450",
+                    "400",
+                    "350",
+                    "300",
+                    "225",
+                    "200",
+                    "175",
+                    "150",
+                    "125",
+                    "100",
+                    "70",
+                    "1",
+                    "2",
+                    "3",
+                    "5",
+                    "7",
+                    "10",
+                    "20",
+                    "30",
+                    "50" 
+                ],
+                "paramId" : "133",
+                "shortName" : "q"
+            },
+            {
+                "long_name" : "Specific humidity",
+                "standard_name" : "specific_humidity"
+            },
+            {
+                "standard_name" : "specific_humidity"
+            }
+        ],
+        "style" : "sh_spechum_option1",
+        "styles" : [
+            "sh_spechum_option1",
+            "sh_spechum_option2",
+            "sh_spechum_option3",
+            "ct_blk_i2_t2",
+            "spechum_extra1"
+        ]
+    }
+}

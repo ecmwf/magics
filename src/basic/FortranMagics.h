@@ -28,6 +28,8 @@
 #include "OutputHandler.h"
 #include "DriverManager.h"
 #include "DisplayManager.h"
+#include "MagicsGlobalAttributes.h"
+
 namespace magics {
 
 class FortranRootSceneNode;
@@ -40,7 +42,16 @@ class Axis;
 class FortranTextVisitor;
 class LegendVisitor;
 
-class FortranMagics : public std::stack<BasicSceneObject*> {
+
+class MagicsGlobal : public MagicsGlobalAttributes 
+{
+public: 
+	MagicsGlobal() {};
+	~MagicsGlobal() {};
+
+};
+
+class FortranMagics : public MagicsGlobal, public std::stack<BasicSceneObject*> {
 
 public:
 	FortranMagics();
@@ -54,8 +65,10 @@ public:
 	void prepare();
 	
 	void pgrib();
+	const char* metagrib();
 	void pmapgen();
 	void pnetcdf();
+	const char* metanetcdf();
 	void pgeo();
 	void pinput();
 	void ptable();
@@ -78,6 +91,7 @@ public:
 
 	void metbufr();
 	void metgraph();
+
 
 	void epscloud();
 	void epsplumes();

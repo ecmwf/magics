@@ -673,7 +673,7 @@ void WrepJSon::hodograph()
 		      	if ( hodograph_tephi_ ) {
 						(*point)["x_component"]       =  values_.ensembleValues_["u"][ens][pl];
 						(*point)["y_component"]       =  values_.ensembleValues_["v"][ens][pl];
-						point->longitude(1025.);
+						point->longitude(1010.);
 						point->latitude(values_.levels_[pl]);
 						points_.push_back(point);
 					}

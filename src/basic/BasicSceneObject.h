@@ -82,7 +82,11 @@ public:
 	BasicSceneObject(BasicSceneObject* parent = 0);
 	virtual ~BasicSceneObject();
 	
-	virtual void push_back(BasicSceneObject* item) { 
+	virtual void push_front(BasicSceneObject* item) { 
+		item->parent(this); 
+		items_.insert (items_.begin(), item);
+	}
+	void push_back(BasicSceneObject* item) { 
 		item->parent(this); 
 		items_.push_back(item); 
 	}
@@ -319,6 +323,67 @@ private:
     //! Overloaded << operator to call print().
 	friend ostream& operator<<(ostream& s,const EmptySceneObject& )
 		{ s << "EmptySceneObject";  return s; }
+
+};
+
+class FrameBackgroundObject: public BasicSceneObject {
+
+public:
+	FrameBackgroundObject(bool blankIt, const Colour& colour) : blankIt_(blankIt), colour_(colour) {}
+	virtual ~FrameBackgroundObject() {};
+      
+    void visit(DrawingVisitor&);
+    void visit(SceneLayer&, vector<LayoutVisitor*>&);
+  
+protected:
+     //! Method to print string about this class on to a stream of type ostream (virtual).
+	 
+     bool   blankIt_;
+     Colour colour_;
+   
+     
+private:
+    //! Copy constructor - No copy allowed
+	FrameBackgroundObject(const FrameBackgroundObject&);
+    //! Overloaded << operator to copy - No copy allowed
+	FrameBackgroundObject& operator=(const FrameBackgroundObject&);
+
+// -- Friends
+    //! Overloaded << operator to call print().
+	friend ostream& operator<<(ostream& s,const FrameBackgroundObject& )
+		{ s << "FrameBackgroundObject";  return s; }
+
+};
+
+class FrameForegroundObject: public BasicSceneObject {
+
+public:
+	FrameForegroundObject(bool frameIt, const Colour& colour, LineStyle style, int thickness) : 
+		frameIt_(frameIt), colour_(colour), style_(style), thickness_(thickness) {}
+		
+	virtual ~FrameForegroundObject() {};
+   
+    void visit(DrawingVisitor&);
+    void visit(SceneLayer&, vector<LayoutVisitor*>&);
+
+protected:
+     //! Method to print string about this class on to a stream of type ostream (virtual).
+	 
+     bool frameIt_;
+     Colour colour_;
+     LineStyle style_;
+     int thickness_;
+          
+private:
+    //! Copy constructor - No copy allowed
+	FrameForegroundObject(const FrameForegroundObject&);
+    //! Overloaded << operator to copy - No copy allowed
+	FrameForegroundObject& operator=(const FrameForegroundObject&);
+
+// -- Friends
+    //! Overloaded << operator to call print().
+	friend ostream& operator<<(ostream& s,const FrameForegroundObject& )
+		{ s << "FrameForegroundObject";  return s; }
 
 };
 

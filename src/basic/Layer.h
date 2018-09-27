@@ -315,7 +315,8 @@ public:
 
 	Layer*  findLayer(Layer*,int) const; 
 	
-	void legend(LegendVisitor* legend);
+	LegendVisitor* legend(LegendVisitor* legend);
+
 	void text(TextVisitor* text);
 
 	

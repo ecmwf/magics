@@ -34,6 +34,13 @@ NetcdfGeoMatrixInterpretor::NetcdfGeoMatrixInterpretor()
 NetcdfGeoMatrixInterpretor::~NetcdfGeoMatrixInterpretor() 
 {}
 
+string NetcdfGeoMatrixInterpretor::proj4Detected(Netcdf& netcdf) 
+{
+	string mapping = netcdf.getVariableAttribute(field_, "grid_mapping", string(""));
+	if ( mapping.size() )
+		return netcdf.getVariableAttribute(mapping, "proj4_params", string(""));
+	return "";
+}
 
 
 bool NetcdfGeoMatrixInterpretor::interpretAsMatrix(Matrix** matrix)
@@ -43,7 +50,7 @@ bool NetcdfGeoMatrixInterpretor::interpretAsMatrix(Matrix** matrix)
 	Netcdf netcdf(path_, dimension_method_);
 
 
-	string proj4 = netcdf.getAttribute("projection", string(""));
+	string proj4 = proj4Detected(netcdf);
 
 	if ( proj4.empty() ) {
 		matrix_ = new Matrix();
@@ -62,11 +69,11 @@ bool NetcdfGeoMatrixInterpretor::interpretAsMatrix(Matrix** matrix)
 		settings.askId(needs);
 		for ( auto need = needs.begin(); need != needs.end(); ++need) {
 			need->second = getAttribute(field_, need->first, "");
-			cout << need->first << "--->" << need->second << endl;
+			//cout << need->first << "--->" << need->second << endl;
 		}
 		
 		settings.getScaling(needs, scaling_, offset_);
-		cout << "Apply scaling " << scaling_ << " and " << offset_ << endl; 
+		//cout << "Apply scaling " << scaling_ << " and " << offset_ << endl; 
 	}
 
 
@@ -111,10 +118,12 @@ bool NetcdfGeoMatrixInterpretor::interpretAsMatrix(Matrix** matrix)
 					matrix_->push_back(*d);
 					
 				}
+				else 
+					matrix_->push_back(missing_value);
 				i++;			
 			}
 		}
-		cout << "Apply scaling " << scaling_ << " and " << offset_ << endl; 
+		//cout << "Apply scaling " << scaling_ << " and " << offset_ << endl; 
 		matrix_->multiply(scaling_);
 		matrix_->plus(offset_);
 	    matrix_->setMapsAxis();
@@ -172,7 +181,7 @@ void NetcdfGeoMatrixInterpretor::visit(Transformation& transformation) {
 bool NetcdfGeoMatrixInterpretor::interpretAsPoints(PointsList& list)
 {
 	Netcdf netcdf(path_, dimension_method_);
-	string proj4 = netcdf.getAttribute("projection", string(""));
+	string proj4 = proj4Detected(netcdf);
 
 	if ( !proj4.empty() ) {
 		proj4_ = pj_init_plus(proj4.c_str());

@@ -1,0 +1,19 @@
+{
+    "match" : {
+        "eccharts_layer" : "cds_es",
+        "prefered_units" : "cm",
+        "set" : [
+            {
+                "paramId" : ["44"],
+                "shortName" : ["es"]
+            },
+            {
+                "long_name" : ["Snow evaporation"]
+            }
+        ],
+        "style" : "sh_blugrn_f0t1lst",
+        "styles" : [
+            "sh_blugrn_f0t1lst"
+        ]
+    }
+}

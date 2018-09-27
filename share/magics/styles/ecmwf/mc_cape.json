@@ -1,0 +1,21 @@
+{
+    "match" : {
+        "eccharts_layer" : "mc_cape",
+        "set" : [
+            {
+                "paramId" : "59",
+                "shortName" : "cape",
+                "type" : "cd"
+            },
+            {
+                "long_name" : "Convective available potential energy"
+            }
+        ],
+        "style" : "sh_mc_cape_f10t13000",
+        "styles" : [
+            "sh_mc_cape_f10t13000",
+            "ct_mc_cape_f10t13000_black",
+            "ct_mc_cape_f10t13000_blue"
+        ]
+    }
+}

@@ -9,15 +9,28 @@
 import sys
 import os
 import numpy
+import json
+
 from . import Magics
 
 class Context(object):
     def __init__(self):
         self.tmp = []
-        pass
+        self.silent = False
+    
+    def set(self) :
+        if self.silent :
+            Magics.setc("magics_silent", "on")
+            os.environ["MAGPLUS_WARNING"] =  "off"
 
 global context
+
 context  = Context()
+
+def silent():
+   context.silent = True
+
+
 
 actions={
     "mobs": "pobs",
@@ -311,11 +324,12 @@ class Action(object):
                 return "float"
         return "int"
 
-    def execute(self):
 
-        if ( self.action != Magics.odb) :
-            self.args = self.clean_object(self.args)
+
+    def set(self):
+
         for key in list(self.args.keys()):
+            
             if isinstance(self.args[key], str):
                 if key == 'odb_data':
                     Magics.setc('odb_filename', self.args[key])
@@ -355,6 +369,15 @@ class Action(object):
             else:
                 self.args[key].execute(key)
 
+
+
+    def execute(self):
+
+        if ( self.action != Magics.odb) :
+            self.args = self.clean_object(self.args)
+        
+        self.set()
+
         if self.action != None :
             if self.action != Magics.new_page :
                 if self.action == Magics.legend :
@@ -366,7 +389,25 @@ class Action(object):
             else:
                 self.action("page")
 
-def make_action(verb, action, html=""):
+    def style(self):
+
+        if self.action not in [Magics.grib, Magics.netcdf] :
+            return {}    
+
+
+        self.args = self.clean_object(self.args)
+        
+        self.set()
+        if self.action == Magics.grib:
+            return Magics.metagrib()
+        if self.action == Magics.netcdf:
+            return Magics.metanetcdf()
+
+
+        
+        
+
+def make_action(verb, action, html="" ):
     def f(_m = None,**kw):
         args = {}
         if _m is not None:
@@ -454,6 +495,7 @@ def _execute(o):
 		o.execute()
 
 def _plot(*args):
+    context.set()
     Magics.init()
     for n in args:
         _execute(n)
@@ -463,6 +505,7 @@ def _plot(*args):
     for f in context.tmp:
         if os.path.exists(f):
             os.remove(f)
+
 
 
 
@@ -551,3 +594,63 @@ try:
             return image
 except ImportError:
     plot = _plot
+
+
+
+
+
+def wmsstyles(data):
+    context.set()
+    Magics.init()
+    styles = data.style()
+    Magics.finalize()
+    return json.loads(styles.decode())
+
+
+   
+
+def wmscrs():
+    os.environ["MAGPLUS_QUIET"] =  "on"
+    os.environ["MAGPLUS_WARNING"] =  "off"
+    return { "crss" : [
+                {
+                    "name" : "EPSG:4326",
+                    "w_lon" : -180.,
+                    "s_lat" : -90.,
+                    "e_lon" : 180.,
+                    "n_lat" : 90.
+                },
+                 {
+                    "name" : "EPSG:3857",
+                    "w_lon" : -20026376.39,
+                    "s_lat" : -20048966.10,
+                    "e_lon" : 20026376.39,
+                    "n_lat" : 20048966.10
+                },
+                {
+                    "name" : "EPSG:3857",
+                    "w_lon" : -20026376.39,
+                    "s_lat" : -20048966.10,
+                    "e_lon" : 20026376.39,
+                    "n_lat" : 20048966.10
+                },
+                {
+                    "name" : "EPSG:32661",
+                    "w_lon" : 1994055.62,
+                    "s_lat" : 5405875.53,
+                    "e_lon" : 2000969.46,
+                    "n_lat" : 2555456.55
+                },
+                ],
+
+
+              "geographic_bounding_box" : {
+                    "w_lon" : -180.,
+                    "e_lon" : 180.,
+                    "s_lat" : -90.,
+                    "n_lat" : 90.
+              }
+            
+            }
+                
+    

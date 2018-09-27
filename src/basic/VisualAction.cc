@@ -90,7 +90,7 @@ void VisualAction::visit(DrawingVisitor& drawing)
 {
 	if ( !data_ || ( data_ && !data_->valid() ) || visdefs_.empty() )
 	{
-		MagLog::warning() << " Check data or visual action!" << endl;
+		MagLog::info() << " Check data or visual action!" << endl;
 		return;
 	}
 	data_->getReady(drawing.transformation());
@@ -101,6 +101,11 @@ void VisualAction::visit(DrawingVisitor& drawing)
 		(**visdef).theme(theme());
 		(**visdef)(*data_, drawing.layout()); // Now the visualObject ahs the responsability to reproject!
 	}
+}
+void VisualAction::visit(FrameVisitor& frame)
+{
+	frame.blankIt();
+	
 }
 
 
@@ -132,7 +137,7 @@ void VisualAction::visit(HistoVisitor& drawing)
 void VisualAction::visit(Transformation& transformation)
 {
 	if ( !data_ || !data_->valid() || visdefs_.empty() ) {
-		MagLog::warning() << " No proper action defined!" << endl;
+		MagLog::info() << " No proper action defined!" << endl;
 		return;
 	}
 	data_->visit(transformation);	
@@ -324,7 +329,7 @@ void VisualAction::visit(SceneLayer& layer, vector<LayoutVisitor*>& visitors)
 
 	if ( !data_ || ( data_ && !data_->valid() ) || visdefs_.empty() )
 	{
-		MagLog::warning() << " Check data or visual action!" << endl;
+		MagLog::info() << " Check data or visual action!" << endl;
 		return;
 	}
 	

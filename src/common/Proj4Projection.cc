@@ -352,14 +352,17 @@ void Proj4Projection::corners()
 		Polyline box;
 		box.box(PaperPoint(min_pcx_, min_pcy_), PaperPoint(max_pcx_, max_pcy_));
 
-		vector<Polyline> newbox;
+		vector<Polyline*> newbox;
 		PCEnveloppe_->intersect(box, newbox);
 		if ( newbox.empty() ) {
 			MagLog::warning() << "Proj4 : the sub-area is not valid : use global view instead" << endl;
 		}
 		else {
-			PCEnveloppe_ = newbox.front().clone();
+			PCEnveloppe_ = newbox.front();
 		}
+		// Clear newbox 
+
+
 }
 
 void Proj4Projection::centre()
@@ -490,30 +493,17 @@ void Proj4Projection::conic()
 	min_pcy_ = DBL_MAX;
 	max_pcx_ = -DBL_MAX;
 	max_pcy_ = -DBL_MAX;
-	/*
-	// left
-	for ( int lat = projection_->minlat_; lat <= projection_->maxlat_; lat++) {
-		add(projection_->minlon_, lat);
-	}
-	*/
+	
 	// top
 	add( projection_->minlon_ - vertical_longitude_, projection_->maxlat_);
-	for ( int lon = projection_->minlon_; lon <= projection_->maxlon_; lon++) {
+	for ( float lon = projection_->minlon_; lon <= projection_->maxlon_; lon++) {
+		
 		add(lon, projection_->minlat_);
 	}
 	add( projection_->maxlon_, projection_->maxlat_);
 	PCEnveloppe_->correct();
 	userEnveloppe_->correct();
-	/*
-	// right
-	for ( int lat = projection_->maxlat_; lat >= projection_->minlat_; lat--) {
-		add(projection_->maxlon_, lat);
-	}
-	// bottom
-	for ( int lon = projection_->maxlon_; lon >= projection_->minlon_; lon--) {
-			add(lon, projection_->minlat_);
-		}
-	*/
+	
 }
 
 
@@ -555,13 +545,13 @@ void Proj4Projection::projectionSimple()
 		Polyline box;
 		box.box(PaperPoint(min_pcx_, min_pcy_), PaperPoint(max_pcx_, max_pcy_));
 
-		vector<Polyline> newbox;
+		vector<Polyline*> newbox;
 		PCEnveloppe_->intersect(box, newbox);
 		if ( newbox.empty() ) {
 			MagLog::warning() << "Proj4 : the sub-area is not valid : use global view instead" << endl;
 		}
 		else {
-			PCEnveloppe_ = newbox.front().clone();
+			PCEnveloppe_ = newbox.front();
 		}
 		// reset
 		setting_ = "corners";
@@ -580,9 +570,7 @@ void Proj4Projection::geos()
 		max_pcx_ = -DBL_MAX;
 		max_pcy_ = -DBL_MAX;
 
-		PCEnveloppe_->correct();
-		userEnveloppe_->correct();
-
+		
 		map<double, vector<double> > helper;
 
 		for ( int lat = projection_->minlat_; lat <= projection_->maxlat_; lat++) {
@@ -718,7 +706,7 @@ void Proj4Projection::gridLongitudes(const GridPlotting& grid)  const
 {
 	Polyline boundaries;
 
-	for (Polyline::MagLine::const_iterator point = PCEnveloppe_->begin(); point != PCEnveloppe_->end(); ++point )
+	for (auto point = PCEnveloppe_->begin(); point != PCEnveloppe_->end(); ++point )
 	{
 		boundaries.push_back(*point);
 	}
@@ -1108,18 +1096,26 @@ void Proj4Projection::coastSetting(map<string, string>& setting, double abswidth
 	//const double yratio = ( ypcmax_ - ypcmin_ ) / absheight;
 
 	// choose the smallest (smaller ratio means more detail required)
-	const double ratio = 10;
+	const double area = ( max_pcx_-min_pcx_ ) * ( max_pcy_- min_pcy_);
 
+    double ratio = area/(abswidth*absheight);
+	
+    //projFACTORS data = proj_factors(to_, xy);
+
+
+	//cout << "RATIO" << area << endl;
+
+	
 	std::string resol = "110m";
-	if ( ratio < 100000 )  // highest resolution
+	if ( ratio < 1000000 )  // highest resolution
 	{
 		resol = "10m";
 	}
-	else if ( ratio < 300000)   // medium resolution
+	else if ( ratio < 3000000)   // medium resolution
 	{
 		resol = "50m";
 	}
-	resol = "110m";
+	
 	setting["resolution"]      = resol;
 	setting["land"]       = resol + "/ne_" + resol + "_land";
 	setting["ocean"]      = resol + "/ne_" + resol + "_ocean";
@@ -1223,12 +1219,12 @@ void Proj4Projection::getNewDefinition(const UserPoint& ll, const UserPoint& ur,
 void Proj4Projection::setDefinition(const string& json)
 {
 	if (json.empty())
-				return;
+		return;
 
-			MagJSon helper;
-			helper.interpret(json);
+	MagJSon helper;
+	helper.interpret(json);
 
-			XmlNode node = **helper.tree_.firstElement();
-			node.name("");
-			set(node);
+	XmlNode node = **helper.tree_.firstElement();
+	node.name("");
+	set(node);
 }

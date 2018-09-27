@@ -1,0 +1,24 @@
+{
+    "match" : {
+        "eccharts_layer" : "mofc_z500_anomaly",
+        "set" : [
+            {
+                "levelist" : [
+                    "500"
+                ],
+                "paramId" : "171129",
+                "shortName" : "za"
+            },
+            {
+                "level" : [
+                    "500"
+                ],
+                "long_name" : "Geopotential anomaly"
+            }
+        ],
+        "style" : "sh_range_fm40t40",
+        "styles" : [
+            "sh_range_fm40t40"
+        ]
+    }
+}

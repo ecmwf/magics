@@ -1,0 +1,22 @@
+{
+    "match" : {
+        "eccharts_layer" : "cin",
+        "set" : [
+            {
+                "paramId" : "228001",
+                "shortName" : "cin"
+            },
+            {
+                "long_name" : "Convective inhibition"
+            }
+        ],
+        "style" : "sh_red_f0t900",
+        "styles" : [
+            "sh_red_f0t900",
+            "sh_black_f0t900",
+            "sh_grey_min50",
+            "sh_grey_min100",
+            "sh_grey_min200"
+        ]
+    }
+}

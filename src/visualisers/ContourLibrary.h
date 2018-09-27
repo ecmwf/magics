@@ -26,13 +26,15 @@
 
 #include "MagTranslator.h"
 #include "MagConfig.h"
+#include "ContourLibraryAttributes.h"
 
 namespace magics {
 
 class MetaDataCollector;
 class VisDefInfoBase;
+class StyleEntry;
 
-class ContourLibrary {
+class ContourLibrary : public ContourLibraryAttributes {
 
 public:
 	ContourLibrary();
@@ -42,10 +44,11 @@ public:
 	virtual void askId(MetaDataCollector&);
 
 	virtual bool checkId(MetaDataCollector&,MetaDataCollector&);
-
+	
 
 	// se the map to set the contour!
-	virtual void getStyle(MetaDataCollector&, map<string, string>&);
+	virtual void getStyle(MetaDataCollector&, map<string, string>&, StyleEntry&);
+	virtual void getStyle(const string&, map<string, string>&) {}
 	virtual void getScaling(MetaDataCollector&, double& scaling, double& offset)
 	{
 		scaling = 1;
@@ -151,7 +154,7 @@ public:
 	void setCriteria(MetaDataCollector&, const string&);
 
 	// set the map to set the contour!
-	void getStyle(MetaDataCollector&, map<string, string>&);
+	void getStyle(MetaDataCollector&, map<string, string>&, StyleEntry&);
 
 
 
@@ -179,14 +182,20 @@ public:
 	void setCriteria(MetaDataCollector&, const string&);
 
 	// set the map to set the contour!
-	void getStyle(MetaDataCollector&, map<string, string>&);
+	void getStyle(MetaDataCollector&, map<string, string>&, StyleEntry&);
+	void getStyle(const string&, map<string, string>&);
+
 	void getScaling(MetaDataCollector&, double&, double&);
+	
+
+	static StyleLibrary* styles_;
 
 
 protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).
 	virtual void print(ostream&) const;
 
+	string libraryPath_;
 	
 
 };
@@ -204,7 +213,7 @@ public:
 	bool checkId(MetaDataCollector&,MetaDataCollector&) { return false; }
 
 	// se the map to set the contour!
-	void getStyle(MetaDataCollector&, map<string, string>&) {}
+	void getStyle(MetaDataCollector&, map<string, string>&, StyleEntry&) {}
 
 protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).

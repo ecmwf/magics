@@ -59,7 +59,7 @@ void  InputData::numberSetting(vector<double>& from, vector<double>& values)
 
 void  InputData::prepare()
 {
-    if ( !x_values_.empty() ) return;
+    if ( x_values_.size() ) return;
 
     if ( magCompare(x_type_, "date" ) ) {
     	dateSetting(date_x_, x_values_, baseDateX_, true);
@@ -290,9 +290,10 @@ void InputData::visit(Transformation& transformation)
 {
 	// get the data ...
 	try {
-		prepare();
+		
 		if ( !input_automatic_  ) 
 			return;
+		prepare();
 		if ( transformation.getAutomaticX() ) {
 			double min = INT_MAX;
 			double max = -INT_MAX;

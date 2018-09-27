@@ -124,7 +124,7 @@ public:
 	std::pair<double, double> unrotate(double lat, double lon) const;
 	std::pair<double, double> rotate(double lat, double lon) const;
 	PaperPoint reference(const GribDecoder&, const Transformation&);
-	void raw(const GribDecoder&, const Transformation&, const string&, map<double, map<double, CustomisedPoint*> >& ) const;
+	void raw(GribDecoder&, const Transformation&, const string&, map<double, map<double, CustomisedPoint*> >& ) const;
 	void keepOriginal(bool original) { original_ = original; }
 	void interpretAsMatrix(const GribDecoder&, Matrix**, Matrix** matrix2 = NULL) const;
 	void interpret2D(double&, double&, double&, double&) const;
