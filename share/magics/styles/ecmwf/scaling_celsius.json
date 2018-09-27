@@ -1,0 +1,27 @@
+[
+{
+    "match": {
+        "set": [
+            {
+                "paramId": ["121", "130", "122", "208"]
+            }, 
+            {
+                "paramId": ["228027", "228026"]
+            }
+        ], 
+        "prefered_units": "C"
+    }
+},
+{
+    "match": {
+        "set": [
+            {
+                "paramId": "129"
+            }
+        ], 
+        "prefered_units": "dam"
+    }
+}
+]
+
+

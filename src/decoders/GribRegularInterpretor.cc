@@ -1,9 +1,9 @@
 /*
  * (C) Copyright 1996-2016 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
  */
@@ -26,6 +26,7 @@
 #include "LocalTable.h"
 #include "RasterData.h"
 #include "Timer.h"
+#include "ContourLibrary.h"
 
 using namespace magics;
 
@@ -51,7 +52,7 @@ void GribInterpretor::longitudesSanityCheck(double& west, double& east) const {
         east -= 360.;
     }
 }
-void GribInterpretor::scaling(const GribDecoder& grib, double& scaling,
+void GribInterpretor::scaling(GribDecoder& grib, double& scaling,
         double& offset) const {
     string originalUnits, derivedUnits;
    this->scaling(grib, scaling, offset, originalUnits, derivedUnits);
@@ -190,16 +191,16 @@ Index GribInterpretor::nearest(double ulat, double ulon)
 
 
     Index index(-1, 0, 0);
-    if ( ulat < minlat_ ) 
+    if ( ulat < minlat_ )
         return index;
-    if ( ulat > maxlat_ ) 
+    if ( ulat > maxlat_ )
         return index;
-    if ( ulon < minlon_ ) 
+    if ( ulon < minlon_ )
         return index;
-    if ( ulon > maxlon_ ) 
+    if ( ulon > maxlon_ )
         return index;
 
-    
+
     if ( ulat == -1000. || ulon == -1000.)
           return index;
     if ( ulat >= 90 || ulat <= -90)
@@ -228,7 +229,7 @@ Index GribInterpretor::nearest(double ulat, double ulon)
 
 
 
-    
+
 
     double nearest = std::numeric_limits<double>::max();
     for ( int clat = lat1; clat <= lat2; clat++ ) {
@@ -307,68 +308,25 @@ Index GribInterpretor::nearest(double ulat, double ulon)
 
 
 
-void GribInterpretor::scaling(const GribDecoder& grib, double& scaling,
+void GribInterpretor::scaling(GribDecoder& grib, double& scaling,
         double& offset, string& originalUnits, string& derivedUnits) const {
     scaling = 1;
     offset = 0;
 
     // First check that they are not derived fields!
+    
+    long derived = grib.getLong("generatingProcessIdentifier");
+    bool scale = (derived == 254) ? grib.derived_scaling_ : grib.scaling_;
 
-    if (grib.scaling_ || grib.derived_scaling_) {
-        long derived = grib.getLong("generatingProcessIdentifier");
+    if ( scale ) {
+        WebLibrary settings;
+        MetaDataCollector needs;
+        settings.askId(needs);
+        grib.ask(needs);
+        settings.getScaling(needs, scaling, offset);
 
-        if ((derived != 254 && grib.scaling_)
-                || (derived == 254 && grib.derived_scaling_)) {
-            // The key 'paramId' embodies a number of features such as centre, parameter,
-            // level, etc. This means that we should not need to worry about table
-            // numbers, etc as we did with GRIBEX. However, it's not entirely clear
-            // what we can do with non-ECMWF data, as we don't seem to have tables
-            // giving scaling factors & offsets for such data. The code, as originally
-            // written here takes a table-based approach, but this will probably
-            // become redundant. What we really need is something more based on paramIds.
-            // In the meantime, we will take the paramIds as if they are from ECMWF data.
-            // In practice, this means pretending that all data is from
-            // centre=98,table=128.
-
-            long table = 128; // hard-coded in case of GRIB 2
-            long centre = 98;  // hard-coded in case of GRIB 2
-
-            //long edition = grib.getLong("edition");
-            //
-            //if (edition == 1)
-            //{
-            //  table  = grib.getLong("table2Version");
-            //  centre = grib.getLong("centre");
-            //}
-            //else
-            //{
-            //  // GRIB 2 does not use the table-based approach, so we just hope that this will
-            //  // work with most data if we use the standard ECMWF tables...
-            //}
-
-            long id = grib.getLong("paramId");
-
-            try {
-                const ParamDef& paramdef = LocalTable::localInfo(id, table,
-                        centre);
-                scaling = paramdef.scaling();
-                offset = paramdef.offset();
-                originalUnits = paramdef.originalUnit();
-                derivedUnits = paramdef.derivedUnit();
-                if ( paramdef.code() == -1 ) {
-                    originalUnits = grib.getString("units");
-                    derivedUnits = originalUnits;
-                }
-            }
-            catch (exception) { 
-               
-                MagLog::warning()
-                        << " Can not find information for the parameter [" << id
-                        << "." << table << "]\n";
-            }
-        }
-        
-    } else {
+    } 
+    else {
         scaling = grib.scaling_factor_;
         offset = grib.scaling_offset_;
     }
@@ -377,7 +335,7 @@ void GribInterpretor::scaling(const GribDecoder& grib, double& scaling,
         scaling = 1;
 }
 
-void GribInterpretor::scaling(const GribDecoder& grib, Matrix** matrix) const {
+void GribInterpretor::scaling(GribDecoder& grib, Matrix** matrix) const {
     double factor, offset;
 
     scaling(grib, factor, offset);
@@ -394,6 +352,8 @@ void  GribInterpretor::index(const GribDecoder& grib)
 
 int GribInterpretor::nearest(double lon, double lat, double& nlon, double& nlat)
 {
+  assert(false);
+  return -1;
 /*
     map<double, map<double, int> >::iterator y1, y2, y;
     map<double, int>::iterator x1, x2, x;
@@ -515,7 +475,7 @@ void GribInterpretor::raw(GribDecoder& grib,
 
 }
 
-void GribInterpretor::raw(const GribDecoder& grib,
+void GribInterpretor::raw(GribDecoder& grib,
         const Transformation& transformation, const string& key,
         map<double, map<double, CustomisedPoint*> >& points) const {
     Timer timer("grib", "raw");
@@ -1229,7 +1189,7 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
         double lon2 = *r;
 
         int x = 0;
-      
+
 
         while (x < nblon) {
 
@@ -1239,16 +1199,16 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
                 lon = west + ( x*step);
                 continue;
             }
-            if ( lon >= row->back() ) { 
+            if ( lon >= row->back() ) {
                 if ( global ) {
                     p2 = 0;
                     lon2 = 360.;
                     lon1 = row->back();
                     p1 = p.size()-1;
-                   
 
-                } 
-                else { 
+
+                }
+                else {
                     (*matrix)->push_back(p.back());
                     x++;
                     lon = west + ( x*step);
@@ -1256,17 +1216,17 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
                 }
             }
             if ( lon > lon2) {
-                
+
                 p1++;
                 p2++;
-                
+
                 lon1 = lon2;
-                
+
                 r++;
-                if ( r == row->end() ) 
+                if ( r == row->end() )
                     r--;
-                lon2 = (*r);   
-                
+                lon2 = (*r);
+
             }
 
             double d1 = (lon2 - lon) / (lon2 - lon1);
@@ -1279,7 +1239,7 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
                    else
                 	   if ( p[p2] != missing )
                 		   val = (p[p1] * d1) + (p[p2] * d2);
-               
+
                   (*matrix)->push_back(val);
 
             }
@@ -1291,7 +1251,7 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
             x++;
             lon = west + ( x*step);
         }
-        
+
 
     }
     }
@@ -1610,11 +1570,12 @@ pair<double, double> GribRotatedInterpretor::rotate(double lat_y,
 
 void GribLambertAzimutalInterpretor::interpretAsMatrix(const GribDecoder& grib,
         Matrix** matrix, Matrix** matrix2) const {
-    /*
+    // Only working for dump shading for efas !
+
     long im = grib.getLong("numberOfPointsAlongXAxis");
     long jm = grib.getLong("numberOfPointsAlongYAxis");
 
-    RotatedMatrix *rotated = new RotatedMatrix(jm, im);
+    Matrix *rotated = new Matrix(jm, im);
     *matrix = rotated;
 
     size_t nb;
@@ -1637,26 +1598,34 @@ void GribLambertAzimutalInterpretor::interpretAsMatrix(const GribDecoder& grib,
 
         MagLog::debug() << "Version" << grib_get_api_version() << endl;
 
-        vector<double>& data = rotated->values();
-        vector<double>& latm = rotated->rowsArray();
-        vector<double>& lonm = rotated->columnsArray();
-
         size_t aux = size_t(nb);
 
-        grib_get_double_array(grib.id(), "latitudes", &(latm.front()), &aux);
-        grib_get_double_array(grib.id(), "values", &(data.front()), &aux);
-        grib_get_double_array(grib.id(), "longitudes", &(lonm.front()), &aux);
-        for (int i = 0; i < nb; i++) {
 
-            if (lonm[i] > 180.)
-                lonm[i] -= 360.;
+        //grib_get_double_array(grib.id(), "latitudes", &(latPDumpS.front()), &aux);
 
-        }
+        grib_get_double_array(grib.id(), "values", &(rotated->front()), &aux);
 
-    } catch (MagicsException& e) {
+
+
+        //grib_get_double_array(grib.id(), "longitudes", &(lonm.front()), &aux);
+
+
+        vector<double> rows, columns;
+        for (int i = 0; i < im; i++)
+            columns.push_back(i);
+        for (int i = 0; i < jm; i++)
+            rows.push_back(i);
+
+        rotated->setRowsAxis(rows);
+        rotated->setColumnsAxis(columns);
+        rotated->setMapsAxis();
+
+    }
+    catch (MagicsException& e) {
         MagLog::error() << e << "\n";
     }
-    */
+
+
 }
 
 void GribLambertAzimutalInterpretor::print(ostream& out) const {
@@ -1689,7 +1658,7 @@ void GribRotatedInterpretor::interpretAsMatrix(const GribDecoder& grib,
     double missing = INT_MAX;
     grib.setDouble("missingValue", missing);
     (*matrix)->missing(missing);
-    
+
 
     double north = grib.getDouble("latitudeOfFirstGridPointInDegrees");
     double west = grib.getDouble("longitudeOfFirstGridPointInDegrees");
@@ -1784,10 +1753,11 @@ void GribRotatedInterpretor::interpretAsMatrix(const GribDecoder& grib,
         }
         (*matrix)->missing(missing);
 
-    } catch (...) {
+    }
+    catch (...) {
         throw MagicsException("GribRegularInterpretor - Not enough memory");
     }
-   
+
 }
 
 void GribRotatedInterpretor::interpret2D(double& lat, double& lon, double& uc,
@@ -1807,7 +1777,7 @@ void GribRotatedInterpretor::interpret2D(double& lat, double& lon, double& uc,
     vc = speed * sin(rangle);
 }
 
-void GribRotatedInterpretor::raw(const GribDecoder& grib,
+void GribRotatedInterpretor::raw(GribDecoder& grib,
         const Transformation& transformation, const string& key,
         map<double, map<double, CustomisedPoint*> >& points) const {
     double factor, offset;

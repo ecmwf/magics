@@ -1,0 +1,22 @@
+{
+    "match" : {
+        "eccharts_layer" : "mofc_mslp_pdist",
+        "set" : [
+            {
+                "paramId" : "131151",
+                "shortName" : "mslpp"
+            },
+            {
+                "long_name" : "Mean sea level pressure probability"
+            }
+        ],
+        "style" : "sh_mf_pdist",
+        "styles" : [
+            "sh_mf_pdist",
+            "sh_mf_pdist_2",
+            "sh_mf_2t_tercile",
+            "sh_mf_pdist_quintile",
+            "sh_mf_pdist_decile"
+        ]
+    }
+}

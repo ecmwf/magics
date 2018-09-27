@@ -65,6 +65,7 @@ protected:
 	 void visit(TextVisitor&); 
 	 void visit(MetaDataVisitor&); 
 	 void visit(HistoVisitor&); 
+	 void visit(FrameVisitor&); 
 	 
 	 void visit(Transformation&);
 	 

@@ -1237,7 +1237,7 @@ public:
             string readAsLong = node.getAttribute("readAsLong");
             if(readAsLong != "yes")
             {
-                val =  grib_.getString(def);
+                val =  grib_.getString(def, false);
                 string format = node.getAttribute("format");
                 if ( !format.empty() ) {
                     char tmp[256];
@@ -1494,6 +1494,14 @@ const LevelDescription& GribDecoder::level()
     return dataLevel_;
 }
 
+void GribDecoder::ask(MetaDataCollector& meta)
+{
+    for ( auto m = meta.begin(); m != meta.end(); ++m) {
+        m->second = getString(m->first, false);
+        //cout << m->first << " = " << m->second << endl;
+    }
+}
+
 void GribDecoder::visit(MetaDataVisitor& meta)
 {
     if ( !handle_ )
@@ -1661,6 +1669,7 @@ void GribDecoder::visit(MetaDataCollector& step)
             if(information_.find(key->first) != information_.end())
             {
                 key->second=information_[key->first];
+                //cout << "GRIB " << key->first << " = " << key->second << endl;
             }
         }
 

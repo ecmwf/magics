@@ -88,7 +88,7 @@ does it submit to any jurisdiction.
            		</documentation>
            		<release>Magics++2.20		</release> 
         	</parameter> 
-         	<parameter member="isotherm_label_font" to="string" default="sanserif" from="string" name="thermo_isotherm_label_font">
+         	<parameter member="isotherm_label_font" to="string" default="helvetica" from="string" name="thermo_isotherm_label_font">
             		<documentation>
               Font name used for the isotherms labels 
            		</documentation>
@@ -169,7 +169,7 @@ does it submit to any jurisdiction.
            		</documentation>
            		<release>Magics++2.20		</release> 
         	</parameter> 
-         	<parameter member="isobar_label_font" to="string" default="sanserif" from="string" name="thermo_isobar_label_font">
+         	<parameter member="isobar_label_font" to="string" default="helvetica" from="string" name="thermo_isobar_label_font">
             		<documentation>
               Font name used for the isobars labels 
            		</documentation>
@@ -248,7 +248,7 @@ does it submit to any jurisdiction.
            		</documentation>
            		<release>Magics++2.20		</release> 
         	</parameter> 
-         	<parameter member="dry_adiabatic_label_font" to="string" default="sanserif" from="string" name="thermo_dry_adiabatic_label_font">
+         	<parameter member="dry_adiabatic_label_font" to="string" default="helvetica" from="string" name="thermo_dry_adiabatic_label_font">
             		<documentation>
               Font name used for the dry_adiabatics labels 
            		</documentation>
@@ -328,7 +328,7 @@ does it submit to any jurisdiction.
            		</documentation>
            		<release>Magics++2.20		</release> 
         	</parameter> 
-         	<parameter member="saturated_adiabatic_label_font" to="string" default="sanserif" from="string" name="thermo_saturated_adiabatic_label_font">
+         	<parameter member="saturated_adiabatic_label_font" to="string" default="helvetica" from="string" name="thermo_saturated_adiabatic_label_font">
             		<documentation>
               Font name used for the saturated_adiabatics labels 
            		</documentation>
@@ -402,7 +402,7 @@ does it submit to any jurisdiction.
            		</documentation>
            		<release>Magics++2.20		</release> 
         	</parameter> 
-         	<parameter member="mixing_ratio_label_font" to="string" default="sanserif" from="string" name="thermo_mixing_ratio_label_font">
+         	<parameter member="mixing_ratio_label_font" to="string" default="helvetica" from="string" name="thermo_mixing_ratio_label_font">
             		<documentation>
               Font name used for the mixing_ratios labels 
            		</documentation>

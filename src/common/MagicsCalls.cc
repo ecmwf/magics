@@ -775,6 +775,32 @@ public :
 	}
 };
 
+class ContourAutomaticSetting: public CompatibilityHelper {
+public :
+	ContourAutomaticSetting() : CompatibilityHelper("contour_automatic_setting") {}
+	~ContourAutomaticSetting() {}
+	bool operator()(const string& setting)
+	{
+		//cout << " setting -->" << setting << endl;
+		if ( magCompare(setting, "eccharts") ) {
+			MagLog::info() << "Compatibility issue: ecchart automatic contour is deprecated, consider using ecmwf\n";
+			return false;
+		}
+		if ( magCompare(setting, "web") ) {
+			MagLog::warning() << "Compatibility issue: web automatic contour is now deprecated, use ecmwf instead\n";
+			ParameterManager::set("contour_automatic_setting", "ecmwf");
+			return true;
+		}
+		if ( magCompare(setting, "on") ) {
+			MagLog::warning() << "Compatibility issue: on for  automatic contour is now deprecated, use ecmwf instead\n";
+			ParameterManager::set("contour_automatic_setting", "ecmwf");
+			return true;
+		}
+		return false;
+	}
+};
+
+
 class WindArrowIndexHead: public CompatibilityHelper {
 public :
 	WindArrowIndexHead() : CompatibilityHelper("wind_arrow_head_index") {}
@@ -808,6 +834,7 @@ public :
 	}
 };
 
+static ContourAutomaticSetting contourautomaticsetting;
 static OutputResolution outputresolution;
 static WindArrowLegend windarrowlegend;
 static PsFileName ps_file_name;
@@ -855,6 +882,7 @@ static IgnoreConverter graph_curve_interpolation("graph_curve_interpolation");
 static GraphType graph_type;
 static Legend legend("legend");
 
+static SimpleTranslator contour_predefined_setting("contour_predefined_setting", "contour_style_name");
 static SimpleTranslator netcdf_x_position_variable("netcdf_x_position_variable", "netcdf_x_variable");
 static SimpleTranslator netcdf_y_position_variable("netcdf_y_position_variable", "netcdf_y_variable");
 static SimpleTranslator legend_text_height("legend_text_height", "legend_text_font_size");
@@ -927,9 +955,20 @@ void ptephi_()
 	magics_->ptephi();
 
 }
+
 void pgrib_()
 {
 	magics_->pgrib();
+}
+
+const char* metagrib_()
+{
+	return magics_->metagrib();
+}
+
+const char* metanetcdf_()
+{
+	return magics_->metanetcdf();
 }
 
 void pmapgen_()
@@ -1280,61 +1319,139 @@ void pinfo_(){mag_info();}
 ***
 
 ****************************************************************************/
+
+#define PYTHON(python, magics) const char* python() { try { magics(); } catch (exception e) { return e.what(); } return NULL;}
+#define PYTHONS(python, magics) const char* python() { try { return magics(); } catch (exception e) { return e.what(); } return NULL;}
 void mag_open()  {popen_();}
+PYTHON(py_open, popen_)
 int mag_close() { return pclose_();}
+PYTHON(py_close, pclose_)
 void mag_coast() {pcoast_();}
+PYTHON(py_coast, pcoast_)
 void mag_grib()  {pgrib_();}
+PYTHON(py_grib, pgrib_)
+PYTHONS(py_metagrib, metagrib_)
 void mag_mapgen()  {pmapgen_();}
+PYTHON(py_mapgen, pmapgen_)
 void mag_line()  {pline_();}
+PYTHON(py_line, pline_)
 void mag_legend()  {magics_->simplelegend();}
+PYTHON(py_legend, magics_->simplelegend)
 void mag_test()  {ptest_();}
 void mag_odb()   {podb_();}
+PYTHON(py_odb, podb_)
 void mag_import(){pimport_();}
+PYTHON(py_import, pimport_)
 void mag_overlay(){poverlay_();}
+PYTHON(py_overlay, poverlay_)
 void mag_netcdf(){pnetcdf_();}
+PYTHON(py_netcdf, pnetcdf_)
+PYTHONS(py_metanetcdf, metanetcdf_)
 void mag_cont()  {pcont_();}
+PYTHON(py_cont, pcont_)
 void mag_input()  {pinput_();}
+PYTHON(py_input, pinput_)
 void mag_table()  {ptable_();}
+PYTHON(py_table, ptable_)
 void mag_obs()   {pobs_();}
+PYTHON(py_obs, pobs_)
 void mag_raw()   {praw_();}
+PYTHON(py_raw, praw_)
 void mag_image() {pimage_();}
+PYTHON(py_image, pimage_)
 void mag_plot()  {pplot_();}
+PYTHON(py_plot, pplot_)
 void mag_text()	 {ptext_();}
+PYTHON(py_text, ptext_)
 void mag_wind()  {pwind_();}
+PYTHON(py_wind, pwind_)
 void mag_symb()  {psymb_();}
+PYTHON(py_symb, psymb_)
 void mag_boxplot()  {pboxplot_();}
+PYTHON(py_boxplot, pboxplot_)
 void mag_taylor()  {ptaylor_();}
+PYTHON(py_taylor, ptaylor_)
 void mag_tephi()  {ptephi_();}
+PYTHON(py_tephi, ptephi_)
 void mag_geojson()  { pgeojson_(); }
+PYTHON(py_geojson, pgeojson_)
 void mag_wrepjson()  { pwrepjson_(); }
+PYTHON(py_wrepjson, pwrepjson_)
 void mag_epsinput()  { pepsinput_(); }
+PYTHON(py_epsinput, pepsinput_)
 void mag_epscloud()  { pepscloud_(); }
+PYTHON(py_epscloud, pepscloud_)
 void mag_metgraph()  { pmetgraph_(); }
+PYTHON(py_metgraph, pmetgraph_)
 void mag_metbufr()  { pmetbufr_(); }
+PYTHON(py_metbufr, pmetbufr_)
 
 void mag_epsgraph()  	   { pepsgraph_(); }
-void mag_epswave()       { pepswave_(); }
-void mag_epswind()       { pepswind_(); }
-void mag_epsbar()        { pepsbar_(); }
-void mag_epsshading()    { pepsshading_(); }
-void mag_epsplumes()    { pepsplumes_(); }
-void mag_epslight()    { pepslight_(); }
+PYTHON(py_epsgraph, pepsgraph_)
 
+void mag_epswave()       { pepswave_(); }
+PYTHON(py_epswave, pepswave_)
+
+void mag_epswind()       { pepswind_(); }
+PYTHON(py_epswind, pepswind_)
+
+void mag_epsbar()        { pepsbar_(); }
+PYTHON(py_epsbar, pepsbar_)
+
+void mag_epsshading()    { pepsshading_(); }
+PYTHON(py_epsshading, pepsshading_)
+
+void mag_epsplumes()    { pepsplumes_(); }
+PYTHON(py_epsplumes, pepsplumes_)
+
+void mag_epslight()    { pepslight_(); }
+PYTHON(py_epslight, pepslight_)
+
+
+
+
+const char* py_new(const char* page)
+{
+	try {
+		mag_new(page);
+	}
+	catch (exception e) {
+		return e.what();
+	}
+	return NULL;
+}
 
 void mag_new(const char* page)
 {
 	magics_->pnew(page);
 }
 
-void mag_reset(const char* name)
+const char* py_reset(const char* name)
 {
 	try {
-		ParameterManager::reset(name);
+		mag_reset(name);
 	}
-	catch (MagicsException& e)
-	{
-		MagLog::error() << e << "\n";
+	catch (exception e) {
+		return e.what();
 	}
+	return NULL;
+}
+
+void mag_reset(const char* name)
+{
+
+	ParameterManager::reset(name);
+}
+
+const char* py_setc(const char* name, const char* value)
+{
+	try {
+		mag_setc(name, value);
+	}
+	catch (exception e) {
+		return e.what();
+	}
+	return NULL;
 }
 
 void mag_setc(const char* name, const char* value)
@@ -1345,21 +1462,35 @@ void mag_setc(const char* name, const char* value)
 	//cout << "setc("<<name<<","<<value<<")"<<endl;
 }
 
+const char* py_setr(const char* name, const double value)
+{
+	try {
+		mag_setr(name, value);
+	}
+	catch (exception e) {
+		return e.what();
+	}
+	return NULL;
+}
 void mag_setr(const char* name, const double value)
 {
 	std::string n(name);
 
-	try {
-		if ( CompatibilityHelper::check(n, value) ) return;
-		ParameterManager::set(n, value);
-	}
-	catch (MagicsException& e)
-	{
-		MagLog::error() << e << "\n";
-	}
-	//cout << "setr("<<name<<","<<value<<")"<<endl;
-}
 
+	if ( CompatibilityHelper::check(n, value) ) return;
+	ParameterManager::set(n, value);
+
+}
+const char* py_seti(const char* name, const int value)
+{
+	try {
+		mag_seti(name, value);
+	}
+	catch (exception e) {
+		return e.what();
+	}
+	return NULL;
+}
 void mag_seti(const char* name, const int value)
 {
 	string n(name);
@@ -1385,6 +1516,16 @@ void mag_act(const char* a, const char* b, const char* c)
 	pact_(a, b, c,aa.size(),bb.size(),cc.size());
 }
 
+const char* py_set1r(const char* name, const double *data, const int dim1)
+{
+	try {
+		mag_set1r(name, data, dim1);
+	}
+	catch (exception e) {
+		return e.what();
+	}
+	return NULL;
+}
 void mag_set1r(const char* name, const double *data, const int dim1)
 {
 	std::string n(name);
@@ -1401,6 +1542,18 @@ void mag_set1r(const char* name, const double *data, const int dim1)
 	}
 }
 
+
+
+const char* py_set2r(const char* name, const double *data, const int dim1, const int dim2)
+{
+	try {
+		mag_set2r(name, data, dim1, dim2);
+	}
+	catch (exception e) {
+		return e.what();
+	}
+	return NULL;
+}
 void mag_set2r(const char* name, const double *data, const int dim1, const int dim2)
 {
 	string param(name);
@@ -1422,9 +1575,21 @@ void mag_set2r(const char* name, const double *data, const int dim1, const int d
 	MagLog::dev() << "Parameter " << string(name) << " set to " << matrix << "\n";
 }
 
+
 void mag_set3r(const char*, const double *, const int, const int, const int)
 {
 	MagLog::warning() << "pset3r --> not yet implemented\n";
+}
+
+const char* py_set1i(const char* name, const int *data, const int dim1)
+{
+	try {
+		mag_set1i(name, data, dim1);
+	}
+	catch (exception e) {
+		return e.what();
+	}
+	return NULL;
 }
 
 void mag_set1i(const char* name, const int *data, const int dim1)
@@ -1443,6 +1608,16 @@ void mag_set1i(const char* name, const int *data, const int dim1)
 	}
 }
 
+const char* py_set2i(const char* name, const int *data, const int dim1, const int dim2)
+{
+	try {
+		mag_set2i(name, data, dim1, dim2);
+	}
+	catch (exception e) {
+		return e.what();
+	}
+	return NULL;
+}
 void mag_set2i(const char* name, const int *data, const int dim1, const int dim2)
 {
 	string param(name);
@@ -1466,6 +1641,16 @@ void mag_set3i(const char* , const int *, const int , const int , const int )
 	MagLog::warning() << "pset3i --> not yet implemented\n";
 }
 
+const char* py_set1c(const char* name, const char** data, const int dim1)
+{
+	try {
+		mag_set1c(name, data, dim1);
+	}
+	catch (exception e) {
+		return e.what();
+	}
+	return NULL;
+}
 void mag_set1c(const char* name, const char** data, const int dim)
 {
 	string param(name);
@@ -1549,11 +1734,17 @@ void mag_enqc(const char* name, char* value)
 
 
 void mag_pie()   {ppie_();}
+
 void mag_graph() {pgraph_();}
+PYTHON(py_graph, pgraph_)
 void mag_axis()  {paxis_();}
+PYTHON(py_axis, paxis_)
 void mag_geo()   {pgeo_();}
+PYTHON(py_geo, pgeo_)
 void mag_eps()   {peps_();}
+PYTHON(py_eps, peps_)
 void mag_print() {pprint_();}
+PYTHON(py_print, pprint_)
 
 void mag_info()
 {
@@ -1569,6 +1760,7 @@ void mag_info()
 		<< "INFO:\n";
 }
 
+PYTHON(py_info, mag_info)
 }// end of extern "C"
 
 MagicsParameter<double> paxis_min_value("axis_min_value", 0);

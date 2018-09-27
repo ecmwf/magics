@@ -1,0 +1,18 @@
+{
+    "match" : {
+        "eccharts_layer" : "cds_evaporataion",
+        "set" : [
+            {
+                "paramId" : ["182","228251"],
+                "shortName" : ["e","pev"]
+            },
+            {
+                "long_name" : ["Evaporation","Potential evaporation"]
+            }
+        ],
+        "style" : "sh_blugrn_f0t1_i01",
+        "styles" : [
+            "sh_blugrn_f0t1_i01"
+        ]
+    }
+}

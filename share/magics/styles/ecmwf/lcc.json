@@ -1,0 +1,92 @@
+{
+    "match" : {
+        "eccharts_layer" : "lcc",
+        "set" : [
+            {
+                "paramId" : "186",
+                "shortName" : "lcc"
+            },
+            {
+                "long_name" : "Low cloud cover"
+            },
+            {
+                "paramId" : [
+                    "164"
+                ],
+                "shortName" : [
+                    "tcc"
+                ]
+            },
+            {
+                "long_name" : [
+                    "Total cloud cover"
+                ]
+            },
+            {
+                "long_name" : ["Total Cloud Fraction","Fraction of cloud cover"],
+                "standard_name" : ["cloud_area_fraction","cloud_area_fraction_in_atmosphere_layer"]
+            },
+            {
+                "standard_name" : ["cloud_area_fraction","cloud_area_fraction_in_atmosphere_layer",
+                                   "convective_cloud_area_fraction",
+                                   "convective_cloud_area_fraction_in_atmosphere_layer",
+                                   "low_type_cloud_area_fraction",
+                                   "stratiform_cloud_area_fraction",
+                                   "large_scale_cloud_area_fraction",
+                                   "large_scale_cloud_area_fraction"]
+            },            
+            {
+                "levelist" : [
+                    "1000",
+                    "975",
+                    "950",
+                    "925",
+                    "900",
+                    "875",
+                    "850",
+                    "825",
+                    "800",
+                    "775",
+                    "750",
+                    "725",
+                    "700",
+                    "650",
+                    "600",
+                    "550",
+                    "500",
+                    "450",
+                    "400",
+                    "350",
+                    "300",
+                    "250",
+                    "225",
+                    "200",
+                    "175",
+                    "150",
+                    "125",
+                    "100",
+                    "70",
+                    "1",
+                    "2",
+                    "3",
+                    "5",
+                    "7",
+                    "10",
+                    "20",
+                    "30",
+                    "50"
+                ],
+                "paramId" : "248",
+                "shortName" : "cc",
+                "levtype" : "pl" 
+            }            
+        ],
+        "style" : "transparency_grey",
+        "styles" : [
+            "transparency_grey",
+            "sh_gry_f0t1lst",
+            "sh_redgry_f0t1lst",
+            "tran_gry_f03t1lst"
+        ]
+    }
+}

@@ -1,0 +1,22 @@
+{
+    "match" : {
+        "eccharts_layer" : "sea_ice_cover_cf",
+        "set" : [
+            {
+                "paramId" : "31",
+                "shortName" : "ci",
+                "type" : "pf"
+            },
+            {
+                "long_name" : "Sea-ice cover"
+            }
+        ],
+        "style" : "sic_grey",
+        "styles" : [
+            "sic_grey",
+            "sic_25to100",
+            "transparent_ice",
+            "sic_10to100"
+        ]
+    }
+}

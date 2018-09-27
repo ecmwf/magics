@@ -1,0 +1,25 @@
+{
+    "match" : {
+        "eccharts_layer" : "sea_ice_cover",
+        "set" : [
+            {
+                "paramId" : "31",
+                "shortName" : "ci"
+            },
+            {
+                "long_name" : "Sea-ice cover"
+            },
+            {
+                "long_name" : "Sea Ice Area Fraction",
+                "standard_name" : "sea_ice_area_fraction"
+            }
+        ],
+        "style" : "sic_grey",
+        "styles" : [
+            "sic_grey",
+            "sic_25to100",
+            "transparent_ice",
+            "sic_10to100"
+        ]
+    }
+}

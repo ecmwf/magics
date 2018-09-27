@@ -76,10 +76,10 @@ public :
      }		
      virtual double nearest(double  row, double  column) const
      {
-            	if ( columns() == 0  || rows() == 0)
-            		return matrix_.missing();
+                if ( columns() == 0  || rows() == 0)
+                    return matrix_.missing();
 
-        		if ( column < left() && !same(column, left()) )
+                if ( column < left() && !same(column, left()) )
                     return matrix_.missing();
                 if ( column > right() && !same(column, right()) )
                     return matrix_.missing();

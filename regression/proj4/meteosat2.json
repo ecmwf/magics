@@ -41,7 +41,7 @@
                 "map_coastline_land_shade": "on", 
                 "map_coastline_land_shade_colour": "cream", 
                 "map_coastline_sea_shade": "on", 
-                "map_coastline_sea_shade_colour": "white", 
+                "map_coastline_sea_shade_colour": "sky", 
                 "map_grid": "off", 
                 "map_label": "off"
             },

@@ -1,0 +1,19 @@
+{
+    "match" : {
+        "eccharts_layer" : "cds_smlt",
+        "prefered_units" : "cm",
+        "set" : [
+            {
+                "paramId" : "45",
+                "shortName" : "smlt"
+            },
+            {
+                "long_name" : "Snowmelt"
+            }
+        ],
+        "style" : "sh_all_f0t04lst",
+        "styles" : [
+            "sh_all_f0t04lst"
+        ]
+    }
+}

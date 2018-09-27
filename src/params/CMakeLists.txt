@@ -1,4 +1,5 @@
 list( APPEND _common_xmls
+MagicsGlobal.xml
 Akima474Method.xml
 Akima760Method.xml
 ArrowPlotting.xml
@@ -27,6 +28,7 @@ Coastlines.xml
 ColourTechnique.xml
 ContinuousLegendMethod.xml
 Contour.xml
+ContourLibrary.xml
 ContourMethod.xml
 CountSelectionType.xml
 Curve.xml

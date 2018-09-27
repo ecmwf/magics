@@ -1,0 +1,38 @@
+{
+    "match" : {
+        "eccharts_layer" : "t250",
+        "prefered_units" : "C",
+        "set" : [
+            {
+                "levelist" : [
+                    "250",
+                    "300",
+                    "350",
+                    "400"
+                ],
+                "paramId" : "130",
+                "shortName" : "t",
+                "levtype" : "pl"
+            },
+            {
+                "level" : [
+                    "250",
+                    "300",
+                    "350",
+                    "400"
+                ],
+                "long_name" : "Temperature",
+                "standard_name" : "air_temperature"
+            }
+        ],
+        "style" : "sh_all_fM64t52i4",
+        "styles" : [
+            "sh_all_fM64t52i4",
+            "ct_red_i2_dash",
+            "sh_gry_fM72t56lst",
+            "sh_all_fM80t56i4_v2",
+            "sh_all_fM50t58i2",
+            "ct_red_i4_t3"
+        ]
+    }
+}

@@ -16,6 +16,9 @@ does it submit to any jurisdiction.
 	<parameter from="string" name="import_format" default="png" member="format" to="string" values="png/jpeg/gif">
   		<documentation>Specify the format of the imported file 		</documentation>
 	</parameter>
+	<parameter from="string" name="import_overlay" default="on" member="overlay" to="bool">
+  		<documentation>if on, the import object will always be displayed last  		</documentation>
+	</parameter>
 
 	<parameter member="import_x" to="float" default="0" from="float" name="import_x_position">
   		<documentation>X position of the imported image 		</documentation>

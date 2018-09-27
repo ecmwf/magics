@@ -30,7 +30,7 @@ does it submit to any jurisdiction.
          		<documentation> Colour of super page frame 		</documentation>
   	</parameter>
 
-    <parameter member="theme" to="string" default="dark" from="string" name="super_page_theme">
+    <parameter member="theme" to="string" default="cream" from="string" name="super_page_theme">
             <documentation>   Theme to apply to the content of the document : the default magics will ensure that no theme is applied and ensure fully backwards compatibility  </documentation>
     </parameter>
   	
@@ -63,4 +63,8 @@ does it submit to any jurisdiction.
          		<documentation>Turn on/off legend		</documentation>
          		<release>Improved in Magics2.1		</release>
   	</parameter>
+      <parameter member="silent" to="bool" default="off" from="string" name="magics_silent">
+            <documentation>Turn on/off legend   </documentation>
+            <release>Improved in Magics2.1    </release>
+    </parameter>
 </class></magics>

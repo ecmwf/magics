@@ -56,7 +56,7 @@ public:
 	GribInterpretor() {}
 	virtual ~GribInterpretor() {}
 	virtual double XResolution(const GribDecoder&) const { return 0; }
-	virtual void raw(const GribDecoder&, const Transformation&, const string&, map<double, map<double, CustomisedPoint*> >&) const;
+	virtual void raw(GribDecoder&, const Transformation&, const string&, map<double, map<double, CustomisedPoint*> >&) const;
 	virtual void raw(GribDecoder&, const Transformation&, vector<pair<double, vector<pair<double, CustomisedPoint*> > > >&, double&, double&) const;
 
 	virtual void interpretAsMatrix(const GribDecoder&, Matrix** matrix, Matrix** matrix2= NULL) const { *matrix = 0; }
@@ -68,9 +68,9 @@ public:
     virtual void keepOriginal(bool) {}
     virtual PaperPoint reference(const GribDecoder&, const Transformation&);
     virtual void interpretAsRaster(const GribDecoder&, RasterData&, const Transformation&) const {}
-    virtual void scaling(const GribDecoder&, Matrix**) const;
-    virtual void scaling(const GribDecoder& grib, double& scaling, double& offset) const;
-    virtual void scaling(const GribDecoder& grib, double& scaling, double& offset, string& originalUnits, string& derivedUnits) const;
+    virtual void scaling(GribDecoder&, Matrix**) const;
+    virtual void scaling(GribDecoder& grib, double& scaling, double& offset) const;
+    virtual void scaling(GribDecoder& grib, double& scaling, double& offset, string& originalUnits, string& derivedUnits) const;
     void longitudesSanityCheck(double&, double&) const;
 
     void interpolate(const GribDecoder& grib, Matrix& matrix) const;

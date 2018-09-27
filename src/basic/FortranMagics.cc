@@ -108,8 +108,7 @@ void FortranMagics::print(ostream& out)  const
 void FortranMagics::popen()
 {
    MagLog::info() << "popen()" << endl;
-
-   if(getEnvVariable("MAGPLUS_QUIET").empty() )
+   if(getEnvVariable("MAGPLUS_QUIET").empty() && !silent_ )
    {
 	MagLog::userInfo() << "------------------------------------------------------------------\n";
 	MagLog::userInfo() << "\n";
@@ -183,7 +182,7 @@ int FortranMagics::pclose()
 
 	Layout::reset();
 
-	if(getEnvVariable("MAGPLUS_QUIET").empty() )
+	if(getEnvVariable("MAGPLUS_QUIET").empty() && !silent_)
 	{
 	/*
 		MagLog::userInfo() << "------------------------------------------------------------------\n";
@@ -209,7 +208,10 @@ int FortranMagics::pclose()
 
 void FortranMagics::drivers()
 {
-	if (!drivers_)  drivers_ = new DriverManager();
+	if (!drivers_)  
+		drivers_ = new DriverManager();
+	else 
+		drivers_->clearDrivers();
 	if (!output_)   output_ = new OutputHandler();
 	output_->set(*drivers_);
 }
@@ -325,8 +327,12 @@ void FortranMagics::poverlay()
 
 void FortranMagics::pimport()
 {
+	actions();
 	ImportObjectHandler* object = new ImportObjectHandler();
-	later_.push_back(object);
+	if ( object->overlay_ ) 
+		later_.push_back(object);
+	else 
+		top()->push_back(object);
 }
 
 
@@ -339,7 +345,6 @@ void FortranMagics::pnew(const string& type)
 		if ( empty_ ) return;
 		finish();
 		pop();
-		actions_.push(&FortranMagics::legend);
 		actions_.push(&FortranMagics::subpage);
 	}
 	if ( magCompare(type, "page") )
@@ -517,6 +522,61 @@ void FortranMagics::pmapgen()
 
 }
 
+#include "MetaData.h"
+#include "ContourLibrary.h"
+const char* FortranMagics::metagrib()
+{
+	GribDecoder grib;
+	ContourLibrary* library = MagTranslator<string, ContourLibrary>()("web");
+
+    		// Here we try call the Contour libry to set up visual properties...
+   	MetaDataCollector request,needAttributes;
+    map<string, string> attributes;
+    	
+    
+	library->askId(request);
+	grib.visit(request);
+
+	StyleEntry style;
+	library->getStyle(request, attributes, style);
+
+	string print = getEnvVariable("MAGPLUS_DATA");
+	if ( print.size() ) {
+		cout << "Metadata for " << grib.file_name_ << endl;
+		for ( auto r = request.begin(); r != request.end(); ++r) {
+			cout << r->first << "=" << r->second << endl;
+		}
+		cout << "-----------------------------" << endl;
+	}
+	ostringstream out;
+	out << style;
+	static string temp;
+	temp = out.str();
+    return temp.c_str();
+	
+}
+const char* FortranMagics::metanetcdf()
+{
+	NetcdfDecoder netcdf;
+	ContourLibrary* library = MagTranslator<string, ContourLibrary>()("web");
+
+    // Here we try call the Contour libry to set up visual properties...
+   	MetaDataCollector request,needAttributes;
+    map<string, string> attributes;
+    	
+    
+	library->askId(request);
+	netcdf.visit(request);
+
+	StyleEntry style;
+	library->getStyle(request, attributes, style);
+	ostringstream out;
+	out << style;
+	static string temp;
+	temp = out.str();
+    return temp.c_str();
+}
+
 #ifdef HAVE_GRIB
 void FortranMagics::pgrib()
 {
@@ -551,6 +611,8 @@ void FortranMagics::pgrib()
 	action_->data(new GribDecoder());
 	top()->push_back(action_);
 }
+
+
 
 void FortranMagics::pimage()
 {

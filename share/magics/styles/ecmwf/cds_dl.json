@@ -1,0 +1,19 @@
+{
+    "match" : {
+        "eccharts_layer" : "cds_dl",
+        "set" : [
+            {
+                "paramId" : "228007",
+                "shortName" : "dl"
+            },
+            {
+                "long_name" : "Lake depth"
+            }
+        ],
+        "style" : "sh_blue_f05t9000",
+        "styles" : [
+            "sh_blue_f05t9000",
+            "sh_blue_f1t9000"
+        ]
+    }
+}

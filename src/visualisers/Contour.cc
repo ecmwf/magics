@@ -26,11 +26,12 @@
 #include "ContourLibrary.h"
 #include "HistoVisitor.h"
 #include "Timer.h"
+#include "MetaData.h"
 
 using namespace magics;
 
 
-Contour::Contour() : matrix_(0)
+Contour::Contour() : matrix_(0), styleInfo_(0)
 {
 }
 
@@ -38,6 +39,7 @@ Contour::Contour() : matrix_(0)
 Contour::~Contour()
 {
 	if (matrix_) delete(matrix_);
+	if ( styleInfo_) delete (styleInfo_);
 }
 
 /*!
@@ -76,34 +78,45 @@ void Contour::operator()(Data& data, BasicGraphicsObjectContainer& parent)
 {
 
     try {
-    	ContourLibrary* library = MagTranslator<string, ContourLibrary>()(setting_);
+		ParameterManager::set("contour_automatic_library_path", library_path_);
+		ContourLibrary* library = MagTranslator<string, ContourLibrary>()(setting_);
+		
+		MetaDataCollector request,needAttributes;
+		map<string, string> attributes;
 
-    		// Here we try call the Contour libry to set up visual properties...
-    		MetaDataCollector request,needAttributes;
-    		map<string, string> attributes;
-    		
-
-		library->askId(request);
-		data.visit(request);
-
-
-		if(library->checkId(request,needAttributes))
-		{			
-    			data.visit(needAttributes);
-    			needAttributes["theme"] = theme_;
-    			library->getStyle(needAttributes,attributes);
-    			if ( !legend_ ) 
-    				attributes["legend"] ="off";
-    			set(attributes);
+    	
+    	if ( predefined_.size() ) {
+    		cout << " Setting " << predefined_ << endl;
+    		library->getStyle(predefined_, attributes);
+    		set(attributes);
     	}
-		else {
-			
-			request["theme"] = theme_;
-			library->getStyle(request,attributes);
-			if ( !legend_ ) 
-				attributes["legend"] ="off";
-			set(attributes);
-		}
+    	else { 
+			library->askId(request);
+			data.visit(request);
+
+			if(library->checkId(request,needAttributes))
+			{			
+	    			data.visit(needAttributes);
+	    			needAttributes["theme"] = theme_;
+	    			library->getStyle(needAttributes,attributes, *styleInfo_);
+	    			if ( !legend_ ) 
+	    				attributes["legend"] ="off";
+	    			set(attributes);
+	    	}
+			else {
+				
+				request["theme"] = theme_;
+				styleInfo_ = new StyleEntry();
+
+				library->getStyle(request, attributes, *styleInfo_);
+				if ( !legend_ ) 
+					attributes["legend"] ="off";
+				if (metadata_only_) 
+					attributes["contour_legend_only"] = "on";
+				set(attributes);
+			}
+
+		}	
 		delete library;
 
 		
@@ -179,10 +192,12 @@ void  Contour::visit(Data& data, HistoVisitor& visitor)
 	contour_->visit(data, data.points(*visitor.dataLayoutTransformation(), false), visitor);	
 }
 
-static SimpleObjectMaker<ContourLibrary, ContourLibrary> obstat("on");
+
 static SimpleObjectMaker<EcChartLibrary, ContourLibrary> ecchart("ecchart");
 static SimpleObjectMaker<NoContourLibrary, ContourLibrary> off("off");
-static SimpleObjectMaker<WebLibrary, ContourLibrary> web("web");
+static SimpleObjectMaker<WebLibrary, ContourLibrary> style_name("style_name");
+static SimpleObjectMaker<WebLibrary, ContourLibrary> ecmwf("ecmwf");
+
 
 void Contour::visit(Data& data, LegendVisitor& legend)
 {
@@ -190,3 +205,10 @@ void Contour::visit(Data& data, LegendVisitor& legend)
 	contour_->visit(data, legend);
 }
 
+void Contour::visit(MetaDataVisitor& visitor) {
+
+
+if ( styleInfo_ )
+	visitor.add(styleInfo_);
+	styleInfo_ = 0;
+}

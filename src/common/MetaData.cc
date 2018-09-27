@@ -123,6 +123,25 @@ void MetaDataVisitor::collectMetaData()
 
 	catch ( ...) {}
 
+	if ( !wms_file_.empty() && styles_.size() ) {
+	try  {
+			ofstream out(wms_file_);
+
+			
+		
+			
+
+			
+			for (auto style = styles_.begin(); style != styles_.end(); ++style) {
+				
+				out << **style;
+				
+			}
+			
+			out.close();
+		}
+		catch (...) {}
+	}
 	if ( ! javascript_.empty() ) {
 		try  {
 			ofstream out(javascript_.c_str());
@@ -201,5 +220,34 @@ void MetaDataVisitor::collect()
 	for ( vector<MetaDataVisitor*>::iterator meta = meta_.begin(); meta != meta_.end(); ++meta ) 
 		(*meta)->collectMetaData();
 }
-		
 
+#include "MagConfig.h"
+void StyleEntry::print(ostream& s) const
+{
+	
+	StyleLibrary styles;
+	
+
+
+	s << "{\"styles\": [ " << endl;
+	string sep = "    ";
+	for (auto style = styles_.begin(); style != styles_.end(); ++style) {
+		string description = styles.getAttribute(*style, "contour_description", "description to come");
+		string title = styles.getAttribute(*style, "contour_title", "title to come");
+		s << sep << "{\"name\":\"" << *style << "\"";
+		sep = ",\n      ";
+		s << sep << "\"description\":\"" << description << "\"";
+		s << sep << "\"title\":\"" << title << "\"";
+		s << sep << "\"legend\": { \"width\": 350"; 
+		sep = ",\n          ";
+		s << sep << "\"height\": 50 }";
+		sep = "\n    ";
+		s << sep << "}";
+		sep = ",\n    ";
+
+		
+	}
+	s << " 	  ]" << endl;
+	s << "  }" << endl;
+
+}
