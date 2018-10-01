@@ -100,6 +100,7 @@ void MagClipper::clipClosed(const Polyline& subject, const Polyline& clip, vecto
     ClipperLib::Clipper clipper, clipper_holes;
 
     convert(subject.polygon(), path_subject);
+    CleanPolygon(path_subject);
 
     int orientation = ClipperLib::Orientation(path_subject);
     if (ClipperLib::Orientation(path_subject) == 0) {
