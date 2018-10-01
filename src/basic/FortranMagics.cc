@@ -527,7 +527,7 @@ void FortranMagics::pmapgen()
 const char* FortranMagics::metagrib()
 {
 	GribDecoder grib;
-	ContourLibrary* library = MagTranslator<string, ContourLibrary>()("web");
+	ContourLibrary* library = MagTranslator<string, ContourLibrary>()("ecmwf");
 
     		// Here we try call the Contour libry to set up visual properties...
    	MetaDataCollector request,needAttributes;
@@ -558,7 +558,7 @@ const char* FortranMagics::metagrib()
 const char* FortranMagics::metanetcdf()
 {
 	NetcdfDecoder netcdf;
-	ContourLibrary* library = MagTranslator<string, ContourLibrary>()("web");
+	ContourLibrary* library = MagTranslator<string, ContourLibrary>()("ecmwf");
 
     // Here we try call the Contour libry to set up visual properties...
    	MetaDataCollector request,needAttributes;

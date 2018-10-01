@@ -325,5 +325,5 @@ put("magdoc.js",     "Reference guide", "Magics gallery generator")
 for i in list:
     print i
     definition = action[i]
-    createAction("3.1.0", definition["json"], i, definition["files"])
+    createAction("3.2.0", definition["json"], i, definition["files"])
     put(definition["json"]+".json", definition["jira"],  definition["doc"])
