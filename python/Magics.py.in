@@ -192,6 +192,15 @@ grib = dll.mag_grib
 grib.restype = None
 grib.argtypes = None
 
+metagrib = dll.py_metagrib
+metagrib.restype = ctypes.c_char_p
+metagrib.argtypes = None
+
+
+metanetcdf = dll.py_metanetcdf
+metanetcdf.restype = ctypes.c_char_p
+metanetcdf.argtypes = None
+
 ####################################################################
 
 cont = dll.mag_cont

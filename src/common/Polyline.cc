@@ -142,18 +142,21 @@ void Polyline::southClean()
 
     auto from = std::remove_if(polygon_.begin(), polygon_.end(), SouthCleaner());
     polygon_.erase(from, polygon_.end());
+
     // rotate ..
     auto it = std::find_if(polygon_.begin(), polygon_.end(), LonFinder());
     if (it != polygon_.end()) {
         std::rotate(polygon_.begin(), it, polygon_.end());
+       
         PaperPoint front = polygon_.front();
         PaperPoint back = polygon_.back();
 
-        polygon_.push_front(PaperPoint(front.x_, -100.));
-        polygon_.push_front(PaperPoint(back.x_, -100.));
-        polygon_.push_back(PaperPoint(back.x_, -100.));
-
+        polygon_.push_front(PaperPoint(front.x_, -90.));
+        polygon_.push_front(PaperPoint(back.x_, -90.));
+        polygon_.push_back(PaperPoint(back.x_, -90.));
+        
         return;
+
     }
     // Not South pole .. we try to force closing
     close();
@@ -191,9 +194,10 @@ void Polyline::reproject(const Transformation& transformation)
 
     // Now the holes!
     for (Holes::iterator hole = holes_.begin(); hole != holes_.end(); ++hole) {
-        for (auto h = hole->begin(); h != hole->end(); ++h) {
-            transformation.fast_reproject(h->x_, h->y_);
-        }
+            auto from = std::remove_if(hole->begin(), hole->end(), ReprojectHelper(transformation));
+            hole->erase(from, hole->end());
+            
+        
     }
 }
 
