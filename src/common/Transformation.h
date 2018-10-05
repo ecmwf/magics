@@ -122,6 +122,8 @@ public:
     bool needTopAxis() const { return topAxis_; }
     void needTopAxis(bool top) { topAxis_ = top; }
 
+    virtual bool addSouth() const { return false; }
+
     virtual void operator()(const Polyline& poly, BasicGraphicsObjectContainer& out) const;
 
     string writeLongitude(const UserPoint&) const;
