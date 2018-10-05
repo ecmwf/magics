@@ -26,3 +26,4 @@ magics_*.files
 
 
 *.sublime-workspace
+notebook/.ipynb_checkpoints
