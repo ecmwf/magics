@@ -13,6 +13,8 @@
                 "levelist" : [
                     "900",
                     "925",
+                    "950",
+                    "975",
                     "1000",
                     "850",
                     "825",
@@ -46,7 +48,7 @@
                 "standard_name" : "air_temperature"
             },
             {
-                "long_name" : "Air Temperature",
+                "long_name" : "Temperature",
                 "standard_name" : "air_temperature"
             }
         ],
