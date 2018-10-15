@@ -10,9 +10,6 @@
                 "shortName" : "w"
             },
             {
-                "level" : [
-                    "700"
-                ],
                 "long_name" : "Vertical velocity",
                 "standard_name" : "lagrangian_tendency_of_air_pressure"
             }
