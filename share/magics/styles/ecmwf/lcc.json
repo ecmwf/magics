@@ -19,7 +19,7 @@
             },
             {
                 "long_name" : [
-                    "Total cloud cover"
+                    "Total cloud cover", "Fraction of cloud cover"
                 ]
             },
             {
