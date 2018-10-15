@@ -22,13 +22,15 @@ class Context(object):
         if self.silent :
             Magics.setc("magics_silent", "on")
             os.environ["MAGPLUS_WARNING"] =  "off"
+        else :
+            os.environ["MAGPLUS_INFO"] =  "on"
 
 global context
 
 context  = Context()
 
 def silent():
-   context.silent = True
+   context.silent = False
 
 
 
@@ -299,7 +301,7 @@ class Action(object):
 
     def clean_object(self, obj):
       if sys.version_info[0] < 3:
-        if type(obj) in (int, float, str, bool, numpy.float64):
+        if type(obj) in (int, float, str, bool, numpy.float64, numpy.float32):
             return obj
         elif type(obj) == unicode:
             return str(obj)
@@ -606,6 +608,12 @@ def wmsstyles(data):
     Magics.finalize()
     return json.loads(styles.decode())
 
+
+def predefined_areas():
+
+    with open("%s/share/magics/projections.json" %( os.environ["MAGPLUS_HOME"])) as input:
+        projections = json.load(input)
+    return projections.keys()
 
    
 
