@@ -259,7 +259,7 @@ void CoastPlotting::operator()(DrawingVisitor& parent)
 
     // clean and reproject ! 
     for (vector<Polyline*>::iterator coast = coast_.begin(); coast != coast_.end(); ++coast) {
-        (*coast)->southClean();
+        (*coast)->southClean(transformation.addSouth());
         (*coast)->reproject(transformation);
     }
     for (vector<Polyline*>::iterator ocean = ocean_.begin(); ocean != ocean_.end(); ++ocean) {

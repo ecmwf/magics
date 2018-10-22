@@ -56,7 +56,7 @@ list = mcont(contour_highlight='off',
             contour_gradients_technique = "hsl",
             contour_level_list = [-50., -25, -5, +5, 25, 50.],
             contour_gradients_step_list = [25,],
-
+            contour_shade_technique = 'cell_shading',
             contour_shade_method           = 'area_fill',
             legend                         = 'on',)
 
