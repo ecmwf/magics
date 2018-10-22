@@ -228,15 +228,26 @@ bool CellShading::prepare(LevelSelection& levels, const ColourTechnique& techniq
 	return false;
 }
 
+#include "PolyShadingTechnique.h"
 
 void  CellShading::visit(LegendVisitor& node, const ColourTechnique&)
 {
+	// MagLog::dev() << "Create legend information"  << "\n";
+	// LegendEntryBuilder helper(legend, colours_);
+
+	// std::adjacent_find(colours_.begin(), colours_.end(), helper);
+
+	// if ( colours_.size() == 1 ) {
+	// 	helper(*colours_.begin(), *colours_.begin());
+	// }
+	bool first = true;
 	for ( IntervalMap<int>::const_iterator interval = map_.begin(); interval != map_.end(); ++interval) {
 	   
 	   Polyline* box = new Polyline();
 			      
 	   double min = interval->first.min_;
 	   double max = interval->first.max_;
+	   
 	   // We ignore the first and the last entries: no interest in the legend!  
 	   if (interval->second == 0) continue;
 	   if (interval->second == int(map_.size()-1)) continue;
@@ -246,9 +257,36 @@ void  CellShading::visit(LegendVisitor& node, const ColourTechnique&)
 	   		
 	   FillShadingProperties* shading = new FillShadingProperties();	          
 	   box->setShading(shading);
-	   node.add(new BoxEntry(min, max, box));	        
+
+      
+        
+        LegendEntry* entry = new BoxEntry(min, max, box);
+        if ( first ) {
+            first = false;
+            entry->first();
+        }
+        for ( vector<double>::iterator val = node.values_list_.begin(); val != node.values_list_.end(); ++val){
+               
+            if ( min <= *val && *val < max) {
+                string text = tostring(*val);
+                entry->userText(text, "user");
+                break;
+            }
+
+        }
+
+        if ( node.values_list_.size() && same(node.values_list_.back(), max) ) {
+             string text = tostring(max);
+             entry->userText(text, "user");
+             // Try to detect the last entry
+        }
+
+        
+        
+	   node.add(entry);	        
 	}
 	node.last();
+	
 }
 
 

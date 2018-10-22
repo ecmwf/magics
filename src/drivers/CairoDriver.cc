@@ -95,7 +95,7 @@ CairoDriver::~CairoDriver()
 */
 void CairoDriver::open()
 {
-	MagLog::warning() << "Cairo version used is: "<<cairo_version_string()<< " backend: "<<backend_ << std::endl;
+	MagLog::info() << "Cairo version used is: "<<cairo_version_string()<< " backend: "<<backend_ << std::endl;
 
 	MFloat ratio = getYDeviceLength() / getXDeviceLength();
 	int width = maground(width_);
