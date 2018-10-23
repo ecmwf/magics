@@ -70,6 +70,8 @@ public:
         transformation->copy(*this);
 		return transformation;
 	}
+
+	bool addSouth() const;
 	
 	/*!
 	\\brief Initialise the projection

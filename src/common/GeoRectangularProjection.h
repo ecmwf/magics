@@ -49,6 +49,7 @@ public:
         GeoRectangularProjectionAttributes::set(node);
         init();
 	}
+	virtual bool addSouth() const { return true; }
 	bool verifyDef(const string&) const;
    /*!
 	  \brief sets  from a map
