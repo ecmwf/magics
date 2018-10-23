@@ -137,26 +137,28 @@ struct LonFinder : std::unary_function<PaperPoint, bool> {
     }
 };
 
-void Polyline::southClean()
+void Polyline::southClean(bool add)
 {
-
-    auto from = std::remove_if(polygon_.begin(), polygon_.end(), SouthCleaner());
-    polygon_.erase(from, polygon_.end());
-
+    if ( !add ) {
+        auto from = std::remove_if(polygon_.begin(), polygon_.end(), SouthCleaner());
+        polygon_.erase(from, polygon_.end());
+    }
     // rotate ..
     auto it = std::find_if(polygon_.begin(), polygon_.end(), LonFinder());
     if (it != polygon_.end()) {
         std::rotate(polygon_.begin(), it, polygon_.end());
-       
-        PaperPoint front = polygon_.front();
-        PaperPoint back = polygon_.back();
+        // if ( add ) {
+        //     PaperPoint front = polygon_.front();
+        //     PaperPoint back = polygon_.back();
 
-        polygon_.push_front(PaperPoint(front.x_, -90.));
-        polygon_.push_front(PaperPoint(back.x_, -90.));
-        polygon_.push_back(PaperPoint(back.x_, -90.));
-        
-        return;
-
+        //     polygon_.push_front(PaperPoint(front.x_, -100.));
+        //     polygon_.front().flagBorder();
+        //     polygon_.push_front(PaperPoint(back.x_, -100.));
+        //     polygon_.front().flagBorder();
+        //     polygon_.push_back(PaperPoint(back.x_, -100.));
+        //     polygon_.back().flagBorder();
+        //     return;
+        // }
     }
     // Not South pole .. we try to force closing
     close();
@@ -194,10 +196,9 @@ void Polyline::reproject(const Transformation& transformation)
 
     // Now the holes!
     for (Holes::iterator hole = holes_.begin(); hole != holes_.end(); ++hole) {
-            auto from = std::remove_if(hole->begin(), hole->end(), ReprojectHelper(transformation));
-            hole->erase(from, hole->end());
-            
-        
+        for (auto h = hole->begin(); h != hole->end(); ++h) {
+            transformation.fast_reproject(h->x_, h->y_);
+        }
     }
 }
 
@@ -237,7 +238,7 @@ void feed(const deque<PaperPoint>& points, const Polyline& box, vector<Polyline*
 {
 	Polyline* poly = new Polyline();
 	for ( auto p = points.begin(); p != points.end(); ++p) {
-		if ( !box.in(*p) ) {
+		if ( !box.in(*p) || p->border() ) {
 			if ( poly->size() ) {
 				out.push_back(poly);
 				poly = new Polyline();

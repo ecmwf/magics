@@ -289,6 +289,10 @@ void Proj4Projection::init()
 	askedymax_ =  std::max(min_pcy_, max_pcy_);
 }
 
+bool Proj4Projection::addSouth() const {
+	return ( projection_->method_ == "simple" );
+
+}
 void Proj4Projection::full()
 {
 	if ( projection_->method_ == "simple" ) {
