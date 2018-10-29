@@ -966,6 +966,19 @@ const char* metagrib_()
 	return magics_->metagrib();
 }
 
+const char* version()
+{
+	static string version = getMagicsVersionString();
+	return version.c_str();
+}
+
+const char* home()
+{
+	static string home = getEnvVariable("MAGPLUS_HOME");
+	return home.c_str();
+}
+
+
 const char* metanetcdf_()
 {
 	return magics_->metanetcdf();
