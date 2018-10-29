@@ -7,8 +7,8 @@
 # does it submit to any jurisdiction.
 
 
-set ( metabuilder_version 3.3.0 )
-set ( _version 3.3.0 )
+set ( metabuilder_version 3.3.0.3 )
+set ( _version 3.3.0.3 )
 
 
 if ( MAGICS_BUILD )

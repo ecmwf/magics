@@ -608,10 +608,13 @@ def wmsstyles(data):
     Magics.finalize()
     return json.loads(styles.decode())
 
+def version():
+    version = Magics.version()
+    return version.decode()
 
 def predefined_areas():
-
-    with open("%s/share/magics/projections.json" %( os.environ["MAGPLUS_HOME"])) as input:
+    home = Magics.home()
+    with open("%s/share/magics/projections.json" % ( home.decode() )) as input:
         projections = json.load(input)
     return projections.keys()
 
