@@ -111,6 +111,7 @@ TagConverter::TagConverter(TagHandler& owner) : owner_(owner), text_(0) {
 		map_["netcdf_info"] =  &TagConverter::netcdf;
 		map_["spot_info"] =  &TagConverter::spot;
 		map_["magics_title"] =  &TagConverter::magics;
+		map_["magics_param"] =  &TagConverter::magics_param;
 		map_["base_date"] =  &TagConverter::base_date;
 		map_["text"] =  &TagConverter::pass;
 		map_["box"] =  &TagConverter::pass;
@@ -252,6 +253,8 @@ void TagConverter::pass(const XmlNode& node) {
 
 	
 }
+
+
 void TagConverter::magics(const XmlNode& node) { 
 	//MagLog::dev()<< "checking magics title!" << endl;
 	push();		
@@ -265,6 +268,20 @@ void TagConverter::magics(const XmlNode& node) {
 	
 	font_ = top().font();
 	elevation_ = top().elevation();
+}
+
+void TagConverter::magics_param(const XmlNode& node) { 
+	//MagLog::dev()<< "checking magics title!" << endl;
+	
+	
+	
+	const map<string, string>& attributes = node.attributes();
+	string key =  ( attributes.find("param") != attributes.end() ) ? attributes.find("param")->second : "param not found"; 
+	label_ = ParameterManager::getString(key);
+	text_->addText(label_, font_);
+	top().text(label_);
+	push();
+	
 }
 
 void TagConverter::base_date(const XmlNode& node) { 

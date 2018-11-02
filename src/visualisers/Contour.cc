@@ -89,6 +89,9 @@ void Contour::operator()(Data& data, BasicGraphicsObjectContainer& parent)
     		cout << " Setting " << predefined_ << endl;
     		library->getStyle(predefined_, attributes);
     		set(attributes);
+    		auto text = attributes.find("contour_legend_text");
+				if ( text != attributes.end() )
+					ParameterManager::set("contour_legend_text", text->second);
     	}
     	else { 
 			library->askId(request);
@@ -102,6 +105,7 @@ void Contour::operator()(Data& data, BasicGraphicsObjectContainer& parent)
 	    			if ( !legend_ ) 
 	    				attributes["legend"] ="off";
 	    			set(attributes);
+
 	    	}
 			else {
 				
@@ -109,16 +113,22 @@ void Contour::operator()(Data& data, BasicGraphicsObjectContainer& parent)
 				styleInfo_ = new StyleEntry();
 
 				library->getStyle(request, attributes, *styleInfo_);
+
 				if ( !legend_ ) 
 					attributes["legend"] ="off";
 				if (metadata_only_) 
 					attributes["contour_legend_only"] = "on";
 				set(attributes);
+				auto text = attributes.find("contour_legend_text");
+				if ( text != attributes.end() )
+					ParameterManager::set("contour_legend_text", text->second);
+
 			}
 
 		}	
 		delete library;
 
+cout << "SEtting--> " << ParameterManager::getString("contour_legend_text") << endl;
 		
 
     data.getReady(parent.transformation());
