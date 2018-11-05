@@ -361,9 +361,13 @@ void GribDecoder::release()
 
 void GribDecoder::visit(Transformation& transformation)
 {
-    if(transformation.coordinateType() == Transformation::GeoType )
-        return;
     decode();
+    if(transformation.coordinateType() == Transformation::GeoType ) {
+        transformation.setMinMaxX(matrix_->minX(), matrix_->maxX());
+        transformation.setMinMaxY(matrix_->minY(), matrix_->maxY());
+        return;
+    }
+   
     // Here are in a dump ode .. the coordinates are pixels.
     if ( transformation.getAutomaticX() ) {
         transformation.setMinMaxX(1, matrix_->columns());
