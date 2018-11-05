@@ -45,6 +45,7 @@ does it submit to any jurisdiction.
             		</option>
              		<option xml="polar_stereographic" fortran="polar_stereographic" include="PolarStereographicProjection.h" name="PolarStereographicProjection">		</option>
         		<option fortran="polar_north" include="Proj4Projection.h" name="Proj4PolarNorth">		</option>
+        		<option fortran="polar_south" include="Proj4Projection.h" name="Proj4PolarSouth">		</option>
  				<option fortran="geos" include="Proj4Projection.h" name="Proj4Geos">		</option>
  				<option fortran="meteosat" include="Proj4Projection.h" name="Proj4Meteosat0">		</option>
  				<option fortran="meteosat_57E" include="Proj4Projection.h" name="Proj4Meteosat57">		</option>
@@ -64,6 +65,7 @@ does it submit to any jurisdiction.
  				<option fortran="google" include="Proj4Projection.h" name="Proj4Google">		</option>
  				<option fortran="efas" include="Proj4Projection.h" name="Proj4Efas">		</option>
  				<option fortran="tpers" include="Proj4Projection.h" name="Proj4TPers">		</option>
+ 				<option fortran="automatic" include="Proj4Projection.h" name="Proj4Automatic">		</option>
  				<option fortran="lambert_north_atlantic" include="Proj4Projection.h" name="Proj4LambertNorthAtlantic">		</option>
         		<option xml="mercator" fortran="mercator" include="Proj4Projection.h" name="Proj4Mercator">		</option>
 				<option xml="cartesian" fortran="cartesian" include="CartesianTransformation.h" name="CartesianTransformation">		</option>
@@ -71,6 +73,7 @@ does it submit to any jurisdiction.
                 <option xml="tephigram" fortran="tephigram" include="Tephigram.h" name="Tephigram">		</option>
                 <option xml="skewt" fortran="skewt" include="Skewt.h" name="Skewt">		</option>
                 <option xml="emagram" fortran="emagram" include="Emagram.h" name="Emagram">		</option>
+
               
 	</parameter>
 	<parameter from="float" name="subpage_y_position_internal" visible="off" default="-1" member="bottom_internal" to="float">

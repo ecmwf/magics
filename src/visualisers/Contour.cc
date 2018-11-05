@@ -128,7 +128,7 @@ void Contour::operator()(Data& data, BasicGraphicsObjectContainer& parent)
 		}	
 		delete library;
 
-cout << "SEtting--> " << ParameterManager::getString("contour_legend_text") << endl;
+
 		
 
     data.getReady(parent.transformation());
