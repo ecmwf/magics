@@ -133,6 +133,7 @@ PositionListAxisMethod.xml
 PostScriptDriver.xml
 PreviewVisitor.xml
 Proj4Bonne.xml
+Proj4PolarSouth.xml
 Proj4Mercator.xml
 Proj4Collignon.xml
 Proj4EPSG32661.xml
