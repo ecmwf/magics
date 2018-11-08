@@ -79,6 +79,10 @@ public:
 		if ( initmethod != initMethods_.end() ) {
 			( this->*initmethod->second)(from) ;
 		}
+
+
+
+
 	}
 
 	void geosinit(const Proj4Projection& from) {
@@ -219,7 +223,8 @@ Proj4Projection::Proj4Projection(const string& definition) : definition_(definit
 						gridMinLon_(DBL_MAX),
 						gridMinLat_(DBL_MAX),
 						gridMaxLon_(-DBL_MAX),
-						gridMaxLat_(-DBL_MAX)
+						gridMaxLat_(-DBL_MAX), 
+						wraparound_(false)
 {
 	//init();
 	EpsgConfig config;
@@ -229,7 +234,8 @@ Proj4Projection::Proj4Projection(const string& definition) : definition_(definit
 Proj4Projection::Proj4Projection(): gridMinLon_(DBL_MAX),
 		gridMinLat_(DBL_MAX),
 		gridMaxLon_(-DBL_MAX),
-		gridMaxLat_(-DBL_MAX)
+		gridMaxLat_(-DBL_MAX),
+		wraparound_(false)
 {
 	//init();
 	EpsgConfig config;
@@ -310,6 +316,9 @@ void Proj4Projection::init()
 	askedxmax_ =  std::max(min_pcx_, max_pcx_);
 	askedymin_ =  std::min(min_pcy_, max_pcy_);
 	askedymax_ =  std::max(min_pcy_, max_pcy_);
+
+
+
 }
 
 bool Proj4Projection::addSouth() const {
@@ -363,6 +372,12 @@ void Proj4Projection::full()
 			return;
 		}
 	}
+}
+
+
+void Proj4Projection::wrap(double& x, double& y)
+{
+	
 }
 
 void Proj4Projection::corners()
@@ -545,11 +560,24 @@ void Proj4Projection::simple()
 	min_pcy_ = DBL_MAX;
 	max_pcx_ = -DBL_MAX;
 	max_pcy_ = -DBL_MAX;
+
 	add(projection_->minlon_, projection_->minlat_);
 	add(projection_->minlon_, projection_->maxlat_);
 	add(projection_->maxlon_, projection_->maxlat_);
 	add(projection_->maxlon_, projection_->minlat_);
 	add(projection_->minlon_, projection_->minlat_);
+
+	width_= projection_->maxlon_ - projection_->minlon_;
+
+	double minx = projection_->minlon_;
+	double y1, y2 = (projection_->maxlat_ + projection_->minlat_);
+	double maxx = projection_->maxlon_;
+
+	fast_reproject(minx, y1);
+	fast_reproject(maxx, y1);
+	pwidth_ = maxx - minx;
+
+	wraparound_ = true; 
 }
 
 void Proj4Projection::projectionSimple()
@@ -1195,21 +1223,22 @@ MatrixHandler* Proj4Projection::prepareData(const AbstractMatrix& matrix) const 
 
 bool Proj4Projection::fast_reproject(double& x, double& y) const
 {
-
-
+	int factor = 0;
+	if ( wraparound_ ) {
+		factor = int(x/width_);
+		x -=  (factor-width_);
+	}
+	
 	x *= DEG_TO_RAD;
 	y *= DEG_TO_RAD;
 	int error =  pj_transform(from_, to_, 1, 1, &x, &y, NULL );
 
 	if ( error  ) {
-
-
-
 			  //MagLog::warning()  << pj_strerrno(error) << " for " << x << " " << y << endl;		
 			  return false;	  
-
-
 	}
+	if ( wraparound_ ) 
+		x += (factor - pwidth_);
 	return true;
 }
 

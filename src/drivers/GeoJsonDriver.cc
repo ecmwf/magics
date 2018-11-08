@@ -442,7 +442,7 @@ MAGICS_NO_EXPORT void GeoJsonDriver::renderPolyline(const int n, MFloat *x, MFlo
 		if(is<n-1) pFile_ <<",\n";
 		else       pFile_ <<"\n";
 	}
-	pFile_ << "  ] ],\n  \"properties\": {\n    \"type\": \"isoline\"\n  },\n  \"type\": \"MultiLineString\"\n} },"<<endl;
+	pFile_ << "  ] ],\n  \"properties\": {\n    \"type\": \"isoline\"\n  },\n  \"type\": \"MultiPolygon\"\n} },"<<endl;
 }
 
 

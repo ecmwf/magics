@@ -212,6 +212,9 @@ public:
 	void reprojectComponents(double&, double&, pair<double, double>&) const;
 	void reprojectSpeedDirection(const PaperPoint& point, pair<double, double>&) const;
 	virtual void geoProjection(int& geo) const { geo = 1; } // Useful for Streamlines !
+
+	void wrap(double&, double&);
+
 protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).
 	 typedef void (Proj4Projection::*SettingHelper)();
@@ -235,6 +238,9 @@ protected:
 	 mutable double gridMaxLon_;
 	 mutable double gridMaxLat_;
 
+	 bool   wraparound_; 
+	 double width_;
+	 double pwidth_;
 
 private:
     //! Copy constructor - No copy allowed
