@@ -408,13 +408,13 @@ int Style::score(const Definition& data)
 					score = 0;
 					break;
 				}
-			//cout << "score is now " << tmpscore  << endl; 
+			cout << "score is now " << tmpscore  << endl; 
 			score++;
 		}
 		if ( bestscore < score ) 
 			bestscore = score;
 	}
-	/*
+	
 	if ( bestscore ) {
 		cout << "----   Found style with score : " << bestscore << " Style --> " << style_ << endl;
 		for ( auto match = criteria.begin(); match != criteria.end(); ++match) { 
@@ -423,7 +423,7 @@ int Style::score(const Definition& data)
 		cout << "----------------------------------------------------" << endl;
 
 	}
-	*/
+	
 	return bestscore;
 }
 
