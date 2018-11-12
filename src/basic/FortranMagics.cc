@@ -531,7 +531,7 @@ const char* FortranMagics::metagrib()
 
     		// Here we try call the Contour libry to set up visual properties...
    	MetaDataCollector request,needAttributes;
-    map<string, string> attributes;
+    MagDef attributes;
 
 
 	library->askId(request);
@@ -564,7 +564,7 @@ const char* FortranMagics::metanetcdf()
 
     // Here we try call the Contour libry to set up visual properties...
    	MetaDataCollector request,needAttributes;
-    map<string, string> attributes;
+    MagDef attributes;
 
 	library->askId(request);
 	netcdf.visit(request);

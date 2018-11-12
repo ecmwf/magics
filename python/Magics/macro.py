@@ -32,6 +32,10 @@ context  = Context()
 def silent():
    context.silent = False
 
+def debug():
+    os.environ["MAGPLUS_INFO"] =  "on"
+    os.environ["MAGPLUS_DEBUG"] =  "on"
+
 
 
 actions={
@@ -568,6 +572,8 @@ class  odb_filter(object):
 import threading
 import tempfile
 
+
+'''
 try:
     from IPython.display import Image
 
@@ -595,7 +601,8 @@ try:
             os.unlink(tmp)
             return image
 except ImportError:
-    plot = _plot
+'''
+plot = _plot
 
 
 
@@ -606,7 +613,9 @@ def wmsstyles(data):
     Magics.init()
     styles = data.style()
     Magics.finalize()
-    return json.loads(styles.decode())
+    styles = json.loads(styles.decode())
+    print (styles)
+    return styles 
 
 def version():
     version = Magics.version()

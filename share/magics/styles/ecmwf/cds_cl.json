@@ -1,18 +1,17 @@
-{
-    "match" : {
-        "eccharts_layer" : "cds_cl",
-        "set" : [
-            {
-                "paramId" : "26",
-                "shortName" : "cl"
-            },
-            {
-                "long_name" : "Lake cover"
-            }
-        ],
-        "style" : "sh_purple_f01t1",
-        "styles" : [
-            "sh_purple_f01t1"
-        ]
-    }
-}
+[
+  {
+    "eccharts_layer": "cds_cl",
+    "styles": [
+      "sh_purple_f01t1"
+    ],
+    "match": [
+      {
+        "paramId": "26",
+        "shortName": "cl"
+      },
+      {
+        "long_name": "Lake cover"
+      }
+    ]
+  }
+]

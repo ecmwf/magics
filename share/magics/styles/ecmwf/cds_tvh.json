@@ -1,18 +1,23 @@
-{
-    "match" : {
-        "eccharts_layer" : "cds_tvh",
-        "set" : [
-            {
-                "paramId" : ["30"],
-                "shortName" : ["tvh"]
-            },
-            {
-                "long_name" : ["Type of high vegetation"]
-            }
+[
+  {
+    "eccharts_layer": "cds_tvh",
+    "styles": [
+      "mrk_grn_f0t19lst"
+    ],
+    "match": [
+      {
+        "paramId": [
+          "30"
         ],
-        "style" : "mrk_grn_f0t19lst",
-        "styles" : [
-            "mrk_grn_f0t19lst"
+        "shortName": [
+          "tvh"
         ]
-    }
-}
+      },
+      {
+        "long_name": [
+          "Type of high vegetation"
+        ]
+      }
+    ]
+  }
+]

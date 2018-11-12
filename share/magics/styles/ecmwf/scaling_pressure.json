@@ -1,10 +1,10 @@
-{
-    "match": {
-        "set": [
-            {
-                "paramId": "54"
-            }
-        ], 
-        "prefered_units": "hPa"
-    }
-}
+[
+  {
+    "prefered_units": "hPa",
+    "match": [
+      {
+        "paramId": "54"
+      }
+    ]
+  }
+]

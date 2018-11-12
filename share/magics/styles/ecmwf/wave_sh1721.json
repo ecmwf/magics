@@ -1,20 +1,19 @@
-{
-    "match" : {
-        "eccharts_layer" : "wave_sh1721",
-        "set" : [
-            {
-                "paramId" : "140117",
-                "shortName" : "h1721"
-            },
-            {
-                "long_name" : "Significant wave height of all waves with periods within the inclusive range from 17 to 21 seconds"
-            }
-        ],
-        "style" : "sh_wave_f0t10_red",
-        "styles" : [
-            "sh_wave_f0t10_red",
-            "sh_wave_f0t10_purple",
-            "ct_vio_i1_t1"
-        ]
-    }
-}
+[
+  {
+    "eccharts_layer": "wave_sh1721",
+    "styles": [
+      "sh_wave_f0t10_red",
+      "sh_wave_f0t10_purple",
+      "ct_vio_i1_t1"
+    ],
+    "match": [
+      {
+        "paramId": "140117",
+        "shortName": "h1721"
+      },
+      {
+        "long_name": "Significant wave height of all waves with periods within the inclusive range from 17 to 21 seconds"
+      }
+    ]
+  }
+]

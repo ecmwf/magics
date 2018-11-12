@@ -1,17 +1,16 @@
-{
-    "match" : {
-        "eccharts_layer" : "cds_tp_interval_spread",
-        "prefered_units" : "mm",
-        "set" : [
-            {
-                "paramId" : "228",
-                "shortName" : "tp",
-                "type" : "es"
-            }
-        ],
-        "style" : "sh_magenta_f1t20",
-        "styles" : [
-            "sh_magenta_f1t20"
-        ]
-    }
-}
+[
+  {
+    "eccharts_layer": "cds_tp_interval_spread",
+    "prefered_units": "mm",
+    "styles": [
+      "sh_magenta_f1t20"
+    ],
+    "match": [
+      {
+        "paramId": "228",
+        "shortName": "tp",
+        "type": "es"
+      }
+    ]
+  }
+]

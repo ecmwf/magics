@@ -1,18 +1,17 @@
-{
-    "match" : {
-        "eccharts_layer" : "composition_uvindex",
-        "set" : [
-            {
-                "paramId" : "214002",
-                "shortName" : "uvbed"
-            },
-            {
-                "long_name" : " UV biologically effective dose"
-            }
-        ],
-        "style" : "sh_all_uvindex",
-        "styles" : [
-            "sh_all_uvindex"
-        ]
-    }
-}
+[
+  {
+    "eccharts_layer": "composition_uvindex",
+    "styles": [
+      "sh_all_uvindex"
+    ],
+    "match": [
+      {
+        "paramId": "214002",
+        "shortName": "uvbed"
+      },
+      {
+        "long_name": " UV biologically effective dose"
+      }
+    ]
+  }
+]
