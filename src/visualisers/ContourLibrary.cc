@@ -336,19 +336,17 @@ void WebLibrary::setCriteria(MetaDataCollector& request, const string& criteria)
 void WebLibrary::getStyle(MetaDataCollector& data, MagDef& contour, StyleEntry& info)
 {
 
-		cout << "CCCCCCCCCCWebLibrary::getStyle" << endl;
 		MagDef style;
 
 		if ( styles_->findStyle(data, style, info) ) {
 			contour = style;
-			cout << "getStyle-->" << contour << endl;
+			
 		}
 
 		else  {
-			cout << "COULD NOT FIND STYLE --> looking for default"  << endl;
 			styles_->findStyle("default", contour);
-			for (auto s = contour.begin(); s != contour.end(); ++s)
-				cout << s->first << "--->" << s->second << endl; 
+			//for (auto s = contour.begin(); s != contour.end(); ++s)
+				//cout << s->first << "--->" << s->second << endl; 
 
 		}
 	
@@ -379,7 +377,7 @@ void WebLibrary::getScaling(MetaDataCollector& data, double& scaling, double& of
 		//cout << " Found Unit " << unit->second << endl;
 		bool found = styles_->findStyle(data, values, info);
 		if ( !found) {
-			cout << "Can not find style" << endl;	
+			//cout << "Can not find style" << endl;	
 			return;
 		}
 		//cout << " TRYRING to scale " << unit->second << endl;

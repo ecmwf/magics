@@ -579,6 +579,29 @@ const char* FortranMagics::metanetcdf()
 #endif
 }
 
+const char* FortranMagics::metainput()
+{
+
+	InputMatrix data;
+	ContourLibrary* library = MagTranslator<string, ContourLibrary>()("ecmwf");
+
+    // Here we try call the Contour libry to set up visual properties...
+   	MetaDataCollector request,needAttributes;
+    MagDef attributes;
+
+	library->askId(request);
+	data.visit(request);
+
+	StyleEntry style;
+	library->getStyle(request, attributes, style);
+	ostringstream out;
+	out << style;
+	static string temp;
+	temp = out.str();
+    return temp.c_str();
+
+}
+
 #ifdef HAVE_GRIB
 void FortranMagics::pgrib()
 {

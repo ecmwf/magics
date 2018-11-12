@@ -334,9 +334,14 @@ class Action(object):
 
     def set(self):
 
+
+
         for key in list(self.args.keys()):
             
-            if isinstance(self.args[key], str):
+            if isinstance(self.args[key], dict):
+                Magics.setc(key,  json.dumps(self.args[key]))
+            
+            elif isinstance(self.args[key], str):
                 if key == 'odb_data':
                     Magics.setc('odb_filename', self.args[key])
                 else:
@@ -397,7 +402,7 @@ class Action(object):
 
     def style(self):
 
-        if self.action not in [Magics.grib, Magics.netcdf] :
+        if self.action not in [Magics.grib, Magics.netcdf, Magics.minput] :
             return {}    
 
 
@@ -408,8 +413,25 @@ class Action(object):
             return Magics.metagrib()
         if self.action == Magics.netcdf:
             return Magics.metanetcdf()
+        if self.action == Magics.minput:
+            return Magics.metainput()
 
 
+def mxarray(dataset, var):
+    
+    values = dataset[var].values.astype(np.float64)
+    lat = dataset.latitude.values.astype(np.float64)
+    lon = dataset.longitude.values.astype(np.float64)
+    
+    data = magics.minput(
+        input_field                   = values[0],
+        input_field_initial_latitude  = lat[0],
+        input_field_latitude_step     = lat[1] - lat[0],
+        input_field_initial_longitude = lon[0],
+        input_field_longitude_step    = lon[1]-lon[0],
+        input_metadata           = dataset[var].attrs
+    )
+    return data
         
         
 
@@ -502,6 +524,7 @@ def _execute(o):
 
 def _plot(*args):
     context.set()
+    #try :
     Magics.init()
     for n in args:
         _execute(n)
@@ -511,6 +534,8 @@ def _plot(*args):
     for f in context.tmp:
         if os.path.exists(f):
             os.remove(f)
+    #except:
+        #print ("Magics Error")
 
 
 
@@ -573,7 +598,7 @@ import threading
 import tempfile
 
 
-'''
+
 try:
     from IPython.display import Image
 
@@ -601,8 +626,8 @@ try:
             os.unlink(tmp)
             return image
 except ImportError:
-'''
-plot = _plot
+
+    plot = _plot
 
 
 
@@ -610,12 +635,14 @@ plot = _plot
 
 def wmsstyles(data):
     context.set()
-    Magics.init()
-    styles = data.style()
-    Magics.finalize()
-    styles = json.loads(styles.decode())
-    print (styles)
-    return styles 
+    try :
+        Magics.init()
+        styles = data.style()
+        Magics.finalize()
+        styles = json.loads(styles.decode())
+        return styles
+    except :
+        return {} 
 
 def version():
     version = Magics.version()
