@@ -35,7 +35,7 @@ does it submit to any jurisdiction.
          		<option xml="irregular" fortran="nonregular" include="InputMatrixInterpretor.h" name="InputMatrixIrregularInterpretor">		</option>
          		<documentation> How data is organized in the input field (REGULAR /IRREGULAR/) 		</documentation>
   	</parameter>
-	<parameter xml="input_mars_metadata" from="string" name="input_mars_metadata" default="{}" member="metadata" to="string">
+	<parameter xml="input_metadata" from="string" name="input_metadata" default="{}" member="metadata" to="string">
 
          		<documentation> Json Object that contains metadata to descrive the the input data: will be used by the automatic eccharts contouring 		</documentation>
   	</parameter>
