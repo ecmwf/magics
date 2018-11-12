@@ -1,10 +1,10 @@
-{
-    "match": {
-        "set": [
-            {
-                "paramId": "206"
-            }
-        ], 
-        "prefered_units": "dam"
-    }
-}
+[
+  {
+    "prefered_units": "dam",
+    "match": [
+      {
+        "paramId": "206"
+      }
+    ]
+  }
+]

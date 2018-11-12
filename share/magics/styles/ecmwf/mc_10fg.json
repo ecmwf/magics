@@ -1,21 +1,20 @@
-{
-    "match" : {
-        "eccharts_layer" : "mc_10fg",
-        "set" : [
-            {
-                "paramId" : "49",
-                "shortName" : "10fg",
-                "type" : "cd"
-            },
-            {
-                "long_name" : "10 metre wind gust since previous post-processing"
-            }
-        ],
-        "style" : "sh_mc_wind_f0t80",
-        "styles" : [
-            "sh_mc_wind_f0t80",
-            "ct_mc_wind_f0t80_black",
-            "ct_mc_wind_f0t80_blue"
-        ]
-    }
-}
+[
+  {
+    "eccharts_layer": "mc_10fg",
+    "styles": [
+      "sh_mc_wind_f0t80",
+      "ct_mc_wind_f0t80_black",
+      "ct_mc_wind_f0t80_blue"
+    ],
+    "match": [
+      {
+        "paramId": "49",
+        "shortName": "10fg",
+        "type": "cd"
+      },
+      {
+        "long_name": "10 metre wind gust since previous post-processing"
+      }
+    ]
+  }
+]

@@ -82,12 +82,15 @@ void Contour::operator()(Data& data, BasicGraphicsObjectContainer& parent)
 		ContourLibrary* library = MagTranslator<string, ContourLibrary>()(setting_);
 		
 		MetaDataCollector request,needAttributes;
-		map<string, string> attributes;
+		MagDef attributes;
 
     	
     	if ( predefined_.size() ) {
     		cout << " Setting " << predefined_ << endl;
     		library->getStyle(predefined_, attributes);
+    		for (auto s = attributes.begin(); s != attributes.end(); ++s)
+    			cout << s->first << "-->" << s->second << endl;
+    		cout << " Setting done !" << endl;
     		set(attributes);
     		auto text = attributes.find("contour_legend_text");
 				if ( text != attributes.end() )
@@ -114,11 +117,16 @@ void Contour::operator()(Data& data, BasicGraphicsObjectContainer& parent)
 
 				library->getStyle(request, attributes, *styleInfo_);
 
+
 				if ( !legend_ ) 
 					attributes["legend"] ="off";
 				if (metadata_only_) 
 					attributes["contour_legend_only"] = "on";
 				set(attributes);
+				cout << "Setting-->" << endl;
+				for (auto s = attributes.begin(); s != attributes.end(); ++s)
+    				cout << s->first << "-->" << s->second << endl;
+    			cout << "<---Setting" << endl;
 				auto text = attributes.find("contour_legend_text");
 				if ( text != attributes.end() )
 					ParameterManager::set("contour_legend_text", text->second);

@@ -581,7 +581,7 @@ void FortranViewNode::getReady()
 	if ( predefined_ ) {
 			MagDefLibrary library("projections");
 
-			MagDef::Definition area;
+			MagDef area;
 
 			library.find(predefined_name_, area);
 			

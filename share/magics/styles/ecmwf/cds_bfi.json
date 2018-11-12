@@ -1,18 +1,17 @@
-{
-    "match" : {
-        "eccharts_layer" : "cds_bfi",
-        "set" : [
-            {
-                "paramId" : "140253",
-                "shortName" : "bfi"
-            },
-            {
-                "long_name" : "Benjamin-Feir index"
-            }
-        ],
-        "style" : "sh_blkred_fM10t10_22",
-        "styles" : [
-            "sh_blkred_fM10t10_22"
-        ]
-    }
-}
+[
+  {
+    "eccharts_layer": "cds_bfi",
+    "styles": [
+      "sh_blkred_fM10t10_22"
+    ],
+    "match": [
+      {
+        "paramId": "140253",
+        "shortName": "bfi"
+      },
+      {
+        "long_name": "Benjamin-Feir index"
+      }
+    ]
+  }
+]
