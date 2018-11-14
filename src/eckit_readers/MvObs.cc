@@ -2098,7 +2098,8 @@ MvObs::MvObs( MvBufr *b, int subset_current, bool unpacked, codes_handle** ecH )
       b->setEccodes(ecH);
 }
 #else
-MvObs::MvObs( codes_handle** ecH, int subset_current, bool unpacked ) :
+MvObs::MvObs( codes_handle** ecH, int subset_current, bool unpacked, bool useSkipExtraAttributes,
+              bool cacheCompressedData) :
    _currentKey (""),
    _currentLevelKey (""),
    _currentLevelOccurrence (0),
@@ -2108,6 +2109,7 @@ MvObs::MvObs( codes_handle** ecH, int subset_current, bool unpacked ) :
    _editionNumber (-1),
    _number_of_subsets (-1),
    _messageType (-1), _subTypeInternational (-1), _subTypeLocal (-1),
+   _rdbType(-1),
    _originatingCentre (-1),
    _originatingSubCentre (-1),
    _originatingCentreStr (""),
@@ -2115,6 +2117,8 @@ MvObs::MvObs( codes_handle** ecH, int subset_current, bool unpacked ) :
    _lyear (-1), _lmonth (-1), _lday (-1), _lhour (-1), _lminute (-1),
    headerIdent_("__UNDEF__"),
    _edition(0),
+   useSkipExtraAttributes_(useSkipExtraAttributes),
+   cacheCompressedData_(cacheCompressedData),
    _ecHSS(0),
    _ecIter (0),
    _bufferSS(0)
@@ -2181,6 +2185,7 @@ _bufr_id = b._bufr_id;
    _messageType = b._messageType;
    _subTypeInternational = b._subTypeInternational;
    _subTypeLocal = b._subTypeLocal;
+   _rdbType = b._rdbType;
    _originatingCentre = b._originatingCentre;
    _originatingCentreStr = b._originatingCentreStr;
    _originatingSubCentre = b._originatingSubCentre;
@@ -2194,10 +2199,15 @@ _bufr_id = b._bufr_id;
    _lminute = b._lminute;
    headerIdent_ = b.headerIdent_;
    _edition = b._edition;
+   useSkipExtraAttributes_ = b.useSkipExtraAttributes_;
+   cacheCompressedData_ = b.cacheCompressedData_;
    _ecH = b._ecH;
    _ecIter = 0;
    _ecHSS = 0;
    _bufferSS = 0;
+
+   if(cacheCompressedData_)
+       compressedData_=b.compressedData_;
 }
 
 //___________________________________________________________________ clear
@@ -2412,16 +2422,44 @@ MvObs::value( const string& skey )
       // b) 1 element which means all the subsets have the same value
       // By default we retrieve a value from the first occurrence.
       string sskey = (skey[0] != '#') ? "#1#" + skey : skey;
+
+      //We try to use the cached compressed values
+      if(cacheCompressedData_)
+      {
+          const std::vector<double>& chData=compressedData_.doubleData(sskey);
+          if(!chData.empty())
+          {
+              //vector
+              if(static_cast<int>(chData.size()) == _number_of_subsets)
+              {
+                  dvalue = chData[_subsetNr-1];
+              }
+              else if(chData.size() == 1)
+              {
+                  dvalue = chData[0];
+              }
+              return dvalue == CODES_MISSING_DOUBLE ? kBufrMissingValue : dvalue;
+          }
+      }
+
       codes_get_size(*_ecH, sskey.c_str(),&nelems);
       if ( nelems == 1 )  // get the unique element
       {
          codes_get_double(*_ecH,sskey.c_str(),&dvalue);
+         if(cacheCompressedData_)
+         {
+             compressedData_.addDoubleData(sskey,dvalue);
+         }
          return dvalue == CODES_MISSING_DOUBLE ? kBufrMissingValue : dvalue;
       }
 
       // retrieve the element related to the current subset number
       double* v1 = new double[nelems];
       codes_get_double_array(*_ecH,sskey.c_str(),v1,&nelems);
+      if(cacheCompressedData_)
+      {
+          compressedData_.addDoubleData(sskey,v1,nelems);
+      }
       dvalue = v1[_subsetNr-1];
       delete []v1; v1 = 0;
    }
@@ -2545,33 +2583,70 @@ void MvObs::allValues(const string& keyName,std::vector<double>& vals)
         while(ir < maxRank)
         {
            valLen=0;
-           std::string rKeyName="#" + toString(ir) + "#" + keyName;
-           codes_get_size(*_ecH, rKeyName.c_str(), &valLen);
+           std::string rKeyName=keyName;
+           if(rank < 1)
+               rKeyName="#" + toString(ir) + "#" + keyName;
 
-           if(valLen == 0)
-               break;
-
-           //Single value
-           if(valLen == 1)
+           //We try to use the cached compressed values
+           bool hasCache=false;
+           if(cacheCompressedData_)
            {
-               codes_get_double(*_ecH,rKeyName.c_str(),&val);
-               vals.push_back((val == CODES_MISSING_DOUBLE) ? kBufrMissingValue : val);
+               const std::vector<long>& chData=compressedData_.longData(rKeyName);
+               if(!chData.empty())
+               {
+                   //vector
+                   if(static_cast<int>(chData.size()) == _number_of_subsets)
+                   {
+                       val = chData[_subsetNr-1];
+                   }
+                   else if(chData.size() == 1)
+                   {
+                       val = chData[0];
+                   }
+
+                   vals.push_back((val == CODES_MISSING_DOUBLE) ? kBufrMissingValue : val);
+                   hasCache=true;
+               }
            }
-           //Array
-           else if(_subsetNr <= static_cast<int>(valLen))
+
+           if(!hasCache)
            {
-                if(valArrNum < valLen)
+                codes_get_size(*_ecH, rKeyName.c_str(), &valLen);
+
+                if(valLen == 0)
+                    break;
+
+                //Single value
+                if(valLen == 1)
                 {
-                    delete [] valArr;
-                    valArr = new double[valLen];
-                    valArrNum=valLen;
+                    codes_get_double(*_ecH,rKeyName.c_str(),&val);
+                    if(cacheCompressedData_)
+                    {
+                        compressedData_.addDoubleData(rKeyName,val);
+                    }
+                    vals.push_back((val == CODES_MISSING_DOUBLE) ? kBufrMissingValue : val);
                 }
-                assert(valArr);
-                codes_get_double_array(*_ecH,rKeyName.c_str(),valArr,&valLen);
-                assert(_subsetNr <= static_cast<int>(valLen));
-                val = valArr[_subsetNr-1];
-                vals.push_back((val == CODES_MISSING_DOUBLE) ? kBufrMissingValue : val);
+                //Array
+                else if(_subsetNr <= static_cast<int>(valLen))
+                {
+                    if(valArrNum < valLen)
+                    {
+                        delete [] valArr;
+                        valArr = new double[valLen];
+                        valArrNum=valLen;
+                    }
+                    assert(valArr);
+                    codes_get_double_array(*_ecH,rKeyName.c_str(),valArr,&valLen);
+                    assert(_subsetNr <= static_cast<int>(valLen));
+                    val = valArr[_subsetNr-1];
+                    if(cacheCompressedData_)
+                    {
+                        compressedData_.addDoubleData(rKeyName,valArr,valLen);
+                    }
+                    vals.push_back((val == CODES_MISSING_DOUBLE) ? kBufrMissingValue : val);
+                }
             }
+
             ir++;
         }
     }
@@ -2681,26 +2756,54 @@ MvObs::intValue( const string& skey )
    // FII 20170922: update this code when function codes_get_double_element can
    // handle uncompressed data.
    if ( _compressed_data )
-   {
-      //codes_get_double_element(*_ecH, skey.c_str(), _subsetNr-1, &value);
+   {      
+        // Always use a hashtag because the array size will be smaller. Two possibilities:
+        // a) number_of_subsets instead of number_of_subsets*number_of_occurrences
+        // b) 1 element which means all the subsets have the same value
+        // By default we retrieve a value from the first occurrence.
+        string sskey = (skey[0] != '#') ? "#1#" + skey : skey;
 
-      // Always use a hashtag because the array size will be smaller. Two possibilities:
-      // a) number_of_subsets instead of number_of_subsets*number_of_occurrences
-      // b) 1 element which means all the subsets have the same value
-      // By default we retrieve a value from the first occurrence.
-      string sskey = (skey[0] != '#') ? "#1#" + skey : skey;
-      codes_get_size(*_ecH, sskey.c_str(),&nelems);
-      if ( nelems == 1 )  // get the unique element
-      {
-         codes_get_long(*_ecH,sskey.c_str(),&value);
-         return value == CODES_MISSING_LONG ? kBufrMissingIntValue : value;
-      }
+        //We try to use the cached compressed values
+        if(cacheCompressedData_)
+        {
+            const std::vector<long>& chData=compressedData_.longData(sskey);
+            if(!chData.empty())
+            {
+                //vector
+                if(static_cast<int>(chData.size()) == _number_of_subsets)
+                {
+                    value = chData[_subsetNr-1];
+                }
+                else if(chData.size() == 1)
+                {
+                    value = chData[0];
+                }
+                return value == CODES_MISSING_LONG ? kBufrMissingIntValue : value;
+            }
+        }
 
-      // retrieve the element related to the current subset number
-      long* v1 = new long[nelems];
-      codes_get_long_array(*_ecH,sskey.c_str(),v1,&nelems);
-      value = v1[_subsetNr-1];
-      delete []v1; v1 = 0;
+        //read the data values
+        codes_get_size(*_ecH, sskey.c_str(),&nelems);
+        if ( nelems == 1 )  // get the unique element
+        {
+            codes_get_long(*_ecH,sskey.c_str(),&value);
+            if(cacheCompressedData_)
+            {
+                compressedData_.addLongData(sskey,value); //add to cache
+            }
+            return value == CODES_MISSING_LONG ? kBufrMissingIntValue : value;
+        }
+
+        // retrieve the element related to the current subset number
+        long* v1 = new long[nelems];
+        codes_get_long_array(*_ecH,sskey.c_str(),v1,&nelems);
+        value = v1[_subsetNr-1];
+        if(cacheCompressedData_)
+        {
+            compressedData_.addLongData(sskey,v1,nelems); //add to cache
+        }
+        delete [] v1;
+        v1 = 0;
    }
    else   // uncompressed data
    {
@@ -2736,7 +2839,7 @@ MvObs::intValue( const string& skey )
 }
 
 //Returns all values of a given key from a message/subset. The key is either a simple string
-//e.g. "airTemperature" or a containing the rank e.g. "#1#airTemperature"
+//e.g. "airTemperature" or one containing the rank e.g. "#1#airTemperature"
 void MvObs::allIntValues(const string& keyName,std::vector<long>& vals)
 {
     // Check input key
@@ -2770,7 +2873,7 @@ void MvObs::allIntValues(const string& keyName,std::vector<long>& vals)
         int ir=1;
         int rank=occurenceFromKey(keyName);
 
-        //we read a sing rank only
+        //we read a single rank only
         if(rank >= 1)
         {
             ir=rank;
@@ -2780,33 +2883,69 @@ void MvObs::allIntValues(const string& keyName,std::vector<long>& vals)
         //loop for the ranks
         while(ir < maxRank)
         {
-           valLen=0;
-           std::string rKeyName="#" + toString(ir) + "#" + keyName;
-           codes_get_size(*_ecH, rKeyName.c_str(), &valLen);
+            valLen=0;
+            std::string rKeyName=keyName;
+            if(rank < 1)
+                rKeyName="#" + toString(ir) + "#" + keyName;
 
-           if(valLen == 0)
-               break;
-
-           //Single value
-           if(valLen == 1)
-           {
-               codes_get_long(*_ecH,rKeyName.c_str(),&val);
-               vals.push_back((val == CODES_MISSING_LONG) ? kBufrMissingIntValue : val);
-           }
-           //Array
-           else if(_subsetNr <= static_cast<int>(valLen))
-           {
-                if(valArrNum < valLen)
+            //We try to use the cached compressed values
+            bool hasCache=false;
+            if(cacheCompressedData_)
+            {
+                const std::vector<long>& chData=compressedData_.longData(rKeyName);
+                if(!chData.empty())
                 {
-                    delete [] valArr;
-                    valArr = new long[valLen];
-                    valArrNum=valLen;
+                    //vector
+                    if(static_cast<int>(chData.size()) == _number_of_subsets)
+                    {
+                        val = chData[_subsetNr-1];
+                    }
+                    else if(chData.size() == 1)
+                    {
+                        val = chData[0];
+                    }
+
+                    vals.push_back((val == CODES_MISSING_LONG) ? kBufrMissingIntValue : val);
+                    hasCache=true;
                 }
-                assert(valArr);
-                codes_get_long_array(*_ecH,rKeyName.c_str(),valArr,&valLen);
-                assert(_subsetNr <= static_cast<int>(valLen));
-                val = valArr[_subsetNr-1];
-                vals.push_back((val == CODES_MISSING_LONG) ? kBufrMissingIntValue : val);
+            }
+
+            if(!hasCache)
+            {
+                codes_get_size(*_ecH, rKeyName.c_str(), &valLen);
+
+                if(valLen == 0)
+                    break;
+
+                //Single value
+                if(valLen == 1)
+                {
+                    codes_get_long(*_ecH,rKeyName.c_str(),&val);
+                    if(cacheCompressedData_)
+                    {
+                        compressedData_.addLongData(rKeyName,val);
+                    }
+                    vals.push_back((val == CODES_MISSING_LONG) ? kBufrMissingIntValue : val);
+                }
+                //Array
+                else if(_subsetNr <= static_cast<int>(valLen))
+                {
+                    if(valArrNum < valLen)
+                    {
+                        delete [] valArr;
+                        valArr = new long[valLen];
+                        valArrNum=valLen;
+                    }
+                    assert(valArr);
+                    codes_get_long_array(*_ecH,rKeyName.c_str(),valArr,&valLen);
+                    assert(_subsetNr <= static_cast<int>(valLen));
+                    val = valArr[_subsetNr-1];
+                    if(cacheCompressedData_)
+                    {
+                        compressedData_.addLongData(rKeyName,valArr,valLen);
+                    }
+                    vals.push_back((val == CODES_MISSING_LONG) ? kBufrMissingIntValue : val);
+                }       
             }
             ir++;
         }
@@ -3046,7 +3185,10 @@ void MvObs::allStringValues(const std::string& keyName,std::vector<std::string>&
         while(ir < maxRank)
         {
            valLen=0;
-           std::string rKeyName="#" + toString(ir) + "#" + keyName;
+           std::string rKeyName=keyName;
+           if(rank < 1)
+               rKeyName="#" + toString(ir) + "#" + keyName;
+
            codes_get_size(*_ecH, rKeyName.c_str(), &valLen);
 
            if(valLen == 0)
@@ -3138,7 +3280,11 @@ MvObs::setFirstDescriptor(bool skipConfidence)
    // Data needs to be unpacked
    if ( !_unpacked )
    {
-      codes_set_long(*_ecH,"unpack",1);
+       if(useSkipExtraAttributes_)
+       {
+            codes_set_long(*_ecH,"skipExtraKeyAttributes",1);
+       }
+       codes_set_long(*_ecH,"unpack",1);
       _unpacked = true;
    }
 
@@ -3214,12 +3360,15 @@ void MvObs::clearIterator()
 
 void MvObs::expand()
 {
-//   *_ecH->expand();
-   if ( !_unpacked && _ecH && *_ecH)
-   {
-      codes_set_long(*_ecH,"unpack",1);
-      _unpacked = true;
-   }
+    if(!_unpacked && _ecH && *_ecH)
+    {
+        if(useSkipExtraAttributes_)
+        {
+            codes_set_long(*_ecH,"skipExtraKeyAttributes",1);
+        }
+        codes_set_long(*_ecH,"unpack",1);
+        _unpacked = true;
+    }
 }
 
 long
@@ -3315,6 +3464,7 @@ MvObs::cloneSubset( long subset_number )
    // h2 is a temporary handle; it will be deleted at the end of this function
    codes_handle* h2 = codes_handle_clone(*_ecH);
    assert(h2);
+//   codes_set_long(h2,"skipExtraKeyAttributes",1);  //ECC-741
    codes_set_long(h2,"unpack", 1);
    codes_set_long(h2,"extractSubset", subset_number);
    codes_set_long(h2,"doExtractSubsets",1);
@@ -4556,6 +4706,16 @@ TEMPCHECKVALUELONG(lval,vold);
    return (int)lval;
 }
 
+//______________________________________________________________ messageSubtype
+int
+MvObs::messageRdbtype()
+{
+    if ( _rdbType == -1 )
+       _rdbType = intValue("rdbType");
+
+    return (int)_rdbType;
+}
+
 //_________________________________________________ messageSubtypeInternational
 int
 MvObs::messageSubtypeInternational()
@@ -4967,6 +5127,53 @@ MvObs::confidence()
          _confidence->confidenceByIndex( _bufrIn->_currentDescrInd ) : -1;
 #endif
 }
+
+void MvBufrSubsetData::addLongData(const std::string& key,long val)
+{
+    std::vector<long> vec;
+    vec.push_back(val);
+    longData_[key]=vec;
+}
+
+void MvBufrSubsetData::addLongData(const std::string& key,long* val,size_t num)
+{
+    if(num > 0)
+        longData_[key]= std::vector<long>(val,val + num);
+}
+
+void MvBufrSubsetData::addDoubleData(const std::string& key,double val)
+{
+    std::vector<double> vec;
+    vec.push_back(val);
+    doubleData_[key]=vec;
+}
+
+void MvBufrSubsetData::addDoubleData(const std::string& key,double* val,size_t num)
+{
+    if(num > 0)
+        doubleData_[key]= std::vector<double>(val,val + num);
+}
+
+const std::vector<long>& MvBufrSubsetData::longData(const std::string& key) const
+{
+    std::map<std::string,std::vector<long> >::const_iterator it=longData_.find(key);
+    if(it != longData_.end())
+        return it->second;
+
+    static std::vector<long> emptyVec;
+    return emptyVec;
+}
+
+const std::vector<double>& MvBufrSubsetData::doubleData(const std::string& key) const
+{
+    std::map<std::string,std::vector<double> >::const_iterator it=doubleData_.find(key);
+    if(it != doubleData_.end())
+        return it->second;
+
+    static std::vector<double> emptyVec;
+    return emptyVec;
+}
+
 
 #ifdef METVIEW
 //---
