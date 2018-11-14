@@ -102,7 +102,7 @@ PaperPoint Skewt::operator()(const UserPoint& xy) const
 {
     //We are in the wind box to the right
     if (xy.x() >= 1000) {
-        double x = (maxPCX_ - maxpcx) * (xy.x() - 1000.) + maxpcx;
+        double x =  ((maxPCX_-maxpcx)/20)*(xy.x()-1000)  + maxpcx;
         double y = (maxPCY_ - minPCY_) * (log(y_min_) - log(xy.y())) / (log(y_min_) - log(y_max_));
         return PaperPoint(x, y, xy.value());
     }
