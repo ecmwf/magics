@@ -22,6 +22,7 @@
 #include <eccodes.h>
 
 #include <vector>
+#include <map>
 #include <sstream>
 
 #ifdef METVIEW
@@ -158,6 +159,27 @@ const int kBufrMissingIntValue = 2147483647;
 
 class MvBufrEdition;
 
+class MvBufrSubsetData
+{
+    friend class MvObs;
+public:
+    MvBufrSubsetData() {}
+    void clear() {longData_.clear(); doubleData_.clear();}
+    bool isEmpty() const {return longData_.empty() && doubleData_.empty();}
+
+    void addLongData(const std::string& key,long val);
+    void addLongData(const std::string& key,long* val,size_t num);
+    void addDoubleData(const std::string& key,double val);
+    void addDoubleData(const std::string& key,double* val,size_t num);
+
+    const std::vector<long>& longData(const std::string& key) const;
+    const std::vector<double>& doubleData(const std::string& key) const;
+
+protected:
+    std::map<std::string,std::vector<long> > longData_;
+    std::map<std::string,std::vector<double> > doubleData_;
+};
+
 class MvObs
 {
 #ifdef MV_BUFRDC_TEST
@@ -181,7 +203,8 @@ public:
 #ifdef MV_BUFRDC_TEST
    MvObs( MvBufr* b = NULL, int subset_current = 1, bool unpacked = false, codes_handle** ecH = NULL );
 #else
-   MvObs( codes_handle** ecH = NULL, int subset_current = 1, bool unpacked = false );
+   MvObs( codes_handle** ecH = NULL, int subset_current = 1, bool unpacked = false,
+          bool useSkipExtraAttributes = true, bool  cacheCompressedData = true);
 #endif
 
 //! Copy constructor
@@ -265,6 +288,8 @@ public:
     *  messages a value of 255 is returned (255 corresponds to an octet with all bits '1').
     */
    int messageSubtypeInternational();
+
+   int messageRdbtype();
 
    //! Returns the Originating Centre code from BUFR section 1
    int originatingCentre();
@@ -719,6 +744,7 @@ protected:
    long _number_of_subsets;
    long _messageType;
    long _subTypeInternational, _subTypeLocal;
+   long _rdbType;
    long _originatingCentre, _originatingSubCentre;
    std::string _originatingCentreStr;
    long _masterTable, _masterTableVersion, _localTableVersion;
@@ -727,6 +753,13 @@ protected:
 
    MvBufrEdition* _edition;  // BUFR id type
    MvBufrConfidence* _confidence;
+
+   //use eccodes optimisation
+   bool useSkipExtraAttributes_;
+
+   //For compressed messages
+   bool cacheCompressedData_;
+   MvBufrSubsetData compressedData_;
 
 #ifdef MV_BUFRDC_TEST
 MvBufr* _bufrIn;
@@ -767,6 +800,7 @@ class MvBufrParam
 };
 
 #endif  // DOXYGEN_SHOULD_SKIP_THIS
+
 
 
 //--------------------------------------------------------------- MvBufrOut
