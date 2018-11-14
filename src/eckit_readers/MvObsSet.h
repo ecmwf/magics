@@ -42,13 +42,13 @@ class MvObsSet
  public:
 
 //! Constructor with the input BUFR file name as an argument
-   MvObsSet( const char* );
+   MvObsSet( const char*);
 
 //! Constructor with a BUFR file name and access mode as arguments
 /*! This constructor can be used for writing to a file, use
  *  access mode "w" or "a".
  */
-   MvObsSet( const char*, const char* );
+   MvObsSet( const char*, const char*);
 
 #ifdef METVIEW
 //! Constructor with a BUFR request and access mode as arguments
@@ -100,6 +100,7 @@ class MvObsSet
    // Writes message
    bool write( MvObs& );
    bool writeCompressed(MvObs *obs);
+   bool writeCompressed(MvObs *obs,const std::vector<int>& subsetVec);
    bool write( const void*, const size_t );
 #ifdef MV_BUFRDC_TEST
    bool write( const char*, int );
@@ -109,6 +110,11 @@ class MvObsSet
 
    // Expand message
    void expand();
+
+   void setUseSkipExtraAttributes(bool b) {useSkipExtraAttributes_=b;}
+   void setCacheCompressedData(bool b) {cacheCompressedData_=b;}
+
+   MvObs gotoMessage(long offset, int msgCnt);
 
 protected:
    // Advance to the next message and by default unpack the message
@@ -146,6 +152,9 @@ long _msgLen;
 #endif
 
    MvBufrOut* _bufrOut;
+
+   bool useSkipExtraAttributes_; //enables optimisation option for eccodes
+   bool cacheCompressedData_; //flag for MvObs
 };
 
 //------------------------------------------------------------------------------
@@ -209,7 +218,7 @@ class MvObsSetIterator
 
 public:
 //! Constructor with a MvObset as an argument
-   MvObsSetIterator( MvObsSet&, bool useHeaderOnly=true );
+   MvObsSetIterator( MvObsSet&);
 
 //! Destructor
    ~MvObsSetIterator();
@@ -263,6 +272,7 @@ public:
  *  signifies 3PM, and the value 15 signifies 15 mins past midnight.
  */
    void setTimeRangeWithoutDate( int, int );
+   void setTimeRangeInSecWithoutDate(int, int);
 
 //! Set the filtering criteria for accepted WMO block numbers
 /*! This method can be called several times in order to set
@@ -298,7 +308,8 @@ public:
  *  more than one accepted BUFR message local subtype, i.e. message subtypes
  *  are combined with logical OR operator.
  */
-   void setMessageSubtype( int );
+  void setMessageSubtype( int );
+  void setMessageRdbtype( int );
 
   void setMessageNumber(int);
   void setEditionNumber(int);
@@ -333,14 +344,21 @@ public:
  */
    void excludeRange( const std::string&, double, double );
 
+   MvObs nextMessage();
+   bool AcceptedObs( MvObs&, bool skipPreFilterCond=false) const;
+   bool useHeaderOnly() const {return useHeaderOnly_;}
+
+   MvObs gotoMessage(long offset, int msgCnt);
+
    //Set the observer
    void setObserver(MvObsSetIteratorObserver* observer) {observer_=observer;}
    void removeObserver() {observer_=0;}
+   void setFilterProgressStep(int filterProgressStep);
 
 protected:
    bool   checkOptionSize(std::size_t num,const std::string& functionName);
    void   next();
-   bool   AcceptedObs( MvObs& ) const;
+
    bool   TimeOk( MvObs* ) const;
    bool   WmoBlockOk( MvObs* ) const;
    bool   WmoStationOk( MvObs* ) const;
@@ -348,6 +366,7 @@ protected:
    bool   messageNumberOk( MvObs* ) const;
    bool   msgTypeOk( MvObs* ) const;
    bool   msgSubtypeOk( MvObs* ) const;
+   bool   msgRdbtypeOk( MvObs* ) const;
    bool   editionNumberOk(MvObs*) const;
    bool   originatingCentreOk(MvObs*) const;
    bool   originatingCentreAsStrOk(MvObs*) const;
@@ -381,7 +400,8 @@ protected:
    std::vector<int> wmoStation_;
    std::vector<std::string> headerIdent_;
    std::string identKey_;
-   std::vector<std::string> identValue_;
+   std::vector<std::string> identValue_;   
+   std::vector<int> rdbType_;
 
    TDynamicTime fBeginTime, fEndTime;
    ETimeFilterState _TimeFilterState;
@@ -395,6 +415,7 @@ private:
    MvObsSet* ObsSet;
    bool useHeaderOnly_;
    MvObsSetIteratorObserver* observer_;
+   int filterProgressStep_;
 };
 
 #endif
