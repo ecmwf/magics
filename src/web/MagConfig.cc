@@ -443,8 +443,10 @@ int Style::score(const MetaDataCollector& data)
 	}
 	
 	if ( bestscore ) {
-		if ( styles_.empty() ) 
-			cout << "Styles is empty" << endl;
+		if ( styles_.empty() ) {
+			
+			styles_.push_back("default");
+		}
 		
 		else {
 			cout << "----   Found style with score : " << bestscore << " Style --> " << styles_.front() << endl;
@@ -502,6 +504,7 @@ bool StyleLibrary::findStyle(const MetaDataCollector& data, MagDef& visdef, Styl
 				if (beststyle.preferedUnits_.size())
 					visdef.insert(make_pair("required_units", beststyle.preferedUnits_));
 			return true;
+
 		}
 	
 	vector<string> empty;
