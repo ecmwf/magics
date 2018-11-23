@@ -90,6 +90,10 @@ void Contour::operator()(Data& data, BasicGraphicsObjectContainer& parent)
     		library->getStyle(predefined_, attributes);
     		for (auto s = attributes.begin(); s != attributes.end(); ++s)
     			cout << s->first << "-->" << s->second << endl;
+    		string legend_only;
+    		ParameterManager::get("contour_legend_only", legend_only);
+			attributes["contour_legend_only"] = contour_->legend_only_;
+			cout << "SsSSSSSSSSSSSSSSSSSSSSSSSSS" << legend_only << endl;
     		
     		set(attributes);
     		auto text = attributes.find("contour_legend_text");
@@ -116,7 +120,10 @@ void Contour::operator()(Data& data, BasicGraphicsObjectContainer& parent)
 				styleInfo_ = new StyleEntry();
 
 				library->getStyle(request, attributes, *styleInfo_);
-
+				string legend_only;
+				ParameterManager::get("contour_legend_only", legend_only);
+				attributes["contour_legend_only"] = legend_only;
+				cout << "SsSSSSSSSSSSSSSSSSSSSSSSSSS" << legend_only << endl;
 
 				if ( !legend_ ) 
 					attributes["legend"] ="off";
@@ -134,6 +141,7 @@ void Contour::operator()(Data& data, BasicGraphicsObjectContainer& parent)
 			}
 
 		}	
+
 		delete library;
 
 

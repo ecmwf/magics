@@ -99,6 +99,7 @@ class Action(object):
         val="%s("%self.html
 
         for key in list(self.args.keys()):
+
             if isinstance(self.args[key], str):
                 if key == 'odb_data':
                     Magics.setc('odb_filename', self.args[key])
@@ -333,14 +334,15 @@ class Action(object):
 
 
     def set(self):
-
-
-
         for key in list(self.args.keys()):
             
             if isinstance(self.args[key], dict):
                 Magics.setc(key,  json.dumps(self.args[key]))
-            
+            elif isinstance(self.args[key], bool):
+                if self.args[key]:
+                    Magics.setc(key, "on")
+                else :
+                    Magics.setc(key, "off")
             elif isinstance(self.args[key], str):
                 if key == 'odb_data':
                     Magics.setc('odb_filename', self.args[key])
@@ -419,18 +421,7 @@ class Action(object):
 
 def mxarray(dataset, var):
     
-    values = dataset[var].values.astype(np.float64)
-    lat = dataset.latitude.values.astype(np.float64)
-    lon = dataset.longitude.values.astype(np.float64)
     
-    data = magics.minput(
-        input_field                   = values[0],
-        input_field_initial_latitude  = lat[0],
-        input_field_latitude_step     = lat[1] - lat[0],
-        input_field_initial_longitude = lon[0],
-        input_field_longitude_step    = lon[1]-lon[0],
-        input_metadata           = dataset[var].attrs
-    )
     return data
         
         
@@ -488,8 +479,6 @@ page = make_action("page", Magics.new_page)
 pinput = make_action("pinput", Magics.minput)
 minput = make_action("minput", Magics.minput, "Input+Data")
 mtable = make_action("mtable", Magics.mtable, "CSV+Table+Decoder")
-
-
 mgeojson = make_action("mgeojson", Magics.geojson, "GeoJSon")
 mwrepjson = make_action("mwrepjson", Magics.wrepjson, "WrepJSon")
 mepsinput = make_action("mepsinput", Magics.epsinput, "EpsInput")
@@ -523,6 +512,7 @@ def _execute(o):
 		o.execute()
 
 def _plot(*args):
+
     context.set()
     #try :
     Magics.init()
@@ -597,37 +587,36 @@ class  odb_filter(object):
 import threading
 import tempfile
 
+plot = _plot
 
+def jupyter():
+    try:
+        from IPython.display import Image
+        LOCK = threading.Lock()
 
-try:
-    from IPython.display import Image
+        def plot(*args):
 
-    LOCK = threading.Lock()
+            with LOCK:
+                f, tmp = tempfile.mkstemp(".png")
+                os.close(f)
 
-    def plot(*args):
+                base, ext = os.path.splitext(tmp)
 
-        with LOCK:
-            f, tmp = tempfile.mkstemp(".png")
-            os.close(f)
+                img = output(output_formats=["png"],
+                                  output_name_first_page_number='off',
+                                  output_name=base)
+                
+                all = []
+                all.append(img)
+                for i in args :
+                  all.append(i)
+                _plot(all)
 
-            base, ext = os.path.splitext(tmp)
-
-            img = output(output_formats=["png"],
-                              output_name_first_page_number='off',
-                              output_name=base)
-            
-            all = []
-            all.append(img)
-            for i in args :
-              all.append(i)
-            _plot(all)
-
-            image = Image(tmp)
-            os.unlink(tmp)
-            return image
-except ImportError:
-
-    plot = _plot
+                image = Image(tmp)
+                os.unlink(tmp)
+                return image
+    except ImportError:
+        print ( "Not able to set up the jupyter environ")
 
 
 
