@@ -120,11 +120,10 @@ void Contour::operator()(Data& data, BasicGraphicsObjectContainer& parent)
 				styleInfo_ = new StyleEntry();
 
 				library->getStyle(request, attributes, *styleInfo_);
-				string legend_only;
-				ParameterManager::get("contour_legend_only", legend_only);
-				attributes["contour_legend_only"] = legend_only;
-				cout << "SsSSSSSSSSSSSSSSSSSSSSSSSSS" << legend_only << endl;
-
+				
+				
+				attributes["contour_legend_only"] = contour_->legend_only_;
+				
 				if ( !legend_ ) 
 					attributes["legend"] ="off";
 				if (metadata_only_) 

@@ -36,31 +36,12 @@ NetcdfGeoMatrixInterpretor::~NetcdfGeoMatrixInterpretor()
 
 string NetcdfGeoMatrixInterpretor::proj4Detected(Netcdf& netcdf) 
 {
-	vector<string> proj4 = {"proj4_params", "proj4_string"};
 	string mapping = netcdf.getVariableAttribute(field_, "grid_mapping", string(""));
 	if ( mapping.size() )
-		for ( auto p = proj4.begin(); p != proj4.end(); ++p ) {
-		 	string def = netcdf.getVariableAttribute(mapping, *p, string(""));
-		 	if ( def.size() ) {
-		 		cout << def << endl;
-		 		return def;
-		 	}
-		}
+		return netcdf.getVariableAttribute(mapping, "proj4_params", string(""));
 	return "";
 }
 
-void NetcdfGeoMatrixInterpretor::checkProj4Units(Netcdf& netcdf, const string& variable, vector<double>& data) 
-{
-	map<string, double> convert = { {"km", 1000.} };
-	// here we assume that projection coordinates shold always be converted to m 
-
-	string units = netcdf.getVariableAttribute(variable, "units", string(""));
-	auto  factor = convert.find(units);
-	if ( factor != convert.end() ) 
-		for (auto l =  data.begin(); l !=  data.end(); ++l)
-				*l = (*l * factor->second);
-
-}
 
 bool NetcdfGeoMatrixInterpretor::interpretAsMatrix(Matrix** matrix)
 {
@@ -111,11 +92,6 @@ bool NetcdfGeoMatrixInterpretor::interpretAsMatrix(Matrix** matrix)
 		
 		netcdf.get(longitude_, matrix_->columnsAxis(), first, last);
 		netcdf.get(latitude_, matrix_->rowsAxis(), first, last);
-
-		if ( proj4.size() ) {
-			checkProj4Units(netcdf, longitude_, matrix_->columnsAxis());
-			checkProj4Units(netcdf, latitude_, matrix_->rowsAxis());
-		}
 	
 		matrix_->missing(missing_value);
 
@@ -138,7 +114,7 @@ bool NetcdfGeoMatrixInterpretor::interpretAsMatrix(Matrix** matrix)
 			fill(matrix_->begin(), matrix_->end(), missing_value);
 			for (vector<double>::iterator d = data.begin(); d != data.end(); ++d ) 
 			{
-				if ( !std::isnan(*d) ) {
+				if ( !std::isnan(*d) && !std::isinf(*d) ) {
 					matrix_->push_back(*d);
 					
 				}
