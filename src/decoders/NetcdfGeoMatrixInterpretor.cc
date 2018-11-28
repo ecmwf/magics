@@ -36,6 +36,10 @@ NetcdfGeoMatrixInterpretor::~NetcdfGeoMatrixInterpretor()
 
 string NetcdfGeoMatrixInterpretor::proj4Detected(Netcdf& netcdf) 
 {
+	// Efas old netcdf 
+	string proj4 = netcdf.getAttribute("projection", string(""));
+	if ( proj4.size() )
+		return proj4;
 	string mapping = netcdf.getVariableAttribute(field_, "grid_mapping", string(""));
 	if ( mapping.size() )
 		return netcdf.getVariableAttribute(mapping, "proj4_params", string(""));
