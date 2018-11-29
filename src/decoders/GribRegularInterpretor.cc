@@ -971,7 +971,6 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
 
     for ( int i = 0; i < nblat; i++) {
         long numPts = 0;
-        long indexFirst, indexLast;
         int globalPointsInThisRow = pl[i];
         double dx = 360./pl[i];
 
@@ -979,46 +978,30 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
         // find which points are in this row; a sub-area of a reduced Gaussian grid
         // contains a subset of the points from the global grid, with the points
         // in exactly the same positions as the corresponding ones in the
-        // global grid. The GRIB_API function grib_get_reduced_row() does not
-        // produce the correct result when given a global field, so we need
-        // to make that a separate case.
+        // global grid.
 
         double add = 0;
 
+        double lonfirst=west, lonlast=east;
         if (global) {
-            numPts     = globalPointsInThisRow;
-            indexFirst = 0;
-            indexLast  = numPts-1;
-
+            numPts = globalPointsInThisRow;
         }
         else {
-            grib_get_reduced_row(globalPointsInThisRow, west, east,
-                                 &numPts, &indexFirst,&indexLast);
+            grib_get_reduced_row_p(globalPointsInThisRow, west, east, &numPts, &lonfirst, &lonlast);
             add = 2*dx;
         }
 
         rows.push_back(vector<double>());
 
-        int n = indexFirst;
 
-
-        // the index of the first point is not necessarily smaller than the index
-        // of the second point, depending on the sub-area.
-        // we need to check whether the last index is the last point; however,
-        // grib_get_reduced_row() seems to sometimes return a numPoints which is 1
-        // greater than the number of global points in the row so we need a double
-        // check.
-        bool lastSubAreaIndexIsNotLastGlobalIndex = (indexLast != globalPointsInThisRow-1) &&
-                                                    (indexLast != globalPointsInThisRow);
-
-        while (n != indexLast+1){
-            double thisLon = n*dx;
-            if ( thisLon > east +add) thisLon -= 360.;
+        double thisLon = lonfirst;
+        int n = 0;
+        while(n < numPts) {
+            if (thisLon > east +add) thisLon -= 360.;
 
             rows.back().push_back(thisLon);
             n++;
-            if (n == globalPointsInThisRow && lastSubAreaIndexIsNotLastGlobalIndex )  // wrap around?
-                n = 0;
+            thisLon = lonfirst + (n*dx);
         }
 
 
@@ -1027,26 +1010,14 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
     }
 
 // Find the latitudes
-    map<double, map<double, int> > index;
+    //map<double, map<double, int> > index;
     double array[2 * res];
     grib_get_gaussian_latitudes(res, array);
-
     for (int i = 0; i < 2*res; i++) {
-    	if ( same(array[i], north, 0.001) ) {
-    		(*matrix)->rowsAxis().push_back(array[i]);
-    		(*matrix)->yIndex_.insert(make_pair(array[i], i));
-    		continue;
-    	}
-    	if ( same(array[i], south, 0.001) ) {
-    		(*matrix)->rowsAxis().push_back(array[i]);
-    		(*matrix)->yIndex_.insert(make_pair(array[i], i));
-    		continue;
-    	}
-    	if ( array[i] < north && array[i] > south) {
+    	if ( array[i] <= north && array[i] >= south) {
     		(*matrix)->rowsAxis().push_back(array[i]);
     		(*matrix)->yIndex_.insert(make_pair(array[i], i));
     	}
-
     }
     if ( matrix2 ) {
     	(*matrix)->xIndex_.reserve((*matrix)->rowsAxis().size());
