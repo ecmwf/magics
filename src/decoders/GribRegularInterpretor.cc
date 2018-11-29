@@ -1056,7 +1056,6 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
     vector<double> missingLon;
 
     d = 0;
-    vector<double>::iterator ll = (*matrix)->rowsAxis().begin();
     {
     Timer timer("map2", " pair");
     bool first = true;
@@ -1069,7 +1068,7 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
         	(*matrix)->xIndex_.push_back(InfoIndex(row->front(), row->back(), row->size(), d));
 
         }
-        ++ll;
+
         for (int ii = 0; ii < row->size(); ii++) {
             p.push_back(data[d]);
             if ( matrix2 ) {
