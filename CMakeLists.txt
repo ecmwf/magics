@@ -32,7 +32,7 @@ set (CMAKE_C_STANDARD 99)
 ###############################################################################
 # some variables of this project
 
-ecbuild_use_package( PROJECT eccodes VERSION 2.5.0 REQUIRED
+ecbuild_use_package( PROJECT eccodes VERSION 2.9.2 REQUIRED
                      FAILURE_MSG "ecCodes is required in order to build Magics. Note that GRIB_API is no longer supported in Magics" )
 
 set( grib_handling_pkg eccodes )
