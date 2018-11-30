@@ -42,7 +42,7 @@ using namespace magics;
 int  GribDecoder::count_ = 0;
 
 GribDecoder::GribDecoder() :  matrix_(0),  xComponent_(0), yComponent_(0),
-        colourComponent_(0), handle_(0), nearest_(0), interpretor_(0),
+        colourComponent_(0), handle_(0), nearest_(0), interpretor_(0), 
         field_(0), component1_(0), component2_(0), colour_(0), xValues_(0), yValues_(0)
 {
     count_++;
@@ -123,6 +123,7 @@ long computeStep( const GribDecoder& grib,const string&  key)
 
 long GribDecoder::getLong(const string& key, bool warnIfKeyAbsent) const
 {
+    if ( !valid_ ) return 0; 
     long val;
     map<string, long>::const_iterator lk = lKeys_.find(key);
     if ( lk != lKeys_.end() ) {
@@ -143,6 +144,7 @@ long GribDecoder::getLong(const string& key, bool warnIfKeyAbsent) const
 
 string GribDecoder::getstring(const string& key, bool warnIfKeyAbsent, bool cache) const
 {
+    if ( !valid_ ) return ""; 
     if ( cache ) {
         map<string, string>::const_iterator sk = sKeys_.find(key);
         if ( sk != sKeys_.end() ) {
@@ -173,6 +175,7 @@ string GribDecoder::getstring(const string& key, bool warnIfKeyAbsent, bool cach
 
 string GribDecoder::getString(const string& key, bool warnIfKeyAbsent) const
 {
+    if ( !valid_ ) return ""; 
     if ( Data::dimension_ == 1 )
         return getstring(key, warnIfKeyAbsent, false);
 
@@ -201,6 +204,7 @@ string GribDecoder::getString(const string& key, bool warnIfKeyAbsent) const
 
 double GribDecoder::getDouble(const string& key, bool warnIfKeyAbsent) const
 {
+    if ( !valid_ ) return 0; 
     map<string, double>::const_iterator dk = dKeys_.find(key);
     if ( dk != dKeys_.end() ) {
         return dk->second;
@@ -361,9 +365,13 @@ void GribDecoder::release()
 
 void GribDecoder::visit(Transformation& transformation)
 {
-    if(transformation.coordinateType() == Transformation::GeoType )
-        return;
     decode();
+    if(transformation.coordinateType() == Transformation::GeoType ) {
+        transformation.setMinMaxX(matrix_->minX(), matrix_->maxX());
+        transformation.setMinMaxY(matrix_->minY(), matrix_->maxY());
+        return;
+    }
+   
     // Here are in a dump ode .. the coordinates are pixels.
     if ( transformation.getAutomaticX() ) {
         transformation.setMinMaxX(1, matrix_->columns());
@@ -750,8 +758,11 @@ grib_handle*  GribDecoder::open(grib_handle* grib, bool sendmsg)
     if (!file)
     {
         MagLog::error() << "file can not be opened [" << file_name_ << "]" << std::endl;
+        ostringstream error;
+        error <<  "file can not be opened [" << file_name_ << "]" << std::endl;
         MagLog::broadcast();
         valid_ = false;
+        throw MagicsException(error.str());
         return 0;
     }
 
@@ -760,9 +771,12 @@ grib_handle*  GribDecoder::open(grib_handle* grib, bool sendmsg)
     if ( !handle_ )
     {
         if (sendmsg) {
+            ostringstream error;
+            error << "can not access position [" << grib_field_position_<<" in " << file_name_ << "]" << std::endl;
             MagLog::error() << "can not access position [" << grib_field_position_<<" in " << file_name_ << "]" << std::endl;
             MagLog::broadcast();
             valid_ = false;
+            throw MagicsException(error.str());
             return 0;
         }
     }
@@ -1494,6 +1508,13 @@ const LevelDescription& GribDecoder::level()
     return dataLevel_;
 }
 
+void GribDecoder::ask(MetaDataCollector& meta)
+{
+    for ( auto m = meta.begin(); m != meta.end(); ++m) {
+        m->second = getString(m->first, false);
+        //cout << m->first << " = " << m->second << endl;
+    }
+}
 
 void GribDecoder::visit(MetaDataVisitor& meta)
 {
@@ -1662,7 +1683,7 @@ void GribDecoder::visit(MetaDataCollector& step)
             if(information_.find(key->first) != information_.end())
             {
                 key->second=information_[key->first];
-                cout << "GRIB " << key->first << " = " << key->second << endl;
+                //cout << "GRIB " << key->first << " = " << key->second << endl;
             }
         }
 
@@ -1740,7 +1761,7 @@ MatrixHandler& GribDecoder::direction() {
 }
 void GribDecoder::decode(const Transformation& transformation)
 {
-    if (matrix_) return;
+    if (matrix_ || ! valid_ ) return;
 
     field_ = open(field_);
 

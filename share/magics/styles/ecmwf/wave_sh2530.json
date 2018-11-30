@@ -1,0 +1,21 @@
+[
+  {
+    "eccharts_layer": "wave_sh2530",
+    "styles": [
+      "sh_wave_f002t1_blue",
+      "sh_wave_f002t1_red",
+      "sh_wave_f002t1_purple",
+      "ct_t2_f002t1_black",
+      "ct_t2_f002t1_blue"
+    ],
+    "match": [
+      {
+        "paramId": "140119",
+        "shortName": "h2530"
+      },
+      {
+        "long_name": "Significant wave height of all waves with periods within the inclusive range from 25 to 30 seconds"
+      }
+    ]
+  }
+]

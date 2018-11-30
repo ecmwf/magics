@@ -1,0 +1,17 @@
+[
+  {
+    "eccharts_layer": "cds_cdir_es",
+    "styles": [
+      "sh_orange_f0t500k_i10k"
+    ],
+    "match": [
+      {
+        "paramId": "228022",
+        "shortName": "cdir",
+        "type": [
+          "es"
+        ]
+      }
+    ]
+  }
+]

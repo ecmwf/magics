@@ -1,0 +1,26 @@
+[
+  {
+    "eccharts_layer": "850ws_mean",
+    "styles": [
+      "ct_blk_i5_t2",
+      "ct_blk_i5_t1",
+      "ct_blue_i5_t2"
+    ],
+    "match": [
+      {
+        "levelist": [
+          "850"
+        ],
+        "paramId": "10",
+        "shortName": "ws",
+        "type": "em"
+      },
+      {
+        "level": [
+          "850"
+        ],
+        "long_name": "Wind speed"
+      }
+    ]
+  }
+]

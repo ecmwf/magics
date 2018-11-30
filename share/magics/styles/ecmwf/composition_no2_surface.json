@@ -1,0 +1,24 @@
+[
+  {
+    "eccharts_layer": "composition_no2_surface",
+    "styles": [
+      "sh_all_no2_surface"
+    ],
+    "match": [
+      {
+        "levelist": [
+          "60"
+        ],
+        "levtype": "ml",
+        "paramId": "210121",
+        "shortName": "no2"
+      },
+      {
+        "level": [
+          "60"
+        ],
+        "long_name": "Nitrogen dioxide"
+      }
+    ]
+  }
+]

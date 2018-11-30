@@ -1,0 +1,19 @@
+[
+  {
+    "prefered_units": "g/kg",
+    "match": [
+      {
+        "paramId": "203"
+      },
+      {
+        "paramId": "233"
+      },
+      {
+        "paramId": "246"
+      },
+      {
+        "paramId": "247"
+      }
+    ]
+  }
+]

@@ -1,0 +1,30 @@
+[
+  {
+    "eccharts_layer": "cds_wave_acwh",
+    "styles": [
+      "sh_all_f0t20lst_grid",
+      "sh_blu_f0t20_douglas",
+      "sh_blu_f0t20lst",
+      "sh_blu_f0t20lst_light",
+      "sh_blu_f0t20lst_warn",
+      "sh_douglas_sea_scale",
+      "ct_vio_i1_t1"
+    ],
+    "match": [
+      {
+        "paramId": "140246",
+        "shortName": "awh"
+      },
+      {
+        "paramId": "140247",
+        "shortName": "acwh"
+      },
+      {
+        "long_name": [
+          "Altimeter wave height",
+          "Altimeter corrected wave height"
+        ]
+      }
+    ]
+  }
+]

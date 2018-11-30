@@ -1,0 +1,27 @@
+[
+  {
+    "eccharts_layer": "500ws",
+    "styles": [
+      "sh_grn_f10t100lst",
+      "sh_all_f30t100i10",
+      "sh_grn_f30t100i10",
+      "ct_grn_f30_i10",
+      "ct_ylw_f30_i10"
+    ],
+    "match": [
+      {
+        "levelist": [
+          "500"
+        ],
+        "paramId": "10",
+        "shortName": "ws"
+      },
+      {
+        "level": [
+          "500"
+        ],
+        "long_name": "Wind speed"
+      }
+    ]
+  }
+]

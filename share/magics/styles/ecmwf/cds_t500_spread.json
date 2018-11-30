@@ -1,0 +1,21 @@
+[
+  {
+    "eccharts_layer": "t500",
+    "styles": [
+      "sh_magenta_f1t20"
+    ],
+    "match": [
+      {
+        "levelist": [
+          "500",
+          "450",
+          "550"
+        ],
+        "paramId": "130",
+        "shortName": "t",
+        "levtype": "pl",
+        "type": "es"
+      }
+    ]
+  }
+]

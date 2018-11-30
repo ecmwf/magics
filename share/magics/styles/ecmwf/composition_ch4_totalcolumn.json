@@ -1,0 +1,18 @@
+[
+  {
+    "eccharts_layer": "composition_ch4_totalcolumn",
+    "styles": [
+      "sh_nipy_spectral_ch4_totalcolumn",
+      "sh_RdGy_r_ch4_totalcolumn"
+    ],
+    "match": [
+      {
+        "paramId": "210065",
+        "shortName": "tcch4"
+      },
+      {
+        "long_name": "CH4 column-mean molar fraction"
+      }
+    ]
+  }
+]

@@ -1,0 +1,20 @@
+[
+  {
+    "eccharts_layer": "efi_tp_field",
+    "styles": [
+      "sh_red_f05t1i01",
+      "mrk_efi_tp_f06t1",
+      "sh_efi_f05t1_nc"
+    ],
+    "match": [
+      {
+        "paramId": "132228",
+        "shortName": "tpi",
+        "type": "efi"
+      },
+      {
+        "long_name": "Total precipitation index"
+      }
+    ]
+  }
+]

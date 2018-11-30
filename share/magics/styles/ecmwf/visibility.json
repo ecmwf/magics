@@ -1,0 +1,23 @@
+[
+  {
+    "eccharts_layer": "visibility",
+    "styles": [
+      "sh_navy_f0t13500",
+      "sh_vis_f0t1500",
+      "sh_vis_f0t100000",
+      "sh_red_f0t90000",
+      "sh_grey_f0t90000",
+      "ct_navy_f0t13500",
+      "ct_vis_blk_f0t10000"
+    ],
+    "match": [
+      {
+        "paramId": "3020",
+        "shortName": "vis"
+      },
+      {
+        "long_name": "Visibility"
+      }
+    ]
+  }
+]

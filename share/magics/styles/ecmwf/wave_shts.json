@@ -1,0 +1,22 @@
+[
+  {
+    "eccharts_layer": "wave_shts",
+    "styles": [
+      "sh_all_f0t20lst",
+      "sh_blu_f0t20lst",
+      "sh_blu_f0t20lst_light",
+      "sh_blu_f0t20lst_warn",
+      "sh_douglas_sea_scale",
+      "ct_vio_i1_t1"
+    ],
+    "match": [
+      {
+        "paramId": "140237",
+        "shortName": "shts"
+      },
+      {
+        "long_name": "Significant height of total swell"
+      }
+    ]
+  }
+]

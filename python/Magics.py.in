@@ -169,29 +169,36 @@ def return_type(fn, ctype):
 
 ####################################################################
 
-@checked_return_code
-def init():
-    return dll.py_open()
+init = dll.mag_open
+init.restype = None
+init.argtypes = None
 
 ####################################################################
 
 
 @checked_return_code
 def finalize():
-    return dll.py_close()
+    return dll.mag_close()
 
 ####################################################################
 
-@checked_return_code
-def coast():
-    return dll.py_coast()
-
+coast = dll.mag_coast
+coast.restype = None
+coast.argtypes = None
 
 ####################################################################
-@checked_return_code
-def grib():
-    return dll.py_grib()
 
+grib = dll.mag_grib
+grib.restype = None
+grib.argtypes = None
+
+version = dll.version
+version.restype = ctypes.c_char_p
+version.argtypes = None
+
+home = dll.home
+home.restype = ctypes.c_char_p
+home.argtypes = None
 
 metagrib = dll.py_metagrib
 metagrib.restype = ctypes.c_char_p
@@ -202,264 +209,243 @@ metanetcdf = dll.py_metanetcdf
 metanetcdf.restype = ctypes.c_char_p
 metanetcdf.argtypes = None
 
+metainput = dll.py_metainput
+metainput.restype = ctypes.c_char_p
+metainput.argtypes = None
 
 ####################################################################
 
-@checked_return_code
-def cont():
-    return dll.py_cont()
+cont = dll.mag_cont
+cont.restype = None
+cont.argtypes = None
 
 ####################################################################
 
-@checked_return_code
-def legend():
-    return dll.py_legend()
-
-
-####################################################################
-
-@checked_return_code
-def odb():
-    return dll.py_odb()
-
+legend = dll.mag_legend
+legend.restype = None
+legend.argtypes = None
 
 ####################################################################
 
-@checked_return_code
-def obs():
-    return dll.py_obs()
-
-
-####################################################################
-
-@checked_return_code
-def raw():
-    return dll.py_raw()
-
+odb = dll.mag_odb
+odb.restype = None
+odb.argtypes = None
 
 ####################################################################
 
-@checked_return_code
-def netcdf():
-    return dll.py_netcdf()
+obs = dll.mag_obs
+obs.restype = None
+obs.argtypes = None
 
 ####################################################################
 
-@checked_return_code
-def image():
-    return dll.py_image()
-
-
-####################################################################
-
-@checked_return_code
-def plot():
-    return dll.py_plot()
+raw = dll.mag_raw
+raw.restype = None
+raw.argtypes = None
 
 ####################################################################
 
-@checked_return_code
-def text():
-    return dll.py_text()
-
-
-####################################################################
-
-@checked_return_code
-def wind():
-    return dll.py_wind()
-
+netcdf = dll.mag_netcdf
+netcdf.restype = None
+netcdf.argtypes = None
 
 ####################################################################
 
-@checked_return_code
-def line():
-    return dll.py_line()
-
-
-####################################################################
-
-@checked_return_code
-def symb():
-    return dll.py_symb()
-
+image = dll.mag_image
+image.restype = None
+image.argtypes = None
 
 ####################################################################
 
-@checked_return_code
-def boxplot():
-    return dll.py_boxplot()
-
-
-####################################################################
-
-@checked_return_code
-def taylor():
-    return dll.py_taylor()
+plot = dll.mag_plot
+plot.restype = None
+plot.argtypes = None
 
 ####################################################################
 
-@checked_return_code
-def tephi():
-    return dll.py_tephi()
+text = dll.mag_text
+text.restype = None
+text.argtypes = None
 
 ####################################################################
 
-@checked_return_code
-def graph():
-    return dll.py_graph()
-
-
-####################################################################
-
-@checked_return_code
-def axis():
-    return dll.py_axis()
+wind = dll.mag_wind
+wind.restype = None
+wind.argtypes = None
 
 ####################################################################
 
-@checked_return_code
-def geo():
-    return dll.py_geo()
-
-
-####################################################################
-
-@checked_return_code
-def mimport():
-    return dll.py_import()
-
+line = dll.mag_line
+line.restype = None
+line.argtypes = None
 
 ####################################################################
 
-@checked_return_code
-def info():
-    return dll.py_info()
-
-
-####################################################################
-
-@checked_return_code
-def minput():
-    return dll.py_input()
-
+symb = dll.mag_symb
+symb.restype = None
+symb.argtypes = None
 
 ####################################################################
 
-@checked_return_code
-def eps():
-    return dll.py_eps()
+boxplot = dll.mag_boxplot
+boxplot.restype = None
+boxplot.argtypes = None
 
+####################################################################
+
+taylor = dll.mag_taylor
+taylor.restype = None
+taylor.argtypes = None
+
+####################################################################
+
+tephi = dll.mag_tephi
+tephi.restype = None
+tephi.argtypes = None
+
+####################################################################
+
+graph = dll.mag_graph
+graph.restype = None
+graph.argtypes = None
+
+####################################################################
+
+axis = dll.mag_axis
+axis.restype = None
+axis.argtypes = None
+
+####################################################################
+
+geo = dll.mag_geo
+geo.restype = None
+geo.argtypes = None
+
+####################################################################
+
+mimport = dll.mag_import
+mimport.restype = None
+mimport.argtypes = None
+
+####################################################################
+
+info = dll.mag_info
+info.restype = None
+info.argtypes = None
+
+####################################################################
+
+minput = dll.mag_input
+minput.restype = None
+minput.argtypes = None
+
+####################################################################
+
+eps = dll.mag_eps
+eps.restype = None
+eps.argtypes = None
 
 ####################################################################
 ###
 ###  Please note: these two functions changed compared to the previous SWIG based Python interface
 ###
-@checked_return_code
-def metgraph():
-    return dll.py_metgraph()
+metgraph = dll.mag_metgraph
+metgraph.restype = None
+metgraph.argtypes = None
 
-
-@checked_return_code
-def epsinput():
-    return  dll.py_epsinput()
+epsinput = dll.mag_epsinput
+epsinput.restype = None
+epsinput.argtypes = None
 
 ####################################################################
 ###
 ###  Please note: this function was called mmetbufr to the previous SWIG based Python interface
 ###
-@checked_return_code
-def metbufr():
-    return dll.py_metbufr()
+metbufr = dll.mag_metbufr
+metbufr.restype = None
+metbufr.argtypes = None
 
 ####################################################################
 
-@checked_return_code
-def epsgraph():
-    return dll.py_epsgraph()
-
-
-####################################################################
-
-@checked_return_code
-def epscloud():
-    return dll.py_epscloud()
+epsgraph = dll.mag_epsgraph
+epsgraph.restype = None
+epsgraph.argtypes = None
 
 ####################################################################
 
-@checked_return_code
-def epslight():
-    return dll.py_epslight()
-
-
-####################################################################
-
-@checked_return_code
-def epsplumes():
-    return dll.py_epsplumes()
-
+epscloud = dll.mag_epscloud
+epscloud.restype = None
+epscloud.argtypes = None
 
 ####################################################################
 
-@checked_return_code
-def epswind():
-    return dll.py_epswind()
-
-
-####################################################################
-
-@checked_return_code
-def epswave():
-    return dll.py_epswave()
+epslight = dll.mag_epslight
+epslight.restype = None
+epslight.argtypes = None
 
 ####################################################################
 
-@checked_return_code
-def epsbar():
-    return dll.py_epsbar()
+epsplumes = dll.mag_epsplumes
+epsplumes.restype = None
+epsplumes.argtypes = None
 
 ####################################################################
 
-@checked_return_code
-def epsshading():
-    return dll.py_epsshading()
-
-
-####################################################################
-
-@checked_return_code
-def wrepjson():
-    return dll.py_wrepjson()
+epswind = dll.mag_epswind
+epswind.restype = None
+epswind.argtypes = None
 
 ####################################################################
 
-@checked_return_code
-def geojson():
-    return dll.py_geojson()
+epswave = dll.mag_epswave
+epswave.restype = None
+epswave.argtypes = None
 
 ####################################################################
 
-@checked_return_code
-def mapgen():
-    return dll.py_mapgen()
-
-
-####################################################################
-
-@checked_return_code
-def mtable():
-    return  dll.py_table()
+epsbar = dll.mag_epsbar
+epsbar.restype = None
+epsbar.argtypes = None
 
 ####################################################################
 
-@checked_return_code
-def seti(name, value):
-    name = string_to_char(name)
-    return dll.py_seti(name, value)
-
+epsshading = dll.mag_epsshading
+epsshading.restype = None
+epsshading.argtypes = None
 
 ####################################################################
-@checked_return_code
+
+wrepjson = dll.mag_wrepjson
+wrepjson.restype = None
+wrepjson.argtypes = None
+
+####################################################################
+
+geojson = dll.mag_geojson
+geojson.restype = None
+geojson.argtypes = None
+
+####################################################################
+
+mapgen = dll.mag_mapgen
+mapgen.restype = None
+mapgen.argtypes = None
+
+####################################################################
+
+mtable = dll.mag_table
+mtable.restype = None
+mtable.argtypes = None
+
+####################################################################
+
+seti = dll.mag_seti
+seti.restype = None
+seti.argtypes = (c_char_p, c_int)
+seti = convert_strings(seti)
+
+####################################################################
+
 def set1i(name,data):
 #    array = np.empty((size,), dtype=np.float64)
 #    array_p = array.ctypes.data_as(c_double_p)
@@ -467,86 +453,85 @@ def set1i(name,data):
     size = len(data)
     name = string_to_char(name)
     array_p = (ctypes.c_int * size)(*data)
-    return dll.py_set1i(ctypes.c_char_p(name), array_p, size)
+    dll.mag_set1i(ctypes.c_char_p(name), array_p, size)
     return None
 
 ####################################################################
 
 array_2d_int = ndpointer(dtype=np.int,ndim=2, flags='CONTIGUOUS')
-set2i = dll.py_set2i
+set2i = dll.mag_set2i
 set2i.restype = None
 set2i.argtypes = (c_char_p, array_2d_int, c_int, c_int)
 set2i = convert_strings(set2i)
 
 ####################################################################
 
-setr = dll.py_setr
+setr = dll.mag_setr
 setr.restype = None
 setr.argtypes = (c_char_p, c_double)
 setr = convert_strings(setr)
 
 ####################################################################
-@checked_return_code
+
 def set1r(name,data):
     size = len(data)
     name = string_to_char(name)
     array_p = (ctypes.c_double * size)(*data)
-    return dll.py_set1r(ctypes.c_char_p(name), array_p, size)
-    
+    dll.mag_set1r(ctypes.c_char_p(name), array_p, size)
+    return None
 
 ####################################################################
 
 array_2d_double = ndpointer(dtype=np.double,ndim=2, flags='CONTIGUOUS')
-set2r = dll.py_set2r
+set2r = dll.mag_set2r
 set2r.restype = None
 set2r.argtypes = (c_char_p, array_2d_double, c_int, c_int)
 set2r = convert_strings(set2r)
 
 ####################################################################
 
-setc = dll.py_setc
+setc = dll.mag_setc
 setc.restype = None
 setc.argtypes = (c_char_p, c_char_p)
 setc = convert_strings(setc)
 
 ####################################################################
-@checked_return_code
 def set1c(name,data):
     new_data=[]
     for s in data:
        new_data.append(string_to_char(s))
     name = string_to_char(name)
     data_p = (c_char_p * (len(new_data)))(*new_data)
-    return dll.py_set1c(ctypes.c_char_p(name), data_p, len(new_data))
+    dll.mag_set1c(ctypes.c_char_p(name), data_p, len(new_data))
 
 ####################################################################
 
-#enqi = dll.py_enqi
+#enqi = dll.mag_enqi
 #enqi.restype  = c_int
 #enqi.argtypes = (c_char_p,)
 
 ####################################################################
 
-#enqr = dll.py_enqr
+#enqr = dll.mag_enqr
 #enqr.restype = c_double
 #enqr.argtypes = (c_char_p,)
 
 ####################################################################
 
-#enqc = dll.py_enqc
+#enqc = dll.mag_enqc
 #enqc.restype = c_char_p
 #enqc.argtypes = (c_char_p,)
 
 ####################################################################
 
-new_page = dll.py_new
+new_page = dll.mag_new
 new_page.restype = None
 new_page.argtypes = (c_char_p,)
 new_page = convert_strings(new_page)
 
 ####################################################################
 
-reset = dll.py_reset
+reset = dll.mag_reset
 reset.restype = None
 reset.argtypes = (c_char_p,)
 reset = convert_strings(reset)

@@ -1,0 +1,33 @@
+[
+  {
+    "eccharts_layer": "mofc_z500_weekly_mean",
+    "prefered_units": "dam",
+    "styles": [
+      "ct_blk_i6_t2",
+      "ct_blk_i5_t2",
+      "ct_blue_i5_t2",
+      "ct_red_i5_t2",
+      "ct_green_i5_t2",
+      "ct_blk_i5_t1",
+      "ct_brn_i4_t2",
+      "ct_blk_i2_t4",
+      "ct_green_i2_t4"
+    ],
+    "match": [
+      {
+        "levelist": [
+          "500"
+        ],
+        "paramId": "129",
+        "shortName": "z"
+      },
+      {
+        "level": [
+          "500"
+        ],
+        "long_name": "Geopotential",
+        "standard_name": "geopotential"
+      }
+    ]
+  }
+]

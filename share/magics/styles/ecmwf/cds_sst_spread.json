@@ -1,0 +1,15 @@
+[
+  {
+    "eccharts_layer": "cds_sst_spread",
+    "styles": [
+      "sh_blue_f0t5_i1"
+    ],
+    "match": [
+      {
+        "paramId": "34",
+        "shortName": "sst",
+        "type": "es"
+      }
+    ]
+  }
+]

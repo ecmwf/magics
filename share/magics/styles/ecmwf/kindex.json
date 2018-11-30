@@ -1,0 +1,19 @@
+[
+  {
+    "eccharts_layer": "kindex",
+    "styles": [
+      "sh_red_f15t60",
+      "sh_green_f15t60",
+      "ct_blk_f10_i10_t2"
+    ],
+    "match": [
+      {
+        "paramId": "260121",
+        "shortName": "kx"
+      },
+      {
+        "long_name": "K index"
+      }
+    ]
+  }
+]

@@ -1,0 +1,12 @@
+[
+  {
+    "eccharts_layer": "cds_rsds",
+    "styles": [],
+    "match": [
+      {
+        "long_name": "Surface Downwelling Shortwave Radiation",
+        "standard_name": "surface_downwelling_shortwave_flux_in_air"
+      }
+    ]
+  }
+]

@@ -1,0 +1,18 @@
+[
+  {
+    "eccharts_layer": "composition_pm10",
+    "styles": [
+      "sh_all_pm10_defra_daqi",
+      "sh_all_pmx_ncl_precip_11lev"
+    ],
+    "match": [
+      {
+        "paramId": "210074",
+        "shortName": "pm10"
+      },
+      {
+        "long_name": "Particulate matter d < 10 um"
+      }
+    ]
+  }
+]

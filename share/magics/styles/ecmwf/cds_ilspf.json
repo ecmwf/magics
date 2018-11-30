@@ -1,0 +1,17 @@
+[
+  {
+    "eccharts_layer": "cds_ilspf",
+    "styles": [
+      "sh_blu_f01t1"
+    ],
+    "match": [
+      {
+        "paramId": "228217",
+        "shortName": "ilspf"
+      },
+      {
+        "long_name": "Instantaneous large-scale surface precipitation fraction"
+      }
+    ]
+  }
+]

@@ -1,0 +1,27 @@
+[
+  {
+    "eccharts_layer": "cds_istl12",
+    "prefered_units": "C",
+    "styles": [
+      "sh_blu_fM36tM16"
+    ],
+    "match": [
+      {
+        "paramId": [
+          "35",
+          "36"
+        ],
+        "shortName": [
+          "istl1",
+          "istl2"
+        ]
+      },
+      {
+        "long_name": [
+          "Ice temperature layer 1",
+          "Ice temperature layer 2"
+        ]
+      }
+    ]
+  }
+]

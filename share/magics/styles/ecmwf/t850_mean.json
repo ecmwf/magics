@@ -1,0 +1,36 @@
+[
+  {
+    "eccharts_layer": [
+      "t850_mean",
+      "t500_mean"
+    ],
+    "prefered_units": "C",
+    "styles": [
+      "ct_blk_i5_t2",
+      "ct_blk_i5_t1",
+      "ct_blue_i5_t2",
+      "ct_brn_i4_t2",
+      "ct_red_i4_t3",
+      "transparent_zero_blue"
+    ],
+    "match": [
+      {
+        "levelist": [
+          "850",
+          "500"
+        ],
+        "paramId": "130",
+        "shortName": "t",
+        "type": "em"
+      },
+      {
+        "level": [
+          "850",
+          "500"
+        ],
+        "long_name": "Temperature",
+        "standard_name": "air_temperature"
+      }
+    ]
+  }
+]

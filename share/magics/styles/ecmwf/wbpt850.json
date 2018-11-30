@@ -1,0 +1,28 @@
+[
+  {
+    "eccharts_layer": "wbpt850",
+    "styles": [
+      "sh_all_fM52t48i4",
+      "sh_all_fM64t52i4",
+      "ct_red_i2_dash",
+      "ct_black_i2_solid",
+      "ct_black_i4_solid",
+      "sh_all_fM52t48i4_light",
+      "ct_multicolour_fM20t40i2",
+      "sh_gry_fM72t56lst",
+      "transparent_zero_blue"
+    ],
+    "match": [
+      {
+        "levelist": [
+          "850"
+        ],
+        "paramId": "3",
+        "shortName": "pt"
+      },
+      {
+        "long_name": "Potential temperature"
+      }
+    ]
+  }
+]

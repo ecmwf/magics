@@ -1,0 +1,21 @@
+[
+  {
+    "eccharts_layer": "mc_tp",
+    "prefered_units": "mm",
+    "styles": [
+      "sh_mc_tp_f01t1000",
+      "ct_mc_tp_f01t1000_black",
+      "ct_mc_tp_f01t1000_blue"
+    ],
+    "match": [
+      {
+        "paramId": "228",
+        "shortName": "tp",
+        "type": "cd"
+      },
+      {
+        "long_name": "Total precipitation"
+      }
+    ]
+  }
+]

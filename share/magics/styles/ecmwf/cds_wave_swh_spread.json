@@ -1,0 +1,15 @@
+[
+  {
+    "eccharts_layer": "cds_wave_swh_spread",
+    "styles": [
+      "sh_blue_f0t1"
+    ],
+    "match": [
+      {
+        "paramId": "140229",
+        "shortName": "swh",
+        "type": "es"
+      }
+    ]
+  }
+]

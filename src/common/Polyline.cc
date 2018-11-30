@@ -137,23 +137,28 @@ struct LonFinder : std::unary_function<PaperPoint, bool> {
     }
 };
 
-void Polyline::southClean()
+void Polyline::southClean(bool add)
 {
-
-    auto from = std::remove_if(polygon_.begin(), polygon_.end(), SouthCleaner());
-    polygon_.erase(from, polygon_.end());
+    if ( !add ) {
+        auto from = std::remove_if(polygon_.begin(), polygon_.end(), SouthCleaner());
+        polygon_.erase(from, polygon_.end());
+    }
     // rotate ..
     auto it = std::find_if(polygon_.begin(), polygon_.end(), LonFinder());
     if (it != polygon_.end()) {
         std::rotate(polygon_.begin(), it, polygon_.end());
-        PaperPoint front = polygon_.front();
-        PaperPoint back = polygon_.back();
+        // if ( add ) {
+        //     PaperPoint front = polygon_.front();
+        //     PaperPoint back = polygon_.back();
 
-        polygon_.push_front(PaperPoint(front.x_, -100.));
-        polygon_.push_front(PaperPoint(back.x_, -100.));
-        polygon_.push_back(PaperPoint(back.x_, -100.));
-
-        return;
+        //     polygon_.push_front(PaperPoint(front.x_, -100.));
+        //     polygon_.front().flagBorder();
+        //     polygon_.push_front(PaperPoint(back.x_, -100.));
+        //     polygon_.front().flagBorder();
+        //     polygon_.push_back(PaperPoint(back.x_, -100.));
+        //     polygon_.back().flagBorder();
+        //     return;
+        // }
     }
     // Not South pole .. we try to force closing
     close();
@@ -233,7 +238,7 @@ void feed(const deque<PaperPoint>& points, const Polyline& box, vector<Polyline*
 {
 	Polyline* poly = new Polyline();
 	for ( auto p = points.begin(); p != points.end(); ++p) {
-		if ( !box.in(*p) ) {
+		if ( !box.in(*p) || p->border() ) {
 			if ( poly->size() ) {
 				out.push_back(poly);
 				poly = new Polyline();
@@ -289,66 +294,12 @@ void Polyline::push_back(Polyline& other)
 */
 void Polyline::correct()
 {
-    //assert(false);
-    //boost::geometry::correct(polygon_);
+    
 }
 bool Polyline::sanityCheck()
 {
     assert(false);
-    /*
-    // input polygon _should_ have an outer ring larger than all its inner
-    // (hole) rings. This routine enforces this rule and ensures all the
-    // orientations are correct (i.e. outer ring clockwise, inners all
-    // anti-clockwise).
-    //
-    // output flag true if input polygon modified.
-	boost::geometry::correct(polygon_);
-    bool io_rbModified = false;
-    if (polygon_.empty())
-        return io_rbModified;
-
-    // we construct a "largest" polygon by iterating through the input.
-    // the largest ring we find will be assigned to its outer,
-    // the remaining rings will all be assigned to its inner holes.
-
-    BoostPoly largest = polygon_;
-    largest.inners().resize(0);
-
-    for (int i = 0; i < holes_.size(); i++)
-    {
-        // Note that anticlockwise "inner" polygons that are mistakenly in the "outer"
-        // position will return negativve areas. By taking the highest area we
-        // guard against inner polygons as outer rings and guard against any
-        // erroneous clockwise inner polygons that we might encounter.
-        if (boost::geometry::area(holes_[i]) > boost::geometry::area(largest.outer()))
-        {
-            // we have an inner ring larger than the current outer ring.
-
-            // move the outer ring to the set of inner rings
-            largest.inners().push_back(largest.outer());
-            // assign the larger ring as a new outer ring
-            boost::geometry::assign(largest, holes_[i]);
-
-            io_rbModified = true;
-        }
-        else
-        {
-            // simple copy of the inner ring
-            largest.inners().push_back(holes_[i]);
-        }
-
-    }
-
-    // if any swapping has taken place, correct and assign the output polygon
-    if (io_rbModified)
-    {
-        // set the orientations using the boost method
-        boost::geometry::correct(largest);
-        polygon_ = largest;
-    }
-
-    return io_rbModified;
-    */
+    
 }
 
 double PaperPoint::distance(const PaperPoint& other) const

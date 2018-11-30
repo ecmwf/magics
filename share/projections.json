@@ -10,7 +10,7 @@
         "subpage_upper_right_longitude": 168, 
         "subpage_upper_right_latitude": 31, 
         "subpage_lower_left_longitude": 50, 
-        "subpage_vertical_longitude": 80, 
+        "subpage_map_vertical_longitude": 80, 
         "subpage_map_projection": "polar_stereographic", 
         "subpage_lower_left_latitude": 17
     }, 
@@ -61,7 +61,7 @@
         "subpage_upper_right_latitude": -42.0, 
         "subpage_lower_left_longitude": -135.0, 
         "subpage_map_hemisphere": "south", 
-        "subpage_vertical_longitude": 180, 
+        "subpage_map_vertical_longitude": 180, 
         "subpage_map_projection": "polar_stereographic", 
         "subpage_lower_left_latitude": -42.0
     }, 
@@ -76,7 +76,7 @@
         "subpage_upper_right_longitude": 140, 
         "subpage_upper_right_latitude": 30, 
         "subpage_lower_left_longitude": 61, 
-        "subpage_vertical_longitude": 80, 
+        "subpage_map_vertical_longitude": 80, 
         "subpage_map_projection": "polar_stereographic", 
         "subpage_lower_left_latitude": 1.0
     }, 
@@ -140,7 +140,7 @@
         "subpage_upper_right_longitude": 178.2, 
         "subpage_upper_right_latitude": 60.2, 
         "subpage_lower_left_longitude": 92.8, 
-        "subpage_vertical_longitude": 118.6, 
+        "subpage_map_vertical_longitude": 118.6, 
         "subpage_map_projection": "polar_stereographic", 
         "subpage_lower_left_latitude": 15.8
     }, 
@@ -191,7 +191,7 @@
         "subpage_upper_right_longitude": 40.0, 
         "subpage_upper_right_latitude": 62.0, 
         "subpage_lower_left_longitude": -50.0, 
-        "subpage_vertical_longitude": -20, 
+        "subpage_map_vertical_longitude": -20, 
         "subpage_map_projection": "polar_stereographic", 
         "subpage_lower_left_latitude": 23.0
     }, 
@@ -199,7 +199,7 @@
         "subpage_upper_right_longitude": 133.29, 
         "subpage_upper_right_latitude": 54.56, 
         "subpage_lower_left_longitude": 49.51, 
-        "subpage_vertical_longitude": 69.42, 
+        "subpage_map_vertical_longitude": 69.42, 
         "subpage_map_projection": "polar_stereographic", 
         "subpage_lower_left_latitude": 18.85
     }, 
@@ -207,7 +207,7 @@
         "subpage_upper_right_longitude": -41.6, 
         "subpage_upper_right_latitude": 42.0, 
         "subpage_lower_left_longitude": -118.1, 
-        "subpage_vertical_longitude": -100, 
+        "subpage_map_vertical_longitude": -100, 
         "subpage_map_projection": "polar_stereographic", 
         "subpage_lower_left_latitude": 20.0
     }

@@ -1,0 +1,72 @@
+[
+  {
+    "eccharts_layer": [
+      "1000divergence",
+      "925divergence",
+      "700divergence",
+      "500divergence",
+      "300divergence"
+    ],
+    "prefered_units": "10**5/sec",
+    "styles": [
+      "sh_blured_fM50t50lst_cell",
+      "sh_blured_fM50t50lst",
+      "sh_blured_fM50t50lst_less",
+      "sh_blu_fM50tM1lst",
+      "sh_red_f1t50lst",
+      "sh_viobrn_fM50t50lst_less",
+      "ct_blured_fM5t50"
+    ],
+    "match": [
+      {
+        "levelist": [
+          "1000",
+          "975",
+          "950",
+          "925",
+          "900",
+          "875",
+          "850",
+          "825",
+          "800",
+          "775",
+          "750",
+          "725",
+          "700",
+          "650",
+          "600",
+          "550",
+          "500",
+          "450",
+          "400",
+          "350",
+          "300",
+          "250",
+          "225",
+          "200",
+          "175",
+          "150",
+          "125",
+          "100",
+          "70",
+          "1",
+          "2",
+          "3",
+          "5",
+          "7",
+          "10",
+          "20",
+          "30",
+          "50"
+        ],
+        "paramId": "155",
+        "shortName": "d",
+        "levtype": "pl"
+      },
+      {
+        "long_name": "Divergence",
+        "standard_name": "divergence_of_wind"
+      }
+    ]
+  }
+]

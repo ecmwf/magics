@@ -1,0 +1,17 @@
+[
+  {
+    "eccharts_layer": "composition_uvindex",
+    "styles": [
+      "sh_all_uvindex"
+    ],
+    "match": [
+      {
+        "paramId": "214002",
+        "shortName": "uvbed"
+      },
+      {
+        "long_name": " UV biologically effective dose"
+      }
+    ]
+  }
+]

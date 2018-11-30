@@ -1,0 +1,20 @@
+[
+  {
+    "eccharts_layer": "mc_swh",
+    "styles": [
+      "sh_mc_swh_f0t20",
+      "ct_mc_swh_f0t20_black",
+      "ct_mc_swh_f0t20_blue"
+    ],
+    "match": [
+      {
+        "paramId": "140200",
+        "shortName": "maxswh",
+        "type": "cd"
+      },
+      {
+        "long_name": "Maximum of significant wave height"
+      }
+    ]
+  }
+]

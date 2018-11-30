@@ -1,0 +1,21 @@
+[
+  {
+    "eccharts_layer": "mofc_t_pdist",
+    "styles": [
+      "sh_mf_pdist",
+      "sh_mf_pdist_2",
+      "sh_mf_2t_tercile",
+      "sh_mf_pdist_quintile",
+      "sh_mf_pdist_decile"
+    ],
+    "match": [
+      {
+        "paramId": "131139",
+        "shortName": "stl1p"
+      },
+      {
+        "long_name": "Soil temperature level 1 probability"
+      }
+    ]
+  }
+]

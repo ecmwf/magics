@@ -1,0 +1,23 @@
+[
+  {
+    "eccharts_layer": "mcc",
+    "styles": [
+      "transparency_lightgrey",
+      "sh_lgtgry_f0t1lst",
+      "sh_grngry_f0t1lst",
+      "tran_lgtgry_f03t1lst"
+    ],
+    "match": [
+      {
+        "paramId": "187",
+        "shortName": "mcc"
+      },
+      {
+        "long_name": "Medium cloud cover"
+      },
+      {
+        "standard_name": "medium_type_cloud_area_fraction"
+      }
+    ]
+  }
+]

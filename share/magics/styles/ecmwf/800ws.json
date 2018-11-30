@@ -1,0 +1,34 @@
+[
+  {
+    "eccharts_layer": [
+      "800ws",
+      "700ws",
+      "600ws"
+    ],
+    "styles": [
+      "sh_red_f5t70lst",
+      "sh_all_f5t70lst",
+      "sh_grn_f10t100lst",
+      "ct_red_i5"
+    ],
+    "match": [
+      {
+        "levelist": [
+          "800",
+          "700",
+          "600"
+        ],
+        "paramId": "10",
+        "shortName": "ws"
+      },
+      {
+        "level": [
+          "800",
+          "700",
+          "600"
+        ],
+        "long_name": "Wind speed"
+      }
+    ]
+  }
+]

@@ -1,0 +1,24 @@
+[
+  {
+    "eccharts_layer": "composition_co_500hpa",
+    "styles": [
+      "sh_all_co_500hpa",
+      "sh_viridis_co_500hpa"
+    ],
+    "match": [
+      {
+        "levelist": [
+          "500"
+        ],
+        "paramId": "210123",
+        "shortName": "co"
+      },
+      {
+        "level": [
+          "500"
+        ],
+        "long_name": "Carbon monoxide"
+      }
+    ]
+  }
+]

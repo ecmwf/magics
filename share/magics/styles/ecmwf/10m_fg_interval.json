@@ -1,0 +1,34 @@
+[
+  {
+    "eccharts_layer": "10m_fg_interval",
+    "styles": [
+      "sh_red_f10t70lst",
+      "sh_all_f2t50i2",
+      "sh_grn_f10t100lst",
+      "sh_all_f03t70_beauf",
+      "ct_red_i5"
+    ],
+    "match": [
+      {
+        "paramId": "49",
+        "shortName": "10fg"
+      },
+      {
+        "long_name": "10 metre wind gust since previous post-processing"
+      },
+      {
+        "paramId": [
+          "228029"
+        ],
+        "shortName": [
+          "i10fg"
+        ]
+      },
+      {
+        "long_name": [
+          "Instantaneous 10 metre wind gust"
+        ]
+      }
+    ]
+  }
+]

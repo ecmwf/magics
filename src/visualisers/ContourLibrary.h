@@ -47,8 +47,8 @@ public:
 	
 
 	// se the map to set the contour!
-	virtual void getStyle(MetaDataCollector&, map<string, string>&, StyleEntry&);
-	virtual void getStyle(const string&, map<string, string>&) {}
+	virtual void getStyle(MetaDataCollector&, MagDef&, StyleEntry&);
+	virtual void getStyle(const string&, MagDef&) {}
 	virtual void getScaling(MetaDataCollector&, double& scaling, double& offset)
 	{
 		scaling = 1;
@@ -154,7 +154,7 @@ public:
 	void setCriteria(MetaDataCollector&, const string&);
 
 	// set the map to set the contour!
-	void getStyle(MetaDataCollector&, map<string, string>&, StyleEntry&);
+	void getStyle(MetaDataCollector&, MagDef&, StyleEntry&);
 
 
 
@@ -182,13 +182,13 @@ public:
 	void setCriteria(MetaDataCollector&, const string&);
 
 	// set the map to set the contour!
-	void getStyle(MetaDataCollector&, map<string, string>&, StyleEntry&);
-	void getStyle(const string&, map<string, string>&);
+	void getStyle(MetaDataCollector&, MagDef&, StyleEntry&);
+	void getStyle(const string&, MagDef&);
 
 	void getScaling(MetaDataCollector&, double&, double&);
 	
 
-	StyleLibrary styles_;
+	static StyleLibrary* styles_;
 
 
 protected:

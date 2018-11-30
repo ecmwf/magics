@@ -1,0 +1,37 @@
+[
+  {
+    "eccharts_layer": [
+      "700vorticity",
+      "500vorticity"
+    ],
+    "prefered_units": "10**5/sec",
+    "styles": [
+      "sh_blured_fM50t50lst_cell",
+      "sh_blured_fM50t50lst",
+      "sh_blured_fM50t50lst_less",
+      "sh_blu_fM50tM1lst",
+      "sh_red_f1t50lst",
+      "sh_viobrn_fM50t50lst_less",
+      "ct_blured_fM5t50",
+      "sh_blured_fM50t50lst_narrow_range"
+    ],
+    "match": [
+      {
+        "levelist": [
+          "700",
+          "500"
+        ],
+        "paramId": "138",
+        "shortName": "vo"
+      },
+      {
+        "level": [
+          "700",
+          "500"
+        ],
+        "long_name": "Vorticity (relative)",
+        "standard_name": "atmosphere_relative_vorticity"
+      }
+    ]
+  }
+]

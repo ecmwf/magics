@@ -1,0 +1,17 @@
+[
+  {
+    "eccharts_layer": "composition_o3_totalcolumn",
+    "styles": [
+      "sh_all_tco3"
+    ],
+    "match": [
+      {
+        "paramId": "210206",
+        "shortName": "gtco3"
+      },
+      {
+        "long_name": "GEMS Total column ozone"
+      }
+    ]
+  }
+]

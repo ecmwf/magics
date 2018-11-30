@@ -1,4 +1,7 @@
 {
+    "default" : {
+        "contour_legend_text" : "default contouring"
+    },
     "cape_extra1" : {
         "contour" : "off",
         "contour_description" : "CAPE extra range",

@@ -1,0 +1,35 @@
+[
+  {
+    "eccharts_layer": "t3",
+    "prefered_units": "C",
+    "styles": [
+      "sh_all_fM80t16i4",
+      "ct_red_i2_dash",
+      "sh_all_fM50t58i2",
+      "sh_gry_fM72t56lst",
+      "sh_all_fM80t56i4_v2",
+      "ct_red_i4_t3"
+    ],
+    "match": [
+      {
+        "levelist": [
+          "1",
+          "2",
+          "3"
+        ],
+        "paramId": "130",
+        "shortName": "t",
+        "levtype": "pl"
+      },
+      {
+        "level": [
+          "1",
+          "2",
+          "3"
+        ],
+        "long_name": "Temperature",
+        "standard_name": "air_temperature"
+      }
+    ]
+  }
+]

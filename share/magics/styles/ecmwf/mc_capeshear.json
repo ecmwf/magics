@@ -1,0 +1,20 @@
+[
+  {
+    "eccharts_layer": "mc_capeshear",
+    "styles": [
+      "sh_mc_capes_f10t4000",
+      "ct_mc_capes_f10t4000_black",
+      "ct_mc_capes_f10t4000_blue"
+    ],
+    "match": [
+      {
+        "paramId": "228044",
+        "shortName": "capes",
+        "type": "cd"
+      },
+      {
+        "long_name": "Convective available potential energy shear"
+      }
+    ]
+  }
+]

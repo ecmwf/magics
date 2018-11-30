@@ -1,0 +1,67 @@
+[
+  {
+    "prefered_units": "C",
+    "match": [
+      {
+        "paramId": "11",
+        "centre": "7"
+      },
+      {
+        "paramId": "128",
+        "centre": "46"
+      },
+      {
+        "paramId": "129",
+        "centre": "46"
+      },
+      {
+        "paramId": "158",
+        "centre": "46"
+      },
+      {
+        "paramId": "175",
+        "centre": "46"
+      },
+      {
+        "paramId": "187",
+        "centre": "46"
+      },
+      {
+        "paramId": "188",
+        "centre": "46"
+      },
+      {
+        "paramId": "189",
+        "centre": "46"
+      },
+      {
+        "paramId": "190",
+        "centre": "46"
+      },
+      {
+        "paramId": "191",
+        "centre": "46"
+      },
+      {
+        "paramId": "232",
+        "centre": "46"
+      },
+      {
+        "paramId": "234",
+        "centre": "46"
+      },
+      {
+        "paramId": "243",
+        "centre": "46"
+      },
+      {
+        "paramId": "251",
+        "centre": "46"
+      },
+      {
+        "paramId": "253",
+        "centre": "46"
+      }
+    ]
+  }
+]

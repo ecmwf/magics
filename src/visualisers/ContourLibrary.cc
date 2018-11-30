@@ -90,7 +90,7 @@ bool ContourLibrary::checkId(MetaDataCollector& metaId,MetaDataCollector& metaKe
 
 	
 // se the map to set the contour!
-void ContourLibrary::getStyle(MetaDataCollector& meta, map<string, string>& attributes, StyleEntry&)
+void ContourLibrary::getStyle(MetaDataCollector& meta, MagDef& attributes, StyleEntry&)
 {
 	MagLog::dev() << "ContourLibrary::set-->" << endl;
 
@@ -212,7 +212,7 @@ void EcChartLibrary::askId(MetaDataCollector& request)
 }
 
 // se the map to set the contour!
-void EcChartLibrary::getStyle(MetaDataCollector& data, map<string, string>& contour, StyleEntry&)
+void EcChartLibrary::getStyle(MetaDataCollector& data, MagDef& contour, StyleEntry&)
 {
 	
 	//find the best contour definition
@@ -290,14 +290,18 @@ void EcChartLibrary::print(ostream&) const
 
 }
 
+StyleLibrary*  WebLibrary::styles_ = 0;
 WebLibrary::WebLibrary() 
 {
-	
-	styles_.init(library_path_);
+	if ( !styles_ ) {
+
+		styles_ = new StyleLibrary(library_path_);
+	}
 }
 
 WebLibrary::~WebLibrary()
 {
+
 }
 
 
@@ -309,10 +313,10 @@ void WebLibrary::askId(MetaDataCollector& request)
 
 	criteria.insert("units");
 	criteria.insert("parameterUnits"); // for grib
-	styles_.getCriteria(criteria);
+	styles_->getCriteria(criteria);
 	for ( auto c = criteria.begin(); c != criteria.end(); ++c) {
 		setCriteria(request, *c);
-		cout << " asking for " << *c << endl;
+		//cout << " asking for " << *c << endl;
 	}
 	
 
@@ -329,32 +333,40 @@ void WebLibrary::setCriteria(MetaDataCollector& request, const string& criteria)
 }
 
 // set the map to set the contour!
-void WebLibrary::getStyle(MetaDataCollector& data, map<string, string>& contour, StyleEntry& info)
+void WebLibrary::getStyle(MetaDataCollector& data, MagDef& contour, StyleEntry& info)
 {
 
-		
-		map<string, string> style;
+		MagDef style;
 
-		if ( styles_.findStyle(data, style, info) )
+		if ( styles_->findStyle(data, style, info) ) {
 			contour = style;
+			
+		}
+
+		else  {
+			styles_->findStyle("default", contour);
+			//for (auto s = contour.begin(); s != contour.end(); ++s)
+				//cout << s->first << "--->" << s->second << endl; 
+
+		}
 	
 }
 
-void  WebLibrary::getStyle(const string& name, map<string, string>& info) {
+void  WebLibrary::getStyle(const string& name, MagDef& info) {
 	
-	styles_.findStyle(name, info);
+	styles_->findStyle(name, info);
 }
 // set the map to set the contour!
 void WebLibrary::getScaling(MetaDataCollector& data, double& scaling, double& offset)
 {
 
 		
-		map<string, string> values;
+		MagDef values;
 		StyleEntry info;
 		scaling = 1;
 		offset = 0;
 
-		cout << "SCALING" << endl;
+		//cout << "SCALING" << endl;
 		
 
 		auto unit = data.find("units");
@@ -362,15 +374,15 @@ void WebLibrary::getScaling(MetaDataCollector& data, double& scaling, double& of
 		 	unit = data.find("parameterUnits");
 		if ( unit == data.end() )
 			return;
-		cout << " Found Unit " << unit->second << endl;
-		bool found = styles_.findStyle(data, values, info);
-		if ( !found ) {
-			cout << "Can not find style" << endl;	
+		//cout << " Found Unit " << unit->second << endl;
+		bool found = styles_->findStyle(data, values, info);
+		if ( !found) {
+			//cout << "Can not find style" << endl;	
 			return;
 		}
-		cout << " TRYRING to scale " << unit->second << endl;
-		for ( auto x = values.begin(); x != values.end(); ++x)
-			cout << x->first << "--->" << x->second << endl;
+		//cout << " TRYRING to scale " << unit->second << endl;
+		//for ( auto x = values.begin(); x != values.end(); ++x)
+			//cout << x->first << "--->" << x->second << endl;
 		auto need = values.find("required_units");
 		if ( need == values.end() )
 			return; 
@@ -390,7 +402,7 @@ void WebLibrary::getScaling(MetaDataCollector& data, double& scaling, double& of
 		
 		//cout << "CLEAN " << clean << ": " << clean.size() << endl;
 		converter.find(need->second, clean, scaling, offset); 
-		cout << "Need " << need->second << " get " << unit->second << "--->APPLY " << scaling << " and " << offset << endl;
+		//cout << "Need " << need->second << " get " << unit->second << "--->APPLY " << scaling << " and " << offset << endl;
 	
 }
 

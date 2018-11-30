@@ -1,0 +1,21 @@
+[
+  {
+    "eccharts_layer": "msl_spread",
+    "prefered_units": "hPa",
+    "styles": [
+      "sh_blu_f02t50",
+      "sh_range_f02t50"
+    ],
+    "match": [
+      {
+        "paramId": "151",
+        "shortName": "msl",
+        "type": "es"
+      },
+      {
+        "long_name": "Mean sea level pressure",
+        "standard_name": "air_pressure_at_sea_level"
+      }
+    ]
+  }
+]

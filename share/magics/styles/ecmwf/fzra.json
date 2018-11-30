@@ -1,0 +1,20 @@
+[
+  {
+    "eccharts_layer": "fzra",
+    "prefered_units": "mm",
+    "styles": [
+      "sh_all_f05t100",
+      "sh_red_f001t10",
+      "ct_blk_f005t25"
+    ],
+    "match": [
+      {
+        "paramId": "228216",
+        "shortName": "fzra"
+      },
+      {
+        "long_name": "Accumulated freezing rain"
+      }
+    ]
+  }
+]

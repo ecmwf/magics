@@ -1,0 +1,54 @@
+[
+  {
+    "eccharts_layer": "t100",
+    "prefered_units": "C",
+    "styles": [
+      "sh_all_fM96tM8i4",
+      "ct_red_i2_dash",
+      "sh_gry_fM72t56lst",
+      "sh_all_fM80t56i4_v2",
+      "ct_red_i4_t3"
+    ],
+    "match": [
+      {
+        "levelist": [
+          "5",
+          "7",
+          "10",
+          "20",
+          "30",
+          "50",
+          "70",
+          "100",
+          "125",
+          "150",
+          "175",
+          "200",
+          "225"
+        ],
+        "paramId": "130",
+        "shortName": "t",
+        "levtype": "pl"
+      },
+      {
+        "level": [
+          "5",
+          "7",
+          "10",
+          "20",
+          "30",
+          "50",
+          "70",
+          "100",
+          "125",
+          "150",
+          "175",
+          "200",
+          "225"
+        ],
+        "long_name": "Temperature",
+        "standard_name": "air_temperature"
+      }
+    ]
+  }
+]

@@ -1,0 +1,17 @@
+[
+  {
+    "eccharts_layer": "composition_so2_totalcolumn",
+    "styles": [
+      "sh_all_tcso2"
+    ],
+    "match": [
+      {
+        "paramId": "210126",
+        "shortName": "tcso2"
+      },
+      {
+        "long_name": "Total column Sulphur dioxide"
+      }
+    ]
+  }
+]

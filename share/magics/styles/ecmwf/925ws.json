@@ -1,0 +1,31 @@
+[
+  {
+    "eccharts_layer": [
+      "925ws",
+      "850ws"
+    ],
+    "styles": [
+      "sh_red_f5t70lst",
+      "sh_all_f5t70lst",
+      "ct_red_i5",
+      "sh_grn_f10t100lst"
+    ],
+    "match": [
+      {
+        "levelist": [
+          "925",
+          "850"
+        ],
+        "paramId": "10",
+        "shortName": "ws"
+      },
+      {
+        "level": [
+          "925",
+          "850"
+        ],
+        "long_name": "Wind speed"
+      }
+    ]
+  }
+]

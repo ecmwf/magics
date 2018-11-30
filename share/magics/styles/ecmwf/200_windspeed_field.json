@@ -1,0 +1,25 @@
+[
+  {
+    "eccharts_layer": "200_windspeed_field",
+    "styles": [
+      "sh_grn_f30t100i10",
+      "sh_all_f30t100i10",
+      "ct_grn_f30_i10"
+    ],
+    "match": [
+      {
+        "levelist": [
+          "200"
+        ],
+        "paramId": "10",
+        "shortName": "ws"
+      },
+      {
+        "level": [
+          "200"
+        ],
+        "long_name": "Wind speed"
+      }
+    ]
+  }
+]
