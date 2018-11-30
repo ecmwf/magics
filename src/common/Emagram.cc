@@ -368,16 +368,31 @@ void Emagram::operator()(const Polyline& from, BasicGraphicsObjectContainer& out
 {
     if (from.empty())
         return;
-    PaperPoint ll(getMinPCX(), getMinPCY());
-    PaperPoint ur(maxpcx, getMaxPCY());
+
+    PaperPoint ll, ur;
+    bool grid = false;
+    for (unsigned i = 0; i < from.size(); i++) {
+        if (from.get(i).x() < maxpcx) {
+            grid = true;
+            break;
+        }
+    }
+    if (grid) {
+        ll = PaperPoint(getMinPCX(), getMinPCY());
+        ur = PaperPoint(maxpcx, getMaxPCY());
+    } else {
+        ll = PaperPoint(maxpcx, getMinPCY());
+        ur = PaperPoint(maxPCX_, getMaxPCY());
+    }
+
     vector<Polyline*> lines;
 
     MagClipper::clip(from, ll, ur, lines);
 
-    for (auto line = lines.begin(); line != lines.end(); ++line)
+    for (auto line = lines.begin(); line != lines.end(); ++line) {
+    	(*line)->copy(from);
         out.push_back(*line);
-
-   
+    }    
 }
 
 bool Emagram::in(const PaperPoint& point) const
