@@ -352,16 +352,29 @@ void Skewt::operator()(const Polyline& from, BasicGraphicsObjectContainer& out) 
         return;
 
     PaperPoint ll, ur;
-
-    ll = PaperPoint(getMinPCX(), getMinPCY());
-    ur = PaperPoint(maxpcx, getMaxPCY());
+    bool grid = false;
+    for (unsigned i = 0; i < from.size(); i++) {
+        if (from.get(i).x() < maxpcx) {
+            grid = true;
+            break;
+        }
+    }
+    if (grid) {
+        ll = PaperPoint(getMinPCX(), getMinPCY());
+        ur = PaperPoint(maxpcx, getMaxPCY());
+    } else {
+        ll = PaperPoint(maxpcx, getMinPCY());
+        ur = PaperPoint(maxPCX_, getMaxPCY());
+    }
 
     vector<Polyline*> lines;
 
     MagClipper::clip(from, ll, ur, lines);
 
-    for (auto line = lines.begin(); line != lines.end(); ++line)
+    for (auto line = lines.begin(); line != lines.end(); ++line) {
+    	(*line)->copy(from);
         out.push_back(*line);
+    }    
 }
 
 bool Skewt::in(const PaperPoint& point) const
