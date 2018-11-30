@@ -1,0 +1,18 @@
+[
+  {
+    "eccharts_layer": "ptype_prob",
+    "styles": [
+      "symbols_ptype_prob"
+    ],
+    "match": [
+      {
+        "paramId": "260015",
+        "shortName": "ptype",
+        "type": "pf"
+      },
+      {
+        "long_name": "Precipitation type"
+      }
+    ]
+  }
+]

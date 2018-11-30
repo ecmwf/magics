@@ -7,14 +7,6 @@
             "scaling" : 1
         }
     ],
-    "gr kg-1": [
-        {
-            "from" : "1",
-            "to" : "gr kg-1",
-            "offset" : 0.0,
-            "scaling" : 1000.0
-        }
-    ],
     "pv units" : [
         {
             "from" : "K m**2 kg**-1 s**-1",
@@ -37,7 +29,13 @@
             "to" : "g/kg",
             "offset" : -0.0,
             "scaling" : 1000.0
-        }
+        },
+        {
+            "from" : "1",
+            "to" : "gr kg-1",
+            "offset" : 0.0,
+            "scaling" : 1000.0
+        }    
     ],
     "mm" : [
         {    
@@ -51,6 +49,56 @@
             "to" : "mm",
             "offset" : -0.0,
             "scaling" : 1000.0
+        },
+        {    
+            "from" : "m of water",
+            "to" : "mm",
+            "offset" : -0.0,
+            "scaling" : 1000.0
+        }
+    ],
+    "cm" : [
+        {    
+            "from" : "m",
+            "to" : "cm",
+            "offset" : -0.0,
+            "scaling" : 100.0
+        },
+        {    
+            "from" : "m of water equivalent",
+            "to" : "cm",
+            "offset" : -0.0,
+            "scaling" : 100.0
+        }
+    ],
+    "dam" : [
+        {
+            "from" : "m**2 s**-2",
+            "offset" : -0.0,
+            "to" : "dam",
+            "scaling" : 0.0101971621297793
+        },
+        {
+            "from" : "m",
+            "offset" : -0.0,
+            "to" : "dam",
+            "scaling" : 10.0
+        }
+    ],
+    "hPa" : [
+        {
+            "from" : "Pa",
+            "offset" : -0.0,
+            "to" : "hPa",
+            "scaling" : 0.01
+        }
+    ],
+    "Dob" : [
+        {
+            "from" : "kg m**-2",
+            "offset" : -0.0,
+            "to" : "Dob",
+            "scaling" : 46696.2409526033
         }
     ]
 }

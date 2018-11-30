@@ -1,0 +1,20 @@
+[
+  {
+    "eccharts_layer": "composition_aod550",
+    "styles": [
+      "sh_all_aod",
+      "sh_BuYlRd_aod",
+      "sh_BuYlRd_aod_lowthreshold",
+      "sh_Oranges_aod"
+    ],
+    "match": [
+      {
+        "paramId": "210207",
+        "shortName": "aod550"
+      },
+      {
+        "long_name": "Total Aerosol Optical Depth at 550nm"
+      }
+    ]
+  }
+]

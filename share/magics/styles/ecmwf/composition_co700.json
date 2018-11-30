@@ -1,0 +1,24 @@
+[
+  {
+    "eccharts_layer": "composition_co700",
+    "styles": [
+      "sh_all_co_upper",
+      "sh_YlGnBu_co_upper"
+    ],
+    "match": [
+      {
+        "levelist": [
+          "700"
+        ],
+        "paramId": "210123",
+        "shortName": "co"
+      },
+      {
+        "level": [
+          "700"
+        ],
+        "long_name": "Carbon monoxide"
+      }
+    ]
+  }
+]

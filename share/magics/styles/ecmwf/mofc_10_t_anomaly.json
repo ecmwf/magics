@@ -1,0 +1,24 @@
+[
+  {
+    "eccharts_layer": "mofc_10_t_anomaly",
+    "styles": [
+      "t_upper_anomaly",
+      "sh_anomaly_rb_m20t20"
+    ],
+    "match": [
+      {
+        "levelist": [
+          "10"
+        ],
+        "paramId": "171130",
+        "shortName": "ta"
+      },
+      {
+        "level": [
+          "10"
+        ],
+        "long_name": "Temperature anomaly"
+      }
+    ]
+  }
+]

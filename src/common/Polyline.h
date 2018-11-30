@@ -261,7 +261,7 @@ public:
 	{
 		polygon_.push_back(PaperPoint(x, y));
 	} 
-	void southClean();
+	void southClean(bool);
 
 	void box(const PaperPoint&, const PaperPoint&);
 	bool empty() const {

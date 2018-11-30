@@ -1,0 +1,21 @@
+[
+  {
+    "eccharts_layer": "wave_sh2125",
+    "styles": [
+      "sh_wave_f005t5_rose",
+      "sh_wave_f005t5_red",
+      "sh_wave_f005t5_purple",
+      "ct_t2_f005t5_black",
+      "ct_t2_f005t5_blue"
+    ],
+    "match": [
+      {
+        "paramId": "140118",
+        "shortName": "h2125"
+      },
+      {
+        "long_name": "Significant wave height of all waves with periods within the inclusive range from 21 to 25 seconds"
+      }
+    ]
+  }
+]

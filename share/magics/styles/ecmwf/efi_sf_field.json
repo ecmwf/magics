@@ -1,0 +1,21 @@
+[
+  {
+    "eccharts_layer": "efi_sf_field",
+    "styles": [
+      "sh_red_f05t1i01",
+      "mrk_efi_tp_f06t1",
+      "mrk_efi_sf_f06t1",
+      "sh_efi_f05t1_nc"
+    ],
+    "match": [
+      {
+        "paramId": "132144",
+        "shortName": "sfi",
+        "type": "efi"
+      },
+      {
+        "long_name": "Snowfall index"
+      }
+    ]
+  }
+]

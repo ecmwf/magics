@@ -1,0 +1,38 @@
+[
+  {
+    "eccharts_layer": "cds_swvl1234",
+    "styles": [
+      "sh_all_f0t1lst"
+    ],
+    "match": [
+      {
+        "paramId": [
+          "39",
+          "40",
+          "41",
+          "42"
+        ],
+        "shortName": [
+          "swvl1",
+          "swvl2",
+          "swvl3",
+          "swvl4"
+        ]
+      },
+      {
+        "long_name": [
+          "Volumetric soil water layer 1",
+          "Volumetric soil water layer 2",
+          "Volumetric soil water layer 3",
+          "Volumetric soil water layer 4"
+        ]
+      },
+      {
+        "standard_name": [
+          "volume_fraction_of_water_in_soil",
+          "volume_fraction_of_condensed_water_in_soil"
+        ]
+      }
+    ]
+  }
+]

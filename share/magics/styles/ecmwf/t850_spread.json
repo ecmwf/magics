@@ -1,0 +1,32 @@
+[
+  {
+    "eccharts_layer": [
+      "t850_spread",
+      "t500_spread"
+    ],
+    "prefered_units": "C",
+    "styles": [
+      "sh_blu_f008t25",
+      "sh_range_f008to25"
+    ],
+    "match": [
+      {
+        "levelist": [
+          "850",
+          "500"
+        ],
+        "paramId": "130",
+        "shortName": "t",
+        "type": "es"
+      },
+      {
+        "level": [
+          "850",
+          "500"
+        ],
+        "long_name": "Temperature",
+        "standard_name": "air_temperature"
+      }
+    ]
+  }
+]

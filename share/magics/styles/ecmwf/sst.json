@@ -1,0 +1,28 @@
+[
+  {
+    "eccharts_layer": "sst",
+    "prefered_units": "C",
+    "styles": [
+      "sh_sst_fM2t36i2",
+      "sh_sst_fM5t45",
+      "ct_sst_blk_fM2t36i2_i4",
+      "ct_sst_blue_fM2t36i2_i4",
+      "ct_sst_multicolour"
+    ],
+    "match": [
+      {
+        "paramId": "34",
+        "shortName": "sst"
+      },
+      {
+        "long_name": "Sea surface temperature"
+      },
+      {
+        "standard_name": [
+          "sea_surface_temperature",
+          "sea_surface_skin_temperature"
+        ]
+      }
+    ]
+  }
+]

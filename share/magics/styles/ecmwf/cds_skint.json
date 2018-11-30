@@ -1,0 +1,46 @@
+[
+  {
+    "eccharts_layer": "cds_skint",
+    "prefered_units": "C",
+    "styles": [
+      "sh_all_fM72t72i4"
+    ],
+    "match": [
+      {
+        "paramId": [
+          "235",
+          "139",
+          "238",
+          "170",
+          "183",
+          "236"
+        ],
+        "shortName": [
+          "skt",
+          "tsn",
+          "stl1",
+          "stl2",
+          "stl3",
+          "stl4"
+        ]
+      },
+      {
+        "long_name": [
+          "Skin temperature",
+          "Temperature of snow layer",
+          "Soil temperature level 1",
+          "Soil temperature level 2",
+          "Soil temperature level 3",
+          "Soil temperature level 4"
+        ]
+      },
+      {
+        "standard_name": [
+          "temperature_in_surface_snow",
+          "surface_temperature",
+          "soil_temperature"
+        ]
+      }
+    ]
+  }
+]

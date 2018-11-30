@@ -1,0 +1,27 @@
+[
+  {
+    "eccharts_layer": "cds_lmlt",
+    "prefered_units": "C",
+    "styles": [
+      "sh_red_f0t36_i4"
+    ],
+    "match": [
+      {
+        "paramId": [
+          "228008",
+          "228011"
+        ],
+        "shortName": [
+          "lmlt",
+          "ltlt"
+        ]
+      },
+      {
+        "long_name": [
+          "Lake mix-layer temperature",
+          "Lake total layer temperature"
+        ]
+      }
+    ]
+  }
+]

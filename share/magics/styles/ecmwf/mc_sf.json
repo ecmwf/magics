@@ -1,0 +1,22 @@
+[
+  {
+    "eccharts_layer": "mc_sf",
+    "prefered_units": "mm",
+    "styles": [
+      "sh_mc_sf_f01t100",
+      "ct_mc_sf_f01t100_black",
+      "ct_mc_sf_f01t100_blue"
+    ],
+    "match": [
+      {
+        "paramId": "144",
+        "shortName": "sf",
+        "type": "cd"
+      },
+      {
+        "long_name": "Snowfall",
+        "standard_name": "lwe_thickness_of_snowfall_amount"
+      }
+    ]
+  }
+]

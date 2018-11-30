@@ -1,0 +1,19 @@
+[
+  {
+    "eccharts_layer": "sim_image_wv_ch6",
+    "prefered_units": "C",
+    "styles": [
+      "sim_image_wv_500"
+    ],
+    "match": [
+      {
+        "channel": 6,
+        "paramId": "260510",
+        "shortName": "clbt"
+      },
+      {
+        "long_name": "Cloudy brightness temperature"
+      }
+    ]
+  }
+]

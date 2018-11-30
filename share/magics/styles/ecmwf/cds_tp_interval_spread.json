@@ -1,0 +1,16 @@
+[
+  {
+    "eccharts_layer": "cds_tp_interval_spread",
+    "prefered_units": "mm",
+    "styles": [
+      "sh_magenta_f1t20"
+    ],
+    "match": [
+      {
+        "paramId": "228",
+        "shortName": "tp",
+        "type": "es"
+      }
+    ]
+  }
+]

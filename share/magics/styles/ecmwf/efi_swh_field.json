@@ -1,0 +1,20 @@
+[
+  {
+    "eccharts_layer": "efi_swh_field",
+    "styles": [
+      "sh_red_f05t1i01",
+      "mrk_efi_tp_f06t1",
+      "sh_efi2t_fM1t1lst_nc"
+    ],
+    "match": [
+      {
+        "paramId": "132216",
+        "shortName": "maxswhi",
+        "type": "efi"
+      },
+      {
+        "long_name": "Maximum of significant wave height index"
+      }
+    ]
+  }
+]

@@ -60,19 +60,23 @@ MvObsSet::MvObsSet( const char *aName )
  , _msgCount(0)
  , _ecH( NULL )
  , _minTime( 2247, 6, 20 )
- , _maxTime( 1799, 12, 31 )
+ , _maxTime( 1799, 12, 31 ),
+ useSkipExtraAttributes_(true),
+ cacheCompressedData_(true)
 {
    _IO_mode = "r";
    _init( aName );
 }
 
 //____________________________________________________________________
-MvObsSet::MvObsSet( const char *aName, const char *aMode )
+MvObsSet::MvObsSet( const char *aName, const char *aMode)
  : _unpacked(false)
  , _msgCount(0)
  , _ecH( NULL )
  , _minTime( 2247, 6, 20 )
- , _maxTime( 1799, 12, 31 )
+ , _maxTime( 1799, 12, 31 ),
+ useSkipExtraAttributes_(true),
+ cacheCompressedData_(true)
 {
    _IO_mode = aMode;
    _init( aName );
@@ -277,7 +281,51 @@ MvObsSet::rewind()
    return;
 }
 
-//____________________________________________________________________ next
+//msgCnt indexed from one!!!!
+MvObs MvObsSet::gotoMessage(long offset, int msgCnt)
+{
+    if( !_ecFile )
+       return MvObs( NULL );  // nothing if file not ok
+
+    if( _IO_mode == WRITE )
+       return MvObs( NULL );  // no next when writing !
+
+    // Clean previous handler
+    if ( _ecH )
+    {
+       codes_handle_delete(_ecH);
+       _ecH = 0;
+    }
+
+    _msgNumber=msgCnt;
+
+    fseek(_ecFile,offset,SEEK_SET);
+
+    int err = 0;
+    _ecH = codes_handle_new_from_file(NULL,_ecFile,PRODUCT_BUFR,&err);
+    if (_ecH != NULL || err != CODES_SUCCESS)
+    {
+       if (_ecH == NULL)
+       {
+          std::cout << "Failed reading next BUFR msg: unable to create handle for message = " << _msgNumber << std::endl;
+          codes_handle_delete(_ecH);
+          _ecH = 0;
+          _IO_buffer_OK = false;
+          return MvObs( NULL );
+       }
+
+       // Expand all the descriptors i.e. unpack the data values
+       _unpacked = false;   // it is a new message
+       //if ( unpack )
+       //  this->expand();
+
+       _IO_buffer_OK = true;
+    }
+
+    return MvObs( &_ecH, 1, _unpacked, useSkipExtraAttributes_, cacheCompressedData_);  // subset number = 1
+}
+
+//__________________________________________________________________ next
 // Reads next BUFR message and returns an MvObs constructed with it.
 // An MvObs without a message is returned at EOF.
 //------------------------------------------------
@@ -423,7 +471,7 @@ MvObsSet::next( bool unpack )
 #ifdef MV_BUFRDC_TEST
       return MvObs( new MvBufr( _message, _msgLen, _msgNumber ), 1, &_ecH );
 #else
-      return MvObs( &_ecH, 1, _unpacked );  // subset number = 1
+      return MvObs( &_ecH, 1, _unpacked, useSkipExtraAttributes_, cacheCompressedData_);  // subset number = 1
 #endif
 
    }
@@ -431,6 +479,7 @@ MvObsSet::next( bool unpack )
    _IO_buffer_OK = false;
    return MvObs( NULL );
 }
+
 
 //____________________________________________________________________ add
 void
@@ -558,6 +607,58 @@ bool MvObsSet::writeCompressed(MvObs *obs)
 
    return err;
 }
+
+bool MvObsSet::writeCompressed(MvObs *obs,const std::vector<int>& subsetVec)
+{
+    assert(obs);
+
+    if(!obs->compressData())
+        return false;
+
+    if(subsetVec.empty())
+        return false;
+
+    // Clone the input handle
+    codes_handle *cloneH = codes_handle_clone(obs->getHandle());
+    if(cloneH == NULL)
+    {
+        std::cout << "ERROR -  MvObsSet::write(MvObs&) -> could not clone field" << std::endl;
+        return false;
+    }
+
+   size_t arrSize= subsetVec.size();
+   long *subsetArr=new long[arrSize];
+   for(size_t i=0; i < subsetVec.size(); i++)
+        subsetArr[i]=subsetVec[i];
+
+   codes_set_long(cloneH,"unpack",1);
+   codes_set_long_array(cloneH,"extractSubsetList",subsetArr,arrSize);
+   codes_set_long(cloneH,"doExtractSubsets",1);
+
+   // Get the coded message in a buffer
+   const void *buffer = NULL;
+   size_t size = 0;
+   if (codes_get_message(cloneH, &buffer, &size))
+   {
+      std::cout << "ERROR -  MvObsSet::write(MvObs&) -> could not create a buffer message" << std::endl;
+
+      // Release the clone's handle
+      codes_handle_delete(cloneH);
+      delete subsetArr;
+      return false;
+   }
+
+   // Write the buffer to a file
+   bool err = write(buffer,size);
+
+   // Release the clone's handle
+   codes_handle_delete(cloneH);
+
+   delete subsetArr;
+
+   return err;
+}
+
 
 //____________________________________________________________________ messageCount
 // Returns the number of BUFR messages found in the file.
@@ -693,6 +794,10 @@ MvObsSet::expand()
    if ( _unpacked )
       return;       // nothing to be done, it is already expanded
 
+   if(useSkipExtraAttributes_)
+   {
+       codes_set_long(_ecH,"skipExtraKeyAttributes",1);
+   }
    codes_set_long(_ecH,"unpack",1);
    _unpacked = true;
 }
@@ -751,7 +856,7 @@ MvObsSet :: maxDate()
 //=================================================================== MvObsSetIterator
 //___________________________________________________________________
 
-MvObsSetIterator::MvObsSetIterator(MvObsSet& s, bool useHeaderOnly) :
+MvObsSetIterator::MvObsSetIterator(MvObsSet& s) :
     _NoFiltersSet(true),
     useObsTime_(false),
     _SelectValueCount(0),
@@ -760,8 +865,8 @@ MvObsSetIterator::MvObsSetIterator(MvObsSet& s, bool useHeaderOnly) :
     _TimeFilterState(kTFS_notSet),
     _SelectState(SF_notSet),
     ObsSet(&s),
-    useHeaderOnly_(useHeaderOnly),
-    observer_(0)
+    observer_(0),
+    filterProgressStep_(20)
 {
 }
 
@@ -812,9 +917,28 @@ MvObs MvObsSetIterator::operator() ( ENextReturn returnType )
     return current;
 }
 
+void MvObsSetIterator::setFilterProgressStep(int filterProgressStep)
+{
+    filterProgressStep_=filterProgressStep;
+    assert(filterProgressStep_ >=0);
+    if(filterProgressStep_ == 0)
+       filterProgressStep_=1;
+}
+
+
+MvObs MvObsSetIterator::gotoMessage(long offset, int msgCnt)
+{
+    return ObsSet->gotoMessage(offset,msgCnt);
+}
+
+MvObs MvObsSetIterator::nextMessage()
+{
+    return ObsSet->next(false);
+}
+
 void MvObsSetIterator::next()
 {
-   current = ObsSet->next(!useHeaderOnly_);
+   current = ObsSet->next(false);
 
 #ifdef METVIEW
 //   static int change_me_with_debugger = 0;
@@ -835,7 +959,6 @@ void MvObsSetIterator::setTimeRange( const TDynamicTime& anObsTime, short deltaI
    fEndTime.ChangeByMinutes( deltaInMinutes );
    _TimeFilterState = kTFS_bothSet;
    _NoFiltersSet = false;
-   useHeaderOnly_=false;
 }
 
 void MvObsSetIterator::setTimeRange( const TDynamicTime& aBeginTime, const TDynamicTime& anEndTime )
@@ -844,7 +967,6 @@ void MvObsSetIterator::setTimeRange( const TDynamicTime& aBeginTime, const TDyna
    fEndTime = anEndTime;
    _TimeFilterState = kTFS_bothSet;
    _NoFiltersSet = false;
-   useHeaderOnly_=false;
 }
 
 //_____________________________________________________________ setTimeRangeWithoutDate
@@ -870,8 +992,33 @@ MvObsSetIterator::setTimeRangeWithoutDate( int aBegin, int anEnd )
 
    _TimeFilterState = kTFS_clockSet;
    _NoFiltersSet = false;
-   useHeaderOnly_=false;
 }
+
+void MvObsSetIterator::setTimeRangeInSecWithoutDate( int aBegin, int anEnd )
+{
+   TDynamicTime aTime;  // date part is not used, so let's use today..
+   int myBegin = aBegin;
+   int myEnd   = anEnd;
+
+   while( myBegin < 0 ) myBegin += 86400;
+   int h=myBegin/3600;
+   int m=(myBegin-h*3600)/60;
+   int s=myBegin-h*3600-m*60;
+   aTime.SetTime(h,m,s);
+   fBeginTime = aTime;
+
+   while( myEnd >= 86400 ) myEnd -= 86400;
+   h=myEnd/3600;
+   m=(myEnd-h*3600)/60;
+   s=myEnd-h*3600-m*60;
+   aTime.SetTime(h,m,s);
+   fEndTime = aTime;
+
+   _TimeFilterState = kTFS_clockSet;
+   _NoFiltersSet = false;
+}
+
+
 
 //____________________________________________________________________
 void MvObsSetIterator::setWmoBlock(int blockNumber)
@@ -881,7 +1028,6 @@ void MvObsSetIterator::setWmoBlock(int blockNumber)
 
     wmoBlock_.push_back(blockNumber);
     _NoFiltersSet = false;
-    useHeaderOnly_=false;
 }
 
 void
@@ -892,7 +1038,6 @@ MvObsSetIterator::setWmoStation(long wmoStation)
 
     wmoStation_.push_back(wmoStation);
     _NoFiltersSet = false;
-    useHeaderOnly_=false;
 }
 
 void
@@ -913,7 +1058,6 @@ MvObsSetIterator::select( const std::string& aDescriptor, double aValue )
    _SelectValue[ _SelectValueCount++ ] = aValue;
    _SelectState = SF_listSet;
    _NoFiltersSet = false;
-   useHeaderOnly_=false;
 }
 
 void
@@ -925,7 +1069,6 @@ MvObsSetIterator::selectRange( const std::string& aDescriptor, double firstValue
    _SelectValueCount = 2;
    _SelectState = SF_rangeSet;
    _NoFiltersSet = false;
-   useHeaderOnly_=false;
 }
 
 void
@@ -937,7 +1080,6 @@ MvObsSetIterator::excludeRange( const std::string& aDescriptor, double firstValu
    _SelectValueCount = 2;
    _SelectState = SF_excludeRangeSet;
    _NoFiltersSet = false;
-   useHeaderOnly_=false;
 }
 
 void
@@ -946,7 +1088,6 @@ MvObsSetIterator::setXSectionLine( const MvLocation& aStartPoint, const MvLocati
    fXSectionLine.setLine( aStartPoint, anEndPoint );
    fXSectionLine.setMaxDelta( aDeltaInMeters );
    _NoFiltersSet = false;
-   useHeaderOnly_=false;
 }
 
 void
@@ -954,7 +1095,6 @@ MvObsSetIterator::setArea( const MvLocation& aCorner1, const MvLocation& aCorner
 {
    fArea.set( aCorner1, aCorner2 );
    _NoFiltersSet = false;
-   useHeaderOnly_=false;
 }
 
 void
@@ -1056,7 +1196,6 @@ void MvObsSetIterator::setIdentKey(const std::string& identKey)
 {
     identKey_ = simplified(identKey);
     _NoFiltersSet = false;
-    useHeaderOnly_ = false;
 }
 
 void MvObsSetIterator::setIdentValue(const std::string& identVal)
@@ -1066,7 +1205,15 @@ void MvObsSetIterator::setIdentValue(const std::string& identVal)
 
     identValue_.push_back(identVal);
     _NoFiltersSet = false;
-    useHeaderOnly_=false;
+}
+
+void MvObsSetIterator::setMessageRdbtype(int rdbType)
+{
+    if(!checkOptionSize(rdbType_.size(),"setMessageRdbtype"))
+        return;
+
+    rdbType_.push_back(rdbType);
+    _NoFiltersSet = false;
 }
 
 //____________________________________________________________________
@@ -1092,10 +1239,15 @@ MvObsSetIterator::TimeOk( MvObs *anObs ) const
       {
          long obsTime;
          if( useObsTime_ )
-            obsTime = anObs->obsTime().ClockInSeconds();  //-- need to decode => slow
+         {
+             //We need time from the  data section so we need to expand the message
+             anObs->expand();
+             obsTime = anObs->obsTime().ClockInSeconds();  //-- need to decode => slow
+         }
          else
+         {
             obsTime = anObs->msgTime().ClockInSeconds();  //-- use metadata => fast
-
+         }
          long time1 = fBeginTime.ClockInSeconds();
          long time2 = fEndTime.ClockInSeconds();
 
@@ -1116,9 +1268,15 @@ MvObsSetIterator::TimeOk( MvObs *anObs ) const
       {
          TDynamicTime myTime;
          if( useObsTime_ )
+         {
+            //We need time from the  data section so we need to expand the message
+            anObs->expand();
             myTime = anObs->obsTime();  //-- time from obs => decode first => slow
+         }
          else
-            myTime = anObs->msgTime();  //-- time from sec1 => no decode => fast
+         {
+             myTime = anObs->msgTime();  //-- time from sec1 => no decode => fast
+         }
 
          if( myTime < fBeginTime || myTime > fEndTime )
             return false;
@@ -1135,6 +1293,8 @@ MvObsSetIterator::WmoBlockOk(MvObs *anObs) const
 {
     if(!wmoBlock_.empty())
     {
+        //we need to expand the message
+        anObs->expand();
         for(std::size_t i = 0; i < wmoBlock_.size(); i++ )
         {
             if(anObs->WmoBlockNumber() ==  wmoBlock_[i])
@@ -1149,6 +1309,8 @@ bool MvObsSetIterator::WmoStationOk(MvObs *anObs) const
 {
     if(!wmoStation_.empty())
     {
+        //we need to expand the message
+        anObs->expand();
         for(std::size_t i = 0; i < wmoStation_.size(); i++ )
         {
             if(anObs->WmoIdentNumber() == wmoStation_[i])
@@ -1166,6 +1328,9 @@ MvObsSetIterator::WithinXSectionLine( MvObs *anObs ) const
    if( fXSectionLine.maxDelta() < 0 )    // not set ?
       return true;
 
+   //We need lat/lon from the  data section so we need to expand the message
+   anObs->expand();
+
    if( fXSectionLine.withinDelta( anObs->location() ) )
       return true;
    else
@@ -1179,7 +1344,11 @@ MvObsSetIterator::InsideArea( MvObs *anObs ) const
    if( fArea.lowerLeft().latitude() == MISSING_LOC_VALUE )
       return true;
    else
+   {
+      //We need lat/lon from the  data section so we need to expand the message
+      anObs->expand();
       return fArea.inside( anObs->location() );
+   }
 }
 
 //____________________________________________________________________
@@ -1196,9 +1365,7 @@ MvObsSetIterator::msgTypeOk( MvObs *anObs ) const
   return false;
 }
 
-//____________________________________________________________________
-bool
-MvObsSetIterator::msgSubtypeOk( MvObs *anObs ) const
+bool MvObsSetIterator::msgSubtypeOk( MvObs *anObs ) const
 {
    if( _MsgSubtypeCount < 1 )
       return true;
@@ -1326,9 +1493,25 @@ bool MvObsSetIterator::identValueOk(MvObs *anObs) const
 {
     if(!identValue_.empty())
     {
+        //We need this key from the data section so we need to expand the message
+        anObs->expand();
         for(std::size_t i = 0; i < identValue_.size(); i++ )
         {  
             if(anObs->stringValue(identKey_,1) ==  identValue_[i])
+                return true;
+        }
+        return false;
+    }
+    return true;
+}
+
+bool MvObsSetIterator::msgRdbtypeOk(MvObs *anObs) const
+{
+    if(!rdbType_.empty())
+    {
+        for(std::size_t i = 0; i < rdbType_.size(); i++ )
+        {
+            if(anObs->messageRdbtype() ==  rdbType_[i])
                 return true;
         }
         return false;
@@ -1342,6 +1525,9 @@ MvObsSetIterator::selectOk( MvObs *anObs ) const
 {
    if( _SelectState == SF_notSet )
       return true;
+
+   //We can assume that this key is from the  data section so we need to expand the message
+   anObs->expand();
 
    double myValue = anObs->valueC( _SelectDescriptor );
    if( myValue == kBufrMissingValue )
@@ -1376,39 +1562,51 @@ MvObsSetIterator::selectOk( MvObs *anObs ) const
 
 //____________________________________________________________________
 bool
-MvObsSetIterator::AcceptedObs( MvObs& anObs ) const
+MvObsSetIterator::AcceptedObs(MvObs& anObs,bool skipPreFilterCond) const
 {
+    if(!anObs)
+        return false;
+
     if( _NoFiltersSet )
        return true;
 
-    //Index of the message within the bufr file
-    if(!messageNumberOk(&anObs))
-        return false;
+    //Prefilter conditions are fully based on the BUFR header
+    if(!skipPreFilterCond)
+    {
+        //Index of the message within the bufr file
+        if(!messageNumberOk(&anObs))
+            return false;
 
-    //Edition parameters - fully based on the BUFR header
-    if(!editionNumberOk(&anObs))
-        return false;
+        //BUFR edition
+        if(!editionNumberOk(&anObs))
+            return false;
 
-    if(!originatingCentreOk(&anObs))
-        return false;
+        //Edition parameters
+        if(!originatingCentreOk(&anObs))
+            return false;
 
-    if(!originatingCentreAsStrOk(&anObs))
-        return false;
+        if(!originatingCentreAsStrOk(&anObs))
+            return false;
 
-    if(!originatingSubCentreOk(&anObs))
-        return false;
+        if(!originatingSubCentreOk(&anObs))
+            return false;
 
-    if(!masterTableVersionOk(&anObs))
-        return false;
+        if(!masterTableVersionOk(&anObs))
+            return false;
 
-    if(!localTableVersionOk(&anObs))
-        return false;
+        if(!localTableVersionOk(&anObs))
+            return false;
 
-    //Type parameters - fully based on the BUFR header
-    if(!msgTypeOk( &anObs))
-        return false;
-    if(!msgSubtypeOk( &anObs))
-        return false;
+        //Type parameters - fully based on the BUFR header
+        if(!msgTypeOk( &anObs))
+            return false;
+
+        if(!msgSubtypeOk( &anObs))
+            return false;
+
+        if(!msgRdbtypeOk( &anObs))
+            return false;
+    }
 
     //"ident" key defined in ecmwf (centre=98) header
     if(!headerIdentOk(&anObs))
@@ -1437,6 +1635,7 @@ MvObsSetIterator::AcceptedObs( MvObs& anObs ) const
 
    return true;
 }
+
 
 //_____________________________________________________________ operator<<
 std::ostream& operator<< (std::ostream& aStream, const MvObsSetIterator& aFilter )

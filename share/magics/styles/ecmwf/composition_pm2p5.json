@@ -1,0 +1,19 @@
+[
+  {
+    "eccharts_layer": "composition_pm2p5",
+    "styles": [
+      "sh_all_pm2p5_defra_daqi",
+      "sh_all_pmx_ncl_precip_11lev",
+      "sh_all_pmx_regional"
+    ],
+    "match": [
+      {
+        "paramId": "210073",
+        "shortName": "pm2p5"
+      },
+      {
+        "long_name": "Particulate matter d < 2.5 um"
+      }
+    ]
+  }
+]

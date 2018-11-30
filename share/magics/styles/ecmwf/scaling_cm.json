@@ -1,0 +1,19 @@
+[
+  {
+    "prefered_units": "cm",
+    "match": [
+      {
+        "paramId": "141"
+      },
+      {
+        "paramId": "160"
+      },
+      {
+        "paramId": "173"
+      },
+      {
+        "paramId": "149"
+      }
+    ]
+  }
+]

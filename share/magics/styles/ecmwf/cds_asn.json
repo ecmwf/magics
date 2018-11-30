@@ -1,0 +1,19 @@
+[
+  {
+    "eccharts_layer": "cds_asn",
+    "styles": [
+      "sh_brown_f0t1"
+    ],
+    "match": [
+      {
+        "paramId": "32",
+        "shortName": "asn"
+      },
+      {
+        "long_name": [
+          "Snow albedo"
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,20 @@
+[
+  {
+    "eccharts_layer": "composition_duaod550",
+    "styles": [
+      "sh_all_aod",
+      "sh_BuYlRd_aod",
+      "sh_BuYlRd_aod_lowthreshold",
+      "sh_Oranges_aod"
+    ],
+    "match": [
+      {
+        "paramId": "210209",
+        "shortName": "duaod550"
+      },
+      {
+        "long_name": "Dust Aerosol Optical Depth at 550nm"
+      }
+    ]
+  }
+]

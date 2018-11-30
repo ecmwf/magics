@@ -34,6 +34,13 @@ NetcdfGeoMatrixInterpretor::NetcdfGeoMatrixInterpretor()
 NetcdfGeoMatrixInterpretor::~NetcdfGeoMatrixInterpretor() 
 {}
 
+string NetcdfGeoMatrixInterpretor::proj4Detected(Netcdf& netcdf) 
+{
+	string mapping = netcdf.getVariableAttribute(field_, "grid_mapping", string(""));
+	if ( mapping.size() )
+		return netcdf.getVariableAttribute(mapping, "proj4_params", string(""));
+	return "";
+}
 
 
 bool NetcdfGeoMatrixInterpretor::interpretAsMatrix(Matrix** matrix)
@@ -43,7 +50,7 @@ bool NetcdfGeoMatrixInterpretor::interpretAsMatrix(Matrix** matrix)
 	Netcdf netcdf(path_, dimension_method_);
 
 
-	string proj4 = netcdf.getAttribute("projection", string(""));
+	string proj4 = proj4Detected(netcdf);
 
 	if ( proj4.empty() ) {
 		matrix_ = new Matrix();
@@ -107,10 +114,12 @@ bool NetcdfGeoMatrixInterpretor::interpretAsMatrix(Matrix** matrix)
 			fill(matrix_->begin(), matrix_->end(), missing_value);
 			for (vector<double>::iterator d = data.begin(); d != data.end(); ++d ) 
 			{
-				if ( !std::isnan(*d) ) {
+				if ( !std::isnan(*d) && !std::isinf(*d) ) {
 					matrix_->push_back(*d);
 					
 				}
+				else 
+					matrix_->push_back(missing_value);
 				i++;			
 			}
 		}
@@ -172,7 +181,7 @@ void NetcdfGeoMatrixInterpretor::visit(Transformation& transformation) {
 bool NetcdfGeoMatrixInterpretor::interpretAsPoints(PointsList& list)
 {
 	Netcdf netcdf(path_, dimension_method_);
-	string proj4 = netcdf.getAttribute("projection", string(""));
+	string proj4 = proj4Detected(netcdf);
 
 	if ( !proj4.empty() ) {
 		proj4_ = pj_init_plus(proj4.c_str());

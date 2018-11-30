@@ -1,0 +1,17 @@
+[
+  {
+    "eccharts_layer": "cds_licd",
+    "styles": [
+      "sh_blue_f03t3"
+    ],
+    "match": [
+      {
+        "paramId": "228014",
+        "shortName": "licd"
+      },
+      {
+        "long_name": "Lake ice depth"
+      }
+    ]
+  }
+]

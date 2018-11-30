@@ -1,0 +1,19 @@
+[
+  {
+    "eccharts_layer": "cds_sd",
+    "styles": [
+      "sh_blu_f0t10lst"
+    ],
+    "match": [
+      {
+        "paramId": "141",
+        "shortName": "sd"
+      },
+      {
+        "long_name": [
+          "Snow depth"
+        ]
+      }
+    ]
+  }
+]

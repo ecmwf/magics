@@ -1,0 +1,18 @@
+[
+  {
+    "eccharts_layer": "ceiling",
+    "styles": [
+      "sh_cbh_blk_f0t22000",
+      "sh_cbh_f0t22000"
+    ],
+    "match": [
+      {
+        "paramId": "260109",
+        "shortName": "ceil"
+      },
+      {
+        "long_name": "Ceiling"
+      }
+    ]
+  }
+]

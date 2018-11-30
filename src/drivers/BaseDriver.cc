@@ -258,7 +258,12 @@ string BaseDriver::getFileName(const string &extension, const unsigned int no) c
 		}
 	}
 
-	const int numberWidth = numberingwidth_;
+	int numberWidth = numberingwidth_;
+	if(numberWidth > 4)
+	{
+		numberWidth = 4;
+		MagLog::warning() << "Output --> NumberingWidth only allows values between 1 and 4. 4 is used now.\n";
+	}
 
 	if( (no2 > 1) || firstnumber_ || legacy )
 	{
@@ -554,7 +559,7 @@ void BaseDriver::printLine(const Polyline &line) const
 		      renderWindArrow(arrow);
 /*
       {
-        
+
     	int ewn=5;
     	setNewColour(Colour("red"));
     	setNewLineWidth(4.);

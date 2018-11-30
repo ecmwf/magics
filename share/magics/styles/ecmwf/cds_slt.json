@@ -1,0 +1,21 @@
+[
+  {
+    "eccharts_layer": "cds_slt",
+    "styles": [
+      "mrk_all2_f0t7lst",
+      "mrk_all1_f0t7lst"
+    ],
+    "match": [
+      {
+        "paramId": "43",
+        "shortName": "slt"
+      },
+      {
+        "long_name": "Soil type"
+      },
+      {
+        "standard_name": "soil_type"
+      }
+    ]
+  }
+]

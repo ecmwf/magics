@@ -1,0 +1,20 @@
+[
+  {
+    "eccharts_layer": "wave_wefm",
+    "styles": [
+      "sh_red_f0t640_energy",
+      "sh_all_f0t640_energy",
+      "ct_t3_f0t640_black",
+      "ct_t3_f0t640_blue"
+    ],
+    "match": [
+      {
+        "paramId": "140112",
+        "shortName": "wefxm"
+      },
+      {
+        "long_name": "Wave energy flux magnitude"
+      }
+    ]
+  }
+]

@@ -314,12 +314,15 @@ void GribInterpretor::scaling(GribDecoder& grib, double& scaling,
     offset = 0;
 
     // First check that they are not derived fields!
+    
+    long derived = grib.getLong("generatingProcessIdentifier");
+    bool scale = (derived == 254) ? grib.derived_scaling_ : grib.scaling_;
 
-    if (grib.scaling_ ) {
+    if ( scale ) {
         WebLibrary settings;
         MetaDataCollector needs;
         settings.askId(needs);
-        grib.visit(needs);
+        grib.ask(needs);
         settings.getScaling(needs, scaling, offset);
 
     } 

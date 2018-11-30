@@ -1,0 +1,19 @@
+[
+  {
+    "eccharts_layer": "sf_rate",
+    "styles": [
+      "sh_prate_radarlike_grided",
+      "sh_prate_radarlike_grided_f01",
+      "sh_prate_radarlike"
+    ],
+    "match": [
+      {
+        "paramId": "3064",
+        "shortName": "srweq"
+      },
+      {
+        "long_name": "Snow fall rate water equivalent"
+      }
+    ]
+  }
+]

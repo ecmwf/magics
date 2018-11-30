@@ -1,0 +1,18 @@
+[
+  {
+    "eccharts_layer": "cds_lict",
+    "prefered_units": "C",
+    "styles": [
+      "sh_blue_fM68t0_i4"
+    ],
+    "match": [
+      {
+        "paramId": "228013",
+        "shortName": "lict"
+      },
+      {
+        "long_name": "Lake ice temperature"
+      }
+    ]
+  }
+]

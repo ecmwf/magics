@@ -1,0 +1,19 @@
+[
+  {
+    "eccharts_layer": "composition_co2_totalcolumn",
+    "styles": [
+      "sh_nipy_spectral_co2_totalcolumn",
+      "sh_Spectral_r_co2_totalcolumn",
+      "sh_RdGy_r_co2_totalcolumn"
+    ],
+    "match": [
+      {
+        "paramId": "210064",
+        "shortName": "tcco2"
+      },
+      {
+        "long_name": "CO2 column-mean molar fraction"
+      }
+    ]
+  }
+]

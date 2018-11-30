@@ -1,0 +1,20 @@
+[
+  {
+    "eccharts_layer": "composition_suaod550",
+    "styles": [
+      "sh_all_aod",
+      "sh_BuYlRd_aod",
+      "sh_BuYlRd_aod_lowthreshold",
+      "sh_Oranges_aod"
+    ],
+    "match": [
+      {
+        "paramId": "210212",
+        "shortName": "suaod550"
+      },
+      {
+        "long_name": "Sulphate Aerosol Optical Depth at 550nm"
+      }
+    ]
+  }
+]

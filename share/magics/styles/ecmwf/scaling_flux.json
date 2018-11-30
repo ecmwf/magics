@@ -1,0 +1,28 @@
+[
+  {
+    "prefered_units": "mm",
+    "match": [
+      {
+        "paramId": "140"
+      },
+      {
+        "paramId": "171"
+      },
+      {
+        "paramId": "182"
+      },
+      {
+        "paramId": "184"
+      },
+      {
+        "paramId": "198"
+      },
+      {
+        "paramId": "237"
+      },
+      {
+        "paramId": "244"
+      }
+    ]
+  }
+]

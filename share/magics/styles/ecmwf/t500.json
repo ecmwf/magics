@@ -1,0 +1,37 @@
+[
+  {
+    "eccharts_layer": "t500",
+    "prefered_units": "C",
+    "styles": [
+      "sh_all_fM52t48i4",
+      "sh_all_fM64t52i4",
+      "ct_red_i2_dash",
+      "sh_all_fM52t48i4_light",
+      "sh_gry_fM72t56lst",
+      "sh_all_fM80t56i4_v2",
+      "sh_all_fM50t58i2",
+      "ct_red_i4_t3"
+    ],
+    "match": [
+      {
+        "levelist": [
+          "500",
+          "450",
+          "550"
+        ],
+        "paramId": "130",
+        "shortName": "t",
+        "levtype": "pl"
+      },
+      {
+        "level": [
+          "500",
+          "450",
+          "550"
+        ],
+        "long_name": "Temperature",
+        "standard_name": "air_temperature"
+      }
+    ]
+  }
+]

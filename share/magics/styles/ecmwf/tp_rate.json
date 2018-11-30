@@ -1,0 +1,19 @@
+[
+  {
+    "eccharts_layer": "tp_rate",
+    "styles": [
+      "sh_prate_radarlike_grided",
+      "sh_prate_radarlike_grided_f01",
+      "sh_prate_radarlike"
+    ],
+    "match": [
+      {
+        "paramId": "3059",
+        "shortName": "prate"
+      },
+      {
+        "long_name": "Precipitation rate"
+      }
+    ]
+  }
+]

@@ -1,0 +1,29 @@
+[
+  {
+    "eccharts_layer": "cds_skint_spread",
+    "styles": [
+      "sh_magenta_f1t20"
+    ],
+    "match": [
+      {
+        "paramId": [
+          "235",
+          "139",
+          "238",
+          "170",
+          "183",
+          "236"
+        ],
+        "shortName": [
+          "skt",
+          "tsn",
+          "stl1",
+          "stl2",
+          "stl3",
+          "stl4"
+        ],
+        "type": "es"
+      }
+    ]
+  }
+]
