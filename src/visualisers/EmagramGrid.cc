@@ -108,10 +108,15 @@ void EmagramGrid::visit(DrawingVisitor& out)
             poly.setThickness(isotherm_thickness_);
             poly.setLineStyle(isotherm_style_);
 
-            poly.push_back(tephi(UserPoint(*t,pmin)));
-            poly.push_back(tephi(UserPoint(*t,pmax)));
-
-            tephi(poly, out.layout());
+            PaperPoint xy1=tephi(UserPoint(*t,pmin));
+            PaperPoint xy2=tephi(UserPoint(*t,pmax));
+            //If no points are in the main area it is not clipped
+            if(xy1.x() < maxpcx || xy2.x() < maxpcx )
+            {            
+                poly.push_back(xy1);
+                poly.push_back(xy2);
+                tephi(poly, out.layout());
+            }
 
             std::set<double>::iterator label = labels.find(*t);
             if ( label == labels.end() )
@@ -167,11 +172,17 @@ void EmagramGrid::visit(DrawingVisitor& out)
             poly.setThickness(dry_adiabatic_thickness_);
 
             //double pl = -1;
+            bool hasPointsIn=false;
             for(double p = pmin; p < pmax; p += 1)
             {
                 double t = magics::temperatureFromTheta(*th+273.15, p*100)-273.15;
 
-                poly.push_back(tephi(UserPoint(t, p)));
+                PaperPoint xy=tephi(UserPoint(t, p));
+                if(xy.x() < maxpcx)
+                {    
+                   hasPointsIn=true;
+                }   
+                poly.push_back(xy);              
 
                 /*if (t >= -40 )
                     poly.push_back(tephi(UserPoint(t, p)));
@@ -179,8 +190,9 @@ void EmagramGrid::visit(DrawingVisitor& out)
                     pl = p;*/
 
             }
-
-            tephi(poly, out.layout());
+            //If no points are in the main area it is not clipped
+             if(hasPointsIn)
+                tephi(poly, out.layout());            
 
             std::set<double>::iterator label = labels.find(*th);
             if( label == labels.end())
@@ -303,10 +315,14 @@ void EmagramGrid::visit(DrawingVisitor& out)
             poly.setThickness(mixing_ratio_thickness_);
 
             double pTop=200;
+            bool hasPointsIn=false;
             for(double p = pTop; p < pmax; p += 10)
             {
                 double t = magics::temperatureFromMixingRatio(*r, p*100);
                 PaperPoint xy = tephi(UserPoint(t-273.15, p));
+                if(xy.x() < maxpcx)
+                    hasPointsIn=true;
+                
                 poly.push_back(xy);
                 if(labelCnt % mixing_ratio_label_frequency_ )
                         continue;
@@ -314,8 +330,10 @@ void EmagramGrid::visit(DrawingVisitor& out)
                 labelCnt++;
              }
 
-             tephi(poly, out.layout());
-
+             //If no points are in the main area it is not clipped
+             if(hasPointsIn)
+                tephi(poly, out.layout());
+            
              //labels along the 950 hPa line
              double pLabel=950;
              double t = magics::temperatureFromMixingRatio(*r, pLabel*100);
@@ -356,9 +374,16 @@ void EmagramGrid::visit(DrawingVisitor& out)
 
             double pl = -1;
             double pTop=pmin;
+            bool hasPointsIn=false;
             for(double p = pTop; p < pmax; p += 1) {
                 double t = magics::temperatureFromThetaEq(s, p*100)-273.15;
-                poly.push_back(tephi(UserPoint(t, p)));
+                
+                PaperPoint xy=tephi(UserPoint(t,p));
+                if(xy.x() < maxpcx)
+                {    
+                    hasPointsIn=true;
+                }
+                poly.push_back(xy);
 
                 /*if (t >= -40 )
                     poly.push_back(tephi(UserPoint(t, p)));
@@ -366,7 +391,9 @@ void EmagramGrid::visit(DrawingVisitor& out)
                     pl = p;*/
             }
 
-            tephi(poly, out.layout());
+            //If no points are in the main area it is not clipped
+            if(hasPointsIn)
+                tephi(poly, out.layout());
 
             std::set<double>::iterator label = labels.find(*thetaw);
             if ( label == labels.end() )
@@ -384,6 +411,49 @@ void EmagramGrid::visit(DrawingVisitor& out)
             }
         }
     }
+    //wind area
+    if(1)
+    {
+        MagFont font(isotherm_label_font_, isotherm_label_style_, isotherm_label_size_);
+		font.colour(*isotherm_label_colour_);
+        
+        for ( int i = 10; i < 25; i += 10) 
+        {
+			//vertical dashed line and labels at the bottom
+            Polyline poly;
+			Colour colour =  *isotherm_colour_ ;
+			poly.setColour(colour);
+			poly.setThickness(isotherm_thickness_);
+			poly.setLineStyle(M_DASH);
+        
+            for ( double p = pmin; p <= pmax; p += 10) {			
+                poly.push_back(tephi(UserPoint(1000.+i, p)));	 	
+			}
+            
+			tephi(poly, out.layout());
+            
+            UserPoint pt(1000+i, tephi.getMaxPCY());
+			PaperPoint xy = tephi(pt);
+			xy.y(tephi.getMaxPCY()*.5);
+			infoLabels_.insert(make_pair(i, xy));
+	 	}	 	
+	 	
+        std::set<double> isobars;
+		std::set<double> labels;
+
+		step(isobars, labels, pmin, pmax, isobar_reference_, isobar_interval_, isobar_label_frequency_);
+
+	 	for (std::set<double>::iterator p = isobars.begin();  p != isobars.end(); ++p ) {
+			Polyline poly;
+			poly.setColour(*isobar_colour_);
+			poly.setLineStyle(M_DASH);
+			poly.setThickness(isobar_thickness_);
+			poly.push_back(tephi(UserPoint(1000, *p)));
+			poly.push_back(tephi(UserPoint(1100, *p)));	
+					
+			tephi(poly, out.layout());			
+		}	 	
+    } 	        
 }
 
 
