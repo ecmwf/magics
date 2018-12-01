@@ -166,7 +166,7 @@ MvObsSet::_init( const char *aName )
 #endif
       _bufrOut = 0;
 
-/*  FAMI20171005 removed PrepBUFR code 
+/*  FAMI20171005 removed PrepBUFR code
       // Testing if PrepBUFR file
 #ifdef METVIEW_PREPBUFR
       _firstObs = next();     //-- check if PrepBUFR file (contains BUFR tables)
@@ -183,7 +183,7 @@ MvObsSet::_init( const char *aName )
 #else
       cout << "MvObsSet::_init - PrepBUFR support NOT available!!!!" << endl;
 #endif
-*/ //FAMI20171005 
+*/ //FAMI20171005
    }
 
    return;
@@ -644,7 +644,7 @@ bool MvObsSet::writeCompressed(MvObs *obs,const std::vector<int>& subsetVec)
 
       // Release the clone's handle
       codes_handle_delete(cloneH);
-      delete subsetArr;
+      delete [] subsetArr;
       return false;
    }
 
@@ -654,7 +654,7 @@ bool MvObsSet::writeCompressed(MvObs *obs,const std::vector<int>& subsetVec)
    // Release the clone's handle
    codes_handle_delete(cloneH);
 
-   delete subsetArr;
+   delete [] subsetArr;
 
    return err;
 }
@@ -717,7 +717,7 @@ MvObsSet::obsCount()
          _obsCount = 0;
          break;
       }
-   
+
       // Find out the number of subsets and update counter
       codes_get_long(ecH,"numberOfSubsets",&numberOfSubsets);
       _obsCount += numberOfSubsets;
@@ -731,7 +731,7 @@ MvObsSet::obsCount()
 
    return _obsCount;
 
-//e code using BUFRDC   
+//e code using BUFRDC
 #if 0
    if( _obsCount < 1 )
    {
@@ -1480,7 +1480,7 @@ bool MvObsSetIterator::headerIdentOk(MvObs *anObs) const
     if(!headerIdent_.empty())
     {
         for(std::size_t i = 0; i < headerIdent_.size(); i++ )
-        {            
+        {
             if(simplified(anObs->headerIdent()) ==  headerIdent_[i])
                 return true;
         }
@@ -1496,7 +1496,7 @@ bool MvObsSetIterator::identValueOk(MvObs *anObs) const
         //We need this key from the data section so we need to expand the message
         anObs->expand();
         for(std::size_t i = 0; i < identValue_.size(); i++ )
-        {  
+        {
             if(anObs->stringValue(identKey_,1) ==  identValue_[i])
                 return true;
         }
