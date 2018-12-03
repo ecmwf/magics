@@ -589,7 +589,7 @@ import tempfile
 
 plot = _plot
 
-def jupyter():
+def setjupyter():
     try:
         from IPython.display import Image
         LOCK = threading.Lock()
