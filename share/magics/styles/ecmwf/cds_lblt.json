@@ -1,19 +1,18 @@
-{
-    "match" : {
-        "eccharts_layer" : "cds_lblt",
-        "prefered_units" : "C",
-        "set" : [
-            {
-                "paramId" : "228010",
-                "shortName" : "lblt"
-            },
-            {
-                "long_name" : "Lake bottom temperature"
-            }
-        ],
-        "style" : "sh_blured_f0t40_i4",
-        "styles" : [
-            "sh_blured_f0t40_i4"
-        ]
-    }
-}
+[
+  {
+    "eccharts_layer": "cds_lblt",
+    "prefered_units": "C",
+    "styles": [
+      "sh_blured_f0t40_i4"
+    ],
+    "match": [
+      {
+        "paramId": "228010",
+        "shortName": "lblt"
+      },
+      {
+        "long_name": "Lake bottom temperature"
+      }
+    ]
+  }
+]

@@ -79,10 +79,12 @@ public:
 	void netcdf(const XmlNode&);
 	void spot(const XmlNode&);
 	void pass(const XmlNode&);
+
 	void empty(const XmlNode&);
 	
 	void font(const MagFont& font) { font_ = font; }
 	void magics(const XmlNode&);
+	void magics_param(const XmlNode&);
 	void base_date(const XmlNode&);
 	void json(const XmlNode&);
 	void data(const XmlNode&);

@@ -33,9 +33,7 @@ NetcdfOrcaInterpretor::NetcdfOrcaInterpretor()
 NetcdfOrcaInterpretor::~NetcdfOrcaInterpretor()
 {}
 
-#include <boost/geometry/geometry.hpp>
-#include <boost/geometry/geometries/point_xy.hpp>
-#include <boost/geometry/geometries/polygon.hpp>
+
 
 bool NetcdfOrcaInterpretor::interpretAsMatrix(Matrix** data)
 {
@@ -56,8 +54,8 @@ bool NetcdfOrcaInterpretor::interpretAsMatrix(Matrix** data)
 
 
 	double missing =  netcdf.getMissing(field_, missing_attribute_);
-	typedef boost::geometry::model::d2::point_xy<double> point_type;
-	typedef boost::geometry::model::polygon<point_type> polygon_type;
+	typedef pair<int, int> point_type;
+	
 
 	vector< std::pair<point_type, pair<int, int> > > points;
 

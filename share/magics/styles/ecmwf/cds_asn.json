@@ -1,20 +1,19 @@
-{
-    "match" : {
-        "eccharts_layer" : "cds_asn",
-        "set" : [
-            {
-                "paramId" : "32",
-                "shortName" : "asn"
-            },
-            {
-                "long_name" : [
-                    "Snow albedo"
-                ]
-            }
-        ],
-        "style" : "sh_brown_f0t1",
-        "styles" : [
-            "sh_brown_f0t1"
+[
+  {
+    "eccharts_layer": "cds_asn",
+    "styles": [
+      "sh_brown_f0t1"
+    ],
+    "match": [
+      {
+        "paramId": "32",
+        "shortName": "asn"
+      },
+      {
+        "long_name": [
+          "Snow albedo"
         ]
-    }
-}
+      }
+    ]
+  }
+]

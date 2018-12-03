@@ -1,19 +1,18 @@
-{
-    "match" : {
-        "eccharts_layer" : "cds_istl4",
-        "prefered_units" : "C",
-        "set" : [
-            {
-                "paramId" : "38",
-                "shortName" : "istl4"
-            },
-            {
-                "long_name" : "Ice temperature layer 4"
-            }
-        ],
-        "style" : "sh_blu_fM14tM16",
-        "styles" : [
-            "sh_blu_fM14tM16"
-        ]
-    }
-}
+[
+  {
+    "eccharts_layer": "cds_istl4",
+    "prefered_units": "C",
+    "styles": [
+      "sh_blu_fM14tM16"
+    ],
+    "match": [
+      {
+        "paramId": "38",
+        "shortName": "istl4"
+      },
+      {
+        "long_name": "Ice temperature layer 4"
+      }
+    ]
+  }
+]

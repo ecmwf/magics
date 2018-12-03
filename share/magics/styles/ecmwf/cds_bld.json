@@ -1,18 +1,17 @@
-{
-    "match" : {
-        "eccharts_layer" : "cds_bld",
-        "set" : [
-            {
-                "paramId" : "145",
-                "shortName" : "bld"
-            },
-            {
-                "long_name" : "Boundary layer dissipation"
-            }
-        ],
-        "style" : "sh_ylwblu_f0t2m_37",
-        "styles" : [
-            "sh_ylwblu_f0t2m_37"
-        ]
-    }
-}
+[
+  {
+    "eccharts_layer": "cds_bld",
+    "styles": [
+      "sh_ylwblu_f0t2m_37"
+    ],
+    "match": [
+      {
+        "paramId": "145",
+        "shortName": "bld"
+      },
+      {
+        "long_name": "Boundary layer dissipation"
+      }
+    ]
+  }
+]

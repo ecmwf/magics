@@ -28,13 +28,9 @@
 #include "Data.h"
 #include "Decoder.h"
 #include "UserPoint.h"
-#include <boost/geometry/geometries/point_xy.hpp>
-#include <boost/geometry/geometries/polygon.hpp>
-#include <boost/geometry/geometries/box.hpp>
 
-typedef boost::geometry::model::d2::point_xy<double>                   point_2d;
-typedef boost::geometry::model::polygon< boost::geometry::model::d2::point_xy<double> > polygon_2d;
-typedef boost::geometry::model::box<     boost::geometry::model::d2::point_xy<double> >     box_2d;
+
+
 
 namespace magics {
 
@@ -81,7 +77,7 @@ protected:
 	bool holes_; // Do we need to deal with the holes during decoding!.
 
     //! Method to ensure all inner rings lie within outer ring of polygon
-    void sanityCheckPolygon(polygon_2d& io_rPolygon, bool& io_rbModified);
+    //void sanityCheckPolygon(polygon_2d& io_rPolygon, bool& io_rbModified);
 
 private:
 	//! Copy constructor - No copy allowed

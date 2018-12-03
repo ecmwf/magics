@@ -1,18 +1,23 @@
-{
-    "match" : {
-        "eccharts_layer" : "cds_lai_lv",
-        "set" : [
-            {
-                "paramId" : ["66"],
-                "shortName" : ["lai_lv"]
-            },
-            {
-                "long_name" : ["Leaf area index, low vegetation"]
-            }
+[
+  {
+    "eccharts_layer": "cds_lai_lv",
+    "styles": [
+      "sh_grn_f0t5lst"
+    ],
+    "match": [
+      {
+        "paramId": [
+          "66"
         ],
-        "style" : "sh_grn_f0t5lst",
-        "styles" : [
-            "sh_grn_f0t5lst"
+        "shortName": [
+          "lai_lv"
         ]
-    }
-}
+      },
+      {
+        "long_name": [
+          "Leaf area index, low vegetation"
+        ]
+      }
+    ]
+  }
+]

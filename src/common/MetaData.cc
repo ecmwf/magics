@@ -26,6 +26,7 @@
 #include <sys/time.h>
 #include <sys/resource.h>
 
+
 using namespace magics;
 
 MetaDataVisitor::MetaDataVisitor() 
@@ -221,11 +222,11 @@ void MetaDataVisitor::collect()
 		(*meta)->collectMetaData();
 }
 
-#include "MagConfig.h"
+#include "ContourLibrary.h"
 void StyleEntry::print(ostream& s) const
 {
 	
-	StyleLibrary styles;
+	StyleLibrary styles = *WebLibrary::styles_;
 	
 
 

@@ -1,18 +1,17 @@
-{
-    "match" : {
-        "eccharts_layer" : "cds_lspf",
-        "set" : [
-            {
-                "paramId" : "50",
-                "shortName" : "lspf"
-            },
-            {
-                "long_name" : "Large-scale surface precipitation fraction"
-            }
-        ],
-        "style" : "sh_blu_f1kt12k",
-        "styles" : [
-            "sh_blu_f1kt12k"
-        ]
-    }
-}
+[
+  {
+    "eccharts_layer": "cds_lspf",
+    "styles": [
+      "sh_blu_f1kt12k"
+    ],
+    "match": [
+      {
+        "paramId": "50",
+        "shortName": "lspf"
+      },
+      {
+        "long_name": "Large-scale surface precipitation fraction"
+      }
+    ]
+  }
+]

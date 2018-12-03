@@ -413,65 +413,12 @@ void Tephigram::operator()(const Polyline& from, BasicGraphicsObjectContainer& o
 
     MagClipper::clip(from, ll, ur, lines);
 
-    for (auto line = lines.begin(); line != lines.end(); ++line)
-    	out.push_back(*line);
+    for (auto line = lines.begin(); line != lines.end(); ++line) {
+    	(*line)->copy(from);
+        out.push_back(*line);
+    }
 
-    /*
-		//boost::geometry::model::box<PaperPoint> box(ll, ur);
-		//boost::geometry::correct(box);
-		if ( from.closed() ) {
-			deque<PaperPoint> line;
-
-			for (unsigned i = 0; i < from.size(); i++) {
-				line.push_back(from.get(i));
-				
-
-
-			}
-
-			//boost::geometry::correct(line);
-			vector<deque<PaperPoint> > result;
-			//boost::geometry::intersection(box, line, result);
-
-			// Now we feed the graphic container!
-
-			for (vector<deque<PaperPoint> >::iterator l = result.begin(); l != result.end(); l++)
-			{
-				Polyline* poly = from.getNew();
-
-				for (deque<PaperPoint>::iterator point = l->begin(); point != l->end(); ++point)
-					poly->push_back(*point);
-
-				if ( !poly->empty() )
-					out.push_back(poly);
-			}
-		}
-		else {
-			vector<PaperPoint> line;
-
-			for (unsigned i = 0; i < from.size(); i++) {
-				line.push_back(from.get(i));
-				
-				
-			}
-			//boost::geometry::correct(line);
-			vector<vector<PaperPoint> > result;
-			//boost::geometry::intersection(box, line, result);
-
-			// Now we feed the graphic container!
-
-			for (vector<vector<PaperPoint> >::iterator l = result.begin(); l != result.end(); l++)
-			{
-				Polyline* poly = from.getNew();
-
-				for (vector<PaperPoint>::iterator point = l->begin(); point != l->end(); ++point)
-					poly->push_back(*point);
-
-				if ( !poly->empty() )
-					out.push_back(poly);
-			}
-		}
-*/
+   
 }
 
 bool Tephigram::in(const PaperPoint& point) const

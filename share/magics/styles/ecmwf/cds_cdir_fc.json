@@ -1,19 +1,18 @@
-{
-    "match" : {
-        "eccharts_layer" : "cds_cdir_fc",
-        "set" : [
-            {
-                "paramId" : "228022",
-                "shortName" : "cdir",
-                "type" : [
-                    "fc",
-                    "an"
-                ]
-            }
-        ],
-        "style" : "sh_orange_f0t4m_i100k",
-        "styles" : [
-            "sh_orange_f0t4m_i100k"
+[
+  {
+    "eccharts_layer": "cds_cdir_fc",
+    "styles": [
+      "sh_orange_f0t4m_i100k"
+    ],
+    "match": [
+      {
+        "paramId": "228022",
+        "shortName": "cdir",
+        "type": [
+          "fc",
+          "an"
         ]
-    }
-}
+      }
+    ]
+  }
+]

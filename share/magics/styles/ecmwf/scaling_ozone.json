@@ -1,10 +1,10 @@
-{
-    "match": {
-        "set": [
-            {
-                "paramId": "206"
-            }
-        ], 
-        "prefered_units": "Dob"
-    }
-}
+[
+  {
+    "prefered_units": "Dob",
+    "match": [
+      {
+        "paramId": "206"
+      }
+    ]
+  }
+]

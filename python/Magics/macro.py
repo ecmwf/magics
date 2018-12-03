@@ -22,13 +22,19 @@ class Context(object):
         if self.silent :
             Magics.setc("magics_silent", "on")
             os.environ["MAGPLUS_WARNING"] =  "off"
+        else :
+            os.environ["MAGPLUS_INFO"] =  "on"
 
 global context
 
 context  = Context()
 
 def silent():
-   context.silent = True
+   context.silent = False
+
+def debug():
+    os.environ["MAGPLUS_INFO"] =  "on"
+    os.environ["MAGPLUS_DEBUG"] =  "on"
 
 
 
@@ -93,6 +99,7 @@ class Action(object):
         val="%s("%self.html
 
         for key in list(self.args.keys()):
+
             if isinstance(self.args[key], str):
                 if key == 'odb_data':
                     Magics.setc('odb_filename', self.args[key])
@@ -299,7 +306,7 @@ class Action(object):
 
     def clean_object(self, obj):
       if sys.version_info[0] < 3:
-        if type(obj) in (int, float, str, bool, numpy.float64):
+        if type(obj) in (int, float, str, bool, numpy.float64, numpy.float32):
             return obj
         elif type(obj) == unicode:
             return str(obj)
@@ -327,10 +334,16 @@ class Action(object):
 
 
     def set(self):
-
         for key in list(self.args.keys()):
             
-            if isinstance(self.args[key], str):
+            if isinstance(self.args[key], dict):
+                Magics.setc(key,  json.dumps(self.args[key]))
+            elif isinstance(self.args[key], bool):
+                if self.args[key]:
+                    Magics.setc(key, "on")
+                else :
+                    Magics.setc(key, "off")
+            elif isinstance(self.args[key], str):
                 if key == 'odb_data':
                     Magics.setc('odb_filename', self.args[key])
                 else:
@@ -391,7 +404,7 @@ class Action(object):
 
     def style(self):
 
-        if self.action not in [Magics.grib, Magics.netcdf] :
+        if self.action not in [Magics.grib, Magics.netcdf, Magics.minput] :
             return {}    
 
 
@@ -402,8 +415,14 @@ class Action(object):
             return Magics.metagrib()
         if self.action == Magics.netcdf:
             return Magics.metanetcdf()
+        if self.action == Magics.minput:
+            return Magics.metainput()
 
 
+def mxarray(dataset, var):
+    
+    
+    return data
         
         
 
@@ -460,8 +479,6 @@ page = make_action("page", Magics.new_page)
 pinput = make_action("pinput", Magics.minput)
 minput = make_action("minput", Magics.minput, "Input+Data")
 mtable = make_action("mtable", Magics.mtable, "CSV+Table+Decoder")
-
-
 mgeojson = make_action("mgeojson", Magics.geojson, "GeoJSon")
 mwrepjson = make_action("mwrepjson", Magics.wrepjson, "WrepJSon")
 mepsinput = make_action("mepsinput", Magics.epsinput, "EpsInput")
@@ -495,7 +512,9 @@ def _execute(o):
 		o.execute()
 
 def _plot(*args):
+
     context.set()
+    #try :
     Magics.init()
     for n in args:
         _execute(n)
@@ -505,6 +524,8 @@ def _plot(*args):
     for f in context.tmp:
         if os.path.exists(f):
             os.remove(f)
+    #except:
+        #print ("Magics Error")
 
 
 
@@ -566,34 +587,36 @@ class  odb_filter(object):
 import threading
 import tempfile
 
-try:
-    from IPython.display import Image
+plot = _plot
 
-    LOCK = threading.Lock()
+def jupyter():
+    try:
+        from IPython.display import Image
+        LOCK = threading.Lock()
 
-    def plot(*args):
+        def plot(*args):
 
-        with LOCK:
-            f, tmp = tempfile.mkstemp(".png")
-            os.close(f)
+            with LOCK:
+                f, tmp = tempfile.mkstemp(".png")
+                os.close(f)
 
-            base, ext = os.path.splitext(tmp)
+                base, ext = os.path.splitext(tmp)
 
-            img = output(output_formats=["png"],
-                              output_name_first_page_number='off',
-                              output_name=base)
-            
-            all = []
-            all.append(img)
-            for i in args :
-              all.append(i)
-            _plot(all)
+                img = output(output_formats=["png"],
+                                  output_name_first_page_number='off',
+                                  output_name=base)
+                
+                all = []
+                all.append(img)
+                for i in args :
+                  all.append(i)
+                _plot(all)
 
-            image = Image(tmp)
-            os.unlink(tmp)
-            return image
-except ImportError:
-    plot = _plot
+                image = Image(tmp)
+                os.unlink(tmp)
+                return image
+    except ImportError:
+        print ( "Not able to set up the jupyter environ")
 
 
 
@@ -601,11 +624,24 @@ except ImportError:
 
 def wmsstyles(data):
     context.set()
-    Magics.init()
-    styles = data.style()
-    Magics.finalize()
-    return json.loads(styles.decode())
+    try :
+        Magics.init()
+        styles = data.style()
+        Magics.finalize()
+        styles = json.loads(styles.decode())
+        return styles
+    except :
+        return {} 
 
+def version():
+    version = Magics.version()
+    return version.decode()
+
+def predefined_areas():
+    home = Magics.home()
+    with open("%s/share/magics/projections.json" % ( home.decode() )) as input:
+        projections = json.load(input)
+    return projections.keys()
 
    
 
