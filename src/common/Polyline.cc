@@ -294,66 +294,12 @@ void Polyline::push_back(Polyline& other)
 */
 void Polyline::correct()
 {
-    //assert(false);
-    //boost::geometry::correct(polygon_);
+    
 }
 bool Polyline::sanityCheck()
 {
     assert(false);
-    /*
-    // input polygon _should_ have an outer ring larger than all its inner
-    // (hole) rings. This routine enforces this rule and ensures all the
-    // orientations are correct (i.e. outer ring clockwise, inners all
-    // anti-clockwise).
-    //
-    // output flag true if input polygon modified.
-	boost::geometry::correct(polygon_);
-    bool io_rbModified = false;
-    if (polygon_.empty())
-        return io_rbModified;
-
-    // we construct a "largest" polygon by iterating through the input.
-    // the largest ring we find will be assigned to its outer,
-    // the remaining rings will all be assigned to its inner holes.
-
-    BoostPoly largest = polygon_;
-    largest.inners().resize(0);
-
-    for (int i = 0; i < holes_.size(); i++)
-    {
-        // Note that anticlockwise "inner" polygons that are mistakenly in the "outer"
-        // position will return negativve areas. By taking the highest area we
-        // guard against inner polygons as outer rings and guard against any
-        // erroneous clockwise inner polygons that we might encounter.
-        if (boost::geometry::area(holes_[i]) > boost::geometry::area(largest.outer()))
-        {
-            // we have an inner ring larger than the current outer ring.
-
-            // move the outer ring to the set of inner rings
-            largest.inners().push_back(largest.outer());
-            // assign the larger ring as a new outer ring
-            boost::geometry::assign(largest, holes_[i]);
-
-            io_rbModified = true;
-        }
-        else
-        {
-            // simple copy of the inner ring
-            largest.inners().push_back(holes_[i]);
-        }
-
-    }
-
-    // if any swapping has taken place, correct and assign the output polygon
-    if (io_rbModified)
-    {
-        // set the orientations using the boost method
-        boost::geometry::correct(largest);
-        polygon_ = largest;
-    }
-
-    return io_rbModified;
-    */
+    
 }
 
 double PaperPoint::distance(const PaperPoint& other) const

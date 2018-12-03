@@ -1,17 +1,16 @@
-{
-    "match" : {
-        "eccharts_layer" : "cds_sp_spread",
-        "prefered_units" : "hPa",
-        "set" : [
-            {
-                "paramId" : "134",
-                "shortName" : "sp",
-                "type" : "es"
-            }
-        ],
-        "style" : "sh_magenta_f01t50",
-        "styles" : [
-            "sh_magenta_f01t50"
-        ]
-    }
-}
+[
+  {
+    "eccharts_layer": "cds_sp_spread",
+    "prefered_units": "hPa",
+    "styles": [
+      "sh_magenta_f01t50"
+    ],
+    "match": [
+      {
+        "paramId": "134",
+        "shortName": "sp",
+        "type": "es"
+      }
+    ]
+  }
+]

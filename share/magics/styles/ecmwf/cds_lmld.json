@@ -1,18 +1,17 @@
-{
-    "match" : {
-        "eccharts_layer" : "cds_lmld",
-        "set" : [
-            {
-                "paramId" : "228009",
-                "shortName" : "lmld"
-            },
-            {
-                "long_name" : "Lake mix-layer depth"
-            }
-        ],
-        "style" : "sh_purple_f0t50",
-        "styles" : [
-            "sh_purple_f0t50"
-        ]
-    }
-}
+[
+  {
+    "eccharts_layer": "cds_lmld",
+    "styles": [
+      "sh_purple_f0t50"
+    ],
+    "match": [
+      {
+        "paramId": "228009",
+        "shortName": "lmld"
+      },
+      {
+        "long_name": "Lake mix-layer depth"
+      }
+    ]
+  }
+]

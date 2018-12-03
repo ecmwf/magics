@@ -1,22 +1,21 @@
-{
-    "match" : {
-        "eccharts_layer" : "t500",
-        "set" : [
-            {
-                "levelist" : [
-                    "500",
-                    "450",
-                    "550"
-                ],
-                "paramId" : "130",
-                "shortName" : "t",
-                "levtype" : "pl",
-                "type" : "es"
-            }
+[
+  {
+    "eccharts_layer": "t500",
+    "styles": [
+      "sh_magenta_f1t20"
+    ],
+    "match": [
+      {
+        "levelist": [
+          "500",
+          "450",
+          "550"
         ],
-        "style" : "sh_magenta_f1t20",
-        "styles" : [
-            "sh_magenta_f1t20"
-        ]
-    }
-}
+        "paramId": "130",
+        "shortName": "t",
+        "levtype": "pl",
+        "type": "es"
+      }
+    ]
+  }
+]

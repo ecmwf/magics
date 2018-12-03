@@ -1,22 +1,21 @@
-{
-    "match" : {
-        "eccharts_layer" : "cds_cdir_em",
-        "set" : [
-            {
-                "paramId" : "228022",
-                "shortName" : "cdir",
-                "type" : [
-                    "em",
-                    "pf"
-                ]
-            },
-            {
-                "long_name" : "Clear-sky direct solar radiation at surface"
-            }
-        ],
-        "style" : "sh_orange_f0t12m_i300k",
-        "styles" : [
-            "sh_orange_f0t12m_i300k"
+[
+  {
+    "eccharts_layer": "cds_cdir_em",
+    "styles": [
+      "sh_orange_f0t12m_i300k"
+    ],
+    "match": [
+      {
+        "paramId": "228022",
+        "shortName": "cdir",
+        "type": [
+          "em",
+          "pf"
         ]
-    }
-}
+      },
+      {
+        "long_name": "Clear-sky direct solar radiation at surface"
+      }
+    ]
+  }
+]

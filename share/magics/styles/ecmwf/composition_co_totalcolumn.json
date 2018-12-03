@@ -1,18 +1,17 @@
-{
-    "match" : {
-        "eccharts_layer" : "composition_co_totalcolumn",
-        "set" : [
-            {
-                "paramId" : "210127",
-                "shortName" : "tcco"
-            },
-            {
-                "long_name" : "Total column Carbon monoxide"
-            }
-        ],
-        "style" : "sh_all_tcco",
-        "styles" : [
-            "sh_all_tcco"
-        ]
-    }
-}
+[
+  {
+    "eccharts_layer": "composition_co_totalcolumn",
+    "styles": [
+      "sh_all_tcco"
+    ],
+    "match": [
+      {
+        "paramId": "210127",
+        "shortName": "tcco"
+      },
+      {
+        "long_name": "Total column Carbon monoxide"
+      }
+    ]
+  }
+]

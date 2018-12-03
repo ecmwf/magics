@@ -13,6 +13,7 @@ ecbuild_add_test( TARGET contour_c
                   SOURCES   contour.c
                   LIBS      MagPlusSingle MagPlus
                   ENVIRONMENT MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/..
+                              ${grib_environment}
                   LINKER_LANGUAGE C )
 
 ecbuild_add_test( TARGET basic_python
@@ -55,7 +56,8 @@ ecbuild_add_test( TARGET bufr_fortran
                   CONDITION HAVE_BUFR AND HAVE_FORTRAN
                   RESOURCES synop.bufr
                   LINKER_LANGUAGE Fortran
-                  ENVIRONMENT MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/..)
+                  ENVIRONMENT MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/..
+                              ${grib_environment})
 
 ecbuild_add_test( TARGET bufr_fortran_static
                   SOURCES   bufr.f90

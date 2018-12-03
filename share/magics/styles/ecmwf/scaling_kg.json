@@ -1,19 +1,19 @@
-{
-    "match": {
-        "set": [
-            {
-                "paramId": "203"
-            }, 
-            {
-                "paramId": "233"
-            }, 
-            {
-                "paramId": "246"
-            }, 
-            {
-                "paramId": "247"
-            }
-        ], 
-        "prefered_units": "g/kg"
-    }
-}
+[
+  {
+    "prefered_units": "g/kg",
+    "match": [
+      {
+        "paramId": "203"
+      },
+      {
+        "paramId": "233"
+      },
+      {
+        "paramId": "246"
+      },
+      {
+        "paramId": "247"
+      }
+    ]
+  }
+]

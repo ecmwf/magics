@@ -438,11 +438,12 @@ MAGICS_NO_EXPORT void GeoJsonDriver::renderPolyline(const int n, MFloat *x, MFlo
 	pFile_ << "{\n \"type\": \"Feature\", \"properties\": {\n    \"value\": \"2000\"\n  }, \"geometry\": { \n\t\"coordinates\": [\n  [\n";
 	for(int is=0;is<n;is++)
 	{
-		pFile_ <<"   ["<< x[is]<<","<<y[is]<<"]";
-		if(is<n-1) pFile_ <<",\n";
-		else       pFile_ <<"\n";
+		pFile_ <<"   ["<< x[is]<<","<<y[is]<<"],";
+		
+		
 	}
-	pFile_ << "  ] ],\n  \"properties\": {\n    \"type\": \"isoline\"\n  },\n  \"type\": \"MultiLineString\"\n} },"<<endl;
+	pFile_ <<"   ["<< x[0]<<","<<y[0]<<"]";
+	pFile_ << "  ] ],\n  \"properties\": {\n    \"type\": \"isoline\"\n  },\n  \"type\": \"Polygon\"\n} },"<<endl;
 }
 
 

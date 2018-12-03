@@ -1,18 +1,17 @@
-{
-    "match" : {
-        "eccharts_layer" : "cds_licd",
-        "set" : [
-            {
-                "paramId" : "228014",
-                "shortName" : "licd"
-            },
-            {
-                "long_name" : "Lake ice depth"
-            }
-        ],
-        "style" : "sh_blue_f03t3",
-        "styles" : [
-            "sh_blue_f03t3"
-        ]
-    }
-}
+[
+  {
+    "eccharts_layer": "cds_licd",
+    "styles": [
+      "sh_blue_f03t3"
+    ],
+    "match": [
+      {
+        "paramId": "228014",
+        "shortName": "licd"
+      },
+      {
+        "long_name": "Lake ice depth"
+      }
+    ]
+  }
+]
