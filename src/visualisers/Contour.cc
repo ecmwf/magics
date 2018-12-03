@@ -117,6 +117,9 @@ void Contour::operator()(Data& data, BasicGraphicsObjectContainer& parent)
 
 				library->getStyle(request, attributes, *styleInfo_);
 				
+				
+				attributes["contour_legend_only"] = contour_->legend_only_;
+				
 				if ( !legend_ ) 
 					attributes["legend"] ="off";
 				if (metadata_only_) 
