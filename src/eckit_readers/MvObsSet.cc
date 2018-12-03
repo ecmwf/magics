@@ -27,6 +27,7 @@
 
 #include <iostream>
 #include <assert.h>
+#include <cerrno>
 
 #ifdef METVIEW_PREPBUFR
 # include "MvPrepBufrPrep.h"
@@ -221,7 +222,7 @@ MvObsSet::Open( const char* aFileName )
    _ecFile = fopen( aFileName, _IO_mode.c_str() );
    if( !_ecFile )
    {
-      std::cerr << " >>> MvObsSet::Open: file \'" << aFileName << "\', not opened!" << std::endl;
+      std::cerr << " >>> MvObsSet::Open - ERROR opening file \'" << aFileName << "\' - " << std::strerror(errno) << std::endl;
       return false;
    }
    return true;

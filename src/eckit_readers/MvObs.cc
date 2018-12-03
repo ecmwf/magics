@@ -54,6 +54,7 @@
 #include <sstream>
 #include <fstream>
 using std::string;
+#include <cerrno>
 
 #ifdef METVIEW
 #  include "MvException.h"
@@ -2346,7 +2347,7 @@ MvObs::valueC( const std::string& aDescriptor )
    return value(skey);
 }
 
-// Parameter occurrence must start from 1 
+// Parameter occurrence must start from 1
 double
 MvObs::value( long aDescriptor, int occurrence )
 {
@@ -2737,7 +2738,7 @@ MvObs::intValue( const string& skey )
       return kBufrMissingIntValue;
 
    // Get number of elements
-   size_t nelems; 
+   size_t nelems;
    codes_get_size(*_ecH, skey.c_str(),&nelems);
 
    // No elements found
@@ -2756,7 +2757,7 @@ MvObs::intValue( const string& skey )
    // FII 20170922: update this code when function codes_get_double_element can
    // handle uncompressed data.
    if ( _compressed_data )
-   {      
+   {
         // Always use a hashtag because the array size will be smaller. Two possibilities:
         // a) number_of_subsets instead of number_of_subsets*number_of_occurrences
         // b) 1 element which means all the subsets have the same value
@@ -2945,7 +2946,7 @@ void MvObs::allIntValues(const string& keyName,std::vector<long>& vals)
                         compressedData_.addLongData(rKeyName,valArr,valLen);
                     }
                     vals.push_back((val == CODES_MISSING_LONG) ? kBufrMissingIntValue : val);
-                }       
+                }
             }
             ir++;
         }
@@ -3029,7 +3030,7 @@ MvObs::stringValue( const string& skey )
       return string("");
 
    // Get number of elements
-   size_t nelems; 
+   size_t nelems;
    codes_get_size(*_ecH, skey.c_str(),&nelems);
 
    // No elements found
@@ -3392,7 +3393,7 @@ MvObs::currentKey()
    long vold = _bufrIn->CurrentDescriptor();
    string skey = key(vold);
    // remove occurrence tag, if exists
-   std::size_t ipos=0; 
+   std::size_t ipos=0;
    if ( _currentKey[0] == '#' )
       ipos = _currentKey.find('#',1);
 
@@ -3594,7 +3595,7 @@ int
 MvObs::numberOfLevels( string skey )
 {
    // Get number of elements
-   size_t nelems; 
+   size_t nelems;
    codes_get_size(*_ecH, skey.c_str(),&nelems);
 
 //   _currentLevelOccurrence = 0;
@@ -3729,7 +3730,7 @@ MvObs::level( const string& skey, int indexValue, long levelDescriptor, int firs
 // It is a private function; so, it is the responsability of the caller
 // to update parameters _currentLevelKey and _currentLevelOccurrence .
 // Parameter indexValue must start from 1...N
-// 
+//
 double
 MvObs::level( const string& key, int indexValue )
 {
@@ -3747,7 +3748,7 @@ MvObs::specifierIndex( long aSpecifierDescriptor, double aSpecifierValue, int fi
    std::cout << "IMPORTANT: MvObs::specifierIndex should only be called by BUFRDC not from ecCodes" << std::endl;
    std::cout << "IMPORTANT: in ecCodes calls MvObs::valueBySpecifier" << std::endl;
 //   exit(0);
-   
+
    if( ! msg_ok() )
       return -1;
 
@@ -3818,7 +3819,7 @@ MvObs::valueBySpecifier( long aSpecifierDescriptor, double aSpecifierValue, long
    // The same for Temperature, 12101 and 12001
    // This cause a problem because BUFRDC can return a missing value
    // and ecCodes a valid value.
-   if (aDescriptor == 12003 || aDescriptor == 12103 || 
+   if (aDescriptor == 12003 || aDescriptor == 12103 ||
        aDescriptor == 12001 || aDescriptor == 12101 )
 
       return value;
@@ -3904,13 +3905,13 @@ MvObs::valueByPressureLevelC( float aLevelValue, const std::string& aDescriptor 
 
    return valueByPressureLevel(aLevelValue,skey);
 }
-   
+
 double
 MvObs::valueByPressureLevel( float aLevelValue, long aDescriptor )  // in 'hPa'
 {
    string s2key = key(aDescriptor);
    double value = valueByPressureLevel(aLevelValue,s2key);
-   
+
 #ifdef MV_BUFRDC_TEST
   //return valueBySpecifier( cPressureCoordinate, aLevelValue*100., aDescriptor );
   double value1 = valueBySpecifier( cPressureCoordinate, aLevelValue*100., aDescriptor );
@@ -3919,7 +3920,7 @@ MvObs::valueByPressureLevel( float aLevelValue, long aDescriptor )  // in 'hPa'
 
    return value;
 }
-   
+
 double
 MvObs::valueByPressureLevel( float aLevelValue, const string& s2key )  // in 'hPa'
 {
@@ -3989,7 +3990,7 @@ MvObs::valueByLevelRangeC( const std::string& aLevelDescriptor, float level1, fl
 
    return valueByLevelRange( s1key, level1, level2, s2key );
 }
-   
+
 double
 MvObs::valueByLevelRange( long aLevelDescriptor, float level1, float level2, long aDescriptor )
 {
@@ -4007,7 +4008,7 @@ MvObs::valueByLevelRange( long aLevelDescriptor, float level1, float level2, lon
   }
   float levelVal=firstLevel(aLevelDescriptor);
   while(levelVal != kBufrMissingValue)
-  {  
+  {
     if(levelVal >= minv && levelVal <= maxv)
     {
        for( int ind = _currentLevelIndex1 + 1; ind < In_KTDEXL; ind++ )
@@ -4036,13 +4037,13 @@ MvObs::valueByLevelRange( long aLevelDescriptor, float level1, float level2, lon
 #endif
 
    return value;
-}  
+}
 
 double
 MvObs::valueByLevelRange( const std::string& s1key, float level1, float level2, const std::string& s2key )
 {
    // Get number of elements
-   size_t nelems, len; 
+   size_t nelems, len;
    codes_get_size(*_ecH, s1key.c_str(),&nelems);
 
    // Allocate memory for the values to be read
@@ -4073,7 +4074,7 @@ MvObs::valueByLevelRange( const std::string& s1key, float level1, float level2, 
       if ( dlevels[i] >= minv && dlevels[i] <= maxv )
       {
          // Get value from the second key
-         //double myValue = value(s2key,i+1); // can not assume that s1key and 
+         //double myValue = value(s2key,i+1); // can not assume that s1key and
                                               // s2key have the same occurrence
                                               // number
          myValue = valueBySpecifier( s1key, dlevels[i], s2key );
@@ -4183,7 +4184,7 @@ MvObs::writeAllValues(std::ostream& aStream )
   if( _bufrIn->_inState != kBufrIn_DataAndDescriptorsDecoded )
      return false;
 #endif
-  
+
    //e remove confidence code temporarily
 //   long myEndingIndex = _confidence->hasConfidences() ? _confidence->lastDataIndex()+1 : In_KTDEXL;
    long myEndingIndex = 100000;
@@ -4231,7 +4232,7 @@ MvObs::writeValues(std::ostream& aStream, int firstIndex, int lastIndex)
   string sval = stringValue();
   string smyValue = stringValue( In_KTDEXP[ index ] );
   std::cout << "MvObs::writeValues(1) STRINGS SHOULD BE THE SAME: " << sval.c_str() << " " << smyValue.c_str(
-     
+
 ) << std::endl;
   TEMPCHECKVALUESTRING(sval,smyValue);
             }
@@ -4496,7 +4497,7 @@ MvObs::location()
    // THERE IS A PROBLEM HERE. IN THE ORIGINAL CODE (ABOVE) IF "HIGH
    // ACCURACY" VALUES ARE NOT PRESENTED, IT TRIES TO GET THE "COARSE
    // ACCURACY" ONES (5002,6002).
-   // ECCODES ASSIGNS THE SAME KEY NAME FOR BOTH HIGH/LOW ACCURACY 
+   // ECCODES ASSIGNS THE SAME KEY NAME FOR BOTH HIGH/LOW ACCURACY
    // VALUES. AT THE MOMENT, THE CODE IS DIFFERENT FROM THE ORIGINAL
    // ONE UNTIL WE SORT OUT THIS ISSUE.
 
@@ -4978,7 +4979,7 @@ MvObs::descriptorToKey( const long descriptor, string& key)
       key = "";
       ret = false;
    }
- 
+
    codes_handle_delete(dkH);
 
    return ret;
@@ -5044,7 +5045,7 @@ MvObs::key( const string& ikey, const int occurrence )
 
 std::string
 MvObs::keyWithoutOccurrenceTag( const std::string& key )
-{   
+{
    // Remove the prefix #n#
    if(!key.empty() && key[0] == '#' )
    {
@@ -5637,7 +5638,7 @@ bool redirect_6(const char *fname)
   // Will fail if stdin is explicitly closed and no fopens are done
   if ( ! (fopen(tmp_name.c_str(),"w")) )
     {
-        cerr << "Problems opening file " << (const char*)tmp_name.c_str() << " for writing" << std::endl;
+      std::cerr << " >>> MvObs::redirect_6 - ERROR opening file \'" << tmp_name << "\' - " << std::strerror(errno) << std::endl;
       return false;
     }
 
@@ -5798,9 +5799,9 @@ void TEMPCHECKVALUELONG(long myValue,long myValue1,bool isLevel)
 if ( myValue == CODES_MISSING_LONG && myValue1 == kFortranBufrMissingIntValue )
    return;
 
-// if it is Level values related, BUFRDC uses hardcoded value 07004 for 
+// if it is Level values related, BUFRDC uses hardcoded value 07004 for
 // parameter "pressure". However, ecCodes also uses other descriptor values,
-// e.g. 10004, which also translate to parameter "pressure". Therefore, 
+// e.g. 10004, which also translate to parameter "pressure". Therefore,
 // in some cases (synop, for example) function numberOfPressureLevels returns
 // 0 in BUFRDC and 1 in ecCodes (descriptor 10004 is translated to key "pressure").
 if (isLevel)
