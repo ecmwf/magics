@@ -55,6 +55,7 @@
 #include <fstream>
 using std::string;
 #include <cerrno>
+#include <cstring>
 
 #ifdef METVIEW
 #  include "MvException.h"
