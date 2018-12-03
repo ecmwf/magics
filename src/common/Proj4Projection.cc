@@ -577,7 +577,7 @@ void Proj4Projection::simple()
 	fast_reproject(maxx, y1);
 	pwidth_ = maxx - minx;
 
-	wraparound_ = true; 
+	wraparound_ = false; 
 }
 
 void Proj4Projection::projectionSimple()
