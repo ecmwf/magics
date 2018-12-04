@@ -71,15 +71,17 @@ BasicGraphicsObjectContainer::~BasicGraphicsObjectContainer()
 
 void BasicGraphicsObjectContainer::clear()
 {
-
+	// This clear method has to be reviewed ..
+	/*
 	for (vector<BasicGraphicsObject*>::iterator object = objects_.begin(); object!= objects_.end(); ++object) {
 		if (*object) {
 
-			delete *object;
+			//delete *object;
 		}
 		*object = 0;
 	}
-	objects_.clear();
+	*/
+	//objects_.clear();
 }
 void BasicGraphicsObjectContainer::release()
 {
