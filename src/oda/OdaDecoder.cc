@@ -546,8 +546,7 @@ void OdaGeoDecoder::visit(ValuesCollector& points)
 
 	if(points.size() <=0)
 		return;	  
-	
-	
+		
 	if(info("_datatype") == "ODB_geopoints")
 	{  
 		if(size() == 0)
@@ -567,7 +566,7 @@ void OdaGeoDecoder::visit(ValuesCollector& points)
 	  	vector<int> idxV;
 		double lat=(*point).y();
 	  	double lon=(*point).x();
-			
+		
 		if((*point).mode() == ValuesCollectorPoint::IndexMode) 
 		{
 		  	if((*point).index() >=0 &&  (*point).index() < size())
@@ -579,6 +578,8 @@ void OdaGeoDecoder::visit(ValuesCollector& points)
 			  	continue;
 			}	
 		}	
+	  	
+	  	//Pre collection - just based on search radius
 	  	else
 		{  	 
 			if(info("_datatype") == "ODB_geopoints")
@@ -607,36 +608,70 @@ void OdaGeoDecoder::visit(ValuesCollector& points)
 					
 		if(idxV.size() ==0)
 			continue;  
-		
-		double dist=10000000.;
-		int minIdx=-1;
-		
-		//MagLog::debug() << "odb collect idxV : " << lat << " " << lon << " " << idxV.size() << endl;
- 		
+	
+        //Go through the points in the search radius
 		if(info("_datatype") == "ODB_geopoints")
-		{
-			for(int i=0; i < idxV.size(); i++)
-			{  			
-		  		int idx=idxV[i];
-				double d=magics::geoDistanceInKm(at(idx)->y(),at(idx)->x(),lat,lon);
-				
-				if(d < dist)
-				{
-			  		minIdx=idx;
-					dist=d;
-				}			
-			}
+		{			
+            double dist=10000000.;		
+            
+            //collect only one value
+            if(!points.multiData())
+            {
+                int minIdx=-1;
+                for(unsigned int i=0; i < idxV.size(); i++)
+                {  			
+                    int idx=idxV[i];
+                    double d=magics::geoDistanceInKm(at(idx)->y(),at(idx)->x(),lat,lon);				
+                    if(d < dist)
+                    {
+                        minIdx=idx;
+                        dist=d;
+                    }			
+                }
 			
-			if(minIdx>=0)  
-			(*point).push_back(new ValuesCollectorData(at(minIdx)->x(),
+                if(minIdx>=0)  
+                    (*point).push_back(new ValuesCollectorData(at(minIdx)->x(),
 							       at(minIdx)->y(),
 							       at(minIdx)->value(),
 							       dist,minIdx));		
-			
+            }
+            //collect multiple values
+            else
+            {
+                std::vector<double> distV;
+                double distEps=0.01; //10m
+                for(unsigned int i=0; i < idxV.size(); i++)
+                {  			
+                    int idx=idxV[i];
+                    double d=magics::geoDistanceInKm(at(idx)->y(),at(idx)->x(),lat,lon);				
+                    distV.push_back(d);
+                    if(d < dist)
+                    {                
+                        dist=d;
+                    }			
+                }
+                
+                if(dist < 1000) //1000 km
+                {
+                    for(unsigned int i=0; i < idxV.size(); i++)
+                    {  			
+                        int idx=idxV[i];
+                        if(fabs(distV[i] - dist) < distEps)
+                        {                    
+                            (*point).push_back(new ValuesCollectorData(at(idx)->x(),
+							       at(idx)->y(),
+							       at(idx)->value(),
+							       distV[i],dataIndex_[idx]));  
+                        }    
+                    } 
+                }    
+            }    
 		}
 		else
 		{
-			for(int i=0; i < idxV.size(); i++)
+            double dist=10000000.;	
+            int minIdx=-1;
+            for(int i=0; i < idxV.size(); i++)
 			{  			
 		  		int idx=idxV[i];
 				double d=magics::geoDistanceInKm(customisedPoints_.at(idx)->latitude(),
