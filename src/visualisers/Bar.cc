@@ -108,7 +108,8 @@ void Bar::vertical(CustomisedPointsList& points, BasicGraphicsObjectContainer& o
 	
 	for (CustomisedPointsList::const_iterator point = points.begin(); point != points.end(); ++point)
 	{
-		
+		if ( (**point).missing() )
+			continue;
 		x = (**point)["x"];
 		next = ((point+1) != points.end() ) ? (**(point+1))["x"] : x;
 		bottom = (min_value_ == INT_MAX) ? (**point)["y_lower"]: min_value_;
@@ -167,7 +168,8 @@ void Bar::horizontal(CustomisedPointsList& points, BasicGraphicsObjectContainer&
 	
 	for (CustomisedPointsList::const_iterator point = points.begin(); point != points.end(); ++point)
 	{
-		
+		if ( (**point).missing() )
+			continue;
 		y = (**point)["y"];
 		next = ((point+1) != points.end() ) ? (**(point+1))["y"] : x;
 		left = (min_value_ == INT_MAX) ? (**point)["x_lower"]: min_value_;

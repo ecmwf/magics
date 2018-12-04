@@ -1,9 +1,9 @@
 /*
  * (C) Copyright 1996-2016 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
  */
@@ -24,11 +24,11 @@ MagConfigHandler::MagConfigHandler(const string& config, MagConfig& magics)
 {
 	//cout << "OPENING " << config << endl;
 	ifstream is(config.c_str());
-	
+
 	if ( !is.good() ) {
 		MagLog::error() << "Could not processed find the file: " << config << endl;
 		return;
-	} 
+	}
 
 	json_spirit::Value value;
 	try {
@@ -46,13 +46,13 @@ MagConfigHandler::MagConfigHandler(const string& config, MagConfig& magics)
 		   }
 	}
 	catch (json_spirit::Error_position e) {
-		  MagLog::error() << "JSON error in file: " << config << ": " << e.reason_ << "[line: " << e.line_ << ", column: " << e.column_ << "]" << endl; 
+		  MagLog::error() << "JSON error in file: " << config << ": " << e.reason_ << "[line: " << e.line_ << ", column: " << e.column_ << "]" << endl;
 	}
 }
 
 MagConfigHandler::~MagConfigHandler()
 {
-	
+
 }
 
 void MagConfigHandler::dig(const json_spirit::Value&)
@@ -107,85 +107,85 @@ void StyleLibrary::callback(const json_spirit::Array& values)
 	for (unsigned int i = 0; i < values.size(); i++) {
 		library_.push_back(Style());
 		json_spirit::Object object = values[i].get_value< json_spirit::Object >();
-		library_.back().set(object);	
+		library_.back().set(object);
 	}
 }
 
 void Style::set(json_spirit::Object& object, Style::Match& match)
 {
-	
+
 	for (vector<json_spirit::Pair>::const_iterator entry = object.begin(); entry !=  object.end(); ++entry) {
 		match.insert(make_pair(entry->name_, vector<string>()));
 		if ( entry->value_.type() == array_type ) {
 			Array values = entry->value_.get_value<Array>();
 			for (unsigned int i = 0; i < values.size(); i++) {
-				match[entry->name_].push_back(MagConfig::convert(values[i])); 
-				
+				match[entry->name_].push_back(MagConfig::convert(values[i]));
+
 			}
 		}
 		else {
 
-			match[entry->name_].push_back(MagConfig::convert(entry->value_)); 
-			
+			match[entry->name_].push_back(MagConfig::convert(entry->value_));
+
 		}
 	}
-} 
+}
 
-void Style::criteria(const json_spirit::Value& value) 
+void Style::criteria(const json_spirit::Value& value)
 {
 	// List of criteria
 	Array values = value.get_value<Array>();
-	
+
 	for (unsigned int i = 0; i < values.size(); i++) {
 		json_spirit::Object object = values[i].get_value< json_spirit::Object >();
 		criteria_.push_back(Style::Match());
 		set(object, criteria_.back());
 	}
 }
-void Style::style(const json_spirit::Value& value) 
+void Style::style(const json_spirit::Value& value)
 {
-	
+
 }
-void Style::name(const json_spirit::Value& value) 
+void Style::name(const json_spirit::Value& value)
 {
-	
+
 }
-void Style::styles(const json_spirit::Value& value) 
+void Style::styles(const json_spirit::Value& value)
 {
 	Array values = value.get_value<Array>();
-	
+
 	for (unsigned int i = 0; i < values.size(); i++) {
-		// If we finf a name get it from the library 
+		// If we finf a name get it from the library
 		if (values[i].type() == obj_type) {
 			MagDef def;
 			def.set(values[i].get_value<Object>());
-			//push to the library ! 
+			//push to the library !
 
 		}
-		else 
+		else
 			styles_.push_back(values[i].get_str());
 	}
 }
-void Style::units(const json_spirit::Value& value) 
+void Style::units(const json_spirit::Value& value)
 {
 	preferedUnits_ = value.get_str();
 }
 
-void Style::match(const json_spirit::Value& value) 
+void Style::match(const json_spirit::Value& value)
 {
 
 	json_spirit::Object object =value.get_value< json_spirit::Object >();
-	
+
 	for (vector<json_spirit::Pair>::const_iterator entry = object.begin(); entry !=  object.end(); ++entry) {
 		map<string,  SetMethod>::iterator method = methods_.find(entry->name_);
 		if ( method != methods_.end() )
 			(this->*method->second)(entry->value_);
-		else 
+		else
 			MagLog::warning() << entry->name_ << " is not a known keyword" << endl;
-    }	
+    }
 }
 
-void Style::set(const json_spirit::Object& object) 
+void Style::set(const json_spirit::Object& object)
 {
 
 	if ( methods_.empty() ) {
@@ -195,35 +195,35 @@ void Style::set(const json_spirit::Object& object)
 		methods_["eccharts_layer"] =  &Style::name;
 		methods_["visdef"] =  &Style::style;
 		methods_["scaling"] =  &Style::ignore;
-		
+
 	}
 
 	for (vector<json_spirit::Pair>::const_iterator entry = object.begin(); entry !=  object.end(); ++entry) {
 		map<string,  SetMethod>::iterator method = methods_.find(entry->name_);
 		if ( method != methods_.end() )
 			(this->*method->second)(entry->value_);
-		else 
+		else
 			MagLog::warning() << entry->name_ << " is not a known keyword" << endl;
-    }	
+    }
 
 }
 
 void StyleLibrary::callback(const string& name, const json_spirit::Value& value)
 {
-		
+
 		if ( name == "match" ) {
 			library_.push_back(Style());
 			json_spirit::Object object = value.get_value< json_spirit::Object >();
 			library_.back().set(object);
 		}
-  	
+
 }
 
 
 void StyleLibrary::init()
 {
-	
-	// Now we have a vrariable 
+
+	// Now we have a vrariable
 
 	string ecmwf = getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_ + "/styles/ecmwf";
 	string library = getEnvVariable("MAGICS_STYLE_PATH");
@@ -240,14 +240,14 @@ void StyleLibrary::init()
 
 
 	    DIR* dir = opendir(path.c_str());
-	    if ( !dir ) { 
+	    if ( !dir ) {
 	    	ostringstream error;
 	    	error << "Trying to open directory " << library << ": " << strerror(errno);
 	        throw FailedSystemCall(error.str());
 	    }
 	    struct dirent *entry = readdir(dir);
 	    while ( entry ) {
-	        
+
 	        if (entry->d_name[0] != '.') {
 	        	current_ = entry->d_name;
 	        	MagConfigHandler(path + "/" + string(entry->d_name),  *this);
@@ -258,11 +258,11 @@ void StyleLibrary::init()
 	}
 
 
-	
+
 
 	//cout << "Opening " << library << "-->" << library_.size() << endl;
 	//cout << "Opening predefined styles" << library << "/styles.json" << endl;
-	
+
 
 	allStyles_.init(ecmwf, "styles.json");
 }
@@ -270,24 +270,24 @@ void StyleLibrary::init()
 void PaletteLibrary::init()
 {
 	string library = getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_  + "/styles/palettes.json";
-	
+
 	MagConfigHandler(library,  *this);
 }
 
 
-void Palette::values(const json_spirit::Value& value) 
+void Palette::values(const json_spirit::Value& value)
 {
 	Array values = value.get_value<Array>();
-	
+
 
 	for (unsigned int i = 0; i < values.size(); i++) {
-		colours_.push_back(MagConfig::convert(values[i]));	
+		colours_.push_back(MagConfig::convert(values[i]));
 	}
 }
 
-void Palette::tags(const json_spirit::Value& value) 
+void Palette::tags(const json_spirit::Value& value)
 {
-	
+
 
 }
 
@@ -296,50 +296,50 @@ void Palette::set(const json_spirit::Object& object)
 	if ( methods_.empty() ) {
 		methods_["contour_shade_colour_list"] =  &Palette::values;
 		methods_["tags"] =  &Palette::tags;
-	}	
+	}
 	for (vector<json_spirit::Pair>::const_iterator entry = object.begin(); entry !=  object.end(); ++entry) {
 		map<string,  SetMethod>::iterator method = methods_.find(entry->name_);
 		if ( method != methods_.end() )
 			(this->*method->second)(entry->value_);
-		else 
+		else
 			MagLog::warning() << entry->name_ << " is not a known keyword" << endl;
-    }	
+    }
 }
 void PaletteLibrary::callback(const string& name, const json_spirit::Value& value)
 {
-		
+
 	Palette palette;
 	palette.name_ = name;
 	json_spirit::Object object = value.get_value< json_spirit::Object >();
 	palette.set(object);
 
     library_.insert(make_pair(name, palette));
-    	
+
 }
 
 void UnitsLibrary::init()
 {
 	string library = getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_  + "/units-rules.json";
-	
+
 	MagConfigHandler(library,  *this);
 }
 
 
-void UnitConvert::from(const json_spirit::Value& value) 
+void UnitConvert::from(const json_spirit::Value& value)
 {
 	from_ = value.get_str();
 }
 
-void UnitConvert::to(const json_spirit::Value& value) 
+void UnitConvert::to(const json_spirit::Value& value)
 {
 	to_ = value.get_str();
 }
-void UnitConvert::scaling(const json_spirit::Value& value) 
+void UnitConvert::scaling(const json_spirit::Value& value)
 {
 	scaling_ = value.get_real();
 }
 
-void UnitConvert::offset(const json_spirit::Value& value) 
+void UnitConvert::offset(const json_spirit::Value& value)
 {
 	offset_ = value.get_real();
 }
@@ -352,30 +352,30 @@ void UnitConvert::set(const json_spirit::Object& object)
 		methods_["to"] =  &UnitConvert::to;
 		methods_["scaling"] =  &UnitConvert::scaling;
 		methods_["offset"] =  &UnitConvert::offset;
-	}	
+	}
 	scaling_ = 1;
 	offset_ = 0;
 	for (vector<json_spirit::Pair>::const_iterator entry = object.begin(); entry !=  object.end(); ++entry) {
 		map<string,  SetMethod>::iterator method = methods_.find(entry->name_);
 		if ( method != methods_.end() )
 			(this->*method->second)(entry->value_);
-		else 
+		else
 			MagLog::warning() << entry->name_ << " is not a known keyword" << endl;
-    }	
+    }
 }
 void UnitsLibrary::callback(const string& name, const json_spirit::Value& value)
 {
-		
-	
+
+
 	library_.insert(make_pair(name, vector<UnitConvert>()));
 	json_spirit::Array objects = value.get_value< json_spirit::Array >();
 	for (unsigned int i = 0; i < objects.size(); i++) {
 		UnitConvert convert;
 		convert.set(objects[i].get_value<Object>());
-		library_[name].push_back(convert);	
-	
-		
-	}    	
+		library_[name].push_back(convert);
+
+
+	}
 }
 
 
@@ -388,7 +388,7 @@ int Style::score(const MetaDataCollector& data)
 		for (auto key = match->begin(); key != match->end(); ++key) {
 			//cout << " FINDDING " << key->first << endl;
 			auto dkey= data.find(key->first);
-			
+
 			if ( dkey == data.end() ) {
 				//cout << " NOT FOUND " << key->first << endl;
 				continue;
@@ -400,7 +400,7 @@ int Style::score(const MetaDataCollector& data)
 			//cout << " FOUND " << dkey->second << endl;
 			int tmpscore = 0;
 			for ( auto value = key->second.begin(); value != key->second.end(); ++value ) {
-			
+
 				string whitespaces (" \t\f\v\n\r");
 				string clean = dkey->second;
   				std::size_t pos = clean.find_last_not_of(whitespaces);
@@ -410,54 +410,54 @@ int Style::score(const MetaDataCollector& data)
  				//cout << " trying " << *value << " ?? " << clean <<  "(" << clean.size() << ")" << endl;
 				if ( *value == clean ) {
 					tmpscore++;
-					
-					//cout << key->first << " value [" << *value << "] == [" << clean  << "]" << endl; 
-					//cout << "score is now " << tmpscore  << endl; 
+
+					//cout << key->first << " value [" << *value << "] == [" << clean  << "]" << endl;
+					//cout << "score is now " << tmpscore  << endl;
 					criteria.insert(make_pair(key->first, *value));
 					break;
 				}
-				
-				// just try to remove the last character of the string .. 
+
+				// just try to remove the last character of the string ..
 				//clean = clean.substr(0, clean.size()-1);
 				//cout << " cleaning more " << *value << " ?? " << clean <<   "(" << clean.size() << ")" << endl;
 				//if ( *value == clean ) {
 				//	tmpscore++;
-					//cout << key->first << " value [" << *value << "] == [" << clean  << "]" << endl; 
-					//cout << "Found a match after cleaning ... score is now " << tmpscore  << endl; 
+					//cout << key->first << " value [" << *value << "] == [" << clean  << "]" << endl;
+					//cout << "Found a match after cleaning ... score is now " << tmpscore  << endl;
 				//	criteria.insert(make_pair(key->first, *value));
 				//	break;
 				//}
 
-				
+
 			}
 			if ( !tmpscore) {
 					criteria.clear();
 					score = 0;
 					break;
 				}
-			cout << "score is now " << tmpscore  << endl; 
+//			cout << "score is now " << tmpscore  << endl;
 			score++;
 		}
-		if ( bestscore < score ) 
+		if ( bestscore < score )
 			bestscore = score;
 	}
-	
+
 	if ( bestscore ) {
 		if ( styles_.empty() ) {
-			
+
 			styles_.push_back("default");
 		}
-		
+
 		else {
-			cout << "----   Found style with score : " << bestscore << " Style --> " << styles_.front() << endl;
-		for ( auto match = criteria.begin(); match != criteria.end(); ++match) { 
-			cout << "    " << match->first  << " == " <<  match->second << endl;
+			MagLog::debug() << "----   Found style with score : " << bestscore << " Style --> " << styles_.front() << endl;
+		for ( auto match = criteria.begin(); match != criteria.end(); ++match) {
+			MagLog::debug() << "    " << match->first  << " == " <<  match->second << endl;
 		}
-		cout << "----------------------------------------------------" << endl;
+		MagLog::debug() << "----------------------------------------------------" << endl;
 	}
 
 	}
-	
+
 	return bestscore;
 }
 
@@ -497,7 +497,7 @@ bool StyleLibrary::findStyle(const MetaDataCollector& data, MagDef& visdef, Styl
 		}
 	}
 	if ( score ) {
-			
+
 			info.set(beststyle.styles_.front(), beststyle.styles_);
 			allStyles_.find(info.default_, visdef);
 			if ( visdef.find("required_units") == visdef.end() )
@@ -506,22 +506,22 @@ bool StyleLibrary::findStyle(const MetaDataCollector& data, MagDef& visdef, Styl
 			return true;
 
 		}
-	
+
 	vector<string> empty;
 	empty.push_back("default");
 	info.set("default", empty);
-	
+
 	allStyles_.find(info.default_, visdef);
 	return true;
 }
 
-string StyleLibrary::getAttribute(const string& style, const string& param, const string& defval) 
+string StyleLibrary::getAttribute(const string& style, const string& param, const string& defval)
 {
 	MagDef visdef;
 	allStyles_.find(style, visdef);
 	auto value = visdef.find(param);
 
-	return ( value != visdef.end() ) ? value->second : defval; 
+	return ( value != visdef.end() ) ? value->second : defval;
 }
 
 bool StyleLibrary::findScaling(const MetaDataCollector& data, MagDef& scaling)
@@ -559,7 +559,7 @@ void NetcdfGuess::callback(const string& name, const json_spirit::Value& value)
     		}
 		}
 	}
-    	
+
 }
 void MagDefLibrary::init(const string& name)
 {
@@ -575,7 +575,7 @@ void MagDefLibrary::init(const string& path, const string& name)
 	MagConfigHandler(library,  *this);
 }
 
-void MagDef::values(const json_spirit::Value& value) 
+void MagDef::values(const json_spirit::Value& value)
 {
 	json_spirit::Object object =value.get_value< json_spirit::Object >();
 
@@ -584,19 +584,19 @@ void MagDef::values(const json_spirit::Value& value)
 void MagDef::set(const json_spirit::Object& object)
 {
 	for (vector<json_spirit::Pair>::const_iterator entry = object.begin(); entry !=  object.end(); ++entry) {
-		
+
 		insert(make_pair(entry->name_, MagConfig::convert(entry->value_)));
 	}
 }
 
 void MagDefLibrary::callback(const string& name, const json_spirit::Value& value)
 {
-		
+
 	MagDef def;
 	def.name_ = name;
 	json_spirit::Object object = value.get_value< json_spirit::Object >();
 	def.set(object);
-	
+
     library_.insert(make_pair(name, def));
-    	
+
 }

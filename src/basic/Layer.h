@@ -501,24 +501,26 @@ class ValuesCollector : public vector<ValuesCollectorPoint>
 {
 public:
 	ValuesCollector(string name=string()) : name_(name), scaled_(false), collected_(false),
-	              searchRadiusX_(2.),searchRadiusY_(2.), hasValue_(true) {}
+	              searchRadiusX_(2.),searchRadiusY_(2.), hasValue_(true), multiData_(false) {}
 	~ValuesCollector() {}	
 	void  transformation(const Transformation* transformation) { transformation_ = transformation; }
-	const Transformation& transformation() { return *transformation_; }
-	const string& name() {return name_;}
+	const Transformation& transformation() const { return *transformation_; }
+	const string& name() const {return name_;}
 	const string& scaledUnits() const {return scaledUnits_;}
 	void  setScaledUnits(string s) {scaledUnits_=s;}
 	const string& units() const {return units_;}
 	void  setUnits(string s) {units_=s;}
-	bool  scaled() {return scaled_;}
+	bool  scaled() const {return scaled_;}
 	void setScaled(bool b) {scaled_=b;}
-	bool  collected() {return collected_;}
+	bool  collected() const {return collected_;}
 	void  setCollected(bool b) {collected_=b;}
 	void  setSearchRadius(double rx,double ry) {searchRadiusX_=rx; searchRadiusY_=ry;}
-	double searchRadiusX() {return searchRadiusX_;}
+	double searchRadiusX() const {return searchRadiusX_;}
 	double searchRadiusY() {return searchRadiusY_;}
 	void setHasValue(bool b) {hasValue_=b;}
-	bool hasValue() {return hasValue_;}
+	bool hasValue() const {return hasValue_;}
+	void setMultiData(bool b) {multiData_=b;}
+	bool multiData() const {return multiData_;}
 
 protected: 
 	const Transformation* transformation_;
@@ -530,6 +532,7 @@ protected:
 	double searchRadiusX_;
 	double searchRadiusY_;
 	bool hasValue_;
+    bool multiData_;
 };
 
 class DataIndexCollector
