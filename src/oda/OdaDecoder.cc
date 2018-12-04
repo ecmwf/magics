@@ -669,35 +669,79 @@ void OdaGeoDecoder::visit(ValuesCollector& points)
 		}
 		else
 		{
-            double dist=10000000.;	
-            int minIdx=-1;
-            for(int i=0; i < idxV.size(); i++)
-			{  			
-		  		int idx=idxV[i];
-				double d=magics::geoDistanceInKm(customisedPoints_.at(idx)->latitude(),
+            double dist=10000000.;		
+            
+            //collect only one value
+            if(!points.multiData())
+            {
+                int minIdx=-1;
+                for(unsigned int i=0; i < idxV.size(); i++)
+                {  			
+                    int idx=idxV[i];
+                    double d=magics::geoDistanceInKm(customisedPoints_.at(idx)->latitude(),
 								 customisedPoints_.at(idx)->longitude(),
 								 lat,lon);				
-				if(d < dist)
-				{
-			  		minIdx=idx;
-					dist=d;
-				}			
-			}
+                    if(d < dist)
+                    {
+                        minIdx=idx;
+                        dist=d;
+                    }			
+                }
 		
-			if(minIdx>=0) 
-			{
-				map<string,double>::iterator uIt=customisedPoints_.at(minIdx)->find("x_component");
-				map<string,double>::iterator vIt=customisedPoints_.at(minIdx)->find("y_component");
-				if(uIt !=customisedPoints_.at(minIdx)->end() && 
-				   vIt !=customisedPoints_.at(minIdx)->end())
-				{  
-					(*point).push_back(new ValuesCollectorUVData(
+                if(minIdx>=0) 
+                {
+                    map<string,double>::iterator uIt=customisedPoints_.at(minIdx)->find("x_component");
+                    map<string,double>::iterator vIt=customisedPoints_.at(minIdx)->find("y_component");
+                    if(uIt !=customisedPoints_.at(minIdx)->end() && 
+                       vIt !=customisedPoints_.at(minIdx)->end())
+                    {  
+                        (*point).push_back(new ValuesCollectorUVData(
 							       customisedPoints_.at(minIdx)->longitude(),
 							       customisedPoints_.at(minIdx)->latitude(),
 							       uIt->second,vIt->second,dist,minIdx));
-				}
-			}
-		}					  					     			
+                    }
+                }
+            }
+             //collect multiple values
+            else
+            {
+                std::vector<double> distV;
+                double distEps=0.01; //10m
+                for(unsigned int i=0; i < idxV.size(); i++)
+                {  			
+                    int idx=idxV[i];
+                    double d=magics::geoDistanceInKm(customisedPoints_[idx]->latitude(),
+                                                     customisedPoints_[idx]->longitude(),lat,lon);				
+                    distV.push_back(d);
+                    if(d < dist)
+                    {                
+                        dist=d;
+                    }			
+                }
+                
+                if(dist < 1000) //1000 km
+                {
+                    for(unsigned int i=0; i < idxV.size(); i++)
+                    {  			
+                        int idx=idxV[i];
+                        if(fabs(distV[i] - dist) < distEps)
+                        {                    
+                            map<string,double>::iterator uIt=customisedPoints_[idx]->find("x_component");
+                            map<string,double>::iterator vIt=customisedPoints_[idx]->find("y_component");
+                            if(uIt !=customisedPoints_[idx]->end() && 
+                               vIt !=customisedPoints_[idx]->end())
+                            {
+                                (*point).push_back(new ValuesCollectorUVData(
+                                    customisedPoints_[idx]->longitude(),
+                                    customisedPoints_[idx]->latitude(),
+							        uIt->second,vIt->second,distV[i],dataIndex_[idx]));
+                            
+                            }
+                        }    
+                    } 
+                }    
+            }               
+        }    
 	}	  
 }
 
