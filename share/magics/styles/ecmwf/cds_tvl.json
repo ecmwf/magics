@@ -1,18 +1,23 @@
-{
-    "match" : {
-        "eccharts_layer" : "cds_tvl",
-        "set" : [
-            {
-                "paramId" : ["29"],
-                "shortName" : ["tvl"]
-            },
-            {
-                "long_name" : ["Type of low vegetation"]
-            }
+[
+  {
+    "eccharts_layer": "cds_tvl",
+    "styles": [
+      "mrk_grn_f0t20lst"
+    ],
+    "match": [
+      {
+        "paramId": [
+          "29"
         ],
-        "style" : "mrk_grn_f0t20lst",
-        "styles" : [
-            "mrk_grn_f0t20lst"
+        "shortName": [
+          "tvl"
         ]
-    }
-}
+      },
+      {
+        "long_name": [
+          "Type of low vegetation"
+        ]
+      }
+    ]
+  }
+]

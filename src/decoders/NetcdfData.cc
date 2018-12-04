@@ -350,6 +350,8 @@ double NetVariable::getDefaultMissing()
 
 	if ( type() == NC_DOUBLE)
 		return NC_FILL_DOUBLE;
+	if ( type() == NC_BYTE)
+		return NC_FILL_BYTE;
 	return NC_FILL_FLOAT;
 }
 
@@ -397,12 +399,14 @@ namespace magics {
 } // end namespace
 
 
+static TypedAccessor<unsigned char, float>  byte_float_accessor(NC_BYTE);
 static TypedAccessor<short, float>  short_float_accessor(NC_SHORT);
 static TypedAccessor<int, float>  int_float_accessor(NC_INT);
 static TypedAccessor<float, float>  float_float_accessor(NC_FLOAT);
 static TypedAccessor<double, float> double_float_accessor(NC_FLOAT);
 
 //static TypedAccessor<nc_byte, double>  byte_double_accessor(NC_BYTE);
+static TypedAccessor<unsigned char, double>  byte_double_accessor(NC_BYTE);
 static TypedAccessor<short, double>  short_double_accessor(NC_SHORT);
 static TypedAccessor<int, double>  int_double_accessor(NC_INT);
 static TypedAccessor<float, double>  float_double_accessor(NC_FLOAT);

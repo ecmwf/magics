@@ -71,6 +71,7 @@ public:
 	const char* metanetcdf();
 	void pgeo();
 	void pinput();
+	const char* metainput();
 	void ptable();
 	void pcont();
 	void ptext();

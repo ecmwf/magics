@@ -212,6 +212,9 @@ public:
 	void reprojectComponents(double&, double&, pair<double, double>&) const;
 	void reprojectSpeedDirection(const PaperPoint& point, pair<double, double>&) const;
 	virtual void geoProjection(int& geo) const { geo = 1; } // Useful for Streamlines !
+
+	void wrap(double&, double&);
+
 protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).
 	 typedef void (Proj4Projection::*SettingHelper)();
@@ -235,6 +238,9 @@ protected:
 	 mutable double gridMaxLon_;
 	 mutable double gridMaxLat_;
 
+	 bool   wraparound_; 
+	 double width_;
+	 double pwidth_;
 
 private:
     //! Copy constructor - No copy allowed
@@ -253,6 +259,12 @@ class Proj4PolarNorth : public Proj4Projection
 {
 public:
 	Proj4PolarNorth() : Proj4Projection("polar_north") {}
+};
+
+class Proj4PolarSouth : public Proj4Projection
+{
+public:
+	Proj4PolarSouth() : Proj4Projection("polar_south") {}
 };
 
 class Proj4Lambert : public Proj4Projection
@@ -361,6 +373,22 @@ class Proj4EPSG4326 : public Proj4Projection
 {
 public:
 	Proj4EPSG4326() : Proj4Projection("EPSG:4326") {}
+};
+
+class Proj4Automatic : public Proj4Projection
+{
+public:
+	Proj4Automatic();
+	void aspectRatio(double&, double&);
+
+	void init();
+	void setMinMaxX(double, double);
+    void setMinMaxY(double, double);
+    void setNewPCBox(double minx, double miny, double maxx, double maxy);
+protected:
+	bool init_;
+	double width_;
+	double height_;
 };
 
 } // namespace magics

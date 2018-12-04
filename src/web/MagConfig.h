@@ -13,12 +13,16 @@
 
 #include "magics.h"
 #include "MagLog.h"
+#include "Layer.h"
 
 
 #include "json_spirit.h"
 #include <limits>
 
 namespace magics {
+
+
+
 class MagConfig
 {
 public:
@@ -61,17 +65,13 @@ private:
 
 };
 
-struct MagDef
+struct MagDef : map<string, string>
 {
-	typedef map<string, string> Definition;
-	
 
 	
-	void values(const json_spirit::Value&);
+	void values(const json_spirit::Value&);	
 
 	
-
-	Definition def_;
 	
 	string name_;
 	void set(const json_spirit::Object&);
@@ -79,7 +79,7 @@ struct MagDef
 		{ 
 			 
 				s << "[" << endl;
-				for ( auto def = p.def_.begin(); def != p.def_.end(); ++def)
+				for ( auto def = p.begin(); def != p.end(); ++def)
 				  s << "   " << def->first << " = " << def->second << "," << endl;
 				s << "]" << endl;
 				return s;
@@ -94,7 +94,7 @@ class MagDefLibrary : public MagConfig
 {
 public:
 	MagDefLibrary() { }
-	MagDefLibrary(const string& name)  { init("/styles/" + name + ".json"); }
+	MagDefLibrary(const string& name) : name_(name) { init("/styles/" + name + ".json"); }
 	MagDefLibrary(const string& theme, const string& name) : name_(name) { init("/styles/" + theme + "/" + name + ".json"); }
 	~MagDefLibrary() {}
 
@@ -103,14 +103,14 @@ public:
 	void init(const string&);
 	void init(const string&, const string&);
 	
-	map<string, MagDef > library_;
+	map<string, MagDef> library_;
 
-    bool find(const string& name, MagDef::Definition& definition) {
+    bool find(const string& name, MagDef& definition) {
     	//cout << "Looking for  " << name << endl;
     	map<string, MagDef>::iterator def = library_.find(name);
 
     	if ( def != library_.end() ) {
-    		definition = def->second.def_;
+    		definition = def->second;
     		//cout << "FOUND " << name << endl;
     		//cout << def->second << endl;
     		return true;
@@ -129,7 +129,7 @@ public:
 struct Style 
 {
 	typedef map<string, vector<string> > Match;
-	typedef map<string, string> Definition;
+	
 	typedef void (Style::*SetMethod)(const json_spirit::Value&);
 	map<string,  SetMethod> methods_;
 	
@@ -143,12 +143,14 @@ struct Style
 
 	vector<Match> criteria_;
 	string preferedUnits_;
-	string style_;
+	
 	vector<string> styles_;
-	vector<string> names_;
+	
+
 	void set(const json_spirit::Object&);
 	void set(json_spirit::Object&, Style::Match&);
-	int score(const Definition& data);
+
+	int score(const MetaDataCollector& data);
 
 	void keywords(std::set<string>&);
 	
@@ -172,16 +174,17 @@ public:
 	string theme_;
 	string family_;
 	string path_;
+	string current_;
 	MagDefLibrary allStyles_;
 
-	bool findStyle(const Style::Definition& data, Style::Definition& visdef, StyleEntry&);
-	void findStyle(const string&, Style::Definition& visdef);
-	bool findScaling(const Style::Definition& data, Style::Definition& visdef);
+	bool findStyle(const MetaDataCollector& data, MagDef& visdef, StyleEntry&);
+	void findStyle(const string&, MagDef& visdef);
+	bool findScaling(const MetaDataCollector& data, MagDef& visdef);
     
     string getAttribute(const string&, const string&, const string&);
 
-    bool findStyle(const string& name, Style::Definition& visdef, StyleEntry& info) {
-    	Style::Definition criteria;
+    bool findStyle(const string& name, MagDef& visdef, StyleEntry& info) {
+    	MetaDataCollector criteria;
     	criteria["name"] = name;
     	return findStyle(criteria, visdef, info);
     }

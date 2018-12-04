@@ -1,28 +1,27 @@
-{
-    "match" : {
-        "eccharts_layer" : "2t_dewpoint",
-        "prefered_units" : "C",
-        "set" : [
-            {
-                "paramId" : "168",
-                "shortName" : "2d"
-            },
-            {
-                "long_name" : "2 metre dewpoint temperature"
-            }
-        ],
-        "style" : "sh_all_fM48t56i4",
-        "styles" : [
-            "sh_all_fM48t56i4",
-            "sh_all_fM64t52i4",
-            "ct_red_i2_dash",
-            "sh_all_fM32t42i2",
-            "sh_all_fM48t56i4_ct_wh",
-            "sh_all_fM52t48i4",
-            "sh_all_fM52t48i4_light",
-            "sh_gry_fM72t56lst",
-            "ct_red_i4_t3",
-            "transparent_zero_blue"
-        ]
-    }
-}
+[
+  {
+    "eccharts_layer": "2t_dewpoint",
+    "prefered_units": "C",
+    "styles": [
+      "sh_all_fM48t56i4",
+      "sh_all_fM64t52i4",
+      "ct_red_i2_dash",
+      "sh_all_fM32t42i2",
+      "sh_all_fM48t56i4_ct_wh",
+      "sh_all_fM52t48i4",
+      "sh_all_fM52t48i4_light",
+      "sh_gry_fM72t56lst",
+      "ct_red_i4_t3",
+      "transparent_zero_blue"
+    ],
+    "match": [
+      {
+        "paramId": "168",
+        "shortName": "2d"
+      },
+      {
+        "long_name": "2 metre dewpoint temperature"
+      }
+    ]
+  }
+]
