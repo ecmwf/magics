@@ -26,6 +26,7 @@
 #include "CustomisedPoint.h"
 #include "DateTime.h"
 #include "TextVisitor.h"
+#include "Timer.h"
 #include "MvObs.h"
 
 using namespace magics;
@@ -42,6 +43,7 @@ void EpsBufr::visit(Transformation& transformation)
 
 void EpsBufr::decode()
 {
+    Timer timer("EpsBufr", "decode");
 	if ( !points_.empty()) return;
 
      MagLog::dev() << "EpsBufr::decode()-->" << *this << endl;

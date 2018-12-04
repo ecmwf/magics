@@ -89,7 +89,10 @@ Polyline* Curve::newCurve(BasicGraphicsObjectContainer& task) const
 	
 bool  Curve::missing(CustomisedPoint& point) const
 {
-	if ( point.missing() ) return true;
+	if ( point.missing() ) {
+		cout << "FOUND MISSING" << endl;
+		return true;
+	}
 	double x = point["x"];
 
 	if ( x < this->x_below_ ) return true;

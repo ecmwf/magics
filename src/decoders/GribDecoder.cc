@@ -1,9 +1,9 @@
 /*
  * (C) Copyright 1996-2016 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
  */
@@ -36,13 +36,14 @@
 #include "Transformation.h"
 #include "MetaData.h"
 #include "MagJSon.h"
+#include <cerrno>
 
 using namespace magics;
 
 int  GribDecoder::count_ = 0;
 
 GribDecoder::GribDecoder() :  matrix_(0),  xComponent_(0), yComponent_(0),
-        colourComponent_(0), handle_(0), nearest_(0), interpretor_(0), 
+        colourComponent_(0), handle_(0), nearest_(0), interpretor_(0),
         field_(0), component1_(0), component2_(0), colour_(0), xValues_(0), yValues_(0)
 {
     count_++;
@@ -123,7 +124,7 @@ long computeStep( const GribDecoder& grib,const string&  key)
 
 long GribDecoder::getLong(const string& key, bool warnIfKeyAbsent) const
 {
-    if ( !valid_ ) return 0; 
+    if ( !valid_ ) return 0;
     long val;
     map<string, long>::const_iterator lk = lKeys_.find(key);
     if ( lk != lKeys_.end() ) {
@@ -144,7 +145,7 @@ long GribDecoder::getLong(const string& key, bool warnIfKeyAbsent) const
 
 string GribDecoder::getstring(const string& key, bool warnIfKeyAbsent, bool cache) const
 {
-    if ( !valid_ ) return ""; 
+    if ( !valid_ ) return "";
     if ( cache ) {
         map<string, string>::const_iterator sk = sKeys_.find(key);
         if ( sk != sKeys_.end() ) {
@@ -153,7 +154,7 @@ string GribDecoder::getstring(const string& key, bool warnIfKeyAbsent, bool cach
     }
     char val[1024];
     size_t length = 1024;
-    
+
 
     int err = grib_get_string(handle_, key.c_str(), val, &length);
 
@@ -161,21 +162,21 @@ string GribDecoder::getstring(const string& key, bool warnIfKeyAbsent, bool cach
     {
         if (warnIfKeyAbsent)
         {
-            
+
             MagLog::warning() << "Grib API: can not find key [" << key << "]  - "<< grib_get_error_message(err) <<"\n";
-             
+
         }
         return "";
     }
     if ( cache )
         sKeys_.insert(make_pair(key, val));
-    
+
     return string(val);
 }
 
 string GribDecoder::getString(const string& key, bool warnIfKeyAbsent) const
 {
-    if ( !valid_ ) return ""; 
+    if ( !valid_ ) return "";
     if ( Data::dimension_ == 1 )
         return getstring(key, warnIfKeyAbsent, false);
 
@@ -204,7 +205,7 @@ string GribDecoder::getString(const string& key, bool warnIfKeyAbsent) const
 
 double GribDecoder::getDouble(const string& key, bool warnIfKeyAbsent) const
 {
-    if ( !valid_ ) return 0; 
+    if ( !valid_ ) return 0;
     map<string, double>::const_iterator dk = dKeys_.find(key);
     if ( dk != dKeys_.end() ) {
         return dk->second;
@@ -308,7 +309,7 @@ void GribDecoder::read(Matrix **matrix, const Transformation&  transformation)
         *matrix = 0;
         return;
     }
-    
+
     const string representation = getString("typeOfGrid");
 
     try {
@@ -371,7 +372,7 @@ void GribDecoder::visit(Transformation& transformation)
         transformation.setMinMaxY(matrix_->minY(), matrix_->maxY());
         return;
     }
-   
+
     // Here are in a dump ode .. the coordinates are pixels.
     if ( transformation.getAutomaticX() ) {
         transformation.setMinMaxX(1, matrix_->columns());
@@ -546,10 +547,10 @@ struct Compare
 
 void GribDecoder::customisedPoints(const Transformation& transformation, CustomisedPointsList& out, double thinx, double thiny, double gap)
 {
-    
-    
+
+
     decode2D();
-    
+
 
     double minlon = 0.;
     double maxlon = 360.;
@@ -567,7 +568,7 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
         out.reserve(positions.size());
 
         int i = 0;
-       
+
         std::set<int> cache;
         cache.insert(-1);
         for ( pos = positions.begin(); pos != positions.end(); ++pos) {
@@ -579,7 +580,7 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
 
             int w = xComponent_->nearest_index(lat, lon, nlat, nlon);
 
-           
+
             i++;
             bool cached = ( cache.find(w) != cache.end() );
             if ( !cached ) {
@@ -594,7 +595,7 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
                     add->insert(make_pair("y_component", value.second));
                     if (colourComponent_)
                          add->insert(make_pair("colour_component", (*colourComponent_)[w]));
-                  
+
                     out.push_back(add);
 
                     string debug = getEnvVariable("WIND_DEBUG");
@@ -607,14 +608,14 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
                     }
 
                 }
-                
+
             }
-            
+
     }
 
     else { // no thinning !
         // get all the points of the index!
-    	
+
         for ( map<double, int>::iterator y = xComponent_->yIndex_.begin(); y != xComponent_->yIndex_.end(); ++y) {
         	InfoIndex x = xComponent_->xIndex_[y->second];
         	double lat = y->first;
@@ -757,9 +758,9 @@ grib_handle*  GribDecoder::open(grib_handle* grib, bool sendmsg)
     handle_ = 0;
     if (!file)
     {
-        MagLog::error() << "file can not be opened [" << file_name_ << "]" << std::endl;
+        //MagLog::error() << "file can not be opened [" << file_name_ << "] "<< std::strerror(errno) << std::endl;
         ostringstream error;
-        error <<  "file can not be opened [" << file_name_ << "]" << std::endl;
+        error <<  "file can not be opened [" << file_name_ << "] "<< std::strerror(errno) << std::endl;
         MagLog::broadcast();
         valid_ = false;
         throw MagicsException(error.str());
@@ -967,7 +968,7 @@ bool  GribLoop::hasMore()
     if (file_ == 0 ) {
         file_ = fopen(path_.c_str(),"r");
         if (!file_) {
-            MagLog::error() << "file can not be opened [" << path_ <<  "]" << std::endl;
+            MagLog::error() << "file can not be opened [" << path_ <<  "] "<< std::strerror(errno) << std::endl;
             throw GribFileMagException(path_, 0);
         }
     }
@@ -1678,7 +1679,7 @@ void GribDecoder::visit(MetaDataCollector& step)
                     }
                 }*/
             }
-            
+
             //If key is found in information_ we copy it
             if(information_.find(key->first) != information_.end())
             {
@@ -2102,7 +2103,7 @@ public:
         long hour = grib.getLong("hour");
         long mn =  grib.getLong("minute");
         string x = grib.getString("dataDate");
-        
+
 
         MagDate part1 = MagDate(date);
         MagTime part2 = MagTime(hour, mn, 0);
@@ -2163,10 +2164,10 @@ public:
     {
 
         ostringstream out;
-        long startstep = grib.getLong("startStep"); 
+        long startstep = grib.getLong("startStep");
         long endstep = grib.getLong("endStep");
 
-        
+
 
         if ( startstep != endstep ) {
             ostringstream step;
@@ -2174,14 +2175,14 @@ public:
             title.back() += step.str();
             return;
         }
-         
+
 
         ostringstream step;
         step << startstep;
         string format = field.attribute("format", "t+%s");
         out << SimpleStringFormat(step.str(), format);
         title.back() += out.str();
-        
+
     }
 };
 
@@ -2608,4 +2609,3 @@ static SimpleObjectMaker<GribPolarStereoInterpretor, GribInterpretor> polar("pol
 
 #include "GribSatelliteInterpretor.h"
 static SimpleObjectMaker<GribSatelliteInterpretor, GribInterpretor> satellite("space_view");
-

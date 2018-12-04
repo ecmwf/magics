@@ -377,7 +377,7 @@ void WebLibrary::getScaling(MetaDataCollector& data, double& scaling, double& of
 		//cout << " Found Unit " << unit->second << endl;
 		bool found = styles_->findStyle(data, values, info);
 		if ( !found) {
-			//cout << "Can not find style" << endl;	
+			MagLog::debug() << "Can not find style" << endl;	
 			return;
 		}
 		//cout << " TRYRING to scale " << unit->second << endl;
