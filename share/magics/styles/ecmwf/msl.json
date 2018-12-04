@@ -1,39 +1,38 @@
-{
-    "match" : {
-        "eccharts_layer" : "msl",
-        "prefered_units" : "hPa",
-        "set" : [
-            {
-                "paramId" : "151",
-                "shortName" : "msl"
-            },
-            {
-                "long_name" : [
-                    "Mean sea level pressure",
-                    "Sea Level Pressure"
-                ],
-                "standard_name" : "air_pressure_at_sea_level"
-            },
-            {
-                "long_name" : "Sea Level Pressure",
-                "standard_name" : "air_pressure_at_sea_level"
-            }
+[
+  {
+    "eccharts_layer": "msl",
+    "prefered_units": "hPa",
+    "styles": [
+      "ct_blk_i5_t2",
+      "ct_blk_i5_t1",
+      "ct_blk_i5_t1_hilo",
+      "ct_blk_i5_t1_hilo_label",
+      "ct_blk_i1_t1",
+      "ct_blk_i1_t2",
+      "ct_blue_i5_t2",
+      "ct_green_i5_t2",
+      "ct_red_i5_t2",
+      "ct_red_i5_t4",
+      "ct_brn_i4_t2",
+      "ct_blk_i2_t4",
+      "ct_green_i2_t4"
+    ],
+    "match": [
+      {
+        "paramId": "151",
+        "shortName": "msl"
+      },
+      {
+        "long_name": [
+          "Mean sea level pressure",
+          "Sea Level Pressure"
         ],
-        "style" : "ct_blk_i5_t2",
-        "styles" : [
-            "ct_blk_i5_t2",
-            "ct_blk_i5_t1",
-            "ct_blk_i5_t1_hilo",
-            "ct_blk_i5_t1_hilo_label",
-            "ct_blk_i1_t1",
-            "ct_blk_i1_t2",
-            "ct_blue_i5_t2",
-            "ct_green_i5_t2",
-            "ct_red_i5_t2",
-            "ct_red_i5_t4",
-            "ct_brn_i4_t2",
-            "ct_blk_i2_t4",
-            "ct_green_i2_t4"
-        ]
-    }
-}
+        "standard_name": "air_pressure_at_sea_level"
+      },
+      {
+        "long_name": "Sea Level Pressure",
+        "standard_name": "air_pressure_at_sea_level"
+      }
+    ]
+  }
+]

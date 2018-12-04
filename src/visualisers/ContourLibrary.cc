@@ -90,7 +90,7 @@ bool ContourLibrary::checkId(MetaDataCollector& metaId,MetaDataCollector& metaKe
 
 	
 // se the map to set the contour!
-void ContourLibrary::getStyle(MetaDataCollector& meta, map<string, string>& attributes, StyleEntry&)
+void ContourLibrary::getStyle(MetaDataCollector& meta, MagDef& attributes, StyleEntry&)
 {
 	MagLog::dev() << "ContourLibrary::set-->" << endl;
 
@@ -212,7 +212,7 @@ void EcChartLibrary::askId(MetaDataCollector& request)
 }
 
 // se the map to set the contour!
-void EcChartLibrary::getStyle(MetaDataCollector& data, map<string, string>& contour, StyleEntry&)
+void EcChartLibrary::getStyle(MetaDataCollector& data, MagDef& contour, StyleEntry&)
 {
 	
 	//find the best contour definition
@@ -333,18 +333,26 @@ void WebLibrary::setCriteria(MetaDataCollector& request, const string& criteria)
 }
 
 // set the map to set the contour!
-void WebLibrary::getStyle(MetaDataCollector& data, map<string, string>& contour, StyleEntry& info)
+void WebLibrary::getStyle(MetaDataCollector& data, MagDef& contour, StyleEntry& info)
 {
 
-		
-		map<string, string> style;
+		MagDef style;
 
-		if ( styles_->findStyle(data, style, info) )
+		if ( styles_->findStyle(data, style, info) ) {
 			contour = style;
+			
+		}
+
+		else  {
+			styles_->findStyle("default", contour);
+			//for (auto s = contour.begin(); s != contour.end(); ++s)
+				//cout << s->first << "--->" << s->second << endl; 
+
+		}
 	
 }
 
-void  WebLibrary::getStyle(const string& name, map<string, string>& info) {
+void  WebLibrary::getStyle(const string& name, MagDef& info) {
 	
 	styles_->findStyle(name, info);
 }
@@ -353,7 +361,7 @@ void WebLibrary::getScaling(MetaDataCollector& data, double& scaling, double& of
 {
 
 		
-		map<string, string> values;
+		MagDef values;
 		StyleEntry info;
 		scaling = 1;
 		offset = 0;
@@ -369,7 +377,7 @@ void WebLibrary::getScaling(MetaDataCollector& data, double& scaling, double& of
 		//cout << " Found Unit " << unit->second << endl;
 		bool found = styles_->findStyle(data, values, info);
 		if ( !found) {
-			cout << "Can not find style" << endl;	
+			MagLog::debug() << "Can not find style" << endl;	
 			return;
 		}
 		//cout << " TRYRING to scale " << unit->second << endl;

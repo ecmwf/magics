@@ -55,7 +55,7 @@ does it submit to any jurisdiction.
           		<documentation> Height of View.		</documentation>
   	</parameter>
 
-  	<parameter member="background" to="Colour" default="white" from="string" name="scene_node_background_colour">
+  	<parameter member="background" to="Colour" default="none" from="string" name="scene_node_background_colour">
          		<documentation> Colour of the subpage background 		</documentation>
          		<release>Magics++0.1		</release>
   	</parameter>

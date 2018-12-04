@@ -1,21 +1,20 @@
-{
-    "match" : {
-        "eccharts_layer" : "efi_2tmax_data",
-        "set" : [
-            {
-                "paramId" : "132201",
-                "shortName" : "mx2ti",
-                "type" : "efi"
-            },
-            {
-                "long_name" : "Maximum temperature at 2 metres index"
-            }
-        ],
-        "style" : "sh_blured_fM1t1lst",
-        "styles" : [
-            "sh_blured_fM1t1lst",
-            "sh_efi2t_fM1t1lst",
-            "sh_efi_f05t1_nc"
-        ]
-    }
-}
+[
+  {
+    "eccharts_layer": "efi_2tmax_data",
+    "styles": [
+      "sh_blured_fM1t1lst",
+      "sh_efi2t_fM1t1lst",
+      "sh_efi_f05t1_nc"
+    ],
+    "match": [
+      {
+        "paramId": "132201",
+        "shortName": "mx2ti",
+        "type": "efi"
+      },
+      {
+        "long_name": "Maximum temperature at 2 metres index"
+      }
+    ]
+  }
+]

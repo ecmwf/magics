@@ -1,20 +1,19 @@
-{
-    "match" : {
-        "eccharts_layer" : "sim_image_ir",
-        "prefered_units" : "C",
-        "set" : [
-            {
-                "channel" : 9,
-                "paramId" : "260510",
-                "shortName" : "clbt"
-            },
-            {
-                "long_name" : "Cloudy brightness temperature"
-            }
-        ],
-        "style" : "sim_image_ir_fixed_range",
-        "styles" : [
-            "sim_image_ir_fixed_range"
-        ]
-    }
-}
+[
+  {
+    "eccharts_layer": "sim_image_ir",
+    "prefered_units": "C",
+    "styles": [
+      "sim_image_ir_fixed_range"
+    ],
+    "match": [
+      {
+        "channel": 9,
+        "paramId": "260510",
+        "shortName": "clbt"
+      },
+      {
+        "long_name": "Cloudy brightness temperature"
+      }
+    ]
+  }
+]

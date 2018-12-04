@@ -1266,6 +1266,9 @@ double Akima760::rgbi3p(double XI, double YI) const
       int    INXI,INYI;  // input point
       double ZI;         // interpolated value
 
+      cout << XI << ", " << YI << endl;
+      if ( XI == 0 && YI > 97)
+        cout << "STOP" << endl;
       // Locates the output point
       // It is not called anymore, but it is kept here
       // for test purpose
@@ -1307,17 +1310,23 @@ int Akima760::columnIndex(double row) const
 }
 
 
-
 void Akima760::boundRow(double r, double& row1, int& index1, double& row2, int& index2) const
 {
 //	unsigned int  nb =  rows_.size();
 
 	// first test if increasing!
+  if ( same(r, rows_.back())  ) {
+    index1 = index2 =  -1;
+    row1 = row2 = rows_.back();
+    return;
+  }
+
 	if ( rows_.back() - rows_.front() > 0 ) {
 		index2 = 0;
 		while ( index2 < rows_.size() && rows_[index2] < r ) {
 			index2++;
 		}
+
 		index1 = (index2) ? index2-1 : 0;
 		row1 = rows_[index1];
 		row2 = rows_[index2];
@@ -1338,7 +1347,10 @@ void Akima760::boundRow(double r, double& row1, int& index1, double& row2, int& 
 void Akima760::boundColumn(double r, double& column1, int& index1, double& column2, int& index2) const
 {
 //	unsigned int  nb =  rows_.size();
-
+ if ( same(r, columns_.back())  ) {
+    index1 = index2 =  -1;
+    return;
+  }
 	// first test if increasing!
 	if ( columns_.back() - columns_.front() > 0 )
 	{

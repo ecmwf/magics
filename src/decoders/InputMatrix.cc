@@ -23,6 +23,7 @@
 #include "Transformation.h"
 #include "Timer.h"
 #include "MagJSon.h"
+#include "ContourLibrary.h"
 #include <limits>
 
 using namespace magics;
@@ -71,9 +72,21 @@ void InputMatrix::filter(Matrix& data)
 }
 void InputMatrix::visit(MetaDataCollector& visitor)
 {
+	metadata(visitor);
+
+}
+
+void InputMatrix::metadata(MetaDataCollector& visitor) const
+{
 	ParamJSon data = ParamJSon(metadata_);
-	for(map<string, string>::iterator key = data.begin(); key != data.end(); ++key )
+
+	for(map<string, string>::iterator key = visitor.begin(); key != visitor.end(); ++key )
 	{
+		
+		auto entry = data.find(key->first);
+		if ( entry != data.end() )
+			key->second = entry->second;
+		
 		visitor.insert(make_pair(key->first, key->second));
 	}
 
@@ -196,7 +209,22 @@ PointsHandler& InputMatrix::points(const Transformation& transformation)
 		this->pointsHandlers_.push_back(new BoxPointsHandler(this->matrix(), transformation, true));
 		return *(this->pointsHandlers_.back());
 }
-
+void InputMatrix::scaling(double& scaling, double& offset) const
+{
+	scaling = 1;
+	offset = 0;
+	
+   
+    WebLibrary settings;
+    MetaDataCollector needs;
+    settings.askId(needs);
+    metadata(needs);
+    settings.getScaling(needs, scaling, offset);
+    
+    if (scaling == 0)
+        scaling = 1;
+	
+}
 
 void InputMatrix::customisedPoints(const BasicThinningMethod& thinning, const Transformation& transformation, const std::set<string>&, CustomisedPointsList& points)
 {

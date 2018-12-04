@@ -1,64 +1,63 @@
-{
-    "match" : {
-        "eccharts_layer" : [
-            "sot_tp_n90",
-            "sot_sf_n90",
-            "sot_2t_n90",
-            "sot_2t_n10",
-            "sot_2tmin_n90",
-            "sot_2tmin_n10",
-            "sot_2tmax_n90",
-            "sot_2tmax_n10",
-            "sot_ws_n90",
-            "sot_wg_n90",
-            "sot_cape_n90",
-            "sot_capeshear_n90",
-            "sot_swh_n90"
+[
+  {
+    "eccharts_layer": [
+      "sot_tp_n90",
+      "sot_sf_n90",
+      "sot_2t_n90",
+      "sot_2t_n10",
+      "sot_2tmin_n90",
+      "sot_2tmin_n10",
+      "sot_2tmax_n90",
+      "sot_2tmax_n10",
+      "sot_ws_n90",
+      "sot_wg_n90",
+      "sot_cape_n90",
+      "sot_capeshear_n90",
+      "sot_swh_n90"
+    ],
+    "styles": [
+      "ct_sot_black_f0t8t1",
+      "ct_sot_blue_f0t8t1"
+    ],
+    "match": [
+      {
+        "paramId": [
+          "132228",
+          "132167",
+          "132202",
+          "132201",
+          "132165",
+          "132049",
+          "132059",
+          "132044",
+          "132216"
         ],
-        "set" : [
-            {
-                "paramId" : [
-                    "132228",
-                    "132167",
-                    "132202",
-                    "132201",
-                    "132165",
-                    "132049",
-                    "132059",
-                    "132044",
-                    "132216"
-                ],
-                "shortName" : [
-                    "tpi",
-                    "2ti",
-                    "mn2ti",
-                    "mx2ti",
-                    "10wsi",
-                    "10fgi",
-                    "capei",
-                    "capesi",
-                    "maxswhi"
-                ],
-                "type" : "sot"
-            },
-            {
-                "long_name" : [
-                    "Total precipitation index",
-                    "2 metre temperature index",
-                    "Minimum temperature at 2 metres index",
-                    "Maximum temperature at 2 metres index",
-                    "10 metre speed index",
-                    "10 metre wind gust index",
-                    "Convective available potential energy index",
-                    "Convective available potential energy shear index",
-                    "Maximum of significant wave height index"
-                ]
-            }
+        "shortName": [
+          "tpi",
+          "2ti",
+          "mn2ti",
+          "mx2ti",
+          "10wsi",
+          "10fgi",
+          "capei",
+          "capesi",
+          "maxswhi"
         ],
-        "style" : "ct_sot_black_f0t8t1",
-        "styles" : [
-            "ct_sot_black_f0t8t1",
-            "ct_sot_blue_f0t8t1"
+        "type": "sot"
+      },
+      {
+        "long_name": [
+          "Total precipitation index",
+          "2 metre temperature index",
+          "Minimum temperature at 2 metres index",
+          "Maximum temperature at 2 metres index",
+          "10 metre speed index",
+          "10 metre wind gust index",
+          "Convective available potential energy index",
+          "Convective available potential energy shear index",
+          "Maximum of significant wave height index"
         ]
-    }
-}
+      }
+    ]
+  }
+]

@@ -1,21 +1,20 @@
-{
-    "match" : {
-        "eccharts_layer" : "efi_2t_data",
-        "set" : [
-            {
-                "paramId" : "132167",
-                "shortName" : "2ti",
-                "type" : "efi"
-            },
-            {
-                "long_name" : "2 metre temperature index"
-            }
-        ],
-        "style" : "sh_blured_fM1t1lst",
-        "styles" : [
-            "sh_blured_fM1t1lst",
-            "sh_efi2t_fM1t1lst",
-            "sh_efi2t_fM1t1lst_nc"
-        ]
-    }
-}
+[
+  {
+    "eccharts_layer": "efi_2t_data",
+    "styles": [
+      "sh_blured_fM1t1lst",
+      "sh_efi2t_fM1t1lst",
+      "sh_efi2t_fM1t1lst_nc"
+    ],
+    "match": [
+      {
+        "paramId": "132167",
+        "shortName": "2ti",
+        "type": "efi"
+      },
+      {
+        "long_name": "2 metre temperature index"
+      }
+    ]
+  }
+]

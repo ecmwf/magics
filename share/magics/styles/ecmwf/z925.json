@@ -1,59 +1,58 @@
-{
-    "match" : {
-        "eccharts_layer" : [
-            "z925",
-            "z850",
-            "z800",
-            "z700",
-            "z600",
-            "z500_field",
-            "z300",
-            "z250"
+[
+  {
+    "eccharts_layer": [
+      "z925",
+      "z850",
+      "z800",
+      "z700",
+      "z600",
+      "z500_field",
+      "z300",
+      "z250"
+    ],
+    "prefered_units": "dam",
+    "styles": [
+      "ct_blk_i5_t2",
+      "ct_blue_i5_t2",
+      "ct_red_i5_t2",
+      "ct_green_i5_t2",
+      "ct_blk_i5_t1",
+      "ct_brn_i4_t2",
+      "ct_blk_i2_t4",
+      "ct_green_i2_t4"
+    ],
+    "match": [
+      {
+        "levelist": [
+          "250",
+          "300",
+          "350",
+          "400",
+          "450",
+          "500",
+          "550",
+          "600",
+          "650",
+          "700",
+          "750",
+          "775",
+          "800",
+          "825",
+          "850",
+          "875",
+          "900",
+          "925",
+          "950",
+          "975",
+          "1000"
         ],
-        "prefered_units" : "dam",
-        "set" : [
-            {
-                "levelist" : [
-                    "250",
-                    "300",
-                    "350",
-                    "400",
-                    "450",
-                    "500",
-                    "550",
-                    "600",
-                    "650",
-                    "700",
-                    "750",
-                    "775",
-                    "800",
-                    "825",
-                    "850",
-                    "875",
-                    "900",
-                    "925",
-                    "950",
-                    "975",
-                    "1000"
-                ],
-                "paramId" : "129",
-                "shortName" : "z"
-            },
-            {
-                "long_name" : "Geopotential",
-                "standard_name" : "geopotential"
-            }
-        ],
-        "style" : "ct_blk_i5_t2",
-        "styles" : [
-            "ct_blk_i5_t2",
-            "ct_blue_i5_t2",
-            "ct_red_i5_t2",
-            "ct_green_i5_t2",
-            "ct_blk_i5_t1",
-            "ct_brn_i4_t2",
-            "ct_blk_i2_t4",
-            "ct_green_i2_t4"
-        ]
-    }
-}
+        "paramId": "129",
+        "shortName": "z"
+      },
+      {
+        "long_name": "Geopotential",
+        "standard_name": "geopotential"
+      }
+    ]
+  }
+]

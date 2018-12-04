@@ -882,6 +882,7 @@ static IgnoreConverter graph_curve_interpolation("graph_curve_interpolation");
 static GraphType graph_type;
 static Legend legend("legend");
 
+static SimpleTranslator input_metadata("input_mars_metadata", "input_metadata");
 static SimpleTranslator contour_predefined_setting("contour_predefined_setting", "contour_style_name");
 static SimpleTranslator netcdf_x_position_variable("netcdf_x_position_variable", "netcdf_x_variable");
 static SimpleTranslator netcdf_y_position_variable("netcdf_y_position_variable", "netcdf_y_variable");
@@ -966,9 +967,27 @@ const char* metagrib_()
 	return magics_->metagrib();
 }
 
+const char* version()
+{
+	static string version = getMagicsVersionString();
+	return version.c_str();
+}
+
+const char* home()
+{
+	static string home = getEnvVariable("MAGPLUS_HOME");
+	return home.c_str();
+}
+
+
 const char* metanetcdf_()
 {
 	return magics_->metanetcdf();
+}
+
+const char* metainput_()
+{
+	return magics_->metainput();
 }
 
 void pmapgen_()
@@ -1347,6 +1366,7 @@ PYTHON(py_overlay, poverlay_)
 void mag_netcdf(){pnetcdf_();}
 PYTHON(py_netcdf, pnetcdf_)
 PYTHONS(py_metanetcdf, metanetcdf_)
+PYTHONS(py_metainput, metainput_)
 void mag_cont()  {pcont_();}
 PYTHON(py_cont, pcont_)
 void mag_input()  {pinput_();}

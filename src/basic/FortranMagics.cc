@@ -208,9 +208,9 @@ int FortranMagics::pclose()
 
 void FortranMagics::drivers()
 {
-	if (!drivers_)  
+	if (!drivers_)
 		drivers_ = new DriverManager();
-	else 
+	else
 		drivers_->clearDrivers();
 	if (!output_)   output_ = new OutputHandler();
 	output_->set(*drivers_);
@@ -329,9 +329,9 @@ void FortranMagics::pimport()
 {
 	actions();
 	ImportObjectHandler* object = new ImportObjectHandler();
-	if ( object->overlay_ ) 
+	if ( object->overlay_ )
 		later_.push_back(object);
-	else 
+	else
 		top()->push_back(object);
 }
 
@@ -527,13 +527,13 @@ void FortranMagics::pmapgen()
 const char* FortranMagics::metagrib()
 {
 	GribDecoder grib;
-	ContourLibrary* library = MagTranslator<string, ContourLibrary>()("web");
+	ContourLibrary* library = MagTranslator<string, ContourLibrary>()("ecmwf");
 
     		// Here we try call the Contour libry to set up visual properties...
    	MetaDataCollector request,needAttributes;
-    map<string, string> attributes;
-    	
-    
+    MagDef attributes;
+
+
 	library->askId(request);
 	grib.visit(request);
 
@@ -553,18 +553,19 @@ const char* FortranMagics::metagrib()
 	static string temp;
 	temp = out.str();
     return temp.c_str();
-	
+
 }
+
 const char* FortranMagics::metanetcdf()
 {
+#ifdef HAVE_NETCDF
 	NetcdfDecoder netcdf;
-	ContourLibrary* library = MagTranslator<string, ContourLibrary>()("web");
+	ContourLibrary* library = MagTranslator<string, ContourLibrary>()("ecmwf");
 
     // Here we try call the Contour libry to set up visual properties...
    	MetaDataCollector request,needAttributes;
-    map<string, string> attributes;
-    	
-    
+    MagDef attributes;
+
 	library->askId(request);
 	netcdf.visit(request);
 
@@ -575,6 +576,30 @@ const char* FortranMagics::metanetcdf()
 	static string temp;
 	temp = out.str();
     return temp.c_str();
+#endif
+}
+
+const char* FortranMagics::metainput()
+{
+
+	InputMatrix data;
+	ContourLibrary* library = MagTranslator<string, ContourLibrary>()("ecmwf");
+
+    // Here we try call the Contour libry to set up visual properties...
+   	MetaDataCollector request,needAttributes;
+    MagDef attributes;
+
+	library->askId(request);
+	data.visit(request);
+
+	StyleEntry style;
+	library->getStyle(request, attributes, style);
+	ostringstream out;
+	out << style;
+	static string temp;
+	temp = out.str();
+    return temp.c_str();
+
 }
 
 #ifdef HAVE_GRIB
@@ -612,8 +637,6 @@ void FortranMagics::pgrib()
 	top()->push_back(action_);
 }
 
-
-
 void FortranMagics::pimage()
 {
 	MagLog::warning() <<" pimage is deprecated! Please use pcont."<< endl;
@@ -645,10 +668,9 @@ void FortranMagics::pnetcdf()
 	action_ = new VisualAction();
 	action_->data(new NetcdfDecoder());
 	top()->push_back(action_);
-
-
 #endif
 }
+
 #include "InputData.h"
 void FortranMagics::pinput()
 {

@@ -40,7 +40,7 @@ using namespace magics;
 
 
 ViewNode::ViewNode() : viewTransformation_(0), animation_("basic"), vaxis_(2.), haxis_(1.),  rules_(0), legend_(0), 
-			needLegend_(false), drawing_background_colour_("white")
+			needLegend_(false), drawing_background_colour_("none")
 {
 	static int i = 0;
 	ostringstream n;
@@ -581,7 +581,7 @@ void FortranViewNode::getReady()
 	if ( predefined_ ) {
 			MagDefLibrary library("projections");
 
-			MagDef::Definition area;
+			MagDef area;
 
 			library.find(predefined_name_, area);
 			

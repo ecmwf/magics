@@ -14,6 +14,7 @@
 #include "MetaData.h"
 #include <dirent.h>
 #include <cstring>
+#include <Tokenizer.h>
 
 using namespace magics;
 using namespace json_spirit;
@@ -23,6 +24,7 @@ MagConfigHandler::MagConfigHandler(const string& config, MagConfig& magics)
 {
 	//cout << "OPENING " << config << endl;
 	ifstream is(config.c_str());
+	
 	if ( !is.good() ) {
 		MagLog::error() << "Could not processed find the file: " << config << endl;
 		return;
@@ -92,10 +94,13 @@ string MagConfig::convert(const json_spirit::Value& value)
 	}
 
 
+
 	return "";
 
 
 }
+
+
 
 void StyleLibrary::callback(const json_spirit::Array& values)
 {
@@ -108,6 +113,7 @@ void StyleLibrary::callback(const json_spirit::Array& values)
 
 void Style::set(json_spirit::Object& object, Style::Match& match)
 {
+	
 	for (vector<json_spirit::Pair>::const_iterator entry = object.begin(); entry !=  object.end(); ++entry) {
 		match.insert(make_pair(entry->name_, vector<string>()));
 		if ( entry->value_.type() == array_type ) {
@@ -138,18 +144,26 @@ void Style::criteria(const json_spirit::Value& value)
 }
 void Style::style(const json_spirit::Value& value) 
 {
-	style_ = value.get_str();
+	
 }
 void Style::name(const json_spirit::Value& value) 
 {
-	//names_.push_back(value.get_str());
+	
 }
 void Style::styles(const json_spirit::Value& value) 
 {
 	Array values = value.get_value<Array>();
 	
 	for (unsigned int i = 0; i < values.size(); i++) {
-		styles_.push_back(values[i].get_str());
+		// If we finf a name get it from the library 
+		if (values[i].type() == obj_type) {
+			MagDef def;
+			def.set(values[i].get_value<Object>());
+			//push to the library ! 
+
+		}
+		else 
+			styles_.push_back(values[i].get_str());
 	}
 }
 void Style::units(const json_spirit::Value& value) 
@@ -175,10 +189,7 @@ void Style::set(const json_spirit::Object& object)
 {
 
 	if ( methods_.empty() ) {
-		methods_["match"] =  &Style::match;
-		methods_["set"] =  &Style::criteria;
-		methods_["criterias"] =  &Style::criteria;
-		methods_["style"] =  &Style::style;
+		methods_["match"] =  &Style::criteria;
 		methods_["prefered_units"] =  &Style::units;
 		methods_["styles"] =  &Style::styles;
 		methods_["eccharts_layer"] =  &Style::name;
@@ -207,28 +218,44 @@ void StyleLibrary::callback(const string& name, const json_spirit::Value& value)
 		}
   	
 }
+
+
 void StyleLibrary::init()
 {
 	
-	string library = getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_ + "/styles/" + theme_ + "/" + family_ +".json";
-	library = getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_ + "/styles/ecmwf";
-	
-	if ( path_.size() )
-		library = path_;
-    DIR* dir = opendir(library.c_str());
-    if ( !dir ) { 
-    	ostringstream error;
-    	error << "Trying to open directory " << library << ": " << strerror(errno);
-        throw FailedSystemCall(error.str());
-    }
-    struct dirent *entry = readdir(dir);
-    while ( entry ) {
-        
-        if (entry->d_name[0] != '.')
-        	MagConfigHandler(library + "/" + string(entry->d_name),  *this);
+	// Now we have a vrariable 
 
-        entry = readdir(dir);
-   }
+	string ecmwf = getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_ + "/styles/ecmwf";
+	string library = getEnvVariable("MAGICS_STYLE_PATH");
+
+	if (library.empty())
+		library = "ecmwf";
+
+	Tokenizer tokenizer(":");
+    vector<string> paths;
+   	tokenizer(library, paths);
+
+   	for ( auto token = paths.begin(); token != paths.end(); ++token) {
+		string path = magCompare(*token, "ecmwf") ? ecmwf : *token;
+
+
+	    DIR* dir = opendir(path.c_str());
+	    if ( !dir ) { 
+	    	ostringstream error;
+	    	error << "Trying to open directory " << library << ": " << strerror(errno);
+	        throw FailedSystemCall(error.str());
+	    }
+	    struct dirent *entry = readdir(dir);
+	    while ( entry ) {
+	        
+	        if (entry->d_name[0] != '.') {
+	        	current_ = entry->d_name;
+	        	MagConfigHandler(path + "/" + string(entry->d_name),  *this);
+	        }
+
+	        entry = readdir(dir);
+	   }
+	}
 
 
 	
@@ -237,7 +264,7 @@ void StyleLibrary::init()
 	//cout << "Opening predefined styles" << library << "/styles.json" << endl;
 	
 
-	allStyles_.init(library, "styles.json");
+	allStyles_.init(ecmwf, "styles.json");
 }
 
 void PaletteLibrary::init()
@@ -352,7 +379,7 @@ void UnitsLibrary::callback(const string& name, const json_spirit::Value& value)
 }
 
 
-int Style::score(const Definition& data)
+int Style::score(const MetaDataCollector& data)
 {
 	int bestscore = 0;
 	map<string, string> criteria;
@@ -408,22 +435,29 @@ int Style::score(const Definition& data)
 					score = 0;
 					break;
 				}
-			//cout << "score is now " << tmpscore  << endl; 
+			cout << "score is now " << tmpscore  << endl; 
 			score++;
 		}
 		if ( bestscore < score ) 
 			bestscore = score;
 	}
-	/*
+	
 	if ( bestscore ) {
-		cout << "----   Found style with score : " << bestscore << " Style --> " << style_ << endl;
+		if ( styles_.empty() ) {
+			
+			styles_.push_back("default");
+		}
+		
+		else {
+			cout << "----   Found style with score : " << bestscore << " Style --> " << styles_.front() << endl;
 		for ( auto match = criteria.begin(); match != criteria.end(); ++match) { 
 			cout << "    " << match->first  << " == " <<  match->second << endl;
 		}
 		cout << "----------------------------------------------------" << endl;
+	}
 
 	}
-	*/
+	
 	return bestscore;
 }
 
@@ -436,7 +470,7 @@ void Style::keywords(std::set<string>& keys)
 	}
 }
 
-void  StyleLibrary::findStyle(const string& name, Style::Definition& visdef)
+void  StyleLibrary::findStyle(const string& name, MagDef& visdef)
 {
 	//cout << "Looking for " << name << endl;
 	allStyles_.find(name, visdef);
@@ -450,7 +484,7 @@ void  StyleLibrary::getCriteria(std::set<string>& keys)
 }
 
 
-bool StyleLibrary::findStyle(const Style::Definition& data, Style::Definition& visdef, StyleEntry& info)
+bool StyleLibrary::findStyle(const MetaDataCollector& data, MagDef& visdef, StyleEntry& info)
 {
 	int score = 0;
 	Style beststyle;
@@ -464,26 +498,33 @@ bool StyleLibrary::findStyle(const Style::Definition& data, Style::Definition& v
 	}
 	if ( score ) {
 			
-			info.set(beststyle.style_, beststyle.styles_);
+			info.set(beststyle.styles_.front(), beststyle.styles_);
 			allStyles_.find(info.default_, visdef);
 			if ( visdef.find("required_units") == visdef.end() )
 				if (beststyle.preferedUnits_.size())
 					visdef.insert(make_pair("required_units", beststyle.preferedUnits_));
 			return true;
+
 		}
-	return false;
+	
+	vector<string> empty;
+	empty.push_back("default");
+	info.set("default", empty);
+	
+	allStyles_.find(info.default_, visdef);
+	return true;
 }
 
 string StyleLibrary::getAttribute(const string& style, const string& param, const string& defval) 
 {
-	Style::Definition visdef;
+	MagDef visdef;
 	allStyles_.find(style, visdef);
 	auto value = visdef.find(param);
 
 	return ( value != visdef.end() ) ? value->second : defval; 
 }
 
-bool StyleLibrary::findScaling(const Style::Definition& data, Style::Definition& scaling)
+bool StyleLibrary::findScaling(const MetaDataCollector& data, MagDef& scaling)
 {
 	/*
 	for (vector<Style>::iterator style = library_.begin(); style != library_.end(); ++style)
@@ -544,7 +585,7 @@ void MagDef::set(const json_spirit::Object& object)
 {
 	for (vector<json_spirit::Pair>::const_iterator entry = object.begin(); entry !=  object.end(); ++entry) {
 		
-		def_.insert(make_pair(entry->name_, MagConfig::convert(entry->value_)));
+		insert(make_pair(entry->name_, MagConfig::convert(entry->value_)));
 	}
 }
 

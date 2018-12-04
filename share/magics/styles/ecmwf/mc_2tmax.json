@@ -1,22 +1,21 @@
-{
-    "match" : {
-        "eccharts_layer" : "mc_2tmax",
-        "prefered_units" : "C",
-        "set" : [
-            {
-                "paramId" : "201",
-                "shortName" : "mx2t",
-                "type" : "cd"
-            },
-            {
-                "long_name" : "Maximum temperature at 2 metres since previous post-processing"
-            }
-        ],
-        "style" : "sh_mc_t_fM80t60",
-        "styles" : [
-            "sh_mc_t_fM80t60",
-            "ct_mc_t_fM80t60_black",
-            "ct_mc_t_fM80t60_blue"
-        ]
-    }
-}
+[
+  {
+    "eccharts_layer": "mc_2tmax",
+    "prefered_units": "C",
+    "styles": [
+      "sh_mc_t_fM80t60",
+      "ct_mc_t_fM80t60_black",
+      "ct_mc_t_fM80t60_blue"
+    ],
+    "match": [
+      {
+        "paramId": "201",
+        "shortName": "mx2t",
+        "type": "cd"
+      },
+      {
+        "long_name": "Maximum temperature at 2 metres since previous post-processing"
+      }
+    ]
+  }
+]
