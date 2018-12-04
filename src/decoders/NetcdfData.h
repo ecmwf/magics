@@ -273,6 +273,10 @@ struct NetVariable
 
         nc_get_vara_short(netcdf_, id_, &start.front(), &edges.front(), &data.front()); 
     }
+    void get(vector<unsigned char>& data, vector<size_t>& start, vector<size_t>& edges )
+    {
+        nc_get_vara_ubyte(netcdf_, id_, &start.front(), &edges.front(), &data.front()); 
+    }
     void get(vector<double>& data )
     {
         nc_get_var_double(netcdf_, id_, &data.front());   
@@ -293,6 +297,10 @@ struct NetVariable
     {
 
         nc_get_var_short(netcdf_, id_,  &data.front()); 
+    }
+    void get(vector<unsigned char>& data )
+    {
+        nc_get_var_ubyte(netcdf_, id_,  &data.front()); 
     }
 
 
