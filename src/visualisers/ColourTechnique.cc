@@ -30,7 +30,7 @@
 
 using namespace magics;
 
-ColourTechnique::ColourTechnique() 
+ColourTechnique::ColourTechnique() : policy_(M_LASTONE)
 {
 }
 
