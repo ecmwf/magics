@@ -154,15 +154,15 @@ Matrix* InputMatrixRegularInterpretor::xyInterpret(Matrix* in, const InputMatrix
 	double y = y_first_;
 	double step = (y_last_ - y_first_)/(in->rows()-1);
 	for (int i = 0; i < in->rows(); i++) {
-			
+			y = y_first_ + (i * step);
 			in->rowsAxis().push_back(y);
-			y += step;
+			
 	}
 
 	double x = x_first_;
 	step = (x_last_ - x_first_)/(in->columns()-1);
 	for (int i = 0; i < in->columns(); i++) {
-			
+			x = x_first_ + (i * step);
 			in->columnsAxis().push_back(x);
 			x += step;
 	}
