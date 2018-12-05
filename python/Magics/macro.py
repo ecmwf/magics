@@ -590,15 +590,6 @@ import tempfile
 
 _MAGICS_LOCK = threading.Lock()
 
-
-try:
-    # This function only seems to be defined in a Jupyter notebook context.
-    get_ipython()
-    plot = _jplot
-except Exception:
-    plot = _plot
-
-
 def _jplot(*args):
     from IPython.display import Image
     
@@ -622,6 +613,16 @@ def _jplot(*args):
         image = Image(tmp)
         os.unlink(tmp)
         return image
+
+
+try:
+    # This function only seems to be defined in a Jupyter notebook context.
+    get_ipython()
+    plot = _jplot
+except Exception:
+    plot = _plot
+
+
 
 
 def wmsstyles(data):
