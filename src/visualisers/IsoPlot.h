@@ -182,7 +182,7 @@ public:
 	}
 	 virtual int coef(int i, double val) const {
 		double height = this->parent_.value(this->indexes_[i])-val;		
-		int c = ( height ) ? (height/abs(height))+1 : 1;
+		int c = ( height && !std::isnan(height)) ? (height/abs(height))+1 : 1;
 
 		
 		return c;
