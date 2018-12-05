@@ -587,39 +587,41 @@ class  odb_filter(object):
 import threading
 import tempfile
 
-plot = _plot
 
-def setjupyter():
-    try:
-        from IPython.display import Image
-        LOCK = threading.Lock()
-
-        def plot(*args):
-
-            with LOCK:
-                f, tmp = tempfile.mkstemp(".png")
-                os.close(f)
-
-                base, ext = os.path.splitext(tmp)
-
-                img = output(output_formats=["png"],
-                                  output_name_first_page_number='off',
-                                  output_name=base)
-                
-                all = []
-                all.append(img)
-                for i in args :
-                  all.append(i)
-                _plot(all)
-
-                image = Image(tmp)
-                os.unlink(tmp)
-                return image
-    except ImportError:
-        print ( "Not able to set up the jupyter environ")
+_MAGICS_LOCK = threading.Lock()
 
 
+try:
+    # This function only seems to be defined in a Jupyter notebook context.
+    get_ipython()
+    plot = _jplot
+except Exception:
+    plot = _plot
 
+
+def _jplot(*args):
+    from IPython.display import Image
+    
+    with _MAGICS_LOCK:
+        f, tmp = tempfile.mkstemp(".png")
+        os.close(f)
+
+        base, ext = os.path.splitext(tmp)
+
+        img = output(
+            output_formats=["png"],
+            output_name_first_page_number='off',
+            output_name=base
+        )
+        
+        all = [img]
+        all.extend(args)
+        
+        _plot(all)
+
+        image = Image(tmp)
+        os.unlink(tmp)
+        return image
 
 
 def wmsstyles(data):
