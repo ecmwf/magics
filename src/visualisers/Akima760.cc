@@ -1266,9 +1266,7 @@ double Akima760::rgbi3p(double XI, double YI) const
       int    INXI,INYI;  // input point
       double ZI;         // interpolated value
 
-      cout << XI << ", " << YI << endl;
-      if ( XI == 0 && YI > 97)
-        cout << "STOP" << endl;
+     
       // Locates the output point
       // It is not called anymore, but it is kept here
       // for test purpose
