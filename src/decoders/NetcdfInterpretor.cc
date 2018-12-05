@@ -340,7 +340,7 @@ void NetcdfTag::visit(const XmlNode& node)
 void NetcdfGuessInterpretor::visit(MetaDataCollector& info) { 
 	for ( MetaDataCollector::iterator key = info.begin(); key != info.end(); ++key ) {
 		key->second = getAttribute(field_, key->first, "");
-		cout << "Netcdf Attributes " << key->first << "--->" << key->second << endl; 
+		//cout << "Netcdf Attributes " << key->first << "--->" << key->second << endl; 
 	}
 	guess()->visit(info); 
 }
