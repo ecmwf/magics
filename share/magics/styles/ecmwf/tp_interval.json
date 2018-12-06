@@ -26,7 +26,7 @@
         "standard_name": ["lwe_thickness_of_precipitation_amount",
                           "lwe_thickness_of_large_scale_precipitation_amount",
                           "lwe_thickness_of_stratiform_precipitation_amount",
-                          "lwe_thickness_of_convective_precipitation_amount",
+                          "lwe_thickness_of_convective_precipitation_amount"
                           ]
       }
     ]
