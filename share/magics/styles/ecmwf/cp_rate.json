@@ -1,6 +1,7 @@
 [
   {
     "eccharts_layer": "cp_rate",
+    "prefered_units": "kg m**-2 h**-1",
     "styles": [
       "sh_prate_radarlike_grided",
       "sh_prate_radarlike_grided_f01",

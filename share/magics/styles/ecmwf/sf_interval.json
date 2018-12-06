@@ -14,12 +14,37 @@
     ],
     "match": [
       {
-        "paramId": "144",
-        "shortName": "sf"
+        "paramId": [
+          "239",
+          "240",
+          "144"
+        ],
+        "shortName": [
+          "csf",
+          "lsf",
+          "sf"
+        ]
       },
       {
-        "long_name": "Snowfall",
-        "standard_name": "lwe_thickness_of_snowfall_amount"
+        "long_name": [
+          "Convective snowfall",
+          "Large-scale snowfall",
+          "Snowfall"
+        ],
+        "standard_name": [
+          "lwe_thickness_of_convective_snowfall_amount",
+          "lwe_thickness_of_stratiform_snowfall_amount",
+          "lwe_thickness_of_large_scale_snowfall_amount",
+          "lwe_thickness_of_snowfall_amount"
+        ]
+      },
+      {
+        "standard_name": [
+          "lwe_thickness_of_convective_snowfall_amount",
+          "lwe_thickness_of_stratiform_snowfall_amount",
+          "lwe_thickness_of_large_scale_snowfall_amount",
+          "lwe_thickness_of_snowfall_amount"
+        ]
       }
     ]
   }

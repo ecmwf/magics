@@ -16,9 +16,6 @@
         "shortName": "ws"
       },
       {
-        "level": [
-          "300"
-        ],
         "long_name": "Wind speed"
       }
     ]

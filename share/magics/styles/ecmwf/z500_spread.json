@@ -14,13 +14,6 @@
         "paramId": "129",
         "shortName": "z",
         "type": "es"
-      },
-      {
-        "level": [
-          "500"
-        ],
-        "long_name": "Geopotential",
-        "standard_name": "geopotential"
       }
     ]
   }

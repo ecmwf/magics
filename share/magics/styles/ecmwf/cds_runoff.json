@@ -26,6 +26,13 @@
           "Surface runoff",
           "Sub-surface runoff"
         ]
+      },
+      {
+        "standard_name": [
+          "runoff_amount",
+          "subsurface_runoff_amount",
+          "surface_runoff_amount"
+        ]
       }
     ]
   }

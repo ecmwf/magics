@@ -28,10 +28,6 @@
           "Sea Level Pressure"
         ],
         "standard_name": "air_pressure_at_sea_level"
-      },
-      {
-        "long_name": "Sea Level Pressure",
-        "standard_name": "air_pressure_at_sea_level"
       }
     ]
   }

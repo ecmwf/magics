@@ -1,7 +1,6 @@
 [
   {
-    "eccharts_layer": "cp_interval",
-    "prefered_units": "mm",
+    "eccharts_layer": "nc_tp_interval",
     "styles": [
       "sh_blured_f05t300lst",
       "sh_blured_f1t100lst",
@@ -14,16 +13,16 @@
     ],
     "match": [
       {
-        "paramId": "143",
-        "shortName": "cp"
+        "paramId": "228228",
+        "shortName": "tp"
       },
       {
-        "long_name": "Convective precipitation",
-        "standard_name": "lwe_thickness_of_convective_precipitation_amount"
-      },
-      {
-        "paramId": "239",
-        "shortName": "csf"
+        "standard_name": [
+          "convective_precipitation_amount",
+          "precipitation_amount",
+          "stratiform_precipitation_amount",
+          "large_scale_precipitation_amount"
+        ]
       }
     ]
   }
