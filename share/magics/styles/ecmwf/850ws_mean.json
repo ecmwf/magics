@@ -14,12 +14,6 @@
         "paramId": "10",
         "shortName": "ws",
         "type": "em"
-      },
-      {
-        "level": [
-          "850"
-        ],
-        "long_name": "Wind speed"
       }
     ]
   }

@@ -45,10 +45,6 @@
           "Daily Minimum Near-Surface Air Temperature"
         ],
         "standard_name": "air_temperature"
-      },
-      {
-        "long_name": "Daily Minimum Near-Surface Air Temperature",
-        "standard_name": "air_temperature"
       }
     ]
   }

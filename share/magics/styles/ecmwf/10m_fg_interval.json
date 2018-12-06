@@ -10,11 +10,23 @@
     ],
     "match": [
       {
-        "paramId": "49",
-        "shortName": "10fg"
+        "paramId": [
+                    "228029",
+                    "228028",
+                    "123"
+                ],
+        "shortName": [
+                    "i10fg",
+                    "10fg6",
+                    "10fg3"
+                ]
       },
       {
-        "long_name": "10 metre wind gust since previous post-processing"
+        "long_name": [
+                    "Instantaneous 10 metre wind gust",
+                    "10 metre wind gust in the last 6 hours",
+                    "10 metre wind gust in the last 3 hours"
+                ]
       },
       {
         "paramId": [

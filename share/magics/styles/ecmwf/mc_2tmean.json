@@ -1,6 +1,6 @@
 [
   {
-    "eccharts_layer": "mc_2tmean",
+    "eccharts_layer": ["mc_2tmean","mc_2tmax","mc_2tmin"],
     "prefered_units": "C",
     "styles": [
       "sh_mc_t_fM80t60",
@@ -9,12 +9,9 @@
     ],
     "match": [
       {
-        "paramId": "228004",
-        "shortName": "mean2t",
+        "paramId": ["228004","202","201"],
+        "shortName": ["mean2t","mn2t","mx2t"],
         "type": "cd"
-      },
-      {
-        "long_name": "Mean temperature at 2 metres"
       }
     ]
   }

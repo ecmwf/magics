@@ -1,6 +1,7 @@
 [
   {
-    "eccharts_layer": "tp_rate",
+    "eccharts_layer": ["tp_rate","sf_rate","cp_rate","lsp_rate"],
+    "prefered_units": "kg m**-2 h**-1",
     "styles": [
       "sh_prate_radarlike_grided",
       "sh_prate_radarlike_grided_f01",
@@ -8,11 +9,50 @@
     ],
     "match": [
       {
-        "paramId": "3059",
-        "shortName": "prate"
+        "paramId": ["3059",
+                    "228218",
+                    "228220",
+                    "228219",
+                    "228221",
+                    "3064",
+                    "174143",
+                    "174142",
+                    "228226",
+                    "228227",
+                    "228222",
+                    "228223",
+                    "228224",
+                    "228225"],
+        "shortName": ["prate",
+                      "crr",
+                      "crfrate",
+                      "csfr",
+                      "lsrr",
+                      "lssfr",
+                      "srweq",
+                      "lsrrate",
+                      "mxtpr",
+                      "mntpr",
+                      "mxtpr3",
+                      "mntpr3",
+                      "mxtpr6",
+                      "mntpr6"]
       },
       {
-        "long_name": "Precipitation rate"
+        "long_name": ["Precipitation rate",
+                      "Convective rain rate",
+                      "Convective rainfall rate",
+                      "Convective snowfall rate water equivalent",
+                      "Large scale rain rate",
+                      "Large scale snowfall rate water equivalent",
+                      "Snow fall rate water equivalent",
+                      "Large scale rainfall rate",
+                      "Maximum total precipitation rate since previous post-processing",
+                      "Minimum total precipitation rate since previous post-processing",
+                      "Maximum total precipitation rate in the last 3 hours",
+                      "Minimum total precipitation rate in the last 3 hours",
+                      "Maximum total precipitation rate in the last 6 hours",
+                      "Minimum total precipitation rate in the last 6 hours"]
       }
     ]
   }

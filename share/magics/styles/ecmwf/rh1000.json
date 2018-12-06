@@ -68,6 +68,9 @@
       {
         "long_name": "Relative Humidity",
         "standard_name": "relative_humidity"
+      },
+      {
+        "standard_name": "relative_humidity"
       }
     ]
   }

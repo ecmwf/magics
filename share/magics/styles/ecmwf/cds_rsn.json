@@ -13,6 +13,11 @@
         "long_name": [
           "Snow density"
         ]
+      },
+      {
+        "standard_name" : [
+          "snow_density"
+          ]
       }
     ]
   }
