@@ -4,7 +4,7 @@ Magics is the latest generation of the ECMWF's meteorological plotting software 
 
 Project home: https://software.ecmwf.int/magics
 
-To learn how to use it, have a look at our !notebook examples!https://github.com/ecmwf/notebook-examples/tree/master/visualisation
+To learn how to use it, have a look at our [notebook examples](https://github.com/ecmwf/notebook-examples/tree/master/visualisation)
 
 Requirements
 ------------
