@@ -22,7 +22,8 @@
                     "228222",
                     "228223",
                     "228224",
-                    "228225"],
+                    "228225",
+                    "260048"],
         "shortName": ["prate",
                       "crr",
                       "crfrate",
@@ -36,7 +37,8 @@
                       "mxtpr3",
                       "mntpr3",
                       "mxtpr6",
-                      "mntpr6"]
+                      "mntpr6",
+                      "tprate"]
       },
       {
         "long_name": ["Precipitation rate",
