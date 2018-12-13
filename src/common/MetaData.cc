@@ -21,8 +21,11 @@
 
 #include "MetaData.h"
 #include "Timer.h"
-#include <sys/time.h>
 #include <sys/resource.h>
+
+#ifndef MAGICS_ON_WINDOWS
+  #include <sys/time.h>
+#endif
 
 
 using namespace magics;

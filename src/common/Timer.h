@@ -15,12 +15,12 @@
 #define Timer_H
 
 #include "magics.h"
-
-
 #include <time.h>
-#include <sys/time.h>
 #include <sys/types.h>
 
+#ifndef MAGICS_ON_WINDOWS
+  #include <sys/time.h>
+#endif
 
 
 class ProfileInfo 
