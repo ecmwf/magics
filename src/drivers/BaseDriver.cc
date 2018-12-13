@@ -30,7 +30,6 @@
 #include <Image.h>
 #include <Symbol.h>
 #include <PaperPoint.h>
-//#include "AnimationRules.h"
 
 #include <BaseDriverSymbols.h>
 #include <BaseDriverWind.h>
@@ -52,51 +51,12 @@ int BaseDriver::numFiles_ = 0;
 BaseDriver::BaseDriver():currentPage_(-1),fileName_(""),currentLayer_(""),
         currentLineType_(M_SOLID),currentLineWidth_(-1), currentLineStyle_(1),currentColour_(Colour("white")),
 	coordRatioX_(1),coordRatioY_(1),
-//	lastAreaHeightPercentage_(0.),lastAreaWidthPercentage_(0.),
 	newPage_(true),//newLayout_(true), // external_(false),
 	disabled_(false),alphaEnabled_(false), applyGaussianBlur_(-1.),
 	indexHatch_(0),currentShading_(M_SH_NONE),cmScale_(1.),
 	xDeviceLength_(MagTranslator<double, double>().magics("SUPER_PAGE_X_LENGTH")),
 	yDeviceLength_(MagTranslator<double, double>().magics("SUPER_PAGE_Y_LENGTH")),obs_distance_(-1.)
-//	polylineAntialiasing_(false),
 {
-        //width in pixels  = cm * 2.54 * dpi
-        //height in pixels = cm * 2.54 * dpi
-/*        const string size = getSize();
-        const MFloat cmdpi = 2.54 * 72.;
-        if(!magCompare(size,"a4"))
-        {
-            string::size_type posX = size.find_first_of("x");
-            if(posX != string::npos)
-            {
-                const string first = size.substr(0,posX);
-                string::size_type posCM = size.find_first_of("c",posX+1);
-                if(posCM != string::npos) // assume CM
-                {
-                   MFloat xcm=0.;
-                   MFloat ycm=0.;
-                   istringstream is(first);
-                   is>>xcm;
-                   xDeviceLength_ = static_cast<int>(xcm * cmdpi);
-                   const string second = size.substr(posX+1,posCM);
-                   istringstream iy(second);
-                   iy>>ycm;
-                   yDeviceLength_ = static_cast<int>(ycm * cmdpi);
-                }
-                else   // assume pixels
-                {
-                   xDeviceLength_ = atoi(first.c_str());
-                   const string second = size.substr(posX+1);
-                   yDeviceLength_ = atoi(second.c_str());
-                }
-            }
-            else
-            {
-                if     (magCompare(size,"a4")) {xDeviceLength_= 21.  * cmdpi; yDeviceLength_= 29.7 * cmdpi;}
-                else if(magCompare(size,"a3")) {xDeviceLength_= 29.7 * cmdpi; yDeviceLength_= 42.  * cmdpi;}
-            }
-        }
-*/
 }
 
 BaseDriver::~BaseDriver()
@@ -430,7 +390,6 @@ double BaseDriver::LSF(MFloat *x,MFloat *y, int i0) const
 		sxy  += (xi*yi);
 	}
 
-//	if( (abs(sxx) > 0.00001) && (abs(sxy) > 0.00001) ) angle = atan2( (sxy/sxx) ,1.);
 	if( (abs(sxx) > 0.00001) )
 	{
 	 angle = atan2( (sxy/sxx) ,1.);
@@ -472,9 +431,7 @@ void BaseDriver::printLine(const Polyline &line) const
 	  setNewColour(line.getColour());
 	  currentLineStyle_ = setLineParameters(line.getLineStyle(),line.getThickness());
 
-//	  if(line.getAntiAliasing()) polylineAntialiasing_=true;
 	  renderPolyline(n, x, y);
-//	  polylineAntialiasing_=false;
 
 	  Polyline::Holes::const_iterator h  = line.beginHoles();
 	  Polyline::Holes::const_iterator he = line.endHoles();
@@ -548,8 +505,6 @@ void BaseDriver::printLine(const Polyline &line) const
 		      arrow.copy(*line.arrowProperties());
 		      arrow.setColour(line.getColour());
 		      arrow.setArrowPosition(M_HEAD_ONLY);
-//		      arrow.setHeadRatio(1.5);
-//		      arrow.setHeadIndex(1);
 		      if( (x[i]-x[i+3]) < 0.) angle += PI;
 		      const double dx=sin(angle+1.5707963267949);
 		      const double dy=-setAngleY(cos(angle+1.5707963267949));
@@ -557,22 +512,6 @@ void BaseDriver::printLine(const Polyline &line) const
 		      ArrowPoint apoint(dx,dy,pp);
 		      arrow.push_back(apoint);
 		      renderWindArrow(arrow);
-/*
-      {
-
-    	int ewn=5;
-    	setNewColour(Colour("red"));
-    	setNewLineWidth(4.);
-    	renderPolyline(ewn, &x[i], &y[i]);
-
-    	TextSymbol textSymbol;
-		textSymbol.position(TextSymbol::M_BELOW);
-		ostringstream nice;
-    	nice << angle;
-	    textSymbol.push_back(pp, nice.str());
-		renderTextSymbols(textSymbol);
-       }
-*/
 	       }
 	       else
 	       {
@@ -603,14 +542,6 @@ void BaseDriver::printLine(const Polyline &line) const
       delete [] labelx;
       delete [] labely;
     }// endif enough points for a label
-/*
-    {
-    	int ewn=2;
-    	setNewColour(Colour("red"));
-    	setNewLineWidth(4.);
-    	renderPolyline(ewn, x, y);
-    }
-*/
     delete [] x;
     delete [] y;
     currentColour_ = Colour("none");
@@ -675,8 +606,6 @@ void BaseDriver::print(ostream& out) const
 string BaseDriver::getTmpName() const
 {
 	string stmp;
-//	if(getTempdir()!="local") stmp=getTempdir();
-//	string stmp = (tmpdir) ? tmpdir : tmp;
 	stmp+= "magics_temp_ps_XXXXXX";
 	char* mtmp = new char [stmp.length()+1];
 	stmp.copy(mtmp,string::npos);
@@ -690,13 +619,11 @@ string BaseDriver::getTmpName() const
 
 bool BaseDriver::renderCellArray(const Image& ) const
 {
-//	MagLog::dev() << "BaseDriver::renderCellArray" << endl;
 	return true;
 }
 
 bool BaseDriver::renderPixmap(MFloat, MFloat, MFloat, MFloat, int, int, unsigned char*, int, bool) const
 {
-//	MagLog::dev() << "BaseDriver::renderPixmap" << endl;
 	return true;
 }
 
@@ -839,7 +766,6 @@ void BaseDriver::redisplay(const BinaryObject& binary) const
   in.read((char *)(&lx), sizeof(MFloat));
   in.read((char *)(&ly), sizeof(MFloat));
 
-//  if(lx!=0 || ly != 0) MagLog::warning()<<"Reading Binary: dimension mismatch!!!"<< std::endl;
   Layout la;
    la.x(binary.getMgb_x());
    la.y(binary.getMgb_y());
@@ -948,8 +874,6 @@ void BaseDriver::redisplay(const BinaryObject& binary) const
 			  in.read((char *)(&y),  sizeof(double));
 			  in.read((char *)(&ax), sizeof(double));
 			  in.read((char *)(&ay), sizeof(double));
-			  //PaperPoint p;
-			  //in.read((char *)(&p), sizeof(PaperPoint));
 			  PaperPoint p(ax,ay);
 			  ArrowPoint ap(x, y, p);
 			  arrow.push_back(ap);
@@ -1002,8 +926,6 @@ void BaseDriver::redisplay(const BinaryObject& binary) const
 			  in.read((char *)(&y),  sizeof(double));
 			  in.read((char *)(&ax), sizeof(double));
 			  in.read((char *)(&ay), sizeof(double));
-			  //PaperPoint p;
-			  //in.read((char *)(&p), sizeof(PaperPoint));
 			  PaperPoint p(ax,ay);
 			  ArrowPoint ap(x, y, p);
 			  flag.push_back(ap);
