@@ -47,8 +47,8 @@ public:
      void set(const map<string, string>& map ) { GeoPointsDecoderAttributes::set(map); }
 	 void set(const XmlNode& node ) { GeoPointsDecoderAttributes::set(node); }
 
-  
-    
+	 bool parseColumnNames(const char *line);
+
 	 PointsHandler& points()  {
 	     	decode();
 	     	pointsHandlers_.push_back(new PointsHandler(*this));
@@ -68,6 +68,7 @@ public:
     void xyv2(const string&, const Transformation&);
     void yxdtlv1(const string&);
     void xyv1(const string&s);
+    void ncols(const string&s, const Transformation&);
 
     void polar(const string&, const Transformation&);
     void lluv(const string&, const Transformation&); 
@@ -81,6 +82,17 @@ public:
        PointsHandler& points(const Transformation& t, bool) { return points(t); }
 	
 protected:
+	 enum eGeoColType
+	 {
+	 	eGeoColStnId,
+	 	eGeoColLat,
+	 	eGeoColLon,
+	 	eGeoColLevel,
+	 	eGeoColDate,
+	 	eGeoColTime,
+        eGeoColValue
+	 };
+
      //! Method to print string about this class on to a stream of type ostream (virtual).
 	 virtual void print(ostream&) const; 
 	 typedef void (GeoPointsDecoder::*SimpleDecode)(const string&);
@@ -88,9 +100,13 @@ protected:
 	 std::map<string, Decode> formats_;
 	 std::map<string, SimpleDecode> simple_formats_;
 	 vector<CustomisedPoint*> customisedPoints_;
+	 vector<eGeoColType> colTypes_; // used only for NCOLS formatted geopoints
      projPJ proj4_;
      projPJ latlon_;
      bool useProj4_;
+     size_t ncoordcols_;
+     static const std::map<std::string, eGeoColType> &coordColMap();
+     static std::map<std::string, eGeoColType> coordColMap_;
 private:
     //! Copy constructor - No copy allowed
 	GeoPointsDecoder(const GeoPointsDecoder&);

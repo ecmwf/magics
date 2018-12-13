@@ -138,6 +138,7 @@ void FortranMagics::popen()
 int FortranMagics::pclose()
 {
 	MagLog::info()<< "pclose()" << endl;
+	singleton_ = 0;
 	try {
 		if (!empty_) {
 			finish();
