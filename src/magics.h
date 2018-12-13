@@ -22,8 +22,6 @@
 #ifndef magicsplusplus_H
 #define magicsplusplus_H
 
-//#define BOOST_VERSION 104700
-
 #include <magics_config.h>
 #if defined(MAGICS_AIX_XLC)
  #include <unistd.h>           // for AIX
@@ -77,7 +75,6 @@
 #include <cstring>
 #include <string>
 #include <sstream>
-//#include <fstream>
 
 using std::string;
 using std::ostream;
@@ -89,21 +86,15 @@ using std::ostringstream;
 using std::ofstream;
 using std::ifstream;
 
-//#include <list>
 #include <vector>
-//#include <stack>
 #include <memory>
 #include <map>
 #include <set>
-//#include <iterator>
 #include <numeric>
-//#include <cfloat>
-//#include <algorithm>
 
 using std::allocator;
 using std::vector;
 using std::pair;
-//using std::list;
 using std::map;
 using std::set;
 using std::unique_ptr;
