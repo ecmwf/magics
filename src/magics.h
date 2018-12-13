@@ -32,13 +32,12 @@
 #ifndef HAVE_METVIEW
 
 #ifdef WIN32
+  #define MAGICS_NO_EXPORT
   #define MAGICS_IMPORT __declspec(dllimport)
   #define MAGICS_EXPORT __declspec(dllexport)
   #define MAGICS_DLLLOCAL
   #define MAGICS_DLLPUBLIC
-#endif
-
-#if (__GNUC__ - 0 > 3) || (__GNUC__ - 0 == 3 && __GNUC_MINOR__ - 0 > 2)
+#elif (__GNUC__ - 0 > 3) || (__GNUC__ - 0 == 3 && __GNUC_MINOR__ - 0 > 2)
   #define MAGICS_GCC 4
   #define MAGICS_NO_EXPORT __attribute__ ((visibility("hidden")))
   #define MAGICS_EXPORT    __attribute__ ((visibility("default")))
@@ -47,7 +46,6 @@
   #define MAGICS_DLLPUBLIC __attribute__ ((visibility("default")))
 #else
   #define MAGICS_GCC 3
-  #define MAGICS_NO_EXPORT
   #define MAGICS_IMPORT
   #define MAGICS_EXPORT
   #define MAGICS_DLLLOCAL
