@@ -251,9 +251,7 @@ inline MAGICS_NO_EXPORT string lowerCase(const string& s)
 inline MAGICS_NO_EXPORT bool magCompare(const string &s1, const string &s2)
 {
 	if(s1.size() != s2.size()) return false;
-#ifndef MAGICS_WINDOWS_CYGWIN
 	return !( strcasecmp(s1.c_str(),s2.c_str()) );
-#endif
 }
 
 inline MAGICS_NO_EXPORT std::string replacePathWithHome(const string & path)

@@ -681,10 +681,8 @@ string BaseDriver::getTmpName() const
 	char* mtmp = new char [stmp.length()+1];
 	stmp.copy(mtmp,string::npos);
 	mtmp[stmp.length()] = '\0';
-#ifndef MAGICS_WINDOWS_CYGWIN
 	const int m = mkstemp(mtmp);
 	stmp = ( m ) ? mtmp : " ";
-#endif
 	delete [] mtmp;
 
 	return stmp;
