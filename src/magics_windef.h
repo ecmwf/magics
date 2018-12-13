@@ -14,6 +14,11 @@
 /* Microsoft Windows Visual Studio support */
 #if defined(_WIN32) && defined(_MSC_VER)
   #define MAGICS_ON_WINDOWS
+  /*
+   * <algorithm> is required to use std::min() and std::max() on Windows. We could add it
+   * to each file as required, but it's more straightforward to put it here.
+   */
+  #include <algorithm>
 #endif
 
 #endif
