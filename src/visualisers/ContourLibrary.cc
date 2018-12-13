@@ -367,23 +367,30 @@ void WebLibrary::getScaling(MetaDataCollector& data, double& scaling, double& of
 		offset = 0;
 
 		//cout << "SCALING" << endl;
-		
+		vector<string> keywords = { "preferred_units", "prefered_units" };
 
 		auto unit = data.find("units");
 		if ( unit == data.end() ) 
 		 	unit = data.find("parameterUnits");
 		if ( unit == data.end() )
 			return;
-		//cout << " Found Unit " << unit->second << endl;
+		MagLog::debug() << " Found Unit " << unit->second << endl;
 		bool found = styles_->findStyle(data, values, info);
 		if ( !found) {
 			MagLog::debug() << "Can not find style" << endl;	
 			return;
 		}
-		//cout << " TRYRING to scale " << unit->second << endl;
-		//for ( auto x = values.begin(); x != values.end(); ++x)
-			//cout << x->first << "--->" << x->second << endl;
-		auto need = values.find("required_units");
+		MagLog::debug() << " TRYRING to scale " << unit->second << endl;
+		for ( auto x = values.begin(); x != values.end(); ++x)
+			MagLog::debug() << x->first << "--->" << x->second << endl;
+
+		MagDef::iterator need;
+		for ( auto key = keywords.begin(); key != keywords.end(); ++key) {
+			need = values.find(*key);
+			if ( need != values.end() )
+				break;
+		}
+
 		if ( need == values.end() )
 			return; 
 		
@@ -402,7 +409,7 @@ void WebLibrary::getScaling(MetaDataCollector& data, double& scaling, double& of
 		
 		//cout << "CLEAN " << clean << ": " << clean.size() << endl;
 		converter.find(need->second, clean, scaling, offset); 
-		//cout << "Need " << need->second << " get " << unit->second << "--->APPLY " << scaling << " and " << offset << endl;
+		MagLog::debug() << "Need " << need->second << " get " << unit->second << "--->APPLY " << scaling << " and " << offset << endl;
 	
 }
 

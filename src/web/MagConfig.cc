@@ -500,9 +500,9 @@ bool StyleLibrary::findStyle(const MetaDataCollector& data, MagDef& visdef, Styl
 
 			info.set(beststyle.styles_.front(), beststyle.styles_);
 			allStyles_.find(info.default_, visdef);
-			if ( visdef.find("required_units") == visdef.end() )
+			if ( visdef.find("prefered_units") == visdef.end() )
 				if (beststyle.preferedUnits_.size())
-					visdef.insert(make_pair("required_units", beststyle.preferedUnits_));
+					visdef.insert(make_pair("prefered_units", beststyle.preferedUnits_));
 			return true;
 
 		}
