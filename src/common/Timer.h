@@ -14,18 +14,12 @@
 #ifndef Timer_H
 #define Timer_H
 
-#ifndef magics_H
 #include "magics.h"
-#endif
 
-//#ifndef MagLog_H
-//#include "MagLog.h"
-//#endif
 
 #include <time.h>
 #include <sys/time.h>
 #include <sys/types.h>
-
 
 
 
@@ -86,9 +80,6 @@ private:
 	clock_t        cpu_;
 	static vector<ProfileInfo> profiles_;
 	
-	
-	
-
 // -- Methods
 	
 	ostream& put(ostream&,double);

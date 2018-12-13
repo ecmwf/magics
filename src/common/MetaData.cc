@@ -10,16 +10,14 @@
 
 /*! \file MetaData.h
     \brief Implementation of the Template class MetaData.
-    
+
     Magics Team - ECMWF 2006
-    
+
     Started: Thu 5-Jan-2006
-    
+
     Changes:
-    
+
 */
-
-
 
 #include "MetaData.h"
 #include "Timer.h"
@@ -62,22 +60,11 @@ string now()
 void MetaDataVisitor::start()
 {
 	start_ = now();
-
-
 }
 
 void MetaDataVisitor::close()
 {
-	//MagLog::dev() << " MetaData::write --->  " << meta << " in file[" << path_ << "]" << endl;
 	return;
-	ofstream out(path_.c_str());
-	out << "<metadata>\n";
-	for (const_iterator entry = begin(); entry != end(); ++entry)
-		out << **entry;
-	out << "</metadata>\n";
-	out.close();
-	
-	
 }
 
 void MetaDataVisitor::collectMetaData()
@@ -86,27 +73,20 @@ void MetaDataVisitor::collectMetaData()
 	parent_->visit(*this);
 	close();
 	
-	
 	try {
 	 ofstream out(profile_.c_str());
 
 	    	double t;
 	       struct timeval tim;
 
-
-
-
-
 		out << "{\n\"timers\" : {" << endl;
 
 		string s = "";
-		                    
 		for (vector<ProfileInfo>::const_iterator web = Timer::begin(); web != Timer::end(); ++web) {
 			out << s;
 			out << *web;
 			s = ",\n";
 		}
-		
 
 		struct rusage p;
 		getrusage(RUSAGE_SELF, &p);
@@ -128,11 +108,6 @@ void MetaDataVisitor::collectMetaData()
 	try  {
 			ofstream out(wms_file_);
 
-			
-		
-			
-
-			
 			for (auto style = styles_.begin(); style != styles_.end(); ++style) {
 				
 				out << **style;
@@ -169,8 +144,6 @@ void MetaDataVisitor::collectMetaData()
 		try  {
 			ofstream out(world_file_.c_str());
 
-
-
 			for (map<string, string>::const_iterator web = web_.begin(); web != web_.end(); ++web) {
 				if ( web->first != "world_file" )
 					continue;
@@ -178,7 +151,6 @@ void MetaDataVisitor::collectMetaData()
 				out << web->second;
 
 			}
-
 
 			out.close();
 		}
@@ -200,9 +172,7 @@ void MetaDataVisitor::collectMetaData()
 					out << " Could not opened " << path << endl;
 					out.close();
 				}
-
 	}
-
 }
 
 void MetaDataVisitor::metadata(map<string, string>& data)
@@ -225,10 +195,7 @@ void MetaDataVisitor::collect()
 #include "ContourLibrary.h"
 void StyleEntry::print(ostream& s) const
 {
-	
 	StyleLibrary styles = *WebLibrary::styles_;
-	
-
 
 	s << "{\"styles\": [ " << endl;
 	string sep = "    ";
@@ -245,10 +212,7 @@ void StyleEntry::print(ostream& s) const
 		sep = "\n    ";
 		s << sep << "}";
 		sep = ",\n    ";
-
-		
 	}
 	s << " 	  ]" << endl;
 	s << "  }" << endl;
-
 }
