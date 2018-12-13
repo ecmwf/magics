@@ -203,6 +203,7 @@ int FortranMagics::pclose()
 		MagLog::userInfo() << "                   magics@ecmwf.int\n";
 		MagLog::userInfo() << "------------------------------------------------------------------\n";
 	}
+	singleton_ = 0;
 	return 0;
 }
 

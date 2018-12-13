@@ -1242,6 +1242,7 @@ void IsoPlot::isoline(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
     double min = data.min();
     double max = data.max();
 
+    MagLog::debug() << "Min=" << min << ", Max=" << max << endl;
 
     if ( (*levelSelection_).front()  > min )
             levels_.push_back(min);
