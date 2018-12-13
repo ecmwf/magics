@@ -60,6 +60,7 @@
 #include <Colour.h>
 #include <BaseDriverAttributes.h>
 #include "MagicsObserver.h"
+#include "magics_windef.h"
 
 namespace magics{
 
@@ -413,8 +414,13 @@ protected:
 	void renderPolyline(vector<PaperPoint> &vP) const;
 	void renderPolyline2(vector<PaperPoint> &vP) const;
 
+#ifdef MAGICS_ON_WINDOWS
+	virtual MAGICS_NO_EXPORT void renderSimplePolygon(const int, MFloat *, MFloat *) const;
+	virtual MAGICS_NO_EXPORT void renderSimplePolygon(const Polyline& line) const;
+#else
 	virtual MAGICS_NO_EXPORT void renderSimplePolygon(const int, MFloat *, MFloat *) const = 0;
 	virtual MAGICS_NO_EXPORT void renderSimplePolygon(const Polyline& line) const = 0;
+#endif
 	virtual void circle(const MFloat, const MFloat, const MFloat, const int) const {}
 	virtual MAGICS_NO_EXPORT int setLineParameters(const LineStyle st, const MFloat w) const {currentLineType_=st; setNewLineWidth(w);return 0;}
 
