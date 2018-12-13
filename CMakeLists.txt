@@ -254,7 +254,7 @@ endif()
 # Directories not need in the distribution tar ball!
 ecbuild_add_resources( TARGET old_src DONT_PACK_DIRS src/MvObs src/libTable src/xml src/terralib/functions)
 ecbuild_add_resources( TARGET bamboo DONT_PACK_DIRS bamboo)
-ecbuild_add_resources( TARGET old_ressources
+ecbuild_add_resources( TARGET old_resources
 		DONT_PACK_DIRS tools/versioncmp
 		tools/regression
 		regression
