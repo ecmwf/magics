@@ -23,7 +23,7 @@ magics_*.includes
 magics.files
 magics_*.files
 
-
+build/
 
 *.sublime-workspace
 notebook/.ipynb_checkpoints
