@@ -124,10 +124,6 @@ using std::exception;
 */
 namespace magics {
 
-
-//const double double_MIN = DBL_MIN;
-
-
 template <class P>
 class magvector : public std::vector<P>
 {
@@ -171,22 +167,12 @@ enum Hemisphere { NORTH , SOUTH };
 enum Justification { MLEFT, MCENTRE, MRIGHT };
 enum Position { M_AUTOMATIC, M_TOP , M_BOTTOM , M_LEFT, M_RIGHT};
 enum VerticalAlign { MNORMAL, MTOP, MCAP, MHALF, MBASE, MBOTTOM };
-//enum VerticalAlign { MBASE, MTOP, MHALF, MBOTTOM };   // if change you need to change also share/magics/PostScriptMacros2.dat
 enum Shading { M_SH_NONE, M_SH_SOLID, M_SH_HATCH, M_SH_DOT };
 enum ArrowPosition { M_TAIL, M_CENTRE, M_HEAD_ONLY};
 enum DisplayType { ABSOLUTE, INLINE, BLOCK, NONE, HIDDEN };
 enum ListPolicy { M_LASTONE, M_CYCLE };
 enum GraphicsFormat {PS, EPS, PDF, SVG, KML, PNG, X, CPS, CSVG, GIF, AGIF, JPG, QT, GEOJSON};
 enum AxisAutomaticSetting {m_off, m_both, m_min_only, m_max_only};
-
-/*
-inline MAGICS_NO_EXPORT string getOutputString()
-{
-	const string outputs = MAGICS_OUTPUTS;
-	return outputs;
-}
-*/
-
 
 static  double EPSILON = 1.25e-10;
 
@@ -280,26 +266,6 @@ inline string tostring(const T& in)
 	out << in;
 	return out.str();
 }
-
-
-/*!
-  \brief checks if file readable or not
-*/
-/*
-inline MAGICS_NO_EXPORT bool fileReadable(const string &strFile)
-{
-    FILE *fp = fopen (strFile.c_str(), "r");
-    if (fp != NULL)
-    {
-        fclose (fp);
-        return true;
-    }
-    else
-    {
-        return false;
-    }
-}
-*/
 
 #define MAGPLUS_PATH_TO_SHARE_ "/share/magics/"
 #define MAGPLUS_LINK_  "http://software.ecmwf.int/magics"
