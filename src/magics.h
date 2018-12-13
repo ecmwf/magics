@@ -106,6 +106,13 @@ using std::exception;
 #include <cassert>
 #include <cmath>
 
+#include "magics_windef.h"
+
+#ifdef MAGICS_ON_WINDOWS
+  #include <io.h>
+  #define strcasecmp _stricmp
+#endif
+
 /*! \namespace magics
 
  The <I>magics</I> namespace encapsulates all elements of Magics++.
