@@ -1,6 +1,0 @@
-<eps version='1.0' template='10_days_epsgram_a3.xml' database='/vol/epsgram/data/spotbase/10_days/0001/latest' format='a3'> 
-   
-    <station name='Madrid' latitude='40.22' longitude='-3.94' psfile='eps-madrid-a3.ps'
-     giffile='eps-madrid-a3.gif' metafile='eps-madrid-a3.meta'/>
-    
-</eps>

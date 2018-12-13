@@ -1,7 +1,0 @@
-#!/bin/ksh
-# Removes the binary program files
-
-
-rm -f bin/*_mpp
-
-

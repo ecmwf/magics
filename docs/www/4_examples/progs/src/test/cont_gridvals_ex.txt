@@ -1,7 +1,0 @@
-MAGICS 6.9 is using CONICON, Magics++ is using AKIMA760
-with a resolution of 0.1.
-<P>
-Note that by default MAGICS 6.9 has parameter GRIB_SUBAREA_EXTRACTION set
-to ON, meaning that the second page appears incomplete. This parameter has
-not yet been implemented in Magics++, hence both pages contain all
-available data.

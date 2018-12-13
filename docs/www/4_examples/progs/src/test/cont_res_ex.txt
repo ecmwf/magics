@@ -1,9 +1,0 @@
-Magics++ supports different resolutions in its Akima contouring algorithms; the lower
-the resolution, the coarser the results but the faster the execution. Low resolutions
-are acceptable for global plots, but finer resolutions are required when examining
-smaller areas.
-<P>
-
-<P>
-Since MAGICS 6.9 does not support the adjustment of resolution in its contouring
-algorithm, there is only one page to the 6.9 plot for comparison with Magics++.
