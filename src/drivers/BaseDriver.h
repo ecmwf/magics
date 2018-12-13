@@ -388,13 +388,7 @@ protected:
 	mutable std::stack<MFloat>  scalesX_;
 	mutable std::stack<MFloat>  scalesY_;
 
-//	mutable MFloat	lastAreaHeightPercentage_;
-//	mutable MFloat	lastAreaWidthPercentage_;
 	mutable bool	newPage_;
-//	mutable bool	firstPage_;
-//	mutable	bool	newLayout_;
-//	mutable	bool    external_;
-//	mutable bool    polylineAntialiasing_;
 
 	bool    disabled_;
 	bool    alphaEnabled_;
@@ -426,7 +420,6 @@ protected:
 
 	// Filling calculating methods
 	// PolylineSets rendering methods
-	//MAGICS_NO_EXPORT void renderPolylineSets(const PolylineSet<PaperPoint>&) const;
 	mutable unsigned int indexHatch_;
 	mutable Shading   currentShading_;
 	mutable const ShadingProperties *currentShadingProperties_;
