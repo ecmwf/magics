@@ -19,12 +19,15 @@
     
 */
 
-
-
 #include "IsoHelper.h"
 #include "AutoLock.h"
 #include "Timer.h"
 using namespace magics;
+
+#include "magics_windef.h"
+#ifdef MAGICS_ON_WINDOWS
+  #include <iterator>
+#endif
 
 
 IsoHelper::IsoHelper(int n, vector<Polyline* >& lines, IsoData& segments) :
