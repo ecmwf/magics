@@ -83,6 +83,9 @@ list( APPEND _common_srcs
 
  )
 
+if( EC_OS_NAME MATCHES "windows" )
+	list( APPEND _common_srcs win_time.h win_time.cc )
+endif()
 
 list( APPEND _common_templates
     Factory.cc
@@ -141,6 +144,10 @@ if ( metview )
 				common/ColourTableDefinition.h
 				common/PointsHandler.h
 				)
+
+	if ( EC_OS_NAME MATCHES "windows" )
+		list (APPEND metview_include common/win_timer.h)
+	endif()
 
 	set( metview_include ${metview_include} PARENT_SCOPE )
 endif()
