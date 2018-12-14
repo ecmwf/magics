@@ -49,8 +49,8 @@ list( APPEND _common_srcs
 	CartesianTransformation.h
 	Dimension.cc
 	XCoordinate.h YCoordinate.h marsmachine.h linux.h aix.h
-	Thread.h MutexCond.h Mutex.h AutoLock.h ThreadControler.h Task.h MagExceptions.h ThreadSingleton.h 
-    DataStats.h SciMethods.h Tephigram.cc  Tephigram.h Skewt.cc  Skewt.h Emagram.cc Emagram.h
+	Thread.h MutexCond.h Mutex.h AutoLock.h ThreadControler.h Task.h MagExceptions.h ThreadSingleton.h
+	DataStats.h SciMethods.h Tephigram.cc  Tephigram.h Skewt.cc  Skewt.h Emagram.cc Emagram.h
 
 # sources
 	Data.cc Matrix.cc MagicsCalls.cc Static.cc DriverStatic.cc MagLog.cc Colour.cc Transformation.cc MagException.cc
@@ -74,9 +74,9 @@ list( APPEND _common_srcs
 	DataStats.cc SciMethods.cc BasePointsHandler.cc PointsHandler.cc ProgressObject.cc
 
 # projection
-    GeoRectangularProjection.cc  PolarStereographicProjection.cc TaylorProjection.cc
-    GeoRectangularProjection.h   PolarStereographicProjection.h TaylorProjection.h
-    Proj4Projection.cc  Proj4Projection.h
+	GeoRectangularProjection.cc  PolarStereographicProjection.cc TaylorProjection.cc
+	GeoRectangularProjection.h   PolarStereographicProjection.h TaylorProjection.h
+	Proj4Projection.cc  Proj4Projection.h
 
 # unused
 
@@ -84,8 +84,8 @@ list( APPEND _common_srcs
  )
 
 
-list( APPEND _common_templates 
-    Factory.cc 
+list( APPEND _common_templates
+    Factory.cc
     MagicsParameter.cc
     TableDefinitionList.cc
     TableDefinitionCompute.cc
@@ -129,18 +129,19 @@ if ( metview )
 				common/MatrixHandler.h
 				common/BasePointsHandler.h
 				common/Timer.h
-                common/DataStats.h
-                common/IntervalMap.h
-                common/GeoRectangularProjection.h
-                common/Text.h
-                common/Label.h
-                common/MagFont.h
-                common/Image.h
-                common/ImageProperties.h
-                common/ColourTable.h
-                common/ColourTableDefinition.h
-                common/PointsHandler.h
+				common/DataStats.h
+				common/IntervalMap.h
+				common/GeoRectangularProjection.h
+				common/Text.h
+				common/Label.h
+				common/MagFont.h
+				common/Image.h
+				common/ImageProperties.h
+				common/ColourTable.h
+				common/ColourTableDefinition.h
+				common/PointsHandler.h
 				)
+
 	set( metview_include ${metview_include} PARENT_SCOPE )
 endif()
 install ( FILES magics_api.h  DESTINATION ${INSTALL_INCLUDE_DIR})
