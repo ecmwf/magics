@@ -20,6 +20,8 @@
 
 #ifndef MAGICS_ON_WINDOWS
   #include <sys/time.h>
+#else
+  #include "win_time.h"
 #endif
 
 
