@@ -35,11 +35,10 @@ public:
 	string cpu_;
 	string start_;
 	string stop_;
-	
+
 	// -- Friends
-	    //! Overloaded << operator to call print().
-		friend ostream& operator<<(ostream& s,const ProfileInfo& p);
-	
+	//! Overloaded << operator to call print().
+	friend ostream& operator<<(ostream& s,const ProfileInfo& p);
 };
 
 // This stack object prints the elapse time between the call to
@@ -59,9 +58,9 @@ public:
 // -- Methods
 
 	double elapsed();
-	static vector<ProfileInfo>::const_iterator begin() 
+	static vector<ProfileInfo>::const_iterator begin()
 			{ return profiles_.begin(); }
-		static vector<ProfileInfo>::const_iterator end() 
+		static vector<ProfileInfo>::const_iterator end()
 			{ return profiles_.end(); }
 
 private:
@@ -72,16 +71,15 @@ private:
 	Timer& operator=(const Timer&);
 
 // -- Members
-	
-	string         name_;
-	string 		  details_;
-	struct timeval start_;
 
+	string         name_;
+	string         details_;
+	struct timeval start_;
 	clock_t        cpu_;
 	static vector<ProfileInfo> profiles_;
-	
+
 // -- Methods
-	
+
 	ostream& put(ostream&,double);
 
 };
