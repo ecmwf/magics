@@ -228,12 +228,6 @@ void Polyline::intersect(const Polyline& poly, vector<Polyline*>& out) const
     MagClipper::clip(poly, *this, out);
 }
 
-void Polyline::clip(const Polyline& poly, vector<Polyline>& out) const
-{
-    // Use of a MagClipper
-    assert(false);
-}
-
 void feed(const deque<PaperPoint>& points, const Polyline& box, vector<Polyline*>& out)
 {
 	Polyline* poly = new Polyline();
@@ -262,14 +256,6 @@ void Polyline::clip(const Polyline& poly, vector<Polyline*>& out) const
     }
 }
 
-// Is the poyline included in the "other" polyline"
-bool Polyline::in(const Polyline& other)
-{
-    assert(false);
-    return false;
-    
-}
-
 // Is the pointincluded in the polyline"
 bool Polyline::in(const PaperPoint& point) const
 {
@@ -290,18 +276,6 @@ void Polyline::push_back(Polyline& other)
         other.polygon_.begin(), other.polygon_.end());
 }
 
-/*! \brief Routine to check (and correct) integrity of the inner holes of polygons read from shape files.
-*/
-void Polyline::correct()
-{
-    
-}
-bool Polyline::sanityCheck()
-{
-    assert(false);
-    
-}
-
 double PaperPoint::distance(const PaperPoint& other) const
 {
     
@@ -317,14 +291,6 @@ void Polyline::box(const PaperPoint& ll, const PaperPoint& ur)
     push_back(ur.x(), ll.y());
     push_back(ll);
    
-}
-bool Polyline::concatenate(Polyline&)
-{
-    assert(false);
-}
-void Polyline::intersection(Polyline&)
-{
-    assert(false);
 }
 bool Polyline::within(const PaperPoint& point) const
 {

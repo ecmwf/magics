@@ -545,9 +545,6 @@ void Proj4Projection::conic()
 		add(lon, projection_->minlat_);
 	}
 	add( projection_->maxlon_, projection_->maxlat_);
-	PCEnveloppe_->correct();
-	userEnveloppe_->correct();
-	
 }
 
 
