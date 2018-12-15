@@ -77,7 +77,7 @@ void MetaDataVisitor::collectMetaData()
 	close();
 	
 	try {
-	 ofstream out(profile_.c_str());
+		ofstream out(profile_.c_str());
 
 		out << "{\n\"timers\" : {" << endl;
 
@@ -90,9 +90,9 @@ void MetaDataVisitor::collectMetaData()
 #ifndef MAGICS_ON_WINDOWS // windows doesn't support rusage
 		struct rusage p;
 		getrusage(RUSAGE_SELF, &p);
-		out << 	"\n\t},\n\t\"start\": " << start_;
-		out << 	",\n\t\"stop\": " << now();
-		out << 	",\n\t\"general\": {" << endl;
+		out << "\n\t},\n\t\"start\": " << start_;
+		out << ",\n\t\"stop\": " << now();
+		out << ",\n\t\"general\": {" << endl;
 		out << "\t\t\"user\" : " <<  p.ru_utime.tv_sec << "," << endl;
 		out << "\t\t\"system\" : " <<  p.ru_stime.tv_sec << "," << endl;
 		out << "\t\t\"memory\" : " <<   p.ru_maxrss/1024 << ","   << endl;
