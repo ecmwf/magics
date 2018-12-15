@@ -213,8 +213,6 @@ void Symbol::redisplay(const BaseDriver& driver) const
 
 	vector<Polyline> lines;
 
-	boundingbox_.clip(line, lines);
-
 	for ( vector<Polyline>::const_iterator l = lines.begin(); l != lines.end(); ++l) {
 
 		driver.redisplay(*l);
@@ -270,8 +268,6 @@ void TextSymbol::redisplay(const BaseDriver& driver) const
 		}
 
 		vector<Polyline> lines;
-
-		boundingbox_.clip(line, lines);
 
 		for ( vector<Polyline>::const_iterator l = lines.begin(); l != lines.end(); ++l) {
 			driver.redisplay(*l);
