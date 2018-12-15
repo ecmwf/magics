@@ -169,7 +169,7 @@ enum Position { M_AUTOMATIC, M_TOP , M_BOTTOM , M_LEFT, M_RIGHT};
 enum VerticalAlign { MNORMAL, MTOP, MCAP, MHALF, MBASE, MBOTTOM };
 enum Shading { M_SH_NONE, M_SH_SOLID, M_SH_HATCH, M_SH_DOT };
 enum ArrowPosition { M_TAIL, M_CENTRE, M_HEAD_ONLY};
-enum DisplayType { ABSOLUTE, INLINE, BLOCK, NONE, HIDDEN };
+enum DisplayType { M_DT_ABSOLUTE, M_DT_INLINE, M_DT_BLOCK, M_DT_NONE, M_DT_HIDDEN };
 enum ListPolicy { M_LASTONE, M_CYCLE };
 enum GraphicsFormat {PS, EPS, PDF, SVG, KML, PNG, X, CPS, CSVG, GIF, AGIF, JPG, QT, GEOJSON};
 enum AxisAutomaticSetting {m_off, m_both, m_min_only, m_max_only};
