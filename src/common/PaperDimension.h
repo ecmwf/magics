@@ -25,6 +25,7 @@
 #include "magics.h"
 #include "Factory.h"
 #include "MagTranslator.h"
+#include "magics_windef.h"
 
 namespace magics {
 
@@ -38,12 +39,15 @@ public:
     
     double getWidth()  { return (landscape_) ? largeDimension_ : smallDimension_;  }
     double getHeight() { return (landscape_) ? smallDimension_ : largeDimension_; }	
-    
+
 protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).
+#ifdef MAGICS_ON_WINDOWS
+	 virtual void print(ostream&) const;
+#else
 	 virtual void print(ostream&) const = 0; 
-	 
-	 
+#endif
+
 	 bool landscape_;
 	 double smallDimension_;
 	 double largeDimension_;
