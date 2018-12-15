@@ -146,12 +146,12 @@ public :
 
 				double min = *std::min_element(distances.begin(), distances.end());
 
-                map<double, pair< std::pair<double, double>,  pair<int, int> > >::iterator near = helper.find(min);
+				map<double, pair< std::pair<double, double>,  pair<int, int> > >::iterator n = helper.find(min);
 
-				if ( near == helper.end() ) 
+				if ( n == helper.end() )
 					return  matrix_.missing();
 
-				return (*this)(near->second.second.first, near->second.second.second);
+				return (*this)(n->second.second.first, n->second.second.second);
 
     }
 	
