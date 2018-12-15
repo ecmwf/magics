@@ -613,15 +613,10 @@ void FortranPositionalTextVisitor::getReady()
 
 XmlTextVisitor::XmlTextVisitor() 
 {
-	//displayType_ = BLOCK;
-	//border_ = false;
-	//blanking_= false;
-	//lines_.push_back("<magics_title/>");
 }
 
 void TextVisitor::titles(vector<string>& titles)
 {	
-	//prepare();	
 	for ( vector<string>::const_iterator line = lines_.begin(); line != lines_.end(); ++line)
 		titles.push_back(*line);
 }
