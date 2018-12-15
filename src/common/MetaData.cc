@@ -21,10 +21,10 @@
 
 #include "MetaData.h"
 #include "Timer.h"
-#include <sys/resource.h>
 
 #ifndef MAGICS_ON_WINDOWS
-  #include <sys/time.h>
+#include <sys/time.h>
+#include <sys/resource.h>
 #endif
 
 
@@ -90,7 +90,7 @@ void MetaDataVisitor::collectMetaData()
 			out << *web;
 			s = ",\n";
 		}
-
+#ifndef MAGICS_ON_WINDOWS // windows doesn't support rusage
 		struct rusage p;
 		getrusage(RUSAGE_SELF, &p);
 		out << 	"\n\t},\n\t\"start\": " << start_;
@@ -103,6 +103,7 @@ void MetaDataVisitor::collectMetaData()
 		out << "\t\t\"output\" : " <<   p.ru_oublock  << endl;
 		out << "\t}" << endl;
 		out << "}" << endl;
+#endif
 	}
 
 	catch ( ...) {}
