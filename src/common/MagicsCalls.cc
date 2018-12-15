@@ -1129,6 +1129,7 @@ void pseti_(const char* name, const int* value, int namel)
 	}
 	catch (MagicsException& e)
 	{
+		(void)e; // prevent 'unreferenced local variable' compiler warning
 		double fvalue = *value;
 		mag_setr(name, fvalue);
 	}
@@ -1142,6 +1143,7 @@ void pset1i_(const char* name, const int* data, const int* dim, int length)
 	}
 	catch (MagicsException& e)
 	{
+		(void)e;
 		int s = *dim;
 		double fvalue[s];
 		for (int i =0; i < s; i++)
@@ -1160,6 +1162,7 @@ void pset2i_(const char* name, const int* data, const int* dim1, const int* dim2
 
 	catch (MagicsException& e)
 	{
+		(void)e;
 		int dim = *dim1 * *dim2;
 		double fvalue[dim];
 		for (int i =0; i < dim; i++)
