@@ -1145,10 +1145,11 @@ void pset1i_(const char* name, const int* data, const int* dim, int length)
 	{
 		(void)e;
 		int s = *dim;
-		double fvalue[s];
+		double *fvalue = new double[s];
 		for (int i =0; i < s; i++)
 			fvalue[i] = data[i];
 		mag_set1r(name, fvalue, *dim);
+		delete[] fvalue;
 	}
 
 }
@@ -1164,10 +1165,11 @@ void pset2i_(const char* name, const int* data, const int* dim1, const int* dim2
 	{
 		(void)e;
 		int dim = *dim1 * *dim2;
-		double fvalue[dim];
+		double *fvalue = new double[dim];
 		for (int i =0; i < dim; i++)
 			fvalue[i] = data[i];
 		mag_set2r(name, fvalue, *dim1, *dim2);
+		delete[] fvalue;
 	}
 
 }
