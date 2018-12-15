@@ -226,6 +226,7 @@ public:
 		}
 		catch (NoFactoryException& e)
 		{
+			(void)e; // prevent 'unreferenced local variable' compiler warning
 			param->reset();
 			param->get(def);
 			MagLog::warning() << "parameter \"" << name << "\" : value [" << val << "] is not valid ---> default [" << def <<  "] used" << endl;
