@@ -406,7 +406,7 @@ void XmlTextVisitor::getReady()
 	Dimension text(font_dimension_,height.absolute(), 10);
 	font_size_ = text.absolute();
 
-	layout_->display(ABSOLUTE);
+	layout_->display(M_DT_ABSOLUTE);
 	layout_->frame(TextVisitorAttributes::blanking_, TextVisitorAttributes::border_, *TextVisitorAttributes::border_colour_, M_SOLID, 1, Colour("white"));
 
 }
