@@ -96,8 +96,6 @@ public:
     
     void metadata(map<string,string>&);
 
-    virtual void close(); 
-    
     static void collect();
 
     static void start();
@@ -140,7 +138,6 @@ public:
 	MetaDataVisitor* clone() const {
         return new NoMetaData();
     }
-    virtual void close() {}
     virtual void visit(BasicGraphicsObjectContainer&) {}
 };
 

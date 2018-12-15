@@ -65,16 +65,10 @@ void MetaDataVisitor::start()
 	start_ = now();
 }
 
-void MetaDataVisitor::close()
-{
-	return;
-}
-
 void MetaDataVisitor::collectMetaData()
 {
 	MagLog::dev() << "----MetaData::visit-----" << endl;
 	parent_->visit(*this);
-	close();
 	
 	try {
 		ofstream out(profile_.c_str());
@@ -182,7 +176,6 @@ void MetaDataVisitor::metadata(map<string, string>& data)
 	data["magics_version"] = quote + MAGICS_VERSION + quote;
     data["filename"] = javascript_;
     parent_->visit(*this);
-    close();
 }
 
 vector<MetaDataVisitor*> MetaDataVisitor::meta_;
