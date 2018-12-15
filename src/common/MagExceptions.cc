@@ -18,6 +18,8 @@
 #include "ThreadSingleton.h"
 #endif
 
+#include "magics_windef.h"
+
 static MagException*& first()
 {
 	static ThreadSingleton<MagException*> p;
@@ -26,6 +28,7 @@ static MagException*& first()
 
 void xldb_throw(const char *c) // To set a break point in xldb
 {
+#ifndef MAGICS_ON_WINDOWS
 	if(getenv("PAUSE_MagExceptionS"))
 	{
 		std::cout << "debug me " << getpid() << endl;
@@ -34,6 +37,7 @@ void xldb_throw(const char *c) // To set a break point in xldb
 
 	if(getenv("ABORT_MagExceptionS"))
 		Panic(c);
+#endif
 }
 
 MagException::MagException():
@@ -175,6 +179,7 @@ Ostore::Ostore(const string& msg):
 
 void Panic(const char *msg)
 {
+#ifndef MAGICS_ON_WINDOWS
 	msg = msg ? msg : "(null message)";
 
 	if(getenv("SLEEP_ON_PANIC"))
@@ -183,6 +188,7 @@ void Panic(const char *msg)
 	}
 	else ::kill(::getpid(),SIGABRT);
 	::pause();
+#endif
 }
 
 void Panic(const char* msg,int line,const char* file, const char* proc)
