@@ -109,7 +109,7 @@ public:
 		double y = point.y() - 0.125 ;
 
 	
-		Polyline* box  = new Polyline();
+		magics::Polyline* box  = new magics::Polyline();
 		box->setColour(border_colour_);
 		box->setFilled(true);
 		box->setShading(new FillShadingProperties());
@@ -131,12 +131,12 @@ public:
 		box->push_back(PaperPoint(x+width, y));
 		box->push_back(PaperPoint(x-width, y));
 		visitor.push_back(box);
-		Polyline* up  = new Polyline();
+		magics::Polyline* up  = new magics::Polyline();
 		up->setColour(border_colour_);
 		(*up).push_back(PaperPoint(x, top+height));
 		(*up).push_back(PaperPoint(x, top));
 		visitor.push_back(up);
-		Polyline* down  = new Polyline();
+		magics::Polyline* down  = new magics::Polyline();
 		down->setColour(border_colour_);
 		(*down).push_back(PaperPoint(x, bottom));
 		(*down).push_back(PaperPoint(x, bottom-height));
@@ -181,7 +181,7 @@ public:
 	}
 	
 protected:
-	Polyline*  box_;
+	magics::Polyline*  box_;
 	Colour colour_;
 	Colour border_colour_;
 	MagFont font_;
@@ -202,7 +202,7 @@ public:
 
 		MagLog::dev() << "FulleEps Entry->  [" << x << ", " << y << "]" << endl;
 	
-		Polyline* box  = new Polyline();
+		magics::Polyline* box  = new magics::Polyline();
 		box->setColour(border_colour_);
 		box->setFilled(true);
 		box->setFillColour(colour_);
@@ -232,12 +232,12 @@ public:
 		box->push_back(PaperPoint(x+width, y));
 		box->push_back(PaperPoint(x-width, y));
 		visitor.push_back(box);
-		Polyline* up  = new Polyline();
+		magics::Polyline* up  = new magics::Polyline();
 		up->setColour(border_colour_);
 		(*up).push_back(PaperPoint(x, top2+height));
 		(*up).push_back(PaperPoint(x, top2));
 		visitor.push_back(up);
-		Polyline* down  = new Polyline();
+		magics::Polyline* down  = new magics::Polyline();
 		down->setColour(border_colour_);
 		(*down).push_back(PaperPoint(x, bottom2));
 		(*down).push_back(PaperPoint(x, bottom2-height));
@@ -324,7 +324,7 @@ public:
         hsl.light_ += (0.99 - light)*((100-i)/100.);
     	Colour colour(hsl);
 		
-		Polyline* box  = new Polyline();
+		magics::Polyline* box  = new magics::Polyline();
 		box->setColour(colour);
 		box->setFilled(true);
 		box->setFillColour(colour);
@@ -343,7 +343,7 @@ public:
 		
 	}
 		
-		Polyline* box  = new Polyline();
+		magics::Polyline* box  = new magics::Polyline();
 		box->setColour(border_colour_);
 		box->setFilled(false);
 		
@@ -419,7 +419,7 @@ public:
 	
 	for ( vector<Colour>::const_iterator colour = colours_.begin(); colour != colours_.end(); ++colour) { 
 		
-		Polyline* box  = new Polyline();
+		magics::Polyline* box  = new magics::Polyline();
 		box->setColour(*colour);
 		box->setFilled(true);
 		box->setShading(new FillShadingProperties());
@@ -437,7 +437,7 @@ public:
 		
 	}
 		
-		Polyline* box  = new Polyline();
+	magics::Polyline* box  = new magics::Polyline();
 		box->setColour(border_colour_);
 		box->setFilled(false);
 		
@@ -598,7 +598,7 @@ public:
 	
 		double x = point.x();
 		double y = point.y()- 0.125;
-		Polyline* line  = new Polyline();
+		magics::Polyline* line  = new magics::Polyline();
 		line->setColour(Colour("green"));
 		
 		line->setLineStyle(M_SOLID);
@@ -637,7 +637,7 @@ public:
 	
 		double x = point.x();
 		double y = point.y()- 0.125;
-		Polyline* line  = new Polyline();
+		magics::Polyline* line  = new magics::Polyline();
 		line->setColour(Colour("magenta"));
 		
 		
@@ -677,26 +677,26 @@ void EpsGraph::print(ostream& visitor)  const
 }
 
 
-Polyline* EpsGraph::newControl() {
+magics::Polyline* EpsGraph::newControl() {
 
-	Polyline* control  = new Polyline();
+	magics::Polyline* control  = new magics::Polyline();
 	control->setColour(*control_colour_);
 	control->setLineStyle(control_style_);
 	control->setThickness(control_thickness_);
 	return control;
 }
 
-Polyline* EpsGraph::newForecast() {
+magics::Polyline* EpsGraph::newForecast() {
 
 	
-	Polyline* forecast  = new Polyline();
+	magics::Polyline* forecast  = new magics::Polyline();
 	forecast->setColour(*deterministic_colour_);
 	forecast->setThickness(deterministic_thickness_);
 	forecast->setLineStyle(deterministic_style_);
 	return forecast;
 }
 
-void EpsGraph::pushControl(Polyline* control, BasicGraphicsObjectContainer& visitor)
+void EpsGraph::pushControl(magics::Polyline* control, BasicGraphicsObjectContainer& visitor)
 {
 	const Transformation& transformation = visitor.transformation();
 	if ( !control->empty() && whisker_) {		
@@ -708,7 +708,7 @@ void EpsGraph::pushControl(Polyline* control, BasicGraphicsObjectContainer& visi
 	
 }
 
-void EpsGraph::pushForecast(Polyline* forecast, BasicGraphicsObjectContainer& visitor)
+void EpsGraph::pushForecast(magics::Polyline* forecast, BasicGraphicsObjectContainer& visitor)
 {
 	const Transformation& transformation = visitor.transformation();
 	if ( !forecast->empty() && deterministic_) {					
@@ -735,8 +735,8 @@ void EpsGraph::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 	
 	
 	
-	Polyline* control = newControl();
-	Polyline* forecast = newForecast();
+	magics::Polyline* control = newControl();
+	magics::Polyline* forecast = newForecast();
 
 
 	resolution_ = (*points.front())["resolution"];
@@ -825,21 +825,21 @@ void EpsGraph::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 	Colour colour25_75 = ( size >= 2 ) ? Colour(quantiles_colour_[1]) : colour;
 	Colour colour75_90 = ( size >= 3 ) ? Colour(quantiles_colour_[2]) : colour10_25;
 
-		Polyline* box10_25  = new Polyline();
+		magics::Polyline* box10_25  = new magics::Polyline();
 		box10_25->setColour(*border_colour_);
 		box10_25->setThickness(border_thickness_);
 		box10_25->setFilled(true);
 		box10_25->setFillColour(colour10_25);
 		box10_25->setShading(new FillShadingProperties());
         
-        Polyline* box25_75  = new Polyline();
+		magics::Polyline* box25_75  = new magics::Polyline();
 		box25_75->setColour(*border_colour_);
 		box25_75->setThickness(border_thickness_);
 		box25_75->setFilled(true);
 		box25_75->setFillColour(colour25_75);
 		box25_75->setShading(new FillShadingProperties());
 		
-		Polyline* box75_90  = new Polyline();
+		magics::Polyline* box75_90  = new magics::Polyline();
 		box75_90->setColour(*border_colour_);
 		box75_90->setThickness(border_thickness_);
 		box75_90->setFilled(true);
@@ -847,14 +847,14 @@ void EpsGraph::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 		box75_90->setShading(new FillShadingProperties());
 
 
-        Polyline* median  = new Polyline();
+		magics::Polyline* median  = new magics::Polyline();
         median->setColour(*median_colour_);
         
-        Polyline* bar1  = new Polyline();
+		magics::Polyline* bar1  = new magics::Polyline();
         bar1->setColour(*border_colour_);
         bar1->setThickness(border_thickness_);
 
-        Polyline* bar2  = new Polyline();
+		magics::Polyline* bar2  = new magics::Polyline();
         bar2->setColour(*border_colour_);
         bar2->setThickness(border_thickness_);
 
@@ -898,7 +898,7 @@ void EpsGraph::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 		median->push_back(PaperPoint(x-width, eps50));
 		
 		
-		Polyline* top  = new Polyline();
+		magics::Polyline* top  = new magics::Polyline();
 		top->setColour(*border_colour_);
 		top->setThickness(border_thickness_);
 		
@@ -909,7 +909,7 @@ void EpsGraph::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
             (*top).push_back(PaperPoint(x, eps90));
         else 
             (*top).push_back(PaperPoint(x, eps75));
-		Polyline* bottom  = new Polyline();
+		magics::Polyline* bottom  = new magics::Polyline();
 		bottom->setColour(*border_colour_);
 		bottom->setThickness(border_thickness_);
 		(*bottom).push_back(PaperPoint(x, epsmin));
@@ -1083,7 +1083,7 @@ void EpsLight::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 		for ( vector<Colour>::iterator colour = colours.begin(); colour != colours.end(); ++colour) {
 			
 			for (int i = 0; i < 4; i++ ) {
-				Polyline* box  = new Polyline();
+				magics::Polyline* box  = new magics::Polyline();
 				box->setColour(*colour);
 				box->setFilled(true);
 				box->setFillColour(*colour);
@@ -1166,7 +1166,7 @@ void triangle2(const pair<string, float>& direction, CustomisedPoint& point, Bas
 	
 	double shift = 3.14*0.125;
 	
-	Polyline* poly = new Polyline();
+	magics::Polyline* poly = new magics::Polyline();
 
 	poly->setThickness(2);
 	
@@ -1235,7 +1235,7 @@ void triangle3(const Colour& colour, const Colour& border, const pair<string, fl
 	
 	double shift = 3.14*0.125;
 	
-	Polyline* poly = new Polyline();
+	magics::Polyline* poly = new magics::Polyline();
 	poly->setThickness(1);
 	
 	
@@ -1295,7 +1295,7 @@ void EpsCloud::triangle(const pair<string, float>& direction, CustomisedPoint& p
 	
 	double shift = 3.14*0.125;
 	
-	Polyline* poly = new Polyline();
+	magics::Polyline* poly = new magics::Polyline();
 	poly->setStroke(true);
 	
 	
@@ -1341,7 +1341,7 @@ void triangle(const pair<string, float>& direction, CustomisedPoint& point, Basi
 	double shift = 3.14*0.125;
 	
 	//cvisitor << "Triangle---->" << direction.first << "=" << point[direction.first] << " " << scale << endl;
-	Polyline* poly = new Polyline();
+	magics::Polyline* poly = new magics::Polyline();
 
 	poly->setThickness(2);
 	poly->setFillColour(Colour("Rgb(0.7, 0.7, 0.7)"));	
@@ -1378,7 +1378,7 @@ void triangle(const pair<string, float>& direction, CustomisedPoint& point, Basi
 	poly->setFilled(true);
 	poly->setShading(new FillShadingProperties());
 	
-	Polyline* median = new Polyline();
+	magics::Polyline* median = new magics::Polyline();
 	median->setColour(Colour("black"));
 	median->setThickness(1);
 	median->push_back(PaperPoint(pos, 0));	
@@ -1477,7 +1477,7 @@ void EpsWind::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 		double x = (**point)["step"] + (**point)["shift"];
 	
 		
-			Polyline* grid = new Polyline();
+			magics::Polyline* grid = new magics::Polyline();
 			grid->setColour(Colour("grey"));
 			grid->setThickness(2);
 			grid->setLineStyle(M_DOT);		
@@ -1564,7 +1564,7 @@ void EpsCloud::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 		for ( map<string, float>::const_iterator direction = directions.begin(); direction != directions.end(); ++direction)
 				triangle(*direction, **point, visitor, x);
 	
-	Polyline* grid = new Polyline();
+		magics::Polyline* grid = new magics::Polyline();
 				grid->setColour(Colour("grey"));
 				grid->setThickness(2);
 				grid->setLineStyle(M_DOT);		
@@ -1606,7 +1606,7 @@ void EpsBar::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 			 Hsl hsl = colour_->hsl();
 			 float light = hsl.light_;
 			 hsl.light_ += (0.99 - light)*((100- (**point)[direction->first])/100);
-			 Polyline* poly = new Polyline();
+			 magics::Polyline* poly = new magics::Polyline();
 			 poly->setThickness(1);
 			 poly->setFillColour(Colour(hsl));
 			 poly->setColour(Colour(hsl));
@@ -1683,7 +1683,7 @@ void triangle5(const pair<string, float>& direction, CustomisedPoint& point, Bas
 	forces.push_back(direction.first + "_five");
 	forces.push_back(direction.first + "_six");
 	double total = 0;
-	Polyline* poly;
+	magics::Polyline* poly;
 	vector<Colour>::iterator colour = colours.begin();
 	Colour border("grey");
 	
@@ -1700,7 +1700,7 @@ void triangle5(const pair<string, float>& direction, CustomisedPoint& point, Bas
 			continue;
 		}
 		
-	    poly = new Polyline();
+	    poly = new magics::Polyline();
 	    poly->setThickness(1);
 		poly->setFillColour(*colour);	
 	    poly->setColour(border);
@@ -1820,7 +1820,7 @@ void EpsWave::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 		double x = (**point)["step"] + (**point)["shift"];
 	
 		
-		Polyline* grid = new Polyline();
+		magics::Polyline* grid = new magics::Polyline();
 		grid->setColour(Colour("grey"));
 		grid->setThickness(2);
 		grid->setLineStyle(M_DOT);
@@ -1845,7 +1845,7 @@ void EpsWave::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 
 		// Draw the Control
 		if ( (*point)->find("control") != (*point)->end() ) {
-			Polyline* control = new Polyline();
+			magics::Polyline* control = new magics::Polyline();
 			control->setColour(Colour("red"));
 			control->setThickness(2);
 			control->setLineStyle(M_DASH);
@@ -1859,7 +1859,7 @@ void EpsWave::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 
 		// Draw the Forecast
 		if ( (*point)->find("hres") != (*point)->end() ) {
-			Polyline* hres = new Polyline();
+			magics::Polyline* hres = new magics::Polyline();
 			hres->setColour(Colour("blue"));
 			hres->setThickness(2);
 			hres->setLineStyle(M_SOLID);
@@ -1916,7 +1916,7 @@ void CdfGraph::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
     
     	
     	
-    	Polyline* efi  = new Polyline();
+	magics::Polyline* efi  = new magics::Polyline();
 	    efi->setColour(*clim_colour_);
 	    efi->setLineStyle(clim_style_);
 	    efi->setThickness(clim_thickness_);
@@ -1940,7 +1940,7 @@ void CdfGraph::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 		visitor.push_back(efi);
 		
 
-		Polyline* box = new Polyline();
+		magics::Polyline* box = new magics::Polyline();
 		box->setColour(Colour("navy"));
 		box->setFilled(true);      
 		box->setFillColour(Colour("white"));      
@@ -1990,7 +1990,7 @@ void CdfGraph::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
     	
     
     	
-    	Polyline* efi  = new Polyline();
+		magics::Polyline* efi  = new magics::Polyline();
 	    efi->setColour(colour);
 	    efi->setLineStyle(MagTranslator<string, LineStyle>()(*style));
 	    efi->setThickness(*thickness);
@@ -2046,7 +2046,7 @@ void CdfGraph::visit(LegendVisitor& legend)
 
 {
 
-	Polyline* line = new Polyline();
+	magics::Polyline* line = new magics::Polyline();
 
 		                    line->setColour(Colour("black"));
 
@@ -2060,7 +2060,7 @@ void CdfGraph::visit(LegendVisitor& legend)
     
    
 	for (vector<string>::reverse_iterator colour = usedColours_.rbegin(); colour != usedColours_.rend(); ++colour) {
-		Polyline* efi  = new Polyline();
+		magics::Polyline* efi  = new magics::Polyline();
 		efi->setColour(Colour(*colour));
 		
        
@@ -2073,7 +2073,7 @@ void CdfGraph::visit(LegendVisitor& legend)
         ++style;
         ++text;
 	}
-	 Polyline* efi  = new Polyline();
+	magics::Polyline* efi  = new magics::Polyline();
 			efi->setColour(*clim_colour_);
 			efi->setLineStyle(clim_style_);
 			efi->setThickness(clim_thickness_);
@@ -2095,51 +2095,51 @@ void EpsShade::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 	if (points.empty()) return;
 
     
-	Polyline* first  = new Polyline();	
+	magics::Polyline* first  = new magics::Polyline();	
 	first->setLineStyle(line_style_);
 	first->setThickness(line_thickness_);
 	first->setFilled(true);
 	first->setShading(new FillShadingProperties());
     
-    Polyline* firstmin = first->getNew();
-    Polyline* firstmax = first->getNew();
+	magics::Polyline* firstmin = first->getNew();
+	magics::Polyline* firstmax = first->getNew();
     
     Colour cmin = Colour("sky");
     Colour cmax = Colour("RGB(1.0, 0.222, 0.222)");
     
-    Polyline* second  = new Polyline();
+	magics::Polyline* second  = new magics::Polyline();
 	
 	second->setLineStyle(line_style_);
 	second->setThickness(line_thickness_);
 	second->setFilled(true);
 	second->setShading(new FillShadingProperties());
-	Polyline* secondmin = second->getNew();
-    Polyline* secondmax = second->getNew();
+	magics::Polyline* secondmin = second->getNew();
+	magics::Polyline* secondmax = second->getNew();
     
     
-	Polyline* median  = new Polyline();
+	magics::Polyline* median  = new magics::Polyline();
 	median->setLineStyle(line_style_);
 	median->setThickness(line_thickness_);
     
-    Polyline* medianmin = median->getNew();
-    Polyline* medianmax = median->getNew();
+	magics::Polyline* medianmin = median->getNew();
+	magics::Polyline* medianmax = median->getNew();
    
-	Polyline* backtop  = new Polyline();
+	magics::Polyline* backtop  = new magics::Polyline();
 	//backtop->setLineStyle(M_DASH);
 	backtop->setThickness(2);
     backtop->setColour(*colour_);
-    Polyline* backtopmin = backtop->getNew();
-    Polyline* backtopmax = backtop->getNew();
+	magics::Polyline* backtopmin = backtop->getNew();
+	magics::Polyline* backtopmax = backtop->getNew();
     backtopmin->setColour(cmin);
     backtopmax->setColour(cmax);
    
-    Polyline* backbottom  = new Polyline();
+	magics::Polyline* backbottom  = new magics::Polyline();
 	//backbottom->setLineStyle(M_DOT);
 	backbottom->setThickness(2);
     backbottom->setColour(*colour_);
     
-    Polyline* backbottommin = backbottom->getNew();
-    Polyline* backbottommax = backbottom->getNew();
+	magics::Polyline* backbottommin = backbottom->getNew();
+	magics::Polyline* backbottommax = backbottom->getNew();
     
     backbottommin->setColour(cmin);
     backbottommax->setColour(cmax);
@@ -2341,21 +2341,21 @@ public:
 	
 		
         Colour colour("grey");
-        Polyline* median  = new Polyline();
+		magics::Polyline* median  = new magics::Polyline();
 		median->setColour(colour);		
 		median->setLineStyle(M_SOLID);
 		median->setThickness(4);
 		median->push_back(PaperPoint(x-width, y));
 		median->push_back(PaperPoint(x+width, y));
         
-        Polyline* top  = new Polyline();
+		magics::Polyline* top  = new magics::Polyline();
 		top->setColour(colour);		
 		top->setLineStyle(M_DASH);
 		top->setThickness(2);
 		top->push_back(PaperPoint(x-width, y+height1));
 		top->push_back(PaperPoint(x+width, y+height1));
         
-        Polyline* bottom  = new Polyline();
+		magics::Polyline* bottom  = new magics::Polyline();
 		bottom->setColour(colour);		
 		bottom->setLineStyle(M_DASH);
 		bottom->setThickness(2);
@@ -2368,7 +2368,7 @@ public:
        
         hsl.light_ += 2*step;
         
-        Polyline* second  = new Polyline();       
+		magics::Polyline* second  = new magics::Polyline();       
 	    second->setFilled(true);
 	    second->setShading(new FillShadingProperties());
         second->setFillColour(Colour(hsl));
@@ -2380,7 +2380,7 @@ public:
         
         hsl.light_ += step;
         
-        Polyline* first  = new Polyline();       
+		magics::Polyline* first  = new magics::Polyline();       
 	    first->setFilled(true);
 	    first->setShading(new FillShadingProperties());
         first->setFillColour(Colour(hsl));
@@ -2527,7 +2527,7 @@ void EpsDirection::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 		    
 	        double angle = ((2*3.14) - (((**point)[keyword_]-90)/180) * 3.14) + 3.14;
 		
-			Polyline* grid = new Polyline();
+			magics::Polyline* grid = new magics::Polyline();
 			grid->setColour(*line_colour_);
 			grid->setThickness(line_thickness_);
 			grid->setLineStyle(line_style_);		
@@ -2565,7 +2565,7 @@ void EpsWind::triangle(const pair<string, float>& direction, CustomisedPoint& po
 	
 	double shift = 3.14*0.125;
 	
-	Polyline* poly = new Polyline();
+	magics::Polyline* poly = new magics::Polyline();
 	poly->setThickness(1);
 	
 	
@@ -2621,7 +2621,7 @@ void EpsPlume::visit(LegendVisitor& legend)
 	if ( shading_ )
 	{
 		for ( vector<Colour>::iterator entry = shading_legend_.begin(); entry != shading_legend_.end(); ++entry) {
-			 Polyline* box = new Polyline();
+			magics::Polyline* box = new magics::Polyline();
 
 
 
@@ -2635,28 +2635,28 @@ void EpsPlume::visit(LegendVisitor& legend)
 		}
 	}
 	if ( forecast_) {
-		Polyline* forecast  = new Polyline();
+		magics::Polyline* forecast  = new magics::Polyline();
 		forecast->setColour(*forecast_line_colour_);
 		forecast->setThickness(forecast_line_thickness_);
 		forecast->setLineStyle(forecast_line_style_);
 		legend.add(new LineEntry("Oper", forecast));
 	}
 	if ( control_) {
-		Polyline* control  = new Polyline();
+		magics::Polyline* control  = new magics::Polyline();
 		control->setColour(*control_line_colour_);
 		control->setThickness(control_line_thickness_);
 		control->setLineStyle(control_line_style_);
 		legend.add(new LineEntry("Ctrl", control));
 	}
 	if ( line_ ) {
-		Polyline* line  = new Polyline();
+		magics::Polyline* line  = new magics::Polyline();
 		line->setColour(*line_colour_);
 		line->setThickness(line_thickness_);
 		line->setLineStyle(line_style_);
 		legend.add(new LineEntry("EMem", line));
 	}
 	if (median_) {
-		Polyline* median  = new Polyline();
+		magics::Polyline* median  = new magics::Polyline();
 		median->setColour(*median_line_colour_);
 		median->setThickness(median_line_thickness_);
 		median->setLineStyle(median_line_style_);
@@ -2676,18 +2676,18 @@ void EpsPlume::timeserie(Data& data, BasicGraphicsObjectContainer& visitor)
 
 
 
-	map<string, Polyline* > lines;
-	Polyline* control  = new Polyline();
+	map<string, magics::Polyline* > lines;
+	magics::Polyline* control  = new magics::Polyline();
 	control->setColour(*control_line_colour_);
 	control->setThickness(control_line_thickness_);
 	control->setLineStyle(control_line_style_);
 
-	Polyline* forecast  = new Polyline();
+	magics::Polyline* forecast  = new magics::Polyline();
 	forecast->setColour(*forecast_line_colour_);
 	forecast->setThickness(forecast_line_thickness_);
 	forecast->setLineStyle(forecast_line_style_);
 
-	Polyline* median  = new Polyline();
+	magics::Polyline* median  = new magics::Polyline();
 	median->setColour(*median_line_colour_);
 	median->setThickness(median_line_thickness_);
 	median->setLineStyle(median_line_style_);
@@ -2706,9 +2706,9 @@ void EpsPlume::timeserie(Data& data, BasicGraphicsObjectContainer& visitor)
 
 			if ( alldigit(value->first) ) {
 				if ( line_ ) {
-					map<string, Polyline* >::iterator  iline = lines.find(value->first);
+					map<string, magics::Polyline* >::iterator  iline = lines.find(value->first);
 					if ( iline == lines.end() ) {
-						Polyline* line  = new Polyline();
+						magics::Polyline* line  = new magics::Polyline();
 						line->setColour(*line_colour_);
 						line->setThickness(line_thickness_);
 						line->setLineStyle(line_style_);
@@ -2758,7 +2758,7 @@ void EpsPlume::timeserie(Data& data, BasicGraphicsObjectContainer& visitor)
 		double bottom = shading_levels_[i];
 		double top  = shading_levels_[shading_levels_.size() - 1 - i];
 		Colour col =  ( colour == shading_colours_.end() ) ? Colour("blue") : *colour;
-		Polyline* line  = new Polyline();
+		magics::Polyline* line  = new magics::Polyline();
 		line->setColour(col);
 		line->setFilled(true);
 		line->setShading(new FillShadingProperties());
@@ -2778,7 +2778,7 @@ void EpsPlume::timeserie(Data& data, BasicGraphicsObjectContainer& visitor)
 		shading_legend_.push_back(col);
 	}
 	if ( line_)
-			for ( map<string, Polyline* >::const_iterator line = lines.begin(); line != lines.end(); ++line) {
+			for ( map<string, magics::Polyline* >::const_iterator line = lines.begin(); line != lines.end(); ++line) {
 			transformation(*line->second, visitor);
 		}
 		if (control_)
@@ -2802,13 +2802,13 @@ void EpsPlume::verticalprofile(Data& data, BasicGraphicsObjectContainer& visitor
 
 
 
-	map<string, Polyline* > lines;
-	Polyline* control  = new Polyline();
+	map<string, magics::Polyline* > lines;
+	magics::Polyline* control  = new magics::Polyline();
 	control->setColour(*control_line_colour_);
 	control->setThickness(control_line_thickness_);
 	control->setLineStyle(control_line_style_);
 
-	Polyline* forecast  = new Polyline();
+	magics::Polyline* forecast  = new magics::Polyline();
 	forecast->setColour(*forecast_line_colour_);
 	forecast->setThickness(forecast_line_thickness_);
 	forecast->setLineStyle(forecast_line_style_);
@@ -2820,9 +2820,9 @@ void EpsPlume::verticalprofile(Data& data, BasicGraphicsObjectContainer& visitor
 			if ( value->second == (**point)["missing"] )
 				continue;
 			if ( alldigit(value->first) ) {
-				map<string, Polyline* >::iterator  iline = lines.find(value->first);
+				map<string, magics::Polyline* >::iterator  iline = lines.find(value->first);
 				if ( iline == lines.end() ) {
-					Polyline* line  = new Polyline();
+					magics::Polyline* line  = new magics::Polyline();
 					line->setColour(*line_colour_);
 					line->setThickness(line_thickness_);
 					line->setLineStyle(line_style_);
@@ -2839,7 +2839,7 @@ void EpsPlume::verticalprofile(Data& data, BasicGraphicsObjectContainer& visitor
 		}
 	}
 
-	for ( map<string, Polyline* >::const_iterator line = lines.begin(); line != lines.end(); ++line) {
+	for ( map<string, magics::Polyline* >::const_iterator line = lines.begin(); line != lines.end(); ++line) {
 		visitor.push_back(line->second);
 	}
 	visitor.push_back(control);
@@ -2874,7 +2874,7 @@ void EfiGraph::operator()(Data& data, BasicGraphicsObjectContainer& out)
 	vector<string>::iterator colour = box_colour_.begin();
 
 
-	Polyline* ref  = new Polyline();
+	magics::Polyline* ref  = new magics::Polyline();
 	ref->setColour(*normal_colour_);
 	ref->setThickness(normal_thickness_);
 	ref->setLineStyle(normal_style_);
@@ -2897,7 +2897,7 @@ void EfiGraph::operator()(Data& data, BasicGraphicsObjectContainer& out)
 			ostringstream legend;
 			legend << "t+ [" << s - 36 << "-" << s - 12 <<"h] " ;
 
-			Polyline* box  = new Polyline();
+			magics::Polyline* box  = new magics::Polyline();
 			box->setColour(*border_colour_);
 			box->setThickness(border_thickness_);
 			box->setLineStyle(border_style_);
@@ -3000,7 +3000,7 @@ void CapeBox::box(CustomisedPoint& point, BasicGraphicsObjectContainer& visitor)
 	if ( median != point.end() ) {
 		// draw the box ! 
 		
-		Polyline* box  = new Polyline();				
+		magics::Polyline* box  = new magics::Polyline();
 		box->setFilled(true);	
 		box->setFillColour(*box_colour_);
 		box->setShading(new FillShadingProperties());
@@ -3020,7 +3020,7 @@ void CapeBox::box(CustomisedPoint& point, BasicGraphicsObjectContainer& visitor)
 
 		visitor.push_back(box);
 
-		box  = new Polyline();				
+		box  = new magics::Polyline();
 		box->setColour(*box_border_colour_);
 		box->setThickness(box_border_thickness_);
 		auto min = point.find("min");
@@ -3028,7 +3028,7 @@ void CapeBox::box(CustomisedPoint& point, BasicGraphicsObjectContainer& visitor)
 		box->push_back(transformation(UserPoint(x->second+box_width_, min->second)));
 		visitor.push_back(box);
 
-		box  = new Polyline();
+		box  = new magics::Polyline();
 		box->setColour(*box_border_colour_);
 		box->setThickness(box_border_thickness_);
 		auto max = point.find("max");
@@ -3036,7 +3036,7 @@ void CapeBox::box(CustomisedPoint& point, BasicGraphicsObjectContainer& visitor)
 		box->push_back(transformation(UserPoint(x->second+box_width_, max->second)));
 		visitor.push_back(box);
 
-		box  = new Polyline();
+		box  = new magics::Polyline();
 		box->setColour(*box_border_colour_);
 		box->setThickness(box_border_thickness_);
 		auto median = point.find("median");
@@ -3044,13 +3044,13 @@ void CapeBox::box(CustomisedPoint& point, BasicGraphicsObjectContainer& visitor)
 		box->push_back(transformation(UserPoint(x->second+box_width_, median->second)));
 		visitor.push_back(box);
 
-		box  = new Polyline();		box->setColour(*box_border_colour_);
+		box  = new magics::Polyline();		box->setColour(*box_border_colour_);
 		box->setThickness(box_border_thickness_);
 		box->push_back(transformation(UserPoint(x->second, max->second)));
 		box->push_back(transformation(UserPoint(x->second, upper->second)));
 		visitor.push_back(box);
 
-		box  = new Polyline();
+		box  = new magics::Polyline();
 		box->setColour(*box_border_colour_);
 		box->setThickness(box_border_thickness_);
 		box->push_back(transformation(UserPoint(x->second, min->second)));
