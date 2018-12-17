@@ -15,7 +15,7 @@
 #include <signal.h>
 #include <assert.h>
 
-#ifndef linux
+#if !(defined linux || defined magics_windows)
 #include <sys/sched.h>
 #endif
 
