@@ -43,7 +43,7 @@ int CellShading::index(double value)
 	return map_.find(value, -1);
 }
 
-void CellShading::operator()(Polyline* poly) const
+void CellShading::operator()(magics::Polyline* poly) const
 {
 	int index = poly->index();
 	if (index < 0  )
@@ -243,7 +243,7 @@ void  CellShading::visit(LegendVisitor& node, const ColourTechnique&)
 	bool first = true;
 	for ( IntervalMap<int>::const_iterator interval = map_.begin(); interval != map_.end(); ++interval) {
 	   
-	   Polyline* box = new Polyline();
+        magics::Polyline* box = new magics::Polyline();
 			      
 	   double min = interval->first.min_;
 	   double max = interval->first.max_;
