@@ -40,8 +40,8 @@ IsoLabel::~IsoLabel()
 }
 
 /*!
- Class information are given to the output-stream.
-*/		
+  Class information are given to the output-stream.
+  */
 void IsoLabel::print(ostream& out)  const
 {
 	out << "IsoLabel[";
@@ -52,20 +52,20 @@ void IsoLabel::operator()(magics::Polyline& object, double l)  const
 {
 	const_iterator do_it = find(l);
 	if ( do_it == end() ) {
-        	return;
+		return;
 	}
-    Colour colour =  ( colour_ == "contour_line_colour" ) ? object.getColour() : Colour(colour_);
+	Colour colour =  ( colour_ == "contour_line_colour" ) ? object.getColour() : Colour(colour_);
 	std::map<string, Method>::const_iterator method = methods_.find(lowerCase(type_));
 
 	string text;
 	if ( method == methods_.end() )
 	{
-		MagLog::warning() << "contour_label_type: " << type_ << " is unknown : use number instead" << endl; 
+		MagLog::warning() << "contour_label_type: " << type_ << " is unknown : use number instead" << endl;
 		text = number(l);
 	}
-	else 
+	else
 		text = (this->*method->second)(l);
-	
+
 	Label label(text);
 
 	label.setVisible(true);
@@ -76,17 +76,13 @@ void IsoLabel::operator()(magics::Polyline& object, double l)  const
 
 	label.font(font);
 	object.setLabel(label);
-
-
-
-} 
+}
 
 
 void NoIsoLabel::operator()(magics::Polyline& /*object*/, double) const
-{ 
+{
 	Label label("");
 	label.setVisible(false);
-	//object.setLabel(label);
 }
 
 
@@ -105,4 +101,3 @@ string IsoLabel::both(double l) const
 {
 	return number(l) + " " + text_;
 }
-
