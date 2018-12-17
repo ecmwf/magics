@@ -115,15 +115,27 @@ void ThreadControler::execute()
 	catch(MagException& e){
 		magics::MagLog::error() << "** " << e.what() << " Caught in " 
 			<< here <<  endl;
-		magics::MagLog::error() << "** MagException is termiates thread " 
+#ifndef MAGICS_ON_WINDOWS
+		magics::MagLog::error() << "** MagException is termiates thread "
 			<< pthread_self() << endl;
+#else
+		pthread_t pt = pthread_self();
+		magics::MagLog::error() << "** MagException is termiates thread "
+			<< pt.p << pt.x << endl;
+#endif
 	}
 	catch(...)
 	{
 		magics::MagLog::error() << "** UNKNOWN MagException Caught in " 
 			<< here <<  endl;
+#ifndef MAGICS_ON_WINDOWS
 		magics::MagLog::error() << "** MagException is termiates thread " 
 			<< pthread_self() << endl;
+#else
+		pthread_t pt = pthread_self();
+		magics::MagLog::error() << "** MagException is termiates thread "
+			<< pt.p << pt.x << endl;
+#endif
 	}
 
 	if(proc->autodel_)
