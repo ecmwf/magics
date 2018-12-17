@@ -20,7 +20,6 @@
 */
 
 
-
 #include "IsoShading.h"
 #include "Polyline.h"
 #include "UserPoint.h"
@@ -34,8 +33,6 @@ using namespace magics;
 
 IsoShading::IsoShading() 
 {
- 
-  
 }
 
 
@@ -46,14 +43,12 @@ IsoShading::~IsoShading()
 void IsoShading::operator()(magics::Polyline* poly) const
 {
     (*this->technique_)(poly);
-   
 }
 
 
 /*!
  Class information are given to the output-stream.
 */	
-
 void IsoShading::print(ostream& out)  const
 {
 	out << "IsoShading[";
@@ -70,36 +65,32 @@ public:
 		return data_(pos.first, pos.second);
 	}
 	double value(int row, int column)  const {
-			return data_(row, column);
+		return data_(row, column);
 	}
 	double row(int row, int column)  const {
-			return data_.row(row, column);
+		return data_.row(row, column);
 	}
 	double row(const pair<int, int>& pos)  const {
-				return data_.row(pos.first, pos.second);
-		}
+		return data_.row(pos.first, pos.second);
+	}
 
 	double column(const pair<int, int>& pos) const {
-				return data_.column(pos.first, pos.second);
+		return data_.column(pos.first, pos.second);
 	}
 	double column(int row, int column) const {
 		return data_.column(row, column);
 	}
-        double range(const pair<int, int>& pos)  const {
-					return rangeFinder_.find(data_(pos.first, pos.second), -1);	
-		}
-
+	double range(const pair<int, int>& pos)  const {
+		return rangeFinder_.find(data_(pos.first, pos.second), -1);	
+	}
 };
 
 
 CellArray* NoIsoShading::array(MatrixHandler& matrix, IntervalMap<int>& range,
-	        	    		const Transformation& transformation, int width, int height,
-	        	    		float resolution, const string& technique)
+		const Transformation& transformation, int width, int height,
+		float resolution, const string& technique)
 {
-		 return new CellArray(matrix, range, transformation, width, height, resolution, technique);
-
-//		 return new FullArray(matrix, range, transformation, width, height, resolution, technique);
-
+	return new CellArray(matrix, range, transformation, width, height, resolution, technique);
 }
 int IsoShading::shadingIndex(double value)
 {
