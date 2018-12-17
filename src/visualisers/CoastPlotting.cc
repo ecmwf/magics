@@ -55,15 +55,6 @@ void NoCoastPlotting::visit(LegendVisitor&)
 void CoastPlotting::visit(LegendVisitor& legend)
 {
     return;
-    /*
-	Polyline* coast  = new Polyline();
-	coast->setThickness(thickness_);
-	coast->setColour(*colour_);
-	coast->setLineStyle(style_);
-
-	LineEntry* entry = new LineEntry("Coastlines", coast);
-	legend.add(entry);
-*/
 }
 
 void CoastPlotting::operator()(PreviewVisitor& parent)
