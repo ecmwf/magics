@@ -45,7 +45,11 @@ using namespace magics;
 
 ThreadControler::ThreadControler(Thread* proc,bool detached):
 	detached_(detached),
+#ifndef MAGICS_ON_WINDOWS
 	thread_(0),
+#else
+	thread_({{0},{0}}),
+#endif
 	proc_(proc),
 	running_(false)
 {
@@ -150,7 +154,12 @@ void *ThreadControler::startThread(void *data)
 
 void ThreadControler::start()
 {
+#ifndef MAGICS_ON_WINDOWS
 	ASSERT(thread_ == 0);
+#else
+	ASSERT(thread_.p == 0);
+	ASSERT(thread_.x == 0);
+#endif
 
 	pthread_attr_t attr;
 	pthread_attr_init(&attr);
@@ -221,7 +230,11 @@ void ThreadControler::wait()
 
 bool ThreadControler::active()
 {
+#ifndef MAGICS_ON_WINDOWS
 	if(thread_ != 0)
+#else
+	if(thread_.p != 0)
+#endif
 	{
 		// Try see if it exists
 
@@ -231,9 +244,18 @@ bool ThreadControler::active()
 		int n = pthread_getschedparam(thread_, &policy, &param); 
 
 		// The thread does not exist
-		if(n != 0)
+		if(n != 0) {
+#ifndef MAGICS_ON_WINDOWS
 			thread_ = 0;
-
+#else
+			thread_.p = 0;
+			thread_.x = 0;
+#endif
+        }
 	}
+#ifndef MAGICS_ON_WINDOWS
 	return thread_ != 0;
+#else
+	return thread_.p != 0;
+#endif
 }
