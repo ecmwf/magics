@@ -30,7 +30,7 @@ using namespace magics;
 #endif
 
 
-IsoHelper::IsoHelper(int n, vector<Polyline* >& lines, IsoData& segments) :
+IsoHelper::IsoHelper(int n, vector<magics::Polyline* >& lines, IsoData& segments) :
  n_(n), lines_(lines),data_(segments)
 {
 	
@@ -38,13 +38,13 @@ IsoHelper::IsoHelper(int n, vector<Polyline* >& lines, IsoData& segments) :
 
 
 
-void IsoHelper::concatenate_back(vector<Polyline* >& lines, Polyline* poly) 
+void IsoHelper::concatenate_back(vector<magics::Polyline* >& lines, magics::Polyline* poly) 
 {
 	double x = poly->back().x();
 	double y = poly->back().y();
 
 	
-	for (vector<Polyline* >::iterator line = lines.begin(); line != lines.end(); ++line) {
+	for (vector<magics::Polyline* >::iterator line = lines.begin(); line != lines.end(); ++line) {
 		if ( *line == poly || (*line)->empty() ) {
 			continue;
 		}
@@ -62,13 +62,13 @@ void IsoHelper::concatenate_back(vector<Polyline* >& lines, Polyline* poly)
 
 }
 
-void IsoHelper::concatenate_front(vector<Polyline* >& lines, Polyline* poly) 
+void IsoHelper::concatenate_front(vector<magics::Polyline* >& lines, magics::Polyline* poly) 
 {
 	double x = poly->front().x();
 	double y = poly->front().y();
 
-	vector<Polyline* >::iterator todelete  = lines.end();
-	for (vector<Polyline* >::iterator line = lines.begin(); line != lines.end(); ++line) {
+	vector<magics::Polyline* >::iterator todelete  = lines.end();
+	for (vector<magics::Polyline* >::iterator line = lines.begin(); line != lines.end(); ++line) {
 		if ( *line == poly || (*line)->empty() ) {
 			continue;
 		}
@@ -114,8 +114,8 @@ void IsoHelper::run()
 
              if(!data_.more_ && data_.segments_.empty() ) {
 				
-				for (map<double, vector<Polyline*> >::iterator level = helpers_.begin(); level != helpers_.end(); ++level) 
-					for (vector<Polyline* >::iterator line = level->second.begin(); line != level->second.end(); ++line) 
+				for (map<double, vector<magics::Polyline*> >::iterator level = helpers_.begin(); level != helpers_.end(); ++level) 
+					for (vector<magics::Polyline* >::iterator line = level->second.begin(); line != level->second.end(); ++line) 
 							
 						if ( !(*line)->empty() ) { 
 							AutoLock<Mutex> locklines(locklines_);
@@ -159,11 +159,11 @@ void IsoHelper::run()
 	    
        bool doit = true;
        
-       map<double, vector<Polyline*> >::iterator h = helpers_.find(x->first);
+       map<double, vector<magics::Polyline*> >::iterator h = helpers_.find(x->first);
        if ( h == helpers_.end() ) {
-    	   helpers_.insert(make_pair(x->first,  vector<Polyline*>()));
+    	   helpers_.insert(make_pair(x->first,  vector<magics::Polyline*>()));
        }
-       vector<Polyline*>& helper = helpers_[x->first];
+       vector<magics::Polyline*>& helper = helpers_[x->first];
        
        int length = helper.size();
       
@@ -171,7 +171,7 @@ void IsoHelper::run()
 	    for (unsigned int i = 0; i < helper.size(); i++ ) {
 	    	   int j = (i + last) % length;
 				// try to add to the back ! 
-	    	   Polyline* line = helper[j];
+			   magics::Polyline* line = helper[j];
 	    	
 				if (same(line->back().x(), x1) && same(line->back().y(), y1) ) {
 
@@ -194,7 +194,7 @@ void IsoHelper::run()
 	    }
 	    if (doit) {
 	    	    last = helper.size();
-				helper.push_back(new Polyline());
+				helper.push_back(new magics::Polyline());
 				helper.back()->push_back(PaperPoint(x1, y1, x->first, missing1));
 				helper.back()->push_back(PaperPoint(x2, y2, x->first, missing2));
 			}
