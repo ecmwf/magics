@@ -16,6 +16,7 @@
 #include <math.h>
 //#include "Metview.h"
 #include "MvLocation.h"
+#include "magics_windef.h"
 
 //_____________________________________________________________________ set
 void
