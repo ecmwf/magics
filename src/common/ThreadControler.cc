@@ -166,32 +166,18 @@ void ThreadControler::start()
 	pthread_attr_t attr;
 	pthread_attr_init(&attr);
 
-
 #ifdef linux
-
 	proc_->data_ = 0;
 
-    size_t size = 2*1024*1024;
+	size_t size = 2*1024*1024;
 
-    if (!getEnvVariable("MAGPLUS_STACK_SIZE").empty() ) {
-        size = tonumber(getEnvVariable("MAGPLUS_STACK_SIZE"));
-        MagLog::warning() << "MAGPLUS_STACK_SIZE jas been set to "<< size << endl;
-    }
-
-	pthread_attr_setstacksize(&attr,size);
-
-#if 0
-	const size_t size = 2*1024*1024;
-	void *stack = MemoryPool::largeAllocate(size);
+	if (!getEnvVariable("MAGPLUS_STACK_SIZE").empty() ) {
+		size = tonumber(getEnvVariable("MAGPLUS_STACK_SIZE"));
+		MagLog::warning() << "MAGPLUS_STACK_SIZE jas been set to "<< size << endl;
+	}
 
 	pthread_attr_setstacksize(&attr,size);
-	pthread_attr_setstackaddr(&attr,(char*)stack + size);
-
-	proc_->data_ = stack;
 #endif
-
-#endif
-
 
 	if(detached_)
 		pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_DETACHED);
@@ -215,7 +201,6 @@ void ThreadControler::start()
 void ThreadControler::kill()
 {
 	pthread_cancel(thread_);
-	//pthread_kill(thread_,sig);
 }
 
 void ThreadControler::stop()
@@ -226,7 +211,6 @@ void ThreadControler::stop()
 void ThreadControler::wait()
 {
 	ASSERT(!detached_);
-	// if(running_) 
 	THRCALL(pthread_join(thread_,0));
 }
 
@@ -240,10 +224,10 @@ bool ThreadControler::active()
 	{
 		// Try see if it exists
 
-		int policy; 
+		int policy;
 		sched_param param;
 
-		int n = pthread_getschedparam(thread_, &policy, &param); 
+		int n = pthread_getschedparam(thread_, &policy, &param);
 
 		// The thread does not exist
 		if(n != 0) {
