@@ -27,37 +27,34 @@
 #include "PolyShadingTechnique.h"
 using namespace magics;
 
-
-
 void PolyShadingMethod::operator()(magics::Polyline& poly) const
 {
-		int index = poly.index();
-		if (index < 0  )
-			return;
-        poly.setFilled(true);
-        poly.setStroke(true);
-        poly.setFilled(true);
-        if ( index >= colours_.size() ){
-					poly.setColour(colours_.back());
-					poly.setFillColour(colours_.back());
-				}
-        else{
-					poly.setColour(colours_[index]);
-					poly.setFillColour(colours_[index]);
-				}
-        FillShadingProperties* shading = new FillShadingProperties();
-        poly.setShading(shading);
+	int index = poly.index();
+	if (index < 0  )
+		return;
+	poly.setFilled(true);
+	poly.setStroke(true);
+	poly.setFilled(true);
+	if ( index >= colours_.size() ){
+		poly.setColour(colours_.back());
+		poly.setFillColour(colours_.back());
+	}
+	else{
+		poly.setColour(colours_[index]);
+		poly.setFillColour(colours_[index]);
+	}
+	FillShadingProperties* shading = new FillShadingProperties();
+	poly.setShading(shading);
 };
 
 void  PolyShadingMethod::visit(LegendVisitor& legend, const ColourTechnique& colour) {
-
-        MagLog::dev() << "Create legend information"  << "\n";
-        LegendEntryBuilder helper(legend, colour);
-        std::adjacent_find(colour.begin(), colour.end(), LegendEntryBuilder(legend, this, colour));
-        if ( colour.size() == 1 ) {
-        		helper(*colour.begin(), *colour.begin());
-        	}
-        legend.last(); // Flag the last entry as being the last! To get a nice labelling in countinuous mode!!!
+	MagLog::dev() << "Create legend information"  << "\n";
+	LegendEntryBuilder helper(legend, colour);
+	std::adjacent_find(colour.begin(), colour.end(), LegendEntryBuilder(legend, this, colour));
+	if ( colour.size() == 1 ) {
+		helper(*colour.begin(), *colour.begin());
+	}
+	legend.last(); // Flag the last entry as being the last! To get a nice labelling in countinuous mode!!!
 }
 
 int PolyShadingMethod::index(double value)
@@ -109,7 +106,7 @@ void PolyShadingMethod::prepare(LevelSelection& levels, const ColourTechnique& c
 
 void DotPolyShadingMethod::prepare(LevelSelection& levels, const ColourTechnique& colours)
 {
-	if (levels.empty() )return;
+	if (levels.empty()) return;
 
 	float step = (max_density_ - min_density_)/(levels.size() - 1);
 	first_ = levels.front();
@@ -135,62 +132,60 @@ void DotPolyShadingMethod::prepare(LevelSelection& levels, const ColourTechnique
 
 
 void  DotPolyShadingMethod::operator()(magics::Polyline& poly) const {
-    DotShadingProperties* shading = new DotShadingProperties();
+	DotShadingProperties* shading = new DotShadingProperties();
 
-    int index = poly.index();
+	int index = poly.index();
 
-    shading->size_ = size_;
-    shading->density_ =  dots_[index];
+	shading->size_ = size_;
+	shading->density_ =  dots_[index];
 
-    poly.setFilled(true);
-    poly.setFillColour(colours_[index]);
-		poly.setStroke(false);
-    poly.setShading(shading);
-    //MagLog::dev() << "Attach DotShading Information" << *shading << "\n";
+	poly.setFilled(true);
+	poly.setFillColour(colours_[index]);
+	poly.setStroke(false);
+	poly.setShading(shading);
 }
 
 
-
 void HatchPolyShadingMethod::prepare(LevelSelection& levels, const ColourTechnique& colours) {
-   	int index = 1;
-   	if (index_ >= 7 || index_ <0) {
-   		MagLog::warning() << "index should be < 7--> reset to 1 "<< endl;
-   		index_ = 1 ;
-   	}
-   	first_ = levels.front();
-		last_ =  levels.back();
+	int index = 1;
+	if (index_ >= 7 || index_ <0) {
+		MagLog::warning() << "index should be < 7--> reset to 1 "<< endl;
+		index_ = 1 ;
+	}
+	first_ = levels.front();
+	last_ =  levels.back();
 
-   	LevelSelection::const_iterator from = levels.begin();
-   	LevelSelection::const_iterator level = levels.begin();
-   	indexes_.clear();
-   	colours_.clear();
-   	hatches_.clear();
+	LevelSelection::const_iterator from = levels.begin();
+	LevelSelection::const_iterator level = levels.begin();
+	indexes_.clear();
+	colours_.clear();
+	hatches_.clear();
 
-		level++;
-   	int i = 0;
+	level++;
+	int i = 0;
 
-   	for (  ;  level != levels.end(); ++level) {
-   		indexes_.insert(make_pair(Interval(*from, *level), i));
+	for (  ;  level != levels.end(); ++level) {
+		indexes_.insert(make_pair(Interval(*from, *level), i));
 		colours_.push_back(colours.right(*from));
-   		hatches_.push_back((index_) ? index_ : index);
-   		index++;
-   		i++;
-   		from++;
-   		if ( index == 7 ) index = 1;
-   	}
+		hatches_.push_back((index_) ? index_ : index);
+		index++;
+		i++;
+		from++;
+		if ( index == 7 ) index = 1;
+	}
 }
 
 void HatchPolyShadingMethod::operator()(magics::Polyline& poly) const
 {
-       int index = poly.index();
+	int index = poly.index();
 
-       HatchShadingProperties* shading = new HatchShadingProperties();
-       shading->index_     = hatches_[index];
+	HatchShadingProperties* shading = new HatchShadingProperties();
+	shading->index_     = hatches_[index];
 
-       shading->density_   = density_;
-       shading->thickness_ = thickness_;
-       poly.setFilled(true);
-       poly.setFillColour(colours_[index]);
-       poly.setStroke(false);
-       poly.setShading(shading);
+	shading->density_   = density_;
+	shading->thickness_ = thickness_;
+	poly.setFilled(true);
+	poly.setFillColour(colours_[index]);
+	poly.setStroke(false);
+	poly.setShading(shading);
 }
