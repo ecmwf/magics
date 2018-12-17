@@ -29,62 +29,55 @@ using namespace magics;
 GridPlotting::GridPlotting() : layer_(0)
 {
 }
- 
-GridPlotting::~GridPlotting() 
+
+GridPlotting::~GridPlotting()
 {
 }
 
 void NoGridPlotting::longitudes(vector<double>& lons, int freq) const
 {
-	 int i = 0;
-	 double min = minx_ - lonIncrement_;
-	 double max = maxx_ + lonIncrement_;
-	 for(double lon = lonReference_; lon > min; lon -= lonIncrement_)
-	 {
-		 if ( (i % freq) == 0) {
-			 lons.push_back(lon);
-
-		 }
-
-		 i++;
-	 }
-	 i = 0;
-	 for(double lon = lonReference_ +  lonIncrement_ ; lon < max; lon += lonIncrement_)
-	 {
-		 i++;
-		 if ( (i % freq) == 0) {
-			 lons.push_back(lon);
-
-		 }
-
-	  }
-
+	int i = 0;
+	double min = minx_ - lonIncrement_;
+	double max = maxx_ + lonIncrement_;
+	for(double lon = lonReference_; lon > min; lon -= lonIncrement_)
+	{
+		if ( (i % freq) == 0) {
+			lons.push_back(lon);
+		}
+		i++;
+	}
+	i = 0;
+	for(double lon = lonReference_ +  lonIncrement_ ; lon < max; lon += lonIncrement_)
+	{
+		i++;
+		if ( (i % freq) == 0) {
+			lons.push_back(lon);
+		}
+	}
 }
 void NoGridPlotting::latitudes(vector<double>& lats, int freq) const
 {
-	 int i = 0;
-	 double min = miny_ - latIncrement_;
-	 double max = maxy_ + latIncrement_;
-	 for(double lat = latReference_; lat > min; lat -= latIncrement_)
-	 {
-		 if ( i % freq == 0) {
-		 	 if ( lat < -90 )
-		 	 	lats.push_back(180. + lat);
-			 else 
-			 	lats.push_back(lat);
-
-		 }
-		 i++;
-	 }
-	 i = 0;
-	 for(double lat = latReference_ +  latIncrement_ ; lat < max; lat += latIncrement_)
-	 {
-		 i++;
-		 if ( i % freq == 0) {
-			 lats.push_back(lat);
-
-		 }
-	 }
+	int i = 0;
+	double min = miny_ - latIncrement_;
+	double max = maxy_ + latIncrement_;
+	for(double lat = latReference_; lat > min; lat -= latIncrement_)
+	{
+		if ( i % freq == 0) {
+			if ( lat < -90 )
+				lats.push_back(180. + lat);
+			else
+				lats.push_back(lat);
+		}
+		i++;
+	}
+	i = 0;
+	for(double lat = latReference_ +  latIncrement_ ; lat < max; lat += latIncrement_)
+	{
+		i++;
+		if ( i % freq == 0) {
+			lats.push_back(lat);
+		}
+	}
 }
 
 const vector<double>& NoGridPlotting::longitudes(const Transformation& transformation) const
@@ -96,18 +89,17 @@ const vector<double>& NoGridPlotting::longitudes(const Transformation& transform
 
 	if(longitudes_.empty())
 	{
-     	     for(double lon = lonReference_; lon > min; lon -= lonIncrement_)
-     	     {
-		     longitudes_.push_back(lon);
-     	     }
-	     for(double lon = lonReference_ +  lonIncrement_ ; lon < max; lon += lonIncrement_)
-     	     {
-		     longitudes_.push_back(lon);
-     	     }
-	} 
+		for(double lon = lonReference_; lon > min; lon -= lonIncrement_)
+		{
+			longitudes_.push_back(lon);
+		}
+		for(double lon = lonReference_ +  lonIncrement_ ; lon < max; lon += lonIncrement_)
+		{
+			longitudes_.push_back(lon);
+		}
+	}
 
 	// Here we prepare a small point in the middle!
-
 	::sort(longitudes_.begin(), longitudes_.end(), std::greater<double>());
 	return longitudes_;
 }
@@ -120,38 +112,31 @@ const vector<double>& NoGridPlotting::latitudes(const Transformation& transforma
 	double max = maxy_ + latIncrement_;
 	if(latitudes_.empty())
 	{
-	       for(double lat = latReference_; lat > min; lat -=latIncrement_)
-     	       {/*
-     	       	if ( lat < -90 )
-     	       		latitudes_.push_back(180. - lat);
-     	       	else */
-		       		latitudes_.push_back(lat);
-     	       }
-	       for(double lat = latReference_ + latIncrement_; lat < max; lat += latIncrement_)
-     	       {
-		       latitudes_.push_back(lat);
-     	       }
+		for(double lat = latReference_; lat > min; lat -=latIncrement_)
+		{
+			latitudes_.push_back(lat);
+		}
+		for(double lat = latReference_ + latIncrement_; lat < max; lat += latIncrement_)
+		{
+			latitudes_.push_back(lat);
+		}
 	}
 	::sort(latitudes_.begin(), latitudes_.end(), std::greater<double>());
 	return latitudes_;
-}    
+}
+
 void NoGridPlotting::operator()(DrawingVisitor& out) {
-	
-	
 	const Transformation& transformation = out.transformation();
 
 	this->latitudes(transformation);
 	this->longitudes(transformation);
 }
-	
+
 void GridPlotting::operator()(DrawingVisitor& out)
 {
 	const Transformation& transformation = out.transformation();
-	
 
 	layer_ = out.layoutPtr();
-	
-
 
 	latitudes(transformation);
 	longitudes(transformation);
@@ -176,39 +161,29 @@ void GridPlotting::operator()(magics::PreviewVisitor&)
 }
 void GridPlotting::addFrame(Polyline& poly) const
 {
-	
-	if ( !grid_frame_ ) 
+	if ( !grid_frame_ )
 		return add(poly);
-	
 
-    poly.setColour(*grid_frame_colour_);
-    poly.setThickness(grid_frame_thickness_);
-    poly.setLineStyle(grid_frame_style_);
-
-    poly.reproject(*layer_);
-    
+	poly.setColour(*grid_frame_colour_);
+	poly.setThickness(grid_frame_thickness_);
+	poly.setLineStyle(grid_frame_style_);
+	poly.reproject(*layer_);
 }
 void GridPlotting::add(Polyline& poly) const
 {
-    poly.setColour(*colour_);
-    poly.setThickness(thickness_);
-    poly.setLineStyle(style_);
-
-    poly.reproject(*layer_);
-    
+	poly.setColour(*colour_);
+	poly.setThickness(thickness_);
+	poly.setLineStyle(style_);
+	poly.reproject(*layer_);
 }
-
 
 
 /*!
  Class information are given to the output-stream.
-*/		
+*/
 void GridPlotting::print(ostream& out)  const
 {
 	out << "GridPlotting[";
 	GridPlottingAttributes::print(out);
 	out << "]";
 }
-
-
-
