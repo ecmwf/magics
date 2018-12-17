@@ -521,9 +521,6 @@ void FortranTextVisitor::interpret(string& line, stringarray& lines)
 	}
 
 	string key, format;
-	int where;
-	int howmany;
-
 	vector<KeyInfo> keys;
 
 	extract(line, keys);

@@ -340,8 +340,6 @@ void  LegendVisitor::horizontal()
 }
 void  LegendVisitor::vertical()
 {
-	double xmin, xmax, ymin, ymax;
-	double xtitle, ytitle;
 	int row = 1;
 	int column = 1;
 	int rows = entriesNumber_/columns_;
