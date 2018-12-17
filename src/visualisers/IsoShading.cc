@@ -43,7 +43,7 @@ IsoShading::~IsoShading()
 {
 }
 
-void IsoShading::operator()(Polyline* poly) const
+void IsoShading::operator()(magics::Polyline* poly) const
 {
     (*this->technique_)(poly);
    

@@ -60,7 +60,7 @@ CellArray* GridShading::array(MatrixHandler& matrix, IntervalMap<int>& range,
 	return new GridArray(matrix, range, transformation, width, height, resolution, position_);
 
 }
-void GridShading::operator()(Polyline* poly) const
+void GridShading::operator()(magics::Polyline* poly) const
 {
 	int index = poly->index();
 

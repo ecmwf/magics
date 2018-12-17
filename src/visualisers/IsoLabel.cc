@@ -48,7 +48,7 @@ void IsoLabel::print(ostream& out)  const
 	out << "]";
 }
 
-void IsoLabel::operator()(Polyline& object, double l)  const
+void IsoLabel::operator()(magics::Polyline& object, double l)  const
 {
 	const_iterator do_it = find(l);
 	if ( do_it == end() ) {
@@ -82,7 +82,7 @@ void IsoLabel::operator()(Polyline& object, double l)  const
 } 
 
 
-void NoIsoLabel::operator()(Polyline& /*object*/, double) const
+void NoIsoLabel::operator()(magics::Polyline& /*object*/, double) const
 { 
 	Label label("");
 	label.setVisible(false);

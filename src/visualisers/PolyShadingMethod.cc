@@ -29,7 +29,7 @@ using namespace magics;
 
 
 
-void PolyShadingMethod::operator()(Polyline& poly) const
+void PolyShadingMethod::operator()(magics::Polyline& poly) const
 {
 		int index = poly.index();
 		if (index < 0  )
@@ -134,7 +134,7 @@ void DotPolyShadingMethod::prepare(LevelSelection& levels, const ColourTechnique
 }
 
 
-void  DotPolyShadingMethod::operator()(Polyline& poly) const {
+void  DotPolyShadingMethod::operator()(magics::Polyline& poly) const {
     DotShadingProperties* shading = new DotShadingProperties();
 
     int index = poly.index();
@@ -180,7 +180,7 @@ void HatchPolyShadingMethod::prepare(LevelSelection& levels, const ColourTechniq
    	}
 }
 
-void HatchPolyShadingMethod::operator()(Polyline& poly) const
+void HatchPolyShadingMethod::operator()(magics::Polyline& poly) const
 {
        int index = poly.index();
 
