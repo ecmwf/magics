@@ -97,6 +97,7 @@ void ThreadControler::execute()
 
 	// We don't want to recieve reconfigure events
 
+#ifndef MAGICS_ON_WINDOWS
 	sigset_t set,old_set;
 
 	sigemptyset(&set);
@@ -109,6 +110,7 @@ void ThreadControler::execute()
 	SYSCALL(sigthreadmask(SIG_BLOCK, &set, &old_set));
 #else
 	SYSCALL(pthread_sigmask(SIG_BLOCK, &set, &old_set));
+#endif
 #endif
 
 	//=============
