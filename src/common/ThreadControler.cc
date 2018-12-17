@@ -126,15 +126,8 @@ void ThreadControler::execute()
 			<< pthread_self() << endl;
 	}
 
-#ifdef linux
-	//if(proc->data_)
-	//	MemoryPool::largeDeallocate(proc->data_);
-#endif
-
 	if(proc->autodel_)
 		delete proc;
-
-
 }
 
 void *ThreadControler::startThread(void *data)
