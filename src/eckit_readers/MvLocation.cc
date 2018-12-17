@@ -14,7 +14,6 @@
 
 
 #include <math.h>
-//#include "Metview.h"
 #include "MvLocation.h"
 #include "magics_windef.h"
 
@@ -22,24 +21,7 @@
 void
 MvLocation :: set( double aLat, double aLong )
 {
-/*--- to check or not to check: XSection computes values outside the real world!!!
-   if( aLat != MISSING_LOC_VALUE && ( aLat > 90. || aLat < -90. ) )
-   {
-     cerr << " >>> MvLocation::MvLocation: strange latitude value " << aLat << endl;
-     fLatitude = MISSING_LOC_VALUE;
-   }
-   else
----*/
    fLatitude = aLat;
-
-/*---
-   if( aLong != MISSING_LOC_VALUE && ( aLong > 360. || aLong < -360. ) )
-   {
-     cerr << " >>> MvLocation::MvLocation: strange longitude value " << aLong << endl;
-     fLongitude = MISSING_LOC_VALUE;
-   }
-   else
----*/
    fLongitude = aLong;
 }
 
@@ -90,13 +72,6 @@ MvLocation :: operator= ( const MvLocation& aLoc )
 ostream& operator<< ( ostream& aStream, const MvLocation& aLocation )
 {
    aStream << "(" << aLocation.latitude() << "," << aLocation.longitude() << ")";
-/*--- How to get a constant field width + constant nr of decimal digits!?
-   aStream << "(";
-   aStream.width( 6 ); aStream.fill( ' ' );
-   aStream << aLocation.latitude() << ",";
-   aStream.width( 7 ); aStream.fill( ' ' );
-   aStream << aLocation.longitude() << ")";
----*/
    return aStream;
 }
 
