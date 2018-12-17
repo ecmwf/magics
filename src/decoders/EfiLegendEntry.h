@@ -71,46 +71,46 @@ public:
 			return;              
 		}
 
-		Polyline* normal  = new Polyline();
+		magics::Polyline* normal  = new magics::Polyline();
 		normal->setColour(normalColour_);
 		normal->setThickness(normalThickness_);
 		normal->push_back(PaperPoint(x, bottom));
 		normal->push_back(PaperPoint(x, top));
 
-		Polyline* lmax  = new Polyline();
+		magics::Polyline* lmax  = new magics::Polyline();
 		lmax->setColour(normalColour_);
 		lmax->setThickness(1);
 		lmax->push_back(PaperPoint(x+factor, bottom));
 		lmax->push_back(PaperPoint(x+factor, top));			
 
-		Polyline* lmin  = new Polyline();
+		magics::Polyline* lmin  = new magics::Polyline();
 		lmin->setColour(normalColour_);
 		lmin->setThickness(1);
 		lmin->push_back(PaperPoint(x-factor, bottom));
 		lmin->push_back(PaperPoint(x-factor, top));
 
-		Polyline* l1  = new Polyline();
+		magics::Polyline* l1  = new magics::Polyline();
 		l1->setColour(normalColour_);
 		l1->setThickness(1);
 		l1->setLineStyle(M_DOT);
 		l1->push_back(PaperPoint(x+half, bottom));
 		l1->push_back(PaperPoint(x+half, top));			
 
-		Polyline* l2  = new Polyline();
+		magics::Polyline* l2  = new magics::Polyline();
 		l2->setColour(normalColour_);
 		l2->setThickness(1); 
 		l2->setLineStyle(M_DOT);
 		l2->push_back(PaperPoint(x-half, bottom));
 		l2->push_back(PaperPoint(x-half, top));
 
-		Polyline* lt  = new Polyline();
+		magics::Polyline* lt  = new magics::Polyline();
 		lt->setColour(normalColour_);
 		lt->setThickness(1); 
 		lt->setLineStyle(M_DOT);
 		lt->push_back(PaperPoint(x-factor, top));
 		lt->push_back(PaperPoint(x+factor, top));
 
-		Polyline* lb  = new Polyline();
+		magics::Polyline* lb  = new magics::Polyline();
 		lb->setColour(normalColour_);
 		lb->setThickness(1); 
 		lb->setLineStyle(M_DOT);
@@ -129,7 +129,7 @@ public:
 		     ( efi_ < 0  && magCompare(type_, "negative") ) || 
 		     ( efi_ > 0  && magCompare(type_, "positive") ) )
 		  {			
-			Polyline* box  = new Polyline();
+			magics::Polyline* box  = new magics::Polyline();
 			box->setColour(normalColour_);
 			box->setFilled(true);
 			box->setFillColour(colour_);
@@ -150,7 +150,7 @@ public:
             
 		if ( magCompare(style_, "bottom") )
 		{
-			Polyline* line  = new Polyline();
+			magics::Polyline* line  = new magics::Polyline();
 			line->setColour(normalColour_);
 			line->setThickness(1); 
 			line->push_back(PaperPoint(x-factor, bottom));
@@ -159,7 +159,7 @@ public:
 		} 
 		if ( magCompare(style_, "top") )
 		{
-			Polyline* line  = new Polyline();
+			magics::Polyline* line  = new magics::Polyline();
 			line->setColour(normalColour_);
 			line->setThickness(1); 
 			line->push_back(PaperPoint(x-factor, top));
