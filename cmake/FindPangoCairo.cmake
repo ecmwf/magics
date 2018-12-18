@@ -30,6 +30,14 @@ if(PC_LIBPANGOCAIRO_FOUND)
     #set( PANGOCAIRO_LIBRARIES "${PC_LIBPANGOCAIRO_LDFLAGS} ${PC_LIBPANGOCAIRO_LDFLAGS_OTHER}" )
     string (REPLACE ";" " " PANGOCAIRO_LIBRARIES "${PC_LIBPANGOCAIRO_LDFLAGS} ${PC_LIBPANGOCAIRO_LDFLAGS_OTHER}")
     set( PANGOCAIRO_INCLUDE_DIRS ${PC_LIBPANGOCAIRO_INCLUDE_DIRS} )
+
+elseif(EC_OS_NAME MATCHES "windows")
+
+    find_path( PANGOCAIRO_INCLUDE_DIRS pango/pangocairo.h   PATHS "${PANGO_PATH}/include/pango-1.0/" )
+    find_library( PANGOCAIRO_LIBRARIES pangocairo-1.0 PATHS "${PANGO_PATH}/lib" )
+
+    find_package_handle_standard_args( PangoCairo DEFAULT_MSG PANGOCAIRO_LIBRARIES PANGOCAIRO_INCLUDE_DIRS )
+
 else()
     message(ERROR " PangoCairo not found!")
 endif()
