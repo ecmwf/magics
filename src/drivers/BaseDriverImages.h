@@ -273,12 +273,13 @@ MAGICS_NO_EXPORT bool BaseDriver::convertToPixmap(const string &fname, const Gra
 			return false;
        		}
 
-		s2 = getTmpName()+".ppm";
+		s2 = getTmpName();
 		if(s2==" ")
 		{
 			MagLog::error() << "BaseDriverImages: Open of temp file failed!" << endl;
 			return false;
 		}
+		s2 += ".ppm";
 
 	//	if(format==PS)  // does not work with EPS
 		{
