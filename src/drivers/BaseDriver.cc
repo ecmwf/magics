@@ -271,7 +271,7 @@ MAGICS_NO_EXPORT void BaseDriver::redisplay(const SceneLayout& scene) const
 	redisplay((const Layout&) scene);
 }
 
-MAGICS_NO_EXPORT void BaseDriver::redisplay(const StartPage& ) const
+MAGICS_NO_EXPORT void BaseDriver::redisplay(const magics::StartPage& ) const
 {
    startPage();
 }
