@@ -276,7 +276,7 @@ MAGICS_NO_EXPORT void BaseDriver::redisplay(const magics::StartPage& ) const
    startPage();
 }
 
-MAGICS_NO_EXPORT void BaseDriver::redisplay(const EndPage& ) const
+MAGICS_NO_EXPORT void BaseDriver::redisplay(const magics::EndPage& ) const
 {
    endPage();
    vecPoints_.clear();
