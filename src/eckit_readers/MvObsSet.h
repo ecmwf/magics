@@ -146,10 +146,7 @@ long _msgLen;
    TDynamicTime  _minTime;
    TDynamicTime  _maxTime;
 
-#ifdef METVIEW_PREPBUFR
-   MvPrepBufrPrep* _prepBufr;
-   bool _isPrepBufrFile;
-#endif
+
 
    MvBufrOut* _bufrOut;
 

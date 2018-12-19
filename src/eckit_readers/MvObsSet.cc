@@ -30,9 +30,7 @@
 #include <cerrno>
 #include <cstring>
 
-#ifdef METVIEW_PREPBUFR
-# include "MvPrepBufrPrep.h"
-#endif
+
 
 #ifdef MV_BUFRDC_TEST
 #ifndef METVIEW

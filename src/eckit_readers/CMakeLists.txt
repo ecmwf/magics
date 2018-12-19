@@ -18,13 +18,13 @@ if ( HAVE_BUFR )
 		fsortabl.h
 		MvBufr.h 
 		MvObs.cc       
-		MvPrepBufrPrep.cc  
+		
 		fdyntime.cc
 		fobject.cc  
 		fstatime.cc
 		MvBufrObs.h     
 		MvObs.h   
-		MvPrepBufrPrep.h   
+		 
 		fdyntime.h  
 		fobject.h   
 		fstatime.h
