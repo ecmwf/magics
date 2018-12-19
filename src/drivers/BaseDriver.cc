@@ -294,7 +294,7 @@ MAGICS_NO_EXPORT void BaseDriver::redisplay(const ClearObject& ) const
 
   Overwritten in SVGDriver::redisplay(const Polyline& line) const
 */
-void BaseDriver::redisplay(const Polyline& line) const
+void BaseDriver::redisplay(const magics::Polyline& line) const
 {
 	if(line.isFilled())   renderSimplePolygon(line);
 	if(line.isStroked())  printLine(line);
@@ -409,7 +409,7 @@ double BaseDriver::LSF(MFloat *x,MFloat *y, int i0) const
 
   \todo location memory for labels.
 */
-void BaseDriver::printLine(const Polyline &line) const
+void BaseDriver::printLine(const magics::Polyline &line) const
 {
     const unsigned long n = line.size();
     if(n < 2) return;
@@ -433,8 +433,8 @@ void BaseDriver::printLine(const Polyline &line) const
 
 	  renderPolyline(n, x, y);
 
-	  Polyline::Holes::const_iterator h  = line.beginHoles();
-	  Polyline::Holes::const_iterator he = line.endHoles();
+      magics::Polyline::Holes::const_iterator h  = line.beginHoles();
+      magics::Polyline::Holes::const_iterator he = line.endHoles();
 
 	  for (; h != he; ++h)
 	  {
@@ -1023,7 +1023,7 @@ void BaseDriver::redisplay(const BinaryObject& binary) const
 			MFloat *y = new MFloat[n];
 			in.read((char *)(x), sizeof(MFloat)*n);
 			in.read((char *)(y), sizeof(MFloat)*n);
-			Polyline line;
+            magics::Polyline line;
 			for(int i=0;i<n;i++)
 			{
 				line.push_back(PaperPoint(x[i],y[i]));
