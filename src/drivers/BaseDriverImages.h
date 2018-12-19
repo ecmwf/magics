@@ -261,8 +261,6 @@ MAGICS_NO_EXPORT bool BaseDriver::convertToPixmap(const string &fname, const Gra
 
 	if(format==PS || format==EPS) //File is PostScript
 	{
-//		FILE* fd3;
-//		char buf[1024];
 		string cmd;
 		int x1 = 0;
 		int y1 = 0;
@@ -271,7 +269,7 @@ MAGICS_NO_EXPORT bool BaseDriver::convertToPixmap(const string &fname, const Gra
 		{
 			MagLog::error() << "BaseDriverImages: Open of source PostScript file failed!" << endl;
 			return false;
-       		}
+		}
 
 		s2 = getTmpName();
 		if(s2==" ")
@@ -281,28 +279,24 @@ MAGICS_NO_EXPORT bool BaseDriver::convertToPixmap(const string &fname, const Gra
 		}
 		s2 += ".ppm";
 
-	//	if(format==PS)  // does not work with EPS
-		{
-		  const MFloat Xres = MFloat(reso);
-		  bx1 = MFloat(x1)/72.*Xres + 0.5;
-		  x1  = (int) bx1;
-		  by1 = MFloat(y1)/72.*Xres + 0.5;
-		  y1  = (int) by1;
+		const MFloat Xres = MFloat(reso);
+		bx1 = MFloat(x1)/72.*Xres + 0.5;
+		x1  = (int) bx1;
+		by1 = MFloat(y1)/72.*Xres + 0.5;
+		y1  = (int) by1;
 
-		  char boxx[5];
-		  char boxy[5];
-		  char boxz[5];
-		  sprintf(boxx,"%d",x1);
-		  sprintf(boxy,"%d",y1);
-		  sprintf(boxz,"%d",reso);
+		char boxx[5];
+		char boxy[5];
+		char boxz[5];
+		sprintf(boxx,"%d",x1);
+		sprintf(boxy,"%d",y1);
+		sprintf(boxz,"%d",reso);
 
-		  cmd = "( gs -q -dNOPAUSE -dSAFER -sDEVICE=ppmraw -sOutputFile=" + s2 +
+		cmd = "( gs -q -dNOPAUSE -dSAFER -sDEVICE=ppmraw -sOutputFile=" + s2 +
 			" -dGraphicsAlphaBits=4 -dTextAlphaBits=4 -dCOLORSCREEN -dBATCH -g" +
 			boxx + "x" + boxy + " -r" + boxz + " " + fname + " < /dev/null )";
-		}
 
 		status = system(cmd.c_str());
-
 		if(status)
 		{
 			MagLog::error() << "BaseDriverImages: Command exit Not zero" << endl;
