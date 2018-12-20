@@ -1395,14 +1395,14 @@ void GribDecoder::visit(ValuesCollector& points)
     points.setCollected(true);
 
     int nb = points.size();
-    double inlats[nb];
-    double inlons[nb];
-    double outlats[nb];
-    double outlons[nb];
-    double values[nb];
-    double x[nb];
-    double y[nb];
-    double distances[nb];
+    double *inlats = new double[nb];
+    double *inlons = new double[nb];
+    double *outlats = new double[nb];
+    double *outlons = new double[nb];
+    double *values = new double[nb];
+    double *x = new double[nb];
+    double *y = new double[nb];
+    double *distances = new double[nb];
 
     double scaling, offset;
     string oriUnits, derivedUnits;
@@ -1475,6 +1475,14 @@ void GribDecoder::visit(ValuesCollector& points)
                 points[i].back()->setMissing(true);
         }
     }
+    delete[] inlats;
+    delete[] inlons;
+    delete[] outlats;
+    delete[] outlons;
+    delete[] values;
+    delete[] x;
+    delete[] y;
+    delete[] distances;
 }
 
 void GribDecoder::visit(MagnifierCollector& magnifier)
