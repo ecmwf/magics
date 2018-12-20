@@ -598,7 +598,7 @@ MAGICS_NO_EXPORT void PostScriptDriver::renderPolyline2(const int n, MFloat* x, 
   \sa setLineParameters()
   \param line polyline to be filled
 */
-void PostScriptDriver::renderSimplePolygon(const Polyline& line) const
+void PostScriptDriver::renderSimplePolygon(const magics::Polyline& line) const
 {
 	unsigned int n = line.size();
 	setNewColour(line.getFillColour());
@@ -713,8 +713,8 @@ void PostScriptDriver::renderSimplePolygon(const Polyline& line) const
 
 	*ps << "n ";
 
-	Polyline::Holes::const_iterator h = line.beginHoles();
-	Polyline::Holes::const_iterator he = line.endHoles();
+	magics::Polyline::Holes::const_iterator h = line.beginHoles();
+	magics::Polyline::Holes::const_iterator he = line.endHoles();
 
 	for (; h != he; ++h)
 	{
