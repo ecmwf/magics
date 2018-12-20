@@ -23,6 +23,8 @@
 #include <gd.h>
 #endif
 
+#include "magics_windef.h"
+
 using namespace magics;
 
 
@@ -248,6 +250,9 @@ MAGICS_NO_EXPORT void BaseDriver::renderImage(const ImportObject& obj) const
 MAGICS_NO_EXPORT bool BaseDriver::convertToPixmap(const string &fname, const GraphicsFormat format, const int reso,
 		     const MFloat wx0, const MFloat wy0,const MFloat wx1,const MFloat wy1) const
 {
+#ifdef MAGICS_ON_WINDOWS
+    return false;
+#else
 	debugOutput("Start Image conversion");
 
 	int Landscape = 0;
@@ -418,6 +423,7 @@ MAGICS_NO_EXPORT bool BaseDriver::convertToPixmap(const string &fname, const Gra
 	delete [] image;
 
 	return status;
+#endif
 }
 
 /*
