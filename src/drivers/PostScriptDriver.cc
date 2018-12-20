@@ -1019,8 +1019,8 @@ MAGICS_NO_EXPORT void PostScriptDriver::renderText(const Text& text) const
 		string textCommand = (text.getBlanking()) ? "TB" : "T";
 		if(underlined) textCommand = "TU";
 
-		const int len = (*niceText).text().length()+1;
-		char pp[len];
+		int len = (*niceText).text().length()+1;
+		char *pp = new char[len];
 		strcpy(pp, (*niceText).text().c_str());
 		string spp= (*niceText).text();
 		char *p = pp;
@@ -1037,6 +1037,7 @@ MAGICS_NO_EXPORT void PostScriptDriver::renderText(const Text& text) const
 			p++;
 			counter++;
 		}
+		delete[] pp;
 
 		const string showCommand = (underlined) ? "ushow" : "show";
 		unsigned int noTexts = text.size();
