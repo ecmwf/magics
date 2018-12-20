@@ -38,6 +38,8 @@
 #include <System.h>
 #include <Timer.h>
 
+#include "magics_windef.h"
+
 using namespace magics;
 
 int BaseDriver::numFiles_ = 0;
@@ -605,6 +607,7 @@ void BaseDriver::print(ostream& out) const
 
 string BaseDriver::getTmpName() const
 {
+#ifndef MAGICS_ON_WINDOWS
 	string stmp;
 	stmp+= "magics_temp_ps_XXXXXX";
 	char* mtmp = new char [stmp.length()+1];
@@ -615,6 +618,9 @@ string BaseDriver::getTmpName() const
 	delete [] mtmp;
 
 	return stmp;
+#else
+    return "";
+#endif
 }
 
 bool BaseDriver::renderCellArray(const Image& ) const
