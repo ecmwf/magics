@@ -798,7 +798,7 @@ MAGICS_NO_EXPORT void SVGDriver::renderSimplePolygon(const int n, MFloat* x, MFl
 	}
 }
 
-void SVGDriver::renderSimplePolygon(const Polyline& line) const
+void SVGDriver::renderSimplePolygon(const magics::Polyline& line) const
 {
 	const unsigned int n = line.size();
 	if(n<3) return;
@@ -870,8 +870,8 @@ void SVGDriver::renderSimplePolygon(const Polyline& line) const
 	if     (fabs(sumV) > 0.001) {stream <<"v"<< sumV;}
 	else if(fabs(sumH) > 0.001) {stream <<"h"<< sumH;}
 
-	Polyline::Holes::const_iterator h = line.beginHoles();
-	Polyline::Holes::const_iterator he = line.endHoles();
+	magics::Polyline::Holes::const_iterator h = line.beginHoles();
+	magics::Polyline::Holes::const_iterator he = line.endHoles();
 
 	for (; h != he; ++h)
 	{
