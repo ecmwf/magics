@@ -201,7 +201,7 @@ NetVariable::NetVariable(const string& name, int id, Netcdf* parent, const strin
 	netcdf_ = parent_->file();
 	int num_dims;
 	nc_inq_varndims(netcdf_, id_, &num_dims);
-	int dims[num_dims];
+    int *dims = new int[num_dims];
 	nc_inq_vardimid(netcdf_, id_, dims);
 
 	for (int d = 0; d < num_dims; d++)
@@ -242,6 +242,7 @@ NetVariable::NetVariable(const string& name, int id, Netcdf* parent, const strin
 			attributes_.insert(std::make_pair(name, NetAttribute(name, netcdf_, id_)));
 	}
 	missing_ = getDefaultMissing();
+    delete[] dims;
 }
 
 template <class T>
