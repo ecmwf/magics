@@ -412,10 +412,6 @@ MAGICS_NO_EXPORT bool BaseDriver::convertToPixmap(const string &fname, const Gra
 	MFloat y0 = wy0;
 	MFloat y1 = wy1;
 
-	// const MFloat aspect = bx1/by1;
-	//if ( Landscape == 1 )		y1 = y0 + abs(x1-x0)*aspect;
-	//else if ( Landscape == 0 )	x1 = x0 + abs(y1-y0)*aspect;
-
 	bool alpha = (pixmapFormat == "rgba");
 	status = renderPixmap(x0,y0,x1,y1,col,row,image,Landscape,alpha);
 
@@ -425,47 +421,3 @@ MAGICS_NO_EXPORT bool BaseDriver::convertToPixmap(const string &fname, const Gra
 	return status;
 #endif
 }
-
-/*
-bool BaseDriver::renderPixmap(MFloat ,MFloat,MFloat,MFloat ,int w,int h,unsigned char* IOUT,int, bool hasAlpha) const
-{
-#ifndef MAGICS_RASTER
-	MagLog::warning() << "Image import is not implemented for the used driver!!!" << endl;
-	return false;
-#else
-	gdImagePtr im = gdImageCreateTrueColor(w,h);
-	unsigned char *p = IOUT;
-	gdImageColorAllocateAlpha(im, 255, 255, 255, 127);
-	int a = 0;
-
-	for(int i=h-1;i>=0;i--)
-	{
-		for(int j=0;j<w; j++)
-		{
-			const int r = (int) *(p++);
-			const int g = (int) *(p++);
-			const int b = (int) *(p++);
-			if(hasAlpha) a = (int) *(p++);
-			const int col = gdImageColorResolveAlpha(im,r,g,b,a);
-			gdImageSetPixel(im, w, h, col);
-		}
-	}
-	gdImageDestroy(im);
-	gdImageAlphaBlending(im, 1);
-	gdImageSaveAlpha(im, 1); // save transparency
-
-	stringstream out;
-	out << output_resource_list_.size();
-	string filename = "magics_resource_"+out.str()+".png";
-
-	output_resource_list_.push_back(filename);
-
-
-	FILE *outFile = fopen(filename.c_str(),"wb");
-	gdImagePng(im,outFile);
-	fclose(outFile);
-
-	return true;
-#endif
-}
-*/
