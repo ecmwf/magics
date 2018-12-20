@@ -27,13 +27,6 @@
 
 //! For generating SVGZ files
 extern "C"{
-/*
-#include <stdio.h>
-#include <string.h>
-#include <zlib.h>
-#define SET_BINARY_MODE(file)
-#define CHUNK 16384
-*/
 #include <sys/stat.h>
 #include "minizip/zip.h"
 
@@ -96,7 +89,6 @@ MAGICS_NO_EXPORT void SVGDriver::startPage() const
 	if(!mbg_tmpl.empty())
 	{
 		setDimensionsFromBinary(mbg_tmpl,ratio,wid);
-//		fixSize=true;
 	}
 
 	dimensionX_ = wid;
@@ -127,7 +119,6 @@ MAGICS_NO_EXPORT void SVGDriver::startPage() const
 	{
 	  pFile_
 	  << "<?xml version=\"1.0\" ?>\n";
-//	  << "<!DOCTYPE svg PUBLIC \'-//W3C//DTD SVG 1.0//EN\' \'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd\'>\n";
 	}
 
 	pFile_
@@ -148,9 +139,6 @@ MAGICS_NO_EXPORT void SVGDriver::startPage() const
 	if(fixSize_) pFile_<< "width=\""<<width<<"px\" height=\""<<height<<"px\" ";
 
 	pFile_ << "viewBox=\"0 0 "<<width+1<<" "<<height+1<<"\" xml:space=\"preserve\"";   
-//	 preserveAspectRatio=\"xMidYMid meet\"\n"
-//	 << " shape-rendering=\"optimizeSpeed\" text-rendering=\"optimizeSpeed\""
-///	if(scripting_) pFile_<< " onload=\"OnLoadEvent(evt)\"";
 	pFile_<< ">\n<title>"<<title_<<"</title>\n";
 
 	if(!desc_.empty()) pFile_<< "<desc>"<<desc_<<"</desc>\n";
@@ -169,16 +157,6 @@ MAGICS_NO_EXPORT void SVGDriver::startPage() const
 	       << "\t<dc:coverage>Plot of meteorological data</dc:coverage>\n";
 	if(!meta_.empty()) pFile_<< "<!-- \n"<<meta_<<"\n-->\n";
 	pFile_<<"</cc:Work></rdf:RDF>\n</metadata>\n";
-/*
-	if(scripting_)
-	{
-		pFile_ << "<defs>\n"
-		       << " <clipPath id=\"clip_lupe\" shape-rendering=\"optimizeSpeed\">\n"
-		       << "  <circle cx=\"0\" cy=\"0\" r=\"75\"/>\n"
-		       << " </clipPath>\n"
-		       << "</defs>\n";
-	}
-*/
 	pFile_<< "<g id=\"page\" transform=\"translate(0,"<<dimensionY_<<")\" vector-effect=\"non-scaling-stroke\">\n";
 }
 
@@ -195,101 +173,7 @@ MAGICS_NO_EXPORT void SVGDriver::endPage() const
 	group_counter_=0;
 	debugOutput("Page - END");
 	closeGroup();
-	pFile_	<< "</g><!--ePage-->\n";   // needed for y-axis translation in beginning!
-/*
-	if(scripting_)
-	{
-		pFile_ << "<g id=\"menu\" visibility=\"visible\" fill=\"blue\" stroke=\"none\" font-size=\"10\" transform=\"translate("<<static_cast<int>(dimensionX_)-100<<" 5)\""
-		          << " fill-opacity=\"0.8\" stroke-opacity=\"0.8\" onmouseover=\"evt.target.setAttributeNS(null,'stroke-opacity','1.');evt.target.setAttributeNS(null,'fill-opacity','1.')\"";
-		if(inkscape_)
-		         pFile_ << " inkscape:groupmode=\"layer\" inkscape:label=\"Menu\"";
-		pFile_ << ">\n";
-
-		// lupe button
-		pFile_ << "<g id=\"lupe_button\" stroke=\"blue\" fill=\"rgb(230,230,255)\" transform=\"translate(-20 1)\" onclick=\"switchLupe(evt)\">\n"
-			<< " <circle cx=\"0\" cy=\"11\" r=\"10\"/>\n"
-			<< " <circle cx=\"-2\" cy=\"9\" r=\"4\"/>\n"
-			<< " <rect x=\"2\" y=\"12\" transform=\"rotate(45 2 12)\" width=\"4\" height=\"2\"/>\n"
-			<< "</g>\n";
-
-		// Layer Menu
-		if(!layers_.empty())
-		{
-		  pFile_	<< "<g id=\"layers_menu\" visibility=\"visible\" onclick=\"toggleLayers(evt)\">\n"
-				<< " <rect x=\"0\" y=\"0\" rx=\"5\" ry=\"5\" fill=\"rgb(210,210,210)\" width=\"100\" height=\"23\"/>\n"
-				<< " <text x=\"10\" y=\"17\" font-size=\"11\">Layers</text>\n</g>"
-				<< "<g id=\"layers\" visibility=\"hidden\">";
-		  int offset = 30;
-		  for(vector<string>::iterator iter=layers_.begin(); iter != layers_.end();++iter)
-		  {
-		  pFile_ << "<g id=\"button_"<<*iter<<"\" transform=\"translate(0 "<<offset<<")\" onclick=\"toggle"<<*iter<<"(evt)\">\n"
-		         << " <rect x=\"0\" y=\"0\" rx=\"5\" ry=\"5\" fill=\"rgb(210,210,210)\" width=\"100\" height=\"23\"/>\n"
-		         << " <text x=\"20\" y=\"17\" font-size=\"11\">"<<*iter<<"</text>\n"
-			 << " <rect id=\""<<*iter<<"_box\" x=\"5\" y=\"8\" width=\"10\" height=\"10\" rx=\"3\" ry=\"3\" stroke=\"green\" fill=\"green\"/>\n"
-		         << "</g>\n";
-		         offset += 30;
-		  }
-		  pFile_ << "</g>\n";
-		}
-		
-		pFile_ << "</g>\n";  // end of Menu
-
-		pFile_ << "<g id=\"lupe\" visibility=\"hidden\" transform=\"translate(55,55)\">\n"
-		       << " <circle cx=\"0\" cy=\"0\" r=\"75\" fill=\"white\" stroke=\"none\"/>\n"
-		       << " <g clip-path=\"url(#clip_lupe)\">\n"
-		       << "  <use id=\"page_mirror\" xlink:href=\"#page\" transform=\"scale(2) translate(-55,55)\"/>\n"
-		       << " </g>\n"
-		       << " <circle cx=\"0\" cy=\"0\" r=\"75\" fill=\"none\" stroke=\"black\" stroke-width=\"5\" onmousedown=\"moveLupe()\"/>\n"
-		       << "</g>\n";
-
-		// /////////////////////////////////////////////////////////////////////////
-		// Scripting - JAVASCRIPT
-		//     var x=document.getElementsByClassName(field1);
-		pFile_ << "<script type=\"text/ecmascript\"><![CDATA[\n"
-			<< "var slider=null,thumb=null,page=null,sliderActive=false;\nvar doc=null;\n"
-
-			<< "function OnLoadEvent(evt)\n"
-			<< "{\n"
-			<< "doc = evt.target.ownerDocument;\n"
-			<< "doc.addEventListener(\"click\", moveLupe, false);\n"
-			<< "}\n"
-			<< "function switchLupe(evt){\n"
-			<< "\tl=doc.getElementById(\"lupe\")\n"
-			<< "\tvar at=l.getAttributeNS(null,\"visibility\");\n"
-			<< "\tif(at==\"visible\") {l.setAttributeNS(null,\"visibility\",\"hidden\");}\n"
-			<< "\telse {l.setAttributeNS(null,\"visibility\",\"visible\");}\n"
-			<< "}\n"
-			<< "function moveLupe(evt){\n"
-			<< "\tl=doc.getElementById(\"lupe\")\n"
-			<< "\tc=doc.getElementById(\"page_mirror\")\n"
-			<< "\tx=evt.clientX-55\n"
-			<< "\ty=evt.clientY-55\n"
-			<< "\tl.setAttribute(\"transform\",\"translate(\"+x+\" \"+y+\")\")\n"
-			<< "\tc.setAttribute(\"transform\",\"scale(2) translate(\"+(-x)+\" \"+(-y)+\")\")\n"
-			<< "}\n";
-
-			if(!layers_.empty())
-			{
-			   pFile_	<< "function toggleLayers(evt){\n"
-					<< "\tvar sb=doc.getElementById(\"layers\");\n"
-					<< "\tvar at=sb.getAttributeNS(null,\"visibility\");\n"
-					<< "\tif(at==\"visible\") {sb.setAttributeNS(null,\"visibility\",\"hidden\");cl.setAttributeNS(null,\"visibility\",\"hidden\");}\n"
-					<< "\telse {sb.setAttributeNS(null,\"visibility\",\"visible\");cl.setAttributeNS(null,\"visibility\",\"visible\");}\n"
-					<< "}\n";
-			   for(vector<string>::iterator iter=layers_.begin(); iter != layers_.end();++iter)
-			   {
-				pFile_	<< "function toggle"<<*iter<<"(evt){\n"
-					<< "\tvar cl=doc.getElementById(\""<<*iter<<"\");\n"
-					<< "\tvar sb=doc.getElementById(\""<<*iter<<"_box\");\n"
-					<< "\tvar at=sb.getAttributeNS(null,\"fill\");\n"
-					<< "\tif(at==\"green\") {sb.setAttributeNS(null,\"fill\",\"lightgreen\");cl.setAttributeNS(null,\"visibility\",\"hidden\");}\n"
-					<< "\telse {sb.setAttributeNS(null,\"fill\",\"green\");cl.setAttributeNS(null,\"visibility\",\"visible\");}\n"
-					<< "}\n";
-			   }
-			}
-			pFile_	<< "]]></script>\n";
-	}
-*/
+	pFile_ << "</g><!--ePage-->\n";   // needed for y-axis translation in beginning!
 	pFile_ << "</svg>\n";
 	pFile_.close();
 
@@ -319,7 +203,6 @@ MAGICS_NO_EXPORT void SVGDriver::project(const magics::Layout& layout) const
 	dimensionStack_.push(dimensionX_);
 	dimensionStack_.push(dimensionY_);
 	const MFloat oldHeight = dimensionY_;
-	// const MFloat oldWidth  = dimensionX_;
 	scalesX_.push(coordRatioX_);
 	scalesY_.push(coordRatioY_);
 
@@ -347,7 +230,6 @@ MAGICS_NO_EXPORT void SVGDriver::project(const magics::Layout& layout) const
 		const double clip_height=projectY(layout.maxY())-projectY(layout.minY());
 		pFile_ << "<defs>\n"
 		       << " <clipPath id=\"clip_"<<layout.name()<<"\">\n"
-//		       << "  <rect x=\""<<projectX(layout.minX())<<"\" y=\""<<projectY(layout.minY())-setY(y_set)<<"\" width=\""<<projectX(layout.maxX())-projectX(layout.minX())<<"\" height=\""<<projectY(layout.maxY())-projectY(layout.minY())<<"\" />\n"
 		       << "  <rect x=\""<<projectX(layout.minX())<<"\" y=\""<<projectY(setY(layout.minY()))-clip_height<<"\" width=\""<<projectX(layout.maxX())-projectX(layout.minX())<<"\" height=\""<<clip_height<<"\" />\n"
 		       << " </clipPath>\n"
 		       << "</defs>"<<endl;
@@ -357,7 +239,6 @@ MAGICS_NO_EXPORT void SVGDriver::project(const magics::Layout& layout) const
 	if(!layout.name().empty()) pFile_ << " id=\""<<layout.name()<<"\"";
 	if( !zero(x_set) || !zero(y_set) ) pFile_ << " transform=\"translate("<<x_set <<","<<setY(y_set)<<")\"";
 
-	//if(showCoordinates_ && area=="drawing_area") pFile_ << " onmouseover=\"setLonScale("<<coordRatioX_<<");showCoords(evt)\"";
 	if(layout.clipp())
 	{
 		pFile_ << " clip-path=\"url(#clip_"<<layout.name()<<")\"";
@@ -464,8 +345,6 @@ MAGICS_NO_EXPORT void SVGDriver::newLayer() const
 	layers_.push_back(currentLayer_);
 }
 
-
-
 /*!
   \brief close the current layer
 
@@ -477,35 +356,6 @@ MAGICS_NO_EXPORT void SVGDriver::closeLayer() const
 	pFile_ << "</g>\n";
 	debugOutput("Layer - "+currentLayer_+" END");
 }
-
-
-//MAGICS_NO_EXPORT void SVGDriver::renderInteractiveBegin(const InteractiveBegin& interactive) const
-//{
-/*
-	InteractiveBegin::iterator iter = interactive.begin();
-
-	for( ; iter != interactive.end(); iter++ )
-	{
-		MagLog::dev()<< "string: " << iter->first << endl;
-	}
-*/
-/*	closeGroup();
-
-	if( !magCompare(currentBox_,"non") ) unprojectBox();
-	debugOutput("renderInteractiveBegin");
-	pFile_ << "<g onmouseover=\"scaleup(evt);\" onmouseout=\"scaledown(evt);\" id=\"int"<<interactiveCounter_<<"\" fill=\"none\" transform=\"scale(1,1)\" >\n";
-	interactiveCounter_++;
-	interactive_=true;
-}
-
-MAGICS_NO_EXPORT void SVGDriver::renderInteractiveEnd(const InteractiveEnd&) const
-{
-	debugOutput("renderInteractiveEnd");
-	if( !magCompare(currentBox_,"non") ) unprojectBox();
-	pFile_ << "</g>"<< std::endl;
-	interactive_=false;
-}
-*/
 
 MAGICS_NO_EXPORT void SVGDriver::openGroup(string g) const
 {
@@ -569,7 +419,6 @@ MAGICS_NO_EXPORT void SVGDriver::setNewLineWidth(const MFloat width) const
 MAGICS_NO_EXPORT int SVGDriver::setLineParameters(const LineStyle linestyle, const MFloat w) const
 {
 	const MFloat widi = w*0.5;
-//	const MFloat widi = (wid > 1) ? wid : 1;
 	currentLineType_ = linestyle;
 
 	ostringstream stream;
@@ -789,10 +638,6 @@ MAGICS_NO_EXPORT void SVGDriver::renderSimplePolygon(const int n, MFloat* x, MFl
 				<< r << ","
 				<< g << ","
 				<< b << ")\" ";
-//				<< "stroke=\"rgb("               // made ECMWF logo blurry
-//				<< static_cast<int>(currentColour_.red()  *255) << ","
-//				<< static_cast<int>(currentColour_.green()*255) << ","
-//				<< static_cast<int>(currentColour_.blue() *255) << ")\" "
 			pFile_	<< stream.str() <<"\"/>\n";
 		}
 	}
@@ -983,7 +828,6 @@ MAGICS_NO_EXPORT void SVGDriver::renderText(const Text& text) const
   else if( horizontalAlign==MRIGHT ) justification = "end";
 
   VerticalAlign verticalAlign = text.getVerticalAlign();
-  //double vertical = 0.;
 
   unsigned int noTexts = text.size();
   vector<NiceText>::const_iterator niceTextEnd = text.textEnd();
@@ -1036,8 +880,6 @@ MAGICS_NO_EXPORT void SVGDriver::renderText(const Text& text) const
 		   }
 
 		   pFile_ << "<text x=\""<<xxx<<"\" y=\""<<yyy<<"\" dominant-baseline=\""<<verticalJustification<< "\"";
-//		   if(text.getBlanking())
-//			   pFile_ << " background-color=\"white\"";
 		   pFile_ << ">"<<(*niceText).text();
 		}
 		else
@@ -1092,8 +934,6 @@ MAGICS_NO_EXPORT void SVGDriver::circle(const MFloat x, const MFloat y, const MF
 		}
 		else
 		{
-		 //const short  i   = (s<4) ? 1 : 0;
-		 //const double rad = s*0.7853981634;
 
 		 if(s==2)      pFile_ << "<path d=\"M"<<cx<<" "<<cy-r<<" v"<<r<<" h"<<r<<" a"<<r<<","<<r<<" 0 0 0 "<< -r<<","<<-r<<"\" ";
 		 else if(s==4) pFile_ << "<path d=\"M"<<cx<<" "<<cy-r<<" v"<<2*r<<" a"<<r<<","<<r<<" 0 0 0 "<< 0<<","<<-2*r<<"\" ";
@@ -1230,8 +1070,6 @@ if(!external_)
 			const int r = static_cast<int>(lt[c].red()*255.);
 			const int g = static_cast<int>(lt[c].green()*255.);
 			const int b = static_cast<int>(lt[c].blue()*255.);
-//			const MFloat wx = x0+(j* dx);
-//			const MFloat wy = y0+(i*-dy);
 			pFile_ << "<rect x=\""<<j<<"\" y=\""<<i<<"\" width=\"1\" height=\"1\" fill=\"#"<<hex;
 
             if( r == g && g == b ) // to safe 3 digits
@@ -1276,10 +1114,6 @@ else
 
 	string filename = tmp_pFile_+"_include_"+out.str()+".png";
 
-//	pFile_	<< "<image x=\""<<x0<<"\" y=\""<<setY(y0)<<"\" "
-//		<< " width=\""<<projectX(image.getWidth())<<"\" height=\""<<projectY(image.getHeight())<<"\" "/
-//		<< "xlink:href=\""<<filename<<"\" />\n";
-
 	ColourTable &lt  = image.getColourTable(); 
 	const int width  = image.getNumberOfColumns();
 	const int height = image.getNumberOfRows();
@@ -1291,21 +1125,14 @@ else
 	{
 		for(int j=0;j<width; j++)
 		{
-		  const int in = width*i+j;	 
-		  const short c = image[in];
-		  int col = 0;
-// 		  if(!(lt[c]=="undefined"))
-		  {
+			const int in = width*i+j;	 
+			const short c = image[in];
+			int col = 0;
 			const int r = static_cast<int>(lt[c].red()*255.);
 			const int g = static_cast<int>(lt[c].green()*255.);
 			const int b = static_cast<int>(lt[c].blue()*255.);
 
 			col = gdImageColorResolveAlpha(im,r,g,b,50);
-		  }// point has colour
-//		  else{
-//		  	col = gdImageColorResolveAlpha(im,255,0,0,50);
-//		  }
-		  gdImageSetPixel(im, j, i, col);
 		}
 	}
 
@@ -1323,7 +1150,6 @@ else
         {
             pFile_	<< "<image x=\""<<x0<<"\" y=\""<<setY(y0)<<"\" "
                     << " width=\""<<projectX(image.getWidth())<<"\" height=\""<<projectY(image.getHeight())
-                    //		<< "\" xlink:href=\"data:image/png;base64,";
                     << "\" xlink:href=\"data:;base64,";
 
             // use uuencode to convet to base?
@@ -1385,31 +1211,6 @@ else
 */
 MAGICS_NO_EXPORT void SVGDriver::renderImage(const ImportObject& obj) const
 {
-/*	if(magCompare(logoLocation_,"LOCAL"))
-	{
-	  closeGroup();
-	  std::string file = obj.getPath();
-
-	  string format = obj.getFormat();
-
-	  const MFloat w = (obj.getWidth()<0)  ? 30./coordRatioX_ : obj.getWidth();
-	  const MFloat h = (obj.getHeight()<0) ? 30./coordRatioY_ : obj.getHeight();
-
-	  const MFloat x = projectX(obj.getOrigin().x());
-	  const MFloat y = projectY(obj.getOrigin().y());
-	  const MFloat oh = projectY(obj.getOrigin().y()+h) - y;
-	  const MFloat ow = projectX(obj.getOrigin().x()+w) - x;
-
-	  const ImageProperties::OriginReference ori = obj.getOriginReference();
-	  if(ori == ImageProperties::centre)
-			pFile_ << "<image x=\""<<x-(ow*.5)<<"\" y=\""<<setY(y)-(oh*.5);
-	  else
-			pFile_ << "<image x=\""<<x<<"\" y=\""<<setY(y)-oh;
-	  pFile_  <<"\" width=\""  << ow
-		        <<"\" height=\"" << oh
-		        <<"\" xlink:href=\""<<file<<"\" />\n";
-	}
-	else */
 	{
 		BaseDriver::renderImage(obj);
 	}
