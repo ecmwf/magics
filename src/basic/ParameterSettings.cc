@@ -72,7 +72,6 @@ void niceprint(ostream& out, const string& val)
 }
 
 void niceprint(ostream& out, const AxisAutomaticSetting& val )
-//{m_off, m_both, m_min_only, m_max_only};)
 {
 	string cval;
 	switch (val) {
@@ -83,13 +82,11 @@ void niceprint(ostream& out, const AxisAutomaticSetting& val )
 		case m_min_only: cval="min_only";
 				break;
 		case m_max_only: cval="max_only";
-						break;
-
+				break;
 	}
 	niceprint(out, cval);
 }
 void niceprint(ostream& out, const Colour& val )
-//{m_off, m_both, m_min_only, m_max_only};)
 {
 
 	niceprint(out, val.name());
@@ -103,6 +100,5 @@ void toxml(string& out, const map<string, string>& def)
 		os << sep << "\"" << entry->first << "\" : \"" << entry->second << "\"";
 		sep = ",\n";
 	}
-
 	out = os.str();
 }
