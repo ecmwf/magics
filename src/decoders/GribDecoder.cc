@@ -1861,6 +1861,7 @@ void GribDecoder::decodeRaster(const Transformation& transformation)
 
 void GribDecoder::initInfo()
 {
+#if defined( METVIEW ) && !defined( MAGICS_ON_WINDOWS )
     if(information_.find("_datatype") == information_.end())
     {
         setInfo("_datatype","GRIB");
@@ -1878,6 +1879,7 @@ void GribDecoder::initInfo()
         }
         setInfo("MV_Format","GRIB");
     }
+#endif
 }
 
 
