@@ -109,11 +109,11 @@ struct NetAttribute
 	void get(string& val) { 
           size_t len;
           nc_inq_attlen (netcdf_, id_, name_.c_str(),&len);
-          
-          char tmp[len];
+
+          char *tmp = new char[len];
           nc_get_att_text(netcdf_, id_, name_.c_str(), tmp);
           val = string(tmp, len);
-         
+          delete[] tmp;
       }
     void get(char*& val) { 
           size_t len;
