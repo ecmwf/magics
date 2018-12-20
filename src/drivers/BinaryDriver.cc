@@ -343,12 +343,13 @@ void BinaryDriver::renderWindFlag(const Flag &flag) const
 	out_.write((char *)(&b), sizeof(MFloat));
 	
 	const string t=flag.getOriginMarker();
-        const int len = t.length();
+        int len = t.length();
         out_.write((char *)(&len),sizeof(int));
 
-        char pp[len];
+        char *pp = new char[len];
         strcpy(pp, t.c_str());
         out_.write(pp,sizeof(char)*len);
+        delete[] pp;
 
         Flag::const_iterator fla = flag.begin();
 
@@ -559,12 +560,13 @@ MAGICS_NO_EXPORT void BinaryDriver::renderText(const Text& text) const
       out_.write((char *)(&sf),sizeof(MFloat));
 
       const string t=niceT[ntc].text();
-      const int len = t.length();
+      int len = t.length();
       out_.write((char *)(&len),sizeof(int));
 
-      char pp[len];
+      char *pp = new char[len];
       strcpy(pp, t.c_str());
       out_.write(pp,sizeof(char)*len);
+      delete[] pp;
     }
 
     for(int g=0;g<s;g++)
