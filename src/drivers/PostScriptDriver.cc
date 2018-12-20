@@ -195,7 +195,6 @@ MAGICS_NO_EXPORT void PostScriptDriver::startPage() const
 	}
 
 	newPage_ = true;
-//	if(currentPage_ > 0) endPage();
 	if(isSplit()) openFile();
 	currentPage_++;
 	fstream *ps = getStream();
@@ -277,9 +276,8 @@ MAGICS_NO_EXPORT void PostScriptDriver::project(const magics::Layout& layout) co
 	{
 		*ps<<" "<< offsetX_ <<" "<< offsetY_ <<" "<< dimensionX_ <<" "<< dimensionY_ <<" rectclip";
 	}
-//	if(fabs(X_) > 0.0001 && fabs(Y_) > 0.0001 )
-		*ps<<" "<< X_ <<" "<< Y_ <<" t";
-	*ps	<<"\n";
+	*ps<<" "<< X_ <<" "<< Y_ <<" t";
+	*ps<<"\n";
 
 }
 
@@ -725,8 +723,6 @@ void PostScriptDriver::renderSimplePolygon(const magics::Polyline& line) const
 		MFloat old_y = projectY(y[0]);
 		unsigned int nt = x.size();
 
-//		if ( (line[n-1].x() == line[0].x()) && (line[n-1].y() == line[0].y()) ) {x_end--;nt--;}
-
 		int pcounter=0;
 		for(int i = nt-1; i > -1; --i)
 		{
@@ -763,31 +759,16 @@ void PostScriptDriver::renderSimplePolygon(const magics::Polyline& line) const
 		const MFloat diffX = old_x-xx;
 		const MFloat diffY = old_y-yy;
 
-/*		if(zero(diffX) && (pp.x()==line[i+1].x()))
+		if( !(zero(diffX) && zero(diffY)) )
 		{
-		  int j = i+1;
-		  while(pp.x()==line[j].x())
-		  {
-		    j++;
-		  }
-		  i=j;
-		  *ps << "0 " << old_y-projectY(line[i].y()) << " ";
-		   old_y = projectY(line[i].y());
-		   if(pcounter%10==0) *ps << "\n";
-		   pcounter++;
-		}
-		else */
-if( !(zero(diffX) && zero(diffY)) )
-		{
-		   *ps <<  diffX << " " << diffY << " ";
-		   old_x = xx;
-		   old_y = yy;
-		   if(pcounter%10==0) *ps << "\n";
-		   pcounter++;
+			*ps <<  diffX << " " << diffY << " ";
+			old_x = xx;
+			old_y = yy;
+			if(pcounter%10==0) *ps << "\n";
+			pcounter++;
 		}
 	}
 	*ps << pcounter << " " << mx << " " << my << " F P\n";
-
 	*ps << "E gr\n";
 }
 
@@ -805,8 +786,6 @@ if( !(zero(diffX) && zero(diffY)) )
 MAGICS_NO_EXPORT void PostScriptDriver::renderSimplePolygon(const int n, MFloat* x, MFloat* y) const
 {
 	if(n<3 || (currentColour_==Colour("NONE"))) return;
-
-//MagLog::dev()<< "PS_SIMPLE " << n<<" points   col: "<< currentColour_<< endl;
 
 	int nn = n;
 	if ( (x[nn-1] == x[0]) && (y[nn-1] == y[0]) ) nn--;
@@ -830,7 +809,6 @@ MAGICS_NO_EXPORT void PostScriptDriver::renderSimplePolygon(const int n, MFloat*
 	}
 
 	std::fstream *ps = getStream();
-
 
 	if (currentShading_==M_SH_DOT)
 	{
@@ -955,7 +933,6 @@ MAGICS_NO_EXPORT void PostScriptDriver::renderSimplePolygon(const int n, MFloat*
 
 	delete [] rx;
 	delete [] ry;
-//	currentShading_=M_SH_SOLID;
 }
 
 /*!
@@ -1052,46 +1029,46 @@ MAGICS_NO_EXPORT void PostScriptDriver::renderText(const Text& text) const
 
 		while(*p)
 		{
-		  if ( *p == '(')    {tmp << "\\(";}
-		  else if ( *p == ')')    {tmp << "\\)";}
-		  else if ( *p == '\\')   {tmp << "\\\\";}
-		  else if ( *p & 0x80)    {tmp << specialPS(spp.substr(counter,2));}   // temp fix for multibyte char (degree sign)
-		  else                    {tmp << *p;}
-		  p++;
-		  counter++;
+			if ( *p == '(')    {tmp << "\\(";}
+			else if ( *p == ')')    {tmp << "\\)";}
+			else if ( *p == '\\')   {tmp << "\\\\";}
+			else if ( *p & 0x80)    {tmp << specialPS(spp.substr(counter,2));}   // temp fix for multibyte char (degree sign)
+			else                    {tmp << *p;}
+			p++;
+			counter++;
 		}
 
-	  const string showCommand = (underlined) ? "ushow" : "show";
-	  unsigned int noTexts = text.size();
-	  for(unsigned int nT=0;nT<noTexts;nT++)  // for all string CO-ORDINATES
-	  {
-		 if(niceText == text.textBegin()) // if first text string
-		 {
-			const MFloat x0 = projectX(text[nT].x());
-			const MFloat y0 = projectY(text[nT].y()) + offset;
-			const MFloat angle = 360.-(text.getAngle()*57.29577951);
-
-			*ps <<"gs "<< x0 << " " << y0 << " t ";
-			if(angle != 0.) *ps <<angle<< " ro ";
-
-			if(counterSubStrings>1)
+		const string showCommand = (underlined) ? "ushow" : "show";
+		unsigned int noTexts = text.size();
+		for(unsigned int nT=0;nT<noTexts;nT++)  // for all string CO-ORDINATES
+		{
+			if(niceText == text.textBegin()) // if first text string
 			{
-				*ps <<"("<< all_text.str() << ") stringwidth pop HA mul VA Height mul moveto " << "("<<tmp.str()<< ") "<<showCommand<<"\n";
+				const MFloat x0 = projectX(text[nT].x());
+				const MFloat y0 = projectY(text[nT].y()) + offset;
+				const MFloat angle = 360.-(text.getAngle()*57.29577951);
+
+				*ps <<"gs "<< x0 << " " << y0 << " t ";
+				if(angle != 0.) *ps <<angle<< " ro ";
+
+				if(counterSubStrings>1)
+				{
+					*ps <<"("<< all_text.str() << ") stringwidth pop HA mul VA Height mul moveto " << "("<<tmp.str()<< ") "<<showCommand<<"\n";
+				}
+				else
+				{
+					*ps <<"("<<tmp.str()<< ") 0 0 "<<textCommand<<"\n";
+				}
 			}
-			else
+			else  // all other substrings
 			{
-				*ps <<"("<<tmp.str()<< ") 0 0 "<<textCommand<<"\n";
+				*ps << " 0 "<<offset<<" rmoveto\n";
+				*ps << "("<<tmp.str()<< ") "<<showCommand<<"\n";
 			}
-		 }
-		 else  // all other substrings
-		 {
-			*ps << " 0 "<<offset<<" rmoveto\n";
-			*ps << "("<<tmp.str()<< ") "<<showCommand<<"\n";
-		 }
-		 count++;
-		 if (niceText+1 == text.textEnd()) *ps <<"gr\n";
-	  }
-	  niceText++;
+			count++;
+			if (niceText+1 == text.textEnd()) *ps <<"gr\n";
+		}
+		niceText++;
 	} // endfor all nicetexts
 	ps->precision(ss);
 	currentColour_ = Colour("none");
@@ -1253,7 +1230,6 @@ MAGICS_NO_EXPORT bool PostScriptDriver::renderCellArray(const Image& image) cons
 	ColourTable &lt  = image.getColourTable();
 	const int width  = image.getNumberOfColumns();
 	const int height = image.getNumberOfRows();
-//	const double tr  = image.getTransparency();
 	const MFloat x0  = image.getOrigin().x();
 	const MFloat y0  = image.getOrigin().y();
 	const double scX =  (image.getWidth() ) /width;
@@ -1264,127 +1240,27 @@ MAGICS_NO_EXPORT bool PostScriptDriver::renderCellArray(const Image& image) cons
 
 	for(unsigned int h=0;h<height; h++)
 	{
-	  for(unsigned int w=0;w<width; w++)
-	  {
-		  const short c  = image[w + (width*h)];
-		  const float cr = lt[c].red();
-		  const float cg = lt[c].green();
-		  const float cb = lt[c].blue();
-		  if(cr*cg*cb >=0){
-		    setNewColour(Colour(cr,cg,cb));
-		    writeColour();
-		    const MFloat xx0 = x0+(w*scX);
-		    const MFloat yy0 = y0+(h*scY);
-
-		    MFloat x[4] = {xx0, xx0+scX, xx0+scX, xx0};
-		    MFloat y[4] = {yy0, yy0    , yy0+scY, yy0+scY};
-		    renderSimplePolygon(4, &x[0], &y[0]);
-		  }
-	  }
-	}
-	*ps << "gr" << std::endl;
-
-/*
-   ColourTable &lt  = image.getColourTable();
-   const int width  = image.getNumberOfColumns();
-   const int height = image.getNumberOfRows();
-
-//MagLog::dev()<<" PostScriptDriver::renderCellArray "<< width << endl;
-
-   if(width > 0 && height > 0)
-   {
-	const int col_model = getDeviceColourModel();
-
-	const MFloat x0 = projectX(image.getOrigin().x());
-	const MFloat y0 = projectY(image.getOrigin().y()-image.getHeight());
-	const MFloat x1 = projectX(image.getOrigin().x()+image.getWidth());
-	const MFloat y1 = projectY(image.getOrigin().y());
-	const MFloat dx = x1 - x0 + 1;
-	const MFloat dy = y1 - y0 + 1;
-//	bool mask = false;
-
-	fstream *ps = getStream();
-	*ps << "gs /pic " << width*(( col_model == 1 ) ? 4 : 3) << " string def " << x0 << " " << y0
-	    << " t " << dx << " " << dy << " s " << width
-	    << " " << height << " 8\n"
-	    << "[" << width << " 0 0 " << height << " 0 0] "
-	    << "{currentfile pic readhexstring pop}"
-	    << " false " << (( col_model == 1 ) ? 4 : 3) <<" colorimage\n";
-
-	char *t = new char[9];
-	int nl = 0;
-	for (int i=height-1;i>=0;i--)
-	{
-		for (int j=0;j<width;j++)
+		for(unsigned int w=0;w<width; w++)
 		{
-			short kr,kg,kb,kc,km,ky,kk;
-			MFloat cc,cm,cy,ck;
-			const int in = width*i+j;
-			const short c = image[in];
+			const short c  = image[w + (width*h)];
+			const float cr = lt[c].red();
+			const float cg = lt[c].green();
+			const float cb = lt[c].blue();
+			if(cr*cg*cb >=0){
+				setNewColour(Colour(cr,cg,cb));
+				writeColour();
+				const MFloat xx0 = x0+(w*scX);
+				const MFloat yy0 = y0+(h*scY);
 
-			MFloat r = lt[c].red();
-			MFloat g = lt[c].green();
-			MFloat b = lt[c].blue();
-
-			if( (r*g*b>1) || (r*g*b<0) )
-			{
-				r = 1.;
-				g = 1.;
-				b = 1.;
-//				MagLog::info()<< "PostScriptDriver-> Cellshading colour not defined in table! Colour index: "<<c<< std::endl;
-//    PostScript will always 'overpaint' anything below missing data!!!!
-//
+				MFloat x[4] = {xx0, xx0+scX, xx0+scX, xx0};
+				MFloat y[4] = {yy0, yy0    , yy0+scY, yy0+scY};
+				renderSimplePolygon(4, &x[0], &y[0]);
 			}
-
-			switch ( col_model )
-			{
-			 case 0:
-				 kr = short(r*255.);
-				 kg = short(g*255.);
-				 kb = short(b*255.);
-				 sprintf(t,"%02hx%02hx%02hx",kr,kg,kb);
-				 break;
-			 case 1:
-				 cc = 1.0 - r; cm = 1.0 - g; cy = 1. - b;
-				 ck = ( cc < cm ) ?  cc : cm;
-				 if ( cy < ck ) ck = cy;
-				 if( ck == 1. )
-				  { kc = 0; km = 0; ky = 0; kk = 255;}
-				 else
-				 {
-					 kc = short(((cc - ck) / (1.-ck)) * 255.);
-					 km = short(((cm - ck) / (1.-ck)) * 255.);
-					 ky = short(((cy - ck) / (1.-ck)) * 255.);
-					 kk = short(ck* 255.);
-				 }
-				 sprintf(t,"%02hx%02hx%02hx%02hx",kc,km,ky,kk);
-				 break;
-			 case 2:
-				 if ( (r ==1.) && (g == 1.) && ( b ==1. ))
-				  { kr = 255; kg = 255; kb = 255;}
-				 else
-				  { kr = 0; kg = 0; kb = 0;}
-				 sprintf(t,"%02hx%02hx%02hx",kr,kg,kb);
-				 break;
-			 case 3:
-				 ck = 0.3*r + 0.59*g + 0.11*b;
-				 kr = short(ck*255.);
-				 sprintf(t,"%02hx%02hx%02hx",kr,kr,kr);
-				 break;
-			}
-			*ps << t;
-			if ( (++nl)%12 == 0) *ps << "\n";
 		}
 	}
 	*ps << "gr" << std::endl;
-	delete [] t;
-   }
-   else
-   {
-	MagLog::warning() << "PostScriptDriver: failed to plot CellArray with wrong dimensions! Width: "<<width<<" Height: "<<height << std::endl;
-   }
-*/
-   return true;
+
+	return true;
 }
 
 
@@ -1460,9 +1336,6 @@ MAGICS_NO_EXPORT void PostScriptDriver::renderSymbols(const Symbol& symbol) cons
 
 
 
-
-
-
 /*!
 	\note The file header can only be written after the Fonts have been read
 
@@ -1475,18 +1348,6 @@ MAGICS_NO_EXPORT void PostScriptDriver::openFile() const
 	{
 		if(!isEPS()) fileName_ = getFileName("ps" ,currentPage_+1);
 		else         fileName_ = getFileName("eps",currentPage_+1);
-
-		//
-		// CODE for Cihan because of MetPy expected 'ps' as output file name
-		//
-		//  if you read this after 01/01/2013 -> PLEASE REMOVE
-		//
-/*		if(magCompare(fileName_,"ps.ps"))
-		{
-		  const string s = getEnvVariable("MAGPLUS_PS_SPECIAL_NAME");
-		  if (!s.empty()) fileName_ = s;
-		}
-*/
 	}
 	if(isPDF())
 	{
@@ -1506,7 +1367,6 @@ MAGICS_NO_EXPORT void PostScriptDriver::openFile() const
 	pFile_.setf(ios_base::fixed);
 	pFile_.unsetf(ios::showpoint);
 	pFile_.precision(2);
-//	pFile_<< setprecision(2);
 	writePSFileHeader();
 }
 
@@ -1620,7 +1480,6 @@ MAGICS_NO_EXPORT void PostScriptDriver::writePSFileHeader() const
 		    << "/setpagedevice {pop} def\n";
 	}
 
-	//copyMacro(ps,"PostScriptMacro1.ps");
 	*ps << "/S { gr showpage } def /m {moveto} def /st {stroke} def /rl {rlineto} def /ro {rotate} def /cp {closepath} def /d { {rmoveto rlineto} repeat stroke} bind def /gr {grestore} def /gs {gsave} def /n { newpath } def\n"
 	    << "/sa {save} def /lw {setlinewidth } def /ar {arc fill} def /arn {arcn fill} def /l { lineto } bind def /c { curveto } bind def\n"
 	    << "/sd {setdash} def /C { setrgbcolor } def /Y { setcmykcolor } def  /B { moveto rlineto stroke } bind def /BB { moveto lineto stroke } bind def /t { translate } def /s {scale} def /K { /UY exch def /UX exch def /LY exch def \n"
@@ -1673,7 +1532,6 @@ MAGICS_NO_EXPORT void PostScriptDriver::writePSFileHeader() const
 	for(mapit = FontMap_.begin();mapit != FontMap_.end(); mapit++)
 		*ps << "Font " << (*mapit).second.id << " eq { /"<< (*mapit).second.ps_name<< " } if\n";
 
-	//copyMacro(ps,"PostScriptMacro2.ps");
 	*ps << "ReEncodeSmall /Magicsfontname findfont Height scalefont setfont\n"
 	    << "} def\n"
 	    << "/SUP\n"
@@ -1733,26 +1591,6 @@ MAGICS_NO_EXPORT void PostScriptDriver::writePSFileHeader() const
 	    << "} def\n"
 	    << "%%EndProlog" << endl;
 }
-
-/*!
-   \brief Method copying macro code in the PostScript file header.
-*/
-/*
-MAGICS_NO_EXPORT void PostScriptDriver::copyMacro(fstream *ps, const string &file) const
-{
-	const string s = getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_ + file;
-	ifstream psfile(s.c_str());
-
-	if(!psfile){
-		MagLog::error() << "PostScriptDriver::copyMacro() --> Cannot open PostScript Macro file! " << s <<
-		 " Is MAGPLUS_HOME set correctly?\n";
-		return;
-	}
-	char ch;
-	while (psfile.get(ch)){ps->put(ch);}
-	psfile.close();
-}
-*/
 
 MAGICS_NO_EXPORT void PostScriptDriver::writePSFileEnd() const
 {
