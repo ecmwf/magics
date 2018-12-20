@@ -151,7 +151,7 @@ void ShapeDecoder::decode(const Transformation& transformation, const string& fi
 		double  minx, miny, maxx, maxy;
 		transformation.smallestBoundingBox(minx, miny, maxx, maxy);
 
-		Polyline& box = transformation.getUserBoundingBox();
+		magics::Polyline& box = transformation.getUserBoundingBox();
 
 		int     nWidth, nDecimals;
 		int     nShapeType, nEntities, i, iPart;
@@ -282,12 +282,12 @@ void ShapeDecoder::decode(const Transformation& transformation, const string& fi
 /*! \brief Decoder to read land and lakes
  \sa CoastPlotting::decode(const Layout& parent )
 */
-void ShapeDecoder::decode(vector<Polyline*>& data, const Transformation& transformation)
+void ShapeDecoder::decode(vector<magics::Polyline*>& data, const Transformation& transformation)
 {
 	Timer timer("Read Shape file ", "read shape file" + path_);
 
-		Polyline& geobox = transformation.getUserBoundingBox();
-		Polyline& box = transformation.getPCBoundingBox();
+	magics::Polyline& geobox = transformation.getUserBoundingBox();
+	magics::Polyline& box = transformation.getPCBoundingBox();
 		try {
 			SHPHandle  hSHP;
 			int	nShapeType, nEntities, i, iPart;
@@ -341,20 +341,20 @@ void ShapeDecoder::decode(vector<Polyline*>& data, const Transformation& transfo
 
 				if ( !in && !right && !left ) continue;
 
-				Polyline* poly = 0;
-                Polyline* polyleft = 0;
-                Polyline* polyright = 0;
+				magics::Polyline* poly = 0;
+				magics::Polyline* polyleft = 0;
+				magics::Polyline* polyright = 0;
 
                 if ( in) {
-                    poly  = new Polyline();
+                    poly  = new magics::Polyline();
                     data.push_back(poly);
                 }
 				if ( left ) {
-                    polyleft  = new Polyline();
+                    polyleft  = new magics::Polyline();
                     data.push_back(polyleft);
                 }
                 if ( right ) {
-                    polyright  = new Polyline();
+                    polyright  = new magics::Polyline();
                     data.push_back(polyright);
                 }
 
