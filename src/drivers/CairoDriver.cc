@@ -902,7 +902,7 @@ MAGICS_NO_EXPORT void CairoDriver::renderPolyline2(const int n, MFloat* x, MFloa
   \sa setLineParameters()
   \param line polyline to be filled
 */
-MAGICS_NO_EXPORT void CairoDriver::renderSimplePolygon(const Polyline& line) const
+MAGICS_NO_EXPORT void CairoDriver::renderSimplePolygon(const magics::Polyline& line) const
 {
 	setNewColour(line.getFillColour());
 	const unsigned int n = line.size();
@@ -929,8 +929,8 @@ MAGICS_NO_EXPORT void CairoDriver::renderSimplePolygon(const Polyline& line) con
 
 	cairo_set_fill_rule (cr_, CAIRO_FILL_RULE_EVEN_ODD);
 
-	Polyline::Holes::const_iterator h = line.beginHoles();
-	Polyline::Holes::const_iterator he = line.endHoles();
+	magics::Polyline::Holes::const_iterator h = line.beginHoles();
+	magics::Polyline::Holes::const_iterator he = line.endHoles();
 
 	for (; h != he; ++h)
 	{
