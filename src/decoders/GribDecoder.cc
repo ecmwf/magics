@@ -22,7 +22,12 @@
 #include "GribDecoder.h"
 #include "Factory.h"
 #include <limits>
+
+#include "magics_windef.h"
+#ifndef MAGICS_ON_WINDOWS
 #include <unistd.h>
+#endif
+
 #include "TitleTemplate.h"
 #include "LocalTable.h"
 #include "DateTime.h"
