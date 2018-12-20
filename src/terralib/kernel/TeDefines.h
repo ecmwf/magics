@@ -202,25 +202,7 @@ const std::string TeDBVERSION = "3.2.0.1";
   #define TeISNAN( x ) isnan( x )
 #endif
 
-/** @defgroup TerraLib_AS_DLL macros.
-  @{
- */
-#if defined( WIN32 ) || defined( __WIN32__ ) || defined ( _WIN32 ) || defined( WIN64 ) || defined( _WIN32_WCE )
-
-#if defined(_MSC_VER) /* MSVC Compiler */
-#pragma warning(disable: 4251)
-#endif
-
-#ifdef TL_AS_DLL
-#define TL_DLL __declspec(dllexport)
-#else
-#define TL_DLL __declspec(dllimport)
-#endif
-
-#else
 #define TL_DLL
-#endif
-/** @} */ 
 
 #endif
 
