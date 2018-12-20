@@ -12,9 +12,7 @@
 
 #include <pthread.h>
 
-bool operator<(const pthread_t &left, const pthread_t &right) {
-    return (left.p < right.p);
-}
+bool operator<(const pthread_t &left, const pthread_t &right);
 
 #include <errno.h>
 
