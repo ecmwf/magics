@@ -118,10 +118,8 @@ struct NetAttribute
     void get(char*& val) { 
           size_t len;
           nc_inq_attlen (netcdf_, id_, name_.c_str(),&len);
-          char* tmp  = new char[len];
           //val = new char[len];
           nc_get_att_text(netcdf_, id_, name_.c_str(), (char*)val);
-         
     }
 
 };
