@@ -71,9 +71,6 @@ void niceprint(ostream& out, const string& val)
 	out << "\"" << val << "\"";
 }
 
-
-
-template <>
 void niceprint(ostream& out, const AxisAutomaticSetting& val )
 //{m_off, m_both, m_min_only, m_max_only};)
 {
@@ -91,7 +88,6 @@ void niceprint(ostream& out, const AxisAutomaticSetting& val )
 	}
 	niceprint(out, cval);
 }
-template <>
 void niceprint(ostream& out, const Colour& val )
 //{m_off, m_both, m_min_only, m_max_only};)
 {
