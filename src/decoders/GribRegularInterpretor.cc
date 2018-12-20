@@ -750,7 +750,7 @@ void GribRegularInterpretor::latitudes(const GribDecoder& grib,
 void GribRegularGaussianInterpretor::latitudes(const GribDecoder& grib,
         vector<double>& latitudes) const {
     long res = grib.getLong("numberOfParallelsBetweenAPoleAndTheEquator");
-    double array[2 * res];
+    double *array = new double[2 * res];
     grib_get_gaussian_latitudes(res, array);
     double first = grib.getDouble("latitudeOfFirstGridPointInDegrees");
     double last = grib.getDouble("latitudeOfLastGridPointInDegrees");
@@ -777,6 +777,7 @@ void GribRegularGaussianInterpretor::latitudes(const GribDecoder& grib,
         if (array[i] < north && array[i] > south)
             latitudes.push_back(array[i]);
     }
+    delete[] array;
 
     if (scanning == 1)
         std::reverse(latitudes.begin(), latitudes.end());
@@ -953,7 +954,8 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
     MagLog::dev() << "PLPresent---> " << plp << "\n";
     MagLog::dev() << "Res---> " << res << "\n";
 
-    double pl[2 * res];
+
+    double *pl = new double[2 * res];
     size_t aux = 2 * res;
     grib_get_double_array(grib.id(), "pl", pl, &aux);
     int nblon = 0;
@@ -1008,10 +1010,11 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
         if ( rows.back().size() > nblon) nblon = rows.back().size();
         ii +=  rows.back().size();
     }
+    delete[] pl;
 
 // Find the latitudes
     //map<double, map<double, int> > index;
-    double array[2 * res];
+    double *array = new double[2 * res];
     grib_get_gaussian_latitudes(res, array);
     for (int i = 0; i < 2*res; i++) {
     	if ( array[i] <= north && array[i] >= south) {
@@ -1019,6 +1022,7 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib,
     		(*matrix)->yIndex_.insert(make_pair(array[i], i));
     	}
     }
+    delete[] array;
     if ( matrix2 ) {
     	(*matrix)->xIndex_.reserve((*matrix)->rowsAxis().size());
 	}
@@ -1275,7 +1279,7 @@ void GribReducedLatLonInterpretor::interpretAsMatrix(const GribDecoder& grib,
             << ", " << south << "]" << "\n";
     MagLog::dev() << "Res---> " << res << "\n";
 
-    double pl[res];
+    double *pl = new double[res];
 
     long nblat = grib.getLong("numberOfPointsAlongAMeridian");
     int scanning = grib.getLong("jScansPositively") ? 1 : -1;
@@ -1430,6 +1434,7 @@ void GribReducedLatLonInterpretor::interpretAsMatrix(const GribDecoder& grib,
         }
     }
 
+    delete[] pl;
     delete[] data;
     delete[] data2;
 
