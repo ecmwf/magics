@@ -1291,7 +1291,7 @@ void IsoPlot::isoline(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
        CellBox view(array);
 
 
-       threads_ = (needIsolines())  ? 9: 0;
+       threads_ = (needIsolines())  ? 4: 0;
        
        if ( threads_ ) {
             if ( user_thread_ == 1 ) 
