@@ -71,8 +71,8 @@ void OutputHandler::set(const XmlNode& node, DriverManager& magics)
 
 OutputHandler::~OutputHandler()
 {
-	for ( vector<OutputFactory* >::const_iterator factory = factories_.begin(); factory != factories_.end(); ++factory)
-		(*factory)->reset(); 
+	for (const auto &factory : factories_)
+		factory->reset();
 }
 
 

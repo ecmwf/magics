@@ -90,9 +90,10 @@ void DateAxisMethod::prepare(const Axis& axis, AxisItems& items)
 	
 
 	AxisItems dates;
-	for ( AxisItems::const_iterator item = items.begin(); item != items.end(); ++item) {
-		if ( (**item).date() )
-			dates.push_back((*item)->clone());
+	for (const auto &item : items)
+	{
+		if ( item->date() )
+			dates.push_back(item->clone());
 	}
 	position_ = 0;
 	hours_label(dates, items);
@@ -100,11 +101,11 @@ void DateAxisMethod::prepare(const Axis& axis, AxisItems& items)
 	months_label(dates, items);
 	years_label(dates, items);
 
-	for ( AxisItems::const_iterator item = items.begin(); item != items.end(); ++item)
-		{
-		if ( (**item).date() )
-			MagLog::dev() << " found at " << (**item).position() << " --->" << (**item).label() << "\n";
-		}
+	for (const auto &item : items)
+	{
+		if ( item->date() )
+			MagLog::dev() << " found at " << item->position() << " --->" << item->label() << "\n";
+	}
 
 
 	
@@ -367,8 +368,9 @@ void DateAxisMethod::years_label(AxisItems& in, AxisItems& list)
 	if ( !years_ )
 		return;
 	string last;
-	for ( AxisItems::iterator item = in.begin(); item != in.end(); ++item) {
-		AxisItem* year = (*item)->clone();
+	for (auto &item : in)
+	{
+		AxisItem* year = item->clone();
 		year->format("%Y", -1);
 		if ( last == year->label() ) {
 			delete year;
@@ -455,8 +457,9 @@ void DateAxisMethod::months_label(AxisItems& in, AxisItems& list)
 	AxisItem* last = 0;
 	AxisItem* current = 0;
 
-	for ( AxisItems::iterator item = in.begin(); item != in.end(); ++item) {
-		AxisItem* month = (*item)->clone();
+	for (auto &item : in)
+	{
+		AxisItem* month = item->clone();
 		map <string, pair<string, int> >::iterator fmt = formats.find(lowerCase(month_composition_));
 		if ( fmt != formats.end() ) {
 			month->format(fmt->second.first, fmt->second.second);
@@ -465,7 +468,7 @@ void DateAxisMethod::months_label(AxisItems& in, AxisItems& list)
 			MagLog::warning() << "could not find type " << month_composition_ << "for formatting month lables" << endl;
 			month->format("%B", 3);
 		}
-		AxisItem* current = (*item)->clone();
+		AxisItem* current = item->clone();
 		current->format("%B", 3);
 		if ( last && last->label() == month->label() ) {
 			delete month;
@@ -565,10 +568,11 @@ void DateAxisMethod::days_label(AxisItems& in, AxisItems& list)
 
 
 	string last;
-	for ( AxisItems::iterator item = in.begin(); item != in.end(); ++item) {
-		if ( (*item)->date() == false )
+	for (auto &item : in)
+	{
+		if ( item->date() == false )
 			continue;
-		AxisItem* day = (*item)->clone();
+		AxisItem* day = item->clone();
 		if (day->sunday() )
 			day->colour(sunday_colour_->name());
 		else
@@ -648,8 +652,9 @@ void DateAxisMethod::hours_label(AxisItems& in, AxisItems& list)
 	if ( !hours_ )
 		return;
 	string last;
-	for ( AxisItems::iterator item = in.begin(); item != in.end(); ++item) {
-		AxisItem* hour = (*item)->clone();
+	for (auto &item : in)
+	{
+		AxisItem* hour = item->clone();
 		hour->format("%H h", -1);
 		if ( last == hour->label() ) {
 			delete hour;

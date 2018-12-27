@@ -79,11 +79,11 @@ void ObsPlotting::operator()(Data& data, BasicGraphicsObjectContainer& out)
 			const ObsTemplate& obs = ObsTable::getTemplate(type->second);
 
 
-		
-			for (CustomisedPointsList::const_iterator val = values.begin(); val != values.end(); ++val) 	{
+			for (const auto &val : values)
+			{
 
-				if ( type->second == (*val)->type() ) {
-					obs(*(*val), out);
+				if ( type->second == val->type() ) {
+					obs(*val, out);
 				}
 			}
 		}

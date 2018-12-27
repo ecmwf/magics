@@ -327,7 +327,7 @@ void Emagram::setDefinition(const string& json)
     MagJSon helper;
     helper.interpret(json);
 
-    XmlNode node = **helper.tree_.firstElement();
+    XmlNode node = **helper.tree_.begin();
 
     node.name("Emagram");
     set(node);

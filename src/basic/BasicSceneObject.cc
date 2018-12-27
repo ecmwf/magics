@@ -93,24 +93,24 @@ void  BasicSceneObject::resolve()
 {
 	// WE first do a copy of the list...
 	vector<BasicSceneObject*> items;
-	for ( vector<BasicSceneObject*>::iterator item = items_.begin(); item != items_.end(); ++item) 
-		items.push_back(*item);
-	for ( vector<BasicSceneObject*>::iterator item = items.begin(); item != items.end(); ++item)
-		(*item)->resolve();
+	for (auto &item : items_)
+		items.push_back(item.get());
+	for (auto &item : items)
+		item->resolve();
 }
 
 bool  BasicSceneObject::needLegend()
 {
-	for ( vector<BasicSceneObject*>::iterator item = items_.begin(); item != items_.end(); ++item)
-			if ( (*item)->needLegend() )
+	for (auto &item : items_)
+			if (item->needLegend())
 				return true;
 	return false;
 }
 
 void  BasicSceneObject::getReady(const LegendVisitor& legend)
 {
-	for ( vector<BasicSceneObject*>::iterator item = items_.begin(); item != items_.end(); ++item)
-			(*item)->getReady(legend);
+	for (auto &item : items_)
+			item->getReady(legend);
 }
 BasicSceneNode* BasicSceneNode::newNode(BasicPositionalObject* node)
 {
