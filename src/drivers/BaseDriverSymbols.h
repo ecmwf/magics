@@ -169,8 +169,8 @@ MAGICS_NO_EXPORT void BaseDriver::renderComplexSymbols(const ComplexSymbol& symb
 	}
 
 	vecPoints_.push_back(&symbol[0]);
-	for (vector<GraphicsItem*>::const_iterator item = symbol.itemBegin(); item != symbol.itemEnd(); ++item)
-		(*item)->redisplay(symbol, *this);
+	for (const auto &item : symbol.items())
+		item->redisplay(symbol, *this);
 }
 
 MAGICS_NO_EXPORT void BaseDriver::renderTextItem(const TextItem& textItem, const ComplexSymbol& owner) const

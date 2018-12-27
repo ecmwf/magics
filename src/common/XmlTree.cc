@@ -63,18 +63,19 @@ void XmlTree::endElement(const string& tag)
 {
 	if ( tag == "definition") {
 		// we build the map of id ...
-		XmlNode::ElementIterator def = definitions_.firstElement();
-		while ((*def)->name() != "definition" ) def++;
-		for (XmlNode::ElementIterator id = (*def)->firstElement(); id != (*def)->lastElement(); ++id ) {
-				string keyword = (*id)->getAttribute("id");
-				if ( keyword == "" ) 
-					MagLog::warning() << "No if defined in group definition : " << (*id)->name() << "\n";
-				else
-					ids_.insert(make_pair(keyword, (*id)));
-				
-				
-		} 
-		
+		for (auto &elt : definitions_.elements())
+			if (elt->name() == "definition")
+			{
+				for (auto &id : elt->elements())
+				{
+					string keyword = id->getAttribute("id");
+					if ( keyword == "" )
+						MagLog::warning() << "No if defined in group definition : " << id->name() << "\n";
+					else
+						ids_.insert(make_pair(keyword, id.get()));
+				}
+				break;
+			}
 	}
 }
 
@@ -88,17 +89,18 @@ XmlNode* XmlTree::newNode(const string& name, const map<string, string>& def) co
 	map<string, XmlNode*>::const_iterator id = ids_.find(use_id->second);
 	if ( id == ids_.end() && definitions_.noElement() == false) {
 		// We try to update the tree to see 
-		
-			XmlNode::ElementIterator elt = definitions_.firstElement();
-			
-			while ( (*elt)->name() != "definition" ) 
-				elt++;
-			for (XmlNode::ElementIterator i = (*elt)->firstElement(); i != (*elt)->lastElement(); ++i ) {
-				string keyword = (*i)->getAttribute("id");
-				if ( keyword == "" ) 
-					MagLog::warning() << "No id defined in group definition : " << (*i)->name() << "\n";
-				else
-					ids_.insert(make_pair(keyword, (*i)));			
+		for (auto &elt : definitions_.elements())
+			if (elt->name() == "definition")
+			{
+				for (auto &i : elt->elements())
+				{
+					string keyword = i->getAttribute("id");
+					if ( keyword == "" )
+						MagLog::warning() << "No id defined in group definition : " << i->name() << "\n";
+					else
+						ids_.insert(make_pair(keyword, i.get()));
+				}
+				break;
 			}
 
 		// we try again! 
@@ -114,15 +116,18 @@ XmlNode* XmlTree::newNode(const string& name, const map<string, string>& def) co
 void XmlTree::definition(XmlNode* definition)
 {
 	definitions_.push_back(definition);
-	XmlNode::ElementIterator elt = definitions_.firstElement();
-				
-	while ( (*elt)->name() != "definition" ) 
-		elt++;
-	for (XmlNode::ElementIterator i = (*elt)->firstElement(); i != (*elt)->lastElement(); ++i ) {
-		string keyword = (*i)->getAttribute("id");
-		if ( keyword == "" ) 
-			MagLog::warning() << "No if defined in group definition : " << (*i)->name() << "\n";
-		else
-			ids_.insert(make_pair(keyword, (*i)));		
-	}
+
+	for (auto &elt : definitions_.elements())
+		if (elt->name() == "definition")
+		{
+			for (auto &i : elt->elements())
+			{
+				string keyword = i->getAttribute("id");
+				if ( keyword == "" )
+					MagLog::warning() << "No if defined in group definition : " << i->name() << "\n";
+				else
+					ids_.insert(make_pair(keyword, i.get()));
+			}
+			break;
+		}
 }

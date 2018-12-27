@@ -33,8 +33,8 @@ public:
     XmlNode* getParent(const string&);
     void     endElement(const string&); 
     XmlNode* newNode(const string&, const map<string, string>& def) const;
-    XmlNode::ElementIterator firstElement() const { return root_.firstElement(); }
-    XmlNode::ElementIterator lastElement() const  { return root_.lastElement(); }
+    XmlNode::ElementIterator begin() const { return root_.elements().begin(); }
+    XmlNode::ElementIterator end() const  { return root_.elements().end(); }
     void visit(XmlNodeVisitor& visitor) const { root_.visit(visitor); } 
     XmlNode* root()                           { return &root_; } 
     void definition(XmlNode* definition);    

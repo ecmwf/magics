@@ -300,8 +300,9 @@ void ViewNode::visit(SceneLayer& tree)
 	tree.rules(rules_);
 	// Here we checking for the legend!
 	needLegend_ = false;
-	for ( vector<BasicSceneObject*>::iterator item = items_.begin(); item != items_.end(); ++item)  {
-			needLegend_ = (*item)->needLegend();
+	for (auto &item : items_)
+	{
+			needLegend_ = item->needLegend();
 			if ( needLegend_ ) break;
 	}
 	bool blank = (drawing_background_colour_ != "none");
@@ -318,16 +319,13 @@ void ViewNode::visit(SceneLayer& tree)
 		push_back(new EmptySceneObject() );
 	}
 	if ( needLegend_ ) {
-		for ( vector<BasicSceneObject*>::iterator item = items_.begin(); item != items_.end(); ++item)  {
-			(*item)->getReady(*legend_);
-		}
+		for (auto &item : items_)
+			item->getReady(*legend_);
 	}
 
 	
-	for ( vector<BasicSceneObject*>::iterator item = items_.begin(); item != items_.end(); ++item)  {
-
-		(*item)->visit(tree, components_);
-	}
+	for (auto &item : items_)
+		item->visit(tree, components_);
 	
 	//frameHelper_->frameIt();
 	
@@ -344,11 +342,9 @@ void ViewNode::visit(SceneLayer& tree)
 	}
 	if( mode() == basic || mode() == paper) // trial for batch release in Metview
 	{
-		// We do not need the data animore we clean!
-		for ( vector<BasicSceneObject*>::iterator item = items_.begin(); item != items_.end(); ++item)  {
-			(*item)->release();
-
-		}
+		// We do not need the data anymore we clean!
+		for (auto &item : items_)
+			item->release();
 	}
 }
 

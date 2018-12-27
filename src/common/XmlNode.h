@@ -23,8 +23,7 @@
 #define XmlNode_H
 
 #include "magics.h"
-#include "VectorOfPointers.h"
-
+#include "AutoVector.h"
 
 namespace magics {
 	
@@ -42,7 +41,7 @@ public:
 class XmlNode {
 
 public:
-    typedef vector<XmlNode*>::const_iterator ElementIterator;
+    typedef AutoVector<XmlNode>::const_iterator ElementIterator;
     typedef map<string, string>::const_iterator AttributesIterator;
     typedef vector<string>::const_iterator DataIterator;
     
@@ -58,9 +57,9 @@ public:
 	
 	
 	bool noElement() const { return elements_.empty(); }
+
+	AutoVectorIterable<XmlNode> elements() const {return AutoVectorIterable<XmlNode>(elements_);}
 	
-	ElementIterator firstElement()  const      { return elements_.begin(); }
-	ElementIterator lastElement() const        { return elements_.end(); }
 	AttributesIterator firstAttributes() const { return attributes_.begin(); }
 	AttributesIterator lastAttributes() const  { return attributes_.end(); }
 	DataIterator   firstData() const           { return data_.begin(); }
@@ -81,7 +80,7 @@ protected:
 	 virtual void print(ostream&) const; 
 	 string                  name_;
 	 vector<string>          data_;
-	 VectorOfPointers<vector<XmlNode*> > elements_;
+	 AutoVector<XmlNode> elements_;
 	 map<string, string>  attributes_;
 	 void copy(const XmlNode&); 
 private:

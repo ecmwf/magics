@@ -239,30 +239,29 @@ void LegendVisitor::build()
 	}
 	
 	
-
-	for(vector<LegendEntry*>::const_iterator entry = begin(); entry != end(); ++entry)
+	for (auto &entry : *this)
 	{
-		(*entry)->width(text_width_);
+		entry->width(text_width_);
 		Text* legend = new Text();
 		MagFont font(font_, font_style_, font_size_);
 		font.colour(*colour_);
-		(*entry)->font(font);
-		(*entry)->factor(symbol_factor_);
-		(*entry)->angle((orientation_/180.)*3.14);
-		(*entry)->borderColour(entry_border_ ? *entry_border_colour_ : Colour("automatic"));
+		entry->font(font);
+		entry->factor(symbol_factor_);
+		entry->angle((orientation_/180.)*3.14);
+		entry->borderColour(entry_border_ ? *entry_border_colour_ : Colour("automatic"));
 
-		(*entry)->set(*this);
+		entry->set(*this);
 		string text;
-		if ( (*entry)->needText() ) {
+		if ( entry->needText() ) {
 			std::map<string, Composition>::iterator composition = compositions_.find(lowerCase(composition_));
 			string user;
 			// if the entry has its own user text we use it in priority!
-			string utext = (*entry)->userText();
+			string utext = entry->userText();
 			if ( !utext.empty() )
 				user = utext;
 			else
 				user = ( label != lines_.end() ) ? *label: "";
-			string automatic = (*entry)->label() + (*entry)->units();
+			string automatic = entry->label() + entry->units();
 
 			if ( composition == compositions_.end() )
 			{
@@ -275,7 +274,7 @@ void LegendVisitor::build()
 						if (label == lines_.end()) --label;
 					}
 		}
-		(**entry).userText(text, composition_);
+		entry->userText(text, composition_);
 		legend->setFont(font);
 		legend->setText(text);
 		legend->setAngle((orientation_/180.)*3.14);
@@ -284,8 +283,8 @@ void LegendVisitor::build()
 		if (text=="ignore") continue;
 
 	    (magCompare(direction_, "column") ) ? 
-			(*method_).column(**entry, position->x(), position->y(), *legend, *legend_) :
-			(*method_).row(**entry, position->x(), position->y(), *legend, *legend_);
+			(*method_).column(*entry, position->x(), position->y(), *legend, *legend_) :
+			(*method_).row(*entry, position->x(), position->y(), *legend, *legend_);
 
 
 		++position;
@@ -325,8 +324,8 @@ void  LegendVisitor::horizontal()
 	// here we have a title, we need to adjust the coordinates used in the legend dependind on its position
 	if ( magCompare(entry_orientation_, "right_left") ) {
 		std::reverse(begin(), end());
-		for(vector<LegendEntry*>::const_iterator entry = begin(); entry != end(); ++entry)
-			std::swap((*entry)->from_, (*entry)->to_);
+		for (auto &entry : *this)
+			std::swap(entry->from_, entry->to_);
 		back()->last_ = true;
 		front()->last_ = false;
 		back()->first_ = false;
@@ -370,8 +369,8 @@ void  LegendVisitor::vertical()
 
 	if ( magCompare(entry_orientation_, "top_bottom") ) {
 		std::reverse(begin(), end());
-		for(vector<LegendEntry*>::const_iterator entry = begin(); entry != end(); ++entry)
-			std::swap((*entry)->from_, (*entry)->to_);
+		for (auto &entry : *this)
+			std::swap(entry->from_, entry->to_);
 		back()->last_ = true;
 		front()->last_ = false;
 		back()->first_ = false;
@@ -479,11 +478,11 @@ void LegendVisitor::grid()
 
     vector<string>::const_iterator label = lines_.begin();
     entriesNumber_ = 0;
-    for(vector<LegendEntry*>::const_iterator entry = begin(); entry != end(); ++entry)
+	for (auto &entry : *this)
     {
 
-    		(*entry)->set(*this);
-    		string text = ( label != lines_.end() && !label->empty() ) ? *label : (*entry)->label();
+    		entry->set(*this);
+    		string text = ( label != lines_.end() && !label->empty() ) ? *label : entry->label();
 
     		if ( ! lines_.empty() ) {
     			++label;

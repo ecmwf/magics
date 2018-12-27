@@ -53,9 +53,8 @@ void XmlNode::copy(const XmlNode& from)
 	}
 
 	// Now copy the element...
-	for (vector<XmlNode*>::const_iterator elt = from.elements_.begin(); elt != from.elements_.end(); ++elt) {
-		elements_.push_back(new XmlNode(**elt));	
-	}
+	for (const auto &elt : elements_)
+		elements_.push_back(new XmlNode(*elt));
 }
 
 XmlNode::XmlNode(const XmlNode& from, const map<string, string>& def) 
@@ -96,16 +95,14 @@ void XmlNode::print(ostream& out)  const
 	for (vector<string>::const_iterator data = data_.begin(); data != data_.end(); ++data) {
 		out << *data << "\n";
 	}
-	for (vector<XmlNode*>::const_iterator elt = elements_.begin(); elt != elements_.end(); ++elt) {
-		out << **elt;			
-	}
+	for (const auto &elt : elements_)
+		out << *elt;
 	out << tab << "</" << name_ << ">\n";
 	indent--;
 }
 
 void  XmlNode::visit(XmlNodeVisitor& visitor) const
 { 
-	for (vector<XmlNode*>::const_iterator elt = elements_.begin(); elt != elements_.end(); ++elt) {
-		visitor.visit(**elt);		
-	}
+	for (const auto &elt : elements_)
+		visitor.visit(*elt);
 }

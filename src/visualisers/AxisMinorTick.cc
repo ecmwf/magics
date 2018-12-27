@@ -53,14 +53,14 @@ void AxisMinorTick::vertical(const AxisItems& ticks, const Colour& colour, Verti
 	
 	const Transformation& projection = axis.transformation();
 	
-	for (AxisItems::const_iterator y = ticks.begin(); y != ticks.end(); ++y)
-    {    	    
+	for (const auto &y : ticks)
+   {
 	      
-	        if ( !(*y)->filter(*this) ) continue;
-	        if ( !projection.inY((*y)->position()) ) continue;
+	        if ( !y->filter(*this) ) continue;
+	        if ( !projection.inY(y->position()) ) continue;
 	        Polyline* tick = new Polyline();
-	        tick->push_back(PaperPoint(x1, (*y)->position()));
-	        tick->push_back(PaperPoint(x2, (*y)->position()));
+	        tick->push_back(PaperPoint(x1, y->position()));
+	        tick->push_back(PaperPoint(x2, y->position()));
 	        Colour calcol =  (colour_->automatic()) ? colour : *colour_;
 	        tick->setColour(calcol);
 	        tick->setThickness(thickness_);
@@ -74,16 +74,16 @@ void AxisMinorTick::horizontal(const AxisItems& ticks, const Colour& colour, Hor
 	double y1, y2;
 	axis.minortick(y1, y2);
 	const Transformation& projection = axis.transformation();
-	for (AxisItems::const_iterator x = ticks.begin(); x != ticks.end(); ++x)
+	for (const auto &x : ticks)
     {    	    
 	      
-	        if ( !(*x)->filter(*this) ) continue;
-	        if ( !projection.inX((*x)->position()) ) continue;
+	        if ( !x->filter(*this) ) continue;
+	        if ( !projection.inX(x->position()) ) continue;
 	        
 	        Polyline* tick = new Polyline();
 
-	        tick->push_back(PaperPoint((*x)->position(), y1));
-	        tick->push_back(PaperPoint((*x)->position(), y2));
+	        tick->push_back(PaperPoint(x->position(), y1));
+	        tick->push_back(PaperPoint(x->position(), y2));
 	        Colour calcol =  (colour_->automatic()) ? colour : *colour_;
 	        tick->setColour(calcol);
 	        tick->setThickness(thickness_);
