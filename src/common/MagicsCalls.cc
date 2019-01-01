@@ -536,8 +536,8 @@ static GraphValuesConverter graph_curve2_y_values("graph_curve2_y_values", "y2_v
 static GraphValuesConverter graph_curve2_date_x_values("graph_curve2_date_x_values", "x2_date_values");
 static GraphValuesConverter graph_curve2_date_y_values("graph_curve2_date_y_values", "y2_date_values");
 
-static  ValuesConverter symbol_input_text_list("symbol_input_text_list", "symbol_texts");
-static  ValuesConverter contour_hilo_text_blanking("contour_hilo_text_blanking", "contour_hilo_blanking");
+static ValuesConverter symbol_input_text_list("symbol_input_text_list", "symbol_texts");
+static ValuesConverter contour_hilo_text_blanking("contour_hilo_text_blanking", "contour_hilo_blanking");
 static GraphValuesConverter graph_bar_x_values("graph_bar_x_values", "x_values");
 static GraphValuesConverter graph_bar_y_values("graph_bar_y_values", "y_values");
 static GraphValuesConverter graph_bar_date_x_values("graph_bar_date_x_values", "x_date_values");
@@ -933,7 +933,7 @@ extern "C" {
 
 ****************************************************************************/
 
-void popen_()
+MAGICS_EXPORT void popen_()
 {
 
 	if (magics_ == 0)
@@ -941,67 +941,64 @@ void popen_()
 	magics_->popen();
 }
 
-void pcoast_()
+MAGICS_EXPORT void pcoast_()
 {
 	magics_->pcoast();
 }
 
-void ptaylor_()
+MAGICS_EXPORT void ptaylor_()
 {
 	magics_->ptaylor();
-
 }
-void ptephi_()
+
+MAGICS_EXPORT void ptephi_()
 {
 	magics_->ptephi();
-
 }
 
-void pgrib_()
+MAGICS_EXPORT void pgrib_()
 {
 	magics_->pgrib();
 }
 
-const char* metagrib_()
+MAGICS_EXPORT const char* metagrib_()
 {
 	return magics_->metagrib();
 }
 
-const char* version()
+MAGICS_EXPORT const char* version()
 {
 	static string version = getMagicsVersionString();
 	return version.c_str();
 }
 
-const char* home()
+MAGICS_EXPORT const char* home()
 {
 	static string home = getEnvVariable("MAGPLUS_HOME");
 	return home.c_str();
 }
 
-
-const char* metanetcdf_()
+MAGICS_EXPORT const char* metanetcdf_()
 {
 	return magics_->metanetcdf();
 }
 
-const char* metainput_()
+MAGICS_EXPORT const char* metainput_()
 {
 	return magics_->metainput();
 }
 
-void pmapgen_()
+MAGICS_EXPORT void pmapgen_()
 {
 	magics_->pmapgen();
 }
 
-void ptest_()
+MAGICS_EXPORT void ptest_()
 {
 	magics_->ptest();
 }
 
-
-void podb_()
+MAGICS_EXPORT void podb_()
 {
 #ifdef HAVE_ODB
 	magics_->podb();
@@ -1010,31 +1007,32 @@ void podb_()
 #endif
 }
 
-
-void pimport_()
+MAGICS_EXPORT void pimport_()
 {
 	magics_->pimport();
 }
-void poverlay_()
+
+MAGICS_EXPORT void poverlay_()
 {
 	magics_->poverlay();
 }
-void pnetcdf_()
+
+MAGICS_EXPORT void pnetcdf_()
 {
 	magics_->pnetcdf();
 }
 
-void pcont_()
+MAGICS_EXPORT void pcont_()
 {
 	magics_->pcont();
 }
 
-void pobs_()
+MAGICS_EXPORT void pobs_()
 {
 	magics_->pobs();
 }
 
-void praw_()
+MAGICS_EXPORT void praw_()
 {
 #ifdef MAGICS_NETPBM
 	MagLog::warning() << "praw->not implemented\n";
@@ -1043,44 +1041,43 @@ void praw_()
 #endif
 }
 
-void pimage_()
+MAGICS_EXPORT void pimage_()
 {
 	magics_->pimage();
 }
 
-void pplot_()
+MAGICS_EXPORT void pplot_()
 {
 	MagLog::warning() << "pplot has no effect ... use pimport instead" << endl;
 }
 
-void pnew_(const char* name, int length)
+MAGICS_EXPORT void pnew_(const char* name, int length)
 {
 	std::string n(name, length);
 	mag_new(n.c_str());
 }
 
-void ptext_()
+MAGICS_EXPORT void ptext_()
 {
     magics_->ptext();
 }
 
-void pwind_()
+MAGICS_EXPORT void pwind_()
 {
      magics_->pwind();
 }
 
-
-void pline_()
+MAGICS_EXPORT void pline_()
 {
 	magics_->pline();
 }
 
-void psymb_()
+MAGICS_EXPORT void psymb_()
 {
 	magics_->psymb();
 }
 
-int  pclose_()
+MAGICS_EXPORT int pclose_()
 {
 	int code = magics_->pclose();
 
@@ -1089,24 +1086,24 @@ int  pclose_()
 	return code;
 }
 
-void pact_(const char*, const char*, const char*, int, int, int)
+MAGICS_EXPORT void pact_(const char*, const char*, const char*, int, int, int)
 {
 	MagLog::dev() << "PACT will NOT be implemented!\n";
 }
 
-void presets_() {
-
+MAGICS_EXPORT void presets_()
+{
 	ParameterManager::reset();
 }
 
-void preset_(const char* name, int length)
+MAGICS_EXPORT void preset_(const char* name, int length)
 {
 	std::string n(name, length);
 	CompatibilityHelper::reset(n);
 	mag_reset(n.c_str());
 }
 
-void psetc_(const char* name, const char* value, int namel, int valuel)
+MAGICS_EXPORT void psetc_(const char* name, const char* value, int namel, int valuel)
 {
 	try {
 		string val = string(value, valuel);
@@ -1121,7 +1118,7 @@ void psetc_(const char* name, const char* value, int namel, int valuel)
 	}
 }
 
-void pseti_(const char* name, const int* value, int namel)
+MAGICS_EXPORT void pseti_(const char* name, const int* value, int namel)
 {
 	try {
 		if ( CompatibilityHelper::check(string(name, namel), int(*value)) ) return;
@@ -1135,7 +1132,7 @@ void pseti_(const char* name, const int* value, int namel)
 	}
 }
 
-void pset1i_(const char* name, const int* data, const int* dim, int length)
+MAGICS_EXPORT void pset1i_(const char* name, const int* data, const int* dim, int length)
 {
 	std::string n(name, length);
 	try {
@@ -1151,10 +1148,9 @@ void pset1i_(const char* name, const int* data, const int* dim, int length)
 		mag_set1r(name, fvalue, *dim);
 		delete[] fvalue;
 	}
-
 }
 
-void pset2i_(const char* name, const int* data, const int* dim1, const int* dim2, int length)
+MAGICS_EXPORT void pset2i_(const char* name, const int* data, const int* dim1, const int* dim2, int length)
 {
 	std::string n(name, length);
 	try {
@@ -1174,13 +1170,13 @@ void pset2i_(const char* name, const int* data, const int* dim1, const int* dim2
 
 }
 
-void pset3i_(const char* name, const int* data, const int* dim, const int* dim2, const int* dim3, int length)
+MAGICS_EXPORT void pset3i_(const char* name, const int* data, const int* dim, const int* dim2, const int* dim3, int length)
 {
 	std::string n(name, length);
 	mag_set3i(n.c_str(), data, *dim, *dim2, *dim3);
 }
 
-void pset1c_(const char* name, const char* value, const int *dim, int namel, int l)
+MAGICS_EXPORT void pset1c_(const char* name, const char* value, const int *dim, int namel, int l)
 {
     stringarray values;
     string work(value, (*dim)*l);
@@ -1209,131 +1205,129 @@ void pset1c_(const char* name, const char* value, const int *dim, int namel, int
     }
 }
 
-
-void penqi_(const char* name, int* value, int length)
+MAGICS_EXPORT void penqi_(const char* name, int* value, int length)
 {
 	std::string n(name, length);
 	mag_enqi(n.c_str(), value);
 }
 
-
-void penqc_(const char* name, char* value, int length, int vlength)
+MAGICS_EXPORT void penqc_(const char* name, char* value, int length, int vlength)
 {
-
 	std::string n(name, length);
-
 	mag_enqc( n.c_str(), value);
-
-
 
 	for (int i = strlen(value); i < vlength; i++)
 		value[i]=' ';
-
 }
 
-void ppie_()
+MAGICS_EXPORT void ppie_()
 {
 	MagLog::warning() << "ppie-> is deprecated and will NOT be implemented.\n";
 }
 
-
-void pgraph_()
+MAGICS_EXPORT void pgraph_()
 {
 	magics_->pgraph();
 }
 
-void paxis_()
+MAGICS_EXPORT void paxis_()
 {
 	 magics_->paxis();
 }
 
-void pgeo_()
+MAGICS_EXPORT void pgeo_()
 {
 	magics_->pgeo();
 }
-void pinput_()
+
+MAGICS_EXPORT void pinput_()
 {
 	magics_->pinput();
 }
-void ptable_()
+
+MAGICS_EXPORT void ptable_()
 {
 	magics_->ptable();
 }
 
-
-
-void peps_()
+MAGICS_EXPORT void peps_()
 {
 	MagLog::warning() << "peps-->not yet implemented\n";
 }
 
-
-void pboxplot_()
+MAGICS_EXPORT void pboxplot_()
 {
 	magics_->pboxplot();
 }
-void pwrepjson_()
+
+MAGICS_EXPORT void pwrepjson_()
 {
 	magics_->wrepjson();
 }
-void pgeojson_()
+
+MAGICS_EXPORT void pgeojson_()
 {
 	magics_->geojson();
 }
-void pepsinput_()
+
+MAGICS_EXPORT void pepsinput_()
 {
 	magics_->epsinput();
 }
-void pmetgraph_()
+
+MAGICS_EXPORT void pmetgraph_()
 {
 	magics_->metgraph();
 }
-void pmetbufr_()
+
+MAGICS_EXPORT void pmetbufr_()
 {
 	magics_->metbufr();
 }
 
-void pepscloud_()
+MAGICS_EXPORT void pepscloud_()
 {
 	magics_->epscloud();
 }
-void pepsplumes_()
+
+MAGICS_EXPORT void pepsplumes_()
 {
 	magics_->epsplumes();
 }
 
-void pepsgraph_() {
+MAGICS_EXPORT void pepsgraph_() {
 	magics_->epsgraph();
 }
-void pepslight_() {
+
+MAGICS_EXPORT void pepslight_() {
 	magics_->epslight();
 }
 
-void pepswave_() {
+MAGICS_EXPORT void pepswave_() {
 	magics_->epswave();
 }
 
-void pepswind_()
+MAGICS_EXPORT void pepswind_()
 {
 	magics_->epswind();
 }
 
-void pepsbar_()
+MAGICS_EXPORT void pepsbar_()
 {
 	magics_->epsbar();
 }
 
-void pepsshading_()
+MAGICS_EXPORT void pepsshading_()
 {
 	magics_->epsshading();
 }
 
-void pprint_()
+MAGICS_EXPORT void pprint_()
 {
 	MagLog::warning() << "pprint-->not yet implemented\n";
 }
 
-void pinfo_(){mag_info();}
+MAGICS_EXPORT void pinfo_(){mag_info();}
 
 
 /* **************************************************************************
@@ -1344,98 +1338,95 @@ void pinfo_(){mag_info();}
 
 ****************************************************************************/
 
-#define PYTHON(python, magics) const char* python() { try { magics(); } catch (exception e) { return e.what(); } return NULL;}
-#define PYTHONS(python, magics) const char* python() { try { return magics(); } catch (exception e) { return e.what(); } return NULL;}
-void mag_open()  {popen_();}
+#define PYTHON(python, magics) MAGICS_EXPORT const char* python() { try { magics(); } catch (exception e) { return e.what(); } return NULL;}
+#define PYTHONS(python, magics) MAGICS_EXPORT const char* python() { try { return magics(); } catch (exception e) { return e.what(); } return NULL;}
+MAGICS_EXPORT void mag_open()  {popen_();}
 PYTHON(py_open, popen_)
-int mag_close() { return pclose_();}
+MAGICS_EXPORT int mag_close() { return pclose_();}
 PYTHON(py_close, pclose_)
-void mag_coast() {pcoast_();}
+MAGICS_EXPORT void mag_coast() {pcoast_();}
 PYTHON(py_coast, pcoast_)
-void mag_grib()  {pgrib_();}
+MAGICS_EXPORT void mag_grib()  {pgrib_();}
 PYTHON(py_grib, pgrib_)
 PYTHONS(py_metagrib, metagrib_)
-void mag_mapgen()  {pmapgen_();}
+MAGICS_EXPORT void mag_mapgen()  {pmapgen_();}
 PYTHON(py_mapgen, pmapgen_)
-void mag_line()  {pline_();}
+MAGICS_EXPORT void mag_line()  {pline_();}
 PYTHON(py_line, pline_)
-void mag_legend()  {magics_->simplelegend();}
+MAGICS_EXPORT void mag_legend()  {magics_->simplelegend();}
 PYTHON(py_legend, magics_->simplelegend)
-void mag_test()  {ptest_();}
-void mag_odb()   {podb_();}
+MAGICS_EXPORT void mag_test()  {ptest_();}
+MAGICS_EXPORT void mag_odb()   {podb_();}
 PYTHON(py_odb, podb_)
-void mag_import(){pimport_();}
+MAGICS_EXPORT void mag_import(){pimport_();}
 PYTHON(py_import, pimport_)
-void mag_overlay(){poverlay_();}
+MAGICS_EXPORT void mag_overlay(){poverlay_();}
 PYTHON(py_overlay, poverlay_)
-void mag_netcdf(){pnetcdf_();}
+MAGICS_EXPORT void mag_netcdf(){pnetcdf_();}
 PYTHON(py_netcdf, pnetcdf_)
 PYTHONS(py_metanetcdf, metanetcdf_)
 PYTHONS(py_metainput, metainput_)
-void mag_cont()  {pcont_();}
+MAGICS_EXPORT void mag_cont()  {pcont_();}
 PYTHON(py_cont, pcont_)
-void mag_input()  {pinput_();}
+MAGICS_EXPORT void mag_input()  {pinput_();}
 PYTHON(py_input, pinput_)
-void mag_table()  {ptable_();}
+MAGICS_EXPORT void mag_table()  {ptable_();}
 PYTHON(py_table, ptable_)
-void mag_obs()   {pobs_();}
+MAGICS_EXPORT void mag_obs()   {pobs_();}
 PYTHON(py_obs, pobs_)
-void mag_raw()   {praw_();}
+MAGICS_EXPORT void mag_raw()   {praw_();}
 PYTHON(py_raw, praw_)
-void mag_image() {pimage_();}
+MAGICS_EXPORT void mag_image() {pimage_();}
 PYTHON(py_image, pimage_)
-void mag_plot()  {pplot_();}
+MAGICS_EXPORT void mag_plot()  {pplot_();}
 PYTHON(py_plot, pplot_)
-void mag_text()	 {ptext_();}
+MAGICS_EXPORT void mag_text()	 {ptext_();}
 PYTHON(py_text, ptext_)
-void mag_wind()  {pwind_();}
+MAGICS_EXPORT void mag_wind()  {pwind_();}
 PYTHON(py_wind, pwind_)
-void mag_symb()  {psymb_();}
+MAGICS_EXPORT void mag_symb()  {psymb_();}
 PYTHON(py_symb, psymb_)
-void mag_boxplot()  {pboxplot_();}
+MAGICS_EXPORT void mag_boxplot()  {pboxplot_();}
 PYTHON(py_boxplot, pboxplot_)
-void mag_taylor()  {ptaylor_();}
+MAGICS_EXPORT void mag_taylor()  {ptaylor_();}
 PYTHON(py_taylor, ptaylor_)
-void mag_tephi()  {ptephi_();}
+MAGICS_EXPORT void mag_tephi()  {ptephi_();}
 PYTHON(py_tephi, ptephi_)
-void mag_geojson()  { pgeojson_(); }
+MAGICS_EXPORT void mag_geojson()  { pgeojson_(); }
 PYTHON(py_geojson, pgeojson_)
-void mag_wrepjson()  { pwrepjson_(); }
+MAGICS_EXPORT void mag_wrepjson()  { pwrepjson_(); }
 PYTHON(py_wrepjson, pwrepjson_)
-void mag_epsinput()  { pepsinput_(); }
+MAGICS_EXPORT void mag_epsinput()  { pepsinput_(); }
 PYTHON(py_epsinput, pepsinput_)
-void mag_epscloud()  { pepscloud_(); }
+MAGICS_EXPORT void mag_epscloud()  { pepscloud_(); }
 PYTHON(py_epscloud, pepscloud_)
-void mag_metgraph()  { pmetgraph_(); }
+MAGICS_EXPORT void mag_metgraph()  { pmetgraph_(); }
 PYTHON(py_metgraph, pmetgraph_)
-void mag_metbufr()  { pmetbufr_(); }
+MAGICS_EXPORT void mag_metbufr()  { pmetbufr_(); }
 PYTHON(py_metbufr, pmetbufr_)
 
-void mag_epsgraph()  	   { pepsgraph_(); }
+MAGICS_EXPORT void mag_epsgraph()  	   { pepsgraph_(); }
 PYTHON(py_epsgraph, pepsgraph_)
 
-void mag_epswave()       { pepswave_(); }
+MAGICS_EXPORT void mag_epswave()       { pepswave_(); }
 PYTHON(py_epswave, pepswave_)
 
-void mag_epswind()       { pepswind_(); }
+MAGICS_EXPORT void mag_epswind()       { pepswind_(); }
 PYTHON(py_epswind, pepswind_)
 
-void mag_epsbar()        { pepsbar_(); }
+MAGICS_EXPORT void mag_epsbar()        { pepsbar_(); }
 PYTHON(py_epsbar, pepsbar_)
 
-void mag_epsshading()    { pepsshading_(); }
+MAGICS_EXPORT void mag_epsshading()    { pepsshading_(); }
 PYTHON(py_epsshading, pepsshading_)
 
-void mag_epsplumes()    { pepsplumes_(); }
+MAGICS_EXPORT void mag_epsplumes()    { pepsplumes_(); }
 PYTHON(py_epsplumes, pepsplumes_)
 
-void mag_epslight()    { pepslight_(); }
+MAGICS_EXPORT void mag_epslight()    { pepslight_(); }
 PYTHON(py_epslight, pepslight_)
 
-
-
-
-const char* py_new(const char* page)
+MAGICS_EXPORT const char* py_new(const char* page)
 {
 	try {
 		mag_new(page);
@@ -1446,12 +1437,12 @@ const char* py_new(const char* page)
 	return NULL;
 }
 
-void mag_new(const char* page)
+MAGICS_EXPORT void mag_new(const char* page)
 {
 	magics_->pnew(page);
 }
 
-const char* py_reset(const char* name)
+MAGICS_EXPORT const char* py_reset(const char* name)
 {
 	try {
 		mag_reset(name);
@@ -1462,13 +1453,13 @@ const char* py_reset(const char* name)
 	return NULL;
 }
 
-void mag_reset(const char* name)
+MAGICS_EXPORT void mag_reset(const char* name)
 {
 
 	ParameterManager::reset(name);
 }
 
-const char* py_setc(const char* name, const char* value)
+MAGICS_EXPORT const char* py_setc(const char* name, const char* value)
 {
 	try {
 		mag_setc(name, value);
@@ -1479,7 +1470,7 @@ const char* py_setc(const char* name, const char* value)
 	return NULL;
 }
 
-void mag_setc(const char* name, const char* value)
+MAGICS_EXPORT void mag_setc(const char* name, const char* value)
 {
 	string n(name);
 	string v(value);
@@ -1487,7 +1478,7 @@ void mag_setc(const char* name, const char* value)
 	//cout << "setc("<<name<<","<<value<<")"<<endl;
 }
 
-const char* py_setr(const char* name, const double value)
+MAGICS_EXPORT const char* py_setr(const char* name, const double value)
 {
 	try {
 		mag_setr(name, value);
@@ -1497,16 +1488,16 @@ const char* py_setr(const char* name, const double value)
 	}
 	return NULL;
 }
-void mag_setr(const char* name, const double value)
+
+MAGICS_EXPORT void mag_setr(const char* name, const double value)
 {
 	std::string n(name);
 
-
 	if ( CompatibilityHelper::check(n, value) ) return;
 	ParameterManager::set(n, value);
-
 }
-const char* py_seti(const char* name, const int value)
+
+MAGICS_EXPORT const char* py_seti(const char* name, const int value)
 {
 	try {
 		mag_seti(name, value);
@@ -1516,14 +1507,15 @@ const char* py_seti(const char* name, const int value)
 	}
 	return NULL;
 }
-void mag_seti(const char* name, const int value)
+
+MAGICS_EXPORT void mag_seti(const char* name, const int value)
 {
 	string n(name);
 	pseti_(name, &value, n.size());
 	//cout << "seti("<<name<<","<<value<<")"<<endl;
 }
 
-void mag_setp(const char* name, void* value)
+MAGICS_EXPORT void mag_setp(const char* name, void* value)
 {
 #ifdef HAVE_CAIRO
     string n(name);
@@ -1533,7 +1525,7 @@ void mag_setp(const char* name, void* value)
 #endif
 }
 
-void mag_act(const char* a, const char* b, const char* c)
+MAGICS_EXPORT void mag_act(const char* a, const char* b, const char* c)
 {
 	string aa(a);
 	string bb(b);
@@ -1541,7 +1533,7 @@ void mag_act(const char* a, const char* b, const char* c)
 	pact_(a, b, c,aa.size(),bb.size(),cc.size());
 }
 
-const char* py_set1r(const char* name, const double *data, const int dim1)
+MAGICS_EXPORT const char* py_set1r(const char* name, const double *data, const int dim1)
 {
 	try {
 		mag_set1r(name, data, dim1);
@@ -1551,7 +1543,8 @@ const char* py_set1r(const char* name, const double *data, const int dim1)
 	}
 	return NULL;
 }
-void mag_set1r(const char* name, const double *data, const int dim1)
+
+MAGICS_EXPORT void mag_set1r(const char* name, const double *data, const int dim1)
 {
 	std::string n(name);
 	floatarray values;
@@ -1567,9 +1560,7 @@ void mag_set1r(const char* name, const double *data, const int dim1)
 	}
 }
 
-
-
-const char* py_set2r(const char* name, const double *data, const int dim1, const int dim2)
+MAGICS_EXPORT const char* py_set2r(const char* name, const double *data, const int dim1, const int dim2)
 {
 	try {
 		mag_set2r(name, data, dim1, dim2);
@@ -1579,7 +1570,8 @@ const char* py_set2r(const char* name, const double *data, const int dim1, const
 	}
 	return NULL;
 }
-void mag_set2r(const char* name, const double *data, const int dim1, const int dim2)
+
+MAGICS_EXPORT void mag_set2r(const char* name, const double *data, const int dim1, const int dim2)
 {
 	string param(name);
 	Matrix matrix;
@@ -1600,13 +1592,12 @@ void mag_set2r(const char* name, const double *data, const int dim1, const int d
 	MagLog::dev() << "Parameter " << string(name) << " set to " << matrix << "\n";
 }
 
-
-void mag_set3r(const char*, const double *, const int, const int, const int)
+MAGICS_EXPORT void mag_set3r(const char*, const double *, const int, const int, const int)
 {
 	MagLog::warning() << "pset3r --> not yet implemented\n";
 }
 
-const char* py_set1i(const char* name, const int *data, const int dim1)
+MAGICS_EXPORT const char* py_set1i(const char* name, const int *data, const int dim1)
 {
 	try {
 		mag_set1i(name, data, dim1);
@@ -1617,7 +1608,7 @@ const char* py_set1i(const char* name, const int *data, const int dim1)
 	return NULL;
 }
 
-void mag_set1i(const char* name, const int *data, const int dim1)
+MAGICS_EXPORT void mag_set1i(const char* name, const int *data, const int dim1)
 {
 	std::string param(name);
 	intarray values;
@@ -1633,7 +1624,7 @@ void mag_set1i(const char* name, const int *data, const int dim1)
 	}
 }
 
-const char* py_set2i(const char* name, const int *data, const int dim1, const int dim2)
+MAGICS_EXPORT const char* py_set2i(const char* name, const int *data, const int dim1, const int dim2)
 {
 	try {
 		mag_set2i(name, data, dim1, dim2);
@@ -1643,7 +1634,8 @@ const char* py_set2i(const char* name, const int *data, const int dim1, const in
 	}
 	return NULL;
 }
-void mag_set2i(const char* name, const int *data, const int dim1, const int dim2)
+
+MAGICS_EXPORT void mag_set2i(const char* name, const int *data, const int dim1, const int dim2)
 {
 	string param(name);
 	Matrix matrix;
@@ -1661,12 +1653,12 @@ void mag_set2i(const char* name, const int *data, const int dim1, const int dim2
 	MagLog::dev() << "Parameter " << param << " set to " << matrix << "\n";
 }
 
-void mag_set3i(const char* , const int *, const int , const int , const int )
+MAGICS_EXPORT void mag_set3i(const char* , const int *, const int , const int , const int )
 {
 	MagLog::warning() << "pset3i --> not yet implemented\n";
 }
 
-const char* py_set1c(const char* name, const char** data, const int dim1)
+MAGICS_EXPORT const char* py_set1c(const char* name, const char** data, const int dim1)
 {
 	try {
 		mag_set1c(name, data, dim1);
@@ -1676,7 +1668,8 @@ const char* py_set1c(const char* name, const char** data, const int dim1)
 	}
 	return NULL;
 }
-void mag_set1c(const char* name, const char** data, const int dim)
+
+MAGICS_EXPORT void mag_set1c(const char* name, const char** data, const int dim)
 {
 	string param(name);
 
@@ -1706,7 +1699,7 @@ void mag_set1c(const char* name, const char** data, const int dim)
 	//cout << "set1c("<<name<<","<<data[0]<<","<<dim<<")"<<endl;
 }
 
-void mag_enqr(const char* fname, double *value)
+MAGICS_EXPORT void mag_enqr(const char* fname, double *value)
 {
 	string name(fname);
 	vector<string> special;
@@ -1737,14 +1730,14 @@ void mag_enqr(const char* fname, double *value)
 }
 
 
-void mag_enqi(const char* name, int *value)
+MAGICS_EXPORT void mag_enqi(const char* name, int *value)
 {
 	int magics;
 	ParameterManager::get(string(name),magics);
 	*value=magics;
 }
 
-void mag_enqc(const char* name, char* value)
+MAGICS_EXPORT void mag_enqc(const char* name, char* value)
 {
 	string magics;
 
@@ -1758,20 +1751,20 @@ void mag_enqc(const char* name, char* value)
 }
 
 
-void mag_pie()   {ppie_();}
+MAGICS_EXPORT void mag_pie()   {ppie_();}
 
-void mag_graph() {pgraph_();}
+MAGICS_EXPORT void mag_graph() {pgraph_();}
 PYTHON(py_graph, pgraph_)
-void mag_axis()  {paxis_();}
+MAGICS_EXPORT void mag_axis()  {paxis_();}
 PYTHON(py_axis, paxis_)
-void mag_geo()   {pgeo_();}
+MAGICS_EXPORT void mag_geo()   {pgeo_();}
 PYTHON(py_geo, pgeo_)
-void mag_eps()   {peps_();}
+MAGICS_EXPORT void mag_eps()   {peps_();}
 PYTHON(py_eps, peps_)
-void mag_print() {pprint_();}
+MAGICS_EXPORT void mag_print() {pprint_();}
 PYTHON(py_print, pprint_)
 
-void mag_info()
+MAGICS_EXPORT void mag_info()
 {
 	MagLog::userInfo() << "INFO:\n"
 		<< "INFO: "<<getMagicsVersionString()<<"\n"
