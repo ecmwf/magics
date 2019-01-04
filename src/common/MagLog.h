@@ -51,16 +51,16 @@ public:
 	
 
 // -- Methods
-	static ostream& warning();
-	static ostream& debug();
-	static ostream& info();
-	static ostream& userInfo();
+	MAGICS_EXPORT static ostream& warning();
+	MAGICS_EXPORT static ostream& debug();
+	MAGICS_EXPORT static ostream& info();
+	MAGICS_EXPORT static ostream& userInfo();
 	MAGICS_EXPORT static ostream& error();
-	static ostream& fatal();
+	MAGICS_EXPORT static ostream& fatal();
 	MAGICS_EXPORT static ostream& dev();
-	static ostream& profile();
-	static ostream& progress();
-	static void progress(const string&);
+	MAGICS_EXPORT static ostream& profile();
+	MAGICS_EXPORT static ostream& progress();
+	MAGICS_EXPORT static void progress(const string&);
 	
 	static void broadcast();
 
