@@ -132,12 +132,8 @@ void MetaDataVisitor::collectMetaData()
 		
 			
 
-			
-			for (auto style = styles_.begin(); style != styles_.end(); ++style) {
-				
-				out << **style;
-				
-			}
+			for (auto &style : styles_)
+				out << *style;
 			
 			out.close();
 		}

@@ -312,10 +312,8 @@ void XmlMagics::magics(const XmlNode& node)
 
 void XmlMagics::driver(const XmlNode& node)
 {
-	for ( XmlNode::ElementIterator driver = node.firstElement(); driver != node.lastElement(); ++driver)
-	{
-		output_.set(**driver, drivers_);
-	}
+	for (auto &driver : node.elements())
+		output_.set(*driver, drivers_);
 	driversToSet_ = false;
 }
 

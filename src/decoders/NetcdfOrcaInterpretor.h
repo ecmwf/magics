@@ -28,7 +28,6 @@
 #include "NetcdfInterpretor.h"
 #include "Matrix.h"
 #include "MagException.h"
-#include "VectorOfPointers.h"
 
 namespace magics {
 

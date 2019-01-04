@@ -61,7 +61,7 @@ static MutexCond producerMutex_;
  *
  */
 
-class CellBox : public VectorOfPointers<vector<CellBox* > >
+class CellBox : public AutoVector<CellBox>
 {
 public:
     CellBox(const CellArray* parent, int row1, int row2, int column1, int column2) :
@@ -250,8 +250,9 @@ public:
         helper->second->add(segment);
     }
 
-    void push_back(CellBox* box) {
-        VectorOfPointers<vector<CellBox* > >::push_back(box);
+    void push_back(CellBox* box)
+    {
+        AutoVector<CellBox>::push_back(box);
     }
 
     void split();
@@ -1307,8 +1308,8 @@ void IsoPlot::isoline(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
 
        {
         Timer timer("Threading", "Threading");
-        VectorOfPointers<vector<ThreadControler *>  > consumers;
-        VectorOfPointers<vector<ThreadControler *>  > producers;
+        AutoVector<ThreadControler> consumers;
+        AutoVector<ThreadControler> producers;
         segments_.clear();
         colourShapes_.clear();
         lines_.clear();
@@ -1328,7 +1329,7 @@ void IsoPlot::isoline(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
         
         
         int c = 0;
-        VectorOfPointers<vector<IsoProducerData*> > datas;
+        AutoVector<IsoProducerData> datas;
         for ( int i = 0; i < view.size(); i++)
         //int i = 1;
         {
@@ -1342,10 +1343,8 @@ void IsoPlot::isoline(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
 
         }
 
-        for (vector<ThreadControler *>::iterator producer = producers.begin();
-           producer != producers.end(); ++producer) {
-           (*producer)->wait();
-        }
+        for (auto &producer : producers)
+            producer->wait();
 
         // No more
         {
@@ -1356,10 +1355,9 @@ void IsoPlot::isoline(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
            }
         }
 
-        for (vector<ThreadControler *>::iterator consumer = consumers.begin(); consumer != consumers.end(); ++consumer) {
-             (*consumer)->wait();
+        for (auto &consumer : consumers)
+             consumer->wait();
         }
-       }
 
       
        

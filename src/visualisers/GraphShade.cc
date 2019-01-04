@@ -24,6 +24,7 @@
 #include "PaperPoint.h"
 #include "UserPoint.h"
 #include "Polyline.h"
+#include	"ReverseIterable.h"
 
 using namespace magics;
 
@@ -75,27 +76,30 @@ void GraphShade::legend(Polyline& box)
 }
 void GraphShade::operator()(CustomisedPointsList& points, vector<UserPoint>& out)
 {
+	for (auto &point : points)
+		out.push_back(UserPoint((*point)["x"], (*point)["y"]));
 	
-	for (CustomisedPointsList::iterator point = points.begin(); point != points.end(); ++point)
-		out.push_back(UserPoint((**point)["x"], (**point)["y"]));
-	CustomisedPointsList::const_reverse_iterator rpoint = points.rbegin(); 
-	CustomisedPointsList::const_reverse_iterator last = points.rend(); 
+	for (const auto &rpoint : reverseIterable(points))
+		out.push_back(UserPoint((*rpoint)["x2"], (*rpoint)["y2"]));
 
-	while ( rpoint != last ) {
-		out.push_back(UserPoint((**rpoint)["x2"], (**rpoint)["y2"]));
-		rpoint++;
-	}
+//	CustomisedPointsList::const_reverse_iterator rpoint = points.rbegin();
+//	CustomisedPointsList::const_reverse_iterator last = points.rend();
+//
+//	while ( rpoint != last ) {
+//		out.push_back(UserPoint((**rpoint)["x2"], (**rpoint)["y2"]));
+//		rpoint++;
+//	}
 }
 
 void NoGraphShade::operator()(CustomisedPointsList& points, vector<UserPoint>& out)
 {
-	
-	for (CustomisedPointsList::iterator point = points.begin(); point != points.end(); ++point) {
-		CustomisedPoint::iterator x = (*point)->find("x");
-		CustomisedPoint::iterator y = (*point)->find("y");
-		if ( x != (*point)->end() && y != (*point)->end() ) {
+	for (auto &point : points)
+	{
+		CustomisedPoint::iterator x = point->find("x");
+		CustomisedPoint::iterator y = point->find("y");
+		if ( x != point->end() && y != point->end() ) {
 			out.push_back(UserPoint(x->second, y->second));
-			if ( (*point)->missing() )
+			if ( point->missing() )
 				out.back().flagMissing();
 		}
 

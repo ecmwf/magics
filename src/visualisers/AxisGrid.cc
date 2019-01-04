@@ -59,10 +59,10 @@ void AxisGrid::vertical(const AxisItems& ticks, DrawingVisitor& out) const
 	double pos;
 	
 	const Transformation& transformation = out.transformation();
-	for (AxisItems::const_iterator x = ticks.begin(); x != ticks.end(); ++x)
+	for (const auto &x : ticks)
     {
-    	if (!(*x)->filter(*this) ) continue;
-    	pos = (*x)->position();
+    	if (!x->filter(*this) ) continue;
+    	pos = x->position();
     	if ( !transformation.inX(pos) ) continue;
 		Polyline* grid = new Polyline();
 		grid->push_back(PaperPoint(transformation.x(pos), bottom));
@@ -90,10 +90,10 @@ void AxisGrid::horizontal(const AxisItems& ticks, DrawingVisitor& out) const
 	double right =  out.maxX();
 	double pos;
 	const Transformation& transformation = out.transformation();
-	for (AxisItems::const_iterator y = ticks.begin(); y != ticks.end(); ++y)
+	for (const auto &y : ticks)
     {
-    	if (!(*y)->filter(*this) ) continue;
-    	pos = (*y)->position();
+    	if (!y->filter(*this) ) continue;
+    	pos = y->position();
     	if ( !transformation.inY(pos) ) continue;
     	Polyline* grid = new Polyline();
 		grid->push_back(PaperPoint(left, transformation.y(pos)));

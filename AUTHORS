@@ -1,7 +1,7 @@
 Authors of Magics
 =================
 
-The main development of Magics is done through the 
+The main development of Magics is done through the
 
                     Development Section
 
@@ -28,7 +28,9 @@ Peter Bispham
 Thanks for contributions from:
 ==============================
 
-INPE/CPTEC for Terralib & Akima code 
+Idris Roker, RT Design, contracted 2018 for C++ 11/14 work
+
+INPE/CPTEC for Terralib & Akima code
 
 Carlos Valiente (ECMWF, contributions to configure scripts - magics.m4)
 

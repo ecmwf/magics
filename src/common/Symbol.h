@@ -210,13 +210,11 @@ public:
 	
 	void redisplay(const BaseDriver& driver) const { MagLog::dev() << "Redisplay -->" << *this << endl; driver.redisplay(*this); }
 	void add(GraphicsItem* item) { items_.push_back(item);}
-	vector<GraphicsItem*>::const_iterator itemBegin() const { return items_.begin(); }
-	vector<GraphicsItem*>::const_iterator itemEnd() const { return items_.end(); }
-	const vector<GraphicsItem*>& items() const { return items_; }
+	AutoVectorIterable<GraphicsItem> items() const { return AutoVectorIterable<GraphicsItem>(items_); }
 
 protected:
 	virtual void print(ostream&) const; 
-	VectorOfPointers<vector<GraphicsItem*> > items_;
+	AutoVector<GraphicsItem> items_;
 	int rows_;
 	int columns_;
 };
