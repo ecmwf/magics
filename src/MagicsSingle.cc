@@ -22,7 +22,7 @@ extern "C"
 #include <magics_api.h>
 
 
-void psetr_(char* name, float* value, int length)
+MAGICS_EXPORT void psetr_(char* name, float* value, int length)
 {
 	std::string n(name, length);
 	double dval = *value;
@@ -34,7 +34,7 @@ void psetr_(char* name, float* value, int length)
 	mag_setr(n.c_str(), dval);
 }
 
-void pset1r_(char* name, float* data, int* dim, int length)
+MAGICS_EXPORT void pset1r_(char* name, float* data, int* dim, int length)
 {
 	std::string n(name, length);
 	double* da = new double [*dim];
@@ -44,7 +44,7 @@ void pset1r_(char* name, float* data, int* dim, int length)
 	delete [] da;
 }
 
-void pset2r_(char* name, float* data, int *dim, int *dim2, int length)
+MAGICS_EXPORT void pset2r_(char* name, float* data, int *dim, int *dim2, int length)
 {
 	std::string n(name, length);
 	const long no = (*dim)*(*dim2); 
@@ -55,7 +55,7 @@ void pset2r_(char* name, float* data, int *dim, int *dim2, int length)
 	delete [] da;
 }
 
-void pset3r_(char* name, float* data, int* dim, int *dim2, int* dim3, int length)
+MAGICS_EXPORT void pset3r_(char* name, float* data, int* dim, int *dim2, int* dim3, int length)
 {
 	std::string n(name, length);
 	const long no = (*dim)*(*dim2)*(*dim3);
@@ -66,7 +66,7 @@ void pset3r_(char* name, float* data, int* dim, int *dim2, int* dim3, int length
 	delete [] da;
 }
 
-void penqr_(const char* name, float* value, int length)
+MAGICS_EXPORT void penqr_(const char* name, float* value, int length)
 {
 	std::string n(name, length);
 	double tmp;
