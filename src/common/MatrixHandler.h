@@ -26,7 +26,7 @@
 #include "Matrix.h"
 #include "BasePointsHandler.h"
 #include "Transformation.h"
-#include "VectorOfPointers.h"
+#include "AutoVector.h"
 
 #include "Timer.h"
 
@@ -369,8 +369,8 @@ public :
     
 protected:    
     const AbstractMatrix& matrix_;
-    mutable VectorOfPointers<vector<UserPoint*> > points_;
-    mutable VectorOfPointers<vector<UserPoint*> >::const_iterator current_;
+    mutable AutoVector<UserPoint> points_;
+    mutable AutoVector<UserPoint>::const_iterator current_;
     mutable double min_;
     mutable double max_;
     mutable bool internal_;

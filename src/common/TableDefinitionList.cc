@@ -45,11 +45,12 @@ void TableDefinitionList<T>::set(const XmlNode& node )
 	MagLog::info() <<  "TableDefinitionList::set(const XmlNode&): to be implemented\n";
 	MagLog::dev() << "Node to be interpreted ---> " << node << endl; 
 
-	for (XmlNode::ElementIterator elt = node.firstElement(); elt != node.lastElement(); ++elt) {
-		if ( magCompare((*elt)->name(), "value") ) {
+	for (auto &elt : node.elements())
+	{
+		if ( magCompare(elt->name(), "value") ) {
 			// convert the value ..
 			double val;
-			fromString((*elt)->data(), val);
+			fromString(elt->data(), val);
 
 			this->push_back(val);
 		}

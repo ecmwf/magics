@@ -77,21 +77,20 @@ void BoxPlotVisualiser::operator()(Data& data, BasicGraphicsObjectContainer& vis
 	whisker_->cm(user);
 	
 
-
-	for (CustomisedPointsList::const_iterator point = points.begin(); point != points.end(); ++point)
+	for (const auto &point : points)
 	{
 
 		for ( std::set<string>::iterator key = request.begin(); key != request.end(); ++key ) {
-			double val = (**point)[*key];
-			if (val < min) (**point)[*key] = min;
-			if  (val > max) (**point)[*key] = max;
+			double val = (*point)[*key];
+			if (val < min) (*point)[*key] = min;
+			if  (val > max) (*point)[*key] = max;
 		}
 
 
-		(*box_)(visitor, **point);
+		(*box_)(visitor, *point);
 	    
-		whisker_->top(visitor, **point);
-		whisker_->bottom(visitor, **point);		
+		whisker_->top(visitor, *point);
+		whisker_->bottom(visitor, *point);
 	}
 	
 

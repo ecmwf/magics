@@ -24,7 +24,7 @@
 
 #include "MagException.h"
 #include "MagLog.h"
-#include "VectorOfPointers.h"
+#include "AutoVector.h"
 
 namespace magics {
 
