@@ -171,8 +171,8 @@ Symbol* SymbolProperties::symbol(const string& type) const
 void ComplexSymbol::print(ostream& out) const
 {
 	out << "ComplexSymbol[" << endl;
-	for (vector<GraphicsItem*>::const_iterator item = items_.begin(); item != items_.end(); ++item)
-		out << **item  << ", " << endl;
+	for (const auto &item : items_)
+		out << *item  << ", " << endl;
 	out << "]" << endl;
 }
 

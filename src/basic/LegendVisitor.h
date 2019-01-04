@@ -332,7 +332,7 @@ protected:
 class LegendVisitor: public LayoutVisitor, 
 	public LegendVisitorAttributes, 
 	public BasicPositionalObject,
-	public VectorOfPointers<vector<LegendEntry*> > {
+	public AutoVector<LegendEntry> {
 
 public:
 	LegendVisitor();
@@ -344,9 +344,9 @@ public:
 	//virtual Layout* legend()  { ASSERT( layout_); return this; }
     
     void set(const XmlNode& node) { LegendVisitorAttributes::set(node); }	
-    void add(LegendEntry* entry) { VectorOfPointers<vector<LegendEntry*> >::push_back(entry); }
+    void add(LegendEntry* entry) { AutoVector<LegendEntry>::push_back(entry); }
     void newLegend() { 
-    	if 	(!VectorOfPointers<vector<LegendEntry*> >::empty() ) 
+    	if 	(!AutoVector<LegendEntry>::empty() )
     		add(new EmptyEntry()); 
     }
     double getFont_size() const { return font_size_; }
@@ -360,8 +360,8 @@ public:
 	void finish(BasicGraphicsObjectContainer&);
 	LegendMethod::LegendType legendType() const { return method_->name(); }
 	void last() {
-		if ( !VectorOfPointers<vector<LegendEntry*> >::empty() )
-			VectorOfPointers<vector<LegendEntry*> >::back()->last();
+		if ( !AutoVector<LegendEntry>::empty() )
+			AutoVector<LegendEntry>::back()->last();
 	}
 
 	const Transformation& transformation()              { return LayoutVisitor::transformation(); }

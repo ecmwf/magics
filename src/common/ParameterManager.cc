@@ -14,7 +14,6 @@
 */
 
 #include "ParameterManager.h"
-#include "VectorOfPointers.h"
 
 using namespace magics;
 

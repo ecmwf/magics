@@ -164,9 +164,9 @@ protected:
     virtual void print(ostream& out) const { out << "Data<P>"; }
     virtual void computeStats();
     
-     VectorOfPointers<vector<PointsHandler* > > pointsHandlers_;
-     // The objects are put in a list, they will be automaticcaly destructed 
-     VectorOfPointers<vector<MatrixHandler* > > matrixHandlers_;
+     AutoVector<PointsHandler> pointsHandlers_;
+     // The objects are put in a list, they will be automatically destroyed
+     AutoVector<MatrixHandler> matrixHandlers_;
 
 	string legend_;
 	

@@ -29,7 +29,6 @@
 #include "UserPoint.h"
 #include "Text.h"
 #include "Symbol.h"
-#include "VectorOfPointers.h"
 #include "Transformation.h"
 
 

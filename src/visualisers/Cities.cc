@@ -20,6 +20,8 @@
     
 */
 
+#include	<memory>
+
 #include "Cities.h"
 #include "UserPoint.h"
 #include "ShapeDecoder.h"
@@ -51,7 +53,8 @@ struct Radius
 {
     Radius(double radius, CustomisedPoint& reference): radius_(radius), reference_(reference) {}
     ~Radius() {}
-    bool operator()(CustomisedPoint*& point)
+    bool operator()(const std::unique_ptr<CustomisedPoint> &point){return operator()(point.get());}
+    bool operator()(CustomisedPoint* point)
     {       
       double dist = distance(*point, reference_);
       if ( zero(dist) ) return false;
@@ -126,15 +129,15 @@ void Cities::operator()(const map<string, string>&, BasicGraphicsObjectContainer
      text->blanking(blanking_);
     decoder.customisedPoints(need, points);
     vector<CustomisedPoint*> filter;
-    for (CustomisedPointsList::iterator point = points.begin(); point != points.end(); ++point)
+    for (auto &point : points)
     {
-    		UserPoint geo((*point)->longitude(), (*point)->latitude());
-    		if ( transformation.in(geo) && !(*point)->identifier().empty()) {
+    		UserPoint geo(point->longitude(), point->latitude());
+    		if ( transformation.in(geo) && !point->identifier().empty()) {
     			
     			PaperPoint xy = transformation(geo);
-    			(**point)["x"] = xy.x();
-    			(**point)["y"] = xy.y();
-    			filter.push_back(*point);
+    			(*point)["x"] = xy.x();
+    			(*point)["y"] = xy.y();
+    			filter.push_back(point.get());
     		}
     		
     }

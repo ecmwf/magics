@@ -94,16 +94,16 @@ void Wind::operator()(Data& data, BasicGraphicsObjectContainer& parent)
 				
 		(*this->type_).adjust(points, transformation);
 
-		
-		for (vector<CustomisedPoint*>::const_iterator point =points.begin(); point != points.end(); ++point) {
-			 bool north =  ((*point)->latitude() > 0);
-			 double x = (*point)->longitude();
-			 double y = (*point)->latitude();
-			 PaperPoint xy = transformation(UserPoint((*point)->longitude(), (*point)->latitude()));
+		for (const auto &point : points)
+		{
+			 bool north =  (point->latitude() > 0);
+			 double x = point->longitude();
+			 double y = point->latitude();
+			 PaperPoint xy = transformation(UserPoint(point->longitude(), point->latitude()));
 			 if ( transformation.in(xy) ) {
-				 pair<double, double> component = std::make_pair(  (**point)["x_component"], (**point)["y_component"]);
+				 pair<double, double> component = std::make_pair(  (*point)["x_component"], (*point)["y_component"]);
 				 transformation.reprojectComponents(x, y, component);
-				  (*this->type_)(north, xy, component.first,  component.second, (**point)["colour_component"]);
+				  (*this->type_)(north, xy, component.first,  component.second, (*point)["colour_component"]);
 			 }
 		}
 	(*this->type_).finish(parent);
