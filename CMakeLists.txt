@@ -240,6 +240,9 @@ if( EC_OS_NAME MATCHES "windows" )
     # We need to link to ws2_32.lib to avoid an unresolved external (gethostname)
     # It's part of the Windows SDK so no need to search for it.
     list( APPEND MAGICS_EXTRA_LIBRARIES ws2_32 )
+    # We need to find zlib.lib
+    find_library( ZLIB_LIB zlib PATHS ENV PATH )
+    list( APPEND MAGICS_EXTRA_LIBRARIES ${ZLIB_LIB} )
 endif()
 
 ecbuild_debug("MAGICS_EXTRA_DEFINITIONS  => ${MAGICS_EXTRA_DEFINITIONS}")
