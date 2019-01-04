@@ -162,6 +162,11 @@ ecbuild_declare_project()
 set( CMAKE_THREAD_PREFER_PTHREAD 1 )
 find_package( Threads )
 
+if( EC_OS_NAME MATCHES "windows" )
+    find_library( PTHREAD_LIB pthread PATHS ENV PATH )
+    list( APPEND MAGICS_EXTRA_LIBRARIES ${PTHREAD_LIB} )
+endif()
+
 find_package( Boost 1.53.0 REQUIRED)
 find_package( Proj4 REQUIRED )
 find_package( EXPAT REQUIRED )
