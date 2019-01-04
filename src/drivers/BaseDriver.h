@@ -410,7 +410,7 @@ protected:
 	virtual void renderSymbolItem(const SymbolItem&, const ComplexSymbol& symbol) const;
 	virtual void renderSymbols(const Symbol& symbol) const;
 	virtual void renderPolyline(const int, MFloat *, MFloat *) const {};
-	virtual void renderPolyline2(const int, MFloat *, MFloat *) const {}
+	virtual void renderPolyline2(const int, MFloat *, MFloat *) const {};
 	void renderPolyline(vector<PaperPoint> &vP) const;
 	void renderPolyline2(vector<PaperPoint> &vP) const;
 
