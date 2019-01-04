@@ -236,6 +236,12 @@ endif()
 
 list( APPEND MAGICS_EXTRA_LIBRARIES     ${CMAKE_THREAD_LIBS_INIT} )
 
+if( EC_OS_NAME MATCHES "windows" )
+    # We need to link to ws2_32.lib to avoid an unresolved external (gethostname)
+    # It's part of the Windows SDK so no need to search for it.
+    list( APPEND MAGICS_EXTRA_LIBRARIES ws2_32 )
+endif()
+
 ecbuild_debug("MAGICS_EXTRA_DEFINITIONS  => ${MAGICS_EXTRA_DEFINITIONS}")
 ecbuild_debug("MAGICS_EXTRA_INCLUDE_DIRS => ${MAGICS_EXTRA_INCLUDE_DIRS}")
 ecbuild_debug("MAGICS_EXTRA_LIBRARIES    => ${MAGICS_EXTRA_LIBRARIES}")
