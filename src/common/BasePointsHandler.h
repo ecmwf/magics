@@ -25,7 +25,7 @@
 #include "magics.h"
 #include "UserPoint.h"
 
-#include "VectorOfPointers.h"
+#include "AutoVector.h"
 #include "MagException.h"
 
 namespace magics {

@@ -749,51 +749,52 @@ void EpsGraph::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
     
     Colour colour = *colour_;
     
-	for (CustomisedPointsList::const_iterator point = points.begin(); point != points.end(); ++point) {
-		resolution_ = (**point)["resolution"];
-		double missing = (**point)["missing"];
-		double x = (**point)["step"] + box_shift_ *3600;
-		double width = (box_width_ == -1) ? (**point)["width"] : box_width_ * 3600;
+    for (const auto &point : points)
+	{
+		resolution_ = (*point)["resolution"];
+		double missing = (*point)["missing"];
+		double x = (*point)["step"] + box_shift_ *3600;
+		double width = (box_width_ == -1) ? (*point)["width"] : box_width_ * 3600;
 		
-		if ( (**point)["right"] ) colour = *right_colour_;
-		if ( (**point)["left"] )  colour = *left_colour_;
+		if ( (*point)["right"] ) colour = *right_colour_;
+		if ( (*point)["left"] )  colour = *left_colour_;
 		
-		double max = ((*point)->find("max") != (*point)->end()) ? (*point)->find("max")->second : (*point)->find("maximum")->second;
-		double min = ((*point)->find("min") != (*point)->end()) ? (*point)->find("min")->second : (*point)->find("minimum")->second;
+		double max = (point->find("max") != point->end()) ? point->find("max")->second : point->find("maximum")->second;
+		double min = (point->find("min") != point->end()) ? point->find("min")->second : point->find("minimum")->second;
 
-		CustomisedPoint::const_iterator ten   = (*point)->find("ten");
-        CustomisedPoint::const_iterator ninty = (*point)->find("ninety");
+		CustomisedPoint::const_iterator ten   = point->find("ten");
+        CustomisedPoint::const_iterator ninty = point->find("ninety");
 
-        if ( (*point)->find("control") != (*point)->end() &&  (**point)["control"]!= missing  )
-        	control->push_back(PaperPoint(x, (**point)["control"]));		
+        if ( point->find("control") != point->end() &&  (*point)["control"]!= missing  )
+        	control->push_back(PaperPoint(x, (*point)["control"]));
         else {
         	pushControl(control, visitor);
         	control = newControl();
         }
-		if ( (*point)->find("hres") != (*point)->end() &&  (**point)["hres"] != missing)
-            forecast->push_back(PaperPoint(x, (**point)["hres"]));
+		if ( point->find("hres") != point->end() &&  (*point)["hres"] != missing)
+            forecast->push_back(PaperPoint(x, (*point)["hres"]));
         else {
         	pushForecast(forecast, visitor);
         	forecast = newForecast();
         }
-        if ( (*point)->find("median") == (*point)->end() )  {        	
+        if ( point->find("median") == point->end() )  {
             eps_ = false;  
             continue;
         }
 
-        if (  (**point)["median"] == missing ) {        	
+        if (  (*point)["median"] == missing ) {
                    eps_ = false;  
                    continue;
                }
      
 	vector<double> eps;
-	eps.push_back( (**point)["min"]);
-	eps.push_back( (**point)["ten"]);
-	eps.push_back( (**point)["twenty_five"]);
-	eps.push_back( (**point)["median"]);
-	eps.push_back( (**point)["seventy_five"]);
-	eps.push_back( (**point)["ninety"]);
-	eps.push_back( (**point)["max"]);
+	eps.push_back( (*point)["min"]);
+	eps.push_back( (*point)["ten"]);
+	eps.push_back( (*point)["twenty_five"]);
+	eps.push_back( (*point)["median"]);
+	eps.push_back( (*point)["seventy_five"]);
+	eps.push_back( (*point)["ninety"]);
+	eps.push_back( (*point)["max"]);
 
 	std::sort(eps.begin(), eps.end());
 
@@ -803,7 +804,7 @@ void EpsGraph::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
    
 
     double epsmin, eps10, eps25,  eps50, eps75, eps90, epsmax;
-    if ( ninty != (*point)->end() ) {
+    if ( ninty != point->end() ) {
         	epsmin = eps[0];
         	eps10 = eps[1];
        		eps25 = eps[2];
@@ -861,7 +862,7 @@ void EpsGraph::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
         box25_75->push_back(PaperPoint(x-width, eps50));
 		box25_75->push_back(PaperPoint(x-width, eps75));
         
-        if ( ninty != (*point)->end() ) {
+        if ( ninty != point->end() ) {
         	fullEps_ = true;
         	if ( eps75 != eps90 ) {
             box75_90->push_back(PaperPoint(x-(width/2), eps75));
@@ -875,7 +876,7 @@ void EpsGraph::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 		box25_75->push_back(PaperPoint(x+width, eps75));
 		box25_75->push_back(PaperPoint(x+width, eps25));
         }
-        if ( ten != (*point)->end() ) {
+        if ( ten != point->end() ) {
         	if ( eps25 != eps10 ) {
 
             box10_25->push_back(PaperPoint(x+(width/2), eps25));
@@ -905,7 +906,7 @@ void EpsGraph::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 	     
 		(*top).push_back(PaperPoint(x, epsmax > transformation.getMaxY() ? transformation.getMaxY() : epsmax));
 		
-		if ( ninty != (*point)->end() ) 
+		if ( ninty != point->end() )
             (*top).push_back(PaperPoint(x, eps90));
         else 
             (*top).push_back(PaperPoint(x, eps75));
@@ -913,7 +914,7 @@ void EpsGraph::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 		bottom->setColour(*border_colour_);
 		bottom->setThickness(border_thickness_);
 		(*bottom).push_back(PaperPoint(x, epsmin));
-        if ( ten != (*point)->end() ) 
+        if ( ten != point->end() )
             (*bottom).push_back(PaperPoint(x, eps10));
 		else 
            (*bottom).push_back(PaperPoint(x, eps25));
@@ -931,15 +932,16 @@ void EpsGraph::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 		
 		// find the max! 
 		vector<double> ypos;
-		 for (CustomisedPointsList::const_iterator point = points.begin(); point != points.end(); ++point) {
-		   		double max = ((*point)->find("max") != (*point)->end()) ? (*point)->find("max")->second : (*point)->find("maximum")->second;
-				double min = ((*point)->find("min") != (*point)->end()) ? (*point)->find("min")->second : (*point)->find("minimum")->second;
+		for (const auto &point : points)	//NB this shadows point in the enclosing scope
+		{
+		   		double max = (point->find("max") != point->end()) ? point->find("max")->second : point->find("maximum")->second;
+				double min = (point->find("min") != point->end()) ? point->find("min")->second : point->find("minimum")->second;
 		        if (max != missing ) ypos.push_back(max);
 				if (min != missing ) ypos.push_back(min);
-				if ( (*point)->find("control") != (*point)->end() )
-					if ((**point)["control"] != missing) ypos.push_back((**point)["control"]);
-			    if ( (*point)->find("hres") != (*point)->end() )
-				    if ((**point)["hres"] != missing ) ypos.push_back((**point)["hres"]);
+				if ( point->find("control") != point->end() )
+					if ((*point)["control"] != missing) ypos.push_back((*point)["control"]);
+			    if ( point->find("hres") != point->end() )
+				    if ((*point)["hres"] != missing ) ypos.push_back((*point)["hres"]);
 		    
 		    }
 		
@@ -1017,29 +1019,29 @@ void EpsLight::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
     
     if ( points.size() < 2 ) return;
     
-    
-	for (CustomisedPointsList::const_iterator point = points.begin(); point != points.end(); ++point) {
+    for (const auto &point : points)
+	{
 	
 		
-		double x = (**point)["step"];
+		double x = (*point)["step"];
 		double width = (3600*3);
 		
-		double max = ((*point)->find("max") != (*point)->end()) ? (*point)->find("max")->second : (*point)->find("maximum")->second;
-		double min = ((*point)->find("min") != (*point)->end()) ? (*point)->find("min")->second : (*point)->find("minimum")->second;
+		double max = (point->find("max") != point->end()) ? point->find("max")->second : point->find("maximum")->second;
+		double min = (point->find("min") != point->end()) ? point->find("min")->second : point->find("minimum")->second;
 
 
-		CustomisedPoint::const_iterator ten   = (*point)->find("ten");
-        CustomisedPoint::const_iterator ninty = (*point)->find("ninety");
+		CustomisedPoint::const_iterator ten   = point->find("ten");
+        CustomisedPoint::const_iterator ninty = point->find("ninety");
 
 	      
 		vector<double> eps;
-		eps.push_back( (**point)["min"]);
-		eps.push_back( (**point)["ten"]);
-		eps.push_back( (**point)["twenty_five"]);
-		eps.push_back( (**point)["median"]);
-		eps.push_back( (**point)["seventy_five"]);
-		eps.push_back( (**point)["ninety"]);
-		eps.push_back( (**point)["max"]);
+		eps.push_back( (*point)["min"]);
+		eps.push_back( (*point)["ten"]);
+		eps.push_back( (*point)["twenty_five"]);
+		eps.push_back( (*point)["median"]);
+		eps.push_back( (*point)["seventy_five"]);
+		eps.push_back( (*point)["ninety"]);
+		eps.push_back( (*point)["max"]);
 
 		std::sort(eps.begin(), eps.end());
 
@@ -1050,7 +1052,7 @@ void EpsLight::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 
 	        
         double epsmin, eps10, eps25,  eps50, eps75, eps90, epsmax;
-        if ( ninty != (*point)->end() ) {
+        if ( ninty != point->end() ) {
         	epsmin = eps[0];
         	eps10 = eps[1];
        		eps25 = eps[2];
@@ -1434,11 +1436,12 @@ void EpsWind::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 		directions["west"] = 3.14;
 	}
 	
-	for (CustomisedPointsList::const_iterator point = points.begin(); point != points.end(); ++point) {		
+	for (const auto &point : points)
+	{
 		double total = 0;
 		for ( map<string, float>::const_iterator direction = directions.begin(); direction != directions.end(); ++direction) {
 			
-			if ( (*point)->find(direction->first) == (*point)->end() ) {
+			if ( point->find(direction->first) == point->end() ) {
 				vector<string> classification;
 				classification.push_back("one");
 				classification.push_back("two");
@@ -1448,19 +1451,19 @@ void EpsWind::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 				classification.push_back("six");
 				double val = 0;
 				for ( vector<string>::const_iterator key = classification.begin(); key != classification.end(); ++key) {
-					CustomisedPoint::const_iterator value = (*point)->find(direction->first + "_" + *key);
-					if ( value != (*point)->end() ) {
+					CustomisedPoint::const_iterator value = point->find(direction->first + "_" + *key);
+					if ( value != point->end() ) {
 
 						val += ( value->second > 9998.) ? 0 :  value->second;
 					}
 		        }			
-				(**point)[direction->first] = val;
+				(*point)[direction->first] = val;
 				
 				
 			}
-			total += (**point)[direction->first];
+			total += (*point)[direction->first];
 		}
-		(**point)["total"] = total;
+		(*point)["total"] = total;
 		
 		
 		//InteractiveSet* iset = new InteractiveSet();
@@ -1471,10 +1474,10 @@ void EpsWind::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 		
     
 		for ( map<string, float>::const_iterator direction = directions.begin(); direction != directions.end(); ++direction)
-			values.push_back((**point)[direction->first]);
+			values.push_back((*point)[direction->first]);
 			
 		double ms = *std::max_element(values.begin(), values.end());
-		double x = (**point)["step"] + (**point)["shift"];
+		double x = (*point)["step"] + (*point)["shift"];
 	
 		
 			Polyline* grid = new Polyline();
@@ -1497,7 +1500,7 @@ void EpsWind::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 		
 	
 		for ( map<string, float>::const_iterator direction = directions.begin(); direction != directions.end(); ++direction)
-				triangle(*direction, **point, visitor, x, ms);
+				triangle(*direction, *point, visitor, x, ms);
 		
 	}
 	
@@ -1557,12 +1560,13 @@ void EpsCloud::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 				directions["6"] = -3.14* 7/8.;
 				directions["7"] = -3.14 *9/8;
 				directions["8"] =-3.14 *11/8; ;
-	for (CustomisedPointsList::const_iterator point = points.begin(); point != points.end(); ++point) {	
+	for (const auto & point : points)
+	{
 
-		(**point)["total"] = 100;
-		double x = (**point)["step"] + (**point)["shift"];
+		(*point)["total"] = 100;
+		double x = (*point)["step"] + (*point)["shift"];
 		for ( map<string, float>::const_iterator direction = directions.begin(); direction != directions.end(); ++direction)
-				triangle(*direction, **point, visitor, x);
+				triangle(*direction, *point, visitor, x);
 	
 	Polyline* grid = new Polyline();
 				grid->setColour(Colour("grey"));
@@ -1598,14 +1602,15 @@ void EpsBar::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 				directions["6"] = 6;
 				directions["7"] = 7;
 				directions["8"] = 8;
-	for (CustomisedPointsList::const_iterator point = points.begin(); point != points.end(); ++point) {
+	for (const auto &point : points)
+	{
 
-		(**point)["total"] = 100;
-		double x = (**point)["step"] + (**point)["shift"];
+		(*point)["total"] = 100;
+		double x = (*point)["step"] + (*point)["shift"];
 		for ( map<string, float>::const_iterator direction = directions.begin(); direction != directions.end(); ++direction) {
 			 Hsl hsl = colour_->hsl();
 			 float light = hsl.light_;
-			 hsl.light_ += (0.99 - light)*((100- (**point)[direction->first])/100);
+			 hsl.light_ += (0.99 - light)*((100- (*point)[direction->first])/100);
 			 Polyline* poly = new Polyline();
 			 poly->setThickness(1);
 			 poly->setFillColour(Colour(hsl));
@@ -1762,9 +1767,8 @@ void EpsWave::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 
 	DateTime base = points.front()->base();
 
-	for (CustomisedPointsList::const_iterator point = points.begin(); point != points.end(); ++point) {
-		xpos.push_back((**point)["last"]);		  
-    }
+	for (const auto &point : points)
+		xpos.push_back((*point)["last"]);
 	
 	map<string, float> directions;
 	
@@ -1778,12 +1782,13 @@ void EpsWave::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 	directions["west"] = 3.14 +3.14;
 
 
-	for (CustomisedPointsList::const_iterator point = points.begin(); point != points.end(); ++point) {		
+	for (const auto &point : points)
+	{
 		double total = 0;
 
 		for ( map<string, float>::const_iterator direction = directions.begin(); direction != directions.end(); ++direction) {
 			
-			if ( (*point)->find(direction->first) == (*point)->end() ) {
+			if ( point->find(direction->first) == point->end() ) {
 				vector<string> classification;
 				classification.push_back("one");
 				classification.push_back("two");
@@ -1793,17 +1798,17 @@ void EpsWave::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 				classification.push_back("six");
 				double val = 0;
 				for ( vector<string>::const_iterator key = classification.begin(); key != classification.end(); ++key) {
-					CustomisedPoint::const_iterator value = (*point)->find(direction->first + "_" + *key);
+					CustomisedPoint::const_iterator value = point->find(direction->first + "_" + *key);
 
-					if ( value != (*point)->end() ) 
+					if ( value != point->end() )
 						val += (value->second > 9998. ) ? 0 : value->second;
 				}			
-				(**point)[direction->first] = val;
+				(*point)[direction->first] = val;
 				
 			}
-			total += (**point)[direction->first];
+			total += (*point)[direction->first];
 		}
-		(**point)["total"] = (total) ? total : 50;
+		(*point)["total"] = (total) ? total : 50;
 		
 		
 		//InteractiveSet* iset = new InteractiveSet();
@@ -1814,10 +1819,10 @@ void EpsWave::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 		
     
 		for ( map<string, float>::const_iterator direction = directions.begin(); direction != directions.end(); ++direction)
-			values.push_back((**point)[direction->first]);
+			values.push_back((*point)[direction->first]);
 			
 		double ms = *std::max_element(values.begin(), values.end());
-		double x = (**point)["step"] + (**point)["shift"];
+		double x = (*point)["step"] + (*point)["shift"];
 	
 		
 		Polyline* grid = new Polyline();
@@ -1840,17 +1845,17 @@ void EpsWave::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 	
 		for ( map<string, float>::const_iterator direction = directions.begin(); direction != directions.end(); ++direction)
 			{
-				triangle5(*direction, **point, visitor, x, ms);
+				triangle5(*direction, *point, visitor, x, ms);
 			}
 
 		// Draw the Control
-		if ( (*point)->find("control") != (*point)->end() ) {
+		if ( point->find("control") != point->end() ) {
 			Polyline* control = new Polyline();
 			control->setColour(Colour("red"));
 			control->setThickness(2);
 			control->setLineStyle(M_DASH);
 
-			double angle = (**point)["control"] - 180.;
+			double angle = (*point)["control"] - 180.;
 
 			control->push_back(PaperPoint(x , 0));
 			control->push_back(PaperPoint(x +(l100 * sin(angle*(3.14/180.))), l100 * cos(angle*(3.14/180.))));
@@ -1858,14 +1863,14 @@ void EpsWave::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 		}
 
 		// Draw the Forecast
-		if ( (*point)->find("hres") != (*point)->end() ) {
+		if ( point->find("hres") != point->end() ) {
 			Polyline* hres = new Polyline();
 			hres->setColour(Colour("blue"));
 			hres->setThickness(2);
 			hres->setLineStyle(M_SOLID);
 
 
-			double angle = (**point)["hres"]-180;
+			double angle = (*point)["hres"]-180;
 			hres->push_back(PaperPoint(x , 0));
 			hres->push_back(PaperPoint(x +(l100 * sin(angle*(3.14/180.))), l100 * cos(angle*(3.14/180.))));
 			visitor.push_back(hres);
@@ -1921,14 +1926,15 @@ void CdfGraph::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 	    efi->setLineStyle(clim_style_);
 	    efi->setThickness(clim_thickness_);
 	    vector<double> clim;
-		for (CustomisedPointsList::const_iterator point = points.begin(); point != points.end(); ++point) {		
+	    for (const auto &point : points)
+		{
 			
 			vector<double> steps;
 			for ( int i = 0; i <=100; i++) {		    
 				ostringstream key;
 				key << "clim_" << i;
-				map<string, double>::const_iterator step = (*point)->find(key.str());
-				if (step != (*point)->end() ) {
+				map<string, double>::const_iterator step = point->find(key.str());
+				if (step != point->end() ) {
                     MagLog::dev() << key.str() << ":" << step->second << "-->" << i << endl;
 					efi->push_back(PaperPoint(step->second, i));
 					clim.push_back(step->second);
@@ -1996,21 +2002,22 @@ void CdfGraph::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 	    efi->setThickness(*thickness);
 	    ++thickness;
         ++style;
-		for (CustomisedPointsList::const_iterator point = points.begin(); point != points.end(); ++point) {		
+        for (const auto &point : points)
+		{
 			
 			vector<double> steps;
 			for ( int i = 0; i <=100; i++) {		    
 				ostringstream key;
 				key << step << "_" << i;
-				map<string, double>::const_iterator step = (*point)->find(key.str());
-				if (step != (*point)->end() ) {
+				map<string, double>::const_iterator step = point->find(key.str());
+				if (step != point->end() ) {
                     MagLog::dev() << key.str() << ":" << step->second << "-->" << i << endl;
 					efi->push_back(PaperPoint(step->second, i));
                 }
 			}	
 			ostringstream key;
 			key << step << "_step";
-			map<string, double>::const_iterator info = (*point)->find(key.str());
+			map<string, double>::const_iterator info = point->find(key.str());
 			int s = info->second;
 			ostringstream legend;
 			legend << "t+ [" << s - 24 << "-" << s <<"h] " ;
@@ -2191,22 +2198,22 @@ void EpsShade::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 	vector<PaperPoint> ninetynine, ninetyninemin, ninetyninemax;
     
     
-    
-	for (CustomisedPointsList::const_iterator point = points.begin(); point != points.end(); ++point) {
+    for (const auto &point : points)
+	{
 		
-		double x = (**point)["step"];
+		double x = (*point)["step"];
 		
         
 		
-		CustomisedPoint::const_iterator y1 = (*point)->find("one");       
-		CustomisedPoint::const_iterator y10 = (*point)->find("ten");
-        CustomisedPoint::const_iterator y90 = (*point)->find("ninety");
-        CustomisedPoint::const_iterator y99 = (*point)->find("ninety_nine");  
-		CustomisedPoint::const_iterator y50 = (*point)->find("fifty");
-		CustomisedPoint::const_iterator y25 = (*point)->find("twenty_five");
-		CustomisedPoint::const_iterator y75 = (*point)->find("seventy_five");
+		CustomisedPoint::const_iterator y1 = point->find("one");
+		CustomisedPoint::const_iterator y10 = point->find("ten");
+        CustomisedPoint::const_iterator y90 = point->find("ninety");
+        CustomisedPoint::const_iterator y99 = point->find("ninety_nine");
+		CustomisedPoint::const_iterator y50 = point->find("fifty");
+		CustomisedPoint::const_iterator y25 = point->find("twenty_five");
+		CustomisedPoint::const_iterator y75 = point->find("seventy_five");
 
-        if ( (**point)["tmin"] ) {		
+        if ( (*point)["tmin"] ) {
             tenmin.push_back(PaperPoint(x, y10->second));
 		    nintymin.push_back(PaperPoint(x, y90->second));
 		    twentyfivemin.push_back(PaperPoint(x, y25->second));
@@ -2215,7 +2222,7 @@ void EpsShade::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
             onemin.push_back(PaperPoint(x, y1->second));
             ninetyninemin.push_back(PaperPoint(x, y99->second));
         }
-        else if ( (**point)["tmax"] ) {
+        else if ( (*point)["tmax"] ) {
             tenmax.push_back(PaperPoint(x, y10->second));
 		    nintymax.push_back(PaperPoint(x, y90->second));
 		    twentyfivemax.push_back(PaperPoint(x, y25->second));
@@ -2509,8 +2516,8 @@ void EpsDirection::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 
 	DateTime base = points.front()->base();
 	
-	
-	for (CustomisedPointsList::const_iterator point = points.begin(); point != points.end(); ++point) {		
+	for (const auto &point : points)
+	{
 	
         
 		
@@ -2521,11 +2528,11 @@ void EpsDirection::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 			
 			
 		
-		    double x = (**point)["step"] + (**point)["shift"];
+		    double x = (*point)["step"] + (*point)["shift"];
 		    
-		    if ( (**point)[keyword_] == 9999 ) continue;
+		    if ( (*point)[keyword_] == 9999 ) continue;
 		    
-	        double angle = ((2*3.14) - (((**point)[keyword_]-90)/180) * 3.14) + 3.14;
+	        double angle = ((2*3.14) - (((*point)[keyword_]-90)/180) * 3.14) + 3.14;
 		
 			Polyline* grid = new Polyline();
 			grid->setColour(*line_colour_);
@@ -2696,13 +2703,14 @@ void EpsPlume::timeserie(Data& data, BasicGraphicsObjectContainer& visitor)
 		for ( vector<double>::iterator level = shading_levels_.begin(); level != shading_levels_.end(); ++level)
 			shading.insert(make_pair(*level, vector<PaperPoint>()));
 	}
-	for (CustomisedPointsList::const_iterator point = points.begin(); point != points.end(); ++point) {
+	for (const auto &point : points)
+	{
 
-		double x = (**point)["step"] + (**point)["shift"];
-		double missing = (**point)["missing"];
+		double x = (*point)["step"] + (*point)["shift"];
+		double missing = (*point)["missing"];
 
 		vector<double> members;
-		for ( map<string, double>::const_iterator value = (*point)->begin(); value != (*point)->end(); ++value) {
+		for ( map<string, double>::const_iterator value = point->begin(); value != point->end(); ++value) {
 
 			if ( alldigit(value->first) ) {
 				if ( line_ ) {
@@ -2813,11 +2821,11 @@ void EpsPlume::verticalprofile(Data& data, BasicGraphicsObjectContainer& visitor
 	forecast->setThickness(forecast_line_thickness_);
 	forecast->setLineStyle(forecast_line_style_);
 
-
-	for (CustomisedPointsList::const_iterator point = points.begin(); point != points.end(); ++point) {
-		double y = (**point)["y"];
-		for ( map<string, double>::const_iterator value = (*point)->begin(); value != (*point)->end(); ++value) {
-			if ( value->second == (**point)["missing"] )
+	for (const auto &point : points)
+	{
+		double y = (*point)["y"];
+		for ( map<string, double>::const_iterator value = point->begin(); value != point->end(); ++value) {
+			if ( value->second == (*point)["missing"] )
 				continue;
 			if ( alldigit(value->first) ) {
 				map<string, Polyline* >::iterator  iline = lines.find(value->first);
@@ -2883,17 +2891,18 @@ void EfiGraph::operator()(Data& data, BasicGraphicsObjectContainer& out)
 	font.colour(*font_colour_);
 
 	out.push_back(ref);
-	for (CustomisedPointsList::const_iterator point = points.begin(); point != points.end(); ++point) {
+	for (const auto &point : points)
+	{
 
-		ref->push_back(PaperPoint(0, (**point)["steps"]+1));
-		for (int i = 1; i <= (**point)["steps"]; i++) {
+		ref->push_back(PaperPoint(0, (*point)["steps"]+1));
+		for (int i = 1; i <= (*point)["steps"]; i++) {
 			ostringstream key;
 			key << "efi" << i << "_value";
 			ostringstream step;
 			step << "efi" << i << "_step";
-			bool available = ((*point)->find(step.str()) != (*point)->end());
+			bool available = (point->find(step.str()) != point->end());
 
-			int s = (**point)[step.str()];
+			int s = (*point)[step.str()];
 			ostringstream legend;
 			legend << "t+ [" << s - 36 << "-" << s - 12 <<"h] " ;
 
@@ -2905,7 +2914,7 @@ void EfiGraph::operator()(Data& data, BasicGraphicsObjectContainer& out)
 			box->setShading(new FillShadingProperties());
 			box->setFillColour(*colour);
 			++colour;
-			double val = (**point)[key.str()];
+			double val = (*point)[key.str()];
 			box->push_back(PaperPoint(0, i ));
 			box->push_back(PaperPoint(val, i ));
 			box->push_back(PaperPoint(val, i +1));
@@ -3113,14 +3122,14 @@ void CapeBox::operator()(Data& data, BasicGraphicsObjectContainer& visitor)
 	data.customisedPoints(transformation, request, points, true); // we want all the points!
 
 	
-
-	for (CustomisedPointsList::const_iterator point = points.begin(); point != points.end(); ++point) {
+	for (const auto &point : points)
+	{
 		
-		if ( magCompare((*point)->identifier(), string("cape0")) ) {
-			cape0_ =  (**point)["size"];
+		if ( magCompare(point->identifier(), string("cape0")) ) {
+			cape0_ =  (*point)["size"];
 			continue;
 		}
-		box(**point, visitor);
+		box(*point, visitor);
 
 	}
 

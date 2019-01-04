@@ -25,7 +25,7 @@
 #include "magics.h"
 #include "Factory.h"
 #include "MagTranslator.h"
-#include "VectorOfPointers.h"
+#include "AutoVector.h"
 #include "BasicGraphicsObject.h"
 
 
@@ -46,7 +46,7 @@ public:
      virtual void toxml(ostream&, int)  const {}
     virtual void count(double, double) {}
     virtual void setToFirst(Layout&) {}
-    virtual BasicGraphicsObject* next()  { return *(current_++); }
+    virtual BasicGraphicsObject* next()  { return (*(current_++)).get(); }
     virtual bool more()     		    { return current_ != objects_.end(); }
     string button(int);
 
@@ -54,8 +54,8 @@ protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).
 	 virtual void print(ostream&) const; 
      
-    VectorOfPointers<vector<BasicGraphicsObject*> >			    objects_;
-    VectorOfPointers<vector<BasicGraphicsObject*> >::iterator	current_;
+    AutoVector<BasicGraphicsObject>			    objects_;
+    AutoVector<BasicGraphicsObject>::iterator	current_;
     static int count_;
 
 private:

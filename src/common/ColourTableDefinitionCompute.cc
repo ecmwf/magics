@@ -69,12 +69,13 @@ void ColourTableDefinitionCompute::set(const XmlNode& node)
 	direction_ = node.getAttribute("direction");
 	MagLog::warning() << "ColourTableDefinitionCompute::set(const XmlNode&): to be implemented\n";
 	
-	for (XmlNode::ElementIterator elt = node.firstElement(); elt != node.lastElement(); ++elt) {
-		if ( magCompare((*elt)->name(), "min_colour") ) {
-			minColour_ = Colour((*elt)->data());
+	for (auto &elt : node.elements())
+	{
+		if ( magCompare (elt->name(), "min_colour") ) {
+			minColour_ = Colour(elt->data());
 		}
-		if ( magCompare((*elt)->name(), "max_colour") ) {
-			maxColour_ = Colour((*elt)->data());
+		if ( magCompare(elt->name(), "max_colour") ) {
+			maxColour_ = Colour(elt->data());
 		}
 		
 	}

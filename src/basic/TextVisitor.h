@@ -105,7 +105,7 @@ protected:
 	string label_;
 	mutable vector<Text*> texts_;
 	mutable map<string, vector<Text*> > currentTexts_;
-	VectorOfPointers<vector<TextEntry* > > currentLine_;
+	AutoVector<TextEntry> currentLine_;
 	
      
 private:

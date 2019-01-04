@@ -427,19 +427,20 @@ void GraphFlag::operator()(Data& data, BasicGraphicsObjectContainer& out)
 	double x, y, missing;
 	double intensity, direction;
     
-	for (CustomisedPointsList::const_iterator point = points.begin(); point != points.end(); ++point) {
+	for (const auto &point : points)
+	{
 		i++;
        
-		x = (**point)["x"];
-		y = (**point)["y"];
-		missing  = ((*point)->find("intensity") != (*point)->end()) ? (**point)["missing"] : -99999999;
+		x = (*point)["x"];
+		y = (*point)["y"];
+		missing  = (point->find("intensity") != point->end()) ? (*point)["missing"] : -99999999;
         double lat = 10;
-        if ( (*point)->find("latitude") != (*point)->end() )
-            lat = (**point)["latitude"];
+        if ( point->find("latitude") != point->end() )
+            lat = (*point)["latitude"];
         flags->setHemisphere(lat >0 ? NORTH: SOUTH);
-		if ( (*point)->find("intensity") != (*point)->end() && (*point)->find("direction") != (*point)->end() )   {
-			intensity = (**point)["intensity"];
-			direction = (**point)["direction"];
+		if ( point->find("intensity") != point->end() && point->find("direction") != point->end() )   {
+			intensity = (*point)["intensity"];
+			direction = (*point)["direction"];
 			if ( intensity == missing || direction == missing) 
 				continue;	
 			UserPoint pos(x, y);
@@ -515,16 +516,17 @@ void GraphArrow::operator()(Data& data, BasicGraphicsObjectContainer& out)
 	int i = 0;
 	double x, y, missing;
 	double intensity, direction;
-	for (CustomisedPointsList::const_iterator point = points.begin(); point != points.end(); ++point) {
+	for (const auto &point : points)
+	{
 		i++;
        
-		x = (**point)["x"];
-		y = (**point)["y"];
-		missing  = ((*point)->find("intensity") != (*point)->end()) ? (**point)["missing"] : -99999999;
+		x = (*point)["x"];
+		y = (*point)["y"];
+		missing  = (point->find("intensity") != point->end()) ? (*point)["missing"] : -99999999;
         
-		if ( (*point)->find("intensity") != (*point)->end() && (*point)->find("direction") != (*point)->end() )   {
-			intensity = (**point)["intensity"];
-			direction = (**point)["direction"];
+		if ( point->find("intensity") != point->end() && point->find("direction") != point->end() )   {
+			intensity = (*point)["intensity"];
+			direction = (*point)["direction"];
 			if ( intensity == missing || direction == missing) 
 				continue;	
 			UserPoint pos(x, y);

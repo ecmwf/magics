@@ -190,11 +190,11 @@ void SimplePolylineVisualiser::smooth(Data& data, BasicGraphicsObjectContainer& 
    map<double, vector<CustomisedPoint*> > work;
    map<double, vector<CustomisedPoint*> >::iterator where;
 
+   for (auto &point : points)
+   {
 
-   for ( CustomisedPointsList::iterator point = points.begin(); point != points.end(); ++point) {
 
-
-	   double index = priority(**point);
+	   double index = priority(*point);
 	   if ( index > lastone )
 		   lastone = index;
 	   where = work.find( index );
@@ -202,7 +202,7 @@ void SimplePolylineVisualiser::smooth(Data& data, BasicGraphicsObjectContainer& 
 		   work.insert(make_pair(index,vector<CustomisedPoint*>()));
 		   where = work.find( index );
 	   }
-	   where->second.push_back(*point);
+	   where->second.push_back(point.get());
 
    }
 

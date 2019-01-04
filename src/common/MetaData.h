@@ -24,7 +24,7 @@
 #include "Factory.h"
 
 #include "MetaDataAttributes.h"
-#include "VectorOfPointers.h"
+#include "AutoVector.h"
 #include "BasicSceneObject.h"
 
 namespace magics {
@@ -67,7 +67,7 @@ public:
         { p.print(s); return s; }
 };
 
-typedef  VectorOfPointers<vector<MetaDataEntry*> > MetaDataEntryList;
+typedef  AutoVector<MetaDataEntry> MetaDataEntryList;
 
 class MetaDataVisitor: public MetaDataAttributes, public MetaDataEntryList, public BasicSceneObject {
 
@@ -106,7 +106,7 @@ protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).
 	 virtual void print(ostream&) const; 
 	 map<string, string> web_;
-     VectorOfPointers<vector<StyleEntry*> > styles_;
+     AutoVector<StyleEntry> styles_;
      
 	 static vector<MetaDataVisitor*> meta_;
 	 static string start_;

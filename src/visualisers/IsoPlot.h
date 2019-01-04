@@ -27,7 +27,7 @@
 #include "IsoPlotAttributes.h"
 #include "BasicSceneObject.h"
 #include "Polyline.h"
-#include "VectorOfPointers.h"
+#include "AutoVector.h"
 #include "XmlNode.h"
 #include "IsoHelper.h"
 #include "Timer.h"
@@ -42,7 +42,7 @@ namespace magics {
 
 class Cell;
 
-class CellArray : public VectorOfPointers<vector<Cell* > > {
+class CellArray : public AutoVector<Cell> {
 public:
 	CellArray(MatrixHandler& data, IntervalMap<int>& range, const Transformation& transformation, int, int, float, const string&);
 	CellArray(MatrixHandler& data, IntervalMap<int>& range);
@@ -55,7 +55,7 @@ public:
 	MatrixHandler& data_;
 
 	Cell* operator()(int row, int column) const {
-		return (*this)[row*columns_ + column];
+		return (*this)[row*columns_ + column].get();
 	}
 	
 	double rows() const { return points_.rows(); }
