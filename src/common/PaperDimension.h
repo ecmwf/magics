@@ -43,7 +43,7 @@ public:
 protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).
 #ifdef MAGICS_ON_WINDOWS
-	 virtual void print(ostream&) const;
+	 virtual void print(ostream&) const {};
 #else
 	 virtual void print(ostream&) const = 0; 
 #endif
