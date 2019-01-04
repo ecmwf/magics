@@ -29,9 +29,9 @@ namespace magics {
 class XmlReader : private std::stack<XmlNode*> {
 
 public:
-	XmlReader(bool tag=false);
-	virtual ~XmlReader();
-	void interpret(const string&, XmlTree*);
+	MAGICS_EXPORT XmlReader(bool tag=false);
+	MAGICS_EXPORT virtual ~XmlReader();
+	MAGICS_EXPORT void interpret(const string&, XmlTree*);
 	int decode(const string&, XmlTree*);
 	void newElement(const string&, const map<string, string>&);
 	void endElement(const string&);
