@@ -235,8 +235,8 @@ void RightAxisVisitor::minortick(double& x1, double& x2, bool)
 
 double  RightAxisVisitor::offsetTickLabel(double height, double from)
 {
-	cout << "height" << height << endl;
-	double h =  ((current_->xmax_ - current_->xmin_)*current_->absoluteWidth()) / (height);
+	
+	double h =  ((current_->xmax_ - current_->xmin_)/current_->absoluteWidth()) * (2*height);
 	return from + h;
 
 }
