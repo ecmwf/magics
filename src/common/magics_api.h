@@ -19,7 +19,7 @@
 #ifndef _MAGICS_API_H_
 #define _MAGICS_API_H_
 
-#include "magics.h"
+#include "magics_export.h"
 
 #ifdef __cplusplus
 extern "C" {
