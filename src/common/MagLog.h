@@ -55,9 +55,9 @@ public:
 	static ostream& debug();
 	static ostream& info();
 	static ostream& userInfo();
-	static ostream& error();
+	MAGICS_EXPORT static ostream& error();
 	static ostream& fatal();
-	static ostream& dev();
+	MAGICS_EXPORT static ostream& dev();
 	static ostream& profile();
 	static ostream& progress();
 	static void progress(const string&);
