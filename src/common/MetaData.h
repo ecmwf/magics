@@ -98,7 +98,7 @@ public:
 
     static void collect();
 
-    static void start();
+    MAGICS_EXPORT static void start();
     
 protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).
