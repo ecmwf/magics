@@ -335,9 +335,6 @@ public:
 	}		 
 
 	bool within(const PaperPoint& point) const ;  
-
-	void clip(const Polyline& poly, vector<Polyline>&) const;
-
 	void clip(const Polyline& poly, vector<Polyline*>&) const;
 	void intersect(const Polyline& poly, vector<Polyline*>&) const;
 

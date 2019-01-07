@@ -367,6 +367,9 @@ void GribDecoder::release()
 void GribDecoder::visit(Transformation& transformation)
 {
     decode();
+    
+    if ( !matrix_ ) 
+        return;
     if(transformation.coordinateType() == Transformation::GeoType ) {
         transformation.setMinMaxX(matrix_->minX(), matrix_->maxX());
         transformation.setMinMaxY(matrix_->minY(), matrix_->maxY());

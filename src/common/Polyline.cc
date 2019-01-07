@@ -228,11 +228,7 @@ void Polyline::intersect(const Polyline& poly, vector<Polyline*>& out) const
     MagClipper::clip(poly, *this, out);
 }
 
-void Polyline::clip(const Polyline& poly, vector<Polyline>& out) const
-{
-    // Use of a MagClipper
-    assert(false);
-}
+
 
 void feed(const deque<PaperPoint>& points, const Polyline& box, vector<Polyline*>& out)
 {
