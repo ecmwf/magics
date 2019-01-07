@@ -211,13 +211,13 @@ void Symbol::redisplay(const BaseDriver& driver) const
 
 	driver.redisplay(symbol);
 
-	vector<Polyline> lines;
+	vector<Polyline*> lines;
 
 	boundingbox_.clip(line, lines);
 
-	for ( vector<Polyline>::const_iterator l = lines.begin(); l != lines.end(); ++l) {
+	for ( vector<Polyline*>::const_iterator l = lines.begin(); l != lines.end(); ++l) {
 
-		driver.redisplay(*l);
+		driver.redisplay(**l);
 	}
 }
 
@@ -269,12 +269,12 @@ void TextSymbol::redisplay(const BaseDriver& driver) const
 			line.push_back(*point);
 		}
 
-		vector<Polyline> lines;
+		vector<Polyline*> lines;
 
 		boundingbox_.clip(line, lines);
 
-		for ( vector<Polyline>::const_iterator l = lines.begin(); l != lines.end(); ++l) {
-			driver.redisplay(*l);
+		for ( vector<Polyline*>::const_iterator l = lines.begin(); l != lines.end(); ++l) {
+			driver.redisplay(**l);
 		}
 		//first  we remove the point that are outside!
 		// here we cast to be able to clean the symbol list!
