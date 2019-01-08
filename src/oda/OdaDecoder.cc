@@ -325,7 +325,7 @@ void OdaGeoDecoder::customisedPoints(const std::set<string>&, CustomisedPointsLi
 {
      	if(!customisedPoints_.empty())
 	{
-	  	for (vector<CustomisedPoint*>::const_iterator point =customisedPoints_.begin(); point != customisedPoints_.end(); ++point) 
+	  	for (CustomisedPointsList::iterator point =customisedPoints_.begin(); point != customisedPoints_.end(); ++point) 
 		{			  		  
 			CustomisedPoint*  cp = new CustomisedPoint((*point)->longitude(), (*point)->latitude(), (*point)->identifier());
 			for(CustomisedPoint::iterator key = (*point)->begin(); key != (*point)->end(); ++key)
@@ -429,7 +429,7 @@ void OdaGeoDecoder::customisedPoints(const Transformation& transformation, const
 {
 	if(!customisedPoints_.empty())
 	{
-	  	for (vector<CustomisedPoint*>::const_iterator point =customisedPoints_.begin(); point != customisedPoints_.end(); ++point) 
+	  	for (CustomisedPointsList::iterator point =customisedPoints_.begin(); point != customisedPoints_.end(); ++point) 
 		{			  		  
 			CustomisedPoint*  cp = new CustomisedPoint((*point)->longitude(), (*point)->latitude(), (*point)->identifier());
 			for(CustomisedPoint::const_iterator key = (*point)->begin(); key != (*point)->end(); ++key)
