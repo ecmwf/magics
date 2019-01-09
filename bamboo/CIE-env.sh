@@ -15,3 +15,4 @@ module unload libemos
 module unload metview
 
 module load cmake
+module load netcdf4
