@@ -37,7 +37,7 @@ elseif(EC_OS_NAME MATCHES "windows")
     find_library( PANGO_LIB      pango-1.0      PATHS "${PANGO_PATH}/lib" )
     find_library( PANGOCAIRO_LIB pangocairo-1.0 PATHS "${PANGO_PATH}/lib" )
     find_library( CAIRO_LIB      cairo          PATHS ENV PATH)
-    find_library( GLIB_LIB       glib-2.0       PATHS "${GLIB_PATH}/lib" )
+    find_library( GLIB_LIB       glib-2.0       PATHS ENV PATH)
     set( PANGOCAIRO_LIBRARIES ${PANGO_LIB} ${PANGOCAIRO_LIB} ${CAIRO_LIB} ${GLIB_LIB} )
 
     find_package_handle_standard_args( PangoCairo DEFAULT_MSG PANGOCAIRO_LIBRARIES PANGOCAIRO_INCLUDE_DIRS )
