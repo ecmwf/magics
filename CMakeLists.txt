@@ -172,6 +172,28 @@ find_package( Proj4 REQUIRED )
 find_package( EXPAT REQUIRED )
 
 ###############################################################################
+# compiler options
+
+if( EC_OS_NAME MATCHES "windows" )
+    # Suppress compliler warnings
+    # Suppress warnings about using 'insecure' functions. Fixing this would require changes all over
+    # the codebase which would damage portability.
+    ecbuild_add_c_flags("/D_CRT_SECURE_NO_WARNINGS")
+    ecbuild_add_cxx_flags("/D_CRT_SECURE_NO_WARNINGS")
+    # Suppress warnings about using well-known C functions.
+    ecbuild_add_c_flags("/D_CRT_NONSTDC_NO_DEPRECATE")
+    ecbuild_add_cxx_flags("/D_CRT_NONSTDC_NO_DEPRECATE")
+    # Suppress C4267: warns about possible loss of data when converting 'size_t' to 'int'.
+    ecbuild_add_c_flags("/wd4267")
+    ecbuild_add_cxx_flags("/wd4267")
+    # Suppress C4800: forcing value to bool 'true' or 'false'
+    ecbuild_add_cxx_flags("/wd4800")
+
+    # Prevent fatal error C1128
+    ecbuild_add_cxx_flags("/bigobj")
+endif()
+
+###############################################################################
 # contents
 
 set( MAGICS_TPLS eccodes spot EXPAT NetCDF Proj4 )
