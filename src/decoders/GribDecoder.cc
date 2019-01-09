@@ -26,6 +26,8 @@
 #include "magics_windef.h"
 #ifndef MAGICS_ON_WINDOWS
 #include <unistd.h>
+#else
+#include <fcntl.h>
 #endif
 
 #include "TitleTemplate.h"
@@ -758,6 +760,11 @@ grib_handle*  GribDecoder::open(grib_handle* grib, bool sendmsg)
         return grib;
     }
 
+#ifdef MAGICS_ON_WINDOWS
+    int original_mode;
+    _get_fmode(&original_mode);
+    _set_fmode(_O_BINARY);
+#endif
 
     FILE* file = fopen(file_name_.c_str(),"r");
     handle_ = 0;
@@ -786,6 +793,10 @@ grib_handle*  GribDecoder::open(grib_handle* grib, bool sendmsg)
         }
     }
     fclose(file);
+
+#ifdef MAGICS_ON_WINDOWS
+    _set_fmode(original_mode);
+#endif
 
     return handle_;
 }
