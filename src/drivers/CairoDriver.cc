@@ -355,23 +355,23 @@ MAGICS_NO_EXPORT void CairoDriver::endPage() const
 		Timer timer("cairo", "write png");
 		fileName_ = getFileName("png" ,currentPage_);
 
-    cairo_status_t status = CAIRO_STATUS_SUCCESS;
+		cairo_status_t status = CAIRO_STATUS_SUCCESS;
 		if(magCompare(palette_,"on"))
 		{
-		   if(!write_8bit_png())
-		   {
-         MagLog::warning() << "CairoDriver::renderPNG > palletted PNG failed! Generate 24 bit one ..." << endl;
-         status = cairo_surface_write_to_png(surface_, fileName_.c_str());
-		   }
+			if(!write_8bit_png())
+			{
+				MagLog::warning() << "CairoDriver::renderPNG > palletted PNG failed! Generate 24 bit one ..." << endl;
+				status = cairo_surface_write_to_png(surface_, fileName_.c_str());
+			}
 		}
 		else
 		{
-		   status = cairo_surface_write_to_png(surface_, fileName_.c_str());
+			status = cairo_surface_write_to_png(surface_, fileName_.c_str());
 		}
 		if(status != CAIRO_STATUS_SUCCESS){
-      MagLog::error() << "PNG could NOT be written - " << cairo_status_to_string(status) <<endl;
-      MagLog::error() << "^^^^^^^^^^^^^^^^^^^^^^^^" <<endl;
-    }
+			MagLog::error() << "PNG could NOT be written - " << cairo_status_to_string(status) <<endl;
+			MagLog::error() << "^^^^^^^^^^^^^^^^^^^^^^^^" <<endl;
+		}
 		if(!fileName_.empty()) printOutputName("CAIRO png "+fileName_);
 	}
 	else if (magCompare(backend_,"geotiff") )
