@@ -33,11 +33,11 @@ if(PC_LIBPANGOCAIRO_FOUND)
 
 elseif(EC_OS_NAME MATCHES "windows")
 
-    find_path( PANGOCAIRO_INCLUDE_DIRS pango/pangocairo.h   PATHS "${PANGO_PATH}/include/pango-1.0/" )
-    find_library( PANGO_LIB      pango-1.0      PATHS "${PANGO_PATH}/lib" )
-    find_library( PANGOCAIRO_LIB pangocairo-1.0 PATHS "${PANGO_PATH}/lib" )
-    find_library( CAIRO_LIB      cairo          PATHS ENV PATH)
-    find_library( GLIB_LIB       glib-2.0       PATHS ENV PATH)
+    find_path( PANGOCAIRO_INCLUDE_DIRS pango/pangocairo.h   PATHS "${GTK_PATH}/include/pango-1.0/" )
+    find_library( PANGO_LIB      pango-1.0      PATHS "${GTK_PATH}/lib" )
+    find_library( PANGOCAIRO_LIB pangocairo-1.0 PATHS "${GTK_PATH}/lib" )
+    find_library( CAIRO_LIB      cairo          PATHS "${GTK_PATH}/lib" )
+    find_library( GLIB_LIB       glib-2.0       PATHS "${GTK_PATH}/lib" )
     set( PANGOCAIRO_LIBRARIES ${PANGO_LIB} ${PANGOCAIRO_LIB} ${CAIRO_LIB} ${GLIB_LIB} )
 
     find_package_handle_standard_args( PangoCairo DEFAULT_MSG PANGOCAIRO_LIBRARIES PANGOCAIRO_INCLUDE_DIRS )
