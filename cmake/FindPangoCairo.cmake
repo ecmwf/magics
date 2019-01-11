@@ -18,7 +18,18 @@ find_package(PkgConfig)
 
 pkg_check_modules(PC_LIBPANGOCAIRO QUIET pangocairo)
 
-if(PC_LIBPANGOCAIRO_FOUND)
+if(EC_OS_NAME MATCHES "windows")
+
+    find_path( PANGOCAIRO_INCLUDE_DIRS pango/pangocairo.h   PATHS "${GTK_PATH}/include/pango-1.0/" )
+    find_library( PANGO_LIB      pango-1.0      PATHS "${GTK_PATH}/lib" )
+    find_library( PANGOCAIRO_LIB pangocairo-1.0 PATHS "${GTK_PATH}/lib" )
+    find_library( CAIRO_LIB      cairo          PATHS "${GTK_PATH}/lib" )
+    find_library( GLIB_LIB       glib-2.0       PATHS "${GTK_PATH}/lib" )
+    set( PANGOCAIRO_LIBRARIES ${PANGO_LIB} ${PANGOCAIRO_LIB} ${CAIRO_LIB} ${GLIB_LIB} )
+
+    find_package_handle_standard_args( PangoCairo DEFAULT_MSG PANGOCAIRO_LIBRARIES PANGOCAIRO_INCLUDE_DIRS )
+
+elseif(PC_LIBPANGOCAIRO_FOUND)
 
     include(FindPackageHandleStandardArgs)
     # Handle the QUIET and REQUIRED arguments and set PANGOCAIRO_FOUND to TRUE
@@ -30,17 +41,6 @@ if(PC_LIBPANGOCAIRO_FOUND)
     #set( PANGOCAIRO_LIBRARIES "${PC_LIBPANGOCAIRO_LDFLAGS} ${PC_LIBPANGOCAIRO_LDFLAGS_OTHER}" )
     string (REPLACE ";" " " PANGOCAIRO_LIBRARIES "${PC_LIBPANGOCAIRO_LDFLAGS} ${PC_LIBPANGOCAIRO_LDFLAGS_OTHER}")
     set( PANGOCAIRO_INCLUDE_DIRS ${PC_LIBPANGOCAIRO_INCLUDE_DIRS} )
-
-elseif(EC_OS_NAME MATCHES "windows")
-
-    find_path( PANGOCAIRO_INCLUDE_DIRS pango/pangocairo.h   PATHS "${GTK_PATH}/include/pango-1.0/" )
-    find_library( PANGO_LIB      pango-1.0      PATHS "${GTK_PATH}/lib" )
-    find_library( PANGOCAIRO_LIB pangocairo-1.0 PATHS "${GTK_PATH}/lib" )
-    find_library( CAIRO_LIB      cairo          PATHS "${GTK_PATH}/lib" )
-    find_library( GLIB_LIB       glib-2.0       PATHS "${GTK_PATH}/lib" )
-    set( PANGOCAIRO_LIBRARIES ${PANGO_LIB} ${PANGOCAIRO_LIB} ${CAIRO_LIB} ${GLIB_LIB} )
-
-    find_package_handle_standard_args( PangoCairo DEFAULT_MSG PANGOCAIRO_LIBRARIES PANGOCAIRO_INCLUDE_DIRS )
 
 else()
     message(ERROR " PangoCairo not found!")
