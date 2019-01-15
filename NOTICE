@@ -289,10 +289,3 @@ pngquant.c and rwpng.c/h:
    OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
    OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-win_time.h and win_time.cc
-
-This code was adapted from [0]. The original license of the code was LGPL.
-
-[0] https://www.codefull.org/2015/12/systime-h-replacement-for-windows/
