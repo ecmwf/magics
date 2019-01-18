@@ -88,31 +88,31 @@ extern "C"
 #include <magics_api.h>
 
 
-void psetr_(char* name, double* value, int length)
+MAGICS_EXPORT void psetr_(char* name, double* value, int length)
 {
 	std::string n(name, length);
 	mag_setr(n.c_str(), *value);
 }
 
-void pset1r_(char* name, double* data, int* dim, int length)
+MAGICS_EXPORT void pset1r_(char* name, double* data, int* dim, int length)
 {
 	std::string n(name, length);
 	mag_set1r(n.c_str(), data, *dim);
 }
 
-void pset2r_(char* name, double* data, int *dim, int *dim2, int length)
+MAGICS_EXPORT void pset2r_(char* name, double* data, int *dim, int *dim2, int length)
 {    
 	std::string n(name, length);
 	mag_set2r(n.c_str(), data, *dim, *dim2);
 }
 
-void pset3r_(char* name, double* data, int* dim, int *dim2, int* dim3, int length)
+MAGICS_EXPORT void pset3r_(char* name, double* data, int* dim, int *dim2, int* dim3, int length)
 {    
 	std::string n(name, length);
 	mag_set3r(n.c_str(), data, *dim, *dim2, *dim3);
 }
 
-void penqr_(char* name, double* value, int length)
+MAGICS_EXPORT void penqr_(char* name, double* value, int length)
 {
 	std::string n(name, length);
 	mag_enqr( n.c_str(), value);

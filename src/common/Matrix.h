@@ -26,6 +26,11 @@
 #include "magics.h"
 #include "MagException.h"
 
+#include "magics_windef.h"
+#ifdef MAGICS_ON_WINDOWS
+  #include <iterator>
+#endif
+
 namespace magics {
 
 class XmlNode;

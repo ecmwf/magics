@@ -39,7 +39,7 @@ const double legendHeight_ = 3;
 
 Layout::Layout()  :
 	owner_(0),animationRules_(0), transformation_(0),
-	width_(100), height_(100), x_(0), y_(0), display_(INLINE),
+	width_(100), height_(100), x_(0), y_(0), display_(M_DT_INLINE),
 	xmin_(0), xmax_(100), ymin_(0), ymax_(100),
 	zoomable_(false), navigable_(false), resizable_(false), resolve_(false), clipping_(false)
 {

@@ -33,16 +33,11 @@ XmlTree::XmlTree() : root_("root")
 
 XmlTree::~XmlTree() 
 {
-//	for (map<string, XmlNode*>::iterator id = ids_.begin(); id != ids_.end(); ++id) {
-//		XmlNode* node = id->second;
-//		id->second =0;
-//		delete node;
-//	}
 }
 
 /*!
  Class information are given to the output-stream.
-*/		
+*/
 void XmlTree::print(ostream& out)  const
 {
 	out << "XmlTree[";
@@ -88,6 +83,7 @@ XmlNode* XmlTree::newNode(const string& name, const map<string, string>& def) co
 	}
 	map<string, XmlNode*>::const_iterator id = ids_.find(use_id->second);
 	if ( id == ids_.end() && definitions_.noElement() == false) {
+
 		// We try to update the tree to see 
 		for (auto &elt : definitions_.elements())
 			if (elt->name() == "definition")
@@ -103,9 +99,9 @@ XmlNode* XmlTree::newNode(const string& name, const map<string, string>& def) co
 				break;
 			}
 
-		// we try again! 
-		id = ids_.find(use_id->second); 
-		if ( id == ids_.end() ) { 
+		// we try again!
+		id = ids_.find(use_id->second);
+		if ( id == ids_.end() ) {
 			MagLog::warning() << "Could not find definition for " << use_id->second << "\n";
 			return new XmlNode(name, def);
 		}
@@ -130,4 +126,5 @@ void XmlTree::definition(XmlNode* definition)
 			}
 			break;
 		}
+
 }

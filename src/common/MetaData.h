@@ -96,11 +96,9 @@ public:
     
     void metadata(map<string,string>&);
 
-    virtual void close(); 
-    
     static void collect();
 
-    static void start();
+    MAGICS_EXPORT static void start();
     
 protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).
@@ -140,7 +138,6 @@ public:
 	MetaDataVisitor* clone() const {
         return new NoMetaData();
     }
-    virtual void close() {}
     virtual void visit(BasicGraphicsObjectContainer&) {}
 };
 
