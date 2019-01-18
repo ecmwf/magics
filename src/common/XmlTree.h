@@ -28,8 +28,8 @@ namespace magics {
 class XmlTree {
 
 public:
-	XmlTree();
-	virtual ~XmlTree();
+	MAGICS_EXPORT XmlTree();
+	MAGICS_EXPORT virtual ~XmlTree();
     XmlNode* getParent(const string&);
     void     endElement(const string&); 
     XmlNode* newNode(const string&, const map<string, string>& def) const;

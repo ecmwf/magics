@@ -352,13 +352,10 @@ void ViewNode::visit(SceneLayer& tree)
 
 XmlViewNode::XmlViewNode()
 {
-	//displayType_ = INLINE;
 }
 
 void XmlViewNode::updateLayout()
 {
-//	double width    = 100 - drawing_right_ - drawing_left_;
-//	double height   = 100 - drawing_top_ - drawing_bottom_;
 	
 	drawing_bottom_ = ((drawing_bottom_* layout_->height())/100) + layout_->y();
 	drawing_left_   = ((drawing_left_* layout_->width())/100 ) + layout_->x();

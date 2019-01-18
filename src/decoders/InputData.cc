@@ -22,8 +22,10 @@
 #include "InputData.h"
 #include "SciMethods.h"
 
-
-
+#include "magics_windef.h"
+#ifdef MAGICS_ON_WINDOWS
+  #include <iterator>
+#endif
 
 /*!
  Class information are given to the output-stream.

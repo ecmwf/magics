@@ -89,41 +89,36 @@ struct NetDimension
 };   
 
 
-struct NetAttribute 
+struct NetAttribute
 {
-	string name_;
-	int id_;
+    string name_;
+    int id_;
     int netcdf_;
-	NetAttribute(const string name, int netcdf, int id) : name_(name), netcdf_(netcdf), id_(id) {} 
-	NetAttribute() {}
-	void get(double& val)      { 
-        double tmp; 
-        nc_get_att_double(netcdf_, id_, name_.c_str(), &tmp); 
-        val = tmp;  
+    NetAttribute(const string name, int netcdf, int id) : name_(name), netcdf_(netcdf), id_(id) {} 
+    NetAttribute() {}
+    void get(double& val) {
+        double tmp;
+        nc_get_att_double(netcdf_, id_, name_.c_str(), &tmp);
+        val = tmp;
     }
-	void get(float& val)  { 
-        float tmp; 
-        nc_get_att_float(netcdf_, id_, name_.c_str(), 
-            &tmp); 
+    void get(float& val) {
+        float tmp;
+        nc_get_att_float(netcdf_, id_, name_.c_str(), &tmp);
     }
-	void get(string& val) { 
-          size_t len;
-          nc_inq_attlen (netcdf_, id_, name_.c_str(),&len);
-          
-          char tmp[len];
-          nc_get_att_text(netcdf_, id_, name_.c_str(), tmp);
-          val = string(tmp, len);
-         
-      }
-    void get(char*& val) { 
-          size_t len;
-          nc_inq_attlen (netcdf_, id_, name_.c_str(),&len);
-          char* tmp  = new char[len];
-          //val = new char[len];
-          nc_get_att_text(netcdf_, id_, name_.c_str(), (char*)val);
-         
-    }
+    void get(string& val) {
+        size_t len;
+        nc_inq_attlen (netcdf_, id_, name_.c_str(),&len);
 
+        char *tmp = new char[len];
+        nc_get_att_text(netcdf_, id_, name_.c_str(), tmp);
+        val = string(tmp, len);
+        delete[] tmp;
+    }
+    void get(char*& val) {
+        size_t len;
+        nc_inq_attlen (netcdf_, id_, name_.c_str(),&len);
+        nc_get_att_text(netcdf_, id_, name_.c_str(), (char*)val);
+    }
 };
 
 class NetVariable;

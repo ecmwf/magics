@@ -26,6 +26,11 @@
 #include "ContourLibrary.h"
 #include <limits>
 
+#include "magics_windef.h"
+#ifdef MAGICS_ON_WINDOWS
+  #include <iterator>
+#endif
+
 using namespace magics;
 
 InputMatrix::InputMatrix():  matrix_(0), u_(0), v_(0), speed_(0), direction_(0)

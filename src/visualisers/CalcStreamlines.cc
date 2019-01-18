@@ -25,6 +25,7 @@
 #include <math.h>
 #include <float.h>
 
+#include "magics_windef.h"
 #include "CalcStreamlines.h"
 
 

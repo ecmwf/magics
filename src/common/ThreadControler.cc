@@ -15,7 +15,7 @@
 #include <signal.h>
 #include <assert.h>
 
-#ifndef linux
+#if !(defined linux || defined magics_windows)
 #include <sys/sched.h>
 #endif
 
@@ -45,7 +45,11 @@ using namespace magics;
 
 ThreadControler::ThreadControler(Thread* proc,bool detached):
 	detached_(detached),
+#ifndef MAGICS_ON_WINDOWS
 	thread_(0),
+#else
+	thread_({{0},{0}}),
+#endif
 	proc_(proc),
 	running_(false)
 {
@@ -93,6 +97,7 @@ void ThreadControler::execute()
 
 	// We don't want to recieve reconfigure events
 
+#ifndef MAGICS_ON_WINDOWS
 	sigset_t set,old_set;
 
 	sigemptyset(&set);
@@ -106,6 +111,7 @@ void ThreadControler::execute()
 #else
 	SYSCALL(pthread_sigmask(SIG_BLOCK, &set, &old_set));
 #endif
+#endif
 
 	//=============
 
@@ -115,26 +121,31 @@ void ThreadControler::execute()
 	catch(MagException& e){
 		magics::MagLog::error() << "** " << e.what() << " Caught in " 
 			<< here <<  endl;
-		magics::MagLog::error() << "** MagException is termiates thread " 
+#ifndef MAGICS_ON_WINDOWS
+		magics::MagLog::error() << "** MagException is termiates thread "
 			<< pthread_self() << endl;
+#else
+		pthread_t pt = pthread_self();
+		magics::MagLog::error() << "** MagException is termiates thread "
+			<< pt.p << pt.x << endl;
+#endif
 	}
 	catch(...)
 	{
 		magics::MagLog::error() << "** UNKNOWN MagException Caught in " 
 			<< here <<  endl;
+#ifndef MAGICS_ON_WINDOWS
 		magics::MagLog::error() << "** MagException is termiates thread " 
 			<< pthread_self() << endl;
-	}
-
-#ifdef linux
-	//if(proc->data_)
-	//	MemoryPool::largeDeallocate(proc->data_);
+#else
+		pthread_t pt = pthread_self();
+		magics::MagLog::error() << "** MagException is termiates thread "
+			<< pt.p << pt.x << endl;
 #endif
+	}
 
 	if(proc->autodel_)
 		delete proc;
-
-
 }
 
 void *ThreadControler::startThread(void *data)
@@ -145,37 +156,28 @@ void *ThreadControler::startThread(void *data)
 
 void ThreadControler::start()
 {
+#ifndef MAGICS_ON_WINDOWS
 	ASSERT(thread_ == 0);
+#else
+	ASSERT(thread_.p == 0);
+	ASSERT(thread_.x == 0);
+#endif
 
 	pthread_attr_t attr;
 	pthread_attr_init(&attr);
 
-
 #ifdef linux
-
 	proc_->data_ = 0;
 
-    size_t size = 2*1024*1024;
+	size_t size = 2*1024*1024;
 
-    if (!getEnvVariable("MAGPLUS_STACK_SIZE").empty() ) {
-        size = tonumber(getEnvVariable("MAGPLUS_STACK_SIZE"));
-        MagLog::warning() << "MAGPLUS_STACK_SIZE jas been set to "<< size << endl;
-    }
-
-	pthread_attr_setstacksize(&attr,size);
-
-#if 0
-	const size_t size = 2*1024*1024;
-	void *stack = MemoryPool::largeAllocate(size);
+	if (!getEnvVariable("MAGPLUS_STACK_SIZE").empty() ) {
+		size = tonumber(getEnvVariable("MAGPLUS_STACK_SIZE"));
+		MagLog::warning() << "MAGPLUS_STACK_SIZE jas been set to "<< size << endl;
+	}
 
 	pthread_attr_setstacksize(&attr,size);
-	pthread_attr_setstackaddr(&attr,(char*)stack + size);
-
-	proc_->data_ = stack;
 #endif
-
-#endif
-
 
 	if(detached_)
 		pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_DETACHED);
@@ -199,7 +201,6 @@ void ThreadControler::start()
 void ThreadControler::kill()
 {
 	pthread_cancel(thread_);
-	//pthread_kill(thread_,sig);
 }
 
 void ThreadControler::stop()
@@ -210,25 +211,37 @@ void ThreadControler::stop()
 void ThreadControler::wait()
 {
 	ASSERT(!detached_);
-	// if(running_) 
 	THRCALL(pthread_join(thread_,0));
 }
 
 bool ThreadControler::active()
 {
+#ifndef MAGICS_ON_WINDOWS
 	if(thread_ != 0)
+#else
+	if(thread_.p != 0)
+#endif
 	{
 		// Try see if it exists
 
-		int policy; 
+		int policy;
 		sched_param param;
 
-		int n = pthread_getschedparam(thread_, &policy, &param); 
+		int n = pthread_getschedparam(thread_, &policy, &param);
 
 		// The thread does not exist
-		if(n != 0)
+		if(n != 0) {
+#ifndef MAGICS_ON_WINDOWS
 			thread_ = 0;
-
+#else
+			thread_.p = 0;
+			thread_.x = 0;
+#endif
+        }
 	}
+#ifndef MAGICS_ON_WINDOWS
 	return thread_ != 0;
+#else
+	return thread_.p != 0;
+#endif
 }

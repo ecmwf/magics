@@ -230,7 +230,7 @@ void GeoRectangularProjection::gridLongitudes(const GridPlotting& grid)  const
 	const vector<double>::const_iterator lon_end =longitudes.end();
 	for (vector<double>::const_iterator lon = longitudes.begin(); lon != lon_end; ++lon)
 	{
-		Polyline poly;
+		magics::Polyline poly;
 		poly.setAntiAliasing(false);
 	
 		for (double lat = min; lat <= max+step; lat += step)
@@ -253,7 +253,7 @@ void GeoRectangularProjection::gridLatitudes(const GridPlotting& grid)  const
 	{
 		if ( *lat < -90 ) continue;
 		if ( *lat > 90 ) continue;
-		Polyline poly;
+		magics::Polyline poly;
 		poly.setAntiAliasing(false);
 		for (double lon = getMinX(); lon < getMaxX(); lon += step)
 		{
@@ -638,7 +638,7 @@ void GeoRectangularProjection::wraparound(const UserPoint& origin, stack<UserPoi
 	 }
 }
 
-Polyline& GeoRectangularProjection::getPCBoundingBox() const
+magics::Polyline& GeoRectangularProjection::getPCBoundingBox() const
 {
 	if ( PCEnveloppe_->empty() ) {
 		PCEnveloppe_->push_back(PaperPoint(xpcmin_, ypcmin_));
@@ -650,7 +650,7 @@ Polyline& GeoRectangularProjection::getPCBoundingBox() const
 	return *PCEnveloppe_;
 }
 
-Polyline& GeoRectangularProjection::getUserBoundingBox() const
+magics::Polyline& GeoRectangularProjection::getUserBoundingBox() const
 {
 	if ( userEnveloppe_->empty() ) {
 

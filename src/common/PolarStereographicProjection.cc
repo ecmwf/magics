@@ -428,7 +428,7 @@ void PolarStereographicProjection::gridLongitudes(const GridPlotting& grid)  con
 	{
 		if (*lon < xmin_ ) continue;
 		if (*lon > xmax_ ) continue;
-		Polyline poly;
+		magics::Polyline poly;
 
 		double min = ::min(latitudes.front(), latitudes.back());
 		double max = std::max(latitudes.front(), latitudes.back());
@@ -448,7 +448,7 @@ void PolarStereographicProjection::gridLatitudes(const GridPlotting& grid)  cons
 	{
 		if (*lat < ymin_ ) continue;
 		if (*lat > ymax_ ) continue;
-	    Polyline poly;        
+		magics::Polyline poly;
 
             for (int lon = -180; lon <= 180; lon += 1) {
                 poly.push_back((*this)(UserPoint(lon,*lat)));
@@ -889,7 +889,7 @@ void PolarStereographicProjection::wraparound(const UserPoint& point, stack<User
 	}
 }
 
-Polyline& PolarStereographicProjection::getPCBoundingBox() const
+magics::Polyline& PolarStereographicProjection::getPCBoundingBox() const
 {
 	if ( PCEnveloppe_->empty() ) {
 		getUserBoundingBox();
@@ -898,7 +898,7 @@ Polyline& PolarStereographicProjection::getPCBoundingBox() const
 	return *PCEnveloppe_;
 }
 
-Polyline& PolarStereographicProjection::getUserBoundingBox() const
+magics::Polyline& PolarStereographicProjection::getUserBoundingBox() const
 {
 	const double minlat = -90.;
 	const double maxlat =  90.; 

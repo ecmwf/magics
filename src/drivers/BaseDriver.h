@@ -60,6 +60,7 @@
 #include <Colour.h>
 #include <BaseDriverAttributes.h>
 #include "MagicsObserver.h"
+#include "magics_windef.h"
 
 namespace magics{
 
@@ -388,13 +389,7 @@ protected:
 	mutable std::stack<MFloat>  scalesX_;
 	mutable std::stack<MFloat>  scalesY_;
 
-//	mutable MFloat	lastAreaHeightPercentage_;
-//	mutable MFloat	lastAreaWidthPercentage_;
 	mutable bool	newPage_;
-//	mutable bool	firstPage_;
-//	mutable	bool	newLayout_;
-//	mutable	bool    external_;
-//	mutable bool    polylineAntialiasing_;
 
 	bool    disabled_;
 	bool    alphaEnabled_;
@@ -415,18 +410,22 @@ protected:
 	virtual void renderSymbolItem(const SymbolItem&, const ComplexSymbol& symbol) const;
 	virtual void renderSymbols(const Symbol& symbol) const;
 	virtual void renderPolyline(const int, MFloat *, MFloat *) const {};
-	virtual void renderPolyline2(const int, MFloat *, MFloat *) const {}
+	virtual void renderPolyline2(const int, MFloat *, MFloat *) const {};
 	void renderPolyline(vector<PaperPoint> &vP) const;
 	void renderPolyline2(vector<PaperPoint> &vP) const;
 
+#ifdef MAGICS_ON_WINDOWS
+	virtual MAGICS_NO_EXPORT void renderSimplePolygon(const int, MFloat *, MFloat *) const {};
+	virtual MAGICS_NO_EXPORT void renderSimplePolygon(const Polyline& line) const {};
+#else
 	virtual MAGICS_NO_EXPORT void renderSimplePolygon(const int, MFloat *, MFloat *) const = 0;
 	virtual MAGICS_NO_EXPORT void renderSimplePolygon(const Polyline& line) const = 0;
+#endif
 	virtual void circle(const MFloat, const MFloat, const MFloat, const int) const {}
 	virtual MAGICS_NO_EXPORT int setLineParameters(const LineStyle st, const MFloat w) const {currentLineType_=st; setNewLineWidth(w);return 0;}
 
 	// Filling calculating methods
 	// PolylineSets rendering methods
-	//MAGICS_NO_EXPORT void renderPolylineSets(const PolylineSet<PaperPoint>&) const;
 	mutable unsigned int indexHatch_;
 	mutable Shading   currentShading_;
 	mutable const ShadingProperties *currentShadingProperties_;

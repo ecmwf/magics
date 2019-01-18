@@ -1,4 +1,6 @@
 
 add_subdirectory( metgram )
-add_subdirectory( MagMLInterpretor )
+if( NOT EC_OS_NAME MATCHES "windows" )
+    add_subdirectory( MagMLInterpretor )
+endif()
 

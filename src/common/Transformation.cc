@@ -37,8 +37,8 @@ Transformation::Transformation()
     , yTile_(0)
     , zoomLevel_(0)
 {
-    userEnveloppe_ = new Polyline();
-    PCEnveloppe_ = new Polyline();
+    userEnveloppe_ = new magics::Polyline();
+    PCEnveloppe_ = new magics::Polyline();
 }
 
 Transformation::~Transformation()
@@ -335,7 +335,7 @@ void Transformation::visit(MetaDataVisitor& visitor,
     visitor.add("world_file", wf.str());
 }
 
-void Transformation::operator()(const Polyline& from,
+void Transformation::operator()(const magics::Polyline& from,
     BasicGraphicsObjectContainer& out) const
 {
     
@@ -344,7 +344,7 @@ void Transformation::operator()(const Polyline& from,
 
     MagClipper helper;
 
-    vector<Polyline*> result;
+    vector<magics::Polyline*> result;
 
     helper.clip(from, *PCEnveloppe_, result);
     for (auto r = result.begin(); r != result.end(); ++r) {
@@ -353,8 +353,8 @@ void Transformation::operator()(const Polyline& from,
     }
 }
 
-void Transformation::operator()(const Polyline& from,
-    vector<Polyline*>& out) const
+void Transformation::operator()(const magics::Polyline& from,
+    vector<magics::Polyline*>& out) const
 {
     assert(false);
     if (from.empty())
@@ -478,7 +478,7 @@ void Transformation::operator()(const UserPoint& geo,
     if (in(pp))
         out.push_back(pp);
 }
-void Transformation::operator()(const UserPoint& geo, Polyline& out) const
+void Transformation::operator()(const UserPoint& geo, magics::Polyline& out) const
 {
     PaperPoint pp = (*this)(geo);
     if (in(pp))

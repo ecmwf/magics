@@ -45,13 +45,13 @@ public:
     typedef map<string, string>::const_iterator AttributesIterator;
     typedef vector<string>::const_iterator DataIterator;
     
-	XmlNode();
-	XmlNode(const string&);
-	XmlNode(const string&, const map<string, string>&);
-	XmlNode(const XmlNode&, const map<string, string>&);
-	XmlNode(const XmlNode&);
+	MAGICS_EXPORT XmlNode();
+	MAGICS_EXPORT XmlNode(const string&);
+	MAGICS_EXPORT XmlNode(const string&, const map<string, string>&);
+	MAGICS_EXPORT XmlNode(const XmlNode&, const map<string, string>&);
+	MAGICS_EXPORT XmlNode(const XmlNode&);
 	
-	virtual ~XmlNode();
+	MAGICS_EXPORT virtual ~XmlNode();
 	void push_back(XmlNode* element) { elements_.push_back(element); }
 	void setData(const string& data) { data_.push_back(data); }
 	
@@ -66,14 +66,14 @@ public:
 	DataIterator   lastData() const            { return data_.end(); }
 	const string& data() const              { static string e = ""; return data_.empty() ? e : *data_.begin(); }
 	
-	string   getAttribute(const string& attr, const string& def = "") const;
+	MAGICS_EXPORT string   getAttribute(const string& attr, const string& def = "") const;
 	
 	const string&   name() const                       { return name_; } 
 	void   name(const string& name)                       { name_ = name; } 
 	const map<string, string>&   attributes() const { return attributes_; }
 	void addAttribute(const string& param, const string& value) { attributes_.insert(make_pair(param, value)); }
 	
-	void  visit(XmlNodeVisitor&) const;
+	MAGICS_EXPORT void  visit(XmlNodeVisitor&) const;
 	
 protected:
      //! Method to print string about this class on to a stream of type ostream (virtual).

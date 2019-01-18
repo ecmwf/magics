@@ -138,9 +138,9 @@ BasicSceneNode* MagMLLayoutManager::operator()(BasicSceneNode* parent, BasicPosi
 	 DisplayType display = layout.display();
 	 
 	 if ( actions_.empty() ) {
-		 	actions_[INLINE] = &MagMLLayoutManager::inline_display;
-		 	actions_[ABSOLUTE] = &MagMLLayoutManager::absolute;
-		 	actions_[BLOCK] = &MagMLLayoutManager::block;
+			actions_[M_DT_INLINE] = &MagMLLayoutManager::inline_display;
+			actions_[M_DT_ABSOLUTE] = &MagMLLayoutManager::absolute;
+			actions_[M_DT_BLOCK] = &MagMLLayoutManager::block;
 	 }
 	 
 	 std::map<DisplayType, Action>::iterator action = actions_.find(display);

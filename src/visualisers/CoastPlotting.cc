@@ -55,15 +55,6 @@ void NoCoastPlotting::visit(LegendVisitor&)
 void CoastPlotting::visit(LegendVisitor& legend)
 {
     return;
-    /*
-	Polyline* coast  = new Polyline();
-	coast->setThickness(thickness_);
-	coast->setColour(*colour_);
-	coast->setLineStyle(style_);
-
-	LineEntry* entry = new LineEntry("Coastlines", coast);
-	legend.add(entry);
-*/
 }
 
 void CoastPlotting::operator()(PreviewVisitor& parent)
@@ -74,8 +65,8 @@ void CoastPlotting::operator()(PreviewVisitor& parent)
     transformation.coastSetting(preview.coastSet_, 10, 5);
     preview.decode(parent);
 
-    for (vector<Polyline*>::iterator poly = preview.coast_.begin(); poly != preview.coast_.end(); ++poly) {
-        Polyline* npoly = (*poly)->clone();
+    for (vector<magics::Polyline*>::iterator poly = preview.coast_.begin(); poly != preview.coast_.end(); ++poly) {
+        magics::Polyline* npoly = (*poly)->clone();
         npoly->setThickness(thickness_);
         npoly->setColour(*colour_);
         npoly->setLineStyle(style_);
@@ -87,7 +78,7 @@ void CoastPlotting::operator()(PreviewVisitor& parent)
     }
 
     // Now we add the frame
-    Polyline* frame = new Polyline();
+    magics::Polyline* frame = new magics::Polyline();
     frame->setAntiAliasing(false);
     frame->setThickness(thickness_);
     frame->setColour(Colour("tan"));
@@ -133,7 +124,7 @@ void NoCoastPlotting::efas(DrawingVisitor& visitor)
     efas.decode(transformation);
 
     for (ShapeDecoder::const_iterator river = efas.begin(); river != efas.end(); ++river) {
-        Polyline poly;
+        magics::Polyline poly;
         poly.setColour(*efas_colour_);
         poly.setThickness(efas_thickness_);
 
@@ -157,7 +148,7 @@ void NoCoastPlotting::user(DrawingVisitor& visitor)
     user.decode(transformation);
 
     for (ShapeDecoder::const_iterator river = user.begin(); river != user.end(); ++river) {
-        Polyline poly;
+        magics::Polyline poly;
         poly.setColour(*user_layer_colour_);
         poly.setThickness(user_layer_thickness_);
 
@@ -182,7 +173,7 @@ void NoCoastPlotting::rivers(DrawingVisitor& visitor)
     rivers.decode(transformation);
 
     for (ShapeDecoder::const_iterator river = rivers.begin(); river != rivers.end(); ++river) {
-        Polyline poly;
+        magics::Polyline poly;
         poly.setColour(*rivers_colour_);
         poly.setThickness(rivers_thickness_);
         poly.setLineStyle(rivers_style_);
@@ -204,9 +195,9 @@ void NoCoastPlotting::layers(map<string, Action>& methods, const string& val, Dr
         (this->*method->second)(visitor);
 }
 
-void CoastPlotting::release(vector<Polyline*>& polys)
+void CoastPlotting::release(vector<magics::Polyline*>& polys)
 {
-    for (vector<Polyline*>::iterator poly = polys.begin(); poly != polys.end(); ++poly) {
+    for (vector<magics::Polyline*>::iterator poly = polys.begin(); poly != polys.end(); ++poly) {
         delete *poly;
     }
     polys.clear();
@@ -258,11 +249,11 @@ void CoastPlotting::operator()(DrawingVisitor& parent)
     decode(parent.layout());
 
     // clean and reproject ! 
-    for (vector<Polyline*>::iterator coast = coast_.begin(); coast != coast_.end(); ++coast) {
+    for (vector<magics::Polyline*>::iterator coast = coast_.begin(); coast != coast_.end(); ++coast) {
         (*coast)->southClean(transformation.addSouth());
         (*coast)->reproject(transformation);
     }
-    for (vector<Polyline*>::iterator ocean = ocean_.begin(); ocean != ocean_.end(); ++ocean) {
+    for (vector<magics::Polyline*>::iterator ocean = ocean_.begin(); ocean != ocean_.end(); ++ocean) {
         
         (*ocean)->reproject(transformation);
     }
@@ -308,11 +299,11 @@ void CoastPlotting::landsea(Layout& out)
 */
 void CoastPlotting::landonly(Layout& out)
 {
-    vector<Polyline*> clips;
+    vector<magics::Polyline*> clips;
     
     clipAndClose(out.transformation(), coast_, clips);
 
-    for (vector<Polyline*>::iterator coast = clips.begin(); coast != clips.end(); ++coast) {
+    for (vector<magics::Polyline*>::iterator coast = clips.begin(); coast != clips.end(); ++coast) {
         setLandShading(**coast);
         out.push_back(*coast);
     }
@@ -325,9 +316,9 @@ void CoastPlotting::landonly(Layout& out)
 */
 void CoastPlotting::seaonly(Layout& out)
 {
-    vector<Polyline*> clip;
+    vector<magics::Polyline*> clip;
     clipAndClose(out.transformation(), ocean_, clip);
-    for (vector<Polyline*>::iterator coast = clip.begin(); coast != clip.end(); ++coast) {
+    for (vector<magics::Polyline*>::iterator coast = clip.begin(); coast != clip.end(); ++coast) {
         setSeaShading(**coast);
         out.push_back(*coast);
     }
@@ -336,18 +327,18 @@ void CoastPlotting::seaonly(Layout& out)
 void CoastPlotting::nolandsea(Layout& out)
 {
 
-    vector<Polyline*> clips;
+    vector<magics::Polyline*> clips;
 
 
     clip(out.transformation(), coast_, clips);
 
-    for (vector<Polyline*>::iterator coast = clips.begin(); coast != clips.end(); ++coast) {
+    for (vector<magics::Polyline*>::iterator coast = clips.begin(); coast != clips.end(); ++coast) {
         setLine(**coast);
         out.push_back(*coast);
     }
 }
 
-void CoastPlotting::setLine(Polyline& line)
+void CoastPlotting::setLine(magics::Polyline& line)
 {
     line.setThickness(thickness_);
     line.setColour(*colour_);
@@ -356,7 +347,7 @@ void CoastPlotting::setLine(Polyline& line)
     line.setFilled(false);
 }
 
-void CoastPlotting::setSeaShading(Polyline& line)
+void CoastPlotting::setSeaShading(magics::Polyline& line)
 {
     FillShadingProperties* shading = new FillShadingProperties();
     line.setFillColour(*sea_colour_);
@@ -366,7 +357,7 @@ void CoastPlotting::setSeaShading(Polyline& line)
     line.setStroke(false);
 }
 
-void CoastPlotting::setLandShading(Polyline& line)
+void CoastPlotting::setLandShading(magics::Polyline& line)
 {
     FillShadingProperties* shading = new FillShadingProperties();
     line.setFillColour(*land_colour_);
@@ -397,46 +388,46 @@ void CoastPlotting::decode(const Layout& parent)
 
     const Transformation& transformation = parent.transformation();
 
-    vector<Polyline*> coastlines;
+    vector<magics::Polyline*> coastlines;
     coast_.clear();
     ShapeDecoder coastline_decoder;
     const string file = PATH(coastSet_["land"]);
     coastline_decoder.setPath(file);
     coastline_decoder.decode(coastlines, transformation);
 
-    for (vector<Polyline*>::iterator coast = coastlines.begin(); coast != coastlines.end(); ++coast) {
+    for (vector<magics::Polyline*>::iterator coast = coastlines.begin(); coast != coastlines.end(); ++coast) {
         coast_.push_back(*coast);
     }
 
     if (sea_) {
-        vector<Polyline*> oceans;
+        vector<magics::Polyline*> oceans;
         ocean_.clear();
         const string file_ocean = PATH(coastSet_["ocean"]);
         coastline_decoder.setPath(file_ocean);
         coastline_decoder.decode(oceans, transformation);
 
-        for (vector<Polyline*>::iterator coast = oceans.begin(); coast != oceans.end(); ++coast) {
+        for (vector<magics::Polyline*>::iterator coast = oceans.begin(); coast != oceans.end(); ++coast) {
             (*coast)->close();
             ocean_.push_back(*coast);
         }
     }
 }
 
-void CoastPlotting::clip(const Transformation& transformation, const vector<Polyline*>& in, vector<Polyline*>& out) const
+void CoastPlotting::clip(const Transformation& transformation, const vector<magics::Polyline*>& in, vector<magics::Polyline*>& out) const
 {
-    Polyline& box = transformation.getPCBoundingBox();
-    for (vector<Polyline*>::const_iterator poly = in.begin(); poly != in.end(); ++poly) {
+    magics::Polyline& box = transformation.getPCBoundingBox();
+    for (vector<magics::Polyline*>::const_iterator poly = in.begin(); poly != in.end(); ++poly) {
       
         (*poly)->clip(box, out);
     }
 }
 
-void CoastPlotting::clipAndClose(const Transformation& transformation, const vector<Polyline*>& in, vector<Polyline*>& out) const
+void CoastPlotting::clipAndClose(const Transformation& transformation, const vector<magics::Polyline*>& in, vector<magics::Polyline*>& out) const
 {
 
-    vector<Polyline*> helper;
-    Polyline& box = transformation.getPCBoundingBox();
-    for (vector<Polyline*>::const_iterator poly = in.begin(); poly != in.end(); ++poly) {
+    vector<magics::Polyline*> helper;
+    magics::Polyline& box = transformation.getPCBoundingBox();
+    for (vector<magics::Polyline*>::const_iterator poly = in.begin(); poly != in.end(); ++poly) {
         box.intersect(**poly, out);
     }
         
