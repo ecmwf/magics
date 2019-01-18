@@ -33,9 +33,12 @@ void convert(const deque<PaperPoint>& in, ClipperLib::Path& out, bool print = fa
 
 void convert(const ClipperLib::Path& in, deque<PaperPoint>& out)
 {
+    cout << "----------------" << endl;
     for (auto pt = in.begin(); pt != in.end(); ++pt) {
         out.push_back(PaperPoint(pt->X / scale_, pt->Y / scale_));
+        cout << "convert-->" << out.back() << endl;
     }
+    cout << "----------------" << endl;
 }
 
 void MagClipper::clipOpened(const Polyline& subject, const Polyline& clip, vector<Polyline*>& out)
@@ -44,11 +47,11 @@ void MagClipper::clipOpened(const Polyline& subject, const Polyline& clip, vecto
     ClipperLib::PolyTree solution;
     ClipperLib::Clipper clipper;
 
-    convert(subject.polygon(), path_subject);
+    convert(subject.polygon(), path_subject, true);
     //ClipperLib::CleanPolygon(path_subject, 1000);
     //cout << "Add line" << ClipperLib::Orientation(path_subject) << endl;
     clipper.AddPath(path_subject, ClipperLib::ptSubject, false);
-    convert(clip.polygon(), path_clip);
+    convert(clip.polygon(), path_clip, true);
 
     clipper.AddPath(path_clip, ClipperLib::ptClip, true);
     try {
