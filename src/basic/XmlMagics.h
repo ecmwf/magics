@@ -42,16 +42,16 @@ class XmlMagics : public XmlNodeVisitor,
 	public vector<MagicsObserver*>
 {
 public:
-	XmlMagics(); 
-	~XmlMagics();
+	MAGICS_EXPORT XmlMagics();
+	MAGICS_EXPORT ~XmlMagics();
 	
-	void execute(const string&, std::map<string, string>& metadata);
-	void execute(const string& magml)
+	MAGICS_EXPORT void execute(const string&, std::map<string, string>& metadata);
+	MAGICS_EXPORT void execute(const string& magml)
 	{
 		std::map<string, string> data;
 		execute(magml, data);
 	}
-	void execute(XmlTree& magml);
+	MAGICS_EXPORT void execute(XmlTree& magml);
 	
 	void visit(const XmlNode& node);
 

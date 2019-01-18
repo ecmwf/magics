@@ -25,6 +25,11 @@
 #include "TextVisitor.h"
 #include "SciMethods.h"
 
+#include "magics_windef.h"
+#ifdef MAGICS_ON_WINDOWS
+  #include <iterator>
+#endif
+
 using namespace::magics;
 
 

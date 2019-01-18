@@ -14,19 +14,15 @@
 #ifndef Timer_H
 #define Timer_H
 
-#ifndef magics_H
 #include "magics.h"
-#endif
-
-//#ifndef MagLog_H
-//#include "MagLog.h"
-//#endif
-
 #include <time.h>
-#include <sys/time.h>
 #include <sys/types.h>
 
-
+#ifndef MAGICS_ON_WINDOWS
+  #include <sys/time.h>
+#else
+  #include "win_time.h"
+#endif
 
 
 class ProfileInfo 
@@ -41,11 +37,10 @@ public:
 	string cpu_;
 	string start_;
 	string stop_;
-	
+
 	// -- Friends
-	    //! Overloaded << operator to call print().
-		friend ostream& operator<<(ostream& s,const ProfileInfo& p);
-	
+	//! Overloaded << operator to call print().
+	friend ostream& operator<<(ostream& s,const ProfileInfo& p);
 };
 
 // This stack object prints the elapse time between the call to
@@ -65,9 +60,9 @@ public:
 // -- Methods
 
 	double elapsed();
-	static vector<ProfileInfo>::const_iterator begin() 
+	static vector<ProfileInfo>::const_iterator begin()
 			{ return profiles_.begin(); }
-		static vector<ProfileInfo>::const_iterator end() 
+		static vector<ProfileInfo>::const_iterator end()
 			{ return profiles_.end(); }
 
 private:
@@ -78,19 +73,15 @@ private:
 	Timer& operator=(const Timer&);
 
 // -- Members
-	
-	string         name_;
-	string 		  details_;
-	struct timeval start_;
 
+	string         name_;
+	string         details_;
+	struct timeval start_;
 	clock_t        cpu_;
 	static vector<ProfileInfo> profiles_;
-	
-	
-	
 
 // -- Methods
-	
+
 	ostream& put(ostream&,double);
 
 };

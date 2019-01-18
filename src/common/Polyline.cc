@@ -10,13 +10,13 @@
 
 /*! \file Polyline.cc
     \brief Implementation of polyline graphics class (template).
-    
+
     Magics Team - ECMWF 2004
-    
+
     Started: Jan 2004
-    
+
     Changes:
-    
+
 */
 #include "Polyline.h"
 #include "MagClipper.h"
@@ -34,7 +34,6 @@ Polyline::~Polyline()
 
 void Polyline::reserve(double x)
 {
-    //polygon_.reserve(x);
 }
 
 bool Polyline::reproject(BasicGraphicsObjectContainer& out) const
@@ -147,18 +146,6 @@ void Polyline::southClean(bool add)
     auto it = std::find_if(polygon_.begin(), polygon_.end(), LonFinder());
     if (it != polygon_.end()) {
         std::rotate(polygon_.begin(), it, polygon_.end());
-        // if ( add ) {
-        //     PaperPoint front = polygon_.front();
-        //     PaperPoint back = polygon_.back();
-
-        //     polygon_.push_front(PaperPoint(front.x_, -100.));
-        //     polygon_.front().flagBorder();
-        //     polygon_.push_front(PaperPoint(back.x_, -100.));
-        //     polygon_.front().flagBorder();
-        //     polygon_.push_back(PaperPoint(back.x_, -100.));
-        //     polygon_.back().flagBorder();
-        //     return;
-        // }
     }
     // Not South pole .. we try to force closing
     close();
@@ -189,8 +176,6 @@ struct ReprojectHelper {
 
 void Polyline::reproject(const Transformation& transformation)
 {
-	
-    
     auto from = std::remove_if(polygon_.begin(), polygon_.end(), ReprojectHelper(transformation));
     polygon_.erase(from, polygon_.end());
 
@@ -204,7 +189,6 @@ void Polyline::reproject(const Transformation& transformation)
 
 Polyline* Polyline::clone() const
 {
-
     Polyline* to = getNew();
 
     for (auto point = begin(); point != end(); ++point) {
@@ -228,46 +212,32 @@ void Polyline::intersect(const Polyline& poly, vector<Polyline*>& out) const
     MagClipper::clip(poly, *this, out);
 }
 
-void Polyline::clip(const Polyline& poly, vector<Polyline>& out) const
-{
-    // Use of a MagClipper
-    assert(false);
-}
-
 void feed(const deque<PaperPoint>& points, const Polyline& box, vector<Polyline*>& out)
 {
-	Polyline* poly = new Polyline();
-	for ( auto p = points.begin(); p != points.end(); ++p) {
-		if ( !box.in(*p) || p->border() ) {
-			if ( poly->size() ) {
-				out.push_back(poly);
-				poly = new Polyline();
-			}
-		}
-		else 
-			poly->push_back(*p);
-	}
-	if ( poly->size() ) {
-		out.push_back(poly);
-	}
-	else 
-		delete poly;
+    Polyline* poly = new Polyline();
+    for ( auto p = points.begin(); p != points.end(); ++p) {
+        if ( !box.in(*p) || p->border() ) {
+            if ( poly->size() ) {
+                out.push_back(poly);
+                poly = new Polyline();
+            }
+        }
+        else
+            poly->push_back(*p);
+    }
+    if ( poly->size() ) {
+        out.push_back(poly);
+    }
+    else
+        delete poly;
 }
 
 void Polyline::clip(const Polyline& poly, vector<Polyline*>& out) const
 {
     feed(polygon_, poly, out);
     for (Holes::const_iterator hole = holes_.begin(); hole != holes_.end(); ++hole) {
-    	feed(*hole, poly, out);
+        feed(*hole, poly, out);
     }
-}
-
-// Is the poyline included in the "other" polyline"
-bool Polyline::in(const Polyline& other)
-{
-    assert(false);
-    return false;
-    
 }
 
 // Is the pointincluded in the polyline"
@@ -279,34 +249,18 @@ bool Polyline::in(const PaperPoint& point) const
 void Polyline::push_front(Polyline& other)
 {
     other.polygon_.pop_back();
-    polygon_.insert(polygon_.begin(),
-        other.polygon_.begin(), other.polygon_.end());
+    polygon_.insert(polygon_.begin(), other.polygon_.begin(), other.polygon_.end());
 }
 
 void Polyline::push_back(Polyline& other)
 {
     other.polygon_.pop_front();
-    polygon_.insert(polygon_.end(),
-        other.polygon_.begin(), other.polygon_.end());
-}
-
-/*! \brief Routine to check (and correct) integrity of the inner holes of polygons read from shape files.
-*/
-void Polyline::correct()
-{
-    
-}
-bool Polyline::sanityCheck()
-{
-    assert(false);
-    
+    polygon_.insert(polygon_.end(), other.polygon_.begin(), other.polygon_.end());
 }
 
 double PaperPoint::distance(const PaperPoint& other) const
 {
-    
     return sqrt( ((x_-other.x_) * (x_ - other.x_)) + ((y_-other.y_) * (y_ - other.y_)) );
-   
 }
 
 void Polyline::box(const PaperPoint& ll, const PaperPoint& ur)
@@ -316,15 +270,6 @@ void Polyline::box(const PaperPoint& ll, const PaperPoint& ur)
     push_back(ur);
     push_back(ur.x(), ll.y());
     push_back(ll);
-   
-}
-bool Polyline::concatenate(Polyline&)
-{
-    assert(false);
-}
-void Polyline::intersection(Polyline&)
-{
-    assert(false);
 }
 bool Polyline::within(const PaperPoint& point) const
 {

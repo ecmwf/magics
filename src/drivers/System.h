@@ -20,8 +20,13 @@
 
 #include <magics.h>
 #include <cstdlib>
-#include <pwd.h>
-#include <unistd.h>
+#ifndef MAGICS_ON_WINDOWS
+	#include <pwd.h>
+	#include <unistd.h>
+#else
+	#include "win_time.h"
+	#include <lmcons.h>
+#endif
 
 namespace magics {
 
@@ -59,16 +64,27 @@ public:
 	
 	MAGICS_NO_EXPORT string getUserID() const
 	{
+#ifndef MAGICS_ON_WINDOWS
 		struct passwd* who = getpwuid(getuid());
 		string tmp(who->pw_name);
+#else
+		TCHAR username[UNLEN + 1];
+		DWORD size = UNLEN + 1;
+		GetUserName((TCHAR*)username, &size);
+		string tmp(username);
+#endif
 		return tmp;
 	};
 
 	MAGICS_NO_EXPORT string getUserName() const
 	{
+#ifndef MAGICS_ON_WINDOWS
 		struct passwd* who = getpwuid(getuid());
 		string tmp(who->pw_gecos);
 		return tmp;
+#else
+		return getUserID();
+#endif
 	};		
 private:
 // No copy allowed

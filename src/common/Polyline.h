@@ -289,15 +289,8 @@ public:
 	void push_front(Polyline&);
 	void push_back(Polyline&);
 
-
-	// Is the poyline included in the "other" polyline"
-	bool in(const Polyline& other);
-
 	// Is the pointincluded in the polyline"
 	bool in(const PaperPoint&) const;
-
-	bool sanityCheck();
-	void correct();
 
 	void reserve(double);
 
@@ -335,8 +328,6 @@ public:
 	}		 
 
 	bool within(const PaperPoint& point) const ;  
-
-	void clip(const Polyline& poly, vector<Polyline>&) const;
 
 	void clip(const Polyline& poly, vector<Polyline*>&) const;
 	void intersect(const Polyline& poly, vector<Polyline*>&) const;

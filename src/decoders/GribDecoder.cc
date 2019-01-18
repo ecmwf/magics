@@ -22,7 +22,14 @@
 #include "GribDecoder.h"
 #include "Factory.h"
 #include <limits>
+
+#include "magics_windef.h"
+#ifndef MAGICS_ON_WINDOWS
 #include <unistd.h>
+#else
+#include <fcntl.h>
+#endif
+
 #include "TitleTemplate.h"
 #include "LocalTable.h"
 #include "DateTime.h"
@@ -753,12 +760,16 @@ grib_handle*  GribDecoder::open(grib_handle* grib, bool sendmsg)
         return grib;
     }
 
+#ifdef MAGICS_ON_WINDOWS
+    int original_mode;
+    _get_fmode(&original_mode);
+    _set_fmode(_O_BINARY);
+#endif
 
     FILE* file = fopen(file_name_.c_str(),"r");
     handle_ = 0;
     if (!file)
     {
-        //MagLog::error() << "file can not be opened [" << file_name_ << "] "<< std::strerror(errno) << std::endl;
         ostringstream error;
         error <<  "file can not be opened [" << file_name_ << "] "<< std::strerror(errno) << std::endl;
         MagLog::broadcast();
@@ -782,6 +793,10 @@ grib_handle*  GribDecoder::open(grib_handle* grib, bool sendmsg)
         }
     }
     fclose(file);
+
+#ifdef MAGICS_ON_WINDOWS
+    _set_fmode(original_mode);
+#endif
 
     return handle_;
 }
@@ -1289,7 +1304,6 @@ public:
                 string entry = "<grib_info definition=\'" + id + "\'/>";
                 title_.addToTags("<magics_title/>", entry);
             }
-            //title_.addLines(lines.size());
         }
         node.visit(*this);
     }
@@ -1373,8 +1387,6 @@ void GribDecoder::nearestGridpoints(double *inlats, double *inlons, double *outl
             values[i]    = 0;
             distances[i] = 0;
         }
-//          grib_nearest_find_multiple(handle_, 0, inlats, inlons, nb, outlats, outlons, values, distances, indexes);
-//          int closestIndex = 0;
     }
 
 
@@ -1390,14 +1402,14 @@ void GribDecoder::visit(ValuesCollector& points)
     points.setCollected(true);
 
     int nb = points.size();
-    double inlats[nb];
-    double inlons[nb];
-    double outlats[nb];
-    double outlons[nb];
-    double values[nb];
-    double x[nb];
-    double y[nb];
-    double distances[nb];
+    double *inlats = new double[nb];
+    double *inlons = new double[nb];
+    double *outlats = new double[nb];
+    double *outlons = new double[nb];
+    double *values = new double[nb];
+    double *x = new double[nb];
+    double *y = new double[nb];
+    double *distances = new double[nb];
 
     double scaling, offset;
     string oriUnits, derivedUnits;
@@ -1448,7 +1460,7 @@ void GribDecoder::visit(ValuesCollector& points)
                 points[i].back()->setMissing(true);
         }
     }
-    else { //if ( Data::dimension_ == 2  ) {
+    else {
 
         oriUnits=getString("units",false);
         if(oriUnits.find("/") == string::npos)
@@ -1470,6 +1482,14 @@ void GribDecoder::visit(ValuesCollector& points)
                 points[i].back()->setMissing(true);
         }
     }
+    delete[] inlats;
+    delete[] inlons;
+    delete[] outlats;
+    delete[] outlons;
+    delete[] values;
+    delete[] x;
+    delete[] y;
+    delete[] distances;
 }
 
 void GribDecoder::visit(MagnifierCollector& magnifier)
@@ -1655,36 +1675,12 @@ void GribDecoder::visit(MetaDataCollector& step)
                         }
                     }
                 }
-/*
-                // alternative code, for if we want to display in one line the Gaussian
-                // number and the octahedral flag.
-                else if(key->first == "GaussianNumber")
-                {
-                    // e.g. N200 ('classic' reduced Gaussian) or O1280 ('octahedral' reduced Gaussian)
-                    // - but only use prefix of N or O on global fields, because, as explained below,
-                    //   we don't know whether a sub-areas field is classic or octahedral
-                    // Octahedral reduced Gaussian grids:
-                    // - only reduced Gaussian grids can be octahedral
-                    // - the isOctahedral key only works properly with global fields
-                    string representation = getString("typeOfGrid");
-                    if (representation == "reduced_gg")
-                    {
-                        long N = getLong("N");
-                        string prefix("");
-                        if (getLong("global") == 1)
-                        {
-                            prefix = (getLong("isOctahedral") == 1) ? "O" : "N";
-                        }
-                        information_["GaussianNumber"] = prefix + tostring(N);
-                    }
-                }*/
             }
 
             //If key is found in information_ we copy it
             if(information_.find(key->first) != information_.end())
             {
                 key->second=information_[key->first];
-                //cout << "GRIB " << key->first << " = " << key->second << endl;
             }
         }
 
@@ -1737,8 +1733,6 @@ MatrixHandler& GribDecoder::direction() {
     vector<double>::const_iterator x = xComponent_->begin();
     vector<double>::const_iterator y = yComponent_->begin();
     vector<double> directions;
-    //  MagLog::dev()<< "missing1-->" << in1->missing() << endl;
-    //  MagLog::dev()<< "missing2-->" << in2->missing() << endl;
     while ( x != xComponent_->end() &&  x != yComponent_->end() ) {
         if ( *x == xComponent_->missing() || *y == yComponent_->missing() )
             directions.push_back(xComponent_->missing());
@@ -1803,11 +1797,6 @@ void GribDecoder::decode()
 {
 
     if ( dimension_ == 1) {
-// RV MF
-//      if (matrix_) return;
-//      field_ = open(field_);
-//      read(&matrix_);
-//      if (!matrix_) return;
         decode1D();
     }
     else {
@@ -1883,6 +1872,7 @@ void GribDecoder::decodeRaster(const Transformation& transformation)
 
 void GribDecoder::initInfo()
 {
+#if defined( METVIEW ) && !defined( MAGICS_ON_WINDOWS )
     if(information_.find("_datatype") == information_.end())
     {
         setInfo("_datatype","GRIB");
@@ -1900,6 +1890,7 @@ void GribDecoder::initInfo()
         }
         setInfo("MV_Format","GRIB");
     }
+#endif
 }
 
 
@@ -2271,14 +2262,6 @@ public:
     ~GribTimeHandler() {}
     void operator()(TitleField&, vector<string>& title, const GribDecoder& grib)
     {
-        //        if (!grib.getText()) return;
-        //        ostringstream out;
-        //        grib_int_t idate;
-        //        grib_get(grib.id(),(grib_string_t*)"time","I",&idate);
-        //
-        //        out << "Time:" << idate;
-        //        title.add(out.str());
-
         title.back() +=  "Time? ";
     }
 };
@@ -2321,7 +2304,6 @@ public:
     ~GribPlotTypeHandler() {}
     void operator()(TitleField&, vector<string>&,const GribDecoder&)
     {
-        //MagLog::warning() << "Plot Type: not implemented--> wait for the specification." << "\n";
     }
 };
 
@@ -2468,20 +2450,6 @@ public:
     ~GribEpsNumberInfoHandler() {}
     void operator()(TitleField& field, vector<string>& title, const GribDecoder& grib)
     {
-
-        //       if (!grib.getText()) return;
-        //        ostringstream out;
-        //       grib_int_t local;
-        //       grib_get(grib.id(),(grib_string_t*)"localDefinition","I","localDefinitionNumber",&local);
-        //       if (local != 1) return;
-        //
-        //       char number[1024];
-        //       grib_get(grib.id(),(grib_string_t*)"localDefinition","s","total",number);
-        //       string format = field.attribute("format", "(%s members)");
-        //
-        //      out << SimpleStringFormat(number, format);
-        //        title.add(out.str());
-
         title.back() +=  "epsnumber?";
     }
 };
@@ -2494,27 +2462,6 @@ public:
     ~GribUnitHandler() {}
     void operator()(TitleField& field, vector<string>& title, const GribDecoder& grib)
     {
-        /*
-        if (!grib.getText()) return;
-        if ( !grib.getUnits() ) return;
-        ostringstream out;
-
-        double id   = grib.getDouble("paramId");
-        long centre  = grib.getLong("centre");
-
-        long param = (long) id;
-        long table   = (id - param )*100;
-
-
-        const ParamDef& parameter = LocalTable::localInfo(param, table, centre);
-
-        string format = field.attribute("format", "Units:%s");
-        string unit = (grib.getScaling()) ? parameter.derivedUnit() :  parameter.originalUnit();
-        out << SimpleStringFormat(unit, format);
-
-
-        title.back() += out.str();
-         */
     }
 };
 
