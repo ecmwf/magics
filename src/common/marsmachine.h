@@ -29,6 +29,9 @@
 #include "hpux.h"
 #endif
 
+#ifdef _WIN32
+#include "magics_windows.h"
+#endif
 
 // Usefull macros
 

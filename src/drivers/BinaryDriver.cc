@@ -116,7 +116,6 @@ MAGICS_NO_EXPORT void BinaryDriver::project(const magics::Layout& layout) const
 {
 	char c = 'P';
 	out_.write(&c, 1);
-//	const MFloat oldHeight = dimensionY_;
 
 	const double x = layout.x();
 	const double y = layout.y();
@@ -255,12 +254,6 @@ MAGICS_NO_EXPORT int BinaryDriver::setLineParameters(const LineStyle linestyle, 
 
 void BinaryDriver::renderWindArrow(const Arrow &arrow) const
 {
-  /*
-    arrow.getScale()
-    arrow.getThickness()
-    const LineStyle style = arrow.getStyle();
-    const ArrowPosition pos = arrow.getArrowPosition();
-  */
 	char c = 'A';
 	out_.write(&c, 1);
         const int no = arrow.size();
@@ -299,24 +292,12 @@ void BinaryDriver::renderWindArrow(const Arrow &arrow) const
           out_.write((char *)(&ax), sizeof(double));
           const double ay = p.y();
           out_.write((char *)(&ay), sizeof(double));
-//          out_.write((char *)(&p), sizeof(PaperPoint));
           ++arr;
         }
 }
 
 void BinaryDriver::renderWindFlag(const Flag &flag) const
 {
-/*
-	flag.getThickness()
-	LineStyle style = flag.getStyle()
-	flag.getLength()
-	flag.getColour()
-	flag.size()
-	string marker = flag.getOriginMarker()
-	flag.getOriginHeight()
-	flag.getConvention()==KNOTS
-	flag.getHemisphere()==NORTH
-*/
 	char c = 'F';
 	out_.write(&c, 1);
         const int no = flag.size();
@@ -343,12 +324,13 @@ void BinaryDriver::renderWindFlag(const Flag &flag) const
 	out_.write((char *)(&b), sizeof(MFloat));
 	
 	const string t=flag.getOriginMarker();
-        const int len = t.length();
+        int len = t.length();
         out_.write((char *)(&len),sizeof(int));
 
-        char pp[len];
+        char *pp = new char[len];
         strcpy(pp, t.c_str());
         out_.write(pp,sizeof(char)*len);
+        delete[] pp;
 
         Flag::const_iterator fla = flag.begin();
 
@@ -363,7 +345,6 @@ void BinaryDriver::renderWindFlag(const Flag &flag) const
           out_.write((char *)(&ax), sizeof(double));
           const double ay = p.y();
           out_.write((char *)(&ay), sizeof(double));
-//          out_.write((char *)(&p), sizeof(PaperPoint));
           ++fla;
         }
 }
@@ -559,12 +540,13 @@ MAGICS_NO_EXPORT void BinaryDriver::renderText(const Text& text) const
       out_.write((char *)(&sf),sizeof(MFloat));
 
       const string t=niceT[ntc].text();
-      const int len = t.length();
+      int len = t.length();
       out_.write((char *)(&len),sizeof(int));
 
-      char pp[len];
+      char *pp = new char[len];
       strcpy(pp, t.c_str());
       out_.write(pp,sizeof(char)*len);
+      delete[] pp;
     }
 
     for(int g=0;g<s;g++)

@@ -72,10 +72,10 @@ void Curve::print(ostream& out)  const
 	out << "]";
 }
 
-Polyline* Curve::newCurve(BasicGraphicsObjectContainer& task) const
+magics::Polyline* Curve::newCurve(BasicGraphicsObjectContainer& task) const
 {
 
-	Polyline* curve  = new Polyline();
+    magics::Polyline* curve  = new magics::Polyline();
 	
 
 	(*curve).setColour(currentColour_);
@@ -171,7 +171,7 @@ void Curve::operator()(Data& data, BasicGraphicsObjectContainer& task)
 
 	if ( legend_text_ == "?" ) legend_text_ = data.legend(); 
 	
-	Polyline* curve_ = newCurve(task);
+    magics::Polyline* curve_ = newCurve(task);
 	bool last_out = false;	
 	
 	vector<PaperPoint> missing, sv;
@@ -296,7 +296,7 @@ void CurveArea::operator()(Data& data, BasicGraphicsObjectContainer& task)
 	if ( legend_text_ == "?" ) legend_text_ = data.legend();
 
 
-	Polyline* curve_ = newCurve(task);
+    magics::Polyline* curve_ = newCurve(task);
 	bool last_out = false;
 
 	vector<PaperPoint> missing, sv;
@@ -392,7 +392,7 @@ void Curve::visit(LegendVisitor& legend)
 
 void  Curve::set(const PaperPoint& point, BasicGraphicsObjectContainer& legend, LegendEntry& entry)
 {
-	Polyline* curve  = new Polyline();
+    magics::Polyline* curve  = new magics::Polyline();
 	curve->setColour(currentColour_);
 	curve->setLineStyle(currentStyle_);
 	curve->setThickness(currentThickness_);
@@ -416,7 +416,7 @@ void  Curve::set(const PaperPoint& point, BasicGraphicsObjectContainer& legend, 
 	legend_symbol(p, legend);
 	
 }
-void CurveArea::legend(Polyline& curve)
+void CurveArea::legend(magics::Polyline& curve)
 {
 	shade_->legend(curve);
 }
@@ -466,7 +466,7 @@ bool Curve::join(const PaperPoint& p1, const PaperPoint& p2, const vector<PaperP
 {
 	if ( !task.transformation().in(p2) )
 		return true;
-	Polyline* curve  = new Polyline();
+    magics::Polyline* curve  = new magics::Polyline();
 	(*curve).setColour(*missing_colour_);
 	(*curve).setLineStyle(missing_style_);
 	(*curve).setThickness(missing_thickness_);
@@ -478,7 +478,7 @@ bool Curve::join(const PaperPoint& p1, const PaperPoint& p2, const vector<PaperP
 }
 bool Curve::drop(const PaperPoint& p1, const PaperPoint& p2, const vector<PaperPoint>& points, BasicGraphicsObjectContainer& task)
 {
-	Polyline* curve  = new Polyline();
+    magics::Polyline* curve  = new magics::Polyline();
 	(*curve).setColour(*missing_colour_);
 	(*curve).setLineStyle(missing_style_);
 	(*curve).setThickness(missing_thickness_);

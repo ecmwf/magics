@@ -546,12 +546,12 @@ public:
 	{
 		string val = lowerCase(s);
 		// enum	Justification { MLEFT , MCENTRE, MRIGHT }; };
-		if (val  == "inline") return INLINE;
-		if (val  == "block") return BLOCK;
-		if (val  == "none") return NONE;
-		if (val  == "hidden") return HIDDEN;
-		if (val  == "absolute") return ABSOLUTE;
-		return ABSOLUTE;
+		if (val  == "inline") return M_DT_INLINE;
+		if (val  == "block") return M_DT_BLOCK;
+		if (val  == "none") return M_DT_NONE;
+		if (val  == "hidden") return M_DT_HIDDEN;
+		if (val  == "absolute") return M_DT_ABSOLUTE;
+		return M_DT_ABSOLUTE;
 	}
 	magics::DisplayType magics(const string& param)
 	{

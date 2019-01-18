@@ -80,17 +80,17 @@ void ShapeDecoder::customisedPoints(const std::set<string>&, CustomisedPointsLis
 		hSHP = SHPOpen( shp.c_str(), "rb" );
 		hDBF = DBFOpen( dbf.c_str(), "rb" );
 		if ( !hSHP || !hDBF ) {
-	   		    MagLog::error() << "Can not open points Shapefile " << shp << endl;
-	   		    return;
-	   	}
+			MagLog::error() << "Can not open points Shapefile " << shp << endl;
+			return;
+		}
 
 		SHPGetInfo( hSHP, &nEntities, &nShapeType, adfMinBound, adfMaxBound );
 
 		map<string, int> attributes;
 
 		for( i = 0; i < DBFGetFieldCount(hDBF); i++ ) {
-		            DBFGetFieldInfo( hDBF, i, szTitle, &nWidth, &nDecimals );
-		            attributes.insert(make_pair(lowerCase(szTitle), i));
+			DBFGetFieldInfo( hDBF, i, szTitle, &nWidth, &nDecimals );
+			attributes.insert(make_pair(lowerCase(szTitle), i));
 		}
 
 		map<string, int>::iterator index  = attributes.find("nameascii");
@@ -121,16 +121,16 @@ void ShapeDecoder::customisedPoints(const std::set<string>&, CustomisedPointsLis
 
 			if (psShape->nVertices == 1)
 			{
-			    	CustomisedPoint* point = new CustomisedPoint();
-			    	point->latitude(psShape->padfY[0]);
-			    	point->longitude(psShape->padfX[0]);
-			    	point->identifier(name);
-			    	out.push_back(point);
+				CustomisedPoint* point = new CustomisedPoint();
+				point->latitude(psShape->padfY[0]);
+				point->longitude(psShape->padfX[0]);
+				point->identifier(name);
+				out.push_back(point);
 			}
 			SHPDestroyObject( psShape );
-		    }
-		    SHPClose( hSHP );
-            DBFClose ( hDBF );
+		}
+		SHPClose( hSHP );
+		DBFClose ( hDBF );
 	}
 	catch (...)
 	{
@@ -141,8 +141,8 @@ void ShapeDecoder::customisedPoints(const std::set<string>&, CustomisedPointsLis
 
 /*
 
-  \sa Boundaries::operator()
-*/
+   \sa Boundaries::operator()
+   */
 void ShapeDecoder::decode(const Transformation& transformation, const string& filter, const vector<string>& values)
 {
 	if ( !this->empty() ) return;
@@ -151,7 +151,7 @@ void ShapeDecoder::decode(const Transformation& transformation, const string& fi
 		double  minx, miny, maxx, maxy;
 		transformation.smallestBoundingBox(minx, miny, maxx, maxy);
 
-		Polyline& box = transformation.getUserBoundingBox();
+		magics::Polyline& box = transformation.getUserBoundingBox();
 
 		int     nWidth, nDecimals;
 		int     nShapeType, nEntities, i, iPart;
@@ -172,8 +172,8 @@ void ShapeDecoder::decode(const Transformation& transformation, const string& fi
 
 		for( i = 0; i < DBFGetFieldCount(hDBF); i++ )
 		{
-		            DBFGetFieldInfo( hDBF, i, szTitle, &nWidth, &nDecimals );
-		            attributes.insert(make_pair(lowerCase(szTitle), i));
+			DBFGetFieldInfo( hDBF, i, szTitle, &nWidth, &nDecimals );
+			attributes.insert(make_pair(lowerCase(szTitle), i));
 		}
 		map<string, int>::iterator index =  filter.empty() ? attributes.end() : attributes.find(filter);
 
@@ -185,8 +185,8 @@ void ShapeDecoder::decode(const Transformation& transformation, const string& fi
 		{
 			int       j;
 			if ( psShape ) {
-								SHPDestroyObject(psShape);
-							}
+				SHPDestroyObject(psShape);
+			}
 
 			psShape = SHPReadObject( hSHP, i );
 
@@ -242,7 +242,7 @@ void ShapeDecoder::decode(const Transformation& transformation, const string& fi
 						if ( holes_ == false ) break;
 						iPart++;
 						if (in) {
-        						push_back(new PointsList());
+							push_back(new PointsList());
 							inlist = back();
 						}
 						if (left) {
@@ -255,7 +255,7 @@ void ShapeDecoder::decode(const Transformation& transformation, const string& fi
 						}
 					}
 					if (in) {
-							inlist->push_back(new UserPoint(psShape->padfX[j], psShape->padfY[j], i));
+						inlist->push_back(new UserPoint(psShape->padfX[j], psShape->padfY[j], i));
 					}
 					if (left) {
 						leftlist->push_back(new UserPoint(psShape->padfX[j]-360., psShape->padfY[j], i));
@@ -269,7 +269,7 @@ void ShapeDecoder::decode(const Transformation& transformation, const string& fi
 		SHPDestroyObject(psShape);
 
 		SHPClose( hSHP );
-        DBFClose ( hDBF );
+		DBFClose ( hDBF );
 	}
 	catch (...)
 	{
@@ -280,131 +280,131 @@ void ShapeDecoder::decode(const Transformation& transformation, const string& fi
 
 
 /*! \brief Decoder to read land and lakes
- \sa CoastPlotting::decode(const Layout& parent )
-*/
-void ShapeDecoder::decode(vector<Polyline*>& data, const Transformation& transformation)
+  \sa CoastPlotting::decode(const Layout& parent )
+  */
+void ShapeDecoder::decode(vector<magics::Polyline*>& data, const Transformation& transformation)
 {
 	Timer timer("Read Shape file ", "read shape file" + path_);
 
-		Polyline& geobox = transformation.getUserBoundingBox();
-		Polyline& box = transformation.getPCBoundingBox();
-		try {
-			SHPHandle  hSHP;
-			int	nShapeType, nEntities, i, iPart;
-			double 	adfMinBound[4], adfMaxBound[4];
-			string shp = path_ + ".shp";
-			string dbf = path_ + ".dbf";
-			hSHP = SHPOpen( shp.c_str(), "rb" );
-			if ( !hSHP  ) {
-			    	MagLog::error() << "Can not open Shapefile " << shp << endl;
-			    	return;
-			}
-			data.clear();
-			SHPGetInfo( hSHP, &nEntities, &nShapeType, adfMinBound, adfMaxBound );
-
-			const double south = transformation.getMinY();
-			const double north = transformation.getMaxY();
-			const double west  = transformation.getMinX();
-			const double east  = transformation.getMaxX();
-
-			double shift = 0;
-
-			if ( west < -180 )
-				shift = 360;
-			if ( east > 180 )
-				shift = 360;
-			if ( ( east - west ) > 360. )
-				shift = 0;
-
-			SHPObject *psShape = 0;
-			int nb  = 0;
-			for( i = 0; i < nEntities; i++ )
-			{
-				int	j;
-				SHPDestroyObject(psShape);
-				psShape = SHPReadObject( hSHP, i );
-
-				bool in = true;
-				bool left = false;
-				bool right = false;
-
-				if ( psShape->dfYMax  <= south ) continue;
-				if ( psShape->dfYMin  >= north ) continue;
-				if ( psShape->dfXMax + shift <= west) in = false;
-				if ( psShape->dfXMin + shift >= east) in = false;
-				if ( psShape->dfXMax + shift - 360 > transformation.getMinX() &&  !same(psShape->dfXMax-360, transformation.getMinX())) {
-					        left = true;
-				}
-				if ( psShape->dfXMin + shift +360 < transformation.getMaxX() && !same(psShape->dfXMin+360, transformation.getMaxX() ) ) {
-						right = true;
-				}
-
-				if ( !in && !right && !left ) continue;
-
-				Polyline* poly = 0;
-                Polyline* polyleft = 0;
-                Polyline* polyright = 0;
-
-                if ( in) {
-                    poly  = new Polyline();
-                    data.push_back(poly);
-                }
-				if ( left ) {
-                    polyleft  = new Polyline();
-                    data.push_back(polyleft);
-                }
-                if ( right ) {
-                    polyright  = new Polyline();
-                    data.push_back(polyright);
-                }
-
-				left = false;
-				right= false;
-				int index = 0;
-				bool rotate = 0;
-				for( j = 0, iPart = 1; j < psShape->nVertices ; j++ )
-				{
-					if( iPart < psShape->nParts && psShape->panPartStart[iPart] == j )
-					{
-						iPart++;
-
-						if (poly)	   poly->newHole();
-						if (polyleft)  polyleft->newHole();
-						if (polyright) polyright->newHole();
-					}
-
-					double x = psShape->padfX[j];
-					x += shift;
-					const double y = psShape->padfY[j];
-
-					if ( iPart==1 ) {
-
-							if ( poly )    {
-								if (  same(x, -180.) || same(x, 180.) )  {
-									if ( y > 0 ) {
-										index = j;
-									}
-								}
-								poly->push_back(PaperPoint(x, y));
-							}
-							if ( polyleft )  polyleft->push_back( PaperPoint(x-360, y));
-							if ( polyright ) polyright->push_back(PaperPoint(x+360, y));
-					}
-					else {
-							if ( poly )      poly->push_back_hole(PaperPoint(x, y));
-							if ( polyleft )  polyleft->push_back_hole( PaperPoint(x-360, y));
-							if ( polyright ) polyright->push_back_hole(PaperPoint(x+360, y));
-					}
-				}
-				if ( index ) {
-					poly->rotate(index);
-				}
-			}
-			SHPDestroyObject(psShape);
-			SHPClose( hSHP );
+	magics::Polyline& geobox = transformation.getUserBoundingBox();
+	magics::Polyline& box = transformation.getPCBoundingBox();
+	try {
+		SHPHandle  hSHP;
+		int	nShapeType, nEntities, i, iPart;
+		double 	adfMinBound[4], adfMaxBound[4];
+		string shp = path_ + ".shp";
+		string dbf = path_ + ".dbf";
+		hSHP = SHPOpen( shp.c_str(), "rb" );
+		if ( !hSHP  ) {
+			MagLog::error() << "Can not open Shapefile " << shp << endl;
+			return;
 		}
-		catch (std::exception e)
+		data.clear();
+		SHPGetInfo( hSHP, &nEntities, &nShapeType, adfMinBound, adfMaxBound );
+
+		const double south = transformation.getMinY();
+		const double north = transformation.getMaxY();
+		const double west  = transformation.getMinX();
+		const double east  = transformation.getMaxX();
+
+		double shift = 0;
+
+		if ( west < -180 )
+			shift = 360;
+		if ( east > 180 )
+			shift = 360;
+		if ( ( east - west ) > 360. )
+			shift = 0;
+
+		SHPObject *psShape = 0;
+		int nb  = 0;
+		for( i = 0; i < nEntities; i++ )
 		{
-			MagLog::error() << "Can not open Shapefile " << path_ << endl;
+			int	j;
+			SHPDestroyObject(psShape);
+			psShape = SHPReadObject( hSHP, i );
+
+			bool in = true;
+			bool left = false;
+			bool right = false;
+
+			if ( psShape->dfYMax  <= south ) continue;
+			if ( psShape->dfYMin  >= north ) continue;
+			if ( psShape->dfXMax + shift <= west) in = false;
+			if ( psShape->dfXMin + shift >= east) in = false;
+			if ( psShape->dfXMax + shift - 360 > transformation.getMinX() &&  !same(psShape->dfXMax-360, transformation.getMinX())) {
+				left = true;
+			}
+			if ( psShape->dfXMin + shift +360 < transformation.getMaxX() && !same(psShape->dfXMin+360, transformation.getMaxX() ) ) {
+				right = true;
+			}
+
+			if ( !in && !right && !left ) continue;
+
+			magics::Polyline* poly = 0;
+			magics::Polyline* polyleft = 0;
+			magics::Polyline* polyright = 0;
+
+			if ( in) {
+				poly  = new magics::Polyline();
+				data.push_back(poly);
+			}
+			if ( left ) {
+				polyleft  = new magics::Polyline();
+				data.push_back(polyleft);
+			}
+			if ( right ) {
+				polyright  = new magics::Polyline();
+				data.push_back(polyright);
+			}
+
+			left = false;
+			right= false;
+			int index = 0;
+			bool rotate = 0;
+			for( j = 0, iPart = 1; j < psShape->nVertices ; j++ )
+			{
+				if( iPart < psShape->nParts && psShape->panPartStart[iPart] == j )
+				{
+					iPart++;
+
+					if (poly)	   poly->newHole();
+					if (polyleft)  polyleft->newHole();
+					if (polyright) polyright->newHole();
+				}
+
+				double x = psShape->padfX[j];
+				x += shift;
+				const double y = psShape->padfY[j];
+
+				if ( iPart==1 ) {
+
+					if ( poly )    {
+						if (  same(x, -180.) || same(x, 180.) )  {
+							if ( y > 0 ) {
+								index = j;
+							}
+						}
+						poly->push_back(PaperPoint(x, y));
+					}
+					if ( polyleft )  polyleft->push_back( PaperPoint(x-360, y));
+					if ( polyright ) polyright->push_back(PaperPoint(x+360, y));
+				}
+				else {
+					if ( poly )      poly->push_back_hole(PaperPoint(x, y));
+					if ( polyleft )  polyleft->push_back_hole( PaperPoint(x-360, y));
+					if ( polyright ) polyright->push_back_hole(PaperPoint(x+360, y));
+				}
+			}
+			if ( index ) {
+				poly->rotate(index);
+			}
 		}
+		SHPDestroyObject(psShape);
+		SHPClose( hSHP );
+	}
+	catch (std::exception e)
+	{
+		MagLog::error() << "Can not open Shapefile " << path_ << endl;
+	}
 }

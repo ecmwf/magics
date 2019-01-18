@@ -25,6 +25,7 @@
 #include <Arrow.h>
 #include <Flag.h>
 
+#include "magics_windef.h"
 
 //! For generating ZIP files
 extern "C"{
@@ -34,7 +35,10 @@ extern "C"{
 #define WRITEBUFFERSIZE 16384
 #include <cstdio>    // BUFSIZ
 #include <fcntl.h>   // open
+
+#ifndef MAGICS_ON_WINDOWS
 #include <unistd.h>
+#endif
 }
 
 

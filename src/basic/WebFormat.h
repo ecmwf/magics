@@ -102,16 +102,16 @@ public:
 	WebInterpretor();
 	~WebInterpretor();
 	
-	static void magml(const string&);
-	static void json(const string&);
-	static void set(const string& param,  const string& value) {
+	MAGICS_EXPORT static void magml(const string&);
+	MAGICS_EXPORT static void json(const string&);
+	MAGICS_EXPORT static void set(const string& param,  const string& value) {
 		web_.insert(make_pair(param, value)); 
 	}
-	static map<string, string>& parameters() { return web_; }
+	MAGICS_EXPORT static map<string, string>& parameters() { return web_; }
 	
 	
 protected:
-	static WebInterpretor web_;
+	MAGICS_EXPORT static WebInterpretor web_;
 	
 };
 

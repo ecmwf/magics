@@ -257,12 +257,12 @@ void Proj4Projection::print(ostream& out) const
     out << "]";
 }
 
-Polyline& Proj4Projection::getPCBoundingBox() const
+magics::Polyline& Proj4Projection::getPCBoundingBox() const
 {
 	return *PCEnveloppe_;
 }
 
-Polyline& Proj4Projection::getUserBoundingBox() const
+magics::Polyline& Proj4Projection::getUserBoundingBox() const
 {
 	return *userEnveloppe_;
 }
@@ -391,10 +391,10 @@ void Proj4Projection::corners()
 		fast_reproject(min_pcx_, min_pcy_);
 		fast_reproject(max_pcx_, max_pcy_);
 
-		Polyline box;
+		magics::Polyline box;
 		box.box(PaperPoint(min_pcx_, min_pcy_), PaperPoint(max_pcx_, max_pcy_));
 
-		vector<Polyline*> newbox;
+		vector<magics::Polyline*> newbox;
 		PCEnveloppe_->intersect(box, newbox);
 		if ( newbox.empty() ) {
 			MagLog::warning() << "Proj4 : the sub-area is not valid : use global view instead" << endl;
@@ -545,9 +545,6 @@ void Proj4Projection::conic()
 		add(lon, projection_->minlat_);
 	}
 	add( projection_->maxlon_, projection_->maxlat_);
-	PCEnveloppe_->correct();
-	userEnveloppe_->correct();
-	
 }
 
 
@@ -599,10 +596,10 @@ void Proj4Projection::projectionSimple()
 		max_latitude_ *= RAD_TO_DEG;
 
 
-		Polyline box;
+		magics::Polyline box;
 		box.box(PaperPoint(min_pcx_, min_pcy_), PaperPoint(max_pcx_, max_pcy_));
 
-		vector<Polyline*> newbox;
+		vector<magics::Polyline*> newbox;
 		PCEnveloppe_->intersect(box, newbox);
 		if ( newbox.empty() ) {
 			MagLog::warning() << "Proj4 : the sub-area is not valid : use global view instead" << endl;
@@ -761,7 +758,7 @@ double Proj4Projection::getMaxPCY()  const
 
 void Proj4Projection::gridLongitudes(const GridPlotting& grid)  const
 {
-	Polyline boundaries;
+	magics::Polyline boundaries;
 
 	for (auto point = PCEnveloppe_->begin(); point != PCEnveloppe_->end(); ++point )
 	{
@@ -781,7 +778,7 @@ void Proj4Projection::gridLongitudes(const GridPlotting& grid)  const
 		for (vector<double>::const_iterator lon = longitudes.begin(); lon != lon_end; ++lon)
 		{
 
-			Polyline poly;
+			magics::Polyline poly;
 			poly.setAntiAliasing(false);
 
 			for (double lat = gridMinLat_; (lat == gridMaxLat_ || lat < gridMaxLat_ + step); lat += step)
@@ -809,7 +806,7 @@ void Proj4Projection::gridLatitudes(const GridPlotting& grid)  const
 	for(vector<double>::const_iterator lat = latitudes.begin(); lat != lat_end; ++lat)
 	{
 
-		Polyline poly;
+		magics::Polyline poly;
 		poly.setAntiAliasing(false);
 		for (double lon = gridMinLon_; lon <= gridMaxLon_ + step; lon += step)
 		{
