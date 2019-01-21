@@ -25,6 +25,8 @@
 #include "MagicsFormat.h"
 #include "ProgressObject.h"
 
+#include "LegendVisitor.h"
+
 using namespace magics;
 
 
@@ -50,6 +52,7 @@ double SymbolPlotting::height(const Transformation& transformation, double heigh
     return transformation.ratio() * scaling_level_0_ * scaling_factor_;
 }
 
+void SymbolPlotting::getReady(const LegendVisitor& legend) { legend_only_ = legend.only_; }
 
 void SymbolPlotting::operator()(const PaperPoint& point, BasicGraphicsObjectContainer& out) const {
     try {

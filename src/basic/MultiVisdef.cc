@@ -22,7 +22,12 @@
 
 #include "MultiVisdef.h"
 
+#include "LegendVisitor.h"
+
+
 using namespace magics;
+
+void Visdef::getReady(const LegendVisitor& legend) { legendOnly_ = legend.only_; }
 
 MultiVisdef::MultiVisdef() {}
 

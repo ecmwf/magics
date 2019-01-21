@@ -22,10 +22,12 @@
 #ifndef Visdef_H
 #define Visdef_H
 
+#include "magics.h"
+
 #include "BasicSceneObject.h"
 #include "Data.h"
-#include "LegendVisitor.h"
-#include "magics.h"
+
+
 
 namespace magics {
 
@@ -35,6 +37,7 @@ class HistoVisitor;
 class Colour;
 template <class T>
 class IntervalMap;
+class LegendVisitor;
 
 
 class Visdef : public MetviewIcon {
@@ -53,7 +56,7 @@ public:
     virtual void visit(Layer& layer) { MetviewIcon::visit(layer); }
     virtual void beanInfo(IntervalMap<Colour>&) { NOTIMP; }
     virtual bool needLegend() { return false; }
-    virtual void getReady(const LegendVisitor& legend) { legendOnly_ = legend.only_; }
+    virtual void getReady(const LegendVisitor& legend);
     void theme(const string& theme) { theme_ = theme; }
 
 protected:
