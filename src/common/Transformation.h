@@ -1,9 +1,9 @@
 /*
  * (C) Copyright 1996-2016 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
  */
@@ -30,13 +30,13 @@ Currently Magics++ supports following projections:
    inheriting from Transformation, NewProjectionParameters
 
  - add the new files in <i>src/common/Makefile.am</i>
- 
+
  - add new projection in src/common/SubPageAttributes.cc:\n
     static SimpleObjectMaker<NewProjection, Transformation> new_NewProjection("new_name");
 
  - add new projection in src/common/ViewAttributes.cc:\n
     static SimpleObjectMaker<NewProjection, Transformation> new_NewProjection("new_name");
-    
+
  - Last but not least: add the new projection to the documentation!
 */
 
@@ -98,11 +98,14 @@ public:
     virtual void init();
     virtual void cleanPCEnveloppe();
     void cleaninit();
-    enum CoordinateType { GeoType,
-        XyType };
+    enum CoordinateType
+    {
+        GeoType,
+        XyType
+    };
     CoordinateType coordinateType() const { return coordinateType_; }
 
-    virtual void geoProjection(int& geo) const { geo = 0; } // Useful for Streamlines !
+    virtual void geoProjection(int& geo) const { geo = 0; }  // Useful for Streamlines !
 
     virtual void toxml(ostream&) const {}
     // Xml Methods !
@@ -110,8 +113,7 @@ public:
     virtual void set(const XmlNode&) {}
     virtual bool accept(const string&) { return false; }
     void toxml(ostream&, int) const {}
-    virtual Transformation* clone() const
-    {
+    virtual Transformation* clone() const {
         Transformation* object = new Transformation();
         return object;
     }
@@ -141,11 +143,11 @@ public:
     virtual double ry(double y) const { return y; }
 
     /*
-	// is the polyline out the projection!
-	virtual bool out(const Polyline&) const;
-	// is the polyline in the projection?
-	virtual bool in(const Polyline&) const;
-	*/
+    // is the polyline out the projection!
+    virtual bool out(const Polyline&) const;
+    // is the polyline in the projection?
+    virtual bool in(const Polyline&) const;
+    */
     // is the point in projected area?
     virtual bool in(const UserPoint&)const;
     virtual bool in(const PaperPoint&)const;
@@ -153,18 +155,11 @@ public:
     // is the point in PC in the projected area?
     bool in(double x, double y) const;
 
-    bool inX(double x) const
-    {
-        return (getAbsoluteMinX() <= x && x <= getAbsoluteMaxX());
-    }
-    bool inY(double y) const
-    {
-        return (getAbsoluteMinY() <= y && y <= getAbsoluteMaxY());
-    }
+    bool inX(double x) const { return (getAbsoluteMinX() <= x && x <= getAbsoluteMaxX()); }
+    bool inY(double y) const { return (getAbsoluteMinY() <= y && y <= getAbsoluteMaxY()); }
 
     // Needed for Image processing!
-    virtual TeProjection& getProjection()
-    {
+    virtual TeProjection& getProjection() {
         static TeDatum datum;
         static TeLatLong dummy(datum);
         return dummy;
@@ -180,55 +175,40 @@ public:
     virtual void labels(const LabelPlotting&, BottomAxisVisitor&) const {}
 
     virtual void aspectRatio(double&, double&);
-    virtual void fill(double&, double&); // fill the space , can adapt the coordiantes to return the biggest area..
-    virtual void tile(double&, double&); // fill the space , can adapt the coordiantes to return the biggest area..
+    virtual void fill(double&, double&);  // fill the space , can adapt the coordiantes to return the biggest area..
+    virtual void tile(double&, double&);  // fill the space , can adapt the coordiantes to return the biggest area..
     virtual void forceNewArea(double, double, double, double, double&, double&);
     virtual UserPoint reference() const;
 
     // Basic reprojection method!
-    virtual PaperPoint operator()(const UserPoint& xy) const
-    {
-        return PaperPoint(xy.x(), xy.y());
-    }
+    virtual PaperPoint operator()(const UserPoint& xy) const { return PaperPoint(xy.x(), xy.y()); }
 
-    virtual bool fast_reproject(double& x, double& y) const
-    {
-        return true;
-    }
+    virtual bool fast_reproject(double& x, double& y) const { return true; }
 
     virtual double patchDistance(double) const { NOTIMP; }
 
-    virtual PaperPoint operator()(const PaperPoint& xy) const
-    {
-        return xy;
-    }
+    virtual PaperPoint operator()(const PaperPoint& xy) const { return xy; }
     virtual void operator()(const UserPoint& geo, Polyline& out) const;
     virtual void operator()(const UserPoint& xy, vector<PaperPoint>& out) const;
     void operator()(const Polyline& from, vector<Polyline*>& out) const;
     virtual void revert(const vector<std::pair<double, double> >&, vector<std::pair<double, double> >&) const;
 
-    virtual void revert(const PaperPoint& xy, UserPoint& point) const
-    {
-        point = UserPoint(xy.x(), xy.y());
-    }
+    virtual void revert(const PaperPoint& xy, UserPoint& point) const { point = UserPoint(xy.x(), xy.y()); }
 
     // Does the projection needs the coastalines to be shifted!
     virtual bool needShiftedCoastlines() const { return false; }
 
     // Set the bounding box in user coordinates
     virtual void boundingBox(double&, double&, double&, double&) const;
-    virtual void smallestBoundingBox(double& x1, double& y1, double& x2, double& y2) const
-    {
+    virtual void smallestBoundingBox(double& x1, double& y1, double& x2, double& y2) const {
         boundingBox(x1, y1, x2, y2);
     }
 
-    virtual void setDataMinMaxX(double minx, double maxx) const
-    {
+    virtual void setDataMinMaxX(double minx, double maxx) const {
         dataMinX_ = std::min(minx, dataMinX_);
         dataMaxX_ = std::max(maxx, dataMaxX_);
     }
-    virtual void setDataMinMaxY(double miny, double maxy) const
-    {
+    virtual void setDataMinMaxY(double miny, double maxy) const {
         dataMinY_ = std::min(miny, dataMinY_);
         dataMaxY_ = std::max(maxy, dataMaxY_);
     }
@@ -272,10 +252,7 @@ public:
     virtual double getMaxPCX() const { return -1; }
     virtual double getMinPCY() const { return -1; }
     virtual double getMaxPCY() const { return -1; }
-    virtual double dimension(BasicGraphicsObjectContainer& parent) const
-    {
-        return parent.absoluteWidth();
-    }
+    virtual double dimension(BasicGraphicsObjectContainer& parent) const { return parent.absoluteWidth(); }
 
     double getAbsoluteMinPCX() const { return std::min(getMinPCX(), getMaxPCX()); }
     double getAbsoluteMaxPCX() const { return std::max(getMinPCX(), getMaxPCX()); }
@@ -294,14 +271,8 @@ public:
 
     virtual void thin(double, PaperPoint&, vector<pair<double, double> >&) const;
     virtual void thin(double, PaperPoint&, Matrix&, double) const;
-    virtual void getNewDefinition(const UserPoint&, const UserPoint&, string&) const
-    {
-        NOTIMP;
-    }
-    virtual void setDefinition(const string&)
-    {
-        NOTIMP;
-    }
+    virtual void getNewDefinition(const UserPoint&, const UserPoint&, string&) const { NOTIMP; }
+    virtual void setDefinition(const string&) { NOTIMP; }
 
     virtual void thin(MatrixHandler&, double x, double y, vector<UserPoint>&) const;
 
@@ -312,8 +283,7 @@ public:
     void thin(MatrixHandler& points, vector<PaperPoint>& out, vector<PaperPoint>&) const;
 
     // The view is set in Projection coordinates!
-    virtual void filterView(double xmin, double xmax, double ymin, double ymax, double x, double y) const
-    {
+    virtual void filterView(double xmin, double xmax, double ymin, double ymax, double x, double y) const {
         view_ = ViewFilter(xmin, xmax, ymin, ymax, x, y);
     }
     virtual void collect(MetaDataCollector&) const {}
@@ -323,8 +293,7 @@ public:
 
     virtual MatrixHandler* prepareData(const AbstractMatrix& matrix) const;
     virtual void wraparound(const UserPoint&, stack<UserPoint>&) const;
-    virtual void populate(double lon, double lat, double val, vector<UserPoint>& out) const
-    {
+    virtual void populate(double lon, double lat, double val, vector<UserPoint>& out) const {
         if (in(lon, lat))
             out.push_back(UserPoint(lon, lat, val));
     }
@@ -379,8 +348,7 @@ private:
     Transformation& operator=(const Transformation&);
 
     // -- Friends
-    friend ostream& operator<<(ostream& s, const Transformation& p)
-    {
+    friend ostream& operator<<(ostream& s, const Transformation& p) {
         p.print(s);
         return s;
     }
@@ -389,17 +357,13 @@ private:
 template <>
 class MagTranslator<string, Transformation> {
 public:
-    Transformation* operator()(const string& val)
-    {
-        return SimpleObjectMaker<Transformation>::create(val);
-    }
-    Transformation* magics(const string& param)
-    {
+    Transformation* operator()(const string& val) { return SimpleObjectMaker<Transformation>::create(val); }
+    Transformation* magics(const string& param) {
         Transformation* object;
         ParameterManager::update(param, object);
         return object;
     }
 };
 
-} // namespace magics
+}  // namespace magics
 #endif

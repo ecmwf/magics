@@ -1,22 +1,22 @@
 /*
  * (C) Copyright 1996-2016 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
  */
 
 /*! \file BaseParameter.cc
     \brief Definition of Parameter base class.
-    
+
     Magics Team - ECMWF 2004
-    
+
     Started: Jan 2004
-    
+
     Changes:
-    
+
 */
 
 
@@ -26,21 +26,14 @@
 using namespace magics;
 
 
-
-
-BaseParameter::BaseParameter(const string& name)  : name_(name)
-{
-   ParameterManager::add(name_, this);
+BaseParameter::BaseParameter(const string& name) : name_(name) {
+    ParameterManager::add(name_, this);
 }
 
 
-BaseParameter::~BaseParameter() 
-{
-}
+BaseParameter::~BaseParameter() {}
 
-	
-void BaseParameter::print(ostream& out)  const
-{
-	out << name_ << "[]";
-}
 
+void BaseParameter::print(ostream& out) const {
+    out << name_ << "[]";
+}

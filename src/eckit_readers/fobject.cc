@@ -13,27 +13,21 @@
 #include <stddef.h>
 #include "inc_iostream.h"
 
-#include  "fobject.h"
+#include "fobject.h"
 
 //_________________________________________________________ TFObject
 
-TFObject::TFObject(void)
-{
-}
+TFObject::TFObject(void) {}
 //_________________________________________________________ ~TFObject
 
-TFObject::~TFObject(void)
-{
-}
+TFObject::~TFObject(void) {}
 //_________________________________________________________ operator==
 
-bool TFObject::operator == (const TFObject & aObjTest) const
-{
-  return (IsEqual ( aObjTest ));
+bool TFObject::operator==(const TFObject& aObjTest) const {
+    return (IsEqual(aObjTest));
 }
 //_________________________________________________________ operator!=
 
-bool TFObject::operator != (const TFObject & aObjTest) const
-{
-  return (bool) ( !(IsEqual ( aObjTest )));
+bool TFObject::operator!=(const TFObject& aObjTest) const {
+    return (bool)(!(IsEqual(aObjTest)));
 }

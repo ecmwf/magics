@@ -13,21 +13,19 @@
 #ifndef __TSORTABLE_H__
 #define __TSORTABLE_H__
 
-#include  "fobject.h"
+#include "fobject.h"
 
 
 class TSortable : public TFObject {
 public:
+    virtual bool IsEqual(const TFObject& aDateObject) const    = 0;
+    virtual bool IsLessThan(const TFObject& aDateObject) const = 0;
 
-  virtual bool IsEqual(const TFObject & aDateObject) const = 0;
-  virtual bool IsLessThan(const TFObject & aDateObject) const = 0;
-
-  // methods as 'const', vk 940824
-  bool operator <  (const TSortable&) const;
-  bool operator >  (const TSortable&) const;
-  bool operator >= (const TSortable&) const;
-  bool operator <= (const TSortable&) const;
-
+    // methods as 'const', vk 940824
+    bool operator<(const TSortable&) const;
+    bool operator>(const TSortable&) const;
+    bool operator>=(const TSortable&) const;
+    bool operator<=(const TSortable&) const;
 };
 
 #endif
