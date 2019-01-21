@@ -1,9 +1,9 @@
 /*
  * (C) Copyright 1996-2016 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
  */
@@ -12,8 +12,8 @@
   \brief Implementation of C interface
   This header file needs to be included by all C programs
   using the C Magics parameter interface.
-  
-  Be careful with including stdio.h because 
+
+  Be careful with including stdio.h because
   pclose() and popen() are used there too!!!
 */
 #ifndef _MAGICS_API_H_
@@ -67,13 +67,13 @@ MAGICS_EXPORT void mag_metbufr();
 
 MAGICS_EXPORT void mag_new(const char* page);
 
-MAGICS_EXPORT void mag_setc(const char* name, const char*  value);
+MAGICS_EXPORT void mag_setc(const char* name, const char* value);
 MAGICS_EXPORT void mag_setr(const char* name, const double value);
 MAGICS_EXPORT void mag_seti(const char* name, const int value);
 MAGICS_EXPORT void mag_setp(const char* name, void* value);
 MAGICS_EXPORT void mag_reset(const char* name);
 
-MAGICS_EXPORT void mag_act  (const char* name, const char*, const char*);
+MAGICS_EXPORT void mag_act(const char* name, const char*, const char*);
 MAGICS_EXPORT void mag_set1i(const char* name, const int* data, const int dim1);
 MAGICS_EXPORT void mag_set2i(const char* name, const int* data, const int dim1, const int dim2);
 MAGICS_EXPORT void mag_set3i(const char* name, const int* data, const int dim1, const int dim2, const int dim3);
@@ -82,9 +82,9 @@ MAGICS_EXPORT void mag_set1r(const char* name, const double* data, const int dim
 MAGICS_EXPORT void mag_set2r(const char* name, const double* data, const int dim1, const int dim2);
 MAGICS_EXPORT void mag_set3r(const char* name, const double* data, const int dim1, const int dim2, const int dim3);
 
-MAGICS_EXPORT void mag_enqr (const char* name, double* value);
-MAGICS_EXPORT void mag_enqi (const char* name, int* value);
-MAGICS_EXPORT void mag_enqc (const char* name, char* value);
+MAGICS_EXPORT void mag_enqr(const char* name, double* value);
+MAGICS_EXPORT void mag_enqi(const char* name, int* value);
+MAGICS_EXPORT void mag_enqc(const char* name, char* value);
 
 MAGICS_EXPORT void mag_pie();
 MAGICS_EXPORT void mag_graph();

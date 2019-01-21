@@ -1,31 +1,30 @@
 /*
  * (C) Copyright 1996-2016 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
  */
 
 /*! \file FrameBase.h
     \brief Definition of the Template class FrameBase.
-    
+
     Magics Team - ECMWF 2006
-    
+
     Started: Thu 9-Feb-2006
-    
+
     Changes:
-    
+
 */
 
 #ifndef FrameBase_H
 #define FrameBase_H
 
-#include "magics.h"
-#include "MagTranslator.h"
 #include "Factory.h"
-
+#include "MagTranslator.h"
+#include "magics.h"
 
 
 namespace magics {
@@ -35,74 +34,64 @@ class PaperPoint;
 class Colour;
 
 class FrameBase {
-
 public:
-	FrameBase() {}
-	virtual ~FrameBase() {}
-    
-    virtual void set(const XmlNode&) {
-        MagLog::dev() << "FrameBase::set(const XmlNode&)---> to be checked!...\n";
-    }
+    FrameBase() {}
+    virtual ~FrameBase() {}
+
+    virtual void set(const XmlNode&) { MagLog::dev() << "FrameBase::set(const XmlNode&)---> to be checked!...\n"; }
     virtual void set(const map<string, string>&) {
         MagLog::dev() << "FrameBase::set(const map<string, string&)---> to be checked!...\n";
     }
     virtual FrameBase* clone() const {
         MagLog::dev() << "FrameBase::set(const map<string, string&)---> to be checked!...\n";
         return new FrameBase();
-    } 
-     virtual void toxml(ostream&, int = 0) const {
-    	 MagLog::dev() << "FrameBase::virtual void toxml(ostream&, int = 0) const ---> to be checked!...\n";
-    }  
-    virtual bool operator()() const { 
-    	MagLog::dev() << " bool FrameBase::operator()() const ---> to be checked!...\n";
-    	return false; 
     }
-    
-    virtual void set(Polyline&) {
-     	MagLog::dev() << " bool FrameBase::set(Polyline&) ---> to be checked!...\n";
+    virtual void toxml(ostream&, int = 0) const {
+        MagLog::dev() << "FrameBase::virtual void toxml(ostream&, int = 0) const ---> to be checked!...\n";
     }
-     virtual void blank(Polyline&) {
-     	MagLog::dev() << " bool FrameBase::blank(Polyline&) ---> to be checked!...\n";
+    virtual bool operator()() const {
+        MagLog::dev() << " bool FrameBase::operator()() const ---> to be checked!...\n";
+        return false;
     }
+
+    virtual void set(Polyline&) { MagLog::dev() << " bool FrameBase::set(Polyline&) ---> to be checked!...\n"; }
+    virtual void blank(Polyline&) { MagLog::dev() << " bool FrameBase::blank(Polyline&) ---> to be checked!...\n"; }
     // Simulate the FrameAttributes interface!
-    virtual void setColour(Colour*) {} 
-	virtual void setStyle(LineStyle) {} 
-	virtual void setThickness(int) {} 
-	virtual void setBlanking(bool) {}
-	
-    
+    virtual void setColour(Colour*) {}
+    virtual void setStyle(LineStyle) {}
+    virtual void setThickness(int) {}
+    virtual void setBlanking(bool) {}
+
+
 protected:
-     //! Method to print string about this class on to a stream of type ostream (virtual).
-	 virtual void print(ostream& out) const { out << "FrameBase\n"; } 
+    //! Method to print string about this class on to a stream of type ostream (virtual).
+    virtual void print(ostream& out) const { out << "FrameBase\n"; }
 
 private:
     //! Copy constructor - No copy allowed
-	FrameBase(const FrameBase&);
+    FrameBase(const FrameBase&);
     //! Overloaded << operator to copy - No copy allowed
-	FrameBase& operator=(const FrameBase&);
+    FrameBase& operator=(const FrameBase&);
 
-// -- Friends
+    // -- Friends
     //! Overloaded << operator to call print().
-	friend ostream& operator<<(ostream& s,const FrameBase& p)
-		{ p.print(s); return s; }
-
+    friend ostream& operator<<(ostream& s, const FrameBase& p) {
+        p.print(s);
+        return s;
+    }
 };
 
 template <>
-class MagTranslator<string, FrameBase> { 
+class MagTranslator<string, FrameBase> {
 public:
-	FrameBase* operator()(const string& val )
-	{
-		return SimpleObjectMaker<FrameBase>::create(val);
-	}     
+    FrameBase* operator()(const string& val) { return SimpleObjectMaker<FrameBase>::create(val); }
 
-	FrameBase* magics(const string& param)
-	{
-		string val;
-		ParameterManager::get(param, val);
-		return (*this)(val);
-	}
+    FrameBase* magics(const string& param) {
+        string val;
+        ParameterManager::get(param, val);
+        return (*this)(val);
+    }
 };
 
-} // namespace magics
+}  // namespace magics
 #endif

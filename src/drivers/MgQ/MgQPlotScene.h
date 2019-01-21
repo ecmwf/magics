@@ -1,9 +1,9 @@
 /*
  * (C) Copyright 1996-2016 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
  */
@@ -22,8 +22,8 @@
 #include <QGraphicsScene>
 #include <QMap>
 
-#include "QtDriver.h"
 #include "MgQScene.h"
+#include "QtDriver.h"
 
 // for AIX compiler which fails when we have two definition of a macro
 // (gcc also complains, but does not fail)
@@ -47,88 +47,89 @@ class MgQStepMetaData;
 using magics::Layer;
 using magics::SceneLayer;
 
-class MgQPlotScene : public MgQScene
-{
+class MgQPlotScene : public MgQScene {
+    Q_OBJECT
 
-  Q_OBJECT
-  
 public:
-	MgQPlotScene(QObject *parent=0);
-	~MgQPlotScene();
-	
-	enum PlotScaleMode {RelativeToCurrentSize,RelativeToOriSize};
-	
-	void clearBeforeNewRequest();
-	void saveStateBeforeNewRequest();
-	void restoreLayerState();
-	
-	void addSceneItem(MgQSceneItem*);
-	MgQSceneItem* currentSceneItem();
-	void setCurrentSceneItem(MgQSceneItem*);	
-	QList<MgQSceneItem*> sceneItems() {return sceneItems_;}
-	MgQSceneItem* findSceneItem(QPointF);
+    MgQPlotScene(QObject* parent = 0);
+    ~MgQPlotScene();
 
-	QRectF oriSceneRect() {return oriSceneRect_;}
-	void setOriSceneRect(QRectF r) {oriSceneRect_=r;}
+    enum PlotScaleMode
+    {
+        RelativeToCurrentSize,
+        RelativeToOriSize
+    };
 
-	MgQLayoutItem* firstProjectorItem();
-	MgQLayoutItem* findProjectorItem(QPointF);
-	MgQLayoutItem* projectorItem(QPointF p) {return findProjectorItem(p);}
-	bool identifyPos(QPointF,MgQSceneItem**,MgQLayoutItem**);
+    void clearBeforeNewRequest();
+    void saveStateBeforeNewRequest();
+    void restoreLayerState();
 
-	void setEnableAntialias(bool);
-	void updateAfterNewRequest();	
-	void renderForMagnifier(QPainter *, const QRectF &, const QRectF &);
-    
-        void sceneItemChanged();
-	void highlightSceneItem(MgQSceneItem*, bool );	
-	void highlightSceneItemForBrief(MgQSceneItem*, bool );	
-	void setPlotScale(float, PlotScaleMode);
-	float plotScale();
-	
-	void setDpiResolution(int r) {dpiResolution_=r;}
-	int dpiResolution() {return dpiResolution_;}
+    void addSceneItem(MgQSceneItem*);
+    MgQSceneItem* currentSceneItem();
+    void setCurrentSceneItem(MgQSceneItem*);
+    QList<MgQSceneItem*> sceneItems() { return sceneItems_; }
+    MgQSceneItem* findSceneItem(QPointF);
 
-public slots:	
-	void slotSceneRectChanged(const QRectF&);
+    QRectF oriSceneRect() { return oriSceneRect_; }
+    void setOriSceneRect(QRectF r) { oriSceneRect_ = r; }
 
-protected:	
-	void updateCache();
-	void drawBackground ( QPainter * painter, const QRectF & rect ); 
-	
-	bool ignoreSceneItemChange_;
-	
-	QList<int> prevSceneItemCurrentStep_;
-	int stepNum_;
+    MgQLayoutItem* firstProjectorItem();
+    MgQLayoutItem* findProjectorItem(QPointF);
+    MgQLayoutItem* projectorItem(QPointF p) { return findProjectorItem(p); }
+    bool identifyPos(QPointF, MgQSceneItem**, MgQLayoutItem**);
 
-	QRectF magnifierSceneRect_;
-	float  magnifierFactor_;
+    void setEnableAntialias(bool);
+    void updateAfterNewRequest();
+    void renderForMagnifier(QPainter*, const QRectF&, const QRectF&);
 
-	MgQPreviewLayoutItem* previewLayoutItem_;
-	QList<MgQSceneItem*> sceneItems_;
-	int currentSceneItemIndex_;
-	
-	QGraphicsRectItem* highlightItem_;
-	MgQSceneItem* highlightedSceneItem_;
-	
-	QGraphicsRectItem* highlightItemForBrief_;
-		
-	MgQSceneLayerItem *sceneLayerItem_;
-	QList<MgQLayerItem*> layerItems_;
-	QList<QList<MgQLayerState*> > previousSceneState_;
-	
-	MgQDriverObject *driverObject_;
+    void sceneItemChanged();
+    void highlightSceneItem(MgQSceneItem*, bool);
+    void highlightSceneItemForBrief(MgQSceneItem*, bool);
+    void setPlotScale(float, PlotScaleMode);
+    float plotScale();
 
-	QPixmap *cacheDevice_;
-	QPainter* cachePainter_;
-	MgQSceneCacheItem*  cacheItem_;
+    void setDpiResolution(int r) { dpiResolution_ = r; }
+    int dpiResolution() { return dpiResolution_; }
 
-	bool antialias_;
-	QRectF oriSceneRect_;
-	
-	int dpiResolution_;
+public slots:
+    void slotSceneRectChanged(const QRectF&);
+
+protected:
+    void updateCache();
+    void drawBackground(QPainter* painter, const QRectF& rect);
+
+    bool ignoreSceneItemChange_;
+
+    QList<int> prevSceneItemCurrentStep_;
+    int stepNum_;
+
+    QRectF magnifierSceneRect_;
+    float magnifierFactor_;
+
+    MgQPreviewLayoutItem* previewLayoutItem_;
+    QList<MgQSceneItem*> sceneItems_;
+    int currentSceneItemIndex_;
+
+    QGraphicsRectItem* highlightItem_;
+    MgQSceneItem* highlightedSceneItem_;
+
+    QGraphicsRectItem* highlightItemForBrief_;
+
+    MgQSceneLayerItem* sceneLayerItem_;
+    QList<MgQLayerItem*> layerItems_;
+    QList<QList<MgQLayerState*> > previousSceneState_;
+
+    MgQDriverObject* driverObject_;
+
+    QPixmap* cacheDevice_;
+    QPainter* cachePainter_;
+    MgQSceneCacheItem* cacheItem_;
+
+    bool antialias_;
+    QRectF oriSceneRect_;
+
+    int dpiResolution_;
 };
-
 
 
 #endif

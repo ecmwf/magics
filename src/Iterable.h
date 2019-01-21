@@ -9,26 +9,26 @@
  */
 
 /*!
-* \file Iterable.h
-* \license Apache License 2.0
-*
-*  Created on: 17 Sep 2018
-*      Author: idris
-*/
+ * \file Iterable.h
+ * \license Apache License 2.0
+ *
+ *  Created on: 17 Sep 2018
+ *      Author: idris
+ */
 
-#ifndef	Iterable_h_
-#define	Iterable_h_
+#ifndef Iterable_h_
+#define Iterable_h_
 
-template<typename Container>
-class Iterable
-{
-		const Container &container;
-	public:
-		auto begin() const {return container.cbegin();}
-		auto end() const {return container.cend();}
+template <typename Container>
+class Iterable {
+    const Container& container;
 
-		Iterable(const Container &cont): container(cont) {}
-		Iterable(Iterable &&) = default;	//allow move construction, suppress move assignment and copy operations
+public:
+    auto begin() const { return container.cbegin(); }
+    auto end() const { return container.cend(); }
+
+    Iterable(const Container& cont) : container(cont) {}
+    Iterable(Iterable&&) = default;  // allow move construction, suppress move assignment and copy operations
 };
 
-#endif	//Iterable_h_
+#endif  // Iterable_h_
