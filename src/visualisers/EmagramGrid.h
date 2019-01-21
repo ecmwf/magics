@@ -18,8 +18,7 @@
 
 namespace magics {
 
-class EmagramGrid: public TephiGrid {
-
+class EmagramGrid : public TephiGrid {
 public:
     EmagramGrid();
     virtual ~EmagramGrid();
@@ -32,14 +31,14 @@ public:
     void visit(TopAxisVisitor&);
     void visit(SceneLayer& layer, vector<LayoutVisitor*>& visitors);
 
-    void set(const map<string, string>& map ) { TephiGridAttributes::set(map); }
-    void set(const XmlNode& node ) { TephiGridAttributes::set(node); }
+    void set(const map<string, string>& map) { TephiGridAttributes::set(map); }
+    void set(const XmlNode& node) { TephiGridAttributes::set(node); }
 
 protected:
-     //! Method to print string about this class on to a stream of type ostream (virtual).
-     virtual void print(ostream&) const;
-     map<double, PaperPoint> tTopLabels_;
-     map<double, PaperPoint> tBottomLabels_;
+    //! Method to print string about this class on to a stream of type ostream (virtual).
+    virtual void print(ostream&) const;
+    map<double, PaperPoint> tTopLabels_;
+    map<double, PaperPoint> tBottomLabels_;
 
 private:
     //! Copy constructor - No copy allowed
@@ -47,13 +46,14 @@ private:
     //! Overloaded << operator to copy - No copy allowed
     EmagramGrid& operator=(const EmagramGrid&);
 
-// -- Friends
+    // -- Friends
     //! Overloaded << operator to call print().
-    friend ostream& operator<<(ostream& s,const EmagramGrid& p)
-        { p.print(s); return s; }
-
+    friend ostream& operator<<(ostream& s, const EmagramGrid& p) {
+        p.print(s);
+        return s;
+    }
 };
 
-} // namespace magics
+}  // namespace magics
 
-#endif // EMAGRAMGRID_H
+#endif  // EMAGRAMGRID_H

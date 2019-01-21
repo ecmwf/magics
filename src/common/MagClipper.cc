@@ -16,14 +16,14 @@ using namespace magics;
 
 double scale_ = 100000;
 
-void convert(const deque<PaperPoint>& in, ClipperLib::Path& out, bool print = false)
-{
+void convert(const deque<PaperPoint>& in, ClipperLib::Path& out, bool print = false) {
     out.reserve(in.size());
     if (print)
         cout << " -----------start---------------------------" << endl;
     for (auto pt = in.begin(); pt != in.end(); ++pt) {
         if (print)
-            cout << "     subj.push_back(MyPoint(" << long(pt->x_ * scale_) << ", " << long(pt->y_ * scale_) << ").get());" << endl;
+            cout << "     subj.push_back(MyPoint(" << long(pt->x_ * scale_) << ", " << long(pt->y_ * scale_)
+                 << ").get());" << endl;
         out.push_back(ClipperLib::IntPoint(long(pt->x_ * scale_), long(pt->y_ * scale_)));
     }
     int orientation = ClipperLib::Orientation(out);
@@ -31,8 +31,7 @@ void convert(const deque<PaperPoint>& in, ClipperLib::Path& out, bool print = fa
         cout << " -------------------" << orientation << "----" << out.size() << "---------------------" << endl;
 }
 
-void convert(const ClipperLib::Path& in, deque<PaperPoint>& out)
-{
+void convert(const ClipperLib::Path& in, deque<PaperPoint>& out) {
     cout << "----------------" << endl;
     for (auto pt = in.begin(); pt != in.end(); ++pt) {
         out.push_back(PaperPoint(pt->X / scale_, pt->Y / scale_));
@@ -41,15 +40,14 @@ void convert(const ClipperLib::Path& in, deque<PaperPoint>& out)
     cout << "----------------" << endl;
 }
 
-void MagClipper::clipOpened(const Polyline& subject, const Polyline& clip, vector<Polyline*>& out)
-{
+void MagClipper::clipOpened(const Polyline& subject, const Polyline& clip, vector<Polyline*>& out) {
     ClipperLib::Path path_subject, path_clip;
     ClipperLib::PolyTree solution;
     ClipperLib::Clipper clipper;
 
     convert(subject.polygon(), path_subject, true);
-    //ClipperLib::CleanPolygon(path_subject, 1000);
-    //cout << "Add line" << ClipperLib::Orientation(path_subject) << endl;
+    // ClipperLib::CleanPolygon(path_subject, 1000);
+    // cout << "Add line" << ClipperLib::Orientation(path_subject) << endl;
     clipper.AddPath(path_subject, ClipperLib::ptSubject, false);
     convert(clip.polygon(), path_clip, true);
 
@@ -64,7 +62,6 @@ void MagClipper::clipOpened(const Polyline& subject, const Polyline& clip, vecto
     ClipperLib::PolyNode* node = solution.GetFirst();
 
     while (node) {
-
         Polyline* poly = new Polyline();
         poly->copy(subject);
         convert(node->Contour, poly->polygon());
@@ -73,23 +70,21 @@ void MagClipper::clipOpened(const Polyline& subject, const Polyline& clip, vecto
     }
 }
 
-void MagClipper::clip(const Polyline& subject, const Polyline& clip, vector<Polyline*>& out)
-{
-
+void MagClipper::clip(const Polyline& subject, const Polyline& clip, vector<Polyline*>& out) {
     if (subject.empty())
         return;
-/*
-    if ( subject.closed() ) {
-    	cout << " clip" << endl;
-    	return clipClosed(subject, clip, out);
-    }
-    cout << " igmore" << endl;
-  */
-   return subject.closed() ? clipClosed(subject, clip, out) : clipOpened(subject, clip, out);
+    /*
+        if ( subject.closed() ) {
+            cout << " clip" << endl;
+            return clipClosed(subject, clip, out);
+        }
+        cout << " igmore" << endl;
+      */
+    return subject.closed() ? clipClosed(subject, clip, out) : clipOpened(subject, clip, out);
 }
 
-void MagClipper::clip(const Polyline& subject, const PaperPoint& lowerleft, const PaperPoint& upperright, vector<Polyline*>& result)
-{
+void MagClipper::clip(const Polyline& subject, const PaperPoint& lowerleft, const PaperPoint& upperright,
+                      vector<Polyline*>& result) {
     Polyline clip;
     clip.push_back(lowerleft);
     clip.push_back(PaperPoint(lowerleft.x_, upperright.y_));
@@ -99,11 +94,10 @@ void MagClipper::clip(const Polyline& subject, const PaperPoint& lowerleft, cons
     MagClipper::clip(subject, clip, result);
 }
 
-void MagClipper::clipClosed(const Polyline& subject, const Polyline& clip, vector<Polyline*>& out)
-{
+void MagClipper::clipClosed(const Polyline& subject, const Polyline& clip, vector<Polyline*>& out) {
     // Create Path from outer and holes!
-    //First Outer!
-   
+    // First Outer!
+
     ClipperLib::Path path_subject, hole_subject, path_clip;
     ClipperLib::Paths solution, holes;
     ClipperLib::Clipper clipper, clipper_holes;
@@ -115,7 +109,7 @@ void MagClipper::clipClosed(const Polyline& subject, const Polyline& clip, vecto
             ClipperLib::ReversePath(path_subject);
         }
 
-        //cout << "Add line" << ClipperLib::Orientation(path_subject) << endl;
+        // cout << "Add line" << ClipperLib::Orientation(path_subject) << endl;
         clipper.AddPath(path_subject, ClipperLib::ptSubject, true);
         convert(clip.polygon(), path_clip);
         for (auto hole = subject.beginHoles(); hole != subject.endHoles(); ++hole) {
@@ -124,17 +118,15 @@ void MagClipper::clipClosed(const Polyline& subject, const Polyline& clip, vecto
             if (ClipperLib::Orientation(path) == 1) {
                 ClipperLib::ReversePath(path);
             }
-            //cout << "Add Hole" << ClipperLib::Orientation(path) << endl;
+            // cout << "Add Hole" << ClipperLib::Orientation(path) << endl;
             clipper.AddPath(path, ClipperLib::ptSubject, true);
         }
-        
-        clipper.AddPath(path_clip, ClipperLib::ptClip, true);
-        
-        clipper.Execute(ClipperLib::ctIntersection, solution, ClipperLib::pftNonZero, ClipperLib::pftNonZero);
-        
 
-         
-        
+        clipper.AddPath(path_clip, ClipperLib::ptClip, true);
+
+        clipper.Execute(ClipperLib::ctIntersection, solution, ClipperLib::pftNonZero, ClipperLib::pftNonZero);
+
+
         Polyline* poly = 0;
         vector<ClipperLib::Paths::iterator> couters;
         map<ClipperLib::Paths::iterator, Polyline*> helper;
@@ -148,7 +140,8 @@ void MagClipper::clipClosed(const Polyline& subject, const Polyline& clip, vecto
                 convert(*path, poly->polygon());
                 poly->close();
                 helper.insert(make_pair(path, poly));
-            } else {
+            }
+            else {
                 choles.push_back(path);
             }
         }
@@ -169,32 +162,28 @@ void MagClipper::clipClosed(const Polyline& subject, const Polyline& clip, vecto
             out.push_back(helper[*outer]);
         }
     }
-    catch (...)
-    {
-        
+    catch (...) {
     }
 }
-   
 
 
-void MagClipper::add(const Polyline& subject, const Polyline& clip, vector<Polyline*>& out)
-{
+void MagClipper::add(const Polyline& subject, const Polyline& clip, vector<Polyline*>& out) {
     // Create Path from outer and holes!
-    //First Outer!
+    // First Outer!
     ClipperLib::Path path_subject, hole_subject, path_clip;
     ClipperLib::Paths solution, holes;
     ClipperLib::Clipper clipper, clipper_holes;
 
     convert(subject.polygon(), path_subject);
 
-    //cout << "Add line" << ClipperLib::Orientation(path_subject) << endl;
+    // cout << "Add line" << ClipperLib::Orientation(path_subject) << endl;
     clipper.AddPath(path_subject, ClipperLib::ptSubject, true);
     convert(clip.polygon(), path_clip);
 
     clipper.AddPath(path_clip, ClipperLib::ptClip, true);
     try {
-    clipper.Execute(ClipperLib::ctUnion, solution, ClipperLib::pftNonZero, ClipperLib::pftNonZero);
-}
+        clipper.Execute(ClipperLib::ctUnion, solution, ClipperLib::pftNonZero, ClipperLib::pftNonZero);
+    }
     catch (...) {
         cout << "ADD ARRIOR " << endl;
     }
@@ -206,22 +195,15 @@ void MagClipper::add(const Polyline& subject, const Polyline& clip, vector<Polyl
     }
 }
 
-bool MagClipper::in(const Polyline& poly, const PaperPoint& point)
-{
+bool MagClipper::in(const Polyline& poly, const PaperPoint& point) {
     ClipperLib::Path path;
     convert(poly.polygon(), path);
 
     return ClipperLib::PointInPolygon(ClipperLib::IntPoint(long(point.x_ * scale_), long(point.y_ * scale_)), path);
 }
 
-MagClipper::MagClipper()
-{
-}
+MagClipper::MagClipper() {}
 
-MagClipper::~MagClipper()
-{
-}
+MagClipper::~MagClipper() {}
 
-void MagClipper::print(ostream&) const
-{
-}
+void MagClipper::print(ostream&) const {}

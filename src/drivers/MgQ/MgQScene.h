@@ -1,9 +1,9 @@
 /*
  * (C) Copyright 1996-2016 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
  */
@@ -23,30 +23,29 @@
 
 class MgQRootItem;
 
-class MgQScene : public QGraphicsScene
-{
-
+class MgQScene : public QGraphicsScene {
 public:
-	MgQScene(QObject *parent=0);
-	MgQScene(MgQRootItem *, QObject *parent=0); 
-	~MgQScene();
+    MgQScene(QObject* parent = 0);
+    MgQScene(MgQRootItem*, QObject* parent = 0);
+    ~MgQScene();
 
-	void renderContents(QPainter *, const QRectF &, const QRectF &);
-	void renderContents(QPainter *, const QStyleOptionGraphicsItem *,const QRectF &, const QRectF &,bool renderAllItems=false);
-	
-	MgQRootItem* plotRootItem() {return plotRootItem_;}	
-	MgQRootItem* annotationRootItem() {return annotationRootItem_;}
-	
-	void addPlotRootItemToScene();
-	void removePlotRootItemFromScene();
+    void renderContents(QPainter*, const QRectF&, const QRectF&);
+    void renderContents(QPainter*, const QStyleOptionGraphicsItem*, const QRectF&, const QRectF&,
+                        bool renderAllItems = false);
+
+    MgQRootItem* plotRootItem() { return plotRootItem_; }
+    MgQRootItem* annotationRootItem() { return annotationRootItem_; }
+
+    void addPlotRootItemToScene();
+    void removePlotRootItemFromScene();
 
 protected:
-	void renderItemRecursively(QGraphicsItem*,QPainter *,const QStyleOptionGraphicsItem *);
-	bool checkItemIsVisible(QGraphicsItem *);
-	bool checkItemType(QGraphicsItem *,int);
+    void renderItemRecursively(QGraphicsItem*, QPainter*, const QStyleOptionGraphicsItem*);
+    bool checkItemIsVisible(QGraphicsItem*);
+    bool checkItemType(QGraphicsItem*, int);
 
-	MgQRootItem* plotRootItem_;
-	MgQRootItem* annotationRootItem_;
+    MgQRootItem* plotRootItem_;
+    MgQRootItem* annotationRootItem_;
 };
 
 

@@ -21,8 +21,8 @@
 #include <QDebug>
 #include <QGraphicsItem>
 #include <QImage>
-#include <QPixmap>
 #include <QPainter>
+#include <QPixmap>
 #include <QProgressDialog>
 #include <QStyleOptionGraphicsItem>
 
@@ -34,119 +34,100 @@
 
 #include "MgQPlotScene.h"
 
-MgQSceneItem::MgQSceneItem(const Layout& layout) : MgQLayoutItem(layout)
-{
-	prevCurrentStep_=0;
-	driverObject_=0;
+MgQSceneItem::MgQSceneItem(const Layout& layout) : MgQLayoutItem(layout) {
+    prevCurrentStep_ = 0;
+    driverObject_    = 0;
 
-	sceneLayerItem_=0;
-	previewLayoutItem_=0;
+    sceneLayerItem_    = 0;
+    previewLayoutItem_ = 0;
 
-	antialias_=false;
+    antialias_ = false;
 
-	stepNum_=0;
+    stepNum_ = 0;
 }
 
-MgQSceneItem::~MgQSceneItem()
-{
-	if(driverObject_)
-		delete driverObject_;
+MgQSceneItem::~MgQSceneItem() {
+    if (driverObject_)
+        delete driverObject_;
 
-	foreach(MgQLayerState *st,previousLayerState_)
-	{
-		delete st;
-	}
+    foreach (MgQLayerState* st, previousLayerState_) { delete st; }
 }
 
-void MgQSceneItem::clearBeforeNewRequest()
-{
-/*	if(rootItem_)
-	{
-		removeItem(rootItem_);
-		delete rootItem_;
-		rootItem_=0;
-	}
-*/
-	//Animation
-	prevCurrentStep_=currentStep_;
+void MgQSceneItem::clearBeforeNewRequest() {
+    /*	if(rootItem_)
+        {
+            removeItem(rootItem_);
+            delete rootItem_;
+            rootItem_=0;
+        }
+    */
+    // Animation
+    prevCurrentStep_ = currentStep_;
 
 
-	layerItems_.clear();
-	sceneLayerItem_=0;
-	previewLayoutItem_=0;
-	stepNum_=0;
+    layerItems_.clear();
+    sceneLayerItem_    = 0;
+    previewLayoutItem_ = 0;
+    stepNum_           = 0;
 }
 
-void MgQSceneItem::saveStateBeforeNewRequest()
-{
-	foreach(MgQLayerState *st,previousLayerState_)
-	{
-		delete st;
-	}
-	previousLayerState_.clear();
+void MgQSceneItem::saveStateBeforeNewRequest() {
+    foreach (MgQLayerState* st, previousLayerState_) { delete st; }
+    previousLayerState_.clear();
 
-	foreach(MgQLayerItem *item,layerItems_)
-	{
-		MgQLayerState *st=new MgQLayerState;
-		item->saveLayerState(st);
-		previousLayerState_.push_back(st);
-	}
+    foreach (MgQLayerItem* item, layerItems_) {
+        MgQLayerState* st = new MgQLayerState;
+        item->saveLayerState(st);
+        previousLayerState_.push_back(st);
+    }
 }
 
-MgQLayoutItem* MgQSceneItem::findProjectorItem(QPointF scenePos)
-{
-	foreach(MgQLayoutItem* item, projectorItems_)
-	{
-	  	//qDebug() << "projector" << item->name() << scenePos << item->mapFromScene(scenePos);
-	  	if(item->contains(item->mapFromScene(scenePos)))
-		{
-			return item;
-		}
-	}
-	return 0;
+MgQLayoutItem* MgQSceneItem::findProjectorItem(QPointF scenePos) {
+    foreach (MgQLayoutItem* item, projectorItems_) {
+        // qDebug() << "projector" << item->name() << scenePos << item->mapFromScene(scenePos);
+        if (item->contains(item->mapFromScene(scenePos))) {
+            return item;
+        }
+    }
+    return 0;
 }
 
-MgQLayoutItem* MgQSceneItem::firstProjectorItem()
-{
-	if(projectorItems_.count() > 0)
-	{
-		 return projectorItems_.at(0);
+MgQLayoutItem* MgQSceneItem::firstProjectorItem() {
+    if (projectorItems_.count() > 0) {
+        return projectorItems_.at(0);
+    }
 
-	}
-
-	return 0;
+    return 0;
 }
 
 
-MgQLayoutItem* MgQSceneItem::findPreviewLayout()
-{
-	return 0;
+MgQLayoutItem* MgQSceneItem::findPreviewLayout() {
+    return 0;
 
-	/*foreach(QGraphicsItem *item, items())
-	{
-		if(item->data(MgQ::ItemType).toInt() == MgQ::PreviewLayoutItem)
-		{
+    /*foreach(QGraphicsItem *item, items())
+    {
+        if(item->data(MgQ::ItemType).toInt() == MgQ::PreviewLayoutItem)
+        {
 
-			MgQLayoutItem *layout=static_cast<MgQLayoutItem*>(item);
-			return layout;
-		}
-	}
+            MgQLayoutItem *layout=static_cast<MgQLayoutItem*>(item);
+            return layout;
+        }
+    }
 
-	return 0;*/
+    return 0;*/
 }
 
-MgQLayoutItem* MgQSceneItem::findMagnifierLayout()
-{
-/*	foreach(QGraphicsItem *item, items())
-	{
-		if(checkItemType(item,MgQ::MagnifierLayoutItem))
-		{
-			MgQLayoutItem *layout=static_cast<MgQLayoutItem*>(item);
-			return layout;
-		}
-	}
-*/
-	return 0;
+MgQLayoutItem* MgQSceneItem::findMagnifierLayout() {
+    /*	foreach(QGraphicsItem *item, items())
+        {
+            if(checkItemType(item,MgQ::MagnifierLayoutItem))
+            {
+                MgQLayoutItem *layout=static_cast<MgQLayoutItem*>(item);
+                return layout;
+            }
+        }
+    */
+    return 0;
 }
 
 
@@ -154,194 +135,169 @@ MgQLayoutItem* MgQSceneItem::findMagnifierLayout()
 // Animation
 //-------------------------------------
 
-void MgQSceneItem::updateAnimation()
-{
-  	MgQPlotScene *sc=static_cast<MgQPlotScene*>(scene());
+void MgQSceneItem::updateAnimation() {
+    MgQPlotScene* sc = static_cast<MgQPlotScene*>(scene());
 
-	sc->sceneItemChanged();
+    sc->sceneItemChanged();
 
-	//Regenarete the cache
-	//updateCache();
+    // Regenarete the cache
+    // updateCache();
 
-	//Repaint everything
-	//update();
+    // Repaint everything
+    // update();
 }
 
-void MgQSceneItem::selectCurrentStepForAnimation()
-{
-	setCurrentStep(prevCurrentStep_);
+void MgQSceneItem::selectCurrentStepForAnimation() {
+    setCurrentStep(prevCurrentStep_);
 }
 
-int MgQSceneItem::currentStep()
-{
-	return currentStep_;
+int MgQSceneItem::currentStep() {
+    return currentStep_;
 }
 
-int MgQSceneItem::stepNum()
-{
-	return stepNum_;
+int MgQSceneItem::stepNum() {
+    return stepNum_;
 }
 
-void MgQSceneItem::setCurrentStep(int step,bool update)
-{
-	currentStep_=step;
+void MgQSceneItem::setCurrentStep(int step, bool update) {
+    currentStep_ = step;
 
-	if(currentStep_< 0 || currentStep_ >= stepNum_)
-		return;
+    if (currentStep_ < 0 || currentStep_ >= stepNum_)
+        return;
 
-	for(int i=0; i < stepNum_; i++)
-	{
-		if(i!= currentStep_)
-		{
-			setStepVisible(i,false);
-		}
-		else
-		{
-			setStepVisible(i,true);
-			//updateCache(); //Why we need to call it here????
-		}
-	}
+    for (int i = 0; i < stepNum_; i++) {
+        if (i != currentStep_) {
+            setStepVisible(i, false);
+        }
+        else {
+            setStepVisible(i, true);
+            // updateCache(); //Why we need to call it here????
+        }
+    }
 
-	if(update)
-        	updateAnimation();
+    if (update)
+        updateAnimation();
 }
 
-void MgQSceneItem::setStepVisible(int step,bool visible)
-{
-	if(visible == true && stepCached(step) ==false)
-	{
-		//Notify scene item about the new step
-		//sceneLayer_.reset();
-		sceneLayerItem_->sceneLayer().getReady(step);
-		foreach(MgQLayerItem *item,layerItems_)
-		{
-			if(item->stepNum() > 0 && item->stepCached(step) == false)
-			{
-				//driverObject_->driver().executeStep(step,item);
-				driverObject_->driver().executeStep(step,item,sceneLayerItem_->sceneLayer());
-				//item->setStepVisible(step,visible);
-			}
-		}
+void MgQSceneItem::setStepVisible(int step, bool visible) {
+    if (visible == true && stepCached(step) == false) {
+        // Notify scene item about the new step
+        // sceneLayer_.reset();
+        sceneLayerItem_->sceneLayer().getReady(step);
+        foreach (MgQLayerItem* item, layerItems_) {
+            if (item->stepNum() > 0 && item->stepCached(step) == false) {
+                // driverObject_->driver().executeStep(step,item);
+                driverObject_->driver().executeStep(step, item, sceneLayerItem_->sceneLayer());
+                // item->setStepVisible(step,visible);
+            }
+        }
+    }
 
-	}
-
-	foreach(MgQLayerItem *item,layerItems_)
-	{
-		if(item->stepNum() > 0)
-		{
-			item->setStepVisible(step,visible);
-		}
-	}
+    foreach (MgQLayerItem* item, layerItems_) {
+        if (item->stepNum() > 0) {
+            item->setStepVisible(step, visible);
+        }
+    }
 }
 
-bool MgQSceneItem::stepCached(int step)
-{
-	foreach(MgQLayerItem *item,layerItems_)
-	{
-		if(item->stepNum() > 0 && item->stepCached(step) == false)
-		{
-			return false;
-		}
+bool MgQSceneItem::stepCached(int step) {
+    foreach (MgQLayerItem* item, layerItems_) {
+        if (item->stepNum() > 0 && item->stepCached(step) == false) {
+            return false;
+        }
+    }
 
-	}
-
-	return true;
+    return true;
 }
 
-void MgQSceneItem::stepMetaData(MgQStepMetaData* metaData)
-{
-	if(!sceneLayerItem_)
-		return;
+void MgQSceneItem::stepMetaData(MgQStepMetaData* metaData) {
+    if (!sceneLayerItem_)
+        return;
 
-	const magics::SceneLayer& snl=sceneLayerItem_->sceneLayer();
+    const magics::SceneLayer& snl = sceneLayerItem_->sceneLayer();
 
-	MetaDataCollector stepData;
-	MetaDataAttribute attr;
-	attr.setSource(MetaDataAttribute::AnySource); //to enable any metadata query method
+    MetaDataCollector stepData;
+    MetaDataAttribute attr;
+    attr.setSource(MetaDataAttribute::AnySource);  // to enable any metadata query method
 
-	for(int step=0; step < stepNum_; step++)
-	{
-		metaData->addStep("");
+    for (int step = 0; step < stepNum_; step++) {
+        metaData->addStep("");
 
-		for(vector<Layer*>::iterator it = snl.beginLayer(step); it != snl.endLayer(step); ++it)
-		{
-			//Layer& l=*it;
+        for (vector<Layer*>::iterator it = snl.beginLayer(step); it != snl.endLayer(step); ++it) {
+            // Layer& l=*it;
 
-			foreach(QString str,metaData->keys())
-			{
-				stepData[str.toStdString()]="";
-				stepData.setAttribute(str.toStdString(),attr);
-			}
+            foreach (QString str, metaData->keys()) {
+                stepData[str.toStdString()] = "";
+                stepData.setAttribute(str.toStdString(), attr);
+            }
 
-			(*it)->collect(stepData);
+            (*it)->collect(stepData);
 
-			for(map<string,string>::iterator itK=stepData.begin(); itK!= stepData.end(); itK++)
-			{
-				QString keyStr=QString::fromStdString(itK->first);
-				QString valueStr=QString::fromStdString(itK->second);
-				if(valueStr != "")
-				{
-					valueStr+="\n";
+            for (map<string, string>::iterator itK = stepData.begin(); itK != stepData.end(); itK++) {
+                QString keyStr   = QString::fromStdString(itK->first);
+                QString valueStr = QString::fromStdString(itK->second);
+                if (valueStr != "") {
+                    valueStr += "\n";
 
-					/*if(keyStr == "MV_Format")
-					{
-						valueStr="GRIB";
-						valueStr+="\n";
-					}*/
+                    /*if(keyStr == "MV_Format")
+                    {
+                        valueStr="GRIB";
+                        valueStr+="\n";
+                    }*/
 
-					metaData->appendToStepData(keyStr,step,valueStr);
-				}
-			}
-		}
-	}
+                    metaData->appendToStepData(keyStr, step, valueStr);
+                }
+            }
+        }
+    }
 
-	/*
+    /*
 
-	foreach(MgQLayerItem *item,layerItems_)
-	{
-		if(item->stepNum() > 0)
-		{
-			int step=0;
-			Layer& l=item->layer();
-			StepLayer *layer=static_cast<StepLayer*>(&l);
-			for(vector<SingleLayer*>::iterator it=layer->firstStep(); it != layer->endStep(); it++)
-			{
-				foreach(QString str,metaData->keys())
-				{
-					stepData[str.toStdString()]="";
-				}
+    foreach(MgQLayerItem *item,layerItems_)
+    {
+        if(item->stepNum() > 0)
+        {
+            int step=0;
+            Layer& l=item->layer();
+            StepLayer *layer=static_cast<StepLayer*>(&l);
+            for(vector<SingleLayer*>::iterator it=layer->firstStep(); it != layer->endStep(); it++)
+            {
+                foreach(QString str,metaData->keys())
+                {
+                    stepData[str.toStdString()]="";
+                }
 
-				(*it)->metadata(stepData);
+                (*it)->metadata(stepData);
 
-				if(firstLayer || metaData->stepNum() <= step)
-				{
-					metaData->addStep("");
-				}
+                if(firstLayer || metaData->stepNum() <= step)
+                {
+                    metaData->addStep("");
+                }
 
-				for(map<string,string>::iterator itK=stepData.begin(); itK!= stepData.end(); itK++)
-				{
-					QString keyStr=QString::fromStdString(itK->first);
-					QString valueStr=QString::fromStdString(itK->second);
-					valueStr+="\n";
+                for(map<string,string>::iterator itK=stepData.begin(); itK!= stepData.end(); itK++)
+                {
+                    QString keyStr=QString::fromStdString(itK->first);
+                    QString valueStr=QString::fromStdString(itK->second);
+                    valueStr+="\n";
 
 
-					if(keyStr == "MV_Format")
-					{
-						valueStr="GRIB";
-						valueStr+="\n";
-					}
+                    if(keyStr == "MV_Format")
+                    {
+                        valueStr="GRIB";
+                        valueStr+="\n";
+                    }
 
 
-					metaData->appendToStepData(keyStr,step,valueStr);
-				}
+                    metaData->appendToStepData(keyStr,step,valueStr);
+                }
 
-				step++;
-			}
+                step++;
+            }
 
-			firstLayer=false;
+            firstLayer=false;
 
-		}
-	}	*/
+        }
+    }	*/
 }
 
 
@@ -349,350 +305,290 @@ void MgQSceneItem::stepMetaData(MgQStepMetaData* metaData)
 // Layers
 //-------------------------------------
 
-void MgQSceneItem::updateLayers()
-{
-	MgQPlotScene *sc=static_cast<MgQPlotScene*>(scene());
+void MgQSceneItem::updateLayers() {
+    MgQPlotScene* sc = static_cast<MgQPlotScene*>(scene());
 
-	sc->sceneItemChanged();
+    sc->sceneItemChanged();
 
-	//Regenarete the cache
-//	updateCache();
+    // Regenarete the cache
+    //	updateCache();
 
-	//Repaint everything
-//	update();
+    // Repaint everything
+    //	update();
 }
 
-void MgQSceneItem::addLayerItem(MgQLayerItem* item)
-{
-   layerItems_.push_back(item);
+void MgQSceneItem::addLayerItem(MgQLayerItem* item) {
+    layerItems_.push_back(item);
 
-//------------------------------------------------------------
-// FAMI20160913: JUST TO MAKE IT WORK FOR THE MOMENT.
-// Uncomment command below:
-//   ASSERT(item->layer().zindex() >= 0);
-   item->setStackLevel(item->layer().zindex());
-}
-
-
-MgQLayerItem* MgQSceneItem::layerItem(const Layer& layer)
-{
-	foreach(MgQLayerItem *item,layerItems_)
-	{
-		if(&item->layer() == &layer)
-		{
-			return item;
-		}
-	}
-
-	return 0;
-}
-
-void MgQSceneItem::restoreLayerState()
-{
-	if(previousLayerState_.count() == 0)
-		return;
-
-	return;
-
-	QList<MgQLayerItem*> newItems;
-	QMap<int,MgQLayerItem*> stStackLevelToItem;
-	QSet<MgQLayerState*> stToItem;
-
-	foreach(MgQLayerItem *item,layerItems_)
-	{
-		bool found=false;
-		foreach(MgQLayerState *st,previousLayerState_)
-		{
-			if(stToItem.contains(st) ==  false &&
-			   st->id_ == QString::fromStdString(item->layer().id()))
-			{
-				stToItem.insert(st);
-				stStackLevelToItem[st->stackLevel_]=item;
-				item->setLayerAlpha(st->alpha_);
-				item->setLayerVisibility(st->visible_);
-				found=true;
-				break;
-			}
-		}
-		if(!found)
-		{
-			newItems.push_back(item);
-		}
-	}
-
-	//Set stack level for the "old" items
-	int currenStackLevel=0;
-	foreach(int level,stStackLevelToItem.keys())
-	{
-		//qDebug() << "restore" << QString::fromStdString(stStackLevelToItem[level]->layer().id()) << level << currenStackLevel;
-		stStackLevelToItem[level]->setStackLevel(currenStackLevel);
-		currenStackLevel++;
-	}
-
-	//Set stack level for the "new" items
-	foreach(MgQLayerItem *item,newItems)
-	{
-		item->setStackLevel(currenStackLevel);
-		currenStackLevel++;
-	}
-}
-
-void MgQSceneItem::collectLayerData(QList<QPointF> &pos,QMap<int,QList<ValuesCollector> > &val,
-				    double searchRadiusX, double searchRadiusY)
-{
-	for(int step=0; step < stepNum_; step++)
-	{
-		collectLayerData(pos,val[step],step,searchRadiusX,searchRadiusY);
-	}
-}
-
-void MgQSceneItem::collectLayerDataForCurrentStep(QList<QPointF> &pos,QList<ValuesCollector> &val,
-						  double searchRadiusX, double searchRadiusY)
-{
-	collectLayerData(pos,val,currentStep_,searchRadiusX,searchRadiusY);
-}
-
-void MgQSceneItem::collectLayerData(QList<QPointF> &pos,QList<ValuesCollector> &val,int step,
-				    double searchRadiusX,  double searchRadiusY)
-{
-	if(!sceneLayerItem_)
-		return;
-
-	const magics::SceneLayer& snl=sceneLayerItem_->sceneLayer();
-	QString str;
-
-	QList<Layer*> layerLst;
-
-	foreach(MgQLayerItem* item,layerItems_)
-	{
-		if(item->stepNum() == 0)
-		{
-			layerLst << item->layer().get();
-		}
-	}
-
-	for(vector<Layer*>::iterator it = snl.beginLayer(step); it != snl.endLayer(step); ++it)
-	{
-		if(layerLst.indexOf(*it) == -1)
-		{
-			layerLst << *it;
-		}
-	}
-
-	foreach(Layer *layer,layerLst)
-	{
-	  	if(!layer)
-		  	continue;
-
-		if(layer->visibility() == true)
-		{
-			ValuesCollector layerData(layer->name());
-			layerData.setSearchRadius(searchRadiusX,searchRadiusY);
-
-			foreach(QPointF pp,pos)
-			{
-				layerData.push_back(ValuesCollectorPoint(pp.x(),pp.y()));
-			}
-
-			layer->collect(layerData);
-
-			val << layerData;
-		}
-	}
-
-}
-
-void MgQSceneItem::collectLayerDataForCurrentStep(MgQLayerItem *item,ValuesCollector& data)
-{
-	return collectLayerData(item,data,currentStep_);
-}
-
-void MgQSceneItem::collectLayerData(MgQLayerItem *item,ValuesCollector& data,int step)
-{
-	if(!item || !sceneLayerItem_ ||
-	   !layerItems_.contains(item))
-		return;
-
-	if(item->stepNum() == 0)
-	{
-		item->layer().collect(data);
-	}
-	else
-	{
-		const magics::SceneLayer& snl=sceneLayerItem_->sceneLayer();
-		Layer *stepLayer=snl.findLayer(&item->layer(),step);
-		if(stepLayer)
-		{
-		  	 stepLayer->collect(data);
-		}
-	}
+    //------------------------------------------------------------
+    // FAMI20160913: JUST TO MAKE IT WORK FOR THE MOMENT.
+    // Uncomment command below:
+    //   ASSERT(item->layer().zindex() >= 0);
+    item->setStackLevel(item->layer().zindex());
 }
 
 
-void MgQSceneItem::layerMetaDataForCurrentStep(MgQLayerItem *item,MetaDataCollector& data)
-{
-	return layerMetaData(item,data,currentStep_);
+MgQLayerItem* MgQSceneItem::layerItem(const Layer& layer) {
+    foreach (MgQLayerItem* item, layerItems_) {
+        if (&item->layer() == &layer) {
+            return item;
+        }
+    }
+
+    return 0;
 }
 
-void MgQSceneItem::layerMetaData(MgQLayerItem *item,MetaDataCollector& data,int step)
-{
-	if(!item || !sceneLayerItem_ ||
-	   !layerItems_.contains(item))
-		return;
+void MgQSceneItem::restoreLayerState() {
+    if (previousLayerState_.count() == 0)
+        return;
 
-	if(item->stepNum() == 0)
-	{
-		item->layer().collect(data);
-	}
-	else
-	{
-		const magics::SceneLayer& snl=sceneLayerItem_->sceneLayer();
-		Layer *stepLayer=snl.findLayer(&item->layer(),step);
-		if(stepLayer)
-		{
-		  	 stepLayer->collect(data);
-		}
-	}
+    return;
+
+    QList<MgQLayerItem*> newItems;
+    QMap<int, MgQLayerItem*> stStackLevelToItem;
+    QSet<MgQLayerState*> stToItem;
+
+    foreach (MgQLayerItem* item, layerItems_) {
+        bool found = false;
+        foreach (MgQLayerState* st, previousLayerState_) {
+            if (stToItem.contains(st) == false && st->id_ == QString::fromStdString(item->layer().id())) {
+                stToItem.insert(st);
+                stStackLevelToItem[st->stackLevel_] = item;
+                item->setLayerAlpha(st->alpha_);
+                item->setLayerVisibility(st->visible_);
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            newItems.push_back(item);
+        }
+    }
+
+    // Set stack level for the "old" items
+    int currenStackLevel = 0;
+    foreach (int level, stStackLevelToItem.keys()) {
+        // qDebug() << "restore" << QString::fromStdString(stStackLevelToItem[level]->layer().id()) << level <<
+        // currenStackLevel;
+        stStackLevelToItem[level]->setStackLevel(currenStackLevel);
+        currenStackLevel++;
+    }
+
+    // Set stack level for the "new" items
+    foreach (MgQLayerItem* item, newItems) {
+        item->setStackLevel(currenStackLevel);
+        currenStackLevel++;
+    }
 }
 
-void MgQSceneItem::layerDataIndexForCurrentStep(MgQLayerItem *item,DataIndexCollector& data)
-{
-	return layerDataIndex(item,data,currentStep_);
+void MgQSceneItem::collectLayerData(QList<QPointF>& pos, QMap<int, QList<ValuesCollector> >& val, double searchRadiusX,
+                                    double searchRadiusY) {
+    for (int step = 0; step < stepNum_; step++) {
+        collectLayerData(pos, val[step], step, searchRadiusX, searchRadiusY);
+    }
 }
 
-void MgQSceneItem::layerDataIndex(MgQLayerItem *item,DataIndexCollector& data,int step)
-{
-	if(!item || !sceneLayerItem_ ||
-	   !layerItems_.contains(item))
-		return;
+void MgQSceneItem::collectLayerDataForCurrentStep(QList<QPointF>& pos, QList<ValuesCollector>& val,
+                                                  double searchRadiusX, double searchRadiusY) {
+    collectLayerData(pos, val, currentStep_, searchRadiusX, searchRadiusY);
+}
 
-	if(item->stepNum() == 0)
-	{
-		item->layer().collect(data);
-	}
-	else
-	{
-		const magics::SceneLayer& snl=sceneLayerItem_->sceneLayer();
-		Layer *stepLayer=snl.findLayer(&item->layer(),step);
-		if(stepLayer)
-		{
-		  	 stepLayer->collect(data);
-		}
-	}
+void MgQSceneItem::collectLayerData(QList<QPointF>& pos, QList<ValuesCollector>& val, int step, double searchRadiusX,
+                                    double searchRadiusY) {
+    if (!sceneLayerItem_)
+        return;
+
+    const magics::SceneLayer& snl = sceneLayerItem_->sceneLayer();
+    QString str;
+
+    QList<Layer*> layerLst;
+
+    foreach (MgQLayerItem* item, layerItems_) {
+        if (item->stepNum() == 0) {
+            layerLst << item->layer().get();
+        }
+    }
+
+    for (vector<Layer*>::iterator it = snl.beginLayer(step); it != snl.endLayer(step); ++it) {
+        if (layerLst.indexOf(*it) == -1) {
+            layerLst << *it;
+        }
+    }
+
+    foreach (Layer* layer, layerLst) {
+        if (!layer)
+            continue;
+
+        if (layer->visibility() == true) {
+            ValuesCollector layerData(layer->name());
+            layerData.setSearchRadius(searchRadiusX, searchRadiusY);
+
+            foreach (QPointF pp, pos) { layerData.push_back(ValuesCollectorPoint(pp.x(), pp.y())); }
+
+            layer->collect(layerData);
+
+            val << layerData;
+        }
+    }
+}
+
+void MgQSceneItem::collectLayerDataForCurrentStep(MgQLayerItem* item, ValuesCollector& data) {
+    return collectLayerData(item, data, currentStep_);
+}
+
+void MgQSceneItem::collectLayerData(MgQLayerItem* item, ValuesCollector& data, int step) {
+    if (!item || !sceneLayerItem_ || !layerItems_.contains(item))
+        return;
+
+    if (item->stepNum() == 0) {
+        item->layer().collect(data);
+    }
+    else {
+        const magics::SceneLayer& snl = sceneLayerItem_->sceneLayer();
+        Layer* stepLayer              = snl.findLayer(&item->layer(), step);
+        if (stepLayer) {
+            stepLayer->collect(data);
+        }
+    }
 }
 
 
-QPixmap MgQSceneItem::layerInfoImageForCurrentStep(MgQLayerItem *item,QHash<QString,QString> imageId)
-{
-	return layerInfoImage(item,currentStep_,imageId);
+void MgQSceneItem::layerMetaDataForCurrentStep(MgQLayerItem* item, MetaDataCollector& data) {
+    return layerMetaData(item, data, currentStep_);
 }
 
-QPixmap MgQSceneItem::layerInfoImage(MgQLayerItem *item,int step,QHash<QString,QString> imageId)
-{
-	if(!item || !sceneLayerItem_ ||
-	   !layerItems_.contains(item))
-		return QPixmap();
+void MgQSceneItem::layerMetaData(MgQLayerItem* item, MetaDataCollector& data, int step) {
+    if (!item || !sceneLayerItem_ || !layerItems_.contains(item))
+        return;
 
-	MgQHistoItem *histoItem=item->histoItem(step);
-	if(!histoItem)
-		return QPixmap();
-
-	if(!histoItem->cached() || histoItem->pixmapId() != imageId)
-	{
-		if(histoItem->cached())
-		{
-			histoItem=item->resetHistoItem(step);
-		}
-
-		histoItem->setPixmapId(imageId);
-
-		Layer *stepLayer;
-
-		if(item->stepNum() == 0)
-		{
-			stepLayer=&item->layer();
-		}
-		else
-		{
-			const magics::SceneLayer& snl=sceneLayerItem_->sceneLayer();
-			stepLayer=snl.findLayer(&item->layer(),step);
-		}
-
-		if(!stepLayer)
-			return QPixmap();
-
-		QString visdefName=imageId.value("visdefName");
-		QString visdefClass=imageId.value("visdefClass");
-		driverObject_->driver().executeHisto(stepLayer,histoItem,visdefName,visdefClass);
-	}
-
-	return item->histoPixmap(step,QSize(300,200));
+    if (item->stepNum() == 0) {
+        item->layer().collect(data);
+    }
+    else {
+        const magics::SceneLayer& snl = sceneLayerItem_->sceneLayer();
+        Layer* stepLayer              = snl.findLayer(&item->layer(), step);
+        if (stepLayer) {
+            stepLayer->collect(data);
+        }
+    }
 }
 
-void MgQSceneItem::layerIconsForCurrentStep(MgQLayerItem *item,MgQIconList& icons)
-{
-	return layerIcons(item,icons,currentStep_);
+void MgQSceneItem::layerDataIndexForCurrentStep(MgQLayerItem* item, DataIndexCollector& data) {
+    return layerDataIndex(item, data, currentStep_);
 }
 
-void MgQSceneItem::layerIcons(MgQLayerItem *item,MgQIconList& icons,int step)
-{
-	if(!item || !sceneLayerItem_ ||
-	   !layerItems_.contains(item))
-		return;
+void MgQSceneItem::layerDataIndex(MgQLayerItem* item, DataIndexCollector& data, int step) {
+    if (!item || !sceneLayerItem_ || !layerItems_.contains(item))
+        return;
 
-
-	for(vector<MetviewIcon>::const_iterator it=item->layer().iconsBegin(); it != item->layer().iconsEnd(); it++)
-	{
-		icons << MgQIcon(QString::fromStdString((*it).iconName()),
-				 QString::fromStdString((*it).iconClass()),
-				 QString::fromStdString((*it).iconId()));
-	}
-
-	/*if(item->stepNum() == 0)
-	{
-		for(vector<pair<string, string>  >::const_iterator it=item->layer().iconsBegin(); it != item->layer().iconsEnd(); it++)
-		{
-			icons << QPair<QString,QString>(QString::fromStdString(it->first),QString::fromStdString(it->second));
-		}
-	}
-	else
-	{
-		const magics::SceneLayer& snl=sceneLayerItem_->sceneLayer();
-		Layer *stepLayer=snl.findLayer(&item->layer(),step);
-		if(stepLayer)
-		{
-		  	for(vector<pair<string, string>  >::const_iterator it=stepLayer->iconsBegin(); it != stepLayer->iconsEnd(); it++)
-			{
-				icons << QPair<QString,QString>(QString::fromStdString(it->first),QString::fromStdString(it->second));
-			}
-		}
-	}*/
+    if (item->stepNum() == 0) {
+        item->layer().collect(data);
+    }
+    else {
+        const magics::SceneLayer& snl = sceneLayerItem_->sceneLayer();
+        Layer* stepLayer              = snl.findLayer(&item->layer(), step);
+        if (stepLayer) {
+            stepLayer->collect(data);
+        }
+    }
 }
 
-void MgQSceneItem::renderLayerPreview()
-{
-	foreach(MgQLayerItem *item,layerItems_)
-	{
-		item->renderPreview();
-	}
 
-	/*preview_=QImage();
+QPixmap MgQSceneItem::layerInfoImageForCurrentStep(MgQLayerItem* item, QHash<QString, QString> imageId) {
+    return layerInfoImage(item, currentStep_, imageId);
+}
 
-	foreach(MgQLayerItem *item,layerItems_)
-	{
-		QImage img=item->preview();
-		preview_
-	}*/
+QPixmap MgQSceneItem::layerInfoImage(MgQLayerItem* item, int step, QHash<QString, QString> imageId) {
+    if (!item || !sceneLayerItem_ || !layerItems_.contains(item))
+        return QPixmap();
 
+    MgQHistoItem* histoItem = item->histoItem(step);
+    if (!histoItem)
+        return QPixmap();
+
+    if (!histoItem->cached() || histoItem->pixmapId() != imageId) {
+        if (histoItem->cached()) {
+            histoItem = item->resetHistoItem(step);
+        }
+
+        histoItem->setPixmapId(imageId);
+
+        Layer* stepLayer;
+
+        if (item->stepNum() == 0) {
+            stepLayer = &item->layer();
+        }
+        else {
+            const magics::SceneLayer& snl = sceneLayerItem_->sceneLayer();
+            stepLayer                     = snl.findLayer(&item->layer(), step);
+        }
+
+        if (!stepLayer)
+            return QPixmap();
+
+        QString visdefName  = imageId.value("visdefName");
+        QString visdefClass = imageId.value("visdefClass");
+        driverObject_->driver().executeHisto(stepLayer, histoItem, visdefName, visdefClass);
+    }
+
+    return item->histoPixmap(step, QSize(300, 200));
+}
+
+void MgQSceneItem::layerIconsForCurrentStep(MgQLayerItem* item, MgQIconList& icons) {
+    return layerIcons(item, icons, currentStep_);
+}
+
+void MgQSceneItem::layerIcons(MgQLayerItem* item, MgQIconList& icons, int step) {
+    if (!item || !sceneLayerItem_ || !layerItems_.contains(item))
+        return;
+
+
+    for (vector<MetviewIcon>::const_iterator it = item->layer().iconsBegin(); it != item->layer().iconsEnd(); it++) {
+        icons << MgQIcon(QString::fromStdString((*it).iconName()), QString::fromStdString((*it).iconClass()),
+                         QString::fromStdString((*it).iconId()));
+    }
+
+    /*if(item->stepNum() == 0)
+    {
+        for(vector<pair<string, string>  >::const_iterator it=item->layer().iconsBegin(); it !=
+    item->layer().iconsEnd(); it++)
+        {
+            icons << QPair<QString,QString>(QString::fromStdString(it->first),QString::fromStdString(it->second));
+        }
+    }
+    else
+    {
+        const magics::SceneLayer& snl=sceneLayerItem_->sceneLayer();
+        Layer *stepLayer=snl.findLayer(&item->layer(),step);
+        if(stepLayer)
+        {
+            for(vector<pair<string, string>  >::const_iterator it=stepLayer->iconsBegin(); it != stepLayer->iconsEnd();
+    it++)
+            {
+                icons << QPair<QString,QString>(QString::fromStdString(it->first),QString::fromStdString(it->second));
+            }
+        }
+    }*/
+}
+
+void MgQSceneItem::renderLayerPreview() {
+    foreach (MgQLayerItem* item, layerItems_) { item->renderPreview(); }
+
+    /*preview_=QImage();
+
+    foreach(MgQLayerItem *item,layerItems_)
+    {
+        QImage img=item->preview();
+        preview_
+    }*/
 }
 
 //----------------------------------------
 // Magnifier
 //---------------------------------------
 
-MgQMagnifierLayoutItem* MgQSceneItem::updateMagnifier(float zoomFactor)
-{
-	//magnifierZoom_=zoom;
+MgQMagnifierLayoutItem* MgQSceneItem::updateMagnifier(float zoomFactor) {
+    // magnifierZoom_=zoom;
 #if 0
 	MgQLayerItem *magLayerItem=0;
 
@@ -769,17 +665,16 @@ MgQMagnifierLayoutItem* MgQSceneItem::updateMagnifier(float zoomFactor)
 	animation_->driver().redisplayMagnifier(item);*/
 
 #endif
-  return 0;
+    return 0;
 }
 
-void MgQSceneItem::clearMagnifier()
-{
-	/*MgQLayoutItem *litem=findMagnifierLayout();
-	if(!litem) return;
+void MgQSceneItem::clearMagnifier() {
+    /*MgQLayoutItem *litem=findMagnifierLayout();
+    if(!litem) return;
 
-	MgQMagnifierLayoutItem *item=static_cast<MgQMagnifierLayoutItem*>(litem);
+    MgQMagnifierLayoutItem *item=static_cast<MgQMagnifierLayoutItem*>(litem);
 
-	item->clearPlotContents();*/
+    item->clearPlotContents();*/
 }
 
 /*void MgQSceneItem::drawItems(QPainter *painter, int numItems,
@@ -797,8 +692,7 @@ void MgQSceneItem::clearMagnifier()
  }
 */
 
-void MgQSceneItem::updateCache()
-{
+void MgQSceneItem::updateCache() {
 #if 0
 
   	if ( !rootItem_ )
@@ -850,86 +744,80 @@ void MgQSceneItem::updateCache()
 
 	//setBackgroundBrush(QPixmap::fromImage(*cacheDevice_));
 #endif
-
 }
 
-void MgQSceneItem::drawBackground ( QPainter * painter, const QRectF & rect )
-{
-	/*qDebug() << "bg" << rect << sceneRect();
+void MgQSceneItem::drawBackground(QPainter* painter, const QRectF& rect) {
+    /*qDebug() << "bg" << rect << sceneRect();
 
-	QRectF targetRect(0, 0, sceneRect().width(), sceneRect().height());
-	//painter->drawPixmap(sceneRect(),*cacheDevice_,targetRect);
+    QRectF targetRect(0, 0, sceneRect().width(), sceneRect().height());
+    //painter->drawPixmap(sceneRect(),*cacheDevice_,targetRect);
 
-	painter->drawPixmap(rect,*cacheDevice_,rect);*/
+    painter->drawPixmap(rect,*cacheDevice_,rect);*/
 }
 
-void MgQSceneItem::renderForMagnifier(QPainter *painter, const QRectF &targetRect, const QRectF &sourceRect)
-{
-	/*QStyleOptionGraphicsItem option;
-	painter->setRenderHint(QPainter::Antialiasing,antialias_);
-	renderContents(painter,&option,targetRect,sourceRect,true);*/
+void MgQSceneItem::renderForMagnifier(QPainter* painter, const QRectF& targetRect, const QRectF& sourceRect) {
+    /*QStyleOptionGraphicsItem option;
+    painter->setRenderHint(QPainter::Antialiasing,antialias_);
+    renderContents(painter,&option,targetRect,sourceRect,true);*/
 }
 
-void MgQSceneItem::renderForPrinter(QPainter *painter)
-{
-	/*QStyleOptionGraphicsItem option;
+void MgQSceneItem::renderForPrinter(QPainter* painter) {
+    /*QStyleOptionGraphicsItem option;
 
-	QRectF sourceRect = sceneRect();
+    QRectF sourceRect = sceneRect();
         QRectF targetRect(0, 0, painter->device()->width(), painter->device()->height());
 
-	painter->setRenderHint(QPainter::Antialiasing,antialias_);
-	renderContents(painter,&option,targetRect,sourceRect);*/
+    painter->setRenderHint(QPainter::Antialiasing,antialias_);
+    renderContents(painter,&option,targetRect,sourceRect);*/
 }
 
-void MgQSceneItem::renderForVideo(QPainter *painter,QProgressDialog *progress,QString path,QStringList &files)
-{
-	/*QPixmap *pix=static_cast<QPixmap*>(painter->device());
-	QStyleOptionGraphicsItem option;
+void MgQSceneItem::renderForVideo(QPainter* painter, QProgressDialog* progress, QString path, QStringList& files) {
+    /*QPixmap *pix=static_cast<QPixmap*>(painter->device());
+    QStyleOptionGraphicsItem option;
 
-	QRectF sourceRect = sceneRect();
+    QRectF sourceRect = sceneRect();
         QRectF targetRect(0, 0, painter->device()->width(), painter->device()->height());
 
-	int oriCurrentStep=currentStep_;
+    int oriCurrentStep=currentStep_;
 
-	for(int i=0; i < stepNum_ && i < files.count() ; i++)
-	{
-		progress->setValue(i);
+    for(int i=0; i < stepNum_ && i < files.count() ; i++)
+    {
+        progress->setValue(i);
 
-		pix->fill();
+        pix->fill();
 
-		bool oriCached=stepCached(i);
+        bool oriCached=stepCached(i);
 
-		setStepVisible(i,true);
-		for(int j=0; j < stepNum_; j++)
-		{
-			if(j != i)
-				setStepVisible(j,false);
-		}
+        setStepVisible(i,true);
+        for(int j=0; j < stepNum_; j++)
+        {
+            if(j != i)
+                setStepVisible(j,false);
+        }
 
-		renderContents(painter,&option,targetRect,sourceRect);
+        renderContents(painter,&option,targetRect,sourceRect);
 
-		pix->save(path + files[i]);
+        pix->save(path + files[i]);
 
-		if(oriCached == false)
-		{
-			foreach(MgQLayerItem *item,layerItems_)
-			{
-				item->clearStep(i);
-			}
-		}
-	}
+        if(oriCached == false)
+        {
+            foreach(MgQLayerItem *item,layerItems_)
+            {
+                item->clearStep(i);
+            }
+        }
+    }
 
-	currentStep_=-1;
-	setCurrentStep(oriCurrentStep);*/
+    currentStep_=-1;
+    setCurrentStep(oriCurrentStep);*/
 }
 
-void MgQSceneItem::setEnableAntialias(bool status)
-{
-	/*if(antialias_!=status)
-	{
-		antialias_=status;
-		cachePainter_->setRenderHint(QPainter::Antialiasing,antialias_);
+void MgQSceneItem::setEnableAntialias(bool status) {
+    /*if(antialias_!=status)
+    {
+        antialias_=status;
+        cachePainter_->setRenderHint(QPainter::Antialiasing,antialias_);
 
-		updateAnimation();
-	}*/
+        updateAnimation();
+    }*/
 }

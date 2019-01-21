@@ -1,9 +1,9 @@
 /*
  * (C) Copyright 1996-2016 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
  */
@@ -21,186 +21,157 @@
 #include <QDebug>
 #include <QPainter>
 
-//static int count=0;
+// static int count=0;
 
 
-MgQPolylineSetItem::MgQPolylineSetItem(QRectF &boundingRect,QGraphicsItem* parent) : 
-	QGraphicsItem(parent)
-{
-	boundingRect_=boundingRect;
+MgQPolylineSetItem::MgQPolylineSetItem(QRectF& boundingRect, QGraphicsItem* parent) : QGraphicsItem(parent) {
+    boundingRect_ = boundingRect;
 }
 
-MgQPolylineSetItem::~MgQPolylineSetItem()
-{	
-	for(int i=0; i < polylines_.count(); i++)
-	{
-		if( polylines_[i]->points_)
-			delete [] polylines_[i]->points_;
-		if( polylines_[i]->path_)
-			delete [] polylines_[i]->path_;
-	}	
+MgQPolylineSetItem::~MgQPolylineSetItem() {
+    for (int i = 0; i < polylines_.count(); i++) {
+        if (polylines_[i]->points_)
+            delete[] polylines_[i]->points_;
+        if (polylines_[i]->path_)
+            delete[] polylines_[i]->path_;
+    }
 }
 
-QRectF MgQPolylineSetItem::boundingRect() const
-{
-	//qDebug() << "PIXMAP" << QGraphicsPolylineSetItem::boundingRect();
-	//qDebug() << "PIXMAP" << targetRect_;
+QRectF MgQPolylineSetItem::boundingRect() const {
+    // qDebug() << "PIXMAP" << QGraphicsPolylineSetItem::boundingRect();
+    // qDebug() << "PIXMAP" << targetRect_;
 
-	//return QGraphicsPolylineSetItem::boundingRect();
-	//float w=boundingRectSize_;
-	//return QRectF(-w/2.,-w/2.,w/2.,w/2.);
-	return boundingRect_;
+    // return QGraphicsPolylineSetItem::boundingRect();
+    // float w=boundingRectSize_;
+    // return QRectF(-w/2.,-w/2.,w/2.,w/2.);
+    return boundingRect_;
 }
 
-void MgQPolylineSetItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
-                QWidget *widget)
-{
-	/*if(parentItem()->data(3).toRectF() != QRectF())
-	{		
-		QPolygonF p= mapFromScene(parentItem()->data(3).toRectF()); 
-		if(p.boundingRect().intersects(boundingRect()) == false)
-		{
-			return;
-		}
-	}*/
+void MgQPolylineSetItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
+    /*if(parentItem()->data(3).toRectF() != QRectF())
+    {
+        QPolygonF p= mapFromScene(parentItem()->data(3).toRectF());
+        if(p.boundingRect().intersects(boundingRect()) == false)
+        {
+            return;
+        }
+    }*/
 
-	int brushIndex,penIndex;
-	int prevBrushIndex=-1,prevPenIndex=-1;
+    int brushIndex, penIndex;
+    int prevBrushIndex = -1, prevPenIndex = -1;
 
-	//qDebug() <<  "POLYLINESET" << polylines_.count() << painter->clipRegion().boundingRect() << boundingRect_ << painter->transform().mapRect(boundingRect_);
+    // qDebug() <<  "POLYLINESET" << polylines_.count() << painter->clipRegion().boundingRect() << boundingRect_ <<
+    // painter->transform().mapRect(boundingRect_);
 
-	bool antialias=painter->renderHints() & QPainter::Antialiasing;
-	
-	for(int i=0; i < polylines_.count(); i++)
-	{
-		penIndex=polylines_[i]->penIndex_;
-		if(penIndex != prevPenIndex)
-		{
-			painter->setPen(penList_[penIndex]);
-			prevPenIndex=penIndex;
-		}
+    bool antialias = painter->renderHints() & QPainter::Antialiasing;
 
-		brushIndex=polylines_[i]->brushIndex_;
-		if(brushIndex != prevBrushIndex)
-		{
-			painter->setBrush(brushList_[brushIndex]);
-			prevBrushIndex=brushIndex;
-		}
-	
-		
-		if(brushList_[brushIndex] != Qt::NoBrush &&
-		   penList_[penIndex] == Qt::NoPen)
-		{
-			painter->setRenderHint(QPainter::Antialiasing,false);  
-		}
-	
-		if(polylines_[i]->num_==0 && polylines_[i]->path_ != 0)
-		{
-		  	painter->drawPath(*(polylines_[i]->path_));
-		}			
-		else
-		{
-			if(polylines_[i]->num_==2)
-			{
-				painter->drawLine(polylines_[i]->points_[0],polylines_[i]->points_[1]);
-			}		
-			else if(polylines_[i]->isPolygon_)
-			{
-				painter->drawPolygon(polylines_[i]->points_,polylines_[i]->num_);
-			}
-			else
-			{
-				painter->drawPolyline(polylines_[i]->points_,polylines_[i]->num_);
-			}
-		
-		}
-		
-		painter->setRenderHint(QPainter::Antialiasing,antialias);  
-		
-	}
+    for (int i = 0; i < polylines_.count(); i++) {
+        penIndex = polylines_[i]->penIndex_;
+        if (penIndex != prevPenIndex) {
+            painter->setPen(penList_[penIndex]);
+            prevPenIndex = penIndex;
+        }
 
-	//count++;
+        brushIndex = polylines_[i]->brushIndex_;
+        if (brushIndex != prevBrushIndex) {
+            painter->setBrush(brushList_[brushIndex]);
+            prevBrushIndex = brushIndex;
+        }
 
-	//qDebug() << "count" << count;	
 
-	//QGraphicsPolylineSetItem::paint(painter,option,widget);
-	//painter->drawPolylineSet(QRectF(0,0,targetRect_.width(),targetRect_.height()),
-	//		    path(),
-	//		    QRectF(0,0,pixmap().width(),pixmap().height()));
+        if (brushList_[brushIndex] != Qt::NoBrush && penList_[penIndex] == Qt::NoPen) {
+            painter->setRenderHint(QPainter::Antialiasing, false);
+        }
+
+        if (polylines_[i]->num_ == 0 && polylines_[i]->path_ != 0) {
+            painter->drawPath(*(polylines_[i]->path_));
+        }
+        else {
+            if (polylines_[i]->num_ == 2) {
+                painter->drawLine(polylines_[i]->points_[0], polylines_[i]->points_[1]);
+            }
+            else if (polylines_[i]->isPolygon_) {
+                painter->drawPolygon(polylines_[i]->points_, polylines_[i]->num_);
+            }
+            else {
+                painter->drawPolyline(polylines_[i]->points_, polylines_[i]->num_);
+            }
+        }
+
+        painter->setRenderHint(QPainter::Antialiasing, antialias);
+    }
+
+    // count++;
+
+    // qDebug() << "count" << count;
+
+    // QGraphicsPolylineSetItem::paint(painter,option,widget);
+    // painter->drawPolylineSet(QRectF(0,0,targetRect_.width(),targetRect_.height()),
+    //		    path(),
+    //		    QRectF(0,0,pixmap().width(),pixmap().height()));
 }
 
 
-void MgQPolylineSetItem::addPolyline(QVector<QPointF> points,QBrush brush,QPen pen,bool isPolygon)
-{
-	if(points.count() <= 0)
-		return;
+void MgQPolylineSetItem::addPolyline(QVector<QPointF> points, QBrush brush, QPen pen, bool isPolygon) {
+    if (points.count() <= 0)
+        return;
 
-	MgQPolyline *line=new MgQPolyline;
-	polylines_.push_back(line);
+    MgQPolyline* line = new MgQPolyline;
+    polylines_.push_back(line);
 
-	line->points_ = new QPointF[points.count()];
-	for(int i=0; i < points.count(); i++)
-	{		
-		line->points_[i]=points[i];
-	}
-	
-	line->num_=points.count();
-	line->isPolygon_=isPolygon;
+    line->points_ = new QPointF[points.count()];
+    for (int i = 0; i < points.count(); i++) {
+        line->points_[i] = points[i];
+    }
 
-	int penIndex, brushIndex;
+    line->num_       = points.count();
+    line->isPolygon_ = isPolygon;
 
-	if((brushIndex=brushList_.indexOf(brush)) == -1)
-	{
-		brushList_.push_back(brush);
-		line->brushIndex_=brushList_.count()-1;
-	}
-	else
-	{
-		line->brushIndex_=brushIndex;
-	}
+    int penIndex, brushIndex;
 
-	if((penIndex=penList_.indexOf(pen)) == -1)
-	{
-		penList_.push_back(pen);
-		line->penIndex_=penList_.count()-1;
-	}
-	else
-	{
-		line->penIndex_=penIndex;
-	}
+    if ((brushIndex = brushList_.indexOf(brush)) == -1) {
+        brushList_.push_back(brush);
+        line->brushIndex_ = brushList_.count() - 1;
+    }
+    else {
+        line->brushIndex_ = brushIndex;
+    }
+
+    if ((penIndex = penList_.indexOf(pen)) == -1) {
+        penList_.push_back(pen);
+        line->penIndex_ = penList_.count() - 1;
+    }
+    else {
+        line->penIndex_ = penIndex;
+    }
 }
 
-void MgQPolylineSetItem::addPath(QPainterPath &path,QBrush brush,QPen pen)
-{
-	if(path.isEmpty())
-		return;
+void MgQPolylineSetItem::addPath(QPainterPath& path, QBrush brush, QPen pen) {
+    if (path.isEmpty())
+        return;
 
-	MgQPolyline *line=new MgQPolyline;
-	polylines_.push_back(line);
+    MgQPolyline* line = new MgQPolyline;
+    polylines_.push_back(line);
 
-	line->path_ = new QPainterPath(path);	
-	line->num_=0;
-	line->isPolygon_=true;
+    line->path_      = new QPainterPath(path);
+    line->num_       = 0;
+    line->isPolygon_ = true;
 
-	int penIndex, brushIndex;
+    int penIndex, brushIndex;
 
-	if((brushIndex=brushList_.indexOf(brush)) == -1)
-	{
-		brushList_.push_back(brush);
-		line->brushIndex_=brushList_.count()-1;
-	}
-	else
-	{
-		line->brushIndex_=brushIndex;
-	}
+    if ((brushIndex = brushList_.indexOf(brush)) == -1) {
+        brushList_.push_back(brush);
+        line->brushIndex_ = brushList_.count() - 1;
+    }
+    else {
+        line->brushIndex_ = brushIndex;
+    }
 
-	if((penIndex=penList_.indexOf(pen)) == -1)
-	{
-		penList_.push_back(pen);
-		line->penIndex_=penList_.count()-1;
-	}
-	else
-	{
-		line->penIndex_=penIndex;
-	}
+    if ((penIndex = penList_.indexOf(pen)) == -1) {
+        penList_.push_back(pen);
+        line->penIndex_ = penList_.count() - 1;
+    }
+    else {
+        line->penIndex_ = penIndex;
+    }
 }

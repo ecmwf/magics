@@ -31,63 +31,54 @@ static int _tc(int a, const char* m)
 }
 
 #undef THRCALL
-#define THRCALL(a) _tc(a,#a)
+#define THRCALL(a) _tc(a, #a)
 #endif
 
 
-Mutex::Mutex(char tag) :
-	exists_(false),
-	tag_(tag)
-{
-
+Mutex::Mutex(char tag) : exists_(false), tag_(tag) {
 #if defined(__GNUC__) && __GNUC__ < 3
 #ifndef PTHREAD_RECURSIVE_MUTEX_INITIALIZER_NP
-#define PTHREAD_RECURSIVE_MUTEX_INITIALIZER_NP { PTHREAD_MUTEX_RECURSIVE_NP }
+#define PTHREAD_RECURSIVE_MUTEX_INITIALIZER_NP \
+    { PTHREAD_MUTEX_RECURSIVE_NP }
 #endif
-	pthread_mutexattr_t attr = PTHREAD_RECURSIVE_MUTEX_INITIALIZER_NP;
+    pthread_mutexattr_t attr = PTHREAD_RECURSIVE_MUTEX_INITIALIZER_NP;
 #else
-	pthread_mutexattr_t attr;
-	THRCALL(::pthread_mutexattr_init(&attr));
-	THRCALL(::pthread_mutexattr_settype(&attr,PTHREAD_MUTEX_RECURSIVE));
+    pthread_mutexattr_t attr;
+    THRCALL(::pthread_mutexattr_init(&attr));
+    THRCALL(::pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE));
 #endif
 
-	THRCALL(pthread_mutex_init(&mutex_,&attr));
+    THRCALL(pthread_mutex_init(&mutex_, &attr));
 
-	exists_ = true;
-	THRCALL(::pthread_mutexattr_destroy(&attr));
+    exists_ = true;
+    THRCALL(::pthread_mutexattr_destroy(&attr));
 }
 
-Mutex::~Mutex()
-{
-	THRCALL(pthread_mutex_destroy(&mutex_));
+Mutex::~Mutex() {
+    THRCALL(pthread_mutex_destroy(&mutex_));
 }
 
-void Mutex::lock(void)
-{
-	if(!exists_)
-	{
-		cerr << "Mutex used before being contructed" << endl;
-		return;
-	}
+void Mutex::lock(void) {
+    if (!exists_) {
+        cerr << "Mutex used before being contructed" << endl;
+        return;
+    }
 
-	THRCALL(pthread_mutex_lock(&mutex_));
+    THRCALL(pthread_mutex_lock(&mutex_));
 }
 
-void Mutex::unlock(void)
-{
-	if(!exists_)
-	{
-		cerr << "Mutex used before being contructed" << endl;
-		return;
-	}
-	THRCALL(pthread_mutex_unlock(&mutex_));
+void Mutex::unlock(void) {
+    if (!exists_) {
+        cerr << "Mutex used before being contructed" << endl;
+        return;
+    }
+    THRCALL(pthread_mutex_unlock(&mutex_));
 }
 
 //=============================================================
 
 static Mutex globalMutex;
 
-Mutex& Mutex::global()
-{
-	return globalMutex;
+Mutex& Mutex::global() {
+    return globalMutex;
 }
