@@ -10,27 +10,24 @@
 #ifndef MVBUFREDITION_H
 #define MVBUFREDITION_H
 
-#include <vector>
 #include <string>
+#include <vector>
 
-class MvBufrEdition
-{
+class MvBufrEdition {
 public:
-    int masterTablesNumber() const {return masterNumber_;}
-    int masterTablesVersionNumber() const {return masterVersion_;}
-    int localTablesVersionNumber() const {return localVersion_;}
-    int centre() const {return centre_;}
-    int subCentre() const {return subCentre_;}
+    int masterTablesNumber() const { return masterNumber_; }
+    int masterTablesVersionNumber() const { return masterVersion_; }
+    int localTablesVersionNumber() const { return localVersion_; }
+    int centre() const { return centre_; }
+    int subCentre() const { return subCentre_; }
 
-    const std::string& centreAsStr() const {return centreAsStr_;}
-    void setCentreAsStr(const std::string& c) {centreAsStr_=c;}
+    const std::string& centreAsStr() const { return centreAsStr_; }
+    void setCentreAsStr(const std::string& c) { centreAsStr_ = c; }
 
-    static MvBufrEdition* find(int masterNumber,int masterVersion,int localVersionr,
-                               int centre, int subCentre);
+    static MvBufrEdition* find(int masterNumber, int masterVersion, int localVersionr, int centre, int subCentre);
 
 protected:
-    MvBufrEdition(int masterNumber,int masterVersion,int localVersionr,
-                  int centre, int subCentre);
+    MvBufrEdition(int masterNumber, int masterVersion, int localVersionr, int centre, int subCentre);
 
     int masterNumber_;
     int masterVersion_;
@@ -41,4 +38,4 @@ protected:
     static std::vector<MvBufrEdition*> items_;
 };
 
-#endif // MVBUFREDITION_H
+#endif  // MVBUFREDITION_H

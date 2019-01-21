@@ -1,9 +1,9 @@
 /*
  * (C) Copyright 1996-2016 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
  */
@@ -27,22 +27,18 @@
 //
 //====================================
 
-bool MgQSymbolItem::equal(const QString& id,const float size)
-{
-	return id == id_ && size == size_;
+bool MgQSymbolItem::equal(const QString& id, const float size) {
+    return id == id_ && size == size_;
 }
 
-bool MgQSymbolItem::hasFilledPart()
-{
-	for(int i=0; i < paths_.count(); i++)
-	{		
-		if(paths_[i].isFilled())
-		{
-		  	return true;
-		}
-	}
-	
-	return false;
+bool MgQSymbolItem::hasFilledPart() {
+    for (int i = 0; i < paths_.count(); i++) {
+        if (paths_[i].isFilled()) {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 //====================================
@@ -51,124 +47,105 @@ bool MgQSymbolItem::hasFilledPart()
 //
 //====================================
 
-void MgQSymbolSetItem::setColor(QColor color)
-{
-	pen_=QPen(color);
+void MgQSymbolSetItem::setColor(QColor color) {
+    pen_ = QPen(color);
 
-	for(int i=0; i < symbol_->paths().count(); i++)
-	{					
-		if(symbol_->paths().at(i).isFilled())
-		{
-			if(symbol_->paths().at(i).isDefaultFill())
-			{
-				brushes_ << QBrush(Qt::white);
-			}
-			else
-			{			
-				brushes_ << QBrush(color);
-			}
-		}
-		else
-		{
-			brushes_ << QBrush();
-		}
-	}
+    for (int i = 0; i < symbol_->paths().count(); i++) {
+        if (symbol_->paths().at(i).isFilled()) {
+            if (symbol_->paths().at(i).isDefaultFill()) {
+                brushes_ << QBrush(Qt::white);
+            }
+            else {
+                brushes_ << QBrush(color);
+            }
+        }
+        else {
+            brushes_ << QBrush();
+        }
+    }
 }
 
-void MgQSymbolSetItem::setOutlineColor(QColor color)
-{
-	pen_=QPen(color);
-	outline_=true;
-} 
- 
- void MgQSymbolSetItem::setConnectLinePen(QPen pen)
-{
-	connectLinePen_=pen;
-} 
- 
- 
-QRectF MgQSymbolSetItem::boundingRect() const
-{
-	//qDebug() << "PIXMAP" << QGraphicsPolylineSetItem::boundingRect();
-	//qDebug() << "PIXMAP" << targetRect_;
-
-	//return QGraphicsPolylineSetItem::boundingRect();
-	//float w=boundingRectSize_;
-	//return QRectF(-w/2.,-w/2.,w/2.,w/2.);
-	return boundingRect_;
+void MgQSymbolSetItem::setOutlineColor(QColor color) {
+    pen_     = QPen(color);
+    outline_ = true;
 }
 
-void MgQSymbolSetItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *,QWidget*)
-{
-	//qDebug() << "Symbol" << painter->clipRegion() << painter->clipPath() <<  painter->transform(); 
-
-	float sx=painter->transform().m11();
-	float sy=painter->transform().m22();
-
-	bool clipping=(painter->clipRegion().isEmpty())?false:true;
-	QRect clipRect=painter->clipRegion().boundingRect();
-
-	if(keepSizeWhenScaling_)	
-	{
-		QTransform tr=painter->transform();
-		tr.scale(1/sx,1/sy);
-		painter->setTransform(tr);
-	}	
-
-	qDebug() << "Total"  << xp_.count()*symbol_->paths().count();
-
-	//Draw lines conncting symbols
-	if(connectLine_ && xp_.count() > 1 )
-	{
-	  	painter->setPen(connectLinePen_);	
-		
-		for(int j=1; j < xp_.count(); j++)
-		{			  			  							
-			painter->drawLine(xp_[j-1],yp_[j-1],xp_[j],yp_[j]);
-		}
-	}	
-	
-	int n=0;
-	double dx,dy;
-	double prevX=0., prevY=0.;
-	
-	painter->setPen(pen_);
-	for(int j=0; j < xp_.count(); j++)
-	{			  	  
-	  	if(!clipping || 
-	      	    clipRect.contains(xp_[j],yp_[j]))
-		{		  
-	  		dx=xp_[j]-prevX;
-			dy=yp_[j]-prevY;
-				
-			if(!keepSizeWhenScaling_)	
-				painter->translate(dx,dy);
-			else
-				painter->translate(dx*sx,dy*sy);
-				
-			for(int i=0; i < symbol_->paths().count(); i++)
-			{		
-				if(!symbol_->paths().at(i).renderOnlyForOutline()  || outline_ )
-				{
-					painter->setBrush(brushes_[i]);			
-					painter->drawPath(symbol_->paths().at(i));
-				}	
-			}
-			
-			prevX=xp_[j];
-			prevY=yp_[j];
-
-			n++;
-		}
-	}	
-
-	qDebug() << "Current"  << n;
+void MgQSymbolSetItem::setConnectLinePen(QPen pen) {
+    connectLinePen_ = pen;
 }
 
-void MgQSymbolSetItem::addPoint(double x, double y)
-{
-	xp_.push_back(x);
-	yp_.push_back(y);
+
+QRectF MgQSymbolSetItem::boundingRect() const {
+    // qDebug() << "PIXMAP" << QGraphicsPolylineSetItem::boundingRect();
+    // qDebug() << "PIXMAP" << targetRect_;
+
+    // return QGraphicsPolylineSetItem::boundingRect();
+    // float w=boundingRectSize_;
+    // return QRectF(-w/2.,-w/2.,w/2.,w/2.);
+    return boundingRect_;
+}
+
+void MgQSymbolSetItem::paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*) {
+    // qDebug() << "Symbol" << painter->clipRegion() << painter->clipPath() <<  painter->transform();
+
+    float sx = painter->transform().m11();
+    float sy = painter->transform().m22();
+
+    bool clipping  = (painter->clipRegion().isEmpty()) ? false : true;
+    QRect clipRect = painter->clipRegion().boundingRect();
+
+    if (keepSizeWhenScaling_) {
+        QTransform tr = painter->transform();
+        tr.scale(1 / sx, 1 / sy);
+        painter->setTransform(tr);
+    }
+
+    qDebug() << "Total" << xp_.count() * symbol_->paths().count();
+
+    // Draw lines conncting symbols
+    if (connectLine_ && xp_.count() > 1) {
+        painter->setPen(connectLinePen_);
+
+        for (int j = 1; j < xp_.count(); j++) {
+            painter->drawLine(xp_[j - 1], yp_[j - 1], xp_[j], yp_[j]);
+        }
+    }
+
+    int n = 0;
+    double dx, dy;
+    double prevX = 0., prevY = 0.;
+
+    painter->setPen(pen_);
+    for (int j = 0; j < xp_.count(); j++) {
+        if (!clipping || clipRect.contains(xp_[j], yp_[j])) {
+            dx = xp_[j] - prevX;
+            dy = yp_[j] - prevY;
+
+            if (!keepSizeWhenScaling_)
+                painter->translate(dx, dy);
+            else
+                painter->translate(dx * sx, dy * sy);
+
+            for (int i = 0; i < symbol_->paths().count(); i++) {
+                if (!symbol_->paths().at(i).renderOnlyForOutline() || outline_) {
+                    painter->setBrush(brushes_[i]);
+                    painter->drawPath(symbol_->paths().at(i));
+                }
+            }
+
+            prevX = xp_[j];
+            prevY = yp_[j];
+
+            n++;
+        }
+    }
+
+    qDebug() << "Current" << n;
+}
+
+void MgQSymbolSetItem::addPoint(double x, double y) {
+    xp_.push_back(x);
+    yp_.push_back(y);
 }
 
 //====================================
@@ -177,53 +154,40 @@ void MgQSymbolSetItem::addPoint(double x, double y)
 //
 //====================================
 
-MgQSymbolManager::~MgQSymbolManager()
-{	
-	foreach(MgQSymbolItem *item, symbols_)
-	{		
-		delete item;
-	}
+MgQSymbolManager::~MgQSymbolManager() {
+    foreach (MgQSymbolItem* item, symbols_) { delete item; }
 }
 
-MgQSymbolItem* MgQSymbolManager::getSymbol(const QString& id,const float size)
-{	
-	foreach(MgQSymbolItem *item, symbols_) 
-	{
-		if( item->equal(id,size) == true)
-		{
-			return item;
-		}
-	}
-	
-	return 0;		
+MgQSymbolItem* MgQSymbolManager::getSymbol(const QString& id, const float size) {
+    foreach (MgQSymbolItem* item, symbols_) {
+        if (item->equal(id, size) == true) {
+            return item;
+        }
+    }
+
+    return 0;
 }
 
 
-MgQSymbolItem* MgQSymbolManager::addSymbol(const QString& id,const float size)
-{
-	MgQSymbolItem *sym = getSymbol(id,size);
-	
-	if(sym) 
-	{
-		return sym;
-	}
-	else
-	{	
-		sym=new MgQSymbolItem(id,size);
-		symbols_.push_back(sym);
-	}
-	
-	return sym;
+MgQSymbolItem* MgQSymbolManager::addSymbol(const QString& id, const float size) {
+    MgQSymbolItem* sym = getSymbol(id, size);
+
+    if (sym) {
+        return sym;
+    }
+    else {
+        sym = new MgQSymbolItem(id, size);
+        symbols_.push_back(sym);
+    }
+
+    return sym;
 }
 
-void MgQSymbolManager::deleteSymbol(const QString& id,const float size)	
-{	
-	foreach(MgQSymbolItem *item, symbols_)
-	{
-		if( item->equal(id,size) == true)
-		{
-			delete item;
-			return;
-		}	
-	}
-}	
+void MgQSymbolManager::deleteSymbol(const QString& id, const float size) {
+    foreach (MgQSymbolItem* item, symbols_) {
+        if (item->equal(id, size) == true) {
+            delete item;
+            return;
+        }
+    }
+}

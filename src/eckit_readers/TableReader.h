@@ -10,11 +10,11 @@
 #ifndef TableReader_H
 #define TableReader_H
 
-#include <vector>
-#include <fstream>
 #include <cstdlib>
-#include <string>
+#include <fstream>
 #include <map>
+#include <string>
+#include <vector>
 
 using namespace std;
 
@@ -25,36 +25,32 @@ using namespace std;
     file is formatted.
    ----------------------------------------------------------------- */
 
-class TableFormatAttributes
-{
+class TableFormatAttributes {
 public:
+    TableFormatAttributes() : delimiter_(','), headerRow_(1), consecutiveDelimitersAsOne_(false), dataRowOffset_(0) {}
 
-    TableFormatAttributes () : delimiter_(','), headerRow_(1), consecutiveDelimitersAsOne_(false), dataRowOffset_(0) {}
+    void setPath(string& path) { path_ = path; }
+    void setPath(const char* path) { path_ = string(path); }
+    void setDelimiter(char delimiter) { delimiter_ = delimiter; }
+    void setHeaderRow(int headerRow) { headerRow_ = headerRow; }
+    void setDataRowOffset(int offset) { dataRowOffset_ = offset; }
+    void setConsecutiveDelimitersAsOne(bool consecutive) { consecutiveDelimitersAsOne_ = consecutive; }
+    void setUserMetaDataRows(vector<int>& rows) { userMetaDataRows_ = rows; }
 
-    void setPath          (string &path)     { path_          = path;      }
-    void setPath          (const char *path) { path_          = string(path); }
-    void setDelimiter     (char delimiter)   { delimiter_     = delimiter; }
-    void setHeaderRow     (int  headerRow)   { headerRow_     = headerRow; }
-    void setDataRowOffset (int  offset)      { dataRowOffset_ = offset; }
-    void setConsecutiveDelimitersAsOne (bool consecutive) { consecutiveDelimitersAsOne_ = consecutive; }
-    void setUserMetaDataRows (vector<int> &rows){ userMetaDataRows_ = rows; }
-
-    string path ()                     { return path_;      }
-    int    headerRow()                 { return headerRow_; }
-    int    dataRowOffset()             { return dataRowOffset_; }
-    vector<int> userMetaDataRows()     { return userMetaDataRows_; }
+    string path() { return path_; }
+    int headerRow() { return headerRow_; }
+    int dataRowOffset() { return dataRowOffset_; }
+    vector<int> userMetaDataRows() { return userMetaDataRows_; }
 
 
-protected       :
+protected:
     string path_;
     char delimiter_;
-    int  headerRow_;
+    int headerRow_;
     bool consecutiveDelimitersAsOne_;
-    int  dataRowOffset_;
+    int dataRowOffset_;
     vector<int> userMetaDataRows_;
 };
-
-
 
 
 /*! -----------------------------------------------------------------
@@ -64,15 +60,14 @@ protected       :
     particular data types (e.g. double, string).
    ----------------------------------------------------------------- */
 
-class TableElementDecoder
-{
+class TableElementDecoder {
 public:
-    TableElementDecoder() : currentIndex_(0) {};
-    virtual ~TableElementDecoder(){}
+    TableElementDecoder() : currentIndex_(0){};
+    virtual ~TableElementDecoder() {}
 
-    virtual void initialise    (int numValues) = 0;
-    virtual void addValue      (char  *value)  = 0;
-    //virtual void decodeElement (char *element) = 0;
+    virtual void initialise(int numValues) = 0;
+    virtual void addValue(char* value)     = 0;
+    // virtual void decodeElement (char *element) = 0;
 
 protected:
     int currentIndex_;
@@ -81,17 +76,18 @@ protected:
 
 /*! -----------------------------------------------------------------
     \class TableDoubleVectorElementDecoder
-    Derived class to handle the decoding of numeric data from a 
+    Derived class to handle the decoding of numeric data from a
     table file. The data will be put into a vector of doubles.
    ----------------------------------------------------------------- */
 
-class TableDoubleVectorElementDecoder : public TableElementDecoder
-{
+class TableDoubleVectorElementDecoder : public TableElementDecoder {
 public:
-    TableDoubleVectorElementDecoder(vector<double>& target, double outMiss) : target_(target), outputMissingIndicator_(outMiss)  {};
+    TableDoubleVectorElementDecoder(vector<double>& target, double outMiss) :
+        target_(target),
+        outputMissingIndicator_(outMiss){};
 
-    void initialise (int numValues) { target_.reserve(numValues); }
-    void addValue   (char *value)   { target_.push_back((value[0] != '\0') ? atof(value) : outputMissingIndicator_); }
+    void initialise(int numValues) { target_.reserve(numValues); }
+    void addValue(char* value) { target_.push_back((value[0] != '\0') ? atof(value) : outputMissingIndicator_); }
 
 private:
     vector<double>& target_;
@@ -99,20 +95,20 @@ private:
 };
 
 
-
 /*! -----------------------------------------------------------------
     \class TableStringVectorElementDecoder
-    Derived class to handle the decoding of string data from a 
+    Derived class to handle the decoding of string data from a
     table file. The data will be put into a vector of strings.
    ----------------------------------------------------------------- */
 
-class TableStringVectorElementDecoder : public TableElementDecoder
-{
+class TableStringVectorElementDecoder : public TableElementDecoder {
 public:
-    TableStringVectorElementDecoder(vector<string>& target, string outMiss) : target_(target), outputMissingIndicator_(outMiss) {};
+    TableStringVectorElementDecoder(vector<string>& target, string outMiss) :
+        target_(target),
+        outputMissingIndicator_(outMiss){};
 
-    void initialise (int numValues) { target_.reserve(numValues); }
-    void addValue   (char *value)   { target_.push_back((value[0] != '\0') ? value : outputMissingIndicator_); }
+    void initialise(int numValues) { target_.reserve(numValues); }
+    void addValue(char* value) { target_.push_back((value[0] != '\0') ? value : outputMissingIndicator_); }
 
 private:
     vector<string>& target_;
@@ -120,8 +116,7 @@ private:
 };
 
 
-typedef vector<TableElementDecoder *> TableElementDecoders;  // for shorthand
-
+typedef vector<TableElementDecoder*> TableElementDecoders;  // for shorthand
 
 
 /*! -----------------------------------------------------------------
@@ -136,55 +131,64 @@ typedef vector<TableElementDecoder *> TableElementDecoders;  // for shorthand
 
    ----------------------------------------------------------------- */
 
-class TableReader : public TableFormatAttributes
-{
+class TableReader : public TableFormatAttributes {
 public:
+    enum eTableReaderFieldType
+    {
+        TABFIELD_NUMBER,
+        TABFIELD_STRING
+    };
 
-    enum eTableReaderFieldType {TABFIELD_NUMBER, TABFIELD_STRING};
+    TableReader() {
+        gotMetaData_ = false;
+        errorCode_   = 0;
+    }
+    TableReader(string& path) { setPath(path); }
 
-    TableReader ()              {gotMetaData_ = false; errorCode_ = 0;}
-    TableReader (string &path)  {setPath(path);}
-
-    void setFieldContainer (int index, string &name, vector<double>& container, double outputMissingIndicator);
-    void setFieldContainer (int index, string &name, vector<string>& container, string outputMissingIndicator);
+    void setFieldContainer(int index, string& name, vector<double>& container, double outputMissingIndicator);
+    void setFieldContainer(int index, string& name, vector<string>& container, string outputMissingIndicator);
 
     // setFieldContainer (string &name, vector<double>);
     // setFieldContainer (string &name, vector<string>);
 
-    bool getMetaData(string &errorMessage);
-    bool read (string &errorMessage);  // read and parse the file; the supplied cointainers will be filled
+    bool getMetaData(string& errorMessage);
+    bool read(string& errorMessage);  // read and parse the file; the supplied cointainers will be filled
 
     vector<eTableReaderFieldType>& fieldTypes();
-    vector<string>&                fieldNames();
-    map<string, string>&           userMetaData();
-    int                            numRecords();
+    vector<string>& fieldNames();
+    map<string, string>& userMetaData();
+    int numRecords();
 
 private:
+    void resizeDecoders(unsigned int numNeeded);
+    int nextLineTokens(char* line, size_t sizeOfLine,
+                       vector<char*>& tokens);          // reads the next line and splits into tokens
+    void splitLine(char* line, vector<char*>& tokens);  // splits a line into tokens based on the current settings
+    void splitLineConsecutiveDelimiters(
+        char* line, vector<char*>& tokens);  // splits a line into tokens based on the current settings
+    bool readUserMetaData(char* line, size_t sizeOfLine, string& errorMessage);  // reads user meta-data into a map
+    int indexOfField(string& name);  // returns the index of the field with a given name (or -1)
+    void setError(string msg) {
+        errorCode_ = 1;
+        errorMsg_  = msg;
+    };                                                               // set an error message to be used later
+    void clearError() { errorCode_ = 0; };                           // clear error message and code to be used later
+    void ensureHaveMetaData();                                       // loads the meta-data if not already there
+    void skipLines(int linesToSkip, char* line, size_t sizeOfLine);  // skips a user-defined number of rows
+    TableReader::eTableReaderFieldType guessFieldType(
+        char* str);  // tries to determine whether the field is, for example, string or number
 
-    void resizeDecoders (unsigned int numNeeded);
-    int  nextLineTokens (char *line, size_t sizeOfLine, vector<char *>& tokens);  // reads the next line and splits into tokens
-    void splitLine      (char *line, vector<char *>& tokens);                     // splits a line into tokens based on the current settings
-    void splitLineConsecutiveDelimiters (char *line, vector<char *>& tokens);     // splits a line into tokens based on the current settings
-    bool readUserMetaData(char *line, size_t sizeOfLine, string &errorMessage);   // reads user meta-data into a map
-    int  indexOfField   (string &name);                                           // returns the index of the field with a given name (or -1)
-    void setError       (string msg)  {errorCode_ = 1; errorMsg_ = msg;};         // set an error message to be used later
-    void clearError     ()            {errorCode_ = 0;};                          // clear error message and code to be used later
-    void ensureHaveMetaData();                                                    // loads the meta-data if not already there
-    void skipLines      (int linesToSkip, char *line, size_t sizeOfLine);         // skips a user-defined number of rows
-    TableReader::eTableReaderFieldType guessFieldType(char *str);                 // tries to determine whether the field is, for example, string or number
-
-    vector<TableElementDecoders>  decoderSets_; // each column can have multiple decoders attached to it
-    vector<string *>              names_;
-    vector<string>                namesAll_;
+    vector<TableElementDecoders> decoderSets_;  // each column can have multiple decoders attached to it
+    vector<string*> names_;
+    vector<string> namesAll_;
     vector<eTableReaderFieldType> types_;
-    bool                          gotMetaData_;
-    ifstream                      f_;
-    streampos                     dataStart_;
-    int                           numRecords_;
-    map<string, string>           userMetaData_;
-    int                           errorCode_;  // some functions will set these to be used later
-    string                        errorMsg_;   // some functions will set these to be used later
-
+    bool gotMetaData_;
+    ifstream f_;
+    streampos dataStart_;
+    int numRecords_;
+    map<string, string> userMetaData_;
+    int errorCode_;    // some functions will set these to be used later
+    string errorMsg_;  // some functions will set these to be used later
 };
 
 #endif

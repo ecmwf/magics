@@ -1,9 +1,9 @@
 /*
  * (C) Copyright 1996-2016 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
  */
@@ -17,50 +17,49 @@
     Changes:
 */
 
-#include <algorithm>
 #include <MagLog.h>
+#include <algorithm>
 #include "MagicsObserver.h"
 
 using namespace magics;
 
-MagLog  MagLog::log_;
+MagLog MagLog::log_;
 bool MagLog::header_;
 
-class MagLogObserver : public ostringstream
-{
+class MagLogObserver : public ostringstream {
 public:
-	MagLogObserver() {}
-	~MagLogObserver() {}
-	
-	void broadcast()
-	{
-		std::cout << "BROADCAST---->" << str() << "<---BROADCAST----";
-		flush();
-	}
+    MagLogObserver() {}
+    ~MagLogObserver() {}
+
+    void broadcast() {
+        std::cout << "BROADCAST---->" << str() << "<---BROADCAST----";
+        flush();
+    }
 };
 
 static MagLogObserver MYLOG;
 
 
-//extern string lowerCase(const string&);
+// extern string lowerCase(const string&);
 
-inline bool setMsg(const string& name, bool def)
-{
-	string value = getEnvVariable(name);
-	//value = lowerCase(value);
-	if (value == "no" || value == "off" || value == "false") return false;
-	if (value == "yes"|| value == "on"  || value == "true")  return true;
+inline bool setMsg(const string& name, bool def) {
+    string value = getEnvVariable(name);
+    // value = lowerCase(value);
+    if (value == "no" || value == "off" || value == "false")
+        return false;
+    if (value == "yes" || value == "on" || value == "true")
+        return true;
 
-	return def;
+    return def;
 }
 
 /*!
- \todo Decide if Warnings are plotted when MAGPLUS_QUIET 
+ \todo Decide if Warnings are plotted when MAGPLUS_QUIET
 */
 MagLog::MagLog() :
     reporter_(0),
     devnull_("/dev/null"),
-    debug_(true), 
+    debug_(true),
     dev_(true),
     info_(true),
     userInfo_(true),
@@ -68,206 +67,185 @@ MagLog::MagLog() :
     error_(true),
     fatal_(true),
     profiling_(true),
-    warnings_(0)
-{
-    debug_ = setMsg("MAGPLUS_DEBUG", false);
-    dev_ = setMsg("MAGPLUS_DEV", false);
-    info_ = setMsg("MAGPLUS_INFO", false);
+    warnings_(0) {
+    debug_     = setMsg("MAGPLUS_DEBUG", false);
+    dev_       = setMsg("MAGPLUS_DEV", false);
+    info_      = setMsg("MAGPLUS_INFO", false);
     profiling_ = setMsg("MAGPLUS_PROFILE", false);
-    if(setMsg("MAGPLUS_QUIET",false) )
-    {
-       info_      = false;
-       dev_       = false;
-       profiling_ = false;
-       debug_    = false;
-       userInfo_ = false;
+    if (setMsg("MAGPLUS_QUIET", false)) {
+        info_      = false;
+        dev_       = false;
+        profiling_ = false;
+        debug_     = false;
+        userInfo_  = false;
     }
     header_ = true;
 }
 
-MagLog::~MagLog() 
-{
-	//if ( reporter_ ) delete reporter_;
+MagLog::~MagLog() {
+    // if ( reporter_ ) delete reporter_;
 }
 
-static void niceprint(int nb, const string& legend, const string& sep, ostream& out)
-{
-	if (!nb) return;
-	string plurial = (nb > 1) ? "s" : "";
-	out << sep << nb << legend << plurial; 
-}
-	
-void ErrorReporter::report(ostream& out)  const
-{
-	if ( !warnings_ &&  !errors_) return;
-
-	out << " - [ ";
-	niceprint(warnings_, " warning", "", out);
-	string sep = (warnings_) ? ", " : "";
-	niceprint(errors_, " error", sep, out);
-	out << " ]";
-	warnings_ = 0;
-	errors_   = 0;
+static void niceprint(int nb, const string& legend, const string& sep, ostream& out) {
+    if (!nb)
+        return;
+    string plurial = (nb > 1) ? "s" : "";
+    out << sep << nb << legend << plurial;
 }
 
+void ErrorReporter::report(ostream& out) const {
+    if (!warnings_ && !errors_)
+        return;
 
-void MagLog::print(ostream&)  const
-{
+    out << " - [ ";
+    niceprint(warnings_, " warning", "", out);
+    string sep = (warnings_) ? ", " : "";
+    niceprint(errors_, " error", sep, out);
+    out << " ]";
+    warnings_ = 0;
+    errors_   = 0;
 }
 
 
-ostream& MagLog::warning()
-{
-	if ( log_.reporter_ ) log_.reporter_->warning();
-	// Here we broadcast some eventuel infos...
-	broadcast();
-	if (log_.warning_)
-	{
-		if ( log_.warnings_ ++ == 100 ) {
-			log_.warningstream_ << "Magics-warning: Too many warnings! Stop sending them ..." << endl;
-			return log_.devnull_;
-		}
+void MagLog::print(ostream&) const {}
 
-		if  ( log_.warnings_  < 100 ) {
-			if ( log_.observers_.empty() ) {
-				std::cout  << "Magics-warning: ";
-				return cout;
-			}
-			log_.warningstream_ << "Magics-warning: ";
-			return log_.warningstream_;
-		}
-	}
-	return log_.devnull_;
+
+ostream& MagLog::warning() {
+    if (log_.reporter_)
+        log_.reporter_->warning();
+    // Here we broadcast some eventuel infos...
+    broadcast();
+    if (log_.warning_) {
+        if (log_.warnings_++ == 100) {
+            log_.warningstream_ << "Magics-warning: Too many warnings! Stop sending them ..." << endl;
+            return log_.devnull_;
+        }
+
+        if (log_.warnings_ < 100) {
+            if (log_.observers_.empty()) {
+                std::cout << "Magics-warning: ";
+                return cout;
+            }
+            log_.warningstream_ << "Magics-warning: ";
+            return log_.warningstream_;
+        }
+    }
+    return log_.devnull_;
 }
 
-ostream& MagLog::error()
-{
-	if ( log_.reporter_ ) log_.reporter_->error();
-	broadcast();
-	if (log_.error_)
-	{
-		if ( log_.observers_.empty() ) {
-			std::cout  << "Magics-ERROR: ";
-			return cout;
-		}
-		log_.errorstream_ << "Magics-ERROR: ";
-		return log_.errorstream_;
-	}
-	return log_.devnull_;
-}
-
-
-ostream& MagLog::debug()
-{
-	if (log_.debug_)
-	{
-		string text = ( header_ )  ? "Magics-debug: " : "";
-		std::cout << text;
-		return cout;
-	}
-	return log_.devnull_;
-}
-
-ostream& MagLog::profile()
-{
-	if (log_.profiling_)
-	{
-		string text = ( header_ )  ? "Magics-profile: " : "";
-		std::cout << text;
-		return cout;
-	}
-	return log_.devnull_;
-}
-
-ostream& MagLog::dev()
-{
-	if (log_.dev_) {
-		string text = ( header_ )  ? "Magics-dev: " : "";
-		std::cout << text;		
-		return cout;
-	}
-	return log_.devnull_;
-}
-
-ostream& MagLog::info()
-{
-	// Here we broadcast some eventuel infos...
-	broadcast();
-	if (log_.info_)
-	{
-		if ( log_.observers_.empty() ) {
-			std::cout  << "Magics-warning: ";
-			return cout;
-		}
-		log_.infostream_ << "Magics-info: ";
-		return log_.infostream_;
-	}
-	return log_.devnull_;
-}
-
-ostream& MagLog::progress()
-{
-	// Here we broadcast some eventuel infos...
-	broadcast();
-
-	log_.progressstream_ << "Magics-progress: ";
-	return log_.progressstream_;
-}
-
-void MagLog::progress(const string& msg)
-{
-	for(vector<MagicsObserver*>::iterator observer = log_.observers_.begin(); observer != log_.observers_.end(); ++observer) 
-	{			
-		(*observer)->progressMessage(msg);
-	}
-}
-
-ostream& MagLog::userInfo()
-{
-	if (log_.userInfo_)
-	{
-		std::cout << "Magics :";
-		return cout;
-	}
-	return log_.devnull_;
+ostream& MagLog::error() {
+    if (log_.reporter_)
+        log_.reporter_->error();
+    broadcast();
+    if (log_.error_) {
+        if (log_.observers_.empty()) {
+            std::cout << "Magics-ERROR: ";
+            return cout;
+        }
+        log_.errorstream_ << "Magics-ERROR: ";
+        return log_.errorstream_;
+    }
+    return log_.devnull_;
 }
 
 
-void MagLog::broadcast()
-{
-	for ( vector<MagicsObserver*>::iterator observer = log_.observers_.begin(); observer != log_.observers_.end(); ++observer) {
-		if ( !log_.warningstream_.str().empty() ) {
-			(*observer)->warningMessage(log_.warningstream_.str());
-		}
-		if ( !log_.errorstream_.str().empty() ) {
-			(*observer)->errorMessage(log_.errorstream_.str());
-		}		
-		if ( !log_.infostream_.str().empty() ){
-			(*observer)->infoMessage(log_.infostream_.str());
-		}
-		if ( !log_.progressstream_.str().empty() ){
-			(*observer)->progressMessage(log_.progressstream_.str());
-		}
-	}
-	log_.warningstream_.str("");
-	log_.errorstream_.str("");
-	log_.infostream_.str("");
-	log_.progressstream_.str("");
+ostream& MagLog::debug() {
+    if (log_.debug_) {
+        string text = (header_) ? "Magics-debug: " : "";
+        std::cout << text;
+        return cout;
+    }
+    return log_.devnull_;
 }
 
-ostream& MagLog::fatal()
-{
-	if (log_.fatal_)
-	{
-		std::cout << "Magics-fatal: ";
-		return cout;
-	}
-	return log_.devnull_;
+ostream& MagLog::profile() {
+    if (log_.profiling_) {
+        string text = (header_) ? "Magics-profile: " : "";
+        std::cout << text;
+        return cout;
+    }
+    return log_.devnull_;
 }
 
-void MagLog::unregisterObserver(MagicsObserver* observer)
-{
-	 vector<MagicsObserver*>::iterator o = std::find(log_.observers_.begin(), log_.observers_.end(), observer);
-	 if ( o != log_.observers_.end() )
-		 log_.observers_.erase(o);
+ostream& MagLog::dev() {
+    if (log_.dev_) {
+        string text = (header_) ? "Magics-dev: " : "";
+        std::cout << text;
+        return cout;
+    }
+    return log_.devnull_;
+}
+
+ostream& MagLog::info() {
+    // Here we broadcast some eventuel infos...
+    broadcast();
+    if (log_.info_) {
+        if (log_.observers_.empty()) {
+            std::cout << "Magics-warning: ";
+            return cout;
+        }
+        log_.infostream_ << "Magics-info: ";
+        return log_.infostream_;
+    }
+    return log_.devnull_;
+}
+
+ostream& MagLog::progress() {
+    // Here we broadcast some eventuel infos...
+    broadcast();
+
+    log_.progressstream_ << "Magics-progress: ";
+    return log_.progressstream_;
+}
+
+void MagLog::progress(const string& msg) {
+    for (vector<MagicsObserver*>::iterator observer = log_.observers_.begin(); observer != log_.observers_.end();
+         ++observer) {
+        (*observer)->progressMessage(msg);
+    }
+}
+
+ostream& MagLog::userInfo() {
+    if (log_.userInfo_) {
+        std::cout << "Magics :";
+        return cout;
+    }
+    return log_.devnull_;
+}
+
+
+void MagLog::broadcast() {
+    for (vector<MagicsObserver*>::iterator observer = log_.observers_.begin(); observer != log_.observers_.end();
+         ++observer) {
+        if (!log_.warningstream_.str().empty()) {
+            (*observer)->warningMessage(log_.warningstream_.str());
+        }
+        if (!log_.errorstream_.str().empty()) {
+            (*observer)->errorMessage(log_.errorstream_.str());
+        }
+        if (!log_.infostream_.str().empty()) {
+            (*observer)->infoMessage(log_.infostream_.str());
+        }
+        if (!log_.progressstream_.str().empty()) {
+            (*observer)->progressMessage(log_.progressstream_.str());
+        }
+    }
+    log_.warningstream_.str("");
+    log_.errorstream_.str("");
+    log_.infostream_.str("");
+    log_.progressstream_.str("");
+}
+
+ostream& MagLog::fatal() {
+    if (log_.fatal_) {
+        std::cout << "Magics-fatal: ";
+        return cout;
+    }
+    return log_.devnull_;
+}
+
+void MagLog::unregisterObserver(MagicsObserver* observer) {
+    vector<MagicsObserver*>::iterator o = std::find(log_.observers_.begin(), log_.observers_.end(), observer);
+    if (o != log_.observers_.end())
+        log_.observers_.erase(o);
 }

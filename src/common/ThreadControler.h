@@ -1,9 +1,9 @@
 /*
  * (C) Copyright 1996-2016 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
  */
@@ -33,57 +33,53 @@ namespace magics {
 
 class ThreadControler : public Task {
 public:
+    // -- Contructors
 
-// -- Contructors
-	
-	// ThreadControler takes ownership of Thread
+    // ThreadControler takes ownership of Thread
 
-	ThreadControler(Thread*,bool detached = true);
+    ThreadControler(Thread*, bool detached = true);
 
-// -- Destructor
-	
-	~ThreadControler();
+    // -- Destructor
 
-// -- Overridden methods
+    ~ThreadControler();
 
-	// From Task
+    // -- Overridden methods
 
-	virtual void start();
-	virtual void stop();
-	virtual void kill();
-	virtual void wait();
-	virtual bool active();
+    // From Task
+
+    virtual void start();
+    virtual void stop();
+    virtual void kill();
+    virtual void wait();
+    virtual bool active();
 
 protected:
+    // -- Members
 
-// -- Members
-	
-	MutexCond  cond_;
-	bool       detached_;
+    MutexCond cond_;
+    bool detached_;
 
 private:
+    // No copy allowed
 
-// No copy allowed
+    ThreadControler(const ThreadControler&);
+    ThreadControler& operator=(const ThreadControler&);
 
-	ThreadControler(const ThreadControler&);
-	ThreadControler& operator=(const ThreadControler&);
+    // -- Members
 
-// -- Members
-	
-	pthread_t      thread_;
-	Thread     *proc_;
-	bool           running_;
+    pthread_t thread_;
+    Thread* proc_;
+    bool running_;
 
-// -- Methods
-	
-	void execute();
+    // -- Methods
 
-// -- Class methods
+    void execute();
 
-	static void *startThread(void *);
+    // -- Class methods
 
+    static void* startThread(void*);
 };
 
-} // namespace magics
+}  // namespace magics
 
 #endif

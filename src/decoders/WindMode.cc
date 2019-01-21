@@ -1,111 +1,94 @@
 /*
  * (C) Copyright 1996-2016 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
  */
 
 /*! \file WindMode.cc
     \brief Implementation of the Template class WindMode.
-    
-    Magics Team - ECMWF 2006
-    
-    Started: Wed 9-Aug-2006
-    
-    Changes:
-    
-*/
 
+    Magics Team - ECMWF 2006
+
+    Started: Wed 9-Aug-2006
+
+    Changes:
+
+*/
 
 
 #include "WindMode.h"
 
 using namespace magics;
 
-WindMode::WindMode() 
-{
-}
+WindMode::WindMode() {}
 
 
-WindMode::~WindMode() 
-{
-}
+WindMode::~WindMode() {}
 
 /*!
  Class information are given to the output-stream.
-*/		
-void WindMode::print(ostream& out)  const
-{
-	out << "WindMode[";
-	out << "]";
+*/
+void WindMode::print(ostream& out) const {
+    out << "WindMode[";
+    out << "]";
 }
 
-void UVWindMode::x(Matrix** out1, Matrix** out2, Matrix* in1, Matrix* in2)
-{
-	*out1 = in1;
-	*out2 = in2;
-}
-
-
-void SDWindMode::x(Matrix** out1, Matrix** out2, Matrix* in1, Matrix* in2)
-{
-	*out1 = in1;
-	*out2 = in2;
-        double x = 3.14/180.;
-	vector<double>::const_iterator speed = in1->begin();
-	vector<double>::const_iterator angle = in2->begin();
-	vector<double> speeds;
-	vector<double> directions;
-//	MagLog::dev()<< "missing1-->" << in1->missing() << endl;
-//	MagLog::dev()<< "missing2-->" << in2->missing() << endl;
-	while ( speed != in1->end() && angle != in2->end() ) {
-       if ( *speed == in1->missing() || *angle == in2->missing() ) 
-       {
-    	   speeds.push_back(in2->missing());
-    	   directions.push_back(in2->missing());
-       }
-       else {
-       	double a = 90 - (*angle); 
-	a *= x;
-       	speeds.push_back(*speed * -1 * cos(a));
-    	directions.push_back(*speed*-1* sin(a));
-       }
-       speed++;
-       angle++;
-	}	
-	
-	(*out1)->clear();
-	(*out2)->clear();
-	
-        vector<double>::iterator d = directions.begin();
-        vector<double>::iterator send = speeds.end();
-	for (vector<double>::iterator s = speeds.begin(); s != send; ++s) {
-			(*out1)->push_back(*s);
-			(*out2)->push_back(*d);
-			++d;
-	}
+void UVWindMode::x(Matrix** out1, Matrix** out2, Matrix* in1, Matrix* in2) {
+    *out1 = in1;
+    *out2 = in2;
 }
 
 
-pair<double, double> SDWindMode::operator()(double s, double d)
-{
-	double a = 90 - (d);    
-	double x = 3.14/180.;
-	a *= x;
-    return std::make_pair(s * -1 * cos(a), s*-1* sin(a)) ;
-  
+void SDWindMode::x(Matrix** out1, Matrix** out2, Matrix* in1, Matrix* in2) {
+    *out1                                = in1;
+    *out2                                = in2;
+    double x                             = 3.14 / 180.;
+    vector<double>::const_iterator speed = in1->begin();
+    vector<double>::const_iterator angle = in2->begin();
+    vector<double> speeds;
+    vector<double> directions;
+    //	MagLog::dev()<< "missing1-->" << in1->missing() << endl;
+    //	MagLog::dev()<< "missing2-->" << in2->missing() << endl;
+    while (speed != in1->end() && angle != in2->end()) {
+        if (*speed == in1->missing() || *angle == in2->missing()) {
+            speeds.push_back(in2->missing());
+            directions.push_back(in2->missing());
+        }
+        else {
+            double a = 90 - (*angle);
+            a *= x;
+            speeds.push_back(*speed * -1 * cos(a));
+            directions.push_back(*speed * -1 * sin(a));
+        }
+        speed++;
+        angle++;
+    }
+
+    (*out1)->clear();
+    (*out2)->clear();
+
+    vector<double>::iterator d    = directions.begin();
+    vector<double>::iterator send = speeds.end();
+    for (vector<double>::iterator s = speeds.begin(); s != send; ++s) {
+        (*out1)->push_back(*s);
+        (*out2)->push_back(*d);
+        ++d;
+    }
 }
 
 
-void VDWindMode::x(Matrix**, Matrix* in1, Matrix* in2)
-{
+pair<double, double> SDWindMode::operator()(double s, double d) {
+    double a = 90 - (d);
+    double x = 3.14 / 180.;
+    a *= x;
+    return std::make_pair(s * -1 * cos(a), s * -1 * sin(a));
 }
 
-void VDWindMode::y(Matrix**, Matrix* in1, Matrix* in2)
-{
-}
 
+void VDWindMode::x(Matrix**, Matrix* in1, Matrix* in2) {}
 
+void VDWindMode::y(Matrix**, Matrix* in1, Matrix* in2) {}
