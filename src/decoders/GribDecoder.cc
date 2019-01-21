@@ -34,8 +34,7 @@
 #include "AnimationRules.h"
 #include "DateTime.h"
 #include "GribInterpretor.h"
-#include "GribTables.h"
-#include "LocalTable.h"
+
 #include "MagJSon.h"
 #include "MetaData.h"
 #include "TextVisitor.h"
@@ -249,6 +248,9 @@ void GribDecoder::setDouble(const string& key, double val) const {
 }
 
 void GribDecoder::scale(const string& metadata, double& scaling, double& offset) {
+    
+    assert(false);
+    /*
     scaling = 1;
     offset  = 0;
     if (metadata.empty()) {
@@ -271,6 +273,7 @@ void GribDecoder::scale(const string& metadata, double& scaling, double& offset)
     catch (...) {
         MagLog::warning() << " Can not find information for the parameter [" << id << "." << table << "]\n";
     }
+    */
 }
 
 void GribDecoder::read(Matrix** matrix, Matrix** matrix2) {
@@ -2101,8 +2104,8 @@ public:
     void operator()(TitleField&, vector<string>& title, const GribDecoder& grib) {
         long type = grib.getLong("type");
 
-        GeneralDef def = TypeTable::definition(type);
-        title.back() += def.longTitle();
+        //GeneralDef def = TypeTable::definition(type);
+        //title.back() += def.longTitle();
     }
 };
 

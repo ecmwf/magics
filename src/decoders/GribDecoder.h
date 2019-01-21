@@ -22,7 +22,6 @@
 #ifndef GribDecoder_H
 #define GribDecoder_H
 
-#include "MagException.h"
 #include "magics.h"
 
 
