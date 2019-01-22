@@ -27,19 +27,6 @@
                     "10 metre wind gust in the last 6 hours",
                     "10 metre wind gust in the last 3 hours"
                 ]
-      },
-      {
-        "paramId": [
-          "228029"
-        ],
-        "shortName": [
-          "i10fg"
-        ]
-      },
-      {
-        "long_name": [
-          "Instantaneous 10 metre wind gust"
-        ]
       }
     ]
   }

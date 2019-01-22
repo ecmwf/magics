@@ -82,6 +82,7 @@
                       "Total precipitation of at least 5 mm",
                       "Total precipitation of at least 10 mm",
                       "Total precipitation of at least 20 mm",
+                      "10 metre Wind gust of at least 10 m/s",
                       "10 metre Wind gust of at least 15 m/s",
                       "10 metre Wind gust of at least 20 m/s",
                       "10 metre Wind gust of at least 25 m/s",
