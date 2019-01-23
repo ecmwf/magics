@@ -70,6 +70,9 @@ void SkewtGrid::visit(DrawingVisitor& out) {
 
     double pfactor = 100;
     pmax           = int(pmax / pfactor) * pfactor + pfactor;
+    if(pmin < 100.) {
+        pfactor = 10;
+    }
     pmin           = int(pmin / pfactor) * pfactor;
 
     double thmin = magics::theta(tmin + 273.15, pmax * 100.) - 237.15;
