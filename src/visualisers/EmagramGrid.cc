@@ -348,7 +348,7 @@ void EmagramGrid::visit(DrawingVisitor& out) {
             double s = thetaEq(*thetaw + 273.15, *thetaw + 273.15, 1000 * 100);
 
             double pl        = -1;
-            double pTop      = pmin;
+            double pTop      =  200;
             bool hasPointsIn = false;
             for (double p = pTop; p < pmax; p += 1) {
                 double t = magics::temperatureFromThetaEq(s, p * 100) - 273.15;
