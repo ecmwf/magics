@@ -45,11 +45,11 @@ void MagClipper::clipOpened(const Polyline& subject, const Polyline& clip, vecto
     ClipperLib::PolyTree solution;
     ClipperLib::Clipper clipper;
 
-    convert(subject.polygon(), path_subject, true);
+    convert(subject.polygon(), path_subject);
     // ClipperLib::CleanPolygon(path_subject, 1000);
     // cout << "Add line" << ClipperLib::Orientation(path_subject) << endl;
     clipper.AddPath(path_subject, ClipperLib::ptSubject, false);
-    convert(clip.polygon(), path_clip, true);
+    convert(clip.polygon(), path_clip);
 
     clipper.AddPath(path_clip, ClipperLib::ptClip, true);
     try {
