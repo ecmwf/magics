@@ -49,8 +49,8 @@ if( (EC_OS_NAME MATCHES "windows") AND (NOT "$ENV{ECCODES_SAMPLES_PATH}" MATCHES
     list( APPEND bufr_python_environment ECCODES_SAMPLES_PATH=$ENV{ECCODES_SAMPLES_PATH} )
 endif()
 
-if( (EC_OS_NAME MATCHES "windows") AND (NOT "$ENV{ECCODES_DEFINITIONS_PATH}" MATCHES ""))
-    list( APPEND bufr_python_environment ECCODES_DEFINITIONS_PATH=$ENV{ECCODES_DEFINITIONS_PATH} )
+if( (EC_OS_NAME MATCHES "windows") AND (NOT "$ENV{ECCODES_DEFINITION_PATH}" MATCHES ""))
+    list( APPEND bufr_python_environment ECCODES_DEFINITION_PATH=$ENV{ECCODES_DEFINITION_PATH} )
 endif()
 
 ecbuild_add_test( TARGET bufr_python
