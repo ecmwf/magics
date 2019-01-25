@@ -40,25 +40,15 @@ ecbuild_add_test( TARGET basic_fortran_static
                   ENVIRONMENT MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/..
                   LINKER_LANGUAGE Fortran )
 
-set( bufr_python_environment PYTHONPATH=${MAG_PYTHON_PATH}
-                             LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib
-                             DYLD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib
-                             MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/.. )
-
-if( (EC_OS_NAME MATCHES "windows") AND (NOT "$ENV{ECCODES_SAMPLES_PATH}" MATCHES ""))
-    list( APPEND bufr_python_environment ECCODES_SAMPLES_PATH=$ENV{ECCODES_SAMPLES_PATH} )
-endif()
-
-if( (EC_OS_NAME MATCHES "windows") AND (NOT "$ENV{ECCODES_DEFINITION_PATH}" MATCHES ""))
-    list( APPEND bufr_python_environment ECCODES_DEFINITION_PATH=$ENV{ECCODES_DEFINITION_PATH} )
-endif()
-
 ecbuild_add_test( TARGET bufr_python
                   TYPE PYTHON
                   CONDITION HAVE_BUFR AND HAVE_PYTHON
                   ARGS bufr.py
                   RESOURCES bufr.py synop.bufr
-                  ENVIRONMENT ${bufr_python_environment} )
+                  ENVIRONMENT PYTHONPATH=${MAG_PYTHON_PATH}
+                              LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib
+                              DYLD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib
+                              MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/.. )
 
 ecbuild_add_test( TARGET bufr_fortran
                   SOURCES   bufr.f90
