@@ -2,6 +2,10 @@ set( grib_environment
   GRIB_DEFINITION_PATH=${eccodes_BASE_DIR}/share/${grib_handling_pkg}/definitions
   GRIB_SAMPLES_PATH=${eccodes_BASE_DIR}/share/${grib_handling_pkg}/samples )
 
+set( eccodes_environment
+  ECCODES_DEFINITION_PATH=${eccodes_BASE_DIR}/share/eccodes/definitions
+  ECCODES_SAMPLES_PATH=${eccodes_BASE_DIR}/share/eccodes/samples )
+
 # Basic test
 ecbuild_add_test( TARGET basic_c
                   SOURCES   coast.c
@@ -48,7 +52,8 @@ ecbuild_add_test( TARGET bufr_python
                   ENVIRONMENT PYTHONPATH=${MAG_PYTHON_PATH}
                               LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib
                               DYLD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib
-                              MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/.. )
+                              MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/..
+                              ${eccodes_environment} )
 
 ecbuild_add_test( TARGET bufr_fortran
                   SOURCES   bufr.f90
