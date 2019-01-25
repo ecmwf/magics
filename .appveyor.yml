@@ -129,7 +129,8 @@ build_script:
                  -D CMAKE_BUILD_TYPE=Release ^
                  -D ECCODES_PATH=%INSTALL_DIR% ^
                  -D GTK_PATH=%GTK% ^
-                 -D ENABLE_FORTRAN=0
+                 -D ENABLE_PYTHON=0 ^
+                 -D ENABLE_FORTRAN=0 ^
                  ..
     - cmd: jom -j2
     - cmd: ctest
