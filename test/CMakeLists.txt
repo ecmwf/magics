@@ -62,7 +62,7 @@ ecbuild_add_test( TARGET grib_fortran
                   RESOURCES data.grib
                   CONDITION HAVE_GRIB AND HAVE_FORTRAN
                   ENVIRONMENT MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/..
-                  ${grib_environment}
+                  ${eccodes_environment}
                   LINKER_LANGUAGE Fortran
                   )
 
