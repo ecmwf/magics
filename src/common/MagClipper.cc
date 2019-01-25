@@ -32,12 +32,12 @@ void convert(const deque<PaperPoint>& in, ClipperLib::Path& out, bool print = fa
 }
 
 void convert(const ClipperLib::Path& in, deque<PaperPoint>& out) {
-    cout << "----------------" << endl;
+    //cout << "----------------" << endl;
     for (auto pt = in.begin(); pt != in.end(); ++pt) {
         out.push_back(PaperPoint(pt->X / scale_, pt->Y / scale_));
-        cout << "convert-->" << out.back() << endl;
+        //cout << "convert-->" << out.back() << endl;
     }
-    cout << "----------------" << endl;
+    //cout << "----------------" << endl;
 }
 
 void MagClipper::clipOpened(const Polyline& subject, const Polyline& clip, vector<Polyline*>& out) {
