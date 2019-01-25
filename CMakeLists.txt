@@ -82,10 +82,7 @@ ecbuild_add_option( FEATURE SPOT
 find_package(PythonInterp REQUIRED)
 find_package(Jinja2 REQUIRED)
 
-ecbuild_add_option( FEATURE PYTHON
-                    DEFAULT ON
-                    DESCRIPTION "enable python interface"
-                    REQUIRED_PACKAGES "Python NO_LIBS" NumPy )
+
 
 ecbuild_add_option( FEATURE FORTRAN
                     DEFAULT ON
@@ -280,7 +277,6 @@ include_directories( ${MAGICS_INCLUDE_DIRS} ${MAGICS_EXTRA_INCLUDE_DIRS} )
 add_subdirectory( tools )
 add_subdirectory( src )
 add_subdirectory( share )
-add_subdirectory( python )
 add_subdirectory( apps )
 add_subdirectory( test )
 if( ENABLE_REGRESSION )

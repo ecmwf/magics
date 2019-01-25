@@ -1,6 +1,6 @@
-set( grib_environment
-  GRIB_DEFINITION_PATH=${eccodes_BASE_DIR}/share/${grib_handling_pkg}/definitions
-  GRIB_SAMPLES_PATH=${eccodes_BASE_DIR}/share/${grib_handling_pkg}/samples )
+set( eccodes_environment
+  ECCODES_DEFINITION_PATH=${eccodes_BASE_DIR}/share/${grib_handling_pkg}/definitions
+  ECCODES_SAMPLES_PATH=${eccodes_BASE_DIR}/share/${grib_handling_pkg}/samples )
 
 # Basic test
 ecbuild_add_test( TARGET basic_c
@@ -11,20 +11,12 @@ ecbuild_add_test( TARGET basic_c
 
 ecbuild_add_test( TARGET contour_c
                   SOURCES   contour.c
+                  CONDITION HAVE_GRIB
                   LIBS      MagPlusSingle MagPlus
                   ENVIRONMENT MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/..
-                              ${grib_environment}
+                              ${eccodes_environment}
                   LINKER_LANGUAGE C )
 
-ecbuild_add_test( TARGET basic_python
-                  TYPE PYTHON
-                  CONDITION HAVE_PYTHON
-                  ARGS coast.py
-                  RESOURCES coast.py
-                  ENVIRONMENT PYTHONPATH=${MAG_PYTHON_PATH}
-                              LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib
-                              DYLD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib
-                              MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/.. )
 
 ecbuild_add_test( TARGET basic_fortran_shared
                   SOURCES   coast.f90
@@ -40,25 +32,10 @@ ecbuild_add_test( TARGET basic_fortran_static
                   ENVIRONMENT MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/..
                   LINKER_LANGUAGE Fortran )
 
-set( bufr_python_environment PYTHONPATH=${MAG_PYTHON_PATH}
-                             LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib
-                             DYLD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib
-                             MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/.. )
 
-if( (EC_OS_NAME MATCHES "windows") AND (NOT "$ENV{ECCODES_SAMPLES_PATH}" MATCHES ""))
-    list( APPEND bufr_python_environment ECCODES_SAMPLES_PATH=$ENV{ECCODES_SAMPLES_PATH} )
-endif()
 
-if( (EC_OS_NAME MATCHES "windows") AND (NOT "$ENV{ECCODES_DEFINITION_PATH}" MATCHES ""))
-    list( APPEND bufr_python_environment ECCODES_DEFINITION_PATH=$ENV{ECCODES_DEFINITION_PATH} )
-endif()
 
-ecbuild_add_test( TARGET bufr_python
-                  TYPE PYTHON
-                  CONDITION HAVE_BUFR AND HAVE_PYTHON
-                  ARGS bufr.py
-                  RESOURCES bufr.py synop.bufr
-                  ENVIRONMENT ${bufr_python_environment} )
+
 
 ecbuild_add_test( TARGET bufr_fortran
                   SOURCES   bufr.f90
@@ -67,7 +44,7 @@ ecbuild_add_test( TARGET bufr_fortran
                   RESOURCES synop.bufr
                   LINKER_LANGUAGE Fortran
                   ENVIRONMENT MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/..
-                              ${grib_environment})
+                              ${eccodes_environment})
 
 ecbuild_add_test( TARGET bufr_fortran_static
                   SOURCES   bufr.f90
@@ -77,16 +54,7 @@ ecbuild_add_test( TARGET bufr_fortran_static
                   ENVIRONMENT MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/..
                   LINKER_LANGUAGE Fortran )
 
-ecbuild_add_test( TARGET grib_python
-                  TYPE PYTHON
-                  CONDITION HAVE_CAIRO AND HAVE_GRIB AND HAVE_PYTHON
-                  ARGS grib.py
-                  RESOURCES grib.py data.grib
-                  ENVIRONMENT PYTHONPATH=${MAG_PYTHON_PATH}
-                              LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib
-                              DYLD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib
-                              MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/..
-                              ${grib_environment} )
+
 
 ecbuild_add_test( TARGET grib_fortran
                   SOURCES   grib.f90
@@ -98,25 +66,7 @@ ecbuild_add_test( TARGET grib_fortran
                   LINKER_LANGUAGE Fortran
                   )
 
-ecbuild_add_test( TARGET netcdf_contour_python
-                  TYPE PYTHON
-                  CONDITION HAVE_NETCDF AND HAVE_PYTHON
-                  ARGS netcdf_contour_python.py
-                  RESOURCES netcdf_contour_python.py era5_2mt.nc
-                  ENVIRONMENT PYTHONPATH=${MAG_PYTHON_PATH}
-                              LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib
-                              DYLD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib
-                              MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/.. )
 
-ecbuild_add_test( TARGET cairo_python
-                  TYPE PYTHON
-                  CONDITION HAVE_CAIRO AND HAVE_PYTHON
-                  ARGS cairo.py
-                  RESOURCES cairo.py
-                  ENVIRONMENT PYTHONPATH=${MAG_PYTHON_PATH}
-                              LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib
-                              DYLD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib
-                              MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/.. )
 
 ecbuild_add_test( TARGET cairo_fortran
                   SOURCES   cairo.f90
@@ -125,12 +75,4 @@ ecbuild_add_test( TARGET cairo_fortran
                   ENVIRONMENT MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/..
                   LINKER_LANGUAGE Fortran )
 
-ecbuild_add_test( TARGET odb_python
-                  TYPE PYTHON
-                  CONDITION HAVE_CAIRO AND HAVE_ODB AND HAVE_PYTHON
-                  ARGS odb.py
-                  RESOURCES odb.py test.odb
-                  ENVIRONMENT PYTHONPATH=${MAG_PYTHON_PATH}
-                              LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib
-                              DYLD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib
-                              MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/.. )
+
