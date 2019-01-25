@@ -39,7 +39,11 @@ set( grib_handling_pkg eccodes )
 set( HAVE_GRIB 1 )
 set( HAVE_BUFR 1 )
 
-
+ecbuild_add_option( FEATURE PYTHON
+                    DEFAULT ON
+                    DESCRIPTION "enable python interface"
+                    REQUIRED_PACKAGES "Python NO_LIBS" NumPy )
+                    
 ecbuild_add_option( FEATURE ODB
                     DEFAULT OFF
                     DESCRIPTION "ODB support"
@@ -113,7 +117,7 @@ set( MAGICS_REFERENCE_VERSIONS            "3.3.1" )
 set( MAGICS_HTML_ROOT        "${CMAKE_BINARY_DIR}/regression/html")
 file(MAKE_DIRECTORY ${MAGICS_HTML_ROOT} )
 
-set( MAG_PYTHON_PATH ${CMAKE_CURRENT_BINARY_DIR}/python )
+
 
 ###############################################################################
 # projects

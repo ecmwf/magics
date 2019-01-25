@@ -7,8 +7,8 @@
 # does it submit to any jurisdiction.
 
 
-set ( metabuilder_version 3.4.0.7 )
-set ( _version 3.4.0.7 )
+set ( metabuilder_version 3.4.0.9 )
+set ( _version 3.4.0.9 )
 
 
 if ( MAGICS_BUILD )
@@ -18,3 +18,4 @@ else ()
 endif()
 
 set( BRANCH_NAME ${${PROJECT_NAME}_VERSION_STR} )
+
