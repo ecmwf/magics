@@ -1,6 +1,9 @@
 set( eccodes_environment
   ECCODES_DEFINITION_PATH=${eccodes_BASE_DIR}/share/${grib_handling_pkg}/definitions
-  ECCODES_SAMPLES_PATH=${eccodes_BASE_DIR}/share/${grib_handling_pkg}/samples )
+  ECCODES_SAMPLES_PATH=${eccodes_BASE_DIR}/share/${grib_handling_pkg}/samples
+  GRIB_DEFINITION_PATH=${eccodes_BASE_DIR}/share/${grib_handling_pkg}/definitions
+  GRIB_SAMPLES_PATH=${eccodes_BASE_DIR}/share/${grib_handling_pkg}/samples
+  )
 
 # Basic test
 ecbuild_add_test( TARGET basic_c
