@@ -17,7 +17,6 @@ environment:
     GIT_CLONE_DIR: $(ECMWF)\git
     INSTALL_DIR: $(ECMWF)\install
     MAGICS_SRC: $(GIT_CLONE_DIR)\magics
-    ECCODES_SRC: $(GIT_CLONE_DIR)\eccodes
     ECBUILD_SRC: $(GIT_CLONE_DIR)\ecbuild
 
 # scripts that are called at very beginning, before repo cloning
@@ -63,7 +62,7 @@ install:
 
     # other conda deps
     - cmd: conda install boost netcdf4 expat jinja2
-    - cmd: conda install -c conda-forge proj4 pthreads-win32 libiconv
+    - cmd: conda install -c conda-forge proj4 pthreads-win32 libiconv eccodes
 
     # gtk+ - needed for pango
     # includes cairo, pango, glib, and other deps
@@ -73,25 +72,6 @@ install:
     - cmd: rm gtk+-bundle_2.22.1-20101229_win64.zip
     - cmd: set GTK=%ECMWF%\gtk
     - cmd: set PATH=%PATH%;%GTK%\bin;%GTK%\lib
-
-    # eccodes
-    # TODO: replace this with a `conda install` once the windows binaries are on conda-forge
-    - cmd: git clone --depth 1 https://github.com/ecmwf/eccodes.git %ECCODES_SRC%
-    - cmd: cd %ECCODES_SRC%
-    - cmd: mkdir build && cd build
-    - cmd: cmake -G "NMake Makefiles" ^
-                 -D CMAKE_INSTALL_PREFIX=%INSTALL_DIR% ^
-                 -D CMAKE_BUILD_TYPE=Release ^
-                 -D ENABLE_FORTRAN=0 ^
-                 -D ENABLE_PYTHON=0 ^
-                 -D IEEE_LE=1 ^
-                 -D ENABLE_MEMFS=0 ^
-                 -D ENABLE_EXTRA_TESTS=OFF ^
-                 ..
-    - cmd: nmake
-    - cmd: set PATH=%PATH%;%ECCODES_SRC%\build\bin
-    - cmd: ctest
-    - cmd: nmake install
 
 #---------------------------------#
 #       build configuration       #
@@ -127,7 +107,6 @@ build_script:
     - cmd: cmake -G "NMake Makefiles JOM" ^
                  -D CMAKE_INSTALL_PREFIX=%INSTALL_DIR% ^
                  -D CMAKE_BUILD_TYPE=Release ^
-                 -D ECCODES_PATH=%INSTALL_DIR% ^
                  -D GTK_PATH=%GTK% ^
                  -D ENABLE_FORTRAN=0
                  ..
