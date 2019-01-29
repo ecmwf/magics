@@ -12,6 +12,7 @@ ecbuild_add_test( TARGET basic_c
 ecbuild_add_test( TARGET contour_c
                   SOURCES   contour.c
                   CONDITION HAVE_GRIB
+                  RESOURCES data.grib
                   LIBS      MagPlusSingle MagPlus
                   ENVIRONMENT MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/..
                               ${eccodes_environment}
