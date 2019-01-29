@@ -5,6 +5,11 @@
             "follow_symlinks": true
         }
     ], 
+    "settings": {
+        "ClangFormat": {
+            "format_on_save": true
+        }
+    },
     "build_systems": [
         {
             "working_dir": "${project_path}/../../build/magics-develop/debug", 

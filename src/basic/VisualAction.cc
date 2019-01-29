@@ -266,6 +266,8 @@ void VisualAnimation::visit(AnimationRules& rules) {
 void VisualAnimation::visit(Transformation& transformation) {
     ASSERT(loop_);
     loop_->visit(transformation);
+    // Make sure the transformation is initialised properly
+    transformation.cleaninit();
 }
 
 
