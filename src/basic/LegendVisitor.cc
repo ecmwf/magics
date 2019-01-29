@@ -636,7 +636,6 @@ void LegendEntry::columnBox(const PaperPoint& point, BasicGraphicsObjectContaine
     }
     Polyline* frame = new Polyline();
 
-
     double x      = point.x();
     double y      = point.y();
     double width  = 0.4;
@@ -702,10 +701,6 @@ void BoxEntry::set(const PaperPoint& point, BasicGraphicsObjectContainer& legend
 
 
 void BoxEntry::rowBox(const PaperPoint& point, BasicGraphicsObjectContainer& legend) {
-    //	ShadingProperties* shading = box_->getShading();
-    // Normall the pilyline left the low value on their left!
-
-    MagLog::debug() << "BoxEntry--->set at " << point << endl;
     double width  = 1;
     double height = 0.4;
     double x      = point.x();
@@ -756,8 +751,8 @@ void BoxEntry::rowBox(const PaperPoint& point, BasicGraphicsObjectContainer& leg
 
 
     Polyline* top = new Polyline();
-    top->push_back(PaperPoint(x - width, y + (height * 2)));
-    top->push_back(PaperPoint(x + width, y + (height * 2)));
+    top->push_back(PaperPoint(x - (width * 1.1), y + (height * 2)));
+    top->push_back(PaperPoint(x + (width * 1.1), y + (height * 2)));
     top->setColour(borderColour_);
     top->setThickness(2);
 
@@ -975,7 +970,6 @@ void BoxEntry::rowHisto(const PaperPoint& point, BasicGraphicsObjectContainer& l
     }
 }
 void BoxEntry::columnBox(const PaperPoint& point, BasicGraphicsObjectContainer& legend) {
-    MagLog::debug() << "BoxEntry--->set at " << point << endl;
     double width  = computeWidth(0.8) / 2;
     double height = 0.5;
     PaperPoint p  = centreSymbolBox(point);
@@ -1045,14 +1039,14 @@ void BoxEntry::columnBox(const PaperPoint& point, BasicGraphicsObjectContainer& 
     legend.push_back(box_);
 
     Polyline* left = new Polyline();
-    left->push_back(PaperPoint(x - width, y - (height)));
-    left->push_back(PaperPoint(x - width, y + (height)));
+    left->push_back(PaperPoint(x - width, y - (height * 1.1)));
+    left->push_back(PaperPoint(x - width, y + (height * 1.1)));
     left->setColour(borderColour_);
     left->setThickness(2);
 
     Polyline* right = new Polyline();
-    right->push_back(PaperPoint(x + width, y - height));
-    right->push_back(PaperPoint(x + width, y + (height)));
+    right->push_back(PaperPoint(x + width, y - height * 1.1));
+    right->push_back(PaperPoint(x + width, y + (height * 1.1)));
     right->setColour(borderColour_);
     right->setThickness(2);
 
