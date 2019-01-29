@@ -111,7 +111,7 @@ build_script:
                  -D ENABLE_FORTRAN=0
                  ..
     - cmd: jom -j2
-    - cmd: ctest
+    - cmd: ctest --output-on-failure
     - cmd: jom install
 
 #---------------------------------#
