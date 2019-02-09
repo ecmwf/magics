@@ -2,9 +2,16 @@
 Notebooks regression 
 ====================
 
-py.test --nbval --nbdime
+    py.test --nbval --nbdime
 
-This will run the notebooks from this directory, and compare with the latest saved version ( 3.4.0)
+This will run the notebooks from this directory, and compare with their latest saved version ( 3.4.0)
+
+
+To update the notebooks with the new version :
+    jupyter nbconvert --execute --to notebook --inplace <notebook>
+
+
+
 
 
 License
