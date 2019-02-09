@@ -7,7 +7,8 @@ Notebooks regression
 This will run the notebooks from this directory, and compare with their latest saved version ( 3.4.0)
 
 
-To update the notebooks with the new version :
+To update the notebooks with the new version
+
     jupyter nbconvert --execute --to notebook --inplace <notebook>
 
 
