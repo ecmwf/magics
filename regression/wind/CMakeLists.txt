@@ -8,36 +8,11 @@ add_magics_test(NAME wind_landshade SOURCES wind_landshade.F IMAGE wind_landshad
 add_magics_test(NAME wind_polar_array SOURCES wind_polar_array.F IMAGE wind_polar_array.ps    THRESHOLD 5)
 add_magics_test(NAME wind_test SOURCES wind_test.F IMAGE wind_test.ps DATA   windspeed.grb uv100.grb uv500.grb THRESHOLD 5)
 add_magics_test(NAME wind_vector_array SOURCES wind_vector_array.F IMAGE wind_vector_array.ps  THRESHOLD 5)
-#add_magics_test(NAME wind_venice SOURCES wind_venice.F IMAGE wind_venice.ps DATA    venice_wind_speed.grib venice_wind.grib   THRESHOLD 5)
-add_magics_test(NAME wind_geowind SOURCES geowind.py IMAGE geowind.png RESOURCES testwind.geo THRESHOLD 5 PYTHON)
-add_magics_test(NAME wind_odb_wind SOURCES odb_wind.py IMAGE odb_wind.png RESOURCES ascat.odb THRESHOLD 5 PYTHON)
-add_magics_test(NAME wind_wind_legend SOURCES wind_legend.py IMAGE wind_legend.png RESOURCES ascat.odb THRESHOLD 5 PYTHON)
 
-add_magics_test(NAME wind_wind_thinning SOURCES wind_thinning.py IMAGE wind_thinning.png DATA wind.grib speed.grib THRESHOLD 2 PYTHON)
-add_magics_test(NAME wind_wind_global SOURCES wind_global.py IMAGE wind_global.png DATA wind_global.grib THRESHOLD 2 PYTHON)
-add_magics_test(NAME wind_wind_gaussian SOURCES wind_gaussian.py IMAGE wind_gaussian.png DATA wind_reduced_gg.grib THRESHOLD 2 PYTHON)
 
-add_magics_test(NAME wind_xsect_wind SOURCES xsect_wind.py IMAGE xsect_wind.png RESOURCES xsect_wind.nc THRESHOLD 2 PYTHON)
-add_magics_test(NAME wind_streamlines SOURCES streamlines.py IMAGE streamlines.png DATA uv.grib THRESHOLD 2 PYTHON)
-add_magics_test(NAME wind_global_streamlines SOURCES global_streamlines.py IMAGE global_streamlines.png DATA uv.grib THRESHOLD 2 PYTHON)
 
-#Synop bufr plotting ..
-if( HAVE_BUFR )
-	add_magics_test(NAME wind_south-hemisphere-east SOURCES south-hemisphere-east.py IMAGE south-hemisphere-east.png RESOURCES bufr-synop-east-winds.bufr THRESHOLD 2 PYTHON)
-	add_magics_test(NAME wind_north-hemisphere-east SOURCES north-hemisphere-east.py IMAGE north-hemisphere-east.png RESOURCES bufr-synop-east-winds.bufr THRESHOLD 2 PYTHON)
-	add_magics_test(NAME wind_mollweide-hemisphere-east SOURCES mollweide-hemisphere-east.py IMAGE mollweide-hemisphere-east.png RESOURCES bufr-synop-east-winds.bufr THRESHOLD 2 PYTHON)
-	add_magics_test(NAME wind_polar_north-hemisphere-east SOURCES polar_north-hemisphere-east.py IMAGE polar_north-hemisphere-east.png RESOURCES bufr-synop-east-winds.bufr THRESHOLD 2 PYTHON)
-	add_magics_test(NAME wind_robinson-hemisphere-east SOURCES robinson-hemisphere-east.py IMAGE robinson-hemisphere-east.png RESOURCES bufr-synop-east-winds.bufr THRESHOLD 2 PYTHON)
-	add_magics_test(NAME wind_south-hemisphere-north SOURCES south-hemisphere-north.py IMAGE south-hemisphere-north.png RESOURCES bufr-synop-north-winds.bufr THRESHOLD 2 PYTHON)
-	add_magics_test(NAME wind_north-hemisphere-north SOURCES north-hemisphere-north.py IMAGE north-hemisphere-north.png RESOURCES bufr-synop-north-winds.bufr THRESHOLD 2 PYTHON)
-	add_magics_test(NAME wind_mollweide-hemisphere-north SOURCES mollweide-hemisphere-north.py IMAGE mollweide-hemisphere-north.png RESOURCES bufr-synop-north-winds.bufr THRESHOLD 2 PYTHON)
-	add_magics_test(NAME wind_polar_north-hemisphere-north SOURCES polar_north-hemisphere-north.py IMAGE polar_north-hemisphere-north.png RESOURCES bufr-synop-north-winds.bufr THRESHOLD 2 PYTHON)
-	add_magics_test(NAME wind_robinson-hemisphere-north SOURCES robinson-hemisphere-north.py IMAGE robinson-hemisphere-north.png RESOURCES bufr-synop-north-winds.bufr THRESHOLD 2 PYTHON)
-	add_magics_test(NAME wind_south-hemisphere-south-west SOURCES south-hemisphere-south-west.py IMAGE south-hemisphere-south-west.png RESOURCES bufr-synop-south-west-winds.bufr THRESHOLD 2 PYTHON)
-	add_magics_test(NAME wind_north-hemisphere-south-west SOURCES north-hemisphere-south-west.py IMAGE north-hemisphere-south-west.png RESOURCES bufr-synop-south-west-winds.bufr THRESHOLD 2 PYTHON)
-	add_magics_test(NAME wind_mollweide-hemisphere-south-west SOURCES mollweide-hemisphere-south-west.py IMAGE mollweide-hemisphere-south-west.png RESOURCES bufr-synop-south-west-winds.bufr THRESHOLD 2 PYTHON)
-	add_magics_test(NAME wind_polar_north-hemisphere-south-west SOURCES polar_north-hemisphere-south-west.py IMAGE polar_north-hemisphere-south-west.png RESOURCES bufr-synop-south-west-winds.bufr THRESHOLD 2 PYTHON)
-	add_magics_test(NAME wind_robinson-hemisphere-south-west SOURCES robinson-hemisphere-south-west.py IMAGE robinson-hemisphere-south-west.png RESOURCES bufr-synop-south-west-winds.bufr THRESHOLD 2 PYTHON)
-endif()
 
-#add_magics_test(NAME wind_netcdf_contwind SOURCES netcdf_contwind.py IMAGE netcdf_contwind.png DATA fc_surf.nc THRESHOLD 5 PYTHON)
+
+
+
+
