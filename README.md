@@ -2,6 +2,8 @@
 Magics README
 =============
 
+[![macOS: master](https://img.shields.io/travis/ecmwf/magics/master.svg?label=macOS-master)](https://travis-ci.org/ecmwf/magics/branches)
+[![macOS: develop](https://img.shields.io/travis/ecmwf/magics/develop.svg?label=macOS-dev)](https://travis-ci.com/ecmwf/magics/branches)
 [![Windows: master](https://img.shields.io/appveyor/ci/ecmwf/magics/master.svg?label=windows-master)](https://ci.appveyor.com/project/ecmwf/magics/branch/master)
 [![Windows: develop](https://img.shields.io/appveyor/ci/ecmwf/magics/develop.svg?label=windows-dev)](https://ci.appveyor.com/project/ecmwf/magics/branch/develop)
 
