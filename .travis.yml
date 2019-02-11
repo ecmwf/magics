@@ -1,0 +1,56 @@
+#---------------------------------#
+#      general configuration      #
+#---------------------------------#
+
+sudo: false
+
+branches:
+  only:
+    - develop
+    - master
+
+language: cpp
+
+os: osx 
+osx_image: xcode10.1
+
+env:
+  global:
+    - MAGICS_SRC=${TRAVIS_BUILD_DIR}
+    - ECBUILD_SRC=${MAGICS_SRC}/../ecbuild
+    - BUILD_DIR=${MAGICS_SRC}/build
+
+git:
+  depth: 1
+
+before_install:
+  # install conda
+  - |
+    MINICONDA_URL="https://repo.continuum.io/miniconda"
+    MINICONDA_FILE="Miniconda3-latest-MacOSX-x86_64.sh"
+    curl -L -O "${MINICONDA_URL}/${MINICONDA_FILE}"
+    bash $MINICONDA_FILE -b
+  # activate conda
+  - source ~/miniconda3/bin/activate
+  # auto-yes for conda
+  - conda config --set always_yes yes
+
+install:
+  # install ecbuild
+  - git clone --depth 1 https://github.com/ecmwf/ecbuild.git ${ECBUILD_SRC}
+  # install pangocairo
+  - brew install pango
+  # install conda deps
+  - conda install boost libnetcdf expat jinja2
+  - conda install -c conda-forge proj4 eccodes
+
+#---------------------------------#
+#       build configuration       #
+#---------------------------------#
+
+script:
+  - mkdir -p ${BUILD_DIR} && cd ${BUILD_DIR}
+  - cmake -D ENABLE_FORTRAN=0 ${MAGICS_SRC}
+  - make -j4
+  - ctest -j4 --output-on-failure
+  - make install --silent
