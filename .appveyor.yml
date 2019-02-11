@@ -61,7 +61,7 @@ install:
     - cmd: conda install -c conda-forge cmake jom
 
     # other conda deps
-    - cmd: conda install boost libnetdf expat jinja2
+    - cmd: conda install boost libnetcdf expat jinja2
     - cmd: conda install -c conda-forge proj4 pthreads-win32 libiconv eccodes
 
     # gtk+ - needed for pango
