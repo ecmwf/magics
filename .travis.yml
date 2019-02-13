@@ -11,23 +11,42 @@ branches:
 
 language: cpp
 
-os: osx 
-osx_image: xcode10.1
+matrix:
+  include:
+    - os: linux
+      dist: xenial
+      addons:
+        apt:
+          packages:
+            - pango
+      env:
+        MINICONDA_FILE="Miniconda3-latest-Linux-x86_64.sh"
+         
+    - os: osx 
+      osx_image: xcode10.1
+      addons:
+        homebrew:
+          packages:
+            - pango
+      env:
+        MINICONDA_FILE="Miniconda3-latest-MacOSX-x86_64.sh"
 
 env:
   global:
     - MAGICS_SRC=${TRAVIS_BUILD_DIR}
     - ECBUILD_SRC=${MAGICS_SRC}/../ecbuild
     - BUILD_DIR=${MAGICS_SRC}/build
+    - INSTALL_DIR=/tmp/install
 
 git:
   depth: 1
 
 before_install:
+  # prepare install dir
+  - mkdir ${INSTALL_DIR}
   # install conda
   - |
     MINICONDA_URL="https://repo.continuum.io/miniconda"
-    MINICONDA_FILE="Miniconda3-latest-MacOSX-x86_64.sh"
     curl -L -O "${MINICONDA_URL}/${MINICONDA_FILE}"
     bash $MINICONDA_FILE -b
   # activate conda
@@ -38,8 +57,6 @@ before_install:
 install:
   # install ecbuild
   - git clone --depth 1 https://github.com/ecmwf/ecbuild.git ${ECBUILD_SRC}
-  # install pangocairo
-  - brew install pango
   # install conda deps
   - conda install boost libnetcdf expat jinja2
   - conda install -c conda-forge proj4 eccodes
@@ -50,7 +67,9 @@ install:
 
 script:
   - mkdir -p ${BUILD_DIR} && cd ${BUILD_DIR}
-  - cmake -D ENABLE_FORTRAN=0 ${MAGICS_SRC}
+  - cmake -D CMAKE_INSTALL_PREFIX=${INSTALL_DIR}
+          -D ENABLE_FORTRAN=0
+          ${MAGICS_SRC}
   - make -j4
   - ctest -j4 --output-on-failure
   - make install --silent
