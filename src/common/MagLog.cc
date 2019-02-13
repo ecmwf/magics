@@ -225,9 +225,7 @@ void MagLog::addDebugListener(void* data, LOG cb) {
 }
 
 void MagLog::clearListeners() {
-    for (vector<MagLogObserver*>::iterator observer = log_.listeners_.begin(); observer != log_.listeners_.end();
-         ++observer)
-        delete (*observer);
+    // Here we should delete the listeners
     log_.listeners_.clear();
 }
 
