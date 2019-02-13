@@ -254,10 +254,7 @@ ostream& MagLog::error() {
         log_.reporter_->error();
     broadcast();
     if (log_.error_) {
-        if (log_.observers_.empty()) {
-            std::cout << "Magics-ERROR: ";
-            return cout;
-        }
+    
         log_.errorstream_ << "Magics-ERROR: ";
         return log_.errorstream_;
     }
