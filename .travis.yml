@@ -18,7 +18,7 @@ matrix:
       addons:
         apt:
           packages:
-            - pango
+            - libpango1.0-dev
       env:
         MINICONDA_FILE="Miniconda3-latest-Linux-x86_64.sh"
          
