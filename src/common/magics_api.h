@@ -100,6 +100,15 @@ MAGICS_EXPORT void execute_json(const char*);
 MAGICS_EXPORT void set_param(const char*, const char*);
 
 
+MAGICS_EXPORT void mag_add_warning_listener(void* data, void (*)(void*, const char*));
+MAGICS_EXPORT void mag_add_error_listener(void* data, void (*)(void*, const char*));
+MAGICS_EXPORT void mag_add_info_listener(void* data, void (*)(void*, const char*));
+MAGICS_EXPORT void mag_add_debug_listener(void* data, void (*)(void*, const char*));
+
+
+MAGICS_EXPORT void mag_clear_listeners();
+
+
 #ifdef __cplusplus
 }
 #endif
