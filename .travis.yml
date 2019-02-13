@@ -72,4 +72,4 @@ script:
           ${MAGICS_SRC}
   - make -j4
   - ctest -j4 --output-on-failure
-  - make install --silent
+  - make install > /dev/null
