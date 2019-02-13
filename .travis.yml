@@ -21,6 +21,7 @@ matrix:
             - libpango1.0-dev
       env:
         MINICONDA_FILE="Miniconda3-latest-Linux-x86_64.sh"
+        PROJ4_PATH=~/miniconda3
          
     - os: osx 
       osx_image: xcode10.1
@@ -53,6 +54,8 @@ before_install:
   - source ~/miniconda3/bin/activate
   # auto-yes for conda
   - conda config --set always_yes yes
+  # add extra conda dirs to path so cmake can find packages
+  - export PATH=PATH=~/miniconda3/lib:~/miniconda3/include:$PATH
 
 install:
   # install ecbuild
