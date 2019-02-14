@@ -49,13 +49,13 @@ before_install:
   - |
     MINICONDA_URL="https://repo.continuum.io/miniconda"
     curl -L -O "${MINICONDA_URL}/${MINICONDA_FILE}"
-    bash $MINICONDA_FILE -b
+    bash ${MINICONDA_FILE} -b
   # activate conda
   - source ~/miniconda3/bin/activate
   # auto-yes for conda
   - conda config --set always_yes yes
   # add extra conda dirs to path so cmake can find packages
-  - export PATH=PATH=~/miniconda3/lib:~/miniconda3/include:$PATH
+  - export PATH=~/miniconda3/lib:~/miniconda3/include:${PATH}
 
 install:
   # install ecbuild
