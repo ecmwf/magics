@@ -1,6 +1,8 @@
 [
   {
-    "eccharts_layer": "efi_2t_data",
+    "eccharts_layer": ["efi_2t_data",
+                       "efi_2tmax_data",
+                       "efi_2tmin_data"],
     "styles": [
       "sh_blured_fM1t1lst",
       "sh_efi2t_fM1t1lst",
@@ -8,12 +10,14 @@
     ],
     "match": [
       {
-        "paramId": "132167",
-        "shortName": "2ti",
+        "paramId": ["132167","132202","132201"],
+        "shortName": ["2ti","mx2ti","mn2ti"],
         "type": "efi"
       },
       {
-        "long_name": "2 metre temperature index"
+        "long_name": ["2 metre temperature index", 
+                      "Maximum temperature at 2 metres index",
+                      "Minimum temperature at 2 metres index"]
       }
     ]
   }

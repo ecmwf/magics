@@ -1,9 +1,9 @@
 /*
  * (C) Copyright 1996-2016 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
  */
@@ -19,37 +19,44 @@
 
 class AutoLocker {
 public:
-	static void want(void*);
-	static void got(void*);
-	static void release(void*);
-	static void analyse(void*);
+    static void want(void*);
+    static void got(void*);
+    static void release(void*);
+    static void analyse(void*);
 };
 
-template<class T> class AutoLock : public AutoLocker {
+template <class T>
+class AutoLock : public AutoLocker {
 public:
+    // -- Contructors
 
-// -- Contructors
-	
-    AutoLock(T& resource) : resource_(resource) 
-							{ want(&resource); resource_.lock(); got(&resource);}
-    AutoLock(T* resource) : resource_(*resource)
-							{ want(resource); resource_.lock(); got(resource);}
+    AutoLock(T& resource) : resource_(resource) {
+        want(&resource);
+        resource_.lock();
+        got(&resource);
+    }
+    AutoLock(T* resource) : resource_(*resource) {
+        want(resource);
+        resource_.lock();
+        got(resource);
+    }
 
-// -- Destructor
+    // -- Destructor
 
-    ~AutoLock() { release(&resource_); resource_.unlock(); }
+    ~AutoLock() {
+        release(&resource_);
+        resource_.unlock();
+    }
 
 private:
+    // No copy allowed
 
-// No copy allowed
+    AutoLock(const AutoLock<T>&);
+    AutoLock<T>& operator=(const AutoLock<T>&);
 
-	AutoLock(const AutoLock<T>&);
-	AutoLock<T>& operator=(const AutoLock<T>&);
+    // -- Members
 
-// -- Members
-	
     T& resource_;
-
 };
 
 #endif

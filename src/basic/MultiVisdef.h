@@ -1,22 +1,22 @@
 /*
  * (C) Copyright 1996-2016 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
  */
 
 /*! \file MultiVisdef.h
     \brief Definition of the Template class MultiVisdef.
-    
+
     Magics Team - ECMWF 2012
-    
+
     Started: Wed 25-Jan-2012
-    
+
     Changes:
-    
+
 */
 
 #ifndef MultiVisdef_H
@@ -28,44 +28,44 @@
 
 namespace magics {
 
-class MultiVisdef: public Visdef {
-
+class MultiVisdef : public Visdef {
 public:
-	MultiVisdef();
-	virtual ~MultiVisdef();
-	vector<Visdef*>* oneDimension() { return &one_d_; }
-	vector<Visdef*>* twoDimension() { return &two_d_; }
+    MultiVisdef();
+    virtual ~MultiVisdef();
+    vector<Visdef*>* oneDimension() { return &one_d_; }
+    vector<Visdef*>* twoDimension() { return &two_d_; }
 
-	virtual void operator()(Data&, BasicGraphicsObjectContainer&);
-		virtual void visit(LegendVisitor&);
-		virtual void visit(Data&, LegendVisitor& legend);
-		virtual void visit(Data&, HistoVisitor&);
-	    virtual void visit(MetaDataVisitor&);
-	    virtual void visit(TopAxisVisitor&);
-	    virtual void visit(Transformation&, Data&);
-	    virtual void visit(Layer& layer);
-	    virtual void beanInfo(IntervalMap<Colour>&);
-	    bool needLegend();
+    virtual void operator()(Data&, BasicGraphicsObjectContainer&);
+    virtual void visit(LegendVisitor&);
+    virtual void visit(Data&, LegendVisitor& legend);
+    virtual void visit(Data&, HistoVisitor&);
+    virtual void visit(MetaDataVisitor&);
+    virtual void visit(TopAxisVisitor&);
+    virtual void visit(Transformation&, Data&);
+    virtual void visit(Layer& layer);
+    virtual void beanInfo(IntervalMap<Colour>&);
+    bool needLegend();
 
 protected:
-     //! Method to print string about this class on to a stream of type ostream (virtual).
-	 virtual void print(ostream&) const; 
-	 vector<Visdef*> one_d_;
-	 vector<Visdef*> two_d_;
+    //! Method to print string about this class on to a stream of type ostream (virtual).
+    virtual void print(ostream&) const;
+    vector<Visdef*> one_d_;
+    vector<Visdef*> two_d_;
 
 
 private:
     //! Copy constructor - No copy allowed
-	MultiVisdef(const MultiVisdef&);
+    MultiVisdef(const MultiVisdef&);
     //! Overloaded << operator to copy - No copy allowed
-	MultiVisdef& operator=(const MultiVisdef&);
+    MultiVisdef& operator=(const MultiVisdef&);
 
-// -- Friends
+    // -- Friends
     //! Overloaded << operator to call print().
-	friend ostream& operator<<(ostream& s,const MultiVisdef& p)
-		{ p.print(s); return s; }
-
+    friend ostream& operator<<(ostream& s, const MultiVisdef& p) {
+        p.print(s);
+        return s;
+    }
 };
 
-} // namespace magics
+}  // namespace magics
 #endif

@@ -83,6 +83,12 @@
             "offset" : -0.0,
             "to" : "dam",
             "scaling" : 10.0
+        },
+        {
+            "from" : "gpm",
+            "offset" : -0.0,
+            "to" : "dam",
+            "scaling" : 10.0
         }
     ],
     "hPa" : [
@@ -93,6 +99,14 @@
             "scaling" : 0.01
         }
     ],
+    "kg m**-2 h**-1" : [
+        {
+            "from" : "kg m**-2 s**-1",
+            "offset" : -0.0,
+            "to" : "kg m**-2 h**-1",
+            "scaling" : 3600.0
+        }
+    ],    
     "Dob" : [
         {
             "from" : "kg m**-2",

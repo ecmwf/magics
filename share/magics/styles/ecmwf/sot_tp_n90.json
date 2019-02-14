@@ -30,7 +30,8 @@
           "132049",
           "132059",
           "132044",
-          "132216"
+          "132216",
+          "132144"
         ],
         "shortName": [
           "tpi",
@@ -41,22 +42,10 @@
           "10fgi",
           "capei",
           "capesi",
-          "maxswhi"
+          "maxswhi",
+          "sfi"
         ],
         "type": "sot"
-      },
-      {
-        "long_name": [
-          "Total precipitation index",
-          "2 metre temperature index",
-          "Minimum temperature at 2 metres index",
-          "Maximum temperature at 2 metres index",
-          "10 metre speed index",
-          "10 metre wind gust index",
-          "Convective available potential energy index",
-          "Convective available potential energy shear index",
-          "Maximum of significant wave height index"
-        ]
       }
     ]
   }

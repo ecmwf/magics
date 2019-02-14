@@ -1,9 +1,9 @@
 /*
  * (C) Copyright 1996-2016 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
  */
@@ -25,49 +25,46 @@
 
 class Thread {
 public:
-	friend class magics::ThreadControler;
+    friend class magics::ThreadControler;
 
-// -- Contructors
-	
-	Thread(bool autodel = true); // 
+    // -- Contructors
 
-// -- Destructor
+    Thread(bool autodel = true);  //
 
-	virtual ~Thread();
+    // -- Destructor
 
-// -- Methods
+    virtual ~Thread();
 
-	void stop();
+    // -- Methods
+
+    void stop();
 
 protected:
+    // -- Members
 
-// -- Members
+    Mutex mutex_;
 
-	Mutex mutex_;
+    // -- Methods
 
-// -- Methods
-
-	bool  stopped();
+    bool stopped();
 
 private:
+    // No copy allowed
 
-// No copy allowed
+    Thread(const Thread&);
+    Thread& operator=(const Thread&);
 
-	Thread(const Thread&);
-	Thread& operator=(const Thread&);
+    // -- Members
 
-// -- Members
-
-	bool    stop_;
-	bool    autodel_;
+    bool stop_;
+    bool autodel_;
 #ifdef linux
-	void*   data_;
+    void* data_;
 #endif
 
-// -- Methods
-	
-	virtual void run() = 0;
+    // -- Methods
 
+    virtual void run() = 0;
 };
 
 #endif

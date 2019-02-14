@@ -1,6 +1,6 @@
 [
   {
-    "eccharts_layer": "mc_10fg",
+    "eccharts_layer": ["mc_10fg","mc_10ws"],
     "styles": [
       "sh_mc_wind_f0t80",
       "ct_mc_wind_f0t80_black",
@@ -8,12 +8,9 @@
     ],
     "match": [
       {
-        "paramId": "49",
-        "shortName": "10fg",
+        "paramId": ["49","228005"],
+        "shortName": ["10fg","mean10ws"],
         "type": "cd"
-      },
-      {
-        "long_name": "10 metre wind gust since previous post-processing"
       }
     ]
   }

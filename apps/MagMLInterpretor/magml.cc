@@ -19,7 +19,12 @@
  ******************************** LICENSE ********************************/
 
 #include "WebFormat.h"
+
+#include "magics_windef.h"
+#ifndef MAGICS_ON_WINDOWS
 #include <unistd.h>
+#endif
+
 #include <signal.h>
 #include <new>
 #include "Timer.h"

@@ -8,7 +8,11 @@
  * does it submit to any jurisdiction.
  */
 
+#include "magics_windef.h"
+#ifndef MAGICS_ON_WINDOWS
 #include <unistd.h>
+#endif
+
 #include <signal.h>
 #include "WebFormat.h"
 #include "MetaData.h"
@@ -82,10 +86,14 @@ int normal_main(int argc, char **argv)
             map<string, string>::const_iterator out = WebInterpretor::parameters().find("timeout");
             int timeout = (out == WebInterpretor::parameters().end() ) ? 0 : tonumber(out->second);
             MagLog::info() << "Time out armed for " << timeout << endl;
+#ifndef MAGICS_ON_WINDOWS
             signal(SIGALRM, catch_alarm);
             alarm(timeout);
+#endif
             WebInterpretor::json(argv[1]);
+#ifndef MAGICS_ON_WINDOWS
             alarm(0);
+#endif
 		}
 		catch (...) {
 			std::cout << argv[0] << " FAILED to dispatch JSON file!"<< endl;

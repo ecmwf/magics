@@ -14,16 +14,15 @@
 #define __TOBJECT_H__
 
 
-class TFObject
-{
- public:
+class TFObject {
+public:
     TFObject(void);
     virtual ~TFObject(void);
 
-    virtual bool    IsEqual(const TFObject &) const = 0;
+    virtual bool IsEqual(const TFObject&) const = 0;
 
-    bool operator == (const TFObject &aObjTest) const;
-    bool operator != (const TFObject &aObjTest) const;
+    bool operator==(const TFObject& aObjTest) const;
+    bool operator!=(const TFObject& aObjTest) const;
 };
 
-#endif //__TOBJECT_H__
+#endif  //__TOBJECT_H__

@@ -10,9 +10,6 @@
         "channel": 6,
         "paramId": "260510",
         "shortName": "clbt"
-      },
-      {
-        "long_name": "Cloudy brightness temperature"
       }
     ]
   }

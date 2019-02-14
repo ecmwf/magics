@@ -1,155 +1,147 @@
 /*
  * (C) Copyright 1996-2016 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
  */
 
 /*! \file Label.h
     \brief Definition of the Template class Label.
-    
+
     Magics Team - ECMWF 2004
-    
+
     Started: Tue 16-Mar-2004
-    
+
     Changes:
-    	Stephan - 18th March 2005: add vertical align
-    
+        Stephan - 18th March 2005: add vertical align
+
 */
 #ifndef Label_H
 #define Label_H
 
-#include "magics.h"
 #include "MagFont.h"
+#include "magics.h"
 
 
 namespace magics {
 
-class Label  {
-
+class Label {
 public:
-	Label(const string& label = "");
-	
-
-	Label(double label);
-	virtual ~Label();
+    Label(const string& label = "");
 
 
-	
-	
-    
-	string getText() const { return label_; }
-	void setText(const string& text) { label_ = text; }
-    
-	void setText(double val, const string& = "") {
-		ostringstream s;
-		s << val;
-		setText(s.str());  
-	}
+    Label(double label);
+    virtual ~Label();
+
+
+    string getText() const { return label_; }
+    void setText(const string& text) { label_ = text; }
+
+    void setText(double val, const string& = "") {
+        ostringstream s;
+        s << val;
+        setText(s.str());
+    }
 
     Label* clone() const {
-    	
-    	Label* label = new Label(label_); 
-		label->font(font_);
-		label->setVisible(visible_);
-		label->setBlanking(blanking_);
-		label->setJustification(justification_);
-		label->setVerticalAlign(verticalAlign_);
-		label->setAngle(angle_);
-		return label;
+        Label* label = new Label(label_);
+        label->font(font_);
+        label->setVisible(visible_);
+        label->setBlanking(blanking_);
+        label->setJustification(justification_);
+        label->setVerticalAlign(verticalAlign_);
+        label->setAngle(angle_);
+        return label;
     }
 
     void copy(const Label& other) {
+        font_          = other.font_;
+        visible_       = other.visible_;
+        blanking_      = other.blanking_;
+        justification_ = other.justification_;
+        verticalAlign_ = other.verticalAlign_;
+        angle_         = other.angle_;
+    }
+    string getFont() const { return font_.name(); }
+    void setFont(const string& font) { font_.name(font); }
 
-    		font_ = other.font_;
-    		visible_ = other.visible_;
-    		blanking_= other.blanking_;
-    		justification_= other.justification_;
-    		verticalAlign_= other.verticalAlign_;
-    		angle_= other.angle_;
+    double getFontSize() const { return font_.size(); }
+    void setFontSize(double size) { font_.size(size); }
+
+    double getHeight() const { return font_.size(); }
+    void setHeight(double size) { font_.size(size); }
+
+    string getFontStyle() const { return font_.style(); }
+    void setFontStyle(const string& style) { font_.style(style); }
+
+    const Colour& getFontColour() const { return font_.colour(); }
+    void setFontColour(const Colour& colour) { font_.colour(colour); }
+
+    const MagFont& font() { return font_; }
+    void font(const MagFont& font) { font_ = font; }
 
 
-        }
-	string getFont() const { return font_.name(); }
-	void setFont(const string& font) { font_.name(font); }
+    Justification getJustification() const { return justification_; }
+    void setJustification(const Justification justification) { justification_ = justification; }
 
-	double getFontSize() const { return font_.size(); }
-	void setFontSize(double size) { font_.size(size); }
-	
-	double getHeight() const { return font_.size(); }
-	void setHeight(double size) { font_.size(size); }
-	
-	string getFontStyle() const { return font_.style(); }
-	void setFontStyle(const string& style) { font_.style(style); }
-	
-	const Colour& getFontColour() const { return font_.colour(); }
-	void setFontColour(const Colour& colour) { font_.colour(colour); }
+    VerticalAlign getVerticalAlign() const { return verticalAlign_; }
+    void setVerticalAlign(const VerticalAlign va) { verticalAlign_ = va; }
 
-	const MagFont& font() { return font_; }
-	void font(const MagFont& font) { font_ = font; }
-	
+    /*!
+      \brief Method setting the angle in which the text is written.
 
-	Justification getJustification() const { return justification_; }
-	void setJustification(const Justification justification) { justification_ = justification; }
+      The angle gives the gradient in which the text is written. Angles are given
+      in degree and an angle of 0 degree is horizontal. Angles are going
+      anticlockwise.
 
-	VerticalAlign getVerticalAlign() const { return verticalAlign_; }
-	void setVerticalAlign(const VerticalAlign va) { verticalAlign_ = va; }
+      \sa setAngle
+    */
+    double getAngle() const { return angle_; }
+    /*!
+      \brief Method getting the angle in which the text is written.
 
-	/*!
-	  \brief Method setting the angle in which the text is written.
-	  
-	  The angle gives the gradient in which the text is written. Angles are given 
-	  in degree and an angle of 0 degree is horizontal. Angles are going 
-	  anticlockwise.
-	  
-	  \sa setAngle
-	*/
-	double getAngle() const {return angle_;}
-	/*!
-	  \brief Method getting the angle in which the text is written.
-	  
-	  The angle gives the gradient in which the text is written. Angles are given 
-	  in degree and an angle of 0 degree is horizontal. Angles are going 
-	  anticlockwise.
-	  
-	  \sa getAngle
-	*/
-	void setAngle(double angle) {angle_ = angle;}
-    
-	
-    
-	bool getBlanking() const { return blanking_; }
-	void setBlanking(bool blanking) { blanking_ = blanking; }
-    
-	bool isVisible() const { return visible_; }
-	void setVisible(bool visible) { visible_ = visible; }
+      The angle gives the gradient in which the text is written. Angles are given
+      in degree and an angle of 0 degree is horizontal. Angles are going
+      anticlockwise.
 
-	static 	double convertFontSize(double height) { return height * 48; }
-	static 	double height2Point(double height) { return height * 48; }
-	static 	double point2Height(double height) { return height / 48; }
+      \sa getAngle
+    */
+    void setAngle(double angle) { angle_ = angle; }
+
+
+    bool getBlanking() const { return blanking_; }
+    void setBlanking(bool blanking) { blanking_ = blanking; }
+
+    bool isVisible() const { return visible_; }
+    void setVisible(bool visible) { visible_ = visible; }
+
+    static double convertFontSize(double height) { return height * 48; }
+    static double height2Point(double height) { return height * 48; }
+    static double point2Height(double height) { return height / 48; }
 
 protected:
-     //! Method to print string about this class on to a stream of type ostream (virtual).
-	virtual void print(ostream&) const; 
-	string  label_;
-	
-	MagFont       font_;
-	Justification justification_;
-	VerticalAlign verticalAlign_;
-	double   angle_;
-	bool       blanking_;
-	bool       visible_;
+    //! Method to print string about this class on to a stream of type ostream (virtual).
+    virtual void print(ostream&) const;
+    string label_;
+
+    MagFont font_;
+    Justification justification_;
+    VerticalAlign verticalAlign_;
+    double angle_;
+    bool blanking_;
+    bool visible_;
 
 private:
-
-// -- Friends
+    // -- Friends
     //! Overloaded << operator to call print().
-	friend ostream& operator<<(ostream& s,const Label& p)
-		{ p.print(s); return s; }
+    friend ostream& operator<<(ostream& s, const Label& p) {
+        p.print(s);
+        return s;
+    }
 };
 
-} // namespace magics
+}  // namespace magics
 #endif

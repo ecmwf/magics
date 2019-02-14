@@ -20,9 +20,5 @@
 #include "MvBufrObs.h"
 #include "MvObsSet.h"
 
-#ifdef METVIEW_PREPBUFR
-# include "MvPrepBufrPrep.h"
-#endif
-
 #endif
 // MvObs_DEFINED_

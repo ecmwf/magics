@@ -1,9 +1,9 @@
 /*
  * (C) Copyright 1996-2016 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
  */
@@ -19,44 +19,42 @@
 #include "magics.h"
 
 
-// 
+//
 
 class Tokenizer {
 public:
-
-// -- Contructors
+    // -- Contructors
 
     Tokenizer(const string&);
 
-// -- Destructor
+    // -- Destructor
 
-	~Tokenizer(); // Change to virtual if base class
+    ~Tokenizer();  // Change to virtual if base class
 
-// -- Methods
-	
-	void operator()(const string&, vector<string>&);
-	void operator()(std::istream&,vector<string>&);
+    // -- Methods
+
+    void operator()(const string&, vector<string>&);
+    void operator()(std::istream&, vector<string>&);
 
 private:
+    // No copy allowed
 
-// No copy allowed
+    Tokenizer(const Tokenizer&);
+    Tokenizer& operator=(const Tokenizer&);
 
-	Tokenizer(const Tokenizer&);
-	Tokenizer& operator=(const Tokenizer&);
+    // -- Members
 
-// -- Members
+    set<char, std::less<char> > separator_;  // To make searching faster
 
-	set<char,std::less<char> > separator_;     // To make searching faster
+    // -- Methods
 
-// -- Methods
+    void print(ostream&) const;
 
-	void print(ostream&) const;
-
-	friend ostream& operator<<(ostream& s,const Tokenizer& p)
-		{ p.print(s); return s; }
-
+    friend ostream& operator<<(ostream& s, const Tokenizer& p) {
+        p.print(s);
+        return s;
+    }
 };
-
 
 
 #endif

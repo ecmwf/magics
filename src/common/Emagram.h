@@ -11,13 +11,12 @@
 #ifndef EMAGRAM_H
 #define EMAGRAM_H
 
-#include <Transformation.h>
-#include <XmlNode.h>
 #include <Coordinate.h>
 #include <TephigramAttributes.h>
+#include <Transformation.h>
+#include <XmlNode.h>
 
-namespace magics
-{
+namespace magics {
 
 /*! \class Tephigram
     \brief Implements a new projection
@@ -26,9 +25,7 @@ namespace magics
     This projection ...
 */
 
-class Emagram: public Transformation, public TephigramAttributes
-{
-
+class Emagram : public Transformation, public TephigramAttributes {
 public:
     Emagram();
     ~Emagram();
@@ -36,17 +33,14 @@ public:
     /*!
       \brief sets  from an XML node
     */
-    void set(const XmlNode& node)
-    {
+    void set(const XmlNode& node) {
         Transformation::set(node);
         TephigramAttributes::set(node);
-
     }
     /*!
       \brief sets  from a map
     */
-    void set(const map<string, string>& map)
-    {
+    void set(const map<string, string>& map) {
         Transformation::set(map);
         TephigramAttributes::set(map);
     }
@@ -59,7 +53,7 @@ public:
     /*!
     \\brief Initialise the projection
     */
-    virtual void init() ;
+    virtual void init();
     /*!
     \\brief
     */
@@ -77,8 +71,7 @@ public:
     */
     virtual void revert(const PaperPoint&, UserPoint&) const;
 
-    void revert(const vector< std::pair<double, double> >& , vector< std::pair<double, double> >&) const;
-
+    void revert(const vector<std::pair<double, double> >&, vector<std::pair<double, double> >&) const;
 
 
     /*!
@@ -88,7 +81,7 @@ public:
     /*!
     \\brief set the aspect ratio!
     */
-    virtual void aspectRatio(double&, double&) ;
+    virtual void aspectRatio(double&, double&);
     /*!
     \\brief set the bounding box!
     */
@@ -113,19 +106,19 @@ public:
     /*!
     \\brief set the xmin in user coordinates!
     */
-    virtual void setMinX(double) ;
+    virtual void setMinX(double);
     /*!
     \\brief return the ymin in user coordinates!
     */
-    virtual void setMinY(double) ;
+    virtual void setMinY(double);
     /*!
     \\brief return the xmax in user coordinates!
     */
-    virtual void setMaxX(double) ;
+    virtual void setMaxX(double);
     /*!
     \\brief return the ymax in user coordinates!
     */
-    virtual void setMaxY(double) ;
+    virtual void setMaxY(double);
     /*!
     \\brief return the xmin in projection coordinates!
     */
@@ -150,28 +143,31 @@ public:
     virtual void setDefinition(const string&);
     void getNewDefinition(const UserPoint&, const UserPoint&, string&) const;
     bool in(const PaperPoint& point) const;
-    void operator()(const Polyline& poly,  BasicGraphicsObjectContainer& out) const;
-protected:
-     //! Method to print string about this class on to a stream of type ostream (virtual).
-     virtual void print(ostream&) const;
+    void operator()(const Polyline& poly, BasicGraphicsObjectContainer& out) const;
 
-     double minPCX_;
-     double maxPCX_;
-     double minPCY_;
-     double maxPCY_;
+protected:
+    //! Method to print string about this class on to a stream of type ostream (virtual).
+    virtual void print(ostream&) const;
+
+    double minPCX_;
+    double maxPCX_;
+    double minPCY_;
+    double maxPCY_;
+
 private:
     //! Copy constructor - No copy allowed
     Emagram(const Emagram&);
     //! Overloaded << operator to copy - No copy allowed
     Emagram& operator=(const Emagram&);
 
-// -- Friends
+    // -- Friends
     //! Overloaded << operator to call print().
-    friend ostream& operator<<(ostream& s,const Emagram& p)
-        { p.print(s); return s; }
-
+    friend ostream& operator<<(ostream& s, const Emagram& p) {
+        p.print(s);
+        return s;
+    }
 };
 
-} // namespace magics
+}  // namespace magics
 
-#endif // EMAGRAM_H
+#endif  // EMAGRAM_H

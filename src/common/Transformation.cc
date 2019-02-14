@@ -13,6 +13,7 @@
 // Magics Team - ECMWF 2004
 
 #include "Transformation.h"
+#include <iomanip>
 #include "BasicGraphicsObject.h"
 #include "Layout.h"
 #include "MatrixHandler.h"
@@ -20,48 +21,38 @@
 #include "PointsHandler.h"
 #include "Polyline.h"
 #include "Timer.h"
-#include <iomanip>
 
 #include "MagClipper.h"
 
 using namespace magics;
 
-Transformation::Transformation()
-    : coordinateType_(GeoType)
-    , dataMinX_(std::numeric_limits<double>::max())
-    , dataMaxX_(-std::numeric_limits<double>::max())
-    , dataMinY_(std::numeric_limits<double>::max())
-    , dataMaxY_(-std::numeric_limits<double>::min())
-    , topAxis_(true)
-    , xTile_(0)
-    , yTile_(0)
-    , zoomLevel_(0)
-{
-    userEnveloppe_ = new Polyline();
-    PCEnveloppe_ = new Polyline();
+Transformation::Transformation() :
+    coordinateType_(GeoType),
+    dataMinX_(std::numeric_limits<double>::max()),
+    dataMaxX_(-std::numeric_limits<double>::max()),
+    dataMinY_(std::numeric_limits<double>::max()),
+    dataMaxY_(-std::numeric_limits<double>::min()),
+    topAxis_(true),
+    xTile_(0),
+    yTile_(0),
+    zoomLevel_(0) {
+    userEnveloppe_ = new magics::Polyline();
+    PCEnveloppe_   = new magics::Polyline();
 }
 
-Transformation::~Transformation()
-{
+Transformation::~Transformation() {
     delete userEnveloppe_;
     delete PCEnveloppe_;
 }
 
-void Transformation::print(ostream& out) const
-{
+void Transformation::print(ostream& out) const {
     out << "Transformation";
 }
 
-void Transformation::forceNewArea(double xpcmin,
-    double ypmin,
-    double xpcmax,
-    double ypcmax,
-    double& width,
-    double& height) {}
-#define PRINT(w, a) \
-    MagLog::dev() << w << "---> " << #a << ": " << (a) << std::endl
-void Transformation::fill(double& width, double& height)
-{
+void Transformation::forceNewArea(double xpcmin, double ypmin, double xpcmax, double ypcmax, double& width,
+                                  double& height) {}
+#define PRINT(w, a) MagLog::dev() << w << "---> " << #a << ": " << (a) << std::endl
+void Transformation::fill(double& width, double& height) {
     init();
 
     // with and height will only
@@ -78,16 +69,17 @@ void Transformation::fill(double& width, double& height)
     if (nw > w) {
         // we need to extend in the x direction
         double more = (nw - w) / 2;
-        maxx = maxx + more;
-        minx = minx - more;
-    } else {
-        double nh = (height / width) * w;
+        maxx        = maxx + more;
+        minx        = minx - more;
+    }
+    else {
+        double nh   = (height / width) * w;
         double more = (nh - h) / 2;
-        maxy = maxy + more;
-        miny = miny - more;
+        maxy        = maxy + more;
+        miny        = miny - more;
     }
 
-    askedWidth_ = width * 40;
+    askedWidth_  = width * 40;
     askedHeight_ = height * 40;
 
     PRINT("fill", minx);
@@ -97,8 +89,7 @@ void Transformation::fill(double& width, double& height)
     setNewPCBox(minx, miny, maxx, maxy);
 }
 
-void Transformation::tile(double& width, double& height)
-{
+void Transformation::tile(double& width, double& height) {
     fill(width, height);
 
     // here we assume we are in the wrepMode, this should be checked!
@@ -112,22 +103,22 @@ void Transformation::tile(double& width, double& height)
     PRINT("Btile", miny);
     PRINT("Btile", maxx);
     PRINT("Btile", maxy);
-    double pcwidth = maxx - minx;
+    double pcwidth  = maxx - minx;
     double pcheight = maxy - miny;
 
     double pxheight = height * 40.;
-    double pxwidth = width * 40.;
+    double pxwidth  = width * 40.;
 
-    tile_ = 512;
+    tile_       = 512;
     double tile = 512;
 
     int xtile = ceil(pxwidth / tile);
     int ytile = ceil(pxheight / tile);
 
-    askedWidth_ = pxwidth;
+    askedWidth_  = pxwidth;
     askedHeight_ = pxheight;
 
-    width = xtile * tile;
+    width  = xtile * tile;
     height = ytile * tile;
 
     double xoffset = ((width - pxwidth) / pxwidth) * pcwidth;
@@ -147,14 +138,13 @@ void Transformation::tile(double& width, double& height)
     PRINT("tile", miny);
     PRINT("tile", maxx);
     PRINT("tile", maxy);
-    width = width / 40.;
+    width  = width / 40.;
     height = height / 40.;
     setNewPCBox(minx, miny, maxx, maxy);
 }
 
-void Transformation::aspectRatio(double& width, double& height)
-{
-    askedWidth_ = width * 40;
+void Transformation::aspectRatio(double& width, double& height) {
+    askedWidth_  = width * 40;
     askedHeight_ = height * 40;
     init();
     double w = getAbsoluteMaxPCX() - getAbsoluteMinPCX();
@@ -163,32 +153,26 @@ void Transformation::aspectRatio(double& width, double& height)
         double nh = (h / w) * width;
         if (nh <= height) {
             height = nh;
-        } 
+        }
         else {
             width = (w / h) * height;
         }
-    } 
+    }
     else
         width = (w / h) * height;
 }
 
-void Transformation::thin(MatrixHandler& matrix,
-    double x,
-    double y,
-    vector<UserPoint>& out) const
-{
+void Transformation::thin(MatrixHandler& matrix, double x, double y, vector<UserPoint>& out) const {
     int xfactor = (int)ceil((float)x);
     int yfactor = (int)ceil((float)y);
 
     if (xfactor < 1) {
         xfactor = 1;
-        MagLog::warning() << "Ivalid x-thinning factor: " << x
-                          << "! Reverted back to 1" << endl;
+        MagLog::warning() << "Ivalid x-thinning factor: " << x << "! Reverted back to 1" << endl;
     }
     if (yfactor < 1) {
         yfactor = 1;
-        MagLog::warning() << "Ivalid y-thinning factor: " << y
-                          << "! Reverted back to 1" << endl;
+        MagLog::warning() << "Ivalid y-thinning factor: " << y << "! Reverted back to 1" << endl;
     }
 
     ThinningMatrixHandler thin_matrix(matrix, xfactor, yfactor);
@@ -196,29 +180,21 @@ void Transformation::thin(MatrixHandler& matrix,
     MatrixHandler* box_matrix = &thin_matrix;
 
     int columns = box_matrix->columns();
-    int rows = box_matrix->rows();
+    int rows    = box_matrix->rows();
 
     for (int lat = 0; lat < rows; lat++)
         for (int lon = 0; lon < columns; lon++)
 
-            out.push_back(UserPoint(box_matrix->column(lat, lon),
-                box_matrix->row(lat, lon),
-                (*box_matrix)(lat, lon)));
+            out.push_back(UserPoint(box_matrix->column(lat, lon), box_matrix->row(lat, lon), (*box_matrix)(lat, lon)));
 }
 
-ViewFilter::ViewFilter(double xmin,
-    double xmax,
-    double ymin,
-    double ymax,
-    double xres,
-    double yres)
-    : xmin_(xmin)
-    , xmax_(xmax)
-    , ymin_(ymin)
-    , ymax_(ymax)
-    , xres_(xres)
-    , yres_(yres)
-{
+ViewFilter::ViewFilter(double xmin, double xmax, double ymin, double ymax, double xres, double yres) :
+    xmin_(xmin),
+    xmax_(xmax),
+    ymin_(ymin),
+    ymax_(ymax),
+    xres_(xres),
+    yres_(yres) {
     xdim_ = (int)(xmax_ - xmin_) / xres_;
     ydim_ = (int)(ymax_ - ymin_) / yres_;
 
@@ -227,8 +203,7 @@ ViewFilter::ViewFilter(double xmin,
             done.push_back(false);
 }
 
-bool ViewFilter::in(const PaperPoint& xy)
-{
+bool ViewFilter::in(const PaperPoint& xy) {
     if (xy.x() < xmin_)
         return false;
     if (xy.x() > xmax_)
@@ -240,8 +215,7 @@ bool ViewFilter::in(const PaperPoint& xy)
     return true;
 }
 
-void Transformation::init()
-{
+void Transformation::init() {
     cleanPCEnveloppe();
     askedxmin_ = std::min(getMinPCX(), getMaxPCX());
     askedxmax_ = std::max(getMinPCX(), getMaxPCX());
@@ -249,8 +223,7 @@ void Transformation::init()
     askedymax_ = std::max(getMinPCY(), getMaxPCY());
 }
 
-void Transformation::cleanPCEnveloppe()
-{
+void Transformation::cleanPCEnveloppe() {
     PCEnveloppe_->clear();
 
     PCEnveloppe_->push_back(PaperPoint(getMinPCX(), getMinPCY()));
@@ -260,8 +233,7 @@ void Transformation::cleanPCEnveloppe()
     PCEnveloppe_->push_back(PaperPoint(getMinPCX(), getMinPCY()));
 }
 
-void Transformation::cleaninit()
-{
+void Transformation::cleaninit() {
     cleanPCEnveloppe();
 
     askedxmin_ = std::min(getMinPCX(), getMaxPCX());
@@ -270,33 +242,21 @@ void Transformation::cleaninit()
     askedymax_ = std::max(getMinPCY(), getMaxPCY());
 }
 
-void Transformation::setDataMinMaxX(double minx,
-    double maxx,
-    const string& ref) const
-{
+void Transformation::setDataMinMaxX(double minx, double maxx, const string& ref) const {
     // WE will have to take into acount the date!
-    dataMinX_ = std::min(minx, dataMinX_);
-    dataMaxX_ = std::max(maxx, dataMaxX_);
+    dataMinX_       = std::min(minx, dataMinX_);
+    dataMaxX_       = std::max(maxx, dataMaxX_);
     dataReferenceX_ = ref;
 }
 
-void Transformation::setDataMinMaxY(double miny,
-    double maxy,
-    const string& ref) const
-{
-    dataMinY_ = std::min(miny, dataMinY_);
-    dataMaxY_ = std::max(maxy, dataMaxY_);
+void Transformation::setDataMinMaxY(double miny, double maxy, const string& ref) const {
+    dataMinY_       = std::min(miny, dataMinY_);
+    dataMaxY_       = std::max(maxy, dataMaxY_);
     dataReferenceY_ = ref;
 }
 
-void Transformation::visit(MetaDataVisitor& visitor,
-    double left,
-    double top,
-    double width,
-    double height,
-    double imgwidth,
-    double imgheight)
-{
+void Transformation::visit(MetaDataVisitor& visitor, double left, double top, double width, double height,
+                           double imgwidth, double imgheight) {
     ostringstream java;
     double w = getMaxPCX() - getMinPCX();
     double h = getMaxPCY() - getMinPCY();
@@ -335,27 +295,22 @@ void Transformation::visit(MetaDataVisitor& visitor,
     visitor.add("world_file", wf.str());
 }
 
-void Transformation::operator()(const Polyline& from,
-    BasicGraphicsObjectContainer& out) const
-{
-    
+void Transformation::operator()(const magics::Polyline& from, BasicGraphicsObjectContainer& out) const {
     if (from.empty())
         return;
 
     MagClipper helper;
 
-    vector<Polyline*> result;
+    vector<magics::Polyline*> result;
 
     helper.clip(from, *PCEnveloppe_, result);
     for (auto r = result.begin(); r != result.end(); ++r) {
-        (*r)->copy(from); // Copy the properties
+        (*r)->copy(from);  // Copy the properties
         out.push_back(*r);
     }
 }
 
-void Transformation::operator()(const Polyline& from,
-    vector<Polyline*>& out) const
-{
+void Transformation::operator()(const magics::Polyline& from, vector<magics::Polyline*>& out) const {
     assert(false);
     if (from.empty())
         return;
@@ -365,11 +320,7 @@ void Transformation::operator()(const Polyline& from,
     helper.clip(from, *PCEnveloppe_, out);
 }
 
-void Transformation::boundingBox(double& minx,
-    double& miny,
-    double& maxx,
-    double& maxy) const
-{
+void Transformation::boundingBox(double& minx, double& miny, double& maxx, double& maxy) const {
     // Return exactly the box ... Perhaps could return a bit more to avoid side
     // effect.
     minx = getMinX();
@@ -390,14 +341,12 @@ void Transformation::boundingBox(double& minx,
     userEnveloppe_->push_back(PaperPoint(minx, miny));
 }
 
-bool Transformation::in(const UserPoint& point) const
-{
+bool Transformation::in(const UserPoint& point) const {
     PaperPoint pp = (*this)(point);
     return in(pp);
 }
 
-bool Transformation::in(const PaperPoint& point) const
-{
+bool Transformation::in(const PaperPoint& point) const {
     if (PCEnveloppe_->empty()) {
         PCEnveloppe_->push_back(PaperPoint(getMinPCX(), getMinPCY()));
         PCEnveloppe_->push_back(PaperPoint(getMinPCX(), getMaxPCY()));
@@ -409,8 +358,7 @@ bool Transformation::in(const PaperPoint& point) const
     return PCEnveloppe_->within(point);
 }
 
-bool Transformation::in(double x, double y) const
-{
+bool Transformation::in(double x, double y) const {
     fast_reproject(x, y);
     if (x <= askedxmin_)
         return false;
@@ -423,10 +371,7 @@ bool Transformation::in(double x, double y) const
     return true;
 }
 
-void Transformation::thin(PointsHandler& points,
-    vector<PaperPoint>& thin,
-    vector<PaperPoint>& all) const
-{
+void Transformation::thin(PointsHandler& points, vector<PaperPoint>& thin, vector<PaperPoint>& all) const {
     BoxPointsHandler box(points, *this, true);
     box.setToFirst();
     while (box.more()) {
@@ -440,12 +385,9 @@ void Transformation::thin(PointsHandler& points,
     }
 }
 
-void Transformation::thin(MatrixHandler& points,
-    vector<PaperPoint>& thin,
-    vector<PaperPoint>& all) const
-{
+void Transformation::thin(MatrixHandler& points, vector<PaperPoint>& thin, vector<PaperPoint>& all) const {
     BoxMatrixHandler box(points, *this);
-    int row = std::max(int(view_.yres_ / abs(box.YResolution())), 1);
+    int row    = std::max(int(view_.yres_ / abs(box.YResolution())), 1);
     int column = std::max(int(view_.xres_ / abs(box.XResolution())), 1);
     ThinningMatrixHandler sample(box, row, column);
 
@@ -466,86 +408,62 @@ void Transformation::thin(MatrixHandler& points,
     }
 }
 
-double Transformation::unitToCm(double width, double height) const
-{
+double Transformation::unitToCm(double width, double height) const {
     return height / (getAbsoluteMaxPCY() - getAbsoluteMinPCY());
 }
 
-void Transformation::operator()(const UserPoint& geo,
-    vector<PaperPoint>& out) const
-{
+void Transformation::operator()(const UserPoint& geo, vector<PaperPoint>& out) const {
     PaperPoint pp = (*this)(geo);
     if (in(pp))
         out.push_back(pp);
 }
-void Transformation::operator()(const UserPoint& geo, Polyline& out) const
-{
+void Transformation::operator()(const UserPoint& geo, magics::Polyline& out) const {
     PaperPoint pp = (*this)(geo);
     if (in(pp))
         out.push_back(pp);
 }
 
-void Transformation::reprojectComponents(double& x,
-    double& y,
-    pair<double, double>&) const
-{
+void Transformation::reprojectComponents(double& x, double& y, pair<double, double>&) const {
     fast_reproject(x, y);
 }
 
-void Transformation::reprojectSpeedDirection(const PaperPoint& point,
-    pair<double, double>&) const {}
+void Transformation::reprojectSpeedDirection(const PaperPoint& point, pair<double, double>&) const {}
 
 void Transformation::revert(const vector<std::pair<double, double> >& in,
-    vector<std::pair<double, double> >& out) const
-{
+                            vector<std::pair<double, double> >& out) const {
     out.reserve(in.size());
-    for (vector<std::pair<double, double> >::const_iterator p = in.begin();
-         p != in.end(); ++p)
+    for (vector<std::pair<double, double> >::const_iterator p = in.begin(); p != in.end(); ++p)
         out.push_back(make_pair(this->rx(p->first), this->ry(p->second)));
 }
 
-string Transformation::writeLongitude(const UserPoint& point) const
-{
+string Transformation::writeLongitude(const UserPoint& point) const {
     return point.asLongitude();
 }
-string Transformation::writeLatitude(const UserPoint& point) const
-{
+string Transformation::writeLatitude(const UserPoint& point) const {
     return point.asLatitude();
 }
 
-void Transformation::wraparound(const UserPoint& point,
-    stack<UserPoint>& duplicates) const
-{
+void Transformation::wraparound(const UserPoint& point, stack<UserPoint>& duplicates) const {
     if (in(point)) {
         duplicates.push(point);
     }
 }
 
-MatrixHandler* Transformation::prepareData(const AbstractMatrix& matrix) const
-{
+MatrixHandler* Transformation::prepareData(const AbstractMatrix& matrix) const {
     return new BoxMatrixHandler(matrix, *this);
 }
 
 typedef vector<UserPoint>::iterator PointIter;
 class SortTool {
 public:
-    SortTool(const Transformation& projection, double x, double y)
-        : projection_(projection)
-        , x_(x)
-        , y_(y)
-    {
-    }
-    double distance(const PointIter& pt)
-    {
+    SortTool(const Transformation& projection, double x, double y) : projection_(projection), x_(x), y_(y) {}
+    double distance(const PointIter& pt) {
         double x = pt->x_;
         double y = pt->y_;
         projection_.fast_reproject(x, y);
         return (x - x_) * (x - x_) + (y - y_) * (y - y_);
     }
-    bool operator()(const PointIter& first, const PointIter& second)
-    {
-        return distance(first) < distance(second);
-    }
+    bool operator()(const PointIter& first, const PointIter& second) { return distance(first) < distance(second); }
     double x_;
     double y_;
     const Transformation& projection_;
@@ -553,10 +471,7 @@ public:
 
 void useRef(double ref, double inc, double& min, double& max) {}
 
-void Transformation::thin(double step,
-    PaperPoint& origin,
-    vector<pair<double, double> >& points) const
-{
+void Transformation::thin(double step, PaperPoint& origin, vector<pair<double, double> >& points) const {
     Timer timer("thinning", "");
 
     vector<std::pair<double, double> > xypoints;
@@ -606,11 +521,7 @@ void Transformation::thin(double step,
     revert(xypoints, points);
 }
 
-void Transformation::thin(double step,
-    PaperPoint& origin,
-    Matrix& matrix,
-    double missing) const
-{
+void Transformation::thin(double step, PaperPoint& origin, Matrix& matrix, double missing) const {
     /*
         Timer timer("thinning", "");
 
@@ -664,17 +575,14 @@ void Transformation::thin(double step,
 */
 }
 
-UserPoint Transformation::reference() const
-{
-    PaperPoint xy((getMinPCX() + getMaxPCX()) / 2.,
-        (getMinPCY() + getMaxPCY()) / 2.);
+UserPoint Transformation::reference() const {
+    PaperPoint xy((getMinPCX() + getMaxPCX()) / 2., (getMinPCY() + getMaxPCY()) / 2.);
     UserPoint ll;
     revert(xy, ll);
     return ll;
 }
 
-double Transformation::distance(UserPoint& point1, UserPoint& point2) const
-{
+double Transformation::distance(UserPoint& point1, UserPoint& point2) const {
     double x1 = point1.x_;
     double y1 = point1.y_;
     double x2 = point2.x_;

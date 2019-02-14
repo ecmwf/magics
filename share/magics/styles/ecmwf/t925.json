@@ -57,10 +57,6 @@
         ],
         "long_name": "Temperature",
         "standard_name": "air_temperature"
-      },
-      {
-        "long_name": "Temperature",
-        "standard_name": "air_temperature"
       }
     ]
   }

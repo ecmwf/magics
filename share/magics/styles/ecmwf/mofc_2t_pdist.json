@@ -1,6 +1,9 @@
 [
   {
-    "eccharts_layer": "mofc_2t_pdist",
+    "eccharts_layer": ["mofc_2t_pdist",
+                       "mofc_mslp_pdist",
+                       "mofc_t_pdist",
+                       "mofc_tp_pdist"],
     "styles": [
       "sh_mf_pdist",
       "sh_mf_pdist_2",
@@ -10,11 +13,14 @@
     ],
     "match": [
       {
-        "paramId": "131167",
-        "shortName": "2tp"
+        "paramId": ["131167","131151","131139","131228"],
+        "shortName": ["2tp","mslpp","stl1p","tpp"]
       },
       {
-        "long_name": "2 metre temperature probability"
+        "long_name": ["2 metre temperature probability",
+                      "Mean sea level pressure probability",
+                      "Soil temperature level 1 probability",
+                      "Total precipitation probability"]
       }
     ]
   }

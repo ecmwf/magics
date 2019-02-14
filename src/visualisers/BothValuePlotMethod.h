@@ -1,22 +1,22 @@
 /*
  * (C) Copyright 1996-2016 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
  */
 
 /*! \file BothValuePlotMethod.h
     \brief Definition of the Template class BothValuePlotMethod.
-    
+
     Magics Team - ECMWF 2004
-    
+
     Started: Thu 26-Aug-2004
-    
+
     Changes:
-    
+
 */
 
 #ifndef BothValuePlotMethod_H
@@ -24,69 +24,64 @@
 
 #include "magics.h"
 
-#include "ValuePlotMethod.h"
-#include "ValuePlotMethodAttributes.h"
 #include "BothValuePlotMethodAttributes.h"
 #include "Symbol.h"
+#include "ValuePlotMethod.h"
+#include "ValuePlotMethodAttributes.h"
 
 namespace magics {
-	
+
 class Transformation;
 
 
-class BothValuePlotMethod: public ValuePlotMethod, public BothValuePlotMethodAttributes {
-
+class BothValuePlotMethod : public ValuePlotMethod, public BothValuePlotMethodAttributes {
 public:
-	BothValuePlotMethod() : marker_(0) {
-        
-    }
-	virtual ~BothValuePlotMethod() {}
-    virtual void set(const map<string, string>& map ) { 
-        BothValuePlotMethodAttributes::set(map); 
+    BothValuePlotMethod() : marker_(0) {}
+    virtual ~BothValuePlotMethod() {}
+    virtual void set(const map<string, string>& map) {
+        BothValuePlotMethodAttributes::set(map);
         ValuePlotMethodAttributes::set(map);
     }
-    virtual void set(const XmlNode& node ) { 
-        BothValuePlotMethodAttributes::set(node); 
+    virtual void set(const XmlNode& node) {
+        BothValuePlotMethodAttributes::set(node);
         ValuePlotMethodAttributes::set(node);
     }
-     virtual ValuePlotMethod* clone() const {
-    	BothValuePlotMethod* object = new BothValuePlotMethod();
-    	object->clone(*this);
-    	return object;
+    virtual ValuePlotMethod* clone() const {
+        BothValuePlotMethod* object = new BothValuePlotMethod();
+        object->clone(*this);
+        return object;
     }
-    
-     virtual void clone(const BothValuePlotMethod& from )
-        { BothValuePlotMethodAttributes::copy(from); 
-        ValuePlotMethodAttributes::copy(from);}
-    
-    
+
+    virtual void clone(const BothValuePlotMethod& from) {
+        BothValuePlotMethodAttributes::copy(from);
+        ValuePlotMethodAttributes::copy(from);
+    }
+
 
 protected:
-     //! Method to print string about this class on to a stream of type ostream (virtual).
-	 virtual void print(ostream& out) const {
-         out << "BothValuePlotMethod[";
-         BothValuePlotMethodAttributes::print(out);
-         ValuePlotMethodAttributes::print(out);
-         out << "]";
-	 }
-	 void reset() { marker_ = 0; }
- 
-    virtual void add(const PaperPoint& xy) {    
+    //! Method to print string about this class on to a stream of type ostream (virtual).
+    virtual void print(ostream& out) const {
+        out << "BothValuePlotMethod[";
+        BothValuePlotMethodAttributes::print(out);
+        ValuePlotMethodAttributes::print(out);
+        out << "]";
+    }
+    void reset() { marker_ = 0; }
+
+    virtual void add(const PaperPoint& xy) {
         static map<string, TextSymbol::TextPosition> poshandlers;
-        if ( poshandlers.empty() ) {
-            poshandlers["none"] = TextSymbol::M_NONE;
-            poshandlers["left"] = TextSymbol::M_LEFT;
-            poshandlers["top"] = TextSymbol::M_ABOVE;
+        if (poshandlers.empty()) {
+            poshandlers["none"]   = TextSymbol::M_NONE;
+            poshandlers["left"]   = TextSymbol::M_LEFT;
+            poshandlers["top"]    = TextSymbol::M_ABOVE;
             poshandlers["bottom"] = TextSymbol::M_BELOW;
-            poshandlers["right"] = TextSymbol::M_RIGHT;
+            poshandlers["right"]  = TextSymbol::M_RIGHT;
             poshandlers["centre"] = TextSymbol::M_CENTRE;
         }
         if (!marker_) {
-            marker_ = new TextSymbol();
-            map<string, TextSymbol::TextPosition>::iterator pos =
-                    poshandlers.find(lowerCase(position_));
-            TextSymbol::TextPosition position =
-                    ( pos != poshandlers.end()) ? pos->second : TextSymbol::M_ABOVE;
+            marker_                                             = new TextSymbol();
+            map<string, TextSymbol::TextPosition>::iterator pos = poshandlers.find(lowerCase(position_));
+            TextSymbol::TextPosition position = (pos != poshandlers.end()) ? pos->second : TextSymbol::M_ABOVE;
             marker_->position(position);
             marker_->setMarker(markerIndex_);
             marker_->setColour(*markerColour_);
@@ -96,29 +91,29 @@ protected:
             font.size(this->height_);
             font.colour(*this->colour_);
             marker_->font(font);
-            this->push_back(marker_); 
-         }   
-         marker_->push_back(xy, this->label(xy.value()));
-     
+            this->push_back(marker_);
+        }
+        marker_->push_back(xy, this->label(xy.value()));
     }
-    
+
     TextSymbol* marker_;
-    
+
 
 private:
     //! Copy constructor - No copy allowed
-	BothValuePlotMethod(const BothValuePlotMethod&);
+    BothValuePlotMethod(const BothValuePlotMethod&);
     //! Overloaded << operator to copy - No copy allowed
-	BothValuePlotMethod& operator=(const BothValuePlotMethod&);
-    
-// -- Friends
-    //! Overloaded << operator to call print().
-	friend ostream& operator<<(ostream& s,const BothValuePlotMethod& p)
-		{ p.print(s); return s; }
+    BothValuePlotMethod& operator=(const BothValuePlotMethod&);
 
+    // -- Friends
+    //! Overloaded << operator to call print().
+    friend ostream& operator<<(ostream& s, const BothValuePlotMethod& p) {
+        p.print(s);
+        return s;
+    }
 };
 
-} // namespace magics
+}  // namespace magics
 
 
 #endif

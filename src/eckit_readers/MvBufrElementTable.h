@@ -10,30 +10,29 @@
 #ifndef MVBUFRELEMENTTABLE_H
 #define MVBUFRELEMENTTABLE_H
 
+#include <map>
 #include <string>
 #include <vector>
-#include <map>
 
 class MvBufrEdition;
 
-class MvBufrElementTable
-{
+class MvBufrElementTable {
 public:
-   const std::string& keyName(int); //const;
-   bool buildElementTable();
-   static MvBufrElementTable* find(MvBufrEdition*);
+    const std::string& keyName(int);  // const;
+    bool buildElementTable();
+    static MvBufrElementTable* find(MvBufrEdition*);
 
 protected:
-   MvBufrElementTable(MvBufrEdition* edition);
-   ~MvBufrElementTable();
+    MvBufrElementTable(MvBufrEdition* edition);
+    ~MvBufrElementTable();
 
-    //static MvBufrCodeTable* make(int element,MvEccBufrMessage* msg);
-    //void load(const std::string& path);
+    // static MvBufrCodeTable* make(int element,MvEccBufrMessage* msg);
+    // void load(const std::string& path);
 
-   MvBufrEdition* edition_;
-   std::map<int,std::string> melems_; //descriptior -> key
+    MvBufrEdition* edition_;
+    std::map<int, std::string> melems_;  // descriptior -> key
 
-   static std::vector<MvBufrElementTable*> tables_;
+    static std::vector<MvBufrElementTable*> tables_;
 };
 
-#endif // MVBUFRELEMENTTABLE_H
+#endif  // MVBUFRELEMENTTABLE_H

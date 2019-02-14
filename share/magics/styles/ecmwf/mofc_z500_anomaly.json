@@ -1,6 +1,7 @@
 [
   {
     "eccharts_layer": "mofc_z500_anomaly",
+    "prefered_units" : "dam",
     "styles": [
       "sh_range_fm40t40"
     ],
