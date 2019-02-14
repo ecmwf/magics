@@ -1,9 +1,9 @@
 /*
  * (C) Copyright 1996-2016 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
  */
@@ -16,32 +16,27 @@
 
 */
 
+#include <Polyline.h>
+#include <Tephigram.h>
 #include "MagClipper.h"
 #include "MagJSon.h"
 #include "SciMethods.h"
-#include <Polyline.h>
-#include <Tephigram.h>
 
 using namespace magics;
 
 /*!
   \brief Constructor
-  
+
   \todo what does still need implmenting? can debug message be removed?
 */
-Tephigram::Tephigram()
-{
-}
+Tephigram::Tephigram() {}
 
 /*!
   \brief Destructor
 */
-Tephigram::~Tephigram()
-{
-}
+Tephigram::~Tephigram() {}
 
-void Tephigram::print(ostream& out) const
-{
+void Tephigram::print(ostream& out) const {
     out << "Tephigram[";
     out << "]";
 }
@@ -49,8 +44,7 @@ void Tephigram::print(ostream& out) const
 #define sinus -0.7071
 #define cosinus 0.7071
 static double maxpcx;
-void Tephigram::init()
-{
+void Tephigram::init() {
     if (x_min_ == 0 && x_max_ == 100) {
         x_min_ = -90;
         x_max_ = 50;
@@ -63,12 +57,12 @@ void Tephigram::init()
 
     vector<double> x, y;
 
-    double tmin = (x_min_ + x_max_) / 2.;
-    double pmin = std::max(y_min_, y_max_);
-    double pmax = std::min(y_min_, y_max_);
+    double tmin  = (x_min_ + x_max_) / 2.;
+    double pmin  = std::max(y_min_, y_max_);
+    double pmax  = std::min(y_min_, y_max_);
     double thmin = magics::theta(tmin + 273.15, pmin * 100.) - 273.15;
     double thmax = magics::theta(tmin + 273.15, pmax * 100.) - 273.15;
-    double tmax = temperatureFromTheta(thmax + 273.15, pmax * 100.) - 273.15;
+    double tmax  = temperatureFromTheta(thmax + 273.15, pmax * 100.) - 273.15;
 
     if (x_min_ < -300 || tmin < -300) {
         throw MagicsException("Tephigram: invalid minimum temperature");
@@ -108,14 +102,14 @@ void Tephigram::init()
 }
 
 const double KAPPA = 0.285611;
-PaperPoint Tephigram::operator()(const UserPoint& xy) const
-{
-
+PaperPoint Tephigram::operator()(const UserPoint& xy) const {
     double p = (same(xy.y(), 0)) ? 1. : xy.y();
-    if (xy.x() >= 1000) { // x = x
+    if (xy.x() >= 1000) {  // x = x
         // y = p
         double coefficient = pow(100000. / (p * 100), KAPPA);
-        double y = (maxpcx + (273.15 * (cosinus - sinus))) * ((sinus + (coefficient * cosinus))) / (cosinus - (coefficient * sinus)) - 2713.15 * (sinus + cosinus);
+        double y           = (maxpcx + (273.15 * (cosinus - sinus))) * ((sinus + (coefficient * cosinus))) /
+                       (cosinus - (coefficient * sinus)) -
+                   2713.15 * (sinus + cosinus);
         MagLog::dev() << p << "-->" << y << "??? " << minPCY_ << "<<" << maxPCY_ << endl;
         double x = ((maxPCX_ - maxpcx) / 20) * (xy.x() - 1000) + maxpcx;
 
@@ -126,15 +120,13 @@ PaperPoint Tephigram::operator()(const UserPoint& xy) const
     double tempe = xy.x();
 
     double theta = magics::theta(tempe + 273.15, p * 100.) - 273.15;
-    double x = ((tempe * cosinus) - (theta * sinus));
-    double y = (tempe * sinus) + (theta * cosinus);
+    double x     = ((tempe * cosinus) - (theta * sinus));
+    double y     = (tempe * sinus) + (theta * cosinus);
 
     return PaperPoint(x, y, xy.value());
 }
 
-PaperPoint Tephigram::operator()(const PaperPoint& pt) const
-{
-
+PaperPoint Tephigram::operator()(const PaperPoint& pt) const {
     // UserPoint X = temperature in deg Y = Pressure in hPa
     // First we calculate theta and we rotate!
     double tempe = pt.x() * cosinus + pt.y() * sinus;
@@ -145,8 +137,7 @@ PaperPoint Tephigram::operator()(const PaperPoint& pt) const
     return PaperPoint(tempe, p);
 }
 
-void Tephigram::revert(const PaperPoint& pt, UserPoint& point) const
-{
+void Tephigram::revert(const PaperPoint& pt, UserPoint& point) const {
     // UserPoint X = temperature in deg Y = Pressure in hPa
     // First we calculate theta and we rotate!
     double tempe = pt.x() * cosinus + pt.y() * sinus;
@@ -158,12 +149,10 @@ void Tephigram::revert(const PaperPoint& pt, UserPoint& point) const
     point.y_ = p;
 }
 
-bool Tephigram::needShiftedCoastlines() const
-{
+bool Tephigram::needShiftedCoastlines() const {
     return false;
 }
-void Tephigram::setMinMaxX(double min, double max)
-{
+void Tephigram::setMinMaxX(double min, double max) {
     if (min > 1000 || max > 1000)
         return;
     setMinX(min);
@@ -171,8 +160,7 @@ void Tephigram::setMinMaxX(double min, double max)
     init();
 }
 
-void Tephigram::setMinMaxY(double min, double max)
-{
+void Tephigram::setMinMaxY(double min, double max) {
     // Careful, Tephigram are in pressure levels...
     if (min < 50.) {
         MagLog::warning() << " Top Pressure reset to 50." << endl;
@@ -183,15 +171,11 @@ void Tephigram::setMinMaxY(double min, double max)
     setMaxY(min);
     init();
 }
-void Tephigram::aspectRatio(double& width, double& height)
-{
-
+void Tephigram::aspectRatio(double& width, double& height) {
     Transformation::aspectRatio(width, height);
 }
 
-void Tephigram::boundingBox(double& xmin, double& ymin, double& xmax, double& ymax) const
-{
-
+void Tephigram::boundingBox(double& xmin, double& ymin, double& xmax, double& ymax) const {
     vector<std::pair<double, double> > geo;
     vector<std::pair<double, double> > xy;
 
@@ -199,10 +183,10 @@ void Tephigram::boundingBox(double& xmin, double& ymin, double& xmax, double& ym
     double xpcmin = minPCX_;
     double ypcmax = maxPCY_;
     double ypcmin = minPCY_;
-    xmin = DBL_MAX;
-    xmax = DBL_MIN;
-    ymin = DBL_MAX;
-    ymax = DBL_MIN;
+    xmin          = DBL_MAX;
+    xmax          = DBL_MIN;
+    ymin          = DBL_MAX;
+    ymax          = DBL_MIN;
 
     const double xs = (xpcmax - xpcmin) / 99.;
     const double ys = (ypcmax - ypcmin) / 99.;
@@ -211,10 +195,10 @@ void Tephigram::boundingBox(double& xmin, double& ymin, double& xmax, double& ym
     for (int i = 0; i < 100; i++) {
         x = xpcmin + (i * xs);
         for (int i = 0; i < 100; i++) {
-            y = ypcmin + (i * ys);
+            y            = ypcmin + (i * ys);
             double tempe = x * cosinus + y * sinus;
             double theta = -(x * sinus) + y * cosinus;
-            double p = magics::pressureFromTheta(theta + 273.15, tempe + 273.15) / 100;
+            double p     = magics::pressureFromTheta(theta + 273.15, tempe + 273.15) / 100;
 
             if (xmin > tempe)
                 xmin = tempe;
@@ -228,82 +212,62 @@ void Tephigram::boundingBox(double& xmin, double& ymin, double& xmax, double& ym
     }
 }
 
-double Tephigram::getMinX() const
-{
-
+double Tephigram::getMinX() const {
     return -1.5;
 }
 
-double Tephigram::getMinY() const
-{
-
+double Tephigram::getMinY() const {
     return y_min_;
 }
 
-double Tephigram::getMaxX() const
-{
+double Tephigram::getMaxX() const {
     return 1.5;
     ;
 }
 
-double Tephigram::getMaxY() const
-{
-
+double Tephigram::getMaxY() const {
     return y_max_;
 }
 
-void Tephigram::setMinX(double x)
-{
+void Tephigram::setMinX(double x) {
     if (x < x_min_)
         x_min_ = x;
 }
 
-void Tephigram::setMinY(double y)
-{
+void Tephigram::setMinY(double y) {
     if (y > y_min_)
         y_min_ = y;
 }
 
-void Tephigram::setMaxX(double x)
-{
+void Tephigram::setMaxX(double x) {
     if (x > x_max_)
         x_max_ = x;
 }
 
-void Tephigram::setMaxY(double y)
-{
+void Tephigram::setMaxY(double y) {
     if (y < y_max_)
         y_max_ = y;
 }
 
-double Tephigram::getMinPCX() const
-{
-
+double Tephigram::getMinPCX() const {
     return minPCX_;
 }
 
-double Tephigram::getMinPCY() const
-{
-
+double Tephigram::getMinPCY() const {
     return minPCY_;
 }
 
-double Tephigram::getMaxPCX() const
-{
-
+double Tephigram::getMaxPCX() const {
     return maxPCX_;
 }
 
-double Tephigram::getMaxPCY() const
-{
+double Tephigram::getMaxPCY() const {
     return maxPCY_;
 }
-double Tephigram::getMaxTestPCX() const
-{
+double Tephigram::getMaxTestPCX() const {
     return maxpcx;
 }
-Polyline& Tephigram::getPCBoundingBox() const
-{
+Polyline& Tephigram::getPCBoundingBox() const {
     if (PCEnveloppe_->empty()) {
         PCEnveloppe_->push_back(PaperPoint(getMinPCX(), getMinPCY()));
         PCEnveloppe_->push_back(PaperPoint(getMinPCX(), getMaxPCY()));
@@ -315,8 +279,7 @@ Polyline& Tephigram::getPCBoundingBox() const
     return *PCEnveloppe_;
 }
 
-Polyline& Tephigram::getUserBoundingBox() const
-{
+Polyline& Tephigram::getUserBoundingBox() const {
     if (userEnveloppe_->empty()) {
         userEnveloppe_->push_back(PaperPoint(x_min_, y_min_));
         userEnveloppe_->push_back(PaperPoint(x_min_, y_max_));
@@ -328,23 +291,20 @@ Polyline& Tephigram::getUserBoundingBox() const
     return *userEnveloppe_;
 }
 
-void Tephigram::setDefinition(const string& json)
-{
-
+void Tephigram::setDefinition(const string& json) {
     if (json.empty())
         return;
 
     MagJSon helper;
     helper.interpret(json);
 
-    XmlNode node = **helper.tree_.firstElement();
+    XmlNode node = **helper.tree_.begin();
 
     node.name("Tephigram");
 
     set(node);
 }
-void toxml2(string& out, const map<string, string>& def)
-{
+void toxml2(string& out, const map<string, string>& def) {
     ostringstream os;
     string sep = "";
     for (map<string, string>::const_iterator entry = def.begin(); entry != def.end(); ++entry) {
@@ -354,8 +314,7 @@ void toxml2(string& out, const map<string, string>& def)
 
     out = os.str();
 }
-void Tephigram::getNewDefinition(const UserPoint& ll, const UserPoint& ur, string& out) const
-{
+void Tephigram::getNewDefinition(const UserPoint& ll, const UserPoint& ur, string& out) const {
     map<string, string> def;
     def["subpage_map_projection"] = "Tephigram";
 
@@ -374,9 +333,7 @@ void Tephigram::getNewDefinition(const UserPoint& ll, const UserPoint& ur, strin
 }
 
 
-
-void Tephigram::revert(const vector<std::pair<double, double> >& in, vector<std::pair<double, double> >& out) const
-{
+void Tephigram::revert(const vector<std::pair<double, double> >& in, vector<std::pair<double, double> >& out) const {
     out.reserve(in.size());
     for (vector<std::pair<double, double> >::const_iterator p = in.begin(); p != in.end(); ++p) {
         double tempe = p->first * cosinus + p->second * sinus;
@@ -388,8 +345,7 @@ void Tephigram::revert(const vector<std::pair<double, double> >& in, vector<std:
     }
 }
 
-void Tephigram::operator()(const Polyline& from, BasicGraphicsObjectContainer& out) const
-{
+void Tephigram::operator()(const Polyline& from, BasicGraphicsObjectContainer& out) const {
     if (from.empty())
         return;
 
@@ -404,7 +360,8 @@ void Tephigram::operator()(const Polyline& from, BasicGraphicsObjectContainer& o
     if (grid) {
         ll = PaperPoint(getMinPCX(), getMinPCY());
         ur = PaperPoint(maxpcx, getMaxPCY());
-    } else {
+    }
+    else {
         ll = PaperPoint(maxpcx, getMinPCY());
         ur = PaperPoint(maxPCX_, getMaxPCY());
     }
@@ -414,14 +371,11 @@ void Tephigram::operator()(const Polyline& from, BasicGraphicsObjectContainer& o
     MagClipper::clip(from, ll, ur, lines);
 
     for (auto line = lines.begin(); line != lines.end(); ++line) {
-    	(*line)->copy(from);
+        (*line)->copy(from);
         out.push_back(*line);
     }
-
-   
 }
 
-bool Tephigram::in(const PaperPoint& point) const
-{
+bool Tephigram::in(const PaperPoint& point) const {
     return MagClipper::in(getPCBoundingBox(), point);
 }

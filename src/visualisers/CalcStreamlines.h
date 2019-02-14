@@ -23,7 +23,6 @@
 #define CalcStreamlines_h
 
 
-
 // Shift the value between 'xstart' and 'xstart+period'
 // -> x in [xstart,xstart+period]
 float ShiftPeriod(float x, float xstart, float period);
@@ -36,52 +35,50 @@ float CalcLonDist(float lon1, float lon2);
 
 
 // Struct for the equidistant grid geometry
-struct GSStruct
-{
-	// Number of gridpoints
-	int nx;
-	int ny;
+struct GSStruct {
+    // Number of gridpoints
+    int nx;
+    int ny;
 
-	// Start coordinates (Longitude,Latitude)
-	float startx;
-	float starty;
+    // Start coordinates (Longitude,Latitude)
+    float startx;
+    float starty;
 
-	// Distance between the gridpoints
-	float dx;
-	float dy;
-	// Find out if the grid is on the Earth or no
-	int gs_geo; // 0 -> not on Earth
+    // Distance between the gridpoints
+    float dx;
+    float dy;
+    // Find out if the grid is on the Earth or no
+    int gs_geo;  // 0 -> not on Earth
 
-	// Is it periodic? (0/1)
-	int period_x;
-	//int period_y;
+    // Is it periodic? (0/1)
+    int period_x;
+    // int period_y;
 };
 
 
 // Class to store coordinates of a line
-class OneLineClass
-{
-	public:
-		// Length of the line
-		int Len;
+class OneLineClass {
+public:
+    // Length of the line
+    int Len;
 
-		// Coordinates of breakpoints
-		float *X;
-		float *Y;
+    // Coordinates of breakpoints
+    float* X;
+    float* Y;
 
-		// Constructor
-		OneLineClass();
+    // Constructor
+    OneLineClass();
 
-		// Destructor
-		~OneLineClass();
-		
-		// Allocate memory for breakpoints
-		void Alloc(int len);
+    // Destructor
+    ~OneLineClass();
+
+    // Allocate memory for breakpoints
+    void Alloc(int len);
 };
 
 
 // Streamline calculator function
-int CalcStreamlines(int density, const float *dir, const GSStruct *gs, OneLineClass **&str_lines, int &linenum);
+int CalcStreamlines(int density, const float* dir, const GSStruct* gs, OneLineClass**& str_lines, int& linenum);
 
 
 #endif

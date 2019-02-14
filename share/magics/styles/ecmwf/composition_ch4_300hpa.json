@@ -1,0 +1,17 @@
+[
+  {
+    "eccharts_layer": "composition_ch4_300",
+    "prefered_units" : "ppbv",
+    "styles": [
+      "sh_nipy_spectral_ch4_300hpa",
+      "sh_RdGy_r_ch4_300hpa"
+    ],
+    "match": [    
+      {
+        "levelist" : ["300"],      
+        "paramId": ["210062","217004"],
+        "shortName": ["ch4","ch4_c"]
+      }
+    ]
+  }
+]

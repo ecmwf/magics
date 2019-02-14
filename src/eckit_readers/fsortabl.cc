@@ -10,31 +10,22 @@
 // fsortabl.cc
 // rev vk 940824
 
-#include  "fsortabl.h"
+#include "fsortabl.h"
 
-bool TSortable::operator <  (const TSortable & aDateObject) const
-{
-  return (IsLessThan(aDateObject) );
+bool TSortable::operator<(const TSortable& aDateObject) const {
+    return (IsLessThan(aDateObject));
 }
 
 
-bool TSortable::operator >  (const TSortable & aDateObject) const
-{
-  return (bool) (!( *this < aDateObject ) &&  (*this != aDateObject));
+bool TSortable::operator>(const TSortable& aDateObject) const {
+    return (bool)(!(*this < aDateObject) && (*this != aDateObject));
 }
 
 
-bool TSortable::operator >=  (const TSortable & aDateObject) const
-{
-  return (bool) (!(*this < aDateObject));
+bool TSortable::operator>=(const TSortable& aDateObject) const {
+    return (bool)(!(*this < aDateObject));
 }
 
-bool TSortable::operator <=  (const TSortable & aDateObject) const
-{
-  return (bool) ( *this < aDateObject || *this == aDateObject );
+bool TSortable::operator<=(const TSortable& aDateObject) const {
+    return (bool)(*this < aDateObject || *this == aDateObject);
 }
-
-
-
-
-

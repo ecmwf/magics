@@ -9,22 +9,12 @@
     ],
     "match": [
       {
-        "paramId": "186",
-        "shortName": "lcc"
-      },
-      {
-        "long_name": "Low cloud cover"
-      },
-      {
-        "paramId": [
-          "164"
-        ],
-        "shortName": [
-          "tcc"
-        ]
+        "paramId": ["186","164"],
+        "shortName": ["lcc","tcc"]
       },
       {
         "long_name": [
+          "Low cloud cover",
           "Total cloud cover",
           "Fraction of cloud cover"
         ]
@@ -64,7 +54,6 @@
           "800",
           "775",
           "750",
-          "725",
           "700",
           "650",
           "600",

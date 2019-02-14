@@ -15,10 +15,6 @@
         "paramId": "151",
         "shortName": "msl",
         "type": "em"
-      },
-      {
-        "long_name": "Mean sea level pressure",
-        "standard_name": "air_pressure_at_sea_level"
       }
     ]
   }

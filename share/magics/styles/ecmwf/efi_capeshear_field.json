@@ -1,6 +1,6 @@
 [
   {
-    "eccharts_layer": "efi_capeshear_field",
+    "eccharts_layer": ["efi_capeshear_field","efi_cape_field"],
     "styles": [
       "sh_red_f05t1i01",
       "mrk_efi_capes_f06t1",
@@ -8,12 +8,13 @@
     ],
     "match": [
       {
-        "paramId": "132044",
-        "shortName": "capesi",
+        "paramId": ["132044","132059"],
+        "shortName": ["capesi","capei"],
         "type": "efi"
       },
       {
-        "long_name": "Convective available potential energy shear index"
+        "long_name": ["Convective available potential energy shear index",
+                      "Convective available potential energy index"]
       }
     ]
   }

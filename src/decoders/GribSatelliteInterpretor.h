@@ -28,36 +28,37 @@
 
 namespace magics {
 
-class GribSatelliteInterpretor: public GribInterpretor {
-
+class GribSatelliteInterpretor : public GribInterpretor {
 public:
     GribSatelliteInterpretor();
     virtual ~GribSatelliteInterpretor();
 
-//  virtual void interpretAsRaster(const GribDecoder&, RasterData&, const Transformation&) const;
-    virtual void interpretAsVectors(const GribDecoder&, Matrix&, Matrix&) const
-        { throw  NotYetImplemented("Satellite representation", " Vectors"); }
-    virtual void interpretAsMatrix(const GribDecoder&, Matrix**, Matrix** matrix2= NULL) const;
-
+    //  virtual void interpretAsRaster(const GribDecoder&, RasterData&, const Transformation&) const;
+    virtual void interpretAsVectors(const GribDecoder&, Matrix&, Matrix&) const {
+        throw NotYetImplemented("Satellite representation", " Vectors");
+    }
+    virtual void interpretAsMatrix(const GribDecoder&, Matrix**, Matrix** matrix2 = NULL) const;
 
 
 protected:
-     //! Method to print string about this class on to a stream of type ostream (virtual).
-     virtual void print(ostream&) const;
+    //! Method to print string about this class on to a stream of type ostream (virtual).
+    virtual void print(ostream&) const;
 
 private:
     //! Copy constructor - No copy allowed
     GribSatelliteInterpretor(const GribSatelliteInterpretor&);
     //! Overloaded << operator to copy - No copy allowed
-    void AdjustBadlyEncodedGribs(int satId, int chanId, long &nx, long &ny, long &dx, long &dy, long &xp, long &yp, double &slon, long &functionCode) const;
+    void AdjustBadlyEncodedGribs(int satId, int chanId, long& nx, long& ny, long& dx, long& dy, long& xp, long& yp,
+                                 double& slon, long& functionCode) const;
 
 
-// -- Friends
+    // -- Friends
     //! Overloaded << operator to call print().
-    friend ostream& operator<<(ostream& s,const GribSatelliteInterpretor& p)
-        { p.print(s); return s; }
-
+    friend ostream& operator<<(ostream& s, const GribSatelliteInterpretor& p) {
+        p.print(s);
+        return s;
+    }
 };
 
-} // namespace magics
+}  // namespace magics
 #endif

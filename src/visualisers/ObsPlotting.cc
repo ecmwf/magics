@@ -1,112 +1,99 @@
 /*
  * (C) Copyright 1996-2016 ECMWF.
- * 
+ *
  * This software is licensed under the terms of the Apache Licence Version 2.0
- * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
- * In applying this licence, ECMWF does not waive the privileges and immunities 
+ * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+ * In applying this licence, ECMWF does not waive the privileges and immunities
  * granted to it by virtue of its status as an intergovernmental organisation nor
  * does it submit to any jurisdiction.
  */
 
 /*! \file ObsPlotting.cc
     \brief Implementation of the Template class ObsPlotting.
-    
+
     Magics Team - ECMWF 2005
-    
+
     Started: Wed 23-Mar-2005
-    
+
     Changes:
-    
+
 */
 
 #include "ObsPlotting.h"
-#include "ObsTable.h"
 #include "Layout.h"
 #include "MetaData.h"
+#include "ObsTable.h"
 #include "ProgressObject.h"
 using namespace magics;
 
-ObsPlotting::ObsPlotting() 
-{
-	ObsTable::print();
-	if ( ring_size_ == -1 )
-		ring_size_ = size_;
+ObsPlotting::ObsPlotting() {
+    ObsTable::print();
+    if (ring_size_ == -1)
+        ring_size_ = size_;
 }
 
-ObsPlotting::~ObsPlotting() 
-{
-}
+ObsPlotting::~ObsPlotting() {}
 
 static int COUNT;
-void ObsPlotting::operator()(Data& data, BasicGraphicsObjectContainer& out)
-{
-	ObsTable::print();
-	std::set<string> needs;
-	std::set<string> info;
-	multimap<string, string> types;
+void ObsPlotting::operator()(Data& data, BasicGraphicsObjectContainer& out) {
+    ObsTable::print();
+    std::set<string> needs;
+    std::set<string> info;
+    multimap<string, string> types;
 
-	info.insert("type");
+    info.insert("type");
 
-	data.getInfo(info, types);
-	
-	for (multimap<string, string>::const_iterator type = types.find("type"); type != types.end(); ++type)
-	{		
-		try {
-			const ObsTemplate& obs = ObsTable::getTemplate(type->second);
-			obs.set(this);
-			obs.visit(needs);
-		}
-		catch (std::exception&)
-		{
-			MagLog::warning() << " Magics++ has no observation template for: " << type->second << "\n"
-			               << " Please contact the Graphic team.\n";
-		}
-	}
+    data.getInfo(info, types);
 
-	CustomisedPointsList values;	
-	
-	const Transformation& transformation = out.transformation();
-	bool all = false;
-	// false : we only need the points in the area
-	data.customisedPoints(transformation, needs, values, all);
+    for (multimap<string, string>::const_iterator type = types.find("type"); type != types.end(); ++type) {
+        try {
+            const ObsTemplate& obs = ObsTable::getTemplate(type->second);
+            obs.set(this);
+            obs.visit(needs);
+        }
+        catch (std::exception&) {
+            MagLog::warning() << " Magics++ has no observation template for: " << type->second << "\n"
+                              << " Please contact the Graphic team.\n";
+        }
+    }
 
-	out.push_back(new ClearObject());
+    CustomisedPointsList values;
+
+    const Transformation& transformation = out.transformation();
+    bool all                             = false;
+    // false : we only need the points in the area
+    data.customisedPoints(transformation, needs, values, all);
+
+    out.push_back(new ClearObject());
 
 
-	for (multimap<string, string>::const_iterator type = types.find("type"); type != types.end(); ++type)
-	{
-		try {
-			const ObsTemplate& obs = ObsTable::getTemplate(type->second);
+    for (multimap<string, string>::const_iterator type = types.find("type"); type != types.end(); ++type) {
+        try {
+            const ObsTemplate& obs = ObsTable::getTemplate(type->second);
 
 
-		
-			for (CustomisedPointsList::const_iterator val = values.begin(); val != values.end(); ++val) 	{
-
-				if ( type->second == (*val)->type() ) {
-					obs(*(*val), out);
-				}
-			}
-		}
-		catch (std::exception&)
-		{
-		}
-	}
+            for (const auto& val : values) {
+                if (type->second == val->type()) {
+                    obs(*val, out);
+                }
+            }
+        }
+        catch (std::exception&) {
+        }
+    }
 }
 
-	
 
 /*!
  \brief Class information are given to the output-stream.
-*/		
-void ObsPlotting::print(ostream& out)  const
-{
-	out << "ObsPlotting[";
-	out << "]";
+*/
+void ObsPlotting::print(ostream& out) const {
+    out << "ObsPlotting[";
+    out << "]";
 }
-void ObsPlotting::visit(MetaDataVisitor& visitor)
-{
-	visitor.add("ObsPlotting", "info");
-	visitor.add("obs_plotted", tostring(COUNT));
+void ObsPlotting::visit(MetaDataVisitor& visitor) {
+    visitor.add("ObsPlotting", "info");
+    visitor.add("obs_plotted", tostring(COUNT));
 }
 
 

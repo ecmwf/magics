@@ -1,7 +1,7 @@
 [
   {
     "eccharts_layer": "cds_rsds",
-    "styles": [],
+    "styles": ["sh_shortwave_radiation"],
     "match": [
       {
         "long_name": "Surface Downwelling Shortwave Radiation",

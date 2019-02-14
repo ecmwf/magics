@@ -1,6 +1,6 @@
 [
   {
-    "eccharts_layer": "genesis_hr",
+    "eccharts_layer": ["genesis_hr","genesis_td","genesis_ts"],
     "styles": [
       "genesis_prob",
       "genesis_prob_light",
@@ -11,12 +11,14 @@
     ],
     "match": [
       {
-        "paramId": "131090",
-        "shortName": "ph",
+        "paramId": ["131090","131091","131089"],
+        "shortName": ["ph","ptd","pts"],
         "type": "ep"
       },
       {
-        "long_name": "Probability of a hurricane"
+        "long_name": ["Probability of a hurricane",
+                      "Probability of a tropical depression",
+                      "Probability of a tropical storm"]
       }
     ]
   }

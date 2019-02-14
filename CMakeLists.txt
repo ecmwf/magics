@@ -39,7 +39,11 @@ set( grib_handling_pkg eccodes )
 set( HAVE_GRIB 1 )
 set( HAVE_BUFR 1 )
 
-
+ecbuild_add_option( FEATURE PYTHON
+                    DEFAULT ON
+                    DESCRIPTION "enable python interface"
+                    REQUIRED_PACKAGES "Python NO_LIBS" NumPy )
+                    
 ecbuild_add_option( FEATURE ODB
                     DEFAULT OFF
                     DESCRIPTION "ODB support"
@@ -82,10 +86,7 @@ ecbuild_add_option( FEATURE SPOT
 find_package(PythonInterp REQUIRED)
 find_package(Jinja2 REQUIRED)
 
-ecbuild_add_option( FEATURE PYTHON
-                    DEFAULT ON
-                    DESCRIPTION "enable python interface"
-                    REQUIRED_PACKAGES "Python NO_LIBS" NumPy )
+
 
 ecbuild_add_option( FEATURE FORTRAN
                     DEFAULT ON
@@ -112,11 +113,11 @@ set( MAGICS_EXCEPTION     "ON" )
 set( MAGICS_SITE          "ecmwf" )
 set( MAGICS_INSTALL_PATH  ${CMAKE_INSTALL_PREFIX} )
 
-set( MAGICS_REFERENCE_VERSIONS            "3.2.0" )
+set( MAGICS_REFERENCE_VERSIONS            "3.3.1" )
 set( MAGICS_HTML_ROOT        "${CMAKE_BINARY_DIR}/regression/html")
 file(MAKE_DIRECTORY ${MAGICS_HTML_ROOT} )
 
-set( MAG_PYTHON_PATH ${CMAKE_CURRENT_BINARY_DIR}/python )
+
 
 ###############################################################################
 # projects
@@ -162,9 +163,36 @@ ecbuild_declare_project()
 set( CMAKE_THREAD_PREFER_PTHREAD 1 )
 find_package( Threads )
 
+if( EC_OS_NAME MATCHES "windows" )
+    find_library( PTHREAD_LIB pthread PATHS ENV PATH )
+    list( APPEND MAGICS_EXTRA_LIBRARIES ${PTHREAD_LIB} )
+endif()
+
 find_package( Boost 1.53.0 REQUIRED)
 find_package( Proj4 REQUIRED )
 find_package( EXPAT REQUIRED )
+
+###############################################################################
+# compiler options
+
+if( EC_OS_NAME MATCHES "windows" )
+    # Suppress compliler warnings
+    # Suppress warnings about using 'insecure' functions. Fixing this would require changes all over
+    # the codebase which would damage portability.
+    ecbuild_add_c_flags("/D_CRT_SECURE_NO_WARNINGS")
+    ecbuild_add_cxx_flags("/D_CRT_SECURE_NO_WARNINGS")
+    # Suppress warnings about using well-known C functions.
+    ecbuild_add_c_flags("/D_CRT_NONSTDC_NO_DEPRECATE")
+    ecbuild_add_cxx_flags("/D_CRT_NONSTDC_NO_DEPRECATE")
+    # Suppress C4267: warns about possible loss of data when converting 'size_t' to 'int'.
+    ecbuild_add_c_flags("/wd4267")
+    ecbuild_add_cxx_flags("/wd4267")
+    # Suppress C4800: forcing value to bool 'true' or 'false'
+    ecbuild_add_cxx_flags("/wd4800")
+
+    # Prevent fatal error C1128
+    ecbuild_add_cxx_flags("/bigobj")
+endif()
 
 ###############################################################################
 # contents
@@ -231,6 +259,15 @@ endif()
 
 list( APPEND MAGICS_EXTRA_LIBRARIES     ${CMAKE_THREAD_LIBS_INIT} )
 
+if( EC_OS_NAME MATCHES "windows" )
+    # We need to link to ws2_32.lib to avoid an unresolved external (gethostname)
+    # It's part of the Windows SDK so no need to search for it.
+    list( APPEND MAGICS_EXTRA_LIBRARIES ws2_32 )
+    # We need to find zlib.lib
+    find_library( ZLIB_LIB zlib PATHS ENV PATH )
+    list( APPEND MAGICS_EXTRA_LIBRARIES ${ZLIB_LIB} )
+endif()
+
 ecbuild_debug("MAGICS_EXTRA_DEFINITIONS  => ${MAGICS_EXTRA_DEFINITIONS}")
 ecbuild_debug("MAGICS_EXTRA_INCLUDE_DIRS => ${MAGICS_EXTRA_INCLUDE_DIRS}")
 ecbuild_debug("MAGICS_EXTRA_LIBRARIES    => ${MAGICS_EXTRA_LIBRARIES}")
@@ -244,7 +281,6 @@ include_directories( ${MAGICS_INCLUDE_DIRS} ${MAGICS_EXTRA_INCLUDE_DIRS} )
 add_subdirectory( tools )
 add_subdirectory( src )
 add_subdirectory( share )
-add_subdirectory( python )
 add_subdirectory( apps )
 add_subdirectory( test )
 if( ENABLE_REGRESSION )
@@ -254,7 +290,7 @@ endif()
 # Directories not need in the distribution tar ball!
 ecbuild_add_resources( TARGET old_src DONT_PACK_DIRS src/MvObs src/libTable src/xml src/terralib/functions)
 ecbuild_add_resources( TARGET bamboo DONT_PACK_DIRS bamboo)
-ecbuild_add_resources( TARGET old_ressources
+ecbuild_add_resources( TARGET old_resources
 		DONT_PACK_DIRS tools/versioncmp
 		tools/regression
 		regression

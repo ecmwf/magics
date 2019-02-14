@@ -1,0 +1,29 @@
+[
+  {
+    "eccharts_layer": "nc_tp_interval",
+    "styles": [
+      "sh_blured_f05t300lst",
+      "sh_blured_f1t100lst",
+      "sh_blured_f1t100lst_dark",
+      "sh_grnvio_f1t100lst",
+      "sh_all_f05t300lst",
+      "sh_blured_f01t500lst",
+      "sh_blured_f0t300",
+      "ct_blumag_lst"
+    ],
+    "match": [
+      {
+        "paramId": "228228",
+        "shortName": "tp"
+      },
+      {
+        "standard_name": [
+          "convective_precipitation_amount",
+          "precipitation_amount",
+          "stratiform_precipitation_amount",
+          "large_scale_precipitation_amount"
+        ]
+      }
+    ]
+  }
+]

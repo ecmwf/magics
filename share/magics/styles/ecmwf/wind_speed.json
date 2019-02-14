@@ -21,15 +21,11 @@
         ]
       },
       {
-        "long_name": "10 metre wind speed"
+        "long_name": ["10 metre wind speed", "Daily-Mean Near-Surface Wind Speed"]
       },
       {
         "long_name": "Daily-Mean Near-Surface Wind Speed",
         "standard_name": "wind_speed"
-      },
-      {
-        "paramId": "140245",
-        "shortName": "wind"
       },
       {
         "paramId": [

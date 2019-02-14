@@ -8,61 +8,66 @@
  * does it submit to any jurisdiction.
  */
 
-#include "magics_api.h"
 #include <stdio.h>
+#include "magics_api.h"
 
-int main()
-{
+#define NUM_FORMATS 3
+
+
+void myprint_error(void* data, const char* msg) {
+    printf("ERROR:%s", msg);
+}
+
+void myprint_info(void* data, const char* msg) {
+    printf("INFO:%s", msg);
+}
+
+void myprint_warning(void* data, const char* msg) {
+    printf("WARNING:%s", msg);
+}
+
+void myprint_warning2(void* data, const char* msg) {
+    printf("WARNING2:%s", msg);
+}
+
+void myprint_debug(void* data, const char* msg) {
+    printf("DEBUG:%s", msg);
+}
+
+int main() {
+    int data = 10;
+
+    mag_add_warning_listener(&data, myprint_warning);
+    mag_add_error_listener(&data, myprint_error);
     mag_open();
-    const int num_formats = 3;
-    const char *formats[num_formats];
+    const char* formats[NUM_FORMATS];
     formats[0] = "ps";
     formats[1] = "png";
     formats[2] = "pdf";
-    mag_set1c("output_formats",formats,num_formats);
-    mag_setc("output_name","contour"); // which is different each time
+
+    mag_set1c("output_formats", formats, NUM_FORMATS);
+
+
+    // mag_add_info_listener(&data, myprint_info);
+    // mag_add_debug_listener(&data, myprint_debug);
+
+
+    mag_setc("output_name", "contour");  // which is different each time
 
     /* load the data */
-    mag_setc("grib_input_type","file");
+    mag_setc("grib_input_type", "file");
     mag_setc("grib_input_file_name", "data.grib");
     mag_grib();
 
     /* define the contouring parameters */
-    mag_setc("contour","on");
-    mag_setc("contour_line_colour","sky");
+    mag_setc("contour", "on");
+    mag_setc("contour_line_colour", "sky");
     mag_setc("CONTOUR_HIGHLIGHT_COLOUR", "GREEN");
-    mag_setc("contour_label","on");
+    mag_setc("cjgskljdfkljdontour_label", "on");
     mag_cont();
 
-    /* three pages */
-    int i;
-    for(i=1;i<4;i++)
-    {
-      /* specify area (SOUTH, WEST, NORTH, EAST ) */
-      mag_setr("SUBPAGE_LOWER_LEFT_LATITUDE",  i *  10.0);
-      mag_setr("SUBPAGE_LOWER_LEFT_LONGITUDE", i * -20.0);
-      mag_setr("SUBPAGE_UPPER_RIGHT_LATITUDE", i *  30.0);
-      mag_setr("SUBPAGE_UPPER_RIGHT_LONGITUDE",i *  20.0);
 
-      /* draw background land shading */
-      mag_setc("map_coastline_colour", "khaki");
-      mag_setc("map_grid_colour","grey");
-      mag_setc("map_coastline_land_shade","on");
-      mag_setc("map_coastline_land_shade_colour","rgb(0.86,0.86,0.86)");
-      mag_setc("map_boundaries","on");
-      mag_coast();
-
-      /* Draw titles and coastlines */
-      mag_text();
-      /* set up the coastline attributes */
-      mag_setc("map_coastline_colour", "khaki");
-      mag_setc("map_grid_colour","grey");
-      mag_reset("map_coastline_land_shade");
-      mag_coast();
-      mag_cont();
-      mag_new ("SUPER_PAGE");
-    }
-
+    // mag_clear_listeners();
     /* close magics and trigger plot generation */
     mag_close();
     return 0;
