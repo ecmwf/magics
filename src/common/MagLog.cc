@@ -175,10 +175,7 @@ MagLog::MagLog() :
     header_ = true;
 }
 
-MagLog::~MagLog() {
-    broadcast();
-    clearListeners();
-}
+MagLog::~MagLog() {}
 
 
 static void niceprint(int nb, const string& legend, const string& sep, ostream& out) {
@@ -254,7 +251,6 @@ ostream& MagLog::error() {
         log_.reporter_->error();
     broadcast();
     if (log_.error_) {
-    
         log_.errorstream_ << "Magics-ERROR: ";
         return log_.errorstream_;
     }
