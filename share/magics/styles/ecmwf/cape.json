@@ -3,7 +3,6 @@
     "eccharts_layer": "cape",
     "styles": [
       "range_100_4500",
-      {},
       "range_100_4500",
       "range_50_9000",
       "ct_red_f50t8000",
