@@ -200,7 +200,7 @@ public:
 
     grib_nearest* nearest_point_handle(bool keep);
     void nearestGridpoints(double* inlats, double* inlons, double* outlats, double* outlons, double* values,
-                           double* distances, int nb, const string& representation);
+                           double* distances, int nb, const string& representation, double missing);
 
     grib_handle* uHandle(string&);
     grib_handle* vHandle(string&);
