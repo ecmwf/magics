@@ -56,6 +56,7 @@ does it submit to any jurisdiction.
  				<option fortran="EPSG:3857" include="Proj4Projection.h" name="Proj4EPSG3857">		</option>
  				<option fortran="EPSG:900913" include="Proj4Projection.h" name="Proj4EPSG900913">		</option>
  				<option fortran="EPSG:32661" include="Proj4Projection.h" name="Proj4EPSG32661">		</option>
+ 				<option fortran="EPSG:32761" include="Proj4Projection.h" name="Proj4EPSG32761">		</option>
  				<option fortran="EPSG:4326" include="Proj4Projection.h" name="Proj4EPSG4326">		</option>
  				<option fortran="goode" include="Proj4Projection.h" name="Proj4Goode">		</option>
  				<option fortran="collignon" include="Proj4Projection.h" name="Proj4Collignon">		</option>

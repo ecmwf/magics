@@ -44,8 +44,12 @@ void IntervalSelectionType::calculate(double min, double max, bool shading) {
     clear();
     std::set<double> levels;
 
+
     double lmax, lmin;
     if (shading) {
+        if (max_shade_ < min_shade_)
+            MagLog::warning() << "contour_shade_max_level (" << max_shade_ << ") < contour_shade_min_level ("
+                              << min_shade_ << "): Please check your code" << endl;
         if (same(max_, 1.0e+21)) {
             max_ = max_shade_;
         }

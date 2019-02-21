@@ -39,12 +39,24 @@ protected:
 };
 
 class MagicsObserver;
+class MagLogObserver;
+
+typedef void (*LogListener)(void*, char*);
 
 class MagLog {
 public:
     MagLog();
     //! Destructor
     ~MagLog();
+
+    vector<MagLogObserver*> listeners_;
+
+    static void addWarningListener(void*, void (*)(void*, const char*));
+    static void addErrorListener(void*, void (*)(void*, const char*));
+    static void addInfoListener(void*, void (*)(void*, const char*));
+    static void addDebugListener(void*, void (*)(void*, const char*));
+
+    static void clearListeners();
 
 
     // -- Methods
@@ -107,6 +119,12 @@ private:
     bool fatal_;
     bool profiling_;
 
+    MagLogObserver* defaultWarning_;
+    MagLogObserver* defaultInfo_;
+    MagLogObserver* defaultDebug_;
+    MagLogObserver* defaultError_;
+
+
     string stamp_;
 
     int warnings_;
@@ -114,6 +132,7 @@ private:
     ostringstream infostream_;
     ostringstream warningstream_;
     ostringstream errorstream_;
+    ostringstream debugstream_;
     ostringstream progressstream_;
     vector<MagicsObserver*> observers_;
 

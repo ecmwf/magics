@@ -35,15 +35,4 @@ add_magics_test(NAME macc_diagonal
                 IMAGE diagonal.png
                 THRESHOLD 1
                 JSON)
-add_magics_test(NAME macc_taylor2
-                SOURCES taylor.py
-                RESOURCES taylordata.json
-                IMAGE taylor.png
-                THRESHOLD 1
-                PYTHON)
-add_magics_test(NAME macc_raqgram
-                SOURCES raqgram.py
-                RESOURCES  raqgramdata_NO2_USI.xml   raqgramdata_PM10_USI.xml raqgramdata_O3_USI.xml    raqgramdata_SO2_USI.xml
-                IMAGE raqgram.png
-                THRESHOLD 1
-                PYTHON)
+

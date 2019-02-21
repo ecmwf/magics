@@ -4,7 +4,8 @@
  * This software is licensed under the terms of the Apache Licence Version 2.0
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
  * In applying this licence, ECMWF does not waive the privileges and immunities
- * granted to it by virtue of its status as an intergovernmental organisation nor
+ * granted to it by virtue of its status as an intergovernmental organisation
+ * nor
  * does it submit to any jurisdiction.
  */
 
@@ -33,11 +34,9 @@
 #include "PointsHandler.h"
 #include "UserPoint.h"
 
-
 namespace magics {
 
 class Transformation;
-
 
 class NetcdfDecoder : public Decoder, public Data, public NetcdfDecoderAttributes {
 public:
@@ -58,16 +57,7 @@ public:
 
     void getReady(const Transformation& transformation) { (*interpretor_).getReady(transformation); }
 
-    void visit(Transformation& transformation) {
-        /*if ( !transformation.getAutomaticX() && !transformation.getAutomaticY())
-            return;
-
-        if ( !data_ )
-            valid_ = (*interpretor_).interpretAsMatrix(&data_);
-        if ( valid_ )
-        */
-        (*interpretor_).visit(transformation);
-    }
+    void visit(Transformation& transformation) { (*interpretor_).visit(transformation); }
 
     void getInfo(map<string, string>&);
 
@@ -97,7 +87,6 @@ public:
             // Information about contains...
             MagLog::dev() << "Netcdf::visit(AnimationRules&) --> " << endl;
 
-
             step.xResolution(abs(data.XResolution()));
             step.yResolution(abs(data.YResolution()));
         }
@@ -109,7 +98,8 @@ public:
     void visit(TextVisitor&);
 
 protected:
-    //! Method to print string about this class on to a stream of type ostream (virtual).
+    //! Method to print string about this class on to a stream of type ostream
+    //! (virtual).
     virtual void print(ostream&) const;
 
     PointsList points_;
@@ -129,7 +119,6 @@ private:
     }
 };
 
-
 class NetcdfLoop : public DataLoop {
 public:
     NetcdfLoop(NetcdfDecoder* netcdf) : netcdf_(netcdf) {}
@@ -147,17 +136,14 @@ public:
     bool hasMore() { return (netcdf_ != 0); }
     void next() { netcdf_ = 0; }
 
-
     void visit(Transformation& transformation) {
         if (netcdf_)
             netcdf_->visit(transformation);
     }
 
-
 protected:
     virtual void print(ostream&) const {}
     NetcdfDecoder* netcdf_;
-
 
 private:
     //! Copy constructor - No copy allowed
@@ -172,7 +158,6 @@ private:
         return s;
     }
 };
-
 
 }  // namespace magics
 #endif
