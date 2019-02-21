@@ -13,9 +13,4 @@ add_magics_test(NAME data_t799 SOURCES data_t799.F IMAGE data_t799.ps DATA t799_
 add_magics_test(NAME data_t799_t2m SOURCES data_t799_t2m.F IMAGE data_t799_t2m.ps DATA   t799_t2m_ll.grib   THRESHOLD 5)
 add_magics_test(NAME dataonly_linear SOURCES dataonly_linear.F IMAGE dataonly_linear.ps DATA z500.grb  THRESHOLD 5)
 
-add_magics_test(NAME data_octrahydro SOURCES octrahydro.py IMAGE octrahydro.png DATA octrahydro.grib THRESHOLD 2 PYTHON)
-add_magics_test(NAME data_subreducedgaussian SOURCES subreducedgaussian.py IMAGE subreducedgaussian.png DATA subreducedgaussian.grib THRESHOLD 1 PYTHON)
-add_magics_test(NAME data_1000-global-reduced-gg SOURCES t1000-global-reduced-gg.py IMAGE t1000-global-reduced-gg.png DATA t1000-global-reduced-gg.grb THRESHOLD 1 PYTHON)
 
-
-#add_magics_test(NAME data_mars_array SOURCES mars-array.py IMAGE mars-array.png DATA z500.grb THRESHOLD 1 PYTHON)

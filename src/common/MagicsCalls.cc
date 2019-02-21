@@ -1714,6 +1714,24 @@ MAGICS_EXPORT void mag_enqc(const char* name, char* value) {
     strcpy(value, magics.c_str());
 }
 
+MAGICS_EXPORT void mag_add_warning_listener(void* data, void (*cb)(void*, const char*)) {
+    MagLog::addWarningListener(data, cb);
+}
+MAGICS_EXPORT void mag_add_error_listener(void* data, void (*cb)(void*, const char*)) {
+    MagLog::addErrorListener(data, cb);
+}
+MAGICS_EXPORT void mag_add_info_listener(void* data, void (*cb)(void*, const char*)) {
+    MagLog::addInfoListener(data, cb);
+}
+
+MAGICS_EXPORT void mag_add_debug_listener(void* data, void (*cb)(void*, const char*)) {
+    MagLog::addDebugListener(data, cb);
+}
+
+MAGICS_EXPORT void mag_clear_listeners() {
+    MagLog::clearListeners();
+}
+
 
 MAGICS_EXPORT void mag_pie() {
     ppie_();

@@ -1286,14 +1286,14 @@ void GribDecoder::visit(AnimationRules&) {}
 // prior to 1.15.0 which means that grib_nearest_find() does not work with Lambert grids when we keep the
 // same grib_nearest object.
 void GribDecoder::nearestGridpoints(double* inlats, double* inlons, double* outlats, double* outlons, double* values,
-                                    double* distances, int nb, string& representation) {
+                                    double* distances, int nb, const string& representation, double missing) {
     bool retainGribNearestHandle = false;
     grib_nearest* nearHandle     = NULL;
-    double outlats4[4];  // grib_nearest_find returns 4 results
-    double outlons4[4];  // grib_nearest_find returns 4 results
-    double outvals4[4];  // grib_nearest_find returns 4 results
-    double outdist4[4];  // grib_nearest_find returns 4 results
-    int outindexes[4];   // grib_nearest_find returns 4 results
+    double outlats4[4]={missing,};  // grib_nearest_find returns 4 results
+    double outlons4[4]={missing,};  // grib_nearest_find returns 4 results
+    double outvals4[4]={missing,};  // grib_nearest_find returns 4 results
+    double outdist4[4]={missing,};  // grib_nearest_find returns 4 results
+    int outindexes[4]={0,};         // grib_nearest_find returns 4 results
     size_t len;
 
     if (representation == "regular_ll" || representation == "reduced_ll" || representation == "regular_gg" ||
@@ -1305,6 +1305,7 @@ void GribDecoder::nearestGridpoints(double* inlats, double* inlons, double* outl
 
     for (int i = 0; i < nb; i++) {
         if (nearHandle) {
+            // TODO: Should really catch the error (return value) from grib_nearest_find
             grib_nearest_find(nearHandle, handle_, inlats[i], inlons[i], GRIB_NEAREST_SAME_GRID, outlats4, outlons4,
                               outvals4, outdist4, outindexes, &len);
             vector<double> vdistances(outdist4, outdist4 + 4);
@@ -1315,10 +1316,10 @@ void GribDecoder::nearestGridpoints(double* inlats, double* inlons, double* outl
             distances[i]     = outdist4[closestIndex];
         }
         else {
-            outlats[i]   = 0;
-            outlons[i]   = 0;
-            values[i]    = 0;
-            distances[i] = 0;
+            outlats[i]   = missing;
+            outlons[i]   = missing;
+            values[i]    = missing;
+            distances[i] = missing;
         }
     }
 
@@ -1380,7 +1381,7 @@ void GribDecoder::visit(ValuesCollector& points) {
 
         field_ = open(field_);
 
-        nearestGridpoints(inlats, inlons, outlats, outlons, values, distances, nb, representation);
+        nearestGridpoints(inlats, inlons, outlats, outlons, values, distances, nb, representation, missing);
 
         for (int i = 0; i < nb; i++) {
             points[i].push_back(new ValuesCollectorData(outlons[i], outlats[i], values[i], distances[i]));
@@ -1400,9 +1401,9 @@ void GribDecoder::visit(ValuesCollector& points) {
 
 
         openFirstComponent();
-        nearestGridpoints(inlats, inlons, outlats, outlons, x, distances, nb, representation);
+        nearestGridpoints(inlats, inlons, outlats, outlons, x, distances, nb, representation, missing);
         openSecondComponent();
-        nearestGridpoints(inlats, inlons, outlats, outlons, y, distances, nb, representation);
+        nearestGridpoints(inlats, inlons, outlats, outlons, y, distances, nb, representation, missing);
         for (int i = 0; i < nb; i++) {
             points[i].push_back(wind_mode_->values(outlons[i], outlats[i], x[i], y[i], distances[i]));
             if (x[i] == missing || y[i] == missing)
@@ -1753,7 +1754,7 @@ void GribDecoder::decodeRaster(const Transformation& transformation) {
 
 
 void GribDecoder::initInfo() {
-#if defined(METVIEW) && !defined(MAGICS_ON_WINDOWS)
+#if defined(HAVE_METVIEW) && !defined(MAGICS_ON_WINDOWS)
     if (information_.find("_datatype") == information_.end()) {
         setInfo("_datatype", "GRIB");
 
