@@ -65,7 +65,7 @@ MatrixHandler& InputMatrix::matrix() {
 void InputMatrix::filter(Matrix& data) {
     data.missing(std::numeric_limits<double>::max());
     for (unsigned int i = 0; i < data.size(); i++)
-        if (data[i] <= suppress_below_ || data[i] >= suppress_above_)
+        if (data[i] <= suppress_below_ || data[i] >= suppress_above_ || std::isnan(data[i]) || std::isinf(data[i]))
             data[i] = data.missing();
 }
 void InputMatrix::visit(MetaDataCollector& visitor) {
