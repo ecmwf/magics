@@ -363,7 +363,7 @@ void TagConverter::check(const string& text) {
 }
 
 void TagConverter::entities(ostream& out) {
-    string path = getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_ + "entities.dtd";
+    string path = buildConfigPath("entities.dtd");
 
     try {
         ifstream in(path.c_str());

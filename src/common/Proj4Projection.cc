@@ -152,7 +152,7 @@ map<string, Epsg*> Epsg::epsgs_;
 
 void EpsgConfig::init() {
     // methods_["epsg"] =  &EpsgConfig::epsg;
-    MagConfigHandler(getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_ + "/epsg.json", *this);
+    MagConfigHandler(buildConfigPath("epsg.json"), *this);
 }
 void Epsg::set(const json_spirit::Value& value) {
     ASSERT(value.type() == json_spirit::obj_type);

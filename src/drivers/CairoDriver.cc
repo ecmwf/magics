@@ -1340,13 +1340,13 @@ MAGICS_NO_EXPORT void CairoDriver::renderSymbols(const Symbol& symbol) const {
         BaseDriver::renderSymbols(symbol);
     }
     else {
-        string logofile = getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_;
+        string logofile;
         if (symbolName == "logo_cams")
-            logofile += "CAMS_combined.png";
+            logofile = buildConfigPath("CAMS_combined.png");
         else if (symbolName == "logo_c3s")
-            logofile += "C3S_combined.png";
+            logofile = buildConfigPath("C3S_combined.png");
         else
-            logofile += "ecmwf_logo_2014.png";
+            logofile = buildConfigPath("ecmwf_logo_2014.png");
 
         cairo_surface_t* image = cairo_image_surface_create_from_png(logofile.c_str());
         cairo_status_t ret     = cairo_surface_status(image);

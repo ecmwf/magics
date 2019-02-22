@@ -31,7 +31,6 @@
 
 using namespace magics;
 
-#define PATH(a) getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_ + a;
 
 CoastPlotting::CoastPlotting() {
     MagLog::debug() << "DELETE COAST PLOTTING! " << endl;
@@ -95,9 +94,10 @@ void NoCoastPlotting::operator()(DrawingVisitor& parent) {
 
 void NoCoastPlotting::efas(DrawingVisitor& visitor) {
     map<string, string> data;
-    data["extended"] = PATH("efas/ExtendedDomain/lines") data["current"] = PATH("efas/CurrentDomain/lines")
+    data["extended"] = buildConfigPath("efas/ExtendedDomain/lines");
+    data["current"]  = buildConfigPath("efas/CurrentDomain/lines");
 
-        map<string, string>::iterator file = data.find(lowerCase(efas_domain_));
+    map<string, string>::iterator file = data.find(lowerCase(efas_domain_));
 
     if (file == data.end()) {
         MagLog::warning() << " Can not find the EFAS domain " << efas_domain_ << ": revert to default [current]"
@@ -149,7 +149,7 @@ void NoCoastPlotting::user(DrawingVisitor& visitor) {
 }
 
 void NoCoastPlotting::rivers(DrawingVisitor& visitor) {
-    const string file = PATH(coastSet_["rivers"]);
+    const string file = buildConfigPath(coastSet_["rivers"]);
 
     ShapeDecoder rivers;
     rivers.setPath(file);
@@ -365,7 +365,7 @@ void CoastPlotting::decode(const Layout& parent) {
     vector<magics::Polyline*> coastlines;
     coast_.clear();
     ShapeDecoder coastline_decoder;
-    const string file = PATH(coastSet_["land"]);
+    const string file = buildConfigPath(coastSet_["land"]);
     coastline_decoder.setPath(file);
     coastline_decoder.decode(coastlines, transformation);
 
@@ -376,7 +376,7 @@ void CoastPlotting::decode(const Layout& parent) {
     if (sea_) {
         vector<magics::Polyline*> oceans;
         ocean_.clear();
-        const string file_ocean = PATH(coastSet_["ocean"]);
+        const string file_ocean = buildConfigPath(coastSet_["ocean"]);
         coastline_decoder.setPath(file_ocean);
         coastline_decoder.decode(oceans, transformation);
 

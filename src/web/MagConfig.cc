@@ -179,7 +179,7 @@ void StyleLibrary::callback(const string& name, const json_spirit::Value& value)
 void StyleLibrary::init() {
     // Now we have a variable
 
-    string ecmwf   = getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_ + "/styles/ecmwf";
+    string ecmwf   = buildConfigPath("styles", "ecmwf");
     string library = getEnvVariable("MAGICS_STYLE_PATH");
 
     if (library.empty())
@@ -232,7 +232,7 @@ void StyleLibrary::init() {
 }
 
 void PaletteLibrary::init() {
-    string library = getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_ + "/styles/palettes.json";
+    string library = buildConfigPath("styles", "palettes.json");
     MagConfigHandler(library, *this);
 }
 
@@ -269,7 +269,7 @@ void PaletteLibrary::callback(const string& name, const json_spirit::Value& valu
 }
 
 void UnitsLibrary::init() {
-    string library = getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_ + "/units-rules.json";
+    string library = buildConfigPath("units-rules.json");
     MagConfigHandler(library, *this);
 }
 
@@ -435,7 +435,9 @@ bool StyleLibrary::findScaling(const MetaDataCollector& data, MagDef& scaling) {
 }
 
 void NetcdfGuess::init() {
-    string library = getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_ + "/" + name_ + ".json";
+    ostringstream name;
+    name << name_ << ".json";
+    string library = buildConfigPath(name.str());
     MagLog::debug() << "Opening " << library << endl;
     MagConfigHandler(library, *this);
 }
@@ -454,7 +456,7 @@ void NetcdfGuess::callback(const string& name, const json_spirit::Value& value) 
     }
 }
 void MagDefLibrary::init(const string& name) {
-    string library = getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_ + "/" + name;
+    string library = buildConfigPath(name);
     MagLog::dev() << "opening -->" << library << endl;
     MagConfigHandler(library, *this);
 }
