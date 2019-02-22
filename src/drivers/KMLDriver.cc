@@ -158,8 +158,7 @@ void KMLDriver::close() {
 
     // Wind icon file
     const string iconfile  = "magics_kml_icons.png";
-    const string path      = getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_;
-    const string icon_path = path + iconfile;
+    const string icon_path = buildConfigPath(iconfile);
 
     bool is_copied = copy_file(icon_path, iconfile);
     if (is_copied)
@@ -167,7 +166,7 @@ void KMLDriver::close() {
 
     if (ecmwf_logo_) {
         const string logofilename = "kml_logo_2014.png";
-        const string logofile     = path + logofilename;
+        const string logofile     = buildConfigPath(logofilename);
         is_copied                 = copy_file(logofile, logofilename);
         if (is_copied)
             kml_output_resource_list_.push_back(logofilename);
@@ -1080,8 +1079,8 @@ MAGICS_NO_EXPORT bool KMLDriver::renderCellArray(const Image& image) const {
                         g = 1.;
                         b = 1.;
                         a = 0.;
-                        //				MagLog::info()<< "PostScriptDriver-> Cellshading colour not defined in table! Colour
-                        //index: "<<c<< std::endl;
+                        //				MagLog::info()<< "PostScriptDriver-> Cellshading colour not defined in table!
+                        // Colour index: "<<c<< std::endl;
                         //    PostScript will always 'overpaint' anything below missing data!!!!
                         //
                     }

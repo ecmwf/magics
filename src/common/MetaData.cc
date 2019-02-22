@@ -147,7 +147,7 @@ void MetaDataVisitor::collectMetaData() {
     }
     if (!efi_.empty()) {
         char c;
-        string path = getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_ + "efi/" + efi_template_;
+        string path = buildConfigPath("efi", efi_template_);
         try {
             ofstream out(efi_.c_str());
             ifstream in(path.c_str());

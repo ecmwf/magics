@@ -954,7 +954,7 @@ void GDDriver::print(ostream& out) const {
 */
 MAGICS_NO_EXPORT void GDDriver::renderMagLogo(MFloat x, MFloat y) const {
     GraphicsFormat format = PNG;
-    const string logofile = getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_ + "ecmwf_logo.png";
+    const string logofile = buildConfigPath("ecmwf_logo.png");
     convertToPixmap(logofile, format, 300, x - 40, y + 10, x + 50, y - 5);
 }
 

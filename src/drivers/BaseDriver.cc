@@ -132,7 +132,7 @@ void BaseDriver::printOutputName(const std::string& str) const {
   \todo make this a singleton!?
 */
 void BaseDriver::readFonts() const {
-    const string s = getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_ + "Fonts.dat";
+    const string s = buildConfigPath("Fonts.dat");
     ifstream psfile(s.c_str());
 
     if (psfile) {
