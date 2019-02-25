@@ -525,7 +525,7 @@ MAGICS_NO_EXPORT void BinaryDriver::renderText(const Text& text) const {
         int len        = t.length();
         out_.write((char*)(&len), sizeof(int));
 
-        char* pp = new char[len];
+        char* pp = new char[len + 1];
         strcpy(pp, t.c_str());
         out_.write(pp, sizeof(char) * len);
         delete[] pp;
