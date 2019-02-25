@@ -336,18 +336,25 @@ void Proj4Projection::corners() {
     fast_reproject(min_pcx_, min_pcy_);
     fast_reproject(max_pcx_, max_pcy_);
 
+    delete PCEnveloppe_;
+    /*
     magics::Polyline box;
     box.box(PaperPoint(min_pcx_, min_pcy_), PaperPoint(max_pcx_, max_pcy_));
 
+    cout << "corners before -->" << *PCEnveloppe_ << endl;
+    cout << "new box -->" << box << endl;
     vector<magics::Polyline*> newbox;
     PCEnveloppe_->intersect(box, newbox);
+
     if (newbox.empty()) {
         MagLog::warning() << "Proj4 : the sub-area is not valid : use global view instead" << endl;
     }
     else {
         PCEnveloppe_ = newbox.front();
     }
-    // Clear newbox
+    */
+    PCEnveloppe_ = new Polyline();
+    PCEnveloppe_->box(PaperPoint(min_pcx_, min_pcy_), PaperPoint(max_pcx_, max_pcy_));
 }
 
 void Proj4Projection::centre() {}
@@ -1037,12 +1044,6 @@ void Proj4Projection::coastSetting(map<string, string>& setting, double abswidth
     const double area = (max_pcx_ - min_pcx_) * (max_pcy_ - min_pcy_);
 
     double ratio = area / (abswidth * absheight);
-
-    // projFACTORS data = proj_factors(to_, xy);
-
-
-    // cout << "RATIO" << area << endl;
-
 
     std::string resol = "110m";
     if (ratio < 1000000)  // highest resolution
