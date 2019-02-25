@@ -112,7 +112,7 @@
             "eccharts_style" : [
                 "sh_gry_fM72t56lst"
             ],
-            "key_words" : [],
+            "keywords" : [],
             "n_levels" : "33",
             "origin" : "eccharts",
             "parameter" : [
@@ -468,7 +468,7 @@
             "eccharts_style" : [
                 "sh_all_pmx_regional"
             ],
-            "key_words" : [
+            "keywords" : [
                 "cams"
             ],
             "n_levels" : "11",
@@ -798,7 +798,7 @@
             "eccharts_style" : [
                 "sh_range_fm40t40"
             ],
-            "key_words" : [
+            "keywords" : [
                 "anomaly"
             ],
             "n_levels" : "40",
@@ -839,7 +839,7 @@
             "eccharts_style" : [
                 "sh_rb_fm100t100"
             ],
-            "key_words" : [],
+            "keywords" : [],
             "n_levels" : "19",
             "origin" : "eccharts",
             "parameter" : [
@@ -867,7 +867,7 @@
             "eccharts_style" : [
                 "t_upper_anomaly"
             ],
-            "key_words" : [
+            "keywords" : [
                 "anomaly"
             ],
             "n_levels" : "7",
@@ -898,7 +898,7 @@
             "eccharts_style" : [
                 "sh_all_f05t100"
             ],
-            "key_words" : [],
+            "keywords" : [],
             "n_levels" : "9",
             "origin" : "eccharts",
             "parameter" : [
@@ -1495,7 +1495,7 @@
             "eccharts_style" : [
                 "narrow_range_2t_anomaly"
             ],
-            "key_words" : [],
+            "keywords" : [],
             "n_levels" : "16",
             "origin" : "eccharts",
             "parameter" : [
@@ -1800,7 +1800,7 @@
             "eccharts_style" : [
                 "sh_prob_rb_temperature"
             ],
-            "key_words" : [
+            "keywords" : [
                 "anomaly"
             ],
             "n_levels" : "9",
@@ -2205,7 +2205,7 @@
                 "sh_range_f008to25",
                 "sh_range_f02t30"
             ],
-            "key_words" : [
+            "keywords" : [
                 "spread"
             ],
             "n_levels" : "10",
@@ -3209,7 +3209,7 @@
             "eccharts_style" : [
                 "sh_all_pm2p5_defra_daqi"
             ],
-            "key_words" : [
+            "keywords" : [
                 "cams"
             ],
             "n_levels" : "9",
@@ -3469,7 +3469,7 @@
                 "sh_all_fM50t58i2",
                 "sh_all_fM95t13i2"
             ],
-            "key_words" : [
+            "keywords" : [
                 "temperature"
             ],
             "n_levels" : "54",
@@ -4208,7 +4208,7 @@
             "eccharts_style" : [
                 "range_100_4500"
             ],
-            "key_words" : [
+            "keywords" : [
                 "cape"
             ],
             "n_levels" : "19",
@@ -4303,7 +4303,7 @@
                 "sh_blu_f008t25",
                 "sh_blu_f03t75"
             ],
-            "key_words" : [
+            "keywords" : [
                 "spread",
                 "potential vorticity"
             ],
@@ -5774,7 +5774,7 @@
             "eccharts_style" : [
                 "sh_blured_f0t300"
             ],
-            "key_words" : [],
+            "keywords" : [],
             "n_levels" : "15",
             "origin" : "eccharts",
             "parameter" : [
@@ -6023,7 +6023,7 @@
             "eccharts_style" : [
                 "sh_grnblue_f1t100"
             ],
-            "key_words" : [
+            "keywords" : [
                 "probability"
             ],
             "n_levels" : "7",
@@ -6084,7 +6084,7 @@
             "eccharts_style" : [
                 "sh_all_fM80t56i4_v2"
             ],
-            "key_words" : [
+            "keywords" : [
                 "temperature"
             ],
             "n_levels" : "34",
@@ -7681,7 +7681,7 @@
             "eccharts_style" : [
                 "sh_red_f001t10"
             ],
-            "key_words" : [],
+            "keywords" : [],
             "n_levels" : "9",
             "origin" : "eccharts",
             "parameter" : [
@@ -7773,7 +7773,7 @@
             "eccharts_style" : [
                 "sh_prob_rb_rain"
             ],
-            "key_words" : [
+            "keywords" : [
                 "anomaly"
             ],
             "n_levels" : "9",
@@ -8121,7 +8121,7 @@
             "eccharts_style" : [
                 "sh_all_pmx_ncl_precip_11lev"
             ],
-            "key_words" : [
+            "keywords" : [
                 "cams"
             ],
             "n_levels" : "12",
