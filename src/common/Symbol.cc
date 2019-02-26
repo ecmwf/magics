@@ -212,7 +212,7 @@ void Symbol::redisplay(const BaseDriver& driver) const {
 
     vector<Polyline*> lines;
 
-    boundingbox_.clip(line, lines);
+    line.clip(boundingbox_, lines);
 
     for (vector<Polyline*>::const_iterator l = lines.begin(); l != lines.end(); ++l) {
         driver.redisplay(**l);
