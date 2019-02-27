@@ -26,12 +26,26 @@
 #include "PaperPoint.h"
 #include "Text.h"
 
+#include "MagTranslator.h"
 #include "Tokenizer.h"
 
 using namespace magics;
 
 
+void ObsItemBox::set(const map<string, string>& def) {
+    MagTranslator<string, magics::Justification> translate;
+
+    row_           = atoi(find(def, "row").c_str());
+    column_        = atoi(find(def, "column").c_str());
+    colour_        = find(def, "colour", "black");
+    key_           = find(def, "key", "");
+    format_        = find(def, "format", "");
+    justification_ = translate(find(def, "justification", ""));
+}
+
+
 map<int, string> ObsCloudAndWind::origins_;
+
 
 void ObsWind::setOrigins() {}
 void ObsWind::visit(std::set<string>& tokens) {
@@ -583,7 +597,7 @@ void ObsHeight::operator()(CustomisedPoint& point, ComplexSymbol& symbol) const 
     height->y(row_);
 
     height->text(tostring(geop));
-    // height->setJustification(MLEFT);
+    height->justification(justification_);
     height->font(font);
     symbol.add(height);
 }
@@ -616,7 +630,7 @@ void ObsThickness::operator()(CustomisedPoint& point, ComplexSymbol& symbol) con
     object->y(row_);
 
     object->text(tostring(thickness));
-    // object->setJustification(MLEFT);
+    object->justification(justification_);
     object->font(font);
     symbol.add(object);
 }
@@ -805,9 +819,9 @@ void ObsCloud::operator()(CustomisedPoint& point, ComplexSymbol& symbol) const {
             "CM_5";  // 25 25 ALTOCUMULUS TRANSLUCIDUS IN BANDS, OR ONE OR MORE LAYERS OF ALTOCUMULUS TRANSLUCIDUS OR
                      // OPACUS, PROGRESSIVELY INVADING THE SKY; THESE ALTOCUMULUS CLOUDS GENERALLY THICKEN AS A WHOLE
         clouds_[26] = "CM_6";  // 26 26 ALTOCUMULUS CUMULOGENITUS (OR CUMULONIMBOGENITUS)
-        clouds_[27] =
-            "CM_7";  // 27 27 ALTOCUMULUS TRANSLUCIDUS OR OPACUS IN TWO OR MORE LAYERS, OR ALTOCUMULUS OPACUS IN A
-                     // SINGLE LAYER, NOT PROGRESSIVELY INVADING THE SKY, OR ALTOCUMULUS WITH ALTOSTRATUS OR NIMBOSTRATUS
+        clouds_[27] = "CM_7";  // 27 27 ALTOCUMULUS TRANSLUCIDUS OR OPACUS IN TWO OR MORE LAYERS, OR ALTOCUMULUS OPACUS
+                               // IN A SINGLE LAYER, NOT PROGRESSIVELY INVADING THE SKY, OR ALTOCUMULUS WITH ALTOSTRATUS
+                               // OR NIMBOSTRATUS
         clouds_[28] = "CM_8";  //		28 28 ALTOCUMULUS CASTELLANUS OR FLOCCUS
         clouds_[29] = "CM_9";  // 29 29 ALTOCUMULUS OF A CHAOTIC SKY, GENERALLY AT SEVERAL LEVELS
         // 30 30 NO CL CLOUDS
