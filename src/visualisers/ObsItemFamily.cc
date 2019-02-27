@@ -200,27 +200,6 @@ void ObsCloudAndWind::operator()(CustomisedPoint& point, ComplexSymbol& symbol) 
     if (point.latitude() < 0)
         flag->setHemisphere(SOUTH);
     symbol.add(flag);
-    /*
-        flag = new FlagItem();
-        flag->setColour(Colour("red"));
-        flag->length(owner_->size_*2.5); // Size to be adjusted later!
-        flag->thickness(1.5);
-
-        flag->setOriginHeight(owner_->ring_size_ * 1.75);
-        flag->setOriginMarker(origin);
-        flag->x(0);
-        flag->y(0);
-
-
-
-        flag->speed(speed);
-        flag->direction(direction);
-
-
-        if (point.latitude() <0 )
-            flag->setHemisphere(SOUTH);
-        symbol.add(flag);
-    */
 }
 
 void ObsPressure::visit(std::set<string>& tokens) {
