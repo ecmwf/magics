@@ -16,18 +16,13 @@
 #include "ObsPlotting.h"
 #include "Symbol.h"
 #include "UserPoint.h"
+
 class ObsItemBox : public ObsItem {
 public:
     ObsItemBox() {}
     ~ObsItemBox() {}
 
-    virtual void set(const map<string, string>& def) {
-        row_    = atoi(find(def, "row").c_str());
-        column_ = atoi(find(def, "column").c_str());
-        colour_ = find(def, "colour", "black");
-        key_    = find(def, "key", "");
-        format_ = find(def, "format", "");
-    }
+    virtual void set(const map<string, string>& def);
 
 protected:
     int row_;
@@ -35,6 +30,7 @@ protected:
     string colour_;
     string key_;
     string format_;
+    Justification justification_;
 };
 
 class ObsStationRing : public ObsItemBox {

@@ -173,7 +173,7 @@ MAGICS_NO_EXPORT void BaseDriver::renderTextItem(const TextItem& textItem, const
     const MFloat posX = owner[0].x() + (textItem.x() * scaling * pX);
     const MFloat posY = owner[0].y() + (setSymbolY(textItem.y()) * scaling * pY);
     text.push_back(PaperPoint(posX, posY));
-    text.setJustification(MCENTRE);
+    text.setJustification(textItem.justification());
     //
     //! \todo We need to decide if we need to align text in WMO symbols
     //

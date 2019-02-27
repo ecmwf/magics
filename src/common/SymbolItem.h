@@ -95,10 +95,14 @@ public:
     MagFont font() const { return font_; }
     void font(const MagFont& font) { font_ = font; }
 
+    Justification justification() const { return justification_; }
+    void justification(const Justification& justification) { justification_ = justification; }
+
 protected:
     virtual void print(ostream&) const;
     string text_;
     MagFont font_;
+    Justification justification_;
 };
 class FlagItem : public GraphicsItem, public ArrowProperties {
 public:

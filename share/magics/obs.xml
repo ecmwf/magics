@@ -112,8 +112,8 @@
 	<obs_temperature row='1' column='-1'/>
 	<obs_dewpoint row='-1' column='-1'/>
 	<obs_height row='1' column='1'/>
-	<obs_thickness row='0' column='1'/>
-	<obs_time_plot row='0' column='-1'/>
+	<obs_thickness row='0' column='1' justification='left'/>
+	<obs_time_plot row='0' column='-1' />
 	<obs_identification row='-2' column='-1'/>
  </obs_template>
 
