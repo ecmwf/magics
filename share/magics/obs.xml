@@ -106,7 +106,7 @@
 	<obs_identification row='-1' column='-1'/>
  </obs_template>
 
- <obs_template type='temp' rows='4' columns='3'>:
+ <obs_template type='temp' rows='4' columns='5'>:
 	<obs_station_ring row='0' column='0'/>
 	<obs_wind/>
 	<obs_temperature row='1' column='-1'/>
