@@ -69,13 +69,10 @@ install:
   # install conda deps
   - conda install boost libnetcdf expat jinja2
   - conda install -c conda-forge proj4=5 eccodes pytest
-  # hack the eccodes libm path
-  # this should be removed once the eccodes conda-forge package has been built with
-  # REPLACE_TPL_ABSOLUTE_PATHS=1
+  # search for conda-installed libraries
   - |
     if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
-      cd ${CONDA_PREFIX}/share/eccodes/cmake
-      sed -i 's@'${CONDA_PREFIX}'/x86_64-conda_cos6-linux-gnu/sysroot/usr/lib/libm.so@-lm@g' *.cmake;
+      export LDFLAGS="$LDFLAGS -L${CONDA_PREFIX}/lib -Wl,-rpath,${CONDA_PREFIX}/lib"
     fi
 
 #---------------------------------#
