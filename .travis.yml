@@ -85,8 +85,8 @@ script:
   - cmake -D CMAKE_INSTALL_PREFIX=${INSTALL_DIR}
           -D ENABLE_FORTRAN=0
           ${MAGICS_SRC}
-  - make -j4
-  - ctest -j4 --output-on-failure
+  - make -j2
+  - ctest -j2 --output-on-failure
   - make install > /dev/null
   # test
   - cd ${MAGICS_PYTHON_SRC}
