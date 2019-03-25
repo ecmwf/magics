@@ -62,7 +62,7 @@ install:
 
     # other conda deps
     - cmd: conda install boost libnetcdf expat jinja2
-    - cmd: conda install -c conda-forge proj4 pthreads-win32 libiconv eccodes
+    - cmd: conda install -c conda-forge proj4=5 pthreads-win32 libiconv eccodes
 
     # gtk+ - needed for pango
     # includes cairo, pango, glib, and other deps
