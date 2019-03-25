@@ -35,7 +35,7 @@ matrix:
 env:
   global:
     - MAGICS_SRC=${TRAVIS_BUILD_DIR}
-    - MAGICS_REGRESSION_GALLERY=${MAGICS_SRC}/regression/gallery
+    - MAGICS_REGRESSION_GALLERY=${MAGICS_SRC}/test/python
     - MAGICS_PYTHON_SRC=${MAGICS_SRC}/../magics-python
     - ECBUILD_SRC=${MAGICS_SRC}/../ecbuild
     - BUILD_DIR=${MAGICS_SRC}/build
