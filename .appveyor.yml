@@ -123,5 +123,5 @@ build_script:
 
 test_script:
   - cmd: cd %MAGICS_PYTHON_SRC%
-  - cmd: set PYTHON_PATH=%PYTHON_PATH%;%MAGICS_PYTHON_SRC%
+  - cmd: set PYTHONPATH=%PYTHONPATH%;%MAGICS_PYTHON_SRC%
   - cmd: pytest
