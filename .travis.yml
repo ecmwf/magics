@@ -1,0 +1,86 @@
+#---------------------------------#
+#      general configuration      #
+#---------------------------------#
+
+sudo: false
+
+branches:
+  only:
+    - develop
+    - master
+
+language: cpp
+
+matrix:
+  include:
+    - os: linux
+      dist: xenial
+      addons:
+        apt:
+          packages:
+            - libpango1.0-dev
+      env:
+        MINICONDA_FILE="Miniconda3-latest-Linux-x86_64.sh"
+        PROJ4_PATH=~/miniconda3
+         
+    - os: osx 
+      osx_image: xcode10.1
+      addons:
+        homebrew:
+          packages:
+            - pango
+      env:
+        MINICONDA_FILE="Miniconda3-latest-MacOSX-x86_64.sh"
+
+env:
+  global:
+    - MAGICS_SRC=${TRAVIS_BUILD_DIR}
+    - ECBUILD_SRC=${MAGICS_SRC}/../ecbuild
+    - BUILD_DIR=${MAGICS_SRC}/build
+    - INSTALL_DIR=/tmp/install
+
+git:
+  depth: 1
+
+before_install:
+  # prepare install dir
+  - mkdir ${INSTALL_DIR}
+  # install conda
+  - |
+    MINICONDA_URL="https://repo.continuum.io/miniconda"
+    curl -L -O "${MINICONDA_URL}/${MINICONDA_FILE}"
+    bash ${MINICONDA_FILE} -b
+  # activate conda
+  - source ~/miniconda3/bin/activate
+  # auto-yes for conda
+  - conda config --set always_yes yes
+  # add extra conda dirs to path so cmake can find packages
+  - export PATH=~/miniconda3/lib:~/miniconda3/include:${PATH}
+
+install:
+  # install ecbuild
+  - git clone --depth 1 https://github.com/ecmwf/ecbuild.git ${ECBUILD_SRC}
+  # install conda deps
+  - conda install boost libnetcdf expat jinja2
+  - conda install -c conda-forge proj4=5 eccodes
+  # hack the eccodes libm path
+  # this should be removed once the eccodes conda-forge package has been built with
+  # REPLACE_TPL_ABSOLUTE_PATHS=1
+  - |
+    if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+      cd ${CONDA_PREFIX}/share/eccodes/cmake
+      sed -i 's@'${CONDA_PREFIX}'/x86_64-conda_cos6-linux-gnu/sysroot/usr/lib/libm.so@-lm@g' *.cmake;
+    fi
+
+#---------------------------------#
+#       build configuration       #
+#---------------------------------#
+
+script:
+  - mkdir -p ${BUILD_DIR} && cd ${BUILD_DIR}
+  - cmake -D CMAKE_INSTALL_PREFIX=${INSTALL_DIR}
+          -D ENABLE_FORTRAN=0
+          ${MAGICS_SRC}
+  - make -j4
+  - ctest -j4 --output-on-failure
+  - make install > /dev/null
