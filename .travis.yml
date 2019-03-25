@@ -62,7 +62,7 @@ install:
   - git clone --depth 1 https://github.com/ecmwf/ecbuild.git ${ECBUILD_SRC}
   # install conda deps
   - conda install boost libnetcdf expat jinja2
-  - conda install -c conda-forge proj4 eccodes
+  - conda install -c conda-forge proj4=5 eccodes
   # hack the eccodes libm path
   # this should be removed once the eccodes conda-forge package has been built with
   # REPLACE_TPL_ABSOLUTE_PATHS=1
