@@ -39,6 +39,8 @@ init:
   - cmd: set PATH=%PATH%;%INSTALL_DIR%
   # auto-yes for conda
   - cmd: conda config --set always_yes yes
+  # update conda
+  - cmd: conda update -n base -c defaults conda
 
 clone_folder: $(MAGICS_SRC)
 
