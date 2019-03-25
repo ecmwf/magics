@@ -35,9 +35,12 @@ matrix:
 env:
   global:
     - MAGICS_SRC=${TRAVIS_BUILD_DIR}
+    - MAGICS_REGRESSION_GALLERY=${MAGICS_SRC}/regression/gallery
+    - MAGICS_PYTHON_SRC=${MAGICS_SRC}/../magics-python
     - ECBUILD_SRC=${MAGICS_SRC}/../ecbuild
     - BUILD_DIR=${MAGICS_SRC}/build
     - INSTALL_DIR=/tmp/install
+    - MAGPLUS_HOME=${INSTALL_DIR}
 
 git:
   depth: 1
@@ -60,6 +63,8 @@ before_install:
 install:
   # install ecbuild
   - git clone --depth 1 https://github.com/ecmwf/ecbuild.git ${ECBUILD_SRC}
+  # install magics-python source
+  - git clone --depth 1 https://github.com/ecmwf/magics-python.git ${MAGICS_PYTHON_SRC}
   # install conda deps
   - conda install boost libnetcdf expat jinja2
   - conda install -c conda-forge proj4=5 eccodes
@@ -77,6 +82,7 @@ install:
 #---------------------------------#
 
 script:
+  # build
   - mkdir -p ${BUILD_DIR} && cd ${BUILD_DIR}
   - cmake -D CMAKE_INSTALL_PREFIX=${INSTALL_DIR}
           -D ENABLE_FORTRAN=0
@@ -84,3 +90,6 @@ script:
   - make -j4
   - ctest -j4 --output-on-failure
   - make install > /dev/null
+  # test
+  - cd ${MAGICS_PYTHON_SRC}
+  - pytest
