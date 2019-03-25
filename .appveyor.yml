@@ -21,7 +21,6 @@ environment:
   MAGPLUS_HOME: $(INSTALL_DIR)
   MAGICS_PYTHON_SRC: $(GIT_CLONE_DIR)\magics_python
   ECBUILD_SRC: $(GIT_CLONE_DIR)\ecbuild
-  PYTHON_PATH: $(PYTHON_PATH);$(MAGICS_PYTHON_SRC)
 
 # scripts that are called at very beginning, before repo cloning
 init:
@@ -124,4 +123,5 @@ build_script:
 
 test_script:
   - cmd: cd %MAGICS_PYTHON_SRC%
+  - cmd: set PYTHON_PATH=%PYTHON_PATH%;%MAGICS_PYTHON_SRC%
   - cmd: pytest
