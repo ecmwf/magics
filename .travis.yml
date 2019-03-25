@@ -41,6 +41,7 @@ env:
     - BUILD_DIR=${MAGICS_SRC}/build
     - INSTALL_DIR=/tmp/install
     - MAGPLUS_HOME=${INSTALL_DIR}
+    - PYTHON_PATH=${PYTHON_PATH}:${MAGICS_PYTHON_SRC}
 
 git:
   depth: 1
