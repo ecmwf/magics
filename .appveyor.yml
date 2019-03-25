@@ -63,12 +63,9 @@ install:
                                 m2-perl ^
                                 m2-unzip
 
-  # get the latest version of cmake & jom
-  - cmd: conda install -c conda-forge cmake jom
-
-  # other conda deps
+  # install conda deps
   - cmd: conda install boost libnetcdf expat jinja2
-  - cmd: conda install -c conda-forge proj4=5 pthreads-win32 libiconv eccodes
+  - cmd: conda install -c conda-forge cmake jom proj4=5 pthreads-win32 libiconv eccodes pytest
 
   # gtk+ - needed for pango
   # includes cairo, pango, glib, and other deps

@@ -67,7 +67,7 @@ install:
   - git clone --depth 1 https://github.com/ecmwf/magics-python.git ${MAGICS_PYTHON_SRC}
   # install conda deps
   - conda install boost libnetcdf expat jinja2
-  - conda install -c conda-forge proj4=5 eccodes
+  - conda install -c conda-forge proj4=5 eccodes pytest
   # hack the eccodes libm path
   # this should be removed once the eccodes conda-forge package has been built with
   # REPLACE_TPL_ABSOLUTE_PATHS=1
