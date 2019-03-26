@@ -16,7 +16,7 @@
 
 find_package(PkgConfig)
 
-pkg_check_modules(PC_LIBPANGOCAIRO QUIET pangocairo)
+pkg_check_modules(PC_LIBPANGOCAIRO pangocairo)
 
 if(EC_OS_NAME MATCHES "windows")
 
