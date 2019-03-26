@@ -69,7 +69,7 @@ install:
   # install magics-python source
   - git clone --depth 1 https://github.com/ecmwf/magics-python.git ${MAGICS_PYTHON_SRC}
   # install conda deps
-  - conda install boost libnetcdf expat jinja2 xarray
+  - conda install boost libnetcdf expat jinja2 xarray scipy cftime
   - conda install -c conda-forge proj4=5 eccodes pytest
   # search for conda-installed libraries
   - |
