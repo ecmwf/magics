@@ -66,7 +66,7 @@ install:
                                 m2-unzip
 
   # install conda deps
-  - cmd: conda install boost libnetcdf expat jinja2
+  - cmd: conda install boost libnetcdf expat jinja2 xarray
   - cmd: conda install -c conda-forge cmake jom proj4=5 pthreads-win32 libiconv eccodes pytest
 
   # gtk+ - needed for pango
