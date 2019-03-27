@@ -45,7 +45,7 @@ Polyline* Polyline::getNew() const {
 void Polyline::print(ostream& out) const {
     out << "Polyline[";
     out << ", nb_points = " << this->size();
-    if (this->size() < 20) {
+    if (this->size() < 2000) {
         out << " Outer [";
         string sep            = "";
         const unsigned int nb = size();

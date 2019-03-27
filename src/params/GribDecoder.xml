@@ -79,7 +79,7 @@ does it submit to any jurisdiction.
          		<option xml="vdmode" fortran="sd" include="WindMode.h" name="SDWindMode">		</option>
   	</parameter>
 
-  	<parameter member="grib_field_position" to="int" default="1" from="int" name="grib_field_position">
+  	<parameter member="field_position" to="int" default="1" from="int" name="grib_field_position">
          		<documentation> The position in the input file of a field other than a wind component 		</documentation>
   	</parameter>
 

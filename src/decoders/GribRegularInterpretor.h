@@ -33,9 +33,9 @@ public:
     GribRegularInterpretor();
     virtual ~GribRegularInterpretor();
 
-    void interpretAsMatrix(const GribDecoder&, Matrix**, Matrix** matrix2 = NULL) const;
+    void interpretAsMatrix(GribDecoder&) const;
     virtual double XResolution(const GribDecoder& grib) const { return longitudeIncrement(grib); }
-    void interpretAsMatrix(const GribDecoder&, Matrix**, const Transformation&) const;
+    void interpretAsMatrix(GribDecoder&, const Transformation&) const;
     virtual void interpretAsRaster(const GribDecoder&, RasterData&, const Transformation&) const;
     virtual void latitudes(const GribDecoder&, vector<double>&) const;
     virtual double longitudeIncrement(const GribDecoder&) const;
@@ -66,8 +66,8 @@ public:
     virtual ~GribReducedGaussianInterpretor() {}
 
     virtual double XResolution(const GribDecoder& grib) const;
-    void interpretAsMatrix(const GribDecoder&, Matrix**, Matrix** matrix2 = NULL) const;
-    void interpretAsMatrix(const GribDecoder&, Matrix**, const Transformation&) const;
+    void interpretAsMatrix(GribDecoder&) const;
+    void interpretAsMatrix(GribDecoder&, const Transformation&) const;
     void interpretAsRaster(const GribDecoder&, RasterData&, const Transformation&) const;
     void index(const GribDecoder& grib);
 
@@ -94,7 +94,7 @@ public:
     GribReducedLatLonInterpretor() {}
     virtual ~GribReducedLatLonInterpretor() {}
 
-    void interpretAsMatrix(const GribDecoder&, Matrix**, Matrix** matrix2 = NULL) const;
+    void interpretAsMatrix(GribDecoder&) const;
     virtual double XResolution(const GribDecoder& grib) const;
 
 protected:
@@ -125,7 +125,7 @@ public:
     PaperPoint reference(const GribDecoder&, const Transformation&);
     void raw(GribDecoder&, const Transformation&, const string&, map<double, map<double, CustomisedPoint*> >&) const;
     void keepOriginal(bool original) { original_ = original; }
-    void interpretAsMatrix(const GribDecoder&, Matrix**, Matrix** matrix2 = NULL) const;
+    void interpretAsMatrix(GribDecoder&) const;
     void interpret2D(double&, double&, double&, double&) const;
 
 protected:
@@ -145,7 +145,7 @@ public:
     virtual ~GribLambertAzimutalInterpretor() {}
 
     UserPoint unrotate(double lat, double lon) const;
-    void interpretAsMatrix(const GribDecoder&, Matrix**, Matrix** matrix2 = NULL) const;
+    void interpretAsMatrix(GribDecoder&) const;
     PaperPoint reference(const GribDecoder&, const Transformation&);
     double XResolution(const GribDecoder& grib) const;
 
@@ -162,7 +162,7 @@ public:
     virtual ~GribLambertInterpretor() {}
 
 
-    void interpretAsMatrix(const GribDecoder&, Matrix**, Matrix** matrix2 = NULL) const;
+    void interpretAsMatrix(GribDecoder&) const;
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
@@ -176,7 +176,7 @@ public:
     virtual ~GribPolarStereoInterpretor() {}
 
 
-    void interpretAsMatrix(const GribDecoder&, Matrix**, Matrix** matrix2 = NULL) const;
+    void interpretAsMatrix(GribDecoder&) const;
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).

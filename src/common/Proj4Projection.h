@@ -195,6 +195,7 @@ public:
 
     void conic();
     void geos();
+    void tpers();
     void simple();
     void projectionSimple();
 

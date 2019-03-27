@@ -239,7 +239,7 @@ void Proj4Projection::init() {
 
 
     methods_["geos"]   = &Proj4Projection::geos;
-    methods_["tpers"]  = &Proj4Projection::geos;
+    methods_["tpers"]  = &Proj4Projection::tpers;
     methods_["polar"]  = &Proj4Projection::conic;
     methods_["conic"]  = &Proj4Projection::conic;
     methods_["simple"] = &Proj4Projection::simple;
@@ -337,22 +337,7 @@ void Proj4Projection::corners() {
     fast_reproject(max_pcx_, max_pcy_);
 
     delete PCEnveloppe_;
-    /*
-    magics::Polyline box;
-    box.box(PaperPoint(min_pcx_, min_pcy_), PaperPoint(max_pcx_, max_pcy_));
 
-    cout << "corners before -->" << *PCEnveloppe_ << endl;
-    cout << "new box -->" << box << endl;
-    vector<magics::Polyline*> newbox;
-    PCEnveloppe_->intersect(box, newbox);
-
-    if (newbox.empty()) {
-        MagLog::warning() << "Proj4 : the sub-area is not valid : use global view instead" << endl;
-    }
-    else {
-        PCEnveloppe_ = newbox.front();
-    }
-    */
     PCEnveloppe_ = new Polyline();
     PCEnveloppe_->box(PaperPoint(min_pcx_, min_pcy_), PaperPoint(max_pcx_, max_pcy_));
 }
@@ -458,13 +443,20 @@ void Proj4Projection::add(double lon, double lat) {
     PCEnveloppe_->push_back(PaperPoint(x, y));
 
     if (x < min_pcx_)
-        min_pcx_ = x;
+        min_pcx_ = x - 10000;
     if (y < min_pcy_)
-        min_pcy_ = y;
+        min_pcy_ = y - 10000;
     if (x > max_pcx_)
-        max_pcx_ = x;
+        max_pcx_ = x + 10000;
     if (y > max_pcy_)
-        max_pcy_ = y;
+        max_pcy_ = y + 10000;
+
+    gridMinLon_ = -180;
+    gridMaxLon_ = 360;
+    gridMinLat_ = -90;
+    gridMaxLat_ = 90;
+
+    /*
     if (lon < gridMinLon_)
         gridMinLon_ = lon;
     if (lat < gridMinLat_)
@@ -473,6 +465,8 @@ void Proj4Projection::add(double lon, double lat) {
         gridMaxLon_ = lon;
     if (lat > gridMaxLat_)
         gridMaxLat_ = lat;
+
+    */
 }
 
 void Proj4Projection::conic() {
@@ -612,6 +606,98 @@ void Proj4Projection::geos() {
     }
 }
 
+void Proj4Projection::tpers() {
+    userEnveloppe_->clear();
+    PCEnveloppe_->clear();
+    // here we have to prepare the enveloppe!
+    min_pcx_ = DBL_MAX;
+    min_pcy_ = DBL_MAX;
+    max_pcx_ = -DBL_MAX;
+    max_pcy_ = -DBL_MAX;
+
+
+    map<double, vector<double> > helper;
+
+    // projection_view_latitude_
+    // projection_view_longitude_
+
+    double lastlon;
+    int missing = -99999;
+    double step = 0.1;
+    for (double lat = projection_view_latitude_; lat <= 90; lat += step) {
+        lastlon = missing;
+        for (double lon = projection_view_longitude_; lon <= projection_view_longitude_ + 360; lon += step) {
+            double x  = lon * DEG_TO_RAD;
+            double y  = DEG_TO_RAD * lat;
+            int error = pj_transform(from_, to_, 1, 1, &x, &y, NULL);
+            if (error) {
+                // we reach a border!
+
+                if (lastlon != missing) {
+                    add(lastlon, lat);
+                }
+                break;
+            }
+            lastlon = lon;
+        }
+    }
+    for (double lat = 90; lat >= projection_view_latitude_; lat -= step) {
+        lastlon = missing;
+        for (double lon = projection_view_longitude_; lon >= projection_view_longitude_ - 360; lon -= step) {
+            double x  = lon * DEG_TO_RAD;
+            double y  = DEG_TO_RAD * lat;
+            int error = pj_transform(from_, to_, 1, 1, &x, &y, NULL);
+            if (error) {
+                // we reach a border!
+                if (lastlon != missing) {
+                    add(lastlon, lat);
+                }
+                break;
+            }
+            lastlon = lon;
+        }
+    }
+
+
+    for (double lat = projection_view_latitude_; lat >= -90; lat -= step) {
+        lastlon = missing;
+        for (double lon = projection_view_longitude_; lon >= projection_view_longitude_ - 360; lon -= step) {
+            double x  = lon * DEG_TO_RAD;
+            double y  = DEG_TO_RAD * lat;
+            int error = pj_transform(from_, to_, 1, 1, &x, &y, NULL);
+            if (error) {
+                // we reach a border!
+
+                if (lastlon != missing) {
+                    add(lastlon, lat);
+                }
+                break;
+            }
+            lastlon = lon;
+        }
+    }
+    for (double lat = -90; lat <= projection_view_latitude_; lat += step) {
+        lastlon = missing;
+        for (double lon = projection_view_longitude_; lon <= projection_view_longitude_ + 360; lon += step) {
+            double x  = lon * DEG_TO_RAD;
+            double y  = DEG_TO_RAD * lat;
+            int error = pj_transform(from_, to_, 1, 1, &x, &y, NULL);
+            if (error) {
+                // we reach a border!
+                if (lastlon != missing) {
+                    add(lastlon, lat);
+                }
+                break;
+            }
+            lastlon = lon;
+        }
+    }
+
+    userEnveloppe_->push_back(userEnveloppe_->front());
+    PCEnveloppe_->push_back(PCEnveloppe_->front());
+    cout << "tpers" << *PCEnveloppe_ << endl;
+}
+
 
 void Proj4Projection::boundingBox(double& xmin, double& ymin, double& xmax, double& ymax) const {
     if (!from_) {
@@ -677,19 +763,10 @@ double Proj4Projection::getMaxPCY() const {
 
 
 void Proj4Projection::gridLongitudes(const GridPlotting& grid) const {
-    magics::Polyline boundaries;
-
-    for (auto point = PCEnveloppe_->begin(); point != PCEnveloppe_->end(); ++point) {
-        boundaries.push_back(*point);
-    }
-
-    grid.add(boundaries);
-
-
     vector<double> longitudes = grid.longitudes();
 
 
-    const double step = 0.5;
+    const double step = 10.;
     longitudes.push_back(180);
     const vector<double>::const_iterator lon_end = longitudes.end();
 
@@ -698,30 +775,42 @@ void Proj4Projection::gridLongitudes(const GridPlotting& grid) const {
         poly.setAntiAliasing(false);
 
         for (double lat = gridMinLat_; (lat == gridMaxLat_ || lat < gridMaxLat_ + step); lat += step) {
-            PaperPoint p(*lon, lat);
-            if (userEnveloppe_->within(p))
-                poly.push_back((*this)(UserPoint(*lon, lat)));
+            PaperPoint p = (*this)(UserPoint(*lon, lat));
+            if (PCEnveloppe_->within(p))
+                poly.push_back(p);
+            else {
+                grid.add(poly);
+                poly = magics::Polyline();
+                poly.setAntiAliasing(false);
+            }
         }
 
 
         grid.add(poly);
     }
+
+    cout << *PCEnveloppe_ << endl;
     grid.addFrame(*PCEnveloppe_);
 }
 
 void Proj4Projection::gridLatitudes(const GridPlotting& grid) const {
     const vector<double>& latitudes = grid.latitudes();
 
-    const double step                            = 0.5;
+    const double step                            = 10;
     const vector<double>::const_iterator lat_end = latitudes.end();
 
     for (vector<double>::const_iterator lat = latitudes.begin(); lat != lat_end; ++lat) {
         magics::Polyline poly;
         poly.setAntiAliasing(false);
         for (double lon = gridMinLon_; lon <= gridMaxLon_ + step; lon += step) {
-            PaperPoint p(lon, *lat);
-            if (userEnveloppe_->within(p))
-                poly.push_back((*this)(UserPoint(lon, *lat)));
+            PaperPoint p = (*this)(UserPoint(lon, *lat));
+            if (PCEnveloppe_->within(p))
+                poly.push_back(p);
+            else {
+                grid.add(poly);
+                poly = magics::Polyline();
+                poly.setAntiAliasing(false);
+            }
         }
 
 

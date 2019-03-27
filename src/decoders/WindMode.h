@@ -48,7 +48,7 @@ public:
 
     virtual void toxml(ostream&) {}
 
-    virtual void x(Matrix**, Matrix**, Matrix*, Matrix*) {}
+    virtual void x(Matrix&, Matrix&) {}
     virtual pair<double, double> operator()(double x, double y) { return std::make_pair(x, y); }
 
     virtual ValuesCollectorData* values(double lon, double lat, double x, double y, double dist) {
@@ -80,7 +80,7 @@ public:
     UVWindMode() {}
     virtual ~UVWindMode() {}
     WindMode* clone() const { return new UVWindMode(); }
-    virtual void x(Matrix** out, Matrix**, Matrix* in1, Matrix* in2);
+    virtual void x(Matrix&, Matrix&);
     virtual pair<double, double> operator()(double x, double y) { return std::make_pair(x, y); }
     ValuesCollectorData* values(double lon, double lat, double x, double y, double dist) {
         return new ValuesCollectorUVData(lon, lat, x, y, dist);
@@ -100,7 +100,7 @@ public:
     SDWindMode() {}
     virtual ~SDWindMode() {}
     WindMode* clone() const { return new SDWindMode(); }
-    virtual void x(Matrix** out, Matrix**, Matrix* in1, Matrix* in2);
+    virtual void x(Matrix&, Matrix&);
     virtual pair<double, double> operator()(double x, double y);
     ValuesCollectorData* values(double lon, double lat, double x, double y, double dist) {
         return new ValuesCollectorSDData(lon, lat, x, y, dist);
@@ -119,8 +119,8 @@ public:
     VDWindMode() {}
     virtual ~VDWindMode() {}
     WindMode* clone() const { return new VDWindMode(); }
-    virtual void x(Matrix** out, Matrix* in1, Matrix* in2);
-    virtual void y(Matrix** out, Matrix* in1, Matrix* in2);
+    virtual void x(Matrix&, Matrix&);
+    virtual void y(Matrix&, Matrix&);
 
 private:
     //! Copy constructor - No copy allowed
