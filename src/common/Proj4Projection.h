@@ -22,6 +22,7 @@
 #include <Proj4ProjectionAttributes.h>
 #include <Transformation.h>
 #include <XmlNode.h>
+#define ACCEPT_USE_OF_DEPRECATED_PROJ_API_H 1
 #include <proj_api.h>
 
 namespace magics {
