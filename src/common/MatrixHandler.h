@@ -473,7 +473,7 @@ public:
 protected:
 };
 
-
+#define ACCEPT_USE_OF_DEPRECATED_PROJ_API_H 1
 #include <proj_api.h>
 
 class Proj4MatrixHandler : public MatrixHandler {
