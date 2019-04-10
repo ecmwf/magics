@@ -933,10 +933,18 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(const GribDecoder& grib, 
     // map<double, map<double, int> > index;
     double* array = new double[2 * res];
     grib_get_gaussian_latitudes(res, array);
+    int j = 0;
     for (int i = 0; i < 2 * res; i++) {
-        if (array[i] <= north && array[i] >= south) {
+        if (global) {
             (*matrix)->rowsAxis().push_back(array[i]);
             (*matrix)->yIndex_.insert(make_pair(array[i], i));
+        }
+        else {
+            if (array[i] <= north && array[i] >= south) {
+                (*matrix)->rowsAxis().push_back(array[i]);
+                (*matrix)->yIndex_.insert(make_pair(array[i], j));
+                j++;
+            }
         }
     }
     delete[] array;
