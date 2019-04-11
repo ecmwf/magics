@@ -40,7 +40,7 @@ init:
   # auto-yes for conda
   - cmd: conda config --set always_yes yes
   # update conda
-  - cmd: conda update -n base -c defaults conda
+  - cmd: conda update -n base -c conda-forge conda
 
 clone_folder: $(MAGICS_SRC)
 

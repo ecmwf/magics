@@ -59,7 +59,7 @@ before_install:
   # auto-yes for conda
   - conda config --set always_yes yes
   # update conda
-  - conda update -n base -c defaults conda
+  - conda update -n base -c conda-forge conda
   # add extra conda dirs to path so cmake can find packages
   - export PATH=~/miniconda3/lib:~/miniconda3/include:${PATH}
 
