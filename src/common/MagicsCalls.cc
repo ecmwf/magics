@@ -1164,6 +1164,10 @@ MAGICS_EXPORT void pboxplot_() {
     magics_->pboxplot();
 }
 
+MAGICS_EXPORT void ptile_() {
+    magics_->ptile();
+}
+
 MAGICS_EXPORT void pwrepjson_() {
     magics_->wrepjson();
 }

@@ -25,6 +25,7 @@
 #include <Polyline.h>
 #include <Proj4Projection.h>
 #include <Text.h>
+#include <cmath>
 #include "MagConfig.h"
 #include "MetaData.h"
 
@@ -362,9 +363,9 @@ PaperPoint Proj4Projection::operator()(const UserPoint& point) const {
         //		NON Valeurs trop faibles en EPSG:3857 par exemple !  --> Transformation::in(pp) == True !
         //		-> Avec ces valeurs, si grille globale, les barbules des poles sont tracées dans l'atlantique sud
         //		en formant une couronne centrée vers( 9°W, 66°35S)
-        //		return PaperPoint(-1000000, -10000000);   .// En plus il manque 1 zero !
-        return PaperPoint(-1e10,
-                          -1e10);  // Devrait suffire pour que Transformation::in(pp) == False qqsoient from_ et to_
+        //		return PaperPoint(1000000, 10000000);   .// En plus il manque 1 zero !
+        return PaperPoint(HUGE_VAL,
+                          HUGE_VAL);  // Devrait suffire pour que Transformation::in(pp) == False qqsoient from_ et to_
     }
 
     return PaperPoint(x, y, point.value_, point.missing(), point.border(), 0, point.name());
@@ -400,7 +401,7 @@ void Proj4Projection::revert(const PaperPoint& xy, UserPoint& point) const {
         first = false;
     }
     if (PCEnveloppe_->within(xy) == false) {
-        point = UserPoint(-1000, -1000);
+        point = UserPoint(HUGE_VAL, HUGE_VAL);
 
         return;
     }
@@ -413,7 +414,7 @@ void Proj4Projection::revert(const PaperPoint& xy, UserPoint& point) const {
 
     if (error) {
         MagLog::debug() << pj_strerrno(error) << endl;
-        point = UserPoint(-1000, -1000);
+        point = UserPoint(HUGE_VAL, HUGE_VAL);
         return;
     }
 
@@ -443,20 +444,15 @@ void Proj4Projection::add(double lon, double lat) {
     PCEnveloppe_->push_back(PaperPoint(x, y));
 
     if (x < min_pcx_)
-        min_pcx_ = x - 10000;
+        min_pcx_ = x;
     if (y < min_pcy_)
-        min_pcy_ = y - 10000;
+        min_pcy_ = y;
     if (x > max_pcx_)
-        max_pcx_ = x + 10000;
+        max_pcx_ = x;
     if (y > max_pcy_)
-        max_pcy_ = y + 10000;
+        max_pcy_ = y;
 
-    gridMinLon_ = -180;
-    gridMaxLon_ = 360;
-    gridMinLat_ = -90;
-    gridMaxLat_ = 90;
 
-    /*
     if (lon < gridMinLon_)
         gridMinLon_ = lon;
     if (lat < gridMinLat_)
@@ -465,8 +461,6 @@ void Proj4Projection::add(double lon, double lat) {
         gridMaxLon_ = lon;
     if (lat > gridMaxLat_)
         gridMaxLat_ = lat;
-
-    */
 }
 
 void Proj4Projection::conic() {
@@ -580,9 +574,7 @@ void Proj4Projection::geos() {
         if (lat->second.empty())
             continue;
 
-
         add(lat->second.front(), lat->first);
-        // userEnveloppe_->push_back(PaperPoint(lat->second.front(), lat->first));
     }
     // now reverse!
 
@@ -591,7 +583,6 @@ void Proj4Projection::geos() {
             continue;
 
         add(lat->second.back(), lat->first);
-        // userEnveloppe_->push_back(PaperPoint(lat->second.back(), lat->first));
     }
 
     map<double, vector<double> >::iterator last = helper.begin();
@@ -602,8 +593,23 @@ void Proj4Projection::geos() {
 
     for (vector<double>::reverse_iterator lon = last->second.rbegin(); lon != last->second.rend(); ++lon) {
         add(*lon, last->first);
-        // userEnveloppe_->push_back(PaperPoint(*lon, last->first));
     }
+}
+
+Polyline& Proj4Projection::getSimplePCBoundingBox() const {
+    static magics::Polyline box;
+    box.box(PaperPoint(min_pcx_, min_pcy_), PaperPoint(max_pcx_, max_pcy_));
+    /*
+    vector<magics::Polyline*> newbox;
+    PCEnveloppe_->intersect(box, newbox);
+    if (newbox.empty()) {
+        MagLog::warning() << "Proj4 : the sub-area is not valid : use global view instead" << endl;
+    }
+    else {
+        PCEnveloppe_ = newbox.front();
+    }
+    */
+    return box;
 }
 
 void Proj4Projection::tpers() {
@@ -767,19 +773,23 @@ void Proj4Projection::gridLongitudes(const GridPlotting& grid) const {
 
 
     const double step = 10.;
-    longitudes.push_back(180);
+    // longitudes.push_back(180);
     const vector<double>::const_iterator lon_end = longitudes.end();
-
+    // Always use full globe !
+    double min = -90;
+    double max = 90;
     for (vector<double>::const_iterator lon = longitudes.begin(); lon != lon_end; ++lon) {
         magics::Polyline poly;
         poly.setAntiAliasing(false);
 
-        for (double lat = gridMinLat_; (lat == gridMaxLat_ || lat < gridMaxLat_ + step); lat += step) {
+        for (double lat = min; lat < max; lat += step) {
             PaperPoint p = (*this)(UserPoint(*lon, lat));
-            if (PCEnveloppe_->within(p))
+            if (PCEnveloppe_->within(p)) {
                 poly.push_back(p);
+            }
             else {
                 grid.add(poly);
+
                 poly = magics::Polyline();
                 poly.setAntiAliasing(false);
             }
@@ -789,7 +799,7 @@ void Proj4Projection::gridLongitudes(const GridPlotting& grid) const {
         grid.add(poly);
     }
 
-    cout << *PCEnveloppe_ << endl;
+
     grid.addFrame(*PCEnveloppe_);
 }
 
@@ -799,10 +809,14 @@ void Proj4Projection::gridLatitudes(const GridPlotting& grid) const {
     const double step                            = 10;
     const vector<double>::const_iterator lat_end = latitudes.end();
 
+    // Always use full globe !
+    double min = -180;
+    double max = 360;
+
     for (vector<double>::const_iterator lat = latitudes.begin(); lat != lat_end; ++lat) {
         magics::Polyline poly;
         poly.setAntiAliasing(false);
-        for (double lon = gridMinLon_; lon <= gridMaxLon_ + step; lon += step) {
+        for (double lon = min; lon <= max; lon += step) {
             PaperPoint p = (*this)(UserPoint(lon, *lat));
             if (PCEnveloppe_->within(p))
                 poly.push_back(p);
@@ -1102,7 +1116,7 @@ void Proj4Projection::revert(const vector<std::pair<double, double> >& in,
         PaperPoint p(x, y);
 
         if (PCEnveloppe_->within(p) == false) {
-            out.push_back(make_pair(-1000, -1000));
+            out.push_back(make_pair(HUGE_VAL, HUGE_VAL));
             continue;
         }
 
@@ -1110,7 +1124,7 @@ void Proj4Projection::revert(const vector<std::pair<double, double> >& in,
 
         if (error) {
             MagLog::error() << pj_strerrno(error) << " for " << pt->first << " " << pt->second << endl;
-            out.push_back(make_pair(-1000, -1000));
+            out.push_back(make_pair(HUGE_VAL, HUGE_VAL));
         }
         else {
             double lon = x * RAD_TO_DEG;
@@ -1202,6 +1216,8 @@ bool Proj4Projection::fast_reproject(double& x, double& y) const {
     int error = pj_transform(from_, to_, 1, 1, &x, &y, NULL);
 
     if (error) {
+        x = HUGE_VAL;
+        y = HUGE_VAL;
         // MagLog::warning()  << pj_strerrno(error) << " for " << x << " " << y << endl;
         return false;
     }
