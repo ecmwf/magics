@@ -293,11 +293,7 @@ void CoastPlotting::landonly(Layout& out) {
     }
 }
 
-/*!
- Here we send send a big rectangle for the ocean.
- We send the coastlines as holes of the big one.
- We send the lakes as polylines ... and the holes in the lakes as holes!
-*/
+
 void CoastPlotting::seaonly(Layout& out) {
     vector<magics::Polyline*> clip;
     clipAndClose(out.transformation(), ocean_, clip);

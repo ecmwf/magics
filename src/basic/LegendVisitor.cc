@@ -723,6 +723,8 @@ void BoxEntry::rowBox(const PaperPoint& point, BasicGraphicsObjectContainer& leg
         }
         else if (!last_)
             from->addText(userText_, font_);
+        else if (last_ && maxText_.size())
+            from->addText("", font_);
         else {
             if (automatic_ || maxText_.size()) {
                 ostringstream bottom;
@@ -751,8 +753,8 @@ void BoxEntry::rowBox(const PaperPoint& point, BasicGraphicsObjectContainer& leg
 
 
     Polyline* top = new Polyline();
-    top->push_back(PaperPoint(x - (width * 1.1), y + (height * 2)));
-    top->push_back(PaperPoint(x + (width * 1.1), y + (height * 2)));
+    top->push_back(PaperPoint(x - (width * 1.), y + (height * 2)));
+    top->push_back(PaperPoint(x + (width * 1.), y + (height * 2)));
     top->setColour(borderColour_);
     top->setThickness(2);
 

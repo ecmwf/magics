@@ -1,0 +1,38 @@
+<magics>
+<class action="pgrib" directory="decoders" prefix="grib/grib" xmltag="grib" name="TileDecoder">
+<!--
+(C) Copyright 1996-2016 ECMWF.
+
+This software is licensed under the terms of the Apache Licence Version 2.0
+which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
+In applying this licence, ECMWF does not waive the privileges and immunities 
+granted to it by virtue of its status as an intergovernmental organisation nor
+does it submit to any jurisdiction.
+-->
+
+		<documentation>
+		Responsible for reading and interpolating GRIB data.
+		</documentation>
+
+   	<parameter member="file_name" to="string" default="" from="string" name="grib_input_file_name">
+         		<release>Magics++0.1		</release>
+         		<documentation> The name of the input file containing the GRIB code field(s) 		</documentation>
+  	</parameter>
+    <parameter member="root" to="string" default="/home/graphics/cgs/proj4" from="string" name="grib_tiles_root">
+            
+    </parameter>
+     <parameter member="z" to="int" default="1" from="int" name="grib_tile_z">
+           
+    </parameter>
+ <parameter member="x" to="int" default="0" from="int" name="grib_tile_x">
+          
+    </parameter>
+
+ <parameter member="y" to="int" default="0" from="int" name="grib_tile_y">
+         
+    </parameter>
+
+
+  	
+
+</class></magics>

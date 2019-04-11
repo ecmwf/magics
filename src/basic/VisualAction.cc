@@ -123,7 +123,7 @@ void VisualAction::visit(Transformation& transformation) {
     }
     data_->visit(transformation);
     // We need to make sure that the transformation is initialised properly!
-    transformation.init();
+    transformation.cleaninit();
     for (vector<Visdef*>::iterator visdef = visdefs_.begin(); visdef != visdefs_.end(); ++visdef)
         (**visdef).visit(transformation, *data_);
 }

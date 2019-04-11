@@ -102,6 +102,7 @@ public:
 
     void pgraph();
     void pboxplot();
+    void ptile();
 
     void paxis();
     void ptaylor();
