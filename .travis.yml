@@ -70,7 +70,7 @@ install:
   - git clone -b feature/xarray --depth 1 https://github.com/ecmwf/magics-python.git ${MAGICS_PYTHON_SRC}
   # install conda deps
   - conda install boost libnetcdf expat jinja2 xarray scipy cftime
-  - conda install -c conda-forge proj4=5 eccodes pytest
+  - conda install -c conda-forge proj4 eccodes pytest
   # search for conda-installed libraries
   - |
     if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
