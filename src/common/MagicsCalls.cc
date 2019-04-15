@@ -1354,6 +1354,12 @@ PYTHON(py_boxplot, pboxplot_)
 MAGICS_EXPORT void mag_taylor() {
     ptaylor_();
 }
+MAGICS_EXPORT void mag_tile() {
+    ptile_();
+}
+
+PYTHON(py_tile, ptile_)
+
 PYTHON(py_taylor, ptaylor_)
 MAGICS_EXPORT void mag_tephi() {
     ptephi_();
