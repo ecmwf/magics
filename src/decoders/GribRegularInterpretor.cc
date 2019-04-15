@@ -912,7 +912,7 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(GribDecoder& grib) const 
     }
     delete[] pl;
 
-    // Find the latitudes
+    // Find the latitude
     // map<double, map<double, int> > index;
     double* array = new double[2 * res];
     grib_get_gaussian_latitudes(res, array);
