@@ -467,7 +467,30 @@ void XmlMagics::gribinloop(const XmlNode&) {
     top()->data(gribloop_->current());
 }
 
+#include "TileDecoder.h"
+
 void XmlMagics::grib(const XmlNode& node) {
+    /*
+    string tile = node.getAttribute("tile");
+    if (magCompare(tile, "on")) {
+        TileDecoder* tile = new TileDecoder();
+        tile->set(node);
+        if (tile->ok()) {
+            top()->data(tile);
+            return;
+        }
+        cout << "TRYING DELETE" << endl;
+
+        delete tile;
+    }
+    cout << "creating grib" << endl;
+    GribDecoder* grib = new GribDecoder();
+    grib->set(node);
+    cout << "grib created and set" << endl;
+    top()->data(grib);
+    cout << "action updated" << endl;
+    */
+    cout << node << endl;
     GribDecoder* grib = new GribDecoder();
     grib->set(node);
 

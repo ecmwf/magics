@@ -1056,6 +1056,23 @@ void FortranMagics::pgraph() {
     action_->visdef(graph);
 }
 
+#include "TileDecoder.h"
+void FortranMagics::ptile() {
+    actions();
+
+    action_            = new VisualAction();
+    TileDecoder* input = new TileDecoder();
+    if (input->ok()) {
+        action_->data(input);
+    }
+    else {
+        delete input;
+        GribDecoder* grib = new GribDecoder();
+        action_->data(grib);
+    }
+    top()->push_back(action_);
+}
+
 
 void FortranMagics::pboxplot() {
     actions();
