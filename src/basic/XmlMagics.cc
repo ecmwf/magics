@@ -490,6 +490,7 @@ void XmlMagics::grib(const XmlNode& node) {
     top()->data(grib);
     cout << "action updated" << endl;
     */
+    cout << node << endl;
     GribDecoder* grib = new GribDecoder();
     grib->set(node);
 
