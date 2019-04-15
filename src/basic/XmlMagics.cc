@@ -470,6 +470,7 @@ void XmlMagics::gribinloop(const XmlNode&) {
 #include "TileDecoder.h"
 
 void XmlMagics::grib(const XmlNode& node) {
+    /*
     string tile = node.getAttribute("tile");
     if (magCompare(tile, "on")) {
         TileDecoder* tile = new TileDecoder();
@@ -488,6 +489,11 @@ void XmlMagics::grib(const XmlNode& node) {
     cout << "grib created and set" << endl;
     top()->data(grib);
     cout << "action updated" << endl;
+    */
+    GribDecoder* grib = new GribDecoder();
+    grib->set(node);
+
+    top()->data(grib);
 }
 #else
 void XmlMagics::gribloop(const XmlNode&) {
