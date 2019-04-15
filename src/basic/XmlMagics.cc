@@ -478,8 +478,11 @@ void XmlMagics::grib(const XmlNode& node) {
             top()->data(tile);
             return;
         }
+        cout << "TRYING DELETE" << endl;
+
         delete tile;
     }
+    cout << "creating grib" << endl;
     GribDecoder* grib = new GribDecoder();
     grib->set(node);
     top()->data(grib);

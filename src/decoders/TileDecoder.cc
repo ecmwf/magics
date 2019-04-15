@@ -138,7 +138,7 @@ public:
 Tile tile_;
 
 TileDecoder::TileDecoder() {
-    cout << "New Tile DEcoder" << endl;
+    cout << "New Tile Decoder" << endl;
 }
 
 
