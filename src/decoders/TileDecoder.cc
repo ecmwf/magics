@@ -146,7 +146,7 @@ bool TileDecoder::ok() {
     string ft = root_ + "/zoom" + tostring(z_) + ".nc";
     file_     = ifstream(ft);
     cout << "Reading tile --> " << ft << endl;
-    return (file_) ? true : false;
+    return file_.good();
 }
 
 
