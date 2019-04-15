@@ -231,7 +231,9 @@ void TileDecoder::customisedPoints(const Transformation& t, const std::set<strin
     */
 
 #endif
-    Netcdf netcdf("/home/graphics/cgs/proj4/zoom" + tostring(z_) + ".nc", "index");
+    string path = buildConfigPath("tiles", "zoom" + tostring(z_) + ".nc");
+    cout << "Tiles --> " << path << endl;
+    Netcdf netcdf(path, "index");
 
     map<string, string> first, last;
     first["x"] = tostring(x_);
