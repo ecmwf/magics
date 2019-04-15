@@ -69,6 +69,7 @@ public:
     void pgeo();
     void pinput();
     const char* metainput();
+    const char* detect(const string&, const string&);
     void ptable();
     void pcont();
     void ptext();

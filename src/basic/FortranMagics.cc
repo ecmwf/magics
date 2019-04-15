@@ -534,6 +534,39 @@ const char* FortranMagics::metagrib() {
     return temp.c_str();
 }
 
+#include "MagConfig.h"
+
+const char* FortranMagics::detect(const string& data, const string& dim) {
+    DimensionGuess json(data);
+
+    NetcdfGuess guesser;
+
+    auto checks = guesser.guess_.find(dim);
+    if (checks == guesser.guess_.end())
+        return "";
+
+    for (auto check = checks->second.begin(); check != checks->second.end(); ++check) {
+        vector<string> values = check->second;
+        for (auto d = json.data_.begin(); d != json.data_.end(); ++d) {
+            auto def   = d->second;
+            auto found = def.find(check->first);
+            if (found != def.end()) {
+                string value = found->second;
+                for (vector<string>::iterator v = values.begin(); v != values.end(); ++v) {
+                    string val = value.substr(0, v->size());
+                    if (v->compare(val) == 0) {
+                        string s = d->first;
+                        return s.c_str();
+                    }
+                }
+            }
+        }
+    }
+
+    return "";
+}
+
+
 const char* FortranMagics::metanetcdf() {
 #ifdef HAVE_NETCDF
     NetcdfDecoder netcdf;
