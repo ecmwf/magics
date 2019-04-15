@@ -472,7 +472,6 @@ void XmlMagics::gribinloop(const XmlNode&) {
 void XmlMagics::grib(const XmlNode& node) {
     string tile = node.getAttribute("tile");
     if (magCompare(tile, "on")) {
-        cout << "Creating tiles" << endl;
         TileDecoder* tile = new TileDecoder();
         tile->set(node);
         if (tile->ok()) {
@@ -481,7 +480,6 @@ void XmlMagics::grib(const XmlNode& node) {
         }
         delete tile;
     }
-
     GribDecoder* grib = new GribDecoder();
     grib->set(node);
     top()->data(grib);
