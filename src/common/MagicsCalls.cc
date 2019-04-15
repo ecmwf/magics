@@ -913,6 +913,7 @@ MAGICS_EXPORT const char* metagrib_() {
     return magics_->metagrib();
 }
 
+
 MAGICS_EXPORT const char* version() {
     static string version = getMagicsVersionString();
     return version.c_str();
@@ -1130,6 +1131,13 @@ MAGICS_EXPORT void penqc_(const char* name, char* value, int length, int vlength
 
     for (int i = strlen(value); i < vlength; i++)
         value[i] = ' ';
+}
+
+MAGICS_EXPORT const char* detect_(const char* data, char* dimension, int l1, int l2) {
+    std::string sdata(data, l1);
+    std::string sdim(dimension, l2);
+
+    return magics_->detect(sdata, sdim);
 }
 
 MAGICS_EXPORT void ppie_() {
@@ -1424,6 +1432,10 @@ MAGICS_EXPORT void mag_epslight() {
     pepslight_();
 }
 PYTHON(py_epslight, pepslight_)
+
+MAGICS_EXPORT const char* detect(const char* data, const char* dimension) {
+    return magics_->detect(string(data), string(dimension));
+}
 
 MAGICS_EXPORT const char* py_new(const char* page) {
     try {
