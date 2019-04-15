@@ -809,6 +809,7 @@ void XmlMagics::wind(const XmlNode& node) {
         Wind* wind = new Wind();
         wind->set(node);
         top()->visdef(wind);
+        top()->set2D();
     }
     else {
         MagLog::warning() << " wind not yet implemented for cartesian system" << endl;
