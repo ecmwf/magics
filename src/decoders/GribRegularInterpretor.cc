@@ -192,7 +192,7 @@ Index GribInterpretor::nearest(double ulat, double ulon) {
         return index;
 
 
-    if (ulat == -1000. || ulon == -1000.)
+    if (ulat == 1000. || ulon == 1000.)
         return index;
     if (ulat >= 90 || ulat <= -90)
         return index;
@@ -370,6 +370,7 @@ void GribInterpretor::raw(GribDecoder& grib, const Transformation& transformatio
 
             CustomisedPoint* point = new CustomisedPoint(lon, lat, "");
             point->insert(make_pair(uname, u));
+
             point->insert(make_pair(vname, v));
             points.back().second.push_back(make_pair(lon, point));
         }
@@ -818,6 +819,7 @@ bool lessThan(double a, double b) {
         return true;
     return false;
 }
+
 void GribReducedGaussianInterpretor::interpretAsMatrix(GribDecoder& grib) const {
     Timer timer("gribapi", " read grib");
 
@@ -910,16 +912,15 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(GribDecoder& grib) const 
     }
     delete[] pl;
 
-    // Find the latitudes
+    // Find the latitude
     // map<double, map<double, int> > index;
     double* array = new double[2 * res];
     grib_get_gaussian_latitudes(res, array);
     int j = 0;
     for (int i = 0; i < 2 * res; i++) {
-        if (array[i] <= north && array[i] >= south) {
+        if (global) {
             u->rowsAxis().push_back(array[i]);
-            u->yIndex_.insert(make_pair(array[i], j));
-            j++;
+            u->yIndex_.insert(make_pair(array[i], i));
         }
         else {
             if (lessThan(array[i], north) && greaterThan(array[i], south)) {

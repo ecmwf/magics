@@ -138,6 +138,12 @@ struct ReprojectHelper {
     ReprojectHelper(const Transformation& transformation) : transformation_(transformation) {}
     const Transformation& transformation_;
     bool operator()(PaperPoint& point) { return !transformation_.fast_reproject(point.x_, point.y_); }
+    /*
+    bool operator()(PaperPoint& point) {
+        transformation_.fast_reproject(point.x_, point.y_);
+        return false;
+    };
+    */
 };
 
 

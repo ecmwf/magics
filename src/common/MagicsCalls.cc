@@ -1164,6 +1164,10 @@ MAGICS_EXPORT void pboxplot_() {
     magics_->pboxplot();
 }
 
+MAGICS_EXPORT void ptile_() {
+    magics_->ptile();
+}
+
 MAGICS_EXPORT void pwrepjson_() {
     magics_->wrepjson();
 }
@@ -1350,6 +1354,12 @@ PYTHON(py_boxplot, pboxplot_)
 MAGICS_EXPORT void mag_taylor() {
     ptaylor_();
 }
+MAGICS_EXPORT void mag_tile() {
+    ptile_();
+}
+
+PYTHON(py_tile, ptile_)
+
 PYTHON(py_taylor, ptaylor_)
 MAGICS_EXPORT void mag_tephi() {
     ptephi_();

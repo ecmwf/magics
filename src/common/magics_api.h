@@ -45,6 +45,7 @@ MAGICS_EXPORT void mag_text();
 MAGICS_EXPORT void mag_wind();
 MAGICS_EXPORT void mag_symb();
 MAGICS_EXPORT void mag_boxplot();
+MAGICS_EXPORT void mag_tile();
 MAGICS_EXPORT void mag_line();
 MAGICS_EXPORT void mag_taylor();
 MAGICS_EXPORT void mag_tephi();

@@ -570,12 +570,8 @@ void ObsDecoder::decode() {
         }
 
         MvLocation location = obs.location();
-#ifdef OBS_DEBUG_
-        MagLog::debug() << obsIterator.msgNumber() << " " << location << " " << obs.obsTime() << " "
-                        << obs.WmoIdentNumber() << "\n\ttype=" << obs.messageType()
-                        << ", subtype=" << obs.messageSubtype() << endl;
 
-#endif
+
         push_back(new UserPoint(location.x(), location.y(), obs.value("airTemperature")));
         obs.clearIterator();  // must do this before the msg handle is deleted by the next assignment
         obs = obsIterator();
