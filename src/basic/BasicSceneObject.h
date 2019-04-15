@@ -109,7 +109,7 @@ public:
     virtual void binning(BinningObject*) { MagLog::warning() << "binning(BinningObject*) to be checked" << endl; }
     virtual void data(Data*) { MagLog::warning() << "data(Data*) to be checked" << endl; }
     virtual void visdef(Visdef*) { MagLog::warning() << "visdef(Data*) to be checked" << endl; }
-
+    virtual void set2D() { MagLog::warning() << "visdef(Data*) to be checked" << endl; }
 
     void addVisitor(SceneVisitor* visitor) { visitors_.push_back(visitor); }
 
