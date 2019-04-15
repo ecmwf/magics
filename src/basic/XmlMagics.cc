@@ -485,7 +485,9 @@ void XmlMagics::grib(const XmlNode& node) {
     cout << "creating grib" << endl;
     GribDecoder* grib = new GribDecoder();
     grib->set(node);
+    cout << "grib created and set" << endl;
     top()->data(grib);
+    cout << "action updated" << endl;
 }
 #else
 void XmlMagics::gribloop(const XmlNode&) {
