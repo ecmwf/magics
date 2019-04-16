@@ -1,8 +1,8 @@
 # (C) Copyright 1996-2019 ECMWF.
-# 
+#
 # This software is licensed under the terms of the Apache Licence Version 2.0
-# which can be obtained at http://www.apache.org/licenses/LICENSE-2.0. 
-# In applying this licence, ECMWF does not waive the privileges and immunities 
+# which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
+# In applying this licence, ECMWF does not waive the privileges and immunities
 # granted to it by virtue of its status as an intergovernmental organisation nor
 # does it submit to any jurisdiction.
 
@@ -22,4 +22,4 @@ contour = magics.mcont(contour_automatic_setting = "ecmwf")
 
 time = cftime.Datetime360Day(2001, 1, 16, 0, 0, 0, 0, 5, 16)
 
-magics.plot(png, magics.mxarray(ds, "tos", time=time), contour, magics.mcoast())
+magics.plot(png, magics.mxarray(ds = ds, var = "tos", time = time), contour, magics.mcoast())
