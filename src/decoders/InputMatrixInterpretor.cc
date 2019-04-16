@@ -83,21 +83,31 @@ Matrix* InputMatrixRegularInterpretor::geoInterpret(Matrix* in, const InputMatri
     for (int i = 0; i < in->size(); ++i)
         (*in)[i] = ((*in)[i] * scaling) + offset;
 
-
-    int nblon  = in->columns();
-    double lon = longitude_;
-
-    for (int i = 0; i < nblon; i++) {
-        lon = longitude_ + (i * longitude_step_);
-        in->columnsAxis().push_back(lon);
+    if (longitudes_.size() && latitudes_.size()) {
+        for (auto lon = longitudes_.begin(); lon != longitudes_.end(); ++lon) {
+            in->columnsAxis().push_back(*lon);
+        }
+        for (auto lat = latitudes_.begin(); lat != latitudes_.end(); ++lat) {
+            in->rowsAxis().push_back(*lat);
+        }
     }
 
-    int nblat  = in->rows();
-    double lat = latitude_;
+    else {
+        int nblon  = in->columns();
+        double lon = longitude_;
 
-    for (int i = 0; i < nblat; i++) {
-        lat = latitude_ + (i * latitude_step_);
-        in->rowsAxis().push_back(lat);
+        for (int i = 0; i < nblon; i++) {
+            lon = longitude_ + (i * longitude_step_);
+            in->columnsAxis().push_back(lon);
+        }
+
+        int nblat  = in->rows();
+        double lat = latitude_;
+
+        for (int i = 0; i < nblat; i++) {
+            lat = latitude_ + (i * latitude_step_);
+            in->rowsAxis().push_back(lat);
+        }
     }
 
     in->setMapsAxis();
