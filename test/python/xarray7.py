@@ -12,14 +12,12 @@ import numpy as np
 
 from Magics import macro as magics
 
-ref = "xarray6"
+ref = "xarray7"
 
-ds = xr.open_dataset('psl_Amon_GFDL-ESM2M_rcp45_r1i1p1_208101-208512.nc')
+ds = xr.open_dataset('C3S_OZONE-L3-LP_CONC_MZM-GOMOS_ENVISAT_CCI-200711-fv0001.nc')
 
 png = magics.output(output_name_first_page_number = "off", output_name = ref)
 
 contour = magics.mcont(contour_automatic_setting = "ecmwf")
 
-time = cftime.DatetimeNoLeap(2085, 12, 16, 12, 0, 0, 0, 5, 350)
-
-magics.plot(png, magics.mxarray(ds = ds, var = "psl", time = time), contour, magics.mcoast())
+magics.plot(png, magics.mxarray(ds = ds, var = "pressure"), contour, magics.mcoast())
