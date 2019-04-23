@@ -464,11 +464,11 @@ void DimensionGuess::init() {
         Object object = value.get_value<Object>();
 
         for (vector<Pair>::const_iterator entry = object.begin(); entry != object.end(); ++entry) {
-            cout << entry->name_ << endl;
+            // cout << entry->name_ << endl;
             Object o = entry->value_.get_value<Object>();
             map<string, string> def;
             for (vector<Pair>::const_iterator e = o.begin(); e != o.end(); ++e) {
-                cout << e->name_ << "-->" << MagConfig::convert(e->value_) << endl;
+                // cout << e->name_ << "-->" << MagConfig::convert(e->value_) << endl;
                 def.insert(make_pair(e->name_, MagConfig::convert(e->value_)));
             }
             data_.insert(make_pair(entry->name_, def));
