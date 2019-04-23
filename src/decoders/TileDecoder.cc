@@ -24,6 +24,7 @@
 #include <limits>
 #include "Factory.h"
 #include "NetcdfData.h"
+#include "Timer.h"
 
 using namespace magics;
 
@@ -143,11 +144,10 @@ TileDecoder::TileDecoder() {
 
 
 bool TileDecoder::ok() {
-    string ft = root_ + "/zoom" + tostring(z_) + ".nc";
-    file_     = ifstream(ft);
-    cout << "Reading tile --> " << ft << endl;
+    string path = buildConfigPath("tiles", "zoom" + tostring(z_) + ".nc");
+    file_       = ifstream(path);
+
     if (!file_.good()) {
-        cout << "can not open " << ft << "return false " << endl;
         return false;
     }
     return true;
@@ -231,6 +231,7 @@ void TileDecoder::customisedPoints(const Transformation& t, const std::set<strin
     */
 
 #endif
+    Timer timer("Tile", "getting wind from index");
     string path = buildConfigPath("tiles", "zoom" + tostring(z_) + ".nc");
     cout << "Tiles --> " << path << endl;
     Netcdf netcdf(path, "index");
