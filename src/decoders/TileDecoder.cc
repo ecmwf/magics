@@ -24,6 +24,7 @@
 #include <limits>
 #include "Factory.h"
 #include "NetcdfData.h"
+#include "Timer.h"
 
 using namespace magics;
 
@@ -231,6 +232,7 @@ void TileDecoder::customisedPoints(const Transformation& t, const std::set<strin
     */
 
 #endif
+    Timer timer("Tile", "getting wind from index");
     string path = buildConfigPath("tiles", "zoom" + tostring(z_) + ".nc");
     cout << "Tiles --> " << path << endl;
     Netcdf netcdf(path, "index");
