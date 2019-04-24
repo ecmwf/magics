@@ -6,6 +6,7 @@
 # granted to it by virtue of its status as an intergovernmental organisation nor
 # does it submit to any jurisdiction.
 
+#l_Amon_GFDL-ESM2M_rcp45_r1i1p1_208101-208512.nc
 import cftime
 import xarray as xr
 import numpy as np
@@ -13,6 +14,9 @@ import numpy as np
 from Magics import macro as magics
 
 ref = "xarray6"
+
+
+
 
 ds = xr.open_dataset('psl_Amon_GFDL-ESM2M_rcp45_r1i1p1_208101-208512.nc')
 
