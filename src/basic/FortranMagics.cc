@@ -554,8 +554,8 @@ const char* FortranMagics::detect(const string& data, const string& dim) {
             if (found != def.end()) {
                 string value = found->second;
                 for (vector<string>::iterator v = values.begin(); v != values.end(); ++v) {
-                    string val = value.substr(0, v->size());
-                    if (v->compare(val) == 0) {
+                    // string val = value.substr(0, v->size());
+                    if (v->compare(value) == 0) {
                         result = d->first;
                         cout << " " << result << endl;
                         return result.c_str();
