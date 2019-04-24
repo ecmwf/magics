@@ -273,12 +273,13 @@ void TileDecoder::customisedPoints(const Transformation& t, const std::set<strin
             index.push_back(i);
         }
     }
+    int error;
     FILE* in = fopen(file_name_.c_str(), "r");
     if (!in) {
         printf("ERROR: unable to open file %s\n", "wind.grib");
         return;
     }
-    int error;
+
 
     /* create new handle from a message in a file*/
     codes_handle* u = codes_handle_new_from_file(0, in, PRODUCT_GRIB, &error);
@@ -332,51 +333,69 @@ void TileDecoder::print(ostream& out) const {
 }
 
 void TileDecoder::decode() {
-    tile_.print();
+    string path = buildConfigPath("tiles", "cont" + tostring(z_) + ".nc");
+    cout << "Tiles --> " << path << endl;
+    Netcdf netcdf(path, "index");
 
-    FILE* in = fopen("wind.grib", "r");
+    map<string, string> first, last;
+    first["x"] = tostring(x_);
+    first["y"] = tostring(y_);
+    last["x"]  = tostring(x_);
+    last["y"]  = tostring(y_);
+    vector<double> bbox;
+    vector<double> latitudes;
+    vector<double> longitudes;
+    vector<double> values;
+    vector<int> index;
+
+    netcdf.get("bounding-box", bbox, first, last);
+
+    int error;
+    FILE* in = fopen(file_name_.c_str(), "r");
     if (!in) {
         printf("ERROR: unable to open file %s\n", "wind.grib");
         return;
     }
-    int error;
 
-    /* create new handle from a message in a file*/
-    codes_handle* h = codes_handle_new_from_file(0, in, PRODUCT_GRIB, &error);
-    if (h == NULL) {
+    codes_handle* f = codes_handle_new_from_file(0, in, PRODUCT_GRIB, &error);
+    if (f == NULL) {
         printf("Error: unable to create handle from file %s\n", "wind.grib");
     }
 
-    matrix_.set(tile_.rows_, tile_.columns_);
+
+    for (auto b = bbox.begin(); b != bbox.end(); ++b)
+        cout << "found BBOX" << *b << endl;
+
+    first["lat"] = tostring(bbox[1]);
+    first["lon"] = tostring(bbox[0]);
+    last["lat"]  = tostring(bbox[3]);
+    first["lon"] = tostring(bbox[2]);
+
+    netcdf.get("lat", latitudes, first, last);
+    netcdf.get("lon", longitudes, first, last);
+    netcdf.get("index", index, first, last);
+
+    values.reserve(index.size());
+
+    codes_get_double_elements(f, "values", &index.front(), index.size(), &values.front());
+
 
     double missing = -std::numeric_limits<double>::max();
 
     matrix_.missing(missing);
 
-    for (auto lon = tile_.longitudes_.begin(); lon != tile_.longitudes_.end(); ++lon) {
+    for (auto lon = longitudes.begin(); lon != longitudes.end(); ++lon) {
         cout << "lon -->" << *lon << endl;
         matrix_.columnsAxis().push_back(*lon);
     }
 
-    for (auto lat = tile_.latitudes_.begin(); lat != tile_.latitudes_.end(); ++lat) {
+    for (auto lat = latitudes.begin(); lat != latitudes.end(); ++lat) {
         cout << "lat -->" << *lat << endl;
         matrix_.rowsAxis().push_back(*lat);
     }
 
-    for (auto tile = tile_.tiles_.begin(); tile != tile_.tiles_.end(); ++tile) {
-        vector<double> values;
-        values.reserve(4);
-        cout << "compute" << endl;
-        for (auto i = tile->indexes_.begin(); i != tile->indexes_.end(); ++i)
-            cout << "index " << *i << endl;
-        int s = 4;
-        codes_get_double_elements(h, "values", &(tile->indexes_.front()), s, &values.front());
-        cout << "XXXX" << values.front() << values.size() << endl;
-        for (auto i = values.begin(); i != values.end(); ++i)
-            cout << "value " << *i << endl;
-        double value = tile->compute(values);
-        cout << value << endl;
-        matrix_.push_back(value);
+    for (auto val = values.begin(); val != values.end(); ++val) {
+        matrix_.push_back(*val);
     }
 
 
