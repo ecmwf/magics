@@ -12,11 +12,10 @@ import numpy as np
 from Magics import macro as magics
 
 ref = "xarray5"
-
 ds = xr.open_dataset('C3S_OZONE-L4-TC-ASSIM_MSR-201608-fv0020.nc', decode_times=False)
 
 png = magics.output(output_name_first_page_number = "off", output_name = ref)
-
+data = magics.mxarray(xarray_dataset = ds, xarray_variable_name = "total_ozone_column")
 contour = magics.mcont(contour_automatic_setting = "ecmwf")
 
-magics.plot(png, magics.mxarray(ds = ds, var = "total_ozone_column"), contour, magics.mcoast())
+magics.plot(png, data, contour, magics.mcoast())
