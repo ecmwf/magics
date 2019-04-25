@@ -339,7 +339,7 @@ void Proj4Projection::corners() {
 
     delete PCEnveloppe_;
 
-    PCEnveloppe_ = new Polyline();
+    PCEnveloppe_ = new magics::Polyline();
     PCEnveloppe_->box(PaperPoint(min_pcx_, min_pcy_), PaperPoint(max_pcx_, max_pcy_));
 }
 
