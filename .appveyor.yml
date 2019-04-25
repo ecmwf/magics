@@ -67,7 +67,7 @@ install:
 
   # install conda deps
   - cmd: conda install boost libnetcdf expat jinja2 xarray scipy cftime
-  - cmd: conda install -c conda-forge cmake jom proj4 pthreads-win32 libiconv eccodes pytest
+  - cmd: conda install -c conda-forge cmake jom proj4=5 pthreads-win32 libiconv eccodes pytest
 
   # gtk+ - needed for pango
   # includes cairo, pango, glib, and other deps
