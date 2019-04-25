@@ -12,8 +12,15 @@ granted to it by virtue of its status as an intergovernmental organisation nor
 does it submit to any jurisdiction.
 -->
 
-         		<documentation> used in a geographical projection context: Latitude of the point (1,1) in the input array 		</documentation>
+    <documentation> used in a geographical projection context: Latitude of the point (1,1) in the input array 		</documentation>
   	</parameter>
+
+    <parameter member="latitudes" to="floatarray" default="floatarray()" from="floatarray" name="input_latitudes_list">
+            <documentation> used in a geographical projection context: vector containing the latitudes-coordinates     </documentation>
+    </parameter>
+    <parameter member="longitudes" to="floatarray" default="floatarray()" from="floatarray" name="input_longitudes_list">
+            <documentation> used in a geographical projection context: vector containing the y-coordinates     </documentation>
+    </parameter>
 
   	<parameter xml="origin_longitude" from="float" name="input_field_initial_longitude" default="0" member="longitude" to="float">
          		<documentation> used in a geographical projection context: Longitude of the point (1,1) in the input array 		</documentation>
@@ -73,17 +80,6 @@ does it submit to any jurisdiction.
          		<documentation> used in a cartesian projection context: x-step in the input array 		</documentation>
   	</parameter>
 
-  	<parameter xml="input_field_primary_index" from="string" name="input_field_primary_index" default="longitude" member="primary_index" to="string" implemented="no">
-         		<documentation> Primary or first index of input array(LATITUDE/LONGITUDE) 		</documentation>
-  	</parameter>
 
-  	<parameter xml="input_field_gradient_control" from="string" name="input_field_gradient_control" default="off" member="input_field_gradient_control" to="string" implemented="no">
-         		<documentation> How to calculate the contour gradients(LEAST/FLAT_ONLY/OFF) 		</documentation>
-  	</parameter>
-
-  	<parameter xml="input_field_gradient_limitation" from="string" name="input_field_gradient_limitation" default="off" member="input_field_gradient_limitation" to="string" implemented="no">
-         		<documentation> Set  gradient to 0 for minimum and/or maximum values(MINIMUM/MAXIMUM/BOTH/OFF) 		</documentation>
-  	</parameter>
-  
   
 </class></magics>

@@ -368,7 +368,7 @@ void GribDecoder::release() {
 }
 
 void GribDecoder::visit(Transformation& transformation) {
-    decode();
+    decode1D();
 
     if (!xComponent_)
         return;
@@ -388,7 +388,7 @@ void GribDecoder::visit(Transformation& transformation) {
 }
 
 void GribDecoder::decode2D() {
-    if (xComponent_)
+    if (yComponent_)
         return;
 
     openFirstComponent();

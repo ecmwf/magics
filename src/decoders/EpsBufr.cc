@@ -50,8 +50,8 @@ void EpsBufr::decode() {
     MvObsSet set(path_.c_str());
 
     MvObsSetIterator filter(set);
-    MvLocation ll(latitude_ - 0.01, longitude_ - 0.01);
-    MvLocation ur(latitude_ + 0.01, longitude_ + 0.01);
+    MvLocation ll(latitude_ - 0.001, longitude_ - 0.001);
+    MvLocation ur(latitude_ + 0.001, longitude_ + 0.001);
     filter.setArea(ll, ur);
 
     MvObs obs = filter();
@@ -71,6 +71,10 @@ void EpsBufr::decode() {
         obs.expand();
 
         MvLocation loc = obs.location();
+        // Make sure we have the right location:
+        if (!same(loc.latitude(), latitude_) || !same(loc.longitude(), longitude_))
+            continue;
+
         //      	  int subsets = obs.msgSubsetCount();
 
         float value = obs.value(param_descriptor_);
@@ -82,10 +86,13 @@ void EpsBufr::decode() {
 
         int i = 0;
 
+
         while (++i) {
             // 0424 is the bufr descriptor for Time Period Or Displacement [HOUR]
 
-            float step  = obs.valueByOccurrence(i, 4024);
+            float step = obs.valueByOccurrence(i, 4024);
+
+
             float value = obs.valueByOccurrence(i, param_descriptor_);
             if (value == kBufrMissingValue) {
                 obs = filter();  // We going to the next subset!

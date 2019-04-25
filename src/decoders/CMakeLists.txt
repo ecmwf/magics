@@ -16,6 +16,8 @@ InputData.cc
 InputData.h
 InputMatrix.cc
 InputMatrix.h
+TileDecoder.h
+TileDecoder.cc
 InputMatrixInterpretor.cc
 InputMatrixInterpretor.h
 LandgramDecoder.cc

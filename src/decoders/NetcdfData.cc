@@ -378,6 +378,8 @@ template <>
 map<nc_type, Accessor<double>*>* Accessor<double>::accessors_ = 0;
 template <>
 map<nc_type, Accessor<float>*>* Accessor<float>::accessors_ = 0;
+template <>
+map<nc_type, Accessor<int>*>* Accessor<int>::accessors_ = 0;
 }  // namespace magics
 
 

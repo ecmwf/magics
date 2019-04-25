@@ -22,6 +22,12 @@
 #include <Proj4ProjectionAttributes.h>
 #include <Transformation.h>
 #include <XmlNode.h>
+
+#include "magics_windef.h"
+#ifdef MAGICS_ON_WINDOWS
+#define PROJ_MSVC_DLL_IMPORT 1
+#endif
+
 #define ACCEPT_USE_OF_DEPRECATED_PROJ_API_H 1
 #include <proj_api.h>
 
@@ -189,6 +195,7 @@ public:
     void horizontalLabels(const LabelPlotting& label, double y, double pos, VerticalAlign align) const;
     MatrixHandler* prepareData(const AbstractMatrix&) const;
     Polyline& getPCBoundingBox() const;
+    Polyline& getSimplePCBoundingBox() const;
     Polyline& getUserBoundingBox() const;
 
     typedef void (Proj4Projection::*InitMethod)();
@@ -199,6 +206,7 @@ public:
     void tpers();
     void simple();
     void projectionSimple();
+    void cleaninit() { init(); }
 
     void add(double, double);
 

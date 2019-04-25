@@ -467,10 +467,22 @@ void XmlMagics::gribinloop(const XmlNode&) {
     top()->data(gribloop_->current());
 }
 
+#include "TileDecoder.h"
+
 void XmlMagics::grib(const XmlNode& node) {
+    string tile = node.getAttribute("tile");
+    if (magCompare(tile, "on")) {
+        TileDecoder* tile = new TileDecoder();
+        tile->set(node);
+        if (tile->ok()) {
+            top()->data(tile);
+            return;
+        }
+        delete tile;
+    }
+
     GribDecoder* grib = new GribDecoder();
     grib->set(node);
-
     top()->data(grib);
 }
 #else
@@ -786,6 +798,7 @@ void XmlMagics::wind(const XmlNode& node) {
         Wind* wind = new Wind();
         wind->set(node);
         top()->visdef(wind);
+        top()->set2D();
     }
     else {
         MagLog::warning() << " wind not yet implemented for cartesian system" << endl;

@@ -118,7 +118,7 @@ void CellShading::operator()(IsoPlot* iso, MatrixHandler& data, BasicGraphicsObj
         for (int column = 0; column < columns; column++) {
             projection.revert(PaperPoint(lon, lat), point);
             lon += stepc;
-            if (point.x_ == -1000 && point.x_ == -1000) {
+            if (point.x_ == 1000 && point.x_ == 1000) {
                 image->push_back(0);
                 continue;
             }
@@ -250,10 +250,12 @@ void CellShading::visit(LegendVisitor& node, const ColourTechnique&) {
             }
         }
 
-        if (node.values_list_.size() && same(node.values_list_.back(), max)) {
-            string text = tostring(max);
-            entry->userText(text, "user");
-            // Try to detect the last entry
+        if (entry->isLast()) {
+            if (node.values_list_.size() && same(node.values_list_.back(), max)) {
+                string text = tostring(max);
+                entry->userText(text, "user");
+                // Try to detect the last entry
+            }
         }
 
 
