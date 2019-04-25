@@ -322,6 +322,7 @@ void TileDecoder::customisedPoints(const Transformation& t, const std::set<strin
 
 PointsHandler& TileDecoder::points(const Transformation& t, bool) {
     cout << "HOURAH-->TileDecoder::points" << endl;
+    throw MethodNotYetImplemented("TileDecoder::points");
 }
 
 /*!
