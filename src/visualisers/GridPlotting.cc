@@ -72,7 +72,8 @@ void NoGridPlotting::latitudes(vector<double>& lats, int freq) const {
 
 const vector<double>& NoGridPlotting::longitudes(const Transformation& transformation) const {
     transformation.boundingBox(minx_, miny_, maxx_, maxy_);
-    maxy_      = std::min(85., maxy_);
+    minx_      = -190;
+    maxx_      = +370;
     double min = minx_ - lonIncrement_;
     double max = maxx_ + lonIncrement_;
 
@@ -93,6 +94,7 @@ const vector<double>& NoGridPlotting::longitudes(const Transformation& transform
 const vector<double>& NoGridPlotting::latitudes(const Transformation& transformation) const {
     transformation.boundingBox(minx_, miny_, maxx_, maxy_);
     maxy_      = std::min(85., maxy_);
+    maxy_      = 90.;
     double min = miny_ - latIncrement_;
     double max = maxy_ + latIncrement_;
     if (latitudes_.empty()) {

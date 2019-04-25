@@ -231,6 +231,21 @@ public:
     const map<string, string>& get(const string& name) const;
 };
 
+class DimensionGuess : public MagConfig {
+public:
+    DimensionGuess(const string& def) : definitions_(def) { init(); }
+
+    ~DimensionGuess() {}
+
+    void callback(const string& name, const json_spirit::Value& value) {}
+    void init();
+
+    string definitions_;
+
+    map<string, map<string, string> > data_;
+    const map<string, string>& get(const string& name) const;
+};
+
 
 struct UnitConvert {
     typedef void (UnitConvert::*SetMethod)(const json_spirit::Value&);

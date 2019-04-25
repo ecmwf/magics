@@ -265,6 +265,7 @@ if( HAVE_GRIB )
 		GribLoop.xml
 		GribLoopStep.xml
 		GribDecoder.xml
+		TileDecoder.xml
 		)
 endif()
 

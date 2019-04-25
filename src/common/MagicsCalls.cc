@@ -913,6 +913,7 @@ MAGICS_EXPORT const char* metagrib_() {
     return magics_->metagrib();
 }
 
+
 MAGICS_EXPORT const char* version() {
     static string version = getMagicsVersionString();
     return version.c_str();
@@ -1132,6 +1133,13 @@ MAGICS_EXPORT void penqc_(const char* name, char* value, int length, int vlength
         value[i] = ' ';
 }
 
+MAGICS_EXPORT const char* detect_(const char* data, char* dimension, int l1, int l2) {
+    std::string sdata(data, l1);
+    std::string sdim(dimension, l2);
+
+    return magics_->detect(sdata, sdim);
+}
+
 MAGICS_EXPORT void ppie_() {
     MagLog::warning() << "ppie-> is deprecated and will NOT be implemented.\n";
 }
@@ -1162,6 +1170,10 @@ MAGICS_EXPORT void peps_() {
 
 MAGICS_EXPORT void pboxplot_() {
     magics_->pboxplot();
+}
+
+MAGICS_EXPORT void ptile_() {
+    magics_->ptile();
 }
 
 MAGICS_EXPORT void pwrepjson_() {
@@ -1350,6 +1362,12 @@ PYTHON(py_boxplot, pboxplot_)
 MAGICS_EXPORT void mag_taylor() {
     ptaylor_();
 }
+MAGICS_EXPORT void mag_tile() {
+    ptile_();
+}
+
+PYTHON(py_tile, ptile_)
+
 PYTHON(py_taylor, ptaylor_)
 MAGICS_EXPORT void mag_tephi() {
     ptephi_();
@@ -1414,6 +1432,10 @@ MAGICS_EXPORT void mag_epslight() {
     pepslight_();
 }
 PYTHON(py_epslight, pepslight_)
+
+MAGICS_EXPORT const char* detect(const char* data, const char* dimension) {
+    return magics_->detect(string(data), string(dimension));
+}
 
 MAGICS_EXPORT const char* py_new(const char* page) {
     try {

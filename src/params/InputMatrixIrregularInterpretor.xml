@@ -10,19 +10,15 @@ does it submit to any jurisdiction.
 
 <magics>
 <class directory="decoders" name="InputMatrixIrregularInterpretor">
-
   	<parameter member="latitudes" to="Matrix" default="Matrix()" from="Matrix" name="input_field_latitudes">
          		<documentation> latitudes 		</documentation>
   	</parameter>
-  
   	<parameter member="longitudes" to="Matrix" default="Matrix()" from="Matrix" name="input_field_longitudes">
          		<documentation> longitudes 		</documentation>
   	</parameter>
-  
   	<parameter member="y" to="Matrix" default="Matrix()" from="Matrix" name="input_field_y_coordinates">
          		<documentation> y-coordinates of the field 		</documentation>
   	</parameter>
-  
   	<parameter member="x" to="Matrix" default="Matrix()" from="Matrix" name="input_field_x_coordinates">
          		<documentation> x-coordinates of the field 		</documentation>
   	</parameter>

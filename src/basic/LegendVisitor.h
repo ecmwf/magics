@@ -111,6 +111,8 @@ public:
     void angle(double angle) { angle_ = angle; }
     void set(const LegendVisitor&);
     void last() { last_ = true; }
+    bool isLast() { return last_; }
+    bool isFirst() { return first_; }
     void first() { first_ = true; }
     void notext() { text_ = false; }
     void text() { text_ = true; }

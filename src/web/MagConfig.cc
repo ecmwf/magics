@@ -455,6 +455,32 @@ void NetcdfGuess::callback(const string& name, const json_spirit::Value& value) 
         }
     }
 }
+
+void DimensionGuess::init() {
+    json_spirit::Value value;
+    try {
+        json_spirit::read_or_throw(definitions_, value);
+
+        Object object = value.get_value<Object>();
+
+        for (vector<Pair>::const_iterator entry = object.begin(); entry != object.end(); ++entry) {
+            // cout << entry->name_ << endl;
+            Object o = entry->value_.get_value<Object>();
+            map<string, string> def;
+            for (vector<Pair>::const_iterator e = o.begin(); e != o.end(); ++e) {
+                // cout << e->name_ << "-->" << MagConfig::convert(e->value_) << endl;
+                def.insert(make_pair(e->name_, MagConfig::convert(e->value_)));
+            }
+            data_.insert(make_pair(entry->name_, def));
+        }
+    }
+    catch (json_spirit::Error_position e) {
+        MagLog::error() << "JSON error in" << definitions_ << ": " << e.reason_ << "[line: " << e.line_
+                        << ", column: " << e.column_ << "]" << endl;
+    }
+}
+
+
 void MagDefLibrary::init(const string& name) {
     string library = buildConfigPath(name);
     MagLog::dev() << "opening -->" << library << endl;
