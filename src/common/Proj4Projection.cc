@@ -596,7 +596,7 @@ void Proj4Projection::geos() {
     }
 }
 
-Polyline& Proj4Projection::getSimplePCBoundingBox() const {
+magics::Polyline& Proj4Projection::getSimplePCBoundingBox() const {
     static magics::Polyline box;
     box.box(PaperPoint(min_pcx_, min_pcy_), PaperPoint(max_pcx_, max_pcy_));
     /*
