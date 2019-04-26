@@ -34,109 +34,8 @@ TileDecoder::~TileDecoder() {}
 #include "eccodes.h"
 
 
-class PointTile {
-public:
-    PointTile(int index1, int index2, int index3, int index4, double weight1, double weight2, double weight3,
-              double weight4, double total) :
-        total_(total) {
-        indexes_.reserve(4);
-        weights_.reserve(4);
-        indexes_.push_back(index1);
-        indexes_.push_back(index2);
-        indexes_.push_back(index3);
-        indexes_.push_back(index4);
-        weights_.push_back(weight1);
-        weights_.push_back(weight2);
-        weights_.push_back(weight3);
-        weights_.push_back(weight4);
-    }
-    vector<int> indexes_;
-    vector<double> weights_;
-    double total_;
-
-    double compute(vector<double>& values) {
-        double val  = 0;
-        auto weight = weights_.begin();
-        for (int i = 0; i < 4; i++) {
-            cout << " " << values[i] << endl;
-            val += values[i] * (*weight);
-            weight++;
-        }
-
-        val /= total_;
-        return val;
-    }
-};
-class Tile {
-public:
-    Tile() {}
-    Tile(int z, int x, int y, int size, double xmin, double ymin, double xmax, double ymax) :
-        size_(size),
-        z_(z),
-        x_(x),
-        y_(y),
-        xmin_(xmin),
-        ymin_(ymin),
-        xmax_(xmax),
-        ymax_(ymax) {
-        size_ = size;
-        latitudes_.reserve(size);
-        longitudes_.reserve(size);
-        indexes_.reserve(size);
-        tiles_.reserve(size);
-    }
-    void push_back(double lat, double lon, int index) {
-        if (lon > xmax_)
-            lon -= 360;
-        latitudes_.push_back(lat);
-        longitudes_.push_back(lon);
-        indexes_.push_back(index);
-    }
-    void push_back(double lat, double lon, int index1, int index2, int index3, int index4, double weight1,
-                   double weight2, double weight3, double weight4, double total) {
-        if (lon > xmax_)
-            lon -= 360;
-        latitudes_.push_back(lat);
-        longitudes_.push_back(lon);
-        tiles_.push_back(PointTile(index1, index2, index3, index4, weight1, weight2, weight3, weight4, total));
-    }
-    void push_lat(double lat) { latitudes_.push_back(lat); }
-    void push_lon(double lon) {
-        if (lon > xmax_)
-            lon -= 360;
-        longitudes_.push_back(lon);
-    }
-    void dimensions(int rows, int columns) {
-        rows_    = rows;
-        columns_ = columns;
-    }
-
-    vector<double> latitudes_;
-    vector<double> longitudes_;
-    vector<int> indexes_;
-    vector<PointTile> tiles_;
-    int size_;
-    int z_;
-    int x_;
-    int y_;
-    double xmin_;
-    double ymin_;
-    double xmax_;
-    double ymax_;
-    int rows_;
-    int columns_;
 
 
-    void print() {
-        cout << "bounding box [" << xmin_ << ", " << xmax_ << "]-->[" << ymin_ << ", " << ymax_ << "]" << endl;
-        cout << "Number of points [" << size_ << "]" << endl;
-        for (int i = 0; i < size_; i++) {
-            cout << "[" << latitudes_[i] << ", " << longitudes_[i] << "]-->" << endl;
-        }
-    }
-};
-
-Tile tile_;
 
 TileDecoder::TileDecoder() {
     cout << "New Tile Decoder" << endl;
@@ -167,82 +66,8 @@ double compute(double* values, double* weights, int nb, double total) {
 }
 
 void TileDecoder::customisedPoints(const Transformation& t, const std::set<string>& n, CustomisedPointsList& out,
-                                   bool all) {
-#ifdef NOTYET
-    if (!file_)
-        return;
-    int z, x, y, size;
-    double lon, lat;
-    int index1, index2, index3, index4;
-    double weight1, weight2, weight3, weight4, total;
-    int index;
-    double xmin, ymin, xmax, ymax;
-    file_ >> z >> x >> y >> size >> xmin >> ymin >> xmax >> ymax;
-    tile_ = Tile(z, x, y, size, xmin, ymin, xmax, ymax);
-    /*
-    double rows, columns;
-    f >> rows >> columns;
-    tile_.dimensions(rows, columns);
-
-
-    for (int i = 0; i < rows; i++) {
-        double val;
-        f >> val;
-        tile_.push_lat(val);
-    }
-
-    for (int i = 0; i < columns; i++) {
-        double val;
-        f >> val;
-        tile_.push_lon(val);
-    }
-    */
-
-    for (int i = 0; i < size; i++) {
-        file_ >> lat >> lon >> index;
-        tile_.push_back(lat, lon, index);
-        /*
-        f >> lat >> lon >> index1 >> index2 >> index3 >> index4 >> weight1 >> weight2 >> weight3 >> weight4 >> total;
-        tile_.push_back(lat, lon, index1, index2, index3, index4, weight1, weight2, weight3, weight4, total);
-        */
-    }
-
-    FILE* in = fopen(file_name_.c_str(), "r");
-    if (!in) {
-        printf("ERROR: unable to open file %s\n", "wind.grib");
-        return;
-    }
-    int error;
-
-    /* create new handle from a message in a file*/
-    codes_handle* u = codes_handle_new_from_file(0, in, PRODUCT_GRIB, &error);
-    if (u == NULL) {
-        printf("Error: unable to create handle from file %s\n", "wind.grib");
-    }
-    codes_handle* v = codes_handle_new_from_file(0, in, PRODUCT_GRIB, &error);
-    if (v == NULL) {
-        printf("Error: unable to create handle from file %s\n", "wind.grib");
-    }
-
-    /*
-        for (auto tile = tile_.tiles_.begin(); tile != tile_.tiles_.end(); ++tile) {
-            vector<double> uc;
-            uc.reserve(4);
-            vector<double> vc;
-            vc.reserve(4);
-            cout << "compute" << endl;
-            for (auto i = tile->indexes_.begin(); i != tile->indexes_.end(); ++i)
-                cout << "index " << *i << endl;
-            int s = 4;
-            codes_get_double_elements(, "values", &(tile->indexes_.front()), s, &uc.front());
-            cout << "XXXX" << values.front() << values.size() << endl;
-            for (auto i = values.begin(); i != values.end(); ++i)
-                cout << "value " << *i << endl;
-            cout << tile->compute(values) << endl;
-        }
-    */
-
-#endif
+                                   bool all) 
+{
     Timer timer("Tile", "getting wind from index");
     string path = buildConfigPath("tiles", "zoom" + tostring(z_) + ".nc");
     cout << "Tiles --> " << path << endl;
@@ -288,7 +113,7 @@ void TileDecoder::customisedPoints(const Transformation& t, const std::set<strin
     int error;
     FILE* in = fopen(file_name_.c_str(), "r");
     if (!in) {
-        printf("ERROR: unable to open file %s\n", "wind.grib");
+        MagLog::error() << "ERROR: unable to open file" << file_name_ << endl;
         return;
     }
 
@@ -296,11 +121,12 @@ void TileDecoder::customisedPoints(const Transformation& t, const std::set<strin
     /* create new handle from a message in a file*/
     codes_handle* u = codes_handle_new_from_file(0, in, PRODUCT_GRIB, &error);
     if (u == NULL) {
-        printf("Error: unable to create handle from file %s\n", "wind.grib");
-    }
+        MagLog::error() << "ERROR: unable to create handle from file" << file_name_ << endl;
+    }  
+        
     codes_handle* v = codes_handle_new_from_file(0, in, PRODUCT_GRIB, &error);
     if (v == NULL) {
-        printf("Error: unable to create handle from file %s\n", "wind.grib");
+        MagLog::error() << "ERROR: unable to create handle from file" << file_name_ << endl;
     }
 
 
@@ -344,7 +170,7 @@ void TileDecoder::print(ostream& out) const {
 
 void TileDecoder::decode() {
     string path = buildConfigPath("tiles", "cont" + tostring(z_) + ".nc");
-    cout << "Tiles --> " << path << endl;
+    
     Netcdf netcdf(path, "index");
 
     map<string, string> first, last;
@@ -364,13 +190,12 @@ void TileDecoder::decode() {
     int error;
     FILE* in = fopen(file_name_.c_str(), "r");
     if (!in) {
-        printf("ERROR: unable to open file %s\n", "wind.grib");
+        MagLog::error() << "ERROR: unable to create handle from file" << file_name_ << endl;
         return;
     }
 
 
-    for (auto b = bbox.begin(); b != bbox.end(); ++b)
-        cout << "found BBOX" << *b << endl;
+    
 
     first["lat"] = tostring(bbox[1]);
     first["lon"] = tostring(bbox[0]);
@@ -388,9 +213,9 @@ void TileDecoder::decode() {
     double values[4];
 
     codes_handle* f = codes_handle_new_from_file(0, in, PRODUCT_GRIB, &error);
-    cout << "FILE" << file_name_ << endl;
+    
     if (f == NULL) {
-        printf("Error: unable to create handle from file %s\n", file_name_);
+        MagLog::error() << "ERROR: nable to create handle from fil" << file_name_ << endl;
     }
 
     double missing = -std::numeric_limits<double>::max();
@@ -404,17 +229,34 @@ void TileDecoder::decode() {
     // latitudes.size()
     //    << endl;
     vector<int> iindex;
+    
     vector<double> dvalues;
+    vector<double> cvalues;
 
     iindex.reserve(dindex.size());
     dvalues.reserve(dindex.size());
+    cvalues.reserve(dindex.size());
     for (auto l = dindex.begin(); l != dindex.end(); ++l) {
-        iindex.push_back(*l);
+        if (*l != -1) 
+            iindex.push_back(*l);
     }
 
     codes_get_double_elements(f, "values", &iindex.front(), iindex.size(), &dvalues.front());
 
     auto val = dvalues.begin();
+    for (auto l = dindex.begin(); l != dindex.end(); ++l) {
+         if (*l == -1) 
+            cvalues.push_back(missing);
+         else  {
+            cvalues.push_back(*val);
+            val++;
+         }
+    }
+
+
+    //cleaning values 
+
+
     int ind  = 0;
     while (ind < distances.size()) {
         double total = 0;
@@ -422,16 +264,14 @@ void TileDecoder::decode() {
 
         for (int i = 0; i < 4; i++) {
             weight[i] = 1 / distances[ind];
-            values[i] = dvalues[ind];
+            values[i] = cvalues[ind];
             total += weight[i];
-            // cout << *d << "-->" << *val << endl;
             nb++;
             ind++;
         }
 
 
         double val = compute(values, weight, nb, total);
-        // cout << c << " --> " << nb << "   " << val << endl;
         c++;
         matrix_.push_back(val);
     }
