@@ -153,6 +153,18 @@ bool TileDecoder::ok() {
     return true;
 }
 
+double compute(double* values, double* weights, int nb, double total) {
+    double val = 0;
+
+
+    for (int i = 0; i < nb; i++) {
+        // cout << " " << values[i] << endl;
+        val += values[i] * weights[i];
+    }
+
+    val /= total;
+    return val;
+}
 
 void TileDecoder::customisedPoints(const Transformation& t, const std::set<string>& n, CustomisedPointsList& out,
                                    bool all) {
@@ -247,7 +259,7 @@ void TileDecoder::customisedPoints(const Transformation& t, const std::set<strin
     vector<double> values;
     vector<int> index;
 
-    cout << "Tile-->" << x_ << ", " << y_ << endl;
+
     int nbpoints = netcdf.getDimension("points");
     netcdf.get("bounding-box", bbox, first, last);
     netcdf.get("index", values, first, last);
@@ -320,9 +332,7 @@ void TileDecoder::customisedPoints(const Transformation& t, const std::set<strin
     }
 }
 
-PointsHandler& TileDecoder::points(const Transformation& t, bool) {
-    cout << "HOURAH-->TileDecoder::points" << endl;
-}
+PointsHandler& TileDecoder::points(const Transformation& t, bool) {}
 
 /*!
  Class information are given to the output-stream.
@@ -345,8 +355,9 @@ void TileDecoder::decode() {
     vector<double> bbox;
     vector<double> latitudes;
     vector<double> longitudes;
-    vector<double> values;
-    vector<int> index;
+
+    vector<double> dindex;
+    vector<double> distances;
 
     netcdf.get("bounding-box", bbox, first, last);
 
@@ -357,11 +368,6 @@ void TileDecoder::decode() {
         return;
     }
 
-    codes_handle* f = codes_handle_new_from_file(0, in, PRODUCT_GRIB, &error);
-    if (f == NULL) {
-        printf("Error: unable to create handle from file %s\n", "wind.grib");
-    }
-
 
     for (auto b = bbox.begin(); b != bbox.end(); ++b)
         cout << "found BBOX" << *b << endl;
@@ -369,35 +375,75 @@ void TileDecoder::decode() {
     first["lat"] = tostring(bbox[1]);
     first["lon"] = tostring(bbox[0]);
     last["lat"]  = tostring(bbox[3]);
-    first["lon"] = tostring(bbox[2]);
+    last["lon"]  = tostring(bbox[2]);
 
     netcdf.get("lat", latitudes, first, last);
     netcdf.get("lon", longitudes, first, last);
-    netcdf.get("index", index, first, last);
+    netcdf.get("index", dindex, first, last);
+    netcdf.get("distances", distances, first, last);
 
-    values.reserve(index.size());
 
-    codes_get_double_elements(f, "values", &index.front(), index.size(), &values.front());
+    int index[4];
+    double weight[4];
+    double values[4];
 
+    codes_handle* f = codes_handle_new_from_file(0, in, PRODUCT_GRIB, &error);
+    cout << "FILE" << file_name_ << endl;
+    if (f == NULL) {
+        printf("Error: unable to create handle from file %s\n", file_name_);
+    }
 
     double missing = -std::numeric_limits<double>::max();
 
     matrix_.missing(missing);
 
+    auto d = distances.begin();
+    matrix_.reserve(dindex.size() / 4);
+    int c = 0;
+    // cout << "SIZE-->" << dindex.size() / 4 << "---" << distances.size() << "---" << longitudes.size() *
+    // latitudes.size()
+    //    << endl;
+    vector<int> iindex;
+    vector<double> dvalues;
+
+    iindex.reserve(dindex.size());
+    dvalues.reserve(dindex.size());
+    for (auto l = dindex.begin(); l != dindex.end(); ++l) {
+        iindex.push_back(*l);
+    }
+
+    codes_get_double_elements(f, "values", &iindex.front(), iindex.size(), &dvalues.front());
+
+    auto val = dvalues.begin();
+    int ind  = 0;
+    while (ind < distances.size()) {
+        double total = 0;
+        int nb       = 0;
+
+        for (int i = 0; i < 4; i++) {
+            weight[i] = 1 / distances[ind];
+            values[i] = dvalues[ind];
+            total += weight[i];
+            // cout << *d << "-->" << *val << endl;
+            nb++;
+            ind++;
+        }
+
+
+        double val = compute(values, weight, nb, total);
+        // cout << c << " --> " << nb << "   " << val << endl;
+        c++;
+        matrix_.push_back(val);
+    }
+
+
     for (auto lon = longitudes.begin(); lon != longitudes.end(); ++lon) {
-        cout << "lon -->" << *lon << endl;
         matrix_.columnsAxis().push_back(*lon);
     }
 
     for (auto lat = latitudes.begin(); lat != latitudes.end(); ++lat) {
-        cout << "lat -->" << *lat << endl;
         matrix_.rowsAxis().push_back(*lat);
     }
-
-    for (auto val = values.begin(); val != values.end(); ++val) {
-        matrix_.push_back(*val);
-    }
-
 
     matrix_.setMapsAxis();
 }
