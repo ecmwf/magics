@@ -34,9 +34,6 @@ TileDecoder::~TileDecoder() {}
 #include "eccodes.h"
 
 
-
-
-
 TileDecoder::TileDecoder() {
     cout << "New Tile Decoder" << endl;
 }
@@ -66,8 +63,7 @@ double compute(double* values, double* weights, int nb, double total) {
 }
 
 void TileDecoder::customisedPoints(const Transformation& t, const std::set<string>& n, CustomisedPointsList& out,
-                                   bool all) 
-{
+                                   bool all) {
     Timer timer("Tile", "getting wind from index");
     string path = buildConfigPath("tiles", "zoom" + tostring(z_) + ".nc");
     cout << "Tiles --> " << path << endl;
@@ -122,8 +118,8 @@ void TileDecoder::customisedPoints(const Transformation& t, const std::set<strin
     codes_handle* u = codes_handle_new_from_file(0, in, PRODUCT_GRIB, &error);
     if (u == NULL) {
         MagLog::error() << "ERROR: unable to create handle from file" << file_name_ << endl;
-    }  
-        
+    }
+
     codes_handle* v = codes_handle_new_from_file(0, in, PRODUCT_GRIB, &error);
     if (v == NULL) {
         MagLog::error() << "ERROR: unable to create handle from file" << file_name_ << endl;
@@ -170,7 +166,7 @@ void TileDecoder::print(ostream& out) const {
 
 void TileDecoder::decode() {
     string path = buildConfigPath("tiles", "cont" + tostring(z_) + ".nc");
-    
+
     Netcdf netcdf(path, "index");
 
     map<string, string> first, last;
@@ -195,8 +191,6 @@ void TileDecoder::decode() {
     }
 
 
-    
-
     first["lat"] = tostring(bbox[1]);
     first["lon"] = tostring(bbox[0]);
     last["lat"]  = tostring(bbox[3]);
@@ -213,7 +207,7 @@ void TileDecoder::decode() {
     double values[4];
 
     codes_handle* f = codes_handle_new_from_file(0, in, PRODUCT_GRIB, &error);
-    
+
     if (f == NULL) {
         MagLog::error() << "ERROR: nable to create handle from fil" << file_name_ << endl;
     }
@@ -229,7 +223,7 @@ void TileDecoder::decode() {
     // latitudes.size()
     //    << endl;
     vector<int> iindex;
-    
+
     vector<double> dvalues;
     vector<double> cvalues;
 
@@ -237,7 +231,7 @@ void TileDecoder::decode() {
     dvalues.reserve(dindex.size());
     cvalues.reserve(dindex.size());
     for (auto l = dindex.begin(); l != dindex.end(); ++l) {
-        if (*l != -1) 
+        if (*l >= 0)
             iindex.push_back(*l);
     }
 
@@ -245,19 +239,19 @@ void TileDecoder::decode() {
 
     auto val = dvalues.begin();
     for (auto l = dindex.begin(); l != dindex.end(); ++l) {
-         if (*l == -1) 
+        if (*l == -1)
             cvalues.push_back(missing);
-         else  {
+        else {
             cvalues.push_back(*val);
             val++;
-         }
+        }
     }
 
 
-    //cleaning values 
+    // cleaning values
 
 
-    int ind  = 0;
+    int ind = 0;
     while (ind < distances.size()) {
         double total = 0;
         int nb       = 0;
