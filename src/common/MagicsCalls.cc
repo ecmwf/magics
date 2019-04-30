@@ -1516,15 +1516,6 @@ MAGICS_EXPORT void mag_seti(const char* name, const int value) {
     // cout << "seti("<<name<<","<<value<<")"<<endl;
 }
 
-MAGICS_EXPORT void mag_setp(const char* name, void* value) {
-#ifdef HAVE_CAIRO
-    string n(name);
-    if (magCompare(n, "output_cairo_drawing_context")) {
-        ParameterManager::set("output_cairo_drawing_context", (CairoPtr)value);
-    }
-#endif
-}
-
 MAGICS_EXPORT void mag_act(const char* a, const char* b, const char* c) {
     string aa(a);
     string bb(b);

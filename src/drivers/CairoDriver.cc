@@ -103,18 +103,7 @@ void CairoDriver::open() {
 
     coordRatioY_ = -1;
 
-    if (context_) {
-#if CAIRO_VERSION >= CAIRO_VERSION_ENCODE(1, 2, 0)
-        cr_               = (cairo_t*)context_;
-        surface_          = cairo_get_group_target(cr_);
-        dimensionXglobal_ = cairo_image_surface_get_width(surface_);
-        dimensionYglobal_ = cairo_image_surface_get_height(surface_);
-#else
-        MagLog::error() << "CairoDriver: For contexts you need at least Cairo 1.2!" << std::endl;
-#endif
-    }
-    else
-        setupNewSurface();
+    setupNewSurface();
 
     cairo_status_t res = cairo_surface_status(surface_);
     if (res != CAIRO_STATUS_SUCCESS) {
@@ -220,12 +209,7 @@ void CairoDriver::setupNewSurface() const {
     cairo_set_line_join(cr_, CAIRO_LINE_JOIN_BEVEL);
 
     dimensionX_ = static_cast<MFloat>(dimensionXglobal_);
-    if (!context_)
-        dimensionY_ = static_cast<MFloat>(dimensionYglobal_);
-    else {
-        const MFloat ratio = getYDeviceLength() / getXDeviceLength();
-        dimensionY_        = static_cast<int>(ratio * dimensionXglobal_);
-    }
+    dimensionY_ = static_cast<MFloat>(dimensionYglobal_);
     currentPage_ = 0;
 }
 
@@ -239,10 +223,8 @@ void CairoDriver::close() {
     if (magCompare(backend_, "ps") && !fileName_.empty())
         printOutputName("CAIRO ps " + fileName_);
 
-    if (!context_) {
-        cairo_surface_destroy(surface_);
-        cairo_destroy(cr_);
-    }
+    cairo_surface_destroy(surface_);
+    cairo_destroy(cr_);
 }
 
 
