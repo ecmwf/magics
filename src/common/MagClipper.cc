@@ -14,7 +14,7 @@
 
 using namespace magics;
 
-double scale_ = 100000;
+double scale_ = 1;
 
 void convert(const deque<PaperPoint>& in, ClipperLib::Path& out, bool print = false) {
     out.reserve(in.size());
@@ -32,12 +32,12 @@ void convert(const deque<PaperPoint>& in, ClipperLib::Path& out, bool print = fa
 }
 
 void convert(const ClipperLib::Path& in, deque<PaperPoint>& out) {
-    //cout << "----------------" << endl;
+    // cout << "----------------" << endl;
     for (auto pt = in.begin(); pt != in.end(); ++pt) {
         out.push_back(PaperPoint(pt->X / scale_, pt->Y / scale_));
-        //cout << "convert-->" << out.back() << endl;
+        // cout << "convert-->" << out.back() << endl;
     }
-    //cout << "----------------" << endl;
+    // cout << "----------------" << endl;
 }
 
 void MagClipper::clipOpened(const Polyline& subject, const Polyline& clip, vector<Polyline*>& out) {
@@ -51,8 +51,9 @@ void MagClipper::clipOpened(const Polyline& subject, const Polyline& clip, vecto
     clipper.AddPath(path_subject, ClipperLib::ptSubject, false);
     convert(clip.polygon(), path_clip);
 
-    clipper.AddPath(path_clip, ClipperLib::ptClip, true);
+
     try {
+        clipper.AddPath(path_clip, ClipperLib::ptClip, true);
         clipper.Execute(ClipperLib::ctIntersection, solution, ClipperLib::pftNonZero, ClipperLib::pftNonZero);
     }
     catch (...) {
@@ -69,6 +70,7 @@ void MagClipper::clipOpened(const Polyline& subject, const Polyline& clip, vecto
         node = node->GetNext();
     }
 }
+
 
 void MagClipper::clip(const Polyline& subject, const Polyline& clip, vector<Polyline*>& out) {
     if (subject.empty())
@@ -98,6 +100,7 @@ void MagClipper::clipClosed(const Polyline& subject, const Polyline& clip, vecto
     // Create Path from outer and holes!
     // First Outer!
 
+
     ClipperLib::Path path_subject, hole_subject, path_clip;
     ClipperLib::Paths solution, holes;
     ClipperLib::Clipper clipper, clipper_holes;
@@ -123,9 +126,11 @@ void MagClipper::clipClosed(const Polyline& subject, const Polyline& clip, vecto
         }
 
         clipper.AddPath(path_clip, ClipperLib::ptClip, true);
-
-        clipper.Execute(ClipperLib::ctIntersection, solution, ClipperLib::pftNonZero, ClipperLib::pftNonZero);
-
+        try {
+            clipper.Execute(ClipperLib::ctIntersection, solution, ClipperLib::pftNonZero, ClipperLib::pftNonZero);
+        }
+        catch (...) {
+        }
 
         Polyline* poly = 0;
         vector<ClipperLib::Paths::iterator> couters;
