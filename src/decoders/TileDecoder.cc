@@ -164,10 +164,13 @@ void TileDecoder::print(ostream& out) const {
     out << "]";
 }
 
+
 void TileDecoder::decode() {
     string path = buildConfigPath("tiles", "cont" + tostring(z_) + ".nc");
 
     Netcdf netcdf(path, "index");
+
+    map<string, double> offsets = {{"K", -273.15}};
 
     map<string, string> first, last;
     first["x"] = tostring(x_);
@@ -214,6 +217,24 @@ void TileDecoder::decode() {
 
     double missing = -std::numeric_limits<double>::max();
 
+    char tmp[20];
+    size_t length = 20;
+
+    double offset = 0;
+    int err       = grib_get_string(f, "units", tmp, &length);
+    if (!err) {
+        string units(tmp);
+        auto off = offsets.find(units);
+        if (off != offsets.end()) {
+            offset = off->second;
+            cout << "Use Offset-->" << offset << endl;
+        }
+    }
+
+
+    // check the units for scaling!
+
+
     matrix_.missing(missing);
 
     auto d = distances.begin();
@@ -231,18 +252,20 @@ void TileDecoder::decode() {
     dvalues.reserve(dindex.size());
     cvalues.reserve(dindex.size());
     for (auto l = dindex.begin(); l != dindex.end(); ++l) {
-        if (*l >= 0)
+        if (*l > -1)
             iindex.push_back(*l);
     }
 
+
     codes_get_double_elements(f, "values", &iindex.front(), iindex.size(), &dvalues.front());
+
 
     auto val = dvalues.begin();
     for (auto l = dindex.begin(); l != dindex.end(); ++l) {
-        if (*l == -1)
+        if (*l < 0)
             cvalues.push_back(missing);
         else {
-            cvalues.push_back(*val);
+            cvalues.push_back(*val + offset);
             val++;
         }
     }
@@ -257,15 +280,17 @@ void TileDecoder::decode() {
         int nb       = 0;
 
         for (int i = 0; i < 4; i++) {
-            weight[i] = 1 / distances[ind];
-            values[i] = cvalues[ind];
-            total += weight[i];
-            nb++;
+            if (cvalues[ind] != missing && !same(distances[ind], 0)) {
+                weight[i] = 1 / distances[ind];
+                values[i] = cvalues[ind];
+                total += weight[i];
+                nb++;
+            }
             ind++;
         }
 
 
-        double val = compute(values, weight, nb, total);
+        double val = nb ? compute(values, weight, nb, total) : missing;
         c++;
         matrix_.push_back(val);
     }
