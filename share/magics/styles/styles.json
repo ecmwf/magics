@@ -8214,5 +8214,39 @@
         "contour_shade_colour_method" : "list",
         "contour_shade_technique" : "grid_shading",
         "contour_title" : "Mask"
+    },
+    "sh_blue_red_64" : {
+        "contour_description" : "Method : contour shade Level range : -80 to 80 Interval : 2.5  Colour : blue and red Used for Eastward and Northward wind",
+        "contour_level_selection_type" : "interval",
+        "contour_line_thickness"       : 0,
+        "contour_highlight_colour"     : "navy",
+        "contour_highlight_thickness"  : 1,
+        "contour_highlight_frequency"  : 4,
+        "contour_interval"             : 2.5,
+        "contour_shade_method"         : "area_fill",
+        "contour_shade"                : "on",
+        "contour_shade_max_level"      : 80.0,
+        "contour_shade_min_level"      : -80.0,
+        "contour_label"                : "off",
+        "contour_shade_colour_method"  : "list",
+        "contour_shade_colour_list"    : "#001133/#021642/#051b4f/#0b1f5e/#12256b/#182a79/#1f2f88/#253595/#263f99/#26499e/#2553a2/#235ca7/#2365ac/#236eb0/#2377b4/#2281b9/#1f8abd/#2294c0/#2d9ec1/#35a7c2/#3db0c3/#4cb9c3/#64c1c0/#77c9bd/#89d1ba/#9fd8b8/#b0e0b7/#c1e6b5/#d3eeb3/#e5f5b2/#f5fbc3/#ffffff/#ffffff/#fffac9/#fff1ae/#ffe79b/#fede88/#ffd575/#ffcc60/#fec14d/#ffb744/#ffac3b/#fea131/#fd9628/#f98d23/#f5841e/#f17a19/#ec7114/#e56810/#de610c/#d75907/#d05104/#c74a02/#be4503/#b44003/#a93b04/#9f3704/#953304/#893005/#7f2c06/#742906/#692606/#671a13/#67001f",
+        "contour_title" : "Contour shade for wind components"
+    },
+    "sh_blue_red_100" : {
+        "contour_description" : "Method : contour shade Level range : -80 to 80 Interval : 2.5  Colour : blue and red Used for Eastward and Northward wind at pressure levels",
+        "contour_level_selection_type" : "interval",
+        "contour_line_thickness"       : 0,
+        "contour_highlight_colour"     : "navy",
+        "contour_highlight_thickness"  : 1,
+        "contour_highlight_frequency"  : 4,
+        "contour_interval"             : 2.5,
+        "contour_shade_method"         : "area_fill",
+        "contour_shade"                : "on",
+        "contour_shade_max_level"      : 100.0,
+        "contour_shade_min_level"      : -100.0,
+        "contour_label"                : "off",
+        "contour_shade_colour_method"  : "list",
+        "contour_shade_colour_list"    : "#001133/#01153f/#031949/#071d56/#0d2161/#12256b/#172876/#1c2d81/#22318c/#253795/#263f99/#26479d/#254ea0/#2455a4/#225ea8/#2364ab/#236cae/#2374b2/#237ab6/#2283b9/#2089bd/#1e92c0/#2798c1/#2fa0c2/#36a7c3/#3cafc3/#43b7c4/#57bdc2/#6ac3bf/#78cabc/#86cfba/#97d6b9/#a7dcb8/#b4e1b6/#c1e7b5/#d0ecb3/#dff2b2/#ecf7b1/#f9fcca/#ffffff/#ffffff/#fffbd0/#fff4b7/#ffeea8/#fee699/#fedf8a/#ffd879/#ffd069/#fec859/#fec04c/#ffb844/#ffaf3c/#ffa735/#fe9d2d/#fd9627/#f98e24/#f68720/#f37f1c/#ef7718/#ec6f14/#e66a11/#e1630d/#da5d0a/#d55606/#cf5004/#c94a02/#c04703/#b84303/#b03f03/#a83b04/#a03804/#993404/#903205/#882f06/#7f2d06/#762a06/#6e2706/#662507/#671615/#67001f",
+        "contour_title" : "Contour shade for wind components at pressure levels"
     }
 }
