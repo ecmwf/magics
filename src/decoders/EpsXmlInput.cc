@@ -22,7 +22,7 @@
 
 #include "EpsXmlInput.h"
 #include "CustomisedPoint.h"
-#include "DateTime.h"
+#include "MagDateTime.h"
 #include "IntervalMap.h"
 #include "LegendVisitor.h"
 #include "MetaData.h"

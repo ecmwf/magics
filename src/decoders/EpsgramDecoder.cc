@@ -22,7 +22,7 @@
 
 #include "EpsgramDecoder.h"
 #include "CustomisedPoint.h"
-#include "DateTime.h"
+#include "MagDateTime.h"
 #include "EfiLegendEntry.h"
 #include "IntervalMap.h"
 #include "LegendVisitor.h"

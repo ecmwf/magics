@@ -18,8 +18,8 @@
 #include "GeoJSonAttributes.h"
 
 #include "Data.h"
-#include "DateTime.h"
-#include "Decoder.h"
+#include "MagDateTime.h"
+#include "MagicsDecoder.h"
 #include "PointsHandler.h"
 #include "UserPoint.h"
 #include "json_spirit.h"

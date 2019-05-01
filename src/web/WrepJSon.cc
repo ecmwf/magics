@@ -11,7 +11,6 @@
 #include "WrepJSon.h"
 #include <locale>
 #include "CustomisedPoint.h"
-#include "DateTime.h"
 #include "EfiLegendEntry.h"
 #include "IntervalMap.h"
 #include "MagException.h"

@@ -28,7 +28,7 @@
 #include "BinningObject.h"
 #include "CustomisedPoint.h"
 #include "DataStats.h"
-#include "DateTime.h"
+#include "MagDateTime.h"
 #include "Layer.h"
 #include "MagicsEvent.h"
 #include "MatrixHandler.h"

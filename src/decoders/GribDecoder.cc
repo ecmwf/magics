@@ -32,7 +32,7 @@
 
 #include <cerrno>
 #include "AnimationRules.h"
-#include "DateTime.h"
+#include "MagDateTime.h"
 #include "GribInterpretor.h"
 
 #include "MagJSon.h"

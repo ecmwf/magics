@@ -26,7 +26,7 @@
 
 
 #include "Data.h"
-#include "Decoder.h"
+#include "MagicsDecoder.h"
 #include "ObsJSonAttributes.h"
 #include "UserPoint.h"
 #include "json_spirit.h"

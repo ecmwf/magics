@@ -21,7 +21,7 @@
 
 
 #include "EpsGraph.h"
-#include "DateTime.h"
+#include "MagDateTime.h"
 #include "LegendVisitor.h"
 #include "PointsHandler.h"
 #include "Symbol.h"

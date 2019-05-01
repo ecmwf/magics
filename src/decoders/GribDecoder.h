@@ -26,7 +26,7 @@
 
 
 #include "Data.h"
-#include "Decoder.h"
+#include "MagicsDecoder.h"
 #include "GribDecoderAttributes.h"
 #include "UserPoint.h"
 

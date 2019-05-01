@@ -8,7 +8,7 @@
  * does it submit to any jurisdiction.
  */
 
-/*! \file Decoder.h
+/*! \file MagicsDecoder.h
     \brief Definition of the Abstract template class Decoder.
 
     Magics Team - ECMWF 2004

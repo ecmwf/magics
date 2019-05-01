@@ -26,7 +26,7 @@
 #include "magics.h"
 
 #include "Data.h"
-#include "Decoder.h"
+#include "MagicsDecoder.h"
 #include "TileDecoderAttributes.h"
 
 
