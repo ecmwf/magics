@@ -10,7 +10,7 @@
 
 #include "GribLoopStep.h"
 #include <locale>
-#include "DateTime.h"
+#include "MagDateTime.h"
 #include "GribDecoder.h"
 #include "ViewNode.h"
 

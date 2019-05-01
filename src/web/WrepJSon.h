@@ -18,8 +18,8 @@
 #include "WrepJSonAttributes.h"
 
 #include "Data.h"
-#include "DateTime.h"
-#include "Decoder.h"
+#include "MagDateTime.h"
+#include "MagicsDecoder.h"
 #include "UserPoint.h"
 #include "json_spirit.h"
 

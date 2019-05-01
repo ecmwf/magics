@@ -23,7 +23,7 @@
 #include "EpsBufr.h"
 #include <locale>
 #include "CustomisedPoint.h"
-#include "DateTime.h"
+#include "MagDateTime.h"
 #include "MetaData.h"
 #include "MvObs.h"
 #include "TextVisitor.h"

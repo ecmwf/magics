@@ -8,7 +8,7 @@
  * does it submit to any jurisdiction.
  */
 
-#include "DateTime.h"
+#include "MagDateTime.h"
 
 #include "Tokenizer.h"
 

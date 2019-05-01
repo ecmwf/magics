@@ -26,7 +26,7 @@
 
 #include "BinningObject.h"
 #include "Data.h"
-#include "Decoder.h"
+#include "MagicsDecoder.h"
 #include "OdaGeoDecoderAttributes.h"
 #include "OdaXYDecoderAttributes.h"
 #include "UserPoint.h"

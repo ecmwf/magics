@@ -21,7 +21,7 @@
 
 #include "ClassicMtgDecoder.h"
 #include "CustomisedPoint.h"
-#include "DateTime.h"
+#include "MagDateTime.h"
 #include "MetaData.h"
 #include "TextVisitor.h"
 #include "Timer.h"

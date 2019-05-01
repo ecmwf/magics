@@ -251,7 +251,7 @@ int find(const T& value, vector<T>& values) {
     return -1;
 }
 
-#include "DateTime.h"
+#include "MagDateTime.h"
 #include "Tokenizer.h"
 string NetVariable::interpretTime(const string& val) {
     string time = parent_->detect(name_, "time");

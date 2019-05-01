@@ -9,7 +9,7 @@
  */
 
 #include <time.h>
-#include "DateTime.h"
+#include "MagDateTime.h"
 #include "MagException.h"
 #include "MagTranslator.h"
 #include "Tokenizer.h"

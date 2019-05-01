@@ -22,7 +22,7 @@
 
 #include "BasicGraphicsObject.h"
 #include "BasicSceneObject.h"
-#include "DateTime.h"
+#include "MagDateTime.h"
 #include "MagLog.h"
 
 namespace magics {

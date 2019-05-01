@@ -23,7 +23,7 @@
 #define CustomisedPoint_H
 
 #include "AutoVector.h"
-#include "DateTime.h"
+#include "MagDateTime.h"
 #include "magics.h"
 
 namespace magics {

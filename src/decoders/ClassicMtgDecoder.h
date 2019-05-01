@@ -26,11 +26,11 @@
 
 #include "ClassicMtgDecoderAttributes.h"
 #include "Data.h"
-#include "Decoder.h"
+#include "MagicsDecoder.h"
 #include "UserPoint.h"
 
 #include <limits>
-#include "DateTime.h"
+#include "MagDateTime.h"
 
 class spot_query;
 class spot_config;
