@@ -14,7 +14,7 @@
 
 using namespace magics;
 
-double scale_ = 1;
+double scale_ = 100000;
 
 void convert(const deque<PaperPoint>& in, ClipperLib::Path& out, bool print = false) {
     out.reserve(in.size());
@@ -51,9 +51,8 @@ void MagClipper::clipOpened(const Polyline& subject, const Polyline& clip, vecto
     clipper.AddPath(path_subject, ClipperLib::ptSubject, false);
     convert(clip.polygon(), path_clip);
 
-
+    clipper.AddPath(path_clip, ClipperLib::ptClip, true);
     try {
-        clipper.AddPath(path_clip, ClipperLib::ptClip, true);
         clipper.Execute(ClipperLib::ctIntersection, solution, ClipperLib::pftNonZero, ClipperLib::pftNonZero);
     }
     catch (...) {
