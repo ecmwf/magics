@@ -10,8 +10,8 @@
 
 // Baudouin Raoult - ECMWF Sep 96
 
-#ifndef DateTime_H
-#define DateTime_H
+#ifndef MagicsDateTime_H
+#define MagicsDateTime_H
 
 #include "magics.h"
 
