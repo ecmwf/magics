@@ -39,14 +39,49 @@ TileDecoder::TileDecoder() {
 }
 
 
-bool TileDecoder::ok() {
-    string path = buildConfigPath("tiles", "zoom" + tostring(z_) + ".nc");
-    file_       = ifstream(path);
+string TileDecoder::projection() {
+    map<string, string> projections = {
+        {"cylindrical", "4326"}, {"EPSG:4326", "4326"}, {"EPSG:32661", "32661"}, {"EPSG:32761", "32761"}};
+    auto proj = projections.find(projection_);
+    if (proj != projections.end())
+        return proj->second;
+    return "none";
+}
 
-    if (!file_.good()) {
+string TileDecoder::weights() {
+    return buildConfigPath("tiles", "weight-" + grid_ + "-" + projection() + "-z" + tostring(z_) + ".nc");
+}
+
+string TileDecoder::positions() {
+    return buildConfigPath("tiles", "wind-" + grid_ + "-" + projection() + "-z" + tostring(z_) + ".nc");
+}
+
+bool TileDecoder::ok() {
+    FILE* in = fopen(file_name_.c_str(), "r");
+    if (!in) {
+        MagLog::error() << "ERROR: unable to open file" << file_name_ << endl;
         return false;
     }
-    return true;
+    /* create new handle from a message in a file*/
+    int error;
+    codes_handle* h = codes_handle_new_from_file(0, in, PRODUCT_GRIB, &error);
+    if (h == NULL) {
+        MagLog::error() << "ERROR: unable to create handle from file" << file_name_ << endl;
+        return false;
+    }
+    char val[1024];
+    size_t length = 1024;
+    error         = grib_get_string(h, "gridName", val, &length);
+    grid_         = string(val);
+    codes_handle_delete(h);
+    string path = weights();
+    file_       = ifstream(path);
+    if (file_.good()) {
+        file_.close();
+        return true;
+    }
+    file_.close();
+    return false;
 }
 
 double compute(double* values, double* weights, int nb, double total) {
@@ -62,10 +97,10 @@ double compute(double* values, double* weights, int nb, double total) {
     return val;
 }
 
-void TileDecoder::customisedPoints(const Transformation& t, const std::set<string>& n, CustomisedPointsList& out,
-                                   bool all) {
-    Timer timer("Tile", "getting wind from index");
-    string path = buildConfigPath("tiles", "zoom" + tostring(z_) + ".nc");
+void TileDecoder::customisedPoints(const Transformation& transformation, const std::set<string>& n,
+                                   CustomisedPointsList& out, bool all) {
+    string path = positions();
+    Timer timer("Tile", path);
     cout << "Tiles --> " << path << endl;
     Netcdf netcdf(path, "index");
 
@@ -81,32 +116,9 @@ void TileDecoder::customisedPoints(const Transformation& t, const std::set<strin
     vector<int> index;
 
 
-    int nbpoints = netcdf.getDimension("points");
-    netcdf.get("bounding-box", bbox, first, last);
-    netcdf.get("index", values, first, last);
-
-    for (auto b = bbox.begin(); b != bbox.end(); ++b)
-        cout << "found BBOX" << *b << endl;
-    cout << "FOUND DIM " << nbpoints << endl;
-    for (auto b = values.begin(); b != values.end(); ++b) {
-        double lat = *b;
-        ++b;
-        double lon = *b;
-        ++b;
-        double i = *b;
-
-        if (i != -1) {
-            latitudes.push_back(lat);
-
-            if (lon > 180)
-                longitudes.push_back(lon - 360);
-            else
-                longitudes.push_back(lon);
-
-            index.push_back(i);
-        }
-    }
     int error;
+
+
     FILE* in = fopen(file_name_.c_str(), "r");
     if (!in) {
         MagLog::error() << "ERROR: unable to open file" << file_name_ << endl;
@@ -118,11 +130,40 @@ void TileDecoder::customisedPoints(const Transformation& t, const std::set<strin
     codes_handle* u = codes_handle_new_from_file(0, in, PRODUCT_GRIB, &error);
     if (u == NULL) {
         MagLog::error() << "ERROR: unable to create handle from file" << file_name_ << endl;
+        return;
     }
 
     codes_handle* v = codes_handle_new_from_file(0, in, PRODUCT_GRIB, &error);
     if (v == NULL) {
         MagLog::error() << "ERROR: unable to create handle from file" << file_name_ << endl;
+        return;
+    }
+
+
+    int nbpoints = netcdf.getDimension("points");
+    // netcdf.get("bounding-box", bbox, first, last);
+    netcdf.get("index", values, first, last);
+
+    // for (auto b = bbox.begin(); b != bbox.end(); ++b)
+    //  cout << "found BBOX" << *b << endl;
+    cout << "FOUND DIM " << nbpoints << endl;
+    for (auto b = values.begin(); b != values.end(); ++b) {
+        double lat = *b;
+        ++b;
+        double lon = *b;
+        ++b;
+        double i = *b;
+
+
+        if (i != 0) {
+            if (lon > 180)
+                lon -= 360;
+            // transformation.fast_reproject(lon, lat);
+            cout << "[" << lon << ", " << lat << "]" << i << endl;
+            latitudes.push_back(lat);
+            longitudes.push_back(lon);
+            index.push_back(i);
+        }
     }
 
 
@@ -166,7 +207,11 @@ void TileDecoder::print(ostream& out) const {
 
 
 void TileDecoder::decode() {
-    string path = buildConfigPath("tiles", "cont" + tostring(z_) + ".nc");
+    if (matrix_.size())
+        return;
+    string path = weights();
+
+    Timer timer("Tile", path);
 
     Netcdf netcdf(path, "index");
 
@@ -184,7 +229,13 @@ void TileDecoder::decode() {
     vector<double> dindex;
     vector<double> distances;
 
+    int size = netcdf.getDimension("lat");
+
+    cout << "SIZE-->" << size << endl;
+
     netcdf.get("bounding-box", bbox, first, last);
+    for (auto b = bbox.begin(); b != bbox.end(); ++b)
+        cout << "found BBOX" << *b << endl;
 
     int error;
     FILE* in = fopen(file_name_.c_str(), "r");
@@ -193,11 +244,23 @@ void TileDecoder::decode() {
         return;
     }
 
+    int miny = std::min(bbox[1], bbox[3]);
+    if (miny > 0)
+        miny = miny - 1;
+    int maxy = std::max(bbox[1], bbox[3]);
+    if (maxy < size - 1)
+        maxy = maxy + 1;
+    int minx = std::min(bbox[0], bbox[2]);
+    if (minx > 0)
+        minx = minx - 1;
+    int maxx = std::max(bbox[0], bbox[2]);
+    if (maxx < size - 1)
+        maxx = maxx + 1;
 
-    first["lat"] = tostring(bbox[1]);
-    first["lon"] = tostring(bbox[0]);
-    last["lat"]  = tostring(bbox[3]);
-    last["lon"]  = tostring(bbox[2]);
+    first["lat"] = tostring(miny);
+    first["lon"] = tostring(minx);
+    last["lat"]  = tostring(maxy);
+    last["lon"]  = tostring(maxx);
 
     netcdf.get("lat", latitudes, first, last);
     netcdf.get("lon", longitudes, first, last);

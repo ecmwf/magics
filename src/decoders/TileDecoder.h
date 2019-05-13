@@ -49,14 +49,19 @@ public:
     virtual MatrixHandler& matrix() {
         decode();
         matrixHandlers_.push_back(new MatrixHandler(matrix_));
+        matrixHandlers_.back()->setTile();
         return *(matrixHandlers_.back());
     }
     bool ok();
+    string projection();
+    string weights();
+    string positions();
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
     virtual void print(ostream&) const;
     Matrix matrix_;
+    string grid_;
 
 private:
     //! Copy constructor - No copy allowed

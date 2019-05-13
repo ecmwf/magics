@@ -41,14 +41,19 @@ public:
         AbstractPoints(),
         matrix_(matrix),
         min_(INT_MAX),
-        max_(-INT_MAX) {}
+        max_(-INT_MAX),
+        tile_(false) {}
     MatrixHandler(const MatrixHandler& matrix) :
         AbstractMatrix(),
         AbstractPoints(),
         matrix_(matrix),
         min_(INT_MAX),
-        max_(-INT_MAX) {}
+        max_(-INT_MAX),
+        tile_(false) {}
+
     virtual ~MatrixHandler() {}
+
+    virtual bool tile() { return tile_; }
 
     virtual double operator()(int i, int j) const { return matrix_(i, j); }
 
@@ -242,6 +247,8 @@ public:
         return (*this)(ii, jj);
     }
 
+    void setTile() { tile_ = true; }
+
     virtual int rows() const { return matrix_.rows(); }
     virtual int columns() const { return matrix_.columns(); }
     virtual int lowerRow(double v) const { return matrix_.lowerRow(v); }
@@ -347,6 +354,7 @@ public:
         return false;
     }
 
+    const AbstractMatrix& matrix() { return matrix_; }
 
     MatrixHandler* getReady(const Transformation& transformation) { return matrix_.getReady(transformation); }
 
@@ -357,6 +365,7 @@ protected:
     mutable double min_;
     mutable double max_;
     mutable bool internal_;
+    mutable bool tile_;
 };
 
 

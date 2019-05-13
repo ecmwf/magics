@@ -18,6 +18,9 @@ does it submit to any jurisdiction.
          		<release>Magics++0.1		</release>
          		<documentation> The name of the input file containing the GRIB code field(s) 		</documentation>
   	</parameter>
+
+    <parameter member="projection" to="string" default="cylindrical" from="string" name="grib_tile_projection">
+    </parameter>
    
      <parameter member="z" to="int" default="1" from="int" name="grib_tile_z">
            

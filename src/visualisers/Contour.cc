@@ -136,6 +136,11 @@ void Contour::operator()(Data& data, BasicGraphicsObjectContainer& parent) {
         if (!data.valid()) {
             throw MagicsException("Invalid data for contouring");
         }
+
+        if (data.matrix().tile()) {
+            (*this->contour_)(data.matrix(), parent);
+            return;
+        }
         MatrixHandler* box = data.matrix().getReady(parent.transformation());
         if (!box) {
             throw MagicsException("Invalid data for contouring");
