@@ -48,12 +48,26 @@ string TileDecoder::projection() {
     return "none";
 }
 
+
 string TileDecoder::weights() {
-    return buildConfigPath("tiles", "weight-" + grid_ + "-" + projection() + "-z" + tostring(z_) + ".nc");
+    ostringstream out;
+    string parent = getEnvVariable("MAGPLUS_TILE");
+    if (parent.empty()) {
+        parent = getEnvVariable("MAGPLUS_HOME") + "/share/magics/tiles";
+    }
+    out << parent << "/weight-" << grid_ << "-" << projection() << "-z" + tostring(z_) << ".nc";
+    return out.str();
 }
 
 string TileDecoder::positions() {
-    return buildConfigPath("tiles", "wind-" + grid_ + "-" + projection() + "-z" + tostring(z_) + ".nc");
+    ostringstream out;
+    string parent = getEnvVariable("MAGPLUS_TILE");
+    if (parent.empty()) {
+        parent = getEnvVariable("MAGPLUS_HOME") + "/share/magics/tiles";
+    }
+    out << parent << "/wind-" << grid_ << "-" << projection() << "-z" + tostring(z_) << ".nc";
+
+    return out.str();
 }
 
 bool TileDecoder::ok() {
@@ -159,7 +173,7 @@ void TileDecoder::customisedPoints(const Transformation& transformation, const s
             if (lon > 180)
                 lon -= 360;
             // transformation.fast_reproject(lon, lat);
-            cout << "[" << lon << ", " << lat << "]" << i << endl;
+
             latitudes.push_back(lat);
             longitudes.push_back(lon);
             index.push_back(i);
@@ -209,8 +223,9 @@ void TileDecoder::print(ostream& out) const {
 void TileDecoder::decode() {
     if (matrix_.size())
         return;
-    string path = weights();
 
+    string path = weights();
+    cout << "Tiles --> " << path << endl;
     Timer timer("Tile", path);
 
     Netcdf netcdf(path, "index");
