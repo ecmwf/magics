@@ -231,6 +231,7 @@ void TileDecoder::decode() {
     Netcdf netcdf(path, "index");
 
     map<string, double> offsets  = {{"K", -273.15}};
+    map<string, bool> noscales   = {{"kx", false}, {"totalx", false}};
     map<string, double> scalings = {{"Pa", 0.01}, {"gpm", 10.}, {"m**2 s**-2", 0.0101971621297793}};
 
     map<string, string> first, last;
@@ -301,21 +302,27 @@ void TileDecoder::decode() {
 
     double offset  = 0;
     double scaling = 1;
-    int err        = grib_get_string(f, "units", tmp, &length);
-    if (!err) {
-        string units(tmp);
-        auto off = offsets.find(units);
-        if (off != offsets.end()) {
-            offset = off->second;
-            cout << "Use Offset-->" << offset << endl;
-        }
-        auto sc = scalings.find(units);
-        if (sc != scalings.end()) {
-            scaling = sc->second;
-            cout << "Use Scaling -->" << scaling << endl;
+    int err        = grib_get_string(f, "shortName", tmp, &length);
+    string name(tmp);
+    bool scale = (noscales.find(name) == noscales.end());
+
+
+    if (scale) {
+        err = grib_get_string(f, "units", tmp, &length);
+        if (!err) {
+            string units(tmp);
+            auto off = offsets.find(units);
+            if (off != offsets.end()) {
+                offset = off->second;
+                cout << "Use Offset-->" << offset << endl;
+            }
+            auto sc = scalings.find(units);
+            if (sc != scalings.end()) {
+                scaling = sc->second;
+                cout << "Use Scaling -->" << scaling << endl;
+            }
         }
     }
-
 
     // check the units for scaling!
 
