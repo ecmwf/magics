@@ -231,9 +231,9 @@ void TileDecoder::decode() {
     Netcdf netcdf(path, "index");
 
     map<string, double> offsets   = {{"K", -273.15}};
-    map<string, double> scalings1 = {
-        {"kx", 1.0}, {"totalx", 1.0}, {"sund", 0.0002777777777777778}, {"deg0l", 1.0}, {"vis", 1.0}};
-    map<string, double> scalings = {{"Pa", 0.01},          {"gpm", 10.},
+    map<string, double> scalings1 = {{"kx", 1.0},    {"totalx", 1.0}, {"sund", 0.0002777777777777778},
+                                     {"deg0l", 1.0}, {"vis", 1.0},    {"ceil", 1.0}};
+    map<string, double> scalings  = {{"Pa", 0.01},          {"gpm", 10.},
                                     {"kg kg**-1", 1000.0}, {"m**2 s**-2", 0.0101971621297793},
                                     {"m", 1000.0},         {"m of water equivalent", 1000},
                                     {"s**-1", 100000.0},   {"m of water", 1000}};
