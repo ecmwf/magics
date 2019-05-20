@@ -772,7 +772,7 @@ void Proj4Projection::gridLongitudes(const GridPlotting& grid) const {
     vector<double> longitudes = grid.longitudes();
 
 
-    const double step = 10.;
+    const double step = 1.;
     // longitudes.push_back(180);
     const vector<double>::const_iterator lon_end = longitudes.end();
     // Always use full globe !
