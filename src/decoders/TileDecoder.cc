@@ -230,8 +230,8 @@ void TileDecoder::decode() {
 
     Netcdf netcdf(path, "index");
 
-    map<string, double> offsets = {{"K", -273.15}};
-    map<string, double> scalings = {{"Pa", 0.01}};
+    map<string, double> offsets  = {{"K", -273.15}};
+    map<string, double> scalings = {{"Pa", 0.01}, {"gpm", 10.}, {"m**2 s**-2", 0.0101971621297793}};
 
     map<string, string> first, last;
     first["x"] = tostring(x_);
@@ -299,9 +299,9 @@ void TileDecoder::decode() {
     char tmp[20];
     size_t length = 20;
 
-    double offset = 0;
+    double offset  = 0;
     double scaling = 1;
-    int err       = grib_get_string(f, "units", tmp, &length);
+    int err        = grib_get_string(f, "units", tmp, &length);
     if (!err) {
         string units(tmp);
         auto off = offsets.find(units);
@@ -310,7 +310,7 @@ void TileDecoder::decode() {
             cout << "Use Offset-->" << offset << endl;
         }
         auto sc = scalings.find(units);
-        if (sc!= scalings.end()) {
+        if (sc != scalings.end()) {
             scaling = sc->second;
             cout << "Use Scaling -->" << scaling << endl;
         }
@@ -350,7 +350,7 @@ void TileDecoder::decode() {
         if (*l < 0)
             cvalues.push_back(missing);
         else {
-            cvalues.push_back((*val *scaling) + offset);
+            cvalues.push_back((*val * scaling) + offset);
             val++;
         }
     }
