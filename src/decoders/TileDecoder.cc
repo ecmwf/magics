@@ -232,7 +232,7 @@ void TileDecoder::decode() {
 
     map<string, double> offsets  = {{"K", -273.15}};
     map<string, bool> noscales   = {{"kx", false}, {"totalx", false}};
-    map<string, double> scalings = {{"Pa", 0.01}, {"gpm", 10.}, {"m**2 s**-2", 0.0101971621297793}};
+    map<string, double> scalings = {{"Pa", 0.01}, {"gpm", 10.}, {"m**2 s**-2", 0.0101971621297793}, {"m", 1000.0}};
 
     map<string, string> first, last;
     first["x"] = tostring(x_);
