@@ -302,7 +302,7 @@ void TileDecoder::decode() {
 
     double missing = -std::numeric_limits<double>::max();
 
-    char tmp[20];
+    char tmp[20], tmp2[20];
     size_t length = 20;
 
     double offset  = 0;
@@ -315,9 +315,10 @@ void TileDecoder::decode() {
         scaling = scale->second;
     }
     else {
-        err = grib_get_string(f, "units", tmp, &length);
+        length = 20;
+        err    = grib_get_string(f, "units", tmp2, &length);
         if (!err) {
-            string units(tmp);
+            string units(tmp2);
             auto off = offsets.find(units);
             if (off != offsets.end()) {
                 offset = off->second;
