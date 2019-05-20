@@ -230,9 +230,14 @@ void TileDecoder::decode() {
 
     Netcdf netcdf(path, "index");
 
-    map<string, double> offsets  = {{"K", -273.15}};
-    map<string, bool> noscales   = {{"kx", false}, {"totalx", false}};
-    map<string, double> scalings = {{"Pa", 0.01}, {"gpm", 10.}, {"m**2 s**-2", 0.0101971621297793}, {"m", 1000.0}};
+    map<string, double> offsets   = {{"K", -273.15}};
+    map<string, double> scalings1 = {{"kx", 1.0}, {"totalx", 1.0}, {"sund", 0.0002777777777777778}};
+    map<string, double> scalings  = {{"Pa", 0.01},
+                                    {"gpm", 10.},
+                                    {"m**2 s**-2", 0.0101971621297793},
+                                    {"m", 1000.0},
+                                    {"m of water equivalent", 1000},
+                                    {"m of water", 1000}};
 
     map<string, string> first, last;
     first["x"] = tostring(x_);
@@ -304,10 +309,12 @@ void TileDecoder::decode() {
     double scaling = 1;
     int err        = grib_get_string(f, "shortName", tmp, &length);
     string name(tmp);
-    bool scale = (noscales.find(name) == noscales.end());
 
-
-    if (scale) {
+    auto scale = scalings1.find(name);
+    if (scale != scalings1.end()) {
+        scaling = scale->second;
+    }
+    else {
         err = grib_get_string(f, "units", tmp, &length);
         if (!err) {
             string units(tmp);
