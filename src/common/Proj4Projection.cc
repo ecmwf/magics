@@ -806,7 +806,7 @@ void Proj4Projection::gridLongitudes(const GridPlotting& grid) const {
 void Proj4Projection::gridLatitudes(const GridPlotting& grid) const {
     const vector<double>& latitudes = grid.latitudes();
 
-    const double step                            = 10;
+    const double step                            = 0.5;
     const vector<double>::const_iterator lat_end = latitudes.end();
 
     // Always use full globe !
