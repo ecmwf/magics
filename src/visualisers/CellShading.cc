@@ -116,9 +116,15 @@ void CellShading::operator()(IsoPlot* iso, MatrixHandler& data, BasicGraphicsObj
     for (int row = 0; row < rows; row++) {
         lon = minc;
         for (int column = 0; column < columns; column++) {
-            projection.revert(PaperPoint(lon, lat), point);
+            if (data.tile()) {
+                point.x_ = lon;
+                point.y_ = lat;
+            }
+            else {
+                projection.revert(PaperPoint(lon, lat), point);
+            }
             lon += stepc;
-            if (point.x_ == 1000 && point.x_ == 1000) {
+            if (point.x_ == 1000 && point.y_ == 1000) {
                 image->push_back(0);
                 continue;
             }

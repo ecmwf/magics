@@ -55,9 +55,13 @@ void MarkerShadingTechnique::operator()(IsoPlot*, MatrixHandler& data, BasicGrap
     for (int j = 0; j < rows; j++) {
         for (int i = 0; i < columns; i++) {
             Symbol* symbol = (*this)(original(j, i));
-
-
-            PaperPoint pos = transformation(UserPoint(original.column(j, i), original.row(j, i), original(j, i)));
+            PaperPoint pos;
+            if (data.tile()) {
+                pos = PaperPoint(original.column(j, i), original.row(j, i), original(j, i));
+            }
+            else {
+                pos = transformation(UserPoint(original.column(j, i), original.row(j, i), original(j, i)));
+            }
             if (transformation.in(pos) && symbol) {
                 symbol->push_back(pos);
             }
