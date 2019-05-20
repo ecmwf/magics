@@ -236,7 +236,7 @@ void TileDecoder::decode() {
     map<string, double> scalings = {{"Pa", 0.01},          {"gpm", 10.},
                                     {"kg kg**-1", 1000.0}, {"m**2 s**-2", 0.0101971621297793},
                                     {"m", 1000.0},         {"m of water equivalent", 1000},
-                                    {"m of water", 1000}};
+                                    {"s**-1", 100000.0},   {"m of water", 1000}};
 
     map<string, string> first, last;
     first["x"] = tostring(x_);
