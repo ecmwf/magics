@@ -31,9 +31,6 @@ using namespace magics;
 TileDecoder::~TileDecoder() {}
 
 
-#include "eccodes.h"
-
-
 TileDecoder::TileDecoder() {
     cout << "New Tile Decoder" << endl;
 }
@@ -209,7 +206,97 @@ void TileDecoder::customisedPoints(const Transformation& transformation, const s
     }
 }
 
-PointsHandler& TileDecoder::points(const Transformation& t, bool) {}
+PointsHandler& TileDecoder::points(const Transformation& t, bool) {
+    string path = positions();
+    Timer timer("Tile", path);
+    cout << "Tiles --> " << path << endl;
+    Netcdf netcdf(path, "index");
+
+    map<string, string> first, last;
+    first["x"] = tostring(x_);
+    first["y"] = tostring(y_);
+    last["x"]  = tostring(x_);
+    last["y"]  = tostring(y_);
+    vector<double> bbox;
+    vector<double> latitudes;
+    vector<double> longitudes;
+    vector<double> values;
+    vector<int> index;
+
+
+    int error;
+
+
+    FILE* in = fopen(file_name_.c_str(), "r");
+    if (!in) {
+        MagLog::error() << "ERROR: unable to open file" << file_name_ << endl;
+        pointsHandlers_.push_back(new PointsHandler(points_));
+        return *(pointsHandlers_.back());
+    }
+
+
+    /* create new handle from a message in a file*/
+    codes_handle* f = codes_handle_new_from_file(0, in, PRODUCT_GRIB, &error);
+    if (f == NULL) {
+        MagLog::error() << "ERROR: unable to create handle from file" << file_name_ << endl;
+        pointsHandlers_.push_back(new PointsHandler(points_));
+        return *(pointsHandlers_.back());
+    }
+
+
+    int nbpoints = netcdf.getDimension("points");
+    // netcdf.get("bounding-box", bbox, first, last);
+    netcdf.get("index", values, first, last);
+
+    // for (auto b = bbox.begin(); b != bbox.end(); ++b)
+    //  cout << "found BBOX" << *b << endl;
+    cout << "FOUND DIM " << nbpoints << endl;
+    for (auto b = values.begin(); b != values.end(); ++b) {
+        double lat = *b;
+        ++b;
+        double lon = *b;
+        ++b;
+        double i = *b;
+
+
+        if (i != 0) {
+            if (lon > 180)
+                lon -= 360;
+            // transformation.fast_reproject(lon, lat);
+
+            latitudes.push_back(lat);
+            longitudes.push_back(lon);
+            index.push_back(i);
+        }
+    }
+
+    double scaling = 1;
+    double offset  = 0;
+    scaling_offset(f, scaling, offset);
+
+    {
+        vector<double> values;
+        values.reserve(index.size());
+
+        codes_get_double_elements(f, "values", &index.front(), index.size(), &values.front());
+
+
+        auto lat = latitudes.begin();
+        auto lon = longitudes.begin();
+        auto val = values.begin();
+
+        while (lat != latitudes.end()) {
+            points_.push_back(new UserPoint(*lon, *lat, (*val * scaling) + offset));
+            val++;
+            lat++;
+            lon++;
+        }
+    }
+    cout << "Number of points " << points_.min() << "--->" << points_.max() << endl;
+
+    pointsHandlers_.push_back(new PointsHandler(points_));
+    return *(pointsHandlers_.back());
+}
 
 /*!
  Class information are given to the output-stream.
@@ -219,6 +306,44 @@ void TileDecoder::print(ostream& out) const {
     out << "]";
 }
 
+
+void TileDecoder::scaling_offset(codes_handle* f, double& scaling, double& offset) {
+    char tmp1[20], tmp2[256];
+    size_t length1 = 20;
+    size_t length2 = 26;
+
+    map<string, double> offsets   = {{"K", -273.15}};
+    map<string, double> scalings1 = {{"kx", 1.0},    {"totalx", 1.0}, {"sund", 0.0002777777777777778},
+                                     {"deg0l", 1.0}, {"vis", 1.0},    {"ceil", 1.0}};
+    map<string, double> scalings  = {{"Pa", 0.01},          {"gpm", 10.},
+                                    {"kg kg**-1", 1000.0}, {"m**2 s**-2", 0.0101971621297793},
+                                    {"m", 1000.0},         {"m of water equivalent", 1000},
+                                    {"s**-1", 100000.0},   {"m of water", 1000}};
+
+    int err = grib_get_string(f, "shortName", tmp1, &length1);
+    string name(tmp1);
+
+    auto scale = scalings1.find(name);
+    if (scale != scalings1.end()) {
+        scaling = scale->second;
+    }
+    else {
+        err = grib_get_string(f, "units", tmp2, &length2);
+        if (!err) {
+            string units(tmp2);
+            auto off = offsets.find(units);
+            if (off != offsets.end()) {
+                offset = off->second;
+                cout << "Use Offset-->" << offset << endl;
+            }
+            auto sc = scalings.find(units);
+            if (sc != scalings.end()) {
+                scaling = sc->second;
+                cout << "Use Scaling -->" << scaling << endl;
+            }
+        }
+    }
+}
 
 void TileDecoder::decode() {
     if (matrix_.size())
@@ -230,13 +355,6 @@ void TileDecoder::decode() {
 
     Netcdf netcdf(path, "index");
 
-    map<string, double> offsets   = {{"K", -273.15}};
-    map<string, double> scalings1 = {{"kx", 1.0},    {"totalx", 1.0}, {"sund", 0.0002777777777777778},
-                                     {"deg0l", 1.0}, {"vis", 1.0},    {"ceil", 1.0}};
-    map<string, double> scalings  = {{"Pa", 0.01},          {"gpm", 10.},
-                                    {"kg kg**-1", 1000.0}, {"m**2 s**-2", 0.0101971621297793},
-                                    {"m", 1000.0},         {"m of water equivalent", 1000},
-                                    {"s**-1", 100000.0},   {"m of water", 1000}};
 
     map<string, string> first, last;
     first["x"] = tostring(x_);
@@ -301,36 +419,11 @@ void TileDecoder::decode() {
 
     double missing = -std::numeric_limits<double>::max();
 
-    char tmp[20], tmp2[256];
-    size_t length  = 20;
-    size_t length2 = 26;
 
     double offset  = 0;
     double scaling = 1;
-    int err        = grib_get_string(f, "shortName", tmp, &length);
-    string name(tmp);
 
-    auto scale = scalings1.find(name);
-    if (scale != scalings1.end()) {
-        scaling = scale->second;
-    }
-    else {
-        err = grib_get_string(f, "units", tmp2, &length2);
-        if (!err) {
-            string units(tmp2);
-            auto off = offsets.find(units);
-            if (off != offsets.end()) {
-                offset = off->second;
-                cout << "Use Offset-->" << offset << endl;
-            }
-            auto sc = scalings.find(units);
-            if (sc != scalings.end()) {
-                scaling = sc->second;
-                cout << "Use Scaling -->" << scaling << endl;
-            }
-        }
-    }
-
+    scaling_offset(f, scaling, offset);
     // check the units for scaling!
 
 

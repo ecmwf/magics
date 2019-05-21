@@ -28,9 +28,10 @@
 #include "Data.h"
 #include "MagicsDecoder.h"
 #include "TileDecoderAttributes.h"
-
+#include "eccodes.h"
 
 namespace magics {
+
 
 class TileDecoder : public Decoder, public Data, public TileDecoderAttributes {
 public:
@@ -53,6 +54,7 @@ public:
         return *(matrixHandlers_.back());
     }
     bool ok();
+
     string projection();
     string weights();
     string positions();
@@ -60,8 +62,10 @@ public:
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
     virtual void print(ostream&) const;
+    void scaling_offset(codes_handle*, double&, double&);
     Matrix matrix_;
     string grid_;
+    PointsList points_;
 
 private:
     //! Copy constructor - No copy allowed
