@@ -212,6 +212,7 @@ void TileDecoder::customisedPoints(const Transformation& transformation, const s
             point->insert(make_pair("x_component", *ux));
             point->insert(make_pair("y_component", *vx));
             out.push_back(point);
+            point->tile(true);
             ux++;
             vx++;
             lat++;

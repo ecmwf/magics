@@ -30,12 +30,13 @@ namespace magics {
 
 class CustomisedPoint : public map<string, double> {
 public:
-    CustomisedPoint() : latitude_(0), longitude_(0), identifier_(""), missing_(false) {}
+    CustomisedPoint() : latitude_(0), longitude_(0), identifier_(""), missing_(false), tile_(false) {}
     CustomisedPoint(double lon, double lat, string ident) :
         latitude_(lat),
         longitude_(lon),
         identifier_(ident),
-        missing_(false) {}
+        missing_(false),
+        tile_(false) {}
     virtual ~CustomisedPoint() {}
 
     double latitude() const { return latitude_; }
@@ -63,6 +64,9 @@ public:
     void type(const string& type) { type_ = type; }
     bool missing() const { return missing_; }
     void missing(bool missing) { missing_ = missing; }
+    bool tile() const { return tile_; }
+    void tile(bool tile) { tile_ = tile; }
+
 
     double distance(double lat, double lon) const {
         return sqrt((lat - latitude_) * (lat - latitude_) + (lon - longitude_) * (lon - longitude_));
@@ -92,6 +96,7 @@ protected:
     DateTime valid_;
     DateTime reference_;
     bool missing_;
+    bool tile_;
 
 private:
     //! Copy constructor - No copy allowed
