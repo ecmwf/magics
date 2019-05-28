@@ -67,6 +67,21 @@ string TileDecoder::positions() {
     return out.str();
 }
 
+string TileDecoder::positions_symbols() {
+    ostringstream out;
+    string parent = getEnvVariable("MAGPLUS_TILE");
+    if (parent.empty()) {
+        parent = getEnvVariable("MAGPLUS_HOME") + "/share/magics/tiles";
+    }
+    out << parent << "/symbol-" << grid_ << "-" << projection() << "-z" + tostring(z_) << ".nc";
+    file_ = ifstream(out.str());
+    if (file_.good()) {
+        file_.close();
+        return out.str();
+    }
+    file_.close();
+    return positions();
+}
 bool TileDecoder::ok() {
     FILE* in = fopen(file_name_.c_str(), "r");
     if (!in) {
@@ -157,7 +172,6 @@ void TileDecoder::customisedPoints(const Transformation& transformation, const s
 
     // for (auto b = bbox.begin(); b != bbox.end(); ++b)
     //  cout << "found BBOX" << *b << endl;
-    cout << "FOUND DIM " << nbpoints << endl;
     for (auto b = values.begin(); b != values.end(); ++b) {
         double lat = *b;
         ++b;
@@ -207,7 +221,7 @@ void TileDecoder::customisedPoints(const Transformation& transformation, const s
 }
 
 PointsHandler& TileDecoder::points(const Transformation& t, bool) {
-    string path = positions();
+    string path = positions_symbols();
     Timer timer("Tile", path);
     cout << "Tiles --> " << path << endl;
     Netcdf netcdf(path, "index");

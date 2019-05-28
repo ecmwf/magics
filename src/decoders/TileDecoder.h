@@ -58,6 +58,7 @@ public:
     string projection();
     string weights();
     string positions();
+    string positions_symbols();
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
