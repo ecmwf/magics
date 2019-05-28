@@ -323,6 +323,11 @@ void TileDecoder::scaling_offset(codes_handle* f, double& scaling, double& offse
     int err = grib_get_string(f, "shortName", tmp1, &length1);
     string name(tmp1);
 
+    if (!scaling_) {
+        scaling = scaling_factor_;
+        offset  = scaling_offset_;
+        return;
+    }
     auto scale = scalings1.find(name);
     if (scale != scalings1.end()) {
         scaling = scale->second;

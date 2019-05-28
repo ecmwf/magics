@@ -32,6 +32,20 @@ does it submit to any jurisdiction.
  <parameter member="y" to="int" default="0" from="int" name="grib_tile_y">
          
     </parameter>
+      <parameter member="scaling" to="bool" default="on" from="string" name="grib_automatic_scaling">
+            <release>Magics++0.3    </release>
+            <documentation> Scaling of the decoded field    </documentation>
+    </parameter>
+
+    
+    <parameter member="scaling_factor" to="float" default="1" from="float" name="grib_scaling_factor">
+            <release>Magics++2.10   </release>
+            <documentation> Apply a scaling factor to the field.    </documentation>
+    </parameter>
+    <parameter member="scaling_offset" to="float" default="0" from="float" name="grib_scaling_offset">
+            <release>Magics++2.10   </release>
+            <documentation> Apply a scaling offset to the field.    </documentation>
+    </parameter>
 
 
   	
