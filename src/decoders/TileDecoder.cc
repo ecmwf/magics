@@ -180,12 +180,9 @@ void TileDecoder::customisedPoints(const Transformation& transformation, const s
         ++b;
         double i = *b;
 
-
         if (i != 0) {
             if (lon > 180)
                 lon -= 360;
-            // transformation.fast_reproject(lon, lat);
-
             latitudes.push_back(lat);
             longitudes.push_back(lon);
             index.push_back(i);
@@ -329,8 +326,17 @@ void TileDecoder::scaling_offset(codes_handle* f, double& scaling, double& offse
     size_t length2 = 26;
 
     map<string, double> offsets   = {{"K", -273.15}};
-    map<string, double> scalings1 = {{"pt", 1.0},    {"kx", 1.0},  {"totalx", 1.0}, {"sund", 0.0002777777777777778},
-                                     {"deg0l", 1.0}, {"vis", 1.0}, {"ceil", 1.0},   {"capes", 1.0}};
+    map<string, double> scalings1 = {{"cbh", 1.0},
+                                     {"hcct", 1.0},
+                                     {"ceil", 1.0},
+                                     {"pt", 1.0},
+                                     {"kx", 1.0},
+                                     {"totalx", 1.0},
+                                     {"sund", 0.0002777777777777778},
+                                     {"deg0l", 1.0},
+                                     {"vis", 1.0},
+                                     {"ceil", 1.0},
+                                     {"capes", 1.0}};
     map<string, double> scalings  = {{"Pa", 0.01},
                                     {"gpm", 10.},
                                     {"kg kg**-1", 1000.0},
