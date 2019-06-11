@@ -144,7 +144,7 @@ void GridPlotting::addFrame(Polyline& poly) const {
     if (!grid_frame_)
         return add(poly);
 
-    cout << poly << endl;
+
     poly.setColour(*grid_frame_colour_);
     poly.setThickness(grid_frame_thickness_);
     poly.setLineStyle(grid_frame_style_);

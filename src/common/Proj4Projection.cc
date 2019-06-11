@@ -709,7 +709,6 @@ void Proj4Projection::tpers() {
 
     userEnveloppe_->push_back(userEnveloppe_->front());
     PCEnveloppe_->push_back(PCEnveloppe_->front());
-    cout << "tpers" << *PCEnveloppe_ << endl;
 }
 
 
