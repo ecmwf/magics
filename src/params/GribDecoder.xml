@@ -43,6 +43,10 @@ does it submit to any jurisdiction.
          		<release>Magics++2.10		</release>
          		<documentation> Apply a scaling offset to the field. 		</documentation>
   	</parameter>
+    <parameter member="regular_resolution" to="float" default="0.1" from="float" name="grib_interpolation_regular_resolution">
+            
+            <documentation>  Space View : Resolution of the regular Matrix   </documentation>
+    </parameter>
     <parameter member="interpolation_method" to="string" default="interpolate" from="string" name="grib_interpolation_method" values='interpolate/nearest/nearest_valid' >
          		
          		<documentation> Used for reduced gaussian grid: use an linear interpolation to convert from reduced to regular		</documentation>

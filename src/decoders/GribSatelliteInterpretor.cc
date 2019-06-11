@@ -304,8 +304,8 @@ void GribSatelliteInterpretor::interpretAsMatrix(const GribDecoder& grib, Matrix
     double prs       = altitude * TeEARTHRADIUS;
     double scn       = 0;
     double yaw       = grib.getDouble("orientationOfTheGrid");
-    double target_dx = 0.1;  // resolution, in degrees of output lat/lon matrix
-    double target_dy = 0.1;  // resolution, in degrees of output lat/lon matrix
+    double target_dx = grib.regular_resolution_;  // resolution, in degrees of output lat/lon matrix
+    double target_dy = grib.regular_resolution_;  // resolution, in degrees of output lat/lon matrix
 
     yaw = RAD(yaw / 1000);
     if (yaw < 0.)
