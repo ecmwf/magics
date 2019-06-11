@@ -32,8 +32,8 @@
 
 #include <cerrno>
 #include "AnimationRules.h"
-#include "MagDateTime.h"
 #include "GribInterpretor.h"
+#include "MagDateTime.h"
 
 #include "MagJSon.h"
 #include "MetaData.h"
@@ -1605,7 +1605,6 @@ MatrixHandler& GribDecoder::direction() {
     // Now X et X components are ready ..
     // We compute the direction in xComponent_  and send it back.
 
-    xComponent_ = xComponent_;
 
     vector<double>::const_iterator x = xComponent_->begin();
     vector<double>::const_iterator y = yComponent_->begin();
@@ -1619,7 +1618,6 @@ MatrixHandler& GribDecoder::direction() {
         ++y;
     }
     xComponent_->clear();
-    xComponent_ = 0;
 
 
     for (vector<double>::iterator d = directions.begin(); d != directions.end(); ++d) {
@@ -1627,6 +1625,7 @@ MatrixHandler& GribDecoder::direction() {
     }
 
     matrixHandlers_.push_back(new MatrixHandler(*xComponent_));
+
     return *(matrixHandlers_.back());
 }
 void GribDecoder::decode(const Transformation& transformation) {
