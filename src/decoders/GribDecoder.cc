@@ -1605,7 +1605,10 @@ MatrixHandler& GribDecoder::direction() {
     // Now X et X components are ready ..
     // We compute the direction in xComponent_  and send it back.
 
-
+    static bool done = false;
+    if (done)
+        return *(matrixHandlers_.back());
+    done                             = true;
     vector<double>::const_iterator x = xComponent_->begin();
     vector<double>::const_iterator y = yComponent_->begin();
     vector<double> directions;
