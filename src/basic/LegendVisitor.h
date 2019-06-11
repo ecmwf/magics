@@ -388,6 +388,7 @@ public:
     void visit(BasicGraphicsObjectContainer&);
     void visit(BasicSceneObject&);
     void visit(AnimationStep&);
+    void visit(MetaDataVisitor&);
     bool positional() { return positional_; }
     bool right() { return magCompare(box_position_, "right"); }
     bool top() { return magCompare(box_position_, "top"); }
@@ -398,9 +399,17 @@ public:
             AutoVector<LegendEntry>::back()->last();
     }
 
+   
+
     const Transformation& transformation() { return LayoutVisitor::transformation(); }
     void transformation(Transformation* transformation) { return LayoutVisitor::transformation(transformation); }
     string format() const { return format_; }
+
+    // Legend entries information, will be added to the metadata information ...
+    static void addLegendInfo(const string&, const string&);
+    
+    static vector<map<string, string>> legendEntriesInfo_; 
+    static map<string, string> legendInfo_; 
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).

@@ -98,6 +98,8 @@ void ViewNode::visit(MetaDataVisitor& metadata) {
     BasicSceneObject::visit(metadata);
     for (vector<TextVisitor*>::iterator text = texts_.begin(); text != texts_.end(); ++text)
         (*text)->visit(metadata);
+    if (legend_) 
+        legend_->visit(metadata);
 }
 
 /*!

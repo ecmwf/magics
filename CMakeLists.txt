@@ -100,6 +100,10 @@ ecbuild_add_option( FEATURE METVIEW
                     DEFAULT OFF
                     DESCRIPTION "enable Metview interface" )
 
+ecbuild_add_option( FEATURE EFAS
+                    DEFAULT OFF
+                    DESCRIPTION "enable Efas coastlines" )
+
 ecbuild_add_option( FEATURE METVIEW_NO_QT
                     DEFAULT OFF
                     DESCRIPTION "enable Metview interface without Qt" )
@@ -132,10 +136,13 @@ endif()
 set( qt no )
 set( metview no )
 
+
 if( HAVE_METVIEW_NO_QT )
 	set( metview yes )
 	unset(MAGICS_ONLY)
 endif()
+
+
 
 if( HAVE_METVIEW )
     set ( metview yes)
@@ -285,6 +292,11 @@ add_subdirectory( apps )
 add_subdirectory( test )
 if( ENABLE_REGRESSION )
     add_subdirectory( regression )
+endif()
+
+if( HAVE_EFAS )
+else()
+ecbuild_add_resources( TARGET noefas DONT_PACK_DIRS share/magics/efas)
 endif()
 
 # Directories not need in the distribution tar ball!
