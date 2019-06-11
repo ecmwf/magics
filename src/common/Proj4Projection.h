@@ -67,6 +67,7 @@ public:
     }
 
     bool addSouth() const;
+    void populate(double lon, double lat, double value, vector<UserPoint>& out) const;
 
     /*!
     \\brief Initialise the projection

@@ -1439,7 +1439,7 @@ const LevelDescription& GribDecoder::level() {
 
 void GribDecoder::ask(MetaDataCollector& meta) {
     for (auto m = meta.begin(); m != meta.end(); ++m) {
-        m->second = getString(m->first);
+        m->second = getString(m->first, false);
         // cout << m->first << " = " << m->second << endl;
     }
 }
