@@ -26,8 +26,8 @@
 
 
 #include "Data.h"
-#include "MagicsDecoder.h"
 #include "GribDecoderAttributes.h"
+#include "MagicsDecoder.h"
 #include "UserPoint.h"
 
 
@@ -60,6 +60,7 @@ public:
 };
 
 class GribLoop;
+class GribEntryDecoder;
 
 
 class GribDecoder : public Decoder, public Data, public GribDecoderAttributes {
@@ -282,6 +283,13 @@ private:
         p.print(s);
         return s;
     }
+
+    vector<GribEntryDecoder*> entries_;
+    vector<GribEntryDecoder*>::iterator entry_;
+
+
+    Data* current();
+    Data* next();
 };
 
 

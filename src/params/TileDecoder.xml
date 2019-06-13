@@ -21,7 +21,9 @@ does it submit to any jurisdiction.
 
     <parameter member="projection" to="string" default="cylindrical" from="string" name="grib_tile_projection">
     </parameter>
-   
+   <parameter member="loop" to="bool" default="off" from="string" name="grib_loop">
+           
+    </parameter>
      <parameter member="z" to="int" default="1" from="int" name="grib_tile_z">
            
     </parameter>

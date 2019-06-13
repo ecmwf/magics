@@ -60,6 +60,14 @@ public:
     string positions();
     string positions_symbols();
 
+    Data* current();
+    Data* next();
+
+    vector<codes_handle*> entries_;
+    vector<codes_handle*>::iterator entry_;
+    codes_handle* handle_;
+
+
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
     virtual void print(ostream&) const;

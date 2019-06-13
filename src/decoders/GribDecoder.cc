@@ -722,6 +722,7 @@ grib_handle* GribDecoder::open(grib_handle* grib, bool sendmsg) {
     _set_fmode(_O_BINARY);
 #endif
 
+
     FILE* file = fopen(file_name_.c_str(), "r");
 
     if (!file) {
@@ -732,6 +733,28 @@ grib_handle* GribDecoder::open(grib_handle* grib, bool sendmsg) {
         throw MagicsException(error.str());
         return 0;
     }
+
+
+    if (loop_) {
+        grib_context* context = grib_context_get_default();
+        int error             = 0;
+        grib_handle* handle   = grib_handle_new_from_file(context, file, &error);
+        entries_.push_back(new GribEntryDecoder(handle));
+
+        for (int i = 0; i < 49; i++) {
+            grib_handle* h = grib_handle_new_from_file(context, file, &error);
+            entries_.push_back(new GribEntryDecoder(h));
+        }
+        entry_ = entries_.begin();
+
+        fclose(file);
+#ifdef MAGICS_ON_WINDOWS
+        _set_fmode(original_mode);
+#endif
+
+        return handle;
+    }
+
 
     grib_handle* handle = (*address_mode_)(0, file, current_position_);
 
@@ -753,6 +776,7 @@ grib_handle* GribDecoder::open(grib_handle* grib, bool sendmsg) {
     _set_fmode(original_mode);
 #endif
 
+    entry_ = entries_.end();
     return handle;
 }
 
@@ -878,6 +902,26 @@ void GribDecoder::decodePoints() {
     }
 }
 
+Data* GribDecoder::current() {
+    if (entries_.size() == 0) {
+        entry_ = entries_.end();
+        return this;
+    }
+    if (entry_ != entries_.end())
+        return *entry_;
+    else
+        return 0;
+}
+Data* GribDecoder::next() {
+    if (entries_.size() == 0) {
+        return 0;
+    }
+    if (entry_ != entries_.end()) {
+        ++entry_;
+        return *entry_;
+    }
+    return 0;
+}
 
 GribLoop::~GribLoop() {
     for (vector<GribDecoder*>::const_iterator g = gribs_.begin(); g != gribs_.end(); ++g) {

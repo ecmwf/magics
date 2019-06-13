@@ -28,8 +28,8 @@
 #include "BinningObject.h"
 #include "CustomisedPoint.h"
 #include "DataStats.h"
-#include "MagDateTime.h"
 #include "Layer.h"
+#include "MagDateTime.h"
 #include "MagicsEvent.h"
 #include "MatrixHandler.h"
 #include "PointsHandler.h"
@@ -67,6 +67,9 @@ public:
     virtual MatrixHandler& norm() { throw MethodNotYetImplemented("Data::norm"); }
     virtual MatrixHandler& direction() { throw MethodNotYetImplemented("Data::norm"); }
     void binning(BinningObject* binning) { binning_ = binning; }
+
+    virtual Data* current() { return this; }
+    virtual Data* next() { return 0; }
 
 
     virtual void release() {}

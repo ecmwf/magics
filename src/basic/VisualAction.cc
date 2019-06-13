@@ -83,12 +83,17 @@ void VisualAction::visit(DrawingVisitor& drawing) {
         MagLog::info() << " Check data or visual action!" << endl;
         return;
     }
-    data_->getReady(drawing.transformation());
 
-    for (vector<Visdef*>::iterator visdef = visdefs_.begin(); visdef != visdefs_.end(); ++visdef) {
-        Timer timer("plotting", "time spent in plotting");
-        (**visdef).theme(theme());
-        (**visdef)(*data_, drawing.layout());  // Now the visualObject ahs the responsability to reproject!
+    Data* data = data_->current();
+
+    while (data) {
+        data->getReady(drawing.transformation());
+        for (vector<Visdef*>::iterator visdef = visdefs_.begin(); visdef != visdefs_.end(); ++visdef) {
+            Timer timer("plotting", "time spent in plotting");
+            (**visdef).theme(theme());
+            (**visdef)(*data, drawing.layout());  // Now the visualObject ahs the responsability to reproject!
+        }
+        data = data_->next();
     }
 }
 void VisualAction::visit(FrameVisitor& frame) {
