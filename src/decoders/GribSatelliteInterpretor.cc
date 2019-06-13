@@ -265,7 +265,7 @@ void GribSatelliteInterpretor::print(ostream& out) const {
     out << "GribSatelliteInterpretor[";
     out << "]";
 }
-void GribSatelliteInterpretor::interpretAsMatrix(const GribDecoder& grib, Matrix** matrix, Matrix**) const {
+void GribSatelliteInterpretor::interpretAsMatrix(GribDecoder& grib) const {
     Timer timer("gribapi", " reproject satellite");
     MagLog::dev() << "GribRegularInterpretor::interpretAsMatrix"
                   << "\n";
@@ -342,7 +342,6 @@ void GribSatelliteInterpretor::interpretAsMatrix(const GribDecoder& grib, Matrix
 
     // If value is temperature in degrees K then add 145 to pixel value
     double offset = (functionCode == 1) ? 145. : 0.;
-
     if (offset) {
         for (unsigned int i = 0; i < nb; i++) {
             if (!hasBitmap || raster[i] != missingValue)  // if not missing value
@@ -354,13 +353,12 @@ void GribSatelliteInterpretor::interpretAsMatrix(const GribDecoder& grib, Matrix
     long nblon = ((east - west) / target_dx);    // + 1;
     long nblat = ((north - south) / target_dy);  // + 1;
 
-    if (*matrix == 0)
-        *matrix = new Matrix(nblat, nblon);
+    Matrix* matrix = grib.u(new Matrix(nblat, nblon));
 
 
     double missing = INT_MAX;
     grib.setDouble("missingValue", missing);
-    (*matrix)->missing(missing);
+    (matrix)->missing(missing);
 
 
     MagLog::dev() << "NewAPI---> area[" << west << ", " << north << ", " << east << ", " << south << "]"
@@ -373,16 +371,16 @@ void GribSatelliteInterpretor::interpretAsMatrix(const GribDecoder& grib, Matrix
 
     double x = west;
     for (int i = 1; i <= nblon; i++) {
-        (*matrix)->columnsAxis().push_back(x);
+        (matrix)->columnsAxis().push_back(x);
         x = west + (i * dlon);
     }
 
     double y = north;
     for (int i = 1; i <= nblat; i++) {
-        (*matrix)->rowsAxis().push_back(y);
+        (matrix)->rowsAxis().push_back(y);
         y = north + (i * dlat);
     }
-    (*matrix)->setMapsAxis();
+    (matrix)->setMapsAxis();
 
 
     double coff = xp;
@@ -410,12 +408,9 @@ void GribSatelliteInterpretor::interpretAsMatrix(const GribDecoder& grib, Matrix
             else
                 val = raster[srcRow * nx + srcCol];
 
-            (**matrix)[k++] = val;
+            (*matrix)[k++] = val;
         }
     }
 
-    (*matrix)->missing(missingValue);
+    (matrix)->missing(missingValue);
 }
-
-
-static SimpleObjectMaker<GribSatelliteInterpretor, GribInterpretor> gribsatellite("90");
