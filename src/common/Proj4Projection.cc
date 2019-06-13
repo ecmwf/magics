@@ -204,6 +204,14 @@ Proj4Projection::Proj4Projection() :
     EpsgConfig config;
     config.init();
 }
+void Proj4Projection::populate(double lon, double lat, double val, vector<UserPoint>& out) const {
+    if (in(lon, lat))
+        out.push_back(UserPoint(lon, lat, val));
+    if (in(lon - 360, lat))
+        out.push_back(UserPoint(lon - 360., lat, val));
+    if (in(lon + 360, lat))
+        out.push_back(UserPoint(lon + 360., lat, val));
+}
 
 
 /*!
@@ -701,7 +709,6 @@ void Proj4Projection::tpers() {
 
     userEnveloppe_->push_back(userEnveloppe_->front());
     PCEnveloppe_->push_back(PCEnveloppe_->front());
-    cout << "tpers" << *PCEnveloppe_ << endl;
 }
 
 

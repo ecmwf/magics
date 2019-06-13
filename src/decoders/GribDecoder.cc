@@ -32,8 +32,8 @@
 
 #include <cerrno>
 #include "AnimationRules.h"
-#include "MagDateTime.h"
 #include "GribInterpretor.h"
+#include "MagDateTime.h"
 
 #include "MagJSon.h"
 #include "MetaData.h"
@@ -104,6 +104,7 @@ void GribDecoder::set(const GribLoop& loop, int index) {
     index_                = loop.uniqueId_;
     interpolation_method_ = loop.interpolation_method_;
     missing_fill_count_   = loop.missing_fill_count_;
+    regular_resolution_   = loop.regular_resolution_;
     wind_mode_            = unique_ptr<WindMode>(loop.wind_mode_->clone());
     internalIndex_        = index;
 }
@@ -1439,7 +1440,7 @@ const LevelDescription& GribDecoder::level() {
 
 void GribDecoder::ask(MetaDataCollector& meta) {
     for (auto m = meta.begin(); m != meta.end(); ++m) {
-        m->second = getString(m->first);
+        m->second = getString(m->first, false);
         // cout << m->first << " = " << m->second << endl;
     }
 }
@@ -1605,8 +1606,10 @@ MatrixHandler& GribDecoder::direction() {
     // Now X et X components are ready ..
     // We compute the direction in xComponent_  and send it back.
 
-    xComponent_ = xComponent_;
-
+    static bool done = false;
+    if (done)
+        return *(matrixHandlers_.back());
+    done                             = true;
     vector<double>::const_iterator x = xComponent_->begin();
     vector<double>::const_iterator y = yComponent_->begin();
     vector<double> directions;
@@ -1619,7 +1622,6 @@ MatrixHandler& GribDecoder::direction() {
         ++y;
     }
     xComponent_->clear();
-    xComponent_ = 0;
 
 
     for (vector<double>::iterator d = directions.begin(); d != directions.end(); ++d) {
@@ -1627,6 +1629,7 @@ MatrixHandler& GribDecoder::direction() {
     }
 
     matrixHandlers_.push_back(new MatrixHandler(*xComponent_));
+
     return *(matrixHandlers_.back());
 }
 void GribDecoder::decode(const Transformation& transformation) {

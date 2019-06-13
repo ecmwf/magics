@@ -78,7 +78,6 @@ magics::Polyline* Curve::newCurve(BasicGraphicsObjectContainer& task) const {
 
 bool Curve::missing(CustomisedPoint& point) const {
     if (point.missing()) {
-        cout << "FOUND MISSING" << endl;
         return true;
     }
     double x = point["x"];
