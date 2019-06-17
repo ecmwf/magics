@@ -43,6 +43,7 @@
 #include "Transformation.h"
 #include "VisualAction.h"
 #include "XmlReader.h"
+#include "eccodes.h"
 
 using namespace magics;
 
@@ -738,21 +739,20 @@ grib_handle* GribDecoder::open(grib_handle* grib, bool sendmsg) {
     if (loop_) {
         grib_context* context = grib_context_get_default();
         int error             = 0;
-        grib_handle* handle   = grib_handle_new_from_file(context, file, &error);
-        entries_.push_back(new GribEntryDecoder(handle));
-
-        for (int i = 0; i < 49; i++) {
-            grib_handle* h = grib_handle_new_from_file(context, file, &error);
-            entries_.push_back(new GribEntryDecoder(h));
+        int count;
+        error               = codes_count_in_file(0, file, &count);
+        grib_handle* handle = codes_handle_new_from_file(0, file, PRODUCT_GRIB, &error);
+        grib_handle* first  = handle;
+        for (int i = 0; i < count; i++) {
+            entries_.push_back(new GribEntryDecoder(handle));
+            handle = codes_handle_new_from_file(0, file, PRODUCT_GRIB, &error);
         }
         entry_ = entries_.begin();
-
         fclose(file);
 #ifdef MAGICS_ON_WINDOWS
         _set_fmode(original_mode);
 #endif
-
-        return handle;
+        return first;
     }
 
 
