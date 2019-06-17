@@ -188,7 +188,10 @@ string GribDecoder::getString(const string& key, bool warnIfKeyAbsent) const {
     if (!valid_)
         return "";
     if (Data::dimension_ == 1)
+    {
+        current_handle_ = field_;
         return getstring(key, warnIfKeyAbsent, false);
+    }
 
     string value;
     // otherwise we build a name...
@@ -1475,7 +1478,7 @@ void GribDecoder::visit(MetaDataCollector& step) {
     // Here we gather information for the label!
     const Transformation& transformation = step.transformation();
 
-    decode();  // just to be sure the file is opened!
+    openField();  // just to be sure the file is opened!
 
     initInfo();
 
