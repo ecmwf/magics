@@ -104,6 +104,7 @@ void GribDecoder::set(const GribLoop& loop, int index) {
     index_                = loop.uniqueId_;
     interpolation_method_ = loop.interpolation_method_;
     missing_fill_count_   = loop.missing_fill_count_;
+    regular_resolution_   = loop.regular_resolution_;
     wind_mode_            = unique_ptr<WindMode>(loop.wind_mode_->clone());
     internalIndex_        = index;
 }
