@@ -101,7 +101,12 @@ void NetcdfDecoder::visit(MetaDataCollector& mdc) {
 }
 
 void NetcdfDecoder::visit(ValuesCollector& values) {
-    try {
+    
+    if (iconClass() == "NETCDF_GEO_MATRIX_VECTORS") {
+        return;
+    }
+    
+    try {        
         (*interpretor_).visit(values, points_);
     }
     catch (...) {
