@@ -111,7 +111,7 @@ bool TileDecoder::ok() {
 
     if (loop_) {
         int error;
-        entries_.push_back(handle_);
+        codes_handle* handle = handle_;
 
         int count;
         error = codes_count_in_file(0, in, &count);
