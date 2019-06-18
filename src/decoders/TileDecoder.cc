@@ -111,7 +111,6 @@ bool TileDecoder::ok() {
 
     if (loop_) {
         int error;
-        codes_handle* handle = handle_;
         entries_.push_back(handle_);
 
         int count;
@@ -352,7 +351,8 @@ void TileDecoder::scaling_offset(codes_handle* f, double& scaling, double& offse
                                      {"deg0l", 1.0},
                                      {"vis", 1.0},
                                      {"ceil", 1.0},
-                                     {"capes", 1.0}};
+                                     {"capes", 1.0},
+                                     {"mxcapes6", 1.0}};
     map<string, double> scalings  = {{"Pa", 0.01},
                                     {"gpm", 10.},
                                     {"kg kg**-1", 1000.0},
