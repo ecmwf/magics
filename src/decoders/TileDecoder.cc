@@ -115,7 +115,7 @@ bool TileDecoder::ok() {
 
         int count;
         error = codes_count_in_file(0, in, &count);
-        cout << "COUNT" << count << endl;
+
         for (int i = 0; i < count; i++) {
             entries_.push_back(handle);
             handle = codes_handle_new_from_file(0, in, PRODUCT_GRIB, &error);
