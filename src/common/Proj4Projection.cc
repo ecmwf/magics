@@ -347,7 +347,7 @@ void Proj4Projection::corners() {
 
     delete PCEnveloppe_;
 
-    PCEnveloppe_ = new Polyline();
+    PCEnveloppe_ = new magics::Polyline();
     PCEnveloppe_->box(PaperPoint(min_pcx_, min_pcy_), PaperPoint(max_pcx_, max_pcy_));
 }
 
@@ -604,7 +604,7 @@ void Proj4Projection::geos() {
     }
 }
 
-Polyline& Proj4Projection::getSimplePCBoundingBox() const {
+magics::Polyline& Proj4Projection::getSimplePCBoundingBox() const {
     static magics::Polyline box;
     box.box(PaperPoint(min_pcx_, min_pcy_), PaperPoint(max_pcx_, max_pcy_));
     /*

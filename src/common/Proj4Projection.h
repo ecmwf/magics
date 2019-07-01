@@ -22,6 +22,12 @@
 #include <Proj4ProjectionAttributes.h>
 #include <Transformation.h>
 #include <XmlNode.h>
+
+#include "magics_windef.h"
+#ifdef MAGICS_ON_WINDOWS
+#define PROJ_MSVC_DLL_IMPORT 1
+#endif
+
 #define ACCEPT_USE_OF_DEPRECATED_PROJ_API_H 1
 #include <proj_api.h>
 
