@@ -776,7 +776,14 @@ double Proj4Projection::getMaxPCY() const {
     return max_pcy_;
 }
 
-
+void Proj4Projection::fill(double& width, double& height) {
+    Transformation::fill(width, height);
+    setting_       = "projection";
+    min_longitude_ = min_pcx_;
+    min_latitude_  = min_pcy_;
+    max_longitude_ = max_pcx_;
+    max_latitude_  = max_pcy_;
+}
 void Proj4Projection::gridLongitudes(const GridPlotting& grid) const {
     vector<double> longitudes = grid.longitudes();
 

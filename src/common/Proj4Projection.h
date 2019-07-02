@@ -82,7 +82,7 @@ public:
     /*!
     \\brief
     */
-
+    void fill(double&, double&);
 
     virtual PaperPoint operator()(const UserPoint&) const;
     /*!
