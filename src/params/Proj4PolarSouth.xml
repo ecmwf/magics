@@ -9,4 +9,10 @@ does it submit to any jurisdiction.
 -->
 
 <magics>
-<class inherits="Proj4Projection" top="Transformation" directory="common" prefix="subpage" include="Proj4Projection.h" name="Proj4PolarSouth"/></magics>
+<class inherits="Proj4Projection" top="Transformation" directory="common" prefix="subpage" include="Proj4Projection.h" name="Proj4PolarSouth">
+    
+   <parameter member="true_scale_south" to="float" default="-60" from="float" name="subpage_map_true_scale_south">  
+        <documentation> Developement in progress </documentation>
+  	</parameter>
+    
+</class></magics>    

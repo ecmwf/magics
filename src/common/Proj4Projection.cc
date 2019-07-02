@@ -96,7 +96,8 @@ public:
     void polarinit(const Proj4Projection& from) {
         ostringstream def;
 
-        def << "+proj=stere +lat_0=90 +lat_ts=60 +lon_0=" << from.vertical_longitude_;
+        def << "+proj=stere +lat_0=90 +lat_ts=" << from.true_scale_north_;
+        def << " +lon_0=" << from.vertical_longitude_;
         def << " +k=0.994 +x_0=2000000 +y_0=2000000 +ellps=WGS84 +datum=WGS84 +units=m +no_defs";
         definition_ = def.str();
     }
@@ -104,7 +105,8 @@ public:
     void polarsouthinit(const Proj4Projection& from) {
         ostringstream def;
 
-        def << "+proj=stere +lat_0=-90 +lat_ts=-60 +lon_0=" << from.vertical_longitude_;
+        def << "+proj=stere +lat_0=-90 +lat_ts=" << from.true_scale_south_;
+        def << " +lon_0=" << from.vertical_longitude_;
         def << " +k=0.994 +x_0=2000000 +y_0=2000000 +ellps=WGS84 +datum=WGS84 +units=m +no_defs";
         definition_ = def.str();
     }
