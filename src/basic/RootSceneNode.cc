@@ -53,7 +53,6 @@ void RootSceneNode::setPage(RootScenePage* node) {
     current_ = node;
     current_->root(this);
     current_->getReady();
-    latest_ = node;
 
 
     // current_ is a copy of the basic SceneNode with exactly the same dimensions as the Root!
@@ -65,7 +64,7 @@ void FortranRootSceneNode::setPage(RootScenePage* node) {
     current_ = node;
     current_->root(this);
     current_->getReady();
-    latest_ = node;
+
     // current_ is a copy of the basic SceneNode with exactly the same dimensions as the Root!
     current_->parent(this);
 
@@ -289,11 +288,11 @@ void RootSceneNode::execute() {
 BasicGraphicsObject* RootSceneNode::visualise() {
     Timer timer("execute", "preparation of the graphical tree");
 
-    return latest_->visualise();
+    return current_->visualise();
 }
 
 void RootSceneNode::release() {
-    return latest_->release();
+    return current_->release();
 }
 BasicGraphicsObject* RootScenePage::visualise() {
     root_->setPage(*layout_);

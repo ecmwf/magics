@@ -18,21 +18,46 @@ output = output(output_formats = ['png'],
 		output_name = ref)
 
 #Setting the coordinates of the geographical area
-projection = mmap(subpage_map_projection = 'cylindrical')
+projection = mmap(
+    subpage_map_projection='cartesian',
+    subpage_x_axis_type='regular',
+    subpage_x_automatic='on',
+    subpage_y_axis_type='regular',
+    subpage_y_automatic='on',
+    subpage_y_position=3.,
+    )
 
 
-#Coastlines setting
-coast = mcoast( map_grid =  "on",
-                map_grid_colour  =  "tan",
-				map_coastline_land_shade  =  'on',
-				map_coastline_land_shade_colour  =  'cream',
-				map_coastline_colour =  "tan")
+horizontal = maxis(
+    axis_orientation='horizontal',
+    axis_grid='on',
+    axis_grid_colour='Rgb(0.5, 0.5, 0.5)',
+    axis_grid_line_style='solid',
+    axis_line_colour='grey',
+    axis_minor_tick='on',
+    axis_minor_tick_colour='grey',
+    axis_tick_colour='grey',
+    )
+
+# define vertical axis
+
+vertical = maxis(
+    axis_orientation='vertical',
+    axis_grid='on',
+    axis_grid_colour='Rgb(0.5, 0.5, 0.5)',
+    axis_grid_line_style='dash',
+    axis_line='on',
+    axis_line_colour='grey',
+    axis_tick='on',
+    axis_tick_label='on',
+    )
+
 
 
 #Import the data 
-data =  mnetcdf(netcdf_type = "geomatrix",
-    netcdf_x_variable = "latitude",
-    netcdf_y_variable = "longitude",
+data =  mnetcdf(netcdf_type = "matrix",
+    netcdf_y_variable = "latitude",
+    netcdf_x_variable = "longitude",
     netcdf_value_variable = "u10",
   netcdf_filename = "era5_2000_aug_1.nc")
 
@@ -59,7 +84,7 @@ title = mtext(
 
 
 #To the plot
-plot(output, projection, coast, data, contour, title)
+plot(output, projection, horizontal, vertical, data, contour, title)
 
 
 

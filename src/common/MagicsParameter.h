@@ -45,18 +45,9 @@ public:
 
     string type() const { return getType(default_); }
 
-    void set(const T& value) {
-        global_ = local_ = value;
-        MagLog::info() << " Parameter " << name_ << " set to " << global_ << "\n";
-    }
-    void setLocal(const BaseParameter* from) {
-        from->get(local_);
-        MagLog::debug() << " Parameter (local) " << name_ << " set to " << local_ << "\n";
-    }
-    void resetLocal() {
-        local_ = global_;
-        MagLog::debug() << " Parameter (local) " << name_ << "reset\n";
-    }
+    void set(const T& value) { global_ = local_ = value; }
+    void setLocal(const BaseParameter* from) { from->get(local_); }
+    void resetLocal() { local_ = global_; }
 
 protected:
     void print(ostream& out) const { out << name_ << "[" << global_ << ", " << local_ << ", " << default_ << "]"; }
