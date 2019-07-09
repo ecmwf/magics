@@ -121,7 +121,7 @@ protected:
     int heightResolution_;
 
     RootScenePage* current_;
-    RootScenePage* latest_;
+    // RootScenePage* latest_;
     double scale_;
     MagicsMode mode_;
     bool newpage_;
