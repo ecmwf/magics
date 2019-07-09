@@ -31,9 +31,7 @@ using namespace magics;
 TileDecoder::~TileDecoder() {}
 
 
-TileDecoder::TileDecoder() {
-    cout << "New Tile Decoder" << endl;
-}
+TileDecoder::TileDecoder() {}
 
 
 string TileDecoder::projection() {
@@ -108,6 +106,9 @@ bool TileDecoder::ok() {
     }
 
     file_.close();
+    int count;
+    error = codes_count_in_file(0, in, &count);
+
 
     if (loop_) {
         int error;
@@ -115,6 +116,7 @@ bool TileDecoder::ok() {
 
         int count;
         error = codes_count_in_file(0, in, &count);
+
 
         for (int i = 0; i < count; i++) {
             entries_.push_back(handle);
@@ -130,7 +132,6 @@ double compute(double* values, double* weights, int nb, double total) {
 
 
     for (int i = 0; i < nb; i++) {
-        // cout << " " << values[i] << endl;
         val += values[i] * weights[i];
     }
 
@@ -142,7 +143,8 @@ void TileDecoder::customisedPoints(const Transformation& transformation, const s
                                    CustomisedPointsList& out, bool all) {
     string path = positions();
     Timer timer("Tile", path);
-    cout << "Tiles --> " << path << endl;
+
+
     Netcdf netcdf(path, "index");
 
     map<string, string> first, last;
@@ -185,8 +187,7 @@ void TileDecoder::customisedPoints(const Transformation& transformation, const s
     // netcdf.get("bounding-box", bbox, first, last);
     netcdf.get("index", values, first, last);
 
-    // for (auto b = bbox.begin(); b != bbox.end(); ++b)
-    //  cout << "found BBOX" << *b << endl;
+
     for (auto b = values.begin(); b != values.end(); ++b) {
         double lat = *b;
         ++b;
@@ -236,7 +237,7 @@ void TileDecoder::customisedPoints(const Transformation& transformation, const s
 PointsHandler& TileDecoder::points(const Transformation& t, bool) {
     string path = positions_symbols();
     Timer timer("Tile", path);
-    cout << "Tiles --> " << path << endl;
+
     Netcdf netcdf(path, "index");
 
     map<string, string> first, last;
@@ -276,8 +277,7 @@ PointsHandler& TileDecoder::points(const Transformation& t, bool) {
         // netcdf.get("bounding-box", bbox, first, last);
         netcdf.get("index", values, first, last);
 
-        // for (auto b = bbox.begin(); b != bbox.end(); ++b)
-        //  cout << "found BBOX" << *b << endl;
+
         for (auto b = values.begin(); b != values.end(); ++b) {
             double lat = *b;
             ++b;
@@ -320,7 +320,7 @@ PointsHandler& TileDecoder::points(const Transformation& t, bool) {
             lon++;
         }
     }
-    cout << "Number of points " << points_.min() << "--->" << points_.max() << endl;
+
 
     pointsHandlers_.push_back(new PointsHandler(points_));
     return *(pointsHandlers_.back());
@@ -382,12 +382,10 @@ void TileDecoder::scaling_offset(codes_handle* f, double& scaling, double& offse
             auto off = offsets.find(units);
             if (off != offsets.end()) {
                 offset = off->second;
-                cout << "Use Offset-->" << offset << endl;
             }
             auto sc = scalings.find(units);
             if (sc != scalings.end()) {
                 scaling = sc->second;
-                cout << "Use Scaling -->" << scaling << endl;
             }
         }
     }
@@ -424,7 +422,7 @@ void TileDecoder::decode() {
 
 
     string path = weights();
-    cout << "Tiles --> " << path << endl;
+
     Timer timer("Tile", path);
 
     Netcdf netcdf(path, "index");
@@ -499,9 +497,7 @@ void TileDecoder::decode() {
     auto d = distances.begin();
     matrix_.reserve(dindex.size() / 4);
     int c = 0;
-    // cout << "SIZE-->" << dindex.size() / 4 << "---" << distances.size() << "---" << longitudes.size() *
-    // latitudes.size()
-    //    << endl;
+
     vector<int> iindex;
 
     vector<double> dvalues;
