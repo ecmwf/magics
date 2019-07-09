@@ -462,11 +462,11 @@ void TileDecoder::decode() {
         int miny = std::min(bbox[1], bbox[3]);
         miny     = std::max(0, miny - 5);
         int maxy = std::max(bbox[1], bbox[3]);
-        maxy     = std::min(nblat, miny + 5);
+        maxy     = std::min(nblat, maxy + 5);
         int minx = std::min(bbox[0], bbox[2]);
         minx     = std::max(0, minx - 5);
         int maxx = std::max(bbox[0], bbox[2]);
-        maxx     = std::min(nblon, minx + 5);
+        maxx     = std::min(nblon, maxx + 5);
 
         first["lat"] = tostring(miny);
         first["lon"] = tostring(minx);
