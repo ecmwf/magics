@@ -240,11 +240,8 @@ void Curve::operator()(Data& data, BasicGraphicsObjectContainer& task) {
 
     // apply the symbol
 
-    if (line_) {
+    if (line_)  // task.push_back(curve_);
         transformation(*curve_, task);
-        // The curve have been pushed we can safely delete it
-        delete curve_;
-    }
     symbol(sv, task);
 }
 
