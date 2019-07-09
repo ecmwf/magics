@@ -918,7 +918,10 @@ Data* GribDecoder::next() {
     }
     if (entry_ != entries_.end()) {
         ++entry_;
-        return *entry_;
+        if (entry_ != entries_.end())
+            return *entry_;
+        else
+            return 0;
     }
     return 0;
 }

@@ -443,9 +443,9 @@ void TileDecoder::decode() {
     static vector<double> dindex;
     static vector<double> distances;
 
-    int size = netcdf.getDimension("lat");
+    int nblat = netcdf.getDimension("lat") - 1;
+    int nblon = netcdf.getDimension("lon") - 1;
 
-    cout << "SIZE-->" << size << endl;
 
     if (bbox.empty()) {
         netcdf.get("bounding-box", bbox, first, last);
@@ -458,18 +458,15 @@ void TileDecoder::decode() {
             return;
         }
 
+        // Adding a gutter of 5 points to avoid borders in tiles
         int miny = std::min(bbox[1], bbox[3]);
-        if (miny > 0)
-            miny = miny - 1;
+        miny     = std::max(0, miny - 5);
         int maxy = std::max(bbox[1], bbox[3]);
-        if (maxy < size - 1)
-            maxy = maxy + 1;
+        maxy     = std::min(nblat, miny + 5);
         int minx = std::min(bbox[0], bbox[2]);
-        if (minx > 0)
-            minx = minx - 1;
+        minx     = std::max(0, minx - 5);
         int maxx = std::max(bbox[0], bbox[2]);
-        if (maxx < size - 1)
-            maxx = maxx + 1;
+        maxx     = std::min(nblon, minx + 5);
 
         first["lat"] = tostring(miny);
         first["lon"] = tostring(minx);
