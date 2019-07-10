@@ -26,8 +26,8 @@
 
 
 #include "Data.h"
-#include "MagicsDecoder.h"
 #include "GribDecoderAttributes.h"
+#include "MagicsDecoder.h"
 #include "UserPoint.h"
 
 
@@ -248,6 +248,7 @@ protected:
 
     bool thinning_debug_;
 
+
     mutable map<string, string> sKeys_;
     mutable map<string, long> lKeys_;
     mutable map<string, double> dKeys_;
@@ -261,7 +262,7 @@ protected:
     grib_nearest* nearest_;
     grib_handle* component2_;
     grib_handle* colour_;
-
+    bool directionDone_;
 
     mutable grib_handle* current_handle_;
     mutable int current_position_;

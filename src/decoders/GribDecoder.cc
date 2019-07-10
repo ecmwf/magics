@@ -59,7 +59,8 @@ GribDecoder::GribDecoder() :
     component2_(0),
     colour_(0),
     xValues_(0),
-    yValues_(0) {
+    yValues_(0),
+    directionDone_(false) {
     count_++;
     title_ = "grib_" + tostring(count_);
     version();
@@ -187,8 +188,7 @@ string GribDecoder::getstring(const string& key, bool warnIfKeyAbsent, bool cach
 string GribDecoder::getString(const string& key, bool warnIfKeyAbsent) const {
     if (!valid_)
         return "";
-    if (Data::dimension_ == 1)
-    {
+    if (Data::dimension_ == 1) {
         current_handle_ = field_;
         return getstring(key, warnIfKeyAbsent, false);
     }
@@ -1609,10 +1609,10 @@ MatrixHandler& GribDecoder::direction() {
     // Now X et X components are ready ..
     // We compute the direction in xComponent_  and send it back.
 
-    static bool done = false;
-    if (done)
+
+    if (directionDone_)
         return *(matrixHandlers_.back());
-    done                             = true;
+    directionDone_                   = true;
     vector<double>::const_iterator x = xComponent_->begin();
     vector<double>::const_iterator y = yComponent_->begin();
     vector<double> directions;
