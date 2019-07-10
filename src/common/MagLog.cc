@@ -207,22 +207,22 @@ void MagLog::print(ostream&) const {}
 
 void MagLog::addWarningListener(void* data, LOG cb) {
     log_.listeners_.push_back(new WarningLogObserver(data, cb));
-    log_.defaultWarning_->silent();
+    // log_.defaultWarning_->silent();
 }
 
 void MagLog::addErrorListener(void* data, LOG cb) {
     log_.listeners_.push_back(new ErrorLogObserver(data, cb));
-    log_.defaultError_->silent();
+    // log_.defaultError_->silent();
 }
 
 void MagLog::addInfoListener(void* data, LOG cb) {
     log_.listeners_.push_back(new InfoLogObserver(data, cb));
-    log_.defaultInfo_->silent();
+    // log_.defaultInfo_->silent();
 }
 
 void MagLog::addDebugListener(void* data, LOG cb) {
     log_.listeners_.push_back(new DebugLogObserver(data, cb));
-    log_.defaultDebug_->silent();
+    // log_.defaultDebug_->silent();
 }
 
 void MagLog::clearListeners() {
