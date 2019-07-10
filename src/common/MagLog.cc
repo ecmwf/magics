@@ -238,7 +238,7 @@ ostream& MagLog::warning() {
 
     if (log_.warning_) {
         if (log_.warnings_++ > 10) {
-            log_.warningstream_ << "Magics-warning: Too many warnings! Stop sending them ..." << endl;
+            // log_.warningstream_ << "Magics-warning: Too many warnings! Stop sending them ..." << endl;
             return log_.devnull_;
         }
         else {
@@ -286,9 +286,11 @@ ostream& MagLog::dev() {
 ostream& MagLog::info() {
     // Here we broadcast some eventuel infos...
     broadcast();
-
-    log_.infostream_ << "Magics-info: ";
-    return log_.infostream_;
+    if (log_.info_) {
+        log_.infostream_ << "Magics-info: ";
+        return log_.infostream_;
+    }
+    return log_.devnull_;
 }
 
 ostream& MagLog::progress() {
