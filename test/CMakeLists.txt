@@ -1,6 +1,9 @@
 set( eccodes_environment
   ECCODES_DEFINITION_PATH=${eccodes_BASE_DIR}/share/${grib_handling_pkg}/definitions
-  ECCODES_SAMPLES_PATH=${eccodes_BASE_DIR}/share/${grib_handling_pkg}/samples )
+  ECCODES_SAMPLES_PATH=${eccodes_BASE_DIR}/share/${grib_handling_pkg}/samples
+  GRIB_DEFINITION_PATH=${eccodes_BASE_DIR}/share/${grib_handling_pkg}/definitions
+  GRIB_SAMPLES_PATH=${eccodes_BASE_DIR}/share/${grib_handling_pkg}/samples
+  )
 
 # Basic test
 ecbuild_add_test( TARGET basic_c
@@ -14,6 +17,7 @@ ecbuild_add_test( TARGET contour_c
                   CONDITION HAVE_GRIB
                   RESOURCES data.grib
                   LIBS      MagPlusSingle MagPlus
+                  RESOURCES data.grib
                   ENVIRONMENT MAGPLUS_HOME=${CMAKE_CURRENT_SOURCE_DIR}/..
                               ${eccodes_environment}
                   LINKER_LANGUAGE C )

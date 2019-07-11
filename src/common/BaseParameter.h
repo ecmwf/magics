@@ -28,11 +28,6 @@
 #include "Matrix.h"
 #include "magics.h"
 
-#ifdef HAVE_CAIRO
-#include <cairo.h>
-typedef cairo_t* CairoPtr;
-#endif
-
 #ifdef LATER
 #include <grib_api.h>
 typedef grib_handle* GribHandlePtr;
@@ -262,12 +257,6 @@ public:
 #endif
     virtual string type() const = 0;
 
-
-#ifdef HAVE_CAIRO
-    virtual void set(const CairoPtr&) { throw MistmatchType(name_, "cairo_context", type()); }
-    virtual void get(CairoPtr&) const { throw MistmatchType(name_, "cairo_context", type()); }
-    string getType(CairoPtr) const { return "cairo_context"; }
-#endif
 
 #ifdef LATER
     virtual void set(const GribHandlePtr&) { throw MistmatchType(name_, "grib_handle", type()); }

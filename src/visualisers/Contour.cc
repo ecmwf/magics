@@ -84,8 +84,7 @@ void Contour::operator()(Data& data, BasicGraphicsObjectContainer& parent) {
         bool legend_only = contour_->legend_only_;
         if (predefined_.size()) {
             library->getStyle(predefined_, attributes);
-            for (auto s = attributes.begin(); s != attributes.end(); ++s)
-                cout << s->first << "-->" << s->second << endl;
+
 
             set(attributes);
             auto text = attributes.find("contour_legend_text");
@@ -136,6 +135,11 @@ void Contour::operator()(Data& data, BasicGraphicsObjectContainer& parent) {
         data.getReady(parent.transformation());
         if (!data.valid()) {
             throw MagicsException("Invalid data for contouring");
+        }
+
+        if (data.matrix().tile()) {
+            (*this->contour_)(data.matrix(), parent);
+            return;
         }
         MatrixHandler* box = data.matrix().getReady(parent.transformation());
         if (!box) {

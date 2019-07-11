@@ -78,7 +78,6 @@ magics::Polyline* Curve::newCurve(BasicGraphicsObjectContainer& task) const {
 
 bool Curve::missing(CustomisedPoint& point) const {
     if (point.missing()) {
-        cout << "FOUND MISSING" << endl;
         return true;
     }
     double x = point["x"];
@@ -241,8 +240,11 @@ void Curve::operator()(Data& data, BasicGraphicsObjectContainer& task) {
 
     // apply the symbol
 
-    if (line_)  // task.push_back(curve_);
+    if (line_) {
         transformation(*curve_, task);
+        // The curve have been pushed we can safely delete it
+        delete curve_;
+    }
     symbol(sv, task);
 }
 

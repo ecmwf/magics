@@ -22,10 +22,10 @@
 #ifndef GribInterpretor_H
 #define GribInterpretor_H
 
+#include "CustomisedPoint.h"
 #include "Factory.h"
 #include "MagTranslator.h"
 #include "UserPoint.h"
-#include "CustomisedPoint.h"
 #include "magics.h"
 
 
@@ -57,17 +57,15 @@ public:
     virtual void raw(GribDecoder&, const Transformation&,
                      vector<pair<double, vector<pair<double, CustomisedPoint*> > > >&, double&, double&) const;
 
-    virtual void interpretAsMatrix(const GribDecoder&, Matrix** matrix, Matrix** matrix2 = NULL) const { *matrix = 0; }
-    virtual void interpretAsMatrix(const GribDecoder& grib, Matrix** matrix, const Transformation&) const {
-        interpretAsMatrix(grib, matrix);
-    }
+    virtual void interpretAsMatrix(GribDecoder&) const {}
+    virtual void interpretAsMatrix(GribDecoder& grib, const Transformation&) const { interpretAsMatrix(grib); }
 
 
     virtual void interpret2D(double&, double&, double&, double&) const {}
     virtual void keepOriginal(bool) {}
     virtual PaperPoint reference(const GribDecoder&, const Transformation&);
     virtual void interpretAsRaster(const GribDecoder&, RasterData&, const Transformation&) const {}
-    virtual void scaling(GribDecoder&, Matrix**) const;
+    virtual void scaling(GribDecoder&, Matrix&) const;
     virtual void scaling(GribDecoder& grib, double& scaling, double& offset) const;
     virtual void scaling(GribDecoder& grib, double& scaling, double& offset, string& originalUnits,
                          string& derivedUnits) const;

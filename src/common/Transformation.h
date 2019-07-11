@@ -97,7 +97,7 @@ public:
     virtual ~Transformation();
     virtual void init();
     virtual void cleanPCEnveloppe();
-    void cleaninit();
+    virtual void cleaninit();
     enum CoordinateType
     {
         GeoType,
@@ -120,6 +120,8 @@ public:
 
     virtual Polyline& getUserBoundingBox() const { NOTIMP; }
     virtual Polyline& getPCBoundingBox() const { NOTIMP; }
+    virtual Polyline& getSimplePCBoundingBox() const { NOTIMP; }
+
 
     bool needTopAxis() const { return topAxis_; }
     void needTopAxis(bool top) { topAxis_ = top; }

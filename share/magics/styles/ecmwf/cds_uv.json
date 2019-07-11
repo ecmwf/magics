@@ -1,0 +1,30 @@
+[
+  {
+    "eccharts_layer": "cds_uv",
+    "styles": [
+      "sh_blue_red_100"
+    ],
+    "match": [
+      {
+        "paramId": [
+          "131",
+          "132"
+          ],
+        "shortName": [
+          "u",
+          "v"
+        ],
+        "levtype": "pl",
+        "levelist": [
+          "150",
+          "175",
+          "200",
+          "225",
+          "250",
+          "300",
+          "350"
+          ]
+      }
+    ]
+  }
+]

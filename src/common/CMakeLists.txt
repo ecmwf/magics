@@ -14,7 +14,7 @@ list( APPEND _common_srcs
 	TableDefinition.h TableDefinitionList.h TableDefinitionListInterface.h
 	TableDefinitionCompute.h TableDefinitionComputeInterface.h
 	HeightTableDefinition.h LevelTableDefinition.h IntervalMap.h PaperDimension.h
-	Matrix.h MatrixHandler.h Data.h Decoder.h
+	Matrix.h MatrixHandler.h Data.h MagicsDecoder.h
 	BasePointsHandler.h RasterData.h  Visualiser.h CustomisedPoint.h PointsHandler.h
 	MetaData.h
 	Polyline.h
@@ -35,7 +35,7 @@ list( APPEND _common_srcs
 	Timer.h
 	CustomisedPoint.h Static.h DriverStatic.h ProgressObject.h PolyCoast.h
 	ProgressTask.h FullPaperPoint.h
-	BasePointsHandler.h PointsHandler.h Decoder.h Data.h
+	BasePointsHandler.h PointsHandler.h MagicsDecoder.h Data.h
 	Visualiser.h MatrixHandler.h
 	Seconds.h
 	Matrix.h Matrix.cc
@@ -127,7 +127,7 @@ if ( metview )
 				common/XmlTree.h
 				common/XmlReader.h
 				common/RasterData.h
-				common/Decoder.h
+				common/MagicsDecoder.h
 				common/Data.h
 				common/MatrixHandler.h
 				common/BasePointsHandler.h

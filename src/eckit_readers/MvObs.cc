@@ -3179,7 +3179,7 @@ int MvObs::numberOfLevels(long levelDescriptor) {
 }
 
 //______________________________________________________ numberOfLevels
-int MvObs::numberOfLevels(string skey) {
+int MvObs::numberOfLevels(const string& skey) {
     // Get number of elements
     size_t nelems;
     codes_get_size(*_ecH, skey.c_str(), &nelems);

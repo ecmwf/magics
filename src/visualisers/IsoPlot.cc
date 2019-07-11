@@ -1644,13 +1644,19 @@ CellArray::CellArray(MatrixHandler& data, IntervalMap<int>& range, const Transfo
         }
         points_.setMapsAxis();
 
-        transformation.revert(xypoints, geopoints);
-        // data.interpolate(points_, geopoints);
+        vector<std::pair<double, double> >::iterator geo;
+        if (data.tile()) {
+            geo = xypoints.begin();
+        }
+        else {
+            transformation.revert(xypoints, geopoints);
+            geo = geopoints.begin();
+        }
 
-        vector<std::pair<double, double> >::iterator geo = geopoints.begin();
-        double min                                       = data.min();
-        double max                                       = data.max();
-        double missing                                   = data.missing();
+
+        double min     = data.min();
+        double max     = data.max();
+        double missing = data.missing();
 
 
         int i = 0;

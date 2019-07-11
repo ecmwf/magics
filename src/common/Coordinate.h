@@ -35,7 +35,7 @@
 #include "XDateCoordinateAttributes.h"
 #include "YDateCoordinateAttributes.h"
 
-#include "DateTime.h"
+#include "MagDateTime.h"
 #include "UserPoint.h"
 #include "XHyperCoordinateAttributes.h"
 #include "YHyperCoordinateAttributes.h"

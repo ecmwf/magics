@@ -26,8 +26,8 @@
 
 
 #include "Data.h"
-#include "Decoder.h"
 #include "GribDecoderAttributes.h"
+#include "MagicsDecoder.h"
 #include "UserPoint.h"
 
 
@@ -152,12 +152,12 @@ public:
         // RV MF
         decode1D();
         //		decode();
-        matrixHandlers_.push_back(new MatrixHandler(*matrix_));
+        matrixHandlers_.push_back(new MatrixHandler(*xComponent_));
         return *(matrixHandlers_.back());
     }
     MatrixHandler& matrix(const Transformation& transformation) {
         decode(transformation);
-        matrixHandlers_.push_back(new MatrixHandler(*matrix_));
+        matrixHandlers_.push_back(new MatrixHandler(*xComponent_));
         return *(matrixHandlers_.back());
     }
 
@@ -177,16 +177,18 @@ public:
 
 
     virtual grib_handle* open(grib_handle*, bool sendMsg = true);
+    virtual void openField();
     virtual void openFirstComponent();
     virtual void openSecondComponent();
     virtual void openThirdComponent();
-    virtual void readColourComponent();
+
 
     grib_handle* id() const {
-        if (!handle_)
+        if (!field_)
             const_cast<GribDecoder*>(this)->decode();
-        return handle_;
+        return field_;
     }
+
     long getLong(const string&, bool warnIfKeyAbsent = true) const;
     string getString(const string&, bool warnIfKeyAbsent = true) const;
     double getDouble(const string&, bool warnIfKeyAbsent = true) const;
@@ -194,28 +196,39 @@ public:
 
     string getstring(const string&, bool warnIfKeyAbsent = true, bool cache = true) const;
 
-    void read(Matrix** matrix, Matrix** matrix2 = NULL);
-    void read(Matrix** matrix, const Transformation&);
+    void read();
+    void read(const Transformation&);
     bool id(const string&, const string&) const;
 
     grib_nearest* nearest_point_handle(bool keep);
     void nearestGridpoints(double* inlats, double* inlons, double* outlats, double* outlons, double* values,
-                           double* distances, int nb, string& representation);
+                           double* distances, int nb, const string& representation, double missing);
 
     grib_handle* uHandle(string&);
     grib_handle* vHandle(string&);
-
-    grib_handle* uHandle() const { return component1_; }
-    grib_handle* vHandle() const { return component2_; };
-
     grib_handle* cHandle(string&);
+
+    grib_handle* uHandle() const { return field_; }
+    grib_handle* vHandle() const { return component2_; };
+    grib_handle* cHandle() const { return colour_; };
+
 
     double uComponent(int);
     double vComponent(int);
     void uComponent();
     void vComponent();
 
-    grib_handle* handle() const { return handle_; }
+
+    Matrix* colour() { return colourComponent_; }
+    Matrix* u() { return xComponent_; }
+    Matrix* v() { return yComponent_; }
+
+    Matrix* colour(Matrix*);
+    Matrix* u(Matrix*);
+    Matrix* v(Matrix*);
+
+
+    grib_handle* handle() const { return field_; }
     void initInfo();
 
 protected:
@@ -224,7 +237,6 @@ protected:
 
     void handle(grib_handle*);
 
-    mutable Matrix* matrix_;
     mutable double* xValues_;
     mutable double* yValues_;
     mutable Matrix* xComponent_;
@@ -236,6 +248,7 @@ protected:
 
     bool thinning_debug_;
 
+
     mutable map<string, string> sKeys_;
     mutable map<string, long> lKeys_;
     mutable map<string, double> dKeys_;
@@ -245,12 +258,14 @@ protected:
     map<double, std::set<double> > positions_;
 
 
-    grib_handle* handle_;
-    grib_nearest* nearest_;
     grib_handle* field_;
-    grib_handle* component1_;
+    grib_nearest* nearest_;
     grib_handle* component2_;
     grib_handle* colour_;
+    bool directionDone_;
+
+    mutable grib_handle* current_handle_;
+    mutable int current_position_;
 
     string title_;
     static int count_;
@@ -274,14 +289,14 @@ private:
 class GribEntryDecoder : public GribDecoder {
 public:
     GribEntryDecoder(grib_handle* handle) {
-        handle_          = handle;
-        handle1_         = 0;
+        field_           = handle;
+        handle1_         = handle;
         handle2_         = 0;
         handle3_         = 0;
         Data::dimension_ = 1;
     }
     GribEntryDecoder(grib_handle* handle1, grib_handle* handle2) {
-        handle_  = handle1;
+        field_   = handle1;
         handle1_ = handle1;
         handle2_ = handle2;
         handle3_ = 0;
@@ -289,7 +304,7 @@ public:
         Data::dimension_ = 2;
     }
     GribEntryDecoder(grib_handle* handle1, grib_handle* handle2, grib_handle* handle3) {
-        handle_          = handle1;
+        field_           = handle1;
         handle1_         = handle1;
         handle2_         = handle2;
         handle3_         = handle3;
@@ -299,29 +314,19 @@ public:
 
     grib_handle* open(grib_handle*, bool sendMsg = true);
 
-    void openFirstComponent() {
-        ASSERT(handle1_);
-        handle_     = handle1_;
-        component1_ = handle1_;
-    }
+    void openFirstComponent() { ASSERT(field_); }
+    void openField() { ASSERT(field_); }
 
     void openSecondComponent() {
         ASSERT(handle2_);
-        handle_     = handle2_;
         component2_ = handle2_;
     }
     void openThirdComponent() {
-        ASSERT(handle3_);
-        handle_ = handle3_;
+        // Can Be NULL
+
+        colour_ = handle3_;
     }
-    void readColourComponent() {
-        if (handle3_) {
-            handle_ = handle3_;
-            read(&colourComponent_);
-        }
-        else
-            colourComponent_ = 0;
-    }
+
 
 protected:
     grib_handle* handle1_;

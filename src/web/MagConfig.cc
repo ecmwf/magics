@@ -179,7 +179,7 @@ void StyleLibrary::callback(const string& name, const json_spirit::Value& value)
 void StyleLibrary::init() {
     // Now we have a variable
 
-    string ecmwf   = getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_ + "/styles/ecmwf";
+    string ecmwf   = buildConfigPath("styles", "ecmwf");
     string library = getEnvVariable("MAGICS_STYLE_PATH");
 
     if (library.empty())
@@ -232,7 +232,7 @@ void StyleLibrary::init() {
 }
 
 void PaletteLibrary::init() {
-    string library = getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_ + "/styles/palettes.json";
+    string library = buildConfigPath("styles", "palettes.json");
     MagConfigHandler(library, *this);
 }
 
@@ -269,7 +269,7 @@ void PaletteLibrary::callback(const string& name, const json_spirit::Value& valu
 }
 
 void UnitsLibrary::init() {
-    string library = getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_ + "/units-rules.json";
+    string library = buildConfigPath("units-rules.json");
     MagConfigHandler(library, *this);
 }
 
@@ -435,7 +435,9 @@ bool StyleLibrary::findScaling(const MetaDataCollector& data, MagDef& scaling) {
 }
 
 void NetcdfGuess::init() {
-    string library = getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_ + "/" + name_ + ".json";
+    ostringstream name;
+    name << name_ << ".json";
+    string library = buildConfigPath(name.str());
     MagLog::debug() << "Opening " << library << endl;
     MagConfigHandler(library, *this);
 }
@@ -453,8 +455,34 @@ void NetcdfGuess::callback(const string& name, const json_spirit::Value& value) 
         }
     }
 }
+
+void DimensionGuess::init() {
+    json_spirit::Value value;
+    try {
+        json_spirit::read_or_throw(definitions_, value);
+
+        Object object = value.get_value<Object>();
+
+        for (vector<Pair>::const_iterator entry = object.begin(); entry != object.end(); ++entry) {
+            // cout << entry->name_ << endl;
+            Object o = entry->value_.get_value<Object>();
+            map<string, string> def;
+            for (vector<Pair>::const_iterator e = o.begin(); e != o.end(); ++e) {
+                // cout << e->name_ << "-->" << MagConfig::convert(e->value_) << endl;
+                def.insert(make_pair(e->name_, MagConfig::convert(e->value_)));
+            }
+            data_.insert(make_pair(entry->name_, def));
+        }
+    }
+    catch (json_spirit::Error_position e) {
+        MagLog::error() << "JSON error in" << definitions_ << ": " << e.reason_ << "[line: " << e.line_
+                        << ", column: " << e.column_ << "]" << endl;
+    }
+}
+
+
 void MagDefLibrary::init(const string& name) {
-    string library = getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_ + "/" + name;
+    string library = buildConfigPath(name);
     MagLog::dev() << "opening -->" << library << endl;
     MagConfigHandler(library, *this);
 }

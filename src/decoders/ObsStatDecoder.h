@@ -27,7 +27,7 @@
 #include "ObsStatDecoderAttributes.h"
 //#include "BaseSceneObject.h"
 #include "Data.h"
-#include "Decoder.h"
+#include "MagicsDecoder.h"
 #include "PaperPoint.h"
 
 

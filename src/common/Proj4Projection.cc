@@ -25,6 +25,7 @@
 #include <Polyline.h>
 #include <Proj4Projection.h>
 #include <Text.h>
+#include <cmath>
 #include "MagConfig.h"
 #include "MetaData.h"
 
@@ -152,7 +153,7 @@ map<string, Epsg*> Epsg::epsgs_;
 
 void EpsgConfig::init() {
     // methods_["epsg"] =  &EpsgConfig::epsg;
-    MagConfigHandler(getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_ + "/epsg.json", *this);
+    MagConfigHandler(buildConfigPath("epsg.json"), *this);
 }
 void Epsg::set(const json_spirit::Value& value) {
     ASSERT(value.type() == json_spirit::obj_type);
@@ -203,6 +204,14 @@ Proj4Projection::Proj4Projection() :
     EpsgConfig config;
     config.init();
 }
+void Proj4Projection::populate(double lon, double lat, double val, vector<UserPoint>& out) const {
+    if (in(lon, lat))
+        out.push_back(UserPoint(lon, lat, val));
+    if (in(lon - 360, lat))
+        out.push_back(UserPoint(lon - 360., lat, val));
+    if (in(lon + 360, lat))
+        out.push_back(UserPoint(lon + 360., lat, val));
+}
 
 
 /*!
@@ -239,7 +248,7 @@ void Proj4Projection::init() {
 
 
     methods_["geos"]   = &Proj4Projection::geos;
-    methods_["tpers"]  = &Proj4Projection::geos;
+    methods_["tpers"]  = &Proj4Projection::tpers;
     methods_["polar"]  = &Proj4Projection::conic;
     methods_["conic"]  = &Proj4Projection::conic;
     methods_["simple"] = &Proj4Projection::simple;
@@ -336,18 +345,10 @@ void Proj4Projection::corners() {
     fast_reproject(min_pcx_, min_pcy_);
     fast_reproject(max_pcx_, max_pcy_);
 
-    magics::Polyline box;
-    box.box(PaperPoint(min_pcx_, min_pcy_), PaperPoint(max_pcx_, max_pcy_));
+    delete PCEnveloppe_;
 
-    vector<magics::Polyline*> newbox;
-    PCEnveloppe_->intersect(box, newbox);
-    if (newbox.empty()) {
-        MagLog::warning() << "Proj4 : the sub-area is not valid : use global view instead" << endl;
-    }
-    else {
-        PCEnveloppe_ = newbox.front();
-    }
-    // Clear newbox
+    PCEnveloppe_ = new Polyline();
+    PCEnveloppe_->box(PaperPoint(min_pcx_, min_pcy_), PaperPoint(max_pcx_, max_pcy_));
 }
 
 void Proj4Projection::centre() {}
@@ -370,9 +371,9 @@ PaperPoint Proj4Projection::operator()(const UserPoint& point) const {
         //		NON Valeurs trop faibles en EPSG:3857 par exemple !  --> Transformation::in(pp) == True !
         //		-> Avec ces valeurs, si grille globale, les barbules des poles sont tracées dans l'atlantique sud
         //		en formant une couronne centrée vers( 9°W, 66°35S)
-        //		return PaperPoint(-1000000, -10000000);   .// En plus il manque 1 zero !
-        return PaperPoint(-1e10,
-                          -1e10);  // Devrait suffire pour que Transformation::in(pp) == False qqsoient from_ et to_
+        //		return PaperPoint(1000000, 10000000);   .// En plus il manque 1 zero !
+        return PaperPoint(HUGE_VAL,
+                          HUGE_VAL);  // Devrait suffire pour que Transformation::in(pp) == False qqsoient from_ et to_
     }
 
     return PaperPoint(x, y, point.value_, point.missing(), point.border(), 0, point.name());
@@ -408,7 +409,7 @@ void Proj4Projection::revert(const PaperPoint& xy, UserPoint& point) const {
         first = false;
     }
     if (PCEnveloppe_->within(xy) == false) {
-        point = UserPoint(-1000, -1000);
+        point = UserPoint(HUGE_VAL, HUGE_VAL);
 
         return;
     }
@@ -421,7 +422,7 @@ void Proj4Projection::revert(const PaperPoint& xy, UserPoint& point) const {
 
     if (error) {
         MagLog::debug() << pj_strerrno(error) << endl;
-        point = UserPoint(-1000, -1000);
+        point = UserPoint(HUGE_VAL, HUGE_VAL);
         return;
     }
 
@@ -458,6 +459,8 @@ void Proj4Projection::add(double lon, double lat) {
         max_pcx_ = x;
     if (y > max_pcy_)
         max_pcy_ = y;
+
+
     if (lon < gridMinLon_)
         gridMinLon_ = lon;
     if (lat < gridMinLat_)
@@ -579,9 +582,7 @@ void Proj4Projection::geos() {
         if (lat->second.empty())
             continue;
 
-
         add(lat->second.front(), lat->first);
-        // userEnveloppe_->push_back(PaperPoint(lat->second.front(), lat->first));
     }
     // now reverse!
 
@@ -590,7 +591,6 @@ void Proj4Projection::geos() {
             continue;
 
         add(lat->second.back(), lat->first);
-        // userEnveloppe_->push_back(PaperPoint(lat->second.back(), lat->first));
     }
 
     map<double, vector<double> >::iterator last = helper.begin();
@@ -601,8 +601,114 @@ void Proj4Projection::geos() {
 
     for (vector<double>::reverse_iterator lon = last->second.rbegin(); lon != last->second.rend(); ++lon) {
         add(*lon, last->first);
-        // userEnveloppe_->push_back(PaperPoint(*lon, last->first));
     }
+}
+
+Polyline& Proj4Projection::getSimplePCBoundingBox() const {
+    static magics::Polyline box;
+    box.box(PaperPoint(min_pcx_, min_pcy_), PaperPoint(max_pcx_, max_pcy_));
+    /*
+    vector<magics::Polyline*> newbox;
+    PCEnveloppe_->intersect(box, newbox);
+    if (newbox.empty()) {
+        MagLog::warning() << "Proj4 : the sub-area is not valid : use global view instead" << endl;
+    }
+    else {
+        PCEnveloppe_ = newbox.front();
+    }
+    */
+    return box;
+}
+
+void Proj4Projection::tpers() {
+    userEnveloppe_->clear();
+    PCEnveloppe_->clear();
+    // here we have to prepare the enveloppe!
+    min_pcx_ = DBL_MAX;
+    min_pcy_ = DBL_MAX;
+    max_pcx_ = -DBL_MAX;
+    max_pcy_ = -DBL_MAX;
+
+
+    map<double, vector<double> > helper;
+
+    // projection_view_latitude_
+    // projection_view_longitude_
+
+    double lastlon;
+    int missing = -99999;
+    double step = 0.1;
+    for (double lat = projection_view_latitude_; lat <= 90; lat += step) {
+        lastlon = missing;
+        for (double lon = projection_view_longitude_; lon <= projection_view_longitude_ + 360; lon += step) {
+            double x  = lon * DEG_TO_RAD;
+            double y  = DEG_TO_RAD * lat;
+            int error = pj_transform(from_, to_, 1, 1, &x, &y, NULL);
+            if (error) {
+                // we reach a border!
+
+                if (lastlon != missing) {
+                    add(lastlon, lat);
+                }
+                break;
+            }
+            lastlon = lon;
+        }
+    }
+    for (double lat = 90; lat >= projection_view_latitude_; lat -= step) {
+        lastlon = missing;
+        for (double lon = projection_view_longitude_; lon >= projection_view_longitude_ - 360; lon -= step) {
+            double x  = lon * DEG_TO_RAD;
+            double y  = DEG_TO_RAD * lat;
+            int error = pj_transform(from_, to_, 1, 1, &x, &y, NULL);
+            if (error) {
+                // we reach a border!
+                if (lastlon != missing) {
+                    add(lastlon, lat);
+                }
+                break;
+            }
+            lastlon = lon;
+        }
+    }
+
+
+    for (double lat = projection_view_latitude_; lat >= -90; lat -= step) {
+        lastlon = missing;
+        for (double lon = projection_view_longitude_; lon >= projection_view_longitude_ - 360; lon -= step) {
+            double x  = lon * DEG_TO_RAD;
+            double y  = DEG_TO_RAD * lat;
+            int error = pj_transform(from_, to_, 1, 1, &x, &y, NULL);
+            if (error) {
+                // we reach a border!
+
+                if (lastlon != missing) {
+                    add(lastlon, lat);
+                }
+                break;
+            }
+            lastlon = lon;
+        }
+    }
+    for (double lat = -90; lat <= projection_view_latitude_; lat += step) {
+        lastlon = missing;
+        for (double lon = projection_view_longitude_; lon <= projection_view_longitude_ + 360; lon += step) {
+            double x  = lon * DEG_TO_RAD;
+            double y  = DEG_TO_RAD * lat;
+            int error = pj_transform(from_, to_, 1, 1, &x, &y, NULL);
+            if (error) {
+                // we reach a border!
+                if (lastlon != missing) {
+                    add(lastlon, lat);
+                }
+                break;
+            }
+            lastlon = lon;
+        }
+    }
+
+    userEnveloppe_->push_back(userEnveloppe_->front());
+    PCEnveloppe_->push_back(PCEnveloppe_->front());
 }
 
 
@@ -670,35 +776,37 @@ double Proj4Projection::getMaxPCY() const {
 
 
 void Proj4Projection::gridLongitudes(const GridPlotting& grid) const {
-    magics::Polyline boundaries;
-
-    for (auto point = PCEnveloppe_->begin(); point != PCEnveloppe_->end(); ++point) {
-        boundaries.push_back(*point);
-    }
-
-    grid.add(boundaries);
-
-
     vector<double> longitudes = grid.longitudes();
 
 
     const double step = 0.5;
-    longitudes.push_back(180);
+    // longitudes.push_back(180);
     const vector<double>::const_iterator lon_end = longitudes.end();
-
+    // Always use full globe !
+    double min = -90;
+    double max = 90;
     for (vector<double>::const_iterator lon = longitudes.begin(); lon != lon_end; ++lon) {
         magics::Polyline poly;
         poly.setAntiAliasing(false);
 
-        for (double lat = gridMinLat_; (lat == gridMaxLat_ || lat < gridMaxLat_ + step); lat += step) {
-            PaperPoint p(*lon, lat);
-            if (userEnveloppe_->within(p))
-                poly.push_back((*this)(UserPoint(*lon, lat)));
+        for (double lat = min; lat < max; lat += step) {
+            PaperPoint p = (*this)(UserPoint(*lon, lat));
+            if (PCEnveloppe_->within(p)) {
+                poly.push_back(p);
+            }
+            else {
+                grid.add(poly);
+
+                poly = magics::Polyline();
+                poly.setAntiAliasing(false);
+            }
         }
 
 
         grid.add(poly);
     }
+
+
     grid.addFrame(*PCEnveloppe_);
 }
 
@@ -708,13 +816,22 @@ void Proj4Projection::gridLatitudes(const GridPlotting& grid) const {
     const double step                            = 0.5;
     const vector<double>::const_iterator lat_end = latitudes.end();
 
+    // Always use full globe !
+    double min = -180;
+    double max = 360;
+
     for (vector<double>::const_iterator lat = latitudes.begin(); lat != lat_end; ++lat) {
         magics::Polyline poly;
         poly.setAntiAliasing(false);
-        for (double lon = gridMinLon_; lon <= gridMaxLon_ + step; lon += step) {
-            PaperPoint p(lon, *lat);
-            if (userEnveloppe_->within(p))
-                poly.push_back((*this)(UserPoint(lon, *lat)));
+        for (double lon = min; lon <= max; lon += step) {
+            PaperPoint p = (*this)(UserPoint(lon, *lat));
+            if (PCEnveloppe_->within(p))
+                poly.push_back(p);
+            else {
+                grid.add(poly);
+                poly = magics::Polyline();
+                poly.setAntiAliasing(false);
+            }
         }
 
 
@@ -1006,7 +1123,7 @@ void Proj4Projection::revert(const vector<std::pair<double, double> >& in,
         PaperPoint p(x, y);
 
         if (PCEnveloppe_->within(p) == false) {
-            out.push_back(make_pair(-1000, -1000));
+            out.push_back(make_pair(HUGE_VAL, HUGE_VAL));
             continue;
         }
 
@@ -1014,7 +1131,7 @@ void Proj4Projection::revert(const vector<std::pair<double, double> >& in,
 
         if (error) {
             MagLog::error() << pj_strerrno(error) << " for " << pt->first << " " << pt->second << endl;
-            out.push_back(make_pair(-1000, -1000));
+            out.push_back(make_pair(HUGE_VAL, HUGE_VAL));
         }
         else {
             double lon = x * RAD_TO_DEG;
@@ -1037,12 +1154,6 @@ void Proj4Projection::coastSetting(map<string, string>& setting, double abswidth
     const double area = (max_pcx_ - min_pcx_) * (max_pcy_ - min_pcy_);
 
     double ratio = area / (abswidth * absheight);
-
-    // projFACTORS data = proj_factors(to_, xy);
-
-
-    // cout << "RATIO" << area << endl;
-
 
     std::string resol = "110m";
     if (ratio < 1000000)  // highest resolution
@@ -1112,6 +1223,8 @@ bool Proj4Projection::fast_reproject(double& x, double& y) const {
     int error = pj_transform(from_, to_, 1, 1, &x, &y, NULL);
 
     if (error) {
+        x = HUGE_VAL;
+        y = HUGE_VAL;
         // MagLog::warning()  << pj_strerrno(error) << " for " << x << " " << y << endl;
         return false;
     }

@@ -50,9 +50,9 @@ void Boundaries::operator()(const map<string, string>& setting, BasicGraphicsObj
 
     const string political_boundaries      = setting.find("boundaries")->second;
     const string administrative_boundaries = setting.find("administrative_boundaries")->second;
-    const string share_folder              = getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_;
 
-    string file = share_folder + political_boundaries;
+
+    string file = buildConfigPath(political_boundaries);
 
     boundaries.setPath(file);
     vector<string> treaty;
@@ -66,7 +66,7 @@ void Boundaries::operator()(const map<string, string>& setting, BasicGraphicsObj
     if (admistrative_) {
         ShapeDecoder admistrative;
         admistrative.needHoles(true);
-        file = share_folder + administrative_boundaries;
+        file = buildConfigPath(administrative_boundaries);
 
         admistrative.setPath(file);
         admistrative.decode(task.transformation(), "adm0_a3", administrative_list_);
@@ -108,7 +108,7 @@ void Boundaries::operator()(const map<string, string>& setting, BasicGraphicsObj
         vector<string> dis;
         dis.push_back("Disputed");
         dis.push_back("Line of control (please verify)");
-        file = share_folder + political_boundaries;
+        file = buildConfigPath(political_boundaries);
 
         disputed.setPath(file);
         disputed.decode(task.transformation(), "featurecla", dis);

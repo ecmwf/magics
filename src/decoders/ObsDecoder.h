@@ -25,7 +25,7 @@
 #include "magics.h"
 
 #include "Data.h"
-#include "Decoder.h"
+#include "MagicsDecoder.h"
 #include "ObsDecoderAttributes.h"
 
 namespace magics {

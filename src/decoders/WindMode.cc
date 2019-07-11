@@ -37,26 +37,21 @@ void WindMode::print(ostream& out) const {
     out << "]";
 }
 
-void UVWindMode::x(Matrix** out1, Matrix** out2, Matrix* in1, Matrix* in2) {
-    *out1 = in1;
-    *out2 = in2;
-}
+void UVWindMode::x(Matrix& c1, Matrix& c2) {}
 
 
-void SDWindMode::x(Matrix** out1, Matrix** out2, Matrix* in1, Matrix* in2) {
-    *out1                                = in1;
-    *out2                                = in2;
+void SDWindMode::x(Matrix& c1, Matrix& c2) {
     double x                             = 3.14 / 180.;
-    vector<double>::const_iterator speed = in1->begin();
-    vector<double>::const_iterator angle = in2->begin();
+    vector<double>::const_iterator speed = c1.begin();
+    vector<double>::const_iterator angle = c2.begin();
     vector<double> speeds;
     vector<double> directions;
     //	MagLog::dev()<< "missing1-->" << in1->missing() << endl;
     //	MagLog::dev()<< "missing2-->" << in2->missing() << endl;
-    while (speed != in1->end() && angle != in2->end()) {
-        if (*speed == in1->missing() || *angle == in2->missing()) {
-            speeds.push_back(in2->missing());
-            directions.push_back(in2->missing());
+    while (speed != c1.end() && angle != c2.end()) {
+        if (*speed == c1.missing() || *angle == c2.missing()) {
+            speeds.push_back(c2.missing());
+            directions.push_back(c2.missing());
         }
         else {
             double a = 90 - (*angle);
@@ -68,14 +63,14 @@ void SDWindMode::x(Matrix** out1, Matrix** out2, Matrix* in1, Matrix* in2) {
         angle++;
     }
 
-    (*out1)->clear();
-    (*out2)->clear();
+    c1.clear();
+    c2.clear();
 
     vector<double>::iterator d    = directions.begin();
     vector<double>::iterator send = speeds.end();
     for (vector<double>::iterator s = speeds.begin(); s != send; ++s) {
-        (*out1)->push_back(*s);
-        (*out2)->push_back(*d);
+        c1.push_back(*s);
+        c2.push_back(*d);
         ++d;
     }
 }
@@ -89,6 +84,6 @@ pair<double, double> SDWindMode::operator()(double s, double d) {
 }
 
 
-void VDWindMode::x(Matrix**, Matrix* in1, Matrix* in2) {}
+void VDWindMode::x(Matrix&, Matrix&) {}
 
-void VDWindMode::y(Matrix**, Matrix* in1, Matrix* in2) {}
+void VDWindMode::y(Matrix&, Matrix&) {}

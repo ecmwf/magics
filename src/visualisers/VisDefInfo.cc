@@ -71,7 +71,7 @@ void VisDefInfoBase::collectKeys() {
 
 
 ObstatVisDefInfo::ObstatVisDefInfo(string fConf, DataType dataType) : VisDefInfoBase(fConf, dataType) {
-    fConf_ = getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_ + "ObstatGribVisDef.txt";
+    fConf_ = buildConfigPath("ObstatGribVisDef.txt");
 
     loadItems();
 

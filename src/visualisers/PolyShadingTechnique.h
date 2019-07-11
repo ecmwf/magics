@@ -156,10 +156,12 @@ struct LegendEntryBuilder {
             }
         }
 
-        if (legend_.values_list_.size() && same(legend_.values_list_.back(), max)) {
-            string text = tostring(max);
-            entry->userText(text, "user");
-            // Try to detect the last entry
+        if (entry->isLast()) {
+            if (legend_.values_list_.size() && same(legend_.values_list_.back(), max)) {
+                string text = tostring(max);
+                entry->userText(text, "user");
+                // Try to detect the last entry
+            }
         }
 
         legend_.add(entry);

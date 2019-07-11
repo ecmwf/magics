@@ -4,8 +4,8 @@ BinningObject.h
 BoxPlotDecoder.cc
 BoxPlotDecoder.h
 Date.cc
-DateTime.cc
-DateTime.h
+MagDateTime.cc
+MagDateTime.h
 EfiLegendEntry.h
 EpsXmlInput.cc
 EpsXmlInput.h
@@ -16,6 +16,8 @@ InputData.cc
 InputData.h
 InputMatrix.cc
 InputMatrix.h
+TileDecoder.h
+TileDecoder.cc
 InputMatrixInterpretor.cc
 InputMatrixInterpretor.h
 LandgramDecoder.cc
@@ -131,7 +133,7 @@ set( decoders_srcs ${decoders_srcs} PARENT_SCOPE )
 
 if ( metview )
 	list (APPEND metview_include 
-			decoders/DateTime.h 
+			decoders/MagDateTime.h 
 			decoders/GribDecoder.h 
 			decoders/ThinningMethod.h 
 			decoders/BinningObject.h  

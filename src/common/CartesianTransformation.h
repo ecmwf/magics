@@ -40,6 +40,9 @@ public:
         y_->set();
         Transformation::init();
     }
+    void cleaninit() {
+        Transformation::init();
+    }
     virtual void toxml(ostream& out) const { CartesianTransformationAttributes::toxml(out); }
     virtual void set(const map<string, string>& map) { CartesianTransformationAttributes::set(map); }
     virtual void set(const XmlNode& node) { CartesianTransformationAttributes::set(node); }

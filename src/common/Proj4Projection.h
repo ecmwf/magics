@@ -67,6 +67,7 @@ public:
     }
 
     bool addSouth() const;
+    void populate(double lon, double lat, double value, vector<UserPoint>& out) const;
 
     /*!
     \\brief Initialise the projection
@@ -189,6 +190,7 @@ public:
     void horizontalLabels(const LabelPlotting& label, double y, double pos, VerticalAlign align) const;
     MatrixHandler* prepareData(const AbstractMatrix&) const;
     Polyline& getPCBoundingBox() const;
+    Polyline& getSimplePCBoundingBox() const;
     Polyline& getUserBoundingBox() const;
 
     typedef void (Proj4Projection::*InitMethod)();
@@ -196,8 +198,10 @@ public:
 
     void conic();
     void geos();
+    void tpers();
     void simple();
     void projectionSimple();
+    void cleaninit() { init(); }
 
     void add(double, double);
 

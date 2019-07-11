@@ -26,7 +26,7 @@
 
 #include "BoxPlotDecoderAttributes.h"
 #include "Data.h"
-#include "Decoder.h"
+#include "MagicsDecoder.h"
 #include "UserPoint.h"
 
 namespace magics {

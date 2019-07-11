@@ -29,7 +29,7 @@ using namespace magics;
 ObsPlotting::ObsPlotting() {
     ObsTable::print();
     if (ring_size_ == -1)
-        ring_size_ = size_;
+        ring_size_ = size_ * 0.5;
 }
 
 ObsPlotting::~ObsPlotting() {}
@@ -70,8 +70,6 @@ void ObsPlotting::operator()(Data& data, BasicGraphicsObjectContainer& out) {
     for (multimap<string, string>::const_iterator type = types.find("type"); type != types.end(); ++type) {
         try {
             const ObsTemplate& obs = ObsTable::getTemplate(type->second);
-
-
             for (const auto& val : values) {
                 if (type->second == val->type()) {
                     obs(*val, out);

@@ -308,6 +308,7 @@ void ShapeDecoder::decode(vector<magics::Polyline*>& data, const Transformation&
         if ((east - west) > 360.)
             shift = 0;
 
+
         SHPObject* psShape = 0;
         int nb             = 0;
         for (i = 0; i < nEntities; i++) {

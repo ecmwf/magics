@@ -157,6 +157,9 @@ MagLog::MagLog() :
         userInfo_  = false;
     }
 
+
+    // Not listening to the errors anymore
+    /*
     defaultWarning_ = new WarningLogObserver(NULL, output);
     defaultError_   = new ErrorLogObserver(NULL, output);
 
@@ -167,18 +170,16 @@ MagLog::MagLog() :
     if (!dev_)
         defaultDebug_->silent();
 
-    listeners_.push_back(defaultWarning_);
-    listeners_.push_back(defaultError_);
-    listeners_.push_back(defaultDebug_);
-    listeners_.push_back(defaultInfo_);
-
+    // listeners_.push_back(defaultWarning_);
+    //
+    // listeners_.push_back(defaultError_);
+    // listeners_.push_back(defaultDebug_);
+    // listeners_.push_back(defaultInfo_);
+    */
     header_ = true;
 }
 
-MagLog::~MagLog() {
-    broadcast();
-    clearListeners();
-}
+MagLog::~MagLog() {}
 
 
 static void niceprint(int nb, const string& legend, const string& sep, ostream& out) {
@@ -206,22 +207,22 @@ void MagLog::print(ostream&) const {}
 
 void MagLog::addWarningListener(void* data, LOG cb) {
     log_.listeners_.push_back(new WarningLogObserver(data, cb));
-    log_.defaultWarning_->silent();
+    // log_.defaultWarning_->silent();
 }
 
 void MagLog::addErrorListener(void* data, LOG cb) {
     log_.listeners_.push_back(new ErrorLogObserver(data, cb));
-    log_.defaultError_->silent();
+    // log_.defaultError_->silent();
 }
 
 void MagLog::addInfoListener(void* data, LOG cb) {
     log_.listeners_.push_back(new InfoLogObserver(data, cb));
-    log_.defaultInfo_->silent();
+    // log_.defaultInfo_->silent();
 }
 
 void MagLog::addDebugListener(void* data, LOG cb) {
     log_.listeners_.push_back(new DebugLogObserver(data, cb));
-    log_.defaultDebug_->silent();
+    // log_.defaultDebug_->silent();
 }
 
 void MagLog::clearListeners() {
@@ -237,7 +238,7 @@ ostream& MagLog::warning() {
 
     if (log_.warning_) {
         if (log_.warnings_++ > 10) {
-            log_.warningstream_ << "Magics-warning: Too many warnings! Stop sending them ..." << endl;
+            // log_.warningstream_ << "Magics-warning: Too many warnings! Stop sending them ..." << endl;
             return log_.devnull_;
         }
         else {
@@ -254,7 +255,6 @@ ostream& MagLog::error() {
         log_.reporter_->error();
     broadcast();
     if (log_.error_) {
-    
         log_.errorstream_ << "Magics-ERROR: ";
         return log_.errorstream_;
     }
@@ -286,9 +286,11 @@ ostream& MagLog::dev() {
 ostream& MagLog::info() {
     // Here we broadcast some eventuel infos...
     broadcast();
-
-    log_.infostream_ << "Magics-info: ";
-    return log_.infostream_;
+    if (log_.info_) {
+        log_.infostream_ << "Magics-info: ";
+        return log_.infostream_;
+    }
+    return log_.devnull_;
 }
 
 ostream& MagLog::progress() {
@@ -317,6 +319,8 @@ ostream& MagLog::userInfo() {
 
 
 void MagLog::broadcast() {
+    // disable broadcast
+
     bool more = true;
     for (vector<MagLogObserver*>::iterator observer = log_.listeners_.begin(); observer != log_.listeners_.end();
          ++observer) {

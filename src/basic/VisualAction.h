@@ -39,7 +39,10 @@ public:
     virtual ~VisualAction();
 
     void data(Data* data) { data_ = data; }
-    void set2D() { data_->dimension(2); }
+    void set2D() {
+        if (data_)
+            data_->dimension(2);
+    }
     void visdef(Visdef* visdef) {
         visdef->theme(theme());
         visdefs_.push_back(visdef);

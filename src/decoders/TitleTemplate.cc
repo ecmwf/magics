@@ -93,7 +93,7 @@ TitleTemplate::TitleTemplate() {
 
 void TitleTemplate::decode() {
     singleton_      = this;
-    string filename = getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_ + file_;
+    string filename = buildConfigPath(file_);
     char buf[BUFSIZ];
     ignore_space_ = true;
     push(this);

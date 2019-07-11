@@ -266,7 +266,8 @@ void NetcdfGeoMatrixInterpretor::customisedPoints(const Transformation& transfor
         vector<double> colcomponent;
         map<string, string> first, last;
         setDimensions(dimension_, first, last);
-        double missing_value = missing(netcdf);
+        double missing_x = netcdf.getMissing(x_component_, missing_attribute_);
+        double missing_y = netcdf.getMissing(y_component_, missing_attribute_);
 
         netcdf.get(x_component_, xcomponent, first, last);
         netcdf.get(y_component_, ycomponent, first, last);
@@ -286,9 +287,9 @@ void NetcdfGeoMatrixInterpretor::customisedPoints(const Transformation& transfor
                 if (!colour_component_.empty())
                     if (val >= colcomponent.size())
                         return;
-                if (same(xcomponent[val], missing_value))
+                if (same(xcomponent[val], missing_x))
                     continue;
-                if (same(ycomponent[val], missing_value))
+                if (same(ycomponent[val], missing_y))
                     continue;
                 vector<UserPoint> points;
                 transformation.populate(longitudes[lon], latitudes[lat], 0, points);

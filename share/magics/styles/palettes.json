@@ -112,7 +112,7 @@
             "eccharts_style" : [
                 "sh_gry_fM72t56lst"
             ],
-            "key_words" : [],
+            "keywords" : [],
             "n_levels" : "33",
             "origin" : "eccharts",
             "parameter" : [
@@ -468,7 +468,7 @@
             "eccharts_style" : [
                 "sh_all_pmx_regional"
             ],
-            "key_words" : [
+            "keywords" : [
                 "cams"
             ],
             "n_levels" : "11",
@@ -798,7 +798,7 @@
             "eccharts_style" : [
                 "sh_range_fm40t40"
             ],
-            "key_words" : [
+            "keywords" : [
                 "anomaly"
             ],
             "n_levels" : "40",
@@ -839,7 +839,7 @@
             "eccharts_style" : [
                 "sh_rb_fm100t100"
             ],
-            "key_words" : [],
+            "keywords" : [],
             "n_levels" : "19",
             "origin" : "eccharts",
             "parameter" : [
@@ -867,7 +867,7 @@
             "eccharts_style" : [
                 "t_upper_anomaly"
             ],
-            "key_words" : [
+            "keywords" : [
                 "anomaly"
             ],
             "n_levels" : "7",
@@ -898,7 +898,7 @@
             "eccharts_style" : [
                 "sh_all_f05t100"
             ],
-            "key_words" : [],
+            "keywords" : [],
             "n_levels" : "9",
             "origin" : "eccharts",
             "parameter" : [
@@ -1495,7 +1495,7 @@
             "eccharts_style" : [
                 "narrow_range_2t_anomaly"
             ],
-            "key_words" : [],
+            "keywords" : [],
             "n_levels" : "16",
             "origin" : "eccharts",
             "parameter" : [
@@ -1662,7 +1662,9 @@
                 "cyan"
             ],
             "eccharts_style" : [
-                "sh_blured_f05t300lst"
+                "sh_blured_f05t300lst",
+                "sh_blured_f001t25lst",
+                "sh_blured_f0000008t00042lst"
             ],
             "keywords" : [
                 "precipitation"
@@ -1798,7 +1800,7 @@
             "eccharts_style" : [
                 "sh_prob_rb_temperature"
             ],
-            "key_words" : [
+            "keywords" : [
                 "anomaly"
             ],
             "n_levels" : "9",
@@ -2203,7 +2205,7 @@
                 "sh_range_f008to25",
                 "sh_range_f02t30"
             ],
-            "key_words" : [
+            "keywords" : [
                 "spread"
             ],
             "n_levels" : "10",
@@ -2789,7 +2791,8 @@
             ],
             "eccharts_style" : [
                 "sh_albedo",
-                "sh_brn_f0t1"
+                "sh_brn_f0t1",
+                "sh_brown_f0t1"
             ],
             "keywords" : [
                 "albedo"
@@ -3206,7 +3209,7 @@
             "eccharts_style" : [
                 "sh_all_pm2p5_defra_daqi"
             ],
-            "key_words" : [
+            "keywords" : [
                 "cams"
             ],
             "n_levels" : "9",
@@ -3463,9 +3466,10 @@
                 "red"
             ],
             "eccharts_style" : [
-                "sh_all_fM50t58i2"
+                "sh_all_fM50t58i2",
+                "sh_all_fM95t13i2"
             ],
-            "key_words" : [
+            "keywords" : [
                 "temperature"
             ],
             "n_levels" : "54",
@@ -3999,7 +4003,8 @@
                 "grey"
             ],
             "eccharts_style" : [
-                "transparency_grey"
+                "transparency_grey",
+                "transparency_grey_perc"
             ],
             "keywords" : [
                 "transparent"
@@ -4203,7 +4208,7 @@
             "eccharts_style" : [
                 "range_100_4500"
             ],
-            "key_words" : [
+            "keywords" : [
                 "cape"
             ],
             "n_levels" : "19",
@@ -4298,7 +4303,7 @@
                 "sh_blu_f008t25",
                 "sh_blu_f03t75"
             ],
-            "key_words" : [
+            "keywords" : [
                 "spread",
                 "potential vorticity"
             ],
@@ -5273,7 +5278,8 @@
             ],
             "eccharts_style" : [
                 "sh_all_f0t18i1_5",
-                "sh_all_f0t20lst"
+                "sh_all_f0t20lst",
+                "sh_all_f0t20lst_grid"
             ],
             "keywords" : [
                 "rainbow",
@@ -5768,14 +5774,15 @@
             "eccharts_style" : [
                 "sh_blured_f0t300"
             ],
-            "key_words" : [],
+            "keywords" : [],
             "n_levels" : "15",
             "origin" : "eccharts",
             "parameter" : [
                 "Total precipitation",
                 "Convective precipitation",
                 "Stratiform precipitation",
-                "Total snowfall"
+                "Total snowfall",
+                "Total column water"
             ]
         }
     },
@@ -6016,7 +6023,7 @@
             "eccharts_style" : [
                 "sh_grnblue_f1t100"
             ],
-            "key_words" : [
+            "keywords" : [
                 "probability"
             ],
             "n_levels" : "7",
@@ -6077,7 +6084,7 @@
             "eccharts_style" : [
                 "sh_all_fM80t56i4_v2"
             ],
-            "key_words" : [
+            "keywords" : [
                 "temperature"
             ],
             "n_levels" : "34",
@@ -7674,7 +7681,7 @@
             "eccharts_style" : [
                 "sh_red_f001t10"
             ],
-            "key_words" : [],
+            "keywords" : [],
             "n_levels" : "9",
             "origin" : "eccharts",
             "parameter" : [
@@ -7766,7 +7773,7 @@
             "eccharts_style" : [
                 "sh_prob_rb_rain"
             ],
-            "key_words" : [
+            "keywords" : [
                 "anomaly"
             ],
             "n_levels" : "9",
@@ -8114,7 +8121,7 @@
             "eccharts_style" : [
                 "sh_all_pmx_ncl_precip_11lev"
             ],
-            "key_words" : [
+            "keywords" : [
                 "cams"
             ],
             "n_levels" : "12",
@@ -11760,6 +11767,1596 @@
             "n_levels" : "9",
             "origin" : "met_norway",
             "parameter" : []
+        }
+    },
+    "eccharts_rainbow_blu_gr_red_purple_14" : {
+        "contour_shade_colour_list" : [
+            "RGB(166,255,255)",
+            "RGB(2,186,253)",
+            "RGB(2,115,253)",
+            "RGB(26,150,19)",
+            "RGB(52,254,40)",
+            "RGB(255,255,0)",
+            "RGB(254,198,39)",
+            "RGB(252,118,29)",
+            "RGB(255,0,0)",
+            "RGB(193,0,15)",
+            "RGB(179,9,125)",
+            "RGB(252,31,254)",
+            "RGB(174,0,249)",
+            "RGB(125,0,179)"
+        ],
+        "tags" : {
+            "colours" : ["rainbow",
+                         "blue",
+                         "green",
+                         "red",
+                         "purple"],
+            "eccharts_style" : [
+                "cape_extra1"
+            ],
+            "keywords" : ["deterministic", "surface", "instability", "index", "precipitation"],
+            "n_levels" : "14",
+            "origin" : "eccharts",
+            "parameter" : "Convective available potential energy (CAPE)"
+        }
+    },
+    "m_white_blue_8" : {
+        "contour_shade_colour_list" : [
+            "#ffffff",
+            "#d1edca",
+            "#9dd9b9",
+            "#69c1cb",
+            "#43a6cc",
+            "#2b8bbe",
+            "#1e72ae",
+            "#08589e"
+        ],
+        "tags" : {
+            "colours" : ["white",
+                         "blue"],
+            "eccharts_style" : [
+                "sh_all_f0t04lst"
+            ],
+            "keywords" : [],
+            "n_levels" : "8",
+            "origin" : "magics",
+            "parameter" : "Snowmelt"
+        }
+    },
+    "m_pastel_rainbow_10" : {
+        "contour_shade_colour_list" : [
+            "#cfffff",
+            "#cdffe1",
+            "#76f3de",
+            "#ffbda6",
+            "#accf88",
+            "#70bb92",
+            "#bda0da",
+            "#acaf7f",
+            "#ef928d",
+            "#de98a7"
+        ],
+        "tags" : {
+            "colours" : ["red",
+                         "blue",
+                         "green"],
+            "eccharts_style" : [
+                "sh_all_f0t1lst"
+            ],
+            "keywords" : ["rainbow",
+                          "pastel"],
+            "n_levels" : "10",
+            "origin" : "magics",
+            "parameter" : [
+                "Volumetric soil water layer 1",
+                "Volumetric soil water layer 2",
+                "Volumetric soil water layer 3",
+                "Volumetric soil water layer 4"
+            ]
+        }
+    },
+    "m_blue_orange_red_10" : {
+        "contour_shade_colour_list" : [
+            "greenish_blue",
+            "sky",
+            "turquoise",
+            "avocado",
+            "orange_yellow",
+            "yellowish_orange",
+            "orange",
+            "coral",
+            "brown",
+            "charcoal"
+        ],
+        "tags" : {
+            "colours" : ["turquoise",
+                         "orange",
+                         "brown"],
+            "eccharts_style" : [
+                "sh_all_fM01t0lst_grid"
+            ],
+            "keywords" : ["rainbow"],
+            "n_levels" : "10",
+            "origin" : "magics",
+            "parameter" : "Altimeter range relative correction"
+        }
+    },
+    "m_brown_purple_16" : {
+        "contour_shade_colour_list" : [
+            "rgb(0.498,0.2314,0.03137)",
+            "rgb(0.6471,0.3373,0.05098)",
+            "rgb(0.8,0.451,0.07059)",
+            "rgb(0.9137,0.5843,0.2353)",
+            "rgb(0.9647,0.7294,0.4745)",
+            "rgb(0.9961,0.8784,0.7137)",
+            "rgb(0.9882,0.9137,0.8157)",
+            "rgb(0.9765,0.949,0.9176)",
+            "rgb(0.9451,0.9451,0.9608)",
+            "rgb(0.8941,0.902,0.9412)",
+            "rgb(0.8471,0.8549,0.9216)",
+            "rgb(0.7098,0.6902,0.8235)",
+            "rgb(0.5725,0.5294,0.7216)",
+            "rgb(0.4353,0.3608,0.5961)",
+            "rgb(0.3059,0.1843,0.4392)",
+            "rgb(0.1765,0,0.2941)"
+        ],
+        "tags" : {
+            "colours" : ["brown",
+                         "purple"],
+            "eccharts_style" : [
+                "sh_all_fM16t16lst"
+            ],
+            "keywords" : [],
+            "n_levels" : "16",
+            "origin" : "magics",
+            "parameter" : "Angle of sub-gridscale orography"
+        }
+    },
+    "m_rainbow_purple_green_red_36" : {
+        "contour_shade_colour_list" : [
+            "#cd0071",
+            "#893f5c",
+            "#ff81c5",
+            "#9a2678",
+            "#ff25cc",
+            "#ffa4f8",
+            "#ffc9ff",
+            "#921ca5",
+            "#bf5bff",
+            "#8f53ff",
+            "#4e45bd",
+            "#827ba9",
+            "#818aff",
+            "#2e55a3",
+            "#b2cbff",
+            "#4da9ff",
+            "#0080b5",
+            "#00a9ce",
+            "#02bcc2",
+            "#00d8ae",
+            "#01653a",
+            "#2ed282",
+            "#76da9e",
+            "#adc000",
+            "#e5e578",
+            "#835c00",
+            "#9b3d00",
+            "#ff8440",
+            "#ffa183",
+            "#b00e03",
+            "#ff4155",
+            "#8e3e41",
+            "#ffa7a6",
+            "#b40032",
+            "#ff8da1",
+            "#ff3a7d"
+        ],
+        "tags" : {
+            "colours" : ["purple",
+                         "blue",
+                         "red",
+                         "magenta",
+                         "green"],
+            "eccharts_style" : [
+                "sh_all_fM72t72i4"
+            ],
+            "keywords" : ["rainbow",
+                          "temperature",
+                          "soil temperature"],
+            "n_levels" : "36",
+            "origin" : "magics",
+            "parameter" : [
+                "Skin temperature",
+                "Temperature of snow layer",
+                "Soil temperature level 1",
+                "Soil temperature level 2",
+                "Soil temperature level 3",
+                "Soil temperature level 4"
+            ]
+        }
+    },
+    "m_rainbow_purple_blue_red_24" : {
+        "contour_shade_colour_list" : [
+            "rgb(0.1,0,0.2)",
+            "rgb(0.35,0,0.5)",
+            "rgb(0.42,0,0.6)",
+            "violet",
+            "blue_purple",
+            "rgb(0.36,0.16,1)",
+            "rgb(0.25,0.25,1)",
+            "greenish_blue",
+            "rgb(0,0.6,1)",
+            "rgb(0,0.7,1)",
+            "rgb(0,0.9,1)",
+            "blue_green",
+            "bluish_green",
+            "yellow_green",
+            "greenish_yellow",
+            "orangish_yellow",
+            "orange_yellow",
+            "yellowish_orange",
+            "orange",
+            "reddish_orange",
+            "orangish_red",
+            "red",
+            "#ce2010",
+            "#9e190d"
+        ],
+        "tags" : {
+            "colours" : ["purple",
+                         "blue",
+                         "red",
+                         "cyan",
+                         "green"],
+            "eccharts_style" : [
+                "sh_all_fM80t16i4"
+            ],
+            "keywords" : ["rainbow",
+                          "temperature"],
+            "n_levels" : "24",
+            "origin" : "magics",
+            "parameter" : ["Temperature"]
+        }
+    },
+    "m_rainbow_purple_blue_red_22" : {
+        "contour_shade_colour_list" : [
+            "rgb(0.1,0,0.2)",
+            "rgb(0.35,0,0.5)",
+            "rgb(0.42,0,0.6)",
+            "violet",
+            "blue_purple",
+            "rgb(0.36,0.16,1)",
+            "rgb(0.25,0.25,1)",
+            "greenish_blue",
+            "rgb(0,0.6,1)",
+            "rgb(0,0.7,1)",
+            "rgb(0,0.9,1)",
+            "blue_green",
+            "bluish_green",
+            "yellow_green",
+            "greenish_yellow",
+            "orangish_yellow",
+            "orange_yellow",
+            "yellowish_orange",
+            "orange",
+            "reddish_orange",
+            "orangish_red",
+            "#ce2010"
+        ],
+        "tags" : {
+            "colours" : ["purple",
+                         "blue",
+                         "red",
+                         "cyan",
+                         "green"],
+            "eccharts_style" : [
+                "sh_all_fM96tM8i4"
+            ],
+            "keywords" : ["rainbow",
+                          "temperature"],
+            "n_levels" : "22",
+            "origin" : "magics",
+            "parameter" : ["Temperature"]
+        }
+    },
+    "eccharts_red_yellow_9" : {
+        "contour_shade_colour_list" : [
+            "RGB(0.7898,0.5906,0.6304)",
+            "RGB(0.37,0.04564,0.1105)",
+            "RGB(0.6481,0.02644,0.1404)",
+            "RGB(0.9942,0.02538,0.1384)",
+            "RGB(0.9942,0.4408,0.01758)",
+            "RGB(0.9902,0.6293,0.005859)",
+            "RGB(0.9961,0.8479,0.007828)",
+            "RGB(0.9961,0.9796,0.007828)",
+            "RGB(0.9484,0.9367,0.7143)"
+        ],
+        "tags" : {
+            "colours" : ["red",
+                         "orange",
+                         "yellow"],
+            "eccharts_style" : [
+                "sh_all_lightdensity1"
+            ],
+            "keywords" : ["Lightning density"],
+            "n_levels" : "9",
+            "origin" : "eccharts",
+            "parameter" : ["Lightning flash density (100km-2/hour)"]
+        }
+    },
+    "eccharts_rainbow_grey_navy_9" : {
+        "contour_shade_colour_list" : [
+            "grey",
+            "yellow",
+            "RGB(1,0.8008,0.003922)",
+            "orange",
+            "red",
+            "violet",
+            "bluish_purple",
+            "blue",
+            "navy"
+        ],
+        "tags" : {
+            "colours" : ["grey",
+                         "yellow",
+                         "orange",
+                         "red",
+                         "violet",
+                         "blue",
+                         "navy"],
+            "eccharts_style" : [
+                "sh_all_lightdensity2"
+            ],
+            "keywords" : ["Lightning density"],
+            "n_levels" : "9",
+            "origin" : "eccharts",
+            "parameter" : ["Lightning flash density (100km-2/hour)"]
+        }
+    },
+    "eccharts_red_yellow_6" : {
+        "contour_shade_colour_list" : [
+            "RGB(0.9942,0.02538,0.1384)",
+            "RGB(0.9942,0.4408,0.01758)",
+            "RGB(0.9902,0.6293,0.005859)",
+            "RGB(0.9961,0.8479,0.007828)",
+            "RGB(0.9961,0.9796,0.007828)",
+            "RGB(0.9484,0.9367,0.7143)"
+        ],
+        "tags" : {
+            "colours" : ["yellow",
+                         "orange",
+                         "red"],
+            "eccharts_style" : [
+                "sh_all_lightdensity_higher"
+            ],
+            "keywords" : [],
+            "n_levels" : "6",
+            "origin" : "eccharts",
+            "parameter" : ["Lightning flash density (100km-2/hour)"]
+        }
+    },
+    "eccharts_rainbow_green_red_9" : {
+        "contour_shade_colour_list" : [
+            "rgb(49,255,0)",
+            "rgb(49,207,0)",
+            "rgb(255,255,0)",
+            "rgb(255,207,0)",
+            "rgb(255,154,0)",
+            "rgb(255,100,100)",
+            "rgb(255,0,0)",
+            "rgb(153,0,0)",
+            "rgb(206,48,255)"
+        ],
+        "tags" : {
+            "colours" : ["green",
+                         "yellow",
+                         "orange",
+                         "red",
+                         "violet"],
+            "eccharts_style" : [
+                "sh_all_pm10_defra_daqi"
+            ],
+            "keywords" : ["CAMS", "PM10"],
+            "n_levels" : "9",
+            "origin" : "eccharts",
+            "parameter" : "Particulate matter d < 10 um"
+        }
+    },
+    "m_black_red_22" : {
+        "contour_shade_colour_list" : [
+            "#1a1a1a",
+            "#363636",
+            "#555555",
+            "#767676",
+            "#939393",
+            "#acacac",
+            "#c6c6c6",
+            "#e0e0e0",
+            "#e9e9e9",
+            "#f2f2f2",
+            "#fbfbfb",
+            "#fffaf7",
+            "#ffefe7",
+            "#fee5d7",
+            "#fddbc7",
+            "#f5b8a2",
+            "#eb967f",
+            "#dd725d",
+            "#c55346",
+            "#a53a39",
+            "#85202c",
+            "#67001f"
+        ],
+        "tags" : {
+            "colours" : ["black",
+                         "white",
+                         "red"],
+            "eccharts_style" : [
+                "sh_blkred_fM10t10_22"
+            ],
+            "keywords" : ["Benjamin-Feir index"],
+            "n_levels" : "22",
+            "origin" : "magics",
+            "parameter" : "Benjamin-Feir index"
+        }
+    },
+    "m_blue3_10" : {
+        "contour_shade_colour_list" : [
+            "#fff7fb",
+            "#e8e3f0",
+            "#cfd0e6",
+            "#aec0dd",
+            "#88b0d4",
+            "#62a1ca",
+            "#368fc0",
+            "#207cb6",
+            "#056aa6",
+            "#04598b"
+        ],
+        "tags" : {
+            "colours" : ["blue"],
+            "eccharts_style" : [
+                "sh_blu_f01t1"
+            ],
+            "keywords" : [],
+            "n_levels" : "10",
+            "origin" : "magics",
+            "parameter" : "Instantaneous large-scale surface precipitation fraction"
+        }
+    },
+    "m_blue2_12" : {
+        "contour_shade_colour_list" : [
+            "#eff3ff",
+            "#dbe8f6",
+            "#c8dcef",
+            "#b4d1e8",
+            "#a1c4e1",
+            "#8fb9db",
+            "#7eadd5",
+            "#6ca1cf",
+            "#5b95c9",
+            "#4989c2",
+            "#367dbc",
+            "#2171b5"
+        ],
+        "tags" : {
+            "colours" : ["blue"],
+            "eccharts_style" : [
+                "sh_blu_f0t10lst"
+            ],
+            "keywords" : ["snow"],
+            "n_levels" : "12",
+            "origin" : "magics",
+            "parameter" : [
+                "Snow depth"
+            ]
+        }
+    },
+    "m_blue2_14" : {
+        "contour_shade_colour_list" : [
+            "#eff3ff",
+            "#deeaf8",
+            "#cddff1",
+            "#bdd6eb",
+            "#aecce5",
+            "#9ec2e0",
+            "#8eb8da",
+            "#7eaed5",
+            "#6fa4d0",
+            "#619acb",
+            "#5290c6",
+            "#4486c0",
+            "#347bbb",
+            "#2171b5"
+        ],
+        "tags" : {
+            "colours" : ["blue"],
+            "eccharts_style" : [
+                "sh_blu_f100t480lst"
+            ],
+            "keywords" : ["snow"],
+            "n_levels" : "14",
+            "origin" : "magics",
+            "parameter" : [
+                "Snow density"
+            ]
+        }
+    },
+    "m_blue_dark_12" : {
+        "contour_shade_colour_list" : [
+            "#fff7fb",
+            "#ebe6f2",
+            "#d7d6e9",
+            "#bdc8e1",
+            "#a0bad9",
+            "#7fadd2",
+            "#609fc9",
+            "#3b91c1",
+            "#2580b8",
+            "#0770b0",
+            "#046299",
+            "#045483"
+        ],
+        "tags" : {
+            "colours" : ["blue"],
+            "eccharts_style" : [
+                "sh_blu_f1kt12k"
+            ],
+            "keywords" : ["dark"],
+            "n_levels" : "12",
+            "origin" : "magics",
+            "parameter" : "Large-scale surface precipitation fraction"
+        }
+    },
+    "m_blue_white_14" : {
+        "contour_shade_colour_list" : [
+            "#191970",
+            "#192c7f",
+            "#15408e",
+            "#0b539d",
+            "#1e64a9",
+            "#2a76b5",
+            "#3c89c1",
+            "#549bcb",
+            "#69add5",
+            "#8bbcdc",
+            "#aacde3",
+            "#c9ddec",
+            "#e5eefa",
+            "#ffffff"
+        ],
+        "tags" : {
+            "colours" : ["blue",
+                         "white"],
+            "eccharts_style" : [
+                "sh_blu_fM14tM16"
+            ],
+            "keywords" : ["ice temperature"],
+            "n_levels" : "14",
+            "origin" : "magics",
+            "parameter" : "Ice temperature layer 4"
+        }
+    },
+    "m_blue_white_13" : {
+        "contour_shade_colour_list" : [
+            "#191970",
+            "#192e80",
+            "#144391",
+            "#1158a1",
+            "#226bad",
+            "#2f7fbb",
+            "#4992c6",
+            "#60a4d1",
+            "#80b7da",
+            "#a2c9e1",
+            "#c3daea",
+            "#e2ebf9",
+            "#ffffff"
+        ],
+        "tags" : {
+            "colours" : ["blue",
+                         "white"],
+            "eccharts_style" : [
+                "sh_blu_fM24tM16"
+            ],
+            "keywords" : ["ice temperature"],
+            "n_levels" : "13",
+            "origin" : "magics",
+            "parameter" : "Ice temperature layer 3"
+        }
+    },
+    "m_blue_white_19" : {
+        "contour_shade_colour_list" : [
+            "#191970",
+            "#1a277b",
+            "#183586",
+            "#144391",
+            "#09509c",
+            "#185da5",
+            "#226bad",
+            "#2b78b6",
+            "#3585bf",
+            "#4992c6",
+            "#599fcd",
+            "#68abd5",
+            "#80b7da",
+            "#97c2df",
+            "#aecfe4",
+            "#c3daea",
+            "#d8e6f4",
+            "#ecf2fe",
+            "#ffffff"
+        ],
+        "tags" : {
+            "colours" : ["blue",
+                         "white"],
+            "eccharts_style" : [
+                "sh_blu_fM36tM16"
+            ],
+            "keywords" : ["ice temperature"],
+            "n_levels" : "19",
+            "origin" : "magics",
+            "parameter" : [
+                "Ice temperature layer 1",
+                "Ice temperature layer 2"
+            ]
+        }
+    },
+    "m_blue2_9" : {
+        "contour_shade_colour_list" : [
+            "#fff7fb",
+            "#c8d2e7",
+            "#9ab8d8",
+            "#7babd1",
+            "#599cc7",
+            "#328cbe",
+            "#1978b4",
+            "#0568a3",
+            "#045a8d"
+        ],
+        "tags" : {
+            "colours" : ["blue"],
+            "eccharts_style" : [
+                "sh_blue_f03t3"
+            ],
+            "keywords" : ["Lake ice depth"],
+            "n_levels" : "9",
+            "origin" : "magics",
+            "parameter" : "Lake ice depth"
+        }
+    },
+    "m_blue_white_11" : {
+        "contour_shade_colour_list" : [
+            "#d3daeb",
+            "#a6bddb",
+            "#8eb3d5",
+            "#74a9cf",
+            "#599cc7",
+            "#3690c0",
+            "#2480b8",
+            "#0570b0",
+            "#05659e",
+            "#045a8d",
+            "#ffffff"
+        ],
+        "tags" : {
+            "colours" : ["blue",
+                         "white"],
+            "eccharts_style" : [
+                "sh_blue_f05t9000"
+            ],
+            "keywords" : ["Lake depth"],
+            "n_levels" : "11",
+            "origin" : "magics",
+            "parameter" : "Lake depth"
+        }
+    },
+    "m_blue_green2_15" : {
+        "contour_shade_colour_list" : [
+            "#f6eff7",
+            "#e6e4f1",
+            "#d5daeb",
+            "#c4d1e6",
+            "#b2c7e0",
+            "#9ebedb",
+            "#89b5d6",
+            "#71acd1",
+            "#5aa4c3",
+            "#499bb1",
+            "#38929f",
+            "#29888d",
+            "#1c807c",
+            "#0d766a",
+            "#016c59"
+        ],
+        "tags" : {
+            "colours" : ["blue",
+                         "green"],
+            "eccharts_style" : [
+                "sh_blue_f0t5",
+                "sh_blue_f0t1"
+            ],
+            "keywords" : [
+                "ensamble spread",
+                "spread"
+            ],
+            "n_levels" : "15",
+            "origin" : "magics",
+            "parameter" : []
+        }
+    },
+    "m_blue_green_5" : {
+        "contour_shade_colour_list" : [
+            "#f6eff7",
+            "#bdc9e1",
+            "#67a9cf",
+            "#1c9099",
+            "#016c59"
+        ],
+        "tags" : {
+            "colours" : ["blue",
+                         "green"],
+            "eccharts_style" : [
+                "sh_blue_f0t5_i1"
+            ],
+            "keywords" : [
+                "ensamble spread"
+            ],
+            "n_levels" : "5",
+            "origin" : "magics",
+            "parameter" : []
+        }
+    },
+    "m_blue_17" : {
+        "contour_shade_colour_list" : [
+            "#fff7fb",
+            "#e3e5f1",
+            "#c8d2e7",
+            "#acc1dd",
+            "#9ab8d8",
+            "#8bb2d4",
+            "#7babd1",
+            "#6aa4cc",
+            "#599cc7",
+            "#4495c3",
+            "#328cbe",
+            "#2782b9",
+            "#1978b4",
+            "#056fae",
+            "#0568a3",
+            "#046198",
+            "#045a8d"
+        ],
+        "tags" : {
+            "colours" : ["blue"],
+            "eccharts_style" : [
+                "sh_blue_f1t9000"
+            ],
+            "keywords" : ["Lake depth"],
+            "n_levels" : "17",
+            "origin" : "magics",
+            "parameter" : "Lake depth"
+        }
+    },
+    "m_blue_white_18" : {
+        "contour_shade_colour_list" : [
+            "#00008b",
+            "#181595",
+            "#27269f",
+            "#3236aa",
+            "#3c45b4",
+            "#4453bf",
+            "#4c62c9",
+            "#5471d3",
+            "#8370ef",
+            "#9081f2",
+            "#9d91f4",
+            "#a8a2f6",
+            "#b3b1f8",
+            "#bec3fa",
+            "#c8d4fb",
+            "#d2e4fd",
+            "#dbf6fe",
+            "#ffffff"
+        ],
+        "tags" : {
+            "colours" : ["blue",
+                         "white"],
+            "eccharts_style" : [
+                "sh_blue_fM68t0_i4"
+            ],
+            "keywords" : ["Lake ice temperature"],
+            "n_levels" : "18",
+            "origin" : "magics",
+            "parameter" : "Lake ice temperature"
+        }
+    },
+    "m_blue_green2_10" : {
+        "contour_shade_colour_list" : [
+            "#f7fcf0",
+            "#ceecc8",
+            "#a2dab7",
+            "#71c6c8",
+            "#4baed1",
+            "#3797c4",
+            "#2381b8",
+            "#0b6aad",
+            "#0a5597",
+            "#084081"
+        ],
+        "tags" : {
+            "colours" : ["blue",
+                         "green"],
+            "eccharts_style" : [
+                "sh_blugrn_f06t08_i002",
+                "sh_blugrn_f05t20"
+            ],
+            "keywords" : ["Lake shape","Runoff"],
+            "n_levels" : "10",
+            "origin" : "magics",
+            "parameter" : ["Lake shape factor",
+                           "Runoff"]
+        }
+    },
+    "m_blue_green_9" : {
+        "contour_shade_colour_list" : [
+            "#ceecc8",
+            "#a2dab7",
+            "#71c6c8",
+            "#4baed1",
+            "#3797c4",
+            "#2381b8",
+            "#0b6aad",
+            "#0a5597",
+            "#084081"
+        ],
+        "tags" : {
+            "colours" : ["blue",
+                         "green"],
+            "eccharts_style" : [
+                "sh_blugrn_f0t1_i01"
+            ],
+            "keywords" : ["Evaporation"],
+            "n_levels" : "9",
+            "origin" : "magics",
+            "parameter" : [
+                "Evaporation",
+                "Potential evaporation"
+            ]
+        }
+    },
+    "m_blue_green2_6" : {
+        "contour_shade_colour_list" : [
+            "#ceecc8",
+            "#85cdc2",
+            "#47a9ce",
+            "#2886ba",
+            "#0b61a4",
+            "#084081"
+        ],
+        "tags" : {
+            "colours" : ["blue",
+                         "green"],
+            "eccharts_style" : [
+                "sh_blugrn_f0t1lst"
+            ],
+            "keywords" : ["Snow"],
+            "n_levels" : "6",
+            "origin" : "magics",
+            "parameter" : [
+                "Snow evaporation"
+            ]
+        }
+    },
+    "m_blue_red_10" : {
+        "contour_shade_colour_list" : [
+            "#053061",
+            "#2166ac",
+            "#4393c3",
+            "#92c5de",
+            "#d1e5f0",
+            "#fddbc7",
+            "#f4a582",
+            "#d6604d",
+            "#b2182b",
+            "#67001f"
+        ],
+        "tags" : {
+            "colours" : ["blue",
+                         "red"],
+            "eccharts_style" : [
+                "sh_blured_f0t40_i4"
+            ],
+            "keywords" : ["temperature"],
+            "n_levels" : "10",
+            "origin" : "magics",
+            "parameter" : "Lake bottom temperature"
+        }
+    },
+    "eccharts_blue_red_25" : {
+        "contour_shade_colour_list" : [
+            "RGB(0,0,255)",
+            "RGB(0,0,234)",
+            "RGB(0,0,213)",
+            "RGB(0,0,192)",
+            "RGB(0,0,171)",
+            "RGB(0,0,150)",
+            "RGB(0,0,129)",
+            "RGB(0,0,108)",
+            "RGB(0,0,87)",
+            "RGB(0,0,66)",
+            "RGB(0,0,45)",
+            "RGB(0,0,24)",
+            "none",
+            "RGB(21,0,0)",
+            "RGB(42,0,0)",
+            "RGB(63,0,0)",
+            "RGB(84,0,0)",
+            "RGB(105,0,0)",
+            "RGB(126,0,0)",
+            "RGB(147,0,0)",
+            "RGB(168,0,0)",
+            "RGB(189,0,0)",
+            "RGB(210,0,0)",
+            "RGB(231,0,0)",
+            "RGB(255,0,0)"
+        ],
+        "tags" : {
+            "colours" : ["blue",
+                         "red",
+                         "black",
+                         "white"],
+            "eccharts_style" : [
+                "sh_comparison_rb_m30t30"
+            ],
+            "keywords" : ["comparison", "temperature"],
+            "n_levels" : "25",
+            "origin" : "eccharts",
+            "parameter" : ["2m temperature comparison"]
+        }
+    },
+    "m_yellow_green_10" : {
+        "contour_shade_colour_list" : [
+            "#fbffe2",
+            "#faffbd",
+            "#edff48",
+            "#bfff7d",
+            "#79ffa4",
+            "#59c800",
+            "#a99f89",
+            "#73a57f",
+            "#7a6e50",
+            "#427200"
+        ],
+        "tags" : {
+            "colours" : ["yellow",
+                         "green"],
+            "eccharts_style" : [
+                "sh_grn_f0t1lst"
+            ],
+            "keywords" : ["vegetation cover"],
+            "n_levels" : "10",
+            "origin" : "magics",
+            "parameter" : [
+                "High vegetation cover",
+                "Low vegetation cover"
+            ]
+        }
+    },
+    "m_green_5" : {
+        "contour_shade_colour_list" : [
+            "#eaffe0",
+            "#aaffad",
+            "#389257",
+            "#3e6b00",
+            "#3e5a33"
+        ],
+        "tags" : {
+            "colours" : ["green"],
+            "eccharts_style" : [
+                "sh_grn_f0t5lst"
+            ],
+            "keywords" : ["LAI"],
+            "n_levels" : "5",
+            "origin" : "magics",
+            "parameter" : [
+                "Leaf area index, low vegetation"
+            ]
+        }
+    },
+    "m_green_7" : {
+        "contour_shade_colour_list" : [
+            "#c8ff8e",
+            "#b1ff60",
+            "#a2e9b3",
+            "#01a626",
+            "#5b7200",
+            "#4a573f",
+            "#415a1c"
+        ],
+        "tags" : {
+            "colours" : ["green"],
+            "eccharts_style" : [
+                "sh_grn_f0t7lst"
+            ],
+            "keywords" : ["LAI"],
+            "n_levels" : "7",
+            "origin" : "magics",
+            "parameter" : [
+                "Leaf area index, high vegetation"
+            ]
+        }
+    },
+    "eccharts_rainbow_yellow_grey_10" : {
+        "contour_shade_colour_list" : [
+            "RGB(0.9484,0.9367,0.7143)",
+            "yellow",
+            "RGB(1,0.8008,0.003922)",
+            "orange",
+            "red",
+            "rust",
+            "violet",
+            "navy",
+            "RGB(0.4078,0.4078,0.4078)",
+            "grey"
+        ],
+        "tags" : {
+            "colours" : ["yellow",
+                         "orange",
+                         "red",
+                         "rust",
+                         "navy",
+                         "grey"],
+            "eccharts_style" : [
+                "sh_light_prob_1"
+            ],
+            "keywords" : ["Lightning",
+                          "rainbow"],
+            "n_levels" : "10",
+            "origin" : "eccharts",
+            "parameter" : ["Lightning flash density probability"]
+        }
+    },
+    "eccharts_red_6" : {
+        "contour_shade_colour_list" : [
+            "RGB(0.9465,0.7536,0.7398)",
+            "RGB(0.9663,0.4948,0.4611)",
+            "RGB(0.9793,0.3152,0.2677)",
+            "RGB(1.0000,0.0703,0.0039)",
+            "RGB(0.7720,0.0578,0.0202)",
+            "RGB(0.5463,0.0597,0.0341)"
+        ],
+        "tags" : {
+            "colours" : ["red"],
+            "eccharts_style" : [
+                "sh_light_prob_2"
+            ],
+            "keywords" : ["Lightning"],
+            "n_levels" : "6",
+            "origin" : "eccharts",
+            "parameter" : ["Lightning flash density probability"]
+        }
+    },
+    "eccharts_grey_5" : {
+        "contour_shade_colour_list" : [
+            "RGB(0.7922,0.7922,0.8078)",
+            "RGB(0.6601,0.6601,0.6654)",
+            "RGB(0.5,0.5,0.5039)",
+            "RGB(0.3216,0.3216,0.3216)",
+            "RGB(0.3216,0.3216,0.3216)"
+        ],
+        "tags" : {
+            "colours" : ["grey"],
+            "eccharts_style" : [
+                "sh_light_prob_3"
+            ],
+            "keywords" : ["Lightning"],
+            "n_levels" : "5",
+            "origin" : "eccharts",
+            "parameter" : ["Lightning flash density probability"]
+        }
+    },
+    "eccharts_orange_5" : {
+        "contour_shade_colour_list" : [
+            "RGB(0.7922,0.7922,0.8078)",
+            "RGB(0.9922,0.9922,0.003906)",
+            "RGB(0.9961,0.5549,0.01564)",
+            "RGB(0.9961,0.007828,0.007828)",
+            "RGB(0.9922,0.003906,0.8604)"
+        ],
+        "tags" : {
+            "colours" : ["grey",
+                         "yellow",
+                         "orange",
+                         "red",
+                         "magenta"],
+            "eccharts_style" : [
+                "sh_light_prob_4"
+            ],
+            "keywords" : ["Lightning"],
+            "n_levels" : "5",
+            "origin" : "eccharts",
+            "parameter" : ["Lightning flash density probability"]
+        }
+    },
+    "m_magenta_13" : {
+        "contour_shade_colour_list" : [
+            "#d9badc",
+            "#d0a5d2",
+            "#c690c9",
+            "#c07cc3",
+            "#bd68c0",
+            "#bd54c0",
+            "#ca44cf",
+            "#d629de",
+            "#e21beb",
+            "#ee0ef7",
+            "#f631ff",
+            "#f961ff",
+            "#fa82ff"
+        ],
+        "tags" : {
+            "colours" : ["magenta",
+                         "pink"],
+            "eccharts_style" : [
+                "sh_magenta_f01t50"
+            ],
+            "keywords" : [
+                "ensamble spread"
+            ],
+            "n_levels" : "13",
+            "origin" : "magics",
+            "parameter" : []
+        }
+    },
+    "m_magenta_10" : {
+        "contour_shade_colour_list" : [
+            "#d9badc",
+            "#cc9ecf",
+            "#c182c4",
+            "#bd68c0",
+            "#c14fc5",
+            "#d234d9",
+            "#e21beb",
+            "#f206fc",
+            "#f854ff",
+            "#fa82ff"
+        ],
+        "tags" : {
+            "colours" : ["magenta",
+                         "pink"],
+            "eccharts_style" : [
+                "sh_magenta_f05t10",
+                "sh_magenta_f1t20"
+            ],
+            "keywords" : [
+                "ensamble spread"
+            ],
+            "n_levels" : "10",
+            "origin" : "magics",
+            "parameter" : ["Ensemble spread for 500 hPa temperature"]
+        }
+    },
+    "m_orange_40" : {
+        "contour_shade_colour_list" : [
+            "#ffffe5",
+            "#fff9c9",
+            "#fff4b5",
+            "#ffeda6",
+            "#fee699",
+            "#fee08a",
+            "#ffd779",
+            "#ffd16b",
+            "#ffca5b",
+            "#fec24e",
+            "#febb47",
+            "#ffb340",
+            "#ffaa38",
+            "#fea232",
+            "#fe9929",
+            "#fb9326",
+            "#f88b22",
+            "#f5841f",
+            "#f27d1b",
+            "#ef7617",
+            "#eb6f13",
+            "#e66910",
+            "#e1630d",
+            "#db5d0a",
+            "#d65807",
+            "#d15104",
+            "#cb4b02",
+            "#c34803",
+            "#bc4403",
+            "#b44103",
+            "#ad3d04",
+            "#a53904",
+            "#9e3604",
+            "#963304",
+            "#8d3105",
+            "#862f06",
+            "#7d2c06",
+            "#762a06",
+            "#6e2806",
+            "#662506"
+        ],
+        "tags" : {
+            "colours" : ["yellow",
+                         "orange"],
+            "eccharts_style" : [
+                "sh_orange_f0t12m_i300k",
+                "sh_orange_f0t4m_i100k"
+            ],
+            "keywords" : [],
+            "n_levels" : "40",
+            "origin" : "magics",
+            "parameter" : "Clear-sky direct solar radiation at surface"
+        }
+    },
+    "m_orange_25" : {
+        "contour_shade_colour_list" : [
+            "#ffffe5",
+            "#fff6bb",
+            "#ffeba1",
+            "#fee08b",
+            "#ffd473",
+            "#ffc959",
+            "#febc48",
+            "#ffb03d",
+            "#fea232",
+            "#fc9627",
+            "#f78a21",
+            "#f37e1c",
+            "#ed7315",
+            "#e66810",
+            "#dc5f0b",
+            "#d45505",
+            "#cb4b02",
+            "#bf4503",
+            "#b34003",
+            "#a63a04",
+            "#9a3404",
+            "#8c3105",
+            "#802d06",
+            "#722906",
+            "#662506"
+        ],
+        "tags" : {
+            "colours" : ["yellow",
+                         "orange"],
+            "eccharts_style" : [
+                "sh_orange_f0t250k_i10k"
+            ],
+            "keywords" : [],
+            "n_levels" : "25",
+            "origin" : "magics",
+            "parameter" : []
+        }
+    },
+    "m_purple_9" : {
+        "contour_shade_colour_list" : [
+            "#f7fcfd",
+            "#e0ecf4",
+            "#bfd3e6",
+            "#9ebcda",
+            "#8c96c6",
+            "#8c6bb1",
+            "#88419d",
+            "#810f7c",
+            "#4d004b"
+        ],
+        "tags" : {
+            "colours" : ["purple"],
+            "eccharts_style" : [
+                "sh_purple_f01t1"
+            ],
+            "keywords" : [],
+            "n_levels" : "9",
+            "origin" : "magics",
+            "parameter" : "Lake cover"
+        }
+    },
+    "m_purple2_11" : {
+        "contour_shade_colour_list" : [
+            "#dde9f3",
+            "#c4d7e8",
+            "#a9c3de",
+            "#98b0d3",
+            "#8e99c8",
+            "#8d81bc",
+            "#8c68b0",
+            "#8a4ea3",
+            "#863190",
+            "#7d0e79",
+            "#650562"
+        ],
+        "tags" : {
+            "colours" : ["purple"],
+            "eccharts_style" : [
+                "sh_purple_f0t50"
+            ],
+            "keywords" : [],
+            "n_levels" : "11",
+            "origin" : "magics",
+            "parameter" : "Lake mix-layer depth"
+        }
+    },
+    "m_yellow_red_16" : {
+        "contour_shade_colour_list" : [
+            "#ffffe0",
+            "#ffeec1",
+            "#ffdea7",
+            "#ffcb91",
+            "#ffb880",
+            "#ffa474",
+            "#fe906a",
+            "#f87d64",
+            "#f06a5e",
+            "#e75758",
+            "#db4551",
+            "#cf3447",
+            "#c0223b",
+            "#b0122c",
+            "#9e051b",
+            "#8b0000"
+        ],
+        "tags" : {
+            "colours" : ["yellow",
+                         "orange",
+                         "red"],
+            "eccharts_style" : [
+                "sh_red_f0t01_16"
+            ],
+            "keywords" : ["Charnock"],
+            "n_levels" : "16",
+            "origin" : "magics",
+            "parameter" : "Charnock"
+        }
+    },
+    "m_yellow_red_10" : {
+        "contour_shade_colour_list" : [
+            "#ffffe0",
+            "#ffe3af",
+            "#ffc58a",
+            "#ffa474",
+            "#fa8266",
+            "#ed645c",
+            "#db4551",
+            "#c52940",
+            "#aa0e27",
+            "#8b0000"
+        ],
+        "tags" : {
+            "colours" : ["yellow",
+                         "orange",
+                         "red"],
+            "eccharts_style" : [
+                "sh_red_f0t1_10"
+            ],
+            "keywords" : [],
+            "n_levels" : "10",
+            "origin" : "magics",
+            "parameter" : "Anisotropy of sub-gridscale orography"
+        }
+    },
+    "m_yellow_red_12" : {
+        "contour_shade_colour_list" : [
+            "#ffffcc",
+            "#ffe997",
+            "#fecf6c",
+            "#feb550",
+            "#fe9841",
+            "#fd7935",
+            "#fc542b",
+            "#ed3422",
+            "#d71320",
+            "#bc0026",
+            "#9e0026",
+            "#800026"
+        ],
+        "tags" : {
+            "colours" : ["yellow",
+                         "orange",
+                         "red"],
+            "eccharts_style" : [
+                "sh_red_f0t36_i4"
+            ],
+            "keywords" : [],
+            "n_levels" : "12",
+            "origin" : "magics",
+            "parameter" : [
+                "Lake mix-layer temperature",
+                "Lake total layer temperature"
+            ]
+        }
+    },
+    "m_purple_51" : {
+        "contour_shade_colour_list" : [
+            "#f7f7f7",
+            "#f4f4f6",
+            "#f1f1f5",
+            "#eeeef3",
+            "#ebebf2",
+            "#e8e8f1",
+            "#e4e6f0",
+            "#e1e3ef",
+            "#dee0ed",
+            "#dbddec",
+            "#d8daeb",
+            "#d4d5e8",
+            "#d0d0e6",
+            "#cdcce3",
+            "#c9c7e1",
+            "#c5c2de",
+            "#c1bedc",
+            "#bdb9d9",
+            "#bab4d7",
+            "#b6b0d4",
+            "#b2abd2",
+            "#ada5ce",
+            "#a8a0ca",
+            "#a39ac7",
+            "#9e94c3",
+            "#998fbf",
+            "#9489bb",
+            "#8f83b7",
+            "#8a7eb4",
+            "#8578b0",
+            "#8073ac",
+            "#7c6ca8",
+            "#7864a5",
+            "#745da1",
+            "#6f559e",
+            "#6b4e9a",
+            "#674696",
+            "#623f93",
+            "#5e378f",
+            "#592f8c",
+            "#542788",
+            "#502382",
+            "#4c1f7b",
+            "#481b75",
+            "#44176f",
+            "#401369",
+            "#3c0f63",
+            "#380b5d",
+            "#350657",
+            "#310351",
+            "#2d004b"
+        ],
+        "tags" : {
+            "colours" : ["purple"],
+            "eccharts_style" : [
+                "sh_shortwave_radiation"
+            ],
+            "keywords" : [],
+            "n_levels" : "51",
+            "origin" : "magics",
+            "parameter" : "Surface Downwelling Shortwave Radiation"
+        }
+    },
+    "m_yellow_blue_38" : {
+        "contour_shade_colour_list" : [
+            "RGB(1,1,0.851)",
+            "RGB(0.9569,0.9804,0.749)",
+            "RGB(0.9059,0.9647,0.6941)",
+            "RGB(0.8549,0.9412,0.702)",
+            "RGB(0.8,0.9216,0.7059)",
+            "RGB(0.749,0.898,0.7098)",
+            "RGB(0.6902,0.8784,0.7176)",
+            "RGB(0.6314,0.8549,0.7216)",
+            "RGB(0.5804,0.8314,0.7255)",
+            "RGB(0.5176,0.8118,0.7333)",
+            "RGB(0.4588,0.7843,0.7412)",
+            "RGB(0.3961,0.7569,0.7529)",
+            "RGB(0.3294,0.7333,0.7608)",
+            "RGB(0.2549,0.7137,0.7686)",
+            "RGB(0.2314,0.6784,0.7647)",
+            "RGB(0.2078,0.651,0.7608)",
+            "RGB(0.1843,0.6235,0.7608)",
+            "RGB(0.149,0.5922,0.7569)",
+            "RGB(0.1137,0.5647,0.7529)",
+            "RGB(0.1255,0.5373,0.7412)",
+            "RGB(0.1333,0.5098,0.7255)",
+            "RGB(0.1373,0.4824,0.7137)",
+            "RGB(0.1373,0.451,0.698)",
+            "RGB(0.1373,0.4196,0.6824)",
+            "RGB(0.1373,0.3961,0.6706)",
+            "RGB(0.1333,0.3686,0.6588)",
+            "RGB(0.1412,0.3333,0.6431)",
+            "RGB(0.1412,0.3333,0.6431)",
+            "RGB(0.1451,0.3059,0.6314)",
+            "RGB(0.149,0.2745,0.6157)",
+            "RGB(0.149,0.251,0.6)",
+            "RGB(0.1451,0.2157,0.5882)",
+            "RGB(0.1333,0.1922,0.5529)",
+            "RGB(0.1137,0.1804,0.5137)",
+            "RGB(0.09412,0.1608,0.4706)",
+            "RGB(0.07451,0.1451,0.4275)",
+            "RGB(0.05098,0.1294,0.3882)",
+            "RGB(0.03137,0.1137,0.3451)"
+        ],
+        "tags" : {
+            "colours" : ["yellow",
+                         "blue"],
+            "eccharts_style" : [
+                "sh_ylwblu_f0t2m_37"
+            ],
+            "keywords" : [],
+            "n_levels" : "38",
+            "origin" : "magics",
+            "parameter" : "Boundary layer dissipation"
+        }
+    },
+    "m_yellow_blue2_20" : {
+        "contour_shade_colour_list" : [
+            "#ffffd9",
+            "#e9f6b1",
+            "#d0ecb3",
+            "#b5e1b6",
+            "#9ad6b9",
+            "#7cccbc",
+            "#5fc0c0",
+            "#3fb4c4",
+            "#35a6c2",
+            "#2697c1",
+            "#2089bd",
+            "#237bb6",
+            "#236eaf",
+            "#2260a9",
+            "#2551a2",
+            "#26439b",
+            "#253594",
+            "#1c2c80",
+            "#12246b",
+            "#081d58"
+        ],
+        "tags" : {
+            "colours" : [],
+            "eccharts_style" : [
+                "sh_ylwblu_f0t6000_i300"
+            ],
+            "keywords" : [],
+            "n_levels" : "20",
+            "origin" : "magics",
+            "parameter" : "Boundary layer height"
+        }
+    },
+    "eccharts_rainbow_white_brown_16" : {
+        "contour_shade_colour_list" : [
+            "RGB(255,255,255)",
+            "RGB(255,255,153)",
+            "RGB(255,255,0)",
+            "RGB(128,255,0)",
+            "RGB(0,255,255)",
+            "RGB(32,154,253)",
+            "RGB(0,0,255)",
+            "RGB(123,17,179)",
+            "RGB(171,4,202)",
+            "RGB(255,1,199)",
+            "RGB(255,151,255)",
+            "RGB(204,158,134)",
+            "RGB(192,137,107)",
+            "RGB(182,117,82)",
+            "RGB(151,95,64)",
+            "RGB(124,78,52)"
+        ],
+        "tags" : {
+            "colours" : ["white",
+                         "green",
+                         "blue",
+                         "purple",
+                         "brown"],
+            "eccharts_style" : [
+                "spechum_extra1"
+            ],
+            "keywords" : ["rainbow","specific humidity"],
+            "n_levels" : "16",
+            "origin" : "eccharts",
+            "parameter" : ["Near-Surface Specific Humidity",
+                           "1000 hPa specific humidity",
+                           "925 hPa specific humidity"]
         }
     }
 }

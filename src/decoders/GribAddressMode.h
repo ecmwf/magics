@@ -121,7 +121,7 @@ public:
 
     virtual grib_handle* operator()(grib_context* context, FILE* file, int position) const {
         long int offset = (long int)position;
-        cout << "OFFSET-->" << offset << endl;
+        // cout << "OFFSET-->" << offset << endl;
         fseek(file, (long int)position, SEEK_SET);
         grib_handle* handle = 0;
 

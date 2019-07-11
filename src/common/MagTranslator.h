@@ -71,26 +71,6 @@ public:
     }
 };
 
-#ifdef HAVE_CAIRO
-template <>
-class MagTranslator<cairo_t*, cairo_t*> {
-public:
-    cairo_t* operator()(cairo_t* value) { return value; }
-
-    cairo_t* magics(const string& param) {
-        cairo_t* from;
-        ParameterManager::get(param, from);
-        return (*this)(from);
-    }
-};
-
-template <>
-class MagTranslator<string, cairo_t*> {
-public:
-    cairo_t* operator()(const string&) { return 0; }
-    string magics(const string&) { return "unknown"; }
-};
-#endif
 
 template <>
 class MagTranslator<doublearray, doublearray> {

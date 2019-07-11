@@ -37,7 +37,7 @@ public:
     virtual void interpretAsVectors(const GribDecoder&, Matrix&, Matrix&) const {
         throw NotYetImplemented("Satellite representation", " Vectors");
     }
-    virtual void interpretAsMatrix(const GribDecoder&, Matrix**, Matrix** matrix2 = NULL) const;
+    virtual void interpretAsMatrix(GribDecoder&) const;
 
 
 protected:

@@ -408,6 +408,10 @@ void PolarStereographicProjection::gridLongitudes(const GridPlotting& grid) cons
         double min = ::min(latitudes.front(), latitudes.back());
         double max = std::max(latitudes.front(), latitudes.back());
 
+        if (min < -89)
+            min = -89;
+        if (max > 89)
+            max = 89;
 
         for (double lat = min; lat <= max; lat += 1) {
             poly.push_back((*this)(UserPoint(*lon, lat)));

@@ -71,7 +71,7 @@ MAGICS_NO_EXPORT bool BaseDriver::checkDistanceMoreThan(const PaperPoint* pp, do
 
 MAGICS_NO_EXPORT void BaseDriver::loadSymbols() const {
     if (sym_.empty()) {
-        string filename   = getEnvVariable("MAGPLUS_HOME") + MAGPLUS_PATH_TO_SHARE_ + "symbols.svg";
+        string filename   = buildConfigPath("symbols.svg");
         XML_Parser parser = XML_ParserCreate(NULL);
         XML_SetUserData(parser, &sym_);
         XML_SetElementHandler(parser, startElement, endElement);
@@ -173,7 +173,7 @@ MAGICS_NO_EXPORT void BaseDriver::renderTextItem(const TextItem& textItem, const
     const MFloat posX = owner[0].x() + (textItem.x() * scaling * pX);
     const MFloat posY = owner[0].y() + (setSymbolY(textItem.y()) * scaling * pY);
     text.push_back(PaperPoint(posX, posY));
-    text.setJustification(MCENTRE);
+    text.setJustification(textItem.justification());
     //
     //! \todo We need to decide if we need to align text in WMO symbols
     //

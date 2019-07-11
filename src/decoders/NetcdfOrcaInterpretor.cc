@@ -334,7 +334,6 @@ NetcdfInterpretor* NetcdfOrcaInterpretor::guess(const NetcdfInterpretor& from) {
     string latlon("lat lon");
     coordinates = coordinates.substr(0, latlon.size());
     if (coordinates == "lat lon") {
-        cout << "NetCOMPLEX NETCDF DETECTED" << endl;
         NetcdfOrcaInterpretor* interpretor = new NetcdfOrcaInterpretor();
 
         interpretor->NetcdfInterpretor::copy(from);

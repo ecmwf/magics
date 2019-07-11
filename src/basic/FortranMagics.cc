@@ -534,6 +534,41 @@ const char* FortranMagics::metagrib() {
     return temp.c_str();
 }
 
+#include "MagConfig.h"
+
+const char* FortranMagics::detect(const string& data, const string& dim) {
+    DimensionGuess json(data);
+
+    NetcdfGuess guesser;
+    static string empty, result;
+    auto checks = guesser.guess_.find(dim);
+    if (checks == guesser.guess_.end())
+        return empty.c_str();
+    result = "";
+
+    for (auto check = checks->second.begin(); check != checks->second.end(); ++check) {
+        vector<string> values = check->second;
+        for (auto d = json.data_.begin(); d != json.data_.end(); ++d) {
+            auto def   = d->second;
+            auto found = def.find(check->first);
+            if (found != def.end()) {
+                string value = found->second;
+                for (vector<string>::iterator v = values.begin(); v != values.end(); ++v) {
+                    // string val = value.substr(0, v->size());
+                    if (v->compare(value) == 0) {
+                        result = d->first;
+                        cout << " " << result << endl;
+                        return result.c_str();
+                    }
+                }
+            }
+        }
+    }
+
+    return empty.c_str();
+}
+
+
 const char* FortranMagics::metanetcdf() {
 #ifdef HAVE_NETCDF
     NetcdfDecoder netcdf;
@@ -1054,6 +1089,23 @@ void FortranMagics::pgraph() {
 
 
     action_->visdef(graph);
+}
+
+#include "TileDecoder.h"
+void FortranMagics::ptile() {
+    actions();
+
+    action_            = new VisualAction();
+    TileDecoder* input = new TileDecoder();
+    if (input->ok()) {
+        action_->data(input);
+    }
+    else {
+        delete input;
+        GribDecoder* grib = new GribDecoder();
+        action_->data(grib);
+    }
+    top()->push_back(action_);
 }
 
 

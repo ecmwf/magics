@@ -251,7 +251,7 @@ int find(const T& value, vector<T>& values) {
     return -1;
 }
 
-#include "DateTime.h"
+#include "MagDateTime.h"
 #include "Tokenizer.h"
 string NetVariable::interpretTime(const string& val) {
     string time = parent_->detect(name_, "time");
@@ -378,6 +378,8 @@ template <>
 map<nc_type, Accessor<double>*>* Accessor<double>::accessors_ = 0;
 template <>
 map<nc_type, Accessor<float>*>* Accessor<float>::accessors_ = 0;
+template <>
+map<nc_type, Accessor<int>*>* Accessor<int>::accessors_ = 0;
 }  // namespace magics
 
 

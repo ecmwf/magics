@@ -124,6 +124,9 @@ public:
     }
 };
 
+#define MAGPLUS_PATH_TO_SHARE_ "/share/magics/"
+#define MAGPLUS_LINK_ "http://software.ecmwf.int/magics"
+#define MAGPLUS_PATH_TO_PS_FONTS_ POSTSCRIPT_FONT_PATH;
 
 typedef magvector<string> stringarray;
 typedef magvector<int> intarray;
@@ -248,6 +251,7 @@ inline MAGICS_NO_EXPORT bool same(const double a, const double b, double epsilon
     return zero(a - b, epsilon);
 }
 
+
 //! Global function to read env variables
 inline MAGICS_NO_EXPORT string getEnvVariable(const string var) {
     const char* va = var.c_str();
@@ -300,6 +304,15 @@ inline MAGICS_NO_EXPORT std::string replacePathWithHome(const string& path) {
     return home_path + filename;
 }
 
+inline MAGICS_NO_EXPORT string buildConfigPath(const string& config, const string& aux = "") {
+    ostringstream out;
+    out << getEnvVariable("MAGPLUS_HOME") << "/share/magics/" << config;
+    if (aux.size())
+        out << "/" << aux;
+    return out.str();
+}
+
+
 /*!
   \brief returns the biggest integer inside a double
 */
@@ -321,8 +334,6 @@ inline string tostring(const T& in) {
     return out.str();
 }
 
-#define MAGPLUS_PATH_TO_SHARE_ "/share/magics/"
-#define MAGPLUS_LINK_ "http://software.ecmwf.int/magics"
-#define MAGPLUS_PATH_TO_PS_FONTS_ POSTSCRIPT_FONT_PATH;
+
 }  // namespace magics
 #endif

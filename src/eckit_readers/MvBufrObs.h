@@ -512,7 +512,7 @@ public:
 
     //! Returns the number of times level coordinator descriptor 'levelDescriptor' is found
     int numberOfLevels(long);
-    int numberOfLevels(std::string);
+    int numberOfLevels(const std::string&);
 
     //! Returns the first value related to 'levelDescriptor', i.e. value of the first level
     double firstLevel(long);
