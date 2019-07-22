@@ -12,35 +12,31 @@ branches:
 image: Visual Studio 2015
 
 environment:
-  CONDA: c:\Miniconda37-x64
-  ECMWF: c:\ecmwf
-  GIT_CLONE_DIR: $(ECMWF)\git
-  INSTALL_DIR: $(ECMWF)\install
-  MAGICS_SRC: $(GIT_CLONE_DIR)\magics
-  MAGICS_PYTHON_TESTS: $(MAGICS_SRC)\test\python
-  MAGPLUS_HOME: $(INSTALL_DIR)
-  MAGICS_PYTHON_SRC: $(GIT_CLONE_DIR)\magics_python
-  ECBUILD_SRC: $(GIT_CLONE_DIR)\ecbuild
+    CONDA: c:\Miniconda37-x64
+    ECMWF: c:\ecmwf
+    GIT_CLONE_DIR: $(ECMWF)\git
+    INSTALL_DIR: $(ECMWF)\install
+    MAGICS_SRC: $(GIT_CLONE_DIR)\magics
+    ECCODES_SRC: $(GIT_CLONE_DIR)\eccodes
+    ECBUILD_SRC: $(GIT_CLONE_DIR)\ecbuild
 
 # scripts that are called at very beginning, before repo cloning
 init:
-  # activate MSVC environment
-  - cmd: call "C:\Program Files\Microsoft SDKs\Windows\v7.1\Bin\SetEnv.cmd" /x64
-  - cmd: call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" x86_amd64
-  # activate conda environment so we use the correct version of python during the build
-  - cmd: call %CONDA%\Scripts\activate.bat
-  # make sure git clones symlinks as symlinks
-  - cmd: git config --global core.symlinks true
-  # add conda bins to path so tests can find linux utils
-  - cmd: set PATH=%CONDA%\Library\usr\bin;%CONDA%\Library\bin;%CONDA%\Scripts;%CONDA%\bin;%PATH%
-  # add magics\build\bin to path so tests can find magics.dll
-  - cmd: set PATH=%PATH%;%MAGICS_SRC%\build\bin
-  # add install_dir to path so tests can find eccodes.dll
-  - cmd: set PATH=%PATH%;%INSTALL_DIR%
-  # auto-yes for conda
-  - cmd: conda config --set always_yes yes
-  # update conda
-  - cmd: conda update -n base -c defaults conda
+    # activate MSVC environment
+    - cmd: call "C:\Program Files\Microsoft SDKs\Windows\v7.1\Bin\SetEnv.cmd" /x64
+    - cmd: call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" x86_amd64
+    # activate conda environment so we use the correct version of python during the build
+    - cmd: call %CONDA%\Scripts\activate.bat
+    # make sure git clones symlinks as symlinks
+    - cmd: git config --global core.symlinks true
+    # add conda bins to path so tests can find linux utils
+    - cmd: set PATH=%CONDA%\Library\usr\bin;%CONDA%\Library\bin;%CONDA%\Scripts;%CONDA%\bin;%PATH%
+    # add magics\build\bin to path so tests can find magics.dll
+    - cmd: set PATH=%PATH%;%MAGICS_SRC%\build\bin
+    # add install_dir to path so tests can find eccodes.dll
+    - cmd: set PATH=%PATH%;%INSTALL_DIR%
+    # auto-yes for conda
+    - cmd: conda config --set always_yes yes
 
 clone_folder: $(MAGICS_SRC)
 
@@ -48,82 +44,99 @@ clone_depth: 1
 
 # scripts that run after cloning repository
 install:
-  # install ecbuild
-  - cmd: git clone --depth 1 https://github.com/ecmwf/ecbuild.git %ECBUILD_SRC%
+    # install ecbuild
+    - cmd: git clone --depth 1 https://github.com/ecmwf/ecbuild.git %ECBUILD_SRC%
 
-  # install magics-python src
-  - cmd: git clone --depth 1 https://github.com/ecmwf/magics-python.git %MAGICS_PYTHON_SRC%
+    # install linux utils
+    - cmd: conda install -c msys2 m2-bash ^
+                                  m2-findutils ^
+                                  m2-coreutils ^
+                                  m2-grep ^
+                                  m2-sed ^
+                                  m2-gawk ^
+                                  m2-diffutils ^
+                                  m2-perl ^
+                                  m2-unzip
 
-  # install linux utils
-  - cmd: conda install -c msys2 m2-bash ^
-                                m2-findutils ^
-                                m2-coreutils ^
-                                m2-grep ^
-                                m2-sed ^
-                                m2-gawk ^
-                                m2-diffutils ^
-                                m2-perl ^
-                                m2-unzip
+    # get the latest version of cmake & jom
+    - cmd: conda install -c conda-forge cmake jom
 
-  # install conda deps
-  - cmd: conda install boost libnetcdf expat jinja2 xarray scipy cftime
-  - cmd: conda install -c conda-forge cmake jom proj4=5 pthreads-win32 libiconv eccodes pytest
+    # other conda deps
+    - cmd: conda install boost netcdf4 expat jinja2
+    - cmd: conda install -c conda-forge proj4 pthreads-win32 libiconv
 
-  # gtk+ - needed for pango
-  # includes cairo, pango, glib, and other deps
-  - cmd: cd %ECMWF%
-  - cmd: curl -O -L http://ftp.gnome.org/pub/gnome/binaries/win64/gtk+/2.22/gtk+-bundle_2.22.1-20101229_win64.zip
-  - cmd: unzip gtk+-bundle_2.22.1-20101229_win64.zip -d gtk
-  - cmd: rm gtk+-bundle_2.22.1-20101229_win64.zip
-  - cmd: set GTK=%ECMWF%\gtk
-  - cmd: set PATH=%PATH%;%GTK%\bin;%GTK%\lib
+    # gtk+ - needed for pango
+    # includes cairo, pango, glib, and other deps
+    - cmd: cd %ECMWF%
+    - cmd: curl -O -L http://ftp.gnome.org/pub/gnome/binaries/win64/gtk+/2.22/gtk+-bundle_2.22.1-20101229_win64.zip
+    - cmd: unzip gtk+-bundle_2.22.1-20101229_win64.zip -d gtk
+    - cmd: rm gtk+-bundle_2.22.1-20101229_win64.zip
+    - cmd: set GTK=%ECMWF%\gtk
+    - cmd: set PATH=%PATH%;%GTK%\bin;%GTK%\lib
+
+    # eccodes
+    # TODO: replace this with a `conda install` once the windows binaries are on conda-forge
+    - cmd: git clone --depth 1 https://github.com/ecmwf/eccodes.git %ECCODES_SRC%
+    - cmd: cd %ECCODES_SRC%
+    - cmd: mkdir build && cd build
+    - cmd: cmake -G "NMake Makefiles" ^
+                 -D CMAKE_INSTALL_PREFIX=%INSTALL_DIR% ^
+                 -D CMAKE_BUILD_TYPE=Release ^
+                 -D ENABLE_FORTRAN=0 ^
+                 -D ENABLE_PYTHON=0 ^
+                 -D IEEE_LE=1 ^
+                 -D ENABLE_MEMFS=0 ^
+                 -D ENABLE_EXTRA_TESTS=OFF ^
+                 ..
+    - cmd: nmake
+    - cmd: set PATH=%PATH%;%ECCODES_SRC%\build\bin
+    - cmd: ctest
+    - cmd: nmake install
 
 #---------------------------------#
 #       build configuration       #
 #---------------------------------#
 
 platform:
-  - x64
+    - x64
 
 before_build:
-  # add include paths
-  - cmd: set INCLUDE=%INCLUDE%;%GTK%\include
-  - cmd: set INCLUDE=%INCLUDE%;%GTK%\include\cairo
-  - cmd: set INCLUDE=%INCLUDE%;%GTK%\include\glib-2.0;%GTK%\lib\glib-2.0\include
-  # check we got all the dlls
-  # gtk
-  - cmd: where libpango-1.0-0.dll
-  - cmd: where libglib-2.0-0.dll
-  - cmd: where libcairo-2.dll
-  - cmd: where libfontconfig-1.dll
-  - cmd: where libfreetype-6.dll
-  - cmd: where libpng14-14.dll
-  - cmd: where libintl-8.dll
-  # eccodes
-  - cmd: where eccodes.dll
-  # conda
-  - cmd: where pthreadvse2.dll
-  - cmd: where netcdf.dll
-  - cmd: where vcruntime140.dll
+    # add include paths
+    - cmd: set INCLUDE=%INCLUDE%;%GTK%\include
+    - cmd: set INCLUDE=%INCLUDE%;%GTK%\include\cairo
+    - cmd: set INCLUDE=%INCLUDE%;%GTK%\include\glib-2.0;%GTK%\lib\glib-2.0\include
+    # check we got all the dlls
+    # gtk
+    - cmd: where libpango-1.0-0.dll
+    - cmd: where libglib-2.0-0.dll
+    - cmd: where libcairo-2.dll
+    - cmd: where libfontconfig-1.dll
+    - cmd: where libfreetype-6.dll
+    - cmd: where libpng14-14.dll
+    - cmd: where libintl-8.dll
+    # eccodes
+    - cmd: where eccodes.dll
+    # conda
+    - cmd: where pthreadvse2.dll
+    - cmd: where netcdf.dll
+    - cmd: where vcruntime140.dll
 
 build_script:
-  - cmd: cd %MAGICS_SRC%
-  - cmd: mkdir build && cd build
-  - cmd: cmake -G "NMake Makefiles JOM" ^
-               -D CMAKE_INSTALL_PREFIX=%INSTALL_DIR% ^
-               -D CMAKE_BUILD_TYPE=Release ^
-               -D GTK_PATH=%GTK% ^
-               -D ENABLE_FORTRAN=0
-               ..
-  - cmd: jom -j2
-  - cmd: ctest --output-on-failure
-  - cmd: jom install
+    - cmd: cd %MAGICS_SRC%
+    - cmd: mkdir build && cd build
+    - cmd: cmake -G "NMake Makefiles JOM" ^
+                 -D CMAKE_INSTALL_PREFIX=%INSTALL_DIR% ^
+                 -D CMAKE_BUILD_TYPE=Release ^
+                 -D ECCODES_PATH=%INSTALL_DIR% ^
+                 -D GTK_PATH=%GTK% ^
+                 -D ENABLE_FORTRAN=0
+                 ..
+    - cmd: jom -j2
+    - cmd: ctest
+    - cmd: jom install
 
 #---------------------------------#
 #       tests configuration       #
 #---------------------------------#
 
 test_script:
-  - cmd: cd %MAGICS_PYTHON_SRC%
-  - cmd: set PYTHONPATH=%PYTHONPATH%;%MAGICS_PYTHON_SRC%
-  - cmd: pytest
