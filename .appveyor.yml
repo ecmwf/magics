@@ -52,7 +52,7 @@ install:
   - cmd: git clone --depth 1 https://github.com/ecmwf/ecbuild.git %ECBUILD_SRC%
 
   # install magics-python src
-  - cmd: git clone -b feature/xarray --depth 1 https://github.com/ecmwf/magics-python.git %MAGICS_PYTHON_SRC%
+  - cmd: git clone -b develop --depth 1 https://github.com/ecmwf/magics-python.git %MAGICS_PYTHON_SRC%
 
   # install linux utils
   - cmd: conda install -c msys2 m2-bash ^
