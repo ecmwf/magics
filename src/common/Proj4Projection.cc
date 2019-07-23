@@ -241,7 +241,7 @@ void Proj4Projection::init() {
     to_         = pj_init_plus(projection_->definition());
 
     if (!to_) {
-        MagLog::error() << pj_strerrno(pj_errno) << endl;
+        //MagLog::error() << pj_strerrno(pj_errno) << endl;
         MagLog::error() << " proj4 error " << projection_->definition() << endl;
         ASSERT(false);
     }
