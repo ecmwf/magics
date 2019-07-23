@@ -25,10 +25,7 @@ matrix:
 
     - os: osx
       osx_image: xcode10.1
-      addons:
-        homebrew:
-          packages:
-            - pango
+
       env:
         MINICONDA_FILE="Miniconda3-latest-MacOSX-x86_64.sh"
 
@@ -70,7 +67,7 @@ install:
   - git clone -b develop --depth 1 https://github.com/ecmwf/magics-python.git ${MAGICS_PYTHON_SRC}
   # install conda deps
   - conda install boost libnetcdf expat jinja2 xarray scipy cftime
-  - conda install -c conda-forge proj4=5 eccodes pytest
+  - conda install -c conda-forge proj4=5 eccodes pytest cairo pango
   # search for conda-installed libraries
   - |
     if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
