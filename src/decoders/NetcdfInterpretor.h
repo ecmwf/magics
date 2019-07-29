@@ -102,9 +102,6 @@ protected:
     string refDateX_;
     string refDateY_;
 
-    string time_variable_;
-    string level_variable_;
-    string number_variable_;
 
 private:
     //! Copy constructor - No copy allowed
