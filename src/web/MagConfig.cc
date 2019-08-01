@@ -189,6 +189,7 @@ void StyleLibrary::init() {
     vector<string> paths;
     tokenizer(library, paths);
 
+
     for (auto token = paths.begin(); token != paths.end(); ++token) {
         string path = magCompare(*token, "ecmwf") ? ecmwf : *token;
 
@@ -203,8 +204,12 @@ void StyleLibrary::init() {
         while (entry) {
             if (entry->d_name[0] != '.') {
                 current_ = entry->d_name;
-                MagConfigHandler(path + "/" + string(entry->d_name), *this);
+                if (current_ == "styles.json")
+                    allStyles_.init(path, "styles.json");
+                else
+                    MagConfigHandler(path + "/" + current_, *this);
             }
+
 
             entry = readdir(dir);
         }
@@ -220,15 +225,17 @@ void StyleLibrary::init() {
             do {
                 if (fileinfo.name[0] != '.') {
                     current_ = fileinfo.name;
-                    MagConfigHandler(path + "/" + string(fileinfo.name), *this);
+                    if (current_ == "styles.json")
+                        allStyles_.init(path + "/" + current_, "styles.json");
+                    else
+                        MagConfigHandler(path + "/" + current_, *this);
                 }
-            } while (!_findnext(handle, &fileinfo));
-            _findclose(handle);
-        }
+                while (!_findnext(handle, &fileinfo))
+                    ;
+                _findclose(handle);
+            }
 #endif
     }
-
-    allStyles_.init(ecmwf, "styles.json");
 }
 
 void PaletteLibrary::init() {
