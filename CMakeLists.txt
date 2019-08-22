@@ -239,6 +239,22 @@ set( MAGICS_LIBRARIES MagPlus )
 
 foreach( _tpl ${MAGICS_TPLS} )
     string( TOUPPER ${_tpl} TPL )
+
+    if( REPLACE_TPL_ABSOLUTE_PATHS )
+        # replace TPL absolute paths with their library names
+        # this helps make Magics relocatable
+        set( _TMP "" )
+
+        foreach( _lib ${${TPL}_LIBRARIES} )
+            get_filename_component( _lib_name ${_lib} NAME_WE )
+            string( REGEX REPLACE "^lib" "" _name ${_lib_name} )
+            list( APPEND _TMP "-l${_name}" )
+        endforeach()
+
+        set( ${TPL}_LIBRARIES ${_TMP} )
+        set( _TMP "" )
+    endif()
+
     list( APPEND MAGICS_EXTRA_DEFINITIONS ${${TPL}_DEFINITIONS}  )
     list( APPEND MAGICS_EXTRA_INCLUDE_DIRS ${${TPL}_INCLUDE_DIRS} )
     string(REGEX REPLACE "[ ]+$" "" ${TPL}_LIBRARIES "${${TPL}_LIBRARIES}") # strips leading whitespaces
