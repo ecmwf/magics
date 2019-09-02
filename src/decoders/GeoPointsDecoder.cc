@@ -78,13 +78,16 @@ void GeoPointsDecoder::yxdtlv2(const string& line, const Transformation& transfo
     std::istringstream in(line);
     double lat, lon, date, time, level, value;
     in >> lat >> lon >> level >> date >> time >> value;
-    if (useProj4_) {
-        int error = pj_transform(proj4_, latlon_, 1, 1, &lon, &lat, NULL);
-        lon *= RAD_TO_DEG;
-        lat *= RAD_TO_DEG;
+
+    if (lat != missing_ && lon != missing_) {
+        if (useProj4_) {
+            int error = pj_transform(proj4_, latlon_, 1, 1, &lon, &lat, NULL);
+            lon *= RAD_TO_DEG;
+            lat *= RAD_TO_DEG;
+        }
+        UserPoint geo(lon, lat, value, value == missing_);
+        add(transformation, geo);
     }
-    UserPoint geo(lon, lat, value, value == missing_);
-    add(transformation, geo);
 }
 
 void GeoPointsDecoder::xyv2(const string& line, const Transformation& transformation) {
@@ -92,65 +95,75 @@ void GeoPointsDecoder::xyv2(const string& line, const Transformation& transforma
     double lat, lon, value;
     in >> lon >> lat >> value;
 
-    if (useProj4_) {
-        int error = pj_transform(proj4_, latlon_, 1, 1, &lon, &lat, NULL);
-        lon *= RAD_TO_DEG;
-        lat *= RAD_TO_DEG;
+    if (lat != missing_ && lon != missing_) {
+        if (useProj4_) {
+            int error = pj_transform(proj4_, latlon_, 1, 1, &lon, &lat, NULL);
+            lon *= RAD_TO_DEG;
+            lat *= RAD_TO_DEG;
+        }
+        UserPoint geo(lon, lat, value, value == missing_);
+        add(transformation, geo);
     }
-
-    UserPoint geo(lon, lat, value, value == missing_);
-    add(transformation, geo);
 }
+
 void GeoPointsDecoder::lluv(const string& line, const Transformation& transformation) {
     std::istringstream in(line);
     double lat, lon, height, date, time, u, v;
     in >> lat >> lon >> height >> date >> time >> u >> v;
-    if (useProj4_) {
-        int error = pj_transform(proj4_, latlon_, 1, 1, &lon, &lat, NULL);
-        lon *= RAD_TO_DEG;
-        lat *= RAD_TO_DEG;
+
+    if (lat != missing_ && lon != missing_) {
+        if (useProj4_) {
+            int error = pj_transform(proj4_, latlon_, 1, 1, &lon, &lat, NULL);
+            lon *= RAD_TO_DEG;
+            lat *= RAD_TO_DEG;
+        }
+        CustomisedPoint geo(lon, lat, "lluv");
+        geo["x_component"] = u;
+        geo["y_component"] = v;
+        if (u == missing_ || v == missing_)
+            geo.missing(true);
+        add(transformation, geo);
     }
-    CustomisedPoint geo(lon, lat, "lluv");
-    geo["x_component"] = u;
-    geo["y_component"] = v;
-    if (u == missing_ || v == missing_)
-        geo.missing(true);
-    add(transformation, geo);
 }
+
 void GeoPointsDecoder::polar(const string& line, const Transformation& transformation) {
     std::istringstream in(line);
     double lat, lon, height, date, time, speed, direction;
     in >> lat >> lon >> height >> date >> time >> speed >> direction;
 
-    if (useProj4_) {
-        int error = pj_transform(proj4_, latlon_, 1, 1, &lon, &lat, NULL);
-        lon *= RAD_TO_DEG;
-        lat *= RAD_TO_DEG;
+    if (lat != missing_ && lon != missing_) {
+        if (useProj4_) {
+            int error = pj_transform(proj4_, latlon_, 1, 1, &lon, &lat, NULL);
+            lon *= RAD_TO_DEG;
+            lat *= RAD_TO_DEG;
+        }
+        CustomisedPoint geo(lon, lat, "polar");
+
+        if (speed == missing_ || direction == missing_)
+            geo.missing(true);
+
+        else {
+            double angle       = (90 - (direction)) * (PI / 180.);
+            geo["x_component"] = speed * -cos(angle);
+            geo["y_component"] = speed * -sin(angle);
+        }
+        add(transformation, geo);
     }
-    CustomisedPoint geo(lon, lat, "polar");
-
-    if (speed == missing_ || direction == missing_)
-        geo.missing(true);
-
-    else {
-        double angle       = (90 - (direction)) * (PI / 180.);
-        geo["x_component"] = speed * -cos(angle);
-        geo["y_component"] = speed * -sin(angle);
-    }
-
-
-    add(transformation, geo);
 }
+
 void GeoPointsDecoder::yxdtlv1(const string& line) {
     std::istringstream in(line);
     double lat, lon, date, time, level, value;
     in >> lat >> lon >> level >> date >> time >> value;
-    if (useProj4_) {
-        int error = pj_transform(proj4_, latlon_, 1, 1, &lon, &lat, NULL);
-        lon *= RAD_TO_DEG;
-        lat *= RAD_TO_DEG;
+
+    if (lat != missing_ && lon != missing_) {
+        if (useProj4_) {
+            int error = pj_transform(proj4_, latlon_, 1, 1, &lon, &lat, NULL);
+            lon *= RAD_TO_DEG;
+            lat *= RAD_TO_DEG;
+        }
+        push_back(new UserPoint(lon, lat, value, value == missing_));
     }
-    push_back(new UserPoint(lon, lat, value, value == missing_));
 }
 
 void GeoPointsDecoder::xyv1(const string& line) {
@@ -158,13 +171,14 @@ void GeoPointsDecoder::xyv1(const string& line) {
     double lat, lon, value;
     in >> lon >> lat >> value;
 
-    if (useProj4_) {
-        int error = pj_transform(proj4_, latlon_, 1, 1, &lon, &lat, NULL);
-        lon *= RAD_TO_DEG;
-        lat *= RAD_TO_DEG;
+    if (lat != missing_ && lon != missing_) {
+        if (useProj4_) {
+            int error = pj_transform(proj4_, latlon_, 1, 1, &lon, &lat, NULL);
+            lon *= RAD_TO_DEG;
+            lat *= RAD_TO_DEG;
+        }
+        push_back(new UserPoint(lat, lon, value, value == missing_));
     }
-
-    push_back(new UserPoint(lat, lon, value, value == missing_));
 }
 
 
@@ -191,16 +205,19 @@ void GeoPointsDecoder::ncols(const string& line, const Transformation& transform
     }
 
     in >> value;  // try to read the first non-coordinate value (it may be present or missing)
-    if (!in)
-        value = 0;  // no value? we probably want to at least plot the location, so set to something valid
 
-    if (useProj4_) {
-        int error = pj_transform(proj4_, latlon_, 1, 1, &lon, &lat, NULL);
-        lon *= RAD_TO_DEG;
-        lat *= RAD_TO_DEG;
+    if (lat != missing_ && lon != missing_) {
+        if (!in)
+            value = 0;  // no value? we probably want to at least plot the location, so set to something valid
+
+        if (useProj4_) {
+            int error = pj_transform(proj4_, latlon_, 1, 1, &lon, &lat, NULL);
+            lon *= RAD_TO_DEG;
+            lat *= RAD_TO_DEG;
+        }
+        UserPoint geo(lon, lat, value, value == missing_);
+        add(transformation, geo);
     }
-    UserPoint geo(lon, lat, value, value == missing_);
-    add(transformation, geo);
 }
 
 
