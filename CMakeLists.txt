@@ -239,7 +239,9 @@ foreach( _tpl ${MAGICS_TPLS} )
         # this helps make Magics relocatable
         set( _TMP "" )
 
-        foreach( _lib ${${TPL}_LIBRARIES} )
+        message(STATUS "TPL libs: ${${TPL}_LIBRARIES}")
+        string(REPLACE " " ";" LIB_LIST "${${TPL}_LIBRARIES}") # lists of libs can have spaces; replace with semicolon
+        foreach( _lib ${LIB_LIST} )
             message(STATUS "inspecting ${_lib}")
             get_filename_component( _lib_name ${_lib} NAME_WE )
             message(STATUS "  _lib_name: ${_lib_name}")
