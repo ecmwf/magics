@@ -239,6 +239,29 @@ set( MAGICS_LIBRARIES MagPlus )
 
 foreach( _tpl ${MAGICS_TPLS} )
     string( TOUPPER ${_tpl} TPL )
+
+    if( REPLACE_TPL_ABSOLUTE_PATHS )
+        # replace TPL absolute paths with their library names
+        # this helps make Magics relocatable
+        set( _TMP "" )
+
+        foreach( _lib ${${TPL}_LIBRARIES} )
+            get_filename_component( _lib_name ${_lib} NAME_WE )
+            string( REGEX REPLACE "^lib" "" _name ${_lib_name} )
+            if( NOT ${_name} STREQUAL ${_lib_name} )
+              list( APPEND _TMP "-l${_name}" )
+            else()
+              list( APPEND _TMP "${_lib}" )
+          endif()
+        endforeach()
+        list(REMOVE_DUPLICATES  _TMP)
+        list(REMOVE_ITEM _TMP -ldebug)
+        list(REMOVE_ITEM _TMP -loptimized)
+
+        set( ${TPL}_LIBRARIES ${_TMP} )
+        set( _TMP "" )
+    endif()
+
     list( APPEND MAGICS_EXTRA_DEFINITIONS ${${TPL}_DEFINITIONS}  )
     list( APPEND MAGICS_EXTRA_INCLUDE_DIRS ${${TPL}_INCLUDE_DIRS} )
     string(REGEX REPLACE "[ ]+$" "" ${TPL}_LIBRARIES "${${TPL}_LIBRARIES}") # strips leading whitespaces
@@ -246,7 +269,6 @@ foreach( _tpl ${MAGICS_TPLS} )
     list( APPEND MAGICS_EXTRA_LIBRARIES ${${TPL}_LIBRARIES} )
     ecbuild_info("${TPL}_LIBRARIES [${${TPL}_LIBRARIES}]") # add this to confirm that indeed it was cleaned up
 endforeach()
-
 
 if( MAGICS_QT )
   list( APPEND MAGICS_EXTRA_INCLUDE_DIRS  ${Qt5Widgets_INCLUDE_DIR} )
