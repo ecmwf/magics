@@ -63,13 +63,45 @@ void Boundaries::operator()(const map<string, string>& setting, BasicGraphicsObj
     boundaries.decode(task.transformation(), "featurecla", treaty);
     const Transformation& transformation = task.transformation();
 
+    static map<string, vector<string> > predefined_list;
+
+
+    if (predefined_list.empty()) {
+        predefined_list["south_america"] = {"ARG", "BRA", "BOL", "HL",  "COL", "GUY",
+                                            "PRY", "PER", "SUR", "URY", "VEN", "ECU"};
+        predefined_list["oceania"]       = {"AUS", "CCK", "CXR", "HMD", "NFK", "NCL", "NZL", "PNG", "SLB", "VUT"};
+        predefined_list["asia"]          = {"AFG", "BGD", "CHN", "TLS", "IND", "IDN", "IRN", "IRQ", "ISR", "JPN",
+                                   "KAZ", "PRK", "KOR", "KGZ", "LAO", "MYS", "MNG", "MMR", "NPL", "PAK",
+                                   "SAU", "SYR", "TJK", "TUR", "TKM", "UZB", "YEM", "ZMB", "ZWE"};
+        predefined_list["north_america"] = {"CAN", "CUB", "MEX", "USA"};
+        predefined_list["africa"]        = {"DZA", "AGO", "CAF", "TCD", "COG", "COD", "BWA", "CMR", "EGY", "ERI", "ETH",
+                                     "GAB", "GMB", "CIV", "GHA", "GIN", "KEN", "LBY", "MLI", "MRT", "MDG", "MAR",
+                                     "MOZ", "NAM", "NER", "NGA", "RWA", "SEN", "SOM", "ZAF", "SDN", "TZA", "TGO"};
+        predefined_list["europe"]        = {"AUT", "BLR", "RUS", "CZE", "FRO", "FIN", "ALA", "FRA", "DEU", "GRC",
+                                     "SJM", "ITA", "POL", "ROU", "SRB", "ESP", "UKR", "GBR", "GIB"};
+    }
+
+
+    vector<string> admin;
+
+    for (vector<string>::const_iterator a = administrative_list_.begin(); a != administrative_list_.end(); ++a) {
+        auto expand = predefined_list.find(lowerCase(*a));
+        if (expand != predefined_list.end()) {
+            for (auto e = expand->second.begin(); e != expand->second.end(); ++e)
+                admin.push_back(*e);
+        }
+        else
+            admin.push_back(*a);
+    }
+
+
     if (admistrative_) {
         ShapeDecoder admistrative;
         admistrative.needHoles(true);
         file = buildConfigPath(administrative_boundaries);
 
         admistrative.setPath(file);
-        admistrative.decode(task.transformation(), "adm0_a3", administrative_list_);
+        admistrative.decode(task.transformation(), "adm0_a3", admin);
         const Transformation& transformation = task.transformation();
 
         for (ShapeDecoder::const_iterator boundary = admistrative.begin(); boundary != admistrative.end(); ++boundary) {
