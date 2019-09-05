@@ -50,9 +50,9 @@ public:
 
     map<string, string> properties_;
     GeoObject* parent_;
-    virtual void create(PointsList& out) {
+    virtual void create(PointsList& out, const string& ref) {
         for (vector<GeoObject*>::iterator object = objects_.begin(); object != objects_.end(); ++object) {
-            (*object)->create(out);
+            (*object)->create(out, getProperty("reference_longitude", ref));
         }
     }
     virtual void boundingBox(double& min, double& max) {
@@ -139,8 +139,8 @@ public:
         max = -min;
         GeoObject::boundingBox(min, max);
     }
-    void create(PointsList& out) {
-        GeoObject::create(out);
+    void create(PointsList& out, const string& ref) {
+        GeoObject::create(out, ref);
         out.push_back(new UserPoint(0, 0, 0, true));
     }
     void shift(PointsList& out) {
@@ -201,7 +201,18 @@ public:
     double lat_;
     double lon_;
 
-    void create(PointsList& out) {
+    void create(PointsList& out, const string& ref) {
+        double reference = tonumber(ref);
+        double min       = reference - 180;
+        double max       = reference + 180;
+        if (reference != -9999) {
+            while (lon_ < min)
+                lon_ += 360;
+            while (lon_ > max)
+                lon_ -= 360;
+        }
+
+
         UserPoint* point =
             new UserPoint(lon_, lat_, tonumber(getProperty("value", "0")), false, false, getProperty("name"));
 
@@ -393,7 +404,7 @@ void GeoJSon::decode() {
         abort();
     }
     if (parent_) {
-        parent_->create(*this);
+        parent_->create(*this, "-9999");
         parent_->shift(*this);
     }
 }
