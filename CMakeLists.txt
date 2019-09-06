@@ -245,7 +245,8 @@ foreach( _tpl ${MAGICS_TPLS} )
         # this helps make Magics relocatable
         set( _TMP "" )
 
-        foreach( _lib ${${TPL}_LIBRARIES} )
+        string(REPLACE " " ";" LIB_LIST "${${TPL}_LIBRARIES}") # lists of libs can have spaces; replace with semicolon
+        foreach( _lib ${LIB_LIST} )
             get_filename_component( _lib_name ${_lib} NAME_WE )
             string( REGEX REPLACE "^lib" "" _name ${_lib_name} )
             if( NOT ${_name} STREQUAL ${_lib_name} )
@@ -255,8 +256,8 @@ foreach( _tpl ${MAGICS_TPLS} )
           endif()
         endforeach()
         list(REMOVE_DUPLICATES  _TMP)
-        list(REMOVE_ITEM _TMP -ldebug)
-        list(REMOVE_ITEM _TMP -loptimized)
+        list(REMOVE_ITEM _TMP debug)
+        list(REMOVE_ITEM _TMP optimized)
 
         set( ${TPL}_LIBRARIES ${_TMP} )
         set( _TMP "" )
