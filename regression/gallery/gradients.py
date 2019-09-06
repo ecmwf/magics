@@ -50,6 +50,7 @@ list = mcont(contour_highlight='off',
             contour_gradients_step_list = [20,20],
             contour_gradients_technique = "hsl",
             contour_shade_method           = 'area_fill',
+            contour_shade_technique           = 'cell_shading',
             legend                         = 'on',)
 
 legend = mlegend(legend = "on",
@@ -60,7 +61,7 @@ legend = mlegend(legend = "on",
          legend_title = "on",
          legend_entry_border = 'off',
          legend_title_text= "Temperature at 850 hPa",
-         legend_values_list= [-50., -25, -10, 25, 50],
+         legend_values_list= [-90, -50., -25, -10, 25, 50, 60],
          legend_text_composition = 'user_text_only',
          legend_text_font_size = 0.5)
 

@@ -143,6 +143,8 @@ public:
         maxText_ = text;
         label_   = text;
     }
+    double min() { return from_; }
+    double max() { return to_; }
 
 protected:
     bool last_;
@@ -399,7 +401,6 @@ public:
             AutoVector<LegendEntry>::back()->last();
     }
 
-   
 
     const Transformation& transformation() { return LayoutVisitor::transformation(); }
     void transformation(Transformation* transformation) { return LayoutVisitor::transformation(transformation); }
@@ -407,9 +408,9 @@ public:
 
     // Legend entries information, will be added to the metadata information ...
     static void addLegendInfo(const string&, const string&);
-    
-    static vector<map<string, string>> legendEntriesInfo_; 
-    static map<string, string> legendInfo_; 
+
+    static vector<map<string, string>> legendEntriesInfo_;
+    static map<string, string> legendInfo_;
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
