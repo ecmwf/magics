@@ -177,7 +177,9 @@ endif()
 find_package( Boost 1.53.0 REQUIRED)
 find_package( Proj4 REQUIRED )
 find_package( EXPAT REQUIRED )
-find_package( zlib REQUIRED )       # dependency of minizip - KMZ support
+if(APPLE)
+  find_package( zlib REQUIRED )       # dependency of minizip - KMZ support
+endif(APPLE)
 
 ###############################################################################
 # compiler options
