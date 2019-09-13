@@ -49,7 +49,8 @@ map<string, string> LegendVisitor::legendInfo_;
 LegendVisitor::LegendVisitor() {
     static int i = 0;
     ostringstream n;
-    BasicSceneObject::name(n.str());
+    //BasicSceneObject::name(n.str());
+    BasicSceneObject::name(string());
 
     i++;
     layout_ = new Layout();
@@ -63,6 +64,7 @@ LegendVisitor::LegendVisitor() {
     view_width_                          = 90;
     view_height_                         = 90;
     positional_                          = false;
+    font_size_                           = 0.2;
 }
 
 
