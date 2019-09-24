@@ -177,6 +177,9 @@ endif()
 find_package( Boost 1.53.0 REQUIRED)
 find_package( Proj4 REQUIRED )
 find_package( EXPAT REQUIRED )
+if(APPLE)
+  find_package( zlib REQUIRED )       # dependency of minizip - KMZ support
+endif(APPLE)
 
 ###############################################################################
 # compiler options
@@ -203,7 +206,7 @@ endif()
 ###############################################################################
 # contents
 
-set( MAGICS_TPLS eccodes spot EXPAT NetCDF Proj4 )
+set( MAGICS_TPLS eccodes spot EXPAT NetCDF Proj4 zlib )
 
 set( MAGICS_INCLUDE_DIRS
      ${CMAKE_CURRENT_BINARY_DIR}/src

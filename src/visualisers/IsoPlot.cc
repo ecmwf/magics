@@ -1199,13 +1199,13 @@ void IsoPlot::isoline(MatrixHandler& data, BasicGraphicsObjectContainer& parent)
 
     vector<double>::const_iterator level = levelSelection_->begin();
 
-    while (*level < min && level != end) {
+    while (level != end && *level < min) {
         last = level;
         ++level;
     }
     if (last != end)
         levels_.push_back(*last);
-    while (*level < max && level != end) {
+    while (level != end && *level < max) {
         levels_.push_back(*level);
         ++level;
     }

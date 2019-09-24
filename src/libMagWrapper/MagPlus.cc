@@ -1675,7 +1675,7 @@ bool MagPlus::legend(magics::MagRequest& in) {
     replace_default(in, "LEGEND_TEXT_COLOUR", "navy");
     replace_default(in, "LEGEND_DISPLAY_TYPE", "continuous");
     replace_default(in, "LEGEND_TEXT_FONT_SIZE", "0.2");
-    LegendVisitor* legend;
+    LegendVisitor* legend = nullptr;
     if (magCompare(mode, "positional")) {
         legend = new FortranPositionalLegendVisitor();
     }
