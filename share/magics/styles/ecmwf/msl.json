@@ -26,6 +26,7 @@
         "long_name": [
           "Mean sea level pressure",
           "Sea Level Pressure"
+          "Sea level pressure"
         ],
         "standard_name": "air_pressure_at_sea_level"
       }
