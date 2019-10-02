@@ -59,11 +59,13 @@ public:
     void customisedPoints(const Transformation&, const std::set<string>& n, CustomisedPointsList& out, bool) {
         customisedPoints(n, out);
     }
+    void setProjection(const string& projection) { projection_ = projection; }
 
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
     virtual void print(ostream&) const;
     bool holes_;  // Do we need to deal with the holes during decoding!.
+    string projection_;
 
     //! Method to ensure all inner rings lie within outer ring of polygon
     // void sanityCheckPolygon(polygon_2d& io_rPolygon, bool& io_rbModified);
