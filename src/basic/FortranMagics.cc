@@ -1097,10 +1097,12 @@ void FortranMagics::ptile() {
 
     action_            = new VisualAction();
     TileDecoder* input = new TileDecoder();
+    cout << "FortranMagics::ptile()" <<endl;
     if (input->ok()) {
         action_->data(input);
     }
     else {
+        MagLog::error() << "Can not create tile" << endl; 
         delete input;
         GribDecoder* grib = new GribDecoder();
         action_->data(grib);

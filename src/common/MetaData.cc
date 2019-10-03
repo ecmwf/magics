@@ -129,6 +129,30 @@ void MetaDataVisitor::collectMetaData() {
         }
     }
 
+    if (!path_.empty()) {
+        try {
+            ofstream out(path_.c_str());
+
+            out << "{";
+
+            string s = "";
+
+            for (map<string, string>::const_iterator web = web_.begin(); web != web_.end(); ++web) {
+                if (web->first == "world_file")
+                    continue;
+                out << s;
+                out << "\"" << web->first << "\":" << web->second;
+                s = ",";
+            }
+
+            out << "}";
+            out.close();
+        }
+        catch (...) {
+        }
+    }
+
+
     if (!world_file_.empty()) {
         try {
             ofstream out(world_file_.c_str());

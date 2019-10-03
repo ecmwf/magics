@@ -214,7 +214,7 @@ bool CellShading::prepare(LevelSelection& levels, const ColourTechnique& techniq
 
 #include "PolyShadingTechnique.h"
 
-void CellShading::visit(LegendVisitor& node, const ColourTechnique&) {
+void CellShading::visit(LegendVisitor& legend, const ColourTechnique&) {
     // MagLog::dev() << "Create legend information"  << "\n";
     // LegendEntryBuilder helper(legend, colours_);
 
@@ -248,7 +248,7 @@ void CellShading::visit(LegendVisitor& node, const ColourTechnique&) {
             first = false;
             entry->first();
         }
-        for (vector<double>::iterator val = node.values_list_.begin(); val != node.values_list_.end(); ++val) {
+        for (vector<double>::iterator val = legend.values_list_.begin(); val != legend.values_list_.end(); ++val) {
             if (min <= *val && *val < max) {
                 string text = tostring(*val);
                 entry->userText(text, "user");
@@ -257,17 +257,25 @@ void CellShading::visit(LegendVisitor& node, const ColourTechnique&) {
         }
 
         if (entry->isLast()) {
-            if (node.values_list_.size() && same(node.values_list_.back(), max)) {
+            if (legend.values_list_.size() && same(legend.values_list_.back(), max)) {
                 string text = tostring(max);
                 entry->userText(text, "user");
                 // Try to detect the last entry
             }
         }
-
-
-        node.add(entry);
+        legend.add(entry);
     }
-    node.last();
+
+    legend.last();
+
+    // Trying to detect the last label
+    auto& last = legend.back();
+    for (auto& val : legend.values_list_) {
+        if (same(last->max(), val)) {
+            string text = tostring(val);
+            last->userText(text, "user");
+        }
+    }
 }
 
 

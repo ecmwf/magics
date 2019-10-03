@@ -49,12 +49,13 @@ void PolyShadingMethod::operator()(magics::Polyline& poly) const {
 void PolyShadingMethod::visit(LegendVisitor& legend, const ColourTechnique& colour) {
     MagLog::dev() << "Create legend information"
                   << "\n";
-    LegendEntryBuilder helper(legend, colour);
-    std::adjacent_find(colour.begin(), colour.end(), LegendEntryBuilder(legend, this, colour));
+    LegendEntryBuilder helper(legend, this, colour);
+    std::adjacent_find(colour.begin(), colour.end(), helper);
     if (colour.size() == 1) {
         helper(*colour.begin(), *colour.begin());
     }
     legend.last();  // Flag the last entry as being the last! To get a nice labelling in countinuous mode!!!
+    helper.setLabels();
 }
 
 int PolyShadingMethod::index(double value) {

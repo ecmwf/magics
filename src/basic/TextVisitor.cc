@@ -61,9 +61,7 @@ TextVisitor::TextVisitor() : positional_(true) {
 }
 
 
-TextVisitor::~TextVisitor() {
-    delete layout_;
-}
+TextVisitor::~TextVisitor() {}
 
 
 void TextVisitor::addToTags(const string& line, const string& entry) {

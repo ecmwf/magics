@@ -252,3 +252,16 @@ endif()
 install( FILES magics.h  DESTINATION ${INSTALL_INCLUDE_DIR})
 install( FILES common/magics_export.h  DESTINATION ${INSTALL_INCLUDE_DIR})
 install( FILES common/magics_windef.h  DESTINATION ${INSTALL_INCLUDE_DIR})
+
+## Add install include dirs to install interface
+foreach( target     MagPlus
+                    MagPlusStatic
+                    MagPlusSingle
+                    MagPlusSingleStatic
+                    MagPlusDouble
+                    MagPlusDoubleStatic
+                    MagWrapper )
+    if( TARGET ${target} AND DEFINED ecbuild_VERSION AND NOT ${ecbuild_VERSION} VERSION_LESS 3.1 )
+        target_include_directories( ${target} INTERFACE $<INSTALL_INTERFACE:${INSTALL_INCLUDE_DIR}> )
+    endif()
+endforeach()

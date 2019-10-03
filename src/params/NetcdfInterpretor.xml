@@ -22,8 +22,19 @@ does it submit to any jurisdiction.
                     <metview default="" class="">       </metview>
                     <documentation> Extract only of a subset of variables [ex: level:100:500]   </documentation>
             </parameter>
+            <parameter member="time_variable" to="string" default="time" from="string" name="netcdf_time_variable">
+                    <documentation> Name of the time variable   </documentation>
+            </parameter>
+            <parameter member="level_variable" to="string" default="level" from="string" name="netcdf_level_variable">
+                    <documentation> Name of the level variable  </documentation>
+            </parameter>
+            
+            <parameter member="number_variable" to="string" default="number" from="string" name="netcdf_number_variable">
+                    <documentation> Name of the number variable  </documentation>
+            </parameter>
+             
             <parameter member="time_dimension" to="string" default="" from="string" name="netcdf_time_dimension_setting">
-                    <documentation> Extract only the specified times : date specified in Human readable format YYY-MM-DD HH:MM:00   </documentation>
+                    <documentation> Extract only the specified times : date specified in Human readable format YYYY-MM-DD HH:MM:00   </documentation>
             </parameter>
             <parameter member="level_dimension" to="string" default="" from="string" name="netcdf_level_dimension_setting">
                     <documentation> Extract only the specified level   </documentation>

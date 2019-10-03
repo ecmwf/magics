@@ -13,11 +13,14 @@ import numpy as np
 from Magics import macro as magics
 
 ref = "xarray7"
-
-ds = xr.open_dataset('C3S_OZONE-L3-LP_CONC_MZM-GOMOS_ENVISAT_CCI-200711-fv0001.nc')
+ds = xr.open_dataset('2dlatlon.nc')
+time = cftime.DatetimeNoLeap(2081, 2, 15, 0, 0, 0, 0, 5, 46)
 
 png = magics.output(output_name_first_page_number = "off", output_name = ref)
-
+data = magics.mxarray(
+        xarray_dataset = ds,
+        xarray_variable_name = "sic",
+        xarray_dimension_settings = {"bnds": 1.0, "time": time})
 contour = magics.mcont(contour_automatic_setting = "ecmwf")
 
-magics.plot(png, magics.mxarray(ds = ds, var = "pressure"), contour, magics.mcoast())
+magics.plot(png, data, contour, magics.mcoast())

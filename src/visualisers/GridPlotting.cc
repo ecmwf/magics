@@ -74,6 +74,8 @@ const vector<double>& NoGridPlotting::longitudes(const Transformation& transform
     transformation.boundingBox(minx_, miny_, maxx_, maxy_);
     minx_      = -190;
     maxx_      = +370;
+    miny_      = std::max(miny_, -85.);
+    maxy_      = std::min(maxy_, 85.);
     double min = minx_ - lonIncrement_;
     double max = maxx_ + lonIncrement_;
 

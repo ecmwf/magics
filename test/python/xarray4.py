@@ -12,11 +12,10 @@ import numpy as np
 from Magics import macro as magics
 
 ref = "xarray4"
-
 ds = xr.open_dataset('z_500.nc')
 
 png = magics.output(output_name_first_page_number = "off", output_name = ref)
-
+data = magics.mxarray(xarray_dataset = ds, xarray_variable_name = "z")
 contour = magics.mcont(contour_automatic_setting = "ecmwf")
 
-magics.plot(png, magics.mxarray(ds = ds, var = "z"), contour, magics.mcoast())
+magics.plot(png, data, contour, magics.mcoast())

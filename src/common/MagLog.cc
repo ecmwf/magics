@@ -319,8 +319,6 @@ ostream& MagLog::userInfo() {
 
 
 void MagLog::broadcast() {
-    // disable broadcast
-
     bool more = true;
     for (vector<MagLogObserver*>::iterator observer = log_.listeners_.begin(); observer != log_.listeners_.end();
          ++observer) {

@@ -31,9 +31,7 @@ using namespace magics;
 TileDecoder::~TileDecoder() {}
 
 
-TileDecoder::TileDecoder() {
-    cout << "New Tile Decoder" << endl;
-}
+TileDecoder::TileDecoder() {}
 
 
 string TileDecoder::projection() {
@@ -90,25 +88,43 @@ bool TileDecoder::ok() {
     }
     /* create new handle from a message in a file*/
     int error;
-    codes_handle* h = codes_handle_new_from_file(0, in, PRODUCT_GRIB, &error);
-    if (h == NULL) {
+    handle_ = codes_handle_new_from_file(0, in, PRODUCT_GRIB, &error);
+    if (handle_ == NULL) {
         MagLog::error() << "ERROR: unable to create handle from file" << file_name_ << endl;
         return false;
     }
     char val[1024];
     size_t length = 1024;
-    error         = grib_get_string(h, "gridName", val, &length);
+    error         = grib_get_string(handle_, "gridName", val, &length);
     grid_         = string(val);
-    codes_handle_delete(h);
+
     string path = weights();
     file_       = ifstream(path);
-    if (file_.good()) {
+    if (!file_.good()) {
         file_.close();
-        return true;
+        return false;
     }
-    MagLog::warning() << "Can not file cooefficient file " << path << endl;
+
     file_.close();
-    return false;
+    int count;
+    error = codes_count_in_file(0, in, &count);
+
+
+    if (loop_) {
+        int error;
+        codes_handle* handle = handle_;
+
+        int count;
+        error = codes_count_in_file(0, in, &count);
+
+
+        for (int i = 0; i < count; i++) {
+            entries_.push_back(handle);
+            handle = codes_handle_new_from_file(0, in, PRODUCT_GRIB, &error);
+        }
+        entry_ = entries_.begin();
+    }
+    return true;
 }
 
 double compute(double* values, double* weights, int nb, double total) {
@@ -116,7 +132,6 @@ double compute(double* values, double* weights, int nb, double total) {
 
 
     for (int i = 0; i < nb; i++) {
-        // cout << " " << values[i] << endl;
         val += values[i] * weights[i];
     }
 
@@ -128,7 +143,8 @@ void TileDecoder::customisedPoints(const Transformation& transformation, const s
                                    CustomisedPointsList& out, bool all) {
     string path = positions();
     Timer timer("Tile", path);
-    cout << "Tiles --> " << path << endl;
+
+
     Netcdf netcdf(path, "index");
 
     map<string, string> first, last;
@@ -171,8 +187,7 @@ void TileDecoder::customisedPoints(const Transformation& transformation, const s
     // netcdf.get("bounding-box", bbox, first, last);
     netcdf.get("index", values, first, last);
 
-    // for (auto b = bbox.begin(); b != bbox.end(); ++b)
-    //  cout << "found BBOX" << *b << endl;
+
     for (auto b = values.begin(); b != values.end(); ++b) {
         double lat = *b;
         ++b;
@@ -222,7 +237,7 @@ void TileDecoder::customisedPoints(const Transformation& transformation, const s
 PointsHandler& TileDecoder::points(const Transformation& t, bool) {
     string path = positions_symbols();
     Timer timer("Tile", path);
-    cout << "Tiles --> " << path << endl;
+
     Netcdf netcdf(path, "index");
 
     map<string, string> first, last;
@@ -230,10 +245,10 @@ PointsHandler& TileDecoder::points(const Transformation& t, bool) {
     first["y"] = tostring(y_);
     last["x"]  = tostring(x_);
     last["y"]  = tostring(y_);
-    vector<double> bbox;
-    vector<double> latitudes;
-    vector<double> longitudes;
-    vector<double> values;
+    // vector<double> bbox;
+    static vector<double> latitudes;
+    static vector<double> longitudes;
+    static vector<double> values;
     vector<int> index;
 
 
@@ -257,29 +272,29 @@ PointsHandler& TileDecoder::points(const Transformation& t, bool) {
     }
 
 
-    int nbpoints = netcdf.getDimension("points");
-    // netcdf.get("bounding-box", bbox, first, last);
-    netcdf.get("index", values, first, last);
-
-    // for (auto b = bbox.begin(); b != bbox.end(); ++b)
-    //  cout << "found BBOX" << *b << endl;
-    cout << "FOUND DIM " << nbpoints << endl;
-    for (auto b = values.begin(); b != values.end(); ++b) {
-        double lat = *b;
-        ++b;
-        double lon = *b;
-        ++b;
-        double i = *b;
+    if (latitudes.size() == 0) {
+        int nbpoints = netcdf.getDimension("points");
+        // netcdf.get("bounding-box", bbox, first, last);
+        netcdf.get("index", values, first, last);
 
 
-        if (i != 0) {
-            if (lon > 180)
-                lon -= 360;
-            // transformation.fast_reproject(lon, lat);
+        for (auto b = values.begin(); b != values.end(); ++b) {
+            double lat = *b;
+            ++b;
+            double lon = *b;
+            ++b;
+            double i = *b;
 
-            latitudes.push_back(lat);
-            longitudes.push_back(lon);
-            index.push_back(i);
+
+            if (i != 0) {
+                if (lon > 180)
+                    lon -= 360;
+                // transformation.fast_reproject(lon, lat);
+
+                latitudes.push_back(lat);
+                longitudes.push_back(lon);
+                index.push_back(i);
+            }
         }
     }
 
@@ -305,7 +320,7 @@ PointsHandler& TileDecoder::points(const Transformation& t, bool) {
             lon++;
         }
     }
-    cout << "Number of points " << points_.min() << "--->" << points_.max() << endl;
+
 
     pointsHandlers_.push_back(new PointsHandler(points_));
     return *(pointsHandlers_.back());
@@ -336,7 +351,8 @@ void TileDecoder::scaling_offset(codes_handle* f, double& scaling, double& offse
                                      {"deg0l", 1.0},
                                      {"vis", 1.0},
                                      {"ceil", 1.0},
-                                     {"capes", 1.0}};
+                                     {"capes", 1.0},
+                                     {"mxcapes6", 1.0}};
     map<string, double> scalings  = {{"Pa", 0.01},
                                     {"gpm", 10.},
                                     {"kg kg**-1", 1000.0},
@@ -366,23 +382,47 @@ void TileDecoder::scaling_offset(codes_handle* f, double& scaling, double& offse
             auto off = offsets.find(units);
             if (off != offsets.end()) {
                 offset = off->second;
-                cout << "Use Offset-->" << offset << endl;
             }
             auto sc = scalings.find(units);
             if (sc != scalings.end()) {
                 scaling = sc->second;
-                cout << "Use Scaling -->" << scaling << endl;
             }
         }
     }
 }
 
+Data* TileDecoder::current() {
+    if (!loop_)
+        return this;
+    if (entry_ != entries_.end()) {
+        matrix_.clear();
+        handle_ = *entry_;
+        return this;
+    }
+    else
+        return 0;
+}
+Data* TileDecoder::next() {
+    if (!loop_)
+        return 0;
+    ++entry_;
+    if (entry_ != entries_.end()) {
+        matrix_ = Matrix();
+        handle_ = *entry_;
+        return this;
+    }
+    else
+        return 0;
+}
+
+
 void TileDecoder::decode() {
     if (matrix_.size())
         return;
 
+
     string path = weights();
-    cout << "Tiles --> " << path << endl;
+
     Timer timer("Tile", path);
 
     Netcdf netcdf(path, "index");
@@ -393,61 +433,54 @@ void TileDecoder::decode() {
     first["y"] = tostring(y_);
     last["x"]  = tostring(x_);
     last["y"]  = tostring(y_);
-    vector<double> bbox;
-    vector<double> latitudes;
-    vector<double> longitudes;
 
-    vector<double> dindex;
-    vector<double> distances;
+    static vector<double> bbox;
+    static vector<double> latitudes;
+    static vector<double> longitudes;
 
-    int size = netcdf.getDimension("lat");
+    static vector<double> dindex;
+    static vector<double> distances;
 
-    cout << "SIZE-->" << size << endl;
+    int nblat = netcdf.getDimension("lat") - 1;
+    int nblon = netcdf.getDimension("lon") - 1;
 
-    netcdf.get("bounding-box", bbox, first, last);
-    for (auto b = bbox.begin(); b != bbox.end(); ++b)
-        cout << "found BBOX" << *b << endl;
 
-    int error;
-    FILE* in = fopen(file_name_.c_str(), "r");
-    if (!in) {
-        MagLog::error() << "ERROR: unable to create handle from file" << file_name_ << endl;
-        return;
+    if (bbox.empty()) {
+        netcdf.get("bounding-box", bbox, first, last);
+
+
+        int error;
+        FILE* in = fopen(file_name_.c_str(), "r");
+        if (!in) {
+            MagLog::error() << "ERROR: unable to create handle from file" << file_name_ << endl;
+            return;
+        }
+
+        // Adding a gutter of 5 points to avoid borders in tiles
+        int miny = std::min(bbox[1], bbox[3]);
+        miny     = std::max(0, miny - 5);
+        int maxy = std::max(bbox[1], bbox[3]);
+        maxy     = std::min(nblat, maxy + 5);
+        int minx = std::min(bbox[0], bbox[2]);
+        minx     = std::max(0, minx - 5);
+        int maxx = std::max(bbox[0], bbox[2]);
+        maxx     = std::min(nblon, maxx + 5);
+
+        first["lat"] = tostring(miny);
+        first["lon"] = tostring(minx);
+        last["lat"]  = tostring(maxy);
+        last["lon"]  = tostring(maxx);
+
+        netcdf.get("lat", latitudes, first, last);
+        netcdf.get("lon", longitudes, first, last);
+        netcdf.get("index", dindex, first, last);
+        netcdf.get("distances", distances, first, last);
     }
-
-    int miny = std::min(bbox[1], bbox[3]);
-    if (miny > 0)
-        miny = miny - 1;
-    int maxy = std::max(bbox[1], bbox[3]);
-    if (maxy < size - 1)
-        maxy = maxy + 1;
-    int minx = std::min(bbox[0], bbox[2]);
-    if (minx > 0)
-        minx = minx - 1;
-    int maxx = std::max(bbox[0], bbox[2]);
-    if (maxx < size - 1)
-        maxx = maxx + 1;
-
-    first["lat"] = tostring(miny);
-    first["lon"] = tostring(minx);
-    last["lat"]  = tostring(maxy);
-    last["lon"]  = tostring(maxx);
-
-    netcdf.get("lat", latitudes, first, last);
-    netcdf.get("lon", longitudes, first, last);
-    netcdf.get("index", dindex, first, last);
-    netcdf.get("distances", distances, first, last);
-
 
     int index[4];
     double weight[4];
     double values[4];
 
-    codes_handle* f = codes_handle_new_from_file(0, in, PRODUCT_GRIB, &error);
-
-    if (f == NULL) {
-        MagLog::error() << "ERROR: nable to create handle from fil" << file_name_ << endl;
-    }
 
     double missing = -std::numeric_limits<double>::max();
 
@@ -455,7 +488,7 @@ void TileDecoder::decode() {
     double offset  = 0;
     double scaling = 1;
 
-    scaling_offset(f, scaling, offset);
+    scaling_offset(handle_, scaling, offset);
     // check the units for scaling!
 
 
@@ -464,9 +497,7 @@ void TileDecoder::decode() {
     auto d = distances.begin();
     matrix_.reserve(dindex.size() / 4);
     int c = 0;
-    // cout << "SIZE-->" << dindex.size() / 4 << "---" << distances.size() << "---" << longitudes.size() *
-    // latitudes.size()
-    //    << endl;
+
     vector<int> iindex;
 
     vector<double> dvalues;
@@ -481,7 +512,7 @@ void TileDecoder::decode() {
     }
 
 
-    codes_get_double_elements(f, "values", &iindex.front(), iindex.size(), &dvalues.front());
+    codes_get_double_elements(handle_, "values", &iindex.front(), iindex.size(), &dvalues.front());
 
 
     auto val = dvalues.begin();

@@ -44,6 +44,15 @@ does it submit to any jurisdiction.
          		<documentation> Developement in progress 		</documentation>
   	</parameter>
 
+    <!-- Polar north and south -->
+    <parameter member="true_scale_north" to="float" default="06" from="float" name="subpage_map_true_scale_north">  
+        <documentation> Developement in progress 		</documentation>
+  	</parameter>
+    
+    <parameter member="true_scale_south" to="float" default="-60" from="float" name="subpage_map_true_scale_south">  
+        <documentation> Developement in progress </documentation>
+  	</parameter>
+
     <!-- Tilted projection -->
     <parameter member="projection_height" to="float" default="42164000" from="float" name="subpage_map_projection_height">  
             <documentation>  height (in meters) above the surface   </documentation>
@@ -60,9 +69,6 @@ does it submit to any jurisdiction.
     <parameter member="projection_view_longitude" to="float" default="-60" from="float" name="subpage_map_projection_view_longitude">  
             <documentation>   longitude (in degrees) of the view position   </documentation>
     </parameter>
-
-    
-
   
   	<parameter member="sweep" to="float" default="0" from="float" name="subpage_map_geos_sweep">  
          		<documentation> the sweep angle axis of the viewing instrument		</documentation>

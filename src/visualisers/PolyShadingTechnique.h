@@ -156,18 +156,41 @@ struct LegendEntryBuilder {
             }
         }
 
-        if (entry->isLast()) {
-            if (legend_.values_list_.size() && same(legend_.values_list_.back(), max)) {
-                string text = tostring(max);
-                entry->userText(text, "user");
-                // Try to detect the last entry
-            }
-        }
+        entries_.push_back(entry);
 
         legend_.add(entry);
         return false;
     }
+
+    void setLabels() {
+        if (legend_.values_list_.empty())
+            return;
+        if (legend_.empty())
+
+            for (auto& entry : legend_) {
+                for (auto& val : legend_.values_list_) {
+                    if (entry->min() <= val && val < entry->max()) {
+                        string text = tostring(val);
+                        entry->userText(text, "user");
+                        break;
+                    }
+                }
+            }
+
+        auto& last = legend_.back();
+
+        for (auto& val : legend_.values_list_) {
+            if (same(last->max(), val)) {
+                string text = tostring(val);
+                last->userText(text, "user");
+            }
+        }
+    }
+
+
     LegendVisitor& legend_;
+    vector<LegendEntry*> entries_;
+
     const PolyShadingMethod* method_;
     const ColourTechnique& colours_;
     bool first_;

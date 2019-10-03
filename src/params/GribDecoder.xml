@@ -24,6 +24,10 @@ does it submit to any jurisdiction.
          		<documentation>Id used to identify a grib file in the title production		</documentation>
   	</parameter>
 
+<parameter member="loop" to="bool" default="off" from="string" name="grib_loop">
+         
+            <documentation> we can loop  </documentation>
+    </parameter>
 
   	<parameter member="scaling" to="bool" default="on" from="string" name="grib_automatic_scaling">
          		<release>Magics++0.3		</release>

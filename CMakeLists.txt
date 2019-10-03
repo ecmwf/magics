@@ -24,7 +24,6 @@ set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH} "
 
 include(ecbuild_system NO_POLICY_SCOPE)
 
-ecbuild_requires_macro_version( 2.9 )
 
 set (CMAKE_CXX_STANDARD 14)
 set (CMAKE_C_STANDARD 99)
@@ -100,6 +99,10 @@ ecbuild_add_option( FEATURE METVIEW
                     DEFAULT OFF
                     DESCRIPTION "enable Metview interface" )
 
+ecbuild_add_option( FEATURE EFAS
+                    DEFAULT OFF
+                    DESCRIPTION "enable Efas coastlines" )
+
 ecbuild_add_option( FEATURE METVIEW_NO_QT
                     DEFAULT OFF
                     DESCRIPTION "enable Metview interface without Qt" )
@@ -132,10 +135,13 @@ endif()
 set( qt no )
 set( metview no )
 
+
 if( HAVE_METVIEW_NO_QT )
 	set( metview yes )
 	unset(MAGICS_ONLY)
 endif()
+
+
 
 if( HAVE_METVIEW )
     set ( metview yes)
@@ -171,6 +177,9 @@ endif()
 find_package( Boost 1.53.0 REQUIRED)
 find_package( Proj4 REQUIRED )
 find_package( EXPAT REQUIRED )
+if(APPLE)
+  find_package( zlib REQUIRED )       # dependency of minizip - KMZ support
+endif(APPLE)
 
 ###############################################################################
 # compiler options
@@ -197,7 +206,7 @@ endif()
 ###############################################################################
 # contents
 
-set( MAGICS_TPLS eccodes spot EXPAT NetCDF Proj4 )
+set( MAGICS_TPLS eccodes spot EXPAT NetCDF Proj4 zlib )
 
 set( MAGICS_INCLUDE_DIRS
      ${CMAKE_CURRENT_BINARY_DIR}/src
@@ -308,6 +317,11 @@ add_subdirectory( apps )
 add_subdirectory( test )
 if( ENABLE_REGRESSION )
     add_subdirectory( regression )
+endif()
+
+if( HAVE_EFAS )
+else()
+ecbuild_add_resources( TARGET noefas DONT_PACK_DIRS share/magics/efas)
 endif()
 
 # Directories not need in the distribution tar ball!

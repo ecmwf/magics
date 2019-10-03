@@ -43,6 +43,7 @@
 #include "Transformation.h"
 #include "VisualAction.h"
 #include "XmlReader.h"
+#include "eccodes.h"
 
 using namespace magics;
 
@@ -725,6 +726,7 @@ grib_handle* GribDecoder::open(grib_handle* grib, bool sendmsg) {
     _set_fmode(_O_BINARY);
 #endif
 
+
     FILE* file = fopen(file_name_.c_str(), "r");
 
     if (!file) {
@@ -735,6 +737,27 @@ grib_handle* GribDecoder::open(grib_handle* grib, bool sendmsg) {
         throw MagicsException(error.str());
         return 0;
     }
+
+
+    if (loop_) {
+        grib_context* context = grib_context_get_default();
+        int error             = 0;
+        int count;
+        error               = codes_count_in_file(0, file, &count);
+        grib_handle* handle = codes_handle_new_from_file(0, file, PRODUCT_GRIB, &error);
+        grib_handle* first  = handle;
+        for (int i = 0; i < count; i++) {
+            entries_.push_back(new GribEntryDecoder(handle));
+            handle = codes_handle_new_from_file(0, file, PRODUCT_GRIB, &error);
+        }
+        entry_ = entries_.begin();
+        fclose(file);
+#ifdef MAGICS_ON_WINDOWS
+        _set_fmode(original_mode);
+#endif
+        return first;
+    }
+
 
     grib_handle* handle = (*address_mode_)(0, file, current_position_);
 
@@ -756,6 +779,7 @@ grib_handle* GribDecoder::open(grib_handle* grib, bool sendmsg) {
     _set_fmode(original_mode);
 #endif
 
+    entry_ = entries_.end();
     return handle;
 }
 
@@ -881,6 +905,29 @@ void GribDecoder::decodePoints() {
     }
 }
 
+Data* GribDecoder::current() {
+    if (entries_.size() == 0) {
+        entry_ = entries_.end();
+        return this;
+    }
+    if (entry_ != entries_.end())
+        return *entry_;
+    else
+        return 0;
+}
+Data* GribDecoder::next() {
+    if (entries_.size() == 0) {
+        return 0;
+    }
+    if (entry_ != entries_.end()) {
+        ++entry_;
+        if (entry_ != entries_.end())
+            return *entry_;
+        else
+            return 0;
+    }
+    return 0;
+}
 
 GribLoop::~GribLoop() {
     for (vector<GribDecoder*>::const_iterator g = gribs_.begin(); g != gribs_.end(); ++g) {

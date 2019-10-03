@@ -315,7 +315,7 @@ void WebLibrary::getScaling(MetaDataCollector& data, double& scaling, double& of
         MagLog::debug() << "Can not find style" << endl;
         return;
     }
-    MagLog::debug() << " TRYRING to scale " << unit->second << endl;
+    MagLog::debug() << " TRYING to scale " << unit->second << endl;
     for (auto x = values.begin(); x != values.end(); ++x)
         MagLog::debug() << x->first << "--->" << x->second << endl;
 

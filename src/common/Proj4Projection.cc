@@ -96,7 +96,8 @@ public:
     void polarinit(const Proj4Projection& from) {
         ostringstream def;
 
-        def << "+proj=stere +lat_0=90 +lat_ts=60 +lon_0=" << from.vertical_longitude_;
+        def << "+proj=stere +lat_0=90 +lat_ts=" << from.true_scale_north_;
+        def << " +lon_0=" << from.vertical_longitude_;
         def << " +k=0.994 +x_0=2000000 +y_0=2000000 +ellps=WGS84 +datum=WGS84 +units=m +no_defs";
         definition_ = def.str();
     }
@@ -104,7 +105,8 @@ public:
     void polarsouthinit(const Proj4Projection& from) {
         ostringstream def;
 
-        def << "+proj=stere +lat_0=-90 +lat_ts=-60 +lon_0=" << from.vertical_longitude_;
+        def << "+proj=stere +lat_0=-90 +lat_ts=" << from.true_scale_south_;
+        def << " +lon_0=" << from.vertical_longitude_;
         def << " +k=0.994 +x_0=2000000 +y_0=2000000 +ellps=WGS84 +datum=WGS84 +units=m +no_defs";
         definition_ = def.str();
     }
@@ -774,7 +776,14 @@ double Proj4Projection::getMaxPCY() const {
     return max_pcy_;
 }
 
-
+void Proj4Projection::fill(double& width, double& height) {
+    Transformation::fill(width, height);
+    setting_       = "projection";
+    min_longitude_ = min_pcx_;
+    min_latitude_  = min_pcy_;
+    max_longitude_ = max_pcx_;
+    max_latitude_  = max_pcy_;
+}
 void Proj4Projection::gridLongitudes(const GridPlotting& grid) const {
     vector<double> longitudes = grid.longitudes();
 
@@ -1173,8 +1182,8 @@ void Proj4Projection::coastSetting(map<string, string>& setting, double abswidth
     setting["boundaries"]                = resol + "/ne_" + resol + "_admin_0_boundary_lines_land";
     setting["administrative_boundaries"] = resol + "/ne_" + resol + "_admin_1_states_provinces";
 
-    MagLog::dev() << "GeoRectangularProjection::coastSetting[" << abswidth << ", " << absheight << "]->" << ratio
-                  << " resol: " << resol << endl;
+    //! \note Administraive borders hardcoded to 10m resolution (low res version do not contain all info)
+    setting["administrative_boundaries"] = "10m/ne_10m_admin_1_states_provinces";
 }
 
 void Proj4Projection::visit(MetaDataVisitor& visitor, double left, double top, double width, double height,

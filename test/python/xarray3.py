@@ -13,13 +13,14 @@ import numpy as np
 from Magics import macro as magics
 
 ref = "xarray3"
-
 ds = xr.open_dataset('tos_O1_2001-2002.nc')
-
-png = magics.output(output_name_first_page_number = "off", output_name = ref)
-
-contour = magics.mcont(contour_automatic_setting = "ecmwf")
-
 time = cftime.Datetime360Day(2001, 1, 16, 0, 0, 0, 0, 5, 16)
 
-magics.plot(png, magics.mxarray(ds = ds, var = "tos", time = time), contour, magics.mcoast())
+png = magics.output(output_name_first_page_number = "off", output_name = ref)
+data = magics.mxarray(
+        xarray_dataset = ds,
+        xarray_variable_name = "tos",
+        xarray_dimension_settings = {"time": time})
+contour = magics.mcont(contour_automatic_setting = "ecmwf")
+
+magics.plot(png, data, contour, magics.mcoast())
