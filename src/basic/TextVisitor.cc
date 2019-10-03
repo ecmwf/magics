@@ -127,7 +127,7 @@ void TextVisitor::visit(BasicSceneObject& parent) {
     vector<string>::iterator line = lines_.begin();
     map<string, vector<string> > lines;
     vector<string> lineslist;
-    ;
+
 
     while (line != lines_.end()) {
         lines.insert(make_pair(*line, vector<string>()));

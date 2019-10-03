@@ -58,17 +58,7 @@ BasicGraphicsObjectContainer::~BasicGraphicsObjectContainer() {
 }
 
 void BasicGraphicsObjectContainer::clear() {
-    // This clear method has to be reviewed ..
-    /*
-    for (vector<BasicGraphicsObject*>::iterator object = objects_.begin(); object!= objects_.end(); ++object) {
-        if (*object) {
-
-            //delete *object;
-        }
-        *object = 0;
-    }
-    */
-    // objects_.clear();
+    objects_.erase(objects_.begin(), objects_.end());
 }
 void BasicGraphicsObjectContainer::release() {
     MagLog::debug() << "CLEAR CONTAINER" << objects_.size() << endl;
