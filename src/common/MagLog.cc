@@ -157,6 +157,9 @@ MagLog::MagLog() :
         userInfo_  = false;
     }
 
+
+    // Not listening to the errors anymore
+    /*
     defaultWarning_ = new WarningLogObserver(NULL, output);
     defaultError_   = new ErrorLogObserver(NULL, output);
 
@@ -167,11 +170,12 @@ MagLog::MagLog() :
     if (!dev_)
         defaultDebug_->silent();
 
-    listeners_.push_back(defaultWarning_);
-    listeners_.push_back(defaultError_);
-    listeners_.push_back(defaultDebug_);
-    listeners_.push_back(defaultInfo_);
-
+    // listeners_.push_back(defaultWarning_);
+    //
+    // listeners_.push_back(defaultError_);
+    // listeners_.push_back(defaultDebug_);
+    // listeners_.push_back(defaultInfo_);
+    */
     header_ = true;
 }
 
