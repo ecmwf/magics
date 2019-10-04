@@ -1425,7 +1425,8 @@ void WrepJSon::cdf() {
                 maxx_ = value;
         }
     }
-    int index = clim_.index(36);
+
+    int index = clim_.index(clim_step_);
     for (map<string, vector<double>>::iterator val = clim_.values_.begin(); val != clim_.values_.end(); ++val) {
         double value = correctEpsz(val->second[index]);
         if (minx_ > value)
@@ -1456,11 +1457,14 @@ void WrepJSon::cdf() {
             key << steps << "_step";
             (*point)[key.str()] = s + 12;
             for (map<string, vector<double>>::iterator val = values.begin(); val != values.end(); ++val) {
-                if (isdigit(val->first[0]) == false)
-                    continue;
                 ostringstream key;
-                int i = 2 * tonumber(val->first);
-                key << steps << "_" << i;
+                if (isdigit(val->first[0]) == false) {
+                    key << steps << "_" << val->first;
+                }
+                else {
+                    int i = 2 * tonumber(val->first);
+                    key << steps << "_" << i;
+                }
                 (*point)[key.str()] = correctEpsz(val->second[index]);
             }
             steps++;
@@ -1468,7 +1472,7 @@ void WrepJSon::cdf() {
     }
 
 
-    index = clim_.index(36);
+    index = clim_.index(clim_step_);
     for (map<string, vector<double>>::iterator val = clim_.values_.begin(); val != clim_.values_.end(); ++val) {
         ostringstream key;
         key << "clim_" << val->first;
@@ -1525,8 +1529,9 @@ void WrepJSon::clim(const json_spirit::Value& value) {
     scaling_factor_ = param_scaling_factor_;
     offset_factor_  = param_offset_factor_;
 
-
+    methods_[clim_param_] = &WrepJSon::parameter;
     dig(value);
+    methods_[param_] = &WrepJSon::parameter;
 
     // clim_.print();
 }

@@ -475,6 +475,7 @@ void XmlMagics::grib(const XmlNode& node) {
         TileDecoder* tile = new TileDecoder();
         tile->set(node);
         if (tile->ok()) {
+            // string tile = node.getAttribute("tile");
             top()->data(tile);
             return;
         }

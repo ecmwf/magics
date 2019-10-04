@@ -21,8 +21,8 @@
 
 
 #include "EpsGraph.h"
-#include "MagDateTime.h"
 #include "LegendVisitor.h"
+#include "MagDateTime.h"
 #include "PointsHandler.h"
 #include "Symbol.h"
 #include "Text.h"
@@ -39,7 +39,7 @@ string writeDate(DateTime& date, const string& format) {
     ostringstream visitor;
     visitor.imbue(loc);
 
-    const std::time_put<char>& facet = std::use_facet<std::time_put<char> >(loc);
+    const std::time_put<char>& facet = std::use_facet<std::time_put<char>>(loc);
 
     tm convert = date;
     facet.put(visitor, visitor, ' ', &convert, format.c_str(), format.c_str() + format.length());
@@ -1718,9 +1718,37 @@ void EpsWave::operator()(Data& data, BasicGraphicsObjectContainer& visitor) {
 }
 
 
-CdfGraph::CdfGraph() {}
+CdfGraph::CdfGraph() {
+    if (setters_.empty()) {
+        setters_["medium"]   = &CdfGraph::setMedium;
+        setters_["extended"] = &CdfGraph::setExtended;
+    }
+}
+
 
 CdfGraph::~CdfGraph() {}
+
+void CdfGraph::setMedium(const string& base) {
+    keys_.clear();
+    for (int i = 0; i < 100; i++) {
+        ostringstream key;
+        key << base << "_" << i;
+
+        keys_.push_back(make_pair(key.str(), i));
+    }
+}
+void CdfGraph::setExtended(const string& base) {
+    keys_.clear();
+    static vector<pair<string, double>> values = {
+        {"min", 0}, {"ten", 10}, {"twenty_five", 25}, {"fifty", 50}, {"seventy_five", 75}, {"ninety", 90}, {"max", 99}};
+    for (auto& val : values) {
+        ostringstream key;
+        key << base << "_" << val.first;
+        keys_.push_back(make_pair(key.str(), val.second));
+    }
+}
+
+
 void CdfGraph::operator()(Data& data, BasicGraphicsObjectContainer& visitor) {
     CustomisedPointsList points;
     std::set<string> request;
@@ -1743,6 +1771,11 @@ void CdfGraph::operator()(Data& data, BasicGraphicsObjectContainer& visitor) {
 
     // First set some defaults!
 
+    auto setter = setters_.find(type_);
+
+    if (setter == setters_.end()) {
+        setter = setters_.find("medium");
+    }
 
     magics::Polyline* efi = new magics::Polyline();
     efi->setColour(*clim_colour_);
@@ -1750,14 +1783,12 @@ void CdfGraph::operator()(Data& data, BasicGraphicsObjectContainer& visitor) {
     efi->setThickness(clim_thickness_);
     vector<double> clim;
     for (const auto& point : points) {
-        vector<double> steps;
-        for (int i = 0; i <= 100; i++) {
-            ostringstream key;
-            key << "clim_" << i;
-            map<string, double>::const_iterator step = point->find(key.str());
+        (this->*setter->second)("clim");
+        for (auto key = keys_.begin(); key != keys_.end(); ++key) {
+            map<string, double>::const_iterator step = point->find(key->first);
             if (step != point->end()) {
-                MagLog::dev() << key.str() << ":" << step->second << "-->" << i << endl;
-                efi->push_back(PaperPoint(step->second, i));
+                MagLog::dev() << key->first << ":" << step->second << "-->" << key->second << endl;
+                efi->push_back(PaperPoint(step->second, key->second));
                 clim.push_back(step->second);
             }
         }
@@ -1784,27 +1815,6 @@ void CdfGraph::operator()(Data& data, BasicGraphicsObjectContainer& visitor) {
     box->push_back(PaperPoint(transformation.getMaxX(), 43));
 
 
-    /*
-        Text* mint = new Text();
-        mint->setJustification(MLEFT);
-        mint->push_back(PaperPoint(transformation.getMaxX()-(w*.95), 46));
-
-        Text* maxt = new Text();
-        maxt->push_back(PaperPoint(transformation.getMaxX()-(w*0.95), 52));
-        maxt->setJustification(MLEFT);
-
-        if ( !clim.empty() ) {
-            vector<double>::const_iterator min = std::min_element(clim.begin(), clim.end());
-            vector<double>::const_iterator max = std::max_element(clim.begin(), clim.end());
-            maxt->addText("Max: " +  tostring(maground(*max)) , Colour("navy"), 0.3);
-            mint->addText("Min : " +  tostring(maground(*min)) , Colour("navy"), 0.3);
-        }
-        else {
-            maxt->addText("Max: ?" , Colour("navy"), 0.3);
-            mint->addText( "Min : ?", Colour("navy"), 0.3);
-        }
-      */
-
     vector<string>::iterator style  = style_.begin();
     vector<int>::iterator thickness = thickness_.begin();
 
@@ -1820,17 +1830,18 @@ void CdfGraph::operator()(Data& data, BasicGraphicsObjectContainer& visitor) {
         efi->setThickness(*thickness);
         ++thickness;
         ++style;
+        ostringstream helper;
+        helper << step << "_";
+        (this->*setter->second)(tostring(step));
         for (const auto& point : points) {
-            vector<double> steps;
-            for (int i = 0; i <= 100; i++) {
-                ostringstream key;
-                key << step << "_" << i;
-                map<string, double>::const_iterator step = point->find(key.str());
+            for (auto key = keys_.begin(); key != keys_.end(); ++key) {
+                map<string, double>::const_iterator step = point->find(key->first);
                 if (step != point->end()) {
-                    MagLog::dev() << key.str() << ":" << step->second << "-->" << i << endl;
-                    efi->push_back(PaperPoint(step->second, i));
+                    MagLog::dev() << key->first << ":" << step->second << "-->" << key->second << endl;
+                    efi->push_back(PaperPoint(step->second, key->second));
                 }
             }
+
             ostringstream key;
             key << step << "_step";
             map<string, double>::const_iterator info = point->find(key.str());
@@ -2469,7 +2480,7 @@ void EpsPlume::timeserie(Data& data, BasicGraphicsObjectContainer& visitor) {
     median->setColour(*median_line_colour_);
     median->setThickness(median_line_thickness_);
     median->setLineStyle(median_line_style_);
-    map<double, vector<PaperPoint> > shading;
+    map<double, vector<PaperPoint>> shading;
     if (shading_) {
         for (vector<double>::iterator level = shading_levels_.begin(); level != shading_levels_.end(); ++level)
             shading.insert(make_pair(*level, vector<PaperPoint>()));

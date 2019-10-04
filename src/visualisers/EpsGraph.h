@@ -329,12 +329,19 @@ public:
     virtual void operator()(Data&, BasicGraphicsObjectContainer&);
     virtual void visit(LegendVisitor&);
 
+
 protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
     virtual void print(ostream&) const { /*EfiGraphAttributes::print(out);*/
     }
     vector<string> legend_;
     vector<string> usedColours_;
+    vector<pair<string, double>> keys_;
+    typedef void (CdfGraph::*Setter)(const string&);
+    std::map<string, Setter> setters_;
+
+    void setMedium(const string&);
+    void setExtended(const string&);
 
 private:
     //! Copy constructor - No copy allowed

@@ -137,13 +137,12 @@ void Polyline::newHole(const Polyline& poly) {
 struct ReprojectHelper {
     ReprojectHelper(const Transformation& transformation) : transformation_(transformation) {}
     const Transformation& transformation_;
-    bool operator()(PaperPoint& point) { return !transformation_.fast_reproject(point.x_, point.y_); }
-    /*
+
+
     bool operator()(PaperPoint& point) {
         transformation_.fast_reproject(point.x_, point.y_);
         return false;
     };
-    */
 };
 
 
@@ -186,7 +185,8 @@ void Polyline::intersect(const Polyline& poly, vector<Polyline*>& out) const {
 void feed(const deque<PaperPoint>& points, const Polyline& box, vector<Polyline*>& out) {
     Polyline* poly = new Polyline();
     for (auto p = points.begin(); p != points.end(); ++p) {
-        if (!box.in(*p) || p->border()) {
+        // if (!box.in(*p) || p->border()) {
+        if (false) {
             if (poly->size()) {
                 out.push_back(poly);
                 poly = new Polyline();
