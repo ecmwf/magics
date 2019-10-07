@@ -234,6 +234,7 @@ void StyleLibrary::init() {
                     ;
                 _findclose(handle);
             }
+        }
 #endif
     }
 }
