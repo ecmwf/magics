@@ -230,10 +230,10 @@ void StyleLibrary::init() {
                     else
                         MagConfigHandler(path + "/" + current_, *this);
                 }
-                while (!_findnext(handle, &fileinfo))
-                    ;
-                _findclose(handle);
             }
+            while (!_findnext(handle, &fileinfo));
+
+            _findclose(handle);
         }
 #endif
     }
