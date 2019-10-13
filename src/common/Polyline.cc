@@ -181,12 +181,20 @@ void Polyline::intersect(const Polyline& poly, vector<Polyline*>& out) const {
     MagClipper::clip(poly, *this, out);
 }
 
+bool Polyline::skinny_= false;
+
 
 void feed(const deque<PaperPoint>& points, const Polyline& box, vector<Polyline*>& out) {
     Polyline* poly = new Polyline();
     for (auto p = points.begin(); p != points.end(); ++p) {
-        // if (!box.in(*p) || p->border()) {
-        if (false) {
+        if (Polyline::skinny_) {
+             poly->push_back(*p);
+             
+             continue;
+        }
+    
+        if ( !box.in(*p) || p->border() ) {
+        
             if (poly->size()) {
                 out.push_back(poly);
                 poly = new Polyline();
