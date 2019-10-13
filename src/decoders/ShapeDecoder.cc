@@ -430,7 +430,7 @@ void ShapeDecoder::decode(vector<magics::Polyline*>& data, const Transformation&
                             }
                         }
                         poly->push_back(PaperPoint(x, y));
-                        cout << "adding " << PaperPoint(x, y) << endl;
+                        
                     }
                     if (polyleft)
                         polyleft->push_back(PaperPoint(x - 360, y));
