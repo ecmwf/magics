@@ -40,7 +40,7 @@ public:
 
     virtual BinningObject* clone() const { return new BinningObject(); }
 
-    Matrix* operator()(PointsList& points);
+    virtual Matrix* operator()(PointsList& points);
 
 
 protected:
@@ -76,9 +76,10 @@ private:
 
 class NoBinningObject : public BinningObject {
 public:
-    NoBinningObject() {}
-    ~NoBinningObject() {}
-    BinningObject* clone() const { return new NoBinningObject(); }
+    NoBinningObject();
+    ~NoBinningObject();
+    BinningObject* clone() const override;
+    Matrix* operator()(PointsList& points) override;
 };
 
 
