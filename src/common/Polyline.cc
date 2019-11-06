@@ -139,10 +139,7 @@ struct ReprojectHelper {
     const Transformation& transformation_;
 
 
-    bool operator()(PaperPoint& point) {
-        transformation_.fast_reproject(point.x_, point.y_);
-        return false;
-    };
+    bool operator()(PaperPoint& point) { return !transformation_.fast_reproject(point.x_, point.y_); };
 };
 
 
@@ -181,20 +178,19 @@ void Polyline::intersect(const Polyline& poly, vector<Polyline*>& out) const {
     MagClipper::clip(poly, *this, out);
 }
 
-bool Polyline::skinny_= false;
+bool Polyline::skinny_ = false;
 
 
 void feed(const deque<PaperPoint>& points, const Polyline& box, vector<Polyline*>& out) {
     Polyline* poly = new Polyline();
     for (auto p = points.begin(); p != points.end(); ++p) {
         if (Polyline::skinny_) {
-             poly->push_back(*p);
-             
-             continue;
+            poly->push_back(*p);
+
+            continue;
         }
-    
-        if ( !box.in(*p) || p->border() ) {
-        
+
+        if (!box.in(*p) || p->border()) {
             if (poly->size()) {
                 out.push_back(poly);
                 poly = new Polyline();

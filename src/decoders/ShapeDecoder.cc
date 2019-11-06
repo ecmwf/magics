@@ -24,11 +24,9 @@
 #include "CustomisedPoint.h"
 #include "Polyline.h"
 #include "shapefil.h"
-#define ACCEPT_USE_OF_DEPRECATED_PROJ_API_H 1
-#include <proj_api.h>
 
 
-ShapeDecoder::ShapeDecoder() : holes_(false), projection_("") {}
+ShapeDecoder::ShapeDecoder() : holes_(false) {}
 
 ShapeDecoder::~ShapeDecoder() {
     MagLog::debug() << "clean ShapeDecoder->" << size() << endl;
@@ -143,6 +141,7 @@ void ShapeDecoder::decode(const Transformation& transformation, const string& fi
         double minx, miny, maxx, maxy;
         transformation.smallestBoundingBox(minx, miny, maxx, maxy);
 
+        magics::Polyline& box = transformation.getUserBoundingBox();
 
         int nWidth, nDecimals;
         int nShapeType, nEntities, i, iPart;
@@ -156,17 +155,6 @@ void ShapeDecoder::decode(const Transformation& transformation, const string& fi
         if (!hSHP || !hDBF) {
             MagLog::error() << "Can not open Shapefile " << shp << endl;
             return;
-        }
-        projPJ latlon;
-        projPJ proj4;
-        if (projection_.size()) {
-            proj4 = pj_init_plus(projection_.c_str());
-            if (!proj4) {
-                MagLog::error() << pj_strerrno(pj_errno) << endl;
-                MagLog::error() << " proj4 error " << projection_ << endl;
-                ASSERT(false);
-            }
-            latlon = pj_init_plus("+proj=longlat +ellps=WGS84 +datum=WGS84");
         }
 
         SHPGetInfo(hSHP, &nEntities, &nShapeType, adfMinBound, adfMaxBound);
@@ -207,46 +195,22 @@ void ShapeDecoder::decode(const Transformation& transformation, const string& fi
             }
 
             if (add) {
-                double dfYMax = psShape->dfYMax;
-                double dfYMin = psShape->dfYMin;
-                double dfXMax = psShape->dfXMax;
-                double dfXMin = psShape->dfXMin;
-
-                if (projection_.size()) {
-                    double x = dfXMax;
-                    double y = dfYMax;
-
-                    int error = pj_transform(proj4, latlon, 1, 1, &x, &y, NULL);
-                    if (error)
-                        continue;
-                    dfXMax = dfXMax * RAD_TO_DEG;
-                    dfYMax = dfYMax * RAD_TO_DEG;
-                    x      = dfXMin;
-                    y      = dfYMin;
-
-                    error = pj_transform(proj4, latlon, 1, 1, &x, &y, NULL);
-                    if (error)
-                        continue;
-                    dfXMin = dfXMin * RAD_TO_DEG;
-                    dfYMin = dfYMin * RAD_TO_DEG;
-                }
-
                 bool in    = true;
                 bool left  = true;
                 bool right = true;
 
-                if (dfYMax <= miny)
+                if (psShape->dfYMax <= miny)
                     continue;
-                if (dfYMin >= maxy)
+                if (psShape->dfYMin >= maxy)
                     continue;
-                if (dfXMax <= minx)
+                if (psShape->dfXMax <= minx)
                     in = false;
-                if (dfXMin >= maxx)
+                if (psShape->dfXMin >= maxx)
                     in = false;
 
-                if (dfXMax - 360 < minx)
+                if (psShape->dfXMax - 360 < minx)
                     left = false;
-                if (dfXMin + 360 > maxx)
+                if (psShape->dfXMin + 360 > maxx)
                     right = false;
 
                 if (!in && !right && !left)
@@ -314,7 +278,8 @@ void ShapeDecoder::decode(const Transformation& transformation, const string& fi
 void ShapeDecoder::decode(vector<magics::Polyline*>& data, const Transformation& transformation) {
     Timer timer("Read Shape file ", "read shape file" + path_);
 
-
+    magics::Polyline& geobox = transformation.getUserBoundingBox();
+    magics::Polyline& box    = transformation.getPCBoundingBox();
     try {
         SHPHandle hSHP;
         int nShapeType, nEntities, i, iPart;
@@ -329,18 +294,12 @@ void ShapeDecoder::decode(vector<magics::Polyline*>& data, const Transformation&
         data.clear();
         SHPGetInfo(hSHP, &nEntities, &nShapeType, adfMinBound, adfMaxBound);
 
-        double south;
-        double north;
-        double west;
-        double east;
-        transformation.smallestBoundingBox(west, south, east, north);
+        const double south = transformation.getMinY();
+        const double north = transformation.getMaxY();
+        const double west  = transformation.getMinX();
+        const double east  = transformation.getMaxX();
 
         double shift = 0;
-
-        west -= 10;
-        east += 10;
-        north += 10;
-        south += 10;
 
         if (west < -180)
             shift = 360;
@@ -361,24 +320,20 @@ void ShapeDecoder::decode(vector<magics::Polyline*>& data, const Transformation&
             bool left  = false;
             bool right = false;
 
-            double dfYMax = psShape->dfYMax;
-            double dfYMin = psShape->dfYMin;
-            double dfXMax = psShape->dfXMax;
-            double dfXMin = psShape->dfXMin;
-
-
-            if (dfYMax <= south)
+            if (psShape->dfYMax <= south)
                 continue;
-            if (dfYMin >= north)
+            if (psShape->dfYMin >= north)
                 continue;
-            if (dfXMax + shift <= west)
+            if (psShape->dfXMax + shift <= west)
                 in = false;
-            if (dfXMin + shift >= east)
+            if (psShape->dfXMin + shift >= east)
                 in = false;
-            if (dfXMax + shift - 360 > transformation.getMinX() && !same(dfXMax - 360, transformation.getMinX())) {
+            if (psShape->dfXMax + shift - 360 > transformation.getMinX() &&
+                !same(psShape->dfXMax - 360, transformation.getMinX())) {
                 left = true;
             }
-            if (dfXMin + shift + 360 < transformation.getMaxX() && !same(dfXMin + 360, transformation.getMaxX())) {
+            if (psShape->dfXMin + shift + 360 < transformation.getMaxX() &&
+                !same(psShape->dfXMin + 360, transformation.getMaxX())) {
                 right = true;
             }
 
@@ -430,7 +385,6 @@ void ShapeDecoder::decode(vector<magics::Polyline*>& data, const Transformation&
                             }
                         }
                         poly->push_back(PaperPoint(x, y));
-                        
                     }
                     if (polyleft)
                         polyleft->push_back(PaperPoint(x - 360, y));
