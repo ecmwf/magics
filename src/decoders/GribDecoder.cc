@@ -385,7 +385,7 @@ void GribDecoder::release() {
 }
 
 void GribDecoder::visit(Transformation& transformation) {
-    decode1D();
+    decode();
 
     if (!xComponent_)
         return;
@@ -407,7 +407,7 @@ void GribDecoder::visit(Transformation& transformation) {
 void GribDecoder::decode2D() {
     if (yComponent_)
         return;
-
+    // field_ = 0;
     openFirstComponent();
     openSecondComponent();
     openThirdComponent();
@@ -714,7 +714,8 @@ void GribDecoder::openField() {
 
 void GribDecoder::openFirstComponent() {
     current_position_ = position_1_;
-    field_            = open(field_);
+
+    field_ = open(field_);
 }
 
 void GribDecoder::openSecondComponent() {
