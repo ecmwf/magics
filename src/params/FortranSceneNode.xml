@@ -90,5 +90,8 @@ does it submit to any jurisdiction.
     <parameter member="theme" to="string" default="super_page_theme" from="string" name="page_theme">
             <documentation>   Theme to apply to the content of the page : the default is the super_page_theme  </documentation>
     </parameter>
+     <parameter member="skinny" to="bool" default="off" from="string" name="skinny_mode">
+            <documentation>Turn special features  skinny    </documentation>        
+    </parameter>
   
 </class></magics>

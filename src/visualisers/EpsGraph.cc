@@ -1730,7 +1730,7 @@ CdfGraph::~CdfGraph() {}
 
 void CdfGraph::setMedium(const string& base) {
     keys_.clear();
-    for (int i = 0; i < 100; i++) {
+    for (int i = 0; i <= 100; i++) {
         ostringstream key;
         key << base << "_" << i;
 
