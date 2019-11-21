@@ -960,15 +960,14 @@ void GribReducedGaussianInterpretor::interpretAsMatrix(GribDecoder& grib) const 
     double width = east - west;
     double step  = (width) / (nblon);
 
-    grib_get_double_array(grib.id(), "values", data1, &aux);
     if (v) {
-        grib_get_double_array(grib.uHandle(), "values", data1, &aux);
-        grib_get_double_array(grib.vHandle(), "values", data2, &aux);
+        grib_get_double_array(grib.uHandle(), "values", data1, &nb);
+        grib_get_double_array(grib.vHandle(), "values", data2, &nb);
         if (c)
-            grib_get_double_array(grib.cHandle(), "values", data3, &aux);
+            grib_get_double_array(grib.cHandle(), "values", data3, &nb);
     }
     else
-        grib_get_double_array(grib.id(), "values", data1, &aux);
+        grib_get_double_array(grib.id(), "values", data1, &nb);
 
 
     int d = 0;
