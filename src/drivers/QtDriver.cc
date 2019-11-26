@@ -61,7 +61,7 @@ using namespace magics;
 /*!
   \brief Constructor
 */
-QtDriver::QtDriver() {
+QtDriver::QtDriver() : forceTextPen_(false) {
     scene_                       = 0;
     initialized_                 = false;
     symbolManager_               = 0;
@@ -81,6 +81,11 @@ QtDriver::QtDriver() {
     // lineWidthFactor_=0.6;
     lineWidthFactor_ = 0.55;
     fontSizeFactor_  = 1.1;
+    
+    std::string v = getEnvVariable("MV_FORCE_TEXT_PEN");
+    if (v == "1" ) {
+        forceTextPen_ = true;
+    }    
 }
 
 /*!
@@ -1165,7 +1170,9 @@ MAGICS_NO_EXPORT void QtDriver::renderText(const Text& text) const {
             MgQTextItem* item = new MgQTextItem(allText);
             item->setParentItem(currentItem_);
             item->setFont(font);
-            // item->setPen(QPen());
+            if (forceTextPen_) {
+                item->setPen(QPen(Qt::transparent));
+            }    
             item->setTextBlanking(text.getBlanking());
             item->setBrush(getQtColour(magfont.colour()));
 
@@ -1281,7 +1288,9 @@ MAGICS_NO_EXPORT void QtDriver::renderText(const Text& text) const {
                 MgQTextItem* item = new MgQTextItem(str);
                 item->setParentItem(currentItem_);
                 item->setFont(font);
-                // item->setPen(QPen());
+                if (forceTextPen_) {
+                    item->setPen(QPen(Qt::transparent));
+                }    
                 item->setTextBlanking(text.getBlanking());
                 item->setBrush(getQtColour(magfont.colour()));
 
