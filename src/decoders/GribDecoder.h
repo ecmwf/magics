@@ -77,7 +77,7 @@ public:
 
     // implements BaseSceneObject interface
     virtual void set(const map<string, string>& params) { GribDecoderAttributes::set(params); }
-    virtual void set(const XmlNode& node) { GribDecoderAttributes::set(node); }
+    virtual void set(const XmlNode& node);
     void set(const GribLoop&, int);
     // implements Decoder interface
     void decode();
@@ -248,6 +248,7 @@ protected:
 
 
     bool thinning_debug_;
+    bool thinning_;
 
 
     mutable map<string, string> sKeys_;

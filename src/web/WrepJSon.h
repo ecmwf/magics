@@ -38,6 +38,11 @@ struct InputWrep {
     vector<double> steps_;
     vector<double> levels_;
     int index(double val) {
+        if (val == -1) {
+            return 0;
+        }
+        if (steps_.empty())
+            return -1;
         vector<double>::iterator step = steps_.begin();
         int index                     = 0;
         while (*step != val) {

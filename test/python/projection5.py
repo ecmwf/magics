@@ -50,7 +50,7 @@ text = mtext( text_font_size = '0.7',
 		text_lines =  [projection["text"]])
 
 # Plot the result
-plot(output, map, coast, text)
+plot(output, coast, text)
 
 # For documentation purposes
 tofortran(projection["name"], output, map, coast, text)

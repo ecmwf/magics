@@ -79,16 +79,16 @@ void Contour::operator()(Data& data, BasicGraphicsObjectContainer& parent) {
         ContourLibrary* library = MagTranslator<string, ContourLibrary>()(setting_);
 
         MetaDataCollector request, needAttributes;
-        MagDef attributes;
+        
 
         bool legend_only = contour_->legend_only_;
         if (predefined_.size()) {
-            library->getStyle(predefined_, attributes);
+            library->getStyle(predefined_, automaticAttributes_);
 
 
-            set(attributes);
-            auto text = attributes.find("contour_legend_text");
-            if (text != attributes.end())
+            set(automaticAttributes_);
+            auto text = automaticAttributes_.find("contour_legend_text");
+            if (text != automaticAttributes_.end())
                 ParameterManager::set("contour_legend_text", text->second);
         }
         else {
@@ -98,31 +98,31 @@ void Contour::operator()(Data& data, BasicGraphicsObjectContainer& parent) {
             if (library->checkId(request, needAttributes)) {
                 data.visit(needAttributes);
                 needAttributes["theme"] = theme_;
-                library->getStyle(needAttributes, attributes, *styleInfo_);
+                library->getStyle(needAttributes, automaticAttributes_, *styleInfo_);
                 if (!legend_)
-                    attributes["legend"] = "off";
-                set(attributes);
+                    automaticAttributes_["legend"] = "off";
+                set(automaticAttributes_);
             }
             else {
                 request["theme"] = theme_;
                 styleInfo_       = new StyleEntry();
 
-                library->getStyle(request, attributes, *styleInfo_);
+                library->getStyle(request, automaticAttributes_, *styleInfo_);
 
 
-                attributes["contour_legend_only"] = contour_->legend_only_;
+                automaticAttributes_["contour_legend_only"] = contour_->legend_only_;
 
                 if (!legend_)
-                    attributes["legend"] = "off";
+                    automaticAttributes_["legend"] = "off";
                 if (metadata_only_)
-                    attributes["contour_legend_only"] = "on";
-                set(attributes);
+                    automaticAttributes_["contour_legend_only"] = "on";
+                set(automaticAttributes_);
                 /*
                 for (auto s = attributes.begin(); s != attributes.end(); ++s)
                     cout << s->first << "-->" << s->second << endl;
                 */
-                auto text = attributes.find("contour_legend_text");
-                if (text != attributes.end())
+                auto text = automaticAttributes_.find("contour_legend_text");
+                if (text != automaticAttributes_.end())
                     ParameterManager::set("contour_legend_text", text->second);
             }
         }
@@ -209,6 +209,7 @@ static SimpleObjectMaker<WebLibrary, ContourLibrary> ecmwf("ecmwf");
 void Contour::visit(Data& data, LegendVisitor& legend) {
     if (!this->legend_)
         return;
+    legend.set(automaticAttributes_);
     contour_->visit(data, legend);
 }
 

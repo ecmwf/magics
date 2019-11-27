@@ -380,6 +380,7 @@ public:
     // virtual Layout* legend()  { ASSERT( layout_); return this; }
 
     void set(const XmlNode& node) { LegendVisitorAttributes::set(node); }
+    void set(const std::map<string, string>& map) { LegendVisitorAttributes::set(map); }
     void add(LegendEntry* entry) { AutoVector<LegendEntry>::push_back(entry); }
     void newLegend() {
         if (!AutoVector<LegendEntry>::empty())

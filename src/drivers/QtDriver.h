@@ -196,6 +196,8 @@ private:
     MFloat lineWidthFactor_;
     MFloat fontSizeFactor_;
     MFloat dpiResolutionRatio_;
+    
+    bool forceTextPen_;
 };
 
 }  // namespace magics

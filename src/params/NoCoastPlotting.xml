@@ -125,6 +125,9 @@ does it submit to any jurisdiction.
 	<parameter from="string" name="map_user_layer_name" default="" member="user_layer_name" to="string"  inherit_parent_reqs="no">
  		<documentation>Path + name of the shape file to use		</documentation> 		
 	</parameter>
+	<parameter from="string" name="map_user_layer_projection" default="" member="user_layer_projection" to="string"  inherit_parent_reqs="no">
+ 		<documentation>Projection used in the shape file		</documentation> 		
+	</parameter>
 	<parameter from="string" name="map_user_layer_style" default="solid" member="user_layer_style" to="LineStyle" inherit_parent_reqs="no">
   		<documentation>Line style for User Layer	</documentation>
   		<release>2.11		</release>

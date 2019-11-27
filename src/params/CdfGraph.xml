@@ -13,6 +13,10 @@ does it submit to any jurisdiction.
 		<documentation>
 		The Epsgram is responsible for accessing the espgram database its data to MAGICS.
 		</documentation>
+            <parameter member="type" to="string" default="medium" from="string" name="cdf_graph_type">           
+                    <documentation> Colour of the curve         </documentation>
+            </parameter>
+        
         	<parameter member="colour" to="stringarray" default="stringarray()" from="stringarray" name="cdf_lines_colour_array">           
             		<documentation> Colour of the curve  		</documentation>
         	</parameter>

@@ -24,8 +24,10 @@
 
 #include "magics.h"
 
+
 #include "ContourAttributes.h"
 #include "Visdef.h"
+#include "MagConfig.h"
 
 namespace magics {
 
@@ -61,6 +63,7 @@ protected:
     virtual void print(ostream&) const;
     MatrixHandler* matrix_;
     StyleEntry* styleInfo_;
+    MagDef      automaticAttributes_;
 
 private:
     //! Copy constructor - No copy allowed

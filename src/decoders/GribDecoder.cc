@@ -61,7 +61,8 @@ GribDecoder::GribDecoder() :
     colour_(0),
     xValues_(0),
     yValues_(0),
-    directionDone_(false) {
+    directionDone_(false),
+    thinning_(true) {
     count_++;
     title_ = "grib_" + tostring(count_);
     version();
@@ -95,6 +96,17 @@ GribDecoder::~GribDecoder() {
         delete interpretor_;
 
     // context is a reference to a global context and should not be deleted
+}
+
+void GribDecoder::set(const XmlNode& node) {
+    thinning_ = true;
+    GribDecoderAttributes::set(node);
+    string tile = node.getAttribute("tile");
+    if (magCompare(tile, "on")) {
+        int zoom = tonumber(node.getAttribute("tile_z"));
+        if (zoom > 6)
+            thinning_ = false;
+    }
 }
 
 void GribDecoder::set(const GribLoop& loop, int index) {
@@ -373,7 +385,7 @@ void GribDecoder::release() {
 }
 
 void GribDecoder::visit(Transformation& transformation) {
-    decode1D();
+    decode();
 
     if (!xComponent_)
         return;
@@ -395,7 +407,7 @@ void GribDecoder::visit(Transformation& transformation) {
 void GribDecoder::decode2D() {
     if (yComponent_)
         return;
-
+    // field_ = 0;
     openFirstComponent();
     openSecondComponent();
     openThirdComponent();
@@ -554,7 +566,7 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
     double missing = getDouble("missingValue");
 
 
-    if (thiny) {
+    if (thiny && thinning_) {
         vector<pair<double, double> > positions;
 
         PaperPoint xy = interpretor_->reference(*this, transformation);
@@ -621,11 +633,16 @@ void GribDecoder::customisedPoints(const Transformation& transformation, Customi
                 double lon = x.first_ + (i * x.step_);
                 double u   = xComponent_->data_[index];
                 double v   = yComponent_->data_[index];
-
+                vector<UserPoint> pos;
+                pos.reserve(5);
+                transformation.populate(lon, lat, 0, pos);
+                if (pos.empty()) {
+                    index++;
+                    continue;
+                }
                 if (u != missing && v != missing) {
                     interpretor_->interpret2D(lat, lon, u, v);
                     pair<double, double> value = (*wind_mode_)(u, v);
-                    vector<UserPoint> pos;
                     transformation.populate(lon, lat, 0, pos);
                     for (vector<UserPoint>::iterator p = pos.begin(); p != pos.end(); ++p) {
                         CustomisedPoint* add = new CustomisedPoint(p->x(), p->y(), "");
@@ -697,7 +714,8 @@ void GribDecoder::openField() {
 
 void GribDecoder::openFirstComponent() {
     current_position_ = position_1_;
-    field_            = open(field_);
+
+    field_ = open(field_);
 }
 
 void GribDecoder::openSecondComponent() {
