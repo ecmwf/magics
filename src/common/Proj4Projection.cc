@@ -1180,10 +1180,10 @@ void Proj4Projection::coastSetting(map<string, string>& setting, double abswidth
     setting["coast"]                     = resol + "/ne_" + resol + "_coastline";
     setting["rivers"]                    = resol + "/ne_" + resol + "_rivers_lake_centerlines";
     setting["boundaries"]                = resol + "/ne_" + resol + "_admin_0_boundary_lines_land";
-    setting["administrative_boundaries"] = resol + "/ne_" + resol + "_admin_1_states_provinces";
+//    setting["administrative_boundaries"] = resol + "/ne_" + resol + "_admin_1_states_provinces";
 
     //! \note Administraive borders hardcoded to 10m resolution (low res version do not contain all info)
-    setting["administrative_boundaries"] = "10m/ne_10m_admin_1_states_provinces";
+    setting["administrative_boundaries"] = "10m/ne_10m_admin_1_states_provinces_lines";
 }
 
 void Proj4Projection::visit(MetaDataVisitor& visitor, double left, double top, double width, double height,

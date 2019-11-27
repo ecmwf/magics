@@ -499,7 +499,7 @@ void GeoRectangularProjection::coastSetting(map<string, string>& setting, double
     setting["boundaries"] = resol + "/ne_" + resol + "_admin_0_boundary_lines_land";
 
     //! \note Administraive borders hardcoded to 10m resolution (low res version do not contain all info)
-    setting["administrative_boundaries"] = "10m/ne_10m_admin_1_states_provinces";
+    setting["administrative_boundaries"] = "10m/ne_10m_admin_1_states_provinces_lines";
 
     MagLog::dev() << "GeoRectangularProjection::coastSetting[" << abswidth << ", " << absheight << "]->" << ratio
                   << " resol: " << resol << endl;

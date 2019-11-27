@@ -201,7 +201,7 @@ void CoastPlotting::operator()(DrawingVisitor& parent) {
     coast_.clear();
     ocean_.clear();
 
-    coastSet_["administrative_boundaries"] = "10m/ne_10m_admin_1_states_provinces";
+    coastSet_["administrative_boundaries"] = "10m/ne_10m_admin_1_states_provinces_lines";
 
     if (magCompare(NoCoastPlottingAttributes::resolution_, "high") ||
         magCompare(NoCoastPlottingAttributes::resolution_, "full")) {
