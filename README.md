@@ -7,6 +7,24 @@ Magics README
 [![Windows: master](https://img.shields.io/appveyor/ci/ecmwf/magics/master.svg?label=Windows-master)](https://ci.appveyor.com/project/ecmwf/magics/branch/master)
 [![Windows: develop](https://img.shields.io/appveyor/ci/ecmwf/magics/develop.svg?label=Windows-dev)](https://ci.appveyor.com/project/ecmwf/magics/branch/develop)
 
+Python Package
+--------------
+
+[![PyPI version](https://badge.fury.io/py/Magics.svg)](https://badge.fury.io/py/Magics)
+
+
+Gallery of Notebooks
+--------------------
+
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ecmwf/notebook-examples.git/master)
+
+
+Docker Image
+------------
+
+[![Docker Build Status](https://img.shields.io/docker/cloud/build/ecmwf/magics.svg)](https://hub.docker.com/r/ecmwf/magics)
+[![Docker Pulls](https://img.shields.io/docker/pulls/ecmwf/magics)](https://hub.docker.com/r/ecmwf/magics)
+
 
 Installation
 ------------
