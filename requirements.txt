@@ -1,0 +1,4 @@
+# pip requirements file
+# pip freeze > requirements.txt
+Jinja2==2.10.3
+Magics

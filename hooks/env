@@ -1,0 +1,32 @@
+#!/bin/bash
+# Sets required environment variables if they are unset
+# and/or overwrites predefined environment variables 
+# that are set by dockerhub automatic image build
+
+[ -n "$SOURCE_URL" ]        || SOURCE_URL=https://github.com/ecmwf/magics
+[ -n "$DOCKER_REPO" ]       || DOCKER_REPO=ecmwf/magics
+[ -n "$ECBUILD_VERSION" ]    || ECBUILD_VERSION="2019.07.1"
+[ -n "$ECCODES_VERSION" ]    || ECCODES_VERSION="2.15.0"
+
+[ -n "$SOURCE_BRANCH" ]  || SOURCE_BRANCH=$(git symbolic-ref -q --short HEAD)
+if [[ "${SOURCE_BRANCH/-*/}" =~ ^[0-9][0-9.]*$ ]]; then
+	VERSION=${SOURCE_BRANCH/-*/}
+fi
+[ -n "$SOURCE_COMMIT" ]  || SOURCE_COMMIT=$(git rev-parse -q HEAD)
+
+[ -n "$SOURCE_TAG" ]     || SOURCE_TAG=$(git tag --sort=taggerdate | tail -1)
+
+if [ -z "$DOCKER_TAG" ]; then
+    if [ -z "$SOURCE_TAG" ]; then
+        # untagged git commits are tagged as 'latest'
+        DOCKER_TAG=latest
+    else
+        # tagged git commits produce docker images with the same tag
+        DOCKER_TAG="$SOURCE_TAG"
+    fi
+fi
+
+[ -n "$DOCKERFILE_PATH" ]    || DOCKERFILE_PATH=Dockerfile
+
+[ -n "$IMAGE_NAME" ]         || IMAGE_NAME=${DOCKER_REPO}:${DOCKER_TAG}
+[ -n "$DATE" ]               || DATE=$(date -u +%Y-%m-%dT%H:%M:%SZ)
