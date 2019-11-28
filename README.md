@@ -7,10 +7,13 @@ Magics README
 [![Windows: master](https://img.shields.io/appveyor/ci/ecmwf/magics/master.svg?label=Windows-master)](https://ci.appveyor.com/project/ecmwf/magics/branch/master)
 [![Windows: develop](https://img.shields.io/appveyor/ci/ecmwf/magics/develop.svg?label=Windows-dev)](https://ci.appveyor.com/project/ecmwf/magics/branch/develop)
 
-Python Package
+Python Package: Pypi or conda
 --------------
 
 [![PyPI version](https://badge.fury.io/py/Magics.svg)](https://badge.fury.io/py/Magics)
+[![Conda version](https://anaconda.org/conda-forge/magics/badges/version.svg)](https://anaconda.org/conda-forge/magics)
+[![Conda download](https://anaconda.org/conda-forge/magics/badges/downloads.svg)](https://anaconda.org/conda-forge/magics)
+
 
 
 Gallery of Notebooks
