@@ -50,6 +50,8 @@ git:
   depth: 1
 
 before_install:
+  - echo $(clang-format --version)
+  - echo $(bash --version)
   # check formatting
   - bash check_formatting.sh
   # prepare install dir

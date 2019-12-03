@@ -2,9 +2,6 @@
 
 # Auto-formatting script that checks whether the CWD and child directories have
 # formatted source code.
-
-echo $(clang-format --version)
-
 find . -iname *.h -o -iname *.c -o -iname *.cpp -o -iname *.cc -o -iname *.hpp | while read path; do
     ORIG=$(cat $path)
     # The `--style=file` arguments while automatically find the .clang-format
@@ -13,5 +10,3 @@ find . -iname *.h -o -iname *.c -o -iname *.cpp -o -iname *.cc -o -iname *.hpp |
     AUTO=$(clang-format --style=file --fallback-style=none $path)
     diff <(echo $ORIG) <(echo $AUTO) > /dev/null || echo "$path is not formatted, format with clang-format"
 done
-
-exit 1
