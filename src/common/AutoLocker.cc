@@ -4,8 +4,8 @@
  * This software is licensed under the terms of the Apache Licence Version 2.0
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
  * In applying this licence, ECMWF does not waive the privileges and immunities
- * granted to it by virtue of its status as an intergovernmental organisation nor
- * does it submit to any jurisdiction.
+ * granted to it by virtue of its status as an intergovernmental organisation
+ * nor does it submit to any jurisdiction.
  */
 
 /* #define CHECK_DEAD_LOCKS */
@@ -22,66 +22,65 @@
 #include "MagExceptions.h"
 #endif
 
-typedef map<void*, pthread_t, std::less<void*> > GotMap;
-typedef map<pthread_t, void*, std::less<pthread_t> > WantMap;
-static WantMap* wantMap = 0;
-static GotMap* gotMap   = 0;
+typedef map<void *, pthread_t, std::less<void *>> GotMap;
+typedef map<pthread_t, void *, std::less<pthread_t>> WantMap;
+static WantMap *wantMap = 0;
+static GotMap *gotMap = 0;
 
-typedef set<pthread_t, std::less<pthread_t> > Set;
+typedef set<pthread_t, std::less<pthread_t>> Set;
 
-
-void AutoLocker::want(void* resource) {
+void AutoLocker::want(void *resource) {
 #ifdef CHECK_DEAD_LOCKS
-    pthread_once(&once, init);
-    mutex->lock();
+  pthread_once(&once, init);
+  mutex->lock();
 
-    GotMap::iterator i = gotMap->find(resource);
+  GotMap::iterator i = gotMap->find(resource);
 
-    if (i != gotMap->end()) {
-        if ((*i).second != pthread_self()) {
-            (*wantMap)[pthread_self()] = resource;
-            analyse(resource);
-        }
+  if (i != gotMap->end()) {
+    if ((*i).second != pthread_self()) {
+      (*wantMap)[pthread_self()] = resource;
+      analyse(resource);
     }
+  }
 
-    mutex->unlock();
+  mutex->unlock();
 #endif
 }
 
-void AutoLocker::got(void* resource) {
+void AutoLocker::got(void *resource) {
 #ifdef CHECK_DEAD_LOCKS
-    mutex->lock();
-    (*gotMap)[resource] = pthread_self();
-    wantMap->erase(pthread_self());
-    mutex->unlock();
+  mutex->lock();
+  (*gotMap)[resource] = pthread_self();
+  wantMap->erase(pthread_self());
+  mutex->unlock();
 #endif
 }
 
-void AutoLocker::release(void* resource) {
+void AutoLocker::release(void *resource) {
 #ifdef CHECK_DEAD_LOCKS
-    mutex->lock();
-    gotMap->erase(resource);
-    mutex->unlock();
+  mutex->lock();
+  gotMap->erase(resource);
+  mutex->unlock();
 #endif
 }
 
-static void visit(pthread_t p, Set& s, void* resource) {
-    if (s.find(p) != s.end())
-        Panic("Deadlock detected");
+static void visit(pthread_t p, Set &s, void *resource) {
+  if (s.find(p) != s.end())
+    Panic("Deadlock detected");
 
-    s.insert(p);
+  s.insert(p);
 
-    GotMap::iterator i = gotMap->find(resource);
-    pthread_t q        = (*i).second;  // The one with the resource
+  GotMap::iterator i = gotMap->find(resource);
+  pthread_t q = (*i).second; // The one with the resource
 
-    WantMap::iterator j = wantMap->find(q);
-    if (j != wantMap->end())
-        visit(q, s, (*j).second);
+  WantMap::iterator j = wantMap->find(q);
+  if (j != wantMap->end())
+    visit(q, s, (*j).second);
 
-    s.erase(p);
+  s.erase(p);
 }
 
-void AutoLocker::analyse(void* resource) {
-    Set set;
-    visit(pthread_self(), set, resource);
+void AutoLocker::analyse(void *resource) {
+  Set set;
+  visit(pthread_self(), set, resource);
 }

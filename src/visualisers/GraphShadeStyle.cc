@@ -4,8 +4,8 @@
  * This software is licensed under the terms of the Apache Licence Version 2.0
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
  * In applying this licence, ECMWF does not waive the privileges and immunities
- * granted to it by virtue of its status as an intergovernmental organisation nor
- * does it submit to any jurisdiction.
+ * granted to it by virtue of its status as an intergovernmental organisation
+ * nor does it submit to any jurisdiction.
  */
 
 /*! \file GraphShadeStyle.cc
@@ -23,68 +23,67 @@
 #include "PaperPoint.h"
 #include "Polyline.h"
 
-
 using namespace magics;
 
 GraphShadeStyle::GraphShadeStyle() {}
-
 
 GraphShadeStyle::~GraphShadeStyle() {}
 
 /*!
  Class information are given to the output-stream.
 */
-void GraphShadeStyle::print(ostream& out) const {
-    out << "GraphShadeStyle[";
-    out << "]";
+void GraphShadeStyle::print(ostream &out) const {
+  out << "GraphShadeStyle[";
+  out << "]";
 }
 
-void HatchGraphShadeStyle::print(ostream& out) const {
-    out << "HatchGraphShadeStyle[";
-    GraphShadeStyle::print(out);
-    HatchGraphShadeStyleAttributes::print(out);
-    out << "]";
+void HatchGraphShadeStyle::print(ostream &out) const {
+  out << "HatchGraphShadeStyle[";
+  GraphShadeStyle::print(out);
+  HatchGraphShadeStyleAttributes::print(out);
+  out << "]";
 }
 
-void DotGraphShadeStyle::print(ostream& out) const {
-    out << "DotGraphShadeStyle[";
-    GraphShadeStyle::print(out);
-    DotGraphShadeStyleAttributes::print(out);
-    out << "]";
+void DotGraphShadeStyle::print(ostream &out) const {
+  out << "DotGraphShadeStyle[";
+  GraphShadeStyle::print(out);
+  DotGraphShadeStyleAttributes::print(out);
+  out << "]";
 }
 
-void GraphShadeStyle::operator()(Polyline& box) {
-    box.setFillColour(*colour_);
-    box.setFilled(true);
-    ShadingProperties* shading = new FillShadingProperties();
+void GraphShadeStyle::operator()(Polyline &box) {
+  box.setFillColour(*colour_);
+  box.setFilled(true);
+  ShadingProperties *shading = new FillShadingProperties();
 
-    box.setShading(shading);
+  box.setShading(shading);
 }
 
-void DotGraphShadeStyle::operator()(Polyline& box) {
-    box.setFillColour(*colour_);
-    box.setFilled(true);
-    DotShadingProperties* shading = new DotShadingProperties();
-    shading->size_                = size_;
-    shading->density_             = density_;
+void DotGraphShadeStyle::operator()(Polyline &box) {
+  box.setFillColour(*colour_);
+  box.setFilled(true);
+  DotShadingProperties *shading = new DotShadingProperties();
+  shading->size_ = size_;
+  shading->density_ = density_;
 
-    box.setShading(shading);
+  box.setShading(shading);
 }
 
-void HatchGraphShadeStyle::operator()(Polyline& box) {
-    box.setFillColour(*colour_);
-    box.setFilled(true);
-    HatchShadingProperties* shading = new HatchShadingProperties();
-    if (index_ < 1 || index_ > 6) {
-        static bool msg = true;
-        if (msg) {
-            msg = false;
-            MagLog::warning() << " Hatch shading index should be between 1 and 6: Found [" << index_
-                              << "], revert to default [1] " << endl;
-        }
-        index_ = 1;
+void HatchGraphShadeStyle::operator()(Polyline &box) {
+  box.setFillColour(*colour_);
+  box.setFilled(true);
+  HatchShadingProperties *shading = new HatchShadingProperties();
+  if (index_ < 1 || index_ > 6) {
+    static bool msg = true;
+    if (msg) {
+      msg = false;
+      MagLog::warning()
+          << " Hatch shading index should be between 1 and 6: Found [" << index_
+          << "], revert to default [1] " << endl;
     }
-    shading->index_ = index_;
+    index_ = 1;
+  }
+  shading->index_ = index_;
 
-    box.setShading(shading);
+  box.setShading(shading);
 }

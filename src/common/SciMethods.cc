@@ -4,8 +4,8 @@
  * This software is licensed under the terms of the Apache Licence Version 2.0
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
  * In applying this licence, ECMWF does not waive the privileges and immunities
- * granted to it by virtue of its status as an intergovernmental organisation nor
- * does it submit to any jurisdiction.
+ * granted to it by virtue of its status as an intergovernmental organisation
+ * nor does it submit to any jurisdiction.
  */
 
 /*!
@@ -22,22 +22,22 @@
 
 namespace magics {
 
-const double KAPPA = 0.285611;  // Rd/cp
+const double KAPPA = 0.285611; // Rd/cp
 
 /*! Computes the distance on Earth in km */
 double geoDistanceInKm(double fi1, double la1, double fi2, double la2) {
-    double rfi1 = RAD(fi1);
-    double rla1 = RAD(la1);
-    double rfi2 = RAD(fi2);
-    double rla2 = RAD(la2);
+  double rfi1 = RAD(fi1);
+  double rla1 = RAD(la1);
+  double rfi2 = RAD(fi2);
+  double rla2 = RAD(la2);
 
-    if (rla1 != rla2) {
-        double d = sin(rfi1) * sin(rfi2) + cos(rfi1) * cos(rfi2) * cos(fabs(rla1 - rla2));
-        return acos(d) * EarthRadiusInKm;
-    }
-    else {
-        return fabs(rfi1 - rfi2) * EarthRadiusInKm;
-    }
+  if (rla1 != rla2) {
+    double d =
+        sin(rfi1) * sin(rfi2) + cos(rfi1) * cos(rfi2) * cos(fabs(rla1 - rla2));
+    return acos(d) * EarthRadiusInKm;
+  } else {
+    return fabs(rfi1 - rfi2) * EarthRadiusInKm;
+  }
 }
 
 /*!
@@ -50,9 +50,7 @@ double geoDistanceInKm(double fi1, double la1, double fi2, double la2) {
    \param p pressure in Pa
    \return potential temperature in K
  */
-double theta(double t, double p) {
-    return t * pow(100000. / p, KAPPA);
-}
+double theta(double t, double p) { return t * pow(100000. / p, KAPPA); }
 
 /*!
   \brief computes temperature from potential temperature
@@ -66,7 +64,7 @@ double theta(double t, double p) {
 
 */
 double temperatureFromTheta(double th, double p) {
-    return th * pow(p / 100000., KAPPA);
+  return th * pow(p / 100000., KAPPA);
 }
 
 /*!
@@ -80,7 +78,7 @@ double temperatureFromTheta(double th, double p) {
    \return pressure in Pa
 */
 double pressureFromTheta(double th, double t) {
-    return 100000. * pow(t / th, 1. / KAPPA);
+  return 100000. * pow(t / th, 1. / KAPPA);
 }
 
 /*!
@@ -96,19 +94,19 @@ double pressureFromTheta(double th, double t) {
 */
 
 double tDew(double t, double rh) {
-    double td;
-    double tc = t - 273.16;
-    double a  = 17.27;
-    double b  = 237.7;
+  double td;
+  double tc = t - 273.16;
+  double a = 17.27;
+  double b = 237.7;
 
-    if (rh >= 100.)
-        td = tc;
-    else {
-        double gamma = a * tc / (b + tc) + log(rh / 100.);
-        td           = b * gamma / (a - gamma);
-    }
+  if (rh >= 100.)
+    td = tc;
+  else {
+    double gamma = a * tc / (b + tc) + log(rh / 100.);
+    td = b * gamma / (a - gamma);
+  }
 
-    return td + 273.16;
+  return td + 273.16;
 }
 
 /*!
@@ -123,22 +121,23 @@ double tDew(double t, double rh) {
 */
 
 double tWet(double td, double t, double p) {
-    double r  = mixingRatio(td, p);
-    double th = theta(t, p);
+  double r = mixingRatio(td, p);
+  double th = theta(t, p);
 
-    double pSec = p;
-    for (int i = 0; i < 10; i++) {
-        double x = 0.02 * (temperatureFromMixingRatio(r, pSec) - temperatureFromTheta(th, pSec));
-        if (abs(x) < 0.01) {
-            break;
-        }
-        pSec = pow(2., x);
+  double pSec = p;
+  for (int i = 0; i < 10; i++) {
+    double x = 0.02 * (temperatureFromMixingRatio(r, pSec) -
+                       temperatureFromTheta(th, pSec));
+    if (abs(x) < 0.01) {
+      break;
     }
+    pSec = pow(2., x);
+  }
 
-    double tSec = temperatureFromTheta(th, pSec);
+  double tSec = temperatureFromTheta(th, pSec);
 
-    double thSat = thetaEq(tSec, pSec);
-    return temperatureFromThetaEq(thSat, p);
+  double thSat = thetaEq(tSec, pSec);
+  return temperatureFromThetaEq(thSat, p);
 }
 
 /*!
@@ -151,10 +150,10 @@ double tWet(double td, double t, double p) {
 */
 
 double thetaEq(double td, double t, double p) {
-    double tLCL = temperatureLCL(td, t);
-    double th   = theta(t, p);
-    double thEq = th * exp(2.6518986 * mixingRatio(td, p) / tLCL);
-    return thEq;
+  double tLCL = temperatureLCL(td, t);
+  double th = theta(t, p);
+  double thEq = th * exp(2.6518986 * mixingRatio(td, p) / tLCL);
+  return thEq;
 }
 
 /*!
@@ -169,7 +168,7 @@ double thetaEq(double td, double t, double p) {
 */
 
 double thetaEq(double t, double p) {
-    return theta(t, p) / exp(-2.6518986 * mixingRatio(t, p) / t);
+  return theta(t, p) / exp(-2.6518986 * mixingRatio(t, p) / t);
 }
 
 /*!
@@ -184,18 +183,18 @@ double thetaEq(double t, double p) {
 */
 
 double temperatureFromThetaEq(double thEq, double p) {
-    double tq = 253.16;
-    double d  = 120.;
-    for (int i = 0; i < 12; i++) {
-        d /= 2;
-        double x = thEq * exp(-2.6518986 * mixingRatio(tq, p) / tq) - theta(tq, p);
-        if (abs(x) <= 0.0000001) {
-            break;
-        }
-        tq += ((x < 0) ? -1 : 1) * abs(d);
+  double tq = 253.16;
+  double d = 120.;
+  for (int i = 0; i < 12; i++) {
+    d /= 2;
+    double x = thEq * exp(-2.6518986 * mixingRatio(tq, p) / tq) - theta(tq, p);
+    if (abs(x) <= 0.0000001) {
+      break;
     }
+    tq += ((x < 0) ? -1 : 1) * abs(d);
+  }
 
-    return tq;
+  return tq;
 }
 
 /*!
@@ -209,10 +208,11 @@ double temperatureFromThetaEq(double thEq, double p) {
 */
 
 double saturationVapourPressure(double t) {
-    double c1 = 23.832241 - 5.02808 * log10(t);
-    double c2 = 3.49149 - 1302.8844 / t;
-    double c3 = 11.344 - 0.0303998 * t;
-    return (::pow(10., c1 - 1.3816E-7 * ::pow(10., c3) + 8.1328E-3 * ::pow(10., c2) - 2949.076 / t));
+  double c1 = 23.832241 - 5.02808 * log10(t);
+  double c2 = 3.49149 - 1302.8844 / t;
+  double c3 = 11.344 - 0.0303998 * t;
+  return (::pow(10., c1 - 1.3816E-7 * ::pow(10., c3) +
+                         8.1328E-3 * ::pow(10., c2) - 2949.076 / t));
 }
 
 /*!
@@ -226,19 +226,18 @@ double saturationVapourPressure(double t) {
 */
 
 double mixingRatio(double t, double p) {
-    double e = saturationVapourPressure(t);
-    return 622. * e / (0.01 * p - e);
+  double e = saturationVapourPressure(t);
+  return 622. * e / (0.01 * p - e);
 }
 
-
 double temperatureFromMixingRatio(double r, double p) {
-    double pmb = p * 0.01;
-    double c   = log10(r * pmb / (622. + r));
+  double pmb = p * 0.01;
+  double c = log10(r * pmb / (622. + r));
 
-    double tmr =
-        ::pow(10., 0.0498646455 * c + 2.4082965) - 280.23475 + 38.9114 * ::pow(::pow(10., 0.0915 * c) - 1.2035, 2.);
+  double tmr = ::pow(10., 0.0498646455 * c + 2.4082965) - 280.23475 +
+               38.9114 * ::pow(::pow(10., 0.0915 * c) - 1.2035, 2.);
 
-    return tmr + 273.16;
+  return tmr + 273.16;
 }
 
 /*!
@@ -253,10 +252,10 @@ double temperatureFromMixingRatio(double r, double p) {
 */
 
 double temperatureLCL(double td, double t) {
-    double tdc  = td - 273.16;
-    double tLCL = tdc - (0.001296 * tdc + 0.1963) * (t - td);
+  double tdc = td - 273.16;
+  double tLCL = tdc - (0.001296 * tdc + 0.1963) * (t - td);
 
-    return tLCL + 273.5;
+  return tLCL + 273.5;
 }
 
 /*!
@@ -272,17 +271,16 @@ double temperatureLCL(double td, double t) {
 */
 
 double pressureLCL(double td, double t, double p) {
-    double pLCL;
-    double tLCL = temperatureLCL(td, t);
+  double pLCL;
+  double tLCL = temperatureLCL(td, t);
 
-    if (tLCL == t)
-        pLCL = p;
-    else {
-        pLCL = p * pow(tLCL / t, 3.5);
-    }
+  if (tLCL == t)
+    pLCL = p;
+  else {
+    pLCL = p * pow(tLCL / t, 3.5);
+  }
 
-    return pLCL;
+  return pLCL;
 }
 
-
-}  // namespace magics
+} // namespace magics

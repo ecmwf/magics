@@ -4,18 +4,17 @@
  * This software is licensed under the terms of the Apache Licence Version 2.0
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
  * In applying this licence, ECMWF does not waive the privileges and immunities
- * granted to it by virtue of its status as an intergovernmental organisation nor
- * does it submit to any jurisdiction.
+ * granted to it by virtue of its status as an intergovernmental organisation
+ * nor does it submit to any jurisdiction.
  */
 
 #include "GribLoopStep.h"
-#include <locale>
-#include "MagDateTime.h"
 #include "GribDecoder.h"
+#include "MagDateTime.h"
 #include "ViewNode.h"
+#include <locale>
 
-
-void GribLoopStep::print(ostream&) const {}
+void GribLoopStep::print(ostream &) const {}
 /*
 void DateGribLoopStep::operator()(GribDecoder&, LayerNode&)
 {
@@ -44,12 +43,13 @@ void DateGribLoopStep::operator()(GribDecoder&, LayerNode&)
 
     const time_put<char>& tfac = use_facet<time_put<char> >(loc);
     string format = "%Y-%m-%dT%H:%M:00Z";
-    tfac.put(from, from, ' ', &convert, format.c_str(), format.c_str()+format.length());
+    tfac.put(from, from, ' ', &convert, format.c_str(),
+format.c_str()+format.length());
 
     convert = valid;
 
-    tfac.put(to, to, ' ', &convert, format.c_str(), format.c_str()+format.length());
-    layer.setName(from.str());
+    tfac.put(to, to, ' ', &convert, format.c_str(),
+format.c_str()+format.length()); layer.setName(from.str());
     layer.timestamp(from.str());
     layer.timespan(to.str());
 }

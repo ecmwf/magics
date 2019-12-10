@@ -4,23 +4,19 @@
  * This software is licensed under the terms of the Apache Licence Version 2.0
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
  * In applying this licence, ECMWF does not waive the privileges and immunities
- * granted to it by virtue of its status as an intergovernmental organisation nor
- * does it submit to any jurisdiction.
+ * granted to it by virtue of its status as an intergovernmental organisation
+ * nor does it submit to any jurisdiction.
  */
 
 #include "Static.h"
 #include "DriverStatic.h"
 #include "MagException.h"
 
-
 using namespace magics;
 
-Static::Static() {
-    DriverStatic drivers;
-}
+Static::Static() { DriverStatic drivers; }
 
 Static::~Static() {}
-
 
 #include "PaperDimension.h"
 static SimpleObjectMaker<A4, PaperDimension> a4("a4");

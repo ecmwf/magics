@@ -4,8 +4,8 @@
  * This software is licensed under the terms of the Apache Licence Version 2.0
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
  * In applying this licence, ECMWF does not waive the privileges and immunities
- * granted to it by virtue of its status as an intergovernmental organisation nor
- * does it submit to any jurisdiction.
+ * granted to it by virtue of its status as an intergovernmental organisation
+ * nor does it submit to any jurisdiction.
  */
 
 /*! \file ViewNode.cc
@@ -26,28 +26,25 @@
 
 using namespace magics;
 
-
 HistoVisitor::HistoVisitor() : basic_(false), dataLayoutTransformation_(0) {
-    name("histigram");
+  name("histigram");
 }
 
 HistoVisitor::~HistoVisitor() {}
-void HistoVisitor::print(ostream& s) const {
-    s << "HistoVisitor[";
-    Layout::print(s);
-    s << "]";
+void HistoVisitor::print(ostream &s) const {
+  s << "HistoVisitor[";
+  Layout::print(s);
+  s << "]";
 }
 
-void HistoVisitor::visit(BasicGraphicsObjectContainer& tree) {
-    tree.push_back(this);
-    // the Layout has been added to a Container, it will be delted automatically!
+void HistoVisitor::visit(BasicGraphicsObjectContainer &tree) {
+  tree.push_back(this);
+  // the Layout has been added to a Container, it will be delted automatically!
 }
 
-void HistoVisitor::redisplay(const BaseDriver& driver) const {
-    MagLog::dev() << " I am a HistoVisitor!" << *this << endl;
-    driver.redisplay(*this);
+void HistoVisitor::redisplay(const BaseDriver &driver) const {
+  MagLog::dev() << " I am a HistoVisitor!" << *this << endl;
+  driver.redisplay(*this);
 }
 
-void HistoVisitor::visit(BasicSceneObject& object) {
-    object.visit(*this);
-}
+void HistoVisitor::visit(BasicSceneObject &object) { object.visit(*this); }

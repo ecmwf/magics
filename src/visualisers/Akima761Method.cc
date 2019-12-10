@@ -4,8 +4,8 @@
  * This software is licensed under the terms of the Apache Licence Version 2.0
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
  * In applying this licence, ECMWF does not waive the privileges and immunities
- * granted to it by virtue of its status as an intergovernmental organisation nor
- * does it submit to any jurisdiction.
+ * granted to it by virtue of its status as an intergovernmental organisation
+ * nor does it submit to any jurisdiction.
  */
 
 /*! \file Akima761Method.cc
@@ -23,16 +23,13 @@
 
 using namespace magics;
 
-template <class P>
-Akima761Method<P>::Akima761Method() {}
+template <class P> Akima761Method<P>::Akima761Method() {}
 
-template <class P>
-Akima761Method<P>::~Akima761Method() {}
+template <class P> Akima761Method<P>::~Akima761Method() {}
 
 /*!
  Class information are given to the output-stream.
 */
-template <class P>
-void Akima761Method<P>::print(ostream& out) const {
-    out << "Akima761Method<P>";
+template <class P> void Akima761Method<P>::print(ostream &out) const {
+  out << "Akima761Method<P>";
 }

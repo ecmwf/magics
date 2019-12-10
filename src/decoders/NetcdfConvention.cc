@@ -4,8 +4,8 @@
  * This software is licensed under the terms of the Apache Licence Version 2.0
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
  * In applying this licence, ECMWF does not waive the privileges and immunities
- * granted to it by virtue of its status as an intergovernmental organisation nor
- * does it submit to any jurisdiction.
+ * granted to it by virtue of its status as an intergovernmental organisation
+ * nor does it submit to any jurisdiction.
  */
 
 /*! \file NetcdfConvention.cc
@@ -25,13 +25,12 @@ using namespace magics;
 
 NetcdfConvention::NetcdfConvention() {}
 
-
 NetcdfConvention::~NetcdfConvention() {}
 
 /*!
  Class information are given to the output-stream.
 */
-void NetcdfConvention::print(ostream& out) const {
-    out << "NetcdfConvention[";
-    out << "]";
+void NetcdfConvention::print(ostream &out) const {
+  out << "NetcdfConvention[";
+  out << "]";
 }

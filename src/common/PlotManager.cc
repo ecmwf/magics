@@ -4,8 +4,8 @@
  * This software is licensed under the terms of the Apache Licence Version 2.0
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
  * In applying this licence, ECMWF does not waive the privileges and immunities
- * granted to it by virtue of its status as an intergovernmental organisation nor
- * does it submit to any jurisdiction.
+ * granted to it by virtue of its status as an intergovernmental organisation
+ * nor does it submit to any jurisdiction.
  */
 
 /*! \file PlotManager.cc
@@ -22,81 +22,74 @@
 #include "PlotManager.h"
 #include "Page.h"
 
-
 using namespace magics;
 
 PlotManager::PlotManager() {}
-
 
 PlotManager::~PlotManager() {}
 
 /*!
  Class information are given to the output-stream.
 */
-void PlotManager::print(ostream& out) const {
-    out << "PlotManager[";
-    out << "]";
+void PlotManager::print(ostream &out) const {
+  out << "PlotManager[";
+  out << "]";
 }
 
-void PlotManager::superpage(MagicsManager& magics) {
-    while (!empty())
-        pop();
-    magics.execute();
-    magics.clear();
-}
-
-void PlotManager::page(MagicsManager&) {
+void PlotManager::superpage(MagicsManager &magics) {
+  while (!empty())
     pop();
-    page_ = true;
+  magics.execute();
+  magics.clear();
 }
 
-
-void PlotManager::check(MagicsManager& magics) {
-    if (empty()) {
-        addRoot(magics);
-    }
-    if (page_)
-        addpage(magics);
-}
-void PlotManager::addpage(MagicsManager& magics) {
-    if (empty())
-        addRoot(magics);
-    PageNode* node = new PageNode();
-
-    top()->addChild(node);
-    node->setFromFortran();
-    push(node);
-    page_ = false;
+void PlotManager::page(MagicsManager &) {
+  pop();
+  page_ = true;
 }
 
-void PlotManager::addRoot(MagicsManager& magics) {
-    while (!empty()) {
-        pop();
-    }
+void PlotManager::check(MagicsManager &magics) {
+  if (empty()) {
+    addRoot(magics);
+  }
+  if (page_)
+    addpage(magics);
+}
+void PlotManager::addpage(MagicsManager &magics) {
+  if (empty())
+    addRoot(magics);
+  PageNode *node = new PageNode();
 
-    magics.execute();
-    magics.clear();
-
-
-    BaseSceneObject* node = magics.root()->newFortranNode();
-
-    push(node);
-    page_ = true;
+  top()->addChild(node);
+  node->setFromFortran();
+  push(node);
+  page_ = false;
 }
 
-void PlotManager::subpage(MagicsManager&) {
+void PlotManager::addRoot(MagicsManager &magics) {
+  while (!empty()) {
     pop();
-    page_ = true;
-}
-void PlotManager::addNode(MagicsManager& manager, BaseSceneObject* object) {
-    if (empty())
-        addRoot(manager);
-    top()->addChild(object);
-    push(object);
-}
-void PlotManager::add(BaseSceneObject* object) {
-    top()->addChild(object);
+  }
+
+  magics.execute();
+  magics.clear();
+
+  BaseSceneObject *node = magics.root()->newFortranNode();
+
+  push(node);
+  page_ = true;
 }
 
+void PlotManager::subpage(MagicsManager &) {
+  pop();
+  page_ = true;
+}
+void PlotManager::addNode(MagicsManager &manager, BaseSceneObject *object) {
+  if (empty())
+    addRoot(manager);
+  top()->addChild(object);
+  push(object);
+}
+void PlotManager::add(BaseSceneObject *object) { top()->addChild(object); }
 
 static SimpleObjectMaker<PlotManager> plot_manager("positional");

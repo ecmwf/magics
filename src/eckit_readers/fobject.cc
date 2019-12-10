@@ -5,13 +5,14 @@
  waive the privileges and immunities granted to it by virtue of its status as
  an Intergovernmental Organization or submit itself to any jurisdiction.
 
- ***************************** LICENSE END *************************************/
+ ***************************** LICENSE END
+ *************************************/
 
 // fobject.cpp
 // rev vk 940824
 
-#include <stddef.h>
 #include "inc_iostream.h"
+#include <stddef.h>
 
 #include "fobject.h"
 
@@ -23,11 +24,11 @@ TFObject::TFObject(void) {}
 TFObject::~TFObject(void) {}
 //_________________________________________________________ operator==
 
-bool TFObject::operator==(const TFObject& aObjTest) const {
-    return (IsEqual(aObjTest));
+bool TFObject::operator==(const TFObject &aObjTest) const {
+  return (IsEqual(aObjTest));
 }
 //_________________________________________________________ operator!=
 
-bool TFObject::operator!=(const TFObject& aObjTest) const {
-    return (bool)(!(IsEqual(aObjTest)));
+bool TFObject::operator!=(const TFObject &aObjTest) const {
+  return (bool)(!(IsEqual(aObjTest)));
 }

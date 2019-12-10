@@ -4,8 +4,8 @@
  * This software is licensed under the terms of the Apache Licence Version 2.0
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
  * In applying this licence, ECMWF does not waive the privileges and immunities
- * granted to it by virtue of its status as an intergovernmental organisation nor
- * does it submit to any jurisdiction.
+ * granted to it by virtue of its status as an intergovernmental organisation
+ * nor does it submit to any jurisdiction.
  */
 
 /*! \file ColourSelection.cc
@@ -19,20 +19,18 @@
 
 */
 
-
 #include "ColourSelection.h"
 
 using namespace magics;
 
 ColourSelection::ColourSelection() {}
 
-
 ColourSelection::~ColourSelection() {}
 
 /*!
  Class information are given to the output-stream.
 */
-void ColourSelection::print(ostream& out) const {
-    out << "ColourSelection[";
-    out << "]";
+void ColourSelection::print(ostream &out) const {
+  out << "ColourSelection[";
+  out << "]";
 }

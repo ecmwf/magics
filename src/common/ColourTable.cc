@@ -4,8 +4,8 @@
  * This software is licensed under the terms of the Apache Licence Version 2.0
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
  * In applying this licence, ECMWF does not waive the privileges and immunities
- * granted to it by virtue of its status as an intergovernmental organisation nor
- * does it submit to any jurisdiction.
+ * granted to it by virtue of its status as an intergovernmental organisation
+ * nor does it submit to any jurisdiction.
  */
 
 /*! \file ColourTable.cc
@@ -19,7 +19,6 @@
 
 */
 
-
 #include "ColourTable.h"
 #include "PaperPoint.h"
 #include "Polyline.h"
@@ -28,7 +27,6 @@ using namespace magics;
 
 ColourTable::ColourTable() {}
 
-
 ColourTable::~ColourTable() {}
 
 void ColourTable::prepare() {
@@ -36,25 +34,25 @@ void ColourTable::prepare() {
 	for ( int i = 1; i < 256; i++) 
 		push_back(Rgb(1./i, 1./i, 1./i));
 #else
-    push_back(Colour(1., 0., 0.));
-    push_back(Colour(0., 1., 0));
-    push_back(Colour(0., 0., 1.));
-    push_back(Colour(1., 1., 0.));
-    push_back(Colour(1., 0., 1.));
-    push_back(Colour(0., 1., 1.));
+  push_back(Colour(1., 0., 0.));
+  push_back(Colour(0., 1., 0));
+  push_back(Colour(0., 0., 1.));
+  push_back(Colour(1., 1., 0.));
+  push_back(Colour(1., 0., 1.));
+  push_back(Colour(0., 1., 1.));
 #endif
 }
 /*!
  Class information are given to the output-stream.
 */
-void ColourTable::print(ostream& out) const {
-    out << "ColourTable[\n";
-    int i = 0;
-    for (ColourIterator colour = begin(); colour != end(); ++colour) {
-        out << "\t Colour " << i << ":" << *colour << "\n";
-        i++;
-    }
-    out << "]\n";
+void ColourTable::print(ostream &out) const {
+  out << "ColourTable[\n";
+  int i = 0;
+  for (ColourIterator colour = begin(); colour != end(); ++colour) {
+    out << "\t Colour " << i << ":" << *colour << "\n";
+    i++;
+  }
+  out << "]\n";
 }
 /*
 void ColourTable::visit(LegendEntryList& list) const
@@ -80,6 +78,6 @@ void ColourTableEntry::visit(LegendEntryList& list) const
 
 }
 */
-void ColourTableEntry::print(ostream& out) const {
-    out << "[" << min_ << ", " << max_ << ", " << colour_ << "]";
+void ColourTableEntry::print(ostream &out) const {
+  out << "[" << min_ << ", " << max_ << ", " << colour_ << "]";
 }

@@ -4,8 +4,8 @@
  * This software is licensed under the terms of the Apache Licence Version 2.0
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
  * In applying this licence, ECMWF does not waive the privileges and immunities
- * granted to it by virtue of its status as an intergovernmental organisation nor
- * does it submit to any jurisdiction.
+ * granted to it by virtue of its status as an intergovernmental organisation
+ * nor does it submit to any jurisdiction.
  */
 
 /*! \file BoxPlotVisualiser.cc
@@ -19,74 +19,70 @@
 
 */
 
-
 #include "BoxPlotVisualiser.h"
 #include "MagDateTime.h"
 #include "PointsHandler.h"
 #include "Text.h"
 
-
 using namespace magics;
 
-
 BoxPlotVisualiser::BoxPlotVisualiser() {}
-
 
 BoxPlotVisualiser::~BoxPlotVisualiser() {}
 
 /*!
  Class information are given to the output-stream.
 */
-void BoxPlotVisualiser::print(ostream& out) const {
-    out << "BoxPlotVisualiser[";
-    out << "]";
+void BoxPlotVisualiser::print(ostream &out) const {
+  out << "BoxPlotVisualiser[";
+  out << "]";
 }
 
+void BoxPlotVisualiser::operator()(Data &data,
+                                   BasicGraphicsObjectContainer &visitor) {
+  CustomisedPointsList points;
+  std::set<string> request;
 
-void BoxPlotVisualiser::operator()(Data& data, BasicGraphicsObjectContainer& visitor) {
-    CustomisedPointsList points;
-    std::set<string> request;
+  request.insert("min");
+  request.insert("max");
+  request.insert("lower");
+  request.insert("upper");
+  request.insert("median");
 
-    request.insert("min");
-    request.insert("max");
-    request.insert("lower");
-    request.insert("upper");
-    request.insert("median");
+  const Transformation &transformation = visitor.transformation();
+  data.customisedPoints(transformation, request, points,
+                        true); // we want all the points!
 
-    const Transformation& transformation = visitor.transformation();
-    data.customisedPoints(transformation, request, points, true);  // we want all the points!
+  double user =
+      (transformation.getAbsoluteMaxX() - transformation.getAbsoluteMinX()) /
+      visitor.absoluteWidth();
 
-    double user = (transformation.getAbsoluteMaxX() - transformation.getAbsoluteMinX()) / visitor.absoluteWidth();
+  double max = transformation.getAbsoluteMaxY();
+  double min = transformation.getAbsoluteMinY();
 
-    double max = transformation.getAbsoluteMaxY();
-    double min = transformation.getAbsoluteMinY();
+  if (points.empty())
+    return;
 
+  box_->cm(user);
+  whisker_->cm(user);
 
-    if (points.empty())
-        return;
-
-
-    box_->cm(user);
-    whisker_->cm(user);
-
-
-    for (const auto& point : points) {
-        for (std::set<string>::iterator key = request.begin(); key != request.end(); ++key) {
-            double val = (*point)[*key];
-            if (val < min)
-                (*point)[*key] = min;
-            if (val > max)
-                (*point)[*key] = max;
-        }
-
-
-        (*box_)(visitor, *point);
-
-        whisker_->top(visitor, *point);
-        whisker_->bottom(visitor, *point);
+  for (const auto &point : points) {
+    for (std::set<string>::iterator key = request.begin(); key != request.end();
+         ++key) {
+      double val = (*point)[*key];
+      if (val < min)
+        (*point)[*key] = min;
+      if (val > max)
+        (*point)[*key] = max;
     }
+
+    (*box_)(visitor, *point);
+
+    whisker_->top(visitor, *point);
+    whisker_->bottom(visitor, *point);
+  }
 }
 
-void BoxPlotVisualiser::visit(LegendVisitor&) {
-    // Not Yet!
+void BoxPlotVisualiser::visit(LegendVisitor &) {
+  // Not Yet!
 }

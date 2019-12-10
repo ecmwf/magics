@@ -4,8 +4,8 @@
  * This software is licensed under the terms of the Apache Licence Version 2.0
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
  * In applying this licence, ECMWF does not waive the privileges and immunities
- * granted to it by virtue of its status as an intergovernmental organisation nor
- * does it submit to any jurisdiction.
+ * granted to it by virtue of its status as an intergovernmental organisation
+ * nor does it submit to any jurisdiction.
  */
 
 /*! \file IntervalSelectionType.cc
@@ -19,7 +19,6 @@
 
 */
 
-
 #include "IntervalSelectionType.h"
 #include "PointsHandler.h"
 #include "UserPoint.h"
@@ -28,104 +27,102 @@ using namespace magics;
 
 IntervalSelectionType::IntervalSelectionType() {}
 
-
 IntervalSelectionType::~IntervalSelectionType() {}
 
 /*!
  Class information are given to the output-stream.
 */
-void IntervalSelectionType::print(ostream& out) const {
-    out << "IntervalSelectionType[";
-    IntervalSelectionTypeAttributes::print(out);
-    out << "]";
+void IntervalSelectionType::print(ostream &out) const {
+  out << "IntervalSelectionType[";
+  IntervalSelectionTypeAttributes::print(out);
+  out << "]";
 }
 
 void IntervalSelectionType::calculate(double min, double max, bool shading) {
-    clear();
-    std::set<double> levels;
+  clear();
+  std::set<double> levels;
 
-
-    double lmax, lmin;
-    if (shading) {
-        if (max_shade_ < min_shade_)
-            MagLog::warning() << "contour_shade_max_level (" << max_shade_ << ") < contour_shade_min_level ("
-                              << min_shade_ << "): Please check your code" << endl;
-        if (same(max_, 1.0e+21)) {
-            max_ = max_shade_;
-        }
-        if (same(min_, -1.0e+21)) {
-            min_ = min_shade_;
-        }
+  double lmax, lmin;
+  if (shading) {
+    if (max_shade_ < min_shade_)
+      MagLog::warning() << "contour_shade_max_level (" << max_shade_
+                        << ") < contour_shade_min_level (" << min_shade_
+                        << "): Please check your code" << endl;
+    if (same(max_, 1.0e+21)) {
+      max_ = max_shade_;
     }
-
-
-    lmax = same(max_, 1.0e+21) ? max : max_;
-    lmin = same(min_, -1.0e+21) ? min : min_;
-
-
-    levels.insert(lmin);
-    levels.insert(lmax);
-
-
-    double level = reference_;
-    double newref;
-
-    int i = 1;
-    while (level < lmax && !same(level, lmax)) {
-        if (level > lmin)
-            levels.insert(level);
-        level = reference_ + (i * interval_);
-        i++;
+    if (same(min_, -1.0e+21)) {
+      min_ = min_shade_;
     }
-    level = reference_;
-    i     = 1;
-    while (level > lmin && !same(level, lmin)) {
-        if (level < lmax)
-            levels.insert(level);
-        level = reference_ - (i * interval_);
-        i++;
-    }
+  }
 
-    ostringstream out;
-    out << "\nIntervalSelectionType-->[";
-    for (std::set<double>::const_iterator level = levels.begin(); level != levels.end(); ++level) {
-        out << *level << ", ";
-        push_back(*level);
-    }
-    out << "]" << endl;
-    MagLog::dev() << out.str() << endl;
+  lmax = same(max_, 1.0e+21) ? max : max_;
+  lmin = same(min_, -1.0e+21) ? min : min_;
 
-    // Now make sure that the reference is inside the interval ..
+  levels.insert(lmin);
+  levels.insert(lmax);
+
+  double level = reference_;
+  double newref;
+
+  int i = 1;
+  while (level < lmax && !same(level, lmax)) {
+    if (level > lmin)
+      levels.insert(level);
+    level = reference_ + (i * interval_);
+    i++;
+  }
+  level = reference_;
+  i = 1;
+  while (level > lmin && !same(level, lmin)) {
+    if (level < lmax)
+      levels.insert(level);
+    level = reference_ - (i * interval_);
+    i++;
+  }
+
+  ostringstream out;
+  out << "\nIntervalSelectionType-->[";
+  for (std::set<double>::const_iterator level = levels.begin();
+       level != levels.end(); ++level) {
+    out << *level << ", ";
+    push_back(*level);
+  }
+  out << "]" << endl;
+  MagLog::dev() << out.str() << endl;
+
+  // Now make sure that the reference is inside the interval ..
 }
 
 double IntervalSelectionType::reference(int freq) const {
-    if (empty())
-        return reference_;
-    // Now make sure that the reference is inside the interval ..
+  if (empty())
+    return reference_;
+  // Now make sure that the reference is inside the interval ..
 
-    const_iterator reflev = find(begin(), end(), reference_);
+  const_iterator reflev = find(begin(), end(), reference_);
 
-    if (reflev != end())
-        return reference_;
+  if (reflev != end())
+    return reference_;
 
-    vector<double> values;
-    double val = reference_;
-    if (reference_ < front()) {
-        while (val < back()) {
-            values.push_back(val);
-            val += (freq * interval_);
-        }
+  vector<double> values;
+  double val = reference_;
+  if (reference_ < front()) {
+    while (val < back()) {
+      values.push_back(val);
+      val += (freq * interval_);
     }
-    if (reference_ > back()) {
-        while (val > front()) {
-            values.push_back(val);
-            val -= (freq * interval_);
-        }
-        // revert
-        std::reverse(values.begin(), values.end());
+  }
+  if (reference_ > back()) {
+    while (val > front()) {
+      values.push_back(val);
+      val -= (freq * interval_);
     }
+    // revert
+    std::reverse(values.begin(), values.end());
+  }
 
-    set_intersection(begin(), end(), values.begin(), values.end(), values.begin());
+  set_intersection(begin(), end(), values.begin(), values.end(),
+                   values.begin());
 
-    return values.front();
+  return values.front();
 }
