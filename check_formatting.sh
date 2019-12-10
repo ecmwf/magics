@@ -2,7 +2,7 @@
 
 # Auto-formatting script that checks whether the CWD and child directories have
 # formatted source code.
-find . -iname *.h -o -iname *.c -o -iname *.cpp -o -iname *.cc -o -iname *.hpp | while read path; do
+find . -iname *.h -o -iname *.cpp -o -iname *.cc -o -iname *.hpp | while read path; do
     ORIG=$(cat $path)
     # The `--style=file` arguments while automatically find the .clang-format
     # config file. It doesn't take a file path but just the string `file`
