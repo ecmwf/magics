@@ -17,7 +17,7 @@ fi
 
 # The find `-regex -E` args on Linux and Darwin work differently. Normally
 # the Darwin path would not need to be invoked unless testing the script remotely
-base_dir="./src"
+base_dir="."
 case "${unameOut}" in
     Linux*)     all_paths=$(find $base_dir -iname *.cc -o -iname *.cpp -o -iname *.hpp -o -iname *.cxx -o -iname *.h);;
     Darwin*)    all_paths=$(find -E $base_dir -regex '.*\.(cc|cpp|hpp|cxx|h)')
