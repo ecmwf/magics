@@ -8,5 +8,5 @@ find . -iname *.h -o -iname *.cpp -o -iname *.cc -o -iname *.hpp | while read pa
     # config file. It doesn't take a file path but just the string `file`
     # If .clang-format is missing the script will exit.
     AUTO=$(clang-format --style=file --fallback-style=none $path)
-    diff <(echo $ORIG) <(echo $AUTO) > /dev/null || echo "$path is not formatted, format with clang-format"
+    diff <(echo $ORIG) <(echo $AUTO) > /dev/null ||{ echo "$path is not formatted"; exit 1; }
 done
