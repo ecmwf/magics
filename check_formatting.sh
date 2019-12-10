@@ -3,22 +3,24 @@
 # Identify the platform/CI server on which this script is running
 unameOut="$(uname -s)"
 case "${unameOut}" in
-    Linux*)     isLinux=true;;
-    *)          isLinux=false
+    Linux*)     skipCheck=true;;
+    Darwin*)    skipCheck=false;;
+    *)          skipCheck=false
 esac
 
 # Unless testing locally, you will want to skip format checking on anything other
 # thank linux
-if  [[ "$isLinux" = false ]] ; then
+if  [[ "$skipCheck" = false ]] ; then
     echo "Skipping format check on $unameOut platform"
     exit 0
 fi
 
 # The find `-regex -E` args on Linux and Darwin work differently. Normally
 # the Darwin path would not need to be invoked unless testing the script remotely
+base_dir="./src"
 case "${unameOut}" in
-    Linux*)     all_paths=$(find ./src -iname *.cc -o -iname *.cpp -o -iname *.hpp -o -iname *.cxx -o -iname *.h);;
-    Darwin*)    all_paths=$(find -E ./src -regex '.*\.(cc|cpp|hpp|cxx|h)')
+    Linux*)     all_paths=$(find $base_dir -iname *.cc -o -iname *.cpp -o -iname *.hpp -o -iname *.cxx -o -iname *.h);;
+    Darwin*)    all_paths=$(find -E $base_dir -regex '.*\.(cc|cpp|hpp|cxx|h)')
 esac
 
 # Auto-formatting script that checks whether the CWD and child directories have
