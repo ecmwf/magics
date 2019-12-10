@@ -1,5 +1,16 @@
 #!/bin/bash
 
+unameOut="$(uname -s)"
+case "${unameOut}" in
+    Linux*)     isLinux=true;;
+    *)          isLinux=false
+esac
+
+if  [[ "$isLinux" = false ]] ; then
+    echo "Skipping format check on $unameOut platform"
+    exit 0
+fi
+
 # Auto-formatting script that checks whether the CWD and child directories have
 # formatted source code.
 find -E ./src -regex '.*\.(cc|cpp|hpp|cxx|h)' | while read path; do
