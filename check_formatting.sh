@@ -19,8 +19,8 @@ fi
 # the Darwin path would not need to be invoked unless testing the script remotely
 base_dir="."
 case "${unameOut}" in
-    Linux*)     all_paths=$(find $base_dir -iname *.cc -o -iname *.cpp -o -iname *.hpp -o -iname *.cxx -o -iname *.h);;
-    Darwin*)    all_paths=$(find -E $base_dir -regex '.*\.(cc|cpp|hpp|cxx|h)')
+    Linux*)     all_paths=$(find $base_dir -iname *.cc -o -iname *.cpp -o -iname *.hpp -o -iname *.cxx);;
+    Darwin*)    all_paths=$(find -E $base_dir -regex '.*\.(cc|cpp|hpp|cxx)')
 esac
 
 # Auto-formatting script that checks whether the CWD and child directories have
