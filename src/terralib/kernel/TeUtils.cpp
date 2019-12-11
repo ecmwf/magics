@@ -20,7 +20,6 @@
 
 /* The following includes are needed for pysical memory checking */
 #if TePLATFORM == TePLATFORMCODE_MSWINDOWS
-#include <winbase.h>
 #include <windows.h>
 #elif TePLATFORM == TePLATFORMCODE_LINUX || TePLATFORM == TePLATFORMCODE_AIX
 #include <errno.h>
