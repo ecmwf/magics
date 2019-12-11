@@ -50,10 +50,13 @@ git:
   depth: 1
 
 before_install:
-  - echo $(clang-format --version)
-  - echo $(bash --version)
-  # check formatting
-  - bash check_formatting.sh
+  # check formatting only on linux
+  - |
+    if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+      echo $(clang-format --version)
+      echo $(bash --version)
+      bash check_formatting.sh
+    fi
   # prepare install dir
   - mkdir ${INSTALL_DIR}
   # install conda
