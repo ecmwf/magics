@@ -22,14 +22,9 @@
 #include <map>
 #include <set>
 #include <vector>
+#include <exception>
 
-#include <odb_api/ColumnType.h>
-#include <odb_api/Reader.h>
-
-extern "C" {
-#include <odb_api/odbcapi.h>
-}
-
+#include <odc/api/odc.h>
 
 #include "../common/Timer.h"
 #include "OdaDecoder.h"
@@ -37,20 +32,46 @@ extern "C" {
 #include "SciMethods.h"
 #include "TextVisitor.h"
 
+// Specialise custom deletion for ODC types
 
-static int getOdbColumnIndex(odb::Reader::iterator&, const string&);
+namespace std {
+template <> struct default_delete<odc_reader_t> {
+    void operator() (const odc_reader_t* reader) { odc_close(reader); }
+};
 
-int getOdbColumnIndex(odb::Reader::iterator& firstRowIt, const string& colName) {
-    int index = 0;
-    for (odb::MetaData::const_iterator it = firstRowIt->columns().begin(); it != firstRowIt->columns().end(); ++it) {
-        string s = (*it)->name();
-        if (s == colName)
-            return index;
+template <> struct default_delete<odc_frame_t> {
+    void operator() (const odc_frame_t* frame) { odc_free_frame(frame); }
+};
 
-        index++;
+template <> struct default_delete<odc_decoder_t> {
+    void operator() (const odc_decoder_t* t) { odc_free_decoder(t); }
+};
+}
+
+// Ensure ODC initialised within this application
+
+namespace {
+
+constexpr int MAX_DECODE_CHUNK = 100000;
+constexpr int DECODE_THREADS = 4;
+static bool initialised = false;
+
+void odc_throw_errors(void *, int err) {
+    std::exception_ptr e = std::current_exception();
+    if (e) std::rethrow_exception(e);
+    std::ostringstream ss;
+    ss << "Unexepected error in odc: " << err << std::endl;
+    throw std::runtime_error(ss.str());
+}
+
+void ensure_odc_initialised() {
+    if (!initialised) {
+        odc_initialise_api();
+        odc_integer_behaviour(ODC_INTEGERS_AS_LONGS);
+        odc_set_failure_handler(odc_throw_errors, 0);
+        initialised = true;
     }
-    MagLog::warning() << "Cannot find column for " << colName << endl;
-    return -1;
+}
 }
 
 OdaGeoDecoder::OdaGeoDecoder() {}
@@ -95,53 +116,86 @@ void OdaGeoDecoder::decode(const Transformation& transformation) {
     }
     else {
         try {
-            odb_start();
-            odb::Reader oda(path_);
-            odb::Reader::iterator it = oda.begin();
+            ensure_odc_initialised();;
 
-            int latIndex, lonIndex, valueIndex = -1;
+            // Open the ODB file
 
-            if ((latIndex = getOdbColumnIndex(it, latitude_)) == -1)
-                throw exception();
-            if ((lonIndex = getOdbColumnIndex(it, longitude_)) == -1)
-                throw exception();
+            odc_reader_t* reader = nullptr;
+            odc_open_path(&reader, path_.c_str());
+            std::unique_ptr<odc_reader_t> reader_deleter(reader);
 
-            if (value_.empty())
+            // Construct a decoder for the specified columns
+
+            odc_decoder_t* decoder = nullptr;
+            odc_new_decoder(&decoder);
+            std::unique_ptr<odc_decoder_t> decoder_deleter(decoder);
+
+            int latIndex = 0, longIndex = 1, valueIndex = -1;
+            int ncols = 2;
+            odc_decoder_set_row_count(decoder, MAX_DECODE_CHUNK);
+            odc_decoder_add_column(decoder, latitude_.c_str());
+            odc_decoder_add_column(decoder, longitude_.c_str());
+
+            if (value_.empty()) {
                 MagLog::info() << "No value is specified!" << endl;
-            else if ((valueIndex = getOdbColumnIndex(it, value_)) == -1)
-                throw exception();
+            } else {
+                valueIndex = ncols++;
+                odc_decoder_add_column(decoder, value_.c_str());
+            }
 
-            MagLog::info() << "Indices: " << latIndex << " " << lonIndex << " " << valueIndex << endl;
+            // Iterate over the (aggregated) frames and extract the data
+
+            odc_frame_t* frame = nullptr;
+            odc_new_frame(&frame, reader);
+            std::unique_ptr<odc_frame_t> frame_deleter(frame);
 
             int dataCnt = 0;
+            int row = 0;
+            int ierr;
             dataIndex_.clear();
+            while ((ierr = odc_next_frame_aggregated(frame, MAX_DECODE_CHUNK)) == ODC_SUCCESS) {
 
-            unsigned int row = 0;
+                long rowsDecoded = 0;
+                odc_decode_threaded(decoder, frame, &rowsDecoded, DECODE_THREADS);
 
-            for (; it != oda.end(); ++it) {
-                double lat = (*it)[latIndex];
-                double lon = (*it)[lonIndex];
-                position(lat, lon);
+                const double *data = nullptr;
+                long width;
+                long height;
+                bool columnMajor;
+                odc_decoder_data_array(decoder, reinterpret_cast<const void**>(&data),
+                                       &width, &height, &columnMajor);
 
-                if (transformation.in(lon, lat)) {
-                    if (valueIndex != -1) {
-                        stats_["value"].push_back((*it)[valueIndex]);
-                        stats_["x"].push_back(lon);
-                        stats_["y"].push_back(lat);
-                        push_back(new UserPoint(lon, lat, (*it)[valueIndex]));
-                    }
-                    else {
-                        push_back(new UserPoint(lon, lat));
-                    }
-
-                    dataIndex_.push_back(dataCnt);
-
-                    row++;
-                    if (nb_rows_ != -1 && row >= nb_rows_) {
-                        break;
-                    }
+                if (width != (ncols*sizeof(double)) || height != MAX_DECODE_CHUNK || columnMajor) {
+                    throw std::range_error("Unexepected array dimensions fom ODC");
                 }
-                dataCnt++;
+
+                for (int i = 0; i < rowsDecoded; i++) {
+
+                    double lat = data[i*ncols+latIndex];
+                    double lon = data[i*ncols+longIndex];
+                    position(lat, lon);
+
+                    if (transformation.in(lon, lat)) {
+                        if (valueIndex != -1) {
+                            double val = data[i*ncols+valueIndex];
+                            stats_["value"].push_back(val);
+                            stats_["x"].push_back(lon);
+                            stats_["y"].push_back(lat);
+                            push_back(new UserPoint(lon, lat, val));
+                        }
+                        else {
+                            push_back(new UserPoint(lon, lat));
+                        }
+
+                        dataIndex_.push_back(dataCnt);
+
+                        row++;
+                        if (nb_rows_ != -1 && row >= nb_rows_) {
+                            break;
+                        }
+                    }
+                    dataCnt++;
+                }
             }
 
             MagLog::info() << "Number of rows: " << row << endl;
@@ -187,51 +241,83 @@ void OdaGeoDecoder::decode() {
         return;
 
     try {
-        odb_start();
-        odb::Reader oda(path_);
+        ensure_odc_initialised();;
 
-        odb::Reader::iterator it = oda.begin();
+        // Open the ODB file
 
-        int latIndex, lonIndex, valueIndex = -1;
+        odc_reader_t* reader = nullptr;
+        odc_open_path(&reader, path_.c_str());
+        std::unique_ptr<odc_reader_t> reader_deleter(reader);
 
-        if ((latIndex = getOdbColumnIndex(it, latitude_)) == -1)
-            throw exception();
-        if ((lonIndex = getOdbColumnIndex(it, longitude_)) == -1)
-            throw exception();
+        // Construct a decoder for the specified columns
 
-        if (value_.empty())
+        odc_decoder_t* decoder = nullptr;
+        odc_new_decoder(&decoder);
+        std::unique_ptr<odc_decoder_t> decoder_deleter(decoder);
+
+        int latIndex = 0, longIndex = 1, valueIndex = -1;
+        int ncols = 2;
+        odc_decoder_set_row_count(decoder, MAX_DECODE_CHUNK);
+        odc_decoder_add_column(decoder, latitude_.c_str());
+        odc_decoder_add_column(decoder, longitude_.c_str());
+
+        if (value_.empty()) {
             MagLog::info() << "No value is specified!" << endl;
-        else if ((valueIndex = getOdbColumnIndex(it, value_)) == -1)
-            throw exception();
+        } else {
+            valueIndex = ncols++;
+            odc_decoder_add_column(decoder, value_.c_str());
+        }
 
-        MagLog::info() << "Indices: " << latIndex << " " << lonIndex << " " << valueIndex << endl;
+        // Iterate over the (aggregated) frames and extract the data
 
-        unsigned int row = 0;
+        odc_frame_t* frame = nullptr;
+        odc_new_frame(&frame, reader);
+        std::unique_ptr<odc_frame_t> frame_deleter(frame);
 
         int dataCnt = 0;
+        int row = 0;
+        int ierr;
         dataIndex_.clear();
+        while ((ierr = odc_next_frame_aggregated(frame, MAX_DECODE_CHUNK)) == ODC_SUCCESS) {
 
-        for (; it != oda.end(); ++it) {
-            double lat = (*it)[latIndex];
-            double lon = (*it)[lonIndex];
-            position(lat, lon);
+            long rowsDecoded = 0;
+            odc_decode_threaded(decoder, frame, &rowsDecoded, DECODE_THREADS);
 
-            if (valueIndex != -1) {
-                stats_["value"].push_back((*it)[valueIndex]);
-                stats_["x"].push_back(lon);
-                stats_["y"].push_back(lat);
-                push_back(new UserPoint(lon, lat, (*it)[valueIndex]));
+            const double *data = nullptr;
+            long width;
+            long height;
+            bool columnMajor;
+            odc_decoder_data_array(decoder, reinterpret_cast<const void**>(&data),
+                                   &width, &height, &columnMajor);
+
+            if (width != (ncols*sizeof(double)) || height != MAX_DECODE_CHUNK || columnMajor) {
+                throw std::range_error("Unexepected array dimensions fom ODC");
             }
-            else {
-                push_back(new UserPoint(lon, lat));
-            }
 
-            dataIndex_.push_back(dataCnt);
-            dataCnt++;
+            for (int i = 0; i < rowsDecoded; i++) {
 
-            row++;
-            if (nb_rows_ != -1 && row >= nb_rows_) {
-                break;
+                double lat = data[i*ncols+latIndex];
+                double lon = data[i*ncols+longIndex];
+                position(lat, lon);
+
+                if (valueIndex != -1) {
+                    double val = data[i*ncols+valueIndex];
+                    stats_["value"].push_back(val);
+                    stats_["x"].push_back(lon);
+                    stats_["y"].push_back(lat);
+                    push_back(new UserPoint(lon, lat, val));
+                }
+                else {
+                    push_back(new UserPoint(lon, lat));
+                }
+
+                dataIndex_.push_back(dataCnt);
+                dataCnt++;
+
+                row++;
+                if (nb_rows_ != -1 && row >= nb_rows_) {
+                    break;
+                }
             }
         }
 
@@ -300,56 +386,90 @@ void OdaGeoDecoder::customisedPoints(const std::set<string>&, CustomisedPointsLi
     }
 
     try {
-        odb_start();
-        odb::Reader oda(path_);
+        ensure_odc_initialised();;
 
-        odb::Reader::iterator it = oda.begin();
+        // Open the ODB file
 
-        int latIndex, lonIndex, valueIndex = -1, xIndex, yIndex;
+        odc_reader_t* reader = nullptr;
+        odc_open_path(&reader, path_.c_str());
+        std::unique_ptr<odc_reader_t> reader_deleter(reader);
 
-        if ((latIndex = getOdbColumnIndex(it, latitude_)) == -1)
-            throw exception();
-        if ((lonIndex = getOdbColumnIndex(it, longitude_)) == -1)
-            throw exception();
-        if (value_.empty())
+        // Construct a decoder for the specified columns
+
+        odc_decoder_t* decoder = nullptr;
+        odc_new_decoder(&decoder);
+        std::unique_ptr<odc_decoder_t> decoder_deleter(decoder);
+
+        int latIndex = 0, longIndex = 1, xIndex = 2, yIndex = 3, valueIndex = -1;
+        int ncols = 4;
+        odc_decoder_set_row_count(decoder, MAX_DECODE_CHUNK);
+        odc_decoder_add_column(decoder, latitude_.c_str());
+        odc_decoder_add_column(decoder, longitude_.c_str());
+        odc_decoder_add_column(decoder, x_.c_str());
+        odc_decoder_add_column(decoder, y_.c_str());
+
+        if (value_.empty()) {
             MagLog::info() << "No value is specified!" << endl;
-        else if ((valueIndex = getOdbColumnIndex(it, value_)) == -1)
-            throw exception();
+        } else {
+            valueIndex = ncols++;
+            odc_decoder_add_column(decoder, value_.c_str());
+        }
 
-        if ((xIndex = getOdbColumnIndex(it, x_)) == -1)
-            throw exception();
-        if ((yIndex = getOdbColumnIndex(it, y_)) == -1)
-            throw exception();
+        // Iterate over the (aggregated) frames and extract the data
 
-        MagLog::info() << "Indices: " << latIndex << " " << lonIndex << " " << valueIndex << endl;
+        odc_frame_t* frame = nullptr;
+        odc_new_frame(&frame, reader);
+        std::unique_ptr<odc_frame_t> frame_deleter(frame);
 
         unsigned int row = 0;
+        int ierr;
+        while ((ierr = odc_next_frame_aggregated(frame, MAX_DECODE_CHUNK)) == ODC_SUCCESS) {
 
-        for (; it != oda.end(); ++it, row++) {
-            if (nb_rows_ != -1 && row >= nb_rows_) {
-                break;
+            long rowsDecoded = 0;
+            odc_decode_threaded(decoder, frame, &rowsDecoded, DECODE_THREADS);
+
+            const double *data = nullptr;
+            long width;
+            long height;
+            bool columnMajor;
+            odc_decoder_data_array(decoder, reinterpret_cast<const void**>(&data),
+                                   &width, &height, &columnMajor);
+
+            if (width != (ncols*sizeof(double)) || height != MAX_DECODE_CHUNK || columnMajor) {
+                throw std::range_error("Unexepected array dimensions fom ODC");
             }
 
-            double lat = (*it)[latIndex];
-            double lon = (*it)[lonIndex];
-            position(lat, lon);
 
-            CustomisedPoint* point = new CustomisedPoint();
-            point->longitude(lon);
-            point->latitude(lat);
-            (*point)["x_component"]      = (*it)[xIndex];
-            (*point)["y_component"]      = (*it)[yIndex];
-            double val                   = (valueIndex != -1) ? (*it)[valueIndex] : speed((*it)[xIndex], (*it)[yIndex]);
-            (*point)["colour_component"] = val;
-            list.push_back(point);
-            stats_["value"].push_back(val);
-            // stats_["x"].push_back((*it)[xIndex]);
-            // stats_["y"].push_back((*it)[yIndex]);
+            for (int i = 0; i < rowsDecoded; i++) {
+                double lat = data[i*ncols+latIndex];
+                double lon = data[i*ncols+longIndex];
+                position(lat, lon);
 
-            CustomisedPoint* cp = new CustomisedPoint(point->longitude(), point->latitude(), point->identifier());
-            for (CustomisedPoint::iterator key = point->begin(); key != point->end(); ++key)
-                cp->insert(make_pair(key->first, key->second));
-            customisedPoints_.push_back(cp);
+                double x = data[i*ncols+xIndex];
+                double y = data[i*ncols+yIndex];
+                double val = (valueIndex != -1) ? data[i*ncols+valueIndex] : speed(x, y);
+
+                CustomisedPoint* point = new CustomisedPoint();
+                point->longitude(lon);
+                point->latitude(lat);
+                (*point)["x_component"] = x;
+                (*point)["y_component"] = x;
+                (*point)["colour_component"] = val;
+                list.push_back(point);
+                stats_["value"].push_back(val);
+                // stats_["x"].push_back((*it)[xIndex]);
+                // stats_["y"].push_back((*it)[yIndex]);
+
+                CustomisedPoint* cp = new CustomisedPoint(point->longitude(), point->latitude(), point->identifier());
+                for (CustomisedPoint::iterator key = point->begin(); key != point->end(); ++key)
+                    cp->insert(make_pair(key->first, key->second));
+                customisedPoints_.push_back(cp);
+
+                row++;
+                if (nb_rows_ != -1 && row >= nb_rows_) {
+                    break;
+                }
+            }
         }
 
         computeStats();
@@ -396,53 +516,87 @@ void OdaGeoDecoder::customisedPoints(const Transformation& transformation, const
     }
 
     try {
-        odb_start();
-        odb::Reader oda(path_);
+        ensure_odc_initialised();;
 
-        odb::Reader::iterator it = oda.begin();
+        // Open the ODB file
 
-        int latIndex, lonIndex, valueIndex = -1, xIndex, yIndex;
+        odc_reader_t* reader = nullptr;
+        odc_open_path(&reader, path_.c_str());
+        std::unique_ptr<odc_reader_t> reader_deleter(reader);
 
-        if ((latIndex = getOdbColumnIndex(it, latitude_)) == -1)
-            throw exception();
-        if ((lonIndex = getOdbColumnIndex(it, longitude_)) == -1)
-            throw exception();
+        // Construct a decoder for the specified columns
 
-        if (value_.empty())
+        odc_decoder_t* decoder = nullptr;
+        odc_new_decoder(&decoder);
+        std::unique_ptr<odc_decoder_t> decoder_deleter(decoder);
+
+        int latIndex = 0, longIndex = 1, xIndex = 2, yIndex = 3, valueIndex = -1;
+        int ncols = 4;
+        odc_decoder_set_row_count(decoder, MAX_DECODE_CHUNK);
+        odc_decoder_add_column(decoder, latitude_.c_str());
+        odc_decoder_add_column(decoder, longitude_.c_str());
+        odc_decoder_add_column(decoder, x_.c_str());
+        odc_decoder_add_column(decoder, y_.c_str());
+
+        if (value_.empty()) {
             MagLog::info() << "No value is specified!" << endl;
-        else if ((valueIndex = getOdbColumnIndex(it, value_)) == -1)
-            throw exception();
+        } else {
+            valueIndex = ncols++;
+            odc_decoder_add_column(decoder, value_.c_str());
+        }
 
-        if ((xIndex = getOdbColumnIndex(it, x_)) == -1)
-            throw exception();
-        if ((yIndex = getOdbColumnIndex(it, y_)) == -1)
-            throw exception();
+        // Iterate over the (aggregated) frames and extract the data
 
-        MagLog::info() << "Indices: " << latIndex << " " << lonIndex << " " << valueIndex << endl;
+        odc_frame_t* frame = nullptr;
+        odc_new_frame(&frame, reader);
+        std::unique_ptr<odc_frame_t> frame_deleter(frame);
 
         unsigned int row = 0;
+        int ierr;
+        while ((ierr = odc_next_frame_aggregated(frame, MAX_DECODE_CHUNK)) == ODC_SUCCESS) {
 
-        for (; it != oda.end(); ++it) {
-            double lat = (*it)[latIndex];
-            double lon = (*it)[lonIndex];
-            position(lat, lon);
-            if (transformation.in(lon, lat)) {
-                CustomisedPoint* point = new CustomisedPoint();
-                point->longitude(lon);
-                point->latitude(lat);
-                double val              = (valueIndex != -1) ? (*it)[valueIndex] : speed((*it)[xIndex], (*it)[yIndex]);
-                (*point)["x_component"] = (*it)[xIndex];
-                (*point)["y_component"] = (*it)[yIndex];
-                (*point)["colour_component"] = val;
-                list.push_back(point);
-                stats_["value"].push_back(val);
-                // stats_["x"].push_back((*it)[xIndex]);
-                // stats_["y"].push_back((*it)[yIndex]);
+            long rowsDecoded = 0;
+            odc_decode_threaded(decoder, frame, &rowsDecoded, DECODE_THREADS);
 
-                CustomisedPoint* cp = new CustomisedPoint(point->longitude(), point->latitude(), point->identifier());
-                for (CustomisedPoint::iterator key = point->begin(); key != point->end(); ++key)
-                    cp->insert(make_pair(key->first, key->second));
-                customisedPoints_.push_back(cp);
+            const double *data = nullptr;
+            long width;
+            long height;
+            bool columnMajor;
+            odc_decoder_data_array(decoder, reinterpret_cast<const void**>(&data),
+                                   &width, &height, &columnMajor);
+
+            if (width != (ncols*sizeof(double)) || height != MAX_DECODE_CHUNK || columnMajor) {
+                throw std::range_error("Unexepected array dimensions fom ODC");
+            }
+
+
+            for (int i = 0; i < rowsDecoded; i++) {
+
+                double lat = data[i*ncols+latIndex];
+                double lon = data[i*ncols+longIndex];
+                position(lat, lon);
+
+                if (transformation.in(lon, lat)) {
+                    double x = data[i*ncols+xIndex];
+                    double y = data[i*ncols+yIndex];
+                    double val = (valueIndex != -1) ? data[i*ncols+valueIndex] : speed(x, y);
+
+                    CustomisedPoint* point = new CustomisedPoint();
+                    point->longitude(lon);
+                    point->latitude(lat);
+                    (*point)["x_component"] = x;
+                    (*point)["y_component"] = y;
+                    (*point)["colour_component"] = val;
+                    list.push_back(point);
+                    stats_["value"].push_back(val);
+                    // stats_["x"].push_back((*it)[xIndex]);
+                    // stats_["y"].push_back((*it)[yIndex]);
+
+                    CustomisedPoint* cp = new CustomisedPoint(point->longitude(), point->latitude(), point->identifier());
+                    for (CustomisedPoint::iterator key = point->begin(); key != point->end(); ++key)
+                        cp->insert(make_pair(key->first, key->second));
+                    customisedPoints_.push_back(cp);
+                }
 
                 row++;
                 if (nb_rows_ != -1 && row >= nb_rows_) {
@@ -670,9 +824,11 @@ OdaXYDecoder::OdaXYDecoder() : matrix_(0) {}
 
 OdaXYDecoder::~OdaXYDecoder() {}
 
+
 /*!
  Class information are given to the output-stream.
 */
+
 void OdaXYDecoder::print(ostream& out) const {
     out << "OdaXYDecoder[";
     OdaXYDecoderAttributes::print(out);
@@ -682,67 +838,103 @@ void OdaXYDecoder::print(ostream& out) const {
 void OdaXYDecoder::customisedPoints(const Transformation& transformation, const std::set<string>&,
                                     CustomisedPointsList& list) {
     try {
-        odb_start();
-        odb::Reader oda(path_);
+        ensure_odc_initialised();;
 
-        odb::Reader::iterator it = oda.begin();
+        // Open the ODB file
 
-        int xIndex = -1, yIndex = -1, valueIndex = -1, xcIndex = -1, ycIndex = -1;
+        odc_reader_t* reader = nullptr;
+        odc_open_path(&reader, path_.c_str());
+        std::unique_ptr<odc_reader_t> reader_deleter(reader);
 
-        if ((xIndex = getOdbColumnIndex(it, x_)) == -1)
-            throw exception();
-        if ((yIndex = getOdbColumnIndex(it, y_)) == -1)
-            throw exception();
-        if (!value_.empty() && (valueIndex = getOdbColumnIndex(it, value_)) == -1)
-            throw exception();
-        if (!x_component_.empty() && (xcIndex = getOdbColumnIndex(it, x_component_)) == -1)
-            throw exception();
-        if (!y_component_.empty() && (ycIndex = getOdbColumnIndex(it, y_component_)) == -1)
-            throw exception();
+        // Construct a decoder for the specified columns
 
-        MagLog::info() << "Indices: " << xIndex << " " << yIndex << " " << valueIndex << " " << xcIndex << " "
-                       << xcIndex << endl;
+        odc_decoder_t* decoder = nullptr;
+        odc_new_decoder(&decoder);
+        std::unique_ptr<odc_decoder_t> decoder_deleter(decoder);
+
+        int xIndex = 0, yIndex = 1, valueIndex = -1, xcIndex = -1, ycIndex = -1;
+        int ncols = 2;
+
+        odc_decoder_set_row_count(decoder, MAX_DECODE_CHUNK);
+        odc_decoder_add_column(decoder, x_.c_str());
+        odc_decoder_add_column(decoder, y_.c_str());
+        if (!value_.empty()) {
+            valueIndex = ncols++;
+            odc_decoder_add_column(decoder, value_.c_str());
+        }
+        if (!x_component_.empty()) {
+            xcIndex = ncols++;
+            odc_decoder_add_column(decoder, x_component_.c_str());
+        }
+        if (!y_component_.empty()) {
+            ycIndex = ncols++;
+            odc_decoder_add_column(decoder, y_component_.c_str());
+        }
+
+        // Iterate over the (aggregated) frames and extract the data
+
+        odc_frame_t* frame = nullptr;
+        odc_new_frame(&frame, reader);
+        std::unique_ptr<odc_frame_t> frame_deleter(frame);
 
         int dataCnt = 0;
         dataIndex_.clear();
-
         unsigned int row = 0;
+        int ierr;
+        while ((ierr = odc_next_frame_aggregated(frame, MAX_DECODE_CHUNK)) == ODC_SUCCESS) {
 
-        for (; it != oda.end(); ++it) {
-            CustomisedPoint* point = new CustomisedPoint();
-            double x               = (*it)[xIndex];
-            double y               = (*it)[yIndex];
-            if (transformation.in(x, y)) {
-                point->longitude(x);
-                point->latitude(y);
-                (*point)["x"] = x;
-                (*point)["y"] = y;
+            long rowsDecoded = 0;
+            odc_decode_threaded(decoder, frame, &rowsDecoded, DECODE_THREADS);
 
-                if (xcIndex != -1 && ycIndex != -1) {
-                    (*point)["x_component"] = (*it)[xcIndex];
-                    (*point)["y_component"] = (*it)[ycIndex];
-                    double val = (valueIndex != -1) ? (*it)[valueIndex] : speed((*it)[xcIndex], (*it)[ycIndex]);
-                    (*point)["colour_component"] = val;
-                    stats_["value"].push_back(val);
-                }
-                else if (valueIndex != -1) {
-                    double val                   = (*it)[valueIndex];
-                    (*point)["colour_component"] = val;
-                    stats_["value"].push_back(val);
-                }
+            const double * data = nullptr;
+            long width;
+            long height;
+            bool columnMajor;
+            odc_decoder_data_array(decoder, reinterpret_cast<const void**>(&data),
+                                   &width, &height, &columnMajor);
 
-                list.push_back(point);
-                stats_["x"].push_back((*it)[xIndex]);
-                stats_["y"].push_back((*it)[yIndex]);
-
-                dataIndex_.push_back(dataCnt);
-
-                row++;
-                if (nb_rows_ != -1 && row >= nb_rows_) {
-                    break;
-                }
+            if (width != (ncols*sizeof(double)) || height != MAX_DECODE_CHUNK || columnMajor) {
+                throw std::range_error("Unexepected array dimensions fom ODC");
             }
-            dataCnt++;
+
+            for (int i = 0; i < rowsDecoded; i++) {
+                CustomisedPoint* point = new CustomisedPoint();
+                double x = data[i*ncols+xIndex];
+                double y = data[i*ncols+yIndex];
+                if (transformation.in(x, y)) {
+                    point->longitude(x);
+                    point->latitude(y);
+                    (*point)["x"] = x;
+                    (*point)["y"] = y;
+
+                    if (xcIndex != -1 && ycIndex != -1) {
+                        double xc = data[i*ncols+xcIndex];
+                        double yc = data[i*ncols+ycIndex];
+                        double val = (valueIndex != -1) ? data[i*ncols+valueIndex] : speed(xc, yc);
+                        (*point)["x_component"] = yc;
+                        (*point)["y_component"] = yc;
+                        (*point)["colour_component"] = val;
+                        stats_["value"].push_back(val);
+                    }
+                    else if (valueIndex != -1) {
+                        double val = data[i*ncols+valueIndex];
+                        (*point)["colour_component"] = val;
+                        stats_["value"].push_back(val);
+                    }
+
+                    list.push_back(point);
+                    stats_["x"].push_back(x);
+                    stats_["y"].push_back(y);
+
+                    dataIndex_.push_back(dataCnt);
+
+                    row++;
+                    if (nb_rows_ != -1 && row >= nb_rows_) {
+                        break;
+                    }
+                }
+                dataCnt++;
+            }
         }
 
         computeStats();
@@ -757,65 +949,100 @@ void OdaXYDecoder::customisedPoints(const Transformation& transformation, const 
 
 void OdaXYDecoder::customisedPoints(const std::set<string>&, CustomisedPointsList& list) {
     try {
-        odb_start();
-        odb::Reader oda(path_);
+        ensure_odc_initialised();;
 
-        odb::Reader::iterator it = oda.begin();
+        // Open the ODB file
 
-        int xIndex = -1, yIndex = -1, valueIndex = -1, xcIndex = -1, ycIndex = -1;
+        odc_reader_t* reader = nullptr;
+        odc_open_path(&reader, path_.c_str());
+        std::unique_ptr<odc_reader_t> reader_deleter(reader);
 
-        if ((xIndex = getOdbColumnIndex(it, x_)) == -1)
-            throw exception();
-        if ((yIndex = getOdbColumnIndex(it, y_)) == -1)
-            throw exception();
-        if (!value_.empty() && (valueIndex = getOdbColumnIndex(it, value_)) == -1)
-            throw exception();
-        if (!x_component_.empty() && (xcIndex = getOdbColumnIndex(it, x_component_)) == -1)
-            throw exception();
-        if (!y_component_.empty() && (ycIndex = getOdbColumnIndex(it, y_component_)) == -1)
-            throw exception();
+        // Construct a decoder for the specified columns
 
-        MagLog::info() << "Indices: " << xIndex << " " << yIndex << " " << valueIndex << " " << xcIndex << " "
-                       << xcIndex << endl;
+        odc_decoder_t* decoder = nullptr;
+        odc_new_decoder(&decoder);
+        std::unique_ptr<odc_decoder_t> decoder_deleter(decoder);
+
+        int xIndex = 0, yIndex = 1, valueIndex = -1, xcIndex = -1, ycIndex = -1;
+        int ncols = 2;
+
+        odc_decoder_set_row_count(decoder, MAX_DECODE_CHUNK);
+        odc_decoder_add_column(decoder, x_.c_str());
+        odc_decoder_add_column(decoder, y_.c_str());
+        if (!value_.empty()) {
+            valueIndex = ncols++;
+            odc_decoder_add_column(decoder, value_.c_str());
+        }
+        if (!x_component_.empty()) {
+            xcIndex = ncols++;
+            odc_decoder_add_column(decoder, x_component_.c_str());
+        }
+        if (!y_component_.empty()) {
+            ycIndex = ncols++;
+            odc_decoder_add_column(decoder, y_component_.c_str());
+        }
+
+        // Iterate over the (aggregated) frames and extract the data
+
+        odc_frame_t* frame = nullptr;
+        odc_new_frame(&frame, reader);
+        std::unique_ptr<odc_frame_t> frame_deleter(frame);
 
         int dataCnt = 0;
         dataIndex_.clear();
-
         unsigned int row = 0;
+        int ierr;
+        while ((ierr = odc_next_frame_aggregated(frame, MAX_DECODE_CHUNK)) == ODC_SUCCESS) {
+            long rowsDecoded = 0;
+            odc_decode_threaded(decoder, frame, &rowsDecoded, DECODE_THREADS);
 
-        for (; it != oda.end(); ++it) {
-            CustomisedPoint* point = new CustomisedPoint();
-            double x               = (*it)[xIndex];
-            double y               = (*it)[yIndex];
+            const double * data = nullptr;
+            long width;
+            long height;
+            bool columnMajor;
+            odc_decoder_data_array(decoder, reinterpret_cast<const void**>(&data),
+                                   &width, &height, &columnMajor);
 
-            point->longitude(x);
-            point->latitude(y);
-            (*point)["x"] = x;
-            (*point)["y"] = y;
-
-            if (xcIndex != -1 && ycIndex != -1) {
-                (*point)["x_component"] = (*it)[xcIndex];
-                (*point)["y_component"] = (*it)[ycIndex];
-                double val = (valueIndex != -1) ? (*it)[valueIndex] : speed((*it)[xcIndex], (*it)[ycIndex]);
-                (*point)["colour_component"] = val;
-                stats_["value"].push_back(val);
-            }
-            else if (valueIndex != -1) {
-                double val                   = (*it)[valueIndex];
-                (*point)["colour_component"] = val;
-                stats_["value"].push_back(val);
+            if (width != (ncols*sizeof(double)) || height != MAX_DECODE_CHUNK || columnMajor) {
+                throw std::range_error("Unexepected array dimensions fom ODC");
             }
 
-            list.push_back(point);
-            stats_["x"].push_back((*it)[xIndex]);
-            stats_["y"].push_back((*it)[yIndex]);
+            for (int i = 0; i < rowsDecoded; i++) {
+                CustomisedPoint* point = new CustomisedPoint();
+                double x = data[i*ncols+xIndex];
+                double y = data[i*ncols+yIndex];
 
-            dataIndex_.push_back(dataCnt);
-            dataCnt++;
+                point->longitude(x);
+                point->latitude(y);
+                (*point)["x"] = x;
+                (*point)["y"] = y;
 
-            row++;
-            if (nb_rows_ != -1 && row >= nb_rows_) {
-                break;
+                if (xcIndex != -1 && ycIndex != -1) {
+                    double xc = data[i*ncols+xcIndex];
+                    double yc = data[i*ncols+ycIndex];
+                    double val = (valueIndex != -1) ? data[i*ncols+valueIndex] : speed(xc, yc);
+                    (*point)["x_component"] = yc;
+                    (*point)["y_component"] = yc;
+                    (*point)["colour_component"] = val;
+                    stats_["value"].push_back(val);
+                }
+                else if (valueIndex != -1) {
+                    double val = data[i*ncols+valueIndex];
+                    (*point)["colour_component"] = val;
+                    stats_["value"].push_back(val);
+                }
+
+                list.push_back(point);
+                stats_["x"].push_back(x);
+                stats_["y"].push_back(y);
+
+                dataIndex_.push_back(dataCnt);
+                dataCnt++;
+
+                row++;
+                if (nb_rows_ != -1 && row >= nb_rows_) {
+                    break;
+                }
             }
         }
 
@@ -853,50 +1080,81 @@ void OdaXYDecoder::decode(const Transformation& transformation) {
         return;
 
     try {
-        odb_start();
-        odb::Reader oda(path_);
+        ensure_odc_initialised();;
 
-        odb::Reader::iterator it = oda.begin();
+        // Open the ODB file
 
-        int xIndex = -1, yIndex = -1, valueIndex = -1;
+        odc_reader_t* reader = nullptr;
+        odc_open_path(&reader, path_.c_str());
+        std::unique_ptr<odc_reader_t> reader_deleter(reader);
 
-        if ((xIndex = getOdbColumnIndex(it, x_)) == -1)
-            throw exception();
-        if ((yIndex = getOdbColumnIndex(it, y_)) == -1)
-            throw exception();
-        if (!value_.empty() && (valueIndex = getOdbColumnIndex(it, value_)) == -1)
-            throw exception();
+        // Construct a decoder for the specified columns
 
-        MagLog::info() << "Indices: " << xIndex << " " << yIndex << " " << valueIndex << endl;
+        odc_decoder_t* decoder = nullptr;
+        odc_new_decoder(&decoder);
+        std::unique_ptr<odc_decoder_t> decoder_deleter(decoder);
+
+        int xIndex = 0, yIndex = 1, valueIndex = -1;
+        int ncols = 2;
+
+        odc_decoder_set_row_count(decoder, MAX_DECODE_CHUNK);
+        odc_decoder_add_column(decoder, x_.c_str());
+        odc_decoder_add_column(decoder, y_.c_str());
+        if (!value_.empty()) {
+            valueIndex = ncols++;
+            odc_decoder_add_column(decoder, value_.c_str());
+        }
+
+        // Iterate over the (aggregated) frames and extract the data
+
+        odc_frame_t* frame = nullptr;
+        odc_new_frame(&frame, reader);
+        std::unique_ptr<odc_frame_t> frame_deleter(frame);
 
         int dataCnt = 0;
         dataIndex_.clear();
-
         unsigned int row = 0;
+        int ierr;
+        while ((ierr = odc_next_frame_aggregated(frame, MAX_DECODE_CHUNK)) == ODC_SUCCESS) {
 
-        for (; it != oda.end(); ++it) {
-            double x = (*it)[xIndex];
-            double y = (*it)[yIndex];
+            long rowsDecoded = 0;
+            odc_decode_threaded(decoder, frame, &rowsDecoded, DECODE_THREADS);
 
-            if (transformation.in(x, y)) {
-                double val = 0;
-                if (valueIndex != -1) {
-                    val = (*it)[valueIndex];
-                    stats_["value"].push_back(val);
-                }
-                push_back(new UserPoint(x, y, val));
+            const double * data = nullptr;
+            long width;
+            long height;
+            bool columnMajor;
+            odc_decoder_data_array(decoder, reinterpret_cast<const void**>(&data),
+                                   &width, &height, &columnMajor);
 
-                stats_["x"].push_back(x);
-                stats_["y"].push_back(y);
-
-                dataIndex_.push_back(dataCnt);
-
-                row++;
-                if (nb_rows_ != -1 && row >= nb_rows_) {
-                    break;
-                }
+            if (width != (ncols*sizeof(double)) || height != MAX_DECODE_CHUNK || columnMajor) {
+                throw std::range_error("Unexepected array dimensions fom ODC");
             }
-            dataCnt++;
+
+            for (int i = 0; i < rowsDecoded; i++) {
+                double x = data[i*ncols+xIndex];
+                double y = data[i*ncols+yIndex];
+
+                if (transformation.in(x, y)) {
+                    double val = 0;
+                    if (valueIndex != -1) {
+                        val = data[i*ncols+valueIndex];
+                        stats_["value"].push_back(val);
+                    }
+                    push_back(new UserPoint(x, y, val));
+
+                    stats_["x"].push_back(x);
+                    stats_["y"].push_back(y);
+
+                    dataIndex_.push_back(dataCnt);
+
+                    row++;
+                        if (nb_rows_ != -1 && row >= nb_rows_) {
+                        break;
+                    }
+                }
+                dataCnt++;
+            }
         }
 
         computeStats();
@@ -914,47 +1172,78 @@ void OdaXYDecoder::decode() {
         return;
 
     try {
-        odb_start();
-        odb::Reader oda(path_);
+        ensure_odc_initialised();;
 
-        odb::Reader::iterator it = oda.begin();
+        // Open the ODB file
 
-        int xIndex = -1, yIndex = -1, valueIndex = -1;
+        odc_reader_t* reader = nullptr;
+        odc_open_path(&reader, path_.c_str());
+        std::unique_ptr<odc_reader_t> reader_deleter(reader);
 
-        if ((xIndex = getOdbColumnIndex(it, x_)) == -1)
-            throw exception();
-        if ((yIndex = getOdbColumnIndex(it, y_)) == -1)
-            throw exception();
-        if (!value_.empty() && (valueIndex = getOdbColumnIndex(it, value_)) == -1)
-            throw exception();
+        // Construct a decoder for the specified columns
 
-        MagLog::info() << "Indices: " << xIndex << " " << yIndex << " " << valueIndex << endl;
+        odc_decoder_t* decoder = nullptr;
+        odc_new_decoder(&decoder);
+        std::unique_ptr<odc_decoder_t> decoder_deleter(decoder);
+
+        int xIndex = 0, yIndex = 1, valueIndex = -1;
+        int ncols = 2;
+
+        odc_decoder_set_row_count(decoder, MAX_DECODE_CHUNK);
+        odc_decoder_add_column(decoder, x_.c_str());
+        odc_decoder_add_column(decoder, y_.c_str());
+        if (!value_.empty()) {
+            valueIndex = ncols++;
+            odc_decoder_add_column(decoder, value_.c_str());
+        }
+
+        // Iterate over the (aggregated) frames and extract the data
+
+        odc_frame_t* frame = nullptr;
+        odc_new_frame(&frame, reader);
+        std::unique_ptr<odc_frame_t> frame_deleter(frame);
 
         int dataCnt = 0;
         dataIndex_.clear();
-
         unsigned int row = 0;
+        int ierr;
+        while ((ierr = odc_next_frame_aggregated(frame, MAX_DECODE_CHUNK)) == ODC_SUCCESS) {
 
-        for (; it != oda.end(); ++it) {
-            double x = (*it)[xIndex];
-            double y = (*it)[yIndex];
+            long rowsDecoded = 0;
+            odc_decode_threaded(decoder, frame, &rowsDecoded, DECODE_THREADS);
 
-            double val = 0;
-            if (valueIndex != -1) {
-                val = (*it)[valueIndex];
-                stats_["value"].push_back(val);
+            const double * data = nullptr;
+            long width;
+            long height;
+            bool columnMajor;
+            odc_decoder_data_array(decoder, reinterpret_cast<const void**>(&data),
+                                   &width, &height, &columnMajor);
+
+            if (width != (ncols*sizeof(double)) || height != MAX_DECODE_CHUNK || columnMajor) {
+                throw std::range_error("Unexepected array dimensions fom ODC");
             }
 
-            stats_["x"].push_back(x);
-            stats_["y"].push_back(y);
-            push_back(new UserPoint(x, y, val));
+            for (int i = 0; i < rowsDecoded; i++) {
+                double x = data[i*ncols+xIndex];
+                double y = data[i*ncols+yIndex];
 
-            dataIndex_.push_back(dataCnt);
-            dataCnt++;
+                double val = 0;
+                if (valueIndex != -1) {
+                    val = data[i*ncols+valueIndex];
+                    stats_["value"].push_back(val);
+                }
+                push_back(new UserPoint(x, y, val));
 
-            row++;
-            if (nb_rows_ != -1 && row >= nb_rows_) {
-                break;
+                stats_["x"].push_back(x);
+                stats_["y"].push_back(y);
+
+                dataIndex_.push_back(dataCnt);
+                dataCnt++;
+
+                row++;
+                if (nb_rows_ != -1 && row >= nb_rows_) {
+                    break;
+                }
             }
         }
 
@@ -1104,3 +1393,4 @@ void OdaGeoDecoder::customisedPoints(const Transformation& transformation, const
                                      CustomisedPointsList& points, bool) {
     customisedPoints(transformation, needs, points);
 }
+
