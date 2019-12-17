@@ -46,7 +46,7 @@ ecbuild_add_option( FEATURE PYTHON
 ecbuild_add_option( FEATURE ODB
                     DEFAULT OFF
                     DESCRIPTION "ODB support"
-                    REQUIRED_PACKAGES "PROJECT odc VERSION 1.0.0")
+                    REQUIRED_PACKAGES "PROJECT odb_api VERSION 0.10.2")
 					#	"PROJECT eckit   VERSION 0.9.0" )
 
 #ecbuild_add_option( FEATURE CAIRO
@@ -231,10 +231,10 @@ if( HAVE_CAIRO )
 endif()
 
 if( HAVE_ODB )
-  list( APPEND MAGICS_TPLS odc )
+  list( APPEND MAGICS_TPLS odb_api )
   list( APPEND MAGICS_INCLUDE_DIRS
         ${CMAKE_CURRENT_SOURCE_DIR}/src/oda
-        ${ODC_INCLUDE_DIRS}
+        ${ODB_API_INCLUDE_DIRS}
 		${ECKIT_INCLUDE_DIRS} )
 endif()
 
