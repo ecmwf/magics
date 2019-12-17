@@ -26,8 +26,8 @@
 #include "magics.h"
 
 #include "Data.h"
-#include "MagicsDecoder.h"
 #include "LandgramDecoderAttributes.h"
+#include "MagicsDecoder.h"
 #include "XmlReader.h"
 
 namespace magics {

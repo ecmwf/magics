@@ -26,11 +26,11 @@
 
 #include "BasicSceneObject.h"
 #include "Data.h"
-#include "MagDateTime.h"
-#include "MagicsDecoder.h"
 #include "EfigramDecoderAttributes.h"
 #include "EpsXmlInputAttributes.h"
 #include "EpsgramDecoderAttributes.h"
+#include "MagDateTime.h"
+#include "MagicsDecoder.h"
 #include "UserPoint.h"
 #include "XmlReader.h"
 #include "spot_database.h"

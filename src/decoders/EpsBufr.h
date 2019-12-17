@@ -26,9 +26,9 @@
 
 
 #include "Data.h"
+#include "EpsBufrAttributes.h"
 #include "MagDateTime.h"
 #include "MagicsDecoder.h"
-#include "EpsBufrAttributes.h"
 #include "UserPoint.h"
 
 #include <limits>

@@ -25,8 +25,8 @@
 #include "Layer.h"
 #include "LayoutManager.h"
 #include "LegendVisitor.h"
-#include "TextVisitor.h"
 #include "Polyline.h"
+#include "TextVisitor.h"
 
 using namespace magics;
 
@@ -153,7 +153,8 @@ void FortranSceneNode::getReady() {
                    Colour("white"));
 
     BasicSceneObject::getReady();
-    if ( skinny_ ) Polyline::skinnyMode();
+    if (skinny_)
+        Polyline::skinnyMode();
 }
 
 FortranSceneNode::~FortranSceneNode() {}
