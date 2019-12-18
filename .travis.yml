@@ -108,3 +108,21 @@ script:
   - pytest
   - cd ${MAGICS_TEST_SRC}
   - pytest
+
+after_success:
+  on:
+    tags: true
+  # Run script to generate PNGs and push result to magics-tests
+  - |
+    if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+      git config --global user.email "magics-travis@ecmwf.int"
+      git config --global user.name "Magics Travis CI"
+      cd ${MAGICS_TEST_SRC}
+      python3 build_regression.py
+      git add *
+      git commit --message "Magics Travis CI: $TRAVIS_TAG"
+      git remote add travis-push https://${GH_USER}:${GH_TOKEN}@github.com/ecmwf/magics-test.git > /dev/null 2>&1
+      git tag $TRAVIS_TAG
+      git push --quiet --set-upstream travis-push master > /dev/null 2>&1
+      git push --tags > /dev/null 2>&1
+    fi
