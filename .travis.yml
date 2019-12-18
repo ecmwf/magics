@@ -8,7 +8,7 @@ branches:
   only:
     - develop
     - master
-    - testing
+    - /^\d+\.\d+\.\d+$/
 
 language: cpp
 
