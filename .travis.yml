@@ -45,8 +45,8 @@ env:
     - INSTALL_DIR=/tmp/install
     - MAGPLUS_HOME=${INSTALL_DIR}
     - PYTHONPATH=${PYTHONPATH}:${MAGICS_PYTHON_SRC}
-    secure: "gP428EJVq4hiIj8IzoxcrtHDztmU6zzASEt7q7rgOjm8W4cSmZdPwBe6Wsz+gzMMG/q7CyRyk/06/uQzYPxexQdLa5reGJoePCsDSqxWNJgPB/fTmk0Jiq9giFYdxOZJV33ZRvQ2a3YUP4wJCsq1Z7cwbQj3saaZ5gRcdFs7fzqxkWvMP7b4Ln6jm6GPh9EAgggoCm1ZWxrubsph09sffdiM5WVYRmgdPx1XL/WyfXBG+fMItDxR/c76d5UaVS6gP81suq5mNdnqS0m1ZFyN038LCntAzTdsrFAADTZMXJmUJ79RrD29CmsBGHVtXIc6hB9vmjY6oOJIeYapeN0L0ejbVl6bbqExEGXjwLPLhMdDCetYzDBJqbUla1RhT7pdg6kh27fGYk48B6ZFJCpwlrlDCjBJzHGBGuN04UTJ6vQitWm7nQe1TfTskQOd86A9KksGZctn/3vbKR1+QtIg0VFo5k+7sEweOX/UsNqA+a0sijlENzJzx0KS+28kRrlf6BQEbj+ATcx6RRklMgqqSXxRCXmDO9E/WHVOJCbHRDjZSipCsicg+0PS761jU03I6cFvkvSFv3fZ6WNIcsxwORalF+yIV7vXTZlHOfB+JXKPwMIdUW4oY8jExgGMnIiL5cbuaNiFjuDUT9106tDMxHmYyE0uHukBPg/oOztpy94="
-    secure: "ONm8kBKpBrmZq+epnszc6uO00QJTjWfugAyvwpFQ0XmvyoudIEhEk4Z5wFGai+p1n524ZqwFQJxCPSmkWAWQuuYhy3a4Yc1wh9N4fYLG+X5hoF9xL6rbMU9ncUt1lr0fzRPfPzsHIa3uJO+xrbdBQicyUI6vm6bKiR68P7DS2wcHwvuII1mELn6/+dzMqmaLw/ywcaLXg5mdP+cbjKLOoVr2jo+P0b2DHqzBfbwvMImQQvz5TXy0P8/pXgfA24SX/W/vJP9+NvhPvajRcuD7xI4dyEmsUh5xUlrV8Fa5e5br3P0tsc+KD0BVbrGraIcDtR0Uh8kJRVgjgSGoVOdW/PKV6XccLMuq11CzoQFCEr7CKe1q/mrKRB4KjPRdU9TukO7XPyGlQq+7/GSi5nL1qVqubg6WNDC6LQx+LMdR0DAZefDS18s/gC1YOr4h0Fwz7L6bc/z4Uo3+EOPpsNrim9Z6k/9J6N2PgB4QmfTR1uZ9ULWr4YZQaCSip8xXN59PdOYCtoEPLojVTYkMhbpw36v/52hYYS/bp/uRa/c0dYmhrPaDMg4NPlOizsWRgB7h7ym3IinDGcJxR27dsKkvl0lsYS5c1+TArCAyTDe1KlWZpOAV+FzBLor1axcyW/iIwYC8fwFblzBvXh83F+IsyrMwtRvZiCKf2JB4Fw/LsB8="
+    - secure: "gP428EJVq4hiIj8IzoxcrtHDztmU6zzASEt7q7rgOjm8W4cSmZdPwBe6Wsz+gzMMG/q7CyRyk/06/uQzYPxexQdLa5reGJoePCsDSqxWNJgPB/fTmk0Jiq9giFYdxOZJV33ZRvQ2a3YUP4wJCsq1Z7cwbQj3saaZ5gRcdFs7fzqxkWvMP7b4Ln6jm6GPh9EAgggoCm1ZWxrubsph09sffdiM5WVYRmgdPx1XL/WyfXBG+fMItDxR/c76d5UaVS6gP81suq5mNdnqS0m1ZFyN038LCntAzTdsrFAADTZMXJmUJ79RrD29CmsBGHVtXIc6hB9vmjY6oOJIeYapeN0L0ejbVl6bbqExEGXjwLPLhMdDCetYzDBJqbUla1RhT7pdg6kh27fGYk48B6ZFJCpwlrlDCjBJzHGBGuN04UTJ6vQitWm7nQe1TfTskQOd86A9KksGZctn/3vbKR1+QtIg0VFo5k+7sEweOX/UsNqA+a0sijlENzJzx0KS+28kRrlf6BQEbj+ATcx6RRklMgqqSXxRCXmDO9E/WHVOJCbHRDjZSipCsicg+0PS761jU03I6cFvkvSFv3fZ6WNIcsxwORalF+yIV7vXTZlHOfB+JXKPwMIdUW4oY8jExgGMnIiL5cbuaNiFjuDUT9106tDMxHmYyE0uHukBPg/oOztpy94="
+    - secure: "ONm8kBKpBrmZq+epnszc6uO00QJTjWfugAyvwpFQ0XmvyoudIEhEk4Z5wFGai+p1n524ZqwFQJxCPSmkWAWQuuYhy3a4Yc1wh9N4fYLG+X5hoF9xL6rbMU9ncUt1lr0fzRPfPzsHIa3uJO+xrbdBQicyUI6vm6bKiR68P7DS2wcHwvuII1mELn6/+dzMqmaLw/ywcaLXg5mdP+cbjKLOoVr2jo+P0b2DHqzBfbwvMImQQvz5TXy0P8/pXgfA24SX/W/vJP9+NvhPvajRcuD7xI4dyEmsUh5xUlrV8Fa5e5br3P0tsc+KD0BVbrGraIcDtR0Uh8kJRVgjgSGoVOdW/PKV6XccLMuq11CzoQFCEr7CKe1q/mrKRB4KjPRdU9TukO7XPyGlQq+7/GSi5nL1qVqubg6WNDC6LQx+LMdR0DAZefDS18s/gC1YOr4h0Fwz7L6bc/z4Uo3+EOPpsNrim9Z6k/9J6N2PgB4QmfTR1uZ9ULWr4YZQaCSip8xXN59PdOYCtoEPLojVTYkMhbpw36v/52hYYS/bp/uRa/c0dYmhrPaDMg4NPlOizsWRgB7h7ym3IinDGcJxR27dsKkvl0lsYS5c1+TArCAyTDe1KlWZpOAV+FzBLor1axcyW/iIwYC8fwFblzBvXh83F+IsyrMwtRvZiCKf2JB4Fw/LsB8="
 
 git:
   depth: 1
@@ -112,11 +112,10 @@ script:
   #- pytest
 
 after_success:
-  on:
-    tags: true
   # Run script to generate PNGs and push result to magics-tests
+  # Only run on tagged linux builds
   - |
-    if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+    if [[ "$TRAVIS_OS_NAME" == "linux" && ! -z "$TRAVIS_TAG" ]]; then
       git config --global user.email "magics-travis@ecmwf.int"
       git config --global user.name "Magics Travis CI"
       cd ${MAGICS_TEST_SRC}
