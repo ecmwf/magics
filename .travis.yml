@@ -108,8 +108,8 @@ script:
   # test
   - cd ${MAGICS_PYTHON_SRC}
   - pytest
-  - cd ${MAGICS_TEST_SRC}
-  - pytest
+  #- cd ${MAGICS_TEST_SRC}
+  #- pytest
 
 after_success:
   on:
