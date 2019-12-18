@@ -37,9 +37,9 @@ matrix:
 env:
   global:
     - MAGICS_SRC=${TRAVIS_BUILD_DIR}
-    - MAGICS_PYTHON_TESTS=${MAGICS_SRC}/test/python
     - MAGICS_PYTHON_SRC=${MAGICS_SRC}/../magics-python
-    - MAGICS_TEST_SRC=${MAGICS_SRC}/../magics-python
+    - MAGICS_TEST_SRC=${MAGICS_SRC}/../magics-test
+    - MAGICS_PYTHON_TESTS=${MAGICS_TEST_SRC}
     - ECBUILD_SRC=${MAGICS_SRC}/../ecbuild
     - BUILD_DIR=${MAGICS_SRC}/build
     - INSTALL_DIR=/tmp/install
@@ -78,6 +78,8 @@ install:
   - git clone --depth 1 https://github.com/ecmwf/ecbuild.git ${ECBUILD_SRC}
   # install magics-python source
   - git clone -b master --depth 1 https://github.com/ecmwf/magics-python.git ${MAGICS_PYTHON_SRC}
+  # install magics-test
+  - git clone -b master --depth 1 https://github.com/ecmwf/magics-test.git ${MAGICS_TEST_SCR}
 
   # install conda deps
   - conda install boost libnetcdf expat jinja2 xarray scipy cftime
@@ -103,4 +105,6 @@ script:
   - make install > /dev/null
   # test
   - cd ${MAGICS_PYTHON_SRC}
+  - pytest
+  - cd ${MAGICS_TEST_SRC}
   - pytest
