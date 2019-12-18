@@ -27,9 +27,9 @@
 #include "magics.h"
 
 #include "Data.h"
-#include "MagicsDecoder.h"
 #include "Factory.h"
 #include "MagTranslator.h"
+#include "MagicsDecoder.h"
 #include "NetcdfDecoderAttributes.h"
 #include "PointsHandler.h"
 #include "UserPoint.h"

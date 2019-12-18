@@ -32,8 +32,8 @@
 #define ACCEPT_USE_OF_DEPRECATED_PROJ_API_H 1
 #include <proj_api.h>
 #include "Data.h"
-#include "MagicsDecoder.h"
 #include "GeoPointsDecoderAttributes.h"
+#include "MagicsDecoder.h"
 #include "UserPoint.h"
 
 namespace magics {

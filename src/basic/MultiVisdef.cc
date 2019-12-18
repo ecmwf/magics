@@ -27,7 +27,9 @@
 
 using namespace magics;
 
-void Visdef::getReady(const LegendVisitor& legend) { legendOnly_ = legend.only_; }
+void Visdef::getReady(const LegendVisitor& legend) {
+    legendOnly_ = legend.only_;
+}
 
 MultiVisdef::MultiVisdef() {}
 

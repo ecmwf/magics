@@ -22,9 +22,9 @@
 
 #include "EpsXmlInput.h"
 #include "CustomisedPoint.h"
-#include "MagDateTime.h"
 #include "IntervalMap.h"
 #include "LegendVisitor.h"
+#include "MagDateTime.h"
 #include "MetaData.h"
 #include "TextVisitor.h"
 #include "XmlReader.h"

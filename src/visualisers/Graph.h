@@ -24,8 +24,8 @@
 
 #include "magics.h"
 
-#include "MagDateTime.h"
 #include "Factory.h"
+#include "MagDateTime.h"
 #include "MagTranslator.h"
 #include "UserPoint.h"
 #include "Visdef.h"

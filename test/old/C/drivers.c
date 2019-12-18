@@ -4,7 +4,7 @@
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
- You may obtain a copy of the License at 
+ You may obtain a copy of the License at
 
     http://www.apache.org/licenses/LICENSE-2.0
 
@@ -23,18 +23,17 @@
 
 #include <magics_api.h>
 
-int main()
-{
-	const char *formats[] = {"svg","kml","ps","pdf","png"};
-	const int num = 5;
+int main() {
+    const char* formats[] = {"svg", "kml", "ps", "pdf", "png"};
+    const int num         = 5;
 
-	/* open magics and set the output device */
-	mag_open();
-	mag_set1c("output_formats", formats, num);
-	mag_setc("output_name", "driver_test");
-	mag_coast();
+    /* open magics and set the output device */
+    mag_open();
+    mag_set1c("output_formats", formats, num);
+    mag_setc("output_name", "driver_test");
+    mag_coast();
 
-	mag_close();
+    mag_close();
 
-	return 0;
+    return 0;
 }

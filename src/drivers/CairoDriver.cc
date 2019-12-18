@@ -208,8 +208,8 @@ void CairoDriver::setupNewSurface() const {
     cairo_paint(cr_);
     cairo_set_line_join(cr_, CAIRO_LINE_JOIN_BEVEL);
 
-    dimensionX_ = static_cast<MFloat>(dimensionXglobal_);
-    dimensionY_ = static_cast<MFloat>(dimensionYglobal_);
+    dimensionX_  = static_cast<MFloat>(dimensionXglobal_);
+    dimensionY_  = static_cast<MFloat>(dimensionYglobal_);
     currentPage_ = 0;
 }
 
