@@ -81,7 +81,7 @@ install:
   # install magics-python source
   - git clone -b master --depth 1 https://github.com/ecmwf/magics-python.git ${MAGICS_PYTHON_SRC}
   # install magics-test
-  - git clone -b master --depth 1 https://github.com/ecmwf/magics-test.git ${MAGICS_TEST_SCR}
+  - git clone -b master --depth 1 https://github.com/ecmwf/magics-test.git ${MAGICS_TEST_SRC}
 
   # install conda deps
   - conda install boost libnetcdf expat jinja2 xarray scipy cftime
