@@ -121,7 +121,8 @@ after_success:
       python3 build_regression.py
       git add *
       git commit --message "Magics Travis CI: $TRAVIS_TAG"
-      git remote add travis-push https://${GH_USER}:${GH_TOKEN}@github.com/ecmwf/magics-test.git
-      git push --quiet --set-upstream travis-push master
-      git push --tags
+      git remote add travis-push https://${GH_USER}:${GH_TOKEN}@github.com/ecmwf/magics-test.git > /dev/null 2>&1
+      git tag $TRAVIS_TAG
+      git push --quiet --set-upstream travis-push master > /dev/null 2>&1
+      git push --tags > /dev/null 2>&1
     fi
