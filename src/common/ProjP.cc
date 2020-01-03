@@ -23,18 +23,20 @@ using namespace magics;
 ProjP::ProjP() : converter_(0) {}
 ProjP::ProjP(const string& from, const string& to)
     : from_(from), to_(to), converter_(0) {
-  converter_ = proj_create_crs_to_crs(PJ_DEFAULT_CTX, from_, to_, NULL);
-  reverter_ = proj_create_crs_to_crs(PJ_DEFAULT_CTX, to_, from_, NULL);
+  converter_ =
+      proj_create_crs_to_crs(PJ_DEFAULT_CTX, from_.c_str(), to_.c_str(), NULL);
+  reverter_ =
+      proj_create_crs_to_crs(PJ_DEFAULT_CTX, to_.c_str(), from_.c_str(), NULL);
 
   assert(converter_);
 }
 
-ProjP : : ~ProjP() {
+ProjP::~ProjP() {
   if (converter_) proj_destroy(converter_);
   if (reverter_) proj_destroy(converter_);
 }
 
-int LatLonProjP::convert(double& x, double& y) {
+int LatLonProjP::convert(double& x, double& y) const {
   PJ_COORD in, out;
   in.lpzt.lam = x;
   in.lpzt.phi = y;
@@ -43,8 +45,9 @@ int LatLonProjP::convert(double& x, double& y) {
   out = proj_trans(converter_, PJ_FWD, out);
   x = out.xy.x;
   y = out.xy.y;
+  return 0;
 }
-int LatLonProj4::revert(double& x, double& y) {
+int LatLonProjP::revert(double& x, double& y) const {
   PJ_COORD in, out;
   in.xy.x = x;
   in.xy.y = y;
@@ -54,15 +57,15 @@ int LatLonProj4::revert(double& x, double& y) {
   y = out.lpzt.phi;
 }
 
-int ProjP::convert(double& x, double& y) {
+int ProjP::convert(double& x, double& y) const {
   PJ_COORD in, out;
-  in.xy.lam = x;
-  in.xy.phi = y;
+  in.xy.x = x;
+  in.xy.y = y;
   out = proj_trans(converter_, PJ_FWD, out);
   x = out.xy.x;
   y = out.xy.y;
 }
-int ProjP::revert(double& x, double& y) {
+int ProjP::revert(double& x, double& y) const {
   PJ_COORD in, out;
   in.xy.x = x;
   in.xy.y = y;

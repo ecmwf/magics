@@ -21,14 +21,15 @@ class ProjP {
  public:
   ProjP();
   ProjP(const string&, const string&);
+
   ~ProjP();
 
   bool valid() const { return !converter_ || !reverter_; }
 
   static string error(int error) { return proj_errno_string(error); }
 
-  virtual int convert(double&, double&);
-  virtual int revert(double&, double&);
+  virtual int convert(double&, double&) const;
+  virtual int revert(double&, double&) const;
 
  protected:
   //! Method to print string about this class on to a stream of type ostream
@@ -53,10 +54,11 @@ class ProjP {
 
 class LatLonProjP : public ProjP {
  public:
+  LatLonProjP() {}
   LatLonProjP(const string& to)
       : ProjP("+proj=longlat +ellps=WGS84 +datum=WGS84", to) {}
-  int convert(double&, double&);
-  int revert(double&, double&);
+  int convert(double&, double&) const;
+  int revert(double&, double&) const;
 };
 
 }  // namespace magics
