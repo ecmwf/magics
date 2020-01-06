@@ -238,7 +238,7 @@ class Proj4Projection : public Transformation,
   void centre();
 
   virtual void print(ostream&) const;
-  mutable ProjP helper_;
+  mutable LatLonProjP* helper_;
   double min_pcx_;
   double max_pcx_;
   double min_pcy_;

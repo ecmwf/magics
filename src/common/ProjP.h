@@ -24,7 +24,7 @@ class ProjP {
 
   ~ProjP();
 
-  bool valid() const { return !converter_ || !reverter_; }
+  bool valid() const { return converter_; }
 
   static string error(int error) { return proj_errno_string(error); }
 
@@ -38,7 +38,6 @@ class ProjP {
   string from_;
   string to_;
   PJ* converter_;
-  PJ* reverter_;
 
  private:
   //! Copy constructor - No copy allowed
@@ -55,8 +54,7 @@ class ProjP {
 class LatLonProjP : public ProjP {
  public:
   LatLonProjP() {}
-  LatLonProjP(const string& to)
-      : ProjP("+proj=longlat +ellps=WGS84 +datum=WGS84", to) {}
+  LatLonProjP(const string& to) : ProjP("EPSG:4326", to) {}
   int convert(double&, double&) const;
   int revert(double&, double&) const;
 };

@@ -111,11 +111,14 @@ class Epsg {
   void polarinit(const Proj4Projection& from) {
     ostringstream def;
 
-    def << "+proj=stere +lat_0=90 +lat_ts=" << from.true_scale_north_;
+    def << "+proj=stere +lat_0=90 ";
     def << " +lon_0=" << from.vertical_longitude_;
-    def << " +k=0.994 +x_0=2000000 +y_0=2000000 +ellps=WGS84 +datum=WGS84 "
-           "+units=m +no_defs";
+    def << " +k=0.994 +x_0=2000000 +y_0=2000000  "
+           "+units=m";
     definition_ = def.str();
+    definition_ = "EPSG:32661";
+    cout << definition_ << endl;
+    //
   }
 
   void polarsouthinit(const Proj4Projection& from) {
@@ -123,8 +126,8 @@ class Epsg {
 
     def << "+proj=stere +lat_0=-90 +lat_ts=" << from.true_scale_south_;
     def << " +lon_0=" << from.vertical_longitude_;
-    def << " +k=0.994 +x_0=2000000 +y_0=2000000 +ellps=WGS84 +datum=WGS84 "
-           "+units=m +no_defs";
+    def << "  +x_0=2000000 +y_0=2000000 +ellps=WGS84 +datum=WGS84 "
+           "+units=m ";
     definition_ = def.str();
   }
 
@@ -208,7 +211,8 @@ Proj4Projection::Proj4Projection(const string& definition)
       gridMinLat_(DBL_MAX),
       gridMaxLon_(-DBL_MAX),
       gridMaxLat_(-DBL_MAX),
-      wraparound_(false) {
+      wraparound_(false),
+      helper_(0) {
   // init();
   EpsgConfig config;
   config.init();
@@ -219,7 +223,8 @@ Proj4Projection::Proj4Projection()
       gridMinLat_(DBL_MAX),
       gridMaxLon_(-DBL_MAX),
       gridMaxLat_(-DBL_MAX),
-      wraparound_(false) {
+      wraparound_(false),
+      helper_(0) {
   // init();
   EpsgConfig config;
   config.init();
@@ -254,9 +259,9 @@ void Proj4Projection::init() {
   MagLog::dev() << "Proj4Projection::init()" << *this << endl;
 
   projection_ = Epsg::find(*this);
-  helper_ = LatLonProjP(projection_->definition());
+  helper_ = new LatLonProjP(projection_->definition());
 
-  if (!helper_.valid()) {
+  if (!helper_->valid()) {
     // MagLog::error() << pj_strerrno(pj_errno) << endl;
     MagLog::error() << " proj4 error " << projection_->definition() << endl;
     ASSERT(false);
@@ -362,11 +367,11 @@ void Proj4Projection::corners() {
 void Proj4Projection::centre() {}
 
 PaperPoint Proj4Projection::operator()(const UserPoint& point) const {
-  if (!helper_.valid()) {
+  if (!helper_) {
     projection_ = Epsg::find(*this);
-    helper_ = LatLonProjP(projection_->definition());
+    helper_ = new LatLonProjP(projection_->definition());
 
-    if (!helper_.valid()) {
+    if (!helper_->valid()) {
       // MagLog::error() << pj_strerrno(pj_errno) << endl;
       MagLog::error() << " proj4 error " << projection_->definition() << endl;
       ASSERT(false);
@@ -375,9 +380,9 @@ PaperPoint Proj4Projection::operator()(const UserPoint& point) const {
   double x = point.x();
   double y = point.y();
 
-  int error = helper_.convert(x, y);
+  int error = helper_->convert(x, y);
   if (error) {
-    MagLog::debug() << helper_.error(error) << " for " << point << endl;
+    MagLog::debug() << helper_->error(error) << " for " << point << endl;
     //		NON Valeurs trop faibles en EPSG:3857 par exemple !  -->
     // Transformation::in(pp) == True !
     //		-> Avec ces valeurs, si grille globale, les barbules des poles
@@ -434,10 +439,10 @@ void Proj4Projection::revert(const PaperPoint& xy, UserPoint& point) const {
   double x = xy.x();
   double y = xy.y();
 
-  int error = helper_.convert(x, y);
+  int error = helper_->convert(x, y);
 
   if (error) {
-    MagLog::debug() << helper_.error(error) << endl;
+    MagLog::debug() << helper_->error(error) << endl;
     point = UserPoint(HUGE_VAL, HUGE_VAL);
     return;
   }
@@ -459,7 +464,7 @@ void Proj4Projection::aspectRatio(double& width, double& height) {
 void Proj4Projection::add(double lon, double lat) {
   double x = lon;
   double y = lat;
-  int error = helper_.convert(x, y);
+  int error = helper_->convert(x, y);
   userEnveloppe_->push_back(PaperPoint(lon, lat));
   PCEnveloppe_->push_back(PaperPoint(x, y));
 
@@ -522,8 +527,8 @@ void Proj4Projection::projectionSimple() {
   min_pcy_ = min_latitude_;
   max_pcx_ = max_longitude_;
   max_pcy_ = max_latitude_;
-  helper_.revert(min_longitude_, min_latitude_);
-  helper_.revert(max_longitude_, max_latitude_);
+  helper_->revert(min_longitude_, min_latitude_);
+  helper_->revert(max_longitude_, max_latitude_);
 
   if (max_longitude_ < 0) {
     max_longitude_ += 360.;
@@ -563,7 +568,7 @@ void Proj4Projection::geos() {
     for (int lon = projection_->minlon_; lon <= projection_->maxlon_; lon++) {
       double x = lon;
       double y = lat;
-      int error = helper_.convert(x, y);
+      int error = helper_->convert(x, y);
 
       if (!error) {
         helper[lat].push_back(lon);
@@ -628,7 +633,7 @@ void Proj4Projection::tpers() {
          lon <= projection_view_longitude_ + 360; lon += step) {
       double x = lon;
       double y = lat;
-      int error = helper_.convert(x, y);
+      int error = helper_->convert(x, y);
       if (error) {
         // we reach a border!
 
@@ -646,7 +651,7 @@ void Proj4Projection::tpers() {
          lon >= projection_view_longitude_ - 360; lon -= step) {
       double x = lon;
       double y = lat;
-      int error = helper_.convert(x, y);
+      int error = helper_->convert(x, y);
       if (error) {
         // we reach a border!
         if (lastlon != missing) {
@@ -664,7 +669,7 @@ void Proj4Projection::tpers() {
          lon >= projection_view_longitude_ - 360; lon -= step) {
       double x = lon;
       double y = lat;
-      int error = helper_.convert(x, y);
+      int error = helper_->convert(x, y);
       if (error) {
         // we reach a border!
 
@@ -682,7 +687,7 @@ void Proj4Projection::tpers() {
          lon <= projection_view_longitude_ + 360; lon += step) {
       double x = lon;
       double y = lat;
-      int error = helper_.convert(x, y);
+      int error = helper_->convert(x, y);
       if (error) {
         // we reach a border!
         if (lastlon != missing) {
@@ -700,9 +705,9 @@ void Proj4Projection::tpers() {
 
 void Proj4Projection::boundingBox(double& xmin, double& ymin, double& xmax,
                                   double& ymax) const {
-  if (!helper_.valid()) {
+  if (!helper_) {
     projection_ = Epsg::find(definition_);
-    helper_ = LatLonProjP(projection_->definition());
+    helper_ = new LatLonProjP(projection_->definition());
   }
 
   ymin = gridMinLat_;
@@ -1078,10 +1083,10 @@ void Proj4Projection::revert(const vector<std::pair<double, double> >& in,
       continue;
     }
 
-    int error = helper_.revert(x, y);
+    int error = helper_->revert(x, y);
 
     if (error) {
-      MagLog::error() << helper_.error(error) << " for " << pt->first << " "
+      MagLog::error() << helper_->error(error) << " for " << pt->first << " "
                       << pt->second << endl;
       out.push_back(make_pair(HUGE_VAL, HUGE_VAL));
     } else {
@@ -1175,7 +1180,7 @@ bool Proj4Projection::fast_reproject(double& x, double& y) const {
     x -= (factor - width_);
   }
 
-  int error = helper_.convert(x, y);
+  int error = helper_->convert(x, y);
 
   if (error) {
     x = HUGE_VAL;
@@ -1286,9 +1291,9 @@ void Proj4Automatic::setNewPCBox(double minx, double miny, double maxx,
                                  double maxy) {
   gridMinLon_ = minx;
   gridMinLat_ = miny;
-  int error = helper_.revert(gridMinLon_, gridMinLat_);
+  int error = helper_->revert(gridMinLon_, gridMinLat_);
 
   gridMaxLon_ = maxx;
   gridMaxLat_ = maxy;
-  error = helper_.revert(gridMaxLon_, gridMaxLat_);
+  error = helper_->revert(gridMaxLon_, gridMaxLat_);
 }

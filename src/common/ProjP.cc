@@ -23,17 +23,26 @@ using namespace magics;
 ProjP::ProjP() : converter_(0) {}
 ProjP::ProjP(const string& from, const string& to)
     : from_(from), to_(to), converter_(0) {
-  converter_ =
-      proj_create_crs_to_crs(PJ_DEFAULT_CTX, from_.c_str(), to_.c_str(), NULL);
-  reverter_ =
-      proj_create_crs_to_crs(PJ_DEFAULT_CTX, to_.c_str(), from_.c_str(), NULL);
+  from_ = "EPSG:4326";
+  // to_ = "EPSG:102014";
+  // to_ =
+  //     "+proj=lcc +lat_1=43 +lat_2=62 +lat_0=30 +lon_0=10 +x_0=0 +y_0=0 "
+  //     "+ellps=intl +units=m +no_defs";
+  PJ_CONTEXT* context = proj_context_create();
+  PJ* p = proj_create_crs_to_crs(context, from_.c_str(), to_.c_str(), NULL);
+  assert(p);
+  converter_ = proj_normalize_for_visualization(context, p);
 
   assert(converter_);
+  // double x = -180;
+  // double y = 90;
+  // convert(x, y);
+  // revert(x, y);
 }
 
 ProjP::~ProjP() {
   if (converter_) proj_destroy(converter_);
-  if (reverter_) proj_destroy(converter_);
+  converter_ = 0;
 }
 
 int LatLonProjP::convert(double& x, double& y) const {
@@ -42,7 +51,8 @@ int LatLonProjP::convert(double& x, double& y) const {
   in.lpzt.phi = y;
   in.lpzt.z = 0.0;
   in.lpzt.t = HUGE_VAL;
-  out = proj_trans(converter_, PJ_FWD, out);
+
+  out = proj_trans(converter_, PJ_FWD, in);
   x = out.xy.x;
   y = out.xy.y;
   return 0;
@@ -52,27 +62,35 @@ int LatLonProjP::revert(double& x, double& y) const {
   in.xy.x = x;
   in.xy.y = y;
 
-  out = proj_trans(converter_, PJ_FWD, out);
+  out = proj_trans(converter_, PJ_INV, in);
+
   x = out.lpzt.lam;
   y = out.lpzt.phi;
+
+  return 0;
 }
 
 int ProjP::convert(double& x, double& y) const {
   PJ_COORD in, out;
+
   in.xy.x = x;
   in.xy.y = y;
-  out = proj_trans(converter_, PJ_FWD, out);
+  out = proj_trans(converter_, PJ_FWD, in);
   x = out.xy.x;
   y = out.xy.y;
+
+  return 0;
 }
 int ProjP::revert(double& x, double& y) const {
   PJ_COORD in, out;
   in.xy.x = x;
   in.xy.y = y;
 
-  out = proj_trans(reverter_, PJ_FWD, out);
+  out = proj_trans(converter_, PJ_INV, in);
   x = out.xy.x;
   y = out.xy.y;
+
+  return 0;
 }
 
 void ProjP::print(ostream&) const {}
