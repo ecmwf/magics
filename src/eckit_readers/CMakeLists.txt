@@ -1,3 +1,4 @@
+
 set( _eckit_srcs
 	TableReader.h
 	TableReader.cc
@@ -8,16 +9,16 @@ set( _eckit_srcs
 if ( HAVE_BUFR )
 	list (APPEND   _eckit_srcs
 		MvLocation.cc  
-		
+		MvObsSet.cc   
 		fmettim.cc  
 		fsortabl.cc  
 		inc_iostream.h
 		MvLocation.h   
-		
+		MvObsSet.h 
 		fmettim.h
 		fsortabl.h
 		MvBufr.h 
-		  
+		MvObs.cc       
 		
 		fdyntime.cc
 		fobject.cc  
@@ -30,7 +31,7 @@ if ( HAVE_BUFR )
 		fstatime.h
 		MvBufrEdition.cc
 		MvBufrEdition.h
-		
+		MvBufrElementTable.cc
 		MvBufrElementTable.h
 	)
 endif()

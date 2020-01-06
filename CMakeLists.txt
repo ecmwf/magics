@@ -38,6 +38,7 @@ set( grib_handling_pkg eccodes )
 set( HAVE_GRIB 1 )
 set( HAVE_BUFR 1 )
 
+
 ecbuild_add_option( FEATURE PYTHON
                     DEFAULT ON
                     DESCRIPTION "enable python interface"
