@@ -31,93 +31,80 @@
 
 using namespace magics;
 
-namespace magml
-{
+namespace magml {
 
-pair<string, string> cut(const string& in)
-{
-	string::const_iterator c = in.begin();
-	string var;
-	string current;
-	bool  param = true;
+pair<string, string> cut(const string& in) {
+    string::const_iterator c = in.begin();
+    string var;
+    string current;
+    bool param = true;
 
-	while ( c != in.end() )
-	{
-		if ( *c == '='  && param )
-		{			
-			var = current;
-			current = "";
-			param= false;
-		}
-		else {
-			current.push_back(*c);
-		}
-		c++;
-	}
-	return std::make_pair(var, current);
+    while (c != in.end()) {
+        if (*c == '=' && param) {
+            var     = current;
+            current = "";
+            param   = false;
+        }
+        else {
+            current.push_back(*c);
+        }
+        c++;
+    }
+    return std::make_pair(var, current);
 }
 
-void setVariable(const string& in, map<string, string>& variables)
-{
-	if(in[0] != '-')
-	{
-		MagLog::warning() << "argument " << in << " ignored.\n";
-		return;
-	}
-	variables.insert(magml::cut(in.substr(1, in.size())));
+void setVariable(const string& in, map<string, string>& variables) {
+    if (in[0] != '-') {
+        MagLog::warning() << "argument " << in << " ignored.\n";
+        return;
+    }
+    variables.insert(magml::cut(in.substr(1, in.size())));
 }
 
-} //end of namespace magml
+}  // end of namespace magml
 
-void catch_alarm(int)
-{
-	printf("MagPlus ERROR: Operation timed out. Exiting...\n");
-	abort();   
+void catch_alarm(int) {
+    printf("MagPlus ERROR: Operation timed out. Exiting...\n");
+    abort();
 }
 
-void no_memory ()
-{
-	printf("MagPlus ERROR: Failed to allocate memory!\n");
-	abort();   
+void no_memory() {
+    printf("MagPlus ERROR: Failed to allocate memory!\n");
+    abort();
 }
 
 
-int main(int argc, char **argv)
-{
-  set_new_handler(no_memory);
-  try
-  {
-	if(argc<2)
-	{
-		MagLog::error() << " Usage: " << argv[0] << " file.magml [-varname=varvalue] -timeout=seconds)\n";		   
-		exit (1);
-	}
+int main(int argc, char** argv) {
+    set_new_handler(no_memory);
+    try {
+        if (argc < 2) {
+            MagLog::error() << " Usage: " << argv[0] << " file.magml [-varname=varvalue] -timeout=seconds)\n";
+            exit(1);
+        }
 
-	map<string, string> variables;
+        map<string, string> variables;
 
-	for( int i = 2; i < argc; i++ )
-		magml::setVariable(argv[i], WebInterpretor::parameters());
+        for (int i = 2; i < argc; i++)
+            magml::setVariable(argv[i], WebInterpretor::parameters());
 
-	//for ( int i = 0; i < 10; i++) 
-	{
-	try
-	{
-		map<string, string>::const_iterator out = WebInterpretor::parameters().find("timeout");
-		int timeout = (out == WebInterpretor::parameters().end() ) ? 0 : tonumber(out->second);
-		MagLog::info() << "Time out armed for " << timeout << endl; 
-		signal(SIGALRM, catch_alarm);
-		alarm(timeout); 
-		WebInterpretor::magml(argv[1]);
-		alarm(0);
-	}
-	catch (...) {
-		abort();
-	}
-	}
-  }
-  catch (MagicsException& e)
-  {
-	printf("MagPlus ERROR: Fatal!\n");
-	abort();
-  }
+        // for ( int i = 0; i < 10; i++)
+        {
+            try {
+                map<string, string>::const_iterator out = WebInterpretor::parameters().find("timeout");
+                int timeout = (out == WebInterpretor::parameters().end()) ? 0 : tonumber(out->second);
+                MagLog::info() << "Time out armed for " << timeout << endl;
+                signal(SIGALRM, catch_alarm);
+                alarm(timeout);
+                WebInterpretor::magml(argv[1]);
+                alarm(0);
+            }
+            catch (...) {
+                abort();
+            }
+        }
+    }
+    catch (MagicsException& e) {
+        printf("MagPlus ERROR: Fatal!\n");
+        abort();
+    }
 }

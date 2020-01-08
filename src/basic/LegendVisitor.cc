@@ -37,9 +37,9 @@
 #include "Flag.h"
 #include "LegendMethod.h"
 #include "MagicsFormat.h"
+#include "MetaData.h"
 #include "Symbol.h"
 #include "Transformation.h"
-#include "MetaData.h"
 
 using namespace magics;
 
@@ -49,7 +49,7 @@ map<string, string> LegendVisitor::legendInfo_;
 LegendVisitor::LegendVisitor() {
     static int i = 0;
     ostringstream n;
-    //BasicSceneObject::name(n.str());
+    // BasicSceneObject::name(n.str());
     BasicSceneObject::name(string());
 
     i++;
@@ -217,7 +217,6 @@ void LegendVisitor::build() {
 
 
     for (auto& entry : *this) {
-       
         entry->width(text_width_);
         Text* legend = new Text();
         MagFont font(font_, font_style_, font_size_);
@@ -270,8 +269,6 @@ void LegendVisitor::build() {
         legend_->push_back(legend);
     }
     current_->frameIt();
-
-    
 }
 
 
@@ -632,8 +629,6 @@ void LegendEntry::rowBox(const PaperPoint& point, BasicGraphicsObjectContainer& 
     frame->push_back(PaperPoint(x - width, y - height));
 
 
-    
-
     legend.push_back(frame);
 }
 
@@ -689,8 +684,6 @@ void LegendEntry::columnBox(const PaperPoint& point, BasicGraphicsObjectContaine
 
     legend.push_back(from);
     legend.push_back(to);
-
-
 }
 
 void EmptyEntry::rowBox(const PaperPoint&, BasicGraphicsObjectContainer&) {}
@@ -715,8 +708,7 @@ void BoxEntry::set(const PaperPoint& point, BasicGraphicsObjectContainer& legend
     LegendVisitor::addLegendInfo("legend_entry_colour", box_->getFillColour().name());
     LegendVisitor::addLegendInfo("legend_entry_min_text", from());
     LegendVisitor::addLegendInfo("legend_entry_max_text", to());
-    
-    
+
 
     legend.push_back(box_);
 }
@@ -823,8 +815,6 @@ void BoxEntry::rowBox(const PaperPoint& point, BasicGraphicsObjectContainer& leg
         left->setColour(borderColour_);
         left->setThickness(2);
         legend.push_back(left);
-
-
     }
 
     LegendVisitor::addLegendInfo("legend_entry_colour", box_->getFillColour().name());
@@ -1470,41 +1460,36 @@ void SimpleSymbolEntry::columnBox(const PaperPoint& point, BasicGraphicsObjectCo
     legend.push_back(box);
 }
 
-void LegendVisitor::visit(MetaDataVisitor& visitor){
-   
-    int i =0;
+void LegendVisitor::visit(MetaDataVisitor& visitor) {
+    int i = 0;
     ostringstream out;
     out << "{";
     string c1 = "";
-    for ( auto& entry : legendInfo_ ) {
-        out <<  c1 << "\"" << entry.first << "\":\"" << entry.second << "\"";
+    for (auto& entry : legendInfo_) {
+        out << c1 << "\"" << entry.first << "\":\"" << entry.second << "\"";
         c1 = ",";
     }
 
-    
+
     out << c1 << "\"legend_entries\" : [";
     c1 = "";
-    for ( auto& entry : legendEntriesInfo_ ) {
-        out << c1 << "{"; 
-        c1 = ",";
+    for (auto& entry : legendEntriesInfo_) {
+        out << c1 << "{";
+        c1        = ",";
         string c2 = "";
-        for ( auto& info : entry ) {
-            out <<  c2 << "\"" << info.first << "\":\"" << info.second << "\"";
+        for (auto& info : entry) {
+            out << c2 << "\"" << info.first << "\":\"" << info.second << "\"";
             c2 = ",";
         }
-        out << "}"; 
-    } 
-     out << "]";
+        out << "}";
+    }
+    out << "]";
 
     out << "}";
 
-     visitor.add("legend", out.str());
-
-
+    visitor.add("legend", out.str());
 }
-void LegendVisitor::addLegendInfo(const string& key , const string& value)
-{
-
+void LegendVisitor::addLegendInfo(const string& key, const string& value) {
     legendEntriesInfo_.back().insert(make_pair(key, value));
 }
 

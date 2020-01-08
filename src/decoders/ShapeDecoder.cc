@@ -188,17 +188,20 @@ void ShapeDecoder::decode(const Transformation& transformation, const string& fi
                 for (vector<string>::const_iterator val = values.begin(); val != values.end(); ++val) {
                     string ss = s.substr(0, val->length());
                     if (magCompare(*val, ss)) {
-                        if (magCompare(ss,"ITA")) {
+                        if (magCompare(ss, "ITA")) {
                             MagLog::debug() << "Enter special case for regions in Italy MAGP-1214" << endl;
                             map<string, int>::iterator index_class = attributes.find("featurecla");
                             string type = DBFReadStringAttribute(hDBF, i, index_class->second);
-                            map<string, int>::iterator index = filter.empty() ? attributes.end() : attributes.find(filter);
-                            if(magCompare(type,"Admin-1 boundary")){
+                            map<string, int>::iterator index =
+                                filter.empty() ? attributes.end() : attributes.find(filter);
+                            if (magCompare(type, "Admin-1 boundary")) {
                                 add = false;
                             }
-                            else add = true;
+                            else
+                                add = true;
                         }
-                        else add = true;
+                        else
+                            add = true;
                         // MagLog::debug() << "Found " << ss << endl;
                         break;
                     }
