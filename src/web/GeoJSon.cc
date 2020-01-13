@@ -109,7 +109,6 @@ public:
     }
     bool shift_;
     virtual void print() {
-        // cout << name_ << "-->" << objects_.size() << endl;
         for (vector<GeoObject*>::iterator o = objects_.begin(); o != objects_.end(); ++o)
             (*o)->print();
     }
@@ -159,7 +158,7 @@ public:
             return GeoObject::shift(needs, out);
 
         boundingBox(min, max);
-        // cout << min << "--->" << max << endl;
+
         if (max <= -180)
             GeoObject::shift(needs, out, 360);
 
@@ -301,15 +300,15 @@ public:
     virtual ~MultiPolygon() {}
     virtual void decode(const json_spirit::Value& value) {
         Array multi = value.get_value<Array>();
-        cout << "FOUND-->" << multi.size() << " polygons " << endl;
+
         for (unsigned int m = 0; m < multi.size(); m++) {
             Array alines = multi[m].get_value<Array>();
-            cout << "    FOUND-->" << alines.size() << " parts  " << endl;
+
             for (unsigned int i = 0; i < alines.size(); i++) {
                 Array line = alines[i].get_value<Array>();
                 lines_.push_back(vector<pair<double, double> >());
                 lines_.back().reserve(line.size());
-                cout << "        FOUND-->" << line.size() << " points  " << endl;
+
                 for (unsigned int pt = 0; pt < line.size(); pt++) {
                     Array point = line[pt].get_value<Array>();
                     lines_.back().push_back(make_pair(point[0].get_value<double>(), point[1].get_value<double>()));
@@ -512,8 +511,18 @@ void GeoJSon::decode() {
             json_spirit::read_or_throw(is, value);
         }
         else {
-            ifstream is(path_.c_str());
-            json_spirit::read_or_throw(is, value);
+            try {
+                ifstream is(path_.c_str());
+                json_spirit::read_or_throw(is, value);
+            }
+            catch (json_spirit::Error_position e) {
+                MagLog::error() << "JSON error in file: " << path_ << ": " << e.reason_ << "[line: " << e.line_;
+                return;
+            }
+            catch (...) {
+                MagLog::error() << "GeoJSon decoder: can not read file " << path_ << endl;
+                return;
+            }
         }
         dig(value);
     }
