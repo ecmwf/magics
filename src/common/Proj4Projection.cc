@@ -243,7 +243,7 @@ void Proj4Projection::init() {
     to_         = pj_init_plus(projection_->definition());
 
     if (!to_) {
-        //MagLog::error() << pj_strerrno(pj_errno) << endl;
+        // MagLog::error() << pj_strerrno(pj_errno) << endl;
         MagLog::error() << " proj4 error " << projection_->definition() << endl;
         ASSERT(false);
     }
@@ -1174,13 +1174,13 @@ void Proj4Projection::coastSetting(map<string, string>& setting, double abswidth
         resol = "50m";
     }
 
-    setting["resolution"]                = resol;
-    setting["land"]                      = resol + "/ne_" + resol + "_land";
-    setting["ocean"]                     = resol + "/ne_" + resol + "_ocean";
-    setting["coast"]                     = resol + "/ne_" + resol + "_coastline";
-    setting["rivers"]                    = resol + "/ne_" + resol + "_rivers_lake_centerlines";
-    setting["boundaries"]                = resol + "/ne_" + resol + "_admin_0_boundary_lines_land";
-//    setting["administrative_boundaries"] = resol + "/ne_" + resol + "_admin_1_states_provinces";
+    setting["resolution"] = resol;
+    setting["land"]       = resol + "/ne_" + resol + "_land";
+    setting["ocean"]      = resol + "/ne_" + resol + "_ocean";
+    setting["coast"]      = resol + "/ne_" + resol + "_coastline";
+    setting["rivers"]     = resol + "/ne_" + resol + "_rivers_lake_centerlines";
+    setting["boundaries"] = resol + "/ne_" + resol + "_admin_0_boundary_lines_land";
+    //    setting["administrative_boundaries"] = resol + "/ne_" + resol + "_admin_1_states_provinces";
 
     //! \note Administraive borders hardcoded to 10m resolution (low res version do not contain all info)
     setting["administrative_boundaries"] = "10m/ne_10m_admin_1_states_provinces_lines";

@@ -28,7 +28,6 @@
 #include "Data.h"
 
 
-
 namespace magics {
 
 class MetaDataVisitor;

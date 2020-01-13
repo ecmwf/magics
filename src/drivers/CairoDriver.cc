@@ -208,8 +208,8 @@ void CairoDriver::setupNewSurface() const {
     cairo_paint(cr_);
     cairo_set_line_join(cr_, CAIRO_LINE_JOIN_BEVEL);
 
-    dimensionX_ = static_cast<MFloat>(dimensionXglobal_);
-    dimensionY_ = static_cast<MFloat>(dimensionYglobal_);
+    dimensionX_  = static_cast<MFloat>(dimensionXglobal_);
+    dimensionY_  = static_cast<MFloat>(dimensionYglobal_);
     currentPage_ = 0;
 }
 
@@ -1227,7 +1227,7 @@ MAGICS_NO_EXPORT bool CairoDriver::renderCellArray(const Image& image) const {
     cairo_save(cr_);
     cairo_translate(cr_, x0, y0);
 
-    if ((width > 500) || (height > 500))  // high resoltion enough to use image
+    if ((width > 300) || (height > 300))  // high resoltion enough to use image
     {
         cairo_surface_t* result = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, width, height);
         if (cairo_surface_status(result) != CAIRO_STATUS_SUCCESS) {

@@ -217,10 +217,7 @@ public:
 
     static bool skinny_;
 
-    static void skinnyMode() {
-        skinny_ = true;
-        
-    }
+    static void skinnyMode() { skinny_ = true; }
 
     void reproject(const Transformation&);
     bool reproject(BasicGraphicsObjectContainer& out) const;

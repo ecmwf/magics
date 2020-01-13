@@ -1,0 +1,33 @@
+#!/bin/bash
+# This file overrides the default "build" phase of
+# docker autobuild.
+#
+# Advanced options for Autobuild and Autotest
+# see https://docs.docker.com/docker-hub/builds/advanced/
+
+# Environment variables for building and testing
+# Several utility environment variables are set by the build process, and are available during automated builds, automated tests, and while executing hooks.
+#
+#     SOURCE_BRANCH: the name of the branch or the tag that is currently being tested.
+#     SOURCE_COMMIT: the SHA1 hash of the commit being tested.
+#     COMMIT_MSG: the message from the commit being tested and built.
+#     DOCKER_REPO: the name of the Docker repository being built.
+#     DOCKERFILE_PATH: the dockerfile currently being built.
+#     DOCKER_TAG: the Docker repository tag being built.
+#     IMAGE_NAME: the name and tag of the Docker repository being built. (This variable is a combination of DOCKER_REPO:DOCKER_TAG.)
+
+# load environment variables from env file
+. "$(dirname $0)/env"
+
+
+
+docker build \
+		--build-arg ECBUILD_VERSION=${ECBUILD_VERSION} \
+        --build-arg ECCODES_VERSION=${ECCODES_VERSION} \
+		--build-arg BUILD_DATE=${DATE} \
+		--build-arg VCS_URL=${SOURCE_URL} \
+		--build-arg VCS_REF=${SOURCE_COMMIT} \
+		--build-arg VERSION=${DOCKER_TAG} \
+        --file ${DOCKERFILE_PATH} \
+        --tag ${IMAGE_NAME} \
+        .

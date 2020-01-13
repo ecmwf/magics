@@ -24,8 +24,8 @@
 #include <pwd.h>
 #include <unistd.h>
 #else
-#include "win_time.h"
 #include <lmcons.h>
+#include "win_time.h"
 #endif
 
 namespace magics {

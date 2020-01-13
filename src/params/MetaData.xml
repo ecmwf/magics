@@ -12,7 +12,7 @@ does it submit to any jurisdiction.
 
   	<documentation>	</documentation>
   
-  	<parameter xml="path" from="string" name="metadata_path" default="meta.xml" member="path" to="string">
+  	<parameter xml="path" from="string" name="metadata_path" default="" member="path" to="string">
           		
          		<documentation> Path of the Meta data File 		</documentation>
   	</parameter>

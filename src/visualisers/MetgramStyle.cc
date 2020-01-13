@@ -21,8 +21,8 @@
 
 #include "MetgramStyle.h"
 
-#include "MagDateTime.h"
 #include "Flag.h"
+#include "MagDateTime.h"
 #include "Polyline.h"
 #include "Text.h"
 

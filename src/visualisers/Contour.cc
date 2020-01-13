@@ -79,7 +79,7 @@ void Contour::operator()(Data& data, BasicGraphicsObjectContainer& parent) {
         ContourLibrary* library = MagTranslator<string, ContourLibrary>()(setting_);
 
         MetaDataCollector request, needAttributes;
-        
+
 
         bool legend_only = contour_->legend_only_;
         if (predefined_.size()) {
