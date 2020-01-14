@@ -341,14 +341,14 @@ public:
         // }
     }
 };
-class Polygon : public GeoObject {
+class MagPolygon : public GeoObject {
 public:
-    Polygon() {
+    MagPolygon() {
         ostringstream n;
         n << "GeoPoint_" << index_;
         name_ = n.str();
     }
-    virtual ~Polygon() {}
+    virtual ~MagPolygon() {}
     virtual void decode(const json_spirit::Value& value) {
         Array alines = value.get_value<Array>();
         // WE take the first one for the first trial!
@@ -397,7 +397,7 @@ static SimpleObjectMaker<GeoFeature, GeoObject> FeatureCollection("FeatureCollec
 static SimpleObjectMaker<GeoObject> Feature("Feature");
 static SimpleObjectMaker<MultiLineString, GeoObject> MultiLineString("MultiLineString");
 static SimpleObjectMaker<MultiPolygon, GeoObject> MultiPolygon("MultiPolygon");
-static SimpleObjectMaker<Polygon, GeoObject> Polygon("Polygon");
+static SimpleObjectMaker<MagPolygon, GeoObject> Polygon("Polygon");
 
 
 GeoJSon::GeoJSon() : current_(0), parent_(0), matrix_(0) {
