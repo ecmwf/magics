@@ -397,7 +397,7 @@ static SimpleObjectMaker<GeoFeature, GeoObject> FeatureCollection("FeatureCollec
 static SimpleObjectMaker<GeoObject> Feature("Feature");
 static SimpleObjectMaker<MultiLineString, GeoObject> MultiLineString("MultiLineString");
 static SimpleObjectMaker<MultiPolygon, GeoObject> MultiPolygon("MultiPolygon");
-static SimpleObjectMaker<MagPolygon, GeoObject> Polygon("Polygon");
+static SimpleObjectMaker<MagPolygon, GeoObject> MagPolygon("Polygon");
 
 
 GeoJSon::GeoJSon() : current_(0), parent_(0), matrix_(0) {
