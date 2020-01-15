@@ -84,7 +84,7 @@ install:
 
   # install conda deps
   - conda install boost libnetcdf expat jinja2 xarray scipy cftime
-  - conda install -c conda-forge proj4=5 eccodes pytest cairo pango pip
+  - conda install -c conda-forge proj4=6 eccodes pytest cairo pango pip
   # search for conda-installed libraries
   - |
     if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
