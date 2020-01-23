@@ -264,6 +264,18 @@ void GribDecoder::scale(const string& metadata, double& scaling, double& offset)
     assert(false);
 }
 
+
+bool GribDecoder::isEarthOblate() {
+    // if getLong does not find the key, then it returns zero
+    // hence, we return true only if the key exists and is 1
+    long oblate = getLong("earthIsOblate", false);
+    if (oblate == 1) {
+        return true;
+    }
+    return false;
+}
+
+
 Matrix* GribDecoder::colour(Matrix* matrix) {
     if (cHandle()) {
         colourComponent_ = matrix;

@@ -103,6 +103,8 @@ public:
     string title() { return title_; }
 
     static void scale(const string&, double&, double&);
+    
+    bool isEarthOblate();
 
     InterpolateMethod interpolateMethod() const {
         if (magCompare(interpolation_method_, "interpolate"))
