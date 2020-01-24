@@ -96,15 +96,15 @@ public:
         decode();
         return layerId_;
     }
-    string name() { return name_; }
+    string name() const { return name_; }
     const DateTime& from() { return from_; }
     const DateTime& to() { return to_; }
 
-    string title() { return title_; }
+    string title() const { return title_; }
 
     static void scale(const string&, double&, double&);
     
-    const bool isEarthOblate();
+    bool isEarthOblate() const;
 
     InterpolateMethod interpolateMethod() const {
         if (magCompare(interpolation_method_, "interpolate"))
@@ -212,8 +212,8 @@ public:
     grib_handle* cHandle(string&);
 
     grib_handle* uHandle() const { return field_; }
-    grib_handle* vHandle() const { return component2_; };
-    grib_handle* cHandle() const { return colour_; };
+    grib_handle* vHandle() const { return component2_; }
+    grib_handle* cHandle() const { return colour_; }
 
 
     double uComponent(int);

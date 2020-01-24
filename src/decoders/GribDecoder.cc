@@ -73,7 +73,7 @@ void GribDecoder::version() {
     if (done)
         return;
     done = true;
-    MagLog::info() << "GribAPI Version :" << grib_get_api_version() << endl;
+    MagLog::info() << "ecCodes Version :" << grib_get_api_version() << endl;
 }
 
 GribDecoder::~GribDecoder() {
@@ -265,7 +265,7 @@ void GribDecoder::scale(const string& metadata, double& scaling, double& offset)
 }
 
 
-const bool GribDecoder::isEarthOblate() {
+bool GribDecoder::isEarthOblate() const {
     // if getLong does not find the key, then it returns zero
     // hence, we return true only if the key exists and is 1
     long oblate = getLong("earthIsOblate", false);
@@ -1577,7 +1577,7 @@ void GribDecoder::visit(MetaDataCollector& step) {
         }
 
         for (map<string, string>::iterator key = step.begin(); key != step.end(); ++key) {
-            // If key is not found in information we use gribapi
+            // If key is not found in information we use ecCodes
             if (information_.find(key->first) == information_.end()) {
                 // Compute stats
                 if (step.attribute(key->first).group() == MetaDataAttribute::StatsGroup) {
@@ -1595,7 +1595,7 @@ void GribDecoder::visit(MetaDataCollector& step) {
 
                     computeStats();
                 }
-                // We use gribapi
+                // We use ecCodes
                 else if (step.attribute(key->first).source() == MetaDataAttribute::AnySource ||
                          step.attribute(key->first).source() == MetaDataAttribute::GribApiSource) {
                     if (step.attribute(key->first).type() != MetaDataAttribute::NumberType) {
