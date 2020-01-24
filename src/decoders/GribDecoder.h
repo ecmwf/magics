@@ -104,7 +104,7 @@ public:
 
     static void scale(const string&, double&, double&);
     
-    bool isEarthOblate();
+    const bool isEarthOblate();
 
     InterpolateMethod interpolateMethod() const {
         if (magCompare(interpolation_method_, "interpolate"))

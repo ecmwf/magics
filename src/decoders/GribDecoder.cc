@@ -265,7 +265,7 @@ void GribDecoder::scale(const string& metadata, double& scaling, double& offset)
 }
 
 
-bool GribDecoder::isEarthOblate() {
+const bool GribDecoder::isEarthOblate() {
     // if getLong does not find the key, then it returns zero
     // hence, we return true only if the key exists and is 1
     long oblate = getLong("earthIsOblate", false);
