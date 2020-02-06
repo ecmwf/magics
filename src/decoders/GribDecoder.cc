@@ -312,9 +312,7 @@ void GribDecoder::read() {
         return;
     }
 
-    current_handle_ = field_;
-    long repres;
-    grib_get_long(field_, "dataRepresentationType", &repres);
+    current_handle_             = field_;
     const string representation = getstring("typeOfGrid");  // Make sure we only get one info
 
     try {
@@ -397,8 +395,13 @@ void GribDecoder::release() {
 }
 
 void GribDecoder::visit(Transformation& transformation) {
-    decode();
-
+    try {
+        decode();
+    }
+    catch (MagicsException) {
+        valid_ = true;
+        decode1D();
+    }
     if (!xComponent_)
         return;
     if (transformation.coordinateType() == Transformation::GeoType) {

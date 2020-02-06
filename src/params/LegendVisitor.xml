@@ -1,5 +1,5 @@
 <magics>
-<class action="legend" directory="basic" prefix="legend" xmltag="legend" name="LegendVisitor">
+<class action="legend" directory="basic" prefix="legend" xmltag="legend/zlegend" name="LegendVisitor">
 <!--
 (C) Copyright 1996-2016 ECMWF.
 
