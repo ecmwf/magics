@@ -76,8 +76,11 @@ void {{ object }}Attributes::copy(const {{ object }}Attributes& other)
 
 bool {{ object }}Attributes::accept(const string& node)
 {	
+	
+	{% for tag  in tags -%} 
 	if ( magCompare(node, "{{ tag }}")  )
 		return true;
+	{% endfor -%}
 	{% for param  in factory_parameters -%} 
 	{% if not param.niceprint -%}
 		if ( acceptNode(node, {{ param.member }}_) )

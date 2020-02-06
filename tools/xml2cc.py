@@ -52,7 +52,7 @@ class ObjectHandler(ContentHandler):
     def newclass(self, attrs):
         self.name = attrs.get("name")
         self.prefix = attrs.get("prefix", "").split("/")
-        self.tag = attrs.get("xmltag")
+        self.tags = attrs.get("xmltag", "").split("/")
         self.addimplements(attrs.get("implements", ""))
         self.addinterface(attrs.get("interface", ""))
         self.current = {}
@@ -166,7 +166,7 @@ with open("%s/%sAttributes.cc" % (destination, object.name), "wt") as out:
                               include = object.include,
                               include_options = object.include_options,
                               date = object.generated,
-                              tag = object.tag,
+                              tags = object.tags,
                               prefix = object.prefix
                              )
              )
@@ -180,7 +180,7 @@ with open("%s/%sAttributes.h" % (destination, object.name), "wt") as out:
                               include_options = object.include_options,
                               implements = object.implements,
                               date = object.generated,
-                              tag = object.tag,
+                              tags = object.tags,
                               prefix = object.prefix
                              )
              )
