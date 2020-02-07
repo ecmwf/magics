@@ -92,10 +92,17 @@ bool {{ object }}Attributes::accept(const string& node)
 
 void {{ object }}Attributes::set(const XmlNode& node)
 {
+	bool apply = false;
+
 	if ( this->accept(node.name()) == false ) 
 		return;
 
-	if ( magCompare(node.name(), "{{ tag }}") )
+	{% for tag  in tags -%} 
+	if ( magCompare(node.name(), "{{ tag }}")  )
+		apply = true;
+	{% endfor %}
+
+	if ( apply )
 		set(node.attributes());
 	else {
 		{% for param  in factory_parameters -%} 
