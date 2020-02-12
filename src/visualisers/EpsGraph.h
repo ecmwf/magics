@@ -336,6 +336,9 @@ protected:
     }
     vector<string> legend_;
     vector<string> usedColours_;
+    vector<string> usedStyle_;
+    vector<int> usedThickness_;
+    string climateLegend_;
     vector<pair<string, double>> keys_;
     typedef void (CdfGraph::*Setter)(const string&);
     std::map<string, Setter> setters_;

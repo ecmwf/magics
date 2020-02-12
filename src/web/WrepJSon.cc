@@ -30,7 +30,8 @@ WrepJSon::WrepJSon() :
     latitude_(0),
     station_longitude_(9999),
     longitude_(0),
-    api_("v0") {
+    api_("v0"),
+    x_min_value_(std::numeric_limits<double>::max()) {
     methods_["date"] = &WrepJSon::date;
     methods_["time"] = &WrepJSon::time;
 
@@ -58,6 +59,8 @@ WrepJSon::WrepJSon() :
     methods_["y_values"]      = &WrepJSon::y_values;
     methods_["y_date_values"] = &WrepJSon::y_date_values;
     methods_["values"]        = &WrepJSon::values;
+    methods_["clim_step"]     = &WrepJSon::clim_step;
+    methods_["x_min_value"]   = &WrepJSon::x_min_value;
 
     methods_["cape0"]     = &WrepJSon::cape0;
     methods_["cape1"]     = &WrepJSon::cape1;
@@ -87,6 +90,7 @@ WrepJSon::WrepJSon() :
 
     heightCorrections_["hres"]     = &WrepJSon::correctDetz;
     heightCorrections_["forecast"] = &WrepJSon::correctDetz;
+
 
     metaMethods_["temperature_correction"]   = &WrepJSon::temperature_correction;
     metaMethods_["temperature_adjustment"]   = &WrepJSon::temperature_adjustment;
@@ -215,6 +219,10 @@ void WrepJSon::visit(Transformation& transformation) {
         }
         maxy_++;
     }
+
+    if (x_min_value_ != std::numeric_limits<double>::max())
+        minx_ = x_min_value_;
+
     map<string, TransformationHandler>::iterator handler = transformationHandlers_.find(family_);
 
     if (handler != transformationHandlers_.end()) {
@@ -1116,6 +1124,17 @@ void WrepJSon::api(const json_spirit::Value& value) {
     MagLog::dev() << "found -> api= " << value.get_value<string>() << endl;
     api_ = value.get_value<string>();
 }
+void WrepJSon::x_min_value(const json_spirit::Value& value) {
+    ASSERT(value.type() == real_type);
+    cout << "FOUND -> x_min_value = " << value.get_value<double>() << endl;
+    x_min_value_ = value.get_value<double>();
+}
+
+void WrepJSon::clim_step(const json_spirit::Value& value) {
+    ASSERT(value.type() == str_type);
+    cout << "FOUND -> clim_step = " << value.get_value<string>() << endl;
+    clim_step_ = tonumber(value.get_value<string>());
+}
 
 void WrepJSon::time(const json_spirit::Value& value) {
     ASSERT(value.type() == str_type);
@@ -1426,6 +1445,7 @@ void WrepJSon::cdf() {
         }
     }
 
+
     int index = clim_.index(clim_step_);
     for (map<string, vector<double>>::iterator val = clim_.values_.begin(); val != clim_.values_.end(); ++val) {
         double value = correctEpsz(val->second[index]);
@@ -1444,6 +1464,7 @@ void WrepJSon::cdf() {
     CustomisedPoint* point = new CustomisedPoint();
     points_.push_back(point);
     (*point)["resolution"] = points_along_meridian_;
+    (*point)["clim_step"]  = clim_step_;
 
     for (vector<int>::iterator step = steps_.begin(); step != steps_.end(); ++step) {
         map<string, InputWrep>::iterator info = eps_.find(tostring(*step));
@@ -1455,7 +1476,7 @@ void WrepJSon::cdf() {
             map<string, vector<double>>& values = data.values_;
             ostringstream key;
             key << steps << "_step";
-            (*point)[key.str()] = s + 12;
+            (*point)[key.str()] = s;
             for (map<string, vector<double>>::iterator val = values.begin(); val != values.end(); ++val) {
                 ostringstream key;
                 if (isdigit(val->first[0]) == false) {

@@ -104,6 +104,7 @@ XmlMagics::XmlMagics() : root_(0), gribloop_(0), geographical_(true), driversToS
     actions_["contour"]   = &XmlMagics::contour;
     actions_["histogram"] = &XmlMagics::histogram;
     actions_["legend"]    = &XmlMagics::legend;
+    actions_["zlegend"]   = &XmlMagics::legend;
     actions_["meta"]      = &XmlMagics::metadata;
 
     actions_["drivers"] = &XmlMagics::driver;

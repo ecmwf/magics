@@ -73,7 +73,7 @@ void GribDecoder::version() {
     if (done)
         return;
     done = true;
-    MagLog::info() << "GribAPI Version :" << grib_get_api_version() << endl;
+    MagLog::info() << "ecCodes Version :" << grib_get_api_version() << endl;
 }
 
 GribDecoder::~GribDecoder() {
@@ -264,6 +264,18 @@ void GribDecoder::scale(const string& metadata, double& scaling, double& offset)
     assert(false);
 }
 
+
+bool GribDecoder::isEarthOblate() const {
+    // if getLong does not find the key, then it returns zero
+    // hence, we return true only if the key exists and is 1
+    long oblate = getLong("earthIsOblate", false);
+    if (oblate == 1) {
+        return true;
+    }
+    return false;
+}
+
+
 Matrix* GribDecoder::colour(Matrix* matrix) {
     if (cHandle()) {
         colourComponent_ = matrix;
@@ -300,9 +312,7 @@ void GribDecoder::read() {
         return;
     }
 
-    current_handle_ = field_;
-    long repres;
-    grib_get_long(field_, "dataRepresentationType", &repres);
+    current_handle_             = field_;
     const string representation = getstring("typeOfGrid");  // Make sure we only get one info
 
     try {
@@ -385,8 +395,13 @@ void GribDecoder::release() {
 }
 
 void GribDecoder::visit(Transformation& transformation) {
-    decode();
-
+    try {
+        decode();
+    }
+    catch (MagicsException) {
+        valid_ = true;
+        decode1D();
+    }
     if (!xComponent_)
         return;
     if (transformation.coordinateType() == Transformation::GeoType) {
@@ -1565,7 +1580,7 @@ void GribDecoder::visit(MetaDataCollector& step) {
         }
 
         for (map<string, string>::iterator key = step.begin(); key != step.end(); ++key) {
-            // If key is not found in information we use gribapi
+            // If key is not found in information we use ecCodes
             if (information_.find(key->first) == information_.end()) {
                 // Compute stats
                 if (step.attribute(key->first).group() == MetaDataAttribute::StatsGroup) {
@@ -1583,7 +1598,7 @@ void GribDecoder::visit(MetaDataCollector& step) {
 
                     computeStats();
                 }
-                // We use gribapi
+                // We use ecCodes
                 else if (step.attribute(key->first).source() == MetaDataAttribute::AnySource ||
                          step.attribute(key->first).source() == MetaDataAttribute::GribApiSource) {
                     if (step.attribute(key->first).type() != MetaDataAttribute::NumberType) {
