@@ -1380,18 +1380,12 @@ pair<double, double> GribRotatedInterpretor::rotate(double lat_y,
 
 void GribLambertAzimutalInterpretor::interpretAsMatrix(GribDecoder& grib) const {
 
-    // do not support non-spherical Earths
-    if (grib.isEarthOblate()) {
+  // do not support non-spherical Earths
+  if (grib.isEarthOblate()) {
         std::string msg("Lambert Azimuthal Equal Area only supported for spherical earth");
         MagLog::error() << msg << std::endl;
         throw MagicsException(msg);
-    }
-
-
-    // Only working for dump shading for efas !
-
-    long im = grib.getLong("numberOfPointsAlongXAxis");
-    long jm = grib.getLong("numberOfPointsAlongYAxis");
+  }
 
   long im = grib.getLong("numberOfPointsAlongXAxis");
   long jm = grib.getLong("numberOfPointsAlongYAxis");
