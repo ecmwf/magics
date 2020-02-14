@@ -177,7 +177,14 @@ endif()
 
 find_package( Boost 1.53.0 REQUIRED)
 
-find_package( Proj REQUIRED )
+
+# adding NO_MODULE means that if we don't find it, CMake will not generate
+# strange error messages about not being able to find the FindProj4.cmake file.
+find_package( PROJ4 6.1.0 NO_MODULE )
+if (NOT PROJ4_FOUND)
+    message(FATAL_ERROR "Package 'proj' was not found - at least version 6.1.0 required.")
+endif()
+
 find_package( EXPAT REQUIRED )
 if(APPLE)
   find_package( zlib REQUIRED )       # dependency of minizip - KMZ support
@@ -208,7 +215,7 @@ endif()
 ###############################################################################
 # contents
 
-set( MAGICS_TPLS eccodes spot EXPAT NetCDF Proj zlib )
+set( MAGICS_TPLS eccodes spot EXPAT NetCDF PROJ4 zlib )
 
 set( MAGICS_INCLUDE_DIRS
      ${CMAKE_CURRENT_BINARY_DIR}/src
