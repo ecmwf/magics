@@ -22,11 +22,12 @@
 #include "NetcdfOrcaInterpretor.h"
 #include <limits>
 #include "Factory.h"
+#include "Layer.h"
 #include "NetcdfData.h"
 
 using namespace magics;
 
-NetcdfOrcaInterpretor::NetcdfOrcaInterpretor() {}
+NetcdfOrcaInterpretor::NetcdfOrcaInterpretor() : matrix_(0) {}
 
 
 NetcdfOrcaInterpretor::~NetcdfOrcaInterpretor() {}
@@ -45,9 +46,9 @@ bool NetcdfOrcaInterpretor::interpretAsMatrix(Matrix** data) {
     int jm = dims[dims.size() - 2];
     int im = dims[dims.size() - 1];
 
-    Matrix* matrix = new Matrix(jm, im);
+    matrix_ = new Matrix(jm, im);
 
-    *data = matrix;
+    *data = matrix_;
 
 
     double missing = netcdf.getMissing(field_, missing_attribute_);
@@ -56,7 +57,7 @@ bool NetcdfOrcaInterpretor::interpretAsMatrix(Matrix** data) {
 
     vector<std::pair<point_type, pair<int, int> > > points;
 
-    matrix->missing(missing);
+    matrix_->missing(missing);
     // get the data ...
     try {
         Timer time("orca", "decode");
@@ -64,7 +65,7 @@ bool NetcdfOrcaInterpretor::interpretAsMatrix(Matrix** data) {
         setDimensions(dimension_, first, last);
 
 
-        MagLog::debug() << "data[" << matrix->size() << ":" << *std::min_element(matrix->begin(), matrix->end()) << ", "
+        MagLog::debug() << "data[" << matrix_->size() << ":" << *std::min_element(matrix_->begin(), matrix_->end()) << ", "
                         << offset_ << "\n";
 
 
@@ -83,8 +84,8 @@ bool NetcdfOrcaInterpretor::interpretAsMatrix(Matrix** data) {
         double maxlon = *std::max_element(lonm.begin(), lonm.end());
 
 
-        vector<double>& lon = matrix->columnsAxis();
-        vector<double>& lat = matrix->rowsAxis();
+        vector<double>& lon = matrix_->columnsAxis();
+        vector<double>& lat = matrix_->rowsAxis();
 
         // for the lon we take the fisrt line :
         double inci = (maxlon - minlon) / ((im)-1);
@@ -109,7 +110,7 @@ bool NetcdfOrcaInterpretor::interpretAsMatrix(Matrix** data) {
             for (vector<double>::iterator x = lon.begin(); x != lon.end(); ++x) {
                 h->second.insert(make_pair(*x, std::make_pair(row, column)));
 
-                matrix->push_back(missing);
+                matrix_->push_back(missing);
                 column++;
             }
             row++;
@@ -209,20 +210,20 @@ bool NetcdfOrcaInterpretor::interpretAsMatrix(Matrix** data) {
                         }
                         if (std::isnan(val))
                             val = missing;
-                        if ((*matrix)[index.second + (index.first * im)] == missing)
-                            (*matrix)[index.second + (index.first * im)] = val;
+                        if ((*matrix_)[index.second + (index.first * im)] == missing)
+                            (*matrix_)[index.second + (index.first * im)] = val;
                     }
-                    matrix->multiply(scaling_);
-                    matrix->plus(offset_);
+                    matrix_->multiply(scaling_);
+                    matrix_->plus(offset_);
                 }
             }
         }
 
-        matrix->multiply(scaling_);
-        matrix->plus(offset_);
-        matrix->setMapsAxis();
+        matrix_->multiply(scaling_);
+        matrix_->plus(offset_);
+        matrix_->setMapsAxis();
 
-        MagLog::dev() << *matrix << "\n";
+        MagLog::dev() << *matrix_ << "\n";
     }
 
     catch (MagicsException& e) {
@@ -275,6 +276,21 @@ bool NetcdfOrcaInterpretor::interpretAsPoints(PointsList& points) {
     }
     return true;
 }
+
+
+void NetcdfOrcaInterpretor::visit(ValuesCollector& vcp, PointsList&) {
+    vcp.setCollected(true);
+
+    if (matrix_) {
+        const Transformation& transformation = vcp.transformation();
+        MatrixHandler* box = transformation.prepareData(*matrix_);
+        for (ValuesCollector::iterator point = vcp.begin(); point != vcp.end();  ++point) {
+            point->push_back(new ValuesCollectorData(
+                point->x(), point->y(), box->nearest(point->y(), point->x()), -1.));
+        }
+    }
+}
+
 
 void NetcdfOrcaInterpretor::customisedPoints(const Transformation& transformation, const std::set<string>&,
                                              CustomisedPointsList& out, int thinning) {
