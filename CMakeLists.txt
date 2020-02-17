@@ -180,9 +180,15 @@ find_package( Boost 1.53.0 REQUIRED)
 
 # adding NO_MODULE means that if we don't find it, CMake will not generate
 # strange error messages about not being able to find the FindProj4.cmake file.
+# this should find proj if it has been installed via CMake, but if it has been
+# installed via autotools, then we will need to try another method
 find_package( PROJ4 6.1.0 NO_MODULE )
 if (NOT PROJ4_FOUND)
-    message(FATAL_ERROR "Package 'proj' was not found - at least version 6.1.0 required.")
+    message(WARNING "Package 6.1.0 or greater of proj could not be find via CMake - looking for autotools installation")
+    find_package(Proj 6.1.0)
+    if (NOT PROJ_FOUND)
+        message(FATAL_ERROR "Package 'proj' was not found - at least version 6.1.0 required.")
+    endif()
 endif()
 
 find_package( EXPAT REQUIRED )
