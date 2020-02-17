@@ -221,7 +221,7 @@ endif()
 ###############################################################################
 # contents
 
-set( MAGICS_TPLS eccodes spot EXPAT NetCDF PROJ4 zlib )
+set( MAGICS_TPLS eccodes spot EXPAT NetCDF PROJ4 Proj zlib )
 
 set( MAGICS_INCLUDE_DIRS
      ${CMAKE_CURRENT_BINARY_DIR}/src
