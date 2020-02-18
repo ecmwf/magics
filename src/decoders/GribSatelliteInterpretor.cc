@@ -300,18 +300,13 @@ void GribSatelliteInterpretor::interpretAsMatrix(GribDecoder& grib) const {
     // correct bad GRIB headers that we know exist
     AdjustBadlyEncodedGribs(sat, chan, nx, ny, dx, dy, xp, yp, slon, functionCode);
 
-    double lono      = slon * TeCDR;
-    double prs       = altitude * TeEARTHRADIUS;
-    double scn       = 0;
-    double yaw       = grib.getDouble("orientationOfTheGrid");
+    double lono = slon * TeCDR;
+    double prs  = altitude * TeEARTHRADIUS;
+    double scn  = 0;
+
     double target_dx = grib.regular_resolution_;  // resolution, in degrees of output lat/lon matrix
     double target_dy = grib.regular_resolution_;  // resolution, in degrees of output lat/lon matrix
 
-    yaw = RAD(yaw / 1000);
-    if (yaw < 0.)
-        yaw += PI;
-    else
-        yaw -= PI;
 
     //  double resx = (double)(abs(( atan( tan(pri) * (altitude-1.) ) * TeEARTHRADIUS )));
     //  double resy = (double)(abs(( atan( tan(prj) * (altitude-1.) ) * TeEARTHRADIUS )));

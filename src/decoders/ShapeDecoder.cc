@@ -371,8 +371,7 @@ void ShapeDecoder::decode(vector<magics::Polyline*>& data, const Transformation&
                 data.push_back(polyright);
             }
 
-            left        = false;
-            right       = false;
+
             int index   = 0;
             bool rotate = 0;
             for (j = 0, iPart = 1; j < psShape->nVertices; j++) {

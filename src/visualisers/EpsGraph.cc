@@ -1000,6 +1000,10 @@ void EpsLight::operator()(Data& data, BasicGraphicsObjectContainer& visitor) {
         lights[epsmin] = 0;
         lights[eps10]  = 0.20;
         lights[eps25]  = 0.50;
+        lights[eps50]  = 1.;
+        lights[eps75]  = 0.50;
+        lights[eps90]  = 0.25;
+        lights[epsmax] = 0.;
 
 
         float y      = 1.;
@@ -1357,7 +1361,6 @@ void EpsWind::operator()(Data& data, BasicGraphicsObjectContainer& visitor) {
         // InteractiveSet* iset = new InteractiveSet();
         // iset->addAction("onmouseover", new InteractiveMagnify(4));
         vector<double> values;
-        double scale = 0;
 
 
         for (map<string, float>::const_iterator direction = directions.begin(); direction != directions.end();
@@ -1372,7 +1375,7 @@ void EpsWind::operator()(Data& data, BasicGraphicsObjectContainer& visitor) {
         grid->setColour(Colour("grey"));
         grid->setThickness(2);
         grid->setLineStyle(M_DOT);
-        scale       = 200;
+
         double l100 = 12 * 3600;
         for (float angle = 0; angle <= 2; angle += 0.1)
             grid->push_back(PaperPoint(x + (l100 * cos(3.14 * angle)), l100 * sin(3.14 * angle)));

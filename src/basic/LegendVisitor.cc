@@ -1237,14 +1237,6 @@ void XmlLegendVisitor::getReady() {
     double text_y = bottom.percent() + yb * 100 / BasicSceneObject::parent_->absoluteHeight();
     ;
 
-    double text_width  = width.percent();
-    double text_height = height.percent();
-
-
-    if ((text_height + text_y) > 100)
-        text_height = 100 - text_y;
-    if ((text_width + text_x) > 100)
-        text_width = 100 - text_x;
 
     view_x_      = ml.percent();
     view_y_      = mb.percent();
