@@ -106,9 +106,6 @@ public:
         def << " +k=0.994 +x_0=2000000 +y_0=2000000  "
                "+units=m";
         definition_ = def.str();
-        definition_ = "EPSG:32661";
-        cout << definition_ << endl;
-        //
     }
 
     void polarsouthinit(const Proj4Projection& from) {
