@@ -87,11 +87,11 @@ public:
     void tpersinit(const Proj4Projection& from) {
         ostringstream def;
 
-        def << "+proj=tpers  +h=5500000";
+        def << "+proj=tpers +ellps=WGS84 +h=" << from.projection_height_;
         def << " +lat_0=" << from.projection_view_latitude_;
         def << " +lon_0=" << from.projection_view_longitude_;
-        def << " +azi=" << from.projection_azimuth_;
-        def << " +tilt=" << from.projection_tilt_;
+        def << " +x_0=0 +y_0=0 +azi=" << from.projection_azimuth_;
+        def << " +tilt=" << from.projection_tilt_ << "  +units=m";
 
 
         definition_ = def.str();

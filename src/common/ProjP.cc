@@ -21,76 +21,92 @@
 using namespace magics;
 
 ProjP::ProjP() : converter_(0) {}
-ProjP::ProjP(const string& from, const string& to)
-    : from_(from), to_(to), converter_(0) {
-  from_ = "EPSG:4326";
-  // to_ = "EPSG:102014";
-  // to_ =
-  //     "+proj=lcc +lat_1=43 +lat_2=62 +lat_0=30 +lon_0=10 +x_0=0 +y_0=0 "
-  //     "+ellps=intl +units=m +no_defs";
-  PJ_CONTEXT* context = proj_context_create();
-  PJ* p = proj_create_crs_to_crs(context, from_.c_str(), to_.c_str(), NULL);
-  assert(p);
-  converter_ = proj_normalize_for_visualization(context, p);
+ProjP::ProjP(const string& from, const string& to) : from_(from), to_(to), converter_(0) {
+    from_ = "EPSG:4326";
+    // to_ = "EPSG:102014";
+    // to_ =
+    //     "+proj=lcc +lat_1=43 +lat_2=62 +lat_0=30 +lon_0=10 +x_0=0 +y_0=0 "
+    //     "+ellps=intl +units=m +no_defs";
+    PJ_CONTEXT* context = proj_context_create();
+    PJ* p               = proj_create_crs_to_crs(context, from_.c_str(), to_.c_str(), NULL);
+    assert(p);
+    converter_ = proj_normalize_for_visualization(context, p);
 
-  assert(converter_);
-  // double x = -180;
-  // double y = 90;
-  // convert(x, y);
-  // revert(x, y);
+    assert(converter_);
+    // double x = -180;
+    // double y = 90;
+    // convert(x, y);
+    // revert(x, y);
 }
 
 ProjP::~ProjP() {
-  if (converter_) proj_destroy(converter_);
-  converter_ = 0;
+    if (converter_)
+        proj_destroy(converter_);
+    converter_ = 0;
 }
 
 int LatLonProjP::convert(double& x, double& y) const {
-  PJ_COORD in, out;
-  in.lpzt.lam = x;
-  in.lpzt.phi = y;
-  in.lpzt.z = 0.0;
-  in.lpzt.t = HUGE_VAL;
+    PJ_COORD in, out;
+    in.lpzt.lam = x;
+    in.lpzt.phi = y;
+    in.lpzt.z   = 0.0;
+    in.lpzt.t   = HUGE_VAL;
 
-  out = proj_trans(converter_, PJ_FWD, in);
-  x = out.xy.x;
-  y = out.xy.y;
-  return 0;
+    out = proj_trans(converter_, PJ_FWD, in);
+    if (proj_errno(converter_)) {
+        proj_errno_reset(converter_);
+        return 1;
+    }
+    x = out.xy.x;
+    y = out.xy.y;
+    return 0;
 }
 int LatLonProjP::revert(double& x, double& y) const {
-  PJ_COORD in, out;
-  in.xy.x = x;
-  in.xy.y = y;
+    PJ_COORD in, out;
+    in.xy.x = x;
+    in.xy.y = y;
 
-  out = proj_trans(converter_, PJ_INV, in);
+    out = proj_trans(converter_, PJ_INV, in);
+    if (proj_errno(converter_)) {
+        proj_errno_reset(converter_);
+        return 1;
+    }
 
-  x = out.lpzt.lam;
-  y = out.lpzt.phi;
+    x = out.lpzt.lam;
+    y = out.lpzt.phi;
 
-  return 0;
+    return 0;
 }
 
 int ProjP::convert(double& x, double& y) const {
-  PJ_COORD in, out;
+    PJ_COORD in, out;
 
-  in.xy.x = x;
-  in.xy.y = y;
-  out = proj_trans(converter_, PJ_FWD, in);
-  x = out.xy.x;
-  y = out.xy.y;
+    in.xy.x = x;
+    in.xy.y = y;
+    out     = proj_trans(converter_, PJ_FWD, in);
+    if (proj_errno(converter_)) {
+        proj_errno_reset(converter_);
+        return 1;
+    }
+    x = out.xy.x;
+    y = out.xy.y;
 
-  return 0;
+    return 0;
 }
 int ProjP::revert(double& x, double& y) const {
-  PJ_COORD in, out;
-  in.xy.x = x;
-  in.xy.y = y;
+    PJ_COORD in, out;
+    in.xy.x = x;
+    in.xy.y = y;
 
-  out = proj_trans(converter_, PJ_INV, in);
-  x = out.xy.x;
-  y = out.xy.y;
+    out = proj_trans(converter_, PJ_INV, in);
+    if (proj_errno(converter_)) {
+        proj_errno_reset(converter_);
+        return 1;
+    }
+    x = out.xy.x;
+    y = out.xy.y;
 
-  return 0;
+    return 0;
 }
 
 void ProjP::print(ostream&) const {}
