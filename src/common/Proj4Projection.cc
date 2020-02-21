@@ -87,12 +87,15 @@ public:
     void tpersinit(const Proj4Projection& from) {
         ostringstream def;
 
-        def << "+proj=tpers +ellps=WGS84 +h=" << from.projection_height_;
-        def << "  +lat_0=" << from.projection_view_latitude_;
+        def << "+proj=tpers  +h=5500000";
+        def << " +lat_0=" << from.projection_view_latitude_;
         def << " +lon_0=" << from.projection_view_longitude_;
-        def << " +x_0=0 +y_0=0 +azi=" << from.projection_azimuth_;
-        def << " +tilt=" << from.projection_tilt_ << "  +units=m";
+        def << " +azi=" << from.projection_azimuth_;
+        def << " +tilt=" << from.projection_tilt_;
+
+
         definition_ = def.str();
+        // definition_ = "+proj=tpers +h=5500000 +lat_0=40";
     }
 
     void polarinit(const Proj4Projection& from) {
@@ -427,7 +430,7 @@ void Proj4Projection::revert(const PaperPoint& xy, UserPoint& point) const {
     double x = xy.x();
     double y = xy.y();
 
-    int error = helper_->convert(x, y);
+    int error = helper_->revert(x, y);
 
     if (error) {
         MagLog::debug() << helper_->error(error) << endl;
@@ -635,6 +638,7 @@ void Proj4Projection::tpers() {
                 }
                 break;
             }
+
             lastlon = lon;
         }
     }
@@ -651,6 +655,7 @@ void Proj4Projection::tpers() {
                 }
                 break;
             }
+
             lastlon = lon;
         }
     }
@@ -663,12 +668,12 @@ void Proj4Projection::tpers() {
             int error = helper_->convert(x, y);
             if (error) {
                 // we reach a border!
-
                 if (lastlon != missing) {
                     add(lastlon, lat);
                 }
                 break;
             }
+
             lastlon = lon;
         }
     }
@@ -685,6 +690,7 @@ void Proj4Projection::tpers() {
                 }
                 break;
             }
+
             lastlon = lon;
         }
     }
