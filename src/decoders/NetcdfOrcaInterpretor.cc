@@ -24,6 +24,7 @@
 #include "Factory.h"
 #include "Layer.h"
 #include "NetcdfData.h"
+#include "SciMethods.h"
 
 using namespace magics;
 
@@ -43,10 +44,12 @@ bool NetcdfOrcaInterpretor::interpretAsMatrix(Matrix** data) {
     var.getDimensions(dims);
 
 
-    int jm = dims[dims.size() - 2];
-    int im = dims[dims.size() - 1];
+    int jin  = dims[dims.size() - 2];
+    int iin  = dims[dims.size() - 1];
+    int jout = jin;
+    int iout = iin;
 
-    matrix_ = new Matrix(jm, im);
+    matrix_ = new Matrix(jout, iout);
 
     *data = matrix_;
 
@@ -65,8 +68,8 @@ bool NetcdfOrcaInterpretor::interpretAsMatrix(Matrix** data) {
         setDimensions(dimension_, first, last);
 
 
-        MagLog::debug() << "data[" << matrix_->size() << ":" << *std::min_element(matrix_->begin(), matrix_->end()) << ", "
-                        << offset_ << "\n";
+        MagLog::debug() << "data[" << matrix_->size() << ":" << *std::min_element(matrix_->begin(), matrix_->end())
+                        << ", " << offset_ << "\n";
 
 
         vector<double> latm;
@@ -80,6 +83,7 @@ bool NetcdfOrcaInterpretor::interpretAsMatrix(Matrix** data) {
         double minlat = *std::min_element(latm.begin(), latm.end());
         double maxlat = *std::max_element(latm.begin(), latm.end());
 
+
         double minlon = *std::min_element(lonm.begin(), lonm.end());
         double maxlon = *std::max_element(lonm.begin(), lonm.end());
 
@@ -88,142 +92,162 @@ bool NetcdfOrcaInterpretor::interpretAsMatrix(Matrix** data) {
         vector<double>& lat = matrix_->rowsAxis();
 
         // for the lon we take the fisrt line :
-        double inci = (maxlon - minlon) / ((im)-1);
-        double incj = (maxlat - minlat) / ((jm)-1);
-        for (int i = 0; i < im; i++)
+        double inci = (maxlon - minlon) / ((iout)-1);
+        double incj = (maxlat - minlat) / ((jout)-1);
+        for (int i = 0; i < iout; i++)
             lon.push_back(minlon + (i * inci));
-        // for the lon we take the fisrt column :
-        for (int i = 0; i < jm; i++)
+        for (int i = 0; i < jout; i++)
             lat.push_back(minlat + (i * incj));
-
-        typedef map<double, map<double, pair<int, int> > > Helper;
-
-        // typedef map<double, double> Helper;
-        Helper helper;
-        int row = 0;
-        for (vector<double>::iterator y = lat.begin(); y != lat.end(); ++y) {
-            helper.insert(make_pair(*y, map<double, pair<int, int> >()));
-
-            Helper::iterator h = helper.find(*y);
-
-            int column = 0;
-            for (vector<double>::iterator x = lon.begin(); x != lon.end(); ++x) {
-                h->second.insert(make_pair(*x, std::make_pair(row, column)));
-
-                matrix_->push_back(missing);
-                column++;
+        for (int y = 0; y < lat.size(); ++y) {
+            for (int x = 0; x < lon.size(); ++x) {
+                (*matrix_)[x + (y * iout)] = missing;
             }
-            row++;
         }
 
-
-        int r = 0;
-        int c = 0;
 
         double lat11, lat12, lat21, lat22;
         double lon11, lon12, lon21, lon22;
         double val11, val12, val21, val22;
 
-        for (int r = 0; r < jm - 1; r++) {
-            for (int c = 0; c < im - 1; c++) {
-                lat11 = latm[c + (im * r)];
+        for (int r = 0; r < jin - 1; r++) {
+            for (int c = 0; c < iin - 1; c++) {
+                lat11 = latm[c + (iin * r)];
+                lat12 = latm[(c + 1) + (iin * r)];
+                lat21 = latm[c + (iin * (r + 1))];
+                lat22 = latm[(c + 1) + (iin * (r + 1))];
 
-                lat12  = latm[(c + 1) + (im * r)];
                 minlat = std::min(lat11, lat12);
                 maxlat = std::max(lat11, lat12);
-                lat21  = latm[c + (im * (r + 1))];
                 minlat = std::min(minlat, lat21);
                 maxlat = std::max(maxlat, lat21);
-                lat22  = latm[(c + 1) + (im * (r + 1))];
                 minlat = std::min(minlat, lat22);
                 maxlat = std::max(maxlat, lat22);
 
-                lon11 = lonm[c + (im * r)];
-                lon12 = lonm[(c + 1) + (im * r)];
-                if (lon12 < lon11)
-                    lon12 += 360.;
+                lon11 = lonm[c + (iin * r)];
+                lon12 = lonm[(c + 1) + (iin * r)];
+                lon21 = lonm[c + (iin * (r + 1))];
+                lon22 = lonm[(c + 1) + (iin * (r + 1))];
+
+                val11 = data[c + (iin * r)];
+                val12 = data[(c + 1) + (iin * r)];
+                val21 = data[c + (iin * (r + 1))];
+                val22 = data[(c + 1) + (iin * (r + 1))];
+
+                // TRy yp put the 4 corners in the same coordinates sytem..
+                int plus = 0;
+                if (lon11 > 20)
+                    plus++;
+                if (lon12 > 20)
+                    plus++;
+                if (lon21 > 20)
+                    plus++;
+                if (lon22 > 20)
+                    plus++;
+                if (plus == 1) {
+                    // find the + and remove 360
+                    if (lon11 > 0)
+                        lon11 -= 360;
+                    if (lon12 > 0)
+                        lon12 -= 360;
+                    if (lon21 > 0)
+                        lon21 -= 360;
+                    if (lon22 > 0)
+                        lon22 -= 360;
+                }
+                if (plus == 2) {
+                    if (lon11 < 0)
+                        lon11 += 360;
+                    if (lon12 < 0)
+                        lon12 += 360;
+                    if (lon21 < 0)
+                        lon21 += 360;
+                    if (lon22 < 0)
+                        lon22 += 360;
+                    // find the 2 - and add 360;
+                }
+                if (plus == 3) {
+                    if (lon11 < 0)
+                        lon11 += 360;
+                    if (lon12 < 0)
+                        lon12 += 360;
+                    if (lon21 < 0)
+                        lon21 += 360;
+                    if (lon22 < 0)
+                        lon22 += 360;
+                    // find the - and add 360
+                }
+
+
                 minlon = std::min(lon11, lon12);
                 maxlon = std::max(lon11, lon12);
-                lon21  = lonm[c + (im * (r + 1))];
                 minlon = std::min(minlon, lon21);
                 maxlon = std::max(maxlon, lon21);
-                lon22  = lonm[(c + 1) + (im * (r + 1))];
-                if (lon22 < lon21)
-                    lon22 += 360.;
                 minlon = std::min(minlon, lon22);
                 maxlon = std::max(maxlon, lon22);
 
-                val11 = data[c + (im * r)];
-                val12 = data[(c + 1) + (im * r)];
-                val21 = data[c + (im * (r + 1))];
-                val22 = data[(c + 1) + (im * (r + 1))];
 
-
-                // find the points from the helper!
-                Helper::iterator low, up;
-                low = helper.lower_bound(minlat);
-                up  = helper.lower_bound(maxlat);
-                if (low == helper.end() || up == helper.end())
-                    break;
-                for (Helper::iterator it = low; it != up; ++it) {
-                    if (it == helper.end())
+                // Now we fill the matrix
+                for (int y = 0; y < lat.size(); ++y) {
+                    if (lat[y] < minlat)
+                        continue;
+                    if (lat[y] > maxlat)
                         break;
-                    map<double, pair<int, int> >& lons          = it->second;
-                    map<double, pair<int, int> >::iterator llow = lons.lower_bound(minlon);
-                    map<double, pair<int, int> >::iterator lup  = lons.lower_bound(maxlon);
-                    if (llow == lons.end() || lup == lons.end())
-                        break;
-                    ;
-                    for (map<double, pair<int, int> >::iterator lit = llow; lit != lup; ++lit) {
-                        double lat                = it->first;
-                        double lon                = lit->first;
-                        std::pair<int, int> index = lit->second;
 
-                        // we interpolate at the point using the 4 points found!
+                    for (int x = 0; x < lon.size(); ++x) {
+                        if (lon[x] < minlon)
+                            continue;
+                        if (lon[x] > maxlon)
+                            break;
                         double val = missing;
-                        if (val11 != missing && val12 != missing && val21 != missing && val22 != missing) {
-                            double val1 =
-                                ((lon12 - lon) / (lon12 - lon11)) * val11 + ((lon - lon11) / (lon12 - lon11)) * val12;
-
-                            double val2 =
-                                ((lon22 - lon) / (lon22 - lon21)) * val21 + ((lon - lon21) / (lon22 - lon21)) * val22;
-                            if (std::isnan(val1)) {
-                                if (std::isnan(val2)) {
-                                    val = missing;
-                                }
-                                else
-                                    val = ((lat - lat11) / (lat22 - lat11)) * val2;
-                            }
-                            else {
-                                if (std::isnan(val2)) {
-                                    val = ((lat22 - lat) / (lat22 - lat11)) * val1;
-                                }
-                                else {
-                                    val = ((lat22 - lat) / (lat22 - lat11)) * val1 +
-                                          ((lat - lat11) / (lat22 - lat11)) * val2;
-                                }
-                            }
-
-                            if (std::isnan(val) || std::isinf(val) || std::isinf(-val)) {
-                                val = missing;
-                            }
-                        }
-                        if (std::isnan(val))
+                        double d11 = geoDistanceInKm(lon11, lat11, lon[x], lat[y]);
+                        double d12 = geoDistanceInKm(lon12, lat12, lon[x], lat[y]);
+                        double d21 = geoDistanceInKm(lon21, lat21, lon[x], lat[y]);
+                        double d22 = geoDistanceInKm(lon22, lat22, lon[x], lat[y]);
+                        if (val11 == missing && val12 == missing && val21 == missing && val22 == missing) {
                             val = missing;
-                        if ((*matrix_)[index.second + (index.first * im)] == missing)
-                            (*matrix_)[index.second + (index.first * im)] = val;
+                        }
+                        else {
+                            if (val11 == missing)
+                                val11 = 0;
+                            if (val12 == missing)
+                                val12 = 0;
+                            if (val21 == missing)
+                                val21 = 0;
+                            if (val22 == missing)
+                                val22 = 0;
+
+                            val = ((d11 * val11) + (d12 * val12) + (d21 * val21) + (d22 * val22)) /
+                                  (d11 + d22 + d21 + d12);
+
+                            // if (minlat > 120) {
+                            //     cout << minlat << " < " << lat[y] << " < " << maxlat << endl;
+                            //     cout << minlon << " < " << lon[x] << " < " << maxlon << endl;
+
+                            //     cout << x + (y * iout) << "--->" << val << "[" << val11 << ", " << val12 << "," <<
+                            //     val21
+                            //          << ", " << val22 << "]" << endl;
+                            // }
+                        }
+                        if (val != missing)
+                            (*matrix_)[x + (y * iout)] = val;
+
+                        // cout << minlat << " < " << lat[y] << " < " << maxlat << endl;
+                        // cout << minlon << " < " << lon[x] << " < " << maxlon << endl;
+
+                        // cout << x + (y * iout) << "--->" << val << "[" << val11 << ", " << val12 << "," << val21
+                        //      << ", " << val22 << "]" << endl;
                     }
-                    matrix_->multiply(scaling_);
-                    matrix_->plus(offset_);
                 }
             }
+
+
+            matrix_->multiply(scaling_);
+            matrix_->plus(offset_);
+            matrix_->setMapsAxis();
+
+
+            MagLog::dev() << *matrix_ << "\n";
         }
-
-        matrix_->multiply(scaling_);
-        matrix_->plus(offset_);
-        matrix_->setMapsAxis();
-
-        MagLog::dev() << *matrix_ << "\n";
     }
 
     catch (MagicsException& e) {
@@ -283,10 +307,10 @@ void NetcdfOrcaInterpretor::visit(ValuesCollector& vcp, PointsList&) {
 
     if (matrix_) {
         const Transformation& transformation = vcp.transformation();
-        MatrixHandler* box = transformation.prepareData(*matrix_);
-        for (ValuesCollector::iterator point = vcp.begin(); point != vcp.end();  ++point) {
-            point->push_back(new ValuesCollectorData(
-                point->x(), point->y(), box->nearest(point->y(), point->x()), -1.));
+        MatrixHandler* box                   = transformation.prepareData(*matrix_);
+        for (ValuesCollector::iterator point = vcp.begin(); point != vcp.end(); ++point) {
+            point->push_back(
+                new ValuesCollectorData(point->x(), point->y(), box->nearest(point->y(), point->x()), -1.));
         }
     }
 }
@@ -349,12 +373,14 @@ NetcdfInterpretor* NetcdfOrcaInterpretor::guess(const NetcdfInterpretor& from) {
     string coordinates = netcdf.getVariable(variable).getAttribute("coordinates", string(""));
     string latlon("lat lon");
     coordinates = coordinates.substr(0, latlon.size());
-    if (coordinates == "lat lon") {
+    cout << "ORCA --> " << coordinates << endl;
+    if (coordinates == "lat lon" || coordinates == "lon lat") {
         NetcdfOrcaInterpretor* interpretor = new NetcdfOrcaInterpretor();
 
         interpretor->NetcdfInterpretor::copy(from);
-        interpretor->latitude_        = "lat";
-        interpretor->longitude_       = "lon";
+        interpretor->latitude_  = "lat";
+        interpretor->longitude_ = "lon";
+        cout << "ORCA --> " << coordinates << endl;
         interpretor->time_variable_   = netcdf.detect(variable, "time");
         interpretor->level_variable_  = netcdf.detect(variable, "level");
         interpretor->number_variable_ = netcdf.detect(variable, "number");
