@@ -256,6 +256,13 @@ protected:
     Polyline* line_;
     Colour colour();
 };
+
+class CdfEntry : public LineEntry {
+public:
+    CdfEntry(const string label, Polyline* line = 0) : LineEntry(label, line) {}
+    void set(const PaperPoint&, BasicGraphicsObjectContainer&);
+    ~CdfEntry();
+};
 class RainbowEntry : public LineEntry {
 public:
     RainbowEntry(double label, Polyline* line = 0) : LineEntry(label, line) {}

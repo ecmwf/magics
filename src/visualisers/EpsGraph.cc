@@ -1802,7 +1802,8 @@ void CdfGraph::operator()(Data& data, BasicGraphicsObjectContainer& visitor) {
         }
     }
 
-    visitor.push_back(efi);
+
+    transformation(*efi, visitor);
 
 
     magics::Polyline* box = new magics::Polyline();
@@ -1826,7 +1827,7 @@ void CdfGraph::operator()(Data& data, BasicGraphicsObjectContainer& visitor) {
     vector<string>::iterator style  = style_.begin();
     vector<int>::iterator thickness = thickness_.begin();
 
-    vector<BasicGraphicsObject*> sorter;
+    vector<Polyline*> sorter;
     int step = 1;
     while (icolour != colour_.end()) {
         Colour colour(*icolour);
@@ -1904,8 +1905,8 @@ void CdfGraph::operator()(Data& data, BasicGraphicsObjectContainer& visitor) {
     }
 
     // Here we revert the curve to have the fisrt plotted last!
-    for (vector<BasicGraphicsObject*>::reverse_iterator object = sorter.rbegin(); object != sorter.rend(); ++object)
-        visitor.push_back(*object);
+    for (auto object = sorter.rbegin(); object != sorter.rend(); ++object)
+        transformation(**object, visitor);
 }
 
 
@@ -1931,7 +1932,7 @@ void CdfGraph::visit(LegendVisitor& legend)
         efi->setColour(Colour(*colour));
         efi->setLineStyle(MagTranslator<string, LineStyle>()(*style));
         efi->setThickness(*thickness);
-        LineEntry* entry = new LineEntry(*text, efi);
+        CdfEntry* entry = new CdfEntry(*text, efi);
 
         legend.add(entry);
 
@@ -1948,7 +1949,7 @@ void CdfGraph::visit(LegendVisitor& legend)
     efi->setThickness(clim_thickness_);
 
 
-    LineEntry* entry = new LineEntry(legends[type_], efi);
+    CdfEntry* entry = new CdfEntry(legends[type_], efi);
     legend.add(entry);
 }
 

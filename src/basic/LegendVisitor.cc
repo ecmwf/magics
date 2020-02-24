@@ -1170,6 +1170,17 @@ void LineEntry::set(const PaperPoint& point, BasicGraphicsObjectContainer& legen
     legend.push_back(line_);
 }
 
+void CdfEntry::set(const PaperPoint& point, BasicGraphicsObjectContainer& legend) {
+    double right = computeWidth(0.8) / 2;
+    double left  = computeWidth(0.4) / 2;
+    PaperPoint p = centreSymbolBox(point);
+    double x     = p.x();
+    double y     = p.y();
+    line_->push_back(PaperPoint(x - left, y));
+    line_->push_back(PaperPoint(x + right, y));
+    legend.push_back(line_);
+}
+
 void DoubleLineEntry::set(const PaperPoint& point, BasicGraphicsObjectContainer& legend) {
     double width  = computeWidth(0.8) / 2;
     double height = (line2_) ? 0.2 : 0;
@@ -1490,5 +1501,6 @@ FlagEntry::~FlagEntry() {}              //{ delete flag_; }
 BoxEntry::~BoxEntry() {}                //{ delete box_; }
 ArrowEntry::~ArrowEntry() {}            //{ delete arrow_; }
 DoubleLineEntry::~DoubleLineEntry() {}  //{ { delete line1_; delete line2_; }
-LineEntry::~LineEntry() {}              //{ delete line_;}
-RainbowEntry::~RainbowEntry() {}        //{ delete line_;}
+LineEntry::~LineEntry() {}
+CdfEntry::~CdfEntry() {}          //{ delete line_;}
+RainbowEntry::~RainbowEntry() {}  //{ delete line_;}
