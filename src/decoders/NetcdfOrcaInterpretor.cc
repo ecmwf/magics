@@ -173,17 +173,15 @@ bool NetcdfOrcaInterpretor::interpretAsMatrix(Matrix** data) {
                     i = 0;
                     for (int x = i; x < lon.size(); ++x) {
                         double l = (shift && lon[x] < 0) ? lon[x] + 360 : lon[x];
-
-
                         if (l < minlon)
                             continue;
-                        if (l > maxlon) {
+                        if (l > maxlon + 1) {
+                            if (minlat > 87 && (*matrix_)[x + (y * iout)] == missing) {
+                                cout << "???" << lon[x] << " " << l << " " << (*matrix_)[x + (y * iout)] << " "
+                                     << minlon << " " << minlat << " " << maxlon << " " << maxlat << endl;
+                            }
                             break;
                         }
-                        // if (shift && minlat > 85.) {
-                        //     cout << "FOUND: "
-                        //          << " " << minlon << "-->" << maxlon << endl;
-                        // }
 
                         double val = missing;
                         double d11 = geoDistanceInKm(lon11, lat11, lon[x], lat[y]);
