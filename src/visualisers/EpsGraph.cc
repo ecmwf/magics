@@ -1877,11 +1877,11 @@ void CdfGraph::operator()(Data& data, BasicGraphicsObjectContainer& visitor) {
             legend = l.str();
 
             info           = point->find("clim_step");
-            climateLegend_ = "Climate t+?:? : unknow step";
+            climateLegend_ = "M-Climate t+?:? : unknow step";
             if (info != point->end()) {
                 int cs = info->second;
                 ostringstream cl;
-                cl << "Climate t+ [" << cs + offset - range << "-" << cs + offset << "h] ";
+                cl << "M-Climate t+ [" << cs + offset - range << "-" << cs + offset << "h] ";
                 climateLegend_ = cl.str();
             }
         }
@@ -1945,6 +1945,7 @@ void CdfGraph::visit(LegendVisitor& legend)
     }
     magics::Polyline* efi = new magics::Polyline();
     efi->setColour(*clim_colour_);
+
     efi->setLineStyle(clim_style_);
     efi->setThickness(clim_thickness_);
 
