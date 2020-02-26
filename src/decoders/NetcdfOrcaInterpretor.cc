@@ -133,50 +133,6 @@ bool NetcdfOrcaInterpretor::interpretAsMatrix(Matrix** data) {
                 val21 = data[c + (iin * (r + 1))];
                 val22 = data[(c + 1) + (iin * (r + 1))];
 
-                // TRy yp put the 4 corners in the same coordinates sytem..
-                int plus = 0;
-                if (lon11 > 20)
-                    plus++;
-                if (lon12 > 20)
-                    plus++;
-                if (lon21 > 20)
-                    plus++;
-                if (lon22 > 20)
-                    plus++;
-                if (plus == 1) {
-                    // find the + and remove 360
-                    if (lon11 > 0)
-                        lon11 -= 360;
-                    if (lon12 > 0)
-                        lon12 -= 360;
-                    if (lon21 > 0)
-                        lon21 -= 360;
-                    if (lon22 > 0)
-                        lon22 -= 360;
-                }
-                if (plus == 2) {
-                    if (lon11 < 0)
-                        lon11 += 360;
-                    if (lon12 < 0)
-                        lon12 += 360;
-                    if (lon21 < 0)
-                        lon21 += 360;
-                    if (lon22 < 0)
-                        lon22 += 360;
-                    // find the 2 - and add 360;
-                }
-                if (plus == 3) {
-                    if (lon11 < 0)
-                        lon11 += 360;
-                    if (lon12 < 0)
-                        lon12 += 360;
-                    if (lon21 < 0)
-                        lon21 += 360;
-                    if (lon22 < 0)
-                        lon22 += 360;
-                    // find the - and add 360
-                }
-
 
                 minlon = std::min(lon11, lon12);
                 maxlon = std::max(lon11, lon12);
@@ -186,6 +142,24 @@ bool NetcdfOrcaInterpretor::interpretAsMatrix(Matrix** data) {
                 maxlon = std::max(maxlon, lon22);
 
 
+                bool shift = false;
+
+                if ((maxlon - minlon) > 360 - (maxlon - minlon)) {
+                    shift = true;
+                    // we move all the negative
+                    double l11 = lon11 < 0 ? lon11 + 360 : lon11;
+                    double l12 = lon12 < 0 ? lon12 + 360 : lon12;
+                    double l21 = lon21 < 0 ? lon21 + 360 : lon21;
+                    double l22 = lon22 < 0 ? lon22 + 360 : lon22;
+                    minlon     = std::min(l11, l12);
+                    maxlon     = std::max(l11, l12);
+                    minlon     = std::min(minlon, l21);
+                    maxlon     = std::max(maxlon, l21);
+                    minlon     = std::min(minlon, l22);
+                    maxlon     = std::max(maxlon, l22);
+                }
+
+
                 // Now we fill the matrix
                 for (int y = 0; y < lat.size(); ++y) {
                     if (lat[y] < minlat)
@@ -193,11 +167,24 @@ bool NetcdfOrcaInterpretor::interpretAsMatrix(Matrix** data) {
                     if (lat[y] > maxlat)
                         break;
 
-                    for (int x = 0; x < lon.size(); ++x) {
-                        if (lon[x] < minlon)
+                    int i = ((minlon - lon[0]) / inci) - 1;
+                    if (i < 0 || i > (lon.size() - 10))
+                        i = 0;
+                    i = 0;
+                    for (int x = i; x < lon.size(); ++x) {
+                        double l = (shift && lon[x] < 0) ? lon[x] + 360 : lon[x];
+
+
+                        if (l < minlon)
                             continue;
-                        if (lon[x] > maxlon)
+                        if (l > maxlon) {
                             break;
+                        }
+                        // if (shift && minlat > 85.) {
+                        //     cout << "FOUND: "
+                        //          << " " << minlon << "-->" << maxlon << endl;
+                        // }
+
                         double val = missing;
                         double d11 = geoDistanceInKm(lon11, lat11, lon[x], lat[y]);
                         double d12 = geoDistanceInKm(lon12, lat12, lon[x], lat[y]);
@@ -218,24 +205,9 @@ bool NetcdfOrcaInterpretor::interpretAsMatrix(Matrix** data) {
 
                             val = ((d11 * val11) + (d12 * val12) + (d21 * val21) + (d22 * val22)) /
                                   (d11 + d22 + d21 + d12);
-
-                            // if (minlat > 120) {
-                            //     cout << minlat << " < " << lat[y] << " < " << maxlat << endl;
-                            //     cout << minlon << " < " << lon[x] << " < " << maxlon << endl;
-
-                            //     cout << x + (y * iout) << "--->" << val << "[" << val11 << ", " << val12 << "," <<
-                            //     val21
-                            //          << ", " << val22 << "]" << endl;
-                            // }
                         }
                         if (val != missing)
                             (*matrix_)[x + (y * iout)] = val;
-
-                        // cout << minlat << " < " << lat[y] << " < " << maxlat << endl;
-                        // cout << minlon << " < " << lon[x] << " < " << maxlon << endl;
-
-                        // cout << x + (y * iout) << "--->" << val << "[" << val11 << ", " << val12 << "," << val21
-                        //      << ", " << val22 << "]" << endl;
                     }
                 }
             }
