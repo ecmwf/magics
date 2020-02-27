@@ -167,10 +167,7 @@ void DoubleLineEntry::columnBox(const PaperPoint& point, BasicGraphicsObjectCont
 
 void LegendVisitor::build() {
     legend_ = new LegendLayout();
-    if (magCompare(box_extend_, "full-right")) {
-        view_y_      = 0;
-        view_height_ = 100;
-    }
+
 
     legend_->x(view_x_);
     legend_->y(view_y_);
@@ -1311,6 +1308,16 @@ void FortranAutomaticLegendVisitor::getReady() {
     Dimension text(font_dimension_, 1, 10);
     font_size_ = text.absolute();
     layout_->Layout::frame(blanking_, border_, *border_colour_, border_line_style_, border_thickness_, Colour("white"));
+    // Special setting for automatic legend
+
+    if (top()) {
+        view_x_     = box_margin_;
+        view_width_ = 100 - (2 * box_margin_);
+    }
+    else {
+        view_y_      = box_margin_;
+        view_height_ = 100 - (2 * box_margin_);
+    }
 }
 
 void LegendEntry::set(const LegendVisitor& attributes) {
