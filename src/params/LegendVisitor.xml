@@ -100,6 +100,9 @@ does it submit to any jurisdiction.
         			
         			<documentation>Whether legend box is positioned on the top or on the right of the drawing area  		</documentation>
 	</parameter>
+	<parameter from="string" name="legend_automatic_box_extend" default="" member="box_extend" to="string" values="full">	
+        			<documentation>Whether legend box is positioned on the top or on the right of the drawing area  		</documentation>
+	</parameter>
 	<parameter xml="font" from="string" name="legend_text_font" default="sansserif" member="font" to="string">
 			<documentation>Font name - please make sure this font is installed!		</documentation>
 	</parameter>

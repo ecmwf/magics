@@ -1214,6 +1214,34 @@ public:
         return full.tostring(format);
     }
 
+    string dataDate(const XmlNode& node) {
+        string format = node.getAttribute("format");
+        if (format.empty())
+            format = "%A %d %B %Y %H%M UTC";
+
+        const long day = grib_.getLong("dataDate");
+        MagDate part1  = MagDate(day);
+        MagTime part2  = MagTime(0, 0, 0);
+
+        DateTime full(part1, part2);
+        return full.tostring(format);
+
+
+        // const long day    = tonumber;
+        // const long hour   = grib_.getLong("hour");
+        // const long mn     = grib_.getLong("minute");
+        // const long step   = computeStep(grib_, "stepRange");  // default is in hours. Set 'stepUnits' to change.
+
+
+        // MagDate part1 = MagDate(day);
+        // MagTime part2 = MagTime(hour, mn, 0);
+        // DateTime full(part1, part2);
+        // const long type = grib_.getLong("significanceOfReferenceTime", false);
+        // if (type != 2) {  //     Verifying time of forecast
+        //     full = full + step;
+        // }
+    }
+
     string endDate(const XmlNode& node) {
         string format = node.getAttribute("format");
         if (format.empty())
@@ -1250,6 +1278,10 @@ public:
 
             if (def == "base-date") {
                 title_.update("grib" + grib, def, baseDate(node));
+                return;
+            }
+            if (def == "dataDate") {
+                title_.update("grib" + grib, def, dataDate(node));
                 return;
             }
             if (def == "MV_Format") {

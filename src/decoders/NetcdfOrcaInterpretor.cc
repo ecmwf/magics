@@ -176,10 +176,6 @@ bool NetcdfOrcaInterpretor::interpretAsMatrix(Matrix** data) {
                         if (l < minlon)
                             continue;
                         if (l > maxlon + 1) {
-                            if (minlat > 87 && (*matrix_)[x + (y * iout)] == missing) {
-                                cout << "???" << lon[x] << " " << l << " " << (*matrix_)[x + (y * iout)] << " "
-                                     << minlon << " " << minlat << " " << maxlon << " " << maxlat << endl;
-                            }
                             break;
                         }
 
@@ -343,14 +339,14 @@ NetcdfInterpretor* NetcdfOrcaInterpretor::guess(const NetcdfInterpretor& from) {
     string coordinates = netcdf.getVariable(variable).getAttribute("coordinates", string(""));
     string latlon("lat lon");
     coordinates = coordinates.substr(0, latlon.size());
-    cout << "ORCA --> " << coordinates << endl;
+
     if (coordinates == "lat lon" || coordinates == "lon lat") {
         NetcdfOrcaInterpretor* interpretor = new NetcdfOrcaInterpretor();
 
         interpretor->NetcdfInterpretor::copy(from);
         interpretor->latitude_  = "lat";
         interpretor->longitude_ = "lon";
-        cout << "ORCA --> " << coordinates << endl;
+
         interpretor->time_variable_   = netcdf.detect(variable, "time");
         interpretor->level_variable_  = netcdf.detect(variable, "level");
         interpretor->number_variable_ = netcdf.detect(variable, "number");

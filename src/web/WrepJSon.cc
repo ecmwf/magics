@@ -1126,13 +1126,13 @@ void WrepJSon::api(const json_spirit::Value& value) {
 }
 void WrepJSon::x_min_value(const json_spirit::Value& value) {
     ASSERT(value.type() == real_type);
-    cout << "FOUND -> x_min_value = " << value.get_value<double>() << endl;
+
     x_min_value_ = value.get_value<double>();
 }
 
 void WrepJSon::clim_step(const json_spirit::Value& value) {
     ASSERT(value.type() == str_type);
-    cout << "FOUND -> clim_step = " << value.get_value<string>() << endl;
+
     clim_step_ = tonumber(value.get_value<string>());
 }
 

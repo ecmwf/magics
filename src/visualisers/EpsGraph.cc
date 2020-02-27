@@ -1936,9 +1936,7 @@ void CdfGraph::visit(LegendVisitor& legend)
 
         legend.add(entry);
 
-        cout << "Getting colour " << *colour << endl;
-        cout << "Getting style " << *style << endl;
-        cout << "Getting legend " << *text << endl;
+
         ++thickness;
         ++style;
         ++text;

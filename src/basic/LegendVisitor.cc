@@ -167,6 +167,10 @@ void DoubleLineEntry::columnBox(const PaperPoint& point, BasicGraphicsObjectCont
 
 void LegendVisitor::build() {
     legend_ = new LegendLayout();
+    if (magCompare(box_extend_, "full-right")) {
+        view_y_      = 0;
+        view_height_ = 100;
+    }
 
     legend_->x(view_x_);
     legend_->y(view_y_);
