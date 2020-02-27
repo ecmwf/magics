@@ -1172,8 +1172,8 @@ void LineEntry::set(const PaperPoint& point, BasicGraphicsObjectContainer& legen
 }
 
 void CdfEntry::set(const PaperPoint& point, BasicGraphicsObjectContainer& legend) {
-    double right = computeWidth(0.8) / 2;
-    double left  = computeWidth(0.4) / 2;
+    double right = computeWidth(0.7) / 2;
+    double left  = computeWidth(1) / 2;
     PaperPoint p = centreSymbolBox(point);
     double x     = p.x();
     double y     = p.y();
