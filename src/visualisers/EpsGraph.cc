@@ -1742,9 +1742,9 @@ void CdfGraph::setMedium(const string& base) {
 void CdfGraph::setExtended(const string& base) {
     keys_.clear();
     static vector<pair<string, double>> values = {
-        {"min", 0},           {"one", 1},          {"two", 2},           {"five", 5},    {"ten", 10},
-        {"twenty_five", 25},  {"fifty", 50},       {"seventy_five", 75}, {"ninety", 90}, {"ninety_five", 95},
-        {"ninety_eight", 98}, {"ninety_nine", 99}, {"max", 100}};
+        {"min", 0},          {"one", 1},           {"two", 2},          {"five", 5},          {"ten", 10},
+        {"twenty_five", 25}, {"fifty", 50},        {"median", 50},      {"seventy_five", 75}, {"ninety", 90},
+        {"ninety_five", 95}, {"ninety_eight", 98}, {"ninety_nine", 99}, {"max", 100}};
     for (auto& val : values) {
         ostringstream key;
         key << base << "_" << val.first;
