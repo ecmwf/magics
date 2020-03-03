@@ -1887,7 +1887,7 @@ void CdfGraph::operator()(Data& data, BasicGraphicsObjectContainer& visitor) {
         }
 
         if (!efi->empty()) {
-            legend_.push_back(legend);
+            legends_.push_back(legend);
             sorter.push_back(efi);
             usedColours_.push_back(*icolour);
             usedStyle_.push_back(*style);
@@ -1910,21 +1910,21 @@ void CdfGraph::operator()(Data& data, BasicGraphicsObjectContainer& visitor) {
 }
 
 
-void CdfGraph::visit(LegendVisitor& legend)
-
-{
+void CdfGraph::visit(LegendVisitor& legend) {
     // magics::Polyline* line = new magics::Polyline();
 
     // line->setColour(Colour("black"));
 
     // line->setThickness(4);
     // legend.add(new LineEntry("", line));
+    if (!legend_)
+        return;
     map<string, string> legends = {{"medium", "Climate t+[24-48h]"}, {"extended", climateLegend_}};
 
 
     vector<string>::reverse_iterator style  = usedStyle_.rbegin();
     vector<int>::reverse_iterator thickness = usedThickness_.rbegin();
-    vector<string>::reverse_iterator text   = legend_.rbegin();
+    vector<string>::reverse_iterator text   = legends_.rbegin();
 
 
     for (vector<string>::reverse_iterator colour = usedColours_.rbegin(); colour != usedColours_.rend(); ++colour) {

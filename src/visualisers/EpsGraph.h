@@ -334,7 +334,7 @@ protected:
     //! Method to print string about this class on to a stream of type ostream (virtual).
     virtual void print(ostream&) const { /*EfiGraphAttributes::print(out);*/
     }
-    vector<string> legend_;
+    vector<string> legends_;
     vector<string> usedColours_;
     vector<string> usedStyle_;
     vector<int> usedThickness_;
