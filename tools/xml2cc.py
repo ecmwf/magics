@@ -167,6 +167,7 @@ with open("%s/%sAttributes.cc" % (destination, object.name), "wt") as out:
                               include_options = object.include_options,
                               date = object.generated,
                               tags = object.tags,
+                              tag = object.tags[0],
                               prefix = object.prefix
                              )
              )
