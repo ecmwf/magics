@@ -76,7 +76,7 @@ list( APPEND _common_srcs
 # projection
 	GeoRectangularProjection.cc  PolarStereographicProjection.cc TaylorProjection.cc
 	GeoRectangularProjection.h   PolarStereographicProjection.h TaylorProjection.h
-	Proj4Projection.cc  Proj4Projection.h
+	Proj4Projection.cc  Proj4Projection.h ProjP.cc ProjP.h
 
 # unused
 
@@ -143,6 +143,7 @@ if ( metview )
 				common/ColourTable.h
 				common/ColourTableDefinition.h
 				common/PointsHandler.h
+				common/ProjP.h
 				)
 
 	if ( EC_OS_NAME MATCHES "windows" )

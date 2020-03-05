@@ -168,6 +168,7 @@ void DoubleLineEntry::columnBox(const PaperPoint& point, BasicGraphicsObjectCont
 void LegendVisitor::build() {
     legend_ = new LegendLayout();
 
+
     legend_->x(view_x_);
     legend_->y(view_y_);
     legend_->width(view_width_);
@@ -1170,6 +1171,17 @@ void LineEntry::set(const PaperPoint& point, BasicGraphicsObjectContainer& legen
     legend.push_back(line_);
 }
 
+void CdfEntry::set(const PaperPoint& point, BasicGraphicsObjectContainer& legend) {
+    double right = computeWidth(0.7) / 2;
+    double left  = computeWidth(1) / 2;
+    PaperPoint p = centreSymbolBox(point);
+    double x     = p.x();
+    double y     = p.y();
+    line_->push_back(PaperPoint(x - left, y));
+    line_->push_back(PaperPoint(x + right, y));
+    legend.push_back(line_);
+}
+
 void DoubleLineEntry::set(const PaperPoint& point, BasicGraphicsObjectContainer& legend) {
     double width  = computeWidth(0.8) / 2;
     double height = (line2_) ? 0.2 : 0;
@@ -1237,14 +1249,6 @@ void XmlLegendVisitor::getReady() {
     double text_y = bottom.percent() + yb * 100 / BasicSceneObject::parent_->absoluteHeight();
     ;
 
-    double text_width  = width.percent();
-    double text_height = height.percent();
-
-
-    if ((text_height + text_y) > 100)
-        text_height = 100 - text_y;
-    if ((text_width + text_x) > 100)
-        text_width = 100 - text_x;
 
     view_x_      = ml.percent();
     view_y_      = mb.percent();
@@ -1304,6 +1308,16 @@ void FortranAutomaticLegendVisitor::getReady() {
     Dimension text(font_dimension_, 1, 10);
     font_size_ = text.absolute();
     layout_->Layout::frame(blanking_, border_, *border_colour_, border_line_style_, border_thickness_, Colour("white"));
+    // Special setting for automatic legend
+
+    if (top()) {
+        view_x_     = box_margin_;
+        view_width_ = 100 - (2 * box_margin_);
+    }
+    else {
+        view_y_      = box_margin_;
+        view_height_ = 100 - (2 * box_margin_);
+    }
 }
 
 void LegendEntry::set(const LegendVisitor& attributes) {
@@ -1498,5 +1512,6 @@ FlagEntry::~FlagEntry() {}              //{ delete flag_; }
 BoxEntry::~BoxEntry() {}                //{ delete box_; }
 ArrowEntry::~ArrowEntry() {}            //{ delete arrow_; }
 DoubleLineEntry::~DoubleLineEntry() {}  //{ { delete line1_; delete line2_; }
-LineEntry::~LineEntry() {}              //{ delete line_;}
-RainbowEntry::~RainbowEntry() {}        //{ delete line_;}
+LineEntry::~LineEntry() {}
+CdfEntry::~CdfEntry() {}          //{ delete line_;}
+RainbowEntry::~RainbowEntry() {}  //{ delete line_;}

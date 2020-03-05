@@ -124,6 +124,7 @@ public:
     void values(const json_spirit::Value&);
     void x_date_values(const json_spirit::Value&);
     void y_date_values(const json_spirit::Value&);
+    void clim_step(const json_spirit::Value&);
 
     // tephigram
     void param(const json_spirit::Value&);
@@ -154,6 +155,7 @@ public:
     void time(const json_spirit::Value&);
     void step(const json_spirit::Value&);
     void api(const json_spirit::Value&);
+    void x_min_value(const json_spirit::Value&);
 
     virtual void parameter(const json_spirit::Value&);
     virtual void eps(const json_spirit::Value&);
@@ -222,6 +224,7 @@ protected:
     double scaling_factor_;
     double offset_factor_;
     double mask_;
+    double x_min_value_;
     string station_name_;
     double station_latitude_;
     double station_longitude_;
@@ -234,6 +237,7 @@ protected:
     string api_;
     string capekey_;
     string tephikey_;
+
 
     json_spirit::Value metadata_;
     InputWrep values_;

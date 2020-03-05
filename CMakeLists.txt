@@ -38,6 +38,7 @@ set( grib_handling_pkg eccodes )
 set( HAVE_GRIB 1 )
 set( HAVE_BUFR 1 )
 
+
 ecbuild_add_option( FEATURE PYTHON
                     DEFAULT ON
                     DESCRIPTION "enable python interface"
@@ -175,7 +176,21 @@ if( EC_OS_NAME MATCHES "windows" )
 endif()
 
 find_package( Boost 1.53.0 REQUIRED)
-find_package( Proj4 REQUIRED )
+
+
+# adding NO_MODULE means that if we don't find it, CMake will not generate
+# strange error messages about not being able to find the FindProj4.cmake file.
+# this should find proj if it has been installed via CMake, but if it has been
+# installed via autotools, then we will need to try another method
+find_package( PROJ4 6.1.0 NO_MODULE )
+if (NOT PROJ4_FOUND)
+    message(WARNING "Package 6.1.0 or greater of proj could not be find via CMake - looking for autotools installation")
+    find_package(Proj 6.1.0)
+    if (NOT PROJ_FOUND)
+        message(FATAL_ERROR "Package 'proj' was not found - at least version 6.1.0 required.")
+    endif()
+endif()
+
 find_package( EXPAT REQUIRED )
 if(APPLE)
   find_package( zlib REQUIRED )       # dependency of minizip - KMZ support
@@ -206,7 +221,7 @@ endif()
 ###############################################################################
 # contents
 
-set( MAGICS_TPLS eccodes spot EXPAT NetCDF Proj4 zlib )
+set( MAGICS_TPLS eccodes spot EXPAT NetCDF PROJ4 Proj zlib )
 
 set( MAGICS_INCLUDE_DIRS
      ${CMAKE_CURRENT_BINARY_DIR}/src

@@ -10,14 +10,9 @@ if(Boost_FOUND)
   message( STATUS " Boost include : [${Boost_INCLUDE_DIRS}]" )
 endif()
 
-if( SWIG_FOUND AND NUMPY_FOUND )
-  message( STATUS " Swig (${SWIG_VERSION}) : [${SWIG_EXECUTABLE}]" )
-  message( STATUS " NumPy (${NUMPY_VERSION}) : [${NUMPY_INCLUDE_DIRS}]" )
-endif()
-
-if(PROJ4_FOUND)
-  message( STATUS " Proj4 include : [${PROJ4_INCLUDE_DIRS}]" )
-  message( STATUS "         libs  : [${PROJ4_LIBRARIES}]" )
+if(PROJ_FOUND)
+  message( STATUS " Proj include : [${PROJ_INCLUDE_DIRS}]" )
+  message( STATUS "        libs  : [${PROJ_LIBRARIES}]" )
 endif()
 
 if(PANGOCAIRO_FOUND)

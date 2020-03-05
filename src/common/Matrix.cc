@@ -4,8 +4,8 @@
  * This software is licensed under the terms of the Apache Licence Version 2.0
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
  * In applying this licence, ECMWF does not waive the privileges and immunities
- * granted to it by virtue of its status as an intergovernmental organisation nor
- * does it submit to any jurisdiction.
+ * granted to it by virtue of its status as an intergovernmental organisation
+ * nor does it submit to any jurisdiction.
  */
 
 /*! \file Matrix.h
@@ -19,16 +19,15 @@
 
 */
 
+#include "Matrix.h"
+
 #include <algorithm>
 
-#include "Matrix.h"
 #include "Timer.h"
 //#include "SegmentJoiner.h"
 #include "MatrixHandler.h"
 
-
 using namespace magics;
-
 
 void Matrix::multiply(double factor) {
     if (factor == 1)
@@ -92,7 +91,6 @@ void ProjectedMatrix::getReady() {
     build();
 }
 
-
 ProjectedMatrix::ProjectedMatrix(int rows, int columns) : Matrix(rows, columns) {
     origColumns_ = columns;
     origRows_    = rows;
@@ -100,7 +98,6 @@ ProjectedMatrix::ProjectedMatrix(int rows, int columns) : Matrix(rows, columns) 
     rowsArray_.reserve(rows * columns);
     columnsArray_.reserve(rows * columns);
 }
-
 
 double Matrix::min() const {
     if (min_ < DBL_MAX)
@@ -116,7 +113,6 @@ double Matrix::min() const {
     }
     return min_;
 }
-
 
 double Matrix::max() const {
     if (max_ > -DBL_MAX)
@@ -172,7 +168,6 @@ double Matrix::interpolate(double i, double j) const {
         if (i1 == -1)
             return missing();
 
-
         double a = (*this)(ii, i1);
         double b = (*this)(ii, i2);
 
@@ -186,7 +181,6 @@ double Matrix::interpolate(double i, double j) const {
     }
     return (*this)(ii, jj);
 }
-
 
 /// @brief The usual PI/180 constant
 // static const double DEG_TO_RAD = 0.017453292519943295769236907684886;
@@ -204,18 +198,19 @@ static const double EARTH_RADIUS_IN_METERS = 6372797.560856;
  * </ul>
  *
  * The haversine formula gives:
- *    <code>h(d/R) = h(from.lat-to.lat)+h(from.lon-to.lon)+cos(from.lat)*cos(to.lat)</code>
+ *    <code>h(d/R) =
+ * h(from.lat-to.lat)+h(from.lon-to.lon)+cos(from.lat)*cos(to.lat)</code>
  *
  * @sa http://en.wikipedia.org/wiki/Law_of_haversines
  */
 double geodistance(double lat1, double lon1, double lat2, double lon2) {
-    double latitudeArc  = (lat1 - lat2) * DEG_TO_RAD;
-    double longitudeArc = (lon1 - lon2) * DEG_TO_RAD;
+    double latitudeArc  = RAD(lat1 - lat2);
+    double longitudeArc = RAD(lon1 - lon2);
     double latitudeH    = sin(latitudeArc * 0.5);
     latitudeH *= latitudeH;
     double lontitudeH = sin(longitudeArc * 0.5);
     lontitudeH *= lontitudeH;
-    double tmp = cos(lat1 * DEG_TO_RAD) * cos(lat2 * DEG_TO_RAD);
+    double tmp = cos(RAD(lat1)) * cos(RAD(lat2));
     return EARTH_RADIUS_IN_METERS * (2.0 * asin(sqrt(latitudeH + tmp * lontitudeH)));
 }
 
@@ -231,7 +226,6 @@ pair<double, double> Matrix::nearest_value(double row, double column, double& ro
     map<double, pair<double, double> >::const_iterator column_index;
     rowOut = missing();
     colOut = missing();
-
 
     vector<pair<double, map<double, pair<double, double> >::const_iterator> > points;
     row_index = index_.find(row);
@@ -294,10 +288,8 @@ pair<double, double> Matrix::nearest_value(double row, double column, double& ro
     return value;
 }
 
-
 int Matrix::nearest_index(double row, double column, double& rowOut, double& colOut) const {
     double col, offset;
-
 
     int factor = (column - minX()) / 360.;
 
@@ -320,9 +312,7 @@ int Matrix::nearest_index(double row, double column, double& rowOut, double& col
     pair<int, bool> column_index;
     vector<pair<double, pair<double, int> > > points;
 
-
     row_index = yIndex_.find(row);
-
 
     if (row_index != yIndex_.end()) {
         rowOut       = row;
@@ -379,7 +369,6 @@ int Matrix::nearest_index(double row, double column, double& rowOut, double& col
                                                                xindex.position(column_index.first + 1))));
     }
 
-
     // Now we find the nearest!
     double min = numeric_limits<double>::infinity();
     int value  = -1;
@@ -403,7 +392,6 @@ double Matrix::nearest(double row, double col, double& rowOut, double& colOut) c
     double xright  = std::max(left(), right());
     double ybottom = std::min(bottom(), top());
     double ytop    = std::max(bottom(), top());
-
 
     if (columns() == 0 || col < xleft || col > xright)
         return missing_;
@@ -443,7 +431,6 @@ double Matrix::nearest(double row, double col, double& rowOut, double& colOut) c
     return (*this)(rowIdx, colIdx);
 }
 
-
 double Matrix::operator()(int row, int column) const {
     // Here for perfrormance we are trusting the user we do not catch MagException
 
@@ -452,9 +439,7 @@ double Matrix::operator()(int row, int column) const {
 }
 #include "MatrixHandler.h"
 GeoBoxMatrixHandler::GeoBoxMatrixHandler(const AbstractMatrix& matrix, const Transformation& transformation) :
-    TransformMatrixHandler(matrix),
-    transformation_(transformation),
-    original_(0) {
+    TransformMatrixHandler(matrix), transformation_(transformation), original_(0) {
     map<double, int> lats;
     map<double, int> lons;
 
@@ -463,14 +448,12 @@ GeoBoxMatrixHandler::GeoBoxMatrixHandler(const AbstractMatrix& matrix, const Tra
 
     transformation.boundingBox(minlon, minlat, maxlon, maxlat);
 
-
     int rows    = matrix_.rows();
     int columns = matrix_.columns();
     double step = matrix_.XResolution();
 
     bool global =
         (matrix_.regular_column(columns - 1) - matrix_.regular_column(0)) > (360. - 2 * matrix_.XResolution());
-
 
     if (!global) {
         lon = matrix_.column(0, 0) - step;
@@ -523,7 +506,6 @@ GeoBoxMatrixHandler::GeoBoxMatrixHandler(const AbstractMatrix& matrix, const Tra
         }
     }
 
-
     int i = 0;
     for (map<double, int>::const_iterator entry = lons.begin(); entry != lons.end(); ++entry) {
         columns_[i] = entry->second;
@@ -531,7 +513,6 @@ GeoBoxMatrixHandler::GeoBoxMatrixHandler(const AbstractMatrix& matrix, const Tra
         columnsMap_[entry->first] = i;
         i++;
     }
-
 
     for (int i = 0; i < rows; i++) {
         lat = matrix_.regular_row(i);
@@ -541,8 +522,8 @@ GeoBoxMatrixHandler::GeoBoxMatrixHandler(const AbstractMatrix& matrix, const Tra
         }
         if (same(minlat, lat) || same(lat, maxlat)) {
             lats[lat] = i;
-            // cout << "PASS nEW TEST " << lat << " - " <<  minlat << " - " << maxlat << endl;
-            // cout << "add lat -> " << lat << endl;
+            // cout << "PASS nEW TEST " << lat << " - " <<  minlat << " - " << maxlat
+            // << endl; cout << "add lat -> " << lat << endl;
         }
     }
 
@@ -555,41 +536,35 @@ GeoBoxMatrixHandler::GeoBoxMatrixHandler(const AbstractMatrix& matrix, const Tra
     }
 }
 
-
 MatrixHandler* Matrix::getReady(const Transformation& transformation) const {
     return transformation.prepareData(*this);
 }
 
 MatrixHandler* Proj4Matrix::getReady(const Transformation&) const {
-    return new Proj4MatrixHandler(*this, proj4_);
+    return new Proj4MatrixHandler(*this, proj_);
 }
 
 MatrixHandler* RotatedMatrix::getReady(const Transformation&) const {
     return new RotatedMatrixHandler(*this, southPoleLat_, southPoleLon_);
 }
 
-
-Proj4MatrixHandler::Proj4MatrixHandler(const AbstractMatrix& matrix, const string& proj4) : MatrixHandler(matrix) {
-    proj4_    = pj_init_plus(proj4.c_str());
-    latlon_   = pj_init_plus("+proj=longlat +ellps=WGS84 +datum=WGS84");
+Proj4MatrixHandler::Proj4MatrixHandler(const AbstractMatrix& matrix, const string& proj) :
+    MatrixHandler(matrix), projHelper_(proj) {
     internal_ = false;
 }
 
 RotatedMatrixHandler::RotatedMatrixHandler(const AbstractMatrix& matrix, double lat, double lon) :
-    MatrixHandler(matrix),
-    southPoleLat_(lat),
-    southPoleLon_(lon) {
+    MatrixHandler(matrix), southPoleLat_(lat), southPoleLon_(lon) {
     internal_ = false;
 }
-
 
 double Proj4MatrixHandler::interpolate(double row, double column) const {
     if (internal_)
         return MatrixHandler::interpolate(row, column);
-    double x = column * DEG_TO_RAD;
-    double y = row * DEG_TO_RAD;
+    double x = column;
+    double y = row;
 
-    int error = pj_transform(latlon_, proj4_, 1, 1, &x, &y, NULL);
+    int error = projHelper_.convert(x, y);
     if (error)
         return missing();
 
@@ -599,10 +574,10 @@ double Proj4MatrixHandler::interpolate(double row, double column) const {
 double Proj4MatrixHandler::nearest(double row, double column) const {
     if (internal_)
         return MatrixHandler::nearest(row, column);
-    double x = column * DEG_TO_RAD;
-    double y = row * DEG_TO_RAD;
+    double x = column;
+    double y = row;
 
-    int error = pj_transform(latlon_, proj4_, 1, 1, &x, &y, NULL);
+    int error = projHelper_.convert(x, y);
     if (error)
         return missing();
 
@@ -625,9 +600,7 @@ double RotatedMatrixHandler::nearest(double row, double column) const {
 }
 
 RotatedMatrix::RotatedMatrix(int rows, int columns, double lat, double lon) :
-    Matrix(rows, columns),
-    southPoleLat_(lat),
-    southPoleLon_(lon) {
+    Matrix(rows, columns), southPoleLat_(lat), southPoleLon_(lon) {
     helper_ = new RotatedMatrixHandler(*this, southPoleLat_, southPoleLon_);
 }
 int RotatedMatrix::nearest_index(double lat, double lon, double& nlat, double& nlon) const {
@@ -661,20 +634,20 @@ double Proj4MatrixHandler::column(int i, int j) const {
     double column = MatrixHandler::column(i, j);
     double row    = MatrixHandler::row(i, j);
 
-    int error = pj_transform(proj4_, latlon_, 1, 1, &column, &row, NULL);
+    int error = projHelper_.convert(column, row);
     if (error)
         return missing();
-    return column * RAD_TO_DEG;
+    return column;
 }
 
 double Proj4MatrixHandler::row(int i, int j) const {
     double column = MatrixHandler::column(i, j);
     double row    = MatrixHandler::row(i, j);
 
-    int error = pj_transform(proj4_, latlon_, 1, 1, &column, &row, NULL);
+    int error = projHelper_.convert(column, row);
     if (error)
         return missing();
-    return row * RAD_TO_DEG;
+    return row;
 }
 
 pair<double, double> RotatedMatrixHandler::rotate(double lat_y, double lon_x) const {
