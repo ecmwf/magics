@@ -2,7 +2,7 @@
 # for Magics
 
 # Build image
-FROM python:3.8.0-slim-buster as build
+FROM python:3.7.7-slim-buster as build
 
 RUN set -ex \
     && apt-get update
