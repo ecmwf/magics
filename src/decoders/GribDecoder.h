@@ -326,7 +326,10 @@ public:
     grib_handle* open(grib_handle*, bool sendMsg = true);
 
     void openFirstComponent() { ASSERT(field_); }
-    void openField() { ASSERT(field_); }
+    void openField() {
+        ASSERT(field_);
+        current_handle_ = field_;
+    }
 
     void openSecondComponent() {
         ASSERT(handle2_);
