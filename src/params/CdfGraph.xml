@@ -37,5 +37,8 @@ does it submit to any jurisdiction.
         	</parameter>
         	<parameter member="clim_style" to="LineStyle" default="solid" from="string" name="cdf_clim_line_style">           
             		<documentation> Style of the clim curve  		</documentation>
-        	</parameter>         
+        	</parameter>  
+            <parameter member="legend" to="bool" default="off" from="string" name="legend">           
+                    <documentation> Style of the clim curve         </documentation>
+            </parameter>          
 </class></magics>
