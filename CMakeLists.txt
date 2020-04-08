@@ -10,9 +10,9 @@
 #       -DCMAKE_PREFIX_PATH=/path/to/jasper:/path/to/any/package/out/of/place
 #
 
-cmake_minimum_required( VERSION 3.1.0 FATAL_ERROR )
+cmake_minimum_required( VERSION 3.6.0 FATAL_ERROR )
 
-project( magics CXX )
+project( magics VERSION 4.3.2 LANGUAGES CXX )
 
 # make sure that the header files are installed into include/magics
 # note that this needs to be done before ecbuild_declare_project()
