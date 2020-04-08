@@ -181,21 +181,6 @@ public:
 
             clipper.clip(previous, pts, output);
 
-            /*
-                        if (output.size() == 1) {
-                            vector<PaperPoint> tmp;
-                            for ( auto pt = output.front()->begin();  pt != output.front()->end(); ++pt ) {
-                                    tmp.push_back(*pt);
-                                }
-
-                                push_back(index, tmp);
-
-
-                        }
-
-                        else
-                        {
-                            */
             MagClipper::add(pts, previous, output);
 
 
@@ -213,7 +198,7 @@ public:
                 }
                 push_back(index, tmp);
             }
-            //}
+            
         }
     }
 
@@ -1650,6 +1635,7 @@ CellArray::CellArray(MatrixHandler& data, IntervalMap<int>& range, const Transfo
         }
         else {
             transformation.revert(xypoints, geopoints);
+
             geo = geopoints.begin();
         }
 
@@ -1664,14 +1650,15 @@ CellArray::CellArray(MatrixHandler& data, IntervalMap<int>& range, const Transfo
         MagLog::dev() << "min = " << data.min() << "  max = " << data.max() << endl;
         for (vector<std::pair<double, double> >::iterator xy = xypoints.begin(); xy != xypoints.end(); ++xy) {
             double value;
+            cout << xy->first << " " << xy->second << " " << geo->second  << endl;
             if (geo->second == -1000) {
                 value = missing;
-                // cout << "MISSING AREA" << endl;
+                cout << xy->first << " " << xy->second << " " << geo->second  << endl;
             }
             else {
                 value = (magCompare(technique, "nearest")) ? data.nearest(geo->second, geo->first)
                                                            : data.interpolate(geo->second, geo->first);
-                // value = data.interpolate(geo->second, geo->first);
+                cout << xy->first << " " << xy->second << " " << value << endl;
             }
             if (value != missing) {
                 if (value < min)

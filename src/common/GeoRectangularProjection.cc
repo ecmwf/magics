@@ -114,11 +114,12 @@ void GeoRectangularProjection::boundingBox(double& xmin, double& ymin, double& x
     xmax             = std::max(min_longitude_, max_longitude_);
     ymin             = std::min(min_latitude_, max_latitude_);
     ymax             = std::max(min_latitude_, max_latitude_);
-    const double tol = 1.;
+    const double tol = 1;
     xmin             = xmin - tol;
     xmax             = xmax + tol;
     ymin             = (ymin < (-90 + tol)) ? -90. : ymin - tol;
     ymax             = (ymax > (90 - tol)) ? 90. : ymax + tol;
+    cout << xmin << ",  " << ymin << ",  " << xmax << ",  " << ymax << endl;
 }
 
 void GeoRectangularProjection::smallestBoundingBox(double& xmin, double& ymin, double& xmax, double& ymax) const {
@@ -329,6 +330,8 @@ void GeoRectangularProjection::init() {
     userEnveloppe_->clear();
     PCEnveloppe_->clear();
 
+    cout << min_latitude_ << " " << max_latitude_ << endl;
+
     while (min_longitude_ > max_longitude_) {
         max_longitude_ += 360;
         MagLog::warning() << "lower_left_longitude > upper_right_longitude --> upper_right_longitude is change to "
@@ -371,6 +374,8 @@ void GeoRectangularProjection::init() {
     xpcmax_ = max_longitude_;
     ypcmax_ = max_latitude_;
 
+     cout << min_latitude_ << " " << max_latitude_ << endl;
+
     userEnveloppe_->push_back(PaperPoint(min_longitude_, min_latitude_));
     userEnveloppe_->push_back(PaperPoint(min_longitude_, max_latitude_));
     userEnveloppe_->push_back(PaperPoint(max_longitude_, max_latitude_));
@@ -387,6 +392,8 @@ void GeoRectangularProjection::init() {
     askedxmax_ = std::max(xpcmin_, xpcmax_);
     askedymin_ = std::min(ypcmin_, ypcmax_);
     askedymax_ = std::max(ypcmin_, ypcmax_);
+
+    cout << *PCEnveloppe_ << endl;
 }
 
 MercatorProjection::MercatorProjection() {}
@@ -576,6 +583,7 @@ magics::Polyline& GeoRectangularProjection::getPCBoundingBox() const {
         PCEnveloppe_->push_back(PaperPoint(xpcmax_, ypcmin_));
         PCEnveloppe_->push_back(PaperPoint(xpcmin_, ypcmin_));
     }
+    cout << "getPCBoundingBox-->" << *PCEnveloppe_ << endl;
     return *PCEnveloppe_;
 }
 
