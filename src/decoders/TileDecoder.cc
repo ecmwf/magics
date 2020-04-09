@@ -23,7 +23,9 @@
 #include "TileDecoder.h"
 #include <limits>
 #include "Factory.h"
+#ifdef HAVE_NETCDF
 #include "NetcdfData.h"
+#endif
 #include "Timer.h"
 
 using namespace magics;
@@ -80,6 +82,7 @@ string TileDecoder::positions_symbols() {
     file_.close();
     return positions();
 }
+
 bool TileDecoder::ok() {
     FILE* in = fopen(file_name_.c_str(), "r");
     if (!in) {
@@ -144,7 +147,7 @@ void TileDecoder::customisedPoints(const Transformation& transformation, const s
     string path = positions();
     Timer timer("Tile", path);
 
-
+#ifdef HAVE_NETCDF
     Netcdf netcdf(path, "index");
 
     map<string, string> first, last;
@@ -158,16 +161,13 @@ void TileDecoder::customisedPoints(const Transformation& transformation, const s
     vector<double> values;
     vector<int> index;
 
-
     int error;
-
 
     FILE* in = fopen(file_name_.c_str(), "r");
     if (!in) {
         MagLog::error() << "ERROR: unable to open file" << file_name_ << endl;
         return;
     }
-
 
     /* create new handle from a message in a file*/
     codes_handle* u = codes_handle_new_from_file(0, in, PRODUCT_GRIB, &error);
@@ -182,11 +182,9 @@ void TileDecoder::customisedPoints(const Transformation& transformation, const s
         return;
     }
 
-
     int nbpoints = netcdf.getDimension("points");
     // netcdf.get("bounding-box", bbox, first, last);
     netcdf.get("index", values, first, last);
-
 
     for (auto b = values.begin(); b != values.end(); ++b) {
         double lat = *b;
@@ -232,12 +230,16 @@ void TileDecoder::customisedPoints(const Transformation& transformation, const s
             lon++;
         }
     }
+#else
+    MagLog::warning() << " TileDecoder> Can NOT work because NetCDF was DISABLED in Magics!" << endl;
+#endif
 }
 
 PointsHandler& TileDecoder::points(const Transformation& t, bool) {
     string path = positions_symbols();
     Timer timer("Tile", path);
 
+#ifdef HAVE_NETCDF
     Netcdf netcdf(path, "index");
 
     map<string, string> first, last;
@@ -251,9 +253,7 @@ PointsHandler& TileDecoder::points(const Transformation& t, bool) {
     static vector<double> values;
     vector<int> index;
 
-
     int error;
-
 
     FILE* in = fopen(file_name_.c_str(), "r");
     if (!in) {
@@ -284,7 +284,6 @@ PointsHandler& TileDecoder::points(const Transformation& t, bool) {
             double lon = *b;
             ++b;
             double i = *b;
-
 
             if (i != 0) {
                 if (lon > 180)
@@ -320,10 +319,11 @@ PointsHandler& TileDecoder::points(const Transformation& t, bool) {
             lon++;
         }
     }
-
-
     pointsHandlers_.push_back(new PointsHandler(points_));
     return *(pointsHandlers_.back());
+#else
+    MagLog::warning() << " TileDecoder> Can NOT work because NetCDF was DISABLED in Magics!" << endl;
+#endif
 }
 
 /*!
@@ -402,6 +402,7 @@ Data* TileDecoder::current() {
     else
         return 0;
 }
+
 Data* TileDecoder::next() {
     if (!loop_)
         return 0;
@@ -420,13 +421,11 @@ void TileDecoder::decode() {
     if (matrix_.size())
         return;
 
-
     string path = weights();
 
     Timer timer("Tile", path);
-
+#ifdef HAVE_NETCDF
     Netcdf netcdf(path, "index");
-
 
     map<string, string> first, last;
     first["x"] = tostring(x_);
@@ -444,10 +443,8 @@ void TileDecoder::decode() {
     int nblat = netcdf.getDimension("lat") - 1;
     int nblon = netcdf.getDimension("lon") - 1;
 
-
     if (bbox.empty()) {
         netcdf.get("bounding-box", bbox, first, last);
-
 
         int error;
         FILE* in = fopen(file_name_.c_str(), "r");
@@ -481,16 +478,13 @@ void TileDecoder::decode() {
     double weight[4];
     double values[4];
 
-
     double missing = -std::numeric_limits<double>::max();
-
 
     double offset  = 0;
     double scaling = 1;
 
     scaling_offset(handle_, scaling, offset);
     // check the units for scaling!
-
 
     matrix_.missing(missing);
 
@@ -511,9 +505,7 @@ void TileDecoder::decode() {
             iindex.push_back(*l);
     }
 
-
     codes_get_double_elements(handle_, "values", &iindex.front(), iindex.size(), &dvalues.front());
-
 
     auto val = dvalues.begin();
     for (auto l = dindex.begin(); l != dindex.end(); ++l) {
@@ -525,9 +517,7 @@ void TileDecoder::decode() {
         }
     }
 
-
     // cleaning values
-
 
     int ind = 0;
     while (ind < distances.size()) {
@@ -544,7 +534,6 @@ void TileDecoder::decode() {
             ind++;
         }
 
-
         double val = nb ? compute(values, weight, nb, total) : missing;
         c++;
         matrix_.push_back(val);
@@ -560,4 +549,8 @@ void TileDecoder::decode() {
     }
 
     matrix_.setMapsAxis();
+#else
+    MagLog::warning() << " TileDecoder> Can NOT work because NetCDF was DISABLED in Magics!" << endl;
+#endif
 }
+
