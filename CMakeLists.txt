@@ -12,7 +12,7 @@
 
 cmake_minimum_required( VERSION 3.6.0 FATAL_ERROR )
 
-project( magics VERSION 4.3.2 LANGUAGES CXX )
+project( magics VERSION 4.3.3 LANGUAGES CXX )
 
 # make sure that the header files are installed into include/magics
 # note that this needs to be done before ecbuild_declare_project()
@@ -177,9 +177,16 @@ endif()
 
 find_package( Boost 1.53.0 REQUIRED)
 
-find_package( Proj 6.1.0 REQUIRED)
-if (NOT PROJ_FOUND)
-  message(FATAL_ERROR "Package 'proj' was not found - at least version 6.1.0 required.")
+# adding NO_MODULE means that if we don't find it, CMake will not generate
+# strange error messages about not being able to find the FindProj4.cmake file.
+# this should find proj if it has been installed via CMake, but if it has been
+# installed via autotools, then we will need to try another method
+find_package( PROJ4 6.1.0 NO_MODULE )
+if (NOT PROJ4_FOUND)
+    find_package(Proj 6.1.0 REQUIRED)
+    if (NOT PROJ_FOUND)
+        message(FATAL_ERROR "Package 'proj' was not found - at least version 6.1.0 required.")
+    endif()
 endif()
 
 find_package( EXPAT REQUIRED )
@@ -212,7 +219,7 @@ endif()
 ###############################################################################
 # contents
 
-set( MAGICS_TPLS eccodes spot EXPAT NetCDF Proj zlib )
+set( MAGICS_TPLS eccodes spot EXPAT NetCDF PROJ4 Proj zlib )
 
 set( MAGICS_INCLUDE_DIRS
      ${CMAKE_CURRENT_BINARY_DIR}/src
