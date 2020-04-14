@@ -2,7 +2,7 @@
 # for Magics
 
 # Build image
-FROM python:3.8.0-slim-buster as build
+FROM python:3.7.7-slim-buster as build
 
 RUN set -ex \
     && apt-get update
@@ -63,7 +63,6 @@ RUN set -ex \
       libpango1.0-dev \
       libpcre3-dev \
       libpng-dev \
-      libproj-dev \
       libreadline6-dev \
       libsqlite3-dev \
       libssl-dev \
@@ -71,7 +70,24 @@ RUN set -ex \
       libxml2-dev \
       libxslt1-dev \
       libyaml-dev \
+      sqlite3 \
       zlib1g-dev
+
+# Install Proj6
+
+RUN mkdir -p /proj6/src \
+    && cd /proj6/src \
+    && wget https://download.osgeo.org/proj/proj-6.3.1.tar.gz \
+    && tar -xf proj-6.3.1.tar.gz \
+    && mkdir -p /proj6/build/ \
+    && cd /proj6/build \
+    && cmake /proj6/src/proj-6.3.1 \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DPROJ_TESTS=OFF \
+    && make -j4 \
+    && make install
+
+
 
 # Install Python run-time dependencies.
 COPY requirements.txt /root/
@@ -177,7 +193,6 @@ RUN set -ex \
        libpcre3 \
        libpcrecpp0v5 \
        libpng16-16 \
-       libproj13 \
        libreadline7 \
        libsqlite3-0 \
        libssl1.1 \
