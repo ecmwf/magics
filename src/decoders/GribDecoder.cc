@@ -139,7 +139,12 @@ long computeStep(const GribDecoder& grib, const string& key) {
         stepUnits["30Y"] = stepUnits["M"] * 30;
         stepUnits["C"]   = stepUnits["M"] * 100;
     }
-    string units = grib.getstring("indicatorOfUnitOfTimeRange");
+    string units;
+    if (grib.getstring("indicatorOfUnitOfTimeRange") == "m")
+        units = "m";
+    else
+        units = grib.getstring("stepUnits");
+    
     long step    = grib.getLong(key);
 
     map<string, double>::iterator stepunit = stepUnits.find(units);
