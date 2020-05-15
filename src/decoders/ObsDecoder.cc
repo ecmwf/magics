@@ -437,8 +437,7 @@ protected:
 class BufrMultiLevelAccessor : public BufrAccessor {
 public:
     BufrMultiLevelAccessor(const string& descriptor, const string& surface, const string& altitude) :
-        surface_(surface),
-        altitude_(altitude) {
+        surface_(surface), altitude_(altitude) {
         descriptor_ = descriptor;
     }
     BufrMultiLevelAccessor(const string& descriptor) : surface_(descriptor), altitude_(descriptor) {

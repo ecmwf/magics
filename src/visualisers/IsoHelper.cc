@@ -31,9 +31,7 @@ using namespace magics;
 
 
 IsoHelper::IsoHelper(int n, vector<magics::Polyline*>& lines, IsoData& segments) :
-    n_(n),
-    lines_(lines),
-    data_(segments) {}
+    n_(n), lines_(lines), data_(segments) {}
 
 
 void IsoHelper::concatenate_back(vector<magics::Polyline*>& lines, magics::Polyline* poly) {

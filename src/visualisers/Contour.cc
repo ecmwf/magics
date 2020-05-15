@@ -55,9 +55,7 @@ void Contour::print(ostream& out) const {
 class MatrixTreshold : public MatrixHandler {
 public:
     MatrixTreshold(const AbstractMatrix& matrix, double min, double max) :
-        MatrixHandler(matrix),
-        min_(min),
-        max_(max) {}
+        MatrixHandler(matrix), min_(min), max_(max) {}
     double operator()(int row, int column) const {
         double val = this->matrix_(row, column);
         if (same(val, this->matrix_.missing()))
@@ -99,7 +97,7 @@ void Contour::operator()(Data& data, BasicGraphicsObjectContainer& parent) {
                 data.visit(needAttributes);
                 needAttributes["theme"] = theme_;
                 library->getStyle(needAttributes, automaticAttributes_, *styleInfo_);
-                 automaticAttributes_["legend"] = "on";
+                automaticAttributes_["legend"] = "on";
                 if (!legendIsOn_ && !legend_)
                     automaticAttributes_["legend"] = "off";
 
@@ -113,7 +111,7 @@ void Contour::operator()(Data& data, BasicGraphicsObjectContainer& parent) {
 
 
                 automaticAttributes_["contour_legend_only"] = contour_->legend_only_;
-                automaticAttributes_["legend"] = "on";
+                automaticAttributes_["legend"]              = "on";
                 if (!legendIsOn_ && !legend_)
                     automaticAttributes_["legend"] = "off";
                 if (metadata_only_)

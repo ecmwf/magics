@@ -1,11 +1,12 @@
+
 /*
  * (C) Copyright 1996-2016 ECMWF.
  *
  * This software is licensed under the terms of the Apache Licence Version 2.0
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
  * In applying this licence, ECMWF does not waive the privileges and immunities
- * granted to it by virtue of its status as an intergovernmental organisation nor
- * does it submit to any jurisdiction.
+ * granted to it by virtue of its status as an intergovernmental organisation
+ * nor does it submit to any jurisdiction.
  */
 
 /*! \file NetcdfOrcaInterpretor.h
@@ -20,7 +21,9 @@
 */
 
 #include "NetcdfOrcaInterpretor.h"
+
 #include <limits>
+
 #include "Factory.h"
 #include "Layer.h"
 #include "NetcdfData.h"
@@ -30,9 +33,7 @@ using namespace magics;
 
 NetcdfOrcaInterpretor::NetcdfOrcaInterpretor() : matrix_(0) {}
 
-
 NetcdfOrcaInterpretor::~NetcdfOrcaInterpretor() {}
-
 
 bool NetcdfOrcaInterpretor::interpretAsMatrix(Matrix** data) {
     if (*data)
@@ -43,7 +44,6 @@ bool NetcdfOrcaInterpretor::interpretAsMatrix(Matrix** data) {
     vector<size_t> dims;
     var.getDimensions(dims);
 
-
     int jin  = dims[dims.size() - 2];
     int iin  = dims[dims.size() - 1];
     int jout = jin;
@@ -53,10 +53,8 @@ bool NetcdfOrcaInterpretor::interpretAsMatrix(Matrix** data) {
 
     *data = matrix_;
 
-
     double missing = netcdf.getMissing(field_, missing_attribute_);
     typedef pair<int, int> point_type;
-
 
     vector<std::pair<point_type, pair<int, int> > > points;
 
@@ -67,10 +65,8 @@ bool NetcdfOrcaInterpretor::interpretAsMatrix(Matrix** data) {
         map<string, string> first, last;
         setDimensions(dimension_, first, last);
 
-
         MagLog::debug() << "data[" << matrix_->size() << ":" << *std::min_element(matrix_->begin(), matrix_->end())
                         << ", " << offset_ << "\n";
-
 
         vector<double> latm;
         vector<double> lonm;
@@ -83,10 +79,8 @@ bool NetcdfOrcaInterpretor::interpretAsMatrix(Matrix** data) {
         double minlat = *std::min_element(latm.begin(), latm.end());
         double maxlat = *std::max_element(latm.begin(), latm.end());
 
-
         double minlon = *std::min_element(lonm.begin(), lonm.end());
         double maxlon = *std::max_element(lonm.begin(), lonm.end());
-
 
         vector<double>& lon = matrix_->columnsAxis();
         vector<double>& lat = matrix_->rowsAxis();
@@ -103,7 +97,6 @@ bool NetcdfOrcaInterpretor::interpretAsMatrix(Matrix** data) {
                 (*matrix_)[x + (y * iout)] = missing;
             }
         }
-
 
         double lat11, lat12, lat21, lat22;
         double lon11, lon12, lon21, lon22;
@@ -133,14 +126,12 @@ bool NetcdfOrcaInterpretor::interpretAsMatrix(Matrix** data) {
                 val21 = data[c + (iin * (r + 1))];
                 val22 = data[(c + 1) + (iin * (r + 1))];
 
-
                 minlon = std::min(lon11, lon12);
                 maxlon = std::max(lon11, lon12);
                 minlon = std::min(minlon, lon21);
                 maxlon = std::max(maxlon, lon21);
                 minlon = std::min(minlon, lon22);
                 maxlon = std::max(maxlon, lon22);
-
 
                 bool shift = false;
 
@@ -158,7 +149,6 @@ bool NetcdfOrcaInterpretor::interpretAsMatrix(Matrix** data) {
                     minlon     = std::min(minlon, l22);
                     maxlon     = std::max(maxlon, l22);
                 }
-
 
                 // Now we fill the matrix
                 for (int y = 0; y < lat.size(); ++y) {
@@ -206,11 +196,9 @@ bool NetcdfOrcaInterpretor::interpretAsMatrix(Matrix** data) {
                 }
             }
 
-
             matrix_->multiply(scaling_);
             matrix_->plus(offset_);
             matrix_->setMapsAxis();
-
 
             MagLog::dev() << *matrix_ << "\n";
         }
@@ -222,7 +210,6 @@ bool NetcdfOrcaInterpretor::interpretAsMatrix(Matrix** data) {
     }
     return true;
 }
-
 
 bool NetcdfOrcaInterpretor::interpretAsPoints(PointsList& points) {
     // later!
@@ -267,7 +254,6 @@ bool NetcdfOrcaInterpretor::interpretAsPoints(PointsList& points) {
     return true;
 }
 
-
 void NetcdfOrcaInterpretor::visit(ValuesCollector& vcp, PointsList&) {
     vcp.setCollected(true);
 
@@ -280,7 +266,6 @@ void NetcdfOrcaInterpretor::visit(ValuesCollector& vcp, PointsList&) {
         }
     }
 }
-
 
 void NetcdfOrcaInterpretor::customisedPoints(const Transformation& transformation, const std::set<string>&,
                                              CustomisedPointsList& out, int thinning) {
@@ -324,7 +309,6 @@ void NetcdfOrcaInterpretor::print(ostream& out) const {
     out << "]";
 }
 
-
 NetcdfInterpretor* NetcdfOrcaInterpretor::guess(const NetcdfInterpretor& from) {
     if (from.field_.empty() && (from.x_component_.empty() || from.y_component_.empty()))
         return 0;
@@ -334,7 +318,6 @@ NetcdfInterpretor* NetcdfOrcaInterpretor::guess(const NetcdfInterpretor& from) {
     string variable = from.field_;
 
     // get the attribute coordinates
-
 
     string coordinates = netcdf.getVariable(variable).getAttribute("coordinates", string(""));
     string latlon("lat lon");
@@ -354,6 +337,5 @@ NetcdfInterpretor* NetcdfOrcaInterpretor::guess(const NetcdfInterpretor& from) {
     }
     return 0;
 }
-
 
 static SimpleObjectMaker<NetcdfOrcaInterpretor, NetcdfInterpretor> netcdf_geovalues_interpretor("orca");

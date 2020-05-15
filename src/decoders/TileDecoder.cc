@@ -479,11 +479,11 @@ void TileDecoder::decode() {
     double values[4];
 
     double missing = -std::numeric_limits<double>::max();
-    int err = codes_get_double(handle_, "missingValue", &missing);
+    int err        = codes_get_double(handle_, "missingValue", &missing);
     if (err) {
         missing = -std::numeric_limits<double>::max();
     }
-    
+
 
     double offset  = 0;
     double scaling = 1;
@@ -558,4 +558,3 @@ void TileDecoder::decode() {
     MagLog::warning() << " TileDecoder> Can NOT work because NetCDF was DISABLED in Magics!" << endl;
 #endif
 }
-

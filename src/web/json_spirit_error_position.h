@@ -29,9 +29,7 @@ struct Error_position {
 inline Error_position::Error_position() : line_(0), column_(0) {}
 
 inline Error_position::Error_position(unsigned int line, unsigned int column, const std::string& reason) :
-    line_(line),
-    column_(column),
-    reason_(reason) {}
+    line_(line), column_(column), reason_(reason) {}
 
 inline bool Error_position::operator==(const Error_position& lhs) const {
     if (this == &lhs)

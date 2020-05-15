@@ -144,8 +144,8 @@ long computeStep(const GribDecoder& grib, const string& key) {
         units = "m";
     else
         units = grib.getstring("stepUnits");
-    
-    long step    = grib.getLong(key);
+
+    long step = grib.getLong(key);
 
     map<string, double>::iterator stepunit = stepUnits.find(units);
     double factor                          = 1;

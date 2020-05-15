@@ -103,7 +103,7 @@ public:
     string title() const { return title_; }
 
     static void scale(const string&, double&, double&);
-    
+
     bool isEarthOblate() const;
 
     InterpolateMethod interpolateMethod() const {

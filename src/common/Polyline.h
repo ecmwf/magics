@@ -281,7 +281,7 @@ public:
     void push_back(Polyline&);
 
     // Is the pointincluded in the polyline"
-    bool in(const PaperPoint&)const;
+    bool in(const PaperPoint&) const;
 
     void reserve(double);
 

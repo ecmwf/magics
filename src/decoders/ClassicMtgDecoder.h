@@ -51,11 +51,7 @@ public:
         maxy_ = -miny_;
     }
     MetgramParameter(const string& name, const string& title, const string& code) :
-        name_(name),
-        code_(code),
-        title_(title),
-        scaling_(1),
-        offset_(0) {
+        name_(name), code_(code), title_(title), scaling_(1), offset_(0) {
         minx_ = std::numeric_limits<double>::max();
         maxx_ = -minx_;
         miny_ = std::numeric_limits<double>::max();

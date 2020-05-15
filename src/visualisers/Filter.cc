@@ -120,8 +120,7 @@ bool Filter::ScrollBuffer() {
 
 
 MinMaxFilter::MinMaxFilter(MatrixHandler& matrix, int nrows, int ncols, int flag) :
-    Filter(matrix, nrows, ncols),
-    mflag_(flag) {}
+    Filter(matrix, nrows, ncols), mflag_(flag) {}
 
 
 MinMaxFilter::~MinMaxFilter() {}

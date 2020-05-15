@@ -34,9 +34,7 @@ template <class Istream_type, class Value_type>
 class Stream_reader_thrower {
 public:
     Stream_reader_thrower(Istream_type& is) :
-        iters_(is),
-        posn_begin_(iters_.begin_, iters_.end_),
-        posn_end_(iters_.end_, iters_.end_) {}
+        iters_(is), posn_begin_(iters_.begin_, iters_.end_), posn_end_(iters_.end_, iters_.end_) {}
 
     void read_next(Value_type& value) { posn_begin_ = read_range_or_throw(posn_begin_, posn_end_, value); }
 

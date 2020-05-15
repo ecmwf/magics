@@ -740,11 +740,10 @@ void BoxEntry::rowBox(const PaperPoint& point, BasicGraphicsObjectContainer& leg
         }
         else if (!last_)
             from->addText(userText_, font_);
-        else if ( userMax_) {
-                ostringstream bottom;
-                bottom << MagicsFormat(format_, from_);
-                from->addText(bottom.str(), font_);
-            
+        else if (userMax_) {
+            ostringstream bottom;
+            bottom << MagicsFormat(format_, from_);
+            from->addText(bottom.str(), font_);
         }
     }
     if (last_) {

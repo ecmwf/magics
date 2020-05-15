@@ -83,8 +83,7 @@ protected:
 class TableDoubleVectorElementDecoder : public TableElementDecoder {
 public:
     TableDoubleVectorElementDecoder(vector<double>& target, double outMiss) :
-        target_(target),
-        outputMissingIndicator_(outMiss){};
+        target_(target), outputMissingIndicator_(outMiss){};
 
     void initialise(int numValues) { target_.reserve(numValues); }
     void addValue(char* value) { target_.push_back((value[0] != '\0') ? atof(value) : outputMissingIndicator_); }
@@ -104,8 +103,7 @@ private:
 class TableStringVectorElementDecoder : public TableElementDecoder {
 public:
     TableStringVectorElementDecoder(vector<string>& target, string outMiss) :
-        target_(target),
-        outputMissingIndicator_(outMiss){};
+        target_(target), outputMissingIndicator_(outMiss){};
 
     void initialise(int numValues) { target_.reserve(numValues); }
     void addValue(char* value) { target_.push_back((value[0] != '\0') ? value : outputMissingIndicator_); }

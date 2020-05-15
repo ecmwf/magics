@@ -189,12 +189,7 @@ void Transformation::thin(MatrixHandler& matrix, double x, double y, vector<User
 }
 
 ViewFilter::ViewFilter(double xmin, double xmax, double ymin, double ymax, double xres, double yres) :
-    xmin_(xmin),
-    xmax_(xmax),
-    ymin_(ymin),
-    ymax_(ymax),
-    xres_(xres),
-    yres_(yres) {
+    xmin_(xmin), xmax_(xmax), ymin_(ymin), ymax_(ymax), xres_(xres), yres_(yres) {
     xdim_ = (int)(xmax_ - xmin_) / xres_;
     ydim_ = (int)(ymax_ - ymin_) / yres_;
 

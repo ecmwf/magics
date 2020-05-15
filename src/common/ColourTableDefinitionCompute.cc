@@ -33,10 +33,7 @@ ColourTableDefinitionCompute::ColourTableDefinitionCompute() {
 
 ColourTableDefinitionCompute::ColourTableDefinitionCompute(const string& min, const string& max, const string& method,
                                                            const string& direction) :
-    minColour_(min),
-    maxColour_(max),
-    direction_(direction),
-    method_(method) {
+    minColour_(min), maxColour_(max), direction_(direction), method_(method) {
     methods_["hsl"]    = &ColourTableDefinitionCompute::hsl;
     methods_["linear"] = &ColourTableDefinitionCompute::linear;
     methods_["rgb"]    = &ColourTableDefinitionCompute::linear;

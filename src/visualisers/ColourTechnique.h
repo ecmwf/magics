@@ -37,10 +37,7 @@ class LegendVisitor;
 struct ColourInfo {
     ColourInfo() : index_(-1), level_(0), left_("NONE"), right_("NONE") {}
     ColourInfo(int index, double level, const Colour& left, const Colour& right) :
-        index_(index),
-        level_(level),
-        left_(left),
-        right_(right) {}
+        index_(index), level_(level), left_(left), right_(right) {}
 
     int index_;
     double level_;

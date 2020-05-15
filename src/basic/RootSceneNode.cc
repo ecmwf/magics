@@ -75,12 +75,7 @@ void FortranRootSceneNode::setPage(RootScenePage* node) {
 }
 
 RootSceneNode::RootSceneNode() :
-    absoluteWidth_(29.7),
-    absoluteHeight_(20.),
-    current_(0),
-    scale_(1),
-    newpage_(true),
-    endpage_(false) {
+    absoluteWidth_(29.7), absoluteHeight_(20.), current_(0), scale_(1), newpage_(true), endpage_(false) {
     name_ = "root";
 }
 

@@ -30,11 +30,7 @@ template <class T>
 class MagicsParameter : public BaseParameter {
 public:
     MagicsParameter(const string& name, const T& def, const string& migration = "") :
-        BaseParameter(name),
-        default_(def),
-        global_(def),
-        local_(def),
-        migration_(migration) {}
+        BaseParameter(name), default_(def), global_(def), local_(def), migration_(migration) {}
 
     ~MagicsParameter() {}
 

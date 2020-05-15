@@ -38,13 +38,7 @@ Layer::Layer() :
 {}
 
 Layer::Layer(BasicSceneObject* object) :
-    visibility_(true),
-    zindex_(1),
-    transparency_(0),
-    state_(new_layer),
-    id_(""),
-    parent_(0),
-    object_(object) {}
+    visibility_(true), zindex_(1), transparency_(0), state_(new_layer), id_(""), parent_(0), object_(object) {}
 
 Layer::~Layer() {}
 
@@ -146,9 +140,7 @@ void Layer::metadata(const string& param, const string& value) {
 //===================================
 
 SingleLayer::SingleLayer(StepLayer* parent, BasicSceneObject* object) :
-    Layer(object),
-    objects_(0),
-    parentLayer_(parent) {}
+    Layer(object), objects_(0), parentLayer_(parent) {}
 
 SingleLayer::~SingleLayer() {}
 

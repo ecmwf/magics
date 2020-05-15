@@ -74,7 +74,6 @@ void ViewNode::text(TextVisitor* text) {
 void ViewNode::legend(LegendVisitor* legend) {
     legend_     = legend;
     needLegend_ = true;
-    
 }
 
 void ViewNode::visit(MetaDataVisitor& metadata) {
@@ -286,7 +285,7 @@ void ViewNode::visit(SceneLayer& tree) {
 
     tree.rules(rules_);
     // Here we checking for the legend!
-    if ( ! needLegend_ ) {
+    if (!needLegend_) {
         for (auto& item : items_) {
             needLegend_ = item->needLegend();
             if (needLegend_)
@@ -305,7 +304,7 @@ void ViewNode::visit(SceneLayer& tree) {
     if (items_.empty()) {
         push_back(new EmptySceneObject());
     }
-    
+
     if (needLegend_) {
         for (auto& item : items_)
             item->getReady(*legend_);
@@ -447,10 +446,7 @@ FortranViewNode::~FortranViewNode() {}
 class AdjustHelper {
 public:
     AdjustHelper(double top, double bottom, double height, double parent) :
-        top_(top),
-        bottom_(bottom),
-        height_(height),
-        parent_(parent) {}
+        top_(top), bottom_(bottom), height_(height), parent_(parent) {}
     ~AdjustHelper() {}
 
     void operator()(double& top, double& bottom, double& height) {

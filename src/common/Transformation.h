@@ -151,8 +151,8 @@ public:
     virtual bool in(const Polyline&) const;
     */
     // is the point in projected area?
-    virtual bool in(const UserPoint&)const;
-    virtual bool in(const PaperPoint&)const;
+    virtual bool in(const UserPoint&) const;
+    virtual bool in(const PaperPoint&) const;
 
     // is the point in PC in the projected area?
     bool in(double x, double y) const;

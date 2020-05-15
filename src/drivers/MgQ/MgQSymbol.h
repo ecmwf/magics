@@ -31,9 +31,7 @@
 class MgQPainterPath : public QPainterPath {
 public:
     MgQPainterPath(bool filled, bool defaultFill = false) :
-        filled_(filled),
-        defaultFill_(defaultFill),
-        renderOnlyForOutline_(false){};
+        filled_(filled), defaultFill_(defaultFill), renderOnlyForOutline_(false){};
     bool isFilled() const { return filled_; }
     bool isDefaultFill() const { return defaultFill_; }
     void setRenderOnlyForOutline(bool b) { renderOnlyForOutline_ = b; }

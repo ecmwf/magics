@@ -475,12 +475,7 @@ public:
       \param txt the string of character that form the text (default is an empty string)
     */
     TeText(const string& txt = "") :
-        TeGeomSingle<TeCoord2D>(),
-        angle_(0),
-        height_(0),
-        textValue_(txt),
-        alignmentVert_(0),
-        alignmentHoriz_(0) {
+        TeGeomSingle<TeCoord2D>(), angle_(0), height_(0), textValue_(txt), alignmentVert_(0), alignmentHoriz_(0) {
         elem_ = TeCoord2D(0, 0);
         setBox(TeBox(0.0, 0.0, 0.0, 0.0));
     }

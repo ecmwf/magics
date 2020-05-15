@@ -161,10 +161,7 @@ public:
 class SimpleTranslator : public CompatibilityHelper {
 public:
     SimpleTranslator(const string& from, const string& to, bool both = false) :
-        CompatibilityHelper(from),
-        from_(from),
-        to_(to),
-        both_(both) {}
+        CompatibilityHelper(from), from_(from), to_(to), both_(both) {}
     ~SimpleTranslator() {}
     void deprecated() {
         MagLog::warning() << "Compatibility issue: Parameter " << from_ << " is deprecated : consider using " << to_
@@ -451,10 +448,7 @@ protected:
 class ValuesConverter : public CompatibilityHelper {
 public:
     ValuesConverter(const string& from, const string& to, bool done = true) :
-        CompatibilityHelper(from),
-        from_(from),
-        to_(to),
-        done_(done) {}
+        CompatibilityHelper(from), from_(from), to_(to), done_(done) {}
 
     bool operator()(const doublearray& values) {
         ParameterManager::set(to_, values);
@@ -1797,10 +1791,7 @@ MagicsParameter<string> paxis_date_min_value("axis_date_min_value", "");
 class AxisConverter : public CompatibilityHelper {
 public:
     AxisConverter(const string& from, const string& horiz, const string& vert) :
-        CompatibilityHelper(from),
-        from_(from),
-        vertical_(vert),
-        horizontal_(horiz) {}
+        CompatibilityHelper(from), from_(from), vertical_(vert), horizontal_(horiz) {}
 
     bool operator()(double val) {
         ParameterManager::set(from_, val);

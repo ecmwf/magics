@@ -137,11 +137,7 @@ void Netcdf::print(ostream& out) const {
 
 
 NetDimension::NetDimension(Netcdf* netcdf, const string& name, int index, int variable) :
-    parent_(netcdf),
-    name_(name),
-    first_(0),
-    index_(index),
-    variable_(variable) {
+    parent_(netcdf), name_(name), first_(0), index_(index), variable_(variable) {
     netcdf_ = parent_->file();
     nc_inq_dimid(netcdf_, name_.c_str(), &id_);
     nc_inq_dimlen(netcdf_, id_, &size_);
@@ -187,9 +183,7 @@ void NetDimension::last(const string& val) {
 
 
 NetVariable::NetVariable(const string& name, int id, Netcdf* parent, const string& method) :
-    name_(name),
-    id_(id),
-    parent_(parent) {
+    name_(name), id_(id), parent_(parent) {
     netcdf_ = parent_->file();
     int num_dims;
     nc_inq_varndims(netcdf_, id_, &num_dims);

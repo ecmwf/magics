@@ -172,7 +172,6 @@ void VisualAction::visit(MetaDataVisitor& infos) {
 }
 
 void VisualAction::getReady(const LegendVisitor& legend) {
-    
     for (vector<Visdef*>::iterator visdef = this->visdefs_.begin(); visdef != this->visdefs_.end(); ++visdef) {
         (*visdef)->getReady(legend);
     }

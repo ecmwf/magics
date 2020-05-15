@@ -144,12 +144,12 @@ public:
     void minText(const string& text) {
         minText_ = text;
         label_   = text;
-        userMin_  = true;
+        userMin_ = true;
     }
     void maxText(const string& text) {
         maxText_ = text;
         label_   = text;
-        userMax_  = true;
+        userMax_ = true;
     }
     double min() { return from_; }
     double max() { return to_; }
@@ -169,8 +169,8 @@ protected:
     string units_;
     string minText_;
     string maxText_;
-    bool   userMin_;
-    bool   userMax_;
+    bool userMin_;
+    bool userMax_;
 
     double from_;
     double to_;
@@ -287,19 +287,13 @@ public:
 class DoubleLineEntry : public LegendEntry {
 public:
     DoubleLineEntry(const string label, Polyline* line1 = 0, Polyline* line2 = 0) :
-        LegendEntry(label),
-        line1_(line1),
-        line2_(line2) {}
+        LegendEntry(label), line1_(line1), line2_(line2) {}
     DoubleLineEntry(double label, Polyline* line1 = 0, Polyline* line2 = 0) :
-        LegendEntry(label),
-        line1_(line1),
-        line2_(line2) {
+        LegendEntry(label), line1_(line1), line2_(line2) {
         format(label);
     }
     DoubleLineEntry(double min, double max, Polyline* line1 = 0, Polyline* line2 = 0) :
-        LegendEntry(min, max),
-        line1_(line1),
-        line2_(line2) {
+        LegendEntry(min, max), line1_(line1), line2_(line2) {
         format(min, max);
     }
     void set(const PaperPoint&, BasicGraphicsObjectContainer&);

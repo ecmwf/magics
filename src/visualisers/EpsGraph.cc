@@ -464,8 +464,7 @@ public:
 class EpsControl : public LegendEntry {
 public:
     EpsControl(const string& model, double resolution, const string& type, double height) :
-        LegendEntry(" "),
-        legend_size_(height) {
+        LegendEntry(" "), legend_size_(height) {
         ostringstream title;
         // carefull here this text is depending of the resolution!
         MagLog::dev() << "EpsControl=>resolution" << resolution << endl;
@@ -498,8 +497,7 @@ protected:
 class EpsForecast : public LegendEntry {
 public:
     EpsForecast(const string& model, double resolution, const string& type, double height) :
-        LegendEntry(" "),
-        legend_size_(height) {
+        LegendEntry(" "), legend_size_(height) {
         MagLog::dev() << "EpsForecsat=>resolution" << resolution << endl;
         ostringstream title;
         int km = maground(40000 / (4 * (resolution + 1)));

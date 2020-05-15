@@ -69,10 +69,7 @@ private:
 class BatchPointsHandler : public PointsHandler {
 public:
     BatchPointsHandler(AbstractPoints& handler, int count) :
-        PointsHandler(handler),
-        count_(count),
-        more_(0),
-        last_(false) {}
+        PointsHandler(handler), count_(count), more_(0), last_(false) {}
     virtual ~BatchPointsHandler() {}
     //! Method to set the current position to the first point.(abstract)
     virtual void setToFirst() {}
@@ -120,9 +117,7 @@ private:
 class BoxPointsHandler : public PointsHandler {
 public:
     BoxPointsHandler(AbstractPoints& handler, const Transformation& transformation, bool filter) :
-        PointsHandler(handler),
-        transformation_(transformation),
-        filter_(filter) {}
+        PointsHandler(handler), transformation_(transformation), filter_(filter) {}
     virtual ~BoxPointsHandler() {}
 
     //! Method to set the current position to the first point.(abstract)
@@ -152,9 +147,7 @@ protected:
 class ThinningPointsHandler : public PointsHandler {
 public:
     ThinningPointsHandler(AbstractPoints& handler, int xfreq, int yfreq) :
-        PointsHandler(handler),
-        xfreq_(xfreq),
-        yfreq_(yfreq) {}
+        PointsHandler(handler), xfreq_(xfreq), yfreq_(yfreq) {}
     virtual ~ThinningPointsHandler() {}
 
     //! Method to set the current position to the first point.(abstract)

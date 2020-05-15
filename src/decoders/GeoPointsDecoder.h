@@ -39,97 +39,90 @@ namespace magics {
 
 class XmlNode;
 
-class GeoPointsDecoder : public GeoPointsDecoderAttributes,
-                         public Data,
-                         public Decoder,
-                         public PointsList {
- public:
-  GeoPointsDecoder();
-  virtual ~GeoPointsDecoder();
-  //! Method to access the data as a list of points : Used by psymb.
+class GeoPointsDecoder : public GeoPointsDecoderAttributes, public Data, public Decoder, public PointsList {
+public:
+    GeoPointsDecoder();
+    virtual ~GeoPointsDecoder();
+    //! Method to access the data as a list of points : Used by psymb.
 
-  virtual void decode(const Transformation&);
-  virtual void decode();
-  void set(const map<string, string>& map) {
-    GeoPointsDecoderAttributes::set(map);
-  }
-  void set(const XmlNode& node) { GeoPointsDecoderAttributes::set(node); }
+    virtual void decode(const Transformation&);
+    virtual void decode();
+    void set(const map<string, string>& map) { GeoPointsDecoderAttributes::set(map); }
+    void set(const XmlNode& node) { GeoPointsDecoderAttributes::set(node); }
 
-  bool parseColumnNames(const char* line);
+    bool parseColumnNames(const char* line);
 
-  PointsHandler& points() {
-    decode();
-    pointsHandlers_.push_back(new PointsHandler(*this));
-    return *(pointsHandlers_.back());
-  }
-  PointsHandler& points(const Transformation& transformation) {
-    decode(transformation);
-    pointsHandlers_.push_back(new PointsHandler(*this));
-    return *(pointsHandlers_.back());
-  }
+    PointsHandler& points() {
+        decode();
+        pointsHandlers_.push_back(new PointsHandler(*this));
+        return *(pointsHandlers_.back());
+    }
+    PointsHandler& points(const Transformation& transformation) {
+        decode(transformation);
+        pointsHandlers_.push_back(new PointsHandler(*this));
+        return *(pointsHandlers_.back());
+    }
 
-  void customisedPoints(const Transformation&, const std::set<string>&,
-                        CustomisedPointsList&);
+    void customisedPoints(const Transformation&, const std::set<string>&, CustomisedPointsList&);
 
-  void add(const Transformation&, UserPoint&);
-  void add(const Transformation&, CustomisedPoint&);
-  void yxdtlv2(const string&, const Transformation&);
-  void xyv2(const string&, const Transformation&);
-  void yxdtlv1(const string&);
-  void xyv1(const string& s);
-  void ncols(const string& s, const Transformation&);
+    void add(const Transformation&, UserPoint&);
+    void add(const Transformation&, CustomisedPoint&);
+    void yxdtlv2(const string&, const Transformation&);
+    void xyv2(const string&, const Transformation&);
+    void yxdtlv1(const string&);
+    void xyv1(const string& s);
+    void ncols(const string& s, const Transformation&);
 
-  void polar(const string&, const Transformation&);
-  void lluv(const string&, const Transformation&);
-  void initInfo();
-  void visit(MetaDataCollector&);
-  void visit(ValuesCollector&);
-  void customisedPoints(const Transformation& t, const std::set<string>& n,
-                        CustomisedPointsList& out, bool all) {
-    customisedPoints(t, n, out);
-  }
-  PointsHandler& points(const Transformation& t, bool) { return points(t); }
+    void polar(const string&, const Transformation&);
+    void lluv(const string&, const Transformation&);
+    void initInfo();
+    void visit(MetaDataCollector&);
+    void visit(ValuesCollector&);
+    void customisedPoints(const Transformation& t, const std::set<string>& n, CustomisedPointsList& out, bool all) {
+        customisedPoints(t, n, out);
+    }
+    PointsHandler& points(const Transformation& t, bool) { return points(t); }
 
- protected:
-  enum eGeoColType {
-    eGeoColStnId,
-    eGeoColLat,
-    eGeoColLon,
-    eGeoColLevel,
-    eGeoColDate,
-    eGeoColTime,
-    eGeoColValue
-  };
+protected:
+    enum eGeoColType
+    {
+        eGeoColStnId,
+        eGeoColLat,
+        eGeoColLon,
+        eGeoColLevel,
+        eGeoColDate,
+        eGeoColTime,
+        eGeoColValue
+    };
 
-  //! Method to print string about this class on to a stream of type ostream
-  //! (virtual).
-  virtual void print(ostream&) const;
-  typedef void (GeoPointsDecoder::*SimpleDecode)(const string&);
-  typedef void (GeoPointsDecoder::*Decode)(const string&,
-                                           const Transformation&);
-  std::map<string, Decode> formats_;
-  std::map<string, SimpleDecode> simple_formats_;
-  vector<CustomisedPoint*> customisedPoints_;
-  vector<eGeoColType> colTypes_;  // used only for NCOLS formatted geopoints
-  LatLonProjP helper_;
+    //! Method to print string about this class on to a stream of type ostream
+    //! (virtual).
+    virtual void print(ostream&) const;
+    typedef void (GeoPointsDecoder::*SimpleDecode)(const string&);
+    typedef void (GeoPointsDecoder::*Decode)(const string&, const Transformation&);
+    std::map<string, Decode> formats_;
+    std::map<string, SimpleDecode> simple_formats_;
+    vector<CustomisedPoint*> customisedPoints_;
+    vector<eGeoColType> colTypes_;  // used only for NCOLS formatted geopoints
+    LatLonProjP helper_;
 
-  bool useProj4_;
-  size_t ncoordcols_;
-  static const std::map<std::string, eGeoColType>& coordColMap();
-  static std::map<std::string, eGeoColType> coordColMap_;
+    bool useProj4_;
+    size_t ncoordcols_;
+    static const std::map<std::string, eGeoColType>& coordColMap();
+    static std::map<std::string, eGeoColType> coordColMap_;
 
- private:
-  //! Copy constructor - No copy allowed
-  GeoPointsDecoder(const GeoPointsDecoder&);
-  //! Overloaded << operator to copy - No copy allowed
-  GeoPointsDecoder& operator=(const GeoPointsDecoder&);
+private:
+    //! Copy constructor - No copy allowed
+    GeoPointsDecoder(const GeoPointsDecoder&);
+    //! Overloaded << operator to copy - No copy allowed
+    GeoPointsDecoder& operator=(const GeoPointsDecoder&);
 
-  // -- Friends
-  //! Overloaded << operator to call print().
-  friend ostream& operator<<(ostream& s, const GeoPointsDecoder& p) {
-    p.print(s);
-    return s;
-  }
+    // -- Friends
+    //! Overloaded << operator to call print().
+    friend ostream& operator<<(ostream& s, const GeoPointsDecoder& p) {
+        p.print(s);
+        return s;
+    }
 };
 
 }  // namespace magics

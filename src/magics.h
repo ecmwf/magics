@@ -94,35 +94,33 @@ namespace magics {
 
 template <class P>
 class magvector : public std::vector<P> {
- public:
-  magvector() {}
-  magvector(const std::vector<P>& list) : std::vector<P>(list) {}
-  virtual ~magvector() {}
-  virtual MAGICS_NO_EXPORT void print(ostream& out) const {
-    if (this->size() < 10) {
-      out << "Vector[";
-      string sep = "";
-      const unsigned int si = this->size();
-      for (unsigned int i = 0; i < si; i++) {
-        out << sep << (*this)[i];
-        sep = ", ";
-      }
-      out << "]";
-    } else {
-      unsigned int nb = this->size();
-      out << "Vector[" << (*this)[0] << ", " << (*this)[1] << ", "
-          << (*this)[2];
-      out << "...." << (*this)[nb - 3] << ", " << (*this)[nb - 2] << ", "
-          << (*this)[nb - 1];
-      out << "(" << nb << " elements)]";
+public:
+    magvector() {}
+    magvector(const std::vector<P>& list) : std::vector<P>(list) {}
+    virtual ~magvector() {}
+    virtual MAGICS_NO_EXPORT void print(ostream& out) const {
+        if (this->size() < 10) {
+            out << "Vector[";
+            string sep            = "";
+            const unsigned int si = this->size();
+            for (unsigned int i = 0; i < si; i++) {
+                out << sep << (*this)[i];
+                sep = ", ";
+            }
+            out << "]";
+        }
+        else {
+            unsigned int nb = this->size();
+            out << "Vector[" << (*this)[0] << ", " << (*this)[1] << ", " << (*this)[2];
+            out << "...." << (*this)[nb - 3] << ", " << (*this)[nb - 2] << ", " << (*this)[nb - 1];
+            out << "(" << nb << " elements)]";
+        }
     }
-  }
-  // -- Friends
-  friend MAGICS_NO_EXPORT ostream& operator<<(ostream& s,
-                                              const magvector<P>& p) {
-    p.print(s);
-    return s;
-  }
+    // -- Friends
+    friend MAGICS_NO_EXPORT ostream& operator<<(ostream& s, const magvector<P>& p) {
+        p.print(s);
+        return s;
+    }
 };
 
 #define MAGPLUS_PATH_TO_SHARE_ "/share/magics/"
@@ -135,135 +133,202 @@ typedef magvector<long int> longintarray;
 typedef magvector<double> doublearray;
 typedef magvector<double> floatarray;
 
-enum LineStyle { M_SOLID, M_DASH, M_DOT, M_CHAIN_DASH, M_CHAIN_DOT };
-enum Hemisphere { NORTH, SOUTH };
-enum Justification { MLEFT, MCENTRE, MRIGHT };
-enum Position { M_AUTOMATIC, M_TOP, M_BOTTOM, M_LEFT, M_RIGHT };
-enum VerticalAlign { MNORMAL, MTOP, MCAP, MHALF, MBASE, MBOTTOM };
-enum Shading { M_SH_NONE, M_SH_SOLID, M_SH_HATCH, M_SH_DOT };
-enum ArrowPosition { M_TAIL, M_CENTRE, M_HEAD_ONLY };
-enum DisplayType {
-  M_DT_ABSOLUTE,
-  M_DT_INLINE,
-  M_DT_BLOCK,
-  M_DT_NONE,
-  M_DT_HIDDEN
+enum LineStyle
+{
+    M_SOLID,
+    M_DASH,
+    M_DOT,
+    M_CHAIN_DASH,
+    M_CHAIN_DOT
 };
-enum ListPolicy { M_LASTONE, M_CYCLE };
-enum GraphicsFormat {
-  PS,
-  EPS,
-  PDF,
-  SVG,
-  KML,
-  PNG,
-  X,
-  CPS,
-  CSVG,
-  GIF,
-  AGIF,
-  JPG,
-  QT,
-  GEOJSON
+enum Hemisphere
+{
+    NORTH,
+    SOUTH
 };
-enum AxisAutomaticSetting { m_off, m_both, m_min_only, m_max_only };
+enum Justification
+{
+    MLEFT,
+    MCENTRE,
+    MRIGHT
+};
+enum Position
+{
+    M_AUTOMATIC,
+    M_TOP,
+    M_BOTTOM,
+    M_LEFT,
+    M_RIGHT
+};
+enum VerticalAlign
+{
+    MNORMAL,
+    MTOP,
+    MCAP,
+    MHALF,
+    MBASE,
+    MBOTTOM
+};
+enum Shading
+{
+    M_SH_NONE,
+    M_SH_SOLID,
+    M_SH_HATCH,
+    M_SH_DOT
+};
+enum ArrowPosition
+{
+    M_TAIL,
+    M_CENTRE,
+    M_HEAD_ONLY
+};
+enum DisplayType
+{
+    M_DT_ABSOLUTE,
+    M_DT_INLINE,
+    M_DT_BLOCK,
+    M_DT_NONE,
+    M_DT_HIDDEN
+};
+enum ListPolicy
+{
+    M_LASTONE,
+    M_CYCLE
+};
+enum GraphicsFormat
+{
+    PS,
+    EPS,
+    PDF,
+    SVG,
+    KML,
+    PNG,
+    X,
+    CPS,
+    CSVG,
+    GIF,
+    AGIF,
+    JPG,
+    QT,
+    GEOJSON
+};
+enum AxisAutomaticSetting
+{
+    m_off,
+    m_both,
+    m_min_only,
+    m_max_only
+};
 
 static double EPSILON = 1.25e-10;
 
 template <class T>
 inline MAGICS_NO_EXPORT T abs(const T a) {
-  return (a < 0) ? -a : a;
+    return (a < 0) ? -a : a;
 }
 
 #ifndef PI
 const double PI = atan(1.) * 4.;
 #endif
 
-inline MAGICS_NO_EXPORT double RAD(const double r) { return r * PI / 180.; }
-inline MAGICS_NO_EXPORT double DEG(const double d) { return d * 180. / PI; }
-inline MAGICS_NO_EXPORT bool zero(const double v) { return abs(v) < EPSILON; }
+inline MAGICS_NO_EXPORT double RAD(const double r) {
+    return r * PI / 180.;
+}
+inline MAGICS_NO_EXPORT double DEG(const double d) {
+    return d * 180. / PI;
+}
+inline MAGICS_NO_EXPORT bool zero(const double v) {
+    return abs(v) < EPSILON;
+}
 inline MAGICS_NO_EXPORT bool same(const double a, const double b) {
-  return zero(a - b);
+    return zero(a - b);
 }
 inline MAGICS_NO_EXPORT bool zero(const double v, double epsilon) {
-  return abs(v) < epsilon;
+    return abs(v) < epsilon;
 }
-inline MAGICS_NO_EXPORT bool same(const double a, const double b,
-                                  double epsilon) {
-  return zero(a - b, epsilon);
+inline MAGICS_NO_EXPORT bool same(const double a, const double b, double epsilon) {
+    return zero(a - b, epsilon);
 }
 
 //! Global function to read env variables
 inline MAGICS_NO_EXPORT string getEnvVariable(const string var) {
-  const char* va = var.c_str();
-  const char* ww = getenv(va);
-  if (ww) return string(ww);
-  if (!strcmp(va, "MAGPLUS_HOME")) return string(MAGICS_INSTALL_PATH);
-  return "";
+    const char* va = var.c_str();
+    const char* ww = getenv(va);
+    if (ww)
+        return string(ww);
+    if (!strcmp(va, "MAGPLUS_HOME"))
+        return string(MAGICS_INSTALL_PATH);
+    return "";
 }
 
 //! Global function to return the Magics++ version for ID line
 /*! comes from magics_config.h !!! */
 inline string getMagicsVersionString() {
-  const string magics = MAGICS_NAME;
-  string version = MAGICS_VERSION_STR;
-  if (sizeof(long) == 8) version += string(" (64 bit)");
-  return magics + string(" ") + version;
+    const string magics = MAGICS_NAME;
+    string version      = MAGICS_VERSION_STR;
+    if (sizeof(long) == 8)
+        version += string(" (64 bit)");
+    return magics + string(" ") + version;
 }
 
 // inline MAGICS_NO_EXPORT int upper_case(const int c) { return toupper(c);}
-inline MAGICS_NO_EXPORT char lower_case(const char c) { return tolower(c); }
+inline MAGICS_NO_EXPORT char lower_case(const char c) {
+    return tolower(c);
+}
 
 //! Make an lowercase copy of s:
 inline MAGICS_NO_EXPORT string lowerCase(const string& s) {
-  std::string out;
-  std::string::const_iterator se = s.end();
-  for (string::const_iterator l = s.begin(); l != se; ++l) {
-    char ii = tolower(*l);
-    out.push_back(ii);
-  }
-  return out;
+    std::string out;
+    std::string::const_iterator se = s.end();
+    for (string::const_iterator l = s.begin(); l != se; ++l) {
+        char ii = tolower(*l);
+        out.push_back(ii);
+    }
+    return out;
 }
 
 /*!
   \brief compares two strings
 */
 inline MAGICS_NO_EXPORT bool magCompare(const string& s1, const string& s2) {
-  if (s1.size() != s2.size()) return false;
-  return !(strcasecmp(s1.c_str(), s2.c_str()));
+    if (s1.size() != s2.size())
+        return false;
+    return !(strcasecmp(s1.c_str(), s2.c_str()));
 }
 
 inline MAGICS_NO_EXPORT std::string replacePathWithHome(const string& path) {
-  const std::string home_path = getEnvVariable("HOME");
-  std::string filename = path.substr(path.find_last_of("/\\"));
-  return home_path + filename;
+    const std::string home_path = getEnvVariable("HOME");
+    std::string filename        = path.substr(path.find_last_of("/\\"));
+    return home_path + filename;
 }
 
-inline MAGICS_NO_EXPORT string buildConfigPath(const string& config,
-                                               const string& aux = "") {
-  ostringstream out;
-  out << getEnvVariable("MAGPLUS_HOME") << "/share/magics/" << config;
-  if (aux.size()) out << "/" << aux;
-  return out.str();
+inline MAGICS_NO_EXPORT string buildConfigPath(const string& config, const string& aux = "") {
+    ostringstream out;
+    out << getEnvVariable("MAGPLUS_HOME") << "/share/magics/" << config;
+    if (aux.size())
+        out << "/" << aux;
+    return out.str();
 }
 
 /*!
   \brief returns the biggest integer inside a double
 */
-inline double maground(double x) { return floor(x + 0.5); }
+inline double maground(double x) {
+    return floor(x + 0.5);
+}
 
 inline double tonumber(const string& str) {
-  double r;
-  std::stringstream ss(str);
-  ss >> r;
-  return r;
+    double r;
+    std::stringstream ss(str);
+    ss >> r;
+    return r;
 }
 
 template <class T>
 inline string tostring(const T& in) {
-  std::ostringstream out;
-  out << in;
-  return out.str();
+    std::ostringstream out;
+    out << in;
+    return out.str();
 }
 
 }  // namespace magics

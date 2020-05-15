@@ -24,12 +24,7 @@
 using namespace magics;
 
 MinMaxHelper::MinMaxHelper(AbstractPoints& points) :
-    minX_(INT_MAX),
-    maxX_(INT_MIN),
-    minY_(INT_MAX),
-    maxY_(INT_MIN),
-    min_(INT_MAX),
-    max_(INT_MIN) {
+    minX_(INT_MAX), maxX_(INT_MIN), minY_(INT_MAX), maxY_(INT_MIN), min_(INT_MAX), max_(INT_MIN) {
     points.for_each(*this);
     points.setToFirst();
 }

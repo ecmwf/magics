@@ -388,10 +388,7 @@ private:
 class FrameForegroundObject : public BasicSceneObject {
 public:
     FrameForegroundObject(bool frameIt, const Colour& colour, LineStyle style, int thickness) :
-        frameIt_(frameIt),
-        colour_(colour),
-        style_(style),
-        thickness_(thickness) {}
+        frameIt_(frameIt), colour_(colour), style_(style), thickness_(thickness) {}
 
     virtual ~FrameForegroundObject(){};
 
