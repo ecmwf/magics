@@ -50,6 +50,8 @@ public:
         fromto_(false),
         borderColour_("black"),
         meanSet_(false),
+        userMin_(false),
+        userMax_(false),
         histogram_(0) {}
     LegendEntry(double label) :
         last_(false),
@@ -59,6 +61,8 @@ public:
         fromto_(false),
         borderColour_("black"),
         meanSet_(false),
+        userMin_(false),
+        userMax_(false),
         histogram_(0) {
         format(label);
     }
@@ -70,6 +74,8 @@ public:
         fromto_(false),
         borderColour_("black"),
         meanSet_(false),
+        userMin_(false),
+        userMax_(false),
         histogram_(0) {
         format(min, max);
     }
@@ -138,10 +144,12 @@ public:
     void minText(const string& text) {
         minText_ = text;
         label_   = text;
+        userMin_  = true;
     }
     void maxText(const string& text) {
         maxText_ = text;
         label_   = text;
+        userMax_  = true;
     }
     double min() { return from_; }
     double max() { return to_; }
@@ -161,6 +169,8 @@ protected:
     string units_;
     string minText_;
     string maxText_;
+    bool   userMin_;
+    bool   userMax_;
 
     double from_;
     double to_;

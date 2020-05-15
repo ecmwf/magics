@@ -721,14 +721,16 @@ void BoxEntry::rowBox(const PaperPoint& point, BasicGraphicsObjectContainer& leg
     double x      = point.x();
     double y      = point.y();
 
+
     if (text_) {
         Text* from = new Text();
         from->push_back(PaperPoint(x - width, y - height - 0.25));
         from->setVerticalAlign(MBOTTOM);
         from->setAngle(angle_);
         legend.push_back(from);
+
         if (automatic_) {
-            if (minText_.empty()) {
+            if (!userMin_) {
                 ostringstream bottom;
                 bottom << MagicsFormat(format_, from_);
                 minText_ = bottom.str();
@@ -738,14 +740,11 @@ void BoxEntry::rowBox(const PaperPoint& point, BasicGraphicsObjectContainer& leg
         }
         else if (!last_)
             from->addText(userText_, font_);
-        else if (last_ && maxText_.size())
-            from->addText("", font_);
-        else {
-            if (automatic_ || maxText_.size()) {
+        else if ( userMax_) {
                 ostringstream bottom;
                 bottom << MagicsFormat(format_, from_);
                 from->addText(bottom.str(), font_);
-            }
+            
         }
     }
     if (last_) {
@@ -755,7 +754,7 @@ void BoxEntry::rowBox(const PaperPoint& point, BasicGraphicsObjectContainer& leg
         to->push_back(PaperPoint(x + width, y - height - 0.25));
         legend.push_back(to);
         if (automatic_) {
-            if (maxText_.empty()) {
+            if (!userMax_) {
                 ostringstream to;
                 to << MagicsFormat(format_, to_);
                 maxText_ = to.str();
@@ -1003,7 +1002,7 @@ void BoxEntry::columnBox(const PaperPoint& point, BasicGraphicsObjectContainer& 
         from->setJustification(MLEFT);
         from->setVerticalAlign(MHALF);
         if (automatic_) {
-            if (minText_.empty()) {
+            if (!userMin_) {
                 ostringstream bottom;
                 bottom << MagicsFormat(format_, from_);
                 minText_ = bottom.str();
@@ -1014,7 +1013,7 @@ void BoxEntry::columnBox(const PaperPoint& point, BasicGraphicsObjectContainer& 
         else if (!last_)
             from->addText(userText_, font_);
         else {
-            if (automatic_ || maxText_.size()) {
+            if (automatic_ || userMax_) {
                 ostringstream bottom;
                 bottom << MagicsFormat(format_, from_);
                 from->addText(bottom.str(), font_);
@@ -1335,11 +1334,11 @@ void SimpleSymbolEntry::set(const PaperPoint& point, BasicGraphicsObjectContaine
 const string& LegendEntry::label() const {
     if (!label_.empty() || !fromto_)
         return label_;
-    if (minText_.size()) {
+    if (userMin_) {
         label_ = minText_;
         return label_;
     }
-    if (maxText_.size()) {
+    if (userMax_) {
         label_ = maxText_;
         return label_;
     }

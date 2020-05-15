@@ -31,7 +31,7 @@
 using namespace magics;
 
 
-Contour::Contour() : matrix_(0), styleInfo_(0) {}
+Contour::Contour() : matrix_(0), styleInfo_(0), legendIsOn_(false) {}
 
 
 Contour::~Contour() {
@@ -79,7 +79,7 @@ void Contour::operator()(Data& data, BasicGraphicsObjectContainer& parent) {
         ContourLibrary* library = MagTranslator<string, ContourLibrary>()(setting_);
 
         MetaDataCollector request, needAttributes;
-
+        cout << "Contour is Legend ON ? -->" << legendIsOn_ << endl;
 
         bool legend_only = contour_->legend_only_;
         if (predefined_.size()) {
@@ -99,8 +99,10 @@ void Contour::operator()(Data& data, BasicGraphicsObjectContainer& parent) {
                 data.visit(needAttributes);
                 needAttributes["theme"] = theme_;
                 library->getStyle(needAttributes, automaticAttributes_, *styleInfo_);
-                if (!legend_)
+                 automaticAttributes_["legend"] = "on";
+                if (!legendIsOn_ && !legend_)
                     automaticAttributes_["legend"] = "off";
+
                 set(automaticAttributes_);
             }
             else {
@@ -111,8 +113,8 @@ void Contour::operator()(Data& data, BasicGraphicsObjectContainer& parent) {
 
 
                 automaticAttributes_["contour_legend_only"] = contour_->legend_only_;
-
-                if (!legend_)
+                automaticAttributes_["legend"] = "on";
+                if (!legendIsOn_ && !legend_)
                     automaticAttributes_["legend"] = "off";
                 if (metadata_only_)
                     automaticAttributes_["contour_legend_only"] = "on";

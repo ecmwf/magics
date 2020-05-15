@@ -74,6 +74,7 @@ void ViewNode::text(TextVisitor* text) {
 void ViewNode::legend(LegendVisitor* legend) {
     legend_     = legend;
     needLegend_ = true;
+    
 }
 
 void ViewNode::visit(MetaDataVisitor& metadata) {
@@ -285,11 +286,12 @@ void ViewNode::visit(SceneLayer& tree) {
 
     tree.rules(rules_);
     // Here we checking for the legend!
-    needLegend_ = false;
-    for (auto& item : items_) {
-        needLegend_ = item->needLegend();
-        if (needLegend_)
-            break;
+    if ( ! needLegend_ ) {
+        for (auto& item : items_) {
+            needLegend_ = item->needLegend();
+            if (needLegend_)
+                break;
+        }
     }
     bool blank = (drawing_background_colour_ != "none");
     push_front(new FrameBackgroundObject(blank, Colour(drawing_background_colour_)));
@@ -303,6 +305,7 @@ void ViewNode::visit(SceneLayer& tree) {
     if (items_.empty()) {
         push_back(new EmptySceneObject());
     }
+    
     if (needLegend_) {
         for (auto& item : items_)
             item->getReady(*legend_);

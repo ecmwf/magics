@@ -55,7 +55,7 @@ public:
 
     void visit(Data&, HistoVisitor&);
     void visit(MetaDataVisitor&);
-    void getReady(const LegendVisitor& legend) { contour_->legend_only_ = legend.only_; }
+    void getReady(const LegendVisitor& legend) { contour_->legend_only_ = legend.only_; legendIsOn_ = true;}
 
 
 protected:
@@ -64,6 +64,7 @@ protected:
     MatrixHandler* matrix_;
     StyleEntry* styleInfo_;
     MagDef automaticAttributes_;
+    bool   legendIsOn_; 
 
 private:
     //! Copy constructor - No copy allowed
