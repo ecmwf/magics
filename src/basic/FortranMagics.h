@@ -4,8 +4,8 @@
  * This software is licensed under the terms of the Apache Licence Version 2.0
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
  * In applying this licence, ECMWF does not waive the privileges and immunities
- * granted to it by virtue of its status as an intergovernmental organisation nor
- * does it submit to any jurisdiction.
+ * granted to it by virtue of its status as an intergovernmental organisation
+ * nor does it submit to any jurisdiction.
  */
 
 /*! \file FortranMagics.h
@@ -22,13 +22,11 @@
 #ifndef FortranMagics_H
 #define FortranMagics_H
 
-#include "magics.h"
-
-
 #include "DisplayManager.h"
 #include "DriverManager.h"
 #include "MagicsGlobalAttributes.h"
 #include "OutputHandler.h"
+#include "magics.h"
 
 namespace magics {
 
@@ -42,143 +40,132 @@ class Axis;
 class FortranTextVisitor;
 class LegendVisitor;
 
+class FortranMagics : public std::stack<BasicSceneObject*> {
+ public:
+  FortranMagics();
+  ~FortranMagics();
+  typedef void (FortranMagics::*Action)();
+  void popen();
+  int pclose();
+  void pnew(const string&);
+  void pcoast();
+  void ptephi();
+  void prepare();
 
-class MagicsGlobal : public MagicsGlobalAttributes {
-public:
-    MagicsGlobal(){};
-    ~MagicsGlobal(){};
-};
+  void pgrib();
+  const char* metagrib();
+  void pmapgen();
+  void pnetcdf();
+  const char* metanetcdf();
+  void pgeo();
+  void pinput();
+  const char* metainput();
+  const char* detect(const string&, const string&);
+  void ptable();
+  void pcont();
+  void ptext();
+  void ptest();
+  void pline();
+  void psymb();
+  void pimage();
+  void pimport();
+  void poverlay();
+  void pobs();
+  void podb();
+  void plegend();
+  void simplelegend();
+  void geojson();
+  // Wrep-Eps family!
+  void epsinput();
+  void wrepjson();
 
-class FortranMagics : public MagicsGlobal, public std::stack<BasicSceneObject*> {
-public:
-    FortranMagics();
-    ~FortranMagics();
-    typedef void (FortranMagics::*Action)();
-    void popen();
-    int pclose();
-    void pnew(const string&);
-    void pcoast();
-    void ptephi();
-    void prepare();
+  void metbufr();
+  void metgraph();
 
-    void pgrib();
-    const char* metagrib();
-    void pmapgen();
-    void pnetcdf();
-    const char* metanetcdf();
-    void pgeo();
-    void pinput();
-    const char* metainput();
-    const char* detect(const string&, const string&);
-    void ptable();
-    void pcont();
-    void ptext();
-    void ptest();
-    void pline();
-    void psymb();
-    void pimage();
-    void pimport();
-    void poverlay();
-    void pobs();
-    void podb();
-    void plegend();
-    void simplelegend();
-    void geojson();
-    // Wrep-Eps family!
-    void epsinput();
-    void wrepjson();
+  void epscloud();
+  void epsplumes();
+  void epsgraph();
+  void epswave();
+  void epswind();
+  void epsbar();
+  void epsshading();
+  void epslight();
 
-    void metbufr();
-    void metgraph();
+  void pgraph();
+  void pboxplot();
+  void ptile();
 
+  void paxis();
+  void ptaylor();
 
-    void epscloud();
-    void epsplumes();
-    void epsgraph();
-    void epswave();
-    void epswind();
-    void epsbar();
-    void epsshading();
-    void epslight();
+  void pwind();
 
-    void pgraph();
-    void pboxplot();
-    void ptile();
+  static FortranMagics& magics() {
+    if (!singleton_) singleton_ = new FortranMagics();
+    return *singleton_;
+  }
 
-    void paxis();
-    void ptaylor();
+  static void close() {
+    if (singleton_) delete singleton_;
+    singleton_ = 0;
+  }
+  void subpage();
+  void page();
+  void newpage();
 
-    void pwind();
+  void superpage();
+  void legend();
+  void drivers();
 
+  void actions();
 
-    static FortranMagics& magics() {
-        if (!singleton_)
-            singleton_ = new FortranMagics();
-        return *singleton_;
-    }
+  bool geographical();
 
-    static void close() {
-        if (singleton_)
-            delete singleton_;
-        singleton_ = 0;
-    }
-    void subpage();
-    void page();
-    void newpage();
+  void resetGrib() { gribindex_ = 0; }
 
-    void superpage();
-    void legend();
-    void drivers();
+  void data(Data*);
 
-    void actions();
+  void flagInputSymbol() { symbolinput_todo_ = true; }
+  void flagInputMatrix() { matrixinput_todo_ = true; }
+  void flagInputPoly() { polyinput_todo_ = true; }
 
-    bool geographical();
+ protected:
+  //! Method to print string about this class on to a stream of type ostream.
+  void print(ostream&) const;
+  void finish();
+  void dispatch();
+  static FortranMagics* singleton_;
+  DriverManager* drivers_;
+  FortranRootSceneNode* root_;
+  OutputHandler* output_;
 
-    void resetGrib() { gribindex_ = 0; }
+  stack<Action> actions_;
+  vector<FortranTextVisitor*> texts_;
+  vector<LegendVisitor*> legends_;
+  vector<BasicSceneObject*> later_;
+  stack<Axis*> axis_;
+  BasicSceneObject* axisContainer_;
+  VisualAction* action_;
+  bool empty_;
+  int gribindex_;
+  bool legend_todo_;
 
-    void data(Data*);
+  bool symbolinput_todo_;
+  bool matrixinput_todo_;
+  bool polyinput_todo_;
 
-    void flagInputSymbol() { symbolinput_todo_ = true; }
-    void flagInputMatrix() { matrixinput_todo_ = true; }
-    void flagInputPoly() { polyinput_todo_ = true; }
+ private:
+  //! Copy constructor - No copy allowed
+  FortranMagics(const FortranMagics&);
+  //! Overloaded << operator to copy - No copy allowed
+  FortranMagics& operator=(const FortranMagics&);
 
-protected:
-    //! Method to print string about this class on to a stream of type ostream.
-    void print(ostream&) const;
-    void finish();
-    void dispatch();
-    static FortranMagics* singleton_;
-    DriverManager* drivers_;
-    FortranRootSceneNode* root_;
-    OutputHandler* output_;
-
-    stack<Action> actions_;
-    vector<FortranTextVisitor*> texts_;
-    vector<LegendVisitor*> legends_;
-    vector<BasicSceneObject*> later_;
-    stack<Axis*> axis_;
-    BasicSceneObject* axisContainer_;
-    VisualAction* action_;
-    bool empty_;
-    int gribindex_;
-    bool legend_todo_;
-
-    bool symbolinput_todo_;
-    bool matrixinput_todo_;
-    bool polyinput_todo_;
-
-private:
-    //! Copy constructor - No copy allowed
-    FortranMagics(const FortranMagics&);
-    //! Overloaded << operator to copy - No copy allowed
-    FortranMagics& operator=(const FortranMagics&);
-
-    // -- Friends
-    //! Overloaded << operator to call print().
-    friend ostream& operator<<(ostream& s, const FortranMagics& p) {
-        p.print(s);
-        return s;
-    }
+  // -- Friends
+  //! Overloaded << operator to call print().
+  friend ostream& operator<<(ostream& s, const FortranMagics& p) {
+    p.print(s);
+    return s;
+  }
 };
 
 }  // namespace magics

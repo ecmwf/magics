@@ -4,8 +4,8 @@
  * This software is licensed under the terms of the Apache Licence Version 2.0
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
  * In applying this licence, ECMWF does not waive the privileges and immunities
- * granted to it by virtue of its status as an intergovernmental organisation nor
- * does it submit to any jurisdiction.
+ * granted to it by virtue of its status as an intergovernmental organisation
+ * nor does it submit to any jurisdiction.
  */
 
 /*! \file magics_api.h
@@ -25,6 +25,7 @@
 extern "C" {
 #endif
 
+MAGICS_EXPORT void mag_set_python_context();
 MAGICS_EXPORT void mag_open();
 MAGICS_EXPORT int mag_close();
 MAGICS_EXPORT void mag_coast();
@@ -76,12 +77,18 @@ MAGICS_EXPORT void mag_reset(const char* name);
 
 MAGICS_EXPORT void mag_act(const char* name, const char*, const char*);
 MAGICS_EXPORT void mag_set1i(const char* name, const int* data, const int dim1);
-MAGICS_EXPORT void mag_set2i(const char* name, const int* data, const int dim1, const int dim2);
-MAGICS_EXPORT void mag_set3i(const char* name, const int* data, const int dim1, const int dim2, const int dim3);
-MAGICS_EXPORT void mag_set1c(const char* name, const char** value, const int dim1);
-MAGICS_EXPORT void mag_set1r(const char* name, const double* data, const int dim1);
-MAGICS_EXPORT void mag_set2r(const char* name, const double* data, const int dim1, const int dim2);
-MAGICS_EXPORT void mag_set3r(const char* name, const double* data, const int dim1, const int dim2, const int dim3);
+MAGICS_EXPORT void mag_set2i(const char* name, const int* data, const int dim1,
+                             const int dim2);
+MAGICS_EXPORT void mag_set3i(const char* name, const int* data, const int dim1,
+                             const int dim2, const int dim3);
+MAGICS_EXPORT void mag_set1c(const char* name, const char** value,
+                             const int dim1);
+MAGICS_EXPORT void mag_set1r(const char* name, const double* data,
+                             const int dim1);
+MAGICS_EXPORT void mag_set2r(const char* name, const double* data,
+                             const int dim1, const int dim2);
+MAGICS_EXPORT void mag_set3r(const char* name, const double* data,
+                             const int dim1, const int dim2, const int dim3);
 
 MAGICS_EXPORT void mag_enqr(const char* name, double* value);
 MAGICS_EXPORT void mag_enqi(const char* name, int* value);
@@ -100,15 +107,16 @@ MAGICS_EXPORT void execute_magml(const char*);
 MAGICS_EXPORT void execute_json(const char*);
 MAGICS_EXPORT void set_param(const char*, const char*);
 
-
-MAGICS_EXPORT void mag_add_warning_listener(void* data, void (*)(void*, const char*));
-MAGICS_EXPORT void mag_add_error_listener(void* data, void (*)(void*, const char*));
-MAGICS_EXPORT void mag_add_info_listener(void* data, void (*)(void*, const char*));
-MAGICS_EXPORT void mag_add_debug_listener(void* data, void (*)(void*, const char*));
-
+MAGICS_EXPORT void mag_add_warning_listener(void* data,
+                                            void (*)(void*, const char*));
+MAGICS_EXPORT void mag_add_error_listener(void* data,
+                                          void (*)(void*, const char*));
+MAGICS_EXPORT void mag_add_info_listener(void* data,
+                                         void (*)(void*, const char*));
+MAGICS_EXPORT void mag_add_debug_listener(void* data,
+                                          void (*)(void*, const char*));
 
 MAGICS_EXPORT void mag_clear_listeners();
-
 
 #ifdef __cplusplus
 }

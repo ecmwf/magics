@@ -10,7 +10,11 @@ granted to it by virtue of its status as an intergovernmental organisation nor
 does it submit to any jurisdiction.
 -->
       <parameter member="silent" to="bool" default="off" from="string" name="magics_silent">
-            <documentation>Turn on/off legend   </documentation>
-            <release>Improved in Magics2.1    </release>
+            <documentation>Turn on/off   </documentation>
+         
+    </parameter>
+      <parameter member="compatibility" to="bool" default="true" from="string" name="magics_backward_compatibility">
+            <documentation>Turn on/off   </documentation>
+          
     </parameter>
 </class></magics>
