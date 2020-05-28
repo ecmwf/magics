@@ -589,7 +589,7 @@ void FortranMagics::pgrib() {
   int index;
   ParameterManager::get("grib_field_position", index);
 
-  if (grib == gribfile) {
+  if (grib == gribfile && MagicsGlobal::compatibility()) {
     if (index == gribindex_) {
       gribindex_++;
     } else {
@@ -687,54 +687,6 @@ void param(const string& from, const string& to, T& val) {
   ParameterManager::set(to, val);
 }
 
-void split(VisualAction& action) {
-  /*	string split;
-      //ParameterManager::get("contour_line_plotting", split);
-      if ( magCompare(split, "split"))
-      {
-              MagLog::warning() << " contour_line_plotting is deprecated" <<
-     endl; double level; ParameterManager::get("contour_split_level", level);
-              double max, min;
-              ParameterManager::get("contour_max_level", max);
-              ParameterManager::get("contour_min_level", min);
-              // set the below contour
-              ParameterManager::set("contour_max_level", level);
-
-              LineStyle style, highlightstyle;
-              double thickness, highlightthickness;
-              string colour, highlightcolour;
-
-              param("contour_below_line_style", "contour_line_style", style);
-              param("contour_below_line_thickness", "contour_line_thickness",
-     thickness); param("contour_below_line_colour", "contour_line_colour",
-     colour); param("contour_below_highlight_style",
-     "contour_highlight_line_style", highlightstyle);
-              param("contour_below_highlight_thickness",
-     "contour_highlight_line_thickness", highlightthickness);
-              param("contour_below_highlight_colour",
-     "contour_highlight_line_colour",highlightcolour);
-
-              action.visdef(new Contour());
-
-              // set the above contour
-              ParameterManager::set("contour_max_level", max);
-              ParameterManager::set("contour_min_level", level);
-              param("contour_above_line_style", "contour_line_style", style);
-              param("contour_above_line_thickness", "contour_line_thickness",
-     thickness); param("contour_above_line_colour", "contour_line_colour",
-     colour); param("contour_above_highlight_style",
-     "contour_highlight_line_style", style);
-              param("contour_above_highlight_thickness",
-     "contour_highlight_line_thickness", thickness);
-              param("contour_above_highlight_colour",
-     "contour_highlight_line_colour", colour); action.visdef(new Contour());
-              // Should we reset???
-      }
-      else {   */
-  action.visdef(new Contour());
-  //	}
-}
-
 void FortranMagics::pcont() {
   // First check any split contour! I hate it!
   Timer timer("pcont", "setting");
@@ -761,7 +713,7 @@ void FortranMagics::pcont() {
     top()->push_back(action_);
   }
 
-  split(*action_);
+  action_->visdef(new Contour());
 }
 
 void FortranMagics::pwind() {
