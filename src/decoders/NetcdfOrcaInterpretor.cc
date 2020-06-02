@@ -1,4 +1,3 @@
-
 /*
  * (C) Copyright 1996-2016 ECMWF.
  *
@@ -53,7 +52,6 @@ bool NetcdfOrcaInterpretor::interpretAsMatrix(Matrix** data) {
   *data = matrix_;
 
   double missing = netcdf.getMissing(field_, missing_attribute_);
-  cout << "missing --> " << missing << endl;
   typedef pair<int, int> point_type;
 
   vector<std::pair<point_type, pair<int, int> > > points;
@@ -89,13 +87,8 @@ bool NetcdfOrcaInterpretor::interpretAsMatrix(Matrix** data) {
     // for the lon we take the fisrt line :
     double inci = (maxlon - minlon) / ((iout)-1);
     double incj = (maxlat - minlat) / ((jout)-1);
-    for (int i = 0; i < iout; i++) {
-      lon.push_back(minlon + (i * inci));
-    }
-
-    for (int i = 0; i < jout; i++) {
-      lat.push_back(minlat + (i * incj));
-    }
+    for (int i = 0; i < iout; i++) lon.push_back(minlon + (i * inci));
+    for (int i = 0; i < jout; i++) lat.push_back(minlat + (i * incj));
     for (int y = 0; y < lat.size(); ++y) {
       for (int x = 0; x < lon.size(); ++x) {
         (*matrix_)[x + (y * iout)] = missing;
@@ -159,13 +152,10 @@ bool NetcdfOrcaInterpretor::interpretAsMatrix(Matrix** data) {
           if (lat[y] < minlat) continue;
           if (lat[y] > maxlat) break;
 
-          int i = ((minlon - lon[0]) / inci) - 1;
-          if (i < 0 || i > (lon.size() - 10)) i = 0;
-          i = 0;
-          for (int x = i; x < lon.size(); ++x) {
+          for (int x = 0; x < lon.size(); ++x) {
             double l = (shift && lon[x] < 0) ? lon[x] + 360 : lon[x];
             if (l < minlon) continue;
-            if (l > maxlon + 1) {
+            if (l > maxlon + inci) {
               break;
             }
 
@@ -174,28 +164,14 @@ bool NetcdfOrcaInterpretor::interpretAsMatrix(Matrix** data) {
             double d12 = geoDistanceInKm(lon12, lat12, lon[x], lat[y]);
             double d21 = geoDistanceInKm(lon21, lat21, lon[x], lat[y]);
             double d22 = geoDistanceInKm(lon22, lat22, lon[x], lat[y]);
-            cout << val11 << endl;
-            if (same(val11, missing) && same(val12, missing) &&
-                same(val21, missing) && same(val22, missing)) {
+            if (val11 == missing && val12 == missing && val21 == missing &&
+                val22 == missing) {
               val = missing;
-              cout << "found missing " << endl;
             } else {
-              if (val11 == missing) {
-                cout << "found missing " << endl;
-                d11 = 0;
-              }
-              if (val12 == missing) {
-                cout << "found missing " << endl;
-                d12 = 0;
-              }
-              if (val21 == missing) {
-                cout << "found missing " << endl;
-                d21 = 0;
-              }
-              if (val22 == missing) {
-                cout << "found missing " << endl;
-                d22 = 0;
-              }
+              if (val11 == missing) val11 = 0;
+              if (val12 == missing) val12 = 0;
+              if (val21 == missing) val21 = 0;
+              if (val22 == missing) val22 = 0;
 
               val = ((d11 * val11) + (d12 * val12) + (d21 * val21) +
                      (d22 * val22)) /
@@ -205,12 +181,16 @@ bool NetcdfOrcaInterpretor::interpretAsMatrix(Matrix** data) {
           }
         }
       }
-    }
 
-    matrix_->multiply(scaling_);
-    matrix_->plus(offset_);
-    matrix_->setMapsAxis();
-  } catch (MagicsException& e) {
+      matrix_->multiply(scaling_);
+      matrix_->plus(offset_);
+      matrix_->setMapsAxis();
+
+      MagLog::dev() << *matrix_ << "\n";
+    }
+  }
+
+  catch (MagicsException& e) {
     MagLog::error() << e << "\n";
     return false;
   }
@@ -332,8 +312,11 @@ NetcdfInterpretor* NetcdfOrcaInterpretor::guess(const NetcdfInterpretor& from) {
   string latlon("lat lon");
   coordinates = coordinates.substr(0, latlon.size());
 
+  cout << "COORDINATES" << coordinates << endl;
+
   if (coordinates == "lat lon" || coordinates == "lon lat") {
     NetcdfOrcaInterpretor* interpretor = new NetcdfOrcaInterpretor();
+    cout << "FOUND ORCA " << endl;
 
     interpretor->NetcdfInterpretor::copy(from);
     interpretor->latitude_ = "lat";

@@ -4,8 +4,8 @@
  * This software is licensed under the terms of the Apache Licence Version 2.0
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
  * In applying this licence, ECMWF does not waive the privileges and immunities
- * granted to it by virtue of its status as an intergovernmental organisation nor
- * does it submit to any jurisdiction.
+ * granted to it by virtue of its status as an intergovernmental organisation
+ * nor does it submit to any jurisdiction.
  */
 
 /*! \file SceneVisitor.h
@@ -29,7 +29,6 @@
 namespace magics {
 class Layout;
 
-
 class SceneVisitor {
 public:
     SceneVisitor();
@@ -39,7 +38,8 @@ public:
     virtual void visit(BasicGraphicsObjectContainer&) {}
 
 protected:
-    //! Method to print string about this class on to a stream of type ostream (virtual).
+    //! Method to print string about this class on to a stream of type ostream
+    //! (virtual).
     virtual void print(ostream&) const;
 
 private:
@@ -55,7 +55,6 @@ private:
         return s;
     }
 };
-
 
 class LayoutVisitor : public SceneVisitor {
 public:
@@ -73,7 +72,6 @@ public:
     Layout& layout() const;
     Layout* layoutPtr() const;
     Layout* mainLayout() const;
-
 
     const Transformation& transformation() const {
         ASSERT(layout_);
@@ -169,7 +167,6 @@ protected:
     mutable Layout* current_;
 };
 
-
 class DrawingVisitor : public LayoutVisitor {
 public:
     DrawingVisitor();
@@ -177,7 +174,6 @@ public:
     void visit(BasicSceneObject& object) { object.visit(*this); }
     void set(MagnifierCollector&);
     // Layout* execute(AnimationStep&, const Layout* visitor);
-
 
 protected:
 };
@@ -230,6 +226,7 @@ public:
     virtual double angleTickLabel();
     virtual double angleTitle();
     virtual double offsetTitle(int);
+    virtual double shiftTitle(double x) { return x; }
     virtual double angleTip();
     virtual double offsetTip();
     virtual Justification justificationTickLabel(const string&);
@@ -248,6 +245,7 @@ public:
     virtual double offsetTickLabel(double, double);
     virtual double angleTickLabel();
     virtual double angleTitle();
+    virtual double shiftTitle(double x);
     virtual double offsetTitle(int);
     virtual double angleTip();
     virtual double offsetTip();
@@ -268,13 +266,13 @@ public:
     virtual double angleTickLabel();
     virtual double angleTitle();
     virtual double offsetTitle(int);
+    virtual double shiftTitle(double);
     virtual double angleTip();
     virtual double offsetTip();
     virtual VerticalAlign textAlignment(const string&);
 
 protected:
 };
-
 
 class TopAxisVisitor : public HorizontalAxisVisitor {
 public:

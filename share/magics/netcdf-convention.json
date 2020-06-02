@@ -1,13 +1,22 @@
 {
     "latitude" : {
         "units" : [ "degrees_north", "degrees_south" ],
-        "standard_name" : ["latitude", "projection_y_coordinate"],
+        "standard_name" : ["latitude"],
         "long_name" : ["latitude"]
         },
     "longitude" : {
         "units" : [ "degrees_west", "degrees_east" ],
-        "standard_name" : ["longitude", "projection_x_coordinate"],
+        "standard_name" : ["longitude"],
         "long_name" : ["longitude"]
+        },
+     "projection_x_coordinate" : {
+        
+        "standard_name" : ["projection_x_coordinate"],
+        "long_name" : ["x coordinate of projection"]
+        },
+    "projection_y_coordinate" : {
+        "standard_name" : ["projection_y_coordinate"],
+        "long_name" : ["y coordinate of projection"]
         },
      "time" : {
         "calendar" : [ "gregorian", "proleptic_gregorian"],

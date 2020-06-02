@@ -4,8 +4,8 @@
  * This software is licensed under the terms of the Apache Licence Version 2.0
  * which can be obtained at http://www.apache.org/licenses/LICENSE-2.0.
  * In applying this licence, ECMWF does not waive the privileges and immunities
- * granted to it by virtue of its status as an intergovernmental organisation nor
- * does it submit to any jurisdiction.
+ * granted to it by virtue of its status as an intergovernmental organisation
+ * nor does it submit to any jurisdiction.
  */
 
 /*! \file SceneVisitor.cc
@@ -19,8 +19,8 @@
 
 */
 
-
 #include "SceneVisitor.h"
+
 #include "AnimationRules.h"
 #include "BaseDriver.h"
 #include "Layer.h"
@@ -55,9 +55,7 @@ DrawingVisitor::DrawingVisitor() {
     layout_->setNavigable();
 }
 
-
 DrawingVisitor::~DrawingVisitor() {}
-
 
 void LayoutVisitor::print(ostream& out) const {
     out << "LayoutVisitor[";
@@ -173,6 +171,12 @@ double LeftAxisVisitor::offsetTickLabel(double height, double from) {
     return from - h;
 }
 
+double LeftAxisVisitor::shiftTitle(double position) {
+    double shift = (current_->xmax_ - current_->xmin_) * 0.1;
+
+    return position - shift;
+}
+
 double LeftAxisVisitor::angleTickLabel() {
     return 0;
 }
@@ -207,6 +211,12 @@ void RightAxisVisitor::minortick(double& x1, double& x2, bool) {
 double RightAxisVisitor::offsetTickLabel(double height, double from) {
     double h = ((current_->xmax_ - current_->xmin_) / current_->absoluteWidth()) * (2 * height);
     return from + h;
+}
+
+double RightAxisVisitor::shiftTitle(double position) {
+    double shift = (current_->xmax_ - current_->xmin_) * 0.1;
+
+    return position + shift;
 }
 
 double RightAxisVisitor::angleTickLabel() {
@@ -280,7 +290,6 @@ void BottomAxisVisitor::minortick(double& y1, double& y2, bool out) {
 
 double BottomAxisVisitor::offsetTickLabel(double height, double from) {
     double h = ((current_->ymax_ - current_->ymin_) / current_->absoluteHeight()) * height;
-
 
     return from - h;
 }
